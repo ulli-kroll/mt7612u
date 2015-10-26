@@ -2,10 +2,10 @@
 
     Module Name:
 	rt_linux.h
- 
+
     Abstract:
 	Any OS related definition/MACRO is defined here.
- 
+
     Revision History:
     Who        When          What
     ---------  ----------    ----------------------------------------------
@@ -284,8 +284,8 @@ typedef struct file* RTMP_OS_FD;
 
 typedef struct _OS_FS_INFO_
 {
-	int				fsuid;
-	int				fsgid;
+	kuid_t				fsuid;
+	kgid_t				fsgid;
 	mm_segment_t	fs;
 } OS_FS_INFO;
 
@@ -367,8 +367,8 @@ typedef spinlock_t			OS_NDIS_SPIN_LOCK;
 	Following lock/unlock definition used for BBP/RF register read/write.
 	Currently we don't use it to protect MAC register access.
 
-	For USB: 
-			we use binary semaphore to do the protection because all register 
+	For USB:
+			we use binary semaphore to do the protection because all register
 			access done in kernel thread and should allow task go sleep when
 			in protected status.
 
@@ -376,7 +376,7 @@ typedef spinlock_t			OS_NDIS_SPIN_LOCK;
 			We use interrupt to do the protection because the register may accessed
 			in thread/tasklet/timer/inteerupt, so we use interrupt_disable to protect
 			the access.
-*/	
+*/
 #define RTMP_MCU_RW_LOCK(_pAd, _irqflags)	\
 	do{								\
 		if (_pAd->infType == RTMP_DEV_INF_USB)	\
@@ -401,7 +401,7 @@ typedef spinlock_t			OS_NDIS_SPIN_LOCK;
 		}\
 	}while(0)
 
-	
+
 #ifndef wait_event_interruptible_timeout
 #define __wait_event_interruptible_timeout(wq, condition, ret) \
 do { \
@@ -737,7 +737,7 @@ void linux_pci_unmap_single(void *handle, ra_dma_addr_t dma_addr, size_t size, i
 
 #define PCI_MAP_SINGLE_DEV(_handle, _ptr, _size, _sd_idx, _dir)				\
 	linux_pci_map_single(_handle, _ptr, _size, _sd_idx, _dir)
-	
+
 #define PCI_UNMAP_SINGLE(_pAd, _ptr, _size, _dir)						\
 	linux_pci_unmap_single(((POS_COOKIE)(_pAd->OS_Cookie))->pci_dev, _ptr, _size, _dir)
 
@@ -903,12 +903,12 @@ void linux_pci_unmap_single(void *handle, ra_dma_addr_t dma_addr, size_t size, i
 		(RTPKT_TO_OSPKT(_pkt)->len)
 #define SET_OS_PKT_LEN(_pkt, _len)	\
 		(RTPKT_TO_OSPKT(_pkt)->len) = (_len)
-		
+
 #define GET_OS_PKT_DATATAIL(_pkt) \
 		(RTPKT_TO_OSPKT(_pkt)->tail)
 #define SET_OS_PKT_DATATAIL(_pkt, _start, _len)	\
 		((RTPKT_TO_OSPKT(_pkt))->tail) = (PUCHAR)((_start) + (_len))
-		
+
 #define GET_OS_PKT_HEAD(_pkt) \
 		(RTPKT_TO_OSPKT(_pkt)->head)
 
@@ -919,7 +919,7 @@ void linux_pci_unmap_single(void *handle, ra_dma_addr_t dma_addr, size_t size, i
 		(RTPKT_TO_OSPKT(_pkt)->dev)
 #define SET_OS_PKT_NETDEV(_pkt, _pNetDev)	\
 		(RTPKT_TO_OSPKT(_pkt)->dev) = (_pNetDev)
-		
+
 #define GET_OS_PKT_TYPE(_pkt) \
 		(RTPKT_TO_OSPKT(_pkt))
 
@@ -1114,7 +1114,7 @@ typedef struct usb_device_id USB_DEVICE_ID;
 #define RtmpUsbBulkRxComplete					RTUSBBulkRxComplete
 #define RtmpUsbBulkCmdRspEventComplete			RTUSBBulkCmdRspEventComplete
 
-#if ((LINUX_VERSION_CODE < KERNEL_VERSION(2, 5, 51)) || (LINUX_VERSION_CODE > KERNEL_VERSION(2, 6, 18))) 
+#if ((LINUX_VERSION_CODE < KERNEL_VERSION(2, 5, 51)) || (LINUX_VERSION_CODE > KERNEL_VERSION(2, 6, 18)))
 #define RTUSBBulkOutDataPacketComplete(Status, pURB, pt_regs)    RTUSBBulkOutDataPacketComplete(pURB)
 #define RTUSBBulkOutMLMEPacketComplete(Status, pURB, pt_regs)    RTUSBBulkOutMLMEPacketComplete(pURB)
 #define RTUSBBulkOutNullFrameComplete(Status, pURB, pt_regs)     RTUSBBulkOutNullFrameComplete(pURB)
@@ -1263,7 +1263,7 @@ USBHST_STATUS RTUSBBulkCmdRspEventComplete(URBCompleteStatus Status, purbb_t pUR
 				ret = -1;	\
 			}	\
 		}while(0)
-		
+
 #define rtusb_urb_context  context
 #define rtusb_urb_status   status
 
@@ -1347,11 +1347,11 @@ extern int rausb_control_msg(VOID *dev,
 /* Prototypes of completion funuc. */
 #define ATE_RTUSBBulkOutDataPacketComplete(Status, pURB, pt_regs)    ATE_RTUSBBulkOutDataPacketComplete(pURB)
 #else
-#define ATE_RTUSBBulkOutDataPacketComplete(Status, pURB, pt_regs)    ATE_RTUSBBulkOutDataPacketComplete(pURB, pt_regs)	
+#define ATE_RTUSBBulkOutDataPacketComplete(Status, pURB, pt_regs)    ATE_RTUSBBulkOutDataPacketComplete(pURB, pt_regs)
 #endif /* LINUX_VERSION_CODE */
 
 USBHST_STATUS ATE_RTUSBBulkOutDataPacketComplete(URBCompleteStatus Status, purbb_t pURB, pregs *pt_regs);
-		
+
 #endif /* RTMP_USB_SUPPORT */
 
 #endif /* RALINK_ATE */
