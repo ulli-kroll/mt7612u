@@ -15,14 +15,14 @@
 
     Module Name:
 	rt_profile.c
- 
+
     Abstract:
- 
+
     Revision History:
     Who          When          What
     ---------    ----------    ----------------------------------------------
  */
- 
+
 #include "rt_config.h"
 
 #if defined (CONFIG_RA_HW_NAT)  || defined (CONFIG_RA_HW_NAT_MODULE)
@@ -46,7 +46,7 @@ struct dev_type_name_map{
 #define SECOND_INF_MONITOR_DEV_NAME		"moni"
 
 
-#define xdef_to_str(s)   def_to_str(s) 
+#define xdef_to_str(s)   def_to_str(s)
 #define def_to_str(s)    #s
 
 #define FIRST_EEPROM_FILE_PATH	"/etc_ro/Wireless/RT2860/"
@@ -91,7 +91,7 @@ VOID get_dev_config_idx(RTMP_ADAPTER *pAd)
 	INT idx = 0;
 #if defined(CONFIG_RT_FIRST_CARD) && defined(CONFIG_RT_SECOND_CARD)
 	INT first_card = 0, second_card = 0;
-	
+
 	A2Hex(first_card, FIRST_CHIP_ID);
 	A2Hex(second_card, SECOND_CHIP_ID);
 	DBGPRINT(RT_DEBUG_TRACE, ("chip_id1=0x%x, chip_id2=0x%x, pAd->MACVersion=0x%x\n", first_card, second_card, pAd->MACVersion));
@@ -137,7 +137,7 @@ static UCHAR *get_dev_profile(RTMP_ADAPTER *pAd)
 {
 	UCHAR *src = NULL;
 
-	{	
+	{
 #ifdef CONFIG_AP_SUPPORT
 		IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 		{
@@ -187,15 +187,15 @@ NDIS_STATUS	RTMPReadParametersHook(RTMP_ADAPTER *pAd)
 	{
 		RtmpOSFSInfoChange(&osFSInfo, TRUE);
 		srcf = RtmpOSFileOpen(src, O_RDONLY, 0);
-		if (IS_FILE_OPEN_ERR(srcf)) 
+		if (IS_FILE_OPEN_ERR(srcf))
 		{
 			DBGPRINT(RT_DEBUG_ERROR, ("Open file \"%s\" failed!\n", src));
 		}
-		else 
+		else
 		{
 #ifndef OS_ABL_SUPPORT
 			// TODO: need to roll back when convert into OSABL code
-				 fsize = (ULONG)srcf->f_dentry->d_inode->i_size;
+				 fsize = (ULONG)srcf->f_path.dentry->d_inode->i_size;
 				if (buf_size < (fsize + 1))
 					buf_size = fsize + 1;
 #endif /* OS_ABL_SUPPORT */
@@ -211,7 +211,7 @@ NDIS_STATUS	RTMPReadParametersHook(RTMP_ADAPTER *pAd)
 				else
 					DBGPRINT(RT_DEBUG_ERROR, ("Read file \"%s\" failed(errCode=%d)!\n", src, retval));
 				os_free_mem(NULL, buffer);
-			} else 
+			} else
 				retval = NDIS_STATUS_FAILURE;
 
 			if (RtmpOSFileClose(srcf) != 0)
@@ -220,7 +220,7 @@ NDIS_STATUS	RTMPReadParametersHook(RTMP_ADAPTER *pAd)
 				DBGPRINT(RT_DEBUG_ERROR, ("Close file \"%s\" failed(errCode=%d)!\n", src, retval));
 			}
 		}
-		
+
 		RtmpOSFSInfoChange(&osFSInfo, FALSE);
 	}
 
@@ -244,7 +244,7 @@ NDIS_STATUS	RTMPReadParametersHook(RTMP_ADAPTER *pAd)
 void RTMP_IndicateMediaState(
 	IN	PRTMP_ADAPTER		pAd,
 	IN  NDIS_MEDIA_STATE	media_state)
-{	
+{
 	pAd->IndicateMediaState = media_state;
 
 #ifdef SYSTEM_LOG_SUPPORT
@@ -253,9 +253,9 @@ void RTMP_IndicateMediaState(
 			RTMPSendWirelessEvent(pAd, IW_STA_LINKUP_EVENT_FLAG, pAd->MacTab.Content[BSSID_WCID].Addr, BSS0, 0);
 		}
 		else
-		{							
-			RTMPSendWirelessEvent(pAd, IW_STA_LINKDOWN_EVENT_FLAG, pAd->MacTab.Content[BSSID_WCID].Addr, BSS0, 0); 		
-		}	
+		{
+			RTMPSendWirelessEvent(pAd, IW_STA_LINKDOWN_EVENT_FLAG, pAd->MacTab.Content[BSSID_WCID].Addr, BSS0, 0);
+		}
 #endif /* SYSTEM_LOG_SUPPORT */
 }
 
@@ -273,13 +273,13 @@ void tbtt_tasklet(unsigned long data)
 
 
 #ifdef RT_CFG80211_P2P_SUPPORT
-		if (pAd->cfg80211_ctrl.isCfgInApMode == RT_CMD_80211_IFTYPE_AP)	
+		if (pAd->cfg80211_ctrl.isCfgInApMode == RT_CMD_80211_IFTYPE_AP)
 #else
 	if (pAd->OpMode == OPMODE_AP)
 #endif /* RT_CFG80211_P2P_SUPPORT */
 	{
 		/* step 7 - if DTIM, then move backlogged bcast/mcast frames from PSQ to TXQ whenever DtimCount==0 */
-#ifdef RTMP_MAC_USB   
+#ifdef RTMP_MAC_USB
 		if ((pAd->ApCfg.DtimCount + 1) == pAd->ApCfg.DtimPeriod)
 #endif /* RTMP_MAC_USB */
 		{
@@ -287,7 +287,7 @@ void tbtt_tasklet(unsigned long data)
 			BOOLEAN bPS = FALSE;
 			UINT count = 0;
 			unsigned long IrqFlags;
-			
+
 			RTMP_IRQ_LOCK(&pAd->irq_lock, IrqFlags);
 			while (pAd->MacTab.McastPsQueue.Head)
 			{
@@ -309,10 +309,10 @@ void tbtt_tasklet(unsigned long data)
 				}
 			}
 			RTMP_IRQ_UNLOCK(&pAd->irq_lock, IrqFlags);
-			
+
 
 			if (pAd->MacTab.McastPsQueue.Number == 0)
-			{			
+			{
 		                UINT bss_index;
 
                 		/* clear MCAST/BCAST backlog bit for all BSS */
@@ -321,7 +321,7 @@ void tbtt_tasklet(unsigned long data)
 			}
 			pAd->MacTab.PsQIdleCount = 0;
 
-			if (bPS == TRUE) 
+			if (bPS == TRUE)
 			{
 				RTMPDeQueuePacket(pAd, FALSE, NUM_OF_TX_RING, /*MAX_TX_IN_TBTT*/MAX_PACKETS_IN_MCAST_PS_QUEUE);
 			}
@@ -332,7 +332,7 @@ void tbtt_tasklet(unsigned long data)
 
 #ifdef INF_PPA_SUPPORT
 static INT process_nbns_packet(
-	IN PRTMP_ADAPTER 	pAd, 
+	IN PRTMP_ADAPTER 	pAd,
 	IN struct sk_buff 		*skb)
 {
 	UCHAR *data;
@@ -348,7 +348,7 @@ static INT process_nbns_packet(
 			return 1;
 		}
 	}
-	
+
 	eth_type = (USHORT *)&data[12];
 	if (*eth_type == cpu_to_be16(ETH_P_IP))
 	{
@@ -356,7 +356,7 @@ static INT process_nbns_packet(
 		UCHAR *ip_h;
 		UCHAR *udp_h;
 		USHORT dport, host_dport;
-	    
+
 		ip_h = data + 14;
 		ip_h_len = (ip_h[0] & 0x0f)*4;
 
@@ -367,12 +367,12 @@ static INT process_nbns_packet(
 			host_dport = ntohs(dport);
 			if ((host_dport == 67) || (host_dport == 68)) /* DHCP */
 			{
-				return 0;          
+				return 0;
 			}
 		}
 	}
     	else if ((data[12] == 0x88) && (data[13] == 0x8e)) /* EAPOL */
-	{ 
+	{
 		return 0;
     	}
 	return 1;
@@ -423,13 +423,13 @@ void announce_802_3_packet(
 
 #ifdef INF_PPA_SUPPORT
 	{
-		if (ppa_hook_directpath_send_fn && (pAd->PPAEnable == TRUE)) 
+		if (ppa_hook_directpath_send_fn && (pAd->PPAEnable == TRUE))
 		{
 			INT retVal, ret = 0;
 			UINT ppa_flags = 0;
-			
+
 			retVal = process_nbns_packet(pAd, pRxPkt);
-			
+
 			if (retVal > 0)
 			{
 				ret = ppa_hook_directpath_send_fn(pAd->g_if_id, pRxPkt, pRxPkt->len, ppa_flags);
@@ -450,7 +450,7 @@ void announce_802_3_packet(
 				dev_kfree_skb_any(pRxPkt);
 				MEM_DBG_PKT_FREE_INC(pAd);
 			}
-		}	
+		}
 		else
 		{
 			RtmpOsPktProtocolAssign(pRxPkt);
@@ -470,7 +470,7 @@ void announce_802_3_packet(
 		if(ra_classifier_hook_rx!= NULL)
 		{
 			unsigned int flags;
-			
+
 			RTMP_IRQ_LOCK(&pAd->page_lock, flags);
 			ra_classifier_hook_rx(pRxPkt, classifier_cur_cycle);
 			RTMP_IRQ_UNLOCK(&pAd->page_lock, flags);
@@ -489,11 +489,11 @@ void announce_802_3_packet(
 		if (ra_sw_nat_hook_rx!= NULL)
 		{
 			unsigned int flags;
-			
+
 			RtmpOsPktProtocolAssign(pRxPkt);
 
 			RTMP_IRQ_LOCK(&pAd->page_lock, flags);
-			if(ra_sw_nat_hook_rx(pRxPkt)) 
+			if(ra_sw_nat_hook_rx(pRxPkt))
 			{
 				RtmpOsPktRcvHandle(pRxPkt);
 			}
@@ -509,7 +509,7 @@ void announce_802_3_packet(
 #endif /* CONFIG_RA_NAT_NONE */
 	}
 
-	
+
 #ifdef CONFIG_AP_SUPPORT
 #ifdef BG_FT_SUPPORT
 		if (BG_FTPH_PacketFromApHandle(pRxPkt) == 0)
@@ -547,7 +547,7 @@ VOID RTMPFreeAdapter(VOID *pAdSrc)
 {
 	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pAdSrc;
 	POS_COOKIE os_cookie;
-	int index;	
+	int index;
 
 	os_cookie=(POS_COOKIE)pAd->OS_Cookie;
 
@@ -565,7 +565,7 @@ VOID RTMPFreeAdapter(VOID *pAdSrc)
 #endif /* MULTIPLE_CARD_SUPPORT */
 
 	NdisFreeSpinLock(&pAd->MgmtRingLock);
-	
+
 
 #if defined(RT3290) || defined(RLT_MAC)
 	NdisFreeSpinLock(&pAd->WlanEnLock);
@@ -577,7 +577,7 @@ VOID RTMPFreeAdapter(VOID *pAdSrc)
 		NdisFreeSpinLock(&pAd->DeQueueLock[index]);
 		pAd->DeQueueRunning[index] = FALSE;
 	}
-	
+
 	NdisFreeSpinLock(&pAd->irq_lock);
 
 
@@ -714,7 +714,7 @@ PNET_DEV get_netdev_from_bssid(RTMP_ADAPTER *pAd, UCHAR FromWhichBSSID)
 		if(FromWhichBSSID >= MIN_NET_DEVICE_FOR_CFG80211_VIF_P2P_GO)
 		{
 			dev_p = pAd->ApCfg.MBSSID[BSS0].wdev.if_dev;
-			break;		
+			break;
 		}
 		else if(FromWhichBSSID >= MIN_NET_DEVICE_FOR_CFG80211_VIF_P2P_CLI)
 		{
@@ -730,7 +730,7 @@ PNET_DEV get_netdev_from_bssid(RTMP_ADAPTER *pAd, UCHAR FromWhichBSSID)
 		{
 			dev_p = (infRealIdx >= MAX_APCLI_NUM ? NULL : pAd->ApCfg.ApCliTab[infRealIdx].wdev.if_dev);
 			break;
-		} 
+		}
 #endif /* APCLI_SUPPORT */
 
 		if ((FromWhichBSSID > 0) &&
@@ -787,7 +787,7 @@ INT RTMP_AP_IoctlPrepare(RTMP_ADAPTER *pAd, VOID *pCB)
 	{
 		if (pConfig->pCmdData == NULL)
 			return Status;
-		
+
 		if (RtPrivIoctlSetVal() == pConfig->CmdId_RTPRIV_IOCTL_SET)
 		{
 			if (TRUE
@@ -875,7 +875,7 @@ VOID AP_E2PROM_IOCTL_PostCtrl(
 	wrq->u.data.length = strlen(msg);
 	if (copy_to_user(wrq->u.data.pointer, msg, wrq->u.data.length))
 	{
-		DBGPRINT(RT_DEBUG_TRACE, ("%s: copy_to_user() fail\n", __FUNCTION__));			
+		DBGPRINT(RT_DEBUG_TRACE, ("%s: copy_to_user() fail\n", __FUNCTION__));
 	}
 }
 
