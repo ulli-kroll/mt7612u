@@ -36,8 +36,8 @@ VOID CFG80211DRV_OpsScanInLinkDownAction(
 	BOOLEAN Cancelled;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("---> CFG80211_MLME Disconnect in Scaning, ORI ==> %d\n",
-	  								pAd->Mlme.CntlMachine.CurrState)); 
-	   
+	  								pAd->Mlme.CntlMachine.CurrState));
+
 	RTMPCancelTimer(&pAd->MlmeAux.ScanTimer, &Cancelled);
 	pAd->MlmeAux.Channel = 0;
 
@@ -126,7 +126,7 @@ BOOLEAN CFG80211DRV_OpsScanCheckStatus(
  	/* CFG_TODO */
 	if (CFG80211DRV_OpsScanRunning(pAd))
 	{
-		CFG80211DBG(RT_DEBUG_ERROR, ("SCAN_FAIL: CFG80211 Internal SCAN Flag On\n")); 
+		CFG80211DBG(RT_DEBUG_ERROR, ("SCAN_FAIL: CFG80211 Internal SCAN Flag On\n"));
 		return FALSE;
 	}
 
@@ -276,7 +276,7 @@ static void CFG80211_UpdateBssTableRssi(
 			/* HIT */
 			CFG80211_CalBssAvgRssi(pBssEntry);
 			bss->signal = pBssEntry->AvgRssi * 100; //UNIT: MdBm
-			cfg80211_put_bss(bss);
+			cfg80211_put_bss(pWiphy, bss);
 		}
 	}
 }
