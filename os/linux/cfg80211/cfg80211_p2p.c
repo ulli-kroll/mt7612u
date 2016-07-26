@@ -96,7 +96,7 @@ VOID CFG80211RemainOnChannelTimeout(
 				  (OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_WMM_INUSED) ? TRUE:FALSE),
 				  pAd->CommonCfg.bAPSDForcePowerSave ? PWR_SAVE : pAd->StaCfg.Psm);
 #endif /*CONFIG_STA_SUPPORT*/
-		RTMPSetTimer(&pCfg80211_ctrl->Cfg80211RocTimer, RESTORE_COM_CH_TIME);		    
+		RTMPSetTimer(&pCfg80211_ctrl->Cfg80211RocTimer, RESTORE_COM_CH_TIME);
 	}
 	else
 #endif /*RT_CFG80211_P2P_CONCURRENT_DEVICE */
@@ -106,7 +106,7 @@ VOID CFG80211RemainOnChannelTimeout(
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,34))
         	cfg80211_remain_on_channel_expired( CFG80211_GetEventDevice(pAd),
         		pCfg80211_ctrl->Cfg80211ChanInfo.cookie, pCfg80211_ctrl->Cfg80211ChanInfo.chan,
-        		pCfg80211_ctrl->Cfg80211ChanInfo.ChanType, GFP_KERNEL);
+        		GFP_KERNEL);
 #endif /* LINUX_VERSION_CODE 2.6.34 */
 
 		pCfg80211_ctrl->Cfg80211RocTimerRunning = FALSE;
@@ -770,7 +770,7 @@ VOID CFG80211_P2pParseNoASubElmt(PRTMP_ADAPTER pAd, VOID *Msg, ULONG MsgLen,
 			}
 		}
 		LeftLength = LeftLength - pEid->Len - 2;
-		pEid = (PEID_STRUCT)((UCHAR*)pEid + 2 + pEid->Len); 
+		pEid = (PEID_STRUCT)((UCHAR*)pEid + 2 + pEid->Len);
 	}
 
 	if (bNoAAttriExist == FALSE)

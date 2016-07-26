@@ -128,7 +128,7 @@ HAS_GREENAP_SUPPORT=n
 #Support cfg80211 function with Linux Only.
 #Please make sure insmod the cfg80211.ko before our driver,
 #our driver references to its symbol.
-HAS_CFG80211_SUPPORT=y
+HAS_CFG80211_SUPPORT=n
 #smooth the scan signal for cfg80211 based driver
 HAS_CFG80211_SCAN_SIGNAL_AVG_SUPPORT=y
 #Cfg80211-based P2P Support
