@@ -825,7 +825,7 @@ static int CFG80211_OpsStaGet(
 	{
 		pSinfo->txrate.flags = RATE_INFO_FLAGS_MCS;
 		if (StaInfo.TxRateFlags & RT_CMD_80211_TXRATE_BW_40)
-			pSinfo->txrate.flags |= RATE_INFO_FLAGS_40_MHZ_WIDTH;
+			pSinfo->txrate.bw = RATE_INFO_BW_40;
 
 		if (StaInfo.TxRateFlags & RT_CMD_80211_TXRATE_SHORT_GI)
 			pSinfo->txrate.flags |= RATE_INFO_FLAGS_SHORT_GI;
@@ -838,11 +838,11 @@ static int CFG80211_OpsStaGet(
 		pSinfo->txrate.legacy = StaInfo.TxRateMCS;
 	}
 
-	pSinfo->filled |= STATION_INFO_TX_BITRATE;
+	pSinfo->filled |= BIT(NL80211_STA_INFO_TX_BITRATE);
 
 	/* fill signal */
 	pSinfo->signal = StaInfo.Signal;
-	pSinfo->filled |= STATION_INFO_SIGNAL;
+	pSinfo->filled |= BIT(NL80211_STA_INFO_SIGNAL);
 
 #ifdef CONFIG_AP_SUPPORT
 	/* fill tx count */
@@ -1369,7 +1369,7 @@ Note:
    @crypto: crypto settings
    @key_len: length of WEP key for shared key authentication
    @key_idx: index of WEP key for shared key authentication
-   @key: WEP key for shared key authentication 
+   @key: WEP key for shared key authentication
 ========================================================================
 */
 static int CFG80211_OpsConnect(
@@ -1443,7 +1443,7 @@ static int CFG80211_OpsConnect(
 		ConnInfo.PairwiseEncrypType |= RT_CMD_80211_CONN_ENCRYPT_TKIP;
 	}
 	else if ((Pairwise == WLAN_CIPHER_SUITE_WEP40) ||
-			(Pairwise & WLAN_CIPHER_SUITE_WEP104)) 
+			(Pairwise & WLAN_CIPHER_SUITE_WEP104))
 	{
 		CFG80211DBG(RT_DEBUG_TRACE, ("WLAN_CIPHER_SUITE_WEP...\n"));
 		ConnInfo.PairwiseEncrypType |= RT_CMD_80211_CONN_ENCRYPT_WEP;
@@ -1651,10 +1651,10 @@ static int CFG80211_OpsSurveyGet(
 
 	/* return the information to upper layer */
 	pSurvey->channel = ((CFG80211_CB *)(SurveyInfo.pCfg80211))->pCfg80211_Channels;
-	pSurvey->filled = SURVEY_INFO_CHANNEL_TIME_BUSY |
-						SURVEY_INFO_CHANNEL_TIME_EXT_BUSY;
-	pSurvey->channel_time_busy = SurveyInfo.ChannelTimeBusy; /* unit: us */
-	pSurvey->channel_time_ext_busy = SurveyInfo.ChannelTimeExtBusy;
+	pSurvey->filled = SURVEY_INFO_TIME_BUSY |
+			  SURVEY_INFO_TIME_EXT_BUSY;
+	pSurvey->time_busy  = SurveyInfo.ChannelTimeBusy; /* unit: us */
+	pSurvey->time_ext_busy = SurveyInfo.ChannelTimeExtBusy;
 
 	CFG80211DBG(RT_DEBUG_TRACE, ("80211> busy time = %ld %ld\n",
 				(ULONG)SurveyInfo.ChannelTimeBusy,
@@ -1997,7 +1997,7 @@ static int CFG80211_OpsSetBeacon(
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,2,0))
     CFG80211DBG(RT_DEBUG_TRACE, ("80211>ssid = %s \n", info->ssid));
     CFG80211DBG(RT_DEBUG_TRACE, ("80211>ssid_len = %s \n", info->ssid_len));
-    
+
     CFG80211DBG(RT_DEBUG_TRACE, ("80211>beacon_ies_len = %d \n", info->beacon_ies_len));
     CFG80211DBG(RT_DEBUG_TRACE, ("80211>proberesp_ies_len = %d \n", info->proberesp_ies_len));
     CFG80211DBG(RT_DEBUG_TRACE, ("80211>assocresp_ies_len = %d \n", info->assocresp_ies_len));
@@ -2007,7 +2007,7 @@ static int CFG80211_OpsSetBeacon(
 
 	if (info->assocresp_ies_len > 0 && info->assocresp_ies)
 		RTMP_DRIVER_80211_AP_ASSOC_RSP(pAd, info->assocresp_ies, info->assocresp_ies_len);
-#endif    
+#endif
 
     os_alloc_mem(NULL, &beacon_head_buf, info->head_len);
     NdisCopyMemory(beacon_head_buf, info->head, info->head_len);
@@ -2322,7 +2322,7 @@ static struct net_device* CFG80211_OpsVirtualInfAdd(
 
 	vifInfo.vifType = Type;
 	vifInfo.vifNameLen = strlen(name);
-    memset(vifInfo.vifName, 0, sizeof(vifInfo.vifName)); 
+    memset(vifInfo.vifName, 0, sizeof(vifInfo.vifName));
 	NdisCopyMemory(vifInfo.vifName, name, vifInfo.vifNameLen);
 
 	if (RTMP_DRIVER_80211_VIF_ADD(pAd, &vifInfo) != NDIS_STATUS_SUCCESS)
@@ -2490,7 +2490,9 @@ struct cfg80211_ops CFG80211_Ops = {
 
 	/* set channel for a given wireless interface */
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,6,0))
+#if 0	/* ULLI : disabled */
 	.set_monitor_channel = CFG80211_OpsMonitorChannelSet,
+#endif
 #else
 	.set_channel	     = CFG80211_OpsChannelSet,
 #endif /* LINUX_VERSION_CODE: 3.6.0 */
@@ -2602,7 +2604,9 @@ struct cfg80211_ops CFG80211_Ops = {
 
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,37))
 	/* notify driver that a management frame type was registered */
+#if 0  /* ULLI : disabled */
 	.mgmt_frame_register		= CFG80211_OpsMgmtFrameRegister,
+#endif
 #endif /* LINUX_VERSION_CODE */
 
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,38))
