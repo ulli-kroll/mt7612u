@@ -15,10 +15,10 @@
 
     Module Name:
     assoc.c
- 
+
     Abstract:
     Handle association related requests either from WSTA or from local MLME
- 
+
     Revision History:
     Who         When          What
     --------    ----------    ----------------------------------------------
@@ -49,10 +49,10 @@ static void ap_assoc_info_debugshow(
 		assoc_ht_info_debugshow(pAd, pEntry, ie_list->ht_cap_len, &ie_list->HTCapability);
 
 		DBGPRINT(RT_DEBUG_TRACE, ("\n%s - Update AP OperaionMode=%d, fAnyStationIsLegacy=%d, fAnyStation20Only=%d, fAnyStationNonGF=%d\n\n",
-					sAssoc, 
-					pAd->CommonCfg.AddHTInfo.AddHtInfo2.OperaionMode, 
+					sAssoc,
+					pAd->CommonCfg.AddHTInfo.AddHtInfo2.OperaionMode,
 					pAd->MacTab.fAnyStationIsLegacy,
-					pAd->MacTab.fAnyStation20Only, 
+					pAd->MacTab.fAnyStation20Only,
 					pAd->MacTab.fAnyStationNonGF));
 
 #ifdef DOT11_VHT_AC
@@ -122,7 +122,7 @@ static USHORT update_associated_mac_entry(
 	pEntry->Sst = SST_ASSOC;
 
 	pEntry->MaxSupportedRate = min(pAd->CommonCfg.MaxTxRate, MaxSupportedRate);
-	
+
 	set_entry_phy_cfg(pAd, pEntry);
 
 	pEntry->CapabilityInfo = ie_list->CapabilityInfo;
@@ -141,7 +141,7 @@ static USHORT update_associated_mac_entry(
 		pEntry->WpaState = AS_AUTHENTICATION;
 	}
 #endif /* DOT1X_SUPPORT */
-    
+
 	/*if (ClientRalinkIe & 0x00000004) */
 	if (ie_list->RalinkIe != 0x0)
 		CLIENT_STATUS_SET_FLAG(pEntry, fCLIENT_STATUS_RALINK_CHIPSET);
@@ -174,7 +174,7 @@ static USHORT update_associated_mac_entry(
 #endif /* DOT11_VHT_AC */
 
 	/* In WPA or 802.1x mode, the port is not secured, otherwise is secued. */
-	if ((pEntry->AuthMode >= Ndis802_11AuthModeWPA) 
+	if ((pEntry->AuthMode >= Ndis802_11AuthModeWPA)
 #ifdef DOT1X_SUPPORT
 		|| (wdev->IEEE8021X == TRUE)
 #endif /* DOT1X_SUPPORT */
@@ -184,10 +184,10 @@ static USHORT update_associated_mac_entry(
 		pEntry->PortSecured = WPA_802_1X_PORT_SECURED;
 
 #ifdef SOFT_ENCRYPT
-	/* There are some situation to need to encryption by software 			   	
+	/* There are some situation to need to encryption by software 			   
 	   1. The Client support PMF. It shall ony support AES cipher.
 	   2. The Client support WAPI.
-	   If use RT3883 or later, HW can handle the above.	
+	   If use RT3883 or later, HW can handle the above.
 	   */
 
 #ifdef DOT11W_PMF_SUPPORT
@@ -200,7 +200,7 @@ static USHORT update_associated_mac_entry(
 #endif /* SOFT_ENCRYPT */
 
 #ifdef DOT11_N_SUPPORT
-	/* 	
+	/* 
 		WFA recommend to restrict the encryption type in 11n-HT mode.
 	 	So, the WEP and TKIP are not allowed in HT rate.
 	*/
@@ -216,7 +216,7 @@ static USHORT update_associated_mac_entry(
 	}
 
 	/* If this Entry supports 802.11n, upgrade to HT rate. */
-	if ((ie_list->ht_cap_len != 0) && 
+	if ((ie_list->ht_cap_len != 0) &&
 		(wdev->DesiredHtPhyInfo.bHtEnable) &&
 		WMODE_CAP_N(pAd->CommonCfg.PhyMode))
 	{
@@ -234,10 +234,10 @@ static USHORT update_associated_mac_entry(
 #ifdef DOT11N_DRAFT3
 			pEntry->bForty_Mhz_Intolerant = TRUE;
 			pAd->MacTab.fAnyStaFortyIntolerant = TRUE;
-			if(((pAd->CommonCfg.HtCapability.HtCapInfo.ChannelWidth == BW_40) && 
+			if(((pAd->CommonCfg.HtCapability.HtCapInfo.ChannelWidth == BW_40) &&
 				(pAd->CommonCfg.Channel <=14)) &&
 			    ((pAd->CommonCfg.bBssCoexEnable == TRUE) &&
-				(pAd->CommonCfg.AddHTInfo.AddHtInfo.RecomWidth != 0) && 
+				(pAd->CommonCfg.AddHTInfo.AddHtInfo.RecomWidth != 0) &&
 				(pAd->CommonCfg.AddHTInfo.AddHtInfo.ExtChanOffset != 0))
 			)
 			{
@@ -250,22 +250,22 @@ static USHORT update_associated_mac_entry(
 #endif /* DOT11N_DRAFT3 */
 			Handle_BSS_Width_Trigger_Events(pAd);
 		}
-		
+
 #ifdef TXBF_SUPPORT
 #ifdef VHT_TXBF_SUPPORT
 		if (WMODE_CAP_AC(pAd->CommonCfg.PhyMode) &&
 				(pAd->CommonCfg.Channel > 14) &&
 				(ie_list->vht_cap_len))
 			supportsETxBF = clientSupportsVHTETxBF(pAd, &ie_list->vht_cap.vht_cap);
-		else		
-#endif /* VHT_TXBF_SUPPORT */			
+		else
+#endif /* VHT_TXBF_SUPPORT */
 			supportsETxBF = clientSupportsETxBF(pAd, &ie_list->HTCapability.TxBFCap);
 #endif /* TXBF_SUPPORT */
 
 		/* find max fixed rate */
 		pEntry->MaxHTPhyMode.field.MCS = get_ht_max_mcs(pAd, &wdev->DesiredHtPhyInfo.MCSSet[0],
 														&ie_list->HTCapability.MCSSet[0]);
-		 
+
 		if (wdev->DesiredTransmitSetting.field.MCS != MCS_AUTO)
 		{
 			DBGPRINT(RT_DEBUG_TRACE, ("@@@ IF-ra%d DesiredTransmitSetting.field.MCS = %d\n",
@@ -287,7 +287,7 @@ static USHORT update_associated_mac_entry(
 
 		if (pAd->CommonCfg.DesiredHtPhy.AmsduEnable && (pAd->CommonCfg.REGBACapability.field.AutoBA == FALSE))
 			CLIENT_STATUS_SET_FLAG(pEntry, fCLIENT_STATUS_AMSDU_INUSED);
-		
+
 		if (pAd->CommonCfg.ht_ldpc && (pAd->chipCap.phy_caps & fPHY_CAP_LDPC)) {
 			if (ie_list->HTCapability.HtCapInfo.ht_rx_ldpc)
 				CLIENT_STATUS_SET_FLAG(pEntry, fCLIENT_STATUS_HT_RX_LDPC_CAPABLE);
@@ -333,7 +333,7 @@ static USHORT update_associated_mac_entry(
 			} else if (ie_list->vht_cap.mcs_set.rx_mcs_map.mcs_ss1 == VHT_MCS_CAP_8) {
 				pEntry->MaxHTPhyMode.field.MCS = 7;
 			}
-			
+
 			if (ie_list->vht_cap.mcs_set.rx_mcs_map.mcs_ss2 == VHT_MCS_CAP_9) {
 				if ((pEntry->MaxHTPhyMode.field.BW == BW_20))
 					pEntry->MaxHTPhyMode.field.MCS = ((1 << 4) | 8);
@@ -346,7 +346,7 @@ static USHORT update_associated_mac_entry(
 			}
 
 
-			DBGPRINT(RT_DEBUG_OFF, ("%s(): Peer's PhyCap=>Mode:%s, BW:%s\n", 
+			DBGPRINT(RT_DEBUG_OFF, ("%s(): Peer's PhyCap=>Mode:%s, BW:%s\n",
 				__FUNCTION__,
 				get_phymode_str(pEntry->MaxHTPhyMode.field.MODE),
 				get_bw_str(pEntry->MaxHTPhyMode.field.BW)));
@@ -380,7 +380,7 @@ static USHORT update_associated_mac_entry(
 			DBGPRINT(RT_DEBUG_OFF, ("%s(): Peer's OperatingMode=>RxNssType: %d, RxNss: %d, ChBW: %d\n",
 				__FUNCTION__, pEntry->operating_mode.rx_nss_type,
 				pEntry->operating_mode.rx_nss,
-				pEntry->operating_mode.ch_width));		
+				pEntry->operating_mode.ch_width));
 		}
 		else
 			pEntry->force_op_mode = FALSE;
@@ -434,7 +434,7 @@ static USHORT update_associated_mac_entry(
 				if ((pTxBFCap->ComSteerBFAntSup + 1) < pAd->Antenna.field.TxPath)
 					ndpSndgStreams = pTxBFCap->ComSteerBFAntSup + 1;
 			}
-			
+
 			if ((pTxBFCap->ExpNoComBF > 0) && (pAd->CommonCfg.ETxBfNoncompress))
 			{
 				if ((pTxBFCap->NoComSteerBFAntSup + 1) < pAd->Antenna.field.TxPath)
@@ -452,7 +452,7 @@ static USHORT update_associated_mac_entry(
 	if (wdev->bAutoTxRateSwitch == TRUE)
 	{
 		UCHAR TableSize = 0;
-		
+
 		MlmeSelectTxRateTable(pAd, pEntry, &pEntry->pTable, &TableSize, &pEntry->CurrTxRateIndex);
 		MlmeNewTxRate(pAd, pEntry);
 
@@ -469,7 +469,7 @@ static USHORT update_associated_mac_entry(
 		pEntry->bAutoTxRateSwitch = FALSE;
 #ifdef WFA_VHT_PF
 		if (WMODE_CAP_AC(pAd->CommonCfg.PhyMode)) {
-			pEntry->HTPhyMode.field.MCS = wdev->DesiredTransmitSetting.field.MCS + 
+			pEntry->HTPhyMode.field.MCS = wdev->DesiredTransmitSetting.field.MCS +
 										((pAd->CommonCfg.TxStream - 1) << 4);
 		}
 #endif /* WFA_VHT_PF */
@@ -533,11 +533,11 @@ static USHORT APBuildAssociation(
 
 	MaxSupportedRate = dot11_2_ra_rate(MaxSupportedRateIn500Kbps);
 
-    if ((WMODE_EQUAL(pAd->CommonCfg.PhyMode, WMODE_G) 
+    if ((WMODE_EQUAL(pAd->CommonCfg.PhyMode, WMODE_G)
 #ifdef DOT11_N_SUPPORT
 		|| WMODE_EQUAL(pAd->CommonCfg.PhyMode, (WMODE_G | WMODE_GN))
 #endif /* DOT11_N_SUPPORT */
-		) 
+		)
 		&& (MaxSupportedRate < RATE_FIRST_OFDM_RATE)
 	)
 		return MLME_ASSOC_REJ_DATA_RATE;
@@ -562,14 +562,14 @@ static USHORT APBuildAssociation(
 	if (pEntry && ((pEntry->Sst == SST_AUTH) || (pEntry->Sst == SST_ASSOC)))
 	{
 		/* TODO:
-			should qualify other parameters, for example - 
-			capablity, supported rates, listen interval, etc., to 
+			should qualify other parameters, for example -
+			capablity, supported rates, listen interval, etc., to
 			decide the Status Code
 		*/
 		*pAid = pEntry->Aid;
 		pEntry->NoDataIdleCount = 0;
 		pEntry->StaConnectTime = 0;
-        
+
 		{
 			/* check the validity of the received RSNIE */
 			if ((StatusCode = APValidateRSNIE(pAd, pEntry, &ie_list->RSN_IE[0], ie_list->RSNIE_Len)) != MLME_SUCCESS)
@@ -584,7 +584,7 @@ static USHORT APBuildAssociation(
 		if (*pAid == 0)
 			StatusCode = MLME_ASSOC_REJ_UNABLE_HANDLE_STA;
 		else if ((pEntry->RSNIE_Len == 0) &&
-				(wdev->AuthMode >= Ndis802_11AuthModeWPA) 
+				(wdev->AuthMode >= Ndis802_11AuthModeWPA)
 #ifdef HOSTAPD_SUPPORT
 				&& (wdev->Hostapd == Hostapd_EXT)
 #endif /* HOSTAPD_SUPPORT */
@@ -598,13 +598,13 @@ static USHORT APBuildAssociation(
 			//CFG_TODO: due to WPS_AP flag
 			pEntry->Sst = SST_ASSOC;
 			StatusCode = MLME_SUCCESS;
-#else			
+#else
 			StatusCode = MLME_ASSOC_DENY_OUT_SCOPE;
-#endif /* RT_CFG80211_P2P_SUPPORT */			
+#endif /* RT_CFG80211_P2P_SUPPORT */
 
 #ifdef HOSTAPD_SUPPORT
 			if(wdev->Hostapd == Hostapd_EXT
-				&& (wdev->AuthMode >= Ndis802_11AuthModeWPA 
+				&& (wdev->AuthMode >= Ndis802_11AuthModeWPA
 				|| wdev->IEEE8021X))
 			{
 				RtmpOSWrielessEventSendExt(pAd->net_dev, RT_WLAN_EVENT_EXPIRED,
@@ -697,7 +697,7 @@ VOID ap_cmm_peer_assoc_req_action(
 #ifdef DOT1X_SUPPORT
 	PUINT8 pPmkid = NULL;
 	UINT8 pmkid_count = 0;
-#endif /* DOT1X_SUPPORT */	
+#endif /* DOT1X_SUPPORT */
 	struct wifi_dev *wdev;
 	MULTISSID_STRUCT *pMbss;
     BOOLEAN bAssocSkip = FALSE;
@@ -725,7 +725,7 @@ VOID ap_cmm_peer_assoc_req_action(
 					PRINT_MAC(ie_list->Addr2)));
 		goto LabelOK;
 	}
-	
+
 	if (!VALID_MBSS(pAd, pEntry->apidx)) {
 		DBGPRINT(RT_DEBUG_ERROR, ("%s():pEntry bounding invalid wdev(apidx=%d)\n",
 					__FUNCTION__, pEntry->apidx));
@@ -749,7 +749,7 @@ VOID ap_cmm_peer_assoc_req_action(
 			break;
 		}
 	}
-    
+
 #ifdef DOT11W_PMF_SUPPORT
         if ((pEntry->PortSecured == WPA_802_1X_PORT_SECURED)
                 && (CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_PMF_CAPABLE)))
@@ -758,10 +758,10 @@ VOID ap_cmm_peer_assoc_req_action(
                 goto SendAssocResponse;
         }
 #endif /* DOT11W_PMF_SUPPORT */
-    
+
 	/* clear the previous Pairwise key table */
     if(pEntry->Aid != 0 &&
-	(pEntry->WepStatus >= Ndis802_11TKIPEnable 
+	(pEntry->WepStatus >= Ndis802_11TKIPEnable
 #ifdef DOT1X_SUPPORT
 	|| wdev->IEEE8021X
 #endif /* DOT1X_SUPPORT */
@@ -769,7 +769,7 @@ VOID ap_cmm_peer_assoc_req_action(
     {
 		/* clear GTK state */
 		pEntry->GTKState = REKEY_NEGOTIATING;
-    	
+    
 		NdisZeroMemory(&pEntry->PairwiseKey, sizeof(CIPHER_KEY));
 
 		/* clear this entry as no-security mode */
@@ -777,7 +777,7 @@ VOID ap_cmm_peer_assoc_req_action(
 
 #ifdef DOT1X_SUPPORT
 		/* Notify 802.1x daemon to clear this sta info */
-		if (pEntry->AuthMode == Ndis802_11AuthModeWPA || 
+		if (pEntry->AuthMode == Ndis802_11AuthModeWPA ||
 			pEntry->AuthMode == Ndis802_11AuthModeWPA2 ||
 			wdev->IEEE8021X)
 		DOT1X_InternalCmdAction(pAd, pEntry, DOT1X_DISCONNECT_ENTRY);
@@ -790,14 +790,14 @@ VOID ap_cmm_peer_assoc_req_action(
 	if ((ie_list->SsidLen != pMbss->SsidLen) ||
 		(NdisEqualMemory(ie_list->Ssid, pMbss->Ssid, ie_list->SsidLen)==0))
         goto LabelOK;
-        
+
 	/* set a flag for sending Assoc-Fail response to unwanted STA later. */
 	if (!ApCheckAccessControlList(pAd, ie_list->Addr2, pEntry->apidx))
 		bACLReject = TRUE;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("%s - MBSS(%d), receive %s request from %02x:%02x:%02x:%02x:%02x:%02x\n",
 				sAssoc, pEntry->apidx, sAssoc, PRINT_MAC(ie_list->Addr2)));
-    
+
 	/* supported rates array may not be sorted. sort it and find the maximum rate */
 	for (i=0; i<ie_list->SupportedRatesLen; i++)
 	{
@@ -815,7 +815,7 @@ VOID ap_cmm_peer_assoc_req_action(
 	NdisCopyMemory(&tmp_1,&ie_list->vht_cap.vht_cap, 4);
 	tmp_1=SWAP32(tmp_1);
 	NdisCopyMemory(&ie_list->vht_cap.vht_cap,&tmp_1, 4);
-	
+
 	NdisCopyMemory(&tmp_2,&(ie_list->vht_cap.mcs_set), 8);
 	tmp_2=SWAP64(tmp_2);
 	NdisCopyMemory(&(ie_list->vht_cap.mcs_set),&tmp_2, 8);
@@ -868,14 +868,14 @@ SendAssocResponse:
 	NStatus = MlmeAllocateMemory(pAd, &pOutBuffer);
 	if (NStatus != NDIS_STATUS_SUCCESS)
 		goto LabelOK;
-        
+
 	DBGPRINT(RT_DEBUG_TRACE, ("%s - Send %s response (Status=%d)...\n", sAssoc, sAssoc, StatusCode));
 	Aid |= 0xc000; /* 2 most significant bits should be ON */
 
 	SubType = isReassoc ? SUBTYPE_REASSOC_RSP : SUBTYPE_ASSOC_RSP;
 
 	CapabilityInfoForAssocResp = pMbss->CapabilityInfo; /*use AP's cability */
-	
+
 	/* fail in ACL checking => send an Assoc-Fail resp. */
 	SupRateLen = pAd->CommonCfg.SupRateLen;
 
@@ -906,7 +906,7 @@ SendAssocResponse:
 	{
 		if (!bAssocNoRsp)
 		{
-			MgtMacHeaderInit(pAd, &AssocRspHdr, SubType, 0, ie_list->Addr2, 
+			MgtMacHeaderInit(pAd, &AssocRspHdr, SubType, 0, ie_list->Addr2,
 								wdev->if_addr, wdev->bssid);
 			StatusCode = MLME_UNSPECIFY_FAIL;
 			MakeOutgoingFrame(pOutBuffer, &FrameLen,
@@ -935,7 +935,7 @@ SendAssocResponse:
 		goto LabelOK;
 	}
 
-	MgtMacHeaderInit(pAd, &AssocRspHdr, SubType, 0, ie_list->Addr2, 
+	MgtMacHeaderInit(pAd, &AssocRspHdr, SubType, 0, ie_list->Addr2,
 						wdev->if_addr, wdev->bssid);
 
 	MakeOutgoingFrame(pOutBuffer, &FrameLen,
@@ -1038,7 +1038,7 @@ SendAssocResponse:
 
 			NdisMoveMemory((PUCHAR)(&extHtCapInfo), (PUCHAR)(&HtCapabilityTmp.ExtHtCapInfo), sizeof(EXT_HT_CAP_INFO));
 			*(USHORT *)(&extHtCapInfo) = cpu2le16(*(USHORT *)(&extHtCapInfo));
-			NdisMoveMemory((PUCHAR)(&HtCapabilityTmp.ExtHtCapInfo), (PUCHAR)(&extHtCapInfo), sizeof(EXT_HT_CAP_INFO));		
+			NdisMoveMemory((PUCHAR)(&HtCapabilityTmp.ExtHtCapInfo), (PUCHAR)(&extHtCapInfo), sizeof(EXT_HT_CAP_INFO));
 		}
 #else
 		*(USHORT *)(&HtCapabilityTmp.ExtHtCapInfo) = SWAP16(*(USHORT *)(&HtCapabilityTmp.ExtHtCapInfo));
@@ -1121,13 +1121,13 @@ SendAssocResponse:
 			OverlapScanParam.ActiveTalPerChannel = cpu2le16(pAd->CommonCfg.Dot11OBssScanActiveTotalPerChannel);
 			OverlapScanParam.DelayFactor = cpu2le16(pAd->CommonCfg.Dot11BssWidthChanTranDelayFactor);
 			OverlapScanParam.ScanActThre = cpu2le16(pAd->CommonCfg.Dot11OBssScanActivityThre);
-			
+
 			MakeOutgoingFrame(pOutBuffer + FrameLen, &TmpLen,
 								1,			&OverlapScanIE,
 								1,			&ScanIELen,
 								ScanIELen,	&OverlapScanParam,
 								END_OF_ARGS);
-			
+
 			FrameLen += TmpLen;
 	 	}
 #endif /* DOT11N_DRAFT3 */
@@ -1152,7 +1152,7 @@ SendAssocResponse:
 		BOOLEAN bNeedAppendExtIE = FALSE;
 		EXT_CAP_INFO_ELEMENT extCapInfo;
 
-		
+
 		extInfoLen = sizeof(EXT_CAP_INFO_ELEMENT);
 		NdisZeroMemory(&extCapInfo, extInfoLen);
 
@@ -1160,7 +1160,7 @@ SendAssocResponse:
 #ifdef DOT11N_DRAFT3
 		/* P802.11n_D1.10, HT Information Exchange Support */
 		if (WMODE_CAP_N(pAd->CommonCfg.PhyMode)
-			&& (pAd->CommonCfg.Channel <= 14) 
+			&& (pAd->CommonCfg.Channel <= 14)
 			&& (pAd->CommonCfg.bBssCoexEnable == TRUE)
 		)
 		{
@@ -1196,7 +1196,7 @@ SendAssocResponse:
 			FrameLen += TmpLen;
 		}
 	}
-	
+
 	/* add Ralink-specific IE here - Byte0.b0=1 for aggregation, Byte0.b1=1 for piggy-back */
 {
 	ULONG TmpLen;
@@ -1222,8 +1222,8 @@ SendAssocResponse:
 	FrameLen += TmpLen;
 
 }
-  
-  
+
+
 	MiniportMMRequest(pAd, 0, pOutBuffer, FrameLen);
 	MlmeFreeMemory(pAd, (PVOID) pOutBuffer);
 
@@ -1240,7 +1240,7 @@ SendAssocResponse:
 		pEntry->PsMode = PWR_ACTIVE;
 
 		wdev->allow_data_tx = TRUE;
-		
+
 #ifdef IAPP_SUPPORT
 		/*PFRAME_802_11 Fr = (PFRAME_802_11)Elem->Msg; */
 /*		POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie; */
@@ -1252,17 +1252,17 @@ SendAssocResponse:
 
 /*		SendSingalToDaemon(SIGUSR2, pObj->IappPid); */
 
-		
+
 #endif /* IAPP_SUPPORT */
 
 		ap_assoc_info_debugshow(pAd, isReassoc, pEntry, ie_list);
 
 		/* send wireless event - for association */
 		RTMPSendWirelessEvent(pAd, IW_ASSOC_EVENT_FLAG, pEntry->Addr, 0, 0);
-    	
+    
 		/* This is a reassociation procedure */
 		pEntry->IsReassocSta = isReassoc;
-		
+
 #ifdef DOT11_N_SUPPORT
 		/* clear txBA bitmap */
 		pEntry->TXBAbitmap = 0;
@@ -1294,7 +1294,7 @@ SendAssocResponse:
 				CFG80211OS_NewSta(pNetDev, ie_list->Addr2, (PUCHAR)Elem->Msg, Elem->MsgLen);
 			}
 			else
-#endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */				
+#endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
 			{
 				DBGPRINT(RT_DEBUG_TRACE, ("SINGLE_DEVICE CFG : GO NOITFY THE CLIENT ASSOCIATED\n"));
 				CFG80211OS_NewSta(pAd->net_dev, ie_list->Addr2, (PUCHAR)Elem->Msg, Elem->MsgLen);
@@ -1304,32 +1304,32 @@ SendAssocResponse:
 					UCHAR KeyIdx = 0;
 					UCHAR CipherAlg = 0;
 
-					KeyIdx = wdev->DefaultKeyId;					
+					KeyIdx = wdev->DefaultKeyId;
 					CipherAlg = pAd->SharedKey[pEntry->func_tb_idx][KeyIdx].CipherAlg;
 
 					/*
 						If WEP is used, set pair-wise cipherAlg into WCID
 						attribute table for this entry.
 					*/
-					RTMP_SET_WCID_SEC_INFO(pAd, 
-											pEntry->func_tb_idx, 
-											KeyIdx, 
-											CipherAlg, 
-											pEntry->wcid, 
+					RTMP_SET_WCID_SEC_INFO(pAd,
+											pEntry->func_tb_idx,
+											KeyIdx,
+											CipherAlg,
+											pEntry->wcid,
 											SHAREDKEYTABLE);
-				}													
+				}
 			}
         }
 		else
 #endif	/* RT_CFG80211_SUPPORT */
 		/* enqueue a EAPOL_START message to trigger EAP state machine doing the authentication */
-	    if ((pEntry->AuthMode == Ndis802_11AuthModeWPAPSK) || 
+	    if ((pEntry->AuthMode == Ndis802_11AuthModeWPAPSK) ||
 			(pEntry->AuthMode == Ndis802_11AuthModeWPA2PSK))
     	{
 
 			/* Enqueue a EAPOL-start message with the pEntry for WPAPSK State Machine */
 			if ((pEntry->EnqueueEapolStartTimerRunning == EAPOL_START_DISABLE
-#ifdef HOSTAPD_SUPPORT			
+#ifdef HOSTAPD_SUPPORT
 				&& wdev->Hostapd == Hostapd_Diable
 #endif/*HOSTAPD_SUPPORT*/
 				)
@@ -1342,7 +1342,7 @@ SendAssocResponse:
     	}
 #ifdef DOT1X_SUPPORT
 		/*else if (isReassoc && */
-		else if ((pEntry->AuthMode == Ndis802_11AuthModeWPA2) && 
+		else if ((pEntry->AuthMode == Ndis802_11AuthModeWPA2) &&
 				((pPmkid = WPA_ExtractSuiteFromRSNIE(ie_list->RSN_IE, ie_list->RSNIE_Len, PMKID_LIST, &pmkid_count)) != NULL))
 		{	/* Key cache */
 			INT	CacheIdx;
@@ -1398,34 +1398,34 @@ SendAssocResponse:
 				UCHAR KeyIdx = 0;
 				UCHAR CipherAlg = 0;
 
-				KeyIdx = wdev->DefaultKeyId;					
+				KeyIdx = wdev->DefaultKeyId;
 				CipherAlg = pAd->SharedKey[pEntry->apidx][KeyIdx].CipherAlg;
 
 				/*
 					If WEP is used, set pair-wise cipherAlg into WCID
 					attribute table for this entry.
 				*/
-				RTMP_SET_WCID_SEC_INFO(pAd, 
-										pEntry->apidx, 
-										KeyIdx, 
-										CipherAlg, 
-										pEntry->wcid, 
+				RTMP_SET_WCID_SEC_INFO(pAd,
+										pEntry->apidx,
+										KeyIdx,
+										CipherAlg,
+										pEntry->wcid,
 										SHAREDKEYTABLE);
-			}	
+			}
         }
 
 	}
 
 
 LabelOK:
-#ifdef RT_CFG80211_P2P_SUPPORT 
+#ifdef RT_CFG80211_P2P_SUPPORT
 	if (StatusCode != MLME_SUCCESS)
 		CFG80211_ApStaDelSendEvent(pAd, pEntry->Addr);
 #endif /* RT_CFG80211_P2P_SUPPORT */
 	if (ie_list != NULL)
 		os_free_mem(NULL, ie_list);
 
-	return;	
+	return;
 }
 
 
@@ -1479,7 +1479,7 @@ VOID APPeerDisassocReqAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
 {
 	UCHAR Addr2[MAC_ADDR_LEN];
 	USHORT Reason;
-	UINT16 SeqNum;		
+	UINT16 SeqNum;
 	MAC_TABLE_ENTRY *pEntry;
 	struct wifi_dev *wdev;
 
@@ -1487,9 +1487,9 @@ VOID APPeerDisassocReqAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
 	if (! PeerDisassocReqSanity(pAd, Elem->Msg, Elem->MsgLen, Addr2, &SeqNum, &Reason))
 		return;
 
-	DBGPRINT(RT_DEBUG_TRACE, ("ASSOC - receive DIS-ASSOC(seq-%d) request from %02x:%02x:%02x:%02x:%02x:%02x, reason=%d\n", 
+	DBGPRINT(RT_DEBUG_TRACE, ("ASSOC - receive DIS-ASSOC(seq-%d) request from %02x:%02x:%02x:%02x:%02x:%02x, reason=%d\n",
 				SeqNum, PRINT_MAC(Addr2), Reason));
-    
+
 	pEntry = MacTableLookup(pAd, Addr2);
 	if (pEntry == NULL)
 		return;
@@ -1500,13 +1500,13 @@ VOID APPeerDisassocReqAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
 #ifdef DOT1X_SUPPORT
 		wdev = &pAd->ApCfg.MBSSID[pEntry->apidx].wdev;
 		/* Notify 802.1x daemon to clear this sta info */
-		if (pEntry->AuthMode == Ndis802_11AuthModeWPA || 
+		if (pEntry->AuthMode == Ndis802_11AuthModeWPA ||
 			pEntry->AuthMode == Ndis802_11AuthModeWPA2 ||
 			wdev->IEEE8021X)
 			DOT1X_InternalCmdAction(pAd, pEntry, DOT1X_DISCONNECT_ENTRY);
 #endif /* DOT1X_SUPPORT */
-	
-	
+
+
 		/* send wireless event - for disassociation */
 		RTMPSendWirelessEvent(pAd, IW_DISASSOC_EVENT_FLAG, Addr2, 0, 0);
         ApLogEvent(pAd, Addr2, EVENT_DISASSOCIATED);
@@ -1587,10 +1587,10 @@ VOID APMlmeKickOutSta(RTMP_ADAPTER *pAd, UCHAR *pStaAddr, UCHAR Wcid, USHORT Rea
 	    NStatus = MlmeAllocateMemory(pAd, &pOutBuffer);
 	    if (NStatus != NDIS_STATUS_SUCCESS)
 	        return;
-	    
+
 	    DBGPRINT(RT_DEBUG_TRACE, ("ASSOC - MLME disassociates %02x:%02x:%02x:%02x:%02x:%02x; Send DISASSOC request\n",
 	        		PRINT_MAC(pStaAddr)));
-	    MgtMacHeaderInit(pAd, &DisassocHdr, SUBTYPE_DISASSOC, 0, pStaAddr, 
+	    MgtMacHeaderInit(pAd, &DisassocHdr, SUBTYPE_DISASSOC, 0, pStaAddr,
 							pAd->ApCfg.MBSSID[ApIdx].wdev.if_addr,
 							pAd->ApCfg.MBSSID[ApIdx].wdev.bssid);
 	    MakeOutgoingFrame(pOutBuffer,            &FrameLen,
@@ -1632,7 +1632,7 @@ VOID APMlmeKickOutAllSta(RTMP_ADAPTER *pAd, UCHAR apidx, USHORT Reason)
         DisassocHdr.FC.Wep = 0;
         COPY_MAC_ADDR(DisassocHdr.Addr1, BROADCAST_ADDR);
         COPY_MAC_ADDR(DisassocHdr.Addr2, pAd->ApCfg.MBSSID[apidx].wdev.bssid);
-        COPY_MAC_ADDR(DisassocHdr.Addr3, pAd->ApCfg.MBSSID[apidx].wdev.bssid);        
+        COPY_MAC_ADDR(DisassocHdr.Addr3, pAd->ApCfg.MBSSID[apidx].wdev.bssid);
         MakeOutgoingFrame(pOutBuffer, &FrameLen,
             sizeof(HEADER_802_11), &DisassocHdr,
             2, &Reason,
@@ -1643,7 +1643,7 @@ VOID APMlmeKickOutAllSta(RTMP_ADAPTER *pAd, UCHAR apidx, USHORT Reason)
             ULONG TmpLen;
             UCHAR res_buf[LEN_PMF_MMIE];
             USHORT EID, ELen;
-            
+
             EID = IE_PMF_MMIE;
             ELen = LEN_PMF_MMIE;
             MakeOutgoingFrame(pOutBuffer + FrameLen, &TmpLen,
@@ -1705,15 +1705,15 @@ VOID APCls3errAction(RTMP_ADAPTER *pAd, ULONG Wcid, HEADER_802_11 *pHeader)
         /*ApLogEvent(pAd, pAddr, EVENT_DISASSOCIATED); */
 		MacTableDeleteEntry(pAd, pEntry->wcid, pHeader->Addr2);
     }
-    
+
     /* 2. send out a DISASSOC request frame */
     NStatus = MlmeAllocateMemory(pAd, &pOutBuffer);
     if (NStatus != NDIS_STATUS_SUCCESS)
         return;
-    
+
     DBGPRINT(RT_DEBUG_TRACE, ("ASSOC - Class 3 Error, Send DISASSOC frame to %02x:%02x:%02x:%02x:%02x:%02x\n",
     		PRINT_MAC(pHeader->Addr2)));
-    MgtMacHeaderInit(pAd, &DisassocHdr, SUBTYPE_DISASSOC, 0, pHeader->Addr2, 
+    MgtMacHeaderInit(pAd, &DisassocHdr, SUBTYPE_DISASSOC, 0, pHeader->Addr2,
 						pHeader->Addr1,
 						pHeader->Addr1);
     MakeOutgoingFrame(pOutBuffer,            &FrameLen,
@@ -1733,7 +1733,7 @@ VOID APCls3errAction(RTMP_ADAPTER *pAd, ULONG Wcid, HEADER_802_11 *pHeader)
         S - pointer to the association state machine
     Note:
         The state machine looks like the following
-        
+
                                     AP_ASSOC_IDLE
         APMT2_MLME_DISASSOC_REQ    mlme_disassoc_req_action
         APMT2_PEER_DISASSOC_REQ    peer_disassoc_action

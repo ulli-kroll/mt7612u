@@ -34,10 +34,10 @@ INT dev_adjust_radio(RTMP_ADAPTER *pAd)
 
 	NdisZeroMemory(&new_cfg, sizeof(struct hw_setting));
 
-	
+
 	/* For all wdev, find the maximum inter-set */
 
-	
+
 	if (hw_cfg->bbp_bw != new_cfg.bbp_bw)
 	{
 		bbp_set_bw(pAd, new_cfg.bbp_bw);
@@ -47,9 +47,9 @@ INT dev_adjust_radio(RTMP_ADAPTER *pAd)
 	if (hw_cfg->cent_ch != new_cfg.cent_ch)
 	{
 		UINT8 ext_ch = EXTCHA_NONE;
-		
+
 		bbp_set_ctrlch(pAd, ext_ch);
-		rtmp_mac_set_ctrlch(pAd, ext_ch);	
+		rtmp_mac_set_ctrlch(pAd, ext_ch);
 	}
 
 	return TRUE;

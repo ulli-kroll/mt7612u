@@ -12,13 +12,13 @@
  * way altering the source code is stricitly prohibited, unless the prior
  * written consent of Ralink Technology, Inc. is obtained.
  ****************************************************************************
- 
+
     Module Name:
     bg_ftph.c
- 
+
     Abstract:
     Provide fast path between LAN and WLAN.
- 
+
     Revision History:
     Who         When          What
     --------    ----------    ----------------------------------------------
@@ -30,7 +30,7 @@
 
 #ifdef BG_FT_SUPPORT
 #if defined(CONFIG_BRIDGE) || defined(CONFIG_BRIDGE_MODULE)
-#include <linux/netfilter_bridge.h> 
+#include <linux/netfilter_bridge.h>
 #include "../net/bridge/br_private.h"
 
 /* extern export symbol in other drivers */

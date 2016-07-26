@@ -12,18 +12,18 @@
  * way altering the source code is stricitly prohibited, unless the prior
  * written consent of Ralink Technology, Inc. is obtained.
  ****************************************************************************
-     
+
      Module Name:
      sync.c
-     
+
      Abstract:
      Synchronization state machine related services
-     
+
      Revision History:
      Who         When          What
      --------    ----------    ----------------------------------------------
      John Chang  08-04-2003    created for 11g soft-AP
-     
+
  */
 
 #include "rt_config.h"
@@ -58,7 +58,7 @@ VOID APPeerProbeReqAction(
 	CHAR rssi = 0, idx = 0;
 
 
-	
+
 	if (! PeerProbeReqSanity(pAd, Elem->Msg, Elem->MsgLen, &ProbeReqParam))
 		return;
 
@@ -67,7 +67,7 @@ VOID APPeerProbeReqAction(
 		mbss = &pAd->ApCfg.MBSSID[apidx];
 		wdev = &mbss->wdev;
 		RSNIe = IE_WPA;
-	
+
 		if ((wdev->if_dev == NULL) || ((wdev->if_dev != NULL) &&
 			!(RTMP_OS_NETDEV_STATE_RUNNING(wdev->if_dev))))
 		{
@@ -95,7 +95,7 @@ VOID APPeerProbeReqAction(
                                   wdev->if_dev->name, mbss->ProbeRspRssiThreshold, rssi));
 			continue;
 	   }
-	    	
+	    
 
 
 		/* allocate and send out ProbeRsp frame */
@@ -103,7 +103,7 @@ VOID APPeerProbeReqAction(
 		if (NStatus != NDIS_STATUS_SUCCESS)
 			return;
 
-		MgtMacHeaderInit(pAd, &ProbeRspHdr, SUBTYPE_PROBE_RSP, 0, ProbeReqParam.Addr2, 
+		MgtMacHeaderInit(pAd, &ProbeRspHdr, SUBTYPE_PROBE_RSP, 0, ProbeReqParam.Addr2,
 							wdev->if_addr, wdev->bssid);
 
 		 if ((wdev->AuthMode == Ndis802_11AuthModeWPA) || (wdev->AuthMode == Ndis802_11AuthModeWPAPSK))
@@ -202,9 +202,9 @@ VOID APPeerProbeReqAction(
 
 				NdisMoveMemory((PUCHAR)(&extHtCapInfo), (PUCHAR)(&HtCapabilityTmp.ExtHtCapInfo), sizeof(EXT_HT_CAP_INFO));
 				*(USHORT *)(&extHtCapInfo) = cpu2le16(*(USHORT *)(&extHtCapInfo));
-				NdisMoveMemory((PUCHAR)(&HtCapabilityTmp.ExtHtCapInfo), (PUCHAR)(&extHtCapInfo), sizeof(EXT_HT_CAP_INFO));		
+				NdisMoveMemory((PUCHAR)(&HtCapabilityTmp.ExtHtCapInfo), (PUCHAR)(&extHtCapInfo), sizeof(EXT_HT_CAP_INFO));
 			}
-#else				
+#else
 			*(USHORT *)(&HtCapabilityTmp.ExtHtCapInfo) = cpu2le16(*(USHORT *)(&HtCapabilityTmp.ExtHtCapInfo));
 #endif /* UNALIGNMENT_SUPPORT */
 
@@ -265,7 +265,7 @@ VOID APPeerProbeReqAction(
 #ifdef DOT11N_DRAFT3
 			/* P802.11n_D1.10, HT Information Exchange Support */
 			if ((pAd->CommonCfg.PhyMode >= PHY_11ABGN_MIXED) && (pAd->CommonCfg.Channel <= 14) &&
-				(pAd->ApCfg.MBSSID[apidx].wdev.DesiredHtPhyInfo.bHtEnable) && 
+				(pAd->ApCfg.MBSSID[apidx].wdev.DesiredHtPhyInfo.bHtEnable) &&
 				(pAd->CommonCfg.bBssCoexEnable == TRUE))
 			{
 				extCapInfo.BssCoexistMgmtSupport = 1;
@@ -280,7 +280,7 @@ VOID APPeerProbeReqAction(
 								1, 			&extInfoLen,
 								extInfoLen, 	&extCapInfo,
 								END_OF_ARGS);
-				
+
 			FrameLen += TmpLen;
 		}
 
@@ -349,7 +349,7 @@ VOID APPeerProbeReqAction(
 			else
 				DBGPRINT(RT_DEBUG_ERROR, ("%s: Allocate memory fail!!!\n", __FUNCTION__));
 		}
-			
+
 
 #ifdef DOT11_N_SUPPORT
 #ifdef DOT11N_DRAFT3
@@ -372,13 +372,13 @@ VOID APPeerProbeReqAction(
 			OverlapScanParam.ActiveTalPerChannel = cpu2le16(pAd->CommonCfg.Dot11OBssScanActiveTotalPerChannel);
 			OverlapScanParam.DelayFactor = cpu2le16(pAd->CommonCfg.Dot11BssWidthChanTranDelayFactor);
 			OverlapScanParam.ScanActThre = cpu2le16(pAd->CommonCfg.Dot11OBssScanActivityThre);
-			
+
 			MakeOutgoingFrame(pOutBuffer + FrameLen, &TmpLen,
 								1,			&OverlapScanIE,
 								1,			&ScanIELen,
 								ScanIELen,	&OverlapScanParam,
 								END_OF_ARGS);
-			
+
 			FrameLen += TmpLen;
 	 	}
 
@@ -394,7 +394,7 @@ VOID APPeerProbeReqAction(
 
 			/* P802.11n_D1.10, HT Information Exchange Support */
 			if (WMODE_CAP_N(PhyMode) && (pAd->CommonCfg.Channel <= 14) &&
-				(pAd->ApCfg.MBSSID[apidx].wdev.DesiredHtPhyInfo.bHtEnable) && 
+				(pAd->ApCfg.MBSSID[apidx].wdev.DesiredHtPhyInfo.bHtEnable) &&
 				(pAd->CommonCfg.bBssCoexEnable == TRUE))
 			{
 				extCapInfo.BssCoexistMgmtSupport = 1;
@@ -404,7 +404,7 @@ VOID APPeerProbeReqAction(
 								1, 			&extInfoLen,
 								extInfoLen, 	&extCapInfo,
 								END_OF_ARGS);
-				
+
 				FrameLen += TmpLen;
 			}
 		}
@@ -420,7 +420,7 @@ VOID APPeerProbeReqAction(
 			UCHAR MaxTxPower=16;
 
 #ifdef A_BAND_SUPPORT
-			/* 
+			/*
 			Only 802.11a APs that comply with 802.11h are required to include
 			a Power Constrint Element(IE=32) in beacons and probe response frames
 			*/
@@ -555,9 +555,9 @@ VOID APPeerProbeReqAction(
 
 				NdisMoveMemory((PUCHAR)(&extHtCapInfo), (PUCHAR)(&HtCapabilityTmp.ExtHtCapInfo), sizeof(EXT_HT_CAP_INFO));
 				*(USHORT *)(&extHtCapInfo) = cpu2le16(*(USHORT *)(&extHtCapInfo));
-				NdisMoveMemory((PUCHAR)(&HtCapabilityTmp.ExtHtCapInfo), (PUCHAR)(&extHtCapInfo), sizeof(EXT_HT_CAP_INFO));		
+				NdisMoveMemory((PUCHAR)(&HtCapabilityTmp.ExtHtCapInfo), (PUCHAR)(&extHtCapInfo), sizeof(EXT_HT_CAP_INFO));
 			}
-#else				
+#else
 			*(USHORT *)(&HtCapabilityTmp.ExtHtCapInfo) = cpu2le16(*(USHORT *)(&HtCapabilityTmp.ExtHtCapInfo));
 #endif /* UNALIGNMENT_SUPPORT */
 
@@ -610,9 +610,9 @@ VOID APPeerProbeReqAction(
 
 
 
-	/* 
+	/*
 		add Ralink-specific IE here - Byte0.b0=1 for aggregation, Byte0.b1=1 for piggy-back
-		                                 Byte0.b3=1 for rssi-feedback 
+		                                 Byte0.b3=1 for rssi-feedback
 	*/
 	{
 		ULONG TmpLen;
@@ -639,7 +639,7 @@ VOID APPeerProbeReqAction(
 
 			DBGPRINT(RT_DEBUG_ERROR, ("SYNC - Send PROBE_RSP to %02x:%02x:%02x:%02x:%02x:%02x...\n",
 										PRINT_MAC(Addr2)));
-	    
+
 			RalinkSpecificIe[5] |= 0x8;
 			pEntry = MacTableLookup(pAd, Addr2);
 
@@ -731,7 +731,7 @@ VOID APPeerBeaconAction(
 	RealRssi = RTMPMaxRssi(pAd, ConvertToRssi(pAd, Elem->Rssi0, RSSI_0),
 							ConvertToRssi(pAd, Elem->Rssi1, RSSI_1),
 							ConvertToRssi(pAd, Elem->Rssi2, RSSI_2));
-	
+
 	if (PeerBeaconAndProbeRspSanity(pAd,
 								Elem->Msg,
 								Elem->MsgLen,
@@ -756,7 +756,7 @@ VOID APPeerBeaconAction(
 			goto __End_Of_APPeerBeaconAction;
 		}
 
-			
+
 #ifdef DOT11_N_SUPPORT
 		/* 40Mhz BSS Width Trigger events Intolerant devices */
 		if ((RealRssi > OBSS_BEACON_RSSI_THRESHOLD) && (ie_list->HtCapability.HtCapInfo.Forty_Mhz_Intolerant)) /* || (HtCapabilityLen == 0))) */
@@ -775,7 +775,7 @@ VOID APPeerBeaconAction(
 			if (pAd->CommonCfg.Channel<=14)
 			{
 #if defined(P2P_SUPPORT) || defined(RT_CFG80211_P2P_CONCURRENT_DEVICE)
-				if(OPSTATUS_TEST_FLAG(pAd, fOP_AP_STATUS_MEDIA_STATE_CONNECTED) && 
+				if(OPSTATUS_TEST_FLAG(pAd, fOP_AP_STATUS_MEDIA_STATE_CONNECTED) &&
 					RTMP_CFG80211_VIF_P2P_CLI_ON(pAd)
 				  )
 				{
@@ -806,7 +806,7 @@ VOID APPeerBeaconAction(
 #endif /* DOT11_N_SUPPORT */
 
                 SupportRate(ie_list->SupRate, ie_list->SupRateLen, ie_list->ExtRate, ie_list->ExtRateLen, &pRates, &RatesLen, &MaxSupportedRate);
-		
+
                 if ((ie_list->Erp & 0x01) || (RatesLen <= 4))
 			LegacyBssExist = TRUE;
 		else
@@ -815,14 +815,14 @@ VOID APPeerBeaconAction(
 		if (LegacyBssExist && pAd->CommonCfg.DisableOLBCDetect == 0)
 		{
 			pAd->ApCfg.LastOLBCDetectTime = pAd->Mlme.Now32;
-			
+
 		}
 
 #ifdef DOT11_N_SUPPORT
 		if ((pAd->CommonCfg.bHTProtect)
 			&& (ie_list->HtCapabilityLen == 0) && (RealRssi > OBSS_BEACON_RSSI_THRESHOLD))
 		{
-			
+
 			pAd->ApCfg.LastNoneHTOLBCDetectTime = pAd->Mlme.Now32;
 		}
 #endif /* DOT11_N_SUPPORT */
@@ -834,11 +834,11 @@ VOID APPeerBeaconAction(
 			UINT ifIndex = 0;
 
 			pEntry = &pAd->MacTab.Content[Elem->Wcid];
-			
+
 			if (pEntry && IS_ENTRY_APCLI(pEntry) && (pEntry->wdev_idx < MAX_APCLI_NUM))
 			{
 				pAd->ApCfg.ApCliTab[pEntry->wdev_idx].ApCliRcvBeaconTime = pAd->Mlme.Now32;
-				ifIndex = pEntry->wdev_idx;				
+				ifIndex = pEntry->wdev_idx;
 
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
 				/* what time dose the NoA on ? It should be Conneted on. */
@@ -849,10 +849,10 @@ VOID APPeerBeaconAction(
                        NdisEqualMemory(pAd->ApCfg.ApCliTab[ifIndex].CfgApCliBssid, ie_list->Bssid, MAC_ADDR_LEN))
 					{
 						MiniportMMRequest(pAd, 0, (PUCHAR)&pAd->ApCfg.ApCliTab[0].PsPollFrame, sizeof(PSPOLL_FRAME));
-					}                    
+					}
 				}
 #endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
-	
+
 				if (pAd->CommonCfg.BBPCurrentBW == BW_40)
 				{
 					/* Check if root-ap change BW to 20 */
@@ -898,10 +898,10 @@ VOID APPeerBeaconAction(
 
 						//printk("recv notify\n");
 					}
-					
+
 				}
 #endif /* APCLI_CERT_SUPPORT */
-				if (/*(ApCliWaitProbRsp(pAd, ifIndex) == TRUE) &&*/ 
+				if (/*(ApCliWaitProbRsp(pAd, ifIndex) == TRUE) &&*/
 			    	    (NdisEqualMemory(pAd->ApCfg.ApCliTab[ifIndex].CfgApCliBssid, ie_list->Bssid, MAC_ADDR_LEN)))
 				{
 					MlmeEnqueue(pAd, APCLI_SYNC_STATE_MACHINE, APCLI_MT2_PEER_BEACON, Elem->MsgLen, Elem->Msg, ifIndex);
@@ -918,7 +918,7 @@ VOID APPeerBeaconAction(
 			INT		index,secChIdx;
 			BOOLEAN		found = FALSE;
 			ADD_HTINFO *pAdd_HtInfo;
-			
+
 			for (index = 0; index < pAd->ChannelListNum; index++)
 			{
 				/* found the effected channel, mark that. */
@@ -931,27 +931,27 @@ VOID APPeerBeaconAction(
 						pAdd_HtInfo = &ie_list->AddHtInfo.AddHtInfo;
 						if (pAdd_HtInfo->ExtChanOffset == EXTCHA_BELOW)
 						{
-#ifdef A_BAND_SUPPORT						
+#ifdef A_BAND_SUPPORT
 							if (ie_list->Channel > 14)
 								secChIdx = ((index > 0) ? (index - 1) : -1);
 							else
-#endif /* A_BAND_SUPPORT */								
+#endif /* A_BAND_SUPPORT */
 								secChIdx = ((index >= 4) ? (index - 4) : -1);
 						}
 						else if (pAdd_HtInfo->ExtChanOffset == EXTCHA_ABOVE)
 						{
-#ifdef A_BAND_SUPPORT						
+#ifdef A_BAND_SUPPORT
 							if (ie_list->Channel > 14)
 								secChIdx = (((index+1) < pAd->ChannelListNum) ? (index + 1) : -1);
 							else
-#endif /* A_BAND_SUPPORT */								
+#endif /* A_BAND_SUPPORT */
 								secChIdx = (((index+4) < pAd->ChannelListNum) ? (index + 4) : -1);
 						}
 
 						if (secChIdx >=0)
 							pAd->ChannelList[secChIdx].bEffectedChannel |= EFFECTED_CH_SECONDARY; /* 1; */
 
-						if ((pAd->CommonCfg.Channel != ie_list->Channel) || 
+						if ((pAd->CommonCfg.Channel != ie_list->Channel) ||
 							(pAdd_HtInfo->ExtChanOffset  != pAd->CommonCfg.AddHTInfo.AddHtInfo.ExtChanOffset)
 						)
 							pAd->CommonCfg.BssCoexApCnt++;
@@ -975,7 +975,7 @@ VOID APPeerBeaconAction(
 		{
 			ULONG Idx, ap_count;
 			CHAR    Rssi;
-			
+
 		       Idx = BssTableSearch(&pAd->ScanTab, ie_list->Bssid, ie_list->Channel);
 
 			if (Idx != BSS_NOT_FOUND)
@@ -988,7 +988,7 @@ VOID APPeerBeaconAction(
 
 				Idx = BssTableSetEntry(pAd, &pAd->ScanTab, ie_list, Rssi, LenVIE, pVIE);
 
-				
+
 				if (Idx != BSS_NOT_FOUND)
 				{
 					NdisMoveMemory(pAd->ScanTab.BssEntry[Idx].PTSF, &Elem->Msg[24], 4);
@@ -1078,7 +1078,7 @@ VOID APScanTimeoutAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
 #endif /* AP_PARTIAL_SCAN_SUPPORT */
 #ifdef CONFIG_AP_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-	{		
+	{
 		/*
 			iwpriv set auto channel selection
 			update the current index of the channel
@@ -1110,17 +1110,17 @@ VOID APMlmeScanCompleteAction(PRTMP_ADAPTER pAd, MLME_QUEUE_ELEM *Elem)
 
 	DBGPRINT(RT_DEBUG_TRACE, ("AP SYNC - APMlmeScanCompleteAction\n"));
 
-	/* If We catch the SR=TRUE in last scan_res, stop the AP Wsc SM */	
+	/* If We catch the SR=TRUE in last scan_res, stop the AP Wsc SM */
 	pApCliWscControl = &pAd->ApCfg.ApCliTab[BSS0].WscControl;
 	WscPBCBssTableSort(pAd, pApCliWscControl);
-	
+
 	for(apidx=0; apidx<pAd->ApCfg.BssidNum; apidx++)
 	{
 		pWscControl = &pAd->ApCfg.MBSSID[apidx].WscControl;
 		IsAPConfigured = pWscControl->WscConfStatus;
-		
+
 		DBGPRINT(RT_DEBUG_TRACE, ("CON_WPS[%d]: info %d, %d\n", apidx, pWscControl->WscState, pWscControl->bWscTrigger));
-		if ((pWscControl->WscConfMode != WSC_DISABLE) && 
+		if ((pWscControl->WscConfMode != WSC_DISABLE) &&
 		    (pWscControl->bWscTrigger == TRUE) &&
 		    (pApCliWscControl->WscPBCBssCount > 0))
 		{
@@ -1183,7 +1183,7 @@ VOID APMlmeScanReqAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
 		{
 			if (pAd->ApCfg.bAutoChannelAtBootup == TRUE)/* iwpriv set auto channel selection */
 			{
-				APAutoChannelInit(pAd);	
+				APAutoChannelInit(pAd);
 				pAd->ApCfg.AutoChannel_Channel = pAd->ChannelList[0].Channel;
 			}
 		}
@@ -1248,7 +1248,7 @@ VOID APPeerBeaconAtScanAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
 								ConvertToRssi(pAd, Elem->Rssi2, RSSI_2));
 
 
-		
+
 		/* ignore BEACON not in this channel */
 		if (ie_list->Channel != pAd->MlmeAux.Channel
 #ifdef DOT11_N_SUPPORT
@@ -1280,10 +1280,10 @@ VOID APPeerBeaconAtScanAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
 		if (Idx != BSS_NOT_FOUND)
             Rssi = pAd->ScanTab.BssEntry[Idx].Rssi;
 
-		
+
 
         /* TODO: 2005-03-04 dirty patch. we should change all RSSI related variables to SIGNED SHORT for easy/efficient reading and calaulation */
-		RealRssi = RTMPMaxRssi(pAd, ConvertToRssi(pAd, Elem->Rssi0, RSSI_0), 
+		RealRssi = RTMPMaxRssi(pAd, ConvertToRssi(pAd, Elem->Rssi0, RSSI_0),
 								ConvertToRssi(pAd, Elem->Rssi1, RSSI_1),
 								ConvertToRssi(pAd, Elem->Rssi2, RSSI_2));
         if ((RealRssi + pAd->BbpRssiToDbmDelta) > Rssi)
@@ -1296,12 +1296,12 @@ VOID APPeerBeaconAtScanAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
 #ifdef DOT11N_DRAFT3
 		/* Check if this scan channel is the effeced channel */
 		if (APCLI_IF_UP_CHECK(pAd, 0) && pAd->bApCliCertTest == TRUE
-			&& (pAd->CommonCfg.bBssCoexEnable == TRUE) 
+			&& (pAd->CommonCfg.bBssCoexEnable == TRUE)
 			&& ((ie_list->Channel > 0) && (ie_list->Channel <= 14)))
 		{
 			int chListIdx;
 
-			/* 
+			/*
 				First we find the channel list idx by the channel number
 			*/
 			for (chListIdx = 0; chListIdx < pAd->ChannelListNum; chListIdx++)
@@ -1312,7 +1312,7 @@ VOID APPeerBeaconAtScanAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
 
 			if (chListIdx < pAd->ChannelListNum)
 			{
-				/* 
+				/*
 					If this channel is effected channel for the 20/40 coex operation. Check the related IEs.
 				*/
 				if (pAd->ChannelList[chListIdx].bEffectedChannel == TRUE)
@@ -1330,7 +1330,7 @@ VOID APPeerBeaconAtScanAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
 #endif /* DOT11N_DRAFT3 */
 #endif /* DOT11_N_SUPPORT */
 #endif /* APCLI_CERT_SUPPORT */
-#endif /* APCLI_SUPPORT */						
+#endif /* APCLI_SUPPORT */
 		if (Idx != BSS_NOT_FOUND)
 		{
 			NdisMoveMemory(pAd->ScanTab.BssEntry[Idx].PTSF, &Elem->Msg[24], 4);
@@ -1341,11 +1341,11 @@ VOID APPeerBeaconAtScanAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
 		if (RTMPEqualMemory(ie_list->Ssid, "DIRECT-", 7))
 			DBGPRINT(RT_DEBUG_OFF, ("%s P2P_SCANNING: %s [%d], channel =%u\n", __FUNCTION__, ie_list->Ssid, Idx,Elem->Channel));
-		
+
         DBGPRINT(RT_DEBUG_TRACE, ("APPeerBeaconAtScanAction : Update the SSID %s in Kernel Table, Elem->Channel=%u\n", ie_list->Ssid,Elem->Channel));
         RT_CFG80211_SCANNING_INFORM(pAd, Idx, /*ie_list->Channel*/Elem->Channel, (UCHAR *)Elem->Msg, Elem->MsgLen, RealRssi);
 #endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
-		
+
 	}
 
 	/* sanity check fail, ignored */
@@ -1359,7 +1359,7 @@ IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 		if (AutoChBssSearchWithSSID(pAd, ie_list->Bssid, (PUCHAR)ie_list->Ssid, ie_list->SsidLen, ie_list->Channel) == BSS_NOT_FOUND)
 			pAd->pChannelInfo->ApCnt[pAd->ApCfg.current_channel_index]++;
 
-		AutoChBssInsertEntry(pAd, ie_list->Bssid, (CHAR *)ie_list->Ssid, ie_list->SsidLen, ie_list->Channel, ie_list->NewExtChannelOffset, RealRssi);   
+		AutoChBssInsertEntry(pAd, ie_list->Bssid, (CHAR *)ie_list->Ssid, ie_list->SsidLen, ie_list->Channel, ie_list->NewExtChannelOffset, RealRssi);
 	}
 }
 #endif /* CONFIG_AP_SUPPORT */
@@ -1392,10 +1392,10 @@ VOID APScanCnclAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
 /*
     ==========================================================================
     Description:
-        if ChannelSel is false, 
+        if ChannelSel is false,
         	AP scans channels and lists the information of channels.
         if ChannelSel is true,
-        	AP scans channels and selects an optimal channel. 
+        	AP scans channels and selects an optimal channel.
 
     NOTE:
     ==========================================================================
@@ -1410,7 +1410,7 @@ VOID ApSiteSurvey(
 
 	if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_BSS_SCAN_IN_PROGRESS))
 	{
-		/*	
+		/*
 		* Still scanning, ignore this scan.
 		*/
 		DBGPRINT(RT_DEBUG_TRACE, ("ApSiteSurvey:: Scanning now\n"));
@@ -1438,7 +1438,7 @@ VOID ApSiteSurvey(
     ScanReq.BssType = BSS_ANY;
     ScanReq.ScanType = ScanType;
     pAd->ApCfg.bAutoChannelAtBootup = ChannelSel;
-    
+
     MlmeEnqueue(pAd, AP_SYNC_STATE_MACHINE, APMT2_MLME_SCAN_REQ, sizeof(MLME_SCAN_REQ_STRUCT), &ScanReq, 0);
     RTMP_MLME_HANDLER(pAd);
 }
@@ -1450,7 +1450,7 @@ BOOLEAN ApScanRunning(RTMP_ADAPTER *pAd)
 }
 
 #ifdef AP_PARTIAL_SCAN_SUPPORT
-/* 
+/*
 	==========================================================================
 	Description:
 
@@ -1467,12 +1467,12 @@ UCHAR FindPartialScanChannel(
 	if (pAd->ApCfg.PartialScanChannelNum > 0)
 	{
 		pAd->ApCfg.PartialScanChannelNum--;
-		
+
 		if (pAd->ApCfg.LastPartialScanChannel == 0)
 			scan_channel = FirstChannel(pAd);
 		else
 			scan_channel = NextChannel(pAd, pAd->ApCfg.LastPartialScanChannel);
-		
+
 		/* update last scanned channel */
 		pAd->ApCfg.LastPartialScanChannel = scan_channel;
 		if (scan_channel == 0)
@@ -1587,7 +1587,7 @@ VOID SupportRate(
 		*RatesLen = MAX_LEN_OF_SUPPORTED_RATES;
 	}
 
-	
+
 
 	for (i = 0; i < *RatesLen; i++)
 	{

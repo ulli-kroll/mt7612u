@@ -31,7 +31,7 @@
 INT MCUBurstWrite(PRTMP_ADAPTER pAd, UINT32 Offset, UINT32 *Data, UINT32 Cnt)
 {
 #ifdef RTMP_USB_SUPPORT
-	RTUSBMultiWrite_nBytes(pAd, Offset, (UCHAR *)Data, Cnt * 4, 64); 
+	RTUSBMultiWrite_nBytes(pAd, Offset, (UCHAR *)Data, Cnt * 4, 64);
 #endif /* RTMP_USB_SUPPORT */
 	return 0;
 }
@@ -40,7 +40,7 @@ INT MCUBurstWrite(PRTMP_ADAPTER pAd, UINT32 Offset, UINT32 *Data, UINT32 Cnt)
 INT MCURandomWrite(PRTMP_ADAPTER pAd, RTMP_REG_PAIR *RegPair, UINT32 Num)
 {
 	UINT32 Index;
-	
+
 	for (Index = 0; Index < Num; Index++)
 		RTMP_IO_WRITE32(pAd, RegPair->Register, RegPair->Value);
 
@@ -56,13 +56,13 @@ INT mcu_sys_init(RTMP_ADAPTER *pAd)
 	MCU_CTRL_INIT(pAd);
 
 	Status = load_patch(pAd);
-	
+
 	if (Status != NDIS_STATUS_SUCCESS)
 	{
 		DBGPRINT_ERR(("load patch failed, Status[=0x%08x]\n", Status));
 		return FALSE;
 	}
-	
+
 	Status = NICLoadFirmware(pAd);
 	if (Status != NDIS_STATUS_SUCCESS)
 	{
@@ -81,7 +81,7 @@ VOID ChipOpsMCUHook(PRTMP_ADAPTER pAd, enum MCU_TYPE MCUType)
 
 
 #ifdef CONFIG_ANDES_SUPPORT
-	if (MCUType == ANDES) 
+	if (MCUType == ANDES)
 	{
 		RTMP_CHIP_CAP *pChipCap = &pAd->chipCap;
 
@@ -91,16 +91,16 @@ VOID ChipOpsMCUHook(PRTMP_ADAPTER pAd, enum MCU_TYPE MCUType)
 			pChipOps->load_rom_patch = andes_usb_load_rom_patch;
 			pChipOps->erase_rom_patch = andes_usb_erase_rom_patch;
 		}
-		
+
 		if (pChipCap->need_load_fw) {
 			pChipOps->loadFirmware = andes_usb_loadfw;
 			pChipOps->eraseFirmware = andes_usb_erasefw;
-		}	
+		}
 
 		pChipOps->fw_init = andes_usb_fw_init;
 #endif /* RTMP_USB_SUPPORT */
 
-		if (pChipCap->need_load_fw) 
+		if (pChipCap->need_load_fw)
 		{
 			//pChipOps->sendCommandToMcu = andes_send_cmd_msg;
 			pChipOps->MCUCtrlInit = andes_ctrl_init;

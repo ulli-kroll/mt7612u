@@ -55,7 +55,7 @@ typedef	union	_EFUSE_CTRL_STRUC {
 		UINT32            EFSROM_LDO_ON_TIME:2;
 		UINT32            EFSROM_LDO_OFF_TIME:6;
 		UINT32            EFSROM_MODE:2;
-		UINT32            EFSROM_AOUT:6;   
+		UINT32            EFSROM_AOUT:6;
 	}	field;
 	UINT32			word;
 }	EFUSE_CTRL_STRUC, *PEFUSE_CTRL_STRUC;
@@ -75,27 +75,27 @@ typedef	union	_EFUSE_CTRL_STRUC {
 }	EFUSE_CTRL_STRUC, *PEFUSE_CTRL_STRUC;
 #endif /* RT_BIG_ENDIAN */
 
-VOID eFuseReadPhysical( 
-	IN	PRTMP_ADAPTER	pAd, 
+VOID eFuseReadPhysical(
+	IN	PRTMP_ADAPTER	pAd,
   	IN	PUSHORT lpInBuffer,
   	IN	ULONG nInBufferSize,
   	OUT	PUSHORT lpOutBuffer,
   	IN	ULONG nOutBufferSize);
 
 static VOID eFusePhysicalWriteRegisters(
-	IN	PRTMP_ADAPTER	pAd,	
-	IN	USHORT Offset, 
-	IN	USHORT Length, 
+	IN	PRTMP_ADAPTER	pAd,
+	IN	USHORT Offset,
+	IN	USHORT Length,
 	OUT	USHORT* pData);
 
 static NTSTATUS eFuseWriteRegisters(
 	IN	PRTMP_ADAPTER	pAd,
-	IN	USHORT Offset, 
-	IN	USHORT Length, 
+	IN	USHORT Offset,
+	IN	USHORT Length,
 	IN	USHORT* pData);
 
-static VOID eFuseWritePhysical( 
-	IN	PRTMP_ADAPTER	pAd,	
+static VOID eFuseWritePhysical(
+	IN	PRTMP_ADAPTER	pAd,
   	PUSHORT lpInBuffer,
 	ULONG nInBufferSize,
   	PUCHAR lpOutBuffer,
@@ -103,14 +103,14 @@ static VOID eFuseWritePhysical(
 
 static NTSTATUS eFuseWriteRegistersFromBin(
 	IN	PRTMP_ADAPTER	pAd,
-	IN	USHORT Offset, 
-	IN	USHORT Length, 
+	IN	USHORT Offset,
+	IN	USHORT Length,
 	IN	USHORT* pData);
 
 
 /*
 ========================================================================
-	
+
 	Routine Description:
 
 	Arguments:
@@ -118,13 +118,13 @@ static NTSTATUS eFuseWriteRegistersFromBin(
 	Return Value:
 
 	Note:
-	
+
 ========================================================================
 */
 UCHAR eFuseReadRegisters(
-	IN	PRTMP_ADAPTER	pAd, 
-	IN	USHORT Offset, 
-	IN	USHORT Length, 
+	IN	PRTMP_ADAPTER	pAd,
+	IN	USHORT Offset,
+	IN	USHORT Length,
 	OUT	USHORT* pData)
 {
 	EFUSE_CTRL_STRUC		eFuseCtrlStruc;
@@ -132,12 +132,12 @@ UCHAR eFuseReadRegisters(
 	USHORT	efuseDataOffset;
 	UINT32	data;
 	UINT32 efuse_ctrl_reg = EFUSE_CTRL;
-	
+
 #if defined(RT3290) || defined(RT65xx) || defined(MT7601)
 	if (IS_RT3290(pAd) || IS_RT65XX(pAd) || IS_MT7601(pAd))
 		efuse_ctrl_reg = EFUSE_CTRL_3290;
 #endif /* defined(RT3290) || defined(RT65xx) || defined(MT7601) */
-	
+
 	RTMP_IO_READ32(pAd, efuse_ctrl_reg, &eFuseCtrlStruc.word);
 
 	/*Step0. Write 10-bit of address to EFSROM_AIN (0x580, bit25:bit16). The address must be 16-byte alignment.*/
@@ -149,26 +149,26 @@ UCHAR eFuseReadRegisters(
 
 	/*Step2. Write EFSROM_KICK (0x580, bit30) to 1 to kick-off physical read procedure.*/
 	eFuseCtrlStruc.field.EFSROM_KICK = 1;
-	
+
 	NdisMoveMemory(&data, &eFuseCtrlStruc, 4);
 	RTMP_IO_WRITE32(pAd, efuse_ctrl_reg, data);
 
 	/*Step3. Polling EFSROM_KICK(0x580, bit30) until it become 0 again.*/
 	i = 0;
 	while(i < 500)
-	{	
+	{
 		if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST))
 			return 0;
-	
+
 		/*rtmp.HwMemoryReadDword(EFUSE_CTRL, (DWORD *) &eFuseCtrlStruc, 4);*/
 		RTMP_IO_READ32(pAd, efuse_ctrl_reg, &eFuseCtrlStruc.word);
 		if(eFuseCtrlStruc.field.EFSROM_KICK == 0)
 		{
 			RtmpusecDelay(2);
 			break;
-		}	
+		}
 		RtmpusecDelay(2);
-		i++;	
+		i++;
 	}
 
 	/*if EFSROM_AOUT is not found in physical address, write 0xffff*/
@@ -199,21 +199,21 @@ UCHAR eFuseReadRegisters(
 		/*The return byte statrs from S. Therefore, the little-endian will return BA, the Big-endian will return DC.*/
 		/*For returning the bottom 2 bytes, the Big-endian should shift right 2-bytes.*/
 #ifdef RT_BIG_ENDIAN
-		data = data << (8*((Offset & 0x3)^0x2));		  
+		data = data << (8*((Offset & 0x3)^0x2));
 #else
-		data = data >> (8*(Offset & 0x3));		
+		data = data >> (8*(Offset & 0x3));
 #endif /* RT_BIG_ENDIAN */
-		
+
 		NdisMoveMemory(pData, &data, Length);
 	}
 
 	return (UCHAR) eFuseCtrlStruc.field.EFSROM_AOUT;
-	
+
 }
 
 /*
 ========================================================================
-	
+
 	Routine Description:
 
 	Arguments:
@@ -221,13 +221,13 @@ UCHAR eFuseReadRegisters(
 	Return Value:
 
 	Note:
-	
+
 ========================================================================
 */
-VOID eFusePhysicalReadRegisters( 
-	IN	PRTMP_ADAPTER	pAd, 
-	IN	USHORT Offset, 
-	IN	USHORT Length, 
+VOID eFusePhysicalReadRegisters(
+	IN	PRTMP_ADAPTER	pAd,
+	IN	USHORT Offset,
+	IN	USHORT Length,
 	OUT	USHORT* pData)
 {
 	EFUSE_CTRL_STRUC		eFuseCtrlStruc;
@@ -253,25 +253,25 @@ VOID eFusePhysicalReadRegisters(
 	/*Step2. Write EFSROM_KICK (0x580, bit30) to 1 to kick-off physical read procedure.*/
 	eFuseCtrlStruc.field.EFSROM_KICK = 1;
 
-	NdisMoveMemory(&data, &eFuseCtrlStruc, 4);	
-	RTMP_IO_WRITE32(pAd, efuse_ctrl_reg, data);	
+	NdisMoveMemory(&data, &eFuseCtrlStruc, 4);
+	RTMP_IO_WRITE32(pAd, efuse_ctrl_reg, data);
 
 	/*Step3. Polling EFSROM_KICK(0x580, bit30) until it become 0 again.*/
 	i = 0;
 	while(i < 500)
-	{	
+	{
 		if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST))
 			return;
-		
-		RTMP_IO_READ32(pAd, EFUSE_CTRL, &eFuseCtrlStruc.word);	
+
+		RTMP_IO_READ32(pAd, EFUSE_CTRL, &eFuseCtrlStruc.word);
 		if(eFuseCtrlStruc.field.EFSROM_KICK == 0)
 		{
 			RtmpusecDelay(2);
 			break;
 		}
-		
+
 		RtmpusecDelay(2);
-		i++;	
+		i++;
 	}
 
 	/*Step4. Read 16-byte of data from EFUSE_DATA0-3 (0x59C-0x590)*/
@@ -287,39 +287,39 @@ VOID eFusePhysicalReadRegisters(
 		efuseDataOffset =  EFUSE_DATA0_3290 + (Offset & 0xC)  ;
 	else
 #endif /* defined(RT3290) || defined(RT65xx) || defined(MT7601) */
-	efuseDataOffset =  EFUSE_DATA3 - (Offset & 0xC)  ;	
+	efuseDataOffset =  EFUSE_DATA3 - (Offset & 0xC)  ;
 
 	RTMP_IO_READ32(pAd, efuseDataOffset, &data);
 
 #ifdef RT_BIG_ENDIAN
-		data = data << (8*((Offset & 0x3)^0x2));	
+		data = data << (8*((Offset & 0x3)^0x2));
 #else
 	data = data >> (8*(Offset & 0x3));
 #endif /* RT_BIG_ENDIAN */
 
-	NdisMoveMemory(pData, &data, Length);	
-	
+	NdisMoveMemory(pData, &data, Length);
+
 }
 
 /*
 ========================================================================
-	
+
 	Routine Description:
 
 	Arguments:
 
 	Return Value:
-	
+
 	Note:
-	
+
 ========================================================================
 */
-VOID eFuseReadPhysical( 
-	IN	PRTMP_ADAPTER	pAd, 
+VOID eFuseReadPhysical(
+	IN	PRTMP_ADAPTER	pAd,
   	IN	PUSHORT lpInBuffer,
   	IN	ULONG nInBufferSize,
   	OUT	PUSHORT lpOutBuffer,
-  	IN	ULONG nOutBufferSize  
+  	IN	ULONG nOutBufferSize
 )
 {
 	USHORT* pInBuf = (USHORT*)lpInBuffer;
@@ -328,24 +328,24 @@ VOID eFuseReadPhysical(
 	USHORT Offset = pInBuf[0];					/*addr*/
 	USHORT Length = pInBuf[1];					/*length*/
 	int 		i;
-	
+
 	for(i=0; i<Length; i+=2)
 	{
-		eFusePhysicalReadRegisters(pAd,Offset+i, 2, &pOutBuf[i/2]);	
-	} 	
+		eFusePhysicalReadRegisters(pAd,Offset+i, 2, &pOutBuf[i/2]);
+	} 
 }
 
 /*
 ========================================================================
-	
+
 	Routine Description:
 
 	Arguments:
 
 	Return Value:
-	
+
 	Note:
-	
+
 ========================================================================
 */
 NTSTATUS eFuseRead(
@@ -357,31 +357,31 @@ NTSTATUS eFuseRead(
 	NTSTATUS Status = STATUS_SUCCESS;
 	UCHAR	EFSROM_AOUT;
 	int	i;
-	
+
 	for(i=0; i<Length; i+=2)
 	{
 		EFSROM_AOUT = eFuseReadRegisters(pAd, Offset+i, 2, &pData[i/2]);
-	} 
+	}
 	return Status;
 }
 
 /*
 ========================================================================
-	
+
 	Routine Description:
 
 	Arguments:
 
 	Return Value:
-	
+
 	Note:
-	
+
 ========================================================================
 */
 static VOID eFusePhysicalWriteRegisters(
-	IN	PRTMP_ADAPTER	pAd,	
-	IN	USHORT Offset, 
-	IN	USHORT Length, 
+	IN	PRTMP_ADAPTER	pAd,
+	IN	USHORT Offset,
+	IN	USHORT Length,
 	OUT	USHORT* pData)
 {
 	EFUSE_CTRL_STRUC		eFuseCtrlStruc;
@@ -412,12 +412,12 @@ static VOID eFusePhysicalWriteRegisters(
 	eFuseCtrlStruc.field.EFSROM_KICK = 1;
 
 	NdisMoveMemory(&data, &eFuseCtrlStruc, 4);
-	RTMP_IO_WRITE32(pAd, efuse_ctrl_reg, data);	
+	RTMP_IO_WRITE32(pAd, efuse_ctrl_reg, data);
 
 	/*Step3. Polling EFSROM_KICK(0x580, bit30) until it become 0 again.*/
 	i = 0;
 	while(i < 500)
-	{	
+	{
 		RTMP_IO_READ32(pAd, efuse_ctrl_reg, &eFuseCtrlStruc.word);
 
 		if(eFuseCtrlStruc.field.EFSROM_KICK == 0)
@@ -426,7 +426,7 @@ static VOID eFusePhysicalWriteRegisters(
 			break;
 		}
 		RtmpusecDelay(2);
-		i++;	
+		i++;
 	}
 
 	/*Step4. Read 16-byte of data from EFUSE_DATA0-3 (0x59C-0x590)*/
@@ -464,7 +464,7 @@ static VOID eFusePhysicalWriteRegisters(
 			efuseDataOffset += 4;
 		else
 #endif /* defined(RT3290) || defined(RT65xx) || defined(MT7601) */
-			efuseDataOffset -= 4;		
+			efuseDataOffset -= 4;
 	}
 
 	/*Step1. Write 10-bit of address to EFSROM_AIN (0x580, bit25:bit16). The address must be 16-byte alignment.*/
@@ -475,18 +475,18 @@ static VOID eFusePhysicalWriteRegisters(
 
 	/*Step2. Write EFSROM_MODE (0x580, bit7:bit6) to 3.*/
 	eFuseCtrlStruc.field.EFSROM_MODE = 3;
-	
+
 	/*Step3. Write EFSROM_KICK (0x580, bit30) to 1 to kick-off physical write procedure.*/
 	eFuseCtrlStruc.field.EFSROM_KICK = 1;
 
-	NdisMoveMemory(&data, &eFuseCtrlStruc, 4);	
-	RTMP_IO_WRITE32(pAd, efuse_ctrl_reg, data);	
+	NdisMoveMemory(&data, &eFuseCtrlStruc, 4);
+	RTMP_IO_WRITE32(pAd, efuse_ctrl_reg, data);
 
 	/*Step4. Polling EFSROM_KICK(0x580, bit30) until it become 0 again. It¡¦s done.*/
 	i = 0;
 
 	while (i < 500)
-	{	
+	{
 		RTMP_IO_READ32(pAd, efuse_ctrl_reg, &eFuseCtrlStruc.word);
 
 		if(eFuseCtrlStruc.field.EFSROM_KICK == 0)
@@ -494,15 +494,15 @@ static VOID eFusePhysicalWriteRegisters(
 			RtmpusecDelay(2);
 			break;
 		}
-		
-		RtmpusecDelay(2);	
-		i++;	
+
+		RtmpusecDelay(2);
+		i++;
 	}
 }
 
 /*
 ========================================================================
-	
+
 	Routine Description:
 
 	Arguments:
@@ -510,13 +510,13 @@ static VOID eFusePhysicalWriteRegisters(
 	Return Value:
 
 	Note:
-	
+
 ========================================================================
 */
 static NTSTATUS eFuseWriteRegisters(
 	IN	PRTMP_ADAPTER	pAd,
-	IN	USHORT Offset, 
-	IN	USHORT Length, 
+	IN	USHORT Offset,
+	IN	USHORT Length,
 	IN	USHORT* pData)
 {
 	USHORT	i,Loop=0, StartBlock=0, EndBlock=0;
@@ -532,20 +532,20 @@ static NTSTATUS eFuseWriteRegisters(
 	/*set start block and end block number, start from tail of mapping table*/
 	if( (pAd->chipCap.EFUSE_USAGE_MAP_END % 2) != 0)
 	{
-		StartBlock = pAd->chipCap.EFUSE_USAGE_MAP_END-1; 
+		StartBlock = pAd->chipCap.EFUSE_USAGE_MAP_END-1;
 	}
 	else
 	{
-		StartBlock = pAd->chipCap.EFUSE_USAGE_MAP_END; 
+		StartBlock = pAd->chipCap.EFUSE_USAGE_MAP_END;
 	}
 
 	if( (pAd->chipCap.EFUSE_USAGE_MAP_START % 2) != 0)
 	{
-		EndBlock = pAd->chipCap.EFUSE_USAGE_MAP_START-1; 
+		EndBlock = pAd->chipCap.EFUSE_USAGE_MAP_START-1;
 	}
 	else
 	{
-		EndBlock = pAd->chipCap.EFUSE_USAGE_MAP_START; 
+		EndBlock = pAd->chipCap.EFUSE_USAGE_MAP_START;
 	}
 	/*Step 0. find the entry in the mapping table*/
 	/*The address of EEPROM is 2-bytes alignment.*/
@@ -570,13 +570,13 @@ static NTSTATUS eFuseWriteRegisters(
 			if(( (LogicalAddress >> 8) & 0xff) == 0)
 			{/*Not used logical address pointer*/
 				if (i != pAd->chipCap.EFUSE_USAGE_MAP_END)
-				{		
-					BlkNum = i-pAd->chipCap.EFUSE_USAGE_MAP_START+1;	
+				{
+					BlkNum = i-pAd->chipCap.EFUSE_USAGE_MAP_START+1;
 					break;
-				}				
-				
+				}
+
 			}
-			
+
 			if( (LogicalAddress & 0xff) == 0)
 			{/*Not used logical address pointer*/
 				if (i != (pAd->chipCap.EFUSE_USAGE_MAP_START-1))
@@ -585,13 +585,13 @@ static NTSTATUS eFuseWriteRegisters(
 					break;
 				}
 			}
-			
+
 		}
 	}
 	else
 	{
 		BlkNum = EFSROM_AOUT;
-	}	
+	}
 
 	DBGPRINT(RT_DEBUG_TRACE, ("eFuseWriteRegisters BlkNum = %d \n", BlkNum));
 
@@ -599,18 +599,18 @@ static NTSTATUS eFuseWriteRegisters(
 	{
 		DBGPRINT(RT_DEBUG_TRACE, ("eFuseWriteRegisters: out of free E-fuse space!!!\n"));
 		return FALSE;
-	}	
+	}
 
 	/*Step 1. Save data of this block	which is pointed by the avaible logical address pointer*/
 	/* read and save the original block data*/
 	for(i =0; i<8; i++)
 	{
 		addr = BlkNum * 0x10 ;
-		
+
 		InBuf[0] = addr+2*i;
 		InBuf[1] = 2;
-		InBuf[2] = 0x0;	
-		
+		InBuf[2] = 0x0;
+
 		eFuseReadPhysical(pAd, &InBuf[0], 4, &InBuf[2], 2);
 
 		buffer[i] = InBuf[2];
@@ -627,32 +627,32 @@ static NTSTATUS eFuseWriteRegisters(
 			for(i =0; i<8; i++)
 			{
 				addr = BlkNum * 0x10 ;
-				
+
 				InBuf[0] = addr+2*i;
 				InBuf[1] = 2;
-				InBuf[2] = buffer[i];	
-				
-				eFuseWritePhysical(pAd, &InBuf[0], 6, NULL, 2);		
+				InBuf[2] = buffer[i];
+
+				eFuseWritePhysical(pAd, &InBuf[0], 6, NULL, 2);
 			}
 		}
 		else
 		{
 				addr = BlkNum * 0x10 ;
-				
+
 				InBuf[0] = addr+(Offset % 16);
 				InBuf[1] = 2;
-				InBuf[2] = pData[0];	
-				
-				eFuseWritePhysical(pAd, &InBuf[0], 6, NULL, 2);	
+				InBuf[2] = pData[0];
+
+				eFuseWritePhysical(pAd, &InBuf[0], 6, NULL, 2);
 		}
-	
+
 		/*Step 4. Write mapping table*/
 		addr = pAd->chipCap.EFUSE_USAGE_MAP_START+BlkNum;
 
 		tmpaddr = addr;
 
 		if(addr % 2 != 0)
-			addr = addr -1; 
+			addr = addr -1;
 		InBuf[0] = addr;
 		InBuf[1] = 2;
 
@@ -663,9 +663,9 @@ static NTSTATUS eFuseWriteRegisters(
 		tmpOffset |= ((~( (tmpOffset >> 2 & 0x01) ^ (tmpOffset >> 3 & 0x01) ^ (tmpOffset >> 4 & 0x01) ^ ( tmpOffset >> 5 & 0x01))) << 7) & 0x80;
 
 		/* write the logical address*/
-		if(tmpaddr%2 != 0) 	
-			InBuf[2] = tmpOffset<<8;	
-		else          
+		if(tmpaddr%2 != 0) 
+			InBuf[2] = tmpOffset<<8;
+		else
 			InBuf[2] = tmpOffset;
 
 		eFuseWritePhysical(pAd,&InBuf[0], 6, NULL, 0);
@@ -675,18 +675,18 @@ static NTSTATUS eFuseWriteRegisters(
 		for(i =0; i<8; i++)
 		{
 			addr = BlkNum * 0x10 ;
-			
+
 			InBuf[0] = addr+2*i;
 			InBuf[1] = 2;
-			InBuf[2] = 0x0;	
-			
+			InBuf[2] = 0x0;
+
 			eFuseReadPhysical(pAd, &InBuf[0], 4, &InBuf[2], 2);
 
 			if(buffer[i] != InBuf[2])
 			{
 				bWriteSuccess = FALSE;
 				break;
-			}	
+			}
 		}
 
 		/*Step 6. invlidate mapping entry and find a free mapping entry if not succeed*/
@@ -708,7 +708,7 @@ static NTSTATUS eFuseWriteRegisters(
 					{
 						BlkNum = i+1-pAd->chipCap.EFUSE_USAGE_MAP_START;
 						break;
-					}	
+					}
 				}
 
 				if( (LogicalAddress & 0xff) == 0)
@@ -720,7 +720,7 @@ static NTSTATUS eFuseWriteRegisters(
 					}
 				}
 			}
-			DBGPRINT(RT_DEBUG_TRACE, ("Not bWriteSuccess and allocate new BlkNum = %d\n", BlkNum));	
+			DBGPRINT(RT_DEBUG_TRACE, ("Not bWriteSuccess and allocate new BlkNum = %d\n", BlkNum));
 			if(BlkNum == 0xffff)
 			{
 				DBGPRINT(RT_DEBUG_TRACE, ("eFuseWriteRegisters: out of free E-fuse space!!!\n"));
@@ -731,14 +731,14 @@ static NTSTATUS eFuseWriteRegisters(
 			tmpaddr = addr;
 
 			if(addr % 2 != 0)
-				addr = addr -1; 
+				addr = addr -1;
 			InBuf[0] = addr;
-			InBuf[1] = 2;		
-			
-			eFuseReadPhysical(pAd, &InBuf[0], 4, &InBuf[2], 2);				
+			InBuf[1] = 2;
+
+			eFuseReadPhysical(pAd, &InBuf[0], 4, &InBuf[2], 2);
 
 			/* write the logical address*/
-			if(tmpaddr%2 != 0) 
+			if(tmpaddr%2 != 0)
 			{
 				/* Invalidate the high byte*/
 				for (i=8; i<15; i++)
@@ -747,9 +747,9 @@ static NTSTATUS eFuseWriteRegisters(
 					{
 						InBuf[2] |= (0x1 <<i);
 						break;
-					}	
-				}		
-			}	
+					}
+				}
+			}
 			else
 			{
 				/* invalidate the low byte*/
@@ -759,13 +759,13 @@ static NTSTATUS eFuseWriteRegisters(
 					{
 						InBuf[2] |= (0x1 <<i);
 						break;
-					}	
-				}					
+					}
+				}
 			}
-			eFuseWritePhysical(pAd, &InBuf[0], 6, NULL, 0);	
-		}	
-	}	
-	while (!bWriteSuccess&&Loop<2);	
+			eFuseWritePhysical(pAd, &InBuf[0], 6, NULL, 0);
+		}
+	}
+	while (!bWriteSuccess&&Loop<2);
 	if(!bWriteSuccess)
 		DBGPRINT(RT_DEBUG_ERROR,("Efsue Write Failed!!\n"));
 	return TRUE;
@@ -774,23 +774,23 @@ static NTSTATUS eFuseWriteRegisters(
 
 /*
 ========================================================================
-	
+
 	Routine Description:
 
 	Arguments:
 
 	Return Value:
-	
+
 	Note:
-	
+
 ========================================================================
 */
-static VOID eFuseWritePhysical( 
-	IN	PRTMP_ADAPTER	pAd,	
+static VOID eFuseWritePhysical(
+	IN	PRTMP_ADAPTER	pAd,
   	PUSHORT lpInBuffer,
 	ULONG nInBufferSize,
   	PUCHAR lpOutBuffer,
-  	ULONG nOutBufferSize  
+  	ULONG nOutBufferSize
 )
 {
 	USHORT* pInBuf = (USHORT*)lpInBuffer;
@@ -853,18 +853,18 @@ static VOID eFuseWritePhysical(
 
 /*
 ========================================================================
-	
+
 	Routine Description:
 
 	Arguments:
 
 	Return Value:
-	
+
 	Note:
-	
+
 ========================================================================
 */
-NTSTATUS eFuseWrite(  
+NTSTATUS eFuseWrite(
    	IN	PRTMP_ADAPTER	pAd,
 	IN	USHORT			Offset,
 	IN	PUSHORT			pData,
@@ -898,12 +898,12 @@ NTSTATUS eFuseWrite(
 		*(OddWriteByteBuf+1)&=0xff00;
 		*(OddWriteByteBuf+1)|=(*pData&0xff00)>>8;
 		pValueX=OddWriteByteBuf;
-		
+
 	}
-	
+
 	for(i=0; i<length; i+=2)
 	{
-		eFuseWriteRegisters(pAd, Offset+i, 2, &pValueX[i/2]);	
+		eFuseWriteRegisters(pAd, Offset+i, 2, &pValueX[i/2]);
 	}
 	os_free_mem(NULL, OddWriteByteBuf);
 	return TRUE;
@@ -912,26 +912,26 @@ NTSTATUS eFuseWrite(
 
 /*
 ========================================================================
-	
+
 	Routine Description:
 
 	Arguments:
 
 	Return Value:
-	
+
 	Note:
-	
+
 ========================================================================
 */
-INT set_eFuseGetFreeBlockCount_Proc(  
+INT set_eFuseGetFreeBlockCount_Proc(
    	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg)
 {
 	UINT free_num = 0;
-	
+
 	if (pAd->bUseEfuse == FALSE)
 		return FALSE;
-	
+
 	eFuseGetFreeBlockCount(pAd, &free_num);
 	DBGPRINT(RT_DEBUG_OFF, ("efuseFreeNumber = %d\n", free_num));
 	return TRUE;
@@ -944,7 +944,7 @@ INT set_eFusedump_Proc(
 {
 	USHORT InBuf[3];
 	INT i = 0;
-	
+
 	if (pAd->bUseEfuse == FALSE)
 		return FALSE;
 
@@ -952,10 +952,10 @@ INT set_eFusedump_Proc(
 	{
 		InBuf[0] = 2*i;
 		InBuf[1] = 2;
-		InBuf[2] = 0x0;	
+		InBuf[2] = 0x0;
 
 		eFuseReadPhysical(pAd, &InBuf[0], 4, &InBuf[2], 2);
-		
+
 		if (i%4 == 0)
 			DBGPRINT(RT_DEBUG_OFF, ("\nBlock %x:", i/8));
 		DBGPRINT(RT_DEBUG_OFF, ("%04x ", InBuf[2]));
@@ -980,7 +980,7 @@ INT	set_eFuseLoadFromBin_Proc(
 	UCHAR					index;
 	USHORT					offset = 0;
 	USHORT 					value;
-	
+
 	memSize = 128 + MAX_EEPROM_BIN_FILE_SIZE + sizeof(USHORT) * 8;
 /*	memPtr = kmalloc(memSize, MEM_ALLOC_FLAG);*/
 	os_alloc_mem(NULL, (UCHAR **)&memPtr, memSize);
@@ -992,7 +992,7 @@ INT	set_eFuseLoadFromBin_Proc(
 	buffer = src + 128;		/* kmalloc(MAX_EEPROM_BIN_FILE_SIZE, MEM_ALLOC_FLAG);*/
 	PDATA = (USHORT*)(buffer + MAX_EEPROM_BIN_FILE_SIZE);	/* kmalloc(sizeof(USHORT)*8,MEM_ALLOC_FLAG);*/
 	ptr = buffer;
-	
+
  	if(strlen(arg)>0)
 		NdisMoveMemory(src, arg, strlen(arg));
 	else
@@ -1002,13 +1002,13 @@ INT	set_eFuseLoadFromBin_Proc(
 	RtmpOSFSInfoChange(&osfsInfo, TRUE);
 
 	srcf = RtmpOSFileOpen(src, O_RDONLY, 0);
-	if (IS_FILE_OPEN_ERR(srcf)) 
+	if (IS_FILE_OPEN_ERR(srcf))
 	{
 		DBGPRINT_ERR(("--> Error opening file %s\n", src));
 		retval = FALSE;
 		goto recoverFS;
 	}
-	else 
+	else
 	{
 		/* The object must have a read method*/
 		while(RtmpOSFileRead(srcf, &buffer[TotalByte], 1)==1)
@@ -1027,23 +1027,23 @@ INT	set_eFuseLoadFromBin_Proc(
 			DBGPRINT(RT_DEBUG_TRACE, ("--> Error closing file %s\n", src));
   	}
 
-	
+
 	RtmpOSFSInfoChange(&osfsInfo, FALSE);
 
 	for ( offset = 0 ; offset < TotalByte ; offset += 16 )
 	{
 		if ( memcmp( ptr, all_ff, 16 ) )
 		{
-			DBGPRINT(RT_DEBUG_TRACE, ("offset 0x%04x: ", offset));	
+			DBGPRINT(RT_DEBUG_TRACE, ("offset 0x%04x: ", offset));
 			for ( index = 0 ; index < 16 ; index += 2 )
 			{
 				value = *(USHORT *)(ptr + index);
 				//eFuseWrite(pAd, offset + index ,&value, 2);
-				DBGPRINT(RT_DEBUG_TRACE, ("0x%04x ", value));	
+				DBGPRINT(RT_DEBUG_TRACE, ("0x%04x ", value));
 			}
-			DBGPRINT(RT_DEBUG_TRACE, ("\n"));	
+			DBGPRINT(RT_DEBUG_TRACE, ("\n"));
 		}
-		
+
 		ptr += 16;
 	}
 
@@ -1056,19 +1056,19 @@ closeFile:
 
 recoverFS:
 	RtmpOSFSInfoChange(&osfsInfo, FALSE);
-	
+
 
 	if (memPtr)
 /*		kfree(memPtr);*/
 		os_free_mem(NULL, memPtr);
-	
+
 	return retval;
 }
 
 
 
 int rtmp_ee_efuse_read16(
-	IN RTMP_ADAPTER *pAd, 
+	IN RTMP_ADAPTER *pAd,
 	IN USHORT Offset,
 	OUT USHORT *pValue)
 {
@@ -1078,8 +1078,8 @@ int rtmp_ee_efuse_read16(
 
 
 int rtmp_ee_efuse_write16(
-	IN RTMP_ADAPTER *pAd, 
-	IN USHORT Offset, 
+	IN RTMP_ADAPTER *pAd,
+	IN USHORT Offset,
 	IN USHORT data)
 {
 	eFuseWrite(pAd,Offset ,&data, 2);
@@ -1090,7 +1090,7 @@ int RtmpEfuseSupportCheck(
 	IN RTMP_ADAPTER *pAd)
 {
 	USHORT value;
-	
+
 	if (IS_RT30xx(pAd) || IS_RT3593(pAd))
 	{
 		eFusePhysicalReadRegisters(pAd, EFUSE_TAG, 2, &value);
@@ -1118,11 +1118,11 @@ INT rtmp_ee_write_to_efuse(
 			{
 				value = *(USHORT *)(ptr + index);
 				eFuseWrite(pAd, offset + index ,&value, 2);
-				DBGPRINT(RT_DEBUG_TRACE, ("0x%04x ", value));	
+				DBGPRINT(RT_DEBUG_TRACE, ("0x%04x ", value));
 			}
-			DBGPRINT(RT_DEBUG_TRACE, ("\n"));	
+			DBGPRINT(RT_DEBUG_TRACE, ("\n"));
 		}
-		
+
 		ptr += 16;
 	}
 
@@ -1131,10 +1131,10 @@ INT rtmp_ee_write_to_efuse(
 }
 
 
-VOID eFuseGetFreeBlockCount(IN PRTMP_ADAPTER pAd, 
+VOID eFuseGetFreeBlockCount(IN PRTMP_ADAPTER pAd,
 	PUINT EfuseFreeBlock)
 {
-	
+
 	USHORT i=0, StartBlock=0, EndBlock=0;
 	USHORT	LogicalAddress;
 	USHORT	FirstFreeBlock = 0xffff, LastFreeBlock = 0xffff;
@@ -1150,26 +1150,26 @@ VOID eFuseGetFreeBlockCount(IN PRTMP_ADAPTER pAd,
 	/* find first free block*/
 	if( (pAd->chipCap.EFUSE_USAGE_MAP_START % 2) != 0)
 	{
-		StartBlock = pAd->chipCap.EFUSE_USAGE_MAP_START-1; 
+		StartBlock = pAd->chipCap.EFUSE_USAGE_MAP_START-1;
 	}
 	else
 	{
-		StartBlock = pAd->chipCap.EFUSE_USAGE_MAP_START; 
+		StartBlock = pAd->chipCap.EFUSE_USAGE_MAP_START;
 	}
 
 	if( (pAd->chipCap.EFUSE_USAGE_MAP_END % 2) != 0)
 	{
-		EndBlock = pAd->chipCap.EFUSE_USAGE_MAP_END-1; 
+		EndBlock = pAd->chipCap.EFUSE_USAGE_MAP_END-1;
 	}
 	else
 	{
-		EndBlock = pAd->chipCap.EFUSE_USAGE_MAP_END; 
+		EndBlock = pAd->chipCap.EFUSE_USAGE_MAP_END;
 	}
 
 	for (i = StartBlock; i <= EndBlock; i+=2)
 	{
 		eFusePhysicalReadRegisters(pAd, i, 2, &LogicalAddress);
-		
+
 		if( (LogicalAddress & 0xff) == 0)
 		{
 			if(i != (pAd->chipCap.EFUSE_USAGE_MAP_START-1))
@@ -1177,7 +1177,7 @@ VOID eFuseGetFreeBlockCount(IN PRTMP_ADAPTER pAd,
 				FirstFreeBlock = i;
 				break;
 			}
-		}		
+		}
 
 		if(( (LogicalAddress >> 8) & 0xff) == 0)
 		{
@@ -1185,8 +1185,8 @@ VOID eFuseGetFreeBlockCount(IN PRTMP_ADAPTER pAd,
 			{
 				FirstFreeBlock = i+1;
 				break;
-			}	
-		}			
+			}
+		}
 	}
 
 	DBGPRINT(RT_DEBUG_TRACE, ("eFuseGetFreeBlockCount, FirstFreeBlock= 0x%x\n", FirstFreeBlock));
@@ -1195,19 +1195,19 @@ VOID eFuseGetFreeBlockCount(IN PRTMP_ADAPTER pAd,
 	if(FirstFreeBlock == 0xffff)
 	{
 		*EfuseFreeBlock = 0;
-		return;	
+		return;
 	}
 	for (i = EndBlock; i >= StartBlock; i-=2)
 	{
 		eFusePhysicalReadRegisters(pAd, i, 2, &LogicalAddress);
-				
+
 		if(( (LogicalAddress >> 8) & 0xff) == 0)
 		{
 			if(i != pAd->chipCap.EFUSE_USAGE_MAP_END)
 			{
 				LastFreeBlock = i+1;
 				break;
-			}	
+			}
 		}
 
 		if( (LogicalAddress & 0xff) == 0)
@@ -1226,19 +1226,19 @@ VOID eFuseGetFreeBlockCount(IN PRTMP_ADAPTER pAd,
 	if(LastFreeBlock == 0xffff)
 	{
 		*EfuseFreeBlock = 0;
-		return;	
+		return;
 	}
 
 	/* return total free block number, last free block number must >= first free block number*/
 	if(LastFreeBlock < FirstFreeBlock)
 	{
-		*EfuseFreeBlock = 0;	
+		*EfuseFreeBlock = 0;
 	}
 	else
 	{
 		*EfuseFreeBlock = LastFreeBlock - FirstFreeBlock + 1;
 	}
-	
+
 	DBGPRINT(RT_DEBUG_TRACE,("eFuseGetFreeBlockCount is %d\n",*EfuseFreeBlock));
 }
 
@@ -1256,8 +1256,8 @@ INT eFuse_init(RTMP_ADAPTER *pAd)
 	/*If the used block of efuse is less than 5. We assume the default value*/
 	/* of this efuse is empty and change to the buffer mode in odrder to */
 	/*bring up interfaces successfully.*/
-	
-	
+
+
 	if ( EfuseFreeBlock >= pAd->chipCap.EFUSE_RESERVED_SIZE )
 	{
 
@@ -1287,7 +1287,7 @@ INT eFuse_init(RTMP_ADAPTER *pAd)
 			}
 
 #ifdef CAL_FREE_IC_SUPPORT
-			if ( bCalFree ) 
+			if ( bCalFree )
 			{
 				RTMP_CAL_FREE_DATA_GET(pAd);
 			}
@@ -1333,20 +1333,20 @@ INT Set_LoadEepromBufferFromEfuse_Proc(
 #ifdef RT_BIG_ENDIAN
 	USHORT *pValue, i;
 #endif /* RT_BIG_ENDIAN */
-	
+
 	if (bEnable < 0)
 		return FALSE;
 	else
 	{
-		DBGPRINT(RT_DEBUG_TRACE, ("Load EEPROM buffer from efuse, and change to BIN buffer mode\n"));	
+		DBGPRINT(RT_DEBUG_TRACE, ("Load EEPROM buffer from efuse, and change to BIN buffer mode\n"));
 
 		/* If the number of the used block is less than 5, assume the efuse is not well-calibrated, and force to use buffer mode */
 		eFuseGetFreeBlockCount(pAd, &free_blk);
 		if (free_blk > (pAd->chipCap.EFUSE_USAGE_MAP_SIZE - 5))
 			return FALSE;
-		
+
 		NdisZeroMemory(pAd->EEPROMImage, MAX_EEPROM_BIN_FILE_SIZE);
-		eFuseRead(pAd, 0, (PUSHORT)&pAd->EEPROMImage[0], MAX_EEPROM_BIN_FILE_SIZE);		
+		eFuseRead(pAd, 0, (PUSHORT)&pAd->EEPROMImage[0], MAX_EEPROM_BIN_FILE_SIZE);
 #ifdef RT_BIG_ENDIAN
 		for(i = 0;i < MAX_EEPROM_BIN_FILE_SIZE >> 1; i++)
 		{
@@ -1368,12 +1368,12 @@ INT set_eFuseBufferModeWriteBack_Proc(
 	IN PSTRING			arg)
 {
 	UINT bEnable = simple_strtol(arg, 0, 10);
-	
+
 	if (bEnable < 0)
 		return FALSE;
 	else
 	{
-		DBGPRINT(RT_DEBUG_TRACE, ("%s::Write EEPROM buffer back to eFuse\n", __FUNCTION__));	
+		DBGPRINT(RT_DEBUG_TRACE, ("%s::Write EEPROM buffer back to eFuse\n", __FUNCTION__));
 		Set_EepromBufferWriteBack_Proc(pAd, "1");
 		return TRUE;
 	}
@@ -1384,14 +1384,14 @@ INT set_BinModeWriteBack_Proc(
 	IN PSTRING			arg)
 {
 	UINT bEnable = simple_strtol(arg, 0, 10);
-	
+
 	if (bEnable < 0)
 		return FALSE;
 	else
 	{
-		DBGPRINT(RT_DEBUG_TRACE, ("%s::Write EEPROM buffer back to BIN\n", __FUNCTION__));	
+		DBGPRINT(RT_DEBUG_TRACE, ("%s::Write EEPROM buffer back to BIN\n", __FUNCTION__));
 		Set_EepromBufferWriteBack_Proc(pAd, "4");
-		
+
 		return TRUE;
 	}
 }

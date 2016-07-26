@@ -1,6 +1,6 @@
 /*
  ***************************************************************************
- * MediaTek Inc. 
+ * MediaTek Inc.
  *
  * All rights reserved. source code is an unpublished work and the
  * use of a copyright notice does not imply otherwise. This source code

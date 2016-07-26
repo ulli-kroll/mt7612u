@@ -1,6 +1,6 @@
 /*
  ***************************************************************************
- * MediaTek Inc. 
+ * MediaTek Inc.
  *
  * All rights reserved. source code is an unpublished work and the
  * use of a copyright notice does not imply otherwise. This source code
@@ -39,13 +39,13 @@ int mt_rf_write(
 	/* rf data */
 	RTMP_IO_WRITE32(ad, W_RFDATA, data);
 
-	/* rf control */	
+	/* rf control */
 	RTMP_IO_READ32(ad, RF_CTRL, &value);
-	
+
 	/* rf address */
 	value &= ~RF_ADDR_MASK;
 	value |= RF_ADDR(offset);
-	
+
 	/* write control */
 	value |= RF_R_W_CTRL;
 
@@ -65,7 +65,7 @@ int mt_rf_write(
 		RtmpusecDelay(50);
 	//} while ((i < MAX_BUSY_COUNT) && (!RTMP_TEST_FLAG(ad, fRTMP_ADAPTER_NIC_NOT_EXIST)));
 	} while ((i < MAX_BUSY_COUNT_US) && (!RTMP_TEST_FLAG(ad, fRTMP_ADAPTER_NIC_NOT_EXIST)));
-		
+
 	//if ((i == MAX_BUSY_COUNT) || (RTMP_TEST_FLAG(ad, fRTMP_ADAPTER_NIC_NOT_EXIST))) {
 	if ((i == MAX_BUSY_COUNT_US) || (RTMP_TEST_FLAG(ad, fRTMP_ADAPTER_NIC_NOT_EXIST))) {
 		DBGPRINT_RAW(RT_DEBUG_ERROR, ("Retry count exhausted or device removed!!!\n"));
@@ -99,14 +99,14 @@ int mt_rf_read(
 		}
 	}
 #endif /* RTMP_MAC_USB */
-	
-	/* rf control */	
+
+	/* rf control */
 	RTMP_IO_READ32(ad, RF_CTRL, &value);
-	
+
 	/* rf address */
 	value &= ~RF_ADDR_MASK;
 	value |= RF_ADDR(offset);
-	
+
 	/* read control */
 	value &= ~RF_R_W_CTRL;
 
@@ -115,7 +115,7 @@ int mt_rf_read(
 	value |= RF_IDX(rf_idx);
 
 	RTMP_IO_WRITE32(ad, RF_CTRL, value);
-	
+
 	do {
 		RTMP_IO_READ32(ad, RF_CTRL, &value);
 
@@ -126,7 +126,7 @@ int mt_rf_read(
 		RtmpusecDelay(50);
 	//} while ((i < MAX_BUSY_COUNT) && (!RTMP_TEST_FLAG(ad, fRTMP_ADAPTER_NIC_NOT_EXIST)));
 	} while ((i < MAX_BUSY_COUNT_US) && (!RTMP_TEST_FLAG(ad, fRTMP_ADAPTER_NIC_NOT_EXIST)));
-	
+
 	//if ((i == MAX_BUSY_COUNT) || (RTMP_TEST_FLAG(ad, fRTMP_ADAPTER_NIC_NOT_EXIST))) {
 	if ((i == MAX_BUSY_COUNT_US) || (RTMP_TEST_FLAG(ad, fRTMP_ADAPTER_NIC_NOT_EXIST))) {
 		DBGPRINT_RAW(RT_DEBUG_ERROR, ("Retry count exhausted or device removed!!!\n"));

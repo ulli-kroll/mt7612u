@@ -38,9 +38,9 @@ VOID CFG80211_Convert802_3Packet(RTMP_ADAPTER *pAd, RX_BLK *pRxBlk, UCHAR *pHead
 	if (IS_PKT_OPMODE_AP(pRxBlk))
 	{
     	RTMP_AP_802_11_REMOVE_LLC_AND_CONVERT_TO_802_3(pRxBlk, pHeader802_3);
-	}	
+	}
 	else
-#endif /* CONFIG_AP_SUPPORT */		
+#endif /* CONFIG_AP_SUPPORT */
 	{
 #ifdef CONFIG_STA_SUPPORT
 		RTMP_802_11_REMOVE_LLC_AND_CONVERT_TO_802_3(pRxBlk, pHeader802_3);
@@ -54,9 +54,9 @@ VOID CFG80211_Announce802_3Packet(RTMP_ADAPTER *pAd, RX_BLK *pRxBlk, UCHAR FromW
 	if (IS_PKT_OPMODE_AP(pRxBlk))
 	{
 		AP_ANNOUNCE_OR_FORWARD_802_3_PACKET(pAd, pRxBlk->pRxPacket, FromWhichBSSID);
-	}	
+	}
 	else
-#endif /* CONFIG_AP_SUPPORT */		
+#endif /* CONFIG_AP_SUPPORT */
 	{
 #ifdef CONFIG_STA_SUPPORT
 		ANNOUNCE_OR_FORWARD_802_3_PACKET(pAd, pRxBlk->pRxPacket, FromWhichBSSID);
@@ -74,9 +74,9 @@ BOOLEAN CFG80211_CheckActionFrameType(
 	BOOLEAN isP2pFrame = FALSE;
 	struct ieee80211_mgmt *mgmt;
 	mgmt = (struct ieee80211_mgmt *)pData;
-	if (ieee80211_is_mgmt(mgmt->frame_control)) 
+	if (ieee80211_is_mgmt(mgmt->frame_control))
 	{
-		if (ieee80211_is_probe_resp(mgmt->frame_control)) 
+		if (ieee80211_is_probe_resp(mgmt->frame_control))
 		{
 			DBGPRINT(RT_DEBUG_INFO, ("CFG80211_PKT: %s ProbeRsp Frame %d\n", preStr, pAd->LatchRfRegs.Channel));
 	        if (!mgmt->u.probe_resp.timestamp)
@@ -94,7 +94,7 @@ BOOLEAN CFG80211_CheckActionFrameType(
 		{
 			DBGPRINT(RT_DEBUG_ERROR, ("CFG80211_PKT: %s Deauth Frame\n", preStr, pAd->LatchRfRegs.Channel));
 		}
-		else if (ieee80211_is_action(mgmt->frame_control)) 
+		else if (ieee80211_is_action(mgmt->frame_control))
 		{
 			PP2P_PUBLIC_FRAME pFrame = (PP2P_PUBLIC_FRAME)pData;
 			if ((pFrame->p80211Header.FC.SubType == SUBTYPE_ACTION) &&
@@ -105,43 +105,43 @@ BOOLEAN CFG80211_CheckActionFrameType(
 				switch (pFrame->Subtype)
 				{
 					case GO_NEGOCIATION_REQ:
-						DBGPRINT(RT_DEBUG_ERROR, ("CFG80211_PKT: %s GO_NEGOCIACTION_REQ %d\n", 
+						DBGPRINT(RT_DEBUG_ERROR, ("CFG80211_PKT: %s GO_NEGOCIACTION_REQ %d\n",
 									preStr, pAd->LatchRfRegs.Channel));
-						break;	
+						break;
 
 					case GO_NEGOCIATION_RSP:
-						DBGPRINT(RT_DEBUG_ERROR, ("CFG80211_PKT: %s GO_NEGOCIACTION_RSP %d\n", 
+						DBGPRINT(RT_DEBUG_ERROR, ("CFG80211_PKT: %s GO_NEGOCIACTION_RSP %d\n",
 									preStr, pAd->LatchRfRegs.Channel));
 						break;
 
 					case GO_NEGOCIATION_CONFIRM:
-						DBGPRINT(RT_DEBUG_ERROR, ("CFG80211_PKT: %s GO_NEGOCIACTION_CONFIRM %d\n", 
+						DBGPRINT(RT_DEBUG_ERROR, ("CFG80211_PKT: %s GO_NEGOCIACTION_CONFIRM %d\n",
 									preStr,  pAd->LatchRfRegs.Channel));
 						break;
 
 					case P2P_PROVISION_REQ:
-						DBGPRINT(RT_DEBUG_ERROR, ("CFG80211_PKT: %s P2P_PROVISION_REQ %d\n", 
+						DBGPRINT(RT_DEBUG_ERROR, ("CFG80211_PKT: %s P2P_PROVISION_REQ %d\n",
 									preStr, pAd->LatchRfRegs.Channel));
 						break;
 
 					case P2P_PROVISION_RSP:
-						DBGPRINT(RT_DEBUG_ERROR, ("CFG80211_PKT: %s P2P_PROVISION_RSP %d\n", 
+						DBGPRINT(RT_DEBUG_ERROR, ("CFG80211_PKT: %s P2P_PROVISION_RSP %d\n",
 									preStr, pAd->LatchRfRegs.Channel));
 						break;
 
 					case P2P_INVITE_REQ:
-						DBGPRINT(RT_DEBUG_ERROR, ("CFG80211_PKT: %s P2P_INVITE_REQ %d\n", 
+						DBGPRINT(RT_DEBUG_ERROR, ("CFG80211_PKT: %s P2P_INVITE_REQ %d\n",
 									preStr, pAd->LatchRfRegs.Channel));
 						break;
 
 					case P2P_INVITE_RSP:
-						DBGPRINT(RT_DEBUG_ERROR, ("CFG80211_PKT: %s P2P_INVITE_RSP %d\n", 
+						DBGPRINT(RT_DEBUG_ERROR, ("CFG80211_PKT: %s P2P_INVITE_RSP %d\n",
 									preStr, pAd->LatchRfRegs.Channel));
 						break;
 					case P2P_DEV_DIS_REQ:
                         DBGPRINT(RT_DEBUG_ERROR, ("CFG80211_PKT: %s P2P_DEV_DIS_REQ %d\n",
                                                 preStr, pAd->LatchRfRegs.Channel));
-						break;						
+						break;
 					case P2P_DEV_DIS_RSP:
                         DBGPRINT(RT_DEBUG_ERROR, ("CFG80211_PKT: %s P2P_DEV_DIS_RSP %d\n",
                                                 preStr, pAd->LatchRfRegs.Channel));
@@ -150,15 +150,15 @@ BOOLEAN CFG80211_CheckActionFrameType(
 			}
 			 else if ((pFrame->p80211Header.FC.SubType == SUBTYPE_ACTION) &&
 					  (pFrame->Category == CATEGORY_PUBLIC) &&
-					   ((pFrame->Action == ACTION_GAS_INITIAL_REQ) 	 || 
-						(pFrame->Action == ACTION_GAS_INITIAL_RSP)	 || 
-						(pFrame->Action == ACTION_GAS_COMEBACK_REQ ) || 
+					   ((pFrame->Action == ACTION_GAS_INITIAL_REQ) 	 ||
+						(pFrame->Action == ACTION_GAS_INITIAL_RSP)	 ||
+						(pFrame->Action == ACTION_GAS_COMEBACK_REQ ) ||
 						(pFrame->Action == ACTION_GAS_COMEBACK_RSP)))
 			{
 											isP2pFrame = TRUE;
-			}			
-			else if	((pFrame->Category == CATEGORY_VENDOR_SPECIFIC_WFD) && 
-				  RTMPEqualMemory(&pFrame->Octet[1], CFG_P2POUIBYTE, 4)) 
+			}
+			else if	((pFrame->Category == CATEGORY_VENDOR_SPECIFIC_WFD) &&
+				  RTMPEqualMemory(&pFrame->Octet[1], CFG_P2POUIBYTE, 4))
 			{
 				isP2pFrame = TRUE;
 				switch (pFrame->Subtype)
@@ -185,7 +185,7 @@ BOOLEAN CFG80211_CheckActionFrameType(
 			{
 				DBGPRINT(RT_DEBUG_INFO, ("CFG80211_PKT: %s ACTION Frame with Channel%d\n", preStr, pAd->LatchRfRegs.Channel));
 			}
-		}	
+		}
 		else
 		{
 			DBGPRINT(RT_DEBUG_ERROR, ("CFG80211_PKT: %s UNKOWN MGMT FRAME TYPE\n", preStr));
@@ -207,7 +207,7 @@ BOOLEAN CFG80211_HandleP2pMgmtFrame(RTMP_ADAPTER *pAd, RX_BLK *pRxBlk, UCHAR OpM
 	UINT32 freq;
 
 	if ((pHeader->FC.SubType == SUBTYPE_PROBE_REQ) ||
-	 	 ((pHeader->FC.SubType == SUBTYPE_ACTION) && 
+	 	 ((pHeader->FC.SubType == SUBTYPE_ACTION) &&
 	 	   CFG80211_CheckActionFrameType(pAd, "RX", pHeader, pRxWI->RXWI_N.MPDUtotalByteCnt)))
 		{
 			MAP_CHANNEL_ID_TO_KHZ(pAd->LatchRfRegs.Channel, freq);
@@ -217,28 +217,28 @@ BOOLEAN CFG80211_HandleP2pMgmtFrame(RTMP_ADAPTER *pAd, RX_BLK *pRxBlk, UCHAR OpM
 			/* Check the P2P_GO exist in the VIF List */
 			if (pCfg80211_ctrl->Cfg80211VifDevSet.vifDevList.size > 0)
 			{
-				if ((pNetDev = RTMP_CFG80211_FindVifEntry_ByType(pAd, RT_CMD_80211_IFTYPE_P2P_GO)) != NULL) 
-				{	 
+				if ((pNetDev = RTMP_CFG80211_FindVifEntry_ByType(pAd, RT_CMD_80211_IFTYPE_P2P_GO)) != NULL)
+				{
 					DBGPRINT(RT_DEBUG_INFO, ("VIF STA GO RtmpOsCFG80211RxMgmt OK!! TYPE = %d, freq = %d, %02x:%02x:%02x:%02x:%02x:%02x\n",
-									  pHeader->FC.SubType, freq, PRINT_MAC(pHeader->Addr2)));	
+									  pHeader->FC.SubType, freq, PRINT_MAC(pHeader->Addr2)));
 					CFG80211OS_RxMgmt(pNetDev, freq, (PUCHAR)pHeader, pRxWI->RXWI_N.MPDUtotalByteCnt);
 
-					if (OpMode == OPMODE_AP) 
+					if (OpMode == OPMODE_AP)
 						return TRUE;
 				}
-			}	
-#endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */		
+			}
+#endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
 
-			if ( ((pHeader->FC.SubType == SUBTYPE_PROBE_REQ) && 
+			if ( ((pHeader->FC.SubType == SUBTYPE_PROBE_REQ) &&
                  (pCfg80211_ctrl->cfg80211MainDev.Cfg80211RegisterProbeReqFrame == TRUE) ) ||
 			     ((pHeader->FC.SubType == SUBTYPE_ACTION)  /*&& ( pAd->Cfg80211RegisterActionFrame == TRUE)*/ ))
-			{	 
+			{
 				DBGPRINT(RT_DEBUG_INFO,("MAIN STA RtmpOsCFG80211RxMgmt OK!! TYPE = %d, freq = %d, %02x:%02x:%02x:%02x:%02x:%02x\n",
-										pHeader->FC.SubType, freq, PRINT_MAC(pHeader->Addr2))); 
-				CFG80211OS_RxMgmt(CFG80211_GetEventDevice(pAd), freq, (PUCHAR)pHeader, pRxWI->RXWI_N.MPDUtotalByteCnt);								
-				
-				if (OpMode == OPMODE_AP) 
-						return TRUE;				
+										pHeader->FC.SubType, freq, PRINT_MAC(pHeader->Addr2)));
+				CFG80211OS_RxMgmt(CFG80211_GetEventDevice(pAd), freq, (PUCHAR)pHeader, pRxWI->RXWI_N.MPDUtotalByteCnt);
+
+				if (OpMode == OPMODE_AP)
+						return TRUE;
 			}
 		}
 

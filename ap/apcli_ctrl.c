@@ -31,74 +31,74 @@
 
 
 static VOID ApCliCtrlJoinReqAction(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliCtrlJoinReqTimeoutAction(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliCtrlProbeRspAction(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliCtrlAuthRspAction(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliCtrlAuth2RspAction(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliCtrlAuthReqTimeoutAction(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliCtrlAuth2ReqTimeoutAction(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliCtrlAssocRspAction(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliCtrlDeAssocRspAction(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliCtrlAssocReqTimeoutAction(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliCtrlDisconnectReqAction(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliCtrlPeerDeAssocReqAction(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliCtrlDeAssocAction(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliCtrlDeAuthAction(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliWpaMicFailureReportFrame(
-		IN PRTMP_ADAPTER pAd, 
+		IN PRTMP_ADAPTER pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 #ifdef APCLI_CERT_SUPPORT
 static VOID ApCliCtrlScanDoneAction(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 #endif /* APCLI_CERT_SUPPORT */
 
 #ifdef APCLI_CONNECTION_TRIAL
 static VOID ApCliCtrlTrialConnectAction(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliTrialConnectTimeout(
@@ -130,7 +130,7 @@ BUILD_TIMER_FUNCTION(ApCliTrialConnectRetryTimeout);
 /*
     ==========================================================================
     Description:
-        The apcli ctrl state machine, 
+        The apcli ctrl state machine,
     Parameters:
         Sm - pointer to the state machine
     Note:
@@ -230,9 +230,9 @@ VOID ApCliCtrlStateMachineInit(
 
 #ifdef APCLI_CONNECTION_TRIAL
 static VOID ApCliTrialConnectTimeout(
-	IN PVOID SystemSpecific1, 
-	IN PVOID FunctionContext, 
-	IN PVOID SystemSpecific2, 
+	IN PVOID SystemSpecific1,
+	IN PVOID FunctionContext,
+	IN PVOID SystemSpecific2,
 	IN PVOID SystemSpecific3)
 {
 	PAPCLI_STRUCT pApCliEntry = (APCLI_STRUCT *)FunctionContext;
@@ -254,7 +254,7 @@ static VOID ApCliTrialConnectTimeout(
 		//trialConnectTimeout, and currect status is ASSOC,
 		//it means we got Auth Resp from new root AP already,
 		//we shall serve the origin channel traffic first,
-		//and jump back to trial channel to issue Assoc Req later, 
+		//and jump back to trial channel to issue Assoc Req later,
 		//and finish four way-handshake if need.
 		DBGPRINT(RT_DEBUG_TRACE, ("%s, ApCliTrialConnectTimeout APCLI_CTRL_ASSOC set TrialConnectPhase2Timer\n", __func__));
 		RTMPSetTimer(&(pApCliEntry->TrialConnectPhase2Timer), TRIAL_TIMEOUT);
@@ -280,9 +280,9 @@ static VOID ApCliTrialConnectTimeout(
 }
 
 static VOID ApCliTrialConnectPhase2Timeout(
-	IN PVOID SystemSpecific1, 
-	IN PVOID FunctionContext, 
-	IN PVOID SystemSpecific2, 
+	IN PVOID SystemSpecific1,
+	IN PVOID FunctionContext,
+	IN PVOID SystemSpecific2,
 	IN PVOID SystemSpecific3)
 {
 	PAPCLI_STRUCT pApCliEntry = (APCLI_STRUCT *)FunctionContext;
@@ -292,7 +292,7 @@ static VOID ApCliTrialConnectPhase2Timeout(
 	UCHAR BBPValue;
 	struct wifi_dev *wdev;
 	wdev = &pApCliEntry->wdev;
-	
+
 	DBGPRINT(RT_DEBUG_TRACE, ("ApCli_SYNC - %s,\n \
 			Jump back to trial channel:%d\n \
 			to issue Assoc Req to new root AP\n",
@@ -321,9 +321,9 @@ static VOID ApCliTrialConnectPhase2Timeout(
 }
 
 static VOID ApCliTrialConnectRetryTimeout(
-	IN PVOID SystemSpecific1, 
-	IN PVOID FunctionContext, 
-	IN PVOID SystemSpecific2, 
+	IN PVOID SystemSpecific1,
+	IN PVOID FunctionContext,
+	IN PVOID SystemSpecific2,
 	IN PVOID SystemSpecific3)
 {
 	PAPCLI_STRUCT pApCliEntry = (APCLI_STRUCT *)FunctionContext;
@@ -382,9 +382,9 @@ static VOID ApCliTrialConnectRetryTimeout(
 	//	Set_Channel_Proc(pAd, tempBuf);//APStartUp will regenerate beacon.
 		pApCliEntry->TrialCh=0;
 	}
-	else 
+	else
 	{
-		/* 
+		/*
 		   Apcli does not connect to new root ap successfully yet,
 		   jump back to origin channel to serve old rootap traffic.
 		   re-issue assoc_req to go later.
@@ -412,14 +412,14 @@ static VOID ApCliTrialConnectRetryTimeout(
 }
 #endif /* APCLI_CONNECTION_TRIAL */
 
-/* 
+/*
     ==========================================================================
     Description:
         APCLI MLME JOIN req state machine procedure
     ==========================================================================
  */
 static VOID ApCliCtrlJoinReqAction(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	APCLI_MLME_JOIN_REQ_STRUCT JoinReq;
@@ -455,18 +455,18 @@ static VOID ApCliCtrlJoinReqAction(
 		{
 			DBGPRINT(RT_DEBUG_TRACE, ("%s::  can't find SSID[%s] in ScanTab.\n", __FUNCTION__, pApCliEntry->CfgSsid));
 			*pCurrState = APCLI_CTRL_PROBE;
-                               
+
              CFG80211_checkScanTable(pAd);
              RT_CFG80211_P2P_CLI_CONN_RESULT_INFORM(pAd, JoinReq.Bssid, NULL, 0, NULL, 0, 0);
 
 			return;
 		}
 
-		DBGPRINT(RT_DEBUG_TRACE, ("%s::  find SSID[%ld][%s] channel[%d-%d] in ScanTab.\n", __FUNCTION__, 
-						bss_idx, pApCliEntry->CfgSsid, pAd->ScanTab.BssEntry[bss_idx].Channel, 
+		DBGPRINT(RT_DEBUG_TRACE, ("%s::  find SSID[%ld][%s] channel[%d-%d] in ScanTab.\n", __FUNCTION__,
+						bss_idx, pApCliEntry->CfgSsid, pAd->ScanTab.BssEntry[bss_idx].Channel,
 						pAd->ScanTab.BssEntry[bss_idx].CentralChannel));
 
-//TODO	
+//TODO
 		/* BssSearch Table has found the pEntry, send Prob Req. directly */
 		if (pAd->CommonCfg.Channel != pAd->ScanTab.BssEntry[bss_idx].Channel)
 		{
@@ -491,14 +491,14 @@ static VOID ApCliCtrlJoinReqAction(
 	return;
 }
 
-/* 
+/*
     ==========================================================================
     Description:
         APCLI MLME JOIN req timeout state machine procedure
     ==========================================================================
  */
 static VOID ApCliCtrlJoinReqTimeoutAction(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	APCLI_MLME_JOIN_REQ_STRUCT JoinReq;
@@ -534,7 +534,7 @@ static VOID ApCliCtrlJoinReqTimeoutAction(
 		NdisZeroMemory(pAd->MlmeAux.Bssid, MAC_ADDR_LEN);
 		NdisZeroMemory(pAd->MlmeAux.Ssid, MAX_LEN_OF_SSID);
 		pApCliEntry->ProbeReqCnt = 0;
-		
+
 		if (pAd->ApCfg.ApCliAutoConnectRunning == TRUE)
 			ApCliSwitchCandidateAP(pAd);
 		return;
@@ -571,14 +571,14 @@ static VOID ApCliCtrlJoinReqTimeoutAction(
 	return;
 }
 
-/* 
+/*
     ==========================================================================
     Description:
         APCLI MLME Probe Rsp state machine procedure
     ==========================================================================
  */
 static VOID ApCliCtrlProbeRspAction(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	APCLI_CTRL_MSG_STRUCT *Info = (APCLI_CTRL_MSG_STRUCT *)(Elem->Msg);
@@ -636,14 +636,14 @@ static VOID ApCliCtrlProbeRspAction(
 	return;
 }
 
-/* 
+/*
     ==========================================================================
     Description:
         APCLI MLME AUTH Rsp state machine procedure
     ==========================================================================
  */
 static VOID ApCliCtrlAuthRspAction(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	APCLI_CTRL_MSG_STRUCT *Info = (APCLI_CTRL_MSG_STRUCT *)(Elem->Msg);
@@ -692,7 +692,7 @@ static VOID ApCliCtrlAuthRspAction(
 #ifdef APCLI_CONNECTION_TRIAL
 		}
 #endif /* APCLI_CONNECTION_TRIAL */
-	} 
+	}
 	else
 	{
 		if (pApCliEntry->wdev.AuthMode == Ndis802_11AuthModeAutoSwitch)
@@ -717,7 +717,7 @@ static VOID ApCliCtrlAuthRspAction(
 				pApCliEntry->AuthReqCnt = 0;
 			}
 			*pCurrState = APCLI_CTRL_DISCONNECTED;
-			
+
 #ifdef APCLI_AUTO_CONNECT_SUPPORT
 			if ((pAd->ApCfg.ApCliAutoConnectRunning == TRUE)
 				)
@@ -729,14 +729,14 @@ static VOID ApCliCtrlAuthRspAction(
 	return;
 }
 
-/* 
+/*
     ==========================================================================
     Description:
         APCLI MLME AUTH2 Rsp state machine procedure
     ==========================================================================
  */
 static VOID ApCliCtrlAuth2RspAction(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	APCLI_CTRL_MSG_STRUCT *Info = (APCLI_CTRL_MSG_STRUCT *)(Elem->Msg);
@@ -764,9 +764,9 @@ static VOID ApCliCtrlAuth2RspAction(
 			ASSOC_TIMEOUT, 5);
 
 
-		MlmeEnqueue(pAd, APCLI_ASSOC_STATE_MACHINE, APCLI_MT2_MLME_ASSOC_REQ, 
+		MlmeEnqueue(pAd, APCLI_ASSOC_STATE_MACHINE, APCLI_MT2_MLME_ASSOC_REQ,
 			sizeof(MLME_ASSOC_REQ_STRUCT), &AssocReq, ifIndex);
-	} 
+	}
 	else
 	{
 		DBGPRINT(RT_DEBUG_TRACE, ("(%s) Apcli Auth Rsp Failure.\n", __FUNCTION__));
@@ -782,14 +782,14 @@ static VOID ApCliCtrlAuth2RspAction(
 	return;
 }
 
-/* 
+/*
     ==========================================================================
     Description:
         APCLI MLME Auth Req timeout state machine procedure
     ==========================================================================
  */
 static VOID ApCliCtrlAuthReqTimeoutAction(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	MLME_AUTH_REQ_STRUCT AuthReq;
@@ -815,7 +815,7 @@ static VOID ApCliCtrlAuthReqTimeoutAction(
 			NdisZeroMemory(pApCliEntry->MlmeAux.Bssid, MAC_ADDR_LEN);
 			NdisZeroMemory(pApCliEntry->MlmeAux.Ssid, MAX_LEN_OF_SSID);
 			pApCliEntry->AuthReqCnt = 0;
-		
+
 #ifdef APCLI_AUTO_CONNECT_SUPPORT
 		if ((pAd->ApCfg.ApCliAutoConnectRunning == TRUE)
 			)
@@ -839,27 +839,27 @@ static VOID ApCliCtrlAuthReqTimeoutAction(
 	return;
 }
 
-/* 
+/*
     ==========================================================================
     Description:
         APCLI MLME Auth2 Req timeout state machine procedure
     ==========================================================================
  */
 static VOID ApCliCtrlAuth2ReqTimeoutAction(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	return;
 }
 
-/* 
+/*
     ==========================================================================
     Description:
         APCLI MLME ASSOC RSP state machine procedure
     ==========================================================================
  */
 static VOID ApCliCtrlAssocRspAction(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	PAPCLI_STRUCT pApCliEntry;
@@ -889,7 +889,7 @@ static VOID ApCliCtrlAssocRspAction(
 								RT_ASSOC_EVENT_FLAG,
 								NULL, NULL, 0);
 			    }
-#endif /* WPA_SUPPLICANT_SUPPORT */                    
+#endif /* WPA_SUPPLICANT_SUPPORT */
 
 
 		if (ApCliLinkUp(pAd, ifIndex))
@@ -898,10 +898,10 @@ static VOID ApCliCtrlAssocRspAction(
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
 			CFG80211_checkScanTable(pAd);
 			RT_CFG80211_P2P_CLI_CONN_RESULT_INFORM(pAd, pApCliEntry->MlmeAux.Bssid,
-				pApCliEntry->ReqVarIEs, pApCliEntry->ReqVarIELen,	
+				pApCliEntry->ReqVarIEs, pApCliEntry->ReqVarIELen,
 				pApCliEntry->ResVarIEs, pApCliEntry->ResVarIELen, TRUE);
 #endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
-			
+
 		}
 		else
 		{
@@ -909,17 +909,17 @@ static VOID ApCliCtrlAssocRspAction(
 			/* Reset the apcli interface as disconnected and Invalid. */
 			*pCurrState = APCLI_CTRL_DISCONNECTED;
 			pApCliEntry->Valid = FALSE;
-			
+
 #ifdef APCLI_AUTO_CONNECT_SUPPORT
 			if ((pAd->ApCfg.ApCliAutoConnectRunning == TRUE)
 				)
 				ApCliSwitchCandidateAP(pAd);
-#endif /* APCLI_AUTO_CONNECT_SUPPORT */		
+#endif /* APCLI_AUTO_CONNECT_SUPPORT */
 
-#ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE					
+#ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
 			CFG80211_checkScanTable(pAd);
 			RT_CFG80211_P2P_CLI_CONN_RESULT_INFORM(pAd, pApCliEntry->MlmeAux.Bssid,
-				NULL, 0, NULL, 0, 0);			
+				NULL, 0, NULL, 0, 0);
 #endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
 
 		}
@@ -932,17 +932,17 @@ static VOID ApCliCtrlAssocRspAction(
 
 		/* set the apcli interface be valid. */
 		pApCliEntry->Valid = FALSE;
-		
+
 #ifdef APCLI_AUTO_CONNECT_SUPPORT
 		if ((pAd->ApCfg.ApCliAutoConnectRunning == TRUE)
 			)
 			ApCliSwitchCandidateAP(pAd);
-#endif /* APCLI_AUTO_CONNECT_SUPPORT */	
+#endif /* APCLI_AUTO_CONNECT_SUPPORT */
 
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
-		CFG80211_checkScanTable(pAd);					
+		CFG80211_checkScanTable(pAd);
 		RT_CFG80211_P2P_CLI_CONN_RESULT_INFORM(pAd, pApCliEntry->MlmeAux.Bssid,
-			NULL, 0, NULL, 0, 0);	
+			NULL, 0, NULL, 0, 0);
 #endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
 
 	}
@@ -950,14 +950,14 @@ static VOID ApCliCtrlAssocRspAction(
 	return;
 }
 
-/* 
+/*
     ==========================================================================
     Description:
         APCLI MLME DeASSOC RSP state machine procedure
     ==========================================================================
  */
 static VOID ApCliCtrlDeAssocRspAction(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	PAPCLI_STRUCT pApCliEntry;
@@ -987,20 +987,20 @@ static VOID ApCliCtrlDeAssocRspAction(
 
 	if (bValid)
 		ApCliLinkDown(pAd, ifIndex);
-	
+
 	*pCurrState = APCLI_CTRL_DISCONNECTED;
 
 	return;
 }
 
-/* 
+/*
     ==========================================================================
     Description:
         APCLI MLME Assoc Req timeout state machine procedure
     ==========================================================================
  */
 static VOID ApCliCtrlAssocReqTimeoutAction(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	MLME_ASSOC_REQ_STRUCT  AssocReq;
@@ -1027,7 +1027,7 @@ static VOID ApCliCtrlAssocReqTimeoutAction(
 			NdisZeroMemory(pAd->ApCfg.ApCliTab[ifIndex].MlmeAux.Bssid, MAC_ADDR_LEN);
 			NdisZeroMemory(pAd->ApCfg.ApCliTab[ifIndex].MlmeAux.Ssid, MAX_LEN_OF_SSID);
 			pApCliEntry->AssocReqCnt = 0;
-		
+
 #ifdef APCLI_AUTO_CONNECT_SUPPORT
 			if ((pAd->ApCfg.ApCliAutoConnectRunning == TRUE)
 				)
@@ -1046,20 +1046,20 @@ static VOID ApCliCtrlAssocReqTimeoutAction(
 		ASSOC_TIMEOUT, 5);
 
 
-	MlmeEnqueue(pAd, APCLI_ASSOC_STATE_MACHINE, APCLI_MT2_MLME_ASSOC_REQ, 
+	MlmeEnqueue(pAd, APCLI_ASSOC_STATE_MACHINE, APCLI_MT2_MLME_ASSOC_REQ,
 		sizeof(MLME_ASSOC_REQ_STRUCT), &AssocReq, ifIndex);
 
 	return;
 }
 
-/* 
+/*
     ==========================================================================
     Description:
         APCLI MLME Disconnect Rsp state machine procedure
     ==========================================================================
  */
 static VOID ApCliCtrlDisconnectReqAction(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	PAPCLI_STRUCT pApCliEntry;
@@ -1100,14 +1100,14 @@ static VOID ApCliCtrlDisconnectReqAction(
 	return;
 }
 
-/* 
+/*
     ==========================================================================
     Description:
         APCLI MLME Peer DeAssoc Req state machine procedure
     ==========================================================================
  */
 static VOID ApCliCtrlPeerDeAssocReqAction(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	PAPCLI_STRUCT pApCliEntry;
@@ -1141,7 +1141,7 @@ static VOID ApCliCtrlPeerDeAssocReqAction(
 		if (pMacEntry->PortSecured == WPA_802_1X_PORT_NOT_SECURED)
 			ApCliSwitchCandidateAP(pAd);
 	}
-#endif /* APCLI_AUTO_CONNECT_SUPPORT */	
+#endif /* APCLI_AUTO_CONNECT_SUPPORT */
 
 	/* set the apcli interface be invalid. */
 	{
@@ -1159,14 +1159,14 @@ static VOID ApCliCtrlPeerDeAssocReqAction(
 	return;
 }
 
-/* 
+/*
     ==========================================================================
     Description:
         APCLI MLME Disconnect Req state machine procedure
     ==========================================================================
  */
 static VOID ApCliCtrlDeAssocAction(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	PAPCLI_STRUCT pApCliEntry;
@@ -1213,14 +1213,14 @@ static VOID ApCliCtrlDeAssocAction(
 }
 
 
-/* 
+/*
     ==========================================================================
     Description:
         APCLI MLME Disconnect Req state machine procedure
     ==========================================================================
  */
 static VOID ApCliCtrlDeAuthAction(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	PAPCLI_STRUCT pApCliEntry;
@@ -1245,12 +1245,12 @@ static VOID ApCliCtrlDeAuthAction(
 
 		bValid = pApCliEntry->Valid;
 
-	
-	MlmeEnqueue(pAd, 
-				  APCLI_AUTH_STATE_MACHINE, 
-				  APCLI_MT2_MLME_DEAUTH_REQ, 
+
+	MlmeEnqueue(pAd,
+				  APCLI_AUTH_STATE_MACHINE,
+				  APCLI_MT2_MLME_DEAUTH_REQ,
 				  sizeof(MLME_DEAUTH_REQ_STRUCT),
-				  &DeAuthFrame, 
+				  &DeAuthFrame,
 				  ifIndex);
 
 	if (bValid)
@@ -1274,7 +1274,7 @@ static VOID ApCliCtrlDeAuthAction(
 
 
 VOID ApCliWpaMicFailureReportFrame(
-		IN PRTMP_ADAPTER pAd, 
+		IN PRTMP_ADAPTER pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	PUCHAR              pOutBuffer = NULL;
@@ -1289,18 +1289,18 @@ VOID ApCliWpaMicFailureReportFrame(
 	USHORT ifIndex = (USHORT)(Elem->Priv);
 	APCLI_STRUCT *apcli_entry;
 	struct wifi_dev *wdev;
-	
+
 	DBGPRINT(RT_DEBUG_TRACE, ("\ApCliWpaMicFailureReportFrame ----->\n"));
-	
+
 	apcli_entry = &pAd->ApCfg.ApCliTab[ifIndex];
 	wdev = &apcli_entry->wdev;
-	
+
 	if (ifIndex >= MAX_APCLI_NUM)
 		return;
-	
+
 	bUnicast = (Elem->Msg[0] == 1 ? TRUE:FALSE);
 	pAd->Sequence = ((pAd->Sequence) + 1) & (MAX_SEQ_NUMBER);
-	
+
 
 	/* init 802.3 header and Fill Packet */
 	pMacEntry = &pAd->MacTab.Content[apcli_entry->MacTabWCID];
@@ -1309,10 +1309,10 @@ VOID ApCliWpaMicFailureReportFrame(
 		DBGPRINT(RT_DEBUG_ERROR, ("!IS_ENTRY_APCLI(pMacEntry)\n", __FUNCTION__));
 		return;
 	}
-	
+
 	Wcid =  apcli_entry->MacTabWCID;
 	MAKE_802_3_HEADER(Header802_3, pAd->MacTab.Content[Wcid].Addr, wdev->if_addr, EAPOL);
-	
+
 	/* Allocate memory for output */
 	os_alloc_mem(NULL, (PUCHAR *)&mpool, TX_EAPOL_BUFFER);
 	if (mpool == NULL)
@@ -1323,19 +1323,19 @@ VOID ApCliWpaMicFailureReportFrame(
 
 	pPacket = (PEAPOL_PACKET)mpool;
 	NdisZeroMemory(pPacket, TX_EAPOL_BUFFER);
-	
+
 	pPacket->ProVer	= EAPOL_VER;
 	pPacket->ProType	= EAPOLKey;
-	
+
 	pPacket->KeyDesc.Type = WPA1_KEY_DESC;
 
     /* Request field presented */
     pPacket->KeyDesc.KeyInfo.Request = 1;
-    
+
 	if(wdev->WepStatus  == Ndis802_11Encryption3Enabled)
 	{
 		pPacket->KeyDesc.KeyInfo.KeyDescVer = 2;
-	} 
+	}
 	else	  /* TKIP */
 	{
 		pPacket->KeyDesc.KeyInfo.KeyDescVer = 1;
@@ -1348,7 +1348,7 @@ VOID ApCliWpaMicFailureReportFrame(
 
     /* Error field presented */
 	pPacket->KeyDesc.KeyInfo.Error  = 1;
-    
+
 	/* Update packet length after decide Key data payload */
 	SET_UINT16_TO_ARRARY(pPacket->Body_Len, MIN_LEN_OF_EAPOL_KEY_MSG)
 
@@ -1366,7 +1366,7 @@ VOID ApCliWpaMicFailureReportFrame(
 		os_free_mem(NULL, mpool);
 		return;
 	}
-    
+
 	/*
 	   Prepare EAPOL frame for MIC calculation
 	   Be careful, only EAPOL frame is counted for MIC calculation
@@ -1382,7 +1382,7 @@ VOID ApCliWpaMicFailureReportFrame(
         	UCHAR digest[20] = {0};
 		RT_HMAC_SHA1(apcli_entry->PTK, LEN_PTK_KCK, pOutBuffer, FrameLen, digest, SHA1_DIGEST_SIZE);
 		NdisMoveMemory(Mic, digest, LEN_KEY_DESC_MIC);
-	} 
+	}
 	else
 	{	/* TKIP */
 		RT_HMAC_MD5(apcli_entry->PTK, LEN_PTK_KCK, pOutBuffer, FrameLen, Mic, MD5_DIGEST_SIZE);
@@ -1391,8 +1391,8 @@ VOID ApCliWpaMicFailureReportFrame(
 
 	/* copy frame to Tx ring and send MIC failure report frame to authenticator */
 	RTMPToWirelessSta(pAd, &pAd->MacTab.Content[Wcid],
-					  Header802_3, LENGTH_802_3, 
-					  (PUCHAR)pPacket, 
+					  Header802_3, LENGTH_802_3,
+					  (PUCHAR)pPacket,
 					  CONV_ARRARY_TO_UINT16(pPacket->Body_Len) + 4, FALSE);
 
 	MlmeFreeMemory(pAd, (PUCHAR)pOutBuffer);
@@ -1404,39 +1404,39 @@ VOID ApCliWpaMicFailureReportFrame(
 
 #ifdef APCLI_CERT_SUPPORT
 static VOID ApCliCtrlScanDoneAction(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
-	
+
 #ifdef DOT11N_DRAFT3
 	USHORT ifIndex = (USHORT)(Elem->Priv);
 	UCHAR i;
 	/* AP sent a 2040Coexistence mgmt frame, then station perform a scan, and then send back the respone. */
 	if ((pAd->CommonCfg.BSSCoexist2040.field.InfoReq == 1)
 	    	    && OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_SCAN_2040)) {
-	    	DBGPRINT(RT_DEBUG_TRACE, ("Update2040CoexistFrameAndNotify @%s  \n", __FUNCTION__));    
+	    	DBGPRINT(RT_DEBUG_TRACE, ("Update2040CoexistFrameAndNotify @%s  \n", __FUNCTION__));
 		for (i=0; i<MAX_LEN_OF_MAC_TABLE; i++)
 		{
 			if (IS_ENTRY_APCLI(&pAd->MacTab.Content[i]) && (pAd->MacTab.Content[i].apidx == ifIndex))
 			{
 				Update2040CoexistFrameAndNotify(pAd, i, TRUE);
 			}
-		}			
+		}
 	}
 #endif /* DOT11N_DRAFT3 */
 }
 #endif /* APCLI_CERT_SUPPORT */
 
 #ifdef APCLI_CONNECTION_TRIAL
-/* 
+/*
     ==========================================================================
     Description:
-        APCLI trigger JOIN req state machine procedure 
+        APCLI trigger JOIN req state machine procedure
 	for connect the another rootAP
     ==========================================================================
  */
 static VOID ApCliCtrlTrialConnectAction(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	APCLI_MLME_JOIN_REQ_STRUCT JoinReq;

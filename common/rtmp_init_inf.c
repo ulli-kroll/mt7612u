@@ -108,7 +108,7 @@ int rt28xx_init(VOID *pAdSrc, PSTRING pDefaultMac, PSTRING pHostName)
 #ifdef RTMP_MAC_USB
 	UINT index = 0;
 #endif /* RTMP_MAC_USB */
-	
+
 	if (!pAd)
 		return FALSE;
 
@@ -144,7 +144,7 @@ int rt28xx_init(VOID *pAdSrc, PSTRING pDefaultMac, PSTRING pHostName)
 
 #ifdef DOT11_N_SUPPORT
 	/* Allocate BA Reordering memory*/
-	if (ba_reordering_resource_init(pAd, MAX_REORDERING_MPDU_NUM) != TRUE)		
+	if (ba_reordering_resource_init(pAd, MAX_REORDERING_MPDU_NUM) != TRUE)
 		goto err1;
 #endif /* DOT11_N_SUPPORT */
 
@@ -174,7 +174,7 @@ int rt28xx_init(VOID *pAdSrc, PSTRING pDefaultMac, PSTRING pHostName)
 	RTMP_SET_FLAG(pAd, fRTMP_ADAPTER_INTERRUPT_IN_USE);
 
 	/* initialize MLME*/
-	
+
 	Status = RtmpMgmtTaskInit(pAd);
 	if (Status != NDIS_STATUS_SUCCESS)
 		goto err3;
@@ -304,7 +304,7 @@ int rt28xx_init(VOID *pAdSrc, PSTRING pDefaultMac, PSTRING pHostName)
 #ifdef CONFIG_STA_SUPPORT
 	/* Initialize the frequency calibration*/
 	if (pAd->chipCap.FreqCalibrationSupport)
-		FrequencyCalibration(pAd);	
+		FrequencyCalibration(pAd);
 #endif /* CONFIG_STA_SUPPORT */
 #endif /* RTMP_FREQ_CALIBRATION_SUPPORT */
 
@@ -416,10 +416,10 @@ int rt28xx_init(VOID *pAdSrc, PSTRING pDefaultMac, PSTRING pHostName)
 #ifdef RTMP_MAC_USB
 				RTMP_CLEAR_FLAG(pAd, fRTMP_ADAPTER_RESET_IN_PROGRESS);
 				RTMP_CLEAR_FLAG(pAd, fRTMP_ADAPTER_REMOVE_IN_PROGRESS);
-				
+
 				/* Support multiple BulkIn IRP,*/
 				/* the value on pAd->CommonCfg.NumOfBulkInIRP may be large than 1.*/
-				
+
 				for(index=0; index<pAd->CommonCfg.NumOfBulkInIRP; index++)
 				{
 					RTUSBBulkReceive(pAd);
@@ -449,20 +449,20 @@ int rt28xx_init(VOID *pAdSrc, PSTRING pDefaultMac, PSTRING pHostName)
 			N_ChannelCheck(pAd);
 
 #ifdef DOT11N_DRAFT3
-        		/* 
-         			We only do this Overlapping BSS Scan when system up, for the 
-				other situation of channel changing, we depends on station's 
+        		/*
+         			We only do this Overlapping BSS Scan when system up, for the
+				other situation of channel changing, we depends on station's
 				report to adjust ourself.
 			*/
 			if (pAd->CommonCfg.bForty_Mhz_Intolerant == TRUE)
 			{
-				DBGPRINT(RT_DEBUG_TRACE, ("Disable 20/40 BSSCoex Channel Scan(BssCoex=%d, 40MHzIntolerant=%d)\n", 
-											pAd->CommonCfg.bBssCoexEnable, 
+				DBGPRINT(RT_DEBUG_TRACE, ("Disable 20/40 BSSCoex Channel Scan(BssCoex=%d, 40MHzIntolerant=%d)\n",
+											pAd->CommonCfg.bBssCoexEnable,
 											pAd->CommonCfg.bForty_Mhz_Intolerant));
 			}
 			else if(pAd->CommonCfg.bBssCoexEnable == TRUE)
-			{	
-				DBGPRINT(RT_DEBUG_TRACE, ("Enable 20/40 BSSCoex Channel Scan(BssCoex=%d)\n", 
+			{
+				DBGPRINT(RT_DEBUG_TRACE, ("Enable 20/40 BSSCoex Channel Scan(BssCoex=%d)\n",
 							pAd->CommonCfg.bBssCoexEnable));
 				APOverlappingBSSScan(pAd);
 			}
@@ -474,7 +474,7 @@ int rt28xx_init(VOID *pAdSrc, PSTRING pDefaultMac, PSTRING pHostName)
 
 
 			APStartUp(pAd);
-			DBGPRINT(RT_DEBUG_OFF, ("Main bssid = %02x:%02x:%02x:%02x:%02x:%02x\n", 
+			DBGPRINT(RT_DEBUG_OFF, ("Main bssid = %02x:%02x:%02x:%02x:%02x:%02x\n",
 						PRINT_MAC(pAd->ApCfg.MBSSID[BSS0].wdev.bssid)));
 
 #ifdef MT76x2
@@ -493,7 +493,7 @@ int rt28xx_init(VOID *pAdSrc, PSTRING pDefaultMac, PSTRING pHostName)
 		RTMP_CLEAR_FLAG(pAd, fRTMP_ADAPTER_REMOVE_IN_PROGRESS);
 
 		/* Support multiple BulkIn IRP,*/
-		/* the value on pAd->CommonCfg.NumOfBulkInIRP may be large than 1.*/		
+		/* the value on pAd->CommonCfg.NumOfBulkInIRP may be large than 1.*/
 		for (index=0; index<pAd->CommonCfg.NumOfBulkInIRP; index++)
 		{
 			RTUSBBulkReceive(pAd);
@@ -565,7 +565,7 @@ int rt28xx_init(VOID *pAdSrc, PSTRING pDefaultMac, PSTRING pHostName)
 		RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R180, 1);
 		RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R182, (pAd->CommonCfg.ITxBfTimeout>>8) & 0xFF);
 	}
-#endif	
+#endif
 
 	if (pAd->CommonCfg.ETxBfTimeout)
 	{
@@ -586,13 +586,13 @@ err6:
 
 	MeasureReqTabExit(pAd);
 	TpcReqTabExit(pAd);
-err5:	
+err5:
 	RtmpNetTaskExit(pAd);
 	UserCfgExit(pAd);
-err4:	
+err4:
 	MlmeHalt(pAd);
 	RTMP_AllTimerListRelease(pAd);
-err3:	
+err3:
 	RtmpMgmtTaskExit(pAd);
 #ifdef RTMP_TIMER_TASK_SUPPORT
 	NdisFreeSpinLock(&pAd->TimerQLock);
@@ -678,7 +678,7 @@ VOID RTMPDrvOpen(VOID *pAdSrc)
 
 #ifdef CONFIG_STA_SUPPORT
 	/*
-		To reduce connection time, 
+		To reduce connection time,
 		do auto reconnect here instead of waiting STAMlmePeriodicExec to do auto reconnect.
 	*/
 	if (pAd->OpMode == OPMODE_STA)
@@ -746,9 +746,9 @@ VOID RTMPDrvClose(VOID *pAdSrc, VOID *net_dev)
 		if (pAd->cfg80211_ctrl.isCfgInApMode == RT_CMD_80211_IFTYPE_AP && RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_START_UP))
 		{
 			CFG80211DRV_DisableApInterface(pAd);
-			pAd->cfg80211_ctrl.isCfgInApMode = RT_CMD_80211_IFTYPE_STATION;			
+			pAd->cfg80211_ctrl.isCfgInApMode = RT_CMD_80211_IFTYPE_STATION;
 		}
-#endif /* CONFIG_AP_SUPPORT */	
+#endif /* CONFIG_AP_SUPPORT */
 #endif/*RT_CFG80211_SUPPORT*/
 
 	RTMP_CLEAR_FLAG(pAd, fRTMP_ADAPTER_MCU_SEND_IN_BAND_CMD);
@@ -790,7 +790,7 @@ VOID RTMPDrvClose(VOID *pAdSrc, VOID *net_dev)
 		/* If dirver doesn't wake up firmware here,*/
 		/* NICLoadFirmware will hang forever when interface is up again.*/
 		if (OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_DOZE))
-        {      
+        {
 		    AsicForceWakeup(pAd, TRUE);
         }
 
@@ -829,7 +829,7 @@ VOID RTMPDrvClose(VOID *pAdSrc, VOID *net_dev)
 			RtmpusecDelay(1000);
 		}
 	}
-	
+
 #ifdef CONFIG_AP_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 	{
@@ -853,7 +853,7 @@ VOID RTMPDrvClose(VOID *pAdSrc, VOID *net_dev)
 
 	/* Stop Mlme state machine*/
 	MlmeHalt(pAd);
-	
+
 	/* Close net tasklets*/
 	RtmpNetTaskExit(pAd);
 
@@ -893,7 +893,7 @@ VOID RTMPDrvClose(VOID *pAdSrc, VOID *net_dev)
 
 	/* Close kernel threads*/
 	RtmpMgmtTaskExit(pAd);
-	
+
 #ifdef CONFIG_AP_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 	{
@@ -1007,7 +1007,7 @@ VOID RTMPInfClose(VOID *pAdSrc)
 		{
 			MLME_DISASSOC_REQ_STRUCT	DisReq;
 			MLME_QUEUE_ELEM *MsgElem;
-    
+
 			os_alloc_mem(NULL, (UCHAR **)&MsgElem, sizeof(MLME_QUEUE_ELEM));
 			if (MsgElem)
 			{
@@ -1027,7 +1027,7 @@ VOID RTMPInfClose(VOID *pAdSrc)
 			MlmeDisassocReqAction(pAd, MsgElem);
 			os_free_mem(NULL, MsgElem);
 			}
-			
+
 			RtmpusecDelay(1000);
 		}
 
@@ -1104,12 +1104,12 @@ static void WriteConfToDatFile(RTMP_ADAPTER *pAd)
 	RtmpOSFSInfoChange(&osFSInfo, TRUE);
 
 	file_r = RtmpOSFileOpen(fileName, O_RDONLY, 0);
-	if (IS_FILE_OPEN_ERR(file_r)) 
+	if (IS_FILE_OPEN_ERR(file_r))
 	{
 		DBGPRINT(RT_DEBUG_TRACE, ("-->1) %s: Error opening file %s\n", __FUNCTION__, fileName));
 		return;
 	}
-	else 
+	else
 	{
 		char tempStr[64] = {0};
 		while((rv = RtmpOSFileRead(file_r, tempStr, 64)) > 0)
@@ -1135,11 +1135,11 @@ static void WriteConfToDatFile(RTMP_ADAPTER *pAd)
 	}
 
 	file_w = RtmpOSFileOpen(fileName, O_WRONLY|O_TRUNC, 0);
-	if (IS_FILE_OPEN_ERR(file_w)) 
+	if (IS_FILE_OPEN_ERR(file_w))
 	{
 		goto WriteFileOpenErr;
 	}
-	else 
+	else
 	{
 		offset = (PCHAR) rtstrstr((PSTRING) cfgData, "Default\n");
 		offset += strlen("Default\n");
@@ -1151,7 +1151,7 @@ static void WriteConfToDatFile(RTMP_ADAPTER *pAd)
 			RtmpOSFileClose(file_w);
 			goto WriteErr;
 		}
-			
+
 		for (;;)
 		{
 			int i = 0;
@@ -1216,11 +1216,11 @@ static void WriteConfToDatFile(RTMP_ADAPTER *pAd)
 		RtmpOSFileClose(file_w);
 	}
 
-WriteErr:   
+WriteErr:
 	if (pTempStr)
 		os_free_mem(NULL, pTempStr);
 ReadErr:
-WriteFileOpenErr:    
+WriteFileOpenErr:
 	if (cfgData)
 		os_free_mem(NULL, cfgData);
 out:
@@ -1246,7 +1246,7 @@ INT write_dat_file_thread (
 		DBGPRINT(RT_DEBUG_TRACE, ("%s: pTask is NULL\n", __FUNCTION__));
 		return 0;
 	}
-	
+
 	pAd = (PRTMP_ADAPTER)RTMP_OS_TASK_DATA_GET(pTask);
 
 	if (pAd == NULL)
@@ -1259,9 +1259,9 @@ INT write_dat_file_thread (
 
 	/* Update ssid, auth mode and encr type to DAT file */
 	WriteConfToDatFile(pAd);
-	
+
 		RtmpOSTaskNotifyToExit(pTask);
-	
+
 	return 0;
 }
 

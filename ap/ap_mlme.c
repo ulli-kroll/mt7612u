@@ -12,13 +12,13 @@
  * way altering the source code is stricitly prohibited, unless the prior
  * written consent of Ralink Technology, Inc. is obtained.
  ****************************************************************************
- 
+
     Module Name:
     mlme.c
- 
+
     Abstract:
     Major MLME state machiones here
- 
+
     Revision History:
     Who         When          What
     --------    ----------    ----------------------------------------------
@@ -36,31 +36,31 @@ int DetectOverlappingPeriodicRound;
 
 #ifdef DOT11N_DRAFT3
 VOID Bss2040CoexistTimeOut(
-	IN PVOID SystemSpecific1, 
-	IN PVOID FunctionContext, 
-	IN PVOID SystemSpecific2, 
+	IN PVOID SystemSpecific1,
+	IN PVOID FunctionContext,
+	IN PVOID SystemSpecific2,
 	IN PVOID SystemSpecific3)
 {
 	int apidx;
 	PRTMP_ADAPTER	pAd = (RTMP_ADAPTER *)FunctionContext;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Bss2040CoexistTimeOut(): Recovery to original setting!\n"));
-	
+
 	/* Recovery to original setting when next DTIM Interval. */
 	pAd->CommonCfg.Bss2040CoexistFlag &= (~BSS_2040_COEXIST_TIMER_FIRED);
 	NdisZeroMemory(&pAd->CommonCfg.LastBSSCoexist2040, sizeof(BSS_2040_COEXIST_IE));
 	pAd->CommonCfg.Bss2040CoexistFlag |= BSS_2040_COEXIST_INFO_SYNC;
-	
+
 	if (pAd->CommonCfg.bBssCoexEnable == FALSE)
 	{
 		/* TODO: Find a better way to handle this when the timer is fired and we disable the bBssCoexEable support!! */
 		DBGPRINT(RT_DEBUG_TRACE, ("Bss2040CoexistTimeOut(): bBssCoexEnable is FALSE, return directly!\n"));
 		return;
 	}
-	
+
 	for (apidx = 0; apidx < pAd->ApCfg.BssidNum; apidx++)
 		SendBSS2040CoexistMgmtAction(pAd, MCAST_WCID, apidx, 0);
-	
+
 }
 #endif /* DOT11N_DRAFT3 */
 
@@ -68,10 +68,10 @@ VOID Bss2040CoexistTimeOut(
 
 
 VOID APDetectOverlappingExec(
-	IN PVOID SystemSpecific1, 
-	IN PVOID FunctionContext, 
-	IN PVOID SystemSpecific2, 
-	IN PVOID SystemSpecific3) 
+	IN PVOID SystemSpecific1,
+	IN PVOID FunctionContext,
+	IN PVOID SystemSpecific2,
+	IN PVOID SystemSpecific3)
 {
 #ifdef DOT11_N_SUPPORT
 	PRTMP_ADAPTER	pAd = (RTMP_ADAPTER *)FunctionContext;
@@ -88,9 +88,9 @@ VOID APDetectOverlappingExec(
 	else
 	{
 		if ((DetectOverlappingPeriodicRound == 25) || (DetectOverlappingPeriodicRound == 1))
-		{   
+		{
    			if ((pAd->CommonCfg.Channel <=14) && (pAd->CommonCfg.HtCapability.HtCapInfo.ChannelWidth==BW_40))
-			{                                     
+			{
 				SendBeaconRequest(pAd, 1);
 				SendBeaconRequest(pAd, 2);
                 		SendBeaconRequest(pAd, 3);
@@ -109,16 +109,16 @@ VOID APDetectOverlappingExec(
         This routine is executed every second -
         1. Decide the overall channel quality
         2. Check if need to upgrade the TX rate to any client
-        3. perform MAC table maintenance, including ageout no-traffic clients, 
+        3. perform MAC table maintenance, including ageout no-traffic clients,
            and release packet buffer in PSQ is fail to TX in time.
     ==========================================================================
  */
 VOID APMlmePeriodicExec(
     PRTMP_ADAPTER pAd)
 {
-    /* 
+    /*
 		Reqeust by David 2005/05/12
-		It make sense to disable Adjust Tx Power on AP mode, since we can't 
+		It make sense to disable Adjust Tx Power on AP mode, since we can't
 		take care all of the client's situation
 		ToDo: need to verify compatibility issue with WiFi product.
 	*/
@@ -156,7 +156,7 @@ VOID APMlmePeriodicExec(
 
 
 	}
-	
+
 #ifdef AP_SCAN_SUPPORT
 	AutoChannelSelCheck(pAd);
 #endif /* AP_SCAN_SUPPORT */
@@ -176,7 +176,7 @@ VOID APMlmePeriodicExec(
 	{
 		INT loop;
 		ULONG Now32;
-#ifdef APCLI_CERT_SUPPORT		
+#ifdef APCLI_CERT_SUPPORT
 		BOOLEAN IsUseBA = TRUE;
 #endif /* APCLI_CERT_SUPPORT */
 
@@ -184,11 +184,11 @@ VOID APMlmePeriodicExec(
 		for (loop = 0; loop < MAX_APCLI_NUM; loop++)
 		{
 			PAPCLI_STRUCT pApCliEntry = &pAd->ApCfg.ApCliTab[loop];
-			if (pAd->ApCfg.ApCliTab[loop].bBlockAssoc ==TRUE && pAd->ApCfg.ApCliTab[loop].bBlockAssoc && 
+			if (pAd->ApCfg.ApCliTab[loop].bBlockAssoc ==TRUE && pAd->ApCfg.ApCliTab[loop].bBlockAssoc &&
 				RTMP_TIME_AFTER(Now32, pAd->ApCfg.ApCliTab[loop].LastMicErrorTime + (60*OS_HZ)))
 		    		pAd->ApCfg.ApCliTab[loop].bBlockAssoc = FALSE;
-				
-			
+
+
 			if ((pApCliEntry->Valid == TRUE)
 				&& (pApCliEntry->MacTabWCID < MAX_LEN_OF_MAC_TABLE))
 			{
@@ -202,22 +202,22 @@ VOID APMlmePeriodicExec(
 					PMAC_TABLE_ENTRY pEntry = &pAd->MacTab.Content[pApCliEntry->MacTabWCID];
 					struct wifi_dev *wdev = NULL;
 					wdev = &pApCliEntry->wdev;
-					
+
 					if (pEntry->RXBAbitmap == 0 && pEntry->TXBAbitmap == 0)
 						IsUseBA = FALSE;
-				
-					if( wdev->DesiredHtPhyInfo.bHtEnable && 
+
+					if( wdev->DesiredHtPhyInfo.bHtEnable &&
 						IsUseBA == FALSE   )
 					{
-						EDCA_AC_CFG_STRUC   Ac2Cfg, Ac1Cfg;                                                            
+						EDCA_AC_CFG_STRUC   Ac2Cfg, Ac1Cfg;
 
 						RTMP_IO_READ32(pAd, EDCA_AC2_CFG, &Ac2Cfg.word);
-						RTMP_IO_READ32(pAd, EDCA_AC1_CFG, &Ac1Cfg.word);																			
+						RTMP_IO_READ32(pAd, EDCA_AC1_CFG, &Ac1Cfg.word);
 
 						if ((pAd->RalinkCounters.OneSecOsTxCount[QID_AC_VO] == 0) &&
 							(pAd->RalinkCounters.OneSecOsTxCount[QID_AC_BK] >= 1000) &&
 							(pAd->RalinkCounters.OneSecOsTxCount[QID_AC_VI] == 0))
-						{       
+						{
 							/*5.2.27 T7 */
 							if (Ac1Cfg.field.Aifsn!=0x1)
 							{
@@ -238,7 +238,7 @@ VOID APMlmePeriodicExec(
 								RTMP_IO_WRITE32(pAd, EDCA_AC1_CFG, Ac1Cfg.word);
 								printk("Restore EDCA_AC1_CFG to %x \n", Ac1Cfg.word);
 							}
-						}       
+						}
 
 						pAd->RalinkCounters.OneSecOsTxCount[QID_AC_BE] = 0;
 						pAd->RalinkCounters.OneSecOsTxCount[QID_AC_BK] = 0;
@@ -246,8 +246,8 @@ VOID APMlmePeriodicExec(
 						pAd->RalinkCounters.OneSecOsTxCount[QID_AC_VO] = 0;
 
 					}
-				}	
-#endif /* APCLI_CERT_SUPPORT */						
+				}
+#endif /* APCLI_CERT_SUPPORT */
 			}
 		}
 	}
@@ -294,11 +294,11 @@ VOID APMlmePeriodicExec(
 	/* Perform 20/40 BSS COEX scan every Dot11BssWidthTriggerScanInt	*/
 	if (APCLI_IF_UP_CHECK(pAd, 0) && (pAd->bApCliCertTest == TRUE))
 	{
-		if ((OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_SCAN_2040)) && 
-			(pAd->CommonCfg.Dot11BssWidthTriggerScanInt != 0) && 
+		if ((OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_SCAN_2040)) &&
+			(pAd->CommonCfg.Dot11BssWidthTriggerScanInt != 0) &&
 			((pAd->Mlme.OneSecPeriodicRound % pAd->CommonCfg.Dot11BssWidthTriggerScanInt) == (pAd->CommonCfg.Dot11BssWidthTriggerScanInt-1)))
 		{
-			DBGPRINT(RT_DEBUG_TRACE, ("MMCHK - LastOneSecTotalTxCount/LastOneSecRxOkDataCnt  = %d/%d \n", 
+			DBGPRINT(RT_DEBUG_TRACE, ("MMCHK - LastOneSecTotalTxCount/LastOneSecRxOkDataCnt  = %d/%d \n",
 									pAd->RalinkCounters.LastOneSecTotalTxCount,
 									pAd->RalinkCounters.LastOneSecRxOkDataCnt));
 
@@ -307,7 +307,7 @@ VOID APMlmePeriodicExec(
 			/* it might cause data lost if we enqueue scanning.*/
 			/* This criteria needs to be considered*/
 			if ((pAd->RalinkCounters.LastOneSecTotalTxCount < 70) && (pAd->RalinkCounters.LastOneSecRxOkDataCnt < 70)
-				/*&& ((pAd->StaCfg.LastScanTime + 10 * OS_HZ) < pAd->Mlme.Now32) */)		
+				/*&& ((pAd->StaCfg.LastScanTime + 10 * OS_HZ) < pAd->Mlme.Now32) */)
 			{
 				MLME_SCAN_REQ_STRUCT            ScanReq;
 				/* Fill out stuff for scan request and kick to scan*/
@@ -324,11 +324,11 @@ VOID APMlmePeriodicExec(
 				RTMP_MLME_HANDLER(pAd);
 	}
 
-			DBGPRINT(RT_DEBUG_TRACE, (" LastOneSecTotalTxCount/LastOneSecRxOkDataCnt  = %d/%d \n", 
-								pAd->RalinkCounters.LastOneSecTotalTxCount, 
-								pAd->RalinkCounters.LastOneSecRxOkDataCnt));	
+			DBGPRINT(RT_DEBUG_TRACE, (" LastOneSecTotalTxCount/LastOneSecRxOkDataCnt  = %d/%d \n",
+								pAd->RalinkCounters.LastOneSecTotalTxCount,
+								pAd->RalinkCounters.LastOneSecRxOkDataCnt));
 		}
-	}	
+	}
 #endif /* APCLI_CERT_SUPPORT */
 #endif /* DOT11N_DRAFT3 */
 #endif /* DOT11_N_SUPPORT */
@@ -346,9 +346,9 @@ VOID APMlmePeriodicExec(
  */
 BOOLEAN APMsgTypeSubst(
     IN PRTMP_ADAPTER pAd,
-    IN PFRAME_802_11 pFrame, 
-    OUT INT *Machine, 
-    OUT INT *MsgType) 
+    IN PFRAME_802_11 pFrame,
+    OUT INT *Machine,
+    OUT INT *MsgType)
 {
     USHORT Seq;
     UCHAR  EAPType;
@@ -356,13 +356,13 @@ BOOLEAN APMsgTypeSubst(
 
 /*
 	TODO:
-		only PROBE_REQ can be broadcast, all others must be unicast-to-me && is_mybssid; 
+		only PROBE_REQ can be broadcast, all others must be unicast-to-me && is_mybssid;
 		otherwise, ignore this frame
 */
 
     /* wpa EAPOL PACKET */
-    if (pFrame->Hdr.FC.Type == FC_TYPE_DATA) 
-    {    
+    if (pFrame->Hdr.FC.Type == FC_TYPE_DATA)
+    {
         if (!Return)
         {
 	        *Machine = WPA_STATE_MACHINE;
@@ -371,16 +371,16 @@ BOOLEAN APMsgTypeSubst(
         }
         return Return;
     }
-    
+
     if (pFrame->Hdr.FC.Type != FC_TYPE_MGMT)
         return FALSE;
-    
-    switch (pFrame->Hdr.FC.SubType) 
+
+    switch (pFrame->Hdr.FC.SubType)
     {
         case SUBTYPE_ASSOC_REQ:
             *Machine = AP_ASSOC_STATE_MACHINE;
             *MsgType = APMT2_PEER_ASSOC_REQ;
-            
+
             break;
 /*
 		case SUBTYPE_ASSOC_RSP:
@@ -399,10 +399,10 @@ BOOLEAN APMsgTypeSubst(
 			break;
 */
         case SUBTYPE_PROBE_REQ:
-            *Machine = AP_SYNC_STATE_MACHINE;              
+            *Machine = AP_SYNC_STATE_MACHINE;
             *MsgType = APMT2_PEER_PROBE_REQ;
             break;
-	
+
 		/* For Active Scan */
 		case SUBTYPE_PROBE_RSP:
           *Machine = AP_SYNC_STATE_MACHINE;
@@ -425,16 +425,16 @@ BOOLEAN APMsgTypeSubst(
         case SUBTYPE_AUTH:
             /* get the sequence number from payload 24 Mac Header + 2 bytes algorithm */
             NdisMoveMemory(&Seq, &pFrame->Octet[2], sizeof(USHORT));
-            
+
 			*Machine = AP_AUTH_STATE_MACHINE;
 			if (Seq == 1)
 				*MsgType = APMT2_PEER_AUTH_REQ;
 			else if (Seq == 3)
 				*MsgType = APMT2_PEER_AUTH_CONFIRM;
-            else 
+            else
             {
                 DBGPRINT(RT_DEBUG_TRACE,("wrong AUTH seq=%d Octet=%02x %02x %02x %02x %02x %02x %02x %02x\n", Seq,
-                    pFrame->Octet[0], pFrame->Octet[1], pFrame->Octet[2], pFrame->Octet[3], 
+                    pFrame->Octet[0], pFrame->Octet[1], pFrame->Octet[2], pFrame->Octet[3],
                     pFrame->Octet[4], pFrame->Octet[5], pFrame->Octet[6], pFrame->Octet[7]));
                 return FALSE;
             }
@@ -449,14 +449,14 @@ BOOLEAN APMsgTypeSubst(
 	case SUBTYPE_ACTION_NO_ACK:
 		*Machine = ACTION_STATE_MACHINE;
 		/*  Sometimes Sta will return with category bytes with MSB = 1, if they receive catogory out of their support */
-		if ((pFrame->Octet[0]&0x7F) > MAX_PEER_CATE_MSG) 
+		if ((pFrame->Octet[0]&0x7F) > MAX_PEER_CATE_MSG)
 		{
 			*MsgType = MT2_ACT_INVALID;
-		} 
+		}
 		else
 		{
 			*MsgType = (pFrame->Octet[0]&0x7F);
-		} 
+		}
 		break;
 
         default:
@@ -472,13 +472,13 @@ BOOLEAN APMsgTypeSubst(
     ========================================================================
     Routine Description:
         Periodic evaluate antenna link status
-        
+
     Arguments:
         pAd         - Adapter pointer
-        
+
     Return Value:
         None
-        
+
     ========================================================================
 */
 VOID APAsicEvaluateRxAnt(
@@ -509,7 +509,7 @@ VOID APAsicEvaluateRxAnt(
 		return;
 #endif /* TXBF_SUPPORT */
 
-	
+
 #ifdef DOT11_N_SUPPORT
 #ifdef GREENAP_SUPPORT
 	if (pAd->ApCfg.bGreenAPActive == TRUE)
@@ -519,8 +519,8 @@ VOID APAsicEvaluateRxAnt(
 #endif /* DOT11_N_SUPPORT */
 		bbp_set_rxpath(pAd, pAd->Antenna.field.RxPath);
 
-	TxTotalCnt = pAd->RalinkCounters.OneSecTxNoRetryOkCount + 
-					pAd->RalinkCounters.OneSecTxRetryOkCount + 
+	TxTotalCnt = pAd->RalinkCounters.OneSecTxNoRetryOkCount +
+					pAd->RalinkCounters.OneSecTxRetryOkCount +
 					pAd->RalinkCounters.OneSecTxFailCount;
 
 	if (TxTotalCnt > 50)
@@ -539,13 +539,13 @@ VOID APAsicEvaluateRxAnt(
     ========================================================================
     Routine Description:
         After evaluation, check antenna link status
-        
+
     Arguments:
         pAd         - Adapter pointer
-        
+
     Return Value:
         None
-        
+
     ========================================================================
 */
 VOID APAsicRxAntEvalTimeout(RTMP_ADAPTER *pAd)
@@ -600,26 +600,26 @@ VOID APAsicRxAntEvalTimeout(RTMP_ADAPTER *pAd)
 #endif /* DOT11_N_SUPPORT */
 		bbp_set_rxpath(pAd, pAd->Mlme.RealRxPath);
 
-	
+
 }
 
 /*
     ========================================================================
     Routine Description:
         After evaluation, check antenna link status
-        
+
     Arguments:
         pAd         - Adapter pointer
-        
+
     Return Value:
         None
-        
+
     ========================================================================
 */
 VOID	APAsicAntennaAvg(
 	IN	PRTMP_ADAPTER	pAd,
 	IN	UCHAR	              AntSelect,
-	IN	SHORT*	              RssiAvg)  
+	IN	SHORT*	              RssiAvg)
 {
 		    SHORT	realavgrssi;
 		    LONG         realavgrssi1;
@@ -628,7 +628,7 @@ VOID	APAsicAntennaAvg(
 		    realavgrssi1 = pAd->RxAnt.Pair1AvgRssiGroup1[AntSelect];
 
 		    if(realavgrssi1 == 0)
-		    {      
+		    {
 		        *RssiAvg = 0;
 		        return;
 		    }

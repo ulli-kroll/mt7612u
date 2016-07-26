@@ -31,7 +31,7 @@
 #include "rt_config.h"
 
 
-#if defined(RT28xx) || defined(RT2883) 
+#if defined(RT28xx) || defined(RT2883)
 /* Reset the RFIC setting to new series    */
 RTMP_RF_REGS RF2850RegTable[] = {
 	/*	ch	 R1 		 R2 		 R3(TX0~4=0) R4*/
@@ -66,7 +66,7 @@ RTMP_RF_REGS RF2850RegTable[] = {
 
 		/* 802.11 HyperLan 2*/
 		{100, 0x98402ec8, 0x984c06b2, 0x98178a55, 0x980ed783},
-		
+
 		/* 2008.04.30 modified */
 		/* The system team has AN to improve the EVM value */
 		/* for channel 102 to 108 for the RT2850/RT2750 dual band solution.*/
@@ -116,11 +116,11 @@ UCHAR	NUM_OF_2850_CHNL = (sizeof(RF2850RegTable) / sizeof(RTMP_RF_REGS));
 
 
 VOID RT28xx_ch_tunning(RTMP_ADAPTER *pAd, UINT8 bw)
-{	
+{
 	if (pAd->MACVersion != 0x28600100)
 		return;
 
-	
+
 	if (bw == BW_20)
 	{
 		RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R69, 0x16);
@@ -142,7 +142,7 @@ VOID RT28xx_ch_tunning(RTMP_ADAPTER *pAd, UINT8 bw)
 VOID RT28xx_ChipSwitchChannel(
 	IN PRTMP_ADAPTER 			pAd,
 	IN UCHAR					Channel,
-	IN BOOLEAN					bScan) 
+	IN BOOLEAN					bScan)
 {
 	CHAR    TxPwer = 0, TxPwer2 = DEFAULT_RF_TX_POWER; /*Bbp94 = BBPR94_DEFAULT, TxPwer2 = DEFAULT_RF_TX_POWER;*/
 	UCHAR	index;
@@ -156,7 +156,7 @@ VOID RT28xx_ChipSwitchChannel(
 
 	/* Search Tx power value*/
 	/*
-		We can't use ChannelList to search channel, since some central channl's txpowr doesn't list 
+		We can't use ChannelList to search channel, since some central channl's txpowr doesn't list
 		in ChannelList, so use TxPower array instead.
 	*/
 	for (index = 0; index < MAX_NUM_OF_CHANNELS; index++)
@@ -237,7 +237,7 @@ VOID RT28xx_ChipSwitchChannel(
 						if ((TxPwer2 >= -7) && (TxPwer2 < 0))
 						{
 							TxPwer2 = (7+TxPwer2);
-							
+
 							R4 |= (TxPwer2 << 7);
 							DBGPRINT(RT_DEBUG_TRACE, ("%s(): TxPwer2=%d \n", __FUNCTION__, TxPwer2));
 						}
@@ -245,7 +245,7 @@ VOID RT28xx_ChipSwitchChannel(
 						{
 							TxPwer2 = (TxPwer2 > 0xF) ? (0xF) : (TxPwer2);
 							R4 |= (TxPwer2 << 7) | (1 << 6);
-						}                        
+						}
 					}
 					else
 					{
@@ -297,21 +297,21 @@ VOID RT28xx_ChipSwitchChannel(
 			}
 
 			DBGPRINT(RT_DEBUG_TRACE, ("SwitchChannel#%d(RF=%d, Pwr0=%lu, Pwr1=%lu, %dT) to , R1=0x%08x, R2=0x%08x, R3=0x%08x, R4=0x%08x\n",
-										Channel, 
-										pAd->RfIcType, 
+										Channel,
+										pAd->RfIcType,
 										(R3 & 0x00003e00) >> 9,
 										(R4 & 0x000007c0) >> 6,
 										pAd->Antenna.field.TxPath,
-										pAd->LatchRfRegs.R1, 
-										pAd->LatchRfRegs.R2, 
-										pAd->LatchRfRegs.R3, 
+										pAd->LatchRfRegs.R1,
+										pAd->LatchRfRegs.R2,
+										pAd->LatchRfRegs.R3,
 										pAd->LatchRfRegs.R4));
 			break;
 
 		default:
 			DBGPRINT(RT_DEBUG_TRACE, ("SwitchChannel#%d : unknown RFIC=%d\n", Channel, pAd->RfIcType));
 			break;
-	}	
+	}
 
 	/* Change BBP setting during siwtch from a->g, g->a*/
 	lan_gain = GET_LNA_GAIN(pAd);
@@ -319,7 +319,7 @@ VOID RT28xx_ChipSwitchChannel(
 	{
 		ULONG	TxPinCfg = 0x00050F0A; /*Gary 2007/08/09 0x050A0A*/
 		CHAR lan_gain = GET_LNA_GAIN(pAd);
-			
+
 		RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R62, (0x37 - lan_gain));
 		RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R63, (0x37 - lan_gain));
 		RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R64, (0x37 - lan_gain));
@@ -359,7 +359,7 @@ VOID RT28xx_ChipSwitchChannel(
 		RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R62, (0x37 - lan_gain));
 		RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R63, (0x37 - lan_gain));
 		RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R64, (0x37 - lan_gain));
-		RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R86, 0); /*(0x44 - lan_gain));   According the Rory's suggestion to solve the middle range issue.  */   
+		RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R86, 0); /*(0x44 - lan_gain));   According the Rory's suggestion to solve the middle range issue.  */
 
 		/* Set the BBP_R82 value here */
 		RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R82, 0xF2);
@@ -382,11 +382,11 @@ VOID RT28xx_ChipSwitchChannel(
 
 	/*
 		On 11A, We should delay and wait RF/BBP to be stable
-		and the appropriate time should be 1000 micro seconds 
+		and the appropriate time should be 1000 micro seconds
 		005/06/05 - On 11G, We also need this delay time. Otherwise it's difficult to pass the WHQL.
 
 	*/
-	RtmpusecDelay(1000);  
+	RtmpusecDelay(1000);
 }
 
 

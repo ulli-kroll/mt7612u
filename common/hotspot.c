@@ -44,8 +44,8 @@ void wext_hotspot_onoff_event(PNET_DEV net_dev, int onoff)
 	hotspot_onoff = (struct hs_onoff *)buf;
 	hotspot_onoff->ifindex = RtmpOsGetNetIfIndex(net_dev);
 	hotspot_onoff->hs_onoff = onoff;
-	
-	RtmpOSWrielessEventSend(net_dev, RT_WLAN_EVENT_CUSTOM, 
+
+	RtmpOSWrielessEventSend(net_dev, RT_WLAN_EVENT_CUSTOM,
 					OID_802_11_HS_ONOFF, NULL, (PUCHAR)buf, buflen);
 	os_free_mem(NULL, buf);
 }
@@ -63,15 +63,15 @@ static void wext_hotspot_ap_reload_event(PNET_DEV net_dev)
 	struct hs_onoff *hotspot_onoff;
 	u16 buflen = 0;
 	char *buf;
-	
+
 	buflen = sizeof(*hotspot_onoff);
 	os_alloc_mem(NULL, (UCHAR **)&buf, buflen);
 	NdisZeroMemory(buf, buflen);
 
 	hotspot_onoff = (struct hs_onoff *)buf;
 	hotspot_onoff->ifindex = RtmpOsGetNetIfIndex(net_dev);
-	
-	RtmpOSWrielessEventSend(net_dev, RT_WLAN_EVENT_CUSTOM, 
+
+	RtmpOSWrielessEventSend(net_dev, RT_WLAN_EVENT_CUSTOM,
 					OID_802_11_HS_AP_RELOAD, NULL, (PUCHAR)buf, buflen);
 	os_free_mem(NULL, buf);
 }
@@ -102,7 +102,7 @@ BOOLEAN HSIPv4Check(
 			//UCHAR *pTargetIPAddr = pSrcBuf + 24;
 			/* Client hardware address */
 			UCHAR *pTargetMACAddr = pSrcBuf + 36;
-						
+
 			/* Convert group-address DHCP packets to individually-addressed 802.11 frames */
 			if (*pWcid == MCAST_WCID && pMbss->HotSpotCtrl.DGAFDisable)
 			{
@@ -110,23 +110,23 @@ BOOLEAN HSIPv4Check(
 					PUCHAR pSrcBufOriginal = GET_OS_PKT_DATAPTR(pPacket);
 					for (Index = 0; Index < MAC_ADDR_LEN; Index++)
 					{
-						DBGPRINT(RT_DEBUG_OFF, ("Original source address(%d) = %02x\n",Index, pSrcBufOriginal[Index])); 
+						DBGPRINT(RT_DEBUG_OFF, ("Original source address(%d) = %02x\n",Index, pSrcBufOriginal[Index]));
 						pSrcBufOriginal[Index] = pTargetMACAddr[Index];
 						DBGPRINT(RT_DEBUG_OFF, ("Source address(%d) = %02x\n", Index, pSrcBuf[Index]));
 					}
-					
+
 					DBGPRINT(RT_DEBUG_OFF, ("Convert broadcast dhcp to unicat frame when dgaf disable\n"));
-						
+
 					if (!ApAllowToSendPacket(pAd, &pAd->ApCfg.MBSSID[apidx].wdev, pPacket, pWcid))
 						return FALSE;
-							
+
 					RTMP_SET_PACKET_WCID(pPacket, *pWcid);
 			}
 		}
 	}
 	return TRUE;
 }
-			
+
 
 static BOOLEAN IsICMPv4EchoPacket(
 			IN PRTMP_ADAPTER pAd,
@@ -157,14 +157,14 @@ static BOOLEAN IsICMPv4EchoPacket(
 			}
 		}
 
-	}	
+	}
 
 	return FALSE;
 }
 
 BOOLEAN L2FilterInspection(
 			IN PRTMP_ADAPTER pAd,
-			IN PHOTSPOT_CTRL pHSCtrl,	
+			IN PHOTSPOT_CTRL pHSCtrl,
 			IN PUCHAR pData)
 {
 	if (IsICMPv4EchoPacket(pAd, pData))
@@ -175,7 +175,7 @@ BOOLEAN L2FilterInspection(
 			return FALSE;
 	}
 
-	return FALSE;	
+	return FALSE;
 }
 
 BOOLEAN ProbeReqforHSAP(
@@ -215,7 +215,7 @@ inline INT Set_HotSpot_DGAF(
 	POS_COOKIE pObj = (POS_COOKIE)pAd->OS_Cookie;
 	UCHAR APIndex = pObj->ioctl_if;
 	PHOTSPOT_CTRL pHSCtrl;
-	
+
 	pHSCtrl = &pAd->ApCfg.MBSSID[APIndex].HotSpotCtrl;
 
 	pHSCtrl->DGAFDisable = Disable;
@@ -251,7 +251,7 @@ INT Set_HotSpot_Param(
 			break;
 		case PARAM_ICMPV4_DENY:
 			pHSCtrl->ICMPv4Deny = Value;
-			break;			
+			break;
 		case PARAM_MMPDU_SIZE:
 			pHSCtrl->MMPDUSize = Value;
 			break;
@@ -346,7 +346,7 @@ INT Set_HotSpot_OnOff(
 	}
 
 	NdisZeroMemory(Buf, sizeof(*Event));
-		
+
 	Event = (HSCTRL_EVENT_DATA *)Buf;
 #ifdef CONFIG_STA_SUPPORT
 	Event->ControlIndex = 0;
@@ -366,9 +366,9 @@ INT Set_HotSpot_OnOff(
 		MlmeEnqueue(pAd, HSCTRL_STATE_MACHINE, HSCTRL_ON, Len, Buf, 0);
 	else
 		MlmeEnqueue(pAd, HSCTRL_STATE_MACHINE, HSCTRL_OFF, Len, Buf, 0);
-	
+
 	os_free_mem(NULL, Buf);
-	
+
 	return TRUE;
 }
 
@@ -411,14 +411,14 @@ VOID HSCtrlSetCurrentState(
 
 #ifdef CONFIG_STA_SUPPORT
 	pHSCtrl = &pAd->StaCfg.HotSpotCtrl;
-#endif /* CONFIG_STA_SUPPORT */	
+#endif /* CONFIG_STA_SUPPORT */
 
 	pHSCtrl->HSCtrlState = State;
 }
 
 
 static VOID HSCtrlOn(
-    IN PRTMP_ADAPTER    pAd, 
+    IN PRTMP_ADAPTER    pAd,
     IN MLME_QUEUE_ELEM  *Elem)
 {
 	PHOTSPOT_CTRL pHSCtrl;
@@ -456,11 +456,11 @@ static VOID HSCtrlOn(
 	/* Send indication to daemon */
 	if (Event->EventTrigger) {
 		switch (Event->EventType) {
-		case HS_ON_OFF_BASE: 
+		case HS_ON_OFF_BASE:
 			HotspotOnOffEvent(NetDev, 1);
 			break;
 		case HS_AP_RELOAD:
-			HotspotAPReload(NetDev); 
+			HotspotAPReload(NetDev);
 			break;
 		default:
 			DBGPRINT(RT_DEBUG_ERROR, ("%s: Unknow event type(%d)\n", __FUNCTION__, Event->EventType));
@@ -507,18 +507,18 @@ VOID HSCtrlExit(
 
 #ifdef CONFIG_STA_SUPPORT
 	pHSCtrl = &pAd->StaCfg.HotSpotCtrl;
-	
+
 	/* Remove all IE */
 	HSCtrlRemoveAllIE(pHSCtrl);
 #endif /* CONFIG_STA_SUPPORT */
-	
+
 #ifdef CONFIG_AP_SUPPORT
 	for (APIndex = 0; APIndex < MAX_MBSSID_NUM(pAd); APIndex++)
 	{
 		pHSCtrl = &pAd->ApCfg.MBSSID[APIndex].HotSpotCtrl;
-		
+
 		/* Remove all IE */
-		HSCtrlRemoveAllIE(pHSCtrl);		
+		HSCtrlRemoveAllIE(pHSCtrl);
 	}
 #endif /* CONFIG_AP_SUPPORT */
 }
@@ -527,7 +527,7 @@ VOID HSCtrlExit(
 VOID HSCtrlHalt(
 	IN PRTMP_ADAPTER pAd)
 {
-	
+
 	PHOTSPOT_CTRL pHSCtrl;
 #ifdef CONFIG_AP_SUPPORT
 	UCHAR APIndex;
@@ -543,13 +543,13 @@ VOID HSCtrlHalt(
 	{
 		pHSCtrl = &pAd->ApCfg.MBSSID[APIndex].HotSpotCtrl;
 		pHSCtrl->HotSpotEnable = 0;
-	
+
 	}
 #endif /* CONFIG_AP_SUPPORT */
 }
 
 static VOID HSCtrlOff(
-    IN PRTMP_ADAPTER    pAd, 
+    IN PRTMP_ADAPTER    pAd,
     IN MLME_QUEUE_ELEM  *Elem)
 {
 	PHOTSPOT_CTRL pHSCtrl;
@@ -567,21 +567,21 @@ static VOID HSCtrlOff(
 
  	pHSCtrl->HotSpotEnable = 0;
 	pHSCtrl->HSDaemonReady = 0;
-	
+
 #ifdef CONFIG_AP_SUPPORT
 	APMakeAllBssBeacon(pAd);
 	APUpdateAllBeaconFrame(pAd);
 #endif /* CONFIG_AP_SUPPORT */
 
 	HSCtrlSetCurrentState(pAd, Elem, HSCTRL_IDLE);
-	
+
 	if (Event->EventTrigger) {
 		switch (Event->EventType) {
-		case HS_ON_OFF_BASE: 
+		case HS_ON_OFF_BASE:
 			HotspotOnOffEvent(NetDev, 0);
 			break;
 		case HS_AP_RELOAD:
-			HotspotAPReload(NetDev); 
+			HotspotAPReload(NetDev);
 			break;
 		default:
 			DBGPRINT(RT_DEBUG_ERROR, ("%s: Unknow event type(%d)\n", __FUNCTION__, Event->EventType));
@@ -604,11 +604,11 @@ BOOLEAN HotSpotEnable(
 #endif /* CONFIG_AP_SUPPORT */
 
 #ifdef CONFIG_AP_SUPPORT
-	if (Type == GAS_STATE_MESSAGES) 
+	if (Type == GAS_STATE_MESSAGES)
 	{
 		Event =  (PGAS_EVENT_DATA)Elem->Msg;
 		pHSCtrl = &pAd->ApCfg.MBSSID[Event->ControlIndex].HotSpotCtrl;
-	} 
+	}
 	else if (Type == ACTION_STATE_MESSAGES)
 	{
 		GASFrame = (GAS_FRAME *)Elem->Msg;
@@ -639,13 +639,13 @@ BOOLEAN HotSpotEnable(
 
 
 VOID HSCtrlStateMachineInit(
-	IN	PRTMP_ADAPTER		pAd, 
-	IN	STATE_MACHINE		*S, 
+	IN	PRTMP_ADAPTER		pAd,
+	IN	STATE_MACHINE		*S,
 	OUT	STATE_MACHINE_FUNC	Trans[])
 {
 
 	DBGPRINT(RT_DEBUG_TRACE, ("%s\n", __FUNCTION__));
-	
+
 	HSCtrlInit(pAd);
 
 	StateMachineInit(S,	(STATE_MACHINE_FUNC*)Trans, MAX_HSCTRL_STATE, MAX_HSCTRL_MSG, (STATE_MACHINE_FUNC)Drop, HSCTRL_IDLE, HSCTRL_MACHINE_BASE);

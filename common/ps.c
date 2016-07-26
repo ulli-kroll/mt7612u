@@ -27,7 +27,7 @@
 	========================================================================
 	Routine Description:
 		This routine is used to do insert packet into power-saveing queue.
-	
+
 	Arguments:
 		pAd: Pointer to our adapter
 		pPacket: Pointer to send packet
@@ -60,8 +60,8 @@ NDIS_STATUS RtmpInsertPsQueue(
 	{
 		if (pMacEntry->PsQueue.Number >= MAX_PACKETS_IN_PS_QUEUE)
 		{
-			RELEASE_NDIS_PACKET(pAd, pPacket, NDIS_STATUS_FAILURE);			
-			return NDIS_STATUS_FAILURE;			
+			RELEASE_NDIS_PACKET(pAd, pPacket, NDIS_STATUS_FAILURE);
+			return NDIS_STATUS_FAILURE;
 		}
 		else
 		{
@@ -127,12 +127,12 @@ VOID RtmpCleanupPsQueue(RTMP_ADAPTER *pAd, QUEUE_HEADER *pQueue)
   ========================================================================
   Description:
 	This routine frees all packets in PSQ that's destined to a specific DA.
-	BCAST/MCAST in DTIMCount=0 case is also handled here, just like a PS-POLL 
+	BCAST/MCAST in DTIMCount=0 case is also handled here, just like a PS-POLL
 	is received from a WSTA which has MAC address FF:FF:FF:FF:FF:FF
   ========================================================================
 */
 VOID RtmpHandleRxPsPoll(RTMP_ADAPTER *pAd, UCHAR *pAddr, USHORT wcid, BOOLEAN isActive)
-{ 
+{
 	QUEUE_ENTRY *pQEntry;
 	MAC_TABLE_ENTRY *pMacEntry;
 	unsigned long IrqFlags;
@@ -272,17 +272,17 @@ VOID RtmpHandleRxPsPoll(RTMP_ADAPTER *pAd, UCHAR *pAddr, USHORT wcid, BOOLEAN is
 
 		/*
 			Dequeue outgoing frames from TxSwQueue0..3 queue and process it
-			TODO: 2004-12-27 it's not a good idea to handle "More Data" bit here. 
-				because the RTMPDeQueue process doesn't guarantee to de-queue the 
-				desired MSDU from the corresponding TxSwQueue/PsQueue when QOS 
-				in-used. We should consider "HardTransmt" this MPDU using MGMT 
+			TODO: 2004-12-27 it's not a good idea to handle "More Data" bit here.
+				because the RTMPDeQueue process doesn't guarantee to de-queue the
+				desired MSDU from the corresponding TxSwQueue/PsQueue when QOS
+				in-used. We should consider "HardTransmt" this MPDU using MGMT
 				queue or things like that.
 		*/
 		RTMPDeQueuePacket(pAd, FALSE, NUM_OF_TX_RING, MAX_TX_PROCESS);
 	}
 	else
 	{
-		DBGPRINT(RT_DEBUG_ERROR,("rcv PS-POLL (AID=%d not match) from %02x:%02x:%02x:%02x:%02x:%02x\n", 
+		DBGPRINT(RT_DEBUG_ERROR,("rcv PS-POLL (AID=%d not match) from %02x:%02x:%02x:%02x:%02x:%02x\n",
 			  pMacEntry->Aid, PRINT_MAC(pAddr)));
 
 	}
@@ -395,7 +395,7 @@ VOID RtmpPsModeChange(RTMP_ADAPTER *pAd, UINT32 PsMode)
 				pAd->StaCfg.WindowsPowerMode = Ndis802_11PowerModeMAX_PSP;
 			pAd->StaCfg.WindowsBatteryPowerMode = Ndis802_11PowerModeMAX_PSP;
 			pAd->StaCfg.DefaultListenCount = 5;
-		}							
+		}
 		else if (PsMode == Ndis802_11PowerModeFast_PSP)
 		{
 			// do NOT turn on PSM bit here, wait until MlmeCheckForPsmChange()

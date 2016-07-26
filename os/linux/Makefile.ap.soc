@@ -74,7 +74,7 @@ rt2860v2_ap-objs += ../rt2860v2/common/rt_led.o
 endif
 
 ifeq ($(CONFIG_RT2860V2_AP_WSC),y)
-rt2860v2_ap-objs += ../rt2860v2/common/wsc.o 
+rt2860v2_ap-objs += ../rt2860v2/common/wsc.o
 rt2860v2_ap-objs += ../rt2860v2/common/wsc_tlv.o
 rt2860v2_ap-objs += ../rt2860v2/common/crypt_dh.o
 rt2860v2_ap-objs += ../rt2860v2/common/crypt_biginteger.o
@@ -127,15 +127,15 @@ rt2860v2_ap-objs += ../rt2860v2/ap/ap_ids.o
 endif
 
 ifeq ($(CONFIG_RT2860V2_AP_MESH),y)
-rt2860v2_ap-objs += ../rt2860v2/common/mesh_bmpkt.o 
-rt2860v2_ap-objs += ../rt2860v2/common/mesh_ctrl.o 
-rt2860v2_ap-objs += ../rt2860v2/common/mesh_link_mng.o 
-rt2860v2_ap-objs += ../rt2860v2/common/mesh_sanity.o 
-rt2860v2_ap-objs += ../rt2860v2/common/mesh_tlv.o 
-rt2860v2_ap-objs += ../rt2860v2/common/mesh.o 
-rt2860v2_ap-objs += ../rt2860v2/common/mesh_inf.o 
-rt2860v2_ap-objs += ../rt2860v2/common/mesh_forwarding.o 
-rt2860v2_ap-objs += ../rt2860v2/common/mesh_path_mng.o 
+rt2860v2_ap-objs += ../rt2860v2/common/mesh_bmpkt.o
+rt2860v2_ap-objs += ../rt2860v2/common/mesh_ctrl.o
+rt2860v2_ap-objs += ../rt2860v2/common/mesh_link_mng.o
+rt2860v2_ap-objs += ../rt2860v2/common/mesh_sanity.o
+rt2860v2_ap-objs += ../rt2860v2/common/mesh_tlv.o
+rt2860v2_ap-objs += ../rt2860v2/common/mesh.o
+rt2860v2_ap-objs += ../rt2860v2/common/mesh_inf.o
+rt2860v2_ap-objs += ../rt2860v2/common/mesh_forwarding.o
+rt2860v2_ap-objs += ../rt2860v2/common/mesh_path_mng.o
 endif
 
 ifeq ($(CONFIG_RT2860V2_RT3XXX_AP_ANTENNA_DIVERSITY),y)
@@ -214,10 +214,10 @@ EXTRA_CFLAGS += -DRALINK_ATE -DRALINK_QA -DCONFIG_RT2880_ATE_CMD_NEW -DNEW_TXCON
 EXTRA_CFLAGS += -DCONFIG_RA_NAT_NONE
 
 #provide busy time statistics for every TBTT */
-#EXTRA_CFLAGS += -DQLOAD_FUNC_BUSY_TIME_STATS 
+#EXTRA_CFLAGS += -DQLOAD_FUNC_BUSY_TIME_STATS
 
-# provide busy time alarm mechanism 
-# use the function to avoid to locate in some noise environments 
+# provide busy time alarm mechanism
+# use the function to avoid to locate in some noise environments
 #EXTRA_CFLAGS += -DQLOAD_FUNC_BUSY_TIME_ALARM
 
 ifeq ($(CONFIG_RALINK_RT2880),y)

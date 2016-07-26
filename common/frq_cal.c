@@ -19,7 +19,7 @@
 	frq_cal.c
 
 	Abstract:
-	
+
 	Revision History:
 	Who         When          What
 	--------    ----------    ----------------------------------------------
@@ -91,12 +91,12 @@ VOID InitFrequencyCalibration(
 	if (pAd->FreqCalibrationCtrl.bEnableFrequencyCalibration == TRUE)
 	{
 		DBGPRINT(RT_DEBUG_ERROR, ("---> %s\n", __FUNCTION__));
-		
+
 		InitFrequencyCalibrationMode(pAd, pAd->chipCap.FreqCalInitMode);
-		
+
 		StopFrequencyCalibration(pAd);
 
-		DBGPRINT(RT_DEBUG_ERROR, ("%s: frequency offset in the EEPROM = %d\n", 
+		DBGPRINT(RT_DEBUG_ERROR, ("%s: frequency offset in the EEPROM = %d\n",
 					__FUNCTION__, pAd->RfFreqOffset));
 
 		DBGPRINT(RT_DEBUG_ERROR, ("<--- %s\n", __FUNCTION__));
@@ -118,10 +118,10 @@ VOID StopFrequencyCalibration(
 		pAd->FreqCalibrationCtrl.LatestFreqOffsetOverBeacon = INVALID_FREQUENCY_OFFSET;
 		pAd->FreqCalibrationCtrl.bSkipFirstFrequencyCalibration = TRUE;
 
-		DBGPRINT(RT_DEBUG_TRACE, ("%s: pAd->FreqCalibrationCtrl.AdaptiveFreqOffset = 0x%X\n", 
-			__FUNCTION__, 
+		DBGPRINT(RT_DEBUG_TRACE, ("%s: pAd->FreqCalibrationCtrl.AdaptiveFreqOffset = 0x%X\n",
+			__FUNCTION__,
 			pAd->FreqCalibrationCtrl.AdaptiveFreqOffset));
-		
+
 		DBGPRINT(RT_DEBUG_TRACE, ("<--- %s\n", __FUNCTION__));
 	}
 }
@@ -132,8 +132,8 @@ VOID FrequencyCalibrationMode(
 	UINT8 Mode)
 {
 	UCHAR RFValue = 0;
-	UCHAR PreRFValue = 0; 
-	
+	UCHAR PreRFValue = 0;
+
 	if (Mode == FREQ_CAL_MODE0)
 	{
 		RT30xxReadRFRegister(pAd, RF_R23, (UCHAR *)(&RFValue));
@@ -151,10 +151,10 @@ VOID FrequencyCalibrationMode(
 		RTMPAdjustFrequencyOffset(pAd, &pAd->FreqCalibrationCtrl.AdaptiveFreqOffset);
 
 		/* vcocal_en (initiate VCO calibration (reset after completion)) - It should be at the end of RF configuration. */
-		RTMP_WriteRF(pAd, RF_R03, 0x80, 0x80);		
+		RTMP_WriteRF(pAd, RF_R03, 0x80, 0x80);
 	}
 	else
-		DBGPRINT(RT_DEBUG_ERROR, ("Unknown FrqCalibration Mode\n")); 
+		DBGPRINT(RT_DEBUG_ERROR, ("Unknown FrqCalibration Mode\n"));
 }
 
 
@@ -169,7 +169,7 @@ VOID FrequencyCalibration(
 		PFREQUENCY_CALIBRATION_CONTROL pFrqCal = &pAd->FreqCalibrationCtrl;
 		CHAR upBound = 0, lowBound =0;
 
-		if (pFrqCal->bEnableFrequencyCalibration && 
+		if (pFrqCal->bEnableFrequencyCalibration &&
 	            pFrqCal->LatestFreqOffsetOverBeacon != INVALID_FREQUENCY_OFFSET)
 		{
 			if (pFrqCal->BeaconPhyMode == MODE_CCK)
@@ -184,7 +184,7 @@ VOID FrequencyCalibration(
 				lowBound = -32;
 			}
 		}
-	
+
 		if ((pFrqCal->LatestFreqOffsetOverBeacon >= upBound) ||
 		   (pFrqCal->LatestFreqOffsetOverBeacon <= lowBound))
 		{
@@ -212,12 +212,12 @@ VOID FrequencyCalibration(
 				if (pFrqCal->AdaptiveFreqOffset < 0x7F)
 					pFrqCal->AdaptiveFreqOffset++;
 			}
-		
+
 			value = (value & 0xffff80ff) | (pFrqCal->AdaptiveFreqOffset << 8);
 			DBGPRINT(RT_DEBUG_TRACE, ("FRQ:  After just Value => %08x\n", value ));
-			write_reg(pAd, 0x40, XO_CTRL5, value); 
-		}	
-	
+			write_reg(pAd, 0x40, XO_CTRL5, value);
+		}
+
 		return;
 	}
 #endif /* MT76x2 */
@@ -225,12 +225,12 @@ VOID FrequencyCalibration(
 	/*BOOLEAN bUpdateRFR = FALSE;*/
 	CHAR HighFreqTriggerPoint = 0, LowFreqTriggerPoint = 0;
 	CHAR DecreaseFreqOffset = 0, IncreaseFreqOffset = 0;
-	
+
 	/* Frequency calibration period: */
 	/* a) 10 seconds: Check the reported frequency offset*/
 	/* b) 500 ms: Update the RF frequency if possible*/
-	if ((pAd->FreqCalibrationCtrl.bEnableFrequencyCalibration == TRUE) && 
-	     (((pAd->FreqCalibrationCtrl.bApproachFrequency == FALSE) && ((pAd->Mlme.PeriodicRound % FREQUENCY_CALIBRATION_PERIOD) == 0)) || 
+	if ((pAd->FreqCalibrationCtrl.bEnableFrequencyCalibration == TRUE) &&
+	     (((pAd->FreqCalibrationCtrl.bApproachFrequency == FALSE) && ((pAd->Mlme.PeriodicRound % FREQUENCY_CALIBRATION_PERIOD) == 0)) ||
 	       ((pAd->FreqCalibrationCtrl.bApproachFrequency == TRUE) && ((pAd->Mlme.PeriodicRound % (FREQUENCY_CALIBRATION_PERIOD / 20)) == 0))))
 	{
 		DBGPRINT(RT_DEBUG_INFO, ("---> %s\n", __FUNCTION__));
@@ -265,16 +265,16 @@ VOID FrequencyCalibration(
 						IncreaseFreqOffset = INCREASE_FREQUENCY_OFFSET_OFDM;
 					}
 				}
-				
-				if ((pAd->FreqCalibrationCtrl.LatestFreqOffsetOverBeacon >= HighFreqTriggerPoint) || 
+
+				if ((pAd->FreqCalibrationCtrl.LatestFreqOffsetOverBeacon >= HighFreqTriggerPoint) ||
 				     (pAd->FreqCalibrationCtrl.LatestFreqOffsetOverBeacon <= LowFreqTriggerPoint))
 				{
 					pAd->FreqCalibrationCtrl.bApproachFrequency = TRUE;
 				}
-				
+
 				if (pAd->FreqCalibrationCtrl.bApproachFrequency == TRUE)
 				{
-					if ((pAd->FreqCalibrationCtrl.LatestFreqOffsetOverBeacon <= DecreaseFreqOffset) && 
+					if ((pAd->FreqCalibrationCtrl.LatestFreqOffsetOverBeacon <= DecreaseFreqOffset) &&
 					      (pAd->FreqCalibrationCtrl.LatestFreqOffsetOverBeacon >= IncreaseFreqOffset))
 					{
 						pAd->FreqCalibrationCtrl.bApproachFrequency = FALSE; /* Stop approaching frquency if -10 < reported frequency offset < 10*/
@@ -293,15 +293,15 @@ VOID FrequencyCalibration(
 					}
 				}
 
-				DBGPRINT(RT_DEBUG_INFO, ("%s: AdaptiveFreqOffset = %d, LatestFreqOffsetOverBeacon = %d, bApproachFrequency = %d\n", 
-					__FUNCTION__, 
-					pAd->FreqCalibrationCtrl.AdaptiveFreqOffset, 
-					pAd->FreqCalibrationCtrl.LatestFreqOffsetOverBeacon, 
+				DBGPRINT(RT_DEBUG_INFO, ("%s: AdaptiveFreqOffset = %d, LatestFreqOffsetOverBeacon = %d, bApproachFrequency = %d\n",
+					__FUNCTION__,
+					pAd->FreqCalibrationCtrl.AdaptiveFreqOffset,
+					pAd->FreqCalibrationCtrl.LatestFreqOffsetOverBeacon,
 					pAd->FreqCalibrationCtrl.bApproachFrequency));
-		
+
 			}
 		}
-		
+
 		DBGPRINT(RT_DEBUG_INFO, ("<--- %s\n", __FUNCTION__));
 	}
 }
@@ -313,7 +313,7 @@ inline CHAR GetFrequencyOffsetField(
 	UINT8 RxWIFrqOffsetField)
 {
 	CHAR FreqOffset = 0;
-	
+
 	if (RxWIFrqOffsetField == RXWI_FRQ_OFFSET_FIELD0)
 	{
 #ifdef RLT_MAC
@@ -341,17 +341,17 @@ inline CHAR GetFrequencyOffsetField(
 	else
 		DBGPRINT(RT_DEBUG_ERROR, ("%s:Unknow Frequency Offset location(%d)\n", __FUNCTION__, RxWIFrqOffsetField));
 
-	return FreqOffset;		
+	return FreqOffset;
 }
 
 
 /* Get the frequency offset*/
 CHAR GetFrequencyOffset(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN RXWI_STRUC *pRxWI)
 {
 	CHAR FreqOffset = 0;
-	
+
 	if (pAd->FreqCalibrationCtrl.bEnableFrequencyCalibration)
 	{
 		DBGPRINT(RT_DEBUG_INFO, ("---> %s\n", __FUNCTION__));
@@ -363,13 +363,13 @@ CHAR GetFrequencyOffset(
 			goto ret;
 #endif /* MT76x2 */
 
-		if ((FreqOffset < LOWERBOUND_OF_FREQUENCY_OFFSET) || 
+		if ((FreqOffset < LOWERBOUND_OF_FREQUENCY_OFFSET) ||
 		     (FreqOffset > UPPERBOUND_OF_FREQUENCY_OFFSET))
 		{
 			FreqOffset = INVALID_FREQUENCY_OFFSET;
 
-			DBGPRINT(RT_DEBUG_ERROR, ("%s: (out-of-range) FreqOffset = %d\n", 
-				__FUNCTION__, 
+			DBGPRINT(RT_DEBUG_ERROR, ("%s: (out-of-range) FreqOffset = %d\n",
+				__FUNCTION__,
 				FreqOffset));
 		}
 

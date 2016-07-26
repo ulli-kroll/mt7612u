@@ -2,10 +2,10 @@
 
     Module Name:
     vr_brlt.c
- 
+
     Abstract:
     Only for BroadLight 2348 platform.
- 
+
     Revision History:
     Who        When          What
     ---------  ----------    ----------------------------------------------

@@ -69,7 +69,7 @@ static inline USHORT ShiftInBits(
 
 		RTMP_IO_READ32(pAd, E2PROM_CSR, &x);
 		LowerClock(pAd, &x); /*prevent read failed*/
-		
+
 		x &= ~(EEDI);
 		if(x & EEDO)
 		    data |= 1;
@@ -122,7 +122,7 @@ static inline VOID EEpromCleanup(
 	RTMP_IO_WRITE32(pAd, E2PROM_CSR, x);
 
 	RaiseClock(pAd, &x);
-	LowerClock(pAd, &x);	
+	LowerClock(pAd, &x);
 }
 
 
@@ -145,7 +145,7 @@ static inline VOID EWEN(
 	ShiftOutBits(pAd, EEPROM_EWEN_OPCODE, 5);
 	ShiftOutBits(pAd, 0, 6);
 
-	EEpromCleanup(pAd);    
+	EEpromCleanup(pAd);
 }
 
 
@@ -168,7 +168,7 @@ static inline VOID EWDS(
 	ShiftOutBits(pAd, EEPROM_EWDS_OPCODE, 5);
 	ShiftOutBits(pAd, 0, 6);
 
-	EEpromCleanup(pAd);    
+	EEpromCleanup(pAd);
 }
 
 
@@ -240,7 +240,7 @@ int rtmp_ee_prom_write16(
 		RaiseClock(pAd, &x);
 		LowerClock(pAd, &x);
 	}
-	
+
 	/* output the read_opcode ,register number and data in that order */
 	ShiftOutBits(pAd, EEPROM_WRITE_OPCODE, 3);
 	ShiftOutBits(pAd, Offset, pAd->EEPROMAddressNum);
@@ -259,7 +259,7 @@ int rtmp_ee_prom_write16(
 
 
 	return NDIS_STATUS_SUCCESS;
-	
+
 }
 
 
@@ -267,7 +267,7 @@ INT rtmp_ee_write_to_prom(
 	IN PRTMP_ADAPTER 	pAd)
 {
 	USHORT value, offset = 0;
-	
+
 #ifdef RTMP_USB_SUPPORT
 	if (pAd->infType == RTMP_DEV_INF_USB)
 		RTUSBWriteEEPROM(pAd, offset, (PUCHAR)pAd->EEPROMImage, EEPROM_SIZE);

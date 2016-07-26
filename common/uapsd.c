@@ -269,7 +269,7 @@ BOOLEAN UAPSD_SP_IsClosed(RTMP_ADAPTER *pAd, MAC_TABLE_ENTRY *pEntry)
 		(pEntry->bAPSDFlagSPStart != 0)
 	)
 		FlgIsSpClosed = FALSE;
-	
+
 	RTMP_SEM_UNLOCK(&pAd->UAPSDEOSPLock);
 
 	return FlgIsSpClosed;
@@ -839,7 +839,7 @@ VOID UAPSD_SP_AUE_Handle(
 				DBGPRINT(RT_DEBUG_TRACE, ("uapsd> aux: close a SP.\n\n\n"));
 #endif /* UAPSD_DEBUG */
 			}
-		} 
+		}
 
 		RTMP_SEM_UNLOCK(&pAd->UAPSDEOSPLock);
 	}

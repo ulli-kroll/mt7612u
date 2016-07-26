@@ -95,11 +95,11 @@ static INT rtmp_bbp_is_ready(struct _RTMP_ADAPTER *pAd)
 {
 	INT idx = 0;
 	UCHAR val;
-	
-	do 
+
+	do
 	{
 		RTMP_BBP_IO_READ8_BY_REG_ID(pAd, BBP_R0, &val);
-		if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST))			
+		if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST))
 			return FALSE;
 	} while ((++idx < 20) && ((val == 0xff) || (val == 0x00)));
 
@@ -115,7 +115,7 @@ static INT rtmp_bbp_is_ready(struct _RTMP_ADAPTER *pAd)
 static INT rtmp_bbp_init(RTMP_ADAPTER *pAd)
 {
 	INT Index = 0;
-	
+
 	/* Read BBP register, make sure BBP is up and running before write new data*/
 	if (rtmp_bbp_is_ready(pAd)== FALSE)
 		return FALSE;
@@ -138,14 +138,14 @@ static INT rtmp_bbp_init(RTMP_ADAPTER *pAd)
 	if (pAd->chipCap.pBBPRegTable)
 	{
 		REG_PAIR *reg_list = pAd->chipCap.pBBPRegTable;
-		
+
 		for (Index = 0; Index < pAd->chipCap.bbpRegTbSize; Index++)
 		{
 			RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd,
 					reg_list[Index].Register,
 					reg_list[Index].Value);
-			DBGPRINT(RT_DEBUG_TRACE, ("BBP_R%d=0x%x\n", 
-					reg_list[Index].Register, 
+			DBGPRINT(RT_DEBUG_TRACE, ("BBP_R%d=0x%x\n",
+					reg_list[Index].Register,
 					reg_list[Index].Value));
 		}
 	}
@@ -170,13 +170,13 @@ static INT rtmp_bbp_init(RTMP_ADAPTER *pAd)
 	}
 
 	return TRUE;
-	
+
 }
 
 
 static INT rtmp_bbp_get_temp(struct _RTMP_ADAPTER *pAd, CHAR *temp_val)
 {
-#if defined(RTMP_INTERNAL_TX_ALC) || defined(RTMP_TEMPERATURE_COMPENSATION) 
+#if defined(RTMP_INTERNAL_TX_ALC) || defined(RTMP_TEMPERATURE_COMPENSATION)
 	BBP_R49_STRUC bbp_val;
 
 	bbp_val.byte = 0;
@@ -194,7 +194,7 @@ static INT rtmp_bbp_tx_comp_init(RTMP_ADAPTER *pAd, INT adc_insel, INT tssi_mode
 {
 	UCHAR bbp_val, rf_val;
 
-	
+
 	/* Set BBP_R47 */
 	RTMP_BBP_IO_READ8_BY_REG_ID(pAd, BBP_R47, &bbp_val);
 	bbp_val &= 0xe7;
@@ -217,7 +217,7 @@ static INT rtmp_bbp_set_txdac(struct _RTMP_ADAPTER *pAd, INT tx_dac)
 {
 	UCHAR val, old_val = 0;
 
-	
+
 	RTMP_BBP_IO_READ8_BY_REG_ID(pAd, BBP_R1, &old_val);
 	val = old_val & (~0x18);
 	switch (tx_dac)
@@ -245,7 +245,7 @@ static INT rtmp_bbp_set_rxpath(struct _RTMP_ADAPTER *pAd, INT rxpath)
 {
 	UCHAR val = 0;
 
-	
+
 	RTMP_BBP_IO_READ8_BY_REG_ID(pAd, BBP_R3, &val);
 	val &= (~0x18);
 	if(rxpath == 3)
@@ -329,7 +329,7 @@ static INT rtmp_bbp_set_bw(struct _RTMP_ADAPTER *pAd, UINT8 bw)
 			break;
 		case BW_10:
 			val |= 0x08;
-			break;	
+			break;
 	}
 
 	if (val != old_val) {
@@ -345,7 +345,7 @@ static INT rtmp_bbp_set_bw(struct _RTMP_ADAPTER *pAd, UINT8 bw)
 	}
 
 	pAd->CommonCfg.BBPCurrentBW = bw;
-	
+
 	return TRUE;
 }
 
@@ -353,7 +353,7 @@ static INT rtmp_bbp_set_bw(struct _RTMP_ADAPTER *pAd, UINT8 bw)
 static INT rtmp_bbp_set_mmps(struct _RTMP_ADAPTER *pAd, BOOLEAN ReduceCorePower)
 {
 	UCHAR bbp_val, org_val;
-	
+
 	RTMP_BBP_IO_READ8_BY_REG_ID(pAd, BBP_R3, &org_val);
 	bbp_val = org_val;
 	if (ReduceCorePower)
@@ -377,18 +377,18 @@ static NDIS_STATUS AsicBBPWriteWithRxChain(
 {
 	UCHAR idx = 0, val = 0;
 
-	if (((pAd->MACVersion & 0xffff0000) <= 0x30900000) || 
+	if (((pAd->MACVersion & 0xffff0000) <= 0x30900000) ||
 		(pAd->Antenna.field.RxPath == 1))
 	{
 		RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, bbpId, bbpVal);
 		return NDIS_STATUS_SUCCESS;
 	}
-	
+
 	while (rx_ch_idx != 0)
 	{
 		if (idx >= pAd->Antenna.field.RxPath)
 			break;
-		
+
 		if (rx_ch_idx & 0x01)
 		{
 			RTMP_BBP_IO_READ8_BY_REG_ID(pAd, BBP_R27, &val);
@@ -402,7 +402,7 @@ static NDIS_STATUS AsicBBPWriteWithRxChain(
 #endif /* RTMP_MAC_USB */
 
 
-			DBGPRINT(RT_DEBUG_INFO, 
+			DBGPRINT(RT_DEBUG_INFO,
 					("%s(Idx):Write(R%d,val:0x%x) to Chain(0x%x, idx:%d)\n",
 						__FUNCTION__, bbpId, bbpVal, rx_ch_idx, idx));
 		}
@@ -415,14 +415,14 @@ static NDIS_STATUS AsicBBPWriteWithRxChain(
 
 
 static NDIS_STATUS AsicBBPReadWithRxChain(
-	IN RTMP_ADAPTER *pAd, 
-	IN UCHAR bbpId, 
+	IN RTMP_ADAPTER *pAd,
+	IN UCHAR bbpId,
 	IN CHAR *pBbpVal,
 	IN RX_CHAIN_IDX rx_ch_idx)
 {
 	UCHAR idx, val;
 
-	if (((pAd->MACVersion & 0xffff0000) <= 0x30900000) || 
+	if (((pAd->MACVersion & 0xffff0000) <= 0x30900000) ||
 		(pAd->Antenna.field.RxPath == 1))
 	{
 		RTMP_BBP_IO_READ8_BY_REG_ID(pAd, bbpId, pBbpVal);
@@ -441,7 +441,7 @@ static NDIS_STATUS AsicBBPReadWithRxChain(
 			RTMP_BBP_IO_READ8_BY_REG_ID(pAd, BBP_R27, &val);
 			val = (val & (~0x60)) | (idx << 5);
 #ifdef RTMP_MAC_USB
-			if ((IS_USB_INF(pAd)) && 
+			if ((IS_USB_INF(pAd)) &&
 			    (RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R27, val) == STATUS_SUCCESS))
 			{
 				RTMP_BBP_IO_READ8_BY_REG_ID(pAd, bbpId, pBbpVal);
@@ -548,8 +548,8 @@ INT rtmp_cfo_track(RTMP_ADAPTER *pAd, MAC_TABLE_ENTRY *pEntry, INT lastClient)
 			/* Set to default */
 			RT3883_AsicSetFreqOffset(pAd, pAd->RfFreqOffset);
 		}
-		else if ((lastClient < MAX_LEN_OF_MAC_TABLE) && (lastClient >=1) && 
-			pAd->CommonCfg.CFOTrack < 8 && 
+		else if ((lastClient < MAX_LEN_OF_MAC_TABLE) && (lastClient >=1) &&
+			pAd->CommonCfg.CFOTrack < 8 &&
 			pEntry->freqOffsetValid)
 		{
 			/* Track CFO */

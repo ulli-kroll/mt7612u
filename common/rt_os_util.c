@@ -2,10 +2,10 @@
 
     Module Name:
     rt_os_util.c
- 
+
     Abstract:
 	All functions provided from UTIL module are put here (OS independent).
- 
+
     Revision History:
     Who        When          What
     ---------  ----------    ----------------------------------------------
@@ -34,15 +34,15 @@ VOID RtmpDrvRateGet(
 {
 	UINT32 MCS_1NSS = (UINT32) MCS;
 	*pRate = 0;
-	
+
 	DBGPRINT(RT_DEBUG_TRACE,("<==== %s \nMODE: %x shortGI: %x BW: %x MCS: %x Antenna: %x \n"
 		,__FUNCTION__,MODE,ShortGI,BW,MCS,Antenna));
 	if((BW >= Rate_BW_MAX) || (ShortGI >= Rate_GI_MAX) || (BW >= Rate_BW_MAX))
-	{		
+	{
 		DBGPRINT(RT_DEBUG_ERROR,("<==== %s MODE: %x shortGI: %x BW: %x MCS: %x Antenna: %x , param error\n",__FUNCTION__,MODE,ShortGI,BW,MCS,Antenna));
 		return;
 	}
-	
+
 #ifdef DOT11_VHT_AC
     if (MODE >= MODE_VHT)
     {
@@ -60,21 +60,21 @@ VOID RtmpDrvRateGet(
 	if ((MODE >= MODE_HTMIX) && (MODE < MODE_VHT))
 	{
 		if(MCS_1NSS > 7)
-		{			
+		{
 			Antenna = (MCS / 8)+1;
 			MCS_1NSS %= 8;
 		}
 		*pRate = RalinkRate_HT_1NSS[BW][ShortGI][MCS_1NSS];
 	}
-	else 
+	else
 #endif /* DOT11_N_SUPPORT */
 	if (MODE == MODE_OFDM)
 		*pRate = RalinkRate_Legacy[MCS_1NSS+4];
-	else 
+	else
 		*pRate = RalinkRate_Legacy[MCS_1NSS];
 
 
-	
+
 	*pRate *= 500000;
 #if defined(DOT11_VHT_AC) || defined(DOT11_N_SUPPORT)
     if (MODE >= MODE_HTMIX)
@@ -83,7 +83,7 @@ VOID RtmpDrvRateGet(
 
 	DBGPRINT(RT_DEBUG_TRACE,("=====> %s \nMODE: %x shortGI: %x BW: %x MCS: %x Antenna: %x  Rate = %d\n"
 		,__FUNCTION__,MODE,ShortGI,BW,MCS_1NSS,Antenna, (*pRate)/1000000));
-	
+
 
 }
 
@@ -106,7 +106,7 @@ VOID RtmpMeshDown(
 
 
 
-	
+
 BOOLEAN RtmpOsCmdDisplayLenCheck(
 	IN UINT32 LenSrc,
 	IN UINT32 Offset)
@@ -125,19 +125,19 @@ VOID WpaSendMicFailureToWpaSupplicant(
 	IN BOOLEAN bUnicast,
 	IN INT key_id,
 	IN const PUCHAR tsc)
-{    
-#ifdef RT_CFG80211_SUPPORT 
+{
+#ifdef RT_CFG80211_SUPPORT
 	CFG80211OS_MICFailReport(pNetDev, src_addr, bUnicast, key_id, tsc);
-#else    
+#else
 	char custom[IW_CUSTOM_MAX] = {0};
-    
+
 	snprintf(custom, sizeof(custom), "MLME-MICHAELMICFAILURE.indication");
 	if(bUnicast)
 		sprintf(custom, "%s unicast", custom);
 
 	RtmpOSWrielessEventSend(pNetDev, RT_WLAN_EVENT_CUSTOM, -1, NULL, (PUCHAR)custom, strlen(custom));
-#endif /* RT_CFG80211_SUPPORT */	
-	
+#endif /* RT_CFG80211_SUPPORT */
+
 	return;
 }
 #endif /* WPA_SUPPLICANT_SUPPORT */
@@ -177,14 +177,14 @@ int wext_notify_event_assoc(
 #endif
 
 	return 0;
-	
+
 }
 #endif /* NATIVE_WPA_SUPPLICANT_SUPPORT */
 
 #ifdef CONFIG_STA_SUPPORT
 #ifdef WPA_SUPPLICANT_SUPPORT
 #ifndef NATIVE_WPA_SUPPLICANT_SUPPORT
-VOID SendAssocIEsToWpaSupplicant( 
+VOID SendAssocIEsToWpaSupplicant(
 	IN PNET_DEV pNetDev,
 	IN UCHAR *ReqVarIEs,
 	IN UINT32 ReqVarIELen)

@@ -120,7 +120,7 @@ UCHAR mcsToLowerMcs[] = {
 
 
 #ifdef ETXBF_EN_COND3_SUPPORT
-UCHAR groupShift[] = {4, 4, 4}; 
+UCHAR groupShift[] = {4, 4, 4};
 UCHAR groupMethod[] = {0, 0, 0, 0, 0, 0, 0, 0,
 						0, 0, 1, 0, 1, 1, 1, 1,
 						0, 0, 1, 0, 1, 1, 1, 1};
@@ -149,7 +149,7 @@ VOID rtmp_asic_set_bf(
 		Value32 |= 0x120;
 	else
 		Value32 &= (~0x120);
-	
+
 	if (pAd->CommonCfg.ETxBfEnCond > 0)
 		Value32 |= 0x210;
 	else
@@ -164,7 +164,7 @@ VOID rtmp_asic_set_bf(
 		Value32 |= ((0x1 << 6) | 0x1);
 	else
 		Value32 &= ~((0x1 << 6) | 0x1);
-	
+
 	if (pAd->CommonCfg.ETxBfEnCond > 0)
 	{
 		Value32 |= (0x1 << 6) | 0x2;
@@ -229,7 +229,7 @@ BOOLEAN rtmp_chk_itxbf_calibration(
 #endif
 	UINT32 ee_sum;
 	BOOLEAN bCalibrated = TRUE;
-	
+
 
 	if (pAd->CommonCfg.Channel <= 14)
 	{
@@ -248,7 +248,7 @@ BOOLEAN rtmp_chk_itxbf_calibration(
 		offset = *(calptr + calIdx);
 		RT28xx_EEPROM_READ16(pAd, offset, eeVal);
 		ee_sum += eeVal;
-		DBGPRINT(RT_DEBUG_INFO, ("Check EEPROM(offset=0x%x, eeVal=0x%x, ee_sum=0x%x)!\n", 
+		DBGPRINT(RT_DEBUG_INFO, ("Check EEPROM(offset=0x%x, eeVal=0x%x, ee_sum=0x%x)!\n",
 					offset, eeVal, ee_sum));
 		if (eeVal!=0xffff && eeVal!=0)
 			return TRUE;
@@ -273,10 +273,10 @@ VOID Trigger_Sounding_Packet(
 	IN  MAC_TABLE_ENTRY *pEntry)
 {
 	/*
-		SngType 
-			0: disable 
-			1 : sounding 
-			2: NDP sounding 
+		SngType
+			0: disable
+			1 : sounding
+			2: NDP sounding
 	*/
 	NdisAcquireSpinLock(&pEntry->TxSndgLock);
 	pEntry->TxSndgType = SndgType;
@@ -287,8 +287,8 @@ VOID Trigger_Sounding_Packet(
 }
 
 
-/* 
-	eTxBFProbing - called by Rate Adaptation routine each interval. 
+/*
+	eTxBFProbing - called by Rate Adaptation routine each interval.
 		Initiates a sounding packet if enabled.
 */
 VOID eTxBFProbing(
@@ -317,7 +317,7 @@ VOID eTxBFProbing(
 }
 
 
-/* 
+/*
 	clientSupportsETxBF - returns true if client supports compatible Sounding
 */
 BOOLEAN clientSupportsETxBF(
@@ -330,7 +330,7 @@ BOOLEAN clientSupportsETxBF(
 			 /*(pTxBFCap->ComSteerBFAntSup+1 >= pAd->Antenna.field.TxPath) && */
 			 (pAd->CommonCfg.ETxBfNoncompress == 0);
 
-	noncompCompat = (pTxBFCap->ExpNoComBF > 0) 
+	noncompCompat = (pTxBFCap->ExpNoComBF > 0)
 			/* && (pTxBFCap->NoComSteerBFAntSup+1 >= pAd->Antenna.field.TxPath)*/;
 
 	return pTxBFCap->RxNDPCapable==1 && (compCompat || noncompCompat);
@@ -338,7 +338,7 @@ BOOLEAN clientSupportsETxBF(
 
 
 #ifdef VHT_TXBF_SUPPORT
-/* 
+/*
 	clientSupportsETxBF - returns true if client supports compatible Sounding
 */
 BOOLEAN clientSupportsVHTETxBF(
@@ -367,7 +367,7 @@ void setETxBFCap(RTMP_ADAPTER *pAd, HT_BF_CAP *pTxBFCap)
 		pTxBFCap->ExpNoComBF = HT_ExBF_FB_CAP_IMMEDIATE;
 		pTxBFCap->ExpComBF = pAd->CommonCfg.ETxBfNoncompress? HT_ExBF_FB_CAP_NONE: HT_ExBF_FB_CAP_IMMEDIATE;
 		pTxBFCap->MinGrouping = 3;
-#ifndef MT76x2		
+#ifndef MT76x2
 		pTxBFCap->NoComSteerBFAntSup = 2;
 		pTxBFCap->ComSteerBFAntSup = 2;
 #else
@@ -405,7 +405,7 @@ void setVHTETxBFCap(RTMP_ADAPTER *pAd, VHT_CAP_INFO *pTxBFCap)
 #ifdef ETXBF_EN_COND3_SUPPORT
 /*
 	4. determine the best method among  mfb0, mfb1, snrComb0, snrComb1
- 	5. use the best method. if necessary, sndg with the mcs which resulting in the best snrComb. 
+ 	5. use the best method. if necessary, sndg with the mcs which resulting in the best snrComb.
 */
 /*if mcs is not in group 1 */
 VOID txSndgSameMcs(
@@ -417,7 +417,7 @@ VOID txSndgSameMcs(
 	UCHAR 		TableSize = 0;
 	UCHAR		InitTxRateIdx, i, step;
 	BOOLEAN		bWriteEnable;
-	UCHAR		SndgType = SNDG_TYPE_SOUNDING; 
+	UCHAR		SndgType = SNDG_TYPE_SOUNDING;
 
 	if (pEntry->eTxBfEnCond == 0)
 	{
@@ -433,7 +433,7 @@ VOID txSndgSameMcs(
 	{
 		pEntry->sndgMcs = smoothMfb;
 	}
-	else 
+	else
 	{
 		pEntry->sndgMcs = 8;
 		SndgType = SNDG_TYPE_NDP;
@@ -445,12 +445,12 @@ VOID txSndgSameMcs(
 		SndgType = SNDG_TYPE_NDP;
 		if (pEntry->ndpSndgStreams == 3)
 			pEntry->sndgMcs = 16;
-		else 
+		else
 			pEntry->sndgMcs = 8;
 	}
 
-	/* 
-		smoothMfb is guaranteed included in the current pTable because 
+	/*
+		smoothMfb is guaranteed included in the current pTable because
 		it is converted from received MFB in handleHtcField()
 	*/
 	MlmeSelectTxRateTable(pAd, pEntry, &pTable, &TableSize, &InitTxRateIdx);
@@ -471,7 +471,7 @@ VOID txSndgSameMcs(
 		i = TableSize - 1;
 
 /*
-	DBGPRINT(RT_DEBUG_TRACE, ("txSndgSameMcs i = %x, step = %x, sndgMcs = %x CurrentMCS = %x \n", 
+	DBGPRINT(RT_DEBUG_TRACE, ("txSndgSameMcs i = %x, step = %x, sndgMcs = %x CurrentMCS = %x \n",
 				i, step, pEntry->sndgMcs, pTable[i*step+2]));
 */
 
@@ -489,32 +489,32 @@ VOID txSndgSameMcs(
 
 		SndgType = SNDG_TYPE_NDP;
 	}
-		
+
 	/* Enable/disable BF matrix writing */
 	if  (pEntry->eTxBfEnCond == 1 || pEntry->eTxBfEnCond == 2)
 	{
 		bWriteEnable = TRUE;
-		pEntry->HTPhyMode.field.eTxBF = 1;			
+		pEntry->HTPhyMode.field.eTxBF = 1;
 	}
 	else
 	{
 		bWriteEnable = FALSE;
 	}
 	rtmp_asic_etxbf_write_change(pAd, bWriteEnable);
-	
+
 	/* send a sounding packet*/
 	Trigger_Sounding_Packet(pAd, SndgType, 0, pEntry->sndgMcs, pEntry);
 
-	pEntry->bfState = WAIT_SNDG_FB0; 
-	pEntry->noSndgCnt = 0;	
+	pEntry->bfState = WAIT_SNDG_FB0;
+	pEntry->noSndgCnt = 0;
 }
 
 
-/* 
-	txSndgOtherGroup - NOTE: currently unused. 
+/*
+	txSndgOtherGroup - NOTE: currently unused.
 		Only called when ETxBfEnCond==3
 */
-VOID txSndgOtherGroup(	
+VOID txSndgOtherGroup(
 	IN	PRTMP_ADAPTER	pAd,
 	IN	MAC_TABLE_ENTRY	*pEntry)
 {
@@ -522,9 +522,9 @@ VOID txSndgOtherGroup(
 	UCHAR 		TableSize = 0;
 	UCHAR		InitTxRateIdx, i, step;
 	UCHAR		byteValue = 0;
-	UCHAR		SndgType = SNDG_TYPE_SOUNDING; 
+	UCHAR		SndgType = SNDG_TYPE_SOUNDING;
 
-		
+
 	/* tx sndg with mcs in the other group */
 	if ((pEntry->sndgMcs)>>3 == 2)
 	{
@@ -566,7 +566,7 @@ VOID txSndgOtherGroup(
 
 	DBGPRINT(RT_DEBUG_TRACE,("ETxBF in txSndgOtherGroup(): tx the second SNDG, enter state WAIT_SNDG_FB1\n" ));
 
-	pEntry->bfState = WAIT_SNDG_FB1; 		
+	pEntry->bfState = WAIT_SNDG_FB1; 
 }
 
 VOID txMrqInvTxBF(
@@ -586,13 +586,13 @@ VOID txMrqInvTxBF(
 
 UINT convertSnrToThroughput(
 	IN UCHAR streamsIn,
-	IN INT snr0, 
+	IN INT snr0,
 	IN INT snr1,
 	IN INT snr2,
 	IN PUCHAR pTable,
 	OUT UCHAR *bestMcsPtr,
 	OUT UCHAR *bestRateIdxPtr
-	
+
 	)
 {
 
@@ -626,7 +626,7 @@ UINT convertSnrToThroughput(
 		isMcsValid[pTable[i*step+2]] = TRUE;
 		rateIdx[pTable[i*step+2]] = pTable[i*step];
 	}
-	
+
 	if (streamsIn > 3)
 	{
 		DBGPRINT(RT_DEBUG_TRACE,("convertSnrToThroughput(): %d streams are not supported!!!", streamsIn));
@@ -634,7 +634,7 @@ UINT convertSnrToThroughput(
 	}
 	else
 		streams = streamsIn;
-		
+
 	for (i=0; i<streams; i++){
 		for (j=i+1; j<streams; j++){
 			if (snr[i] < snr[j]){
@@ -645,7 +645,7 @@ UINT convertSnrToThroughput(
 		}
 	}
 	(*bestMcsPtr) = 0;
-	(*bestRateIdxPtr) = rateIdx[0];	
+	(*bestRateIdxPtr) = rateIdx[0];
 	for (group=streams-1; group >=0; group--)
 	{
 		snrTemp1[0] = snr[0];
@@ -676,7 +676,7 @@ UINT convertSnrToThroughput(
 				if (snrSum > thrdTemp)
 					tpTemp =  ((snrSum - thrdTemp) * dataRate[mcs])>>groupShift[group];
 			}
-			else 
+			else
 			{
 				if (group == 1)
 					snrTemp1[2] = thrdTemp + 1;
@@ -699,10 +699,10 @@ UINT convertSnrToThroughput(
 }
 
 
-/* 
+/*
 	NOTE: currently unused. Only called when ETxBfEnCond==3
 */
-VOID chooseBestMethod(	
+VOID chooseBestMethod(
 	IN	PRTMP_ADAPTER	pAd,
 	IN	MAC_TABLE_ENTRY	*pEntry,
 	IN	UCHAR			mfb)
@@ -717,16 +717,16 @@ VOID chooseBestMethod(
 
 	pEntry->mfb1 = mfb;
 	DBGPRINT(RT_DEBUG_TRACE,("ETxBF in chooseBestMethod(): received the second MFB %d, noted as mfb1\n", pEntry->mfb1 ));
-	
+
 	if ((pEntry->HTCapability.MCSSet[2] == 0xff) && (pAd->CommonCfg.TxStream == 3))
 	{
 		streams = 3;
-	} 
-	else if (pEntry->HTCapability.MCSSet[0] == 0xff && pEntry->HTCapability.MCSSet[1] == 0xff && pAd->CommonCfg.TxStream > 1 
+	}
+	else if (pEntry->HTCapability.MCSSet[0] == 0xff && pEntry->HTCapability.MCSSet[1] == 0xff && pAd->CommonCfg.TxStream > 1
 		 	      && (pAd->CommonCfg.TxStream == 2 || pEntry->HTCapability.MCSSet[2] == 0x0))
 	{
 		streams = 2;
-	} 
+	}
 	else
 	{
 		streams = 1;
@@ -745,7 +745,7 @@ VOID chooseBestMethod(
 	 	if (tp[i] > bestTp)
 		{
 			bestTp = tp[i];
-			pEntry->bestMethod = i;	
+			pEntry->bestMethod = i;
 	 	}
 	 }
 	 DBGPRINT(RT_DEBUG_TRACE,("ETxBF in chooseBestMethod(): method %d is chosen\n", pEntry->bestMethod ));
@@ -768,7 +768,7 @@ VOID chooseBestMethod(
 			if (pEntry->sndgRateIdx == pEntry->CurrTxRateIndex)
 				Trigger_Sounding_Packet(pAd, SNDG_TYPE_SOUNDING, 0, pEntry->sndgMcs, pEntry);
 			else
-				Trigger_Sounding_Packet(pAd, SNDG_TYPE_NDP, 0, pEntry->sndgMcs, pEntry);			
+				Trigger_Sounding_Packet(pAd, SNDG_TYPE_NDP, 0, pEntry->sndgMcs, pEntry);
 			DBGPRINT(RT_DEBUG_TRACE,("ETxBF in chooseBestMethod(): tx the SNDG of the best method, enter state WAIT_BEST_SNDG\n" ));
 			pEntry->bfState = WAIT_BEST_SNDG;
 			break;
@@ -808,13 +808,13 @@ VOID rxBestSndg(
 		pEntry->CurrTxRateIndex = pEntry->bf1RateIdx;
 	}
 	pEntry->HTPhyMode.field.eTxBF = 1;
-	
+
 	/*must sync the timing of using new BF matrix and its bfRateIdx!!!*/
 	/*need to reset counter for rateAdapt and may have to skip one adaptation when the new BF matrix is applied!!!*/
 
 	DBGPRINT(RT_DEBUG_TRACE,("ETxBF in rxBestSndg(): received the feedback of the best SNDG, and enter state READY_FOR_SNDG0\n" ));
 
-	pEntry->bfState = READY_FOR_SNDG0;		
+	pEntry->bfState = READY_FOR_SNDG0;
 }
 #endif	/* ETXBF_EN_COND3_SUPPORT */
 
@@ -823,7 +823,7 @@ VOID handleBfFb(
 	IN	RX_BLK			*pRxBlk)
 {
 	RXWI_STRUC *pRxWI = pRxBlk->pRxWI;
-	MAC_TABLE_ENTRY *pEntry = NULL;		
+	MAC_TABLE_ENTRY *pEntry = NULL;
 
 	if (pRxBlk->wcid >= MAX_LEN_OF_MAC_TABLE)
 	{
@@ -860,9 +860,9 @@ VOID handleBfFb(
 #else
 		pEntry->bfState = READY_FOR_SNDG0;
 #endif
-	} 
+	}
 #ifdef ETXBF_EN_COND3_SUPPORT
-	else if (pEntry->bfState == WAIT_SNDG_FB1) 
+	else if (pEntry->bfState == WAIT_SNDG_FB1)
 	{
 		/* 3. mrq with inverted TxBF status, get mfb1*/
 		if (TRUE)
@@ -879,7 +879,7 @@ VOID handleBfFb(
 	     	}
 		else
 			chooseBestMethod(pAd, pEntry, 0);
-	} 
+	}
 	else if (pEntry->bfState == WAIT_USELESS_RSP)
 	{
 		int Nc = ((pRxBlk ->pData)[2] & 0x3) + 1;
@@ -888,7 +888,7 @@ VOID handleBfFb(
 		pEntry->sndg0Snr2 = (Nc<3)? 0: 88+(CHAR)(pRxBlk ->pData[10]);
 		DBGPRINT(RT_DEBUG_INFO,("   ETxBF: mcs%d, snr %d  %d %d\n",  pEntry->sndg1Mcs, pEntry->sndg1Snr0, pEntry->sndg1Snr1, pEntry->sndg1Snr2 ));
 		txSndgSameMcs(pAd, pEntry, /*pRxBlk,*/ pEntry->lastLegalMfb);
-	} 
+	}
 	else if (pEntry->bfState == WAIT_BEST_SNDG)
 	{
 		rxBestSndg(pAd, pEntry);
@@ -904,7 +904,7 @@ VOID handleHtcField(RTMP_ADAPTER *pAd, RX_BLK *pRxBlk)
 	UCHAR mfsi = ((PHT_CONTROL)(pRxBlk->pData))-> MFSI;
 	UCHAR legalMfb = 0, legalMfbIdx=0, smoothMfb = 0;
 	RXWI_STRUC *pRxWI = pRxBlk->pRxWI;
-	MAC_TABLE_ENTRY *pEntry = NULL;	
+	MAC_TABLE_ENTRY *pEntry = NULL;
 	UCHAR i, j;
 	UCHAR *pTable;
 	UCHAR TableSize = 0;
@@ -919,15 +919,15 @@ VOID handleHtcField(RTMP_ADAPTER *pAd, RX_BLK *pRxBlk)
 	UCHAR mcs;
 	RTMP_RA_GRP_TB *pLegalMfbRS3S = NULL;
 	RTMP_RA_LEGACY_TB *pLegalMfbRS = NULL;
-	
+
 	if (pRxBlk->wcid >= MAX_LEN_OF_MAC_TABLE)
 	{
 		return;
 	}
 	pEntry = &(pAd->MacTab.Content[pRxBlk->wcid]);
-	
+
 	/* if MFB is received, have to rule out the case when mai==14 */
-	if (!(((PHT_CONTROL)(pRxBlk->pData))->MRQ == 0 && ((PHT_CONTROL)(pRxBlk->pData))->MSI == 7) 
+	if (!(((PHT_CONTROL)(pRxBlk->pData))->MRQ == 0 && ((PHT_CONTROL)(pRxBlk->pData))->MSI == 7)
 		 && mfb != 127)
 	{/* need a timer in case there is no mfb with this mfsi */
 		DBGPRINT(RT_DEBUG_INFO, ("	MFB in handleHtcField(): MFB %d is received\n", mfb));
@@ -935,20 +935,20 @@ VOID handleHtcField(RTMP_ADAPTER *pAd, RX_BLK *pRxBlk)
 		if (mfb > 76)
 			DBGPRINT(RT_DEBUG_TRACE, ("Error in handleHtcField: received MFB > 76\n"));
 
-		if (pEntry->HTCapability.MCSSet[0] == 0xff && pEntry->HTCapability.MCSSet[1] == 0xff 
+		if (pEntry->HTCapability.MCSSet[0] == 0xff && pEntry->HTCapability.MCSSet[1] == 0xff
 			     && pEntry->HTCapability.MCSSet[2] == 0xff && pAd->CommonCfg.TxStream == 3)
 			legalMfb = mcsToLowerMcs[4*mfb + 3];
-		else if (pEntry->HTCapability.MCSSet[0] == 0xff && pEntry->HTCapability.MCSSet[1] == 0xff && pAd->CommonCfg.TxStream > 1 
-  		 	      && (pAd->CommonCfg.TxStream == 2 || pEntry->HTCapability.MCSSet[2] == 0x0))			
+		else if (pEntry->HTCapability.MCSSet[0] == 0xff && pEntry->HTCapability.MCSSet[1] == 0xff && pAd->CommonCfg.TxStream > 1
+  		 	      && (pAd->CommonCfg.TxStream == 2 || pEntry->HTCapability.MCSSet[2] == 0x0))
 			legalMfb = mcsToLowerMcs[4*mfb + 2];
 		else if (pEntry->HTCapability.MCSSet[0] == 0xff &&( pAd->CommonCfg.TxStream == 1 ||pEntry->HTCapability.MCSSet[1] == 0x0))
 			legalMfb = mcsToLowerMcs[4*mfb + 1];
 		else
 			DBGPRINT(RT_DEBUG_TRACE, ("no available MFB mapping for the received MFB\n"));
-		/* 
-			have to rule out the mfb that the Rx shouldn't be able to suggest??? 
-			for example, mrq was sent with 2 streams but the Rx suggests MCS 
-			with 3 streams 
+		/*
+			have to rule out the mfb that the Rx shouldn't be able to suggest???
+			for example, mrq was sent with 2 streams but the Rx suggests MCS
+			with 3 streams
 		*/
 
 #ifdef ETXBF_EN_COND3_SUPPORT
@@ -961,8 +961,8 @@ VOID handleHtcField(RTMP_ADAPTER *pAd, RX_BLK *pRxBlk)
 		}
 #endif
 	}
-	
-	if (!(((PHT_CONTROL)(pRxBlk->pData))->MRQ == 0 && ((PHT_CONTROL)(pRxBlk->pData))->MSI == 7 && mfsi != MSI_TOGGLE_BF) 
+
+	if (!(((PHT_CONTROL)(pRxBlk->pData))->MRQ == 0 && ((PHT_CONTROL)(pRxBlk->pData))->MSI == 7 && mfsi != MSI_TOGGLE_BF)
 		 && mfb != 127)
 	{
 		/* the main body of algorithm */
@@ -989,7 +989,7 @@ VOID handleHtcField(RTMP_ADAPTER *pAd, RX_BLK *pRxBlk)
 			else
 				smoothMfb = legalMfb;
 		}
-		else 
+		else
 #endif /* NEW_RATE_ADAPT_SUPPORT */
 		{
 			for (i=1; i<=RATE_TABLE_SIZE(pTable); i++)
@@ -1007,7 +1007,7 @@ VOID handleHtcField(RTMP_ADAPTER *pAd, RX_BLK *pRxBlk)
 				smoothMfb = legalMfb;
 		}
 
-			
+
 			if (smoothMfb != pEntry->lastLegalMfb && smoothMfb != pTable[(pEntry->CurrTxRateIndex+1)*10+2])
 			{/* if mfb changes and mfb is different from current mcs: means channel change */
 #ifdef NEW_RATE_ADAPT_SUPPORT
@@ -1022,10 +1022,10 @@ VOID handleHtcField(RTMP_ADAPTER *pAd, RX_BLK *pRxBlk)
 				/* reset all OneSecTx counters */
 				/* RESET_ONE_SEC_TX_CNT(pEntry); */
 				NdisReleaseSpinLock(&pEntry->fLastChangeAccordingMfbLock);
-				DBGPRINT(RT_DEBUG_INFO,("	MFB in handleHtcField(): MFB changes and use the new mfb=%d, mfbIdx=%d\n", legalMfb, legalMfbIdx));			
+				DBGPRINT(RT_DEBUG_INFO,("	MFB in handleHtcField(): MFB changes and use the new mfb=%d, mfbIdx=%d\n", legalMfb, legalMfbIdx));
 	/*			pEntry->isMfbChanged = TRUE; */
 
-				if ((pEntry->HTCapability.TxBFCap.ExpNoComBF && pAd->CommonCfg.HtCapability.TxBFCap.TxSoundCapable 
+				if ((pEntry->HTCapability.TxBFCap.ExpNoComBF && pAd->CommonCfg.HtCapability.TxBFCap.TxSoundCapable
 				     && pAd->CommonCfg.HtCapability.TxBFCap.ExpNoComSteerCapable))
 				{/* support ETxBF. what's the correct criterion???? */
 				     	/* the process is triggered by channel change here. have to add the mechanism where the process is triggered by timer expiration!!! */
@@ -1034,12 +1034,12 @@ VOID handleHtcField(RTMP_ADAPTER *pAd, RX_BLK *pRxBlk)
 					{
 						if (pEntry->bfState == READY_FOR_SNDG0)
 						{
-							DBGPRINT(RT_DEBUG_OFF,("ETxBF in handleHtcField(): detect MFB change, set pEntry->mfb0=%d\n", pEntry->mfb0 ));    	
+							DBGPRINT(RT_DEBUG_OFF,("ETxBF in handleHtcField(): detect MFB change, set pEntry->mfb0=%d\n", pEntry->mfb0 ));    
 							txSndgSameMcs(pAd, pEntry, /*pRxBlk,*/ legalMfb);
 						}
 						else
 						{
-							DBGPRINT(RT_DEBUG_TRACE,("ETxBF in handleHtcField(): detect channel change before enter the ETxBF probe process is complete, enter state WAIT_USELESS_RSP\n" ));    			
+							DBGPRINT(RT_DEBUG_TRACE,("ETxBF in handleHtcField(): detect channel change before enter the ETxBF probe process is complete, enter state WAIT_USELESS_RSP\n" ));    
 							pEntry->bfState = WAIT_USELESS_RSP;
 						}
 					}
@@ -1059,20 +1059,20 @@ VOID handleHtcField(RTMP_ADAPTER *pAd, RX_BLK *pRxBlk)
 	if (((PHT_CONTROL)(pRxBlk->pData))->MRQ == 1)
 	{
 		DBGPRINT(RT_DEBUG_INFO, ("	MFB in handleHtcField(): MRQ is received\n"));
-		/* 
-			Assumption: 
-				snr are not sorted, wait for John or Julian's answer as to 
+		/*
+			Assumption:
+				snr are not sorted, wait for John or Julian's answer as to
 				the SNR values of unused streams
 		*/
 		if ((pEntry->HTCapability.MCSSet[2] == 0xff && pAd->CommonCfg.TxStream == 3))
 		{
 			streams = 3;
-		} 
-		else if (pEntry->HTCapability.MCSSet[0] == 0xff && pEntry->HTCapability.MCSSet[1] == 0xff && pAd->CommonCfg.TxStream > 1 
+		}
+		else if (pEntry->HTCapability.MCSSet[0] == 0xff && pEntry->HTCapability.MCSSet[1] == 0xff && pAd->CommonCfg.TxStream > 1
 			 	      && (pAd->CommonCfg.TxStream == 2 || pEntry->HTCapability.MCSSet[2] == 0x0))
 		{
 			streams = 2;
-		} 
+		}
 		else
 		{
 			streams = 1;
@@ -1120,7 +1120,7 @@ VOID handleHtcField(RTMP_ADAPTER *pAd, RX_BLK *pRxBlk)
 					if (snrSum > thrdTemp)
 					tpTemp =  ((snrSum - thrdTemp) * dataRate[mcs])>>groupShift[group];
 				}
-				else 
+				else
 				{
 					if (group == 1)
 						snrTemp1[2] = thrdTemp + 1;
@@ -1134,7 +1134,7 @@ VOID handleHtcField(RTMP_ADAPTER *pAd, RX_BLK *pRxBlk)
 					bestTp = tpTemp;
 					pEntry->mfbToTx = mcs;
 				}
-				
+
 			}
 		}
 		pEntry->toTxMfb = 1;/*should be reset to 0 when mfb is actually sent out!!!*/
@@ -1145,10 +1145,10 @@ VOID handleHtcField(RTMP_ADAPTER *pAd, RX_BLK *pRxBlk)
 
 
 void eTxBfProbeTimerExec(
-    IN PVOID SystemSpecific1, 
-    IN PVOID FunctionContext, 
-    IN PVOID SystemSpecific2, 
-    IN PVOID SystemSpecific3) 
+    IN PVOID SystemSpecific1,
+    IN PVOID FunctionContext,
+    IN PVOID SystemSpecific2,
+    IN PVOID SystemSpecific3)
 {
 	MAC_TABLE_ENTRY     *pEntry = (PMAC_TABLE_ENTRY) FunctionContext;
 #ifdef ETXBF_EN_COND3_SUPPORT
@@ -1211,11 +1211,11 @@ VOID MFB_PerPareMRQ(
 		pHT_Control = (HT_CONTROL *)pBuf;
 
 		pHT_Control->MRQ = 1;
-		
+
 		if (pEntry->msiToTx == MSI_TOGGLE_BF) {
 			if (pEntry->mrqCnt == 0)
 				pEntry->mrqCnt = TOGGLE_BF_PKTS;
-			else 
+			else
 			{
 				(pEntry->mrqCnt)--;
 				if (pEntry->mrqCnt == 0)

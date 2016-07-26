@@ -452,9 +452,9 @@ NTSTATUS RTUSBWriteMACRegister(
 
 	localVal = Value;
 
-	/* MT76xx HW has 4 byte alignment constrained */    
+	/* MT76xx HW has 4 byte alignment constrained */
 	if (IS_MT76xx(pAd))
-	{   
+	{
 		Status = RTUSBMultiWrite_nBytes(
 		pAd,
 		Offset,
@@ -506,7 +506,7 @@ int read_reg(RTMP_ADAPTER *ad, UINT32 base, UINT16 offset, UINT32 *value)
 	NTSTATUS ret;
 	UINT8 req;
 	UINT32 io_value;
-	
+
 	if (base == 0x40)
 		req = 0x47;
 	else if (base == 0x41)
@@ -540,7 +540,7 @@ int read_reg(RTMP_ADAPTER *ad, UINT32 base, UINT16 offset, UINT32 *value)
 	Arguments:
 
 	Return Value:
-	
+
 	Note: Obsoleted
 	========================================================================
 */
@@ -587,7 +587,7 @@ NTSTATUS RTUSBReadBBPRegister_Direct(RTMP_ADAPTER *pAd, UCHAR Id, UCHAR *buf)
 	}
 	DBGPRINT(RT_DEBUG_TRACE, ("%s():RetryCnt=%d!read_done=%d\n",
 								__FUNCTION__, i, read_done));
-			
+
 	if ((i == RETRY_LIMIT) || (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST)))
 	{
 		/* Read failed then Return Default value.*/
@@ -669,7 +669,7 @@ NTSTATUS RTUSBReadBBPRegister(RTMP_ADAPTER *pAd, UCHAR Id, UCHAR *pValue)
 	}
 
 	RTMP_SEM_EVENT_UP(&pAd->reg_atomic);
-	
+
 	if ((BbpCsr.field.Busy == BUSY) || (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST)))
 	{
 		DBGPRINT_ERR(("BBP read R%d=0x%x fail\n", Id, BbpCsr.word));
@@ -793,7 +793,7 @@ NTSTATUS RTUSBWriteBBPRegister(RTMP_ADAPTER *pAd, UCHAR Id, UCHAR Value)
 	}
 
 	RTMP_SEM_EVENT_UP(&pAd->reg_atomic);
-	
+
 	if ((BusyCnt == MAX_BUSY_COUNT) || (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST)))
 	{
 		DBGPRINT_ERR(("BBP write R%d=0x%x fail\n", Id, BbpCsr.word));
@@ -857,7 +857,7 @@ NTSTATUS RTUSBWriteRFRegister(RTMP_ADAPTER *pAd, UINT32 Value)
 
 done:
 	RTMP_SEM_EVENT_UP(&pAd->reg_atomic);
-	
+
 	return status;
 }
 #endif /* RTMP_BBP */
@@ -1240,7 +1240,7 @@ NTSTATUS CheckGPIOHdlr(RTMP_ADAPTER *pAd, PCmdQElmt CMDQelmt)
 		IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
 		{
 			UINT32 data;
-			
+
 			/* Read GPIO pin2 as Hardware controlled radio state*/
 			RTUSBReadMACRegister( pAd, GPIO_CTRL_CFG, &data);
 			pAd->StaCfg.bHwRadio = (data & 0x04) ? TRUE : FALSE;
@@ -1469,7 +1469,7 @@ static NTSTATUS ResetBulkInHdlr(IN PRTMP_ADAPTER pAd, IN PCmdQElmt CMDQelmt)
 	RtmpusecDelay(10000);
 	ntStatus = RTUSBReadMACRegister(pAd, MAC_CSR0, &MACValue);
 
-	/* It must be removed. Or ATE will have no RX success. */ 
+	/* It must be removed. Or ATE will have no RX success. */
 	if ((NT_SUCCESS(ntStatus) == TRUE) &&
 				(!(RTMP_TEST_FLAG(pAd, (fRTMP_ADAPTER_RESET_IN_PROGRESS | fRTMP_ADAPTER_RADIO_OFF |
 												fRTMP_ADAPTER_HALT_IN_PROGRESS | fRTMP_ADAPTER_NIC_NOT_EXIST)))))
@@ -1596,10 +1596,10 @@ static NTSTATUS DelAsicWcidHdlr(IN PRTMP_ADAPTER pAd, IN PCmdQElmt CMDQelmt)
 {
 	RT_SET_ASIC_WCID SetAsicWcid;
 	SetAsicWcid = *((PRT_SET_ASIC_WCID)(CMDQelmt->buffer));
-        
+
 	if (SetAsicWcid.WCID >= MAX_LEN_OF_MAC_TABLE)
 		return NDIS_STATUS_FAILURE;
-        
+
         AsicDelWcidTab(pAd, (UCHAR)SetAsicWcid.WCID);
 
         return NDIS_STATUS_SUCCESS;
@@ -1710,7 +1710,7 @@ static NTSTATUS UpdateProtectHdlr(IN PRTMP_ADAPTER pAd, IN PCmdQElmt CMDQelmt)
 	pAsicProtectInfo = (PRT_ASIC_PROTECT_INFO)CMDQelmt->buffer;
 	AsicUpdateProtect(pAd, pAsicProtectInfo->OperationMode, pAsicProtectInfo->SetMask,
 							pAsicProtectInfo->bDisableBGProtect, pAsicProtectInfo->bNonGFExist);
-	
+
 	return NDIS_STATUS_SUCCESS;
 }
 

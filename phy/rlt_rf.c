@@ -82,7 +82,7 @@ NDIS_STATUS rlt_rf_write(
 	if (pAd->chipCap.hif_type == HIF_RLT) {
 		if (pAd->WlanFunCtrl.field.WLAN_EN == 0)
 		{
-			DBGPRINT_ERR(("rlt_rf_write. Not allow to write RF 0x%x : fail\n",  regID));	
+			DBGPRINT_ERR(("rlt_rf_write. Not allow to write RF 0x%x : fail\n",  regID));
 			return STATUS_UNSUCCESSFUL;
 		}
 	}
@@ -135,17 +135,17 @@ done:
 
 /*
 	========================================================================
-	
+
 	Routine Description: Read RF register through MAC
 
 	Arguments:
 
 	Return Value:
 
-	IRQL = 
-	
+	IRQL =
+
 	Note:
-	
+
 	========================================================================
 */
 NDIS_STATUS rlt_rf_read(
@@ -174,7 +174,7 @@ NDIS_STATUS rlt_rf_read(
 	ASSERT((regID <= pAd->chipCap.MaxNumOfRfId));
 
 	rfcsr.word = 0;
-	
+
 	for (i=0; i<MAX_BUSY_COUNT; i++)
 	{
 		if(RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST))
@@ -198,7 +198,7 @@ NDIS_STATUS rlt_rf_read(
 			DBGPRINT_ERR(("RF[%d] read function for non-supported chip[0x%x]\n", regID, pAd->MACVersion));
 			break;
 		}
-		
+
 		RTMP_IO_WRITE32(pAd, RF_CSR_CFG, rfcsr.word);
 
 		rf_status = rf_csr_poll_idle(pAd, &rfcsr.word);
@@ -216,7 +216,7 @@ NDIS_STATUS rlt_rf_read(
 	}
 
 	if (rf_status == BUSY)
-	{																	
+	{
 		DBGPRINT_ERR(("RF read R%d=0x%X fail, i[%d], k[%d]\n", regID, rfcsr.word,i,k));
 		goto done;
 	}

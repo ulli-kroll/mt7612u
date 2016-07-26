@@ -32,7 +32,7 @@ UCHAR OUI_PMF_BIP_CIPHER[4]= {0x00, 0x0F, 0xAC, 0x06};
 UCHAR OUI_PMF_8021X_AKM[4]= {0x00, 0x0F, 0xAC, 0x05};
 UCHAR OUI_PMF_PSK_AKM[4]= {0x00, 0x0F, 0xAC, 0x06};
 
-UCHAR PMF_MMIE_BUFFER[18]= {0x4C, 0x10, 
+UCHAR PMF_MMIE_BUFFER[18]= {0x4C, 0x10,
                         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
                         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
@@ -42,8 +42,8 @@ UCHAR PMF_MMIE_BUFFER[18]= {0x4C, 0x10,
 
 
 VOID PMF_PeerAction(
-	IN PRTMP_ADAPTER pAd, 
-	IN MLME_QUEUE_ELEM *Elem) 
+	IN PRTMP_ADAPTER pAd,
+	IN MLME_QUEUE_ELEM *Elem)
 {
         UCHAR Action = Elem->Msg[LENGTH_802_11+1];
 
@@ -52,7 +52,7 @@ VOID PMF_PeerAction(
         case ACTION_SAQ_REQUEST:
                 PMF_PeerSAQueryReqAction(pAd, Elem);
                 break;
-        case ACTION_SAQ_RESPONSE:           
+        case ACTION_SAQ_RESPONSE:
                 PMF_PeerSAQueryRspAction(pAd, Elem);
                 break;
         }
@@ -60,7 +60,7 @@ VOID PMF_PeerAction(
 
 
 VOID PMF_MlmeSAQueryReq(
-        IN PRTMP_ADAPTER pAd, 
+        IN PRTMP_ADAPTER pAd,
         IN MAC_TABLE_ENTRY *pEntry)
 {
         PUCHAR pOutBuffer = NULL;
@@ -76,7 +76,7 @@ VOID PMF_MlmeSAQueryReq(
                 DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s : Entry is NULL\n", __FUNCTION__));
                 return;
         }
-    
+
         if (!(CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_PMF_CAPABLE)))
         {
                 DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s : Entry is not PMF capable, STA(%02x:%02x:%02x:%02x:%02x:%02x)\n", __FUNCTION__, PRINT_MAC(pEntry->Addr)));
@@ -88,13 +88,13 @@ VOID PMF_MlmeSAQueryReq(
 
 #ifdef CONFIG_AP_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-	{									
+	{
                 pPmfCfg = &pAd->ApCfg.MBSSID[pEntry->apidx].PmfCfg;
         }
 #endif /* CONFIG_AP_SUPPORT */
 #ifdef CONFIG_STA_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
-	{									
+	{
                 pPmfCfg = &pAd->StaCfg.PmfCfg;
 	}
 #endif /* CONFIG_STA_SUPPORT */
@@ -108,14 +108,14 @@ VOID PMF_MlmeSAQueryReq(
 
 #ifdef CONFIG_AP_SUPPORT
 		IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-		{		
+		{
                 MgtMacHeaderInit(pAd, &SAQReqHdr, SUBTYPE_ACTION, 0, pEntry->Addr,pAd->ApCfg.MBSSID[pEntry->apidx].wdev.if_addr,
                                 pAd->ApCfg.MBSSID[pEntry->apidx].wdev.bssid);
 		}
 #endif /* CONFIG_AP_SUPPORT */
 #ifdef CONFIG_STA_SUPPORT
 		IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
-		{	
+		{
 		MgtMacHeaderInit(pAd, &SAQReqHdr, SUBTYPE_ACTION, 0, pEntry->Addr,
 							pAd->CurrentAddress,
 						pAd->CurrentAddress);
@@ -146,14 +146,14 @@ VOID PMF_MlmeSAQueryReq(
                 os_free_mem(NULL, pOutBuffer);
 
                 DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s - Send SA Query Request to STA(%02x:%02x:%02x:%02x:%02x:%02x)\n",
-								__FUNCTION__, PRINT_MAC(pEntry->Addr)));                
-        }        
+								__FUNCTION__, PRINT_MAC(pEntry->Addr)));
+        }
 }
 
 
 VOID PMF_PeerSAQueryReqAction(
-	IN PRTMP_ADAPTER pAd, 
-	IN MLME_QUEUE_ELEM *Elem) 
+	IN PRTMP_ADAPTER pAd,
+	IN MLME_QUEUE_ELEM *Elem)
 {
         UCHAR Action = Elem->Msg[LENGTH_802_11+1];
 
@@ -185,7 +185,7 @@ VOID PMF_PeerSAQueryReqAction(
                         DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s : Entry is not PMF capable, STA(%02x:%02x:%02x:%02x:%02x:%02x)\n", __FUNCTION__, PRINT_MAC(pHeader->Hdr.Addr2)));
                         return;
                 }
-        
+
                 NdisMoveMemory(&TransactionID, &Elem->Msg[LENGTH_802_11+2], sizeof(USHORT));
 
                 /* Response the SA Query */
@@ -195,15 +195,15 @@ VOID PMF_PeerSAQueryReqAction(
 
 #ifdef CONFIG_AP_SUPPORT
 		IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-		{		
+		{
 		MgtMacHeaderInit(pAd, &SAQRspHdr, SUBTYPE_ACTION, 0, pHeader->Hdr.Addr2,pAd->ApCfg.MBSSID[pEntry->apidx].wdev.if_addr,
 						pAd->ApCfg.MBSSID[pEntry->apidx].wdev.bssid);
 		}
 #endif /* CONFIG_AP_SUPPORT */
 #ifdef CONFIG_STA_SUPPORT
 		IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
-		{		
-			MgtMacHeaderInit(pAd, &SAQRspHdr, SUBTYPE_ACTION, 0, pHeader->Hdr.Addr2,				
+		{
+			MgtMacHeaderInit(pAd, &SAQRspHdr, SUBTYPE_ACTION, 0, pHeader->Hdr.Addr2,
 						pAd->CurrentAddress,
 						pAd->CurrentAddress);
 		}
@@ -222,14 +222,14 @@ VOID PMF_PeerSAQueryReqAction(
                 MiniportMMRequest(pAd, QID_MGMT, pOutBuffer, FrameLen);
                 os_free_mem(NULL, pOutBuffer);
 
-		DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s - Send SA Query Response to STA(%02x:%02x:%02x:%02x:%02x:%02x)\n", __FUNCTION__, PRINT_MAC(SAQRspHdr.Addr1)));        
+		DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s - Send SA Query Response to STA(%02x:%02x:%02x:%02x:%02x:%02x)\n", __FUNCTION__, PRINT_MAC(SAQRspHdr.Addr1)));
 	}
 }
 
 
 VOID PMF_PeerSAQueryRspAction(
-	IN PRTMP_ADAPTER pAd, 
-	IN MLME_QUEUE_ELEM *Elem) 
+	IN PRTMP_ADAPTER pAd,
+	IN MLME_QUEUE_ELEM *Elem)
 {
 	UCHAR Action = Elem->Msg[LENGTH_802_11+1];
 
@@ -243,7 +243,7 @@ VOID PMF_PeerSAQueryRspAction(
                 DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s : Receive SA Query Response\n", __FUNCTION__));
 
                 pHeader = (PFRAME_802_11) Elem->Msg;
-				
+
                 pEntry = MacTableLookup(pAd, pHeader->Hdr.Addr2);
 
                 if (!pEntry)
@@ -257,7 +257,7 @@ VOID PMF_PeerSAQueryRspAction(
                         DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s : Entry is not PMF capable, STA(%02x:%02x:%02x:%02x:%02x:%02x)\n", __FUNCTION__, PRINT_MAC(pHeader->Hdr.Addr2)));
                         return;
                 }
-        
+
                 NdisMoveMemory(&TransactionID, &Elem->Msg[LENGTH_802_11+2], sizeof(USHORT));
 
                 if (pEntry->TransactionID == TransactionID)
@@ -265,9 +265,9 @@ VOID PMF_PeerSAQueryRspAction(
                         pEntry->SAQueryStatus = SAQ_IDLE;
                         RTMPCancelTimer(&pEntry->SAQueryTimer, &Cancelled);
                         RTMPCancelTimer(&pEntry->SAQueryConfirmTimer, &Cancelled);
-                        DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s - Compare TransactionID correctly, STA(%02x:%02x:%02x:%02x:%02x:%02x)\n", __FUNCTION__, PRINT_MAC(pHeader->Hdr.Addr2)));        
-                } 
-                else 
+                        DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s - Compare TransactionID correctly, STA(%02x:%02x:%02x:%02x:%02x:%02x)\n", __FUNCTION__, PRINT_MAC(pHeader->Hdr.Addr2)));
+                }
+                else
                 {
                         DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s - Compare TransactionID wrong, STA(%02x:%02x:%02x:%02x:%02x:%02x)\n", __FUNCTION__, PRINT_MAC(pHeader->Hdr.Addr2)));
                 }
@@ -276,10 +276,10 @@ VOID PMF_PeerSAQueryRspAction(
 
 
 VOID PMF_SAQueryTimeOut(
-        IN PVOID SystemSpecific1, 
-        IN PVOID FunctionContext, 
-        IN PVOID SystemSpecific2, 
-        IN PVOID SystemSpecific3) 
+        IN PVOID SystemSpecific1,
+        IN PVOID FunctionContext,
+        IN PVOID SystemSpecific2,
+        IN PVOID SystemSpecific3)
 {
         MAC_TABLE_ENTRY *pEntry = (MAC_TABLE_ENTRY *)FunctionContext;
 
@@ -290,7 +290,7 @@ VOID PMF_SAQueryTimeOut(
 			PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pEntry->pAd;
 #ifdef CONFIG_AP_SUPPORT
 		IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-		{		
+		{
 			MacTableDeleteEntry(pAd, pEntry->wcid, pEntry->Addr);
 		}
 #endif /* CONFIG_AP_SUPPORT */
@@ -316,10 +316,10 @@ VOID PMF_SAQueryTimeOut(
 
 
 VOID PMF_SAQueryConfirmTimeOut(
-        IN PVOID SystemSpecific1, 
-        IN PVOID FunctionContext, 
-        IN PVOID SystemSpecific2, 
-        IN PVOID SystemSpecific3) 
+        IN PVOID SystemSpecific1,
+        IN PVOID FunctionContext,
+        IN PVOID SystemSpecific2,
+        IN PVOID SystemSpecific3)
 {
         MAC_TABLE_ENTRY *pEntry = (MAC_TABLE_ENTRY *)FunctionContext;
 
@@ -339,14 +339,14 @@ VOID PMF_ConstructBIPAad(
 {
 	UINT8 aad_len = 0;
 
-	/* Frame control -		
+	/* Frame control -
                 Retry bit (bit 11) masked to 0
 		PwrMgt bit (bit 12) masked to 0
 		MoreData bit (bit 13) masked to 0 */
 	aad_hdr[0] = (*pHdr);
 	aad_hdr[1] = (*(pHdr + 1)) & 0xc7;
 	aad_len = 2;
-	
+
 	/* Append Addr 1, 2 & 3 */
 	NdisMoveMemory(&aad_hdr[aad_len], pHdr + 4, 3 * MAC_ADDR_LEN);
 	aad_len += (3 * MAC_ADDR_LEN);
@@ -359,7 +359,7 @@ BOOLEAN PMF_CalculateBIPMIC(
 	IN PUCHAR pFrameBuf,
 	IN UINT32 FrameLen,
 	IN PUCHAR pKey,
-	OUT PUCHAR pBipMic) 
+	OUT PUCHAR pBipMic)
 {
 	UCHAR *m_buf;
 	UINT32 total_len;
@@ -367,7 +367,7 @@ BOOLEAN PMF_CalculateBIPMIC(
 	UINT mlen = AES_KEY128_LENGTH;
 
 	/* Allocate memory for MIC calculation */
-	os_alloc_mem(NULL, (PUCHAR *)&m_buf, MGMT_DMA_BUFFER_SIZE);	
+	os_alloc_mem(NULL, (PUCHAR *)&m_buf, MGMT_DMA_BUFFER_SIZE);
         if (m_buf == NULL)
         {
                 DBGPRINT(RT_DEBUG_ERROR, ("%s : out of resource.\n", __FUNCTION__));
@@ -385,7 +385,7 @@ BOOLEAN PMF_CalculateBIPMIC(
 	NdisMoveMemory(&m_buf[total_len], pFrameBuf, FrameLen);
  	total_len += FrameLen;
 
-	/* Compute AES-128-CMAC over the concatenation */	
+	/* Compute AES-128-CMAC over the concatenation */
         AES_CMAC(m_buf, total_len, pKey, 16, cmac_output, &mlen);
 
 	/* Truncate the first 64-bits */
@@ -399,7 +399,7 @@ BOOLEAN PMF_CalculateBIPMIC(
 
 
 VOID PMF_DerivePTK(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN UCHAR *PMK,
 	IN UCHAR *ANonce,
 	IN UCHAR *AA,
@@ -407,11 +407,11 @@ VOID PMF_DerivePTK(
 	IN UCHAR *SA,
 	OUT UCHAR *output,
 	IN UINT	len)
-{	
+{
 	UCHAR concatenation[76];
 	UINT CurrPos = 0;
 	UCHAR temp[32];
-	UCHAR Prefix[] = {'P', 'a', 'i', 'r', 'w', 'i', 's', 'e', ' ', 'k', 'e', 'y', ' ', 
+	UCHAR Prefix[] = {'P', 'a', 'i', 'r', 'w', 'i', 's', 'e', ' ', 'k', 'e', 'y', ' ',
 			'e', 'x', 'p', 'a', 'n', 's', 'i', 'o', 'n'};
 
 	/* initiate the concatenation input */
@@ -430,10 +430,10 @@ VOID PMF_DerivePTK(
 		NdisMoveMemory(&concatenation[CurrPos], SA, 6);
 	else
 		NdisMoveMemory(&concatenation[CurrPos], AA, 6);
-		
-	/* store the larger mac address for backward compatible of 
+
+	/* store the larger mac address for backward compatible of
 	   ralink proprietary STA-key issue */
-	NdisMoveMemory(temp, &concatenation[CurrPos], MAC_ADDR_LEN);		
+	NdisMoveMemory(temp, &concatenation[CurrPos], MAC_ADDR_LEN);
 	CurrPos += 6;
 
 	/* Get smaller Nonce */
@@ -458,25 +458,25 @@ VOID PMF_DerivePTK(
 	hex_dump("[PMF]concatenation=", concatenation, 76);
 
 	/* Calculate a key material through FT-KDF */
-	KDF(PMK, LEN_PMK, Prefix, 22, concatenation, 76, output, len);	
+	KDF(PMK, LEN_PMK, Prefix, 22, concatenation, 76, output, len);
 }
 
 
 /*
         ========================================================================
-	
+
 	Routine Description:
 		Derive IGTK randomly
-		IGTK, a hierarchy consisting of a single key to provide integrity 
+		IGTK, a hierarchy consisting of a single key to provide integrity
 		protection for broadcast and multicast Robust Management frames
 
 	Arguments:
-		
+
 	Return Value:
 
 	Note:
 		It's defined in IEEE 802.11w 8.5.1.3a
-		
+
 	========================================================================
 */
 VOID PMF_DeriveIGTK(
@@ -486,23 +486,23 @@ VOID PMF_DeriveIGTK(
 	INT i;
 
 	for(i = 0; i < LEN_TK; i++)
-                output[i] = RandomByte(pAd);   
+                output[i] = RandomByte(pAd);
 }
 
 
 /*
 	========================================================================
-	
+
 	Routine Description:
 		Insert IGTK KDE. The field shall be included in pair-Msg3-WPA2 and
-		group-Msg1-WPA2. 
+		group-Msg1-WPA2.
 
 	Arguments:
-		
+
 	Return Value:
 
-	Note:		
-		
+	Note:
+
 	========================================================================
 */
 VOID PMF_InsertIGTKKDE(
@@ -527,15 +527,15 @@ VOID PMF_InsertIGTKKDE(
 	WPA_ConstructKdeHdr(KDE_IGTK, LEN_PMF_IGTK_KDE, pFrameBuf);
 
 	/* Prepare the IGTK KDE */
-	igtk_kde_ptr = (PPMF_IGTK_KDE)(pFrameBuf + LEN_KDE_HDR);	
+	igtk_kde_ptr = (PPMF_IGTK_KDE)(pFrameBuf + LEN_KDE_HDR);
 	NdisZeroMemory(igtk_kde_ptr, LEN_PMF_IGTK_KDE);
 
 	/* Bits 0-11 define a value in the range 0-4095.
-	   Bits 12 - 15 are reserved and set to 0 on transmission and ignored on reception. 
+	   Bits 12 - 15 are reserved and set to 0 on transmission and ignored on reception.
 	   The IGTK Key ID is either 4 or 5. The remaining Key IDs are reserved. */
 	igtk_kde_ptr->KeyID[0] = pPmfCfg->IGTK_KeyIdx;
 	idx = (pPmfCfg->IGTK_KeyIdx == 5) ? 1 : 0;
-			
+
 	/* Fill in the IPN field */
 	NdisMoveMemory(igtk_kde_ptr->IPN, &pPmfCfg->IPN[idx][0], LEN_WPA_TSC);
 
@@ -544,23 +544,23 @@ VOID PMF_InsertIGTKKDE(
 
 	/* Update the total output length */
 	*pFrameLen = *pFrameLen + LEN_KDE_HDR + LEN_PMF_IGTK_KDE;
-	
-	return; 
+
+	return;
 }
 
 
 /*
 	========================================================================
-	
+
 	Routine Description:
 		Extract IGTK KDE.
 
 	Arguments:
-		
+
 	Return Value:
 
-	Note:		
-		
+	Note:
+
 	========================================================================
 */
 BOOLEAN PMF_ExtractIGTKKDE(
@@ -580,14 +580,14 @@ BOOLEAN PMF_ExtractIGTKKDE(
 
 	if (pPmfCfg == NULL)
 		return FALSE;
-	
+
 	igtk_kde_ptr = (PPMF_IGTK_KDE) pBuf;
 	pPmfCfg->IGTK_KeyIdx = igtk_kde_ptr->KeyID[0];
 	if (pPmfCfg->IGTK_KeyIdx == 5)
 		idx = 1;
 	offset += 2;
 
-	NdisMoveMemory(&pPmfCfg->IPN[idx][0], igtk_kde_ptr->IPN, LEN_WPA_TSC);	
+	NdisMoveMemory(&pPmfCfg->IPN[idx][0], igtk_kde_ptr->IPN, LEN_WPA_TSC);
 	offset += LEN_WPA_TSC;
 
 	if ((buf_len - offset) == LEN_AES_GTK)
@@ -596,37 +596,37 @@ BOOLEAN PMF_ExtractIGTKKDE(
 	}
 	else
 	{
-		DBGPRINT(RT_DEBUG_ERROR, ("%s : the IGTK length(%d) is invalid\n", 
-					 __FUNCTION__, (buf_len - offset)));	
+		DBGPRINT(RT_DEBUG_ERROR, ("%s : the IGTK length(%d) is invalid\n",
+					 __FUNCTION__, (buf_len - offset)));
 		return FALSE;
 	}
-	
-	DBGPRINT(RT_DEBUG_TRACE, ("%s : IGTK_Key_ID=%d\n", 
-				__FUNCTION__, pPmfCfg->IGTK_KeyIdx));	
+
+	DBGPRINT(RT_DEBUG_TRACE, ("%s : IGTK_Key_ID=%d\n",
+				__FUNCTION__, pPmfCfg->IGTK_KeyIdx));
 	return TRUE;
 }
 
 
 /*
 	========================================================================
-	
+
 	Routine Description:
-		Build Group Management Cipher in RSN-IE. 
-		It only shall be called by RTMPMakeRSNIE. 
+		Build Group Management Cipher in RSN-IE.
+		It only shall be called by RTMPMakeRSNIE.
 
 	Arguments:
-		pAd - pointer to our pAdapter context	
-    	        ElementID - indicate the WPA1 or WPA2    	
+		pAd - pointer to our pAdapter context
+    	        ElementID - indicate the WPA1 or WPA2    
 		apidx - indicate the interface index
-		
+
 	Return Value:
-		
+
 	Note:
-		
+
 	========================================================================
 */
 VOID PMF_MakeRsnIeGMgmtCipher(
-	IN  PRTMP_ADAPTER pAd,	
+	IN  PRTMP_ADAPTER pAd,
 	IN UCHAR ElementID,
 	IN UCHAR apidx,
 	OUT PUCHAR pRsnIe,
@@ -638,39 +638,39 @@ VOID PMF_MakeRsnIeGMgmtCipher(
 	/* it could be ignored in WPA1 mode */
 	if (ElementID == WpaIe)
 		return;
-	
+
 	pBuf = (pRsnIe + (*rsn_len));
-	
+
 #ifdef CONFIG_AP_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 	{
-		if (apidx < pAd->ApCfg.BssidNum)		
+		if (apidx < pAd->ApCfg.BssidNum)
 		{
 			PMULTISSID_STRUCT pMbss = &pAd->ApCfg.MBSSID[apidx];
-		
+
 			MFP_Enabled = pMbss->PmfCfg.MFPC;
 		}
 	}
 #endif /* CONFIG_AP_SUPPORT */
 #ifdef CONFIG_STA_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
-	{		
+	{
 		MFP_Enabled = pAd->StaCfg.PmfCfg.MFPC;
 	}
 #endif /* CONFIG_STA_SUPPORT */
 
-	/* default group management cipher suite in an RSNA with 
+	/* default group management cipher suite in an RSNA with
 	   Management Frame Protection enabled. */
 	if (MFP_Enabled)
 	{
 		NdisMoveMemory(pBuf, OUI_PMF_BIP_CIPHER, LEN_OUI_SUITE);
 		(*rsn_len) += sizeof(LEN_OUI_SUITE);
-                DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s: Insert BIP to the group management cipher of RSNIE\n", __FUNCTION__));		
+                DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s: Insert BIP to the group management cipher of RSNIE\n", __FUNCTION__));
 	}
 }
 
 
-/*	
+/*
 ========================================================================
 Routine Description:
 
@@ -702,14 +702,14 @@ NTSTATUS PMF_RsnCapableValidation(
 		if (self_MFPR)
 		{
 			DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s : PMF policy violation.\n", __FUNCTION__));
-			return PMF_POLICY_VIOLATION;			
-		}			
+			return PMF_POLICY_VIOLATION;
+		}
 	}
 	else
 	{
 		RSN_CAPABILITIES RsnCap;
 
-		NdisMoveMemory(&RsnCap, pBuf, sizeof(RSN_CAPABILITIES));				
+		NdisMoveMemory(&RsnCap, pBuf, sizeof(RSN_CAPABILITIES));
 		RsnCap.word = cpu2le16(RsnCap.word);
 
 		peer_MFPC = RsnCap.field.MFPC;
@@ -720,13 +720,13 @@ NTSTATUS PMF_RsnCapableValidation(
 		        if ((self_MFPR == TRUE) && (peer_MFPR == FALSE))
 			{
 				DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s : PMF policy violation for case 4\n", __FUNCTION__));
-				return PMF_POLICY_VIOLATION;			
+				return PMF_POLICY_VIOLATION;
 			}
-                        
+
 		        if (peer_MFPR == TRUE)
 		        {
 				DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s : PMF policy violation for case 7\n", __FUNCTION__));
-			        return PMF_POLICY_VIOLATION;						
+			        return PMF_POLICY_VIOLATION;
 		        }
 	        }
 
@@ -738,12 +738,12 @@ NTSTATUS PMF_RsnCapableValidation(
 	}
 
         /* SHA1 or SHA256 */
-        if ((self_MFPC == TRUE) 
+        if ((self_MFPC == TRUE)
                 && (pBuf = WPA_ExtractSuiteFromRSNIE(pRsnie, rsnie_len, AKM_SUITE, &count)) != NULL)
         {
                 UCHAR OUI_WPA2_1X_SHA256[4] = {0x00, 0x0F, 0xAC, 0x05};
                 UCHAR OUI_WPA2_PSK_SHA256[4] = {0x00, 0x0F, 0xAC, 0x06};
-            
+
                 while (count > 0)
                 {
                         if(RTMPEqualMemory(pBuf,OUI_WPA2_1X_SHA256,4) || RTMPEqualMemory(pBuf,OUI_WPA2_PSK_SHA256,4) )
@@ -755,7 +755,7 @@ NTSTATUS PMF_RsnCapableValidation(
                         count--;
 		}
 	}
-	
+
 	return PMF_STATUS_SUCCESS;
 }
 
@@ -774,7 +774,7 @@ Return Value:
 	NOT_ROBUST_FRAME
 	UNICAST_ROBUST_FRAME
 	GROUP_ROBUST_FRAME
-	
+
 Note:
 
 ========================================================================
@@ -799,11 +799,11 @@ INT PMF_RobustFrameClassify(
 			break;
 		case SUBTYPE_ACTION:
                 {
-                        if  ((IsRx == FALSE) 
+                        if  ((IsRx == FALSE)
                                 || (IsRx && (pHdr->FC.Wep == 0)))
                         {
                                 UCHAR Category = (UCHAR) (pHdr->Octet[0]);
-                                
+
         			switch (Category)
         			{
         				/* Refer to IEEE 802.11w Table7-24 */
@@ -826,7 +826,7 @@ INT PMF_RobustFrameClassify(
 		default:
 			return NORMAL_FRAME;
 	}
-	
+
 	if (pHdr->Addr1[0] & 0x01) /* Broadcast frame */
 	{
 		UINT8 offset_mmie;
@@ -838,13 +838,13 @@ INT PMF_RobustFrameClassify(
 		offset_mmie = frame_len - (LEN_PMF_MMIE + 2);
 
 		/* check if this is a group Robust frame */
-		if (((*(pFrame + offset_mmie)) == IE_PMF_MMIE) && 
+		if (((*(pFrame + offset_mmie)) == IE_PMF_MMIE) &&
 			((*(pFrame + offset_mmie + 1)) == LEN_PMF_MMIE))
 			return GROUP_ROBUST_FRAME;
                 else
                         return NOT_ROBUST_GROUP_FRAME;
         }
-	
+
         /* Unicast frame */
         else if (pEntry == NULL)
 		return NORMAL_FRAME;
@@ -874,8 +874,8 @@ INT PMF_EncryptUniRobustFrameAction(
 	data_len = mgmt_len - (LENGTH_802_11 + LEN_CCMP_HDR + LEN_CCMP_MIC);
 	if (data_len <= 0)
 	{
-		DBGPRINT(RT_DEBUG_ERROR, ("%s : The payload length(%d) is invalid\n", 
-					__FUNCTION__, data_len));	
+		DBGPRINT(RT_DEBUG_ERROR, ("%s : The payload length(%d) is invalid\n",
+					__FUNCTION__, data_len));
 		return PMF_UNICAST_ENCRYPT_FAILURE;
 	}
 
@@ -884,7 +884,7 @@ INT PMF_EncryptUniRobustFrameAction(
 
 	if (pEntry == NULL)
 	{
-		DBGPRINT(RT_DEBUG_ERROR, ("%s : The entry doesn't exist\n", __FUNCTION__));	
+		DBGPRINT(RT_DEBUG_ERROR, ("%s : The entry doesn't exist\n", __FUNCTION__));
 		return PMF_UNICAST_ENCRYPT_FAILURE;
 	}
 
@@ -893,7 +893,7 @@ INT PMF_EncryptUniRobustFrameAction(
 	{
 		DBGPRINT(RT_DEBUG_ERROR,("%s : the entry no PMF capable !\n", __FUNCTION__));
 		return PMF_UNICAST_ENCRYPT_FAILURE;
-	}	
+	}
 
 	/* Allocate a buffer for building PMF packet */
 	Status = MlmeAllocateMemory(pAd, &pBuf);
@@ -901,13 +901,13 @@ INT PMF_EncryptUniRobustFrameAction(
 	{
 		DBGPRINT(RT_DEBUG_ERROR,("%s : allocate PMF buffer fail!\n", __FUNCTION__));
 		return PMF_UNICAST_ENCRYPT_FAILURE;
-	} 
+	}
 
 	/* Construct and insert 8-bytes CCMP header to MPDU header */
-	RTMPConstructCCMPHdr(0, pEntry->PmfTxTsc, pBuf);	
+	RTMPConstructCCMPHdr(0, pEntry->PmfTxTsc, pBuf);
 
-	NdisMoveMemory(pBuf + LEN_CCMP_HDR, 
-				   &pHdr->Octet[0], 
+	NdisMoveMemory(pBuf + LEN_CCMP_HDR,
+				   &pHdr->Octet[0],
 				   data_len);
 
 	// Encrypt the MPDU data by software
@@ -918,13 +918,13 @@ INT PMF_EncryptUniRobustFrameAction(
 			pBuf + LEN_CCMP_HDR,
 			data_len);
 
-	data_len += (LEN_CCMP_HDR + LEN_CCMP_MIC);		
+	data_len += (LEN_CCMP_HDR + LEN_CCMP_MIC);
 	NdisMoveMemory(&pHdr->Octet[0], pBuf, data_len);
 
 	/* TSC increment for next transmittion */
-	INC_TX_TSC(pEntry->PmfTxTsc, LEN_WPA_TSC);	
+	INC_TX_TSC(pEntry->PmfTxTsc, LEN_WPA_TSC);
 
-	MlmeFreeMemory(pAd, pBuf);		
+	MlmeFreeMemory(pAd, pBuf);
 
 	return PMF_STATUS_SUCCESS;
 
@@ -944,8 +944,8 @@ INT PMF_DecryptUniRobustFrameAction(
 	/* Check if the length is valid */
 	if (data_len <= LEN_CCMP_HDR + LEN_CCMP_MIC)
 	{
-		DBGPRINT(RT_DEBUG_ERROR, ("%s : The payload length(%d) is invalid\n", 
-					__FUNCTION__, data_len));	
+		DBGPRINT(RT_DEBUG_ERROR, ("%s : The payload length(%d) is invalid\n",
+					__FUNCTION__, data_len));
 		return PMF_UNICAST_DECRYPT_FAILURE;
 	}
 
@@ -963,17 +963,17 @@ INT PMF_DecryptUniRobustFrameAction(
 	{
 		DBGPRINT(RT_DEBUG_ERROR,("%s : the entry no PMF capable !\n", __FUNCTION__));
 		return PMF_UNICAST_DECRYPT_FAILURE;
-	}		
-	
-	if (RTMPSoftDecryptCCMP(pAd, 
-				pMgmtFrame, 
-				&pEntry->PairwiseKey, 
-				pDate, 
+	}
+
+	if (RTMPSoftDecryptCCMP(pAd,
+				pMgmtFrame,
+				&pEntry->PairwiseKey,
+				pDate,
 				&data_len) == FALSE)
 	{
 		return PMF_UNICAST_DECRYPT_FAILURE;
 	}
-	
+
 	return PMF_STATUS_SUCCESS;
 }
 
@@ -982,7 +982,7 @@ INT PMF_EncapBIPAction(
 	IN PRTMP_ADAPTER pAd,
 	IN PUCHAR pMgmtFrame,
 	IN UINT	mgmt_len)
-{	
+{
 	PHEADER_802_11 pHdr = (PHEADER_802_11)pMgmtFrame;
 	PPMF_CFG pPmfCfg = NULL;
 	PPMF_MMIE pMMIE;
@@ -991,19 +991,19 @@ INT PMF_EncapBIPAction(
 	UCHAR aad_hdr[LEN_PMF_BIP_AAD_HDR];
 	UCHAR BIP_MIC[LEN_PMF_BIP_MIC];
 	PUCHAR pFrameBody = &pHdr->Octet[0];
-	UINT32 body_len = mgmt_len - LENGTH_802_11;				
+	UINT32 body_len = mgmt_len - LENGTH_802_11;
 
 	/* Sanity check the total frame body length */
 	if (body_len <= (2 + LEN_PMF_MMIE))
 	{
-		DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s : the total length(%d) is too short\n", 
-									__FUNCTION__, body_len));	
-		return PMF_ENCAP_BIP_FAILURE;	
+		DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s : the total length(%d) is too short\n",
+									__FUNCTION__, body_len));
+		return PMF_ENCAP_BIP_FAILURE;
 	}
 
 #ifdef CONFIG_AP_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-	{		
+	{
                 pPmfCfg = &pAd->ApCfg.MBSSID[MAIN_MBSSID].PmfCfg;
 	}
 #endif /* CONFIG_AP_SUPPORT */
@@ -1011,38 +1011,38 @@ INT PMF_EncapBIPAction(
 	/* Sanity check */
 	if (pPmfCfg == NULL)
 	{
-		DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s : No related PMF configuation\n", __FUNCTION__));	
+		DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s : No related PMF configuation\n", __FUNCTION__));
 		return PMF_ENCAP_BIP_FAILURE;
 	}
 
 	if (pPmfCfg && pPmfCfg->MFPC == FALSE)
 	{
-		DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s : PMF is disabled \n", __FUNCTION__));	
+		DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s : PMF is disabled \n", __FUNCTION__));
 		return PMF_ENCAP_BIP_FAILURE;
 	}
 
 	/* Pointer to the position of MMIE */
 	pMMIE = (PPMF_MMIE)(pMgmtFrame + (mgmt_len - LEN_PMF_MMIE));
-	
-	/*  Select the IGTK currently active for transmission of frames to 
-	    the intended group of recipients and construct the MMIE (see 7.3.2.55) 
+
+	/*  Select the IGTK currently active for transmission of frames to
+	    the intended group of recipients and construct the MMIE (see 7.3.2.55)
 	    with the MIC field masked to zero and the KeyID field set to the
 	    corresponding IGTK KeyID value. */
 	if (pPmfCfg->IGTK_KeyIdx == 5)
-		idx = 1;	
+		idx = 1;
 	pKey = &pPmfCfg->IGTK[idx][0];
-	
+
 	NdisZeroMemory(pMMIE, LEN_PMF_MMIE);
 
 	/* Bits 0-11 define a value in the range 0-4095.
-   	   Bits 12 - 15 are reserved and set to 0 on transmission and ignored on reception. 
+   	   Bits 12 - 15 are reserved and set to 0 on transmission and ignored on reception.
    	   The IGTK Key ID is either 4 or 5. The remaining Key IDs are reserved. */
 	pMMIE->KeyID[0] = pPmfCfg->IGTK_KeyIdx;
 	NdisMoveMemory(pMMIE->IPN, &pPmfCfg->IPN[idx][0], LEN_WPA_TSC);
 
 	/* The transmitter shall insert a monotonically increasing non-neg-
 	   ative integer into the MMIE IPN field. */
-	INC_TX_TSC(pPmfCfg->IPN[idx], LEN_WPA_TSC);	
+	INC_TX_TSC(pPmfCfg->IPN[idx], LEN_WPA_TSC);
 
 	/* Compute AAD  */
 	PMF_ConstructBIPAad((PUCHAR)pHdr, aad_hdr);
@@ -1056,7 +1056,7 @@ INT PMF_EncapBIPAction(
 	/* BIP doesn't need encrypt frame */
 	pHdr->FC.Wep = 0;
 
-	return PMF_STATUS_SUCCESS;	
+	return PMF_STATUS_SUCCESS;
 }
 
 INT PMF_ExtractBIPAction(
@@ -1073,15 +1073,15 @@ INT PMF_ExtractBIPAction(
 	UCHAR aad_hdr[LEN_PMF_BIP_AAD_HDR];
 	UCHAR rcvd_mic[LEN_PMF_BIP_MIC];
 	UCHAR cal_mic[LEN_PMF_BIP_MIC];
-	UINT32 body_len = mgmt_len - LENGTH_802_11;	
+	UINT32 body_len = mgmt_len - LENGTH_802_11;
 
 
 	/* Sanity check the total frame body length */
 	if (body_len <= (2 + LEN_PMF_MMIE))
 	{
-		DBGPRINT(RT_DEBUG_ERROR, ("%s : the total length(%d) is too short\n", 
-					__FUNCTION__, body_len));	
-		return PMF_EXTRACT_BIP_FAILURE;	
+		DBGPRINT(RT_DEBUG_ERROR, ("%s : the total length(%d) is too short\n",
+					__FUNCTION__, body_len));
+		return PMF_EXTRACT_BIP_FAILURE;
 	}
 
 	/* Look up the entry through Address 2 of 802.11 header */
@@ -1102,27 +1102,27 @@ INT PMF_ExtractBIPAction(
 
 #ifdef CONFIG_AP_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-	{		
+	{
                 pPmfCfg = &pAd->ApCfg.MBSSID[pEntry->apidx].PmfCfg;
 	}
 #endif // CONFIG_AP_SUPPORT //
 
 #ifdef CONFIG_STA_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
-	{		
-        	pPmfCfg = &pAd->StaCfg.PmfCfg;	
-        }                
+	{
+        	pPmfCfg = &pAd->StaCfg.PmfCfg;
+        }
 #endif // CONFIG_STA_SUPPORT //
 
 	/* Pointer to the position of MMIE */
 	pMMIE = (PPMF_MMIE)(pMgmtFrame + (mgmt_len - LEN_PMF_MMIE));
 
-	/*  Select the IGTK currently active for transmission of frames to 
-	    the intended group of recipients and construct the MMIE (see 7.3.2.55) 
+	/*  Select the IGTK currently active for transmission of frames to
+	    the intended group of recipients and construct the MMIE (see 7.3.2.55)
 	    with the MIC field masked to zero and the KeyID field set to the
 	    corresponding IGTK KeyID value. */
 	if (pMMIE->KeyID[0] == 5)
-		idx = 1;	
+		idx = 1;
 	pKey = &pPmfCfg->IGTK[idx][0];
 
 	/* store the MIC value of the received frame */
@@ -1133,14 +1133,14 @@ INT PMF_ExtractBIPAction(
 	PMF_ConstructBIPAad((PUCHAR)pMgmtFrame, aad_hdr);
 
 	/* Calculate BIP MIC */
-	PMF_CalculateBIPMIC(pAd, aad_hdr, 
-                        pMgmtFrame + LENGTH_802_11, 
+	PMF_CalculateBIPMIC(pAd, aad_hdr,
+                        pMgmtFrame + LENGTH_802_11,
                         body_len, pKey, cal_mic);
 
 	if (!NdisEqualMemory(rcvd_mic, cal_mic, LEN_PMF_BIP_MIC))
 	{
 		DBGPRINT(RT_DEBUG_ERROR, ("%s : MIC Different !\n", __FUNCTION__));
-		return PMF_EXTRACT_BIP_FAILURE;	
+		return PMF_EXTRACT_BIP_FAILURE;
 	}
 
 	return PMF_STATUS_SUCCESS;
@@ -1163,7 +1163,7 @@ BOOLEAN	PMF_PerformTxFrameAction(
 	RTMP_QueryPacketInfo(pPacket, &PacketInfo, &pSrcBufVA, &SrcBufLen);
 	if (pSrcBufVA == NULL)
 		return NORMAL_FRAME;
-        
+
 	pHeader_802_11 = (PHEADER_802_11) (pSrcBufVA + TXINFO_SIZE + TXWISize);
 
 	pEntry = MacTableLookup(pAd, pHeader_802_11->Addr1);
@@ -1174,14 +1174,14 @@ BOOLEAN	PMF_PerformTxFrameAction(
 				(SrcBufLen - LENGTH_802_11 - TXINFO_SIZE - TXWISize),
 				(PUCHAR) pEntry,
 				FALSE);
-				
+
 	switch (FrameType)
 	{
 		case ERROR_FRAME:
                         DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s: ERROR FRAME\n", __FUNCTION__));
 			return FALSE;
 		case NORMAL_FRAME:
-                case NOT_ROBUST_GROUP_FRAME:   
+                case NOT_ROBUST_GROUP_FRAME:
                 case NOT_ROBUST_UNICAST_FRAME:
 			break;
 		case UNICAST_ROBUST_FRAME:
@@ -1203,18 +1203,18 @@ BOOLEAN	PMF_PerformTxFrameAction(
                 	RTMP_QueryPacketInfo(pPacket, &PacketInfo, &pSrcBufVA, &SrcBufLen);
                 	if (pSrcBufVA == NULL)
                 		return NORMAL_FRAME;
-                        
+
                 	pHeader_802_11 = (PHEADER_802_11) (pSrcBufVA + TXINFO_SIZE + TXWISize);
 
-			ret = PMF_EncryptUniRobustFrameAction(pAd, 
-			        			pHeader_802_11, 
+			ret = PMF_EncryptUniRobustFrameAction(pAd,
+			        			pHeader_802_11,
 				        		(SrcBufLen - TXINFO_SIZE - TXWISize));
 		        break;
 		}
-		case GROUP_ROBUST_FRAME:	
+		case GROUP_ROBUST_FRAME:
 		{
-			ret = PMF_EncapBIPAction(pAd, 
-						pHeader_802_11, 
+			ret = PMF_EncapBIPAction(pAd,
+						pHeader_802_11,
 						(SrcBufLen - TXINFO_SIZE - TXWISize));
 		        break;
 	        }
@@ -1223,7 +1223,7 @@ BOOLEAN	PMF_PerformTxFrameAction(
         if (ret == PMF_STATUS_SUCCESS)
                 return TRUE;
         else
-                return FALSE;                
+                return FALSE;
 }
 
 
@@ -1232,7 +1232,7 @@ BOOLEAN	PMF_PerformTxFrameAction(
 Routine Description:
 
 Arguments:
-	
+
 Return Value:
 
 Note:
@@ -1276,15 +1276,15 @@ BOOLEAN	PMF_PerformRxFrameAction(
                         DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s: ERROR FRAME\n", __FUNCTION__));
 			return FALSE;
 		case NORMAL_FRAME:
-                case NOT_ROBUST_GROUP_FRAME:   
+                case NOT_ROBUST_GROUP_FRAME:
 			break;
                 case NOT_ROBUST_UNICAST_FRAME:
                         DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s: ERROR FRAME\n", __FUNCTION__));
 			return FALSE;
 			case UNICAST_ROBUST_FRAME:
 			{
-				if (PMF_DecryptUniRobustFrameAction(pAd, 
-								pMgmtFrame, 
+				if (PMF_DecryptUniRobustFrameAction(pAd,
+								pMgmtFrame,
 								mgmt_len) != PMF_STATUS_SUCCESS)
 	        			return FALSE;
 
@@ -1294,8 +1294,8 @@ BOOLEAN	PMF_PerformRxFrameAction(
 		}
 		case GROUP_ROBUST_FRAME:
 		{
-			if (PMF_ExtractBIPAction(pAd, 
-				pMgmtFrame, 
+			if (PMF_ExtractBIPAction(pAd,
+				pMgmtFrame,
 				mgmt_len) != PMF_STATUS_SUCCESS)
 				return FALSE;
 
@@ -1303,7 +1303,7 @@ BOOLEAN	PMF_PerformRxFrameAction(
 			pRxBlk->MPDUtotalByteCnt -= (2 + LEN_PMF_MMIE);
 			break;
 	        }
-	}	
+	}
 	}
 #endif /* CONFIG_AP_SUPPORT */
 
@@ -1326,15 +1326,15 @@ BOOLEAN	PMF_PerformRxFrameAction(
                         }
                         DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s: ERROR FRAME\n", __FUNCTION__));
 			return FALSE;
-                case NOT_ROBUST_GROUP_FRAME:   
+                case NOT_ROBUST_GROUP_FRAME:
                         if ((pEntry) && CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_PMF_CAPABLE))
                                 return FALSE;
                         else
                                 break;
 		case UNICAST_ROBUST_FRAME:
 		{
-			if (PMF_DecryptUniRobustFrameAction(pAd, 
-							pMgmtFrame, 
+			if (PMF_DecryptUniRobustFrameAction(pAd,
+							pMgmtFrame,
 							mgmt_len) != PMF_STATUS_SUCCESS)
         			return FALSE;
 
@@ -1345,7 +1345,7 @@ BOOLEAN	PMF_PerformRxFrameAction(
 
 #ifdef MT76x2
 				if (IS_MT76x2(pAd))
-				{		
+				{
 					pRxWI->RXWI_N.MPDUtotalByteCnt -= (LEN_CCMP_HDR + LEN_CCMP_MIC);
 				}
 #endif
@@ -1358,13 +1358,13 @@ BOOLEAN	PMF_PerformRxFrameAction(
 			if (pAd->chipCap.hif_type == HIF_RTMP) {
 					pRxWI->MPDUtotalByteCount -= (LEN_CCMP_HDR + LEN_CCMP_MIC);
 			}
-#endif /* RTMP_MAC */			
+#endif /* RTMP_MAC */
 	        	break;
 		}
 		case GROUP_ROBUST_FRAME:
 		{
-			if (PMF_ExtractBIPAction(pAd, 
-						pMgmtFrame, 
+			if (PMF_ExtractBIPAction(pAd,
+						pMgmtFrame,
 						mgmt_len) != PMF_STATUS_SUCCESS)
 				return FALSE;
 
@@ -1375,7 +1375,7 @@ BOOLEAN	PMF_PerformRxFrameAction(
 
 #ifdef MT76x2
 				if (IS_MT76x2(pAd))
-				{		
+				{
 					pRxWI->RXWI_N.MPDUtotalByteCnt -= (2 + LEN_PMF_MMIE);
 				}
 #endif
@@ -1392,14 +1392,14 @@ BOOLEAN	PMF_PerformRxFrameAction(
 		        break;
 	        }
 	}
-	}	
-#endif /* CONFIG_STA_SUPPORT */												
+	}
+#endif /* CONFIG_STA_SUPPORT */
 	return TRUE;
 }
 
 
 
-/*	
+/*
 ========================================================================
 Routine Description:
     Protection Management Frame Capable
@@ -1426,7 +1426,7 @@ void rtmp_read_pmf_parameters_from_file(
         {
                 INT apidx;
                 POS_COOKIE pObj;
-            
+
                 pObj = (POS_COOKIE) pAd->OS_Cookie;
                 for (apidx = 0; apidx < pAd->ApCfg.BssidNum; apidx++)
                 {
@@ -1452,7 +1452,7 @@ void rtmp_read_pmf_parameters_from_file(
                         {
                                 pObj->ioctl_if = apidx;
                                 Set_PMFMFPR_Proc(pAd, macptr);
-                        }	        
+                        }
                 }
 
         	if (RTMPGetKeyParameter("PMFSHA256", tmpbuf, 32, pBuffer, TRUE))
@@ -1461,7 +1461,7 @@ void rtmp_read_pmf_parameters_from_file(
                         {
                                 pObj->ioctl_if = apidx;
                                 Set_PMFSHA256_Proc(pAd, macptr);
-                        }        	
+                        }        
                 }
         }
 #endif /* CONFIG_AP_SUPPORT */
@@ -1469,10 +1469,10 @@ void rtmp_read_pmf_parameters_from_file(
 #ifdef CONFIG_STA_SUPPORT
         IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
         {
-                pAd->StaCfg.PmfCfg.Desired_MFPC = FALSE; 
-                pAd->StaCfg.PmfCfg.Desired_MFPR = FALSE; 
-                pAd->StaCfg.PmfCfg.Desired_PMFSHA256 = FALSE; 
-                
+                pAd->StaCfg.PmfCfg.Desired_MFPC = FALSE;
+                pAd->StaCfg.PmfCfg.Desired_MFPR = FALSE;
+                pAd->StaCfg.PmfCfg.Desired_PMFSHA256 = FALSE;
+
                 /* Protection Management Frame Capable */
                 if (RTMPGetKeyParameter("PMFMFPC", tmpbuf, 32, pBuffer, TRUE))
                         Set_PMFMFPC_Proc(pAd, tmpbuf);
@@ -1493,7 +1493,7 @@ void rtmp_read_pmf_parameters_from_file(
 Routine Description: Protection Management Frame Capable
 
 Arguments:
-	
+
 Return Value:
 
 Note:
@@ -1503,7 +1503,7 @@ RSNA policy selection in an IBSS: IEEE P802.11w Table 8-1b
 */
 /* chane the cmd depend on security mode first, and update to run time flag */
 INT Set_PMFMFPC_Proc (
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN PCHAR arg)
 {
  	if(strlen(arg) == 0)
@@ -1515,10 +1515,10 @@ INT Set_PMFMFPC_Proc (
                 POS_COOKIE pObj;
 
                 pObj = (POS_COOKIE) pAd->OS_Cookie;
-                if (simple_strtol(arg, 0, 10))			
-                        pAd->ApCfg.MBSSID[pObj->ioctl_if].PmfCfg.Desired_MFPC = TRUE; 
+                if (simple_strtol(arg, 0, 10))
+                        pAd->ApCfg.MBSSID[pObj->ioctl_if].PmfCfg.Desired_MFPC = TRUE;
                 else
-                        pAd->ApCfg.MBSSID[pObj->ioctl_if].PmfCfg.Desired_MFPC = FALSE; 
+                        pAd->ApCfg.MBSSID[pObj->ioctl_if].PmfCfg.Desired_MFPC = FALSE;
 
     		DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s:: apidx=%d, Desired MFPC=%d\n", __FUNCTION__
                 , pObj->ioctl_if, pAd->ApCfg.MBSSID[pObj->ioctl_if].PmfCfg.Desired_MFPC));
@@ -1527,12 +1527,12 @@ INT Set_PMFMFPC_Proc (
 
 #ifdef CONFIG_STA_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
-	{									
-		if (simple_strtol(arg, 0, 10))			
-			pAd->StaCfg.PmfCfg.Desired_MFPC = TRUE; 
+	{
+		if (simple_strtol(arg, 0, 10))
+			pAd->StaCfg.PmfCfg.Desired_MFPC = TRUE;
 		else
 		{
-			pAd->StaCfg.PmfCfg.Desired_MFPC = FALSE; 
+			pAd->StaCfg.PmfCfg.Desired_MFPC = FALSE;
 			pAd->StaCfg.PmfCfg.MFPC = FALSE;
 			pAd->StaCfg.PmfCfg.MFPR = FALSE;
 			//dont need to clear the SHA256
@@ -1576,7 +1576,7 @@ INT Set_PMFMFPC_Proc (
 Routine Description: Protection Management Frame Required
 
 Arguments:
-	
+
 Return Value:
 
 Note:
@@ -1586,22 +1586,22 @@ RSNA policy selection in an IBSS: IEEE P802.11w Table 8-1b
 */
 /* chane the cmd depend on security mode first, and update to run time flag*/
 INT Set_PMFMFPR_Proc (
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN PCHAR arg)
 {
  	if(strlen(arg) == 0)
 		return FALSE;
-	
+
 #ifdef CONFIG_AP_SUPPORT
         IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-        {					
+        {
                 POS_COOKIE pObj;
 
-                pObj = (POS_COOKIE) pAd->OS_Cookie;            
-                if (simple_strtol(arg, 0, 10))			
-                        pAd->ApCfg.MBSSID[pObj->ioctl_if].PmfCfg.Desired_MFPR = TRUE; 
+                pObj = (POS_COOKIE) pAd->OS_Cookie;
+                if (simple_strtol(arg, 0, 10))
+                        pAd->ApCfg.MBSSID[pObj->ioctl_if].PmfCfg.Desired_MFPR = TRUE;
                 else
-                        pAd->ApCfg.MBSSID[pObj->ioctl_if].PmfCfg.Desired_MFPR = FALSE; 
+                        pAd->ApCfg.MBSSID[pObj->ioctl_if].PmfCfg.Desired_MFPR = FALSE;
 
                 DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s:: apidx=%d, Desired MFPR=%d\n", __FUNCTION__
                 , pObj->ioctl_if, pAd->ApCfg.MBSSID[pObj->ioctl_if].PmfCfg.Desired_MFPR));
@@ -1610,9 +1610,9 @@ INT Set_PMFMFPR_Proc (
 
 #ifdef CONFIG_STA_SUPPORT
         IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
-	{									
-                if (simple_strtol(arg, 0, 10))			
-                        pAd->StaCfg.PmfCfg.Desired_MFPR = TRUE; 
+	{
+                if (simple_strtol(arg, 0, 10))
+                        pAd->StaCfg.PmfCfg.Desired_MFPR = TRUE;
                 else
                 {
                         pAd->StaCfg.PmfCfg.Desired_MFPR = FALSE;
@@ -1645,7 +1645,7 @@ INT Set_PMFMFPR_Proc (
 						pAd->StaCfg.PmfCfg.PMFSHA256));
 		}
 
-				
+
         }
 #endif /* CONFIG_STA_SUPPORT */
     	return TRUE;
@@ -1653,22 +1653,22 @@ INT Set_PMFMFPR_Proc (
 
 
 INT Set_PMFSHA256_Proc (
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN PCHAR arg)
 {
  	if(strlen(arg) == 0)
 		return FALSE;
-	
+
 #ifdef CONFIG_AP_SUPPORT
         IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-        {					
+        {
                 POS_COOKIE pObj;
 
-                pObj = (POS_COOKIE) pAd->OS_Cookie;            
-                if (simple_strtol(arg, 0, 10))			
-                        pAd->ApCfg.MBSSID[pObj->ioctl_if].PmfCfg.Desired_PMFSHA256 = TRUE; 
+                pObj = (POS_COOKIE) pAd->OS_Cookie;
+                if (simple_strtol(arg, 0, 10))
+                        pAd->ApCfg.MBSSID[pObj->ioctl_if].PmfCfg.Desired_PMFSHA256 = TRUE;
                 else
-                        pAd->ApCfg.MBSSID[pObj->ioctl_if].PmfCfg.Desired_PMFSHA256 = FALSE; 
+                        pAd->ApCfg.MBSSID[pObj->ioctl_if].PmfCfg.Desired_PMFSHA256 = FALSE;
 
                 DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s:: apidx=%d, Desired PMFSHA256=%d\n", __FUNCTION__
                 , pObj->ioctl_if, pAd->ApCfg.MBSSID[pObj->ioctl_if].PmfCfg.Desired_PMFSHA256));
@@ -1677,11 +1677,11 @@ INT Set_PMFSHA256_Proc (
 
 #ifdef CONFIG_STA_SUPPORT
         IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
-	{									
-                if (simple_strtol(arg, 0, 10))			
-                        pAd->StaCfg.PmfCfg.Desired_PMFSHA256 = TRUE; 
+	{
+                if (simple_strtol(arg, 0, 10))
+                        pAd->StaCfg.PmfCfg.Desired_PMFSHA256 = TRUE;
                 else
-                        pAd->StaCfg.PmfCfg.Desired_PMFSHA256 = FALSE; 
+                        pAd->StaCfg.PmfCfg.Desired_PMFSHA256 = FALSE;
 
                 DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s:: Desired PMFSHA256=%d\n", __FUNCTION__
                 , pAd->StaCfg.PmfCfg.Desired_PMFSHA256));

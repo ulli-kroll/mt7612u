@@ -13,7 +13,7 @@
  ***************************************************************************/
 
 /****************************************************************************
- 
+
 	Abstract:
 
 	All related CFG80211 P2P function body.
@@ -36,8 +36,8 @@ VOID CFG80211_SwitchTxChannel(RTMP_ADAPTER *pAd, ULONG Data)
 	{
 		AsicSwitchChannel(pAd, lock_channel, FALSE);
 		AsicLockChannel(pAd, lock_channel);
-		
-		DBGPRINT(RT_DEBUG_INFO, ("Off-Channel Send Packet: From(%d)-To(%d)\n", 
+
+		DBGPRINT(RT_DEBUG_INFO, ("Off-Channel Send Packet: From(%d)-To(%d)\n",
 									pAd->LatchRfRegs.Channel, lock_channel));
 	}
 	else
@@ -83,7 +83,7 @@ BOOLEAN CFG80211_SyncPacketWmmIe(RTMP_ADAPTER *pAd, VOID *pData, ULONG dataLen)
 		return TRUE;
         }
 
-	return FALSE;	
+	return FALSE;
 }
 VOID CFG80211_ParseBeaconIE(RTMP_ADAPTER *pAd, MULTISSID_STRUCT *pMbss, struct wifi_dev *wdev,UCHAR *wpa_ie,UCHAR *rsn_ie)
 {
@@ -102,7 +102,7 @@ VOID CFG80211_ParseBeaconIE(RTMP_ADAPTER *pAd, MULTISSID_STRUCT *pMbss, struct w
 		/* Security */
 	PairCipher	 = Ndis802_11WEPDisabled;
 	PairCipherAux = Ndis802_11WEPDisabled;
-	
+
 	if ((wpa_ie == NULL) && (rsn_ie == NULL)) //open case
 	{
 		DBGPRINT(RT_DEBUG_TRACE,("%s:: Open/None case\n", __FUNCTION__));
@@ -110,7 +110,7 @@ VOID CFG80211_ParseBeaconIE(RTMP_ADAPTER *pAd, MULTISSID_STRUCT *pMbss, struct w
 		wdev->WepStatus = Ndis802_11WEPDisabled;
 		wdev->WpaMixPairCipher = MIX_CIPHER_NOTUSE;
 	}
-	
+
 	 if ((wpa_ie != NULL)) //wpapsk/tkipaes case
 	{
 		pEid = wpa_ie;
@@ -211,12 +211,12 @@ VOID CFG80211_ParseBeaconIE(RTMP_ADAPTER *pAd, MULTISSID_STRUCT *pMbss, struct w
 						bMix = TRUE;
 					}
 				pMbss->RSNIE_Len[0] = wpa_ie[1];
-				NdisMoveMemory(pMbss->RSN_IE[0], wpa_ie+2, wpa_ie[1]);//copy rsn ie			
+				NdisMoveMemory(pMbss->RSN_IE[0], wpa_ie+2, wpa_ie[1]);//copy rsn ie
 		}
 		else {
 			DBGPRINT(RT_DEBUG_TRACE,("%s:: Open/None case\n", __FUNCTION__));
-			wdev->AuthMode = Ndis802_11AuthModeOpen;		
-		}	
+			wdev->AuthMode = Ndis802_11AuthModeOpen;
+		}
 	}
 	if ((rsn_ie != NULL))
 	{
@@ -226,17 +226,17 @@ VOID CFG80211_ParseBeaconIE(RTMP_ADAPTER *pAd, MULTISSID_STRUCT *pMbss, struct w
 		pEid = rsn_ie;
 		pTmp = pEid;
 		pRsnHeader = (PRSN_IE_HEADER_STRUCT) pTmp;
-				
+
 				/* 0. Version must be 1*/
 		if (le2cpu16(pRsnHeader->Version) == 1)
 		{
 			pTmp   += sizeof(RSN_IE_HEADER_STRUCT);
 
 			/* 1. Check group cipher*/
-			pCipher = (PCIPHER_SUITE_STRUCT) pTmp;		
+			pCipher = (PCIPHER_SUITE_STRUCT) pTmp;
 
 			if (NdisEqualMemory(pTmp, RSN_OUI, 3))
-			{	
+			{
 				DBGPRINT(RT_DEBUG_TRACE,("%s:: WPA2 case\n", __FUNCTION__));
 				bWPA2 = TRUE;
 				wdev->AuthMode = Ndis802_11AuthModeOpen;
@@ -268,7 +268,7 @@ VOID CFG80211_ParseBeaconIE(RTMP_ADAPTER *pAd, MULTISSID_STRUCT *pMbss, struct w
 					/* 2. Get pairwise cipher counts*/
 					/*Count = *(PUSHORT) pTmp;*/
 					Count = (pTmp[1]<<8) + pTmp[0];
-					pTmp   += sizeof(USHORT);			
+					pTmp   += sizeof(USHORT);
 
 					/* 3. Get pairwise cipher*/
 					/* Parsing all unicast cipher suite*/
@@ -325,12 +325,12 @@ VOID CFG80211_ParseBeaconIE(RTMP_ADAPTER *pAd, MULTISSID_STRUCT *pMbss, struct w
 						{
 							case 0:
 									wdev->AuthMode = Ndis802_11AuthModeWPANone;
-								break;                                                        
+								break;
 							case 1:
 								/* Set AP support WPA-enterprise mode*/
 									wdev->AuthMode = Ndis802_11AuthModeWPA2;
 								break;
-							case 2:                                                      
+							case 2:
 								/* Set AP support WPA-PSK mode*/
 									wdev->AuthMode = Ndis802_11AuthModeWPA2PSK;
 								break;
@@ -340,7 +340,7 @@ VOID CFG80211_ParseBeaconIE(RTMP_ADAPTER *pAd, MULTISSID_STRUCT *pMbss, struct w
 						}
 						pTmp   += sizeof(AKM_SUITE_STRUCT);
 						Count--;
-					}		
+					}
 					DBGPRINT(RT_DEBUG_TRACE,("AuthMode = %s\n",GetAuthMode(wdev->AuthMode)));
 					if (wdev->GroupKeyWepStatus == PairCipher)
 					{
@@ -353,11 +353,11 @@ VOID CFG80211_ParseBeaconIE(RTMP_ADAPTER *pAd, MULTISSID_STRUCT *pMbss, struct w
 						bMix= TRUE;
 					}
 					pMbss->RSNIE_Len[0] = rsn_ie[1];
-					NdisMoveMemory(pMbss->RSN_IE[0], rsn_ie+2, rsn_ie[1]);//copy rsn ie			
+					NdisMoveMemory(pMbss->RSN_IE[0], rsn_ie+2, rsn_ie[1]);//copy rsn ie
 			}
 			else {
 				DBGPRINT(RT_DEBUG_TRACE,("%s:: Open/None case\n", __FUNCTION__));
-				wdev->AuthMode = Ndis802_11AuthModeOpen;			
+				wdev->AuthMode = Ndis802_11AuthModeOpen;
 			}
 		}
 	}
@@ -377,7 +377,7 @@ VOID CFG80211_ParseBeaconIE(RTMP_ADAPTER *pAd, MULTISSID_STRUCT *pMbss, struct w
 				DBGPRINT(RT_DEBUG_TRACE,("WPA2PSK Mix TKIPAES\n"));
 				wdev->WpaMixPairCipher = WPA_NONE_WPA2_TKIPAES;
 				wdev->WepStatus = Ndis802_11TKIPAESMix;
-			}		
+			}
 		} else if (bWPA) {
 			if (bMix)
 			{
@@ -385,7 +385,7 @@ VOID CFG80211_ParseBeaconIE(RTMP_ADAPTER *pAd, MULTISSID_STRUCT *pMbss, struct w
 				wdev->WpaMixPairCipher = WPA_TKIPAES_WPA2_NONE;
 				wdev->WepStatus = Ndis802_11TKIPAESMix;
 			}
-		}	
+		}
 	}
 
 #endif /* CONFIG_AP_SUPPORT */
@@ -407,19 +407,19 @@ PCFG80211_TX_PACKET CFG80211_TxMgmtFrameSearch(RTMP_ADAPTER *pAd, USHORT Sequenc
 		{
 			DBGPRINT(RT_DEBUG_ERROR, ("CFG_TX_STATUS: got %d\n", Sequence));
 			return pTxPkt;
-		}	
-		
+		}
+
 		pListEntry = pListEntry->pNext;
 		pTxPkt = (PCFG80211_TX_PACKET)pListEntry;
-	}	
+	}
 
 }
 
 INT CFG80211_SendMgmtFrame(RTMP_ADAPTER *pAd, VOID *pData, ULONG Data)
 {
-	if (pData != NULL) 
+	if (pData != NULL)
 	{
-		{		
+		{
 			PCFG80211_CTRL pCfg80211_ctrl = &pAd->cfg80211_ctrl;
 
 			pCfg80211_ctrl->TxStatusInUsed = TRUE;
@@ -468,17 +468,17 @@ VOID CFG80211_SendMgmtFrameDone(RTMP_ADAPTER *pAd, USHORT Sequence)
 //RTMP_USB_SUPPORT/RTMP_PCI_SUPPORT
 	PCFG80211_CTRL pCfg80211_ctrl = &pAd->cfg80211_ctrl;
 
-	if (pCfg80211_ctrl->TxStatusInUsed && pCfg80211_ctrl->pTxStatusBuf 
+	if (pCfg80211_ctrl->TxStatusInUsed && pCfg80211_ctrl->pTxStatusBuf
 		/*&& (pAd->TxStatusSeq == pHeader->Sequence)*/)
 	{
 		DBGPRINT(RT_DEBUG_INFO, ("CFG_TX_STATUS: REAL send %d\n", Sequence));
-		
-		CFG80211OS_TxStatus(CFG80211_GetEventDevice(pAd), 5678, 
-							pCfg80211_ctrl->pTxStatusBuf, pCfg80211_ctrl->TxStatusBufLen, 
+
+		CFG80211OS_TxStatus(CFG80211_GetEventDevice(pAd), 5678,
+							pCfg80211_ctrl->pTxStatusBuf, pCfg80211_ctrl->TxStatusBufLen,
 							TRUE);
 		pCfg80211_ctrl->TxStatusSeq = 0;
 		pCfg80211_ctrl->TxStatusInUsed = FALSE;
-	} 
+	}
 
 
 }

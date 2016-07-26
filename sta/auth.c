@@ -60,7 +60,7 @@ VOID AuthTimeout(
 /*
     ==========================================================================
     Description:
-        
+
 	IRQL = DISPATCH_LEVEL
 
     ==========================================================================
@@ -82,7 +82,7 @@ VOID MlmeAuthReqAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
 /*
     ==========================================================================
     Description:
-        
+
 	IRQL = DISPATCH_LEVEL
 
     ==========================================================================
@@ -244,7 +244,7 @@ VOID PeerAuthRspAtSeq2Action(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM * Elem)
 /*
     ==========================================================================
     Description:
-        
+
 	IRQL = DISPATCH_LEVEL
 
     ==========================================================================
@@ -298,7 +298,7 @@ VOID PeerAuthRspAtSeq4Action(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
 /*
     ==========================================================================
     Description:
-        
+
 	IRQL = DISPATCH_LEVEL
 
     ==========================================================================
@@ -351,7 +351,7 @@ VOID MlmeDeauthReqAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
 /*
     ==========================================================================
     Description:
-        
+
 	IRQL = DISPATCH_LEVEL
 
     ==========================================================================
@@ -369,7 +369,7 @@ VOID AuthTimeoutAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
 /*
     ==========================================================================
     Description:
-        
+
 	IRQL = DISPATCH_LEVEL
 
     ==========================================================================
@@ -393,7 +393,7 @@ VOID InvalidStateWhenAuth(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
     Note:
         This action should never trigger AUTH state transition, therefore we
         separate it from AUTH state machine, and make it as a standalone service
-        
+
 	IRQL = DISPATCH_LEVEL
 
     ==========================================================================
@@ -515,12 +515,12 @@ BOOLEAN AUTH_ReqSend(
         Sm - pointer to the auth state machine
     Note:
         The state machine looks like this
-        
+
                         AUTH_REQ_IDLE           AUTH_WAIT_SEQ2                   AUTH_WAIT_SEQ4
     MT2_MLME_AUTH_REQ   mlme_auth_req_action    invalid_state_when_auth          invalid_state_when_auth
     MT2_PEER_AUTH_EVEN  drop                    peer_auth_even_at_seq2_action    peer_auth_even_at_seq4_action
     MT2_AUTH_TIMEOUT    Drop                    auth_timeout_action              auth_timeout_action
-        
+
 	IRQL = PASSIVE_LEVEL
 
     ==========================================================================

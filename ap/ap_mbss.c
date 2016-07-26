@@ -129,7 +129,7 @@ VOID MBSS_Init(RTMP_ADAPTER *pAd, RTMP_OS_NETDEV_OP_HOOK *pNetDevOps)
 			break;
 		}
 		wdev->tx_pkt_allowed = ApAllowToSendPacket;
-		
+
 		RTMP_OS_NETDEV_SET_PRIV(pDevNew, pAd);
 		RTMP_OS_NETDEV_SET_WDEV(pDevNew, wdev);
 
@@ -142,7 +142,7 @@ VOID MBSS_Init(RTMP_ADAPTER *pAd, RTMP_OS_NETDEV_OP_HOOK *pNetDevOps)
 
 		/* Init MAC address of virtual network interface */
 		NdisMoveMemory(&netDevHook.devAddr[0], &wdev->bssid[0], MAC_ADDR_LEN);
-		
+
 		/* register this device to OS */
 		status = RtmpOSNetDevAttach(pAd->OpMode, pDevNew, &netDevHook);
 	}
@@ -250,7 +250,7 @@ INT MBSS_Open(PNET_DEV pDev)
 	BssId = RT28xx_MBSS_IdxGet(pAd, pDev);
 	if (BssId < 0)
 		return -1;
-    
+
 	pAd->ApCfg.MBSSID[BssId].bBcnSntReq = TRUE;
 		return 0;
 }

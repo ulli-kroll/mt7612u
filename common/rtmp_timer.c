@@ -26,7 +26,7 @@
     --------    ----------      ----------------------------------------------
     Name          Date            Modification logs
     Shiang Tu	08-28-2008   init version
-    
+
 */
 
 #include "rt_config.h"
@@ -51,9 +51,9 @@ BUILD_TIMER_FUNCTION(BeaconUpdateExec);
 
 #ifdef CONFIG_AP_SUPPORT
 extern VOID APDetectOverlappingExec(
-				IN PVOID SystemSpecific1, 
-				IN PVOID FunctionContext, 
-				IN PVOID SystemSpecific2, 
+				IN PVOID SystemSpecific1,
+				IN PVOID FunctionContext,
+				IN PVOID SystemSpecific2,
 				IN PVOID SystemSpecific3);
 
 BUILD_TIMER_FUNCTION(APDetectOverlappingExec);
@@ -147,7 +147,7 @@ static void RtmpTimerQHandle(RTMP_ADAPTER *pAd)
 
 		if (pAd->TimerQ.status == RTMP_TASK_STAT_STOPED)
 			break;
-		
+
 		/* event happened.*/
 		while(pAd->TimerQ.pQHead)
 		{
@@ -161,7 +161,7 @@ static void RtmpTimerQHandle(RTMP_ADAPTER *pAd)
 				pAd->TimerQ.pQHead = pEntry->pNext;
 				if (pEntry == pAd->TimerQ.pQTail)
 					pAd->TimerQ.pQTail = NULL;
-			
+
 				/* return this queue entry to timerQFreeList.*/
 				pEntry->pNext = pAd->TimerQ.pQPollFreeList;
 				pAd->TimerQ.pQPollFreeList = pEntry;
@@ -176,7 +176,7 @@ static void RtmpTimerQHandle(RTMP_ADAPTER *pAd)
 					RTMP_OS_Add_Timer(&pTimer->TimerObj, pTimer->TimerValue);
 			}
 		}
-		
+
 		if (status != 0)
 		{
 			pAd->TimerQ.status = RTMP_TASK_STAT_STOPED;
@@ -201,14 +201,14 @@ INT RtmpTimerQThread(
 	{
 		DBGPRINT(RT_DEBUG_ERROR,( "%s:: pAd is NULL!\n",__FUNCTION__));
 		return 0;
-	}	
+	}
 
 	RtmpOSTaskCustomize(pTask);
 
 	RtmpTimerQHandle(pAd);
 
 	DBGPRINT(RT_DEBUG_TRACE,( "<---%s\n",__FUNCTION__));
-	/* notify the exit routine that we're actually exiting now 
+	/* notify the exit routine that we're actually exiting now
 	 *
 	 * complete()/wait_for_completion() is similar to up()/down(),
 	 * except that complete() is safe in the case where the structure
@@ -223,14 +223,14 @@ INT RtmpTimerQThread(
 	 * of execution immediately upon a complete().
 	 */
 	RtmpOSTaskNotifyToExit(pTask);
-	
+
 	return 0;
 
 }
 
 
 RTMP_TIMER_TASK_ENTRY *RtmpTimerQInsert(
-	IN RTMP_ADAPTER *pAd, 
+	IN RTMP_ADAPTER *pAd,
 	IN RALINK_TIMER_STRUCT *pTimer)
 {
 	RTMP_TIMER_TASK_ENTRY *pQNode = NULL, *pQTail;
@@ -268,7 +268,7 @@ RTMP_TIMER_TASK_ENTRY *RtmpTimerQInsert(
 
 
 BOOLEAN RtmpTimerQRemove(
-	IN RTMP_ADAPTER *pAd, 
+	IN RTMP_ADAPTER *pAd,
 	IN RALINK_TIMER_STRUCT *pTimer)
 {
 	RTMP_TIMER_TASK_ENTRY *pNode, *pPrev = NULL;
@@ -288,21 +288,21 @@ BOOLEAN RtmpTimerQRemove(
 
 		/* Now move it to freeList queue.*/
 		if (pNode)
-		{	
+		{
 			if (pNode == pAd->TimerQ.pQHead)
 				pAd->TimerQ.pQHead = pNode->pNext;
 			if (pNode == pAd->TimerQ.pQTail)
 				pAd->TimerQ.pQTail = pPrev;
 			if (pPrev != NULL)
 				pPrev->pNext = pNode->pNext;
-			
+
 			/* return this queue entry to timerQFreeList.*/
 			pNode->pNext = pAd->TimerQ.pQPollFreeList;
 			pAd->TimerQ.pQPollFreeList = pNode;
 		}
 	}
 	RTMP_INT_UNLOCK(&pAd->TimerQLock, irqFlags);
-			
+
 	return TRUE;
 }
 
@@ -311,7 +311,7 @@ void RtmpTimerQExit(RTMP_ADAPTER *pAd)
 {
 	RTMP_TIMER_TASK_ENTRY *pTimerQ;
 	unsigned long irqFlags;
-	
+
 	RTMP_INT_LOCK(&pAd->TimerQLock, irqFlags);
 	while (pAd->TimerQ.pQHead)
 	{
@@ -336,9 +336,9 @@ void RtmpTimerQInit(RTMP_ADAPTER *pAd)
 	int 	i;
 	RTMP_TIMER_TASK_ENTRY *pQNode, *pEntry;
 	unsigned long irqFlags;
-	
+
 	NdisAllocateSpinLock(pAd, &pAd->TimerQLock);
-	
+
 	NdisZeroMemory(&pAd->TimerQ, sizeof(pAd->TimerQ));
 
 	os_alloc_mem(pAd, &pAd->TimerQ.pTimerQPoll, sizeof(RTMP_TIMER_TASK_ENTRY) * TIMER_QUEUE_SIZE_MAX);

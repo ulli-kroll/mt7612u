@@ -33,7 +33,7 @@
         authentication state machine init procedure
     Parameters:
         Sm - the state machine
-        
+
 	IRQL = PASSIVE_LEVEL
 
     ==========================================================================
@@ -60,7 +60,7 @@ VOID AuthRspStateMachineInit(
 /*
     ==========================================================================
     Description:
-        
+
 	IRQL = DISPATCH_LEVEL
 
     ==========================================================================
@@ -101,7 +101,7 @@ VOID PeerAuthSimpleRspGenAndSend(
 /*
     ==========================================================================
     Description:
-        
+
 	IRQL = DISPATCH_LEVEL
 
     ==========================================================================

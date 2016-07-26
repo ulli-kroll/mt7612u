@@ -204,7 +204,7 @@ VOID rlt_bcn_buf_init(RTMP_ADAPTER *pAd)
 
 	pChipCap->FlgIsSupSpecBcnBuf = FALSE;
 #if defined(MT7601) || defined(MT76x2)
-	if (IS_MT7601(pAd) || IS_MT76x2(pAd)) 
+	if (IS_MT7601(pAd) || IS_MT76x2(pAd))
 	{
 		pChipCap->BcnMaxHwNum = 8;
 		pChipCap->WcidHwRsvNum = 127;
@@ -217,7 +217,7 @@ VOID rlt_bcn_buf_init(RTMP_ADAPTER *pAd)
 	}
 
 /*
-	In 16-MBSS support mode, if AP-Client is enabled, 
+	In 16-MBSS support mode, if AP-Client is enabled,
 	the last 8-MBSS would be occupied for AP-Client using.
 */
 #ifdef APCLI_SUPPORT
@@ -265,7 +265,7 @@ UINT32 SetHWAntennaDivsersity(
 
 		// RF_R29 bit7:6
 		RT28xx_EEPROM_READ16(pAd, EEPROM_RSSI_GAIN, value);
-		
+
 		RT30xxReadRFRegister(pAd, RF_R29, &RFValue);
 		RFValue &= 0x3f; // clear bit7:6
 		RFValue |= (value << 6);
@@ -275,7 +275,7 @@ UINT32 SetHWAntennaDivsersity(
 		RTMP_BBP_IO_READ8_BY_REG_ID(pAd, BBP_R47, &BBPValue);
 		BBPValue |= 0x80;
 		RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R47, BBPValue);
-	
+
 		BBPValue = 0xbe;
 		RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R150, BBPValue);
 		BBPValue = 0xb0;
@@ -333,7 +333,7 @@ UINT32 SetHWAntennaDivsersity(
 
 	return 0;
 }
-#endif // HW_ANTENNA_DIVERSITY_SUPPORT // 
+#endif // HW_ANTENNA_DIVERSITY_SUPPORT //
 
 
 
@@ -347,7 +347,7 @@ INT WaitForAsicReady(RTMP_ADAPTER *pAd)
 	{
 		if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST))
 			return FALSE;
-		
+
 		RTMP_IO_READ32(pAd, reg, &mac_val);
 		if ((mac_val != 0x00) && (mac_val != 0xFFFFFFFF))
 			return TRUE;
@@ -358,7 +358,7 @@ INT WaitForAsicReady(RTMP_ADAPTER *pAd)
 	DBGPRINT(RT_DEBUG_ERROR,
 				("%s(0x%x):AsicNotReady!\n",
 				__FUNCTION__, mac_val));
-	
+
 	return FALSE;
 }
 
@@ -416,7 +416,7 @@ int RtmpChipOpsHook(VOID *pCB)
 
 	RTMP_IO_READ32(pAd, MAC_CSR0, &MacValue);
 	pAd->MACVersion = MacValue;
-	
+
 	if (pAd->MACVersion == 0xffffffff)
 		return -1;
 
@@ -519,7 +519,7 @@ BOOLEAN is_external_lna_mode(RTMP_ADAPTER *ad, INT channel)
 	    	else
 	            	lna_mode = FALSE;
 	}
-	
+
 	return lna_mode;
 }
 #endif /* RT65xx */

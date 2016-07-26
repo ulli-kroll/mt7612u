@@ -31,9 +31,9 @@
 #include "rt_config.h"
 
 static VOID ApCliProbeTimeout(
-	IN PVOID SystemSpecific1, 
-	IN PVOID FunctionContext, 
-	IN PVOID SystemSpecific2, 
+	IN PVOID SystemSpecific1,
+	IN PVOID FunctionContext,
+	IN PVOID SystemSpecific2,
 	IN PVOID SystemSpecific3);
 
 static VOID ApCliMlmeProbeReqAction(
@@ -41,7 +41,7 @@ static VOID ApCliMlmeProbeReqAction(
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliPeerProbeRspAtJoinAction(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliProbeTimeoutAtJoinAction(
@@ -49,7 +49,7 @@ static VOID ApCliProbeTimeoutAtJoinAction(
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliInvalidStateWhenJoin(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliEnqueueProbeRequest(
@@ -64,7 +64,7 @@ BUILD_TIMER_FUNCTION(ApCliProbeTimeout);
 /*
     ==========================================================================
     Description:
-        The sync state machine, 
+        The sync state machine,
     Parameters:
         Sm - pointer to the state machine
     Note:
@@ -77,7 +77,7 @@ VOID ApCliSyncStateMachineInit(
 	OUT STATE_MACHINE_FUNC Trans[])
 {
 	UCHAR i;
-#ifdef APCLI_CONNECTION_TRIAL		
+#ifdef APCLI_CONNECTION_TRIAL
 	PAPCLI_STRUCT	pApCliEntry;
 #endif /*APCLI_CONNECTION_TRIAL*/
 
@@ -99,11 +99,11 @@ VOID ApCliSyncStateMachineInit(
 	for (i = 0; i < MAX_APCLI_NUM; i++)
 	{
 		/* timer init */
-#ifdef APCLI_CONNECTION_TRIAL		
+#ifdef APCLI_CONNECTION_TRIAL
 		pApCliEntry = &pAd->ApCfg.ApCliTab[i];
 #endif /*APCLI_CONNECTION_TRIAL*/
 
-#ifdef APCLI_CONNECTION_TRIAL	
+#ifdef APCLI_CONNECTION_TRIAL
 		RTMPInitTimer(pAd, &pAd->ApCfg.ApCliTab[i].MlmeAux.ProbeTimer, GET_TIMER_FUNCTION(ApCliProbeTimeout), (PVOID)pApCliEntry, FALSE);
 #else
 		RTMPInitTimer(pAd, &pAd->ApCfg.ApCliTab[i].MlmeAux.ProbeTimer, GET_TIMER_FUNCTION(ApCliProbeTimeout), pAd, FALSE);
@@ -114,16 +114,16 @@ VOID ApCliSyncStateMachineInit(
 	return;
 }
 
-/* 
+/*
     ==========================================================================
     Description:
         Becaon timeout handler, executed in timer thread
     ==========================================================================
  */
 static VOID ApCliProbeTimeout(
-	IN PVOID SystemSpecific1, 
-	IN PVOID FunctionContext, 
-	IN PVOID SystemSpecific2, 
+	IN PVOID SystemSpecific1,
+	IN PVOID FunctionContext,
+	IN PVOID SystemSpecific2,
 	IN PVOID SystemSpecific3)
 {
 #ifdef APCLI_CONNECTION_TRIAL
@@ -144,7 +144,7 @@ static VOID ApCliProbeTimeout(
 	return;
 }
 
-/* 
+/*
     ==========================================================================
     Description:
         MLME PROBE req state machine procedure
@@ -192,8 +192,8 @@ static VOID ApCliMlmeProbeReqAction(
 		else
 			pApCliEntry->MlmeAux.Channel = pApCliEntry->TrialCh;
 #else
-		DBGPRINT(RT_DEBUG_TRACE, ("%s, Found %s in scanTable , goto channel %d\n", 
-				__FUNCTION__, pAd->ScanTab.BssEntry[bss_idx].Ssid,  
+		DBGPRINT(RT_DEBUG_TRACE, ("%s, Found %s in scanTable , goto channel %d\n",
+				__FUNCTION__, pAd->ScanTab.BssEntry[bss_idx].Ssid,
 				pAd->ScanTab.BssEntry[bss_idx].Channel));
 
 		pApCliEntry->MlmeAux.Channel = pAd->ScanTab.BssEntry[bss_idx].Channel;
@@ -203,7 +203,7 @@ static VOID ApCliMlmeProbeReqAction(
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
 	pApCliEntry->MlmeAux.SupRateLen = pAd->cfg80211_ctrl.P2pSupRateLen;
 	NdisMoveMemory(pApCliEntry->MlmeAux.SupRate, pAd->cfg80211_ctrl.P2pSupRate, pAd->cfg80211_ctrl.P2pSupRateLen);
-	
+
 	pApCliEntry->MlmeAux.ExtRateLen = pAd->cfg80211_ctrl.P2pExtRateLen;
 	NdisMoveMemory(pApCliEntry->MlmeAux.ExtRate, pAd->cfg80211_ctrl.P2pExtRate, pAd->cfg80211_ctrl.P2pExtRateLen);
 #else
@@ -234,15 +234,15 @@ static VOID ApCliMlmeProbeReqAction(
 }
 
 
-/* 
+/*
     ==========================================================================
     Description:
         When waiting joining the (I)BSS, beacon received from external
     ==========================================================================
  */
 static VOID ApCliPeerProbeRspAtJoinAction(
-	IN PRTMP_ADAPTER pAd, 
-	IN MLME_QUEUE_ELEM *Elem) 
+	IN PRTMP_ADAPTER pAd,
+	IN MLME_QUEUE_ELEM *Elem)
 {
 	USHORT LenVIE;
 	UCHAR *VarIE = NULL;
@@ -269,7 +269,7 @@ static VOID ApCliPeerProbeRspAtJoinAction(
 	}
 	pVIE = (PNDIS_802_11_VARIABLE_IEs) VarIE;
 	pVIE->Length = 0;
-	
+
 	os_alloc_mem(NULL, (UCHAR **)&ie_list, sizeof(BCN_IE_LIST));
 	if (ie_list == NULL)
 	{
@@ -279,9 +279,9 @@ static VOID ApCliPeerProbeRspAtJoinAction(
 	NdisZeroMemory(ie_list, sizeof(BCN_IE_LIST));
 
 	pCurrState = &pAd->ApCfg.ApCliTab[ifIndex].SyncCurrState;
-	if (PeerBeaconAndProbeRspSanity(pAd, 
-								Elem->Msg, 
-								Elem->MsgLen, 
+	if (PeerBeaconAndProbeRspSanity(pAd,
+								Elem->Msg,
+								Elem->MsgLen,
 								Elem->Channel,
 								ie_list,
 								&LenVIE,
@@ -304,9 +304,9 @@ static VOID ApCliPeerProbeRspAtJoinAction(
 		ULONG   Bssidx;
 		CHAR RealRssi = -127;
 
-		RealRssi = (LONG)(RTMPMaxRssi(pAd, ConvertToRssi(pAd, Elem->Rssi0, RSSI_0), 
-						   ConvertToRssi(pAd, Elem->Rssi1, RSSI_1), 
-						   ConvertToRssi(pAd, Elem->Rssi2, RSSI_2)));		
+		RealRssi = (LONG)(RTMPMaxRssi(pAd, ConvertToRssi(pAd, Elem->Rssi0, RSSI_0),
+						   ConvertToRssi(pAd, Elem->Rssi1, RSSI_1),
+						   ConvertToRssi(pAd, Elem->Rssi2, RSSI_2)));
 
 		/* Update ScanTab */
 		Bssidx = BssTableSearch(&pAd->ScanTab, ie_list->Bssid, ie_list->Channel);
@@ -314,7 +314,7 @@ static VOID ApCliPeerProbeRspAtJoinAction(
 		{
 			/* discover new AP of this network, create BSS entry */
 			Bssidx = BssTableSetEntry(pAd, &pAd->ScanTab, ie_list, -127, LenVIE, pVIE);
-			
+
 			if (Bssidx == BSS_NOT_FOUND) /* return if BSS table full */
 			{
 				DBGPRINT(RT_DEBUG_ERROR, ("ERROR: Driver ScanTable Full In Apcli ProbeRsp Join\n"));
@@ -327,7 +327,7 @@ static VOID ApCliPeerProbeRspAtJoinAction(
 			pAd->ScanTab.BssEntry[Bssidx].MinSNR = Elem->Signal % 10;
 			if (pAd->ScanTab.BssEntry[Bssidx].MinSNR == 0)
 				pAd->ScanTab.BssEntry[Bssidx].MinSNR = -5;
-			
+
 			NdisMoveMemory(pAd->ScanTab.BssEntry[Bssidx].MacAddr, ie_list->Addr2, MAC_ADDR_LEN);
 		}
 
@@ -371,7 +371,7 @@ static VOID ApCliPeerProbeRspAtJoinAction(
 		if (matchFlag)
 		{
 			/* Validate RSN IE if necessary, then copy store this information */
-			if ((LenVIE > 0) 
+			if ((LenVIE > 0)
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
 				/* When using CFG80211 and trigger WPS, do not check security. */
 				&& ! (pApCliEntry->wpa_supplicant_info.WpaSupplicantUP & WPA_SUPPLICANT_ENABLE_WPS)
@@ -399,8 +399,8 @@ static VOID ApCliPeerProbeRspAtJoinAction(
 					/* ignore this response */
 					DBGPRINT(RT_DEBUG_ERROR, ("ERROR: The received Probe-resp has empty RSN IE !!!!!!!!!! \n"));
 					goto LabelErr;
-				}	
-				
+				}
+
 				pApCliEntry->MlmeAux.VarIELen = 0;
 			}
 
@@ -451,10 +451,10 @@ static VOID ApCliPeerProbeRspAtJoinAction(
 			RTMPCheckRates(pAd, pApCliEntry->MlmeAux.ExtRate, &pApCliEntry->MlmeAux.ExtRateLen);
 #ifdef APCLI_CERT_SUPPORT
 			/*  Get the ext capability info element */
-			if (pAd->bApCliCertTest == TRUE 
-#ifdef DOT11N_DRAFT3				
+			if (pAd->bApCliCertTest == TRUE
+#ifdef DOT11N_DRAFT3
 				&& pAd->CommonCfg.bBssCoexEnable == TRUE
-#endif /* DOT11N_DRAFT3 */			
+#endif /* DOT11N_DRAFT3 */
 				)
 			{
 				NdisMoveMemory(&pApCliEntry->MlmeAux.ExtCapInfo, &ie_list->ExtCapInfo,sizeof(ie_list->ExtCapInfo));
@@ -469,7 +469,7 @@ static VOID ApCliPeerProbeRspAtJoinAction(
 #ifdef DOT11_N_SUPPORT
 			NdisZeroMemory(pApCliEntry->RxMcsSet,sizeof(pApCliEntry->RxMcsSet));
 			/* filter out un-supported ht rates */
-			if ((ie_list->HtCapabilityLen > 0) && 
+			if ((ie_list->HtCapabilityLen > 0) &&
 				(pApCliEntry->wdev.DesiredHtPhyInfo.bHtEnable) &&
 				WMODE_CAP_N(pAd->CommonCfg.PhyMode) &&
 				/* For Dissallow TKIP rule on STA */
@@ -515,7 +515,7 @@ static VOID ApCliPeerProbeRspAtJoinAction(
 				NdisZeroMemory(&pApCliEntry->MlmeAux.APQosCapability, sizeof(QOS_CAPABILITY_PARM));
 			}
 
-			DBGPRINT(RT_DEBUG_TRACE, ("APCLI SYNC - after JOIN, SupRateLen=%d, ExtRateLen=%d\n", 
+			DBGPRINT(RT_DEBUG_TRACE, ("APCLI SYNC - after JOIN, SupRateLen=%d, ExtRateLen=%d\n",
 				pApCliEntry->MlmeAux.SupRateLen, pApCliEntry->MlmeAux.ExtRateLen));
 
 			if (ie_list->AironetCellPowerLimit != 0xFF)
@@ -549,7 +549,7 @@ LabelErr:
 
 static VOID ApCliProbeTimeoutAtJoinAction(
 	IN PRTMP_ADAPTER pAd,
-	IN MLME_QUEUE_ELEM *Elem) 
+	IN MLME_QUEUE_ELEM *Elem)
 {
 	APCLI_CTRL_MSG_STRUCT ApCliCtrlMsg;
 	USHORT ifIndex = (USHORT)(Elem->Priv);
@@ -586,14 +586,14 @@ static VOID ApCliProbeTimeoutAtJoinAction(
 	return;
 }
 
-/* 
+/*
     ==========================================================================
     Description:
     ==========================================================================
  */
 static VOID ApCliInvalidStateWhenJoin(
-	IN PRTMP_ADAPTER pAd, 
-	IN MLME_QUEUE_ELEM *Elem) 
+	IN PRTMP_ADAPTER pAd,
+	IN MLME_QUEUE_ELEM *Elem)
 {
 	APCLI_CTRL_MSG_STRUCT ApCliCtrlMsg;
 	USHORT ifIndex = (USHORT)(Elem->Priv);
@@ -610,7 +610,7 @@ static VOID ApCliInvalidStateWhenJoin(
 	return;
 }
 
-/* 
+/*
 	==========================================================================
 	Description:
 	==========================================================================
@@ -638,7 +638,7 @@ static VOID ApCliEnqueueProbeRequest(
 		return;
 
 	pApCliEntry = &pAd->ApCfg.ApCliTab[ifIndex];
-	
+
 	NState = MlmeAllocateMemory(pAd, &pOutBuffer);  /* Get an unused nonpaged memory */
 	if(NState != NDIS_STATUS_SUCCESS)
 	{
@@ -673,7 +673,7 @@ static VOID ApCliEnqueueProbeRequest(
 		if (pApCliEntry->MlmeAux.ExtRateLen != 0)
 		{
 			ULONG            tmp;
-		
+
 			MakeOutgoingFrame(pOutBuffer + FrameLen,    &tmp,
 				1,                        &ExtRateIe,
 				1,                        &pApCliEntry->MlmeAux.ExtRateLen,
@@ -696,14 +696,14 @@ static VOID ApCliEnqueueProbeRequest(
 			(pAd->cfg80211_ctrl.ExtraIeLen != 0))
 		{
 				ULONG ExtraIeTmpLen = 0;
-		
+
 				MakeOutgoingFrame(pOutBuffer + FrameLen,			  &ExtraIeTmpLen,
 								  pAd->cfg80211_ctrl.ExtraIeLen,   pAd->cfg80211_ctrl.pExtraIe,
 								  END_OF_ARGS);
-		
+
 				FrameLen += ExtraIeTmpLen;
 		}
-#endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE*/		
+#endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE*/
 
 		MiniportMMRequest(pAd, QID_AC_BE, pOutBuffer, FrameLen);
 		MlmeFreeMemory(pAd, pOutBuffer);

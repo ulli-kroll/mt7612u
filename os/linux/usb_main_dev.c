@@ -110,7 +110,7 @@ VOID RtmpNetOpsSet(VOID *pDrvNetOpsSrc)
 }
 #endif /* OS_ABL_SUPPORT */
 
-	
+
 VOID rtusb_reject_pending_pkts(VOID *pAd)
 {
 	/* clear PS packets */
@@ -143,12 +143,12 @@ static int rt2870_probe(
 #ifdef CONFIG_PM
 #ifdef USB_SUPPORT_SELECTIVE_SUSPEND
 /*	INT pm_usage_cnt; */
-	INT res =1 ; 
+	INT res =1 ;
 #endif /* USB_SUPPORT_SELECTIVE_SUSPEND */
-#endif /* CONFIG_PM */	
+#endif /* CONFIG_PM */
 
 	DBGPRINT(RT_DEBUG_TRACE, ("===>rt2870_probe()!\n"));
-	
+
 #ifdef CONFIG_PM
 #ifdef USB_SUPPORT_SELECTIVE_SUSPEND
         res = usb_autopm_get_interface(intf);
@@ -165,7 +165,7 @@ static int rt2870_probe(
          intf->pm_usage_cnt = 1;
 	 printk(" rt2870_probe ====> pm_usage_cnt %d \n", intf->pm_usage_cnt);
 #endif
-	
+
 #endif /* USB_SUPPORT_SELECTIVE_SUSPEND */
 #endif /* CONFIG_PM */
 
@@ -195,7 +195,7 @@ static int rt2870_probe(
 #endif /* OS_ABL_FUNC_SUPPORT */
 
 	rv = RTMPAllocAdapterBlock(handle, &pAd);
-	if (rv != NDIS_STATUS_SUCCESS) 
+	if (rv != NDIS_STATUS_SUCCESS)
 	{
 		os_free_mem(NULL, handle);
 		goto err_out;
@@ -205,15 +205,15 @@ static int rt2870_probe(
 		goto err_out_free_radev;
 
 	RTMP_DRIVER_USB_INIT(pAd, usb_dev, dev_id->driver_info);
-	
+
 	net_dev = RtmpPhyNetDevInit(pAd, &netDevHook);
 	if (net_dev == NULL)
 		goto err_out_free_radev;
-	
+
 	/* Here are the net_device structure with usb specific parameters. */
 #ifdef NATIVE_WPA_SUPPLICANT_SUPPORT
 	/* for supporting Network Manager.
-	  * Set the sysfs physical device reference for the network logical device if set prior to registration will 
+	  * Set the sysfs physical device reference for the network logical device if set prior to registration will
 	  * cause a symlink during initialization.
 	 */
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,0))
@@ -279,18 +279,18 @@ static int rt2870_probe(
 
 	return 0;
 
-	/* --------------------------- ERROR HANDLE --------------------------- */	
+	/* --------------------------- ERROR HANDLE --------------------------- */
 err_out_free_netdev:
 	RtmpOSNetDevFree(net_dev);
-	
+
 err_out_free_radev:
 	RTMPFreeAdapter(pAd);
-	
+
 err_out:
 	*ppAd = NULL;
 
 	return -1;
-	
+
 }
 
 
@@ -392,7 +392,7 @@ static BOOLEAN USBDevConfigInit(struct usb_device *dev, struct usb_interface *in
 
 	/* get # of enpoints */
 	pConfig->NumberOfPipes = iface_desc->bNumEndpoints;
-	DBGPRINT(RT_DEBUG_TRACE, ("NumEndpoints=%d\n", iface_desc->bNumEndpoints));		 
+	DBGPRINT(RT_DEBUG_TRACE, ("NumEndpoints=%d\n", iface_desc->bNumEndpoints));
 
 	/* Configure Pipes */
 	endpoint = &iface_desc->endpoint[0];
@@ -400,7 +400,7 @@ static BOOLEAN USBDevConfigInit(struct usb_device *dev, struct usb_interface *in
 
 	for(i=0; i<pConfig->NumberOfPipes; i++)
 	{
-		if ((endpoint[i].bmAttributes == USB_ENDPOINT_XFER_BULK) && 
+		if ((endpoint[i].bmAttributes == USB_ENDPOINT_XFER_BULK) &&
 			((endpoint[i].bEndpointAddress & USB_ENDPOINT_DIR_MASK) == USB_DIR_IN))
 		{
 			pConfig->BulkInEpAddr = endpoint[i].bEndpointAddress;
@@ -409,7 +409,7 @@ static BOOLEAN USBDevConfigInit(struct usb_device *dev, struct usb_interface *in
 			DBGPRINT_RAW(RT_DEBUG_TRACE, ("BULK IN MaximumPacketSize = %d\n", pConfig->BulkInMaxPacketSize));
 			DBGPRINT_RAW(RT_DEBUG_TRACE, ("EP address = 0x%2x  \n", endpoint[i].bEndpointAddress));
 		}
-		else if ((endpoint[i].bmAttributes == USB_ENDPOINT_XFER_BULK) && 
+		else if ((endpoint[i].bmAttributes == USB_ENDPOINT_XFER_BULK) &&
 				((endpoint[i].bEndpointAddress & USB_ENDPOINT_DIR_MASK) == USB_DIR_OUT))
 		{
 			/* There are 6 bulk out EP. EP6 highest priority. */
@@ -422,7 +422,7 @@ static BOOLEAN USBDevConfigInit(struct usb_device *dev, struct usb_interface *in
 		}
 	}
 
-	if (!(pConfig->BulkInEpAddr && pConfig->BulkOutEpAddr[0])) 
+	if (!(pConfig->BulkInEpAddr && pConfig->BulkOutEpAddr[0]))
 	{
 		printk("Could not find both bulk-in and bulk-out endpoints\n");
 		return FALSE;
@@ -433,7 +433,7 @@ static BOOLEAN USBDevConfigInit(struct usb_device *dev, struct usb_interface *in
 	rtusb_vendor_specific_check(dev, pAd);
 
 	return TRUE;
-	
+
 }
 
 
@@ -450,7 +450,7 @@ static void *rtusb_probe(struct usb_device *dev, UINT inf, const USB_DEVICE_ID *
 	rv = rt2870_probe(usb_if, dev, id, &pAd);
 	if (rv != 0)
 		pAd = NULL;
-	
+
 	return (void *)pAd;
 }
 
@@ -534,7 +534,7 @@ static int rtusb_resume(struct usb_interface *intf)
 	UCHAR Flag;
 
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,32)
-	pm_usage_cnt = atomic_read(&intf->pm_usage_cnt);	
+	pm_usage_cnt = atomic_read(&intf->pm_usage_cnt);
 #else
 	pm_usage_cnt = intf->pm_usage_cnt;
 #endif
@@ -547,7 +547,7 @@ static int rtusb_resume(struct usb_interface *intf)
 	/*RTMP_CLEAR_FLAG(pAd, fRTMP_ADAPTER_SUSPEND); */
 	RTMP_DRIVER_ADAPTER_SUSPEND_CLEAR(pAd);
 
-#ifdef WOW_SUPPORT 
+#ifdef WOW_SUPPORT
 	RTMP_DRIVER_ADAPTER_RT28XX_USB_WOW_STATUS(pAd, &Flag);
 	if (Flag == TRUE)
 		RTMP_DRIVER_ADAPTER_RT28XX_USB_WOW_DISABLE(pAd);
@@ -593,15 +593,15 @@ static BOOLEAN USBDevConfigInit(struct usb_device *dev, struct usb_interface *in
 
 	/* get # of enpoints  */
 	pConfig->NumberOfPipes = iface_desc->desc.bNumEndpoints;
-	DBGPRINT(RT_DEBUG_TRACE, ("NumEndpoints=%d\n", iface_desc->desc.bNumEndpoints));		  
+	DBGPRINT(RT_DEBUG_TRACE, ("NumEndpoints=%d\n", iface_desc->desc.bNumEndpoints));
 
 	/* Configure Pipes */
 	BulkOutIdx = 0;
 	BulkInIdx = 0;
 
 	for (i = 0; i < pConfig->NumberOfPipes; i++)
-	{ 
-		if ((iface_desc->endpoint[i].desc.bmAttributes == USB_ENDPOINT_XFER_BULK) && 
+	{
+		if ((iface_desc->endpoint[i].desc.bmAttributes == USB_ENDPOINT_XFER_BULK) &&
 			((iface_desc->endpoint[i].desc.bEndpointAddress & USB_ENDPOINT_DIR_MASK) == USB_DIR_IN))
 		{
 			if (BulkInIdx < 2)
@@ -615,13 +615,13 @@ static BOOLEAN USBDevConfigInit(struct usb_device *dev, struct usb_interface *in
 
 				DBGPRINT_RAW(RT_DEBUG_TRACE, ("BULK IN MaxPacketSize = %d\n", pConfig->BulkInMaxPacketSize));
 				DBGPRINT_RAW(RT_DEBUG_TRACE, ("EP address = 0x%2x\n", iface_desc->endpoint[i].desc.bEndpointAddress));
-				} 
+				}
 				else
 				{
 					DBGPRINT(RT_DEBUG_ERROR, ("Bulk IN endpoint nums large than 2\n"));
 				}
 			}
-			else if ((iface_desc->endpoint[i].desc.bmAttributes == USB_ENDPOINT_XFER_BULK) && 
+			else if ((iface_desc->endpoint[i].desc.bmAttributes == USB_ENDPOINT_XFER_BULK) &&
 					((iface_desc->endpoint[i].desc.bEndpointAddress & USB_ENDPOINT_DIR_MASK) == USB_DIR_OUT))
 			{
 				if (BulkOutIdx < 6)
@@ -645,7 +645,7 @@ static BOOLEAN USBDevConfigInit(struct usb_device *dev, struct usb_interface *in
 		}
 	}
 
-	if (!(pConfig->BulkInEpAddr && pConfig->BulkOutEpAddr[0])) 
+	if (!(pConfig->BulkInEpAddr && pConfig->BulkOutEpAddr[0]))
 	{
 		printk("%s: Could not find both bulk-in and bulk-out endpoints\n", __FUNCTION__);
 		return FALSE;
@@ -654,22 +654,22 @@ static BOOLEAN USBDevConfigInit(struct usb_device *dev, struct usb_interface *in
 	pConfig->pConfig = &dev->config->desc;
 	usb_set_intfdata(intf, pAd);
 	RTMP_DRIVER_USB_CONFIG_INIT(pAd, pConfig);
-	rtusb_vendor_specific_check(dev, pAd);    
-	
+	rtusb_vendor_specific_check(dev, pAd);
+
 	return TRUE;
-	
+
 }
 
 
 static int rtusb_probe(struct usb_interface *intf, const USB_DEVICE_ID *id)
-{	
+{
 	VOID *pAd;
 	struct usb_device *dev;
 	int rv;
 
 	dev = interface_to_usbdev(intf);
 	dev = usb_get_dev(dev);
-	
+
 	rv = rt2870_probe(intf, dev, id, &pAd);
 	if (rv != 0)
 		usb_put_dev(dev);
@@ -684,7 +684,7 @@ static int rtusb_probe(struct usb_interface *intf, const USB_DEVICE_ID *id)
 			rv = -ENOMEM;
 		}
 	}
-#endif /* IFUP_IN_PROBE */	
+#endif /* IFUP_IN_PROBE */
 	return rv;
 }
 
@@ -695,10 +695,10 @@ static void rtusb_disconnect(struct usb_interface *intf)
 	VOID *pAd;
 
 	pAd = usb_get_intfdata(intf);
-#ifdef IFUP_IN_PROBE	
+#ifdef IFUP_IN_PROBE
 	VIRTUAL_IF_DOWN(pAd);
-#endif /* IFUP_IN_PROBE */	
-	usb_set_intfdata(intf, NULL);	
+#endif /* IFUP_IN_PROBE */
+	usb_set_intfdata(intf, NULL);
 
 	rt2870_disconnect(dev, pAd);
 
@@ -706,7 +706,7 @@ static void rtusb_disconnect(struct usb_interface *intf)
 #ifdef USB_SUPPORT_SELECTIVE_SUSPEND
 	printk("rtusb_disconnect usb_autopm_put_interface \n");
 	usb_autopm_put_interface(intf);
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,32)	 
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,32)
 	printk("%s() => pm_usage_cnt %d \n", __FUNCTION__,
 			atomic_read(&intf->pm_usage_cnt));
 #else
@@ -714,14 +714,14 @@ static void rtusb_disconnect(struct usb_interface *intf)
 #endif
 #endif /* USB_SUPPORT_SELECTIVE_SUSPEND */
 #endif /* CONFIG_PM */
-	
+
 }
 
 
 struct usb_driver rtusb_driver = {
 #if LINUX_VERSION_CODE < KERNEL_VERSION(2,6,15)
 	.owner = THIS_MODULE,
-#endif	
+#endif
 	.name = RTMP_DRV_NAME,
 	.probe = rtusb_probe,
 	.disconnect = rtusb_disconnect,
@@ -747,7 +747,7 @@ INT __init rtusb_init(void)
 
 VOID __exit rtusb_exit(void)
 {
-	usb_deregister(&rtusb_driver);	
+	usb_deregister(&rtusb_driver);
 	printk("<--- rtusb exit\n");
 }
 

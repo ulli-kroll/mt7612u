@@ -41,7 +41,7 @@ VOID STARxErrorHandle(RTMP_ADAPTER *pAd, RX_BLK *pRxBlk)
 	========================================================================
 */
 INT RTMPCheckRxError(
-	IN RTMP_ADAPTER *pAd, 
+	IN RTMP_ADAPTER *pAd,
 	IN HEADER_802_11 *pHeader,
 	IN RX_BLK *pRxBlk,
 	IN RXINFO_STRUC *pRxInfo)
@@ -71,10 +71,10 @@ INT RTMPCheckRxError(
 			pAd->StaCfg.RPIDensity[6] += 1;
 		else if (dBm > -57)
 			pAd->StaCfg.RPIDensity[7] += 1;
-		
+
 		return NDIS_STATUS_FAILURE;
 	}
-	
+
 	/* Add Rx size to channel load counter, we should ignore error counts*/
 	//pAd->StaCfg.CLBusyBytes += (pRxBlk->MPDUtotalByteCnt + 14);
 
@@ -95,11 +95,11 @@ INT RTMPCheckRxError(
 		return NDIS_STATUS_FAILURE;
 	}
 
-	/* 
+	/*
 		Drop not U2M frames, cant's drop here because we will drop beacon in this case
 		I am kind of doubting the U2M bit operation
 	*/
-	/* 
+	/*
 		if (pRxInfo->U2M == 0)
 			return NDIS_STATUS_FAILURE;
 	*/
@@ -167,7 +167,7 @@ INT StaAllowToSendPacket(
 	UCHAR *pWcid)
 {
 	BOOLEAN allowToSend;
-	
+
 	if (!INFRA_ON(pAd) && !ADHOC_ON(pAd))
 	{
 		return FALSE;
@@ -182,11 +182,11 @@ INT StaAllowToSendPacket(
 		    )) {
 			MAC_TABLE_ENTRY *pEntry;
 			PUCHAR pSrcBufVA = GET_OS_PKT_DATAPTR(pPacket);
-			pEntry = MacTableLookup(pAd, pSrcBufVA);			
+			pEntry = MacTableLookup(pAd, pSrcBufVA);
 
 			if (pEntry && (IS_ENTRY_DLS(pEntry)
 				))
-			{					
+			{
 				*pWcid = pEntry->wcid;
 			}
 			else
@@ -218,7 +218,7 @@ INT StaAllowToSendPacket_new(
 	{
 		*pWcid = MCAST_WCID;
 		return TRUE;
-	} 
+	}
 
 	pEntry = MacTableLookup(pAd, pSrcBufVA);
 	if (pEntry && (pEntry->Sst == SST_ASSOC))

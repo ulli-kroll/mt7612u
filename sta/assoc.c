@@ -55,7 +55,7 @@ UCHAR CipherWpa2Template[] = {
 /*
 	==========================================================================
 	Description:
-		Association timeout procedure. After association timeout, this function 
+		Association timeout procedure. After association timeout, this function
 		will be called and it will put a message into the MLME queue
 	Parameters:
 		Standard timer parameters
@@ -84,7 +84,7 @@ VOID AssocTimeout(
 /*
 	==========================================================================
 	Description:
-		Reassociation timeout procedure. After reassociation timeout, this 
+		Reassociation timeout procedure. After reassociation timeout, this
 		function will be called and put a message into the MLME queue
 	Parameters:
 		Standard timer parameters
@@ -113,7 +113,7 @@ VOID ReassocTimeout(
 /*
 	==========================================================================
 	Description:
-		Disassociation timeout procedure. After disassociation timeout, this 
+		Disassociation timeout procedure. After disassociation timeout, this
 		function will be called and put a message into the MLME queue
 	Parameters:
 		Standard timer parameters
@@ -324,17 +324,17 @@ VOID MlmeAssocReqAction(
 			{
 #ifdef VHT_TXBF_SUPPORT
                 //Disable beamform capability in Associate Request with 3x3 AP to avoid throughput drop issue
-                // MT76x2 only supports up to 2x2 sounding feedback 
+                // MT76x2 only supports up to 2x2 sounding feedback
                 Idx = BssTableSearch(&pAd->ScanTab, pAd->MlmeAux.Bssid, pAd->MlmeAux.Channel);
                 if (Idx != BSS_NOT_FOUND)
-                {     
+                {
                     pAd->BeaconSndDimensionFlag = 0;
                     if (pAd->ScanTab.BssEntry[Idx].vht_cap_ie.vht_cap.num_snd_dimension >=2 )
                     {
                         pAd->BeaconSndDimensionFlag = 1;
                     }
                  }
-#endif /* VHT_TXBF_SUPPORT */		       
+#endif /* VHT_TXBF_SUPPORT */
 				FrameLen += build_vht_ies(pAd, (UCHAR *)(pOutBuffer + FrameLen), SUBTYPE_ASSOC_REQ);
 			}
 #endif /* DOT11_VHT_AC */
@@ -589,7 +589,7 @@ VOID MlmeAssocReqAction(
 	Description:
 		mlme reassoc req handling procedure
 	Parameters:
-		Elem - 
+		Elem -
 	Pre:
 		-# SSID  (Adapter->StaCfg.ssid[])
 		-# BSSID (AP address, Adapter->StaCfg.bssid)
@@ -650,7 +650,7 @@ VOID MlmeReassocReqAction(
 		/* make frame, use bssid as the AP address?? */
 		DBGPRINT(RT_DEBUG_TRACE,
 			 ("ASSOC - Send RE-ASSOC request...\n"));
-		MgtMacHeaderInit(pAd, &ReassocHdr, SUBTYPE_REASSOC_REQ, 0, ApAddr, 
+		MgtMacHeaderInit(pAd, &ReassocHdr, SUBTYPE_REASSOC_REQ, 0, ApAddr,
 							pAd->CurrentAddress,
 							ApAddr);
 		MakeOutgoingFrame(pOutBuffer, &FrameLen, sizeof (HEADER_802_11),
@@ -734,17 +734,17 @@ VOID MlmeReassocReqAction(
 			{
 #ifdef VHT_TXBF_SUPPORT
                  //Disable beamform capability in Associate Request with 3x3 AP to avoid throughput drop issue
-                 // MT76x2 only supports up to 2x2 sounding feedback 
+                 // MT76x2 only supports up to 2x2 sounding feedback
                  Idx = BssTableSearch(&pAd->ScanTab, pAd->MlmeAux.Bssid, pAd->MlmeAux.Channel);
                  if (Idx != BSS_NOT_FOUND)
-                 {                                 
+                 {
                      pAd->BeaconSndDimensionFlag = 0;
                      if (pAd->ScanTab.BssEntry[Idx].vht_cap_ie.vht_cap.num_snd_dimension >=2 )
                      {
                          pAd->BeaconSndDimensionFlag = 1;
                       }
                   }
-#endif /* VHT_TXBF_SUPPORT */	
+#endif /* VHT_TXBF_SUPPORT */
 				FrameLen += build_vht_ies(pAd, (UCHAR *)(pOutBuffer + FrameLen), SUBTYPE_ASSOC_REQ);
 			}
 #endif /* DOT11_VHT_AC */
@@ -868,7 +868,7 @@ VOID MlmeDisassocReqAction(
 	DBGPRINT(RT_DEBUG_TRACE,
 		 ("ASSOC - Send DISASSOC request[BSSID::%02x:%02x:%02x:%02x:%02x:%02x (Reason=%d)\n",
 		  PRINT_MAC(pDisassocReq->Addr), pDisassocReq->Reason));
-	MgtMacHeaderInit(pAd, &DisassocHdr, SUBTYPE_DISASSOC, 0, pDisassocReq->Addr, 
+	MgtMacHeaderInit(pAd, &DisassocHdr, SUBTYPE_DISASSOC, 0, pDisassocReq->Addr,
 						pAd->CurrentAddress,
 						pDisassocReq->Addr);	/* patch peap ttls switching issue */
 	MakeOutgoingFrame(pOutBuffer, &FrameLen,
@@ -977,11 +977,11 @@ VOID PeerAssocRspAction(
 					For preventing finding MacTable Hash index malfunction,
 					we need to do MacTableDeleteEntry here.
 				*/
-				pEntry = MacTableLookup(pAd, pAd->CommonCfg.Bssid);	
-				if (pEntry)	
+				pEntry = MacTableLookup(pAd, pAd->CommonCfg.Bssid);
+				if (pEntry)
 				{
 					MacTableDeleteEntry(pAd, pEntry->wcid, pEntry->Addr);
-					pEntry = NULL;	
+					pEntry = NULL;
 				}
 
 				MaxSupportedRateIn500Kbps = dot11_max_sup_rate(SupRateLen, &SupRate[0],
@@ -1019,15 +1019,15 @@ VOID PeerAssocRspAction(
 
 #ifdef DOT11W_PMF_SUPPORT
                                 if (pAd->StaCfg.BssType == BSS_INFRA)
-                                {	
+                                {
 						if (pAd->MlmeAux.BssIdx < pAd->MlmeAux.SsidBssTab.BssNr) {
 							BSS_ENTRY *pInBss = NULL;
-							
+
 							pInBss = &pAd->MlmeAux.SsidBssTab.BssEntry[pAd->MlmeAux.BssIdx];
 							if (CLIENT_STATUS_TEST_FLAG(pInBss, fCLIENT_STATUS_PMF_CAPABLE))
 								CLIENT_STATUS_SET_FLAG(&pAd->MacTab.Content[BSSID_WCID], fCLIENT_STATUS_PMF_CAPABLE);
 							if (CLIENT_STATUS_TEST_FLAG(pInBss, fCLIENT_STATUS_USE_SHA256))
-								CLIENT_STATUS_SET_FLAG(&pAd->MacTab.Content[BSSID_WCID], fCLIENT_STATUS_USE_SHA256);                                                        
+								CLIENT_STATUS_SET_FLAG(&pAd->MacTab.Content[BSSID_WCID], fCLIENT_STATUS_USE_SHA256);
                                         }
                                 }
 #endif /* DOT11W_PMF_SUPPORT */
@@ -1037,12 +1037,12 @@ VOID PeerAssocRspAction(
 
 #ifdef LINUX
 #ifdef RT_CFG80211_SUPPORT
-			if (Status == MLME_SUCCESS) 
+			if (Status == MLME_SUCCESS)
 			{
 				PFRAME_802_11 pFrame =  (PFRAME_802_11) (Elem->Msg);
 				RT_CFG80211_CONN_RESULT_INFORM(pAd, pAd->MlmeAux.Bssid,
                                 pAd->StaCfg.ReqVarIEs, pAd->StaCfg.ReqVarIELen,
-								&pFrame->Octet[6], 
+								&pFrame->Octet[6],
 								Elem->MsgLen - 6 - sizeof (HEADER_802_11),
                                 TRUE);
 			}
@@ -1098,7 +1098,7 @@ VOID PeerReassocRspAction(
 		return;
 	}
 	NdisZeroMemory((UCHAR *)ie_list, sizeof(IE_LISTS));
-	
+
 	if (PeerAssocRspSanity(pAd, Elem->Msg, Elem->MsgLen, Addr2,
 			       &CapabilityInfo, &Status, &Aid, SupRate,
 			       &SupRateLen, ExtRate, &ExtRateLen, &HtCapability,
@@ -1111,7 +1111,7 @@ VOID PeerReassocRspAction(
 			RTMPCancelTimer(&pAd->MlmeAux.ReassocTimer,
 					&TimerCancelled);
 
-			if (Status == MLME_SUCCESS) 
+			if (Status == MLME_SUCCESS)
 			{
 				UCHAR MaxSupportedRateIn500Kbps = 0;
 				PMAC_TABLE_ENTRY pEntry = NULL;
@@ -1121,16 +1121,16 @@ VOID PeerReassocRspAction(
 					For preventing finding MacTable Hash index malfunction,
 					we need to do MacTableDeleteEntry here.
 				*/
-				pEntry = MacTableLookup(pAd, pAd->CommonCfg.Bssid);	
-				if (pEntry)	
+				pEntry = MacTableLookup(pAd, pAd->CommonCfg.Bssid);
+				if (pEntry)
 				{
 					MacTableDeleteEntry(pAd, pEntry->wcid, pEntry->Addr);
-					pEntry = NULL;	
+					pEntry = NULL;
 				}
 
 				MaxSupportedRateIn500Kbps = dot11_max_sup_rate(SupRateLen, &SupRate[0], ExtRateLen, &ExtRate[0]);
 
-				
+
 				/* go to procedure listed on page 376 */
 				AssocPostProc(pAd, Addr2, CapabilityInfo, Aid,
 					      SupRate, SupRateLen, ExtRate,
@@ -1210,7 +1210,7 @@ VOID PeerReassocRspAction(
 /*
 	==========================================================================
 	Description:
-		procedures on IEEE 802.11/1999 p.376 
+		procedures on IEEE 802.11/1999 p.376
 	Parametrs:
 
 	IRQL = DISPATCH_LEVEL
@@ -1365,7 +1365,7 @@ VOID AssocPostProc(
 /*
 	==========================================================================
 	Description:
-		left part of IEEE 802.11/1999 p.374 
+		left part of IEEE 802.11/1999 p.374
 	Parameters:
 		Elem - MLME message containing the received frame
 
@@ -1391,11 +1391,11 @@ VOID PeerDisassocAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
 
 
 			/*
-			   It is possible that AP sends dis-assoc frame(PeerDisassocAction) to STA 
-			   after driver enqueue MT2_MLME_DISASSOC_REQ (MlmeDisassocReqAction) 
+			   It is possible that AP sends dis-assoc frame(PeerDisassocAction) to STA
+			   after driver enqueue MT2_MLME_DISASSOC_REQ (MlmeDisassocReqAction)
 			   and set CntlMachine.CurrState = CNTL_WAIT_DISASSOC.
 			   DisassocTimer is useless because AssocMachine.CurrState will set to ASSOC_IDLE here.
-			   Therefore, we need to check CntlMachine.CurrState here and enqueue MT2_DISASSOC_CONF to 
+			   Therefore, we need to check CntlMachine.CurrState here and enqueue MT2_DISASSOC_CONF to
 			   reset CntlMachine.CurrState to CNTL_IDLE state again.
 			 */
 			if (pAd->Mlme.CntlMachine.CurrState ==
@@ -1528,7 +1528,7 @@ VOID InvalidStateWhenDisassociate(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
 	==========================================================================
 	Description:
 		right part of IEEE 802.11/1999 page 374
-	Note: 
+	Note:
 		This event should never cause ASSOC state machine perform state
 		transition, and has no relationship with CNTL machine. So we separate
 		this routine as a service outside of ASSOC state transition table.
@@ -1552,7 +1552,7 @@ VOID Cls3errAction(RTMP_ADAPTER *pAd, UCHAR *pAddr)
 
 	DBGPRINT(RT_DEBUG_TRACE,
 		 ("ASSOC - Class 3 Error, Send DISASSOC frame\n"));
-	MgtMacHeaderInit(pAd, &DisassocHdr, SUBTYPE_DISASSOC, 0, pAddr, 
+	MgtMacHeaderInit(pAd, &DisassocHdr, SUBTYPE_DISASSOC, 0, pAddr,
 						pAd->CurrentAddress,
 						pAd->CommonCfg.Bssid);	/* patch peap ttls switching issue */
 	MakeOutgoingFrame(pOutBuffer, &FrameLen,
@@ -1574,15 +1574,15 @@ VOID Cls3errAction(RTMP_ADAPTER *pAd, UCHAR *pAddr)
 }
 
 
-/*  
+/*
 	==========================================================================
-	Description: 
+	Description:
 		association state machine init, including state transition and timer init
-	Parameters: 
+	Parameters:
 		S - pointer to the association state machine
 
 	IRQL = PASSIVE_LEVEL
-	
+
 	==========================================================================
  */
 VOID AssocStateMachineInit(

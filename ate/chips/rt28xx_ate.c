@@ -19,7 +19,7 @@
 	rt28xx_ate.c
 
 	Abstract:
-	Specific ATE funcitons and variables for 
+	Specific ATE funcitons and variables for
 		RT2860
 		RT2870
 		RT2880
@@ -42,7 +42,7 @@ extern UCHAR NUM_OF_2850_CHNL;
     Description:
 
 	AsicSwitchChannel() dedicated for RT28xx ATE.
-    
+
 ==========================================================================
 */
 VOID RT28xxATEAsicSwitchChannel(
@@ -79,7 +79,7 @@ VOID RT28xxATEAsicSwitchChannel(
 					/* If TX path is 1, bit 14 = 1. */
 					if (pAd->Antenna.field.TxPath == 1)
 					{
-						R2 |= 0x4000;	
+						R2 |= 0x4000;
 					}
 
 					if (pAd->Antenna.field.TxPath == 2)
@@ -87,7 +87,7 @@ VOID RT28xxATEAsicSwitchChannel(
 						if (pATEInfo->TxAntennaSel == 1)
 						{
 							/* If TX Antenna select is 1 , bit 14 = 1; Disable Ant 2 */
-							R2 |= 0x4000;	
+							R2 |= 0x4000;
 							ATE_BBP_IO_READ8_BY_REG_ID(pAd, BBP_R1, &BbpValue);
 							BbpValue &= 0xE7;		/* 11100111B */
 							ATE_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R1, BbpValue);
@@ -95,9 +95,9 @@ VOID RT28xxATEAsicSwitchChannel(
 						else if (pATEInfo->TxAntennaSel == 2)
 						{
 							/* If TX Antenna select is 2 , bit 15 = 1; Disable Ant 1 */
-							R2 |= 0x8000;	
+							R2 |= 0x8000;
 							ATE_BBP_IO_READ8_BY_REG_ID(pAd, BBP_R1, &BbpValue);
-							BbpValue &= 0xE7;	
+							BbpValue &= 0xE7;
 							BbpValue |= 0x08;
 							ATE_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R1, BbpValue);
 						}
@@ -119,29 +119,29 @@ VOID RT28xxATEAsicSwitchChannel(
 								ATE_BBP_IO_READ8_BY_REG_ID(pAd, BBP_R3, &BbpValue);
 								BbpValue &= 0xE4;
 								BbpValue |= 0x00;
-								ATE_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R3, BbpValue);								
+								ATE_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R3, BbpValue);
 								break;
 							case 2:
 								R2 |= 0x10040;
 								ATE_BBP_IO_READ8_BY_REG_ID(pAd, BBP_R3, &BbpValue);
 								BbpValue &= 0xE4;
 								BbpValue |= 0x01;
-								ATE_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R3, BbpValue);									
+								ATE_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R3, BbpValue);
 								break;
-							default:	
+							default:
 								R2 |= 0x40;
 								ATE_BBP_IO_READ8_BY_REG_ID(pAd, BBP_R3, &BbpValue);
 								BbpValue &= 0xE4;
 								/* Only enable two Antenna to receive. */
 								BbpValue |= 0x08;
-								ATE_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R3, BbpValue);								
+								ATE_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R3, BbpValue);
 								break;
 						}
 					}
 					else if (pAd->Antenna.field.RxPath == 1)
 					{
 						/* write 1 to off RxPath */
-						R2 |= 0x20040;	
+						R2 |= 0x20040;
 					}
 
 					if (pAd->Antenna.field.RxPath == 3)
@@ -153,31 +153,31 @@ VOID RT28xxATEAsicSwitchChannel(
 								ATE_BBP_IO_READ8_BY_REG_ID(pAd, BBP_R3, &BbpValue);
 								BbpValue &= 0xE4;
 								BbpValue |= 0x00;
-								ATE_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R3, BbpValue);								
+								ATE_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R3, BbpValue);
 								break;
 							case 2:
 								R2 |= 0x10040;
 								ATE_BBP_IO_READ8_BY_REG_ID(pAd, BBP_R3, &BbpValue);
 								BbpValue &= 0xE4;
 								BbpValue |= 0x01;
-								ATE_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R3, BbpValue);									
+								ATE_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R3, BbpValue);
 								break;
-							case 3:	
+							case 3:
 								R2 |= 0x30000;
 								ATE_BBP_IO_READ8_BY_REG_ID(pAd, BBP_R3, &BbpValue);
 								BbpValue &= 0xE4;
 								BbpValue |= 0x02;
 								ATE_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R3, BbpValue);
-								break;								
-							default:	
+								break;
+							default:
 								ATE_BBP_IO_READ8_BY_REG_ID(pAd, BBP_R3, &BbpValue);
 								BbpValue &= 0xE4;
 								BbpValue |= 0x10;
-								ATE_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R3, BbpValue);								
+								ATE_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R3, BbpValue);
 								break;
 						}
 					}
-					
+
 					if (Channel > 14)
 					{
 						/* initialize R3, R4 */
@@ -229,7 +229,7 @@ VOID RT28xxATEAsicSwitchChannel(
 					{
 						R4 |=0x200000;
 					}
-					
+
 					/* Update variables. */
 					pAd->LatchRfRegs.Channel = Channel;
 					pAd->LatchRfRegs.R1 = RFRegTable[index].R1;
@@ -238,7 +238,7 @@ VOID RT28xxATEAsicSwitchChannel(
 					pAd->LatchRfRegs.R4 = R4;
 
 					RtmpRfIoWrite(pAd);
-					
+
 					break;
 				}
 			}
@@ -258,7 +258,7 @@ VOID RT28xxATEAsicSwitchChannel(
 		ATE_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R64, (0x37 - GET_LNA_GAIN(pAd)));
 
 		/* According the Rory's suggestion to solve the middle range issue. */
-		ATE_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R86, 0);	
+		ATE_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R86, 0);
 
 		/* Rx High power VGA offset for LNA select */
 		if (pAd->NicConfig2.field.ExternalLNAForG)
@@ -304,13 +304,13 @@ VOID RT28xxATEAsicSwitchChannel(
 	else
 	{
 	    UINT32	TxPinCfg = 0x00050F05;/* 2007.10.09 by Brian : 0x00050505 ==> 0x00050F05 */
-		
+
 		ATE_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R62, (0x37 - GET_LNA_GAIN(pAd)));
 		ATE_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R63, (0x37 - GET_LNA_GAIN(pAd)));
 		ATE_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R64, (0x37 - GET_LNA_GAIN(pAd)));
 
 		/* According the Rory's suggestion to solve the middle range issue. */
-		ATE_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R86, 0);        
+		ATE_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R86, 0);
 
 		ATE_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R82, 0xF2);
 
@@ -346,32 +346,32 @@ VOID RT28xxATEAsicSwitchChannel(
 
 	ATE_CHIP_RX_VGA_GAIN_INIT(pAd);
 
-	RtmpOsMsDelay(1);  
+	RtmpOsMsDelay(1);
 
 #ifndef RTMP_RF_RW_SUPPORT
 	if (Channel > 14)
 	{
 		/* When 5.5GHz band the LSB of TxPwr will be used to reduced 7dB or not. */
 		DBGPRINT(RT_DEBUG_TRACE, ("RT28xx:SwitchChannel#%d(RF=%d, %dT) to , R1=0x%08x, R2=0x%08x, R3=0x%08x, R4=0x%08x\n",
-								  Channel, 
-								  pAd->RfIcType, 
+								  Channel,
+								  pAd->RfIcType,
 								  pAd->Antenna.field.TxPath,
-								  pAd->LatchRfRegs.R1, 
-								  pAd->LatchRfRegs.R2, 
-								  pAd->LatchRfRegs.R3, 
+								  pAd->LatchRfRegs.R1,
+								  pAd->LatchRfRegs.R2,
+								  pAd->LatchRfRegs.R3,
 								  pAd->LatchRfRegs.R4));
 	}
 	else
 	{
 		DBGPRINT(RT_DEBUG_TRACE, ("RT28xx:SwitchChannel#%d(RF=%d, Pwr0=%u, Pwr1=%u, %dT) to , R1=0x%08x, R2=0x%08x, R3=0x%08x, R4=0x%08x\n",
-								  Channel, 
-								  pAd->RfIcType, 
+								  Channel,
+								  pAd->RfIcType,
 								  (R3 & 0x00003e00) >> 9,
 								  (R4 & 0x000007c0) >> 6,
 								  pAd->Antenna.field.TxPath,
-								  pAd->LatchRfRegs.R1, 
-								  pAd->LatchRfRegs.R2, 
-								  pAd->LatchRfRegs.R3, 
+								  pAd->LatchRfRegs.R1,
+								  pAd->LatchRfRegs.R2,
+								  pAd->LatchRfRegs.R3,
 								  pAd->LatchRfRegs.R4));
     }
 #endif /* !RTMP_RF_RW_SUPPORT */
@@ -410,7 +410,7 @@ INT RT28xxATETxPwrHandler(
 			/* R3, R4 can't large than 31 (0x24), 31 ~ 36 used by BBP 94 */
 			R = 31;
 			if (TxPower <= 36)
-				Bbp94 = BBPR94_DEFAULT + (UCHAR)(TxPower - 31);		
+				Bbp94 = BBPR94_DEFAULT + (UCHAR)(TxPower - 31);
 		}
 		else if (TxPower < 0)
 		{
@@ -420,7 +420,7 @@ INT RT28xxATETxPwrHandler(
 				Bbp94 = BBPR94_DEFAULT + TxPower;
 		}
 		else
-		{  
+		{
 			/* 0 ~ 31 */
 			R = (ULONG) TxPower;
 			Bbp94 = BBPR94_DEFAULT;
@@ -444,7 +444,7 @@ INT RT28xxATETxPwrHandler(
 			bPowerReduce = TRUE;
 		}
 		else
-		{  
+		{
 			/* 0 ~ 15 */
 			R = (ULONG) TxPower;
 		}
@@ -457,14 +457,14 @@ INT RT28xxATETxPwrHandler(
 		if (index == 0)
 		{
 			/* shift TX power control to correct RF(R3) register bit position */
-			R = R << 9;		
+			R = R << 9;
 			R |= (pAd->LatchRfRegs.R3 & 0xffffc1ff);
 			pAd->LatchRfRegs.R3 = R;
 		}
 		else
 		{
 			/* shift TX power control to correct RF(R4) register bit position */
-			R = R << 6;		
+			R = R << 6;
 			R |= (pAd->LatchRfRegs.R4 & 0xfffff83f);
 			pAd->LatchRfRegs.R4 = R;
 		}
@@ -476,14 +476,14 @@ INT RT28xxATETxPwrHandler(
 			if (index == 0)
 			{
 				/* shift TX power control to correct RF(R3) register bit position */
-				R = (R << 10) | (1 << 9);		
+				R = (R << 10) | (1 << 9);
 				R |= (pAd->LatchRfRegs.R3 & 0xffffc1ff);
 				pAd->LatchRfRegs.R3 = R;
 			}
 			else
 			{
 				/* shift TX power control to correct RF(R4) register bit position */
-				R = (R << 7) | (1 << 6);		
+				R = (R << 7) | (1 << 6);
 				R |= (pAd->LatchRfRegs.R4 & 0xfffff83f);
 				pAd->LatchRfRegs.R4 = R;
 			}
@@ -493,19 +493,19 @@ INT RT28xxATETxPwrHandler(
 			if (index == 0)
 			{
 				/* shift TX power control to correct RF(R3) register bit position */
-				R = (R << 10);		
+				R = (R << 10);
 				R |= (pAd->LatchRfRegs.R3 & 0xffffc1ff);
 
-				/* Clear bit 9 of R3 to reduce 7dB. */ 
+				/* Clear bit 9 of R3 to reduce 7dB. */
 				pAd->LatchRfRegs.R3 = (R & (~(1 << 9)));
 			}
 			else
 			{
 				/* shift TX power control to correct RF(R4) register bit position */
-				R = (R << 7);		
+				R = (R << 7);
 				R |= (pAd->LatchRfRegs.R4 & 0xfffff83f);
 
-				/* Clear bit 6 of R4 to reduce 7dB. */ 
+				/* Clear bit 6 of R4 to reduce 7dB. */
 				pAd->LatchRfRegs.R4 = (R & (~(1 << 6)));
 			}
 		}
@@ -522,13 +522,13 @@ VOID RT28xxATERxVGAInit(
 	PATE_INFO pATEInfo = &(pAd->ate);
 	UCHAR R66;
 	CHAR LNAGain = GET_LNA_GAIN(pAd);
-	
+
 	if (pATEInfo->Channel <= 14)
 	{
 		/* BG band */
 		R66 = (UCHAR)(0x2E + LNAGain);
 	}
-	else 
+	else
 	{
 		/* A band */
 		if (pATEInfo->TxWI.BW == BW_20)
@@ -550,24 +550,24 @@ VOID RT28xxATERxVGAInit(
 }
 
 
-/* 
+/*
 ==========================================================================
     Description:
         Set RT28xx/RT2880 ATE RF BW
-        
+
     Return:
         TRUE if all parameters are OK, FALSE otherwise
 ==========================================================================
 */
 INT	RT28xx_Set_ATE_TX_BW_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 	INT powerIndex;
 	UCHAR value = 0;
 	UCHAR BBPCurrentBW;
-	
+
 	BBPCurrentBW = simple_strtol(arg, 0, 10);
 
 	if (BBPCurrentBW == 0)
@@ -597,8 +597,8 @@ INT	RT28xx_Set_ATE_TX_BW_Proc(
 					continue;
 
 				/* TX_PWR_CFG_0 ~ TX_PWR_CFG_4 */
-				RTMP_IO_WRITE32(pAd, TX_PWR_CFG_0 + powerIndex*4, pAd->Tx20MPwrCfgGBand[powerIndex]);	
-				RtmpOsMsDelay(5);				
+				RTMP_IO_WRITE32(pAd, TX_PWR_CFG_0 + powerIndex*4, pAd->Tx20MPwrCfgGBand[powerIndex]);
+				RtmpOsMsDelay(5);
 			}
 		}
 		else
@@ -610,8 +610,8 @@ INT	RT28xx_Set_ATE_TX_BW_Proc(
 					continue;
 
 				/* TX_PWR_CFG_0 ~ TX_PWR_CFG_4 */
-				RTMP_IO_WRITE32(pAd, TX_PWR_CFG_0 + powerIndex*4, pAd->Tx20MPwrCfgABand[powerIndex]);	
- 				RtmpOsMsDelay(5);				
+				RTMP_IO_WRITE32(pAd, TX_PWR_CFG_0 + powerIndex*4, pAd->Tx20MPwrCfgABand[powerIndex]);
+ 				RtmpOsMsDelay(5);
  			}
 		}
 
@@ -652,7 +652,7 @@ INT	RT28xx_Set_ATE_TX_BW_Proc(
 				/* when Channel==14 && Mode==CCK && BandWidth==20M, BBP R4 bit5=1 */
  				ATE_BBP_IO_READ8_BY_REG_ID(pAd, BBP_R4, &value);
 				value |= 0x20; /* set bit5=1 */
- 				ATE_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R4, value);				
+ 				ATE_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R4, value);
 			}
 		}
 	}
@@ -668,8 +668,8 @@ INT	RT28xx_Set_ATE_TX_BW_Proc(
 					continue;
 
 				/* TX_PWR_CFG_0 ~ TX_PWR_CFG_4 */
-				RTMP_IO_WRITE32(pAd, TX_PWR_CFG_0 + powerIndex*4, pAd->Tx40MPwrCfgGBand[powerIndex]);	
-				RtmpOsMsDelay(5);				
+				RTMP_IO_WRITE32(pAd, TX_PWR_CFG_0 + powerIndex*4, pAd->Tx40MPwrCfgGBand[powerIndex]);
+				RtmpOsMsDelay(5);
 			}
 		}
 		else
@@ -681,9 +681,9 @@ INT	RT28xx_Set_ATE_TX_BW_Proc(
 					continue;
 
 				/* TX_PWR_CFG_0 ~ TX_PWR_CFG_4 */
-				RTMP_IO_WRITE32(pAd, TX_PWR_CFG_0 + powerIndex*4, pAd->Tx40MPwrCfgABand[powerIndex]);	
-				RtmpOsMsDelay(5);				
-			}		
+				RTMP_IO_WRITE32(pAd, TX_PWR_CFG_0 + powerIndex*4, pAd->Tx40MPwrCfgABand[powerIndex]);
+				RtmpOsMsDelay(5);
+			}
 
 			if ((pATEInfo->TxWI.TXWI_O.PHYMODE >= 2) && (pATEInfo->TxWI.TXWI_O.MCS == 7))
 			{
@@ -722,11 +722,11 @@ INT	RT28xx_Set_ATE_TX_BW_Proc(
 	}
 
 	return TRUE;
-}	
+}
 
 
 INT	RT28xx_Set_ATE_TX_FREQ_OFFSET_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
@@ -744,12 +744,12 @@ INT	RT28xx_Set_ATE_TX_FREQ_OFFSET_Proc(
 	pATEInfo->RFFreqOffset = RFFreqOffset;
 
 	/* shift TX power control to correct RF register bit position */
-	R4 = pATEInfo->RFFreqOffset << 15;		
+	R4 = pATEInfo->RFFreqOffset << 15;
 	R4 |= (pAd->LatchRfRegs.R4 & ((~0x001f8000)));
 	pAd->LatchRfRegs.R4 = R4;
-	
+
 	RtmpRfIoWrite(pAd);
-	
+
 	return TRUE;
 }
 

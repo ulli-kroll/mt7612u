@@ -30,7 +30,7 @@
 
 
 FREQUENCY_ITEM RtmpFreqItems3020[] =
-{	
+{
 	/* ISM : 2.4 to 2.483 GHz,  11g */
 	/*-CH---N-------R---K-----------*/
 	{1,    241,  2,  2},
@@ -50,7 +50,7 @@ FREQUENCY_ITEM RtmpFreqItems3020[] =
 };
 
 FREQUENCY_ITEM FreqItems3020_Xtal20M[] =
-{	
+{
 	/*
 	 * RF_R08:
 	 * <7:0>: pll_N<7:0>
@@ -83,89 +83,89 @@ UCHAR	NUM_OF_3020_CHNL = (sizeof(RtmpFreqItems3020) / sizeof(FREQUENCY_ITEM));
 FREQUENCY_ITEM *FreqItems3020 = RtmpFreqItems3020;
 
 
-#if defined(RTMP_INTERNAL_TX_ALC) || defined(RTMP_TEMPERATURE_COMPENSATION) 
+#if defined(RTMP_INTERNAL_TX_ALC) || defined(RTMP_TEMPERATURE_COMPENSATION)
 
 /* The Tx power tuning entry*/
-const TX_POWER_TUNING_ENTRY_STRUCT TxPowerTuningTableOrg[] = 
+const TX_POWER_TUNING_ENTRY_STRUCT TxPowerTuningTableOrg[] =
 {
 /*	idxTxPowerTable		Tx power control over RF			Tx power control over MAC*/
 /*	(zero-based array)		{ RF R12[4:0]: Tx0 ALC},			{MAC 0x1314~0x1324}*/
-/*	0	*/				{0x00, 							-15}, 
-/*	1	*/				{0x01, 							-15}, 
-/*	2	*/				{0x00, 							-14}, 
-/*	3	*/				{0x01, 							-14}, 
-/*	4	*/				{0x00, 							-13}, 
-/*	5	*/				{0x01, 							-13}, 
-/*	6	*/				{0x00, 							-12}, 
-/*	7	*/				{0x01, 							-12}, 
-/*	8	*/				{0x00, 							-11}, 
-/*	9	*/				{0x01, 							-11}, 
-/*	10	*/				{0x00, 							-10}, 
-/*	11	*/				{0x01, 							-10}, 
-/*	12	*/				{0x00, 							-9}, 
-/*	13	*/				{0x01, 							-9}, 
-/*	14	*/				{0x00, 							-8}, 
-/*	15	*/				{0x01, 							-8}, 
-/*	16	*/				{0x00, 							-7}, 
-/*	17	*/				{0x01, 							-7}, 
-/*	18	*/				{0x00, 							-6}, 
-/*	19	*/				{0x01, 							-6}, 
-/*	20	*/				{0x00, 							-5}, 
-/*	21	*/				{0x01, 							-5}, 
-/*	22	*/				{0x00, 							-4}, 
-/*	23	*/				{0x01, 							-4}, 
-/*	24	*/				{0x00, 							-3}, 
-/*	25	*/				{0x01, 							-3}, 
-/*	26	*/				{0x00,							-2}, 
-/*	27	*/				{0x01, 							-2}, 
-/*	28	*/				{0x00, 							-1}, 
-/*	29	*/				{0x01, 							-1}, 
-/*	30	*/				{0x00,							0}, 
-/*	31	*/				{0x01,							0}, 
-/*	32	*/				{0x02,							0}, 
-/*	33	*/				{0x03,							0}, 
-/*	34	*/				{0x04,							0}, 
-/*	35	*/				{0x05,							0}, 
-/*	36	*/				{0x06,							0}, 
-/*	37	*/				{0x07,							0}, 
-/*	38	*/				{0x08,							0}, 
-/*	39	*/				{0x09,							0}, 
-/*	40	*/				{0x0A,							0}, 
-/*	41	*/				{0x0B,							0}, 
-/*	42	*/				{0x0C,							0}, 
-/*	43	*/				{0x0D,							0}, 
-/*	44	*/				{0x0E,							0}, 
-/*	45	*/				{0x0F,							0}, 
-/*	46	*/				{0x0F-1,							1}, 
-/*	47	*/				{0x0F,							1}, 
-/*	48	*/				{0x0F-1,							2}, 
-/*	49	*/				{0x0F,							2}, 
-/*	50	*/				{0x0F-1,							3}, 
-/*	51	*/				{0x0F,							3}, 
-/*	52	*/				{0x0F-1,							4}, 
-/*	53	*/				{0x0F,							4}, 
-/*	54	*/				{0x0F-1,							5}, 
-/*	55	*/				{0x0F,							5}, 
-/*	56	*/				{0x0F-1,							6}, 
-/*	57	*/				{0x0F,							6}, 
-/*	58	*/				{0x0F-1,							7}, 
-/*	59	*/				{0x0F,							7}, 
-/*	60	*/				{0x0F-1,							8}, 
-/*	61	*/				{0x0F,							8}, 
-/*	62	*/				{0x0F-1,							9}, 
-/*	63	*/				{0x0F,							9}, 
-/*	64	*/				{0x0F-1,							10}, 
-/*	65	*/				{0x0F,							10}, 
-/*	66	*/				{0x0F-1,							11}, 
-/*	67	*/				{0x0F,							11}, 
-/*	68	*/				{0x0F-1,							12}, 
-/*	69	*/				{0x0F,							12}, 
-/*	70	*/				{0x0F-1,							13}, 
-/*	71	*/				{0x0F,							13}, 
-/*	72	*/				{0x0F-1,							14}, 
-/*	73	*/				{0x0F,							14}, 
-/*	74	*/				{0x0F-1,							15}, 
-/*	75	*/				{0x0F,							15}, 
+/*	0	*/				{0x00, 							-15},
+/*	1	*/				{0x01, 							-15},
+/*	2	*/				{0x00, 							-14},
+/*	3	*/				{0x01, 							-14},
+/*	4	*/				{0x00, 							-13},
+/*	5	*/				{0x01, 							-13},
+/*	6	*/				{0x00, 							-12},
+/*	7	*/				{0x01, 							-12},
+/*	8	*/				{0x00, 							-11},
+/*	9	*/				{0x01, 							-11},
+/*	10	*/				{0x00, 							-10},
+/*	11	*/				{0x01, 							-10},
+/*	12	*/				{0x00, 							-9},
+/*	13	*/				{0x01, 							-9},
+/*	14	*/				{0x00, 							-8},
+/*	15	*/				{0x01, 							-8},
+/*	16	*/				{0x00, 							-7},
+/*	17	*/				{0x01, 							-7},
+/*	18	*/				{0x00, 							-6},
+/*	19	*/				{0x01, 							-6},
+/*	20	*/				{0x00, 							-5},
+/*	21	*/				{0x01, 							-5},
+/*	22	*/				{0x00, 							-4},
+/*	23	*/				{0x01, 							-4},
+/*	24	*/				{0x00, 							-3},
+/*	25	*/				{0x01, 							-3},
+/*	26	*/				{0x00,							-2},
+/*	27	*/				{0x01, 							-2},
+/*	28	*/				{0x00, 							-1},
+/*	29	*/				{0x01, 							-1},
+/*	30	*/				{0x00,							0},
+/*	31	*/				{0x01,							0},
+/*	32	*/				{0x02,							0},
+/*	33	*/				{0x03,							0},
+/*	34	*/				{0x04,							0},
+/*	35	*/				{0x05,							0},
+/*	36	*/				{0x06,							0},
+/*	37	*/				{0x07,							0},
+/*	38	*/				{0x08,							0},
+/*	39	*/				{0x09,							0},
+/*	40	*/				{0x0A,							0},
+/*	41	*/				{0x0B,							0},
+/*	42	*/				{0x0C,							0},
+/*	43	*/				{0x0D,							0},
+/*	44	*/				{0x0E,							0},
+/*	45	*/				{0x0F,							0},
+/*	46	*/				{0x0F-1,							1},
+/*	47	*/				{0x0F,							1},
+/*	48	*/				{0x0F-1,							2},
+/*	49	*/				{0x0F,							2},
+/*	50	*/				{0x0F-1,							3},
+/*	51	*/				{0x0F,							3},
+/*	52	*/				{0x0F-1,							4},
+/*	53	*/				{0x0F,							4},
+/*	54	*/				{0x0F-1,							5},
+/*	55	*/				{0x0F,							5},
+/*	56	*/				{0x0F-1,							6},
+/*	57	*/				{0x0F,							6},
+/*	58	*/				{0x0F-1,							7},
+/*	59	*/				{0x0F,							7},
+/*	60	*/				{0x0F-1,							8},
+/*	61	*/				{0x0F,							8},
+/*	62	*/				{0x0F-1,							9},
+/*	63	*/				{0x0F,							9},
+/*	64	*/				{0x0F-1,							10},
+/*	65	*/				{0x0F,							10},
+/*	66	*/				{0x0F-1,							11},
+/*	67	*/				{0x0F,							11},
+/*	68	*/				{0x0F-1,							12},
+/*	69	*/				{0x0F,							12},
+/*	70	*/				{0x0F-1,							13},
+/*	71	*/				{0x0F,							13},
+/*	72	*/				{0x0F-1,							14},
+/*	73	*/				{0x0F,							14},
+/*	74	*/				{0x0F-1,							15},
+/*	75	*/				{0x0F,							15},
 };
 #endif /* RTMP_INTERNAL_TX_ALC || RTMP_TEMPERATURE_COMPENSATION */
 
@@ -198,7 +198,7 @@ static UCHAR ChipAGCAdjust(
 {
 	UCHAR R66 = OrigR66Value;
 	CHAR lanGain = GET_LNA_GAIN(pAd);
-	
+
 	if (pAd->LatchRfRegs.Channel <= 14)
 	{	/*BG band*/
 		R66 = 0x2E + lanGain;
@@ -270,8 +270,8 @@ static VOID ChipBBPAdjust(RTMP_ADAPTER *pAd)
 
 	DBGPRINT(RT_DEBUG_TRACE, ("%s(): BW_%s, ChannelWidth=%d, Channel=%d, ExtChanOffset=%d(%d) \n",
 					__FUNCTION__, (rf_bw == BW_40 ? "40" : "20"),
-					pAd->CommonCfg.HtCapability.HtCapInfo.ChannelWidth, 
-					pAd->CommonCfg.Channel, 
+					pAd->CommonCfg.HtCapability.HtCapInfo.ChannelWidth,
+					pAd->CommonCfg.Channel,
 					pAd->CommonCfg.RegTransmitSetting.field.EXTCHA,
 					pAd->CommonCfg.AddHTInfo.AddHtInfo.ExtChanOffset));
 
@@ -290,7 +290,7 @@ static VOID ChipBBPAdjust(RTMP_ADAPTER *pAd)
 static VOID Default_ChipSwitchChannel(
 	IN PRTMP_ADAPTER pAd,
 	IN UCHAR Channel,
-	IN BOOLEAN bScan) 
+	IN BOOLEAN bScan)
 {
 	DBGPRINT(RT_DEBUG_ERROR, ("%s(): dummy channel switch function!\n", __FUNCTION__));
 }
@@ -310,7 +310,7 @@ static VOID Default_ChipAGCInit(RTMP_ADAPTER *pAd, UCHAR BandWidth)
 	}
 	else
 	{	//A band
-		{	
+		{
 			if (BandWidth == BW_20)
 				R66 = (UCHAR)(0x32 + (lan_gain * 5) / 3);
 #ifdef DOT11_N_SUPPORT
@@ -335,7 +335,7 @@ static VOID AsicAntennaDefaultReset(
 		pAntenna->field.TxPath = 1;
 		pAntenna->field.RxPath = 2;
 	}
-	DBGPRINT(RT_DEBUG_WARN, ("E2PROM error, hard code as 0x%04x\n", pAntenna->word));	
+	DBGPRINT(RT_DEBUG_WARN, ("E2PROM error, hard code as 0x%04x\n", pAntenna->word));
 }
 
 
@@ -377,7 +377,7 @@ VOID RTxx_default_Init(RTMP_ADAPTER *pAd)
 
 #ifdef RTMP_EFUSE_SUPPORT
 	pChipCap->EFUSE_USAGE_MAP_START = 0x2d0;
-	pChipCap->EFUSE_USAGE_MAP_END = 0x2fc;      
+	pChipCap->EFUSE_USAGE_MAP_END = 0x2fc;
        	pChipCap->EFUSE_USAGE_MAP_SIZE = 45;
 	pChipCap->EFUSE_RESERVED_SIZE = pChipCap->EFUSE_USAGE_MAP_SIZE - 5;
 #endif /* RTMP_EFUSE_SUPPORT */
@@ -385,7 +385,7 @@ VOID RTxx_default_Init(RTMP_ADAPTER *pAd)
 	pChipCap->VcoPeriod = 10;
 	pChipCap->FlgIsVcoReCalMode = VCO_CAL_DISABLE;
 	pChipCap->WPDMABurstSIZE = 2; /* default 64B */
-	pChipCap->MBSSIDMode = MBSSID_MODE0; 
+	pChipCap->MBSSIDMode = MBSSID_MODE0;
 
 #ifdef DOT11W_PMF_SUPPORT
         pChipCap->FlgPMFEncrtptMode = PMF_ENCRYPT_MODE_0;

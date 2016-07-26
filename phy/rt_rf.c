@@ -33,7 +33,7 @@
 #ifdef RTMP_RF_RW_SUPPORT
 /*
 	========================================================================
-	
+
 	Routine Description: Read RF register through MAC with specified bit mask
 
 	Arguments:
@@ -44,9 +44,9 @@
 		BitMask	- bit wise mask
 
 	Return Value:
-	
+
 	Note:
-	
+
 	========================================================================
 */
 VOID RTMP_ReadRF(
@@ -55,18 +55,18 @@ VOID RTMP_ReadRF(
 	OUT	PUCHAR			pValue1,
 	OUT PUCHAR			pValue2,
 	IN	UCHAR			BitMask)
-{	
-	UCHAR RfReg = 0;									
-	RT30xxReadRFRegister(pAd, RegID, &RfReg);		
-	if (pValue1 != NULL)								
-		*pValue1 = RfReg & BitMask;			
-	if (pValue2 != NULL)								
-		*pValue2 = RfReg & (~BitMask);		
+{
+	UCHAR RfReg = 0;
+	RT30xxReadRFRegister(pAd, RegID, &RfReg);
+	if (pValue1 != NULL)
+		*pValue1 = RfReg & BitMask;
+	if (pValue2 != NULL)
+		*pValue2 = RfReg & (~BitMask);
 }
 
 /*
 	========================================================================
-	
+
 	Routine Description: Write RF register through MAC with specified bit mask
 
 	Arguments:
@@ -76,9 +76,9 @@ VOID RTMP_ReadRF(
 		BitMask	- bit wise mask
 
 	Return Value:
-	
+
 	Note:
-	
+
 	========================================================================
 */
 VOID RTMP_WriteRF(
@@ -87,7 +87,7 @@ VOID RTMP_WriteRF(
 	IN	UCHAR			Value,
 	IN	UCHAR			BitMask)
 {
-	UCHAR RfReg = 0;	
+	UCHAR RfReg = 0;
 	RTMP_ReadRF(pAd, RegID, NULL, &RfReg, BitMask);
 	RfReg |= ((Value) & BitMask);
 	RT30xxWriteRFRegister(pAd, RegID, RfReg);
@@ -95,17 +95,17 @@ VOID RTMP_WriteRF(
 
 /*
 	========================================================================
-	
+
 	Routine Description: Write RF register through MAC
 
 	Arguments:
 
 	Return Value:
 
-	IRQL = 
-	
+	IRQL =
+
 	Note:
-	
+
 	========================================================================
 */
 NDIS_STATUS RT30xxWriteRFRegister(
@@ -167,7 +167,7 @@ NDIS_STATUS RT30xxWriteRFRegister(
 				IdRf++;
 			else
 				IdRf--;
-			
+
 				rfcsr.non_bank.RF_CSR_DATA = IdRf;
 				RTMP_IO_WRITE32(pAd, RF_CSR_CFG, rfcsr.word);
 				RtmpOsMsDelay(1);
@@ -192,17 +192,17 @@ done:
 
 /*
 	========================================================================
-	
+
 	Routine Description: Read RF register through MAC
 
 	Arguments:
 
 	Return Value:
 
-	IRQL = 
-	
+	IRQL =
+
 	Note:
-	
+
 	========================================================================
 */
 NDIS_STATUS RT30xxReadRFRegister(
@@ -232,29 +232,29 @@ NDIS_STATUS RT30xxReadRFRegister(
 	{
 		if(RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST))
 			goto done;
-			
+
 		RTMP_IO_READ32(pAd, RF_CSR_CFG, &rfcsr.word);
 
 		if (rfcsr.non_bank.RF_CSR_KICK == BUSY)
 				continue;
-		
+
 		rfcsr.word = 0;
 		rfcsr.non_bank.RF_CSR_WR = 0;
 		rfcsr.non_bank.RF_CSR_KICK = 1;
 		rfcsr.non_bank.TESTCSR_RFACC_REGNUM = regID;
 		RTMP_IO_WRITE32(pAd, RF_CSR_CFG, rfcsr.word);
-		
+
 		for (k=0; k<MAX_BUSY_COUNT; k++)
 		{
 			if(RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST))
 				goto done;
-				
+
 			RTMP_IO_READ32(pAd, RF_CSR_CFG, &rfcsr.word);
 
 			if (rfcsr.non_bank.RF_CSR_KICK == IDLE)
 				break;
 		}
-		
+
 		if ((rfcsr.non_bank.RF_CSR_KICK == IDLE) &&
 			(rfcsr.non_bank.TESTCSR_RFACC_REGNUM == regID))
 		{
@@ -270,14 +270,14 @@ NDIS_STATUS RT30xxReadRFRegister(
 		goto done;
 	}
 	ret = STATUS_SUCCESS;
-	
+
 done:
 #ifdef RTMP_MAC_USB
 	if (IS_USB_INF(pAd)) {
 		RTMP_SEM_EVENT_UP(&pAd->reg_atomic);
 	}
 #endif /* RTMP_MAC_USB */
-	
+
 	return ret;
 }
 
@@ -287,24 +287,24 @@ done:
     ========================================================================
     Routine Description:
         Adjust frequency offset when do channel switching or frequency calabration.
-        
+
     Arguments:
         pAd         		- Adapter pointer
         pRefFreqOffset	in: referenced Frequency offset   out: adjusted frequency offset
-        
+
     Return Value:
         None
-        
+
     ========================================================================
 */
 BOOLEAN RTMPAdjustFrequencyOffset(RTMP_ADAPTER *pAd,UCHAR *pRefFreqOffset)
 {
 	BOOLEAN RetVal = TRUE;
-	UCHAR RFValue = 0; 
-	UCHAR PreRFValue = 0; 
+	UCHAR RFValue = 0;
+	UCHAR PreRFValue = 0;
 	UCHAR FreqOffset = 0;
 	UCHAR HighCurrentBit = 0;
-	
+
 	RTMP_ReadRF(pAd, RF_R17, &FreqOffset, &HighCurrentBit, 0x7F);
 	PreRFValue =  HighCurrentBit | FreqOffset;
 	FreqOffset = min((*pRefFreqOffset & 0x7F), 0x5F);

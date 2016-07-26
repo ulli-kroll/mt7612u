@@ -10,8 +10,8 @@ endif
 
 # CHIPSET
 # rt2860, rt2870, rt2880, rt2070, rt3070, rt3090, rt3572, rt3062, rt3562, rt3593, rt3573
-# rt3562(for rt3592), rt3050, rt3350, rt3352, rt5350, rt5370, rt5390, rt5572, rt5592, 
-# rt8592(for rt85592), 
+# rt3562(for rt3592), rt3050, rt3350, rt3352, rt5350, rt5370, rt5390, rt5572, rt5592,
+# rt8592(for rt85592),
 # mt7601e, mt7601u,
 # mt7620,
 # mt7650e, mt7630e, mt7610e, mt7650u, mt7630u, mt7610u
@@ -170,7 +170,7 @@ CROSS_COMPILE = /opt/buildroot-gcc342/bin/mipsel-linux-uclibc-
 endif
 
 ifeq ($(PLATFORM),FREESCALE8377)
-LINUX_SRC = /opt/ltib-mpc8377_rds-20090309/rpm/BUILD/linux-2.6.25 
+LINUX_SRC = /opt/ltib-mpc8377_rds-20090309/rpm/BUILD/linux-2.6.25
 CROSS_COMPILE = /opt/freescale/usr/local/gcc-4.2.187-eglibc-2.5.187/powerpc-linux-gnu/bin/powerpc-linux-gnu-
 endif
 
@@ -203,7 +203,7 @@ LINUX_SRC = /lib/modules/$(shell uname -r)/build
 # Linux 2.4 Change to your local setting
 #LINUX_SRC = /usr/src/linux-2.4
 LINUX_SRC_MODULE = /lib/modules/$(shell uname -r)/kernel/drivers/net/wireless/
-CROSS_COMPILE = 
+CROSS_COMPILE =
 endif
 
 ifeq ($(PLATFORM),INTELP6)
@@ -242,8 +242,8 @@ CROSS_COMPILE = /home/public/lantiq/VR9/UGW-4.2/staging_dir/toolchain-mips_gcc-3
 endif
 
 ifeq ($(PLATFORM),BRCM_6358)
-LINUX_SRC = 
-CROSS_COMPILE = 
+LINUX_SRC =
+CROSS_COMPILE =
 endif
 
 ifeq ($(PLATFORM),INF_AMAZON_SE)
@@ -298,7 +298,7 @@ LINUX_SRC = /home/john/MTK/BDP_Linux/linux-2.6.27
 CROSS_COMPILE = armv6z-mediatek-linux-gnueabi-
 endif
 
-ifeq ($(PLATFORM),NXP_TV550) 
+ifeq ($(PLATFORM),NXP_TV550)
 LINUX_SRC = /data/tv550/kernel/linux-2.6.28.9
 LINUX_SRC_MODULE = /data/tv550/kernel/linux-2.6.28.9/drivers/net/wireless
 CROSS_COMPILE = /opt/embeddedalley/nxp_tv550/bin/mipsel-linux-
@@ -318,7 +318,7 @@ ifeq ($(TARGET),LINUX)
 all: build_tools $(TARGET)
 else
 all: $(TARGET)
-endif 
+endif
 
 
 

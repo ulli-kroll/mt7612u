@@ -2,10 +2,10 @@
 
     Module Name:
     vr_ikans.c
- 
+
     Abstract:
     Only for IKANOS Vx160 or Vx180 platform.
- 
+
     Revision History:
     Who        When          What
     ---------  ----------    ----------------------------------------------
@@ -83,7 +83,7 @@ Arguments:
 	netdev			- our WLAN network device
 
 Return Value:
-	
+
 
 Note:
 ========================================================================
@@ -143,7 +143,7 @@ void IKANOS_DataFrameRx(RTMP_ADAPTER *pAd, struct sk_buff *pSkb)
 	apBuf->flags2 = 0;
 
 	apClassify(IKANOS_PERAP_ID, apBuf, (void *)IKANOS_WlanPktFromAp);
-	dev_kfree_skb(pSkb); 
+	dev_kfree_skb(pSkb);
 }
 
 
@@ -160,7 +160,7 @@ Arguments:
 	netdev			- our WLAN network device
 
 Return Value:
-	
+
 
 Note:
 ========================================================================
@@ -193,8 +193,8 @@ Routine Description:
 	Get real interface index, used in get_netdev_from_bssid()
 
 Arguments:
-	pAd				- 
-	FromWhichBSSID	- 
+	pAd				-
+	FromWhichBSSID	-
 
 Return Value:
 	None
@@ -213,7 +213,7 @@ static INT32 GetSpecInfoIdxFromBssid(PRTMP_ADAPTER pAd, INT32 FromWhichBSSID)
 		if(FromWhichBSSID >= MIN_NET_DEVICE_FOR_APCLI)
 		{
 			IfIdx = MAX_MBSSID_NUM(pAd) + MAX_WDS_ENTRY;
-		} 
+		}
 		else
 #endif /* APCLI_SUPPORT */
 		{

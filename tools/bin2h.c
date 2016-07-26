@@ -24,7 +24,7 @@
 int bin2h(char *infname, char *outfname, char *fw_name)
 {
 	int ret = 0;
-    FILE *infile, *outfile;	
+    FILE *infile, *outfile;
     unsigned char c;
     int i=0;
 
@@ -36,12 +36,12 @@ int bin2h(char *infname, char *outfname, char *fw_name)
     }
 
     outfile = fopen(outfname,"w");
-    
+
     if (outfile == (FILE *) NULL) {
 		printf("Can't open write file %s \n",outfname);
        	return -1;
     }
-    
+
     fputs("/* AUTO GEN PLEASE DO NOT MODIFY IT */ \n",outfile);
     fputs("/* AUTO GEN PLEASE DO NOT MODIFY IT */ \n",outfile);
     fputs("\n",outfile);
@@ -50,31 +50,31 @@ int bin2h(char *infname, char *outfname, char *fw_name)
 	fprintf(outfile, "UCHAR %s[] = {\n", fw_name);
 
     while(1) {
-		char cc[3];    
+		char cc[3];
 
 		c = getc(infile);
-	
+
 		if (feof(infile))
 	   		break;
-	
+
 		memset(cc,0,2);
-	
-		if (i >= 16) {	
-	   		fputs("\n", outfile);	
+
+		if (i >= 16) {
+	   		fputs("\n", outfile);
 	   		i = 0;
 		}
-    
-		fputs("0x", outfile); 
+
+		fputs("0x", outfile);
 		sprintf(cc,"%02x",c);
 		fputs(cc, outfile);
 		fputs(", ", outfile);
 		i++;
-    } 
-    
+    }
+
     fputs("} ;\n", outfile);
     fclose(infile);
     fclose(outfile);
-}	
+}
 
 int main(int argc ,char *argv[])
 {
@@ -86,7 +86,7 @@ int main(int argc ,char *argv[])
     char *chipset, *token;
 	char *wow, *rt28xx_mode;
 	int is_bin2h_fw = 0, is_bin2h_rom_patch = 0, is_bin2h_e2p=0;
-   
+
     rt28xxdir = (char *)getenv("RT28xx_DIR");
     chipset = (char *)getenv("CHIPSET");
 	memcpy(chipsets, chipset, strlen(chipset));
@@ -101,13 +101,13 @@ int main(int argc ,char *argv[])
     if(!chipset) {
 		printf("Environment value \"CHIPSET\" not export \n");
 		return -1;
-    }	    
-	
+    }
+
 	if (strlen(rt28xxdir) > (sizeof(infname)-100)) {
 		printf("Environment value \"RT28xx_DIR\" is too long!\n");
 		return -1;
 	}
-    
+
 	chipset = strtok(chipsets, " ");
 
 	while (chipset != NULL) {
@@ -119,7 +119,7 @@ int main(int argc ,char *argv[])
 		memset(fw_name, 0, 128);
 		memset(e2p_name, 0, 128);
 		memset(in_rom_patch, 0, 512);
-		memset(out_rom_patch, 0, 512);	
+		memset(out_rom_patch, 0, 512);
 		memset(rom_patch_name, 0, 128);
     	strcat(infname,rt28xxdir);
 		strcat(ine2pname, rt28xxdir);
@@ -298,7 +298,7 @@ int main(int argc ,char *argv[])
 			//strcat(infname,"/mcu/bin/MT7610.bin");
 			//strcat(infname,"/mcu/bin/MT7650_E2_hdr_201210031435.bin");
 			//strcat(infname,"/mcu/bin/MT7610_201210021430.bin"); // turn on debug log same as 10020138.bin
-			//strcat(infname,"/mcu/bin/MT7610_201210031425.bin"); 
+			//strcat(infname,"/mcu/bin/MT7610_201210031425.bin");
 			//strcat(infname,"/mcu/bin/MT7650_E2_hdr_10021442.bin");
 			//strcat(infname,"/mcu/bin/MT7650_E2_hdr_shang_1001.bin");
 			//strcat(infname,"/mcu/bin/MT7650_E2_hdr_1002.bin");
@@ -322,7 +322,7 @@ int main(int argc ,char *argv[])
 		} else if ((strncmp(chipset, "mt7662e", 7) == 0)
 				|| (strncmp(chipset, "mt7662u", 7) == 0)
 				|| (strncmp(chipset, "mt7632e", 7) == 0)
-				|| (strncmp(chipset, "mt7632u", 7) == 0) 
+				|| (strncmp(chipset, "mt7632u", 7) == 0)
 				|| (strncmp(chipset, "mt7612e", 7) == 0)
 				|| (strncmp(chipset, "mt7612u", 7) == 0)) {
 			//strcat(infname, "/mcu/bin/WIFI_RAM_CODE_ALL_2SS.bin");
@@ -429,4 +429,4 @@ int main(int argc ,char *argv[])
 	}
 
     exit(0);
-}	
+}

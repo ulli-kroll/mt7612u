@@ -37,7 +37,7 @@ BOOLEAN UpdateFromGlobal = FALSE;
 void VideoTurbineUpdate(
 	IN PRTMP_ADAPTER pAd)
 {
-	if (UpdateFromGlobal == TRUE) 
+	if (UpdateFromGlobal == TRUE)
 	{
 		pAd->VideoTurbine.Enable = GLOBAL_AP_VIDEO_CONFIG.Enable;
 		pAd->VideoTurbine.ClassifierEnable = GLOBAL_AP_VIDEO_CONFIG.ClassifierEnable;
@@ -59,7 +59,7 @@ VOID TxSwQDepthAdjust(IN RTMP_ADAPTER *pAd, IN UINT32 qLen)
 	INT qIdx;
 	QUEUE_HEADER *pTxQ, *pEntry;
 	PNDIS_PACKET pPacket;
-	
+
 	RTMP_IRQ_LOCK(&pAd->irq_lock, IrqFlags);
 	pAd->TxSwQMaxLen = qLen;
 	for (qIdx = 0; qIdx < NUM_OF_TX_RING; qIdx++)
@@ -78,8 +78,8 @@ VOID TxSwQDepthAdjust(IN RTMP_ADAPTER *pAd, IN UINT32 qLen)
 		}
 	}
 	RTMP_IRQ_UNLOCK(&pAd->irq_lock, IrqFlags);
-	
-	DBGPRINT(RT_DEBUG_OFF, ("%s():Set TxSwQMaxLen as %d\n", 
+
+	DBGPRINT(RT_DEBUG_OFF, ("%s():Set TxSwQMaxLen as %d\n",
 			__FUNCTION__, pAd->TxSwQMaxLen));
 }
 
@@ -87,7 +87,7 @@ VOID TxSwQDepthAdjust(IN RTMP_ADAPTER *pAd, IN UINT32 qLen)
 VOID VideoTurbineDynamicTune(
 	IN PRTMP_ADAPTER pAd)
 {
-	if (pAd->VideoTurbine.Enable == TRUE) 
+	if (pAd->VideoTurbine.Enable == TRUE)
 	{
 			UINT32 MacReg = 0;
 
@@ -103,9 +103,9 @@ VOID VideoTurbineDynamicTune(
 
 		Set_RateAdaptInterval(pAd, "100:50");
 		TxSwQDepthAdjust(pAd, 1024);
-			
+
 	}
-	else 
+	else
 	{
 			UINT32 MacReg = 0;
 
@@ -119,7 +119,7 @@ VOID VideoTurbineDynamicTune(
 		pAd->VideoTurbine.TxBASize = GetAsicDefaultTxBA(pAd);
 
 		/* reset to default rate adaptation simping interval */
-		if ((pAd->ra_interval != DEF_RA_TIME_INTRVAL) || 
+		if ((pAd->ra_interval != DEF_RA_TIME_INTRVAL) ||
 			(pAd->ra_fast_interval != DEF_QUICK_RA_TIME_INTERVAL))
 			Set_RateAdaptInterval(pAd, "500:100");
 
@@ -160,7 +160,7 @@ VOID VideoConfigInit(
 {
 	pAd->VideoTurbine.Enable = FALSE;
 	pAd->VideoTurbine.TxRetryLimit = 0x2F1F;
-	pAd->VideoTurbine.TxBASize = pAd->CommonCfg.TxBASize; 
+	pAd->VideoTurbine.TxBASize = pAd->CommonCfg.TxBASize;
 }
 
 #endif /* VIDEO_TURBINE_SUPPORT */

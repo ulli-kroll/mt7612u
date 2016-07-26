@@ -36,7 +36,7 @@ VOID RadarDetectPeriodic(
 {
 	INT i, ChIdx = 0, bAnyUnavailableChannel = FALSE;
 
-	/* 
+	/*
 		1. APStart(), CalBufTime = 0;
 		2. if bAnyUnavailableChannel, CalBufTime = DEFAULT_CAL_BUF_TIME;
 		3. if Calibrated, CalBufTime = DEFAULT_CAL_BUF_TIME_MAX;
@@ -181,7 +181,7 @@ UCHAR get_channel_by_reference(
 
 	switch (mode)
 	{
-		case 1: 
+		case 1:
 		{
 			USHORT min_time = 0xFFFF;
 			/* select channel with least RemainingTimeForUse */
@@ -213,13 +213,13 @@ UCHAR get_channel_by_reference(
 			ch = FirstChannel(pAd);
 			break;
 		}
-	}	
+	}
 
     DBGPRINT(RT_DEBUG_TRACE,("%s(): mode = %u, ch = %u\n",
 							 __FUNCTION__, mode, ch));
 	return ch;
 }
-		
+
 
 #ifdef CONFIG_AP_SUPPORT
 /*
@@ -238,7 +238,7 @@ VOID ChannelSwitchingCountDownProc(
 {
 	DBGPRINT(RT_DEBUG_TRACE, ("%s():Channel Switching...(%d/%d)\n",
 				__FUNCTION__, pAd->Dot11_H.CSCount, pAd->Dot11_H.CSPeriod));
-	
+
 	pAd->Dot11_H.CSCount++;
 	if (pAd->Dot11_H.CSCount >= pAd->Dot11_H.CSPeriod)
 	{
@@ -248,12 +248,12 @@ VOID ChannelSwitchingCountDownProc(
 #else
 		APStop(pAd);
 		APStartUp(pAd);
-#endif /* !DFS_SUPPORT */		
+#endif /* !DFS_SUPPORT */
 	}
 }
 #endif /* CONFIG_AP_SUPPORT */
 
-/* 
+/*
     ==========================================================================
     Description:
         Set channel switch Period
@@ -262,7 +262,7 @@ VOID ChannelSwitchingCountDownProc(
     ==========================================================================
 */
 INT	Set_CSPeriod_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg)
 {
 	pAd->Dot11_H.CSPeriod = (USHORT) simple_strtol(arg, 0, 10);
@@ -272,7 +272,7 @@ INT	Set_CSPeriod_Proc(
 	return TRUE;
 }
 
-/* 
+/*
     ==========================================================================
     Description:
 		change channel moving time for DFS testing.
@@ -285,12 +285,12 @@ INT	Set_CSPeriod_Proc(
         None
 
     Note:
-        Usage: 
+        Usage:
                1.) iwpriv ra0 set ChMovTime=[value]
     ==========================================================================
 */
 INT Set_ChMovingTime_Proc(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN PSTRING arg)
 {
 	USHORT Value;
@@ -306,7 +306,7 @@ INT Set_ChMovingTime_Proc(
 }
 
 
-/* 
+/*
     ==========================================================================
     Description:
 		Reset channel block status.
@@ -318,18 +318,18 @@ INT Set_ChMovingTime_Proc(
         None
 
     Note:
-        Usage: 
+        Usage:
                1.) iwpriv ra0 set ChMovTime=[value]
     ==========================================================================
 */
 INT Set_BlockChReset_Proc(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN PSTRING arg)
 {
 	INT i;
 
-	DBGPRINT(RT_DEBUG_TRACE, ("%s: Reset channel block status.\n", __FUNCTION__));	
-	
+	DBGPRINT(RT_DEBUG_TRACE, ("%s: Reset channel block status.\n", __FUNCTION__));
+
 	for (i=0; i<pAd->ChannelListNum; i++)
 		pAd->ChannelList[i].RemainingTimeForUse = 0;
 
@@ -340,7 +340,7 @@ INT Set_BlockChReset_Proc(
 #if defined(DFS_SUPPORT) || defined(CARRIER_DETECTION_SUPPORT)
 
 INT	Set_RadarShow_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg)
 {
 #ifdef DFS_SUPPORT

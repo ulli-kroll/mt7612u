@@ -54,7 +54,7 @@ INT rtmp_get_rxwi_rssi(RXWI_STRUC *rxwi, INT size, CHAR *rssi)
 INT rtmp_get_rxwi_snr(RXWI_STRUC *rxwi, INT size, UCHAR *snr)
 {
 	struct _RXWI_OMAC *rxwi_o = (struct _RXWI_OMAC *)rxwi;
-	
+
 	switch (size) {
 		case 3:
 			snr[2] = rxwi_o->SNR2;
@@ -65,7 +65,7 @@ INT rtmp_get_rxwi_snr(RXWI_STRUC *rxwi, INT size, UCHAR *snr)
 			snr[0] = rxwi_o->SNR0;
 			break;
 	}
-	
+
 	return 0;
 }
 
@@ -148,8 +148,8 @@ VOID rtmp_asic_init_txrx_ring(RTMP_ADAPTER *pAd)
 
 
 	/*
-		Write Tx Ring base address registers 
-		
+		Write Tx Ring base address registers
+
 		The Tx Ring arrangement:
 		RingIdx	SwRingIdx	AsicPriority	WMM QID
 		0 		TxSw0		L			QID_AC_BE
@@ -210,7 +210,7 @@ VOID rtmp_asic_init_txrx_ring(RTMP_ADAPTER *pAd)
 	GloCfg.word &= 0xff0;
 	GloCfg.field.EnTXWriteBackDDONE = 1;
 	RTMP_IO_WRITE32(pAd, WPDMA_GLO_CFG, GloCfg.word);
-	
+
 	IntCfg.word = 0;
 	RTMP_IO_WRITE32(pAd, DELAY_INT_CFG, IntCfg.word);
 }

@@ -38,7 +38,7 @@ INT rtmp_wdev_idx_unreg(RTMP_ADAPTER *pAd, struct wifi_dev *wdev)
 	RTMP_INT_LOCK(&pAd->irq_lock, flags);
 	for (idx = 0; idx < WDEV_NUM_MAX; idx++) {
 		if (pAd->wdev_list[idx] == wdev) {
-			DBGPRINT(RT_DEBUG_WARN, 
+			DBGPRINT(RT_DEBUG_WARN,
 					("unregister wdev(type:%d, idx:%d) from wdev_list\n",
 					wdev->wdev_type, wdev->wdev_idx));
 			pAd->wdev_list[idx] = NULL;
@@ -48,7 +48,7 @@ INT rtmp_wdev_idx_unreg(RTMP_ADAPTER *pAd, struct wifi_dev *wdev)
 	}
 
 	if (idx == WDEV_NUM_MAX) {
-		DBGPRINT(RT_DEBUG_ERROR, 
+		DBGPRINT(RT_DEBUG_ERROR,
 					("Cannot found wdev(%p, type:%d, idx:%d) in wdev_list\n",
 					wdev, wdev->wdev_type, wdev->wdev_idx));
 		DBGPRINT(RT_DEBUG_OFF, ("Dump wdev_list:\n"));
@@ -74,9 +74,9 @@ INT rtmp_wdev_idx_reg(RTMP_ADAPTER *pAd, struct wifi_dev *wdev)
 	RTMP_INT_LOCK(&pAd->irq_lock, flags);
 	for (idx = 0; idx < WDEV_NUM_MAX; idx++) {
 		if (pAd->wdev_list[idx] == wdev) {
-			DBGPRINT(RT_DEBUG_WARN, 
+			DBGPRINT(RT_DEBUG_WARN,
 					("wdev(type:%d) already registered and idx(%d) %smatch\n",
-					wdev->wdev_type, wdev->wdev_idx, 
+					wdev->wdev_type, wdev->wdev_idx,
 					((idx != wdev->wdev_idx) ? "mis" : "")));
 			break;
 		}
@@ -105,9 +105,9 @@ Arguments:
     NDIS_HANDLE 	MiniportAdapterContext	Pointer refer to the device handle, i.e., the pAd.
 	PPNDIS_PACKET	ppPacketArray			The packet array need to do transmission.
 	UINT			NumberOfPackets			Number of packet in packet array.
-	
+
 Return Value:
-	NONE					
+	NONE
 
 Note:
 	This function do early checking and classification for send-out packet.
@@ -123,7 +123,7 @@ VOID wdev_tx_pkts(NDIS_HANDLE dev_hnd, PPNDIS_PACKET pkt_list, UINT pkt_cnt, str
 	UINT Index;
 
 
-	
+
 	for (Index = 0; Index < pkt_cnt; Index++)
 	{
 		pPacket = pkt_list[Index];
@@ -141,7 +141,7 @@ VOID wdev_tx_pkts(NDIS_HANDLE dev_hnd, PPNDIS_PACKET pkt_list, UINT pkt_cnt, str
 #ifdef RT_CFG80211_SUPPORT
 	if (pAd->cfg80211_ctrl.isCfgInApMode == RT_CMD_80211_IFTYPE_AP && (wdev->Hostapd != Hostapd_CFG)
 #ifdef RT_CFG80211_P2P_SUPPORT
-	&& (!RTMP_CFG80211_VIF_P2P_GO_ON(pAd)) 
+	&& (!RTMP_CFG80211_VIF_P2P_GO_ON(pAd))
 #endif 	/*RT_CFG80211_P2P_SUPPORT*/
 		)
 		{
@@ -167,7 +167,7 @@ VOID wdev_tx_pkts(NDIS_HANDLE dev_hnd, PPNDIS_PACKET pkt_list, UINT pkt_cnt, str
 		IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 		{
 				APSendPacket(pAd, pPacket);
-		}		
+		}
 #endif /* CONFIG_AP_SUPPORT */
 
 #ifdef CONFIG_STA_SUPPORT
@@ -176,10 +176,10 @@ VOID wdev_tx_pkts(NDIS_HANDLE dev_hnd, PPNDIS_PACKET pkt_list, UINT pkt_cnt, str
 #ifdef RT_CFG80211_P2P_SUPPORT
 			if (RTMP_GET_PACKET_OPMODE(pPacket))
 				APSendPacket(pAd, pPacket);
-			else	
-#endif /* RT_CFG80211_P2P_SUPPORT */		
+			else
+#endif /* RT_CFG80211_P2P_SUPPORT */
 			STASendPacket(pAd, pPacket);
-		}	
+		}
 #endif /* CONFIG_STA_SUPPORT */
 		} else {
 			RELEASE_NDIS_PACKET(pAd, pPacket, NDIS_STATUS_FAILURE);

@@ -37,7 +37,7 @@ INT phy_probe(RTMP_ADAPTER *pAd)
 NDIS_STATUS NICInitBBP(RTMP_ADAPTER *pAd)
 {
 	UINT32 Index = 0, val;
-	
+
 	/* Before program BBP, we need to wait BBP/RF get wake up.*/
 	do
 	{
@@ -47,11 +47,11 @@ NDIS_STATUS NICInitBBP(RTMP_ADAPTER *pAd)
 		RTMP_IO_READ32(pAd, MAC_STATUS_CFG, &val);
 		if ((val & 0x03) == 0)	/* if BB.RF is stable*/
 			break;
-		
+
 		DBGPRINT(RT_DEBUG_TRACE, ("Check if MAC_STATUS_CFG is busy(=%x)\n", val));
 		RtmpusecDelay(1000);
 	} while (Index++ < 100);
-	
+
 	if (pAd->phy_op && pAd->phy_op->bbp_init)
 		return pAd->phy_op->bbp_init(pAd);
 	else

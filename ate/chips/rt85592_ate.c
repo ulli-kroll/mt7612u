@@ -47,7 +47,7 @@ struct _ATE_CHIP_STRUCT RALINK85592 =
 	.AdjustTxPower = NULL,
 	.AsicExtraPowerOverMAC = NULL,
 	.TemperCompensation = NULL,
-	
+
 	/* command handlers */
 	.Set_BW_Proc = NULL,
 	.Set_FREQ_OFFSET_Proc = NULL,
@@ -55,7 +55,7 @@ struct _ATE_CHIP_STRUCT RALINK85592 =
 	/* variables */
 	.maxTxPwrCnt = 5,
 	.bBBPStoreTXCARR = FALSE,
-	.bBBPStoreTXCARRSUPP = FALSE,	
+	.bBBPStoreTXCARRSUPP = FALSE,
 	.bBBPStoreTXCONT = FALSE,
 	.bBBPLoadATESTOP = FALSE,
 };

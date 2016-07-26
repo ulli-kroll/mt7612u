@@ -34,7 +34,7 @@ extern UINT16 const Country_Region_GroupNum_2GHZ;
 extern COUNTRY_REGION_CH_DESC Country_Region_ChDesc_5GHZ[];
 extern UINT16 const Country_Region_GroupNum_5GHZ;
 
-/* 
+/*
 	==========================================================================
 	Description:
 		Update StaCfg->ChannelList[] according to 1) Country Region 2) RF IC type,
@@ -43,7 +43,7 @@ extern UINT16 const Country_Region_GroupNum_5GHZ;
 
 	IRQL = PASSIVE_LEVEL
 	IRQL = DISPATCH_LEVEL
-	
+
 	==========================================================================
  */
 VOID BuildChannelList(RTMP_ADAPTER *pAd)
@@ -74,7 +74,7 @@ VOID BuildChannelList(RTMP_ADAPTER *pAd)
 		if (!bRegionFound)
 		{
 			DBGPRINT(RT_DEBUG_ERROR,("CountryRegion=%d not support", pAd->CommonCfg.CountryRegion));
-			return;		
+			return;
 		}
 
 		if (num > 0)
@@ -93,7 +93,7 @@ VOID BuildChannelList(RTMP_ADAPTER *pAd)
 			{
 				DBGPRINT(RT_DEBUG_ERROR,("%s:Allocate memory for ChannelListFlag failed\n", __FUNCTION__));
 				os_free_mem(NULL, pChannelList);
-				return;	
+				return;
 			}
 
 			for (i = 0; i < num; i++)
@@ -117,7 +117,7 @@ VOID BuildChannelList(RTMP_ADAPTER *pAd)
 #ifdef DOT11_VHT_AC
 						if (vht80_channel_group(pAd, pAd->ChannelList[index + i].Channel))
 							pAd->ChannelList[index + i].Flags |= CHANNEL_80M_CAP;
-#endif /* DOT11_VHT_AC */						
+#endif /* DOT11_VHT_AC */
 #endif /* DOT11_N_SUPPORT */
 
 				pAd->ChannelList[index+i].MaxTxPwr = 20;
@@ -184,7 +184,7 @@ VOID BuildChannelList(RTMP_ADAPTER *pAd)
 #ifdef CONFIG_AP_SUPPORT
 			for (i = 0; i < num; i++)
 			{
-				if((pAd->CommonCfg.bIEEE80211H == 0)|| ((pAd->CommonCfg.bIEEE80211H == 1) && (pAd->CommonCfg.RDDurRegion != FCC)))			 	
+				if((pAd->CommonCfg.bIEEE80211H == 0)|| ((pAd->CommonCfg.bIEEE80211H == 1) && (pAd->CommonCfg.RDDurRegion != FCC)))			 
 				{
 					pChannelList[q] = GetChannel_5GHZ(pChDesc, i);
 					pChannelListFlag[q] = GetChannelFlag(pChDesc, i);
@@ -233,8 +233,8 @@ VOID BuildChannelList(RTMP_ADAPTER *pAd)
 #ifdef DOT11_VHT_AC
 				if (vht80_channel_group(pAd, pAd->ChannelList[index + i].Channel))
 					pAd->ChannelList[index + i].Flags |= CHANNEL_80M_CAP;
-#endif /* DOT11_VHT_AC */	
-#endif /* DOT11_N_SUPPORT */	
+#endif /* DOT11_VHT_AC */
+#endif /* DOT11_N_SUPPORT */
 
 				for (j=0; j<15; j++)
 				{
@@ -250,8 +250,8 @@ VOID BuildChannelList(RTMP_ADAPTER *pAd)
 		}
 	}
 
-	pAd->ChannelListNum = index;	
-	DBGPRINT(RT_DEBUG_TRACE,("country code=%d/%d, RFIC=%d, PHY mode=%d, support %d channels\n", 
+	pAd->ChannelListNum = index;
+	DBGPRINT(RT_DEBUG_TRACE,("country code=%d/%d, RFIC=%d, PHY mode=%d, support %d channels\n",
 		pAd->CommonCfg.CountryRegion, pAd->CommonCfg.CountryRegionForABand, pAd->RfIcType, pAd->CommonCfg.PhyMode, pAd->ChannelListNum));
 
 #ifdef RT_CFG80211_SUPPORT
@@ -267,22 +267,22 @@ VOID BuildChannelList(RTMP_ADAPTER *pAd)
 	}
 #endif /* RT_CFG80211_SUPPORT */
 
-#ifdef DBG	
+#ifdef DBG
 	for (i=0;i<pAd->ChannelListNum;i++)
 	{
-		DBGPRINT_RAW(RT_DEBUG_TRACE,("BuildChannel # %d :: Pwr0 = %d, Pwr1 =%d, Flags = %x\n ", 
-									 pAd->ChannelList[i].Channel, 
-									 pAd->ChannelList[i].Power, 
-									 pAd->ChannelList[i].Power2, 
+		DBGPRINT_RAW(RT_DEBUG_TRACE,("BuildChannel # %d :: Pwr0 = %d, Pwr1 =%d, Flags = %x\n ",
+									 pAd->ChannelList[i].Channel,
+									 pAd->ChannelList[i].Power,
+									 pAd->ChannelList[i].Power2,
 									 pAd->ChannelList[i].Flags));
 	}
 #endif
 }
 
-/* 
+/*
 	==========================================================================
 	Description:
-		This routine return the first channel number according to the country 
+		This routine return the first channel number according to the country
 		code selection and RF IC selection (signal band or dual band). It is called
 		whenever driver need to start a site survey of all supported channels.
 	Return:
@@ -297,7 +297,7 @@ UCHAR FirstChannel(RTMP_ADAPTER *pAd)
 	return pAd->ChannelList[0].Channel;
 }
 
-/* 
+/*
 	==========================================================================
 	Description:
 		This routine returns the next channel number. This routine is called
@@ -312,7 +312,7 @@ UCHAR NextChannel(RTMP_ADAPTER *pAd, UCHAR channel)
 {
 	int i;
 	UCHAR next_channel = 0;
-			
+
 	for (i = 0; i < (pAd->ChannelListNum - 1); i++)
 	{
 		if (channel == pAd->ChannelList[i].Channel)
@@ -335,13 +335,13 @@ UCHAR NextChannel(RTMP_ADAPTER *pAd, UCHAR channel)
 			break;
 	}
 		}
-		
+
 	}
 	return next_channel;
 }
 
 
-/* 
+/*
 	==========================================================================
 	Description:
 
@@ -352,7 +352,7 @@ UCHAR NextChannel(RTMP_ADAPTER *pAd, UCHAR channel)
 	==========================================================================
  */
 UCHAR RTMPFindScanChannel(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	UINT8			  LastScanChannel)
 {
 	UCHAR scan_channel = 0;
@@ -378,10 +378,10 @@ UCHAR RTMPFindScanChannel(
 }
 
 
-/* 
+/*
 	==========================================================================
 	Description:
-		This routine is for Cisco Compatible Extensions 2.X 
+		This routine is for Cisco Compatible Extensions 2.X
 		Spec31. AP Control of Client Transmit Power
 	Return:
 		None
@@ -390,7 +390,7 @@ UCHAR RTMPFindScanChannel(
 		   0dBm(1mW),   1dBm(5mW), 13dBm(20mW), 15dBm(30mW),
 		  17dBm(50mw), 20dBm(100mW)
 
-	   We supported 
+	   We supported
 		   3dBm(Lowest), 6dBm(10%), 9dBm(25%), 12dBm(50%),
 		  14dBm(75%),   15dBm(100%)
 
@@ -405,10 +405,10 @@ VOID ChangeToCellPowerLimit(RTMP_ADAPTER *pAd, UCHAR AironetCellPowerLimit)
 		from the AP's Beacon/Probe response
 	*/
 	if (AironetCellPowerLimit == 0xFF)
-		return;  
-	
+		return;
+
 	if (AironetCellPowerLimit < 6) /*Used Lowest Power Percentage.*/
-		pAd->CommonCfg.TxPowerPercentage = 6; 
+		pAd->CommonCfg.TxPowerPercentage = 6;
 	else if (AironetCellPowerLimit < 9)
 		pAd->CommonCfg.TxPowerPercentage = 10;
 	else if (AironetCellPowerLimit < 12)
@@ -422,7 +422,7 @@ VOID ChangeToCellPowerLimit(RTMP_ADAPTER *pAd, UCHAR AironetCellPowerLimit)
 
 	if (pAd->CommonCfg.TxPowerPercentage > pAd->CommonCfg.TxPowerDefault)
 		pAd->CommonCfg.TxPowerPercentage = pAd->CommonCfg.TxPowerDefault;
-	
+
 }
 
 
@@ -456,7 +456,7 @@ CHAR ConvertToRssi(RTMP_ADAPTER *pAd, CHAR Rssi, UCHAR rssi_idx)
 	if (IS_MT76x2(pAd)) {
 		if (is_external_lna_mode(pAd, pAd->CommonCfg.Channel) == TRUE)
 			LNAGain = 0;
-		
+
 		if (pAd->LatchRfRegs.Channel > 14)
 			return (Rssi + pAd->ARssiOffset[rssi_idx] - (CHAR)LNAGain);
 		else
@@ -488,21 +488,21 @@ CHAR ConvertToSnr(RTMP_ADAPTER *pAd, UCHAR Snr)
 #ifdef DOT11_N_SUPPORT
 extern int DetectOverlappingPeriodicRound;
 
-VOID Handle_BSS_Width_Trigger_Events(RTMP_ADAPTER *pAd) 
+VOID Handle_BSS_Width_Trigger_Events(RTMP_ADAPTER *pAd)
 {
 	ULONG Now32;
-	
+
 	if (pAd->CommonCfg.bBssCoexEnable == FALSE)
 		return;
 
 	if ((pAd->CommonCfg.HtCapability.HtCapInfo.ChannelWidth == BW_40) &&
 		(pAd->CommonCfg.Channel <=14))
-	{	
+	{
 		DBGPRINT(RT_DEBUG_TRACE, ("Rcv BSS Width Trigger Event: 40Mhz --> 20Mhz \n"));
         NdisGetSystemUpTime(&Now32);
 		pAd->CommonCfg.LastRcvBSSWidthTriggerEventsTime = Now32;
 		pAd->CommonCfg.bRcvBSSWidthTriggerEvents = TRUE;
-		pAd->CommonCfg.AddHTInfo.AddHtInfo.RecomWidth = 0;	
+		pAd->CommonCfg.AddHTInfo.AddHtInfo.RecomWidth = 0;
 		pAd->CommonCfg.AddHTInfo.AddHtInfo.ExtChanOffset = 0;
         DetectOverlappingPeriodicRound = 31;
 	}

@@ -29,10 +29,10 @@
 /*
     ==========================================================================
     Description:
-        This routine walks through the MAC table, see if TX rate change is 
-        required for each associated client. 
+        This routine walks through the MAC table, see if TX rate change is
+        required for each associated client.
     Output:
-        pEntry->CurrTxRate - 
+        pEntry->CurrTxRate -
     NOTE:
         call this routine every second
     ==========================================================================
@@ -56,7 +56,7 @@ VOID APMlmeDynamicTxRateSwitching(RTMP_ADAPTER *pAd)
 #endif /* RALINK_ATE */
 
 	/* walk through MAC table, see if need to change AP's TX rate toward each entry */
-	for (i = 1; i < MAX_LEN_OF_MAC_TABLE; i++) 
+	for (i = 1; i < MAX_LEN_OF_MAC_TABLE; i++)
 	{
 		/* point to information of the individual station */
 		pEntry = &pAd->MacTab.Content[i];
@@ -142,7 +142,7 @@ VOID APMlmeDynamicTxRateSwitching(RTMP_ADAPTER *pAd)
 						HwErrRatio = 0;
 
 					DBGPRINT(RT_DEBUG_INFO | DBG_FUNC_RA,
-							("%s()=>Wcid:%d, MCS:%d, CuTxRaIdx=%d,TxErrRatio(Hw:%ld-%ld%%, Sw:%ld-%ld%%)\n", 
+							("%s()=>Wcid:%d, MCS:%d, CuTxRaIdx=%d,TxErrRatio(Hw:%ld-%ld%%, Sw:%ld-%ld%%)\n",
 							__FUNCTION__, pEntry->wcid, pEntry->HTPhyMode.field.MCS,
 							pEntry->CurrTxRateIndex,
 							HwTxCnt, HwErrRatio, TxTotalCnt, TxErrorRatio));
@@ -423,22 +423,22 @@ VOID APMlmeDynamicTxRateSwitching(RTMP_ADAPTER *pAd)
     ========================================================================
     Routine Description:
         AP side, Auto TxRate faster train up timer call back function.
-        
+
     Arguments:
         SystemSpecific1         - Not used.
         FunctionContext         - Pointer to our Adapter context.
         SystemSpecific2         - Not used.
         SystemSpecific3         - Not used.
-        
+
     Return Value:
         None
-        
+
     ========================================================================
 */
 VOID APQuickResponeForRateUpExec(
-    IN PVOID SystemSpecific1, 
-    IN PVOID FunctionContext, 
-    IN PVOID SystemSpecific2, 
+    IN PVOID SystemSpecific1,
+    IN PVOID FunctionContext,
+    IN PVOID SystemSpecific2,
     IN PVOID SystemSpecific3)
 {
 	PRTMP_ADAPTER			pAd = (PRTMP_ADAPTER)FunctionContext;
@@ -460,7 +460,7 @@ VOID APQuickResponeForRateUpExec(
 	pAd->ApCfg.ApQuickResponeForRateUpTimerRunning = FALSE;
 
     /* walk through MAC table, see if need to change AP's TX rate toward each entry */
-   	for (i = 1; i < MAX_LEN_OF_MAC_TABLE; i++) 
+   	for (i = 1; i < MAX_LEN_OF_MAC_TABLE; i++)
 	{
        	 pEntry = &pAd->MacTab.Content[i];
 
@@ -513,8 +513,8 @@ VOID APQuickResponeForRateUpExec(
 			TxFailCount = TxStaCnt0.field.TxFailCount;
 			TxTotalCnt = TxRetransmit + TxSuccess + TxFailCount;
 
-			AccuTxTotalCnt = pAd->RalinkCounters.OneSecTxNoRetryOkCount + 
-					 pAd->RalinkCounters.OneSecTxRetryOkCount + 
+			AccuTxTotalCnt = pAd->RalinkCounters.OneSecTxNoRetryOkCount +
+					 pAd->RalinkCounters.OneSecTxRetryOkCount +
 					 pAd->RalinkCounters.OneSecTxFailCount;
 
 			if (TxTotalCnt)
@@ -552,9 +552,9 @@ VOID APQuickResponeForRateUpExec(
 					HwErrRatio = (pEntry->fifoTxRtyCnt * 100) / HwTxCnt;
 				else
 					HwErrRatio = 0;
-				
-				DBGPRINT(RT_DEBUG_INFO | DBG_FUNC_RA,("%s()=>Wcid:%d, MCS:%d, TxErrRation(Hw:0x%lx-0x%lx, Sw:0x%lx-%lx)\n", 
-						__FUNCTION__, pEntry->wcid, pEntry->HTPhyMode.field.MCS, 
+
+				DBGPRINT(RT_DEBUG_INFO | DBG_FUNC_RA,("%s()=>Wcid:%d, MCS:%d, TxErrRation(Hw:0x%lx-0x%lx, Sw:0x%lx-%lx)\n",
+						__FUNCTION__, pEntry->wcid, pEntry->HTPhyMode.field.MCS,
 						HwTxCnt, HwErrRatio, TxTotalCnt, TxErrorRatio));
 
 				TxSuccess = pEntry->fifoTxSucCnt;
@@ -594,7 +594,7 @@ VOID APQuickResponeForRateUpExec(
 			TrainDown	= pCurrTxRate->TrainDown;
 		}
 
-			
+
 #ifdef DBG_CTRL_SUPPORT
 		/* Debug option: Concise RA log */
 		if (pAd->CommonCfg.DebugFlags & DBF_SHOW_RA_LOG)
@@ -825,9 +825,9 @@ VOID MlmeDynamicTxRateSwitching(
 #ifdef AGS_SUPPORT
 			if (SUPPORT_AGS(pAd))
 			{
-				
+
 				/* Gather the statistics information*/
-				
+
 				AGSStatisticsInfo.RSSI = Rssi;
 				AGSStatisticsInfo.TxErrorRatio = TxErrorRatio;
 				AGSStatisticsInfo.AccuTxTotalCnt = TxTotalCnt;
@@ -875,7 +875,7 @@ VOID MlmeDynamicTxRateSwitching(
 						HwErrRatio = 0;
 
 					DBGPRINT(RT_DEBUG_INFO | DBG_FUNC_RA,
-							("%s():Aid:%d, MCS:%d, CuTxRaIdx=%d,TxErrRatio(Hw:%d-%d%%, Sw:%d-%d%%)\n", 
+							("%s():Aid:%d, MCS:%d, CuTxRaIdx=%d,TxErrRatio(Hw:%d-%d%%, Sw:%d-%d%%)\n",
 							__FUNCTION__, pEntry->Aid, pEntry->HTPhyMode.field.MCS,
 							pEntry->CurrTxRateIndex,
 							HwTxCnt, HwErrRatio, TxTotalCnt, TxErrorRatio));
@@ -892,9 +892,9 @@ VOID MlmeDynamicTxRateSwitching(
 #ifdef AGS_SUPPORT
 			if (SUPPORT_AGS(pAd))
 			{
-				
+
 				/* Gather the statistics information*/
-				
+
 				AGSStatisticsInfo.RSSI = Rssi;
 				AGSStatisticsInfo.TxErrorRatio = TxErrorRatio;
 				AGSStatisticsInfo.AccuTxTotalCnt = TxTotalCnt;
@@ -1008,7 +1008,7 @@ VOID MlmeDynamicTxRateSwitching(
 				}
 				TmpIdx--;
 			}
-		}		
+		}
 		else if ((pCurrTxRate->Mode <= MODE_OFDM) && (pEntry->SupportRateMode < SUPPORT_HT_MODE))
 		{
 			TmpIdx = CurrRateIdx + 1;
@@ -1103,7 +1103,7 @@ VOID MlmeDynamicTxRateSwitching(
 #ifdef DOT11_N_SUPPORT
 
 		/*
-			when Rssi > -65, there is a lot of interference usually. therefore, the 
+			when Rssi > -65, there is a lot of interference usually. therefore, the
 			algorithm tends to choose the mcs lower than the optimal one.
 			by increasing the thresholds, the chosen mcs will be closer to the optimal mcs
 		*/
@@ -1231,10 +1231,10 @@ VOID MlmeDynamicTxRateSwitching(
 	========================================================================
 */
 VOID StaQuickResponeForRateUpExec(
-	IN PVOID SystemSpecific1, 
-	IN PVOID FunctionContext, 
-	IN PVOID SystemSpecific2, 
-	IN PVOID SystemSpecific3) 
+	IN PVOID SystemSpecific1,
+	IN PVOID FunctionContext,
+	IN PVOID SystemSpecific2,
+	IN PVOID SystemSpecific3)
 {
 	PRTMP_ADAPTER			pAd = (PRTMP_ADAPTER)FunctionContext;
 	ULONG					i;
@@ -1258,7 +1258,7 @@ VOID StaQuickResponeForRateUpExec(
 	pAd->StaCfg.StaQuickResponeForRateUpTimerRunning = FALSE;
 
     /* walk through MAC table, see if need to change AP's TX rate toward each entry */
-	for (i = 1; i < MAX_LEN_OF_MAC_TABLE; i++) 
+	for (i = 1; i < MAX_LEN_OF_MAC_TABLE; i++)
 	{
 		pEntry = &pAd->MacTab.Content[i];
 
@@ -1343,9 +1343,9 @@ VOID StaQuickResponeForRateUpExec(
 #ifdef AGS_SUPPORT
 			if (SUPPORT_AGS(pAd))
 			{
-				
+
 				/* Gather the statistics information*/
-				
+
 				AGSStatisticsInfo.RSSI = Rssi;
 				AGSStatisticsInfo.TxErrorRatio = TxErrorRatio;
 				AGSStatisticsInfo.AccuTxTotalCnt = TxTotalCnt;
@@ -1382,8 +1382,8 @@ VOID StaQuickResponeForRateUpExec(
 				if (HwTxCnt)
 					HwErrRatio = (wcidTxCnt.field.reTryCnt * 100) / HwTxCnt;
 
-					DBGPRINT(RT_DEBUG_INFO | DBG_FUNC_RA, ("%s():TxErrRatio(wcid:%d, MCS:%d, Hw:0x%x-0x%x, Sw:0x%x-%x)\n", 
-						__FUNCTION__, pEntry->wcid, pEntry->HTPhyMode.field.MCS, 
+					DBGPRINT(RT_DEBUG_INFO | DBG_FUNC_RA, ("%s():TxErrRatio(wcid:%d, MCS:%d, Hw:0x%x-0x%x, Sw:0x%x-%x)\n",
+						__FUNCTION__, pEntry->wcid, pEntry->HTPhyMode.field.MCS,
 						HwTxCnt, HwErrRatio, TxTotalCnt, TxErrorRatio));
 
 				TxSuccess = wcidTxCnt.field.succCnt;
@@ -1397,9 +1397,9 @@ VOID StaQuickResponeForRateUpExec(
 #ifdef AGS_SUPPORT
 			if (SUPPORT_AGS(pAd))
 			{
-				
+
 				/* Gather the statistics information*/
-				
+
 				AGSStatisticsInfo.RSSI = Rssi;
 				AGSStatisticsInfo.TxErrorRatio = TxErrorRatio;
 				AGSStatisticsInfo.AccuTxTotalCnt = TxTotalCnt;
@@ -1414,11 +1414,11 @@ VOID StaQuickResponeForRateUpExec(
 #ifdef AGS_SUPPORT
 		if (AGS_IS_USING(pAd, pTable))
 		{
-			
+
 			/* The dynamic Tx rate switching for AGS (Adaptive Group Switching)*/
-			
+
 			StaQuickResponeForRateUpExecAGS(pAd, pEntry, pTable, TableSize, &AGSStatisticsInfo, InitTxRateIdx);
-			
+
 			continue; /* Skip the remaining procedure of the old Tx rate switching*/
 		}
 #endif /* AGS_SUPPORT */
@@ -1604,7 +1604,7 @@ VOID MlmeOldRateAdapt(
 			go to last Non-BF rate. Otherwise just go to the down rate
 		*/
 		if ((pEntry->phyETxBf || pEntry->phyITxBf) &&
-			(DownRateIdx - pEntry->lastNonBfRate)<2 
+			(DownRateIdx - pEntry->lastNonBfRate)<2
 #ifdef DBG_CTRL_SUPPORT
 			&& ((pAd->CommonCfg.DebugFlags & DBF_NO_BF_AWARE_RA)==0)
 #endif /* DBG_CTRL_SUPPORT */

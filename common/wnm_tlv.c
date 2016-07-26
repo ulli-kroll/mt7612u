@@ -8,14 +8,14 @@ VOID InsertDMSReqElement(
 	IN WNM_DMS_REQUEST_ELEMENT DMSReqElement)
 {
 	ULONG TempLen;
-	
+
 	MakeOutgoingFrame(	pFrameBuf,		&TempLen,
 						3,				&DMSReqElement,
 						END_OF_ARGS);
 
 /*	*pFrameLen = *pFrameLen + TempLen; */
 
-	return;	
+	return;
 }
 
 
@@ -46,7 +46,7 @@ VOID WNM_InsertDMS(
 	tclas.Clasifier.IPv4.Protocol = 4;
 
 	tclas.Clasifier.IPv4.IpDest = IpAddr;
-	
+
 	MakeOutgoingFrame(	pFrameBuf,						&TempLen,
 						1,								&DMSIDId,
 						1,								&Len,

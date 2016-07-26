@@ -167,7 +167,7 @@ int MainVirtualIF_open(struct net_device *net_dev)
 	RTMP_DRIVER_AP_MAIN_OPEN(pAd);
 #endif /* CONFIG_AP_SUPPORT */
 
-#ifdef IFUP_IN_PROBE	
+#ifdef IFUP_IN_PROBE
 	while (RTMP_DRIVER_IOCTL_SANITY_CHECK(pAd, NULL) != NDIS_STATUS_SUCCESS)
 	{
 		OS_WAIT(10);
@@ -176,7 +176,7 @@ int MainVirtualIF_open(struct net_device *net_dev)
 #else
 	if (VIRTUAL_IF_UP(pAd) != 0)
 		return -1;
-#endif /* IFUP_IN_PROBE */	
+#endif /* IFUP_IN_PROBE */
 
 	RT_MOD_INC_USE_COUNT();
 
@@ -213,7 +213,7 @@ int rt28xx_close(VOID *dev)
 	struct net_device * net_dev = (struct net_device *)dev;
     VOID	*pAd = NULL;
 
-	GET_PAD_FROM_NET_DEV(pAd, net_dev);	
+	GET_PAD_FROM_NET_DEV(pAd, net_dev);
 
 	DBGPRINT(RT_DEBUG_TRACE, ("===> rt28xx_close\n"));
 
@@ -244,7 +244,7 @@ Note:
 ========================================================================
 */
 int rt28xx_open(VOID *dev)
-{				 
+{
 	struct net_device * net_dev = (struct net_device *)dev;
 	VOID *pAd = NULL;
 	int retval = 0;
@@ -284,7 +284,7 @@ int rt28xx_open(VOID *dev)
 	RTMP_DRIVER_USB_INTF_GET(pAd, &intf);
 
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,32)
-	pm_usage_cnt = atomic_read(&intf->pm_usage_cnt);	
+	pm_usage_cnt = atomic_read(&intf->pm_usage_cnt);
 #else
 	pm_usage_cnt = intf->pm_usage_cnt;
 #endif
@@ -297,7 +297,7 @@ int rt28xx_open(VOID *dev)
 		{
 			DBGPRINT(RT_DEBUG_ERROR, ("rt28xx_open autopm_resume fail!\n"));
 			return (-1);;
-		}			
+		}
 	}
 #endif /* USB_SUPPORT_SELECTIVE_SUSPEND */
 #endif /* CONFIG_PM */
@@ -322,7 +322,7 @@ int rt28xx_open(VOID *dev)
 	/*
 		Request interrupt service routine for PCI device
 		register the interrupt routine with the os
-		
+
 		AP Channel auto-selection will be run in rt28xx_init(),
 		so we must reqister IRQ hander here.
 	*/
@@ -343,7 +343,7 @@ int rt28xx_open(VOID *dev)
 		Or in some PC, kernel will panic (Fedora 4)
 	*/
 #if defined(P2P_APCLI_SUPPORT) || defined(RT_CFG80211_P2P_SUPPORT)
-	
+
 #else
 	RT28xx_MBSS_Init(pAd, net_dev);
 #endif /* P2P_APCLI_SUPPORT */
@@ -363,7 +363,7 @@ int rt28xx_open(VOID *dev)
 #ifdef RT_CFG80211_SUPPORT
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
 	RTMP_CFG80211_DummyP2pIf_Init(pAd);
-#endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */	
+#endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
 #else
 #endif /* RT_CFG80211_SUPPORT */
 
@@ -456,7 +456,7 @@ PNET_DEV RtmpPhyNetDevInit(VOID *pAd, RTMP_OS_NETDEV_OP_HOOK *pNetDevHook)
 
 #if LINUX_VERSION_CODE < KERNEL_VERSION(2,6,24)
 	SET_MODULE_OWNER(net_dev);
-#endif 
+#endif
 
 
 
@@ -474,7 +474,7 @@ VOID *RtmpNetEthConvertDevSearch(VOID *net_dev_, UCHAR *pData)
 	struct net_device *net_dev = (struct net_device *)net_dev_;
 	struct net *net;
 	net = dev_net(net_dev);
-	
+
 	BUG_ON(!net);
 	for_each_netdev(net, pNetDev)
 #else
@@ -488,7 +488,7 @@ VOID *RtmpNetEthConvertDevSearch(VOID *net_dev_, UCHAR *pData)
 #else
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,22)
 		for_each_netdev(pNetDev)
-#else 
+#else
 	for (pNetDev = dev_base; pNetDev; pNetDev = pNetDev->next)
 #endif
 #endif
@@ -513,11 +513,11 @@ Arguments:
     sk_buff *skb 	the pointer refer to a sk_buffer.
 
 Return Value:
-    0	
+    0
 
 Note:
-	This function is the entry point of Tx Path for OS delivery packet to 
-	our driver. You only can put OS-depened & STA/AP common handle procedures 
+	This function is the entry point of Tx Path for OS delivery packet to
+	our driver. You only can put OS-depened & STA/AP common handle procedures
 	in here.
 ========================================================================
 */
@@ -577,7 +577,7 @@ struct iw_statistics *rt28xx_get_wireless_stats(struct net_device *net_dev)
 	RT_CMD_IW_STATS DrvIwStats, *pDrvIwStats = &DrvIwStats;
 
 
-	GET_PAD_FROM_NET_DEV(pAd, net_dev);	
+	GET_PAD_FROM_NET_DEV(pAd, net_dev);
 
 
 	DBGPRINT(RT_DEBUG_TRACE, ("rt28xx_get_wireless_stats --->\n"));
@@ -601,7 +601,7 @@ struct iw_statistics *rt28xx_get_wireless_stats(struct net_device *net_dev)
 	pStats->qual.noise = pDrvIwStats->noise;
 	pStats->discard.nwid = 0;     /* Rx : Wrong nwid/essid */
 	pStats->miss.beacon = 0;      /* Missed beacons/superframe */
-	
+
 	DBGPRINT(RT_DEBUG_TRACE, ("<--- rt28xx_get_wireless_stats\n"));
 	return pStats;
 }
@@ -614,7 +614,7 @@ INT rt28xx_ioctl(PNET_DEV net_dev, struct ifreq *rq, INT cmd)
 	INT ret = 0;
 	ULONG OpMode;
 
-	GET_PAD_FROM_NET_DEV(pAd, net_dev);	
+	GET_PAD_FROM_NET_DEV(pAd, net_dev);
 	if (pAd == NULL)
 	{
 		/* if 1st open fail, pAd will be free;
@@ -666,12 +666,12 @@ struct net_device_stats *RT28xx_get_ether_stats(struct net_device *net_dev)
 	struct net_device_stats *pStats;
 
 	if (net_dev)
-		GET_PAD_FROM_NET_DEV(pAd, net_dev);	
+		GET_PAD_FROM_NET_DEV(pAd, net_dev);
 
 	if (pAd)
 	{
 		RT_CMD_STATS DrvStats, *pDrvStats = &DrvStats;
- 
+
 
 		//assign net device for RTMP_DRIVER_INF_STATS_GET()
 		pDrvStats->pNetDev = net_dev;
@@ -710,7 +710,7 @@ struct net_device_stats *RT28xx_get_ether_stats(struct net_device *net_dev)
 	    /* for cslip etc */
 	    pStats->rx_compressed = 0;
 	    pStats->tx_compressed = 0;
-		
+
 		return pStats;
 	}
 	else
@@ -745,7 +745,7 @@ BOOLEAN RtmpPhyNetDevExit(VOID *pAd, PNET_DEV net_dev)
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
 	RTMP_CFG80211_AllVirtualIF_Remove(pAd);
 	RTMP_CFG80211_DummyP2pIf_Remove(pAd);
-#endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */	
+#endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
 #else
 #endif /* RT_CFG80211_SUPPORT */
 
@@ -763,30 +763,30 @@ BOOLEAN RtmpPhyNetDevExit(VOID *pAd, PNET_DEV net_dev)
 	}
 
 	return TRUE;
-	
+
 }
 
 
 /*******************************************************************************
 
 	Device IRQ related functions.
-	
+
  *******************************************************************************/
 int RtmpOSIRQRequest(IN PNET_DEV pNetDev)
 {
 	ULONG infType;
 	VOID *pAd = NULL;
 	int retval = 0;
-	
-	GET_PAD_FROM_NET_DEV(pAd, pNetDev);	
-	
+
+	GET_PAD_FROM_NET_DEV(pAd, pNetDev);
+
 	ASSERT(pAd);
 
 	RTMP_DRIVER_INF_TYPE_GET(pAd, &infType);
 
 
 
-	return retval; 
+	return retval;
 }
 
 

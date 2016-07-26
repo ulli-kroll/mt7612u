@@ -32,71 +32,71 @@
 #include "rt_config.h"
 
 static VOID ApCliAssocTimeout(
-	IN PVOID SystemSpecific1, 
-	IN PVOID FunctionContext, 
-	IN PVOID SystemSpecific2, 
+	IN PVOID SystemSpecific1,
+	IN PVOID FunctionContext,
+	IN PVOID SystemSpecific2,
 	IN PVOID SystemSpecific3);
 
 
 static VOID ApCliMlmeAssocReqAction(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliMlmeDisassocReqAction(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliPeerAssocRspAction(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliPeerDisassocAction(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliAssocTimeoutAction(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliInvalidStateWhenAssoc(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliInvalidStateWhenDisassociate(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliAssocPostProc(
-	IN PRTMP_ADAPTER pAd, 
-	IN PUCHAR pAddr2, 
-	IN USHORT CapabilityInfo, 
-	IN USHORT IfIndex, 
-	IN UCHAR SupRate[], 
+	IN PRTMP_ADAPTER pAd,
+	IN PUCHAR pAddr2,
+	IN USHORT CapabilityInfo,
+	IN USHORT IfIndex,
+	IN UCHAR SupRate[],
 	IN UCHAR SupRateLen,
 	IN UCHAR ExtRate[],
 	IN UCHAR ExtRateLen,
 	IN PEDCA_PARM pEdcaParm,
 	IN HT_CAPABILITY_IE *pHtCapability,
-	IN UCHAR HtCapabilityLen, 
+	IN UCHAR HtCapabilityLen,
 	IN ADD_HT_INFO_IE *pAddHtInfo);
 
 DECLARE_TIMER_FUNCTION(ApCliAssocTimeout);
 BUILD_TIMER_FUNCTION(ApCliAssocTimeout);
 
-/*  
+/*
     ==========================================================================
-    Description: 
+    Description:
         association state machine init, including state transition and timer init
-    Parameters: 
+    Parameters:
         S - pointer to the association state machine
     Note:
-        The state machine looks like the following 
+        The state machine looks like the following
     ==========================================================================
  */
 VOID ApCliAssocStateMachineInit(
-	IN	PRTMP_ADAPTER	pAd, 
-	IN  STATE_MACHINE *S, 
-	OUT STATE_MACHINE_FUNC Trans[]) 
+	IN	PRTMP_ADAPTER	pAd,
+	IN  STATE_MACHINE *S,
+	OUT STATE_MACHINE_FUNC Trans[])
 {
 	UCHAR i;
 
@@ -109,7 +109,7 @@ VOID ApCliAssocStateMachineInit(
 	StateMachineSetAction(S, APCLI_ASSOC_IDLE, APCLI_MT2_MLME_ASSOC_REQ, (STATE_MACHINE_FUNC)ApCliMlmeAssocReqAction);
 	StateMachineSetAction(S, APCLI_ASSOC_IDLE, APCLI_MT2_MLME_DISASSOC_REQ, (STATE_MACHINE_FUNC)ApCliMlmeDisassocReqAction);
 	StateMachineSetAction(S, APCLI_ASSOC_IDLE, APCLI_MT2_PEER_DISASSOC_REQ, (STATE_MACHINE_FUNC)ApCliPeerDisassocAction);
-   
+
 	/* second column */
 	StateMachineSetAction(S, APCLI_ASSOC_WAIT_RSP, APCLI_MT2_MLME_ASSOC_REQ, (STATE_MACHINE_FUNC)ApCliInvalidStateWhenAssoc);
 	StateMachineSetAction(S, APCLI_ASSOC_WAIT_RSP, APCLI_MT2_MLME_DISASSOC_REQ, (STATE_MACHINE_FUNC)ApCliInvalidStateWhenDisassociate);
@@ -125,7 +125,7 @@ VOID ApCliAssocStateMachineInit(
 		RTMPInitTimer(pAd, &pAd->ApCfg.ApCliTab[i].MlmeAux.ApCliAssocTimer,
 						GET_TIMER_FUNCTION(ApCliAssocTimeout), pAd, FALSE);
 
-		RTMPInitTimer(pAd, &pAd->ApCfg.ApCliTab[i].MlmeAux.WpaDisassocAndBlockAssocTimer, 
+		RTMPInitTimer(pAd, &pAd->ApCfg.ApCliTab[i].MlmeAux.WpaDisassocAndBlockAssocTimer,
 							GET_TIMER_FUNCTION(ApCliWpaDisassocApAndBlockAssoc), pAd, FALSE);
 
 	}
@@ -136,16 +136,16 @@ VOID ApCliAssocStateMachineInit(
 /*
     ==========================================================================
     Description:
-        Association timeout procedure. After association timeout, this function 
+        Association timeout procedure. After association timeout, this function
         will be called and it will put a message into the MLME queue
     Parameters:
         Standard timer parameters
     ==========================================================================
  */
 static VOID ApCliAssocTimeout(
-	IN PVOID SystemSpecific1, 
-	IN PVOID FunctionContext, 
-	IN PVOID SystemSpecific2, 
+	IN PVOID SystemSpecific1,
+	IN PVOID FunctionContext,
+	IN PVOID SystemSpecific2,
 	IN PVOID SystemSpecific3)
 {
 	RTMP_ADAPTER *pAd = (RTMP_ADAPTER *)FunctionContext;
@@ -174,12 +174,12 @@ static VOID ApCliAssocTimeout(
         -# An association request frame is generated and sent to the air
         -# Association timer starts
         -# Association state -> ASSOC_WAIT_RSP
-        
+
     ==========================================================================
  */
 static VOID ApCliMlmeAssocReqAction(
-	IN PRTMP_ADAPTER pAd, 
-	IN MLME_QUEUE_ELEM *Elem) 
+	IN PRTMP_ADAPTER pAd,
+	IN MLME_QUEUE_ELEM *Elem)
 {
 	NDIS_STATUS		 NStatus;
 	BOOLEAN          Cancelled;
@@ -213,7 +213,7 @@ static VOID ApCliMlmeAssocReqAction(
 
 	apcli_entry = &pAd->ApCfg.ApCliTab[ifIndex];
 	wdev = &apcli_entry->wdev;
-		
+
 	/* Block all authentication request durning WPA block period */
 	if (apcli_entry->bBlockAssoc == TRUE)
 	{
@@ -253,7 +253,7 @@ static VOID ApCliMlmeAssocReqAction(
 			2,                        &CapabilityInfo,
 			2,                        &ListenIntv,
 			1,                        &SsidIe,
-			1,                        &apcli_entry->MlmeAux.SsidLen, 
+			1,                        &apcli_entry->MlmeAux.SsidLen,
 			apcli_entry->MlmeAux.SsidLen,     apcli_entry->MlmeAux.Ssid,
 			1,                        &SupRateIe,
 			1,                        &apcli_entry->MlmeAux.SupRateLen,
@@ -272,7 +272,7 @@ static VOID ApCliMlmeAssocReqAction(
 
 #ifdef DOT11_N_SUPPORT
 		/* HT */
-		if ((apcli_entry->MlmeAux.HtCapabilityLen > 0) && 
+		if ((apcli_entry->MlmeAux.HtCapabilityLen > 0) &&
 			WMODE_CAP_N(pAd->CommonCfg.PhyMode))
 		{
 			ULONG TmpLen;
@@ -291,7 +291,7 @@ static VOID ApCliMlmeAssocReqAction(
         		MakeOutgoingFrame(pOutBuffer + FrameLen,         &TmpLen,
         							1,                           &HtCapIe,
         							1,                           &apcli_entry->MlmeAux.HtCapabilityLen,
-        							apcli_entry->MlmeAux.HtCapabilityLen, &HtCapabilityTmp, 
+        							apcli_entry->MlmeAux.HtCapabilityLen, &HtCapabilityTmp,
         							END_OF_ARGS);
 			FrameLen += TmpLen;
 
@@ -319,7 +319,7 @@ static VOID ApCliMlmeAssocReqAction(
 			    (pAd->CommonCfg.PhyMode >= PHY_11ABGN_MIXED)
 			    && (pAd->CommonCfg.Channel <= 14)
 			    && (pAd->bApCliCertTest == TRUE)
-			    ) 
+			    )
 			{
 				extCapInfo.BssCoexistMgmtSupport = 1;
 				DBGPRINT(RT_DEBUG_TRACE, ("%s: BssCoexistMgmtSupport = 1\n", __FUNCTION__));
@@ -339,7 +339,7 @@ static VOID ApCliMlmeAssocReqAction(
 			FrameLen += TmpLen;
 		}
 
-#endif /* DOT11N_DRAFT3 */				
+#endif /* DOT11N_DRAFT3 */
 #endif /* DOT11_N_SUPPORT */
 
 #ifdef AGGREGATION_SUPPORT
@@ -359,7 +359,7 @@ static VOID ApCliMlmeAssocReqAction(
 			if ((pAd->CommonCfg.bPiggyBackCapable) && ((apcli_entry->MlmeAux.APRalinkIe & 0x00000003) == 3))
 			{
 				ULONG TmpLen;
-				UCHAR RalinkIe[9] = {IE_VENDOR_SPECIFIC, 7, 0x00, 0x0c, 0x43, 0x03, 0x00, 0x00, 0x00}; 
+				UCHAR RalinkIe[9] = {IE_VENDOR_SPECIFIC, 7, 0x00, 0x0c, 0x43, 0x03, 0x00, 0x00, 0x00};
 				MakeOutgoingFrame(pOutBuffer+FrameLen,           &TmpLen,
 								  9,                             RalinkIe,
 								  END_OF_ARGS);
@@ -369,7 +369,7 @@ static VOID ApCliMlmeAssocReqAction(
 			if (apcli_entry->MlmeAux.APRalinkIe & 0x00000001)
 			{
 				ULONG TmpLen;
-				UCHAR RalinkIe[9] = {IE_VENDOR_SPECIFIC, 7, 0x00, 0x0c, 0x43, 0x01, 0x00, 0x00, 0x00}; 
+				UCHAR RalinkIe[9] = {IE_VENDOR_SPECIFIC, 7, 0x00, 0x0c, 0x43, 0x01, 0x00, 0x00, 0x00};
 				MakeOutgoingFrame(pOutBuffer+FrameLen,           &TmpLen,
 								  9,                             RalinkIe,
 								  END_OF_ARGS);
@@ -379,7 +379,7 @@ static VOID ApCliMlmeAssocReqAction(
 		else
 		{
 			ULONG TmpLen;
-			UCHAR RalinkIe[9] = {IE_VENDOR_SPECIFIC, 7, 0x00, 0x0c, 0x43, 0x06, 0x00, 0x00, 0x00}; 
+			UCHAR RalinkIe[9] = {IE_VENDOR_SPECIFIC, 7, 0x00, 0x0c, 0x43, 0x06, 0x00, 0x00, 0x00};
 			MakeOutgoingFrame(pOutBuffer+FrameLen,		 &TmpLen,
 							  9,						 RalinkIe,
 							  END_OF_ARGS);
@@ -429,7 +429,7 @@ static VOID ApCliMlmeAssocReqAction(
                         FrameLen += TmpWpaAssocIeLen;
 
                         VarIesOffset = 0;
-                        NdisMoveMemory(apcli_entry->ReqVarIEs + VarIesOffset, 
+                        NdisMoveMemory(apcli_entry->ReqVarIEs + VarIesOffset,
 				       apcli_entry->wpa_supplicant_info.pWpaAssocIe, apcli_entry->wpa_supplicant_info.WpaAssocIeLen);
                         VarIesOffset += apcli_entry->wpa_supplicant_info.WpaAssocIeLen;
 
@@ -439,7 +439,7 @@ static VOID ApCliMlmeAssocReqAction(
                 else
 #endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
 		/* Append RSN_IE when WPAPSK OR WPA2PSK, */
-		if (((wdev->AuthMode == Ndis802_11AuthModeWPAPSK) || 
+		if (((wdev->AuthMode == Ndis802_11AuthModeWPAPSK) ||
             		(wdev->AuthMode == Ndis802_11AuthModeWPA2PSK))
 #ifdef WPA_SUPPLICANT_SUPPORT
             		|| (wdev->AuthMode >= Ndis802_11AuthModeWPA)
@@ -447,7 +447,7 @@ static VOID ApCliMlmeAssocReqAction(
             )
 		{
 			RSNIe = IE_WPA;
-			
+
 			if ((wdev->AuthMode == Ndis802_11AuthModeWPA2PSK)
 #ifdef WPA_SUPPLICANT_SUPPORT
 				||(wdev->AuthMode == Ndis802_11AuthModeWPA2)
@@ -493,7 +493,7 @@ static VOID ApCliMlmeAssocReqAction(
 
 #ifdef SIOCSIWGENIE
 			if ((apcli_entry->wpa_supplicant_info.WpaSupplicantUP & WPA_SUPPLICANT_ENABLE) &&
-				(apcli_entry->wpa_supplicant_info.bRSN_IE_FromWpaSupplicant == TRUE))			
+				(apcli_entry->wpa_supplicant_info.bRSN_IE_FromWpaSupplicant == TRUE))
 			{
 				;
 			}
@@ -506,15 +506,15 @@ static VOID ApCliMlmeAssocReqAction(
 	                        1,                                      	&apcli_entry->RSNIE_Len,
 	                        apcli_entry->RSNIE_Len,		apcli_entry->RSN_IE,
 	                        END_OF_ARGS);
-			
-			FrameLen += tmp;	
-		}	
+
+			FrameLen += tmp;
+		}
 		MiniportMMRequest(pAd, QID_AC_BE, pOutBuffer, FrameLen);
 		MlmeFreeMemory(pAd, pOutBuffer);
 
 			RTMPSetTimer(&apcli_entry->MlmeAux.ApCliAssocTimer, Timeout);
 		*pCurrState = APCLI_ASSOC_WAIT_RSP;
-	} 
+	}
 	else
 	{
 		DBGPRINT(RT_DEBUG_TRACE, ("APCLI_ASSOC - ApCliMlmeAssocReqAction() sanity check failed. BUG!!!!!! \n"));
@@ -537,8 +537,8 @@ static VOID ApCliMlmeAssocReqAction(
     ==========================================================================
  */
 static VOID ApCliMlmeDisassocReqAction(
-	IN PRTMP_ADAPTER pAd, 
-	IN MLME_QUEUE_ELEM *Elem) 
+	IN PRTMP_ADAPTER pAd,
+	IN MLME_QUEUE_ELEM *Elem)
 {
 	PMLME_DISASSOC_REQ_STRUCT pDisassocReq;
 	HEADER_802_11         DisassocHdr;
@@ -560,7 +560,7 @@ static VOID ApCliMlmeDisassocReqAction(
 
 	/* allocate and send out DeassocReq frame */
 	NStatus = MlmeAllocateMemory(pAd, &pOutBuffer);  /*Get an unused nonpaged memory */
-	if (NStatus != NDIS_STATUS_SUCCESS) 
+	if (NStatus != NDIS_STATUS_SUCCESS)
 	{
 		DBGPRINT(RT_DEBUG_TRACE, ("APCLI_ASSOC - ApCliMlmeDisassocReqAction() allocate memory failed\n"));
 		*pCurrState = APCLI_ASSOC_IDLE;
@@ -571,15 +571,15 @@ static VOID ApCliMlmeDisassocReqAction(
 		return;
 	}
 
-	DBGPRINT(RT_DEBUG_TRACE, ("APCLI_ASSOC - Send DISASSOC request [BSSID::%02x:%02x:%02x:%02x:%02x:%02x] \n", 
+	DBGPRINT(RT_DEBUG_TRACE, ("APCLI_ASSOC - Send DISASSOC request [BSSID::%02x:%02x:%02x:%02x:%02x:%02x] \n",
 				pDisassocReq->Addr[0], pDisassocReq->Addr[1], pDisassocReq->Addr[2],
 				pDisassocReq->Addr[3], pDisassocReq->Addr[4], pDisassocReq->Addr[5]));
 	ApCliMgtMacHeaderInit(pAd, &DisassocHdr, SUBTYPE_DISASSOC, 0, pDisassocReq->Addr, pDisassocReq->Addr, ifIndex);
 
 
-	MakeOutgoingFrame(pOutBuffer,				&FrameLen, 
-						sizeof(HEADER_802_11),	&DisassocHdr, 
-						2,						&pDisassocReq->Reason, 
+	MakeOutgoingFrame(pOutBuffer,				&FrameLen,
+						sizeof(HEADER_802_11),	&DisassocHdr,
+						2,						&pDisassocReq->Reason,
 						END_OF_ARGS);
 	MiniportMMRequest(pAd, QID_AC_BE, pOutBuffer, FrameLen);
 	MlmeFreeMemory(pAd, pOutBuffer);
@@ -593,13 +593,13 @@ static VOID ApCliMlmeDisassocReqAction(
 		sizeof(APCLI_CTRL_MSG_STRUCT), &ApCliCtrlMsg, ifIndex);
 
 #ifdef WPA_SUPPLICANT_SUPPORT
-	if (pAd->ApCfg.ApCliTab[ifIndex].wpa_supplicant_info.WpaSupplicantUP != WPA_SUPPLICANT_DISABLE) 
+	if (pAd->ApCfg.ApCliTab[ifIndex].wpa_supplicant_info.WpaSupplicantUP != WPA_SUPPLICANT_DISABLE)
 	{
 		/*send disassociate event to wpa_supplicant*/
 		RtmpOSWrielessEventSend(pAd->net_dev, RT_WLAN_EVENT_CUSTOM, RT_DISASSOC_EVENT_FLAG, NULL, NULL, 0);
 	}
-	        RtmpOSWrielessEventSend(pAd->net_dev, SIOCGIWAP, -1, NULL, NULL, 0);     
-		RTMPSendWirelessEvent(pAd, IW_DISASSOC_EVENT_FLAG, NULL, BSS0, 0); 
+	        RtmpOSWrielessEventSend(pAd->net_dev, SIOCGIWAP, -1, NULL, NULL, 0);
+		RTMPSendWirelessEvent(pAd, IW_DISASSOC_EVENT_FLAG, NULL, BSS0, 0);
 #endif /* WPA_SUPPLICANT_SUPPORT */
 
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
@@ -619,8 +619,8 @@ static VOID ApCliMlmeDisassocReqAction(
     ==========================================================================
  */
 static VOID ApCliPeerAssocRspAction(
-	IN PRTMP_ADAPTER pAd, 
-	IN MLME_QUEUE_ELEM *Elem) 
+	IN PRTMP_ADAPTER pAd,
+	IN MLME_QUEUE_ELEM *Elem)
 {
 	BOOLEAN				Cancelled;
 	USHORT				CapabilityInfo, Status, Aid;
@@ -653,10 +653,10 @@ static VOID ApCliPeerAssocRspAction(
 		DBGPRINT(RT_DEBUG_OFF, ("%s():mem alloc failed!\n", __FUNCTION__));
 		return;
 	}
-			
+
 	NdisZeroMemory((UCHAR *)ie_list, sizeof(IE_LISTS));
-	
-	if (ApCliPeerAssocRspSanity(pAd, Elem->Msg, Elem->MsgLen, Addr2, &CapabilityInfo, &Status, &Aid, SupRate, &SupRateLen, ExtRate, &ExtRateLen, 
+
+	if (ApCliPeerAssocRspSanity(pAd, Elem->Msg, Elem->MsgLen, Addr2, &CapabilityInfo, &Status, &Aid, SupRate, &SupRateLen, ExtRate, &ExtRateLen,
 		&HtCapability, &AddHtInfo, &HtCapabilityLen,&AddHtInfoLen,&NewExtChannelOffset, &EdcaParm, &CkipFlag, ie_list))
 	{
 		/* The frame is for me ? */
@@ -674,15 +674,15 @@ static VOID ApCliPeerAssocRspAction(
 #endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
 
 			RTMPCancelTimer(&pAd->ApCfg.ApCliTab[ifIndex].MlmeAux.ApCliAssocTimer, &Cancelled);
-			if(Status == MLME_SUCCESS) 
+			if(Status == MLME_SUCCESS)
 			{
 				/* go to procedure listed on page 376 */
 				{
 					ApCliAssocPostProc(pAd, Addr2, CapabilityInfo, ifIndex, SupRate, SupRateLen,
-						ExtRate, ExtRateLen, &EdcaParm, &HtCapability, HtCapabilityLen, &AddHtInfo);  	
+						ExtRate, ExtRateLen, &EdcaParm, &HtCapability, HtCapabilityLen, &AddHtInfo);  
                     pAd->ApCfg.ApCliTab[0].MlmeAux.Aid = Aid;
-                    
-#ifdef DOT11_VHT_AC 
+
+#ifdef DOT11_VHT_AC
 					RTMPZeroMemory(&pApCliEntry->MlmeAux.vht_cap, sizeof(VHT_CAP_IE));
 					RTMPZeroMemory(&pApCliEntry->MlmeAux.vht_op, sizeof(VHT_OP_IE));
 					pApCliEntry->MlmeAux.vht_cap_len = 0;
@@ -693,9 +693,9 @@ static VOID ApCliPeerAssocRspAction(
 						NdisMoveMemory(&pApCliEntry->MlmeAux.vht_cap, &(ie_list->vht_cap), ie_list->vht_cap_len);
 						pApCliEntry->MlmeAux.vht_cap_len = ie_list->vht_cap_len;
 						NdisMoveMemory(&pApCliEntry->MlmeAux.vht_op, &(ie_list->vht_op), ie_list->vht_op_len);
-						pApCliEntry->MlmeAux.vht_op_len = ie_list->vht_op_len; 
-					}	
-#endif /* DOT11_VHT_AC */						
+						pApCliEntry->MlmeAux.vht_op_len = ie_list->vht_op_len;
+					}
+#endif /* DOT11_VHT_AC */
 				}
 
 				ApCliCtrlMsg.Status = MLME_SUCCESS;
@@ -727,14 +727,14 @@ static VOID ApCliPeerAssocRspAction(
 /*
     ==========================================================================
     Description:
-        left part of IEEE 802.11/1999 p.374 
+        left part of IEEE 802.11/1999 p.374
     Parameters:
         Elem - MLME message containing the received frame
     ==========================================================================
  */
 static VOID ApCliPeerDisassocAction(
-	IN PRTMP_ADAPTER pAd, 
-	IN MLME_QUEUE_ELEM *Elem) 
+	IN PRTMP_ADAPTER pAd,
+	IN MLME_QUEUE_ELEM *Elem)
 {
 	UCHAR         Addr2[MAC_ADDR_LEN];
 	USHORT        Reason;
@@ -764,7 +764,7 @@ static VOID ApCliPeerDisassocAction(
     {
         DBGPRINT(RT_DEBUG_TRACE, ("APCLI_ASSOC - ApCliPeerDisassocAction() sanity check fail\n"));
     }
-	
+
 	return;
 }
 
@@ -775,8 +775,8 @@ static VOID ApCliPeerDisassocAction(
     ==========================================================================
  */
 static VOID ApCliAssocTimeoutAction(
-	IN PRTMP_ADAPTER pAd, 
-	IN MLME_QUEUE_ELEM *Elem) 
+	IN PRTMP_ADAPTER pAd,
+	IN MLME_QUEUE_ELEM *Elem)
 {
 	USHORT ifIndex = (USHORT)(Elem->Priv);
 	PULONG pCurrState = NULL;
@@ -798,8 +798,8 @@ static VOID ApCliAssocTimeoutAction(
 }
 
 static VOID ApCliInvalidStateWhenAssoc(
-	IN PRTMP_ADAPTER pAd, 
-	IN MLME_QUEUE_ELEM *Elem) 
+	IN PRTMP_ADAPTER pAd,
+	IN MLME_QUEUE_ELEM *Elem)
 {
 	APCLI_CTRL_MSG_STRUCT ApCliCtrlMsg;
 	USHORT ifIndex = (USHORT)(Elem->Priv);
@@ -808,7 +808,7 @@ static VOID ApCliInvalidStateWhenAssoc(
 	if ((ifIndex >= MAX_APCLI_NUM)
 		)
 		return;
-	
+
 		pCurrState = &pAd->ApCfg.ApCliTab[ifIndex].AssocCurrState;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("APCLI_ASSOC - ApCliInvalidStateWhenAssoc(state=%ld), reset APCLI_ASSOC state machine\n", *pCurrState));
@@ -824,8 +824,8 @@ static VOID ApCliInvalidStateWhenAssoc(
 }
 
 static VOID ApCliInvalidStateWhenDisassociate(
-	IN PRTMP_ADAPTER pAd, 
-	IN MLME_QUEUE_ELEM *Elem) 
+	IN PRTMP_ADAPTER pAd,
+	IN MLME_QUEUE_ELEM *Elem)
 {
 	APCLI_CTRL_MSG_STRUCT ApCliCtrlMsg;
 	USHORT ifIndex = (USHORT)(Elem->Priv);
@@ -852,22 +852,22 @@ static VOID ApCliInvalidStateWhenDisassociate(
 /*
     ==========================================================================
     Description:
-        procedures on IEEE 802.11/1999 p.376 
+        procedures on IEEE 802.11/1999 p.376
     Parametrs:
     ==========================================================================
  */
 static VOID ApCliAssocPostProc(
-	IN PRTMP_ADAPTER pAd, 
-	IN PUCHAR pAddr2, 
-	IN USHORT CapabilityInfo, 
-	IN USHORT IfIndex, 
-	IN UCHAR SupRate[], 
+	IN PRTMP_ADAPTER pAd,
+	IN PUCHAR pAddr2,
+	IN USHORT CapabilityInfo,
+	IN USHORT IfIndex,
+	IN UCHAR SupRate[],
 	IN UCHAR SupRateLen,
 	IN UCHAR ExtRate[],
 	IN UCHAR ExtRateLen,
 	IN PEDCA_PARM pEdcaParm,
 	IN HT_CAPABILITY_IE *pHtCapability,
-	IN UCHAR HtCapabilityLen, 
+	IN UCHAR HtCapabilityLen,
 	IN ADD_HT_INFO_IE *pAddHtInfo)
 {
 	APCLI_STRUCT *pApCliEntry = NULL;
@@ -877,7 +877,7 @@ static VOID ApCliAssocPostProc(
 
 	pApCliEntry = &pAd->ApCfg.ApCliTab[IfIndex];
 
-	pApCliEntry->MlmeAux.BssType = BSS_INFRA;	
+	pApCliEntry->MlmeAux.BssType = BSS_INFRA;
 	pApCliEntry->MlmeAux.CapabilityInfo = CapabilityInfo & SUPPORTED_CAPABILITY_INFO;
 	NdisMoveMemory(&pApCliEntry->MlmeAux.APEdcaParm, pEdcaParm, sizeof(EDCA_PARM));
 
@@ -901,7 +901,7 @@ static VOID ApCliAssocPostProc(
 }
 
 #ifdef WPA_SUPPLICANT_SUPPORT
-VOID ApcliSendAssocIEsToWpaSupplicant( 
+VOID ApcliSendAssocIEsToWpaSupplicant(
     IN RTMP_ADAPTER *pAd,
     IN UINT ifIndex)
 {
@@ -912,7 +912,7 @@ VOID ApcliSendAssocIEsToWpaSupplicant(
 		sprintf(custom, "ASSOCINFO_ReqIEs=");
 		NdisMoveMemory(custom+17, pAd->ApCfg.ApCliTab[ifIndex].ReqVarIEs, pAd->ApCfg.ApCliTab[ifIndex].ReqVarIELen);
 		RtmpOSWrielessEventSend(pAd->net_dev, RT_WLAN_EVENT_CUSTOM, RT_REQIE_EVENT_FLAG, NULL, (PUCHAR)custom, pAd->ApCfg.ApCliTab[ifIndex].ReqVarIELen + 17);
-		
+
 		RtmpOSWrielessEventSend(pAd->net_dev, RT_WLAN_EVENT_CUSTOM, RT_ASSOCINFO_EVENT_FLAG, NULL, NULL, 0);
 	}
 	else

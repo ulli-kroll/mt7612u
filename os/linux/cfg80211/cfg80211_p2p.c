@@ -13,7 +13,7 @@
  ***************************************************************************/
 
 /****************************************************************************
- 
+
 	Abstract:
 
 	All related CFG80211 P2P function body.
@@ -33,13 +33,13 @@ UCHAR CFG_P2POUIBYTE[4] = {0x50, 0x6f, 0x9a, 0x9}; /* spec. 1.14 OUI */
 
 BUILD_TIMER_FUNCTION(CFG80211RemainOnChannelTimeout);
 
-static 
+static
 VOID CFG80211_RemainOnChannelInit(RTMP_ADAPTER	 *pAd)
 {
 	if (pAd->cfg80211_ctrl.Cfg80211RocTimerInit == FALSE)
 	{
 		CFG80211DBG(RT_DEBUG_TRACE, ("CFG80211_ROC : INIT Cfg80211RocTimer\n"));
-		RTMPInitTimer(pAd, &pAd->cfg80211_ctrl.Cfg80211RocTimer, 
+		RTMPInitTimer(pAd, &pAd->cfg80211_ctrl.Cfg80211RocTimer,
 			GET_TIMER_FUNCTION(CFG80211RemainOnChannelTimeout), pAd, FALSE);
 		pAd->cfg80211_ctrl.Cfg80211RocTimerInit = TRUE;
 	}
@@ -53,17 +53,17 @@ VOID CFG80211RemainOnChannelTimeout(
 	PCFG80211_CTRL pCfg80211_ctrl = &pAd->cfg80211_ctrl;
 
 	DBGPRINT(RT_DEBUG_INFO, ("CFG80211_ROC: RemainOnChannelTimeout\n"));
-	
+
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
 #define RESTORE_COM_CH_TIME 100
 	APCLI_STRUCT *pApCliEntry = &pAd->ApCfg.ApCliTab[MAIN_MBSSID];
 
-	if (pApCliEntry->Valid && 
-	     	RTMP_CFG80211_VIF_P2P_CLI_ON(pAd) && 
+	if (pApCliEntry->Valid &&
+	     	RTMP_CFG80211_VIF_P2P_CLI_ON(pAd) &&
             	(pAd->LatchRfRegs.Channel != pApCliEntry->MlmeAux.Channel))
 	{
 		/* Extend the ROC_TIME for Common Channel When P2P_CLI on */
-		DBGPRINT(RT_DEBUG_TRACE, ("CFG80211_ROC: ROC_Timeout APCLI_ON Channel: %d\n", 
+		DBGPRINT(RT_DEBUG_TRACE, ("CFG80211_ROC: ROC_Timeout APCLI_ON Channel: %d\n",
 								pApCliEntry->MlmeAux.Channel));
 
         	AsicSwitchChannel(pAd, pApCliEntry->MlmeAux.Channel, FALSE);
@@ -75,9 +75,9 @@ VOID CFG80211RemainOnChannelTimeout(
 		if (INFRA_ON(pAd))
 		{
 			DBGPRINT(RT_DEBUG_TRACE, ("CFG80211_NULL: CONCURRENT STA PWR_ACTIVE ROC_END\n"));
-			RTMPSendNullFrame(pAd, pAd->CommonCfg.TxRate, 
+			RTMPSendNullFrame(pAd, pAd->CommonCfg.TxRate,
 					  (OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_WMM_INUSED) ? TRUE:FALSE),
-					  pAd->CommonCfg.bAPSDForcePowerSave ? PWR_SAVE : pAd->StaCfg.Psm);			
+					  pAd->CommonCfg.bAPSDForcePowerSave ? PWR_SAVE : pAd->StaCfg.Psm);
 		}
 #endif /*CONFIG_STA_SUPPORT*/
 		RTMPSetTimer(&pCfg80211_ctrl->Cfg80211RocTimer, RESTORE_COM_CH_TIME);
@@ -85,33 +85,33 @@ VOID CFG80211RemainOnChannelTimeout(
 	else if (INFRA_ON(pAd) &&
 	   	     (pAd->LatchRfRegs.Channel != pAd->CommonCfg.Channel))
 	{
-		DBGPRINT(RT_DEBUG_TRACE, ("CFG80211_ROC: ROC_Timeout INFRA_ON Channel: %d\n", 
+		DBGPRINT(RT_DEBUG_TRACE, ("CFG80211_ROC: ROC_Timeout INFRA_ON Channel: %d\n",
 									pAd->CommonCfg.Channel));
 
         	AsicSwitchChannel(pAd, pAd->CommonCfg.Channel, FALSE);
         	AsicLockChannel(pAd, pAd->CommonCfg.Channel);
 #ifdef CONFIG_STA_SUPPORT
 		DBGPRINT(RT_DEBUG_TRACE, ("CFG80211_NULL: INFRA_ON PWR_ACTIVE ROC_END\n"));
-		RTMPSendNullFrame(pAd, pAd->CommonCfg.TxRate, 
+		RTMPSendNullFrame(pAd, pAd->CommonCfg.TxRate,
 				  (OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_WMM_INUSED) ? TRUE:FALSE),
 				  pAd->CommonCfg.bAPSDForcePowerSave ? PWR_SAVE : pAd->StaCfg.Psm);
-#endif /*CONFIG_STA_SUPPORT*/		
-		RTMPSetTimer(&pCfg80211_ctrl->Cfg80211RocTimer, RESTORE_COM_CH_TIME);		    	 
+#endif /*CONFIG_STA_SUPPORT*/
+		RTMPSetTimer(&pCfg80211_ctrl->Cfg80211RocTimer, RESTORE_COM_CH_TIME);		    
 	}
 	else
-#endif /*RT_CFG80211_P2P_CONCURRENT_DEVICE */		
+#endif /*RT_CFG80211_P2P_CONCURRENT_DEVICE */
 	{
 		DBGPRINT(RT_DEBUG_TRACE, ("CFG80211_ROC: RemainOnChannelTimeout -- FINISH\n"));
-		
+
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,34))
-        	cfg80211_remain_on_channel_expired( CFG80211_GetEventDevice(pAd),	
-        		pCfg80211_ctrl->Cfg80211ChanInfo.cookie, pCfg80211_ctrl->Cfg80211ChanInfo.chan, 
+        	cfg80211_remain_on_channel_expired( CFG80211_GetEventDevice(pAd),
+        		pCfg80211_ctrl->Cfg80211ChanInfo.cookie, pCfg80211_ctrl->Cfg80211ChanInfo.chan,
         		pCfg80211_ctrl->Cfg80211ChanInfo.ChanType, GFP_KERNEL);
 #endif /* LINUX_VERSION_CODE 2.6.34 */
 
 		pCfg80211_ctrl->Cfg80211RocTimerRunning = FALSE;
 	}
-		
+
 }
 
 /* Set a given time on specific channel to listen action Frame */
@@ -129,16 +129,16 @@ BOOLEAN CFG80211DRV_OpsRemainOnChannel(VOID *pAdOrg, VOID *pData, UINT32 duratio
         PWIRELESS_DEV pwdev = NULL;
         pwdev = pChanInfo->pWdev;
 #endif /* LINUX_VERSION_CODE: 3.6.0 */
-	
+
 	CFG80211DBG(RT_DEBUG_INFO, ("%s\n", __FUNCTION__));
-	
+
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
 	APCLI_STRUCT *pApCliEntry = &pAd->ApCfg.ApCliTab[MAIN_MBSSID];
 	/* Will be Exit the ApCli Connected Channel so send Null frame on current */
-	if (pApCliEntry->Valid && 
+	if (pApCliEntry->Valid &&
 	    RTMP_CFG80211_VIF_P2P_CLI_ON(pAd) &&
 	        (pApCliEntry->MlmeAux.Channel != pChanInfo->ChanId) &&
-                (pApCliEntry->MlmeAux.Channel == pAd->LatchRfRegs.Channel))	
+                (pApCliEntry->MlmeAux.Channel == pAd->LatchRfRegs.Channel))
 	{
         	DBGPRINT(RT_DEBUG_TRACE, ("CFG80211_NULL: APCLI PWR_SAVE ROC_START\n"));
         	CFG80211_P2pClientSendNullFrame(pAd, PWR_SAVE);
@@ -146,42 +146,42 @@ BOOLEAN CFG80211DRV_OpsRemainOnChannel(VOID *pAdOrg, VOID *pData, UINT32 duratio
 
 	if (INFRA_ON(pAd) &&
 	       (pAd->CommonCfg.Channel != pChanInfo->ChanId) &&
-               (pAd->CommonCfg.Channel == pAd->LatchRfRegs.Channel))	
+               (pAd->CommonCfg.Channel == pAd->LatchRfRegs.Channel))
 	{
     		DBGPRINT(RT_DEBUG_TRACE, ("CFG80211_NULL: STA PWR_SAVE ROC_START\n"));
-		RTMPSendNullFrame(pAd, pAd->CommonCfg.TxRate, 
+		RTMPSendNullFrame(pAd, pAd->CommonCfg.TxRate,
 				  (OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_WMM_INUSED) ? TRUE:FALSE),
-				  PWR_SAVE);				
-	}	
+				  PWR_SAVE);
+	}
 #endif /*RT_CFG80211_P2P_CONCURRENT_DEVICE */
 
 	/* Channel Switch Case:
 	 * 1. P2P_FIND:    [SOCIAL_CH]->[COM_CH]->[ROC_CH]--N_TUs->[ROC_TIMEOUT]
 	 *                 Set COM_CH to ROC_CH for merge COM_CH & ROC_CH dwell section.
-     	 *	 
+     	 *
 	 * 2. OFF_CH_WAIT: [ROC_CH]--200ms-->[ROC_TIMEOUT]->[COM_CH]
 	 *                 Most in GO case.
-	 * 
+	 *
 	 */
 	//lock_channel = CFG80211_getCenCh(pAd, pChanInfo->ChanId);
 	lock_channel = pChanInfo->ChanId;
-	if (pAd->LatchRfRegs.Channel != lock_channel) 
+	if (pAd->LatchRfRegs.Channel != lock_channel)
 	{
 		DBGPRINT(RT_DEBUG_TRACE, ("CFG80211_PKT: ROC CHANNEL_LOCK %d\n", pChanInfo->ChanId));
 		//AsicSetChannel(pAd, lock_channel, BW_20, EXTCHA_NONE, FALSE);
 
 		AsicSwitchChannel(pAd, lock_channel, FALSE);
-		AsicLockChannel(pAd, lock_channel);	
+		AsicLockChannel(pAd, lock_channel);
 	}
 	else
 	{
 		DBGPRINT(RT_DEBUG_INFO, ("80211> ComCH == ROC_CH \n"));
 	}
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,6,0))
-        cfg80211_ready_on_channel(pwdev,  pChanInfo->cookie, pChanInfo->chan, duration, GFP_ATOMIC);	
+        cfg80211_ready_on_channel(pwdev,  pChanInfo->cookie, pChanInfo->chan, duration, GFP_ATOMIC);
 #else
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,34))
-	cfg80211_ready_on_channel(CFG80211_GetEventDevice(pAd), pChanInfo->cookie, 
+	cfg80211_ready_on_channel(CFG80211_GetEventDevice(pAd), pChanInfo->cookie,
 				  pChanInfo->chan, pChanInfo->ChanType, duration, GFP_ATOMIC);
 #endif /* LINUX_VERSION_CODE: 2.6.34 */
 #endif /* LINUX_VERSION_CODE: 3.6.0 */
@@ -189,7 +189,7 @@ BOOLEAN CFG80211DRV_OpsRemainOnChannel(VOID *pAdOrg, VOID *pData, UINT32 duratio
 	NdisCopyMemory(&pCfg80211_ctrl->Cfg80211ChanInfo, pChanInfo, sizeof(CMD_RTPRIV_IOCTL_80211_CHAN));
 
 	CFG80211_RemainOnChannelInit(pAd);
-	
+
 	if (pCfg80211_ctrl->Cfg80211RocTimerRunning == TRUE)
 	{
 		DBGPRINT(RT_DEBUG_TRACE, ("CFG80211_ROC : CANCEL Cfg80211RocTimer\n"));
@@ -200,7 +200,7 @@ BOOLEAN CFG80211DRV_OpsRemainOnChannel(VOID *pAdOrg, VOID *pData, UINT32 duratio
 	RTMPSetTimer(&pCfg80211_ctrl->Cfg80211RocTimer, duration + 20);
 	pCfg80211_ctrl->Cfg80211RocTimerRunning = TRUE;
 
-	return TRUE;	
+	return TRUE;
 }
 
 BOOLEAN CFG80211DRV_OpsCancelRemainOnChannel(VOID *pAdOrg, UINT32 cookie)
@@ -223,26 +223,26 @@ INT CFG80211_setPowerMgmt(VOID *pAdCB, UINT Enable)
 
 	DBGPRINT(RT_DEBUG_TRACE, ("@@@ %s: %d\n", __FUNCTION__, Enable));
 
-#ifdef RT_CFG80211_P2P_SUPPORT		
+#ifdef RT_CFG80211_P2P_SUPPORT
 	pAd->cfg80211_ctrl.bP2pCliPmEnable = Enable;
 #endif /* RT_CFG80211_P2P_SUPPORT */
 
-	return 0;	
+	return 0;
 }
 
 #ifdef RT_CFG80211_P2P_SUPPORT
-/*	
+/*
 	==========================================================================
-	Description: 
-		Make a P2P Fake NoA Attribute to trigger myself to restart NoA. 
-		The Start time is changed. Duration and Interval and Count is 
+	Description:
+		Make a P2P Fake NoA Attribute to trigger myself to restart NoA.
+		The Start time is changed. Duration and Interval and Count is
 		the same as GO's beacon
-		
-	Parameters: 
+
+	Parameters:
 		 StartTime : A new Start time.
 		 pOutBuffer : pointer to buffer that should put data to.
 	Note:
-		 
+
 	==========================================================================
  */
 VOID CFG80211_P2PMakeFakeNoATlv(PRTMP_ADAPTER pAd, ULONG StartTime, PUCHAR pOutBuffer)
@@ -270,12 +270,12 @@ VOID CFG80211_P2PMakeFakeNoATlv(PRTMP_ADAPTER pAd, ULONG StartTime, PUCHAR pOutB
 }
 
 
-BOOLEAN	CFG80211_P2pAdjustSwNoATimer(PRTMP_ADAPTER pAd, ULONG CurrentTimeStamp, ULONG NextTimePoint) 
+BOOLEAN	CFG80211_P2pAdjustSwNoATimer(PRTMP_ADAPTER pAd, ULONG CurrentTimeStamp, ULONG NextTimePoint)
 {
-	PCFG80211_CTRL pP2PCtrl = &pAd->cfg80211_ctrl;	
+	PCFG80211_CTRL pP2PCtrl = &pAd->cfg80211_ctrl;
 	ULONG AwakeDuration, NewStartTime;
 	UCHAR FakeNoAAttribute[32];
-	
+
 	RTMPZeroMemory(FakeNoAAttribute, 32);
 	AwakeDuration = pP2PCtrl->GONoASchedule.Interval - pP2PCtrl->GONoASchedule.Duration;
 	if (CurrentTimeStamp < pP2PCtrl->GONoASchedule.CurrentTargetTimePoint)
@@ -284,12 +284,12 @@ BOOLEAN	CFG80211_P2pAdjustSwNoATimer(PRTMP_ADAPTER pAd, ULONG CurrentTimeStamp, 
 		if ((pP2PCtrl->GONoASchedule.OngoingAwakeTime) >= (AwakeDuration>> 2))
 		{
 			DBGPRINT(RT_DEBUG_TRACE,("P2pAdjustSwNoATimer HERE HERE!!!! \n"));
-			DBGPRINT(RT_DEBUG_TRACE,("OngoingAwakeTime = %ld. CurrentTimeStamp = %ld.!!!! \n", 
+			DBGPRINT(RT_DEBUG_TRACE,("OngoingAwakeTime = %ld. CurrentTimeStamp = %ld.!!!! \n",
 							pP2PCtrl->GONoASchedule.OngoingAwakeTime, CurrentTimeStamp));
 
 			CFG80211_P2pStopNoA(pAd, &pAd->MacTab.Content[pP2PCtrl->MyGOwcid]);
 			FakeNoAAttribute[0] = SUBID_P2P_NOA;
-			NewStartTime = pP2PCtrl->GONoASchedule.StartTime + 
+			NewStartTime = pP2PCtrl->GONoASchedule.StartTime +
 				       (pP2PCtrl->GONoASchedule.SwTimerTickCounter - 1) * (pP2PCtrl->GONoASchedule.Interval);
 
 			CFG80211_P2PMakeFakeNoATlv(pAd, NewStartTime, &FakeNoAAttribute[0]);
@@ -308,11 +308,11 @@ BOOLEAN	CFG80211_P2pAdjustSwNoATimer(PRTMP_ADAPTER pAd, ULONG CurrentTimeStamp, 
 	{
 		/* Update expected next Current Target Time Point with NextTimePoint */
 		pP2PCtrl->GONoASchedule.CurrentTargetTimePoint = NextTimePoint;
-		return FALSE;	
+		return FALSE;
 	}
 }
 
-VOID CFG80211_P2pGPTimeOutHandle(PRTMP_ADAPTER pAd) 
+VOID CFG80211_P2pGPTimeOutHandle(PRTMP_ADAPTER pAd)
 {
 	PCFG80211_CTRL pP2PCtrl = &pAd->cfg80211_ctrl;
 	MAC_TABLE_ENTRY *pEntry=NULL;
@@ -321,7 +321,7 @@ VOID CFG80211_P2pGPTimeOutHandle(PRTMP_ADAPTER pAd)
 	RTMP_IO_READ32(pAd, INT_TIMER_EN, &Value);
 	Value &= 0xfffffffd;
 	RTMP_IO_WRITE32(pAd, INT_TIMER_EN, Value);
-	
+
 	/* GO operating or Autonomous GO */
 	if (CFG_P2PGO_ON(pAd))
 	{
@@ -331,11 +331,11 @@ VOID CFG80211_P2pGPTimeOutHandle(PRTMP_ADAPTER pAd)
 	{
 		if (pP2PCtrl->NoAIndex >= MAX_LEN_OF_MAC_TABLE)
 			return;
-	
+
 		if (pP2PCtrl->NoAIndex != pP2PCtrl->MyGOwcid)
-			DBGPRINT(RT_DEBUG_TRACE,("%s: !bug, please check driver %d. \n", 
+			DBGPRINT(RT_DEBUG_TRACE,("%s: !bug, please check driver %d. \n",
 				__FUNCTION__, pP2PCtrl->NoAIndex));
-				
+
 		pEntry = &pAd->MacTab.Content[pP2PCtrl->NoAIndex];
 		if (pEntry && pEntry->CFGP2pInfo.NoADesc[0].bValid == TRUE)
 		{
@@ -355,7 +355,7 @@ VOID CFG80211_P2pGPTimeOutHandle(PRTMP_ADAPTER pAd)
 				DBGPRINT(RT_DEBUG_TRACE,("P2P_PS %s: Count down to zero!!StopGP.  return.1 \n", __FUNCTION__));
 				return;
 			}
-	
+
 			/* To enter absence period, stop transmission a little bit earlier to leave HW to clean the queue. */
 			if (pEntry->CFGP2pInfo.NoADesc[0].bInAwake == FALSE)
 				NextDiff = pEntry->CFGP2pInfo.NoADesc[0].Duration - 0x200;
@@ -367,7 +367,7 @@ VOID CFG80211_P2pGPTimeOutHandle(PRTMP_ADAPTER pAd)
 
 			/*RTMP_IO_READ32(pAd, TSF_TIMER_DW0, &MacValue); */
 			MacValue = pAd->cfg80211_ctrl.GONoASchedule.LastBeaconTimeStamp;
-			DBGPRINT(RT_DEBUG_TRACE,("P2P_PS 2 Tsf	Timer  = %ld,  NextTargetTimePoint = %ld.\n", 
+			DBGPRINT(RT_DEBUG_TRACE,("P2P_PS 2 Tsf	Timer  = %ld,  NextTargetTimePoint = %ld.\n",
 				MacValue, pEntry->CFGP2pInfo.NoADesc[0].NextTargetTimePoint));
 
 			SavedNextTargetTimePoint = pEntry->CFGP2pInfo.NoADesc[0].NextTargetTimePoint;
@@ -377,19 +377,19 @@ VOID CFG80211_P2pGPTimeOutHandle(PRTMP_ADAPTER pAd)
 
 				pEntry->CFGP2pInfo.NoADesc[0].NextTargetTimePoint += NextDiff;
 				CFG80211_P2pResetNoATimer(pAd, GPDiff);
-				DBGPRINT(RT_DEBUG_TRACE,("P2P_PS 3	Continue next NOA NextTargetTimePoint = %ld. \n", 
+				DBGPRINT(RT_DEBUG_TRACE,("P2P_PS 3	Continue next NOA NextTargetTimePoint = %ld. \n",
 						pEntry->CFGP2pInfo.NoADesc[0].NextTargetTimePoint));
 				DBGPRINT(RT_DEBUG_TRACE,("P2P_PS 3	Value = %ld.  NextDiff = %ld.\n", MacValue, NextDiff));
 			}
 			else
 			{
 				CFG80211_P2pStopNoA(pAd, pEntry);
-				DBGPRINT(RT_DEBUG_TRACE,("P2P_PS 4  NOA NextTargetTimePoint = %ld. \n", 
+				DBGPRINT(RT_DEBUG_TRACE,("P2P_PS 4  NOA NextTargetTimePoint = %ld. \n",
 							pEntry->CFGP2pInfo.NoADesc[0].NextTargetTimePoint));
 				DBGPRINT(RT_DEBUG_TRACE,("P2P_PS 4  Value = %ld = 0x%lx.  NextDiff = %ld.\n", MacValue,  MacValue, NextDiff));
 				return;
 			}
-					
+
 			if (pEntry->CFGP2pInfo.NoADesc[0].bInAwake == TRUE)
 			{
 				pEntry->CFGP2pInfo.NoADesc[0].bInAwake = FALSE;
@@ -415,48 +415,48 @@ VOID CFG80211_P2pGPTimeOutHandle(PRTMP_ADAPTER pAd)
 				}
 
 				DBGPRINT(RT_DEBUG_TRACE,("P2P_PS Enter Awake now ======= %d\n", pAd->cfg80211_ctrl.bKeepSlient));
-	
+
 			}
-	
+
 		}
-					
+
 	}
 }
 
 VOID CFG80211_P2PCTWindowTimer(
-	PVOID SystemSpecific1, PVOID FunctionContext, 
-	PVOID SystemSpecific2, PVOID SystemSpecific3) 
+	PVOID SystemSpecific1, PVOID FunctionContext,
+	PVOID SystemSpecific2, PVOID SystemSpecific3)
 {
 	PRTMP_ADAPTER	pAd = (RTMP_ADAPTER *)FunctionContext;
-	PCFG80211_CTRL pP2pCtrl = &pAd->cfg80211_ctrl;	
+	PCFG80211_CTRL pP2pCtrl = &pAd->cfg80211_ctrl;
 
 	if (CFG80211_P2P_TEST_BIT(pP2pCtrl->CTWindows, P2P_OPPS_BIT))
 		pP2pCtrl->bKeepSlient = TRUE;
 }
 
 
-/*	
+/*
 	==========================================================================
-	Description: 
+	Description:
 		When I am P2P Client , Handle NoA Attribute.
-		
-	Parameters: 
+
+	Parameters:
 		S - pointer to the association state machine
 	Note:
 		The state machine looks like the following as name implies its function
 	==========================================================================
  */
 VOID CFG80211_P2pSwNoATimeOut(
-	PVOID SystemSpecific1, PVOID FunctionContext, 
-	PVOID SystemSpecific2, PVOID SystemSpecific3) 
+	PVOID SystemSpecific1, PVOID FunctionContext,
+	PVOID SystemSpecific2, PVOID SystemSpecific3)
 {
 	PRTMP_ADAPTER pAd = (RTMP_ADAPTER *)FunctionContext;
 	CFG80211_P2pGPTimeOutHandle(pAd);
 }
 
 VOID CFG80211_P2pPreAbsenTimeOut(
-	PVOID SystemSpecific1, PVOID FunctionContext, 
-	PVOID SystemSpecific2, PVOID SystemSpecific3) 
+	PVOID SystemSpecific1, PVOID FunctionContext,
+	PVOID SystemSpecific2, PVOID SystemSpecific3)
 {
 	PRTMP_ADAPTER pAd = (RTMP_ADAPTER *)FunctionContext;
 	pAd->cfg80211_ctrl.bPreKeepSlient = TRUE;
@@ -469,7 +469,7 @@ BOOLEAN CFG80211_P2pResetNoATimer(PRTMP_ADAPTER pAd, ULONG DiffTimeInUs)
 	BOOLEAN	brc = FALSE;
 
 	/*
-		Software based timer means don't use GP interrupt to get precise timer calculation. 
+		Software based timer means don't use GP interrupt to get precise timer calculation.
 		So need to check time offset caused by software timer.
 	 */
 	if (IS_SW_NOA_TIMER(pAd))
@@ -479,19 +479,19 @@ BOOLEAN CFG80211_P2pResetNoATimer(PRTMP_ADAPTER pAd, ULONG DiffTimeInUs)
 		if (GPDiff > 0)
 		{
 			GPDiff++;
-			RTMPSetTimer(&pAd->cfg80211_ctrl.P2pSwNoATimer, GPDiff);			
-			
+			RTMPSetTimer(&pAd->cfg80211_ctrl.P2pSwNoATimer, GPDiff);
+
 			/* Increase timer tick counter. */
 			pAd->cfg80211_ctrl.GONoASchedule.SwTimerTickCounter++;
 
 			brc = TRUE;
 			/* Will go to awake later. Set a pre-enter-absence timer that the time out is smaller the GPDiff. */
-			if (pAd->cfg80211_ctrl.GONoASchedule.bInAwake == FALSE)			
+			if (pAd->cfg80211_ctrl.GONoASchedule.bInAwake == FALSE)
 			{
 				if (GPDiff > 10)
 				{
 					printk("P2P_PS ==========> P2pPreAbsenTimer, %d\n", (GPDiff - 10));
-					RTMPSetTimer(&pAd->cfg80211_ctrl.P2pPreAbsenTimer, (GPDiff - 10));					
+					RTMPSetTimer(&pAd->cfg80211_ctrl.P2pPreAbsenTimer, (GPDiff - 10));
 				}
 			}
 		}
@@ -510,9 +510,9 @@ VOID	CFG80211_P2pStopNoA(PRTMP_ADAPTER pAd, PMAC_TABLE_ENTRY pMacClient)
 {
 	ULONG	Value;
 	BOOLEAN	Cancelled;
-	
+
 	DBGPRINT(RT_DEBUG_TRACE,("P2P_PS %s .!!!! \n",__FUNCTION__));
-	
+
 	RTMPCancelTimer(&pAd->cfg80211_ctrl.P2pPreAbsenTimer, &Cancelled);
 	pAd->cfg80211_ctrl.bKeepSlient = FALSE;
 	pAd->cfg80211_ctrl.bPreKeepSlient = FALSE;
@@ -531,7 +531,7 @@ VOID	CFG80211_P2pStopNoA(PRTMP_ADAPTER pAd, PMAC_TABLE_ENTRY pMacClient)
 	pAd->cfg80211_ctrl.GONoASchedule.bValid = FALSE;
 	pAd->cfg80211_ctrl.GONoASchedule.bInAwake = TRUE;
 
-		
+
 	/* If need not resume NoA. Can reset all parameters. */
 	{
 		pAd->cfg80211_ctrl.GONoASchedule.Count = 1;
@@ -554,7 +554,7 @@ VOID CFG80211_P2pStartOpPS(PRTMP_ADAPTER pAd)
 {
 	if (pAd->cfg80211_ctrl.GONoASchedule.bValid == TRUE)
 		CFG80211_P2pStopNoA(pAd, NULL);
-	
+
 	DBGPRINT(RT_DEBUG_TRACE,("P2P : !! %s \n",__FUNCTION__));
 	pAd->cfg80211_ctrl.CTWindows = 0x8a;
 	/* Wait next beacon period to really start queue packet. */
@@ -572,19 +572,19 @@ VOID CFG80211_P2pStopOpPS(PRTMP_ADAPTER pAd)
 static
 ULONG CFG80211_P2pGetTimeStamp(PRTMP_ADAPTER pAd)
 {
-	ULONG Value = 0;	
+	ULONG Value = 0;
 	/* RTMP_IO_FORCE_READ32(pAd, TSF_TIMER_DW0, &Value); */
         Value = pAd->cfg80211_ctrl.GONoASchedule.LastBeaconTimeStamp;
-	
+
 	return Value;
 }
 
-BOOLEAN CFG80211_P2pHandleNoAAttri(PRTMP_ADAPTER pAd, PMAC_TABLE_ENTRY pMacClient, PUCHAR pData) 
+BOOLEAN CFG80211_P2pHandleNoAAttri(PRTMP_ADAPTER pAd, PMAC_TABLE_ENTRY pMacClient, PUCHAR pData)
 {
 	PP2P_NOA_DESC pNoADesc;
 	ULONG Value, GPDiff, NoALen, StartTime;
 	UCHAR index;
-	
+
 	if (pMacClient == NULL)
 		return FALSE;
 
@@ -593,37 +593,37 @@ BOOLEAN CFG80211_P2pHandleNoAAttri(PRTMP_ADAPTER pAd, PMAC_TABLE_ENTRY pMacClien
 		NoALen = *(pData+1);
 		if (NoALen == 2)
 		{
-			pMacClient->CFGP2pInfo.CTWindow = *(pData+4); 
+			pMacClient->CFGP2pInfo.CTWindow = *(pData+4);
 			if (pMacClient->CFGP2pInfo.NoADesc[0].bValid == TRUE)
 				CFG80211_P2pStopNoA(pAd, pMacClient);
 			/*
-				Copy my GO's CTWindow to P2Pcfg.CTWindow parameters, 
+				Copy my GO's CTWindow to P2Pcfg.CTWindow parameters,
 				Then As Client, I don't need to search for Client when I want to use CTWindow Value.
 			 */
-			pAd->cfg80211_ctrl.CTWindows = *(pData+4); 
+			pAd->cfg80211_ctrl.CTWindows = *(pData+4);
 			return TRUE;
 		}
-			
+
 		index = *(pData+3);
-		
+
 		pMacClient->CFGP2pInfo.CTWindow = *(pData+4);
-		pAd->cfg80211_ctrl.CTWindows = *(pData+4); 
-		
+		pAd->cfg80211_ctrl.CTWindows = *(pData+4);
+
 		pNoADesc = (PP2P_NOA_DESC)(pData+5);
 		pMacClient->CFGP2pInfo.NoADesc[0].Count = pNoADesc->Count;
 		pMacClient->CFGP2pInfo.NoADesc[0].Duration = *(PUINT32)&pNoADesc->Duration[0];
 		pMacClient->CFGP2pInfo.NoADesc[0].Interval = *(PUINT32)&pNoADesc->Interval[0];
 		pMacClient->CFGP2pInfo.NoADesc[0].StartTime = *(PUINT32)&pNoADesc->StartTime[0];
 		StartTime = *(PUINT32)&pNoADesc->StartTime[0];
-	
+
 		if (pMacClient->CFGP2pInfo.NoADesc[0].Token == index)
 		{
 			/* The same NoA. Doesn't need to set this NoA again. */
 			return FALSE;
 		}
-		
-		DBGPRINT(RT_DEBUG_TRACE,("P2P_PS : !!!NEW NOA Here =[%d, %d] Count = %d. Duration =  %ld \n", 
-					pMacClient->CFGP2pInfo.NoADesc[0].Token, index, pNoADesc->Count, 
+
+		DBGPRINT(RT_DEBUG_TRACE,("P2P_PS : !!!NEW NOA Here =[%d, %d] Count = %d. Duration =  %ld \n",
+					pMacClient->CFGP2pInfo.NoADesc[0].Token, index, pNoADesc->Count,
 					pMacClient->CFGP2pInfo.NoADesc[0].Duration));
 		DBGPRINT(RT_DEBUG_TRACE,("P2P_PS : CTWindow =  %x \n", pMacClient->CFGP2pInfo.CTWindow));
 
@@ -632,7 +632,7 @@ BOOLEAN CFG80211_P2pHandleNoAAttri(PRTMP_ADAPTER pAd, PMAC_TABLE_ENTRY pMacClien
 
 		/* RTMP_IO_FORCE_READ32(pAd, TSF_TIMER_DW0, &Value); */
 		Value = pAd->cfg80211_ctrl.GONoASchedule.LastBeaconTimeStamp;
-		DBGPRINT(RT_DEBUG_TRACE,("P2P_PS Interval = %ld. StartTime = %ld. TSF timer = %ld\n", 
+		DBGPRINT(RT_DEBUG_TRACE,("P2P_PS Interval = %ld. StartTime = %ld. TSF timer = %ld\n",
 			pMacClient->CFGP2pInfo.NoADesc[0].Interval, pMacClient->CFGP2pInfo.NoADesc[0].StartTime, Value));
 
 		if ((pMacClient->CFGP2pInfo.NoADesc[0].Duration <= 0x40) || (pMacClient->CFGP2pInfo.NoADesc[0].Interval <= 0x40))
@@ -646,19 +646,19 @@ BOOLEAN CFG80211_P2pHandleNoAAttri(PRTMP_ADAPTER pAd, PMAC_TABLE_ENTRY pMacClien
 			DBGPRINT(RT_DEBUG_TRACE, ("P2P_PS !!!!!Duration > Inveral.  return 2\n"));
 			return FALSE;
 		}
-		
+
 		/* if Start time point is in the future. */
 		pAd->cfg80211_ctrl.GONoASchedule.CurrentTargetTimePoint = pMacClient->CFGP2pInfo.NoADesc[0].StartTime;
 		if (Value < StartTime)
 		{
 			GPDiff = pMacClient->CFGP2pInfo.NoADesc[0].StartTime - Value;
-			pMacClient->CFGP2pInfo.NoADesc[0].NextTargetTimePoint = 
+			pMacClient->CFGP2pInfo.NoADesc[0].NextTargetTimePoint =
 					pMacClient->CFGP2pInfo.NoADesc[0].StartTime + pMacClient->CFGP2pInfo.NoADesc[0].Duration;
-			pAd->cfg80211_ctrl.GONoASchedule.OngoingAwakeTime = 
+			pAd->cfg80211_ctrl.GONoASchedule.OngoingAwakeTime =
 					pMacClient->CFGP2pInfo.NoADesc[0].NextTargetTimePoint;
 
-						
-			DBGPRINT(RT_DEBUG_TRACE,("P2P_PS !!!!! GPDiff = %ld. NextTargetTimePoint = %ld\n", 
+
+			DBGPRINT(RT_DEBUG_TRACE,("P2P_PS !!!!! GPDiff = %ld. NextTargetTimePoint = %ld\n",
 					GPDiff, pMacClient->CFGP2pInfo.NoADesc[0].NextTargetTimePoint));
 
 			/* try to set General Timer. */
@@ -681,11 +681,11 @@ BOOLEAN CFG80211_P2pHandleNoAAttri(PRTMP_ADAPTER pAd, PMAC_TABLE_ENTRY pMacClien
 				if ((StartTime > Value) && ((StartTime-Value) > 0x80))
 				{
 					GPDiff = StartTime - Value;
-					pMacClient->CFGP2pInfo.NoADesc[0].NextTargetTimePoint = StartTime 
-								/* + pMacClient->P2pInfo.NoADesc[0].Interval */ 
+					pMacClient->CFGP2pInfo.NoADesc[0].NextTargetTimePoint = StartTime
+								/* + pMacClient->P2pInfo.NoADesc[0].Interval */
 								  - pMacClient->CFGP2pInfo.NoADesc[0].Duration;
 
-					pAd->cfg80211_ctrl.GONoASchedule.OngoingAwakeTime = 
+					pAd->cfg80211_ctrl.GONoASchedule.OngoingAwakeTime =
 								pMacClient->CFGP2pInfo.NoADesc[0].NextTargetTimePoint;
 					pAd->cfg80211_ctrl.GONoASchedule.LastBeaconTimeStamp += GPDiff;
 
@@ -711,7 +711,7 @@ BOOLEAN CFG80211_P2pHandleNoAAttri(PRTMP_ADAPTER pAd, PMAC_TABLE_ENTRY pMacClien
 }
 
 
-VOID CFG80211_P2pParseNoASubElmt(PRTMP_ADAPTER pAd, VOID *Msg, ULONG MsgLen, 
+VOID CFG80211_P2pParseNoASubElmt(PRTMP_ADAPTER pAd, VOID *Msg, ULONG MsgLen,
                                  UCHAR wcidindex, UINT32 Sequence)
 {
 	PCFG80211_CTRL pP2PCtrl = &pAd->cfg80211_ctrl;
@@ -720,12 +720,12 @@ VOID CFG80211_P2pParseNoASubElmt(PRTMP_ADAPTER pAd, VOID *Msg, ULONG MsgLen,
 	PEID_STRUCT pEid;
 	BOOLEAN brc = FALSE, bNoAAttriExist = FALSE;
 	PUCHAR pPtrEid = NULL;
-		
+
 	/* Intel sends multiple P2P IE... So I can't give each input a default value.. */
 	if (MsgLen == 0)
 		return;
-	
-	LeftLength = MsgLen; 
+
+	LeftLength = MsgLen;
 	pEid = (PEID_STRUCT)Msg;
 	while ((ULONG)(pEid->Len + 2) <= LeftLength)
 	{
@@ -738,15 +738,15 @@ VOID CFG80211_P2pParseNoASubElmt(PRTMP_ADAPTER pAd, VOID *Msg, ULONG MsgLen,
 			AttriLen = pP2pEid->Len[0] + pP2pEid->Len[1] *8;
 			Length = 0;
 
-			while ((Length + 3 + AttriLen) <= pEid->Len)	
+			while ((Length + 3 + AttriLen) <= pEid->Len)
 			{
 				switch(pP2pEid->Eid)
 				{
 					case SUBID_P2P_NOA:
 					{
 						PUCHAR pData = &pEid->Octet[0];
-						DBGPRINT(RT_DEBUG_TRACE, ("P2P_PS Get NoA Attr: %x %x %x %x %x %x %x %x %x \n", 
-									*(pData+0), *(pData+1), *(pData+2), *(pData+3), 
+						DBGPRINT(RT_DEBUG_TRACE, ("P2P_PS Get NoA Attr: %x %x %x %x %x %x %x %x %x \n",
+									*(pData+0), *(pData+1), *(pData+2), *(pData+3),
 									*(pData+4), *(pData+5), *(pData+6), *(pData+7), *(pData+8)));
 
 						bNoAAttriExist = TRUE;
@@ -760,17 +760,17 @@ VOID CFG80211_P2pParseNoASubElmt(PRTMP_ADAPTER pAd, VOID *Msg, ULONG MsgLen,
 
 					default:
 						break;
-						
+
 				}
 
 				Length = Length + 3 + AttriLen;  /* Eid[1] + Len[1]+ content[Len] */
 				pP2pEid = (PP2PEID_STRUCT)((UCHAR*)pP2pEid + 3 + AttriLen);
 				pPtrEid = (PUCHAR) pP2pEid;
 				AttriLen = pP2pEid->Len[0] + pP2pEid->Len[1] *8;
-			}	
+			}
 		}
 		LeftLength = LeftLength - pEid->Len - 2;
-		pEid = (PEID_STRUCT)((UCHAR*)pEid + 2 + pEid->Len); 	   
+		pEid = (PEID_STRUCT)((UCHAR*)pEid + 2 + pEid->Len); 
 	}
 
 	if (bNoAAttriExist == FALSE)
@@ -794,10 +794,10 @@ VOID CFG80211_P2pParseNoASubElmt(PRTMP_ADAPTER pAd, VOID *Msg, ULONG MsgLen,
 
 
 BOOLEAN CFG8211_PeerP2pBeaconSanity(
-	PRTMP_ADAPTER pAd, VOID *Msg, ULONG MsgLen, 
-	PUCHAR pAddr2, CHAR Ssid[], UCHAR *pSsidLen, 
-	ULONG *Peerip, ULONG *P2PSubelementLen, 
-	PUCHAR pP2pSubelement) 
+	PRTMP_ADAPTER pAd, VOID *Msg, ULONG MsgLen,
+	PUCHAR pAddr2, CHAR Ssid[], UCHAR *pSsidLen,
+	ULONG *Peerip, ULONG *P2PSubelementLen,
+	PUCHAR pP2pSubelement)
 {
 	PFRAME_802_11 pFrame;
 	PEID_STRUCT pEid;
@@ -830,10 +830,10 @@ BOOLEAN CFG8211_PeerP2pBeaconSanity(
 	pEid = (PEID_STRUCT) Ptr;
 
 	/* get variable fields from payload and advance the pointer */
-	while ((Length + 2 + pEid->Len) <= MsgLen)    
+	while ((Length + 2 + pEid->Len) <= MsgLen)
 	{
 		switch(pEid->Eid)
-		{			
+		{
 			case IE_SSID:
 				if(pEid->Len <= MAX_LEN_OF_SSID)
 				{
@@ -868,7 +868,7 @@ BOOLEAN CFG8211_PeerP2pBeaconSanity(
 				else if (NdisEqualMemory(pEid->Octet, CFG_P2POUIBYTE, 4) && (pEid->Len >= 4))
 				{
 					/*
-						If this is the first P2P OUI. Then also append P2P OUI. 
+						If this is the first P2P OUI. Then also append P2P OUI.
 						Beacon 's P2P attribute doesn't exceed 256 bytes. So not use acumulcated form.
 					 */
 					if (bFirstP2pOUI == TRUE)
@@ -920,18 +920,18 @@ BOOLEAN CFG8211_PeerP2pBeaconSanity(
 				break;
 		}
 		Length = Length + 2 + pEid->Len;  /* Eid[1] + Len[1]+ content[Len] */
-		pEid = (PEID_STRUCT)((UCHAR*)pEid + 2 + pEid->Len);        
-	
+		pEid = (PEID_STRUCT)((UCHAR*)pEid + 2 + pEid->Len);
+
 	}
 	return brc;
 }
 
 
-VOID CFG80211_PeerP2pBeacon(PRTMP_ADAPTER pAd, 
-	PUCHAR pAddr2, MLME_QUEUE_ELEM *Elem, LARGE_INTEGER TimeStamp) 
+VOID CFG80211_PeerP2pBeacon(PRTMP_ADAPTER pAd,
+	PUCHAR pAddr2, MLME_QUEUE_ELEM *Elem, LARGE_INTEGER TimeStamp)
 {
 	PCFG80211_CTRL pP2PCtrl = &pAd->cfg80211_ctrl;
-	
+
 	UCHAR	Addr2[6], SsidLen, Ssid[32];
 	ULONG	PeerIp, P2PSubelementLen;
 	PUCHAR	P2pSubelement = NULL;
@@ -961,8 +961,8 @@ VOID CFG80211_PeerP2pBeacon(PRTMP_ADAPTER pAd,
 		DBGPRINT(RT_DEBUG_ERROR, ("%s::Allocate memory size(=%d) failed\n", __FUNCTION__, MAX_VIE_LEN));
 		goto CleanUp;
 	}
-	
-	if (CFG8211_PeerP2pBeaconSanity(pAd, Elem->Msg, Elem->MsgLen, 
+
+	if (CFG8211_PeerP2pBeaconSanity(pAd, Elem->Msg, Elem->MsgLen,
 					Addr2, Ssid, &SsidLen, &PeerIp,
 					&P2PSubelementLen,P2pSubelement))
 	{
@@ -985,7 +985,7 @@ VOID CFG80211_PeerP2pBeacon(PRTMP_ADAPTER pAd,
 			}
 		}
 	}
-	
+
 CleanUp:
 	if (P2pSubelement)
 	{
@@ -1022,44 +1022,44 @@ VOID CFG80211DRV_P2pClientKeyAdd(VOID *pAdOrg, VOID *pData)
 
 	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pAdOrg;
 	CMD_RTPRIV_IOCTL_80211_KEY *pKeyInfo;
-	
+
     	DBGPRINT(RT_DEBUG_TRACE, ("CFG Debug: CFG80211DRV_P2pClientKeyAdd\n"));
     	pKeyInfo = (CMD_RTPRIV_IOCTL_80211_KEY *)pData;
-	
+
 	if (pKeyInfo->KeyType == RT_CMD_80211_KEY_WEP40 || pKeyInfo->KeyType == RT_CMD_80211_KEY_WEP104)
 		;
 	else
-	{	
+	{
 		INT 	BssIdx;
 		PAPCLI_STRUCT pApCliEntry;
 		MAC_TABLE_ENTRY	*pMacEntry=(MAC_TABLE_ENTRY *)NULL;
-	
+
 		BssIdx = pAd->ApCfg.BssidNum + MAX_MESH_NUM + MAIN_MBSSID;
 		pApCliEntry = &pAd->ApCfg.ApCliTab[MAIN_MBSSID];
-		pMacEntry = &pAd->MacTab.Content[pApCliEntry->MacTabWCID]; 
+		pMacEntry = &pAd->MacTab.Content[pApCliEntry->MacTabWCID];
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,37))
         	if (pKeyInfo->bPairwise == FALSE )
 #else
         	if (pKeyInfo->KeyId > 0)
-#endif		
+#endif
 		{
-			
+
 			if (pApCliEntry->wdev.WepStatus == Ndis802_11Encryption3Enabled)
 			{
 				printk("APCLI: Set AES Security Set. [%d] (GROUP) %d\n", BssIdx, pKeyInfo->KeyLen);
-				NdisZeroMemory(&pApCliEntry->SharedKey[pKeyInfo->KeyId], sizeof(CIPHER_KEY));  
+				NdisZeroMemory(&pApCliEntry->SharedKey[pKeyInfo->KeyId], sizeof(CIPHER_KEY));
 				pApCliEntry->SharedKey[pKeyInfo->KeyId].KeyLen = LEN_TK;
 				NdisMoveMemory(pApCliEntry->SharedKey[pKeyInfo->KeyId].Key, pKeyInfo->KeyBuf, pKeyInfo->KeyLen);
-				
+
 				pApCliEntry->SharedKey[pKeyInfo->KeyId].CipherAlg = CIPHER_AES;
 
-				AsicAddSharedKeyEntry(pAd, BssIdx, pKeyInfo->KeyId, 
+				AsicAddSharedKeyEntry(pAd, BssIdx, pKeyInfo->KeyId,
 						      &pApCliEntry->SharedKey[pKeyInfo->KeyId]);
-						
-				RTMPAddWcidAttributeEntry(pAd, BssIdx, pKeyInfo->KeyId, 
-							  pApCliEntry->SharedKey[pKeyInfo->KeyId].CipherAlg, 
-							  NULL);				
-										  
+
+				RTMPAddWcidAttributeEntry(pAd, BssIdx, pKeyInfo->KeyId,
+							  pApCliEntry->SharedKey[pKeyInfo->KeyId].CipherAlg,
+							  NULL);
+
 				if (pMacEntry->AuthMode >= Ndis802_11AuthModeWPA)
 				{
 					/* set 802.1x port control */
@@ -1067,28 +1067,28 @@ VOID CFG80211DRV_P2pClientKeyAdd(VOID *pAdOrg, VOID *pData)
 					pMacEntry->PrivacyFilter = Ndis802_11PrivFilterAcceptAll;
 				}
 			}
-		}	
+		}
 		else
-		{	
+		{
 			if(pMacEntry)
 			{
 				printk("APCLI: Set AES Security Set. [%d] (PAIRWISE) %d\n", BssIdx, pKeyInfo->KeyLen);
-				NdisZeroMemory(&pMacEntry->PairwiseKey, sizeof(CIPHER_KEY));  
+				NdisZeroMemory(&pMacEntry->PairwiseKey, sizeof(CIPHER_KEY));
 				pMacEntry->PairwiseKey.KeyLen = LEN_TK;
-				
+
 				NdisCopyMemory(&pMacEntry->PTK[OFFSET_OF_PTK_TK], pKeyInfo->KeyBuf, OFFSET_OF_PTK_TK);
 				NdisMoveMemory(pMacEntry->PairwiseKey.Key, &pMacEntry->PTK[OFFSET_OF_PTK_TK], pKeyInfo->KeyLen);
-				
+
 				pMacEntry->PairwiseKey.CipherAlg = CIPHER_AES;
-				
+
 				AsicAddPairwiseKeyEntry(pAd, (UCHAR)pMacEntry->Aid, &pMacEntry->PairwiseKey);
 				RTMPSetWcidSecurityInfo(pAd, BssIdx, 0, pMacEntry->PairwiseKey.CipherAlg, pMacEntry->Aid, PAIRWISEKEYTABLE);
 			}
-			else	
+			else
 			{
 				printk("APCLI: Set AES Security Set. (PAIRWISE) But pMacEntry NULL\n");
-			}			
-		}		
+			}
+		}
 	}
 }
 
@@ -1099,8 +1099,8 @@ VOID CFG80211DRV_SetP2pCliAssocIe(VOID *pAdOrg, VOID *pData, UINT ie_len)
 	hex_dump("P2PCLI=", pData, ie_len);
 
 	apcli_entry = &pAd->ApCfg.ApCliTab[MAIN_MBSSID];
-	
-	if (ie_len > 0)	
+
+	if (ie_len > 0)
 	{
 		if (apcli_entry->wpa_supplicant_info.pWpaAssocIe)
 		{
@@ -1135,37 +1135,37 @@ BOOLEAN CFG80211DRV_P2pClientConnect(VOID *pAdOrg, VOID *pData)
 	CMD_RTPRIV_IOCTL_80211_CONNECT *pConnInfo;
 	UCHAR Connect_SSID[NDIS_802_11_LENGTH_SSID];
 	UINT32 Connect_SSIDLen;
-	
+
 	APCLI_STRUCT *apcli_entry;
 	apcli_entry = &pAd->ApCfg.ApCliTab[MAIN_MBSSID];
-	
+
 	POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
 	pObj->ioctl_if_type = INT_APCLI;
-	
+
 	pConnInfo = (CMD_RTPRIV_IOCTL_80211_CONNECT *)pData;
-	
+
 	DBGPRINT(RT_DEBUG_TRACE, ("APCLI Connection onGoing.....\n"));
 
 	Connect_SSIDLen = pConnInfo->SsidLen;
 	if (Connect_SSIDLen > NDIS_802_11_LENGTH_SSID)
 		Connect_SSIDLen = NDIS_802_11_LENGTH_SSID;
-	
+
 	memset(&Connect_SSID, 0, sizeof(Connect_SSID));
 	memcpy(Connect_SSID, pConnInfo->pSsid, Connect_SSIDLen);
 
 	apcli_entry->wpa_supplicant_info.WpaSupplicantUP = WPA_SUPPLICANT_ENABLE;
 
 	/* Check the connection is WPS or not */
-	if (pConnInfo->bWpsConnection) 
+	if (pConnInfo->bWpsConnection)
 	{
 		DBGPRINT(RT_DEBUG_TRACE, ("AP_CLI WPS Connection onGoing.....\n"));
 		apcli_entry->wpa_supplicant_info.WpaSupplicantUP |= WPA_SUPPLICANT_ENABLE_WPS;
-	}		
+	}
 
 	/* Set authentication mode */
 	if (pConnInfo->WpaVer == 2)
 	{
-		if (!pConnInfo->FlgIs8021x == TRUE) 
+		if (!pConnInfo->FlgIs8021x == TRUE)
 		{
 			DBGPRINT(RT_DEBUG_TRACE,("APCLI WPA2PSK\n"));
 			Set_ApCli_AuthMode_Proc(pAd, "WPA2PSK");
@@ -1173,14 +1173,14 @@ BOOLEAN CFG80211DRV_P2pClientConnect(VOID *pAdOrg, VOID *pData)
 	}
 	else if (pConnInfo->WpaVer == 1)
 	{
-		if (!pConnInfo->FlgIs8021x) 
+		if (!pConnInfo->FlgIs8021x)
 		{
 			DBGPRINT(RT_DEBUG_TRACE,("APCLI WPAPSK\n"));
 			Set_ApCli_AuthMode_Proc(pAd, "WPAPSK");
 		}
 	}
 	else
-		Set_ApCli_AuthMode_Proc(pAd, "OPEN");	
+		Set_ApCli_AuthMode_Proc(pAd, "OPEN");
 
 	/* Set PTK Encryption Mode */
 	if (pConnInfo->PairwiseEncrypType & RT_CMD_80211_CONN_ENCRYPT_CCMP) {
@@ -1196,14 +1196,14 @@ BOOLEAN CFG80211DRV_P2pClientConnect(VOID *pAdOrg, VOID *pData)
 		DBGPRINT(RT_DEBUG_TRACE,("WEP\n"));
 		Set_ApCli_EncrypType_Proc(pAd, "WEP");
 	}
-	
-	
+
+
 	if (pConnInfo->pBssid != NULL)
 	{
 		NdisZeroMemory(apcli_entry->CfgApCliBssid, MAC_ADDR_LEN);
 		NdisCopyMemory(apcli_entry->CfgApCliBssid, pConnInfo->pBssid, MAC_ADDR_LEN);
 	}
-	
+
 	OPSTATUS_SET_FLAG(pAd, fOP_AP_STATUS_MEDIA_STATE_CONNECTED);
 
 	pAd->cfg80211_ctrl.FlgCfg80211Connecting = TRUE;
@@ -1211,7 +1211,7 @@ BOOLEAN CFG80211DRV_P2pClientConnect(VOID *pAdOrg, VOID *pData)
 	Set_ApCli_Enable_Proc(pAd, "1");
 	CFG80211DBG(RT_DEBUG_OFF, ("80211> APCLI CONNECTING SSID = %s\n", Connect_SSID));
 
-	return TRUE;	
+	return TRUE;
 }
 
 VOID CFG80211_P2pClientConnectResultInform(
@@ -1222,7 +1222,7 @@ VOID CFG80211_P2pClientConnectResultInform(
 {
 	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pAdCB;
 
-	CFG80211OS_P2pClientConnectResultInform(pAd->ApCfg.ApCliTab[MAIN_MBSSID].wdev.if_dev, pBSSID, 
+	CFG80211OS_P2pClientConnectResultInform(pAd->ApCfg.ApCliTab[MAIN_MBSSID].wdev.if_dev, pBSSID,
 					pReqIe, ReqIeLen, pRspIe, RspIeLen, FlgIsSuccess);
 
 	pAd->cfg80211_ctrl.FlgCfg80211Connecting = FALSE;
@@ -1233,11 +1233,11 @@ VOID CFG80211_LostP2pGoInform(VOID *pAdCB)
 	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pAdCB;
 	CFG80211_CB *p80211CB = pAd->pCfg80211_CB;
 	PNET_DEV pNetDev = NULL;
-	
+
 	DBGPRINT(RT_DEBUG_TRACE, ("80211> CFG80211_LostGoInform ==> \n"));
 
 	pAd->cfg80211_ctrl.FlgCfg80211Connecting = FALSE;
-	if ((pAd->cfg80211_ctrl.Cfg80211VifDevSet.vifDevList.size > 0) &&        
+	if ((pAd->cfg80211_ctrl.Cfg80211VifDevSet.vifDevList.size > 0) &&
 	((pNetDev = RTMP_CFG80211_FindVifEntry_ByType(pAd, RT_CMD_80211_IFTYPE_P2P_CLIENT)) != NULL))
 	{
 	        if (pNetDev->ieee80211_ptr->sme_state == CFG80211_SME_CONNECTING)
@@ -1252,8 +1252,8 @@ VOID CFG80211_LostP2pGoInform(VOID *pAdCB)
 	}
 	else
 		DBGPRINT(RT_DEBUG_ERROR, ("80211> BUG CFG80211_LostGoInform, BUT NetDevice not exist.\n"));
-		
-	Set_ApCli_Enable_Proc(pAd, "0");	
+
+	Set_ApCli_Enable_Proc(pAd, "0");
 }
 #endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
 #endif /* RT_CFG80211_P2P_SUPPORT */

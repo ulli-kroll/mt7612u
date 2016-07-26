@@ -38,7 +38,7 @@ INT ht_mode_adjust(RTMP_ADAPTER *pAd, MAC_TABLE_ENTRY *pEntry, HT_CAPABILITY_IE 
 		pEntry->MaxHTPhyMode.field.MODE = MODE_HTGREENFIELD;
 	}
 	else
-	{	
+	{
 		pEntry->MaxHTPhyMode.field.MODE = MODE_HTMIX;
 		pAd->CommonCfg.AddHTInfo.AddHtInfo2.NonGfPresent = 1;
 		pAd->MacTab.fAnyStationNonGF = TRUE;
@@ -50,12 +50,12 @@ INT ht_mode_adjust(RTMP_ADAPTER *pAd, MAC_TABLE_ENTRY *pEntry, HT_CAPABILITY_IE 
 		pEntry->MaxHTPhyMode.field.ShortGI = ((my->ShortGIfor40) & (peer->HtCapInfo.ShortGIfor40));
 	}
 	else
-	{	
+	{
 		pEntry->MaxHTPhyMode.field.BW = BW_20;
 		pEntry->MaxHTPhyMode.field.ShortGI = ((my->ShortGIfor20) & (peer->HtCapInfo.ShortGIfor20));
 		pAd->MacTab.fAnyStation20Only = TRUE;
 	}
-				
+
 	return TRUE;
 }
 
@@ -88,8 +88,8 @@ INT get_ht_max_mcs(RTMP_ADAPTER *pAd, UCHAR *desire_mcs, UCHAR *cap_mcs)
 
 
 	for (i=23; i>=0; i--)
-	{	
-		j = i/8;	
+	{
+		j = i/8;
 		bitmask = (1<<(i-(j*8)));
 		if ((desire_mcs[j] & bitmask) && (cap_mcs[j] & bitmask))
 		{
@@ -107,7 +107,7 @@ INT get_ht_max_mcs(RTMP_ADAPTER *pAd, UCHAR *desire_mcs, UCHAR *cap_mcs)
 
 INT get_ht_cent_ch(RTMP_ADAPTER *pAd, UINT8 *rf_bw, UINT8 *ext_ch)
 {
-	if ((pAd->CommonCfg.HtCapability.HtCapInfo.ChannelWidth  == BW_40) && 
+	if ((pAd->CommonCfg.HtCapability.HtCapInfo.ChannelWidth  == BW_40) &&
 		(pAd->CommonCfg.RegTransmitSetting.field.EXTCHA == EXTCHA_ABOVE)
 	)
 	{
@@ -115,8 +115,8 @@ INT get_ht_cent_ch(RTMP_ADAPTER *pAd, UINT8 *rf_bw, UINT8 *ext_ch)
 		*ext_ch = EXTCHA_ABOVE;
 		pAd->CommonCfg.CentralChannel = pAd->CommonCfg.Channel + 2;
 	}
-	else if ((pAd->CommonCfg.Channel > 2) && 
-			(pAd->CommonCfg.HtCapability.HtCapInfo.ChannelWidth  == BW_40) && 
+	else if ((pAd->CommonCfg.Channel > 2) &&
+			(pAd->CommonCfg.HtCapability.HtCapInfo.ChannelWidth  == BW_40) &&
 			(pAd->CommonCfg.RegTransmitSetting.field.EXTCHA == EXTCHA_BELOW))
 	{
 		*rf_bw = BW_40;
@@ -139,7 +139,7 @@ UCHAR get_cent_ch_by_htinfo(
 	HT_CAPABILITY_IE *ht_cap)
 {
 	UCHAR cent_ch;
-	
+
 	if ((ht_op->ControlChan > 2)&&
 		(ht_op->AddHtInfo.ExtChanOffset == EXTCHA_BELOW) &&
 		(ht_cap->HtCapInfo.ChannelWidth == BW_40))
@@ -149,7 +149,7 @@ UCHAR get_cent_ch_by_htinfo(
 		cent_ch = ht_op->ControlChan + 2;
 	else
 		cent_ch = ht_op->ControlChan;
-	
+
 	return cent_ch;
 }
 
@@ -162,7 +162,7 @@ UCHAR get_cent_ch_by_htinfo(
 
 	Arguments:
 		pAd - Pointer to our adapter
-		phymode  - 
+		phymode  -
 
 	========================================================================
 */
@@ -177,7 +177,7 @@ VOID RTMPSetHT(
 	INT bw;
 	RT_HT_CAPABILITY *rt_ht_cap = &pAd->CommonCfg.DesiredHtPhy;
 	HT_CAPABILITY_IE *ht_cap= &pAd->CommonCfg.HtCapability;
-	
+
 #ifdef CONFIG_AP_SUPPORT
 	/* sanity check for extention channel */
 	if (CHAN_PropertyCheck(pAd, pAd->CommonCfg.Channel,
@@ -207,10 +207,10 @@ VOID RTMPSetHT(
 #endif /* CONFIG_AP_SUPPORT */
 
 	DBGPRINT(RT_DEBUG_TRACE, ("RTMPSetHT : HT_mode(%d), ExtOffset(%d), MCS(%d), BW(%d), STBC(%d), SHORTGI(%d)\n",
-										pHTPhyMode->HtMode, pHTPhyMode->ExtOffset, 
+										pHTPhyMode->HtMode, pHTPhyMode->ExtOffset,
 										pHTPhyMode->MCS, pHTPhyMode->BW,
 										pHTPhyMode->STBC, pHTPhyMode->SHORTGI));
-			
+
 	/* Don't zero supportedHyPhy structure.*/
 	RTMPZeroMemory(ht_cap, sizeof(HT_CAPABILITY_IE));
 	RTMPZeroMemory(&pAd->CommonCfg.AddHTInfo, sizeof(pAd->CommonCfg.AddHTInfo));
@@ -250,20 +250,20 @@ VOID RTMPSetHT(
 
 	ht_cap->HtCapInfo.AMsduSize = (USHORT)pAd->CommonCfg.BACapability.field.AmsduSize;
 	ht_cap->HtCapInfo.MimoPs = (USHORT)pAd->CommonCfg.BACapability.field.MMPSmode;
-	
+
 	if (pAd->CommonCfg.ht_ldpc && (pAd->chipCap.phy_caps & fPHY_CAP_LDPC))
 		ht_cap->HtCapInfo.ht_rx_ldpc = 1;
 	else
 		ht_cap->HtCapInfo.ht_rx_ldpc = 0;
-	
+
 	ht_cap->HtCapParm.MpduDensity = (UCHAR)pAd->CommonCfg.BACapability.field.MpduDensity;
-	
-	DBGPRINT(RT_DEBUG_TRACE, ("RTMPSetHT : AMsduSize = %d, MimoPs = %d, MpduDensity = %d, MaxRAmpduFactor = %d\n", 
-													rt_ht_cap->AmsduSize, 
+
+	DBGPRINT(RT_DEBUG_TRACE, ("RTMPSetHT : AMsduSize = %d, MimoPs = %d, MpduDensity = %d, MaxRAmpduFactor = %d\n",
+													rt_ht_cap->AmsduSize,
 													rt_ht_cap->MimoPs,
 													rt_ht_cap->MpduDensity,
 													rt_ht_cap->MaxRAmpduFactor));
-	
+
 	if(pHTPhyMode->HtMode == HTMODE_GF)
 	{
 		ht_cap->HtCapInfo.GF = 1;
@@ -271,7 +271,7 @@ VOID RTMPSetHT(
 	}
 	else
 		rt_ht_cap->GF = 0;
-	
+
 	/* Decide Rx MCSSet*/
 	switch (RxStream)
 	{
@@ -298,7 +298,7 @@ VOID RTMPSetHT(
 	{
 		ht_cap->MCSSet[4] = 0x1; /* MCS 32*/
 		ht_cap->HtCapInfo.ChannelWidth = 1;
-		if (pAd->CommonCfg.Channel <= 14) 		
+		if (pAd->CommonCfg.Channel <= 14) 
 			ht_cap->HtCapInfo.CCKmodein40 = 1;
 
 		rt_ht_cap->ChannelWidth = 1;
@@ -312,7 +312,7 @@ VOID RTMPSetHT(
 		if ((pAd->OpMode == OPMODE_AP) || INFRA_ON(pAd) || ADHOC_ON(pAd)
 		)
 		{
-			bbp_set_ctrlch(pAd, pHTPhyMode->ExtOffset);	
+			bbp_set_ctrlch(pAd, pHTPhyMode->ExtOffset);
 #ifdef GREENAP_SUPPORT
 			if (pAd->ApCfg.bGreenAPActive == 1)
 				bw = BW_20;
@@ -334,7 +334,7 @@ VOID RTMPSetHT(
 
 #ifdef DOT11_VHT_AC
 	if (pHTPhyMode->BW == BW_40 &&
-		pAd->CommonCfg.vht_bw == VHT_BW_80 && 
+		pAd->CommonCfg.vht_bw == VHT_BW_80 &&
 		pAd->CommonCfg.vht_cent_ch)
 		bw = BW_80;
 #endif /* DOT11_VHT_AC */
@@ -351,9 +351,9 @@ VOID RTMPSetHT(
 		else
 		{
 			ht_cap->HtCapInfo.TxSTBC = 0;
-			rt_ht_cap->TxSTBC = 0; 	
+			rt_ht_cap->TxSTBC = 0; 
 		}
-		
+
 		/*
 			RxSTBC
 				0: not support,
@@ -368,8 +368,8 @@ VOID RTMPSetHT(
 		}
 		else
 		{
-			ht_cap->HtCapInfo.RxSTBC = 0; 
-			rt_ht_cap->RxSTBC = 0; 	
+			ht_cap->HtCapInfo.RxSTBC = 0;
+			rt_ht_cap->RxSTBC = 0; 
 		}
 	}
 	else
@@ -392,11 +392,11 @@ VOID RTMPSetHT(
 		rt_ht_cap->ShortGIfor20 = 0;
 		rt_ht_cap->ShortGIfor40 = 0;
 	}
-	
+
 	/* We support link adaptation for unsolicit MCS feedback, set to 2.*/
 	pAd->CommonCfg.AddHTInfo.ControlChan = pAd->CommonCfg.Channel;
 	/* 1, the extension channel above the control channel. */
-	
+
 	/* EDCA parameters used for AP's own transmission*/
 	if (pAd->CommonCfg.APEdcaParm.bValid == FALSE)
 		set_default_ap_edca_param(pAd);
@@ -439,7 +439,7 @@ VOID RTMPSetHT(
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
                 for (apidx = 0; apidx < MAX_APCLI_NUM; apidx++)
                         RTMPSetIndividualHT(pAd, apidx + MIN_NET_DEVICE_FOR_APCLI);
-#endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */		
+#endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
 #endif /* RT_CFG80211_P2P_SUPPORT */
 
 		RTMPSetIndividualHT(pAd, 0);
@@ -456,30 +456,30 @@ VOID RTMPSetHT(
 
 	Arguments:
 		pAd - Pointer to our adapter
-		phymode  - 
+		phymode  -
 
 	========================================================================
 */
 VOID RTMPSetIndividualHT(RTMP_ADAPTER *pAd, UCHAR apidx)
-{	
+{
 	RT_PHY_INFO *pDesired_ht_phy = NULL;
-	UCHAR TxStream = pAd->CommonCfg.TxStream;		
+	UCHAR TxStream = pAd->CommonCfg.TxStream;
 	UCHAR DesiredMcs = MCS_AUTO;
 	UCHAR encrypt_mode = Ndis802_11EncryptionDisabled;
 	struct wifi_dev *wdev;
-		
+
 	do
 	{
 
 #ifdef RT_CFG80211_P2P_SUPPORT
         if (apidx >= MIN_NET_DEVICE_FOR_CFG80211_VIF_P2P_GO)
-        {                                                               
+        {
             UCHAR idx = apidx - MIN_NET_DEVICE_FOR_CFG80211_VIF_P2P_GO;
 
             pDesired_ht_phy = &pAd->ApCfg.MBSSID[idx].wdev.DesiredHtPhyInfo;
-            DesiredMcs = pAd->ApCfg.MBSSID[idx].wdev.DesiredTransmitSetting.field.MCS;                      
+            DesiredMcs = pAd->ApCfg.MBSSID[idx].wdev.DesiredTransmitSetting.field.MCS;
             encrypt_mode = pAd->ApCfg.MBSSID[idx].wdev.WepStatus;
-            pAd->ApCfg.MBSSID[idx].wdev.bWmmCapable = TRUE; 
+            pAd->ApCfg.MBSSID[idx].wdev.bWmmCapable = TRUE;
             pAd->ApCfg.MBSSID[idx].wdev.bAutoTxRateSwitch = (DesiredMcs == MCS_AUTO) ? TRUE : FALSE;
             break;
         }
@@ -487,11 +487,11 @@ VOID RTMPSetIndividualHT(RTMP_ADAPTER *pAd, UCHAR apidx)
 
 
 #ifdef CONFIG_AP_SUPPORT
-#ifdef APCLI_SUPPORT	
+#ifdef APCLI_SUPPORT
 			if (apidx >= MIN_NET_DEVICE_FOR_APCLI)
-			{				
+			{
 				UCHAR	idx = apidx - MIN_NET_DEVICE_FOR_APCLI;
-						
+
 				if (idx < MAX_APCLI_NUM)
 				{
 					pDesired_ht_phy = &pAd->ApCfg.ApCliTab[idx].wdev.DesiredHtPhyInfo;
@@ -534,19 +534,19 @@ VOID RTMPSetIndividualHT(RTMP_ADAPTER *pAd, UCHAR apidx)
 
 			DBGPRINT(RT_DEBUG_ERROR, ("RTMPSetIndividualHT: invalid apidx(%d)\n", apidx));
 			return;
-		}			
+		}
 #endif /* CONFIG_AP_SUPPORT */
 
 #ifdef CONFIG_STA_SUPPORT
 		IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
 		{
 			wdev = &pAd->StaCfg.wdev;
-			
-			pDesired_ht_phy = &wdev->DesiredHtPhyInfo;					
+
+			pDesired_ht_phy = &wdev->DesiredHtPhyInfo;
 			DesiredMcs = wdev->DesiredTransmitSetting.field.MCS;
 			encrypt_mode = wdev->WepStatus;
 			break;
-		}	
+		}
 #endif /* CONFIG_STA_SUPPORT */
 	} while (FALSE);
 
@@ -562,15 +562,15 @@ VOID RTMPSetIndividualHT(RTMP_ADAPTER *pAd, UCHAR apidx)
 	if ((TxStream == 1) && ((DesiredMcs >= MCS_8) && (DesiredMcs <= MCS_15)))
 	{
 		DBGPRINT(RT_DEBUG_WARN, ("RTMPSetIndividualHT: MCS(%d) is invalid in 1S, reset it as MCS_7\n", DesiredMcs));
-		DesiredMcs = MCS_7;		
+		DesiredMcs = MCS_7;
 	}
 
 	if ((pAd->CommonCfg.DesiredHtPhy.ChannelWidth == BW_20) && (DesiredMcs == MCS_32))
 	{
 		DBGPRINT(RT_DEBUG_WARN, ("RTMPSetIndividualHT: MCS_32 is only supported in 40-MHz, reset it as MCS_0\n"));
-		DesiredMcs = MCS_0;		
+		DesiredMcs = MCS_0;
 	}
-	   		
+	   
 #ifdef CONFIG_STA_SUPPORT
 	if ((pAd->OpMode == OPMODE_STA) && (pAd->StaCfg.BssType == BSS_INFRA) && (apidx == MIN_NET_DEVICE_FOR_MBSSID))
 		;
@@ -578,14 +578,14 @@ VOID RTMPSetIndividualHT(RTMP_ADAPTER *pAd, UCHAR apidx)
 #endif /* CONFIG_STA_SUPPORT */
 	/*
 		WFA recommend to restrict the encryption type in 11n-HT mode.
-	 	So, the WEP and TKIP are not allowed in HT rate. 
+	 	So, the WEP and TKIP are not allowed in HT rate.
 	*/
 	if (pAd->CommonCfg.HT_DisallowTKIP && IS_INVALID_HT_SECURITY(encrypt_mode))
 	{
 #ifdef CONFIG_STA_SUPPORT
 		pAd->StaCfg.bAdhocN = FALSE;
 #endif /* CONFIG_STA_SUPPORT */
-		DBGPRINT(RT_DEBUG_WARN, ("%s : Use legacy rate in WEP/TKIP encryption mode (apidx=%d)\n", 
+		DBGPRINT(RT_DEBUG_WARN, ("%s : Use legacy rate in WEP/TKIP encryption mode (apidx=%d)\n",
 									__FUNCTION__, apidx));
 		return;
 	}
@@ -598,9 +598,9 @@ VOID RTMPSetIndividualHT(RTMP_ADAPTER *pAd, UCHAR apidx)
 		DBGPRINT(RT_DEBUG_TRACE, ("%s : HT is disabled\n", __FUNCTION__));
 		return;
 	}
-			
+
 	pDesired_ht_phy->bHtEnable = TRUE;
-					 
+
 	/* Decide desired Tx MCS*/
 	switch (TxStream)
 	{
@@ -620,11 +620,11 @@ VOID RTMPSetIndividualHT(RTMP_ADAPTER *pAd, UCHAR apidx)
 			else if (DesiredMcs <= MCS_15)
 			{
 				ULONG mode;
-				
+
 				mode = DesiredMcs / 8;
 				if (mode < 2)
 					pDesired_ht_phy->MCSSet[mode] = (1 << (DesiredMcs - mode * 8));
-			}			
+			}
 			break;
 
 		case 3:
@@ -644,7 +644,7 @@ VOID RTMPSetIndividualHT(RTMP_ADAPTER *pAd, UCHAR apidx)
 					pDesired_ht_phy->MCSSet[mode] = (1 << (DesiredMcs - mode * 8));
 			}
 			break;
-	}							
+	}
 
 	if(pAd->CommonCfg.DesiredHtPhy.ChannelWidth == BW_40)
 	{
@@ -672,9 +672,9 @@ VOID RTMPSetIndividualHT(RTMP_ADAPTER *pAd, UCHAR apidx)
 	========================================================================
 	Routine Description:
 		Clear the desire HT info per interface
-		
+
 	Arguments:
-	
+
 	========================================================================
 */
 VOID RTMPDisableDesiredHtInfo(RTMP_ADAPTER *pAd)
@@ -693,7 +693,7 @@ VOID RTMPDisableDesiredHtInfo(RTMP_ADAPTER *pAd)
 		}
 #ifdef APCLI_SUPPORT
 		for (idx = 0; idx < MAX_APCLI_NUM; idx++)
-		{				
+		{
 			RTMPZeroMemory(&pAd->ApCfg.ApCliTab[idx].wdev.DesiredHtPhyInfo, sizeof(RT_PHY_INFO));
 		}
 #endif /* APCLI_SUPPORT */
@@ -732,7 +732,7 @@ INT	SetCommonHT(RTMP_ADAPTER *pAd)
 	SetHT.MCS = MCS_AUTO;
 	SetHT.BW = (UCHAR)pAd->CommonCfg.RegTransmitSetting.field.BW;
 	SetHT.STBC = (UCHAR)pAd->CommonCfg.RegTransmitSetting.field.STBC;
-	SetHT.SHORTGI = (UCHAR)pAd->CommonCfg.RegTransmitSetting.field.ShortGI;		
+	SetHT.SHORTGI = (UCHAR)pAd->CommonCfg.RegTransmitSetting.field.ShortGI;
 
 	RTMPSetHT(pAd, &SetHT);
 
@@ -754,11 +754,11 @@ INT	SetCommonHT(RTMP_ADAPTER *pAd)
 	========================================================================
 	Routine Description:
 		Update HT IE from our capability.
-		
+
 	Arguments:
 		Send all HT IE in beacon/probe rsp/assoc rsp/action frame.
-		
-	
+
+
 	========================================================================
 */
 VOID RTMPUpdateHTIE(
@@ -769,7 +769,7 @@ VOID RTMPUpdateHTIE(
 {
 	RTMPZeroMemory(pHtCapability, sizeof(HT_CAPABILITY_IE));
 	RTMPZeroMemory(pAddHtInfo, sizeof(ADD_HT_INFO_IE));
-	
+
 		pHtCapability->HtCapInfo.ChannelWidth = pRtHt->ChannelWidth;
 		pHtCapability->HtCapInfo.MimoPs = pRtHt->MimoPs;
 		pHtCapability->HtCapInfo.GF = pRtHt->GF;
@@ -786,7 +786,7 @@ VOID RTMPUpdateHTIE(
 		pAddHtInfo->AddHtInfo2.OperaionMode = pRtHt->OperaionMode;
 		pAddHtInfo->AddHtInfo2.NonGfPresent = pRtHt->NonGfPresent;
 		RTMPMoveMemory(pAddHtInfo->MCSSet, /*pRtHt->MCSSet*/pMcsSet, 4); /* rt2860 only support MCS max=32, no need to copy all 16 uchar.*/
-	
+
         DBGPRINT(RT_DEBUG_TRACE,("RTMPUpdateHTIE <== \n"));
 }
 

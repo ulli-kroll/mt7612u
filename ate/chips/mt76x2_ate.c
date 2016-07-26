@@ -89,7 +89,7 @@ static void mt76x2_ate_switch_channel(RTMP_ADAPTER *ad)
 		band = _A_BAND;
 	else
 		band = _G_BAND;
-	
+
 	if (!ad->MCUCtrl.power_on) {
 		band_change = TRUE;
 	} else {
@@ -103,7 +103,7 @@ static void mt76x2_ate_switch_channel(RTMP_ADAPTER *ad)
 		else
 			band_change = FALSE;
 	}
-	
+
 	if (ad->ate.TxWI.TXWI_N.BW == BW_80)
 		bw = 2;
 	else if (ad->ate.TxWI.TXWI_N.BW == BW_40)
@@ -120,10 +120,10 @@ static void mt76x2_ate_switch_channel(RTMP_ADAPTER *ad)
 		tx_rx_setting = 0x102;
 	else if ((ad->CommonCfg.TxStream == 2) && (ad->CommonCfg.RxStream == 2))
 		tx_rx_setting = 0x202;
-	else 
+	else
 */
 		tx_rx_setting = 0x202;
-		
+
 
 
 #ifdef RTMP_USB_SUPPORT
@@ -188,7 +188,7 @@ static void mt76x2_ate_switch_channel(RTMP_ADAPTER *ad)
 	DBGPRINT(RT_DEBUG_OFF, ("%s::BBP 0x2310=0x%08x\n", __FUNCTION__, value));
 	RTMP_BBP_IO_READ32(ad, AGC1_R5, &value);
 	DBGPRINT(RT_DEBUG_OFF, ("%s::BBP 0x2314=0x%08x\n", __FUNCTION__, value));
-	
+
 	/* Fix dynamic agc gain in ATE Rx test not been initialized problem, and will cause AGC1_R8 register having very small value */
 	mt76x2_get_agc_gain(ad, TRUE);
 
@@ -203,7 +203,7 @@ static void mt76x2_ate_switch_channel(RTMP_ADAPTER *ad)
 
 	/* backup mac 1004 value */
 	RTMP_IO_READ32(ad, 0x1004, &restore_value);
-	
+
 	/* Backup the original RTS retry count and then set to 0 */
 	RTMP_IO_READ32(ad, 0x1344, &ad->rts_tx_retry_num);
 
@@ -212,7 +212,7 @@ static void mt76x2_ate_switch_channel(RTMP_ADAPTER *ad)
 	value &= ~0xC;
 	RTMP_IO_WRITE32(ad, 0x1004, value);
 
-	/* set RTS retry count = 0 */	
+	/* set RTS retry count = 0 */
 	RTMP_IO_WRITE32(ad, TX_RTS_CFG, 0x00092B00);
 
 	/* wait mac 0x1200, bbp 0x2130 idle */
@@ -229,7 +229,7 @@ static void mt76x2_ate_switch_channel(RTMP_ADAPTER *ad)
 		DBGPRINT(RT_DEBUG_OFF, ("%s:: Wait until MAC 0x1200 bit0 and BBP 0x2130 become 0 > 300 times\n", __FUNCTION__));
 	}
 
-	/* RXDCOC calibration */	
+	/* RXDCOC calibration */
 	CHIP_CALIBRATION(ad, RXDCOC_CALIBRATION_7662, channel);
 
 	if (MT_REV_LT(ad, MT76x2, REV_MT76x2E3)) {
@@ -241,7 +241,7 @@ static void mt76x2_ate_switch_channel(RTMP_ADAPTER *ad)
 
 	if ( !(ad->chipCap.tssi_enable) || !(pATEInfo->bAutoTxAlc) ) {
 		/* DPD Calibration */
-		if ( (ad->chipCap.PAType== INT_PA_2G_5G) 
+		if ( (ad->chipCap.PAType== INT_PA_2G_5G)
 			|| ((ad->chipCap.PAType == INT_PA_5G) && ( ad->ate.Channel  > 14 ) )
 			|| ((ad->chipCap.PAType == INT_PA_2G) && ( ad->ate.Channel  <= 14 ) )
 		)
@@ -255,7 +255,7 @@ static void mt76x2_ate_switch_channel(RTMP_ADAPTER *ad)
 	RTMP_IO_WRITE32(ad, 0x1004, restore_value);
 
 	/* Restore RTS retry count */
-	RTMP_IO_WRITE32(ad, TX_RTS_CFG, ad->rts_tx_retry_num);		
+	RTMP_IO_WRITE32(ad, TX_RTS_CFG, ad->rts_tx_retry_num);
 
 #ifdef RTMP_MAC_USB
 	if (IS_USB_INF(ad)) {
@@ -277,7 +277,7 @@ static void mt76x2_ate_switch_channel(RTMP_ADAPTER *ad)
 			else if (ad->chipCap.PAType == EXT_PA_5G_ONLY)
 				CHIP_CALIBRATION(ad, TSSI_CALIBRATION_7662, 0x0101);
 			else
-				CHIP_CALIBRATION(ad, TSSI_CALIBRATION_7662, 0x0001); 
+				CHIP_CALIBRATION(ad, TSSI_CALIBRATION_7662, 0x0001);
 		} else {
 			if (ad->chipCap.PAType == EXT_PA_2G_5G)
 				CHIP_CALIBRATION(ad, TSSI_CALIBRATION_7662, 0x0100);
@@ -291,7 +291,7 @@ static void mt76x2_ate_switch_channel(RTMP_ADAPTER *ad)
 		}
 		ad->chipCap.tssi_stage = TSSI_TRIGGER_STAGE;
 	}
-	
+
 
 
 #ifdef RTMP_MAC_USB
@@ -302,7 +302,7 @@ static void mt76x2_ate_switch_channel(RTMP_ADAPTER *ad)
 
 	/* Channel latch */
 	ad->LatchRfRegs.Channel = channel;
-	
+
 	if (!ad->MCUCtrl.power_on)
 		ad->MCUCtrl.power_on = TRUE;
 
@@ -401,7 +401,7 @@ INT mt76x2_ate_tx_pwr_handler(
 	else if (index == 1)
 	{
 		TxPower = pATEInfo->TxPower1;
-	
+
 		if ( (ad->chipCap.tssi_enable) && (pATEInfo->bAutoTxAlc) ) {
 			if ( pATEInfo->TxPower1 > 20 ) {
 				mt76x2_tx1_tssi_small_pwr_adjust = FALSE;
@@ -427,7 +427,7 @@ INT mt76x2_ate_tx_pwr_handler(
 						value &= ~(0x3F);
 						value |= mt76x2_5G_tx1_pwr_offset_save;
 						//mt76x2_tx1_tssi_small_pwr_adjust = FALSE; //keep true to let periodic modify target power back to user set
-					} else {						
+					} else {
 						value &= ~(0x3F);
 						value |= 0x38;
 					}
@@ -465,9 +465,9 @@ INT mt76x2_ate_tx_pwr_handler(
 	}
 
 	DBGPRINT(RT_DEBUG_TRACE, ("%s : (TxPower%d=%d)\n", __FUNCTION__, index, TxPower));
-	
+
 	return 0;
-}	
+}
 
 
 INT mt76x2_ate_tx_pwr_Evaluation(
@@ -501,8 +501,8 @@ INT mt76x2_ate_tx_pwr_Evaluation(
 					tx_pwr_bw_delta = 0;
 				}
 			}
-		} 
-		else if ( bw == BW_80 ) 
+		}
+		else if ( bw == BW_80 )
 		{
 			RT28xx_EEPROM_READ16(ad, A_BAND_20_80_BW_PWR_DELTA, value);
 			if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {
@@ -524,7 +524,7 @@ INT mt76x2_ate_tx_pwr_Evaluation(
 		{
 			RT28xx_EEPROM_READ16(ad, GRP0_TX0_A_BAND_TARGET_PWR, value);
 			if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff))
-				tx0_target_pwr = ATE_TX_TARGET_PWR_DEFAULT_VALUE;	
+				tx0_target_pwr = ATE_TX_TARGET_PWR_DEFAULT_VALUE;
 			else
 				tx0_target_pwr = (value & GRP0_TX0_A_BAND_TARGET_PWR_MASK);
 
@@ -771,7 +771,7 @@ INT mt76x2_ate_tx_pwr_Evaluation(
 					} else {
 						tx0_pwr_ch_delta = 0;
 					}
-				} 	
+				} 
 
 				RT28xx_EEPROM_READ16(ad, GRP3_TX1_A_BAND_CHL_PWR_DELTA_LOW, value);
 				if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {
@@ -869,12 +869,12 @@ INT mt76x2_ate_tx_pwr_Evaluation(
 					if (value & GRP4_TX0_A_BAND_CHL_PWR_DELTA_HI_EN) {
 						if (value & GRP4_TX0_A_BAND_CHL_PWR_DELTA_HI_SIGN)
 							tx0_pwr_ch_delta = (value & GRP4_TX0_A_BAND_CHL_PWR_DELTA_HI_MASK);
-						else	
+						else
 							tx0_pwr_ch_delta = -(value & GRP4_TX0_A_BAND_CHL_PWR_DELTA_HI_MASK);
 					} else {
 						tx0_pwr_ch_delta = 0;
 					}
-				} 
+				}
 
 				RT28xx_EEPROM_READ16(ad, GRP4_TX1_A_BAND_CHL_PWR_DELTA_HI, value);
 				if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {
@@ -883,7 +883,7 @@ INT mt76x2_ate_tx_pwr_Evaluation(
 					if (value & GRP4_TX1_A_BAND_CHL_PWR_DELTA_HI_EN) {
 						if (value & GRP4_TX1_A_BAND_CHL_PWR_DELTA_HI_SIGN)
 							tx1_pwr_ch_delta = (value & GRP4_TX1_A_BAND_CHL_PWR_DELTA_HI_MASK);
-						else	
+						else
 							tx1_pwr_ch_delta = -(value & GRP4_TX1_A_BAND_CHL_PWR_DELTA_HI_MASK);
 					} else {
 						tx1_pwr_ch_delta = 0;
@@ -893,13 +893,13 @@ INT mt76x2_ate_tx_pwr_Evaluation(
 		}
 		else if (channel >= 149 && channel <= 165)
 		{
-			RT28xx_EEPROM_READ16(ad, GRP5_TX0_A_BAND_TSSI_OFFSET, value);	
+			RT28xx_EEPROM_READ16(ad, GRP5_TX0_A_BAND_TSSI_OFFSET, value);
 			if (((value & 0xff00) == 0x00) || ((value & 0xff00) == 0xff00))
 				tx0_target_pwr = ATE_TX_TARGET_PWR_DEFAULT_VALUE;
 			else
 				tx0_target_pwr = ((value & GRP5_TX0_A_BAND_TARGET_PWR_MASK) >> 8);
 
-			RT28xx_EEPROM_READ16(ad, GRP5_TX1_A_BAND_TSSI_OFFSET, value);	
+			RT28xx_EEPROM_READ16(ad, GRP5_TX1_A_BAND_TSSI_OFFSET, value);
 			if (((value & 0xff00) == 0x00) || ((value & 0xff00) == 0xff00))
 				tx1_target_pwr = ATE_TX_TARGET_PWR_DEFAULT_VALUE;
 			else
@@ -944,7 +944,7 @@ INT mt76x2_ate_tx_pwr_Evaluation(
 					if (value & GRP5_TX0_A_BAND_CHL_PWR_DELTA_HI_EN) {
 						if (value & GRP5_TX0_A_BAND_CHL_PWR_DELTA_HI_SIGN)
 							tx0_pwr_ch_delta = ((value & GRP5_TX0_A_BAND_CHL_PWR_DELTA_HI_MASK) >> 8);
-						else	
+						else
 							tx0_pwr_ch_delta = -((value & GRP5_TX0_A_BAND_CHL_PWR_DELTA_HI_MASK) >> 8);
 					} else {
 						tx0_pwr_ch_delta = 0;
@@ -958,7 +958,7 @@ INT mt76x2_ate_tx_pwr_Evaluation(
 					if (value & GRP5_TX1_A_BAND_CHL_PWR_DELTA_HI_EN) {
 						if (value & GRP5_TX1_A_BAND_CHL_PWR_DELTA_HI_SIGN)
 							tx1_pwr_ch_delta = ((value & GRP5_TX1_A_BAND_CHL_PWR_DELTA_HI_MASK) >> 8);
-						else	
+						else
 							tx1_pwr_ch_delta = -((value & GRP5_TX1_A_BAND_CHL_PWR_DELTA_HI_MASK) >> 8);
 					} else {
 						tx1_pwr_ch_delta = 0;
@@ -993,14 +993,14 @@ INT mt76x2_ate_tx_pwr_Evaluation(
 		/* Get Target PWR */
 		RT28xx_EEPROM_READ16(ad, TX0_G_BAND_TARGET_PWR, value);
 		if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {
-			tx0_target_pwr = ATE_TX_TARGET_PWR_DEFAULT_VALUE; 
+			tx0_target_pwr = ATE_TX_TARGET_PWR_DEFAULT_VALUE;
 		} else {
 			tx0_target_pwr = (value & TX0_G_BAND_TARGET_PWR_MASK);
 		}
 
 		RT28xx_EEPROM_READ16(ad, TX1_G_BAND_TARGET_PWR, value1);
 		if (((value1 & 0xff) == 0x00) || ((value1 & 0xff) == 0xff))
-			tx1_target_pwr = ATE_TX_TARGET_PWR_DEFAULT_VALUE; 
+			tx1_target_pwr = ATE_TX_TARGET_PWR_DEFAULT_VALUE;
 		else
 			tx1_target_pwr = (value1 & TX1_G_BAND_TARGET_PWR_MASK);
 
@@ -1026,7 +1026,7 @@ INT mt76x2_ate_tx_pwr_Evaluation(
 				if (value1 & TX1_G_BAND_CHL_PWR_DELTA_LOW_EN) {
 					if (value1 & TX1_G_BAND_CHL_PWR_DELTA_LOW_SIGN)
 						tx1_pwr_ch_delta = ((value1 & TX1_G_BAND_CHL_PWR_DELTA_LOW_MASK) >> 8);
-					else	
+					else
 						tx1_pwr_ch_delta = -((value1 & TX1_G_BAND_CHL_PWR_DELTA_LOW_MASK) >> 8);
 				} else {
 					tx1_pwr_ch_delta = 0;
@@ -1048,7 +1048,7 @@ INT mt76x2_ate_tx_pwr_Evaluation(
 					tx0_pwr_ch_delta = 0;
 				}
 			}
-	
+
 			RT28xx_EEPROM_READ16(ad, TX1_G_BAND_CHL_PWR_DELTA_MID, value);
 			if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {
 				tx1_pwr_ch_delta = 0;
@@ -1215,7 +1215,7 @@ VOID mt76x2_ate_set_tx_rx(
 					BbpValue |= 0x00200000;
 					RTMP_BBP_IO_WRITE32(ad, CORE_R32, BbpValue);
 
-					/* use manul mode for dac1 clock control: 
+					/* use manul mode for dac1 clock control:
 					    0x2084[11]=1,set dac1 clock enable =0 0x2084[11]=0 (default already) */
 					RTMP_BBP_IO_READ32(ad, CORE_R33, &BbpValue);
 					BbpValue &= 0xFFFFE1FF;
@@ -1291,7 +1291,7 @@ VOID mt76x2_ate_set_tx_rx(
 					BbpValue &= 0xFFFFE1FF;
 					RTMP_BBP_IO_WRITE32(ad, CORE_R33, BbpValue);
 
-					break;                                              
+					break;
 			}
 			break;
 
@@ -1316,7 +1316,7 @@ VOID mt76x2_ate_set_tx_rx(
 					BbpValue &= 0xFFFFFFFC;				//clear bit 1:0, set bit[1:0] = 0:0
 					RTMP_BBP_IO_WRITE32(ad, AGC1_R0, BbpValue);
 					break;
-					
+
 				case 2:
                 			// Check One Rx path, so set AGC1_OFFSET+R0 bit[4:3] = 0:0 => use 1R
                 			RTMP_BBP_IO_READ32(ad, AGC1_R0, &BbpValue);
@@ -1348,7 +1348,7 @@ VOID mt76x2_ate_set_tx_rx(
 						RTMP_BBP_IO_READ32(ad, AGC1_R0, &BbpValue);
 						BbpValue &= 0xFFFFFFE4; //clear bit 4:3:1:0, set bit 4:3:1:0 = 0:0:0:0
 						RTMP_BBP_IO_WRITE32(ad, AGC1_R0, BbpValue);
-					}         
+					}
 					else if ( ad->Antenna.field.RxPath == 2 ) // 2R
 					{
 						// 2R AGC1_OFFSET+R0 bit[4:3:1:0]=0:1:0:0
@@ -1362,7 +1362,7 @@ VOID mt76x2_ate_set_tx_rx(
 			break;
 
 		default:
-		    break;              
+		    break;
 	}
 
 }
@@ -1378,7 +1378,7 @@ VOID mt76x2_ate_set_tx_rx_path(
 
 
 INT	mt76x2_set_ate_tx_bw_proc(
-	IN	PRTMP_ADAPTER	ad, 
+	IN	PRTMP_ADAPTER	ad,
 	IN	PSTRING			arg)
 {
 	u32 core, core_r1 = 0, core_r4 = 0;
@@ -1387,7 +1387,7 @@ INT	mt76x2_set_ate_tx_bw_proc(
 	u8 BBPCurrentBW;
 	RTMP_CHIP_CAP *pChipCap = &ad->chipCap;
 
-	
+
 	BBPCurrentBW = simple_strtol(arg, 0, 10);
 
 	if ((BBPCurrentBW == 0))
@@ -1464,7 +1464,7 @@ INT	mt76x2_set_ate_tx_bw_proc(
 			break;
 	}
 
-	if (core != core_r1) 
+	if (core != core_r1)
 	{
 		if (IS_MT76x0(ad))
 		{
@@ -1482,7 +1482,7 @@ INT	mt76x2_set_ate_tx_bw_proc(
 			*/
 			RtmpusecDelay(10);
 		}
-	
+
 		RTMP_BBP_IO_WRITE32(ad, CORE_R1, core);
 
 		if (IS_MT76x0(ad))
@@ -1519,9 +1519,9 @@ INT	mt76x2_set_ate_tx_bw_proc(
 
 #ifdef CONFIG_AP_SUPPORT
 #endif /* CONFIG_AP_SUPPORT */
-	
+
 	return TRUE;
-}	
+}
 
 
 #ifdef RTMP_TEMPERATURE_TX_ALC
@@ -1533,7 +1533,7 @@ void mt76x2_ate_temp_tx_alc(RTMP_ADAPTER *ad)
 	if (pChipCap->temp_tx_alc_enable) {
 		mt76x2_get_current_temp(ad);
 		temp_diff = pChipCap->current_temp - 25;
-		
+
 		if (ad->ate.Channel > 14) {
 			if (temp_diff > 0)
 				dB_diff = (temp_diff / pChipCap->high_temp_slope_a_band);
@@ -1541,7 +1541,7 @@ void mt76x2_ate_temp_tx_alc(RTMP_ADAPTER *ad)
 		 		dB_diff = 0 - ((0 - temp_diff) / pChipCap->low_temp_slope_a_band);
 			else
 				dB_diff = 0;
-			
+
 			/* temperature compensation boundary check and limit */
 			dB_diff = (dB_diff > pChipCap->tc_upper_bound_a_band) ? pChipCap->tc_upper_bound_a_band : dB_diff;
 			dB_diff = (dB_diff < pChipCap->tc_lower_bound_a_band) ? pChipCap->tc_lower_bound_a_band : dB_diff;
@@ -1558,23 +1558,23 @@ void mt76x2_ate_temp_tx_alc(RTMP_ADAPTER *ad)
 			dB_diff = (dB_diff < pChipCap->tc_lower_bound_g_band) ? pChipCap->tc_lower_bound_g_band : dB_diff;
 		}
 
-		DBGPRINT(RT_DEBUG_INFO, ("%s::temp_diff=%d (0x%x), dB_diff=%d (0x%x)\n", 
-			__FUNCTION__, temp_diff, temp_diff, dB_diff, dB_diff)); 
-		
+		DBGPRINT(RT_DEBUG_INFO, ("%s::temp_diff=%d (0x%x), dB_diff=%d (0x%x)\n",
+			__FUNCTION__, temp_diff, temp_diff, dB_diff, dB_diff));
+
 		RTMP_IO_READ32(ad, TX_ALC_CFG_1, &tx0_temp_comp);
 		tx0_temp_comp &= ~TX_ALC_CFG_1_TX0_TEMP_COMP_MASK;
 		tx0_temp_comp |= (dB_diff*2 & TX_ALC_CFG_1_TX0_TEMP_COMP_MASK);
 		RTMP_IO_WRITE32(ad, TX_ALC_CFG_1, tx0_temp_comp);
-		DBGPRINT(RT_DEBUG_INFO, ("%s::Tx0 power compensation = 0x%x\n", 
-			__FUNCTION__, tx0_temp_comp & 0x3f)); 
-		
+		DBGPRINT(RT_DEBUG_INFO, ("%s::Tx0 power compensation = 0x%x\n",
+			__FUNCTION__, tx0_temp_comp & 0x3f));
+
 		RTMP_IO_READ32(ad, TX_ALC_CFG_2, &tx1_temp_comp);
 		tx1_temp_comp &= ~TX_ALC_CFG_2_TX1_TEMP_COMP_MASK;
 		tx1_temp_comp |= (dB_diff*2 & TX_ALC_CFG_2_TX1_TEMP_COMP_MASK);
 		RTMP_IO_WRITE32(ad, TX_ALC_CFG_2, tx1_temp_comp);
-		DBGPRINT(RT_DEBUG_INFO, ("%s::Tx1 power compensation = 0x%x\n", 
-			__FUNCTION__, tx1_temp_comp & 0x3f)); 
-	}	
+		DBGPRINT(RT_DEBUG_INFO, ("%s::Tx1 power compensation = 0x%x\n",
+			__FUNCTION__, tx1_temp_comp & 0x3f));
+	}
 }
 #endif /* RTMP_TEMPERATURE_TX_ALC */
 
@@ -1701,7 +1701,7 @@ VOID mt76x2_adjust_tssi_offset(
 
 
 VOID mt76x2_ate_asic_adjust_tx_power(
-	IN PRTMP_ADAPTER pAd) 
+	IN PRTMP_ADAPTER pAd)
 {
 	RTMP_CHIP_CAP *cap = &pAd->chipCap;
 	ANDES_CALIBRATION_PARAM param;
@@ -1713,7 +1713,7 @@ VOID mt76x2_ate_asic_adjust_tx_power(
 
 
 	if ((pAd->chipCap.tssi_enable) &&
-			(RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_RADIO_OFF | 
+			(RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_RADIO_OFF |
 				fRTMP_ADAPTER_DISABLE_DEQUEUEPACKET) == FALSE)) {
 		//mt76x2_tssi_compensation(pAd, pAd->ate.Channel);
 
@@ -1743,8 +1743,8 @@ VOID mt76x2_ate_asic_adjust_tx_power(
 				pa_mode = 0;
 			else if (pAd->chipCap.PAType == EXT_PA_2G_ONLY)
 				pa_mode = 1;
-		} 
-	
+		}
+
 		if (pAd->ate.Channel < 14) {
 			tssi_slope_offset &= ~TSSI_PARAM2_SLOPE0_MASK;
 			tssi_slope_offset |= TSSI_PARAM2_SLOPE0(cap->tssi_0_slope_g_band);
@@ -1884,7 +1884,7 @@ VOID mt76x2_ate_asic_adjust_tx_power(
 
 		if ( mt76x2_ate_calibration_delay == mt76x2_ate_tssi_stable_count ) {
 			/* DPD Calibration */
-			if ( (pAd->chipCap.PAType== INT_PA_2G_5G) 
+			if ( (pAd->chipCap.PAType== INT_PA_2G_5G)
 				|| ((pAd->chipCap.PAType == INT_PA_5G) && ( pAd->ate.Channel  > 14 ) )
 				|| ((pAd->chipCap.PAType == INT_PA_2G) && ( pAd->ate.Channel  <= 14 ) )
 			)
@@ -1927,13 +1927,13 @@ VOID mt76x2_ate_asic_adjust_tx_power(
 							mt76x2_2G_tx1_pwr_offset_save = value;
 					}
 				}
-			
+
 				CHIP_CALIBRATION(pAd, DPD_CALIBRATION_7662, pAd->ate.Channel );
 			}
-		} 
+		}
 	}
 #ifdef RTMP_TEMPERATURE_TX_ALC
-	else 
+	else
 	{
 		mt76x2_ate_temp_tx_alc(pAd);
 	}
@@ -1943,7 +1943,7 @@ VOID mt76x2_ate_asic_adjust_tx_power(
 
 
 INT	mt76x2_set_ate_tx_freq_offset_proc(
-	IN	PRTMP_ADAPTER	ad, 
+	IN	PRTMP_ADAPTER	ad,
 	IN	PSTRING			arg)
 {
 	u32 freq_offset = 0;
@@ -1972,7 +1972,7 @@ INT	mt76x2_set_ate_tx_freq_offset_proc(
 
 #ifdef CONFIG_AP_SUPPORT
 #endif /* CONFIG_AP_SUPPORT */
-	
+
 	return TRUE;
 }
 
@@ -1980,12 +1980,12 @@ INT	mt76x2_set_ate_tx_freq_offset_proc(
 VOID mt76x2_ate_asic_calibration(
 	IN PRTMP_ADAPTER pAd, UCHAR ate_mode)
 {
-	
+
 	//UCHAR channel = pAd->ate.Channel;
 	UCHAR i;
 	UINT32 bbpValue;
 	DBGPRINT(RT_DEBUG_TRACE, ("%s: channel=%d ate_mode=0x%x\n", __FUNCTION__, pAd->ate.Channel, ate_mode));
-	
+
 	mt76x2_ate_calibration_delay = 0;
 	mt76x2_ate_tssi_stable_count = MT76x2_TSSI_STABLE_COUNT;
 
@@ -2058,7 +2058,7 @@ VOID mt76x2_ate_do_calibration(
 			CHIP_CALIBRATION(pAd, TXIQ_CALIBRATION_7662, param);
 			break;
 		case DPD_CALIBRATION_7662:
-			if (IS_PCI_INF(pAd) 
+			if (IS_PCI_INF(pAd)
 #ifdef RTMP_USB_SUPPORT
 				|| IS_USB3_INF(pAd)
 #endif
@@ -2078,7 +2078,7 @@ VOID mt76x2_ate_do_calibration(
 			break;
 
 		case RXDCOC_CALIBRATION_7662:
-			/* RXDCOC calibration */	
+			/* RXDCOC calibration */
 			CHIP_CALIBRATION(pAd, RXDCOC_CALIBRATION_7662, param);
 			break;
 		case RC_CALIBRATION_7662:
@@ -2092,7 +2092,7 @@ VOID mt76x2_ate_do_calibration(
 }
 #ifdef SINGLE_SKU_V2
 static void mt76x2_ate_single_sku(IN PRTMP_ADAPTER	pAd, IN BOOLEAN value)
-{	
+{
 	PATE_INFO pATEInfo = &(pAd->ate);
 	if (value > 0)
 		{
@@ -2106,13 +2106,13 @@ static void mt76x2_ate_single_sku(IN PRTMP_ADAPTER	pAd, IN BOOLEAN value)
 			DBGPRINT(RT_DEBUG_TRACE, ("ATESINGLESKU = FALSE , disabled single sku in ATE!\n"));
 			//show_pwr_info(pAd,NULL);
 			DBGPRINT(RT_DEBUG_TRACE, ("\n\n=========================== restore per rate!\n"));
-			mt76x2_adjust_per_rate_pwr_delta(pAd, pAd->ate.Channel,0); //restore per_rate_delta pwr in 0x1314  
+			mt76x2_adjust_per_rate_pwr_delta(pAd, pAd->ate.Channel,0); //restore per_rate_delta pwr in 0x1314
 
 			//show_pwr_info(pAd,NULL);
-			
+
 			DBGPRINT(RT_DEBUG_TRACE, ("per_rate_delta restored!\n"));
-		}	
-	
+		}
+
 }
 #endif
 struct _ATE_CHIP_STRUCT mt76x2ate =
@@ -2136,7 +2136,7 @@ struct _ATE_CHIP_STRUCT mt76x2ate =
 	/* variables */
 	.maxTxPwrCnt = 5,
 	.bBBPStoreTXCARR = FALSE,
-	.bBBPStoreTXCARRSUPP = FALSE,	
+	.bBBPStoreTXCARRSUPP = FALSE,
 	.bBBPStoreTXCONT = FALSE,
 	.bBBPLoadATESTOP = FALSE,/* ralink debug */
 };

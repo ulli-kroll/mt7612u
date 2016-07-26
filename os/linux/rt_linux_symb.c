@@ -2,10 +2,10 @@
 
     Module Name:
     UTIL/rt_linux_symb.c
- 
+
     Abstract:
 	All symbols provided from UTIL module are put here.
- 
+
     Revision History:
     Who        When          What
     ---------  ----------    ----------------------------------------------
@@ -295,7 +295,7 @@ EXPORT_SYMBOL(RtmpOsGetUsbDevProductID);
 #endif /* RTMP_MAC_USB */
 
 /* only for RBUS or flash-capable concurrent devices */
-#if defined(RTMP_RBUS_SUPPORT) || defined (RTMP_FLASH_SUPPORT) 
+#if defined(RTMP_RBUS_SUPPORT) || defined (RTMP_FLASH_SUPPORT)
 EXPORT_SYMBOL(RtmpFlashRead);
 EXPORT_SYMBOL(RtmpFlashWrite);
 #endif /* defined(RTMP_RBUS_SUPPORT) || defined (RTMP_FLASH_SUPPORT)  */

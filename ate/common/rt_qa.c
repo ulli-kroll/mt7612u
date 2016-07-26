@@ -14,7 +14,7 @@
  * way altering	the	source code	is stricitly prohibited, unless	the	prior
  * written consent of Ralink Technology, Inc. is obtained.
  ***************************************************************************
- 
+
  	Module Name:
 	rt_qa.c
 
@@ -26,5 +26,5 @@
 	Name		Date	    Modification logs
 */
 #include "rt_config.h"
- 
+
 

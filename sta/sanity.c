@@ -36,7 +36,7 @@ extern UCHAR WME_PARM_ELEM[];
 extern UCHAR RALINK_OUI[];
 extern UCHAR BROADCOM_OUI[];
 
-/* 
+/*
     ==========================================================================
     Description:
         MLME message sanity check
@@ -67,13 +67,13 @@ BOOLEAN MlmeStartReqSanity(
 	return TRUE;
 }
 
-/* 
+/*
     ==========================================================================
     Description:
         MLME message sanity check
     Return:
         TRUE if all parameters are OK, FALSE otherwise
-        
+
     IRQL = DISPATCH_LEVEL
 
     ==========================================================================
@@ -276,10 +276,10 @@ BOOLEAN PeerAssocRspSanity(
 }
 
 
-/* 
+/*
     ==========================================================================
     Description:
-        
+
 	IRQL = DISPATCH_LEVEL
 
     ==========================================================================

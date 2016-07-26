@@ -147,13 +147,13 @@ VOID CKIP_key_permute
         H[1]  = tmp;
         R[i]  = H[0];           /* store into key array  */
     }
-    
+
     /* sweep in the other direction */
     tmp=L[0];
     for (i=7; i>0; i--) {
         R[i] = tmp = rotLeft_1(tmp) + R[i];
     }
-    
+
     /* IV of the permuted key is unchanged */
     PK[0] = piv[0];
     PK[1] = piv[1];
@@ -163,7 +163,7 @@ VOID CKIP_key_permute
     for (i=3; i<16; i++) {
         PK[i] = (UCHAR) (R[i>>1] >> (i & 1 ? 8 : 0));
     }
-}    
+}
 
 /* prepare for calculation of a new mic */
 VOID RTMPCkipMicInit(
@@ -212,7 +212,7 @@ ULONG RTMPMicGetCoefficient(
     if ( (coeff_position & 3) == 0) {
         /* fetching the first coefficient -- get new 16-byte aes counter output */
         u32 counter = (coeff_position >> 2);
-            
+
         /* new counter value */
         memset(&aes_counter[0], 0, sizeof(aes_counter));
         aes_counter[15] = (UINT8)(counter >> 0);
@@ -405,7 +405,7 @@ VOID RTMPAesEncrypt(
         if (round == 0)
         {
             xor_128(round_key, data, ciphertext);
-            next_key(round_key, round); 
+            next_key(round_key, round);
         }
         else if (round == 10)
         {
@@ -515,7 +515,7 @@ VOID RTMPCkipInsertCMIC(
 
     pProto = pSrcBufVA + 12;
     payloadlen = PacketInfo.TotalPacketLength - LENGTH_802_3 + 18; /* CKIP_LLC(8)+CMIC(4)+TxSEQ(4)+PROTO(2)=18 */
-    
+
     bigethlen[0] = (unsigned char)(payloadlen >> 8);
     bigethlen[1] = (unsigned char)payloadlen;
 
@@ -526,9 +526,9 @@ VOID RTMPCkipInsertCMIC(
 	{
 		for(i = 0; i < (16 / pKey->KeyLen); i++)
 		{
-			NdisMoveMemory(ckip_ck + i * pKey->KeyLen, 
-							pKey->Key, 
-							pKey->KeyLen);			
+			NdisMoveMemory(ckip_ck + i * pKey->KeyLen,
+							pKey->Key,
+							pKey->KeyLen);
 		}
 		NdisMoveMemory(ckip_ck + i * pKey->KeyLen,
 						pKey->Key,
@@ -537,7 +537,7 @@ VOID RTMPCkipInsertCMIC(
 	else
 	{
 		NdisMoveMemory(ckip_ck, pKey->Key, pKey->KeyLen);
-	}	
+	}
     RTMPCkipMicInit(&mic_ctx, ckip_ck);
     RTMPMicUpdate(&mic_ctx, pDA, MAC_ADDR_LEN);            /* MIC <-- DA */
     RTMPMicUpdate(&mic_ctx, pSA, MAC_ADDR_LEN);            /* MIC <-- SA */
@@ -553,7 +553,7 @@ VOID RTMPCkipInsertCMIC(
     do
     {
         if (SrcBufLen > 0)
-            RTMPMicUpdate(&mic_ctx, pSrcBufVA, SrcBufLen); 
+            RTMPMicUpdate(&mic_ctx, pSrcBufVA, SrcBufLen);
 
 		NdisGetNextBuffer(PacketInfo.pFirstBuffer, &PacketInfo.pFirstBuffer);
         if (PacketInfo.pFirstBuffer)
@@ -563,7 +563,7 @@ VOID RTMPCkipInsertCMIC(
         else
             break;
     } while (TRUE);
-    
+
     RTMPMicFinal(&mic_ctx, pMIC);                          /* update MIC */
 }
 

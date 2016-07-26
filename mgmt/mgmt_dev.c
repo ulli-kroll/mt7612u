@@ -30,16 +30,16 @@
 struct wifi_dev *get_wdev_by_idx(RTMP_ADAPTER *pAd, INT idx)
 {
 	struct wifi_dev *wdev = NULL;
-	
+
 	do
 	{
 
 
 #ifdef CONFIG_AP_SUPPORT
-#ifdef APCLI_SUPPORT	
+#ifdef APCLI_SUPPORT
 		if (idx >= MIN_NET_DEVICE_FOR_APCLI)
-		{				
-			idx -= MIN_NET_DEVICE_FOR_APCLI;		
+		{
+			idx -= MIN_NET_DEVICE_FOR_APCLI;
 			if (idx < MAX_APCLI_NUM)
 			{
 				wdev = &pAd->ApCfg.ApCliTab[idx].wdev;
@@ -55,14 +55,14 @@ struct wifi_dev *get_wdev_by_idx(RTMP_ADAPTER *pAd, INT idx)
 				wdev = &pAd->ApCfg.MBSSID[idx].wdev;
 
 			break;
-		}			
+		}
 #endif /* CONFIG_AP_SUPPORT */
 #ifdef CONFIG_STA_SUPPORT
 		IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
 		{
 			wdev = &pAd->StaCfg.wdev;
 			break;
-		}	
+		}
 #endif /* CONFIG_STA_SUPPORT */
 	} while (FALSE);
 

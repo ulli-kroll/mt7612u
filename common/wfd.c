@@ -10,7 +10,7 @@
  * or participation in deciphering, decoding, reverse engineering or in any
  * way altering the source code is stricitly prohibited, unless the prior
  * written consent of Ralink Technology, Inc. is obtained.
- ***************************************************************************/  
+ ***************************************************************************/
 
 
 #include "rt_config.h"

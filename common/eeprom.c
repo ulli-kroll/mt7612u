@@ -64,7 +64,7 @@ UCHAR RtmpEepromGetDefault(
 			e2p_dafault = E2P_EEPROM_MODE;
 		if ( RTMPEqualMemory("flash", CONFIG_RT_FIRST_CARD_EEPROM, 5) )
 			e2p_dafault = E2P_FLASH_MODE;
-		goto out;	
+		goto out;
 	}
 #endif /* CONFIG_RT_FIRST_CARD */
 
@@ -77,7 +77,7 @@ UCHAR RtmpEepromGetDefault(
 			e2p_dafault = E2P_EEPROM_MODE;
 		if ( RTMPEqualMemory("flash", CONFIG_RT_SECOND_CARD_EEPROM, 5) )
 			e2p_dafault = E2P_FLASH_MODE;
-		goto out;	
+		goto out;
 	}
 #endif /* CONFIG_RT_SECOND_CARD */
 
@@ -106,13 +106,13 @@ INT RtmpChipOpsEepromHook(
 #ifdef TXBF_SUPPORT
 	if (pAd->chipCap.FlgITxBfBinWrite)
 		pAd->E2pAccessMode = E2P_BIN_MODE;
-#endif		
+#endif
 
 	e2p_type = pAd->E2pAccessMode;
 
 	DBGPRINT(RT_DEBUG_OFF, ("%s::e2p_type=%d, inf_Type=%d\n", __FUNCTION__, e2p_type, infType));
 
-	if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST))			
+	if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST))
 		return -1;
 
 	/* If e2p_type is out of range, get the default mode */
@@ -135,7 +135,7 @@ INT RtmpChipOpsEepromHook(
 			pChipOps->eeinit = rtmp_ee_load_from_bin;
 			pChipOps->eeread = rtmp_ee_bin_read16;
 			pChipOps->eewrite = rtmp_ee_bin_write16;
-			DBGPRINT(RT_DEBUG_OFF, ("NVM is BIN mode\n"));	
+			DBGPRINT(RT_DEBUG_OFF, ("NVM is BIN mode\n"));
 			return 0;
 		}
 
@@ -169,7 +169,7 @@ INT RtmpChipOpsEepromHook(
 				pChipOps->eeinit = eFuse_init;
 				pChipOps->eeread = rtmp_ee_efuse_read16;
 				pChipOps->eewrite = rtmp_ee_efuse_write16;
-				DBGPRINT(RT_DEBUG_OFF, ("NVM is EFUSE mode\n"));	
+				DBGPRINT(RT_DEBUG_OFF, ("NVM is EFUSE mode\n"));
 				return 0;
 			}
 			else
@@ -182,7 +182,7 @@ INT RtmpChipOpsEepromHook(
 	}
 
 	/* Hook functions based on interface types for EEPROM */
-	switch (infType) 
+	switch (infType)
 	{
 
 #ifdef RTMP_USB_SUPPORT
@@ -210,9 +210,9 @@ BOOLEAN rtmp_get_default_bin_file_by_chip(
 {
 	BOOLEAN found = FALSE;
 	INT i;
-	
+
 	DBGPRINT(RT_DEBUG_OFF, ("%s::chip version=0x%04x\n", __FUNCTION__, ChipVersion));
-	
+
 	for (i = 0; RTMP_CHIP_E2P_FILE_TABLE[i].ChipVersion != 0; i++ )
 	{
 		if (IS_RT6352(pAd))
@@ -223,7 +223,7 @@ BOOLEAN rtmp_get_default_bin_file_by_chip(
 		if (RTMP_CHIP_E2P_FILE_TABLE[i].ChipVersion == ChipVersion)
 		{
 			*pBinFileName = RTMP_CHIP_E2P_FILE_TABLE[i].name;
-			DBGPRINT(RT_DEBUG_OFF, 
+			DBGPRINT(RT_DEBUG_OFF,
 						("%s(): Found E2P bin file name:%s\n",
 						__FUNCTION__, *pBinFileName));
 			found = TRUE;
@@ -235,13 +235,13 @@ BOOLEAN rtmp_get_default_bin_file_by_chip(
 		DBGPRINT(RT_DEBUG_OFF, ("%s::Found E2P bin file name=%s\n", __FUNCTION__, *pBinFileName));
 	else
 		DBGPRINT(RT_DEBUG_ERROR, ("%s::E2P bin file name not found\n", __FUNCTION__));
-	
-	return found;	
+
+	return found;
 }
 
 
 INT rtmp_ee_bin_read16(
-	IN RTMP_ADAPTER 	*pAd, 
+	IN RTMP_ADAPTER 	*pAd,
 	IN USHORT 			Offset,
 	OUT USHORT 			*pValue)
 {
@@ -254,8 +254,8 @@ INT rtmp_ee_bin_read16(
 
 
 INT rtmp_ee_bin_write16(
-	IN RTMP_ADAPTER 	*pAd, 
-	IN USHORT 			Offset, 
+	IN RTMP_ADAPTER 	*pAd,
+	IN USHORT 			Offset,
 	IN USHORT 			data)
 {
 	DBGPRINT(RT_DEBUG_TRACE, ("%s::Write to EEPROM buffer\n", __FUNCTION__));
@@ -270,7 +270,7 @@ INT rtmp_ee_load_from_bin(
 	IN PRTMP_ADAPTER 	pAd)
 {
 	PSTRING src = NULL;
-	INT ret_val;			
+	INT ret_val;
 	RTMP_OS_FD srcf;
 	RTMP_OS_FS_INFO osFSInfo;
 
@@ -293,7 +293,7 @@ INT rtmp_ee_load_from_bin(
 #endif /* MULTIPLE_CARD_SUPPORT */
 #endif /* RT_SOC_SUPPORT */
 		src = BIN_FILE_PATH;
-	
+
 	DBGPRINT(RT_DEBUG_TRACE, ("%s::FileName=%s\n", __FUNCTION__, src));
 
 	RtmpOSFSInfoChange(&osFSInfo, TRUE);
@@ -301,16 +301,16 @@ INT rtmp_ee_load_from_bin(
 	if (src && *src)
 	{
 		srcf = RtmpOSFileOpen(src, O_RDONLY, 0);
-		if (IS_FILE_OPEN_ERR(srcf)) 
+		if (IS_FILE_OPEN_ERR(srcf))
 		{
 			DBGPRINT(RT_DEBUG_ERROR, ("%s::Error opening %s\n", __FUNCTION__, src));
 			return FALSE;
 		}
-		else 
+		else
 		{
 			NdisZeroMemory(pAd->EEPROMImage, MAX_EEPROM_BIN_FILE_SIZE);
 			ret_val = RtmpOSFileRead(srcf, (PSTRING)pAd->EEPROMImage, MAX_EEPROM_BIN_FILE_SIZE);
-			
+
 			if (ret_val > 0)
 				ret_val = NDIS_STATUS_SUCCESS;
 			else
@@ -324,12 +324,12 @@ INT rtmp_ee_load_from_bin(
 	}
 
 	ret_val = RtmpOSFileClose(srcf);
-			
+
 	if (ret_val)
 		DBGPRINT(RT_DEBUG_ERROR, ("%s::Error %d closing %s\n", __FUNCTION__, -ret_val, src));
 
 	RtmpOSFSInfoChange(&osFSInfo, FALSE);
-	return TRUE;	
+	return TRUE;
 }
 
 
@@ -337,7 +337,7 @@ INT rtmp_ee_write_to_bin(
 	IN PRTMP_ADAPTER 	pAd)
 {
 	PSTRING src = NULL;
-	INT ret_val;			
+	INT ret_val;
 	RTMP_OS_FD srcf;
 	RTMP_OS_FS_INFO osFSInfo;
 
@@ -369,12 +369,12 @@ INT rtmp_ee_write_to_bin(
 	{
 		srcf = RtmpOSFileOpen(src, O_WRONLY|O_CREAT, 0);
 
-		if (IS_FILE_OPEN_ERR(srcf)) 
+		if (IS_FILE_OPEN_ERR(srcf))
 		{
 			DBGPRINT(RT_DEBUG_ERROR, ("%s::Error opening %s\n", __FUNCTION__, src));
 			return FALSE;
 		}
-		else 
+		else
 			RtmpOSFileWrite(srcf, (PSTRING)pAd->EEPROMImage, MAX_EEPROM_BIN_FILE_SIZE);
 	}
 	else
@@ -384,12 +384,12 @@ INT rtmp_ee_write_to_bin(
 	}
 
 	ret_val = RtmpOSFileClose(srcf);
-			
+
 	if (ret_val)
 		DBGPRINT(RT_DEBUG_ERROR, ("%s::Error %d closing %s\n", __FUNCTION__, -ret_val, src));
-	
+
 	RtmpOSFSInfoChange(&osFSInfo, FALSE);
-	return TRUE;	
+	return TRUE;
 }
 
 
@@ -408,7 +408,7 @@ INT Set_LoadEepromBufferFromBin_Proc(
 		return FALSE;
 	else
 	{
-		DBGPRINT(RT_DEBUG_TRACE, ("Load EEPROM buffer from BIN, and change to BIN buffer mode\n"));	
+		DBGPRINT(RT_DEBUG_TRACE, ("Load EEPROM buffer from BIN, and change to BIN buffer mode\n"));
 		result = rtmp_ee_load_from_bin(pAd);
 
 		if ( result == FALSE )
@@ -434,7 +434,7 @@ INT Set_LoadEepromBufferFromBin_Proc(
 			DBGPRINT(RT_DEBUG_TRACE, ("Load Cal Free data from e-fuse.\n"));
 		}
 #endif /* CAL_FREE_IC_SUPPORT */
-		
+
 		return TRUE;
 	}
 }
@@ -450,7 +450,7 @@ INT Set_EepromBufferWriteBack_Proc(
 		return FALSE;
 
 	switch (e2p_mode)
-	{		
+	{
 #ifdef RTMP_EFUSE_SUPPORT
 		case E2P_EFUSE_MODE:
 			DBGPRINT(RT_DEBUG_OFF, ("Write EEPROM buffer back to eFuse\n"));
@@ -458,7 +458,7 @@ INT Set_EepromBufferWriteBack_Proc(
 			break;
 #endif /* RTMP_EFUSE_SUPPORT */
 
-#ifdef RTMP_FLASH_SUPPORT			
+#ifdef RTMP_FLASH_SUPPORT
 		case E2P_FLASH_MODE:
 			DBGPRINT(RT_DEBUG_OFF, ("Write EEPROM buffer back to Flash\n"));
 			rtmp_ee_flash_write_all(pAd, (PUSHORT)pAd->EEPROMImage);
@@ -473,15 +473,15 @@ INT Set_EepromBufferWriteBack_Proc(
 #endif /* RT65xx */
 
 		case E2P_BIN_MODE:
-			DBGPRINT(RT_DEBUG_OFF, ("Write EEPROM buffer back to BIN\n"));	
+			DBGPRINT(RT_DEBUG_OFF, ("Write EEPROM buffer back to BIN\n"));
 			rtmp_ee_write_to_bin(pAd);
 			break;
-			
+
 		default:
 			DBGPRINT(RT_DEBUG_ERROR, ("%s::do not support this EEPROM access mode\n", __FUNCTION__));
 			return FALSE;
 	}
-	
+
 	return TRUE;
 }
 

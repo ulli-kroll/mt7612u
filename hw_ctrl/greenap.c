@@ -63,7 +63,7 @@ VOID EnableAPMIMOPSv1(
 
 	if(pAd->CommonCfg.Channel>14)
 		TxPinCfg=0x00050F05;
-		
+
 	TxPinCfg &= 0xFFFFFFF3;
 	TxPinCfg &= 0xFFFFF3FF;
 	pAd->ApCfg.bGreenAPActive=TRUE;
@@ -82,7 +82,7 @@ VOID EnableAPMIMOPSv1(
 		/*Tx/Rx Stream*/
 		bbp_set_txdac(pAd, 0);
 		bbp_set_rxpath(pAd, 1);
-		
+
 	RTMP_IO_WRITE32(pAd, TX_PIN_CFG, TxPinCfg);
 
 	}

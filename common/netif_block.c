@@ -26,7 +26,7 @@ BOOLEAN blockNetIf(
 	IN PNET_DEV pNetDev)
 {
 	PNETIF_ENTRY pNetIfEntry = NULL;
-	
+
 	if ((pNetIfEntry = (PNETIF_ENTRY)removeHeadList(&freeNetIfEntryList)) != NULL)
 	{
 		RTMP_OS_NETDEV_STOP_QUEUE(pNetDev);

@@ -12,13 +12,13 @@
  * way altering the source code is stricitly prohibited, unless the prior
  * written consent of Ralink Technology, Inc. is obtained.
  ****************************************************************************
-     
+
      Module Name:
      ap_sanity.c
-     
+
      Abstract:
      Handle association related requests either from WSTA or from local MLME
-     
+
      Revision History:
      Who         When          What
      --------    ----------    ----------------------------------------------
@@ -36,10 +36,10 @@ extern UCHAR	WME_INFO_ELEM[];
 extern UCHAR	WME_PARM_ELEM[];
 extern UCHAR	RALINK_OUI[];
 
-extern UCHAR 	BROADCOM_OUI[]; 
+extern UCHAR 	BROADCOM_OUI[];
 extern UCHAR    WPS_OUI[];
 
-/* 
+/*
     ==========================================================================
     Description:
         MLME message sanity check
@@ -49,7 +49,7 @@ extern UCHAR    WPS_OUI[];
  */
 
 BOOLEAN PeerAssocReqCmmSanity(
-	RTMP_ADAPTER *pAd, 
+	RTMP_ADAPTER *pAd,
 	BOOLEAN isReassoc,
 	VOID *Msg,
 	INT MsgLen,
@@ -70,13 +70,13 @@ BOOLEAN PeerAssocReqCmmSanity(
 		return FALSE;
 
 	COPY_MAC_ADDR(&ie_lists->Addr2[0], &Fr->Hdr.Addr2[0]);
-	
+
 	Ptr = (PCHAR)Fr->Octet;
 
 	NdisMoveMemory(&ie_lists->CapabilityInfo, &Fr->Octet[0], 2);
 	NdisMoveMemory(&ie_lists->ListenInterval, &Fr->Octet[2], 2);
 
-	if (isReassoc) 
+	if (isReassoc)
 	{
 		NdisMoveMemory(&ie_lists->ApAddr[0], &Fr->Octet[4], 6);
 		eid_ptr = (PEID_STRUCT) &Fr->Octet[10];
@@ -160,7 +160,7 @@ BOOLEAN PeerAssocReqCmmSanity(
                     ie_lists->SupportedRatesLen = MAX_LEN_OF_SUPPORTED_RATES;
                 }
                 break;
-                
+
             case IE_HT_CAP:
 			if (eid_ptr->Len >= sizeof(HT_CAPABILITY_IE))
 			{
@@ -174,9 +174,9 @@ BOOLEAN PeerAssocReqCmmSanity(
 
 					NdisMoveMemory((PUCHAR)(&extHtCapInfo), (PUCHAR)(&pHtCapability->ExtHtCapInfo), sizeof(EXT_HT_CAP_INFO));
 					*(USHORT *)(&extHtCapInfo) = cpu2le16(*(USHORT *)(&extHtCapInfo));
-					NdisMoveMemory((PUCHAR)(&pHtCapability->ExtHtCapInfo), (PUCHAR)(&extHtCapInfo), sizeof(EXT_HT_CAP_INFO));		
+					NdisMoveMemory((PUCHAR)(&pHtCapability->ExtHtCapInfo), (PUCHAR)(&extHtCapInfo), sizeof(EXT_HT_CAP_INFO));
 				}
-#else				
+#else
 				*(USHORT *)(&pHtCapability->ExtHtCapInfo) = cpu2le16(*(USHORT *)(&pHtCapability->ExtHtCapInfo));
 #endif /* UNALIGNMENT_SUPPORT */
 
@@ -188,7 +188,7 @@ BOOLEAN PeerAssocReqCmmSanity(
 			{
 				DBGPRINT(RT_DEBUG_WARN, ("PeerAssocReqSanity - wrong IE_HT_CAP.eid_ptr->Len = %d\n", eid_ptr->Len));
 			}
-				
+
 		break;
 		case IE_EXT_CAPABILITY:
 			if (eid_ptr->Len)
@@ -216,7 +216,7 @@ BOOLEAN PeerAssocReqCmmSanity(
 				{
 					switch (eid_ptr->Octet[3])
 					{
-						case 0x33: 
+						case 0x33:
 							if ((eid_ptr->Len-4) == sizeof(HT_CAPABILITY_IE))
 							{
 								NdisMoveMemory(pHtCapability, &eid_ptr->Octet[4], SIZE_HT_CAP_IE);
@@ -228,16 +228,16 @@ BOOLEAN PeerAssocReqCmmSanity(
 
 									NdisMoveMemory((PUCHAR)(&extHtCapInfo), (PUCHAR)(&pHtCapability->ExtHtCapInfo), sizeof(EXT_HT_CAP_INFO));
 									*(USHORT *)(&extHtCapInfo) = cpu2le16(*(USHORT *)(&extHtCapInfo));
-									NdisMoveMemory((PUCHAR)(&pHtCapability->ExtHtCapInfo), (PUCHAR)(&extHtCapInfo), sizeof(EXT_HT_CAP_INFO));		
+									NdisMoveMemory((PUCHAR)(&pHtCapability->ExtHtCapInfo), (PUCHAR)(&extHtCapInfo), sizeof(EXT_HT_CAP_INFO));
 								}
-#else				
+#else
 								*(USHORT *)(&pHtCapability->ExtHtCapInfo) = cpu2le16(*(USHORT *)(&pHtCapability->ExtHtCapInfo));
 #endif /* UNALIGNMENT_SUPPORT */
 
 								ie_lists->ht_cap_len = SIZE_HT_CAP_IE;
 							}
 							break;
-						
+
 						default:
 							/* ignore other cases */
 							break;
@@ -252,7 +252,7 @@ BOOLEAN PeerAssocReqCmmSanity(
         			ie_lists->RalinkIe = 0xf0000000; /* Set to non-zero value (can't set bit0-2) to represent this is Ralink Chip. So at linkup, we will set ralinkchip flag. */
                     break;
                 }
-                
+
                 /* WMM_IE */
                 if (NdisEqualMemory(eid_ptr->Octet, WME_INFO_ELEM, 6) && (eid_ptr->Len == 7))
                 {
@@ -272,20 +272,20 @@ BOOLEAN PeerAssocReqCmmSanity(
 
                 if (pAd->ApCfg.MBSSID[pEntry->apidx].wdev.AuthMode < Ndis802_11AuthModeWPA)
                     break;
-                
-                /* 	If this IE did not begins with 00:0x50:0xf2:0x01,  
+
+                /* 	If this IE did not begins with 00:0x50:0xf2:0x01,
                 	it would be proprietary. So we ignore it. */
                 if (!NdisEqualMemory(eid_ptr->Octet, WPA1_OUI, sizeof(WPA1_OUI))
                     && !NdisEqualMemory(&eid_ptr->Octet[2], WPA2_OUI, sizeof(WPA2_OUI)))
                 {
                     DBGPRINT(RT_DEBUG_TRACE, ("Not RSN IE, maybe WMM IE!!!\n"));
-                    break;                          
+                    break;
                 }
-                
+
                 if (/*(eid_ptr->Len <= MAX_LEN_OF_RSNIE) &&*/ (eid_ptr->Len >= MIN_LEN_OF_RSNIE))
                 {
 					hex_dump("Received RSNIE in Assoc-Req", (UCHAR *)eid_ptr, eid_ptr->Len + 2);
-                    
+
 					/* Copy whole RSNIE context */
                     NdisMoveMemory(&ie_lists->RSN_IE[0], eid_ptr, eid_ptr->Len + 2);
 					ie_lists->RSNIE_Len =eid_ptr->Len + 2;
@@ -296,7 +296,7 @@ BOOLEAN PeerAssocReqCmmSanity(
                     ie_lists->RSNIE_Len = 0;
                     DBGPRINT(RT_DEBUG_TRACE, ("PeerAssocReqSanity - missing IE_WPA(%d)\n",eid_ptr->Len));
                     return FALSE;
-                }               
+                }
                 break;
 
 
@@ -337,10 +337,10 @@ BOOLEAN PeerAssocReqCmmSanity(
                 break;
         }
 
-        eid_ptr = (PEID_STRUCT)((UCHAR*)eid_ptr + 2 + eid_ptr->Len);        
+        eid_ptr = (PEID_STRUCT)((UCHAR*)eid_ptr + 2 + eid_ptr->Len);
     }
 
-	if ((Sanity&0x3) != 0x03)	 
+	if ((Sanity&0x3) != 0x03)
 	{
 		DBGPRINT(RT_DEBUG_WARN, ("%s(): - missing mandatory field\n", __FUNCTION__));
 		return FALSE;
@@ -353,7 +353,7 @@ BOOLEAN PeerAssocReqCmmSanity(
 }
 
 
-/* 
+/*
     ==========================================================================
     Description:
         MLME message sanity check
@@ -362,12 +362,12 @@ BOOLEAN PeerAssocReqCmmSanity(
     ==========================================================================
  */
 BOOLEAN PeerDisassocReqSanity(
-    IN PRTMP_ADAPTER pAd, 
-    IN VOID *Msg, 
-    IN ULONG MsgLen, 
-    OUT PUCHAR pAddr2, 
+    IN PRTMP_ADAPTER pAd,
+    IN VOID *Msg,
+    IN ULONG MsgLen,
+    OUT PUCHAR pAddr2,
     OUT	UINT16	*SeqNum,
-    OUT USHORT *Reason) 
+    OUT USHORT *Reason)
 {
     PFRAME_802_11 Fr = (PFRAME_802_11)Msg;
 
@@ -379,7 +379,7 @@ BOOLEAN PeerDisassocReqSanity(
 }
 
 
-/* 
+/*
     ==========================================================================
     Description:
         MLME message sanity check
@@ -388,12 +388,12 @@ BOOLEAN PeerDisassocReqSanity(
     ==========================================================================
  */
 BOOLEAN PeerDeauthReqSanity(
-    IN PRTMP_ADAPTER pAd, 
-    IN VOID *Msg, 
-    IN ULONG MsgLen, 
-    OUT PUCHAR pAddr2, 
-    OUT	UINT16	*SeqNum, 
-    OUT USHORT *Reason) 
+    IN PRTMP_ADAPTER pAd,
+    IN VOID *Msg,
+    IN ULONG MsgLen,
+    OUT PUCHAR pAddr2,
+    OUT	UINT16	*SeqNum,
+    OUT USHORT *Reason)
 {
     PFRAME_802_11 Fr = (PFRAME_802_11)Msg;
 
@@ -405,7 +405,7 @@ BOOLEAN PeerDeauthReqSanity(
 }
 
 
-/* 
+/*
     ==========================================================================
     Description:
         MLME message sanity check
@@ -414,16 +414,16 @@ BOOLEAN PeerDeauthReqSanity(
     ==========================================================================
  */
 BOOLEAN APPeerAuthSanity(
-    IN PRTMP_ADAPTER pAd, 
-    IN VOID *Msg, 
-    IN ULONG MsgLen, 
-    OUT PUCHAR pAddr1, 
-    OUT PUCHAR pAddr2, 
-    OUT USHORT *Alg, 
-    OUT USHORT *Seq, 
-    OUT USHORT *Status, 
+    IN PRTMP_ADAPTER pAd,
+    IN VOID *Msg,
+    IN ULONG MsgLen,
+    OUT PUCHAR pAddr1,
+    OUT PUCHAR pAddr2,
+    OUT USHORT *Alg,
+    OUT USHORT *Seq,
+    OUT USHORT *Status,
     CHAR *ChlgText
-    ) 
+    )
 {
     PFRAME_802_11 Fr = (PFRAME_802_11)Msg;
 
@@ -433,36 +433,36 @@ BOOLEAN APPeerAuthSanity(
     NdisMoveMemory(Seq,    &Fr->Octet[2], 2);
     NdisMoveMemory(Status, &Fr->Octet[4], 2);
 
-    if (*Alg == AUTH_MODE_OPEN) 
+    if (*Alg == AUTH_MODE_OPEN)
     {
-        if (*Seq == 1 || *Seq == 2) 
+        if (*Seq == 1 || *Seq == 2)
         {
             return TRUE;
-        } 
-        else 
+        }
+        else
         {
             DBGPRINT(RT_DEBUG_TRACE, ("APPeerAuthSanity fail - wrong Seg# (=%d)\n", *Seq));
             return FALSE;
         }
-    } 
-    else if (*Alg == AUTH_MODE_KEY) 
+    }
+    else if (*Alg == AUTH_MODE_KEY)
     {
-        if (*Seq == 1 || *Seq == 4) 
+        if (*Seq == 1 || *Seq == 4)
         {
             return TRUE;
-        } 
-        else if (*Seq == 2 || *Seq == 3) 
+        }
+        else if (*Seq == 2 || *Seq == 3)
         {
             NdisMoveMemory(ChlgText, &Fr->Octet[8], CIPHER_TEXT_LEN);
             return TRUE;
-        } 
-        else 
+        }
+        else
         {
             DBGPRINT(RT_DEBUG_TRACE, ("APPeerAuthSanity fail - wrong Seg# (=%d)\n", *Seq));
             return FALSE;
         }
-    } 
-    else 
+    }
+    else
     {
         DBGPRINT(RT_DEBUG_TRACE, ("APPeerAuthSanity fail - wrong algorithm (=%d)\n", *Alg));
         return FALSE;
