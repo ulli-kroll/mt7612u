@@ -474,7 +474,9 @@ static int CFG80211_OpsScan(
 	union iwreq_data Wreq;
 
 	CFG80211DBG(RT_DEBUG_TRACE, ("========================================================================\n"));
+#if 0  /* ULLI : disabled */
 	CFG80211DBG(RT_DEBUG_TRACE, ("80211> %s ==> %s(%d)\n", __FUNCTION__, pNdev->name, pNdev->ieee80211_ptr->iftype));
+#endif
 	MAC80211_PAD_GET(pAd, pWiphy);
 
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,6,0))
@@ -1853,7 +1855,7 @@ static int CFG80211_OpsRemainOnChannel(
 static void CFG80211_OpsMgmtFrameRegister(
     struct wiphy *pWiphy,
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,6,0))
-	struct wireless_dev *wdev
+	struct wireless_dev *wdev,
 #else
     struct net_device *dev,
 #endif /* LINUX_VERSION_CODE: 3.6.0 */
