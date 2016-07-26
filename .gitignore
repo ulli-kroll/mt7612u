@@ -5,3 +5,4 @@
 Module.symvers
 modules.order
 .tmp_versions
+tools/bin2h
