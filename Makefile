@@ -26,10 +26,8 @@ MODULE = $(word 1, $(CHIPSET))
 #OS ABL - YES or NO
 OSABL = NO
 
-ifneq ($(TARGET),THREADX)
 #RT28xx_DIR = home directory of RT28xx source code
 RT28xx_DIR = $(shell pwd)
-endif
 
 include $(RT28xx_DIR)/os/linux/config.mk
 
@@ -93,19 +91,6 @@ RELEASE = DPOA
 
 ifeq ($(TARGET),LINUX)
 MAKE = make
-endif
-
-ifeq ($(TARGET), UCOS)
-MAKE = make
-endif
-ifeq ($(TARGET),THREADX)
-MAKE = gmake
-endif
-
-ifeq ($(TARGET), ECOS)
-MAKE = make
-MODULE = $(shell pwd | sed "s/.*\///" ).o
-export MODULE
 endif
 
 ifeq ($(PLATFORM),5VT)
@@ -405,12 +390,6 @@ ifeq ($(TARGET), LINUX)
 	cp -f os/linux/Makefile.clean os/linux/Makefile
 	$(MAKE) -C os/linux clean
 	rm -rf os/linux/Makefile
-endif
-ifeq ($(TARGET), UCOS)
-	$(MAKE) -C os/ucos clean MODE=$(RT28xx_MODE)
-endif
-ifeq ($(TARGET), ECOS)
-	$(MAKE) -C os/ecos clean MODE=$(RT28xx_MODE)
 endif
 
 uninstall:
