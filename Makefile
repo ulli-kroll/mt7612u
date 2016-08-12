@@ -263,12 +263,6 @@ ARCH := sh
 export ARCH
 endif
 
-ifeq ($(PLATFORM),CAVM_OCTEON)
-OCTEON_ROOT = /usr/local/Cavium_Networks/OCTEON-SDK
-LINUX_SRC = $(OCTEON_ROOT)/linux/kernel_2.6/linux
-CROSS_COMPILE = mips64-octeon-linux-gnu-
-endif
-
 ifeq ($(PLATFORM),CMPC)
 LINUX_SRC = /opt/fvt_11N_SDK_0807/fvt131x_SDK_11n/linux-2.6.17
 CROSS_COMPILE =
@@ -404,14 +398,14 @@ endif
 ifeq ($(RT28xx_MODE),STA)
 	cp $(RT28xx_DIR)/os/linux/Makefile.DPD $(RTMP_SRC_DIR)/os/linux/.
 	cp $(RT28xx_DIR)/os/linux/Makefile.DPO $(RTMP_SRC_DIR)/os/linux/.
-endif	
+endif
 
 clean:
 ifeq ($(TARGET), LINUX)
 	cp -f os/linux/Makefile.clean os/linux/Makefile
 	$(MAKE) -C os/linux clean
 	rm -rf os/linux/Makefile
-endif	
+endif
 ifeq ($(TARGET), UCOS)
 	$(MAKE) -C os/ucos clean MODE=$(RT28xx_MODE)
 endif
@@ -442,9 +436,9 @@ ifneq (,$(findstring 2.4,$(LINUX_SRC)))
 	cp -f os/linux/Makefile.libwapi.4 $(RT28xx_DIR)/os/linux/Makefile
 	$(MAKE) -C $(RT28xx_DIR)/os/linux/
 else
-	cp -f os/linux/Makefile.libwapi.6 $(RT28xx_DIR)/os/linux/Makefile	
-	$(MAKE) -C  $(LINUX_SRC) SUBDIRS=$(RT28xx_DIR)/os/linux modules	
-endif	
+	cp -f os/linux/Makefile.libwapi.6 $(RT28xx_DIR)/os/linux/Makefile
+	$(MAKE) -C  $(LINUX_SRC) SUBDIRS=$(RT28xx_DIR)/os/linux modules
+endif
 
 osutil:
 ifeq ($(OSABL),YES)

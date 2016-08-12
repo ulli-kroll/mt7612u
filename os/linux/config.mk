@@ -63,10 +63,10 @@ HAS_SNMP_SUPPORT=n
 #Support features of 802.11n Draft3
 HAS_DOT11N_DRAFT3_SUPPORT=y
 
-#Support features of Single SKU. 
+#Support features of Single SKU.
 HAS_SINGLE_SKU_SUPPORT=n
 
-#Support features of Single SKU. 
+#Support features of Single SKU.
 HAS_SINGLE_SKU_V2_SUPPORT=n
 
 #Support features of 802.11n
@@ -77,7 +77,7 @@ HAS_DOT11_VHT_SUPPORT=y
 
 
 
-#Support for 2860/2880 co-exist 
+#Support for 2860/2880 co-exist
 HAS_RT2880_RT2860_COEXIST=n
 
 HAS_KTHREAD_SUPPORT=n
@@ -405,7 +405,7 @@ else
 WFLAGS += -DRT_CFG80211_P2P_CONCURRENT_DEVICE
 ifeq ($(HAS_CFG80211_P2P_MULTI_CHAN_SUPPORT),y)
 WFLAGS += -DRT_CFG80211_P2P_MULTI_CHAN_SUPPORT
-endif	
+endif
 endif
 endif
 endif
@@ -537,7 +537,7 @@ ifeq ($(HAS_CFG80211_SCAN_SIGNAL_AVG_SUPPORT),y)
 WFLAGS += -DCFG80211_SCAN_SIGNAL_AVG
 endif
 ifeq ($(HAS_CFG80211_P2P_SUPPORT),y)
-WFLAGS += -DRT_CFG80211_P2P_SUPPORT -DUAPSD_SUPPORT -DUAPSD_SP_ACCURATE -DMBSS_SUPPORT -DAP_SCAN_SUPPORT 
+WFLAGS += -DRT_CFG80211_P2P_SUPPORT -DUAPSD_SUPPORT -DUAPSD_SP_ACCURATE -DMBSS_SUPPORT -DAP_SCAN_SUPPORT
 WFLAGS += -DCONFIG_AP_SUPPORT -DAPCLI_SUPPORT
 ifeq ($(HAS_CFG80211_P2P_SINGLE_DEVICE),y)
 WFLAGS += -DRT_CFG80211_P2P_SINGLE_DEVICE
@@ -548,7 +548,7 @@ else
 WFLAGS += -DRT_CFG80211_P2P_CONCURRENT_DEVICE
 ifeq ($(HAS_CFG80211_P2P_MULTI_CHAN_SUPPORT),y)
 WFLAGS += -DRT_CFG80211_P2P_MULTI_CHAN_SUPPORT
-endif #HAS_CFG80211_P2P_MULTI_CHAN_SUPPORT 
+endif #HAS_CFG80211_P2P_MULTI_CHAN_SUPPORT
 endif #HAS_CFG80211_P2P_STATIC_CONCURRENT_DEVICE
 endif #HAS_CFG80211_P2P_SINGLE_DEVICE
 endif #HAS_CFG80211_P2P_SUPPORT
@@ -818,7 +818,7 @@ CHIPSET_DAT = 2870
 
 ifneq ($(findstring $(RT28xx_MODE),AP),)
 ifeq ($(HAS_CS_SUPPORT), y)
-WFLAGS += -DCARRIER_DETECTION_FIRMWARE_SUPPORT 
+WFLAGS += -DCARRIER_DETECTION_FIRMWARE_SUPPORT
 endif
 endif
 
@@ -939,7 +939,7 @@ HAS_RLT_BBP=y
 HAS_RLT_MAC=y
 HAS_RLT_RF=y
 
-WFLAGS += -DMT76x0 -DRT65xx -DRLT_MAC -DRLT_BBP -DRLT_RF -DRTMP_RF_RW_SUPPORT -DRTMP_MAC_PCI -DRTMP_PCI_SUPPORT -DA_BAND_SUPPORT 
+WFLAGS += -DMT76x0 -DRT65xx -DRLT_MAC -DRLT_BBP -DRLT_RF -DRTMP_RF_RW_SUPPORT -DRTMP_MAC_PCI -DRTMP_PCI_SUPPORT -DA_BAND_SUPPORT
 WFLAGS += -DRX_DMA_SCATTER -DNEW_MBSSID_MODE -DRTMP_EFUSE_SUPPORT -DCONFIG_ANDES_SUPPORT -DENHANCE_NEW_MBSSID_MODE
 #-DRTMP_FREQ_CALIBRATION_SUPPORT -DVCORECAL_SUPPORT
 ifneq ($(findstring $(RT28xx_MODE),AP),)
@@ -1078,7 +1078,7 @@ HAS_RLT_MAC=y
 HAS_RLT_RF=y
 WFLAGS += -DMT7601U -DMT7601
 WFLAGS += -DRLT_MAC -DRTMP_MAC_USB -DRTMP_BBP -DRLT_RF -DRTMP_RF_RW_SUPPORT
-WFLAGS += -DRTMP_USB_SUPPORT -DRTMP_TIMER_TASK_SUPPORT -DVCORECAL_SUPPORT -DRTMP_EFUSE_SUPPORT -DNEW_MBSSID_MODE -DRTMP_INTERNAL_TX_ALC -DCONFIG_ANDES_SUPPORT 
+WFLAGS += -DRTMP_USB_SUPPORT -DRTMP_TIMER_TASK_SUPPORT -DVCORECAL_SUPPORT -DRTMP_EFUSE_SUPPORT -DNEW_MBSSID_MODE -DRTMP_INTERNAL_TX_ALC -DCONFIG_ANDES_SUPPORT
 ifneq ($(findstring $(RT28xx_MODE),AP),)
 #WFLAGS += -DSPECIFIC_BCN_BUF_SUPPORT
 endif
@@ -1210,7 +1210,7 @@ endif
 
 ifneq ($(findstring $(RT28xx_MODE),AP),)
 ifeq ($(HAS_CS_SUPPORT), y)
-WFLAGS +=  -DCARRIER_DETECTION_FIRMWARE_SUPPORT 
+WFLAGS +=  -DCARRIER_DETECTION_FIRMWARE_SUPPORT
 endif
 endif
 
@@ -1266,7 +1266,7 @@ WFLAGS +=-DRTMP_MAC_PCI -DRT305x -DRT5350 -DRT3050 -DRT3350 -DRT3883 -DRTMP_PCI_
 ifneq ($(findstring $(RT28xx_MODE),AP),)
 WFLAGS += -DSPECIFIC_BCN_BUF_SUPPORT
 endif
-#WFLAGS += -DDBG_CTRL_SUPPORT 
+#WFLAGS += -DDBG_CTRL_SUPPORT
 #WFLAGS += -DINCLUDE_DEBUG_QUEUE
 #WFLAGS += -DRANGE_EXTEND -DCFO_TRACK -DPRE_ANT_SWITCH
 endif
@@ -1298,7 +1298,7 @@ WFLAGS += -DLLTD_SUPPORT
 endif
 
 ifeq ($(PLATFORM),RMI)
-WFLAGS += -DRT_BIG_ENDIAN 
+WFLAGS += -DRT_BIG_ENDIAN
 endif
 
 ifeq ($(PLATFORM),UBICOM_IPX8)
@@ -1322,7 +1322,7 @@ WFLAGS += -DRT_BIG_ENDIAN
 endif
 
 ifeq ($(PLATFORM),RMI_64)
-WFLAGS += -DRT_BIG_ENDIAN 
+WFLAGS += -DRT_BIG_ENDIAN
 endif
 
 ifeq ($(PLATFORM),IXP)
@@ -1361,10 +1361,6 @@ ifeq ($(PLATFORM),INF_VR9)
 WFLAGS += -DRT_BIG_ENDIAN -DINF_AR9 -DINF_VR9
 endif
 
-ifeq ($(PLATFORM),CAVM_OCTEON)
-WFLAGS += -DRT_BIG_ENDIAN
-endif
-
 ifeq ($(PLATFORM),BRCM_6358)
 WFLAGS += -DRT_BIG_ENDIAN -DBRCM_6358
 endif
@@ -1378,7 +1374,7 @@ WFLAGS += -DPLATFORM_RALINK_3052
 endif
 
 ifeq ($(PLATFORM),FREESCALE8377)
-#EXTRA_CFLAGS := -v -I$(RT28xx_DIR)/include -I$(LINUX_SRC)/include $(WFLAGS)-O2 -Wall -Wstrict-prototypes -Wno-trigraphs 
+#EXTRA_CFLAGS := -v -I$(RT28xx_DIR)/include -I$(LINUX_SRC)/include $(WFLAGS)-O2 -Wall -Wstrict-prototypes -Wno-trigraphs
 #export EXTRA_CFLAGS
 WFLAGS += -DRT_BIG_ENDIAN
 EXTRA_CFLAGS := $(WFLAGS) -I$(RT28xx_DIR)/include
@@ -1408,7 +1404,7 @@ export CFLAGS
 endif
 
 ifeq ($(PLATFORM),UBICOM_IPX8)
-EXTRA_CFLAGS += $(WFLAGS) 
+EXTRA_CFLAGS += $(WFLAGS)
 export EXTRA_CFLAGS
 endif
 
@@ -1424,7 +1420,7 @@ export CFLAGS
 endif
 
 ifeq ($(PLATFORM),5VT)
-CFLAGS := -D__KERNEL__ -I$(LINUX_SRC)/include -mlittle-endian -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs -fno-strict-aliasing -fno-common -O3 -fno-omit-frame-pointer -fno-optimize-sibling-calls -fno-omit-frame-pointer -mapcs -mno-sched-prolog -mabi=apcs-gnu -mno-thumb-interwork -D__LINUX_ARM_ARCH__=5 -march=armv5te -mtune=arm926ej-s --param max-inline-insns-single=40000  -Uarm -Wdeclaration-after-statement -Wno-pointer-sign -DMODULE $(WFLAGS) 
+CFLAGS := -D__KERNEL__ -I$(LINUX_SRC)/include -mlittle-endian -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs -fno-strict-aliasing -fno-common -O3 -fno-omit-frame-pointer -fno-optimize-sibling-calls -fno-omit-frame-pointer -mapcs -mno-sched-prolog -mabi=apcs-gnu -mno-thumb-interwork -D__LINUX_ARM_ARCH__=5 -march=armv5te -mtune=arm926ej-s --param max-inline-insns-single=40000  -Uarm -Wdeclaration-after-statement -Wno-pointer-sign -DMODULE $(WFLAGS)
 
 export CFLAGS
 endif
@@ -1474,7 +1470,7 @@ export CFLAGS
 endif
 
 ifeq ($(PLATFORM),ST)
-CFLAGS := -D__KERNEL__ -I$(LINUX_SRC)/include -Wall -O2 -Wundef -Wstrict-prototypes -Wno-trigraphs -Wdeclaration-after-statement -Wno-pointer-sign -fno-strict-aliasing -fno-common -fomit-frame-pointer -ffreestanding -m4-nofpu -o $(WFLAGS) 
+CFLAGS := -D__KERNEL__ -I$(LINUX_SRC)/include -Wall -O2 -Wundef -Wstrict-prototypes -Wno-trigraphs -Wdeclaration-after-statement -Wno-pointer-sign -fno-strict-aliasing -fno-common -fomit-frame-pointer -ffreestanding -m4-nofpu -o $(WFLAGS)
 export CFLAGS
 endif
 
@@ -1485,12 +1481,12 @@ ifeq ($(PLATFORM),PC)
 	export CFLAGS
     else
 	# Linux 2.6
-	EXTRA_CFLAGS := $(WFLAGS) 
+	EXTRA_CFLAGS := $(WFLAGS)
     endif
 endif
 
 ifeq ($(PLATFORM),INTELP6)
-	EXTRA_CFLAGS := $(WFLAGS) 
+	EXTRA_CFLAGS := $(WFLAGS)
 endif
 
 #If the kernel version of RMI is newer than 2.6.27, please change "CFLAGS" to "EXTRA_FLAGS"
@@ -1507,11 +1503,11 @@ endif
 ifeq ($(PLATFORM),IXP)
 	CFLAGS := -v -D__KERNEL__ -DMODULE -I$(LINUX_SRC)/include -mbig-endian -Wall -Wstrict-prototypes -Wno-trigraphs -O2 -fno-strict-aliasing -fno-common -Uarm -fno-common -pipe -mapcs-32 -D__LINUX_ARM_ARCH__=5 -mcpu=xscale -mtune=xscale -malignment-traps -msoft-float $(WFLAGS)
         EXTRA_CFLAGS := -v $(WFLAGS) -mbig-endian
-	export CFLAGS        
+	export CFLAGS
 endif
 
 ifeq ($(PLATFORM),SMDK)
-        EXTRA_CFLAGS := $(WFLAGS) 
+        EXTRA_CFLAGS := $(WFLAGS)
 endif
 
 ifeq ($(PLATFORM),CAVM_OCTEON)
@@ -1563,7 +1559,7 @@ ifeq ($(PLATFORM),MT85XX)
 	export CFLAGS
     else
 	# Linux 2.6
-	EXTRA_CFLAGS += $(WFLAGS) 
+	EXTRA_CFLAGS += $(WFLAGS)
 	EXTRA_CFLAGS += -D _NO_TYPEDEF_BOOL_ \
 	                -D _NO_TYPEDEF_UCHAR_ \
 	                -D _NO_TYPEDEF_UINT8_ \
@@ -1573,7 +1569,7 @@ ifeq ($(PLATFORM),MT85XX)
 	                -D _NO_TYPEDEF_CHAR_ \
 	                -D _NO_TYPEDEF_INT32_ \
 	                -D _NO_TYPEDEF_INT64_ \
-	                
+
     endif
 endif
 
@@ -1589,7 +1585,7 @@ ifeq ($(PLATFORM),NXP_TV550)
 endif
 
 ifeq ($(PLATFORM),MVL5)
-CFLAGS := -D__KERNEL__ -I$(LINUX_SRC)/include -mlittle-endian -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs -fno-strict-aliasing -fno-common -O3 -fno-omit-frame-pointer -fno-optimize-sibling-calls -fno-omit-frame-pointer -mapcs -mno-sched-prolog -mno-thumb-interwork -D__LINUX_ARM_ARCH__=5 -march=armv5te -mtune=arm926ej-s --param max-inline-insns-single=40000  -Uarm -Wdeclaration-after-statement -Wno-pointer-sign -DMODULE $(WFLAGS) 
+CFLAGS := -D__KERNEL__ -I$(LINUX_SRC)/include -mlittle-endian -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs -fno-strict-aliasing -fno-common -O3 -fno-omit-frame-pointer -fno-optimize-sibling-calls -fno-omit-frame-pointer -mapcs -mno-sched-prolog -mno-thumb-interwork -D__LINUX_ARM_ARCH__=5 -march=armv5te -mtune=arm926ej-s --param max-inline-insns-single=40000  -Uarm -Wdeclaration-after-statement -Wno-pointer-sign -DMODULE $(WFLAGS)
 export CFLAGS
 endif
 
