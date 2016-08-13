@@ -60,12 +60,10 @@ export OSABL RT28xx_DIR RT28xx_MODE LINUX_SRC CROSS_COMPILE CROSS_COMPILE_INCLUD
 PHONY += all build_tools test UCOS THREADX LINUX release prerelease clean uninstall install libwapi osabl
 
 ifeq ($(TARGET),LINUX)
-all: build_tools $(TARGET)
+all: build_tools modules
 else
 all: $(TARGET)
 endif
-
-
 
 build_tools:
 	$(MAKE) -C tools
@@ -74,37 +72,14 @@ build_tools:
 test:
 	$(MAKE) -C tools test
 
-UCOS:
-	$(MAKE) -C os/ucos/ MODE=$(RT28xx_MODE)
-	echo $(RT28xx_MODE)
-
-ECOS:
-	$(MAKE) -C os/ecos/ MODE=$(RT28xx_MODE)
-	cp -f os/ecos/$(MODULE) $(MODULE)
-
-THREADX:
-	$(MAKE) -C $(RT28xx_DIR)/os/Threadx -f $(RT28xx_DIR)/os/ThreadX/Makefile
-
-LINUX:
+modules:
 	cp -f os/linux/Makefile.6 $(RT28xx_DIR)/os/linux/Makefile
 	$(MAKE) -C $(LINUX_SRC) SUBDIRS=$(RT28xx_DIR)/os/linux modules
 
 clean:
-ifeq ($(TARGET), LINUX)
 	cp -f os/linux/Makefile.clean os/linux/Makefile
 	$(MAKE) -C os/linux clean
 	rm -rf os/linux/Makefile
-endif
-
-libwapi:
-	cp -f os/linux/Makefile.libwapi.6 $(RT28xx_DIR)/os/linux/Makefile
-	$(MAKE) -C  $(LINUX_SRC) SUBDIRS=$(RT28xx_DIR)/os/linux modules
-
-osnet:
-
-osdrv:
-	cp -f os/linux/Makefile.6 $(RT28xx_DIR)/os/linux/Makefile
-	$(MAKE) -C $(LINUX_SRC) SUBDIRS=$(RT28xx_DIR)/os/linux modules
 
 # Declare the contents of the .PHONY variable as phony.  We keep that information in a variable
 .PHONY: $(PHONY)
