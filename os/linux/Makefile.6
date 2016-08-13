@@ -151,8 +151,6 @@ endif
 #
 ###############################################################################
 
-#ifdef CONFIG_AP_SUPPORT
-ifeq ($(RT28xx_MODE),AP)
 obj_ap += \
 	../../ap/ap_mbss.o\
 	../../ap/ap.o\
@@ -192,11 +190,6 @@ obj_ap += \
     ../../ap/ap_mbss_inf.o\
 	../../os/linux/ap_ioctl.o
 
-ifeq ($(HAS_CLIENT_WDS_SUPPORT),y)
-$(MOD_NAME)-objs += \
-	../../common/client_wds.o
-endif
-
 ifeq ($(HAS_IGMP_SNOOP_SUPPORT),y)
 obj_ap += ../../common/igmp_snoop.o
 endif
@@ -204,8 +197,6 @@ endif
 MOD_NAME = $(MODULE)_ap
 DAT_PATH = /etc/Wireless/RT$(CHIPSET_DAT)AP
 DAT_FILE_NAME = conf/RT$(CHIPSET_DAT)AP.dat
-endif
-#endif // CONFIG_AP_SUPPORT //
 
 
 ###############################################################################
@@ -214,8 +205,6 @@ endif
 #
 ###############################################################################
 
-#ifdef CONFIG_STA_SUPPORT
-ifeq ($(RT28xx_MODE), STA)
 obj_sta += \
 	../../sta/assoc.o\
 	../../sta/auth.o\
@@ -231,26 +220,9 @@ obj_sta += \
 
 obj_sta += ../../os/linux/sta_ioctl.o
 
-ifeq ($(HAS_CFG80211_SUPPORT),y)
-ifeq ($(HAS_CFG80211_P2P_SUPPORT),y)
-ifeq ($(HAS_CFG80211_P2P_CONCURRENT_DEVICE),y)
-obj_sta += \
-        ../../ap/ap_apcli.o \
-        ../../ap/apcli_ctrl.o \
-        ../../ap/apcli_sync.o \
-        ../../ap/apcli_auth.o \
-        ../../ap/apcli_assoc.o
-
-obj_sta += ../../ap/ap_apcli_inf.o
-endif
-endif
-endif
-
 MOD_NAME = $(MODULE)_sta
 DAT_PATH = /etc/Wireless/RT$(CHIPSET_DAT)STA
 DAT_FILE_NAME = conf/RT$(CHIPSET_DAT)STA.dat
-endif
-#endif // CONFIG_STA_SUPPORT //
 
 
 ###############################################################################
@@ -316,20 +288,6 @@ $(MOD_NAME)-objs += \
 	../../sniffer/sniffer_radiotap.o
 endif
 
-#ifdef CRDA_SUPPORT
-ifeq ($(HAS_CFG80211_SUPPORT),y)
-$(MOD_NAME)-objs += \
-	../../os/linux/cfg80211/cfg80211.o\
-	../../os/linux/cfg80211/cfg80211_util.o\
-	../../os/linux/cfg80211/cfg80211_scan.o\
-	../../os/linux/cfg80211/cfg80211_rx.o\
-	../../os/linux/cfg80211/cfg80211_tx.o\
-	../../os/linux/cfg80211/cfg80211_inf.o\
-	../../os/linux/cfg80211/cfg80211_p2p.o\
-	../../os/linux/cfg80211/cfg80211_ap.o\
-	../../os/linux/cfg80211/cfg80211drv.o
-endif
-
 #endif // CRDA_SUPPORT //
 
 ifeq ($(HAS_RT2880_RT2860_COEXIST),y)	
@@ -393,50 +351,23 @@ ifeq ($(HAS_QA_SUPPORT),y)
 $(MOD_NAME)-objs += ../../ate/common/rt_qa.o
 endif
 
-
+endif
+#endif // CONFIG_STA_SUPPORT //
 
 
 #ifdef CRDA_SUPPORT
 ifeq ($(HAS_CFG80211_SUPPORT),y)
 $(MOD_NAME)-objs += \
-	../../os/linux/cfg80211/cfg80211.o \
+	../../os/linux/cfg80211/cfg80211.o\
 	../../os/linux/cfg80211/cfg80211_util.o\
 	../../os/linux/cfg80211/cfg80211_scan.o\
 	../../os/linux/cfg80211/cfg80211_rx.o\
-        ../../os/linux/cfg80211/cfg80211_tx.o\
-        ../../os/linux/cfg80211/cfg80211_inf.o\
+	../../os/linux/cfg80211/cfg80211_tx.o\
+	../../os/linux/cfg80211/cfg80211_inf.o\
 	../../os/linux/cfg80211/cfg80211_p2p.o\
 	../../os/linux/cfg80211/cfg80211_ap.o\
 	../../os/linux/cfg80211/cfg80211drv.o
-ifeq ($(HAS_CFG80211_TDLS_SUPPORT),y)
-$(MOD_NAME)-objs += \
-        ../../os/linux/cfg80211/cfg80211_tdls.o
 endif
-ifeq ($(HAS_CFG80211_P2P_SUPPORT),y)
-$(MOD_NAME)-objs += \
-	../../ap/ap_mbss.o\
-	../../ap/ap.o\
-	../../ap/ap_assoc.o\
-	../../ap/ap_auth.o\
-	../../ap/ap_connect.o\
-	../../ap/ap_mlme.o\
-	../../ap/ap_sanity.o\
-	../../ap/ap_sync.o\
-	../../ap/ap_wpa.o\
-	../../ap/ap_data.o\
-	../../ap/ap_autoChSel.o\
-	../../ap/ap_qload.o\
-	../../ap/ap_cfg.o\
-	../../os/linux/ap_ioctl.o		
-endif
-endif
-
-#endif // CRDA_SUPPORT //
-
-
-
-endif
-#endif // CONFIG_STA_SUPPORT //
 
 #ifdef CONFIG_APSTA_SUPPORT
 ifeq ($(RT28xx_MODE), APSTA)

@@ -223,10 +223,6 @@ HAS_ANTENNA_DIVERSITY_SUPPORT=n
 HAS_TXRX_SW_ANTDIV_SUPPORT=n
 #endif // TXRX_SW_ANTDIV_SUPPORT //
 
-#ifdef CLIENT_WDS
-#Client support WDS function
-HAS_CLIENT_WDS_SUPPORT=n
-#endif /* CLIENT_WDS */
 
 #Support for Bridge Fast Path & Bridge Fast Path function open to other module
 HAS_BGFP_SUPPORT=n
