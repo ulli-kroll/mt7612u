@@ -178,14 +178,6 @@ ifeq ($(HAS_WSC),y)
 obj_ap += ../../common/wsc_ufd.o
 endif
 
-
-
-ifeq ($(HAS_WDS),y)
-obj_ap += ../../ap/ap_wds.o
-
-obj_ap += ../../ap/ap_wds_inf.o
-endif
-
 obj_ap += \
     ../../ap/ap_mbss_inf.o\
 	../../os/linux/ap_ioctl.o

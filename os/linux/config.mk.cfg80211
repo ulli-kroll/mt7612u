@@ -42,11 +42,6 @@ HAS_NINTENDO=n
 # Support LLTD function
 HAS_LLTD=n
 
-#ifdef WDS_SUPPORT
-# Support WDS function
-HAS_WDS=n
-#endif // WDS_SUPPORT //
-
 #ifdef WPA_SUPPLICANT_SUPPORT
 # Support Wpa_Supplicant
 # i.e. wpa_supplicant -Dralink
@@ -563,12 +558,6 @@ WFLAGS += -DEASY_CONFIG_SETUP -DWAC_SUPPORT
 endif
 #endif // EASY_CONFIG_SETUP //
 
-#ifdef WDS_SUPPORT
-ifeq ($(HAS_WDS),y)
-WFLAGS += -DWDS_SUPPORT
-endif
-#endif // WDS_SUPPORT //
-
 #ifdef IGMP_SNOOP_SUPPORT
 ifeq ($(HAS_IGMP_SNOOP_SUPPORT),y)
 WFLAGS += -DIGMP_SNOOP_SUPPORT
@@ -1002,12 +991,6 @@ ifeq ($(HAS_WSC),y)
 WFLAGS += -DWSC_AP_SUPPORT -DWSC_STA_SUPPORT
 endif
 #endif // WSC_INCLUDED //
-
-#ifdef WDS_SUPPORT
-ifeq ($(HAS_WDS),y)
-WFLAGS += -DWDS_SUPPORT
-endif
-#endif // WDS_SUPPORT //
 
 ifeq ($(HAS_IGMP_SNOOP_SUPPORT),y)
 WFLAGS += -DIGMP_SNOOP_SUPPORT
