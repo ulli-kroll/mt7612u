@@ -954,10 +954,7 @@ ifeq ($(HAS_IGMP_SNOOP_SUPPORT),y)
 obj_ap += common/igmp_snoop.o
 endif
 
-MOD_NAME = $(MODULE)_ap
-DAT_PATH = /etc/Wireless/RT$(CHIPSET_DAT)AP
-DAT_FILE_NAME = conf/RT$(CHIPSET_DAT)AP.dat
-
+MOD_NAME = $(MODULE)
 
 ###############################################################################
 #
@@ -980,9 +977,7 @@ obj_sta += \
 
 obj_sta += os/linux/sta_ioctl.o
 
-MOD_NAME = $(MODULE)_sta
-DAT_PATH = /etc/Wireless/RT$(CHIPSET_DAT)STA
-DAT_FILE_NAME = conf/RT$(CHIPSET_DAT)STA.dat
+MOD_NAME = $(MODULE)
 
 
 ###############################################################################
@@ -991,12 +986,7 @@ DAT_FILE_NAME = conf/RT$(CHIPSET_DAT)STA.dat
 #
 ###############################################################################
 
-#ifdef CONFIG_APSTA_SUPPORT
-ifeq ($(RT28xx_MODE), APSTA)
-MOD_NAME = $(MODULE)_apsta
-endif
-#endif // CONFIG_APSTA_SUPPORT //
-
+MOD_NAME = $(MODULE)
 
 ###############################################################################
 #
