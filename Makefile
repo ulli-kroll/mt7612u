@@ -40,30 +40,20 @@ PLATFORM = PC
 #RELEASE Package
 RELEASE = DPOA
 
-
-ifeq ($(TARGET),LINUX)
 MAKE = make
-endif
 
 ifeq ($(PLATFORM),PC)
 # Linux 2.6
-LINUX_SRC = /lib/modules/$(shell uname -r)/build
-# Linux 2.4 Change to your local setting
-#LINUX_SRC = /usr/src/linux-2.4
-LINUX_SRC_MODULE = /lib/modules/$(shell uname -r)/kernel/drivers/net/wireless/
+KSRC = /lib/modules/$(shell uname -r)/build
 CROSS_COMPILE =
+EXTRA_CFLAGS += -DCONFIG_LITTLE_ENDIAN
+SUBARCH := $(shell uname -m | sed -e s/i.86/i386/)
+ARCH ?= $(SUBARCH)
 endif
 
-export OSABL RT28xx_DIR RT28xx_MODE LINUX_SRC CROSS_COMPILE CROSS_COMPILE_INCLUDE PLATFORM RELEASE CHIPSET MODULE RTMP_SRC_DIR LINUX_SRC_MODULE TARGET HAS_WOW_SUPPORT
+export OSABL RT28xx_DIR RT28xx_MODE KSRC CROSS_COMPILE CROSS_COMPILE_INCLUDE PLATFORM RELEASE CHIPSET MODULE RTMP_SRC_DIR KSRC TARGET HAS_WOW_SUPPORT
 
-# The targets that may be used.
-PHONY += all build_tools test UCOS THREADX LINUX release prerelease clean uninstall install libwapi osabl
-
-ifeq ($(TARGET),LINUX)
 all: build_tools modules
-else
-all: $(TARGET)
-endif
 
 build_tools:
 	$(MAKE) -C tools
@@ -74,7 +64,7 @@ test:
 
 modules:
 	cp -f os/linux/Makefile.6 $(RT28xx_DIR)/os/linux/Makefile
-	$(MAKE) -C $(LINUX_SRC) SUBDIRS=$(RT28xx_DIR)/os/linux modules
+	$(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE) -C $(KSRC) SUBDIRS=$(RT28xx_DIR)/os/linux modules
 
 clean:
 	rm -f common/*.o
