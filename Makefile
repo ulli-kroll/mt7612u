@@ -162,16 +162,6 @@ ifeq ($(TARGET), LINUX)
 	rm -rf os/linux/Makefile
 endif
 
-uninstall:
-ifeq ($(TARGET), LINUX)
-	$(MAKE) -C $(RT28xx_DIR)/os/linux -f Makefile.6 uninstall
-endif
-
-install:
-ifeq ($(TARGET), LINUX)
-	$(MAKE) -C $(RT28xx_DIR)/os/linux -f Makefile.6 install
-endif
-
 libwapi:
 	cp -f os/linux/Makefile.libwapi.6 $(RT28xx_DIR)/os/linux/Makefile
 	$(MAKE) -C  $(LINUX_SRC) SUBDIRS=$(RT28xx_DIR)/os/linux modules
