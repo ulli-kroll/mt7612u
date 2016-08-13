@@ -25,6 +25,99 @@
 
 #include "rt_config.h"
 
+static char *RT2870STA_dat =
+"#The word of \"Default\" must not be removed\n"
+"Default\n"
+"CountryRegion=5\n"
+"CountryRegionABand=7\n"
+"CountryCode=\n"
+"ChannelGeography=1\n"
+"\nSSID=dummy-dummy"
+"NetworkType=Infra\n"
+"WirelessMode=13\n"
+"EfuseBufferMode=0\n"
+"Channel=0\n"
+"BeaconPeriod=100\n"
+"TxPower=100\n"
+"BGProtection=0\n"
+"TxPreamble=0\n"
+"RTSThreshold=2347\n"
+"FragThreshold=2346\n"
+"TxBurst=1\n"
+"PktAggregate=0\n"
+"WmmCapable=0\n"
+"AckPolicy=0;0;0;0\n"
+"AuthMode=OPEN\n"
+"EncrypType=NONE\n"
+"WPAPSK=\n"
+"DefaultKeyID=1\n"
+"Key1Type=0\n"
+"Key1Str=\n"
+"Key2Type=0\n"
+"Key2Str=\n"
+"Key3Type=0\n"
+"Key3Str=\n"
+"Key4Type=0\n"
+"Key4Str=\n"
+"PSMode=CAM\n"
+"AutoRoaming=0\n"
+"RoamThreshold=70\n"
+"APSDCapable=0\n"
+"APSDAC=0;0;0;0\n"
+"HT_RDG=1\n"
+"HT_EXTCHA=0\n"
+"HT_OpMode=0\n"
+"HT_MpduDensity=4\n"
+"HT_BW=1\n"
+"HT_BADecline=0\n"
+"HT_AutoBA=1\n"
+"HT_AMSDU=0\n"
+"HT_BAWinSize=64\n"
+"HT_GI=1\n"
+"HT_MCS=33\n"
+"HT_MIMOPSMode=3\n"
+"HT_DisallowTKIP=1\n"
+"HT_STBC=0\n"
+"VHT_BW=1\n"
+"VHT_SGI=1\n"
+"VHT_STBC=0\n"
+"EthConvertMode=\n"
+"EthCloneMac=\n"
+"IEEE80211H=0\n"
+"TGnWifiTest=0\n"
+"WirelessEvent=0\n"
+"MeshId=MESH\n"
+"MeshAutoLink=1\n"
+"MeshAuthMode=OPEN\n"
+"MeshEncrypType=NONE\n"
+"MeshWPAKEY=\n"
+"MeshDefaultkey=1\n"
+"MeshWEPKEY=\n"
+"CarrierDetect=0\n"
+"AntDiversity=0\n"
+"BeaconLostTime=4\n"
+"FtSupport=0\n"
+"Wapiifname=ra0\n"
+"WapiPsk=\n"
+"WapiPskType=\n"
+"WapiUserCertPath=\n"
+"WapiAsCertPath=\n"
+"PSP_XLINK_MODE=0\n"
+"WscManufacturer=\n"
+"WscModelName=\n"
+"WscDeviceName=\n"
+"WscModelNumber=\n"
+"WscSerialNumber=\n"
+"RadioOn=1\n"
+"WIDIEnable=1\n"
+"P2P_L2SD_SCAN_TOGGLE=3\n"
+"Wsc4digitPinCode=0\n"
+"P2P_WIDIEnable=0\n"
+"PMFMFPC=0\n"
+"PMFMFPR=0\n"
+"PMFSHA256=0\n";
+
+
 #if defined (CONFIG_RA_HW_NAT)  || defined (CONFIG_RA_HW_NAT_MODULE)
 #include "../../../../../../net/nat/hw_nat/ra_nat.h"
 #include "../../../../../../net/nat/hw_nat/frame_engine.h"
@@ -171,9 +264,6 @@ static UCHAR *get_dev_profile(RTMP_ADAPTER *pAd)
 
 NDIS_STATUS	RTMPReadParametersHook(RTMP_ADAPTER *pAd)
 {
-	PSTRING src = NULL;
-	RTMP_OS_FD srcf;
-	RTMP_OS_FS_INFO osFSInfo;
 	INT retval = NDIS_STATUS_FAILURE;
 	ULONG buf_size = MAX_INI_BUFFER_SIZE, fsize;
 	PSTRING buffer = NULL;
@@ -182,47 +272,22 @@ NDIS_STATUS	RTMPReadParametersHook(RTMP_ADAPTER *pAd)
 	int i;
 #endif /*HOSTAPD_SUPPORT */
 
-	src = get_dev_profile(pAd);
-	if (src && *src)
-	{
-		RtmpOSFSInfoChange(&osFSInfo, TRUE);
-		srcf = RtmpOSFileOpen(src, O_RDONLY, 0);
-		if (IS_FILE_OPEN_ERR(srcf))
-		{
-			DBGPRINT(RT_DEBUG_ERROR, ("Open file \"%s\" failed!\n", src));
-		}
-		else
 		{
 #ifndef OS_ABL_SUPPORT
-			// TODO: need to roll back when convert into OSABL code
-				 fsize = (ULONG)srcf->f_path.dentry->d_inode->i_size;
-				if (buf_size < (fsize + 1))
-					buf_size = fsize + 1;
 #endif /* OS_ABL_SUPPORT */
-			os_alloc_mem(pAd, (UCHAR **)&buffer, buf_size);
+			os_alloc_mem(pAd, (UCHAR **)&buffer, MAX_INI_BUFFER_SIZE);
 			if (buffer) {
 				memset(buffer, 0x00, buf_size);
-				retval =RtmpOSFileRead(srcf, buffer, buf_size - 1);
-				if (retval > 0)
-				{
-					RTMPSetProfileParameters(pAd, buffer);
-					retval = NDIS_STATUS_SUCCESS;
-				}
-				else
-					DBGPRINT(RT_DEBUG_ERROR, ("Read file \"%s\" failed(errCode=%d)!\n", src, retval));
-				os_free_mem(NULL, buffer);
+
+				strcpy(buffer, RT2870STA_dat);
+				RTMPSetProfileParameters(pAd, buffer);
+				retval = NDIS_STATUS_SUCCESS;
 			} else
 				retval = NDIS_STATUS_FAILURE;
 
-			if (RtmpOSFileClose(srcf) != 0)
-			{
-				retval = NDIS_STATUS_FAILURE;
-				DBGPRINT(RT_DEBUG_ERROR, ("Close file \"%s\" failed(errCode=%d)!\n", src, retval));
-			}
 		}
 
-		RtmpOSFSInfoChange(&osFSInfo, FALSE);
-	}
+//		RtmpOSFSInfoChange(&osFSInfo, FALSE);
 
 #ifdef HOSTAPD_SUPPORT
 		for (i = 0; i < pAd->ApCfg.BssidNum; i++)
