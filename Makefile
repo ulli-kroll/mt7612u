@@ -134,11 +134,6 @@ THREADX:
 	$(MAKE) -C $(RT28xx_DIR)/os/Threadx -f $(RT28xx_DIR)/os/ThreadX/Makefile
 
 LINUX:
-ifeq ($(OSABL),YES)
-	cp -f os/linux/Makefile.6.util $(RT28xx_DIR)/os/linux/Makefile
-	$(MAKE) -C $(LINUX_SRC) SUBDIRS=$(RT28xx_DIR)/os/linux modules
-endif
-
 	cp -f os/linux/Makefile.6 $(RT28xx_DIR)/os/linux/Makefile
 ifeq ($(PLATFORM),DM6446)
 	$(MAKE)  ARCH=arm CROSS_COMPILE=arm_v5t_le- -C  $(LINUX_SRC) SUBDIRS=$(RT28xx_DIR)/os/linux modules
@@ -148,11 +143,6 @@ ifeq ($(PLATFORM),FREESCALE8377)
 else
 	$(MAKE) -C $(LINUX_SRC) SUBDIRS=$(RT28xx_DIR)/os/linux modules
 endif
-endif
-
-ifeq ($(OSABL),YES)
-	cp -f os/linux/Makefile.6.netif $(RT28xx_DIR)/os/linux/Makefile
-	$(MAKE) -C $(LINUX_SRC) SUBDIRS=$(RT28xx_DIR)/os/linux modules
 endif
 
 clean:
@@ -167,10 +157,6 @@ libwapi:
 	$(MAKE) -C  $(LINUX_SRC) SUBDIRS=$(RT28xx_DIR)/os/linux modules
 
 osnet:
-ifeq ($(OSABL),YES)
-	cp -f os/linux/Makefile.6.netif $(RT28xx_DIR)/os/linux/Makefile
-	$(MAKE) -C $(LINUX_SRC) SUBDIRS=$(RT28xx_DIR)/os/linux modules
-endif
 
 osdrv:
 	cp -f os/linux/Makefile.6 $(RT28xx_DIR)/os/linux/Makefile

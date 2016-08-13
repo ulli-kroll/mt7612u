@@ -185,16 +185,12 @@ endif
 ifeq ($(HAS_WDS),y)
 obj_ap += ../../ap/ap_wds.o
 
-ifeq ($(OSABL),NO)
 obj_ap += ../../ap/ap_wds_inf.o
 endif
-endif
 
-ifeq ($(OSABL),NO)
 obj_ap += \
     ../../ap/ap_mbss_inf.o\
 	../../os/linux/ap_ioctl.o
-endif
 
 #ifdef APCLI_SUPPORT
 ifeq ($(HAS_APCLI),y)
@@ -209,9 +205,7 @@ obj_ap += \
 	../../common/cmm_mat_pppoe.o \
 	../../common/cmm_mat_ipv6.o
 
-ifeq ($(OSABL),NO)
 obj_ap += ../../ap/ap_apcli_inf.o
-endif
 endif
 #endif // APCLI_SUPPORT //
 
@@ -253,9 +247,7 @@ obj_sta += \
 	../../sta/sta.o
 
 
-ifeq ($(OSABL),NO)
 obj_sta += ../../os/linux/sta_ioctl.o
-endif
 
 ifeq ($(HAS_CFG80211_SUPPORT),y)
 ifeq ($(HAS_CFG80211_P2P_SUPPORT),y)
@@ -267,9 +259,7 @@ obj_sta += \
         ../../ap/apcli_auth.o \
         ../../ap/apcli_assoc.o
 
-ifeq ($(OSABL),NO)
 obj_sta += ../../ap/ap_apcli_inf.o
-endif
 endif
 endif
 endif
@@ -327,15 +317,12 @@ endif
 #endif // MULTI_INF_SUPPORT //
 
 #ifdef BG_FT_SUPPORT
-ifeq ($(OSABL),NO)
 ifeq ($(HAS_BGFP_SUPPORT),y)
 $(MOD_NAME)-objs += \
 	../../os/linux/br_ftph.o
 endif
-endif
 #endif // BG_FT_SUPPORT //
 
-ifeq ($(OSABL),NO)
 $(MOD_NAME)-objs += \
 	../../common/rt_os_util.o\
 	../../os/linux/rt_linux.o\
@@ -347,13 +334,7 @@ $(MOD_NAME)-objs += \
 	../../sniffer/sniffer_radiotap.o
 endif
 
-else
-$(MOD_NAME)-objs += \
-	../../os/linux/rt_symb.o
-endif
-
 #ifdef CRDA_SUPPORT
-ifeq ($(OSABL),NO)
 ifeq ($(HAS_CFG80211_SUPPORT),y)
 $(MOD_NAME)-objs += \
 	../../os/linux/cfg80211/cfg80211.o\
@@ -366,20 +347,7 @@ $(MOD_NAME)-objs += \
 	../../os/linux/cfg80211/cfg80211_ap.o\
 	../../os/linux/cfg80211/cfg80211drv.o
 endif
-endif
 
-ifeq ($(OSABL),YES)
-ifeq ($(HAS_CFG80211_SUPPORT),y)
-$(MOD_NAME)-objs += \
-	../../os/linux/cfg80211/cfg80211_scan.o\
-	../../os/linux/cfg80211/cfg80211_rx.o\
-        ../../os/linux/cfg80211/cfg80211_tx.o\
-        ../../os/linux/cfg80211/cfg80211_inf.o\
-	../../os/linux/cfg80211/cfg80211_p2p.o\
-	../../os/linux/cfg80211/cfg80211_ap.o\
-	../../os/linux/cfg80211/cfg80211drv.o
-endif
-endif
 #endif // CRDA_SUPPORT //
 
 ifeq ($(HAS_RT2880_RT2860_COEXIST),y)	
@@ -400,9 +368,7 @@ $(MOD_NAME)-objs += ../../os/linux/vr_ikans.o
 endif
 
 ifeq ($(PLATFORM),BL2348)
-ifeq ($(OSABL),NO)
 $(MOD_NAME)-objs += ../../os/linux/vr_bdlt.o
-endif
 endif
 #ifdef PLATFORM_BL23570
 ifeq ($(PLATFORM),BL23570)
@@ -431,7 +397,6 @@ $(MOD_NAME)-objs := \
 	$(obj_wsc)\
 	$(obj_phy)
 
-ifeq ($(OSABL),NO)
 $(MOD_NAME)-objs += \
 	../../common/rt_os_util.o\
 	../../os/linux/sta_ioctl.o\
@@ -442,11 +407,6 @@ ifeq ($(HAS_SNIFFER_SUPPORT),y)
 $(MOD_NAME)-objs += \
 	../../sniffer/sniffer_prism.o\
 	../../sniffer/sniffer_radiotap.o
-endif
-
-else
-$(MOD_NAME)-objs += \
-	../../os/linux/rt_symb.o
 endif
 
 #ifdef ETH_CONVERT
@@ -480,7 +440,6 @@ endif
 
 
 #ifdef CRDA_SUPPORT
-ifeq ($(OSABL),NO)
 ifeq ($(HAS_CFG80211_SUPPORT),y)
 $(MOD_NAME)-objs += \
 	../../os/linux/cfg80211/cfg80211.o \
@@ -514,20 +473,7 @@ $(MOD_NAME)-objs += \
 	../../os/linux/ap_ioctl.o		
 endif
 endif
-endif
 
-ifeq ($(OSABL),YES)
-ifeq ($(HAS_CFG80211_SUPPORT),y)
-$(MOD_NAME)-objs += \
-	../../os/linux/cfg80211/cfg80211_scan.o\
-	../../os/linux/cfg80211/cfg80211_rx.o\
-        ../../os/linux/cfg80211/cfg80211_tx.o\
-        ../../os/linux/cfg80211/cfg80211_inf.o\
-	../../os/linux/cfg80211/cfg80211_p2p.o\
-	../../os/linux/cfg80211/cfg80211_ap.o\
-	../../os/linux/cfg80211/cfg80211drv.o
-endif
-endif
 #endif // CRDA_SUPPORT //
 
 
@@ -583,12 +529,10 @@ $(MOD_NAME)-objs += \
         ../../common/rt_rf.o\
         ../../chips/rt6592.o
 
-ifeq ($(OSABL),NO)
 $(MOD_NAME)-objs += \
         ../../os/linux/rt_pci_rbus.o\
         ../../os/linux/rt_rbus_pci_util.o\
         ../../os/linux/pci_main_dev.o
-endif
 endif
 #endif // RT6592 //
 
@@ -625,12 +569,10 @@ $(MOD_NAME)-objs += \
         ../../ate/common/ate_pci.o
 endif
 
-ifeq ($(OSABL),NO)
 $(MOD_NAME)-objs += \
                 ../../os/linux/rt_pci_rbus.o\
                 ../../os/linux/rt_rbus_pci_util.o\
                 ../../os/linux/pci_main_dev.o
-endif
 
 ifneq ($(findstring $(RT28xx_MODE),STA APSTA),)
 $(MOD_NAME)-objs += \
@@ -680,13 +622,11 @@ $(MOD_NAME)-objs += \
 				../../naf/cso.o
 endif
 
-ifeq ($(OSABL),NO)
 $(MOD_NAME)-objs += \
                 ../../os/linux/rt_usb.o\
                 ../../os/linux/rt_usb_util.o\
                 ../../os/linux/usb_main_dev.o\
 				../../common/rtusb_dev_id.o
-endif
 
 ifneq ($(findstring $(RT28xx_MODE),STA APSTA),)
 $(MOD_NAME)-objs += \
@@ -722,12 +662,10 @@ $(MOD_NAME)-objs += \
 			../../ate/chips/rt85592_ate.o
 endif
 
-ifeq ($(OSABL),NO)
 $(MOD_NAME)-objs += \
                 ../../os/linux/rt_pci_rbus.o\
                 ../../os/linux/rt_rbus_pci_util.o\
                 ../../os/linux/pci_main_dev.o
-endif
 
 ifneq ($(findstring $(RT28xx_MODE),STA APSTA),)
 $(MOD_NAME)-objs += \
