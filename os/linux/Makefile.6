@@ -358,31 +358,6 @@ RT28XX_AP_OBJ += \
 	../../common/dfs.o
 endif
 
-
-ifeq ($(PLATFORM),IKANOS_V160)
-$(MOD_NAME)-objs += ../../os/linux/vr_ikans.o
-endif
-
-ifeq ($(PLATFORM),IKANOS_V180)
-$(MOD_NAME)-objs += ../../os/linux/vr_ikans.o
-endif
-
-ifeq ($(PLATFORM),BL2348)
-$(MOD_NAME)-objs += ../../os/linux/vr_bdlt.o
-endif
-#ifdef PLATFORM_BL23570
-ifeq ($(PLATFORM),BL23570)
-rt$(CHIPSET)ap-objs += \
-        ../../os/linux/vr_bdlt.o
-endif
-#endif // PLATFORM_BL23570 //
-
-ifeq ($(HAS_EASY_CONFIG_SETUP_SUPPORT),y)
-ifeq ($(PLATFORM),RALINK_3052)
-$(MOD_NAME)-objs += lib.a
-endif
-endif
-
 endif
 #endif // CONFIG_AP_SUPPORT //
 
