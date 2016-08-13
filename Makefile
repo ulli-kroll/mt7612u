@@ -61,7 +61,6 @@ test:
 	$(MAKE) -C tools test
 
 modules:
-	cp -f os/linux/Makefile.6 $(RT28xx_DIR)/os/linux/Makefile
 	$(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE) -C $(KSRC) SUBDIRS=$(RT28xx_DIR)/os/linux modules
 
 clean:
