@@ -192,24 +192,6 @@ obj_ap += \
     ../../ap/ap_mbss_inf.o\
 	../../os/linux/ap_ioctl.o
 
-#ifdef APCLI_SUPPORT
-ifeq ($(HAS_APCLI),y)
-obj_ap += \
-	../../ap/ap_apcli.o \
-	../../ap/apcli_ctrl.o \
-	../../ap/apcli_sync.o \
-	../../ap/apcli_auth.o \
-	../../ap/apcli_assoc.o \
-	../../common/cmm_mat.o \
-	../../common/cmm_mat_iparp.o \
-	../../common/cmm_mat_pppoe.o \
-	../../common/cmm_mat_ipv6.o
-
-obj_ap += ../../ap/ap_apcli_inf.o
-endif
-#endif // APCLI_SUPPORT //
-
-
 ifeq ($(HAS_CLIENT_WDS_SUPPORT),y)
 $(MOD_NAME)-objs += \
 	../../common/client_wds.o
