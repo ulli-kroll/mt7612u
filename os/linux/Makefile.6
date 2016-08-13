@@ -593,46 +593,6 @@ endif
 endif
 #endif // MT76x2 //
 
-#ifdef RT8592
-ifneq ($(findstring rt8592,$(CHIPSET)),)
-$(MOD_NAME)-objs += \
-                ../../common/cmm_mac_pci.o\
-                ../../common/cmm_data_pci.o\
-                ../../os/linux/rt_rbus_pci_drv.o\
-                ../../common/ee_prom.o\
-                ../../common/rtmp_mcu.o\
-                ../../common/rt_rf.o\
-		../../chips/rt65xx.o\
-                ../../chips/rt85592.o\
-                ../../mac/ral_nmac.o\
-				../../mcu/mcu.o\
-                ../../mcu/mcu_and.o
-
-ifeq ($(HAS_RTMP_FLASH_SUPPORT),y)
-$(MOD_NAME)-objs += \
-        ../../common/ee_flash.o
-endif
-
-ifeq ($(HAS_ATE),y)
-$(MOD_NAME)-objs += \
-			../../ate/common/ate_pci.o\
-			../../ate/chips/rt85592_ate.o
-endif
-
-$(MOD_NAME)-objs += \
-                ../../os/linux/rt_pci_rbus.o\
-                ../../os/linux/rt_rbus_pci_util.o\
-                ../../os/linux/pci_main_dev.o
-
-ifneq ($(findstring $(RT28xx_MODE),STA APSTA),)
-$(MOD_NAME)-objs += \
-        ../../common/frq_cal.o
-endif
-
-endif
-#endif // RT8592 //
-
-
 # Declare the contents of the .PHONY variable as phony.  We keep that
 # information in a variable so we can use it in if_changed and friends.
 .PHONY: $(PHONY)
