@@ -1,5 +1,3 @@
-include $(RT28xx_DIR)/os/linux/config.mk
-
 obj_ap :=
 obj_sta :=
 obj_p2p :=
@@ -49,7 +47,7 @@ obj_cmm := \
 
 obj_phy := ../../phy/phy.o	\
 		   ../../phy/rf.o
-	
+
 obj_mac := ../../mac/rtmp_mac.o
 
 ifeq ($(HAS_RTMP_BBP),y)
@@ -282,7 +280,7 @@ endif
 
 #endif // CRDA_SUPPORT //
 
-ifeq ($(HAS_RT2880_RT2860_COEXIST),y)	
+ifeq ($(HAS_RT2880_RT2860_COEXIST),y)
 RT28XX_AP_OBJ += \
 	../../os/linux/rt_pci_rbus.o\
 	../../os/linux/rt_rbus_pci_util.o\
