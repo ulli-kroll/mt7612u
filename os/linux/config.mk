@@ -651,35 +651,6 @@ WFLAGS += -DRTMP_RBUS_SUPPORT -DRTMP_MAC_PCI -DRT6352 -DRTMP_RF_RW_SUPPORT -DRF_
 endif
 ## End of MT7620 ##
 
-# MT7650E
-ifneq ($(or $(findstring mt7650e,$(CHIPSET))$(findstring mt7630e,$(CHIPSET)),$(findstring mt7610e,$(CHIPSET))),)
-HAS_RLT_BBP=y
-HAS_RLT_MAC=y
-HAS_RLT_RF=y
-
-WFLAGS += -DMT76x0 -DRT65xx -DRLT_MAC -DRLT_BBP -DRLT_RF -DRTMP_RF_RW_SUPPORT -DRTMP_MAC_PCI -DRTMP_PCI_SUPPORT -DA_BAND_SUPPORT
-WFLAGS += -DRX_DMA_SCATTER -DNEW_MBSSID_MODE -DRTMP_EFUSE_SUPPORT -DCONFIG_ANDES_SUPPORT -DENHANCE_NEW_MBSSID_MODE
-#-DRTMP_FREQ_CALIBRATION_SUPPORT -DVCORECAL_SUPPORT
-ifneq ($(findstring $(RT28xx_MODE),AP),)
-#WFLAGS += -DSPECIFIC_BCN_BUF_SUPPORT
-endif
-
-ifneq ($(findstring mt7650e,$(CHIPSET)),)
-WFLAGS += -DMT7650
-endif
-
-ifneq ($(findstring mt7630e,$(CHIPSET)),)
-WFLAGS += -DMT7630
-endif
-
-ifneq ($(findstring mt7610e,$(CHIPSET)),)
-WFLAGS += -DMT7610
-endif
-
-CHIPSET_DAT = 2860
-endif
-## End of MT7650E ##
-
 # MT7650U
 ifneq ($(or $(findstring mt7650u,$(CHIPSET)),$(findstring mt7630u,$(CHIPSET)),$(findstring mt7610u,$(CHIPSET))),)
 HAS_RLT_BBP=y
@@ -714,33 +685,6 @@ endif
 
 endif
 ## End of MT7650U ##
-
-# MT7662E
-ifneq ($(or $(findstring mt7662e,$(CHIPSET)),$(findstring mt7612e,$(CHIPSET))),)
-WFLAGS += -DMT76x2 -DRT65xx -DRLT_MAC -DRLT_BBP -DMT_RF -DRTMP_MAC_PCI -DRTMP_PCI_SUPPORT -DA_BAND_SUPPORT -DRX_DMA_SCATTER -DNEW_MBSSID_MODE -DRTMP_EFUSE_SUPPORT -DCONFIG_ANDES_SUPPORT -DENHANCE_NEW_MBSSID_MODE -DRTMP_RF_RW_SUPPORT -DDYNAMIC_VGA_SUPPORT
-HAS_NEW_RATE_ADAPT_SUPPORT=y
-ifeq ($(HAS_NEW_RATE_ADAPT_SUPPORT),y)
-WFLAGS += -DNEW_RATE_ADAPT_SUPPORT
-endif
-WFLAGS += -DFIFO_EXT_SUPPORT
-HAS_RLT_BBP=y
-HAS_RLT_MAC=y
-
-CHIPSET_DAT = 2860
-
-ifneq ($(findstring mt7662e,$(CHIPSET)),)
-WFLAGS += -DMT7662
-endif
-
-ifneq ($(findstring mt7662e,$(CHIPSET)),)
-WFLAGS += -DMT7632
-endif
-
-ifneq ($(findstring mt7612e,$(CHIPSET)),)
-WFLAGS += -DMT7612
-endif
-endif
-## End of MT7662E ##
 
 # MT7662U
 ifneq ($(or $(findstring mt7662u,$(CHIPSET)),$(findstring mt7662u,$(CHIPSET))),)
