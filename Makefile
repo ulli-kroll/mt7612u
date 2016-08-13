@@ -155,30 +155,6 @@ ifeq ($(OSABL),YES)
 	$(MAKE) -C $(LINUX_SRC) SUBDIRS=$(RT28xx_DIR)/os/linux modules
 endif
 
-release: build_tools
-	$(MAKE) -C $(RT28xx_DIR)/striptool -f Makefile.release clean
-	$(MAKE) -C $(RT28xx_DIR)/striptool -f Makefile.release
-	striptool/striptool.out
-ifeq ($(RELEASE), DPO)
-	gcc -o striptool/banner striptool/banner.c
-	./striptool/banner -b striptool/copyright.gpl -s DPO/ -d DPO_GPL -R
-	./striptool/banner -b striptool/copyright.frm -s DPO_GPL/include/firmware.h
-endif
-
-prerelease:
-ifeq ($(MODULE), 2880)
-	$(MAKE) -C $(RT28xx_DIR)/os/linux -f Makefile.release.2880 prerelease
-else
-	$(MAKE) -C $(RT28xx_DIR)/os/linux -f Makefile.release prerelease
-endif
-	cp $(RT28xx_DIR)/os/linux/Makefile.DPB $(RTMP_SRC_DIR)/os/linux/.
-	cp $(RT28xx_DIR)/os/linux/Makefile.DPA $(RTMP_SRC_DIR)/os/linux/.
-	cp $(RT28xx_DIR)/os/linux/Makefile.DPC $(RTMP_SRC_DIR)/os/linux/.
-ifeq ($(RT28xx_MODE),STA)
-	cp $(RT28xx_DIR)/os/linux/Makefile.DPD $(RTMP_SRC_DIR)/os/linux/.
-	cp $(RT28xx_DIR)/os/linux/Makefile.DPO $(RTMP_SRC_DIR)/os/linux/.
-endif
-
 clean:
 ifeq ($(TARGET), LINUX)
 	cp -f os/linux/Makefile.clean os/linux/Makefile
@@ -199,17 +175,6 @@ endif
 libwapi:
 	cp -f os/linux/Makefile.libwapi.6 $(RT28xx_DIR)/os/linux/Makefile
 	$(MAKE) -C  $(LINUX_SRC) SUBDIRS=$(RT28xx_DIR)/os/linux modules
-
-osutil:
-ifeq ($(OSABL),YES)
-ifneq (,$(findstring 2.4,$(LINUX_SRC)))
-	cp -f os/linux/Makefile.4.util $(RT28xx_DIR)/os/linux/Makefile
-	$(MAKE) -C $(RT28xx_DIR)/os/linux/
-else
-	cp -f os/linux/Makefile.6.util $(RT28xx_DIR)/os/linux/Makefile
-	$(MAKE) -C $(LINUX_SRC) SUBDIRS=$(RT28xx_DIR)/os/linux modules
-endif
-endif
 
 osnet:
 ifeq ($(OSABL),YES)
