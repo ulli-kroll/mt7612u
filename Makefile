@@ -77,9 +77,23 @@ modules:
 	$(MAKE) -C $(LINUX_SRC) SUBDIRS=$(RT28xx_DIR)/os/linux modules
 
 clean:
-	cp -f os/linux/Makefile.clean os/linux/Makefile
-	$(MAKE) -C os/linux clean
-	rm -rf os/linux/Makefile
+	rm -f common/*.o
+	rm -f common/.*.{cmd,flags,d}
+	rm -f os/linux/*.{o,ko,mod.{o,c}}
+	rm -f os/linux/.*.{cmd,flags,d}
+	rm -fr os/linux/.tmp_versions
+#Must clean Module.symvers; or you will suffer symbol version not match
+#when OS_ABL = YES.
+	rm -f os/linux/Module.symvers
+	rm -f os/linux/Modules.symvers
+	rm -f os/linux/Module.markers
+	rm -f os/linux/modules.order
+	rm -f chips/*.o
+	rm -f chips/.*.{cmd,flags,d}
+	rm -f ap/*.o
+	rm -f ap/.*.{cmd,flags,d}
+	rm -f sta/*.o
+	rm -f sta/.*.{cmd,flags,d}
 
 # Declare the contents of the .PHONY variable as phony.  We keep that information in a variable
 .PHONY: $(PHONY)
