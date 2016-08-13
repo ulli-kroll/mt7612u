@@ -1,3 +1,24 @@
+ifeq ($(WIFI_MODE),)
+RT28xx_MODE = STA
+else
+RT28xx_MODE = $(WIFI_MODE)
+endif
+
+# CHIPSET
+# rt2860, rt2870, rt2880, rt2070, rt3070, rt3090, rt3572, rt3062, rt3562, rt3593, rt3573
+# rt3562(for rt3592), rt3050, rt3350, rt3352, rt5350, rt5370, rt5390, rt5572, rt5592,
+# rt8592(for rt85592),
+# mt7601e, mt7601u,
+# mt7620,
+# mt7650e, mt7630e, mt7610e, mt7650u, mt7630u, mt7610u
+# mt7662e, mt7632e, mt7612e, mt7662u, mt7632u, mt7612u
+
+ifeq ($(CHIPSET),)
+CHIPSET = mt7612u mt7662u mt7632u
+endif
+
+MODULE = $(word 1, $(CHIPSET))
+
 # Support Multiple Interface within single driver
 HAS_MULTI_INF=n
 
@@ -189,9 +210,6 @@ HAS_RESOURCE_BOOT_ALLOC=n
 HAS_CAL_FREE_IC_SUPPORT=y
 
 #################################################
-
-CC := $(CROSS_COMPILE)gcc
-LD := $(CROSS_COMPILE)ld
 
 WFLAGS := -g -DAGGREGATION_SUPPORT -DPIGGYBACK_SUPPORT -DWMM_SUPPORT  -DLINUX -Wall -Wstrict-prototypes -Wno-trigraphs -DENHANCED_STAT_DISPLAY
 WFLAGS += -DSYSTEM_LOG_SUPPORT -DRT28xx_MODE=$(RT28xx_MODE) -DCHIPSET=$(MODULE) -DRESOURCE_PRE_ALLOC -DDBG_DIAGNOSE -DDBG_RX_MCS -DDBG_TX_MCS
@@ -736,27 +754,6 @@ WFLAGS += -DLLTD_SUPPORT
 endif
 
 EXTRA_CFLAGS := $(WFLAGS)
-
-ifeq ($(WIFI_MODE),)
-RT28xx_MODE = STA
-else
-RT28xx_MODE = $(WIFI_MODE)
-endif
-
-# CHIPSET
-# rt2860, rt2870, rt2880, rt2070, rt3070, rt3090, rt3572, rt3062, rt3562, rt3593, rt3573
-# rt3562(for rt3592), rt3050, rt3350, rt3352, rt5350, rt5370, rt5390, rt5572, rt5592,
-# rt8592(for rt85592),
-# mt7601e, mt7601u,
-# mt7620,
-# mt7650e, mt7630e, mt7610e, mt7650u, mt7630u, mt7610u
-# mt7662e, mt7632e, mt7612e, mt7662u, mt7632u, mt7612u
-
-ifeq ($(CHIPSET),)
-CHIPSET = mt7612u mt7662u mt7632u
-endif
-
-MODULE = $(word 1, $(CHIPSET))
 
 #OS ABL - YES or NO
 OSABL = NO
