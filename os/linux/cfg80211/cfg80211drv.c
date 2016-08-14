@@ -1240,6 +1240,8 @@ Note:
 	CFG80211_SupBandInit() is called in xx_probe().
 ========================================================================
 */
+
+#if 0	/* ULLI : temporary disableb for transition to cfg80211 */
 #ifdef CONFIG_STA_SUPPORT
 VOID CFG80211_LostApInform(
     IN VOID 					*pAdCB)
@@ -1263,7 +1265,7 @@ VOID CFG80211_LostApInform(
 	}
 }
 #endif /*CONFIG_STA_SUPPORT*/
-
+#endif
 
 
 /*
