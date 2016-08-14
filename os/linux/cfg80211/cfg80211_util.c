@@ -318,15 +318,15 @@ BOOLEAN CFG80211_SupBandInit(
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,39))
 		if (IdLoop >= 14)
 		{
-			pChannels[IdLoop].band = IEEE80211_BAND_5GHZ;
+			pChannels[IdLoop].band = NL80211_BAND_5GHZ;
 			pChannels[IdLoop].center_freq = \
-			    		ieee80211_channel_to_frequency(Cfg80211_Chan[IdLoop], IEEE80211_BAND_5GHZ);
+			    		ieee80211_channel_to_frequency(Cfg80211_Chan[IdLoop], NL80211_BAND_5GHZ);
 		}
 		else
 		{
-			pChannels[IdLoop].band = IEEE80211_BAND_2GHZ;
+			pChannels[IdLoop].band = NL80211_BAND_2GHZ;
 		    pChannels[IdLoop].center_freq = \
-			    		ieee80211_channel_to_frequency(Cfg80211_Chan[IdLoop], IEEE80211_BAND_2GHZ);
+			    		ieee80211_channel_to_frequency(Cfg80211_Chan[IdLoop], NL80211_BAND_2GHZ);
 		}
 #else
 		pChannels[IdLoop].center_freq = ieee80211_channel_to_frequency(Cfg80211_Chan[IdLoop]);
@@ -375,7 +375,7 @@ BOOLEAN CFG80211_SupBandInit(
  */
 
 	/* 7. Fill the Band 2.4GHz */
-	pBand = &pCfg80211_CB->Cfg80211_bands[IEEE80211_BAND_2GHZ];
+	pBand = &pCfg80211_CB->Cfg80211_bands[NL80211_BAND_2GHZ];
 	if (pDriverBandInfo->RFICType & RFIC_24GHZ)
 	{
 		pBand->n_channels = CFG80211_NUM_OF_CHAN_2GHZ;
@@ -423,17 +423,17 @@ BOOLEAN CFG80211_SupBandInit(
 		pBand->ht_cap.mcs.tx_params = IEEE80211_HT_MCS_TX_DEFINED;
 #endif /* DOT11_N_SUPPORT */
 
-		pWiphy->bands[IEEE80211_BAND_2GHZ] = pBand;
+		pWiphy->bands[NL80211_BAND_2GHZ] = pBand;
 	}
 	else
 	{
-		pWiphy->bands[IEEE80211_BAND_2GHZ] = NULL;
+		pWiphy->bands[NL80211_BAND_2GHZ] = NULL;
 		pBand->channels = NULL;
 		pBand->bitrates = NULL;
 	}
 
 	/* 8. Fill the Band 5GHz */
-	pBand = &pCfg80211_CB->Cfg80211_bands[IEEE80211_BAND_5GHZ];
+	pBand = &pCfg80211_CB->Cfg80211_bands[NL80211_BAND_5GHZ];
 	if (pDriverBandInfo->RFICType & RFIC_5GHZ)
 	{
 		pBand->n_channels = CFG80211_NUM_OF_CHAN_5GHZ;
@@ -479,11 +479,11 @@ BOOLEAN CFG80211_SupBandInit(
 		pBand->ht_cap.mcs.tx_params = IEEE80211_HT_MCS_TX_DEFINED;
 #endif /* DOT11_N_SUPPORT */
 
-		pWiphy->bands[IEEE80211_BAND_5GHZ] = pBand;
+		pWiphy->bands[NL80211_BAND_5GHZ] = pBand;
 	}
 	else
 	{
-		pWiphy->bands[IEEE80211_BAND_5GHZ] = NULL;
+		pWiphy->bands[NL80211_BAND_5GHZ] = NULL;
 		pBand->channels = NULL;
 		pBand->bitrates = NULL;
 	}
@@ -656,8 +656,8 @@ BOOLEAN CFG80211OS_BandInfoGet(
 	if (pWiphy == NULL)
 		return FALSE;
 
-	*ppBand24 = pWiphy->bands[IEEE80211_BAND_2GHZ];
-	*ppBand5 = pWiphy->bands[IEEE80211_BAND_5GHZ];
+	*ppBand24 = pWiphy->bands[NL80211_BAND_2GHZ];
+	*ppBand5 = pWiphy->bands[NL80211_BAND_5GHZ];
 	return TRUE;
 }
 
@@ -766,9 +766,9 @@ BOOLEAN CFG80211OS_ChanInfoInit(
 	memset(pChan, 0, sizeof(*pChan));
 
 	if (ChanId > 14)
-		pChan->band = IEEE80211_BAND_5GHZ;
+		pChan->band = NL80211_BAND_5GHZ;
 	else
-		pChan->band = IEEE80211_BAND_2GHZ;
+		pChan->band = NL80211_BAND_2GHZ;
 
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,39))
 	pChan->center_freq = ieee80211_channel_to_frequency(ChanId, pChan->band);
@@ -837,17 +837,17 @@ VOID CFG80211OS_Scaning(
 	/* get channel information */
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,39))
 	if (ChanId > 14)
-	    CenFreq = ieee80211_channel_to_frequency(ChanId, IEEE80211_BAND_5GHZ);
+	    CenFreq = ieee80211_channel_to_frequency(ChanId, NL80211_BAND_5GHZ);
 	else
-		CenFreq = ieee80211_channel_to_frequency(ChanId, IEEE80211_BAND_2GHZ);
+		CenFreq = ieee80211_channel_to_frequency(ChanId, NL80211_BAND_2GHZ);
 #else
 	CenFreq = ieee80211_channel_to_frequency(ChanId);
 #endif
 
 	if (ChanId > 14)
-		CurBand = IEEE80211_BAND_5GHZ;
+		CurBand = NL80211_BAND_5GHZ;
 	else
-		CurBand = IEEE80211_BAND_2GHZ;
+		CurBand = NL80211_BAND_2GHZ;
 
 	pBand = &pCfg80211_CB->Cfg80211_bands[CurBand];
 

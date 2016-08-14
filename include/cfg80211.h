@@ -26,6 +26,10 @@
 
 #include <linux/ieee80211.h>
 
+/* ULLI : hack NUM_NL80211_BANDS is defined only in >= v4.7 */
+#if (LINUX_VERSION_CODE < KERNEL_VERSION(4,7,0))
+#define NUM_NL80211_BANDS		IEEE80211_NUM_BANDS
+#endif
 
 typedef enum _NDIS_HOSTAPD_STATUS {
 	Hostapd_Diable = 0,
@@ -36,7 +40,7 @@ typedef enum _NDIS_HOSTAPD_STATUS {
 typedef struct __CFG80211_CB {
 
 	/* we can change channel/rate information on the fly so we backup them */
-	struct ieee80211_supported_band Cfg80211_bands[IEEE80211_NUM_BANDS];
+	struct ieee80211_supported_band Cfg80211_bands[NUM_NL80211_BANDS];
 	struct ieee80211_channel *pCfg80211_Channels;
 	struct ieee80211_rate *pCfg80211_Rates;
 
@@ -54,7 +58,7 @@ typedef struct __CFG80211_CB {
 
 	/* to protect scan status */
 	spinlock_t scan_notify_lock;
-		
+
 } CFG80211_CB;
 
 

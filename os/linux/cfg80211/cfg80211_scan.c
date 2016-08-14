@@ -257,9 +257,9 @@ static void CFG80211_UpdateBssTableRssi(
 
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,39))
 		if (pAd->ScanTab.BssEntry[index].Channel > 14)
-			CenFreq = ieee80211_channel_to_frequency(pAd->ScanTab.BssEntry[index].Channel , IEEE80211_BAND_5GHZ);
+			CenFreq = ieee80211_channel_to_frequency(pAd->ScanTab.BssEntry[index].Channel , NL80211_BAND_5GHZ);
 		else
-			CenFreq = ieee80211_channel_to_frequency(pAd->ScanTab.BssEntry[index].Channel , IEEE80211_BAND_2GHZ);
+			CenFreq = ieee80211_channel_to_frequency(pAd->ScanTab.BssEntry[index].Channel , NL80211_BAND_2GHZ);
 #else
 		CenFreq = ieee80211_channel_to_frequency(pAd->ScanTab.BssEntry[index].Channel);
 #endif
