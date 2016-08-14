@@ -849,11 +849,11 @@ static int CFG80211_OpsStaGet(
 #ifdef CONFIG_AP_SUPPORT
 	/* fill tx count */
 	pSinfo->tx_packets = StaInfo.TxPacketCnt;
-	pSinfo->filled |= STATION_INFO_TX_PACKETS;
+	pSinfo->filled |= BIT(NL80211_STA_INFO_TX_BITRATE);
 
 	/* fill inactive time */
 	pSinfo->inactive_time = StaInfo.InactiveTime;
-	pSinfo->filled |= STATION_INFO_INACTIVE_TIME;
+	pSinfo->filled |= BIT(NL80211_STA_INFO_INACTIVE_TIME);
 #endif /* CONFIG_AP_SUPPORT */
 
 	return 0;
