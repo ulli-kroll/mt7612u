@@ -39,6 +39,12 @@ typedef enum _NDIS_HOSTAPD_STATUS {
 
 typedef struct __CFG80211_CB {
 
+        enum {
+                SME_IDLE,
+                SME_CONNECTING,
+                SME_CONNECTED,
+        } sme_state;
+
 	/* we can change channel/rate information on the fly so we backup them */
 	struct ieee80211_supported_band Cfg80211_bands[NUM_NL80211_BANDS];
 	struct ieee80211_channel *pCfg80211_Channels;

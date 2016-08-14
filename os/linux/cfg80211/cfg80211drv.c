@@ -1241,7 +1241,6 @@ Note:
 ========================================================================
 */
 
-#if 0	/* ULLI : temporary disableb for transition to cfg80211 */
 #ifdef CONFIG_STA_SUPPORT
 VOID CFG80211_LostApInform(
     IN VOID 					*pAdCB)
@@ -1251,21 +1250,17 @@ VOID CFG80211_LostApInform(
 	CFG80211_CB *p80211CB = pAd->pCfg80211_CB;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("80211> CFG80211_LostApInform ==> %d\n",
-					p80211CB->pCfg80211_Wdev->sme_state));
+					p80211CB->sme_state));
 	pAd->StaCfg.bAutoReconnect = FALSE;
 
-	if (p80211CB->pCfg80211_Wdev->sme_state == CFG80211_SME_CONNECTING)
-	{
+	if (p80211CB->sme_state == SME_CONNECTING) {
 		   cfg80211_connect_result(pAd->net_dev, NULL, NULL, 0, NULL, 0,
 								   WLAN_STATUS_UNSPECIFIED_FAILURE, GFP_KERNEL);
-	}
-	else if (p80211CB->pCfg80211_Wdev->sme_state == CFG80211_SME_CONNECTED)
-	{
-		   cfg80211_disconnected(pAd->net_dev, 0, NULL, 0, GFP_KERNEL);
+	} else if (p80211CB->sme_state == SME_CONNECTED) {
+		   cfg80211_disconnected(pAd->net_dev, 0, NULL, 0, true, GFP_KERNEL);
 	}
 }
 #endif /*CONFIG_STA_SUPPORT*/
-#endif
 
 
 /*
