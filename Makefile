@@ -1321,6 +1321,13 @@ clean:
 	rm -f Module.markers
 	rm -f modules.order
 
+help:
+	@echo "options :"
+	@echo "modules		build this module"
+	@echo "installfw	install firmware file"
+	@echo "clean		clean"
+	@echo "help		this help text"
+
 # Declare the contents of the .PHONY variable as phony.  We keep that information in a variable
 .PHONY: $(PHONY)
 
