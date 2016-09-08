@@ -36,6 +36,10 @@ USB_DEVICE_ID rtusb_dev_id[] = {
 	{USB_DEVICE(0x0E8D, 0x7612), .driver_info = RLT_MAC_BASE},
 	{USB_DEVICE_AND_INTERFACE_INFO(0x0E8D, 0x7632, 0xff, 0xff, 0xff), .driver_info = RLT_MAC_BASE},
 	{USB_DEVICE_AND_INTERFACE_INFO(0x0E8D, 0x7662, 0xff, 0xff, 0xff), .driver_info = RLT_MAC_BASE},
+	{USB_DEVICE(0x0b05, 0x17eb),  .driver_info = RLT_MAC_BASE},	/*  ASUS USB AC 55 */
+	{USB_DEVICE(0x0b05, 0x180b),  .driver_info = RLT_MAC_BASE},	/*  ASUS USB N53 B1 */
+	{USB_DEVICE(0x7392, 0xb711),  .driver_info = RLT_MAC_BASE},	/*  Edimax EW 7722 UAC */
+	{USB_DEVICE(0x0846, 0x9053),  .driver_info = RLT_MAC_BASE},	/*  Netgear A6210 */
 #endif
 	{ }/* Terminating entry */
 };
