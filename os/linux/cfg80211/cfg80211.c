@@ -2656,10 +2656,6 @@ static INT CFG80211NetdevNotifierEvent(
 	return NOTIFY_DONE;
 }
 
-struct notifier_block cfg80211_netdev_notifier = {
-	.notifier_call = CFG80211NetdevNotifierEvent,
-};
-
 static const struct ieee80211_regdomain rtmp_custom_regd = {
 	.n_reg_rules = 2,
 	.alpha2 = "00",
@@ -2895,12 +2891,6 @@ BOOLEAN CFG80211_Register(
 	RTMP_DRIVER_80211_RESET(pAd);
 	RTMP_DRIVER_80211_SCAN_STATUS_LOCK_INIT(pAd, TRUE);
 
-
-	err = register_netdevice_notifier(&cfg80211_netdev_notifier);
-	if (err)
-	{
-		CFG80211DBG(RT_DEBUG_ERROR, ("80211> Failed to register notifierl %d\n", err));
-	}
 
 	CFG80211DBG(RT_DEBUG_ERROR, ("80211> CFG80211_Register\n"));
 	return TRUE;

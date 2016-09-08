@@ -27,8 +27,6 @@
 
 #include "rt_config.h"
 
-extern struct notifier_block cfg80211_netdev_notifier;
-
 extern INT RtmpIoctl_rt_ioctl_siwauth(
 	IN      RTMP_ADAPTER                    *pAd,
 	IN      VOID                            *pData,
@@ -1123,7 +1121,6 @@ VOID CFG80211_UnRegister(
 
 	CFG80211OS_UnRegister(pAd->pCfg80211_CB, pNetDev);
 	RTMP_DRIVER_80211_SCAN_STATUS_LOCK_INIT(pAd, FALSE);
-	unregister_netdevice_notifier(&cfg80211_netdev_notifier);
 
 	/* Reset CFG80211 Global Setting Here */
 	DBGPRINT(RT_DEBUG_TRACE, ("==========> TYPE Reset CFG80211 Global Setting Here <==========\n"));
