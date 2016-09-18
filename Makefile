@@ -1173,6 +1173,20 @@ ifeq ($(HAS_QA_SUPPORT),y)
 $(MOD_NAME)-objs += ate/common/rt_qa.o
 endif
 
+#ifdef CRDA_SUPPORT
+ifeq ($(HAS_CFG80211_SUPPORT),y)
+$(MOD_NAME)-objs += \
+	os/linux/cfg80211/cfg80211.o\
+	os/linux/cfg80211/cfg80211_util.o\
+	os/linux/cfg80211/cfg80211_scan.o\
+	os/linux/cfg80211/cfg80211_rx.o\
+	os/linux/cfg80211/cfg80211_tx.o\
+	os/linux/cfg80211/cfg80211_inf.o\
+	os/linux/cfg80211/cfg80211_p2p.o\
+	os/linux/cfg80211/cfg80211_ap.o\
+	os/linux/cfg80211/cfg80211drv.o
+endif
+
 endif
 #endif // CONFIG_APSTA_SUPPORT //
 
