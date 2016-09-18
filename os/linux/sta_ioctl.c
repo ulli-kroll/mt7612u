@@ -68,72 +68,6 @@ typedef struct GNU_PACKED _RT_VERSION_INFO{
     UINT        DriverBuildDay;
 } RT_VERSION_INFO, *PRT_VERSION_INFO;
 
-struct iw_priv_args privtab[] = {
-{ RTPRIV_IOCTL_SET,
-  IW_PRIV_TYPE_CHAR | 1024, 0,
-  "set"},
-
-{ RTPRIV_IOCTL_SHOW, IW_PRIV_TYPE_CHAR | 1024, IW_PRIV_TYPE_CHAR | IW_PRIV_SIZE_MASK,
-  ""},
-/* --- sub-ioctls definitions --- */
-    { SHOW_CONN_STATUS,
-	  IW_PRIV_TYPE_CHAR | 1024, IW_PRIV_TYPE_CHAR | IW_PRIV_SIZE_MASK, "connStatus" },
-	{ SHOW_DRVIER_VERION,
-	  IW_PRIV_TYPE_CHAR | 1024, IW_PRIV_TYPE_CHAR | IW_PRIV_SIZE_MASK, "driverVer" },
-    { SHOW_BA_INFO,
-	  IW_PRIV_TYPE_CHAR | 1024, IW_PRIV_TYPE_CHAR | IW_PRIV_SIZE_MASK, "bainfo" },
-	{ SHOW_DESC_INFO,
-	  IW_PRIV_TYPE_CHAR | 1024, IW_PRIV_TYPE_CHAR | IW_PRIV_SIZE_MASK, "descinfo" },
-    { RAIO_OFF,
-	  IW_PRIV_TYPE_CHAR | 1024, IW_PRIV_TYPE_CHAR | IW_PRIV_SIZE_MASK, "radio_off" },
-	{ RAIO_ON,
-	  IW_PRIV_TYPE_CHAR | 1024, IW_PRIV_TYPE_CHAR | IW_PRIV_SIZE_MASK, "radio_on" },
-	{ SHOW_CFG_VALUE,
-	  IW_PRIV_TYPE_CHAR | 1024, IW_PRIV_TYPE_CHAR | IW_PRIV_SIZE_MASK, "show" },
-	{ SHOW_ADHOC_ENTRY_INFO,
-	  IW_PRIV_TYPE_CHAR | 1024, IW_PRIV_TYPE_CHAR | IW_PRIV_SIZE_MASK, "adhocEntry" },
-	{SHOW_DEV_INFO,
-	IW_PRIV_TYPE_CHAR | 1024, IW_PRIV_TYPE_CHAR | IW_PRIV_SIZE_MASK, "devinfo"},
-	{SHOW_STA_INFO,
-	IW_PRIV_TYPE_CHAR | 1024, IW_PRIV_TYPE_CHAR | IW_PRIV_SIZE_MASK, "stainfo"},
-	{SHOW_TR_INFO,
-	IW_PRIV_TYPE_CHAR | 1024, IW_PRIV_TYPE_CHAR | IW_PRIV_SIZE_MASK, "trinfo"},
-	{SHOW_SYS_INFO,
-	IW_PRIV_TYPE_CHAR | 1024, IW_PRIV_TYPE_CHAR | IW_PRIV_SIZE_MASK, "sysinfo"},
-	{SHOW_PWR_INFO,
-	IW_PRIV_TYPE_CHAR | 1024, IW_PRIV_TYPE_CHAR | IW_PRIV_SIZE_MASK, "pwrinfo"},
-	{SHOW_DIAGNOSE_INFO,
-	IW_PRIV_TYPE_CHAR | 1024, IW_PRIV_TYPE_CHAR | IW_PRIV_SIZE_MASK, "diaginfo"},
-/* --- sub-ioctls relations --- */
-
-#ifdef DBG
-{ RTPRIV_IOCTL_BBP,
-  IW_PRIV_TYPE_CHAR | IW_PRIV_SIZE_MASK, IW_PRIV_TYPE_CHAR | IW_PRIV_SIZE_MASK,
-  "bbp"},
-{ RTPRIV_IOCTL_MAC,
-  IW_PRIV_TYPE_CHAR | 1024, IW_PRIV_TYPE_CHAR | 1024,
-  "mac"},
-#ifdef RTMP_RF_RW_SUPPORT
-{ RTPRIV_IOCTL_RF,
-  IW_PRIV_TYPE_CHAR | IW_PRIV_SIZE_MASK, IW_PRIV_TYPE_CHAR | IW_PRIV_SIZE_MASK,
-  "rf"},
-#endif /* RTMP_RF_RW_SUPPORT */
-{ RTPRIV_IOCTL_E2P,
-  IW_PRIV_TYPE_CHAR | 1024, IW_PRIV_TYPE_CHAR | 1024,
-  "e2p"},
-#endif  /* DBG */
-
-{ RTPRIV_IOCTL_STATISTICS,
-  0, IW_PRIV_TYPE_CHAR | IW_PRIV_SIZE_MASK,
-  "stat"},
-{ RTPRIV_IOCTL_GSITESURVEY,
-  0, IW_PRIV_TYPE_CHAR | 1024,
-  "get_site_survey"},
-
-};
-
-
-
 /*
 This is required for LinEX2004/kernel2.6.7 to provide iwlist scanning function
 */
@@ -2246,51 +2180,11 @@ static const iw_handler rt_handler[] =
 #endif
 };
 
-static const iw_handler rt_priv_handlers[] = {
-	(iw_handler) NULL, /* + 0x00 */
-	(iw_handler) NULL, /* + 0x01 */
-#ifndef CONFIG_AP_SUPPORT
-	(iw_handler) rt_ioctl_setparam, /* + 0x02 */
-#else
-	(iw_handler) NULL, /* + 0x02 */
-#endif /* CONFIG_AP_SUPPORT */
-#ifdef DBG
-	(iw_handler) rt_private_ioctl_bbp, /* + 0x03 */
-#else
-	(iw_handler) NULL, /* + 0x03 */
-#endif
-	(iw_handler) NULL, /* + 0x04 */
-	(iw_handler) NULL, /* + 0x05 */
-	(iw_handler) NULL, /* + 0x06 */
-	(iw_handler) NULL, /* + 0x07 */
-	(iw_handler) NULL, /* + 0x08 */
-	(iw_handler) rt_private_get_statistics, /* + 0x09 */
-	(iw_handler) NULL, /* + 0x0A */
-	(iw_handler) NULL, /* + 0x0B */
-	(iw_handler) NULL, /* + 0x0C */
-	(iw_handler) NULL, /* + 0x0D */
-	(iw_handler) NULL, /* + 0x0E */
-	(iw_handler) NULL, /* + 0x0F */
-	(iw_handler) NULL, /* + 0x10 */
-	(iw_handler) rt_private_show, /* + 0x11 */
-    (iw_handler) NULL, /* + 0x12 */
-	(iw_handler) NULL, /* + 0x13 */
-    (iw_handler) NULL, /* + 0x14 */
-	(iw_handler) NULL, /* + 0x15 */
-    (iw_handler) NULL, /* + 0x16 */
-	(iw_handler) NULL, /* + 0x17 */
-	(iw_handler) NULL, /* + 0x18 */
-};
-
 const struct iw_handler_def rt28xx_iw_handler_def =
 {
 #define	N(a)	(sizeof (a) / sizeof (a[0]))
 	.standard	= (iw_handler *) rt_handler,
 	.num_standard	= sizeof(rt_handler) / sizeof(iw_handler),
-	.private	= (iw_handler *) rt_priv_handlers,
-	.num_private		= N(rt_priv_handlers),
-	.private_args	= (struct iw_priv_args *) privtab,
-	.num_private_args	= N(privtab),
 #if IW_HANDLER_VERSION >= 7
     .get_wireless_stats = rt28xx_get_wireless_stats,
 #endif
@@ -2506,21 +2400,6 @@ INT rt28xx_sta_ioctl(struct net_device *net_dev, struct ifreq *rq, INT cmd)
 
 			Status = RTMP_STA_IoctlHandle(pAd, wrq, CMD_RT_PRIV_IOCTL, subcmd,
 										NULL, 0, RT_DEV_PRIV_FLAGS_GET(net_dev));
-			break;
-		case SIOCGIWPRIV:
-			if (wrqin->u.data.pointer)
-			{
-				if ( access_ok(VERIFY_WRITE, wrqin->u.data.pointer, sizeof(privtab)) != TRUE)
-					break;
-				if ((sizeof(privtab) / sizeof(privtab[0])) <= wrq->u.data.length)
-				{
-					wrqin->u.data.length = sizeof(privtab) / sizeof(privtab[0]);
-					if (copy_to_user(wrqin->u.data.pointer, privtab, sizeof(privtab)))
-						Status = -EFAULT;
-				}
-				else
-					Status = -E2BIG;
-			}
 			break;
 		case RTPRIV_IOCTL_SET:
 			if(access_ok(VERIFY_READ, wrqin->u.data.pointer, wrqin->u.data.length) != TRUE)
