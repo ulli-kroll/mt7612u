@@ -1179,46 +1179,6 @@ endif
 
 #chip releated
 
-
-#ifdef MT76x2
-ifneq ($(or $(findstring mt7662e,$(CHIPSET)),$(findstring mt7612e,$(CHIPSET))),)
-$(MOD_NAME)-objs += \
-                common/cmm_mac_pci.o\
-                common/cmm_data_pci.o\
-                os/linux/rt_rbus_pci_drv.o\
-				common/ee_efuse.o\
-                common/ee_prom.o\
-				chips/rt65xx.o\
-                chips/mt76x2.o\
-				mac/ral_nmac.o\
-				mcu/mcu.o\
-				mcu/mcu_and.o\
-				phy/rt_rf.o\
-				phy/mt_rf.o
-
-ifeq ($(HAS_RTMP_FLASH_SUPPORT),y)
-$(MOD_NAME)-objs += \
-        common/ee_flash.o
-endif
-
-ifeq ($(HAS_ATE),y)
-$(MOD_NAME)-objs += \
-        ate/chips/mt76x2_ate.o\
-        ate/common/ate_pci.o
-endif
-
-$(MOD_NAME)-objs += \
-                os/linux/rt_pci_rbus.o\
-                os/linux/rt_rbus_pci_util.o\
-                os/linux/pci_main_dev.o
-
-ifneq ($(findstring $(RT28xx_MODE),STA APSTA),)
-$(MOD_NAME)-objs += \
-        common/frq_cal.o
-endif
-
-endif
-
 ifneq ($(or $(findstring mt7662u,$(CHIPSET)),$(findstring mt7612u,$(CHIPSET))),)
 $(MOD_NAME)-objs += \
 	common/cmm_mac_usb.o\
