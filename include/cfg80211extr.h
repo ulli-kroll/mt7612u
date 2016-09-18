@@ -377,9 +377,14 @@ BOOLEAN CFG80211_P2pHandleNoAAttri(
 	IN PRTMP_ADAPTER pAd, 
 	IN PMAC_TABLE_ENTRY	pMacClient,
 	IN PUCHAR pData);
+	
+#endif /* RT_CFG80211_P2P_SUPPORT */
+	
+#ifdef CONFIG_AP_SUPPORT
+
 VOID CFG80211_ParseBeaconIE(RTMP_ADAPTER *pAd, MULTISSID_STRUCT *pMbss, struct wifi_dev *wdev,UCHAR *wpa_ie,UCHAR *rsn_ie);
 
-#endif /* RT_CFG80211_P2P_SUPPORT */
+#endif
 
 //--------------------------------
 VOID CFG80211_Convert802_3Packet(RTMP_ADAPTER *pAd, RX_BLK *pRxBlk, UCHAR *pHeader802_3);
