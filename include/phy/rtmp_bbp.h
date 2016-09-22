@@ -485,13 +485,13 @@ typedef union _BBP_R182_STRUC {
 
 struct _RMTP_ADAPTER;
 
-INT rtmp_phy_probe(struct _RTMP_ADAPTER *pAd);
+INT rtmp_phy_probe(struct rtmp_adapter *pAd);
 
-VOID RTMP_BBP_IO_READ8(struct _RTMP_ADAPTER *pAd, UCHAR Offset, UINT8 *pVal, BOOLEAN FlgValidMCR);
-VOID RTMP_BBP_IO_WRITE8(struct _RTMP_ADAPTER *pAd, UCHAR Offset, UINT8 Val, BOOLEAN FlgValidMCR);
+VOID RTMP_BBP_IO_READ8(struct rtmp_adapter *pAd, UCHAR Offset, UINT8 *pVal, BOOLEAN FlgValidMCR);
+VOID RTMP_BBP_IO_WRITE8(struct rtmp_adapter *pAd, UCHAR Offset, UINT8 Val, BOOLEAN FlgValidMCR);
 
-NTSTATUS RTMP_BBP_IO_READ8_BY_REG_ID(struct _RTMP_ADAPTER *pAd, UINT32 Offset, UINT8 *pVal);
-NTSTATUS RTMP_BBP_IO_WRITE8_BY_REG_ID(struct _RTMP_ADAPTER *pAd, UINT32 Offset, UINT8 Val);
+NTSTATUS RTMP_BBP_IO_READ8_BY_REG_ID(struct rtmp_adapter *pAd, UINT32 Offset, UINT8 *pVal);
+NTSTATUS RTMP_BBP_IO_WRITE8_BY_REG_ID(struct rtmp_adapter *pAd, UINT32 Offset, UINT8 Val);
 
 #endif /* __RTMP_BBP_H__ */
 

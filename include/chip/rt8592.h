@@ -26,7 +26,7 @@
 #ifndef __RT8592_H__
 #define __RT8592_H__
 
-struct _RTMP_ADAPTER;
+struct rtmp_adapter;
 
 
 /*
@@ -46,21 +46,21 @@ typedef struct _RT8592_FREQ_ITEM {
 
 
 #ifdef RT8592
-VOID RT85592_Init(struct _RTMP_ADAPTER *pAd);
-INT RT85592_DisableTxRx(struct _RTMP_ADAPTER *pAd, UCHAR Level);
-VOID RT85592ReadTxPwrPerRate(struct _RTMP_ADAPTER *pAd);
-INT RT85592_ReadChannelPwr(struct _RTMP_ADAPTER *pAd);
+VOID RT85592_Init(struct rtmp_adapter *pAd);
+INT RT85592_DisableTxRx(struct rtmp_adapter *pAd, UCHAR Level);
+VOID RT85592ReadTxPwrPerRate(struct rtmp_adapter *pAd);
+INT RT85592_ReadChannelPwr(struct rtmp_adapter *pAd);
 
 
 #ifdef RTMP_TEMPERATURE_COMPENSATION
-INT rx_temp_compensation(struct _RTMP_ADAPTER *pAd);
+INT rx_temp_compensation(struct rtmp_adapter *pAd);
 #endif /* RTMP_TEMPERATURE_COMPENSATION */
 
-INT bw_filter_cal(struct _RTMP_ADAPTER *pAd);
+INT bw_filter_cal(struct rtmp_adapter *pAd);
 
-INT rt85592_lna_gain_adjust(struct _RTMP_ADAPTER *pAd, CHAR gain);
+INT rt85592_lna_gain_adjust(struct rtmp_adapter *pAd, CHAR gain);
 #ifndef WFA_VHT_PF
-INT rt85592_cca_adjust(struct _RTMP_ADAPTER *pAd);
+INT rt85592_cca_adjust(struct rtmp_adapter *pAd);
 #endif /* WFA_VHT_PF */
 
 #endif /* RT8592 */

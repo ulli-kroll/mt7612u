@@ -333,8 +333,8 @@
 #define RTMP_BBP_IO_WRITE32(_p, _i, _v)	RTMP_IO_WRITE32(_p, _i, _v)
 
 
-struct _RTMP_ADAPTER;
-INT rlt_phy_probe(struct _RTMP_ADAPTER *pAd);
+struct rtmp_adapter;
+INT rlt_phy_probe(struct rtmp_adapter *pAd);
 
 #endif /* __RLT_BBP_H__ */
 

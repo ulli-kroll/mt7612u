@@ -84,7 +84,7 @@ struct _MGMT_STRUC;
 struct _TX_BLK;
 
 NTSTATUS RTUSB_VendorRequest(
-	IN	struct _RTMP_ADAPTER *pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	UINT32 TxFlags,
 	IN	UCHAR ReservedBits,
 	IN	UCHAR Request,
@@ -93,77 +93,77 @@ NTSTATUS RTUSB_VendorRequest(
 	IN	PVOID txbuf,
 	IN	UINT32 txbuf_len);
 
-NTSTATUS RTUSBMultiRead(struct _RTMP_ADAPTER *pAd, USHORT Offset, UCHAR *buf, USHORT len);
-NTSTATUS RTUSBMultiWrite(struct _RTMP_ADAPTER *pAd, USHORT Offset, UCHAR *buf, USHORT len, BOOLEAN bWriteHigh);
-NTSTATUS RTUSBMultiWrite_nBytes(struct _RTMP_ADAPTER *pAd, USHORT Offset, UCHAR *buf, USHORT len, USHORT batchLen);
-NTSTATUS RTUSBMultiWrite_OneByte(struct _RTMP_ADAPTER *pAd, USHORT Offset, UCHAR *pData);
-NTSTATUS RTUSBSingleWrite(struct _RTMP_ADAPTER *pAd, USHORT Offset, USHORT val, BOOLEAN bWriteHigh);
+NTSTATUS RTUSBMultiRead(struct rtmp_adapter *pAd, USHORT Offset, UCHAR *buf, USHORT len);
+NTSTATUS RTUSBMultiWrite(struct rtmp_adapter *pAd, USHORT Offset, UCHAR *buf, USHORT len, BOOLEAN bWriteHigh);
+NTSTATUS RTUSBMultiWrite_nBytes(struct rtmp_adapter *pAd, USHORT Offset, UCHAR *buf, USHORT len, USHORT batchLen);
+NTSTATUS RTUSBMultiWrite_OneByte(struct rtmp_adapter *pAd, USHORT Offset, UCHAR *pData);
+NTSTATUS RTUSBSingleWrite(struct rtmp_adapter *pAd, USHORT Offset, USHORT val, BOOLEAN bWriteHigh);
 
-NTSTATUS RTUSBReadBBPRegister(struct _RTMP_ADAPTER *pAd, UCHAR Id, UCHAR *pValue);
-NTSTATUS RTUSBWriteBBPRegister(struct _RTMP_ADAPTER *pAd, UCHAR Id, UCHAR Value);
-NTSTATUS RTUSBWriteRFRegister(struct _RTMP_ADAPTER *pAd, UINT32 Value);
-NTSTATUS RTUSBWriteMACRegister(struct _RTMP_ADAPTER *pAd, USHORT Offset, UINT32 val, BOOLEAN bWriteHigh);
-NTSTATUS RTUSBReadMACRegister(struct _RTMP_ADAPTER *pAd, USHORT Offset, UINT32 *val);
+NTSTATUS RTUSBReadBBPRegister(struct rtmp_adapter *pAd, UCHAR Id, UCHAR *pValue);
+NTSTATUS RTUSBWriteBBPRegister(struct rtmp_adapter *pAd, UCHAR Id, UCHAR Value);
+NTSTATUS RTUSBWriteRFRegister(struct rtmp_adapter *pAd, UINT32 Value);
+NTSTATUS RTUSBWriteMACRegister(struct rtmp_adapter *pAd, USHORT Offset, UINT32 val, BOOLEAN bWriteHigh);
+NTSTATUS RTUSBReadMACRegister(struct rtmp_adapter *pAd, USHORT Offset, UINT32 *val);
 
-NTSTATUS RTUSBReadEEPROM(struct _RTMP_ADAPTER *pAd, USHORT Offset, UCHAR *buf, USHORT len);
-NTSTATUS RTUSBWriteEEPROM(struct _RTMP_ADAPTER *pAd, USHORT Offset, UCHAR *buf, USHORT len);
+NTSTATUS RTUSBReadEEPROM(struct rtmp_adapter *pAd, USHORT Offset, UCHAR *buf, USHORT len);
+NTSTATUS RTUSBWriteEEPROM(struct rtmp_adapter *pAd, USHORT Offset, UCHAR *buf, USHORT len);
 
-NTSTATUS RTUSBFirmwareWrite(struct _RTMP_ADAPTER *pAd, UCHAR *pFwImage, ULONG FwLen);
+NTSTATUS RTUSBFirmwareWrite(struct rtmp_adapter *pAd, UCHAR *pFwImage, ULONG FwLen);
 
-NTSTATUS RTUSBVenderReset(struct _RTMP_ADAPTER *pAd);
+NTSTATUS RTUSBVenderReset(struct rtmp_adapter *pAd);
 
-BOOLEAN AsicCheckCommandOk(struct _RTMP_ADAPTER *pAd, UCHAR cmd);
+BOOLEAN AsicCheckCommandOk(struct rtmp_adapter *pAd, UCHAR cmd);
 
 
-NDIS_STATUS	RTUSBEnqueueCmdFromNdis(struct _RTMP_ADAPTER *pAd, NDIS_OID Oid, BOOLEAN SetInfo, PVOID pInfoBuf, UINT32 BufLen);
+NDIS_STATUS	RTUSBEnqueueCmdFromNdis(struct rtmp_adapter *pAd, NDIS_OID Oid, BOOLEAN SetInfo, PVOID pInfoBuf, UINT32 BufLen);
 VOID RTUSBDequeueCmd(PCmdQ cmdq, PCmdQElmt *pcmdqelmt);
 INT RTUSBCmdThread(ULONG Context);
 
 
-VOID RTUSBBssBeaconExit(struct _RTMP_ADAPTER *pAd);
-VOID RTUSBBssBeaconStop(struct _RTMP_ADAPTER *pAd);
-VOID RTUSBBssBeaconStart(struct _RTMP_ADAPTER * pAd);
-VOID RTUSBBssBeaconInit(struct _RTMP_ADAPTER *pAd);
+VOID RTUSBBssBeaconExit(struct rtmp_adapter *pAd);
+VOID RTUSBBssBeaconStop(struct rtmp_adapter *pAd);
+VOID RTUSBBssBeaconStart(struct rtmp_adapter * pAd);
+VOID RTUSBBssBeaconInit(struct rtmp_adapter *pAd);
 
 
-NDIS_STATUS RTUSBSetHardWareRegister(struct _RTMP_ADAPTER *pAd, PVOID pBuf);
-NDIS_STATUS	RTUSBWriteHWMACAddress(struct _RTMP_ADAPTER *pAd);
-NDIS_STATUS RTUSBQueryHardWareRegister(struct _RTMP_ADAPTER *pAd, PVOID pBuf);
+NDIS_STATUS RTUSBSetHardWareRegister(struct rtmp_adapter *pAd, PVOID pBuf);
+NDIS_STATUS	RTUSBWriteHWMACAddress(struct rtmp_adapter *pAd);
+NDIS_STATUS RTUSBQueryHardWareRegister(struct rtmp_adapter *pAd, PVOID pBuf);
 
-VOID RTUSBMlmeHardTransmit(struct _RTMP_ADAPTER *pAd, struct _MGMT_STRUC *pMgmt);
+VOID RTUSBMlmeHardTransmit(struct rtmp_adapter *pAd, struct _MGMT_STRUC *pMgmt);
 
-NDIS_STATUS	RTUSBFreeDescRequest(struct _RTMP_ADAPTER *pAd, UCHAR BulkOutPipeId, UINT32 req_cnt);
-BOOLEAN	RTUSBNeedQueueBackForAgg(struct _RTMP_ADAPTER *pAd, UCHAR BulkOutPipeId);
+NDIS_STATUS	RTUSBFreeDescRequest(struct rtmp_adapter *pAd, UCHAR BulkOutPipeId, UINT32 req_cnt);
+BOOLEAN	RTUSBNeedQueueBackForAgg(struct rtmp_adapter *pAd, UCHAR BulkOutPipeId);
 
-USHORT RtmpUSB_WriteSubTxResource(struct _RTMP_ADAPTER *pAd, struct _TX_BLK *pTxBlk, BOOLEAN bIsLast, USHORT *freeCnt);
-USHORT RtmpUSB_WriteSingleTxResource(struct _RTMP_ADAPTER *pAd, struct _TX_BLK *pTxBlk, BOOLEAN bIsLast, USHORT *freeCnt);
-USHORT RtmpUSB_WriteFragTxResource(struct _RTMP_ADAPTER *pAd, struct _TX_BLK *pTxBlk, UCHAR fragNum, USHORT *freeCnt);
-USHORT RtmpUSB_WriteMultiTxResource(struct _RTMP_ADAPTER *pAd, struct _TX_BLK *pTxBlk, UCHAR frmNum, USHORT *freeCnt);
-VOID RtmpUSB_FinalWriteTxResource(struct _RTMP_ADAPTER *pAd, struct _TX_BLK *pTxBlk, USHORT mpdu_len, USHORT TxIdx);
+USHORT RtmpUSB_WriteSubTxResource(struct rtmp_adapter *pAd, struct _TX_BLK *pTxBlk, BOOLEAN bIsLast, USHORT *freeCnt);
+USHORT RtmpUSB_WriteSingleTxResource(struct rtmp_adapter *pAd, struct _TX_BLK *pTxBlk, BOOLEAN bIsLast, USHORT *freeCnt);
+USHORT RtmpUSB_WriteFragTxResource(struct rtmp_adapter *pAd, struct _TX_BLK *pTxBlk, UCHAR fragNum, USHORT *freeCnt);
+USHORT RtmpUSB_WriteMultiTxResource(struct rtmp_adapter *pAd, struct _TX_BLK *pTxBlk, UCHAR frmNum, USHORT *freeCnt);
+VOID RtmpUSB_FinalWriteTxResource(struct rtmp_adapter *pAd, struct _TX_BLK *pTxBlk, USHORT mpdu_len, USHORT TxIdx);
 
-VOID RtmpUSBDataLastTxIdx(struct _RTMP_ADAPTER *pAd, UCHAR QueIdx, USHORT TxIdx);
-VOID RtmpUSBDataKickOut(struct _RTMP_ADAPTER *pAd, struct _TX_BLK *pTxBlk, UCHAR QueIdx);
-int RtmpUSBMgmtKickOut(struct _RTMP_ADAPTER *pAd, UCHAR QIdx, PNDIS_PACKET pkt, UCHAR *pSrcBufVA, UINT SrcBufLen);
-VOID RtmpUSBNullFrameKickOut(struct _RTMP_ADAPTER *pAd, UCHAR QIdx, UCHAR *pNullFrm, UINT32 frmLen);
+VOID RtmpUSBDataLastTxIdx(struct rtmp_adapter *pAd, UCHAR QueIdx, USHORT TxIdx);
+VOID RtmpUSBDataKickOut(struct rtmp_adapter *pAd, struct _TX_BLK *pTxBlk, UCHAR QueIdx);
+int RtmpUSBMgmtKickOut(struct rtmp_adapter *pAd, UCHAR QIdx, PNDIS_PACKET pkt, UCHAR *pSrcBufVA, UINT SrcBufLen);
+VOID RtmpUSBNullFrameKickOut(struct rtmp_adapter *pAd, UCHAR QIdx, UCHAR *pNullFrm, UINT32 frmLen);
 
-VOID RTUSBWatchDog(struct _RTMP_ADAPTER *pAd);
+VOID RTUSBWatchDog(struct rtmp_adapter *pAd);
 
-VOID RTUSBPutToSleep(struct _RTMP_ADAPTER *pAd);
-NTSTATUS RTUSBWakeUp(struct _RTMP_ADAPTER *pAd);
+VOID RTUSBPutToSleep(struct rtmp_adapter *pAd);
+NTSTATUS RTUSBWakeUp(struct rtmp_adapter *pAd);
 
 VOID RtmpUsbStaAsicForceWakeupTimeout(PVOID arg1, PVOID FuncContext, PVOID arg2, PVOID arg3);
 
-VOID RT28xxUsbStaAsicForceWakeup(struct _RTMP_ADAPTER *pAd, BOOLEAN bFromTx);
+VOID RT28xxUsbStaAsicForceWakeup(struct rtmp_adapter *pAd, BOOLEAN bFromTx);
 
-VOID RT28xxUsbStaAsicSleepThenAutoWakeup(struct _RTMP_ADAPTER *pAd, USHORT TbttNumToNextWakeUp);
+VOID RT28xxUsbStaAsicSleepThenAutoWakeup(struct rtmp_adapter *pAd, USHORT TbttNumToNextWakeUp);
 
-VOID RT28xxUsbMlmeRadioOn(struct _RTMP_ADAPTER *pAd);
-VOID RT28xxUsbMlmeRadioOFF(struct _RTMP_ADAPTER *pAd);
-VOID RT28xxUsbAsicRadioOn(struct _RTMP_ADAPTER *pAd);
-VOID RT28xxUsbAsicRadioOff(struct _RTMP_ADAPTER *pAd);
+VOID RT28xxUsbMlmeRadioOn(struct rtmp_adapter *pAd);
+VOID RT28xxUsbMlmeRadioOFF(struct rtmp_adapter *pAd);
+VOID RT28xxUsbAsicRadioOn(struct rtmp_adapter *pAd);
+VOID RT28xxUsbAsicRadioOff(struct rtmp_adapter *pAd);
 
-VOID RT28xxUsbAsicWOWEnable(struct _RTMP_ADAPTER *pAd);
-VOID RT28xxUsbAsicWOWDisable(struct _RTMP_ADAPTER *pAd);
+VOID RT28xxUsbAsicWOWEnable(struct rtmp_adapter *pAd);
+VOID RT28xxUsbAsicWOWDisable(struct rtmp_adapter *pAd);
 
 struct usb_control {
 	BOOLEAN usb_aggregation;

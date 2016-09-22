@@ -25,7 +25,7 @@
 #include "mt76x2.h"
 #endif /* MT76x2 */
 
-struct _RTMP_ADAPTER;
+struct rtmp_adapter;
 
 /* b'00: 2.4G+5G external PA, b'01: 5G external PA, b'10: 2.4G external PA, b'11: Internal PA */
 #define EXT_PA_2G_5G		0x0
@@ -39,8 +39,8 @@ struct _RTMP_ADAPTER;
 #define MAX_CHECK_COUNT 200
 
 #ifdef RTMP_USB_SUPPORT
-VOID RT65xxUsbAsicRadioOn(struct _RTMP_ADAPTER *pAd, UCHAR Stage);
-VOID RT65xxUsbAsicRadioOff(struct _RTMP_ADAPTER *pAd, UCHAR Stage);
+VOID RT65xxUsbAsicRadioOn(struct rtmp_adapter *pAd, UCHAR Stage);
+VOID RT65xxUsbAsicRadioOff(struct rtmp_adapter *pAd, UCHAR Stage);
 #endif
 
 /*
@@ -79,11 +79,11 @@ typedef union _EEPROM_NIC_CINFIG0_STRUC {
 } EEPROM_NIC_CONFIG0_STRUC, *PEEPROM_NIC_CONFIG0_STRUC;
 #endif
 
-VOID RT65xxDisableTxRx(struct _RTMP_ADAPTER *pAd, UCHAR Level);
-void MT76xx_PciMlmeRadioOFF(struct _RTMP_ADAPTER *pAd);
-void MT76xx_PciMlmeRadioOn(struct _RTMP_ADAPTER *pAd);
-VOID dump_bw_info(struct _RTMP_ADAPTER *pAd);
-VOID dump_pwr_info(struct _RTMP_ADAPTER *pAd);
+VOID RT65xxDisableTxRx(struct rtmp_adapter *pAd, UCHAR Level);
+void MT76xx_PciMlmeRadioOFF(struct rtmp_adapter *pAd);
+void MT76xx_PciMlmeRadioOn(struct rtmp_adapter *pAd);
+VOID dump_bw_info(struct rtmp_adapter *pAd);
+VOID dump_pwr_info(struct rtmp_adapter *pAd);
 
 #endif /* __MT65XX_H__ */
 

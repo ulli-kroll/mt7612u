@@ -2610,23 +2610,23 @@ typedef	union _QOS_CSR1_STRUC {
 
 
 
-struct _RTMP_ADAPTER;
+struct rtmp_adapter;
 
-INT get_pkt_phymode_by_rxwi(struct _RTMP_ADAPTER *pAd, RXWI_STRUC *rxwi);
-INT get_pkt_rssi_by_rxwi(struct _RTMP_ADAPTER *pAd, RXWI_STRUC *rxwi, INT size, CHAR *rssi);
-INT get_pkt_snr_by_rxwi(struct _RTMP_ADAPTER *pAd, RXWI_STRUC *rxwi, INT size, UCHAR *snr);
+INT get_pkt_phymode_by_rxwi(struct rtmp_adapter *pAd, RXWI_STRUC *rxwi);
+INT get_pkt_rssi_by_rxwi(struct rtmp_adapter *pAd, RXWI_STRUC *rxwi, INT size, CHAR *rssi);
+INT get_pkt_snr_by_rxwi(struct rtmp_adapter *pAd, RXWI_STRUC *rxwi, INT size, UCHAR *snr);
 
-INT rtmp_mac_set_band(struct _RTMP_ADAPTER *pAd, int  band);
-INT rtmp_mac_set_ctrlch(struct _RTMP_ADAPTER *pAd, UINT8 extch);
-INT rtmp_mac_set_mmps(struct  _RTMP_ADAPTER *pAd, INT ReduceCorePower);
+INT rtmp_mac_set_band(struct rtmp_adapter *pAd, int  band);
+INT rtmp_mac_set_ctrlch(struct rtmp_adapter *pAd, UINT8 extch);
+INT rtmp_mac_set_mmps(struct  rtmp_adapter *pAd, INT ReduceCorePower);
 
-VOID rtmp_mac_bcn_buf_init(struct _RTMP_ADAPTER *pAd);
+VOID rtmp_mac_bcn_buf_init(struct rtmp_adapter *pAd);
 
-INT rtmp_mac_init(struct _RTMP_ADAPTER *pAd);
+INT rtmp_mac_init(struct rtmp_adapter *pAd);
 
 #ifdef MCS_LUT_SUPPORT
 INT set_lut_phy_rate(
-		struct _RTMP_ADAPTER *pAd, UINT8 wcid,
+		struct rtmp_adapter *pAd, UINT8 wcid,
 		UINT8 mcs, UINT8 bw, 	UINT8 gi,
 		UINT8 stbc, UINT8 mode);
 #endif /* MCS_LUT_SUPPORT */

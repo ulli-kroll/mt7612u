@@ -30,7 +30,7 @@
 #define	__ACTION_H__
 
 
-struct _RTMP_ADAPTER;
+struct rtmp_adapter;
 
 
 

@@ -54,12 +54,12 @@ enum LOAD_CODE_METHOD {
 	BIN_FILE_METHOD,
 };
 
-struct _RTMP_ADAPTER;
+struct rtmp_adapter;
 
-VOID ChipOpsMCUHook(struct _RTMP_ADAPTER *pAd, enum MCU_TYPE MCUType);
-VOID MCUCtrlInit(struct _RTMP_ADAPTER *pAd);
-VOID MCUCtrlExit(struct _RTMP_ADAPTER *pAd);
+VOID ChipOpsMCUHook(struct rtmp_adapter *pAd, enum MCU_TYPE MCUType);
+VOID MCUCtrlInit(struct rtmp_adapter *pAd);
+VOID MCUCtrlExit(struct rtmp_adapter *pAd);
 
-INT mcu_sys_init(struct _RTMP_ADAPTER *pAd);
+INT mcu_sys_init(struct rtmp_adapter *pAd);
 
 #endif

@@ -40,7 +40,7 @@ extern UCHAR MT76x0_BPP_SWITCH_Tab_Size;
 extern VOID SelectBandMT76x0(PRTMP_ADAPTER pAd, UCHAR Channel);
 extern VOID SetRfChFreqParametersMT76x0(PRTMP_ADAPTER pAd, UCHAR Channel);
 
-static INT ate_bbp_set_ctrlch(struct _RTMP_ADAPTER *pAd, INT ext_ch)
+static INT ate_bbp_set_ctrlch(struct rtmp_adapter *pAd, INT ext_ch)
 {
 /*	PATE_INFO pATEInfo = &(pAd->ate); */
 	UINT32 agc, agc_r0 = 0;

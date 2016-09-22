@@ -59,7 +59,7 @@ NDIS_STATUS NICInitBBP(RTMP_ADAPTER *pAd)
 }
 
 
-INT bbp_get_temp(struct _RTMP_ADAPTER *pAd, CHAR *temp_val)
+INT bbp_get_temp(struct rtmp_adapter *pAd, CHAR *temp_val)
 {
 	if (pAd->phy_op && pAd->phy_op->bbp_get_temp)
 		return pAd->phy_op->bbp_get_temp(pAd, temp_val);
@@ -77,7 +77,7 @@ INT bbp_tx_comp_init(RTMP_ADAPTER *pAd, INT adc_insel, INT tssi_mode)
 }
 
 
-INT bbp_set_txdac(struct _RTMP_ADAPTER *pAd, INT tx_dac)
+INT bbp_set_txdac(struct rtmp_adapter *pAd, INT tx_dac)
 {
 	if (pAd->phy_op && pAd->phy_op->bbp_set_txdac)
 		return pAd->phy_op->bbp_set_txdac(pAd, tx_dac);
@@ -86,7 +86,7 @@ INT bbp_set_txdac(struct _RTMP_ADAPTER *pAd, INT tx_dac)
 }
 
 
-INT bbp_set_rxpath(struct _RTMP_ADAPTER *pAd, INT rxpath)
+INT bbp_set_rxpath(struct rtmp_adapter *pAd, INT rxpath)
 {
 
 //DBGPRINT(RT_DEBUG_OFF, ("%s(): rxpath=%d, Set AGC1_R0=0x%x, agc_r0=0x%x\n", __FUNCTION__, rxpath, agc, agc_r0));
@@ -100,7 +100,7 @@ INT bbp_set_rxpath(struct _RTMP_ADAPTER *pAd, INT rxpath)
 }
 
 
-INT bbp_set_ctrlch(struct _RTMP_ADAPTER *pAd, UINT8 ext_ch)
+INT bbp_set_ctrlch(struct rtmp_adapter *pAd, UINT8 ext_ch)
 {
 	if (pAd->phy_op && pAd->phy_op->bbp_set_ctrlch)
 		return pAd->phy_op->bbp_set_ctrlch(pAd, ext_ch);
@@ -109,7 +109,7 @@ INT bbp_set_ctrlch(struct _RTMP_ADAPTER *pAd, UINT8 ext_ch)
 }
 
 
-INT bbp_set_bw(struct _RTMP_ADAPTER *pAd, UINT8 bw)
+INT bbp_set_bw(struct rtmp_adapter *pAd, UINT8 bw)
 {
 	INT result = FALSE;
 
@@ -126,7 +126,7 @@ INT bbp_set_bw(struct _RTMP_ADAPTER *pAd, UINT8 bw)
 }
 
 
-INT bbp_set_mmps(struct _RTMP_ADAPTER *pAd, BOOLEAN ReduceCorePower)
+INT bbp_set_mmps(struct rtmp_adapter *pAd, BOOLEAN ReduceCorePower)
 {
 	if (pAd->phy_op && pAd->phy_op->bbp_set_mmps)
 		return pAd->phy_op->bbp_set_mmps(pAd, ReduceCorePower);
@@ -135,7 +135,7 @@ INT bbp_set_mmps(struct _RTMP_ADAPTER *pAd, BOOLEAN ReduceCorePower)
 }
 
 
-INT bbp_get_agc(struct _RTMP_ADAPTER *pAd, CHAR *agc, RX_CHAIN_IDX chain)
+INT bbp_get_agc(struct rtmp_adapter *pAd, CHAR *agc, RX_CHAIN_IDX chain)
 {
 	if (pAd->phy_op && pAd->phy_op->bbp_get_agc)
 		return pAd->phy_op->bbp_get_agc(pAd, agc, chain);
@@ -144,7 +144,7 @@ INT bbp_get_agc(struct _RTMP_ADAPTER *pAd, CHAR *agc, RX_CHAIN_IDX chain)
 }
 
 
-INT bbp_set_agc(struct _RTMP_ADAPTER *pAd, UCHAR agc, RX_CHAIN_IDX chain)
+INT bbp_set_agc(struct rtmp_adapter *pAd, UCHAR agc, RX_CHAIN_IDX chain)
 {
 	if (pAd->phy_op && pAd->phy_op->bbp_set_agc)
 		return pAd->phy_op->bbp_set_agc(pAd, agc, chain);
@@ -171,7 +171,7 @@ UCHAR get_random_seed_by_phy(RTMP_ADAPTER *pAd)
 }
 
 
-INT bbp_is_ready(struct _RTMP_ADAPTER *pAd)
+INT bbp_is_ready(struct rtmp_adapter *pAd)
 {
 	if (pAd->phy_op && pAd->phy_op->bbp_is_ready)
 		return pAd->phy_op->bbp_is_ready(pAd);

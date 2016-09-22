@@ -2987,7 +2987,7 @@ INT AsicSetPreTbttInt(RTMP_ADAPTER *pAd, BOOLEAN enable)
 }
 
 
-BOOLEAN AsicWaitPDMAIdle(struct _RTMP_ADAPTER *pAd, INT round, INT wait_us)
+BOOLEAN AsicWaitPDMAIdle(struct rtmp_adapter *pAd, INT round, INT wait_us)
 {
 	INT i = 0;
 	WPDMA_GLO_CFG_STRUC GloCfg;

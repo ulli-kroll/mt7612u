@@ -1109,28 +1109,28 @@ typedef union _RF_MISC_STRUC{
 #define RLT_WAPI_PN_TABLE_BASE		0xb800
 #define RLT_WAPI_PN_ENTRY_SIZE   		8
 
-struct _RTMP_ADAPTER;
+struct rtmp_adapter;
 struct _RXINFO_STRUC;
 union _TXINFO_STRUC;
 union _TXWI_STRUC;
 union _RXWI_STRUC;
 
-VOID dump_rlt_rxinfo(struct _RTMP_ADAPTER *pAd, struct _RXINFO_STRUC *pRxInfo);
-VOID dump_rlt_txinfo(struct _RTMP_ADAPTER *pAd, union _TXINFO_STRUC *pTxInfo);
-VOID dump_rlt_txwi(struct _RTMP_ADAPTER *pAd, union _TXWI_STRUC *pTxWI);
-VOID dump_rlt_rxwi(struct _RTMP_ADAPTER *pAd, union _RXWI_STRUC *pRxWI);
-VOID dumpRxFCEInfo(struct _RTMP_ADAPTER *pAd, RXFCE_INFO *pRxFceInfo);
+VOID dump_rlt_rxinfo(struct rtmp_adapter *pAd, struct _RXINFO_STRUC *pRxInfo);
+VOID dump_rlt_txinfo(struct rtmp_adapter *pAd, union _TXINFO_STRUC *pTxInfo);
+VOID dump_rlt_txwi(struct rtmp_adapter *pAd, union _TXWI_STRUC *pTxWI);
+VOID dump_rlt_rxwi(struct rtmp_adapter *pAd, union _RXWI_STRUC *pRxWI);
+VOID dumpRxFCEInfo(struct rtmp_adapter *pAd, RXFCE_INFO *pRxFceInfo);
 
 INT rlt_get_rxwi_phymode(union _RXWI_STRUC *rxwi);
 INT rlt_get_rxwi_rssi(union _RXWI_STRUC *rxwi, INT size, CHAR *rssi);
-INT rlt_get_rxwi_snr(struct _RTMP_ADAPTER *pAd, union _RXWI_STRUC *rxwi, INT size, UCHAR *snr);
-VOID rlt_asic_init_txrx_ring(struct _RTMP_ADAPTER *pAd);
+INT rlt_get_rxwi_snr(struct rtmp_adapter *pAd, union _RXWI_STRUC *rxwi, INT size, UCHAR *snr);
+VOID rlt_asic_init_txrx_ring(struct rtmp_adapter *pAd);
 
-INT rlt_wlan_chip_onoff(struct _RTMP_ADAPTER *pAd, BOOLEAN bOn, BOOLEAN bResetWLAN);
+INT rlt_wlan_chip_onoff(struct rtmp_adapter *pAd, BOOLEAN bOn, BOOLEAN bResetWLAN);
 
 #ifdef RTMP_MAC_USB
 VOID rlt_usb_write_txinfo(
-	IN struct _RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN union _TXINFO_STRUC *pTxInfo,
 	IN USHORT USBDMApktLen,
 	IN BOOLEAN bWiv,

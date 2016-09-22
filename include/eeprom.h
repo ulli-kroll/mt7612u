@@ -767,7 +767,7 @@ enum EEPROM_STORAGE_TYPE{
 #define BT_VCDL_CALIBRATION 0x13C
 #define BT_PMUCFG 0x13E
 
-struct _RTMP_ADAPTER;
+struct rtmp_adapter;
 
 
 
@@ -776,13 +776,13 @@ struct _RTMP_ADAPTER;
   *	Public function declarations for usb-based prom chipset
   ************************************************************************/
 NTSTATUS RTUSBReadEEPROM16(
-	IN struct _RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN	USHORT			offset,
 	OUT	PUSHORT			pData);
 
 
 NTSTATUS RTUSBWriteEEPROM16(
-	IN struct _RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN USHORT 			offset,
 	IN USHORT 			value);
 
@@ -794,24 +794,24 @@ NTSTATUS RTUSBWriteEEPROM16(
   *	Public function declarations for flash-based chipset
   ************************************************************************/
 NDIS_STATUS rtmp_nv_init(
-	IN struct _RTMP_ADAPTER *pAd);
+	IN struct rtmp_adapter *pAd);
 
 int rtmp_ee_flash_read(
-	IN struct _RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN USHORT 			Offset,
 	OUT USHORT 			*pValue);
 
 int rtmp_ee_flash_write(
-	IN struct _RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN USHORT 			Offset,
 	IN USHORT 			Data);
 
 VOID rtmp_ee_flash_read_all(
-	IN struct _RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN USHORT 			*Data);
 
 VOID rtmp_ee_flash_write_all(
-	IN struct _RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN USHORT 			*Data);
 
 #endif /* defined(RTMP_RBUS_SUPPORT) || defined(RTMP_FLASH_SUPPORT) */
@@ -822,56 +822,56 @@ VOID rtmp_ee_flash_write_all(
   *	Public function declarations for efuse-based chipset
   ************************************************************************/
 int rtmp_ee_efuse_read16(
-	IN struct _RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN USHORT 			Offset,
 	OUT USHORT 			*pValue);
 
 int rtmp_ee_efuse_write16(
-	IN struct _RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN USHORT 			Offset,
 	IN USHORT 			data);
 
 INT rtmp_ee_write_to_efuse(
-	IN struct _RTMP_ADAPTER *pAd);
+	IN struct rtmp_adapter *pAd);
 #endif /* RTMP_EFUSE_SUPPORT */
 
 /*************************************************************************
   *	Public function declarations for using BIN buffer mode to access eeprom contents
   ************************************************************************/
 INT rtmp_ee_bin_read16(
-	IN struct _RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN USHORT 			Offset,
 	OUT USHORT 			*pValue);
 
 INT rtmp_ee_bin_write16(
-	IN struct _RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN USHORT 			Offset,
 	IN USHORT 			data);
 
 INT rtmp_ee_load_from_bin(
-	IN struct _RTMP_ADAPTER *pAd);
+	IN struct rtmp_adapter *pAd);
 
 INT rtmp_ee_write_to_bin(
-	IN struct _RTMP_ADAPTER *pAd);
+	IN struct rtmp_adapter *pAd);
 
 #ifdef RT65xx
 INT rtmp_ee_write_to_prom(
-	IN struct _RTMP_ADAPTER *pAd);
+	IN struct rtmp_adapter *pAd);
 #endif /* RT65xx */
 
 INT Set_LoadEepromBufferFromBin_Proc(
-	IN struct _RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PSTRING			arg);
 
 INT Set_EepromBufferWriteBack_Proc(
-	IN struct _RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PSTRING			arg);
 
 
 /*************************************************************************
   *	Public function declarations for prom operation callback functions setting
   ************************************************************************/
-INT RtmpChipOpsEepromHook(struct _RTMP_ADAPTER *pAd, INT infType);
+INT RtmpChipOpsEepromHook(struct rtmp_adapter *pAd, INT infType);
 
-BOOLEAN rtmp_get_default_bin_file_by_chip(struct _RTMP_ADAPTER *pAd, UINT32 ChipVersion, PSTRING *pBinFileName);
+BOOLEAN rtmp_get_default_bin_file_by_chip(struct rtmp_adapter *pAd, UINT32 ChipVersion, PSTRING *pBinFileName);
 #endif /* __EEPROM_H__ */

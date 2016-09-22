@@ -1,7 +1,7 @@
 #ifndef __MT_RF_H__
 #define __MT_RF_H__
 
-struct _RTMP_ADAPTER;
+struct rtmp_adapter;
 
 enum {
 	CHL_GRP1 = 0x01,
@@ -124,13 +124,13 @@ typedef struct _CHL_GRP_RF_REG {
 } CHL_GRP_RF_REG, *PCHL_GRP_RF_REG;
 
 int mt_rf_write(
-	struct _RTMP_ADAPTER *ad,
+	struct rtmp_adapter *ad,
 	u8 rf_idx,
 	u16 offset,
 	u32 data);
 
 int mt_rf_read(
-	struct _RTMP_ADAPTER *ad,
+	struct rtmp_adapter *ad,
 	u8 rf_idx,
 	u16 offset,
 	u32 *data);

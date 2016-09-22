@@ -30,7 +30,7 @@
 
 #ifdef RLT_BBP
 
-static INT rlt_bbp_is_ready(struct _RTMP_ADAPTER *pAd)
+static INT rlt_bbp_is_ready(struct rtmp_adapter *pAd)
 {
 	INT idx = 0;
 	UINT32 val;
@@ -84,7 +84,7 @@ static INT rlt_bbp_init(RTMP_ADAPTER *pAd)
 }
 
 
-static INT rlt_bbp_get_temp(struct _RTMP_ADAPTER *pAd, CHAR *temp_val)
+static INT rlt_bbp_get_temp(struct rtmp_adapter *pAd, CHAR *temp_val)
 {
 #if defined(RTMP_INTERNAL_TX_ALC) || defined(RTMP_TEMPERATURE_COMPENSATION)
 	UINT32 bbp_val;
@@ -119,7 +119,7 @@ static INT rlt_bbp_tx_comp_init(RTMP_ADAPTER *pAd, INT adc_insel, INT tssi_mode)
 }
 
 
-static INT rlt_bbp_set_txdac(struct _RTMP_ADAPTER *pAd, INT tx_dac)
+static INT rlt_bbp_set_txdac(struct rtmp_adapter *pAd, INT tx_dac)
 {
 	UINT32 txbe, txbe_r5 = 0;
 
@@ -144,7 +144,7 @@ static INT rlt_bbp_set_txdac(struct _RTMP_ADAPTER *pAd, INT tx_dac)
 }
 
 
-static INT rlt_bbp_set_rxpath(struct _RTMP_ADAPTER *pAd, INT rxpath)
+static INT rlt_bbp_set_rxpath(struct rtmp_adapter *pAd, INT rxpath)
 {
 	UINT32 agc, agc_r0 = 0;
 
@@ -199,7 +199,7 @@ static UCHAR vht_prim_ch_val[] = {
 };
 
 
-static INT rlt_bbp_set_ctrlch(struct _RTMP_ADAPTER *pAd, UINT8 ext_ch)
+static INT rlt_bbp_set_ctrlch(struct rtmp_adapter *pAd, UINT8 ext_ch)
 {
 	UINT32 agc, agc_r0 = 0;
 	UINT32 be, be_r0 = 0;
@@ -302,7 +302,7 @@ static INT rlt_bbp_set_ctrlch(struct _RTMP_ADAPTER *pAd, UINT8 ext_ch)
 	4. Wait 0.5 us for BBP clocks to settle
 	5. Release BBP from reset by clearing CORE_R4[0]
 */
-static INT rlt_bbp_set_bw(struct _RTMP_ADAPTER *pAd, UINT8 bw)
+static INT rlt_bbp_set_bw(struct rtmp_adapter *pAd, UINT8 bw)
 {
 	UINT32 core, core_r1 = 0;
 	UINT32 agc, agc_r0 = 0;
@@ -376,7 +376,7 @@ static INT rlt_bbp_set_bw(struct _RTMP_ADAPTER *pAd, UINT8 bw)
 }
 
 
-static INT rlt_bbp_set_mmps(struct _RTMP_ADAPTER *pAd, BOOLEAN ReduceCorePower)
+static INT rlt_bbp_set_mmps(struct rtmp_adapter *pAd, BOOLEAN ReduceCorePower)
 {
 	UINT32 bbp_val, org_val;
 
@@ -394,7 +394,7 @@ static INT rlt_bbp_set_mmps(struct _RTMP_ADAPTER *pAd, BOOLEAN ReduceCorePower)
 }
 
 
-static INT rlt_bbp_get_agc(struct _RTMP_ADAPTER *pAd, CHAR *agc, RX_CHAIN_IDX chain)
+static INT rlt_bbp_get_agc(struct rtmp_adapter *pAd, CHAR *agc, RX_CHAIN_IDX chain)
 {
 	UCHAR idx, val;
 	UINT32 bbp_val, bbp_reg = AGC1_R8;
@@ -429,7 +429,7 @@ static INT rlt_bbp_get_agc(struct _RTMP_ADAPTER *pAd, CHAR *agc, RX_CHAIN_IDX ch
 }
 
 
-static INT rlt_bbp_set_agc(struct _RTMP_ADAPTER *pAd, UCHAR agc, RX_CHAIN_IDX chain)
+static INT rlt_bbp_set_agc(struct rtmp_adapter *pAd, UCHAR agc, RX_CHAIN_IDX chain)
 {
 	UCHAR idx = 0;
 	UINT32 bbp_val, bbp_reg = AGC1_R8;

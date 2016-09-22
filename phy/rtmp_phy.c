@@ -91,7 +91,7 @@ REG_PAIR   BBPRegTable[] = {
 #define	NUM_BBP_REG_PARMS	(sizeof(BBPRegTable) / sizeof(REG_PAIR))
 
 
-static INT rtmp_bbp_is_ready(struct _RTMP_ADAPTER *pAd)
+static INT rtmp_bbp_is_ready(struct rtmp_adapter *pAd)
 {
 	INT idx = 0;
 	UCHAR val;
@@ -174,7 +174,7 @@ static INT rtmp_bbp_init(RTMP_ADAPTER *pAd)
 }
 
 
-static INT rtmp_bbp_get_temp(struct _RTMP_ADAPTER *pAd, CHAR *temp_val)
+static INT rtmp_bbp_get_temp(struct rtmp_adapter *pAd, CHAR *temp_val)
 {
 #if defined(RTMP_INTERNAL_TX_ALC) || defined(RTMP_TEMPERATURE_COMPENSATION)
 	BBP_R49_STRUC bbp_val;
@@ -213,7 +213,7 @@ static INT rtmp_bbp_tx_comp_init(RTMP_ADAPTER *pAd, INT adc_insel, INT tssi_mode
 }
 
 
-static INT rtmp_bbp_set_txdac(struct _RTMP_ADAPTER *pAd, INT tx_dac)
+static INT rtmp_bbp_set_txdac(struct rtmp_adapter *pAd, INT tx_dac)
 {
 	UCHAR val, old_val = 0;
 
@@ -241,7 +241,7 @@ static INT rtmp_bbp_set_txdac(struct _RTMP_ADAPTER *pAd, INT tx_dac)
 }
 
 
-static INT rtmp_bbp_set_rxpath(struct _RTMP_ADAPTER *pAd, INT rxpath)
+static INT rtmp_bbp_set_rxpath(struct rtmp_adapter *pAd, INT rxpath)
 {
 	UCHAR val = 0;
 
@@ -262,7 +262,7 @@ static INT rtmp_bbp_set_rxpath(struct _RTMP_ADAPTER *pAd, INT rxpath)
 }
 
 
-static INT rtmp_bbp_set_ctrlch(struct _RTMP_ADAPTER *pAd, UINT8 ext_ch)
+static INT rtmp_bbp_set_ctrlch(struct rtmp_adapter *pAd, UINT8 ext_ch)
 {
 	UCHAR val, old_val = 0;
 
@@ -289,7 +289,7 @@ static INT rtmp_bbp_set_ctrlch(struct _RTMP_ADAPTER *pAd, UINT8 ext_ch)
 }
 
 
-static INT rtmp_bbp_set_bw(struct _RTMP_ADAPTER *pAd, UINT8 bw)
+static INT rtmp_bbp_set_bw(struct rtmp_adapter *pAd, UINT8 bw)
 {
 	UCHAR val, old_val = 0;
 	BOOLEAN bstop = FALSE;
@@ -350,7 +350,7 @@ static INT rtmp_bbp_set_bw(struct _RTMP_ADAPTER *pAd, UINT8 bw)
 }
 
 
-static INT rtmp_bbp_set_mmps(struct _RTMP_ADAPTER *pAd, BOOLEAN ReduceCorePower)
+static INT rtmp_bbp_set_mmps(struct rtmp_adapter *pAd, BOOLEAN ReduceCorePower)
 {
 	UCHAR bbp_val, org_val;
 
@@ -458,13 +458,13 @@ static NDIS_STATUS AsicBBPReadWithRxChain(
 }
 
 
-static INT rtmp_bbp_get_agc(struct _RTMP_ADAPTER *pAd, CHAR *agc, RX_CHAIN_IDX idx)
+static INT rtmp_bbp_get_agc(struct rtmp_adapter *pAd, CHAR *agc, RX_CHAIN_IDX idx)
 {
 	return AsicBBPReadWithRxChain(pAd, BBP_R66, agc, idx);
 }
 
 
-static INT rtmp_bbp_set_agc(struct _RTMP_ADAPTER *pAd, UCHAR agc, RX_CHAIN_IDX idx)
+static INT rtmp_bbp_set_agc(struct rtmp_adapter *pAd, UCHAR agc, RX_CHAIN_IDX idx)
 {
 	return AsicBBPWriteWithRxChain(pAd, BBP_R66, agc, idx);
 }

@@ -340,19 +340,19 @@ typedef struct GNU_PACKED _OMAC_HW_RATE_CTRL_STRUCT{
 #define WAPI_PN_ENTRY_SIZE   		8
 
 
-struct _RTMP_ADAPTER;
+struct rtmp_adapter;
 struct _RXINFO_STRUC;
 union _RXWI_STRUC;
 union _TXWI_STRUC;
 
-VOID dump_rtmp_rxwi(struct _RTMP_ADAPTER *pAd, union _RXWI_STRUC *pRxWI);
-VOID dump_rtmp_txwi(struct _RTMP_ADAPTER *pAd, union _TXWI_STRUC *pTxWI);
-VOID dump_rtmp_rxinfo(struct _RTMP_ADAPTER *pAd, struct _RXINFO_STRUC *pRxInfo);
+VOID dump_rtmp_rxwi(struct rtmp_adapter *pAd, union _RXWI_STRUC *pRxWI);
+VOID dump_rtmp_txwi(struct rtmp_adapter *pAd, union _TXWI_STRUC *pTxWI);
+VOID dump_rtmp_rxinfo(struct rtmp_adapter *pAd, struct _RXINFO_STRUC *pRxInfo);
 
 INT rtmp_get_rxwi_phymode(union _RXWI_STRUC *rxwi);
 INT rtmp_get_rxwi_rssi(union _RXWI_STRUC *rxwi, INT size, CHAR *rssi);
 INT rtmp_get_rxwi_snr(union _RXWI_STRUC *rxwi, INT size, UCHAR *snr);
-VOID rtmp_asic_init_txrx_ring(struct _RTMP_ADAPTER *pAd);
+VOID rtmp_asic_init_txrx_ring(struct rtmp_adapter *pAd);
 
 #endif /* __RAL_OMAC_H__ */
 

@@ -67,8 +67,8 @@
 
 struct _RTMP_RA_LEGACY_TB;
 
-typedef struct _RTMP_ADAPTER RTMP_ADAPTER;
-typedef struct _RTMP_ADAPTER *PRTMP_ADAPTER;
+typedef struct rtmp_adapter RTMP_ADAPTER;
+typedef struct rtmp_adapter *PRTMP_ADAPTER;
 
 typedef struct _RTMP_CHIP_OP_ RTMP_CHIP_OP;
 typedef struct _RTMP_CHIP_CAP_ RTMP_CHIP_CAP;
@@ -1412,12 +1412,12 @@ struct wifi_dev{
 	USHORT VLAN_Priority;
 
 	/* operations */
-	INT (*tx_pkt_allowed)(struct _RTMP_ADAPTER *pAd, struct wifi_dev *wdev, PNDIS_PACKET pPacket, UCHAR *pWcid);
-	INT (*tx_pkt_handle)(struct _RTMP_ADAPTER *pAd, PNDIS_PACKET pPacket);
-	INT (*rx_pkt_allowed)(struct _RTMP_ADAPTER *pAd, struct _RX_BLK *pRxBlk);
-	INT (*rx_pkt_hdr_chk)(struct _RTMP_ADAPTER *pAd, struct _RX_BLK *pRxBlk);
-	INT (*rx_ps_handle)(struct _RTMP_ADAPTER *pAd, struct _RX_BLK *pRxBlk);
-	INT (*rx_pkt_foward)(struct _RTMP_ADAPTER *pAd, struct wifi_dev *wdev, PNDIS_PACKET pPacket);
+	INT (*tx_pkt_allowed)(struct rtmp_adapter *pAd, struct wifi_dev *wdev, PNDIS_PACKET pPacket, UCHAR *pWcid);
+	INT (*tx_pkt_handle)(struct rtmp_adapter *pAd, PNDIS_PACKET pPacket);
+	INT (*rx_pkt_allowed)(struct rtmp_adapter *pAd, struct _RX_BLK *pRxBlk);
+	INT (*rx_pkt_hdr_chk)(struct rtmp_adapter *pAd, struct _RX_BLK *pRxBlk);
+	INT (*rx_ps_handle)(struct rtmp_adapter *pAd, struct _RX_BLK *pRxBlk);
+	INT (*rx_pkt_foward)(struct rtmp_adapter *pAd, struct wifi_dev *wdev, PNDIS_PACKET pPacket);
 
 	/* last received packet's SNR for each antenna */
 	UCHAR LastSNR0;
@@ -3645,7 +3645,7 @@ typedef struct rtmp_phy_ctrl{
 /*
 	The miniport adapter structure
 */
-struct _RTMP_ADAPTER {
+struct rtmp_adapter {
 	VOID *OS_Cookie;	/* save specific structure relative to OS */
 	struct net_device *net_dev;
 
@@ -8333,7 +8333,7 @@ VOID asic_tune_be_wmm(
 
 INT set_rf(RTMP_ADAPTER *pAd, PSTRING arg);
 int write_reg(RTMP_ADAPTER *ad, u32 base, u16 offset, u32 value);
-int read_reg(struct _RTMP_ADAPTER *ad, u32 base, u16 offset, u32 *value);
+int read_reg(struct rtmp_adapter *ad, u32 base, u16 offset, u32 *value);
 INT show_pwr_info(RTMP_ADAPTER *ad, PSTRING arg);
 #ifdef DBG_DIAGNOSE
 INT Show_Diag_Proc(PRTMP_ADAPTER pAd, PSTRING arg);

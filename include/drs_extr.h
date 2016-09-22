@@ -23,7 +23,7 @@
 #ifndef __DRS_EXTR_H__
 #define __DRS_EXTR_H__
 
-struct _RTMP_ADAPTER;
+struct rtmp_adapter;
 struct _MAC_TABLE_ENTRY;
 
 
@@ -174,12 +174,12 @@ extern UCHAR RateTableVht2S_2G_BW40[];
 
 /* FUNCTION */
 VOID MlmeGetSupportedMcs(
-	IN struct _RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR *pTable,
 	OUT CHAR mcs[]);
 
 UCHAR MlmeSelectTxRate(
-	IN struct _RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN struct _MAC_TABLE_ENTRY *pEntry,
 	IN CHAR mcs[],
 	IN CHAR Rssi,
@@ -197,7 +197,7 @@ VOID MlmeSetTxQuality(
 
 
 VOID MlmeOldRateAdapt(
-	IN struct _RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN struct _MAC_TABLE_ENTRY *pEntry,
 	IN UCHAR			CurrRateIdx,
 	IN UCHAR			UpRateIdx,
@@ -210,11 +210,11 @@ VOID MlmeRestoreLastRate(
 	IN struct _MAC_TABLE_ENTRY *pEntry);
 
 VOID MlmeCheckRDG(
-	IN struct _RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN struct _MAC_TABLE_ENTRY *pEntry);
 
 VOID RTMPSetSupportMCS(
-	IN struct _RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR OpMode,
 	IN struct _MAC_TABLE_ENTRY *pEntry,
 	IN UCHAR SupRate[],
@@ -230,48 +230,48 @@ VOID RTMPSetSupportMCS(
 
 #ifdef NEW_RATE_ADAPT_SUPPORT
 VOID TriggerQuickInitMCSRate(
-    IN struct _RTMP_ADAPTER *pAd,
+    IN struct rtmp_adapter *pAd,
     IN struct _MAC_TABLE_ENTRY	*pEntry,
     IN UINT32 CheckInterval);
 
 BOOLEAN QuickInitMCSRate(
-    IN struct _RTMP_ADAPTER *pAd,
+    IN struct rtmp_adapter *pAd,
     IN struct _MAC_TABLE_ENTRY	*pEntry);
 
-VOID MlmeSetMcsGroup(struct _RTMP_ADAPTER *pAd, struct _MAC_TABLE_ENTRY *pEnt);
+VOID MlmeSetMcsGroup(struct rtmp_adapter *pAd, struct _MAC_TABLE_ENTRY *pEnt);
 
 UCHAR MlmeSelectUpRate(
-	IN struct _RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN struct _MAC_TABLE_ENTRY *pEntry,
 	IN RTMP_RA_GRP_TB *pCurrTxRate);
 
 UCHAR MlmeSelectDownRate(
-	IN struct _RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN struct _MAC_TABLE_ENTRY *pEntry,
 	IN UCHAR			CurrRateIdx);
 
 VOID MlmeGetSupportedMcsAdapt(
-	IN struct _RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN struct _MAC_TABLE_ENTRY *pEntry,
 	IN UCHAR	mcs23GI,
 	OUT CHAR 	mcs[]);
 
 UCHAR MlmeSelectTxRateAdapt(
-	IN struct _RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN struct _MAC_TABLE_ENTRY *pEntry,
 	IN CHAR		mcs[],
 	IN CHAR		Rssi,
 	IN CHAR		RssiOffset);
 
 BOOLEAN MlmeRAHybridRule(
-	IN struct _RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN struct _MAC_TABLE_ENTRY *pEntry,
 	IN RTMP_RA_GRP_TB *pCurrTxRate,
 	IN ULONG			NewTxOkCount,
 	IN ULONG			TxErrorRatio);
 
 VOID MlmeNewRateAdapt(
-	IN struct _RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN struct _MAC_TABLE_ENTRY *pEntry,
 	IN UCHAR			UpRateIdx,
 	IN UCHAR			DownRateIdx,
@@ -281,31 +281,31 @@ VOID MlmeNewRateAdapt(
 
 #ifdef NEW_RATE_ADAPT_SUPPORT
 INT	Set_PerThrdAdj_Proc(
-	IN struct _RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PSTRING arg);
 
 INT	Set_LowTrafficThrd_Proc(
-	IN struct _RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PSTRING			arg);
 
 INT	Set_TrainUpRule_Proc(
-	IN struct _RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PSTRING			arg);
 
 INT	Set_TrainUpRuleRSSI_Proc(
-	IN struct _RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PSTRING			arg);
 
 INT	Set_TrainUpLowThrd_Proc(
-	IN struct _RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PSTRING			arg);
 
 INT	Set_TrainUpHighThrd_Proc(
-	IN struct _RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PSTRING			arg);
 
 INT Set_RateTable_Proc(
-	IN  struct _RTMP_ADAPTER *pAd,
+	IN  struct rtmp_adapter *pAd,
 	IN  PSTRING arg);
 #endif /*NEW_RATE_ADAPT_SUPPORT*/
 
@@ -344,18 +344,18 @@ VOID ApQuickResponeForRateUpExecAGS(
 #endif /* AGS_SUPPORT */
 
 #ifdef CONFIG_AP_SUPPORT
-VOID APMlmeDynamicTxRateSwitchingAdapt(struct _RTMP_ADAPTER *pAd, UINT idx);
-VOID APQuickResponeForRateUpExecAdapt(struct _RTMP_ADAPTER *pAd, UINT idx);
+VOID APMlmeDynamicTxRateSwitchingAdapt(struct rtmp_adapter *pAd, UINT idx);
+VOID APQuickResponeForRateUpExecAdapt(struct rtmp_adapter *pAd, UINT idx);
 #endif /* CONFIG_AP_SUPPORT */
 
 #ifdef CONFIG_STA_SUPPORT
 VOID StaQuickResponeForRateUpExecAdapt(
-	IN struct _RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN ULONG i,
 	IN CHAR Rssi);
 
 VOID MlmeDynamicTxRateSwitchingAdapt(
-	IN struct _RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN ULONG i,
 	IN ULONG TxSuccess,
 	IN ULONG TxRetransmit,
@@ -365,7 +365,7 @@ VOID MlmeDynamicTxRateSwitchingAdapt(
 
 #ifdef CONFIG_AP_SUPPORT
 VOID APMlmeDynamicTxRateSwitching(
-    IN struct _RTMP_ADAPTER *pAd);
+    IN struct rtmp_adapter *pAd);
 
 VOID APQuickResponeForRateUpExec(
     IN PVOID SystemSpecific1,
@@ -374,14 +374,14 @@ VOID APQuickResponeForRateUpExec(
     IN PVOID SystemSpecific3);
 
 VOID APMlmeSetTxRate(
-	IN struct _RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN struct _MAC_TABLE_ENTRY *pEntry,
 	IN RTMP_RA_LEGACY_TB *pTxRate);
 #endif /* CONFIG_AP_SUPPORT */
 
 #ifdef CONFIG_STA_SUPPORT
 VOID MlmeDynamicTxRateSwitching(
-	IN struct _RTMP_ADAPTER *pAd);
+	IN struct rtmp_adapter *pAd);
 
 VOID StaQuickResponeForRateUpExec(
 	IN PVOID SystemSpecific1,
@@ -390,23 +390,23 @@ VOID StaQuickResponeForRateUpExec(
 	IN PVOID SystemSpecific3);
 
 VOID MlmeSetTxRate(
-	IN struct _RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN struct _MAC_TABLE_ENTRY *pEntry,
 	IN RTMP_RA_LEGACY_TB *pTxRate);
 #endif /* CONFIG_STA_SUPPORT */
 
-VOID MlmeRAInit(struct _RTMP_ADAPTER *pAd, struct _MAC_TABLE_ENTRY *pEntry);
-VOID MlmeNewTxRate(struct _RTMP_ADAPTER *pAd, struct _MAC_TABLE_ENTRY *pEntry);
+VOID MlmeRAInit(struct rtmp_adapter *pAd, struct _MAC_TABLE_ENTRY *pEntry);
+VOID MlmeNewTxRate(struct rtmp_adapter *pAd, struct _MAC_TABLE_ENTRY *pEntry);
 
 VOID MlmeRALog(
-	IN struct _RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN struct _MAC_TABLE_ENTRY *pEntry,
 	IN RA_LOG_TYPE raLogType,
 	IN ULONG TxErrorRatio,
 	IN ULONG TxTotalCnt);
 
 VOID MlmeSelectTxRateTable(
-	IN struct _RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN struct _MAC_TABLE_ENTRY *pEntry,
 	IN UCHAR **ppTable,
 	IN UCHAR *pTableSize,

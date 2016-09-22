@@ -2946,7 +2946,7 @@ static void mt76x2_show_pwr_info(RTMP_ADAPTER *ad)
 	DBGPRINT(RT_DEBUG_OFF, ("TX1 power compensation = 0x%x\n", value & 0x3f));
 }
 
-static void mt76x2_antenna_default_reset(struct _RTMP_ADAPTER	*pAd,
+static void mt76x2_antenna_default_reset(struct rtmp_adapter	*pAd,
 										 EEPROM_ANTENNA_STRUC *pAntenna)
 {
 	pAntenna->word = 0;
