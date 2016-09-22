@@ -48,7 +48,7 @@ enum GAS_EVENT {
 	GAS_REQ,
 	GAS_RSP,
 	GAS_RSP_MORE,
-	PEER_GAS_REQ,			
+	PEER_GAS_REQ,
 	PEER_GAS_RSP,
 	PEER_GAS_RSP_MORE,
 	GAS_CB_REQ,
@@ -101,20 +101,20 @@ typedef struct _GAS_CTRL {
 	DL_LIST GASPeerList;
 	NDIS_SPIN_LOCK GASPeerListLock;
 	UINT8 ExternalANQPServerTest;
-} GAS_CTRL, *PGAS_CTRL; 
+} GAS_CTRL, *PGAS_CTRL;
 
-/* 
- * gas events data 
+/*
+ * gas events data
  * GASComebackDelay : unit(TU)
  */
 typedef struct GNU_PACKED _GAS_EVENT_DATA {
-	UCHAR ControlIndex; 
+	UCHAR ControlIndex;
 	UCHAR PeerMACAddr[MAC_ADDR_LEN];
 	UINT16 EventType;
 	union{
 #ifdef CONFIG_STA_SUPPORT
 		struct {
-			UCHAR DialogToken;	
+			UCHAR DialogToken;
 			UCHAR AdvertisementProID;
 			UINT16 QueryReqLen;
 			UCHAR QueryReq[0];
@@ -157,7 +157,7 @@ typedef struct GNU_PACKED _GAS_EVENT_DATA {
 		struct {
 			UCHAR DialogToken;
 			UCHAR AdvertisementProID;
-			UINT16 QueryReqLen;	
+			UINT16 QueryReqLen;
 			UCHAR QueryReq[0];
 		} GNU_PACKED PEER_GAS_REQ_DATA;
 		struct {
@@ -175,8 +175,8 @@ typedef struct GNU_PACKED _GAS_EVENT_DATA {
 }GAS_EVENT_DATA, *PGAS_EVENT_DATA;
 
 VOID GASStateMachineInit(
-	IN	PRTMP_ADAPTER		pAd, 
-	IN	STATE_MACHINE		*S, 
+	IN	PRTMP_ADAPTER		pAd,
+	IN	STATE_MACHINE		*S,
 	OUT	STATE_MACHINE_FUNC	Trans[]);
 
 enum GAS_STATE GASPeerCurrentState(
@@ -192,11 +192,11 @@ VOID GASCtrlExit(IN PRTMP_ADAPTER pAd);
 
 #ifdef CONFIG_STA_SUPPORT
 VOID ReceiveGASInitRsp(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 VOID ReceiveGASCBRsp(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 void SendAnqpRspEvent(void *net_dev, const char *peer_mac_addr,
@@ -205,18 +205,18 @@ void SendAnqpRspEvent(void *net_dev, const char *peer_mac_addr,
 #endif /* CONFIG_STA_SUPPORT */
 
 #ifdef CONFIG_AP_SUPPORT
-DECLARE_TIMER_FUNCTION(PostReplyTimeout); 
+DECLARE_TIMER_FUNCTION(PostReplyTimeout);
 DECLARE_TIMER_FUNCTION(GASRspBufferingTimeout);
 
 void SendAnqpReqEvent(PNET_DEV net_dev, const char *peer_mac_addr,
 				const char *anqp_req, u16 anqp_req_len);
 
 VOID ReceiveGASInitReq(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 VOID ReceiveGASCBReq(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 #endif /* CONFIG_AP_SUPPORT */
 

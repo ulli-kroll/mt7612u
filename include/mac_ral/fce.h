@@ -56,7 +56,7 @@ typedef	union _L2_STUFFING_STRUC
 		UINT32  QoS_L2_EN:1;
 		UINT32  HT_L2_EN:1;
 	}	field;
-	
+
 	UINT32 word;
 } L2_STUFFING_STRUC, *PL2_STUFFING_STRUC;
 #else
@@ -75,7 +75,7 @@ typedef	union _L2_STUFFING_STRUC
 		UINT32  OTHER_PORT:2;
 		UINT32  RSV:6;
 	}	field;
-	
+
 	UINT32 word;
 } L2_STUFFING_STRUC, *PL2_STUFFING_STRUC;
 #endif

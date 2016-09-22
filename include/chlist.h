@@ -152,19 +152,19 @@ VOID RTMP_MapKHZ2ChannelID(
 	OUT INT *pCh);
 
 UCHAR GetChannel_5GHZ(
-	IN PCH_DESC pChDesc, 
+	IN PCH_DESC pChDesc,
 	IN UCHAR index);
 
 UCHAR GetChannel_2GHZ(
-	IN PCH_DESC pChDesc, 
+	IN PCH_DESC pChDesc,
 	IN UCHAR index);
 
 UCHAR GetChannelFlag(
-	IN PCH_DESC pChDesc, 
+	IN PCH_DESC pChDesc,
 	IN UCHAR index);
 
 UINT16 TotalChNum(
 	IN PCH_DESC pChDesc);
-	
+
 #endif /* __CHLIST_H__ */
 

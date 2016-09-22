@@ -15,10 +15,10 @@
 
     Module Name:
     dot11ac_vht.h
- 
+
     Abstract:
 	Defined IE/frame structures of 802.11ac (D1.2).
- 
+
     Revision History:
     Who        When          What
     ---------  ----------    ----------------------------------------------
@@ -61,7 +61,7 @@
 	rx_nss: Rx Nss
 		If the Rx Nss Type subfield is 0, indicate the max number of SS STA can rx.
 		If the Rx Nss Type subfield is 1, indicate the max number of SS that the STA can receive as a
-			beamformee in a SU PPDU using a beamforming steering matrix derived from a VHT 
+			beamformee in a SU PPDU using a beamforming steering matrix derived from a VHT
 			compressed beamforming report with Feedback Type subfield indicating MU in the VHT
 			Compressed Beamforming frames
 		->	0: Nss=1
@@ -69,7 +69,7 @@
 			...
 			7: Nss=8
 
-	rx_nss_type: 
+	rx_nss_type:
 		->	0: indicate the rx_nss subfield carries the max number of SS that the STA can receive
 			1: indicate the rx_nss subfield carries the max number of SS that the STA can receive
 				as an SU PPDU using a beamforming steering matrix derived from a VHT compressed
@@ -113,7 +113,7 @@ typedef struct GNU_PACKED _OPERATING_MODE_NOTIFICATION{
 				1: 7991 octets(Max A-MSDU length in HT Cap set to 7935)
 				2: 11454 octets(Max A-MSDU length in HT Cap set to 7935)
 				3: reserved
-	ch_width: Supported Channel Width Set 
+	ch_width: Supported Channel Width Set
 		->Indicates the channel widths supported by the STA.
 				0: the STA does not support either 160 or 80+80 MHz
 				1: the STA support 160 MHz
@@ -150,9 +150,9 @@ typedef struct GNU_PACKED _OPERATING_MODE_NOTIFICATION{
 	bfee_cap_su: SU Beamformee Capable
 		-> Indicates support for operation as a single user beamformee
 				0: not support
-				1: support				
+				1: support
 	cmp_st_num_bfer: Compressed Steering Number of Beamformer Antenna Supported
-		-> Beamformee's capability indicateing the max number of beamformer 
+		-> Beamformee's capability indicateing the max number of beamformer
 			antennas the beamformee can support when sending compressed
 			beamforming feedback
 				If SU beamformee capable, set to the max value minus 1.
@@ -173,7 +173,7 @@ typedef struct GNU_PACKED _OPERATING_MODE_NOTIFICATION{
 	vht_txop_ps: VHT TXOP PS
 		-> Indicates whether or not the AP supports VHT TXOP Power Save Mode or
 			whether or not the STA is in VHT TXOP Power Save Mode
-		->When tx by a VHT AP in the VHT Capabilities element included in Beacon, 
+		->When tx by a VHT AP in the VHT Capabilities element included in Beacon,
 			ProbeResp, AssocResp, and ReassocResp, frames:
 				0: if the VHT AP does not support VHT TXOP PS in the BSS.
 				1: if the VHT AP support TXOP PS in the BSS.
@@ -182,7 +182,7 @@ typedef struct GNU_PACKED _OPERATING_MODE_NOTIFICATION{
 				0: if the VHT STA is not in TXOP Power Save Mode.
 				1: if the VHT STA is in TXOP Power Save Mode.
 	htc_vht_cap: +HTC-VHT Capable
-		-> Indicates whether or not the STA supports receiving an HT Control 
+		-> Indicates whether or not the STA supports receiving an HT Control
 			field in the VHT format
 				0: if not support
 				1: if support
@@ -254,7 +254,7 @@ typedef struct GNU_PACKED _VHT_CAP_INFO{
 	UINT32 max_ampdu_exp:3;
 	UINT32 vht_link_adapt:2;
 	UINT32 rx_ant_consistency:1;
-	UINT32 tx_ant_consistency:1;	
+	UINT32 tx_ant_consistency:1;
 	UINT32 rsv:2;
 #endif /* RT_BIG_ENDIAN */
 }VHT_CAP_INFO;
@@ -341,9 +341,9 @@ typedef struct GNU_PACKED _VHT_MCS_SET{
 	struct _VHT_MCS_MAP tx_mcs_map;
 	UINT16 rsv:3;
 	UINT16 rx_high_rate:13;
-	struct _VHT_MCS_MAP rx_mcs_map;	
+	struct _VHT_MCS_MAP rx_mcs_map;
 #else
-	struct _VHT_MCS_MAP rx_mcs_map;	
+	struct _VHT_MCS_MAP rx_mcs_map;
 	UINT16 rx_high_rate:13;
 	UINT16 rsv:3;
 	struct _VHT_MCS_MAP tx_mcs_map;
@@ -380,7 +380,7 @@ typedef struct GNU_PACKED _VHT_CAP_IE{
 
 	The operation of VHT STAs in the BSS is controlled by the HT Operation
 	element and the VHT Operation element.
-	
+
 	ch_width: Channel Width
 		-> This field, together with the HT Operation element STA Channel Width
 			field, defines the BSS operating channel width.
@@ -399,7 +399,7 @@ typedef struct GNU_PACKED _VHT_CAP_IE{
 			frequency index for the 80MHz channel of frequency segment 1 on
 			which the VHT BSS operates.
 		->Set 0 for 20MHz or 40MHz operating channel width.
-			
+
 	center_freq_2: Channel Center Frequency Segment 2
 		-> Defines the seg 2 channel center frequency for an 80+80MHz VHT BSS
 		->For a 80+80MHz operating channel width, indicates the channel center
@@ -419,7 +419,7 @@ typedef struct GNU_PACKED _VHT_OP_INFO{
 
 	The operation of VHT STAs in the BSS is controlled by the HT Operation
 	element and the VHT Operation element.
-	
+
 	eid: Element ID
 			192 (IE_VHT_OP)
 	len: Length
@@ -438,7 +438,7 @@ typedef struct GNU_PACKED _VHT_OP_IE{
 	Wide Bandwidth Channel Switch element, figure 8-401bx
 
 	included in the Channel Switch Announcement frames.
-	
+
 	new_ch_width: New STA Channel Width
 	center_freq_1: New Channel Center Frequency Segment 1
 	center_freq_2: New Channel Center Frequency Segment 2
@@ -469,7 +469,7 @@ typedef struct GNU_PACKED _CH_SEG_PAIR{
 		2: Local Maximum Transmit Power For 20, 40, 80MHz
 		3: Local Maximum Transmit Power For 20, 40, 80, 160/80+80MHz
 		4~7: rsv
-	
+
 	max_tx_pwr_interpretation:
 		0: EIRP
 		1~7: rsv
@@ -495,7 +495,7 @@ typedef struct GNU_PACKED _VHT_TX_PWR_INFO_{
 	max_txpwr: Maximum Transmit Power
 		-> Define the maximum transmit power limit of the tx bandwidth defined
 			by the VHT Transmit Power Envelop element. The Maximum Transmit
-			Power field is a 8 bit 2's complement signed integer in the range of 
+			Power field is a 8 bit 2's complement signed integer in the range of
 			-64 dBm to 63.5 dBm with a 0.5 dB step.
 
 	NOTE: The following two subfields may repeated as needed.
@@ -577,8 +577,8 @@ typedef struct GNU_PACKED _SNDING_DIALOG_TOKEN {
 			Indicates the type of feedback requested
 			0: SU, 1: MU
 	nc_idx: Nc_Index
-			If the fb_type field indicates MU, then Nc Index indicates the 
-				number of columns, Nc, in the compressed Beamforming 
+			If the fb_type field indicates MU, then Nc Index indicates the
+				number of columns, Nc, in the compressed Beamforming
 				Feedback Matrix subfield minus one:
 					Set to 0 to request Nc=1,
 					Set to 1 to request Nc=2,
@@ -615,7 +615,7 @@ typedef struct GNU_PACKED _SNDING_STA_INFO {
 
 	ra: RA
 		If the VHT NDPA frame contains only one STA Info field
-			=> the RA field is set to the address of the STA 
+			=> the RA field is set to the address of the STA
 			identified by the AID in the STA info field.
 		If the VHT NDPA frame contains more than one STA Info field,
 			=> the RA field is set to the broadcast address.
@@ -626,7 +626,7 @@ typedef struct GNU_PACKED _SNDING_STA_INFO {
 
 	sta_info: STA Info 1, ..., STA Info n, refer to "SNDING_STA_INFO"
 		The VHT NDPA frame contains at least one STA Info field.
-	
+
 */
 typedef struct GNU_PACKED _VHT_NDPA_FRAME {
 	FRAME_CONTROL fc;

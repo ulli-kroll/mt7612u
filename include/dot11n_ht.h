@@ -15,10 +15,10 @@
 
     Module Name:
     dot11n_ht.h
- 
+
     Abstract:
 	Defined IE/frame structures of 802.11n
- 
+
     Revision History:
     Who        When          What
     ---------  ----------    ----------------------------------------------
@@ -85,7 +85,7 @@ typedef struct GNU_PACKED _HT_CAP_PARM{
 
 typedef struct GNU_PACKED _HT_MCS_SET_TX_SUBFIELD{
 #ifdef RT_BIG_ENDIAN
-	UINT8	TxMCSSetDefined:1; 
+	UINT8	TxMCSSetDefined:1;
 	UINT8	TxRxNotEqual:1;
 	UINT8	TxMaxStream:2;
 	UINT8	TxUnqualModulation:1;
@@ -109,20 +109,20 @@ typedef struct GNU_PACKED _HT_MCS_SET{
 	UINT8	MpduDensity:1;
 	UINT8	TxStream:2;
 	UINT8	TxRxNotEqual:1;
-	UINT8	TxMCSSetDefined:1; 
+	UINT8	TxMCSSetDefined:1;
 #else
-	UINT8	TxMCSSetDefined:1; 
+	UINT8	TxMCSSetDefined:1;
 	UINT8	TxRxNotEqual:1;
 	UINT8	TxStream:2;
 	UINT8	MpduDensity:1;
 	UINT8	rsv:3;
 #endif /* RT_BIG_ENDIAN */
-	UINT8	rsv3[3];  
+	UINT8	rsv3[3];
 } HT_MCS_SET, *PHT_MCS_SET;
 
 /*  HT Capability INFO field in HT Cap IE . */
 typedef struct GNU_PACKED _EXT_HT_CAP_INFO{
-#ifdef RT_BIG_ENDIAN 
+#ifdef RT_BIG_ENDIAN
 	UINT16	rsv2:4;
 	UINT16	RDGSupport:1;	/*reverse Direction Grant  support */
 	UINT16	PlusHTC:1;	/*+HTC control field support */
@@ -166,8 +166,8 @@ typedef struct GNU_PACKED _HT_BF_CAP{
 	UINT32	ExpCSICapable:1;
 	UINT32	Calibration:2;
 	UINT32	ImpTxBFCapable:1;
-	UINT32	TxNDPCapable:1;	
-	UINT32	RxNDPCapable:1;	
+	UINT32	TxNDPCapable:1;
+	UINT32	RxNDPCapable:1;
 	UINT32	TxSoundCapable:1;
 	UINT32	RxSoundCapable:1;
 	UINT32	TxBFRecCapable:1;
@@ -175,16 +175,16 @@ typedef struct GNU_PACKED _HT_BF_CAP{
 	UINT32	TxBFRecCapable:1;
 	UINT32	RxSoundCapable:1;
 	UINT32	TxSoundCapable:1;
-	UINT32	RxNDPCapable:1;	
-	UINT32	TxNDPCapable:1;	
-	UINT32	ImpTxBFCapable:1;	
+	UINT32	RxNDPCapable:1;
+	UINT32	TxNDPCapable:1;
+	UINT32	ImpTxBFCapable:1;
 	UINT32	Calibration:2;
 	UINT32	ExpCSICapable:1;
 	UINT32	ExpNoComSteerCapable:1;
 	UINT32	ExpComSteerCapable:1;
-	UINT32	ExpCSIFbk:2;	
-	UINT32	ExpNoComBF:2;	
-	UINT32	ExpComBF:2;	
+	UINT32	ExpCSIFbk:2;
+	UINT32	ExpNoComBF:2;
+	UINT32	ExpComBF:2;
 	UINT32	MinGrouping:2;
 	UINT32	CSIBFAntSup:2;
 	UINT32	NoComSteerBFAntSup:2;
@@ -205,9 +205,9 @@ typedef struct GNU_PACKED _HT_AS_CAP{
 	UINT8	ExpCSIFbk:1;
 	UINT8	AntIndFbkTxASEL:1;
 	UINT8	ExpCSIFbkTxASEL:1;
-	UINT8	AntSelect:1; 
+	UINT8	AntSelect:1;
 #else
-	UINT8	AntSelect:1; 
+	UINT8	AntSelect:1;
 	UINT8	ExpCSIFbkTxASEL:1;
 	UINT8	AntIndFbkTxASEL:1;
 	UINT8	ExpCSIFbk:1;
@@ -238,13 +238,13 @@ typedef struct GNU_PACKED _ADD_HTINFO{
 #ifdef RT_BIG_ENDIAN
 	UCHAR	SerInterGranu:3;
 	UCHAR	S_PSMPSup:1;
-	UCHAR	RifsMode:1; 
-	UCHAR	RecomWidth:1;	
+	UCHAR	RifsMode:1;
+	UCHAR	RecomWidth:1;
 	UCHAR	ExtChanOffset:2;
 #else
 	UCHAR	ExtChanOffset:2;
 	UCHAR	RecomWidth:1;
-	UCHAR	RifsMode:1; 
+	UCHAR	RifsMode:1;
 	UCHAR	S_PSMPSup:1;	 /*Indicate support for scheduled PSMP */
 	UCHAR	SerInterGranu:3;	 /*service interval granularity */
 #endif
@@ -253,17 +253,17 @@ typedef struct GNU_PACKED _ADD_HTINFO{
 
 typedef struct GNU_PACKED _ADD_HTINFO2{
 #ifdef RT_BIG_ENDIAN
-	USHORT	rsv2:11; 
+	USHORT	rsv2:11;
 	USHORT	OBSS_NonHTExist:1;
 	USHORT	rsv:1;
 	USHORT	NonGfPresent:1;
-	USHORT	OperaionMode:2;	
+	USHORT	OperaionMode:2;
 #else
 	USHORT	OperaionMode:2;
 	USHORT	NonGfPresent:1;
-	USHORT	rsv:1; 
+	USHORT	rsv:1;
 	USHORT	OBSS_NonHTExist:1;
-	USHORT	rsv2:11; 
+	USHORT	rsv2:11;
 #endif
 } ADD_HTINFO2, *PADD_HTINFO2;
 
@@ -282,12 +282,12 @@ typedef struct GNU_PACKED _ADD_HTINFO3{
 #else
 	USHORT	StbcMcs:6;
 	USHORT	DualBeacon:1;
-	USHORT	DualCTSProtect:1; 
+	USHORT	DualCTSProtect:1;
 	USHORT	STBCBeacon:1;
 	USHORT	LsigTxopProt:1;	/* L-SIG TXOP protection full support */
-	USHORT	PcoActive:1; 
-	USHORT	PcoPhase:1; 
-	USHORT	rsv:4; 
+	USHORT	PcoActive:1;
+	USHORT	PcoPhase:1;
+	USHORT	rsv:4;
 #endif /* RT_BIG_ENDIAN */
 } ADD_HTINFO3, *PADD_HTINFO3;
 
@@ -295,8 +295,8 @@ typedef struct GNU_PACKED _ADD_HTINFO3{
 typedef struct  GNU_PACKED _ADD_HT_INFO_IE{
 	UCHAR				ControlChan;
 	ADD_HTINFO			AddHtInfo;
-	ADD_HTINFO2			AddHtInfo2;	 
-	ADD_HTINFO3			AddHtInfo3;	 
+	ADD_HTINFO2			AddHtInfo2;
+	ADD_HTINFO3			AddHtInfo3;
 	UCHAR				MCSSet[16];		/* Basic MCS set */
 } ADD_HT_INFO_IE, *PADD_HT_INFO_IE;
 
@@ -333,8 +333,8 @@ typedef union GNU_PACKED _BSS_2040_COEXIST_IE{
  	UCHAR	ObssScanExempGrant:1;
 	UCHAR	ObssScanExempReq:1;
 	UCHAR	BSS20WidthReq:1;
-	UCHAR	Intolerant40:1;	
-	UCHAR	InfoReq:1; 
+	UCHAR	Intolerant40:1;
+	UCHAR	InfoReq:1;
  #else
 	UCHAR	InfoReq:1;
 	UCHAR	Intolerant40:1;			/* Inter-BSS. set 1 when prohibits a receiving BSS from operating as a 20/40 Mhz BSS. */

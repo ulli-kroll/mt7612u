@@ -3109,7 +3109,7 @@ void andes_usb_fw_init(RTMP_ADAPTER *ad)
 	RTMP_IO_WRITE32(ad, TSO_CTRL, 0x0);
 #endif
 
-	RT28XXDMAEnable(ad); 
+	RT28XXDMAEnable(ad);
 	RTMP_SET_FLAG(ad, fRTMP_ADAPTER_MCU_SEND_IN_BAND_CMD);
 	andes_fun_set(ad, Q_SELECT, ad->chipCap.CmdRspRxRing);
 	usb_rx_cmd_msgs_receive(ad);

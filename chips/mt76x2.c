@@ -1953,7 +1953,7 @@ static int mt76x2_get_tx_pwr_info(RTMP_ADAPTER *ad)
 		} else {
 			cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP3_CHL][A_BAND_LOW] = 0;
 		}
-	} 
+	}
 
 	if (((value & 0xff00) == 0x00) || ((value & 0xff00) == 0xff00)) {
 		cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP3_CHL][A_BAND_HI] = 0;
@@ -3144,7 +3144,7 @@ void mt76x2_temp_tx_alc(RTMP_ADAPTER *ad)
 				dB_diff = 0;
 
 			DBGPRINT(RT_DEBUG_TRACE, ("%s::[5G] temp_diff=%d (0x%x), dB_diff=%d (0x%x)\n",
-				__FUNCTION__, temp_diff, temp_diff, dB_diff, dB_diff)); 
+				__FUNCTION__, temp_diff, temp_diff, dB_diff, dB_diff));
 
 			/* temperature compensation boundary check and limit */
 			dB_diff = (dB_diff > pChipCap->tc_upper_bound_a_band) ? pChipCap->tc_upper_bound_a_band : dB_diff;
@@ -4423,7 +4423,7 @@ static void patch_BBPL_on(RTMP_ADAPTER *pAd)
         read_reg(pAd, 0x40, 0x1c, &value);
     	value &= 0xFFFFFF00;
     	write_reg(pAd, 0x40, 0x1c, value);
-    
+
         read_reg(pAd, 0x40, 0x1c, &value);
     	value |= 0x30;
     	write_reg(pAd, 0x40, 0x1c, value);
@@ -4433,14 +4433,14 @@ static void patch_BBPL_on(RTMP_ADAPTER *pAd)
         read_reg(pAd, 0x40, 0x1c, &value);
     	value &= 0xFFFFFF00;
     	write_reg(pAd, 0x40, 0x1c, value);
-    
+
         read_reg(pAd, 0x40, 0x1c, &value);
     	value |= 0x30;
     	write_reg(pAd, 0x40, 0x1c, value);
     }
     value = 0x0000484F;
     write_reg(pAd, 0x40, 0x14, value);
-    
+
     RtmpusecDelay(1);
 
     read_reg(pAd, 0x40, 0x130, &value);
@@ -4471,21 +4471,21 @@ static VOID WF_CTRL(RTMP_ADAPTER *pAd, UINT8 wfID, UINT8 isON)
     		read_reg(pAd, 0x40, 0x130, &value);
     		value |= (1<<0);
     		write_reg(pAd, 0x40, 0x130, value);
-    
+
             RtmpusecDelay(10);
 
             /* Enable RFDIG LDO/AFE/ABB/ADDA */
             read_reg(pAd, 0x40, 0x130, &value);
     		value |= ((1<<1)|(1<<3)|(1<<4)|(1<<5));
     		write_reg(pAd, 0x40, 0x130, value);
-    
+
             RtmpusecDelay(10);
 
             /* Switch WF0 RFDIG power to internal LDO */
             read_reg(pAd, 0x40, 0x130, &value);
     		value &= ~(1<<2);
     		write_reg(pAd, 0x40, 0x130, value);
-    
+
             patch_BBPL_on(pAd);
 
             RTMP_IO_READ32(pAd, 0x530, &value);
@@ -4501,20 +4501,20 @@ static VOID WF_CTRL(RTMP_ADAPTER *pAd, UINT8 wfID, UINT8 isON)
             read_reg(pAd, 0x40, 0x130, &value);
     		value |= (1<<8);
     		write_reg(pAd, 0x40, 0x130, value);
-    
+
             RtmpusecDelay(10);
 
             /* Enable RFDIG LDO/AFE/ABB/ADDA */
             read_reg(pAd, 0x40, 0x130, &value);
     		value |= ((1<<9)|(1<<11)|(1<<12)|(1<<13));
     		write_reg(pAd, 0x40, 0x130, value);
-    
+
             RtmpusecDelay(10);
             /* Switch WF1 RFDIG power to internal LDO */
             read_reg(pAd, 0x40, 0x130, &value);
     		value &= ~(1<<10);
     		write_reg(pAd, 0x40, 0x130, value);
-    
+
             patch_BBPL_on(pAd);
 
             RTMP_IO_READ32(pAd, 0x530, &value);

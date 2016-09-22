@@ -67,7 +67,7 @@ VOID PeriodicPollingModeDetect(
 
 VOID PollingModeIsr(struct work_struct *work)
 {
-  
+
 	PBBUPollingMode pPollingmode=container_of(work, BBUPollingMode, PollingDataBH);
 	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pPollingmode->pAd_va;
 	struct net_device *net_dev = pAd->net_dev;
@@ -154,7 +154,7 @@ VOID BBUPrepareMAC(IN RTMP_ADAPTER *pAd, PUCHAR macaddr ){
 			break;
 	}
 
-		DBGPRINT(RT_DEBUG_WARN,("current MAC=%02x:%02x:%02x:%02x:%02x:%02x\n", 
+		DBGPRINT(RT_DEBUG_WARN,("current MAC=%02x:%02x:%02x:%02x:%02x:%02x\n",
 			macaddr[0], macaddr[1],
 			macaddr[2], macaddr[3],
 			macaddr[4], macaddr[5]));

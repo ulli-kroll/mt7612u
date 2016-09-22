@@ -12,22 +12,22 @@
  * way altering the source code is stricitly prohibited, unless the prior
  * written consent of Ralink Technology, Inc. is obtained.
  ****************************************************************************
-     
+
      Module Name:
      ap_ids.c
-     
+
      Abstract:
      IDS definition
-     
+
      Revision History:
      Who         When          What
      --------    ----------    ----------------------------------------------
  */
 
 VOID RTMPIdsPeriodicExec(
-	IN PVOID SystemSpecific1, 
-	IN PVOID FunctionContext, 
-	IN PVOID SystemSpecific2, 
+	IN PVOID SystemSpecific1,
+	IN PVOID FunctionContext,
+	IN PVOID SystemSpecific2,
 	IN PVOID SystemSpecific3);
 
 BOOLEAN RTMPSpoofedMgmtDetection(

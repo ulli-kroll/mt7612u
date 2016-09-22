@@ -68,14 +68,14 @@
 	CFG80211_ScanEnd((VOID *)__pAd, __FlgIsAborted);
 #ifdef CONFIG_STA_SUPPORT
 #define RT_CFG80211_LOST_AP_INFORM(__pAd) 									\
-	CFG80211_LostApInform((VOID *)__pAd);	
+	CFG80211_LostApInform((VOID *)__pAd);
 #endif /*CONFIG_STA_SUPPORT*/
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
 #define RT_CFG80211_LOST_GO_INFORM(__pAd) 									\
-	CFG80211_LostP2pGoInform((VOID *)__pAd);	
+	CFG80211_LostP2pGoInform((VOID *)__pAd);
 #endif /*RT_CFG80211_P2P_CONCURRENT_DEVICE*/
 #define RT_CFG80211_REINIT(__pAd)											\
-	CFG80211_SupBandReInit((VOID *)__pAd);	
+	CFG80211_SupBandReInit((VOID *)__pAd);
 
 #define RT_CFG80211_RFKILL_STATUS_UPDATE(_pAd, _active) 					\
 	CFG80211_RFKillStatusUpdate(_pAd, _active);
@@ -87,7 +87,7 @@
 
 #define RT_CFG80211_P2P_CLI_SEND_NULL_FRAME(_pAd, _PwrMgmt)					\
 	CFG80211_P2pClientSendNullFrame(_pAd, _PwrMgmt);
-	
+
 
 #ifdef SINGLE_SKU
 #define CFG80211_BANDINFO_FILL(__pAd, __pBandInfo)							\
@@ -177,7 +177,7 @@ VOID CFG80211_LostApInform(VOID *pAdCB);
 INT CFG80211_StaPortSecured(
     VOID                         *pAdCB,
     UCHAR                        *pMac,
-    UINT    					  flag);	
+    UINT    					  flag);
 
 /* AP Related*/
 INT CFG80211_ApStaDel(VOID *pAdCB, UCHAR *pMac);
@@ -236,7 +236,7 @@ INT CFG80211_setApDefaultKey(
 INT CFG80211_setPowerMgmt(
 	VOID                     *pAdCB,
 	UINT 			Enable);
-		
+
 #ifdef CONFIG_STA_SUPPORT
 INT CFG80211_setStaDefaultKey(
     VOID                        *pAdCB,
@@ -253,7 +253,7 @@ INT CFG80211_setStaMgmtDefaultKey(
 BOOLEAN CFG80211DRV_OpsSetChannel(RTMP_ADAPTER *pAd, VOID *pData);
 
 BOOLEAN CFG80211DRV_OpsChgVirtualInf(RTMP_ADAPTER *pAd, VOID *pData);
-	
+
 VOID CFG80211DRV_OpsChangeBssParm(VOID *pAdOrg, VOID *pData);
 
 VOID CFG80211_UnRegister(VOID *pAdOrg,	VOID *pNetDev);
@@ -267,7 +267,7 @@ INT CFG80211DRV_IoctlHandle(
 	ULONG						Data);
 
 UCHAR CFG80211_getCenCh(RTMP_ADAPTER *pAd, UCHAR prim_ch);
-	
+
 /* CRDA Releatd */
 VOID CFG80211DRV_RegNotify(
 	VOID						*pAdOrg,
@@ -301,7 +301,7 @@ VOID CFG80211_RFKillStatusUpdate(
 VOID CFG80211DRV_SetP2pCliAssocIe(
 	VOID						*pAdOrg,
 	VOID						*pData,
-	UINT                         ie_len);	
+	UINT                         ie_len);
 
 VOID CFG80211DRV_P2pClientKeyAdd(
 	VOID						*pAdOrg,
@@ -324,9 +324,9 @@ VOID CFG80211RemainOnChannelTimeout(
 	PVOID 						SystemSpecific2,
 	PVOID 						SystemSpecific3);
 
-BOOLEAN CFG80211DRV_OpsRemainOnChannel(	
-	VOID						*pAdOrg,	
-	VOID						*pData,	
+BOOLEAN CFG80211DRV_OpsRemainOnChannel(
+	VOID						*pAdOrg,
+	VOID						*pData,
 	UINT32 						duration);
 
 BOOLEAN CFG80211DRV_OpsCancelRemainOnChannel(
@@ -357,14 +357,14 @@ INT CFG80211_SendMgmtFrame(RTMP_ADAPTER *pAd, VOID *pData, ULONG Data);
 
 #ifdef RT_CFG80211_P2P_SUPPORT
 VOID CFG80211_PeerP2pBeacon(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN PUCHAR	pAddr2,
 	IN MLME_QUEUE_ELEM *Elem,
 	IN LARGE_INTEGER   TimeStamp);
 
 
 VOID CFG80211_P2pStopNoA(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN PMAC_TABLE_ENTRY	pMacClient);
 
 
@@ -374,12 +374,12 @@ BOOLEAN CFG80211_P2pResetNoATimer(
 
 
 BOOLEAN CFG80211_P2pHandleNoAAttri(
-	IN PRTMP_ADAPTER pAd, 
+	IN PRTMP_ADAPTER pAd,
 	IN PMAC_TABLE_ENTRY	pMacClient,
 	IN PUCHAR pData);
-	
+
 #endif /* RT_CFG80211_P2P_SUPPORT */
-	
+
 #ifdef CONFIG_AP_SUPPORT
 
 VOID CFG80211_ParseBeaconIE(RTMP_ADAPTER *pAd, MULTISSID_STRUCT *pMbss, struct wifi_dev *wdev,UCHAR *wpa_ie,UCHAR *rsn_ie);

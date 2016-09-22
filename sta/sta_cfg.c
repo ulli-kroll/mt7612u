@@ -1642,13 +1642,13 @@ VOID RTMPAddKey(RTMP_ADAPTER *pAd, PNDIS_802_11_KEY pKey)
             if (pAd->StaCfg.GroupCipher == Ndis802_11TKIPEnable)
             {
                 NdisMoveMemory(pAd->SharedKey[BSS0][wdev->DefaultKeyId].RxMic, pKey->KeyMaterial + LEN_TK, LEN_TKIP_MIC);
-                NdisMoveMemory(pAd->SharedKey[BSS0][wdev->DefaultKeyId].TxMic, pKey->KeyMaterial + LEN_TK + LEN_TKIP_MIC, LEN_TKIP_MIC);        
+                NdisMoveMemory(pAd->SharedKey[BSS0][wdev->DefaultKeyId].TxMic, pKey->KeyMaterial + LEN_TK + LEN_TKIP_MIC, LEN_TKIP_MIC);
             }
             else
 #endif /* WPA_SUPPLICANT_SUPPORT */
             {
             	NdisMoveMemory(pAd->SharedKey[BSS0][wdev->DefaultKeyId].TxMic, pKey->KeyMaterial + LEN_TK, LEN_TKIP_MIC);
-                NdisMoveMemory(pAd->SharedKey[BSS0][wdev->DefaultKeyId].RxMic, pKey->KeyMaterial + LEN_TK + LEN_TKIP_MIC, LEN_TKIP_MIC);        
+                NdisMoveMemory(pAd->SharedKey[BSS0][wdev->DefaultKeyId].RxMic, pKey->KeyMaterial + LEN_TK + LEN_TKIP_MIC, LEN_TKIP_MIC);
             }
 
             /* Update Shared Key CipherAlg */
@@ -3002,7 +3002,7 @@ INT RTMPSetInformation(
     						RTMPSetWcidSecurityInfo(pAd,
 												 BSS0,
 												 KeyIdx,
-												 CipherAlg, 
+												 CipherAlg,
 												 BSSID_WCID,
 												 SHAREDKEYTABLE);
                         }
@@ -3097,7 +3097,7 @@ INT RTMPSetInformation(
                 Status  = -EINVAL;
             else
             {
-                Status = copy_from_user(&IEEE8021xState, wrq->u.data.pointer, wrq->u.data.length);                
+                Status = copy_from_user(&IEEE8021xState, wrq->u.data.pointer, wrq->u.data.length);
 		        pAd->StaCfg.wdev.IEEE8021X = IEEE8021xState;
                 DBGPRINT(RT_DEBUG_TRACE, ("Set::OID_802_11_SET_IEEE8021X (=%d)\n", IEEE8021xState));
             }
@@ -3107,7 +3107,7 @@ INT RTMPSetInformation(
 				 Status  = -EINVAL;
             else
             {
-                Status = copy_from_user(&IEEE8021x_required_keys, wrq->u.data.pointer, wrq->u.data.length);                
+                Status = copy_from_user(&IEEE8021x_required_keys, wrq->u.data.pointer, wrq->u.data.length);
 				pAd->StaCfg.wpa_supplicant_info.IEEE8021x_required_keys = IEEE8021x_required_keys;
 				DBGPRINT(RT_DEBUG_TRACE, ("Set::OID_802_11_SET_IEEE8021X_REQUIRE_KEY (%d)\n", IEEE8021x_required_keys));
 			}
@@ -3120,7 +3120,7 @@ INT RTMPSetInformation(
                 break;
             }
             Status = copy_from_user(pPmkId, wrq->u.data.pointer, wrq->u.data.length);
-	  
+
 	        /* check the PMKID information */
 	        if (pPmkId->BSSIDInfoCount == 0)
                 NdisZeroMemory(pAd->StaCfg.SavedPMK, sizeof(BSSID_INFO)*PMKID_NO);
@@ -4030,7 +4030,7 @@ INT RTMPQueryInformation(
     			pHTPhyMode->MCS= (UCHAR)pAd->StaCfg.wdev.DesiredTransmitSetting.field.MCS;
     			pHTPhyMode->SHORTGI= (UCHAR)pAd->CommonCfg.RegTransmitSetting.field.ShortGI;
     			pHTPhyMode->STBC= (UCHAR)pAd->CommonCfg.RegTransmitSetting.field.STBC;
-    
+
                 wrq->u.data.length = sizeof(OID_SET_HT_PHYMODE);
                 if (copy_to_user(wrq->u.data.pointer, pHTPhyMode, wrq->u.data.length))
     				Status = -EFAULT;
@@ -5464,7 +5464,7 @@ VOID RTMPIoctlShow(
             else
             {
                 if (pAd->IndicateMediaState == NdisMediaStateConnected)
-            	{        
+            	{
             	    if (INFRA_ON(pAd))
                     {
                     snprintf(extra, size, "Connected(AP: %s[%02X:%02X:%02X:%02X:%02X:%02X])\n",
@@ -7066,7 +7066,7 @@ INT RtmpIoctl_rt_ioctl_siwencodeext(RTMP_ADAPTER *pAd, VOID *pData, ULONG Data)
 /*
 	STA doesn't need to set WCID attribute for group key
 */
-					STA_PORT_SECURED(pAd);					    
+					STA_PORT_SECURED(pAd);
 				}
     			break;
             case RT_CMD_STA_IOCTL_SECURITY_ALG_TKIP:
@@ -7793,7 +7793,7 @@ RtmpIoctl_rt_private_get_statistics(
 			static char *bw[3] = {"20M", "40M", "80M"};
 			static char *fec_coding[2] = {"bcc", "ldpc"};
 			int i;
-    		    
+    
 			for (i=1; i<MAX_LEN_OF_MAC_TABLE; i++)
 			{
 				PMAC_TABLE_ENTRY pEntry = &(pAd->MacTab.Content[i]);
@@ -7858,7 +7858,7 @@ RtmpIoctl_rt_private_get_statistics(
 				}
 			}
 		}
-#else    		    
+#else    
 		sprintf(extra+strlen(extra), "RSSI-A                          = %ld\n", (LONG)(pAd->StaCfg.RssiSample.AvgRssi0 - pAd->BbpRssiToDbmDelta));
 		sprintf(extra+strlen(extra), "RSSI-B (if available)           = %ld\n", (LONG)(pAd->StaCfg.RssiSample.AvgRssi1 - pAd->BbpRssiToDbmDelta));
         	sprintf(extra+strlen(extra), "RSSI-C (if available)           = %ld\n\n", (LONG)(pAd->StaCfg.RssiSample.AvgRssi2 - pAd->BbpRssiToDbmDelta));

@@ -11,8 +11,8 @@ extern void os_TCIfQuery (unsigned short query_id, void* result, void* result2);
 
 
 typedef struct _BBUPollingMode{
-	RALINK_TIMER_STRUCT			PollingModeDetect;	
-	BOOLEAN							PollingModeDetectRunning;	
+	RALINK_TIMER_STRUCT			PollingModeDetect;
+	BOOLEAN							PollingModeDetectRunning;
 	struct work_struct					PollingDataBH;
 	UINT32   							pAd_va;
 	NDIS_SPIN_LOCK          			PollingModeLock;
@@ -21,9 +21,9 @@ typedef struct _BBUPollingMode{
 extern void tc3162_enable_irq(unsigned int irq);
 extern void tc3162_disable_irq(unsigned int irq);
 extern VOID PeriodicPollingModeDetect(
-	IN PVOID SystemSpecific1, 
-    IN PVOID FunctionContext, 
-    IN PVOID SystemSpecific2, 
+	IN PVOID SystemSpecific1,
+    IN PVOID FunctionContext,
+    IN PVOID SystemSpecific2,
     IN PVOID SystemSpecific3);
 DECLARE_TIMER_FUNCTION(PeriodicPollingModeDetect);
 
@@ -40,7 +40,7 @@ extern VOID PollingModeIsr(struct work_struct *work);
     Return Value:
         NONE
 
-    Note: 
+    Note:
 
     ========================================================================
 */

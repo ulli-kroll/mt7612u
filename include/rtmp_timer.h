@@ -20,13 +20,13 @@
 
     Abstract:
 	Ralink Wireless Driver timer related data structures and delcarations
-	
+
     Revision History:
 	Who           When                What
 	--------    ----------      ----------------------------------------------
 	Name          Date                 Modification logs
 	Shiang Tu    Aug-28-2008	init version
-	
+
 */
 
 #ifndef __RTMP_TIMER_H__

@@ -15,9 +15,9 @@
 
     Module Name:
 	chip_id.h
- 
+
     Abstract:
- 
+
     Revision History:
     Who          When          What
     ---------    ----------    ----------------------------------------------

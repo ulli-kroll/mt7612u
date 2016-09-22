@@ -122,7 +122,7 @@ static inline void DlListAdd(struct _DL_LIST *List, struct _DL_LIST *Item)
 	Item->Next = List->Next;
 	Item->Prev = List;
 	List->Next->Prev = Item;
-	List->Next = Item; 	
+	List->Next = Item; 
 }
 
 static inline void DlListAddTail(struct _DL_LIST *List, struct _DL_LIST *Item)
@@ -147,10 +147,10 @@ static inline unsigned int DlListLen(struct _DL_LIST *List)
 {
 	struct _DL_LIST *Item;
 	unsigned int Count = 0;
-	
+
 	for (Item = List->Next; Item != List; Item = Item->Next)
 		Count++;
-	
+
 	return Count;
 }
 

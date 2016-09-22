@@ -16,11 +16,11 @@
 
 	Module Name:
 	dot11u_hotspot.h
-	
+
 	Revision History:
 	Who 			When			What
 	--------		----------		----------------------------------------------
-	
+
 */
 
 #ifndef	__DOT11U_HOTSPOT_H__
@@ -48,8 +48,8 @@ typedef struct GNU_PACKED _GAS_FRAME
 		struct {
 			UCHAR Action;
 			UCHAR DialogToken;
-			/* 
- 			 * Following are advertisement protocol element, 
+			/*
+ 			 * Following are advertisement protocol element,
  			 * query request length, and query request
  			 */
 			UCHAR Variable[0];
@@ -79,7 +79,7 @@ typedef struct GNU_PACKED _GAS_FRAME
  			 * Following are advertisment protocol element,
  			 * query response length, and query response(optional)
  			 */
-			UCHAR Variable[0]; 
+			UCHAR Variable[0];
 		} GNU_PACKED GAS_CB_RSP;
 	}u;
 }GAS_FRAME, *PGAS_FRAME;
@@ -87,7 +87,7 @@ typedef struct GNU_PACKED _GAS_FRAME
 
 /* Status Code */
 enum DOT11U_STATUS_CODE {
-	ADVERTISEMENT_PROTOCOL_NOT_SUPPORTED = 59,	
+	ADVERTISEMENT_PROTOCOL_NOT_SUPPORTED = 59,
 	UNSPECIFIED_FAILURE = 60,
 	RESPONSE_NOT_RECEIVED_FROM_SERVER = 61,
 	TIMEOUT = 62,
@@ -96,7 +96,7 @@ enum DOT11U_STATUS_CODE {
 	SERVER_UNREACHABLE = 65,
 	REQUEST_REFUSED_PERMISSIONS_RECEIVED_FROM_SSPN = 67,
 	REQUEST_REFUSED_AP_NOT_SUPPORT_UNAUTH_ACCESS = 68,
-	TRANSMISSION_FAILURE = 79,	
+	TRANSMISSION_FAILURE = 79,
 };
 
 #endif /* __DOT11U_HOTSPOT_H__ */

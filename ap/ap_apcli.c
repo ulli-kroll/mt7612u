@@ -580,7 +580,7 @@ BOOLEAN ApCliLinkUp(RTMP_ADAPTER *pAd, UCHAR ifIndex)
 												SHAREDKEYTABLE);
 						}
 					}
-				}    		   		  		   
+				}    		   		  
 			}
 
 #ifdef DOT11_N_SUPPORT
@@ -1678,7 +1678,7 @@ BOOLEAN ApCliValidateRSNIE(
 							break;
 						case 2:
 							/* WPA-personal */
-							TmpAuthMode = Ndis802_11AuthModeWPAPSK;									    
+							TmpAuthMode = Ndis802_11AuthModeWPAPSK;
 							break;
 						default:
 							break;
@@ -1816,7 +1816,7 @@ BOOLEAN ApCliValidateRSNIE(
 							break;
 						case 2:
 							/* WPA2-personal */
-							TmpAuthMode = Ndis802_11AuthModeWPA2PSK;									    
+							TmpAuthMode = Ndis802_11AuthModeWPA2PSK;
 							break;
 						default:
 							break;
@@ -2420,7 +2420,7 @@ VOID APCli_Init(RTMP_ADAPTER *pAd, RTMP_OS_NETDEV_OP_HOOK *pNetDevOps)
 				else if ((pAd->ApCfg.BssidNum + MAX_APCLI_NUM + MAX_MESH_NUM) <= 8)
 					MacMask = 0xF8;
 
-				/* 
+				/*
 					Refer to HW definition -
 						Bit1 of MAC address Byte0 is local administration bit
 						and should be set to 1 in extended multiple BSSIDs'
@@ -2428,7 +2428,7 @@ VOID APCli_Init(RTMP_ADAPTER *pAd, RTMP_OS_NETDEV_OP_HOOK *pNetDevOps)
 				 */
 				if (pAd->chipCap.MBSSIDMode == MBSSID_MODE1)
 				{
-					/* 
+					/*
 						Refer to HW definition -
 							Bit1 of MAC address Byte0 is local administration bit
 							and should be set to 1 in extended multiple BSSIDs'
@@ -2775,13 +2775,13 @@ BOOLEAN ApcliCompareAuthEncryp(
 	if (tempAuthMode <= Ndis802_11AuthModeAutoSwitch)
 	{
 		tempAuthMode = Ndis802_11AuthModeOpen;
-		return ((tempAuthMode == AuthMode || 
+		return ((tempAuthMode == AuthMode ||
 				tempAuthMode == AuthModeAux) &&
 				(tempWEPstatus == WEPstatus) );
 	}
 	else if (tempAuthMode <= Ndis802_11AuthModeWPA2PSK)
 	{
-		return ((tempAuthMode == AuthMode || 
+		return ((tempAuthMode == AuthMode ||
 			tempAuthMode == AuthModeAux) &&
 			(tempWEPstatus == WPA.GroupCipher||
 			tempWEPstatus == WPA.PairCipher) );

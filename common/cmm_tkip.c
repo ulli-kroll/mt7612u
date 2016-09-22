@@ -159,9 +159,9 @@ typedef	struct GNU_PACKED _IV_CONTROL_
 
 	========================================================================
 */
-ULONG	RTMPTkipGetUInt32( 
+ULONG	RTMPTkipGetUInt32(
 	IN	PUCHAR	pMICKey)
-{  
+{
 	ULONG	res = 0;
 	INT		i;
 
@@ -195,7 +195,7 @@ ULONG	RTMPTkipGetUInt32(
 VOID	RTMPTkipPutUInt32(
 	IN OUT	PUCHAR		pDst,
 	IN		ULONG		val)
-{ 
+{
 	INT i;
 
 	for(i = 0; i < 4; i++)

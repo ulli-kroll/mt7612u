@@ -616,7 +616,7 @@ BOOLEAN PMF_ExtractIGTKKDE(
 
 	Arguments:
 		pAd - pointer to our pAdapter context
-    	        ElementID - indicate the WPA1 or WPA2    
+    	        ElementID - indicate the WPA1 or WPA2
 		apidx - indicate the interface index
 
 	Return Value:
@@ -1461,7 +1461,7 @@ void rtmp_read_pmf_parameters_from_file(
                         {
                                 pObj->ioctl_if = apidx;
                                 Set_PMFSHA256_Proc(pAd, macptr);
-                        }        
+                        }
                 }
         }
 #endif /* CONFIG_AP_SUPPORT */

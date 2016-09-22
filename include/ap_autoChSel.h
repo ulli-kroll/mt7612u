@@ -44,7 +44,7 @@ ULONG AutoChBssInsertEntry(
 	IN PRTMP_ADAPTER pAd,
 	IN PUCHAR pBssid,
 	IN CHAR Ssid[],
-	IN UCHAR SsidLen, 
+	IN UCHAR SsidLen,
 	IN UCHAR ChannelNo,
 	IN UCHAR ExtChOffset,
 	IN CHAR Rssi);

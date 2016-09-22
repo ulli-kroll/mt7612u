@@ -75,9 +75,9 @@ struct _MAC_TABLE_ENTRY;
 
 #define TypeTFSwitch						0x1
 #define TypeProtectionFrame					0x2
-#define TypeAFH 							0x3	
+#define TypeAFH 							0x3
 #define TypeWiFiStatus                                  0x4
-#define TypeHostLoopBackTFSwitch 							0xFFF1	
+#define TypeHostLoopBackTFSwitch 							0xFFF1
 #define TypeCoexCCUForceMode 							0xFFF2
 
 #define COEX_MODE_RESET           0
@@ -88,7 +88,7 @@ struct _MAC_TABLE_ENTRY;
 #define COEX_OPMODE_STA                  1
 #define COEX_OPMODE_AP                   2
 #define COEX_OPMODE_GC                  3
-#define COEX_OPMODE_GO               4     
+#define COEX_OPMODE_GO               4
 #define COEX_OPMODE_BT                   5
 #define COEX_OPMODE_AD_HOC            6
 
@@ -152,17 +152,17 @@ struct _MAC_TABLE_ENTRY;
 typedef struct PROTECTION_FRAME_STRUCT {
 	BOOLEAN     Occupied;
        ULONG         Triggernumber;
-       ULONG         Valid;  
-       ULONG         NodeType; 
-       ULONG         BssHashID; 
-       ULONG         FrameType; 
+       ULONG         Valid;
+       ULONG         NodeType;
+       ULONG         BssHashID;
+       ULONG         FrameType;
 } PROTECTION_FRAME_STRUCT, *PPROTECTION_FRAME_STRUCT;
 
 typedef struct _COEX_RX_MANUAL_AGC_GAIN {
 	BOOLEAN     bEnable;
        BOOLEAN     bStopAGC;
-	CHAR      LMthreshold; 
-	CHAR      MHthreshold;  
+	CHAR      LMthreshold;
+	CHAR      MHthreshold;
 } COEX_RX_MANUAL_AGC_GAIN, *PCOEX_RX_MANUAL_AGC_GAIN;
 
 typedef struct _COEX_MODE_STRUCTURE {
@@ -171,8 +171,8 @@ typedef struct _COEX_MODE_STRUCTURE {
     BOOLEAN     TDDRequest;
     ULONG       TDD_Power;
     ULONG       FDD_Power;
-	ULONG       DefaultMode; 
-	ULONG       CurrentMode;  
+	ULONG       DefaultMode;
+	ULONG       CurrentMode;
     ULONG       UpdateMode;
     CHAR        CoexTDDRSSITreshold;
     CHAR        CoexFDDRSSITreshold;
@@ -184,17 +184,17 @@ typedef struct _COEX_MODE_STRUCTURE {
 typedef struct _COEX_PROTECTION_FRAME_INFO
 {
 	ULONG					CoexOperation;
-    ULONG                   Triggernumber;   
+    ULONG                   Triggernumber;
     ULONG                   Valid;
     ULONG                   NodeType;
     ULONG	            BssHashID;
-    ULONG                   FrameType;    
+    ULONG                   FrameType;
 } COEX_PROTECTION_FRAME_INFO, *PCOEX_PROTECTION_FRAME_INFO;
 
 typedef struct _COEX_AFH
 {
 	ULONG					CoexOperation;
-    ULONG                   LinkStatus;   
+    ULONG                   LinkStatus;
     ULONG                   BW;
     ULONG                   Channel;
     ULONG	            BssHashID;
@@ -203,7 +203,7 @@ typedef struct _COEX_AFH
 typedef struct _COEX_TF_SWITCH
 {
     ULONG					CoexOperation;
-    ULONG                   CoexMode;   
+    ULONG                   CoexMode;
 
  } COEX_TF_SWITCH, *PCOEX_TF_SWITCH;
 
@@ -211,7 +211,7 @@ typedef struct _COEX_TF_SWITCH
 typedef struct _COEX_WLAN_STATUS
 {
     ULONG		     CoexOperation;
-    ULONG                   WLANStatus;   
+    ULONG                   WLANStatus;
     ULONG                   PrivilegeTime;
     ULONG	            BssHashID;
 
@@ -230,26 +230,26 @@ typedef struct _COEX_WLAN_STATUS
 
 #define MAC_BITMASK_READ(_MacReg, _BitLocation) \
 	((_MacReg) & (_BitLocation))
-	
+
 #define BT_STATUS_SET_FLAG(_pAd, _F)       ((_pAd)->BTStatusFlags |= (_F))
 #define BT_STATUS_CLEAR_FLAG(_pAd, _F)     ((_pAd)->BTStatusFlags &= ~(_F))
 #define BT_STATUS_TEST_FLAG(_pAd, _F)      (((_pAd)->BTStatusFlags & (_F)) != 0)
 
 typedef	union	_BT_STATUS_REPORT_STRUC	{
 	struct	{
-		ULONG		BT_DISABLE:1;			
-		ULONG		BT_INACTIVE:1;			
+		ULONG		BT_DISABLE:1;
+		ULONG		BT_INACTIVE:1;
 		ULONG		BT_SCANONLY:1;
-		ULONG		BT_HOLD:1;			
-		ULONG		BT_ACTIVE:1;	
+		ULONG		BT_HOLD:1;
+		ULONG		BT_ACTIVE:1;
 		ULONG		RESERVE1:3;
-		ULONG		BT_TRANSPORT:5;			
-		ULONG		RESERVE2:3;			
-		ULONG		BT_LINK_CNT:3;				
-		ULONG		BLE_LINK_CNT:2;				
-		ULONG		RESERVE3:3;		
+		ULONG		BT_TRANSPORT:5;
+		ULONG		RESERVE2:3;
+		ULONG		BT_LINK_CNT:3;
+		ULONG		BLE_LINK_CNT:2;
+		ULONG		RESERVE3:3;
               ULONG		BT_SLAVE_IND:7;
-              ULONG		RESERVE4:1;	
+              ULONG		RESERVE4:1;
 	} field;
 	ULONG			word;
 } BT_STATUS_REPORT_STRUC, *PBT_STATUS_REPORT_STRUC;
@@ -283,7 +283,7 @@ VOID RemoveProtectionFrameSpace(
     IN      PUCHAR  pAddr
 );
 
-VOID TDDFDDCoexBACapability( 
+VOID TDDFDDCoexBACapability(
     IN struct _RTMP_ADAPTER *pAd,
  	UCHAR CoexMode );
 
@@ -296,12 +296,12 @@ VOID CoexFDDRXAGCGain(
 	IN struct _RTMP_ADAPTER *pAd,
 	IN CHAR rssi);
 
-VOID CoexTDDRXAGCGain(IN struct _RTMP_ADAPTER *pAd); 
+VOID CoexTDDRXAGCGain(IN struct _RTMP_ADAPTER *pAd);
 
 VOID SendAndesWLANStatus(
 	IN struct _RTMP_ADAPTER *pAd,
 	IN UCHAR			WlanStatus,
-	IN ULONG			PrivilegeTime, 
+	IN ULONG			PrivilegeTime,
 	IN ULONG                     BssHashID
 	);
 
@@ -333,7 +333,7 @@ VOID COEXLinkDown(
 );
 
 ULONG QueryHashID(
-	IN struct _RTMP_ADAPTER *pAd, 
+	IN struct _RTMP_ADAPTER *pAd,
 	PUCHAR pAddr,
 	BOOLEAN RemoveBSS);
 
@@ -341,4 +341,4 @@ VOID CoexParseBTStatus(
     IN PRTMP_ADAPTER pAd
 	) ;
 
-#endif 
+#endif

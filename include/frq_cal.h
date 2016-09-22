@@ -40,7 +40,7 @@ typedef struct _FREQUENCY_CALIBRATION_CONTROL
 	CHAR AdaptiveFreqOffset; /* Adaptive frequency offset */
 	CHAR LatestFreqOffsetOverBeacon; /* Latest frequency offset from the beacon */
 	CHAR BeaconPhyMode; /* Latest frequency offset from the beacon */
-	
+
 } FREQUENCY_CALIBRATION_CONTROL, *PFREQUENCY_CALIBRATION_CONTROL;
 
 #define RTMP_FREQ_CAL_DISABLE(__pAd)									\

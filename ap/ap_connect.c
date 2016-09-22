@@ -442,7 +442,7 @@ VOID APUpdateBeaconFrame(RTMP_ADAPTER *pAd, INT apidx)
 		FrameLen += WscTmpLen;
 	}
 
-    
+
 
 	/* Update ERP */
     if ((pComCfg->ExtRateLen) && (PhyMode != WMODE_B))

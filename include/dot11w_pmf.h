@@ -15,10 +15,10 @@
 
     Module Name:
     dot11w_pmf.h
- 
+
     Abstract:
 	Defined status code, IE and frame structures that PMF (802.11w) needed.
- 
+
     Revision History:
     Who        	 When          What
     ---------  	 ----------    ----------------------------------------------
@@ -81,7 +81,7 @@ typedef struct GNU_PACKED _FT_IGTK_SUB_ELEMENT
 typedef struct GNU_PACKED _PMF_MMIE
 {
 	UINT8 KeyID[2];		/* identifies the IGTK used to compute the MIC */
-	UINT8 IPN[6];		/* indicates the receive sequence counter for the IGTK being installed */	
+	UINT8 IPN[6];		/* indicates the receive sequence counter for the IGTK being installed */
 	UINT8 MIC[LEN_PMF_BIP_MIC];		/* The length of the resulting AES-Keywrapped IGTK in the Key field */
 } PMF_MMIE, *PPMF_MMIE;
 
@@ -89,17 +89,17 @@ typedef struct GNU_PACKED _PMF_MMIE
 typedef struct GNU_PACKED _PMF_IGTK_KDE
 {
 	UINT8 KeyID[2];		/* identifies the IGTK used to compute the MIC */
-	UINT8 IPN[6];		/* indicates the receive sequence counter for the IGTK being installed */	
+	UINT8 IPN[6];		/* indicates the receive sequence counter for the IGTK being installed */
 	UINT8 IGTK[0];		/* The length of the IGTK */
 } PMF_IGTK_KDE, *PPMF_IGTK_KDE;
 
 
 /* =====================
- * 	PMF SA Query Action 
+ * 	PMF SA Query Action
  * ===================== */
 typedef struct GNU_PACKED _PMF_SA_QUERY_ACTION
-{	
-	UCHAR	Category;	
+{
+	UCHAR	Category;
 	UCHAR	Action;
 
 	/*  a 16-bit non-negative counter value */

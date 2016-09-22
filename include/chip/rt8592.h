@@ -29,8 +29,8 @@
 struct _RTMP_ADAPTER;
 
 
-/* 
- * Frequency plan item  for RT85592 
+/*
+ * Frequency plan item  for RT85592
  * N: R9[4], R8[7:0]
  * K: R7[7], R9[3:0]
  * mod: R9[7:5], R11[3:2] (eg. mod=8 => 0x0, mod=10 => 0x2)

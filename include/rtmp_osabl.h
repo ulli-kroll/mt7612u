@@ -2,10 +2,10 @@
 
     Module Name:
     OS/rtmp_osabl.h
- 
+
     Abstract:
 	Some structure/definitions for OS ABL function.
- 
+
     Revision History:
     Who        When          What
     ---------  ----------    ----------------------------------------------

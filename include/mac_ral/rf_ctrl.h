@@ -70,7 +70,7 @@
 /* @!Release
 	RF_CSR_KICK:1
 			Write - kick RF register read/write
-				0: do nothing        
+				0: do nothing
 				1: kick read/write process
 			Read - Polling RF register read/write
 				0: idle
@@ -136,31 +136,31 @@ typedef	union _RF_CSR_CFG_STRUC {
 
 
 #define	RF_PA_MODE_CCK_1M				(pAd->chipCap.PAModeCCK[0])
-#define	RF_PA_MODE_CCK_2M				(pAd->chipCap.PAModeCCK[1]) 
-#define	RF_PA_MODE_CCK_5M				(pAd->chipCap.PAModeCCK[2]) 
-#define	RF_PA_MODE_CCK_11M				(pAd->chipCap.PAModeCCK[3]) 
+#define	RF_PA_MODE_CCK_2M				(pAd->chipCap.PAModeCCK[1])
+#define	RF_PA_MODE_CCK_5M				(pAd->chipCap.PAModeCCK[2])
+#define	RF_PA_MODE_CCK_11M				(pAd->chipCap.PAModeCCK[3])
 
 #define	RF_PA_MODE_OFDM_6M				(pAd->chipCap.PAModeOFDM[0])
 #define	RF_PA_MODE_OFDM_9M				(pAd->chipCap.PAModeOFDM[1])
-#define	RF_PA_MODE_OFDM_12M				(pAd->chipCap.PAModeOFDM[2]) 
-#define	RF_PA_MODE_OFDM_18M				(pAd->chipCap.PAModeOFDM[3]) 
+#define	RF_PA_MODE_OFDM_12M				(pAd->chipCap.PAModeOFDM[2])
+#define	RF_PA_MODE_OFDM_18M				(pAd->chipCap.PAModeOFDM[3])
 #define	RF_PA_MODE_OFDM_24M				(pAd->chipCap.PAModeOFDM[4])
 #define	RF_PA_MODE_OFDM_36M				(pAd->chipCap.PAModeOFDM[5])
 #define	RF_PA_MODE_OFDM_48M				(pAd->chipCap.PAModeOFDM[6])
 #define	RF_PA_MODE_OFDM_54M				(pAd->chipCap.PAModeOFDM[7])
 
 #define	RF_PA_MODE_HT_MCS0				(pAd->chipCap.PAModeHT[0])
-#define	RF_PA_MODE_HT_MCS1				(pAd->chipCap.PAModeHT[1]) 
-#define	RF_PA_MODE_HT_MCS2				(pAd->chipCap.PAModeHT[2]) 
-#define	RF_PA_MODE_HT_MCS3				(pAd->chipCap.PAModeHT[3]) 
+#define	RF_PA_MODE_HT_MCS1				(pAd->chipCap.PAModeHT[1])
+#define	RF_PA_MODE_HT_MCS2				(pAd->chipCap.PAModeHT[2])
+#define	RF_PA_MODE_HT_MCS3				(pAd->chipCap.PAModeHT[3])
 #define	RF_PA_MODE_HT_MCS4				(pAd->chipCap.PAModeHT[4])
 #define	RF_PA_MODE_HT_MCS5				(pAd->chipCap.PAModeHT[5])
 #define	RF_PA_MODE_HT_MCS6				(pAd->chipCap.PAModeHT[6])
 #define	RF_PA_MODE_HT_MCS7				(pAd->chipCap.PAModeHT[7])
 #define	RF_PA_MODE_HT_MCS8				(pAd->chipCap.PAModeHT[8])
-#define	RF_PA_MODE_HT_MCS9				(pAd->chipCap.PAModeHT[9]) 
-#define	RF_PA_MODE_HT_MCS10				(pAd->chipCap.PAModeHT[10]) 
-#define	RF_PA_MODE_HT_MCS11				(pAd->chipCap.PAModeHT[11]) 
+#define	RF_PA_MODE_HT_MCS9				(pAd->chipCap.PAModeHT[9])
+#define	RF_PA_MODE_HT_MCS10				(pAd->chipCap.PAModeHT[10])
+#define	RF_PA_MODE_HT_MCS11				(pAd->chipCap.PAModeHT[11])
 #define	RF_PA_MODE_HT_MCS12				(pAd->chipCap.PAModeHT[12])
 #define	RF_PA_MODE_HT_MCS13				(pAd->chipCap.PAModeHT[13])
 #define	RF_PA_MODE_HT_MCS14				(pAd->chipCap.PAModeHT[14])

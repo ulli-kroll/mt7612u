@@ -2339,7 +2339,7 @@ VOID AsicUpdateRxWCIDTable(
 
     Note :
 		The key table selection rule :
-    	1.	Wds-links and Mesh-links always use Pair-wise key table. 
+    	1.	Wds-links and Mesh-links always use Pair-wise key table.
 		2. 	When the CipherAlg is TKIP, AES, SMS4 or the dynamic WEP is enabled,
 			it needs to set key into Pair-wise Key Table.
 		3.	The pair-wise key security mode is set NONE, it means as no security.

@@ -269,7 +269,7 @@ BOOLEAN RTMPCheckUcast(
 						return TRUE;
 					}
 					}
-				    
+
 					pStaTmp += 4;
 					Count--;
 				}
@@ -1232,14 +1232,14 @@ VOID	ApCliRTMPReportMicError(
 		if ((pAd->ApCfg.ApCliTab[ifIndex].LastMicErrorTime + (60 * OS_HZ)) < Now)
 		{
 			/* Update Last MIC error time, this did not violate two MIC errors within 60 seconds */
-			pAd->ApCfg.ApCliTab[ifIndex].LastMicErrorTime = Now; 
+			pAd->ApCfg.ApCliTab[ifIndex].LastMicErrorTime = Now;
 		}
 		else
 		{
 
 			/* RTMPSendWirelessEvent(pAd, IW_COUNTER_MEASURES_EVENT_FLAG, pAd->MacTab.Content[BSSID_WCID].Addr, BSS0, 0); */
 
-			pAd->ApCfg.ApCliTab[ifIndex].LastMicErrorTime = Now; 
+			pAd->ApCfg.ApCliTab[ifIndex].LastMicErrorTime = Now;
 			/* Violate MIC error counts, MIC countermeasures kicks in */
 			pAd->ApCfg.ApCliTab[ifIndex].MicErrCnt++;
 			/*

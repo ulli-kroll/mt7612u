@@ -566,7 +566,7 @@ VOID txSndgOtherGroup(
 
 	DBGPRINT(RT_DEBUG_TRACE,("ETxBF in txSndgOtherGroup(): tx the second SNDG, enter state WAIT_SNDG_FB1\n" ));
 
-	pEntry->bfState = WAIT_SNDG_FB1; 
+	pEntry->bfState = WAIT_SNDG_FB1;
 }
 
 VOID txMrqInvTxBF(
@@ -1034,12 +1034,12 @@ VOID handleHtcField(RTMP_ADAPTER *pAd, RX_BLK *pRxBlk)
 					{
 						if (pEntry->bfState == READY_FOR_SNDG0)
 						{
-							DBGPRINT(RT_DEBUG_OFF,("ETxBF in handleHtcField(): detect MFB change, set pEntry->mfb0=%d\n", pEntry->mfb0 ));    
+							DBGPRINT(RT_DEBUG_OFF,("ETxBF in handleHtcField(): detect MFB change, set pEntry->mfb0=%d\n", pEntry->mfb0 ));
 							txSndgSameMcs(pAd, pEntry, /*pRxBlk,*/ legalMfb);
 						}
 						else
 						{
-							DBGPRINT(RT_DEBUG_TRACE,("ETxBF in handleHtcField(): detect channel change before enter the ETxBF probe process is complete, enter state WAIT_USELESS_RSP\n" ));    
+							DBGPRINT(RT_DEBUG_TRACE,("ETxBF in handleHtcField(): detect channel change before enter the ETxBF probe process is complete, enter state WAIT_USELESS_RSP\n" ));
 							pEntry->bfState = WAIT_USELESS_RSP;
 						}
 					}

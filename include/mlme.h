@@ -25,7 +25,7 @@
 	--------	----------		----------------------------------------------
 	John Chang	2003-08-28		Created
 	John Chang  2004-09-06      modified for RT2600
-	
+
 */
 #ifndef __MLME_H__
 #define __MLME_H__
@@ -121,12 +121,12 @@ enum SCAN_MODE{
 	/* Active scan, send probe request, and wait beacon and probe response */
 	SCAN_ACTIVE = 0x00,			/* all channels */
 	SCAN_CISCO_ACTIVE = 0x1,	/* single channel only */
-	FAST_SCAN_ACTIVE = 0x2,	
+	FAST_SCAN_ACTIVE = 0x2,
 #ifdef DOT11N_DRAFT3
 	SCAN_2040_BSS_COEXIST = 0x4,
 #endif /* DOT11N_DRAFT3 */
 	SCAN_ACTIVE_MAX,
-	
+
 	/* Passive scan, no probe request, only wait beacon and probe response */
 	SCAN_PASSIVE = 0x80,		/* all channels */
 	SCAN_CISCO_PASSIVE = 0x81,	/* single channel only */
@@ -231,8 +231,8 @@ if (((__pEntry)) != NULL) \
 
 
 typedef struct  _TRIGGER_EVENTA{
-	BOOLEAN			bValid;	 
-	UCHAR	BSSID[6];	
+	BOOLEAN			bValid;
+	UCHAR	BSSID[6];
 	UCHAR	RegClass;	/* Regulatory Class */
 	USHORT	Channel;
 } TRIGGER_EVENTA, *PTRIGGER_EVENTA;
@@ -242,15 +242,15 @@ typedef struct  _TRIGGER_EVENTA{
 /* If one Event A delete or created, or if Event B is detected or not detected, STA should send 2040BSSCoexistence to AP. */
 #define MAX_TRIGGER_EVENT		64
 typedef struct  _TRIGGER_EVENT_TAB{
-	UCHAR	EventANo;	
-	TRIGGER_EVENTA	EventA[MAX_TRIGGER_EVENT];	
+	UCHAR	EventANo;
+	TRIGGER_EVENTA	EventA[MAX_TRIGGER_EVENT];
 	ULONG			EventBCountDown;	/* Count down counter for Event B. */
 } TRIGGER_EVENT_TAB, *PTRIGGER_EVENT_TAB;
 
 
 /*
 	Extended capabilities information IE( ID = 127 = IE_EXT_CAPABILITY)
-	
+
 */
 typedef struct GNU_PACKED _EXT_CAP_INFO_ELEMENT{
 #ifdef RT_BIG_ENDIAN
@@ -297,7 +297,7 @@ typedef struct GNU_PACKED _EXT_CAP_INFO_ELEMENT{
 	UINT32 event:1;
 	UINT32 diagnostics:1;
 	UINT32 mcast_diagnostics:1;
-	UINT32 location_tracking:1;	
+	UINT32 location_tracking:1;
 	UINT32	FMSSupport:1;/*bit 11*/
 	UINT32 proxy_arp:1;
 	UINT32 collocated_interference_report:1;
@@ -376,7 +376,7 @@ typedef struct GNU_PACKED _BSS_2040_COEXIST_ELEMENT{
 /*802.11n 7.3.2.59 */
 typedef struct GNU_PACKED _BSS_2040_INTOLERANT_CH_REPORT{
 	UCHAR				ElementID;		/* ID = IE_2040_BSS_INTOLERANT_REPORT = 73 */
-	UCHAR				Len;	
+	UCHAR				Len;
 	UCHAR				RegulatoryClass;
 	UCHAR				ChList[0];
 }BSS_2040_INTOLERANT_CH_REPORT, *PBSS_2040_INTOLERANT_CH_REPORT;
@@ -461,7 +461,7 @@ typedef struct {
 #ifdef RT_BIG_ENDIAN
 	UCHAR	RecomWidth:1;
 	UCHAR	ExtChanOffset:2;	/* Please not the difference with following 	UCHAR	NewExtChannelOffset; from 802.11n */
-	UCHAR	MpduDensity:3;	
+	UCHAR	MpduDensity:3;
 	UCHAR	MaxRAmpduFactor:2;
 #else
 	UCHAR	MaxRAmpduFactor:2;
@@ -483,11 +483,11 @@ typedef struct {
 	USHORT	OBSS_NonHTExist:1;
 	USHORT	rsv2:11;
 #endif
-	
+
 	/* New Extension Channel Offset IE */
-	UCHAR	NewExtChannelOffset;	
+	UCHAR	NewExtChannelOffset;
 	/* Extension Capability IE = 127 */
-	UCHAR	BSSCoexist2040;	
+	UCHAR	BSSCoexist2040;
 } RT_HT_CAPABILITY, *PRT_HT_CAPABILITY;
 
 
@@ -598,11 +598,11 @@ typedef struct GNU_PACKED _MTBAR_CONTROL{
     USHORT      NumTID:4;
     USHORT      Rsv1:9;
     USHORT      Compressed:1;
-    USHORT      MTID:1;		
+    USHORT      MTID:1;
     USHORT      ACKPolicy:1;
 #else
     USHORT      ACKPolicy:1;
-    USHORT      MTID:1;		
+    USHORT      MTID:1;
     USHORT      Compressed:1;
     USHORT      Rsv1:9;
     USHORT      NumTID:4;
@@ -795,7 +795,7 @@ typedef	struct _CIPHER_SUITE {
 	USHORT							RsnCapability;	/* RSN capability from beacon */
 	BOOLEAN							bMixMode;		/* Indicate Pair & Group cipher might be different */
 }	CIPHER_SUITE, *PCIPHER_SUITE;
-	
+
 
 /* EDCA configuration from AP's BEACON/ProbeRsp */
 typedef struct {
@@ -911,7 +911,7 @@ typedef struct _BSS_ENTRY{
 #ifdef CFG80211_SCAN_SIGNAL_AVG
 	SHORT	AvgRssiX8;
 	CHAR	AvgRssi;
-#endif /* CFG80211_SCAN_SIGNAL_AVG */	
+#endif /* CFG80211_SCAN_SIGNAL_AVG */
 
 #ifdef DOT11_VHT_AC
 	UCHAR vht_cap_len;
@@ -921,7 +921,7 @@ typedef struct _BSS_ENTRY{
 #endif /* DOT11_VHT_AC */
 
 
-	CHAR MinSNR;	
+	CHAR MinSNR;
 	UCHAR Privacy;			/* Indicate security function ON/OFF. Don't mess up with auth mode. */
 	UCHAR Hidden;
 
@@ -934,7 +934,7 @@ typedef struct _BSS_ENTRY{
 	USHORT CfpDurRemaining;
 	UCHAR SsidLen;
 	CHAR Ssid[MAX_LEN_OF_SSID];
-    
+
 	UCHAR SameRxTimeCount;
 	ULONG LastBeaconRxTimeA; /* OS's timestamp */
 	ULONG LastBeaconRxTime; /* OS's timestamp */
@@ -948,7 +948,7 @@ typedef struct _BSS_ENTRY{
 	/* New for microsoft WPA support */
 	NDIS_802_11_FIXED_IEs FixIEs;
 	NDIS_802_11_AUTHENTICATION_MODE AuthModeAux;	/* Addition mode for WPA2 / WPA capable AP */
-	NDIS_802_11_AUTHENTICATION_MODE AuthMode;	
+	NDIS_802_11_AUTHENTICATION_MODE AuthMode;
 	NDIS_802_11_WEP_STATUS	WepStatus;				/* Unicast Encryption Algorithm extract from VAR_IE */
 	USHORT VarIELen;				/* Length of next VIE include EID & Length */
 	UCHAR VarIEs[MAX_VIE_LEN];
@@ -956,7 +956,7 @@ typedef struct _BSS_ENTRY{
 	UCHAR *pVarIeFromProbRsp;
 #ifdef DOT11W_PMF_SUPPORT
     BOOLEAN IsSupportSHA256KeyDerivation;
-#endif /* DOT11W_PMF_SUPPORT */            
+#endif /* DOT11W_PMF_SUPPORT */
 
 	/* CCX Ckip information */
 	UCHAR CkipFlag;
@@ -1069,7 +1069,7 @@ typedef struct _MLME_AUX {
 	USHORT              CfpMaxDuration;
 	USHORT              CfpPeriod;
 	USHORT              AtimWin;
-    
+
 	/* Copy supported rate from desired AP's beacon. We are trying to match */
 	/* AP's supported and extended rate settings. */
 	UCHAR		        SupRate[MAX_LEN_OF_SUPPORTED_RATES];
@@ -1098,7 +1098,7 @@ typedef struct _MLME_AUX {
 
     /* new to keep Ralink specific feature */
     ULONG               APRalinkIe;
-    
+
     BSS_TABLE           SsidBssTab;     /* AP list for the same SSID */
     BSS_TABLE           RoamTab;        /* AP list eligible for roaming */
     ULONG               BssIdx;
@@ -1253,7 +1253,7 @@ typedef struct _IE_lists {
 
 
 typedef struct _bcn_ie_list {
-	UCHAR Addr2[MAC_ADDR_LEN]; 
+	UCHAR Addr2[MAC_ADDR_LEN];
 	UCHAR Bssid[MAC_ADDR_LEN];
 	CHAR Ssid[MAX_LEN_OF_SSID];
 	UCHAR SsidLen;

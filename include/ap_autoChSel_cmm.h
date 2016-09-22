@@ -47,7 +47,7 @@ typedef struct {
 
 typedef struct {
 	UCHAR BssNr;
-	BSSENTRY BssEntry[MAX_LEN_OF_BSS_TABLE];	
+	BSSENTRY BssEntry[MAX_LEN_OF_BSS_TABLE];
 } BSSINFO, *PBSSINFO;
 
 typedef enum ChannelSelAlg

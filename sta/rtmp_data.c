@@ -370,7 +370,7 @@ VOID STAHandleRxDataFrame(RTMP_ADAPTER *pAd, RX_BLK *pRxBlk)
 #if defined(P2P_SUPPORT) || defined(RT_CFG80211_P2P_SUPPORT)
 			/* When the p2p-IF up, the STA own address would be set as my_bssid address.
 			   If receiving an "encrypted" broadcast packet(its WEP bit as 1) and doesn't match my BSSID,
-			   Asic pass to driver with "Decrypted" marked as 0 in pRxInfo. 
+			   Asic pass to driver with "Decrypted" marked as 0 in pRxInfo.
 			   The condition is below,
 			   1. p2p IF is ON,
 			   2. the addr2 of the received packet is STA's BSSID,

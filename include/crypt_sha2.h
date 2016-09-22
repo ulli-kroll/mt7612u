@@ -18,7 +18,7 @@
 
     Abstract:
     FIPS 180-2: Secure Hash Standard (SHS)
-    
+
     Revision History:
     Who         When            What
     --------    ----------      ------------------------------------------

@@ -15,9 +15,9 @@
 
     Module Name:
 	rtmp_reg_pcirbus.h
- 
+
     Abstract:
- 
+
     Revision History:
     Who          When          What
     ---------    ----------    ----------------------------------------------
@@ -45,7 +45,7 @@ typedef union _CMB_CTRL_STRUC{
 		UINT32		CsrUartMode:1;
 #else
 		UINT32     Rsv:2;
-		UINT32		LDO25_FRC_ON:1;//4      
+		UINT32		LDO25_FRC_ON:1;//4
 		UINT32		LDO25_LARGEA:1;
 		UINT32		LDO25_LEVEL:2;
 #endif
@@ -63,7 +63,7 @@ typedef union _CMB_CTRL_STRUC{
 		UINT32		AUX_OPT_Bit4_RemovePCIePhyClk_WLANOff:1;
 		UINT32		AUX_OPT_Bit3_PLLOn_L1:1;
 		UINT32		AUX_OPT_Bit2_PCIeCoreClkOn_L1:1;
-		UINT32		AUX_OPT_Bit1_PCIePhyClkOn_L1:1;	
+		UINT32		AUX_OPT_Bit1_PCIePhyClkOn_L1:1;
 		UINT32		AUX_OPT_Bit0_InterfaceClk_40Mhz:1;
 	}field;
 	UINT32 word;
@@ -72,7 +72,7 @@ typedef union _CMB_CTRL_STRUC{
 typedef union _CMB_CTRL_STRUC{
 	struct{
 		UINT32		AUX_OPT_Bit0_InterfaceClk_40Mhz:1;
-		UINT32		AUX_OPT_Bit1_PCIePhyClkOn_L1:1;	
+		UINT32		AUX_OPT_Bit1_PCIePhyClkOn_L1:1;
 		UINT32		AUX_OPT_Bit2_PCIeCoreClkOn_L1:1;
 		UINT32		AUX_OPT_Bit3_PLLOn_L1:1;
 		UINT32		AUX_OPT_Bit4_RemovePCIePhyClk_WLANOff:1;
@@ -81,7 +81,7 @@ typedef union _CMB_CTRL_STRUC{
 		UINT32		AUX_OPT_Bit7_KeepInterfaceClk:1;
 		UINT32		AUX_OPT_Bit8_AuxPower_Exists:1;
 		UINT32		AUX_OPT_Bit9_GPIO3_as_GPIO:1;
-		UINT32		AUX_OPT_Bit10_NotSwap_WL_LED_ACT_RDY:1;	
+		UINT32		AUX_OPT_Bit10_NotSwap_WL_LED_ACT_RDY:1;
 		UINT32		AUX_OPT_Bit11_Rsv:1;
 		UINT32		AUX_OPT_Bit12_TRSW0_as_WLAN_ANT_SEL:1;
 		UINT32		AUX_OPT_Bit13_GPIO7_as_GPIO:1;
@@ -95,7 +95,7 @@ typedef union _CMB_CTRL_STRUC{
 #else
 		UINT32		LDO25_LEVEL:2;
 		UINT32		LDO25_LARGEA:1;
-		UINT32		LDO25_FRC_ON:1;//4      
+		UINT32		LDO25_FRC_ON:1;//4
 		UINT32       	Rsv:2;
 #endif /* RT65xx */
 		UINT32       	XTAL_RDY:1;
@@ -143,7 +143,7 @@ typedef union _OSCCTL_STRUC{
 typedef union _COEXCFG0_STRUC{
 	struct{
 		UINT32       	COEX_CFG1:8;
-		UINT32       	COEX_CFG0:8;		
+		UINT32       	COEX_CFG0:8;
 		UINT32       	FIX_WL_RF_LNA:2;
 		UINT32		FIX_BT_H_PA:3;
 		UINT32		FIX_BT_L_PA:3;
@@ -200,80 +200,80 @@ typedef union _COEXCFG1_STRUC{
 typedef union _COEXCFG2_STRUC{
 	struct{
 		UINT32		BT_COEX_CFG1_Bit31_Rsv:1;
-		UINT32		BT_COEX_CFG1_Bit30_Rsv:1;	
+		UINT32		BT_COEX_CFG1_Bit30_Rsv:1;
 		UINT32		BT_COEX_CFG1_Bit29_HaltHighPriorityTx_wl_bcn_busy:1;
 		UINT32		BT_COEX_CFG1_Bit28_HaltHighPriorityTx_wl_rx_busy:1;
 		UINT32		BT_COEX_CFG1_Bit27_HaltHighPriorityTx_wl_busy:1;
 		UINT32		BT_COEX_CFG1_Bit26_HaltLowPriorityTx_wl_bcn_busy:1;
 		UINT32		BT_COEX_CFG1_Bit25_HaltLowPriorityTx_wl_rx_busy:1;
-		UINT32		BT_COEX_CFG1_Bit24_HaltLowPriorityTx_wl_busy:1;		
-		
+		UINT32		BT_COEX_CFG1_Bit24_HaltLowPriorityTx_wl_busy:1;
+
 		UINT32		BT_COEX_CFG0_Bit23_Rsv:1;
-		UINT32		BT_COEX_CFG0_Bit22_Rsv:1;	
+		UINT32		BT_COEX_CFG0_Bit22_Rsv:1;
 		UINT32		BT_COEX_CFG0_Bit21_HaltHighPriorityTx_wl_bcn_busy:1;
 		UINT32		BT_COEX_CFG0_Bit20_HaltHighPriorityTx_wl_rx_busy:1;
 		UINT32		BT_COEX_CFG0_Bit19_HaltHighPriorityTx_wl_busy:1;
 		UINT32		BT_COEX_CFG0_Bit18_HaltLowPriorityTx_wl_bcn_busy:1;
 		UINT32		BT_COEX_CFG0_Bit17_HaltLowPriorityTx_wl_rx_busy:1;
 		UINT32		BT_COEX_CFG0_Bit16_HaltLowPriorityTx_wl_busy:1;
-		
+
 		UINT32		WL_COEX_CFG1_Bit15_LowerTxPwr_bt_high_priority:1;
 		UINT32		WL_COEX_CFG1_Bit14_Enable_Tx_free_timer:1;
 		UINT32		WL_COEX_CFG1_Bit13_Disable_TxAgg_bi_high_priority:1;
 		UINT32		WL_COEX_CFG1_Bit12_Disable_bt_rx_req_h:1;
 		UINT32		WL_COEX_CFG1_Bit11_HaltTx_bt_tx_req_l:1;
 		UINT32		WL_COEX_CFG1_Bit10_HaltTx_bt_tx_req_h:1;
-		UINT32		WL_COEX_CFG1_Bit9_HaltTx_bt_rx_req_h:1;	
-		UINT32		WL_COEX_CFG1_Bit8_HaltTx_bt_rx_busy:1;		
-		
+		UINT32		WL_COEX_CFG1_Bit9_HaltTx_bt_rx_req_h:1;
+		UINT32		WL_COEX_CFG1_Bit8_HaltTx_bt_rx_busy:1;
+
 		UINT32		WL_COEX_CFG0_Bit7_LowerTxPwr_bt_high_priority:1;
 		UINT32		WL_COEX_CFG0_Bit6_Enable_Tx_free_timer:1;
 		UINT32		WL_COEX_CFG0_Bit5_Disable_TxAgg_bi_high_priority:1;
 		UINT32		WL_COEX_CFG0_Bit4_Disable_bt_rx_req_h:1;
 		UINT32		WL_COEX_CFG0_Bit3_HaltTx_bt_tx_req_l:1;
 		UINT32		WL_COEX_CFG0_Bit2_HaltTx_bt_tx_req_h:1;
-		UINT32		WL_COEX_CFG0_Bit1_HaltTx_bt_rx_req_h:1;	
-		UINT32		WL_COEX_CFG0_Bit0_HaltTx_bt_rx_busy:1;			
+		UINT32		WL_COEX_CFG0_Bit1_HaltTx_bt_rx_req_h:1;
+		UINT32		WL_COEX_CFG0_Bit0_HaltTx_bt_rx_busy:1;
 	}field;
 	UINT32 word;
 }COEXCFG2_STRUC, *PCOEXCFG2_STRUC;
 #else
 typedef union _COEXCFG2_STRUC{
 	struct{
-		UINT32		WL_COEX_CFG0_Bit0_HaltTx_bt_rx_busy:1;	
-		UINT32		WL_COEX_CFG0_Bit1_HaltTx_bt_rx_req_h:1;	
+		UINT32		WL_COEX_CFG0_Bit0_HaltTx_bt_rx_busy:1;
+		UINT32		WL_COEX_CFG0_Bit1_HaltTx_bt_rx_req_h:1;
 		UINT32		WL_COEX_CFG0_Bit2_HaltTx_bt_tx_req_h:1;
 		UINT32		WL_COEX_CFG0_Bit3_HaltTx_bt_tx_req_l:1;
 		UINT32		WL_COEX_CFG0_Bit4_Disable_bt_rx_req_h:1;
 		UINT32		WL_COEX_CFG0_Bit5_Disable_TxAgg_bi_high_priority:1;
-		UINT32		WL_COEX_CFG0_Bit6_Enable_Tx_free_timer:1;		
+		UINT32		WL_COEX_CFG0_Bit6_Enable_Tx_free_timer:1;
 		UINT32		WL_COEX_CFG0_Bit7_LowerTxPwr_bt_high_priority:1;
 
 		UINT32		WL_COEX_CFG1_Bit8_HaltTx_bt_rx_busy:1;
-		UINT32		WL_COEX_CFG1_Bit9_HaltTx_bt_rx_req_h:1;	
+		UINT32		WL_COEX_CFG1_Bit9_HaltTx_bt_rx_req_h:1;
 		UINT32		WL_COEX_CFG1_Bit10_HaltTx_bt_tx_req_h:1;
 		UINT32		WL_COEX_CFG1_Bit11_HaltTx_bt_tx_req_l:1;
 		UINT32		WL_COEX_CFG1_Bit12_Disable_bt_rx_req_h:1;
 		UINT32		WL_COEX_CFG1_Bit13_Disable_TxAgg_bi_high_priority:1;
-		UINT32		WL_COEX_CFG1_Bit14_Enable_Tx_free_timer:1;		
+		UINT32		WL_COEX_CFG1_Bit14_Enable_Tx_free_timer:1;
 		UINT32		WL_COEX_CFG1_Bit15_LowerTxPwr_bt_high_priority:1;
-		
+
 		UINT32		BT_COEX_CFG0_Bit16_HaltLowPriorityTx_wl_busy:1;
 		UINT32		BT_COEX_CFG0_Bit17_HaltLowPriorityTx_wl_rx_busy:1;
 		UINT32		BT_COEX_CFG0_Bit18_HaltLowPriorityTx_wl_bcn_busy:1;
 		UINT32		BT_COEX_CFG0_Bit19_HaltHighPriorityTx_wl_busy:1;
 		UINT32		BT_COEX_CFG0_Bit20_HaltHighPriorityTx_wl_rx_busy:1;
 		UINT32		BT_COEX_CFG0_Bit21_HaltHighPriorityTx_wl_bcn_busy:1;
-		UINT32		BT_COEX_CFG0_Bit22_Rsv:1;	
+		UINT32		BT_COEX_CFG0_Bit22_Rsv:1;
 		UINT32		BT_COEX_CFG0_Bit23_Rsv:1;
-		
+
 		UINT32		BT_COEX_CFG1_Bit24_HaltLowPriorityTx_wl_busy:1;
 		UINT32		BT_COEX_CFG1_Bit25_HaltLowPriorityTx_wl_rx_busy:1;
 		UINT32		BT_COEX_CFG1_Bit26_HaltLowPriorityTx_wl_bcn_busy:1;
 		UINT32		BT_COEX_CFG1_Bit27_HaltHighPriorityTx_wl_busy:1;
 		UINT32		BT_COEX_CFG1_Bit28_HaltHighPriorityTx_wl_rx_busy:1;
 		UINT32		BT_COEX_CFG1_Bit29_HaltHighPriorityTx_wl_bcn_busy:1;
-		UINT32		BT_COEX_CFG1_Bit30_Rsv:1;			
+		UINT32		BT_COEX_CFG1_Bit30_Rsv:1;
 		UINT32		BT_COEX_CFG1_Bit31_Rsv:1;
 	}field;
 	UINT32 word;
@@ -348,7 +348,7 @@ typedef	union _WPDMA_RST_IDX_STRUC {
 		UINT32       	RST_DTX_IDX4:1;
 		UINT32       	RST_DTX_IDX5:1;
 		UINT32       	RST_DTX_IDX6:1;
-		UINT32       	RST_DTX_IDX7:1;		
+		UINT32       	RST_DTX_IDX7:1;
 		UINT32       	RST_DTX_IDX8:1;
 		UINT32       	RST_DTX_IDX9:1;
 		UINT32       	rsv:6;

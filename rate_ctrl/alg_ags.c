@@ -122,7 +122,7 @@ UCHAR AgsRssiOffsetTable[3][4] =
 	// ----------------------
 	{0,    2,    4,    6},    // For VHT 1*1: BW20, BW40, BW80, BW160
 	{2,    4,    6,    8},    // For VHT 2*2: BW20, BW40, BW80, BW160
-	{4,    6,    8,    10}    // For VHT 3*3: BW20, BW40, BW80, BW160             
+	{4,    6,    8,    10}    // For VHT 3*3: BW20, BW40, BW80, BW160
 };
 
 

@@ -76,7 +76,7 @@ typedef	union _USB_DMA_CFG_STRUC {
 		UINT32 RxBulkAggEn:1;        /*Enable Rx Bulk Aggregation */
 		UINT32 TxopHalt:1;        /*Halt TXOP count down when TX buffer is full. */
 		UINT32 TxClear:1;        /*Clear USB DMA TX path */
-		UINT32 rsv:2;        
+		UINT32 rsv:2;
 		UINT32 phyclear:1;        		/*phy watch dog enable. write 1 */
 		UINT32 RxBulkAggLmt:8;        /*Rx Bulk Aggregation Limit  in unit of 1024 bytes */
 		UINT32 RxBulkAggTOut:8;        /*Rx Bulk Aggregation TimeOut  in unit of 33ns */
@@ -340,7 +340,7 @@ typedef struct _CMD_RSP_CONTEXT
 	PURB pUrb;
 	BOOLEAN IRPPending;
 	BOOLEAN InUse;
-	BOOLEAN Readable; 
+	BOOLEAN Readable;
 	ra_dma_addr_t data_dma;
 } CMD_RSP_CONTEXT, *PCMD_RSP_CONTEXT;
 
@@ -355,13 +355,13 @@ typedef struct _CMD_RSP_CONTEXT
 
 #define RTMP_WRITE_FIRMWARE(_pAd, _pFwImage, _FwLen)		\
 	RTUSBFirmwareWrite(_pAd, _pFwImage, _FwLen)
-	
+
 
 
 /******************************************************************************
 
-  	USB TX Related MACRO 
-  	
+  	USB TX Related MACRO
+  
 ******************************************************************************/
 #define RTMP_START_DEQUEUE(pAd, QueIdx, irqFlags)				\
 			{													\
@@ -393,26 +393,26 @@ typedef struct _CMD_RSP_CONTEXT
 		do{}while(0)
 
 #define NEED_QUEUE_BACK_FOR_AGG(_pAd, _QueIdx, _freeNum, _TxFrameType) 		\
-		((_TxFrameType == TX_RALINK_FRAME) && (RTUSBNeedQueueBackForAgg(_pAd, _QueIdx)))	
+		((_TxFrameType == TX_RALINK_FRAME) && (RTUSBNeedQueueBackForAgg(_pAd, _QueIdx)))
 
 #define HAL_WriteSubTxResource(pAd, pTxBlk, bIsLast, pFreeNumber)	\
 			RtmpUSB_WriteSubTxResource(pAd, pTxBlk, bIsLast, pFreeNumber)
-			
+
 #define HAL_WriteTxResource(pAd, pTxBlk,bIsLast, pFreeNumber)	\
 			RtmpUSB_WriteSingleTxResource(pAd, pTxBlk, bIsLast, pFreeNumber)
 
 #define HAL_WriteFragTxResource(pAd, pTxBlk, fragNum, pFreeNumber) \
 			RtmpUSB_WriteFragTxResource(pAd, pTxBlk, fragNum, pFreeNumber)
-			
+
 #define HAL_WriteMultiTxResource(pAd, pTxBlk,frameNum, pFreeNumber)	\
 			RtmpUSB_WriteMultiTxResource(pAd, pTxBlk,frameNum, pFreeNumber)
-	
+
 #define HAL_FinalWriteTxResource(pAd, pTxBlk, totalMPDUSize, TxIdx)	\
 			RtmpUSB_FinalWriteTxResource(pAd, pTxBlk, totalMPDUSize, TxIdx)
 
 #define HAL_LastTxIdx(pAd, QueIdx,TxIdx) \
 			/*RtmpUSBDataLastTxIdx(pAd, QueIdx,TxIdx)*/
-	
+
 #define HAL_KickOutTx(pAd, pTxBlk, QueIdx)	\
 			RtmpUSBDataKickOut(pAd, pTxBlk, QueIdx)
 
@@ -429,8 +429,8 @@ typedef struct _CMD_RSP_CONTEXT
 /* ----------------- RX Related MACRO ----------------- */
 
 
-/* 
-  *	MLME Related MACRO 
+/*
+  *	MLME Related MACRO
   */
 #define RTMP_MLME_HANDLER(pAd)			RtmpMLMEUp(&(pAd->mlmeTask))
 
@@ -451,7 +451,7 @@ typedef struct _CMD_RSP_CONTEXT
 
 
 /*
-  *	Power Save Related MACRO 
+  *	Power Save Related MACRO
   */
 #ifdef CONFIG_STA_SUPPORT
 #define RTMP_PS_POLL_ENQUEUE(pAd)						\
@@ -584,9 +584,9 @@ typedef struct _CMD_RSP_CONTEXT
 #define RTMP_OS_IRQ_RELEASE(_pAd, _NetDev)
 
 VOID BeaconUpdateExec(
-    IN PVOID SystemSpecific1, 
-    IN PVOID FunctionContext, 
-    IN PVOID SystemSpecific2, 
+    IN PVOID SystemSpecific1,
+    IN PVOID FunctionContext,
+    IN PVOID SystemSpecific2,
     IN PVOID SystemSpecific3);
 
 #endif /*__MAC_USB_H__ */

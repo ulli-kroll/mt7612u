@@ -15,14 +15,14 @@
 
     Module Name:
     wfa_p2p.h
- 
+
     Abstract:
 	Defined status code, IE and frame structures that WiFi Direct needed.
- 
+
     Revision History:
     Who        When          What
     ---------  ----------    ----------------------------------------------
-    
+
  */
 
 

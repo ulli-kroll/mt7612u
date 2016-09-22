@@ -1708,7 +1708,7 @@ VOID RTMPWPARemoveAllKeys(RTMP_ADAPTER *pAd)
 	for (i = 0; i < SHARE_KEY_NUM; i++)
     {
 		DBGPRINT(RT_DEBUG_TRACE,("remove %s key #%d\n", CipherName[pAd->SharedKey[BSS0][i].CipherAlg], i));
-		NdisZeroMemory(&pAd->SharedKey[BSS0][i], sizeof(CIPHER_KEY));  
+		NdisZeroMemory(&pAd->SharedKey[BSS0][i], sizeof(CIPHER_KEY));
 
 		AsicRemoveSharedKeyEntry(pAd, BSS0, i);
 	}
@@ -5596,7 +5596,7 @@ INT	Show_ModuleTxpower_Proc(
  	POS_COOKIE pObj;
  	UCHAR ifIndex;
 	BOOLEAN bConnect=FALSE;
- 
+
  	pObj = (POS_COOKIE) pAd->OS_Cookie;
 
  	DBGPRINT(RT_DEBUG_TRACE, ("==>RTMPIoctlConnStatus\n"));
@@ -5605,7 +5605,7 @@ INT	Show_ModuleTxpower_Proc(
  		return FALSE;
 
  	ifIndex = pObj->ioctl_if;
- 
+
  	DBGPRINT(RT_DEBUG_OFF, ("=============================================================\n"));
  	if((pAd->ApCfg.ApCliTab[ifIndex].CtrlCurrState == APCLI_CTRL_CONNECTED)
  		&& (pAd->ApCfg.ApCliTab[ifIndex].SsidLen != 0))

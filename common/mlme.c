@@ -6276,7 +6276,7 @@ VOID APSDPeriodicExec(
 
     Arguments:
         pAd
-        pEntry 	 
+        pEntry 
 
     Return Value:
         TURE
@@ -6374,7 +6374,7 @@ BOOLEAN RTMPAutoRateSwitchCheck(RTMP_ADAPTER *pAd)
 
     Arguments:
         pAd
-        pEntry 	 
+        pEntry 
 
     Return Value:
         TURE
@@ -6417,7 +6417,7 @@ UCHAR RTMPStaFixedTxMode(RTMP_ADAPTER *pAd, MAC_TABLE_ENTRY *pEntry)
 
     Arguments:
         pAd
-        pEntry 	 
+        pEntry 
 
     Return Value:
         TURE
@@ -6436,7 +6436,7 @@ VOID RTMPUpdateLegacyTxSetting(UCHAR fixed_tx_mode, MAC_TABLE_ENTRY *pEntry)
 #endif /* DOT11_VHT_AC */
 	)
 		return;
-							 
+
 	TransmitSetting.word = 0;
 
 	TransmitSetting.field.MODE = pEntry->HTPhyMode.field.MODE;

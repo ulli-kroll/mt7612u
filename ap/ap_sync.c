@@ -95,7 +95,7 @@ VOID APPeerProbeReqAction(
                                   wdev->if_dev->name, mbss->ProbeRspRssiThreshold, rssi));
 			continue;
 	   }
-	    
+
 
 
 		/* allocate and send out ProbeRsp frame */

@@ -75,9 +75,9 @@ typedef union _INTERNAL_1_STRUCT {
 		UINT32 CSO_HW_PARSE_TCP:1;
 		UINT32 CSO_TX_IPV6_CHKSUM_EN:1;
 		UINT32 CSO_RX_IPV6_CHKSUM_EN:1;
-		UINT32 Reserve1:10;		
+		UINT32 Reserve1:10;
 	} field;
-	
+
 	UINT32 word;
 } INTERNAL_1_STRUCT;
 #endif
@@ -95,7 +95,7 @@ typedef union _INTERNAL_1_STRUCT {
 #define LDO_CFG0 				0x05d4
 #define GPIO_SWITCH				0x05dc
 
-#define DEBUG_INDEX				0x05e8	
+#define DEBUG_INDEX				0x05e8
 
 
 

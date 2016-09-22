@@ -252,7 +252,7 @@ VOID CFG80211_UpdateBeacon(
 			DBGPRINT(RT_DEBUG_ERROR, ("CFG80211 Beacon: MEM ALLOC ERROR\n"));
 		}
 
-		return;  
+		return;
 	}
 	else /* Invoke From Beacon Timer */
 	{

@@ -232,7 +232,7 @@
 
 /*
  * we can not use bMoreData bit to get EOSP bit because
- * maybe bMoreData = 1 & EOSP = 1 when Max SP Length != 0 
+ * maybe bMoreData = 1 & EOSP = 1 when Max SP Length != 0
  */
 #define UAPSD_MR_EOSP_SET(__pQosCtrl, __pTxBlk)								\
 	if (CLIENT_STATUS_TEST_FLAG((__pTxBlk)->pMacEntry,						\

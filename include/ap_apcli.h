@@ -33,7 +33,7 @@
 #ifdef APCLI_SUPPORT
 
 #include "rtmp.h"
-  
+
 #define AUTH_TIMEOUT	300         /* unit: msec */
 #define ASSOC_TIMEOUT	300         /* unit: msec */
 /*#define JOIN_TIMEOUT	2000        // unit: msec // not used in Ap-client mode, remove it */
@@ -41,7 +41,7 @@
 #ifdef APCLI_CONNECTION_TRIAL
 #define TRIAL_TIMEOUT	400	/* unit: msec */
 #endif /* APCLI_CONNECTION_TRIAL */
-  
+
 #define APCLI_ROOT_BSSID_GET(pAd, wcid) ((pAd)->MacTab.Content[(wcid)].Addr)
 
 /* sanity check for apidx */
@@ -74,27 +74,27 @@ VOID ApCliCtrlStateMachineInit(
 	OUT STATE_MACHINE_FUNC Trans[]);
 
 VOID ApCliSyncStateMachineInit(
-    IN PRTMP_ADAPTER pAd, 
-    IN STATE_MACHINE *Sm, 
+    IN PRTMP_ADAPTER pAd,
+    IN STATE_MACHINE *Sm,
     OUT STATE_MACHINE_FUNC Trans[]);
 
 VOID ApCliAuthStateMachineInit(
-    IN PRTMP_ADAPTER pAd, 
-    IN STATE_MACHINE *Sm, 
+    IN PRTMP_ADAPTER pAd,
+    IN STATE_MACHINE *Sm,
     OUT STATE_MACHINE_FUNC Trans[]);
 
 VOID ApCliAssocStateMachineInit(
-    IN PRTMP_ADAPTER pAd, 
-    IN STATE_MACHINE *Sm, 
+    IN PRTMP_ADAPTER pAd,
+    IN STATE_MACHINE *Sm,
     OUT STATE_MACHINE_FUNC Trans[]);
 
 MAC_TABLE_ENTRY *ApCliTableLookUpByWcid(
 	IN RTMP_ADAPTER *pAd,
 	IN UCHAR wcid,
 	IN UCHAR *pAddrs);
-	
+
 BOOLEAN 	ApCliValidateRSNIE(
-	IN RTMP_ADAPTER *pAd, 
+	IN RTMP_ADAPTER *pAd,
 	IN 		PEID_STRUCT    	pEid_ptr,
 	IN		USHORT			eid_len,
 	IN		USHORT			idx);
@@ -112,13 +112,13 @@ INT ApCliIfLookUp(
 	IN PRTMP_ADAPTER pAd,
 	IN PUCHAR pAddr);
 
-	
+
 VOID ApCliMgtMacHeaderInit(
-    IN	PRTMP_ADAPTER	pAd, 
-    IN OUT PHEADER_802_11 pHdr80211, 
-    IN UCHAR SubType, 
-    IN UCHAR ToDs, 
-    IN PUCHAR pDA, 
+    IN	PRTMP_ADAPTER	pAd,
+    IN OUT PHEADER_802_11 pHdr80211,
+    IN UCHAR SubType,
+    IN UCHAR ToDs,
+    IN PUCHAR pDA,
     IN PUCHAR pBssid,
     IN USHORT ifIndex);
 
@@ -138,7 +138,7 @@ BOOLEAN ApCliCheckVht(
 	IN VHT_CAP_IE *vht_cap,
 	IN VHT_OP_IE *vht_op);
 #endif /* DOT11_VHT_AC */
-	
+
 BOOLEAN ApCliLinkUp(
 	IN PRTMP_ADAPTER pAd,
 	IN UCHAR ifIndex);
@@ -158,27 +158,27 @@ VOID ApCliIfMonitor(
 
 BOOLEAN ApCliMsgTypeSubst(
 	IN PRTMP_ADAPTER  pAd,
-	IN PFRAME_802_11 pFrame, 
-	OUT INT *Machine, 
+	IN PFRAME_802_11 pFrame,
+	OUT INT *Machine,
 	OUT INT *MsgType);
 
 BOOLEAN preCheckMsgTypeSubset(
 	IN PRTMP_ADAPTER  pAd,
-	IN PFRAME_802_11 pFrame, 
-	OUT INT *Machine, 
+	IN PFRAME_802_11 pFrame,
+	OUT INT *Machine,
 	OUT INT *MsgType);
 
 BOOLEAN ApCliPeerAssocRspSanity(
-    IN PRTMP_ADAPTER pAd, 
-    IN VOID *pMsg, 
-    IN ULONG MsgLen, 
-    OUT PUCHAR pAddr2, 
-    OUT USHORT *pCapabilityInfo, 
-    OUT USHORT *pStatus, 
-    OUT USHORT *pAid, 
-    OUT UCHAR SupRate[], 
+    IN PRTMP_ADAPTER pAd,
+    IN VOID *pMsg,
+    IN ULONG MsgLen,
+    OUT PUCHAR pAddr2,
+    OUT USHORT *pCapabilityInfo,
+    OUT USHORT *pStatus,
+    OUT USHORT *pAid,
+    OUT UCHAR SupRate[],
     OUT UCHAR *pSupRateLen,
-    OUT UCHAR ExtRate[], 
+    OUT UCHAR ExtRate[],
     OUT UCHAR *pExtRateLen,
     OUT HT_CAPABILITY_IE *pHtCapability,
     OUT ADD_HT_INFO_IE *pAddHtInfo,	/* AP might use this additional ht info IE */
@@ -190,17 +190,17 @@ BOOLEAN ApCliPeerAssocRspSanity(
     OUT IE_LISTS *ie_list);
 
 VOID	ApCliPeerPairMsg1Action(
-	IN PRTMP_ADAPTER    pAd, 
+	IN PRTMP_ADAPTER    pAd,
     IN MAC_TABLE_ENTRY  *pEntry,
     IN MLME_QUEUE_ELEM  *Elem);
 
 VOID	ApCliPeerPairMsg3Action(
-	IN PRTMP_ADAPTER    pAd, 
+	IN PRTMP_ADAPTER    pAd,
     IN MAC_TABLE_ENTRY  *pEntry,
     IN MLME_QUEUE_ELEM  *Elem);
 
 VOID	ApCliPeerGroupMsg1Action(
-	IN PRTMP_ADAPTER    pAd, 
+	IN PRTMP_ADAPTER    pAd,
     IN MAC_TABLE_ENTRY  *pEntry,
     IN MLME_QUEUE_ELEM  *Elem);
 

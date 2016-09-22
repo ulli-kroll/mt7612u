@@ -16,11 +16,11 @@
 
 	Module Name:
 	dot11v_wnm.h
-	
+
 	Revision History:
 	Who 			When			What
 	--------		----------		----------------------------------------------
-	
+
 */
 
 #ifndef __DOT11V_WNM_H__
@@ -55,7 +55,7 @@ enum WNM_ACTION_FIELD {
 	TIMING_MEASUREMENT_REQ,
 	WNM_NOTIFICATION_REQ,
 	WNM_NOTIFICATION_RSP,
-}; 
+};
 
 typedef struct GNU_PACKED _WNM_FRAME
 {

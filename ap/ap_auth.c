@@ -129,7 +129,7 @@ static VOID APMlmeDeauthReqAction(
         DBGPRINT(RT_DEBUG_TRACE,
 				("AUTH - Send DE-AUTH req to %02x:%02x:%02x:%02x:%02x:%02x\n",
 				PRINT_MAC(pInfo->Addr)));
-           
+
         MgtMacHeaderInit(pAd, &Hdr, SUBTYPE_DEAUTH, 0, pInfo->Addr,
 						pAd->ApCfg.MBSSID[apidx].wdev.if_addr,
 						pAd->ApCfg.MBSSID[apidx].wdev.bssid);

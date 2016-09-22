@@ -74,13 +74,13 @@ VOID RTMPReportMicError(RTMP_ADAPTER *pAd, PCIPHER_KEY pWpaKey)
 		if ((pAd->StaCfg.LastMicErrorTime + (60 * OS_HZ)) < Now)
 		{
 			/* Update Last MIC error time, this did not violate two MIC errors within 60 seconds */
-			pAd->StaCfg.LastMicErrorTime = Now; 
+			pAd->StaCfg.LastMicErrorTime = Now;
 		}
 		else
 		{
 				RTMPSendWirelessEvent(pAd, IW_COUNTER_MEASURES_EVENT_FLAG, pAd->MacTab.Content[BSSID_WCID].Addr, BSS0, 0);
 
-			pAd->StaCfg.LastMicErrorTime = Now; 
+			pAd->StaCfg.LastMicErrorTime = Now;
 			/* Violate MIC error counts, MIC countermeasures kicks in */
 			pAd->StaCfg.MicErrCnt++;
 

@@ -96,12 +96,12 @@ enum {
 
 BOOLEAN L2FilterInspection(
 			IN PRTMP_ADAPTER pAd,
-			IN PHOTSPOT_CTRL pHSCtrl,	
+			IN PHOTSPOT_CTRL pHSCtrl,
 			IN PUCHAR pData);
 
 VOID HSCtrlStateMachineInit(
-	IN	PRTMP_ADAPTER		pAd, 
-	IN	STATE_MACHINE		*S, 
+	IN	PRTMP_ADAPTER		pAd,
+	IN	STATE_MACHINE		*S,
 	OUT	STATE_MACHINE_FUNC	Trans[]);
 
 INT Set_STAHotSpot_OnOff(
@@ -138,7 +138,7 @@ BOOLEAN ProbeReqforHSAP(
 
 VOID Clear_Hotspot_All_IE(IN PRTMP_ADAPTER PAd);
 
-#define isBcastEtherAddr(addr)  ((addr[0] & addr[1] & addr[2] & addr[3] & addr[4] & addr[5])== 0xff) 
+#define isBcastEtherAddr(addr)  ((addr[0] & addr[1] & addr[2] & addr[3] & addr[4] & addr[5])== 0xff)
 
 #define GAS_STATE_MESSAGES    0
 #define ACTION_STATE_MESSAGES 1

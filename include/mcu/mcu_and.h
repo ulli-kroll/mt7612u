@@ -178,7 +178,7 @@ struct cmd_msg {
 	BOOLEAN need_retransmit;
 
 #ifdef RTMP_USB_SUPPORT
-	RTMP_OS_COMPLETION ack_done; 
+	RTMP_OS_COMPLETION ack_done;
 #endif
 	char *rsp_payload;
 	MSG_RSP_HANDLER rsp_handler;
@@ -314,7 +314,7 @@ enum TEMPERATURE_LEVEL_7662 {
 #define TSSI_PARAM2_OFFSET1(p) (((p) & 0xff) << 24)
 
 /*
- * Command type table 
+ * Command type table
  */
 enum CMD_TYPE {
 	CMD_FUN_SET_OP = 1,
@@ -405,7 +405,7 @@ int andes_rf_random_write(struct _RTMP_ADAPTER *ad, struct _BANK_RF_REG_PAIR *re
 int andes_sc_random_write(struct _RTMP_ADAPTER *ad, CR_REG *table, u32 nums, u32 flags);
 int andes_sc_rf_random_write(struct _RTMP_ADAPTER *ad, BANK_RF_CR_REG *table, u32 nums, u32 flags);
 int andes_fun_set(struct _RTMP_ADAPTER *ad, u32 fun_id, u32 param);
-int andes_pwr_saving(struct _RTMP_ADAPTER *ad, u32 op, u32 level, 
+int andes_pwr_saving(struct _RTMP_ADAPTER *ad, u32 op, u32 level,
 					 u32 listen_interval, u32 pre_tbtt_lead_time,
 					 u8 tim_byte_offset, u8 tim_byte_pattern);
 int andes_calibration(struct _RTMP_ADAPTER *ad, u32 cal_id, ANDES_CALIBRATION_PARAM *param);
@@ -421,8 +421,8 @@ int andes_init_gain(struct _RTMP_ADAPTER *ad, UINT8 channel, BOOLEAN force_mode,
 int andes_dynamic_vga(struct _RTMP_ADAPTER *ad, UINT8 channel, BOOLEAN mode, BOOLEAN ext, int rssi, unsigned int false_cca);
 int andes_led_op(struct _RTMP_ADAPTER *ad, u32 led_idx, u32 link_status);
 struct cmd_msg *andes_alloc_cmd_msg(struct _RTMP_ADAPTER *ad, unsigned int length);
-void andes_init_cmd_msg(struct cmd_msg *msg, u8 type, BOOLEAN need_wait, u16 timeout, 
-							   BOOLEAN need_retransmit, BOOLEAN need_rsp, u16 rsp_payload_len, 
+void andes_init_cmd_msg(struct cmd_msg *msg, u8 type, BOOLEAN need_wait, u16 timeout,
+							   BOOLEAN need_retransmit, BOOLEAN need_rsp, u16 rsp_payload_len,
 							   char *rsp_payload, MSG_RSP_HANDLER rsp_handler);
 void andes_append_cmd_msg(struct cmd_msg *msg, char *data, unsigned int len);
 

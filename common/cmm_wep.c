@@ -173,7 +173,7 @@ VOID	RTMPInitWepEngine(
 
 	/* RC4 uses a pseudo-random number generator (PRNG)
 	   to generate a key stream */
-	ARC4_INIT(pARC4_CTX, &seed[0], seed_len);    
+	ARC4_INIT(pARC4_CTX, &seed[0], seed_len);
 
 	if (seed != NULL)
 		os_free_mem(NULL, seed);
@@ -211,7 +211,7 @@ VOID RTMPConstructWEPIVHdr(
 	========================================================================
 
 	Routine	Description:
-		WEP MPDU cryptographic encapsulation 
+		WEP MPDU cryptographic encapsulation
 
 	Arguments:
 		pAdapter		Pointer to our adapter
@@ -250,7 +250,7 @@ BOOLEAN	RTMPSoftEncryptWEP(
 
 	/* Initialize WEP key stream */
 	RTMPInitWepEngine(pIvHdr,
-					  pKey->Key, 
+					  pKey->Key,
 					  pKey->KeyLen,
 					  ARC4_CTX);
 
@@ -322,7 +322,7 @@ BOOLEAN	RTMPSoftDecryptWEP(
 
 	/* Initialize WEP key stream */
 	RTMPInitWepEngine(pData,
-					  pKey->Key, 
+					  pKey->Key,
 					  pKey->KeyLen,
 					  ARC4_CTX);
 

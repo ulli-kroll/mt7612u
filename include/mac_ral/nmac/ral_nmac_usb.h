@@ -15,9 +15,9 @@
 
     Module Name:
 	ral_nmac_usb.h
- 
+
     Abstract:
- 
+
     Revision History:
     Who          When          What
     ---------    ----------    ----------------------------------------------

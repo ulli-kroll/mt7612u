@@ -153,7 +153,7 @@ INT CFG80211DRV_IoctlHandle(
 			break;
 
 		case CMD_RTPRIV_IOCTL_80211_REMAIN_ON_CHAN_SET:
-			CFG80211DRV_OpsRemainOnChannel(pAd, pData, Data);			 
+			CFG80211DRV_OpsRemainOnChannel(pAd, pData, Data);
 			break;
 
 		case CMD_RTPRIV_IOCTL_80211_CANCEL_REMAIN_ON_CHAN_SET:

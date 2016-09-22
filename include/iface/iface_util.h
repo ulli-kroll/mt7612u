@@ -15,10 +15,10 @@
 
     Module Name:
 	rtmp_util.h
- 
+
     Abstract:
 	Common for PCI/USB/RBUS.
- 
+
     Revision History:
     Who          When          What
     ---------    ----------    ----------------------------------------------

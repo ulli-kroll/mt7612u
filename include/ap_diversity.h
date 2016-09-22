@@ -136,6 +136,6 @@ VOID AntDiversity_Update_Rssi_Sample(
 	IN RTMP_ADAPTER *pAd,
 	IN RSSI_SAMPLE *pRssi,
 	IN RXWI_STRUC *pRxWI);
-                        
+
 
 #endif

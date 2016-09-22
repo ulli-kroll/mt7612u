@@ -679,7 +679,7 @@ static VOID ApCliPeerAssocRspAction(
 				/* go to procedure listed on page 376 */
 				{
 					ApCliAssocPostProc(pAd, Addr2, CapabilityInfo, ifIndex, SupRate, SupRateLen,
-						ExtRate, ExtRateLen, &EdcaParm, &HtCapability, HtCapabilityLen, &AddHtInfo);  
+						ExtRate, ExtRateLen, &EdcaParm, &HtCapability, HtCapabilityLen, &AddHtInfo);
                     pAd->ApCfg.ApCliTab[0].MlmeAux.Aid = Aid;
 
 #ifdef DOT11_VHT_AC

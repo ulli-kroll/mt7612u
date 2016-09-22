@@ -15,9 +15,9 @@
 
     Module Name:
 	ral_nmac_pci.h
- 
+
     Abstract:
- 
+
     Revision History:
     Who          When          What
     ---------    ----------    ----------------------------------------------
@@ -256,7 +256,7 @@ typedef union _PDMA_INT_MASK{
 		TxRing 4~7: for TxQ Channel 2 with AC_BK/BE/VI/VO
 		TxRing 8    : for TxQ CTRL
 		TxRing 9    : for TxQ MGMT
-		
+
 	For each TxRing, we have four register to control it
 		TX_RINGn_CTRL0 (0x0): base address of this ring(4-DWORD aligned address)
 		TX_RINGn_CTRL1 (0x4): maximum number of TxD count in this ring

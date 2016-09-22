@@ -160,7 +160,7 @@
 				else														\
 					PACKET_CB(_p, 6) &= (~RTMP_PACKET_SPECIFIC_LLCSNAP);	\
 			}while(0)
-			
+
 #define RTMP_GET_PACKET_LLCSNAP(_p) \
 			(PACKET_CB(_p, 6) & RTMP_PACKET_SPECIFIC_LLCSNAP)
 
@@ -172,7 +172,7 @@
 				else													\
 					PACKET_CB(_p, 6) &= (~RTMP_PACKET_SPECIFIC_IPV4);	\
 			}while(0)
-			
+
 #define RTMP_GET_PACKET_IPV4(_p) \
 			(PACKET_CB(_p, 6) & RTMP_PACKET_SPECIFIC_IPV4)
 
@@ -184,7 +184,7 @@
 				else														\
 					PACKET_CB(_p, 6) &= (~RTMP_PACKET_SPECIFIC_TDLS);	\
 			}while(0)
-			
+
 #define RTMP_GET_PACKET_TDLS(_p) \
 			(PACKET_CB(_p, 6) & RTMP_PACKET_SPECIFIC_TDLS)
 
@@ -274,7 +274,7 @@
 				else														\
 					PACKET_CB(_p, 23) &= (~RTMP_TDLS_SPECIFIC_WAIT_ACK);	\
 			}while(0)
-			
+
 #define RTMP_GET_PACKET_TDLS_WAIT_ACK(_p)		(PACKET_CB(_p, 23) & RTMP_TDLS_SPECIFIC_WAIT_ACK)
 
 #define RTMP_SET_PACKET_TDLS_NO_ACK(_p, _flg)						\
@@ -284,7 +284,7 @@
 				else													\
 					PACKET_CB(_p, 23) &= (~RTMP_TDLS_SPECIFIC_NOACK);	\
 			}while(0)
-			
+
 #define RTMP_GET_PACKET_TDLS_NO_ACK(_p)		(PACKET_CB(_p, 23) & RTMP_TDLS_SPECIFIC_NOACK)
 
 #define RTMP_SET_TDLS_SPECIFIC_PACKET(_p, _flg)   (PACKET_CB(_p, 23) = _flg)

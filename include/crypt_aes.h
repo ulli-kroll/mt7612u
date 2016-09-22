@@ -17,18 +17,18 @@
     AES
 
     Abstract:
-    RFC 3394: Advanced Encryption Standard (AES) Key Wrap Algorithm    
+    RFC 3394: Advanced Encryption Standard (AES) Key Wrap Algorithm
     RFC 3601: Counter with CBC-MAC (CCM)
     RFC 4493: The AES-CMAC Algorithm
     FIPS PUBS 197: ADVANCED ENCRYPTION STANDARD (AES)
     NIST 800-38A: Recommendation for Block Cipher Modes of Operation
-    NIST 800-38C: The CCM Mode for Authentication and Confidentiality 
-    
+    NIST 800-38C: The CCM Mode for Authentication and Confidentiality
+
     Revision History:
     Who         When            What
     --------    ----------      ------------------------------------------
     Eddy        2009/05/19      Create AES-Key Wrap
-    Eddy        2009/04/20      Create AES-CMAC, AES-CCM    
+    Eddy        2009/04/20      Create AES-CMAC, AES-CCM
     Eddy        2009/01/19      Create AES-128, AES-192, AES-256, AES-CBC
 ***************************************************************************/
 
@@ -162,7 +162,7 @@ INT AES_Key_Wrap (
     IN UINT  KeyLength,
     OUT UINT8 CipherText[],
     OUT UINT *CipherTextLength);
-        
+
 INT AES_Key_Unwrap (
     IN UINT8 CipherText[],
     IN UINT  CipherTextLength,

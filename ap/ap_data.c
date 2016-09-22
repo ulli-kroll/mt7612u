@@ -3707,7 +3707,7 @@ VOID APRxEAPOLFrameIndicate(
 		if (apcli_entry->wpa_supplicant_info.WpaSupplicantUP &&
 			apcli_entry->wdev.IEEE8021X == TRUE && (EAP_CODE_SUCCESS == eapcode))
 		{
-			PUCHAR	Key; 
+			PUCHAR	Key;
 			UCHAR 	CipherAlg;
 			int     idx = 0;
 			int BssIdx = pAd->ApCfg.BssidNum + MAX_MESH_NUM + pEntry->wdev_idx;
@@ -3816,13 +3816,13 @@ VOID APRxDataFrameAnnounce(
 	if (!RTMPCheckWPAframe(pAd, pEntry, pRxBlk->pData, pRxBlk->DataSize, FromWhichBSSID))
 	{
 
-		/* 
+		/*
 			drop all non-EAP DATA frame before
 			this client's Port-Access-Control is secured
 		 */
 		if (pEntry->PrivacyFilter == Ndis802_11PrivFilter8021xWEP)
 		{
-			/*  
+			/*
 				If	1) no any EAP frame is received within 5 sec and
 					2) an encrypted non-EAP frame from peer associated STA is received,
 				AP would send de-authentication to this STA.
@@ -3906,13 +3906,13 @@ VOID APRxDataFrameAnnounce_Hdr_Trns(
 	if (!RTMPCheckWPAframe_Hdr_Trns(pAd, pEntry, pRxBlk->pTransData, pRxBlk->TransDataSize, FromWhichBSSID))
 	{
 
-		/* 
+		/*
 			drop all non-EAP DATA frame before
 			this client's Port-Access-Control is secured
 		 */
 		if (pEntry->PrivacyFilter == Ndis802_11PrivFilter8021xWEP)
 		{
-			/*  
+			/*
 				If	1) no any EAP frame is received within 5 sec and
 					2) an encrypted non-EAP frame from peer associated STA is received,
 				AP would send de-authentication to this STA.

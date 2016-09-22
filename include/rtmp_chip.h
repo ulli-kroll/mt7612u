@@ -96,7 +96,7 @@ struct _RSSI_SAMPLE;
 
 #define IS_RT30xx(_pAd)		(((_pAd)->MACVersion & 0xfff00000) == 0x30700000||IS_RT3090A(_pAd)||IS_RT3390(_pAd))
 
-#define IS_RT3052B(_pAd)	(((_pAd)->CommonCfg.CID == 0x102) && (((_pAd)->CommonCfg.CN >> 16) == 0x3033)) 
+#define IS_RT3052B(_pAd)	(((_pAd)->CommonCfg.CID == 0x102) && (((_pAd)->CommonCfg.CN >> 16) == 0x3033))
 #define IS_RT3052(_pAd)		(((_pAd)->MACVersion == 0x28720200) && (_pAd->Antenna.field.TxPath == 2))
 #define IS_RT3050(_pAd)		(((_pAd)->MACVersion == 0x28720200) && ((_pAd)->RfIcType == RFIC_3020))
 #define IS_RT3350(_pAd)		(((_pAd)->MACVersion == 0x28720200) && ((_pAd)->RfIcType == RFIC_3320))
@@ -449,7 +449,7 @@ enum RXWI_FRQ_OFFSET_FIELD {
 #define EEPROM_COUNTRY_REG_OFFSET	3
 #define EEPROM_BBP_ARRAY_OFFSET		4
 
-#if defined(RTMP_INTERNAL_TX_ALC) || defined(RTMP_TEMPERATURE_COMPENSATION) 
+#if defined(RTMP_INTERNAL_TX_ALC) || defined(RTMP_TEMPERATURE_COMPENSATION)
 /* */
 /* The TSSI over OFDM 54Mbps */
 /* */
@@ -524,7 +524,7 @@ typedef union _EEPROM_ANTENNA_STRUC {
 		USHORT RfIcType:4;			/* see E2PROM document */
 		USHORT BoardType:2; 		/* 0: mini card; 1: USB pen */
 		USHORT Rsv:1;
-		USHORT RssiIndicationMode:1; 	/* RSSI indication mode */	
+		USHORT RssiIndicationMode:1; 	/* RSSI indication mode */
 	} field;
 	USHORT word;
 } EEPROM_ANTENNA_STRUC, *PEEPROM_ANTENNA_STRUC;
@@ -541,7 +541,7 @@ typedef union _EEPROM_ANTENNA_STRUC {
 	(_pAd)->chipOps.eewrite((RTMP_ADAPTER *)(_pAd), (USHORT)(_offset), (USHORT)(_value))
 
 
-#if defined(RTMP_INTERNAL_TX_ALC) || defined(RTMP_TEMPERATURE_COMPENSATION) 
+#if defined(RTMP_INTERNAL_TX_ALC) || defined(RTMP_TEMPERATURE_COMPENSATION)
 /* The Tx power tuning entry */
 typedef struct _TX_POWER_TUNING_ENTRY_STRUCT {
 	CHAR	RF_TX_ALC; 		/* 3390: RF R12[4:0]: Tx0 ALC, 5390: RF R49[5:0]: Tx0 ALC */
@@ -614,7 +614,7 @@ struct _RTMP_CHIP_CAP_ {
 	UINT8 WcidHwRsvNum;	/* hardware available WCID number */
 	UINT16 BcnMaxHwSize;	/* hardware maximum beacon size */
 	UINT16 BcnBase[HW_BEACON_MAX_NUM];	/* hardware beacon base address */
-	
+
 	/* function */
 	/* use UINT8, not bit-or to speed up driver */
 	BOOLEAN FlgIsHwWapiSup;
@@ -670,7 +670,7 @@ struct _RTMP_CHIP_CAP_ {
 	INT32 tc_upper_bound_a_band; /* unit dB */
 	INT32 tc_lower_bound_a_band; /* unit dB */
 	INT32 tc_upper_bound_g_band; /* unit dB */
-	INT32 tc_lower_bound_g_band; /* unit dB */	
+	INT32 tc_lower_bound_g_band; /* unit dB */
 #endif /* RTMP_TEMPERATURE_TX_ALC */
 
 #ifdef DYNAMIC_VGA_SUPPORT
@@ -758,11 +758,11 @@ struct _RTMP_CHIP_CAP_ {
 	*/
 	UINT8 WPDMABurstSIZE;
 
-	/* 
- 	 * 0: MBSSID_MODE0 
- 	 * (The multiple MAC_ADDR/BSSID are distinguished by [bit2:bit0] of byte5) 
+	/*
+ 	 * 0: MBSSID_MODE0
+ 	 * (The multiple MAC_ADDR/BSSID are distinguished by [bit2:bit0] of byte5)
  	 * 1: MBSSID_MODE1
- 	 * (The multiple MAC_ADDR/BSSID are distinguished by [bit4:bit2] of byte0) 
+ 	 * (The multiple MAC_ADDR/BSSID are distinguished by [bit4:bit2] of byte0)
  	 */
 	UINT8 MBSSIDMode;
 
@@ -843,7 +843,7 @@ struct _RTMP_CHIP_CAP_ {
 
 	BOOLEAN tssi_enable;
 	BOOLEAN ed_cca_enable;
-	
+
 #ifdef MT76x2
 #define TSSI_INIT_STAGE 0
 #define TSSI_CAL_STAGE 1
@@ -1011,7 +1011,7 @@ struct _RTMP_CHIP_OP_ {
 	/* Power save */
 	void (*EnableAPMIMOPS)(struct _RTMP_ADAPTER *pAd, IN BOOLEAN ReduceCorePower);
 	void (*DisableAPMIMOPS)(struct _RTMP_ADAPTER *pAd);
-	INT (*PwrSavingOP)(struct _RTMP_ADAPTER *pAd, UINT32 PwrOP, UINT32 PwrLevel, 
+	INT (*PwrSavingOP)(struct _RTMP_ADAPTER *pAd, UINT32 PwrOP, UINT32 PwrLevel,
 							UINT32 ListenInterval, UINT32 PreTBTTLeadTime,
 							UINT8 TIMByteOffset, UINT8 TIMBytePattern);
 
@@ -1027,7 +1027,7 @@ struct _RTMP_CHIP_OP_ {
 	/* AGC */
 	VOID (*ChipAGCInit)(struct _RTMP_ADAPTER *pAd, UCHAR bw);
 	UCHAR (*ChipAGCAdjust)(struct _RTMP_ADAPTER *pAd, CHAR Rssi, UCHAR OrigR66Value);
-	
+
 	/* Channel */
 	VOID (*ChipSwitchChannel)(struct _RTMP_ADAPTER *pAd, UCHAR ch, BOOLEAN bScan);
 
@@ -1037,7 +1037,7 @@ struct _RTMP_CHIP_OP_ {
 	/* IQ Calibration */
 	VOID (*ChipIQCalibration)(struct _RTMP_ADAPTER *pAd, UCHAR Channel);
 
-	UINT32 (*ChipGetCurrentTemp)(struct _RTMP_ADAPTER *pAd);	
+	UINT32 (*ChipGetCurrentTemp)(struct _RTMP_ADAPTER *pAd);
 #ifdef THERMAL_PROTECT_SUPPORT
 	VOID (*ThermalProDefaultCond)(struct _RTMP_ADAPTER *pAd);
 	VOID (*ThermalPro1stCond)(struct _RTMP_ADAPTER *pAd);
@@ -1057,7 +1057,7 @@ struct _RTMP_CHIP_OP_ {
 				IN PCHAR				pTotalDeltaPwr,
 				IN PCHAR				pAgcCompensate,
 				IN PCHAR 				pDeltaPowerByBbpR1);
-	
+
 	VOID (*AsicGetTxPowerOffset)(struct _RTMP_ADAPTER *pAd, ULONG *TxPwr);
 	VOID (*AsicExtraPowerOverMAC)(struct _RTMP_ADAPTER *pAd);
 
@@ -1073,10 +1073,10 @@ struct _RTMP_CHIP_OP_ {
 	/* Temperature Compensation */
 	VOID (*InitTemperCompensation)(IN struct _RTMP_ADAPTER *pAd);
 	VOID (*TemperCompensation)(IN struct _RTMP_ADAPTER *pAd);
-	
+
 	/* high power tuning */
 	VOID (*HighPowerTuning)(struct _RTMP_ADAPTER *pAd, struct _RSSI_SAMPLE *pRssi);
-	
+
 	/* Others */
 	VOID (*NetDevNickNameInit)(IN struct _RTMP_ADAPTER *pAd);
 #ifdef CAL_FREE_IC_SUPPORT
@@ -1086,7 +1086,7 @@ struct _RTMP_CHIP_OP_ {
 
 	/* The chip specific function list */
 	CHIP_SPEC_FUNC ChipSpecFunc[CHIP_SPEC_ID_NUM];
-	
+
 	VOID (*AsicResetBbpAgent)(IN struct _RTMP_ADAPTER *pAd);
 
 	VOID (*CckMrcStatusCtrl)(struct _RTMP_ADAPTER *pAd);
@@ -1146,7 +1146,7 @@ do {	\
 		if (__pAd->chipOps.DisableAPMIMOPS != NULL)	\
 			__pAd->chipOps.DisableAPMIMOPS(__pAd);	\
 } while (0)
-	
+
 #define PWR_SAVING_OP(__pAd, __PwrOP, __PwrLevel, __ListenInterval, \
 						__PreTBTTLeadTime, __TIMByteOffset, __TIMBytePattern)	\
 do {	\
@@ -1184,7 +1184,7 @@ do {	\
 do {	\
 		if (__pAd->chipOps.ATETssiCalibrationExtend != NULL)	\
 			__pAd->chipOps.ATETssiCalibrationExtend(__pAd, __pData);	\
-} while (0)	
+} while (0)
 
 #define RTMP_CHIP_ATE_READ_EXTERNAL_TSSI(__pAd, __pData)	\
 do {	\
@@ -1197,7 +1197,7 @@ do {	\
 		if (__pAd->chipOps.AsicGetTxPowerOffset != NULL)	\
 			__pAd->chipOps.AsicGetTxPowerOffset(__pAd, __pCfgOfTxPwrCtrlOverMAC);	\
 } while (0)
-		
+
 #define RTMP_CHIP_ASIC_AUTO_AGC_OFFSET_GET(	\
 		__pAd, __pDeltaPwr, __pTotalDeltaPwr, __pAgcCompensate, __pDeltaPowerByBbpR1)	\
 do {	\
@@ -1223,7 +1223,7 @@ do {	\
 		if (__pAd->chipOps.ChipGetCurrentTemp != NULL) \
 			__pCurrentTemp = __pAd->chipOps.ChipGetCurrentTemp(__pAd); \
 } while (0)
-			
+
 #ifdef THERMAL_PROTECT_SUPPORT
 #define RTMP_CHIP_THERMAL_PRO_DEFAULT_COND(__pAd)	\
 do {	\

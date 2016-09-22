@@ -53,9 +53,9 @@ typedef union _EEPROM_NIC_CINFIG0_STRUC {
 #ifdef MT76x2
 		USHORT Rsv:5;
 		USHORT PACurrent:1;
-#else		
+#else
 		USHORT Rsv:6;
-#endif			
+#endif
 		USHORT PAType:2;			/* 00: 2.4G+5G external PA, 01: 5G external PA, 10: 2.4G external PA, 11: Internal PA */
 		USHORT TxPath:4;			/* 1: 1T, 2: 2T, 3: 3T */
 		USHORT RxPath:4;			/* 1: 1R, 2: 2R, 3: 3R */
@@ -73,7 +73,7 @@ typedef union _EEPROM_NIC_CINFIG0_STRUC {
 		USHORT Rsv:5;
 #else
 		USHORT Rsv:6;
-#endif			
+#endif
 	} field;
 	USHORT word;
 } EEPROM_NIC_CONFIG0_STRUC, *PEEPROM_NIC_CONFIG0_STRUC;

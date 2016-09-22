@@ -332,7 +332,7 @@ VOID eFuseReadPhysical(
 	for(i=0; i<Length; i+=2)
 	{
 		eFusePhysicalReadRegisters(pAd,Offset+i, 2, &pOutBuf[i/2]);
-	} 
+	}
 }
 
 /*
@@ -663,7 +663,7 @@ static NTSTATUS eFuseWriteRegisters(
 		tmpOffset |= ((~( (tmpOffset >> 2 & 0x01) ^ (tmpOffset >> 3 & 0x01) ^ (tmpOffset >> 4 & 0x01) ^ ( tmpOffset >> 5 & 0x01))) << 7) & 0x80;
 
 		/* write the logical address*/
-		if(tmpaddr%2 != 0) 
+		if(tmpaddr%2 != 0)
 			InBuf[2] = tmpOffset<<8;
 		else
 			InBuf[2] = tmpOffset;

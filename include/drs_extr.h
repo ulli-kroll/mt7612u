@@ -52,7 +52,7 @@ typedef struct _RTMP_RA_LEGACY_TB
 	UCHAR	BW:2;
 	UCHAR	Mode:3;
 	UCHAR	Rsv2:1;
-#endif	
+#endif
 	UCHAR   CurrMCS;
 	UCHAR   TrainUp;
 	UCHAR   TrainDown;
@@ -67,7 +67,7 @@ typedef struct  _RTMP_RA_GRP_TB
 	UCHAR   ItemNo;
 #ifdef RT_BIG_ENDIAN
 	UCHAR	Rsv2:1;
-	UCHAR	Mode:3;	
+	UCHAR	Mode:3;
 	UCHAR	BW:2;
 	UCHAR	ShortGI:1;
 	UCHAR	STBC:1;
@@ -77,7 +77,7 @@ typedef struct  _RTMP_RA_GRP_TB
 	UCHAR	BW:2;
 	UCHAR	Mode:3;
 	UCHAR	Rsv2:1;
-#endif	
+#endif
 	UCHAR   CurrMCS;
 	UCHAR   TrainUp;
 	UCHAR   TrainDown;
@@ -311,23 +311,23 @@ INT Set_RateTable_Proc(
 
 #ifdef AGS_SUPPORT
 INT Show_AGS_Proc(
-    IN  PRTMP_ADAPTER	pAd, 
+    IN  PRTMP_ADAPTER	pAd,
     IN  PSTRING			arg);
 
 #ifdef CONFIG_STA_SUPPORT
 VOID MlmeDynamicTxRateSwitchingAGS(
-	IN PRTMP_ADAPTER pAd, 
-	IN PMAC_TABLE_ENTRY pEntry, 
-	IN PUCHAR pTable, 
-	IN UCHAR TableSize, 
+	IN PRTMP_ADAPTER pAd,
+	IN PMAC_TABLE_ENTRY pEntry,
+	IN PUCHAR pTable,
+	IN UCHAR TableSize,
 	IN PAGS_STATISTICS_INFO pAGSStatisticsInfo,
 	IN UCHAR InitTxRateIdx);
 
 VOID StaQuickResponeForRateUpExecAGS(
-	IN PRTMP_ADAPTER pAd, 
-	IN PMAC_TABLE_ENTRY pEntry, 
-	IN PUCHAR pTable, 
-	IN UCHAR TableSize, 
+	IN PRTMP_ADAPTER pAd,
+	IN PMAC_TABLE_ENTRY pEntry,
+	IN PUCHAR pTable,
+	IN UCHAR TableSize,
 	IN PAGS_STATISTICS_INFO pAGSStatisticsInfo,
 	IN UCHAR InitTxRateIdx);
 #endif /* CONFIG_STA_SUPPORT */
@@ -368,9 +368,9 @@ VOID APMlmeDynamicTxRateSwitching(
     IN struct _RTMP_ADAPTER *pAd);
 
 VOID APQuickResponeForRateUpExec(
-    IN PVOID SystemSpecific1, 
-    IN PVOID FunctionContext, 
-    IN PVOID SystemSpecific2, 
+    IN PVOID SystemSpecific1,
+    IN PVOID FunctionContext,
+    IN PVOID SystemSpecific2,
     IN PVOID SystemSpecific3);
 
 VOID APMlmeSetTxRate(
@@ -384,9 +384,9 @@ VOID MlmeDynamicTxRateSwitching(
 	IN struct _RTMP_ADAPTER *pAd);
 
 VOID StaQuickResponeForRateUpExec(
-	IN PVOID SystemSpecific1, 
-	IN PVOID FunctionContext, 
-	IN PVOID SystemSpecific2, 
+	IN PVOID SystemSpecific1,
+	IN PVOID FunctionContext,
+	IN PVOID SystemSpecific2,
 	IN PVOID SystemSpecific3);
 
 VOID MlmeSetTxRate(

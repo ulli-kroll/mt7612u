@@ -7,7 +7,7 @@ VOID	NfcParseRspCommand(
 	IN  USHORT DataLen);
 
 VOID	NfcCommand(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	UCHAR Action,
 	IN  UCHAR Type,
 	IN  SHORT DataLen,
@@ -43,15 +43,15 @@ INT 	Set_NfcConfigurationToken_Proc(
 	IN  PSTRING			arg);
 
 INT 	Get_NfcStatus_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 
 INT		Set_DoWpsByNFC_Proc(
-	IN  PRTMP_ADAPTER 	pAd, 
+	IN  PRTMP_ADAPTER 	pAd,
 	IN  PSTRING 			arg);
 
 INT Set_NfcRegenPK_Proc(
-	IN PRTMP_ADAPTER 	pAd, 
+	IN PRTMP_ADAPTER 	pAd,
 	IN PSTRING 			arg);
 
 

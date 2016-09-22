@@ -15,10 +15,10 @@
 
     Module Name:
 	spectrum_def.h
- 
+
     Abstract:
     Handle association related requests either from WSTA or from local MLME
- 
+
     Revision History:
     Who          When          What
     ---------    ----------    ----------------------------------------------

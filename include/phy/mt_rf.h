@@ -97,7 +97,7 @@ enum {
 
 typedef struct _MT_RF_REG {
 	u8 rf_idx;
-	u16 offset;	
+	u16 offset;
 	u32 data;
 } MT_RF_REG, *PMT_RF_REG;
 

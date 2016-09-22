@@ -617,7 +617,7 @@ VOID RTMP_CFG80211_VirtualIF_Init(
 	NdisMoveMemory(&pNetDevOps->devAddr[0], &pAd->CurrentAddress[0], MAC_ADDR_LEN);
 
 	//CFG_TODO
-	/* 
+	/*
 		Bit1 of MAC address Byte0 is local administration bit
 		and should be set to 1 in extended multiple BSSIDs'
 		Bit3~ of MAC address Byte0 is extended multiple BSSID index.
@@ -750,7 +750,7 @@ VOID RTMP_CFG80211_VirtualIF_Remove(
 		{
 			kfree(dev_p->ieee80211_ptr);
 			dev_p->ieee80211_ptr = NULL;
-		} 
+		}
 	}
 }
 

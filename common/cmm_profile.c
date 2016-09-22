@@ -2046,7 +2046,7 @@ static void HTParametersHook(
 #ifdef CONFIG_AP_SUPPORT
 		IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 		{
-			for (i = 0, Bufptr = rstrtok(pValueStr,";"); (Bufptr && i < MAX_MBSSID_NUM(pAd)); Bufptr = rstrtok(NULL,";"), i++) 
+			for (i = 0, Bufptr = rstrtok(pValueStr,";"); (Bufptr && i < MAX_MBSSID_NUM(pAd)); Bufptr = rstrtok(NULL,";"), i++)
 			{
 				pAd->ApCfg.MBSSID[i].wdev.DesiredTransmitSetting.field.FixedTxMode =
 														RT_CfgSetFixedTxPhyMode(Bufptr);
@@ -2101,7 +2101,7 @@ static void HTParametersHook(
 #ifdef CONFIG_AP_SUPPORT
 		IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 		{
-			for (i = 0, Bufptr = rstrtok(pValueStr,";"); (Bufptr && i < MAX_MBSSID_NUM(pAd)); Bufptr = rstrtok(NULL,";"), i++) 
+			for (i = 0, Bufptr = rstrtok(pValueStr,";"); (Bufptr && i < MAX_MBSSID_NUM(pAd)); Bufptr = rstrtok(NULL,";"), i++)
 			{
 				struct wifi_dev *wdev = &pAd->ApCfg.MBSSID[i].wdev;
 				Value = simple_strtol(Bufptr, 0, 10);
@@ -2117,7 +2117,7 @@ static void HTParametersHook(
 		}
 #endif /* CONFIG_AP_SUPPORT */
 
-#ifdef CONFIG_STA_SUPPORT 
+#ifdef CONFIG_STA_SUPPORT
 		IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
 		{
 			struct wifi_dev *wdev = &pAd->StaCfg.wdev;
@@ -3166,7 +3166,7 @@ NDIS_STATUS	RTMPSetProfileParameters(
 					DBGPRINT(RT_DEBUG_TRACE, ("I/F(ra%d) NoForwardingMBCast=%d\n", i, pAd->ApCfg.MBSSID[i].IsolateInterStaMBCast));
 				}
 			}
-			 
+
 			/*NoForwardingBTNBSSID*/
 			if(RTMPGetKeyParameter("NoForwardingBTNBSSID", tmpbuf, 10, pBuffer, TRUE))
 			{
@@ -3441,7 +3441,7 @@ NDIS_STATUS	RTMPSetProfileParameters(
 					int j;
 					if(strlen(tmpbuf) != 17)  /*Mac address acceptable format 01:02:03:04:05:06 length 17*/
 						continue;
-	    
+
 					for (j=0; j<MAC_ADDR_LEN; j++)
 					{
 						AtoH(tmpbuf, &pAd->CommonCfg.StreamModeMac[i][j], 1);
@@ -3679,7 +3679,7 @@ NDIS_STATUS	RTMPSetProfileParameters(
 							-	WPA-TKIP and WPA2-TKIPAES
 							-	WPA-TKIPAES and WPA2-AES
 							-	WPA-TKIPAES and WPA2-TKIP
-							-	WPA-TKIPAES and WPA2-TKIPAES (default)																 
+							-	WPA-TKIPAES and WPA2-TKIPAES (default)
 						 */
 						for (i = 0, macptr = rstrtok(tmpbuf,";"); macptr; macptr = rstrtok(NULL,";"), i++)
 						{
@@ -3700,7 +3700,7 @@ NDIS_STATUS	RTMPSetProfileParameters(
 							if ((strncmp(macptr, "WPA_AES_WPA2_TKIPAES", 20) == 0) || (strncmp(macptr, "wpa_aes_wpa2_tkipaes", 20) == 0))
 								wdev->WpaMixPairCipher = WPA_AES_WPA2_TKIPAES;
 							else if ((strncmp(macptr, "WPA_AES_WPA2_TKIP", 17) == 0) || (strncmp(macptr, "wpa_aes_wpa2_tkip", 17) == 0))
-								wdev->WpaMixPairCipher = WPA_AES_WPA2_TKIP;								 
+								wdev->WpaMixPairCipher = WPA_AES_WPA2_TKIP;
 							else if ((strncmp(macptr, "WPA_TKIP_WPA2_AES", 17) == 0) || (strncmp(macptr, "wpa_tkip_wpa2_aes", 17) == 0))
 								wdev->WpaMixPairCipher = WPA_TKIP_WPA2_AES;
 							else if ((strncmp(macptr, "WPA_TKIP_WPA2_TKIPAES", 21) == 0) || (strncmp(macptr, "wpa_tkip_wpa2_tkipaes", 21) == 0))

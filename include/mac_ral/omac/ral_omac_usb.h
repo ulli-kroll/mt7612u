@@ -15,9 +15,9 @@
 
     Module Name:
 	ral_omac_usb.h
- 
+
     Abstract:
- 
+
     Revision History:
     Who          When          What
     ---------    ----------    ----------------------------------------------

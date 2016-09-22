@@ -184,7 +184,7 @@ VOID BuildChannelList(RTMP_ADAPTER *pAd)
 #ifdef CONFIG_AP_SUPPORT
 			for (i = 0; i < num; i++)
 			{
-				if((pAd->CommonCfg.bIEEE80211H == 0)|| ((pAd->CommonCfg.bIEEE80211H == 1) && (pAd->CommonCfg.RDDurRegion != FCC)))			 
+				if((pAd->CommonCfg.bIEEE80211H == 0)|| ((pAd->CommonCfg.bIEEE80211H == 1) && (pAd->CommonCfg.RDDurRegion != FCC)))
 				{
 					pChannelList[q] = GetChannel_5GHZ(pChDesc, i);
 					pChannelListFlag[q] = GetChannelFlag(pChDesc, i);

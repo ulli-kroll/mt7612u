@@ -44,11 +44,11 @@ UINT32 RtmpOsTickUnitGet(VOID);
 */
 /*
 	Function:
-		allocate memory 
+		allocate memory
 	Parameters:
-		
+
 	Return:
-		
+
 		mem shall be set as NULL if allocation failed
 */
 NDIS_STATUS os_alloc_mem(VOID *pReserved, UCHAR **mem, ULONG size);
@@ -119,7 +119,7 @@ PNDIS_PACKET duplicate_pkt_with_VLAN(
 	IN	UCHAR					*TPID);
 
 typedef void (*RTMP_CB_8023_PACKET_ANNOUNCE)(
-			IN	VOID			*pCtrlBkPtr, 
+			IN	VOID			*pCtrlBkPtr,
 			IN	PNDIS_PACKET	pPacket,
 			IN	UCHAR			OpMode);
 
@@ -238,7 +238,7 @@ INT RtmpOSNetDevDestory(VOID *pReserved, PNET_DEV pNetDev);
 void RtmpOSNetDevDetach(PNET_DEV pNetDev);
 int RtmpOSNetDevAttach(
 	IN	UCHAR					OpMode,
-	IN	PNET_DEV				pNetDev, 
+	IN	PNET_DEV				pNetDev,
 	IN	RTMP_OS_NETDEV_OP_HOOK	*pDevOpHook);
 
 void RtmpOSNetDevProtect(
@@ -293,7 +293,7 @@ VOID RtmpOsMlmeUp(RTMP_OS_TASK *pMlmeQTask);
 VOID RtmpOsInitCompletion(RTMP_OS_COMPLETION *pCompletion);
 VOID RtmpOsExitCompletion(RTMP_OS_COMPLETION *pCompletion);
 VOID RtmpOsComplete(RTMP_OS_COMPLETION *pCompletion);
-ULONG RtmpOsWaitForCompletionTimeout(RTMP_OS_COMPLETION *pCompletion, ULONG Timeout); 
+ULONG RtmpOsWaitForCompletionTimeout(RTMP_OS_COMPLETION *pCompletion, ULONG Timeout);
 
 /* OS Task */
 BOOLEAN RtmpOsTaskletSche(RTMP_NET_TASK_STRUCT *pTasklet);
@@ -348,12 +348,12 @@ VOID RtmpOsDCacheFlush(ULONG AddrStart, ULONG Size);
 
 /* OS Timer */
 VOID RTMP_SetPeriodicTimer(
-	IN	NDIS_MINIPORT_TIMER *pTimerOrg, 
+	IN	NDIS_MINIPORT_TIMER *pTimerOrg,
 	IN	unsigned long timeout);
 
 VOID RTMP_OS_Init_Timer(
 	IN	VOID *pReserved,
-	IN	NDIS_MINIPORT_TIMER *pTimerOrg, 
+	IN	NDIS_MINIPORT_TIMER *pTimerOrg,
 	IN	TIMER_FUNCTION function,
 	IN	PVOID data,
 	IN	LIST_HEADER *pTimerList);
@@ -549,7 +549,7 @@ int wext_notify_event_assoc(
 	IN	UCHAR					*ReqVarIEs,
 	IN	UINT32					ReqVarIELen);
 
-VOID    SendAssocIEsToWpaSupplicant( 
+VOID    SendAssocIEsToWpaSupplicant(
 	IN	PNET_DEV				pNetDev,
 	IN	UCHAR					*ReqVarIEs,
 	IN	UINT32					ReqVarIELen);
@@ -818,7 +818,7 @@ void CFG80211OS_P2pClientConnectResultInform(
 	IN UINT32					ReqIeLen,
 	IN UCHAR					*pRspIe,
 	IN UINT32					RspIeLen,
-	IN UCHAR					FlgIsSuccess);	
+	IN UCHAR					FlgIsSuccess);
 
 BOOLEAN CFG80211OS_RxMgmt(IN PNET_DEV pNetDev, IN INT32 freq, IN PUCHAR frame, IN UINT32 len);
 VOID CFG80211OS_TxStatus(IN PNET_DEV pNetDev, IN INT32 cookie, 	IN PUCHAR frame, IN UINT32 len, IN BOOLEAN ack);

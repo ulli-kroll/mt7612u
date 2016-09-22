@@ -15,10 +15,10 @@
 
     Module Name:
     dot11_base.h
- 
+
     Abstract:
 	Defined IE/frame structures of 802.11 base line
- 
+
     Revision History:
     Who        When          What
     ---------  ----------    ----------------------------------------------

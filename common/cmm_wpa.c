@@ -268,7 +268,7 @@ VOID WpaEAPOLKeyAction(
 
 		/* Check if this STA is in class 3 state and the WPA state is started 						*/
 		if ((pEntry->Sst == SST_ASSOC) && (pEntry->WpaState >= AS_INITPSK))
-		{			 
+		{
 			/* Check the Key Ack (bit 7) of the Key Information to determine the Authenticator */
 			/* or not.*/
 			/* An EAPOL-Key frame that is sent by the Supplicant in response to an EAPOL-*/
@@ -290,7 +290,7 @@ VOID WpaEAPOLKeyAction(
 					*/
 					if (peerKeyInfo.KeyMic == 0)
 						PeerPairMsg1Action(pAd, pEntry, Elem);
-					else                	                
+					else                
 						PeerPairMsg3Action(pAd, pEntry, Elem);
 				}
 				else if ((peerKeyInfo.Secure == 1) &&
@@ -863,7 +863,7 @@ VOID WPAStart4WayHS(
 		NdisMoveMemory(&pMbss->PMK, &pMbss->PMKIDCache.BSSIDInfo[pEntry->PMKID_CacheIdx].PMK, PMK_LEN);
 
 		pEapolFrame->KeyDesc.KeyData[1] = 0x14;/* 4+LEN_PMKID*/
-		INC_UINT16_TO_ARRARY(pEapolFrame->KeyDesc.KeyDataLen, 6 + LEN_PMKID);    
+		INC_UINT16_TO_ARRARY(pEapolFrame->KeyDesc.KeyDataLen, 6 + LEN_PMKID);
 		INC_UINT16_TO_ARRARY(pEapolFrame->Body_Len, 6 + LEN_PMKID);
 	}
 #ifdef DOT11W_PMF_SUPPORT
@@ -893,7 +893,7 @@ VOID WPAStart4WayHS(
 
                 NdisMoveMemory(&pKeyDesc->KeyData[6], digest, LEN_PMKID);
                 pKeyDesc->KeyData[1] = 0x14;// 4+LEN_PMKID
-                INC_UINT16_TO_ARRARY(pKeyDesc->KeyDataLen, 6 + LEN_PMKID);    
+                INC_UINT16_TO_ARRARY(pKeyDesc->KeyDataLen, 6 + LEN_PMKID);
                 INC_UINT16_TO_ARRARY(pEapolFrame->Body_Len, 6 + LEN_PMKID);
 	}
 #endif /* DOT11W_PMF_SUPPORT */
@@ -1216,7 +1216,7 @@ VOID PeerPairMsg2Action(
 					pEntry->SNonce, 		/* SNONCE*/
 					pEntry->Addr,
 					PTK,
-					LEN_PTK); 
+					LEN_PTK);
 
     	NdisMoveMemory(pEntry->PTK, PTK, LEN_PTK);
 	}
@@ -1230,7 +1230,7 @@ VOID PeerPairMsg2Action(
 #if defined(CONFIG_HOTSPOT) && defined(CONFIG_AP_SUPPORT)
 		UCHAR HSClientGTK[32];
 #endif
-    
+
 		/* Allocate memory for input*/
 		os_alloc_mem(NULL, (PUCHAR *)&mpool, TX_EAPOL_BUFFER);
 		if (mpool == NULL)
@@ -1410,7 +1410,7 @@ VOID PeerPairMsg3Action(
 					  pEapolFrame);
 
 	/* Update WpaState*/
-	pEntry->WpaState = AS_PTKINITDONE;	 
+	pEntry->WpaState = AS_PTKINITDONE;
 	/* Update pairwise key		*/
 #ifdef CONFIG_AP_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
@@ -2984,7 +2984,7 @@ static VOID RTMPMakeRsnIeAKM(
 
 	Arguments:
 		pAd			-	pointer to our pAdapter context
-    	ElementID	-	indicate the WPA1 or WPA2    
+    	ElementID	-	indicate the WPA1 or WPA2
 		apidx		-	indicate the interface index
 
 	Return Value:
@@ -3054,7 +3054,7 @@ static VOID RTMPMakeRsnIeCap(
 
 	Arguments:
 		pAd			-	pointer to our pAdapter context
-    	ElementID	-	indicate the WPA1 or WPA2    
+    	ElementID	-	indicate the WPA1 or WPA2
 		apidx		-	indicate the interface index
 
 	Return Value:
@@ -3968,7 +3968,7 @@ VOID	ConstructEapolMsg(
 	   any key material (e.g., GTK or SMK) is included in the frame. */
 	if (bWPA2 && ((MsgType == EAPOL_PAIR_MSG_3) ||
 		(MsgType == EAPOL_GROUP_MSG_1)))
-    {                               
+    {
         pMsg->KeyDesc.KeyInfo.EKD_DL = 1;
     }
 
@@ -4076,7 +4076,7 @@ VOID	ConstructEapolKeyData(
 	IN	UCHAR			RSNIE_LEN,
 	OUT PEAPOL_PACKET   pMsg)
 {
-	UCHAR		*mpool, *Key_Data, *eGTK;  
+	UCHAR		*mpool, *Key_Data, *eGTK;
 	ULONG		data_offset;
 	BOOLEAN		bWPA2Capable = FALSE;
 	BOOLEAN		GTK_Included = FALSE;
@@ -4242,7 +4242,7 @@ VOID	ConstructEapolKeyData(
 
 	Arguments:
 		pAd				-	pointer to our pAdapter context
-    	PeerWepStatus	-	indicate the encryption type    
+    	PeerWepStatus	-	indicate the encryption type
 
 	Return Value:
 
@@ -4375,7 +4375,7 @@ CIPHER_KEY *RTMPSwCipherKeySelection(
 			pKey = &pEntry->PairwiseKey;
 		else {
 #ifdef CONFIG_STA_SUPPORT
-#endif /* CONFIG_STA_SUPPORT */	    
+#endif /* CONFIG_STA_SUPPORT */
 		    	pKey = &pAd->SharedKey[pEntry->apidx][keyIdx];
         }
 	}
@@ -4392,7 +4392,7 @@ CIPHER_KEY *RTMPSwCipherKeySelection(
 
 	Arguments:
 		pAd				-	pointer to our pAdapter context
-    	PeerWepStatus	-	indicate the encryption type    
+    	PeerWepStatus	-	indicate the encryption type
 
 	Return Value:
 		NDIS_STATUS_SUCCESS		-	decryption successful
@@ -4412,7 +4412,7 @@ NDIS_STATUS	RTMPSoftDecryptionAction(
 	NStatus =0;
 
 	switch (pKey->CipherAlg)
-    {    	        
+    {    
 		case CIPHER_WEP64:
 		case CIPHER_WEP128:
 			/* handle WEP decryption */
@@ -4421,7 +4421,7 @@ NDIS_STATUS	RTMPSoftDecryptionAction(
 				DBGPRINT(RT_DEBUG_ERROR, ("ERROR : SW decrypt WEP data fails.\n"));
 				/* give up this frame*/
 				return NDIS_STATUS_FAILURE;
-			}        
+			}
 			break;
 
 		case CIPHER_TKIP:
@@ -4432,13 +4432,13 @@ NDIS_STATUS	RTMPSoftDecryptionAction(
 				DBGPRINT(RT_DEBUG_ERROR, ("ERROR : SW decrypt TKIP data fails.\n"));
 				/* give up this frame*/
 				return NDIS_STATUS_FAILURE;
-			}        
+			}
 			else if (NStatus == NDIS_STATUS_MICERROR)
 			{
 				DBGPRINT(RT_DEBUG_ERROR, ("ERROR : SW decrypt TKIP data mic error.\n"));
 				/* give up this frame*/
 				return NDIS_STATUS_MICERROR;
-			}           
+			}
 			break;
 
 		case CIPHER_AES:
@@ -5148,7 +5148,7 @@ INT WpaCheckEapCode(
 		return result;
 
 	pData = pFrame + OffSet;		/* skip offset bytes */
- 
+
 	if(*(pData+1) == EAPPacket) 	/* 802.1x header - Packet Type */
 	{
 		 result = *(pData+4);		/* EAP header - Code */

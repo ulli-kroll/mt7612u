@@ -26,7 +26,7 @@
 
 #ifdef RT_CFG80211_SUPPORT
 
-#ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE 	
+#ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE 
 #define CFG80211_GetEventDevice(__pAd) __pAd->cfg80211_ctrl.dummy_p2p_net_dev
 #else
 #define CFG80211_GetEventDevice(__pAd) __pAd->net_dev
@@ -62,7 +62,7 @@ typedef	struct	_P2PCLIENT_NOA_SCHEDULE	{
 
 
 	UCHAR		Token;
-	
+
 	ULONG		SwTimerTickCounter; /* this Counter os used for sw-base NoA implementation tick counter */
 
 	ULONG		CurrentTargetTimePoint; /* For sw-base method NoA usage */
@@ -74,7 +74,7 @@ typedef	struct	_P2PCLIENT_NOA_SCHEDULE	{
 	ULONG           StartTime;
 	ULONG		OngoingAwakeTime; /* this time will keep increasing as time go by. indecate the current awake time point */
 
-	
+
 	ULONG		LastBeaconTimeStamp;
 }	P2PCLIENT_NOA_SCHEDULE, *PP2PCLIENT_NOA_SCHEDULE;
 
@@ -93,21 +93,21 @@ typedef struct {
 } P2PEID_STRUCT,*PP2PEID_STRUCT;
 
 VOID CFG80211_P2PCTWindowTimer(
-	IN PVOID	SystemSpecific1, 
-	IN PVOID	FunctionContext, 
-	IN PVOID	SystemSpecific2, 
+	IN PVOID	SystemSpecific1,
+	IN PVOID	FunctionContext,
+	IN PVOID	SystemSpecific2,
 	IN PVOID	SystemSpecific3);
 
 VOID CFG80211_P2pSwNoATimeOut(
-	IN PVOID SystemSpecific1, 
-	IN PVOID FunctionContext, 
-	IN PVOID SystemSpecific2, 
+	IN PVOID SystemSpecific1,
+	IN PVOID FunctionContext,
+	IN PVOID SystemSpecific2,
 	IN PVOID SystemSpecific3);
 
 VOID CFG80211_P2pPreAbsenTimeOut(
-	IN PVOID SystemSpecific1, 
-	IN PVOID FunctionContext, 
-	IN PVOID SystemSpecific2, 
+	IN PVOID SystemSpecific1,
+	IN PVOID FunctionContext,
+	IN PVOID SystemSpecific2,
 	IN PVOID SystemSpecific3);
 
 #endif /* RT_CFG80211_P2P_SUPPORT */

@@ -16,11 +16,11 @@
 
 	Module Name:
 	dot11i_wpa.h
-	
+
 	Revision History:
 	Who 			When			What
 	--------		----------		----------------------------------------------
-	
+
 */
 
 #ifndef	__DOT11I_WPA_H__
@@ -29,9 +29,9 @@
 #include "rtmp_type.h"
 #include "dot11_base.h"
 
-/* The length is the EAPoL-Key frame except key data field. 
+/* The length is the EAPoL-Key frame except key data field.
    Please refer to 802.11i-2004 ,Figure 43u in p.78 */
-#define MIN_LEN_OF_EAPOL_KEY_MSG	95	
+#define MIN_LEN_OF_EAPOL_KEY_MSG	95
 
 /* The related length of the EAPOL Key frame */
 #define LEN_KEY_DESC_NONCE			32
@@ -125,7 +125,7 @@
 
 /* It's defined in IEEE Std 802.11-2007 Table 8-4 */
 typedef enum _WPA_KDE_ID
-{		
+{
    	KDE_RESV0,
    	KDE_GTK,
    	KDE_RESV2,
@@ -168,7 +168,7 @@ typedef	struct GNU_PACKED _KEY_INFO
 	UCHAR	KeyIndex:2;
 	UCHAR	Install:1;
 	UCHAR	KeyAck:1;
-#endif	
+#endif
 }	KEY_INFO, *PKEY_INFO;
 
 /* EAPOL Key descriptor format */
@@ -183,7 +183,7 @@ typedef	struct GNU_PACKED _KEY_DESCRIPTER
 	UCHAR		KeyRsc[LEN_KEY_DESC_RSC];
 	UCHAR		KeyId[LEN_KEY_DESC_ID];
 	UCHAR		KeyMic[LEN_KEY_DESC_MIC];
-	UCHAR		KeyDataLen[2];	   
+	UCHAR		KeyDataLen[2];
 	UCHAR		KeyData[0];
 }	KEY_DESCRIPTER, *PKEY_DESCRIPTER;
 
@@ -216,7 +216,7 @@ typedef struct GNU_PACKED _GTK_KDE
     UCHAR               rsv:5;
     UCHAR               tx:1;
     UCHAR               Kid:2;
-    UCHAR               rsv1;    	
+    UCHAR               rsv1;    
 #endif
     UCHAR               GTK[0];
 }   GTK_KDE, *PGTK_KDE;
@@ -261,7 +261,7 @@ typedef struct GNU_PACKED _RSNIE_PMKID {
 typedef	union GNU_PACKED _RSN_CAPABILITIES	{
 	struct	GNU_PACKED {
 #ifdef RT_BIG_ENDIAN
-        USHORT		Rsvd:8;		
+        USHORT		Rsvd:8;
 		USHORT		MFPC:1;
 		USHORT		MFPR:1;
         USHORT		GTKSA_R_Counter:2;

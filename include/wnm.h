@@ -23,7 +23,7 @@
 #ifndef __WNM_H__
 #define __WNM_H__
 
-#include "ipv6.h"					
+#include "ipv6.h"
 
 #define BTM_MACHINE_BASE 0
 #define WaitPeerBTMRspTimeoutVale 1024
@@ -70,7 +70,7 @@ typedef struct GNU_PACKED _BTM_EVENT_DATA {
 			UINT16 BTMQueryLen;
 			UCHAR BTMQuery[0];
 		} GNU_PACKED BTM_QUERY_DATA;
-	
+
 		struct {
 			UCHAR DialogToken;
 			UINT16 BTMRspLen;
@@ -226,8 +226,8 @@ VOID RemoveIPv4ProxyARPEntry(IN PRTMP_ADAPTER pAd,
 
 VOID RemoveIPv6ProxyARPEntry(IN PRTMP_ADAPTER pAd,
 							IN struct _MULTISSID_STRUCT *pMbss,
-							PUCHAR pTargetMACAddr);	
-							
+							PUCHAR pTargetMACAddr);
+
 VOID WNMCtrlInit(IN PRTMP_ADAPTER pAd);
 VOID WNMCtrlExit(IN PRTMP_ADAPTER pAd);
 VOID Clear_All_PROXY_TABLE(IN PRTMP_ADAPTER pAd);

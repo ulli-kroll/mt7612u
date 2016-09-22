@@ -2395,7 +2395,7 @@ static NDIS_STATUS	ATECmdHandler(
 	DBGPRINT(RT_DEBUG_TRACE, ("===> %s\n", __FUNCTION__));
 
 #ifdef CONFIG_RT2880_ATE_CMD_NEW
-	if (!strcmp(arg, "ATESTART")) 
+	if (!strcmp(arg, "ATESTART"))
 	{
 		/* Enter/Reset ATE mode and set Tx/Rx Idle */
 		Status = ATESTART(pAd);
@@ -2406,7 +2406,7 @@ static NDIS_STATUS	ATECmdHandler(
 		Status = ATESTOP(pAd);
 	}
 #else
-	if (!strcmp(arg, "APSTOP")) 
+	if (!strcmp(arg, "APSTOP"))
 	{
 		Status = ATESTART(pAd);
 	}
@@ -4410,7 +4410,7 @@ INT	Set_ATE_TXBF_LNACAL_Proc(
 ==========================================================================
     Description:
 	Sanity check for the channel of Implicit TxBF calibration.
-        
+
     Return:
 	TRUE if all parameters are OK, FALSE otherwise
 

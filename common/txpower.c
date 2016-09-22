@@ -802,7 +802,7 @@ VOID AsicAdjustTxPower(RTMP_ADAPTER *pAd)
 	/* The transmit power controlled by the BBP */
 	TotalDeltaPower += DeltaPowerByBbpR1;
 	/* The transmit power controlled by the MAC */
-	TotalDeltaPower += DeltaPwr; 
+	TotalDeltaPower += DeltaPwr;
 
 #ifdef SINGLE_SKU
 	if (pAd->CommonCfg.bSKUMode == TRUE)

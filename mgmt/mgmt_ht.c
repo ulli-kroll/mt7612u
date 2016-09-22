@@ -298,7 +298,7 @@ VOID RTMPSetHT(
 	{
 		ht_cap->MCSSet[4] = 0x1; /* MCS 32*/
 		ht_cap->HtCapInfo.ChannelWidth = 1;
-		if (pAd->CommonCfg.Channel <= 14) 
+		if (pAd->CommonCfg.Channel <= 14)
 			ht_cap->HtCapInfo.CCKmodein40 = 1;
 
 		rt_ht_cap->ChannelWidth = 1;
@@ -351,7 +351,7 @@ VOID RTMPSetHT(
 		else
 		{
 			ht_cap->HtCapInfo.TxSTBC = 0;
-			rt_ht_cap->TxSTBC = 0; 
+			rt_ht_cap->TxSTBC = 0;
 		}
 
 		/*
@@ -369,7 +369,7 @@ VOID RTMPSetHT(
 		else
 		{
 			ht_cap->HtCapInfo.RxSTBC = 0;
-			rt_ht_cap->RxSTBC = 0; 
+			rt_ht_cap->RxSTBC = 0;
 		}
 	}
 	else
@@ -570,7 +570,7 @@ VOID RTMPSetIndividualHT(RTMP_ADAPTER *pAd, UCHAR apidx)
 		DBGPRINT(RT_DEBUG_WARN, ("RTMPSetIndividualHT: MCS_32 is only supported in 40-MHz, reset it as MCS_0\n"));
 		DesiredMcs = MCS_0;
 	}
-	   
+
 #ifdef CONFIG_STA_SUPPORT
 	if ((pAd->OpMode == OPMODE_STA) && (pAd->StaCfg.BssType == BSS_INFRA) && (apidx == MIN_NET_DEVICE_FOR_MBSSID))
 		;

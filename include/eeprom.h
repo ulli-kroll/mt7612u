@@ -155,8 +155,8 @@ typedef union _EEPROM_NIC_CINFIG2_STRUC {
 		USHORT AntOpt:1;	/* Fix Antenna Option: 0:Main; 1: Aux */
 		USHORT AntDiversity:1;	/* Antenna diversity */
 #ifdef MT76x2
-		USHORT ExternalLNA:1;			
-#else			
+		USHORT ExternalLNA:1;
+#else
 		USHORT Rsv1:1;	/* must be 0 */
 #endif /* MT76x2 */
 		USHORT BW40MAvailForA:1;	/* 0:enable, 1:disable */
@@ -187,7 +187,7 @@ typedef union _EEPROM_NIC_CINFIG2_STRUC {
 		USHORT BW40MAvailForA:1;	/* 0:enable, 1:disable */
 #ifdef MT76x2
 		USHORT ExternalLNA:1;
-#else			
+#else
 		USHORT Rsv1:1;	/* must be 0 */
 #endif /* MT76x2 */
 		USHORT AntDiversity:1;	/* Antenna diversity */
@@ -208,11 +208,11 @@ typedef union _EEPROM_NIC_CINFIG3_STRUC {
 	struct {
 #ifdef MT76x2
 		USHORT CoexMethod:3;
-		USHORT Rsv1:1;		
+		USHORT Rsv1:1;
 		USHORT TemperatureDisable:1;	/* 0:enable, 1:disable */
-		USHORT XtalOption:2;	
+		USHORT XtalOption:2;
 		USHORT HWAntDiv:1;
-#else		
+#else
 		USHORT Rsv1:7;	/* must be 0 */
 		USHORT CoexMethod:1;
 #endif /* MT76x2 */
@@ -228,11 +228,11 @@ typedef union _EEPROM_NIC_CINFIG3_STRUC {
 		USHORT TxStream:4;	/* Number of Tx stream */
 #ifdef MT76x2
 		USHORT HWAntDiv:1;
-		USHORT XtalOption:2;	
+		USHORT XtalOption:2;
 		USHORT TemperatureDisable:1;	/* 0:enable, 1:disable */
-		USHORT Rsv1:1;	
-		USHORT CoexMethod:3;	
-#else			
+		USHORT Rsv1:1;
+		USHORT CoexMethod:3;
+#else
 		USHORT CoexMethod:1;
 		USHORT Rsv1:7;	/* must be 0 */
 #endif /* MT76x2 */
@@ -348,7 +348,7 @@ typedef union _EEPROM_TX_PWR_OFFSET_STRUC
 		UCHAR	Byte1;	/* High Byte */
 		UCHAR	Byte0;	/* Low Byte */
 	} field;
-	
+
 	USHORT		word;
 } EEPROM_TX_PWR_OFFSET_STRUC, *PEEPROM_TX_PWR_OFFSET_STRUC;
 #else
@@ -613,7 +613,7 @@ enum EEPROM_STORAGE_TYPE{
 #define G_BAND_BANDEDGE_PWR_BACK_OFF 0x9E
 #define G_BAND_BANDEDGE_PWR_BACK_OFF_MASK (0x7f)
 #define G_BAND_BANDEDGE_PWR_BACK_OFF_EN (1 << 7)
-#define XTAL_TRIM2_MASK (0x7f << 8) 
+#define XTAL_TRIM2_MASK (0x7f << 8)
 #define XTAL_TRIM2_DIP_SELECTION (1 << 15)
 
 #define TX_PWR_CCK_1_2M 0xA0
@@ -783,7 +783,7 @@ NTSTATUS RTUSBReadEEPROM16(
 
 NTSTATUS RTUSBWriteEEPROM16(
 	IN struct _RTMP_ADAPTER *pAd,
-	IN USHORT 			offset, 
+	IN USHORT 			offset,
 	IN USHORT 			value);
 
 #endif /* RTMP_USB_SUPPORT */
@@ -803,7 +803,7 @@ int rtmp_ee_flash_read(
 
 int rtmp_ee_flash_write(
 	IN struct _RTMP_ADAPTER *pAd,
-	IN USHORT 			Offset, 
+	IN USHORT 			Offset,
 	IN USHORT 			Data);
 
 VOID rtmp_ee_flash_read_all(
@@ -828,7 +828,7 @@ int rtmp_ee_efuse_read16(
 
 int rtmp_ee_efuse_write16(
 	IN struct _RTMP_ADAPTER *pAd,
-	IN USHORT 			Offset, 
+	IN USHORT 			Offset,
 	IN USHORT 			data);
 
 INT rtmp_ee_write_to_efuse(
@@ -845,7 +845,7 @@ INT rtmp_ee_bin_read16(
 
 INT rtmp_ee_bin_write16(
 	IN struct _RTMP_ADAPTER *pAd,
-	IN USHORT 			Offset, 
+	IN USHORT 			Offset,
 	IN USHORT 			data);
 
 INT rtmp_ee_load_from_bin(
@@ -858,7 +858,7 @@ INT rtmp_ee_write_to_bin(
 INT rtmp_ee_write_to_prom(
 	IN struct _RTMP_ADAPTER *pAd);
 #endif /* RT65xx */
-	
+
 INT Set_LoadEepromBufferFromBin_Proc(
 	IN struct _RTMP_ADAPTER *pAd,
 	IN PSTRING			arg);

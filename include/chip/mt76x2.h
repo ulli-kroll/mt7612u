@@ -56,7 +56,7 @@ struct mt76x2_frequency_item {
 	u8 channel;
 	u32 fcal_target;
 	u32 sdm_integer;
-	u32 sdm_fraction;	
+	u32 sdm_fraction;
 };
 
 typedef struct _MT76x2_RATE_PWR_ITEM {

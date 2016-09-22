@@ -15,9 +15,9 @@
 
     Module Name:
 	rtmp_os.h
- 
+
     Abstract:
- 
+
     Revision History:
     Who          When          What
     ---------    ----------    ----------------------------------------------
@@ -65,7 +65,7 @@ extern RTMP_OS_ABL_OPS *pRaOsOps;
 #include "os/pkt_meta.h"
 
 /*
-	This data structure mainly strip some callback function defined in 
+	This data structure mainly strip some callback function defined in
 	"struct net_device" in kernel source "include/linux/netdevice.h".
 
 	The definition of this data structure may various depends on different

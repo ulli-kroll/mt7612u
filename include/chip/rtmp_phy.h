@@ -204,7 +204,7 @@ typedef union _BBP_R49_STRUC {
 		UCHAR	bypassTSSIAverage:1; /* 0: the average TSSI (the average of the 16 samples), 1: the current TSSI */
 		UCHAR	adc5_in_sel:1; /* 0: TSSI (from the external components, old version), 1: PSI (internal components, new version - RT3390) */
 	} field;
-	
+
 	UCHAR		byte;
 } BBP_R49_STRUC, *PBBP_R49_STRUC;
 #endif
@@ -237,7 +237,7 @@ typedef union _BBP_R49_STRUC {
 
 /*****************************************************************************
 	BBP register Read/Write marco definitions.
-	we read/write the bbp value by register's ID. 
+	we read/write the bbp value by register's ID.
 	Generate PER to test BA
  *****************************************************************************/
 

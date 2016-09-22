@@ -1244,7 +1244,7 @@ void NewRadarDetectionStart(PRTMP_ADAPTER pAd)
 				*ppDFSTable = &NewDFSTable3[0];
 			}
 			else if ((pAd->CommonCfg.Channel >= 52)
-					&& (pAd->CommonCfg.Channel <= 64)) { 
+					&& (pAd->CommonCfg.Channel <= 64)) {
 				/* JAP_W53 */
 				*ppDFSTable = &NewDFSTable3[2];
 			}
@@ -1261,7 +1261,7 @@ void NewRadarDetectionStart(PRTMP_ADAPTER pAd)
 				*ppDFSTable = &NewDFSTable2[0];
 			}
 			else if ((pAd->CommonCfg.Channel >= 52)
-					&& (pAd->CommonCfg.Channel <= 64)) { 
+					&& (pAd->CommonCfg.Channel <= 64)) {
 				/* JAP_W53 */
 				*ppDFSTable = &NewDFSTable2[2];
 			}
@@ -1427,7 +1427,7 @@ int SWRadarCheck(
 				{
 					if (p1->counter + CounterToCheck < pCurrent->counter)
 						break;
-            
+
 					widthsum = p1->width + pCurrent->width;
 					if (id == 0)
 					{
@@ -1457,7 +1457,7 @@ int SWRadarCheck(
 							pDfsSwParam->DFS_T[id][pDfsSwParam->dfs_t_idx[id]].idx2 = (j & NEW_DFS_DBG_PORT_MASK);
 							pDfsSwParam->DFS_T[id][pDfsSwParam->dfs_t_idx[id]].width2 = p1->width;
 							pDfsSwParam->DFS_T[id][pDfsSwParam->dfs_t_idx[id]].period = period;
-            
+
 							if (pCurrent->start_idx == 0xffff)
 								pCurrent->start_idx = pDfsSwParam->dfs_t_idx[id];
 							pCurrent->end_idx = pDfsSwParam->dfs_t_idx[id];
@@ -1488,16 +1488,16 @@ int SWRadarCheck(
 					else if (id == 2)
 						pDfsSwParam->dfs_width_diff = widthsum >> pDfsSwParam->dfs_width_diff_ch2_Shift;
 
-            
+
 					if ( (pAd->Dot11_H.RDMode == RD_SILENCE_MODE) ||
 						 (PERIOD_MATCH(p1->width, pCurrent->width, pDfsSwParam->dfs_width_diff)) )
-            
+
 					{
 						if (p1->timestamp >= pCurrent->timestamp)
 							period = 0x400000 + pCurrent->timestamp - p1->timestamp;
 						else
 							period = pCurrent->timestamp - p1->timestamp;
-            
+
 						if ((period >= ((minPeriod >> 1) - 2)) && (period <= (pDfsSwParam->dfs_max_period >> 1)))
 						{
 							/* add in period table*/
@@ -1585,7 +1585,7 @@ int SWRadarCheck(
 											ULONG T1 = (pAd->CommonCfg.HtCapability.HtCapInfo.ChannelWidth  == BW_40)? (T[1]>>1) : T[1];
 
 											pDFSValidRadar = &NewDFSValidTable[0];
-                    
+
 											while (pDFSValidRadar->type != NEW_DFS_END)
 											{
 												if ((pDFSValidRadar->type & pRadarDetect->MCURadarRegion) == 0)
@@ -1995,7 +1995,7 @@ static BOOLEAN StagerRadarCheck(IN PRTMP_ADAPTER pAd, UINT8 dfs_channel)
 	}
 
 	F_MAX = (F1 > F2) ? ( (F1 > F3) ? F1 : F3 ) : ( (F2 > F3) ? F2 : F3 );
-	F_MIN = (F1 < F2) ? ( (F1 < F3) ? F1 : F3 ) : ( (F2 < F3) ? F2 : F3 );  
+	F_MIN = (F1 < F2) ? ( (F1 < F3) ? F1 : F3 ) : ( (F2 < F3) ? F2 : F3 );
 	F_MID = (F1 > F2) ? ((F1 < F3) ? F1 : ( (F2 > F3) ?  F2 : F3 )) : ( F2 < F3 ? F2 : ((F1 > F3) ? F1 :F3)  );
 
 	DBGPRINT(RT_DEBUG_TRACE, ("F_MAX=%d F_MID=%d F_MIN=%d\n", F_MAX, F_MID, F_MIN));
@@ -2030,10 +2030,10 @@ static BOOLEAN StagerRadarCheck(IN PRTMP_ADAPTER pAd, UINT8 dfs_channel)
 	if (dfs_stg2 == 1)
 	{
         UINT freq_diff = (F1 - F2);
-        
+
         DBGPRINT(RT_DEBUG_TRACE, ("StagerRadarCheck freq_diff_min=%d freq_diff_max=%d \n", freq_diff_min, freq_diff_max));
         DBGPRINT(RT_DEBUG_TRACE, ("StagerRadarCheck dfs_stg2, dff=%d  \n", freq_diff));
-        
+
 		if ((freq_diff >= freq_diff_min) && (freq_diff <= freq_diff_max))
 			return TRUE; /* S/W check success */
 		else
@@ -2048,10 +2048,10 @@ static BOOLEAN StagerRadarCheck(IN PRTMP_ADAPTER pAd, UINT8 dfs_channel)
         UINT freq_diff_1 = (F1 - F2);
         UINT freq_diff_2 = (F2 - F3);
 
-        
+
         DBGPRINT(RT_DEBUG_TRACE, ("StagerRadarCheck freq_diff_min=%d freq_diff_max=%d \n", freq_diff_min, freq_diff_max));
         DBGPRINT(RT_DEBUG_TRACE, ("StagerRadarCheck dfs_stg3, dff_1=%d, dff_2=%d \n", freq_diff_1, freq_diff_2));
-        
+
 
 		if( (freq_diff_1 >= freq_diff_min) && (freq_diff_1 <= freq_diff_max) && (freq_diff_2 >= freq_diff_min) && (freq_diff_2 <= freq_diff_max) )
 			return TRUE; /* S/W check success */
@@ -2891,7 +2891,7 @@ void modify_table1(PRTMP_ADAPTER pAd, ULONG idx, ULONG value)
 			}
 			//else if (pAd->CommonCfg.RDDurRegion == JAP) {
 			else if ((pAd->CommonCfg.Channel >= 52)
-					&& (pAd->CommonCfg.Channel <= 64)) { 
+					&& (pAd->CommonCfg.Channel <= 64)) {
 				/* JAP_W53 */
 				pDFSTable = &NewDFSTable3[2];
 			}
@@ -2909,7 +2909,7 @@ void modify_table1(PRTMP_ADAPTER pAd, ULONG idx, ULONG value)
 			}
 			//else if (pAd->CommonCfg.RDDurRegion == JAP) {
 			else if ((pAd->CommonCfg.Channel >= 52)
-					&& (pAd->CommonCfg.Channel <= 64)) { 
+					&& (pAd->CommonCfg.Channel <= 64)) {
 				/* JAP_W53 */
 				pDFSTable = &NewDFSTable2[2];
 			}
@@ -2941,31 +2941,31 @@ void modify_table1(PRTMP_ADAPTER pAd, ULONG idx, ULONG value)
 		case 3:
 			pDFSTable->entry[x].ELow = (USHORT)value;
 			break;
-    
+
 		case 4:
 			pDFSTable->entry[x].EHigh = (USHORT)value;
 			break;
-    
+
 		case 5:
 			pDFSTable->entry[x].WLow = (USHORT)value;
 			break;
-    
+
 		case 6:
 			pDFSTable->entry[x].WHigh = (USHORT)value;
 			break;
-    
+
 		case 7:
 			pDFSTable->entry[x].EpsilonW = (UCHAR)value;
 			break;
-    
+
 		case 8:
 			pDFSTable->entry[x].TLow = (ULONG)value;
 			break;
-    
+
 		case 9:
 			pDFSTable->entry[x].THigh = (ULONG)value;
 			break;
-    
+
 		case 0xa:
 			pDFSTable->entry[x].EpsilonT = (UCHAR)value;
 			break;
@@ -2989,7 +2989,7 @@ void modify_table1(PRTMP_ADAPTER pAd, ULONG idx, ULONG value)
 		default:
 			break;
 		}
-    
+
 	}
 	else if (idx == (DfsEngineNum*16 +1))
 	{

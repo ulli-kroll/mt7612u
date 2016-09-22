@@ -134,7 +134,7 @@ BOOLEAN MlmeDelBAReqSanity(
     }
 
 	if (NdisEqualMemory(pAd->MacTab.Content[pInfo->Wcid].Addr, pInfo->Addr, MAC_ADDR_LEN) == 0)
-    {    
+    {
         DBGPRINT(RT_DEBUG_ERROR, ("MlmeDelBAReqSanity fail - the peer addr dosen't exist.\n"));
         return FALSE;
     }
@@ -1669,7 +1669,7 @@ BOOLEAN PeerBeaconAndProbeRspSanity2(
 		}
 
 		Length = Length + 2 + pEid->Len;  /* Eid[1] + Len[1]+ content[Len]	*/
-		pEid = (PEID_STRUCT)((UCHAR*)pEid + 2 + pEid->Len); 
+		pEid = (PEID_STRUCT)((UCHAR*)pEid + 2 + pEid->Len);
 	}
 
 	return brc;
@@ -2065,7 +2065,7 @@ BOOLEAN PeerProbeReqSanity(
 
     /* get variable fields from payload and advance the pointer*/
 	while((eid_data + eid_len) <= ((UCHAR*)Fr + MsgLen))
-    {    
+    {
         switch(eid)
         {
 	        case IE_VENDOR_SPECIFIC:

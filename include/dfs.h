@@ -34,7 +34,7 @@
   *
   *	DFS Radar related definitions.
   *
-  ************************************************************************/ 
+  ************************************************************************/
 
 #ifdef DFS_SUPPORT
 #define RADAR_DEBUG_SHOW_RAW_EVENT		0x01  /* Show the 384-bytes raw data of event buffer */
@@ -138,7 +138,7 @@
 		!(((_DfsEvent).EngineId >= _pAd->chipCap.DfsEngineNum) ||	\
 		 ((_DfsEvent).TimeStamp & 0xffc00000) ||	\
 		 ((_DfsEvent).Width & 0xe000))
-		 
+
 #ifdef RLT_BBP
 #define MT7650_DFS_EVENT_SANITY_CHECK(_pAd, _DfsEvent)	\
 		!(((_DfsEvent).EngineId >= _pAd->chipCap.DfsEngineNum) ||	\
@@ -157,11 +157,11 @@
 	}																			\
 }
 
-/*	
+/*
 	2a7c=0x00xx0307
 	(2a7c[23:16] = (2310[21:16] + 2320[14:9] - 2320[5:3]), CR2320/2310 is from bring up result)
 */
-		/* AGC Input Control */	
+		/* AGC Input Control */
 #define MT7650_ADJUST_DFS_AGC(_pAd)			\
 {	\
 	UINT32 bbp_val = 0, dfs_r31 = 0;				\
@@ -187,7 +187,7 @@
 		RTMP_BBP_IO_WRITE32(_pAd, AGC1_R4, Agc_R4);	\
 }
 #endif /* MT76x0 */
-		 
+
 #define DFS_EVENT_PRINT(_DfsEvent)		\
 		DBGPRINT(RT_DEBUG_ERROR, ( "EngineId = %u, Timestamp = %u, Width = %u\n",	\
 		_DfsEvent.EngineId, _DfsEvent.TimeStamp, _DfsEvent.Width));
@@ -316,7 +316,7 @@ typedef struct _DFS_EVENT{
 #ifdef RLT_BBP
 	UINT16 phase;
 	UINT8 power_stable_counter;
-	UINT16 current_power; 
+	UINT16 current_power;
 #endif /* MT76x0 */
 }DFS_EVENT, *PDFS_EVENT;
 
@@ -329,14 +329,14 @@ typedef struct _DFS_SW_DETECT_PARAM{
 	USHORT dfs_width_ch0_err_L;
 	USHORT dfs_width_ch0_err_H;
 	UCHAR dfs_check_loop;
-	UCHAR dfs_declare_thres;	
+	UCHAR dfs_declare_thres;
 	ULONG dfs_w_counter;
 	DFS_EVENT PreDfsEvent;		/* previous radar event */
 	UINT32 EvtDropAdjTime;		/* timing threshold for adjacent event */
 	UINT sw_idx[NEW_DFS_MAX_CHANNEL];
 	UINT hw_idx[NEW_DFS_MAX_CHANNEL];
-	UINT pr_idx[NEW_DFS_MAX_CHANNEL];	
-	USHORT dfs_t_idx[NEW_DFS_MAX_CHANNEL];	
+	UINT pr_idx[NEW_DFS_MAX_CHANNEL];
+	USHORT dfs_t_idx[NEW_DFS_MAX_CHANNEL];
 	USHORT dfs_w_idx[NEW_DFS_MAX_CHANNEL];
 	USHORT dfs_w_last_idx[NEW_DFS_MAX_CHANNEL];
 	NewDFSDebugPort DFS_W[NEW_DFS_MAX_CHANNEL][NEW_DFS_DBG_PORT_ENT_NUM];
@@ -360,9 +360,9 @@ typedef struct _RADAR_DETECT_STRUCT {
 	BOOLEAN DfsRssiHighFromCfg;
 	BOOLEAN DfsRssiLowFromCfg;
 	BOOLEAN DfsRssiHighCfgValid;
-	BOOLEAN DfsRssiLowCfgValid;	
-	BOOLEAN DFSParamFromConfig;	
-	BOOLEAN use_tasklet;	
+	BOOLEAN DfsRssiLowCfgValid;
+	BOOLEAN DFSParamFromConfig;
+	BOOLEAN use_tasklet;
 	UCHAR radarDeclared;
 	BOOLEAN SymRoundFromCfg;
 	BOOLEAN SymRoundCfgValid;
@@ -421,18 +421,18 @@ VOID NewRadarDetectionStop(
 	IN PRTMP_ADAPTER pAd);
 
 void modify_table1(
-	IN PRTMP_ADAPTER pAd, 
-	IN ULONG idx, 
+	IN PRTMP_ADAPTER pAd,
+	IN ULONG idx,
 	IN ULONG value);
 
 void modify_table2(
-	IN PRTMP_ADAPTER pAd, 
-	IN ULONG idx, 
+	IN PRTMP_ADAPTER pAd,
+	IN ULONG idx,
 	IN ULONG value);
-  
+
 void schedule_dfs_task(
 	 IN PRTMP_ADAPTER pAd);
- 
+
 int SWRadarCheck(
 	 IN PRTMP_ADAPTER pAd, USHORT id);
 
@@ -448,31 +448,31 @@ BOOLEAN DfsSwCheckOnHwDetection(
 	 IN ULONG RadarWidth);
 
 INT	Show_BlockCh_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 
 INT	Set_RadarDebug_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 
 INT	Set_ResetRadarHwDetect_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 
 INT Set_DfsSwDisable_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 
 INT Set_DfsEnvtDropAdjTime_Proc(
-	IN PRTMP_ADAPTER   pAd, 
+	IN PRTMP_ADAPTER   pAd,
 	IN PSTRING  arg);
 
 INT	Set_RadarStart_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 
 INT	Set_RadarStop_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 
 #ifdef DFS_ATP_SUPPORT
@@ -482,23 +482,23 @@ INT Set_DfsAtpReport_Proc(IN PRTMP_ADAPTER , IN PSTRING );
 #endif
 
 INT	Set_RadarSetTbl1_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 
 INT	Set_RadarSetTbl2_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 
 INT	Set_PollTime_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 
 INT	Set_PrintBusyIdle_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 
 INT	Set_BusyIdleRatio_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 
 INT	Set_DfsRssiHigh_Proc(

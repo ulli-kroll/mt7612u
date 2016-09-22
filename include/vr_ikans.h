@@ -12,13 +12,13 @@
  * way altering the source code is stricitly prohibited, unless the prior
  * written consent of Ralink Technology, Inc. is obtained.
  ****************************************************************************
- 
+
     Module Name:
     vr_ikans.h
- 
+
     Abstract:
     Only for IKANOS Vx160 or Vx180 platform.
- 
+
     Revision History:
     Who         When          What
     --------    ----------    ----------------------------------------------

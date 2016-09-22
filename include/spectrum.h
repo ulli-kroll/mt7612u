@@ -19,10 +19,10 @@ CHAR RTMP_GetTxPwr(
 	Description:
 		Prepare Measurement request action frame and enqueue it into
 		management queue waiting for transmition.
-		
+
 	Parametrs:
 		1. the destination mac address of the frame.
-	
+
 	Return	: None.
 	==========================================================================
  */
@@ -33,7 +33,7 @@ VOID MakeMeasurementReqFrame(
 	IN UINT8 TotalLen,
 	IN UINT8 Category,
 	IN UINT8 Action,
-	IN UINT8 MeasureToken, 
+	IN UINT8 MeasureToken,
 	IN UINT8 MeasureReqMode,
 	IN UINT8 MeasureReqType,
 	IN UINT16 NumOfRepetitions);
@@ -43,10 +43,10 @@ VOID MakeMeasurementReqFrame(
 	Description:
 		Prepare Measurement report action frame and enqueue it into
 		management queue waiting for transmition.
-		
+
 	Parametrs:
 		1. the destination mac address of the frame.
-	
+
 	Return	: None.
 	==========================================================================
  */
@@ -54,7 +54,7 @@ VOID EnqueueMeasurementRep(
 	IN PRTMP_ADAPTER pAd,
 	IN PUCHAR pDA,
 	IN UINT8 DialogToken,
-	IN UINT8 MeasureToken, 
+	IN UINT8 MeasureToken,
 	IN UINT8 MeasureReqMode,
 	IN UINT8 MeasureReqType,
 	IN UINT8 ReportInfoLen,
@@ -65,10 +65,10 @@ VOID EnqueueMeasurementRep(
 	Description:
 		Prepare TPC Request action frame and enqueue it into
 		management queue waiting for transmition.
-		
+
 	Parametrs:
 		1. the destination mac address of the frame.
-	
+
 	Return	: None.
 	==========================================================================
  */
@@ -82,10 +82,10 @@ VOID EnqueueTPCReq(
 	Description:
 		Prepare TPC Report action frame and enqueue it into
 		management queue waiting for transmition.
-		
+
 	Parametrs:
 		1. the destination mac address of the frame.
-	
+
 	Return	: None.
 	==========================================================================
  */
@@ -102,36 +102,36 @@ VOID EnqueueTPCRep(
 	Description:
 		Spectrun action frames Handler such as channel switch annoucement,
 		measurement report, measurement request actions frames.
-		
+
 	Parametrs:
 		Elme - MLME message containing the received frame
-	
+
 	Return	: None.
 	==========================================================================
  */
 VOID PeerSpectrumAction(
-    IN PRTMP_ADAPTER pAd, 
+    IN PRTMP_ADAPTER pAd,
     IN MLME_QUEUE_ELEM *Elem);
 
 /*
 	==========================================================================
 	Description:
-		
+
 	Parametrs:
-	
+
 	Return	: None.
 	==========================================================================
  */
 INT Set_MeasureReq_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 
 INT Set_TpcReq_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 
 INT Set_PwrConstraint(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 
 

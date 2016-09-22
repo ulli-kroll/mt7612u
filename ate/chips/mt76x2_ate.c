@@ -771,7 +771,7 @@ INT mt76x2_ate_tx_pwr_Evaluation(
 					} else {
 						tx0_pwr_ch_delta = 0;
 					}
-				} 
+				}
 
 				RT28xx_EEPROM_READ16(ad, GRP3_TX1_A_BAND_CHL_PWR_DELTA_LOW, value);
 				if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {

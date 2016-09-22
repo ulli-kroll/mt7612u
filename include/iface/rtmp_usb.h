@@ -150,7 +150,7 @@ VOID RTUSBWatchDog(struct _RTMP_ADAPTER *pAd);
 
 VOID RTUSBPutToSleep(struct _RTMP_ADAPTER *pAd);
 NTSTATUS RTUSBWakeUp(struct _RTMP_ADAPTER *pAd);
-	
+
 VOID RtmpUsbStaAsicForceWakeupTimeout(PVOID arg1, PVOID FuncContext, PVOID arg2, PVOID arg3);
 
 VOID RT28xxUsbStaAsicForceWakeup(struct _RTMP_ADAPTER *pAd, BOOLEAN bFromTx);

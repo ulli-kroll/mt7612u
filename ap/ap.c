@@ -521,7 +521,7 @@ DBGPRINT(RT_DEBUG_OFF, ("%s(): AP Set CentralFreq at %d(Prim=%d, HT-CentCh=%d, V
 						/* Update WCID attribute table and IVEIV table */
 						RTMPSetWcidSecurityInfo(pAd,
 												idx,
-												key_idx, 
+												key_idx,
 												CipherAlg,
 												Wcid,
 												SHAREDKEYTABLE);

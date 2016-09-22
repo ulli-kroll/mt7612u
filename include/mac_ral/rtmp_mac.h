@@ -47,7 +47,7 @@
 
 	Rx:
 		PCI/RBUS/USB_Descripotr + (PCI/RBUS RXFCE_INFO) + (PCI/RBUS  RXINFO) + RXWI + 802.11 + (USB RXINFO)
-	
+
 */
 
 /* the first 24-byte in TXD is called TXINFO and will be DMAed to MAC block through TXFIFO. */
@@ -107,7 +107,7 @@ typedef	union GNU_PACKED _HW_RATE_CTRL_STRUCT_ {
 /*
 	bit31 =>802.3 if set 1, implay you hav did header translation
 	bit30 => put VLAN field
-	
+
 */
 #define RXINFO_SIZE			4
 #ifdef RT_BIG_ENDIAN
@@ -434,7 +434,7 @@ typedef	union	_MAC_BSSID_DW1_STRUC {
 		UINT32 MBssMode:2;
 		UINT32 MBssBcnNum:3;
 		UINT32 NMBssMode:1;
-		UINT32 NMBssMode2:1;		
+		UINT32 NMBssMode2:1;
 		UINT32 NMBssMode3:1;
 	} field;
 	UINT32 word;
@@ -450,7 +450,7 @@ typedef	union	_MAC_BSSID_DW1_STRUC {
 #ifdef RT_BIG_ENDIAN
 typedef	union _BBP_CSR_CFG_STRUC {
 	struct {
-		UINT32		:12;		
+		UINT32		:12;
 		UINT32		BBP_RW_MODE:1;	/* 0: use serial mode  1:parallel */
 		UINT32		BBP_PAR_DUR:1;		/* 0: 4 MAC clock cycles  1: 8 MAC clock cycles */
 		UINT32		Busy:1;				/* 1: ASIC is busy execute BBP programming. */
@@ -503,7 +503,7 @@ typedef	union _RF_CSR_CFG0_STRUC {
 #endif
 
 
-#define RF_CSR_CFG1           		0x1024		 
+#define RF_CSR_CFG1           		0x1024
 #ifdef RT_BIG_ENDIAN
 typedef	union _RF_CSR_CFG1_STRUC {
 	struct {
@@ -545,16 +545,16 @@ typedef	union _RF_CSR_CFG2_STRUC {
 #endif
 
 
-#define LED_CFG           		0x102c 
+#define LED_CFG           		0x102c
 #ifdef RT_BIG_ENDIAN
 typedef	union _LED_CFG_STRUC {
 	struct {
-		UINT32		:1;			 
+		UINT32		:1;
 		UINT32		LedPolar:1;			/* Led Polarity.  0: active low1: active high */
 		UINT32		YLedMode:2;			/* yellow Led Mode */
 		UINT32		GLedMode:2;			/* green Led Mode */
 		UINT32		RLedMode:2;			/* red Led Mode    0: off1: blinking upon TX2: periodic slow blinking3: always on */
-		UINT32		rsv:2;		    
+		UINT32		rsv:2;
 		UINT32		SlowBlinkPeriod:6;			/* slow blinking period. unit:1ms */
 		UINT32		OffPeriod:8;			/* blinking off period unit 1ms */
 		UINT32		OnPeriod:8;			/* blinking on period unit 1ms */
@@ -570,7 +570,7 @@ typedef	union _LED_CFG_STRUC {
 		UINT32		rsv:2;
 		UINT32		RLedMode:2;
 		UINT32		GLedMode:2;
-		UINT32		YLedMode:2;	
+		UINT32		YLedMode:2;
 		UINT32		LedPolar:1;
 		UINT32		:1;
 	} field;
@@ -684,10 +684,10 @@ typedef union _TX_CHAIN_ADDR1_H_STRUC {
 #else
 typedef union _TX_CHAIN_ADDR1_H_STRUC {
 	struct {
-		UINT8	TxChainAddr1H_Byte4; 
-		UINT8	TxChainAddr1H_Byte5; 
-		UINT16	TxChainSel0:4; 
-		UINT16	Reserved:12; 
+		UINT8	TxChainAddr1H_Byte4;
+		UINT8	TxChainAddr1H_Byte5;
+		UINT16	TxChainSel0:4;
+		UINT16	Reserved:12;
 	} field;
 	UINT32 word;
 } TX_CHAIN_ADDR1_H_STRUC ;
@@ -785,10 +785,10 @@ typedef union _TX_CHAIN_ADDR3_H_STRUC {
 } TX_CHAIN_ADDR3_H_STRUC;
 #endif
 
-#define TX_BCN_BYPASS_MASK          0x108C 
+#define TX_BCN_BYPASS_MASK          0x108C
 typedef union _BCN_BYPASS_MASK_STRUC {
         struct {
-                UINT32 BeaconDropMask:16;  
+                UINT32 BeaconDropMask:16;
         } field;
         UINT32 word;
 } BCN_BYPASS_MASK_STRUC;
@@ -800,7 +800,7 @@ typedef union _BCN_BYPASS_MASK_STRUC {
 #ifdef RT_BIG_ENDIAN
 typedef	union _IFS_SLOT_CFG_STRUC {
 	struct {
-	    UINT32  rsv:2;         
+	    UINT32  rsv:2;
 	    UINT32  BBRxendEnable:1;        /*  reference RXEND signal to begin XIFS defer */
 	    UINT32  EIFS:9;        /*  unit 1us */
 	    UINT32  OfdmXifsTime:4;        /*OFDM SIFS. unit 1us. Applied after OFDM RX when MAC doesn't reference BBP signal BBRXEND */
@@ -817,7 +817,7 @@ typedef	union _IFS_SLOT_CFG_STRUC {
 	    UINT32  OfdmXifsTime:4;
 	    UINT32  EIFS:9;
 	    UINT32  BBRxendEnable:1;
-	    UINT32  rsv:2;         
+	    UINT32  rsv:2;
 	} field;
 	UINT32 word;
 } IFS_SLOT_CFG_STRUC;
@@ -1093,7 +1093,7 @@ typedef	union _TX_PWR_CFG_STRUC {
 #endif
 
 
-#define TX_PIN_CFG		0x1328		 
+#define TX_PIN_CFG		0x1328
 #define TX_BAND_CFG	0x132c	/* 0x1 use upper 20MHz. 0 juse lower 20MHz */
 #define TX_SW_CFG0		0x1330
 #define TX_SW_CFG1		0x1334
@@ -1130,7 +1130,7 @@ typedef union _TXOP_THRESHOLD_CFG_STRUC {
 #ifdef RT_BIG_ENDIAN
 typedef	union _TX_RTS_CFG_STRUC {
 	struct {
-	    UINT32 rsv:7;     
+	    UINT32 rsv:7;
 	    UINT32 RtsFbkEn:1;    /* enable rts rate fallback */
 	    UINT32 RtsThres:16;    /* unit:byte */
 	    UINT32 AutoRtsRetryLimit:8;
@@ -1165,7 +1165,7 @@ typedef	union _TX_RTS_CFG_STRUC	 {
 typedef	union _TX_TXBF_CFG_0_STRUC {
 	struct {
 #ifdef RT_BIG_ENDIAN
-	    UINT32       EtxbfFbkRate:16;     
+	    UINT32       EtxbfFbkRate:16;
 	    UINT32       EtxbfFbkEn:1;
 	    UINT32       EtxbfFbkSeqEn:1;
 	    UINT32       EtxbfFbkCoef:2;
@@ -1189,7 +1189,7 @@ typedef	union _TX_TXBF_CFG_0_STRUC {
 	    UINT32       EtxbfFbkCoef:2;
 	    UINT32       EtxbfFbkSeqEn:1;
 	    UINT32       EtxbfFbkEn:1;
-	    UINT32       EtxbfFbkRate:16;     
+	    UINT32       EtxbfFbkRate:16;
 #endif
 	} field;
 	UINT32 word;
@@ -1200,18 +1200,18 @@ typedef	union _TX_TXBF_CFG_0_STRUC {
 #ifdef RT_BIG_ENDIAN
 typedef	union _TX_TIMEOUT_CFG_STRUC {
 	struct {
-	    UINT32 rsv2:8;     
+	    UINT32 rsv2:8;
 	    UINT32 TxopTimeout:8;	/*TXOP timeout value for TXOP truncation.  It is recommended that (SLOT_TIME) > (TX_OP_TIMEOUT) > (RX_ACK_TIMEOUT) */
 	    UINT32 RxAckTimeout:8;	/* unit:slot. Used for TX precedure */
 	    UINT32 MpduLifeTime:4;    /*  expiration time = 2^(9+MPDU LIFE TIME)  us */
-	    UINT32 rsv:4;     
+	    UINT32 rsv:4;
 	} field;
 	UINT32 word;
 } TX_TIMEOUT_CFG_STRUC;
 #else
 typedef	union _TX_TIMEOUT_CFG_STRUC {
 	struct {
-	    UINT32 rsv:4;     
+	    UINT32 rsv:4;
 	    UINT32 MpduLifeTime:4;
 	    UINT32 RxAckTimeout:8;
 	    UINT32 TxopTimeout:8;
@@ -1229,7 +1229,7 @@ typedef	union _TX_TIMEOUT_CFG_STRUC {
 #ifdef RT_BIG_ENDIAN
 typedef	union _TX_RTY_CFG_STRUC {
 	struct {
-	    UINT32 rsv:1;     
+	    UINT32 rsv:1;
 	    UINT32 TxautoFBEnable:1;    /* Tx retry PHY rate auto fallback enable */
 	    UINT32 AggRtyMode:1;	/* Aggregate MPDU retry mode.  0:expired by retry limit, 1: expired by mpdu life timer */
 	    UINT32 NonAggRtyMode:1;	/* Non-Aggregate MPDU retry mode.  0:expired by retry limit, 1: expired by mpdu life timer */
@@ -1433,7 +1433,7 @@ typedef	union _PROT_CFG_STRUC {
 		UINT32       DynCbw:1;  /* RTS use dynamic channel bandwidth when TX signaling mode is turned on */
 		UINT32       RtsTaSignal:1; /* RTS TA signaling mode */
 #else
-	    UINT32       rsv:5;	 
+	    UINT32       rsv:5;
 #endif
 	    UINT32       RTSThEn:1;	/*RTS threshold enable on CCK TX */
 	    UINT32       TxopAllowGF40:1;	/*CCK TXOP allowance.0:disallow. */
@@ -1466,7 +1466,7 @@ typedef	union _PROT_CFG_STRUC {
 		UINT32       DynCbw:1;  /* RTS use dynamic channel bandwidth when TX signaling mode is turned on */
 		UINT32		 ProtectTxop:3; /* TXOP allowance */
 #else
-	    UINT32       rsv:5;	 
+	    UINT32       rsv:5;
 #endif /* !DOT11_VHT_AC */
 	} field;
 	UINT32 word;
@@ -1557,10 +1557,10 @@ typedef	union _TX_FBK_CFG_3S_1_STRUC {
 #ifdef RT_BIG_ENDIAN
 typedef	union _RX_FILTR_CFG_STRUC {
 	struct {
-		UINT32 rsv:15;		
+		UINT32 rsv:15;
 		UINT32 DropRsvCntlType:1;
         	UINT32 DropBAR:1;
-		UINT32 DropBA:1;	
+		UINT32 DropBA:1;
 		UINT32 DropPsPoll:1;		/* Drop Ps-Poll */
 		UINT32 DropRts:1;		/* Drop Ps-Poll */
 		UINT32 DropCts:1;		/* Drop Ps-Poll */
@@ -1610,7 +1610,7 @@ typedef	union _RX_FILTR_CFG_STRUC {
 #ifdef RT_BIG_ENDIAN
 typedef union _AUTO_RSP_CFG_STRUC {
 	struct {
-		UINT32        :24;    
+		UINT32        :24;
 		UINT32       AckCtsPsmBit:1;   /* Power bit value in conrtrol frame */
 		UINT32       DualCTSEn:1;   /* Power bit value in conrtrol frame */
 		UINT32       rsv:1;   /* Power bit value in conrtrol frame */
@@ -1633,7 +1633,7 @@ typedef union _AUTO_RSP_CFG_STRUC {
 		UINT32       rsv:1;
 		UINT32       DualCTSEn:1;
 		UINT32       AckCtsPsmBit:1;
-		UINT32        :24;    
+		UINT32        :24;
 	} field;
 	UINT32   word;
 } AUTO_RSP_CFG_STRUC;
@@ -1663,9 +1663,9 @@ typedef union _AUTO_RSP_CFG_STRUC {
 
 
 /*  4.6 HCCA/PSMP (offset:0x1600) */
-#define TXOP_HLDR_ADDR0		0x1600		 
-#define TXOP_HLDR_ADDR1		0x1604		 
-#define TXOP_HLDR_ET			0x1608		 
+#define TXOP_HLDR_ADDR0		0x1600
+#define TXOP_HLDR_ADDR1		0x1604
+#define TXOP_HLDR_ET			0x1608
 #define QOS_CFPOLL_RA_DW0		0x160c
 #define QOS_CFPOLL_A1_DW1		0x1610
 #define QOS_CFPOLL_QC			0x1614
@@ -1877,7 +1877,7 @@ typedef	union _TX_STA_FIFO_STRUC {
 #endif /* MT76x2 */
 
 
-/* 
+/*
 	Debug counters
 */
 #define TX_AGG_CNT		0x171c
@@ -2075,7 +2075,7 @@ typedef	union _TX_AGG_CNT7_STRUC {
 #define TX_AGG_CNT20	0x17ac	/* AGG_SIZE = 41, 42 */
 #define TX_AGG_CNT21	0x17b0	/* AGG_SIZE = 43, 44 */
 #define TX_AGG_CNT22	0x17b4  /* AGG_SIZE = 45, 46 */
-#define TX_AGG_CNT23	0x17b8  /* AGG_SIZE = 47, 48 */ 
+#define TX_AGG_CNT23	0x17b8  /* AGG_SIZE = 47, 48 */
 #ifdef RT_BIG_ENDIAN
 typedef	union _TX_AGG_CNT_STRUC {
 	struct {
@@ -2135,7 +2135,7 @@ typedef	union _MPDU_DEN_CNT_STRUC {
 typedef	union _TX_STA_FIFO_EXT_STRUC {
 	struct {
 		UINT32		Reserve:16;
-		UINT32		PidType:8;				
+		UINT32		PidType:8;
 		UINT32		txRtyCnt:8;   /* frame Tx retry cnt */
 	} field;
 	UINT32 word;
@@ -2492,12 +2492,12 @@ typedef	union _QOS_CSR1_STRUC {
 #define GPIO_HOLDTIME_OFFSET    0x7020 /* Target is 0x7023 */
 #endif /* WOW_SUPPORT */
 
-/* 
+/*
 	On-chip BEACON frame space -
    	1. HW_BEACON_OFFSET/64B must be 0;
    	2. BCN_OFFSETx(0~) must also be changed in MACRegTable(common/rtmp_init.c)
  */
-#define HW_BEACON_OFFSET		0x0200 
+#define HW_BEACON_OFFSET		0x0200
 
 /* NullFrame buffer */
 #define HW_NULL_BASE            0x7700
@@ -2510,7 +2510,7 @@ typedef	union _QOS_CSR1_STRUC {
 	1. The original region for BCN 0~3
 	2. Extract memory from FCE table for BCN 4~5
 	3. Extract memory from Pair-wise key table for BCN 6~7
-  		It occupied those memory of wcid 238~253 for BCN 6 
+  		It occupied those memory of wcid 238~253 for BCN 6
 		and wcid 222~237 for BCN 7  	*/
 /*#define HW_BEACON_MAX_COUNT     8 */
 #define HW_BEACON_MAX_SIZE(__pAd)      ((__pAd)->chipCap.BcnMaxHwSize)
@@ -2603,7 +2603,7 @@ typedef	union _QOS_CSR1_STRUC {
 
 #ifdef RTMP_MAC_USB
 #ifdef DFS_SUPPORT
-#define BBPR127TABLE_OWNERID			0x4CA0 
+#define BBPR127TABLE_OWNERID			0x4CA0
 #define BBPR127TABLE_OFFSET				0x4D00
 #endif /* DFS_SUPPORT */
 #endif /* RTMP_MAC_USB */

@@ -47,23 +47,23 @@ VOID AdjustChannelRelatedValue(
 	IN UCHAR ExtraCh);
 
 VOID RTMPReportMicError(
-	IN  PRTMP_ADAPTER   pAd, 
+	IN  PRTMP_ADAPTER   pAd,
 	IN  PCIPHER_KEY     pWpaKey);
 
 INT RTMPCheckRxError(
-	IN RTMP_ADAPTER *pAd, 
+	IN RTMP_ADAPTER *pAd,
 	IN HEADER_802_11 *pHeader,
 	IN RX_BLK *pRxBlk,
 	IN RXINFO_STRUC *pRxInfo);
 
 VOID WpaMicFailureReportFrame(
-	IN  PRTMP_ADAPTER    pAd, 
+	IN  PRTMP_ADAPTER    pAd,
 	IN  MLME_QUEUE_ELEM *Elem);
 
 VOID WpaDisassocApAndBlockAssoc(
-    IN  PVOID SystemSpecific1, 
-    IN  PVOID FunctionContext, 
-    IN  PVOID SystemSpecific2, 
+    IN  PVOID SystemSpecific1,
+    IN  PVOID FunctionContext,
+    IN  PVOID SystemSpecific2,
     IN  PVOID SystemSpecific3);
 
 VOID WpaStaPairwiseKeySetting(

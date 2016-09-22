@@ -37,7 +37,7 @@
 
 /*
 	TXINFO fields defintion:
-	
+
 	USBDMATxPktLen[b0~b14]:
 		Total bytes of all sub-frame. ONLY for USB bulk Aggregation
 	IPOffset[b15~b18]:
@@ -53,7 +53,7 @@
 		For AMSDU, this field is useless
 
 	WIV[b24]:
-		Wireless Info Valid. 
+		Wireless Info Valid.
 		1: if Driver already fill WI
 		0: if DMA needs to copy WI to correctposition
 
@@ -65,16 +65,16 @@
 		Software used for USB-based chipset, reserved for other interfaces.
 
 	uso[b28]:
-		UDP checksum enable. 
+		UDP checksum enable.
 		1: indicate this packet needs to do UDP checksum
 
 	cso[b29]:
-		Checksum offload. 
+		Checksum offload.
 		1: indicate this packet needs to do checksum
 
 	USBDMANextVLD[b30]:
 		Used for USB-based chipset, reserved for other interfaces.
-		Used ONLY in USB bulk Aggregation, host driver info DMA current 
+		Used ONLY in USB bulk Aggregation, host driver info DMA current
 		frame is not he last frame in current Tx queue
 
 	USBDMATxburst[b31]:
@@ -136,7 +136,7 @@ typedef	struct GNU_PACKED _TXWI_OMAC {
 	UINT32		ShortGI:1;
 	UINT32		BW:1;	/*channel bandwidth 20MHz or 40 MHz */
 	UINT32		MCS:7;
-	
+
 	UINT32		TXLUT:1;
 	UINT32		TXRPT:1;
 	UINT32		Autofallback:1; /* TX rate auto fallback disable */
@@ -145,7 +145,7 @@ typedef	struct GNU_PACKED _TXWI_OMAC {
 	UINT32		txop:2;
 	UINT32		MpduDensity:3;
 	UINT32		AMPDU:1;
-	
+
 	UINT32		TS:1;
 	UINT32		CFACK:1;
 	UINT32		MIMOps:1;	/* the remote peer is in dynamic MIMO-PS mode */
@@ -171,7 +171,7 @@ typedef	struct GNU_PACKED _TXWI_OMAC {
 	UINT32		MIMOps:1;	/* the remote peer is in dynamic MIMO-PS mode */
 	UINT32		CFACK:1;
 	UINT32		TS:1;
-		
+
 	UINT32		AMPDU:1;
 	UINT32		MpduDensity:3;
 	UINT32		txop:2;	/*FOR "THIS" frame. 0:HT TXOP rule , 1:PIFS TX ,2:Backoff, 3:sifs only when previous frame exchange is successful. */
@@ -180,7 +180,7 @@ typedef	struct GNU_PACKED _TXWI_OMAC {
 	UINT32		Autofallback:1; /* TX rate auto fallback disable */
 	UINT32		TXRPT:1;
 	UINT32		TXLUT:1;
-	
+
 	UINT32		MCS:7;
 	UINT32		BW:1;	/*channel bandwidth 20MHz or 40 MHz */
 	UINT32		ShortGI:1;
@@ -188,7 +188,7 @@ typedef	struct GNU_PACKED _TXWI_OMAC {
 	UINT32		eTxBF:1; /* eTxBF enable */
 	UINT32		Sounding:1; /* Sounding enable */
 	UINT32		iTxBF:1; /* iTxBF enable */
-	UINT32		PHYMODE:2;  
+	UINT32		PHYMODE:2;
 	/* Word1 */
 	/* ex:  1c ff 38 00 means ACK=0, BAWinSize=7, MPDUtotalByteCnt = 0x38 */
 	UINT32		ACK:1;
@@ -219,7 +219,7 @@ typedef	struct GNU_PACKED _RXWI_OMAC{
 	UINT32		bss_idx:3;
 	UINT32		key_idx:2;
 	UINT32		wcid:8;
-	
+
 	/* Word 1 */
 	UINT32		phy_mode:2;              /* 1: this RX frame is unicast to me */
 	UINT32		iTxBF:1; /* iTxBF enable */
@@ -231,19 +231,19 @@ typedef	struct GNU_PACKED _RXWI_OMAC{
 	UINT32		mcs:7;
 	UINT32		SEQUENCE:12;
 	UINT32		FRAG:4;
-	
+
 	/* Word 2 */
 	UINT32		rsv1:8;
 	UINT32		RSSI2:8;
 	UINT32		RSSI1:8;
 	UINT32		RSSI0:8;
-	
+
 	/* Word 3 */
 	UINT32		FOFFSET:8;
 	UINT32		SNR2:8;
 	UINT32		SNR1:8;
 	UINT32		SNR0:8;
-	
+
 
 }	RXWI_OMAC;
 #else
@@ -303,7 +303,7 @@ typedef struct GNU_PACKED _OMAC_HW_RATE_CTRL_STRUCT{
 	UINT16 eTxBF:1;
 	UINT16 Sounding:1;
 	UINT16 iTxBF:1;
-	UINT16 PHYMODE:2;  
+	UINT16 PHYMODE:2;
 #endif /* RT_BIG_ENDIAN */
 }OMAC_HW_RATE_CTRL_STRUCT;
 
@@ -336,7 +336,7 @@ typedef struct GNU_PACKED _OMAC_HW_RATE_CTRL_STRUCT{
 
 /* This resgiser is ONLY be supported for RT3883 or later.
    It conflicted with BCN#0 offset of previous chipset. */
-#define WAPI_PN_TABLE_BASE		0x7800		
+#define WAPI_PN_TABLE_BASE		0x7800
 #define WAPI_PN_ENTRY_SIZE   		8
 
 

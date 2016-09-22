@@ -10,16 +10,16 @@
  * or participation in deciphering, decoding, reverse engineering or in any
  * way altering the source code is stricitly prohibited, unless the prior
  * written consent of Ralink Technology, Inc. is obtained.
- ***************************************************************************/  
-    
+ ***************************************************************************/
+
 /****************************************************************************
 
 	Abstract:
 
 	All AGS (Adaptive Group Switching) Related Structure & Definition
 
-***************************************************************************/ 
-    
+***************************************************************************/
+
 #ifndef __AGS_H__
 #define __AGS_H__
 
@@ -49,7 +49,7 @@ typedef struct _RTMP_RA_AGS_TB {
 
 	UCHAR Nss:2; // NSS_XXX (VHT only)
 	UCHAR rsv2:6; // Reserved
-	
+
 	UCHAR	CurrMCS;
 	UCHAR	TrainUp;
 	UCHAR	TrainDown;
@@ -89,13 +89,13 @@ typedef struct _AGS_STATISTICS_INFO {
       (__pRateTable == AGS2x2HTRateTable) ||\
       (__pRateTable == AGS3x3HTRateTable) ||\
       (__pRateTable == Ags1x1VhtRateTable) ||\
-      (__pRateTable == Ags2x2VhtRateTable))) 
+      (__pRateTable == Ags2x2VhtRateTable)))
 #else
 #define AGS_IS_USING(__pAd, __pRateTable)	\
     (SUPPORT_AGS(__pAd) && \
      ((__pRateTable == AGS1x1HTRateTable) || \
       (__pRateTable == AGS2x2HTRateTable) || \
-      (__pRateTable == AGS3x3HTRateTable))) 
+      (__pRateTable == AGS3x3HTRateTable)))
 #endif /* DOT11_VHT_AC */
 
 #endif /* __AGS_H__ */

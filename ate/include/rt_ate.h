@@ -14,7 +14,7 @@
  * way altering	the	source code	is stricitly prohibited, unless	the	prior
  * written consent of Ralink Technology, Inc. is obtained.
  ***************************************************************************
- 
+
  	Module Name:
 	rt_ate.h
 
@@ -73,10 +73,10 @@ typedef struct _ATE_CHIP_STRUCT {
 #ifdef SINGLE_SKU_V2
 	VOID 	(*do_ATE_single_sku)(RTMP_ADAPTER *pAd, BOOLEAN value);
 #endif
-	
+
 	/* command handlers */
 	INT		(*Set_BW_Proc)(PRTMP_ADAPTER pAd, PSTRING arg);
-	INT		(*Set_FREQ_OFFSET_Proc)(PRTMP_ADAPTER pAd, PSTRING arg);	
+	INT		(*Set_FREQ_OFFSET_Proc)(PRTMP_ADAPTER pAd, PSTRING arg);
 
 	/* variables */
 	INT maxTxPwrCnt;
@@ -84,7 +84,7 @@ typedef struct _ATE_CHIP_STRUCT {
 	BOOLEAN bBBPStoreTXCARRSUPP;
 	BOOLEAN bBBPStoreTXCONT;
 	BOOLEAN bBBPLoadATESTOP;
-		
+
 	/* TSSI related */
 	INT32 tssi_slope[2];
 	INT32 tssi_offset[3][2];
@@ -94,7 +94,7 @@ typedef struct _ATE_CHIP_STRUCT {
 }ATE_CHIP_STRUCT, *PATE_CHIP_STRUCT;
 
 typedef union _CAPTURE_MODE_SHARE_MEMORY {
-	struct 
+	struct
 	{
 		UINT32       LOW_BYTE0:8;
 		UINT32       LOW_BYTE1:8;
@@ -105,7 +105,7 @@ typedef union _CAPTURE_MODE_SHARE_MEMORY {
 }CAPTURE_MODE_SHARE_MEMORY, *PCAPTURE_MODE_SHARE_MEMORY;
 
 typedef struct _ATE_INFO {
-	PATE_CHIP_STRUCT pChipStruct; 
+	PATE_CHIP_STRUCT pChipStruct;
 	UCHAR Mode;
 	BOOLEAN PassiveMode;
 #ifdef RT3350
@@ -143,7 +143,7 @@ typedef struct _ATE_INFO {
 	BOOLEAN bQARxStart;	/* Have compiled QA in and use it to ATE rx. */
 	BOOLEAN bAutoTxAlc;	/* Set Auto Tx Alc */
 #ifdef SINGLE_SKU_V2
-	BOOLEAN bDoSingleSKU; /*Do Single SKU in ATE*/		
+	BOOLEAN bDoSingleSKU; /*Do Single SKU in ATE*/
 #endif
 	BOOLEAN bAutoVcoCal; /* Set Auto VCO periodic calibration. */
 	BOOLEAN bLowTemperature; /* Trigger Temperature Sensor */
@@ -197,8 +197,8 @@ typedef struct _ATE_INFO {
 	OS_NDIS_SPIN_LOCK TssiSemLock;
 } ATE_INFO, *PATE_INFO;
 
-/* 
-	Use bitmap to allow coexist of ATE_TXFRAME 
+/*
+	Use bitmap to allow coexist of ATE_TXFRAME
 	and ATE_RXFRAME(i.e.,to support LoopBack mode).
 */
 #define fATE_IDLE					0x00
@@ -371,7 +371,7 @@ do {	\
 #define BULK_OUT_LOCK(pLock, IrqFlags)	\
 		if(1 /*!(in_interrupt() & 0xffff0000)*/)	\
 			RTMP_IRQ_LOCK((pLock), IrqFlags);
-		
+
 #define BULK_OUT_UNLOCK(pLock, IrqFlags)	\
 		if(1 /*!(in_interrupt() & 0xffff0000)*/)	\
 			RTMP_IRQ_UNLOCK((pLock), IrqFlags);
@@ -439,24 +439,24 @@ VOID rt_ee_write_bulk(
 	IN  USHORT length);
 
 INT Set_ATE_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 
 INT	Set_ATE_DA_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 
 INT	Set_ATE_SA_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 
 INT	Set_ATE_BSSID_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 
 
 INT	Set_ATE_CHANNEL_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 
 INT	Set_ATE_INIT_CHAN_Proc(
@@ -524,7 +524,7 @@ INT Set_ATE_READ_EXTERNAL_TSSI_Proc(
 #endif /* RTMP_TEMPERATURE_COMPENSATION */
 
 INT	Set_ATE_TX_POWER0_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 
 INT	Set_ATE_TX_POWER1_Proc(
@@ -556,12 +556,12 @@ VOID ATEAsicExtraPowerOverMAC(
 	IN	PRTMP_ADAPTER	pAd);
 #ifdef RT3350
 INT	Set_ATE_PA_Bias_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 #endif /* RT3350 */
 
 INT	Default_Set_ATE_TX_FREQ_OFFSET_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 
 
@@ -570,17 +570,17 @@ INT	Default_Set_ATE_TX_FREQ_OFFSET_Proc(
 
 #if defined(RT28xx) || defined(RT2880)
 INT	RT28xx_Set_ATE_TX_FREQ_OFFSET_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 #endif /* defined(RT28xx) || defined(RT2880) */
 
 
 INT	Set_ATE_TX_FREQ_OFFSET_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 
 INT	Default_Set_ATE_TX_BW_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 
 
@@ -589,21 +589,21 @@ INT	Default_Set_ATE_TX_BW_Proc(
 
 #if defined(RT28xx) || defined(RT2880)
 INT	RT28xx_Set_ATE_TX_BW_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 #endif /* defined(RT28xx) || defined(RT2880) */
 
 
 INT	Set_ATE_TX_BW_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 
 INT	Set_ATE_TX_LENGTH_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 
 INT	Set_ATE_TX_COUNT_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 
 INT	Set_ATE_TX_MCS_Proc(
@@ -624,77 +624,77 @@ INT	Set_ATE_TX_GI_Proc(
 
 
 INT	Set_ATE_RX_FER_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 
 INT Set_ATE_Read_RF_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 
 #if (!defined(RTMP_RF_RW_SUPPORT)) && (!defined(RLT_RF))
 INT Set_ATE_Write_RF1_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 
 INT Set_ATE_Write_RF2_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 
 INT Set_ATE_Write_RF3_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 
 INT Set_ATE_Write_RF4_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 #endif /* (!defined(RTMP_RF_RW_SUPPORT)) && (!defined(RLT_RF)) */
 
 INT Set_ATE_Load_E2P_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 
 #ifdef RTMP_EFUSE_SUPPORT
 INT Set_ATE_Load_E2P_From_Buf_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 #endif /* RTMP_EFUSE_SUPPORT */
 
 INT Set_ATE_Read_E2P_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 
 
 INT	Set_ATE_AUTO_ALC_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 
 INT	Set_ATE_TEMP_SENSOR_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 
-INT Set_ATE_SINGLE_SKU_Proc(  
-	IN	PRTMP_ADAPTER	pAd, 
+INT Set_ATE_SINGLE_SKU_Proc(
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING 		arg);
 
 INT	Set_ATE_IPG_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 
 INT Set_ATE_Payload_Proc(
-    IN  PRTMP_ADAPTER   pAd, 
+    IN  PRTMP_ADAPTER   pAd,
     IN  PSTRING         arg);
 
 INT Set_ATE_Fixed_Payload_Proc(
-    IN  PRTMP_ADAPTER   pAd, 
+    IN  PRTMP_ADAPTER   pAd,
     IN  PSTRING         arg);
 
 #ifdef TXBF_SUPPORT
 INT	Set_ATE_TXBF_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 
 INT	Set_ATE_TXSOUNDING_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 
 INT	Set_ATE_TXBF_DIVCAL_Proc(
@@ -706,47 +706,47 @@ INT	Set_ATE_TXBF_LNACAL_Proc(
 	IN	PSTRING			arg);
 
 INT Set_ATE_TXBF_INIT_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 
 INT Set_ATE_TXBF_CAL_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 
 #ifdef MT76x2
 INT Set_ATE_TXBF_New_CAL_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 
 INT Set_ATE_New_Phase_Verify(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN  PSTRING         arg);
 #endif
 
 INT Set_ATE_TXBF_GOLDEN_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 
 INT Set_ATE_TXBF_VERIFY_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 
 INT Set_ATE_TXBF_VERIFY_NoComp_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 
 INT Set_ATE_ForceBBP_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 #endif /* TXBF_SUPPORT */
 
 
 INT	Set_ATE_Show_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 
 INT	Set_ATE_Help_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 
 VOID DefaultATEAsicAdjustTxPower(
@@ -756,11 +756,11 @@ VOID DefaultATEAsicAdjustTxPower(
 
 #ifdef MT76x2
 INT Set_ATE_DO_CALIBRATION_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 
 INT Set_ATE_Load_CR_Proc(
-	IN	PRTMP_ADAPTER	pAd, 
+	IN	PRTMP_ADAPTER	pAd,
 	IN	PSTRING			arg);
 #endif /* MT76x2 */
 
@@ -769,7 +769,7 @@ VOID ATEAsicAdjustTxPower(
 
 VOID ATESampleRssi(
 	IN PRTMP_ADAPTER	pAd,
-	IN RXWI_STRUC *pRxWI);	
+	IN RXWI_STRUC *pRxWI);
 
 
 #ifdef RTMP_MAC_USB
@@ -820,9 +820,9 @@ VOID RT28xxATERxVGAInit(
 
 
 VOID  ATEPeriodicExec(
-	IN PVOID SystemSpecific1, 
-	IN PVOID FunctionContext, 
-	IN PVOID SystemSpecific2, 
+	IN PVOID SystemSpecific1,
+	IN PVOID FunctionContext,
+	IN PVOID SystemSpecific2,
 	IN PVOID SystemSpecific3);
 
 VOID ATEAsicSetTxRxPath(RTMP_ADAPTER *pAd);

@@ -220,7 +220,7 @@ static VOID ApCliPeerAuthRspAtSeq2Action(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM * El
 					Seq++;
 					RemoteStatus = MLME_SUCCESS;
 					/* allocate and send out AuthRsp frame */
-					NState = MlmeAllocateMemory(pAd, &pOutBuffer); 
+					NState = MlmeAllocateMemory(pAd, &pOutBuffer);
 					if(NState != NDIS_STATUS_SUCCESS)
 					{
 						DBGPRINT(RT_DEBUG_TRACE, ("AUTH - ApCliPeerAuthRspAtSeq2Action allocate memory fail\n"));
@@ -245,7 +245,7 @@ static VOID ApCliPeerAuthRspAtSeq2Action(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM * El
 
 					Alg = cpu2le16(*(USHORT *)&Alg);
 					Seq = cpu2le16(*(USHORT *)&Seq);
-					RemoteStatus= cpu2le16(*(USHORT *)&RemoteStatus);                    
+					RemoteStatus= cpu2le16(*(USHORT *)&RemoteStatus);
 
 					/* Construct message text */
 					MakeOutgoingFrame(CyperChlgText,        &c_len,
