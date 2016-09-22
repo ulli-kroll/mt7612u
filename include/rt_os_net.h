@@ -526,16 +526,13 @@ INT rt_android_private_command_entry(
 #define RTMP_DRIVER_80211_SURVEY_GET(__pAd, __pSurveyInfo)				\
 	RTMP_COM_IoctlHandle(__pAd, NULL, CMD_RTPRIV_IOCTL_80211_SURVEY_GET, 0, __pSurveyInfo, 0)
 
-#define RTMP_DRIVER_80211_NETDEV_EVENT(__pAd, __pDev, __state)				\
-	RTMP_COM_IoctlHandle(__pAd, NULL, CMD_RTPRIV_IOCTL_80211_NETDEV_EVENT, 0, __pDev, __state)
-
 /* AP Part */
 #define RTMP_DRIVER_80211_BEACON_DEL(__pAd) \
 	RTMP_COM_IoctlHandle(__pAd, NULL, CMD_RTPRIV_IOCTL_80211_BEACON_DEL, 0, NULL, 0)
 
 #define RTMP_DRIVER_80211_BEACON_ADD(__pAd, __pBeacon) \
    	RTMP_COM_IoctlHandle(__pAd, NULL, CMD_RTPRIV_IOCTL_80211_BEACON_ADD, 0, __pBeacon, 0)
-   
+
 #define RTMP_DRIVER_80211_BEACON_SET(__pAd, __pBeacon) \
 	RTMP_COM_IoctlHandle(__pAd, NULL, CMD_RTPRIV_IOCTL_80211_BEACON_SET, 0, __pBeacon, 0)
 

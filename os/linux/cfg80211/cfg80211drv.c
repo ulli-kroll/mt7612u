@@ -250,23 +250,6 @@ INT CFG80211DRV_IoctlHandle(
             		CFG80211_reSetToDefault(pAd);
             		break;
 
-		case CMD_RTPRIV_IOCTL_80211_NETDEV_EVENT:
-		{
-		    /*
-		    CFG_TODO: For Scan_req per netdevice
-			 struct wireless_dev *pWdev = pAd->pCfg80211_CB->pCfg80211_Wdev;
-			 if (RTMPEqualMemory(pNetDev->dev_addr, pNewNetDev->dev_addr, MAC_ADDR_LEN))
-			*/
-			PNET_DEV pNetDev = (PNET_DEV) pData;
-			if (pAd->cfg80211_ctrl.FlgCfg80211Scanning == TRUE)
-			{
-				DBGPRINT(RT_DEBUG_ERROR, ("CFG_SCAN: close the scan cmd in device close phase\n"));
-				CFG80211OS_ScanEnd(pAd->pCfg80211_CB, TRUE);
-				pAd->cfg80211_ctrl.FlgCfg80211Scanning = FALSE;
-			}
-		}
-			break;
-
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
                 case CMD_RTPRIV_IOCTL_80211_P2PCLI_ASSSOC_IE_SET:
                         CFG80211DRV_SetP2pCliAssocIe(pAd, pData, Data);

@@ -2629,56 +2629,6 @@ struct cfg80211_ops CFG80211_Ops = {
 
 /* =========================== Global Function ============================== */
 
-static INT CFG80211NetdevNotifierEvent(
-	struct notifier_block *nb, ULONG state, VOID *ndev)
-{
-	VOID *pAd;
-	struct net_device *pNev = ndev;
-	struct wireless_dev *pWdev = pNev->ieee80211_ptr;
-
-	if (!ndev || !pWdev || !pWdev->wiphy)
-		return NOTIFY_DONE;
-
-   	MAC80211_PAD_GET(pAd, pWdev->wiphy);
-
-	if (!pAd)
-		return NOTIFY_DONE;
-
-	switch (state) {
-		case NETDEV_UNREGISTER:
-			break;
-
-		case NETDEV_GOING_DOWN:
-			RTMP_DRIVER_80211_NETDEV_EVENT(pAd, pNev, state);
-			break;
-	}
-
-	return NOTIFY_DONE;
-}
-
-static const struct ieee80211_regdomain rtmp_custom_regd = {
-	.n_reg_rules = 2,
-	.alpha2 = "00",
-	.reg_rules = {
-		REG_RULE(5260-20, 5320+20, 40, 6, 20, NL80211_RRF_DFS | NL80211_RRF_PASSIVE_SCAN),
-		REG_RULE(5725-10, 5850+10, 40, 0, 30, NL80211_RRF_DFS),
-	}
-};
-/*
-========================================================================
-Routine Description:
-	Allocate a wireless device.
-
-Arguments:
-	pAd				- WLAN control block pointer
-	pDev			- Generic device interface
-
-Return Value:
-	wireless device
-
-Note:
-========================================================================
-*/
 static struct wireless_dev *CFG80211_WdevAlloc(
 	IN CFG80211_CB					*pCfg80211_CB,
 	IN CFG80211_BAND				*pBandInfo,
