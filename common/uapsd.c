@@ -465,7 +465,7 @@ Note:
 ========================================================================
 */
 VOID UAPSD_PacketEnqueue(
-	IN	PRTMP_ADAPTER		pAd,
+	IN	struct rtmp_adapter *	pAd,
 	IN	MAC_TABLE_ENTRY		*pEntry,
 	IN	PNDIS_PACKET		pPacket,
 	IN	UINT32				IdAc)
@@ -1249,7 +1249,7 @@ Note:
 ========================================================================
 */
 VOID UAPSD_QueueStatusGet(
-	IN	PRTMP_ADAPTER		pAd,
+	IN	struct rtmp_adapter *	pAd,
 	IN	MAC_TABLE_ENTRY		*pEntry,
 	OUT	BOOLEAN				*pFlgIsAnyPktForBK,
 	OUT BOOLEAN				*pFlgIsAnyPktForBE,

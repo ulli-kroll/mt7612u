@@ -31,15 +31,15 @@
 
 
 BOOLEAN RTMPCheckChannel(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR		CentralChannel,
 	IN UCHAR		Channel);
 
 VOID InitChannelRelatedValue(
-	IN  PRTMP_ADAPTER   pAd);
+	IN  struct rtmp_adapter *  pAd);
 
 VOID AdjustChannelRelatedValue(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	OUT UCHAR *pBwFallBack,
 	IN USHORT ifIndex,
 	IN BOOLEAN BandWidth,
@@ -47,7 +47,7 @@ VOID AdjustChannelRelatedValue(
 	IN UCHAR ExtraCh);
 
 VOID RTMPReportMicError(
-	IN  PRTMP_ADAPTER   pAd,
+	IN  struct rtmp_adapter *  pAd,
 	IN  PCIPHER_KEY     pWpaKey);
 
 INT RTMPCheckRxError(
@@ -57,7 +57,7 @@ INT RTMPCheckRxError(
 	IN RXINFO_STRUC *pRxInfo);
 
 VOID WpaMicFailureReportFrame(
-	IN  PRTMP_ADAPTER    pAd,
+	IN  struct rtmp_adapter *   pAd,
 	IN  MLME_QUEUE_ELEM *Elem);
 
 VOID WpaDisassocApAndBlockAssoc(
@@ -67,26 +67,26 @@ VOID WpaDisassocApAndBlockAssoc(
     IN  PVOID SystemSpecific3);
 
 VOID WpaStaPairwiseKeySetting(
-	IN	PRTMP_ADAPTER	pAd);
+	IN	struct rtmp_adapter *pAd);
 
 VOID WpaStaGroupKeySetting(
-	IN	PRTMP_ADAPTER	pAd);
+	IN	struct rtmp_adapter *pAd);
 
 VOID WpaSendEapolStart(
-	IN	PRTMP_ADAPTER	pAdapter,
+	IN	struct rtmp_adapter *pAdapter,
 	IN  PUCHAR          pBssid);
 
 
 VOID STAHandleRxDataFrame(RTMP_ADAPTER *pAd, RX_BLK *pRxBlk);
 
 VOID STARxEAPOLFrameIndicate(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	MAC_TABLE_ENTRY	*pEntry,
 	IN	RX_BLK			*pRxBlk,
 	IN	UCHAR			FromWhichBSSID);
 
 NDIS_STATUS	STAHardTransmit(
-	IN PRTMP_ADAPTER	pAd,
+	IN struct rtmp_adapter *pAd,
 	IN TX_BLK			*pTxBlk,
 	IN  UCHAR			QueIdx);
 

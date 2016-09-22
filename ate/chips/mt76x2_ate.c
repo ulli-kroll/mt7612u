@@ -30,7 +30,7 @@
 #include "rt_config.h"
 
 VOID mt76x2_ate_set_tx_rx(
-    IN PRTMP_ADAPTER ad,
+    IN struct rtmp_adapter *ad,
     IN CHAR tx,
     IN CHAR rx);
 
@@ -1133,7 +1133,7 @@ INT mt76x2_ate_tx_pwr_Evaluation(
 
 
 VOID mt76x2_ate_rx_vga_init(
-	IN PRTMP_ADAPTER		ad)
+	IN struct rtmp_adapter *	ad)
 {
 #ifdef DYNAMIC_VGA_SUPPORT
 	UINT32 bbp_val;
@@ -1152,7 +1152,7 @@ VOID mt76x2_ate_rx_vga_init(
 
 
 VOID mt76x2_ate_set_tx_rx(
-    IN PRTMP_ADAPTER ad,
+    IN struct rtmp_adapter *ad,
     IN CHAR tx,
     IN CHAR rx)
 {
@@ -1368,7 +1368,7 @@ VOID mt76x2_ate_set_tx_rx(
 }
 
 VOID mt76x2_ate_set_tx_rx_path(
-    IN PRTMP_ADAPTER ad)
+    IN struct rtmp_adapter *ad)
 {
 	PATE_INFO   pATEInfo = &(ad->ate);
 
@@ -1378,7 +1378,7 @@ VOID mt76x2_ate_set_tx_rx_path(
 
 
 INT	mt76x2_set_ate_tx_bw_proc(
-	IN	PRTMP_ADAPTER	ad,
+	IN	struct rtmp_adapter *ad,
 	IN	PSTRING			arg)
 {
 	u32 core, core_r1 = 0, core_r4 = 0;
@@ -1579,7 +1579,7 @@ void mt76x2_ate_temp_tx_alc(RTMP_ADAPTER *ad)
 #endif /* RTMP_TEMPERATURE_TX_ALC */
 
 VOID mt76x2_adjust_tssi_offset(
-		IN PRTMP_ADAPTER pAd,
+		IN struct rtmp_adapter *pAd,
 		IN UINT32 *slope_offset)
 {
 	CHAR OrgTSSIOffset0, OrgTSSIOffset1;
@@ -1701,7 +1701,7 @@ VOID mt76x2_adjust_tssi_offset(
 
 
 VOID mt76x2_ate_asic_adjust_tx_power(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	RTMP_CHIP_CAP *cap = &pAd->chipCap;
 	ANDES_CALIBRATION_PARAM param;
@@ -1943,7 +1943,7 @@ VOID mt76x2_ate_asic_adjust_tx_power(
 
 
 INT	mt76x2_set_ate_tx_freq_offset_proc(
-	IN	PRTMP_ADAPTER	ad,
+	IN	struct rtmp_adapter *ad,
 	IN	PSTRING			arg)
 {
 	u32 freq_offset = 0;
@@ -1978,7 +1978,7 @@ INT	mt76x2_set_ate_tx_freq_offset_proc(
 
 
 VOID mt76x2_ate_asic_calibration(
-	IN PRTMP_ADAPTER pAd, UCHAR ate_mode)
+	IN struct rtmp_adapter *pAd, UCHAR ate_mode)
 {
 
 	//UCHAR channel = pAd->ate.Channel;
@@ -2034,7 +2034,7 @@ VOID mt76x2_ate_asic_calibration(
 
 
 VOID mt76x2_ate_do_calibration(
-	IN PRTMP_ADAPTER pAd, UINT32 cal_id, UINT32 param)
+	IN struct rtmp_adapter *pAd, UINT32 cal_id, UINT32 param)
 {
 
 	switch (cal_id )
@@ -2091,7 +2091,7 @@ VOID mt76x2_ate_do_calibration(
 
 }
 #ifdef SINGLE_SKU_V2
-static void mt76x2_ate_single_sku(IN PRTMP_ADAPTER	pAd, IN BOOLEAN value)
+static void mt76x2_ate_single_sku(IN struct rtmp_adapter *pAd, IN BOOLEAN value)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 	if (value > 0)

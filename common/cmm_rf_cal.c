@@ -79,7 +79,7 @@ REG_PAIR RT6352_RFR3R4_TABLE[] =
 UCHAR RT6352_VGA_TABLE_PARMS = (sizeof(RT6352_VGA_TABLE) / sizeof(REG_PAIR));
 
 INT32 CalcRCalibrationCode(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN INT32 D1,
 	IN INT32 D2)
 {
@@ -101,7 +101,7 @@ INT32 CalcRCalibrationCode(
  ****************************************************************************/
 
 VOID R_Calibration(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	UINT32 saveMacSysCtrl;
 	UCHAR  saveRfB0R1, saveRfB0R34, saveRfB0R35;
@@ -295,7 +295,7 @@ INT Set_TestLoftTxIQCalibration_Proc(
 }
 
 VOID RtmpKickOutHwNullFrame(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN BOOLEAN bPrepareContent,
 	IN BOOLEAN bTransmit)
 {
@@ -439,7 +439,7 @@ VOID RtmpKickOutHwNullFrame(
 	Multiply the AM-PM in LUTs by -1
 */
 VOID DPD_IQ_Swap_AM_PM_Inversion(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR AntIdx)
 {
 	USHORT k_count = 0, PM_inv_upper = 0, PM_inv_lower = 0;
@@ -488,7 +488,7 @@ VOID DPD_IQ_Swap_AM_PM_Inversion(
 }
 
 VOID DPD_AM_AM_LUT_Scaling(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR AntIdx)
 {
 	USHORT k_count = 0;
@@ -547,7 +547,7 @@ VOID DPD_AM_AM_LUT_Scaling(
 }
 
 UCHAR DPD_Calibration(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR AntIdx)
 {
 	UCHAR index, Max_Retry = 0, Pass_Thres = 0,byteValue = 0;
@@ -1435,7 +1435,7 @@ UCHAR DPD_Calibration(
 }
 
 VOID DoDPDCalibration(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	UCHAR Ant0 = 0, Ant1 = 0;
 	UCHAR byteValue = 0;
@@ -1999,7 +1999,7 @@ INT Set_DPDCalPassThres_Proc(
  *
  ****************************************************************************/
 static INT BBP_Core_Soft_Reset(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN BOOLEAN set_bw,
 	IN INT bw)
 {
@@ -2035,7 +2035,7 @@ static INT BBP_Core_Soft_Reset(
 }
 
 static INT RF_lp_Config(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN BOOLEAN bTxCal)
 {
 	UCHAR rf_val;
@@ -2090,7 +2090,7 @@ static INT RF_lp_Config(
 }
 
 static CHAR lp_Tx_Filter_BW_Cal(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	INT cnt;
 	UINT8 bbp_val;
@@ -2120,7 +2120,7 @@ static CHAR lp_Tx_Filter_BW_Cal(
 
 /* RF Bandwidth calibration */
 BOOLEAN BW_Filter_Calibration(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN BOOLEAN bTxCal)
 {
 	UINT8 tx_agc_fc = 0, rx_agc_fc = 0, cmm_agc_fc;
@@ -2407,7 +2407,7 @@ do_cal:
 
 /* Rx DCOC Calibration */
 VOID RxDCOC_Calibration(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	UCHAR BbpReg = 0;
 	UINT32 MacValue = 0, MacValue1 = 0;
@@ -2502,7 +2502,7 @@ static UINT32 do_sqrt_accumulation(UINT32 si)
 }
 
 VOID RXIQ_Calibration(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	UINT8 RFB0R1,RFB0R2,RFB0R42;
 	UINT8 RFB4R0, RFB4R19;
@@ -2942,7 +2942,7 @@ Restore_Value:
 }
 
 VOID RF_SELF_TXDC_CAL(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	// RF_CONTROL0: 0x0518
 	// RTMP_RF_BYPASS0 : 0x051c

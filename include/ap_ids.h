@@ -36,7 +36,7 @@ BOOLEAN RTMPSpoofedMgmtDetection(
 	IN RX_BLK *rxblk);
 
 VOID RTMPConflictSsidDetection(
-	IN PRTMP_ADAPTER	pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PUCHAR			pSsid,
 	IN UCHAR			SsidLen,
 	IN CHAR				Rssi0,
@@ -49,20 +49,20 @@ BOOLEAN RTMPReplayAttackDetection(
 	IN RX_BLK *rxblk);
 
 VOID RTMPUpdateStaMgmtCounter(
-	IN PRTMP_ADAPTER	pAd,
+	IN struct rtmp_adapter *pAd,
 	IN USHORT			type);
 
 VOID RTMPClearAllIdsCounter(
-	IN PRTMP_ADAPTER	pAd);
+	IN struct rtmp_adapter *pAd);
 
 VOID RTMPIdsStart(
-	IN PRTMP_ADAPTER	pAd);
+	IN struct rtmp_adapter *pAd);
 
 VOID RTMPIdsStop(
-	IN PRTMP_ADAPTER	pAd);
+	IN struct rtmp_adapter *pAd);
 
 VOID rtmp_read_ids_from_file(
-			IN  PRTMP_ADAPTER pAd,
+			IN  struct rtmp_adapter *pAd,
 			char *tmpbuf,
 			char *buffer);
 

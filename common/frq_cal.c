@@ -35,7 +35,7 @@
 	the frequencey shift.
 */
 VOID InitFrequencyCalibrationMode(
-	PRTMP_ADAPTER pAd,
+	struct rtmp_adapter *pAd,
 	UINT8 Mode)
 {
 #ifdef RTMP_BBP
@@ -86,7 +86,7 @@ VOID InitFrequencyCalibrationMode(
 
 /* Initialize the frequency calibration*/
 VOID InitFrequencyCalibration(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	if (pAd->FreqCalibrationCtrl.bEnableFrequencyCalibration == TRUE)
 	{
@@ -106,7 +106,7 @@ VOID InitFrequencyCalibration(
 
 /* To stop the frequency calibration algorithm*/
 VOID StopFrequencyCalibration(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	if (pAd->FreqCalibrationCtrl.bEnableFrequencyCalibration == TRUE)
 	{
@@ -128,7 +128,7 @@ VOID StopFrequencyCalibration(
 
 
 VOID FrequencyCalibrationMode(
-	PRTMP_ADAPTER pAd,
+	struct rtmp_adapter *pAd,
 	UINT8 Mode)
 {
 	UCHAR RFValue = 0;
@@ -160,7 +160,7 @@ VOID FrequencyCalibrationMode(
 
 /* The frequency calibration algorithm*/
 VOID FrequencyCalibration(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 
 #ifdef MT76x2
@@ -308,7 +308,7 @@ VOID FrequencyCalibration(
 
 
 inline CHAR GetFrequencyOffsetField(
-	PRTMP_ADAPTER pAd,
+	struct rtmp_adapter *pAd,
 	RXWI_STRUC *pRxWI,
 	UINT8 RxWIFrqOffsetField)
 {
@@ -347,7 +347,7 @@ inline CHAR GetFrequencyOffsetField(
 
 /* Get the frequency offset*/
 CHAR GetFrequencyOffset(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN RXWI_STRUC *pRxWI)
 {
 	CHAR FreqOffset = 0;

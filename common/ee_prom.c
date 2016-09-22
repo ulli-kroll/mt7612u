@@ -33,7 +33,7 @@
 
 /* IRQL = PASSIVE_LEVEL*/
 static inline VOID RaiseClock(
-    IN	PRTMP_ADAPTER	pAd,
+    IN	struct rtmp_adapter *pAd,
     IN  UINT32 *x)
 {
 	*x = *x | EESK;
@@ -43,7 +43,7 @@ static inline VOID RaiseClock(
 
 /* IRQL = PASSIVE_LEVEL*/
 static inline VOID LowerClock(
-    IN	PRTMP_ADAPTER	pAd,
+    IN	struct rtmp_adapter *pAd,
     IN  UINT32 *x)
 {
 	*x = *x & ~EESK;
@@ -53,7 +53,7 @@ static inline VOID LowerClock(
 
 /* IRQL = PASSIVE_LEVEL*/
 static inline USHORT ShiftInBits(
-	IN PRTMP_ADAPTER	pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	UINT32		x,i;
 	USHORT      data=0;
@@ -81,7 +81,7 @@ static inline USHORT ShiftInBits(
 
 /* IRQL = PASSIVE_LEVEL*/
 static inline VOID ShiftOutBits(
-	IN PRTMP_ADAPTER	pAd,
+	IN struct rtmp_adapter *pAd,
 	IN USHORT			data,
 	IN USHORT			count)
 {
@@ -112,7 +112,7 @@ static inline VOID ShiftOutBits(
 
 /* IRQL = PASSIVE_LEVEL*/
 static inline VOID EEpromCleanup(
-	IN PRTMP_ADAPTER	pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	UINT32 x;
 
@@ -127,7 +127,7 @@ static inline VOID EEpromCleanup(
 
 
 static inline VOID EWEN(
-	IN PRTMP_ADAPTER	pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	UINT32	x;
 
@@ -150,7 +150,7 @@ static inline VOID EWEN(
 
 
 static inline VOID EWDS(
-	IN PRTMP_ADAPTER	pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	UINT32	x;
 
@@ -264,7 +264,7 @@ int rtmp_ee_prom_write16(
 
 
 INT rtmp_ee_write_to_prom(
-	IN PRTMP_ADAPTER 	pAd)
+	IN struct rtmp_adapter *	pAd)
 {
 	USHORT value, offset = 0;
 

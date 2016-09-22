@@ -52,7 +52,7 @@ static inline INT GetABandChOffset(
 }
 
 ULONG AutoChBssSearchWithSSID(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PUCHAR Bssid,
 	IN PUCHAR pSsid,
 	IN UCHAR SsidLen,
@@ -115,7 +115,7 @@ static inline VOID AutoChBssEntrySet(
 }
 
 static inline VOID AutoChBssTableReset(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	if (pAd->pBssInfoTab)
 		NdisZeroMemory(pAd->pBssInfoTab, sizeof(BSSINFO));
@@ -126,7 +126,7 @@ static inline VOID AutoChBssTableReset(
 }
 
 static VOID ChannelInfoReset(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	if (pAd->pChannelInfo)
 		NdisZeroMemory(pAd->pChannelInfo, sizeof(CHANNELINFO));
@@ -137,7 +137,7 @@ static VOID ChannelInfoReset(
 }
 
 VOID UpdateChannelInfo(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN int ch_index,
 	IN ChannelSel_Alg Alg)
 {
@@ -171,7 +171,7 @@ VOID UpdateChannelInfo(
 }
 
 static inline INT GetChIdx(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR Channel)
 {
 	INT Idx;
@@ -187,7 +187,7 @@ static inline INT GetChIdx(
 }
 
 static inline VOID AutoChannelSkipListSetDirty(
-	IN PRTMP_ADAPTER	pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	UCHAR i;
 	for (i=0; i < pAd->ApCfg.AutoChannelSkipListNum ; i++)
@@ -201,7 +201,7 @@ static inline VOID AutoChannelSkipListSetDirty(
 }
 
 static inline BOOLEAN AutoChannelSkipListCheck(
-	IN PRTMP_ADAPTER	pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR			Ch)
 {
 	UCHAR i;
@@ -239,7 +239,7 @@ static inline BOOLEAN BW40_ChannelCheck(
 }
 
 static inline UCHAR SelectClearChannelRandom(
-	IN PRTMP_ADAPTER pAd
+	IN struct rtmp_adapter *pAd
 	)
 {
 	UCHAR cnt, ch = 0, i, RadomIdx;
@@ -316,7 +316,7 @@ static inline UCHAR SelectClearChannelRandom(
 	==========================================================================
  */
 static inline UCHAR SelectClearChannelCCA(
-	IN PRTMP_ADAPTER pAd
+	IN struct rtmp_adapter *pAd
 	)
 {
 	#define CCA_THRESHOLD (100)
@@ -695,7 +695,7 @@ static inline UCHAR SelectClearChannelCCA(
  */
 
 static inline UCHAR SelectClearChannelApCnt(
-	IN PRTMP_ADAPTER pAd
+	IN struct rtmp_adapter *pAd
 	)
 {
     /*PBSSINFO pBssInfoTab = pAd->pBssInfoTab; */
@@ -995,7 +995,7 @@ static inline UCHAR SelectClearChannelApCnt(
 }
 
 ULONG AutoChBssInsertEntry(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PUCHAR pBssid,
 	IN CHAR Ssid[],
 	IN UCHAR SsidLen,
@@ -1033,7 +1033,7 @@ ULONG AutoChBssInsertEntry(
 
 
 void AutoChBssTableInit(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 /*	pAd->pBssInfoTab = (PBSSINFO)kmalloc(sizeof(BSSINFO), GFP_ATOMIC); */
 	os_alloc_mem(pAd, (UCHAR **)&pAd->pBssInfoTab, sizeof(BSSINFO));
@@ -1046,7 +1046,7 @@ void AutoChBssTableInit(
 }
 
 void ChannelInfoInit(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 /*	pAd->pChannelInfo = (PCHANNELINFO)kmalloc(sizeof(CHANNELINFO), GFP_ATOMIC); */
 	os_alloc_mem(pAd, (UCHAR **)&pAd->pChannelInfo, sizeof(CHANNELINFO));
@@ -1060,7 +1060,7 @@ void ChannelInfoInit(
 }
 
 void AutoChBssTableDestroy(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	if (pAd->pBssInfoTab)
 	{
@@ -1073,7 +1073,7 @@ void AutoChBssTableDestroy(
 }
 
 void ChannelInfoDestroy(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	if (pAd->pChannelInfo)
 	{

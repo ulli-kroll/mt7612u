@@ -29,7 +29,7 @@
 #include "rt_config.h"
 
 BOOLEAN ApCheckLongPreambleSTA(
-    IN PRTMP_ADAPTER pAd);
+    IN struct rtmp_adapter *pAd);
 
 char const *pEventText[EVENT_MAX_EVENT_TYPE] = {
 	"restart access point",
@@ -666,7 +666,7 @@ DBGPRINT(RT_DEBUG_OFF, ("%s(): AP Set CentralFreq at %d(Prim=%d, HT-CentCh=%d, V
 	==========================================================================
  */
 VOID APStop(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	BOOLEAN Cancelled;
 	UINT32 Value;
@@ -758,7 +758,7 @@ VOID APStop(
 	==========================================================================
  */
 VOID APCleanupPsQueue(
-	IN  PRTMP_ADAPTER   pAd,
+	IN  struct rtmp_adapter *  pAd,
 	IN  PQUEUE_HEADER   pQueue)
 {
 	PQUEUE_ENTRY pEntry;
@@ -1309,7 +1309,7 @@ VOID MacTableMaintenance(RTMP_ADAPTER *pAd)
 
 
 UINT32 MacTableAssocStaNumGet(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	UINT32 num = 0;
 	UINT32 i;
@@ -1390,7 +1390,7 @@ MAC_TABLE_ENTRY *APSsPsInquiry(
 	==========================================================================
  */
 VOID ApLogEvent(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PUCHAR   pAddr,
 	IN USHORT   Event)
 {
@@ -1424,7 +1424,7 @@ VOID ApLogEvent(
 	==========================================================================
 */
 VOID APUpdateOperationMode(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	BOOLEAN bDisableBGProtect = FALSE, bNonGFExist = FALSE;
 
@@ -1474,7 +1474,7 @@ VOID APUpdateOperationMode(
 	==========================================================================
  */
 VOID APUpdateCapabilityAndErpIe(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	UCHAR  i, ErpIeContent = 0;
 	BOOLEAN ShortSlotCapable = pAd->CommonCfg.bUseShortSlotTime;
@@ -1605,7 +1605,7 @@ VOID APUpdateCapabilityAndErpIe(
     ==========================================================================
  */
 BOOLEAN ApCheckLongPreambleSTA(
-    IN PRTMP_ADAPTER pAd)
+    IN struct rtmp_adapter *pAd)
 {
     UCHAR   i;
 
@@ -1636,7 +1636,7 @@ BOOLEAN ApCheckLongPreambleSTA(
 	==========================================================================
 */
 BOOLEAN ApCheckAccessControlList(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PUCHAR        pAddr,
 	IN UCHAR         Apidx)
 {
@@ -2136,7 +2136,7 @@ VOID APOverlappingBSSScan(RTMP_ADAPTER *pAd)
  ========================================================================
 */
 BOOLEAN DOT1X_InternalCmdAction(
-    IN  PRTMP_ADAPTER	pAd,
+    IN  struct rtmp_adapter *pAd,
     IN  MAC_TABLE_ENTRY *pEntry,
     IN	UINT8			cmd)
 {
@@ -2200,7 +2200,7 @@ BOOLEAN DOT1X_InternalCmdAction(
  ========================================================================
 */
 BOOLEAN DOT1X_EapTriggerAction(
-    IN  PRTMP_ADAPTER	pAd,
+    IN  struct rtmp_adapter *pAd,
     IN  MAC_TABLE_ENTRY *pEntry)
 {
 	INT				apidx = MAIN_MBSSID;

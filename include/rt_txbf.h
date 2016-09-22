@@ -273,7 +273,7 @@ void Write_TxBfProfile(
 	IN	int				profileNum);
 
 void Read_TagField(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN  UCHAR	*row,
 	IN  int		profileNum);
 
@@ -285,29 +285,29 @@ void Write_TagField(
 
 #ifdef MT76x2
 INT TxBfProfileTagRead(
-    IN PRTMP_ADAPTER     pAd,
+    IN struct rtmp_adapter *    pAd,
 	IN PFMU_PROFILE      *prof,
 	IN UCHAR             profileIdx);
 
 INT TxBfProfileTagWrite(
-    IN PRTMP_ADAPTER     pAd,
+    IN struct rtmp_adapter *    pAd,
 	IN PFMU_PROFILE      *prof,
 	IN UCHAR             profileIdx);
 
 INT TxBfProfileDataRead(
-    IN PRTMP_ADAPTER     pAd,
+    IN struct rtmp_adapter *    pAd,
 	IN PFMU_DATA        *pData,
 	IN UCHAR             profileIdx,
 	IN UCHAR             subcarrierIdx);
 
 INT TxBfProfileDataWrite(
-    IN PRTMP_ADAPTER     pAd,
+    IN struct rtmp_adapter *    pAd,
 	IN PFMU_DATA         *pData,
 	IN UCHAR             profileIdx,
 	IN UCHAR             subcarrierIdx);
 
 INT TxBfProfileTagValid(
-    IN PRTMP_ADAPTER     pAd,
+    IN struct rtmp_adapter *    pAd,
 	IN PFMU_PROFILE      *prof,
 	IN UCHAR             profileIdx);
 #endif

@@ -39,35 +39,35 @@ static VOID ApCliAssocTimeout(
 
 
 static VOID ApCliMlmeAssocReqAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliMlmeDisassocReqAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliPeerAssocRspAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliPeerDisassocAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliAssocTimeoutAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliInvalidStateWhenAssoc(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliInvalidStateWhenDisassociate(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliAssocPostProc(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PUCHAR pAddr2,
 	IN USHORT CapabilityInfo,
 	IN USHORT IfIndex,
@@ -94,7 +94,7 @@ BUILD_TIMER_FUNCTION(ApCliAssocTimeout);
     ==========================================================================
  */
 VOID ApCliAssocStateMachineInit(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN  STATE_MACHINE *S,
 	OUT STATE_MACHINE_FUNC Trans[])
 {
@@ -178,7 +178,7 @@ static VOID ApCliAssocTimeout(
     ==========================================================================
  */
 static VOID ApCliMlmeAssocReqAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	NDIS_STATUS		 NStatus;
@@ -537,7 +537,7 @@ static VOID ApCliMlmeAssocReqAction(
     ==========================================================================
  */
 static VOID ApCliMlmeDisassocReqAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	PMLME_DISASSOC_REQ_STRUCT pDisassocReq;
@@ -619,7 +619,7 @@ static VOID ApCliMlmeDisassocReqAction(
     ==========================================================================
  */
 static VOID ApCliPeerAssocRspAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	BOOLEAN				Cancelled;
@@ -733,7 +733,7 @@ static VOID ApCliPeerAssocRspAction(
     ==========================================================================
  */
 static VOID ApCliPeerDisassocAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	UCHAR         Addr2[MAC_ADDR_LEN];
@@ -775,7 +775,7 @@ static VOID ApCliPeerDisassocAction(
     ==========================================================================
  */
 static VOID ApCliAssocTimeoutAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	USHORT ifIndex = (USHORT)(Elem->Priv);
@@ -798,7 +798,7 @@ static VOID ApCliAssocTimeoutAction(
 }
 
 static VOID ApCliInvalidStateWhenAssoc(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	APCLI_CTRL_MSG_STRUCT ApCliCtrlMsg;
@@ -824,7 +824,7 @@ static VOID ApCliInvalidStateWhenAssoc(
 }
 
 static VOID ApCliInvalidStateWhenDisassociate(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	APCLI_CTRL_MSG_STRUCT ApCliCtrlMsg;
@@ -857,7 +857,7 @@ static VOID ApCliInvalidStateWhenDisassociate(
     ==========================================================================
  */
 static VOID ApCliAssocPostProc(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PUCHAR pAddr2,
 	IN USHORT CapabilityInfo,
 	IN USHORT IfIndex,

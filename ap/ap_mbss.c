@@ -243,7 +243,7 @@ Note:
 */
 INT MBSS_Open(struct net_device *pDev)
 {
-	PRTMP_ADAPTER pAd;
+	struct rtmp_adapter *pAd;
 	INT BssId;
 
 	pAd = RTMP_OS_NETDEV_GET_PRIV(pDev);
@@ -273,7 +273,7 @@ Note:
 */
 INT MBSS_Close(struct net_device *pDev)
 {
-	PRTMP_ADAPTER pAd;
+	struct rtmp_adapter *pAd;
 	INT BssId;
 
 

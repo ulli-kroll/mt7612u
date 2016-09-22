@@ -42,7 +42,7 @@
 	==========================================================================
  */
 VOID SyncStateMachineInit(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN STATE_MACHINE *Sm,
 	OUT STATE_MACHINE_FUNC Trans[])
 {
@@ -164,7 +164,7 @@ VOID ScanTimeout(
 
 
 VOID MlmeForceJoinReqAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	BOOLEAN        TimerCancelled;
@@ -343,7 +343,7 @@ VOID MlmeForceJoinReqAction(
 
 
 VOID MlmeForceScanReqAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	UCHAR          Ssid[MAX_LEN_OF_SSID], SsidLen, ScanType, BssType;
@@ -475,7 +475,7 @@ VOID MlmeForceScanReqAction(
 	==========================================================================
  */
 VOID MlmeScanReqAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	UCHAR          Ssid[MAX_LEN_OF_SSID], SsidLen, ScanType, BssType;
@@ -623,7 +623,7 @@ VOID MlmeScanReqAction(
 	==========================================================================
  */
 VOID MlmeJoinReqAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	BSS_ENTRY    *pBss;
@@ -852,7 +852,7 @@ VOID MlmeJoinReqAction(
 	==========================================================================
  */
 VOID MlmeStartReqAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	UCHAR Ssid[MAX_LEN_OF_SSID], SsidLen;
@@ -1306,7 +1306,7 @@ LabelOK:
 	==========================================================================
  */
 VOID PeerBeaconAtScanAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	PFRAME_802_11 pFrame;
@@ -1451,7 +1451,7 @@ LabelOK:
 	==========================================================================
  */
 VOID PeerBeaconAtJoinAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	BOOLEAN TimerCancelled;
@@ -2583,7 +2583,7 @@ LabelOK:
 	==========================================================================
  */
 VOID PeerProbeReqAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	PEER_PROBE_REQ_PARAM ProbeReqParam;
@@ -2717,7 +2717,7 @@ VOID PeerProbeReqAction(
 }
 
 VOID BeaconTimeoutAtJoinAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	USHORT Status;
@@ -2734,7 +2734,7 @@ VOID BeaconTimeoutAtJoinAction(
 	==========================================================================
  */
 VOID ScanTimeoutAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 
@@ -2784,7 +2784,7 @@ VOID ScanTimeoutAction(
 	==========================================================================
  */
 VOID InvalidStateWhenScan(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	USHORT Status;
@@ -2808,7 +2808,7 @@ VOID InvalidStateWhenScan(
 	==========================================================================
  */
 VOID InvalidStateWhenJoin(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	USHORT Status;
@@ -2830,7 +2830,7 @@ VOID InvalidStateWhenJoin(
 	==========================================================================
  */
 VOID InvalidStateWhenStart(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	USHORT Status;
@@ -2929,7 +2929,7 @@ VOID EnqueueProbeRequest(RTMP_ADAPTER *pAd)
 	========================================================================
 */
 VOID CntlChannelWidth(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR prim_ch,
 	IN UCHAR cent_ch,
 	IN UCHAR ch_bw,
@@ -2998,7 +2998,7 @@ VOID CntlChannelWidth(
     ==========================================================================
  */
 VOID ScanCnclAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	BOOLEAN Cancelled;

@@ -791,7 +791,7 @@ Note:
 ========================================================================
 */
 INT	Show_QoSLoad_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 #ifdef QLOAD_FUNC_BUSY_TIME_STATS
@@ -846,7 +846,7 @@ Note:
 ========================================================================
 */
 INT	Set_QloadClr_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			Arg)
 {
 	QBSS_LoadStatusClear(pAd);
@@ -870,7 +870,7 @@ Note:
 ========================================================================
 */
 INT	Set_QloadAlarmTimeThreshold_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			Arg)
 {
 #ifdef QLOAD_FUNC_BUSY_TIME_ALARM
@@ -901,7 +901,7 @@ Note:
 ========================================================================
 */
 INT	Set_QloadAlarmNumThreshold_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			Arg)
 {
 #ifdef QLOAD_FUNC_BUSY_TIME_ALARM

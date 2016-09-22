@@ -3688,7 +3688,7 @@ BOOLEAN PairEP(RTMP_ADAPTER *pAd, UINT8 EP)
 
 INT RtmpRaDevCtrlInit(VOID *pAdSrc, RTMP_INF_TYPE infType)
 {
-	RTMP_ADAPTER *pAd = (PRTMP_ADAPTER)pAdSrc;
+	RTMP_ADAPTER *pAd = (struct rtmp_adapter *)pAdSrc;
 #ifdef RTMP_MAC_USB
 	UINT8 i;
 #endif /* RTMP_MAC_USB */
@@ -3760,7 +3760,7 @@ INT RtmpRaDevCtrlInit(VOID *pAdSrc, RTMP_INF_TYPE infType)
 
 #ifdef MULTIPLE_CARD_SUPPORT
 {
-	extern BOOLEAN RTMP_CardInfoRead(PRTMP_ADAPTER pAd);
+	extern BOOLEAN RTMP_CardInfoRead(struct rtmp_adapter *pAd);
 
 	/* find its profile path*/
 	pAd->MC_RowID = -1; /* use default profile path*/
@@ -3862,7 +3862,7 @@ VOID RTMP_11N_D3_TimerInit(RTMP_ADAPTER *pAd)
 
 #ifdef VENDOR_FEATURE3_SUPPORT
 VOID RTMP_IO_WRITE32(
-	PRTMP_ADAPTER pAd,
+	struct rtmp_adapter *pAd,
 	UINT32 Offset,
 	UINT32 Value)
 {

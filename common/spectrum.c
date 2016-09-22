@@ -105,7 +105,7 @@ DOT11_REGULATORY_INFORMATION JapanRegulatoryInfo[] =
 
 
 UINT8 GetRegulatoryMaxTxPwr(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UINT8 channel)
 {
 	ULONG RegulatoryClassLoop, ChIdx;
@@ -205,7 +205,7 @@ TX_PWR_CFG TxPwrCfg[] = {
 #define MAX_TXPWR_TAB_SIZE (sizeof(TxPwrCfg) / sizeof(TX_PWR_CFG))
 
 CHAR RTMP_GetTxPwr(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN HTTRANSMIT_SETTING HTTxMode)
 {
 	UINT32 Value;
@@ -328,7 +328,7 @@ CHAR RTMP_GetTxPwr(
 
 
 NDIS_STATUS	MeasureReqTabInit(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	NDIS_STATUS     Status = NDIS_STATUS_SUCCESS;
 
@@ -348,7 +348,7 @@ NDIS_STATUS	MeasureReqTabInit(
 }
 
 VOID MeasureReqTabExit(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	NdisFreeSpinLock(&pAd->CommonCfg.MeasureReqTabLock);
 
@@ -361,7 +361,7 @@ VOID MeasureReqTabExit(
 }
 
 PMEASURE_REQ_ENTRY MeasureReqLookUp(
-	IN PRTMP_ADAPTER	pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UINT8			DialogToken)
 {
 	UINT HashIdx;
@@ -397,7 +397,7 @@ PMEASURE_REQ_ENTRY MeasureReqLookUp(
 }
 
 PMEASURE_REQ_ENTRY MeasureReqInsert(
-	IN PRTMP_ADAPTER	pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UINT8			DialogToken)
 {
 	INT i;
@@ -496,7 +496,7 @@ PMEASURE_REQ_ENTRY MeasureReqInsert(
 }
 
 VOID MeasureReqDelete(
-	IN PRTMP_ADAPTER	pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UINT8			DialogToken)
 {
 	PMEASURE_REQ_TAB pTab = pAd->CommonCfg.pMeasureReqTab;
@@ -553,7 +553,7 @@ VOID MeasureReqDelete(
 }
 
 NDIS_STATUS	TpcReqTabInit(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	NDIS_STATUS     Status = NDIS_STATUS_SUCCESS;
 
@@ -573,7 +573,7 @@ NDIS_STATUS	TpcReqTabInit(
 }
 
 VOID TpcReqTabExit(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	NdisFreeSpinLock(&pAd->CommonCfg.TpcReqTabLock);
 
@@ -586,7 +586,7 @@ VOID TpcReqTabExit(
 }
 
 static PTPC_REQ_ENTRY TpcReqLookUp(
-	IN PRTMP_ADAPTER	pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UINT8			DialogToken)
 {
 	UINT HashIdx;
@@ -623,7 +623,7 @@ static PTPC_REQ_ENTRY TpcReqLookUp(
 
 
 static PTPC_REQ_ENTRY TpcReqInsert(
-	IN PRTMP_ADAPTER	pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UINT8			DialogToken)
 {
 	INT i;
@@ -722,7 +722,7 @@ static PTPC_REQ_ENTRY TpcReqInsert(
 }
 
 static VOID TpcReqDelete(
-	IN PRTMP_ADAPTER	pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UINT8			DialogToken)
 {
 	PTPC_REQ_TAB pTab = pAd->CommonCfg.pTpcReqTab;
@@ -789,7 +789,7 @@ static VOID TpcReqDelete(
 	==========================================================================
  */
 static UINT64 GetCurrentTimeStamp(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	/* get current time stamp.*/
 	return 0;
@@ -806,7 +806,7 @@ static UINT64 GetCurrentTimeStamp(
 	==========================================================================
  */
 static UINT8 GetCurTxPwr(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UINT8 Wcid)
 {
 	return 16; /* 16 dBm */
@@ -823,7 +823,7 @@ static UINT8 GetCurTxPwr(
 	==========================================================================
  */
 VOID InsertChannelRepIE(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	OUT PUCHAR pFrameBuf,
 	OUT PULONG pFrameLen,
 	IN PSTRING pCountry,
@@ -903,7 +903,7 @@ VOID InsertChannelRepIE(
 	==========================================================================
  */
 VOID InsertDialogToken(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	OUT PUCHAR pFrameBuf,
 	OUT PULONG pFrameLen,
 	IN UINT8 DialogToken)
@@ -931,7 +931,7 @@ VOID InsertDialogToken(
 	==========================================================================
  */
  static VOID InsertTpcReqIE(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	OUT PUCHAR pFrameBuf,
 	OUT PULONG pFrameLen)
 {
@@ -964,7 +964,7 @@ VOID InsertDialogToken(
 	==========================================================================
  */
 VOID InsertTpcReportIE(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	OUT PUCHAR pFrameBuf,
 	OUT PULONG pFrameLen,
 	IN UINT8 TxPwr,
@@ -1010,7 +1010,7 @@ VOID InsertTpcReportIE(
 	==========================================================================
  */
 static VOID InsertMeasureReqIE(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	OUT PUCHAR pFrameBuf,
 	OUT PULONG pFrameLen,
 	IN UINT8 Len,
@@ -1048,7 +1048,7 @@ static VOID InsertMeasureReqIE(
 	==========================================================================
  */
 static VOID InsertMeasureReportIE(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	OUT PUCHAR pFrameBuf,
 	OUT PULONG pFrameLen,
 	IN PMEASURE_REPORT_INFO pMeasureReportIE,
@@ -1093,7 +1093,7 @@ static VOID InsertMeasureReportIE(
 	==========================================================================
  */
 VOID MakeMeasurementReqFrame(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	OUT PUCHAR pOutBuffer,
 	OUT PULONG pFrameLen,
 	IN UINT8 TotalLen,
@@ -1146,7 +1146,7 @@ VOID MakeMeasurementReqFrame(
 	==========================================================================
  */
 VOID EnqueueMeasurementRep(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PUCHAR pDA,
 	IN UINT8 DialogToken,
 	IN UINT8 MeasureToken,
@@ -1206,7 +1206,7 @@ VOID EnqueueMeasurementRep(
 	==========================================================================
  */
 VOID EnqueueTPCReq(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PUCHAR pDA,
 	IN UCHAR DialogToken)
 {
@@ -1257,7 +1257,7 @@ VOID EnqueueTPCReq(
 	==========================================================================
  */
 VOID EnqueueTPCRep(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PUCHAR pDA,
 	IN UINT8 DialogToken,
 	IN UINT8 TxPwr,
@@ -1299,7 +1299,7 @@ VOID EnqueueTPCRep(
 
 
 static BOOLEAN DfsRequirementCheck(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UINT8 Channel)
 {
 	BOOLEAN Result = FALSE;
@@ -1333,7 +1333,7 @@ static BOOLEAN DfsRequirementCheck(
 }
 
 VOID NotifyChSwAnnToPeerAPs(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PUCHAR pRA,
 	IN PUCHAR pTA,
 	IN UINT8 ChSwMode,
@@ -1342,7 +1342,7 @@ VOID NotifyChSwAnnToPeerAPs(
 }
 
 static VOID StartDFSProcedure(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR Channel,
 	IN UINT8 ChSwMode)
 {
@@ -1378,7 +1378,7 @@ static VOID StartDFSProcedure(
     1    1        1           1            1
 */
 static BOOLEAN PeerChSwAnnSanity(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN VOID *pMsg,
 	IN ULONG MsgLen,
 	OUT PCH_SW_ANN_INFO pChSwAnnInfo)
@@ -1434,7 +1434,7 @@ static BOOLEAN PeerChSwAnnSanity(
 	==========================================================================
  */
 static BOOLEAN PeerMeasureReqSanity(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN VOID *pMsg,
 	IN ULONG MsgLen,
 	OUT PUINT8 pDialogToken,
@@ -1526,7 +1526,7 @@ static BOOLEAN PeerMeasureReqSanity(
      0          1                  2              3         4          5-7
 */
 static BOOLEAN PeerMeasureReportSanity(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN VOID *pMsg,
 	IN ULONG MsgLen,
 	OUT PUINT8 pDialogToken,
@@ -1617,7 +1617,7 @@ static BOOLEAN PeerMeasureReportSanity(
 	==========================================================================
  */
 static BOOLEAN PeerTpcReqSanity(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN VOID *pMsg,
 	IN ULONG MsgLen,
 	OUT PUINT8 pDialogToken)
@@ -1673,7 +1673,7 @@ static BOOLEAN PeerTpcReqSanity(
 	==========================================================================
  */
 static BOOLEAN PeerTpcRepSanity(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN VOID *pMsg,
 	IN ULONG MsgLen,
 	OUT PUINT8 pDialogToken,
@@ -1729,7 +1729,7 @@ static BOOLEAN PeerTpcRepSanity(
 	==========================================================================
  */
 static VOID PeerChSwAnnAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	CH_SW_ANN_INFO ChSwAnnInfo;
@@ -1820,7 +1820,7 @@ static VOID PeerChSwAnnAction(
 	==========================================================================
  */
 static VOID PeerMeasureReqAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	PFRAME_802_11 pFr = (PFRAME_802_11)Elem->Msg;
@@ -1851,7 +1851,7 @@ static VOID PeerMeasureReqAction(
 	==========================================================================
  */
 static VOID PeerMeasureReportAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	MEASURE_REPORT_INFO MeasureReportInfo;
@@ -1919,7 +1919,7 @@ static VOID PeerMeasureReportAction(
 	==========================================================================
  */
 static VOID PeerTpcReqAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	PFRAME_802_11 pFr = (PFRAME_802_11)Elem->Msg;
@@ -1962,7 +1962,7 @@ static VOID PeerTpcReqAction(
 	==========================================================================
  */
 static VOID PeerTpcRepAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	UINT8 DialogToken;
@@ -1996,7 +1996,7 @@ static VOID PeerTpcRepAction(
 	==========================================================================
  */
 VOID PeerSpectrumAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 
@@ -2069,7 +2069,7 @@ VOID PeerSpectrumAction(
 	==========================================================================
  */
 INT Set_MeasureReq_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	UINT wcid = 1;
@@ -2170,7 +2170,7 @@ END_OF_MEASURE_REQ:
 }
 
 INT Set_TpcReq_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	UINT wcid;
@@ -2195,7 +2195,7 @@ INT Set_TpcReq_Proc(
 
 #ifdef CONFIG_AP_SUPPORT
 INT Set_PwrConstraint(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 
@@ -2296,7 +2296,7 @@ static PDOT11_REGULATORY_INFORMATION GetRugClassRegion(
 }
 
 VOID RguClass_BuildBcnChList(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	OUT PUCHAR pBuf,
 	OUT	PULONG pBufLen)
 {

@@ -465,7 +465,7 @@ VOID RTMPMicFinal(
 }
 
 VOID RTMPCkipInsertCMIC(
-    IN  PRTMP_ADAPTER   pAd,
+    IN  struct rtmp_adapter *  pAd,
     OUT PUCHAR          pMIC,
     IN  PUCHAR          p80211hdr,
     IN  PNDIS_PACKET    pPacket,

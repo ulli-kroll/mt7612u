@@ -204,7 +204,7 @@ INT RtmpChipOpsEepromHook(
 
 
 BOOLEAN rtmp_get_default_bin_file_by_chip(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UINT32 	ChipVersion,
 	OUT PSTRING *pBinFileName)
 {
@@ -267,7 +267,7 @@ INT rtmp_ee_bin_write16(
 
 
 INT rtmp_ee_load_from_bin(
-	IN PRTMP_ADAPTER 	pAd)
+	IN struct rtmp_adapter *	pAd)
 {
 	PSTRING src = NULL;
 	INT ret_val;
@@ -334,7 +334,7 @@ INT rtmp_ee_load_from_bin(
 
 
 INT rtmp_ee_write_to_bin(
-	IN PRTMP_ADAPTER 	pAd)
+	IN struct rtmp_adapter *	pAd)
 {
 	PSTRING src = NULL;
 	INT ret_val;
@@ -394,7 +394,7 @@ INT rtmp_ee_write_to_bin(
 
 
 INT Set_LoadEepromBufferFromBin_Proc(
-	IN PRTMP_ADAPTER	pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PSTRING			arg)
 {
 	UINT bEnable = simple_strtol(arg, 0, 10);
@@ -441,7 +441,7 @@ INT Set_LoadEepromBufferFromBin_Proc(
 
 
 INT Set_EepromBufferWriteBack_Proc(
-	IN PRTMP_ADAPTER	pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PSTRING			arg)
 {
 	UINT e2p_mode = simple_strtol(arg, 0, 10);

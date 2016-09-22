@@ -69,7 +69,7 @@ VOID PollingModeIsr(struct work_struct *work)
 {
 
 	PBBUPollingMode pPollingmode=container_of(work, BBUPollingMode, PollingDataBH);
-	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pPollingmode->pAd_va;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pPollingmode->pAd_va;
 	struct net_device *net_dev = pAd->net_dev;
 	rt2860_interrupt(0, net_dev);
 }

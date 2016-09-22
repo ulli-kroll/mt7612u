@@ -50,7 +50,7 @@ UINT16 MaxBulkOutsSizeLimit[5][4] =
 
 
 VOID SoftwareFlowControl(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	BOOLEAN ResetBulkOutSize=FALSE;
 	UCHAR i=0,RunningQueueNo=0,QueIdx=0,HighWorkingAcCount=0;
@@ -132,7 +132,7 @@ pAd->RunningQueueNoCount=0;
 
 
 VOID	RTUSBInitTxDesc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PTX_CONTEXT		pTxContext,
 	IN	UCHAR			BulkOutPipeId,
 	IN	usb_complete_t	Func)
@@ -177,7 +177,7 @@ VOID	RTUSBInitTxDesc(
 }
 
 VOID	RTUSBInitHTTxDesc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PHT_TX_CONTEXT	pTxContext,
 	IN	UCHAR			BulkOutPipeId,
 	IN	ULONG			BulkOutSize,
@@ -207,7 +207,7 @@ VOID	RTUSBInitHTTxDesc(
 }
 
 VOID	RTUSBInitRxDesc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PRX_CONTEXT		pRxContext)
 {
 	PURB				pUrb;
@@ -697,7 +697,7 @@ VOID RTUSBBulkOutDataPacket(RTMP_ADAPTER *pAd, UCHAR BulkOutPipeId, UCHAR Index)
 USBHST_STATUS RTUSBBulkOutDataPacketComplete(URBCompleteStatus Status, purbb_t pURB, pregs *pt_regs)
 {
 	PHT_TX_CONTEXT	pHTTXContext;
-	PRTMP_ADAPTER	pAd;
+	struct rtmp_adapter *pAd;
 	POS_COOKIE 		pObj;
 	UCHAR			BulkOutPipeId;
 
@@ -765,7 +765,7 @@ USBHST_STATUS RTUSBBulkOutDataPacketComplete(URBCompleteStatus Status, purbb_t p
 	========================================================================
 */
 VOID	RTUSBBulkOutNullFrame(
-	IN	PRTMP_ADAPTER	pAd)
+	IN	struct rtmp_adapter *pAd)
 {
 	PTX_CONTEXT		pNullContext = &(pAd->NullContext);
 	PURB			pUrb;
@@ -815,7 +815,7 @@ VOID	RTUSBBulkOutNullFrame(
 /* NULL frame use BulkOutPipeId = 0*/
 USBHST_STATUS RTUSBBulkOutNullFrameComplete(URBCompleteStatus Status, purbb_t pURB, pregs *pt_regs)
 {
-	PRTMP_ADAPTER		pAd;
+	struct rtmp_adapter *	pAd;
 	PTX_CONTEXT			pNullContext;
 	NTSTATUS			Status;
 	POS_COOKIE			pObj;
@@ -846,7 +846,7 @@ USBHST_STATUS RTUSBBulkOutNullFrameComplete(URBCompleteStatus Status, purbb_t pU
 	========================================================================
 */
 VOID	RTUSBBulkOutMLMEPacket(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	UCHAR			Index)
 {
 	PTX_CONTEXT		pMLMEContext;
@@ -917,7 +917,7 @@ VOID	RTUSBBulkOutMLMEPacket(
 USBHST_STATUS RTUSBBulkOutMLMEPacketComplete(URBCompleteStatus Status, purbb_t pURB, pregs *pt_regs)
 {
 	PTX_CONTEXT			pMLMEContext;
-	PRTMP_ADAPTER		pAd;
+	struct rtmp_adapter *	pAd;
 	NTSTATUS			Status;
 	POS_COOKIE 			pObj;
 	int					index;
@@ -947,7 +947,7 @@ USBHST_STATUS RTUSBBulkOutMLMEPacketComplete(URBCompleteStatus Status, purbb_t p
 	========================================================================
 */
 VOID	RTUSBBulkOutPsPoll(
-	IN	PRTMP_ADAPTER	pAd)
+	IN	struct rtmp_adapter *pAd)
 {
 	PTX_CONTEXT		pPsPollContext = &(pAd->PsPollContext);
 	PURB			pUrb;
@@ -994,7 +994,7 @@ VOID	RTUSBBulkOutPsPoll(
 /* PS-Poll frame use BulkOutPipeId = 0*/
 USBHST_STATUS RTUSBBulkOutPsPollComplete(URBCompleteStatus Status, purbb_t pURB, pregs *pt_regs)
 {
-	PRTMP_ADAPTER		pAd;
+	struct rtmp_adapter *	pAd;
 	PTX_CONTEXT			pPsPollContext;
 	NTSTATUS			Status;
 	POS_COOKIE			pObj;
@@ -1167,7 +1167,7 @@ USBHST_STATUS RTUSBBulkRxComplete(URBCompleteStatus Status, purbb_t pURB, pregs 
 	/* or sometimes hardware IRQ will be disabled here, so we can not*/
 	/* use spin_lock_bh()/spin_unlock_bh() after IRQ is disabled. :<*/
 	PRX_CONTEXT		pRxContext;
-	PRTMP_ADAPTER	pAd;
+	struct rtmp_adapter *pAd;
 	POS_COOKIE 		pObj;
 
 	pRxContext	= (PRX_CONTEXT)RTMP_OS_USB_CONTEXT_GET(pURB);
@@ -1180,7 +1180,7 @@ USBHST_STATUS RTUSBBulkRxComplete(URBCompleteStatus Status, purbb_t pURB, pregs 
 }
 
 
-static void RTUSBDataBulkOut(PRTMP_ADAPTER pAd, ULONG bulkFlag, INT epIdx)
+static void RTUSBDataBulkOut(struct rtmp_adapter *pAd, ULONG bulkFlag, INT epIdx)
 {
 	if (RTUSB_TEST_BULK_FLAG(pAd, bulkFlag))
         {
@@ -1211,7 +1211,7 @@ static void RTUSBDataBulkOut(PRTMP_ADAPTER pAd, ULONG bulkFlag, INT epIdx)
 	========================================================================
 */
 VOID	RTUSBKickBulkOut(
-	IN	PRTMP_ADAPTER pAd)
+	IN	struct rtmp_adapter *pAd)
 {
 	/* BulkIn Reset will reset whole USB PHY. So we need to make sure fRTMP_ADAPTER_BULKIN_RESET not flaged.*/
 	if (!RTMP_TEST_FLAG(pAd ,fRTMP_ADAPTER_NEED_STOP_TX)
@@ -1282,7 +1282,7 @@ VOID	RTUSBKickBulkOut(
 	========================================================================
 */
 VOID	RTUSBCleanUpDataBulkOutQueue(
-	IN	PRTMP_ADAPTER	pAd)
+	IN	struct rtmp_adapter *pAd)
 {
 	UCHAR			Idx;
 	PHT_TX_CONTEXT	pTxContext;
@@ -1317,7 +1317,7 @@ VOID	RTUSBCleanUpDataBulkOutQueue(
 	========================================================================
 */
 VOID	RTUSBCleanUpMLMEBulkOutQueue(
-	IN	PRTMP_ADAPTER	pAd)
+	IN	struct rtmp_adapter *pAd)
 {
 	DBGPRINT(RT_DEBUG_TRACE, ("--->CleanUpMLMEBulkOutQueue\n"));
 
@@ -1341,7 +1341,7 @@ VOID	RTUSBCleanUpMLMEBulkOutQueue(
 	========================================================================
 */
 VOID	RTUSBCancelPendingIRPs(
-	IN	PRTMP_ADAPTER	pAd)
+	IN	struct rtmp_adapter *pAd)
 {
 	RTUSBCancelPendingBulkInIRP(pAd);
 	RTUSBCancelPendingBulkOutIRP(pAd);
@@ -1406,7 +1406,7 @@ VOID RTUSBCancelPendingBulkInIRP(RTMP_ADAPTER *pAd)
 	========================================================================
 */
 VOID	RTUSBCancelPendingBulkOutIRP(
-	IN	PRTMP_ADAPTER	pAd)
+	IN	struct rtmp_adapter *pAd)
 {
 	PHT_TX_CONTEXT		pHTTXContext;
 	PTX_CONTEXT			pMLMEContext;

@@ -31,7 +31,7 @@
 
 #ifdef CONFIG_STA_SUPPORT
 VOID AsicUpdateAutoFallBackTable(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PUCHAR			pRateTable)
 {
 	UCHAR					i;
@@ -343,7 +343,7 @@ typedef enum _PROT_REG_IDX_{
 
 
 VOID AsicUpdateProtect(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN USHORT OperationMode,
 	IN UCHAR SetMask,
 	IN BOOLEAN bDisableBGProtect,
@@ -905,7 +905,7 @@ VOID AsicSwitchChannel(RTMP_ADAPTER *pAd, UCHAR Channel, BOOLEAN bScan)
 	==========================================================================
  */
 VOID AsicLockChannel(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR Channel)
 {
 }
@@ -953,7 +953,7 @@ VOID AsicResetBBPAgent(RTMP_ADAPTER *pAd)
 	==========================================================================
  */
 VOID AsicSleepThenAutoWakeup(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN USHORT TbttNumToNextWakeUp)
 {
 	RTMP_STA_SLEEP_THEN_AUTO_WAKEUP(pAd, TbttNumToNextWakeUp);
@@ -968,7 +968,7 @@ VOID AsicSleepThenAutoWakeup(
 	==========================================================================
  */
 VOID AsicForceSleep(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 
 }
@@ -984,7 +984,7 @@ VOID AsicForceSleep(
 	==========================================================================
  */
 VOID AsicForceWakeup(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN BOOLEAN    bFromTx)
 {
     DBGPRINT(RT_DEBUG_INFO, ("--> AsicForceWakeup \n"));
@@ -1307,7 +1307,7 @@ VOID RTMPSetPiggyBack(RTMP_ADAPTER *pAd, BOOLEAN bPiggyBack)
 	RTMP_IO_WRITE32(pAd, TX_LINK_CFG, TxLinkCfg.word);
 }
 
-VOID AsicCtrlBcnMask(PRTMP_ADAPTER pAd, INT mask)
+VOID AsicCtrlBcnMask(struct rtmp_adapter *pAd, INT mask)
 {
 	BCN_BYPASS_MASK_STRUC bms;
 
@@ -1377,7 +1377,7 @@ INT AsicSetGPTimer(RTMP_ADAPTER *pAd, BOOLEAN enable, UINT32 timeout)
 	==========================================================================
  */
 VOID AsicDisableSync(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	BCN_TIME_CFG_STRUC csr;
 
@@ -1402,7 +1402,7 @@ VOID AsicDisableSync(
 	==========================================================================
  */
 VOID AsicEnableBssSync(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	BCN_TIME_CFG_STRUC csr;
 
@@ -1435,7 +1435,7 @@ VOID AsicEnableBssSync(
 
 /*CFG_TODO*/
 VOID AsicEnableApBssSync(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	BCN_TIME_CFG_STRUC csr;
 
@@ -1929,7 +1929,7 @@ UINT32 AsicGetRetryLimit(RTMP_ADAPTER *pAd, UINT32 type)
 	==========================================================================
  */
 VOID AsicSetSlotTime(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN BOOLEAN bUseShortSlotTime)
 {
 	ULONG	SlotTime;
@@ -2099,7 +2099,7 @@ VOID RTMPGetTxTscFromAsic(RTMP_ADAPTER *pAd, UCHAR apidx, UCHAR *pTxTsc)
 	========================================================================
 */
 VOID AsicAddSharedKeyEntry(
-	IN PRTMP_ADAPTER 	pAd,
+	IN struct rtmp_adapter *	pAd,
 	IN UCHAR		 	BssIndex,
 	IN UCHAR		 	KeyIdx,
 	IN PCIPHER_KEY		pCipherKey)
@@ -2230,7 +2230,7 @@ VOID AsicAddSharedKeyEntry(
 
 /*	IRQL = DISPATCH_LEVEL*/
 VOID AsicRemoveSharedKeyEntry(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR		 BssIndex,
 	IN UCHAR		 KeyIdx)
 {
@@ -2283,7 +2283,7 @@ VOID AsicRemoveSharedKeyEntry(
 
 
 VOID AsicUpdateWCIDIVEIV(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN USHORT		WCID,
 	IN ULONG        uIV,
 	IN ULONG        uEIV)
@@ -2316,7 +2316,7 @@ VOID AsicUpdateWCIDIVEIV(
 
 
 VOID AsicUpdateRxWCIDTable(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN USHORT WCID,
 	IN PUCHAR pAddr)
 {
@@ -2349,7 +2349,7 @@ VOID AsicUpdateRxWCIDTable(
 	========================================================================
 */
 VOID AsicUpdateWcidAttributeEntry(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	UCHAR			BssIdx,
 	IN 	UCHAR		 	KeyIdx,
 	IN 	UCHAR		 	CipherAlg,
@@ -2460,7 +2460,7 @@ VOID AsicDelWcidTab(RTMP_ADAPTER *pAd, UCHAR wcid_idx)
 	========================================================================
 */
 VOID AsicAddPairwiseKeyEntry(
-	IN PRTMP_ADAPTER 	pAd,
+	IN struct rtmp_adapter *	pAd,
 	IN UCHAR			WCID,
 	IN PCIPHER_KEY		pCipherKey)
 {
@@ -2541,7 +2541,7 @@ VOID AsicAddPairwiseKeyEntry(
 	========================================================================
 */
 VOID AsicRemovePairwiseKeyEntry(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR		 Wcid)
 {
 	/* Set the specific WCID attribute entry as OPEN-NONE */
@@ -2594,7 +2594,7 @@ BOOLEAN AsicSendCmdToMcuAndWait(
 
 
 BOOLEAN AsicSendCommandToMcuBBP(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR		 Command,
 	IN UCHAR		 Token,
 	IN UCHAR		 Arg0,
@@ -2626,7 +2626,7 @@ BOOLEAN AsicSendCommandToMcuBBP(
 	========================================================================
  */
 VOID AsicSetRxAnt(
-	IN PRTMP_ADAPTER	pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR			Ant)
 {
 	if (pAd->chipOps.SetRxAnt)
@@ -2635,7 +2635,7 @@ VOID AsicSetRxAnt(
 
 
 VOID AsicTurnOffRFClk(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN	UCHAR		Channel)
 {
 	if (pAd->chipOps.AsicRfTurnOff)
@@ -2857,7 +2857,7 @@ INT AsicSetRalinkBurstMode(RTMP_ADAPTER *pAd, BOOLEAN enable)
    b) exit from WOW mode, switch firmware to normal firmware
 */
 VOID AsicLoadWOWFirmware(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN BOOLEAN WOW)
 {
 	if (WOW)
@@ -2871,7 +2871,7 @@ VOID AsicLoadWOWFirmware(
 /* In WOW mode, 8051 mcu will send null frame, and pick data from 0x7780
  * the null frame includes TxWI and 802.11 header 						*/
 VOID AsicWOWSendNullFrame(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR TxRate,
 	IN BOOLEAN bQosNull)
 {
@@ -2953,7 +2953,7 @@ VOID AsicWOWSendNullFrame(
 
 #ifdef MICROWAVE_OVEN_SUPPORT
 VOID AsicMeasureFalseCCA(
-	IN PRTMP_ADAPTER pAd
+	IN struct rtmp_adapter *pAd
 )
 {
 	if (pAd->chipOps.AsicMeasureFalseCCA)
@@ -2961,7 +2961,7 @@ VOID AsicMeasureFalseCCA(
 }
 
 VOID AsicMitigateMicrowave(
-	IN PRTMP_ADAPTER pAd
+	IN struct rtmp_adapter *pAd
 )
 {
 	if (pAd->chipOps.AsicMitigateMicrowave)
@@ -3268,7 +3268,7 @@ INT AsicSetChannel(RTMP_ADAPTER *pAd, UCHAR ch, UINT8 bw, UINT8 ext_ch, BOOLEAN 
 	==========================================================================
  */
 VOID AsicSetApCliBssid(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PUCHAR pBssid,
 	IN UCHAR index)
 {
@@ -3294,7 +3294,7 @@ VOID AsicSetApCliBssid(
 
 #ifdef NEW_WOW_SUPPORT
 VOID RT28xxAndesWOWEnable(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	NEW_WOW_MASK_CFG_STRUCT mask_cfg;
 	NEW_WOW_SEC_CFG_STRUCT sec_cfg;
@@ -3485,7 +3485,7 @@ VOID RT28xxAndesWOWEnable(
 }
 
 VOID RT28xxAndesWOWDisable(
-    IN PRTMP_ADAPTER pAd)
+    IN struct rtmp_adapter *pAd)
 {
     NEW_WOW_PARAM_STRUCT param;
     struct CMD_UNIT CmdUnit;
@@ -3610,7 +3610,7 @@ VOID thermal_protection(
 
 #ifdef DROP_MASK_SUPPORT
 VOID asic_set_drop_mask(
-	PRTMP_ADAPTER ad,
+	struct rtmp_adapter *ad,
 	USHORT	wcid,
 	BOOLEAN enable)
 {
@@ -3633,7 +3633,7 @@ VOID asic_set_drop_mask(
 
 
 VOID asic_drop_mask_reset(
-	PRTMP_ADAPTER ad)
+	struct rtmp_adapter *ad)
 {
 	UINT32 i, reg_id;
 
@@ -3649,7 +3649,7 @@ VOID asic_drop_mask_reset(
 
 #ifdef MULTI_CLIENT_SUPPORT
 VOID asic_change_tx_retry(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN USHORT num)
 {
 	UINT32	TxRtyCfg, MacReg = 0;
@@ -3694,7 +3694,7 @@ VOID asic_change_tx_retry(
 }
 
 VOID pkt_aggr_num_change(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN USHORT num)
 {
 	if (IS_RT6352(pAd))
@@ -3720,7 +3720,7 @@ VOID pkt_aggr_num_change(
 }
 
 VOID asic_tune_be_wmm(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN USHORT num)
 {
 	UCHAR  bssCwmin = 4, apCwmin = 4, apCwmax = 6;

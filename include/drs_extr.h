@@ -311,12 +311,12 @@ INT Set_RateTable_Proc(
 
 #ifdef AGS_SUPPORT
 INT Show_AGS_Proc(
-    IN  PRTMP_ADAPTER	pAd,
+    IN  struct rtmp_adapter *pAd,
     IN  PSTRING			arg);
 
 #ifdef CONFIG_STA_SUPPORT
 VOID MlmeDynamicTxRateSwitchingAGS(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PMAC_TABLE_ENTRY pEntry,
 	IN PUCHAR pTable,
 	IN UCHAR TableSize,
@@ -324,7 +324,7 @@ VOID MlmeDynamicTxRateSwitchingAGS(
 	IN UCHAR InitTxRateIdx);
 
 VOID StaQuickResponeForRateUpExecAGS(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PMAC_TABLE_ENTRY pEntry,
 	IN PUCHAR pTable,
 	IN UCHAR TableSize,

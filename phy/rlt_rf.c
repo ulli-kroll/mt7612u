@@ -67,7 +67,7 @@ static inline BOOLEAN rf_csr_poll_idle(RTMP_ADAPTER *pAd, UINT32 *rfcsr)
 
 
 NDIS_STATUS rlt_rf_write(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR bank,
 	IN UCHAR regID,
 	IN UCHAR value)

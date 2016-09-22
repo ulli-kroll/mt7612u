@@ -432,7 +432,7 @@ void construct_ctr_preload(
 }
 
 BOOLEAN RTMPSoftDecryptAES(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PUCHAR	pData,
 	IN ULONG	DataByteCnt,
 	IN PCIPHER_KEY	pWpaKey)
@@ -832,7 +832,7 @@ VOID RTMPConstructCCMPHdr(
 	========================================================================
 */
 BOOLEAN RTMPSoftEncryptCCMP(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PUCHAR pHdr,
 	IN PUCHAR pIV,
 	IN PUCHAR pKey,
@@ -924,7 +924,7 @@ BOOLEAN RTMPSoftEncryptCCMP(
 	========================================================================
 */
 BOOLEAN RTMPSoftDecryptCCMP(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PUCHAR pHdr,
 	IN PCIPHER_KEY pKey,
 	INOUT PUCHAR pData,
@@ -1043,7 +1043,7 @@ BOOLEAN RTMPSoftDecryptCCMP(
 	========================================================================
 */
 VOID CCMP_test_vector(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN INT input)
 {
 	UINT8 Key_ID = 0;

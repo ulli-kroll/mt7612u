@@ -307,7 +307,7 @@ NDIS_STATUS	RTMPReadParametersHook(RTMP_ADAPTER *pAd)
 
 
 void RTMP_IndicateMediaState(
-	IN	PRTMP_ADAPTER		pAd,
+	IN	struct rtmp_adapter *	pAd,
 	IN  NDIS_MEDIA_STATE	media_state)
 {
 	pAd->IndicateMediaState = media_state;
@@ -333,7 +333,7 @@ void tbtt_tasklet(unsigned long data)
 	POS_COOKIE pObj = container_of(work, struct os_cookie, tbtt_task);
 	RTMP_ADAPTER *pAd = (RTMP_ADAPTER *)pObj->pAd_va;
 #else
-		PRTMP_ADAPTER pAd = (RTMP_ADAPTER *)data;
+		struct rtmp_adapter *pAd = (RTMP_ADAPTER *)data;
 #endif /* WORKQUEUE_BH */
 
 
@@ -397,7 +397,7 @@ void tbtt_tasklet(unsigned long data)
 
 #ifdef INF_PPA_SUPPORT
 static INT process_nbns_packet(
-	IN PRTMP_ADAPTER 	pAd,
+	IN struct rtmp_adapter *	pAd,
 	IN struct sk_buff 		*skb)
 {
 	UCHAR *data;
@@ -610,7 +610,7 @@ extern NDIS_SPIN_LOCK TimerSemLock;
 
 VOID RTMPFreeAdapter(VOID *pAdSrc)
 {
-	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pAdSrc;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdSrc;
 	POS_COOKIE os_cookie;
 	int index;
 
@@ -946,7 +946,7 @@ VOID AP_E2PROM_IOCTL_PostCtrl(
 
 
 VOID IAPP_L2_UpdatePostCtrl(
-	IN PRTMP_ADAPTER	pAd,
+	IN struct rtmp_adapter *pAd,
     IN UINT8 *mac_p,
     IN INT  bssid)
 {

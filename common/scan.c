@@ -695,7 +695,7 @@ BOOLEAN ScanRunning(RTMP_ADAPTER *pAd)
 #ifdef DOT11_N_SUPPORT
 #ifdef DOT11N_DRAFT3
 VOID BuildEffectedChannelList(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	UCHAR		EChannel[11];
 	UCHAR		i, j, k;
@@ -798,7 +798,7 @@ VOID BuildEffectedChannelList(
 
 
 VOID DeleteEffectedChannelList(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	UCHAR		i;
 	/*Clear all bEffectedChannel in ChannelList array. */
@@ -811,7 +811,7 @@ VOID DeleteEffectedChannelList(
 #endif /* DOT11_N_SUPPORT */
 
 VOID ScanParmFill(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN OUT MLME_SCAN_REQ_STRUCT *ScanReq,
 	IN STRING Ssid[],
 	IN UCHAR SsidLen,

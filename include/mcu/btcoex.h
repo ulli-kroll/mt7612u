@@ -338,7 +338,7 @@ ULONG QueryHashID(
 	BOOLEAN RemoveBSS);
 
 VOID CoexParseBTStatus(
-    IN PRTMP_ADAPTER pAd
+    IN struct rtmp_adapter *pAd
 	) ;
 
 #endif

@@ -181,7 +181,7 @@ BOOLEAN IsGratuitousARP(UCHAR *pData)
 }
 
 
-BOOLEAN IsUnsolicitedNeighborAdver(PRTMP_ADAPTER pAd,
+BOOLEAN IsUnsolicitedNeighborAdver(struct rtmp_adapter *pAd,
 								   PUCHAR pData)
 {
 	UCHAR *Pos = pData;
@@ -220,7 +220,7 @@ BOOLEAN IsUnsolicitedNeighborAdver(PRTMP_ADAPTER pAd,
 }
 
 
-BOOLEAN IsIPv4ProxyARPCandidate(IN PRTMP_ADAPTER pAd,
+BOOLEAN IsIPv4ProxyARPCandidate(IN struct rtmp_adapter *pAd,
 						   		IN PUCHAR pData)
 {
 	UCHAR *Pos = pData;
@@ -258,7 +258,7 @@ BOOLEAN IsIPv4ProxyARPCandidate(IN PRTMP_ADAPTER pAd,
 }
 
 
-BOOLEAN IsIpv6DuplicateAddrDetect(PRTMP_ADAPTER pAd,
+BOOLEAN IsIpv6DuplicateAddrDetect(struct rtmp_adapter *pAd,
 								  PUCHAR pData)
 {
 	UCHAR *Pos = pData;
@@ -294,7 +294,7 @@ BOOLEAN IsIpv6DuplicateAddrDetect(PRTMP_ADAPTER pAd,
 	return FALSE;
 }
 
-BOOLEAN IsIPv6ProxyARPCandidate(IN PRTMP_ADAPTER pAd,
+BOOLEAN IsIPv6ProxyARPCandidate(IN struct rtmp_adapter *pAd,
 								IN PUCHAR pData)
 {
 	UCHAR *Pos = pData;
@@ -331,7 +331,7 @@ BOOLEAN IsIPv6ProxyARPCandidate(IN PRTMP_ADAPTER pAd,
 }
 
 
-BOOLEAN IsIPv6RouterSolicitation(IN PRTMP_ADAPTER pAd,
+BOOLEAN IsIPv6RouterSolicitation(IN struct rtmp_adapter *pAd,
 								 IN PUCHAR pData)
 {
 	UCHAR *Pos = pData;
@@ -357,7 +357,7 @@ BOOLEAN IsIPv6RouterSolicitation(IN PRTMP_ADAPTER pAd,
 }
 
 
-BOOLEAN IsIPv6RouterAdvertisement(IN PRTMP_ADAPTER pAd,
+BOOLEAN IsIPv6RouterAdvertisement(IN struct rtmp_adapter *pAd,
 								  IN PUCHAR pData)
 {
 	UCHAR *Pos = pData;
@@ -383,7 +383,7 @@ BOOLEAN IsIPv6RouterAdvertisement(IN PRTMP_ADAPTER pAd,
 }
 
 
-BOOLEAN IsTDLSPacket(IN PRTMP_ADAPTER pAd,
+BOOLEAN IsTDLSPacket(IN struct rtmp_adapter *pAd,
 					 IN PUCHAR pData)
 {
 	UCHAR *Pos = pData;
@@ -403,7 +403,7 @@ BOOLEAN IsTDLSPacket(IN PRTMP_ADAPTER pAd,
 }
 
 
-UINT32 IPv4ProxyARPTableLen(IN PRTMP_ADAPTER pAd,
+UINT32 IPv4ProxyARPTableLen(IN struct rtmp_adapter *pAd,
 							IN struct _MULTISSID_STRUCT *pMbss)
 {
 
@@ -424,7 +424,7 @@ UINT32 IPv4ProxyARPTableLen(IN PRTMP_ADAPTER pAd,
 	return TableLen;
 }
 
-UINT32 IPv6ProxyARPTableLen(IN PRTMP_ADAPTER pAd,
+UINT32 IPv6ProxyARPTableLen(IN struct rtmp_adapter *pAd,
 							IN struct _MULTISSID_STRUCT *pMbss)
 {
 	PWNM_CTRL pWNMCtrl = &pMbss->WNMCtrl;
@@ -442,7 +442,7 @@ UINT32 IPv6ProxyARPTableLen(IN PRTMP_ADAPTER pAd,
 	return TableLen;
 }
 
-BOOLEAN GetIPv4ProxyARPTable(IN PRTMP_ADAPTER pAd,
+BOOLEAN GetIPv4ProxyARPTable(IN struct rtmp_adapter *pAd,
 						 	 IN struct _MULTISSID_STRUCT *pMbss,
 						 	 PUCHAR *ProxyARPTable)
 {
@@ -466,7 +466,7 @@ BOOLEAN GetIPv4ProxyARPTable(IN PRTMP_ADAPTER pAd,
 	return TRUE;
 }
 
-BOOLEAN GetIPv6ProxyARPTable(IN PRTMP_ADAPTER pAd,
+BOOLEAN GetIPv6ProxyARPTable(IN struct rtmp_adapter *pAd,
 						 	 IN struct _MULTISSID_STRUCT *pMbss,
 						 	 PUCHAR *ProxyARPTable)
 {
@@ -491,7 +491,7 @@ BOOLEAN GetIPv6ProxyARPTable(IN PRTMP_ADAPTER pAd,
 	return TRUE;
 }
 
-UINT32 AddIPv4ProxyARPEntry(IN PRTMP_ADAPTER pAd,
+UINT32 AddIPv4ProxyARPEntry(IN struct rtmp_adapter *pAd,
 					   		IN MULTISSID_STRUCT *pMbss,
 							PUCHAR pTargetMACAddr,
 							PUCHAR pTargetIPAddr)
@@ -537,7 +537,7 @@ UINT32 AddIPv4ProxyARPEntry(IN PRTMP_ADAPTER pAd,
 	return TRUE;
 }
 
-VOID RemoveIPv4ProxyARPEntry(IN PRTMP_ADAPTER pAd,
+VOID RemoveIPv4ProxyARPEntry(IN struct rtmp_adapter *pAd,
 					   		IN MULTISSID_STRUCT *pMbss,
 							PUCHAR pTargetMACAddr)
 {
@@ -566,7 +566,7 @@ VOID RemoveIPv4ProxyARPEntry(IN PRTMP_ADAPTER pAd,
 	RTMP_SEM_EVENT_UP(&pWNMCtrl->ProxyARPListLock);
 }
 
-UINT32 AddIPv6ProxyARPEntry(IN PRTMP_ADAPTER pAd,
+UINT32 AddIPv6ProxyARPEntry(IN struct rtmp_adapter *pAd,
 							IN MULTISSID_STRUCT *pMbss,
 							PUCHAR pTargetMACAddr,
 							PUCHAR pTargetIPAddr)
@@ -620,7 +620,7 @@ UINT32 AddIPv6ProxyARPEntry(IN PRTMP_ADAPTER pAd,
 	return TRUE;
 }
 
-VOID RemoveIPv6ProxyARPEntry(IN PRTMP_ADAPTER pAd,
+VOID RemoveIPv6ProxyARPEntry(IN struct rtmp_adapter *pAd,
 							IN MULTISSID_STRUCT *pMbss,
 							PUCHAR pTargetMACAddr)
 {
@@ -646,7 +646,7 @@ VOID RemoveIPv6ProxyARPEntry(IN PRTMP_ADAPTER pAd,
 	RTMP_SEM_EVENT_UP(&pWNMCtrl->ProxyARPIPv6ListLock);
 }
 
-BOOLEAN IPv4ProxyARP(IN PRTMP_ADAPTER pAd,
+BOOLEAN IPv4ProxyARP(IN struct rtmp_adapter *pAd,
 				 	 IN MULTISSID_STRUCT *pMbss,
 				 	 IN PUCHAR pData,
 					 IN BOOLEAN FromDS)
@@ -687,7 +687,7 @@ BOOLEAN IPv4ProxyARP(IN PRTMP_ADAPTER pAd,
 	return IsFound;
 }
 
-BOOLEAN IPv6ProxyARP(IN PRTMP_ADAPTER pAd,
+BOOLEAN IPv6ProxyARP(IN struct rtmp_adapter *pAd,
 					 IN MULTISSID_STRUCT *pMbss,
 					 IN PUCHAR pData,
 					 IN BOOLEAN FromDS)
@@ -731,7 +731,7 @@ BOOLEAN IPv6ProxyARP(IN PRTMP_ADAPTER pAd,
 
 
 VOID WNMIPv4ProxyARPCheck(
-			IN PRTMP_ADAPTER pAd,
+			IN struct rtmp_adapter *pAd,
 			PNDIS_PACKET pPacket,
 			USHORT srcPort,
 			USHORT dstPort,
@@ -756,7 +756,7 @@ VOID WNMIPv4ProxyARPCheck(
 
 
 VOID WNMIPv6ProxyARPCheck(
-			IN PRTMP_ADAPTER pAd,
+			IN struct rtmp_adapter *pAd,
 			PNDIS_PACKET pPacket,
 			PUCHAR pSrcBuf)
 {
@@ -825,7 +825,7 @@ VOID WNMIPv6ProxyARPCheck(
 }
 #endif /* CONFIG_AP_SUPPORT */
 
-void PeerWNMAction(IN PRTMP_ADAPTER pAd,
+void PeerWNMAction(IN struct rtmp_adapter *pAd,
 				   IN MLME_QUEUE_ELEM *Elem)
 {
 	UCHAR Action = Elem->Msg[LENGTH_802_11+1];
@@ -838,7 +838,7 @@ void PeerWNMAction(IN PRTMP_ADAPTER pAd,
 	}
 }
 
-VOID WNMCtrlInit(IN PRTMP_ADAPTER pAd)
+VOID WNMCtrlInit(IN struct rtmp_adapter *pAd)
 {
 	PWNM_CTRL pWNMCtrl;
 #ifdef CONFIG_AP_SUPPORT
@@ -877,7 +877,7 @@ static VOID WNMCtrlRemoveAllIE(PWNM_CTRL pWNMCtrl)
 }
 
 
-VOID WNMCtrlExit(IN PRTMP_ADAPTER pAd)
+VOID WNMCtrlExit(IN struct rtmp_adapter *pAd)
 {
 	PWNM_CTRL pWNMCtrl;
 	UINT32 Ret;
@@ -932,7 +932,7 @@ VOID WNMCtrlExit(IN PRTMP_ADAPTER pAd)
 
 
 #ifdef CONFIG_AP_SUPPORT
-VOID Clear_All_PROXY_TABLE(IN PRTMP_ADAPTER pAd)
+VOID Clear_All_PROXY_TABLE(IN struct rtmp_adapter *pAd)
 {
 	POS_COOKIE pObj = (POS_COOKIE)pAd->OS_Cookie;
 	UCHAR APIndex = pObj->ioctl_if;

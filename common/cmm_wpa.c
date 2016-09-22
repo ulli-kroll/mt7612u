@@ -63,23 +63,23 @@ static VOID	ConstructEapolKeyData(
 	OUT PEAPOL_PACKET   pMsg);
 
 static VOID WpaEAPPacketAction(
-    IN PRTMP_ADAPTER pAd,
+    IN struct rtmp_adapter *pAd,
     IN MLME_QUEUE_ELEM *Elem);
 
 static VOID WpaEAPOLASFAlertAction(
-    IN PRTMP_ADAPTER pAd,
+    IN struct rtmp_adapter *pAd,
     IN MLME_QUEUE_ELEM *Elem);
 
 static VOID WpaEAPOLLogoffAction(
-    IN PRTMP_ADAPTER pAd,
+    IN struct rtmp_adapter *pAd,
     IN MLME_QUEUE_ELEM *Elem);
 
 static VOID WpaEAPOLStartAction(
-    IN PRTMP_ADAPTER    pAd,
+    IN struct rtmp_adapter *   pAd,
     IN MLME_QUEUE_ELEM  *Elem);
 
 static VOID WpaEAPOLKeyAction(
-    IN PRTMP_ADAPTER    pAd,
+    IN struct rtmp_adapter *   pAd,
     IN MLME_QUEUE_ELEM  *Elem);
 
 /*
@@ -91,7 +91,7 @@ static VOID WpaEAPOLKeyAction(
     ==========================================================================
  */
 VOID WpaStateMachineInit(
-    IN  PRTMP_ADAPTER   pAd,
+    IN  struct rtmp_adapter *  pAd,
     IN  STATE_MACHINE *S,
     OUT STATE_MACHINE_FUNC Trans[])
 {
@@ -114,19 +114,19 @@ VOID WpaStateMachineInit(
     ==========================================================================
 */
 VOID WpaEAPPacketAction(
-    IN PRTMP_ADAPTER pAd,
+    IN struct rtmp_adapter *pAd,
     IN MLME_QUEUE_ELEM *Elem)
 {
 }
 
 VOID WpaEAPOLASFAlertAction(
-    IN PRTMP_ADAPTER pAd,
+    IN struct rtmp_adapter *pAd,
     IN MLME_QUEUE_ELEM *Elem)
 {
 }
 
 VOID WpaEAPOLLogoffAction(
-    IN PRTMP_ADAPTER pAd,
+    IN struct rtmp_adapter *pAd,
     IN MLME_QUEUE_ELEM *Elem)
 {
 }
@@ -139,7 +139,7 @@ VOID WpaEAPOLLogoffAction(
     ==========================================================================
 */
 VOID WpaEAPOLStartAction(
-    IN PRTMP_ADAPTER    pAd,
+    IN struct rtmp_adapter *   pAd,
     IN MLME_QUEUE_ELEM  *Elem)
 {
     MAC_TABLE_ENTRY     *pEntry;
@@ -193,7 +193,7 @@ VOID WpaEAPOLStartAction(
     ==========================================================================
 */
 VOID WpaEAPOLKeyAction(
-    IN PRTMP_ADAPTER    pAd,
+    IN struct rtmp_adapter *   pAd,
     IN MLME_QUEUE_ELEM  *Elem)
 {
 	MAC_TABLE_ENTRY     *pEntry;
@@ -455,7 +455,7 @@ VOID WpaEAPOLKeyAction(
 	========================================================================
 */
 VOID RTMPToWirelessSta(
-    IN PRTMP_ADAPTER pAd,
+    IN struct rtmp_adapter *pAd,
     IN PMAC_TABLE_ENTRY pEntry,
     IN PUCHAR pHeader802_3,
     IN UINT HdrLen,
@@ -546,7 +546,7 @@ VOID RTMPToWirelessSta(
     ==========================================================================
  */
 BOOLEAN PeerWpaMessageSanity(
-    IN 	PRTMP_ADAPTER 		pAd,
+    IN 	struct rtmp_adapter *		pAd,
     IN 	PEAPOL_PACKET 		pMsg,
     IN 	ULONG 				MsgLen,
     IN 	UCHAR				MsgType,
@@ -755,7 +755,7 @@ LabelErr:
     ==========================================================================
 */
 VOID WPAStart4WayHS(
-    IN PRTMP_ADAPTER    pAd,
+    IN struct rtmp_adapter *   pAd,
     IN MAC_TABLE_ENTRY  *pEntry,
     IN ULONG			TimeInterval)
 {
@@ -936,7 +936,7 @@ VOID WPAStart4WayHS(
 	========================================================================
 */
 VOID PeerPairMsg1Action(
-	IN PRTMP_ADAPTER    pAd,
+	IN struct rtmp_adapter *   pAd,
     IN MAC_TABLE_ENTRY  *pEntry,
     IN MLME_QUEUE_ELEM  *Elem)
 {
@@ -1095,7 +1095,7 @@ VOID PeerPairMsg1Action(
     ==========================================================================
 */
 VOID PeerPairMsg2Action(
-    IN PRTMP_ADAPTER    pAd,
+    IN struct rtmp_adapter *   pAd,
     IN MAC_TABLE_ENTRY  *pEntry,
     IN MLME_QUEUE_ELEM  *Elem)
 {
@@ -1313,7 +1313,7 @@ VOID PeerPairMsg2Action(
 	========================================================================
 */
 VOID PeerPairMsg3Action(
-    IN PRTMP_ADAPTER    pAd,
+    IN struct rtmp_adapter *   pAd,
     IN MAC_TABLE_ENTRY  *pEntry,
     IN MLME_QUEUE_ELEM  *Elem)
 {
@@ -1505,7 +1505,7 @@ VOID PeerPairMsg3Action(
     ==========================================================================
 */
 VOID PeerPairMsg4Action(
-    IN PRTMP_ADAPTER    pAd,
+    IN struct rtmp_adapter *   pAd,
     IN MAC_TABLE_ENTRY  *pEntry,
     IN MLME_QUEUE_ELEM  *Elem)
 {
@@ -1617,7 +1617,7 @@ VOID PeerPairMsg4Action(
     ==========================================================================
 */
 VOID WPAStart2WayGroupHS(
-    IN PRTMP_ADAPTER    pAd,
+    IN struct rtmp_adapter *   pAd,
     IN MAC_TABLE_ENTRY  *pEntry)
 {
     UCHAR               Header802_3[14];
@@ -1720,7 +1720,7 @@ VOID WPAStart2WayGroupHS(
 	========================================================================
 */
 VOID	PeerGroupMsg1Action(
-	IN PRTMP_ADAPTER    pAd,
+	IN struct rtmp_adapter *   pAd,
     IN MAC_TABLE_ENTRY  *pEntry,
     IN MLME_QUEUE_ELEM  *Elem)
 {
@@ -1891,7 +1891,7 @@ VOID EnqueueStartForPSKExec(
 
 	if ((pEntry) && IS_ENTRY_CLIENT(pEntry) && (pEntry->WpaState < AS_PTKSTART))
 	{
-		PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pEntry->pAd;
+		struct rtmp_adapter *pAd = (struct rtmp_adapter *)pEntry->pAd;
 
 		switch (pEntry->EnqueueEapolStartTimerRunning)
 		{
@@ -1920,7 +1920,7 @@ VOID EnqueueStartForPSKExec(
 
 
 VOID MlmeDeAuthAction(
-    IN PRTMP_ADAPTER    pAd,
+    IN struct rtmp_adapter *   pAd,
     IN MAC_TABLE_ENTRY  *pEntry,
 	IN USHORT           Reason,
 	IN BOOLEAN          bDataFrameFirst)
@@ -2006,7 +2006,7 @@ VOID MlmeDeAuthAction(
     ==========================================================================
 */
 VOID PeerGroupMsg2Action(
-    IN PRTMP_ADAPTER    pAd,
+    IN struct rtmp_adapter *   pAd,
     IN MAC_TABLE_ENTRY  *pEntry,
     IN VOID             *Msg,
     IN UINT             MsgLen)
@@ -2464,7 +2464,7 @@ VOID RTMPDerivePMKID(
 	========================================================================
 */
 VOID WpaDerivePTK(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	UCHAR	*PMK,
 	IN	UCHAR	*ANonce,
 	IN	UCHAR	*AA,
@@ -2587,7 +2587,7 @@ VOID WpaDeriveGTK(
 	========================================================================
 */
 VOID	GenRandom(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	UCHAR			*macAddr,
 	OUT	UCHAR			*random)
 {
@@ -2649,7 +2649,7 @@ VOID	GenRandom(
 	========================================================================
 */
 static VOID RTMPMakeRsnIeCipher(
-	IN  PRTMP_ADAPTER   pAd,
+	IN  struct rtmp_adapter *  pAd,
 	IN	UCHAR			ElementID,
 	IN	UINT			WepStatus,
 	IN	UCHAR			apidx,
@@ -2842,7 +2842,7 @@ static VOID RTMPMakeRsnIeCipher(
 	========================================================================
 */
 static VOID RTMPMakeRsnIeAKM(
-	IN  PRTMP_ADAPTER   pAd,
+	IN  struct rtmp_adapter *  pAd,
 	IN	UCHAR			ElementID,
 	IN	UINT			AuthMode,
 	IN	UCHAR			apidx,
@@ -2994,7 +2994,7 @@ static VOID RTMPMakeRsnIeAKM(
 	========================================================================
 */
 static VOID RTMPMakeRsnIeCap(
-	IN  PRTMP_ADAPTER   pAd,
+	IN  struct rtmp_adapter *  pAd,
 	IN	UCHAR			ElementID,
 	IN	UCHAR			apidx,
 	OUT	PUCHAR			pRsnIe,
@@ -3065,7 +3065,7 @@ static VOID RTMPMakeRsnIeCap(
 */
 #ifdef DOT11W_PMF_SUPPORT
 static VOID RTMPInsertRsnIeZeroPMKID(
-	IN  PRTMP_ADAPTER   pAd,
+	IN  struct rtmp_adapter *  pAd,
 	IN	UCHAR			ElementID,
 	IN	UCHAR			apidx,
 	OUT	PUCHAR			pRsnIe,
@@ -3445,7 +3445,7 @@ BOOLEAN RTMPCheckWPAframe(
 
 #ifdef HDR_TRANS_SUPPORT
 BOOLEAN RTMPCheckWPAframe_Hdr_Trns(
-    IN PRTMP_ADAPTER    pAd,
+    IN struct rtmp_adapter *   pAd,
     IN PMAC_TABLE_ENTRY	pEntry,
     IN PUCHAR           pData,
     IN ULONG            DataByteCount,
@@ -3565,7 +3565,7 @@ PSTRING GetEapolMsgType(CHAR msg)
     ========================================================================
 */
 BOOLEAN RTMPCheckRSNIE(
-	IN  PRTMP_ADAPTER   pAd,
+	IN  struct rtmp_adapter *  pAd,
 	IN  PUCHAR          pData,
 	IN  UCHAR           DataLen,
 	IN  MAC_TABLE_ENTRY *pEntry,
@@ -3641,7 +3641,7 @@ BOOLEAN RTMPCheckRSNIE(
     ========================================================================
 */
 BOOLEAN RTMPParseEapolKeyData(
-	IN  PRTMP_ADAPTER   pAd,
+	IN  struct rtmp_adapter *  pAd,
 	IN  PUCHAR          pKeyData,
 	IN  UCHAR           KeyDataLen,
 	IN	UCHAR			GroupKeyIndex,
@@ -4401,7 +4401,7 @@ CIPHER_KEY *RTMPSwCipherKeySelection(
 	========================================================================
 */
 NDIS_STATUS	RTMPSoftDecryptionAction(
-	IN	PRTMP_ADAPTER		pAd,
+	IN	struct rtmp_adapter *	pAd,
 	IN 		PUCHAR			pHdr,
 	IN 		UCHAR    		UserPriority,
 	IN 		PCIPHER_KEY		pKey,
@@ -4487,7 +4487,7 @@ VOID RTMPSoftConstructIVHdr(
 }
 
 VOID RTMPSoftEncryptionAction(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	UCHAR			CipherAlg,
 	IN	PUCHAR			pHdr,
 	IN	PUCHAR			pSrcBufData,
@@ -4910,7 +4910,7 @@ VOID RTMPInsertRSNIE(
 
 
 VOID WPAInstallPairwiseKey(
-	PRTMP_ADAPTER		pAd,
+	struct rtmp_adapter *	pAd,
 	UINT8				BssIdx,
 	PMAC_TABLE_ENTRY	pEntry,
 	BOOLEAN				bAE)
@@ -4973,7 +4973,7 @@ VOID WPAInstallPairwiseKey(
 }
 
 VOID WPAInstallSharedKey(
-	PRTMP_ADAPTER		pAd,
+	struct rtmp_adapter *	pAd,
 	UINT8				GroupCipher,
 	UINT8				BssIdx,
 	UINT8				KeyIdx,
@@ -5074,7 +5074,7 @@ VOID WPAInstallSharedKey(
 }
 
 VOID RTMPSetWcidSecurityInfo(
-	PRTMP_ADAPTER		pAd,
+	struct rtmp_adapter *	pAd,
 	UINT8				BssIdx,
 	UINT8				KeyIdx,
 	UINT8				CipherAlg,

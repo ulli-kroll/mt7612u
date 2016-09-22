@@ -632,7 +632,7 @@ static inline VOID APBuildCacheWifiInfo(
 
 #ifdef HDR_TRANS_TX_SUPPORT
 static inline VOID APBuildWifiInfo(
-	IN  PRTMP_ADAPTER   pAd,
+	IN  struct rtmp_adapter *  pAd,
 	IN  TX_BLK          *pTxBlk)
 {
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
@@ -1434,7 +1434,7 @@ VOID AP_AMPDU_Frame_Tx(RTMP_ADAPTER *pAd, TX_BLK *pTxBlk)
 
 #ifdef HDR_TRANS_TX_SUPPORT
 VOID AP_AMPDU_Frame_Tx_Hdr_Trns(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	TX_BLK			*pTxBlk)
 {
 	PUCHAR			pWiBufPtr;
@@ -2168,7 +2168,7 @@ VOID AP_Legacy_Frame_Tx(RTMP_ADAPTER *pAd, TX_BLK *pTxBlk)
 
 #ifdef HDR_TRANS_TX_SUPPORT
 VOID AP_Legacy_Frame_Tx_Hdr_Trns(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	TX_BLK			*pTxBlk)
 {
 /*	UCHAR			QueIdx = pTxBlk->QueIdx; */
@@ -3567,7 +3567,7 @@ BOOLEAN APCheckVaildDataFrame(RTMP_ADAPTER *pAd, RX_BLK *pRxBlk)
 
 /* For TKIP frame, calculate the MIC value */
 BOOLEAN APCheckTkipMICValue(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	MAC_TABLE_ENTRY	*pEntry,
 	IN	RX_BLK			*pRxBlk)
 {
@@ -3631,7 +3631,7 @@ BOOLEAN APCheckTkipMICValue(
 
 
 VOID APRxEAPOLFrameIndicate(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	MAC_TABLE_ENTRY	*pEntry,
 	IN	RX_BLK			*pRxBlk,
 	IN	UCHAR			FromWhichBSSID)
@@ -3791,7 +3791,7 @@ done:
 }
 
 VOID Announce_or_Forward_802_3_Packet(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PNDIS_PACKET	pPacket,
 	IN	UCHAR			FromWhichBSSID)
 {
@@ -4422,7 +4422,7 @@ err:
 
 #ifdef HDR_TRANS_SUPPORT
 VOID APHandleRxDataFrame_Hdr_Trns(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	RX_BLK			*pRxBlk)
 {
 	RXINFO_STRUC *pRxInfo = pRxBlk->pRxInfo;
@@ -4963,7 +4963,7 @@ BOOLEAN APFowardWirelessStaToWirelessSta(
 ========================================================================
 */
 NDIS_STATUS APInsertPsQueue(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PNDIS_PACKET pPacket,
 	IN MAC_TABLE_ENTRY *pMacEntry,
 	IN UCHAR QueIdx)
@@ -5013,7 +5013,7 @@ NDIS_STATUS APInsertPsQueue(
 
 #ifdef APCLI_SUPPORT
 VOID ApCliRTMPSendNullFrame(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	UCHAR			TxRate,
 	IN	BOOLEAN 		bQosNull,
 	IN 	PMAC_TABLE_ENTRY pMacEntry,

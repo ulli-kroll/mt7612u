@@ -35,7 +35,7 @@ enum DOT11U_ADVERTISMENT_PROTOCOL_ID dot11GASAdvertisementID[] =
 };
 
 enum GAS_STATE GASPeerCurrentState(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	PGAS_CTRL pGASCtrl;
@@ -67,7 +67,7 @@ enum GAS_STATE GASPeerCurrentState(
 
 
 VOID GASSetPeerCurrentState(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem,
 	IN enum GAS_STATE State)
 {
@@ -135,7 +135,7 @@ void SendAnqpReqEvent(struct net_device *net_dev, const char *peer_mac_addr,
 
 
 static VOID SendGASRsp(
-    IN PRTMP_ADAPTER    pAd,
+    IN struct rtmp_adapter *   pAd,
     IN MLME_QUEUE_ELEM  *Elem)
 {
 
@@ -313,7 +313,7 @@ static VOID SendGASRsp(
 
 
 VOID ReceiveGASInitReq(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	GAS_EVENT_DATA *Event;
@@ -479,7 +479,7 @@ error:
 
 
 static VOID SendGASCBRsp(
-    IN PRTMP_ADAPTER    pAd,
+    IN struct rtmp_adapter *   pAd,
     IN MLME_QUEUE_ELEM  *Elem)
 {
 
@@ -671,7 +671,7 @@ static VOID SendGASCBRsp(
 
 
 VOID ReceiveGASCBReq(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	GAS_EVENT_DATA *Event;
@@ -821,7 +821,7 @@ error:
 
 
 static BOOLEAN IsAdvertisementProIDValid(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN enum DOT11U_ADVERTISMENT_PROTOCOL_ID AdvertisementProtoID)
 {
 	INT32 i;
@@ -845,7 +845,7 @@ void PostReplyTimeout(
 {
 	GAS_PEER_ENTRY *GASPeerEntry = (GAS_PEER_ENTRY *)FunctionContext;
 	PGAS_CTRL pGASCtrl;
-   	PRTMP_ADAPTER pAd;
+   	struct rtmp_adapter *pAd;
 	BOOLEAN Cancelled;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("%s\n", __FUNCTION__));
@@ -895,7 +895,7 @@ VOID GASRspBufferingTimeout(
     IN PVOID SystemSpecific3)
 {
 	GAS_PEER_ENTRY *GASPeerEntry = (GAS_PEER_ENTRY *)FunctionContext;
-	PRTMP_ADAPTER pAd;
+	struct rtmp_adapter *pAd;
 	PGAS_CTRL pGASCtrl;
 	GAS_QUERY_RSP_FRAGMENT *GASQueryRspFrag = NULL, *GASQueryRspFragTmp;
 	BOOLEAN Cancelled;
@@ -954,7 +954,7 @@ BUILD_TIMER_FUNCTION(GASRspBufferingTimeout);
 
 
 static VOID SendGASIndication(
-    IN PRTMP_ADAPTER    pAd,
+    IN struct rtmp_adapter *   pAd,
     IN MLME_QUEUE_ELEM  *Elem)
 {
 	PGAS_PEER_ENTRY GASPeerEntry;
@@ -1166,7 +1166,7 @@ static VOID SendGASIndication(
 }
 #endif /* CONFIG_AP_SUPPORT */
 
-static VOID GASCtrlInit(IN PRTMP_ADAPTER pAd)
+static VOID GASCtrlInit(IN struct rtmp_adapter *pAd)
 {
 	PGAS_CTRL pGASCtrl;
 #ifdef CONFIG_AP_SUPPORT
@@ -1191,7 +1191,7 @@ static VOID GASCtrlInit(IN PRTMP_ADAPTER pAd)
 #endif
 }
 
-VOID GASCtrlExit(IN PRTMP_ADAPTER pAd)
+VOID GASCtrlExit(IN struct rtmp_adapter *pAd)
 {
 	PGAS_CTRL pGASCtrl;
 	GAS_PEER_ENTRY *GASPeerEntry, *GASPeerEntryTmp;
@@ -1294,7 +1294,7 @@ VOID GASCtrlExit(IN PRTMP_ADAPTER pAd)
 
 
 VOID GASStateMachineInit(
-			IN PRTMP_ADAPTER pAd,
+			IN struct rtmp_adapter *pAd,
 			IN STATE_MACHINE *S,
 			OUT STATE_MACHINE_FUNC	Trans[])
 {

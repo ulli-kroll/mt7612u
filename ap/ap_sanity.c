@@ -362,7 +362,7 @@ BOOLEAN PeerAssocReqCmmSanity(
     ==========================================================================
  */
 BOOLEAN PeerDisassocReqSanity(
-    IN PRTMP_ADAPTER pAd,
+    IN struct rtmp_adapter *pAd,
     IN VOID *Msg,
     IN ULONG MsgLen,
     OUT PUCHAR pAddr2,
@@ -388,7 +388,7 @@ BOOLEAN PeerDisassocReqSanity(
     ==========================================================================
  */
 BOOLEAN PeerDeauthReqSanity(
-    IN PRTMP_ADAPTER pAd,
+    IN struct rtmp_adapter *pAd,
     IN VOID *Msg,
     IN ULONG MsgLen,
     OUT PUCHAR pAddr2,
@@ -414,7 +414,7 @@ BOOLEAN PeerDeauthReqSanity(
     ==========================================================================
  */
 BOOLEAN APPeerAuthSanity(
-    IN PRTMP_ADAPTER pAd,
+    IN struct rtmp_adapter *pAd,
     IN VOID *Msg,
     IN ULONG MsgLen,
     OUT PUCHAR pAddr1,

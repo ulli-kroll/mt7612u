@@ -52,7 +52,7 @@ INT ComputeChecksum(
 } /* ComputeChecksum*/
 
 UINT GenerateWpsPinCode(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
     IN  BOOLEAN         bFromApcli,
 	IN	UCHAR			apidx)
 {
@@ -121,7 +121,7 @@ char* get_bw_str(int bandwidth)
     ==========================================================================
 */
 INT RT_CfgSetCountryRegion(
-	IN PRTMP_ADAPTER	pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PSTRING			arg,
 	IN INT				band)
 {
@@ -495,7 +495,7 @@ static BOOLEAN RT_isLegalCmdBeforeInfUp(
 
 
 INT RT_CfgSetShortSlot(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	LONG ShortSlot;
@@ -522,7 +522,7 @@ INT RT_CfgSetShortSlot(
     ==========================================================================
 */
 INT	RT_CfgSetWepKey(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			keyString,
 	IN	CIPHER_KEY		*pSharedKey,
 	IN	INT				keyIdx)
@@ -650,7 +650,7 @@ INT	RT_CfgSetFixedTxPhyMode(PSTRING arg)
 }
 
 INT	RT_CfgSetMacAddress(
-	IN 	PRTMP_ADAPTER 	pAd,
+	IN 	struct rtmp_adapter *	pAd,
 	IN	PSTRING			arg)
 {
 	INT	i, mac_len;
@@ -700,7 +700,7 @@ INT	RT_CfgSetTxMCSProc(PSTRING arg, BOOLEAN *pAutoRate)
 }
 
 INT	RT_CfgSetAutoFallBack(
-	IN 	PRTMP_ADAPTER 	pAd,
+	IN 	struct rtmp_adapter *	pAd,
 	IN	PSTRING			arg)
 {
 	TX_RTY_CFG_STRUC tx_rty_cfg;
@@ -757,7 +757,7 @@ INT RTMP_COM_IoctlHandle(
 	IN	VOID					*pData,
 	IN	ULONG					Data)
 {
-	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pAdSrc;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdSrc;
 	POS_COOKIE pObj = (POS_COOKIE)pAd->OS_Cookie;
 	INT Status = NDIS_STATUS_SUCCESS, i;
 
@@ -1156,8 +1156,8 @@ INT RTMP_COM_IoctlHandle(
 			else
 			{
 #ifdef CONFIG_AP_SUPPORT
-				extern VOID APMakeAllBssBeacon(IN PRTMP_ADAPTER pAd);
-				extern VOID  APUpdateAllBeaconFrame(IN PRTMP_ADAPTER pAd);
+				extern VOID APMakeAllBssBeacon(IN struct rtmp_adapter *pAd);
+				extern VOID  APUpdateAllBeaconFrame(IN struct rtmp_adapter *pAd);
 				APMakeAllBssBeacon(pAd);
 				APUpdateAllBeaconFrame(pAd);
 #endif /* CONFIG_AP_SUPPORT */
@@ -1478,7 +1478,7 @@ INT RTMP_COM_IoctlHandle(
     ==========================================================================
 */
 INT Set_SiteSurvey_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	NDIS_802_11_SSID Ssid;
@@ -1554,7 +1554,7 @@ INT Set_SiteSurvey_Proc(
 }
 
 INT	Set_Antenna_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	ANT_DIVERSITY_TYPE UsedAnt;

@@ -32,7 +32,7 @@
 
 
 VOID STARxEAPOLFrameIndicate(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MAC_TABLE_ENTRY *pEntry,
 	IN RX_BLK *pRxBlk,
 	IN UCHAR FromWhichBSSID)
@@ -130,7 +130,7 @@ VOID STARxEAPOLFrameIndicate(
 
 
 VOID STARxDataFrameAnnounce(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MAC_TABLE_ENTRY *pEntry,
 	IN RX_BLK *pRxBlk,
 	IN UCHAR FromWhichBSSID)
@@ -206,7 +206,7 @@ VOID STARxDataFrameAnnounce(
 
 #ifdef HDR_TRANS_SUPPORT
 VOID STARxDataFrameAnnounce_Hdr_Trns(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MAC_TABLE_ENTRY *pEntry,
 	IN RX_BLK *pRxBlk,
 	IN UCHAR FromWhichBSSID)
@@ -281,7 +281,7 @@ VOID STARxDataFrameAnnounce_Hdr_Trns(
 
 /* For TKIP frame, calculate the MIC value	*/
 BOOLEAN STACheckTkipMICValue(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MAC_TABLE_ENTRY *pEntry,
 	IN RX_BLK * pRxBlk)
 {
@@ -1153,7 +1153,7 @@ VOID STAHandleRxDataFrame_Hdr_Trns(RTMP_ADAPTER *pAd, RX_BLK *pRxBlk)
 	========================================================================
 */
 VOID RTMPHandleTwakeupInterrupt(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	AsicForceWakeup(pAd, FALSE);
 }
@@ -1383,7 +1383,7 @@ INT STASendPacket(RTMP_ADAPTER *pAd, PNDIS_PACKET pPacket)
 	If no frame need to send, go to sleep, else, still wake up.
 */
 NDIS_STATUS RTMPFreeTXDRequest(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR QueIdx,
 	IN UCHAR NumberRequired,
 	IN PUCHAR FreeNumberIs)
@@ -1435,7 +1435,7 @@ NDIS_STATUS RTMPFreeTXDRequest(
 
 
 VOID RTMPSendNullFrame(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR TxRate,
 	IN BOOLEAN bQosNull,
 	IN USHORT PwrMgmt)
@@ -1913,7 +1913,7 @@ static inline PUCHAR STA_Build_AMSDU_Frame_Header(
 
 
 VOID STA_AMPDU_Frame_Tx(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN TX_BLK *pTxBlk)
 {
 	HEADER_802_11 *pHeader_802_11;
@@ -2303,7 +2303,7 @@ VOID STA_AMPDU_Frame_Tx(
 
 #ifdef HDR_TRANS_SUPPORT
 VOID STA_AMPDU_Frame_Tx_Hdr_Trns(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN TX_BLK *pTxBlk)
 {
 	HEADER_802_11 *pHeader_802_11;
@@ -2435,7 +2435,7 @@ VOID STA_AMPDU_Frame_Tx_Hdr_Trns(
 
 
 VOID STA_AMSDU_Frame_Tx(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN TX_BLK *pTxBlk)
 {
 	PUCHAR pHeaderBufPtr;
@@ -2741,7 +2741,7 @@ VOID STA_Legacy_Frame_Tx(RTMP_ADAPTER *pAd, TX_BLK *pTxBlk)
 
 #ifdef HDR_TRANS_SUPPORT
 VOID STA_Legacy_Frame_Tx_Hdr_Trns(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN TX_BLK *pTxBlk)
 {
 	PUCHAR pHeaderBufPtr;
@@ -2830,7 +2830,7 @@ VOID STA_Legacy_Frame_Tx_Hdr_Trns(
 #endif /* HDR_TRANS_SUPPORT */
 
 VOID STA_ARalink_Frame_Tx(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN TX_BLK * pTxBlk)
 {
 	PUCHAR pHeaderBufPtr;

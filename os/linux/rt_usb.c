@@ -147,7 +147,7 @@ VOID RtmpMgmtTaskExit(
 
 static void rtusb_dataout_complete(unsigned long data)
 {
-	PRTMP_ADAPTER		pAd;
+	struct rtmp_adapter *	pAd;
 	purbb_t				pUrb;
 	POS_COOKIE			pObj;
 	PHT_TX_CONTEXT		pHTTXContext;
@@ -253,7 +253,7 @@ static void rtusb_dataout_complete(unsigned long data)
 
 static void rtusb_null_frame_done_tasklet(unsigned long data)
 {
-	PRTMP_ADAPTER	pAd;
+	struct rtmp_adapter *pAd;
 	PTX_CONTEXT		pNullContext;
 	purbb_t			pUrb;
 	NTSTATUS		Status;
@@ -307,7 +307,7 @@ static void rtusb_null_frame_done_tasklet(unsigned long data)
 
 static void rtusb_pspoll_frame_done_tasklet(unsigned long data)
 {
-	PRTMP_ADAPTER	pAd;
+	struct rtmp_adapter *pAd;
 	PTX_CONTEXT		pPsPollContext;
 	purbb_t			pUrb;
 	NTSTATUS		Status;
@@ -373,7 +373,7 @@ static void rx_done_tasklet(unsigned long data)
 {
 	purbb_t 			pUrb;
 	PRX_CONTEXT			pRxContext;
-	PRTMP_ADAPTER		pAd;
+	struct rtmp_adapter *	pAd;
 	NTSTATUS			Status;
 	unsigned int		IrqFlags;
 
@@ -452,7 +452,7 @@ static void rx_done_tasklet(unsigned long data)
 
 static void rtusb_mgmt_dma_done_tasklet(unsigned long data)
 {
-	PRTMP_ADAPTER 	pAd;
+	struct rtmp_adapter *	pAd;
 	PTX_CONTEXT		pMLMEContext;
 	int				index;
 	PNDIS_PACKET	pPacket;
@@ -576,7 +576,7 @@ static void rtusb_mgmt_dma_done_tasklet(unsigned long data)
 
 static void rtusb_hcca_dma_done_tasklet(unsigned long data)
 {
-	PRTMP_ADAPTER		pAd;
+	struct rtmp_adapter *	pAd;
 	PHT_TX_CONTEXT		pHTTXContext;
 	UCHAR				BulkOutPipeId = 4;
 	purbb_t				pUrb;
@@ -626,7 +626,7 @@ static void rtusb_hcca_dma_done_tasklet(unsigned long data)
 
 static void rtusb_ac3_dma_done_tasklet(unsigned long data)
 {
-	PRTMP_ADAPTER		pAd;
+	struct rtmp_adapter *	pAd;
 	PHT_TX_CONTEXT		pHTTXContext;
 	UCHAR				BulkOutPipeId = 3;
 	purbb_t				pUrb;
@@ -672,7 +672,7 @@ static void rtusb_ac3_dma_done_tasklet(unsigned long data)
 
 static void rtusb_ac2_dma_done_tasklet(unsigned long data)
 {
-	PRTMP_ADAPTER		pAd;
+	struct rtmp_adapter *	pAd;
 	PHT_TX_CONTEXT		pHTTXContext;
 	UCHAR				BulkOutPipeId = 2;
 	purbb_t				pUrb;
@@ -718,7 +718,7 @@ static void rtusb_ac2_dma_done_tasklet(unsigned long data)
 
 static void rtusb_ac1_dma_done_tasklet(unsigned long data)
 {
-	PRTMP_ADAPTER		pAd;
+	struct rtmp_adapter *	pAd;
 	PHT_TX_CONTEXT		pHTTXContext;
 	UCHAR				BulkOutPipeId = 1;
 	purbb_t				pUrb;
@@ -763,7 +763,7 @@ static void rtusb_ac1_dma_done_tasklet(unsigned long data)
 
 static void rtusb_ac0_dma_done_tasklet(unsigned long data)
 {
-	PRTMP_ADAPTER		pAd;
+	struct rtmp_adapter *	pAd;
 	PHT_TX_CONTEXT		pHTTXContext;
 	UCHAR				BulkOutPipeId = 0;
 	purbb_t				pUrb;
@@ -810,7 +810,7 @@ static void rtusb_ac0_dma_done_tasklet(unsigned long data)
 #ifdef RALINK_ATE
 static void rtusb_ate_ac0_dma_done_tasklet(unsigned long data)
 {
-	PRTMP_ADAPTER pAd;
+	struct rtmp_adapter *pAd;
 	PTX_CONTEXT pNullContext;
 	UCHAR BulkOutPipeId;
 	NTSTATUS Status;
@@ -976,7 +976,7 @@ INT RTUSBCmdThread(
 	status = 0;
 
 	pTask = (RTMP_OS_TASK *)Context;
-	pAd = (PRTMP_ADAPTER)RTMP_OS_TASK_DATA_GET(pTask);
+	pAd = (struct rtmp_adapter *)RTMP_OS_TASK_DATA_GET(pTask);
 
 	if (pAd == NULL)
 		return 0;
@@ -1053,7 +1053,7 @@ INT RTUSBCmdThread(
 
 void InitUSBDevice(RT_CMD_USB_INIT *config, VOID *ad_src)
 {
-	PRTMP_ADAPTER ad = (PRTMP_ADAPTER)ad_src;
+	struct rtmp_adapter *ad = (struct rtmp_adapter *)ad_src;
 	ad->infType = RTMP_DEV_INF_USB;
 
 	RTMP_SEM_EVENT_INIT(&(ad->UsbVendorReq_semaphore), &ad->RscSemMemList);

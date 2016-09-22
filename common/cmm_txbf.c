@@ -182,7 +182,7 @@ VOID rtmp_asic_set_bf(
 		supportsETxBF - TRUE if client supports ETxBF
 */
 VOID TxBFInit(
-	IN PRTMP_ADAPTER 	pAd,
+	IN struct rtmp_adapter *	pAd,
 	IN MAC_TABLE_ENTRY	*pEntry,
 	IN BOOLEAN			supportsETxBF)
 {
@@ -266,7 +266,7 @@ BOOLEAN rtmp_chk_itxbf_calibration(
 
 
 VOID Trigger_Sounding_Packet(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	UCHAR			SndgType,
 	IN	UCHAR			SndgBW,
 	IN	UCHAR			SndgMcs,
@@ -292,7 +292,7 @@ VOID Trigger_Sounding_Packet(
 		Initiates a sounding packet if enabled.
 */
 VOID eTxBFProbing(
- 	IN PRTMP_ADAPTER pAd,
+ 	IN struct rtmp_adapter *pAd,
 	IN MAC_TABLE_ENTRY	*pEntry)
 {
 	if (pEntry->eTxBfEnCond == 0)
@@ -321,7 +321,7 @@ VOID eTxBFProbing(
 	clientSupportsETxBF - returns true if client supports compatible Sounding
 */
 BOOLEAN clientSupportsETxBF(
-	IN	PRTMP_ADAPTER	 pAd,
+	IN	struct rtmp_adapter * pAd,
 	IN	HT_BF_CAP *pTxBFCap)
 {
 	BOOLEAN compCompat, noncompCompat;
@@ -342,7 +342,7 @@ BOOLEAN clientSupportsETxBF(
 	clientSupportsETxBF - returns true if client supports compatible Sounding
 */
 BOOLEAN clientSupportsVHTETxBF(
-	IN	PRTMP_ADAPTER	 pAd,
+	IN	struct rtmp_adapter * pAd,
 	IN	VHT_CAP_INFO    *pTxBFCap)
 {
 	return pTxBFCap->bfee_cap_su;
@@ -409,7 +409,7 @@ void setVHTETxBFCap(RTMP_ADAPTER *pAd, VHT_CAP_INFO *pTxBFCap)
 */
 /*if mcs is not in group 1 */
 VOID txSndgSameMcs(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	MAC_TABLE_ENTRY	*pEntry,
 	IN	UCHAR smoothMfb)/*smoothMfb should be the current mcs */
 {
@@ -515,7 +515,7 @@ VOID txSndgSameMcs(
 		Only called when ETxBfEnCond==3
 */
 VOID txSndgOtherGroup(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	MAC_TABLE_ENTRY	*pEntry)
 {
 	PUCHAR		pTable;
@@ -570,7 +570,7 @@ VOID txSndgOtherGroup(
 }
 
 VOID txMrqInvTxBF(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	MAC_TABLE_ENTRY	*pEntry)
 
 {
@@ -703,7 +703,7 @@ UINT convertSnrToThroughput(
 	NOTE: currently unused. Only called when ETxBfEnCond==3
 */
 VOID chooseBestMethod(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	MAC_TABLE_ENTRY	*pEntry,
 	IN	UCHAR			mfb)
 {
@@ -793,7 +793,7 @@ VOID chooseBestMethod(
 	NOTE: currently unused. Only called when ETxBfEnCond==3
 */
 VOID rxBestSndg(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	MAC_TABLE_ENTRY	*pEntry)
 {
 	/*set the best mcs of this BF matrix*/
@@ -819,7 +819,7 @@ VOID rxBestSndg(
 #endif	/* ETXBF_EN_COND3_SUPPORT */
 
 VOID handleBfFb(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	RX_BLK			*pRxBlk)
 {
 	RXWI_STRUC *pRxWI = pRxBlk->pRxWI;
@@ -1152,7 +1152,7 @@ void eTxBfProbeTimerExec(
 {
 	MAC_TABLE_ENTRY     *pEntry = (PMAC_TABLE_ENTRY) FunctionContext;
 #ifdef ETXBF_EN_COND3_SUPPORT
-	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pEntry->pAd;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pEntry->pAd;
 #endif
 
 	if (pEntry->bfState == WAIT_SNDG_FB0)
@@ -1199,7 +1199,7 @@ void eTxBfProbeTimerExec(
 
 #ifdef MFB_SUPPORT
 VOID MFB_PerPareMRQ(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	OUT	VOID* pBuf,
 	IN	PMAC_TABLE_ENTRY pEntry)
 {
@@ -1240,7 +1240,7 @@ VOID MFB_PerPareMRQ(
 	Need to be completed!!!!!!!!!!!!!!!!!
 */
 VOID MFB_PerPareMFB(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	OUT	VOID* pBuf,
 	IN	PMAC_TABLE_ENTRY pEntry)
 {

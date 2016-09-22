@@ -16,15 +16,15 @@
 
 #define RESET_RCV_SEQ		(0xFFFF)
 
-static void ba_mpdu_blk_free(PRTMP_ADAPTER pAd, struct reordering_mpdu *mpdu_blk);
+static void ba_mpdu_blk_free(struct rtmp_adapter *pAd, struct reordering_mpdu *mpdu_blk);
 
 #ifdef PEER_DELBA_TX_ADAPT
 static VOID Peer_DelBA_Tx_Adapt_Enable(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PMAC_TABLE_ENTRY pEntry);
 
 static VOID Peer_DelBA_Tx_Adapt_Disable(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PMAC_TABLE_ENTRY pEntry);
 #endif /* PEER_DELBA_TX_ADAPT */
 
@@ -51,7 +51,7 @@ BUILD_TIMER_FUNCTION(BARecSessionIdleTimeout);
 			Announce_Reordering_Packet(_pAd, _mpdu_blk);
 
 VOID BA_MaxWinSizeReasign(
-	IN PRTMP_ADAPTER	pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MAC_TABLE_ENTRY  *pEntryPeer,
 	OUT UCHAR			*pWinSize)
 {
@@ -312,7 +312,7 @@ static struct reordering_mpdu *ba_mpdu_blk_alloc(RTMP_ADAPTER *pAd)
 	return mpdu_blk;
 }
 
-static void ba_mpdu_blk_free(PRTMP_ADAPTER pAd, struct reordering_mpdu *mpdu_blk)
+static void ba_mpdu_blk_free(struct rtmp_adapter *pAd, struct reordering_mpdu *mpdu_blk)
 {
 	ASSERT(mpdu_blk);
 
@@ -323,7 +323,7 @@ static void ba_mpdu_blk_free(PRTMP_ADAPTER pAd, struct reordering_mpdu *mpdu_blk
 
 
 static USHORT ba_indicate_reordering_mpdus_in_order(
-												   IN PRTMP_ADAPTER    pAd,
+												   IN struct rtmp_adapter *   pAd,
 												   IN PBA_REC_ENTRY    pBAEntry,
 												   IN USHORT           StartSeq)
 {
@@ -356,7 +356,7 @@ static USHORT ba_indicate_reordering_mpdus_in_order(
 }
 
 static void ba_indicate_reordering_mpdus_le_seq(
-											   IN PRTMP_ADAPTER    pAd,
+											   IN struct rtmp_adapter *   pAd,
 											   IN PBA_REC_ENTRY    pBAEntry,
 											   IN USHORT           Sequence)
 {
@@ -409,7 +409,7 @@ static void ba_refresh_reordering_mpdus(RTMP_ADAPTER *pAd, BA_REC_ENTRY *pBAEntr
 
 /* static */
 void ba_flush_reordering_timeout_mpdus(
-									IN PRTMP_ADAPTER    pAd,
+									IN struct rtmp_adapter *   pAd,
 									IN PBA_REC_ENTRY    pBAEntry,
 									IN ULONG            Now32)
 
@@ -938,7 +938,7 @@ VOID BAOriSessionTearDown(
 }
 
 VOID BARecSessionTearDown(
-						 IN OUT  PRTMP_ADAPTER   pAd,
+						 IN OUT  struct rtmp_adapter *  pAd,
 						 IN      UCHAR           Wcid,
 						 IN      UCHAR           TID,
 						 IN      BOOLEAN         bPassive)
@@ -1139,7 +1139,7 @@ VOID BARecSessionIdleTimeout(
 {
 
 	BA_REC_ENTRY    *pBAEntry = (BA_REC_ENTRY *)FunctionContext;
-	PRTMP_ADAPTER   pAd;
+	struct rtmp_adapter *  pAd;
 	ULONG           Now32;
 
 	if (pBAEntry == NULL)
@@ -1359,7 +1359,7 @@ VOID PeerAddBARspAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
 }
 
 VOID PeerDelBAAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 
 {
@@ -1603,7 +1603,7 @@ VOID SendBeaconRequest(RTMP_ADAPTER *pAd, UCHAR Wcid)
 
 
 void convert_reordering_packet_to_preAMSDU_or_802_3_packet(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	RX_BLK			*pRxBlk,
 	IN  UCHAR			FromWhichBSSID)
 {
@@ -1789,7 +1789,7 @@ static VOID ba_enqueue_reordering_packet(
 
 #ifdef HDR_TRANS_SUPPORT
 static VOID ba_enqueue_reordering_packet_hdr_trns(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PBA_REC_ENTRY	pBAEntry,
 	IN	RX_BLK			*pRxBlk,
 	IN	UCHAR			FromWhichBSSID)
@@ -2005,7 +2005,7 @@ VOID Indicate_AMPDU_Packet(RTMP_ADAPTER *pAd, RX_BLK *pRxBlk, UCHAR FromWhichBSS
 
 #ifdef HDR_TRANS_SUPPORT
 VOID Indicate_AMPDU_Packet_Hdr_Trns(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	RX_BLK			*pRxBlk,
 	IN	UCHAR			FromWhichBSSID)
 {
@@ -2178,7 +2178,7 @@ VOID BaReOrderingBufferMaintain(RTMP_ADAPTER *pAd)
 
 #ifdef PEER_DELBA_TX_ADAPT
 VOID Peer_DelBA_Tx_Adapt_Init(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PMAC_TABLE_ENTRY pEntry)
 {
 	pEntry->bPeerDelBaTxAdaptEn = 0;
@@ -2186,7 +2186,7 @@ VOID Peer_DelBA_Tx_Adapt_Init(
 }
 
 static VOID Peer_DelBA_Tx_Adapt_Enable(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PMAC_TABLE_ENTRY pEntry)
 {
 #ifdef MCS_LUT_SUPPORT
@@ -2231,7 +2231,7 @@ static VOID Peer_DelBA_Tx_Adapt_Enable(
 }
 
 static VOID Peer_DelBA_Tx_Adapt_Disable(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PMAC_TABLE_ENTRY pEntry)
 {
 #ifdef MCS_LUT_SUPPORT

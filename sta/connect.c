@@ -92,7 +92,7 @@ UCHAR CipherSuiteWpaNoneAesLen =
 	==========================================================================
 */
 VOID MlmeCntlInit(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN STATE_MACHINE *S,
 	OUT STATE_MACHINE_FUNC Trans[])
 {
@@ -110,7 +110,7 @@ VOID MlmeCntlInit(
 	==========================================================================
 */
 VOID MlmeCntlMachinePerformAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN STATE_MACHINE *S,
 	IN MLME_QUEUE_ELEM *Elem)
 {
@@ -251,7 +251,7 @@ when disassoc from ap1 ,and send even_scan will direct connect to ap2 , not need
 	==========================================================================
 */
 VOID CntlIdleProc(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	MLME_DISASSOC_REQ_STRUCT DisassocReq;
@@ -310,7 +310,7 @@ VOID CntlIdleProc(
 }
 
 VOID CntlOidScanProc(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	MLME_SCAN_REQ_STRUCT ScanReq;
@@ -368,7 +368,7 @@ VOID CntlOidScanProc(
 	==========================================================================
 */
 VOID CntlOidSsidProc(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	PNDIS_802_11_SSID pOidSsid = (NDIS_802_11_SSID *) Elem->Msg;
@@ -607,7 +607,7 @@ VOID CntlOidSsidProc(
 	==========================================================================
 */
 VOID CntlOidRTBssidProc(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	ULONG BssIdx;
@@ -821,7 +821,7 @@ VOID CntlOidRTBssidProc(
 /* */
 /* IRQL = DISPATCH_LEVEL */
 VOID CntlMlmeRoamingProc(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 
@@ -852,7 +852,7 @@ VOID CntlMlmeRoamingProc(
 	==========================================================================
 */
 VOID CntlWaitDisassocProc(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	MLME_START_REQ_STRUCT StartReq;
@@ -901,7 +901,7 @@ VOID CntlWaitDisassocProc(
 	==========================================================================
 */
 VOID CntlWaitJoinProc(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	USHORT Reason;
@@ -981,7 +981,7 @@ VOID CntlWaitJoinProc(
 	==========================================================================
 */
 VOID CntlWaitStartProc(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	USHORT Result;
@@ -1081,7 +1081,7 @@ VOID CntlWaitStartProc(
 	==========================================================================
 */
 VOID CntlWaitAuthProc(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	USHORT Reason;
@@ -1144,7 +1144,7 @@ VOID CntlWaitAuthProc(
 	==========================================================================
 */
 VOID CntlWaitAuthProc2(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	USHORT Reason;
@@ -1209,7 +1209,7 @@ VOID CntlWaitAuthProc2(
 	==========================================================================
 */
 VOID CntlWaitAssocProc(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	USHORT Reason;
@@ -1247,7 +1247,7 @@ VOID CntlWaitAssocProc(
 	==========================================================================
 */
 VOID CntlWaitReassocProc(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	USHORT Result;
@@ -2018,7 +2018,7 @@ VOID LinkUp(RTMP_ADAPTER *pAd, UCHAR BssType)
 	==========================================================================
 */
 VOID LinkDown(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN BOOLEAN IsReqFromAP)
 {
 	UCHAR i;
@@ -2512,7 +2512,7 @@ VOID IterateOnBssTab2(RTMP_ADAPTER *pAd)
 	==========================================================================
 */
 VOID JoinParmFill(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN OUT MLME_JOIN_REQ_STRUCT *JoinReq,
 	IN ULONG BssIdx)
 {
@@ -2537,7 +2537,7 @@ VOID JoinParmFill(
 	==========================================================================
 */
 VOID StartParmFill(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN OUT MLME_START_REQ_STRUCT *StartReq,
 	IN CHAR Ssid[],
 	IN UCHAR SsidLen)
@@ -2558,7 +2558,7 @@ VOID StartParmFill(
 	==========================================================================
 */
 VOID AuthParmFill(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN OUT MLME_AUTH_REQ_STRUCT *AuthReq,
 	IN PUCHAR pAddr,
 	IN USHORT Alg)
@@ -2579,7 +2579,7 @@ VOID AuthParmFill(
 #ifdef RTMP_MAC_USB
 
 VOID MlmeCntlConfirm(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN ULONG MsgType,
 	IN USHORT Msg)
 {
@@ -2599,7 +2599,7 @@ VOID MlmeCntlConfirm(
 	==========================================================================
 */
 ULONG MakeIbssBeacon(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	UCHAR DsLen = 1, IbssLen = 2;
 	UCHAR LocalErpIe[3] = { IE_ERP, 1, 0x04 };
@@ -2848,7 +2848,7 @@ VOID InitChannelRelatedValue(RTMP_ADAPTER *pAd)
 
 /* IRQL = DISPATCH_LEVEL */
 VOID MaintainBssTable(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN OUT BSS_TABLE *Tab,
 	IN ULONG MaxRxTimeDiff,
 	IN UCHAR MaxSameRxTimeCount)
@@ -2913,7 +2913,7 @@ VOID MaintainBssTable(
 }
 
 VOID AdjustChannelRelatedValue(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	OUT UCHAR *pBwFallBack,
 	IN USHORT ifIndex,
 	IN BOOLEAN BandWidth,

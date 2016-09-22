@@ -113,7 +113,7 @@ VOID RtmpDmaEnable(RTMP_ADAPTER *pAd, INT Enable)
 
 
 static VOID ATEWriteTxWI(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	TXWI_STRUC *pTxWI,
 	IN	BOOLEAN			FRAG,
 	IN	BOOLEAN			InsTimestamp,
@@ -202,7 +202,7 @@ static VOID ATEWriteTxWI(
 ========================================================================
 */
 static VOID ATEWriteTxInfo(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	TXINFO_STRUC *pTxInfo,
 	IN	USHORT		USBDMApktLen,
 	IN	BOOLEAN		bWiv,
@@ -215,7 +215,7 @@ static VOID ATEWriteTxInfo(
 
 
 INT ATESetUpFrame(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UINT32 TxIdx)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
@@ -432,7 +432,7 @@ INT ATESetUpFrame(
 ========================================================================
 */
 VOID ATE_RTUSBBulkOutDataPacket(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	UCHAR			BulkOutPipeId)
 {
 	PTX_CONTEXT		pNullContext = &(pAd->NullContext);
@@ -495,7 +495,7 @@ VOID ATE_RTUSBBulkOutDataPacket(
 ========================================================================
 */
 VOID ATE_RTUSBCancelPendingBulkInIRP(
-	IN	PRTMP_ADAPTER	pAd)
+	IN	struct rtmp_adapter *pAd)
 {
 	PRX_CONTEXT		pRxContext = NULL;
 	UINT			rx_ring_index;
@@ -535,7 +535,7 @@ VOID ATE_RTUSBCancelPendingBulkInIRP(
 ========================================================================
 */
 VOID ATEResetBulkIn(
-	IN PRTMP_ADAPTER	pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	if ((pAd->PendingRx > 0) && (!RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST)))
 	{
@@ -563,7 +563,7 @@ VOID ATEResetBulkIn(
 ========================================================================
 */
 INT ATEResetBulkOut(
-	IN PRTMP_ADAPTER	pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 	PTX_CONTEXT	pNullContext = &(pAd->NullContext);
@@ -613,7 +613,7 @@ INT ATEResetBulkOut(
 ========================================================================
 */
 VOID RTUSBRejectPendingPackets(
-	IN	PRTMP_ADAPTER	pAd)
+	IN	struct rtmp_adapter *pAd)
 {
 	UCHAR			Index;
 	PQUEUE_ENTRY	pEntry;

@@ -1247,7 +1247,7 @@ INT write_dat_file_thread (
 		return 0;
 	}
 
-	pAd = (PRTMP_ADAPTER)RTMP_OS_TASK_DATA_GET(pTask);
+	pAd = (struct rtmp_adapter *)RTMP_OS_TASK_DATA_GET(pTask);
 
 	if (pAd == NULL)
 	{

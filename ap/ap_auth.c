@@ -28,23 +28,23 @@
 #include "rt_config.h"
 
 static VOID APMlmeDeauthReqAction(
-    IN PRTMP_ADAPTER pAd,
+    IN struct rtmp_adapter *pAd,
     IN MLME_QUEUE_ELEM *Elem);
 
 static VOID APPeerDeauthReqAction(
-    IN PRTMP_ADAPTER	pAd,
+    IN struct rtmp_adapter *pAd,
     IN MLME_QUEUE_ELEM *Elem);
 
 static VOID APPeerAuthReqAtIdleAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID APPeerAuthConfirmAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID APPeerAuthSimpleRspGenAndSend(
-    IN  PRTMP_ADAPTER   pAd,
+    IN  struct rtmp_adapter *  pAd,
     IN  PHEADER_802_11 pHdr80211,
     IN  USHORT Alg,
     IN  USHORT Seq,
@@ -64,7 +64,7 @@ static VOID APPeerAuthSimpleRspGenAndSend(
     ==========================================================================
  */
 void APAuthStateMachineInit(
-    IN PRTMP_ADAPTER pAd,
+    IN struct rtmp_adapter *pAd,
     IN STATE_MACHINE *Sm,
     OUT STATE_MACHINE_FUNC Trans[])
 {
@@ -91,7 +91,7 @@ void APAuthStateMachineInit(
     ==========================================================================
  */
 static VOID APMlmeDeauthReqAction(
-    IN PRTMP_ADAPTER pAd,
+    IN struct rtmp_adapter *pAd,
     IN MLME_QUEUE_ELEM *Elem)
 {
     MLME_DEAUTH_REQ_STRUCT	*pInfo;
@@ -145,7 +145,7 @@ static VOID APMlmeDeauthReqAction(
 
 
 static VOID APPeerDeauthReqAction(
-    IN PRTMP_ADAPTER pAd,
+    IN struct rtmp_adapter *pAd,
     IN PMLME_QUEUE_ELEM Elem)
 {
 	UCHAR Addr2[MAC_ADDR_LEN];
@@ -199,7 +199,7 @@ static VOID APPeerDeauthReqAction(
 
 
 static VOID APPeerAuthReqAtIdleAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	INT i;
@@ -413,7 +413,7 @@ SendAuth:
 
 
 static VOID APPeerAuthConfirmAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	USHORT          Seq, Alg, Status;
@@ -596,7 +596,7 @@ VOID APCls2errAction(
     ==========================================================================
 */
 VOID APPeerAuthSimpleRspGenAndSend(
-    IN PRTMP_ADAPTER pAd,
+    IN struct rtmp_adapter *pAd,
     IN PHEADER_802_11 pHdr,
     IN USHORT Alg,
     IN USHORT Seq,

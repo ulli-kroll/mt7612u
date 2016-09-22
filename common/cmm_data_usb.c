@@ -1417,7 +1417,7 @@ VOID RT28xxUsbStaAsicForceWakeup(RTMP_ADAPTER *pAd, BOOLEAN bFromTx)
 
 
 VOID RT28xxUsbStaAsicSleepThenAutoWakeup(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN USHORT TbttNumToNextWakeUp)
 {
 

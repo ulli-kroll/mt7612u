@@ -54,7 +54,7 @@ TempRange:								-4	3	10	.......	114	116
 
 
 VOID InitLookupTable(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	int lut_idx, IdxTmp, pos_idx, pos_bound, neg_idx, neg_bound;
 	int step_cnt, comp_val;
@@ -565,7 +565,7 @@ VOID AsicGetTxPowerOffset(RTMP_ADAPTER *pAd, ULONG *TxPwr)
 
 
 VOID AsicGetAutoAgcOffsetForExternalTxAlc(
-	IN PRTMP_ADAPTER 			pAd,
+	IN struct rtmp_adapter *			pAd,
 	IN PCHAR 					pDeltaPwr,
 	IN PCHAR 					pTotalDeltaPwr,
 	IN PCHAR 					pAgcCompensate,
@@ -1136,7 +1136,7 @@ VOID GetSingleSkuDeltaPower(
 
 
 VOID AsicPercentageDeltaPower(
-	IN 		PRTMP_ADAPTER 		pAd,
+	IN 		struct rtmp_adapter *		pAd,
 	IN		CHAR				Rssi,
 	INOUT	PCHAR				pDeltaPwr,
 	INOUT	PCHAR				pDeltaPowerByBbpR1)

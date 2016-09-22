@@ -59,49 +59,49 @@ typedef struct _DOT11_H {
 } DOT11_H, *PDOT11_H;
 
 BOOLEAN RadarChannelCheck(
-	IN PRTMP_ADAPTER	pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR			Ch);
 
 VOID RadarStateCheck(
-	IN PRTMP_ADAPTER	pAd);
+	IN struct rtmp_adapter *pAd);
 
 ULONG JapRadarType(
-	IN PRTMP_ADAPTER pAd);
+	IN struct rtmp_adapter *pAd);
 
 UCHAR get_channel_by_reference(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UINT8 mode);
 
 #ifdef CONFIG_AP_SUPPORT
 VOID ChannelSwitchingCountDownProc(
-	IN PRTMP_ADAPTER	pAd);
+	IN struct rtmp_adapter *pAd);
 #endif /* CONFIG_AP_SUPPORT */
 
 VOID RadarDetectPeriodic(
-	IN PRTMP_ADAPTER	pAd);
+	IN struct rtmp_adapter *pAd);
 
 INT	Set_CSPeriod_Proc(
-	IN	PRTMP_ADAPTER	pAdapter,
+	IN	struct rtmp_adapter *pAdapter,
 	IN	PSTRING			arg);
 
 INT Set_ChMovingTime_Proc(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PSTRING arg);
 
 INT Set_BlockChReset_Proc(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PSTRING arg);
 
 #if defined(DFS_SUPPORT) || defined(CARRIER_DETECTION_SUPPORT)
 INT	Set_RadarShow_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg);
 
 VOID CckMrcStatusCtrl(
-	IN PRTMP_ADAPTER pAd);
+	IN struct rtmp_adapter *pAd);
 
 VOID RadarGLRTCompensate(
-	IN PRTMP_ADAPTER pAd);
+	IN struct rtmp_adapter *pAd);
 
 #endif /*defined(DFS_SUPPORT) || defined(CARRIER_DETECTION_SUPPORT)*/
 

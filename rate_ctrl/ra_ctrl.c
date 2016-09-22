@@ -881,7 +881,7 @@ UCHAR RateTableVht2S_2G_BW20[] =
 		mcs - table of MCS index into the Rate Table. -1 => not supported
 */
 VOID MlmeGetSupportedMcs(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR	*pTable,
 	OUT CHAR 	mcs[])
 {
@@ -1656,7 +1656,7 @@ VOID MlmeSetTxRate(
 
 
 VOID MlmeSelectTxRateTable(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PMAC_TABLE_ENTRY pEntry,
 	IN UCHAR **ppTable,
 	IN UCHAR *pTableSize,
@@ -2318,7 +2318,7 @@ VOID MlmeSelectTxRateTable(
 		RssiOffset - offset to apply to the Rssi
 */
 UCHAR MlmeSelectTxRate(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PMAC_TABLE_ENTRY	pEntry,
 	IN CHAR		mcs[],
 	IN CHAR		Rssi,
@@ -2562,7 +2562,7 @@ VOID MlmeRAInit(RTMP_ADAPTER *pAd, MAC_TABLE_ENTRY *pEntry)
 		The BF percentage counters are also updated
 */
 VOID MlmeRALog(
-	IN PRTMP_ADAPTER	pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PMAC_TABLE_ENTRY	pEntry,
 	IN RA_LOG_TYPE		raLogType,
 	IN ULONG			TxErrorRatio,
@@ -2711,7 +2711,7 @@ VOID MlmeRestoreLastRate(
 #ifdef DOT11N_SS3_SUPPORT
 /*  MlmeCheckRDG - check if RDG should be enabled or disabled */
 VOID MlmeCheckRDG(
-	IN PRTMP_ADAPTER 	pAd,
+	IN struct rtmp_adapter *	pAd,
 	IN PMAC_TABLE_ENTRY	pEntry)
 {
 	PUCHAR pTable = pEntry->pTable;
@@ -2942,7 +2942,7 @@ VOID MlmeNewTxRate(RTMP_ADAPTER *pAd, MAC_TABLE_ENTRY *pEntry)
 
 
 VOID RTMPSetSupportMCS(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR OpMode,
 	IN PMAC_TABLE_ENTRY	pEntry,
 	IN UCHAR SupRate[],

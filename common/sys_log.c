@@ -73,7 +73,7 @@ VOID RtmpDrvSendWirelessEvent(
 	IN  UCHAR					BssIdx,
 	IN	CHAR					Rssi)
 {
-	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pAdSrc;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdSrc;
 	PSTRING	pBuf = NULL, pBufPtr = NULL;
 	USHORT	event, type, BufLen;
 	UCHAR	event_table_len = 0;

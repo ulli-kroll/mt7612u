@@ -40,7 +40,7 @@
 	==========================================================================
  */
 VOID APPeerProbeReqAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	PEER_PROBE_REQ_PARAM ProbeReqParam;
@@ -690,7 +690,7 @@ typedef struct
 
 
 VOID APPeerBeaconAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	UCHAR Rates[MAX_LEN_OF_SUPPORTED_RATES], *pRates = NULL, RatesLen;
@@ -1056,7 +1056,7 @@ VOID APScanTimeout(
 	IN PVOID SystemSpecific2,
 	IN PVOID SystemSpecific3)
 {
-	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)FunctionContext;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)FunctionContext;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("AP SYNC - Scan Timeout \n"));
 	MlmeEnqueue(pAd, AP_SYNC_STATE_MACHINE, APMT2_SCAN_TIMEOUT, 0, NULL, 0);
@@ -1101,7 +1101,7 @@ VOID APScanTimeoutAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
 }
 
 #ifdef CON_WPS
-VOID APMlmeScanCompleteAction(PRTMP_ADAPTER pAd, MLME_QUEUE_ELEM *Elem)
+VOID APMlmeScanCompleteAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 	PWSC_CTRL   pWscControl;
 	PWSC_CTRL   pApCliWscControl;
@@ -1401,7 +1401,7 @@ VOID APScanCnclAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
     ==========================================================================
 */
 VOID ApSiteSurvey(
-	IN	PRTMP_ADAPTER  		pAd,
+	IN	struct rtmp_adapter * 		pAd,
 	IN	PNDIS_802_11_SSID	pSsid,
 	IN	UCHAR				ScanType,
 	IN	BOOLEAN				ChannelSel)
@@ -1461,7 +1461,7 @@ BOOLEAN ApScanRunning(RTMP_ADAPTER *pAd)
 	==========================================================================
  */
 UCHAR FindPartialScanChannel(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	UCHAR scan_channel = 0;
 	if (pAd->ApCfg.PartialScanChannelNum > 0)
@@ -1662,7 +1662,7 @@ UCHAR get_regulatory_class(RTMP_ADAPTER *pAd)
 
 
 void build_ext_channel_switch_ie(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN HT_EXT_CHANNEL_SWITCH_ANNOUNCEMENT_IE *pIE)
 {
 

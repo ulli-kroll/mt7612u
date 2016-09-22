@@ -117,7 +117,7 @@ VOID CFG80211RemainOnChannelTimeout(
 /* Set a given time on specific channel to listen action Frame */
 BOOLEAN CFG80211DRV_OpsRemainOnChannel(VOID *pAdOrg, VOID *pData, UINT32 duration)
 {
-	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pAdOrg;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdOrg;
 	CMD_RTPRIV_IOCTL_80211_CHAN *pChanInfo;
 	BOOLEAN Cancelled;
 	PCFG80211_CTRL pCfg80211_ctrl = &pAd->cfg80211_ctrl;
@@ -205,7 +205,7 @@ BOOLEAN CFG80211DRV_OpsRemainOnChannel(VOID *pAdOrg, VOID *pData, UINT32 duratio
 
 BOOLEAN CFG80211DRV_OpsCancelRemainOnChannel(VOID *pAdOrg, UINT32 cookie)
 {
-	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pAdOrg;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdOrg;
 	BOOLEAN Cancelled;
 	CFG80211DBG(RT_DEBUG_TRACE, ("%s\n", __FUNCTION__));
 
@@ -219,7 +219,7 @@ BOOLEAN CFG80211DRV_OpsCancelRemainOnChannel(VOID *pAdOrg, UINT32 cookie)
 
 INT CFG80211_setPowerMgmt(VOID *pAdCB, UINT Enable)
 {
-	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pAdCB;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdCB;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("@@@ %s: %d\n", __FUNCTION__, Enable));
 
@@ -245,7 +245,7 @@ INT CFG80211_setPowerMgmt(VOID *pAdCB, UINT Enable)
 
 	==========================================================================
  */
-VOID CFG80211_P2PMakeFakeNoATlv(PRTMP_ADAPTER pAd, ULONG StartTime, PUCHAR pOutBuffer)
+VOID CFG80211_P2PMakeFakeNoATlv(struct rtmp_adapter *pAd, ULONG StartTime, PUCHAR pOutBuffer)
 {
 	PUCHAR	pDest;
 	PP2PCLIENT_NOA_SCHEDULE pNoa = &pAd->cfg80211_ctrl.GONoASchedule;
@@ -270,7 +270,7 @@ VOID CFG80211_P2PMakeFakeNoATlv(PRTMP_ADAPTER pAd, ULONG StartTime, PUCHAR pOutB
 }
 
 
-BOOLEAN	CFG80211_P2pAdjustSwNoATimer(PRTMP_ADAPTER pAd, ULONG CurrentTimeStamp, ULONG NextTimePoint)
+BOOLEAN	CFG80211_P2pAdjustSwNoATimer(struct rtmp_adapter *pAd, ULONG CurrentTimeStamp, ULONG NextTimePoint)
 {
 	PCFG80211_CTRL pP2PCtrl = &pAd->cfg80211_ctrl;
 	ULONG AwakeDuration, NewStartTime;
@@ -312,7 +312,7 @@ BOOLEAN	CFG80211_P2pAdjustSwNoATimer(PRTMP_ADAPTER pAd, ULONG CurrentTimeStamp, 
 	}
 }
 
-VOID CFG80211_P2pGPTimeOutHandle(PRTMP_ADAPTER pAd)
+VOID CFG80211_P2pGPTimeOutHandle(struct rtmp_adapter *pAd)
 {
 	PCFG80211_CTRL pP2PCtrl = &pAd->cfg80211_ctrl;
 	MAC_TABLE_ENTRY *pEntry=NULL;
@@ -427,7 +427,7 @@ VOID CFG80211_P2PCTWindowTimer(
 	PVOID SystemSpecific1, PVOID FunctionContext,
 	PVOID SystemSpecific2, PVOID SystemSpecific3)
 {
-	PRTMP_ADAPTER	pAd = (RTMP_ADAPTER *)FunctionContext;
+	struct rtmp_adapter *pAd = (RTMP_ADAPTER *)FunctionContext;
 	PCFG80211_CTRL pP2pCtrl = &pAd->cfg80211_ctrl;
 
 	if (CFG80211_P2P_TEST_BIT(pP2pCtrl->CTWindows, P2P_OPPS_BIT))
@@ -450,7 +450,7 @@ VOID CFG80211_P2pSwNoATimeOut(
 	PVOID SystemSpecific1, PVOID FunctionContext,
 	PVOID SystemSpecific2, PVOID SystemSpecific3)
 {
-	PRTMP_ADAPTER pAd = (RTMP_ADAPTER *)FunctionContext;
+	struct rtmp_adapter *pAd = (RTMP_ADAPTER *)FunctionContext;
 	CFG80211_P2pGPTimeOutHandle(pAd);
 }
 
@@ -458,12 +458,12 @@ VOID CFG80211_P2pPreAbsenTimeOut(
 	PVOID SystemSpecific1, PVOID FunctionContext,
 	PVOID SystemSpecific2, PVOID SystemSpecific3)
 {
-	PRTMP_ADAPTER pAd = (RTMP_ADAPTER *)FunctionContext;
+	struct rtmp_adapter *pAd = (RTMP_ADAPTER *)FunctionContext;
 	pAd->cfg80211_ctrl.bPreKeepSlient = TRUE;
 }
 
 
-BOOLEAN CFG80211_P2pResetNoATimer(PRTMP_ADAPTER pAd, ULONG DiffTimeInUs)
+BOOLEAN CFG80211_P2pResetNoATimer(struct rtmp_adapter *pAd, ULONG DiffTimeInUs)
 {
 	ULONG	GPDiff;
 	BOOLEAN	brc = FALSE;
@@ -501,12 +501,12 @@ BOOLEAN CFG80211_P2pResetNoATimer(PRTMP_ADAPTER pAd, ULONG DiffTimeInUs)
 }
 
 
-VOID CFG80211_P2pGOStartNoA(PRTMP_ADAPTER pAd)
+VOID CFG80211_P2pGOStartNoA(struct rtmp_adapter *pAd)
 {
 
 }
 
-VOID	CFG80211_P2pStopNoA(PRTMP_ADAPTER pAd, PMAC_TABLE_ENTRY pMacClient)
+VOID	CFG80211_P2pStopNoA(struct rtmp_adapter *pAd, PMAC_TABLE_ENTRY pMacClient)
 {
 	ULONG	Value;
 	BOOLEAN	Cancelled;
@@ -550,7 +550,7 @@ VOID	CFG80211_P2pStopNoA(PRTMP_ADAPTER pAd, PMAC_TABLE_ENTRY pMacClient)
 
 }
 
-VOID CFG80211_P2pStartOpPS(PRTMP_ADAPTER pAd)
+VOID CFG80211_P2pStartOpPS(struct rtmp_adapter *pAd)
 {
 	if (pAd->cfg80211_ctrl.GONoASchedule.bValid == TRUE)
 		CFG80211_P2pStopNoA(pAd, NULL);
@@ -562,7 +562,7 @@ VOID CFG80211_P2pStartOpPS(PRTMP_ADAPTER pAd)
 
 }
 
-VOID CFG80211_P2pStopOpPS(PRTMP_ADAPTER pAd)
+VOID CFG80211_P2pStopOpPS(struct rtmp_adapter *pAd)
 {
 	if (pAd->cfg80211_ctrl.GONoASchedule.bValid == FALSE)
 		pAd->cfg80211_ctrl.bKeepSlient = FALSE;
@@ -570,7 +570,7 @@ VOID CFG80211_P2pStopOpPS(PRTMP_ADAPTER pAd)
 }
 
 static
-ULONG CFG80211_P2pGetTimeStamp(PRTMP_ADAPTER pAd)
+ULONG CFG80211_P2pGetTimeStamp(struct rtmp_adapter *pAd)
 {
 	ULONG Value = 0;
 	/* RTMP_IO_FORCE_READ32(pAd, TSF_TIMER_DW0, &Value); */
@@ -579,7 +579,7 @@ ULONG CFG80211_P2pGetTimeStamp(PRTMP_ADAPTER pAd)
 	return Value;
 }
 
-BOOLEAN CFG80211_P2pHandleNoAAttri(PRTMP_ADAPTER pAd, PMAC_TABLE_ENTRY pMacClient, PUCHAR pData)
+BOOLEAN CFG80211_P2pHandleNoAAttri(struct rtmp_adapter *pAd, PMAC_TABLE_ENTRY pMacClient, PUCHAR pData)
 {
 	PP2P_NOA_DESC pNoADesc;
 	ULONG Value, GPDiff, NoALen, StartTime;
@@ -711,7 +711,7 @@ BOOLEAN CFG80211_P2pHandleNoAAttri(PRTMP_ADAPTER pAd, PMAC_TABLE_ENTRY pMacClien
 }
 
 
-VOID CFG80211_P2pParseNoASubElmt(PRTMP_ADAPTER pAd, VOID *Msg, ULONG MsgLen,
+VOID CFG80211_P2pParseNoASubElmt(struct rtmp_adapter *pAd, VOID *Msg, ULONG MsgLen,
                                  UCHAR wcidindex, UINT32 Sequence)
 {
 	PCFG80211_CTRL pP2PCtrl = &pAd->cfg80211_ctrl;
@@ -794,7 +794,7 @@ VOID CFG80211_P2pParseNoASubElmt(PRTMP_ADAPTER pAd, VOID *Msg, ULONG MsgLen,
 
 
 BOOLEAN CFG8211_PeerP2pBeaconSanity(
-	PRTMP_ADAPTER pAd, VOID *Msg, ULONG MsgLen,
+	struct rtmp_adapter *pAd, VOID *Msg, ULONG MsgLen,
 	PUCHAR pAddr2, CHAR Ssid[], UCHAR *pSsidLen,
 	ULONG *Peerip, ULONG *P2PSubelementLen,
 	PUCHAR pP2pSubelement)
@@ -927,7 +927,7 @@ BOOLEAN CFG8211_PeerP2pBeaconSanity(
 }
 
 
-VOID CFG80211_PeerP2pBeacon(PRTMP_ADAPTER pAd,
+VOID CFG80211_PeerP2pBeacon(struct rtmp_adapter *pAd,
 	PUCHAR pAddr2, MLME_QUEUE_ELEM *Elem, LARGE_INTEGER TimeStamp)
 {
 	PCFG80211_CTRL pP2PCtrl = &pAd->cfg80211_ctrl;
@@ -998,7 +998,7 @@ CleanUp:
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
 VOID CFG80211_P2pClientSendNullFrame(VOID *pAdCB, INT PwrMgmt)
 {
-        PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pAdCB;
+        struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdCB;
         MAC_TABLE_ENTRY *pEntry;
 
         pEntry = MacTableLookup(pAd, pAd->ApCfg.ApCliTab[MAIN_MBSSID].MlmeAux.Bssid);
@@ -1020,7 +1020,7 @@ VOID CFG80211_P2pClientSendNullFrame(VOID *pAdCB, INT PwrMgmt)
 VOID CFG80211DRV_P2pClientKeyAdd(VOID *pAdOrg, VOID *pData)
 {
 
-	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pAdOrg;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdOrg;
 	CMD_RTPRIV_IOCTL_80211_KEY *pKeyInfo;
 
     	DBGPRINT(RT_DEBUG_TRACE, ("CFG Debug: CFG80211DRV_P2pClientKeyAdd\n"));
@@ -1094,7 +1094,7 @@ VOID CFG80211DRV_P2pClientKeyAdd(VOID *pAdOrg, VOID *pData)
 
 VOID CFG80211DRV_SetP2pCliAssocIe(VOID *pAdOrg, VOID *pData, UINT ie_len)
 {
-	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pAdOrg;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdOrg;
 	APCLI_STRUCT *apcli_entry;
 	hex_dump("P2PCLI=", pData, ie_len);
 
@@ -1131,7 +1131,7 @@ VOID CFG80211DRV_SetP2pCliAssocIe(VOID *pAdOrg, VOID *pData, UINT ie_len)
 /* For P2P_CLIENT Connection Setting in AP_CLI SM */
 BOOLEAN CFG80211DRV_P2pClientConnect(VOID *pAdOrg, VOID *pData)
 {
-	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pAdOrg;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdOrg;
 	CMD_RTPRIV_IOCTL_80211_CONNECT *pConnInfo;
 	UCHAR Connect_SSID[NDIS_802_11_LENGTH_SSID];
 	UINT32 Connect_SSIDLen;
@@ -1220,7 +1220,7 @@ VOID CFG80211_P2pClientConnectResultInform(
         UCHAR *pRspIe, UINT32 RspIeLen,
         UCHAR FlgIsSuccess)
 {
-	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pAdCB;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdCB;
 
 	CFG80211OS_P2pClientConnectResultInform(pAd->ApCfg.ApCliTab[MAIN_MBSSID].wdev.if_dev, pBSSID,
 					pReqIe, ReqIeLen, pRspIe, RspIeLen, FlgIsSuccess);
@@ -1230,7 +1230,7 @@ VOID CFG80211_P2pClientConnectResultInform(
 
 VOID CFG80211_LostP2pGoInform(VOID *pAdCB)
 {
-	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pAdCB;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdCB;
 	CFG80211_CB *p80211CB = pAd->pCfg80211_CB;
 	struct net_device *pNetDev = NULL;
 

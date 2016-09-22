@@ -50,7 +50,7 @@
 	========================================================================
 */
 VOID RTMP_ReadRF(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	UCHAR			RegID,
 	OUT	PUCHAR			pValue1,
 	OUT PUCHAR			pValue2,
@@ -82,7 +82,7 @@ VOID RTMP_ReadRF(
 	========================================================================
 */
 VOID RTMP_WriteRF(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	UCHAR			RegID,
 	IN	UCHAR			Value,
 	IN	UCHAR			BitMask)
@@ -109,7 +109,7 @@ VOID RTMP_WriteRF(
 	========================================================================
 */
 NDIS_STATUS RT30xxWriteRFRegister(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	UCHAR			regID,
 	IN	UCHAR			value)
 {
@@ -206,7 +206,7 @@ done:
 	========================================================================
 */
 NDIS_STATUS RT30xxReadRFRegister(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	UCHAR			regID,
 	IN	PUCHAR			pValue)
 {

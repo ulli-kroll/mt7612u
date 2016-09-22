@@ -28,7 +28,7 @@
 
 #include "rt_config.h"
 
-static INT CFG80211DRV_UpdateTimIE(PRTMP_ADAPTER pAd, UINT mbss_idx, PUCHAR pBeaconFrame, UINT32 tim_ie_pos)
+static INT CFG80211DRV_UpdateTimIE(struct rtmp_adapter *pAd, UINT mbss_idx, PUCHAR pBeaconFrame, UINT32 tim_ie_pos)
 {
 	UCHAR  ID_1B, TimFirst, TimLast, *pTim, *ptr, New_Tim_Len;
 	UINT  i;
@@ -80,7 +80,7 @@ static INT CFG80211DRV_UpdateTimIE(PRTMP_ADAPTER pAd, UINT mbss_idx, PUCHAR pBea
 	return New_Tim_Len;
 }
 
-static INT CFG80211DRV_UpdateApSettingFromBeacon(PRTMP_ADAPTER pAd, UINT mbss_idx, CMD_RTPRIV_IOCTL_80211_BEACON *pBeacon)
+static INT CFG80211DRV_UpdateApSettingFromBeacon(struct rtmp_adapter *pAd, UINT mbss_idx, CMD_RTPRIV_IOCTL_80211_BEACON *pBeacon)
 {
 	PMULTISSID_STRUCT pMbss = &pAd->ApCfg.MBSSID[mbss_idx];
 	struct wifi_dev *wdev = &pMbss->wdev;
@@ -167,7 +167,7 @@ static INT CFG80211DRV_UpdateApSettingFromBeacon(PRTMP_ADAPTER pAd, UINT mbss_id
 
 }
 
-VOID CFG80211DRV_DisableApInterface(PRTMP_ADAPTER pAd)
+VOID CFG80211DRV_DisableApInterface(struct rtmp_adapter *pAd)
 {
 	/*CFG_TODO: IT Should be set fRTMP_ADAPTER_HALT_IN_PROGRESS */
 	MULTISSID_STRUCT *pMbss = &pAd->ApCfg.MBSSID[MAIN_MBSSID];
@@ -219,7 +219,7 @@ VOID CFG80211_UpdateBeacon(
 	UINT32											beacon_tail_len,
 	BOOLEAN											isAllUpdate)
 {
-	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pAdOrg;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdOrg;
 	PCFG80211_CTRL pCfg80211_ctrl = &pAd->cfg80211_ctrl;
 	HTTRANSMIT_SETTING BeaconTransmit;   /* MGMT frame PHY rate setting when operatin at Ht rate. */
 	PUCHAR pBeaconFrame = (PUCHAR)pAd->ApCfg.MBSSID[MAIN_MBSSID].BeaconBuf;
@@ -302,7 +302,7 @@ VOID CFG80211_UpdateBeacon(
 
 BOOLEAN CFG80211DRV_OpsBeaconSet(VOID *pAdOrg, VOID *pData)
 {
-	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pAdOrg;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdOrg;
 	CMD_RTPRIV_IOCTL_80211_BEACON *pBeacon;
 	pBeacon = (CMD_RTPRIV_IOCTL_80211_BEACON *)pData;
 
@@ -314,7 +314,7 @@ BOOLEAN CFG80211DRV_OpsBeaconSet(VOID *pAdOrg, VOID *pData)
 
 BOOLEAN CFG80211DRV_OpsBeaconAdd(VOID *pAdOrg, VOID *pData)
 {
-	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pAdOrg;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdOrg;
 	CMD_RTPRIV_IOCTL_80211_BEACON *pBeacon;
 	UINT32 rx_filter_flag;
 	BOOLEAN Cancelled;
@@ -523,7 +523,7 @@ BOOLEAN CFG80211DRV_ApKeyDel(
 	VOID                                            *pAdOrg,
 	VOID                                            *pData)
 {
-    PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pAdOrg;
+    struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdOrg;
     CMD_RTPRIV_IOCTL_80211_KEY *pKeyInfo;
 	MAC_TABLE_ENTRY *pEntry;
 
@@ -557,7 +557,7 @@ VOID CFG80211DRV_RtsThresholdAdd(
 	VOID                                            *pAdOrg,
 	UINT                                            threshold)
 {
-	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pAdOrg;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdOrg;
 
 		if((threshold > 0) && (threshold <= MAX_RTS_THRESHOLD))
 			pAd->CommonCfg.RtsThreshold  = (USHORT)threshold;
@@ -572,7 +572,7 @@ VOID CFG80211DRV_FragThresholdAdd(
 	VOID                                            *pAdOrg,
 	UINT                                            threshold)
 {
-		PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pAdOrg;
+		struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdOrg;
 		if (threshold > MAX_FRAG_THRESHOLD || threshold < MIN_FRAG_THRESHOLD)
 		{
 			/*Illegal FragThresh so we set it to default*/
@@ -609,7 +609,7 @@ BOOLEAN CFG80211DRV_ApKeyAdd(
 	VOID                                            *pData)
 {
 #ifdef CONFIG_AP_SUPPORT
-    PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pAdOrg;
+    struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdOrg;
     CMD_RTPRIV_IOCTL_80211_KEY *pKeyInfo;
 	MAC_TABLE_ENTRY *pEntry;
 	PMULTISSID_STRUCT pMbss = &pAd->ApCfg.MBSSID[MAIN_MBSSID];
@@ -760,7 +760,7 @@ INT CFG80211_StaPortSecured(
 	IN UCHAR 					*pMac,
 	IN UINT						flag)
 {
-	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pAdCB;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdCB;
 	MAC_TABLE_ENTRY *pEntry;
 
 	pEntry = MacTableLookup(pAd, pMac);
@@ -792,7 +792,7 @@ INT CFG80211_ApStaDel(
 	IN VOID                                         *pAdCB,
 	IN UCHAR                                        *pMac)
 {
-	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pAdCB;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdCB;
 	MAC_TABLE_ENTRY *pEntry;
 
 	if (pMac == NULL)
@@ -822,14 +822,14 @@ INT CFG80211_setApDefaultKey(
 	IN UINT 					Data
 )
 {
-	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pAdCB;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdCB;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set Ap Default Key: %d\n", Data));
     pAd->ApCfg.MBSSID[MAIN_MBSSID].wdev.DefaultKeyId = Data;
 	return 0;
 }
 
-INT CFG80211_ApStaDelSendEvent(PRTMP_ADAPTER pAd, const PUCHAR mac_addr)
+INT CFG80211_ApStaDelSendEvent(struct rtmp_adapter *pAd, const PUCHAR mac_addr)
 {
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
 	struct net_device *pNetDev = NULL;

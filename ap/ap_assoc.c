@@ -637,7 +637,7 @@ static USHORT APBuildAssociation(
 }
 
 VOID ap_cmm_peer_assoc_req_action(
-    IN PRTMP_ADAPTER pAd,
+    IN struct rtmp_adapter *pAd,
     IN MLME_QUEUE_ELEM *Elem,
 	IN BOOLEAN isReassoc)
 {

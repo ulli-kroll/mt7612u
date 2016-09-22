@@ -352,7 +352,7 @@ UCHAR NextChannel(RTMP_ADAPTER *pAd, UCHAR channel)
 	==========================================================================
  */
 UCHAR RTMPFindScanChannel(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	UINT8			  LastScanChannel)
 {
 	UCHAR scan_channel = 0;

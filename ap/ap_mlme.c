@@ -42,7 +42,7 @@ VOID Bss2040CoexistTimeOut(
 	IN PVOID SystemSpecific3)
 {
 	int apidx;
-	PRTMP_ADAPTER	pAd = (RTMP_ADAPTER *)FunctionContext;
+	struct rtmp_adapter *pAd = (RTMP_ADAPTER *)FunctionContext;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Bss2040CoexistTimeOut(): Recovery to original setting!\n"));
 
@@ -74,7 +74,7 @@ VOID APDetectOverlappingExec(
 	IN PVOID SystemSpecific3)
 {
 #ifdef DOT11_N_SUPPORT
-	PRTMP_ADAPTER	pAd = (RTMP_ADAPTER *)FunctionContext;
+	struct rtmp_adapter *pAd = (RTMP_ADAPTER *)FunctionContext;
 
 	if (DetectOverlappingPeriodicRound == 0)
 	{
@@ -114,7 +114,7 @@ VOID APDetectOverlappingExec(
     ==========================================================================
  */
 VOID APMlmePeriodicExec(
-    PRTMP_ADAPTER pAd)
+    struct rtmp_adapter *pAd)
 {
     /*
 		Reqeust by David 2005/05/12
@@ -345,7 +345,7 @@ VOID APMlmePeriodicExec(
  *  \post
  */
 BOOLEAN APMsgTypeSubst(
-    IN PRTMP_ADAPTER pAd,
+    IN struct rtmp_adapter *pAd,
     IN PFRAME_802_11 pFrame,
     OUT INT *Machine,
     OUT INT *MsgType)
@@ -482,7 +482,7 @@ BOOLEAN APMsgTypeSubst(
     ========================================================================
 */
 VOID APAsicEvaluateRxAnt(
-	IN PRTMP_ADAPTER	pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	ULONG	TxTotalCnt;
 
@@ -617,7 +617,7 @@ VOID APAsicRxAntEvalTimeout(RTMP_ADAPTER *pAd)
     ========================================================================
 */
 VOID	APAsicAntennaAvg(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	UCHAR	              AntSelect,
 	IN	SHORT*	              RssiAvg)
 {

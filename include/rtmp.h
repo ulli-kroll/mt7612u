@@ -68,7 +68,6 @@
 struct _RTMP_RA_LEGACY_TB;
 
 typedef struct rtmp_adapter RTMP_ADAPTER;
-typedef struct rtmp_adapter *PRTMP_ADAPTER;
 
 typedef struct _RTMP_CHIP_OP_ RTMP_CHIP_OP;
 typedef struct _RTMP_CHIP_CAP_ RTMP_CHIP_CAP;
@@ -5077,7 +5076,7 @@ VOID UpdateSkuRatePwr(RTMP_ADAPTER *pAd, UCHAR ch, UCHAR bw, CHAR base_pwr);
 
 #ifdef RTMP_RF_RW_SUPPORT
 VOID NICInitRFRegisters(
-	IN PRTMP_ADAPTER pAd);
+	IN struct rtmp_adapter *pAd);
 
 VOID RTMP_ReadRF(
 	IN	RTMP_ADAPTER *pAd,
@@ -5364,7 +5363,7 @@ VOID wdev_tx_pkts(NDIS_HANDLE dev_hnd, PPNDIS_PACKET pkt_list, UINT pkt_cnt, str
 
 #ifdef DOT11_N_SUPPORT
 VOID RTMP_BASetup(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PMAC_TABLE_ENTRY pMacEntry,
 	IN UINT8 UserPriority);
 #endif /* DOT11_N_SUPPORT */
@@ -5449,7 +5448,7 @@ VOID RTMPSendNullFrame(
 
 #ifdef APCLI_SUPPORT
 VOID	ApCliRTMPReportMicError(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PCIPHER_KEY 	pWpaKey,
 	IN	INT			ifIndex);
 
@@ -5486,11 +5485,11 @@ VOID RTMPCckBbpTuning(
 
 /* Asic/RF/BBP related functions */
 VOID AsicGetTxPowerOffset(
-	IN PRTMP_ADAPTER 			pAd,
+	IN struct rtmp_adapter *			pAd,
 	IN PULONG					TxPwr);
 
 VOID AsicGetAutoAgcOffsetForExternalTxAlc(
-	IN PRTMP_ADAPTER 		pAd,
+	IN struct rtmp_adapter *		pAd,
 	IN PCHAR 				pDeltaPwr,
 	IN PCHAR 				pTotalDeltaPwr,
 	IN PCHAR 				pAgcCompensate,
@@ -5500,7 +5499,7 @@ VOID AsicExtraPowerOverMAC(RTMP_ADAPTER *pAd);
 
 #ifdef RTMP_TEMPERATURE_COMPENSATION
 VOID AsicGetAutoAgcOffsetForTemperatureSensor(
-	IN PRTMP_ADAPTER 		pAd,
+	IN struct rtmp_adapter *		pAd,
 	IN PCHAR				pDeltaPwr,
 	IN PCHAR				pTotalDeltaPwr,
 	IN PCHAR				pAgcCompensate,
@@ -5516,7 +5515,7 @@ VOID GetSingleSkuDeltaPower(
 #endif /* SINGLE_SKU*/
 
 VOID AsicPercentageDeltaPower(
-	IN 		PRTMP_ADAPTER 		pAd,
+	IN 		struct rtmp_adapter *		pAd,
 	IN		CHAR				Rssi,
 	INOUT	PCHAR				pDeltaPwr,
 	INOUT	PCHAR				pDeltaPowerByBbpR1);
@@ -5551,7 +5550,7 @@ INT AsicSetChannel(
 
 #ifdef THERMAL_PROTECT_SUPPORT
 VOID thermal_protection(
-	IN  PRTMP_ADAPTER   pAd);
+	IN  struct rtmp_adapter *  pAd);
 #endif /* THERMAL_PROTECT_SUPPORT */
 
 VOID AsicLockChannel(RTMP_ADAPTER *pAd, UCHAR Channel);
@@ -5580,7 +5579,7 @@ INT AsicSetRxFilter(RTMP_ADAPTER *pAd);
 INT AsicSetRDG(RTMP_ADAPTER *pAd, BOOLEAN bEnable);
 #endif /* DOT11_N_SUPPORT */
 
-VOID AsicCtrlBcnMask(PRTMP_ADAPTER pAd, INT mask);
+VOID AsicCtrlBcnMask(struct rtmp_adapter *pAd, INT mask);
 INT AsicSetPreTbtt(RTMP_ADAPTER *pAd, BOOLEAN enable);
 INT AsicSetGPTimer(RTMP_ADAPTER *pAd, BOOLEAN enable, UINT32 timeout);
 
@@ -5871,7 +5870,7 @@ BOOLEAN MlmeEnqueue(
 	IN ULONG Priv);
 
 BOOLEAN MlmeEnqueueForRecv(
-	IN  PRTMP_ADAPTER   pAd,
+	IN  struct rtmp_adapter *  pAd,
 	IN ULONG Wcid,
 	IN ULONG TimeStampHigh,
 	IN ULONG TimeStampLow,
@@ -6579,7 +6578,7 @@ BOOLEAN MlmeCheckForFastRoaming(
 
 #ifdef TXBF_SUPPORT
 BOOLEAN MlmeTxBfAllowed(
-	IN PRTMP_ADAPTER 		pAd,
+	IN struct rtmp_adapter *		pAd,
 	IN PMAC_TABLE_ENTRY		pEntry,
 	IN struct _RTMP_RA_LEGACY_TB *pTxRate);
 #endif /* TXBF_SUPPORT */
@@ -6611,7 +6610,7 @@ VOID MlmeUpdateTxRates(
 
 #ifdef DOT11_N_SUPPORT
 VOID MlmeUpdateHtTxRates(
-	IN PRTMP_ADAPTER 		pAd,
+	IN struct rtmp_adapter *		pAd,
 	IN	UCHAR				apidx);
 #endif /* DOT11_N_SUPPORT */
 
@@ -6673,25 +6672,25 @@ VOID AsicMitigateMicrowave(
 
 #ifdef RTMP_EFUSE_SUPPORT
 INT set_eFuseGetFreeBlockCount_Proc(
-   	IN PRTMP_ADAPTER	pAd,
+   	IN struct rtmp_adapter *pAd,
 	IN PSTRING			arg);
 
 INT set_eFusedump_Proc(
-	IN PRTMP_ADAPTER	pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PSTRING			arg);
 
 INT set_eFuseLoadFromBin_Proc(
-	IN PRTMP_ADAPTER	pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PSTRING			arg);
 
 UCHAR eFuseReadRegisters(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	USHORT			Offset,
 	IN	USHORT			Length,
 	OUT	USHORT*			pData);
 
 VOID eFusePhysicalReadRegisters(
-	IN PRTMP_ADAPTER	pAd,
+	IN struct rtmp_adapter *pAd,
 	IN USHORT 			Offset,
 	IN USHORT 			Length,
 	OUT	USHORT			*pData);
@@ -6700,38 +6699,38 @@ int RtmpEfuseSupportCheck(
 	IN RTMP_ADAPTER *pAd);
 
 VOID eFuseGetFreeBlockCount(
-	IN PRTMP_ADAPTER 	pAd,
+	IN struct rtmp_adapter *	pAd,
 	INOUT PUINT 			EfuseFreeBlock);
 
 INT eFuse_init(
-	IN PRTMP_ADAPTER 	pAd);
+	IN struct rtmp_adapter *	pAd);
 
 INT efuse_probe(
 	IN RTMP_ADAPTER 	*pAd);
 
 NTSTATUS eFuseRead(
-	IN PRTMP_ADAPTER	pAd,
+	IN struct rtmp_adapter *pAd,
 	IN USHORT			Offset,
 	OUT	PUSHORT			pData,
 	IN USHORT			Length);
 
 NTSTATUS eFuseWrite(
-   	IN PRTMP_ADAPTER	pAd,
+   	IN struct rtmp_adapter *pAd,
 	IN USHORT			Offset,
 	IN PUSHORT			pData,
 	IN USHORT			length);
 
 #ifdef RALINK_ATE
 INT Set_LoadEepromBufferFromEfuse_Proc(
-	IN PRTMP_ADAPTER	pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PSTRING			arg);
 
 INT set_eFuseBufferModeWriteBack_Proc(
-	IN PRTMP_ADAPTER	pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PSTRING			arg);
 
 INT set_BinModeWriteBack_Proc(
-	IN PRTMP_ADAPTER	pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PSTRING			arg);
 
 #endif /* RALINK_ATE */
@@ -6798,7 +6797,7 @@ UCHAR FirstChannel(RTMP_ADAPTER *pAd);
 UCHAR NextChannel(RTMP_ADAPTER *pAd, UCHAR channel);
 
 UCHAR RTMPFindScanChannel(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UINT8 LastScanChannel);
 
 VOID ChangeToCellPowerLimit(RTMP_ADAPTER *pAd, UCHAR AironetCellPowerLimit);
@@ -6970,7 +6969,7 @@ VOID RtmpDrvSendWirelessEvent(
 #endif /* SYSTEM_LOG_SUPPORT */
 
 CHAR    ConvertToRssi(
-	IN PRTMP_ADAPTER  pAd,
+	IN struct rtmp_adapter * pAd,
 	IN CHAR				Rssi,
 	IN UCHAR    RssiNumber);
 
@@ -7308,63 +7307,63 @@ INT	Set_ITxBfEn_Proc(RTMP_ADAPTER *pAd, PSTRING arg);
 
 #ifdef MT76x2
 INT Set_TxBfProfileTag_Help(
-    IN  PRTMP_ADAPTER   pAd,
+    IN  struct rtmp_adapter *  pAd,
 	IN  PSTRING         arg);
 
 INT Set_TxBfProfileTagValid(
-	IN  PRTMP_ADAPTER   pAd,
+	IN  struct rtmp_adapter *  pAd,
 	IN  PSTRING         arg);
 
 INT Set_TxBfProfileTagRead(
-    IN  PRTMP_ADAPTER   pAd,
+    IN  struct rtmp_adapter *  pAd,
 	IN  PSTRING         arg);
 
 INT Set_TxBfProfileTagWrite(
-    IN  PRTMP_ADAPTER   pAd,
+    IN  struct rtmp_adapter *  pAd,
 	IN  PSTRING         arg);
 
 INT Set_TxBfProfileDataRead(
-    IN PRTMP_ADAPTER    pAd,
+    IN struct rtmp_adapter *   pAd,
 	IN PSTRING          arg);
 
 INT Set_TxBfProfileDataWrite(
-    IN PRTMP_ADAPTER    pAd,
+    IN struct rtmp_adapter *   pAd,
 	IN PSTRING          arg);
 
 INT Set_TxBfProfileDataWriteAll(
-    IN PRTMP_ADAPTER    pAd,
+    IN struct rtmp_adapter *   pAd,
 	IN PSTRING          arg);
 
 INT Set_TxBfProfileDataReadAll(
-    IN PRTMP_ADAPTER    pAd,
+    IN struct rtmp_adapter *   pAd,
 	IN PSTRING          arg);
 
 INT Set_TxBfProfileTag_TimeOut(
-    IN PRTMP_ADAPTER    pAd,
+    IN struct rtmp_adapter *   pAd,
 	IN PSTRING          arg);
 
 
 INT Set_TxBfProfileTag_Matrix(
-    IN PRTMP_ADAPTER    pAd,
+    IN struct rtmp_adapter *   pAd,
 	IN PSTRING          arg);
 
 
 INT Set_TxBfProfileTag_SNR(
-    IN PRTMP_ADAPTER   pAd,
+    IN struct rtmp_adapter *  pAd,
 	IN PSTRING         arg);
 
 
 INT Set_TxBfProfileTag_TxScale(
-    IN PRTMP_ADAPTER   pAd,
+    IN struct rtmp_adapter *  pAd,
 	IN PSTRING         arg);
 
 
 INT Set_TxBfProfileTag_MAC(
-    IN PRTMP_ADAPTER   pAd,
+    IN struct rtmp_adapter *  pAd,
 	IN PSTRING         arg);
 
 INT Set_TxBfProfileTag_Flg(
-    IN PRTMP_ADAPTER   pAd,
+    IN struct rtmp_adapter *  pAd,
 	IN PSTRING         arg);
 #endif
 
@@ -7497,13 +7496,13 @@ VOID RTMPSendDLSTearDownFrame(RTMP_ADAPTER *pAd, UCHAR *pDA);
 
 #ifdef DOT11_N_SUPPORT
 VOID QueryBATABLE(
-	IN  PRTMP_ADAPTER pAd,
+	IN  struct rtmp_adapter *pAd,
 	OUT PQUERYBA_TABLE pBAT);
 #endif /* DOT11_N_SUPPORT */
 
 #ifdef WPA_SUPPLICANT_SUPPORT
 INT	    WpaCheckEapCode(
-	IN  PRTMP_ADAPTER   	pAd,
+	IN  struct rtmp_adapter *  	pAd,
 	IN  PUCHAR				pFrame,
 	IN  USHORT				FrameLen,
 	IN  USHORT				OffSet);
@@ -7535,42 +7534,42 @@ BOOLEAN rtmp_rx_done_handle(RTMP_ADAPTER *pAd);
 
 #ifdef DOT11_N_SUPPORT
 VOID Indicate_AMPDU_Packet(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	RX_BLK			*pRxBlk,
 	IN	UCHAR			FromWhichBSSID);
 
 #ifdef HDR_TRANS_SUPPORT
 VOID Indicate_AMPDU_Packet_Hdr_Trns(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	RX_BLK			*pRxBlk,
 	IN	UCHAR			FromWhichBSSID);
 #endif /* HDR_TRANS_SUPPORT */
 
 /* AMSDU packet indication */
 VOID Indicate_AMSDU_Packet(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	RX_BLK			*pRxBlk,
 	IN	UCHAR			FromWhichBSSID);
 
 VOID BaReOrderingBufferMaintain(
-    IN PRTMP_ADAPTER pAd);
+    IN struct rtmp_adapter *pAd);
 #endif /* DOT11_N_SUPPORT */
 
 /* Normal legacy Rx packet indication */
 VOID Indicate_Legacy_Packet(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	RX_BLK			*pRxBlk,
 	IN	UCHAR			FromWhichBSSID);
 
 #ifdef HDR_TRANS_SUPPORT
 VOID Indicate_Legacy_Packet_Hdr_Trns(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	RX_BLK			*pRxBlk,
 	IN	UCHAR			FromWhichBSSID);
 #endif /* HDR_TRANS_SUPPORT */
 
 VOID Indicate_EAPOL_Packet(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	RX_BLK			*pRxBlk,
 	IN	UCHAR			FromWhichBSSID);
 
@@ -7679,17 +7678,17 @@ BOOLEAN rtmp_chk_itxbf_calibration(RTMP_ADAPTER *pAd);
 
 
 BOOLEAN APFowardWirelessStaToWirelessSta(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PNDIS_PACKET	pPacket,
 	IN	ULONG			FromWhichBSSID);
 
 VOID Announce_or_Forward_802_3_Packet(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PNDIS_PACKET	pPacket,
 	IN	UCHAR			FromWhichBSSID);
 
 VOID Sta_Announce_or_Forward_802_3_Packet(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PNDIS_PACKET	pPacket,
 	IN	UCHAR			FromWhichBSSID);
 
@@ -7753,8 +7752,8 @@ VOID RTMPIoctlGetSiteSurvey(
 #ifdef APCLI_SUPPORT
 INT Set_ApCli_AuthMode_Proc(RTMP_ADAPTER *pAd, PSTRING arg);
 INT Set_ApCli_EncrypType_Proc(RTMP_ADAPTER *pAd, PSTRING arg);
-INT Set_ApCli_Enable_Proc(IN PRTMP_ADAPTER pAd, IN PSTRING arg);
-INT Set_ApCli_Ssid_Proc(IN PRTMP_ADAPTER pAd, IN PSTRING arg);
+INT Set_ApCli_Enable_Proc(IN struct rtmp_adapter *pAd, IN PSTRING arg);
+INT Set_ApCli_Ssid_Proc(IN struct rtmp_adapter *pAd, IN PSTRING arg);
 
 
 #endif /* APCLI_SUPPORT */
@@ -7905,7 +7904,7 @@ BOOLEAN StaUpdateMacTableEntry(
 
 
 BOOLEAN	AUTH_ReqSend(
-	IN  PRTMP_ADAPTER 		pAd,
+	IN  struct rtmp_adapter *		pAd,
 	IN  PMLME_QUEUE_ELEM	pElem,
 	IN  PRALINK_TIMER_STRUCT pAuthTimer,
 	IN  PSTRING				pSMName,
@@ -8109,7 +8108,7 @@ VOID ApcliSendAssocIEsToWpaSupplicant(
     IN UINT ifIndex);
 
 INT	    ApcliWpaCheckEapCode(
-	IN  PRTMP_ADAPTER   		pAd,
+	IN  struct rtmp_adapter *  		pAd,
 	IN  PUCHAR				pFrame,
 	IN  USHORT				FrameLen,
 	IN  USHORT				OffSet);
@@ -8336,7 +8335,7 @@ int write_reg(RTMP_ADAPTER *ad, u32 base, u16 offset, u32 value);
 int read_reg(struct rtmp_adapter *ad, u32 base, u16 offset, u32 *value);
 INT show_pwr_info(RTMP_ADAPTER *ad, PSTRING arg);
 #ifdef DBG_DIAGNOSE
-INT Show_Diag_Proc(PRTMP_ADAPTER pAd, PSTRING arg);
+INT Show_Diag_Proc(struct rtmp_adapter *pAd, PSTRING arg);
 #endif
 
 

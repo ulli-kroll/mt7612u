@@ -884,7 +884,7 @@ static INT MlmeThread(ULONG Context)
 	status = 0;
 
 	pTask = (RTMP_OS_TASK *)Context;
-	pAd = (PRTMP_ADAPTER)RTMP_OS_TASK_DATA_GET(pTask);
+	pAd = (struct rtmp_adapter *)RTMP_OS_TASK_DATA_GET(pTask);
 	if (pAd == NULL)
 		goto LabelExit;
 
@@ -2591,7 +2591,7 @@ VOID MlmeSetPsmBit(RTMP_ADAPTER *pAd, USHORT psm)
 	==========================================================================
  */
 VOID MlmeCalculateChannelQuality(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PMAC_TABLE_ENTRY pMacEntry,
 	IN ULONG Now32)
 {
@@ -3903,7 +3903,7 @@ VOID BssEntrySet(
 
  */
 ULONG BssTableSetEntry(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	OUT BSS_TABLE *Tab,
 	IN BCN_IE_LIST *ie_list,
 	IN CHAR Rssi,
@@ -5463,7 +5463,7 @@ VOID StateMachineSetAction(
  *	\return   None
  */
 VOID StateMachinePerformAction(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN STATE_MACHINE *S,
 	IN MLME_QUEUE_ELEM *Elem,
 	IN ULONG CurrState)
@@ -5764,7 +5764,7 @@ BOOLEAN RTMPCheckHt(
 	========================================================================
 */
 BOOLEAN RTMPCheckVht(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR Wcid,
 	IN VHT_CAP_IE *vht_cap,
 	IN VHT_OP_IE *vht_op)

@@ -413,7 +413,7 @@ static void CalcRFCalPhase(
 
 #ifdef MT76x2
 static VOID CalcDividerPhase(
-	IN  PRTMP_ADAPTER	pAd,
+	IN  struct rtmp_adapter *pAd,
 	OUT UCHAR *mPhase0
 	)
 {
@@ -648,7 +648,7 @@ static VOID CalcDividerPhase(
 	ITxBFSaveData - save MAC data
 		Returns pointer to allocated buffer containing saved data
 */
-static UINT32 *ITxBFSaveData(PRTMP_ADAPTER pAd)
+static UINT32 *ITxBFSaveData(struct rtmp_adapter *pAd)
 {
 	UINT32 *saveData, *sdPtr, macAddr, maxAddr;
 
@@ -672,7 +672,7 @@ static UINT32 *ITxBFSaveData(PRTMP_ADAPTER pAd)
 	ITxBFSaveData - restore MAC data
 		saveData - buffer containing data to restore
 */
-static void ITxBFRestoreData(PRTMP_ADAPTER pAd, UINT32 *saveData)
+static void ITxBFRestoreData(struct rtmp_adapter *pAd, UINT32 *saveData)
 {
 	UINT32 *sdPtr, macAddr, maxAddr;
 
@@ -1029,7 +1029,7 @@ void ITxBFGetEEPROM(
 		divParams - divider calibration parameters. If NULL then parameters are not written
 */
 void ITxBFSetEEPROM(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN ITXBF_PHASE_PARAMS *phaseParams,
 	IN ITXBF_LNA_PARAMS *lnaParams,
 	IN ITXBF_DIV_PARAMS *divParams)
@@ -2519,7 +2519,7 @@ static SC_TABLE_ENTRY impSubCarrierTable[3] = { {224, 255, 1, 31}, {198, 254, 2,
 static SC_TABLE_ENTRY expSubCarrierTable[3] = { {224, 255, 1, 31}, {198, 254, 2, 58}, {134, 254, 2, 122} };
 
 INT TxBfProfileTagRead(
-    IN PRTMP_ADAPTER     pAd,
+    IN struct rtmp_adapter *    pAd,
 	IN PFMU_PROFILE      *prof,
 	IN UCHAR             profileIdx)
 {
@@ -2625,7 +2625,7 @@ INT TxBfProfileTagRead(
 
 
 INT TxBfProfileTagWrite(
-    IN PRTMP_ADAPTER     pAd,
+    IN struct rtmp_adapter *    pAd,
 	IN PFMU_PROFILE      *prof,
 	IN UCHAR             profileIdx)
 {
@@ -2778,7 +2778,7 @@ INT TxBfProfileTagWrite(
 
 
 INT TxBfProfileDataRead(
-    IN PRTMP_ADAPTER     pAd,
+    IN struct rtmp_adapter *    pAd,
 	IN PFMU_DATA        *pData,
 	IN UCHAR             profileIdx,
 	IN UCHAR             subcarrierIdx)
@@ -2807,7 +2807,7 @@ INT TxBfProfileDataRead(
 
 
 INT TxBfProfileDataWrite(
-    IN PRTMP_ADAPTER     pAd,
+    IN struct rtmp_adapter *    pAd,
 	IN PFMU_DATA         *pData,
 	IN UCHAR             profileIdx,
 	IN UCHAR             subcarrierIdx)
@@ -2872,7 +2872,7 @@ INT TxBfProfileDataWrite(
 }
 
 INT TxBfProfileTagValid(
-    IN PRTMP_ADAPTER     pAd,
+    IN struct rtmp_adapter *    pAd,
 	IN PFMU_PROFILE      *prof,
 	IN UCHAR             profileIdx)
 {
@@ -2920,7 +2920,7 @@ INT TxBfProfileTagValid(
 
 #ifdef MT76x2
 UCHAR Read_PFMUTxBfProfile(
-	IN	PRTMP_ADAPTER	    pAd,
+	IN	struct rtmp_adapter *    pAd,
 	IN	PFMU_PROFILE	   *prof,
 	IN  PFMU_DATA          *pData,
 	IN	BOOLEAN			    implicitProfile)
@@ -3025,7 +3025,7 @@ INT32 ei2[PROFILE_MAX_CARRIERS_40][2];
 */
 
 #ifdef MT76x2
-int iCalcCalibration(PRTMP_ADAPTER pAd, int calParams[2], int profileNum)
+int iCalcCalibration(struct rtmp_adapter *pAd, int calParams[2], int profileNum)
 {
 	int	  pi, maxCarriers, ii;
 	short rot[2], rot1[2];

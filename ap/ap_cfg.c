@@ -158,339 +158,339 @@ COUNTRY_CODE_TO_COUNTRY_REGION allCountry[] = {
 
 
 INT Set_CountryString_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg);
 
 INT Set_CountryCode_Proc(
-    IN  PRTMP_ADAPTER   pAdapter,
+    IN  struct rtmp_adapter *  pAdapter,
     IN  PSTRING          arg);
 
 #ifdef EXT_BUILD_CHANNEL_LIST
 INT Set_ChGeography_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg);
 #endif /* EXT_BUILD_CHANNEL_LIST */
 
 #ifdef SPECIFIC_TX_POWER_SUPPORT
 INT Set_AP_PKT_PWR(
-    IN  PRTMP_ADAPTER   pAdapter,
+    IN  struct rtmp_adapter *  pAdapter,
     IN  PSTRING          arg);
 #endif /* SPECIFIC_TX_POWER_SUPPORT */
 
 INT Set_AP_PROBE_RSP_TIMES(
-    IN  PRTMP_ADAPTER   pAdapter,
+    IN  struct rtmp_adapter *  pAdapter,
     IN  PSTRING          arg);
 
 INT Set_AP_SSID_Proc(
-    IN  PRTMP_ADAPTER   pAdapter,
+    IN  struct rtmp_adapter *  pAdapter,
     IN  PSTRING          arg);
 
 
 INT Set_TxRate_Proc(
-    IN  PRTMP_ADAPTER   pAdapter,
+    IN  struct rtmp_adapter *  pAdapter,
     IN  PSTRING          arg);
 
 
 #ifdef DOT11_VHT_AC
 INT Set_2G_256QAM_Proc(
-	IN  PRTMP_ADAPTER   pAdapter,
+	IN  struct rtmp_adapter *  pAdapter,
     IN  PSTRING          arg);
 #endif /* DOT11_VHT_AC */
 
 INT	Set_OLBCDetection_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg);
 
 INT	Set_AP_MaxStaNum_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg);
 
 INT	Set_AP_IdleTimeout_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg);
 
 INT Set_AP_AuthMode_Proc(
-    IN  PRTMP_ADAPTER   pAdapter,
+    IN  struct rtmp_adapter *  pAdapter,
     IN  PSTRING          arg);
 
 INT Set_AP_EncrypType_Proc(
-    IN  PRTMP_ADAPTER   pAdapter,
+    IN  struct rtmp_adapter *  pAdapter,
     IN  PSTRING          arg);
 
 INT Set_AP_WpaMixPairCipher_Proc(
-    IN  PRTMP_ADAPTER   pAdapter,
+    IN  struct rtmp_adapter *  pAdapter,
     IN  PSTRING          arg);
 
 INT Set_AP_RekeyInterval_Proc(
-    IN  PRTMP_ADAPTER   pAdapter,
+    IN  struct rtmp_adapter *  pAdapter,
     IN  PSTRING          arg);
 
 INT Set_AP_RekeyMethod_Proc(
-    IN  PRTMP_ADAPTER   pAdapter,
+    IN  struct rtmp_adapter *  pAdapter,
     IN  PSTRING          arg);
 
 INT Set_AP_PMKCachePeriod_Proc(
-    IN  PRTMP_ADAPTER   pAdapter,
+    IN  struct rtmp_adapter *  pAdapter,
     IN  PSTRING          arg);
 
 INT Set_AP_PACKET_FILTER_Proc(
-    IN  PRTMP_ADAPTER    pAd,
+    IN  struct rtmp_adapter *   pAd,
     IN  PSTRING          arg);
 
 INT Set_AP_PROBE_RSSI_THRESHOLD(
-    IN  PRTMP_ADAPTER    pAd,
+    IN  struct rtmp_adapter *   pAd,
     IN  PSTRING          arg);
 
 INT Set_AP_AUTH_FAIL_RSSI_THRESHOLD(
-    IN  PRTMP_ADAPTER    pAd,
+    IN  struct rtmp_adapter *   pAd,
     IN  PSTRING          arg);
 
 INT Set_AP_AUTH_NO_RSP_RSSI_THRESHOLD(
-    IN  PRTMP_ADAPTER    pAd,
+    IN  struct rtmp_adapter *   pAd,
     IN  PSTRING          arg);
 
 INT Set_AP_ASSOC_REQ_FAIL_RSSI_THRESHOLD(
-    IN  PRTMP_ADAPTER    pAd,
+    IN  struct rtmp_adapter *   pAd,
     IN  PSTRING          arg);
 
 INT Set_AP_ASSOC_REQ_NO_RSP_RSSI_THRESHOLD(
-    IN  PRTMP_ADAPTER    pAd,
+    IN  struct rtmp_adapter *   pAd,
     IN  PSTRING          arg);
 
 INT Set_AP_KickStaRssiLow_Proc(
-    IN  PRTMP_ADAPTER    pAd,
+    IN  struct rtmp_adapter *   pAd,
     IN  PSTRING          arg);
 
 INT Set_AP_DefaultKeyID_Proc(
-    IN  PRTMP_ADAPTER   pAdapter,
+    IN  struct rtmp_adapter *  pAdapter,
     IN  PSTRING          arg);
 
 INT Set_AP_Key1_Proc(
-    IN  PRTMP_ADAPTER   pAdapter,
+    IN  struct rtmp_adapter *  pAdapter,
     IN  PSTRING          arg);
 
 INT Set_AP_Key2_Proc(
-    IN  PRTMP_ADAPTER   pAdapter,
+    IN  struct rtmp_adapter *  pAdapter,
     IN  PSTRING          arg);
 
 INT Set_AP_Key3_Proc(
-    IN  PRTMP_ADAPTER   pAdapter,
+    IN  struct rtmp_adapter *  pAdapter,
     IN  PSTRING          arg);
 
 INT Set_AP_Key4_Proc(
-    IN  PRTMP_ADAPTER   pAdapter,
+    IN  struct rtmp_adapter *  pAdapter,
     IN  PSTRING          arg);
 
 INT Set_AP_WPAPSK_Proc(
-    IN  PRTMP_ADAPTER   pAdapter,
+    IN  struct rtmp_adapter *  pAdapter,
     IN  PSTRING          arg);
 
 INT Set_BasicRate_Proc(
-	IN	PRTMP_ADAPTER	pAdapter,
+	IN	struct rtmp_adapter *pAdapter,
 	IN	PSTRING			arg);
 
 INT	Set_BeaconPeriod_Proc(
-	IN	PRTMP_ADAPTER	pAdapter,
+	IN	struct rtmp_adapter *pAdapter,
 	IN	PSTRING			arg);
 
 INT	Set_DtimPeriod_Proc(
-	IN	PRTMP_ADAPTER	pAdapter,
+	IN	struct rtmp_adapter *pAdapter,
 	IN	PSTRING			arg);
 
 INT	Set_NoForwarding_Proc(
-	IN	PRTMP_ADAPTER	pAdapter,
+	IN	struct rtmp_adapter *pAdapter,
 	IN	PSTRING			arg);
 
 INT	Set_NoForwardingBTNSSID_Proc(
-	IN	PRTMP_ADAPTER	pAdapter,
+	IN	struct rtmp_adapter *pAdapter,
 	IN	PSTRING			arg);
 
 INT	Set_NoForwardingMBCast_Proc(
-	IN	PRTMP_ADAPTER	pAdapter,
+	IN	struct rtmp_adapter *pAdapter,
 	IN	PSTRING			arg);
 
 INT	Set_AP_WmmCapable_Proc(
-	IN	PRTMP_ADAPTER	pAdapter,
+	IN	struct rtmp_adapter *pAdapter,
 	IN	PSTRING			arg);
 
 INT	Set_HideSSID_Proc(
-	IN	PRTMP_ADAPTER	pAdapter,
+	IN	struct rtmp_adapter *pAdapter,
 	IN	PSTRING			arg);
 
 INT	Set_VLANID_Proc(
-	IN	PRTMP_ADAPTER	pAdapter,
+	IN	struct rtmp_adapter *pAdapter,
 	IN	PSTRING			arg);
 
 INT	Set_VLANPriority_Proc(
-	IN	PRTMP_ADAPTER	pAdapter,
+	IN	struct rtmp_adapter *pAdapter,
 	IN	PSTRING			arg);
 
 INT	Set_VLAN_TAG_Proc(
-	IN	PRTMP_ADAPTER	pAdapter,
+	IN	struct rtmp_adapter *pAdapter,
 	IN	PSTRING			arg);
 
 INT	Set_AccessPolicy_Proc(
-	IN	PRTMP_ADAPTER	pAdapter,
+	IN	struct rtmp_adapter *pAdapter,
 	IN	PSTRING			arg);
 
 
 INT	Set_ACLAddEntry_Proc(
-	IN	PRTMP_ADAPTER	pAdapter,
+	IN	struct rtmp_adapter *pAdapter,
 	IN	PSTRING			arg);
 
 INT	Set_ACLDelEntry_Proc(
-	IN	PRTMP_ADAPTER	pAdapter,
+	IN	struct rtmp_adapter *pAdapter,
 	IN	PSTRING			arg);
 
 INT	Set_ACLShowAll_Proc(
-	IN	PRTMP_ADAPTER	pAdapter,
+	IN	struct rtmp_adapter *pAdapter,
 	IN	PSTRING			arg);
 
 INT	Set_ACLClearAll_Proc(
-	IN	PRTMP_ADAPTER	pAdapter,
+	IN	struct rtmp_adapter *pAdapter,
 	IN	PSTRING			arg);
 
 INT	Set_RadioOn_Proc(
-	IN	PRTMP_ADAPTER	pAdapter,
+	IN	struct rtmp_adapter *pAdapter,
 	IN	PSTRING			arg);
 
 INT Set_SiteSurvey_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg);
 
 INT Set_AutoChannelSel_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg);
 
 #ifdef AP_PARTIAL_SCAN_SUPPORT
 INT Set_PartialScan_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING		arg);
 #endif /* AP_PARTIAL_SCAN_SUPPORT */
 
 #ifdef AP_SCAN_SUPPORT
 INT Set_AutoChannelSelCheckTime_Proc(
-   IN  PRTMP_ADAPTER   pAd,
+   IN  struct rtmp_adapter *  pAd,
    IN  PSTRING         arg);
 #endif /* AP_SCAN_SUPPORT */
 
 INT	Set_BADecline_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg);
 
 INT	Show_StaCount_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg);
 
 INT	Show_StaSecurityInfo_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg);
 
 INT	Show_DriverInfo_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg);
 
 #ifdef DOT11_N_SUPPORT
 INT	Show_BaTable_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg);
 #endif /* DOT11_N_SUPPORT */
 
 INT	Show_Sat_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg);
 
 INT	Show_RAInfo_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg);
 
 #ifdef DBG_DIAGNOSE
 INT Set_DiagOpt_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg);
 
 INT Set_BDInfo_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg);
 #endif /* DBG_DAIGNOSE */
 
 INT	Show_Sat_Reset_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg);
 
 INT	Show_MATTable_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg);
 
 #ifdef DOT1X_SUPPORT
 VOID RTMPIoctlQueryRadiusConf(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN RTMP_IOCTL_INPUT_STRUCT *wrq);
 
 INT	Set_IEEE8021X_Proc(
-	IN	PRTMP_ADAPTER	pAdapter,
+	IN	struct rtmp_adapter *pAdapter,
 	IN	PSTRING			arg);
 
 INT	Set_PreAuth_Proc(
-	IN	PRTMP_ADAPTER	pAdapter,
+	IN	struct rtmp_adapter *pAdapter,
 	IN	PSTRING			arg);
 
 INT	Set_RADIUS_Server_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg);
 
 INT	Set_RADIUS_Port_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg);
 
 INT	Set_RADIUS_Key_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg);
 #endif /* DOT1X_SUPPORT */
 
 INT	Set_DisConnectSta_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg);
 
 INT	Set_DisConnectAllSta_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg);
 
 
 #ifdef APCLI_SUPPORT
-INT Set_ApCli_Enable_Proc(IN PRTMP_ADAPTER pAd, IN PSTRING arg);
-INT Set_ApCli_Ssid_Proc(IN PRTMP_ADAPTER pAd, IN PSTRING arg);
-INT Set_ApCli_Bssid_Proc(IN PRTMP_ADAPTER pAd, IN PSTRING arg);
-INT Set_ApCli_DefaultKeyID_Proc(IN PRTMP_ADAPTER pAd, IN PSTRING arg);
-INT Set_ApCli_WPAPSK_Proc(IN PRTMP_ADAPTER pAd, IN PSTRING arg);
-INT Set_ApCli_Key1_Proc(IN PRTMP_ADAPTER pAd, IN PSTRING arg);
-INT Set_ApCli_Key2_Proc(IN PRTMP_ADAPTER pAd, IN PSTRING arg);
-INT Set_ApCli_Key3_Proc(IN PRTMP_ADAPTER pAd, IN PSTRING arg);
-INT Set_ApCli_Key4_Proc(IN PRTMP_ADAPTER pAd, IN PSTRING arg);
-INT Set_ApCli_TxMode_Proc(IN PRTMP_ADAPTER pAd, IN  PSTRING arg);
-INT Set_ApCli_TxMcs_Proc(IN PRTMP_ADAPTER pAd, IN  PSTRING arg);
+INT Set_ApCli_Enable_Proc(IN struct rtmp_adapter *pAd, IN PSTRING arg);
+INT Set_ApCli_Ssid_Proc(IN struct rtmp_adapter *pAd, IN PSTRING arg);
+INT Set_ApCli_Bssid_Proc(IN struct rtmp_adapter *pAd, IN PSTRING arg);
+INT Set_ApCli_DefaultKeyID_Proc(IN struct rtmp_adapter *pAd, IN PSTRING arg);
+INT Set_ApCli_WPAPSK_Proc(IN struct rtmp_adapter *pAd, IN PSTRING arg);
+INT Set_ApCli_Key1_Proc(IN struct rtmp_adapter *pAd, IN PSTRING arg);
+INT Set_ApCli_Key2_Proc(IN struct rtmp_adapter *pAd, IN PSTRING arg);
+INT Set_ApCli_Key3_Proc(IN struct rtmp_adapter *pAd, IN PSTRING arg);
+INT Set_ApCli_Key4_Proc(IN struct rtmp_adapter *pAd, IN PSTRING arg);
+INT Set_ApCli_TxMode_Proc(IN struct rtmp_adapter *pAd, IN  PSTRING arg);
+INT Set_ApCli_TxMcs_Proc(IN struct rtmp_adapter *pAd, IN  PSTRING arg);
 #ifdef APCLI_AUTO_CONNECT_SUPPORT
-INT Set_ApCli_AutoConnect_Proc(IN PRTMP_ADAPTER pAd,	IN PSTRING arg);
+INT Set_ApCli_AutoConnect_Proc(IN struct rtmp_adapter *pAd,	IN PSTRING arg);
 #endif /* APCLI_AUTO_CONNECT_SUPPORT */
 
 #ifdef APCLI_CONNECTION_TRIAL
-INT Set_ApCli_Trial_Ch_Proc(IN PRTMP_ADAPTER pAd, IN PSTRING arg);
+INT Set_ApCli_Trial_Ch_Proc(IN struct rtmp_adapter *pAd, IN PSTRING arg);
 #endif /* APCLI_CONNECTION_TRIAL */
 
 #ifdef APCLI_WPA_SUPPLICANT_SUPPORT
-INT Set_ApCli_Wpa_Support(IN PRTMP_ADAPTER pAd, IN	PSTRING	arg);
-INT	Set_ApCli_IEEE8021X_Proc(IN PRTMP_ADAPTER	pAd, IN PSTRING arg);
+INT Set_ApCli_Wpa_Support(IN struct rtmp_adapter *pAd, IN	PSTRING	arg);
+INT	Set_ApCli_IEEE8021X_Proc(IN struct rtmp_adapter *pAd, IN PSTRING arg);
 #endif/*APCLI_WPA_SUPPLICANT_SUPPORT*/
 
 
 #ifdef APCLI_CERT_SUPPORT
-INT Set_ApCli_Cert_Enable_Proc(IN PRTMP_ADAPTER	pAd, IN	PSTRING arg);
-INT Set_ApCli_WMM_Enable_Proc(IN PRTMP_ADAPTER	pAd, IN	PSTRING arg);
+INT Set_ApCli_Cert_Enable_Proc(IN struct rtmp_adapter *pAd, IN	PSTRING arg);
+INT Set_ApCli_WMM_Enable_Proc(IN struct rtmp_adapter *pAd, IN	PSTRING arg);
 #endif /* APCLI_CERT_SUPPORT */
 #endif /* APCLI_SUPPORT */
 #ifdef UAPSD_SUPPORT
 INT Set_UAPSD_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg);
 #endif /* UAPSD_SUPPORT */
 
@@ -498,9 +498,9 @@ INT Set_UAPSD_Proc(
 
 #ifdef CONFIG_AP_SUPPORT
 #ifdef MCAST_RATE_SPECIFIC
-INT Set_McastPhyMode(IN PRTMP_ADAPTER pAd, IN PSTRING arg);
-INT Set_McastMcs(IN PRTMP_ADAPTER pAd, IN PSTRING arg);
-INT Show_McastRate(IN PRTMP_ADAPTER	pAd, IN PSTRING arg);
+INT Set_McastPhyMode(IN struct rtmp_adapter *pAd, IN PSTRING arg);
+INT Set_McastMcs(IN struct rtmp_adapter *pAd, IN PSTRING arg);
+INT Show_McastRate(IN struct rtmp_adapter *pAd, IN PSTRING arg);
 #endif /* MCAST_RATE_SPECIFIC */
 
 #ifdef DOT11N_DRAFT3
@@ -509,34 +509,34 @@ INT Set_AP2040ReScan_Proc(RTMP_ADAPTER *pAd, PSTRING arg);
 #endif /* DOT11N_DRAFT3 */
 
 INT Set_EntryLifeCheck_Proc(
-	IN PRTMP_ADAPTER 	pAd,
+	IN struct rtmp_adapter *	pAd,
 	IN PSTRING			arg);
 
 
 #ifdef AP_QLOAD_SUPPORT
 INT	Set_QloadClr_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg);
 
 /* QLOAD ALARM */
 INT	Set_QloadAlarmTimeThreshold_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			Arg);
 
 INT	Set_QloadAlarmNumThreshold_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			Arg);
 #endif /* AP_QLOAD_SUPPORT */
 #endif /* CONFIG_AP_SUPPORT */
 
 
 INT	Set_MemDebug_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg);
 
 #ifdef CONFIG_AP_SUPPORT
 INT	Set_PowerSaveLifeTime_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg);
 #endif /* CONFIG_AP_SUPPORT */
 
@@ -583,7 +583,7 @@ INT set_thermal_protection_criteria_proc(
 
 static struct {
 	PSTRING name;
-	INT (*set_proc)(PRTMP_ADAPTER pAdapter, PSTRING arg);
+	INT (*set_proc)(struct rtmp_adapter *pAdapter, PSTRING arg);
 } *PRTMP_PRIVATE_SET_PROC, RTMP_PRIVATE_SUPPORT_PROC[] = {
 	{"RateAlg",						Set_RateAlg_Proc},
 #ifdef NEW_RATE_ADAPT_SUPPORT
@@ -1223,7 +1223,7 @@ INT RTMPAPPrivIoctlShow(
 
 #define	ASSO_MAC_LINE_LEN	(1+19+4+4+4+4+8+7+7+7+10+6+6+6+6+7+7+7+1)
 VOID RTMPAPGetAssoMacTable(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN RTMP_IOCTL_INPUT_STRUCT *wrq)
 {
 	ULONG DataRate=0;
@@ -1345,7 +1345,7 @@ INT RTMPAPPrivIoctlAR9Show(
 #endif/*AR9_INF*/
 
 INT RTMPAPSetInformation(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	INOUT RTMP_IOCTL_INPUT_STRUCT *rq,
 	IN INT cmd)
 {
@@ -3650,7 +3650,7 @@ INT RTMPAPQueryInformation(
     ==========================================================================
 */
 INT Set_CountryCode_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 
@@ -3683,7 +3683,7 @@ INT Set_CountryCode_Proc(
 
 #ifdef EXT_BUILD_CHANNEL_LIST
 INT Set_ChGeography_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	ULONG Geography;
@@ -3718,7 +3718,7 @@ INT Set_ChGeography_Proc(
     ==========================================================================
 */
 INT Set_CountryString_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	INT   index = 0;
@@ -3825,7 +3825,7 @@ INT Set_CountryString_Proc(
 
 #ifdef DOT11_VHT_AC
 INT Set_2G_256QAM_Proc(
-	IN  PRTMP_ADAPTER   pAdapter,
+	IN  struct rtmp_adapter *  pAdapter,
     IN  PSTRING          arg)
 {
 	INT   success = TRUE;
@@ -3904,7 +3904,7 @@ INT	Set_AP_SSID_Proc(RTMP_ADAPTER *pAd, PSTRING arg)
     ==========================================================================
 */
 INT Set_TxRate_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
@@ -3958,7 +3958,7 @@ INT Set_BasicRate_Proc(RTMP_ADAPTER *pAd, PSTRING arg)
     ==========================================================================
 */
 INT	Set_BeaconPeriod_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	USHORT BeaconPeriod;
@@ -3992,7 +3992,7 @@ INT	Set_BeaconPeriod_Proc(
     ==========================================================================
 */
 INT	Set_DtimPeriod_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	USHORT DtimPeriod;
@@ -4023,7 +4023,7 @@ INT	Set_DtimPeriod_Proc(
     ==========================================================================
 */
 INT	Set_OLBCDetection_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	switch (simple_strtol(arg, 0, 10))
@@ -4052,7 +4052,7 @@ INT	Set_OLBCDetection_Proc(
     ==========================================================================
 */
 INT	Set_AP_WmmCapable_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	BOOLEAN	bWmmCapable;
@@ -4091,7 +4091,7 @@ INT	Set_AP_WmmCapable_Proc(
 
 
 INT	Set_AP_MaxStaNum_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	POS_COOKIE	pObj = (POS_COOKIE) pAd->OS_Cookie;
@@ -4109,7 +4109,7 @@ INT	Set_AP_MaxStaNum_Proc(
     ==========================================================================
 */
 INT	Set_AP_IdleTimeout_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	return ApCfg_Set_IdleTimeout_Proc(pAd, arg);
@@ -4123,7 +4123,7 @@ INT	Set_AP_IdleTimeout_Proc(
     ==========================================================================
 */
 INT	Set_NoForwarding_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	ULONG NoForwarding;
@@ -4147,7 +4147,7 @@ INT	Set_NoForwarding_Proc(
 
 
 INT	Set_NoForwardingMBCast_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	UCHAR NoForwardingMBCast;
@@ -4178,7 +4178,7 @@ INT	Set_NoForwardingMBCast_Proc(
     ==========================================================================
 */
 INT	Set_NoForwardingBTNSSID_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	ULONG NoForwarding;
@@ -4207,7 +4207,7 @@ INT	Set_NoForwardingBTNSSID_Proc(
     ==========================================================================
 */
 INT	Set_HideSSID_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	BOOLEAN bHideSsid;
@@ -4242,7 +4242,7 @@ INT	Set_HideSSID_Proc(
     ==========================================================================
 */
 INT	Set_VLANID_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
@@ -4323,7 +4323,7 @@ INT	Set_VLAN_TAG_Proc(RTMP_ADAPTER *pAd, PSTRING arg)
     ==========================================================================
 */
 INT	Set_AP_AuthMode_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	ULONG i;
@@ -4368,7 +4368,7 @@ INT	Set_AP_AuthMode_Proc(
     ==========================================================================
 */
 INT	Set_AP_EncrypType_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
@@ -4415,7 +4415,7 @@ INT	Set_AP_EncrypType_Proc(
     ==========================================================================
 */
 INT	Set_AP_WpaMixPairCipher_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
@@ -4464,7 +4464,7 @@ INT	Set_AP_WpaMixPairCipher_Proc(
     ==========================================================================
 */
 INT	Set_AP_RekeyInterval_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	POS_COOKIE 	pObj = (POS_COOKIE) pAd->OS_Cookie;
@@ -4485,7 +4485,7 @@ INT	Set_AP_RekeyInterval_Proc(
 }
 
 INT Set_AP_PROBE_RSP_TIMES(
-    IN  PRTMP_ADAPTER    pAd,
+    IN  struct rtmp_adapter *   pAd,
     IN  PSTRING          arg)
 {
         POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
@@ -4506,7 +4506,7 @@ INT Set_AP_PROBE_RSP_TIMES(
 
 #ifdef SPECIFIC_TX_POWER_SUPPORT
 INT Set_AP_PKT_PWR(
-    IN  PRTMP_ADAPTER    pAd,
+    IN  struct rtmp_adapter *   pAd,
     IN  PSTRING          arg)
 {
         POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
@@ -4542,7 +4542,7 @@ INT Set_AP_PKT_PWR(
     ==========================================================================
 */
 INT	Set_AP_RekeyMethod_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	POS_COOKIE 	pObj = (POS_COOKIE) pAd->OS_Cookie;
@@ -4573,7 +4573,7 @@ INT	Set_AP_RekeyMethod_Proc(
     ==========================================================================
 */
 INT	Set_AP_PMKCachePeriod_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	POS_COOKIE 	pObj = (POS_COOKIE) pAd->OS_Cookie;
@@ -4590,7 +4590,7 @@ INT	Set_AP_PMKCachePeriod_Proc(
 
 
 INT     Set_AP_PACKET_FILTER_Proc(
-        IN  PRTMP_ADAPTER    pAd,
+        IN  struct rtmp_adapter *   pAd,
         IN  PSTRING          arg)
 {
 		POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
@@ -4614,7 +4614,7 @@ INT     Set_AP_PACKET_FILTER_Proc(
 }
 
 INT     Set_AP_PROBE_RSSI_THRESHOLD(
-        IN  PRTMP_ADAPTER    pAd,
+        IN  struct rtmp_adapter *   pAd,
         IN  PSTRING          arg)
 {
         POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
@@ -4647,7 +4647,7 @@ INT     Set_AP_PROBE_RSSI_THRESHOLD(
 }
 
 INT     Set_AP_AUTH_FAIL_RSSI_THRESHOLD(
-        IN  PRTMP_ADAPTER    pAd,
+        IN  struct rtmp_adapter *   pAd,
         IN  PSTRING          arg)
 {
         POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
@@ -4680,7 +4680,7 @@ INT     Set_AP_AUTH_FAIL_RSSI_THRESHOLD(
 }
 
 INT     Set_AP_AUTH_NO_RSP_RSSI_THRESHOLD(
-        IN  PRTMP_ADAPTER    pAd,
+        IN  struct rtmp_adapter *   pAd,
         IN  PSTRING          arg)
 {
         POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
@@ -4722,7 +4722,7 @@ INT     Set_AP_AUTH_NO_RSP_RSSI_THRESHOLD(
     ==========================================================================
 */
 INT Set_AP_ASSOC_REQ_FAIL_RSSI_THRESHOLD(
-    IN  PRTMP_ADAPTER    pAd,
+    IN  struct rtmp_adapter *   pAd,
     IN  PSTRING          arg)
 {
 	POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
@@ -4756,7 +4756,7 @@ INT Set_AP_ASSOC_REQ_FAIL_RSSI_THRESHOLD(
 
 
 INT Set_AP_ASSOC_REQ_NO_RSP_RSSI_THRESHOLD(
-    IN  PRTMP_ADAPTER    pAd,
+    IN  struct rtmp_adapter *   pAd,
     IN  PSTRING          arg)
 {
         POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
@@ -4798,7 +4798,7 @@ INT Set_AP_ASSOC_REQ_NO_RSP_RSSI_THRESHOLD(
     ==========================================================================
 */
 INT Set_AP_KickStaRssiLow_Proc(
-    IN  PRTMP_ADAPTER    pAd,
+    IN  struct rtmp_adapter *   pAd,
     IN  PSTRING          arg)
 {
         POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
@@ -4842,7 +4842,7 @@ INT Set_AP_KickStaRssiLow_Proc(
     ==========================================================================
 */
 INT	Set_AP_DefaultKeyID_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	ULONG KeyIdx;
@@ -4871,7 +4871,7 @@ INT	Set_AP_DefaultKeyID_Proc(
     ==========================================================================
 */
 INT	Set_AP_Key1_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	POS_COOKIE pObj;
@@ -4908,7 +4908,7 @@ INT	Set_AP_Key1_Proc(
     ==========================================================================
 */
 INT	Set_AP_Key2_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	POS_COOKIE pObj;
@@ -4945,7 +4945,7 @@ INT	Set_AP_Key2_Proc(
     ==========================================================================
 */
 INT	Set_AP_Key3_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	POS_COOKIE pObj;
@@ -4982,7 +4982,7 @@ INT	Set_AP_Key3_Proc(
     ==========================================================================
 */
 INT	Set_AP_Key4_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 
@@ -5020,7 +5020,7 @@ INT	Set_AP_Key4_Proc(
     ==========================================================================
 */
 INT	Set_AccessPolicy_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
@@ -5061,7 +5061,7 @@ INT	Set_AccessPolicy_Proc(
     ==========================================================================
 */
 INT	Set_ACLAddEntry_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	UCHAR					macAddr[MAC_ADDR_LEN];
@@ -5183,7 +5183,7 @@ INT	Set_ACLAddEntry_Proc(
     ==========================================================================
 */
 INT	Set_ACLDelEntry_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	UCHAR					macAddr[MAC_ADDR_LEN];
@@ -5306,7 +5306,7 @@ char const *pACL_PolicyMessage[ACL_POLICY_TYPE_NUM] = {
     ==========================================================================
 */
 INT	Set_ACLShowAll_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	RT_802_11_ACL			acl;
@@ -5373,7 +5373,7 @@ INT	Set_ACLShowAll_Proc(
     ==========================================================================
 */
 INT	Set_ACLClearAll_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 /*	RT_802_11_ACL			acl; */
@@ -5488,7 +5488,7 @@ void rtmp_hexdump(int level, const char *title, const UINT8 *buf, size_t len)
     ==========================================================================
 */
 INT	Set_AP_WPAPSK_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
@@ -5525,7 +5525,7 @@ INT	Set_AP_WPAPSK_Proc(
 */
 
 INT	Set_RadioOn_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	UCHAR radio;
@@ -5584,7 +5584,7 @@ INT	Set_RadioOn_Proc(
     ==========================================================================
 */
 INT Set_AutoChannelSel_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING		arg)
 {
 	NDIS_802_11_SSID Ssid;
@@ -5625,7 +5625,7 @@ INT Set_AutoChannelSel_Proc(
 
 #ifdef AP_PARTIAL_SCAN_SUPPORT
 INT Set_PartialScan_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING		arg)
 {
 	UINT8 bPartialScanning = simple_strtol(arg, 0, 10);
@@ -5652,7 +5652,7 @@ INT Set_PartialScan_Proc(
     ==========================================================================
 */
 INT Set_AutoChannelSelCheckTime_Proc(
-   IN  PRTMP_ADAPTER   pAd,
+   IN  struct rtmp_adapter *  pAd,
    IN  PSTRING     arg)
 {
    UINT8 Hour = simple_strtol(arg, 0, 10);
@@ -5904,7 +5904,7 @@ INT Show_RAInfo_Proc(RTMP_ADAPTER *pAd, PSTRING arg)
 
 
 INT	Show_Sat_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	/* Sanity check for calculation of sucessful count */
@@ -6015,7 +6015,7 @@ INT	Show_Sat_Proc(
 
 
 INT	Show_Sat_Reset_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	/* Sanity check for calculation of sucessful count */
@@ -6137,7 +6137,7 @@ INT	Show_Sat_Reset_Proc(
     ==========================================================================
 */
 VOID RTMPIoctlQueryRadiusConf(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN RTMP_IOCTL_INPUT_STRUCT *wrq)
 {
 	UCHAR	apidx, srv_idx, keyidx, KeyLen = 0;
@@ -6257,7 +6257,7 @@ VOID RTMPIoctlQueryRadiusConf(
     ==========================================================================
 */
 VOID RTMPIoctlRadiusData(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	RTMP_IOCTL_INPUT_STRUCT	*wrq)
 {
 	POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
@@ -6290,7 +6290,7 @@ VOID RTMPIoctlRadiusData(
     ==========================================================================
 */
 VOID RTMPIoctlAddWPAKey(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	RTMP_IOCTL_INPUT_STRUCT	*wrq)
 {
 	NDIS_AP_802_11_KEY 	*pKey;
@@ -6417,7 +6417,7 @@ VOID RTMPIoctlAddWPAKey(
     ==========================================================================
 */
 VOID RTMPIoctlAddPMKIDCache(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	RTMP_IOCTL_INPUT_STRUCT	*wrq)
 {
 	UCHAR				apidx;
@@ -6466,7 +6466,7 @@ VOID RTMPIoctlAddPMKIDCache(
     ==========================================================================
 */
 VOID RTMPIoctlStaticWepCopy(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	RTMP_IOCTL_INPUT_STRUCT	*wrq)
 {
 	MAC_TABLE_ENTRY  *pEntry;
@@ -6542,7 +6542,7 @@ VOID RTMPIoctlStaticWepCopy(
     ==========================================================================
 */
 VOID RTMPIoctlSetIdleTimeout(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	RTMP_IOCTL_INPUT_STRUCT	*wrq)
 {
 	MAC_TABLE_ENTRY  		*pEntry;
@@ -6574,7 +6574,7 @@ VOID RTMPIoctlSetIdleTimeout(
 
 
 VOID RTMPIoctlQueryStaAid(
-        IN      PRTMP_ADAPTER   pAd,
+        IN      struct rtmp_adapter *  pAd,
         IN      RTMP_IOCTL_INPUT_STRUCT *wrq)
 {
 	DOT1X_QUERY_STA_AID macBuf;
@@ -6791,7 +6791,7 @@ Arguments:
     ==========================================================================
 */
 VOID RTMPAPIoctlBBP(
-	IN	PRTMP_ADAPTER	pAdapter,
+	IN	struct rtmp_adapter *pAdapter,
 	IN	RTMP_IOCTL_INPUT_STRUCT	*wrq)
 {
 #ifdef RTMP_BBP
@@ -7233,7 +7233,7 @@ done:
 
 #ifdef MT_RF
 VOID RTMPAPIoctlRF_mt(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	RTMP_IOCTL_INPUT_STRUCT	*wrq)
 {
 	CHAR				*value;
@@ -7367,7 +7367,7 @@ Arguments:
     ==========================================================================
 */
 VOID RTMPAPIoctlRF(
-	IN	PRTMP_ADAPTER	pAdapter,
+	IN	struct rtmp_adapter *pAdapter,
 	IN	RTMP_IOCTL_INPUT_STRUCT	*wrq)
 {
 	PSTRING				this_char;
@@ -7605,7 +7605,7 @@ Arguments:
     ==========================================================================
 */
 VOID RTMPAPIoctlE2PROM(
-	IN	PRTMP_ADAPTER	pAdapter,
+	IN	struct rtmp_adapter *pAdapter,
 	IN	RTMP_IOCTL_INPUT_STRUCT	*wrq)
 {
 	PSTRING				this_char;
@@ -8101,7 +8101,7 @@ VOID RTMPIoctlStatistics(RTMP_ADAPTER *pAd, RTMP_IOCTL_INPUT_STRUCT *wrq)
     ==========================================================================
 */
 VOID RTMPIoctlQueryBaTable(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	RTMP_IOCTL_INPUT_STRUCT	*wrq)
 {
 	/*char *msg; */
@@ -8177,7 +8177,7 @@ VOID RTMPIoctlQueryBaTable(
 
 #ifdef APCLI_SUPPORT
 INT Set_ApCli_Enable_Proc(
-	IN  PRTMP_ADAPTER pAd,
+	IN  struct rtmp_adapter *pAd,
 	IN  PSTRING arg)
 {
 	UINT Enable;
@@ -8274,7 +8274,7 @@ INT Set_ApCli_Ssid_Proc(RTMP_ADAPTER *pAd, PSTRING arg)
 
 
 INT Set_ApCli_Bssid_Proc(
-	IN  PRTMP_ADAPTER pAd,
+	IN  struct rtmp_adapter *pAd,
 	IN  PSTRING arg)
 {
 	INT i;
@@ -8404,7 +8404,7 @@ INT	Set_ApCli_AuthMode_Proc(RTMP_ADAPTER *pAd, PSTRING arg)
     ==========================================================================
 */
 INT	Set_ApCli_EncrypType_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	POS_COOKIE 	pObj = (POS_COOKIE) pAd->OS_Cookie;
@@ -8466,7 +8466,7 @@ INT	Set_ApCli_EncrypType_Proc(
     ==========================================================================
 */
 INT	Set_ApCli_DefaultKeyID_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	ULONG 			KeyIdx;
@@ -8504,7 +8504,7 @@ INT	Set_ApCli_DefaultKeyID_Proc(
     ==========================================================================
 */
 INT	Set_ApCli_WPAPSK_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	UCHAR ifIndex;
@@ -8541,7 +8541,7 @@ INT	Set_ApCli_WPAPSK_Proc(
     ==========================================================================
 */
 INT	Set_ApCli_Key1_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	POS_COOKIE 		pObj = (POS_COOKIE) pAd->OS_Cookie;
@@ -8573,7 +8573,7 @@ INT	Set_ApCli_Key1_Proc(
     ==========================================================================
 */
 INT	Set_ApCli_Key2_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	POS_COOKIE 		pObj;
@@ -8605,7 +8605,7 @@ INT	Set_ApCli_Key2_Proc(
     ==========================================================================
 */
 INT	Set_ApCli_Key3_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	POS_COOKIE 		pObj;
@@ -8637,7 +8637,7 @@ INT	Set_ApCli_Key3_Proc(
     ==========================================================================
 */
 INT	Set_ApCli_Key4_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	POS_COOKIE 		pObj;
@@ -8660,7 +8660,7 @@ INT	Set_ApCli_Key4_Proc(
 }
 
 INT Set_ApCli_TxMode_Proc(
-	IN  PRTMP_ADAPTER pAd,
+	IN  struct rtmp_adapter *pAd,
 	IN  PSTRING arg)
 {
 	POS_COOKIE pObj = (POS_COOKIE)pAd->OS_Cookie;
@@ -8680,7 +8680,7 @@ INT Set_ApCli_TxMode_Proc(
 }
 
 INT Set_ApCli_TxMcs_Proc(
-	IN  PRTMP_ADAPTER pAd,
+	IN  struct rtmp_adapter *pAd,
 	IN  PSTRING arg)
 {
 	POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
@@ -8710,7 +8710,7 @@ INT Set_ApCli_TxMcs_Proc(
 
 #ifdef APCLI_CONNECTION_TRIAL
 INT Set_ApCli_Trial_Ch_Proc(
-	IN  PRTMP_ADAPTER pAd,
+	IN  struct rtmp_adapter *pAd,
 	IN  PSTRING arg)
 {
 	POS_COOKIE 		pObj;
@@ -8741,7 +8741,7 @@ INT Set_ApCli_Trial_Ch_Proc(
 
 #ifdef APCLI_WPA_SUPPLICANT_SUPPORT
 INT Set_ApCli_Wpa_Support(
-    IN	PRTMP_ADAPTER	pAd,
+    IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	POS_COOKIE 		pObj;
@@ -8771,7 +8771,7 @@ INT Set_ApCli_Wpa_Support(
 
 
 INT	Set_ApCli_IEEE8021X_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
     	ULONG ieee8021x;
@@ -8812,7 +8812,7 @@ INT	Set_ApCli_IEEE8021X_Proc(
     ==========================================================================
 */
 INT Set_ApCli_AutoConnect_Proc(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PSTRING arg)
 {
 	POS_COOKIE  		pObj= (POS_COOKIE) pAd->OS_Cookie;
@@ -8863,7 +8863,7 @@ INT Set_ApCli_AutoConnect_Proc(
 
 #ifdef APCLI_CERT_SUPPORT
 INT Set_ApCli_Cert_Enable_Proc(
-	IN  PRTMP_ADAPTER pAd,
+	IN  struct rtmp_adapter *pAd,
 	IN  PSTRING arg)
 {
 	UINT Enable;
@@ -8886,7 +8886,7 @@ INT Set_ApCli_Cert_Enable_Proc(
 }
 
 INT Set_ApCli_WMM_Enable_Proc(
-	IN  PRTMP_ADAPTER pAd,
+	IN  struct rtmp_adapter *pAd,
 	IN  PSTRING arg)
 {
 	UINT Enable;
@@ -8913,7 +8913,7 @@ INT Set_ApCli_WMM_Enable_Proc(
 #endif /* APCLI_SUPPORT */
 
 INT	Set_DisConnectSta_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	UCHAR					macAddr[MAC_ADDR_LEN];
@@ -8943,7 +8943,7 @@ INT	Set_DisConnectSta_Proc(
 }
 
 INT Set_DisConnectAllSta_Proc(
-        IN PRTMP_ADAPTER pAd,
+        IN struct rtmp_adapter *pAd,
 	IN PSTRING arg)
 {
 #ifdef DOT11W_PMF_SUPPORT
@@ -8986,7 +8986,7 @@ INT Set_DisConnectAllSta_Proc(
     ==========================================================================
 */
 INT	Set_IEEE8021X_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	ULONG ieee8021x;
@@ -9017,7 +9017,7 @@ INT	Set_IEEE8021X_Proc(
     ==========================================================================
 */
 INT	Set_PreAuth_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
     ULONG PreAuth;
@@ -9038,7 +9038,7 @@ INT	Set_PreAuth_Proc(
 }
 
 INT	Set_OwnIPAddr_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	UINT32		ip_addr;
@@ -9052,7 +9052,7 @@ INT	Set_OwnIPAddr_Proc(
 }
 
 INT	Set_EAPIfName_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	INT			i;
@@ -9073,7 +9073,7 @@ INT	Set_EAPIfName_Proc(
 }
 
 INT	Set_PreAuthIfName_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	INT			i;
@@ -9095,7 +9095,7 @@ INT	Set_PreAuthIfName_Proc(
 }
 
 INT	Set_RADIUS_Server_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	POS_COOKIE  pObj = (POS_COOKIE) pAd->OS_Cookie;
@@ -9126,7 +9126,7 @@ INT	Set_RADIUS_Server_Proc(
 }
 
 INT	Set_RADIUS_Port_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	POS_COOKIE  pObj = (POS_COOKIE) pAd->OS_Cookie;
@@ -9152,7 +9152,7 @@ INT	Set_RADIUS_Port_Proc(
 }
 
 INT	Set_RADIUS_Key_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	POS_COOKIE  pObj = (POS_COOKIE) pAd->OS_Cookie;
@@ -9182,7 +9182,7 @@ INT	Set_RADIUS_Key_Proc(
 
 #ifdef UAPSD_SUPPORT
 INT Set_UAPSD_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
@@ -9201,7 +9201,7 @@ INT Set_UAPSD_Proc(
 
 #ifdef MCAST_RATE_SPECIFIC
 INT Set_McastPhyMode(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PSTRING arg)
 {
 	UCHAR PhyMode = simple_strtol(arg, 0, 10);
@@ -9236,7 +9236,7 @@ INT Set_McastPhyMode(
 }
 
 INT Set_McastMcs(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PSTRING arg)
 {
 	UCHAR Mcs = simple_strtol(arg, 0, 10);
@@ -9269,7 +9269,7 @@ INT Set_McastMcs(
 }
 
 INT Show_McastRate(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PSTRING arg)
 {
 	printk("Mcast PhyMode =%d\n", pAd->CommonCfg.MCastPhyMode.field.MODE);
@@ -9281,7 +9281,7 @@ INT Show_McastRate(
 #ifdef DOT11_N_SUPPORT
 #ifdef DOT11N_DRAFT3
 INT Set_OBSSScanParam_Proc(
-	IN PRTMP_ADAPTER 	pAd,
+	IN struct rtmp_adapter *	pAd,
 	IN PSTRING			arg)
 {
 	INT ObssScanValue;
@@ -9374,7 +9374,7 @@ INT Set_OBSSScanParam_Proc(
 
 
 INT	Set_AP2040ReScan_Proc(
-	IN	PRTMP_ADAPTER pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING arg)
 {
 	APOverlappingBSSScan(pAd);
@@ -9393,7 +9393,7 @@ INT	Set_AP2040ReScan_Proc(
 #endif /* DOT11_N_SUPPORT */
 
 INT Set_EntryLifeCheck_Proc(
-	IN PRTMP_ADAPTER 	pAd,
+	IN struct rtmp_adapter *	pAd,
 	IN PSTRING			arg)
 {
 	ULONG LifeCheckCnt = (ULONG) simple_strtol(arg, 0, 10);
@@ -9416,7 +9416,7 @@ INT Set_EntryLifeCheck_Proc(
     ==========================================================================
 */
 INT	ApCfg_Set_AuthMode_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	INT				apidx,
 	IN	PSTRING			arg)
 {
@@ -9451,7 +9451,7 @@ INT	ApCfg_Set_AuthMode_Proc(
 }
 
 INT	ApCfg_Set_MaxStaNum_Proc(
-	IN PRTMP_ADAPTER 	pAd,
+	IN struct rtmp_adapter *	pAd,
 	IN INT				apidx,
 	IN PSTRING 			arg)
 {
@@ -9463,7 +9463,7 @@ INT	ApCfg_Set_MaxStaNum_Proc(
 }
 
 INT	ApCfg_Set_IdleTimeout_Proc(
-	IN PRTMP_ADAPTER 	pAd,
+	IN struct rtmp_adapter *	pAd,
 	IN PSTRING 			arg)
 {
 	LONG idle_time;
@@ -9486,7 +9486,7 @@ INT	ApCfg_Set_IdleTimeout_Proc(
 
 
 INT	Set_MemDebug_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 #ifdef VENDOR_FEATURE2_SUPPORT
@@ -9501,7 +9501,7 @@ INT	Set_MemDebug_Proc(
 #ifdef APCLI_SUPPORT
 #ifdef APCLI_WPA_SUPPLICANT_SUPPORT
 VOID RTMPApCliAddKey(
-	IN	PRTMP_ADAPTER	    pAd,
+	IN	struct rtmp_adapter *    pAd,
 	IN 	INT				apidx,
 	IN	PNDIS_APCLI_802_11_KEY    pKey)
 {
@@ -9725,7 +9725,7 @@ Note:
 ========================================================================
 */
 INT	Set_PowerSaveLifeTime_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	pAd->MacTab.MsduLifeTime = simple_strtol(arg, 0, 10);
@@ -9752,7 +9752,7 @@ Note:
 ========================================================================
 */
 INT	Show_MbssInfo_Display_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	UINT32 IdBss;
@@ -9917,7 +9917,7 @@ INT RTMP_AP_IoctlHandle(
 	IN	VOID					*pData,
 	IN	ULONG					Data)
 {
-	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pAdSrc;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdSrc;
 	POS_COOKIE pObj = (POS_COOKIE)pAd->OS_Cookie;
 	INT Status = NDIS_STATUS_SUCCESS;
 
@@ -10195,7 +10195,7 @@ INT RTMP_AP_IoctlHandle(
 
 #ifdef DYNAMIC_VGA_SUPPORT
 INT Set_AP_DyncVgaEnable_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING		arg)
 {
 	UINT Enable;
@@ -10231,7 +10231,7 @@ INT Set_AP_DyncVgaEnable_Proc(
 }
 
 INT set_dynamic_lna_trigger_timer_proc(
-	IN PRTMP_ADAPTER	pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PSTRING			arg)
 {
 	INT32 val = simple_strtol(arg, 0, 10);
@@ -10244,7 +10244,7 @@ INT set_dynamic_lna_trigger_timer_proc(
 	return TRUE;
 }
 
-INT set_false_cca_hi_th(PRTMP_ADAPTER pAd, PSTRING arg)
+INT set_false_cca_hi_th(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	INT32 val = simple_strtol(arg, 0, 10);
 
@@ -10257,7 +10257,7 @@ INT set_false_cca_hi_th(PRTMP_ADAPTER pAd, PSTRING arg)
 	return TRUE;
 }
 
-INT set_false_cca_low_th(PRTMP_ADAPTER pAd, PSTRING arg)
+INT set_false_cca_low_th(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	INT32 val = simple_strtol(arg, 0, 10);
 
@@ -10272,7 +10272,7 @@ INT set_false_cca_low_th(PRTMP_ADAPTER pAd, PSTRING arg)
 
 #ifdef THERMAL_PROTECT_SUPPORT
 INT set_thermal_protection_criteria_proc(
-	IN PRTMP_ADAPTER	pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PSTRING	arg)
 {
 	INT32 criteria = simple_strtol(arg, 0, 10);
@@ -10757,7 +10757,7 @@ INT show_ed_stat_proc(RTMP_ADAPTER *pAd, PSTRING arg)
 
 
 static INT Set_AP_VENDOR_SPECIFIC_IE(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UINT8 OUIType,
 	IN PSTRING IE,
 	IN UINT32 IELen)
@@ -10778,7 +10778,7 @@ static INT Set_AP_VENDOR_SPECIFIC_IE(
 
 
 INT Set_AP_IE(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PSTRING IE,
 	IN UINT32 IELen)
 {

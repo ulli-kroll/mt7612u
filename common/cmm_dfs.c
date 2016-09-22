@@ -335,43 +335,43 @@ static NewDFSTable NewDFSTable3[] =  {
 };
 
 static void dfs_sw_init(
-		IN PRTMP_ADAPTER pAd);
+		IN struct rtmp_adapter *pAd);
 
 static BOOLEAN StagerRadarCheck(
-		IN PRTMP_ADAPTER pAd,
+		IN struct rtmp_adapter *pAd,
 		UINT8 dfs_channel);
 
 static BOOLEAN ChirpRadarCheck(
-		IN PRTMP_ADAPTER pAd);
+		IN struct rtmp_adapter *pAd);
 
 //#ifdef MT76x0
 #ifdef RLT_BBP
 static BOOLEAN MT7650DfsEventDataFetch(
-		IN PRTMP_ADAPTER pAd,
+		IN struct rtmp_adapter *pAd,
 		IN PRADAR_DETECT_STRUCT pRadarDetect,
 		OUT PDFS_EVENT pDfsEvent);
 #else
 static BOOLEAN DfsEventDataFetch(
-		IN PRTMP_ADAPTER pAd,
+		IN struct rtmp_adapter *pAd,
 		IN PRADAR_DETECT_STRUCT pRadarDetect,
 		OUT PDFS_EVENT pDfsEvent);
 #endif /* MT76x0 */
 
 static VOID DfsCheckBusyIdle(
-		IN PRTMP_ADAPTER pAd);
+		IN struct rtmp_adapter *pAd);
 
 static BOOLEAN DfsChannelCheck(
-		IN PRTMP_ADAPTER pAd,
+		IN struct rtmp_adapter *pAd,
 		IN UINT8 DfsChannel);
 
 static VOID ChannelSelectOnRadarDetection(
-		IN PRTMP_ADAPTER pAd);
+		IN struct rtmp_adapter *pAd);
 
 static BOOLEAN DfsEventDrop(
-		IN PRTMP_ADAPTER pAd,
+		IN struct rtmp_adapter *pAd,
 		IN PDFS_EVENT pDfsEvent);
 
-static inline BOOLEAN NewRadarDetectionMcuStart(PRTMP_ADAPTER pAd)
+static inline BOOLEAN NewRadarDetectionMcuStart(struct rtmp_adapter *pAd)
 {
 	/*
 	   8051 firmware don't care parameter Token, Arg0 and Arg1
@@ -379,7 +379,7 @@ static inline BOOLEAN NewRadarDetectionMcuStart(PRTMP_ADAPTER pAd)
 	return AsicSendCommandToMcu(pAd, DFS_ONOFF_MCU_CMD, 0xff, 0x01, 0x01, FALSE);
 }
 
-static inline BOOLEAN NewRadarDetectionMcuStop(PRTMP_ADAPTER pAd)
+static inline BOOLEAN NewRadarDetectionMcuStop(struct rtmp_adapter *pAd)
 {
 	/*
 		8051 firmware don't care parameter Token, Arg0 and Arg1
@@ -388,7 +388,7 @@ static inline BOOLEAN NewRadarDetectionMcuStop(PRTMP_ADAPTER pAd)
 }
 
 
-static inline VOID DfsHwDetectionStatusGet(PRTMP_ADAPTER pAd, PUINT8 pDetectedChannels)
+static inline VOID DfsHwDetectionStatusGet(struct rtmp_adapter *pAd, PUINT8 pDetectedChannels)
 {
 #ifdef RLT_BBP
 	RTMP_BBP_IO_READ32(pAd, DFS_R1, pDetectedChannels);
@@ -397,7 +397,7 @@ static inline VOID DfsHwDetectionStatusGet(PRTMP_ADAPTER pAd, PUINT8 pDetectedCh
 #endif /* MT76x0 */
 }
 
-static inline VOID DfsResetHwDetectionStatus(PRTMP_ADAPTER pAd)
+static inline VOID DfsResetHwDetectionStatus(struct rtmp_adapter *pAd)
 {
 	PRADAR_DETECT_STRUCT pRadarDetect = &pAd->CommonCfg.RadarDetect;
 
@@ -408,7 +408,7 @@ static inline VOID DfsResetHwDetectionStatus(PRTMP_ADAPTER pAd)
 #endif /* MT76x0 */
 }
 
-static inline VOID DfsCaptureModeControl(PRTMP_ADAPTER pAd,
+static inline VOID DfsCaptureModeControl(struct rtmp_adapter *pAd,
 											BOOLEAN	bEnable,
 											BOOLEAN bPowerUp,
 											BOOLEAN bCapLastEvents)
@@ -426,7 +426,7 @@ static inline VOID DfsCaptureModeControl(PRTMP_ADAPTER pAd,
 #endif /* MT76x0 */
 }
 
-static inline VOID DfsDetectionEnable(PRTMP_ADAPTER pAd)
+static inline VOID DfsDetectionEnable(struct rtmp_adapter *pAd)
 {
 	PRADAR_DETECT_STRUCT pRadarDetect = &pAd->CommonCfg.RadarDetect;
 
@@ -437,7 +437,7 @@ static inline VOID DfsDetectionEnable(PRTMP_ADAPTER pAd)
 #endif /* MT76x0 */
 }
 
-static inline VOID DfsDetectionDisable(PRTMP_ADAPTER pAd)
+static inline VOID DfsDetectionDisable(struct rtmp_adapter *pAd)
 {
 #ifdef RLT_BBP
 	RTMP_BBP_IO_WRITE32(pAd, DFS_R0, 0);
@@ -446,7 +446,7 @@ static inline VOID DfsDetectionDisable(PRTMP_ADAPTER pAd)
 #endif /* MT76x0 */
 }
 
-static inline VOID StagerRadarGetPRIs(PRTMP_ADAPTER pAd,
+static inline VOID StagerRadarGetPRIs(struct rtmp_adapter *pAd,
 									UINT8 dfs_channel,
 									PUINT32 pT1,
 									PUINT32 pT2,
@@ -505,7 +505,7 @@ static inline VOID StagerRadarGetPRIs(PRTMP_ADAPTER pAd,
 	*pT3 = T_all - *pT1 -*pT2;
 }
 
-static inline VOID DfsHwDetectionGetPulseInfo(PRTMP_ADAPTER pAd,
+static inline VOID DfsHwDetectionGetPulseInfo(struct rtmp_adapter *pAd,
 										UINT8	ChannelIndex,
 										PUINT32 pPeriod,
 										PUINT32 pWidth1,
@@ -573,7 +573,7 @@ static inline VOID DfsHwDetectionGetPulseInfo(PRTMP_ADAPTER pAd,
 #endif /* MT76x0 */
 }
 
-static inline VOID DfsProgramBbpValues(PRTMP_ADAPTER pAd,
+static inline VOID DfsProgramBbpValues(struct rtmp_adapter *pAd,
 										pNewDFSTable pDfsTable)
 {
 	UINT8   idx, DfsInputControl;
@@ -791,7 +791,7 @@ static inline VOID DfsProgramBbpValues(PRTMP_ADAPTER pAd,
 
 #ifdef RTMP_MAC_USB
 static VOID SwCheckDfsEventWithFw(
-		IN PRTMP_ADAPTER pAd);
+		IN struct rtmp_adapter *pAd);
 #endif /*RTMP_MAC_USB  */
 
 /*
@@ -808,7 +808,7 @@ static VOID SwCheckDfsEventWithFw(
     ========================================================================
 */
 VOID ApRadarDetectPeriodic(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	INT	i;
 
@@ -841,7 +841,7 @@ VOID ApRadarDetectPeriodic(
 /* 	0 = Switch Channel when Radar Hit (Normal mode)
 	1 = Don't Switch Channel when Radar Hit */
 INT	Set_RadarDebug_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	PRADAR_DETECT_STRUCT pRadarDetect = &pAd->CommonCfg.RadarDetect;
@@ -877,7 +877,7 @@ INT	Set_RadarDebug_Proc(
 }
 
 INT	Set_ResetRadarHwDetect_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	DfsResetHwDetectionStatus(pAd);
@@ -885,7 +885,7 @@ INT	Set_ResetRadarHwDetect_Proc(
 }
 
 INT Set_DfsSwDisable_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	PRADAR_DETECT_STRUCT pRadarDetect = &pAd->CommonCfg.RadarDetect;
@@ -896,7 +896,7 @@ INT Set_DfsSwDisable_Proc(
 }
 
 INT Set_DfsEnvtDropAdjTime_Proc(
-	IN PRTMP_ADAPTER   pAd,
+	IN struct rtmp_adapter *  pAd,
 	IN PSTRING  arg)
 {
 	PDFS_SW_DETECT_PARAM pDfsSwParam = &pAd->CommonCfg.RadarDetect.DfsSwParam;
@@ -906,7 +906,7 @@ INT Set_DfsEnvtDropAdjTime_Proc(
 }
 
 INT	Set_RadarStart_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	PDFS_PROGRAM_PARAM pDfsProgramParam = &pAd->CommonCfg.RadarDetect.DfsProgramParam;
@@ -926,7 +926,7 @@ INT	Set_RadarStart_Proc(
 }
 
 INT	Set_RadarStop_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	NewRadarDetectionStop(pAd);
@@ -934,7 +934,7 @@ INT	Set_RadarStop_Proc(
 }
 
 #ifdef DFS_ATP_SUPPORT
-INT Set_DfsAtpStart_Proc(IN PRTMP_ADAPTER pAd, IN PSTRING arg)
+INT Set_DfsAtpStart_Proc(IN struct rtmp_adapter *pAd, IN PSTRING arg)
 {
 	INT ret;
 
@@ -968,7 +968,7 @@ INT Set_DfsAtpStart_Proc(IN PRTMP_ADAPTER pAd, IN PSTRING arg)
 	return TRUE;
 }
 
-INT Set_DfsAtpReset_Proc(IN PRTMP_ADAPTER pAd, IN PSTRING arg)
+INT Set_DfsAtpReset_Proc(IN struct rtmp_adapter *pAd, IN PSTRING arg)
 {
 	if (simple_strtol(arg, 0, 10) == 1) {
 		/* reset the flag */
@@ -980,7 +980,7 @@ INT Set_DfsAtpReset_Proc(IN PRTMP_ADAPTER pAd, IN PSTRING arg)
 	return TRUE;
 }
 
-INT Set_DfsAtpReport_Proc(IN PRTMP_ADAPTER pAd, IN PSTRING arg)
+INT Set_DfsAtpReport_Proc(IN struct rtmp_adapter *pAd, IN PSTRING arg)
 {
 	printk ("%s\n", __FUNCTION__);
 	if (pAd->CommonCfg.RadarDetect.atp_radar_detect == TRUE) {
@@ -994,7 +994,7 @@ INT Set_DfsAtpReport_Proc(IN PRTMP_ADAPTER pAd, IN PSTRING arg)
 #endif /* DFS_ATP_SUPPORT */
 
 INT	Set_RadarSetTbl1_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	PUCHAR p2 = arg;
@@ -1030,7 +1030,7 @@ INT	Set_RadarSetTbl1_Proc(
 }
 
 INT	Set_RadarSetTbl2_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	PUCHAR p2 = arg;
@@ -1054,7 +1054,7 @@ INT	Set_RadarSetTbl2_Proc(
 }
 
 INT	Set_PollTime_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	PRADAR_DETECT_STRUCT pRadarDetect = &pAd->CommonCfg.RadarDetect;
@@ -1063,7 +1063,7 @@ INT	Set_PollTime_Proc(
 }
 
 INT	Set_PrintBusyIdle_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	PRADAR_DETECT_STRUCT pRadarDetect = &pAd->CommonCfg.RadarDetect;
@@ -1072,7 +1072,7 @@ INT	Set_PrintBusyIdle_Proc(
 }
 
 INT	Set_BusyIdleRatio_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	PRADAR_DETECT_STRUCT pRadarDetect = &pAd->CommonCfg.RadarDetect;
@@ -1081,7 +1081,7 @@ INT	Set_BusyIdleRatio_Proc(
 }
 
 INT	Set_DfsRssiHigh_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	PRADAR_DETECT_STRUCT pRadarDetect = &pAd->CommonCfg.RadarDetect;
@@ -1090,7 +1090,7 @@ INT	Set_DfsRssiHigh_Proc(
 }
 
 INT	Set_DfsRssiLow_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	PRADAR_DETECT_STRUCT pRadarDetect = &pAd->CommonCfg.RadarDetect;
@@ -1099,7 +1099,7 @@ INT	Set_DfsRssiLow_Proc(
 }
 
 INT	Show_BlockCh_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	int i;
@@ -1116,7 +1116,7 @@ INT	Show_BlockCh_Proc(
 }
 
 
-VOID DFSInit(PRTMP_ADAPTER pAd)
+VOID DFSInit(struct rtmp_adapter *pAd)
 {
 	PRADAR_DETECT_STRUCT pRadarDetect = &pAd->CommonCfg.RadarDetect;
 	PDFS_PROGRAM_PARAM pDfsProgramParam = &pRadarDetect->DfsProgramParam;
@@ -1174,7 +1174,7 @@ VOID DFSInit(PRTMP_ADAPTER pAd)
 	dfs_sw_init(pAd);
 }
 
-void NewRadarDetectionStart(PRTMP_ADAPTER pAd)
+void NewRadarDetectionStart(struct rtmp_adapter *pAd)
 {
 	PRADAR_DETECT_STRUCT pRadarDetect = &pAd->CommonCfg.RadarDetect;
 	pNewDFSTable *ppDFSTable = &pRadarDetect->pDFSTable;
@@ -1286,7 +1286,7 @@ void NewRadarDetectionStart(PRTMP_ADAPTER pAd)
 }
 
 VOID NewRadarDetectionStop(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	PRADAR_DETECT_STRUCT pRadarDetect = &pAd->CommonCfg.RadarDetect;
 
@@ -1324,7 +1324,7 @@ VOID NewRadarDetectionStop(
 
 
 int SWRadarCheck(
-	IN PRTMP_ADAPTER pAd, USHORT id)
+	IN struct rtmp_adapter *pAd, USHORT id)
 {
 	int i, j, start_idx, end_idx;
 	pNewDFSDebugPort pCurrent, p1, pEnd;
@@ -1966,7 +1966,7 @@ int SWRadarCheck(
     Note:
     ==========================================================================
  */
-static BOOLEAN StagerRadarCheck(IN PRTMP_ADAPTER pAd, UINT8 dfs_channel)
+static BOOLEAN StagerRadarCheck(IN struct rtmp_adapter *pAd, UINT8 dfs_channel)
 {
 	UINT T1=0, T2=0, T3=0, F1, F2, F3 = 0, Fmax = 0, freq_diff_min, freq_diff_max;
 	UINT8  dfs_stg2=0, dfs_typ5=0;
@@ -2079,7 +2079,7 @@ static BOOLEAN StagerRadarCheck(IN PRTMP_ADAPTER pAd, UINT8 dfs_channel)
     Note:
     ==========================================================================
  */
-static BOOLEAN ChirpRadarCheck(IN PRTMP_ADAPTER pAd)
+static BOOLEAN ChirpRadarCheck(IN struct rtmp_adapter *pAd)
 {
 	UINT32 CurrentTime, delta;
 	PRADAR_DETECT_STRUCT pRadarDetect = &pAd->CommonCfg.RadarDetect;
@@ -2113,7 +2113,7 @@ static BOOLEAN ChirpRadarCheck(IN PRTMP_ADAPTER pAd)
 }
 
 static VOID DfsCheckBusyIdle(
-			IN PRTMP_ADAPTER pAd)
+			IN struct rtmp_adapter *pAd)
 {
 	int busy_delta, idle_delta;
 	PRADAR_DETECT_STRUCT pRadarDetect = &pAd->CommonCfg.RadarDetect;
@@ -2184,7 +2184,7 @@ static VOID DfsCheckBusyIdle(
 }
 
 static BOOLEAN DfsChannelCheck(
-			IN PRTMP_ADAPTER pAd,
+			IN struct rtmp_adapter *pAd,
 			IN UINT8 DfsChannel)
 {
 	pNewDFSTable pDFSTable;
@@ -2245,7 +2245,7 @@ static BOOLEAN DfsChannelCheck(
 
 #ifdef RLT_BBP
 static BOOLEAN MT7650DfsEventDataFetch(
-		IN PRTMP_ADAPTER pAd,
+		IN struct rtmp_adapter *pAd,
 		IN PRADAR_DETECT_STRUCT pRadarDetect,
 		OUT PDFS_EVENT pDfsEvent)
 {
@@ -2308,7 +2308,7 @@ static BOOLEAN MT7650DfsEventDataFetch(
 }
 #else
 static BOOLEAN DfsEventDataFetch(
-		IN PRTMP_ADAPTER pAd,
+		IN struct rtmp_adapter *pAd,
 		IN PRADAR_DETECT_STRUCT pRadarDetect,
 		OUT PDFS_EVENT pDfsEvent)
 {
@@ -2347,7 +2347,7 @@ static BOOLEAN DfsEventDataFetch(
 }
 #endif /* MT76x0 */
 
-VOID NewRadarDetectionProgram(PRTMP_ADAPTER pAd, pNewDFSTable pDFSTable)
+VOID NewRadarDetectionProgram(struct rtmp_adapter *pAd, pNewDFSTable pDFSTable)
 {
 	UINT8 idx, TalbeIdx;
 	UINT8 DfsEngineNum = pAd->chipCap.DfsEngineNum;
@@ -2430,7 +2430,7 @@ VOID NewRadarDetectionProgram(PRTMP_ADAPTER pAd, pNewDFSTable pDFSTable)
 }
 
 BOOLEAN DfsSwCheckOnHwDetection(
-	 IN PRTMP_ADAPTER pAd,
+	 IN struct rtmp_adapter *pAd,
 	 IN pNewDFSTable pDFSTable,
 	 IN UINT8 DfsChannel,
 	 IN ULONG RadarPeriod,
@@ -2599,7 +2599,7 @@ BOOLEAN DfsSwCheckOnHwDetection(
 }
 
 static VOID ChannelSelectOnRadarDetection(
-		IN PRTMP_ADAPTER pAd)
+		IN struct rtmp_adapter *pAd)
 {
 	PRADAR_DETECT_STRUCT pRadarDetect = &pAd->CommonCfg.RadarDetect;
 	UINT i;
@@ -2733,7 +2733,7 @@ static VOID ChannelSelectOnRadarDetection(
 }
 
 static BOOLEAN DfsEventDrop(
-		IN PRTMP_ADAPTER pAd,
+		IN struct rtmp_adapter *pAd,
 		IN PDFS_EVENT pDfsEvent)
 {
 	UINT32 TimeDiff = 0;  /* unit: 50ns */
@@ -2781,7 +2781,7 @@ static BOOLEAN DfsEventDrop(
 	return RetVal;
 }
 
-static void dfs_sw_init(PRTMP_ADAPTER pAd)
+static void dfs_sw_init(struct rtmp_adapter *pAd)
 {
 	int j, k;
 	PRADAR_DETECT_STRUCT pRadarDetect = &pAd->CommonCfg.RadarDetect;
@@ -2853,7 +2853,7 @@ static void dfs_sw_init(PRTMP_ADAPTER pAd)
 	NdisZeroMemory(pDfsSwParam->DFS_W, sizeof(pDfsSwParam->DFS_W));
 }
 
-void modify_table1(PRTMP_ADAPTER pAd, ULONG idx, ULONG value)
+void modify_table1(struct rtmp_adapter *pAd, ULONG idx, ULONG value)
 {
 	pNewDFSTable pDFSTable;
 	ULONG x, y;
@@ -3040,7 +3040,7 @@ void modify_table1(PRTMP_ADAPTER pAd, ULONG idx, ULONG value)
 }
 
 
-void modify_table2(PRTMP_ADAPTER pAd, ULONG idx, ULONG value)
+void modify_table2(struct rtmp_adapter *pAd, ULONG idx, ULONG value)
 {
 	pNewDFSValidRadar pDFSValidRadar;
 	ULONG x, y;
@@ -3126,7 +3126,7 @@ void modify_table2(PRTMP_ADAPTER pAd, ULONG idx, ULONG value)
 
 #ifdef RTMP_MAC_USB
 VOID NewUsbTimerCB_Radar(
- 	IN PRTMP_ADAPTER pAd)
+ 	IN struct rtmp_adapter *pAd)
 
 {
 	UCHAR channel=0;
@@ -3196,7 +3196,7 @@ VOID NewUsbTimerCB_Radar(
 }
 
 static VOID SwCheckDfsEventWithFw(
-		IN PRTMP_ADAPTER pAd)
+		IN struct rtmp_adapter *pAd)
 {
 	int k, NumEvent = 64; /* event number per event buffer */
 	UCHAR id = 0;
@@ -3299,7 +3299,7 @@ static VOID SwCheckDfsEventWithFw(
 	}
 }
 
-void schedule_dfs_task(PRTMP_ADAPTER pAd)
+void schedule_dfs_task(struct rtmp_adapter *pAd)
 {
 	POS_COOKIE pObj;
 	PRADAR_DETECT_STRUCT pRadarDetect = &pAd->CommonCfg.RadarDetect;

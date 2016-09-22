@@ -112,7 +112,7 @@ VOID RTMPReportMicError(RTMP_ADAPTER *pAd, PCIPHER_KEY pWpaKey)
 }
 
 VOID	WpaMicFailureReportFrame(
-	IN  PRTMP_ADAPTER   pAd,
+	IN  struct rtmp_adapter *  pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	PUCHAR              pOutBuffer = NULL;
@@ -223,7 +223,7 @@ VOID WpaDisassocApAndBlockAssoc(
     IN PVOID SystemSpecific2,
     IN PVOID SystemSpecific3)
 {
-    RTMP_ADAPTER *pAd = (PRTMP_ADAPTER)FunctionContext;
+    RTMP_ADAPTER *pAd = (struct rtmp_adapter *)FunctionContext;
     MLME_DISASSOC_REQ_STRUCT    DisassocReq;
 
 	/* disassoc from current AP first */
@@ -363,7 +363,7 @@ VOID WpaSendEapolStart(RTMP_ADAPTER *pAd, UCHAR *pBssid)
 	Packet.Length  = cpu2be16(0);
 
 	/* Copy frame to Tx ring */
-	RTMPToWirelessSta((PRTMP_ADAPTER)pAd, &pAd->MacTab.Content[BSSID_WCID],
+	RTMPToWirelessSta((struct rtmp_adapter *)pAd, &pAd->MacTab.Content[BSSID_WCID],
 					 Header802_3, LENGTH_802_3, (PUCHAR)&Packet, 4, TRUE);
 
 	DBGPRINT(RT_DEBUG_TRACE, ("<----- WpaSendEapolStart\n"));

@@ -1747,7 +1747,7 @@ static void usb_kick_out_cmd_msg_complete(PURB urb)
 	andes_bh_schedule(ad);
 }
 
-int usb_kick_out_cmd_msg(PRTMP_ADAPTER ad, struct cmd_msg *msg)
+int usb_kick_out_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *msg)
 {
 	struct MCU_CTRL *ctl = &ad->MCUCtrl;
 	POS_COOKIE pObj = (POS_COOKIE)ad->OS_Cookie;
@@ -2011,7 +2011,7 @@ static int andes_wait_for_complete_timeout(struct cmd_msg *msg, long timeout)
 	return ret;
 }
 
-int andes_send_cmd_msg(PRTMP_ADAPTER ad, struct cmd_msg *msg)
+int andes_send_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *msg)
 {
 	struct MCU_CTRL *ctl = &ad->MCUCtrl;
 	int ret = 0;
@@ -2121,7 +2121,7 @@ static void andes_carrier_detect_event_handler(RTMP_ADAPTER *ad, char *payload, 
 
 }
 
-static void andes_dfs_detect_event_handler(PRTMP_ADAPTER ad, char *payload, u16 payload_len)
+static void andes_dfs_detect_event_handler(struct rtmp_adapter *ad, char *payload, u16 payload_len)
 {
 
 

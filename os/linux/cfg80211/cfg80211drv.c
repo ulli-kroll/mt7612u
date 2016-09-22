@@ -46,7 +46,7 @@ INT CFG80211DRV_IoctlHandle(
 	IN	VOID					*pData,
 	IN	ULONG					Data)
 {
-	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pAdSrc;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdSrc;
 
 	switch(cmd)
 	{
@@ -311,7 +311,7 @@ VOID CFG80211DRV_OpsMgmtFrameProbeRegister(
         VOID                                            *pData,
 		BOOLEAN                                          isReg)
 {
-	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER) pAdOrg;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *) pAdOrg;
 	PCFG80211_CTRL pCfg80211_ctrl = &pAd->cfg80211_ctrl;
 
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
@@ -374,7 +374,7 @@ VOID CFG80211DRV_OpsMgmtFrameActionRegister(
         VOID                                            *pData,
 		BOOLEAN                                          isReg)
 {
-	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER) pAdOrg;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *) pAdOrg;
 	PCFG80211_CTRL pCfg80211_ctrl = &pAd->cfg80211_ctrl;
 
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
@@ -439,7 +439,7 @@ VOID CFG80211DRV_OpsChangeBssParm(
         VOID                                            *pAdOrg,
         VOID                                            *pData)
 {
-	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pAdOrg;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdOrg;
 	CMD_RTPRIV_IOCTL_80211_BSS_PARM *pBssInfo;
 	BOOLEAN TxPreamble;
 
@@ -611,7 +611,7 @@ BOOLEAN CFG80211DRV_OpsJoinIbss(
 	VOID						*pData)
 {
 #ifdef CONFIG_STA_SUPPORT
-	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pAdOrg;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdOrg;
 	CMD_RTPRIV_IOCTL_80211_IBSS *pIbssInfo;
 
 
@@ -629,7 +629,7 @@ BOOLEAN CFG80211DRV_OpsLeave(
 	UINT8						IfType)
 {
 #ifdef CONFIG_STA_SUPPORT
-	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pAdOrg;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdOrg;
 
     MLME_DEAUTH_REQ_STRUCT   DeAuthReq;
     MLME_QUEUE_ELEM *pMsgElem = NULL;
@@ -672,7 +672,7 @@ BOOLEAN CFG80211DRV_StaGet(
 	VOID						*pAdOrg,
 	VOID						*pData)
 {
-	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pAdOrg;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdOrg;
 	CMD_RTPRIV_IOCTL_80211_STA *pIbssInfo;
 
 	pIbssInfo = (CMD_RTPRIV_IOCTL_80211_STA *)pData;
@@ -783,7 +783,7 @@ BOOLEAN CFG80211DRV_StaKeyAdd(
 	VOID						*pData)
 {
 #ifdef CONFIG_STA_SUPPORT
-	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pAdOrg;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdOrg;
 	CMD_RTPRIV_IOCTL_80211_KEY *pKeyInfo;
 
 
@@ -870,7 +870,7 @@ BOOLEAN CFG80211DRV_Connect(
 	VOID						*pData)
 {
 #ifdef CONFIG_STA_SUPPORT
-	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pAdOrg;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdOrg;
 	CMD_RTPRIV_IOCTL_80211_CONNECT *pConnInfo;
 	UCHAR SSID[NDIS_802_11_LENGTH_SSID + 1]; /* Add One for SSID_Len == 32 */
 	UINT32 SSIDLen;
@@ -1048,7 +1048,7 @@ VOID CFG80211DRV_RegNotify(
 	VOID						*pAdOrg,
 	VOID						*pData)
 {
-	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pAdOrg;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdOrg;
 	CMD_RTPRIV_IOCTL_80211_REG_NOTIFY *pRegInfo;
 
 
@@ -1075,7 +1075,7 @@ VOID CFG80211DRV_SurveyGet(
 	VOID						*pAdOrg,
 	VOID						*pData)
 {
-	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pAdOrg;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdOrg;
 	CMD_RTPRIV_IOCTL_80211_SURVEY *pSurveyInfo;
 
 
@@ -1094,7 +1094,7 @@ VOID CFG80211_UnRegister(
 	IN VOID						*pAdOrg,
 	IN VOID						*pNetDev)
 {
-	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pAdOrg;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdOrg;
 	PCFG80211_CTRL pCfg80211_ctrl = &pAd->cfg80211_ctrl;
 
 	/* sanity check */
@@ -1177,7 +1177,7 @@ VOID CFG80211_BeaconCountryRegionParse(
 	IN NDIS_802_11_VARIABLE_IEs	*pVIE,
 	IN UINT16					LenVIE)
 {
-	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pAdCB;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdCB;
 	UCHAR *pElement = (UCHAR *)pVIE;
 	UINT32 LenEmt;
 
@@ -1226,7 +1226,7 @@ VOID CFG80211_LostApInform(
     IN VOID 					*pAdCB)
 {
 
-	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pAdCB;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdCB;
 	CFG80211_CB *p80211CB = pAd->pCfg80211_CB;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("80211> CFG80211_LostApInform ==> %d\n",
@@ -1265,7 +1265,7 @@ VOID CFG80211_RegHint(
 	IN UCHAR					*pCountryIe,
 	IN ULONG					CountryIeLen)
 {
-	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pAdCB;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdCB;
 
 
 	CFG80211OS_RegHint(CFG80211CB, pCountryIe, CountryIeLen);
@@ -1295,7 +1295,7 @@ VOID CFG80211_RegHint11D(
 	IN ULONG					CountryIeLen)
 {
 	/* no regulatory_hint_11d() in 2.6.32 */
-	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pAdCB;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdCB;
 
 
 	CFG80211OS_RegHint11D(CFG80211CB, pCountryIe, CountryIeLen);
@@ -1327,7 +1327,7 @@ VOID CFG80211_RegRuleApply(
 	IN VOID						*pWiphy,
 	IN UCHAR					*pAlpha2)
 {
-	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pAdCB;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdCB;
 	VOID *pBand24G, *pBand5G;
 	UINT32 IdBand, IdChan, IdPwr;
 	UINT32 ChanNum, ChanId, Power, RecId, DfsType;
@@ -1489,7 +1489,7 @@ VOID CFG80211_ConnectResultInform(
 	IN UINT32					RspIeLen,
 	IN UCHAR					FlgIsSuccess)
 {
-	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pAdCB;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdCB;
 
 
 	CFG80211DBG(RT_DEBUG_TRACE, ("80211> CFG80211_ConnectResultInform ==>\n"));
@@ -1529,7 +1529,7 @@ Note:
 BOOLEAN CFG80211_SupBandReInit(
 	IN VOID						*pAdCB)
 {
-	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pAdCB;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdCB;
 	CFG80211_BAND BandInfo;
 
 
@@ -1549,7 +1549,7 @@ INT CFG80211_setStaDefaultKey(
 	IN UINT 					Data
 )
 {
-	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pAdCB;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdCB;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set Sta Default Key: %d\n", Data));
     pAd->StaCfg.wdev.DefaultKeyId = Data; /* base 0 */
@@ -1562,7 +1562,7 @@ INT CFG80211_setStaMgmtDefaultKey(
 	IN UINT 					Data
 )
 {
-	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pAdCB;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdCB;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set Sta MgmtDefault Key: %d\n", Data));
     	//pAd->StaCfg.wdev.MgmtDefaultKeyId = Data; /* base 0 */
@@ -1574,7 +1574,7 @@ INT CFG80211_setStaMgmtDefaultKey(
 INT CFG80211_reSetToDefault(
 	IN VOID                                         *pAdCB)
 {
-	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pAdCB;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdCB;
 	PCFG80211_CTRL pCfg80211_ctrl = &pAd->cfg80211_ctrl;
 	DBGPRINT(RT_DEBUG_TRACE, (" %s\n", __FUNCTION__));
 #ifdef CONFIG_STA_SUPPORT
@@ -1604,7 +1604,7 @@ BOOLEAN CFG80211_checkScanResInKernelCache(
 	IN UCHAR					*pSsid,
 	IN INT       					ssidLen)
 {
-        PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pAdCB;
+        struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdCB;
         CFG80211_CB *pCfg80211_CB  = (CFG80211_CB *)pAd->pCfg80211_CB;
         struct wiphy *pWiphy = pCfg80211_CB->pCfg80211_Wdev->wiphy;
         struct cfg80211_bss *bss;
@@ -1624,7 +1624,7 @@ BOOLEAN CFG80211_checkScanResInKernelCache(
 BOOLEAN CFG80211_checkScanTable(
         IN VOID                                         *pAdCB)
 {
-	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pAdCB;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdCB;
 	CFG80211_CB *pCfg80211_CB  = (CFG80211_CB *)pAd->pCfg80211_CB;
 	struct wiphy *pWiphy = pCfg80211_CB->pCfg80211_Wdev->wiphy;
 	ULONG bss_idx = BSS_NOT_FOUND;

@@ -90,7 +90,7 @@ Note:
 */
 INT32 IKANOS_DataFramesTx(struct sk_buff *pSkb, struct net_device *pNetDev)
 {
-	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pNetDev->priv;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pNetDev->priv;
 	IkanosWlanTxCbFuncP *fp = &IKANOS_WlanDataFramesTx;
 
 	pSkb->apFlowData.txDev = pNetDev;
@@ -128,7 +128,7 @@ Note:
 	So we can not use multiple card function in Ikanos platform.
 ========================================================================
 */
-PRTMP_ADAPTER	pIkanosAd;
+struct rtmp_adapter *pIkanosAd;
 void IKANOS_DataFrameRx(RTMP_ADAPTER *pAd, struct sk_buff *pSkb)
 {
 	apPreHeader_t *apBuf;
@@ -202,7 +202,7 @@ Return Value:
 Note:
 ========================================================================
 */
-static INT32 GetSpecInfoIdxFromBssid(PRTMP_ADAPTER pAd, INT32 FromWhichBSSID)
+static INT32 GetSpecInfoIdxFromBssid(struct rtmp_adapter *pAd, INT32 FromWhichBSSID)
 {
 	INT32 IfIdx = MAIN_MBSSID;
 

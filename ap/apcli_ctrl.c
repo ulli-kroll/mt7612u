@@ -31,74 +31,74 @@
 
 
 static VOID ApCliCtrlJoinReqAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliCtrlJoinReqTimeoutAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliCtrlProbeRspAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliCtrlAuthRspAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliCtrlAuth2RspAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliCtrlAuthReqTimeoutAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliCtrlAuth2ReqTimeoutAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliCtrlAssocRspAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliCtrlDeAssocRspAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliCtrlAssocReqTimeoutAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliCtrlDisconnectReqAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliCtrlPeerDeAssocReqAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliCtrlDeAssocAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliCtrlDeAuthAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliWpaMicFailureReportFrame(
-		IN PRTMP_ADAPTER pAd,
+		IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 #ifdef APCLI_CERT_SUPPORT
 static VOID ApCliCtrlScanDoneAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 #endif /* APCLI_CERT_SUPPORT */
 
 #ifdef APCLI_CONNECTION_TRIAL
 static VOID ApCliCtrlTrialConnectAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliTrialConnectTimeout(
@@ -138,7 +138,7 @@ BUILD_TIMER_FUNCTION(ApCliTrialConnectRetryTimeout);
     ==========================================================================
  */
 VOID ApCliCtrlStateMachineInit(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN STATE_MACHINE *Sm,
 	OUT STATE_MACHINE_FUNC Trans[])
 {
@@ -419,7 +419,7 @@ static VOID ApCliTrialConnectRetryTimeout(
     ==========================================================================
  */
 static VOID ApCliCtrlJoinReqAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	APCLI_MLME_JOIN_REQ_STRUCT JoinReq;
@@ -498,7 +498,7 @@ static VOID ApCliCtrlJoinReqAction(
     ==========================================================================
  */
 static VOID ApCliCtrlJoinReqTimeoutAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	APCLI_MLME_JOIN_REQ_STRUCT JoinReq;
@@ -578,7 +578,7 @@ static VOID ApCliCtrlJoinReqTimeoutAction(
     ==========================================================================
  */
 static VOID ApCliCtrlProbeRspAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	APCLI_CTRL_MSG_STRUCT *Info = (APCLI_CTRL_MSG_STRUCT *)(Elem->Msg);
@@ -643,7 +643,7 @@ static VOID ApCliCtrlProbeRspAction(
     ==========================================================================
  */
 static VOID ApCliCtrlAuthRspAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	APCLI_CTRL_MSG_STRUCT *Info = (APCLI_CTRL_MSG_STRUCT *)(Elem->Msg);
@@ -736,7 +736,7 @@ static VOID ApCliCtrlAuthRspAction(
     ==========================================================================
  */
 static VOID ApCliCtrlAuth2RspAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	APCLI_CTRL_MSG_STRUCT *Info = (APCLI_CTRL_MSG_STRUCT *)(Elem->Msg);
@@ -789,7 +789,7 @@ static VOID ApCliCtrlAuth2RspAction(
     ==========================================================================
  */
 static VOID ApCliCtrlAuthReqTimeoutAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	MLME_AUTH_REQ_STRUCT AuthReq;
@@ -846,7 +846,7 @@ static VOID ApCliCtrlAuthReqTimeoutAction(
     ==========================================================================
  */
 static VOID ApCliCtrlAuth2ReqTimeoutAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	return;
@@ -859,7 +859,7 @@ static VOID ApCliCtrlAuth2ReqTimeoutAction(
     ==========================================================================
  */
 static VOID ApCliCtrlAssocRspAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	PAPCLI_STRUCT pApCliEntry;
@@ -957,7 +957,7 @@ static VOID ApCliCtrlAssocRspAction(
     ==========================================================================
  */
 static VOID ApCliCtrlDeAssocRspAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	PAPCLI_STRUCT pApCliEntry;
@@ -1000,7 +1000,7 @@ static VOID ApCliCtrlDeAssocRspAction(
     ==========================================================================
  */
 static VOID ApCliCtrlAssocReqTimeoutAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	MLME_ASSOC_REQ_STRUCT  AssocReq;
@@ -1059,7 +1059,7 @@ static VOID ApCliCtrlAssocReqTimeoutAction(
     ==========================================================================
  */
 static VOID ApCliCtrlDisconnectReqAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	PAPCLI_STRUCT pApCliEntry;
@@ -1107,7 +1107,7 @@ static VOID ApCliCtrlDisconnectReqAction(
     ==========================================================================
  */
 static VOID ApCliCtrlPeerDeAssocReqAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	PAPCLI_STRUCT pApCliEntry;
@@ -1166,7 +1166,7 @@ static VOID ApCliCtrlPeerDeAssocReqAction(
     ==========================================================================
  */
 static VOID ApCliCtrlDeAssocAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	PAPCLI_STRUCT pApCliEntry;
@@ -1220,7 +1220,7 @@ static VOID ApCliCtrlDeAssocAction(
     ==========================================================================
  */
 static VOID ApCliCtrlDeAuthAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	PAPCLI_STRUCT pApCliEntry;
@@ -1274,7 +1274,7 @@ static VOID ApCliCtrlDeAuthAction(
 
 
 VOID ApCliWpaMicFailureReportFrame(
-		IN PRTMP_ADAPTER pAd,
+		IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	PUCHAR              pOutBuffer = NULL;
@@ -1404,7 +1404,7 @@ VOID ApCliWpaMicFailureReportFrame(
 
 #ifdef APCLI_CERT_SUPPORT
 static VOID ApCliCtrlScanDoneAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 
@@ -1436,7 +1436,7 @@ static VOID ApCliCtrlScanDoneAction(
     ==========================================================================
  */
 static VOID ApCliCtrlTrialConnectAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	APCLI_MLME_JOIN_REQ_STRUCT JoinReq;

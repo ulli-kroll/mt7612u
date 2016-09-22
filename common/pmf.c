@@ -42,7 +42,7 @@ UCHAR PMF_MMIE_BUFFER[18]= {0x4C, 0x10,
 
 
 VOID PMF_PeerAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
         UCHAR Action = Elem->Msg[LENGTH_802_11+1];
@@ -60,7 +60,7 @@ VOID PMF_PeerAction(
 
 
 VOID PMF_MlmeSAQueryReq(
-        IN PRTMP_ADAPTER pAd,
+        IN struct rtmp_adapter *pAd,
         IN MAC_TABLE_ENTRY *pEntry)
 {
         PUCHAR pOutBuffer = NULL;
@@ -152,7 +152,7 @@ VOID PMF_MlmeSAQueryReq(
 
 
 VOID PMF_PeerSAQueryReqAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
         UCHAR Action = Elem->Msg[LENGTH_802_11+1];
@@ -228,7 +228,7 @@ VOID PMF_PeerSAQueryReqAction(
 
 
 VOID PMF_PeerSAQueryRspAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	UCHAR Action = Elem->Msg[LENGTH_802_11+1];
@@ -287,7 +287,7 @@ VOID PMF_SAQueryTimeOut(
         {
    		DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s - STA(%02x:%02x:%02x:%02x:%02x:%02x)\n",
    					__FUNCTION__, PRINT_MAC(pEntry->Addr)));
-			PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pEntry->pAd;
+			struct rtmp_adapter *pAd = (struct rtmp_adapter *)pEntry->pAd;
 #ifdef CONFIG_AP_SUPPORT
 		IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 		{
@@ -326,7 +326,7 @@ VOID PMF_SAQueryConfirmTimeOut(
         if (pEntry)
         {
    		DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s - STA(%02x:%02x:%02x:%02x:%02x:%02x)\n", __FUNCTION__, PRINT_MAC(pEntry->Addr)));
-                PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pEntry->pAd;
+                struct rtmp_adapter *pAd = (struct rtmp_adapter *)pEntry->pAd;
                 pEntry->SAQueryStatus = SAQ_RETRY;
                 PMF_MlmeSAQueryReq(pAd, pEntry);
         }
@@ -354,7 +354,7 @@ VOID PMF_ConstructBIPAad(
 
 
 BOOLEAN PMF_CalculateBIPMIC(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PUCHAR pAadHdr,
 	IN PUCHAR pFrameBuf,
 	IN UINT32 FrameLen,
@@ -399,7 +399,7 @@ BOOLEAN PMF_CalculateBIPMIC(
 
 
 VOID PMF_DerivePTK(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR *PMK,
 	IN UCHAR *ANonce,
 	IN UCHAR *AA,
@@ -480,7 +480,7 @@ VOID PMF_DerivePTK(
 	========================================================================
 */
 VOID PMF_DeriveIGTK(
-        IN PRTMP_ADAPTER pAd,
+        IN struct rtmp_adapter *pAd,
         OUT UCHAR *output)
 {
 	INT i;
@@ -506,7 +506,7 @@ VOID PMF_DeriveIGTK(
 	========================================================================
 */
 VOID PMF_InsertIGTKKDE(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN INT apidx,
 	IN PUCHAR pFrameBuf,
 	OUT PULONG pFrameLen)
@@ -564,7 +564,7 @@ VOID PMF_InsertIGTKKDE(
 	========================================================================
 */
 BOOLEAN PMF_ExtractIGTKKDE(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PUCHAR pBuf,
 	IN INT buf_len)
 {
@@ -626,7 +626,7 @@ BOOLEAN PMF_ExtractIGTKKDE(
 	========================================================================
 */
 VOID PMF_MakeRsnIeGMgmtCipher(
-	IN  PRTMP_ADAPTER pAd,
+	IN  struct rtmp_adapter *pAd,
 	IN UCHAR ElementID,
 	IN UCHAR apidx,
 	OUT PUCHAR pRsnIe,
@@ -683,7 +683,7 @@ Note:
 ========================================================================
 */
 NTSTATUS PMF_RsnCapableValidation(
-        IN PRTMP_ADAPTER pAd,
+        IN struct rtmp_adapter *pAd,
         IN PUINT8 pRsnie,
         IN UINT rsnie_len,
         IN BOOLEAN self_MFPC,
@@ -860,7 +860,7 @@ INT PMF_RobustFrameClassify(
 
 
 INT PMF_EncryptUniRobustFrameAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PUCHAR pMgmtFrame,
 	IN UINT mgmt_len)
 {
@@ -931,7 +931,7 @@ INT PMF_EncryptUniRobustFrameAction(
 }
 
 INT PMF_DecryptUniRobustFrameAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	INOUT PUCHAR pMgmtFrame,
 	IN UINT	mgmt_len)
 {
@@ -979,7 +979,7 @@ INT PMF_DecryptUniRobustFrameAction(
 
 
 INT PMF_EncapBIPAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PUCHAR pMgmtFrame,
 	IN UINT	mgmt_len)
 {
@@ -1060,7 +1060,7 @@ INT PMF_EncapBIPAction(
 }
 
 INT PMF_ExtractBIPAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	INOUT PUCHAR pMgmtFrame,
 	IN UINT	mgmt_len)
 {
@@ -1148,7 +1148,7 @@ INT PMF_ExtractBIPAction(
 
 
 BOOLEAN	PMF_PerformTxFrameAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	OUT PNDIS_PACKET pPacket)
 {
 	PHEADER_802_11 pHeader_802_11;
@@ -1240,7 +1240,7 @@ Note:
 ========================================================================
 */
 BOOLEAN	PMF_PerformRxFrameAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN RX_BLK *pRxBlk)
 {
 	INT FrameType;
@@ -1415,7 +1415,7 @@ RSNA policy selection in an IBSS: IEEE P802.11w Table 8-1b
 ========================================================================
 */
 void rtmp_read_pmf_parameters_from_file(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PSTRING tmpbuf,
 	IN PSTRING pBuffer)
 {
@@ -1503,7 +1503,7 @@ RSNA policy selection in an IBSS: IEEE P802.11w Table 8-1b
 */
 /* chane the cmd depend on security mode first, and update to run time flag */
 INT Set_PMFMFPC_Proc (
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PCHAR arg)
 {
  	if(strlen(arg) == 0)
@@ -1586,7 +1586,7 @@ RSNA policy selection in an IBSS: IEEE P802.11w Table 8-1b
 */
 /* chane the cmd depend on security mode first, and update to run time flag*/
 INT Set_PMFMFPR_Proc (
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PCHAR arg)
 {
  	if(strlen(arg) == 0)
@@ -1653,7 +1653,7 @@ INT Set_PMFMFPR_Proc (
 
 
 INT Set_PMFSHA256_Proc (
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PCHAR arg)
 {
  	if(strlen(arg) == 0)

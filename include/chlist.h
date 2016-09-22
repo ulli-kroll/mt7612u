@@ -116,15 +116,15 @@ extern int CH_HZ_ID_MAP_NUM;
 
 #ifdef ED_MONITOR
 BOOLEAN GetEDCCASupport(
-	IN PRTMP_ADAPTER pAd);
+	IN struct rtmp_adapter *pAd);
 #endif /* ED_MONITOR */
 
 #ifdef EXT_BUILD_CHANNEL_LIST
 VOID BuildChannelListEx(
-	IN PRTMP_ADAPTER pAd);
+	IN struct rtmp_adapter *pAd);
 
 VOID BuildBeaconChList(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	OUT PUCHAR pBuf,
 	OUT	PULONG pBufLen);
 #endif /* EXT_BUILD_CHANNEL_LIST */
@@ -140,7 +140,7 @@ BOOLEAN AC_ChannelGroupCheck(RTMP_ADAPTER *pAd, UCHAR channel);
 #endif /* DOT11_N_SUPPORT */
 
 UINT8 GetCuntryMaxTxPwr(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UINT8 channel);
 
 VOID RTMP_MapChannelID2KHZ(

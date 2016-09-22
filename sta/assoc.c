@@ -162,7 +162,7 @@ VOID DisassocTimeout(
 	==========================================================================
  */
 VOID MlmeAssocReqAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	ULONG Idx;
@@ -602,7 +602,7 @@ VOID MlmeAssocReqAction(
 	==========================================================================
  */
 VOID MlmeReassocReqAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM * Elem)
 {
 	ULONG Idx;
@@ -832,7 +832,7 @@ VOID MlmeReassocReqAction(
 	==========================================================================
  */
 VOID MlmeDisassocReqAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	PMLME_DISASSOC_REQ_STRUCT pDisassocReq;
@@ -920,7 +920,7 @@ VOID MlmeDisassocReqAction(
 	==========================================================================
  */
 VOID PeerAssocRspAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	USHORT CapabilityInfo, Status, Aid;
@@ -1072,7 +1072,7 @@ VOID PeerAssocRspAction(
 	==========================================================================
  */
 VOID PeerReassocRspAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	USHORT CapabilityInfo;
@@ -1218,7 +1218,7 @@ VOID PeerReassocRspAction(
 	==========================================================================
  */
 VOID AssocPostProc(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PUCHAR pAddr2,
 	IN USHORT CapabilityInfo,
 	IN USHORT Aid,
@@ -1586,7 +1586,7 @@ VOID Cls3errAction(RTMP_ADAPTER *pAd, UCHAR *pAddr)
 	==========================================================================
  */
 VOID AssocStateMachineInit(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN STATE_MACHINE *S,
 	OUT STATE_MACHINE_FUNC Trans[])
 {

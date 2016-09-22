@@ -76,6 +76,6 @@ INT MBSS_Open(struct net_device *pDev);
 INT MBSS_Close(struct net_device *pDev);
 
 INT32 RT28xx_MBSS_IdxGet(
-	IN PRTMP_ADAPTER	pAd,
+	IN struct rtmp_adapter *pAd,
 	IN struct net_device *		pDev);
 

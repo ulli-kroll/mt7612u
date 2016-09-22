@@ -577,7 +577,7 @@ inline void RTMPSetSTADefKeyId(RTMP_ADAPTER *pAd, ULONG KeyIdx)
 #endif /* CONFIG_STA_SUPPORT */
 
 
-static int rtmp_parse_key_buffer_from_file(IN  PRTMP_ADAPTER pAd,IN  PSTRING buffer,IN  ULONG KeyType,IN  INT BSSIdx,IN  INT KeyIdx)
+static int rtmp_parse_key_buffer_from_file(IN  struct rtmp_adapter *pAd,IN  PSTRING buffer,IN  ULONG KeyType,IN  INT BSSIdx,IN  INT KeyIdx)
 {
 	PSTRING		keybuff;
 	/*INT			i = BSSIdx, idx = KeyIdx, retVal;*/
@@ -605,7 +605,7 @@ static int rtmp_parse_key_buffer_from_file(IN  PRTMP_ADAPTER pAd,IN  PSTRING buf
 }
 
 
-static void rtmp_read_key_parms_from_file(IN  PRTMP_ADAPTER pAd, PSTRING tmpbuf, PSTRING buffer)
+static void rtmp_read_key_parms_from_file(IN  struct rtmp_adapter *pAd, PSTRING tmpbuf, PSTRING buffer)
 {
 	STRING		tok_str[16];
 	PSTRING		macptr;
@@ -729,7 +729,7 @@ static void rtmp_read_key_parms_from_file(IN  PRTMP_ADAPTER pAd, PSTRING tmpbuf,
 
 #ifdef APCLI_SUPPORT
 static void rtmp_read_ap_client_from_file(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PSTRING tmpbuf,
 	IN PSTRING buffer)
 {
@@ -1065,7 +1065,7 @@ static void rtmp_read_ap_client_from_file(
 #endif /* APCLI_SUPPORT */
 
 
-static void rtmp_read_acl_parms_from_file(IN  PRTMP_ADAPTER pAd, PSTRING tmpbuf, PSTRING buffer)
+static void rtmp_read_acl_parms_from_file(IN  struct rtmp_adapter *pAd, PSTRING tmpbuf, PSTRING buffer)
 {
 	STRING		tok_str[32];
 	PSTRING		macptr;
@@ -1148,7 +1148,7 @@ static void rtmp_read_acl_parms_from_file(IN  PRTMP_ADAPTER pAd, PSTRING tmpbuf,
 
     ========================================================================
 */
-static void rtmp_read_ap_wmm_parms_from_file(IN  PRTMP_ADAPTER pAd, PSTRING tmpbuf, PSTRING buffer)
+static void rtmp_read_ap_wmm_parms_from_file(IN  struct rtmp_adapter *pAd, PSTRING tmpbuf, PSTRING buffer)
 {
 	PSTRING					macptr;
 	INT						i=0;
@@ -1416,7 +1416,7 @@ static void rtmp_read_ap_wmm_parms_from_file(IN  PRTMP_ADAPTER pAd, PSTRING tmpb
 
     ========================================================================
 */
-static void rtmp_read_radius_parms_from_file(IN  PRTMP_ADAPTER pAd, PSTRING tmpbuf, PSTRING buffer)
+static void rtmp_read_radius_parms_from_file(IN  struct rtmp_adapter *pAd, PSTRING tmpbuf, PSTRING buffer)
 {
 	STRING					tok_str[16];
 	PSTRING					macptr;
@@ -1599,7 +1599,7 @@ static void rtmp_read_radius_parms_from_file(IN  PRTMP_ADAPTER pAd, PSTRING tmpb
 }
 #endif /* DOT1X_SUPPORT */
 
-static int rtmp_parse_wpapsk_buffer_from_file(IN  PRTMP_ADAPTER pAd,IN  PSTRING buffer,IN  INT BSSIdx)
+static int rtmp_parse_wpapsk_buffer_from_file(IN  struct rtmp_adapter *pAd,IN  PSTRING buffer,IN  INT BSSIdx)
 {
 	PSTRING		tmpbuf = buffer;
 	INT			i = BSSIdx;
@@ -1622,7 +1622,7 @@ static int rtmp_parse_wpapsk_buffer_from_file(IN  PRTMP_ADAPTER pAd,IN  PSTRING 
 
 
 #ifdef CONFIG_STA_SUPPORT
-static void rtmp_read_sta_wmm_parms_from_file(IN  PRTMP_ADAPTER pAd, char *tmpbuf, char *buffer)
+static void rtmp_read_sta_wmm_parms_from_file(IN  struct rtmp_adapter *pAd, char *tmpbuf, char *buffer)
 {
 	PSTRING					macptr;
 	INT						i=0;
@@ -1826,7 +1826,7 @@ static void VHTParametersHook(
 
 #ifdef DOT11_N_SUPPORT
 static void HTParametersHook(
-	IN	PRTMP_ADAPTER pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING		  pValueStr,
 	IN	PSTRING		  pInput)
 {
@@ -4242,7 +4242,7 @@ Note:
 ========================================================================
 */
 BOOLEAN RTMP_CardInfoRead(
-	IN	PRTMP_ADAPTER pAd)
+	IN	struct rtmp_adapter *pAd)
 {
 #define MC_SELECT_CARDID		0	/* use CARD ID (0 ~ 31) to identify different cards */
 #define MC_SELECT_MAC			1	/* use CARD MAC to identify different cards */

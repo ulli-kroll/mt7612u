@@ -998,7 +998,7 @@ NTSTATUS RTUSBWakeUp(RTMP_ADAPTER *pAd)
 	========================================================================
 */
 NDIS_STATUS	RTUSBEnqueueCmdFromNdis(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	NDIS_OID		Oid,
 	IN	BOOLEAN			SetInformation,
 	IN	PVOID			pInformationBuffer,
@@ -1104,7 +1104,7 @@ NDIS_STATUS	RTUSBEnqueueCmdFromNdis(
 	========================================================================
 */
 NTSTATUS RTUSB_VendorRequest(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	UINT32			TransferFlags,
 	IN	UCHAR			RequestType,
 	IN	UCHAR			Request,
@@ -1268,7 +1268,7 @@ NTSTATUS CheckGPIOHdlr(RTMP_ADAPTER *pAd, PCmdQElmt CMDQelmt)
 }
 
 
-static NTSTATUS ResetBulkOutHdlr(IN PRTMP_ADAPTER pAd, IN PCmdQElmt CMDQelmt)
+static NTSTATUS ResetBulkOutHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 {
 	INT32 MACValue = 0;
 	UCHAR Index = 0;
@@ -1434,7 +1434,7 @@ static NTSTATUS ResetBulkOutHdlr(IN PRTMP_ADAPTER pAd, IN PCmdQElmt CMDQelmt)
 
 
 /* All transfers must be aborted or cancelled before attempting to reset the pipe.*/
-static NTSTATUS ResetBulkInHdlr(IN PRTMP_ADAPTER pAd, IN PCmdQElmt CMDQelmt)
+static NTSTATUS ResetBulkInHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 {
 	UINT32 MACValue;
 	NTSTATUS ntStatus;
@@ -1556,7 +1556,7 @@ static NTSTATUS ResetBulkInHdlr(IN PRTMP_ADAPTER pAd, IN PCmdQElmt CMDQelmt)
 }
 
 
-static NTSTATUS SetAsicWcidHdlr(IN PRTMP_ADAPTER pAd, IN PCmdQElmt CMDQelmt)
+static NTSTATUS SetAsicWcidHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 {
 	RT_SET_ASIC_WCID	SetAsicWcid;
 	USHORT		offset;
@@ -1592,7 +1592,7 @@ static NTSTATUS SetAsicWcidHdlr(IN PRTMP_ADAPTER pAd, IN PCmdQElmt CMDQelmt)
 	return NDIS_STATUS_SUCCESS;
 }
 
-static NTSTATUS DelAsicWcidHdlr(IN PRTMP_ADAPTER pAd, IN PCmdQElmt CMDQelmt)
+static NTSTATUS DelAsicWcidHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 {
 	RT_SET_ASIC_WCID SetAsicWcid;
 	SetAsicWcid = *((PRT_SET_ASIC_WCID)(CMDQelmt->buffer));
@@ -1605,7 +1605,7 @@ static NTSTATUS DelAsicWcidHdlr(IN PRTMP_ADAPTER pAd, IN PCmdQElmt CMDQelmt)
         return NDIS_STATUS_SUCCESS;
 }
 
-static NTSTATUS SetWcidSecInfoHdlr(IN PRTMP_ADAPTER pAd, IN PCmdQElmt CMDQelmt)
+static NTSTATUS SetWcidSecInfoHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 {
 	PRT_ASIC_WCID_SEC_INFO pInfo;
 
@@ -1621,7 +1621,7 @@ static NTSTATUS SetWcidSecInfoHdlr(IN PRTMP_ADAPTER pAd, IN PCmdQElmt CMDQelmt)
 }
 
 
-static NTSTATUS SetAsicWcidIVEIVHdlr(IN PRTMP_ADAPTER pAd, IN PCmdQElmt CMDQelmt)
+static NTSTATUS SetAsicWcidIVEIVHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 {
 	PRT_ASIC_WCID_IVEIV_ENTRY pInfo;
 
@@ -1635,7 +1635,7 @@ static NTSTATUS SetAsicWcidIVEIVHdlr(IN PRTMP_ADAPTER pAd, IN PCmdQElmt CMDQelmt
 }
 
 
-static NTSTATUS SetAsicWcidAttrHdlr(IN PRTMP_ADAPTER pAd, IN PCmdQElmt CMDQelmt)
+static NTSTATUS SetAsicWcidAttrHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 {
 	PRT_ASIC_WCID_ATTR_ENTRY pInfo;
 
@@ -1650,7 +1650,7 @@ static NTSTATUS SetAsicWcidAttrHdlr(IN PRTMP_ADAPTER pAd, IN PCmdQElmt CMDQelmt)
 	return NDIS_STATUS_SUCCESS;
 }
 
-static NTSTATUS SETAsicSharedKeyHdlr(IN PRTMP_ADAPTER pAd, IN PCmdQElmt CMDQelmt)
+static NTSTATUS SETAsicSharedKeyHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 {
 	PRT_ASIC_SHARED_KEY pInfo;
 
@@ -1663,7 +1663,7 @@ static NTSTATUS SETAsicSharedKeyHdlr(IN PRTMP_ADAPTER pAd, IN PCmdQElmt CMDQelmt
 	return NDIS_STATUS_SUCCESS;
 }
 
-static NTSTATUS SetAsicPairwiseKeyHdlr(IN PRTMP_ADAPTER pAd, IN PCmdQElmt CMDQelmt)
+static NTSTATUS SetAsicPairwiseKeyHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 {
 	PRT_ASIC_PAIRWISE_KEY pInfo;
 
@@ -1676,7 +1676,7 @@ static NTSTATUS SetAsicPairwiseKeyHdlr(IN PRTMP_ADAPTER pAd, IN PCmdQElmt CMDQel
 }
 
 #ifdef CONFIG_STA_SUPPORT
-static NTSTATUS SetPortSecuredHdlr(IN PRTMP_ADAPTER pAd, IN PCmdQElmt CMDQelmt)
+static NTSTATUS SetPortSecuredHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 {
 	STA_PORT_SECURED(pAd);
 	return NDIS_STATUS_SUCCESS;
@@ -1684,7 +1684,7 @@ static NTSTATUS SetPortSecuredHdlr(IN PRTMP_ADAPTER pAd, IN PCmdQElmt CMDQelmt)
 #endif /* CONFIG_STA_SUPPORT */
 
 
-static NTSTATUS RemovePairwiseKeyHdlr(IN PRTMP_ADAPTER pAd, IN PCmdQElmt CMDQelmt)
+static NTSTATUS RemovePairwiseKeyHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 {
 	UCHAR Wcid = *((PUCHAR)(CMDQelmt->buffer));
 
@@ -1693,7 +1693,7 @@ static NTSTATUS RemovePairwiseKeyHdlr(IN PRTMP_ADAPTER pAd, IN PCmdQElmt CMDQelm
 }
 
 
-static NTSTATUS SetClientMACEntryHdlr(IN PRTMP_ADAPTER pAd, IN PCmdQElmt CMDQelmt)
+static NTSTATUS SetClientMACEntryHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 {
 	PRT_SET_ASIC_WCID pInfo;
 
@@ -1703,7 +1703,7 @@ static NTSTATUS SetClientMACEntryHdlr(IN PRTMP_ADAPTER pAd, IN PCmdQElmt CMDQelm
 }
 
 
-static NTSTATUS UpdateProtectHdlr(IN PRTMP_ADAPTER pAd, IN PCmdQElmt CMDQelmt)
+static NTSTATUS UpdateProtectHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 {
 	PRT_ASIC_PROTECT_INFO pAsicProtectInfo;
 
@@ -1717,7 +1717,7 @@ static NTSTATUS UpdateProtectHdlr(IN PRTMP_ADAPTER pAd, IN PCmdQElmt CMDQelmt)
 
 
 #ifdef CONFIG_AP_SUPPORT
-static NTSTATUS APUpdateCapabilityAndErpieHdlr(IN PRTMP_ADAPTER pAd, IN PCmdQElmt CMDQelmt)
+static NTSTATUS APUpdateCapabilityAndErpieHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 {
 	APUpdateCapabilityAndErpIe(pAd);
 	return NDIS_STATUS_SUCCESS;
@@ -1726,7 +1726,7 @@ static NTSTATUS APUpdateCapabilityAndErpieHdlr(IN PRTMP_ADAPTER pAd, IN PCmdQElm
 
 
 #ifdef CONFIG_AP_SUPPORT
-static NTSTATUS _802_11_CounterMeasureHdlr(IN PRTMP_ADAPTER pAd, IN PCmdQElmt CMDQelmt)
+static NTSTATUS _802_11_CounterMeasureHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 {
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 	{
@@ -1742,7 +1742,7 @@ static NTSTATUS _802_11_CounterMeasureHdlr(IN PRTMP_ADAPTER pAd, IN PCmdQElmt CM
 
 
 #ifdef CONFIG_STA_SUPPORT
-static NTSTATUS SetPSMBitHdlr(IN PRTMP_ADAPTER pAd, IN PCmdQElmt CMDQelmt)
+static NTSTATUS SetPSMBitHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 {
 	IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
 	{
@@ -1754,7 +1754,7 @@ static NTSTATUS SetPSMBitHdlr(IN PRTMP_ADAPTER pAd, IN PCmdQElmt CMDQelmt)
 }
 
 
-static NTSTATUS ForceWakeUpHdlr(IN PRTMP_ADAPTER pAd, IN PCmdQElmt CMDQelmt)
+static NTSTATUS ForceWakeUpHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 {
 	IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
 		AsicForceWakeup(pAd, TRUE);
@@ -1763,7 +1763,7 @@ static NTSTATUS ForceWakeUpHdlr(IN PRTMP_ADAPTER pAd, IN PCmdQElmt CMDQelmt)
 }
 
 
-static NTSTATUS ForceSleepAutoWakeupHdlr(IN PRTMP_ADAPTER pAd, IN PCmdQElmt CMDQelmt)
+static NTSTATUS ForceSleepAutoWakeupHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 {
 	USHORT  TbttNumToNextWakeUp;
 	USHORT  NextDtim = pAd->StaCfg.DtimPeriod;
@@ -1785,7 +1785,7 @@ static NTSTATUS ForceSleepAutoWakeupHdlr(IN PRTMP_ADAPTER pAd, IN PCmdQElmt CMDQ
 }
 
 
-NTSTATUS QkeriodicExecutHdlr(IN PRTMP_ADAPTER pAd, IN PCmdQElmt CMDQelmt)
+NTSTATUS QkeriodicExecutHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 {
 	StaQuickResponeForRateUpExec(NULL, pAd, NULL, NULL);
 	return NDIS_STATUS_SUCCESS;
@@ -1794,7 +1794,7 @@ NTSTATUS QkeriodicExecutHdlr(IN PRTMP_ADAPTER pAd, IN PCmdQElmt CMDQelmt)
 
 
 #ifdef CONFIG_AP_SUPPORT
-static NTSTATUS APEnableTXBurstHdlr(IN PRTMP_ADAPTER pAd, IN PCmdQElmt CMDQelmt)
+static NTSTATUS APEnableTXBurstHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 {
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 	{
@@ -1810,7 +1810,7 @@ static NTSTATUS APEnableTXBurstHdlr(IN PRTMP_ADAPTER pAd, IN PCmdQElmt CMDQelmt)
 }
 
 
-static NTSTATUS APDisableTXBurstHdlr(IN PRTMP_ADAPTER pAd, IN PCmdQElmt CMDQelmt)
+static NTSTATUS APDisableTXBurstHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 {
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 	{
@@ -1826,7 +1826,7 @@ static NTSTATUS APDisableTXBurstHdlr(IN PRTMP_ADAPTER pAd, IN PCmdQElmt CMDQelmt
 }
 
 
-static NTSTATUS APAdjustEXPAckTimeHdlr(IN PRTMP_ADAPTER pAd, IN PCmdQElmt CMDQelmt)
+static NTSTATUS APAdjustEXPAckTimeHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 {
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 	{
@@ -1838,7 +1838,7 @@ static NTSTATUS APAdjustEXPAckTimeHdlr(IN PRTMP_ADAPTER pAd, IN PCmdQElmt CMDQel
 }
 
 
-static NTSTATUS APRecoverEXPAckTimeHdlr(IN PRTMP_ADAPTER pAd, IN PCmdQElmt CMDQelmt)
+static NTSTATUS APRecoverEXPAckTimeHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 {
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 	{
@@ -1855,7 +1855,7 @@ static NTSTATUS APRecoverEXPAckTimeHdlr(IN PRTMP_ADAPTER pAd, IN PCmdQElmt CMDQe
 
 
 #ifdef CONFIG_AP_SUPPORT
-static NTSTATUS ChannelRescanHdlr(IN PRTMP_ADAPTER pAd, IN PCmdQElmt CMDQelmt)
+static NTSTATUS ChannelRescanHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 {
 	DBGPRINT(RT_DEBUG_TRACE, ("cmd> Re-scan channel! \n"));
 

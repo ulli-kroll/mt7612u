@@ -426,7 +426,7 @@ VOID Cls2errAction(RTMP_ADAPTER *pAd, UCHAR *pAddr)
 
 
 BOOLEAN AUTH_ReqSend(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PMLME_QUEUE_ELEM pElem,
 	IN PRALINK_TIMER_STRUCT pAuthTimer,
 	IN PSTRING pSMName,

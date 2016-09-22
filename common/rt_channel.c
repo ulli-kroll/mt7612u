@@ -1608,7 +1608,7 @@ static VOID ChBandCheck(
 }
 
 static UCHAR FillChList(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PCH_DESP pChDesp,
 	IN UCHAR Offset,
 	IN UCHAR increment,
@@ -1696,7 +1696,7 @@ static UCHAR FillChList(
 
 
 static inline VOID CreateChList(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PCH_REGION pChRegion,
 	IN UCHAR Geography)
 {
@@ -1752,7 +1752,7 @@ static inline VOID CreateChList(
 
 
 VOID BuildChannelListEx(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	PCH_REGION pChReg;
 
@@ -1761,7 +1761,7 @@ VOID BuildChannelListEx(
 }
 
 VOID BuildBeaconChList(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	OUT PUCHAR pBuf,
 	OUT	PULONG pBufLen)
 {
@@ -1964,7 +1964,7 @@ static PCOUNTRY_PROP GetCountryProp(
 }
 
 BOOLEAN GetEDCCASupport(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	BOOLEAN ret = FALSE;
 
@@ -1997,7 +1997,7 @@ BOOLEAN GetEDCCASupport(
 
 #ifdef DOT11_N_SUPPORT
 static BOOLEAN IsValidChannel(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR channel)
 
 {
@@ -2055,7 +2055,7 @@ INT get_vht_neighbor_index(IN UCHAR channel)
 }
 
 BOOLEAN AC_ChannelGroupCheck(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR Channel)
 {
 	BOOLEAN	RetVal = FALSE;
@@ -2086,7 +2086,7 @@ BOOLEAN AC_ChannelGroupCheck(
 #endif /* DOT11_VHT_AC */
 
 BOOLEAN N_ChannelGroupCheck(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR Channel)
 {
 	BOOLEAN	RetVal = FALSE;
@@ -2229,7 +2229,7 @@ UCHAR N_SetCenCh(RTMP_ADAPTER *pAd, UCHAR prim_ch)
 
 
 UINT8 GetCuntryMaxTxPwr(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UINT8 channel)
 {
 	int i;

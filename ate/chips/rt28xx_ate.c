@@ -46,7 +46,7 @@ extern UCHAR NUM_OF_2850_CHNL;
 ==========================================================================
 */
 VOID RT28xxATEAsicSwitchChannel(
-    IN PRTMP_ADAPTER pAd)
+    IN struct rtmp_adapter *pAd)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 	UINT32 Value = 0;
@@ -379,7 +379,7 @@ VOID RT28xxATEAsicSwitchChannel(
 
 
 INT RT28xxATETxPwrHandler(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN char index)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
@@ -517,7 +517,7 @@ INT RT28xxATETxPwrHandler(
 
 
 VOID RT28xxATERxVGAInit(
-	IN PRTMP_ADAPTER		pAd)
+	IN struct rtmp_adapter *	pAd)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 	UCHAR R66;
@@ -560,7 +560,7 @@ VOID RT28xxATERxVGAInit(
 ==========================================================================
 */
 INT	RT28xx_Set_ATE_TX_BW_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
@@ -726,7 +726,7 @@ INT	RT28xx_Set_ATE_TX_BW_Proc(
 
 
 INT	RT28xx_Set_ATE_TX_FREQ_OFFSET_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);

@@ -58,7 +58,7 @@ typedef struct wsc_ie_probreq_data
     ==========================================================================
  */
 BOOLEAN MlmeAddBAReqSanity(
-    IN PRTMP_ADAPTER pAd,
+    IN struct rtmp_adapter *pAd,
     IN VOID *Msg,
     IN ULONG MsgLen,
     OUT PUCHAR pAddr2)
@@ -108,7 +108,7 @@ BOOLEAN MlmeAddBAReqSanity(
     ==========================================================================
  */
 BOOLEAN MlmeDelBAReqSanity(
-    IN PRTMP_ADAPTER pAd,
+    IN struct rtmp_adapter *pAd,
     IN VOID *Msg,
     IN ULONG MsgLen)
 {
@@ -144,7 +144,7 @@ BOOLEAN MlmeDelBAReqSanity(
 
 
 BOOLEAN PeerAddBAReqActionSanity(
-    IN PRTMP_ADAPTER pAd,
+    IN struct rtmp_adapter *pAd,
     IN VOID *pMsg,
     IN ULONG MsgLen,
 	OUT PUCHAR pAddr2)
@@ -185,7 +185,7 @@ BOOLEAN PeerAddBAReqActionSanity(
 }
 
 BOOLEAN PeerAddBARspActionSanity(
-    IN PRTMP_ADAPTER pAd,
+    IN struct rtmp_adapter *pAd,
     IN VOID *pMsg,
     IN ULONG MsgLen)
 {
@@ -223,7 +223,7 @@ BOOLEAN PeerAddBARspActionSanity(
 }
 
 BOOLEAN PeerDelBAActionSanity(
-    IN PRTMP_ADAPTER pAd,
+    IN struct rtmp_adapter *pAd,
     IN UCHAR Wcid,
     IN VOID *pMsg,
     IN ULONG MsgLen )
@@ -246,7 +246,7 @@ BOOLEAN PeerDelBAActionSanity(
 
 
 BOOLEAN PeerBeaconAndProbeRspSanity_Old(
-    IN PRTMP_ADAPTER pAd,
+    IN struct rtmp_adapter *pAd,
     IN VOID *Msg,
     IN ULONG MsgLen,
     IN UCHAR  MsgChannel,
@@ -932,7 +932,7 @@ SanityCheck:
     ==========================================================================
  */
 BOOLEAN PeerBeaconAndProbeRspSanity(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN VOID *Msg,
 	IN ULONG MsgLen,
 	IN UCHAR  MsgChannel,
@@ -1601,7 +1601,7 @@ SanityCheck:
 	==========================================================================
  */
 BOOLEAN PeerBeaconAndProbeRspSanity2(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN VOID *Msg,
 	IN ULONG MsgLen,
 	IN OVERLAP_BSS_SCAN_IE *BssScan,
@@ -1687,7 +1687,7 @@ BOOLEAN PeerBeaconAndProbeRspSanity2(
     ==========================================================================
  */
 BOOLEAN MlmeScanReqSanity(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN VOID *Msg,
 	IN ULONG MsgLen,
 	OUT UCHAR *pBssType,
@@ -1719,7 +1719,7 @@ BOOLEAN MlmeScanReqSanity(
 
 /* IRQL = DISPATCH_LEVEL*/
 UCHAR ChannelSanity(
-    IN PRTMP_ADAPTER pAd,
+    IN struct rtmp_adapter *pAd,
     IN UCHAR channel)
 {
     int i;
@@ -1744,7 +1744,7 @@ UCHAR ChannelSanity(
     ==========================================================================
  */
 BOOLEAN PeerDeauthSanity(
-    IN PRTMP_ADAPTER pAd,
+    IN struct rtmp_adapter *pAd,
     IN VOID *Msg,
     IN ULONG MsgLen,
     OUT PUCHAR pAddr1,
@@ -1774,7 +1774,7 @@ BOOLEAN PeerDeauthSanity(
     ==========================================================================
  */
 BOOLEAN PeerAuthSanity(
-    IN PRTMP_ADAPTER pAd,
+    IN struct rtmp_adapter *pAd,
     IN VOID *Msg,
     IN ULONG MsgLen,
     OUT PUCHAR pAddr,
@@ -1835,7 +1835,7 @@ BOOLEAN PeerAuthSanity(
     ==========================================================================
  */
 BOOLEAN MlmeAuthReqSanity(
-    IN PRTMP_ADAPTER pAd,
+    IN struct rtmp_adapter *pAd,
     IN VOID *Msg,
     IN ULONG MsgLen,
     OUT PUCHAR pAddr,
@@ -1876,7 +1876,7 @@ BOOLEAN MlmeAuthReqSanity(
     ==========================================================================
  */
 BOOLEAN MlmeAssocReqSanity(
-    IN PRTMP_ADAPTER pAd,
+    IN struct rtmp_adapter *pAd,
     IN VOID *Msg,
     IN ULONG MsgLen,
     OUT PUCHAR pApAddr,
@@ -1907,7 +1907,7 @@ BOOLEAN MlmeAssocReqSanity(
     ==========================================================================
  */
 BOOLEAN PeerDisassocSanity(
-    IN PRTMP_ADAPTER pAd,
+    IN struct rtmp_adapter *pAd,
     IN VOID *Msg,
     IN ULONG MsgLen,
     OUT PUCHAR pAddr2,
@@ -2021,7 +2021,7 @@ NDIS_802_11_NETWORK_TYPE NetworkTypeInUseSanity(BSS_ENTRY *pBss)
     ==========================================================================
  */
 BOOLEAN PeerProbeReqSanity(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN VOID *Msg,
 	IN ULONG MsgLen,
 	OUT PEER_PROBE_REQ_PARAM *ProbeReqParam)

@@ -85,7 +85,7 @@ void HotspotAPReload(struct net_device *net_dev)
 
 #ifdef CONFIG_AP_SUPPORT
 BOOLEAN HSIPv4Check(
-			IN PRTMP_ADAPTER pAd,
+			IN struct rtmp_adapter *pAd,
 			PUCHAR pWcid,
 			PNDIS_PACKET pPacket,
 			PUCHAR pSrcBuf,
@@ -129,7 +129,7 @@ BOOLEAN HSIPv4Check(
 
 
 static BOOLEAN IsICMPv4EchoPacket(
-			IN PRTMP_ADAPTER pAd,
+			IN struct rtmp_adapter *pAd,
 			IN PUCHAR pData)
 {
 	UINT16 ProtoType;
@@ -163,7 +163,7 @@ static BOOLEAN IsICMPv4EchoPacket(
 }
 
 BOOLEAN L2FilterInspection(
-			IN PRTMP_ADAPTER pAd,
+			IN struct rtmp_adapter *pAd,
 			IN PHOTSPOT_CTRL pHSCtrl,
 			IN PUCHAR pData)
 {
@@ -179,7 +179,7 @@ BOOLEAN L2FilterInspection(
 }
 
 BOOLEAN ProbeReqforHSAP(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR APIndex,
 	IN struct _PEER_PROBE_REQ_PARAM *ProbeReqParam)
 {
@@ -209,7 +209,7 @@ BOOLEAN ProbeReqforHSAP(
 }
 
 inline INT Set_HotSpot_DGAF(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	UCHAR Disable)
 {
 	POS_COOKIE pObj = (POS_COOKIE)pAd->OS_Cookie;
@@ -224,7 +224,7 @@ inline INT Set_HotSpot_DGAF(
 }
 
 INT Set_HotSpot_Param(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	UINT32 Param,
 	UINT32 Value)
 {
@@ -311,7 +311,7 @@ VOID HSCtrlRemoveAllIE(PHOTSPOT_CTRL pHSCtrl)
 
 #ifdef CONFIG_AP_SUPPORT
 VOID Clear_Hotspot_All_IE(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	POS_COOKIE pObj = (POS_COOKIE)pAd->OS_Cookie;
 	UCHAR APIndex = pObj->ioctl_if;
@@ -324,7 +324,7 @@ VOID Clear_Hotspot_All_IE(
 #endif
 
 INT Set_HotSpot_OnOff(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UINT8 OnOff,
 	IN UINT8 EventTrigger,
 	IN UINT8 EventType)
@@ -374,7 +374,7 @@ INT Set_HotSpot_OnOff(
 
 
 enum HSCTRL_STATE HSCtrlCurrentState(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	PHOTSPOT_CTRL pHSCtrl;
@@ -395,7 +395,7 @@ enum HSCTRL_STATE HSCtrlCurrentState(
 
 
 VOID HSCtrlSetCurrentState(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem,
 	IN enum HSCTRL_STATE State)
 {
@@ -418,7 +418,7 @@ VOID HSCtrlSetCurrentState(
 
 
 static VOID HSCtrlOn(
-    IN PRTMP_ADAPTER    pAd,
+    IN struct rtmp_adapter *   pAd,
     IN MLME_QUEUE_ELEM  *Elem)
 {
 	PHOTSPOT_CTRL pHSCtrl;
@@ -471,7 +471,7 @@ static VOID HSCtrlOn(
 
 
 static VOID HSCtrlInit(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	PHOTSPOT_CTRL pHSCtrl;
 #ifdef CONFIG_AP_SUPPORT
@@ -498,7 +498,7 @@ static VOID HSCtrlInit(
 
 
 VOID HSCtrlExit(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	PHOTSPOT_CTRL pHSCtrl;
 #ifdef CONFIG_AP_SUPPORT
@@ -525,7 +525,7 @@ VOID HSCtrlExit(
 
 
 VOID HSCtrlHalt(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 
 	PHOTSPOT_CTRL pHSCtrl;
@@ -549,7 +549,7 @@ VOID HSCtrlHalt(
 }
 
 static VOID HSCtrlOff(
-    IN PRTMP_ADAPTER    pAd,
+    IN struct rtmp_adapter *   pAd,
     IN MLME_QUEUE_ELEM  *Elem)
 {
 	PHOTSPOT_CTRL pHSCtrl;
@@ -591,7 +591,7 @@ static VOID HSCtrlOff(
 }
 
 BOOLEAN HotSpotEnable(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem,
 	IN INT Type)
 {
@@ -639,7 +639,7 @@ BOOLEAN HotSpotEnable(
 
 
 VOID HSCtrlStateMachineInit(
-	IN	PRTMP_ADAPTER		pAd,
+	IN	struct rtmp_adapter *	pAd,
 	IN	STATE_MACHINE		*S,
 	OUT	STATE_MACHINE_FUNC	Trans[])
 {

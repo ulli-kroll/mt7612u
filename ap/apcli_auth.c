@@ -70,7 +70,7 @@ static VOID ApCliAuthTimeout(
 	==========================================================================
  */
 static VOID ApCliMlmeAuthReqAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	BOOLEAN             Cancelled;
@@ -478,7 +478,7 @@ static VOID ApCliInvalidStateWhenAuth(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
 	==========================================================================
  */
 static VOID ApCliMlmeDeauthReqAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	PMLME_DEAUTH_REQ_STRUCT pDeauthReq;

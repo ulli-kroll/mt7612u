@@ -35,7 +35,7 @@
 BOOLEAN UpdateFromGlobal = FALSE;
 
 void VideoTurbineUpdate(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	if (UpdateFromGlobal == TRUE)
 	{
@@ -85,7 +85,7 @@ VOID TxSwQDepthAdjust(IN RTMP_ADAPTER *pAd, IN UINT32 qLen)
 
 
 VOID VideoTurbineDynamicTune(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	if (pAd->VideoTurbine.Enable == TRUE)
 	{
@@ -128,7 +128,7 @@ VOID VideoTurbineDynamicTune(
 }
 
 UINT32 GetAsicDefaultRetry(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	UINT32 RetryLimit;
 
@@ -138,25 +138,25 @@ UINT32 GetAsicDefaultRetry(
 }
 
 UCHAR GetAsicDefaultTxBA(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
         return pAd->CommonCfg.TxBASize;
 }
 
 UINT32 GetAsicVideoRetry(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	return pAd->VideoTurbine.TxRetryLimit;
 }
 
 UCHAR GetAsicVideoTxBA(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	return pAd->VideoTurbine.TxBASize;
 }
 
 VOID VideoConfigInit(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	pAd->VideoTurbine.Enable = FALSE;
 	pAd->VideoTurbine.TxRetryLimit = 0x2F1F;

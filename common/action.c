@@ -31,7 +31,7 @@
 extern UCHAR  ZeroSsid[32];
 
 static VOID ReservedAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 
@@ -353,7 +353,7 @@ VOID PeerBAAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
 
 #ifdef DOT11N_DRAFT3
 #ifdef CONFIG_AP_SUPPORT
-extern UCHAR get_regulatory_class(IN PRTMP_ADAPTER pAd);
+extern UCHAR get_regulatory_class(IN struct rtmp_adapter *pAd);
 
 VOID ApPublicAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
 {
@@ -454,7 +454,7 @@ VOID StaPublicAction(RTMP_ADAPTER *pAd, BSS_2040_COEXIST_IE *pBssCoexIE)
 }
 
 VOID UpdateBssScanParm(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	OVERLAP_BSS_SCAN_IE	APBssScan)
 {
 	pAd->CommonCfg.Dot11BssWidthChanTranDelayFactor = le2cpu16(APBssScan.DelayFactor); /*APBssScan.DelayFactor[1] * 256 + APBssScan.DelayFactor[0];*/
@@ -599,7 +599,7 @@ ULONG BuildIntolerantChannelRep(RTMP_ADAPTER *pAd, UCHAR *pDest)
 	==========================================================================
  */
 VOID Update2040CoexistFrameAndNotify(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN    UCHAR  Wcid,
 	IN	BOOLEAN	bAddIntolerantCha)
 {
@@ -696,7 +696,7 @@ VOID Send2040CoexistAction(
 
 
 BOOLEAN ChannelSwitchSanityCheck(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN    UCHAR  Wcid,
 	IN    UCHAR  NewChannel,
 	IN    UCHAR  Secondary)
@@ -729,7 +729,7 @@ BOOLEAN ChannelSwitchSanityCheck(
 
 
 VOID ChannelSwitchAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR Wcid,
 	IN UCHAR NewChannel,
 	IN UCHAR Secondary)
@@ -1258,7 +1258,7 @@ VOID ActHeaderInit(
 
 
 VOID BarHeaderInit(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN OUT PFRAME_BAR pCntlBar,
 	IN PUCHAR pDA,
 	IN PUCHAR pSA)
@@ -1295,7 +1295,7 @@ VOID BarHeaderInit(
 	==========================================================================
  */
 VOID InsertActField(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	OUT PUCHAR pFrameBuf,
 	OUT PULONG pFrameLen,
 	IN UINT8 Category,

@@ -459,7 +459,7 @@ NDIS_STATUS MiniportMMRequest(
 	========================================================================
 */
 void AP_QueuePsActionPacket(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	MAC_TABLE_ENTRY	*pMacEntry,
 	IN	PNDIS_PACKET	pPacket,
 	IN	BOOLEAN			FlgIsDeltsFrame,
@@ -1825,7 +1825,7 @@ VOID RTMPDeQueuePacket(
 	========================================================================
 */
 USHORT	RTMPCalcDuration(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	UCHAR			Rate,
 	IN	ULONG			Size)
 {
@@ -1875,7 +1875,7 @@ USHORT	RTMPCalcDuration(
 	========================================================================
 */
 VOID RTMPSuspendMsduTransmission(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	DBGPRINT(RT_DEBUG_TRACE,("SCANNING, suspend MSDU transmission ...\n"));
 
@@ -1917,7 +1917,7 @@ VOID RTMPSuspendMsduTransmission(
 	========================================================================
 */
 VOID RTMPResumeMsduTransmission(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	DBGPRINT(RT_DEBUG_TRACE,("SCAN done, resume MSDU transmission ...\n"));
 
@@ -1951,7 +1951,7 @@ VOID RTMPResumeMsduTransmission(
 
 #ifdef DOT11_N_SUPPORT
 UINT deaggregate_AMSDU_announce(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	RX_BLK			*pRxBlk,
 	PNDIS_PACKET		pPacket,
 	IN	PUCHAR			pData,
@@ -2155,7 +2155,7 @@ UINT deaggregate_AMSDU_announce(
 
 
 UINT BA_Reorder_AMSDU_Annnounce(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PNDIS_PACKET	pPacket,
 	IN	UCHAR			OpMode)
 {
@@ -2172,7 +2172,7 @@ UINT BA_Reorder_AMSDU_Annnounce(
 }
 
 VOID Indicate_AMSDU_Packet(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	RX_BLK			*pRxBlk,
 	IN	UCHAR			FromWhichBSSID)
 {
@@ -2194,7 +2194,7 @@ VOID Indicate_AMSDU_Packet(
 	==========================================================================
 */
 VOID AssocParmFill(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN OUT MLME_ASSOC_REQ_STRUCT *AssocReq,
 	IN PUCHAR                     pAddr,
 	IN USHORT                     CapabilityInfo,
@@ -2218,7 +2218,7 @@ VOID AssocParmFill(
 	==========================================================================
 */
 VOID DisassocParmFill(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN OUT MLME_DISASSOC_REQ_STRUCT *DisassocReq,
 	IN PUCHAR pAddr,
 	IN USHORT Reason)
@@ -2871,7 +2871,7 @@ if (0) {
 
 /* Normal, AMPDU or AMSDU*/
 VOID CmmRxnonRalinkFrameIndicate(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	RX_BLK			*pRxBlk,
 	IN	UCHAR			FromWhichBSSID)
 {
@@ -2898,7 +2898,7 @@ VOID CmmRxnonRalinkFrameIndicate(
 /* Normal, AMPDU or AMSDU*/
 #ifdef HDR_TRANS_SUPPORT
 VOID CmmRxnonRalinkFrameIndicate_Hdr_Trns(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	RX_BLK			*pRxBlk,
 	IN	UCHAR			FromWhichBSSID)
 {
@@ -3357,7 +3357,7 @@ body:
 
 
 VOID RtmpPrepareHwNullFrame(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PMAC_TABLE_ENTRY pEntry,
 	IN BOOLEAN bQosNull,
 	IN BOOLEAN bEOSP,
@@ -4214,7 +4214,7 @@ BOOLEAN rtmp_rx_done_handle(RTMP_ADAPTER *pAd)
 
 #ifdef DROP_MASK_SUPPORT
 VOID drop_mask_init_per_client(
-	PRTMP_ADAPTER	ad,
+	struct rtmp_adapter *ad,
 	PMAC_TABLE_ENTRY entry)
 {
 	BOOLEAN cancelled = 0;
@@ -4234,7 +4234,7 @@ VOID drop_mask_init_per_client(
 }
 
 VOID drop_mask_release_per_client(
-	PRTMP_ADAPTER	ad,
+	struct rtmp_adapter *ad,
 	PMAC_TABLE_ENTRY entry)
 {
 	BOOLEAN cancelled = 0;
@@ -4255,7 +4255,7 @@ VOID drop_mask_release_per_client(
 }
 
 VOID drop_mask_per_client_reset(
-	PRTMP_ADAPTER	ad)
+	struct rtmp_adapter *ad)
 {
 	INT i;
 	UINT32 max_wcid_num = MAX_LEN_OF_MAC_TABLE;
@@ -4280,7 +4280,7 @@ VOID drop_mask_per_client_reset(
 }
 
 VOID set_drop_mask_per_client(
-	PRTMP_ADAPTER		ad,
+	struct rtmp_adapter *	ad,
 	PMAC_TABLE_ENTRY 	entry,
 	UINT8				type,
 	BOOLEAN				enable)
@@ -4346,7 +4346,7 @@ VOID  drop_mask_timer_action(
 	IN PVOID SystemSpecific3)
 {
 	PMAC_TABLE_ENTRY     entry = (MAC_TABLE_ENTRY *)FunctionContext;
-	PRTMP_ADAPTER ad = (PRTMP_ADAPTER)entry->pAd;
+	struct rtmp_adapter *ad = (struct rtmp_adapter *)entry->pAd;
 
 	/* Disable drop mask */
 	if (entry->tx_fail_drop_mask_enabled)

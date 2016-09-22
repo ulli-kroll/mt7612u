@@ -191,11 +191,11 @@ INT RtmpTimerQThread(
 	IN ULONG Context)
 {
 	RTMP_OS_TASK	*pTask;
-	PRTMP_ADAPTER	pAd = NULL;
+	struct rtmp_adapter *pAd = NULL;
 
 
 	pTask = (RTMP_OS_TASK *)Context;
-	pAd = (PRTMP_ADAPTER)RTMP_OS_TASK_DATA_GET(pTask);
+	pAd = (struct rtmp_adapter *)RTMP_OS_TASK_DATA_GET(pTask);
 
 	if (pAd == NULL)
 	{

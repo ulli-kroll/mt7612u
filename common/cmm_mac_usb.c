@@ -200,7 +200,7 @@ Note:
 ========================================================================
 */
 VOID	RTMPFreeTxRxRingMemory(
-	IN	PRTMP_ADAPTER	pAd)
+	IN	struct rtmp_adapter *pAd)
 {
 	UINT                i, acidx;
 	PTX_CONTEXT			pNullContext   = &pAd->NullContext;
@@ -368,7 +368,7 @@ Note:
 ========================================================================
 */
 NDIS_STATUS	NICInitTransmit(
-	IN	PRTMP_ADAPTER	pAd)
+	IN	struct rtmp_adapter *pAd)
 {
 	UCHAR			i, acidx;
 	NDIS_STATUS     Status = NDIS_STATUS_SUCCESS;
@@ -542,7 +542,7 @@ Note:
 ========================================================================
 */
 NDIS_STATUS	RTMPAllocTxRxRingMemory(
-	IN	PRTMP_ADAPTER	pAd)
+	IN	struct rtmp_adapter *pAd)
 {
 	NDIS_STATUS Status = NDIS_STATUS_FAILURE;
 	PTX_CONTEXT pNullContext   = &(pAd->NullContext);
@@ -733,7 +733,7 @@ Note:
 ========================================================================
 */
 NDIS_STATUS	NICInitRecv(
-	IN	PRTMP_ADAPTER	pAd)
+	IN	struct rtmp_adapter *pAd)
 {
 	UCHAR				i;
 	NDIS_STATUS			Status = NDIS_STATUS_SUCCESS;
@@ -829,7 +829,7 @@ Note:
 ========================================================================
 */
 NDIS_STATUS	NICInitTransmit(
-	IN	PRTMP_ADAPTER	pAd)
+	IN	struct rtmp_adapter *pAd)
 {
 	UCHAR			i, acidx;
 	NDIS_STATUS     Status = NDIS_STATUS_SUCCESS;
@@ -1064,7 +1064,7 @@ Note:
 ========================================================================
 */
 NDIS_STATUS	RTMPAllocTxRxRingMemory(
-	IN	PRTMP_ADAPTER	pAd)
+	IN	struct rtmp_adapter *pAd)
 {
 /*	COUNTER_802_11	pCounter = &pAd->WlanCounters;*/
 	NDIS_STATUS		Status = NDIS_STATUS_SUCCESS;
@@ -1146,7 +1146,7 @@ Note:
 ========================================================================
 */
 VOID	RTMPFreeTxRxRingMemory(
-	IN	PRTMP_ADAPTER	pAd)
+	IN	struct rtmp_adapter *pAd)
 {
 	UINT                i, acidx;
 	PTX_CONTEXT			pNullContext   = &pAd->NullContext;
@@ -1730,7 +1730,7 @@ VOID BeaconUpdateExec(
     IN PVOID SystemSpecific2,
     IN PVOID SystemSpecific3)
 {
-	PRTMP_ADAPTER	pAd = (PRTMP_ADAPTER)FunctionContext;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)FunctionContext;
 	LARGE_INTEGER	tsfTime_a;/*, tsfTime_b, deltaTime_exp, deltaTime_ab;*/
 	UINT32			delta, delta2MS, period2US, remain, remain_low, remain_high;
 /*	BOOLEAN			positive;*/
@@ -1854,7 +1854,7 @@ VOID BeaconUpdateExec(
   *
   ********************************************************************/
 VOID RT28xxUsbMlmeRadioOn(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 
     DBGPRINT(RT_DEBUG_TRACE,("RT28xxUsbMlmeRadioOn()\n"));
@@ -1878,7 +1878,7 @@ VOID RT28xxUsbMlmeRadioOn(
 
 
 VOID RT28xxUsbMlmeRadioOFF(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 
 	DBGPRINT(RT_DEBUG_TRACE,("RT28xxUsbMlmeRadioOFF()\n"));
@@ -2094,7 +2094,7 @@ VOID RT28xxUsbAsicRadioOn(RTMP_ADAPTER *pAd)
 
 
 BOOLEAN AsicCheckCommandOk(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR		 Command)
 {
 	UINT32	CmdStatus, CID, i;
@@ -2169,7 +2169,7 @@ BOOLEAN AsicCheckCommandOk(
 #ifdef WOW_SUPPORT
 #ifdef RTMP_MAC
 VOID RT28xxUsbAsicWOWEnable(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	UINT32 Value;
 
@@ -2190,7 +2190,7 @@ VOID RT28xxUsbAsicWOWEnable(
 }
 
 VOID RT28xxUsbAsicWOWDisable(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	UINT32 Value;
 	/* load normal firmware */

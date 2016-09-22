@@ -186,7 +186,7 @@ UCHAR Ags2x2VhtRateTable[] = {
 
 
 INT Show_AGS_Proc(
-    IN  PRTMP_ADAPTER	pAd,
+    IN  struct rtmp_adapter *pAd,
     IN  PSTRING arg)
 {
 	MAC_TABLE_ENTRY *pEntry = &pAd->MacTab.Content[1];
@@ -219,7 +219,7 @@ INT Show_AGS_Proc(
 		None
 */
 VOID MlmeDynamicTxRateSwitchingAGS(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PMAC_TABLE_ENTRY pEntry,
 	IN PUCHAR pTable,
 	IN UCHAR TableSize,
@@ -857,7 +857,7 @@ VOID MlmeDynamicTxRateSwitchingAGS(
 		None
 */
 VOID StaQuickResponeForRateUpExecAGS(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PMAC_TABLE_ENTRY pEntry,
 	IN PUCHAR pTable,
 	IN UCHAR TableSize,

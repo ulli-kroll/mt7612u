@@ -190,7 +190,7 @@ VOID CFG80211_UpdateBeacon(
    UINT32                          beacon_tail_len,
    BOOLEAN                         isAllUpdate);
 
-INT CFG80211_ApStaDelSendEvent(PRTMP_ADAPTER pAd, const PUCHAR mac_addr);
+INT CFG80211_ApStaDelSendEvent(struct rtmp_adapter *pAd, const PUCHAR mac_addr);
 
 
 /* Information Releated */
@@ -357,24 +357,24 @@ INT CFG80211_SendMgmtFrame(RTMP_ADAPTER *pAd, VOID *pData, ULONG Data);
 
 #ifdef RT_CFG80211_P2P_SUPPORT
 VOID CFG80211_PeerP2pBeacon(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PUCHAR	pAddr2,
 	IN MLME_QUEUE_ELEM *Elem,
 	IN LARGE_INTEGER   TimeStamp);
 
 
 VOID CFG80211_P2pStopNoA(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PMAC_TABLE_ENTRY	pMacClient);
 
 
 BOOLEAN CFG80211_P2pResetNoATimer(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN	ULONG	DiffTimeInus);
 
 
 BOOLEAN CFG80211_P2pHandleNoAAttri(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PMAC_TABLE_ENTRY	pMacClient,
 	IN PUCHAR pData);
 
@@ -402,7 +402,7 @@ BOOLEAN CFG80211DRV_OpsBeaconAdd(
         VOID                                            *pData);
 
 
-VOID CFG80211DRV_DisableApInterface(PRTMP_ADAPTER pAd);
+VOID CFG80211DRV_DisableApInterface(struct rtmp_adapter *pAd);
 
 
 BOOLEAN CFG80211DRV_OpsVifAdd(

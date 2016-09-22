@@ -441,7 +441,7 @@ VOID APQuickResponeForRateUpExec(
     IN PVOID SystemSpecific2,
     IN PVOID SystemSpecific3)
 {
-	PRTMP_ADAPTER			pAd = (PRTMP_ADAPTER)FunctionContext;
+	struct rtmp_adapter *		pAd = (struct rtmp_adapter *)FunctionContext;
 	UINT					i;
 	PUCHAR					pTable;
 	UCHAR					TableSize = 0;
@@ -753,7 +753,7 @@ VOID APQuickResponeForRateUpExec(
 	==========================================================================
  */
 VOID MlmeDynamicTxRateSwitching(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	PUCHAR					pTable;
 	UCHAR					TableSize = 0;
@@ -1236,7 +1236,7 @@ VOID StaQuickResponeForRateUpExec(
 	IN PVOID SystemSpecific2,
 	IN PVOID SystemSpecific3)
 {
-	PRTMP_ADAPTER			pAd = (PRTMP_ADAPTER)FunctionContext;
+	struct rtmp_adapter *		pAd = (struct rtmp_adapter *)FunctionContext;
 	ULONG					i;
 	PUCHAR					pTable;
 	UCHAR					TableSize = 0;
@@ -1575,7 +1575,7 @@ VOID StaQuickResponeForRateUpExec(
 			pEntry->TxQuality is updated
 */
 VOID MlmeOldRateAdapt(
-	IN PRTMP_ADAPTER 	pAd,
+	IN struct rtmp_adapter *	pAd,
 	IN PMAC_TABLE_ENTRY	pEntry,
 	IN UCHAR			CurrRateIdx,
 	IN UCHAR			UpRateIdx,

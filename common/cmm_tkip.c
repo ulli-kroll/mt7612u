@@ -375,7 +375,7 @@ VOID	RTMPTkipGetMIC(
 	========================================================================
 */
 VOID	RTMPInitMICEngine(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PUCHAR			pKey,
 	IN	PUCHAR			pDA,
 	IN	PUCHAR			pSA,
@@ -419,7 +419,7 @@ VOID	RTMPInitMICEngine(
 	========================================================================
 */
 BOOLEAN	RTMPTkipCompareMICValue(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PUCHAR			pSrc,
 	IN	PUCHAR			pDA,
 	IN	PUCHAR			pSA,
@@ -483,7 +483,7 @@ BOOLEAN	RTMPTkipCompareMICValue(
 	========================================================================
 */
 VOID	RTMPCalculateMICValue(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PNDIS_PACKET	pPacket,
 	IN	PUCHAR			pEncap,
 	IN	PCIPHER_KEY		pKey,
@@ -702,7 +702,7 @@ VOID RTMPTkipMixKey(
 	FALSE: Decrypt Error!
 */
 BOOLEAN RTMPSoftDecryptTKIP(
-	IN 		PRTMP_ADAPTER 	pAd,
+	IN 		struct rtmp_adapter *	pAd,
 	IN 		PUCHAR			pHdr,
 	IN 		UCHAR    		UserPriority,
 	IN 		PCIPHER_KEY		pKey,

@@ -58,7 +58,7 @@ MAC_TABLE_ENTRY *PACInquiry(RTMP_ADAPTER *pAd, UCHAR Wcid)
     ==========================================================================
 */
 BOOLEAN RTMPCheckMcast(
-    IN PRTMP_ADAPTER    pAd,
+    IN struct rtmp_adapter *   pAd,
     IN PEID_STRUCT      eid_ptr,
     IN MAC_TABLE_ENTRY  *pEntry)
 {
@@ -119,7 +119,7 @@ BOOLEAN RTMPCheckMcast(
     ==========================================================================
 */
 BOOLEAN RTMPCheckUcast(
-    IN PRTMP_ADAPTER    pAd,
+    IN struct rtmp_adapter *   pAd,
     IN PEID_STRUCT      eid_ptr,
     IN MAC_TABLE_ENTRY	*pEntry)
 {
@@ -358,7 +358,7 @@ BOOLEAN RTMPCheckAKM(PUCHAR sta_akm, PUCHAR ap_rsn_ie, INT iswpa2)
     ==========================================================================
 */
 BOOLEAN RTMPCheckAUTH(
-    IN PRTMP_ADAPTER    pAd,
+    IN struct rtmp_adapter *   pAd,
     IN PEID_STRUCT      eid_ptr,
     IN MAC_TABLE_ENTRY	*pEntry)
 {
@@ -465,7 +465,7 @@ BOOLEAN RTMPCheckAUTH(
     ==========================================================================
 */
 UINT	APValidateRSNIE(
-	IN PRTMP_ADAPTER    pAd,
+	IN struct rtmp_adapter *   pAd,
 	IN PMAC_TABLE_ENTRY pEntry,
 	IN PUCHAR			pRsnIe,
 	IN UCHAR			rsnie_len)
@@ -629,7 +629,7 @@ VOID CMTimerExec(
     IN PVOID SystemSpecific3)
 {
     UINT            i,j=0;
-    PRTMP_ADAPTER   pAd = (PRTMP_ADAPTER)FunctionContext;
+    struct rtmp_adapter *  pAd = (struct rtmp_adapter *)FunctionContext;
 
     pAd->ApCfg.BANClass3Data = FALSE;
     for (i = 0; i < MAX_LEN_OF_MAC_TABLE; i++)
@@ -659,7 +659,7 @@ VOID WPARetryExec(
 
     if ((pEntry) && IS_ENTRY_CLIENT(pEntry))
     {
-        PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pEntry->pAd;
+        struct rtmp_adapter *pAd = (struct rtmp_adapter *)pEntry->pAd;
 
         pEntry->ReTryCounter++;
         DBGPRINT(RT_DEBUG_TRACE, ("WPARetryExec---> ReTryCounter=%d, WpaState=%d \n", pEntry->ReTryCounter, pEntry->WpaState));
@@ -724,7 +724,7 @@ VOID WPARetryExec(
 	{
 		if (pEntry->AuthMode == Ndis802_11AuthModeWPA || pEntry->AuthMode == Ndis802_11AuthModeWPAPSK)
 		{
-			PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pEntry->pAd;
+			struct rtmp_adapter *pAd = (struct rtmp_adapter *)pEntry->pAd;
 
 			if (pEntry->wdev_idx < MAX_APCLI_NUM)
 			{
@@ -957,7 +957,7 @@ VOID WpaSend(RTMP_ADAPTER *pAdapter, UCHAR *pPacket, ULONG Len)
 
 
 VOID RTMPAddPMKIDCache(
-	IN  PRTMP_ADAPTER   		pAd,
+	IN  struct rtmp_adapter *  		pAd,
 	IN	INT						apidx,
 	IN	PUCHAR				pAddr,
 	IN	UCHAR					*PMKID,
@@ -1021,7 +1021,7 @@ VOID RTMPAddPMKIDCache(
 }
 
 INT RTMPSearchPMKIDCache(
-	IN  PRTMP_ADAPTER   pAd,
+	IN  struct rtmp_adapter *  pAd,
 	IN	INT				apidx,
 	IN	PUCHAR		pAddr)
 {
@@ -1048,7 +1048,7 @@ INT RTMPSearchPMKIDCache(
 }
 
 VOID RTMPDeletePMKIDCache(
-	IN  PRTMP_ADAPTER   pAd,
+	IN  struct rtmp_adapter *  pAd,
 	IN	INT				apidx,
 	IN  INT				idx)
 {
@@ -1062,7 +1062,7 @@ VOID RTMPDeletePMKIDCache(
 }
 
 VOID RTMPMaintainPMKIDCache(
-	IN  PRTMP_ADAPTER   pAd)
+	IN  struct rtmp_adapter *  pAd)
 {
 	INT	i, j;
 	ULONG Now;
@@ -1098,7 +1098,7 @@ VOID RTMPMaintainPMKIDCache(
     ==========================================================================
 */
 VOID	WPA_APSetGroupRekeyAction(
-	IN  PRTMP_ADAPTER   pAd)
+	IN  struct rtmp_adapter *  pAd)
 {
 	UINT8	apidx = 0;
 
@@ -1138,7 +1138,7 @@ VOID	WPA_APSetGroupRekeyAction(
 #ifdef HOSTAPD_SUPPORT
 /*for sending an event to notify hostapd about michael failure. */
 VOID ieee80211_notify_michael_failure(
-	IN	PRTMP_ADAPTER    pAd,
+	IN	struct rtmp_adapter *   pAd,
 	IN	PHEADER_802_11   pHeader,
 	IN	UINT            keyix,
 	IN	INT              report)
@@ -1181,7 +1181,7 @@ const CHAR* ether_sprintf(const UINT8 *mac)
 #ifdef APCLI_SUPPORT
 #ifdef WPA_SUPPLICANT_SUPPORT
 VOID    ApcliWpaSendEapolStart(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN  PUCHAR          pBssid,
 	IN  PMAC_TABLE_ENTRY pMacEntry,
 	IN	PAPCLI_STRUCT pApCliEntry)
@@ -1202,14 +1202,14 @@ VOID    ApcliWpaSendEapolStart(
 	Packet.Length  = cpu2be16(0);
 
 	// Copy frame to Tx ring
-	RTMPToWirelessSta((PRTMP_ADAPTER)pAd, pMacEntry,
+	RTMPToWirelessSta((struct rtmp_adapter *)pAd, pMacEntry,
 					 Header802_3, LENGTH_802_3, (PUCHAR)&Packet, 4, TRUE);
 
 	DBGPRINT(RT_DEBUG_TRACE, ("<----- WpaSendEapolStart\n"));
 }
 #endif /* WPA_SUPPLICANT_SUPPORT */
 VOID	ApCliRTMPReportMicError(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PCIPHER_KEY 	pWpaKey,
 	IN	INT			ifIndex)
 {
@@ -1277,7 +1277,7 @@ VOID ApCliWpaDisassocApAndBlockAssoc(
     IN PVOID SystemSpecific3)
 {
 
-	RTMP_ADAPTER                *pAd = (PRTMP_ADAPTER)FunctionContext;
+	RTMP_ADAPTER                *pAd = (struct rtmp_adapter *)FunctionContext;
 	MLME_DISASSOC_REQ_STRUCT    DisassocReq;
 
 	PAPCLI_STRUCT pApCliEntry;

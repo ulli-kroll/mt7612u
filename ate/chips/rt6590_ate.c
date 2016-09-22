@@ -37,8 +37,8 @@
 extern MT76x0_BBP_Table MT76x0_BPP_SWITCH_Tab[];
 extern UCHAR MT76x0_BPP_SWITCH_Tab_Size;
 
-extern VOID SelectBandMT76x0(PRTMP_ADAPTER pAd, UCHAR Channel);
-extern VOID SetRfChFreqParametersMT76x0(PRTMP_ADAPTER pAd, UCHAR Channel);
+extern VOID SelectBandMT76x0(struct rtmp_adapter *pAd, UCHAR Channel);
+extern VOID SetRfChFreqParametersMT76x0(struct rtmp_adapter *pAd, UCHAR Channel);
 
 static INT ate_bbp_set_ctrlch(struct rtmp_adapter *pAd, INT ext_ch)
 {
@@ -113,7 +113,7 @@ static VOID MT76x0ATE_ChipBBPAdjust(RTMP_ADAPTER *pAd)
 	==========================================================================
 */
 static VOID MT76x0ATEAsicSwitchChannel(
-    IN PRTMP_ADAPTER pAd)
+    IN struct rtmp_adapter *pAd)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 	UINT32 Index;
@@ -210,7 +210,7 @@ static VOID MT76x0ATEAsicSwitchChannel(
 
 
 static INT MT76x0ATETxPwrHandler(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN char index)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
@@ -334,7 +334,7 @@ static INT MT76x0ATETxPwrHandler(
 	==========================================================================
 */
 static INT	MT76x0_Set_ATE_TX_BW_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
@@ -373,7 +373,7 @@ static INT	MT76x0_Set_ATE_TX_BW_Proc(
 	==========================================================================
 */
 static INT	MT76x0_Set_ATE_TX_FREQ_OFFSET_Proc(
-	IN	PRTMP_ADAPTER	pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
@@ -956,7 +956,7 @@ static VOID MT76x0ATE_GetTargetPower(
 
 
 static VOID MT76x0ATE_EstimateDeltaPower(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	OUT INT32 *tssi_delta0)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
@@ -1331,7 +1331,7 @@ VOID MT76x0ATE_TSSI_DC_Calibration(
 
 
 VOID MT76x0ATE_Enable9BitIchannelADC(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN BOOLEAN bForDcCal)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
@@ -1434,7 +1434,7 @@ VOID MT76x0ATE_Enable9BitIchannelADC(
 
 
 static VOID MT76x0ATETssiCompensation(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 	UINT32 parameter = 0;
@@ -1463,7 +1463,7 @@ static VOID MT76x0ATETssiCompensation(
 
 
 static VOID MT76x0ATE_AsicExtraPowerOverMAC(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	UINT32 ExtraPwrOverMAC = 0;
 	UINT32 ExtraPwrOverTxPwrCfg7 = 0, ExtraPwrOverTxPwrCfg9 = 0;

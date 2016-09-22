@@ -28,7 +28,7 @@
 
 #include	"rt_config.h"
 
-INT MCUBurstWrite(PRTMP_ADAPTER pAd, UINT32 Offset, UINT32 *Data, UINT32 Cnt)
+INT MCUBurstWrite(struct rtmp_adapter *pAd, UINT32 Offset, UINT32 *Data, UINT32 Cnt)
 {
 #ifdef RTMP_USB_SUPPORT
 	RTUSBMultiWrite_nBytes(pAd, Offset, (UCHAR *)Data, Cnt * 4, 64);
@@ -37,7 +37,7 @@ INT MCUBurstWrite(PRTMP_ADAPTER pAd, UINT32 Offset, UINT32 *Data, UINT32 Cnt)
 }
 
 
-INT MCURandomWrite(PRTMP_ADAPTER pAd, RTMP_REG_PAIR *RegPair, UINT32 Num)
+INT MCURandomWrite(struct rtmp_adapter *pAd, RTMP_REG_PAIR *RegPair, UINT32 Num)
 {
 	UINT32 Index;
 
@@ -74,7 +74,7 @@ INT mcu_sys_init(RTMP_ADAPTER *pAd)
 }
 
 
-VOID ChipOpsMCUHook(PRTMP_ADAPTER pAd, enum MCU_TYPE MCUType)
+VOID ChipOpsMCUHook(struct rtmp_adapter *pAd, enum MCU_TYPE MCUType)
 {
 	RTMP_CHIP_OP *pChipOps = &pAd->chipOps;
 

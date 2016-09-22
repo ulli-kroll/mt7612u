@@ -37,23 +37,23 @@ static VOID ApCliProbeTimeout(
 	IN PVOID SystemSpecific3);
 
 static VOID ApCliMlmeProbeReqAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliPeerProbeRspAtJoinAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliProbeTimeoutAtJoinAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliInvalidStateWhenJoin(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 static VOID ApCliEnqueueProbeRequest(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR SsidLen,
 	OUT PCHAR Ssid,
 	IN USHORT ifIndex);
@@ -72,7 +72,7 @@ BUILD_TIMER_FUNCTION(ApCliProbeTimeout);
     ==========================================================================
  */
 VOID ApCliSyncStateMachineInit(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN STATE_MACHINE *Sm,
 	OUT STATE_MACHINE_FUNC Trans[])
 {
@@ -151,7 +151,7 @@ static VOID ApCliProbeTimeout(
     ==========================================================================
  */
 static VOID ApCliMlmeProbeReqAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	BOOLEAN Cancelled;
@@ -241,7 +241,7 @@ static VOID ApCliMlmeProbeReqAction(
     ==========================================================================
  */
 static VOID ApCliPeerProbeRspAtJoinAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	USHORT LenVIE;
@@ -548,7 +548,7 @@ LabelErr:
 }
 
 static VOID ApCliProbeTimeoutAtJoinAction(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	APCLI_CTRL_MSG_STRUCT ApCliCtrlMsg;
@@ -592,7 +592,7 @@ static VOID ApCliProbeTimeoutAtJoinAction(
     ==========================================================================
  */
 static VOID ApCliInvalidStateWhenJoin(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	APCLI_CTRL_MSG_STRUCT ApCliCtrlMsg;
@@ -616,7 +616,7 @@ static VOID ApCliInvalidStateWhenJoin(
 	==========================================================================
  */
 static VOID ApCliEnqueueProbeRequest(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR SsidLen,
 	OUT PCHAR Ssid,
 	IN USHORT ifIndex)

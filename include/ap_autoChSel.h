@@ -26,22 +26,22 @@
 #define AP_AUTO_CH_SEL(__P, __O)	APAutoSelectChannel((__P), (__O))
 
 ULONG AutoChBssSearchWithSSID(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PUCHAR Bssid,
 	IN PUCHAR pSsid,
 	IN UCHAR SsidLen,
 	IN UCHAR Channel);
 
 VOID APAutoChannelInit(
-	IN PRTMP_ADAPTER pAd);
+	IN struct rtmp_adapter *pAd);
 
 VOID UpdateChannelInfo(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN int ch,
 	IN ChannelSel_Alg Alg);
 
 ULONG AutoChBssInsertEntry(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PUCHAR pBssid,
 	IN CHAR Ssid[],
 	IN UCHAR SsidLen,
@@ -50,31 +50,31 @@ ULONG AutoChBssInsertEntry(
 	IN CHAR Rssi);
 
 VOID AutoChBssTableInit(
-	IN PRTMP_ADAPTER pAd);
+	IN struct rtmp_adapter *pAd);
 
 VOID ChannelInfoInit(
-	IN PRTMP_ADAPTER pAd);
+	IN struct rtmp_adapter *pAd);
 
 VOID AutoChBssTableDestroy(
-	IN PRTMP_ADAPTER pAd);
+	IN struct rtmp_adapter *pAd);
 
 VOID ChannelInfoDestroy(
-	IN PRTMP_ADAPTER pAd);
+	IN struct rtmp_adapter *pAd);
 
 VOID CheckPhyModeIsABand(
-	IN PRTMP_ADAPTER pAd);
+	IN struct rtmp_adapter *pAd);
 
 UCHAR SelectBestChannel(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN ChannelSel_Alg Alg);
 
 UCHAR APAutoSelectChannel(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN ChannelSel_Alg Alg);
 
 #ifdef AP_SCAN_SUPPORT
 VOID AutoChannelSelCheck(
-	IN PRTMP_ADAPTER pAd);
+	IN struct rtmp_adapter *pAd);
 #endif /* AP_SCAN_SUPPORT */
 
 #endif /* __AUTOCHSELECT_H__ */

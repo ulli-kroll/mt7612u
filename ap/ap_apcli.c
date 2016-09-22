@@ -51,7 +51,7 @@
 
 #include "rt_config.h"
 
-BOOLEAN ApCliWaitProbRsp(PRTMP_ADAPTER pAd, USHORT ifIndex)
+BOOLEAN ApCliWaitProbRsp(struct rtmp_adapter *pAd, USHORT ifIndex)
 {
         if (ifIndex >= MAX_APCLI_NUM)
                 return FALSE;
@@ -268,7 +268,7 @@ BOOLEAN ApCliCheckHt(
 
 #ifdef DOT11_VHT_AC
 BOOLEAN ApCliCheckVht(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR Wcid,
 	IN MAC_TABLE_ENTRY  *pEntry,
 	IN VHT_CAP_IE *vht_cap,
@@ -314,7 +314,7 @@ BOOLEAN ApCliCheckVht(
 #endif /* DOT11_VHT_AC */
 
 VOID ComposeP2PPsPoll(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PAPCLI_STRUCT pApCliEntry)
 {
     	struct wifi_dev *wdev;
@@ -330,7 +330,7 @@ VOID ComposeP2PPsPoll(
 }
 
 VOID ComposeP2PNullFrame(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PAPCLI_STRUCT pApCliEntry)
 {
    	struct wifi_dev *wdev;
@@ -1080,7 +1080,7 @@ VOID ApCliIfMonitor(RTMP_ADAPTER *pAd)
  *  \post
  */
 BOOLEAN ApCliMsgTypeSubst(
-	IN PRTMP_ADAPTER pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PFRAME_802_11 pFrame,
 	OUT INT *Machine,
 	OUT INT *MsgType)
@@ -1157,7 +1157,7 @@ BOOLEAN ApCliMsgTypeSubst(
 
 
 BOOLEAN preCheckMsgTypeSubset(
-	IN PRTMP_ADAPTER  pAd,
+	IN struct rtmp_adapter * pAd,
 	IN PFRAME_802_11 pFrame,
 	OUT INT *Machine,
 	OUT INT *MsgType)
@@ -1199,7 +1199,7 @@ BOOLEAN preCheckMsgTypeSubset(
     ==========================================================================
  */
 BOOLEAN ApCliPeerAssocRspSanity(
-    IN PRTMP_ADAPTER pAd,
+    IN struct rtmp_adapter *pAd,
     IN VOID *pMsg,
     IN ULONG MsgLen,
     OUT PUCHAR pAddr2,
@@ -2107,7 +2107,7 @@ BOOLEAN  ApCliHandleRxBroadcastFrame(
 
 
 VOID APCliInstallPairwiseKey(
-	IN  PRTMP_ADAPTER   pAd,
+	IN  struct rtmp_adapter *  pAd,
 	IN  MAC_TABLE_ENTRY *pEntry)
 {
 	UCHAR	IfIdx;
@@ -2125,7 +2125,7 @@ VOID APCliInstallPairwiseKey(
 
 
 BOOLEAN APCliInstallSharedKey(
-	IN  PRTMP_ADAPTER   pAd,
+	IN  struct rtmp_adapter *  pAd,
 	IN  PUCHAR          pKey,
 	IN  UCHAR           KeyLen,
 	IN	UCHAR			DefaultKeyIdx,
@@ -2574,7 +2574,7 @@ BOOLEAN ApCli_Close(RTMP_ADAPTER *pAd, struct net_device *dev_p)
 	===================================================
 */
 BOOLEAN ApCliAutoConnectExec(
-	IN  PRTMP_ADAPTER   pAd)
+	IN  struct rtmp_adapter *  pAd)
 {
 	POS_COOKIE  	pObj = (POS_COOKIE) pAd->OS_Cookie;
 	UCHAR			ifIdx, CfgSsidLen, entryIdx;
@@ -2699,7 +2699,7 @@ BOOLEAN ApCliAutoConnectExec(
 */
 
 VOID ApCliSwitchCandidateAP(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	POS_COOKIE  	pObj = (POS_COOKIE) pAd->OS_Cookie;
 	BSS_TABLE 		*pSsidBssTab;
@@ -2795,7 +2795,7 @@ BOOLEAN ApcliCompareAuthEncryp(
 }
 
 VOID RTMPApCliReconnectionCheck(
-	IN PRTMP_ADAPTER pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	INT i;
 	PCHAR	pApCliSsid, pApCliCfgSsid;
