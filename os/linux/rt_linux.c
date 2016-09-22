@@ -1316,7 +1316,7 @@ struct rtmp_adapter *RtmpOsGetNetDevPriv(struct net_device *pDev)
 }
 
 
-VOID RtmpOsSetNetDevWdev(struct net_device *pDev, VOID *wdev)
+VOID RtmpOsSetNetDevWdev(struct net_device *pDev, struct wifi_dev *wdev)
 {
 	struct mt_dev_priv *priv_info= netdev_priv(pDev);
 
@@ -1324,7 +1324,7 @@ VOID RtmpOsSetNetDevWdev(struct net_device *pDev, VOID *wdev)
 }
 
 
-VOID *RtmpOsGetNetDevWdev(struct net_device *pDev)
+struct wifi_dev *RtmpOsGetNetDevWdev(struct net_device *pDev)
 {
 	struct mt_dev_priv *priv_info = netdev_priv(pDev);
 
