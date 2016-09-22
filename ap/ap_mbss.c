@@ -120,7 +120,7 @@ VOID MBSS_Init(RTMP_ADAPTER *pAd, RTMP_OS_NETDEV_OP_HOOK *pNetDevOps)
 		wdev = &pAd->ApCfg.MBSSID[IdBss].wdev;
 		wdev->wdev_type = WDEV_TYPE_AP;
 		wdev->func_dev = &pAd->ApCfg.MBSSID[IdBss];
-		wdev->sys_handle = (void *)pAd;
+		wdev->sys_handle = pAd;
 		wdev->if_dev = pDevNew;
 		if (rtmp_wdev_idx_reg(pAd, wdev) < 0) {
 			DBGPRINT(RT_DEBUG_ERROR, ("Assign wdev idx for %s failed, free net device!\n",

@@ -267,8 +267,8 @@ char *RtmpOsGetNetDevName(struct net_device *pDev);
 
 UINT32 RtmpOsGetNetIfIndex(struct net_device *pDev);
 
-VOID RtmpOsSetNetDevPriv(struct net_device *pDev, VOID *pPriv);
-VOID *RtmpOsGetNetDevPriv(struct net_device *pDev);
+VOID RtmpOsSetNetDevPriv(struct net_device *pDev, struct rtmp_adapter *pPriv);
+struct rtmp_adapter *RtmpOsGetNetDevPriv(struct net_device *pDev);
 
 VOID RtmpOsSetNetDevWdev(struct net_device *net_dev, VOID *wdev);
 VOID *RtmpOsGetNetDevWdev(struct net_device  *pDev);

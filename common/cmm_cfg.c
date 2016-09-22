@@ -784,7 +784,7 @@ INT RTMP_COM_IoctlHandle(
 				if (pAd->OpMode == OPMODE_AP) {
 					pAd->ApCfg.MBSSID[MAIN_MBSSID].wdev.if_dev = (void *)pData;
 					pAd->ApCfg.MBSSID[MAIN_MBSSID].wdev.func_dev = (void *)&pAd->ApCfg.MBSSID[MAIN_MBSSID];
-					pAd->ApCfg.MBSSID[MAIN_MBSSID].wdev.sys_handle = (void *)pAd;
+					pAd->ApCfg.MBSSID[MAIN_MBSSID].wdev.sys_handle = pAd;
 					RTMP_OS_NETDEV_SET_WDEV(pData, &pAd->ApCfg.MBSSID[MAIN_MBSSID].wdev);
 					wdev = &pAd->ApCfg.MBSSID[MAIN_MBSSID].wdev;
 				}
@@ -793,7 +793,7 @@ INT RTMP_COM_IoctlHandle(
 				if (pAd->OpMode == OPMODE_STA) {
 					pAd->StaCfg.wdev.if_dev = pData;
 					pAd->StaCfg.wdev.func_dev = (void *)&pAd->StaCfg;
-					pAd->StaCfg.wdev.sys_handle = (void *)pAd;
+					pAd->StaCfg.wdev.sys_handle = pAd;
 					RTMP_OS_NETDEV_SET_WDEV(pData, &pAd->StaCfg.wdev);
 					wdev = &pAd->StaCfg.wdev;
 				}

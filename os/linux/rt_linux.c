@@ -1283,13 +1283,13 @@ Return Value:
 Note:
 ========================================================================
 */
-VOID RtmpOsSetNetDevPriv(struct net_device *pDev, VOID *pPriv)
+VOID RtmpOsSetNetDevPriv(struct net_device *pDev, struct rtmp_adapter *pPriv)
 {
 	struct mt_dev_priv *priv_info = NULL;
 
 	priv_info = (struct mt_dev_priv *)netdev_priv(pDev);
 
-	priv_info->sys_handle = (VOID *)pPriv;
+	priv_info->sys_handle = pPriv;
 	priv_info->priv_flags = 0;
 }
 
@@ -1308,7 +1308,7 @@ Return Value:
 Note:
 ========================================================================
 */
-VOID *RtmpOsGetNetDevPriv(struct net_device *pDev)
+struct rtmp_adapter *RtmpOsGetNetDevPriv(struct net_device *pDev)
 {
 	struct mt_dev_priv *priv_info= netdev_priv(pDev);
 

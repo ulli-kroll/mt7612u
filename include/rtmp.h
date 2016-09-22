@@ -1369,7 +1369,7 @@ struct hw_setting{
 struct wifi_dev{
 	struct net_device *if_dev;
 	VOID *func_dev;
-	VOID *sys_handle;
+	struct rtmp_adapter *sys_handle;
 
 	CHAR wdev_idx;	/* index refer from pAd->wdev_list[] */
 	CHAR func_idx; /* index refer to func_dev which pointer to */

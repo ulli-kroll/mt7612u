@@ -647,7 +647,7 @@ VOID RTMP_CFG80211_VirtualIF_Init(
 			wdev = &pApCliEntry->wdev;
 			wdev->wdev_type = WDEV_TYPE_STA;
 			wdev->func_dev = pApCliEntry;
-			wdev->sys_handle = (void *)pAd;
+			wdev->sys_handle = pAd;
 			wdev->if_dev = new_dev_p;
 			wdev->tx_pkt_allowed = ApCliAllowToSendPacket;
 			RTMP_OS_NETDEV_SET_PRIV(new_dev_p, pAd);

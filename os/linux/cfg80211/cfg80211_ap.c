@@ -371,7 +371,7 @@ BOOLEAN CFG80211DRV_OpsBeaconAdd(VOID *pAdOrg, VOID *pData)
 	wdev->tx_pkt_allowed = ApAllowToSendPacket;
 	wdev->allow_data_tx = TRUE;
 	wdev->func_dev = (void *)&pAd->ApCfg.MBSSID[MAIN_MBSSID];
-	wdev->sys_handle = (void *)pAd;
+	wdev->sys_handle = pAd;
 
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
 	/* Using netDev ptr from VifList if VifDevList Exist */
