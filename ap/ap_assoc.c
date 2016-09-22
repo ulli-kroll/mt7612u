@@ -184,7 +184,7 @@ static USHORT update_associated_mac_entry(
 		pEntry->PortSecured = WPA_802_1X_PORT_SECURED;
 
 #ifdef SOFT_ENCRYPT
-	/* There are some situation to need to encryption by software 			   
+	/* There are some situation to need to encryption by software
 	   1. The Client support PMF. It shall ony support AES cipher.
 	   2. The Client support WAPI.
 	   If use RT3883 or later, HW can handle the above.
@@ -200,7 +200,7 @@ static USHORT update_associated_mac_entry(
 #endif /* SOFT_ENCRYPT */
 
 #ifdef DOT11_N_SUPPORT
-	/* 
+	/*
 		WFA recommend to restrict the encryption type in 11n-HT mode.
 	 	So, the WEP and TKIP are not allowed in HT rate.
 	*/
@@ -636,42 +636,6 @@ static USHORT APBuildAssociation(
     return StatusCode;
 }
 
-
-#ifdef IAPP_SUPPORT
-/*
- ========================================================================
- Routine Description:
-    Send Leyer 2 Update Frame to update forwarding table in Layer 2 devices.
-
- Arguments:
-    *mac_p - the STATION MAC address pointer
-
- Return Value:
-    TRUE - send successfully
-    FAIL - send fail
-
- Note:
- ========================================================================
-*/
-static BOOLEAN IAPP_L2_Update_Frame_Send(RTMP_ADAPTER *pAd, UINT8 *mac, INT bssid)
-{
-
-	NDIS_PACKET	*pNetBuf;
-
-	pNetBuf = RtmpOsPktIappMakeUp(get_netdev_from_bssid(pAd, bssid), mac);
-	if (pNetBuf == NULL)
-		return FALSE;
-
-    /* UCOS: update the built-in bridge, too (don't use gmac.xmit()) */
-    announce_802_3_packet(pAd, pNetBuf, OPMODE_AP);
-
-	IAPP_L2_UpdatePostCtrl(pAd, mac, bssid);
-
-    return TRUE;
-} /* End of IAPP_L2_Update_Frame_Send */
-#endif /* IAPP_SUPPORT */
-
-
 VOID ap_cmm_peer_assoc_req_action(
     IN PRTMP_ADAPTER pAd,
     IN MLME_QUEUE_ELEM *Elem,
@@ -769,7 +733,7 @@ VOID ap_cmm_peer_assoc_req_action(
     {
 		/* clear GTK state */
 		pEntry->GTKState = REKEY_NEGOTIATING;
-    
+
 		NdisZeroMemory(&pEntry->PairwiseKey, sizeof(CIPHER_KEY));
 
 		/* clear this entry as no-security mode */
@@ -1241,25 +1205,11 @@ SendAssocResponse:
 
 		wdev->allow_data_tx = TRUE;
 
-#ifdef IAPP_SUPPORT
-		/*PFRAME_802_11 Fr = (PFRAME_802_11)Elem->Msg; */
-/*		POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie; */
-
-		/* send association ok message to IAPPD */
-		IAPP_L2_Update_Frame_Send(pAd, pEntry->Addr, pEntry->apidx);
-		DBGPRINT(RT_DEBUG_TRACE, ("####### Send L2 Frame Mac=%02x:%02x:%02x:%02x:%02x:%02x\n",
-								  PRINT_MAC(pEntry->Addr)));
-
-/*		SendSingalToDaemon(SIGUSR2, pObj->IappPid); */
-
-
-#endif /* IAPP_SUPPORT */
-
 		ap_assoc_info_debugshow(pAd, isReassoc, pEntry, ie_list);
 
 		/* send wireless event - for association */
 		RTMPSendWirelessEvent(pAd, IW_ASSOC_EVENT_FLAG, pEntry->Addr, 0, 0);
-    
+
 		/* This is a reassociation procedure */
 		pEntry->IsReassocSta = isReassoc;
 

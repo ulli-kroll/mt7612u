@@ -2310,65 +2310,6 @@ PNET_DEV RtmpOsPktNetDevGet(VOID *pPkt)
 	return GET_OS_PKT_NETDEV(pPkt);
 }
 
-
-#ifdef IAPP_SUPPORT
-/* Layer 2 Update frame to switch/bridge */
-/* For any Layer2 devices, e.g., bridges, switches and other APs, the frame
-   can update their forwarding tables with the correct port to reach the new
-   location of the STA */
-typedef struct GNU_PACKED _RT_IAPP_L2_UPDATE_FRAME {
-
-	UCHAR DA[ETH_ALEN];	/* broadcast MAC address */
-	UCHAR SA[ETH_ALEN];	/* the MAC address of the STA that has just associated
-				   or reassociated */
-	USHORT Len;		/* 8 octets */
-	UCHAR DSAP;		/* null */
-	UCHAR SSAP;		/* null */
-	UCHAR Control;		/* reference to IEEE Std 802.2 */
-	UCHAR XIDInfo[3];	/* reference to IEEE Std 802.2 */
-} RT_IAPP_L2_UPDATE_FRAME, *PRT_IAPP_L2_UPDATE_FRAME;
-
-
-PNDIS_PACKET RtmpOsPktIappMakeUp(
-	IN PNET_DEV pNetDev,
-	IN UINT8 *pMac)
-{
-	RT_IAPP_L2_UPDATE_FRAME frame_body;
-	INT size = sizeof (RT_IAPP_L2_UPDATE_FRAME);
-	PNDIS_PACKET pNetBuf;
-
-	if (pNetDev == NULL)
-		return NULL;
-
-	pNetBuf = RtmpOSNetPktAlloc(NULL, size);
-	if (!pNetBuf) {
-		DBGPRINT(RT_DEBUG_ERROR, ("Error! Can't allocate a skb.\n"));
-		return NULL;
-	}
-
-	/* init the update frame body */
-	NdisZeroMemory(&frame_body, size);
-
-	memset(frame_body.DA, 0xFF, ETH_ALEN);
-	memcpy(frame_body.SA, pMac, ETH_ALEN);
-
-	frame_body.Len = OS_HTONS(ETH_ALEN);
-	frame_body.DSAP = 0;
-	frame_body.SSAP = 0x01;
-	frame_body.Control = 0xAF;
-
-	frame_body.XIDInfo[0] = 0x81;
-	frame_body.XIDInfo[1] = 1;
-	frame_body.XIDInfo[2] = 1 << 1;
-
-	SET_OS_PKT_NETDEV(pNetBuf, pNetDev);
-	skb_reserve(pNetBuf, 2);
-	memcpy(skb_put(pNetBuf, size), &frame_body, size);
-	return pNetBuf;
-}
-#endif /* IAPP_SUPPORT */
-
-
 VOID RtmpOsPktNatMagicTag(IN PNDIS_PACKET pNetPkt)
 {
 #if !defined(CONFIG_RA_NAT_NONE)

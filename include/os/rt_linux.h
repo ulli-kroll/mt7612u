@@ -652,11 +652,6 @@ struct os_cookie {
 	RTMP_OS_PID			apd_pid; /*802.1x daemon pid */
 	unsigned long			apd_pid_nr;
 #ifdef CONFIG_AP_SUPPORT
-#ifdef IAPP_SUPPORT
-/*	RT_SIGNAL_STRUC			RTSignal; */
-	RTMP_OS_PID			IappPid; /*IAPP daemon pid */
-	unsigned long			IappPid_nr;
-#endif /* IAPP_SUPPORT */
 #endif /* CONFIG_AP_SUPPORT */
 	INT						ioctl_if_type;
 	INT 					ioctl_if;
