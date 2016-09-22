@@ -73,7 +73,7 @@ Note:
 	2. No main network interface here.
 ========================================================================
 */
-VOID RT28xx_ApCli_Init(VOID *pAd, PNET_DEV main_dev_p)
+VOID RT28xx_ApCli_Init(VOID *pAd, struct net_device *main_dev_p)
 {
 	RTMP_OS_NETDEV_OP_HOOK netDevOpHook;
 
@@ -102,7 +102,7 @@ Return Value:
 Note:
 ========================================================================
 */
-INT ApCli_VirtualIF_Open(PNET_DEV dev_p)
+INT ApCli_VirtualIF_Open(struct net_device *dev_p)
 {
 	VOID *pAd;
 
@@ -139,7 +139,7 @@ Return Value:
 Note:
 ========================================================================
 */
-INT ApCli_VirtualIF_Close(PNET_DEV dev_p)
+INT ApCli_VirtualIF_Close(struct net_device *dev_p)
 {
 	VOID *pAd;
 

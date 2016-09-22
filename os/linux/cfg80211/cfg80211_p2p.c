@@ -1232,7 +1232,7 @@ VOID CFG80211_LostP2pGoInform(VOID *pAdCB)
 {
 	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pAdCB;
 	CFG80211_CB *p80211CB = pAd->pCfg80211_CB;
-	PNET_DEV pNetDev = NULL;
+	struct net_device *pNetDev = NULL;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("80211> CFG80211_LostGoInform ==> \n"));
 

@@ -143,8 +143,8 @@ VOID Clear_Hotspot_All_IE(IN PRTMP_ADAPTER PAd);
 #define GAS_STATE_MESSAGES    0
 #define ACTION_STATE_MESSAGES 1
 
-void HotspotOnOffEvent(PNET_DEV net_dev, int onoff);
-void HotspotAPReload(PNET_DEV net_dev);
+void HotspotOnOffEvent(struct net_device *net_dev, int onoff);
+void HotspotAPReload(struct net_device *net_dev);
 
 INT Set_HotSpot_Param(
 	IN PRTMP_ADAPTER pAd,

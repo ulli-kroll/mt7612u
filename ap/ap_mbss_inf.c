@@ -52,7 +52,7 @@
 
 
 /* --------------------------------- Public -------------------------------- */
-NET_DEV_STATS *RT28xx_get_ether_stats(PNET_DEV net_dev);
+NET_DEV_STATS *RT28xx_get_ether_stats(struct net_device *net_dev);
 
 /*
 ========================================================================
@@ -73,7 +73,7 @@ Note:
 		it will not work! You must rmmod rt2860ap.ko and lsmod rt2860ap.ko again.
 ========================================================================
 */
-VOID RT28xx_MBSS_Init(VOID *pAd, PNET_DEV pDevMain)
+VOID RT28xx_MBSS_Init(VOID *pAd, struct net_device *pDevMain)
 {
 	RTMP_OS_NETDEV_OP_HOOK netDevHook;
 
@@ -131,7 +131,7 @@ Return Value:
 Note:
 ========================================================================
 */
-INT MBSS_VirtualIF_Open(PNET_DEV pDev)
+INT MBSS_VirtualIF_Open(struct net_device *pDev)
 {
 	VOID *pAd;
 
@@ -169,7 +169,7 @@ Return Value:
 Note:
 ========================================================================
 */
-INT MBSS_VirtualIF_Close(PNET_DEV pDev)
+INT MBSS_VirtualIF_Close(struct net_device *pDev)
 {
 	VOID *pAd;
 

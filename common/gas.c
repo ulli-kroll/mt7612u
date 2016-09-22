@@ -99,7 +99,7 @@ VOID GASSetPeerCurrentState(
 
 
 #ifdef CONFIG_AP_SUPPORT
-void wext_send_anqp_req_event(PNET_DEV net_dev, const char *peer_mac_addr,
+void wext_send_anqp_req_event(struct net_device *net_dev, const char *peer_mac_addr,
 			      		const char *anqp_req, u16 anqp_req_len)
 {
 	struct anqp_req_data *req_data;
@@ -124,7 +124,7 @@ void wext_send_anqp_req_event(PNET_DEV net_dev, const char *peer_mac_addr,
 }
 
 
-void SendAnqpReqEvent(PNET_DEV net_dev, const char *peer_mac_addr,
+void SendAnqpReqEvent(struct net_device *net_dev, const char *peer_mac_addr,
 					  const char *anqp_req, u16 anqp_req_len)
 {
 	wext_send_anqp_req_event(net_dev,
@@ -961,7 +961,7 @@ static VOID SendGASIndication(
 	GAS_EVENT_DATA *Event = (GAS_EVENT_DATA *)Elem->Msg;
 	GAS_EVENT_DATA *GASRspEvent;
 	PGAS_CTRL pGASCtrl = &pAd->ApCfg.MBSSID[Event->ControlIndex].GASCtrl;
-	PNET_DEV NetDev = pAd->ApCfg.MBSSID[Event->ControlIndex].wdev.if_dev;
+	struct net_device *NetDev = pAd->ApCfg.MBSSID[Event->ControlIndex].wdev.if_dev;
 	UCHAR *Buf;
 	UINT32 Len = 0;
 

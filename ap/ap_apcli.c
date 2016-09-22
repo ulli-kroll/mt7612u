@@ -580,7 +580,7 @@ BOOLEAN ApCliLinkUp(RTMP_ADAPTER *pAd, UCHAR ifIndex)
 												SHAREDKEYTABLE);
 						}
 					}
-				}    		   		  
+				}
 			}
 
 #ifdef DOT11_N_SUPPORT
@@ -2345,7 +2345,7 @@ VOID ApCliUpdateMlmeRate(RTMP_ADAPTER *pAd, USHORT ifIndex)
 VOID APCli_Init(RTMP_ADAPTER *pAd, RTMP_OS_NETDEV_OP_HOOK *pNetDevOps)
 {
 #define APCLI_MAX_DEV_NUM	32
-	PNET_DEV new_dev_p;
+	struct net_device *new_dev_p;
 	INT idx;
 	APCLI_STRUCT *pApCliEntry;
 	struct wifi_dev *wdev;
@@ -2493,7 +2493,7 @@ VOID ApCli_Remove(RTMP_ADAPTER *pAd)
 }
 
 
-BOOLEAN ApCli_Open(RTMP_ADAPTER *pAd, PNET_DEV dev_p)
+BOOLEAN ApCli_Open(RTMP_ADAPTER *pAd, struct net_device *dev_p)
 {
 	UCHAR ifIndex;
 
@@ -2515,7 +2515,7 @@ BOOLEAN ApCli_Open(RTMP_ADAPTER *pAd, PNET_DEV dev_p)
 }
 
 
-BOOLEAN ApCli_Close(RTMP_ADAPTER *pAd, PNET_DEV dev_p)
+BOOLEAN ApCli_Close(RTMP_ADAPTER *pAd, struct net_device *dev_p)
 {
 	UCHAR ifIndex;
 	struct wifi_dev *wdev;

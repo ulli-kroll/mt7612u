@@ -409,7 +409,7 @@ typedef struct __CMD_RTPRIV_IOCTL_80211_CHAN {
 #define RT_CMD_80211_FILTER_OTHER_BSS	0x08
 
 typedef struct __CMD_RTPRIV_IOCTL_80211_VIF_PARM {
-	PNET_DEV net_dev;
+	struct net_device *net_dev;
 	UINT8 newIfType;
 	UINT8 oldIfType;
 

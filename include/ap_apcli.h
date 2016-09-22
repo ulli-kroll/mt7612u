@@ -242,8 +242,8 @@ VOID APCli_Init(
 	IN RTMP_ADAPTER *pAd,
 	IN	RTMP_OS_NETDEV_OP_HOOK		*pNetDevOps);
 
-BOOLEAN ApCli_Open(RTMP_ADAPTER *pAd, PNET_DEV dev_p);
-BOOLEAN ApCli_Close(RTMP_ADAPTER *pAd, PNET_DEV dev_p);
+BOOLEAN ApCli_Open(RTMP_ADAPTER *pAd, struct net_device *dev_p);
+BOOLEAN ApCli_Close(RTMP_ADAPTER *pAd, struct net_device *dev_p);
 
 BOOLEAN ApCliWaitProbRsp(RTMP_ADAPTER *pAd, USHORT ifIndex);
 VOID ApCliSimulateRecvBeacon(RTMP_ADAPTER *pAd);

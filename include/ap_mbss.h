@@ -71,11 +71,11 @@ VOID MBSS_Init(RTMP_ADAPTER *pAd, RTMP_OS_NETDEV_OP_HOOK *pNetDevOps);
 
 VOID MBSS_Remove(RTMP_ADAPTER *pAd);
 
-INT MBSS_Open(PNET_DEV pDev);
+INT MBSS_Open(struct net_device *pDev);
 
-INT MBSS_Close(PNET_DEV pDev);
+INT MBSS_Close(struct net_device *pDev);
 
 INT32 RT28xx_MBSS_IdxGet(
 	IN PRTMP_ADAPTER	pAd,
-	IN PNET_DEV			pDev);
+	IN struct net_device *		pDev);
 

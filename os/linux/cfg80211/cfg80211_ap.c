@@ -375,7 +375,7 @@ BOOLEAN CFG80211DRV_OpsBeaconAdd(VOID *pAdOrg, VOID *pData)
 
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
 	/* Using netDev ptr from VifList if VifDevList Exist */
-	PNET_DEV pNetDev = NULL;
+	struct net_device *pNetDev = NULL;
 	if ((pAd->cfg80211_ctrl.Cfg80211VifDevSet.vifDevList.size > 0) &&
 	   ((pNetDev = RTMP_CFG80211_FindVifEntry_ByType(pAd, RT_CMD_80211_IFTYPE_P2P_GO)) != NULL))
 	{
@@ -832,7 +832,7 @@ INT CFG80211_setApDefaultKey(
 INT CFG80211_ApStaDelSendEvent(PRTMP_ADAPTER pAd, const PUCHAR mac_addr)
 {
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
-	PNET_DEV pNetDev = NULL;
+	struct net_device *pNetDev = NULL;
 	if ((pAd->cfg80211_ctrl.Cfg80211VifDevSet.vifDevList.size > 0) &&
 		((pNetDev = RTMP_CFG80211_FindVifEntry_ByType(pAd, RT_CMD_80211_IFTYPE_P2P_GO)) != NULL))
 	{

@@ -40,7 +40,7 @@ static char link_local[] = {0xfe, 0x80};
 		(!((_addr).ipv6_addr32[0] | (_addr).ipv6_addr32[1] | (_addr).ipv6_addr32[2] | (_addr).ipv6_addr32[3]))
 
 #ifdef CONFIG_AP_SUPPORT
-void wext_send_btm_query_event(PNET_DEV net_dev, const char *peer_mac_addr,
+void wext_send_btm_query_event(struct net_device *net_dev, const char *peer_mac_addr,
 							   const char *btm_query, u16 btm_query_len)
 {
 	struct btm_query_data *query_data;
@@ -63,7 +63,7 @@ void wext_send_btm_query_event(PNET_DEV net_dev, const char *peer_mac_addr,
 	os_free_mem(NULL, buf);
 }
 
-void wext_send_btm_cfm_event(PNET_DEV net_dev, const char *peer_mac_addr,
+void wext_send_btm_cfm_event(struct net_device *net_dev, const char *peer_mac_addr,
 							 const char *btm_rsp, u16 btm_rsp_len)
 {
 
@@ -88,7 +88,7 @@ void wext_send_btm_cfm_event(PNET_DEV net_dev, const char *peer_mac_addr,
 	os_free_mem(NULL, buf);
 }
 
-void wext_send_proxy_arp_event(PNET_DEV net_dev,
+void wext_send_proxy_arp_event(struct net_device *net_dev,
 							   const char *source_mac_addr,
 							   const char *source_ip_addr,
 							   const char *target_mac_addr,
@@ -134,7 +134,7 @@ void wext_send_proxy_arp_event(PNET_DEV net_dev,
 }
 
 
-void SendProxyARPEvent(PNET_DEV net_dev,
+void SendProxyARPEvent(struct net_device *net_dev,
 					   const char *source_mac_addr,
 					   const char *source_ip_addr,
 					   const char *target_mac_addr,
@@ -652,7 +652,7 @@ BOOLEAN IPv4ProxyARP(IN PRTMP_ADAPTER pAd,
 					 IN BOOLEAN FromDS)
 {
 	PWNM_CTRL pWNMCtrl = &pMbss->WNMCtrl;
-	PNET_DEV NetDev = pMbss->wdev.if_dev;
+	struct net_device *NetDev = pMbss->wdev.if_dev;
 	BOOLEAN IsFound = FALSE;
 	PROXY_ARP_IPV4_ENTRY *ProxyARPEntry;
 	PUCHAR SourceMACAddr = pData + 10;
@@ -693,7 +693,7 @@ BOOLEAN IPv6ProxyARP(IN PRTMP_ADAPTER pAd,
 					 IN BOOLEAN FromDS)
 {
 	PWNM_CTRL pWNMCtrl = &pMbss->WNMCtrl;
-	PNET_DEV NetDev = pMbss->wdev.if_dev;
+	struct net_device *NetDev = pMbss->wdev.if_dev;
 	BOOLEAN IsFound = FALSE;
 	PROXY_ARP_IPV6_ENTRY *ProxyARPEntry;
 	PUCHAR SourceMACAddr = pData + 68;

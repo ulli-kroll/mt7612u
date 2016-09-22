@@ -2316,7 +2316,7 @@ static struct net_device* CFG80211_OpsVirtualInfAdd(
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,6,0))
 	PWIRELESS_DEV pDev = NULL;
 #else
-	PNET_DEV pDev = NULL;
+	struct net_device *pDev = NULL;
 #endif /* LINUX_VERSION_CODE: 3.6.0 */
     	MAC80211_PAD_GET(pAd, pWiphy);
 

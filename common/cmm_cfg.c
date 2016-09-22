@@ -1213,7 +1213,7 @@ INT RTMP_COM_IoctlHandle(
 					INT index;
 					for(index = 0; index < MAX_MBSSID_NUM(pAd); index++)
 					{
-						if (pAd->ApCfg.MBSSID[index].wdev.if_dev == (PNET_DEV)(pStats->pNetDev))
+						if (pAd->ApCfg.MBSSID[index].wdev.if_dev == pStats->pNetDev)
 						{
 							break;
 						}

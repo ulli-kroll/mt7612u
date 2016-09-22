@@ -389,7 +389,7 @@ err:
 }
 
 
-PNET_DEV RtmpPhyNetDevInit(VOID *pAd, RTMP_OS_NETDEV_OP_HOOK *pNetDevHook)
+struct net_device *RtmpPhyNetDevInit(VOID *pAd, RTMP_OS_NETDEV_OP_HOOK *pNetDevHook)
 {
 	struct net_device *net_dev = NULL;
 	ULONG InfId, OpMode;
@@ -608,7 +608,7 @@ struct iw_statistics *rt28xx_get_wireless_stats(struct net_device *net_dev)
 #endif /* WIRELESS_EXT */
 
 
-INT rt28xx_ioctl(PNET_DEV net_dev, struct ifreq *rq, INT cmd)
+INT rt28xx_ioctl(struct net_device *net_dev, struct ifreq *rq, INT cmd)
 {
 	VOID *pAd = NULL;
 	INT ret = 0;
@@ -718,7 +718,7 @@ struct net_device_stats *RT28xx_get_ether_stats(struct net_device *net_dev)
 }
 
 
-BOOLEAN RtmpPhyNetDevExit(VOID *pAd, PNET_DEV net_dev)
+BOOLEAN RtmpPhyNetDevExit(VOID *pAd, struct net_device *net_dev)
 {
 
 #ifdef CONFIG_AP_SUPPORT
@@ -772,7 +772,7 @@ BOOLEAN RtmpPhyNetDevExit(VOID *pAd, PNET_DEV net_dev)
 	Device IRQ related functions.
 
  *******************************************************************************/
-int RtmpOSIRQRequest(IN PNET_DEV pNetDev)
+int RtmpOSIRQRequest(IN struct net_device *pNetDev)
 {
 	ULONG infType;
 	VOID *pAd = NULL;

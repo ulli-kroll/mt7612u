@@ -50,7 +50,7 @@ int (*RTMPSendPackets)(
 
 int (*P2P_PacketSend)(
 	IN	PNDIS_PACKET				pPktSrc,
-	IN	PNET_DEV					pDev,
+	IN	struct net_device *				pDev,
 	IN	RTMP_NET_PACKET_TRANSMIT	Func);
 
 INT (*RTMP_AP_IoctlHandle)(
@@ -168,7 +168,7 @@ int	RTMPSendPackets(
 
 int P2P_PacketSend(
 	IN	PNDIS_PACKET				pPktSrc,
-	IN	PNET_DEV					pDev,
+	IN	struct net_device *				pDev,
 	IN	RTMP_NET_PACKET_TRANSMIT	Func);
 
 #ifdef CONFIG_AP_SUPPORT
@@ -201,7 +201,7 @@ int rt28xx_init(
 	IN PSTRING					pDefaultMac,
 	IN PSTRING					pHostName);
 
-PNET_DEV RtmpPhyNetDevMainCreate(VOID *pAd);
+struct net_device *RtmpPhyNetDevMainCreate(VOID *pAd);
 #endif /* RTMP_MODULE_OS */
 
 /* ========================================================================== */
@@ -229,61 +229,61 @@ __inline VOID VIRTUAL_IF_DOWN(VOID *pAd)
 
 #ifdef CONFIG_AP_SUPPORT
 INT rt28xx_ap_ioctl(
-	IN	PNET_DEV		net_dev,
+	IN	struct net_device *	net_dev,
 	IN	OUT	struct ifreq	*rq,
 	IN	INT			cmd);
 #endif /* CONFIG_AP_SUPPORT */
 
 #ifdef CONFIG_STA_SUPPORT
 INT rt28xx_sta_ioctl(
-	IN	PNET_DEV		net_dev,
+	IN	struct net_device *	net_dev,
 	IN	OUT	struct ifreq	*rq,
 	IN	INT			cmd);
 #endif /* CONFIG_STA_SUPPORT */
 
-PNET_DEV RtmpPhyNetDevInit(
+struct net_device *RtmpPhyNetDevInit(
 	IN VOID						*pAd,
 	IN RTMP_OS_NETDEV_OP_HOOK	*pNetHook);
 
 BOOLEAN RtmpPhyNetDevExit(
 	IN VOID						*pAd,
-	IN PNET_DEV					net_dev);
+	IN struct net_device *				net_dev);
 
 #endif /* RTMP_MODULE_OS && OS_ABL_FUNC_SUPPORT */
 
 
-VOID RT28xx_MBSS_Init(VOID *pAd, PNET_DEV main_dev_p);
-INT MBSS_VirtualIF_Open(PNET_DEV dev_p);
-INT MBSS_VirtualIF_Close(PNET_DEV dev_p);
+VOID RT28xx_MBSS_Init(VOID *pAd, struct net_device *main_dev_p);
+INT MBSS_VirtualIF_Open(struct net_device *dev_p);
+INT MBSS_VirtualIF_Close(struct net_device *dev_p);
 VOID RT28xx_MBSS_Remove(VOID *pAd);
 
 
-VOID RT28xx_WDS_Init(VOID *pAd, PNET_DEV net_dev);
-INT WdsVirtualIF_open(PNET_DEV dev);
-INT WdsVirtualIF_close(PNET_DEV dev);
+VOID RT28xx_WDS_Init(VOID *pAd, struct net_device *net_dev);
+INT WdsVirtualIF_open(struct net_device *dev);
+INT WdsVirtualIF_close(struct net_device *dev);
 VOID RT28xx_WDS_Remove(VOID *pAd);
 
-VOID RT28xx_Monitor_Init(VOID *pAd, PNET_DEV main_dev_p);
+VOID RT28xx_Monitor_Init(VOID *pAd, struct net_device *main_dev_p);
 VOID RT28xx_Monitor_Remove(VOID *pAd);
 
 
-VOID RT28xx_ApCli_Init(VOID *pAd, PNET_DEV main_dev_p);
-INT ApCli_VirtualIF_Open(PNET_DEV dev_p);
-INT ApCli_VirtualIF_Close(PNET_DEV dev_p);
+VOID RT28xx_ApCli_Init(VOID *pAd, struct net_device *main_dev_p);
+INT ApCli_VirtualIF_Open(struct net_device *dev_p);
+INT ApCli_VirtualIF_Close(struct net_device *dev_p);
 VOID RT28xx_ApCli_Remove(VOID *pAd);
 
 
-VOID RTMP_Mesh_Init(VOID *pAd, PNET_DEV main_dev_p, PSTRING pHostName);
-INT Mesh_VirtualIF_Open(PNET_DEV pDev);
-INT Mesh_VirtualIF_Close(PNET_DEV pDev);
+VOID RTMP_Mesh_Init(VOID *pAd, struct net_device *main_dev_p, PSTRING pHostName);
+INT Mesh_VirtualIF_Open(struct net_device *pDev);
+INT Mesh_VirtualIF_Close(struct net_device *pDev);
 VOID RTMP_Mesh_Remove(VOID *pAd);
 
-VOID RTMP_P2P_Init(VOID *pAd, PNET_DEV main_dev_p);
- INT P2P_VirtualIF_Open(PNET_DEV dev_p);
- INT P2P_VirtualIF_Close(PNET_DEV dev_p);
+VOID RTMP_P2P_Init(VOID *pAd, struct net_device *main_dev_p);
+ INT P2P_VirtualIF_Open(struct net_device *dev_p);
+ INT P2P_VirtualIF_Close(struct net_device *dev_p);
  INT P2P_VirtualIF_PacketSend(
 	 IN PNDIS_PACKET	 skb_p,
-	 IN PNET_DEV		 dev_p);
+	 IN struct net_device *	 dev_p);
  VOID RTMP_P2P_Remove(VOID *pAd);
 
 
@@ -312,15 +312,15 @@ BOOLEAN RTMP_CFG80211_VIF_P2P_CLI_ON(VOID *pAdSrc);
 #endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
 #endif /* RT_CFG80211_P2P_SUPPORT */
 
-PNET_DEV RTMP_CFG80211_FindVifEntry_ByType(VOID *pAdSrc, UINT32 devType);
+struct net_device *RTMP_CFG80211_FindVifEntry_ByType(VOID *pAdSrc, UINT32 devType);
 PWIRELESS_DEV RTMP_CFG80211_FindVifEntryWdev_ByType(VOID *pAdSrc, UINT32 devType);
-VOID RTMP_CFG80211_AddVifEntry(VOID *pAdSrc, PNET_DEV pNewNetDev, UINT32 DevType);
-VOID RTMP_CFG80211_RemoveVifEntry(VOID *pAdSrc, PNET_DEV pNewNetDev);
+VOID RTMP_CFG80211_AddVifEntry(VOID *pAdSrc, struct net_device *pNewNetDev, UINT32 DevType);
+VOID RTMP_CFG80211_RemoveVifEntry(VOID *pAdSrc, struct net_device *pNewNetDev);
 
-PNET_DEV RTMP_CFG80211_VirtualIF_Get(VOID *pAdSrc);
+struct net_device *RTMP_CFG80211_VirtualIF_Get(VOID *pAdSrc);
 VOID RTMP_CFG80211_VirtualIF_CancelP2pClient(VOID *pAdSrc);
 VOID RTMP_CFG80211_VirtualIF_Init(VOID *pAd, CHAR *pIfName, UINT32 DevType);
-VOID RTMP_CFG80211_VirtualIF_Remove(VOID *pAd,PNET_DEV dev_p, UINT32 DevType);
+VOID RTMP_CFG80211_VirtualIF_Remove(VOID *pAd,struct net_device *dev_p, UINT32 DevType);
 VOID RTMP_CFG80211_AllVirtualIF_Remove(VOID *pAdSrc);
 
 

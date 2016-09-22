@@ -208,7 +208,7 @@ void SendAnqpRspEvent(void *net_dev, const char *peer_mac_addr,
 DECLARE_TIMER_FUNCTION(PostReplyTimeout);
 DECLARE_TIMER_FUNCTION(GASRspBufferingTimeout);
 
-void SendAnqpReqEvent(PNET_DEV net_dev, const char *peer_mac_addr,
+void SendAnqpReqEvent(struct net_device *net_dev, const char *peer_mac_addr,
 				const char *anqp_req, u16 anqp_req_len);
 
 VOID ReceiveGASInitReq(

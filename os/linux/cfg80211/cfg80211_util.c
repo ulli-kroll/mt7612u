@@ -1000,7 +1000,7 @@ void CFG80211OS_ConnectResultInform(
 
 /* CFG_TODO: should be merge totoger */
 void CFG80211OS_P2pClientConnectResultInform(
-	IN PNET_DEV 				pNetDev,
+	IN struct net_device *				pNetDev,
 	IN UCHAR					*pBSSID,
 	IN UCHAR					*pReqIe,
 	IN UINT32					ReqIeLen,
@@ -1035,7 +1035,7 @@ void CFG80211OS_P2pClientConnectResultInform(
 	}
 }
 
-BOOLEAN CFG80211OS_RxMgmt(IN PNET_DEV pNetDev, IN INT32 freq, IN PUCHAR frame, IN UINT32 len)
+BOOLEAN CFG80211OS_RxMgmt(IN struct net_device *pNetDev, IN INT32 freq, IN PUCHAR frame, IN UINT32 len)
 {
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,4,0))
 	return cfg80211_rx_mgmt(pNetDev,
@@ -1059,7 +1059,7 @@ BOOLEAN CFG80211OS_RxMgmt(IN PNET_DEV pNetDev, IN INT32 freq, IN PUCHAR frame, I
 
 }
 
-VOID CFG80211OS_TxStatus(IN PNET_DEV pNetDev, IN INT32 cookie, IN PUCHAR frame, IN UINT32 len, IN BOOLEAN ack)
+VOID CFG80211OS_TxStatus(IN struct net_device *pNetDev, IN INT32 cookie, IN PUCHAR frame, IN UINT32 len, IN BOOLEAN ack)
 {
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,6,0))
 	struct wireless_dev *pWdev;
@@ -1080,7 +1080,7 @@ VOID CFG80211OS_TxStatus(IN PNET_DEV pNetDev, IN INT32 cookie, IN PUCHAR frame, 
 
 }
 
-VOID CFG80211OS_NewSta(IN PNET_DEV pNetDev, IN const PUCHAR mac_addr, IN const PUCHAR assoc_frame, IN UINT32 assoc_len)
+VOID CFG80211OS_NewSta(IN struct net_device *pNetDev, IN const PUCHAR mac_addr, IN const PUCHAR assoc_frame, IN UINT32 assoc_len)
 {
 	struct station_info sinfo;
 	struct ieee80211_mgmt *mgmt;
@@ -1099,14 +1099,14 @@ VOID CFG80211OS_NewSta(IN PNET_DEV pNetDev, IN const PUCHAR mac_addr, IN const P
 
 }
 
-VOID CFG80211OS_DelSta(IN PNET_DEV pNetDev, IN const PUCHAR mac_addr)
+VOID CFG80211OS_DelSta(IN struct net_device *pNetDev, IN const PUCHAR mac_addr)
 {
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,0,0))
 	return cfg80211_del_sta(pNetDev, mac_addr, GFP_ATOMIC);
 #endif
 }
 
-VOID CFG80211OS_MICFailReport(PNET_DEV pNetDev, const PUCHAR src_addr, BOOLEAN unicast, INT key_id, const PUCHAR tsc)
+VOID CFG80211OS_MICFailReport(struct net_device *pNetDev, const PUCHAR src_addr, BOOLEAN unicast, INT key_id, const PUCHAR tsc)
 {
 	cfg80211_michael_mic_failure(pNetDev, src_addr,
 		(unicast ? NL80211_KEYTYPE_PAIRWISE : NL80211_KEYTYPE_GROUP),
@@ -1114,7 +1114,7 @@ VOID CFG80211OS_MICFailReport(PNET_DEV pNetDev, const PUCHAR src_addr, BOOLEAN u
 }
 
 VOID CFG80211OS_Roamed(
-	PNET_DEV pNetDev, IN UCHAR *pBSSID,
+	struct net_device *pNetDev, IN UCHAR *pBSSID,
 	IN UCHAR *pReqIe, IN UINT32 ReqIeLen,
 	IN UCHAR *pRspIe, IN UINT32 RspIeLen)
 {

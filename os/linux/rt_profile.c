@@ -765,9 +765,9 @@ int RTMPSendPackets(
 }
 
 
-PNET_DEV get_netdev_from_bssid(RTMP_ADAPTER *pAd, UCHAR FromWhichBSSID)
+struct net_device *get_netdev_from_bssid(RTMP_ADAPTER *pAd, UCHAR FromWhichBSSID)
 {
-	PNET_DEV dev_p = NULL;
+	struct net_device *dev_p = NULL;
 #ifdef CONFIG_AP_SUPPORT
 	UCHAR infRealIdx;
 #endif /* CONFIG_AP_SUPPORT */

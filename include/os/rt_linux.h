@@ -172,7 +172,6 @@ extern	const struct iw_handler_def rt28xx_ap_iw_handler_def;
  ***********************************************************************************/
 typedef struct net_device_stats	NET_DEV_STATS;
 typedef struct pci_dev 		* PPCI_DEV;
-typedef struct net_device	* PNET_DEV;
 typedef struct wireless_dev	* PWIRELESS_DEV;
 typedef void				* PNDIS_PACKET;
 typedef char				NDIS_PACKET;
@@ -1007,7 +1006,7 @@ struct net_device *alloc_netdev(int sizeof_priv, const char *mask, void (*setup)
 
 
 
-INT rt28xx_ioctl(PNET_DEV net_dev, struct ifreq *rq, INT cmd);
+INT rt28xx_ioctl(struct net_device *net_dev, struct ifreq *rq, INT cmd);
 int rt28xx_send_packets(struct sk_buff *skb, struct net_device *ndev);
 
 extern int ra_mtd_write(int num, loff_t to, size_t len, const u_char *buf);

@@ -1060,10 +1060,10 @@ VOID RTMPInfClose(VOID *pAdSrc)
 
 
 
-PNET_DEV RtmpPhyNetDevMainCreate(VOID *pAdSrc)
+struct net_device *RtmpPhyNetDevMainCreate(VOID *pAdSrc)
 {
 	RTMP_ADAPTER *pAd = (RTMP_ADAPTER *)pAdSrc;
-	PNET_DEV pDevNew;
+	struct net_device *pDevNew;
 	UINT32 MC_RowID = 0, IoctlIF = 0;
 	char *dev_name;
 

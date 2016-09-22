@@ -315,7 +315,7 @@ VOID CFG80211DRV_OpsMgmtFrameProbeRegister(
 	PCFG80211_CTRL pCfg80211_ctrl = &pAd->cfg80211_ctrl;
 
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
-	PNET_DEV pNewNetDev = (PNET_DEV) pData;
+	struct net_device *pNewNetDev = (PNET_DEV) pData;
 	PLIST_HEADER  pCacheList = &pAd->cfg80211_ctrl.Cfg80211VifDevSet.vifDevList;
 	PCFG80211_VIF_DEV       pDevEntry = NULL;
 	PLIST_ENTRY		        pListEntry = NULL;
@@ -378,7 +378,7 @@ VOID CFG80211DRV_OpsMgmtFrameActionRegister(
 	PCFG80211_CTRL pCfg80211_ctrl = &pAd->cfg80211_ctrl;
 
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
-	PNET_DEV pNewNetDev = (PNET_DEV) pData;
+	struct net_device *pNewNetDev = (PNET_DEV) pData;
 	PLIST_HEADER  pCacheList = &pAd->cfg80211_ctrl.Cfg80211VifDevSet.vifDevList;
 	PCFG80211_VIF_DEV       pDevEntry = NULL;
 	PLIST_ENTRY		        pListEntry = NULL;

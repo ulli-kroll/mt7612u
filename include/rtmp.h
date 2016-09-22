@@ -1367,7 +1367,7 @@ struct hw_setting{
 
 #define WDEV_NUM_MAX		16
 struct wifi_dev{
-	PNET_DEV if_dev;
+	struct net_device *if_dev;
 	VOID *func_dev;
 	VOID *sys_handle;
 
@@ -1498,7 +1498,7 @@ typedef struct _MULTISSID_STRUCT {
 	UCHAR StaCount;
 	UINT16 StationKeepAliveTime;	/* unit: second */
 
-	PNET_DEV MSSIDDev;
+	struct net_device *MSSIDDev;
 	/*
 		Security segment
 	*/
@@ -3459,7 +3459,7 @@ typedef struct _CFG80211_VIF_DEV
 	struct _CFG80211_VIF_DEV *pNext;
 	BOOLEAN isMainDev;
 	UINT32 devType;
-	PNET_DEV net_dev;
+	struct net_device *net_dev;
 	UCHAR CUR_MAC[MAC_ADDR_LEN];
 
 	/* ProbeReq Frame */
@@ -3556,7 +3556,7 @@ typedef struct _CFG80211_CONTROL
 
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
 	/* Dummy P2P Device for ANDROID JB */
-	PNET_DEV dummy_p2p_net_dev;
+	struct net_device *dummy_p2p_net_dev;
 	BOOLEAN flg_cfg_dummy_p2p_init;
 #endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
 
@@ -3647,7 +3647,7 @@ typedef struct rtmp_phy_ctrl{
 */
 struct _RTMP_ADAPTER {
 	VOID *OS_Cookie;	/* save specific structure relative to OS */
-	PNET_DEV net_dev;
+	struct net_device *net_dev;
 
 
 	NDIS_SPIN_LOCK irq_lock;
@@ -7166,12 +7166,12 @@ BOOLEAN RTMP_FillTxBlkInfo(
 
 #ifdef DOT11_N_SUPPORT
 UINT BA_Reorder_AMSDU_Annnounce(
-	IN	RTMP_ADAPTER *pAd, 
+	IN	RTMP_ADAPTER *pAd,
 	IN	PNDIS_PACKET	pPacket,
 	IN	UCHAR			OpMode);
 #endif /* DOT11_N_SUPPORT */
 
-PNET_DEV get_netdev_from_bssid(RTMP_ADAPTER *pAd, UCHAR FromWhichBSSID);
+struct net_device *get_netdev_from_bssid(RTMP_ADAPTER *pAd, UCHAR FromWhichBSSID);
 
 #ifdef DOT11_N_SUPPORT
 void ba_flush_reordering_timeout_mpdus(

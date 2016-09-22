@@ -30,7 +30,7 @@
 
 extern UCHAR BROADCAST_ADDR[MAC_ADDR_LEN];
 
-void wext_hotspot_onoff_event(PNET_DEV net_dev, int onoff)
+void wext_hotspot_onoff_event(struct net_device *net_dev, int onoff)
 {
 	struct hs_onoff *hotspot_onoff;
 	u16 buflen = 0;
@@ -51,14 +51,14 @@ void wext_hotspot_onoff_event(PNET_DEV net_dev, int onoff)
 }
 
 
-void HotspotOnOffEvent(PNET_DEV net_dev, int onoff)
+void HotspotOnOffEvent(struct net_device *net_dev, int onoff)
 {
 
 	wext_hotspot_onoff_event(net_dev, onoff);
 }
 
 
-static void wext_hotspot_ap_reload_event(PNET_DEV net_dev)
+static void wext_hotspot_ap_reload_event(struct net_device *net_dev)
 {
 	struct hs_onoff *hotspot_onoff;
 	u16 buflen = 0;
@@ -77,7 +77,7 @@ static void wext_hotspot_ap_reload_event(PNET_DEV net_dev)
 }
 
 
-void HotspotAPReload(PNET_DEV net_dev)
+void HotspotAPReload(struct net_device *net_dev)
 {
 	wext_hotspot_ap_reload_event(net_dev);
 }
@@ -423,7 +423,7 @@ static VOID HSCtrlOn(
 {
 	PHOTSPOT_CTRL pHSCtrl;
 	PGAS_CTRL pGASCtrl;
-	PNET_DEV NetDev;
+	struct net_device *NetDev;
 	HSCTRL_EVENT_DATA *Event = (HSCTRL_EVENT_DATA *)Elem->Msg;
 
 	printk("%s\n", __FUNCTION__);
@@ -554,7 +554,7 @@ static VOID HSCtrlOff(
 {
 	PHOTSPOT_CTRL pHSCtrl;
 	PGAS_CTRL pGASCtrl;
-	PNET_DEV NetDev;
+	struct net_device *NetDev;
 	HSCTRL_EVENT_DATA *Event = (HSCTRL_EVENT_DATA *)Elem->Msg;
 
 	printk("%s\n", __FUNCTION__);

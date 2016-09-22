@@ -1236,7 +1236,7 @@ SendAssocResponse:
 			hex_dump("ASSOC_REQ", Elem->Msg, Elem->MsgLen);
 
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
-			PNET_DEV pNetDev = NULL;
+			struct net_device *pNetDev = NULL;
 			if ((pAd->cfg80211_ctrl.Cfg80211VifDevSet.vifDevList.size > 0) &&
 			    ((pNetDev = RTMP_CFG80211_FindVifEntry_ByType(pAd, RT_CMD_80211_IFTYPE_P2P_GO)) != NULL))
 			{
