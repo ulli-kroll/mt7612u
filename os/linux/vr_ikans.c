@@ -129,7 +129,7 @@ Note:
 ========================================================================
 */
 struct rtmp_adapter *pIkanosAd;
-void IKANOS_DataFrameRx(RTMP_ADAPTER *pAd, struct sk_buff *pSkb)
+void IKANOS_DataFrameRx(struct rtmp_adapter *pAd, struct sk_buff *pSkb)
 {
 	apPreHeader_t *apBuf;
 	void *pRxParam = pSkb->dev;
@@ -250,7 +250,7 @@ Note:
 */
 static void IKANOS_WlanPktFromAp(apPreHeader_t *pFrame)
 {
-	RTMP_ADAPTER *pAd;
+	struct rtmp_adapter *pAd;
 	struct net_device *dev = NULL;
 	struct sk_buff *skb;
 	INT32 index;

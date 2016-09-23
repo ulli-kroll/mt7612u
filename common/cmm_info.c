@@ -156,7 +156,7 @@ INT Set_CountryRegionABand_Proc(
 
 
 INT	Set_Cmm_WirelessMode_Proc(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PSTRING arg,
 	IN BOOLEAN FlgIsDiffMbssModeUsed)
 {
@@ -294,13 +294,13 @@ INT	Set_MBSS_WirelessMode_Proc(
         TRUE if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
-INT	Set_WirelessMode_Proc(RTMP_ADAPTER *pAd, PSTRING arg)
+INT	Set_WirelessMode_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	return Set_Cmm_WirelessMode_Proc(pAd, arg, 0);
 }
 
 #ifdef RT_CFG80211_SUPPORT
-INT Set_DisableCfg2040Scan_Proc(RTMP_ADAPTER *pAd, PSTRING arg)
+INT Set_DisableCfg2040Scan_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	pAd->cfg80211_ctrl.FlgCfg8021Disable2040Scan = (UCHAR) simple_strtol(arg, 0, 10);
 	DBGPRINT(RT_DEBUG_TRACE, ("pAd->cfg80211_ctrl.FlgCfg8021Disable2040Scan  %d \n",pAd->cfg80211_ctrl.FlgCfg8021Disable2040Scan ));
@@ -1288,7 +1288,7 @@ INT rx_temp_dbg = 0;
         TRUE if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
-INT	Set_Debug_Proc(RTMP_ADAPTER *pAd, PSTRING arg)
+INT	Set_Debug_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	ULONG dbg;
 
@@ -1314,7 +1314,7 @@ INT	Set_Debug_Proc(RTMP_ADAPTER *pAd, PSTRING arg)
     ==========================================================================
 */
 INT	Set_DebugFunc_Proc(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PSTRING arg)
 {
 	DBGPRINT_S(RT_DEBUG_TRACE, ("==>%s()\n", __FUNCTION__));
@@ -1415,7 +1415,7 @@ BOOLEAN RTMPCheckStrPrintAble(
 	========================================================================
 */
 #ifdef CONFIG_STA_SUPPORT
-VOID RTMPSetDesiredRates(RTMP_ADAPTER *pAd, LONG Rates)
+VOID RTMPSetDesiredRates(struct rtmp_adapter *pAd, LONG Rates)
 {
 	NDIS_802_11_RATES aryRates;
 	struct wifi_dev *wdev = &pAd->StaCfg.wdev;
@@ -1681,7 +1681,7 @@ NDIS_STATUS RTMPWPARemoveKeyProc(
 
 	========================================================================
 */
-VOID RTMPWPARemoveAllKeys(RTMP_ADAPTER *pAd)
+VOID RTMPWPARemoveAllKeys(struct rtmp_adapter *pAd)
 {
 	UCHAR i;
 	struct wifi_dev *wdev = &pAd->StaCfg.wdev;
@@ -1734,7 +1734,7 @@ VOID RTMPWPARemoveAllKeys(RTMP_ADAPTER *pAd)
 
 	========================================================================
 */
-VOID RTMPSetPhyMode(RTMP_ADAPTER *pAd, ULONG phymode)
+VOID RTMPSetPhyMode(struct rtmp_adapter *pAd, ULONG phymode)
 {
 	INT i;
 	/* the selected phymode must be supported by the RF IC encoded in E2PROM*/
@@ -2992,7 +2992,7 @@ INT	Set_HtBw_Proc(
 }
 
 
-INT	Set_HtMcs_Proc(RTMP_ADAPTER *pAd, PSTRING arg)
+INT	Set_HtMcs_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
 #ifdef CONFIG_AP_SUPPORT
 	POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
@@ -3745,7 +3745,7 @@ INT Set_HT_BssCoexApCntThr_Proc(
 
 #ifdef DOT11_VHT_AC
 INT	Set_VhtBw_Proc(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PSTRING arg)
 {
 	ULONG vht_cw;
@@ -3791,7 +3791,7 @@ direct_done:
 }
 
 
-INT set_VhtBwSignal_Proc(RTMP_ADAPTER *pAd, PSTRING arg)
+INT set_VhtBwSignal_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	ULONG bw_signal = simple_strtol(arg, 0, 10);
 
@@ -3809,7 +3809,7 @@ INT set_VhtBwSignal_Proc(RTMP_ADAPTER *pAd, PSTRING arg)
 
 
 INT	Set_VhtStbc_Proc(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PSTRING arg)
 {
 	ULONG Value;
@@ -3831,7 +3831,7 @@ INT	Set_VhtStbc_Proc(
 }
 
 INT	Set_VhtDisallowNonVHT_Proc(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PSTRING arg)
 {
 	ULONG Value;
@@ -3851,7 +3851,7 @@ INT	Set_VhtDisallowNonVHT_Proc(
 
 
 
-INT	Set_FixedTxMode_Proc(RTMP_ADAPTER *pAd, PSTRING arg)
+INT	Set_FixedTxMode_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	struct wifi_dev *wdev = NULL;
 #ifdef CONFIG_AP_SUPPORT
@@ -3879,7 +3879,7 @@ INT	Set_FixedTxMode_Proc(RTMP_ADAPTER *pAd, PSTRING arg)
 }
 
 #ifdef CONFIG_APSTA_MIXED_SUPPORT
-INT	Set_OpMode_Proc(RTMP_ADAPTER *pAd, PSTRING arg)
+INT	Set_OpMode_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	ULONG Value;
 
@@ -4388,7 +4388,7 @@ INT Set_DebugFlags_Proc(
 
 
 
-INT Set_LongRetryLimit_Proc(RTMP_ADAPTER *pAd, PSTRING arg)
+INT Set_LongRetryLimit_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	TX_RTY_CFG_STRUC	tx_rty_cfg;
 	UCHAR LongRetryLimit = (UCHAR)simple_strtol(arg, 0, 10);
@@ -4400,7 +4400,7 @@ INT Set_LongRetryLimit_Proc(RTMP_ADAPTER *pAd, PSTRING arg)
 	return TRUE;
 }
 
-INT Set_ShortRetryLimit_Proc(RTMP_ADAPTER *pAd, PSTRING arg)
+INT Set_ShortRetryLimit_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	TX_RTY_CFG_STRUC	tx_rty_cfg;
 	UCHAR ShortRetryLimit = (UCHAR)simple_strtol(arg, 0, 10);
@@ -5150,7 +5150,7 @@ INT	Show_STA_RAInfo_Proc(
 }
 
 #ifdef CONFIG_AP_SUPPORT
-INT Show_TxInfo_Proc(RTMP_ADAPTER *pAd, PSTRING arg)
+INT Show_TxInfo_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
 	UCHAR apidx = pObj->ioctl_if;
@@ -5172,7 +5172,7 @@ INT Show_TxInfo_Proc(RTMP_ADAPTER *pAd, PSTRING arg)
 }
 #endif /* CONFIG_AP_SUPPORT */
 
-INT Show_MacTable_Proc(RTMP_ADAPTER *pAd, PSTRING arg)
+INT Show_MacTable_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	INT i;
     	UINT32 RegValue;
@@ -5270,7 +5270,7 @@ INT Show_MacTable_Proc(RTMP_ADAPTER *pAd, PSTRING arg)
 }
 
 
-INT show_stainfo_proc(RTMP_ADAPTER *pAd, PSTRING arg)
+INT show_stainfo_proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	INT i;
 	ULONG DataRate=0;
@@ -5368,7 +5368,7 @@ INT show_stainfo_proc(RTMP_ADAPTER *pAd, PSTRING arg)
 }
 
 
-INT show_devinfo_proc(RTMP_ADAPTER *pAd, PSTRING arg)
+INT show_devinfo_proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	UCHAR *pstr;
 	int i, wcid;
@@ -5458,7 +5458,7 @@ PSTRING wdev_type2str(int type)
 }
 
 
-INT show_sysinfo_proc(RTMP_ADAPTER *pAd, PSTRING arg)
+INT show_sysinfo_proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	INT idx;
 	UINT32 total_size = 0, cntr_size;
@@ -5554,7 +5554,7 @@ INT show_sysinfo_proc(RTMP_ADAPTER *pAd, PSTRING arg)
 }
 
 
-INT show_trinfo_proc(RTMP_ADAPTER *pAd, PSTRING arg)
+INT show_trinfo_proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
 
 #ifdef RTMP_MAC_USB
@@ -6418,7 +6418,7 @@ INT	Set_ITxBfEn_Proc(
 		=>The six 2 digit hex-decimal number previous are the Mac address,
 		=>The seventh decimal number is the MCS value.
 */
-INT Set_VhtNDPA_Sounding_Proc(RTMP_ADAPTER *pAd, PSTRING arg)
+INT Set_VhtNDPA_Sounding_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	UCHAR mac[6];
 	UINT mcs;
@@ -7422,7 +7422,7 @@ INT	Set_BurstMode_Proc(
 
 #ifdef DOT11_VHT_AC
 VOID assoc_vht_info_debugshow(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MAC_TABLE_ENTRY *pEntry,
 	IN VHT_CAP_IE *vht_cap,
 	IN VHT_OP_IE *vht_op)
@@ -7485,7 +7485,7 @@ VOID assoc_vht_info_debugshow(
 
 
 INT Set_RateAdaptInterval(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PSTRING arg)
 {
 	UINT32 ra_time, ra_qtime;
@@ -7535,7 +7535,7 @@ INT Set_RateAdaptInterval(
 
 
 INT Set_VcoPeriod_Proc(
-	IN RTMP_ADAPTER		*pAd,
+	IN struct rtmp_adapter 	*pAd,
 	IN PSTRING			arg)
 {
 	pAd->chipCap.VcoPeriod = simple_strtol(arg, 0, 10);
@@ -7569,7 +7569,7 @@ INT Set_ModuleTxpower_Proc(
 
 
 #ifdef WFA_VHT_PF
-INT set_vht_nss_mcs_cap(RTMP_ADAPTER *pAd, PSTRING arg)
+INT set_vht_nss_mcs_cap(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	CHAR *token, sep[2] = {':', '-'};
 	UCHAR val[3] = {0}, ss, mcs_l, mcs_h, mcs_cap, status = FALSE;
@@ -7648,7 +7648,7 @@ INT set_vht_nss_mcs_cap(RTMP_ADAPTER *pAd, PSTRING arg)
 }
 
 
-INT set_vht_nss_mcs_opt(RTMP_ADAPTER *pAd, PSTRING arg)
+INT set_vht_nss_mcs_opt(struct rtmp_adapter *pAd, PSTRING arg)
 {
 
 
@@ -7658,7 +7658,7 @@ INT set_vht_nss_mcs_opt(RTMP_ADAPTER *pAd, PSTRING arg)
 }
 
 
-INT set_vht_opmode_notify_ie(RTMP_ADAPTER *pAd, PSTRING arg)
+INT set_vht_opmode_notify_ie(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	CHAR *token;
 	UINT ss, bw;
@@ -7706,7 +7706,7 @@ INT set_vht_opmode_notify_ie(RTMP_ADAPTER *pAd, PSTRING arg)
 }
 
 
-INT set_force_operating_mode(RTMP_ADAPTER *pAd, PSTRING arg)
+INT set_force_operating_mode(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	pAd->force_vht_op_mode = (simple_strtol(arg, 0, 10) > 0 ? TRUE : FALSE);
 
@@ -7727,7 +7727,7 @@ INT set_force_operating_mode(RTMP_ADAPTER *pAd, PSTRING arg)
 }
 
 
-INT set_force_noack(RTMP_ADAPTER *pAd, PSTRING arg)
+INT set_force_noack(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	pAd->force_noack = (simple_strtol(arg, 0, 10) > 0 ? TRUE : FALSE);
 	DBGPRINT(RT_DEBUG_TRACE, ("%s(): force_noack=%d\n",
@@ -7737,7 +7737,7 @@ INT set_force_noack(RTMP_ADAPTER *pAd, PSTRING arg)
 }
 
 
-INT set_force_amsdu(RTMP_ADAPTER *pAd, PSTRING arg)
+INT set_force_amsdu(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	pAd->force_amsdu = (simple_strtol(arg, 0, 10) > 0 ? TRUE : FALSE);
 	DBGPRINT(RT_DEBUG_TRACE, ("%s(): force_amsdu=%d\n",
@@ -7746,7 +7746,7 @@ INT set_force_amsdu(RTMP_ADAPTER *pAd, PSTRING arg)
 }
 
 
-INT set_force_vht_sgi(RTMP_ADAPTER *pAd, PSTRING arg)
+INT set_force_vht_sgi(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	pAd->vht_force_sgi = (simple_strtol(arg, 0, 10) > 0 ? TRUE : FALSE);
 	DBGPRINT(RT_DEBUG_TRACE, ("%s(): vht_force_sgi=%d\n",
@@ -7756,7 +7756,7 @@ INT set_force_vht_sgi(RTMP_ADAPTER *pAd, PSTRING arg)
 }
 
 
-INT set_force_vht_tx_stbc(RTMP_ADAPTER *pAd, PSTRING arg)
+INT set_force_vht_tx_stbc(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	pAd->vht_force_tx_stbc = (simple_strtol(arg, 0, 10) > 0 ? TRUE : FALSE);
 	if (pAd->CommonCfg.TxStream < 2)
@@ -7772,7 +7772,7 @@ INT set_force_vht_tx_stbc(RTMP_ADAPTER *pAd, PSTRING arg)
 }
 
 
-INT set_force_ext_cca(RTMP_ADAPTER *pAd, PSTRING arg)
+INT set_force_ext_cca(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	ULONG cca_cfg;
 	UINT32 mac_val;
@@ -7788,7 +7788,7 @@ INT set_force_ext_cca(RTMP_ADAPTER *pAd, PSTRING arg)
 }
 
 
-INT set_rx_rts_cts(RTMP_ADAPTER *pAd, PSTRING arg)
+INT set_rx_rts_cts(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	UINT32 do_rx, i;
 	UINT32 mac_val, mask;
@@ -7829,7 +7829,7 @@ INT set_rx_rts_cts(RTMP_ADAPTER *pAd, PSTRING arg)
 }
 #endif /* WFA_VHT_PF */
 
-INT set_cal_test(RTMP_ADAPTER *pAd, PSTRING arg)
+INT set_cal_test(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	UCHAR cal_test_type;
 
@@ -7858,7 +7858,7 @@ INT set_cal_test(RTMP_ADAPTER *pAd, PSTRING arg)
 #endif
 
 /* DisplayTxAgg - display Aggregation statistics from MAC */
-void DisplayTxAgg (RTMP_ADAPTER *pAd)
+void DisplayTxAgg (struct rtmp_adapter *pAd)
 {
 	ULONG totalCount;
 	ULONG aggCnt[MAX_AGG_CNT + 2];
@@ -7875,7 +7875,7 @@ void DisplayTxAgg (RTMP_ADAPTER *pAd)
 }
 #endif /* DOT11_N_SUPPORT */
 
-static INT set_rtmp_rf(RTMP_ADAPTER *pAd, PSTRING arg)
+static INT set_rtmp_rf(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	INT bank_id = 0, rf_id = 0, rv = 0, rf_v;
 	UCHAR rf_val = 0;
@@ -7903,7 +7903,7 @@ static INT set_rtmp_rf(RTMP_ADAPTER *pAd, PSTRING arg)
 }
 
 #ifdef RLT_RF
-static INT set_rlt_rf(RTMP_ADAPTER *pAd, PSTRING arg)
+static INT set_rlt_rf(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	INT bank_id = 0, rf_id = 0, rv = 0, rf_v;
 	UCHAR rf_val = 0;
@@ -7932,7 +7932,7 @@ static INT set_rlt_rf(RTMP_ADAPTER *pAd, PSTRING arg)
 #endif /* RLT_RF */
 
 #ifdef MT_RF
-static INT set_mt_rf(RTMP_ADAPTER *ad, PSTRING arg)
+static INT set_mt_rf(struct rtmp_adapter *ad, PSTRING arg)
 {
 	INT rf_idx = 0, offset = 0, rv = 0;
 	UINT rf_val = 0;
@@ -7973,7 +7973,7 @@ static INT set_mt_rf(RTMP_ADAPTER *ad, PSTRING arg)
 }
 #endif /* MT_RF */
 
-INT set_rf(RTMP_ADAPTER *pAd, PSTRING arg)
+INT set_rf(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	INT ret;
 
@@ -7993,7 +7993,7 @@ INT set_rf(RTMP_ADAPTER *pAd, PSTRING arg)
 
 static struct {
 	PSTRING name;
-	INT (*show_proc)(RTMP_ADAPTER *pAd, PSTRING arg, ULONG BufLen);
+	INT (*show_proc)(struct rtmp_adapter *pAd, PSTRING arg, ULONG BufLen);
 } *PRTMP_PRIVATE_STA_SHOW_CFG_VALUE_PROC, RTMP_PRIVATE_STA_SHOW_CFG_VALUE_PROC[] = {
 #ifdef DBG
 	{"SSID",					Show_SSID_Proc},
@@ -8082,7 +8082,7 @@ INT RTMPShowCfgValue(
 }
 
 
-INT show_pwr_info(RTMP_ADAPTER *ad, PSTRING arg)
+INT show_pwr_info(struct rtmp_adapter *ad, PSTRING arg)
 {
 	if (ad->chipOps.show_pwr_info) {
 		ad->chipOps.show_pwr_info(ad);
@@ -8092,7 +8092,7 @@ INT show_pwr_info(RTMP_ADAPTER *ad, PSTRING arg)
 }
 
 #ifdef DBG_DIAGNOSE
-INT Show_Diag_Proc(RTMP_ADAPTER *pAd, PSTRING arg)
+INT Show_Diag_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	RtmpDiagStruct *pDiag = NULL;
 	UCHAR i, start, stop, McsIdx, SwQNumLevel, TxDescNumLevel;

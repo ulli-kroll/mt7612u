@@ -540,7 +540,7 @@ Note:
 ========================================================================
 */
 UAPSD_EXTERN VOID UAPSD_SP_AUE_Handle(
-	IN RTMP_ADAPTER		*pAd,
+	IN struct rtmp_adapter 	*pAd,
     IN MAC_TABLE_ENTRY	*pEntry,
 	IN UCHAR			FlgSuccess);
 
@@ -726,7 +726,7 @@ Note:
 ========================================================================
 */
 UAPSD_EXTERN VOID UAPSD_TagFrame(
-	IN	RTMP_ADAPTER		*pAd,
+	IN	struct rtmp_adapter 	*pAd,
 	IN	NDIS_PACKET			*pPkt,
 	IN	UCHAR				Wcid,
 	IN	UINT32				PktOffset);
@@ -751,7 +751,7 @@ Note:
 ========================================================================
 */
 UAPSD_EXTERN VOID UAPSD_UnTagFrame(
-	IN	RTMP_ADAPTER	*pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	UCHAR			AcQueId,
 	IN	UINT32			bulkStartPos,
 	IN	UINT32			bulkEnPos);

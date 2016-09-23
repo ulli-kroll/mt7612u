@@ -20,7 +20,7 @@
 
 
 static NDIS_STATUS RTMPAllocUsbBulkBufStruct(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PURB *ppUrb,
 	IN PVOID *ppXBuffer,
 	IN INT	bufLen,
@@ -48,7 +48,7 @@ static NDIS_STATUS RTMPAllocUsbBulkBufStruct(
 
 
 static NDIS_STATUS RTMPFreeUsbBulkBufStruct(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PURB *ppUrb,
 	IN PUCHAR *ppXBuffer,
 	IN INT bufLen,
@@ -73,7 +73,7 @@ static NDIS_STATUS RTMPFreeUsbBulkBufStruct(
 
 #ifdef RESOURCE_PRE_ALLOC
 VOID RTMPResetTxRxRingMemory(
-	IN RTMP_ADAPTER * pAd)
+	IN struct rtmp_adapter * pAd)
 {
 	UINT index, i, acidx;
 	PTX_CONTEXT pNullContext   = &pAd->NullContext;
@@ -305,12 +305,12 @@ Return Value:
 
 Note:
 	Initialize all receive releated private buffer, include those define
-	in RTMP_ADAPTER structure and all private data structures. The major
+	in struct rtmp_adapter structure and all private data structures. The major
 	work is to allocate buffer for each packet and chain buffer to
 	NDIS packet descriptor.
 ========================================================================
 */
-NDIS_STATUS	NICInitRecv(RTMP_ADAPTER *pAd)
+NDIS_STATUS	NICInitRecv(struct rtmp_adapter *pAd)
 {
 	UCHAR i;
 	PCMD_RSP_CONTEXT pCmdRspEventContext = &pAd->CmdRspEventContext;
@@ -671,7 +671,7 @@ err:
 
 
 NDIS_STATUS RTMPInitTxRxRingMemory
-	(IN RTMP_ADAPTER *pAd)
+	(IN struct rtmp_adapter *pAd)
 {
 	INT				num;
 	NDIS_STATUS		Status;
@@ -727,7 +727,7 @@ Return Value:
 
 Note:
 	Initialize all receive releated private buffer, include those define
-	in RTMP_ADAPTER structure and all private data structures. The mahor
+	in struct rtmp_adapter structure and all private data structures. The mahor
 	work is to allocate buffer for each packet and chain buffer to
 	NDIS packet descriptor.
 ========================================================================
@@ -1279,7 +1279,7 @@ Return Value:
 Note:
 ========================================================================
 */
-NDIS_STATUS	RTUSBWriteHWMACAddress(RTMP_ADAPTER *pAd)
+NDIS_STATUS	RTUSBWriteHWMACAddress(struct rtmp_adapter *pAd)
 {
 	MAC_DW0_STRUC	StaMacReg0;
 	MAC_DW1_STRUC	StaMacReg1;
@@ -1312,7 +1312,7 @@ Note:
 ========================================================================
 */
 VOID RT28XXDMADisable(
-	IN RTMP_ADAPTER 		*pAd)
+	IN struct rtmp_adapter 		*pAd)
 {
 	/* no use*/
 }
@@ -1332,7 +1332,7 @@ Return Value:
 Note:
 ========================================================================
 */
-VOID RT28XXDMAEnable(RTMP_ADAPTER *pAd)
+VOID RT28XXDMAEnable(struct rtmp_adapter *pAd)
 {
 	USB_DMA_CFG_STRUC	UsbCfg;
 
@@ -1421,7 +1421,7 @@ Note:
 ========================================================================
 */
 VOID RT28xx_UpdateBeaconToAsic(
-	IN RTMP_ADAPTER		*pAd,
+	IN struct rtmp_adapter 	*pAd,
 	IN INT				apidx,
 	IN ULONG			FrameLen,
 	IN ULONG			UpdatePos)
@@ -1525,7 +1525,7 @@ VOID RT28xx_UpdateBeaconToAsic(
 
 
 VOID RTUSBBssBeaconStop(
-	IN RTMP_ADAPTER *pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	BEACON_SYNC_STRUCT	*pBeaconSync;
 	int i, offset;
@@ -1571,7 +1571,7 @@ VOID RTUSBBssBeaconStop(
 
 
 VOID RTUSBBssBeaconStart(
-	IN RTMP_ADAPTER *pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	int apidx;
 	BEACON_SYNC_STRUCT	*pBeaconSync;
@@ -1635,7 +1635,7 @@ VOID RTUSBBssBeaconStart(
 
 
 VOID RTUSBBssBeaconInit(
-	IN RTMP_ADAPTER *pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	BEACON_SYNC_STRUCT	*pBeaconSync;
 	int i, j;
@@ -1679,7 +1679,7 @@ error1:
 
 
 VOID RTUSBBssBeaconExit(
-	IN RTMP_ADAPTER *pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	BEACON_SYNC_STRUCT	*pBeaconSync;
 	BOOLEAN	Cancelled = TRUE;
@@ -1951,7 +1951,7 @@ VOID RT28xxUsbMlmeRadioOFF(
 }
 
 
-VOID RT28xxUsbAsicRadioOff(RTMP_ADAPTER *pAd)
+VOID RT28xxUsbAsicRadioOff(struct rtmp_adapter *pAd)
 {
 	DBGPRINT(RT_DEBUG_TRACE, ("--> %s\n", __FUNCTION__));
 
@@ -1978,7 +1978,7 @@ VOID RT28xxUsbAsicRadioOff(RTMP_ADAPTER *pAd)
 }
 
 
-VOID RT28xxUsbAsicRadioOn(RTMP_ADAPTER *pAd)
+VOID RT28xxUsbAsicRadioOn(struct rtmp_adapter *pAd)
 {
 	UINT32 MACValue = 0;
 	BOOLEAN brc;

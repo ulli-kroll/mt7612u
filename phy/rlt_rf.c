@@ -30,7 +30,7 @@
 #include "rt_config.h"
 
 
-static inline BOOLEAN rf_csr_poll_idle(RTMP_ADAPTER *pAd, UINT32 *rfcsr)
+static inline BOOLEAN rf_csr_poll_idle(struct rtmp_adapter *pAd, UINT32 *rfcsr)
 {
 	RF_CSR_CFG_STRUC *csr_val;
 	BOOLEAN idle = BUSY;
@@ -149,7 +149,7 @@ done:
 	========================================================================
 */
 NDIS_STATUS rlt_rf_read(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR bank,
 	IN UCHAR regID,
 	IN UCHAR *pValue)

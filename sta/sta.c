@@ -29,7 +29,7 @@
 #include "rt_config.h"
 
 
-VOID STARxErrorHandle(RTMP_ADAPTER *pAd, RX_BLK *pRxBlk)
+VOID STARxErrorHandle(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 {
 
 }
@@ -41,7 +41,7 @@ VOID STARxErrorHandle(RTMP_ADAPTER *pAd, RX_BLK *pRxBlk)
 	========================================================================
 */
 INT RTMPCheckRxError(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN HEADER_802_11 *pHeader,
 	IN RX_BLK *pRxBlk,
 	IN RXINFO_STRUC *pRxInfo)
@@ -161,7 +161,7 @@ INT RTMPCheckRxError(
 
 
 INT StaAllowToSendPacket(
-	RTMP_ADAPTER *pAd,
+	struct rtmp_adapter *pAd,
 	struct wifi_dev *wdev,
 	PNDIS_PACKET pPacket,
 	UCHAR *pWcid)
@@ -203,7 +203,7 @@ INT StaAllowToSendPacket(
 
 
 INT StaAllowToSendPacket_new(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN struct wifi_dev *wdev,
 	IN PNDIS_PACKET pPacket,
 	IN UCHAR *pWcid)
@@ -231,7 +231,7 @@ INT StaAllowToSendPacket_new(
 }
 
 
-INT STAInitialize(RTMP_ADAPTER *pAd)
+INT STAInitialize(struct rtmp_adapter *pAd)
 {
 	struct wifi_dev *wdev = &pAd->StaCfg.wdev;
 

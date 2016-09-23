@@ -175,28 +175,28 @@ typedef struct GNU_PACKED _GAS_EVENT_DATA {
 }GAS_EVENT_DATA, *PGAS_EVENT_DATA;
 
 VOID GASStateMachineInit(
-	IN	PRTMP_ADAPTER		pAd,
+	IN	Pstruct rtmp_adapter 	pAd,
 	IN	STATE_MACHINE		*S,
 	OUT	STATE_MACHINE_FUNC	Trans[]);
 
 enum GAS_STATE GASPeerCurrentState(
-	IN PRTMP_ADAPTER pAd,
+	IN Pstruct rtmp_adapter pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 VOID GASSetPeerCurrentState(
-	IN PRTMP_ADAPTER pAd,
+	IN Pstruct rtmp_adapter pAd,
 	IN MLME_QUEUE_ELEM *Elem,
 	IN enum GAS_STATE State);
 
-VOID GASCtrlExit(IN PRTMP_ADAPTER pAd);
+VOID GASCtrlExit(IN Pstruct rtmp_adapter pAd);
 
 #ifdef CONFIG_STA_SUPPORT
 VOID ReceiveGASInitRsp(
-	IN PRTMP_ADAPTER pAd,
+	IN Pstruct rtmp_adapter pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 VOID ReceiveGASCBRsp(
-	IN PRTMP_ADAPTER pAd,
+	IN Pstruct rtmp_adapter pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 void SendAnqpRspEvent(void *net_dev, const char *peer_mac_addr,
@@ -212,11 +212,11 @@ void SendAnqpReqEvent(struct net_device *net_dev, const char *peer_mac_addr,
 				const char *anqp_req, u16 anqp_req_len);
 
 VOID ReceiveGASInitReq(
-	IN PRTMP_ADAPTER pAd,
+	IN Pstruct rtmp_adapter pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 VOID ReceiveGASCBReq(
-	IN PRTMP_ADAPTER pAd,
+	IN Pstruct rtmp_adapter pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 #endif /* CONFIG_AP_SUPPORT */
 

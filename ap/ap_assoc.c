@@ -29,7 +29,7 @@
 
 
 static void ap_assoc_info_debugshow(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN BOOLEAN isReassoc,
 	IN MAC_TABLE_ENTRY *pEntry,
 	IN IE_LISTS *ie_list)
@@ -105,7 +105,7 @@ static void ap_assoc_info_debugshow(
 
 
 static USHORT update_associated_mac_entry(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MAC_TABLE_ENTRY *pEntry,
 	IN IE_LISTS *ie_list,
 	IN UCHAR MaxSupportedRate)
@@ -521,7 +521,7 @@ static USHORT update_associated_mac_entry(
     ==========================================================================
  */
 static USHORT APBuildAssociation(
-    IN RTMP_ADAPTER *pAd,
+    IN struct rtmp_adapter *pAd,
     IN MAC_TABLE_ENTRY *pEntry,
     IN IE_LISTS *ie_list,
     IN UCHAR MaxSupportedRateIn500Kbps,
@@ -1393,7 +1393,7 @@ LabelOK:
         -# An association response frame is generated and sent to the air
     ==========================================================================
  */
-VOID APPeerAssocReqAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
+VOID APPeerAssocReqAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 	ap_cmm_peer_assoc_req_action(pAd, Elem, 0);
 }
@@ -1412,7 +1412,7 @@ VOID APPeerAssocReqAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
         -# Tx power (Adapter->ApCfg.tx_power)
     ==========================================================================
  */
-VOID APPeerReassocReqAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
+VOID APPeerReassocReqAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 	ap_cmm_peer_assoc_req_action(pAd, Elem, 1);
 }
@@ -1425,7 +1425,7 @@ VOID APPeerReassocReqAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
         Elem - MLME message containing the received frame
     ==========================================================================
  */
-VOID APPeerDisassocReqAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
+VOID APPeerDisassocReqAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 	UCHAR Addr2[MAC_ADDR_LEN];
 	USHORT Reason;
@@ -1475,7 +1475,7 @@ VOID APPeerDisassocReqAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
         Elem -
     ==========================================================================
  */
-VOID MbssKickOutStas(RTMP_ADAPTER *pAd, INT apidx, USHORT Reason)
+VOID MbssKickOutStas(struct rtmp_adapter *pAd, INT apidx, USHORT Reason)
 {
 	INT i;
 	PMAC_TABLE_ENTRY pEntry;
@@ -1499,7 +1499,7 @@ VOID MbssKickOutStas(RTMP_ADAPTER *pAd, INT apidx, USHORT Reason)
         Elem -
     ==========================================================================
  */
-VOID APMlmeKickOutSta(RTMP_ADAPTER *pAd, UCHAR *pStaAddr, UCHAR Wcid, USHORT Reason)
+VOID APMlmeKickOutSta(struct rtmp_adapter *pAd, UCHAR *pStaAddr, UCHAR Wcid, USHORT Reason)
 {
 	HEADER_802_11 DisassocHdr;
 	PUCHAR pOutBuffer = NULL;
@@ -1555,7 +1555,7 @@ VOID APMlmeKickOutSta(RTMP_ADAPTER *pAd, UCHAR *pStaAddr, UCHAR Wcid, USHORT Rea
 
 
 #ifdef DOT11W_PMF_SUPPORT
-VOID APMlmeKickOutAllSta(RTMP_ADAPTER *pAd, UCHAR apidx, USHORT Reason)
+VOID APMlmeKickOutAllSta(struct rtmp_adapter *pAd, UCHAR apidx, USHORT Reason)
 {
     HEADER_802_11 DisassocHdr;
     PUCHAR pOutBuffer = NULL;
@@ -1620,7 +1620,7 @@ VOID APMlmeKickOutAllSta(RTMP_ADAPTER *pAd, UCHAR apidx, USHORT Reason)
         Elem -
     ==========================================================================
  */
-VOID APMlmeDisassocReqAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
+VOID APMlmeDisassocReqAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
     MLME_DISASSOC_REQ_STRUCT *DisassocReq = (MLME_DISASSOC_REQ_STRUCT *)(Elem->Msg);
 
@@ -1638,7 +1638,7 @@ VOID APMlmeDisassocReqAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
         this routine as a service outside of ASSOC state transition table.
     ==========================================================================
  */
-VOID APCls3errAction(RTMP_ADAPTER *pAd, ULONG Wcid, HEADER_802_11 *pHeader)
+VOID APCls3errAction(struct rtmp_adapter *pAd, ULONG Wcid, HEADER_802_11 *pHeader)
 {
     HEADER_802_11         DisassocHdr;
     PUCHAR                pOutBuffer = NULL;
@@ -1693,7 +1693,7 @@ VOID APCls3errAction(RTMP_ADAPTER *pAd, ULONG Wcid, HEADER_802_11 *pHeader)
     ==========================================================================
  */
 VOID APAssocStateMachineInit(
-    IN RTMP_ADAPTER *pAd,
+    IN struct rtmp_adapter *pAd,
     IN STATE_MACHINE *S,
     OUT STATE_MACHINE_FUNC Trans[])
 {

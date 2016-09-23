@@ -82,7 +82,7 @@ static INT ate_bbp_set_ctrlch(struct rtmp_adapter *pAd, INT ext_ch)
 }
 
 
-static VOID MT76x0ATE_ChipBBPAdjust(RTMP_ADAPTER *pAd)
+static VOID MT76x0ATE_ChipBBPAdjust(struct rtmp_adapter *pAd)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 	UCHAR rf_bw, ext_ch;
@@ -509,7 +509,7 @@ static INT16 lin2dBd(
 
 
 VOID MT76x0ATE_MakeUpTssiTable(
-	IN RTMP_ADAPTER *pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 	UINT32   MAC_Value;
@@ -848,7 +848,7 @@ VOID MT76x0ATE_MakeUpTssiTable(
 
 
 static VOID MT76x0ATE_GetTargetPower(
-	IN RTMP_ADAPTER *pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 	UINT32 MAC_Value;
@@ -1186,7 +1186,7 @@ static VOID MT76x0ATE_EstimateDeltaPower(
 
 
 static VOID MT76x0ATE_IntTxAlcProcess(
-	IN RTMP_ADAPTER *pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	INT32 tssi_delta0;
 	UINT32 MAC_Value;
@@ -1214,7 +1214,7 @@ static VOID MT76x0ATE_IntTxAlcProcess(
 
 
 VOID MT76x0ATE_TSSI_DC_Calibration(
-	IN  RTMP_ADAPTER *pAd)
+	IN  struct rtmp_adapter *pAd)
 {
 	UCHAR RF_Value;
 	UINT32 MAC_Value, BBP_Value;
@@ -1494,7 +1494,7 @@ static VOID MT76x0ATE_AsicExtraPowerOverMAC(
 
 
 VOID MT76x0ATE_VCO_CalibrationMode3(
-	IN RTMP_ADAPTER *pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	UCHAR RFValue = 0, Mode = 0;
 
@@ -1546,7 +1546,7 @@ VOID MT76x0ATE_VCO_CalibrationMode3(
 /* This function vesion is specific for Cameo */
 /* It must be replaced by formal one for other customers */
 VOID MT76x0ATE_Calibration(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR Channel,
 	IN BOOLEAN bPowerOn,
 	IN BOOLEAN bFullCal)
@@ -1879,7 +1879,7 @@ static VOID MT76x0ATE_CalculateTxpower(
 
 /* Read per-rate Tx power */
 VOID MT76x0AteReadTxPwrPerRate(
-	IN RTMP_ADAPTER *pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	UINT32 data;
 	USHORT value;

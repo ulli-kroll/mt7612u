@@ -46,7 +46,7 @@ Note:
 ========================================================================
 */
 NDIS_STATUS	 RtmpMgmtTaskInit(
-	IN RTMP_ADAPTER *pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	RTMP_OS_TASK *pTask;
 	NDIS_STATUS status;
@@ -96,7 +96,7 @@ Note:
 ========================================================================
 */
 VOID RtmpMgmtTaskExit(
-	IN RTMP_ADAPTER *pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	INT			ret;
 	RTMP_OS_TASK	*pTask;
@@ -906,7 +906,7 @@ static void rtusb_ate_ac0_dma_done_tasklet(unsigned long data)
 
 
 NDIS_STATUS RtmpNetTaskInit(
-	IN RTMP_ADAPTER *pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
 
@@ -930,7 +930,7 @@ NDIS_STATUS RtmpNetTaskInit(
 }
 
 
-void RtmpNetTaskExit(IN RTMP_ADAPTER *pAd)
+void RtmpNetTaskExit(IN struct rtmp_adapter *pAd)
 {
 	POS_COOKIE pObj;
 
@@ -970,7 +970,7 @@ Note:
 INT RTUSBCmdThread(
 	IN ULONG Context)
 {
-	RTMP_ADAPTER *pAd;
+	struct rtmp_adapter *pAd;
 	RTMP_OS_TASK *pTask;
 	int status;
 	status = 0;

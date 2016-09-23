@@ -48,7 +48,7 @@ INT MCURandomWrite(struct rtmp_adapter *pAd, RTMP_REG_PAIR *RegPair, UINT32 Num)
 }
 
 
-INT mcu_sys_init(RTMP_ADAPTER *pAd)
+INT mcu_sys_init(struct rtmp_adapter *pAd)
 {
 	NDIS_STATUS Status;
 

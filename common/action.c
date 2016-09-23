@@ -54,7 +54,7 @@ static VOID ReservedAction(
     ==========================================================================
  */
 VOID ActionStateMachineInit(
-    IN RTMP_ADAPTER *pAd,
+    IN struct rtmp_adapter *pAd,
     IN STATE_MACHINE *S,
     OUT STATE_MACHINE_FUNC Trans[])
 {
@@ -96,7 +96,7 @@ VOID ActionStateMachineInit(
 
 
 #ifdef DOT11_N_SUPPORT
-VOID MlmeADDBAAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
+VOID MlmeADDBAAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 	MLME_ADDBA_REQ_STRUCT *pInfo;
 	UCHAR Addr[6];
@@ -198,7 +198,7 @@ VOID MlmeADDBAAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
 
     ==========================================================================
  */
-VOID MlmeDELBAAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
+VOID MlmeDELBAAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 	MLME_DELBA_REQ_STRUCT *pInfo;
 	PUCHAR pOutBuffer = NULL, pOutBuffer2 = NULL;
@@ -305,24 +305,24 @@ VOID MlmeDELBAAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
 #endif /* DOT11_N_SUPPORT */
 
 
-VOID MlmeQOSAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
+VOID MlmeQOSAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 }
 
 
-VOID MlmeDLSAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
+VOID MlmeDLSAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 }
 
 
-VOID MlmeInvalidAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
+VOID MlmeInvalidAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 	/*PUCHAR		   pOutBuffer = NULL;*/
 	/*Return the receiving frame except the MSB of category filed set to 1.  7.3.1.11*/
 }
 
 
-VOID PeerQOSAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
+VOID PeerQOSAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 }
 
@@ -332,7 +332,7 @@ VOID PeerQOSAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
 
 
 #ifdef DOT11_N_SUPPORT
-VOID PeerBAAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
+VOID PeerBAAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 	UCHAR Action = Elem->Msg[LENGTH_802_11+1];
 
@@ -355,7 +355,7 @@ VOID PeerBAAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
 #ifdef CONFIG_AP_SUPPORT
 extern UCHAR get_regulatory_class(IN struct rtmp_adapter *pAd);
 
-VOID ApPublicAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
+VOID ApPublicAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 	UCHAR	Action = Elem->Msg[LENGTH_802_11+1];
 	BSS_2040_COEXIST_IE	 BssCoexist;
@@ -369,7 +369,7 @@ VOID ApPublicAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
 
 
 VOID SendBSS2040CoexistMgmtAction(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR Wcid,
 	IN UCHAR apidx,
 	IN UCHAR InfoReq)
@@ -430,7 +430,7 @@ VOID SendBSS2040CoexistMgmtAction(
 
 
 #ifdef CONFIG_STA_SUPPORT
-VOID StaPublicAction(RTMP_ADAPTER *pAd, BSS_2040_COEXIST_IE *pBssCoexIE)
+VOID StaPublicAction(struct rtmp_adapter *pAd, BSS_2040_COEXIST_IE *pBssCoexIE)
 {
 	MLME_SCAN_REQ_STRUCT ScanReq;
 
@@ -525,7 +525,7 @@ VOID UpdateBssScanParm(
 Description : Build Intolerant Channel Rerpot from Trigger event table.
 return : how many bytes copied.
 */
-ULONG BuildIntolerantChannelRep(RTMP_ADAPTER *pAd, UCHAR *pDest)
+ULONG BuildIntolerantChannelRep(struct rtmp_adapter *pAd, UCHAR *pDest)
 {
 	ULONG			FrameLen = 0;
 	ULONG			ReadOffset = 0;
@@ -630,7 +630,7 @@ VOID Update2040CoexistFrameAndNotify(
 Description : Send 20/40 BSS Coexistence Action frame If one trigger event is triggered.
 */
 VOID Send2040CoexistAction(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR Wcid,
 	IN BOOLEAN bAddIntolerantCha)
 {
@@ -789,7 +789,7 @@ VOID ChannelSwitchAction(
 #endif /* DOT11_N_SUPPORT */
 
 
-VOID PeerPublicAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
+VOID PeerPublicAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 	UCHAR Action = Elem->Msg[LENGTH_802_11+1];
 
@@ -977,7 +977,7 @@ VOID PeerPublicAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
 }
 
 
-static VOID ReservedAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
+static VOID ReservedAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 	UCHAR Category;
 
@@ -992,7 +992,7 @@ static VOID ReservedAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
 }
 
 
-VOID PeerRMAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
+VOID PeerRMAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 #ifdef CONFIG_AP_SUPPORT
 #endif /* CONFIG_AP_SUPPORT */
@@ -1004,7 +1004,7 @@ VOID PeerRMAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
 
 #ifdef CONFIG_AP_SUPPORT
 #ifdef DOT11N_DRAFT3
-VOID SendNotifyBWActionFrame(RTMP_ADAPTER *pAd, UCHAR Wcid, UCHAR apidx)
+VOID SendNotifyBWActionFrame(struct rtmp_adapter *pAd, UCHAR Wcid, UCHAR apidx)
 {
 	UCHAR *pOutBuffer = NULL, *pAddr1;
 	NDIS_STATUS NStatus;
@@ -1045,7 +1045,7 @@ VOID SendNotifyBWActionFrame(RTMP_ADAPTER *pAd, UCHAR Wcid, UCHAR apidx)
 #endif /* CONFIG_AP_SUPPORT */
 
 
-VOID PeerHTAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
+VOID PeerHTAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 	UCHAR Action = Elem->Msg[LENGTH_802_11+1];
 	MAC_TABLE_ENTRY *pEntry;
@@ -1108,7 +1108,7 @@ VOID PeerHTAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
 
 
 #ifdef DOT11_VHT_AC
-VOID PeerVHTAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
+VOID PeerVHTAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 	UCHAR Action = Elem->Msg[LENGTH_802_11+1];
 
@@ -1162,7 +1162,7 @@ VOID PeerVHTAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
 				FALSE , then continue indicaterx at this moment.
 	==========================================================================
  */
-VOID ORIBATimerTimeout(RTMP_ADAPTER *pAd)
+VOID ORIBATimerTimeout(struct rtmp_adapter *pAd)
 {
 	MAC_TABLE_ENTRY *pEntry;
 	INT i, total;
@@ -1189,7 +1189,7 @@ VOID ORIBATimerTimeout(RTMP_ADAPTER *pAd)
 }
 
 
-VOID SendRefreshBAR(RTMP_ADAPTER *pAd, MAC_TABLE_ENTRY *pEntry)
+VOID SendRefreshBAR(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 {
 	FRAME_BAR FrameBar;
 	ULONG FrameLen;
@@ -1241,7 +1241,7 @@ VOID SendRefreshBAR(RTMP_ADAPTER *pAd, MAC_TABLE_ENTRY *pEntry)
 
 
 VOID ActHeaderInit(
-    IN RTMP_ADAPTER *pAd,
+    IN struct rtmp_adapter *pAd,
     IN OUT PHEADER_802_11 pHdr80211,
     IN UCHAR *da,
     IN UCHAR *sa,

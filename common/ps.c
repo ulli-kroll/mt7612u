@@ -40,7 +40,7 @@
 ========================================================================
 */
 NDIS_STATUS RtmpInsertPsQueue(
-	RTMP_ADAPTER *pAd,
+	struct rtmp_adapter *pAd,
 	PNDIS_PACKET pPacket,
 	MAC_TABLE_ENTRY *pMacEntry,
 	UCHAR QueIdx)
@@ -101,7 +101,7 @@ NDIS_STATUS RtmpInsertPsQueue(
 		used whenever a wireless client is deleted.
 	==========================================================================
  */
-VOID RtmpCleanupPsQueue(RTMP_ADAPTER *pAd, QUEUE_HEADER *pQueue)
+VOID RtmpCleanupPsQueue(struct rtmp_adapter *pAd, QUEUE_HEADER *pQueue)
 {
 	QUEUE_ENTRY *pQEntry;
 	PNDIS_PACKET pPacket;
@@ -131,7 +131,7 @@ VOID RtmpCleanupPsQueue(RTMP_ADAPTER *pAd, QUEUE_HEADER *pQueue)
 	is received from a WSTA which has MAC address FF:FF:FF:FF:FF:FF
   ========================================================================
 */
-VOID RtmpHandleRxPsPoll(RTMP_ADAPTER *pAd, UCHAR *pAddr, USHORT wcid, BOOLEAN isActive)
+VOID RtmpHandleRxPsPoll(struct rtmp_adapter *pAd, UCHAR *pAddr, USHORT wcid, BOOLEAN isActive)
 {
 	QUEUE_ENTRY *pQEntry;
 	MAC_TABLE_ENTRY *pMacEntry;
@@ -297,7 +297,7 @@ VOID RtmpHandleRxPsPoll(RTMP_ADAPTER *pAd, UCHAR *pAddr, USHORT wcid, BOOLEAN is
 		this client once IdleCount exceeds a threshold.
 	==========================================================================
  */
-BOOLEAN RtmpPsIndicate(RTMP_ADAPTER *pAd, UCHAR *pAddr, UCHAR wcid, UCHAR Psm)
+BOOLEAN RtmpPsIndicate(struct rtmp_adapter *pAd, UCHAR *pAddr, UCHAR wcid, UCHAR Psm)
 {
 	MAC_TABLE_ENTRY *pEntry;
 	UCHAR old_psmode;
@@ -362,7 +362,7 @@ Return Value:
 Note:
 ========================================================================
 */
-BOOLEAN RtmpPktPmBitCheck(RTMP_ADAPTER *pAd)
+BOOLEAN RtmpPktPmBitCheck(struct rtmp_adapter *pAd)
 {
 	BOOLEAN FlgCanPmBitSet = TRUE;
 
@@ -374,13 +374,13 @@ BOOLEAN RtmpPktPmBitCheck(RTMP_ADAPTER *pAd)
 }
 
 
-VOID RtmpPsActiveExtendCheck(RTMP_ADAPTER *pAd)
+VOID RtmpPsActiveExtendCheck(struct rtmp_adapter *pAd)
 {
 	/* count down the TDLS active counter */
 }
 
 
-VOID RtmpPsModeChange(RTMP_ADAPTER *pAd, UINT32 PsMode)
+VOID RtmpPsModeChange(struct rtmp_adapter *pAd, UINT32 PsMode)
 {
 	if (pAd->StaCfg.BssType == BSS_INFRA)
 	{

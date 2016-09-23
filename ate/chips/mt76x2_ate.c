@@ -62,7 +62,7 @@ static UCHAR mt76x2_5G_tx1_pwr_offset_save = 0;
 static BOOLEAN mt76x2_tx0_tssi_small_pwr_adjust = FALSE;
 static BOOLEAN mt76x2_tx1_tssi_small_pwr_adjust = FALSE;
 
-static void mt76x2_ate_switch_channel(RTMP_ADAPTER *ad)
+static void mt76x2_ate_switch_channel(struct rtmp_adapter *ad)
 {
 	PATE_INFO pATEInfo = &(ad->ate);
 	unsigned int latch_band, band, bw, tx_rx_setting;
@@ -334,7 +334,7 @@ static void mt76x2_ate_switch_channel(RTMP_ADAPTER *ad)
 
 
 INT mt76x2_ate_tx_pwr_handler(
-	IN RTMP_ADAPTER *ad,
+	IN struct rtmp_adapter *ad,
 	IN char index)
 {
 	PATE_INFO pATEInfo = &(ad->ate);
@@ -471,7 +471,7 @@ INT mt76x2_ate_tx_pwr_handler(
 
 
 INT mt76x2_ate_tx_pwr_Evaluation(
-	IN RTMP_ADAPTER *ad)
+	IN struct rtmp_adapter *ad)
 {
 	PATE_INFO pATEInfo = &(ad->ate);
 	CHAR tx_pwr_bw_delta = 0;
@@ -1525,7 +1525,7 @@ INT	mt76x2_set_ate_tx_bw_proc(
 
 
 #ifdef RTMP_TEMPERATURE_TX_ALC
-void mt76x2_ate_temp_tx_alc(RTMP_ADAPTER *ad)
+void mt76x2_ate_temp_tx_alc(struct rtmp_adapter *ad)
 {
 	RTMP_CHIP_CAP *pChipCap = &ad->chipCap;
 	INT32 temp_diff = 0, dB_diff = 0, tx0_temp_comp = 0, tx1_temp_comp = 0;

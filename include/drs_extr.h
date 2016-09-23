@@ -334,11 +334,11 @@ VOID StaQuickResponeForRateUpExecAGS(
 
 #ifdef CONFIG_AP_SUPPORT
 VOID ApMlmeDynamicTxRateSwitchingAGS(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN INT idx);
 
 VOID ApQuickResponeForRateUpExecAGS(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN INT idx);
 #endif /* CONFIG_AP_SUPPORT */
 #endif /* AGS_SUPPORT */

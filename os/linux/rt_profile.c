@@ -179,7 +179,7 @@ static const struct dev_id_name_map id_name_list[]=
 
 static int probe_cnt = 1;
 
-VOID get_dev_config_idx(RTMP_ADAPTER *pAd)
+VOID get_dev_config_idx(struct rtmp_adapter *pAd)
 {
 	INT idx = 0;
 #if defined(CONFIG_RT_FIRST_CARD) && defined(CONFIG_RT_SECOND_CARD)
@@ -207,7 +207,7 @@ VOID get_dev_config_idx(RTMP_ADAPTER *pAd)
 }
 
 
-UCHAR *get_dev_name_prefix(RTMP_ADAPTER *pAd, INT dev_type)
+UCHAR *get_dev_name_prefix(struct rtmp_adapter *pAd, INT dev_type)
 {
 	struct dev_type_name_map *map;
 	INT type_idx = 0, dev_idx = pAd->dev_idx;
@@ -226,7 +226,7 @@ UCHAR *get_dev_name_prefix(RTMP_ADAPTER *pAd, INT dev_type)
 }
 
 
-static UCHAR *get_dev_profile(RTMP_ADAPTER *pAd)
+static UCHAR *get_dev_profile(struct rtmp_adapter *pAd)
 {
 	UCHAR *src = NULL;
 
@@ -262,7 +262,7 @@ static UCHAR *get_dev_profile(RTMP_ADAPTER *pAd)
 }
 
 
-NDIS_STATUS	RTMPReadParametersHook(RTMP_ADAPTER *pAd)
+NDIS_STATUS	RTMPReadParametersHook(struct rtmp_adapter *pAd)
 {
 	INT retval = NDIS_STATUS_FAILURE;
 	ULONG buf_size = MAX_INI_BUFFER_SIZE, fsize;
@@ -331,9 +331,9 @@ void tbtt_tasklet(unsigned long data)
 #ifdef WORKQUEUE_BH
 	struct work_struct *work = (struct work_struct *)data;
 	POS_COOKIE pObj = container_of(work, struct os_cookie, tbtt_task);
-	RTMP_ADAPTER *pAd = (RTMP_ADAPTER *)pObj->pAd_va;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pObj->pAd_va;
 #else
-		struct rtmp_adapter *pAd = (RTMP_ADAPTER *)data;
+		struct rtmp_adapter *pAd = (struct rtmp_adapter *)data;
 #endif /* WORKQUEUE_BH */
 
 
@@ -449,7 +449,7 @@ void announce_802_3_packet(
 	IN PNDIS_PACKET pPacket,
 	IN UCHAR OpMode)
 {
-	RTMP_ADAPTER *pAd = (RTMP_ADAPTER *)pAdSrc;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdSrc;
 	PNDIS_PACKET pRxPkt = pPacket;
 
 
@@ -682,7 +682,7 @@ VOID RTMPFreeAdapter(VOID *pAdSrc)
 	RTMP_OS_FREE_SEM(pAd);
 	RTMP_OS_FREE_ATOMIC(pAd);
 
-	RtmpOsVfree(pAd); /* pci_free_consistent(os_cookie->pci_dev,sizeof(RTMP_ADAPTER),pAd,os_cookie->pAd_pa); */
+	RtmpOsVfree(pAd); /* pci_free_consistent(os_cookie->pci_dev,sizeof(struct rtmp_adapter),pAd,os_cookie->pAd_pa); */
 	if (os_cookie)
 		os_free_mem(NULL, os_cookie);
 }
@@ -698,11 +698,11 @@ int RTMPSendPackets(
 	IN RTMP_NET_ETH_CONVERT_DEV_SEARCH Func)
 {
 	struct wifi_dev *wdev = (struct wifi_dev *)dev_hnd;
-	RTMP_ADAPTER *pAd;
+	struct rtmp_adapter *pAd;
 	PNDIS_PACKET pPacket = pkt_list[0];
 
 	ASSERT(wdev->sys_handle);
-	pAd = (RTMP_ADAPTER *)wdev->sys_handle;
+	pAd = (struct rtmp_adapter *)wdev->sys_handle;
 	INC_COUNTER64(pAd->WlanCounters.TransmitCountFrmOs);
 
 	if (!pPacket)
@@ -765,7 +765,7 @@ int RTMPSendPackets(
 }
 
 
-struct net_device *get_netdev_from_bssid(RTMP_ADAPTER *pAd, UCHAR FromWhichBSSID)
+struct net_device *get_netdev_from_bssid(struct rtmp_adapter *pAd, UCHAR FromWhichBSSID)
 {
 	struct net_device *dev_p = NULL;
 #ifdef CONFIG_AP_SUPPORT
@@ -835,7 +835,7 @@ Return Value:
 Note:
 ========================================================================
 */
-INT RTMP_AP_IoctlPrepare(RTMP_ADAPTER *pAd, VOID *pCB)
+INT RTMP_AP_IoctlPrepare(struct rtmp_adapter *pAd, VOID *pCB)
 {
 	RT_CMD_AP_IOCTL_CONFIG *pConfig = (RT_CMD_AP_IOCTL_CONFIG *)pCB;
 	POS_COOKIE pObj;

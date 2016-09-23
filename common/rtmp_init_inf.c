@@ -31,7 +31,7 @@
 
 #ifdef CONFIG_STA_SUPPORT
 #ifdef PROFILE_STORE
-NDIS_STATUS WriteDatThread(RTMP_ADAPTER *pAd);
+NDIS_STATUS WriteDatThread(struct rtmp_adapter *pAd);
 #endif /* PROFILE_STORE */
 #endif /* CONFIG_STA_SUPPORT */
 
@@ -103,7 +103,7 @@ RTMP_BUILD_DRV_OPS_FUNCTION_BODY
 
 int rt28xx_init(VOID *pAdSrc, PSTRING pDefaultMac, PSTRING pHostName)
 {
-	RTMP_ADAPTER *pAd = (RTMP_ADAPTER *)pAdSrc;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdSrc;
 	NDIS_STATUS Status;
 #ifdef RTMP_MAC_USB
 	UINT index = 0;
@@ -636,7 +636,7 @@ err0:
 
 VOID RTMPDrvOpen(VOID *pAdSrc)
 {
-	RTMP_ADAPTER *pAd = (RTMP_ADAPTER *)pAdSrc;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdSrc;
 
 	RTMP_CLEAR_PSFLAG(pAd, fRTMP_PS_MCU_SLEEP);
 #ifdef CONFIG_STA_SUPPORT
@@ -737,7 +737,7 @@ VOID RTMPDrvOpen(VOID *pAdSrc)
 
 VOID RTMPDrvClose(VOID *pAdSrc, VOID *net_dev)
 {
-	RTMP_ADAPTER *pAd = (RTMP_ADAPTER *)pAdSrc;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdSrc;
 	UINT32 i = 0;
 
 
@@ -973,7 +973,7 @@ VOID RTMPDrvClose(VOID *pAdSrc, VOID *net_dev)
 
 VOID RTMPInfClose(VOID *pAdSrc)
 {
-	RTMP_ADAPTER *pAd = (RTMP_ADAPTER *)pAdSrc;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdSrc;
 
 #ifdef CONFIG_AP_SUPPORT
 	pAd->ApCfg.MBSSID[MAIN_MBSSID].bBcnSntReq = FALSE;
@@ -1062,7 +1062,7 @@ VOID RTMPInfClose(VOID *pAdSrc)
 
 struct net_device *RtmpPhyNetDevMainCreate(VOID *pAdSrc)
 {
-	RTMP_ADAPTER *pAd = (RTMP_ADAPTER *)pAdSrc;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdSrc;
 	struct net_device *pDevNew;
 	UINT32 MC_RowID = 0, IoctlIF = 0;
 	char *dev_name;
@@ -1088,7 +1088,7 @@ struct net_device *RtmpPhyNetDevMainCreate(VOID *pAdSrc)
 
 #ifdef CONFIG_STA_SUPPORT
 #ifdef PROFILE_STORE
-static void WriteConfToDatFile(RTMP_ADAPTER *pAd)
+static void WriteConfToDatFile(struct rtmp_adapter *pAd)
 {
 	char	*cfgData = 0, *offset = 0;
 	PSTRING fileName = NULL, pTempStr = NULL;
@@ -1236,7 +1236,7 @@ INT write_dat_file_thread (
     IN ULONG Context)
 {
 	RTMP_OS_TASK *pTask;
-	RTMP_ADAPTER *pAd;
+	struct rtmp_adapter *pAd;
 	//int 	Status = 0;
 
 	pTask = (RTMP_OS_TASK *)Context;
@@ -1266,7 +1266,7 @@ INT write_dat_file_thread (
 }
 
 NDIS_STATUS WriteDatThread(
-	IN  RTMP_ADAPTER *pAd)
+	IN  struct rtmp_adapter *pAd)
 {
 	NDIS_STATUS status = NDIS_STATUS_FAILURE;
 	RTMP_OS_TASK *pTask;

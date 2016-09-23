@@ -27,14 +27,14 @@
 #include "rt_config.h"
 
 
-INT phy_probe(RTMP_ADAPTER *pAd)
+INT phy_probe(struct rtmp_adapter *pAd)
 {
 
 	return TRUE;
 }
 
 
-NDIS_STATUS NICInitBBP(RTMP_ADAPTER *pAd)
+NDIS_STATUS NICInitBBP(struct rtmp_adapter *pAd)
 {
 	UINT32 Index = 0, val;
 
@@ -68,7 +68,7 @@ INT bbp_get_temp(struct rtmp_adapter *pAd, CHAR *temp_val)
 }
 
 
-INT bbp_tx_comp_init(RTMP_ADAPTER *pAd, INT adc_insel, INT tssi_mode)
+INT bbp_tx_comp_init(struct rtmp_adapter *pAd, INT adc_insel, INT tssi_mode)
 {
 	if (pAd->phy_op && pAd->phy_op->bbp_tx_comp_init)
 		return pAd->phy_op->bbp_tx_comp_init(pAd, adc_insel, tssi_mode);
@@ -153,7 +153,7 @@ INT bbp_set_agc(struct rtmp_adapter *pAd, UCHAR agc, RX_CHAIN_IDX chain)
 }
 
 
-INT filter_coefficient_ctrl(RTMP_ADAPTER *pAd, UCHAR Channel)
+INT filter_coefficient_ctrl(struct rtmp_adapter *pAd, UCHAR Channel)
 {
 	if (pAd->phy_op && pAd->phy_op->filter_coefficient_ctrl)
 		return pAd->phy_op->filter_coefficient_ctrl(pAd, Channel);
@@ -162,7 +162,7 @@ INT filter_coefficient_ctrl(RTMP_ADAPTER *pAd, UCHAR Channel)
 }
 
 
-UCHAR get_random_seed_by_phy(RTMP_ADAPTER *pAd)
+UCHAR get_random_seed_by_phy(struct rtmp_adapter *pAd)
 {
 	if (pAd->phy_op && pAd->phy_op->get_random_seed_by_phy)
 		return pAd->phy_op->get_random_seed_by_phy(pAd);

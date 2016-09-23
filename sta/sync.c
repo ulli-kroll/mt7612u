@@ -96,7 +96,7 @@ VOID BeaconTimeout(
 	IN PVOID SystemSpecific2,
 	IN PVOID SystemSpecific3)
 {
-	RTMP_ADAPTER *pAd = (RTMP_ADAPTER *)FunctionContext;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)FunctionContext;
 
 	DBGPRINT(RT_DEBUG_TRACE,("SYNC - BeaconTimeout\n"));
 
@@ -139,7 +139,7 @@ VOID ScanTimeout(
 	IN PVOID SystemSpecific2,
 	IN PVOID SystemSpecific3)
 {
-	RTMP_ADAPTER *pAd = (RTMP_ADAPTER *)FunctionContext;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)FunctionContext;
 
 
 	/*
@@ -968,7 +968,7 @@ VOID MlmeStartReqAction(
 
 
 //+++Add by shiang to check correctness of new sanity function
-VOID rtmp_dbg_sanity_diff(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
+VOID rtmp_dbg_sanity_diff(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 	/* Parameters used for old sanity function */
 	UCHAR Bssid[MAC_ADDR_LEN], Addr2[MAC_ADDR_LEN];
@@ -1836,7 +1836,7 @@ LabelOK:
 
 	==========================================================================
  */
-VOID PeerBeacon(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
+VOID PeerBeacon(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 	UCHAR index=0;
 	USHORT TbttNumToNextWakeUp;
@@ -2848,7 +2848,7 @@ VOID InvalidStateWhenStart(
 
 	==========================================================================
  */
-VOID EnqueuePsPoll(RTMP_ADAPTER *pAd)
+VOID EnqueuePsPoll(struct rtmp_adapter *pAd)
 {
 #ifdef RALINK_ATE
     if (ATE_ON(pAd))
@@ -2872,7 +2872,7 @@ VOID EnqueuePsPoll(RTMP_ADAPTER *pAd)
 	Description:
 	==========================================================================
  */
-VOID EnqueueProbeRequest(RTMP_ADAPTER *pAd)
+VOID EnqueueProbeRequest(struct rtmp_adapter *pAd)
 {
 	NDIS_STATUS     NState;
 	PUCHAR          pOutBuffer;

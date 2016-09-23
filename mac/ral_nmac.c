@@ -41,7 +41,7 @@ INT rlt_get_rxwi_rssi(RXWI_STRUC *rxwi, INT size, CHAR *rssi)
 }
 
 
-INT rlt_get_rxwi_snr(RTMP_ADAPTER *pAd, RXWI_STRUC *rxwi, INT size, UCHAR *snr)
+INT rlt_get_rxwi_snr(struct rtmp_adapter *pAd, RXWI_STRUC *rxwi, INT size, UCHAR *snr)
 {
 	if (IS_MT76x2(pAd)) {
 		NdisMoveMemory(snr, &rxwi->RXWI_N.bbp_rxinfo[2], size);
@@ -58,7 +58,7 @@ INT rlt_get_rxwi_snr(RTMP_ADAPTER *pAd, RXWI_STRUC *rxwi, INT size, UCHAR *snr)
 
 
 #ifdef RLT_MAC
-VOID dumpRxFCEInfo(RTMP_ADAPTER *pAd, RXFCE_INFO *pRxFceInfo)
+VOID dumpRxFCEInfo(struct rtmp_adapter *pAd, RXFCE_INFO *pRxFceInfo)
 {
 	hex_dump("RxFCEInfo Raw Data", (UCHAR *)pRxFceInfo, sizeof(RXFCE_INFO));
 
@@ -82,7 +82,7 @@ VOID dumpRxFCEInfo(RTMP_ADAPTER *pAd, RXFCE_INFO *pRxFceInfo)
 static UCHAR *txwi_txop_str[]={"HT_TXOP", "PIFS", "SIFS", "BACKOFF", "Invalid"};
 #define TXWI_TXOP_STR(_x)	((_x) <= 3 ? txwi_txop_str[(_x)]: txwi_txop_str[4])
 
-VOID dump_rlt_txwi(RTMP_ADAPTER *pAd, TXWI_STRUC *pTxWI)
+VOID dump_rlt_txwi(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI)
 {
 	struct _TXWI_NMAC *txwi_nmac = (struct _TXWI_NMAC *)pTxWI;
 
@@ -114,7 +114,7 @@ VOID dump_rlt_txwi(RTMP_ADAPTER *pAd, TXWI_STRUC *pTxWI)
 }
 
 
-VOID dump_rlt_rxwi(RTMP_ADAPTER *pAd, RXWI_STRUC *pRxWI)
+VOID dump_rlt_rxwi(struct rtmp_adapter *pAd, RXWI_STRUC *pRxWI)
 {
 	struct _RXWI_NMAC *rxwi_n = (struct _RXWI_NMAC *)pRxWI;
 
@@ -150,7 +150,7 @@ static UCHAR *txinfo_que_str[]={"MGMT", "HCCA", "EDCA_1", "EDCA_2", "Invalid"};
 #define TXINFO_DPORT_STR(_x)	((_x) <= 6 ? txinfo_d_port_str[_x]: txinfo_d_port_str[7])
 #define TXINFO_QUE_STR(_x)		((_x) <= 3 ? txinfo_que_str[_x]: txinfo_que_str[4])
 
-VOID dump_rlt_txinfo(RTMP_ADAPTER *pAd, TXINFO_STRUC *pTxInfo)
+VOID dump_rlt_txinfo(struct rtmp_adapter *pAd, TXINFO_STRUC *pTxInfo)
 {
 	struct _TXINFO_NMAC_PKT *pkt_txinfo = (struct _TXINFO_NMAC_PKT *)pTxInfo;
 
@@ -167,7 +167,7 @@ VOID dump_rlt_txinfo(RTMP_ADAPTER *pAd, TXINFO_STRUC *pTxInfo)
 
 
 
-static UINT32 asic_set_wlan_func(RTMP_ADAPTER *pAd, BOOLEAN enable)
+static UINT32 asic_set_wlan_func(struct rtmp_adapter *pAd, BOOLEAN enable)
 {
 	UINT32 reg;
 
@@ -205,7 +205,7 @@ static UINT32 asic_set_wlan_func(RTMP_ADAPTER *pAd, BOOLEAN enable)
 
 #define MAX_CHECK_COUNT 200
 
-INT rlt_wlan_chip_onoff(RTMP_ADAPTER *pAd, BOOLEAN bOn, BOOLEAN bResetWLAN)
+INT rlt_wlan_chip_onoff(struct rtmp_adapter *pAd, BOOLEAN bOn, BOOLEAN bResetWLAN)
 {
 	UINT32 reg = 0;
 

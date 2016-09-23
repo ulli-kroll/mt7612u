@@ -46,7 +46,7 @@ extern UINT16 const Country_Region_GroupNum_5GHZ;
 
 	==========================================================================
  */
-VOID BuildChannelList(RTMP_ADAPTER *pAd)
+VOID BuildChannelList(struct rtmp_adapter *pAd)
 {
 	UCHAR i, j, index=0, num=0;
 	PCH_DESC pChDesc = NULL;
@@ -292,7 +292,7 @@ VOID BuildChannelList(RTMP_ADAPTER *pAd)
 
 	==========================================================================
  */
-UCHAR FirstChannel(RTMP_ADAPTER *pAd)
+UCHAR FirstChannel(struct rtmp_adapter *pAd)
 {
 	return pAd->ChannelList[0].Channel;
 }
@@ -308,7 +308,7 @@ UCHAR FirstChannel(RTMP_ADAPTER *pAd)
 		return 0 if no more next channel
 	==========================================================================
  */
-UCHAR NextChannel(RTMP_ADAPTER *pAd, UCHAR channel)
+UCHAR NextChannel(struct rtmp_adapter *pAd, UCHAR channel)
 {
 	int i;
 	UCHAR next_channel = 0;
@@ -398,7 +398,7 @@ UCHAR RTMPFindScanChannel(
 		the minimum value or next lower value.
 	==========================================================================
  */
-VOID ChangeToCellPowerLimit(RTMP_ADAPTER *pAd, UCHAR AironetCellPowerLimit)
+VOID ChangeToCellPowerLimit(struct rtmp_adapter *pAd, UCHAR AironetCellPowerLimit)
 {
 	/*
 		valud 0xFF means that hasn't found power limit information
@@ -426,7 +426,7 @@ VOID ChangeToCellPowerLimit(RTMP_ADAPTER *pAd, UCHAR AironetCellPowerLimit)
 }
 
 
-CHAR ConvertToRssi(RTMP_ADAPTER *pAd, CHAR Rssi, UCHAR rssi_idx)
+CHAR ConvertToRssi(struct rtmp_adapter *pAd, CHAR Rssi, UCHAR rssi_idx)
 {
 	UCHAR	RssiOffset, LNAGain;
 	CHAR	BaseVal;
@@ -471,7 +471,7 @@ CHAR ConvertToRssi(RTMP_ADAPTER *pAd, CHAR Rssi, UCHAR rssi_idx)
 }
 
 
-CHAR ConvertToSnr(RTMP_ADAPTER *pAd, UCHAR Snr)
+CHAR ConvertToSnr(struct rtmp_adapter *pAd, UCHAR Snr)
 {
 	if (pAd->chipCap.SnrFormula == SNR_FORMULA2)
 		return (Snr * 3 + 8) >> 4;
@@ -488,7 +488,7 @@ CHAR ConvertToSnr(RTMP_ADAPTER *pAd, UCHAR Snr)
 #ifdef DOT11_N_SUPPORT
 extern int DetectOverlappingPeriodicRound;
 
-VOID Handle_BSS_Width_Trigger_Events(RTMP_ADAPTER *pAd)
+VOID Handle_BSS_Width_Trigger_Events(struct rtmp_adapter *pAd)
 {
 	ULONG Now32;
 

@@ -51,7 +51,7 @@ VOID RTMPReportMicError(
 	IN  PCIPHER_KEY     pWpaKey);
 
 INT RTMPCheckRxError(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN HEADER_802_11 *pHeader,
 	IN RX_BLK *pRxBlk,
 	IN RXINFO_STRUC *pRxInfo);
@@ -77,7 +77,7 @@ VOID WpaSendEapolStart(
 	IN  PUCHAR          pBssid);
 
 
-VOID STAHandleRxDataFrame(RTMP_ADAPTER *pAd, RX_BLK *pRxBlk);
+VOID STAHandleRxDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk);
 
 VOID STARxEAPOLFrameIndicate(
 	IN	struct rtmp_adapter *pAd,
@@ -91,10 +91,10 @@ NDIS_STATUS	STAHardTransmit(
 	IN  UCHAR			QueIdx);
 
 INT STASendPacket(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PNDIS_PACKET pPacket);
 
-INT STAInitialize(RTMP_ADAPTER *pAd);
+INT STAInitialize(struct rtmp_adapter *pAd);
 
 #endif /* __STA_H__ */
 

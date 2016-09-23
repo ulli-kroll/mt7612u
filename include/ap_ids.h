@@ -31,7 +31,7 @@ VOID RTMPIdsPeriodicExec(
 	IN PVOID SystemSpecific3);
 
 BOOLEAN RTMPSpoofedMgmtDetection(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN HEADER_802_11 *pHeader,
 	IN RX_BLK *rxblk);
 
@@ -44,7 +44,7 @@ VOID RTMPConflictSsidDetection(
 	IN CHAR				Rssi2);
 
 BOOLEAN RTMPReplayAttackDetection(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR *pAddr2,
 	IN RX_BLK *rxblk);
 

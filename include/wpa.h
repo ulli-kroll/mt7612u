@@ -78,7 +78,7 @@
 
 #define IS_WPA_CAPABILITY(a)       (((a) >= Ndis802_11AuthModeWPA) && ((a) <= Ndis802_11AuthModeWPA1PSKWPA2PSK))
 
-/* 
+/*
 	WFA recommend to restrict the encryption type in 11n-HT mode.
  	So, the WEP and TKIP shall not be allowed to use HT rate.
  */
@@ -414,11 +414,11 @@ VOID CalculateMIC(
 	IN UCHAR *PTK,
 	OUT PEAPOL_PACKET pMsg);
 
-BOOLEAN rtmp_chk_tkip_mic(RTMP_ADAPTER *pAd, MAC_TABLE_ENTRY *pEntry, RX_BLK *pRxBlk);
+BOOLEAN rtmp_chk_tkip_mic(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry, RX_BLK *pRxBlk);
 
 #ifdef WPA_SUPPLICANT_SUPPORT
 INT WpaCheckEapCode(
-	IN  RTMP_ADAPTER *pAd,
+	IN  struct rtmp_adapter *pAd,
 	IN  UCHAR *pFrame,
 	IN  USHORT FrameLen,
 	IN  USHORT OffSet);

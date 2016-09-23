@@ -39,7 +39,7 @@ UCHAR PowerConstraintIE[3] = {IE_POWER_CONSTRAINT, 1, 3};
 		0: mean need to send Beacon for the service.
 	==========================================================================
 */
-BOOLEAN BeaconTransmitRequired(RTMP_ADAPTER *pAd, INT apidx, MULTISSID_STRUCT *pMbss)
+BOOLEAN BeaconTransmitRequired(struct rtmp_adapter *pAd, INT apidx, MULTISSID_STRUCT *pMbss)
 {
 	BOOLEAN result = FALSE;
 
@@ -79,7 +79,7 @@ BOOLEAN BeaconTransmitRequired(RTMP_ADAPTER *pAd, INT apidx, MULTISSID_STRUCT *p
 		Pre-build a BEACON frame in the shared memory
 	==========================================================================
 */
-VOID APMakeBssBeacon(RTMP_ADAPTER *pAd, INT apidx)
+VOID APMakeBssBeacon(struct rtmp_adapter *pAd, INT apidx)
 {
 	UCHAR DsLen = 1, SsidLen;
 	HEADER_802_11 BcnHdr;
@@ -305,7 +305,7 @@ VOID APMakeBssBeacon(RTMP_ADAPTER *pAd, INT apidx)
 		pAd->ApCfg.ErpIeContent
 	==========================================================================
 */
-VOID APUpdateBeaconFrame(RTMP_ADAPTER *pAd, INT apidx)
+VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 {
 	UCHAR *pBeaconFrame;
 	UCHAR *ptr;
@@ -934,7 +934,7 @@ VOID APUpdateBeaconFrame(RTMP_ADAPTER *pAd, INT apidx)
         Pre-build All BEACON frame in the shared memory
     ==========================================================================
 */
-static UCHAR GetBcnNum(RTMP_ADAPTER *pAd)
+static UCHAR GetBcnNum(struct rtmp_adapter *pAd)
 {
 	int i;
 	int NumBcn;
@@ -954,7 +954,7 @@ static UCHAR GetBcnNum(RTMP_ADAPTER *pAd)
 }
 
 
-VOID APMakeAllBssBeacon(RTMP_ADAPTER *pAd)
+VOID APMakeAllBssBeacon(struct rtmp_adapter *pAd)
 {
 	INT		i, j;
 	UINT32	regValue;
@@ -1096,7 +1096,7 @@ VOID APMakeAllBssBeacon(RTMP_ADAPTER *pAd)
         Pre-build All BEACON frame in the shared memory
     ==========================================================================
 */
-VOID APUpdateAllBeaconFrame(RTMP_ADAPTER *pAd)
+VOID APUpdateAllBeaconFrame(struct rtmp_adapter *pAd)
 {
 	INT		i;
 #ifdef DOT11_N_SUPPORT

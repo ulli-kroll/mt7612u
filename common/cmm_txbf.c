@@ -134,7 +134,7 @@ UINT dataRate[] = {65, 130, 195, 260, 390, 520, 585, 650,
 
 
 VOID rtmp_asic_set_bf(
-	IN RTMP_ADAPTER *pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	UINT8 byteValue = 0;
 	UINT Value32;
@@ -216,7 +216,7 @@ VOID TxBFInit(
 }
 
 BOOLEAN rtmp_chk_itxbf_calibration(
-	IN RTMP_ADAPTER *pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	INT calIdx, calCnt;
 	USHORT offset, eeVal, *calptr;
@@ -353,7 +353,7 @@ BOOLEAN clientSupportsVHTETxBF(
 /*
 	setETxBFCap - sets our ETxBF capabilities
 */
-void setETxBFCap(RTMP_ADAPTER *pAd, HT_BF_CAP *pTxBFCap)
+void setETxBFCap(struct rtmp_adapter *pAd, HT_BF_CAP *pTxBFCap)
 {
 	if (pAd->CommonCfg.ETxBfIncapable) {
 		memset(pTxBFCap, 0, sizeof(*pTxBFCap));
@@ -381,7 +381,7 @@ void setETxBFCap(RTMP_ADAPTER *pAd, HT_BF_CAP *pTxBFCap)
 }
 
 #ifdef VHT_TXBF_SUPPORT
-void setVHTETxBFCap(RTMP_ADAPTER *pAd, VHT_CAP_INFO *pTxBFCap)
+void setVHTETxBFCap(struct rtmp_adapter *pAd, VHT_CAP_INFO *pTxBFCap)
 {
 	if (pAd->CommonCfg.ETxBfIncapable) {
 		pTxBFCap->num_snd_dimension = 0;
@@ -897,7 +897,7 @@ VOID handleBfFb(
 }
 
 
-VOID handleHtcField(RTMP_ADAPTER *pAd, RX_BLK *pRxBlk)
+VOID handleHtcField(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 {
 #ifdef MFB_SUPPORT
 	UCHAR mfb = ((PHT_CONTROL)(pRxBlk->pData))-> MFBorASC;
@@ -1252,7 +1252,7 @@ VOID MFB_PerPareMFB(
 
 /* MlmeTxBfAllowed - returns true if ETxBF or ITxBF is supported and pTxRate is a valid BF mode */
 BOOLEAN MlmeTxBfAllowed(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MAC_TABLE_ENTRY *pEntry,
 	IN RTMP_RA_LEGACY_TB *pTxRate)
 {

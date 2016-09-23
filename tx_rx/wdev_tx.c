@@ -27,7 +27,7 @@
 
 #include "rt_config.h"
 
-INT rtmp_wdev_idx_unreg(RTMP_ADAPTER *pAd, struct wifi_dev *wdev)
+INT rtmp_wdev_idx_unreg(struct rtmp_adapter *pAd, struct wifi_dev *wdev)
 {
 	INT idx;
 	ULONG flags;
@@ -63,7 +63,7 @@ INT rtmp_wdev_idx_unreg(RTMP_ADAPTER *pAd, struct wifi_dev *wdev)
 }
 
 
-INT rtmp_wdev_idx_reg(RTMP_ADAPTER *pAd, struct wifi_dev *wdev)
+INT rtmp_wdev_idx_reg(struct rtmp_adapter *pAd, struct wifi_dev *wdev)
 {
 	INT idx;
 	ULONG flags;
@@ -116,7 +116,7 @@ Note:
 */
 VOID wdev_tx_pkts(NDIS_HANDLE dev_hnd, PPNDIS_PACKET pkt_list, UINT pkt_cnt, struct wifi_dev *wdev)
 {
-	RTMP_ADAPTER *pAd = (RTMP_ADAPTER *)dev_hnd;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)dev_hnd;
 	PNDIS_PACKET pPacket;
 	BOOLEAN allowToSend;
 	UCHAR wcid = MCAST_WCID;

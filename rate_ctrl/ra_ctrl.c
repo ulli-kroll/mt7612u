@@ -1018,7 +1018,7 @@ USHORT MlmeGetTxQuality(MAC_TABLE_ENTRY *pEntry, UCHAR rateIndex)
 
 
 #ifdef MCS_LUT_SUPPORT
-VOID asic_mcs_lut_update(RTMP_ADAPTER *pAd, MAC_TABLE_ENTRY *pEntry)
+VOID asic_mcs_lut_update(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 {
 #ifdef PEER_DELBA_TX_ADAPT
 	if (pEntry->bPeerDelBaTxAdaptEn)
@@ -1109,7 +1109,7 @@ VOID asic_mcs_lut_update(RTMP_ADAPTER *pAd, MAC_TABLE_ENTRY *pEntry)
 
 #ifdef CONFIG_AP_SUPPORT
 VOID APMlmeSetTxRate(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MAC_TABLE_ENTRY *pEntry,
 	IN RTMP_RA_LEGACY_TB *pTxRate)
 {
@@ -1414,7 +1414,7 @@ DBGPRINT(RT_DEBUG_INFO, ("%s(): txbw=%d, txmode=%d\n", __FUNCTION__, tx_bw, tx_m
 
 #ifdef CONFIG_STA_SUPPORT
 VOID MlmeSetTxRate(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MAC_TABLE_ENTRY *pEntry,
 	IN RTMP_RA_LEGACY_TB *pTxRate)
 {
@@ -2525,7 +2525,7 @@ UCHAR MlmeSelectTxRate(
 
 
 /*  MlmeRAInit - Initialize Rate Adaptation for this entry */
-VOID MlmeRAInit(RTMP_ADAPTER *pAd, MAC_TABLE_ENTRY *pEntry)
+VOID MlmeRAInit(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 {
 #ifdef NEW_RATE_ADAPT_SUPPORT
 	MlmeSetMcsGroup(pAd, pEntry);
@@ -2771,7 +2771,7 @@ VOID MlmeCheckRDG(
 
 
 #ifdef TXBF_SUPPORT
-VOID txbf_rate_adjust(RTMP_ADAPTER *pAd, MAC_TABLE_ENTRY *pEntry)
+VOID txbf_rate_adjust(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 {
 	RTMP_RA_LEGACY_TB *pNextTxRate;
 	UCHAR *pTable = pEntry->pTable;
@@ -2868,7 +2868,7 @@ INT rtmp_get_rate_from_rate_tb(UCHAR *table, INT idx, RTMP_TX_RATE *tx_rate)
 	MlmeNewTxRate - called when a new TX rate was selected. Sets TX PHY to
 		rate selected by pEntry->CurrTxRateIndex in pTable;
 */
-VOID MlmeNewTxRate(RTMP_ADAPTER *pAd, MAC_TABLE_ENTRY *pEntry)
+VOID MlmeNewTxRate(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 {
 	RTMP_RA_LEGACY_TB *pNextTxRate;
 	UCHAR *pTable = pEntry->pTable;
@@ -3154,7 +3154,7 @@ VOID RTMPSetSupportMCS(
 }
 
 
-INT	Set_RateAlg_Proc(RTMP_ADAPTER *pAd, PSTRING arg)
+INT	Set_RateAlg_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	UINT32 ra_alg;
 

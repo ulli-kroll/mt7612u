@@ -535,10 +535,10 @@ typedef union _EEPROM_ANTENNA_STRUC {
   *   EEPROM operation related marcos
   */
 #define RT28xx_EEPROM_READ16(_pAd, _offset, _value)			\
-	(_pAd)->chipOps.eeread((RTMP_ADAPTER *)(_pAd), (USHORT)(_offset), (PUSHORT)&(_value))
+	(_pAd)->chipOps.eeread((struct rtmp_adapter *)(_pAd), (USHORT)(_offset), (PUSHORT)&(_value))
 
 #define RT28xx_EEPROM_WRITE16(_pAd, _offset, _value)		\
-	(_pAd)->chipOps.eewrite((RTMP_ADAPTER *)(_pAd), (USHORT)(_offset), (USHORT)(_value))
+	(_pAd)->chipOps.eewrite((struct rtmp_adapter *)(_pAd), (USHORT)(_offset), (USHORT)(_value))
 
 
 #if defined(RTMP_INTERNAL_TX_ALC) || defined(RTMP_TEMPERATURE_COMPENSATION)
@@ -994,7 +994,7 @@ struct _RTMP_CHIP_OP_ {
 	int (*erase_rom_patch)(struct rtmp_adapter *ad);
 	int (*loadFirmware)(struct rtmp_adapter *pAd);
 	int (*eraseFirmware)(struct rtmp_adapter *pAd);
-	int (*sendCommandToMcu)(struct rtmp_adapter *pAd, UCHAR cmd, UCHAR token, UCHAR arg0, UCHAR arg1, BOOLEAN FlgIsNeedLocked);	/* int (*sendCommandToMcu)(RTMP_ADAPTER *pAd, UCHAR cmd, UCHAR token, UCHAR arg0, UCHAR arg1); */
+	int (*sendCommandToMcu)(struct rtmp_adapter *pAd, UCHAR cmd, UCHAR token, UCHAR arg0, UCHAR arg1, BOOLEAN FlgIsNeedLocked);	/* int (*sendCommandToMcu)(struct rtmp_adapter *pAd, UCHAR cmd, UCHAR token, UCHAR arg0, UCHAR arg1); */
 #ifdef CONFIG_ANDES_SUPPORT
 	int (*sendCommandToAndesMcu)(struct rtmp_adapter *pAd, UCHAR QueIdx, UCHAR cmd, UCHAR *pData, USHORT DataLen, BOOLEAN FlgIsNeedLocked);
 #endif

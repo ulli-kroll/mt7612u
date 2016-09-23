@@ -30,7 +30,7 @@
 
 
 #ifdef RTMP_MAC_USB
-int andes_usb_enable_patch(RTMP_ADAPTER *ad)
+int andes_usb_enable_patch(struct rtmp_adapter *ad)
 {
 	int ret = NDIS_STATUS_SUCCESS;
 	RTMP_CHIP_CAP *cap = &ad->chipCap;
@@ -63,7 +63,7 @@ int andes_usb_enable_patch(RTMP_ADAPTER *ad)
 	return ret;
 }
 
-int andes_usb_reset_wmt(RTMP_ADAPTER *ad)
+int andes_usb_reset_wmt(struct rtmp_adapter *ad)
 {
 	int ret = NDIS_STATUS_SUCCESS;
 	RTMP_CHIP_CAP *cap = &ad->chipCap;
@@ -110,7 +110,7 @@ u16 checksume16(u8 *pData, int len)
 	return ~sum;
 }
 
-int andes_usb_chk_crc(RTMP_ADAPTER *ad, u32 checksum_len)
+int andes_usb_chk_crc(struct rtmp_adapter *ad, u32 checksum_len)
 {
 	int ret = 0;
 	u8 cmd[8];
@@ -134,7 +134,7 @@ int andes_usb_chk_crc(RTMP_ADAPTER *ad, u32 checksum_len)
 
 }
 
-u16 andes_usb_get_crc(RTMP_ADAPTER *ad)
+u16 andes_usb_get_crc(struct rtmp_adapter *ad)
 {
 	int ret = 0;
 	u16 crc, count = 0;
@@ -171,7 +171,7 @@ VOID usb_upload_rom_patch_complete(purbb_t urb, pregs *pt_regs)
 	RTMP_OS_COMPLETE(load_rom_patch_done);
 }
 
-int andes_usb_load_rom_patch(RTMP_ADAPTER *ad)
+int andes_usb_load_rom_patch(struct rtmp_adapter *ad)
 {
 	PURB urb;
 	POS_COOKIE obj = (POS_COOKIE)ad->OS_Cookie;
@@ -546,7 +546,7 @@ error0:
 	return ret;
 }
 
-int andes_usb_erase_rom_patch(RTMP_ADAPTER *ad)
+int andes_usb_erase_rom_patch(struct rtmp_adapter *ad)
 {
 	RTMP_CHIP_CAP *cap = &ad->chipCap;
 
@@ -568,7 +568,7 @@ VOID usb_uploadfw_complete(purbb_t urb, pregs *pt_regs)
 	RTMP_OS_COMPLETE(load_fw_done);
 }
 
-static NDIS_STATUS usb_load_ivb(RTMP_ADAPTER *ad)
+static NDIS_STATUS usb_load_ivb(struct rtmp_adapter *ad)
 {
 	NDIS_STATUS Status = NDIS_STATUS_SUCCESS;
 	RTMP_CHIP_CAP *cap = &ad->chipCap;
@@ -604,7 +604,7 @@ static NDIS_STATUS usb_load_ivb(RTMP_ADAPTER *ad)
 	return Status;
 }
 
-NDIS_STATUS andes_usb_loadfw(RTMP_ADAPTER *ad)
+NDIS_STATUS andes_usb_loadfw(struct rtmp_adapter *ad)
 {
 	PURB urb;
 	POS_COOKIE obj = (POS_COOKIE)ad->OS_Cookie;
@@ -1099,7 +1099,7 @@ error0:
 }
 #endif
 
-int andes_usb_erasefw(RTMP_ADAPTER *ad)
+int andes_usb_erasefw(struct rtmp_adapter *ad)
 {
 	RTMP_CHIP_CAP *cap = &ad->chipCap;
 
@@ -1114,7 +1114,7 @@ int andes_usb_erasefw(RTMP_ADAPTER *ad)
 	return 0;
 }
 
-struct cmd_msg *andes_alloc_cmd_msg(RTMP_ADAPTER *ad, unsigned int length)
+struct cmd_msg *andes_alloc_cmd_msg(struct rtmp_adapter *ad, unsigned int length)
 {
 	struct cmd_msg *msg = NULL;
 	RTMP_CHIP_CAP *cap = &ad->chipCap;
@@ -1225,7 +1225,7 @@ void andes_append_cmd_msg(struct cmd_msg *msg, char *data, unsigned int len)
 void andes_free_cmd_msg(struct cmd_msg *msg)
 {
 	PNDIS_PACKET net_pkt = msg->net_pkt;
-	RTMP_ADAPTER *ad = (RTMP_ADAPTER *)(msg->priv);
+	struct rtmp_adapter *ad = (struct rtmp_adapter *)(msg->priv);
 	struct MCU_CTRL *ctl = &ad->MCUCtrl;
 
 	if (msg->need_wait) {
@@ -1245,14 +1245,14 @@ void andes_free_cmd_msg(struct cmd_msg *msg)
 	ctl->free_cmd_msg++;
 }
 
-BOOLEAN is_inband_cmd_processing(RTMP_ADAPTER *ad)
+BOOLEAN is_inband_cmd_processing(struct rtmp_adapter *ad)
 {
 	BOOLEAN ret = 0;
 
 	return ret;
 }
 
-UCHAR get_cmd_rsp_num(RTMP_ADAPTER *ad)
+UCHAR get_cmd_rsp_num(struct rtmp_adapter *ad)
 {
 	UCHAR Num = 0;
 
@@ -1300,7 +1300,7 @@ static NDIS_SPIN_LOCK *andes_get_spin_lock(struct MCU_CTRL *ctl, DL_LIST *list)
 	return lock;
 }
 
-static inline UCHAR andes_get_cmd_msg_seq(RTMP_ADAPTER *ad)
+static inline UCHAR andes_get_cmd_msg_seq(struct rtmp_adapter *ad)
 {
 	struct MCU_CTRL *ctl = &ad->MCUCtrl;
 	struct cmd_msg *msg;
@@ -1333,7 +1333,7 @@ static void andes_queue_tail_cmd_msg(DL_LIST *list, struct cmd_msg *msg,
 {
 	unsigned long flags;
 	NDIS_SPIN_LOCK *lock;
-	RTMP_ADAPTER *ad = (RTMP_ADAPTER *)msg->priv;
+	struct rtmp_adapter *ad = (struct rtmp_adapter *)msg->priv;
 	struct MCU_CTRL *ctl = &ad->MCUCtrl;
 
 	lock = andes_get_spin_lock(ctl, list);
@@ -1355,7 +1355,7 @@ static void andes_queue_head_cmd_msg(DL_LIST *list, struct cmd_msg *msg,
 {
 	unsigned long flags;
 	NDIS_SPIN_LOCK *lock;
-	RTMP_ADAPTER *ad = (RTMP_ADAPTER *)msg->priv;
+	struct rtmp_adapter *ad = (struct rtmp_adapter *)msg->priv;
 	struct MCU_CTRL *ctl = &ad->MCUCtrl;
 
 	lock = andes_get_spin_lock(ctl, list);
@@ -1420,7 +1420,7 @@ static void andes_unlink_cmd_msg(struct cmd_msg *msg, DL_LIST *list)
 {
 	unsigned long flags;
 	NDIS_SPIN_LOCK *lock;
-	RTMP_ADAPTER *ad = (RTMP_ADAPTER *)msg->priv;
+	struct rtmp_adapter *ad = (struct rtmp_adapter *)msg->priv;
 	struct MCU_CTRL *ctl = &ad->MCUCtrl;
 
 	lock = andes_get_spin_lock(ctl, list);
@@ -1456,7 +1456,7 @@ static struct cmd_msg *andes_dequeue_cmd_msg(struct MCU_CTRL *ctl, DL_LIST *list
 	return msg;
 }
 
-void andes_rx_process_cmd_msg(RTMP_ADAPTER *ad, struct cmd_msg *rx_msg)
+void andes_rx_process_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *rx_msg)
 {
 	PNDIS_PACKET net_pkt = rx_msg->net_pkt;
 	struct cmd_msg *msg, *msg_tmp;
@@ -1540,7 +1540,7 @@ static void usb_rx_cmd_msg_complete(PURB urb)
 {
 	PNDIS_PACKET net_pkt = (PNDIS_PACKET)RTMP_OS_USB_CONTEXT_GET(urb);
 	struct cmd_msg *msg = CMD_MSG_CB(net_pkt)->msg;
-	RTMP_ADAPTER *ad = (RTMP_ADAPTER *)msg->priv;
+	struct rtmp_adapter *ad = (struct rtmp_adapter *)msg->priv;
 	POS_COOKIE pObj = (POS_COOKIE)ad->OS_Cookie;
 	RTMP_CHIP_CAP *pChipCap = &ad->chipCap;
 	struct MCU_CTRL *ctl = &ad->MCUCtrl;
@@ -1593,7 +1593,7 @@ static void usb_rx_cmd_msg_complete(PURB urb)
 	andes_bh_schedule(ad);
 }
 
-int usb_rx_cmd_msg_submit(RTMP_ADAPTER *ad)
+int usb_rx_cmd_msg_submit(struct rtmp_adapter *ad)
 {
 	RTMP_CHIP_CAP *pChipCap = &ad->chipCap;
 	POS_COOKIE pObj = (POS_COOKIE)ad->OS_Cookie;
@@ -1632,7 +1632,7 @@ int usb_rx_cmd_msg_submit(RTMP_ADAPTER *ad)
 	return ret;
 }
 
-int usb_rx_cmd_msgs_receive(RTMP_ADAPTER *ad)
+int usb_rx_cmd_msgs_receive(struct rtmp_adapter *ad)
 {
 	int ret = 0;
 	int i;
@@ -1650,7 +1650,7 @@ int usb_rx_cmd_msgs_receive(RTMP_ADAPTER *ad)
 
 void andes_cmd_msg_bh(unsigned long param)
 {
-	RTMP_ADAPTER *ad = (RTMP_ADAPTER *)param;
+	struct rtmp_adapter *ad = (struct rtmp_adapter *)param;
 	struct MCU_CTRL *ctl = &ad->MCUCtrl;
 	struct cmd_msg *msg = NULL;
 
@@ -1688,7 +1688,7 @@ void andes_cmd_msg_bh(unsigned long param)
 	}
 }
 
-void andes_bh_schedule(RTMP_ADAPTER *ad)
+void andes_bh_schedule(struct rtmp_adapter *ad)
 {
 	struct MCU_CTRL *ctl = &ad->MCUCtrl;
 
@@ -1716,7 +1716,7 @@ static void usb_kick_out_cmd_msg_complete(PURB urb)
 {
 	PNDIS_PACKET net_pkt = (PNDIS_PACKET)RTMP_OS_USB_CONTEXT_GET(urb);
 	struct cmd_msg *msg = CMD_MSG_CB(net_pkt)->msg;
-	RTMP_ADAPTER *ad = (RTMP_ADAPTER *)msg->priv;
+	struct rtmp_adapter *ad = (struct rtmp_adapter *)msg->priv;
 	struct MCU_CTRL *ctl = &ad->MCUCtrl;
 
 	if (!OS_TEST_BIT(MCU_INIT, &ctl->flags))
@@ -1792,7 +1792,7 @@ int usb_kick_out_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *msg)
 	return ret;
 }
 
-void andes_usb_unlink_urb(RTMP_ADAPTER *ad, DL_LIST *list)
+void andes_usb_unlink_urb(struct rtmp_adapter *ad, DL_LIST *list)
 {
 	unsigned long flags;
 	struct cmd_msg *msg, *msg_tmp;
@@ -1815,7 +1815,7 @@ void andes_usb_unlink_urb(RTMP_ADAPTER *ad, DL_LIST *list)
 
 #endif
 
-void andes_cleanup_cmd_msg(RTMP_ADAPTER *ad, DL_LIST *list)
+void andes_cleanup_cmd_msg(struct rtmp_adapter *ad, DL_LIST *list)
 {
 	unsigned long flags;
 	struct cmd_msg *msg, *msg_tmp;
@@ -1835,7 +1835,7 @@ void andes_cleanup_cmd_msg(RTMP_ADAPTER *ad, DL_LIST *list)
 
 
 #ifdef RTMP_USB_SUPPORT
-static void andes_ctrl_usb_init(RTMP_ADAPTER *ad)
+static void andes_ctrl_usb_init(struct rtmp_adapter *ad)
 {
 	struct MCU_CTRL *ctl = &ad->MCUCtrl;
 	int ret = 0;
@@ -1868,7 +1868,7 @@ static void andes_ctrl_usb_init(RTMP_ADAPTER *ad)
 }
 #endif
 
-void andes_ctrl_init(RTMP_ADAPTER *ad)
+void andes_ctrl_init(struct rtmp_adapter *ad)
 {
 	struct MCU_CTRL *ctl = &ad->MCUCtrl;
 
@@ -1884,7 +1884,7 @@ void andes_ctrl_init(RTMP_ADAPTER *ad)
 }
 
 #ifdef RTMP_USB_SUPPORT
-static void andes_ctrl_usb_exit(RTMP_ADAPTER *ad)
+static void andes_ctrl_usb_exit(struct rtmp_adapter *ad)
 {
 	struct MCU_CTRL *ctl = &ad->MCUCtrl;
 	int ret = 0;
@@ -1919,7 +1919,7 @@ static void andes_ctrl_usb_exit(RTMP_ADAPTER *ad)
 #endif
 
 
-void andes_ctrl_exit(RTMP_ADAPTER *ad)
+void andes_ctrl_exit(struct rtmp_adapter *ad)
 {
 	struct MCU_CTRL *ctl = &ad->MCUCtrl;
 
@@ -1934,7 +1934,7 @@ void andes_ctrl_exit(RTMP_ADAPTER *ad)
 	ctl->dpd_on = FALSE;
 }
 
-static int andes_dequeue_and_kick_out_cmd_msgs(RTMP_ADAPTER *ad)
+static int andes_dequeue_and_kick_out_cmd_msgs(struct rtmp_adapter *ad)
 {
 	struct cmd_msg *msg = NULL;
 	PNDIS_PACKET net_pkt = NULL;
@@ -2101,20 +2101,20 @@ retransmit:
 	return ret;
 }
 
-static void andes_pwr_event_handler(RTMP_ADAPTER *ad, char *payload, u16 payload_len)
+static void andes_pwr_event_handler(struct rtmp_adapter *ad, char *payload, u16 payload_len)
 {
 
 
 }
 
 
-static void andes_wow_event_handler(RTMP_ADAPTER *ad, char *payload, u16 payload_len)
+static void andes_wow_event_handler(struct rtmp_adapter *ad, char *payload, u16 payload_len)
 {
 
 
 }
 
-static void andes_carrier_detect_event_handler(RTMP_ADAPTER *ad, char *payload, u16 payload_len)
+static void andes_carrier_detect_event_handler(struct rtmp_adapter *ad, char *payload, u16 payload_len)
 {
 
 
@@ -2137,7 +2137,7 @@ MSG_EVENT_HANDLER msg_event_handler_tb[] =
 };
 
 
-int andes_burst_write(RTMP_ADAPTER *ad, u32 offset, u32 *data, u32 cnt)
+int andes_burst_write(struct rtmp_adapter *ad, u32 offset, u32 *data, u32 cnt)
 {
 	struct cmd_msg *msg;
 	unsigned int var_len, offset_num, cur_len = 0, sent_len;
@@ -2208,7 +2208,7 @@ static void andes_burst_read_callback(struct cmd_msg *msg, char *rsp_payload, u1
 	}
 }
 
-int andes_burst_read(RTMP_ADAPTER *ad, u32 offset, u32 cnt, u32 *data)
+int andes_burst_read(struct rtmp_adapter *ad, u32 offset, u32 cnt, u32 *data)
 {
 	struct cmd_msg *msg;
 	unsigned int cur_len = 0, rsp_len, offset_num, receive_len;
@@ -2273,7 +2273,7 @@ static void andes_random_read_callback(struct cmd_msg *msg, char *rsp_payload, u
 	}
 }
 
-int andes_random_read(RTMP_ADAPTER *ad, RTMP_REG_PAIR *reg_pair, u32 num)
+int andes_random_read(struct rtmp_adapter *ad, RTMP_REG_PAIR *reg_pair, u32 num)
 {
 	struct cmd_msg *msg;
 	unsigned int var_len = num * 8, cur_len = 0, receive_len;
@@ -2329,7 +2329,7 @@ static void andes_rf_random_read_callback(struct cmd_msg *msg, char *rsp_payload
 	}
 }
 
-int andes_rf_random_read(RTMP_ADAPTER *ad, BANK_RF_REG_PAIR *reg_pair, u32 num)
+int andes_rf_random_read(struct rtmp_adapter *ad, BANK_RF_REG_PAIR *reg_pair, u32 num)
 {
 	struct cmd_msg *msg;
 	unsigned int var_len = num * 8, cur_len = 0, receive_len;
@@ -2386,7 +2386,7 @@ error:
 	return ret;
 }
 
-int andes_read_modify_write(RTMP_ADAPTER *ad, R_M_W_REG *reg_pair, u32 num)
+int andes_read_modify_write(struct rtmp_adapter *ad, R_M_W_REG *reg_pair, u32 num)
 {
 	struct cmd_msg *msg;
 	unsigned int var_len = num * 12, cur_len = 0, sent_len;
@@ -2444,7 +2444,7 @@ error:
 	return ret;
 }
 
-int andes_rf_read_modify_write(RTMP_ADAPTER *ad, RF_R_M_W_REG *reg_pair, u32 num)
+int andes_rf_read_modify_write(struct rtmp_adapter *ad, RF_R_M_W_REG *reg_pair, u32 num)
 {
 	struct cmd_msg *msg;
 	unsigned int var_len = num * 12, cur_len = 0, sent_len;
@@ -2513,7 +2513,7 @@ error:
 	return ret;
 }
 
-int andes_random_write(RTMP_ADAPTER *ad, RTMP_REG_PAIR *reg_pair, u32 num)
+int andes_random_write(struct rtmp_adapter *ad, RTMP_REG_PAIR *reg_pair, u32 num)
 {
 	struct cmd_msg *msg;
 	unsigned int var_len = num * 8, cur_len = 0, sent_len;
@@ -2567,7 +2567,7 @@ error:
 	return ret;
 }
 
-int andes_rf_random_write(RTMP_ADAPTER *ad, BANK_RF_REG_PAIR *reg_pair, u32 num)
+int andes_rf_random_write(struct rtmp_adapter *ad, BANK_RF_REG_PAIR *reg_pair, u32 num)
 {
 	struct cmd_msg *msg;
 	unsigned int var_len = num * 8, cur_len = 0, sent_len;
@@ -2631,7 +2631,7 @@ error:
 	return ret;
 }
 
-int andes_sc_random_write(RTMP_ADAPTER *ad, CR_REG *table, u32 nums, u32 flags)
+int andes_sc_random_write(struct rtmp_adapter *ad, CR_REG *table, u32 nums, u32 flags)
 {
 	u32 varlen = 0, i, j;
 	RTMP_REG_PAIR *sw_ch_table = NULL, temp;
@@ -2668,7 +2668,7 @@ int andes_sc_random_write(RTMP_ADAPTER *ad, CR_REG *table, u32 nums, u32 flags)
 	return 0;
 }
 
-int andes_sc_rf_random_write(RTMP_ADAPTER *ad, BANK_RF_CR_REG *table, u32 nums, u32 flags)
+int andes_sc_rf_random_write(struct rtmp_adapter *ad, BANK_RF_CR_REG *table, u32 nums, u32 flags)
 {
 	u32 varlen = 0, i, j;
 	BANK_RF_REG_PAIR *sw_ch_table = NULL, temp;
@@ -2707,7 +2707,7 @@ int andes_sc_rf_random_write(RTMP_ADAPTER *ad, BANK_RF_CR_REG *table, u32 nums, 
 }
 
 
-int andes_pwr_saving(RTMP_ADAPTER *ad, u32 op, u32 level,
+int andes_pwr_saving(struct rtmp_adapter *ad, u32 op, u32 level,
 					 u32 listen_interval, u32 pre_tbtt_lead_time,
 					 u8 tim_byte_offset, u8 tim_byte_pattern)
 {
@@ -2767,7 +2767,7 @@ error:
 	return ret;
 }
 
-int andes_fun_set(RTMP_ADAPTER *ad, u32 fun_id, u32 param)
+int andes_fun_set(struct rtmp_adapter *ad, u32 fun_id, u32 param)
 {
 	struct cmd_msg *msg;
 	u32 value;
@@ -2801,7 +2801,7 @@ error:
 }
 
 
-int andes_calibration(RTMP_ADAPTER *ad, u32 cal_id, ANDES_CALIBRATION_PARAM *param)
+int andes_calibration(struct rtmp_adapter *ad, u32 cal_id, ANDES_CALIBRATION_PARAM *param)
 {
 	struct cmd_msg *msg;
 	u32 value;
@@ -2855,7 +2855,7 @@ error:
 	return ret;
 }
 
-int andes_load_cr(RTMP_ADAPTER *ad, u32 cr_type, UINT8 temp_level, UINT8 channel)
+int andes_load_cr(struct rtmp_adapter *ad, u32 cr_type, UINT8 temp_level, UINT8 channel)
 {
 	struct cmd_msg *msg;
 	u32 value = 0;
@@ -2899,7 +2899,7 @@ error:
 	return ret;
 }
 
-int andes_switch_channel(RTMP_ADAPTER *ad, u8 channel, BOOLEAN scan, unsigned int bw, unsigned int tx_rx_setting, u8 bbp_ch_idx)
+int andes_switch_channel(struct rtmp_adapter *ad, u8 channel, BOOLEAN scan, unsigned int bw, unsigned int tx_rx_setting, u8 bbp_ch_idx)
 {
 	struct cmd_msg *msg;
 	u32 value = 0;
@@ -2982,7 +2982,7 @@ error:
 	return ret;
 }
 
-int andes_init_gain(RTMP_ADAPTER *ad, UINT8 channel, BOOLEAN force_mode, unsigned int gain_from_e2p)
+int andes_init_gain(struct rtmp_adapter *ad, UINT8 channel, BOOLEAN force_mode, unsigned int gain_from_e2p)
 {
 	struct cmd_msg *msg;
 	u32 value = 0;
@@ -3019,7 +3019,7 @@ error:
 	return ret;
 }
 
-int andes_dynamic_vga(RTMP_ADAPTER *ad, UINT8 channel, BOOLEAN mode, BOOLEAN ext, int rssi, unsigned int false_cca)
+int andes_dynamic_vga(struct rtmp_adapter *ad, UINT8 channel, BOOLEAN mode, BOOLEAN ext, int rssi, unsigned int false_cca)
 {
 	struct cmd_msg *msg;
 	u32 value = 0;
@@ -3062,7 +3062,7 @@ error:
 	return ret;
 }
 
-int andes_led_op(RTMP_ADAPTER *ad, u32 led_idx, u32 link_status)
+int andes_led_op(struct rtmp_adapter *ad, u32 led_idx, u32 link_status)
 {
 	struct cmd_msg *msg;
 	u32 value = 0;
@@ -3097,7 +3097,7 @@ error:
 
 
 #ifdef RTMP_USB_SUPPORT
-void andes_usb_fw_init(RTMP_ADAPTER *ad)
+void andes_usb_fw_init(struct rtmp_adapter *ad)
 {
 	DBGPRINT(RT_DEBUG_OFF, ("%s\n", __FUNCTION__));
 

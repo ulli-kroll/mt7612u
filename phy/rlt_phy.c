@@ -51,7 +51,7 @@ static INT rlt_bbp_is_ready(struct rtmp_adapter *pAd)
 }
 
 
-static INT rlt_bbp_init(RTMP_ADAPTER *pAd)
+static INT rlt_bbp_init(struct rtmp_adapter *pAd)
 {
 	INT idx;
 
@@ -98,7 +98,7 @@ static INT rlt_bbp_get_temp(struct rtmp_adapter *pAd, CHAR *temp_val)
 }
 
 
-static INT rlt_bbp_tx_comp_init(RTMP_ADAPTER *pAd, INT adc_insel, INT tssi_mode)
+static INT rlt_bbp_tx_comp_init(struct rtmp_adapter *pAd, INT adc_insel, INT tssi_mode)
 {
 	UINT32 bbp_val;
 	UCHAR rf_val;
@@ -464,7 +464,7 @@ static INT rlt_bbp_set_agc(struct rtmp_adapter *pAd, UCHAR agc, RX_CHAIN_IDX cha
 }
 
 
-static INT rlt_bbp_set_filter_coefficient_ctrl(RTMP_ADAPTER *pAd, UCHAR Channel)
+static INT rlt_bbp_set_filter_coefficient_ctrl(struct rtmp_adapter *pAd, UCHAR Channel)
 {
 	UINT32 bbp_val = 0, org_val = 0;
 
@@ -486,7 +486,7 @@ static INT rlt_bbp_set_filter_coefficient_ctrl(RTMP_ADAPTER *pAd, UCHAR Channel)
 }
 
 
-static UCHAR rlt_bbp_get_random_seed(RTMP_ADAPTER *pAd)
+static UCHAR rlt_bbp_get_random_seed(struct rtmp_adapter *pAd)
 {
 	UINT32 value, value2;
 	UCHAR seed;
@@ -517,7 +517,7 @@ static struct phy_ops rlt_phy_ops = {
 };
 
 
-INT rlt_phy_probe(RTMP_ADAPTER *pAd)
+INT rlt_phy_probe(struct rtmp_adapter *pAd)
 {
 	pAd->phy_op = &rlt_phy_ops;
 

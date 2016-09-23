@@ -37,10 +37,10 @@
 #ifdef RT_CFG80211_SUPPORT
 
 extern INT ApCliAllowToSendPacket(
-	RTMP_ADAPTER *pAd, struct wifi_dev *wdev,
+	struct rtmp_adapter *pAd, struct wifi_dev *wdev,
 	PNDIS_PACKET pPacket, UCHAR *pWcid);
 
-BOOLEAN CFG80211DRV_OpsChgVirtualInf(RTMP_ADAPTER *pAd, VOID *pData)
+BOOLEAN CFG80211DRV_OpsChgVirtualInf(struct rtmp_adapter *pAd, VOID *pData)
 {
 	PCFG80211_CTRL pCfg80211_ctrl = &pAd->cfg80211_ctrl;
     CFG80211_CB *p80211CB = pAd->pCfg80211_CB;
@@ -545,7 +545,7 @@ static INT CFG80211_VirtualIF_Ioctl(
 	IN INT 					cmd)
 {
 
-	RTMP_ADAPTER *pAd;
+	struct rtmp_adapter *pAd;
 
 	pAd = RTMP_OS_NETDEV_GET_PRIV(dev_p);
 	ASSERT(pAd);
@@ -807,7 +807,7 @@ static INT CFG80211_DummyP2pIf_Ioctl(
 	IN OUT VOID 			*rq_p,
 	IN INT 					cmd)
 {
-	RTMP_ADAPTER *pAd;
+	struct rtmp_adapter *pAd;
 
 	pAd = RTMP_OS_NETDEV_GET_PRIV(dev_p);
 	ASSERT(pAd);

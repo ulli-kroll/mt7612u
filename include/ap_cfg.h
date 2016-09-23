@@ -5,21 +5,21 @@
 #include "rt_config.h"
 
 INT RTMPAPPrivIoctlSet(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN RTMP_IOCTL_INPUT_STRUCT *pIoctlCmdStr);
 
 INT RTMPAPPrivIoctlShow(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN RTMP_IOCTL_INPUT_STRUCT *pIoctlCmdStr);
 
 VOID RTMPAPGetAssoMacTable(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN RTMP_IOCTL_INPUT_STRUCT *pIoctlCmdStr);
 
 #if defined(INF_AR9) || defined(BB_SOC)
 #if defined(AR9_MAPI_SUPPORT) || defined(BB_SOC)
 INT RTMPAPPrivIoctlAR9Show(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN RTMP_IOCTL_INPUT_STRUCT *pIoctlCmdStr);
 
 VOID RTMPAR9IoctlGetMacTable(

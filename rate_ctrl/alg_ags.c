@@ -1089,7 +1089,7 @@ VOID StaQuickResponeForRateUpExecAGS(
 	None
 */
 VOID ApMlmeDynamicTxRateSwitchingAGS(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN INT idx)
 {
 	UCHAR *pTable, TableSize = 0;
@@ -1779,7 +1779,7 @@ VOID ApMlmeDynamicTxRateSwitchingAGS(
 		None
 */
 VOID ApQuickResponeForRateUpExecAGS(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN INT idx)
 {
 	UCHAR *pTable, TableSize = 0;

@@ -536,7 +536,7 @@ static VOID APPeerAuthConfirmAction(
     ==========================================================================
  */
 VOID APCls2errAction(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN ULONG Wcid,
 	IN HEADER_802_11 *pHeader)
 {

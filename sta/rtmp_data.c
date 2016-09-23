@@ -338,7 +338,7 @@ BOOLEAN STACheckTkipMICValue(
   3. set payload size including LLC to DataSize
   4. set some flags with RX_BLK_SET_FLAG()
 */
-VOID STAHandleRxDataFrame(RTMP_ADAPTER *pAd, RX_BLK *pRxBlk)
+VOID STAHandleRxDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 {
 	RXINFO_STRUC *pRxInfo = pRxBlk->pRxInfo;
 	RXWI_STRUC *pRxWI = pRxBlk->pRxWI;
@@ -770,7 +770,7 @@ VOID STAHandleRxDataFrame(RTMP_ADAPTER *pAd, RX_BLK *pRxBlk)
 
 
 #ifdef HDR_TRANS_SUPPORT
-VOID STAHandleRxDataFrame_Hdr_Trns(RTMP_ADAPTER *pAd, RX_BLK *pRxBlk)
+VOID STAHandleRxDataFrame_Hdr_Trns(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 {
 	RXINFO_STRUC *pRxInfo = pRxBlk->pRxInfo;
 	RXWI_STRUC *pRxWI = pRxBlk->pRxWI;
@@ -1178,7 +1178,7 @@ Note:
 	You only can put OS-indepened & STA related code in here.
 ========================================================================
 */
-INT STASendPacket(RTMP_ADAPTER *pAd, PNDIS_PACKET pPacket)
+INT STASendPacket(struct rtmp_adapter *pAd, PNDIS_PACKET pPacket)
 {
 	PACKET_INFO PacketInfo;
 	UCHAR *pSrcBufVA;
@@ -1519,7 +1519,7 @@ Decide WEP bit and cipher suite to be used. Same cipher suite should be used for
 	WepStatus is Ndis802_11WEPEnabled but the key will use PairwiseKey
 	Instead of the SharedKey, SharedKey Length may be Zero.
 */
-VOID STAFindCipherAlgorithm(RTMP_ADAPTER *pAd, TX_BLK *pTxBlk)
+VOID STAFindCipherAlgorithm(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 {
 	NDIS_802_11_ENCRYPTION_STATUS Cipher;	/* To indicate cipher used for this packet */
 	UCHAR CipherAlg = CIPHER_NONE;	/* cipher alogrithm */
@@ -1586,7 +1586,7 @@ VOID STAFindCipherAlgorithm(RTMP_ADAPTER *pAd, TX_BLK *pTxBlk)
 
 
 #ifdef HDR_TRANS_SUPPORT
-VOID STABuildWifiInfo(RTMP_ADAPTER *pAd, TX_BLK *pTxBlk)
+VOID STABuildWifiInfo(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 {
 	PWIFI_INFO_STRUC pWI;
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
@@ -1637,7 +1637,7 @@ VOID STABuildWifiInfo(RTMP_ADAPTER *pAd, TX_BLK *pTxBlk)
 
 
 VOID STABuildCacheWifiInfo(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN TX_BLK *pTxBlk,
 	IN UCHAR *pWiInfo)
 {
@@ -1682,7 +1682,7 @@ VOID STABuildCacheWifiInfo(
 #endif /* HDR_TRANS_SUPPORT */
 
 
-VOID STABuildCommon802_11Header(RTMP_ADAPTER *pAd, TX_BLK *pTxBlk)
+VOID STABuildCommon802_11Header(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 {
 	HEADER_802_11 *wifi_hdr;
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
@@ -1759,7 +1759,7 @@ VOID STABuildCommon802_11Header(RTMP_ADAPTER *pAd, TX_BLK *pTxBlk)
 
 #ifdef DOT11_N_SUPPORT
 VOID STABuildCache802_11Header(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN TX_BLK *pTxBlk,
 	IN UCHAR *pHeader)
 {
@@ -1810,7 +1810,7 @@ VOID STABuildCache802_11Header(
 
 
 static inline PUCHAR STA_Build_ARalink_Frame_Header(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN TX_BLK *pTxBlk)
 {
 	PUCHAR pHeaderBufPtr;
@@ -1868,7 +1868,7 @@ static inline PUCHAR STA_Build_ARalink_Frame_Header(
 
 #ifdef DOT11_N_SUPPORT
 static inline PUCHAR STA_Build_AMSDU_Frame_Header(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN TX_BLK *pTxBlk)
 {
 	PUCHAR pHeaderBufPtr;
@@ -2569,7 +2569,7 @@ VOID STA_AMSDU_Frame_Tx(
 #endif /* DOT11_N_SUPPORT */
 
 
-VOID STA_Legacy_Frame_Tx(RTMP_ADAPTER *pAd, TX_BLK *pTxBlk)
+VOID STA_Legacy_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 {
 	HEADER_802_11 *wifi_hdr;
 	UCHAR *pHeaderBufPtr;
@@ -2956,7 +2956,7 @@ VOID STA_ARalink_Frame_Tx(
 
 
 VOID STA_Fragment_Frame_Tx(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN TX_BLK *pTxBlk)
 {
 	HEADER_802_11 *pHeader_802_11;
@@ -3312,7 +3312,7 @@ VOID STA_Fragment_Frame_Tx(
 
 
 #ifdef VHT_TXBF_SUPPORT
-VOID STA_NDPA_Frame_Tx(RTMP_ADAPTER *pAd, TX_BLK *pTxBlk)
+VOID STA_NDPA_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 {
 	UCHAR *buf;
 	VHT_NDPA_FRAME *vht_ndpa;
@@ -3401,7 +3401,7 @@ VOID STA_NDPA_Frame_Tx(RTMP_ADAPTER *pAd, TX_BLK *pTxBlk)
 
 	========================================================================
 */
-NDIS_STATUS STAHardTransmit(RTMP_ADAPTER *pAd, TX_BLK *pTxBlk, UCHAR QueIdx)
+NDIS_STATUS STAHardTransmit(struct rtmp_adapter *pAd, TX_BLK *pTxBlk, UCHAR QueIdx)
 {
 	NDIS_PACKET *pPacket;
 	PQUEUE_ENTRY pQEntry;
@@ -3552,7 +3552,7 @@ NDIS_STATUS STAHardTransmit(RTMP_ADAPTER *pAd, TX_BLK *pTxBlk, UCHAR QueIdx)
 
 
 VOID Sta_Announce_or_Forward_802_3_Packet(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PNDIS_PACKET pPacket,
 	IN UCHAR FromWhichBSSID)
 {

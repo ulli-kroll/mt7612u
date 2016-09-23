@@ -128,9 +128,9 @@ static VOID ApCliProbeTimeout(
 {
 #ifdef APCLI_CONNECTION_TRIAL
 	PAPCLI_STRUCT pApCliEntry = (APCLI_STRUCT *)FunctionContext;
-	RTMP_ADAPTER *pAd = (RTMP_ADAPTER *)pApCliEntry->pAd;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pApCliEntry->pAd;
 #else
-	RTMP_ADAPTER *pAd = (RTMP_ADAPTER *)FunctionContext;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)FunctionContext;
 #endif /*APCLI_CONNECTION_TRIAL*/
 
 	DBGPRINT(RT_DEBUG_TRACE, ("ApCli_SYNC - ProbeReqTimeout\n"));

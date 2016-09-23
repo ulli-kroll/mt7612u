@@ -34,7 +34,7 @@ extern UCHAR EpToQueue[];
 /* 802.11 MAC Header, Type:Data, Length:24bytes + 6 bytes QOS/HTC + 2 bytes padding */
 extern UCHAR TemplateFrame[32];
 
-INT TxDmaBusy(RTMP_ADAPTER *pAd)
+INT TxDmaBusy(struct rtmp_adapter *pAd)
 {
 	INT result;
 	USB_DMA_CFG_STRUC UsbCfg;
@@ -54,7 +54,7 @@ INT TxDmaBusy(RTMP_ADAPTER *pAd)
 }
 
 
-INT RxDmaBusy(RTMP_ADAPTER *pAd)
+INT RxDmaBusy(struct rtmp_adapter *pAd)
 {
 	INT result;
 	USB_DMA_CFG_STRUC UsbCfg;
@@ -74,7 +74,7 @@ INT RxDmaBusy(RTMP_ADAPTER *pAd)
 }
 
 
-VOID RtmpDmaEnable(RTMP_ADAPTER *pAd, INT Enable)
+VOID RtmpDmaEnable(struct rtmp_adapter *pAd, INT Enable)
 {
 	BOOLEAN value;
 	ULONG WaitCnt;

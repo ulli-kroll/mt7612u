@@ -49,7 +49,7 @@ extern UCHAR    WPS_OUI[];
  */
 
 BOOLEAN PeerAssocReqCmmSanity(
-	RTMP_ADAPTER *pAd,
+	struct rtmp_adapter *pAd,
 	BOOLEAN isReassoc,
 	VOID *Msg,
 	INT MsgLen,

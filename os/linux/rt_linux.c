@@ -10,7 +10,7 @@
 	1. Can not use sizeof() for a structure with any parameter included
 	by any compile option, such as RTMP_ADAPTER.
 
-	Because the RTMP_ADAPTER size in the UTIL module is different with
+	Because the struct rtmp_adapter size in the UTIL module is different with
 	DRIVER/NETIF.
 
 	2. Do not use any structure with any parameter included by PCI/USB/RBUS/

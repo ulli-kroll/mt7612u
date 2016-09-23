@@ -28,7 +28,7 @@
 
 
 // TODO: this function not finish yet!!
-VOID mgmt_tb_set_mcast_entry(RTMP_ADAPTER *pAd)
+VOID mgmt_tb_set_mcast_entry(struct rtmp_adapter *pAd)
 {
 	MAC_TABLE_ENTRY *pEntry = &pAd->MacTab.Content[MCAST_WCID];
 
@@ -51,7 +51,7 @@ VOID mgmt_tb_set_mcast_entry(RTMP_ADAPTER *pAd)
 }
 
 
-VOID set_entry_phy_cfg(RTMP_ADAPTER *pAd, MAC_TABLE_ENTRY *pEntry)
+VOID set_entry_phy_cfg(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 {
 
 	if (pEntry->MaxSupportedRate < RATE_FIRST_OFDM_RATE)
@@ -83,7 +83,7 @@ VOID set_entry_phy_cfg(RTMP_ADAPTER *pAd, MAC_TABLE_ENTRY *pEntry)
 		pEntry - pointer to the MAC entry; NULL is not found
 	==========================================================================
 */
-MAC_TABLE_ENTRY *MacTableLookup(RTMP_ADAPTER *pAd, UCHAR *pAddr)
+MAC_TABLE_ENTRY *MacTableLookup(struct rtmp_adapter *pAd, UCHAR *pAddr)
 {
 	ULONG HashIdx;
 	MAC_TABLE_ENTRY *pEntry = NULL;
@@ -105,7 +105,7 @@ MAC_TABLE_ENTRY *MacTableLookup(RTMP_ADAPTER *pAd, UCHAR *pAddr)
 
 #ifdef CONFIG_STA_SUPPORT
 BOOLEAN StaUpdateMacTableEntry(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MAC_TABLE_ENTRY *pEntry,
 	IN UCHAR MaxSupportedRateIn500Kbps,
 	IN HT_CAPABILITY_IE *ht_cap,
@@ -378,7 +378,7 @@ BOOLEAN StaUpdateMacTableEntry(
 
 
 MAC_TABLE_ENTRY *MacTableInsertEntry(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR *pAddr,
 	IN struct wifi_dev *wdev,
 	IN UCHAR apidx,
@@ -765,7 +765,7 @@ MAC_TABLE_ENTRY *MacTableInsertEntry(
 		Delete a specified client from MAC table
 	==========================================================================
  */
-BOOLEAN MacTableDeleteEntry(RTMP_ADAPTER *pAd, USHORT wcid, UCHAR *pAddr)
+BOOLEAN MacTableDeleteEntry(struct rtmp_adapter *pAd, USHORT wcid, UCHAR *pAddr)
 {
 	USHORT HashIdx;
 	MAC_TABLE_ENTRY *pEntry, *pPrevEntry, *pProbeEntry;
@@ -980,7 +980,7 @@ BOOLEAN MacTableDeleteEntry(RTMP_ADAPTER *pAd, USHORT wcid, UCHAR *pAddr)
 		the power-saving queues are freed here.
 	==========================================================================
  */
-VOID MacTableReset(RTMP_ADAPTER *pAd)
+VOID MacTableReset(struct rtmp_adapter *pAd)
 {
 	int i;
 	BOOLEAN Cancelled;

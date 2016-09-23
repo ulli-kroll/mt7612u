@@ -174,7 +174,7 @@ static inline VOID EWDS(
 
 /* IRQL = PASSIVE_LEVEL*/
 int rtmp_ee_prom_read16(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN USHORT Offset,
 	OUT USHORT *pValue)
 {
@@ -215,7 +215,7 @@ int rtmp_ee_prom_read16(
 
 
 int rtmp_ee_prom_write16(
-    IN RTMP_ADAPTER *pAd,
+    IN struct rtmp_adapter *pAd,
     IN USHORT Offset,
     IN USHORT Data)
 {

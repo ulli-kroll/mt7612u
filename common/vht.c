@@ -47,7 +47,7 @@ static struct vht_ch_layout vht_ch_80M[]={
 
 
 
-VOID dump_vht_cap(RTMP_ADAPTER *pAd, VHT_CAP_IE *vht_ie)
+VOID dump_vht_cap(struct rtmp_adapter *pAd, VHT_CAP_IE *vht_ie)
 {
 	VHT_CAP_INFO *vht_cap = &vht_ie->vht_cap;
 	VHT_MCS_SET *vht_mcs = &vht_ie->mcs_set;
@@ -84,7 +84,7 @@ VOID dump_vht_cap(RTMP_ADAPTER *pAd, VHT_CAP_IE *vht_ie)
 }
 
 
-VOID dump_vht_op(RTMP_ADAPTER *pAd, VHT_OP_IE *vht_ie)
+VOID dump_vht_op(struct rtmp_adapter *pAd, VHT_OP_IE *vht_ie)
 {
 	VHT_OP_INFO *vht_op = &vht_ie->vht_op_info;
 	VHT_MCS_MAP *vht_mcs = &vht_ie->basic_mcs_set;
@@ -104,7 +104,7 @@ VOID dump_vht_op(RTMP_ADAPTER *pAd, VHT_OP_IE *vht_ie)
 
 
 #ifdef VHT_TXBF_SUPPORT
-VOID trigger_vht_ndpa(RTMP_ADAPTER *pAd, MAC_TABLE_ENTRY *entry)
+VOID trigger_vht_ndpa(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *entry)
 {
 	UCHAR *buf;
 	VHT_NDPA_FRAME *vht_ndpa;
@@ -228,7 +228,7 @@ done:
 /*
 	Currently we only consider about VHT 80MHz!
 */
-UCHAR vht_cent_ch_freq(RTMP_ADAPTER *pAd, UCHAR prim_ch)
+UCHAR vht_cent_ch_freq(struct rtmp_adapter *pAd, UCHAR prim_ch)
 {
 	INT idx = 0;
 
@@ -255,7 +255,7 @@ UCHAR vht_cent_ch_freq(RTMP_ADAPTER *pAd, UCHAR prim_ch)
 }
 
 
-INT vht_mode_adjust(RTMP_ADAPTER *pAd, MAC_TABLE_ENTRY *pEntry, VHT_CAP_IE *cap, VHT_OP_IE *op)
+INT vht_mode_adjust(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry, VHT_CAP_IE *cap, VHT_OP_IE *op)
 {
 	pEntry->MaxHTPhyMode.field.MODE = MODE_VHT;
 	pAd->CommonCfg.AddHTInfo.AddHtInfo2.NonGfPresent = 1;
@@ -272,7 +272,7 @@ INT vht_mode_adjust(RTMP_ADAPTER *pAd, MAC_TABLE_ENTRY *pEntry, VHT_CAP_IE *cap,
 }
 
 
-INT get_vht_op_ch_width(RTMP_ADAPTER *pAd)
+INT get_vht_op_ch_width(struct rtmp_adapter *pAd)
 {
 
 	return TRUE;
@@ -287,7 +287,7 @@ INT get_vht_op_ch_width(RTMP_ADAPTER *pAd)
 
 	Appeared in Beacon, ProbResp frames
 */
-INT build_quiet_channel(RTMP_ADAPTER *pAd, UCHAR *buf)
+INT build_quiet_channel(struct rtmp_adapter *pAd, UCHAR *buf)
 {
 	INT len = 0;
 
@@ -301,7 +301,7 @@ INT build_quiet_channel(RTMP_ADAPTER *pAd, UCHAR *buf)
 
 	Appeared in Beacon, ProbResp frames
 */
-INT build_ext_bss_load(RTMP_ADAPTER *pAd, UCHAR *buf)
+INT build_ext_bss_load(struct rtmp_adapter *pAd, UCHAR *buf)
 {
 	INT len = 0;
 
@@ -317,7 +317,7 @@ INT build_ext_bss_load(RTMP_ADAPTER *pAd, UCHAR *buf)
 
 	Appeared in Beacon, ProbResp frames
 */
-INT build_ext_pwr_constraint(RTMP_ADAPTER *pAd, UCHAR *buf)
+INT build_ext_pwr_constraint(struct rtmp_adapter *pAd, UCHAR *buf)
 {
 	INT len = 0;
 
@@ -331,7 +331,7 @@ INT build_ext_pwr_constraint(RTMP_ADAPTER *pAd, UCHAR *buf)
 
 	Appeared in Beacon, ProbResp frames
 */
-INT build_vht_txpwr_envelope(RTMP_ADAPTER *pAd, UCHAR *buf)
+INT build_vht_txpwr_envelope(struct rtmp_adapter *pAd, UCHAR *buf)
 {
 	INT len = 0, pwr_cnt;
 	VHT_TXPWR_ENV_IE txpwr_env;
@@ -365,7 +365,7 @@ INT build_vht_txpwr_envelope(RTMP_ADAPTER *pAd, UCHAR *buf)
 
 	Appeared in Beacon, (Re)AssocResp, ProbResp frames
 */
-INT build_vht_op_ie(RTMP_ADAPTER *pAd, UCHAR *buf)
+INT build_vht_op_ie(struct rtmp_adapter *pAd, UCHAR *buf)
 {
 	VHT_OP_IE vht_op;
 	UCHAR cent_ch;
@@ -448,7 +448,7 @@ INT build_vht_op_ie(RTMP_ADAPTER *pAd, UCHAR *buf)
 
 	Appeared in Beacon, (Re)AssocReq, (Re)AssocResp, ProbReq/Resp frames
 */
-INT build_vht_cap_ie(RTMP_ADAPTER *pAd, UCHAR *buf)
+INT build_vht_cap_ie(struct rtmp_adapter *pAd, UCHAR *buf)
 {
 	VHT_CAP_IE vht_cap_ie;
 	INT rx_nss, tx_nss, mcs_cap;
@@ -595,7 +595,7 @@ INT build_vht_cap_ie(RTMP_ADAPTER *pAd, UCHAR *buf)
 }
 
 
-INT build_vht_ies(RTMP_ADAPTER *pAd, UCHAR *buf, UCHAR frm)
+INT build_vht_ies(struct rtmp_adapter *pAd, UCHAR *buf, UCHAR frm)
 {
 	INT len = 0;
 	EID_STRUCT eid_hdr;
@@ -621,7 +621,7 @@ INT build_vht_ies(RTMP_ADAPTER *pAd, UCHAR *buf, UCHAR frm)
 	return len;
 }
 
-BOOLEAN vht80_channel_group( RTMP_ADAPTER *pAd, UCHAR channel)
+BOOLEAN vht80_channel_group( struct rtmp_adapter *pAd, UCHAR channel)
 {
 	INT idx = 0;
 

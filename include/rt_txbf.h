@@ -199,76 +199,76 @@ struct {
 } ITXBF_DIV_PARAMS;				// ITxBF Divider Calibration parameters
 
 void ITxBFGetEEPROM(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN ITXBF_PHASE_PARAMS *phaseParams,
 	IN ITXBF_LNA_PARAMS *lnaParams,
 	IN ITXBF_DIV_PARAMS *divParams);
 
 #ifdef MT76x2
 INT ITxBFDividerCalibrationStartUp(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN int calFunction,
 	IN int calMethod,
 	OUT UCHAR *divPhase);
 #endif
 
 INT ITxBFDividerCalibration(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN int calFunction,
 	IN int calMethod,
 	OUT UCHAR *divPhase);
 
 VOID ITxBFLoadLNAComp(
-	IN RTMP_ADAPTER *pAd);
+	IN struct rtmp_adapter *pAd);
 
 int ITxBFLNACalibration(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN int calFunction,
 	IN int calMethod,
 	IN BOOLEAN gBand);
 
 #ifdef MT76x2
 INT mt76x2_ITxBFDividerCalibration(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN int calFunction,
 	IN int calMethod,
 	OUT UCHAR *divPhase);
 
 VOID mt76x2_ITxBFLoadLNAComp(
-	IN RTMP_ADAPTER *pAd);
+	IN struct rtmp_adapter *pAd);
 
 int mt76x2_ITxBFLNACalibration(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN int calFunction,
 	IN int calMethod,
 	IN BOOLEAN gBand);
 
 
 INT ITxBFLNACalibrationStartUp(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN INT calFunction,
 	IN INT calMethod,
 	IN BOOLEAN gBand);
 
 INT ITxBFPhaseCalibrationStartUp(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN INT calFunction,
 	IN USHORT ch);
 
 INT ITxBFPhaseCalibration(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN INT calFunction,
 	IN USHORT ch);
 #endif
 
 void Read_TxBfProfile(
-	IN	RTMP_ADAPTER	*pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PROFILE_DATA	*prof,
 	IN	int				profileNum,
 	IN	BOOLEAN			implicitProfile);
 
 void Write_TxBfProfile(
-	IN	RTMP_ADAPTER	*pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PROFILE_DATA	*prof,
 	IN	int				profileNum);
 
@@ -279,7 +279,7 @@ void Read_TagField(
 
 // Write_TagField - write a profile tagfield
 void Write_TagField(
-	IN	RTMP_ADAPTER *pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN  UCHAR	*row,
 	IN  int		profileNum);
 
@@ -314,7 +314,7 @@ INT TxBfProfileTagValid(
 
 // displayTagfield - display one tagfield
 void displayTagfield(
-	IN	RTMP_ADAPTER *pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	int		profileNum,
 	IN	BOOLEAN implicitProfile);
 
@@ -324,12 +324,12 @@ int Unpack_IBFValue(
 	IN int elemNum);
 
 int iCalcCalibration(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN int calParams[2],
 	IN int profileNum);
 
 void ITxBFSetEEPROM(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN ITXBF_PHASE_PARAMS *phaseParams,
 	IN ITXBF_LNA_PARAMS *lnaParams,
 	IN ITXBF_DIV_PARAMS *divParams);

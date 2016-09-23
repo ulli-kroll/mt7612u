@@ -253,7 +253,7 @@ CHAR ATEConvertToRssi(
 
 
 VOID ATESampleRssi(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN RXWI_STRUC *pRxWI)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
@@ -582,7 +582,7 @@ INT ATETxPwrHandler(
 
 ========================================================================
 */
-static VOID SetJapanFilter(RTMP_ADAPTER *pAd)
+static VOID SetJapanFilter(struct rtmp_adapter *pAd)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 	UCHAR bw = 0, phy_mode = 0;
@@ -852,7 +852,7 @@ VOID RTMPStationStart(
 
 
 #ifdef RLT_BBP
-static INT ate_bbp_core_soft_reset(RTMP_ADAPTER *pAd, BOOLEAN set_bw, INT bw)
+static INT ate_bbp_core_soft_reset(struct rtmp_adapter *pAd, BOOLEAN set_bw, INT bw)
 {
 	UINT32 bbp_val;
 
@@ -4422,7 +4422,7 @@ INT	Set_ATE_TXBF_LNACAL_Proc(
 ==========================================================================
 */
 static BOOLEAN rtmp_ate_txbf_cal_valid_ch(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR channel)
 {
 	BOOLEAN bValidCh;
@@ -6058,7 +6058,7 @@ NDIS_STATUS ATEInit(
 
 #ifdef RTMP_BBP
 NDIS_STATUS ATEBBPWriteWithRxChain(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR bbpId,
 	IN CHAR bbpVal,
 	IN RX_CHAIN_IDX rx_ch_idx)
@@ -6350,7 +6350,7 @@ VOID ATEPeriodicExec(
 	IN PVOID SystemSpecific2,
 	IN PVOID SystemSpecific3)
 {
-	struct rtmp_adapter *pAd = (RTMP_ADAPTER *)FunctionContext;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)FunctionContext;
 	PATE_INFO pATEInfo = &(pAd->ate);
 
 	if (ATE_ON(pAd))

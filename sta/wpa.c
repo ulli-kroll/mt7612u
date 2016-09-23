@@ -56,7 +56,7 @@
 
 	========================================================================
 */
-VOID RTMPReportMicError(RTMP_ADAPTER *pAd, PCIPHER_KEY pWpaKey)
+VOID RTMPReportMicError(struct rtmp_adapter *pAd, PCIPHER_KEY pWpaKey)
 {
 	ULONG Now;
 	UCHAR unicastKey = (pWpaKey->Type == PAIRWISE_KEY ? 1:0);
@@ -223,7 +223,7 @@ VOID WpaDisassocApAndBlockAssoc(
     IN PVOID SystemSpecific2,
     IN PVOID SystemSpecific3)
 {
-    RTMP_ADAPTER *pAd = (struct rtmp_adapter *)FunctionContext;
+    struct rtmp_adapter *pAd = (struct rtmp_adapter *)FunctionContext;
     MLME_DISASSOC_REQ_STRUCT    DisassocReq;
 
 	/* disassoc from current AP first */
@@ -236,7 +236,7 @@ VOID WpaDisassocApAndBlockAssoc(
 }
 
 
-VOID WpaStaPairwiseKeySetting(RTMP_ADAPTER *pAd)
+VOID WpaStaPairwiseKeySetting(struct rtmp_adapter *pAd)
 {
 	PCIPHER_KEY pSharedKey;
 	PMAC_TABLE_ENTRY pEntry;
@@ -290,7 +290,7 @@ VOID WpaStaPairwiseKeySetting(RTMP_ADAPTER *pAd)
 }
 
 
-VOID WpaStaGroupKeySetting(RTMP_ADAPTER *pAd)
+VOID WpaStaGroupKeySetting(struct rtmp_adapter *pAd)
 {
 	PCIPHER_KEY 		pSharedKey;
 
@@ -345,7 +345,7 @@ VOID WpaStaGroupKeySetting(RTMP_ADAPTER *pAd)
 
 	========================================================================
 */
-VOID WpaSendEapolStart(RTMP_ADAPTER *pAd, UCHAR *pBssid)
+VOID WpaSendEapolStart(struct rtmp_adapter *pAd, UCHAR *pBssid)
 {
 	IEEE8021X_FRAME Packet;
 	UCHAR Header802_3[14];

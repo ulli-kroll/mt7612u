@@ -69,9 +69,9 @@ typedef struct _ATE_CHIP_STRUCT {
 	VOID	(*AdjustTxPower)(struct rtmp_adapter *pAd);
 	VOID	(*AsicExtraPowerOverMAC)(struct rtmp_adapter *pAd);
 	VOID	(*AsicCalibration)(struct rtmp_adapter *pAd, UCHAR ate_mode);
-	VOID 	(*TemperCompensation)(RTMP_ADAPTER *pAd);
+	VOID 	(*TemperCompensation)(struct rtmp_adapter *pAd);
 #ifdef SINGLE_SKU_V2
-	VOID 	(*do_ATE_single_sku)(RTMP_ADAPTER *pAd, BOOLEAN value);
+	VOID 	(*do_ATE_single_sku)(struct rtmp_adapter *pAd, BOOLEAN value);
 #endif
 
 	/* command handlers */
@@ -801,7 +801,7 @@ NDIS_STATUS ATEInit(
 
 #ifdef RTMP_BBP
 NDIS_STATUS ATEBBPWriteWithRxChain(
- IN RTMP_ADAPTER *pAd,
+ IN struct rtmp_adapter *pAd,
  IN UCHAR bbpId,
  IN CHAR bbpVal,
  IN RX_CHAIN_IDX rx_ch_idx);
@@ -825,13 +825,13 @@ VOID  ATEPeriodicExec(
 	IN PVOID SystemSpecific2,
 	IN PVOID SystemSpecific3);
 
-VOID ATEAsicSetTxRxPath(RTMP_ADAPTER *pAd);
+VOID ATEAsicSetTxRxPath(struct rtmp_adapter *pAd);
 
-VOID RtmpRfIoWrite(RTMP_ADAPTER *pAd);
+VOID RtmpRfIoWrite(struct rtmp_adapter *pAd);
 
-VOID ATEAsicSwitchChannel(RTMP_ADAPTER *pAd);
+VOID ATEAsicSwitchChannel(struct rtmp_adapter *pAd);
 
-VOID BbpSoftReset(RTMP_ADAPTER *pAd);
+VOID BbpSoftReset(struct rtmp_adapter *pAd);
 
 
 #endif /* __RT_ATE_H__ */

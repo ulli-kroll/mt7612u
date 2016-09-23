@@ -37,7 +37,7 @@
         call this routine every second
     ==========================================================================
  */
-VOID APMlmeDynamicTxRateSwitching(RTMP_ADAPTER *pAd)
+VOID APMlmeDynamicTxRateSwitching(struct rtmp_adapter *pAd)
 {
 	UINT i;
 	PUCHAR pTable;

@@ -9,7 +9,7 @@
 #include	"rt_config.h"
 
 
-NDIS_STATUS RTUSBFreeDescriptorRelease(RTMP_ADAPTER *pAd, UCHAR BulkOutPipeId)
+NDIS_STATUS RTUSBFreeDescriptorRelease(struct rtmp_adapter *pAd, UCHAR BulkOutPipeId)
 {
 	HT_TX_CONTEXT *pHTTXContext;
 	unsigned long IrqFlags;
@@ -44,7 +44,7 @@ NDIS_STATUS RTUSBFreeDescriptorRelease(RTMP_ADAPTER *pAd, UCHAR BulkOutPipeId)
 	========================================================================
 */
 NDIS_STATUS	RTUSBFreeDescRequest(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR BulkOutPipeId,
 	IN UINT32 req_cnt)
 {
@@ -95,7 +95,7 @@ NDIS_STATUS	RTUSBFreeDescRequest(
 }
 
 
-BOOLEAN	RTUSBNeedQueueBackForAgg(RTMP_ADAPTER *pAd, UCHAR BulkOutPipeId)
+BOOLEAN	RTUSBNeedQueueBackForAgg(struct rtmp_adapter *pAd, UCHAR BulkOutPipeId)
 {
 	HT_TX_CONTEXT *pHTTXContext;
 	BOOLEAN needQueBack = FALSE;
@@ -153,7 +153,7 @@ BOOLEAN	RTUSBNeedQueueBackForAgg(RTMP_ADAPTER *pAd, UCHAR BulkOutPipeId)
 	========================================================================
 */
 VOID rlt_usb_write_txinfo(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN TXINFO_STRUC *pTxInfo,
 	IN USHORT USBDMApktLen,
 	IN BOOLEAN bWiv,
@@ -211,7 +211,7 @@ VOID rlt_usb_write_txinfo(
 
 
 static VOID rlt_usb_update_txinfo(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN TXINFO_STRUC *pTxInfo,
 	IN TX_BLK *pTxBlk)
 {
@@ -221,7 +221,7 @@ static VOID rlt_usb_update_txinfo(
 
 
 #ifdef CONFIG_STA_SUPPORT
-VOID ComposePsPoll(RTMP_ADAPTER *pAd)
+VOID ComposePsPoll(struct rtmp_adapter *pAd)
 {
 	TXINFO_STRUC *pTxInfo;
 	TXWI_STRUC *pTxWI;
@@ -259,7 +259,7 @@ VOID ComposePsPoll(RTMP_ADAPTER *pAd)
 
 
 /* IRQL = DISPATCH_LEVEL */
-VOID ComposeNullFrame(RTMP_ADAPTER *pAd)
+VOID ComposeNullFrame(struct rtmp_adapter *pAd)
 {
 	TXINFO_STRUC *pTxInfo;
 	TXWI_STRUC *pTxWI;
@@ -298,7 +298,7 @@ VOID ComposeNullFrame(RTMP_ADAPTER *pAd)
 		=>
 */
 static inline NDIS_STATUS RtmpUSBCanDoWrite(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR QueIdx,
 	IN HT_TX_CONTEXT *pHTTXContext)
 {
@@ -350,7 +350,7 @@ static inline NDIS_STATUS RtmpUSBCanDoWrite(
 
 
 USHORT RtmpUSB_WriteSubTxResource(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN TX_BLK *pTxBlk,
 	IN BOOLEAN bIsLast,
 	OUT	USHORT *freeCnt)
@@ -362,7 +362,7 @@ USHORT RtmpUSB_WriteSubTxResource(
 }
 
 USHORT	RtmpUSB_WriteFragTxResource(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN TX_BLK *pTxBlk,
 	IN UCHAR fragNum,
 	OUT	USHORT *freeCnt)
@@ -563,7 +563,7 @@ USHORT	RtmpUSB_WriteFragTxResource(
 
 
 USHORT RtmpUSB_WriteSingleTxResource(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN TX_BLK *pTxBlk,
 	IN BOOLEAN bIsLast,
 	OUT	USHORT *freeCnt)
@@ -739,7 +739,7 @@ USHORT RtmpUSB_WriteSingleTxResource(
 
 
 USHORT RtmpUSB_WriteMultiTxResource(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN TX_BLK *pTxBlk,
 	IN UCHAR frmNum,
 	OUT USHORT *freeCnt)
@@ -872,7 +872,7 @@ done:
 
 
 VOID RtmpUSB_FinalWriteTxResource(
-	IN RTMP_ADAPTER	*pAd,
+	IN struct rtmp_adapter *pAd,
 	IN TX_BLK *pTxBlk,
 	IN USHORT totalMPDUSize,
 	IN USHORT TxIdx)
@@ -992,7 +992,7 @@ VOID RtmpUSB_FinalWriteTxResource(
 
 
 VOID RtmpUSBDataLastTxIdx(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR QueIdx,
 	IN USHORT TxIdx)
 {
@@ -1009,7 +1009,7 @@ VOID RtmpUSBDataLastTxIdx(
 
 */
 VOID RtmpUSBDataKickOut(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN TX_BLK *pTxBlk,
 	IN UCHAR QueIdx)
 {
@@ -1024,7 +1024,7 @@ VOID RtmpUSBDataKickOut(
 	This function handle RT2870 specific TxDesc and cpu index update and kick the packet out.
  */
 int RtmpUSBMgmtKickOut(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR QueIdx,
 	IN PNDIS_PACKET pPacket,
 	IN UCHAR *pSrcBufVA,
@@ -1125,7 +1125,7 @@ int RtmpUSBMgmtKickOut(
 
 
 VOID RtmpUSBNullFrameKickOut(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR QueIdx,
 	IN UCHAR *pNullFrame,
 	IN UINT32 frameLen)
@@ -1190,7 +1190,7 @@ Note:
 ========================================================================
 */
 PNDIS_PACKET GetPacketFromRxRing(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	OUT RX_BLK *pRxBlk,
 	OUT BOOLEAN *pbReschedule,
 	INOUT UINT32 *pRxPending,
@@ -1383,7 +1383,7 @@ VOID RtmpUsbStaAsicForceWakeupTimeout(
 	IN PVOID SystemSpecific2,
 	IN PVOID SystemSpecific3)
 {
-	RTMP_ADAPTER *pAd = (RTMP_ADAPTER *)FunctionContext;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)FunctionContext;
 
 
 
@@ -1400,7 +1400,7 @@ VOID RtmpUsbStaAsicForceWakeupTimeout(
 }
 
 
-VOID RT28xxUsbStaAsicForceWakeup(RTMP_ADAPTER *pAd, BOOLEAN bFromTx)
+VOID RT28xxUsbStaAsicForceWakeup(struct rtmp_adapter *pAd, BOOLEAN bFromTx)
 {
 	BOOLEAN	Canceled;
 

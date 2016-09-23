@@ -70,7 +70,7 @@ VOID AssocTimeout(
 	IN PVOID SystemSpecific2,
 	IN PVOID SystemSpecific3)
 {
-	RTMP_ADAPTER *pAd = (RTMP_ADAPTER *) FunctionContext;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *) FunctionContext;
 
 	/* Do nothing if the driver is starting halt state. */
 	/* This might happen when timer already been fired before cancel timer with mlmehalt */
@@ -99,7 +99,7 @@ VOID ReassocTimeout(
 	IN PVOID SystemSpecific2,
 	IN PVOID SystemSpecific3)
 {
-	RTMP_ADAPTER *pAd = (RTMP_ADAPTER *) FunctionContext;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *) FunctionContext;
 
 	/* Do nothing if the driver is starting halt state. */
 	/* This might happen when timer already been fired before cancel timer with mlmehalt */
@@ -128,7 +128,7 @@ VOID DisassocTimeout(
 	IN PVOID SystemSpecific2,
 	IN PVOID SystemSpecific3)
 {
-	RTMP_ADAPTER *pAd = (RTMP_ADAPTER *) FunctionContext;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *) FunctionContext;
 
 	/* Do nothing if the driver is starting halt state. */
 	/* This might happen when timer already been fired before cancel timer with mlmehalt */
@@ -1373,7 +1373,7 @@ VOID AssocPostProc(
 
 	==========================================================================
  */
-VOID PeerDisassocAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
+VOID PeerDisassocAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 	UCHAR Addr2[MAC_ADDR_LEN];
 	USHORT Reason;
@@ -1440,7 +1440,7 @@ VOID PeerDisassocAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
 
 	==========================================================================
  */
-VOID AssocTimeoutAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
+VOID AssocTimeoutAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 	USHORT Status;
 	DBGPRINT(RT_DEBUG_TRACE, ("ASSOC - AssocTimeoutAction\n"));
@@ -1459,7 +1459,7 @@ VOID AssocTimeoutAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
 
 	==========================================================================
  */
-VOID ReassocTimeoutAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
+VOID ReassocTimeoutAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 	USHORT Status;
 	DBGPRINT(RT_DEBUG_TRACE, ("ASSOC - ReassocTimeoutAction\n"));
@@ -1478,7 +1478,7 @@ VOID ReassocTimeoutAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
 
 	==========================================================================
  */
-VOID DisassocTimeoutAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
+VOID DisassocTimeoutAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 	USHORT Status;
 	DBGPRINT(RT_DEBUG_TRACE, ("ASSOC - DisassocTimeoutAction\n"));
@@ -1488,7 +1488,7 @@ VOID DisassocTimeoutAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
 		    0);
 }
 
-VOID InvalidStateWhenAssoc(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
+VOID InvalidStateWhenAssoc(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 	USHORT Status;
 	DBGPRINT(RT_DEBUG_TRACE,
@@ -1500,7 +1500,7 @@ VOID InvalidStateWhenAssoc(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
 		    0);
 }
 
-VOID InvalidStateWhenReassoc(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
+VOID InvalidStateWhenReassoc(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 	USHORT Status;
 	DBGPRINT(RT_DEBUG_TRACE,
@@ -1512,7 +1512,7 @@ VOID InvalidStateWhenReassoc(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
 		    0);
 }
 
-VOID InvalidStateWhenDisassociate(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
+VOID InvalidStateWhenDisassociate(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 	USHORT Status;
 	DBGPRINT(RT_DEBUG_TRACE,
@@ -1537,7 +1537,7 @@ VOID InvalidStateWhenDisassociate(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
 
 	==========================================================================
  */
-VOID Cls3errAction(RTMP_ADAPTER *pAd, UCHAR *pAddr)
+VOID Cls3errAction(struct rtmp_adapter *pAd, UCHAR *pAddr)
 {
 	HEADER_802_11 DisassocHdr;
 	PHEADER_802_11 pDisassocHdr;

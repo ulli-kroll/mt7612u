@@ -45,7 +45,7 @@ UCHAR WMM_UP2AC_MAP[8] = {QID_AC_BE, QID_AC_BK,
 							QID_AC_VO, QID_AC_VO};
 
 
-VOID dump_rxinfo(RTMP_ADAPTER *pAd, RXINFO_STRUC *pRxInfo)
+VOID dump_rxinfo(struct rtmp_adapter *pAd, RXINFO_STRUC *pRxInfo)
 {
 	hex_dump("RxInfo Raw Data", (UCHAR *)pRxInfo, sizeof(RXINFO_STRUC));
 
@@ -85,7 +85,7 @@ VOID dump_rxinfo(RTMP_ADAPTER *pAd, RXINFO_STRUC *pRxInfo)
 }
 
 
-VOID dump_txinfo(RTMP_ADAPTER *pAd, TXINFO_STRUC *pTxInfo)
+VOID dump_txinfo(struct rtmp_adapter *pAd, TXINFO_STRUC *pTxInfo)
 {
 	hex_dump("TxInfo Raw Data: ", (UCHAR *)pTxInfo, sizeof(TXINFO_STRUC));
 
@@ -103,7 +103,7 @@ VOID dump_txinfo(RTMP_ADAPTER *pAd, TXINFO_STRUC *pTxInfo)
 }
 
 
-VOID dump_txwi(RTMP_ADAPTER *pAd, TXWI_STRUC *pTxWI)
+VOID dump_txwi(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI)
 {
 	hex_dump("TxWI Raw Data: ", (UCHAR *)pTxWI, pAd->chipCap.TXWISize);
 
@@ -120,7 +120,7 @@ VOID dump_txwi(RTMP_ADAPTER *pAd, TXWI_STRUC *pTxWI)
 }
 
 
-VOID dump_rxwi(RTMP_ADAPTER *pAd, RXWI_STRUC *pRxWI)
+VOID dump_rxwi(struct rtmp_adapter *pAd, RXWI_STRUC *pRxWI)
 {
 	hex_dump("RxWI Raw Data", (UCHAR *)pRxWI, pAd->chipCap.RXWISize);
 
@@ -181,7 +181,7 @@ static VOID dump_txblk(TX_BLK *pTxBlk)
 #endif
 
 
-VOID dump_rxblk(RTMP_ADAPTER *pAd, RX_BLK *pRxBlk)
+VOID dump_rxblk(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 {
 	DBGPRINT(RT_DEBUG_TRACE,("Dump RX_BLK Structure:\n"));
 
@@ -230,7 +230,7 @@ VOID dump_rxblk(RTMP_ADAPTER *pAd, RX_BLK *pRxBlk)
 
 
 #ifdef DOT11_N_SUPPORT
-VOID RTMP_BASetup(RTMP_ADAPTER *pAd, MAC_TABLE_ENTRY *pEntry, UINT8 UPriority)
+VOID RTMP_BASetup(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry, UINT8 UPriority)
 {
 #ifdef CONFIG_AP_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
@@ -313,7 +313,7 @@ VOID RTMP_BASetup(RTMP_ADAPTER *pAd, MAC_TABLE_ENTRY *pEntry, UINT8 UPriority)
 	========================================================================
 */
 NDIS_STATUS MiniportMMRequest(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR QueIdx,
 	IN UCHAR *pData,
 	IN UINT Length)
@@ -594,7 +594,7 @@ Label_Legacy_PS:
 	========================================================================
 */
 NDIS_STATUS MlmeHardTransmit(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR QueIdx,
 	IN PNDIS_PACKET pPacket,
 	IN BOOLEAN FlgDataQForce,
@@ -717,7 +717,7 @@ NDIS_STATUS MlmeHardTransmit(
 
 
 NDIS_STATUS MlmeHardTransmitMgmtRing(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR QueIdx,
 	IN PNDIS_PACKET pPacket)
 {
@@ -1155,7 +1155,7 @@ NDIS_STATUS MlmeHardTransmitMgmtRing(
 								(2).Normal
 	========================================================================
 */
-static UCHAR TxPktClassification(RTMP_ADAPTER *pAd, PNDIS_PACKET  pPacket, TX_BLK *pTxBlk)
+static UCHAR TxPktClassification(struct rtmp_adapter *pAd, PNDIS_PACKET  pPacket, TX_BLK *pTxBlk)
 {
 	UCHAR TxFrameType = TX_UNKOWN_FRAME;
 	UCHAR Wcid;
@@ -1264,7 +1264,7 @@ static UCHAR TxPktClassification(RTMP_ADAPTER *pAd, PNDIS_PACKET  pPacket, TX_BL
 }
 
 
-BOOLEAN RTMP_FillTxBlkInfo(RTMP_ADAPTER *pAd, TX_BLK *pTxBlk)
+BOOLEAN RTMP_FillTxBlkInfo(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 {
 	PACKET_INFO PacketInfo;
 	PNDIS_PACKET pPacket;
@@ -1439,7 +1439,7 @@ BOOLEAN RTMP_FillTxBlkInfo(RTMP_ADAPTER *pAd, TX_BLK *pTxBlk)
 
 
 BOOLEAN CanDoAggregateTransmit(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN NDIS_PACKET *pPacket,
 	IN TX_BLK		*pTxBlk)
 {
@@ -1516,7 +1516,7 @@ BOOLEAN CanDoAggregateTransmit(
 	========================================================================
 */
 VOID RTMPDeQueuePacket(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN BOOLEAN bIntContext,
 	IN UCHAR QIdx,
 	IN INT Max_Tx_Packets)
@@ -2258,7 +2258,7 @@ static inline VOID Sniff2BytesFromNdisBuffer(
 #define ETH_HDR_LEN		14
 
 BOOLEAN RTMPCheckEtherType(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PNDIS_PACKET	pPacket,
 	IN MAC_TABLE_ENTRY *pMacEntry,
 	IN struct wifi_dev *wdev,
@@ -2514,7 +2514,7 @@ BOOLEAN RTMPCheckEtherType(
 
 
 VOID Update_Rssi_Sample(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN RSSI_SAMPLE *pRssi,
 	IN RXWI_STRUC *pRxWI)
 {
@@ -2629,7 +2629,7 @@ VOID Update_Rssi_Sample(
 
 
 /* Normal legacy Rx packet indication*/
-VOID Indicate_Legacy_Packet(RTMP_ADAPTER *pAd, RX_BLK *pRxBlk, UCHAR FromWhichBSSID)
+VOID Indicate_Legacy_Packet(struct rtmp_adapter *pAd, RX_BLK *pRxBlk, UCHAR FromWhichBSSID)
 {
 	PNDIS_PACKET pRxPacket = pRxBlk->pRxPacket;
 	UCHAR Header802_3[LENGTH_802_3];
@@ -2750,7 +2750,7 @@ if (0) {
 #ifdef HDR_TRANS_SUPPORT
 /* Normal legacy Rx packet indication*/
 VOID Indicate_Legacy_Packet_Hdr_Trns(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN RX_BLK *pRxBlk,
 	IN UCHAR FromWhichBSSID)
 {
@@ -2924,7 +2924,7 @@ VOID CmmRxnonRalinkFrameIndicate_Hdr_Trns(
 
 
 VOID CmmRxRalinkFrameIndicate(
-	IN	RTMP_ADAPTER *pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	MAC_TABLE_ENTRY *pEntry,
 	IN	RX_BLK *pRxBlk,
 	IN	UCHAR FromWhichBSSID)
@@ -3047,7 +3047,7 @@ VOID CmmRxRalinkFrameIndicate(
 	}
 
 
-PNDIS_PACKET RTMPDeFragmentDataFrame(RTMP_ADAPTER *pAd, RX_BLK *pRxBlk)
+PNDIS_PACKET RTMPDeFragmentDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 {
 	HEADER_802_11 *pHeader = pRxBlk->pHeader;
 	PNDIS_PACKET pRxPacket = pRxBlk->pRxPacket;
@@ -3168,7 +3168,7 @@ done:
 
 
 VOID Indicate_EAPOL_Packet(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN RX_BLK *pRxBlk,
 	IN UCHAR FromWhichBSSID)
 {
@@ -3221,7 +3221,7 @@ VOID Indicate_EAPOL_Packet(
 
 #ifdef SOFT_ENCRYPT
 BOOLEAN RTMPExpandPacketForSwEncrypt(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN TX_BLK *pTxBlk)
 {
 	PACKET_INFO PacketInfo;
@@ -3246,7 +3246,7 @@ BOOLEAN RTMPExpandPacketForSwEncrypt(
 
 
 VOID RTMPUpdateSwCacheCipherInfo(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN TX_BLK *pTxBlk,
 	IN UCHAR *pHdr)
 {
@@ -3285,7 +3285,7 @@ VOID RTMPUpdateSwCacheCipherInfo(
 	==========================================================================
  */
 VOID RtmpEnqueueNullFrame(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR *pAddr,
 	IN UCHAR TxRate,
 	IN UCHAR AID,
@@ -3516,7 +3516,7 @@ VOID RtmpPrepareHwNullFrame(
 
 
 // TODO: shiang-usw, modify the op_mode assignment for this function!!!
-VOID dev_rx_mgmt_frm(RTMP_ADAPTER *pAd, RX_BLK *pRxBlk)
+VOID dev_rx_mgmt_frm(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 {
 	HEADER_802_11 *pHeader = pRxBlk->pHeader;
 	PNDIS_PACKET pRxPacket = pRxBlk->pRxPacket;
@@ -3752,7 +3752,7 @@ done:
 }
 
 
-VOID dev_rx_ctrl_frm(RTMP_ADAPTER *pAd, RX_BLK *pRxBlk)
+VOID dev_rx_ctrl_frm(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 {
 	HEADER_802_11 *pHeader = pRxBlk->pHeader;
 	PNDIS_PACKET pRxPacket = pRxBlk->pRxPacket;
@@ -3861,7 +3861,7 @@ VOID dev_rx_ctrl_frm(RTMP_ADAPTER *pAd, RX_BLK *pRxBlk)
 #undef MAX_RX_PROCESS_CNT
 #define MAX_RX_PROCESS_CNT	(256)
 
-BOOLEAN rtmp_rx_done_handle(RTMP_ADAPTER *pAd)
+BOOLEAN rtmp_rx_done_handle(struct rtmp_adapter *pAd)
 {
 	UINT32 RxProcessed, RxPending;
 	BOOLEAN bReschedule = FALSE;

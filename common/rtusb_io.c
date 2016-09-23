@@ -50,14 +50,14 @@
 	========================================================================
 */
 #ifdef RTMP_MAC
-void usb_cfg_read_v1(RTMP_ADAPTER *ad, u32 *value)
+void usb_cfg_read_v1(struct rtmp_adapter *ad, u32 *value)
 {
 	RTUSBReadMACRegister(ad, RTMP_USB_DMA_CFG, value);
 }
 
 
 // For MT76x0 and older
-void usb_cfg_write_v1(RTMP_ADAPTER *ad, u32 value)
+void usb_cfg_write_v1(struct rtmp_adapter *ad, u32 value)
 {
 	RTUSBWriteMACRegister(ad, RTMP_USB_DMA_CFG, value, FALSE);
 }
@@ -65,14 +65,14 @@ void usb_cfg_write_v1(RTMP_ADAPTER *ad, u32 value)
 
 #ifdef RLT_MAC
 // For MT76x0 and older
-void usb_cfg_read_v2(RTMP_ADAPTER *ad, u32 *value)
+void usb_cfg_read_v2(struct rtmp_adapter *ad, u32 *value)
 {
 	RTUSBReadMACRegister(ad, RLT_USB_DMA_CFG, value);
 }
 
 
 // For MT76x0 and older
-void usb_cfg_write_v2(RTMP_ADAPTER *ad, u32 value)
+void usb_cfg_write_v2(struct rtmp_adapter *ad, u32 value)
 {
 	RTUSBWriteMACRegister(ad, RLT_USB_DMA_CFG, value, FALSE);
 }
@@ -80,7 +80,7 @@ void usb_cfg_write_v2(RTMP_ADAPTER *ad, u32 value)
 
 #ifdef MT76x2
 // For MT7662 and newer
-void usb_cfg_read_v3(RTMP_ADAPTER *ad, u32 *value)
+void usb_cfg_read_v3(struct rtmp_adapter *ad, u32 *value)
 {
 	int ret;
 	u32 io_value;
@@ -101,7 +101,7 @@ void usb_cfg_read_v3(RTMP_ADAPTER *ad, u32 *value)
 }
 
 // For MT7662 and newer
-void usb_cfg_write_v3(RTMP_ADAPTER *ad, u32 value)
+void usb_cfg_write_v3(struct rtmp_adapter *ad, u32 value)
 {
 	int ret;
 	u32 io_value;
@@ -127,7 +127,7 @@ void usb_cfg_write_v3(RTMP_ADAPTER *ad, u32 value)
 #endif /* MT76x2 */
 #endif /* RLT_MAC */
 
-static NTSTATUS RTUSBFirmwareRun(RTMP_ADAPTER *pAd)
+static NTSTATUS RTUSBFirmwareRun(struct rtmp_adapter *pAd)
 {
 	NTSTATUS Status;
 
@@ -163,7 +163,7 @@ static NTSTATUS RTUSBFirmwareRun(RTMP_ADAPTER *pAd)
 
 	========================================================================
 */
-NTSTATUS RTUSBFirmwareOpmode(RTMP_ADAPTER *pAd, UINT32 *pValue)
+NTSTATUS RTUSBFirmwareOpmode(struct rtmp_adapter *pAd, UINT32 *pValue)
 {
 	NTSTATUS	Status;
 
@@ -195,7 +195,7 @@ NTSTATUS RTUSBFirmwareOpmode(RTMP_ADAPTER *pAd, UINT32 *pValue)
 
 	========================================================================
 */
-NTSTATUS RTUSBFirmwareWrite(RTMP_ADAPTER *pAd, UCHAR *pFwImage, ULONG FwLen)
+NTSTATUS RTUSBFirmwareWrite(struct rtmp_adapter *pAd, UCHAR *pFwImage, ULONG FwLen)
 {
 	UINT32 MacReg;
 	NTSTATUS Status;
@@ -224,7 +224,7 @@ NTSTATUS RTUSBFirmwareWrite(RTMP_ADAPTER *pAd, UCHAR *pFwImage, ULONG FwLen)
 }
 
 
-NTSTATUS RTUSBVenderReset(RTMP_ADAPTER *pAd)
+NTSTATUS RTUSBVenderReset(struct rtmp_adapter *pAd)
 {
 	NTSTATUS Status;
 	DBGPRINT_RAW(RT_DEBUG_ERROR, ("-->RTUSBVenderReset\n"));
@@ -258,7 +258,7 @@ NTSTATUS RTUSBVenderReset(RTMP_ADAPTER *pAd)
 
 	========================================================================
 */
-NTSTATUS RTUSBMultiRead(RTMP_ADAPTER *pAd, USHORT addr, UCHAR *buf, USHORT len)
+NTSTATUS RTUSBMultiRead(struct rtmp_adapter *pAd, USHORT addr, UCHAR *buf, USHORT len)
 {
 	return RTUSB_VendorRequest(pAd, (USBD_TRANSFER_DIRECTION_IN |
 										USBD_SHORT_TRANSFER_OK),
@@ -284,7 +284,7 @@ NTSTATUS RTUSBMultiRead(RTMP_ADAPTER *pAd, USHORT addr, UCHAR *buf, USHORT len)
 	========================================================================
 */
 NTSTATUS RTUSBMultiWrite_nBytes(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN USHORT Offset,
 	IN UCHAR *buf,
 	IN USHORT len,
@@ -338,7 +338,7 @@ NTSTATUS RTUSBMultiWrite_nBytes(
 
 	========================================================================
 */
-NTSTATUS RTUSBMultiWrite_OneByte(RTMP_ADAPTER *pAd, USHORT Offset, UCHAR *pData)
+NTSTATUS RTUSBMultiWrite_OneByte(struct rtmp_adapter *pAd, USHORT Offset, UCHAR *pData)
 {
 	/* TODO: In 2870, use this funciton carefully cause it's not stable.*/
 	return RTUSB_VendorRequest(pAd, USBD_TRANSFER_DIRECTION_OUT,
@@ -347,7 +347,7 @@ NTSTATUS RTUSBMultiWrite_OneByte(RTMP_ADAPTER *pAd, USHORT Offset, UCHAR *pData)
 }
 
 NTSTATUS RTUSBMultiWrite(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN USHORT Offset,
 	IN UCHAR *pData,
 	IN USHORT length,
@@ -374,7 +374,7 @@ NTSTATUS RTUSBMultiWrite(
 
 
 NTSTATUS RTUSBSingleWrite(
-	IN 	RTMP_ADAPTER *pAd,
+	IN 	struct rtmp_adapter *pAd,
 	IN	USHORT Offset,
 	IN	USHORT Value,
 	IN	BOOLEAN WriteHigh)
@@ -401,7 +401,7 @@ NTSTATUS RTUSBSingleWrite(
 
 	========================================================================
 */
-NTSTATUS RTUSBReadMACRegister(RTMP_ADAPTER *pAd, USHORT Offset, UINT32 *pValue)
+NTSTATUS RTUSBReadMACRegister(struct rtmp_adapter *pAd, USHORT Offset, UINT32 *pValue)
 {
 	NTSTATUS Status = 0;
 	UINT32 localVal;
@@ -442,7 +442,7 @@ NTSTATUS RTUSBReadMACRegister(RTMP_ADAPTER *pAd, USHORT Offset, UINT32 *pValue)
 	========================================================================
 */
 NTSTATUS RTUSBWriteMACRegister(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN USHORT Offset,
 	IN UINT32 Value,
 	IN BOOLEAN bWriteHigh)
@@ -472,7 +472,7 @@ NTSTATUS RTUSBWriteMACRegister(
 }
 
 
-int write_reg(RTMP_ADAPTER *ad, UINT32 base, UINT16 offset, UINT32 val)
+int write_reg(struct rtmp_adapter *ad, UINT32 base, UINT16 offset, UINT32 val)
 {
 	NTSTATUS ret;
 	UINT8 req;
@@ -501,7 +501,7 @@ int write_reg(RTMP_ADAPTER *ad, UINT32 base, UINT16 offset, UINT32 val)
 }
 
 
-int read_reg(RTMP_ADAPTER *ad, UINT32 base, UINT16 offset, UINT32 *value)
+int read_reg(struct rtmp_adapter *ad, UINT32 base, UINT16 offset, UINT32 *value)
 {
 	NTSTATUS ret;
 	UINT8 req;
@@ -544,7 +544,7 @@ int read_reg(RTMP_ADAPTER *ad, UINT32 base, UINT16 offset, UINT32 *value)
 	Note: Obsoleted
 	========================================================================
 */
-NTSTATUS RTUSBReadBBPRegister_Direct(RTMP_ADAPTER *pAd, UCHAR Id, UCHAR *buf)
+NTSTATUS RTUSBReadBBPRegister_Direct(struct rtmp_adapter *pAd, UCHAR Id, UCHAR *buf)
 {
 	BBP_CSR_CFG_STRUC BbpCsr;
 	UINT i = 0;
@@ -618,7 +618,7 @@ NTSTATUS RTUSBReadBBPRegister_Direct(RTMP_ADAPTER *pAd, UCHAR Id, UCHAR *buf)
 
 	========================================================================
 */
-NTSTATUS RTUSBReadBBPRegister(RTMP_ADAPTER *pAd, UCHAR Id, UCHAR *pValue)
+NTSTATUS RTUSBReadBBPRegister(struct rtmp_adapter *pAd, UCHAR Id, UCHAR *pValue)
 {
 	BBP_CSR_CFG_STRUC BbpCsr = {.word = 0};
 	int i, k, ret;
@@ -695,7 +695,7 @@ NTSTATUS RTUSBReadBBPRegister(RTMP_ADAPTER *pAd, UCHAR Id, UCHAR *pValue)
 
 	========================================================================
 */
-NTSTATUS RTUSBWriteBBPRegister_Direct(RTMP_ADAPTER *pAd, UCHAR Id, UCHAR Value)
+NTSTATUS RTUSBWriteBBPRegister_Direct(struct rtmp_adapter *pAd, UCHAR Id, UCHAR Value)
 {
 	BBP_CSR_CFG_STRUC	BbpCsr;
 	UINT			i = 0;
@@ -754,7 +754,7 @@ NTSTATUS RTUSBWriteBBPRegister_Direct(RTMP_ADAPTER *pAd, UCHAR Id, UCHAR Value)
 
 	========================================================================
 */
-NTSTATUS RTUSBWriteBBPRegister(RTMP_ADAPTER *pAd, UCHAR Id, UCHAR Value)
+NTSTATUS RTUSBWriteBBPRegister(struct rtmp_adapter *pAd, UCHAR Id, UCHAR Value)
 {
 	BBP_CSR_CFG_STRUC BbpCsr;
 	int BusyCnt, ret;
@@ -818,7 +818,7 @@ NTSTATUS RTUSBWriteBBPRegister(RTMP_ADAPTER *pAd, UCHAR Id, UCHAR Value)
 
 	========================================================================
 */
-NTSTATUS RTUSBWriteRFRegister(RTMP_ADAPTER *pAd, UINT32 Value)
+NTSTATUS RTUSBWriteRFRegister(struct rtmp_adapter *pAd, UINT32 Value)
 {
 	RF_CSR_CFG0_STRUC PhyCsr4;
 	UINT i = 0;
@@ -878,7 +878,7 @@ done:
 
 	========================================================================
 */
-NTSTATUS RTUSBReadEEPROM(RTMP_ADAPTER *pAd, USHORT adr, UCHAR *buf, USHORT len)
+NTSTATUS RTUSBReadEEPROM(struct rtmp_adapter *pAd, USHORT adr, UCHAR *buf, USHORT len)
 {
 	return RTUSB_VendorRequest(pAd, (USBD_TRANSFER_DIRECTION_IN |
 									USBD_SHORT_TRANSFER_OK),
@@ -901,7 +901,7 @@ NTSTATUS RTUSBReadEEPROM(RTMP_ADAPTER *pAd, USHORT adr, UCHAR *buf, USHORT len)
 
 	========================================================================
 */
-NTSTATUS RTUSBWriteEEPROM(RTMP_ADAPTER *pAd, USHORT adr, UCHAR *buf, USHORT len)
+NTSTATUS RTUSBWriteEEPROM(struct rtmp_adapter *pAd, USHORT adr, UCHAR *buf, USHORT len)
 {
 	return RTUSB_VendorRequest(pAd, USBD_TRANSFER_DIRECTION_OUT,
 								DEVICE_VENDOR_REQUEST_OUT,
@@ -909,7 +909,7 @@ NTSTATUS RTUSBWriteEEPROM(RTMP_ADAPTER *pAd, USHORT adr, UCHAR *buf, USHORT len)
 }
 
 
-NTSTATUS RTUSBReadEEPROM16(RTMP_ADAPTER *pAd, USHORT offset, USHORT *pData)
+NTSTATUS RTUSBReadEEPROM16(struct rtmp_adapter *pAd, USHORT offset, USHORT *pData)
 {
 	NTSTATUS status;
 	USHORT  localData;
@@ -923,7 +923,7 @@ NTSTATUS RTUSBReadEEPROM16(RTMP_ADAPTER *pAd, USHORT offset, USHORT *pData)
 }
 
 
-NTSTATUS RTUSBWriteEEPROM16(RTMP_ADAPTER *pAd, USHORT offset, USHORT value)
+NTSTATUS RTUSBWriteEEPROM16(struct rtmp_adapter *pAd, USHORT offset, USHORT value)
 {
 	USHORT tmpVal;
 
@@ -947,7 +947,7 @@ NTSTATUS RTUSBWriteEEPROM16(RTMP_ADAPTER *pAd, USHORT offset, USHORT value)
 
 	========================================================================
 */
-VOID RTUSBPutToSleep(RTMP_ADAPTER *pAd)
+VOID RTUSBPutToSleep(struct rtmp_adapter *pAd)
 {
 	UINT32 value;
 
@@ -974,7 +974,7 @@ VOID RTUSBPutToSleep(RTMP_ADAPTER *pAd)
 
 	========================================================================
 */
-NTSTATUS RTUSBWakeUp(RTMP_ADAPTER *pAd)
+NTSTATUS RTUSBWakeUp(struct rtmp_adapter *pAd)
 {
 	return RTUSB_VendorRequest(pAd, USBD_TRANSFER_DIRECTION_OUT,
 								DEVICE_VENDOR_REQUEST_OUT,
@@ -1220,13 +1220,13 @@ NTSTATUS RTUSB_VendorRequest(
 
 	========================================================================
 */
-NTSTATUS RTUSB_ResetDevice(RTMP_ADAPTER *pAd)
+NTSTATUS RTUSB_ResetDevice(struct rtmp_adapter *pAd)
 {
 	return NDIS_STATUS_SUCCESS;
 }
 
 
-NTSTATUS CheckGPIOHdlr(RTMP_ADAPTER *pAd, PCmdQElmt CMDQelmt)
+NTSTATUS CheckGPIOHdlr(struct rtmp_adapter *pAd, PCmdQElmt CMDQelmt)
 {
 #ifdef RALINK_ATE
 		if (ATE_ON(pAd))
@@ -1880,25 +1880,25 @@ static NTSTATUS ChannelRescanHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQ
 
 #ifdef LINUX
 #ifdef RT_CFG80211_SUPPORT
-static NTSTATUS RegHintHdlr (RTMP_ADAPTER *pAd, IN PCmdQElmt CMDQelmt)
+static NTSTATUS RegHintHdlr (struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 {
 	RT_CFG80211_CRDA_REG_HINT(pAd, CMDQelmt->buffer, CMDQelmt->bufferlength);
 	return NDIS_STATUS_SUCCESS;
 }
 
-static NTSTATUS RegHint11DHdlr(RTMP_ADAPTER *pAd, IN PCmdQElmt CMDQelmt)
+static NTSTATUS RegHint11DHdlr(struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 {
 	RT_CFG80211_CRDA_REG_HINT11D(pAd, CMDQelmt->buffer, CMDQelmt->bufferlength);
 	return NDIS_STATUS_SUCCESS;
 }
 
-static NTSTATUS RT_Mac80211_ScanEnd(RTMP_ADAPTER *pAd, IN PCmdQElmt CMDQelmt)
+static NTSTATUS RT_Mac80211_ScanEnd(struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 {
 	RT_CFG80211_SCAN_END(pAd, FALSE);
 	return NDIS_STATUS_SUCCESS;
 }
 
-static NTSTATUS RT_Mac80211_ConnResultInfom(RTMP_ADAPTER *pAd, IN PCmdQElmt CMDQelmt)
+static NTSTATUS RT_Mac80211_ConnResultInfom(struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 {
 #ifdef CONFIG_STA_SUPPORT
 	RT_CFG80211_CONN_RESULT_INFORM(pAd, pAd->MlmeAux.Bssid,
@@ -1914,7 +1914,7 @@ static NTSTATUS RT_Mac80211_ConnResultInfom(RTMP_ADAPTER *pAd, IN PCmdQElmt CMDQ
 
 
 #ifdef STREAM_MODE_SUPPORT
-static NTSTATUS UpdateTXChainAddress(RTMP_ADAPTER *pAd, IN PCmdQElmt CMDQelmt)
+static NTSTATUS UpdateTXChainAddress(struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 {
 	AsicUpdateTxChainAddress(pAd, CMDQelmt->buffer);
 	return NDIS_STATUS_SUCCESS;
@@ -1923,7 +1923,7 @@ static NTSTATUS UpdateTXChainAddress(RTMP_ADAPTER *pAd, IN PCmdQElmt CMDQelmt)
 
 
 
-typedef NTSTATUS (*CMDHdlr)(RTMP_ADAPTER *pAd, IN PCmdQElmt CMDQelmt);
+typedef NTSTATUS (*CMDHdlr)(struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt);
 
 static CMDHdlr CMDHdlrTable[] = {
 	ResetBulkOutHdlr,				/* CMDTHREAD_RESET_BULK_OUT*/
@@ -2045,7 +2045,7 @@ static inline BOOLEAN ValidCMD(IN PCmdQElmt CMDQelmt)
 }
 
 
-VOID CMDHandler(RTMP_ADAPTER *pAd)
+VOID CMDHandler(struct rtmp_adapter *pAd)
 {
 	PCmdQElmt		cmdqelmt;
 	NDIS_STATUS		NdisStatus = NDIS_STATUS_SUCCESS;
@@ -2086,7 +2086,7 @@ VOID CMDHandler(RTMP_ADAPTER *pAd)
 }
 
 
-VOID RTUSBWatchDog(RTMP_ADAPTER *pAd)
+VOID RTUSBWatchDog(struct rtmp_adapter *pAd)
 {
 	PHT_TX_CONTEXT pHTTXContext;
 	int idx;

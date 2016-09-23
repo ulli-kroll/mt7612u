@@ -236,7 +236,7 @@ static VOID ApCliTrialConnectTimeout(
 	IN PVOID SystemSpecific3)
 {
 	PAPCLI_STRUCT pApCliEntry = (APCLI_STRUCT *)FunctionContext;
-	RTMP_ADAPTER *pAd = (RTMP_ADAPTER *)pApCliEntry->pAd;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pApCliEntry->pAd;
 
 	UCHAR ifIndex = pApCliEntry->ifIndex;
 	UCHAR BBPValue;
@@ -286,7 +286,7 @@ static VOID ApCliTrialConnectPhase2Timeout(
 	IN PVOID SystemSpecific3)
 {
 	PAPCLI_STRUCT pApCliEntry = (APCLI_STRUCT *)FunctionContext;
-	RTMP_ADAPTER *pAd = (RTMP_ADAPTER *)pApCliEntry->pAd;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pApCliEntry->pAd;
 	MLME_ASSOC_REQ_STRUCT  AssocReq;
 	UCHAR ifIndex = pApCliEntry->ifIndex;
 	UCHAR BBPValue;
@@ -327,7 +327,7 @@ static VOID ApCliTrialConnectRetryTimeout(
 	IN PVOID SystemSpecific3)
 {
 	PAPCLI_STRUCT pApCliEntry = (APCLI_STRUCT *)FunctionContext;
-	RTMP_ADAPTER *pAd = (RTMP_ADAPTER *)pApCliEntry->pAd;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pApCliEntry->pAd;
 	PULONG pCurrState = &pAd->ApCfg.ApCliTab[pApCliEntry->ifIndex].CtrlCurrState;
 	int i;
 	UCHAR ifIndex = pApCliEntry->ifIndex;

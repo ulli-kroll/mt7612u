@@ -32,7 +32,7 @@
 
 
 #ifdef RTMP_USB_SUPPORT
-VOID RT65xxUsbAsicRadioOff(RTMP_ADAPTER *pAd, UCHAR Stage)
+VOID RT65xxUsbAsicRadioOff(struct rtmp_adapter *pAd, UCHAR Stage)
 {
 	UINT32 Value, ret;
 
@@ -74,7 +74,7 @@ VOID RT65xxUsbAsicRadioOff(RTMP_ADAPTER *pAd, UCHAR Stage)
 }
 
 
-VOID RT65xxUsbAsicRadioOn(RTMP_ADAPTER *pAd, UCHAR Stage)
+VOID RT65xxUsbAsicRadioOn(struct rtmp_adapter *pAd, UCHAR Stage)
 {
 	UINT32 MACValue = 0;
 	UINT32 rx_filter_flag;
@@ -160,7 +160,7 @@ VOID RT65xxUsbAsicRadioOn(RTMP_ADAPTER *pAd, UCHAR Stage)
 
 
 VOID RT65xxDisableTxRx(
-	RTMP_ADAPTER *pAd,
+	struct rtmp_adapter *pAd,
 	UCHAR Level)
 {
 	UINT32 MacReg = 0;
@@ -376,7 +376,7 @@ VOID RT65xxDisableTxRx(
 
 
 
-VOID dump_bw_info(RTMP_ADAPTER *pAd)
+VOID dump_bw_info(struct rtmp_adapter *pAd)
 {
 		UINT32 core_r1, agc_r0, be_r0, band_cfg;
 		static UCHAR *bw_str[]={"20", "10", "40", "80"};

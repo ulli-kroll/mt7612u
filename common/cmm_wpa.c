@@ -290,7 +290,7 @@ VOID WpaEAPOLKeyAction(
 					*/
 					if (peerKeyInfo.KeyMic == 0)
 						PeerPairMsg1Action(pAd, pEntry, Elem);
-					else                
+					else
 						PeerPairMsg3Action(pAd, pEntry, Elem);
 				}
 				else if ((peerKeyInfo.Secure == 1) &&
@@ -3124,7 +3124,7 @@ InsertPMKIDCount:
 
 	========================================================================
 */
-VOID RTMPMakeRSNIE(RTMP_ADAPTER *pAd, UINT AuthMode, UINT WepStatus, UCHAR apidx)
+VOID RTMPMakeRSNIE(struct rtmp_adapter *pAd, UINT AuthMode, UINT WepStatus, UCHAR apidx)
 {
 	PUCHAR		pRsnIe = NULL;			/* primary RSNIE*/
 	UCHAR 		*rsnielen_cur_p = 0;	/* the length of the primary RSNIE 		*/
@@ -3372,7 +3372,7 @@ VOID RTMPMakeRSNIE(RTMP_ADAPTER *pAd, UINT AuthMode, UINT WepStatus, UCHAR apidx
     ==========================================================================
 */
 BOOLEAN RTMPCheckWPAframe(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MAC_TABLE_ENTRY *pEntry,
 	IN UCHAR *pData,
 	IN ULONG DataByteCount,
@@ -4326,7 +4326,7 @@ UCHAR	RTMPExtractKeyIdxFromIVHdr(
 }
 
 CIPHER_KEY *RTMPSwCipherKeySelection(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR *pIV,
 	IN RX_BLK *pRxBlk,
 	IN MAC_TABLE_ENTRY *pEntry)
@@ -4412,7 +4412,7 @@ NDIS_STATUS	RTMPSoftDecryptionAction(
 	NStatus =0;
 
 	switch (pKey->CipherAlg)
-    {    
+    {
 		case CIPHER_WEP64:
 		case CIPHER_WEP128:
 			/* handle WEP decryption */
@@ -5135,7 +5135,7 @@ VOID RTMPSetWcidSecurityInfo(
 #define	LENGTH_EAP_H    4
 /* If the received frame is EAP-Packet ,find out its EAP-Code (Request(0x01), Response(0x02), Success(0x03), Failure(0x04)). */
 INT WpaCheckEapCode(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR *pFrame,
 	IN USHORT FrameLen,
 	IN USHORT OffSet)

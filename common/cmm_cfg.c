@@ -250,7 +250,7 @@ UCHAR cfgmode_2_wmode(UCHAR cfg_mode)
 }
 
 
-static BOOLEAN wmode_valid(RTMP_ADAPTER *pAd, enum WIFI_MODE wmode)
+static BOOLEAN wmode_valid(struct rtmp_adapter *pAd, enum WIFI_MODE wmode)
 {
 	if ((WMODE_CAP_5G(wmode) && (!PHY_CAP_5G(pAd->chipCap.phy_caps))) ||
 		(WMODE_CAP_2G(wmode) && (!PHY_CAP_2G(pAd->chipCap.phy_caps))) ||
@@ -262,7 +262,7 @@ static BOOLEAN wmode_valid(RTMP_ADAPTER *pAd, enum WIFI_MODE wmode)
 }
 
 
-static BOOLEAN wmode_valid_and_correct(RTMP_ADAPTER *pAd, UCHAR* wmode)
+static BOOLEAN wmode_valid_and_correct(struct rtmp_adapter *pAd, UCHAR* wmode)
 {
 	BOOLEAN ret = TRUE;
 	UCHAR mode = *wmode;
@@ -322,7 +322,7 @@ BOOLEAN wmode_band_equal(UCHAR smode, UCHAR tmode)
         TRUE if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
-INT RT_CfgSetWirelessMode(RTMP_ADAPTER *pAd, PSTRING arg)
+INT RT_CfgSetWirelessMode(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	LONG cfg_mode;
 	UCHAR wmode, *mode_str;
@@ -370,7 +370,7 @@ INT RT_CfgSetWirelessMode(RTMP_ADAPTER *pAd, PSTRING arg)
 /* maybe can be moved to GPL code, ap_mbss.c, but the code will be open */
 #ifdef CONFIG_AP_SUPPORT
 #ifdef MBSS_SUPPORT
-static UCHAR RT_CfgMbssWirelessModeMaxGet(RTMP_ADAPTER *pAd)
+static UCHAR RT_CfgMbssWirelessModeMaxGet(struct rtmp_adapter *pAd)
 {
 	UCHAR wmode = 0, *mode_str;
 	INT idx;
@@ -407,7 +407,7 @@ static UCHAR RT_CfgMbssWirelessModeMaxGet(RTMP_ADAPTER *pAd)
         TRUE if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
-INT RT_CfgSetMbssWirelessMode(RTMP_ADAPTER *pAd, PSTRING arg)
+INT RT_CfgSetMbssWirelessMode(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	INT cfg_mode;
 	UCHAR wmode;
@@ -586,7 +586,7 @@ INT	RT_CfgSetWepKey(
     ==========================================================================
 */
 INT RT_CfgSetWPAPSKKey(
-	IN RTMP_ADAPTER	*pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PSTRING		keyString,
 	IN INT			keyStringLen,
 	IN UCHAR		*pHashStr,
@@ -734,7 +734,7 @@ Note:
 ========================================================================
 */
 INT RtmpIoctl_rt_ioctl_giwname(
-	IN	RTMP_ADAPTER			*pAd,
+	IN	struct rtmp_adapter 		*pAd,
 	IN	VOID					*pData,
 	IN	ULONG					Data)
 {
@@ -1595,7 +1595,7 @@ INT	Set_Antenna_Proc(
 
 
 
-INT set_tssi_enable(RTMP_ADAPTER *pAd, PSTRING arg)
+INT set_tssi_enable(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	UINT8 tssi_enable = 0;
 
@@ -1616,7 +1616,7 @@ INT set_tssi_enable(RTMP_ADAPTER *pAd, PSTRING arg)
 
 
 #ifdef CONFIG_ANDES_SUPPORT
-INT set_fw_debug(RTMP_ADAPTER *ad, PSTRING arg)
+INT set_fw_debug(struct rtmp_adapter *ad, PSTRING arg)
 {
 	UINT8 fw_debug_param;
 

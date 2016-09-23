@@ -31,7 +31,7 @@
 #ifdef DOT11_N_SUPPORT
 
 
-INT ht_mode_adjust(RTMP_ADAPTER *pAd, MAC_TABLE_ENTRY *pEntry, HT_CAPABILITY_IE *peer, RT_HT_CAPABILITY *my)
+INT ht_mode_adjust(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry, HT_CAPABILITY_IE *peer, RT_HT_CAPABILITY *my)
 {
 	if ((peer->HtCapInfo.GF) && (my->GF))
 	{
@@ -60,7 +60,7 @@ INT ht_mode_adjust(RTMP_ADAPTER *pAd, MAC_TABLE_ENTRY *pEntry, HT_CAPABILITY_IE 
 }
 
 
-INT set_ht_fixed_mcs(RTMP_ADAPTER *pAd, MAC_TABLE_ENTRY *pEntry, UCHAR fixed_mcs, UCHAR mcs_bound)
+INT set_ht_fixed_mcs(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry, UCHAR fixed_mcs, UCHAR mcs_bound)
 {
 	if (fixed_mcs == 32)
 	{
@@ -81,7 +81,7 @@ INT set_ht_fixed_mcs(RTMP_ADAPTER *pAd, MAC_TABLE_ENTRY *pEntry, UCHAR fixed_mcs
 }
 
 
-INT get_ht_max_mcs(RTMP_ADAPTER *pAd, UCHAR *desire_mcs, UCHAR *cap_mcs)
+INT get_ht_max_mcs(struct rtmp_adapter *pAd, UCHAR *desire_mcs, UCHAR *cap_mcs)
 {
 	INT i, j;
 	UCHAR bitmask;
@@ -105,7 +105,7 @@ INT get_ht_max_mcs(RTMP_ADAPTER *pAd, UCHAR *desire_mcs, UCHAR *cap_mcs)
 }
 
 
-INT get_ht_cent_ch(RTMP_ADAPTER *pAd, UINT8 *rf_bw, UINT8 *ext_ch)
+INT get_ht_cent_ch(struct rtmp_adapter *pAd, UINT8 *rf_bw, UINT8 *ext_ch)
 {
 	if ((pAd->CommonCfg.HtCapability.HtCapInfo.ChannelWidth  == BW_40) &&
 		(pAd->CommonCfg.RegTransmitSetting.field.EXTCHA == EXTCHA_ABOVE)
@@ -134,7 +134,7 @@ INT get_ht_cent_ch(RTMP_ADAPTER *pAd, UINT8 *rf_bw, UINT8 *ext_ch)
 
 
 UCHAR get_cent_ch_by_htinfo(
-	RTMP_ADAPTER *pAd,
+	struct rtmp_adapter *pAd,
 	ADD_HT_INFO_IE *ht_op,
 	HT_CAPABILITY_IE *ht_cap)
 {
@@ -167,7 +167,7 @@ UCHAR get_cent_ch_by_htinfo(
 	========================================================================
 */
 VOID RTMPSetHT(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN OID_SET_HT_PHYMODE *pHTPhyMode)
 {
 	UCHAR RxStream = pAd->CommonCfg.RxStream;
@@ -460,7 +460,7 @@ VOID RTMPSetHT(
 
 	========================================================================
 */
-VOID RTMPSetIndividualHT(RTMP_ADAPTER *pAd, UCHAR apidx)
+VOID RTMPSetIndividualHT(struct rtmp_adapter *pAd, UCHAR apidx)
 {
 	RT_PHY_INFO *pDesired_ht_phy = NULL;
 	UCHAR TxStream = pAd->CommonCfg.TxStream;
@@ -677,7 +677,7 @@ VOID RTMPSetIndividualHT(RTMP_ADAPTER *pAd, UCHAR apidx)
 
 	========================================================================
 */
-VOID RTMPDisableDesiredHtInfo(RTMP_ADAPTER *pAd)
+VOID RTMPDisableDesiredHtInfo(struct rtmp_adapter *pAd)
 {
 	struct wifi_dev *wdev;
 
@@ -710,7 +710,7 @@ VOID RTMPDisableDesiredHtInfo(RTMP_ADAPTER *pAd)
 }
 
 
-INT	SetCommonHT(RTMP_ADAPTER *pAd)
+INT	SetCommonHT(struct rtmp_adapter *pAd)
 {
 	OID_SET_HT_PHYMODE SetHT;
 

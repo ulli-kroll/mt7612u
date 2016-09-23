@@ -297,7 +297,7 @@ done:
 
     ========================================================================
 */
-BOOLEAN RTMPAdjustFrequencyOffset(RTMP_ADAPTER *pAd,UCHAR *pRefFreqOffset)
+BOOLEAN RTMPAdjustFrequencyOffset(struct rtmp_adapter *pAd,UCHAR *pRefFreqOffset)
 {
 	BOOLEAN RetVal = TRUE;
 	UCHAR RFValue = 0;

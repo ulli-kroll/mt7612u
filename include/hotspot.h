@@ -95,36 +95,36 @@ enum {
 };
 
 BOOLEAN L2FilterInspection(
-			IN PRTMP_ADAPTER pAd,
+			IN Pstruct rtmp_adapter pAd,
 			IN PHOTSPOT_CTRL pHSCtrl,
 			IN PUCHAR pData);
 
 VOID HSCtrlStateMachineInit(
-	IN	PRTMP_ADAPTER		pAd,
+	IN	Pstruct rtmp_adapter 	pAd,
 	IN	STATE_MACHINE		*S,
 	OUT	STATE_MACHINE_FUNC	Trans[]);
 
 INT Set_STAHotSpot_OnOff(
-	IN PRTMP_ADAPTER pAd,
+	IN Pstruct rtmp_adapter pAd,
 	IN UINT8 OnOff);
 
 enum HSCTRL_STATE HSCtrlCurrentState(
-	IN PRTMP_ADAPTER pAd,
+	IN Pstruct rtmp_adapter pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
 BOOLEAN HotSpotEnable(
-	IN PRTMP_ADAPTER pAd,
+	IN Pstruct rtmp_adapter pAd,
 	IN MLME_QUEUE_ELEM *Elem,
 	IN INT Type);
 
 VOID HSCtrlExit(
-	IN PRTMP_ADAPTER pAd);
+	IN Pstruct rtmp_adapter pAd);
 
 VOID HSCtrlHalt(
-	IN PRTMP_ADAPTER pAd);
+	IN Pstruct rtmp_adapter pAd);
 
 INT Set_HotSpot_OnOff(
-	IN PRTMP_ADAPTER pAd,
+	IN Pstruct rtmp_adapter pAd,
 	IN UINT8 OnOff,
 	IN UINT8 EventTrigger,
 	IN UINT8 EventType);
@@ -132,11 +132,11 @@ INT Set_HotSpot_OnOff(
 struct _PEER_PROBE_REQ_PARAM;
 
 BOOLEAN ProbeReqforHSAP(
-	IN PRTMP_ADAPTER pAd,
+	IN Pstruct rtmp_adapter pAd,
 	IN UCHAR APIndex,
 	IN struct _PEER_PROBE_REQ_PARAM *ProbeReqParam);
 
-VOID Clear_Hotspot_All_IE(IN PRTMP_ADAPTER PAd);
+VOID Clear_Hotspot_All_IE(IN Pstruct rtmp_adapter PAd);
 
 #define isBcastEtherAddr(addr)  ((addr[0] & addr[1] & addr[2] & addr[3] & addr[4] & addr[5])== 0xff)
 
@@ -147,7 +147,7 @@ void HotspotOnOffEvent(struct net_device *net_dev, int onoff);
 void HotspotAPReload(struct net_device *net_dev);
 
 INT Set_HotSpot_Param(
-	IN PRTMP_ADAPTER pAd,
+	IN Pstruct rtmp_adapter pAd,
 	UINT32 Param,
 	UINT32 Value);
 
@@ -158,7 +158,7 @@ enum {
 
 #ifdef CONFIG_AP_SUPPORT
 BOOLEAN HSIPv4Check(
-			IN PRTMP_ADAPTER pAd,
+			IN Pstruct rtmp_adapter pAd,
 			PUCHAR pWcid,
 			PNDIS_PACKET pPacket,
 			PUCHAR pSrcBUf,

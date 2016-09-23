@@ -30,7 +30,7 @@
 	MlmeSetMcsGroup - set initial mcsGroup based on supported MCSs
 		On exit pEntry->mcsGroup is set to the mcsGroup
 */
-VOID MlmeSetMcsGroup(RTMP_ADAPTER *pAd, MAC_TABLE_ENTRY *pEntry)
+VOID MlmeSetMcsGroup(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 {
 #ifdef DOT11_VHT_AC
 	// TODO: shiang-6590, fix me!!
@@ -63,7 +63,7 @@ VOID MlmeSetMcsGroup(RTMP_ADAPTER *pAd, MAC_TABLE_ENTRY *pEntry)
 	returns the UpRate index and updates the MCS group
 */
 UCHAR MlmeSelectUpRate(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MAC_TABLE_ENTRY *pEntry,
 	IN RTMP_RA_GRP_TB *pCurrTxRate)
 {
@@ -228,7 +228,7 @@ UCHAR MlmeSelectUpRate(
 		returns the DownRate index. Down Rate = CurrRateIdx if there is no valid Down Rate
 */
 UCHAR MlmeSelectDownRate(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PMAC_TABLE_ENTRY	pEntry,
 	IN UCHAR CurrRateIdx)
 {
@@ -473,7 +473,7 @@ VOID MlmeGetSupportedMcsAdapt(
 }
 
 
-UCHAR get_rate_idx_by_rate(RTMP_ADAPTER *pAd, UCHAR *rate_tb,  USHORT rate)
+UCHAR get_rate_idx_by_rate(struct rtmp_adapter *pAd, UCHAR *rate_tb,  USHORT rate)
 {
 	UCHAR mode, mcs, tb_idx = 0;
 
@@ -999,7 +999,7 @@ UCHAR MlmeSelectTxRateAdapt(
 		TxErrorRatio - the PER
 */
 static ULONG MlmeRAEstimateThroughput(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MAC_TABLE_ENTRY *pEntry,
 	IN RTMP_RA_GRP_TB *pCurrTxRate,
 	IN ULONG TxErrorRatio)
@@ -1710,7 +1710,7 @@ VOID APQuickResponeForRateUpExecAdapt(/* actually for both up and down */
         call this routine every second
     ==========================================================================
  */
-VOID APMlmeDynamicTxRateSwitchingAdapt(RTMP_ADAPTER *pAd, UINT i)
+VOID APMlmeDynamicTxRateSwitchingAdapt(struct rtmp_adapter *pAd, UINT i)
 {
 	PUCHAR pTable;
 	UCHAR UpRateIdx, DownRateIdx, CurrRateIdx, TrainUp, TrainDown;
@@ -2542,7 +2542,7 @@ VOID MlmeDynamicTxRateSwitchingAdapt(
 	Set_RateTable_Proc - Display or replace byte for item in RateSwitchTableAdapt11N3S
 		usage: iwpriv ra0 set RateTable=<item>[:<offset>:<value>]
 */
-INT Set_RateTable_Proc(RTMP_ADAPTER *pAd, PSTRING arg)
+INT Set_RateTable_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	UCHAR *pTable, TableSize, InitTxRateIdx;
 	int i;

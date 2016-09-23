@@ -60,7 +60,7 @@ BOOLEAN ApCliWaitProbRsp(struct rtmp_adapter *pAd, USHORT ifIndex)
                 TRUE : FALSE;
 }
 
-VOID ApCliSimulateRecvBeacon(RTMP_ADAPTER *pAd)
+VOID ApCliSimulateRecvBeacon(struct rtmp_adapter *pAd)
 {
 	INT loop;
         ULONG Now32, BPtoJiffies;
@@ -112,7 +112,7 @@ Return Value:
 Note:
 ========================================================================
 */
-VOID RT28xx_ApCli_Close(RTMP_ADAPTER *ad_p)
+VOID RT28xx_ApCli_Close(struct rtmp_adapter *ad_p)
 {
 	UINT index;
 
@@ -127,7 +127,7 @@ VOID RT28xx_ApCli_Close(RTMP_ADAPTER *ad_p)
 
 
 /* --------------------------------- Private -------------------------------- */
-INT ApCliIfLookUp(RTMP_ADAPTER *pAd, UCHAR *pAddr)
+INT ApCliIfLookUp(struct rtmp_adapter *pAd, UCHAR *pAddr)
 {
 	SHORT if_idx;
 
@@ -163,7 +163,7 @@ BOOLEAN isValidApCliIf(SHORT if_idx)
  *  \note this function initializes the following field
  */
 VOID ApCliMgtMacHeaderInit(
-    IN RTMP_ADAPTER *pAd,
+    IN struct rtmp_adapter *pAd,
     INOUT HEADER_802_11 *pHdr80211,
     IN UCHAR SubType,
     IN UCHAR ToDs,
@@ -199,7 +199,7 @@ VOID ApCliMgtMacHeaderInit(
 	========================================================================
 */
 BOOLEAN ApCliCheckHt(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN USHORT IfIndex,
 	INOUT HT_CAPABILITY_IE *pHtCapability,
 	INOUT ADD_HT_INFO_IE *pAddHtInfo)
@@ -362,7 +362,7 @@ VOID ComposeP2PNullFrame(
 
 	==========================================================================
 */
-BOOLEAN ApCliLinkUp(RTMP_ADAPTER *pAd, UCHAR ifIndex)
+BOOLEAN ApCliLinkUp(struct rtmp_adapter *pAd, UCHAR ifIndex)
 {
 	BOOLEAN result = FALSE;
 	PAPCLI_STRUCT pApCliEntry = NULL;
@@ -848,7 +848,7 @@ BOOLEAN ApCliLinkUp(RTMP_ADAPTER *pAd, UCHAR ifIndex)
 
 	==========================================================================
 */
-VOID ApCliLinkDown(RTMP_ADAPTER *pAd, UCHAR ifIndex)
+VOID ApCliLinkDown(struct rtmp_adapter *pAd, UCHAR ifIndex)
 {
 	APCLI_STRUCT *pApCliEntry = NULL;
 	UCHAR MacTabWCID = 0;
@@ -919,7 +919,7 @@ VOID ApCliLinkDown(RTMP_ADAPTER *pAd, UCHAR ifIndex)
         APCLI Interface Up.
     ==========================================================================
  */
-VOID ApCliIfUp(RTMP_ADAPTER *pAd)
+VOID ApCliIfUp(struct rtmp_adapter *pAd)
 {
 	UCHAR ifIndex;
 	APCLI_STRUCT *pApCliEntry;
@@ -983,7 +983,7 @@ VOID ApCliIfUp(RTMP_ADAPTER *pAd)
         APCLI Interface Down.
     ==========================================================================
  */
-VOID ApCliIfDown(RTMP_ADAPTER *pAd)
+VOID ApCliIfDown(struct rtmp_adapter *pAd)
 {
 	UCHAR ifIndex;
 	PAPCLI_STRUCT pApCliEntry;
@@ -1008,7 +1008,7 @@ VOID ApCliIfDown(RTMP_ADAPTER *pAd)
         APCLI Interface Monitor.
     ==========================================================================
  */
-VOID ApCliIfMonitor(RTMP_ADAPTER *pAd)
+VOID ApCliIfMonitor(struct rtmp_adapter *pAd)
 {
 	UCHAR index;
 	APCLI_STRUCT *pApCliEntry;
@@ -1379,7 +1379,7 @@ BOOLEAN ApCliPeerAssocRspSanity(
 }
 
 
-MAC_TABLE_ENTRY *ApCliTableLookUpByWcid(RTMP_ADAPTER *pAd, UCHAR wcid, UCHAR *pAddrs)
+MAC_TABLE_ENTRY *ApCliTableLookUpByWcid(struct rtmp_adapter *pAd, UCHAR wcid, UCHAR *pAddrs)
 {
 	ULONG ApCliIndex;
 	PMAC_TABLE_ENTRY pCurEntry = NULL;
@@ -1425,7 +1425,7 @@ MAC_TABLE_ENTRY *ApCliTableLookUpByWcid(RTMP_ADAPTER *pAd, UCHAR wcid, UCHAR *pA
 		Check the Apcli Entry is valid or not.
 	==========================================================================
  */
-static inline BOOLEAN ValidApCliEntry(RTMP_ADAPTER *pAd, INT apCliIdx)
+static inline BOOLEAN ValidApCliEntry(struct rtmp_adapter *pAd, INT apCliIdx)
 {
 	BOOLEAN result;
 	PMAC_TABLE_ENTRY pMacEntry;
@@ -1468,7 +1468,7 @@ static inline BOOLEAN ValidApCliEntry(RTMP_ADAPTER *pAd, INT apCliIdx)
 
 
 INT ApCliAllowToSendPacket(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN struct wifi_dev *wdev,
 	IN PNDIS_PACKET pPacket,
 	OUT UCHAR *pWcid)
@@ -1520,7 +1520,7 @@ INT ApCliAllowToSendPacket(
 	========================================================================
 */
 BOOLEAN ApCliValidateRSNIE(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PEID_STRUCT pEid_ptr,
 	IN USHORT eid_len,
 	IN USHORT idx)
@@ -2038,7 +2038,7 @@ BOOLEAN ApCliValidateRSNIE(
 
 
 BOOLEAN  ApCliHandleRxBroadcastFrame(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN RX_BLK *pRxBlk,
 	IN MAC_TABLE_ENTRY *pEntry,
 	IN UCHAR FromWhichBSSID)
@@ -2207,7 +2207,7 @@ BOOLEAN APCliInstallSharedKey(
 	========================================================================
 */
 // TODO: shiang-6590, modify this due to it's really a duplication of "RTMPUpdateMlmeRate()" in common/mlme.c
-VOID ApCliUpdateMlmeRate(RTMP_ADAPTER *pAd, USHORT ifIndex)
+VOID ApCliUpdateMlmeRate(struct rtmp_adapter *pAd, USHORT ifIndex)
 {
 	UCHAR	MinimumRate;
 	UCHAR	ProperMlmeRate; /*= RATE_54; */
@@ -2342,7 +2342,7 @@ VOID ApCliUpdateMlmeRate(RTMP_ADAPTER *pAd, USHORT ifIndex)
 }
 
 
-VOID APCli_Init(RTMP_ADAPTER *pAd, RTMP_OS_NETDEV_OP_HOOK *pNetDevOps)
+VOID APCli_Init(struct rtmp_adapter *pAd, RTMP_OS_NETDEV_OP_HOOK *pNetDevOps)
 {
 #define APCLI_MAX_DEV_NUM	32
 	struct net_device *new_dev_p;
@@ -2469,7 +2469,7 @@ VOID APCli_Init(RTMP_ADAPTER *pAd, RTMP_OS_NETDEV_OP_HOOK *pNetDevOps)
 }
 
 
-VOID ApCli_Remove(RTMP_ADAPTER *pAd)
+VOID ApCli_Remove(struct rtmp_adapter *pAd)
 {
 	UINT index;
 	struct wifi_dev *wdev;
@@ -2493,7 +2493,7 @@ VOID ApCli_Remove(RTMP_ADAPTER *pAd)
 }
 
 
-BOOLEAN ApCli_Open(RTMP_ADAPTER *pAd, struct net_device *dev_p)
+BOOLEAN ApCli_Open(struct rtmp_adapter *pAd, struct net_device *dev_p)
 {
 	UCHAR ifIndex;
 
@@ -2515,7 +2515,7 @@ BOOLEAN ApCli_Open(RTMP_ADAPTER *pAd, struct net_device *dev_p)
 }
 
 
-BOOLEAN ApCli_Close(RTMP_ADAPTER *pAd, struct net_device *dev_p)
+BOOLEAN ApCli_Close(struct rtmp_adapter *pAd, struct net_device *dev_p)
 {
 	UCHAR ifIndex;
 	struct wifi_dev *wdev;

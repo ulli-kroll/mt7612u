@@ -28,7 +28,7 @@
 
 #include "rt_config.h"
 
-VOID CFG80211_SwitchTxChannel(RTMP_ADAPTER *pAd, ULONG Data)
+VOID CFG80211_SwitchTxChannel(struct rtmp_adapter *pAd, ULONG Data)
 {
 	//UCHAR lock_channel = CFG80211_getCenCh(pAd, Data);
 	UCHAR lock_channel = Data;
@@ -46,7 +46,7 @@ VOID CFG80211_SwitchTxChannel(RTMP_ADAPTER *pAd, ULONG Data)
 }
 
 #ifdef CONFIG_AP_SUPPORT
-BOOLEAN CFG80211_SyncPacketWmmIe(RTMP_ADAPTER *pAd, VOID *pData, ULONG dataLen)
+BOOLEAN CFG80211_SyncPacketWmmIe(struct rtmp_adapter *pAd, VOID *pData, ULONG dataLen)
 {
 	const UINT WFA_OUI = 0x0050F2;
 	const UCHAR WMM_OUI_TYPE = 0x2;
@@ -85,7 +85,7 @@ BOOLEAN CFG80211_SyncPacketWmmIe(RTMP_ADAPTER *pAd, VOID *pData, ULONG dataLen)
 
 	return FALSE;
 }
-VOID CFG80211_ParseBeaconIE(RTMP_ADAPTER *pAd, MULTISSID_STRUCT *pMbss, struct wifi_dev *wdev,UCHAR *wpa_ie,UCHAR *rsn_ie)
+VOID CFG80211_ParseBeaconIE(struct rtmp_adapter *pAd, MULTISSID_STRUCT *pMbss, struct wifi_dev *wdev,UCHAR *wpa_ie,UCHAR *rsn_ie)
 {
 	PEID_STRUCT 		 pEid;
 	PUCHAR				pTmp;
@@ -391,7 +391,7 @@ VOID CFG80211_ParseBeaconIE(RTMP_ADAPTER *pAd, MULTISSID_STRUCT *pMbss, struct w
 #endif /* CONFIG_AP_SUPPORT */
 
 static
-PCFG80211_TX_PACKET CFG80211_TxMgmtFrameSearch(RTMP_ADAPTER *pAd, USHORT Sequence)
+PCFG80211_TX_PACKET CFG80211_TxMgmtFrameSearch(struct rtmp_adapter *pAd, USHORT Sequence)
 {
 	PLIST_HEADER  pPacketList = &pAd->cfg80211_ctrl.cfg80211TxPacketList;
 	PCFG80211_TX_PACKET pTxPkt = NULL;
@@ -415,7 +415,7 @@ PCFG80211_TX_PACKET CFG80211_TxMgmtFrameSearch(RTMP_ADAPTER *pAd, USHORT Sequenc
 
 }
 
-INT CFG80211_SendMgmtFrame(RTMP_ADAPTER *pAd, VOID *pData, ULONG Data)
+INT CFG80211_SendMgmtFrame(struct rtmp_adapter *pAd, VOID *pData, ULONG Data)
 {
 	if (pData != NULL)
 	{
@@ -463,7 +463,7 @@ INT CFG80211_SendMgmtFrame(RTMP_ADAPTER *pAd, VOID *pData, ULONG Data)
 
 }
 
-VOID CFG80211_SendMgmtFrameDone(RTMP_ADAPTER *pAd, USHORT Sequence)
+VOID CFG80211_SendMgmtFrameDone(struct rtmp_adapter *pAd, USHORT Sequence)
 {
 //RTMP_USB_SUPPORT/RTMP_PCI_SUPPORT
 	PCFG80211_CTRL pCfg80211_ctrl = &pAd->cfg80211_ctrl;

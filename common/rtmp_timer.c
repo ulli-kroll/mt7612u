@@ -126,7 +126,7 @@ BUILD_TIMER_FUNCTION(PeerDelBATxAdaptTimeOut);
 #endif /* PEER_DELBA_TX_ADAPT */
 
 #ifdef RTMP_TIMER_TASK_SUPPORT
-static void RtmpTimerQHandle(RTMP_ADAPTER *pAd)
+static void RtmpTimerQHandle(struct rtmp_adapter *pAd)
 {
 	int status;
 	RALINK_TIMER_STRUCT	*pTimer;
@@ -230,7 +230,7 @@ INT RtmpTimerQThread(
 
 
 RTMP_TIMER_TASK_ENTRY *RtmpTimerQInsert(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN RALINK_TIMER_STRUCT *pTimer)
 {
 	RTMP_TIMER_TASK_ENTRY *pQNode = NULL, *pQTail;
@@ -268,7 +268,7 @@ RTMP_TIMER_TASK_ENTRY *RtmpTimerQInsert(
 
 
 BOOLEAN RtmpTimerQRemove(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN RALINK_TIMER_STRUCT *pTimer)
 {
 	RTMP_TIMER_TASK_ENTRY *pNode, *pPrev = NULL;
@@ -307,7 +307,7 @@ BOOLEAN RtmpTimerQRemove(
 }
 
 
-void RtmpTimerQExit(RTMP_ADAPTER *pAd)
+void RtmpTimerQExit(struct rtmp_adapter *pAd)
 {
 	RTMP_TIMER_TASK_ENTRY *pTimerQ;
 	unsigned long irqFlags;
@@ -331,7 +331,7 @@ void RtmpTimerQExit(RTMP_ADAPTER *pAd)
 }
 
 
-void RtmpTimerQInit(RTMP_ADAPTER *pAd)
+void RtmpTimerQInit(struct rtmp_adapter *pAd)
 {
 	int 	i;
 	RTMP_TIMER_TASK_ENTRY *pQNode, *pEntry;

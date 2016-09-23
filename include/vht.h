@@ -49,7 +49,7 @@ VOID trigger_vht_ndpa(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *entry);
 #endif /* VHT_TXBF_SUPPORT */
 
 void assoc_vht_info_debugshow(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MAC_TABLE_ENTRY *pEntry,
 	IN VHT_CAP_IE *vht_cap,
 	IN VHT_OP_IE *vht_op);

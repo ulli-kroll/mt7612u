@@ -34,7 +34,7 @@ UCHAR CFG_P2POUIBYTE[4] = {0x50, 0x6f, 0x9a, 0x9}; /* spec. 1.14 OUI */
 BUILD_TIMER_FUNCTION(CFG80211RemainOnChannelTimeout);
 
 static
-VOID CFG80211_RemainOnChannelInit(RTMP_ADAPTER	 *pAd)
+VOID CFG80211_RemainOnChannelInit(struct rtmp_adapter  *pAd)
 {
 	if (pAd->cfg80211_ctrl.Cfg80211RocTimerInit == FALSE)
 	{
@@ -49,7 +49,7 @@ VOID CFG80211RemainOnChannelTimeout(
 	PVOID SystemSpecific1, PVOID FunctionContext,
 	PVOID SystemSpecific2, PVOID SystemSpecific3)
 {
-	RTMP_ADAPTER *pAd = (RTMP_ADAPTER *) FunctionContext;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *) FunctionContext;
 	PCFG80211_CTRL pCfg80211_ctrl = &pAd->cfg80211_ctrl;
 
 	DBGPRINT(RT_DEBUG_INFO, ("CFG80211_ROC: RemainOnChannelTimeout\n"));
@@ -427,7 +427,7 @@ VOID CFG80211_P2PCTWindowTimer(
 	PVOID SystemSpecific1, PVOID FunctionContext,
 	PVOID SystemSpecific2, PVOID SystemSpecific3)
 {
-	struct rtmp_adapter *pAd = (RTMP_ADAPTER *)FunctionContext;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)FunctionContext;
 	PCFG80211_CTRL pP2pCtrl = &pAd->cfg80211_ctrl;
 
 	if (CFG80211_P2P_TEST_BIT(pP2pCtrl->CTWindows, P2P_OPPS_BIT))
@@ -450,7 +450,7 @@ VOID CFG80211_P2pSwNoATimeOut(
 	PVOID SystemSpecific1, PVOID FunctionContext,
 	PVOID SystemSpecific2, PVOID SystemSpecific3)
 {
-	struct rtmp_adapter *pAd = (RTMP_ADAPTER *)FunctionContext;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)FunctionContext;
 	CFG80211_P2pGPTimeOutHandle(pAd);
 }
 
@@ -458,7 +458,7 @@ VOID CFG80211_P2pPreAbsenTimeOut(
 	PVOID SystemSpecific1, PVOID FunctionContext,
 	PVOID SystemSpecific2, PVOID SystemSpecific3)
 {
-	struct rtmp_adapter *pAd = (RTMP_ADAPTER *)FunctionContext;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)FunctionContext;
 	pAd->cfg80211_ctrl.bPreKeepSlient = TRUE;
 }
 

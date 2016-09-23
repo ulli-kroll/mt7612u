@@ -34,7 +34,7 @@
 
 
 NTSTATUS RTMP_BBP_IO_READ8_BY_REG_ID(
-	RTMP_ADAPTER *pAd,
+	struct rtmp_adapter *pAd,
 	UINT32 Offset,
 	UINT8 *pValue)
 {
@@ -51,7 +51,7 @@ NTSTATUS RTMP_BBP_IO_READ8_BY_REG_ID(
 
 
 NTSTATUS RTMP_BBP_IO_WRITE8_BY_REG_ID(
-	RTMP_ADAPTER *pAd,
+	struct rtmp_adapter *pAd,
 	UINT32 Offset,
 	UINT8 Value)
 {
@@ -112,7 +112,7 @@ static INT rtmp_bbp_is_ready(struct rtmp_adapter *pAd)
 }
 
 
-static INT rtmp_bbp_init(RTMP_ADAPTER *pAd)
+static INT rtmp_bbp_init(struct rtmp_adapter *pAd)
 {
 	INT Index = 0;
 
@@ -190,7 +190,7 @@ static INT rtmp_bbp_get_temp(struct rtmp_adapter *pAd, CHAR *temp_val)
 }
 
 
-static INT rtmp_bbp_tx_comp_init(RTMP_ADAPTER *pAd, INT adc_insel, INT tssi_mode)
+static INT rtmp_bbp_tx_comp_init(struct rtmp_adapter *pAd, INT adc_insel, INT tssi_mode)
 {
 	UCHAR bbp_val, rf_val;
 
@@ -370,7 +370,7 @@ static INT rtmp_bbp_set_mmps(struct rtmp_adapter *pAd, BOOLEAN ReduceCorePower)
 
 
 static NDIS_STATUS AsicBBPWriteWithRxChain(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR bbpId,
 	IN CHAR bbpVal,
 	IN RX_CHAIN_IDX rx_ch_idx)
@@ -415,7 +415,7 @@ static NDIS_STATUS AsicBBPWriteWithRxChain(
 
 
 static NDIS_STATUS AsicBBPReadWithRxChain(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR bbpId,
 	IN CHAR *pBbpVal,
 	IN RX_CHAIN_IDX rx_ch_idx)
@@ -470,7 +470,7 @@ static INT rtmp_bbp_set_agc(struct rtmp_adapter *pAd, UCHAR agc, RX_CHAIN_IDX id
 }
 
 
-static INT rtmp_bbp_set_filter_coefficient_ctrl(RTMP_ADAPTER *pAd, UCHAR Channel)
+static INT rtmp_bbp_set_filter_coefficient_ctrl(struct rtmp_adapter *pAd, UCHAR Channel)
 {
 	UCHAR bbp_val = 0, org_val = 0;
 
@@ -492,7 +492,7 @@ static INT rtmp_bbp_set_filter_coefficient_ctrl(RTMP_ADAPTER *pAd, UCHAR Channel
 }
 
 
-static UCHAR rtmp_bbp_get_random_seed(RTMP_ADAPTER *pAd)
+static UCHAR rtmp_bbp_get_random_seed(struct rtmp_adapter *pAd)
 {
 	UCHAR value1, value2, value3, value4, value5;
 
@@ -523,7 +523,7 @@ static struct phy_ops rtmp_phy_ops = {
 };
 
 
-INT rtmp_phy_probe(RTMP_ADAPTER *pAd)
+INT rtmp_phy_probe(struct rtmp_adapter *pAd)
 {
 	pAd->phy_op = &rtmp_phy_ops;
 
@@ -538,7 +538,7 @@ INT rtmp_phy_probe(RTMP_ADAPTER *pAd)
 
 #ifdef CFO_TRACK
 #ifdef CONFIG_AP_SUPPORT
-INT rtmp_cfo_track(RTMP_ADAPTER *pAd, MAC_TABLE_ENTRY *pEntry, INT lastClient)
+INT rtmp_cfo_track(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry, INT lastClient)
 {
 	/* CFO Tracking */
 	if (IS_RT3883(pAd))

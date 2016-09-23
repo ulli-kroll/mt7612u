@@ -17,7 +17,7 @@
 #include "rt_config.h"
 
 int mt_rf_write(
-	RTMP_ADAPTER *ad,
+	struct rtmp_adapter *ad,
 	u8 rf_idx,
 	u16 offset,
 	u32 data)
@@ -81,7 +81,7 @@ int mt_rf_write(
 }
 
 int mt_rf_read(
-	RTMP_ADAPTER *ad,
+	struct rtmp_adapter *ad,
 	u8 rf_idx,
 	u16 offset,
 	u32 *data)

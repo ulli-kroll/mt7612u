@@ -33,7 +33,7 @@
 
 
 INT ApAllowToSendPacket(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN struct wifi_dev *wdev,
 	IN PNDIS_PACKET pPacket,
 	IN UCHAR *pWcid)
@@ -155,7 +155,7 @@ static struct reason_id_str pkt_drop_code[]={
 		You only can put OS-indepened & AP related code in here.
 ========================================================================
 */
-INT APSendPacket(RTMP_ADAPTER *pAd, PNDIS_PACKET pPacket)
+INT APSendPacket(struct rtmp_adapter *pAd, PNDIS_PACKET pPacket)
 {
 	PACKET_INFO PacketInfo;
 	UCHAR *pSrcBufVA;
@@ -435,7 +435,7 @@ INT APSendPacket(RTMP_ADAPTER *pAd, PNDIS_PACKET pPacket)
 		WepStatus is Ndis802_11WEPEnabled but the key will use PairwiseKey
 		Instead of the SharedKey, SharedKey Length may be Zero.
 */
-static inline VOID APFindCipherAlgorithm(RTMP_ADAPTER *pAd, TX_BLK *pTxBlk)
+static inline VOID APFindCipherAlgorithm(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 {
 	CIPHER_KEY *pKey = NULL;
 	UCHAR KeyIdx = 0, CipherAlg = CIPHER_NONE;
@@ -565,7 +565,7 @@ static inline VOID APFindCipherAlgorithm(RTMP_ADAPTER *pAd, TX_BLK *pTxBlk)
 
 #ifdef DOT11_N_SUPPORT
 static inline VOID APBuildCache802_11Header(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN TX_BLK *pTxBlk,
 	IN UCHAR *pHeader)
 {
@@ -605,7 +605,7 @@ static inline VOID APBuildCache802_11Header(
 
 #ifdef HDR_TRANS_TX_SUPPORT
 static inline VOID APBuildCacheWifiInfo(
-	IN RTMP_ADAPTER		*pAd,
+	IN struct rtmp_adapter 	*pAd,
 	IN TX_BLK			*pTxBlk,
 	IN UCHAR			*pWiInfo)
 {
@@ -684,7 +684,7 @@ static inline VOID APBuildWifiInfo(
 #endif /* HDR_TRANS_TX_SUPPORT */
 
 
-static inline VOID APBuildCommon802_11Header(RTMP_ADAPTER *pAd, TX_BLK *pTxBlk)
+static inline VOID APBuildCommon802_11Header(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 {
 	HEADER_802_11 *wifi_hdr;
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
@@ -760,7 +760,7 @@ static inline VOID APBuildCommon802_11Header(RTMP_ADAPTER *pAd, TX_BLK *pTxBlk)
 }
 
 
-static inline PUCHAR AP_Build_ARalink_Frame_Header(RTMP_ADAPTER *pAd, TX_BLK *pTxBlk)
+static inline PUCHAR AP_Build_ARalink_Frame_Header(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 {
 	PUCHAR			pHeaderBufPtr;/*, pSaveBufPtr; */
 	HEADER_802_11	*pHeader_802_11;
@@ -835,7 +835,7 @@ static inline PUCHAR AP_Build_ARalink_Frame_Header(RTMP_ADAPTER *pAd, TX_BLK *pT
 
 #ifdef DOT11_N_SUPPORT
 static inline BOOLEAN BuildHtcField(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN TX_BLK *pTxBlk,
 	IN  MAC_TABLE_ENTRY *pMacEntry,
 	IN PUCHAR pHeaderBufPtr)
@@ -848,7 +848,7 @@ static inline BOOLEAN BuildHtcField(
 
 
 static inline PUCHAR AP_Build_AMSDU_Frame_Header(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN TX_BLK *pTxBlk)
 {
 	UCHAR *pHeaderBufPtr;
@@ -996,7 +996,7 @@ static inline PUCHAR AP_Build_AMSDU_Frame_Header(
 }
 
 
-VOID AP_AMPDU_Frame_Tx(RTMP_ADAPTER *pAd, TX_BLK *pTxBlk)
+VOID AP_AMPDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 {
 	HEADER_802_11 *pHeader_802_11;
 	UCHAR *pHeaderBufPtr;
@@ -1623,7 +1623,7 @@ VOID AP_AMPDU_Frame_Tx_Hdr_Trns(
 }
 #endif /* HDR_TRANS_TX_SUPPORT */
 
-VOID AP_AMSDU_Frame_Tx(RTMP_ADAPTER *pAd, TX_BLK *pTxBlk)
+VOID AP_AMSDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 {
 	UCHAR *pHeaderBufPtr, *subFrameHeader;
 	USHORT freeCnt = 1; /* no use */
@@ -1821,7 +1821,7 @@ VOID AP_AMSDU_Frame_Tx(RTMP_ADAPTER *pAd, TX_BLK *pTxBlk)
 #endif /* DOT11_N_SUPPORT */
 
 
-VOID AP_Legacy_Frame_Tx(RTMP_ADAPTER *pAd, TX_BLK *pTxBlk)
+VOID AP_Legacy_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 {
 	HEADER_802_11 *wifi_hdr;
 	UCHAR *pHeaderBufPtr;
@@ -2329,7 +2329,7 @@ VOID AP_Legacy_Frame_Tx_Hdr_Trns(
 #endif /* HDR_TRANS_TX_SUPPORT */
 
 
-VOID AP_Fragment_Frame_Tx(RTMP_ADAPTER *pAd, TX_BLK *pTxBlk)
+VOID AP_Fragment_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 {
 	HEADER_802_11 *pHeader_802_11;
 	UCHAR *pHeaderBufPtr;
@@ -2715,7 +2715,7 @@ VOID AP_Fragment_Frame_Tx(RTMP_ADAPTER *pAd, TX_BLK *pTxBlk)
 }
 
 
-VOID AP_ARalink_Frame_Tx(RTMP_ADAPTER *pAd, TX_BLK *pTxBlk)
+VOID AP_ARalink_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 {
 	UCHAR *pHeaderBufPtr;
 	USHORT freeCnt = 1; /* no use */
@@ -2873,7 +2873,7 @@ VOID AP_ARalink_Frame_Tx(RTMP_ADAPTER *pAd, TX_BLK *pTxBlk)
 
 
 #ifdef VHT_TXBF_SUPPORT
-VOID AP_NDPA_Frame_Tx(RTMP_ADAPTER *pAd, TX_BLK *pTxBlk)
+VOID AP_NDPA_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 {
 	UCHAR *buf;
 	VHT_NDPA_FRAME *vht_ndpa;
@@ -2958,7 +2958,7 @@ VOID AP_NDPA_Frame_Tx(RTMP_ADAPTER *pAd, TX_BLK *pTxBlk)
 		None
 	========================================================================
 */
-NDIS_STATUS APHardTransmit(RTMP_ADAPTER *pAd, TX_BLK *pTxBlk, UCHAR QueIdx)
+NDIS_STATUS APHardTransmit(struct rtmp_adapter *pAd, TX_BLK *pTxBlk, UCHAR QueIdx)
 {
 	PQUEUE_ENTRY pQEntry;
 	PNDIS_PACKET pPacket;
@@ -3082,7 +3082,7 @@ NDIS_STATUS APHardTransmit(RTMP_ADAPTER *pAd, TX_BLK *pTxBlk, UCHAR QueIdx)
 		Check Rx descriptor, return NDIS_STATUS_FAILURE if any error found
 	========================================================================
 */
-INT APCheckRxError(RTMP_ADAPTER *pAd, RXINFO_STRUC *pRxInfo, RX_BLK *pRxBlk)
+INT APCheckRxError(struct rtmp_adapter *pAd, RXINFO_STRUC *pRxInfo, RX_BLK *pRxBlk)
 {
 	if (pRxInfo->Crc || pRxInfo->CipherErr)
 	{
@@ -3143,7 +3143,7 @@ INT APCheckRxError(RTMP_ADAPTER *pAd, RXINFO_STRUC *pRxInfo, RX_BLK *pRxBlk)
 	error, and perform error action (DEAUTH or DISASSOC) accordingly
   ========================================================================
 */
-BOOLEAN APChkCls2Cls3Err(RTMP_ADAPTER *pAd, UCHAR wcid, HEADER_802_11 *hdr)
+BOOLEAN APChkCls2Cls3Err(struct rtmp_adapter *pAd, UCHAR wcid, HEADER_802_11 *hdr)
 {
 	/* software MAC table might be smaller than ASIC on-chip total size. */
 	/* If no mathed wcid index in ASIC on chip, do we need more check???  need to check again. 06-06-2006 */
@@ -3191,7 +3191,7 @@ BOOLEAN APChkCls2Cls3Err(RTMP_ADAPTER *pAd, UCHAR wcid, HEADER_802_11 *hdr)
 */
 /*static UCHAR is_on; */
 VOID detect_wmm_traffic(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR UserPriority,
 	IN UCHAR FlgIsOutput)
 {
@@ -3291,7 +3291,7 @@ VOID detect_wmm_traffic(
 	It is necessary to turn AC0 TX_OP dynamically.
 */
 
-VOID dynamic_tune_be_tx_op(RTMP_ADAPTER *pAd, ULONG nonBEpackets)
+VOID dynamic_tune_be_tx_op(struct rtmp_adapter *pAd, ULONG nonBEpackets)
 {
 	UINT32 RegValue;
 	AC_TXOP_CSR0_STRUC csr0;
@@ -3421,7 +3421,7 @@ VOID dynamic_tune_be_tx_op(RTMP_ADAPTER *pAd, ULONG nonBEpackets)
 }
 
 
-VOID APRxErrorHandle(RTMP_ADAPTER *pAd, RX_BLK *pRxBlk)
+VOID APRxErrorHandle(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 {
 	MAC_TABLE_ENTRY *pEntry = NULL;
 	RXINFO_STRUC *pRxInfo = pRxBlk->pRxInfo;
@@ -3506,7 +3506,7 @@ VOID APRxErrorHandle(RTMP_ADAPTER *pAd, RX_BLK *pRxBlk)
 
 
 static int dump_next_valid = 0;
-BOOLEAN APCheckVaildDataFrame(RTMP_ADAPTER *pAd, RX_BLK *pRxBlk)
+BOOLEAN APCheckVaildDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 {
 	HEADER_802_11 *pHeader = pRxBlk->pHeader;
 	BOOLEAN isVaild = FALSE;
@@ -3806,7 +3806,7 @@ VOID Announce_or_Forward_802_3_Packet(
 
 
 VOID APRxDataFrameAnnounce(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MAC_TABLE_ENTRY *pEntry,
 	IN RX_BLK *pRxBlk,
 	IN UCHAR FromWhichBSSID)
@@ -3896,7 +3896,7 @@ VOID APRxDataFrameAnnounce(
 
 #ifdef HDR_TRANS_SUPPORT
 VOID APRxDataFrameAnnounce_Hdr_Trns(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MAC_TABLE_ENTRY *pEntry,
 	IN RX_BLK *pRxBlk,
 	IN UCHAR FromWhichBSSID)
@@ -3996,7 +3996,7 @@ VOID APRxDataFrameAnnounce_Hdr_Trns(
 		3. set payload size including LLC to DataSize
 		4. set some flags with RX_BLK_SET_FLAG()
 */
-VOID APHandleRxDataFrame(RTMP_ADAPTER *pAd, RX_BLK *pRxBlk)
+VOID APHandleRxDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 {
 	RXINFO_STRUC *pRxInfo = pRxBlk->pRxInfo;
 	RXWI_STRUC *pRxWI = pRxBlk->pRxWI;
@@ -4798,7 +4798,7 @@ err:
 
 
 BOOLEAN APFowardWirelessStaToWirelessSta(
-	IN	RTMP_ADAPTER *pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	PNDIS_PACKET pPacket,
 	IN	ULONG FromWhichBSSID)
 {

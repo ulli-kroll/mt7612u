@@ -1068,7 +1068,7 @@ recoverFS:
 
 
 int rtmp_ee_efuse_read16(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN USHORT Offset,
 	OUT USHORT *pValue)
 {
@@ -1078,7 +1078,7 @@ int rtmp_ee_efuse_read16(
 
 
 int rtmp_ee_efuse_write16(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN USHORT Offset,
 	IN USHORT data)
 {
@@ -1087,7 +1087,7 @@ int rtmp_ee_efuse_write16(
 }
 
 int RtmpEfuseSupportCheck(
-	IN RTMP_ADAPTER *pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	USHORT value;
 
@@ -1243,7 +1243,7 @@ VOID eFuseGetFreeBlockCount(IN struct rtmp_adapter *pAd,
 }
 
 
-INT eFuse_init(RTMP_ADAPTER *pAd)
+INT eFuse_init(struct rtmp_adapter *pAd)
 {
 	UINT EfuseFreeBlock=0;
 	INT result;
@@ -1300,7 +1300,7 @@ INT eFuse_init(RTMP_ADAPTER *pAd)
 }
 
 
-INT efuse_probe(RTMP_ADAPTER *pAd)
+INT efuse_probe(struct rtmp_adapter *pAd)
 {
 	UINT32 eFuseCtrl, ctrl_reg;
 

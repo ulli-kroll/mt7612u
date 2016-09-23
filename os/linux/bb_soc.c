@@ -29,7 +29,7 @@ VOID PeriodicPollingModeDetect(
     IN PVOID SystemSpecific3){
   unsigned long irqFlags;
   UCHAR modem_status=0;
-  RTMP_ADAPTER *pAd = (RTMP_ADAPTER *)FunctionContext;
+  struct rtmp_adapter *pAd = (struct rtmp_adapter *)FunctionContext;
   POS_COOKIE _pObj = (POS_COOKIE)(pAd->OS_Cookie);
 
   os_TCIfQuery(0x0002, &modem_status, NULL);
@@ -75,7 +75,7 @@ VOID PollingModeIsr(struct work_struct *work)
 }
 
 
-VOID BBUPollingModeClose(IN RTMP_ADAPTER *pAd){
+VOID BBUPollingModeClose(IN struct rtmp_adapter *pAd){
 	BOOLEAN 		Cancelled;
 
 	pAd->Pollingmode.PollingModeDetectRunning = FALSE;
@@ -85,7 +85,7 @@ VOID BBUPollingModeClose(IN RTMP_ADAPTER *pAd){
 BUILD_TIMER_FUNCTION(PeriodicPollingModeDetect);
 
 
-VOID BBUPollingModeInit(IN RTMP_ADAPTER *pAd){
+VOID BBUPollingModeInit(IN struct rtmp_adapter *pAd){
 
 	NdisAllocateSpinLock(&pAd->Pollingmode.PollingModeLock);//for polling mode
 
@@ -93,7 +93,7 @@ VOID BBUPollingModeInit(IN RTMP_ADAPTER *pAd){
 	pAd->Pollingmode.PollingModeDetectRunning = FALSE;
 }
 
-VOID BBUPollingModeStart(IN RTMP_ADAPTER *pAd){
+VOID BBUPollingModeStart(IN struct rtmp_adapter *pAd){
 
 	if (pAd->Pollingmode.PollingModeDetectRunning == FALSE)
 	{
@@ -110,7 +110,7 @@ VOID BBU_PCIE_Init(){
 	pcieRegInitConfig();
 }
 
-VOID BBUPrepareMAC(IN RTMP_ADAPTER *pAd, PUCHAR macaddr ){
+VOID BBUPrepareMAC(IN struct rtmp_adapter *pAd, PUCHAR macaddr ){
 	UCHAR FourByteOffset = 0;
 	UCHAR NWlanExt = 0;
 

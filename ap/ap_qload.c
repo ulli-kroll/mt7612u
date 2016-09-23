@@ -74,14 +74,14 @@ typedef struct GNU_PACKED _ELM_QBSS_LOAD{
 
 
 static VOID QBSS_LoadAlarmSuspend(
- 	IN		RTMP_ADAPTER	*pAd);
+ 	IN		struct rtmp_adapter *pAd);
 
 #ifdef QLOAD_FUNC_BUSY_TIME_ALARM
 /* handle a alarm */
 static VOID QBSS_LoadAlarm(
- 	IN		RTMP_ADAPTER	*pAd);
+ 	IN		struct rtmp_adapter *pAd);
 static VOID QBSS_LoadAlarmBusyTimeThresholdReset(
- 	IN		RTMP_ADAPTER	*pAd,
+ 	IN		struct rtmp_adapter *pAd,
 	IN		UINT32			TimePeriod);
 #endif /* QLOAD_FUNC_BUSY_TIME_ALARM */
 
@@ -111,7 +111,7 @@ Note:
 ========================================================================
 */
 static VOID QBSS_LoadAlarm(
- 	IN		RTMP_ADAPTER	*pAd)
+ 	IN		struct rtmp_adapter *pAd)
 {
 	/* suspend alarm until channel switch */
 	QBSS_LoadAlarmSuspend(pAd);
@@ -232,7 +232,7 @@ Note:
 ========================================================================
 */
 static VOID QBSS_LoadAlarmBusyTimeThresholdReset(
- 	IN		RTMP_ADAPTER	*pAd,
+ 	IN		struct rtmp_adapter *pAd,
 	IN		UINT32			TimePeriod)
 {
 	pAd->QloadBusyTimeThreshold = TimePeriod;
@@ -263,7 +263,7 @@ Note:
 ========================================================================
 */
 VOID QBSS_LoadInit(
- 	IN		RTMP_ADAPTER	*pAd)
+ 	IN		struct rtmp_adapter *pAd)
 {
 	UINT32 IdBss;
 
@@ -330,7 +330,7 @@ Note:
 ========================================================================
 */
 VOID QBSS_LoadAlarmReset(
- 	IN		RTMP_ADAPTER	*pAd)
+ 	IN		struct rtmp_adapter *pAd)
 {
 #ifdef QLOAD_FUNC_BUSY_TIME_ALARM
 	pAd->FlgQloadAlarm = FALSE;
@@ -359,7 +359,7 @@ Note:
 ========================================================================
 */
 VOID QBSS_LoadAlarmResume(
- 	IN		RTMP_ADAPTER	*pAd)
+ 	IN		struct rtmp_adapter *pAd)
 {
 #ifdef QLOAD_FUNC_BUSY_TIME_ALARM
 	pAd->FlgQloadAlarmIsSuspended = FALSE;
@@ -382,7 +382,7 @@ Note:
 ========================================================================
 */
 static VOID QBSS_LoadAlarmSuspend(
- 	IN		RTMP_ADAPTER	*pAd)
+ 	IN		struct rtmp_adapter *pAd)
 {
 #ifdef QLOAD_FUNC_BUSY_TIME_ALARM
 	pAd->FlgQloadAlarmIsSuspended = TRUE;
@@ -405,7 +405,7 @@ Note:
 ========================================================================
 */
 UINT32 QBSS_LoadBusyTimeGet(
- 	IN		RTMP_ADAPTER	*pAd)
+ 	IN		struct rtmp_adapter *pAd)
 {
 	if (pAd->QloadChanUtilBeaconCnt == 0)
 		return pAd->QloadChanUtilTotal;
@@ -431,7 +431,7 @@ Note:
 ========================================================================
 */
 BOOLEAN QBSS_LoadIsAlarmIssued(
- 	IN		RTMP_ADAPTER	*pAd)
+ 	IN		struct rtmp_adapter *pAd)
 {
 #ifdef QLOAD_FUNC_BUSY_TIME_ALARM
 	BOOLEAN FlgQloadAlarm = pAd->FlgQloadAlarm;
@@ -461,7 +461,7 @@ Note:
 ========================================================================
 */
 BOOLEAN QBSS_LoadIsBusyTimeAccepted(
- 	IN		RTMP_ADAPTER	*pAd,
+ 	IN		struct rtmp_adapter *pAd,
 	IN		UINT32			BusyTime)
 {
 #ifdef QLOAD_FUNC_BUSY_TIME_ALARM
@@ -494,7 +494,7 @@ Note:
 ========================================================================
 */
 UINT32 QBSS_LoadElementAppend(
- 	IN		RTMP_ADAPTER	*pAd,
+ 	IN		struct rtmp_adapter *pAd,
 	OUT		UINT8			*pBeaconBuf)
 {
 	ELM_QBSS_LOAD load, *pLoad = &load;
@@ -551,7 +551,7 @@ Note:
 ========================================================================
 */
 VOID QBSS_LoadUpdate(
- 	IN		RTMP_ADAPTER	*pAd,
+ 	IN		struct rtmp_adapter *pAd,
 	IN		ULONG			UpTime)
 {
 	UINT32 ChanUtilNu, ChanUtilDe;
@@ -758,7 +758,7 @@ Note:
 ========================================================================
 */
 VOID QBSS_LoadStatusClear(
- 	IN		RTMP_ADAPTER	*pAd)
+ 	IN		struct rtmp_adapter *pAd)
 {
 #ifdef QLOAD_FUNC_BUSY_TIME_STATS
 	/* clear busy time statistics */

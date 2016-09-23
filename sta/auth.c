@@ -39,7 +39,7 @@ VOID AuthTimeout(
 	IN PVOID SystemSpecific2,
 	IN PVOID SystemSpecific3)
 {
-	RTMP_ADAPTER *pAd = (RTMP_ADAPTER *)FunctionContext;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)FunctionContext;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("%s():AuthTimeout\n", __FUNCTION__));
 
@@ -65,7 +65,7 @@ VOID AuthTimeout(
 
     ==========================================================================
  */
-VOID MlmeAuthReqAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
+VOID MlmeAuthReqAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 	if (AUTH_ReqSend(pAd, Elem, &pAd->MlmeAux.AuthTimer, "AUTH", 1, NULL, 0))
 		pAd->Mlme.AuthMachine.CurrState = AUTH_WAIT_SEQ2;
@@ -87,7 +87,7 @@ VOID MlmeAuthReqAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
 
     ==========================================================================
  */
-VOID PeerAuthRspAtSeq2Action(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM * Elem)
+VOID PeerAuthRspAtSeq2Action(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM * Elem)
 {
 	UCHAR Addr2[MAC_ADDR_LEN];
 	USHORT Seq, Status, RemoteStatus, Alg;
@@ -249,7 +249,7 @@ VOID PeerAuthRspAtSeq2Action(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM * Elem)
 
     ==========================================================================
  */
-VOID PeerAuthRspAtSeq4Action(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
+VOID PeerAuthRspAtSeq4Action(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 	UCHAR Addr2[MAC_ADDR_LEN];
 	USHORT Alg, Seq, Status;
@@ -303,7 +303,7 @@ VOID PeerAuthRspAtSeq4Action(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
 
     ==========================================================================
  */
-VOID MlmeDeauthReqAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
+VOID MlmeDeauthReqAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 	MLME_DEAUTH_REQ_STRUCT *pInfo;
 	HEADER_802_11 DeauthHdr;
@@ -356,7 +356,7 @@ VOID MlmeDeauthReqAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
 
     ==========================================================================
  */
-VOID AuthTimeoutAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
+VOID AuthTimeoutAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 	USHORT Status;
 	DBGPRINT(RT_DEBUG_TRACE, ("AUTH - AuthTimeoutAction\n"));
@@ -374,7 +374,7 @@ VOID AuthTimeoutAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
 
     ==========================================================================
  */
-VOID InvalidStateWhenAuth(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
+VOID InvalidStateWhenAuth(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 	USHORT Status;
 	DBGPRINT(RT_DEBUG_TRACE,
@@ -398,7 +398,7 @@ VOID InvalidStateWhenAuth(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
 
     ==========================================================================
  */
-VOID Cls2errAction(RTMP_ADAPTER *pAd, UCHAR *pAddr)
+VOID Cls2errAction(struct rtmp_adapter *pAd, UCHAR *pAddr)
 {
 	HEADER_802_11 DeauthHdr;
 	PUCHAR pOutBuffer = NULL;
@@ -526,7 +526,7 @@ BOOLEAN AUTH_ReqSend(
     ==========================================================================
 */
 void AuthStateMachineInit(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN STATE_MACHINE *Sm,
 	OUT STATE_MACHINE_FUNC Trans[])
 {

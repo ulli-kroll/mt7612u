@@ -82,7 +82,7 @@ typedef struct GNU_PACKED _WNM_FRAME
 	}u;
 } WNM_FRAME, *PWNM_FRAME;
 
-void PeerWNMAction(IN PRTMP_ADAPTER pAd,
+void PeerWNMAction(IN Pstruct rtmp_adapter pAd,
 				   IN MLME_QUEUE_ELEM *Elem);
 
 #endif /* __DOT11V_WNM_H__ */

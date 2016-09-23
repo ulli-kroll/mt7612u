@@ -42,7 +42,7 @@
 	========================================================================
 */
 VOID RTMPSetVHT(
-	IN RTMP_ADAPTER *pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	VHT_CAP_INFO *vht_cap= &pAd->CommonCfg.vht_cap_ie.vht_cap;
 
@@ -56,7 +56,7 @@ VOID RTMPSetVHT(
 }
 
 
-VOID rtmp_set_vht(RTMP_ADAPTER *pAd, RT_PHY_INFO *phy_info)
+VOID rtmp_set_vht(struct rtmp_adapter *pAd, RT_PHY_INFO *phy_info)
 {
 	if (!phy_info)
 		return;
@@ -70,7 +70,7 @@ VOID rtmp_set_vht(RTMP_ADAPTER *pAd, RT_PHY_INFO *phy_info)
 }
 
 
-INT SetCommonVHT(RTMP_ADAPTER *pAd)
+INT SetCommonVHT(struct rtmp_adapter *pAd)
 {
 	UCHAR cent_ch = 0;
 

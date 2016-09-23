@@ -44,7 +44,7 @@ INT Set_AdhocN_Proc(
 
 #ifdef DYNAMIC_VGA_SUPPORT
 INT	Set_DyncVgaEnable_Proc(
-	IN RTMP_ADAPTER		*pAd,
+	IN struct rtmp_adapter 	*pAd,
 	IN PSTRING			arg);
 #endif /* DYNAMIC_VGA_SUPPORT */
 
@@ -364,7 +364,7 @@ static struct {
 
 
 INT RTMPSTAPrivIoctlSet(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PSTRING SetProcName,
 	IN PSTRING ProcArg)
 {
@@ -401,7 +401,7 @@ INT RTMPSTAPrivIoctlSet(
         TRUE if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
-INT Set_SSID_Proc(RTMP_ADAPTER *pAd, PSTRING arg)
+INT Set_SSID_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
     NDIS_802_11_SSID Ssid, *pSsid=NULL;
     BOOLEAN StateMachineTouched = FALSE;
@@ -770,7 +770,7 @@ INT Set_AuthMode_Proc(
         TRUE if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
-INT Set_EncrypType_Proc(RTMP_ADAPTER *pAd, PSTRING arg)
+INT Set_EncrypType_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	struct wifi_dev *wdev = &pAd->StaCfg.wdev;
 
@@ -1240,7 +1240,7 @@ INT Set_Key4_Proc(
         TRUE if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
-INT Set_WPAPSK_Proc(RTMP_ADAPTER *pAd, PSTRING arg)
+INT Set_WPAPSK_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
     int status;
 	struct wifi_dev *wdev = &pAd->StaCfg.wdev;
@@ -1561,7 +1561,7 @@ INT Set_ForceTxBurst_Proc(
 
 
 
-VOID RTMPAddKey(RTMP_ADAPTER *pAd, PNDIS_802_11_KEY pKey)
+VOID RTMPAddKey(struct rtmp_adapter *pAd, PNDIS_802_11_KEY pKey)
 {
 	ULONG KeyIdx;
 	MAC_TABLE_ENTRY *pEntry;
@@ -1930,7 +1930,7 @@ INT Set_WOW_InBand(
 #endif /* (defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT) */
 
 INT RTMPSetInformation(
-    IN RTMP_ADAPTER *pAd,
+    IN struct rtmp_adapter *pAd,
     INOUT RTMP_IOCTL_INPUT_STRUCT *rq,
     IN  INT cmd)
 {
@@ -4282,7 +4282,7 @@ INT RTMPQueryInformation(
     ==========================================================================
 */
 VOID RTMPIoctlMAC(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN RTMP_IOCTL_INPUT_STRUCT *wrq)
 {
 	PSTRING this_char, value;
@@ -5110,7 +5110,7 @@ next:
 
 #ifdef RT65xx
 VOID RTMPIoctlBbp32(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN RTMP_IOCTL_INPUT_STRUCT *wrq,
 	IN CHAR *extra,
 	IN UINT32 size)
@@ -5234,7 +5234,7 @@ next:
 
 
 VOID RTMPIoctlBbp(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN RTMP_IOCTL_INPUT_STRUCT *wrq,
 	IN CHAR *extra,
 	IN UINT32 size)
@@ -5715,7 +5715,7 @@ Note:
 */
 INT
 RtmpIoctl_rt_ioctl_siwfreq(
-	IN	RTMP_ADAPTER			*pAd,
+	IN	struct rtmp_adapter 		*pAd,
 	IN	VOID					*pData,
 	IN	ULONG					Data)
 {
@@ -5772,7 +5772,7 @@ Note:
 */
 INT
 RtmpIoctl_rt_ioctl_giwfreq(
-	IN	RTMP_ADAPTER			*pAd,
+	IN	struct rtmp_adapter 		*pAd,
 	IN	VOID					*pData,
 	IN	ULONG					Data)
 {
@@ -5807,7 +5807,7 @@ Note:
 */
 INT
 RtmpIoctl_rt_ioctl_siwmode(
-	IN	RTMP_ADAPTER			*pAd,
+	IN	struct rtmp_adapter 		*pAd,
 	IN	VOID					*pData,
 	IN	ULONG					Data)
 {
@@ -5848,7 +5848,7 @@ Note:
 */
 INT
 RtmpIoctl_rt_ioctl_giwmode(
-	IN	RTMP_ADAPTER			*pAd,
+	IN	struct rtmp_adapter 		*pAd,
 	IN	VOID					*pData,
 	IN	ULONG					Data)
 {
@@ -5882,7 +5882,7 @@ Note:
 */
 INT
 RtmpIoctl_rt_ioctl_siwap(
-	IN	RTMP_ADAPTER			*pAd,
+	IN	struct rtmp_adapter 		*pAd,
 	IN	VOID					*pData,
 	IN	ULONG					Data)
 {
@@ -5938,7 +5938,7 @@ Note:
 */
 INT
 RtmpIoctl_rt_ioctl_giwap(
-	IN	RTMP_ADAPTER			*pAd,
+	IN	struct rtmp_adapter 		*pAd,
 	IN	VOID					*pData,
 	IN	ULONG					Data)
 {
@@ -5971,7 +5971,7 @@ Return Value:
 Note:
 ========================================================================
 */
-INT RtmpIoctl_rt_ioctl_siwscan(RTMP_ADAPTER *pAd, VOID *pData, ULONG Data)
+INT RtmpIoctl_rt_ioctl_siwscan(struct rtmp_adapter *pAd, VOID *pData, ULONG Data)
 {
 	struct wifi_dev *wdev = &pAd->StaCfg.wdev;
 
@@ -6097,7 +6097,7 @@ Note:
 */
 INT
 RtmpIoctl_rt_ioctl_giwscan(
-	IN	RTMP_ADAPTER			*pAd,
+	IN	struct rtmp_adapter 		*pAd,
 	IN	VOID					*pData,
 	IN	ULONG					Data)
 {
@@ -6189,7 +6189,7 @@ Note:
 */
 INT
 RtmpIoctl_rt_ioctl_siwessid(
-	IN	RTMP_ADAPTER			*pAd,
+	IN	struct rtmp_adapter 		*pAd,
 	IN	VOID					*pData,
 	IN	ULONG					Data)
 {
@@ -6250,7 +6250,7 @@ Note:
 */
 INT
 RtmpIoctl_rt_ioctl_giwessid(
-	IN	RTMP_ADAPTER			*pAd,
+	IN	struct rtmp_adapter 		*pAd,
 	IN	VOID					*pData,
 	IN	ULONG					Data)
 {
@@ -6305,7 +6305,7 @@ Note:
 */
 INT
 RtmpIoctl_rt_ioctl_siwnickn(
-	IN	RTMP_ADAPTER			*pAd,
+	IN	struct rtmp_adapter 		*pAd,
 	IN	VOID					*pData,
 	IN	ULONG					Data)
 {
@@ -6333,7 +6333,7 @@ Note:
 */
 INT
 RtmpIoctl_rt_ioctl_giwnickn(
-	IN	RTMP_ADAPTER			*pAd,
+	IN	struct rtmp_adapter 		*pAd,
 	IN	VOID					*pData,
 	IN	ULONG					Data)
 {
@@ -6368,7 +6368,7 @@ Note:
 */
 INT
 RtmpIoctl_rt_ioctl_siwrts(
-	IN	RTMP_ADAPTER			*pAd,
+	IN	struct rtmp_adapter 		*pAd,
 	IN	VOID					*pData,
 	IN	ULONG					Data)
 {
@@ -6395,7 +6395,7 @@ Note:
 */
 INT
 RtmpIoctl_rt_ioctl_giwrts(
-	IN	RTMP_ADAPTER			*pAd,
+	IN	struct rtmp_adapter 		*pAd,
 	IN	VOID					*pData,
 	IN	ULONG					Data)
 {
@@ -6422,7 +6422,7 @@ Note:
 */
 INT
 RtmpIoctl_rt_ioctl_siwfrag(
-	IN	RTMP_ADAPTER			*pAd,
+	IN	struct rtmp_adapter 		*pAd,
 	IN	VOID					*pData,
 	IN	ULONG					Data)
 {
@@ -6449,7 +6449,7 @@ Note:
 */
 INT
 RtmpIoctl_rt_ioctl_giwfrag(
-	IN	RTMP_ADAPTER			*pAd,
+	IN	struct rtmp_adapter 		*pAd,
 	IN	VOID					*pData,
 	IN	ULONG					Data)
 {
@@ -6477,7 +6477,7 @@ Note:
 #define NR_WEP_KEYS 				4
 #define MAX_WEP_KEY_SIZE			13
 #define MIN_WEP_KEY_SIZE			5
-INT RtmpIoctl_rt_ioctl_siwencode(RTMP_ADAPTER *pAd, VOID *pData, ULONG Data)
+INT RtmpIoctl_rt_ioctl_siwencode(struct rtmp_adapter *pAd, VOID *pData, ULONG Data)
 {
 	RT_CMD_STA_IOCTL_SECURITY *pIoctlSec = (RT_CMD_STA_IOCTL_SECURITY *)pData;
 	struct wifi_dev *wdev = &pAd->StaCfg.wdev;
@@ -6591,7 +6591,7 @@ Return Value:
 Note:
 ========================================================================
 */
-INT RtmpIoctl_rt_ioctl_giwencode(RTMP_ADAPTER *pAd, VOID *pData, ULONG Data)
+INT RtmpIoctl_rt_ioctl_giwencode(struct rtmp_adapter *pAd, VOID *pData, ULONG Data)
 {
 	RT_CMD_STA_IOCTL_SECURITY *pIoctlSec = (RT_CMD_STA_IOCTL_SECURITY *)pData;
 	int kid;
@@ -6657,7 +6657,7 @@ Note:
 */
 INT
 RtmpIoctl_rt_ioctl_siwmlme(
-	IN	RTMP_ADAPTER			*pAd,
+	IN	struct rtmp_adapter 		*pAd,
 	IN	VOID					*pData,
 	IN	ULONG					Data,
 	IN	UINT32					Subcmd)
@@ -6737,7 +6737,7 @@ Note:
 */
 INT
 RtmpIoctl_rt_ioctl_siwauth(
-	IN	RTMP_ADAPTER			*pAd,
+	IN	struct rtmp_adapter 		*pAd,
 	IN	VOID					*pData,
 	IN	ULONG					Data)
 {
@@ -6898,7 +6898,7 @@ Note:
 ========================================================================
 */
 INT
-RtmpIoctl_rt_ioctl_giwauth(RTMP_ADAPTER *pAd, VOID *pData, ULONG Data)
+RtmpIoctl_rt_ioctl_giwauth(struct rtmp_adapter *pAd, VOID *pData, ULONG Data)
 {
 	RT_CMD_STA_IOCTL_SECURITY_ADV *pIoctlWpa = (RT_CMD_STA_IOCTL_SECURITY_ADV *)pData;
 	struct wifi_dev *wdev = &pAd->StaCfg.wdev;
@@ -7005,7 +7005,7 @@ Return Value:
 Note:
 ========================================================================
 */
-INT RtmpIoctl_rt_ioctl_siwencodeext(RTMP_ADAPTER *pAd, VOID *pData, ULONG Data)
+INT RtmpIoctl_rt_ioctl_siwencodeext(struct rtmp_adapter *pAd, VOID *pData, ULONG Data)
 {
 	RT_CMD_STA_IOCTL_SECURITY *pIoctlSec = (RT_CMD_STA_IOCTL_SECURITY *)pData;
 	int keyIdx;
@@ -7150,7 +7150,7 @@ Return Value:
 Note:
 ========================================================================
 */
-INT RtmpIoctl_rt_ioctl_giwencodeext(RTMP_ADAPTER *pAd, VOID *pData, ULONG Data)
+INT RtmpIoctl_rt_ioctl_giwencodeext(struct rtmp_adapter *pAd, VOID *pData, ULONG Data)
 {
 	RT_CMD_STA_IOCTL_SECURITY *pIoctlSec = (RT_CMD_STA_IOCTL_SECURITY *)pData;
 	int idx;
@@ -7246,7 +7246,7 @@ Note:
 */
 INT
 RtmpIoctl_rt_ioctl_siwgenie(
-	IN	RTMP_ADAPTER			*pAd,
+	IN	struct rtmp_adapter 		*pAd,
 	IN	VOID					*pData,
 	IN	ULONG					Data)
 {
@@ -7303,7 +7303,7 @@ Note:
 ========================================================================
 */
 INT
-RtmpIoctl_rt_ioctl_giwgenie(RTMP_ADAPTER *pAd, VOID *pData, ULONG Data)
+RtmpIoctl_rt_ioctl_giwgenie(struct rtmp_adapter *pAd, VOID *pData, ULONG Data)
 {
 	RT_CMD_STA_IOCTL_RSN_IE *IoctlRsnIe = (RT_CMD_STA_IOCTL_RSN_IE *)pData;
 	struct wifi_dev *wdev = &pAd->StaCfg.wdev;
@@ -7372,7 +7372,7 @@ Note:
 */
 INT
 RtmpIoctl_rt_ioctl_siwpmksa(
-	IN	RTMP_ADAPTER			*pAd,
+	IN	struct rtmp_adapter 		*pAd,
 	IN	VOID					*pData,
 	IN	ULONG					Data)
 {
@@ -7459,7 +7459,7 @@ Return Value:
 Note:
 ========================================================================
 */
-INT RtmpIoctl_rt_ioctl_siwrate(RTMP_ADAPTER *pAd, VOID *pData, ULONG Data)
+INT RtmpIoctl_rt_ioctl_siwrate(struct rtmp_adapter *pAd, VOID *pData, ULONG Data)
 {
 	RT_CMD_RATE_SET *pCmdRate = (RT_CMD_RATE_SET *)pData;
 	UINT32 rate = pCmdRate->Rate;
@@ -7529,7 +7529,7 @@ Note:
 ========================================================================
 */
 INT
-RtmpIoctl_rt_ioctl_giwrate(RTMP_ADAPTER *pAd, VOID *pData, ULONG Data)
+RtmpIoctl_rt_ioctl_giwrate(struct rtmp_adapter *pAd, VOID *pData, ULONG Data)
 {
     int rate_index = 0, rate_count = 0;
 	HTTRANSMIT_SETTING ht_setting;
@@ -7567,7 +7567,7 @@ Note:
 */
 INT
 RtmpIoctl_rt_ioctl_gifhwaddr(
-	IN	RTMP_ADAPTER			*pAd,
+	IN	struct rtmp_adapter 		*pAd,
 	IN	VOID					*pData,
 	IN	ULONG					Data)
 {
@@ -7593,7 +7593,7 @@ Note:
 */
 INT
 RtmpIoctl_rt_ioctl_rssi(
-	IN	RTMP_ADAPTER			*pAd,
+	IN	struct rtmp_adapter 		*pAd,
 	IN	VOID					*pData,
 	IN	ULONG					Data)
 {
@@ -7621,7 +7621,7 @@ Note:
 */
 INT
 RtmpIoctl_rt_ioctl_setparam(
-	IN	RTMP_ADAPTER			*pAd,
+	IN	struct rtmp_adapter 		*pAd,
 	IN	VOID					*pData,
 	IN	ULONG					Data)
 {
@@ -7656,7 +7656,7 @@ Note:
 */
 INT
 RtmpIoctl_rt_private_set_wsc_u32_item(
-	IN	RTMP_ADAPTER			*pAd,
+	IN	struct rtmp_adapter 		*pAd,
 	IN	VOID					*pData,
 	IN	ULONG					Data)
 {
@@ -7683,7 +7683,7 @@ Note:
 */
 INT
 RtmpIoctl_rt_private_set_wsc_string_item(
-	IN	RTMP_ADAPTER			*pAd,
+	IN	struct rtmp_adapter 		*pAd,
 	IN	VOID					*pData,
 	IN	ULONG					Data)
 {
@@ -7710,7 +7710,7 @@ Note:
 */
 INT
 RtmpIoctl_rt_private_get_statistics(
-	IN	RTMP_ADAPTER			*pAd,
+	IN	struct rtmp_adapter 		*pAd,
 	IN	VOID					*pData,
 	IN	ULONG					Data)
 {
@@ -7793,7 +7793,7 @@ RtmpIoctl_rt_private_get_statistics(
 			static char *bw[3] = {"20M", "40M", "80M"};
 			static char *fec_coding[2] = {"bcc", "ldpc"};
 			int i;
-    
+
 			for (i=1; i<MAX_LEN_OF_MAC_TABLE; i++)
 			{
 				PMAC_TABLE_ENTRY pEntry = &(pAd->MacTab.Content[i]);
@@ -7858,7 +7858,7 @@ RtmpIoctl_rt_private_get_statistics(
 				}
 			}
 		}
-#else    
+#else
 		sprintf(extra+strlen(extra), "RSSI-A                          = %ld\n", (LONG)(pAd->StaCfg.RssiSample.AvgRssi0 - pAd->BbpRssiToDbmDelta));
 		sprintf(extra+strlen(extra), "RSSI-B (if available)           = %ld\n", (LONG)(pAd->StaCfg.RssiSample.AvgRssi1 - pAd->BbpRssiToDbmDelta));
         	sprintf(extra+strlen(extra), "RSSI-C (if available)           = %ld\n\n", (LONG)(pAd->StaCfg.RssiSample.AvgRssi2 - pAd->BbpRssiToDbmDelta));

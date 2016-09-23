@@ -250,9 +250,9 @@ INT CFG80211_setStaMgmtDefaultKey(
 
 #endif /*CONFIG_STA_SUPPORT*/
 /* General Releated */
-BOOLEAN CFG80211DRV_OpsSetChannel(RTMP_ADAPTER *pAd, VOID *pData);
+BOOLEAN CFG80211DRV_OpsSetChannel(struct rtmp_adapter *pAd, VOID *pData);
 
-BOOLEAN CFG80211DRV_OpsChgVirtualInf(RTMP_ADAPTER *pAd, VOID *pData);
+BOOLEAN CFG80211DRV_OpsChgVirtualInf(struct rtmp_adapter *pAd, VOID *pData);
 
 VOID CFG80211DRV_OpsChangeBssParm(VOID *pAdOrg, VOID *pData);
 
@@ -266,7 +266,7 @@ INT CFG80211DRV_IoctlHandle(
 	VOID						*pData,
 	ULONG						Data);
 
-UCHAR CFG80211_getCenCh(RTMP_ADAPTER *pAd, UCHAR prim_ch);
+UCHAR CFG80211_getCenCh(struct rtmp_adapter *pAd, UCHAR prim_ch);
 
 /* CRDA Releatd */
 VOID CFG80211DRV_RegNotify(
@@ -345,15 +345,15 @@ VOID CFG80211DRV_OpsMgmtFrameActionRegister(
 		BOOLEAN                                          isReg);
 
 BOOLEAN CFG80211_CheckActionFrameType(
-        IN  RTMP_ADAPTER 								 *pAd,
+        IN  struct rtmp_adapter 								 *pAd,
 		IN	PUCHAR										 preStr,
 		IN	PUCHAR										 pData,
 		IN	UINT32                              		 length);
 
 
-BOOLEAN CFG80211_SyncPacketWmmIe(RTMP_ADAPTER *pAd, VOID *pData, ULONG dataLen);
-BOOLEAN CFG80211_HandleP2pMgmtFrame(RTMP_ADAPTER *pAd, RX_BLK *pRxBlk, UCHAR OpMode);
-INT CFG80211_SendMgmtFrame(RTMP_ADAPTER *pAd, VOID *pData, ULONG Data);
+BOOLEAN CFG80211_SyncPacketWmmIe(struct rtmp_adapter *pAd, VOID *pData, ULONG dataLen);
+BOOLEAN CFG80211_HandleP2pMgmtFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk, UCHAR OpMode);
+INT CFG80211_SendMgmtFrame(struct rtmp_adapter *pAd, VOID *pData, ULONG Data);
 
 #ifdef RT_CFG80211_P2P_SUPPORT
 VOID CFG80211_PeerP2pBeacon(
@@ -382,16 +382,16 @@ BOOLEAN CFG80211_P2pHandleNoAAttri(
 
 #ifdef CONFIG_AP_SUPPORT
 
-VOID CFG80211_ParseBeaconIE(RTMP_ADAPTER *pAd, MULTISSID_STRUCT *pMbss, struct wifi_dev *wdev,UCHAR *wpa_ie,UCHAR *rsn_ie);
+VOID CFG80211_ParseBeaconIE(struct rtmp_adapter *pAd, MULTISSID_STRUCT *pMbss, struct wifi_dev *wdev,UCHAR *wpa_ie,UCHAR *rsn_ie);
 
 #endif
 
 //--------------------------------
-VOID CFG80211_Convert802_3Packet(RTMP_ADAPTER *pAd, RX_BLK *pRxBlk, UCHAR *pHeader802_3);
-VOID CFG80211_Announce802_3Packet(RTMP_ADAPTER *pAd, RX_BLK *pRxBlk, UCHAR FromWhichBSSID);
-VOID CFG80211_SendMgmtFrameDone(RTMP_ADAPTER *pAd, USHORT Sequence);
+VOID CFG80211_Convert802_3Packet(struct rtmp_adapter *pAd, RX_BLK *pRxBlk, UCHAR *pHeader802_3);
+VOID CFG80211_Announce802_3Packet(struct rtmp_adapter *pAd, RX_BLK *pRxBlk, UCHAR FromWhichBSSID);
+VOID CFG80211_SendMgmtFrameDone(struct rtmp_adapter *pAd, USHORT Sequence);
 
-VOID CFG80211_SwitchTxChannel(RTMP_ADAPTER *pAd, ULONG Data);
+VOID CFG80211_SwitchTxChannel(struct rtmp_adapter *pAd, ULONG Data);
 
 BOOLEAN CFG80211DRV_OpsBeaconSet(
         VOID                                            *pAdOrg,

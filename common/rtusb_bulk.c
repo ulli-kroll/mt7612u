@@ -259,7 +259,7 @@ VOID	RTUSBInitRxDesc(
 			RTMP_IRQ_UNLOCK((pLock), IrqFlags);
 
 
-VOID RTUSBBulkOutDataPacket(RTMP_ADAPTER *pAd, UCHAR BulkOutPipeId, UCHAR Index)
+VOID RTUSBBulkOutDataPacket(struct rtmp_adapter *pAd, UCHAR BulkOutPipeId, UCHAR Index)
 {
 	PHT_TX_CONTEXT pHTTXContext;
 	PURB pUrb;
@@ -1011,7 +1011,7 @@ USBHST_STATUS RTUSBBulkOutPsPollComplete(URBCompleteStatus Status, purbb_t pURB,
 }
 
 
-VOID DoBulkIn(IN RTMP_ADAPTER *pAd)
+VOID DoBulkIn(IN struct rtmp_adapter *pAd)
 {
 	PRX_CONTEXT		pRxContext;
 	PURB			pUrb;
@@ -1085,7 +1085,7 @@ VOID DoBulkIn(IN RTMP_ADAPTER *pAd)
 		 fRTMP_ADAPTER_RADIO_OFF | fRTMP_ADAPTER_RESET_IN_PROGRESS | \
 		 fRTMP_ADAPTER_REMOVE_IN_PROGRESS)
 
-VOID RTUSBBulkReceive(RTMP_ADAPTER *pAd)
+VOID RTUSBBulkReceive(struct rtmp_adapter *pAd)
 {
 	PRX_CONTEXT pRxContext;
 	unsigned long IrqFlags;
@@ -1360,7 +1360,7 @@ VOID	RTUSBCancelPendingIRPs(
 
 	========================================================================
 */
-VOID RTUSBCancelPendingBulkInIRP(RTMP_ADAPTER *pAd)
+VOID RTUSBCancelPendingBulkInIRP(struct rtmp_adapter *pAd)
 {
 	PRX_CONTEXT pRxContext;
 	PCMD_RSP_CONTEXT pCmdRspEventContext = &pAd->CmdRspEventContext;

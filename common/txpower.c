@@ -281,7 +281,7 @@ VOID InitLookupTable(
 
 
 VOID AsicGetAutoAgcOffsetForTemperatureSensor(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN CHAR *pDeltaPwr,
 	IN CHAR *pTotalDeltaPwr,
 	IN CHAR *pAgcCompensate,
@@ -473,7 +473,7 @@ VOID AsicGetAutoAgcOffsetForTemperatureSensor(
 
 
 
-VOID AsicGetTxPowerOffset(RTMP_ADAPTER *pAd, ULONG *TxPwr)
+VOID AsicGetTxPowerOffset(struct rtmp_adapter *pAd, ULONG *TxPwr)
 {
 	CONFIGURATION_OF_TX_POWER_CONTROL_OVER_MAC CfgOfTxPwrCtrlOverMAC;
 	DBGPRINT(RT_DEBUG_INFO, ("-->AsicGetTxPowerOffset\n"));
@@ -693,7 +693,7 @@ VOID AsicGetAutoAgcOffsetForExternalTxAlc(
 }
 
 
-VOID AsicExtraPowerOverMAC(RTMP_ADAPTER *pAd)
+VOID AsicExtraPowerOverMAC(struct rtmp_adapter *pAd)
 {
 	UINT32 txpwr = 0;
 	UINT32 txpwr7 = 0, txpwr8 = 0, txpwr9 = 0;
@@ -738,7 +738,7 @@ VOID AsicExtraPowerOverMAC(RTMP_ADAPTER *pAd)
 		it should be called AFTER MlmeDynamicTxRatSwitching()
 	==========================================================================
  */
-VOID AsicAdjustTxPower(RTMP_ADAPTER *pAd)
+VOID AsicAdjustTxPower(struct rtmp_adapter *pAd)
 {
 	INT i, j;
 	CHAR Value;
@@ -943,7 +943,7 @@ VOID AsicAdjustTxPower(RTMP_ADAPTER *pAd)
 
 #ifdef SINGLE_SKU
 VOID GetSingleSkuDeltaPower(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN CHAR *pTotalDeltaPower,
 	INOUT ULONG *pSingleSKUTotalDeltaPwr,
 	INOUT UCHAR *pSingleSKUBbpR1Offset)
@@ -1193,7 +1193,7 @@ VOID AsicPercentageDeltaPower(
 }
 
 
-VOID AsicCompensatePowerViaBBP(RTMP_ADAPTER *pAd, CHAR *pTotalDeltaPower)
+VOID AsicCompensatePowerViaBBP(struct rtmp_adapter *pAd, CHAR *pTotalDeltaPower)
 {
 	UCHAR mdsm_drop_pwr;
 
@@ -1275,7 +1275,7 @@ VOID AsicCompensatePowerViaBBP(RTMP_ADAPTER *pAd, CHAR *pTotalDeltaPower)
 
 	========================================================================
 */
-VOID RTMPReadTxPwrPerRate(RTMP_ADAPTER *pAd)
+VOID RTMPReadTxPwrPerRate(struct rtmp_adapter *pAd)
 {
 	ULONG		data, Adata, Gdata;
 	USHORT		i, value, value2;
@@ -1533,7 +1533,7 @@ VOID RTMPReadTxPwrPerRate(RTMP_ADAPTER *pAd)
 
 	========================================================================
 */
-VOID RTMPReadChannelPwr(RTMP_ADAPTER *pAd)
+VOID RTMPReadChannelPwr(struct rtmp_adapter *pAd)
 {
 	UINT32					i, choffset;
 	EEPROM_TX_PWR_STRUC	    Power;

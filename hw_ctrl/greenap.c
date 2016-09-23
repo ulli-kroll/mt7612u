@@ -30,7 +30,7 @@
 
 
 #ifdef GREENAP_SUPPORT
-VOID EnableAPMIMOPSv2(RTMP_ADAPTER *pAd, BOOLEAN ReduceCorePower)
+VOID EnableAPMIMOPSv2(struct rtmp_adapter *pAd, BOOLEAN ReduceCorePower)
 {
 	bbp_set_mmps(pAd, ReduceCorePower);
 	rtmp_mac_set_mmps(pAd, ReduceCorePower);
@@ -40,7 +40,7 @@ VOID EnableAPMIMOPSv2(RTMP_ADAPTER *pAd, BOOLEAN ReduceCorePower)
 }
 
 
-VOID DisableAPMIMOPSv2(RTMP_ADAPTER *pAd)
+VOID DisableAPMIMOPSv2(struct rtmp_adapter *pAd)
 {
 	bbp_set_mmps(pAd, FALSE);
 	rtmp_mac_set_mmps(pAd, FALSE);
@@ -51,7 +51,7 @@ VOID DisableAPMIMOPSv2(RTMP_ADAPTER *pAd)
 
 
 VOID EnableAPMIMOPSv1(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN BOOLEAN ReduceCorePower)
 {
 	UCHAR	BBPR3 = 0,BBPR1 = 0;

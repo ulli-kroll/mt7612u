@@ -59,12 +59,12 @@ BOOLEAN APBridgeToWirelessSta(
     IN  ULONG           fromwdsidx);
 
 INT ApAllowToSendPacket(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN struct wifi_dev *wdev,
 	IN PNDIS_PACKET pPacket,
 	OUT UCHAR *pWcid);
 
-INT APSendPacket(RTMP_ADAPTER *pAd, PNDIS_PACKET pPacket);
+INT APSendPacket(struct rtmp_adapter *pAd, PNDIS_PACKET pPacket);
 
 NDIS_STATUS APInsertPsQueue(
 	IN struct rtmp_adapter *pAd,
@@ -72,7 +72,7 @@ NDIS_STATUS APInsertPsQueue(
 	IN MAC_TABLE_ENTRY *pMacEntry,
 	IN UCHAR QueIdx);
 
-NDIS_STATUS APHardTransmit(RTMP_ADAPTER *pAd, TX_BLK *pTxBlk, UCHAR QueIdx);
+NDIS_STATUS APHardTransmit(struct rtmp_adapter *pAd, TX_BLK *pTxBlk, UCHAR QueIdx);
 
 VOID APRxEAPOLFrameIndicate(
 	IN	struct rtmp_adapter *pAd,
@@ -80,21 +80,21 @@ VOID APRxEAPOLFrameIndicate(
 	IN	RX_BLK			*pRxBlk,
 	IN	UCHAR FromWhichBSSID);
 
-VOID APHandleRxDataFrame(RTMP_ADAPTER *pAd, RX_BLK *pRxBlk);
+VOID APHandleRxDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk);
 
-VOID APRxErrorHandle(RTMP_ADAPTER *pAd, RX_BLK *pRxBlk);
+VOID APRxErrorHandle(struct rtmp_adapter *pAd, RX_BLK *pRxBlk);
 
-INT APCheckRxError(RTMP_ADAPTER *pAd, RXINFO_STRUC *pRxInfo, RX_BLK *pRxBlk);
+INT APCheckRxError(struct rtmp_adapter *pAd, RXINFO_STRUC *pRxInfo, RX_BLK *pRxBlk);
 
 BOOLEAN APChkCls2Cls3Err(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR Wcid,
 	IN HEADER_802_11 *pHeader);
 
 VOID RTMPDescriptorEndianChange(UCHAR *pData, ULONG DescriptorType);
 
 VOID RTMPFrameEndianChange(
-    IN  RTMP_ADAPTER *pAd,
+    IN  struct rtmp_adapter *pAd,
     IN  UCHAR *pData,
     IN  ULONG Dir,
     IN  BOOLEAN FromRxDoneInt);
@@ -106,14 +106,14 @@ VOID APAssocStateMachineInit(
     IN  STATE_MACHINE *S,
     OUT STATE_MACHINE_FUNC Trans[]);
 
-VOID MbssKickOutStas(RTMP_ADAPTER *pAd, INT apidx, USHORT Reason);
-VOID APMlmeKickOutSta(RTMP_ADAPTER *pAd, UCHAR *staAddr, UCHAR Wcid, USHORT Reason);
+VOID MbssKickOutStas(struct rtmp_adapter *pAd, INT apidx, USHORT Reason);
+VOID APMlmeKickOutSta(struct rtmp_adapter *pAd, UCHAR *staAddr, UCHAR Wcid, USHORT Reason);
 
 #ifdef DOT11W_PMF_SUPPORT
-VOID APMlmeKickOutAllSta(RTMP_ADAPTER *pAd, UCHAR apidx, USHORT Reason);
+VOID APMlmeKickOutAllSta(struct rtmp_adapter *pAd, UCHAR apidx, USHORT Reason);
 #endif /* DOT11W_PMF_SUPPORT */
 
-VOID  APCls3errAction(RTMP_ADAPTER *pAd, ULONG wcid, HEADER_802_11 *hdr);
+VOID  APCls3errAction(struct rtmp_adapter *pAd, ULONG wcid, HEADER_802_11 *hdr);
 
 /* ap_auth.c */
 
@@ -122,18 +122,18 @@ void APAuthStateMachineInit(
     IN STATE_MACHINE *Sm,
     OUT STATE_MACHINE_FUNC Trans[]);
 
-VOID APCls2errAction(RTMP_ADAPTER *pAd, ULONG wcid, HEADER_802_11 *hdr);
+VOID APCls2errAction(struct rtmp_adapter *pAd, ULONG wcid, HEADER_802_11 *hdr);
 
 /* ap_connect.c */
 
 #ifdef CONFIG_AP_SUPPORT
-BOOLEAN BeaconTransmitRequired(RTMP_ADAPTER *pAd, INT apidx, MULTISSID_STRUCT *mbss);
+BOOLEAN BeaconTransmitRequired(struct rtmp_adapter *pAd, INT apidx, MULTISSID_STRUCT *mbss);
 #endif /* CONFIG_AP_SUPPORT */
 
-VOID APMakeBssBeacon(RTMP_ADAPTER *pAd, INT apidx);
-VOID  APUpdateBeaconFrame(RTMP_ADAPTER *pAd, INT apidx);
-VOID APMakeAllBssBeacon(RTMP_ADAPTER *pAd);
-VOID  APUpdateAllBeaconFrame(RTMP_ADAPTER *pAd);
+VOID APMakeBssBeacon(struct rtmp_adapter *pAd, INT apidx);
+VOID  APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx);
+VOID APMakeAllBssBeacon(struct rtmp_adapter *pAd);
+VOID  APUpdateAllBeaconFrame(struct rtmp_adapter *pAd);
 
 /* ap_sync.c */
 VOID APSyncStateMachineInit(
@@ -163,7 +163,7 @@ VOID SupportRate(
 	OUT PUCHAR pMaxSupportRate);
 
 
-BOOLEAN ApScanRunning(RTMP_ADAPTER *pAd);
+BOOLEAN ApScanRunning(struct rtmp_adapter *pAd);
 
 #ifdef AP_PARTIAL_SCAN_SUPPORT
 UCHAR FindPartialScanChannel(
@@ -171,20 +171,20 @@ UCHAR FindPartialScanChannel(
 #endif /* AP_PARTIAL_SCAN_SUPPORT */
 
 #ifdef DOT11_N_SUPPORT
-VOID APUpdateOperationMode(RTMP_ADAPTER *pAd);
+VOID APUpdateOperationMode(struct rtmp_adapter *pAd);
 
 #ifdef DOT11N_DRAFT3
-VOID APOverlappingBSSScan(RTMP_ADAPTER *pAd);
+VOID APOverlappingBSSScan(struct rtmp_adapter *pAd);
 
 INT GetBssCoexEffectedChRange(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN BSS_COEX_CH_RANGE *pCoexChRange);
 #endif /* DOT11N_DRAFT3 */
 #endif /* DOT11_N_SUPPORT */
 
 
 /* ap_mlme.c */
-VOID APMlmePeriodicExec(RTMP_ADAPTER *pAd);
+VOID APMlmePeriodicExec(struct rtmp_adapter *pAd);
 
 BOOLEAN APMsgTypeSubst(
     IN struct rtmp_adapter *pAd,
@@ -198,23 +198,23 @@ VOID APQuickResponeForRateUpExec(
     IN PVOID SystemSpecific2,
     IN PVOID SystemSpecific3);
 
-VOID APAsicEvaluateRxAnt(RTMP_ADAPTER *pAd);
-VOID APAsicRxAntEvalTimeout(RTMP_ADAPTER *pAd);
+VOID APAsicEvaluateRxAnt(struct rtmp_adapter *pAd);
+VOID APAsicRxAntEvalTimeout(struct rtmp_adapter *pAd);
 
 /* ap.c */
-UCHAR get_apidx_by_addr(RTMP_ADAPTER *pAd, UCHAR *addr);
+UCHAR get_apidx_by_addr(struct rtmp_adapter *pAd, UCHAR *addr);
 
-NDIS_STATUS APInitialize(RTMP_ADAPTER *pAd);
-VOID APShutdown(RTMP_ADAPTER *pAd);
-VOID APStartUp(RTMP_ADAPTER *pAd);
-VOID APStop(RTMP_ADAPTER *pAd);
+NDIS_STATUS APInitialize(struct rtmp_adapter *pAd);
+VOID APShutdown(struct rtmp_adapter *pAd);
+VOID APStartUp(struct rtmp_adapter *pAd);
+VOID APStop(struct rtmp_adapter *pAd);
 
-VOID APCleanupPsQueue(RTMP_ADAPTER *pAd, QUEUE_HEADER *pQueue);
+VOID APCleanupPsQueue(struct rtmp_adapter *pAd, QUEUE_HEADER *pQueue);
 
 
-VOID MacTableMaintenance(RTMP_ADAPTER *pAd);
+VOID MacTableMaintenance(struct rtmp_adapter *pAd);
 
-UINT32 MacTableAssocStaNumGet(RTMP_ADAPTER *pAd);
+UINT32 MacTableAssocStaNumGet(struct rtmp_adapter *pAd);
 
 MAC_TABLE_ENTRY *APSsPsInquiry(
     IN  struct rtmp_adapter *  pAd,
@@ -233,10 +233,10 @@ VOID ApLogEvent(
 #define ApLogEvent(_pAd, _pAddr, _Event)
 #endif /* SYSTEM_LOG_SUPPORT */
 
-VOID APUpdateCapabilityAndErpIe(RTMP_ADAPTER *pAd);
+VOID APUpdateCapabilityAndErpIe(struct rtmp_adapter *pAd);
 
-BOOLEAN ApCheckAccessControlList(RTMP_ADAPTER *pAd, UCHAR *addr, UCHAR apidx);
-VOID ApUpdateAccessControlList(RTMP_ADAPTER *pAd, UCHAR apidx);
+BOOLEAN ApCheckAccessControlList(struct rtmp_adapter *pAd, UCHAR *addr, UCHAR apidx);
+VOID ApUpdateAccessControlList(struct rtmp_adapter *pAd, UCHAR apidx);
 
 
 BOOLEAN PeerAssocReqCmmSanity(
@@ -276,22 +276,22 @@ BOOLEAN APPeerAuthSanity(
 	);
 
 #ifdef DOT1X_SUPPORT
-INT	Set_OwnIPAddr_Proc(RTMP_ADAPTER *pAd, PSTRING arg);
-INT	Set_EAPIfName_Proc(RTMP_ADAPTER *pAd, PSTRING arg);
-INT	Set_PreAuthIfName_Proc(RTMP_ADAPTER *pAd, PSTRING arg);
+INT	Set_OwnIPAddr_Proc(struct rtmp_adapter *pAd, PSTRING arg);
+INT	Set_EAPIfName_Proc(struct rtmp_adapter *pAd, PSTRING arg);
+INT	Set_PreAuthIfName_Proc(struct rtmp_adapter *pAd, PSTRING arg);
 
 /* Define in ap.c */
 BOOLEAN DOT1X_InternalCmdAction(
-    IN RTMP_ADAPTER *pAd,
+    IN struct rtmp_adapter *pAd,
     IN MAC_TABLE_ENTRY *pEntry,
     IN UINT8 cmd);
 
-BOOLEAN DOT1X_EapTriggerAction(RTMP_ADAPTER *pAd, MAC_TABLE_ENTRY *pEntry);
+BOOLEAN DOT1X_EapTriggerAction(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry);
 #endif /* DOT1X_SUPPORT */
 
 VOID AP_E2PROM_IOCTL_PostCtrl(RTMP_IOCTL_INPUT_STRUCT *wrq, PSTRING msg);
 
-VOID IAPP_L2_UpdatePostCtrl(RTMP_ADAPTER *pAd, UINT8 *mac, INT bssid);
+VOID IAPP_L2_UpdatePostCtrl(struct rtmp_adapter *pAd, UINT8 *mac, INT bssid);
 
 #endif  /* __AP_H__ */
 

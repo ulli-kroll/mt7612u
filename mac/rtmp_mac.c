@@ -54,7 +54,7 @@
 	========================================================================
 */
 VOID RTMPWriteTxWI(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN TXWI_STRUC *pOutTxWI,
 	IN BOOLEAN FRAG,
 	IN BOOLEAN CFACK,
@@ -251,7 +251,7 @@ if (0){
 }
 
 
-VOID RTMPWriteTxWI_Data(RTMP_ADAPTER *pAd, TXWI_STRUC *pTxWI, TX_BLK *pTxBlk)
+VOID RTMPWriteTxWI_Data(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pTxBlk)
 {
 	HTTRANSMIT_SETTING *pTransmit;
 	MAC_TABLE_ENTRY *pMacEntry;
@@ -577,7 +577,7 @@ VOID RTMPWriteTxWI_Data(RTMP_ADAPTER *pAd, TXWI_STRUC *pTxWI, TX_BLK *pTxBlk)
 }
 
 
-VOID RTMPWriteTxWI_Cache(RTMP_ADAPTER *pAd, TXWI_STRUC *pTxWI, TX_BLK *pTxBlk)
+VOID RTMPWriteTxWI_Cache(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pTxBlk)
 {
 	HTTRANSMIT_SETTING *pTransmit = pTxBlk->pTransmit;
 	HTTRANSMIT_SETTING tmpTransmit;
@@ -836,7 +836,7 @@ VOID RTMPWriteTxWI_Cache(RTMP_ADAPTER *pAd, TXWI_STRUC *pTxWI, TX_BLK *pTxBlk)
 }
 
 
-INT get_pkt_rssi_by_rxwi(RTMP_ADAPTER *pAd, RXWI_STRUC *rxwi, INT size, CHAR *rssi)
+INT get_pkt_rssi_by_rxwi(struct rtmp_adapter *pAd, RXWI_STRUC *rxwi, INT size, CHAR *rssi)
 {
 	INT status = 0;
 
@@ -854,7 +854,7 @@ INT get_pkt_rssi_by_rxwi(RTMP_ADAPTER *pAd, RXWI_STRUC *rxwi, INT size, CHAR *rs
 }
 
 
-INT get_pkt_snr_by_rxwi(RTMP_ADAPTER *pAd, RXWI_STRUC *rxwi, INT size, UCHAR *snr)
+INT get_pkt_snr_by_rxwi(struct rtmp_adapter *pAd, RXWI_STRUC *rxwi, INT size, UCHAR *snr)
 {
 	INT status = 0;
 
@@ -872,7 +872,7 @@ INT get_pkt_snr_by_rxwi(RTMP_ADAPTER *pAd, RXWI_STRUC *rxwi, INT size, UCHAR *sn
 }
 
 
-INT get_pkt_phymode_by_rxwi(RTMP_ADAPTER *pAd, RXWI_STRUC *rxwi)
+INT get_pkt_phymode_by_rxwi(struct rtmp_adapter *pAd, RXWI_STRUC *rxwi)
 {
 	INT status = 0;
 
@@ -892,7 +892,7 @@ INT get_pkt_phymode_by_rxwi(RTMP_ADAPTER *pAd, RXWI_STRUC *rxwi)
 
 #ifdef MCS_LUT_SUPPORT
 INT set_lut_phy_rate(
-	RTMP_ADAPTER *pAd, UINT8 wcid,
+	struct rtmp_adapter *pAd, UINT8 wcid,
 	UINT8 mcs, UINT8 bw, 	UINT8 gi,
 	UINT8 stbc, UINT8 mode)
 {
@@ -920,7 +920,7 @@ INT set_lut_phy_rate(
 }
 #endif /* MCS_LUT_SUPPORT */
 
-INT rtmp_mac_set_band(RTMP_ADAPTER *pAd, int  band)
+INT rtmp_mac_set_band(struct rtmp_adapter *pAd, int  band)
 {
 	UINT32 val, band_cfg;
 
@@ -945,7 +945,7 @@ INT rtmp_mac_set_band(RTMP_ADAPTER *pAd, int  band)
 }
 
 
-INT rtmp_mac_set_ctrlch(RTMP_ADAPTER *pAd, UINT8 extch)
+INT rtmp_mac_set_ctrlch(struct rtmp_adapter *pAd, UINT8 extch)
 {
 	UINT32 val, band_cfg;
 
@@ -971,7 +971,7 @@ INT rtmp_mac_set_ctrlch(RTMP_ADAPTER *pAd, UINT8 extch)
 }
 
 
-INT rtmp_mac_set_mmps(RTMP_ADAPTER *pAd, INT ReduceCorePower)
+INT rtmp_mac_set_mmps(struct rtmp_adapter *pAd, INT ReduceCorePower)
 {
 	UINT32 mac_val, org_val;
 
@@ -990,7 +990,7 @@ INT rtmp_mac_set_mmps(RTMP_ADAPTER *pAd, INT ReduceCorePower)
 
 
 #define BCN_TBTT_OFFSET		64	/*defer 64 us*/
-VOID ReSyncBeaconTime(RTMP_ADAPTER *pAd)
+VOID ReSyncBeaconTime(struct rtmp_adapter *pAd)
 {
 	UINT32  Offset;
 	BCN_TIME_CFG_STRUC csr;
@@ -1019,7 +1019,7 @@ VOID ReSyncBeaconTime(RTMP_ADAPTER *pAd)
 }
 
 
-VOID rtmp_mac_bcn_buf_init(IN RTMP_ADAPTER *pAd)
+VOID rtmp_mac_bcn_buf_init(IN struct rtmp_adapter *pAd)
 {
 	int idx, tb_size;
 	RTMP_CHIP_CAP *pChipCap = &pAd->chipCap;
@@ -1084,7 +1084,7 @@ VOID rtmp_mac_bcn_buf_init(IN RTMP_ADAPTER *pAd)
 }
 
 
-INT rtmp_mac_pbf_init(RTMP_ADAPTER *pAd)
+INT rtmp_mac_pbf_init(struct rtmp_adapter *pAd)
 {
 	INT idx, tb_size = 0;
 	RTMP_REG_PAIR *pbf_regs = NULL;
@@ -1233,7 +1233,7 @@ RTMP_REG_PAIR STAMACRegTable[] = {
 #define NUM_RTMP_MAC_REG_PARAMS	(sizeof(MACRegTable_RTMP)/ sizeof(RTMP_REG_PAIR))
 #endif /* RTMP_MAC */
 
-INT rtmp_mac_init(RTMP_ADAPTER *pAd)
+INT rtmp_mac_init(struct rtmp_adapter *pAd)
 {
 	INT idx;
 

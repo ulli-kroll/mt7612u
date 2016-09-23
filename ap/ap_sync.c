@@ -1039,7 +1039,7 @@ LabelErr:
     Description:
     ==========================================================================
  */
-VOID APInvalidStateWhenScan(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
+VOID APInvalidStateWhenScan(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 	DBGPRINT(RT_DEBUG_TRACE, ("AYNC - InvalidStateWhenScan(state=%ld). Reset SYNC machine\n", pAd->Mlme.ApSyncMachine.CurrState));
 }
@@ -1069,7 +1069,7 @@ VOID APScanTimeout(
         Scan timeout procedure. basically add channel index by 1 and rescan
     ==========================================================================
  */
-VOID APScanTimeoutAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
+VOID APScanTimeoutAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 #ifdef AP_PARTIAL_SCAN_SUPPORT
 	pAd->MlmeAux.Channel = RTMPFindScanChannel(pAd, pAd->MlmeAux.Channel);
@@ -1144,7 +1144,7 @@ VOID APMlmeScanCompleteAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
         MLME SCAN req state machine procedure
     ==========================================================================
  */
-VOID APMlmeScanReqAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
+VOID APMlmeScanReqAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 	BOOLEAN Cancelled;
 	UCHAR Ssid[MAX_LEN_OF_SSID], SsidLen, ScanType, BssType;
@@ -1204,7 +1204,7 @@ VOID APMlmeScanReqAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
         peer sends beacon back when scanning
     ==========================================================================
  */
-VOID APPeerBeaconAtScanAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
+VOID APPeerBeaconAtScanAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 	PFRAME_802_11 pFrame;
 	UCHAR *VarIE = NULL;
@@ -1378,7 +1378,7 @@ LabelErr:
         MLME Cancel the SCAN req state machine procedure
     ==========================================================================
  */
-VOID APScanCnclAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
+VOID APScanCnclAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 	BOOLEAN Cancelled;
 
@@ -1444,7 +1444,7 @@ VOID ApSiteSurvey(
 }
 
 
-BOOLEAN ApScanRunning(RTMP_ADAPTER *pAd)
+BOOLEAN ApScanRunning(struct rtmp_adapter *pAd)
 {
 	return (pAd->Mlme.ApSyncMachine.CurrState == AP_SCAN_LISTEN) ? TRUE : FALSE;
 }
@@ -1513,7 +1513,7 @@ UCHAR FindPartialScanChannel(
 	==========================================================================
  */
 VOID APSyncStateMachineInit(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN STATE_MACHINE *Sm,
 	OUT STATE_MACHINE_FUNC Trans[])
 {
@@ -1631,7 +1631,7 @@ REG_CLASS reg_class[] =
 };
 
 
-UCHAR get_regulatory_class(RTMP_ADAPTER *pAd)
+UCHAR get_regulatory_class(struct rtmp_adapter *pAd)
 {
 	int i=0;
 	UCHAR regclass = 0;

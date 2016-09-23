@@ -130,12 +130,12 @@ VOID BuildBeaconChList(
 #endif /* EXT_BUILD_CHANNEL_LIST */
 
 #ifdef DOT11_N_SUPPORT
-VOID N_ChannelCheck(RTMP_ADAPTER *pAd);
-UCHAR N_SetCenCh(RTMP_ADAPTER *pAd, UCHAR channel);
-BOOLEAN N_ChannelGroupCheck(RTMP_ADAPTER *pAd, UCHAR channel);
+VOID N_ChannelCheck(struct rtmp_adapter *pAd);
+UCHAR N_SetCenCh(struct rtmp_adapter *pAd, UCHAR channel);
+BOOLEAN N_ChannelGroupCheck(struct rtmp_adapter *pAd, UCHAR channel);
 #ifdef DOT11_VHT_AC
 INT get_vht_neighbor_index(UCHAR channel);
-BOOLEAN AC_ChannelGroupCheck(RTMP_ADAPTER *pAd, UCHAR channel);
+BOOLEAN AC_ChannelGroupCheck(struct rtmp_adapter *pAd, UCHAR channel);
 #endif /* DOT11_VHT_AC */
 #endif /* DOT11_N_SUPPORT */
 

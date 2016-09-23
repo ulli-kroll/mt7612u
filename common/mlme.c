@@ -105,7 +105,7 @@ UCHAR ZeroSsid[32] = {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x0
 
 #ifdef MT76x2
 #ifdef DYNAMIC_VGA_SUPPORT
-void dynamic_ed_cca_threshold_adjust(RTMP_ADAPTER * pAd)
+void dynamic_ed_cca_threshold_adjust(struct rtmp_adapter * pAd)
 {
 	UINT32 reg_val = 0;
 	CHAR high_gain = 0, mid_gain = 0, low_gain = 0, ulow_gain = 0, lna_gain_mode = 0;
@@ -150,7 +150,7 @@ void dynamic_ed_cca_threshold_adjust(RTMP_ADAPTER * pAd)
 		__FUNCTION__, lna_gain, vga_gain, lna_gain_mode, y, z, reg_val));
 }
 
-void update_rssi_for_channel_model(RTMP_ADAPTER * pAd)
+void update_rssi_for_channel_model(struct rtmp_adapter * pAd)
 {
 	INT32 rx0_rssi, rx1_rssi;
 	UINT32 bbp_valuse = 0;
@@ -184,7 +184,7 @@ void update_rssi_for_channel_model(RTMP_ADAPTER * pAd)
 		__FUNCTION__, pAd->chipCap.avg_rssi_all));
 }
 
-void dynamic_cck_mrc(RTMP_ADAPTER * pAd)
+void dynamic_cck_mrc(struct rtmp_adapter * pAd)
 {
 	UINT32 bbp_val = 0;
 
@@ -205,7 +205,7 @@ void dynamic_cck_mrc(RTMP_ADAPTER * pAd)
 #define shift_left16(x)			((x) << 16)
 #define shift_left8(x)			((x) << 8)
 
-BOOLEAN dynamic_channel_model_adjust(RTMP_ADAPTER *pAd)
+BOOLEAN dynamic_channel_model_adjust(struct rtmp_adapter *pAd)
 {
 	UCHAR mode = 0, default_init_vga = 0, eLNA_init_vga = 0, iLNA_init_vga = 0;
 	UINT32 value = 0;
@@ -411,7 +411,7 @@ BOOLEAN dynamic_channel_model_adjust(RTMP_ADAPTER *pAd)
 	return no_dynamic_vga;
 }
 
-void periodic_monitor_false_cca_adjust_vga(RTMP_ADAPTER *pAd)
+void periodic_monitor_false_cca_adjust_vga(struct rtmp_adapter *pAd)
 {
 	if ((pAd->CommonCfg.lna_vga_ctl.bDyncVgaEnable) &&
 		(pAd->chipCap.dynamic_vga_support) &&
@@ -498,7 +498,7 @@ void periodic_monitor_false_cca_adjust_vga(RTMP_ADAPTER *pAd)
 }
 
 #ifdef CONFIG_STA_SUPPORT
-void periodic_monitor_rssi_adjust_vga(RTMP_ADAPTER *pAd)
+void periodic_monitor_rssi_adjust_vga(struct rtmp_adapter *pAd)
 {
 	if ((pAd->CommonCfg.lna_vga_ctl.bDyncVgaEnable) &&
 		(pAd->chipCap.dynamic_vga_support) && INFRA_ON(pAd)) {
@@ -520,7 +520,7 @@ void periodic_monitor_rssi_adjust_vga(RTMP_ADAPTER *pAd)
 
 #ifdef MT76x2
 #ifdef CONFIG_STA_SUPPORT
-void periodic_check_channel_smoothing(RTMP_ADAPTER *ad)
+void periodic_check_channel_smoothing(struct rtmp_adapter *ad)
 {
 	UINT32 bbp_value;
 	CHAR Rssi = RTMPAvgRssi(ad, &ad->StaCfg.RssiSample);
@@ -556,7 +556,7 @@ void periodic_check_channel_smoothing(RTMP_ADAPTER *ad)
 #endif
 #endif
 
-VOID set_default_ap_edca_param(RTMP_ADAPTER *pAd)
+VOID set_default_ap_edca_param(struct rtmp_adapter *pAd)
 {
 	pAd->CommonCfg.APEdcaParm.bValid = TRUE;
 	pAd->CommonCfg.APEdcaParm.Aifsn[0] = 3;
@@ -582,7 +582,7 @@ VOID set_default_ap_edca_param(RTMP_ADAPTER *pAd)
 
 
 #ifdef CONFIG_AP_SUPPORT
-VOID set_default_sta_edca_param(RTMP_ADAPTER *pAd)
+VOID set_default_sta_edca_param(struct rtmp_adapter *pAd)
 {
 	pAd->ApCfg.BssEdcaParm.bValid = TRUE;
 	pAd->ApCfg.BssEdcaParm.Aifsn[0] = 3;
@@ -670,7 +670,7 @@ UCHAR dot11_2_ra_rate(UCHAR MaxSupportedRateIn500Kbps)
 
 	==========================================================================
  */
-VOID MlmeHandler(RTMP_ADAPTER *pAd)
+VOID MlmeHandler(struct rtmp_adapter *pAd)
 {
 	MLME_QUEUE_ELEM *Elem = NULL;
 #ifdef APCLI_SUPPORT
@@ -878,7 +878,7 @@ Note:
 */
 static INT MlmeThread(ULONG Context)
 {
-	RTMP_ADAPTER *pAd;
+	struct rtmp_adapter *pAd;
 	RTMP_OS_TASK *pTask;
 	int status;
 	status = 0;
@@ -928,7 +928,7 @@ LabelExit:
 
 #ifdef CONFIG_AP_SUPPORT
 #ifdef APCLI_SUPPORT
-static VOID ApCliMlmeInit(RTMP_ADAPTER *pAd)
+static VOID ApCliMlmeInit(struct rtmp_adapter *pAd)
 {
 	/* init apcli state machines*/
         ASSERT(APCLI_AUTH_FUNC_SIZE == APCLI_MAX_AUTH_MSG * APCLI_MAX_AUTH_STATE);
@@ -945,7 +945,7 @@ static VOID ApCliMlmeInit(RTMP_ADAPTER *pAd)
 }
 #endif /* APCLI_SUPPORT */
 
-static VOID ApMlmeInit(RTMP_ADAPTER *pAd)
+static VOID ApMlmeInit(struct rtmp_adapter *pAd)
 {
 	/* init AP state machines*/
         APAssocStateMachineInit(pAd, &pAd->Mlme.ApAssocMachine, pAd->Mlme.ApAssocFunc);
@@ -967,7 +967,7 @@ static VOID ApMlmeInit(RTMP_ADAPTER *pAd)
 
 	==========================================================================
 */
-NDIS_STATUS MlmeInit(RTMP_ADAPTER *pAd)
+NDIS_STATUS MlmeInit(struct rtmp_adapter *pAd)
 {
 	NDIS_STATUS Status = NDIS_STATUS_SUCCESS;
 
@@ -1112,7 +1112,7 @@ NDIS_STATUS MlmeInit(RTMP_ADAPTER *pAd)
 
 	==========================================================================
  */
-VOID MlmeHalt(RTMP_ADAPTER *pAd)
+VOID MlmeHalt(struct rtmp_adapter *pAd)
 {
 	BOOLEAN Cancelled;
 	RTMP_OS_TASK *pTask;
@@ -1228,7 +1228,7 @@ VOID MlmeHalt(RTMP_ADAPTER *pAd)
 	DBGPRINT(RT_DEBUG_TRACE, ("<== MlmeHalt\n"));
 }
 
-VOID MlmeResetRalinkCounters(RTMP_ADAPTER *pAd)
+VOID MlmeResetRalinkCounters(struct rtmp_adapter *pAd)
 {
 	pAd->RalinkCounters.LastOneSecRxOkDataCnt = pAd->RalinkCounters.OneSecRxOkDataCnt;
 
@@ -1268,7 +1268,7 @@ VOID MlmePeriodicExec(
 	IN PVOID SystemSpecific3)
 {
 	ULONG TxTotalCnt;
-	RTMP_ADAPTER *pAd = (RTMP_ADAPTER *)FunctionContext;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)FunctionContext;
 
 #ifdef APCLI_SUPPORT
 	PAPCLI_STRUCT pApCliEntry = NULL;
@@ -1784,7 +1784,7 @@ BOOLEAN MlmeValidateSSID(UCHAR *pSsid, UCHAR SsidLen)
 
 
 #ifdef CONFIG_STA_SUPPORT
-VOID STAMlmePeriodicExec(RTMP_ADAPTER *pAd)
+VOID STAMlmePeriodicExec(struct rtmp_adapter *pAd)
 {
 	ULONG TxTotalCnt;
 	int i;
@@ -2306,7 +2306,7 @@ VOID LinkDownExec(
 	IN PVOID SystemSpecific2,
 	IN PVOID SystemSpecific3)
 {
-	RTMP_ADAPTER *pAd = (RTMP_ADAPTER *)FunctionContext;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)FunctionContext;
 
 	if (pAd != NULL)
 	{
@@ -2328,7 +2328,7 @@ VOID LinkDownExec(
 }
 
 
-VOID MlmeAutoScan(RTMP_ADAPTER *pAd)
+VOID MlmeAutoScan(struct rtmp_adapter *pAd)
 {
 	/* check CntlMachine.CurrState to avoid collision with NDIS SetOID request*/
 	if (pAd->Mlme.CntlMachine.CurrState == CNTL_IDLE)
@@ -2344,7 +2344,7 @@ VOID MlmeAutoScan(RTMP_ADAPTER *pAd)
 }
 
 
-VOID MlmeAutoReconnectLastSSID(RTMP_ADAPTER *pAd)
+VOID MlmeAutoReconnectLastSSID(struct rtmp_adapter *pAd)
 {
 	if (pAd->StaCfg.bAutoConnectByBssid)
 	{
@@ -2393,7 +2393,7 @@ VOID MlmeAutoReconnectLastSSID(RTMP_ADAPTER *pAd)
 	Output:
 	==========================================================================
  */
-VOID MlmeCheckForRoaming(RTMP_ADAPTER *pAd, ULONG Now32)
+VOID MlmeCheckForRoaming(struct rtmp_adapter *pAd, ULONG Now32)
 {
 	USHORT	   i;
 	BSS_TABLE  *pRoamTab = &pAd->MlmeAux.RoamTab;
@@ -2447,7 +2447,7 @@ VOID MlmeCheckForRoaming(RTMP_ADAPTER *pAd, ULONG Now32)
 	Output:
 	==========================================================================
  */
-BOOLEAN MlmeCheckForFastRoaming(RTMP_ADAPTER *pAd)
+BOOLEAN MlmeCheckForFastRoaming(struct rtmp_adapter *pAd)
 {
 	USHORT		i;
 	BSS_TABLE	*pRoamTab = &pAd->MlmeAux.RoamTab;
@@ -2514,7 +2514,7 @@ BOOLEAN MlmeCheckForFastRoaming(RTMP_ADAPTER *pAd)
 
 	==========================================================================
  */
-VOID MlmeCheckPsmChange(RTMP_ADAPTER *pAd, ULONG Now32)
+VOID MlmeCheckPsmChange(struct rtmp_adapter *pAd, ULONG Now32)
 {
 	ULONG	PowerMode;
 
@@ -2560,7 +2560,7 @@ VOID MlmeCheckPsmChange(RTMP_ADAPTER *pAd, ULONG Now32)
 }
 
 
-VOID MlmeSetPsmBit(RTMP_ADAPTER *pAd, USHORT psm)
+VOID MlmeSetPsmBit(struct rtmp_adapter *pAd, USHORT psm)
 {
 
 	pAd->StaCfg.Psm = psm;
@@ -2718,7 +2718,7 @@ VOID MlmeCalculateChannelQuality(
 }
 
 
-VOID MlmeSetTxPreamble(RTMP_ADAPTER *pAd, USHORT TxPreamble)
+VOID MlmeSetTxPreamble(struct rtmp_adapter *pAd, USHORT TxPreamble)
 {
 	/* Always use Long preamble before verifiation short preamble functionality works well.*/
 	/* Todo: remove the following line if short preamble functionality works*/
@@ -2746,7 +2746,7 @@ VOID MlmeSetTxPreamble(RTMP_ADAPTER *pAd, USHORT TxPreamble)
         Update basic rate bitmap
     ==========================================================================
 */
-VOID UpdateBasicRateBitmap(RTMP_ADAPTER *pAdapter)
+VOID UpdateBasicRateBitmap(struct rtmp_adapter *pAdapter)
 {
     INT  i, j;
                   /* 1  2  5.5, 11,  6,  9, 12, 18, 24, 36, 48,  54 */
@@ -2813,7 +2813,7 @@ VOID UpdateBasicRateBitmap(RTMP_ADAPTER *pAdapter)
 	bLinkUp is to identify the inital link speed.
 	TRUE indicates the rate update at linkup, we should not try to set the rate at 54Mbps.
 */
-VOID MlmeUpdateTxRates(RTMP_ADAPTER *pAd, BOOLEAN bLinkUp, UCHAR apidx)
+VOID MlmeUpdateTxRates(struct rtmp_adapter *pAd, BOOLEAN bLinkUp, UCHAR apidx)
 {
 	int i, num;
 	UCHAR Rate = RATE_6, MaxDesire = RATE_1, MaxSupport = RATE_1;
@@ -3218,7 +3218,7 @@ VOID MlmeUpdateTxRates(RTMP_ADAPTER *pAd, BOOLEAN bLinkUp, UCHAR apidx)
 
 	==========================================================================
  */
-VOID MlmeUpdateHtTxRates(RTMP_ADAPTER *pAd, UCHAR apidx)
+VOID MlmeUpdateHtTxRates(struct rtmp_adapter *pAd, UCHAR apidx)
 {
 	UCHAR StbcMcs;
 	RT_HT_CAPABILITY *pRtHtCap = NULL;
@@ -3402,7 +3402,7 @@ VOID MlmeUpdateHtTxRates(RTMP_ADAPTER *pAd, UCHAR apidx)
 }
 
 
-VOID BATableInit(RTMP_ADAPTER *pAd, BA_TABLE *Tab)
+VOID BATableInit(struct rtmp_adapter *pAd, BA_TABLE *Tab)
 {
 	int i;
 
@@ -3422,7 +3422,7 @@ VOID BATableInit(RTMP_ADAPTER *pAd, BA_TABLE *Tab)
 }
 
 
-VOID BATableExit(RTMP_ADAPTER *pAd)
+VOID BATableExit(struct rtmp_adapter *pAd)
 {
 	int i;
 
@@ -3435,13 +3435,13 @@ VOID BATableExit(RTMP_ADAPTER *pAd)
 #endif /* DOT11_N_SUPPORT */
 
 
-VOID MlmeRadioOff(RTMP_ADAPTER *pAd)
+VOID MlmeRadioOff(struct rtmp_adapter *pAd)
 {
 	RTMP_MLME_RADIO_OFF(pAd);
 }
 
 
-VOID MlmeRadioOn(RTMP_ADAPTER *pAd)
+VOID MlmeRadioOn(struct rtmp_adapter *pAd)
 {
 	RTMP_MLME_RADIO_ON(pAd);
 }
@@ -3647,7 +3647,7 @@ VOID BssTableDeleteEntry(BSS_TABLE *Tab, UCHAR *pBssid, UCHAR Channel)
  *	\post
  */
 VOID BssEntrySet(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	OUT BSS_ENTRY *pBss,
 	IN BCN_IE_LIST *ie_list,
 	IN CHAR Rssi,
@@ -3987,7 +3987,7 @@ ULONG BssTableSetEntry(
 #if defined(CONFIG_STA_SUPPORT) || defined(APCLI_SUPPORT)
 #ifdef DOT11_N_SUPPORT
 #ifdef DOT11N_DRAFT3
-VOID  TriEventInit(RTMP_ADAPTER *pAd)
+VOID  TriEventInit(struct rtmp_adapter *pAd)
 {
 	UCHAR i;
 
@@ -4000,7 +4000,7 @@ VOID  TriEventInit(RTMP_ADAPTER *pAd)
 
 
 INT TriEventTableSetEntry(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	OUT TRIGGER_EVENT_TAB *Tab,
 	IN UCHAR *pBssid,
 	IN HT_CAPABILITY_IE *pHtCapability,
@@ -4064,7 +4064,7 @@ INT TriEventTableSetEntry(
 
 #ifdef CONFIG_STA_SUPPORT
 VOID BssTableSsidSort(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	OUT BSS_TABLE *OutTab,
 	IN CHAR Ssid[],
 	IN UCHAR SsidLen)
@@ -4725,7 +4725,7 @@ VOID BssCipherParse(BSS_ENTRY *pBss)
  *	\pre
  *	\post
  */
-VOID MacAddrRandomBssid(RTMP_ADAPTER *pAd, UCHAR *pAddr)
+VOID MacAddrRandomBssid(struct rtmp_adapter *pAd, UCHAR *pAddr)
 {
 	INT i;
 
@@ -4750,7 +4750,7 @@ VOID MacAddrRandomBssid(RTMP_ADAPTER *pAd, UCHAR *pAddr)
  *	\note this function initializes the following field
  */
 VOID MgtMacHeaderInit(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	INOUT HEADER_802_11 *pHdr80211,
 	IN UCHAR SubType,
 	IN UCHAR ToDs,
@@ -4781,7 +4781,7 @@ VOID MgtMacHeaderInit(
 
 
 VOID MgtMacHeaderInitExt(
-    IN RTMP_ADAPTER *pAd,
+    IN struct rtmp_adapter *pAd,
     IN OUT HEADER_802_11 *pHdr80211,
     IN UCHAR SubType,
     IN UCHAR ToDs,
@@ -4856,7 +4856,7 @@ ULONG MakeOutgoingFrame(UCHAR *Buffer, ULONG *FrameLen, ...)
  IRQL = PASSIVE_LEVEL
 
  */
-NDIS_STATUS MlmeQueueInit(RTMP_ADAPTER *pAd, MLME_QUEUE *Queue)
+NDIS_STATUS MlmeQueueInit(struct rtmp_adapter *pAd, MLME_QUEUE *Queue)
 {
 	INT i;
 
@@ -4889,7 +4889,7 @@ NDIS_STATUS MlmeQueueInit(RTMP_ADAPTER *pAd, MLME_QUEUE *Queue)
  *	\note	 The message has to be initialized
  */
 BOOLEAN MlmeEnqueue(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN ULONG Machine,
 	IN ULONG MsgType,
 	IN ULONG MsgLen,
@@ -4952,7 +4952,7 @@ BOOLEAN MlmeEnqueue(
  *	\post
  */
 BOOLEAN MlmeEnqueueForRecv(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN ULONG Wcid,
 	IN ULONG TimeStampHigh,
 	IN ULONG TimeStampLow,
@@ -5145,7 +5145,7 @@ BOOLEAN MlmeDequeue(MLME_QUEUE *Queue, MLME_QUEUE_ELEM **Elem)
 }
 
 
-VOID MlmeRestartStateMachine(RTMP_ADAPTER *pAd)
+VOID MlmeRestartStateMachine(struct rtmp_adapter *pAd)
 {
 #ifdef CONFIG_STA_SUPPORT
 	BOOLEAN Cancelled;
@@ -5273,7 +5273,7 @@ VOID MlmeQueueDestroy(MLME_QUEUE *pQueue)
 
  */
 #ifdef CONFIG_STA_SUPPORT
-BOOLEAN MsgTypeSubst(RTMP_ADAPTER *pAd, FRAME_802_11 *pFrame, INT *Machine, INT *MsgType)
+BOOLEAN MsgTypeSubst(struct rtmp_adapter *pAd, FRAME_802_11 *pFrame, INT *Machine, INT *MsgType)
 {
 	USHORT	Seq, Alg;
 	UCHAR	EAPType;
@@ -5481,7 +5481,7 @@ VOID StateMachinePerformAction(
 		StateMachinePerformAction()
 	==========================================================================
  */
-VOID Drop(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
+VOID Drop(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 }
 
@@ -5491,7 +5491,7 @@ VOID Drop(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
 	Description:
 	==========================================================================
  */
-UCHAR RandomByte(RTMP_ADAPTER *pAd)
+UCHAR RandomByte(struct rtmp_adapter *pAd)
 {
 	ULONG i;
 	UCHAR R, Result;
@@ -5520,7 +5520,7 @@ UCHAR RandomByte(RTMP_ADAPTER *pAd)
 }
 
 
-UCHAR RandomByte2(RTMP_ADAPTER *pAd)
+UCHAR RandomByte2(struct rtmp_adapter *pAd)
 {
 	UINT32 a,b;
 	UCHAR value, seed = 0;
@@ -5555,7 +5555,7 @@ UCHAR RandomByte2(RTMP_ADAPTER *pAd)
 
 	========================================================================
 */
-VOID RTMPCheckRates(RTMP_ADAPTER *pAd, UCHAR SupRate[], UCHAR *SupRateLen)
+VOID RTMPCheckRates(struct rtmp_adapter *pAd, UCHAR SupRate[], UCHAR *SupRateLen)
 {
 	UCHAR	RateIdx, i, j;
 	UCHAR	NewRate[12], NewRateLen;
@@ -5579,7 +5579,7 @@ VOID RTMPCheckRates(RTMP_ADAPTER *pAd, UCHAR SupRate[], UCHAR *SupRateLen)
 
 #ifdef CONFIG_STA_SUPPORT
 #ifdef DOT11_N_SUPPORT
-BOOLEAN RTMPCheckChannel(RTMP_ADAPTER *pAd, UCHAR CentralCh, UCHAR ch)
+BOOLEAN RTMPCheckChannel(struct rtmp_adapter *pAd, UCHAR CentralCh, UCHAR ch)
 {
 	UCHAR		k;
 	UCHAR		UpperChannel = 0, LowerChannel = 0;
@@ -5637,7 +5637,7 @@ BOOLEAN RTMPCheckChannel(RTMP_ADAPTER *pAd, UCHAR CentralCh, UCHAR ch)
 	========================================================================
 */
 BOOLEAN RTMPCheckHt(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR Wcid,
 	IN HT_CAPABILITY_IE *pHtCap,
 	IN ADD_HT_INFO_IE *pAddHtInfo)
@@ -5841,7 +5841,7 @@ BOOLEAN RTMPCheckVht(
 
 	========================================================================
 */
-VOID RTMPUpdateMlmeRate(RTMP_ADAPTER *pAd)
+VOID RTMPUpdateMlmeRate(struct rtmp_adapter *pAd)
 {
 	UCHAR MinimumRate;
 	UCHAR ProperMlmeRate; /*= RATE_54; */
@@ -5995,7 +5995,7 @@ VOID RTMPUpdateMlmeRate(RTMP_ADAPTER *pAd)
 #endif /* CONFIG_STA_SUPPORT */
 
 
-CHAR RTMPAvgRssi(RTMP_ADAPTER *pAd, RSSI_SAMPLE *pRssi)
+CHAR RTMPAvgRssi(struct rtmp_adapter *pAd, RSSI_SAMPLE *pRssi)
 {
 	CHAR Rssi;
 
@@ -6016,7 +6016,7 @@ CHAR RTMPAvgRssi(RTMP_ADAPTER *pAd, RSSI_SAMPLE *pRssi)
 }
 
 
-CHAR RTMPMaxRssi(RTMP_ADAPTER *pAd, CHAR Rssi0, CHAR Rssi1, CHAR Rssi2)
+CHAR RTMPMaxRssi(struct rtmp_adapter *pAd, CHAR Rssi0, CHAR Rssi1, CHAR Rssi2)
 {
 	CHAR	larger = -127;
 
@@ -6042,7 +6042,7 @@ CHAR RTMPMaxRssi(RTMP_ADAPTER *pAd, CHAR Rssi0, CHAR Rssi1, CHAR Rssi2)
 }
 
 
-CHAR RTMPMinSnr(RTMP_ADAPTER *pAd, CHAR Snr0, CHAR Snr1)
+CHAR RTMPMinSnr(struct rtmp_adapter *pAd, CHAR Snr0, CHAR Snr1)
 {
 	CHAR	smaller = Snr0;
 
@@ -6073,7 +6073,7 @@ CHAR RTMPMinSnr(RTMP_ADAPTER *pAd, CHAR Snr0, CHAR Snr1)
 
     ========================================================================
 */
-VOID AsicEvaluateRxAnt(RTMP_ADAPTER *pAd)
+VOID AsicEvaluateRxAnt(struct rtmp_adapter *pAd)
 {
 #ifdef RALINK_ATE
 	if (ATE_ON(pAd))
@@ -6160,7 +6160,7 @@ VOID AsicRxAntEvalTimeout(
 	IN PVOID SystemSpecific2,
 	IN PVOID SystemSpecific3)
 {
-	RTMP_ADAPTER	*pAd = (RTMP_ADAPTER *)FunctionContext;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)FunctionContext;
 #ifdef CONFIG_STA_SUPPORT
 	CHAR			larger = -127, rssi0, rssi1, rssi2;
 #endif /* CONFIG_STA_SUPPORT */
@@ -6246,7 +6246,7 @@ VOID APSDPeriodicExec(
 	IN PVOID SystemSpecific2,
 	IN PVOID SystemSpecific3)
 {
-	RTMP_ADAPTER *pAd = (RTMP_ADAPTER *)FunctionContext;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)FunctionContext;
 
 	if (!OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_MEDIA_STATE_CONNECTED) &&
 		!OPSTATUS_TEST_FLAG(pAd, fOP_AP_STATUS_MEDIA_STATE_CONNECTED))
@@ -6276,7 +6276,7 @@ VOID APSDPeriodicExec(
 
     Arguments:
         pAd
-        pEntry 
+        pEntry
 
     Return Value:
         TURE
@@ -6285,7 +6285,7 @@ VOID APSDPeriodicExec(
     ========================================================================
 */
 BOOLEAN RTMPCheckEntryEnableAutoRateSwitch(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MAC_TABLE_ENTRY *pEntry)
 {
 	BOOLEAN result = TRUE;
@@ -6334,7 +6334,7 @@ BOOLEAN RTMPCheckEntryEnableAutoRateSwitch(
 }
 
 
-BOOLEAN RTMPAutoRateSwitchCheck(RTMP_ADAPTER *pAd)
+BOOLEAN RTMPAutoRateSwitchCheck(struct rtmp_adapter *pAd)
 {
 #ifdef CONFIG_AP_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
@@ -6374,7 +6374,7 @@ BOOLEAN RTMPAutoRateSwitchCheck(RTMP_ADAPTER *pAd)
 
     Arguments:
         pAd
-        pEntry 
+        pEntry
 
     Return Value:
         TURE
@@ -6382,7 +6382,7 @@ BOOLEAN RTMPAutoRateSwitchCheck(RTMP_ADAPTER *pAd)
 
     ========================================================================
 */
-UCHAR RTMPStaFixedTxMode(RTMP_ADAPTER *pAd, MAC_TABLE_ENTRY *pEntry)
+UCHAR RTMPStaFixedTxMode(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 {
 	UCHAR tx_mode = FIXED_TXMODE_HT;
 
@@ -6417,7 +6417,7 @@ UCHAR RTMPStaFixedTxMode(RTMP_ADAPTER *pAd, MAC_TABLE_ENTRY *pEntry)
 
     Arguments:
         pAd
-        pEntry 
+        pEntry
 
     Return Value:
         TURE
@@ -6491,7 +6491,7 @@ VOID RTMPUpdateLegacyTxSetting(UCHAR fixed_tx_mode, MAC_TABLE_ENTRY *pEntry)
 
 	==========================================================================
  */
-VOID AsicStaBbpTuning(RTMP_ADAPTER *pAd)
+VOID AsicStaBbpTuning(struct rtmp_adapter *pAd)
 {
 	UCHAR OrigR66Value = 0, R66;/*, R66UpperBound = 0x30, R66LowerBound = 0x30;*/
 	CHAR Rssi;
@@ -6528,7 +6528,7 @@ VOID AsicStaBbpTuning(RTMP_ADAPTER *pAd)
 #endif /* CONFIG_STA_SUPPORT */
 
 
-VOID RTMPSetAGCInitValue(RTMP_ADAPTER *pAd, UCHAR BandWidth)
+VOID RTMPSetAGCInitValue(struct rtmp_adapter *pAd, UCHAR BandWidth)
 {
 	if (pAd->chipOps.ChipAGCInit != NULL)
 		pAd->chipOps.ChipAGCInit(pAd, BandWidth);
@@ -6552,7 +6552,7 @@ Return Value:
 Note:
 ========================================================================
 */
-BOOLEAN CHAN_PropertyCheck(RTMP_ADAPTER *pAd, UINT32 ChanNum, UCHAR Property)
+BOOLEAN CHAN_PropertyCheck(struct rtmp_adapter *pAd, UINT32 ChanNum, UCHAR Property)
 {
 	UINT32 IdChan;
 

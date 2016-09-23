@@ -1280,7 +1280,7 @@ VOID CntlWaitReassocProc(
 	}
 }
 
-VOID AdhocTurnOnQos(RTMP_ADAPTER *pAd)
+VOID AdhocTurnOnQos(struct rtmp_adapter *pAd)
 {
 #define AC0_DEF_TXOP		0
 #define AC1_DEF_TXOP		0
@@ -1321,7 +1321,7 @@ VOID AdhocTurnOnQos(RTMP_ADAPTER *pAd)
 
 	==========================================================================
 */
-VOID LinkUp(RTMP_ADAPTER *pAd, UCHAR BssType)
+VOID LinkUp(struct rtmp_adapter *pAd, UCHAR BssType)
 {
 	ULONG Now;
 	UINT32 Data;
@@ -2347,7 +2347,7 @@ VOID LinkDown(
 
 	==========================================================================
 */
-VOID IterateOnBssTab(RTMP_ADAPTER *pAd)
+VOID IterateOnBssTab(struct rtmp_adapter *pAd)
 {
 	MLME_START_REQ_STRUCT StartReq;
 	MLME_JOIN_REQ_STRUCT JoinReq;
@@ -2452,7 +2452,7 @@ VOID IterateOnBssTab(RTMP_ADAPTER *pAd)
 
 /* for re-association only */
 /* IRQL = DISPATCH_LEVEL */
-VOID IterateOnBssTab2(RTMP_ADAPTER *pAd)
+VOID IterateOnBssTab2(struct rtmp_adapter *pAd)
 {
 	MLME_REASSOC_REQ_STRUCT ReassocReq;
 	ULONG BssIdx;
@@ -2804,7 +2804,7 @@ ULONG MakeIbssBeacon(
 	return FrameLen;
 }
 
-VOID InitChannelRelatedValue(RTMP_ADAPTER *pAd)
+VOID InitChannelRelatedValue(struct rtmp_adapter *pAd)
 {
 	UCHAR rf_channel;
 	UINT8 rf_bw, ext_ch;

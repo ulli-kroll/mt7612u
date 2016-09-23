@@ -286,7 +286,7 @@ skipUpdate:
 #endif /* CONFIG_STA_SUPPORT */
 
 
-INT AsicSetAutoFallBack(RTMP_ADAPTER *pAd, BOOLEAN enable)
+INT AsicSetAutoFallBack(struct rtmp_adapter *pAd, BOOLEAN enable)
 {
 	TX_RTY_CFG_STRUC tx_rty_cfg = {.word = 0};
 
@@ -298,7 +298,7 @@ INT AsicSetAutoFallBack(RTMP_ADAPTER *pAd, BOOLEAN enable)
 }
 
 
-INT AsicAutoFallbackInit(RTMP_ADAPTER *pAd)
+INT AsicAutoFallbackInit(struct rtmp_adapter *pAd)
 {
 #ifdef RANGE_EXTEND
 	RTMP_IO_WRITE32(pAd, HT_FBK_CFG1, 0xedcba980);
@@ -794,7 +794,7 @@ VOID AsicUpdateProtect(
 }
 
 
-VOID AsicBBPAdjust(RTMP_ADAPTER *pAd)
+VOID AsicBBPAdjust(struct rtmp_adapter *pAd)
 {
 	// TODO: shiang-6590, now this function only used for AP mode, why we need this differentation?
 	if (pAd->chipOps.ChipBBPAdjust != NULL)
@@ -811,7 +811,7 @@ VOID AsicBBPAdjust(RTMP_ADAPTER *pAd)
 
 	==========================================================================
  */
-VOID AsicSwitchChannel(RTMP_ADAPTER *pAd, UCHAR Channel, BOOLEAN bScan)
+VOID AsicSwitchChannel(struct rtmp_adapter *pAd, UCHAR Channel, BOOLEAN bScan)
 {
 	UCHAR bw;
 	UINT32 value32;
@@ -921,7 +921,7 @@ VOID AsicLockChannel(
  */
 
 
-VOID AsicResetBBPAgent(RTMP_ADAPTER *pAd)
+VOID AsicResetBBPAgent(struct rtmp_adapter *pAd)
 {
 	BBP_CSR_CFG_STRUC	BbpCsr;
 
@@ -1003,7 +1003,7 @@ VOID AsicForceWakeup(
 	==========================================================================
  */
  /* CFG_TODO */
-VOID AsicSetBssid(RTMP_ADAPTER *pAd, UCHAR *pBssid)
+VOID AsicSetBssid(struct rtmp_adapter *pAd, UCHAR *pBssid)
 {
 	UINT32 Addr4;
 #if defined(P2P_SUPPORT) || defined(RT_CFG80211_P2P_SUPPORT)
@@ -1090,7 +1090,7 @@ VOID AsicSetBssid(RTMP_ADAPTER *pAd, UCHAR *pBssid)
 }
 
 
-INT AsicSetDevMac(RTMP_ADAPTER *pAd, UCHAR *addr)
+INT AsicSetDevMac(struct rtmp_adapter *pAd, UCHAR *addr)
 {
 	MAC_DW0_STRUC csr2;
 	MAC_DW1_STRUC csr3;
@@ -1123,7 +1123,7 @@ INT AsicSetDevMac(RTMP_ADAPTER *pAd, UCHAR *addr)
 }
 
 #ifdef CONFIG_AP_SUPPORT
-VOID AsicSetMbssMode(RTMP_ADAPTER *pAd, UCHAR NumOfBcns)
+VOID AsicSetMbssMode(struct rtmp_adapter *pAd, UCHAR NumOfBcns)
 {
 	UCHAR NumOfMacs;
 	UINT32 regValue;
@@ -1221,7 +1221,7 @@ VOID AsicSetMbssMode(RTMP_ADAPTER *pAd, UCHAR NumOfBcns)
 #endif /* CONFIG_AP_SUPPORT */
 
 
-INT AsicSetRxFilter(RTMP_ADAPTER *pAd)
+INT AsicSetRxFilter(struct rtmp_adapter *pAd)
 {
 	UINT32 rx_filter_flag;
 
@@ -1247,7 +1247,7 @@ INT AsicSetRxFilter(RTMP_ADAPTER *pAd)
 
 
 #ifdef DOT11_N_SUPPORT
-INT AsicSetRDG(RTMP_ADAPTER *pAd, BOOLEAN bEnable)
+INT AsicSetRDG(struct rtmp_adapter *pAd, BOOLEAN bEnable)
 {
 	TX_LINK_CFG_STRUC TxLinkCfg;
 	UINT32 Data = 0;
@@ -1297,7 +1297,7 @@ INT AsicSetRDG(RTMP_ADAPTER *pAd, BOOLEAN bEnable)
 
     ========================================================================
 */
-VOID RTMPSetPiggyBack(RTMP_ADAPTER *pAd, BOOLEAN bPiggyBack)
+VOID RTMPSetPiggyBack(struct rtmp_adapter *pAd, BOOLEAN bPiggyBack)
 {
 	TX_LINK_CFG_STRUC  TxLinkCfg;
 
@@ -1316,7 +1316,7 @@ VOID AsicCtrlBcnMask(struct rtmp_adapter *pAd, INT mask)
 	RTMP_IO_WRITE32(pAd, TX_BCN_BYPASS_MASK, bms.word);
 }
 
-static INT AsicSetIntTimerEn(RTMP_ADAPTER *pAd, BOOLEAN enable, UINT32 type, UINT32 timeout)
+static INT AsicSetIntTimerEn(struct rtmp_adapter *pAd, BOOLEAN enable, UINT32 type, UINT32 timeout)
 {
 	UINT32 val, mask, time_mask;
 
@@ -1350,7 +1350,7 @@ static INT AsicSetIntTimerEn(RTMP_ADAPTER *pAd, BOOLEAN enable, UINT32 type, UIN
 }
 
 
-INT AsicSetPreTbtt(RTMP_ADAPTER *pAd, BOOLEAN enable)
+INT AsicSetPreTbtt(struct rtmp_adapter *pAd, BOOLEAN enable)
 {
 	UINT32 timeout = 0;
 
@@ -1361,7 +1361,7 @@ INT AsicSetPreTbtt(RTMP_ADAPTER *pAd, BOOLEAN enable)
 }
 
 
-INT AsicSetGPTimer(RTMP_ADAPTER *pAd, BOOLEAN enable, UINT32 timeout)
+INT AsicSetGPTimer(struct rtmp_adapter *pAd, BOOLEAN enable, UINT32 timeout)
 {
 	return AsicSetIntTimerEn(pAd, enable, INT_TIMER_EN_GP_TIMER, timeout);
 }
@@ -1466,7 +1466,7 @@ VOID AsicEnableApBssSync(
 
 	==========================================================================
  */
-VOID AsicEnableIbssSync(RTMP_ADAPTER *pAd)
+VOID AsicEnableIbssSync(struct rtmp_adapter *pAd)
 {
 	BCN_TIME_CFG_STRUC csr9;
 	UCHAR *ptr;
@@ -1570,7 +1570,7 @@ VOID AsicEnableIbssSync(RTMP_ADAPTER *pAd)
 
 	==========================================================================
  */
-VOID AsicSetEdcaParm(RTMP_ADAPTER *pAd, PEDCA_PARM pEdcaParm)
+VOID AsicSetEdcaParm(struct rtmp_adapter *pAd, PEDCA_PARM pEdcaParm)
 {
 	EDCA_AC_CFG_STRUC Ac0Cfg, Ac1Cfg, Ac2Cfg, Ac3Cfg;
 	AC_TXOP_CSR0_STRUC csr0;
@@ -1890,7 +1890,7 @@ VOID AsicSetEdcaParm(RTMP_ADAPTER *pAd, PEDCA_PARM pEdcaParm)
 
 
 
-INT AsicSetRetryLimit(RTMP_ADAPTER *pAd, UINT32 type, UINT32 limit)
+INT AsicSetRetryLimit(struct rtmp_adapter *pAd, UINT32 type, UINT32 limit)
 {
 	TX_RTY_CFG_STRUC tx_rty_cfg;
 
@@ -1905,7 +1905,7 @@ INT AsicSetRetryLimit(RTMP_ADAPTER *pAd, UINT32 type, UINT32 limit)
 }
 
 
-UINT32 AsicGetRetryLimit(RTMP_ADAPTER *pAd, UINT32 type)
+UINT32 AsicGetRetryLimit(struct rtmp_adapter *pAd, UINT32 type)
 {
 	TX_RTY_CFG_STRUC tx_rty_cfg = {.word = 0};
 
@@ -1997,7 +1997,7 @@ VOID AsicSetSlotTime(
 
 
 #ifdef CONFIG_AP_SUPPORT
-VOID RTMPGetTxTscFromAsic(RTMP_ADAPTER *pAd, UCHAR apidx, UCHAR *pTxTsc)
+VOID RTMPGetTxTscFromAsic(struct rtmp_adapter *pAd, UCHAR apidx, UCHAR *pTxTsc)
 {
 	USHORT Wcid;
 	USHORT offset;
@@ -2413,7 +2413,7 @@ VOID AsicUpdateWcidAttributeEntry(
 
 	==========================================================================
  */
-VOID AsicDelWcidTab(RTMP_ADAPTER *pAd, UCHAR wcid_idx)
+VOID AsicDelWcidTab(struct rtmp_adapter *pAd, UCHAR wcid_idx)
 {
 	UINT32 offset;
 	UCHAR cnt, cnt_s, cnt_e;
@@ -2555,7 +2555,7 @@ VOID AsicRemovePairwiseKeyEntry(
 
 
 BOOLEAN AsicSendCommandToMcu(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR Command,
 	IN UCHAR Token,
 	IN UCHAR Arg0,
@@ -2577,7 +2577,7 @@ BOOLEAN AsicSendCommandToMcu(
 
 
 BOOLEAN AsicSendCmdToMcuAndWait(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR Command,
 	IN UCHAR Token,
 	IN UCHAR Arg0,
@@ -2708,7 +2708,7 @@ VOID AsicTurnOffRFClk(
 #ifdef STREAM_MODE_SUPPORT
 // StreamModeRegVal - return MAC reg value for StreamMode setting
 UINT32 StreamModeRegVal(
-	IN RTMP_ADAPTER *pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	UINT32 streamWord;
 
@@ -2747,7 +2747,7 @@ UINT32 StreamModeRegVal(
 	========================================================================
 */
 VOID AsicSetStreamMode(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PUCHAR pMacAddr,
 	IN INT chainIdx,
 	IN BOOLEAN bEnabled)
@@ -2780,7 +2780,7 @@ VOID AsicSetStreamMode(
 }
 
 
-VOID RtmpStreamModeInit(RTMP_ADAPTER *pAd)
+VOID RtmpStreamModeInit(struct rtmp_adapter *pAd)
 {
 	int chainIdx;
 	UCHAR *pMacAddr;
@@ -2797,7 +2797,7 @@ VOID RtmpStreamModeInit(RTMP_ADAPTER *pAd)
 #endif // STREAM_MODE_SUPPORT //
 
 
-VOID AsicSetTxPreamble(RTMP_ADAPTER *pAd, USHORT TxPreamble)
+VOID AsicSetTxPreamble(struct rtmp_adapter *pAd, USHORT TxPreamble)
 {
 	AUTO_RSP_CFG_STRUC csr4;
 
@@ -2811,7 +2811,7 @@ VOID AsicSetTxPreamble(RTMP_ADAPTER *pAd, USHORT TxPreamble)
 
 
 #ifdef DOT11_N_SUPPORT
-INT AsicSetRalinkBurstMode(RTMP_ADAPTER *pAd, BOOLEAN enable)
+INT AsicSetRalinkBurstMode(struct rtmp_adapter *pAd, BOOLEAN enable)
 {
 	UINT32				Data = 0;
 
@@ -2970,7 +2970,7 @@ VOID AsicMitigateMicrowave(
 #endif /* MICROWAVE_OVEN_SUPPORT */
 
 
-INT AsicSetPreTbttInt(RTMP_ADAPTER *pAd, BOOLEAN enable)
+INT AsicSetPreTbttInt(struct rtmp_adapter *pAd, BOOLEAN enable)
 {
 	UINT32 val;
 
@@ -3010,7 +3010,7 @@ BOOLEAN AsicWaitPDMAIdle(struct rtmp_adapter *pAd, INT round, INT wait_us)
 }
 
 
-INT rtmp_asic_top_init(RTMP_ADAPTER *pAd)
+INT rtmp_asic_top_init(struct rtmp_adapter *pAd)
 {
 	UINT32 mac_val;
 
@@ -3062,7 +3062,7 @@ INT rtmp_asic_top_init(RTMP_ADAPTER *pAd)
 }
 
 
-INT StopDmaRx(RTMP_ADAPTER *pAd, UCHAR Level)
+INT StopDmaRx(struct rtmp_adapter *pAd, UCHAR Level)
 {
 	PNDIS_PACKET pRxPacket;
 	RX_BLK RxBlk, *pRxBlk;
@@ -3132,7 +3132,7 @@ INT StopDmaRx(RTMP_ADAPTER *pAd, UCHAR Level)
 }
 
 
-INT StopDmaTx(RTMP_ADAPTER *pAd, UCHAR Level)
+INT StopDmaTx(struct rtmp_adapter *pAd, UCHAR Level)
 {
 	UINT32 MacReg = 0, MTxCycle = 0;
 #ifdef RTMP_MAC_USB
@@ -3190,7 +3190,7 @@ INT StopDmaTx(RTMP_ADAPTER *pAd, UCHAR Level)
 #else
 #define MAX_AGG_CNT	8
 #endif
-INT AsicReadAggCnt(RTMP_ADAPTER *pAd, ULONG *aggCnt, int cnt_len)
+INT AsicReadAggCnt(struct rtmp_adapter *pAd, ULONG *aggCnt, int cnt_len)
 {
 	UINT32 reg_addr;
 	TX_AGG_CNT_STRUC reg_val;
@@ -3237,7 +3237,7 @@ INT AsicReadAggCnt(RTMP_ADAPTER *pAd, ULONG *aggCnt, int cnt_len)
 #endif /* DOT11_N_SUPPORT */
 
 
-INT AsicSetChannel(RTMP_ADAPTER *pAd, UCHAR ch, UINT8 bw, UINT8 ext_ch, BOOLEAN bScan)
+INT AsicSetChannel(struct rtmp_adapter *pAd, UCHAR ch, UINT8 bw, UINT8 ext_ch, BOOLEAN bScan)
 {
 	bbp_set_bw(pAd, bw);
 
@@ -3575,7 +3575,7 @@ VOID RT28xxAndesWOWDisable(
 
 #ifdef THERMAL_PROTECT_SUPPORT
 VOID thermal_protection(
-	IN RTMP_ADAPTER 	*pAd)
+	IN struct rtmp_adapter 	*pAd)
 {
 	RTMP_CHIP_OP *pChipOps = &pAd->chipOps;
 	INT32 temp_diff = 0, current_temp = 0;

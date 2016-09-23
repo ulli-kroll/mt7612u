@@ -71,7 +71,7 @@ Note:
 ========================================================================
 */
 static VOID UAPSD_InsertTailQueueAc(
-	IN	RTMP_ADAPTER	*pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	MAC_TABLE_ENTRY	*pEntry,
 	IN	QUEUE_HEADER	*pQueueHeader,
 	IN	QUEUE_ENTRY		*pQueueEntry)
@@ -95,7 +95,7 @@ Return Value:
 Note:
 ========================================================================
 */
-VOID UAPSD_Init(RTMP_ADAPTER *pAd)
+VOID UAPSD_Init(struct rtmp_adapter *pAd)
 {
     /* allocate a lock resource for SMP environment */
 	NdisAllocateSpinLock(pAd, &pAd->UAPSDEOSPLock);
@@ -135,7 +135,7 @@ Return Value:
 Note:
 ========================================================================
 */
-VOID UAPSD_Release(RTMP_ADAPTER *pAd)
+VOID UAPSD_Release(struct rtmp_adapter *pAd)
 {
     /* free the lock resource for SMP environment */
     NdisFreeSpinLock(&pAd->UAPSDEOSPLock);
@@ -160,7 +160,7 @@ Return Value:
 Note:
 ========================================================================
 */
-VOID RtmpAsicSleepHandle(RTMP_ADAPTER *pAd)
+VOID RtmpAsicSleepHandle(struct rtmp_adapter *pAd)
 {
 #ifdef CONFIG_STA_SUPPORT
 	BOOLEAN FlgCanAsicSleep = TRUE;
@@ -192,7 +192,7 @@ Return Value:
 Note:
 ========================================================================
 */
-VOID UAPSD_SP_Close(RTMP_ADAPTER *pAd, MAC_TABLE_ENTRY *pEntry)
+VOID UAPSD_SP_Close(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 {
 	if ((pEntry != NULL) && (pEntry->PsMode == PWR_SAVE))
 	{
@@ -258,7 +258,7 @@ Return Value:
 Note:
 ========================================================================
 */
-BOOLEAN UAPSD_SP_IsClosed(RTMP_ADAPTER *pAd, MAC_TABLE_ENTRY *pEntry)
+BOOLEAN UAPSD_SP_IsClosed(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 {
 	BOOLEAN FlgIsSpClosed = TRUE;
 
@@ -291,7 +291,7 @@ Note:
 	SMP protection by caller for packet enqueue.
 ========================================================================
 */
-VOID UAPSD_AllPacketDeliver(RTMP_ADAPTER *pAd, MAC_TABLE_ENTRY *pEntry)
+VOID UAPSD_AllPacketDeliver(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 {
 	QUEUE_HEADER *pQueApsd;
 	PQUEUE_ENTRY pQueEntry;
@@ -370,7 +370,7 @@ Note:
 ========================================================================
 */
 VOID UAPSD_AssocParse(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN MAC_TABLE_ENTRY *pEntry,
 	IN UCHAR *pElm,
 	IN BOOLEAN FlgApsdCapable)
@@ -544,7 +544,7 @@ Note:
 	If in RT2870, pEntry can not be removed during UAPSD_QueueMaintenance()
 ========================================================================
 */
-VOID UAPSD_QueueMaintenance(RTMP_ADAPTER *pAd, MAC_TABLE_ENTRY *pEntry)
+VOID UAPSD_QueueMaintenance(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 {
 	QUEUE_HEADER *pQue;
 	UINT32 IdAc;
@@ -683,7 +683,7 @@ Note:
 ========================================================================
 */
 VOID UAPSD_SP_AUE_Handle(
-	IN RTMP_ADAPTER		*pAd,
+	IN struct rtmp_adapter 	*pAd,
 	IN MAC_TABLE_ENTRY	*pEntry,
 	IN UCHAR			FlgSuccess)
 {
@@ -867,7 +867,7 @@ Note:
     So we must close the old SP in receive done ISR to avoid the problem.
 ========================================================================
 */
-VOID UAPSD_SP_CloseInRVDone(RTMP_ADAPTER *pAd)
+VOID UAPSD_SP_CloseInRVDone(struct rtmp_adapter *pAd)
 {
 	UINT32 IdEntry;
 	int FirstWcid = 0;
@@ -961,7 +961,7 @@ Note:
 	UAPSD_TIMING_RECORD_TX2AIR
 ========================================================================
 */
-VOID UAPSD_TimingRecord(RTMP_ADAPTER *pAd, UINT32 Type)
+VOID UAPSD_TimingRecord(struct rtmp_adapter *pAd, UINT32 Type)
 {
 	UINT32 Index;
 
@@ -1095,7 +1095,7 @@ Return Value:
 Note:
 ========================================================================
 */
-BOOLEAN UAPSD_PsPollHandle(RTMP_ADAPTER *pAd, MAC_TABLE_ENTRY *pEntry)
+BOOLEAN UAPSD_PsPollHandle(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 {
 	QUEUE_HEADER	*pAcPsQue;
 	QUEUE_HEADER	*pAcSwQue;
@@ -1294,7 +1294,7 @@ Return Value:
 Note:
 ========================================================================
 */
-VOID UAPSD_TriggerFrameHandle(RTMP_ADAPTER *pAd, MAC_TABLE_ENTRY *pEntry, UCHAR UpOfFrame)
+VOID UAPSD_TriggerFrameHandle(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry, UCHAR UpOfFrame)
 {
 	QUEUE_HEADER	*pAcPsQue;
 	QUEUE_HEADER	*pAcSwQue, *pLastAcSwQue;
@@ -1793,7 +1793,7 @@ Note:
 ========================================================================
 */
 VOID UAPSD_TagFrame(
-	IN	RTMP_ADAPTER		*pAd,
+	IN	struct rtmp_adapter 	*pAd,
 	IN	NDIS_PACKET			*pPkt,
 	IN	UCHAR				Wcid,
 	IN	UINT32				PktOffset)
@@ -1846,7 +1846,7 @@ Note:
 ========================================================================
 */
 VOID UAPSD_UnTagFrame(
-	IN	RTMP_ADAPTER	*pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	UCHAR			AcQueId,
 	IN	UINT32			bulkStartPos,
 	IN	UINT32			bulkEnPos)

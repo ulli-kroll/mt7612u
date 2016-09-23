@@ -567,7 +567,7 @@ INT RTMPGetKeyParameterWithOffset(
 
 
 #ifdef CONFIG_STA_SUPPORT
-inline void RTMPSetSTADefKeyId(RTMP_ADAPTER *pAd, ULONG KeyIdx)
+inline void RTMPSetSTADefKeyId(struct rtmp_adapter *pAd, ULONG KeyIdx)
 {
 	if((KeyIdx >= 1 ) && (KeyIdx <= 4))
 		pAd->StaCfg.wdev.DefaultKeyId = (UCHAR) (KeyIdx - 1);
@@ -1711,7 +1711,7 @@ static void rtmp_read_sta_wmm_parms_from_file(IN  struct rtmp_adapter *pAd, char
 
 #ifdef DOT11_VHT_AC
 static void VHTParametersHook(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PSTRING pValueStr,
 	IN PSTRING pInput)
 {
@@ -2359,7 +2359,7 @@ static void HTParametersHook(
 
 
 #ifdef CONFIG_STA_SUPPORT
-void RTMPSetSTASSID(RTMP_ADAPTER *pAd, PSTRING SSID)
+void RTMPSetSTASSID(struct rtmp_adapter *pAd, PSTRING SSID)
 {
 	pAd->CommonCfg.SsidLen = (UCHAR) strlen(SSID);
 	NdisZeroMemory(pAd->CommonCfg.Ssid, NDIS_802_11_LENGTH_SSID);
@@ -2376,7 +2376,7 @@ void RTMPSetSTASSID(RTMP_ADAPTER *pAd, PSTRING SSID)
 }
 
 
-void RTMPSetSTAPassPhrase(RTMP_ADAPTER *pAd, PSTRING PassPh)
+void RTMPSetSTAPassPhrase(struct rtmp_adapter *pAd, PSTRING PassPh)
 {
 	struct wifi_dev *wdev = &pAd->StaCfg.wdev;
 	int ret = TRUE;
@@ -2416,7 +2416,7 @@ void RTMPSetSTAPassPhrase(RTMP_ADAPTER *pAd, PSTRING PassPh)
 }
 
 
-inline void RTMPSetSTACipherSuites(RTMP_ADAPTER *pAd, NDIS_802_11_ENCRYPTION_STATUS WepStatus)
+inline void RTMPSetSTACipherSuites(struct rtmp_adapter *pAd, NDIS_802_11_ENCRYPTION_STATUS WepStatus)
 {
 	/* Update all wepstatus related*/
 	pAd->StaCfg.PairCipher		= WepStatus;
@@ -2428,7 +2428,7 @@ inline void RTMPSetSTACipherSuites(RTMP_ADAPTER *pAd, NDIS_802_11_ENCRYPTION_STA
 
 /*RECOVER THE OLD CONNECT INFO */
 NDIS_STATUS RecoverConnectInfo(
-	IN  RTMP_ADAPTER *pAd)
+	IN  struct rtmp_adapter *pAd)
 {
 	INT idx;
 	char ssidStr[NDIS_802_11_LENGTH_SSID + 1];
@@ -2486,7 +2486,7 @@ NDIS_STATUS RecoverConnectInfo(
 
 /*STORE THE CONNECT INFO*/
 NDIS_STATUS StoreConnectInfo(
-	IN  RTMP_ADAPTER *pAd)
+	IN  struct rtmp_adapter *pAd)
 {
 	INT idx;
 	DBGPRINT(RT_DEBUG_TRACE, ("-->StoreConnectInfo()\n"));
@@ -2524,7 +2524,7 @@ NDIS_STATUS StoreConnectInfo(
 #endif /* CONFIG_STA_SUPPORT */
 
 
-void RTMPSetCountryCode(RTMP_ADAPTER *pAd, PSTRING CountryCode)
+void RTMPSetCountryCode(struct rtmp_adapter *pAd, PSTRING CountryCode)
 {
 	NdisMoveMemory(pAd->CommonCfg.CountryCode, CountryCode , 2);
 	pAd->CommonCfg.CountryCode[2] = ' ';
@@ -2542,7 +2542,7 @@ void RTMPSetCountryCode(RTMP_ADAPTER *pAd, PSTRING CountryCode)
 
 
 NDIS_STATUS	RTMPSetProfileParameters(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PSTRING	pBuffer)
 {
 	PSTRING					tmpbuf;
@@ -4207,7 +4207,7 @@ UINT8 MC_CardUsed[MAX_NUM_OF_MULTIPLE_CARD] = {0};
 /* record used card mac address in the card list*/
 static UINT8  MC_CardMac[MAX_NUM_OF_MULTIPLE_CARD][6];
 
-BOOLEAN get_mac_from_eeprom(RTMP_ADAPTER *pAd, UCHAR *mac)
+BOOLEAN get_mac_from_eeprom(struct rtmp_adapter *pAd, UCHAR *mac)
 {
 	USHORT addr, ee_addr;
 	INT idx;
@@ -4612,7 +4612,7 @@ return flg_match_ok;
 
 #ifdef SINGLE_SKU_V2
 NDIS_STATUS	RTMPSetSingleSKUParameters(
-	IN RTMP_ADAPTER *pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	PSTRING buffer;
 	PSTRING	readline, token;

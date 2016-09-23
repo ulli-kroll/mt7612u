@@ -53,7 +53,7 @@ static VOID ApCliAuthTimeout(
 	IN PVOID SystemSpecific2,
 	IN PVOID SystemSpecific3)
 {
-	RTMP_ADAPTER *pAd = (RTMP_ADAPTER *)FunctionContext;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)FunctionContext;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("%s():AuthTimeout\n", __FUNCTION__));
 
@@ -152,7 +152,7 @@ static VOID ApCliMlmeAuthReqAction(
 	Description:
 	==========================================================================
  */
-static VOID ApCliPeerAuthRspAtSeq2Action(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM * Elem)
+static VOID ApCliPeerAuthRspAtSeq2Action(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM * Elem)
 {
 	BOOLEAN         Cancelled;
 	UCHAR           Addr2[MAC_ADDR_LEN];
@@ -315,7 +315,7 @@ LabelOK:
 	Description:
 	==========================================================================
  */
-static VOID ApCliPeerAuthRspAtSeq4Action(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
+static VOID ApCliPeerAuthRspAtSeq4Action(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 	BOOLEAN     Cancelled;
 	UCHAR       Addr2[MAC_ADDR_LEN];
@@ -365,7 +365,7 @@ static VOID ApCliPeerAuthRspAtSeq4Action(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Ele
     Description:
     ==========================================================================
 */
-static VOID ApCliPeerDeauthAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
+static VOID ApCliPeerDeauthAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 	UCHAR       Addr1[MAC_ADDR_LEN];
 	UCHAR       Addr2[MAC_ADDR_LEN];
@@ -423,7 +423,7 @@ static VOID ApCliPeerDeauthAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
 	Description:
 	==========================================================================
  */
-static VOID ApCliAuthTimeoutAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
+static VOID ApCliAuthTimeoutAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 	USHORT ifIndex = (USHORT)(Elem->Priv);
 	PULONG pCurrState = NULL;
@@ -449,7 +449,7 @@ static VOID ApCliAuthTimeoutAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
 	Description:
 	==========================================================================
  */
-static VOID ApCliInvalidStateWhenAuth(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
+static VOID ApCliInvalidStateWhenAuth(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 	APCLI_CTRL_MSG_STRUCT ApCliCtrlMsg;
 	USHORT ifIndex = (USHORT)(Elem->Priv);
@@ -532,7 +532,7 @@ static VOID ApCliMlmeDeauthReqAction(
 	==========================================================================
  */
 VOID ApCliAuthStateMachineInit(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN STATE_MACHINE *Sm,
 	OUT STATE_MACHINE_FUNC Trans[])
 {

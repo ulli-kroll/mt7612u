@@ -53,7 +53,7 @@ void VideoTurbineUpdate(
 }
 
 
-VOID TxSwQDepthAdjust(IN RTMP_ADAPTER *pAd, IN UINT32 qLen)
+VOID TxSwQDepthAdjust(IN struct rtmp_adapter *pAd, IN UINT32 qLen)
 {
 	ULONG IrqFlags;
 	INT qIdx;

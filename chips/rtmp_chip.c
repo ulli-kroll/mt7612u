@@ -49,7 +49,7 @@ Note:
 ========================================================================
 */
 VOID RtmpChipWriteHighMemory(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN USHORT Offset,
 	IN UINT32 Value,
 	IN UINT8 Unit)
@@ -92,7 +92,7 @@ Note:
 ========================================================================
 */
 VOID RtmpChipWriteMemory(
-	IN	RTMP_ADAPTER	*pAd,
+	IN	struct rtmp_adapter *pAd,
 	IN	USHORT			Offset,
 	IN	UINT32			Value,
 	IN	UINT8			Unit)
@@ -127,7 +127,7 @@ Return Value:
 Note:
 ========================================================================
 */
-VOID RtmpChipBcnSpecInit(RTMP_ADAPTER *pAd)
+VOID RtmpChipBcnSpecInit(struct rtmp_adapter *pAd)
 {
 }
 
@@ -147,7 +147,7 @@ Note:
 ========================================================================
 */
 VOID RtmpChipBcnInit(
-	IN RTMP_ADAPTER *pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	RTMP_CHIP_CAP *pChipCap = &pAd->chipCap;
 
@@ -198,7 +198,7 @@ Return Value:
 Note:
 ========================================================================
 */
-VOID rlt_bcn_buf_init(RTMP_ADAPTER *pAd)
+VOID rlt_bcn_buf_init(struct rtmp_adapter *pAd)
 {
 	RTMP_CHIP_CAP *pChipCap = &pAd->chipCap;
 
@@ -255,7 +255,7 @@ VOID rlt_bcn_buf_init(RTMP_ADAPTER *pAd)
 
 #ifdef HW_ANTENNA_DIVERSITY_SUPPORT
 UINT32 SetHWAntennaDivsersity(
-	IN PRTMP_ADAPTER		pAd,
+	IN Pstruct rtmp_adapter 	pAd,
 	IN BOOLEAN				Enable)
 {
 	if (Enable == TRUE)
@@ -338,7 +338,7 @@ UINT32 SetHWAntennaDivsersity(
 
 
 
-INT WaitForAsicReady(RTMP_ADAPTER *pAd)
+INT WaitForAsicReady(struct rtmp_adapter *pAd)
 {
 	UINT32 mac_val = 0, reg = MAC_CSR0;
 	int idx = 0;
@@ -363,7 +363,7 @@ INT WaitForAsicReady(RTMP_ADAPTER *pAd)
 }
 
 
-INT AsicGetMacVersion(RTMP_ADAPTER *pAd)
+INT AsicGetMacVersion(struct rtmp_adapter *pAd)
 {
 	UINT32 reg = MAC_CSR0;
 
@@ -404,7 +404,7 @@ Note:
 */
 int RtmpChipOpsHook(VOID *pCB)
 {
-	RTMP_ADAPTER *pAd = (RTMP_ADAPTER *)pCB;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pCB;
 	RTMP_CHIP_CAP *pChipCap = &pAd->chipCap;
 	UINT32 MacValue;
 	int ret = 0;
@@ -479,7 +479,7 @@ done:
 }
 
 #ifdef RT65xx
-BOOLEAN isExternalPAMode(RTMP_ADAPTER *ad, INT channel)
+BOOLEAN isExternalPAMode(struct rtmp_adapter *ad, INT channel)
 {
 	BOOLEAN pa_mode = FALSE;
 
@@ -503,7 +503,7 @@ BOOLEAN isExternalPAMode(RTMP_ADAPTER *ad, INT channel)
 	return pa_mode;
 }
 
-BOOLEAN is_external_lna_mode(RTMP_ADAPTER *ad, INT channel)
+BOOLEAN is_external_lna_mode(struct rtmp_adapter *ad, INT channel)
 {
 	BOOLEAN lna_mode = FALSE;
 

@@ -148,7 +148,7 @@ static VOID ApCliAssocTimeout(
 	IN PVOID SystemSpecific2,
 	IN PVOID SystemSpecific3)
 {
-	RTMP_ADAPTER *pAd = (RTMP_ADAPTER *)FunctionContext;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)FunctionContext;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("APCLI_ASSOC - enqueue APCLI_MT2_ASSOC_TIMEOUT \n"));
 
@@ -902,7 +902,7 @@ static VOID ApCliAssocPostProc(
 
 #ifdef WPA_SUPPLICANT_SUPPORT
 VOID ApcliSendAssocIEsToWpaSupplicant(
-    IN RTMP_ADAPTER *pAd,
+    IN struct rtmp_adapter *pAd,
     IN UINT ifIndex)
 {
 	STRING custom[IW_CUSTOM_MAX] = {0};

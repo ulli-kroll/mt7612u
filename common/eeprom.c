@@ -51,7 +51,7 @@ struct chip_map chip_card_id_map[] ={
 
 
 UCHAR RtmpEepromGetDefault(
-	IN RTMP_ADAPTER 	*pAd)
+	IN struct rtmp_adapter 	*pAd)
 {
 	UCHAR e2p_dafault = 0;
 
@@ -96,7 +96,7 @@ out:
 
 
 INT RtmpChipOpsEepromHook(
-	IN RTMP_ADAPTER 	*pAd,
+	IN struct rtmp_adapter 	*pAd,
 	IN INT				infType)
 {
 	RTMP_CHIP_OP *pChipOps = &pAd->chipOps;
@@ -241,7 +241,7 @@ BOOLEAN rtmp_get_default_bin_file_by_chip(
 
 
 INT rtmp_ee_bin_read16(
-	IN RTMP_ADAPTER 	*pAd,
+	IN struct rtmp_adapter 	*pAd,
 	IN USHORT 			Offset,
 	OUT USHORT 			*pValue)
 {
@@ -254,7 +254,7 @@ INT rtmp_ee_bin_read16(
 
 
 INT rtmp_ee_bin_write16(
-	IN RTMP_ADAPTER 	*pAd,
+	IN struct rtmp_adapter 	*pAd,
 	IN USHORT 			Offset,
 	IN USHORT 			data)
 {

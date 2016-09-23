@@ -42,7 +42,7 @@ VOID Bss2040CoexistTimeOut(
 	IN PVOID SystemSpecific3)
 {
 	int apidx;
-	struct rtmp_adapter *pAd = (RTMP_ADAPTER *)FunctionContext;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)FunctionContext;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Bss2040CoexistTimeOut(): Recovery to original setting!\n"));
 
@@ -74,7 +74,7 @@ VOID APDetectOverlappingExec(
 	IN PVOID SystemSpecific3)
 {
 #ifdef DOT11_N_SUPPORT
-	struct rtmp_adapter *pAd = (RTMP_ADAPTER *)FunctionContext;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)FunctionContext;
 
 	if (DetectOverlappingPeriodicRound == 0)
 	{
@@ -548,7 +548,7 @@ VOID APAsicEvaluateRxAnt(
 
     ========================================================================
 */
-VOID APAsicRxAntEvalTimeout(RTMP_ADAPTER *pAd)
+VOID APAsicRxAntEvalTimeout(struct rtmp_adapter *pAd)
 {
 	CHAR rssi0, rssi1, rssi2;
 

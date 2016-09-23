@@ -38,7 +38,7 @@ extern UCHAR	EAPOL[];
         pEntry
     ==========================================================================
 */
-MAC_TABLE_ENTRY *PACInquiry(RTMP_ADAPTER *pAd, UCHAR Wcid)
+MAC_TABLE_ENTRY *PACInquiry(struct rtmp_adapter *pAd, UCHAR Wcid)
 {
     MAC_TABLE_ENTRY *pEntry = NULL;
 
@@ -548,7 +548,7 @@ UINT	APValidateRSNIE(
     Return:
     ==========================================================================
 */
-VOID HandleCounterMeasure(RTMP_ADAPTER *pAd, MAC_TABLE_ENTRY *pEntry)
+VOID HandleCounterMeasure(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 {
     INT         i;
     BOOLEAN     Cancelled;
@@ -754,7 +754,7 @@ VOID GREKEYPeriodicExec(
 {
 	UINT i, apidx;
 	ULONG temp_counter = 0;
-	RTMP_ADAPTER *pAd = (RTMP_ADAPTER *)FunctionContext;
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)FunctionContext;
 	PRALINK_TIMER_STRUCT pTimer = (PRALINK_TIMER_STRUCT) SystemSpecific3;
 	MULTISSID_STRUCT *pMbss = NULL;
 	struct wifi_dev *wdev;
@@ -875,7 +875,7 @@ VOID GREKEYPeriodicExec(
         None
     ========================================================================
 */
-VOID WpaSend(RTMP_ADAPTER *pAdapter, UCHAR *pPacket, ULONG Len)
+VOID WpaSend(struct rtmp_adapter *pAdapter, UCHAR *pPacket, ULONG Len)
 {
 	PEAP_HDR pEapHdr;
 	UCHAR Addr[MAC_ADDR_LEN];
@@ -1277,7 +1277,7 @@ VOID ApCliWpaDisassocApAndBlockAssoc(
     IN PVOID SystemSpecific3)
 {
 
-	RTMP_ADAPTER                *pAd = (struct rtmp_adapter *)FunctionContext;
+	struct rtmp_adapter                *pAd = (struct rtmp_adapter *)FunctionContext;
 	MLME_DISASSOC_REQ_STRUCT    DisassocReq;
 
 	PAPCLI_STRUCT pApCliEntry;

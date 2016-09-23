@@ -1095,7 +1095,7 @@ void ChannelInfoDestroy(
 	NOTE:
 	==========================================================================
  */
-void CheckPhyModeIsABand(RTMP_ADAPTER *pAd)
+void CheckPhyModeIsABand(struct rtmp_adapter *pAd)
 {
 	pAd->pChannelInfo->IsABand = (WMODE_CAP_5G(pAd->CommonCfg.PhyMode)) ? TRUE : FALSE;
 
@@ -1103,7 +1103,7 @@ void CheckPhyModeIsABand(RTMP_ADAPTER *pAd)
 }
 
 
-UCHAR SelectBestChannel(RTMP_ADAPTER *pAd, ChannelSel_Alg Alg)
+UCHAR SelectBestChannel(struct rtmp_adapter *pAd, ChannelSel_Alg Alg)
 {
 	UCHAR ch = 0;
 
@@ -1135,7 +1135,7 @@ UCHAR SelectBestChannel(RTMP_ADAPTER *pAd, ChannelSel_Alg Alg)
 
 }
 
-VOID APAutoChannelInit(RTMP_ADAPTER *pAd)
+VOID APAutoChannelInit(struct rtmp_adapter *pAd)
 {
 	UINT32 BusyTime;
 
@@ -1172,7 +1172,7 @@ VOID APAutoChannelInit(RTMP_ADAPTER *pAd)
                    Ues the False CCA count and Rssi to choose
 	==========================================================================
  */
-UCHAR APAutoSelectChannel(RTMP_ADAPTER *pAd, ChannelSel_Alg Alg)
+UCHAR APAutoSelectChannel(struct rtmp_adapter *pAd, ChannelSel_Alg Alg)
 {
 	UCHAR ch = 0, i;
 
@@ -1236,7 +1236,7 @@ UCHAR APAutoSelectChannel(RTMP_ADAPTER *pAd, ChannelSel_Alg Alg)
        This function is called in a 1-sec mlme periodic check.
    ==========================================================================
  */
-VOID AutoChannelSelCheck(RTMP_ADAPTER *pAd)
+VOID AutoChannelSelCheck(struct rtmp_adapter *pAd)
 {
    /* Do nothing if ACSCheckTime is not configured or AP is doing site survey */
    if (pAd->ApCfg.ACSCheckTime == 0 || ApScanRunning(pAd))

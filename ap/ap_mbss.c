@@ -67,7 +67,7 @@ Note:
 		it will not work! You must rmmod rt2860ap.ko and lsmod rt2860ap.ko again.
 ========================================================================
 */
-VOID MBSS_Init(RTMP_ADAPTER *pAd, RTMP_OS_NETDEV_OP_HOOK *pNetDevOps)
+VOID MBSS_Init(struct rtmp_adapter *pAd, RTMP_OS_NETDEV_OP_HOOK *pNetDevOps)
 {
 #define MBSS_MAX_DEV_NUM	32
 	struct net_device *pDevNew;
@@ -168,7 +168,7 @@ Note:
     Main BSS is not removed here.
 ========================================================================
 */
-VOID MBSS_Remove(RTMP_ADAPTER *pAd)
+VOID MBSS_Remove(struct rtmp_adapter *pAd)
 {
 	struct wifi_dev *wdev;
 	UINT IdBss;
@@ -207,7 +207,7 @@ Return Value:
 Note:
 ========================================================================
 */
-INT32 RT28xx_MBSS_IdxGet(RTMP_ADAPTER *pAd, struct net_device *pDev)
+INT32 RT28xx_MBSS_IdxGet(struct rtmp_adapter *pAd, struct net_device *pDev)
 {
 	INT32 BssId = -1;
 	INT32 IdBss;

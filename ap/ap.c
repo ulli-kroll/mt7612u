@@ -40,7 +40,7 @@ char const *pEventText[EVENT_MAX_EVENT_TYPE] = {
 	"has disassociated with invalid PSK password"};
 
 
-UCHAR get_apidx_by_addr(RTMP_ADAPTER *pAd, UCHAR *addr)
+UCHAR get_apidx_by_addr(struct rtmp_adapter *pAd, UCHAR *addr)
 {
 	UCHAR apidx;
 
@@ -61,7 +61,7 @@ UCHAR get_apidx_by_addr(RTMP_ADAPTER *pAd, UCHAR *addr)
 		used for wireless client bridging.
 	==========================================================================
  */
-NDIS_STATUS APInitialize(RTMP_ADAPTER *pAd)
+NDIS_STATUS APInitialize(struct rtmp_adapter *pAd)
 {
 	NDIS_STATUS     Status = NDIS_STATUS_SUCCESS;
 	INT				i;
@@ -92,7 +92,7 @@ NDIS_STATUS APInitialize(RTMP_ADAPTER *pAd)
 		Shutdown AP and free AP specific resources
 	==========================================================================
  */
-VOID APShutdown(RTMP_ADAPTER *pAd)
+VOID APShutdown(struct rtmp_adapter *pAd)
 {
 	DBGPRINT(RT_DEBUG_TRACE, ("---> APShutdown\n"));
 /*	if (pAd->OpMode == OPMODE_AP) */
@@ -127,7 +127,7 @@ VOID APShutdown(RTMP_ADAPTER *pAd)
 
 	==========================================================================
  */
-VOID APStartUp(RTMP_ADAPTER *pAd)
+VOID APStartUp(struct rtmp_adapter *pAd)
 {
 	UINT32 i;
 	BOOLEAN bWmmCapable = FALSE;
@@ -787,7 +787,7 @@ VOID APCleanupPsQueue(
 		3. garbage collect PSQ
 	==========================================================================
 */
-VOID MacTableMaintenance(RTMP_ADAPTER *pAd)
+VOID MacTableMaintenance(struct rtmp_adapter *pAd)
 {
 	int i, startWcid;
 #ifdef DOT11_N_SUPPORT
@@ -1339,7 +1339,7 @@ UINT32 MacTableAssocStaNumGet(
 	==========================================================================
 */
 MAC_TABLE_ENTRY *APSsPsInquiry(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN UCHAR *pAddr,
 	OUT SST *Sst,
 	OUT USHORT *Aid,
@@ -1678,7 +1678,7 @@ BOOLEAN ApCheckAccessControlList(
 		will be kicked out immediately.
 	==========================================================================
 */
-VOID ApUpdateAccessControlList(RTMP_ADAPTER *pAd, UCHAR Apidx)
+VOID ApUpdateAccessControlList(struct rtmp_adapter *pAd, UCHAR Apidx)
 {
 	USHORT   AclIdx, MacIdx;
 	BOOLEAN  Matched;
@@ -1832,7 +1832,7 @@ and secondary channel setting.
 
 
 INT GetBssCoexEffectedChRange(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN BSS_COEX_CH_RANGE *pCoexChRange)
 {
 	INT index, cntrCh = 0;
@@ -1940,7 +1940,7 @@ INT GetBssCoexEffectedChRange(
 }
 
 
-VOID APOverlappingBSSScan(RTMP_ADAPTER *pAd)
+VOID APOverlappingBSSScan(struct rtmp_adapter *pAd)
 {
 	BOOLEAN needFallBack = FALSE;
 	UCHAR Channel = pAd->CommonCfg.Channel;

@@ -73,7 +73,7 @@ INT rtmp_get_rxwi_snr(RXWI_STRUC *rxwi, INT size, UCHAR *snr)
 
 static UCHAR *txwi_txop_str[]={"HT_TXOP", "PIFS", "SIFS", "BACKOFF", "Invalid"};
 #define TXWI_TXOP_STR(_x)	((_x) <= 3 ? txwi_txop_str[(_x)]: txwi_txop_str[4])
-VOID dump_rtmp_txwi(RTMP_ADAPTER *pAd, TXWI_STRUC *pTxWI)
+VOID dump_rtmp_txwi(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI)
 {
 	struct _TXWI_OMAC *txwi_o = (struct _TXWI_OMAC *)pTxWI;
 
@@ -107,7 +107,7 @@ VOID dump_rtmp_txwi(RTMP_ADAPTER *pAd, TXWI_STRUC *pTxWI)
 }
 
 
-VOID dump_rtmp_rxwi(RTMP_ADAPTER *pAd, RXWI_STRUC *pRxWI)
+VOID dump_rtmp_rxwi(struct rtmp_adapter *pAd, RXWI_STRUC *pRxWI)
 {
 	struct _RXWI_OMAC *rxwi_o = (struct _RXWI_OMAC *)pRxWI;
 
@@ -139,7 +139,7 @@ VOID dump_rtmp_rxwi(RTMP_ADAPTER *pAd, RXWI_STRUC *pRxWI)
 }
 
 
-VOID rtmp_asic_init_txrx_ring(RTMP_ADAPTER *pAd)
+VOID rtmp_asic_init_txrx_ring(struct rtmp_adapter *pAd)
 {
 	DELAY_INT_CFG_STRUC IntCfg;
 	WPDMA_GLO_CFG_STRUC GloCfg;

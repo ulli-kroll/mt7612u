@@ -47,9 +47,9 @@ extern VOID PollingModeIsr(struct work_struct *work);
 extern void pcieReset(void);
 extern int pcieRegInitConfig(void);
 extern void BBU_PCIE_Init(void);
-extern VOID BBUPollingModeClose(IN RTMP_ADAPTER *pAd);
-extern VOID BBUPollingModeInit(IN RTMP_ADAPTER *pAd);
-extern VOID BBUPollingModeStart(IN RTMP_ADAPTER *pAd);
-extern VOID BBUPrepareMAC(IN RTMP_ADAPTER *pAd, PUCHAR macaddr );
+extern VOID BBUPollingModeClose(IN struct rtmp_adapter *pAd);
+extern VOID BBUPollingModeInit(IN struct rtmp_adapter *pAd);
+extern VOID BBUPollingModeStart(IN struct rtmp_adapter *pAd);
+extern VOID BBUPrepareMAC(IN struct rtmp_adapter *pAd, PUCHAR macaddr );
 #endif
 

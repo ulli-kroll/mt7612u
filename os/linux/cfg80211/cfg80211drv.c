@@ -28,12 +28,12 @@
 #include "rt_config.h"
 
 extern INT RtmpIoctl_rt_ioctl_siwauth(
-	IN      RTMP_ADAPTER                    *pAd,
+	IN      struct rtmp_adapter                    *pAd,
 	IN      VOID                            *pData,
 	IN      ULONG                            Data);
 
 extern INT RtmpIoctl_rt_ioctl_siwauth(
-	IN      RTMP_ADAPTER                    *pAd,
+	IN      struct rtmp_adapter                    *pAd,
 	IN      VOID                            *pData,
 	IN      ULONG                            Data);
 
@@ -469,7 +469,7 @@ VOID CFG80211DRV_OpsChangeBssParm(
 	}
 }
 
-BOOLEAN CFG80211DRV_OpsSetChannel(RTMP_ADAPTER *pAd, VOID *pData)
+BOOLEAN CFG80211DRV_OpsSetChannel(struct rtmp_adapter *pAd, VOID *pData)
 {
 	CMD_RTPRIV_IOCTL_80211_CHAN *pChan;
 	UINT8 ChanId, IfType, ChannelType;
@@ -1737,7 +1737,7 @@ BOOLEAN CFG80211_checkScanTable(
 #endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
 
 //CFG_TODO
-UCHAR CFG80211_getCenCh(RTMP_ADAPTER *pAd, UCHAR prim_ch)
+UCHAR CFG80211_getCenCh(struct rtmp_adapter *pAd, UCHAR prim_ch)
 {
 	UCHAR ret_channel;
 

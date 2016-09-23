@@ -2136,7 +2136,7 @@ BOOLEAN N_ChannelGroupCheck(
 }
 
 
-VOID N_ChannelCheck(RTMP_ADAPTER *pAd)
+VOID N_ChannelCheck(struct rtmp_adapter *pAd)
 {
 	INT idx;
 	UCHAR Channel = pAd->CommonCfg.Channel;
@@ -2206,7 +2206,7 @@ VOID N_ChannelCheck(RTMP_ADAPTER *pAd)
 }
 
 
-UCHAR N_SetCenCh(RTMP_ADAPTER *pAd, UCHAR prim_ch)
+UCHAR N_SetCenCh(struct rtmp_adapter *pAd, UCHAR prim_ch)
 {
 	if (pAd->CommonCfg.RegTransmitSetting.field.BW == BW_40)
 	{

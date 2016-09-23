@@ -877,7 +877,7 @@ static void mt76x2_ITxBFPhaseParams(UCHAR phaseValues[2], int channel, ITXBF_PHA
 		divParams - divider calibration parameters. If NULL then parameters are not returned
 */
 void ITxBFGetEEPROM(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN ITXBF_PHASE_PARAMS *phaseParams,
 	IN ITXBF_LNA_PARAMS *lnaParams,
 	IN ITXBF_DIV_PARAMS *divParams)
@@ -1202,7 +1202,7 @@ void ITxBFSetEEPROM(
 
 #ifdef MT76x2
 VOID mt76x2_ITxBFLoadLNAComp(
-	IN RTMP_ADAPTER *pAd)
+	IN struct rtmp_adapter *pAd)
 {
 	ITXBF_LNA_PARAMS lnaParams;
 	UCHAR lnaValues[3];
@@ -1244,7 +1244,7 @@ VOID mt76x2_ITxBFLoadLNAComp(
 
 
 INT ITxBFDividerCalibrationStartUp(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN int calFunction,
 	IN int calMethod,
 	OUT UCHAR *divPhase)
@@ -1357,7 +1357,7 @@ INT ITxBFDividerCalibrationStartUp(
 
 #ifdef MT76x2
 INT mt76x2_ITxBFDividerCalibration(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN int calFunction,
 	IN int calMethod,
 	OUT UCHAR *divPhase)
@@ -1550,7 +1550,7 @@ exitDivCal:
 
 #ifdef MT76x2
 INT ITxBFLNACalibrationStartUp(
-		IN RTMP_ADAPTER *pAd,
+		IN struct rtmp_adapter *pAd,
 		IN INT calFunction,
 		IN INT calMethod,
 		IN BOOLEAN gBand)
@@ -1716,7 +1716,7 @@ INT    avgPhase32[3];
 UCHAR  MidVGA[2];
 
 INT mt76x2_ITxBFLNACalibration(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN INT calFunction,
 	IN INT calMethod,
 	IN BOOLEAN gBand)
@@ -2095,7 +2095,7 @@ exitLnaCal:
 
 #ifdef MT76x2
 INT ITxBFPhaseCalibrationStartUp(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN INT calFunction,
 	IN USHORT ch)
 {
@@ -2183,7 +2183,7 @@ INT ITxBFPhaseCalibrationStartUp(
 
 
 INT ITxBFPhaseCalibration(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN INT calFunction,
 	IN USHORT ch)
 {

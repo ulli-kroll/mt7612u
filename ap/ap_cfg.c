@@ -504,8 +504,8 @@ INT Show_McastRate(IN struct rtmp_adapter *pAd, IN PSTRING arg);
 #endif /* MCAST_RATE_SPECIFIC */
 
 #ifdef DOT11N_DRAFT3
-INT Set_OBSSScanParam_Proc(RTMP_ADAPTER *pAd, PSTRING arg);
-INT Set_AP2040ReScan_Proc(RTMP_ADAPTER *pAd, PSTRING arg);
+INT Set_OBSSScanParam_Proc(struct rtmp_adapter *pAd, PSTRING arg);
+INT Set_AP2040ReScan_Proc(struct rtmp_adapter *pAd, PSTRING arg);
 #endif /* DOT11N_DRAFT3 */
 
 INT Set_EntryLifeCheck_Proc(
@@ -543,41 +543,41 @@ INT	Set_PowerSaveLifeTime_Proc(
 
 #ifdef DYNAMIC_VGA_SUPPORT
 INT	Set_AP_DyncVgaEnable_Proc(
-	IN RTMP_ADAPTER		*pAd,
+	IN struct rtmp_adapter 	*pAd,
 	IN	PSTRING			arg);
 
 INT set_dynamic_lna_trigger_timer_proc(
-	IN RTMP_ADAPTER		*pAd,
+	IN struct rtmp_adapter 	*pAd,
 	IN PSTRING			arg);
 
-INT set_false_cca_hi_th(RTMP_ADAPTER *pAd, PSTRING arg);
-INT set_false_cca_low_th(RTMP_ADAPTER *pAd, PSTRING arg);
+INT set_false_cca_hi_th(struct rtmp_adapter *pAd, PSTRING arg);
+INT set_false_cca_low_th(struct rtmp_adapter *pAd, PSTRING arg);
 #endif /* DYNAMIC_VGA_SUPPORT */
 
 #ifdef ED_MONITOR
 //let run-time turn on/off
-INT set_ed_chk_proc(RTMP_ADAPTER *pAd, PSTRING arg);
+INT set_ed_chk_proc(struct rtmp_adapter *pAd, PSTRING arg);
 
 #ifdef CONFIG_AP_SUPPORT
-INT set_ed_sta_count_proc(RTMP_ADAPTER *pAd, PSTRING arg);
-INT set_ed_ap_count_proc(RTMP_ADAPTER *pAd, PSTRING arg);
+INT set_ed_sta_count_proc(struct rtmp_adapter *pAd, PSTRING arg);
+INT set_ed_ap_count_proc(struct rtmp_adapter *pAd, PSTRING arg);
 #endif /* CONFIG_AP_SUPPORT */
 
 #ifdef CONFIG_STA_SUPPORT
-INT set_ed_ap_scaned_count_proc(RTMP_ADAPTER *pAd, PSTRING arg);
-INT set_ed_current_ch_ap_proc(RTMP_ADAPTER *pAd, PSTRING arg);
-INT set_ed_current_rssi_threhold_proc(RTMP_ADAPTER *pAd, PSTRING arg);
+INT set_ed_ap_scaned_count_proc(struct rtmp_adapter *pAd, PSTRING arg);
+INT set_ed_current_ch_ap_proc(struct rtmp_adapter *pAd, PSTRING arg);
+INT set_ed_current_rssi_threhold_proc(struct rtmp_adapter *pAd, PSTRING arg);
 #endif /* CONFIG_STA_SUPPORT */
 
-INT set_ed_block_tx_thresh(RTMP_ADAPTER *pAd, PSTRING arg);
-INT set_ed_false_cca_threshold(RTMP_ADAPTER *pAd, PSTRING arg);
-INT set_ed_threshold(RTMP_ADAPTER *pAd, PSTRING arg);
-INT show_ed_stat_proc(RTMP_ADAPTER *pAd, PSTRING arg);
+INT set_ed_block_tx_thresh(struct rtmp_adapter *pAd, PSTRING arg);
+INT set_ed_false_cca_threshold(struct rtmp_adapter *pAd, PSTRING arg);
+INT set_ed_threshold(struct rtmp_adapter *pAd, PSTRING arg);
+INT show_ed_stat_proc(struct rtmp_adapter *pAd, PSTRING arg);
 #endif /* ED_MONITOR */
 
 #ifdef THERMAL_PROTECT_SUPPORT
 INT set_thermal_protection_criteria_proc(
-	IN RTMP_ADAPTER	*pAd,
+	IN struct rtmp_adapter *pAd,
 	IN PSTRING arg);
 #endif /* THERMAL_PROTECT_SUPPORT */
 
@@ -1096,7 +1096,7 @@ static struct {
 
 static struct {
 	PSTRING name;
-	INT (*set_proc)(RTMP_ADAPTER *pAd, PSTRING arg);
+	INT (*set_proc)(struct rtmp_adapter *pAd, PSTRING arg);
 } *PRTMP_PRIVATE_SHOW_PROC, RTMP_PRIVATE_SHOW_SUPPORT_PROC[] = {
 	{"stainfo",			Show_MacTable_Proc},
 	{"stacountinfo",			Show_StaCount_Proc},
@@ -1140,7 +1140,7 @@ static struct {
 
 
 INT RTMPAPPrivIoctlSet(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN RTMP_IOCTL_INPUT_STRUCT *pIoctlCmdStr)
 {
 	PSTRING this_char;
@@ -1184,7 +1184,7 @@ INT RTMPAPPrivIoctlSet(
 
 
 INT RTMPAPPrivIoctlShow(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN RTMP_IOCTL_INPUT_STRUCT *pIoctlCmdStr)
 {
 	PSTRING this_char;
@@ -1322,7 +1322,7 @@ VOID RTMPAPGetAssoMacTable(
 #if defined(INF_AR9) || defined(BB_SOC)
 #if defined(AR9_MAPI_SUPPORT) || defined(BB_SOC)
 INT RTMPAPPrivIoctlAR9Show(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN RTMP_IOCTL_INPUT_STRUCT *pIoctlCmdStr)
 {
 	INT Status = NDIS_STATUS_SUCCESS;
@@ -2750,7 +2750,7 @@ INT RTMPAPSetInformation(
 
 
 INT RTMPAPQueryInformation(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN OUT RTMP_IOCTL_INPUT_STRUCT *rq,
 	IN INT cmd)
 {
@@ -3844,7 +3844,7 @@ INT Set_2G_256QAM_Proc(
         TRUE if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
-INT	Set_AP_SSID_Proc(RTMP_ADAPTER *pAd, PSTRING arg)
+INT	Set_AP_SSID_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	INT success = FALSE;
 	POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
@@ -3928,7 +3928,7 @@ INT Set_TxRate_Proc(
         TRUE if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
-INT Set_BasicRate_Proc(RTMP_ADAPTER *pAd, PSTRING arg)
+INT Set_BasicRate_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
 	ULONG BasicRateBitmap;
@@ -4267,7 +4267,7 @@ INT	Set_VLANID_Proc(
         TRUE if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
-INT	Set_VLANPriority_Proc(RTMP_ADAPTER *pAd, PSTRING arg)
+INT	Set_VLANPriority_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
 	struct wifi_dev *wdev = &pAd->ApCfg.MBSSID[pObj->ioctl_if].wdev;
@@ -4288,7 +4288,7 @@ INT	Set_VLANPriority_Proc(RTMP_ADAPTER *pAd, PSTRING arg)
         TRUE if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
-INT	Set_VLAN_TAG_Proc(RTMP_ADAPTER *pAd, PSTRING arg)
+INT	Set_VLAN_TAG_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	BOOLEAN	bVLAN_Tag;
 	POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
@@ -5666,7 +5666,7 @@ INT Set_AutoChannelSelCheckTime_Proc(
 #endif /* AP_SCAN_SUPPORT */
 
 
-INT Show_DriverInfo_Proc(RTMP_ADAPTER *pAd, PSTRING arg)
+INT Show_DriverInfo_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	DBGPRINT(RT_DEBUG_OFF, ("driver version: %s.\n", AP_DRIVER_VERSION));
 
@@ -5713,7 +5713,7 @@ INT Show_DriverInfo_Proc(RTMP_ADAPTER *pAd, PSTRING arg)
 }
 
 
-INT	Show_StaCount_Proc(RTMP_ADAPTER *pAd, PSTRING arg)
+INT	Show_StaCount_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	INT i;
     	UINT32 RegValue;
@@ -5754,7 +5754,7 @@ INT	Show_StaCount_Proc(RTMP_ADAPTER *pAd, PSTRING arg)
 }
 
 
-INT	Show_StaSecurityInfo_Proc(RTMP_ADAPTER *pAd, PSTRING arg)
+INT	Show_StaSecurityInfo_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	INT i;
 	UCHAR apidx;
@@ -5799,7 +5799,7 @@ INT	Show_StaSecurityInfo_Proc(RTMP_ADAPTER *pAd, PSTRING arg)
 
 
 #ifdef DOT11_N_SUPPORT
-INT	Show_BaTable_Proc(RTMP_ADAPTER *pAd, PSTRING arg)
+INT	Show_BaTable_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	INT i, j;
 	BA_ORI_ENTRY *pOriBAEntry;
@@ -5858,7 +5858,7 @@ INT	Show_BaTable_Proc(RTMP_ADAPTER *pAd, PSTRING arg)
 #endif /* DOT11_N_SUPPORT */
 
 
-INT Show_RAInfo_Proc(RTMP_ADAPTER *pAd, PSTRING arg)
+INT Show_RAInfo_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
 #ifdef PRE_ANT_SWITCH
 	DBGPRINT(RT_DEBUG_OFF, ("PreAntSwitch: %d\n", pAd->CommonCfg.PreAntSwitch));
@@ -6615,7 +6615,7 @@ VOID RTMPIoctlQueryStaAid(
 #if defined(DBG) ||(defined(BB_SOC)&&defined(RALINK_ATE))
 
 #ifdef RT65xx
-VOID RTMPAPIoctlBBP32(RTMP_ADAPTER *pAd, RTMP_IOCTL_INPUT_STRUCT *wrq)
+VOID RTMPAPIoctlBBP32(struct rtmp_adapter *pAd, RTMP_IOCTL_INPUT_STRUCT *wrq)
 {
 	PSTRING				this_char;
 	PSTRING				value;
@@ -7013,7 +7013,7 @@ Arguments:
     ==========================================================================
 */
 VOID RTMPAPIoctlMAC(
-	IN RTMP_ADAPTER *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN RTMP_IOCTL_INPUT_STRUCT *wrq)
 {
 	PSTRING this_char, value;
@@ -7287,7 +7287,7 @@ VOID RTMPAPIoctlRF_mt(
 #endif /* MT_RF */
 
 #ifdef RLT_RF
-VOID RTMPAPIoctlRF_rlt(RTMP_ADAPTER *pAdapter, RTMP_IOCTL_INPUT_STRUCT *wrq)
+VOID RTMPAPIoctlRF_rlt(struct rtmp_adapter *pAdapter, RTMP_IOCTL_INPUT_STRUCT *wrq)
 {
 	UCHAR				regRF = 0;
 	PSTRING				mpool, msg;
@@ -7800,7 +7800,7 @@ Arguments:
                1.) iwpriv ra0 stat 0     	==> Read statistics counter
     ==========================================================================
 */
-VOID RTMPIoctlStatistics(RTMP_ADAPTER *pAd, RTMP_IOCTL_INPUT_STRUCT *wrq)
+VOID RTMPIoctlStatistics(struct rtmp_adapter *pAd, RTMP_IOCTL_INPUT_STRUCT *wrq)
 {
 	INT Status;
 	PSTRING msg;
@@ -8204,7 +8204,7 @@ INT Set_ApCli_Enable_Proc(
 }
 
 
-INT Set_ApCli_Ssid_Proc(RTMP_ADAPTER *pAd, PSTRING arg)
+INT Set_ApCli_Ssid_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	POS_COOKIE pObj;
 	UCHAR ifIndex;
@@ -8339,7 +8339,7 @@ INT Set_ApCli_Bssid_Proc(
         TRUE if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
-INT	Set_ApCli_AuthMode_Proc(RTMP_ADAPTER *pAd, PSTRING arg)
+INT	Set_ApCli_AuthMode_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	ULONG i;
 	POS_COOKIE 	pObj = (POS_COOKIE) pAd->OS_Cookie;
@@ -9839,7 +9839,7 @@ INT	Show_MbssInfo_Display_Proc(
 
 #ifdef HOSTAPD_SUPPORT
 VOID RtmpHostapdSecuritySet(
-	IN	RTMP_ADAPTER			*pAd,
+	IN	struct rtmp_adapter 		*pAd,
 	IN	RTMP_IOCTL_INPUT_STRUCT	*wrqin)
 {
 	if(wrqin->u.data.length > 20 && MAX_LEN_OF_RSNIE > wrqin->u.data.length && wrqin->u.data.pointer)
@@ -10285,7 +10285,7 @@ INT set_thermal_protection_criteria_proc(
 #endif /* THERMAL_PROTECT_SUPPORT */
 
 #ifdef ED_MONITOR
-INT edcca_tx_stop_start(RTMP_ADAPTER *pAd, BOOLEAN stop)
+INT edcca_tx_stop_start(struct rtmp_adapter *pAd, BOOLEAN stop)
 {
 	UINT32 macCfg  = 0, macCfg_2 = 0, macStatus = 0;
 	UINT32 MTxCycle = 0;
@@ -10328,7 +10328,7 @@ INT edcca_tx_stop_start(RTMP_ADAPTER *pAd, BOOLEAN stop)
 	return TRUE;
 }
 
-INT ed_status_read(RTMP_ADAPTER *pAd)
+INT ed_status_read(struct rtmp_adapter *pAd)
 {
 	UINT32 period_us = pAd->ed_chk_period * 1000;
 	ULONG irqflag;
@@ -10420,7 +10420,7 @@ INT ed_status_read(RTMP_ADAPTER *pAd)
 }
 
 /* this function will be called in multi entry */
-INT ed_monitor_exit(RTMP_ADAPTER *pAd)
+INT ed_monitor_exit(struct rtmp_adapter *pAd)
 {
 	ULONG irqflag;
 	BOOLEAN old_ed_tx_stoped, old_ed_chk;
@@ -10462,7 +10462,7 @@ INT ed_monitor_exit(RTMP_ADAPTER *pAd)
 }
 
 /* open & muanl cmd will call */
-INT ed_monitor_init(RTMP_ADAPTER *pAd)
+INT ed_monitor_init(struct rtmp_adapter *pAd)
 {
 	ULONG irqflag;
 
@@ -10492,7 +10492,7 @@ INT ed_monitor_init(RTMP_ADAPTER *pAd)
 	RTMP_CHIP_ASIC_SET_EDCCA(pAd, TRUE);
 }
 
-INT set_ed_block_tx_thresh(RTMP_ADAPTER *pAd, PSTRING arg)
+INT set_ed_block_tx_thresh(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	UINT block_tx_threshold = simple_strtol(arg, 0, 10);
 
@@ -10503,7 +10503,7 @@ INT set_ed_block_tx_thresh(RTMP_ADAPTER *pAd, PSTRING arg)
 	return TRUE;
 }
 
-INT set_ed_threshold(RTMP_ADAPTER *pAd, PSTRING arg)
+INT set_ed_threshold(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	ULONG percent = simple_strtol(arg, 0, 10);
 
@@ -10518,7 +10518,7 @@ INT set_ed_threshold(RTMP_ADAPTER *pAd, PSTRING arg)
 	return TRUE;
 }
 
-INT set_ed_false_cca_threshold(RTMP_ADAPTER *pAd, PSTRING arg)
+INT set_ed_false_cca_threshold(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	ULONG false_cca_threshold = simple_strtol(arg, 0, 10);
 
@@ -10531,7 +10531,7 @@ INT set_ed_false_cca_threshold(RTMP_ADAPTER *pAd, PSTRING arg)
 }
 
 /* let run-time turn on/off */
-INT set_ed_chk_proc(RTMP_ADAPTER *pAd, PSTRING arg)
+INT set_ed_chk_proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	UINT ed_chk = simple_strtol(arg, 0, 10);
 
@@ -10547,7 +10547,7 @@ INT set_ed_chk_proc(RTMP_ADAPTER *pAd, PSTRING arg)
 }
 
 #ifdef CONFIG_AP_SUPPORT
-INT set_ed_sta_count_proc(RTMP_ADAPTER *pAd, PSTRING arg)
+INT set_ed_sta_count_proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	UINT ed_sta_th = simple_strtol(arg, 0, 10);
 
@@ -10559,7 +10559,7 @@ INT set_ed_sta_count_proc(RTMP_ADAPTER *pAd, PSTRING arg)
 	return TRUE;
 }
 
-INT set_ed_ap_count_proc(RTMP_ADAPTER *pAd, PSTRING arg)
+INT set_ed_ap_count_proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	UINT ed_ap_th = simple_strtol(arg, 0, 10);
 
@@ -10573,7 +10573,7 @@ INT set_ed_ap_count_proc(RTMP_ADAPTER *pAd, PSTRING arg)
 #endif /* CONFIG_AP_SUPPORT */
 
 #ifdef CONFIG_STA_SUPPORT
-INT set_ed_ap_scaned_count_proc(RTMP_ADAPTER *pAd, PSTRING arg)
+INT set_ed_ap_scaned_count_proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	UINT ed_ap_scaned = simple_strtol(arg, 0, 10);
 
@@ -10585,7 +10585,7 @@ INT set_ed_ap_scaned_count_proc(RTMP_ADAPTER *pAd, PSTRING arg)
 	return TRUE;
 }
 
-INT set_ed_current_ch_ap_proc(RTMP_ADAPTER *pAd, PSTRING arg)
+INT set_ed_current_ch_ap_proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	UINT ed_current_ch_aps = simple_strtol(arg, 0, 10);
 
@@ -10597,7 +10597,7 @@ INT set_ed_current_ch_ap_proc(RTMP_ADAPTER *pAd, PSTRING arg)
 	return TRUE;
 }
 
-INT set_ed_current_rssi_threhold_proc(RTMP_ADAPTER *pAd, PSTRING arg)
+INT set_ed_current_rssi_threhold_proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	INT ed_rssi_threshold = simple_strtol(arg, 0, 10);
 
@@ -10610,7 +10610,7 @@ INT set_ed_current_rssi_threhold_proc(RTMP_ADAPTER *pAd, PSTRING arg)
 }
 #endif /* CONFIG_STA_SUPPORT */
 
-INT show_ed_stat_proc(RTMP_ADAPTER *pAd, PSTRING arg)
+INT show_ed_stat_proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	unsigned long irqflags;
 	UINT32 ed_stat[ED_STAT_CNT], ed_2nd_stat[ED_STAT_CNT], false_cca_stat[ED_STAT_CNT];
