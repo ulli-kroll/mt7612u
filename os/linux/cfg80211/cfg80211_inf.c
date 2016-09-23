@@ -33,7 +33,6 @@
 #include "rt_os_util.h"
 #include "rt_os_net.h"
 
-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,28))
 #ifdef RT_CFG80211_SUPPORT
 
 extern INT ApCliAllowToSendPacket(
@@ -931,5 +930,4 @@ VOID RTMP_CFG80211_DummyP2pIf_Init(
 }
 #endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
 #endif /* RT_CFG80211_SUPPORT */
-#endif /* LINUX_VERSION_CODE */
 

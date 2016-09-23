@@ -46,16 +46,9 @@ extern ULONG RTDebugFunc;
 
 #define GROUP_KEY_NO                4
 
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,27)
 #define IWE_STREAM_ADD_EVENT(_A, _B, _C, _D, _E)		iwe_stream_add_event(_A, _B, _C, _D, _E)
 #define IWE_STREAM_ADD_POINT(_A, _B, _C, _D, _E)		iwe_stream_add_point(_A, _B, _C, _D, _E)
 #define IWE_STREAM_ADD_VALUE(_A, _B, _C, _D, _E, _F)	iwe_stream_add_value(_A, _B, _C, _D, _E, _F)
-#else
-#define IWE_STREAM_ADD_EVENT(_A, _B, _C, _D, _E)		iwe_stream_add_event(_B, _C, _D, _E)
-#define IWE_STREAM_ADD_POINT(_A, _B, _C, _D, _E)		iwe_stream_add_point(_B, _C, _D, _E)
-#define IWE_STREAM_ADD_VALUE(_A, _B, _C, _D, _E, _F)	iwe_stream_add_value(_B, _C, _D, _E, _F)
-#endif
-
 extern UCHAR    CipherWpa2Template[];
 
 typedef struct GNU_PACKED _RT_VERSION_INFO{
@@ -166,10 +159,8 @@ int rt_ioctl_siwmode(struct net_device *dev,
 		Mode = RTMP_CMD_STA_MODE_ADHOC;
 	else if (*mode == IW_MODE_INFRA)
 		Mode = RTMP_CMD_STA_MODE_INFRA;
-#if (LINUX_VERSION_CODE > KERNEL_VERSION(2,4,20))
 	else if (*mode == IW_MODE_MONITOR)
 		Mode = RTMP_CMD_STA_MODE_MONITOR;
-#endif /* LINUX_VERSION_CODE */
 	else
 	{
 		DBGPRINT(RT_DEBUG_TRACE, ("===>rt_ioctl_siwmode::SIOCSIWMODE (unknown %d)\n", *mode));
@@ -207,7 +198,6 @@ int rt_ioctl_giwmode(struct net_device *dev,
 		*mode = IW_MODE_ADHOC;
 	else if (Mode == RTMP_CMD_STA_MODE_INFRA)
 		*mode = IW_MODE_INFRA;
-#if (LINUX_VERSION_CODE > KERNEL_VERSION(2,4,20))
 	else if (Mode == RTMP_CMD_STA_MODE_MONITOR) {
 		*mode = IW_MODE_MONITOR;
 
@@ -221,7 +211,6 @@ int rt_ioctl_giwmode(struct net_device *dev,
 			dev->type = ARPHRD_IEEE80211_PRISM;
 
 	}
-#endif /* LINUX_VERSION_CODE */
 	else
 		*mode = IW_MODE_AUTO;
 

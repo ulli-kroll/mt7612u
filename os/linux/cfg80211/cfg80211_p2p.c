@@ -103,11 +103,9 @@ VOID CFG80211RemainOnChannelTimeout(
 	{
 		DBGPRINT(RT_DEBUG_TRACE, ("CFG80211_ROC: RemainOnChannelTimeout -- FINISH\n"));
 
-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,34))
         	cfg80211_remain_on_channel_expired( CFG80211_GetEventDevice(pAd),
         		pCfg80211_ctrl->Cfg80211ChanInfo.cookie, pCfg80211_ctrl->Cfg80211ChanInfo.chan,
         		GFP_KERNEL);
-#endif /* LINUX_VERSION_CODE 2.6.34 */
 
 		pCfg80211_ctrl->Cfg80211RocTimerRunning = FALSE;
 	}
@@ -125,10 +123,8 @@ BOOLEAN CFG80211DRV_OpsRemainOnChannel(VOID *pAdOrg, VOID *pData, UINT32 duratio
 
 	pChanInfo = (CMD_RTPRIV_IOCTL_80211_CHAN *) pData;
 
-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,6,0))
         PWIRELESS_DEV pwdev = NULL;
         pwdev = pChanInfo->pWdev;
-#endif /* LINUX_VERSION_CODE: 3.6.0 */
 
 	CFG80211DBG(RT_DEBUG_INFO, ("%s\n", __FUNCTION__));
 
@@ -177,14 +173,7 @@ BOOLEAN CFG80211DRV_OpsRemainOnChannel(VOID *pAdOrg, VOID *pData, UINT32 duratio
 	{
 		DBGPRINT(RT_DEBUG_INFO, ("80211> ComCH == ROC_CH \n"));
 	}
-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,6,0))
         cfg80211_ready_on_channel(pwdev,  pChanInfo->cookie, pChanInfo->chan, duration, GFP_ATOMIC);
-#else
-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,34))
-	cfg80211_ready_on_channel(CFG80211_GetEventDevice(pAd), pChanInfo->cookie,
-				  pChanInfo->chan, pChanInfo->ChanType, duration, GFP_ATOMIC);
-#endif /* LINUX_VERSION_CODE: 2.6.34 */
-#endif /* LINUX_VERSION_CODE: 3.6.0 */
 
 	NdisCopyMemory(&pCfg80211_ctrl->Cfg80211ChanInfo, pChanInfo, sizeof(CMD_RTPRIV_IOCTL_80211_CHAN));
 
@@ -1037,11 +1026,7 @@ VOID CFG80211DRV_P2pClientKeyAdd(VOID *pAdOrg, VOID *pData)
 		BssIdx = pAd->ApCfg.BssidNum + MAX_MESH_NUM + MAIN_MBSSID;
 		pApCliEntry = &pAd->ApCfg.ApCliTab[MAIN_MBSSID];
 		pMacEntry = &pAd->MacTab.Content[pApCliEntry->MacTabWCID];
-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,37))
         	if (pKeyInfo->bPairwise == FALSE )
-#else
-        	if (pKeyInfo->KeyId > 0)
-#endif
 		{
 
 			if (pApCliEntry->wdev.WepStatus == Ndis802_11Encryption3Enabled)

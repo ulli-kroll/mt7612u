@@ -831,11 +831,7 @@ BOOLEAN CFG80211DRV_StaKeyAdd(
 		else if (pAd->StaCfg.wdev.WepStatus == Ndis802_11Encryption3Enabled)
 			IoctlSec.Alg = RT_CMD_STA_IOCTL_SECURITY_ALG_CCMP;
 		IoctlSec.flags = RT_CMD_STA_IOCTL_SECURITY_ENABLED;
-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,37))
 		if (pKeyInfo->bPairwise == FALSE )
-#else
-		if (pKeyInfo->KeyId > 0)
-#endif
 		{
 			if (pAd->StaCfg.GroupCipher == Ndis802_11Encryption2Enabled)
 				IoctlSec.Alg = RT_CMD_STA_IOCTL_SECURITY_ALG_TKIP;
@@ -1678,14 +1674,10 @@ BOOLEAN CFG80211_checkScanTable(
 
 		pBssEntry = &pAd->ScanTab.BssEntry[bss_idx];
 
-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,39))
 		if (pAd->ScanTab.BssEntry[bss_idx].Channel > 14)
 			CenFreq = ieee80211_channel_to_frequency(pBssEntry->Channel , IEEE80211_BAND_5GHZ);
 		else
 			CenFreq = ieee80211_channel_to_frequency(pBssEntry->Channel , IEEE80211_BAND_2GHZ);
-#else
-            CenFreq = ieee80211_channel_to_frequency(pBssEntry->Channel);
-#endif
         	chan = ieee80211_get_channel(pWiphy, CenFreq);
 
 		ieLen = 2 + pApCliEntry->MlmeAux.SsidLen + pBssEntry->VarIeFromProbeRspLen;

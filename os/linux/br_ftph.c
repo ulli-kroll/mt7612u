@@ -146,14 +146,8 @@ UINT32 BG_FTPH_PacketFromApHandle(
 	{
 		if (pNetDev->br_port != NULL)
 		{
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,12)
 			pDstFdbEntry = br_fdb_get_hook(pNetDev->br_port->br, pRxPkt->data);
 			pSrcFdbEntry = br_fdb_get_hook(pNetDev->br_port->br, pRxPkt->data + 6);
-#else
-			/* br_fdb_get is not exported symbol, need exported in net/bridge/br.c */
-			pDstFdbEntry = br_fdb_get(pNetDev->br_port->br, pRxPkt->data);
-			pSrcFdbEntry = br_fdb_get(pNetDev->br_port->br, pRxPkt->data + 6);
-#endif
 
 			/* check destination address in bridge forwarding table */
 			if ((pSrcFdbEntry == NULL) ||

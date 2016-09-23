@@ -93,17 +93,9 @@ static INT CFG80211DRV_UpdateApSettingFromBeacon(struct rtmp_adapter *pAd, UINT 
 	const UCHAR *supp_rates_ie = NULL;
 	const UCHAR *ext_supp_rates_ie = NULL, *ht_cap = NULL, *ht_info = NULL;
 
-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,4,0))
 	const UCHAR CFG_HT_OP_EID = WLAN_EID_HT_OPERATION;
-#else
-	const UCHAR CFG_HT_OP_EID = WLAN_EID_HT_INFORMATION;
-#endif /* LINUX_VERSION_CODE: 3.5.0 */
 
-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,8,0))
 	const UCHAR CFG_WPA_EID = WLAN_EID_VENDOR_SPECIFIC;
-#else
-	const UCHAR CFG_WPA_EID = WLAN_EID_WPA;
-#endif /* LINUX_VERSION_CODE: 3.8.0 */
 
 	ssid_ie = cfg80211_find_ie(WLAN_EID_SSID, pBeacon->beacon_head+36, pBeacon->beacon_head_len-36);
 	supp_rates_ie = cfg80211_find_ie(WLAN_EID_SUPP_RATES, pBeacon->beacon_head+36, pBeacon->beacon_head_len-36);
@@ -129,7 +121,6 @@ static INT CFG80211DRV_UpdateApSettingFromBeacon(struct rtmp_adapter *pAd, UINT 
 		DBGPRINT(RT_DEBUG_TRACE,("CFG : SSID: %s, %d\n", pMbss->Ssid, pMbss->SsidLen));
 	}
 
-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,4,0))
 	if (pBeacon->hidden_ssid > 0 && pBeacon->hidden_ssid < 3) {
 		pMbss->bHideSsid = TRUE;
 	}
@@ -138,7 +129,6 @@ static INT CFG80211DRV_UpdateApSettingFromBeacon(struct rtmp_adapter *pAd, UINT 
 
 	if (pBeacon->hidden_ssid == 1)
 		pMbss->SsidLen = 0;
-#endif /* LINUX_VERSION_CODE 3.4.0 */
 
 	/* WMM EDCA Paramter */
 	CFG80211_SyncPacketWmmIe(pAd, pBeacon->beacon_tail, pBeacon->beacon_tail_len);
@@ -529,11 +519,7 @@ BOOLEAN CFG80211DRV_ApKeyDel(
 
 	pKeyInfo = (CMD_RTPRIV_IOCTL_80211_KEY *)pData;
 
-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,37))
         if (pKeyInfo->bPairwise == FALSE )
-#else
-        if (pKeyInfo->KeyId > 0)
-#endif
 	{
 		DBGPRINT(RT_DEBUG_TRACE,("CFG: AsicRemoveSharedKeyEntry %d\n", pKeyInfo->KeyId));
 		AsicRemoveSharedKeyEntry(pAd, MAIN_MBSSID, pKeyInfo->KeyId);
@@ -651,11 +637,7 @@ BOOLEAN CFG80211DRV_ApKeyAdd(
 		/* AES */
 				//pWdev->WepStatus = Ndis802_11Encryption3Enabled;
 				//pWdev->GroupKeyWepStatus = Ndis802_11Encryption3Enabled;
-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,37))
 		        if (pKeyInfo->bPairwise == FALSE )
-#else
-		        if (pKeyInfo->KeyId > 0)
-#endif	/* LINUX_VERSION_CODE 2.6.37 */
 				{
 					if (pWdev->GroupKeyWepStatus == Ndis802_11Encryption3Enabled)
 					{
@@ -701,11 +683,7 @@ BOOLEAN CFG80211DRV_ApKeyAdd(
 		/* TKIP */
 				//pWdev->WepStatus = Ndis802_11Encryption2Enabled;
 				//pWdev->GroupKeyWepStatus = Ndis802_11Encryption2Enabled;
-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,37))
 		        if (pKeyInfo->bPairwise == FALSE )
-#else
-		        if (pKeyInfo->KeyId > 0)
-#endif	/* LINUX_VERSION_CODE 2.6.37 */
 				{
 					if (pWdev->GroupKeyWepStatus == Ndis802_11Encryption2Enabled)
 					{

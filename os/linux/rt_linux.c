@@ -54,22 +54,6 @@
 #define RT_CONFIG_IF_OPMODE_ON_STA(__OpMode)
 #endif
 
-/*
-	Used for backward compatible with previous linux version which
-	used "net_device->priv" as device driver structure hooking point
-*/
-static inline void netdev_priv_set(struct net_device *dev, void *priv)
-{
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,0)
-#if LINUX_VERSION_CODE < KERNEL_VERSION(2,6,3)
-	dev->priv = priv;
-#endif
-#elif LINUX_VERSION_CODE < KERNEL_VERSION(2,4,27)
-	dev->priv = priv;
-#endif
-}
-
-
 ULONG RTDebugLevel = RT_DEBUG_ERROR;
 ULONG RTDebugFunc = 0;
 
@@ -893,22 +877,12 @@ static inline void __RtmpOSFSInfoChange(OS_FS_INFO * pOSFSInfo, BOOLEAN bSet)
 	if (bSet) {
 		/* Save uid and gid used for filesystem access. */
 		/* Set user and group to 0 (root) */
-#if LINUX_VERSION_CODE < KERNEL_VERSION(2,6,29)
-		pOSFSInfo->fsuid = current->fsuid;
-		pOSFSInfo->fsgid = current->fsgid;
-		current->fsuid = current->fsgid = 0;
-#else
 		pOSFSInfo->fsuid = current_fsuid();
 		pOSFSInfo->fsgid = current_fsgid();
-#endif
 		pOSFSInfo->fs = get_fs();
 		set_fs(KERNEL_DS);
 	} else {
 		set_fs(pOSFSInfo->fs);
-#if LINUX_VERSION_CODE < KERNEL_VERSION(2,6,29)
-		current->fsuid = pOSFSInfo->fsuid;
-		current->fsgid = pOSFSInfo->fsgid;
-#endif
 	}
 }
 
@@ -971,30 +945,11 @@ static inline void __RtmpOSTaskCustomize(OS_TASK *pTask)
 {
 #ifndef KTHREAD_SUPPORT
 
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,5,0)
 	daemonize((PSTRING) & pTask->taskName[0] /*"%s",pAd->net_dev->name */ );
 
 	allow_signal(SIGTERM);
 	allow_signal(SIGKILL);
 	current->flags |= PF_NOFREEZE;
-#else
-	unsigned long flags;
-
-	daemonize();
-	reparent_to_init();
-	strcpy(current->comm, &pTask->taskName[0]);
-
-	siginitsetinv(&current->blocked, sigmask(SIGTERM) | sigmask(SIGKILL));
-
-	/* Allow interception of SIGKILL only
-	 * Don't allow other signals to interrupt the transmission */
-#if LINUX_VERSION_CODE > KERNEL_VERSION(2,4,22)
-	spin_lock_irqsave(&current->sigmask_lock, flags);
-	flush_signals(current);
-	recalc_sigpending(current);
-	spin_unlock_irqrestore(&current->sigmask_lock, flags);
-#endif
-#endif
 
 	RTMP_GET_OS_PID(pTask->taskPID, current->pid);
 
@@ -1095,39 +1050,6 @@ BOOLEAN __RtmpOSTaskWait(
 
 	return TRUE;
 }
-
-
-#if LINUX_VERSION_CODE <= 0x20402	/* Red Hat 7.1 */
-struct net_device *alloc_netdev(
-	int sizeof_priv,
-	const char *mask,
-	void (*setup) (struct net_device *))
-{
-	struct net_device *dev;
-	INT alloc_size;
-
-	/* ensure 32-byte alignment of the private area */
-	alloc_size = sizeof (*dev) + sizeof_priv + 31;
-
-	dev = (struct net_device *)kmalloc(alloc_size, GFP_KERNEL);
-	if (dev == NULL) {
-		DBGPRINT(RT_DEBUG_ERROR,
-			 ("alloc_netdev: Unable to allocate device memory.\n"));
-		return NULL;
-	}
-
-	memset(dev, 0, alloc_size);
-
-	if (sizeof_priv)
-		dev->priv = (void *)(((long)(dev + 1) + 31) & ~31);
-
-	setup(dev);
-	strcpy(dev->name, mask);
-
-	return dev;
-}
-#endif /* LINUX_VERSION_CODE */
-
 
 static UINT32 RtmpOSWirelessEventTranslate(IN UINT32 eventType)
 {
@@ -1498,11 +1420,7 @@ void RtmpOSNetDevFree(struct net_device *pNetDev)
 {
 	ASSERT(pNetDev);
 
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,5,0)
 	free_netdev(pNetDev);
-#else
-	kfree(pNetDev);
-#endif
 
 #ifdef VENDOR_FEATURE4_SUPPORT
 	printk("OS_NumOfMemAlloc = %ld, OS_NumOfMemFree = %ld\n",
@@ -1523,11 +1441,7 @@ INT RtmpOSNetDevAlloc(
 	DBGPRINT(RT_DEBUG_TRACE,
 		 ("Allocate a net device with private data size=%d!\n",
 		  privDataSize));
-#if LINUX_VERSION_CODE <= 0x20402	/* Red Hat 7.1 */
-	*new_dev_p = alloc_netdev(privDataSize, "eth%d", ether_setup);
-#else
 	*new_dev_p = alloc_etherdev(privDataSize);
-#endif /* LINUX_VERSION_CODE */
 
 	if (*new_dev_p)
 		return NDIS_STATUS_SUCCESS;
@@ -1536,7 +1450,6 @@ INT RtmpOSNetDevAlloc(
 }
 
 
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,31)
 INT RtmpOSNetDevOpsAlloc(PVOID *pNetDevOps)
 {
 	*pNetDevOps = (PVOID) vmalloc(sizeof (struct net_device_ops));
@@ -1547,38 +1460,12 @@ INT RtmpOSNetDevOpsAlloc(PVOID *pNetDevOps)
 		return NDIS_STATUS_FAILURE;
 	}
 }
-#endif
-
 
 struct net_device *RtmpOSNetDevGetByName(struct net_device *pNetDev, PSTRING pDevName)
 {
 	struct net_device *pTargetNetDev = NULL;
 
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,5,0)
-
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,24)
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,26)
 	pTargetNetDev = dev_get_by_name(dev_net(pNetDev), pDevName);
-#else
-	ASSERT(pNetDev);
-	pTargetNetDev = dev_get_by_name(pNetDev->nd_net, pDevName);
-#endif
-#else
-	pTargetNetDev = dev_get_by_name(pDevName);
-#endif /* KERNEL_VERSION(2,6,24) */
-
-#else
-	int devNameLen;
-
-	devNameLen = strlen(pDevName);
-	ASSERT((devNameLen <= IFNAMSIZ));
-
-	for (pTargetNetDev = dev_base; pTargetNetDev != NULL;
-	     pTargetNetDev = pTargetNetDev->next) {
-		if (strncmp(pTargetNetDev->name, pDevName, devNameLen) == 0)
-			break;
-	}
-#endif /* KERNEL_VERSION(2,5,0) */
 
 	return pTargetNetDev;
 }
@@ -1586,7 +1473,6 @@ struct net_device *RtmpOSNetDevGetByName(struct net_device *pNetDev, PSTRING pDe
 
 void RtmpOSNetDeviceRefPut(struct net_device *pNetDev)
 {
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,5,0)
 	/*
 	   every time dev_get_by_name is called, and it has returned a valid struct
 	   net_device*, dev_put should be called afterwards, because otherwise the
@@ -1594,7 +1480,6 @@ void RtmpOSNetDeviceRefPut(struct net_device *pNetDev)
 	 */
 	if (pNetDev)
 		dev_put(pNetDev);
-#endif /* LINUX_VERSION_CODE */
 }
 
 
@@ -1610,15 +1495,11 @@ INT RtmpOSNetDevDestory(VOID *pReserved, struct net_device *pNetDev)
 
 void RtmpOSNetDevDetach(struct net_device *pNetDev)
 {
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,31)
 	struct net_device_ops *pNetDevOps = (struct net_device_ops *)pNetDev->netdev_ops;
-#endif
 
 	unregister_netdevice(pNetDev);
 
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,31)
 	vfree(pNetDevOps);
-#endif
 }
 
 
@@ -1631,7 +1512,6 @@ void RtmpOSNetDevProtect(BOOLEAN lock_it)
 
 }
 
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,18)
 static void RALINK_ET_DrvInfoGet(
 	struct net_device *pDev,
 	struct ethtool_drvinfo *pInfo)
@@ -1645,8 +1525,6 @@ static void RALINK_ET_DrvInfoGet(
 static struct ethtool_ops RALINK_Ethtool_Ops = {
 	.get_drvinfo = RALINK_ET_DrvInfoGet,
 };
-#endif
-
 
 int RtmpOSNetDevAttach(
 	IN UCHAR OpMode,
@@ -1656,41 +1534,24 @@ int RtmpOSNetDevAttach(
 	int ret,
 	 rtnl_locked = FALSE;
 
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,31)
 	struct net_device_ops *pNetDevOps = (struct net_device_ops *)pNetDev->netdev_ops;
-#endif
 
 	DBGPRINT(RT_DEBUG_TRACE, ("RtmpOSNetDevAttach()--->\n"));
 
 	/* If we need hook some callback function to the net device structrue, now do it. */
 	if (pDevOpHook) {
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,31)
 		pNetDevOps->ndo_open = pDevOpHook->open;
 		pNetDevOps->ndo_stop = pDevOpHook->stop;
 		pNetDevOps->ndo_start_xmit =
 		    (HARD_START_XMIT_FUNC) (pDevOpHook->xmit);
 		pNetDevOps->ndo_do_ioctl = pDevOpHook->ioctl;
-#else
-		pNetDev->open = pDevOpHook->open;
-		pNetDev->stop = pDevOpHook->stop;
-		pNetDev->hard_start_xmit =
-		    (HARD_START_XMIT_FUNC) (pDevOpHook->xmit);
-		pNetDev->do_ioctl = pDevOpHook->ioctl;
-#endif
-
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,18)
 		pNetDev->ethtool_ops = &RALINK_Ethtool_Ops;
-#endif
 
 		/* if you don't implement get_stats, just leave the callback function as NULL, a dummy
 		   function will make kernel panic.
 		 */
 		if (pDevOpHook->get_stats)
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,31)
 			pNetDevOps->ndo_get_stats = pDevOpHook->get_stats;
-#else
-			pNetDev->get_stats = pDevOpHook->get_stats;
-#endif
 
 		/* OS specific flags, here we used to indicate if we are virtual interface */
 /*		pNetDev->priv_flags = pDevOpHook->priv_flags; */
@@ -1726,14 +1587,8 @@ int RtmpOSNetDevAttach(
 		rtnl_locked = pDevOpHook->needProtcted;
 	}
 
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,24)
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,31)
 	pNetDevOps->ndo_validate_addr = NULL;
 	/*pNetDev->netdev_ops = ops; */
-#else
-	pNetDev->validate_addr = NULL;
-#endif
-#endif
 
 	if (rtnl_locked)
 		ret = register_netdevice(pNetDev);
@@ -1759,9 +1614,7 @@ struct net_device *RtmpOSNetDevCreate(
 	IN PSTRING pNamePrefix)
 {
 	struct net_device *pNetDev = NULL;
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,31)
 	struct net_device_ops *pNetDevOps = NULL;
-#endif
 	int status;
 
 	/* allocate a new network device */
@@ -1770,8 +1623,8 @@ struct net_device *RtmpOSNetDevCreate(
 		DBGPRINT(RT_DEBUG_ERROR, ("Allocate network device fail (%s)...\n", pNamePrefix));
 		return NULL;
 	}
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,31)
 	status = RtmpOSNetDevOpsAlloc((PVOID) & pNetDevOps);
+
 	if (status != NDIS_STATUS_SUCCESS) {
 		DBGPRINT(RT_DEBUG_TRACE, ("Allocate net device ops fail!\n"));
 		RtmpOSNetDevFree(pNetDev);
@@ -1781,7 +1634,7 @@ struct net_device *RtmpOSNetDevCreate(
 		DBGPRINT(RT_DEBUG_TRACE, ("Allocate net device ops success!\n"));
 		pNetDev->netdev_ops = pNetDevOps;
 	}
-#endif
+
 	/* find a available interface name, max 32 interfaces */
 	status = RtmpOSNetDevRequestName(MC_RowID, pIoctlIF, pNetDev, pNamePrefix, devNum);
 	if (status != NDIS_STATUS_SUCCESS) {
@@ -2362,11 +2215,7 @@ INT RtmpOSNotifyRawData(
 		memcpy(skb_put(skb, len), buff, len);
 		skb->len = len;
 		skb->dev = pNetDev;
-#if (LINUX_VERSION_CODE <= KERNEL_VERSION(2,6,21))
-		skb->mac.raw = skb->data;
-#else
 		skb_set_mac_header(skb, 0);
-#endif
 		skb->ip_summed = CHECKSUM_UNNECESSARY;
 		skb->pkt_type = PACKET_OTHERHOST;
 		skb->protocol = htons(protocol);
