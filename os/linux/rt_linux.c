@@ -54,21 +54,6 @@
 #define RT_CONFIG_IF_OPMODE_ON_STA(__OpMode)
 #endif
 
-
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,0)
-#if LINUX_VERSION_CODE < KERNEL_VERSION(2,6,3)
-static inline void *netdev_priv(struct net_device *dev)
-{
-	return dev->priv;
-}
-#endif
-#elif LINUX_VERSION_CODE < KERNEL_VERSION(2,4,27)
-static inline void *netdev_priv(struct net_device *dev)
-{
-	return dev->priv;
-}
-#endif
-
 /*
 	Used for backward compatible with previous linux version which
 	used "net_device->priv" as device driver structure hooking point
