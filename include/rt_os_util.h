@@ -424,14 +424,14 @@ VOID RtmpOsAtomicInterlockedExchange(RTMP_OS_ATOMIC *pAtomicSrc, LONG Value);
 void hex_dump(char *str, unsigned char *pSrcBufVA, unsigned int SrcBufLen);
 
 typedef VOID (*RTMP_OS_SEND_WLAN_EVENT)(
-	IN	VOID					*pAdSrc,
+	IN	struct rtmp_adapter			*pAdSrc,
 	IN	USHORT					Event_flag,
 	IN	PUCHAR 					pAddr,
 	IN  UCHAR					BssIdx,
 	IN	CHAR					Rssi);
 
 VOID RtmpOsSendWirelessEvent(
-	IN	VOID			*pAd,
+	IN	struct rtmp_adapter	*pAd,
 	IN	USHORT			Event_flag,
 	IN	PUCHAR 			pAddr,
 	IN	UCHAR			BssIdx,

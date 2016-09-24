@@ -779,7 +779,7 @@ void hex_dump(char *str, UCHAR *pSrcBufVA, UINT SrcBufLen)
 	========================================================================
 */
 VOID RtmpOsSendWirelessEvent(
-	IN VOID *pAd,
+	IN struct rtmp_adapter *pAd,
 	IN USHORT Event_flag,
 	IN PUCHAR pAddr,
 	IN UCHAR BssIdx,
