@@ -5128,7 +5128,7 @@ NDIS_STATUS rtmp_rf_read(
 	IN UCHAR regID,
 	IN UCHAR *pValue);
 
-VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd, PSTRING mac_addr);
+VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd);
 VOID NICInitAsicFromEEPROM(struct rtmp_adapter *pAd);
 
 NDIS_STATUS NICInitializeAdapter(struct rtmp_adapter *pAd, BOOLEAN bHardReset);

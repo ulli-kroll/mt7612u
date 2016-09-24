@@ -295,7 +295,7 @@ BOOLEAN RTMPCheckPhyMode(struct rtmp_adapter *pAd, UINT8 band_cap, UCHAR *pPhyMo
 
 	========================================================================
 */
-VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd, PSTRING mac_addr)
+VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 {
 	USHORT i, value, value2;
 	EEPROM_TX_PWR_STRUC Power;
@@ -349,22 +349,6 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd, PSTRING mac_addr)
 		COPY_MAC_ADDR(pAd->PermanentAddress, pAd->CurrentAddress);
 		printk("now bb MainSsid mac %02x:%02x:%02x:%02x:%02x:%02x\n",PRINT_MAC(pAd->CurrentAddress));
 #endif
-	}
-	else if (mac_addr &&
-			 strlen((PSTRING)mac_addr) == 17 &&
-			 (strcmp(mac_addr, "00:00:00:00:00:00") != 0))
-	{
-		INT j;
-		PSTRING	macptr;
-
-		macptr = (PSTRING) mac_addr;
-		for (j=0; j<MAC_ADDR_LEN; j++)
-		{
-			AtoH(macptr, &pAd->CurrentAddress[j], 1);
-			macptr=macptr+3;
-		}
-
-		DBGPRINT(RT_DEBUG_TRACE, ("Use the MAC address what is assigned from Moudle Parameter. \n"));
 	}
 	else
 	{

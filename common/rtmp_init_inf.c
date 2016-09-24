@@ -35,7 +35,7 @@ NDIS_STATUS WriteDatThread(struct rtmp_adapter *pAd);
 #endif /* PROFILE_STORE */
 #endif /* CONFIG_STA_SUPPORT */
 
-int rt28xx_init(VOID *pAdSrc, PSTRING pDefaultMac, PSTRING pHostName)
+int rt28xx_init(VOID *pAdSrc, PSTRING pHostName)
 {
 	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdSrc;
 	NDIS_STATUS Status;
@@ -163,7 +163,7 @@ int rt28xx_init(VOID *pAdSrc, PSTRING pDefaultMac, PSTRING pHostName)
 	DBGPRINT(RT_DEBUG_OFF, ("1. Phy Mode = %d\n", pAd->CommonCfg.PhyMode));
 
 	/* We should read EEPROM for all cases */
-	NICReadEEPROMParameters(pAd, (PSTRING)pDefaultMac);
+	NICReadEEPROMParameters(pAd);
 #ifdef CONFIG_STA_SUPPORT
 #endif /* CONFIG_STA_SUPPORT */
 	DBGPRINT(RT_DEBUG_OFF, ("2. Phy Mode = %d\n", pAd->CommonCfg.PhyMode));

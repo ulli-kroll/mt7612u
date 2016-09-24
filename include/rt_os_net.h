@@ -107,7 +107,6 @@ VOID RTMPInfClose(VOID *pAd);
 
 int rt28xx_init(
 	IN VOID						*pAd,
-	IN PSTRING					pDefaultMac,
 	IN PSTRING					pHostName);
 
 struct net_device *RtmpPhyNetDevMainCreate(VOID *pAd);

@@ -45,13 +45,10 @@
 /* Private Variables Used                                              */
 /*---------------------------------------------------------------------*/
 
-PSTRING mac = "";		/* default 00:00:00:00:00:00 */
 PSTRING mode = "";		/* supported mode: normal/ate/monitor;  default: normal */
 PSTRING hostname = "";	/* default CMPC */
 
-module_param (mac, charp, 0);
 module_param(mode, charp, 0);
-MODULE_PARM_DESC (mac, "rt_wifi: wireless mac addr");
 MODULE_PARM_DESC (mode, "rt_wifi: wireless operation mode");
 
 /*---------------------------------------------------------------------*/
@@ -309,7 +306,7 @@ int rt28xx_open(VOID *dev)
 	RTMP_DRIVER_IRQ_INIT(pAd);
 
 	/* Chip & other init */
-	if (rt28xx_init(pAd, mac, hostname) == FALSE)
+	if (rt28xx_init(pAd, hostname) == FALSE)
 		goto err;
 
 #ifdef MBSS_SUPPORT
