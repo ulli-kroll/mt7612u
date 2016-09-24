@@ -217,7 +217,7 @@ static VOID APPeerAuthReqAtIdleAction(
 	MAC_TABLE_ENTRY *pEntry;
 	UCHAR ChTxtIe = 16, ChTxtLen = CIPHER_TEXT_LEN;
 	MULTISSID_STRUCT *pMbss;
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 	CHAR rssi;
 
 

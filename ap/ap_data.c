@@ -34,7 +34,7 @@
 
 INT ApAllowToSendPacket(
 	IN struct rtmp_adapter *pAd,
-	IN struct wifi_dev *wdev,
+	IN struct rtmp_wifi_dev *wdev,
 	IN struct sk_buff *pPacket,
 	IN UCHAR *pWcid)
 {
@@ -166,7 +166,7 @@ INT APSendPacket(struct rtmp_adapter *pAd, struct sk_buff *pPacket)
 	UCHAR Wcid;
 	unsigned long IrqFlags;
 	MAC_TABLE_ENTRY *pMacEntry = NULL;
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 
 #ifdef APCLI_SUPPORT
 	PAPCLI_STRUCT pApCliEntry = NULL;
@@ -443,7 +443,7 @@ static inline VOID APFindCipherAlgorithm(struct rtmp_adapter *pAd, TX_BLK *pTxBl
 	UCHAR RAWcid = pTxBlk->Wcid;
 	MAC_TABLE_ENTRY *pMacEntry = pTxBlk->pMacEntry;
 	MULTISSID_STRUCT *pMbss;
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 
 	pMbss = &pAd->ApCfg.MBSSID[apidx];
 	wdev = &pMbss->wdev;
@@ -2877,7 +2877,7 @@ VOID AP_NDPA_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 {
 	UCHAR *buf;
 	VHT_NDPA_FRAME *vht_ndpa;
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 	UINT frm_len, sta_cnt;
 	SNDING_STA_INFO *sta_info;
 	MAC_TABLE_ENTRY *pMacEntry;
@@ -5023,7 +5023,7 @@ VOID ApCliRTMPSendNullFrame(
 	ULONG	Length;
 	PHEADER_802_11	pHeader_802_11;
 	PAPCLI_STRUCT pApCliEntry = NULL;
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 
 	pApCliEntry = &pAd->ApCfg.ApCliTab[pMacEntry->wdev_idx];
 	wdev = &pApCliEntry->wdev;

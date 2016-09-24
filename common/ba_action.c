@@ -1455,7 +1455,7 @@ BOOLEAN CntlEnqueueForRecv(
 /* Description : Send SMPS Action frame If SMPS mode switches. */
 VOID SendSMPSAction(struct rtmp_adapter *pAd, UCHAR Wcid, UCHAR smps)
 {
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 	MAC_TABLE_ENTRY *pEntry;
 	UCHAR *pOutBuffer = NULL;
 	NDIS_STATUS NStatus;

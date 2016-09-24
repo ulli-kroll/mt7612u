@@ -1418,7 +1418,7 @@ VOID MlmeSetTxRate(
 	IN MAC_TABLE_ENTRY *pEntry,
 	IN RTMP_RA_LEGACY_TB *pTxRate)
 {
-	struct wifi_dev *wdev = &pAd->StaCfg.wdev;
+	struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
 	UCHAR	MaxMode = MODE_OFDM;
 	UCHAR tx_mode = pTxRate->Mode;
 	UCHAR tx_bw = pTxRate->BW;

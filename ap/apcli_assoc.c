@@ -203,7 +203,7 @@ static VOID ApCliMlmeAssocReqAction(
 #endif /* WPA_SUPPLICANT_SUPPORT */
 	UCHAR RSNIe = IE_WPA;
 	APCLI_STRUCT *apcli_entry;
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 
 	if ((ifIndex >= MAX_APCLI_NUM)
 		)

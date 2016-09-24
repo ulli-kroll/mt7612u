@@ -319,7 +319,7 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 	BOOLEAN bHasWpsIE = FALSE;
 	UINT  i;
 	HTTRANSMIT_SETTING	BeaconTransmit = {.word = 0};   /* MGMT frame PHY rate setting when operatin at Ht rate. */
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 #ifdef SPECIFIC_TX_POWER_SUPPORT
 	UCHAR TxPwrAdj = 0;
 #endif /* SPECIFIC_TX_POWER_SUPPORT */

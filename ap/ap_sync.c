@@ -54,7 +54,7 @@ VOID APPeerProbeReqAction(
 	UCHAR apidx = 0, PhyMode, SupRateLen;
 	UCHAR RSNIe=IE_WPA, RSNIe2=IE_WPA2;
 	MULTISSID_STRUCT *mbss;
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 	CHAR rssi = 0, idx = 0;
 
 

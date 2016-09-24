@@ -37,7 +37,7 @@ static void ap_assoc_info_debugshow(
 #ifdef DBG
 	PUCHAR	sAssoc = isReassoc ? (PUCHAR)"ReASSOC" : (PUCHAR)"ASSOC";
 #endif /* DBG */
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 
 	wdev = &pAd->ApCfg.MBSSID[pEntry->apidx].wdev;
 	DBGPRINT(RT_DEBUG_TRACE, ("%s - \n\tAssign AID=%d to STA %02x:%02x:%02x:%02x:%02x:%02x\n",
@@ -110,7 +110,7 @@ static USHORT update_associated_mac_entry(
 	IN IE_LISTS *ie_list,
 	IN UCHAR MaxSupportedRate)
 {
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 #ifdef TXBF_SUPPORT
 	BOOLEAN	 supportsETxBF = FALSE;
 #endif // TXBF_SUPPORT //
@@ -529,7 +529,7 @@ static USHORT APBuildAssociation(
 {
 	USHORT StatusCode = MLME_SUCCESS;
 	UCHAR MaxSupportedRate = RATE_11;
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 
 	MaxSupportedRate = dot11_2_ra_rate(MaxSupportedRateIn500Kbps);
 
@@ -662,7 +662,7 @@ VOID ap_cmm_peer_assoc_req_action(
 	PUINT8 pPmkid = NULL;
 	UINT8 pmkid_count = 0;
 #endif /* DOT1X_SUPPORT */
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 	MULTISSID_STRUCT *pMbss;
     BOOLEAN bAssocSkip = FALSE;
 	BOOLEAN bAssocNoRsp = FALSE;
@@ -1431,7 +1431,7 @@ VOID APPeerDisassocReqAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 	USHORT Reason;
 	UINT16 SeqNum;
 	MAC_TABLE_ENTRY *pEntry;
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("ASSOC - 1 receive DIS-ASSOC request \n"));
 	if (! PeerDisassocReqSanity(pAd, Elem->Msg, Elem->MsgLen, Addr2, &SeqNum, &Reason))

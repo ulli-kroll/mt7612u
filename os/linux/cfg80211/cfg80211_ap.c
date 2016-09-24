@@ -83,7 +83,7 @@ static INT CFG80211DRV_UpdateTimIE(struct rtmp_adapter *pAd, UINT mbss_idx, PUCH
 static INT CFG80211DRV_UpdateApSettingFromBeacon(struct rtmp_adapter *pAd, UINT mbss_idx, CMD_RTPRIV_IOCTL_80211_BEACON *pBeacon)
 {
 	PMULTISSID_STRUCT pMbss = &pAd->ApCfg.MBSSID[mbss_idx];
-	struct wifi_dev *wdev = &pMbss->wdev;
+	struct rtmp_wifi_dev *wdev = &pMbss->wdev;
 
 	const UCHAR *ssid_ie = NULL, *wpa_ie = NULL, *rsn_ie = NULL;
 	const UINT WFA_OUI = 0x0050F2;
@@ -161,7 +161,7 @@ VOID CFG80211DRV_DisableApInterface(struct rtmp_adapter *pAd)
 {
 	/*CFG_TODO: IT Should be set fRTMP_ADAPTER_HALT_IN_PROGRESS */
 	MULTISSID_STRUCT *pMbss = &pAd->ApCfg.MBSSID[MAIN_MBSSID];
-	struct wifi_dev *wdev = &pMbss->wdev;
+	struct rtmp_wifi_dev *wdev = &pMbss->wdev;
 
 	pAd->ApCfg.MBSSID[MAIN_MBSSID].bBcnSntReq = FALSE;
 	wdev->Hostapd = Hostapd_Diable;
@@ -310,7 +310,7 @@ BOOLEAN CFG80211DRV_OpsBeaconAdd(VOID *pAdOrg, VOID *pData)
 	BOOLEAN Cancelled;
 	INT i;
 	PMULTISSID_STRUCT pMbss = &pAd->ApCfg.MBSSID[MAIN_MBSSID];
-	struct wifi_dev *wdev = &pMbss->wdev;
+	struct rtmp_wifi_dev *wdev = &pMbss->wdev;
 
 	CFG80211DBG(RT_DEBUG_TRACE, ("80211> %s ==>\n", __FUNCTION__));
 #ifdef RTMP_MAC_USB
@@ -599,7 +599,7 @@ BOOLEAN CFG80211DRV_ApKeyAdd(
     CMD_RTPRIV_IOCTL_80211_KEY *pKeyInfo;
 	MAC_TABLE_ENTRY *pEntry;
 	PMULTISSID_STRUCT pMbss = &pAd->ApCfg.MBSSID[MAIN_MBSSID];
-	struct wifi_dev *pWdev = &pMbss->wdev;
+	struct rtmp_wifi_dev *pWdev = &pMbss->wdev;
 	UINT8 Wcid;
 #ifdef RT_CFG80211_SUPPORT
 	UINT apidx = MAIN_MBSSID;

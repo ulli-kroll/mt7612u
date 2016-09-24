@@ -162,7 +162,7 @@ INT RTMPCheckRxError(
 
 INT StaAllowToSendPacket(
 	struct rtmp_adapter *pAd,
-	struct wifi_dev *wdev,
+	struct rtmp_wifi_dev *wdev,
 	struct sk_buff *pPacket,
 	UCHAR *pWcid)
 {
@@ -204,7 +204,7 @@ INT StaAllowToSendPacket(
 
 INT StaAllowToSendPacket_new(
 	IN struct rtmp_adapter *pAd,
-	IN struct wifi_dev *wdev,
+	IN struct rtmp_wifi_dev *wdev,
 	IN struct sk_buff *pPacket,
 	IN UCHAR *pWcid)
 {
@@ -233,7 +233,7 @@ INT StaAllowToSendPacket_new(
 
 INT STAInitialize(struct rtmp_adapter *pAd)
 {
-	struct wifi_dev *wdev = &pAd->StaCfg.wdev;
+	struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
 
 	wdev->wdev_type = WDEV_TYPE_STA;
 	wdev->tx_pkt_allowed = StaAllowToSendPacket;

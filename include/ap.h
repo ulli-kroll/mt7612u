@@ -60,7 +60,7 @@ BOOLEAN APBridgeToWirelessSta(
 
 INT ApAllowToSendPacket(
 	IN struct rtmp_adapter *pAd,
-	IN struct wifi_dev *wdev,
+	IN struct rtmp_wifi_dev *wdev,
 	IN struct sk_buff *pPacket,
 	OUT UCHAR *pWcid);
 

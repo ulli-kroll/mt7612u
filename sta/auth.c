@@ -135,7 +135,7 @@ VOID PeerAuthRspAtSeq2Action(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM * Elem)
 						    MT2_AUTH_CONF, 2, &Status,
 						    0);
 				} else {
-					struct wifi_dev *wdev = &pAd->StaCfg.wdev;
+					struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
 					/* 2. shared key, need to be challenged */
 					Seq++;
 					RemoteStatus = MLME_SUCCESS;

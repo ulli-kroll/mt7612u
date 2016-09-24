@@ -159,7 +159,7 @@ VOID APStartUp(struct rtmp_adapter *pAd)
 	for (idx = 0; idx < pAd->ApCfg.BssidNum; idx++)
 	{
 		MULTISSID_STRUCT *pMbss = &pAd->ApCfg.MBSSID[idx];
-		struct wifi_dev *wdev = &pMbss->wdev;
+		struct rtmp_wifi_dev *wdev = &pMbss->wdev;
 
 		if ((pMbss->SsidLen <= 0) || (pMbss->SsidLen > MAX_LEN_OF_SSID))
 		{
@@ -489,7 +489,7 @@ DBGPRINT(RT_DEBUG_OFF, ("%s(): AP Set CentralFreq at %d(Prim=%d, HT-CentCh=%d, V
 	{
 		USHORT Wcid = 0;
 		MULTISSID_STRUCT *pMbss = &pAd->ApCfg.MBSSID[idx];
-		struct wifi_dev *wdev = &pAd->ApCfg.MBSSID[idx].wdev;
+		struct rtmp_wifi_dev *wdev = &pAd->ApCfg.MBSSID[idx].wdev;
 
 		wdev->PortSecured = WPA_802_1X_PORT_NOT_SECURED;
 		if (IS_WPA_CAPABILITY(wdev->AuthMode))

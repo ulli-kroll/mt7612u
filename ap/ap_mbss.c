@@ -92,7 +92,7 @@ VOID MBSS_Init(struct rtmp_adapter *pAd, RTMP_OS_NETDEV_OP_HOOK *pNetDevOps)
 	/* create virtual network interface */
 	for(IdBss=FIRST_MBSSID; IdBss<MaxNumBss; IdBss++)
 	{
-		struct wifi_dev *wdev;
+		struct rtmp_wifi_dev *wdev;
 		UINT32 MC_RowID = 0, IoctlIF = 0;
 		char *dev_name;
 #ifdef MULTIPLE_CARD_SUPPORT
@@ -170,7 +170,7 @@ Note:
 */
 VOID MBSS_Remove(struct rtmp_adapter *pAd)
 {
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 	UINT IdBss;
 
 

@@ -192,7 +192,7 @@ VOID MlmeAssocReqAction(
 	/* check sanity first */
 	else if (MlmeAssocReqSanity(pAd, Elem->Msg, Elem->MsgLen, ApAddr, &CapabilityInfo, &Timeout, &ListenIntv))
 	{
-		struct wifi_dev *wdev = &pAd->StaCfg.wdev;
+		struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
 
 		/*for dhcp,issue ,wpa_supplicant ioctl too fast , at link_up, it will add key before driver remove key  */
 		RTMPWPARemoveAllKeys(pAd);
@@ -1304,7 +1304,7 @@ VOID AssocPostProc(
 	if (Idx == BSS_NOT_FOUND) {
 		DBGPRINT_ERR(("ASSOC - Can't find BSS after receiving Assoc response\n"));
 	} else {
-		struct wifi_dev *wdev = &pAd->StaCfg.wdev;
+		struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
 		/* Init variable */
 		pEntry->RSNIE_Len = 0;
 		NdisZeroMemory(pEntry->RSN_IE, MAX_LEN_OF_RSNIE);

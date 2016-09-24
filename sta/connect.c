@@ -427,7 +427,7 @@ VOID CntlOidSsidProc(
 			Case 1. already connected with an AP who has the desired SSID
 					with highest RSSI
 		*/
-		struct wifi_dev *wdev = &pAd->StaCfg.wdev;
+		struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
 
 		/* Add checking Mode "LEAP" for CCX 1.0 */
 		if (((wdev->AuthMode == Ndis802_11AuthModeWPA) ||
@@ -615,7 +615,7 @@ VOID CntlOidRTBssidProc(
 	MLME_DISASSOC_REQ_STRUCT DisassocReq;
 	MLME_JOIN_REQ_STRUCT JoinReq;
 	BSS_ENTRY *pInBss = NULL;
-	struct wifi_dev *wdev = &pAd->StaCfg.wdev;
+	struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
 
 
 #ifdef RALINK_ATE
@@ -1329,7 +1329,7 @@ VOID LinkUp(struct rtmp_adapter *pAd, UCHAR BssType)
 	UCHAR idx = 0;
 	MAC_TABLE_ENTRY *pEntry = NULL;
 	UINT32 pbf_reg = 0, pbf_val, burst_txop;
-	struct wifi_dev *wdev = &pAd->StaCfg.wdev;
+	struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
 
 	/* Init ChannelQuality to prevent DEAD_CQI at initial LinkUp */
 	pAd->Mlme.ChannelQuality = 50;
@@ -2022,7 +2022,7 @@ VOID LinkDown(
 	IN BOOLEAN IsReqFromAP)
 {
 	UCHAR i;
-	struct wifi_dev *wdev = &pAd->StaCfg.wdev;
+	struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
 
 	/* Do nothing if monitor mode is on */
 	if (MONITOR_ON(pAd))
@@ -2353,7 +2353,7 @@ VOID IterateOnBssTab(struct rtmp_adapter *pAd)
 	MLME_JOIN_REQ_STRUCT JoinReq;
 	ULONG BssIdx;
 	BSS_ENTRY *pInBss = NULL;
-	struct wifi_dev *wdev = &pAd->StaCfg.wdev;
+	struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
 
 
 	/* Change the wepstatus to original wepstatus */
@@ -2614,7 +2614,7 @@ ULONG MakeIbssBeacon(
 	UCHAR SupRateLen = 0;
 	UCHAR ExtRate[MAX_LEN_OF_SUPPORTED_RATES];
 	UCHAR ExtRateLen = 0;
-	struct wifi_dev *wdev = &pAd->StaCfg.wdev;
+	struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
 
 	if (WMODE_EQUAL(pAd->CommonCfg.PhyMode, WMODE_B)
 	    && (pAd->CommonCfg.Channel <= 14)) {

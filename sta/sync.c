@@ -881,7 +881,7 @@ VOID MlmeStartReqAction(
 	if ((MlmeStartReqSanity(pAd, Elem->Msg, Elem->MsgLen, (PCHAR)Ssid, &SsidLen)) &&
 		(CHAN_PropertyCheck(pAd, pAd->MlmeAux.Channel, CHANNEL_NO_IBSS) == FALSE))
 	{
-		struct wifi_dev *wdev = &pAd->StaCfg.wdev;
+		struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
 
 		/* reset all the timers */
 		RTMPCancelTimer(&pAd->MlmeAux.ScanTimer, &TimerCancelled);
@@ -1508,7 +1508,7 @@ VOID PeerBeaconAtJoinAction(
 		*/
 		if (MAC_ADDR_EQUAL(pAd->MlmeAux.Bssid, &ie_list->Bssid[0]))
 		{
-			struct wifi_dev *wdev = &pAd->StaCfg.wdev;
+			struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
 
 			DBGPRINT(RT_DEBUG_TRACE, ("%s():receive desired BEACON,Channel=%d\n",
 								__FUNCTION__, ie_list->Channel));
@@ -1843,7 +1843,7 @@ VOID PeerBeacon(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 	USHORT LenVIE;
 	UCHAR *VarIE = NULL;		/* Total VIE length = MAX_VIE_LEN - -5 */
 	NDIS_802_11_VARIABLE_IEs *pVIE = NULL;
-	struct wifi_dev *wdev = &pAd->StaCfg.wdev;
+	struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
 
 
 	BCN_IE_LIST *bcn_ie_list = NULL;
@@ -2606,7 +2606,7 @@ VOID PeerProbeReqAction(
 
 	if (PeerProbeReqSanity(pAd, Elem->Msg, Elem->MsgLen, &ProbeReqParam))
 	{
-		struct wifi_dev *wdev = &pAd->StaCfg.wdev;
+		struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
 
 		if ((ProbeReqParam.SsidLen == 0) ||
 			SSID_EQUAL(ProbeReqParam.Ssid, ProbeReqParam.SsidLen, pAd->CommonCfg.Ssid, pAd->CommonCfg.SsidLen))

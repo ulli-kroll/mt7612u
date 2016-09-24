@@ -1363,7 +1363,7 @@ struct hw_setting{
 #define WDEV_TYPE_MESH	0x10
 
 #define WDEV_NUM_MAX		16
-struct wifi_dev{
+struct rtmp_wifi_dev{
 	struct net_device *if_dev;
 	VOID *func_dev;
 	struct rtmp_adapter *sys_handle;
@@ -1409,12 +1409,12 @@ struct wifi_dev{
 	USHORT VLAN_Priority;
 
 	/* operations */
-	INT (*tx_pkt_allowed)(struct rtmp_adapter *pAd, struct wifi_dev *wdev, struct sk_buff *pPacket, UCHAR *pWcid);
+	INT (*tx_pkt_allowed)(struct rtmp_adapter *pAd, struct rtmp_wifi_dev *wdev, struct sk_buff *pPacket, UCHAR *pWcid);
 	INT (*tx_pkt_handle)(struct rtmp_adapter *pAd, struct sk_buff *pPacket);
 	INT (*rx_pkt_allowed)(struct rtmp_adapter *pAd, struct _RX_BLK *pRxBlk);
 	INT (*rx_pkt_hdr_chk)(struct rtmp_adapter *pAd, struct _RX_BLK *pRxBlk);
 	INT (*rx_ps_handle)(struct rtmp_adapter *pAd, struct _RX_BLK *pRxBlk);
-	INT (*rx_pkt_foward)(struct rtmp_adapter *pAd, struct wifi_dev *wdev, struct sk_buff *pPacket);
+	INT (*rx_pkt_foward)(struct rtmp_adapter *pAd, struct rtmp_wifi_dev *wdev, struct sk_buff *pPacket);
 
 	/* last received packet's SNR for each antenna */
 	UCHAR LastSNR0;
@@ -1476,7 +1476,7 @@ typedef struct _BEACON_SYNC_STRUCT_ {
 
 #ifdef CONFIG_AP_SUPPORT
 typedef struct _MULTISSID_STRUCT {
-	struct wifi_dev wdev;
+	struct rtmp_wifi_dev wdev;
 
 	INT mbss_idx;
 
@@ -2075,7 +2075,7 @@ typedef struct _STA_CONNECT_INFO {
 /* Modified by Wu Xi-Kun 4/21/2006 */
 /* STA configuration and status */
 typedef struct _STA_ADMIN_CONFIG {
-	struct wifi_dev wdev;
+	struct rtmp_wifi_dev wdev;
 
 	/*
 		GROUP 1 -
@@ -2343,7 +2343,7 @@ typedef struct _MAC_TABLE_ENTRY {
 	 */
 	UINT32 EntryType;
 	UINT32 ent_status;
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 	PVOID pAd;
 	struct _MAC_TABLE_ENTRY *pNext;
 
@@ -2833,7 +2833,7 @@ typedef struct _MAC_TABLE {
   *	AP APCLI related data structures
   **************************************************************************/
 typedef struct _APCLI_STRUCT {
-	struct wifi_dev wdev;
+	struct rtmp_wifi_dev wdev;
 
 	BOOLEAN Enable;		/* Set it as 1 if the apcli interface was configured to "1"  or by iwpriv cmd "ApCliEnable" */
 	BOOLEAN Valid;		/* Set it as 1 if the apcli interface associated success to remote AP. */
@@ -3703,7 +3703,7 @@ struct rtmp_adapter {
 	/* OP mode: either AP or STA */
 	UCHAR OpMode;		/* OPMODE_STA, OPMODE_AP */
 
-	struct wifi_dev *wdev_list[WDEV_NUM_MAX];
+	struct rtmp_wifi_dev *wdev_list[WDEV_NUM_MAX];
 
 	RTMP_OS_TASK mlmeTask;
 #ifdef RTMP_TIMER_TASK_SUPPORT
@@ -4705,7 +4705,7 @@ typedef struct _TX_BLK {
 	BOOLEAN				NeedTrans;	/* indicate the packet needs to do hw header translate */
 #endif /* HDR_TRANS_SUPPORT */
 
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 } TX_BLK;
 
 
@@ -5355,9 +5355,9 @@ VOID HTIOTCheck(
 	IN    UCHAR     BatRecIdx);
 
 
-INT rtmp_wdev_idx_reg(struct rtmp_adapter *pAd, struct wifi_dev *wdev);
-INT rtmp_wdev_idx_unreg(struct rtmp_adapter *pAd, struct wifi_dev *wdev);
-VOID wdev_tx_pkts(NDIS_HANDLE dev_hnd, struct sk_buff **pkt_list, UINT pkt_cnt, struct wifi_dev *wdev);
+INT rtmp_wdev_idx_reg(struct rtmp_adapter *pAd, struct rtmp_wifi_dev *wdev);
+INT rtmp_wdev_idx_unreg(struct rtmp_adapter *pAd, struct rtmp_wifi_dev *wdev);
+VOID wdev_tx_pkts(NDIS_HANDLE dev_hnd, struct sk_buff **pkt_list, UINT pkt_cnt, struct rtmp_wifi_dev *wdev);
 
 #ifdef DOT11_N_SUPPORT
 VOID RTMP_BASetup(
@@ -5467,7 +5467,7 @@ BOOLEAN RTMPCheckEtherType(
 	IN struct rtmp_adapter *pAd,
 	IN struct sk_buff *pPacket,
 	IN MAC_TABLE_ENTRY *pMacEntry,
-	IN struct wifi_dev *wdev,
+	IN struct rtmp_wifi_dev *wdev,
 	OUT PUCHAR pUserPriority,
 	OUT PUCHAR pQueIdx);
 
@@ -8237,7 +8237,7 @@ BOOLEAN MacTableDeleteEntry(struct rtmp_adapter *pAd, USHORT wcid, UCHAR *pAddr)
 MAC_TABLE_ENTRY *MacTableInsertEntry(
     IN struct rtmp_adapter *pAd,
     IN UCHAR *pAddr,
-    IN struct wifi_dev *wdev,
+    IN struct rtmp_wifi_dev *wdev,
 	IN UCHAR apidx,
 	IN UCHAR OpMode,
 	IN BOOLEAN CleanAll);

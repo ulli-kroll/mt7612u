@@ -108,7 +108,7 @@ VOID trigger_vht_ndpa(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *entry)
 {
 	UCHAR *buf;
 	VHT_NDPA_FRAME *vht_ndpa;
-	struct wifi_dev *wdev = entry->wdev;
+	struct rtmp_wifi_dev *wdev = entry->wdev;
 	UINT frm_len, sta_cnt;
 	SNDING_STA_INFO *sta_info;
 

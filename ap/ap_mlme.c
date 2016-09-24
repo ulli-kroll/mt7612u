@@ -200,7 +200,7 @@ VOID APMlmePeriodicExec(
 				if (pAd->bApCliCertTest == TRUE)
 				{
 					PMAC_TABLE_ENTRY pEntry = &pAd->MacTab.Content[pApCliEntry->MacTabWCID];
-					struct wifi_dev *wdev = NULL;
+					struct rtmp_wifi_dev *wdev = NULL;
 					wdev = &pApCliEntry->wdev;
 
 					if (pEntry->RXBAbitmap == 0 && pEntry->TXBAbitmap == 0)

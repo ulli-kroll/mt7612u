@@ -249,7 +249,7 @@ static VOID ApCliPeerProbeRspAtJoinAction(
 	NDIS_802_11_VARIABLE_IEs *pVIE = NULL;
 	APCLI_CTRL_MSG_STRUCT ApCliCtrlMsg;
 	PAPCLI_STRUCT pApCliEntry = NULL;
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 #ifdef DOT11_N_SUPPORT
 	UCHAR CentralChannel;
 #endif /* DOT11_N_SUPPORT */

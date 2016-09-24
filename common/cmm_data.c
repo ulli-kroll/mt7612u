@@ -2261,7 +2261,7 @@ BOOLEAN RTMPCheckEtherType(
 	IN struct rtmp_adapter *pAd,
 	IN struct sk_buff *pPacket,
 	IN MAC_TABLE_ENTRY *pMacEntry,
-	IN struct wifi_dev *wdev,
+	IN struct rtmp_wifi_dev *wdev,
 	OUT UCHAR *pUserPriority,
 	OUT UCHAR *pQueIdx)
 {

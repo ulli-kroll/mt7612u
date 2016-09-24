@@ -697,7 +697,7 @@ int RTMPSendPackets(
 	IN UINT32 pkt_total_len,
 	IN RTMP_NET_ETH_CONVERT_DEV_SEARCH Func)
 {
-	struct wifi_dev *wdev = (struct wifi_dev *)dev_hnd;
+	struct rtmp_wifi_dev *wdev = (struct rtmp_wifi_dev *)dev_hnd;
 	struct rtmp_adapter *pAd;
 	struct sk_buff *pPacket = pkt_list[0];
 

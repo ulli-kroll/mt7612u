@@ -27,7 +27,7 @@
 
 #include "rt_config.h"
 
-INT rtmp_wdev_idx_unreg(struct rtmp_adapter *pAd, struct wifi_dev *wdev)
+INT rtmp_wdev_idx_unreg(struct rtmp_adapter *pAd, struct rtmp_wifi_dev *wdev)
 {
 	INT idx;
 	ULONG flags;
@@ -63,7 +63,7 @@ INT rtmp_wdev_idx_unreg(struct rtmp_adapter *pAd, struct wifi_dev *wdev)
 }
 
 
-INT rtmp_wdev_idx_reg(struct rtmp_adapter *pAd, struct wifi_dev *wdev)
+INT rtmp_wdev_idx_reg(struct rtmp_adapter *pAd, struct rtmp_wifi_dev *wdev)
 {
 	INT idx;
 	ULONG flags;
@@ -114,7 +114,7 @@ Note:
 	You only can put OS-depened & AP related code in here.
 ========================================================================
 */
-VOID wdev_tx_pkts(NDIS_HANDLE dev_hnd, struct sk_buff **pkt_list, UINT pkt_cnt, struct wifi_dev *wdev)
+VOID wdev_tx_pkts(NDIS_HANDLE dev_hnd, struct sk_buff **pkt_list, UINT pkt_cnt, struct rtmp_wifi_dev *wdev)
 {
 	struct rtmp_adapter *pAd = (struct rtmp_adapter *)dev_hnd;
 	struct sk_buff *pPacket;

@@ -741,7 +741,7 @@ static void rtmp_read_ap_client_from_file(
 	STRING		tok_str[16];
 	ULONG		KeyType[MAX_APCLI_NUM];
 	ULONG		KeyLen;
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 
 	NdisZeroMemory(KeyType, sizeof(KeyType));
 
@@ -2103,7 +2103,7 @@ static void HTParametersHook(
 		{
 			for (i = 0, Bufptr = rstrtok(pValueStr,";"); (Bufptr && i < MAX_MBSSID_NUM(pAd)); Bufptr = rstrtok(NULL,";"), i++)
 			{
-				struct wifi_dev *wdev = &pAd->ApCfg.MBSSID[i].wdev;
+				struct rtmp_wifi_dev *wdev = &pAd->ApCfg.MBSSID[i].wdev;
 				Value = simple_strtol(Bufptr, 0, 10);
 				if ((Value >= 0 && Value <= 23) || (Value == 32))
 					wdev->DesiredTransmitSetting.field.MCS = Value;
@@ -2120,7 +2120,7 @@ static void HTParametersHook(
 #ifdef CONFIG_STA_SUPPORT
 		IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
 		{
-			struct wifi_dev *wdev = &pAd->StaCfg.wdev;
+			struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
 			Value = simple_strtol(pValueStr, 0, 10);
 			if ((Value >= 0 && Value <= 23) || (Value == 32))
 			{
@@ -2378,7 +2378,7 @@ void RTMPSetSTASSID(struct rtmp_adapter *pAd, PSTRING SSID)
 
 void RTMPSetSTAPassPhrase(struct rtmp_adapter *pAd, PSTRING PassPh)
 {
-	struct wifi_dev *wdev = &pAd->StaCfg.wdev;
+	struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
 	int ret = TRUE;
 
 	PassPh[strlen(PassPh)] = '\0'; /* make STA can process .$^& for WPAPSK input */
@@ -3569,7 +3569,7 @@ NDIS_STATUS	RTMPSetProfileParameters(
 #ifdef CONFIG_STA_SUPPORT
 			IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
 			{
-				struct wifi_dev *wdev = &pAd->StaCfg.wdev;
+				struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
 
 				if (rtstrcasecmp(tmpbuf, "WEPAUTO") == TRUE)
 					wdev->AuthMode = Ndis802_11AuthModeAutoSwitch;
@@ -3613,7 +3613,7 @@ NDIS_STATUS	RTMPSetProfileParameters(
 		    	for (i = 0, macptr = rstrtok(tmpbuf,";"); macptr; macptr = rstrtok(NULL,";"), i++)
 		    	{
 					int apidx;
-					struct wifi_dev *wdev;
+					struct rtmp_wifi_dev *wdev;
 					if (i < HW_BEACON_MAX_NUM)
 						apidx = i;
 		        	else
@@ -3649,7 +3649,7 @@ NDIS_STATUS	RTMPSetProfileParameters(
 #ifdef CONFIG_STA_SUPPORT
 			IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
 			{
-				struct wifi_dev *wdev = &pAd->StaCfg.wdev;
+				struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
 				if (rtstrcasecmp(tmpbuf, "WEP") == TRUE)
 					wdev->WepStatus = Ndis802_11WEPEnabled;
 				else if (rtstrcasecmp(tmpbuf, "TKIP") == TRUE)
@@ -3683,7 +3683,7 @@ NDIS_STATUS	RTMPSetProfileParameters(
 						 */
 						for (i = 0, macptr = rstrtok(tmpbuf,";"); macptr; macptr = rstrtok(NULL,";"), i++)
 						{
-							struct wifi_dev *wdev;
+							struct rtmp_wifi_dev *wdev;
 
 							// TODO: shiang, check about the sequence of this paramter and BssNum!!
 							if (i >= HW_BEACON_MAX_NUM)

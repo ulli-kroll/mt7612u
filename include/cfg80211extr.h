@@ -382,7 +382,7 @@ BOOLEAN CFG80211_P2pHandleNoAAttri(
 
 #ifdef CONFIG_AP_SUPPORT
 
-VOID CFG80211_ParseBeaconIE(struct rtmp_adapter *pAd, MULTISSID_STRUCT *pMbss, struct wifi_dev *wdev,UCHAR *wpa_ie,UCHAR *rsn_ie);
+VOID CFG80211_ParseBeaconIE(struct rtmp_adapter *pAd, MULTISSID_STRUCT *pMbss, struct rtmp_wifi_dev *wdev,UCHAR *wpa_ie,UCHAR *rsn_ie);
 
 #endif
 

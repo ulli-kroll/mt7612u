@@ -1418,7 +1418,7 @@ BOOLEAN RTMPCheckStrPrintAble(
 VOID RTMPSetDesiredRates(struct rtmp_adapter *pAd, LONG Rates)
 {
 	NDIS_802_11_RATES aryRates;
-	struct wifi_dev *wdev = &pAd->StaCfg.wdev;
+	struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
 
 	memset(&aryRates, 0x00, sizeof(NDIS_802_11_RATES));
 	switch (pAd->CommonCfg.PhyMode)
@@ -1684,7 +1684,7 @@ NDIS_STATUS RTMPWPARemoveKeyProc(
 VOID RTMPWPARemoveAllKeys(struct rtmp_adapter *pAd)
 {
 	UCHAR i;
-	struct wifi_dev *wdev = &pAd->StaCfg.wdev;
+	struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
 
 
 	DBGPRINT(RT_DEBUG_TRACE,("RTMPWPARemoveAllKeys(AuthMode=%d, WepStatus=%d)\n",
@@ -2721,7 +2721,7 @@ VOID RTMPIoctlGetRadioDynInfo(
 	char *msg;
 	PMULTISSID_STRUCT	pMbss;
 	INT status,bandwidth,ShortGI;
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 
 /*	msg = kmalloc(sizeof(CHAR)*(4096), MEM_ALLOC_FLAG);*/
 	os_alloc_mem(NULL, (UCHAR **)&msg, sizeof(CHAR)*(4096));
@@ -3005,7 +3005,7 @@ INT	Set_HtMcs_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 	PSTRING mcs_str, ss_str;
 	UCHAR ss = 0, mcs = 0;
 #endif /* DOT11_VHT_AC */
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 
 #ifdef DOT11_VHT_AC
 	ss_str = arg;
@@ -3853,7 +3853,7 @@ INT	Set_VhtDisallowNonVHT_Proc(
 
 INT	Set_FixedTxMode_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
-	struct wifi_dev *wdev = NULL;
+	struct rtmp_wifi_dev *wdev = NULL;
 #ifdef CONFIG_AP_SUPPORT
     POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
 #endif /* CONFIG_AP_SUPPORT */
@@ -4673,7 +4673,7 @@ INT	Show_HtMcs_Proc(
 	OUT	PSTRING			pBuf,
 	IN	ULONG			BufLen)
 {
-	struct wifi_dev *wdev = NULL;
+	struct rtmp_wifi_dev *wdev = NULL;
 #ifdef CONFIG_AP_SUPPORT
 	POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
 
@@ -4929,7 +4929,7 @@ INT	Show_AuthMode_Proc(
 	IN	ULONG			BufLen)
 {
 	NDIS_802_11_AUTHENTICATION_MODE	AuthMode = Ndis802_11AuthModeOpen;
-	struct wifi_dev *wdev = NULL;
+	struct rtmp_wifi_dev *wdev = NULL;
 #ifdef CONFIG_AP_SUPPORT
     POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
 
@@ -4961,7 +4961,7 @@ INT	Show_EncrypType_Proc(
 	OUT	PSTRING			pBuf,
 	IN	ULONG			BufLen)
 {
-	struct wifi_dev *wdev = NULL;
+	struct rtmp_wifi_dev *wdev = NULL;
 	NDIS_802_11_WEP_STATUS	WepStatus = Ndis802_11WEPDisabled;
 #ifdef CONFIG_AP_SUPPORT
     POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
@@ -4993,7 +4993,7 @@ INT	Show_DefaultKeyID_Proc(
 	OUT	PSTRING			pBuf,
 	IN	ULONG			BufLen)
 {
-	struct wifi_dev *wdev = NULL;
+	struct rtmp_wifi_dev *wdev = NULL;
 #ifdef CONFIG_AP_SUPPORT
     POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
 
@@ -5462,7 +5462,7 @@ INT show_sysinfo_proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	INT idx;
 	UINT32 total_size = 0, cntr_size;
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 
 
 	DBGPRINT(RT_DEBUG_OFF, ("Device Instance\n"));

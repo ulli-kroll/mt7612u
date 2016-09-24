@@ -374,7 +374,7 @@ static UCHAR RT_CfgMbssWirelessModeMaxGet(struct rtmp_adapter *pAd)
 {
 	UCHAR wmode = 0, *mode_str;
 	INT idx;
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 
 	for(idx = 0; idx < pAd->ApCfg.BssidNum; idx++) {
 		wdev = &pAd->ApCfg.MBSSID[idx].wdev;
@@ -776,7 +776,7 @@ INT RTMP_COM_IoctlHandle(
 
 		case CMD_RTPRIV_IOCTL_NETDEV_SET:
 			{
-				struct wifi_dev *wdev = NULL;
+				struct rtmp_wifi_dev *wdev = NULL;
 				/* set main net_dev */
 				pAd->net_dev = pData;
 

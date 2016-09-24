@@ -373,7 +373,7 @@ VOID WpaEAPOLKeyAction(
 					{
 						UINT8 Wcid;
 						MULTISSID_STRUCT *mbss;
-						struct wifi_dev *wdev;
+						struct rtmp_wifi_dev *wdev;
 						DBGPRINT(RT_DEBUG_TRACE, ("REQUEST=1, ERROR=0, update group key\n"));
 
 						mbss = &pAd->ApCfg.MBSSID[apidx];
@@ -764,7 +764,7 @@ VOID WPAStart4WayHS(
     PEAPOL_PACKET	pEapolFrame;
 	PUINT8			pBssid = NULL;
 	UCHAR			group_cipher = Ndis802_11WEPDisabled;
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 #ifdef CONFIG_AP_SUPPORT
 	MULTISSID_STRUCT *pMbss;
 #endif /* CONFIG_AP_SUPPORT */
@@ -1134,7 +1134,7 @@ VOID PeerPairMsg2Action(
 #ifdef CONFIG_AP_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 	{
-		struct wifi_dev *wdev;
+		struct rtmp_wifi_dev *wdev;
 		if (pEntry->apidx >= pAd->ApCfg.BssidNum)
 			return;
 		else

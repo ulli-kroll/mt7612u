@@ -290,7 +290,7 @@ static VOID ApCliTrialConnectPhase2Timeout(
 	MLME_ASSOC_REQ_STRUCT  AssocReq;
 	UCHAR ifIndex = pApCliEntry->ifIndex;
 	UCHAR BBPValue;
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 	wdev = &pApCliEntry->wdev;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("ApCli_SYNC - %s,\n \
@@ -587,7 +587,7 @@ static VOID ApCliCtrlProbeRspAction(
 	MLME_AUTH_REQ_STRUCT AuthReq;
 	USHORT ifIndex = (USHORT)(Elem->Priv);
 	PULONG pCurrState = NULL;
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 
 	if ((ifIndex >= MAX_APCLI_NUM)
 		)
@@ -1288,7 +1288,7 @@ VOID ApCliWpaMicFailureReportFrame(
 	PMAC_TABLE_ENTRY pMacEntry = NULL;
 	USHORT ifIndex = (USHORT)(Elem->Priv);
 	APCLI_STRUCT *apcli_entry;
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("\ApCliWpaMicFailureReportFrame ----->\n"));
 

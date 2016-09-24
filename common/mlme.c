@@ -2824,7 +2824,7 @@ VOID MlmeUpdateTxRates(struct rtmp_adapter *pAd, BOOLEAN bLinkUp, UCHAR apidx)
 	HTTRANSMIT_SETTING *pHtPhy = NULL, *pMaxHtPhy = NULL, *pMinHtPhy = NULL;
 	BOOLEAN *auto_rate_cur_p;
 	UCHAR HtMcs = MCS_AUTO;
-	struct wifi_dev *wdev = NULL;
+	struct rtmp_wifi_dev *wdev = NULL;
 
 
 	/* find max desired rate*/
@@ -3229,7 +3229,7 @@ VOID MlmeUpdateHtTxRates(struct rtmp_adapter *pAd, UCHAR apidx)
 	PHTTRANSMIT_SETTING pMaxHtPhy = NULL;
 	PHTTRANSMIT_SETTING pMinHtPhy = NULL;
 	BOOLEAN *auto_rate_cur_p;
-	struct wifi_dev *wdev = NULL;
+	struct rtmp_wifi_dev *wdev = NULL;
 
 
 	DBGPRINT(RT_DEBUG_TRACE,("%s()===> \n", __FUNCTION__));
@@ -4070,7 +4070,7 @@ VOID BssTableSsidSort(
 	IN UCHAR SsidLen)
 {
 	INT i;
-	struct wifi_dev *wdev = &pAd->StaCfg.wdev;
+	struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
 
 	BssTableInit(OutTab);
 

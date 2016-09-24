@@ -466,7 +466,7 @@ VOID RTMPSetIndividualHT(struct rtmp_adapter *pAd, UCHAR apidx)
 	UCHAR TxStream = pAd->CommonCfg.TxStream;
 	UCHAR DesiredMcs = MCS_AUTO;
 	UCHAR encrypt_mode = Ndis802_11EncryptionDisabled;
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 
 	do
 	{
@@ -679,7 +679,7 @@ VOID RTMPSetIndividualHT(struct rtmp_adapter *pAd, UCHAR apidx)
 */
 VOID RTMPDisableDesiredHtInfo(struct rtmp_adapter *pAd)
 {
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 
 #ifdef CONFIG_AP_SUPPORT
 	UINT8 idx = 0;

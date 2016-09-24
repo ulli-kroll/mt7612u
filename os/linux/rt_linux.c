@@ -1204,7 +1204,7 @@ VOID RtmpOsSetNetDevPriv(struct net_device *pDev, struct rtmp_adapter *pPriv)
 /*
 ========================================================================
 Routine Description:
-	Get wifi_dev from the priv info linked to OS network interface data structure.
+	Get rtmp_wifi_dev from the priv info linked to OS network interface data structure.
 
 Arguments:
 	pDev			- the device
@@ -1223,19 +1223,19 @@ struct rtmp_adapter *RtmpOsGetNetDevPriv(struct net_device *pDev)
 }
 
 
-VOID RtmpOsSetNetDevWdev(struct net_device *pDev, struct wifi_dev *wdev)
+VOID RtmpOsSetNetDevWdev(struct net_device *pDev, struct rtmp_wifi_dev *wdev)
 {
 	struct mt_dev_priv *priv_info= netdev_priv(pDev);
 
-	priv_info->wifi_dev = wdev;
+	priv_info->rtmp_wifi_dev = wdev;
 }
 
 
-struct wifi_dev *RtmpOsGetNetDevWdev(struct net_device *pDev)
+struct rtmp_wifi_dev *RtmpOsGetNetDevWdev(struct net_device *pDev)
 {
 	struct mt_dev_priv *priv_info = netdev_priv(pDev);
 
-	return priv_info->wifi_dev;
+	return priv_info->rtmp_wifi_dev;
 }
 
 

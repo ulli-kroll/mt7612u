@@ -123,7 +123,7 @@ VOID PeerDeauthAction(
 		    && MAC_ADDR_EQUAL(Addr2, pAd->CommonCfg.Bssid)
 		    && MAC_ADDR_EQUAL(Addr3, pAd->CommonCfg.Bssid)
 		    ) {
-			struct wifi_dev *wdev = &pAd->StaCfg.wdev;
+			struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
 
 			DBGPRINT(RT_DEBUG_TRACE,
 				 ("AUTH_RSP - receive DE-AUTH from our AP (Reason=%d)\n",

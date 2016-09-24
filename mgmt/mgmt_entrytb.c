@@ -120,7 +120,7 @@ BOOLEAN StaUpdateMacTableEntry(
 #ifdef TXBF_SUPPORT
 	BOOLEAN supportsETxBf = FALSE;
 #endif
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 
 	if (!pEntry)
 		return FALSE;
@@ -380,7 +380,7 @@ BOOLEAN StaUpdateMacTableEntry(
 MAC_TABLE_ENTRY *MacTableInsertEntry(
 	IN struct rtmp_adapter *pAd,
 	IN UCHAR *pAddr,
-	IN struct wifi_dev *wdev,
+	IN struct rtmp_wifi_dev *wdev,
 	IN UCHAR apidx,
 	IN UCHAR OpMode,
 	IN BOOLEAN CleanAll)

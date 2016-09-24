@@ -150,7 +150,7 @@ VOID STARxDataFrameAnnounce(
 
 
 		{
-			struct wifi_dev *wdev = &pAd->StaCfg.wdev;
+			struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
 			/* drop all non-EAP DATA frame before */
 			/* this client's Port-Access-Control is secured */
 			if (pRxBlk->pHeader->FC.Wep) {
@@ -1189,7 +1189,7 @@ INT STASendPacket(struct rtmp_adapter *pAd, struct sk_buff *pPacket)
 	UCHAR Wcid;
 	unsigned long IrqFlags;
 	MAC_TABLE_ENTRY *pMacEntry = NULL;
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 
 
 	RTMP_QueryPacketInfo(pPacket, &PacketInfo, &pSrcBufVA, &SrcBufLen);
@@ -1443,7 +1443,7 @@ VOID RTMPSendNullFrame(
 	UCHAR NullFrame[48];
 	ULONG Length;
 	PHEADER_802_11 pHeader_802_11;
-	struct wifi_dev *wdev = &pAd->StaCfg.wdev;
+	struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
 #ifdef RALINK_ATE
 	if (ATE_ON(pAd))
 	{
@@ -1527,7 +1527,7 @@ VOID STAFindCipherAlgorithm(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 	PUCHAR pSrcBufVA;
 	PCIPHER_KEY pKey = NULL;
 	PMAC_TABLE_ENTRY pMacEntry;
-	struct wifi_dev *wdev = &pAd->StaCfg.wdev;
+	struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
 
 	pSrcBufVA = GET_OS_PKT_DATAPTR(pTxBlk->pPacket);
 	pMacEntry = pTxBlk->pMacEntry;
@@ -3316,7 +3316,7 @@ VOID STA_NDPA_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 {
 	UCHAR *buf;
 	VHT_NDPA_FRAME *vht_ndpa;
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 	UINT frm_len, sta_cnt;
 	SNDING_STA_INFO *sta_info;
 	MAC_TABLE_ENTRY *pMacEntry;

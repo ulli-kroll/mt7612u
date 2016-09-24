@@ -731,7 +731,7 @@ INT Set_AuthMode_Proc(
     IN  struct rtmp_adapter *  pAd,
     IN  PSTRING          arg)
 {
-	struct wifi_dev *wdev = &pAd->StaCfg.wdev;
+	struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
 
     if (rtstrcasecmp(arg, "WEPAUTO") == TRUE)
         wdev->AuthMode = Ndis802_11AuthModeAutoSwitch;
@@ -772,7 +772,7 @@ INT Set_AuthMode_Proc(
 */
 INT Set_EncrypType_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
-	struct wifi_dev *wdev = &pAd->StaCfg.wdev;
+	struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
 
     if (rtstrcasecmp(arg, "NONE") == TRUE)
     {
@@ -857,7 +857,7 @@ INT Set_Wep_Key_Proc(
 {
     int    i;
     UCHAR  CipherAlg = CIPHER_WEP64;
-	struct wifi_dev *wdev = &pAdapter->StaCfg.wdev;
+	struct rtmp_wifi_dev *wdev = &pAdapter->StaCfg.wdev;
 
     if (wdev->AuthMode >= Ndis802_11AuthModeWPA)
         return TRUE;    /* do nothing */
@@ -1243,7 +1243,7 @@ INT Set_Key4_Proc(
 INT Set_WPAPSK_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
     int status;
-	struct wifi_dev *wdev = &pAd->StaCfg.wdev;
+	struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
 
 
     if ((wdev->AuthMode != Ndis802_11AuthModeWPAPSK) &&
@@ -1565,7 +1565,7 @@ VOID RTMPAddKey(struct rtmp_adapter *pAd, PNDIS_802_11_KEY pKey)
 {
 	ULONG KeyIdx;
 	MAC_TABLE_ENTRY *pEntry;
-	struct wifi_dev *wdev = &pAd->StaCfg.wdev;
+	struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
 
 
     DBGPRINT(RT_DEBUG_TRACE, ("RTMPAddKey ------>\n"));
@@ -1979,7 +1979,7 @@ INT RTMPSetInformation(
 
 
 
-	struct wifi_dev *wdev = &pAd->StaCfg.wdev;
+	struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
 
 #ifdef DOT11_N_SUPPORT
 	MaxPhyMode = PHY_11N_5G;
@@ -3348,7 +3348,7 @@ INT RTMPQueryInformation(
 
 
 
-	struct wifi_dev *wdev = &pAd->StaCfg.wdev;
+	struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
 
 
     switch(cmd)
@@ -5973,7 +5973,7 @@ Note:
 */
 INT RtmpIoctl_rt_ioctl_siwscan(struct rtmp_adapter *pAd, VOID *pData, ULONG Data)
 {
-	struct wifi_dev *wdev = &pAd->StaCfg.wdev;
+	struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
 
 	/*
 		Can not use SIOCGIWSCAN definition, it is used in wireless.h
@@ -6480,7 +6480,7 @@ Note:
 INT RtmpIoctl_rt_ioctl_siwencode(struct rtmp_adapter *pAd, VOID *pData, ULONG Data)
 {
 	RT_CMD_STA_IOCTL_SECURITY *pIoctlSec = (RT_CMD_STA_IOCTL_SECURITY *)pData;
-	struct wifi_dev *wdev = &pAd->StaCfg.wdev;
+	struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
 
 	if ((pIoctlSec->length == 0) &&
         (pIoctlSec->flags & RT_CMD_STA_IOCTL_SECURITY_DISABLED))
@@ -6595,7 +6595,7 @@ INT RtmpIoctl_rt_ioctl_giwencode(struct rtmp_adapter *pAd, VOID *pData, ULONG Da
 {
 	RT_CMD_STA_IOCTL_SECURITY *pIoctlSec = (RT_CMD_STA_IOCTL_SECURITY *)pData;
 	int kid;
-	struct wifi_dev *wdev = &pAd->StaCfg.wdev;
+	struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
 
 	kid = pIoctlSec->KeyIdx; /*erq->flags & IW_ENCODE_INDEX; */
 	DBGPRINT(RT_DEBUG_TRACE, ("===>rt_ioctl_giwencode %d\n", kid));
@@ -6742,7 +6742,7 @@ RtmpIoctl_rt_ioctl_siwauth(
 	IN	ULONG					Data)
 {
 	RT_CMD_STA_IOCTL_SECURITY_ADV *pIoctlWpa = (RT_CMD_STA_IOCTL_SECURITY_ADV *)pData;
-	struct wifi_dev *wdev = &pAd->StaCfg.wdev;
+	struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
 
 	switch (pIoctlWpa->flags)
 	{
@@ -6901,7 +6901,7 @@ INT
 RtmpIoctl_rt_ioctl_giwauth(struct rtmp_adapter *pAd, VOID *pData, ULONG Data)
 {
 	RT_CMD_STA_IOCTL_SECURITY_ADV *pIoctlWpa = (RT_CMD_STA_IOCTL_SECURITY_ADV *)pData;
-	struct wifi_dev *wdev = &pAd->StaCfg.wdev;
+	struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
 
 	switch (pIoctlWpa->flags) {
 	case RT_CMD_STA_IOCTL_WPA_AUTH_DROP_UNENCRYPTED:
@@ -7009,7 +7009,7 @@ INT RtmpIoctl_rt_ioctl_siwencodeext(struct rtmp_adapter *pAd, VOID *pData, ULONG
 {
 	RT_CMD_STA_IOCTL_SECURITY *pIoctlSec = (RT_CMD_STA_IOCTL_SECURITY *)pData;
 	int keyIdx;
-	struct wifi_dev *wdev = &pAd->StaCfg.wdev;
+	struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
 
     if (pIoctlSec->flags == RT_CMD_STA_IOCTL_SECURITY_DISABLED)
 	{
@@ -7154,7 +7154,7 @@ INT RtmpIoctl_rt_ioctl_giwencodeext(struct rtmp_adapter *pAd, VOID *pData, ULONG
 {
 	RT_CMD_STA_IOCTL_SECURITY *pIoctlSec = (RT_CMD_STA_IOCTL_SECURITY *)pData;
 	int idx;
-	struct wifi_dev *wdev = &pAd->StaCfg.wdev;
+	struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
 
 	idx = pIoctlSec->KeyIdx;
 	if (idx)
@@ -7306,7 +7306,7 @@ INT
 RtmpIoctl_rt_ioctl_giwgenie(struct rtmp_adapter *pAd, VOID *pData, ULONG Data)
 {
 	RT_CMD_STA_IOCTL_RSN_IE *IoctlRsnIe = (RT_CMD_STA_IOCTL_RSN_IE *)pData;
-	struct wifi_dev *wdev = &pAd->StaCfg.wdev;
+	struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
 
 	if ((pAd->StaCfg.RSNIE_Len == 0) ||
 		(wdev->AuthMode < Ndis802_11AuthModeWPA))
@@ -7464,7 +7464,7 @@ INT RtmpIoctl_rt_ioctl_siwrate(struct rtmp_adapter *pAd, VOID *pData, ULONG Data
 	RT_CMD_RATE_SET *pCmdRate = (RT_CMD_RATE_SET *)pData;
 	UINT32 rate = pCmdRate->Rate;
 	UINT32 fixed = pCmdRate->Fixed;
-	struct wifi_dev *wdev = &pAd->StaCfg.wdev;
+	struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
 
     /*
     	rate = -1 => auto rate
@@ -7533,7 +7533,7 @@ RtmpIoctl_rt_ioctl_giwrate(struct rtmp_adapter *pAd, VOID *pData, ULONG Data)
 {
     int rate_index = 0, rate_count = 0;
 	HTTRANSMIT_SETTING ht_setting;
-	struct wifi_dev *wdev = &pAd->StaCfg.wdev;
+	struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
 
 
     if ((wdev->bAutoTxRateSwitch == FALSE) &&

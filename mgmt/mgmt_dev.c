@@ -27,9 +27,9 @@
 #include "rt_config.h"
 
 
-struct wifi_dev *get_wdev_by_idx(struct rtmp_adapter *pAd, INT idx)
+struct rtmp_wifi_dev *get_wdev_by_idx(struct rtmp_adapter *pAd, INT idx)
 {
-	struct wifi_dev *wdev = NULL;
+	struct rtmp_wifi_dev *wdev = NULL;
 
 	do
 	{

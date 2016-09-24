@@ -63,7 +63,7 @@ BOOLEAN RTMPCheckMcast(
     IN MAC_TABLE_ENTRY  *pEntry)
 {
 	UCHAR apidx;
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 
 
 	ASSERT(pEntry);
@@ -126,7 +126,7 @@ BOOLEAN RTMPCheckUcast(
 	PUCHAR 	pStaTmp;
 	USHORT	Count;
 	UCHAR 	apidx;
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 
 	ASSERT(pEntry);
 	ASSERT(pEntry->apidx < pAd->ApCfg.BssidNum);
@@ -757,7 +757,7 @@ VOID GREKEYPeriodicExec(
 	struct rtmp_adapter *pAd = (struct rtmp_adapter *)FunctionContext;
 	PRALINK_TIMER_STRUCT pTimer = (PRALINK_TIMER_STRUCT) SystemSpecific3;
 	MULTISSID_STRUCT *pMbss = NULL;
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 
 	for (apidx=0; apidx<pAd->ApCfg.BssidNum; apidx++)
 	{
@@ -1105,7 +1105,7 @@ VOID	WPA_APSetGroupRekeyAction(
 	for (apidx = 0; apidx < pAd->ApCfg.BssidNum; apidx++)
 	{
 		PMULTISSID_STRUCT	pMbss = &pAd->ApCfg.MBSSID[apidx];
-		struct wifi_dev *wdev = &pMbss->wdev;
+		struct rtmp_wifi_dev *wdev = &pMbss->wdev;
 
 		if ((wdev->WepStatus == Ndis802_11TKIPEnable) ||
 			(wdev->WepStatus == Ndis802_11AESEnable) ||

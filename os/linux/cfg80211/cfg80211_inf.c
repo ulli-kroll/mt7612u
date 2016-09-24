@@ -36,7 +36,7 @@
 #ifdef RT_CFG80211_SUPPORT
 
 extern INT ApCliAllowToSendPacket(
-	struct rtmp_adapter *pAd, struct wifi_dev *wdev,
+	struct rtmp_adapter *pAd, struct rtmp_wifi_dev *wdev,
 	struct sk_buff *pPacket, UCHAR *pWcid);
 
 BOOLEAN CFG80211DRV_OpsChgVirtualInf(struct rtmp_adapter *pAd, VOID *pData)
@@ -519,7 +519,7 @@ static INT CFG80211_PacketSend(struct sk_buff *pPktSrc, struct net_device *pDev,
 static INT CFG80211_VirtualIF_PacketSend(
 	struct sk_buff *skb, struct net_device *dev_p)
 {
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 
 	DBGPRINT(RT_DEBUG_INFO, ("%s ---> %d\n", __FUNCTION__, dev_p->ieee80211_ptr->iftype));
 
@@ -569,7 +569,7 @@ VOID RTMP_CFG80211_VirtualIF_Init(
 #ifdef RT_CFG80211_P2P_SUPPORT
 	APCLI_STRUCT	*pApCliEntry;
 #endif /* RT_CFG80211_P2P_SUPPORT */
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 
 	CHAR preIfName[12];
 	UINT devNameLen = strlen(pDevName);
@@ -709,7 +709,7 @@ VOID RTMP_CFG80211_VirtualIF_Remove(
 
 	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdSrc;
 	BOOLEAN isGoOn = FALSE;
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 
 	if (dev_p)
 	{

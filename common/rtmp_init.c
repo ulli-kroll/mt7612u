@@ -2853,7 +2853,7 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 		for(j = BSS0; j < pAd->ApCfg.BssidNum; j++)
 		{
 			MULTISSID_STRUCT *mbss = &pAd->ApCfg.MBSSID[j];
-			struct wifi_dev *wdev = &pAd->ApCfg.MBSSID[j].wdev;
+			struct rtmp_wifi_dev *wdev = &pAd->ApCfg.MBSSID[j].wdev;
 
 			mbss->AssocReqFailRssiThreshold = 0;
 			mbss->AssocReqNoRspRssiThreshold = 0;
@@ -2925,7 +2925,7 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 		for(j = 0; j < MAX_APCLI_NUM; j++)
 		{
 			APCLI_STRUCT *apcli_entry = &pAd->ApCfg.ApCliTab[j];
-			struct wifi_dev *wdev = &apcli_entry->wdev;
+			struct rtmp_wifi_dev *wdev = &apcli_entry->wdev;
 
 			wdev->AuthMode = Ndis802_11AuthModeOpen;
 			wdev->WepStatus = Ndis802_11WEPDisabled;

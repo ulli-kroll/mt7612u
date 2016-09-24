@@ -487,7 +487,7 @@ Note:
 int rt28xx_packet_xmit(struct sk_buff *skb)
 {
 	struct net_device *net_dev = skb->dev;
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 	struct sk_buff *pPacket = skb;
 
 	wdev = RTMP_OS_NETDEV_GET_WDEV(net_dev);

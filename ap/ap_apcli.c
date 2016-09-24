@@ -317,7 +317,7 @@ VOID ComposeP2PPsPoll(
 	IN struct rtmp_adapter *pAd,
 	IN PAPCLI_STRUCT pApCliEntry)
 {
-    	struct wifi_dev *wdev;
+    	struct rtmp_wifi_dev *wdev;
        wdev = &pApCliEntry->wdev;
 
 	NdisZeroMemory(&pApCliEntry->PsPollFrame, sizeof (PSPOLL_FRAME));
@@ -333,7 +333,7 @@ VOID ComposeP2PNullFrame(
 	IN struct rtmp_adapter *pAd,
 	IN PAPCLI_STRUCT pApCliEntry)
 {
-   	struct wifi_dev *wdev;
+   	struct rtmp_wifi_dev *wdev;
        wdev = &pApCliEntry->wdev;
 
 	NdisZeroMemory(&pApCliEntry->NullFrame, sizeof (HEADER_802_11));
@@ -367,7 +367,7 @@ BOOLEAN ApCliLinkUp(struct rtmp_adapter *pAd, UCHAR ifIndex)
 	BOOLEAN result = FALSE;
 	PAPCLI_STRUCT pApCliEntry = NULL;
 	PMAC_TABLE_ENTRY pMacEntry = NULL;
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 #ifdef APCLI_CERT_SUPPORT
 	UINT32 Data;
 #endif /* APCLI_CERT_SUPPORT */
@@ -1469,7 +1469,7 @@ static inline BOOLEAN ValidApCliEntry(struct rtmp_adapter *pAd, INT apCliIdx)
 
 INT ApCliAllowToSendPacket(
 	IN struct rtmp_adapter *pAd,
-	IN struct wifi_dev *wdev,
+	IN struct rtmp_wifi_dev *wdev,
 	IN struct sk_buff *pPacket,
 	OUT UCHAR *pWcid)
 {
@@ -1540,7 +1540,7 @@ BOOLEAN ApCliValidateRSNIE(
 	NDIS_802_11_AUTHENTICATION_MODE WPA_AuthModeAux;
 	NDIS_802_11_AUTHENTICATION_MODE WPA2_AuthMode;
 	NDIS_802_11_AUTHENTICATION_MODE WPA2_AuthModeAux;
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 
 	pVIE = (PUCHAR) pEid_ptr;
 	len	 = eid_len;
@@ -2348,7 +2348,7 @@ VOID APCli_Init(struct rtmp_adapter *pAd, RTMP_OS_NETDEV_OP_HOOK *pNetDevOps)
 	struct net_device *new_dev_p;
 	INT idx;
 	APCLI_STRUCT *pApCliEntry;
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 
 	/* sanity check to avoid redundant virtual interfaces are created */
 	if (pAd->flg_apcli_init != FALSE)
@@ -2472,7 +2472,7 @@ VOID APCli_Init(struct rtmp_adapter *pAd, RTMP_OS_NETDEV_OP_HOOK *pNetDevOps)
 VOID ApCli_Remove(struct rtmp_adapter *pAd)
 {
 	UINT index;
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 
 	for(index = 0; index < MAX_APCLI_NUM; index++)
 	{
@@ -2518,7 +2518,7 @@ BOOLEAN ApCli_Open(struct rtmp_adapter *pAd, struct net_device *dev_p)
 BOOLEAN ApCli_Close(struct rtmp_adapter *pAd, struct net_device *dev_p)
 {
 	UCHAR ifIndex;
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 	APCLI_STRUCT *apcli_entry;
 
 	for (ifIndex = 0; ifIndex < MAX_APCLI_NUM; ifIndex++)

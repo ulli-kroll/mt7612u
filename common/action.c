@@ -107,7 +107,7 @@ VOID MlmeADDBAAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 	ULONG FrameLen;
 	BA_ORI_ENTRY *pBAEntry = NULL;
 	MAC_TABLE_ENTRY *pEntry = NULL;
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 
 	pInfo = (MLME_ADDBA_REQ_STRUCT *)Elem->Msg;
 	NdisZeroMemory(&Frame, sizeof(FRAME_ADDBA_REQ));
@@ -207,7 +207,7 @@ VOID MlmeDELBAAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 	ULONG FrameLen;
 	FRAME_BAR FrameBar;
 	MAC_TABLE_ENTRY *pEntry = NULL;
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 
 
 	pInfo = (MLME_DELBA_REQ_STRUCT *)Elem->Msg;
@@ -381,7 +381,7 @@ VOID SendBSS2040CoexistMgmtAction(
 	BSS_2040_COEXIST_ELEMENT BssCoexistInfo;
 	BSS_2040_INTOLERANT_CH_REPORT BssIntolerantInfo;
 	UCHAR *pAddr1;
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("SendBSS2040CoexistMgmtAction(): Wcid=%d, apidx=%d, InfoReq=%d!\n", Wcid, apidx, InfoReq));
 
@@ -1010,7 +1010,7 @@ VOID SendNotifyBWActionFrame(struct rtmp_adapter *pAd, UCHAR Wcid, UCHAR apidx)
 	NDIS_STATUS NStatus;
 	FRAME_ACTION_HDR Frame;
 	ULONG FrameLen;
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 
 
 	NStatus = MlmeAllocateMemory(pAd, &pOutBuffer);  /* Get an unused nonpaged memory */

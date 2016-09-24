@@ -2214,7 +2214,7 @@ INT RTMPAPSetInformation(
 		/* Since TKIP, AES, WEP are all supported. It should not have any invalid setting */
                 if (WepStatus <= Ndis802_11GroupWEP104Enabled)
                 {
-                	struct wifi_dev *wdev = &pAd->ApCfg.MBSSID[pObj->ioctl_if].wdev;
+                	struct rtmp_wifi_dev *wdev = &pAd->ApCfg.MBSSID[pObj->ioctl_if].wdev;
 					if (wdev->WepStatus != WepStatus)
 					{
 						/* Config has changed */
@@ -2758,7 +2758,7 @@ INT RTMPAPQueryInformation(
     INT	Status = NDIS_STATUS_SUCCESS;
     POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
     STRING	driverVersion[16];
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 
 #if defined(DBG) || defined(WSC_AP_SUPPORT) ||defined(BB_SOC)
 	UCHAR	apidx = pObj->ioctl_if;
@@ -3133,7 +3133,7 @@ INT RTMPAPQueryInformation(
 #endif /*APCLI_SUPPORT*/
 				{
 
-			struct wifi_dev *wdev;
+			struct rtmp_wifi_dev *wdev;
 			wdev = &pAd->ApCfg.MBSSID[pObj->ioctl_if].wdev;
 			wrq->u.data.length = MAC_ADDR_LEN;
 	            	Status = copy_to_user(wrq->u.data.pointer, &wdev->bssid[0], wrq->u.data.length);
@@ -4246,7 +4246,7 @@ INT	Set_VLANID_Proc(
 	IN	PSTRING			arg)
 {
 	POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 
 
 	wdev = &pAd->ApCfg.MBSSID[pObj->ioctl_if].wdev;
@@ -4270,7 +4270,7 @@ INT	Set_VLANID_Proc(
 INT	Set_VLANPriority_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
-	struct wifi_dev *wdev = &pAd->ApCfg.MBSSID[pObj->ioctl_if].wdev;
+	struct rtmp_wifi_dev *wdev = &pAd->ApCfg.MBSSID[pObj->ioctl_if].wdev;
 
 	wdev->VLAN_Priority = simple_strtol(arg, 0, 10);
 
@@ -4292,7 +4292,7 @@ INT	Set_VLAN_TAG_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	BOOLEAN	bVLAN_Tag;
 	POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 
 
 	bVLAN_Tag = simple_strtol(arg, 0, 10);
@@ -4329,7 +4329,7 @@ INT	Set_AP_AuthMode_Proc(
 	ULONG i;
 	POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
 	UCHAR apidx = pObj->ioctl_if;
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 
 
 	if (apidx >= pAd->ApCfg.BssidNum)
@@ -4373,7 +4373,7 @@ INT	Set_AP_EncrypType_Proc(
 {
 	POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
 	UCHAR		apidx = pObj->ioctl_if;
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 
 	wdev = &pAd->ApCfg.MBSSID[apidx].wdev;
 	if ((strcmp(arg, "NONE") == 0) || (strcmp(arg, "none") == 0))
@@ -4420,7 +4420,7 @@ INT	Set_AP_WpaMixPairCipher_Proc(
 {
 	POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
 	UCHAR		apidx = pObj->ioctl_if;
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 
 	/*
 		In WPA-WPA2 mix mode, it provides a more flexible cipher combination.
@@ -5758,7 +5758,7 @@ INT	Show_StaSecurityInfo_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	INT i;
 	UCHAR apidx;
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 
 	if (pAd == NULL)
 		return FALSE;
@@ -6261,7 +6261,7 @@ VOID RTMPIoctlRadiusData(
 	IN	RTMP_IOCTL_INPUT_STRUCT	*wrq)
 {
 	POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 
 
 	if (pObj->ioctl_if > pAd->ApCfg.BssidNum)
@@ -8213,7 +8213,7 @@ INT Set_ApCli_Ssid_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 	/*UCHAR keyMaterial[40]; */
 	UCHAR PskKey[100];
 	APCLI_STRUCT *apcli_entry;
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 
 	pObj = (POS_COOKIE) pAd->OS_Cookie;
 	if (pObj->ioctl_if_type != INT_APCLI)
@@ -8344,7 +8344,7 @@ INT	Set_ApCli_AuthMode_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 	ULONG i;
 	POS_COOKIE 	pObj = (POS_COOKIE) pAd->OS_Cookie;
 	UCHAR ifIndex;
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 
 	if (pObj->ioctl_if_type != INT_APCLI)
 		return FALSE;
@@ -8410,7 +8410,7 @@ INT	Set_ApCli_EncrypType_Proc(
 	POS_COOKIE 	pObj = (POS_COOKIE) pAd->OS_Cookie;
 	UCHAR 		ifIndex;
 	PAPCLI_STRUCT   pApCliEntry = NULL;
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 
 
 	if (pObj->ioctl_if_type != INT_APCLI)
@@ -8471,7 +8471,7 @@ INT	Set_ApCli_DefaultKeyID_Proc(
 {
 	ULONG 			KeyIdx;
 	POS_COOKIE 		pObj = (POS_COOKIE) pAd->OS_Cookie;
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 
 
 	if (pObj->ioctl_if_type != INT_APCLI)
@@ -8664,7 +8664,7 @@ INT Set_ApCli_TxMode_Proc(
 	IN  PSTRING arg)
 {
 	POS_COOKIE pObj = (POS_COOKIE)pAd->OS_Cookie;
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 
 
 	if (pObj->ioctl_if_type != INT_APCLI)
@@ -8684,7 +8684,7 @@ INT Set_ApCli_TxMcs_Proc(
 	IN  PSTRING arg)
 {
 	POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 
 
 	if (pObj->ioctl_if_type != INT_APCLI)
@@ -8893,7 +8893,7 @@ INT Set_ApCli_WMM_Enable_Proc(
 	POS_COOKIE pObj;
 	UCHAR ifIndex;
 	PAPCLI_STRUCT pApCliEntry = NULL;
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 
 	pObj = (POS_COOKIE) pAd->OS_Cookie;
 	if (pObj->ioctl_if_type != INT_APCLI)
@@ -8991,7 +8991,7 @@ INT	Set_IEEE8021X_Proc(
 {
 	ULONG ieee8021x;
 	POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
-	struct wifi_dev *wdev;
+	struct rtmp_wifi_dev *wdev;
 
 	ieee8021x = simple_strtol(arg, 0, 10);
 
@@ -9420,7 +9420,7 @@ INT	ApCfg_Set_AuthMode_Proc(
 	IN	INT				apidx,
 	IN	PSTRING			arg)
 {
-	struct wifi_dev *wdev = &pAd->ApCfg.MBSSID[apidx].wdev;
+	struct rtmp_wifi_dev *wdev = &pAd->ApCfg.MBSSID[apidx].wdev;
 
 	if ((strcmp(arg, "WEPAUTO") == 0) || (strcmp(arg, "wepauto") == 0))
 		wdev->AuthMode = Ndis802_11AuthModeAutoSwitch;

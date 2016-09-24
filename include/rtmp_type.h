@@ -185,7 +185,7 @@ typedef struct _BANK_RF_CR_REG {
 
 struct mt_dev_priv{
 	struct rtmp_adapter *sys_handle;
-	struct wifi_dev *wifi_dev;
+	struct rtmp_wifi_dev *rtmp_wifi_dev;
 	unsigned long priv_flags;
 	UCHAR sniffer_mode;
 };

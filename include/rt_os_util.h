@@ -270,8 +270,8 @@ UINT32 RtmpOsGetNetIfIndex(struct net_device *pDev);
 VOID RtmpOsSetNetDevPriv(struct net_device *pDev, struct rtmp_adapter *pPriv);
 struct rtmp_adapter *RtmpOsGetNetDevPriv(struct net_device *pDev);
 
-VOID RtmpOsSetNetDevWdev(struct net_device *net_dev, struct wifi_dev *wdev);
-struct wifi_dev *RtmpOsGetNetDevWdev(struct net_device  *pDev);
+VOID RtmpOsSetNetDevWdev(struct net_device *net_dev, struct rtmp_wifi_dev *wdev);
+struct rtmp_wifi_dev *RtmpOsGetNetDevWdev(struct net_device  *pDev);
 
 USHORT RtmpDevPrivFlagsGet(struct net_device *pDev);
 VOID RtmpDevPrivFlagsSet(struct net_device *pDev, USHORT PrivFlags);
