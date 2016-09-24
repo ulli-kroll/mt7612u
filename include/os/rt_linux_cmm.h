@@ -33,12 +33,6 @@ typedef struct _OS_RSTRUC  {
 	UCHAR *pContent; /* pointer to real structure content */
 } OS_RSTRUC;
 
-#ifdef RTMP_MAC_USB
-#define RTMP_DRV_NAME	"rt2870"
-#else
-#define RTMP_DRV_NAME	"rt2860"
-#endif /* RTMP_MAC_USB */
-
 
 /*****************************************************************************
  *	OS task related data structure and definitions
