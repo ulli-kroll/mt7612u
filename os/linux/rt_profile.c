@@ -273,8 +273,6 @@ NDIS_STATUS	RTMPReadParametersHook(struct rtmp_adapter *pAd)
 #endif /*HOSTAPD_SUPPORT */
 
 		{
-#ifndef OS_ABL_SUPPORT
-#endif /* OS_ABL_SUPPORT */
 			os_alloc_mem(pAd, (UCHAR **)&buffer, MAX_INI_BUFFER_SIZE);
 			if (buffer) {
 				memset(buffer, 0x00, buf_size);

@@ -759,9 +759,6 @@ endif
 
 EXTRA_CFLAGS := $(WFLAGS)
 
-#OS ABL - YES or NO
-OSABL = NO
-
 #RT28xx_DIR = home directory of RT28xx source code
 RT28xx_DIR = $(shell pwd)
 
@@ -1265,7 +1262,7 @@ SUBARCH := $(shell uname -m | sed -e s/i.86/i386/)
 ARCH ?= $(SUBARCH)
 endif
 
-export OSABL RT28xx_DIR RT28xx_MODE KSRC CROSS_COMPILE CROSS_COMPILE_INCLUDE PLATFORM RELEASE CHIPSET MODULE  KSRC HAS_WOW_SUPPORT
+export RT28xx_DIR RT28xx_MODE KSRC CROSS_COMPILE CROSS_COMPILE_INCLUDE PLATFORM RELEASE CHIPSET MODULE  KSRC HAS_WOW_SUPPORT
 
 all: build_tools modules
 
@@ -1288,8 +1285,6 @@ clean:
 	rm -f */*/*/*.{o,ko,mod.{o,c}}
 	rm -f */*/*/.*.{cmd,flags,d}
 	rm -fr .tmp_versions
-#Must clean Module.symvers; or you will suffer symbol version not match
-#when OS_ABL = YES.
 	rm -f Module.symvers
 	rm -f Modules.symvers
 	rm -f Module.markers

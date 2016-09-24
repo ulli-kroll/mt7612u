@@ -29,88 +29,6 @@ static BOOLEAN USBDevConfigInit(struct usb_device *dev, struct usb_interface *in
 #define PF_NOFREEZE  0
 #endif
 
-
-#ifdef OS_ABL_SUPPORT
-/* USB complete handlers in LINUX */
-RTMP_DRV_USB_COMPLETE_HANDLER RtmpDrvUsbBulkOutDataPacketComplete = NULL;
-RTMP_DRV_USB_COMPLETE_HANDLER RtmpDrvUsbBulkOutMLMEPacketComplete = NULL;
-RTMP_DRV_USB_COMPLETE_HANDLER RtmpDrvUsbBulkOutNullFrameComplete = NULL;
-RTMP_DRV_USB_COMPLETE_HANDLER RtmpDrvUsbBulkOutRTSFrameComplete = NULL;
-RTMP_DRV_USB_COMPLETE_HANDLER RtmpDrvUsbBulkOutPsPollComplete = NULL;
-RTMP_DRV_USB_COMPLETE_HANDLER RtmpDrvUsbBulkRxComplete = NULL;
-//RTMP_DRV_USB_COMPLETE_HANDLER RtmpDrvUsbBulkCmdRspEventComplete = NULL;
-
-USBHST_STATUS RTUSBBulkOutDataPacketComplete(URBCompleteStatus Status, purbb_t pURB, pregs *pt_regs)
-{
-	RtmpDrvUsbBulkOutDataPacketComplete((VOID *)pURB);
-}
-
-USBHST_STATUS RTUSBBulkOutMLMEPacketComplete(URBCompleteStatus Status, purbb_t pURB, pregs *pt_regs)
-{
-	RtmpDrvUsbBulkOutMLMEPacketComplete((VOID *)pURB);
-}
-
-USBHST_STATUS RTUSBBulkOutNullFrameComplete(URBCompleteStatus Status, purbb_t pURB, pregs *pt_regs)
-{
-	RtmpDrvUsbBulkOutNullFrameComplete((VOID *)pURB);
-}
-
-USBHST_STATUS RTUSBBulkOutRTSFrameComplete(URBCompleteStatus Status, purbb_t pURB, pregs *pt_regs)
-{
-	RtmpDrvUsbBulkOutRTSFrameComplete((VOID *)pURB);
-}
-
-USBHST_STATUS RTUSBBulkOutPsPollComplete(URBCompleteStatus Status, purbb_t pURB, pregs *pt_regs)
-{
-	RtmpDrvUsbBulkOutPsPollComplete((VOID *)pURB);
-}
-
-USBHST_STATUS RTUSBBulkRxComplete(URBCompleteStatus Status, purbb_t pURB, pregs *pt_regs)
-{
-	RtmpDrvUsbBulkRxComplete((VOID *)pURB);
-}
-
-#ifndef RTMP_ANDES_JAY
-USBHST_STATUS RTUSBBulkCmdRspEventComplete(URBCompleteStatus Status, purbb_t pURB, pregs *pt_regs)
-{
-	RtmpDrvUsbBulkCmdRspEventComplete((VOID *)pURB);
-}
-#endif
-
-
-VOID RtmpNetOpsInit(VOID *pDrvNetOpsSrc)
-{
-	RTMP_NET_ABL_OPS *pDrvNetOps = (RTMP_NET_ABL_OPS *)pDrvNetOpsSrc;
-
-
-	pDrvNetOps->RtmpNetUsbBulkOutDataPacketComplete = (RTMP_DRV_USB_COMPLETE_HANDLER)RTUSBBulkOutDataPacketComplete;
-	pDrvNetOps->RtmpNetUsbBulkOutMLMEPacketComplete = (RTMP_DRV_USB_COMPLETE_HANDLER)RTUSBBulkOutMLMEPacketComplete;
-	pDrvNetOps->RtmpNetUsbBulkOutNullFrameComplete = (RTMP_DRV_USB_COMPLETE_HANDLER)RTUSBBulkOutNullFrameComplete;
-	pDrvNetOps->RtmpNetUsbBulkOutRTSFrameComplete = (RTMP_DRV_USB_COMPLETE_HANDLER)RTUSBBulkOutRTSFrameComplete;
-	pDrvNetOps->RtmpNetUsbBulkOutPsPollComplete = (RTMP_DRV_USB_COMPLETE_HANDLER)RTUSBBulkOutPsPollComplete;
-	pDrvNetOps->RtmpNetUsbBulkRxComplete = (RTMP_DRV_USB_COMPLETE_HANDLER)RTUSBBulkRxComplete;
-#ifndef RTMP_ANDES_JAY
-	pDrvNetOps->RtmpNetUsbBulkCmdRspEventComplete = (RTMP_DRV_USB_COMPLETE_HANDLER)RTUSBBulkCmdRspEventComplete;
-#endif /*RTMP_ANDES_JAY */
-}
-
-
-VOID RtmpNetOpsSet(VOID *pDrvNetOpsSrc)
-{
-	RTMP_NET_ABL_OPS *pDrvNetOps = (RTMP_NET_ABL_OPS *)pDrvNetOpsSrc;
-
-
-	RtmpDrvUsbBulkOutDataPacketComplete = pDrvNetOps->RtmpDrvUsbBulkOutDataPacketComplete;
-	RtmpDrvUsbBulkOutMLMEPacketComplete = pDrvNetOps->RtmpDrvUsbBulkOutMLMEPacketComplete;
-	RtmpDrvUsbBulkOutNullFrameComplete = pDrvNetOps->RtmpDrvUsbBulkOutNullFrameComplete;
-	RtmpDrvUsbBulkOutRTSFrameComplete = pDrvNetOps->RtmpDrvUsbBulkOutRTSFrameComplete;
-	RtmpDrvUsbBulkOutPsPollComplete = pDrvNetOps->RtmpDrvUsbBulkOutPsPollComplete;
-	RtmpDrvUsbBulkRxComplete = pDrvNetOps->RtmpDrvUsbBulkRxComplete;
-	//RtmpDrvUsbBulkCmdRspEventComplete = pDrvNetOps->RtmpDrvUsbBulkCmdRspEventComplete;
-}
-#endif /* OS_ABL_SUPPORT */
-
-
 VOID rtusb_reject_pending_pkts(VOID *pAd)
 {
 	/* clear PS packets */
@@ -182,12 +100,6 @@ static int rt2870_probe(
 #endif /* CONFIG_PM */
 
 	/* set/get operators to/from DRIVER module */
-#ifdef OS_ABL_FUNC_SUPPORT
-	/* get DRIVER operations */
-	RtmpNetOpsInit(pRtmpDrvNetOps);
-	RTMP_DRV_OPS_FUNCTION(pRtmpDrvOps, pRtmpDrvNetOps, NULL, NULL);
-	RtmpNetOpsSet(pRtmpDrvNetOps);
-#endif /* OS_ABL_FUNC_SUPPORT */
 
 	rv = RTMPAllocAdapterBlock(handle, &pAd);
 	if (rv != NDIS_STATUS_SUCCESS)

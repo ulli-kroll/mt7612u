@@ -21,7 +21,6 @@
 /*#include "rt_config.h" */
 #include "rtmp_comm.h"
 #include "rt_os_util.h"
-#include "rtmp_osabl.h"
 
 
 #if defined(PLATFORM_BL2348) || defined(PLATFORM_BL23570)

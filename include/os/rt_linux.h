@@ -470,11 +470,7 @@ do { \
 /* TODO: Use this IOCTL carefully when linux kernel version larger than 2.6.27, because the PID only correct when the user space task do this ioctl itself. */
 /*#define RTMP_GET_OS_PID(_x, _y)    _x = get_task_pid(current, PIDTYPE_PID); */
 #define RT_GET_OS_PID(_x, _y)		do{rcu_read_lock(); _x=(ULONG)current->pids[PIDTYPE_PID].pid; rcu_read_unlock();}while(0)
-#ifdef OS_ABL_FUNC_SUPPORT
-#define RTMP_GET_OS_PID(_a, _b)			RtmpOsGetPid(&_a, _b)
-#else
 #define RTMP_GET_OS_PID(_a, _b)			RT_GET_OS_PID(_a, _b)
-#endif /* OS_ABL_FUNC_SUPPORT */
 #define	GET_PID_NUMBER(_v)	pid_nr((_v))
 #define CHECK_PID_LEGALITY(_pid)	if (pid_nr((_pid)) > 0)
 #define KILL_THREAD_PID(_A, _B, _C)	kill_pid((_A), (_B), (_C))
@@ -980,35 +976,18 @@ typedef struct usb_device_id USB_DEVICE_ID;
 #define BULKAGGRE_SIZE				100 /* 100 */
 #endif /* INF_AMAZON_SE */
 
-#ifndef OS_ABL_SUPPORT
 #define RTUSB_ALLOC_URB(iso)		usb_alloc_urb(iso, GFP_ATOMIC)
 #define RTUSB_SUBMIT_URB(pUrb)		usb_submit_urb(pUrb, GFP_ATOMIC)
 #define RTUSB_URB_ALLOC_BUFFER(_dev, _size, _dma)	usb_alloc_coherent(_dev, _size, GFP_ATOMIC, _dma)
 #define RTUSB_URB_FREE_BUFFER(_dev, _size, _addr, _dma)	usb_free_coherent(_dev, _size, _addr, _dma)
 
 #define RTUSB_FILL_BULK_URB(_urb, _dev, _pipe, _buffer, _buffer_len, _complete_fn, _context) usb_fill_bulk_urb(_urb, _dev, _pipe, _buffer, _buffer_len, _complete_fn, _context)
-#else
 
-#define RTUSB_ALLOC_URB(iso)		rausb_alloc_urb(iso)
-#define RTUSB_SUBMIT_URB(pUrb)		rausb_submit_urb(pUrb)
-#define RTUSB_URB_ALLOC_BUFFER		rausb_buffer_alloc
-#define RTUSB_URB_FREE_BUFFER		rausb_buffer_free
-#endif /* OS_ABL_SUPPORT */
-
-#ifndef OS_ABL_SUPPORT
 #define RTUSB_FREE_URB(pUrb)	usb_free_urb(pUrb)
-#else
-#define RTUSB_FREE_URB(pUrb)	rausb_free_urb(pUrb)
-#endif /* OS_ABL_SUPPORT */
 
 /* unlink urb */
 
-#ifndef OS_ABL_SUPPORT
 #define RTUSB_UNLINK_URB(pUrb)		usb_kill_urb(pUrb)
-#else
-#define RTUSB_UNLINK_URB(pUrb)		rausb_kill_urb(pUrb)
-#endif /* OS_ABL_SUPPORT */
-
 
 /* Prototypes of completion funuc. */
 #define RtmpUsbBulkOutDataPacketComplete		RTUSBBulkOutDataPacketComplete
@@ -1120,12 +1099,7 @@ USBHST_STATUS RTUSBBulkCmdRspEventComplete(URBCompleteStatus Status, purbb_t pUR
 #define RTMP_OS_USB_CONTEXT_GET(__pURB)		__pURB->rtusb_urb_context
 #define RTMP_OS_USB_STATUS_GET(__pURB)		__pURB->rtusb_urb_status
 
-#ifndef OS_ABL_SUPPORT
 #define USB_CONTROL_MSG		usb_control_msg
-
-#else
-
-#define USB_CONTROL_MSG		rausb_control_msg
 
 /*extern int rausb_register(struct usb_driver * new_driver); */
 /*extern void rausb_deregister(struct usb_driver * driver); */
@@ -1161,8 +1135,6 @@ extern int rausb_control_msg(VOID *dev,
 							void *data,
 							__u16 size,
 							int timeout);
-
-#endif /* OS_ABL_SUPPORT */
 
 /*#endif // RTMP_USB_SUPPORT */
 

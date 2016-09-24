@@ -504,7 +504,6 @@ long RtmpOsSimpleStrtol(
 	IN	char 					**endp,
 	IN	unsigned int			base);
 
-VOID RtmpOsOpsInit(RTMP_OS_ABL_OPS *pOps);
 
 /* ============================ rt_os_util.c ================================ */
 VOID RtmpDrvRateGet(

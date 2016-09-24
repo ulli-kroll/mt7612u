@@ -27,11 +27,6 @@
 */
 #include	"rt_config.h"
 
-#ifdef OS_ABL_FUNC_SUPPORT
-/* Os utility link: printk, scanf */
-RTMP_OS_ABL_OPS RaOsOps, *pRaOsOps = &RaOsOps;
-#endif /* OS_ABL_FUNC_SUPPORT */
-
 UCHAR NUM_BIT8[] = {0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80};
 #ifdef DBG
 char *CipherName[] = {"none","wep64","wep128","TKIP","AES","CKIP64","CKIP128","CKIP152","SMS4"};
@@ -73,13 +68,6 @@ NDIS_STATUS RTMPAllocAdapterBlock(VOID *handle, VOID **ppAdapter)
 	NDIS_STATUS	 Status;
 	INT index;
 	UCHAR *pBeaconBuf = NULL;
-
-
-#ifdef OS_ABL_FUNC_SUPPORT
-	/* must put the function before any print message */
-	/* init OS utilities provided from UTIL module */
-	RtmpOsOpsInit(&RaOsOps);
-#endif /* OS_ABL_FUNC_SUPPORT */
 
 	DBGPRINT(RT_DEBUG_TRACE, ("--> RTMPAllocAdapterBlock\n"));
 

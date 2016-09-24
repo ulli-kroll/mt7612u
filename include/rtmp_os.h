@@ -30,36 +30,11 @@
 typedef int (*RTMP_PRINTK)(const char *ftm, ...);
 typedef int (*RTMP_SNPRINTF)(char *, ULONG, const char *ftm, ...);
 
-typedef struct _RTMP_OS_ABL_OPS {
-	int (*ra_printk)(const char *ftm, ...);
-	int (*ra_snprintf)(char *, ULONG, const char *ftm, ...);
-} RTMP_OS_ABL_OPS;
-
-extern RTMP_OS_ABL_OPS *pRaOsOps;
-
 #ifndef CONFIG_RTPCI_AP_RF_OFFSET
 #define CONFIG_RTPCI_AP_RF_OFFSET 0
 #endif
 
-#ifdef LINUX
-#ifndef OS_ABL_FUNC_SUPPORT
 #include "os/rt_linux.h"
-
-#else
-
-#ifdef RTMP_MODULE_OS
-/* for util/netif */
-#include "os/rt_linux.h"
-#else
-/* for core */
-#include "os/rt_drv.h"
-#endif /* RTMP_MODULE_OS */
-#endif /* OS_ABL_FUNC_SUPPORT */
-#endif /* LINUX */
-
-
-
-
 
 // TODO: shiang, temporary put it here!
 #include "os/pkt_meta.h"
