@@ -54,14 +54,14 @@ extern RTMP_NET_ABL_OPS *pRtmpDrvNetOps;
 VOID RtmpNetOpsInit(VOID *pNetOpsOrg);
 VOID RtmpNetOpsSet(VOID *pNetOpsOrg);
 
-NDIS_STATUS RTMPAllocAdapterBlock(PVOID handle, VOID **ppAdapter);
-VOID RTMPFreeAdapter(VOID *pAd);
-BOOLEAN RtmpRaDevCtrlExit(VOID *pAd);
-INT RtmpRaDevCtrlInit(VOID *pAd, RTMP_INF_TYPE infType);
-VOID RTMPHandleInterrupt(VOID *pAd);
+NDIS_STATUS RTMPAllocAdapterBlock(PVOID handle, struct rtmp_adapter **ppAdapter);
+VOID RTMPFreeAdapter(struct rtmp_adapter *pAd);
+BOOLEAN RtmpRaDevCtrlExit(struct rtmp_adapter *pAd);
+INT RtmpRaDevCtrlInit(struct rtmp_adapter *pAd, RTMP_INF_TYPE infType);
+VOID RTMPHandleInterrupt(struct rtmp_adapter *pAd);
 
 INT RTMP_COM_IoctlHandle(
-	IN	VOID					*pAd,
+	IN	struct rtmp_adapter				*pAd,
 	IN	RTMP_IOCTL_INPUT_STRUCT	*wrq,
 	IN	INT						cmd,
 	IN	USHORT					subcmd,
@@ -82,7 +82,7 @@ int P2P_PacketSend(
 
 #ifdef CONFIG_AP_SUPPORT
 INT RTMP_AP_IoctlHandle(
-	IN	VOID					*pAd,
+	IN	struct rtmp_adapter			*pAd,
 	IN	RTMP_IOCTL_INPUT_STRUCT	*wrq,
 	IN	INT						cmd,
 	IN	USHORT					subcmd,
@@ -92,7 +92,7 @@ INT RTMP_AP_IoctlHandle(
 
 #ifdef CONFIG_STA_SUPPORT
 INT RTMP_STA_IoctlHandle(
-	IN	VOID					*pAd,
+	IN	struct rtmp_adapter					*pAd,
 	IN	RTMP_IOCTL_INPUT_STRUCT	*wrq,
 	IN	INT						cmd,
 	IN	USHORT					subcmd,
@@ -101,13 +101,13 @@ INT RTMP_STA_IoctlHandle(
 	IN  USHORT                  priv_flags );
 #endif /* CONFIG_STA_SUPPORT */
 
-VOID RTMPDrvOpen(VOID *pAd);
-VOID RTMPDrvClose(VOID *pAd, VOID *net_dev);
-VOID RTMPInfClose(VOID *pAd);
+VOID RTMPDrvOpen(struct rtmp_adapter *pAd);
+VOID RTMPDrvClose(struct rtmp_adapter *pAd, struct net_device *net_dev);
+VOID RTMPInfClose(struct rtmp_adapter *pAd);
 
-int rt28xx_init(VOID *pAd);
+int rt28xx_init(struct rtmp_adapter *pAd);
 
-struct net_device *RtmpPhyNetDevMainCreate(VOID *pAd);
+struct net_device *RtmpPhyNetDevMainCreate(struct rtmp_adapter *pAd);
 
 /* ========================================================================== */
 int rt28xx_close(VOID *dev);
@@ -147,55 +147,55 @@ INT rt28xx_sta_ioctl(
 #endif /* CONFIG_STA_SUPPORT */
 
 struct net_device *RtmpPhyNetDevInit(
-	IN VOID						*pAd,
+	IN struct rtmp_adapter		*pAd,
 	IN RTMP_OS_NETDEV_OP_HOOK	*pNetHook);
 
 BOOLEAN RtmpPhyNetDevExit(
-	IN VOID						*pAd,
+	IN struct rtmp_adapter				*pAd,
 	IN struct net_device *				net_dev);
 
 #endif /* RTMP_MODULE_OS && OS_ABL_FUNC_SUPPORT */
 
 
-VOID RT28xx_MBSS_Init(VOID *pAd, struct net_device *main_dev_p);
+VOID RT28xx_MBSS_Init(struct rtmp_adapter *pAd, struct net_device *main_dev_p);
 INT MBSS_VirtualIF_Open(struct net_device *dev_p);
 INT MBSS_VirtualIF_Close(struct net_device *dev_p);
-VOID RT28xx_MBSS_Remove(VOID *pAd);
+VOID RT28xx_MBSS_Remove(struct rtmp_adapter *pAd);
 
 
-VOID RT28xx_WDS_Init(VOID *pAd, struct net_device *net_dev);
+VOID RT28xx_WDS_Init(struct rtmp_adapter *pAd, struct net_device *net_dev);
 INT WdsVirtualIF_open(struct net_device *dev);
 INT WdsVirtualIF_close(struct net_device *dev);
-VOID RT28xx_WDS_Remove(VOID *pAd);
+VOID RT28xx_WDS_Remove(struct rtmp_adapter *pAd);
 
-VOID RT28xx_Monitor_Init(VOID *pAd, struct net_device *main_dev_p);
-VOID RT28xx_Monitor_Remove(VOID *pAd);
+VOID RT28xx_Monitor_Init(struct rtmp_adapter *pAd, struct net_device *main_dev_p);
+VOID RT28xx_Monitor_Remove(struct rtmp_adapter *pAd);
 
 
-VOID RT28xx_ApCli_Init(VOID *pAd, struct net_device *main_dev_p);
+VOID RT28xx_ApCli_Init(struct rtmp_adapter *pAd, struct net_device *main_dev_p);
 INT ApCli_VirtualIF_Open(struct net_device *dev_p);
 INT ApCli_VirtualIF_Close(struct net_device *dev_p);
-VOID RT28xx_ApCli_Remove(VOID *pAd);
+VOID RT28xx_ApCli_Remove(struct rtmp_adapter *pAd);
 
 
-VOID RTMP_Mesh_Init(VOID *pAd, struct net_device *main_dev_p, PSTRING pHostName);
+VOID RTMP_Mesh_Init(struct rtmp_adapter *pAd, struct net_device *main_dev_p, PSTRING pHostName);
 INT Mesh_VirtualIF_Open(struct net_device *pDev);
 INT Mesh_VirtualIF_Close(struct net_device *pDev);
-VOID RTMP_Mesh_Remove(VOID *pAd);
+VOID RTMP_Mesh_Remove(struct rtmp_adapter *pAd);
 
-VOID RTMP_P2P_Init(VOID *pAd, struct net_device *main_dev_p);
+VOID RTMP_P2P_Init(struct rtmp_adapter *pAd, struct net_device *main_dev_p);
  INT P2P_VirtualIF_Open(struct net_device *dev_p);
  INT P2P_VirtualIF_Close(struct net_device *dev_p);
  INT P2P_VirtualIF_PacketSend(
 	 IN struct sk_buff * skb_p,
 	 IN struct net_device *	 dev_p);
- VOID RTMP_P2P_Remove(VOID *pAd);
+ VOID RTMP_P2P_Remove(struct rtmp_adapter *pAd);
 
 
 #ifdef CONFIG_AP_SUPPORT
 
 BOOLEAN RTMP_CFG80211_VIF_P2P_GO_ON(
-	IN      VOID     *pAdSrc);
+	IN      struct rtmp_adapter     *pAdSrc);
 
 #endif
 
@@ -204,29 +204,29 @@ BOOLEAN RTMP_CFG80211_VIF_P2P_GO_ON(
 #define CFG_P2PCLI_ON(__pAd) RTMP_CFG80211_VIF_P2P_CLI_ON(__pAd)
 
 BOOLEAN RTMP_CFG80211_VIF_P2P_GO_ON(
-	IN      VOID     *pAdSrc);
+	IN      struct rtmp_adapter     *pAdSrc);
 
 BOOLEAN RTMP_CFG80211_VIF_P2P_CLI_ON(
-    IN      VOID     *pAdSrc);
+    IN      struct rtmp_adapter     *pAdSrc);
 
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
-VOID RTMP_CFG80211_DummyP2pIf_Init(VOID *pAdSrc);
-VOID RTMP_CFG80211_DummyP2pIf_Remove(VOID *pAdSrc);
+VOID RTMP_CFG80211_DummyP2pIf_Init(struct rtmp_adapter *pAdSrc);
+VOID RTMP_CFG80211_DummyP2pIf_Remove(struct rtmp_adapter *pAdSrc);
 
-BOOLEAN RTMP_CFG80211_VIF_P2P_CLI_ON(VOID *pAdSrc);
+BOOLEAN RTMP_CFG80211_VIF_P2P_CLI_ON(struct rtmp_adapter *pAdSrc);
 #endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
 #endif /* RT_CFG80211_P2P_SUPPORT */
 
-struct net_device *RTMP_CFG80211_FindVifEntry_ByType(VOID *pAdSrc, UINT32 devType);
-PWIRELESS_DEV RTMP_CFG80211_FindVifEntryWdev_ByType(VOID *pAdSrc, UINT32 devType);
-VOID RTMP_CFG80211_AddVifEntry(VOID *pAdSrc, struct net_device *pNewNetDev, UINT32 DevType);
-VOID RTMP_CFG80211_RemoveVifEntry(VOID *pAdSrc, struct net_device *pNewNetDev);
+struct net_device *RTMP_CFG80211_FindVifEntry_ByType(struct rtmp_adapter *pAdSrc, UINT32 devType);
+PWIRELESS_DEV RTMP_CFG80211_FindVifEntryWdev_ByType(struct rtmp_adapter *pAdSrc, UINT32 devType);
+VOID RTMP_CFG80211_AddVifEntry(struct rtmp_adapter *pAdSrc, struct net_device *pNewNetDev, UINT32 DevType);
+VOID RTMP_CFG80211_RemoveVifEntry(struct rtmp_adapter *pAdSrc, struct net_device *pNewNetDev);
 
-struct net_device *RTMP_CFG80211_VirtualIF_Get(VOID *pAdSrc);
-VOID RTMP_CFG80211_VirtualIF_CancelP2pClient(VOID *pAdSrc);
-VOID RTMP_CFG80211_VirtualIF_Init(VOID *pAd, CHAR *pIfName, UINT32 DevType);
-VOID RTMP_CFG80211_VirtualIF_Remove(VOID *pAd,struct net_device *dev_p, UINT32 DevType);
-VOID RTMP_CFG80211_AllVirtualIF_Remove(VOID *pAdSrc);
+struct net_device *RTMP_CFG80211_VirtualIF_Get(struct rtmp_adapter *pAdSrc);
+VOID RTMP_CFG80211_VirtualIF_CancelP2pClient(struct rtmp_adapter *pAdSrc);
+VOID RTMP_CFG80211_VirtualIF_Init(struct rtmp_adapter *pAd, CHAR *pIfName, UINT32 DevType);
+VOID RTMP_CFG80211_VirtualIF_Remove(struct rtmp_adapter *pAd,struct net_device *dev_p, UINT32 DevType);
+VOID RTMP_CFG80211_AllVirtualIF_Remove(struct rtmp_adapter *pAdSrc);
 
 
 #ifdef RT_CFG80211_ANDROID_PRIV_LIB_SUPPORT

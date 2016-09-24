@@ -202,14 +202,13 @@ VOID CFG80211DRV_DisableApInterface(struct rtmp_adapter *pAd)
 }
 
 VOID CFG80211_UpdateBeacon(
-	VOID                                            *pAdOrg,
+	struct rtmp_adapter                                *pAd,
 	UCHAR 										    *beacon_head_buf,
 	UINT32											beacon_head_len,
 	UCHAR 										    *beacon_tail_buf,
 	UINT32											beacon_tail_len,
 	BOOLEAN											isAllUpdate)
 {
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdOrg;
 	PCFG80211_CTRL pCfg80211_ctrl = &pAd->cfg80211_ctrl;
 	HTTRANSMIT_SETTING BeaconTransmit;   /* MGMT frame PHY rate setting when operatin at Ht rate. */
 	PUCHAR pBeaconFrame = (PUCHAR)pAd->ApCfg.MBSSID[MAIN_MBSSID].BeaconBuf;
@@ -290,9 +289,8 @@ VOID CFG80211_UpdateBeacon(
 
 }
 
-BOOLEAN CFG80211DRV_OpsBeaconSet(VOID *pAdOrg, VOID *pData)
+BOOLEAN CFG80211DRV_OpsBeaconSet(struct rtmp_adapter *pAd, VOID *pData)
 {
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdOrg;
 	CMD_RTPRIV_IOCTL_80211_BEACON *pBeacon;
 	pBeacon = (CMD_RTPRIV_IOCTL_80211_BEACON *)pData;
 
@@ -302,9 +300,8 @@ BOOLEAN CFG80211DRV_OpsBeaconSet(VOID *pAdOrg, VOID *pData)
 							   TRUE);
 }
 
-BOOLEAN CFG80211DRV_OpsBeaconAdd(VOID *pAdOrg, VOID *pData)
+BOOLEAN CFG80211DRV_OpsBeaconAdd(struct rtmp_adapter *pAd, VOID *pData)
 {
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdOrg;
 	CMD_RTPRIV_IOCTL_80211_BEACON *pBeacon;
 	UINT32 rx_filter_flag;
 	BOOLEAN Cancelled;
@@ -510,10 +507,9 @@ BOOLEAN CFG80211DRV_OpsBeaconAdd(VOID *pAdOrg, VOID *pData)
 }
 
 BOOLEAN CFG80211DRV_ApKeyDel(
-	VOID                                            *pAdOrg,
+	struct rtmp_adapter 				*pAd,
 	VOID                                            *pData)
 {
-    struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdOrg;
     CMD_RTPRIV_IOCTL_80211_KEY *pKeyInfo;
 	MAC_TABLE_ENTRY *pEntry;
 
@@ -540,10 +536,9 @@ BOOLEAN CFG80211DRV_ApKeyDel(
 
 
 VOID CFG80211DRV_RtsThresholdAdd(
-	VOID                                            *pAdOrg,
+	struct rtmp_adapter                             *pAd,
 	UINT                                            threshold)
 {
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdOrg;
 
 		if((threshold > 0) && (threshold <= MAX_RTS_THRESHOLD))
 			pAd->CommonCfg.RtsThreshold  = (USHORT)threshold;
@@ -555,10 +550,9 @@ VOID CFG80211DRV_RtsThresholdAdd(
 
 
 VOID CFG80211DRV_FragThresholdAdd(
-	VOID                                            *pAdOrg,
+	struct rtmp_adapter                            *pAd,
 	UINT                                            threshold)
 {
-		struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdOrg;
 		if (threshold > MAX_FRAG_THRESHOLD || threshold < MIN_FRAG_THRESHOLD)
 		{
 			/*Illegal FragThresh so we set it to default*/
@@ -591,11 +585,10 @@ VOID CFG80211DRV_FragThresholdAdd(
 
 
 BOOLEAN CFG80211DRV_ApKeyAdd(
-	VOID                                            *pAdOrg,
+	struct rtmp_adapter                             *pAd,
 	VOID                                            *pData)
 {
 #ifdef CONFIG_AP_SUPPORT
-    struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdOrg;
     CMD_RTPRIV_IOCTL_80211_KEY *pKeyInfo;
 	MAC_TABLE_ENTRY *pEntry;
 	PMULTISSID_STRUCT pMbss = &pAd->ApCfg.MBSSID[MAIN_MBSSID];
@@ -734,11 +727,10 @@ BOOLEAN CFG80211DRV_ApKeyAdd(
 }
 
 INT CFG80211_StaPortSecured(
-	IN VOID                                         *pAdCB,
+	IN struct rtmp_adapter                          *pAd,
 	IN UCHAR 					*pMac,
 	IN UINT						flag)
 {
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdCB;
 	MAC_TABLE_ENTRY *pEntry;
 
 	pEntry = MacTableLookup(pAd, pMac);
@@ -767,10 +759,9 @@ INT CFG80211_StaPortSecured(
 }
 
 INT CFG80211_ApStaDel(
-	IN VOID                                         *pAdCB,
+	IN struct rtmp_adapter                          *pAd,
 	IN UCHAR                                        *pMac)
 {
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdCB;
 	MAC_TABLE_ENTRY *pEntry;
 
 	if (pMac == NULL)
@@ -796,12 +787,10 @@ INT CFG80211_ApStaDel(
 }
 
 INT CFG80211_setApDefaultKey(
-	IN VOID                    *pAdCB,
+	IN struct rtmp_adapter                    *pAd,
 	IN UINT 					Data
 )
 {
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdCB;
-
 	DBGPRINT(RT_DEBUG_TRACE, ("Set Ap Default Key: %d\n", Data));
     pAd->ApCfg.MBSSID[MAIN_MBSSID].wdev.DefaultKeyId = Data;
 	return 0;

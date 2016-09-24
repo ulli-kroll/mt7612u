@@ -6938,7 +6938,7 @@ VOID RTMPDisableDesiredHtInfo(
 
 #ifdef SYSTEM_LOG_SUPPORT
 VOID RtmpDrvSendWirelessEvent(
-	IN	VOID			*pAdSrc,
+	IN	struct rtmp_adapter	*pAdSrc,
 	IN	USHORT			Event_flag,
 	IN	PUCHAR 			pAddr,
 	IN  UCHAR			BssIdx,
@@ -7138,7 +7138,7 @@ BOOLEAN RTMP_FillTxBlkInfo(
 	IN TX_BLK *pTxBlk);
 
  void announce_802_3_packet(
-	IN	VOID			*pAdSrc,
+	IN	struct rtmp_adapter	*pAdSrc,
 	IN	struct sk_buff *pPacket,
 	IN	UCHAR			OpMode);
 
@@ -8136,7 +8136,7 @@ VOID RTMPIoctlShow(
 	IN ULONG Data);
 
 INT RTMP_COM_IoctlHandle(
-	IN VOID *pAdSrc,
+	IN struct rtmp_adapter *pAdSrc,
 	IN RTMP_IOCTL_INPUT_STRUCT *wrq,
 	IN INT cmd,
 	IN USHORT subcmd,

@@ -73,7 +73,7 @@ Note:
 		it will not work! You must rmmod rt2860ap.ko and lsmod rt2860ap.ko again.
 ========================================================================
 */
-VOID RT28xx_MBSS_Init(VOID *pAd, struct net_device *pDevMain)
+VOID RT28xx_MBSS_Init(struct rtmp_adapter *pAd, struct net_device *pDevMain)
 {
 	RTMP_OS_NETDEV_OP_HOOK netDevHook;
 
@@ -106,7 +106,7 @@ Note:
     Main BSS is not removed here.
 ========================================================================
 */
-VOID RT28xx_MBSS_Remove(VOID *pAd)
+VOID RT28xx_MBSS_Remove(struct rtmp_adapter *pAd)
 {
 
 	RTMP_AP_IoctlHandle(pAd, NULL, CMD_RTPRIV_IOCTL_MBSS_REMOVE, 0, NULL, 0);

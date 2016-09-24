@@ -35,9 +35,8 @@ NDIS_STATUS WriteDatThread(struct rtmp_adapter *pAd);
 #endif /* PROFILE_STORE */
 #endif /* CONFIG_STA_SUPPORT */
 
-int rt28xx_init(VOID *pAdSrc)
+int rt28xx_init(struct rtmp_adapter *pAd)
 {
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdSrc;
 	NDIS_STATUS Status;
 #ifdef RTMP_MAC_USB
 	UINT index = 0;
@@ -564,7 +563,7 @@ err0:
 }
 
 
-VOID RTMPDrvOpen(VOID *pAdSrc)
+VOID RTMPDrvOpen(struct rtmp_adapter *pAdSrc)
 {
 	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdSrc;
 
@@ -665,9 +664,8 @@ VOID RTMPDrvOpen(VOID *pAdSrc)
 }
 
 
-VOID RTMPDrvClose(VOID *pAdSrc, VOID *net_dev)
+VOID RTMPDrvClose(struct rtmp_adapter *pAd, struct net_device *net_dev)
 {
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdSrc;
 	UINT32 i = 0;
 
 
@@ -901,10 +899,8 @@ VOID RTMPDrvClose(VOID *pAdSrc, VOID *net_dev)
 }
 
 
-VOID RTMPInfClose(VOID *pAdSrc)
+VOID RTMPInfClose(struct rtmp_adapter *pAd)
 {
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdSrc;
-
 #ifdef CONFIG_AP_SUPPORT
 	pAd->ApCfg.MBSSID[MAIN_MBSSID].bBcnSntReq = FALSE;
 
@@ -990,9 +986,8 @@ VOID RTMPInfClose(VOID *pAdSrc)
 
 
 
-struct net_device *RtmpPhyNetDevMainCreate(VOID *pAdSrc)
+struct net_device *RtmpPhyNetDevMainCreate(struct rtmp_adapter *pAd)
 {
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdSrc;
 	struct net_device *pDevNew;
 	UINT32 MC_RowID = 0, IoctlIF = 0;
 	char *dev_name;

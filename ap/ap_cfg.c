@@ -9910,14 +9910,13 @@ Note:
 ========================================================================
 */
 INT RTMP_AP_IoctlHandle(
-	IN	VOID					*pAdSrc,
+	IN	struct rtmp_adapter				*pAd,
 	IN	RTMP_IOCTL_INPUT_STRUCT	*wrq,
 	IN	INT						cmd,
 	IN	USHORT					subcmd,
 	IN	VOID					*pData,
 	IN	ULONG					Data)
 {
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdSrc;
 	POS_COOKIE pObj = (POS_COOKIE)pAd->OS_Cookie;
 	INT Status = NDIS_STATUS_SUCCESS;
 

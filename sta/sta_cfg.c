@@ -7902,7 +7902,7 @@ Note:
 ========================================================================
 */
 INT RTMP_STA_IoctlHandle(
-	IN	VOID					*pAdSrc,
+	IN	struct rtmp_adapter				*pAd,
 	IN	RTMP_IOCTL_INPUT_STRUCT	*pRequest,
 	IN	INT						Command,
 	IN	USHORT					Subcmd,
@@ -7910,7 +7910,6 @@ INT RTMP_STA_IoctlHandle(
 	IN  ULONG					Data,
 	IN  USHORT                  priv_flags)
 {
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdSrc;
 	POS_COOKIE pObj = (POS_COOKIE)pAd->OS_Cookie;
 	INT Status = NDIS_STATUS_SUCCESS;
 

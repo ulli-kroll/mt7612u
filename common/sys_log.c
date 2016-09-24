@@ -67,13 +67,12 @@ char const *pWirelessSysEventText[IW_SYS_EVENT_TYPE_NUM] = {
 	========================================================================
 */
 VOID RtmpDrvSendWirelessEvent(
-	IN	VOID					*pAdSrc,
+	IN	struct rtmp_adapter			*pAd,
 	IN	USHORT					Event_flag,
 	IN	PUCHAR 					pAddr,
 	IN  UCHAR					BssIdx,
 	IN	CHAR					Rssi)
 {
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdSrc;
 	PSTRING	pBuf = NULL, pBufPtr = NULL;
 	USHORT	event, type, BufLen;
 	UCHAR	event_table_len = 0;

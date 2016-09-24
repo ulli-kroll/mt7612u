@@ -39,15 +39,13 @@ extern INT RtmpIoctl_rt_ioctl_siwauth(
 
 
 INT CFG80211DRV_IoctlHandle(
-	IN	VOID					*pAdSrc,
+	IN	struct rtmp_adapter			*pAd,
 	IN	RTMP_IOCTL_INPUT_STRUCT	*wrq,
 	IN	INT						cmd,
 	IN	USHORT					subcmd,
 	IN	VOID					*pData,
 	IN	ULONG					Data)
 {
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdSrc;
-
 	switch(cmd)
 	{
 		case CMD_RTPRIV_IOCTL_80211_START:
@@ -307,11 +305,10 @@ INT CFG80211DRV_IoctlHandle(
 }
 
 VOID CFG80211DRV_OpsMgmtFrameProbeRegister(
-        VOID                                            *pAdOrg,
+        struct rtmp_adapter                             *pAd,
         VOID                                            *pData,
 		BOOLEAN                                          isReg)
 {
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *) pAdOrg;
 	PCFG80211_CTRL pCfg80211_ctrl = &pAd->cfg80211_ctrl;
 
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
@@ -370,11 +367,10 @@ VOID CFG80211DRV_OpsMgmtFrameProbeRegister(
 }
 
 VOID CFG80211DRV_OpsMgmtFrameActionRegister(
-        VOID                                            *pAdOrg,
+        struct rtmp_adapter                              *pAd,
         VOID                                            *pData,
 		BOOLEAN                                          isReg)
 {
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *) pAdOrg;
 	PCFG80211_CTRL pCfg80211_ctrl = &pAd->cfg80211_ctrl;
 
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
@@ -436,10 +432,9 @@ VOID CFG80211DRV_OpsMgmtFrameActionRegister(
 }
 
 VOID CFG80211DRV_OpsChangeBssParm(
-        VOID                                            *pAdOrg,
+        struct rtmp_adapter                             *pAd,
         VOID                                            *pData)
 {
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdOrg;
 	CMD_RTPRIV_IOCTL_80211_BSS_PARM *pBssInfo;
 	BOOLEAN TxPreamble;
 
@@ -607,11 +602,10 @@ BOOLEAN CFG80211DRV_OpsSetChannel(struct rtmp_adapter *pAd, VOID *pData)
 }
 
 BOOLEAN CFG80211DRV_OpsJoinIbss(
-	VOID						*pAdOrg,
+	struct rtmp_adapter				*pAd,
 	VOID						*pData)
 {
 #ifdef CONFIG_STA_SUPPORT
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdOrg;
 	CMD_RTPRIV_IOCTL_80211_IBSS *pIbssInfo;
 
 
@@ -625,11 +619,10 @@ BOOLEAN CFG80211DRV_OpsJoinIbss(
 }
 
 BOOLEAN CFG80211DRV_OpsLeave(
-	VOID						*pAdOrg,
+	struct rtmp_adapter				*pAd,
 	UINT8						IfType)
 {
 #ifdef CONFIG_STA_SUPPORT
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdOrg;
 
     MLME_DEAUTH_REQ_STRUCT   DeAuthReq;
     MLME_QUEUE_ELEM *pMsgElem = NULL;
@@ -669,10 +662,9 @@ BOOLEAN CFG80211DRV_OpsLeave(
 
 
 BOOLEAN CFG80211DRV_StaGet(
-	VOID						*pAdOrg,
+	struct rtmp_adapter				*pAd,
 	VOID						*pData)
 {
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdOrg;
 	CMD_RTPRIV_IOCTL_80211_STA *pIbssInfo;
 
 	pIbssInfo = (CMD_RTPRIV_IOCTL_80211_STA *)pData;
@@ -779,11 +771,10 @@ BOOLEAN CFG80211DRV_StaGet(
 }
 
 BOOLEAN CFG80211DRV_StaKeyAdd(
-	VOID						*pAdOrg,
+	struct rtmp_adapter				*pAd,
 	VOID						*pData)
 {
 #ifdef CONFIG_STA_SUPPORT
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdOrg;
 	CMD_RTPRIV_IOCTL_80211_KEY *pKeyInfo;
 
 
@@ -862,11 +853,10 @@ BOOLEAN CFG80211DRV_StaKeyAdd(
 }
 
 BOOLEAN CFG80211DRV_Connect(
-	VOID						*pAdOrg,
+	struct rtmp_adapter				*pAd,
 	VOID						*pData)
 {
 #ifdef CONFIG_STA_SUPPORT
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdOrg;
 	CMD_RTPRIV_IOCTL_80211_CONNECT *pConnInfo;
 	UCHAR SSID[NDIS_802_11_LENGTH_SSID + 1]; /* Add One for SSID_Len == 32 */
 	UINT32 SSIDLen;
@@ -1041,12 +1031,10 @@ BOOLEAN CFG80211DRV_Connect(
 
 
 VOID CFG80211DRV_RegNotify(
-	VOID						*pAdOrg,
+	struct rtmp_adapter				*pAd,
 	VOID						*pData)
 {
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdOrg;
 	CMD_RTPRIV_IOCTL_80211_REG_NOTIFY *pRegInfo;
-
 
 	pRegInfo = (CMD_RTPRIV_IOCTL_80211_REG_NOTIFY *)pData;
 
@@ -1068,10 +1056,9 @@ VOID CFG80211DRV_RegNotify(
 
 
 VOID CFG80211DRV_SurveyGet(
-	VOID						*pAdOrg,
+	struct rtmp_adapter				*pAd,
 	VOID						*pData)
 {
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdOrg;
 	CMD_RTPRIV_IOCTL_80211_SURVEY *pSurveyInfo;
 
 
@@ -1087,10 +1074,9 @@ VOID CFG80211DRV_SurveyGet(
 
 
 VOID CFG80211_UnRegister(
-	IN VOID						*pAdOrg,
+	IN struct rtmp_adapter				*pAd,
 	IN VOID						*pNetDev)
 {
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdOrg;
 	PCFG80211_CTRL pCfg80211_ctrl = &pAd->cfg80211_ctrl;
 
 	/* sanity check */
@@ -1169,11 +1155,10 @@ Note:
 ========================================================================
 */
 VOID CFG80211_BeaconCountryRegionParse(
-	IN VOID						*pAdCB,
+	IN struct rtmp_adapter		*pAd,
 	IN NDIS_802_11_VARIABLE_IEs	*pVIE,
 	IN UINT16					LenVIE)
 {
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdCB;
 	UCHAR *pElement = (UCHAR *)pVIE;
 	UINT32 LenEmt;
 
@@ -1219,10 +1204,9 @@ Note:
 
 #ifdef CONFIG_STA_SUPPORT
 VOID CFG80211_LostApInform(
-    IN VOID 					*pAdCB)
+    IN struct rtmp_adapter		*pAd)
 {
 
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdCB;
 	CFG80211_CB *p80211CB = pAd->pCfg80211_CB;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("80211> CFG80211_LostApInform ==> %d\n",
@@ -1257,13 +1241,10 @@ Note:
 ========================================================================
 */
 VOID CFG80211_RegHint(
-	IN VOID						*pAdCB,
+	IN struct rtmp_adapter				*pAd,
 	IN UCHAR					*pCountryIe,
 	IN ULONG					CountryIeLen)
 {
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdCB;
-
-
 	CFG80211OS_RegHint(CFG80211CB, pCountryIe, CountryIeLen);
 }
 
@@ -1286,13 +1267,11 @@ Note:
 ========================================================================
 */
 VOID CFG80211_RegHint11D(
-	IN VOID						*pAdCB,
+	IN struct rtmp_adapter				*pAd,
 	IN UCHAR					*pCountryIe,
 	IN ULONG					CountryIeLen)
 {
 	/* no regulatory_hint_11d() in 2.6.32 */
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdCB;
-
 
 	CFG80211OS_RegHint11D(CFG80211CB, pCountryIe, CountryIeLen);
 }
@@ -1319,11 +1298,10 @@ Note:
 ========================================================================
 */
 VOID CFG80211_RegRuleApply(
-	IN VOID						*pAdCB,
+	IN struct rtmp_adapter				*pAd,
 	IN VOID						*pWiphy,
 	IN UCHAR					*pAlpha2)
 {
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdCB;
 	VOID *pBand24G, *pBand5G;
 	UINT32 IdBand, IdChan, IdPwr;
 	UINT32 ChanNum, ChanId, Power, RecId, DfsType;
@@ -1477,7 +1455,7 @@ Note:
 ========================================================================
 */
 VOID CFG80211_ConnectResultInform(
-	IN VOID						*pAdCB,
+	IN struct rtmp_adapter				*pAd,
 	IN UCHAR					*pBSSID,
 	IN UCHAR					*pReqIe,
 	IN UINT32					ReqIeLen,
@@ -1485,9 +1463,6 @@ VOID CFG80211_ConnectResultInform(
 	IN UINT32					RspIeLen,
 	IN UCHAR					FlgIsSuccess)
 {
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdCB;
-
-
 	CFG80211DBG(RT_DEBUG_TRACE, ("80211> CFG80211_ConnectResultInform ==>\n"));
 
 	CFG80211OS_ConnectResultInform(CFG80211CB,
@@ -1523,9 +1498,8 @@ Note:
 ========================================================================
 */
 BOOLEAN CFG80211_SupBandReInit(
-	IN VOID						*pAdCB)
+	IN struct rtmp_adapter				*pAd)
 {
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdCB;
 	CFG80211_BAND BandInfo;
 
 
@@ -1541,11 +1515,10 @@ BOOLEAN CFG80211_SupBandReInit(
 #ifdef CONFIG_STA_SUPPORT
 //CMD_RTPRIV_IOCTL_80211_KEY_DEFAULT_SET:
 INT CFG80211_setStaDefaultKey(
-	IN VOID                     *pAdCB,
-	IN UINT 					Data
+	IN struct rtmp_adapter                   *pAd,
+	IN UINT 				Data
 )
 {
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdCB;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set Sta Default Key: %d\n", Data));
     pAd->StaCfg.wdev.DefaultKeyId = Data; /* base 0 */
@@ -1568,9 +1541,8 @@ INT CFG80211_setStaMgmtDefaultKey(
 
 #endif /*CONFIG_STA_SUPPORT*/
 INT CFG80211_reSetToDefault(
-	IN VOID                                         *pAdCB)
+	IN struct rtmp_adapter                       *pAd)
 {
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdCB;
 	PCFG80211_CTRL pCfg80211_ctrl = &pAd->cfg80211_ctrl;
 	DBGPRINT(RT_DEBUG_TRACE, (" %s\n", __FUNCTION__));
 #ifdef CONFIG_STA_SUPPORT
@@ -1595,12 +1567,11 @@ initList(&pAd->cfg80211_ctrl.cfg80211TxPacketList);
 */
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
 BOOLEAN CFG80211_checkScanResInKernelCache(
-    IN VOID                                         *pAdCB,
+    IN struct rtmp_adapter                                       *pAd,
     IN UCHAR                                        *pBSSID,
 	IN UCHAR					*pSsid,
 	IN INT       					ssidLen)
 {
-        struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdCB;
         CFG80211_CB *pCfg80211_CB  = (CFG80211_CB *)pAd->pCfg80211_CB;
         struct wiphy *pWiphy = pCfg80211_CB->pCfg80211_Wdev->wiphy;
         struct cfg80211_bss *bss;
@@ -1618,9 +1589,8 @@ BOOLEAN CFG80211_checkScanResInKernelCache(
 }
 
 BOOLEAN CFG80211_checkScanTable(
-        IN VOID                                         *pAdCB)
+        IN struct rtmp_adapter                               *pAd)
 {
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdCB;
 	CFG80211_CB *pCfg80211_CB  = (CFG80211_CB *)pAd->pCfg80211_CB;
 	struct wiphy *pWiphy = pCfg80211_CB->pCfg80211_Wdev->wiphy;
 	ULONG bss_idx = BSS_NOT_FOUND;

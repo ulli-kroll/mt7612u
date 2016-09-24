@@ -443,11 +443,10 @@ static INT process_nbns_packet(
 #endif /* INF_PPA_SUPPORT */
 
 void announce_802_3_packet(
-	IN VOID *pAdSrc,
+	IN struct rtmp_adapter *pAd,
 	IN struct sk_buff *pPacket,
 	IN UCHAR OpMode)
 {
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdSrc;
 	struct sk_buff *pRxPkt = pPacket;
 
 
@@ -591,9 +590,8 @@ void announce_802_3_packet(
 
 extern NDIS_SPIN_LOCK TimerSemLock;
 
-VOID RTMPFreeAdapter(VOID *pAdSrc)
+VOID RTMPFreeAdapter(struct rtmp_adapter *pAd)
 {
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdSrc;
 	POS_COOKIE os_cookie;
 	int index;
 

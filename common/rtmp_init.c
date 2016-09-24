@@ -62,7 +62,7 @@ NDIS_SPIN_LOCK TimerSemLock;
 
 	========================================================================
 */
-NDIS_STATUS RTMPAllocAdapterBlock(VOID *handle, VOID **ppAdapter)
+NDIS_STATUS RTMPAllocAdapterBlock(VOID *handle, struct rtmp_adapter **ppAdapter)
 {
 	struct rtmp_adapter *pAd = NULL;
 	NDIS_STATUS	 Status;
@@ -3658,9 +3658,8 @@ BOOLEAN PairEP(struct rtmp_adapter *pAd, UINT8 EP)
 #endif /* RTMP_USB_SUPPORT */
 
 
-INT RtmpRaDevCtrlInit(VOID *pAdSrc, RTMP_INF_TYPE infType)
+INT RtmpRaDevCtrlInit(struct rtmp_adapter *pAd, RTMP_INF_TYPE infType)
 {
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdSrc;
 #ifdef RTMP_MAC_USB
 	UINT8 i;
 #endif /* RTMP_MAC_USB */
@@ -3765,9 +3764,8 @@ INT RtmpRaDevCtrlInit(VOID *pAdSrc, RTMP_INF_TYPE infType)
 }
 
 
-BOOLEAN RtmpRaDevCtrlExit(IN VOID *pAdSrc)
+BOOLEAN RtmpRaDevCtrlExit(IN struct rtmp_adapter *pAd)
 {
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdSrc;
 	INT index;
 
 #ifdef MULTIPLE_CARD_SUPPORT

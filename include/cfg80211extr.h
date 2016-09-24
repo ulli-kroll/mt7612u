@@ -129,34 +129,34 @@
 
 /* Scan Releated */
 #ifdef CONFIG_STA_SUPPORT
-BOOLEAN CFG80211DRV_OpsScanRunning(VOID *pAdOrg);
+BOOLEAN CFG80211DRV_OpsScanRunning(struct rtmp_adapter *pAdOrg);
 #endif /*CONFIG_STA_SUPPORT*/
 BOOLEAN CFG80211DRV_OpsScanSetSpecifyChannel(
-	VOID *pAdOrg, VOID *pData, UINT8 dataLen);
+	struct rtmp_adapter *pAdOrg, VOID *pData, UINT8 dataLen);
 
 BOOLEAN CFG80211DRV_OpsScanCheckStatus(
-	VOID *pAdOrg, UINT8	IfType);
+	struct rtmp_adapter *pAdOrg, UINT8	IfType);
 
-BOOLEAN CFG80211DRV_OpsScanExtraIesSet(VOID *pAdOrg);
+BOOLEAN CFG80211DRV_OpsScanExtraIesSet(struct rtmp_adapter *pAdOrg);
 
-VOID CFG80211DRV_OpsScanInLinkDownAction(VOID *pAdOrg);
+VOID CFG80211DRV_OpsScanInLinkDownAction(struct rtmp_adapter *pAdOrg);
 
-INT CFG80211DRV_OpsScanGetNextChannel(VOID *pAdOrg);
+INT CFG80211DRV_OpsScanGetNextChannel(struct rtmp_adapter *pAdOrg);
 
-VOID CFG80211_ScanStatusLockInit(VOID *pAdCB, UINT init);
+VOID CFG80211_ScanStatusLockInit(struct rtmp_adapter *pAdCB, UINT init);
 
 VOID CFG80211_Scaning(
-	VOID *pAdCB, UINT32	BssIdx, UINT32 ChanId, UCHAR *pFrame, UINT32 FrameLen, INT32 RSSI);
+	struct rtmp_adapter *pAdCB, UINT32	BssIdx, UINT32 ChanId, UCHAR *pFrame, UINT32 FrameLen, INT32 RSSI);
 
-VOID CFG80211_ScanEnd(VOID *pAdCB, BOOLEAN FlgIsAborted);
+VOID CFG80211_ScanEnd(struct rtmp_adapter *pAdCB, BOOLEAN FlgIsAborted);
 
 /* Connect Releated */
-BOOLEAN CFG80211DRV_OpsJoinIbss(VOID *pAdOrg, VOID *pData);
-BOOLEAN CFG80211DRV_OpsLeave(VOID *pAdOrg, UINT8	 IfType);
-BOOLEAN CFG80211DRV_Connect(VOID *pAdOrg, VOID *pData);
+BOOLEAN CFG80211DRV_OpsJoinIbss(struct rtmp_adapter *pAdOrg, VOID *pData);
+BOOLEAN CFG80211DRV_OpsLeave(struct rtmp_adapter *pAdOrg, UINT8	 IfType);
+BOOLEAN CFG80211DRV_Connect(struct rtmp_adapter *pAdOrg, VOID *pData);
 
 VOID CFG80211_P2pClientConnectResultInform(
-        IN VOID                                         *pAdCB,
+        IN struct rtmp_adapter                          *pAdCB,
         IN UCHAR                                        *pBSSID,
         IN UCHAR                                        *pReqIe,
         IN UINT32                                       ReqIeLen,
@@ -165,25 +165,25 @@ VOID CFG80211_P2pClientConnectResultInform(
         IN UCHAR                                        FlgIsSuccess);
 
 VOID CFG80211_ConnectResultInform(
-	VOID *pAdCB, UCHAR *pBSSID,	UCHAR *pReqIe, UINT32 ReqIeLen,
+	struct rtmp_adapter *pAdCB, UCHAR *pBSSID,	UCHAR *pReqIe, UINT32 ReqIeLen,
 	UCHAR *pRspIe, UINT32 RspIeLen,	UCHAR FlgIsSuccess);
 VOID CFG80211DRV_PmkidConfig(VOID *pAdOrg, VOID *pData);
 
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
-VOID CFG80211_LostP2pGoInform(VOID *pAdCB);
+VOID CFG80211_LostP2pGoInform(struct rtmp_adapter *pAdCB);
 #endif /*RT_CFG80211_P2P_CONCURRENT_DEVICE*/
-VOID CFG80211_LostApInform(VOID *pAdCB);
+VOID CFG80211_LostApInform(struct rtmp_adapter *pAdCB);
 
 INT CFG80211_StaPortSecured(
-    VOID                         *pAdCB,
+    struct rtmp_adapter          *pAdCB,
     UCHAR                        *pMac,
     UINT    					  flag);
 
 /* AP Related*/
-INT CFG80211_ApStaDel(VOID *pAdCB, UCHAR *pMac);
+INT CFG80211_ApStaDel(struct rtmp_adapter *pAdCB, UCHAR *pMac);
 
 VOID CFG80211_UpdateBeacon(
-   VOID                           *pAdOrg,
+   struct rtmp_adapter            *pAdOrg,
    UCHAR                          *beacon_head_buf,
    UINT32                          beacon_head_len,
    UCHAR                          *beacon_tail_buf,
@@ -194,58 +194,24 @@ INT CFG80211_ApStaDelSendEvent(struct rtmp_adapter *pAd, const PUCHAR mac_addr);
 
 
 /* Information Releated */
-BOOLEAN CFG80211DRV_StaGet(
-	VOID						*pAdOrg,
-	VOID						*pData);
-
-VOID CFG80211DRV_SurveyGet(
-	VOID						*pAdOrg,
-	VOID						*pData);
-
-INT CFG80211_reSetToDefault(
-	VOID                    	*pAdCB);
-
-
+BOOLEAN CFG80211DRV_StaGet(struct rtmp_adapter *pAdOrg, void *pData);
+VOID CFG80211DRV_SurveyGet(struct rtmp_adapter *pAdOrg, void *pData);
+INT CFG80211_reSetToDefault(struct rtmp_adapter *pAdCB);
 
 /* Key Releated */
-BOOLEAN CFG80211DRV_StaKeyAdd(
-	VOID						*pAdOrg,
-	VOID						*pData);
-
-BOOLEAN CFG80211DRV_ApKeyAdd(
-        VOID                    *pAdOrg,
-        VOID                    *pData);
-
-BOOLEAN CFG80211DRV_ApKeyDel(
-	VOID						*pAdOrg,
-	VOID						*pData);
-
-VOID CFG80211DRV_RtsThresholdAdd(
-	VOID                                            *pAdOrg,
-	UINT                                            threshold);
-
-VOID CFG80211DRV_FragThresholdAdd(
-	VOID                                            *pAdOrg,
-	UINT                                            threshold);
-
-
-INT CFG80211_setApDefaultKey(
-    VOID                        *pAdCB,
-    UINT                         Data);
-
-INT CFG80211_setPowerMgmt(
-	VOID                     *pAdCB,
-	UINT 			Enable);
+BOOLEAN CFG80211DRV_StaKeyAdd(struct rtmp_adapter *pAdOrg, void *pData);
+BOOLEAN CFG80211DRV_ApKeyAdd(struct rtmp_adapter *pAdOrg, void  *pData);
+BOOLEAN CFG80211DRV_ApKeyDel(struct rtmp_adapter *pAdOrg, void *pData);
+VOID CFG80211DRV_RtsThresholdAdd(struct rtmp_adapter *pAdOrg, UINT  threshold);
+VOID CFG80211DRV_FragThresholdAdd(struct rtmp_adapter *pAdOrg, UINT threshold);
+INT CFG80211_setApDefaultKey(struct rtmp_adapter *pAdCB, UINT Data);
+INT CFG80211_setPowerMgmt(struct rtmp_adapter *pAdCB, UINT Enable);
 
 #ifdef CONFIG_STA_SUPPORT
-INT CFG80211_setStaDefaultKey(
-    VOID                        *pAdCB,
-    UINT                         Data);
+INT CFG80211_setStaDefaultKey(struct rtmp_adapter *pAdCB, UINT Data);
 
 #ifdef DOT11W_PMF_SUPPORT
-INT CFG80211_setStaMgmtDefaultKey(
-    VOID                        *pAdCB,
-    UINT                         Data);
+INT CFG80211_setStaMgmtDefaultKey(struct rtmp_adapter *pAdCB, UINT Data);
 #endif /* DOT11W_PMF_SUPPORT */
 
 #endif /*CONFIG_STA_SUPPORT*/
@@ -254,12 +220,12 @@ BOOLEAN CFG80211DRV_OpsSetChannel(struct rtmp_adapter *pAd, VOID *pData);
 
 BOOLEAN CFG80211DRV_OpsChgVirtualInf(struct rtmp_adapter *pAd, VOID *pData);
 
-VOID CFG80211DRV_OpsChangeBssParm(VOID *pAdOrg, VOID *pData);
+VOID CFG80211DRV_OpsChangeBssParm(struct rtmp_adapter *pAdOrg, VOID *pData);
 
-VOID CFG80211_UnRegister(VOID *pAdOrg,	VOID *pNetDev);
+VOID CFG80211_UnRegister(struct rtmp_adapter *pAdOrg,	VOID *pNetDev);
 
 INT CFG80211DRV_IoctlHandle(
-	VOID						*pAdSrc,
+	struct rtmp_adapter				*pAdSrc,
 	RTMP_IOCTL_INPUT_STRUCT		*wrq,
 	INT							cmd,
 	USHORT						subcmd,
@@ -270,52 +236,52 @@ UCHAR CFG80211_getCenCh(struct rtmp_adapter *pAd, UCHAR prim_ch);
 
 /* CRDA Releatd */
 VOID CFG80211DRV_RegNotify(
-	VOID						*pAdOrg,
+	struct rtmp_adapter				*pAdOrg,
 	VOID						*pData);
 
 VOID CFG80211_RegHint(
-	VOID						*pAdCB,
+	struct rtmp_adapter				*pAdCB,
 	UCHAR						*pCountryIe,
 	ULONG						CountryIeLen);
 
 VOID CFG80211_RegHint11D(
-	VOID						*pAdCB,
+	struct rtmp_adapter				*pAdCB,
 	UCHAR						*pCountryIe,
 	ULONG						CountryIeLen);
 
 VOID CFG80211_RegRuleApply(
-	VOID						*pAdCB,
+	struct rtmp_adapter				*pAdCB,
 	VOID						*pWiphy,
 	UCHAR						*pAlpha2);
 
 BOOLEAN CFG80211_SupBandReInit(
-	VOID						*pAdCB);
+	struct rtmp_adapter				*pAdCB);
 
 #ifdef RFKILL_HW_SUPPORT
 VOID CFG80211_RFKillStatusUpdate(
-	PVOID						pAd,
+	struct rtmp_adapter				pAd,
 	BOOLEAN						active);
 #endif /* RFKILL_HW_SUPPORT */
 
 /* P2P Related */
 VOID CFG80211DRV_SetP2pCliAssocIe(
-	VOID						*pAdOrg,
+	struct rtmp_adapter				*pAdOrg,
 	VOID						*pData,
 	UINT                         ie_len);
 
 VOID CFG80211DRV_P2pClientKeyAdd(
-	VOID						*pAdOrg,
+	struct rtmp_adapter				*pAdOrg,
 	VOID						*pData);
 
 BOOLEAN CFG80211DRV_P2pClientConnect(
-	VOID						*pAdOrg,
+	struct rtmp_adapter				*pAdOrg,
 	VOID						*pData);
 
 BOOLEAN CFG80211_checkScanTable(
-        IN VOID                                         *pAdCB);
+        IN struct rtmp_adapter                          *pAdCB);
 
 VOID CFG80211_P2pClientSendNullFrame(
-	VOID 						*pAdCB,
+	struct rtmp_adapter 				*pAdCB,
 	INT							 PwrMgmt);
 
 VOID CFG80211RemainOnChannelTimeout(
@@ -325,24 +291,24 @@ VOID CFG80211RemainOnChannelTimeout(
 	PVOID 						SystemSpecific3);
 
 BOOLEAN CFG80211DRV_OpsRemainOnChannel(
-	VOID						*pAdOrg,
+	struct rtmp_adapter				*pAdOrg,
 	VOID						*pData,
 	UINT32 						duration);
 
 BOOLEAN CFG80211DRV_OpsCancelRemainOnChannel(
-        VOID                                            *pAdOrg,
+        struct rtmp_adapter                             *pAdOrg,
         UINT32                                          cookie);
 
 
 VOID CFG80211DRV_OpsMgmtFrameProbeRegister(
-        VOID                                            *pAdOrg,
+        struct rtmp_adapter                             *pAdOrg,
         VOID                                            *pData,
 		BOOLEAN                                          isReg);
 
 VOID CFG80211DRV_OpsMgmtFrameActionRegister(
-        VOID                                            *pAdOrg,
+        struct rtmp_adapter                             *pAdOrg,
         VOID                                            *pData,
-		BOOLEAN                                          isReg);
+	BOOLEAN                                     isReg);
 
 BOOLEAN CFG80211_CheckActionFrameType(
         IN  struct rtmp_adapter 								 *pAd,
@@ -390,24 +356,11 @@ VOID CFG80211_ParseBeaconIE(struct rtmp_adapter *pAd, MULTISSID_STRUCT *pMbss, s
 VOID CFG80211_Convert802_3Packet(struct rtmp_adapter *pAd, RX_BLK *pRxBlk, UCHAR *pHeader802_3);
 VOID CFG80211_Announce802_3Packet(struct rtmp_adapter *pAd, RX_BLK *pRxBlk, UCHAR FromWhichBSSID);
 VOID CFG80211_SendMgmtFrameDone(struct rtmp_adapter *pAd, USHORT Sequence);
-
 VOID CFG80211_SwitchTxChannel(struct rtmp_adapter *pAd, ULONG Data);
-
-BOOLEAN CFG80211DRV_OpsBeaconSet(
-        VOID                                            *pAdOrg,
-        VOID                                            *pData);
-
-BOOLEAN CFG80211DRV_OpsBeaconAdd(
-        VOID                                            *pAdOrg,
-        VOID                                            *pData);
-
-
-VOID CFG80211DRV_DisableApInterface(struct rtmp_adapter *pAd);
-
-
-BOOLEAN CFG80211DRV_OpsVifAdd(
-        VOID                                            *pAdOrg,
-        VOID                                            *pData);
+BOOLEAN CFG80211DRV_OpsBeaconSet(struct rtmp_adapter *pAd,void  *pData);
+BOOLEAN CFG80211DRV_OpsBeaconAdd(struct rtmp_adapter *pAd, void  *pData);
+void CFG80211DRV_DisableApInterface(struct rtmp_adapter *pAd);
+BOOLEAN CFG80211DRV_OpsVifAdd(struct rtmp_adapter *pA, void  *pData);
 
 #endif /* RT_CFG80211_SUPPORT */
 

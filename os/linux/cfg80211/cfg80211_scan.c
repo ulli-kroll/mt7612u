@@ -29,10 +29,8 @@
 #include "rt_config.h"
 
 #ifdef CONFIG_STA_SUPPORT
-VOID CFG80211DRV_OpsScanInLinkDownAction(
-	VOID						*pAdOrg)
+VOID CFG80211DRV_OpsScanInLinkDownAction(struct rtmp_adapter *pAd)
 {
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdOrg;
 	BOOLEAN Cancelled;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("---> CFG80211_MLME Disconnect in Scaning, ORI ==> %d\n",
@@ -49,10 +47,8 @@ VOID CFG80211DRV_OpsScanInLinkDownAction(
 									pAd->Mlme.CntlMachine.CurrState));
 }
 
-BOOLEAN CFG80211DRV_OpsScanRunning(
-	VOID						*pAdOrg)
+BOOLEAN CFG80211DRV_OpsScanRunning(struct rtmp_adapter *pAd)
 {
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdOrg;
 	return pAd->cfg80211_ctrl.FlgCfg80211Scanning;
 }
 #endif /*CONFIG_STA_SUPPORT*/
@@ -60,9 +56,8 @@ BOOLEAN CFG80211DRV_OpsScanRunning(
 
 /* Refine on 2013/04/30 for two functin into one */
 INT CFG80211DRV_OpsScanGetNextChannel(
-	VOID						*pAdOrg)
+	struct rtmp_adapter				*pAd)
 {
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdOrg;
 	PCFG80211_CTRL cfg80211_ctrl = &pAd->cfg80211_ctrl;
 
 	if (cfg80211_ctrl->pCfg80211ChanList != NULL)
@@ -86,11 +81,10 @@ INT CFG80211DRV_OpsScanGetNextChannel(
 }
 
 BOOLEAN CFG80211DRV_OpsScanSetSpecifyChannel(
-	VOID						*pAdOrg,
+	struct rtmp_adapter				*pAd,
 	VOID						*pData,
 	UINT8						 dataLen)
 {
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdOrg;
 	PCFG80211_CTRL cfg80211_ctrl = &pAd->cfg80211_ctrl;
 	UINT32 *pChanList = (UINT32 *) pData;
 
@@ -116,13 +110,10 @@ BOOLEAN CFG80211DRV_OpsScanSetSpecifyChannel(
 	return NDIS_STATUS_FAILURE;
 }
 
-BOOLEAN CFG80211DRV_OpsScanCheckStatus(
-	VOID						*pAdOrg,
+BOOLEAN CFG80211DRV_OpsScanCheckStatus(struct rtmp_adapter *pAd,
 	UINT8						 IfType)
 {
 #ifdef CONFIG_STA_SUPPORT
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdOrg;
-
  	/* CFG_TODO */
 	if (CFG80211DRV_OpsScanRunning(pAd))
 	{
@@ -168,10 +159,8 @@ BOOLEAN CFG80211DRV_OpsScanCheckStatus(
 	return TRUE;
 }
 
-BOOLEAN CFG80211DRV_OpsScanExtraIesSet(
-	VOID						*pAdOrg)
+BOOLEAN CFG80211DRV_OpsScanExtraIesSet(struct rtmp_adapter *pAd)
 {
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdOrg;
 	CFG80211_CB *pCfg80211_CB = pAd->pCfg80211_CB;
 	UINT ie_len = 0;
 	PCFG80211_CTRL cfg80211_ctrl = &pAd->cfg80211_ctrl;
@@ -239,10 +228,9 @@ static void CFG80211_CalBssAvgRssi(
 }
 
 static void CFG80211_UpdateBssTableRssi(
-	IN VOID							*pAdCB)
+	IN struct rtmp_adapter			*pAd)
 {
 
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdCB;
 	CFG80211_CB *pCfg80211_CB  = (CFG80211_CB *)pAd->pCfg80211_CB;
 	struct wiphy *pWiphy = pCfg80211_CB->pCfg80211_Wdev->wiphy;
 	struct ieee80211_channel *chan;
@@ -294,7 +282,7 @@ Note:
 ========================================================================
 */
 VOID CFG80211_Scaning(
-	IN VOID							*pAdCB,
+	IN struct rtmp_adapter					*pAd,
 	IN UINT32						BssIdx,
 	IN UINT32						ChanId,
 	IN UCHAR						*pFrame,
@@ -302,7 +290,6 @@ VOID CFG80211_Scaning(
 	IN INT32						RSSI)
 {
 #ifdef CONFIG_STA_SUPPORT
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdCB;
 	VOID *pCfg80211_CB = pAd->pCfg80211_CB;
 	BOOLEAN FlgIsNMode;
 	UINT8 BW;
@@ -363,12 +350,10 @@ Note:
 ========================================================================
 */
 VOID CFG80211_ScanEnd(
-	IN VOID						*pAdCB,
+	IN struct rtmp_adapter				*pAd,
 	IN BOOLEAN					FlgIsAborted)
 {
 #ifdef CONFIG_STA_SUPPORT
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdCB;
-
 	if (!RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_INTERRUPT_IN_USE))
 	{
 		DBGPRINT(RT_DEBUG_TRACE, ("80211> Network is down!\n"));
@@ -397,10 +382,9 @@ VOID CFG80211_ScanEnd(
 }
 
 VOID CFG80211_ScanStatusLockInit(
-	IN VOID						*pAdCB,
+	IN struct rtmp_adapter	*pAd,
 	IN UINT                      init)
 {
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdCB;
 	CFG80211_CB *pCfg80211_CB  = (CFG80211_CB *)pAd->pCfg80211_CB;
 
 	if (init)

@@ -361,7 +361,7 @@ err:
 }
 
 
-struct net_device *RtmpPhyNetDevInit(VOID *pAd, RTMP_OS_NETDEV_OP_HOOK *pNetDevHook)
+struct net_device *RtmpPhyNetDevInit(struct rtmp_adapter *pAd, RTMP_OS_NETDEV_OP_HOOK *pNetDevHook)
 {
 	struct net_device *net_dev = NULL;
 	ULONG InfId, OpMode;
@@ -660,7 +660,7 @@ struct net_device_stats *RT28xx_get_ether_stats(struct net_device *net_dev)
 }
 
 
-BOOLEAN RtmpPhyNetDevExit(VOID *pAd, struct net_device *net_dev)
+BOOLEAN RtmpPhyNetDevExit(struct rtmp_adapter *pAd, struct net_device *net_dev)
 {
 
 #ifdef CONFIG_AP_SUPPORT
