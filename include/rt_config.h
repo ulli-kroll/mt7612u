@@ -140,14 +140,6 @@
 
 #endif /* CONFIG_STA_SUPPORT */
 
-
-
-#ifdef IKANOS_VX_1X0
-#include "vr_ikans.h"
-#endif /* IKANOS_VX_1X0 */
-
-
-
 #ifdef DOT11W_PMF_SUPPORT
 #include "pmf.h"
 #endif /* DOT11W_PMF_SUPPORT */

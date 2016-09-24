@@ -300,10 +300,6 @@ int rt28xx_init(VOID *pAdSrc, PSTRING pDefaultMac, PSTRING pHostName)
 
 	/* APInitialize(pAd);*/
 
-#ifdef IKANOS_VX_1X0
-	VR_IKANOS_FP_Init(pAd->ApCfg.BssidNum, pAd->PermanentAddress);
-#endif /* IKANOS_VX_1X0 */
-
 #ifdef RTMP_MAC_USB
 	if (pAd->chipCap.MCUType == M8051) {
 		AsicSendCommandToMcu(pAd, 0x31, 0xff, 0x00, 0x02, FALSE);

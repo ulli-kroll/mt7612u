@@ -477,13 +477,6 @@ void announce_802_3_packet(
 #endif /* defined(PLATFORM_BL2348) || defined(PLATFORM_BL23570) */
 #endif /* CONFIG_AP_SUPPORT */
 
-#ifdef IKANOS_VX_1X0
-	{
-		IKANOS_DataFrameRx(pAd, pRxPkt);
-		return;
-	}
-#endif /* IKANOS_VX_1X0 */
-
 #ifdef INF_PPA_SUPPORT
 	{
 		if (ppa_hook_directpath_send_fn && (pAd->PPAEnable == TRUE))
