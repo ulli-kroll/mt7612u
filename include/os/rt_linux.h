@@ -944,7 +944,7 @@ extern unsigned char (*wf_fwd_entry_delete_hook) (struct net_device *src, struct
 #endif /* CONFIG_WIFI_PKT_FWD */
 
 void RTMP_GetCurrentSystemTime(LARGE_INTEGER *time);
-int rt28xx_packet_xmit(VOID *skb);
+int rt28xx_packet_xmit(struct sk_buff *skb);
 
 
 INT rt28xx_ioctl(struct net_device *net_dev, struct ifreq *rq, INT cmd);

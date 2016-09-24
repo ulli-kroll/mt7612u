@@ -484,9 +484,8 @@ Note:
 	in here.
 ========================================================================
 */
-int rt28xx_packet_xmit(void *pkt)
+int rt28xx_packet_xmit(struct sk_buff *skb)
 {
-	struct sk_buff *skb = (struct sk_buff *)pkt;
 	struct net_device *net_dev = skb->dev;
 	struct wifi_dev *wdev;
 	PNDIS_PACKET pPacket = (PNDIS_PACKET)skb;
