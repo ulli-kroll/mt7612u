@@ -1,7 +1,11 @@
 <u>**MT7612U for Linux**</u>
 
 Driver for 802.11ac USB Adapter with MT7610U chipset  
-STA, AP and Monitor Modes are possible
+STA, AP and Monitor Modes are possible  
+Current setting for this driver is APSTA mode as default.  
+STA mode is working fine  
+AP mode can crash your kernel if you call `iwconfig` after module loading
+
 
 This driver is **currently** under **heavy** development.  
 and using wireless-ext (not cfg80211)  
