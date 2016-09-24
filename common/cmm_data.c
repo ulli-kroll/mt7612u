@@ -140,7 +140,7 @@ VOID dump_rxwi(struct rtmp_adapter *pAd, RXWI_STRUC *pRxWI)
 #ifdef DBG_DIAGNOSE
 static VOID dump_txblk(TX_BLK *pTxBlk)
 {
-	NDIS_PACKET *pPacket;
+	struct sk_buff *pPacket;
 	int i, frameNum;
 	PQUEUE_ENTRY	pQEntry;
 
@@ -1440,7 +1440,7 @@ BOOLEAN RTMP_FillTxBlkInfo(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 
 BOOLEAN CanDoAggregateTransmit(
 	IN struct rtmp_adapter *pAd,
-	IN NDIS_PACKET *pPacket,
+	IN struct sk_buff *pPacket,
 	IN TX_BLK		*pTxBlk)
 {
 	int minLen = LENGTH_802_3;

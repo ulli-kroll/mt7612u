@@ -158,7 +158,6 @@ extern	const struct iw_handler_def rt28xx_ap_iw_handler_def;
 typedef struct net_device_stats	NET_DEV_STATS;
 typedef struct pci_dev 		* PPCI_DEV;
 typedef struct wireless_dev	* PWIRELESS_DEV;
-typedef char				NDIS_PACKET;
 typedef	ra_dma_addr_t			NDIS_PHYSICAL_ADDRESS;
 typedef	ra_dma_addr_t			* PNDIS_PHYSICAL_ADDRESS;
 typedef void				* NDIS_HANDLE;

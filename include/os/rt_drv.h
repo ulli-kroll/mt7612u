@@ -108,7 +108,6 @@ typedef VOID	pregs;
  *	OS Specific definitions and data structures
  ***********************************************************************************/
 typedef void				* PPCI_DEV;
-typedef char				NDIS_PACKET;
 typedef ra_dma_addr_t		NDIS_PHYSICAL_ADDRESS;
 typedef ra_dma_addr_t		* PNDIS_PHYSICAL_ADDRESS;
 typedef void				* NDIS_HANDLE;

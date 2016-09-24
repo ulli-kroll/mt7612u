@@ -3403,7 +3403,7 @@ VOID STA_NDPA_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 */
 NDIS_STATUS STAHardTransmit(struct rtmp_adapter *pAd, TX_BLK *pTxBlk, UCHAR QueIdx)
 {
-	NDIS_PACKET *pPacket;
+	struct sk_buff *pPacket;
 	PQUEUE_ENTRY pQEntry;
 
 #ifdef HDR_TRANS_SUPPORT
