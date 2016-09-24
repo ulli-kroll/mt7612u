@@ -161,7 +161,7 @@ INT RTMP_COM_IoctlHandle(
 
 int	RTMPSendPackets(
 	IN	NDIS_HANDLE		MiniportAdapterContext,
-	IN	PPNDIS_PACKET	ppPacketArray,
+	IN	struct sk_buff		**ppPacketArray,
 	IN	UINT			NumberOfPackets,
 	IN	UINT32			PktTotalLen,
 	IN	RTMP_NET_ETH_CONVERT_DEV_SEARCH	Func);

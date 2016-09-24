@@ -692,7 +692,7 @@ VOID RTMPFreeAdapter(VOID *pAdSrc)
 
 int RTMPSendPackets(
 	IN NDIS_HANDLE dev_hnd,
-	IN PPNDIS_PACKET pkt_list,
+	IN struct sk_buff **pkt_list,
 	IN UINT pkt_cnt,
 	IN UINT32 pkt_total_len,
 	IN RTMP_NET_ETH_CONVERT_DEV_SEARCH Func)
@@ -757,7 +757,7 @@ int RTMPSendPackets(
 #ifdef CONFIG_STA_SUPPORT
 #endif /* CONFIG_STA_SUPPORT */
 
-	wdev_tx_pkts((NDIS_HANDLE)pAd, (PPNDIS_PACKET) &pPacket, 1, wdev);
+	wdev_tx_pkts((NDIS_HANDLE)pAd, &pPacket, 1, wdev);
 
 #ifdef CONFIG_STA_SUPPORT
 #endif /* CONFIG_STA_SUPPORT */

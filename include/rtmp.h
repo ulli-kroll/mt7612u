@@ -5357,7 +5357,7 @@ VOID HTIOTCheck(
 
 INT rtmp_wdev_idx_reg(struct rtmp_adapter *pAd, struct wifi_dev *wdev);
 INT rtmp_wdev_idx_unreg(struct rtmp_adapter *pAd, struct wifi_dev *wdev);
-VOID wdev_tx_pkts(NDIS_HANDLE dev_hnd, PPNDIS_PACKET pkt_list, UINT pkt_cnt, struct wifi_dev *wdev);
+VOID wdev_tx_pkts(NDIS_HANDLE dev_hnd, struct sk_buff **pkt_list, UINT pkt_cnt, struct wifi_dev *wdev);
 
 #ifdef DOT11_N_SUPPORT
 VOID RTMP_BASetup(

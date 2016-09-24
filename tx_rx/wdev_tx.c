@@ -114,7 +114,7 @@ Note:
 	You only can put OS-depened & AP related code in here.
 ========================================================================
 */
-VOID wdev_tx_pkts(NDIS_HANDLE dev_hnd, PPNDIS_PACKET pkt_list, UINT pkt_cnt, struct wifi_dev *wdev)
+VOID wdev_tx_pkts(NDIS_HANDLE dev_hnd, struct sk_buff **pkt_list, UINT pkt_cnt, struct wifi_dev *wdev)
 {
 	struct rtmp_adapter *pAd = (struct rtmp_adapter *)dev_hnd;
 	PNDIS_PACKET pPacket;

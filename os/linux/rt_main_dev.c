@@ -494,7 +494,7 @@ int rt28xx_packet_xmit(struct sk_buff *skb)
 	ASSERT(wdev);
 
 
-	return RTMPSendPackets((NDIS_HANDLE)wdev, (PPNDIS_PACKET) &pPacket, 1,
+	return RTMPSendPackets((NDIS_HANDLE)wdev, &pPacket, 1,
 							skb->len, RtmpNetEthConvertDevSearch);
 }
 

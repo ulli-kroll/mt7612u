@@ -160,7 +160,6 @@ typedef struct pci_dev 		* PPCI_DEV;
 typedef struct wireless_dev	* PWIRELESS_DEV;
 typedef void				* PNDIS_PACKET;
 typedef char				NDIS_PACKET;
-typedef PNDIS_PACKET		* PPNDIS_PACKET;
 typedef	ra_dma_addr_t			NDIS_PHYSICAL_ADDRESS;
 typedef	ra_dma_addr_t			* PNDIS_PHYSICAL_ADDRESS;
 typedef void				* NDIS_HANDLE;
