@@ -467,14 +467,6 @@ void announce_802_3_packet(
 
     /* Push up the protocol stack */
 #ifdef CONFIG_AP_SUPPORT
-#if defined(PLATFORM_BL2348) || defined(PLATFORM_BL23570)
-	{
-		extern int (*pToUpperLayerPktSent)(struct sk_buff **pSkb);
-		RtmpOsPktProtocolAssign(pRxPkt);
-		pToUpperLayerPktSent(pRxPkt);
-		return;
-	}
-#endif /* defined(PLATFORM_BL2348) || defined(PLATFORM_BL23570) */
 #endif /* CONFIG_AP_SUPPORT */
 
 #ifdef INF_PPA_SUPPORT
