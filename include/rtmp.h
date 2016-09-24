@@ -590,8 +590,8 @@ typedef struct _RTMP_DMACB {
 	ULONG AllocSize;	/* Control block size */
 	PVOID AllocVa;		/* Control block virtual address */
 	NDIS_PHYSICAL_ADDRESS AllocPa;	/* Control block physical address */
-	PNDIS_PACKET pNdisPacket;
-	PNDIS_PACKET pNextNdisPacket;
+	struct sk_buff *pNdisPacket;
+	struct sk_buff *pNextNdisPacket;
 
 	RTMP_DMABUF DmaBuf;	/* Associated DMA buffer structure */
 #ifdef CACHE_LINE_32B
@@ -868,7 +868,7 @@ typedef struct {
   *	Fragment Frame structure
   */
 typedef struct _FRAGMENT_FRAME {
-	PNDIS_PACKET pFragPacket;
+	struct sk_buff *pFragPacket;
 	ULONG RxSize;
 	USHORT Sequence;
 	USHORT LastFrag;
@@ -1101,7 +1101,7 @@ typedef struct _MLME_STRUCT {
   **************************************************************************/
 struct reordering_mpdu {
 	struct reordering_mpdu *next;
-	PNDIS_PACKET pPacket;	/* coverted to 802.3 frame */
+	struct sk_buff *pPacket;	/* coverted to 802.3 frame */
 	int Sequence;		/* sequence number of MPDU */
 	BOOLEAN bAMSDU;
 	UCHAR					OpMode;
@@ -1409,12 +1409,12 @@ struct wifi_dev{
 	USHORT VLAN_Priority;
 
 	/* operations */
-	INT (*tx_pkt_allowed)(struct rtmp_adapter *pAd, struct wifi_dev *wdev, PNDIS_PACKET pPacket, UCHAR *pWcid);
-	INT (*tx_pkt_handle)(struct rtmp_adapter *pAd, PNDIS_PACKET pPacket);
+	INT (*tx_pkt_allowed)(struct rtmp_adapter *pAd, struct wifi_dev *wdev, struct sk_buff *pPacket, UCHAR *pWcid);
+	INT (*tx_pkt_handle)(struct rtmp_adapter *pAd, struct sk_buff *pPacket);
 	INT (*rx_pkt_allowed)(struct rtmp_adapter *pAd, struct _RX_BLK *pRxBlk);
 	INT (*rx_pkt_hdr_chk)(struct rtmp_adapter *pAd, struct _RX_BLK *pRxBlk);
 	INT (*rx_ps_handle)(struct rtmp_adapter *pAd, struct _RX_BLK *pRxBlk);
-	INT (*rx_pkt_foward)(struct rtmp_adapter *pAd, struct wifi_dev *wdev, PNDIS_PACKET pPacket);
+	INT (*rx_pkt_foward)(struct rtmp_adapter *pAd, struct wifi_dev *wdev, struct sk_buff *pPacket);
 
 	/* last received packet's SNR for each antenna */
 	UCHAR LastSNR0;
@@ -4560,7 +4560,7 @@ typedef struct _RX_BLK
 #endif /* RLT_MAC */
 	RXWI_STRUC *pRxWI; /*in frame buffer and after "rx_info" fields */
 	HEADER_802_11 *pHeader; /* poiter of 802.11 header, pointer to frame buffer and shall not shift this pointer */
-	PNDIS_PACKET pRxPacket; /* os_packet pointer, shall not change */
+	struct sk_buff *pRxPacket; /* os_packet pointer, shall not change */
 	UCHAR *pData; /* init to pRxPacket->data, refer to frame buffer, may changed depends on processing */
 	USHORT DataSize; /* init to  RXWI->MPDUtotalByteCnt, and may changes depends on processing */
 	USHORT Flags;
@@ -4640,7 +4640,7 @@ typedef struct _TX_BLK {
 	HTTRANSMIT_SETTING	*pTransmit;
 
 	/* Following structure used for the characteristics of a specific packet. */
-	PNDIS_PACKET		pPacket;
+	struct sk_buff *	pPacket;
 	UCHAR				*pSrcBufHeader;				/* Reference to the head of sk_buff->data */
 	UCHAR				*pSrcBufData;				/* Reference to the sk_buff->data, will changed depends on hanlding progresss */
 	UINT				SrcBufLen;					/* Length of packet payload which not including Layer 2 header */
@@ -5381,14 +5381,14 @@ NDIS_STATUS RTMPFreeTXDRequest(
 NDIS_STATUS MlmeHardTransmit(
 	IN  struct rtmp_adapter *pAd,
 	IN  UCHAR	QueIdx,
-	IN  PNDIS_PACKET    pPacket,
+	IN  struct sk_buff *   pPacket,
 	IN	BOOLEAN			FlgDataQForce,
 	IN	BOOLEAN			FlgIsLocked);
 
 NDIS_STATUS MlmeHardTransmitMgmtRing(
 	IN  struct rtmp_adapter *pAd,
 	IN  UCHAR	QueIdx,
-	IN  PNDIS_PACKET    pPacket);
+	IN  struct sk_buff *   pPacket);
 
 
 USHORT RTMPCalcDuration(
@@ -5465,7 +5465,7 @@ BOOLEAN RTMPFreeTXDUponTxDmaDone(
 
 BOOLEAN RTMPCheckEtherType(
 	IN struct rtmp_adapter *pAd,
-	IN PNDIS_PACKET	pPacket,
+	IN struct sk_buff *pPacket,
 	IN MAC_TABLE_ENTRY *pMacEntry,
 	IN struct wifi_dev *wdev,
 	OUT PUCHAR pUserPriority,
@@ -6820,7 +6820,7 @@ BOOLEAN RTMPTkipCompareMICValue(
 
 VOID    RTMPCalculateMICValue(
 	IN  struct rtmp_adapter *pAd,
-	IN  PNDIS_PACKET    pPacket,
+	IN  struct sk_buff *   pPacket,
 	IN  PUCHAR          pEncap,
 	IN  PCIPHER_KEY     pKey,
 	IN	UCHAR			apidx);
@@ -7158,13 +7158,13 @@ BOOLEAN RTMP_FillTxBlkInfo(
 
  void announce_802_3_packet(
 	IN	VOID			*pAdSrc,
-	IN	PNDIS_PACKET	pPacket,
+	IN	struct sk_buff *pPacket,
 	IN	UCHAR			OpMode);
 
 #ifdef DOT11_N_SUPPORT
 UINT BA_Reorder_AMSDU_Annnounce(
 	IN	struct rtmp_adapter *pAd,
-	IN	PNDIS_PACKET	pPacket,
+	IN	struct sk_buff *pPacket,
 	IN	UCHAR			OpMode);
 #endif /* DOT11_N_SUPPORT */
 
@@ -7574,7 +7574,7 @@ VOID Indicate_EAPOL_Packet(
 UINT deaggregate_AMSDU_announce(
 	IN	struct rtmp_adapter *pAd,
 	IN	RX_BLK			*pRxBlk,
-	PNDIS_PACKET		pPacket,
+	struct sk_buff *	pPacket,
 	IN	PUCHAR			pData,
 	IN	ULONG			DataSize,
 	IN	UCHAR			OpMode);
@@ -7677,17 +7677,17 @@ BOOLEAN rtmp_chk_itxbf_calibration(struct rtmp_adapter *pAd);
 
 BOOLEAN APFowardWirelessStaToWirelessSta(
 	IN	struct rtmp_adapter *pAd,
-	IN	PNDIS_PACKET	pPacket,
+	IN	struct sk_buff *pPacket,
 	IN	ULONG			FromWhichBSSID);
 
 VOID Announce_or_Forward_802_3_Packet(
 	IN	struct rtmp_adapter *pAd,
-	IN	PNDIS_PACKET	pPacket,
+	IN	struct sk_buff *pPacket,
 	IN	UCHAR			FromWhichBSSID);
 
 VOID Sta_Announce_or_Forward_802_3_Packet(
 	IN	struct rtmp_adapter *pAd,
-	IN	PNDIS_PACKET	pPacket,
+	IN	struct sk_buff *pPacket,
 	IN	UCHAR			FromWhichBSSID);
 
 #ifdef CONFIG_AP_SUPPORT
@@ -7726,7 +7726,7 @@ VOID Update_Rssi_Sample(
 	IN RSSI_SAMPLE *pRssi,
 	IN RXWI_STRUC *pRxWI);
 
-PNDIS_PACKET GetPacketFromRxRing(
+struct sk_buff *GetPacketFromRxRing(
 	IN struct rtmp_adapter *pAd,
 	OUT RX_BLK *pRxBlk,
 	OUT BOOLEAN	 *pbReschedule,
@@ -7734,7 +7734,7 @@ PNDIS_PACKET GetPacketFromRxRing(
 	BOOLEAN *bCmdRspPacket,
 	UCHAR RxRingNo);
 
-PNDIS_PACKET RTMPDeFragmentDataFrame(
+struct sk_buff *RTMPDeFragmentDataFrame(
 	IN struct rtmp_adapter *pAd,
 	IN RX_BLK *pRxBlk);
 
@@ -8190,7 +8190,7 @@ VOID RtmpCleanupPsQueue(
 
 NDIS_STATUS RtmpInsertPsQueue(
 	IN struct rtmp_adapter *pAd,
-	IN PNDIS_PACKET pPacket,
+	IN struct sk_buff *pPacket,
 	IN MAC_TABLE_ENTRY *pMacEntry,
 	IN UCHAR QueIdx);
 

@@ -108,7 +108,6 @@ typedef VOID	pregs;
  *	OS Specific definitions and data structures
  ***********************************************************************************/
 typedef void				* PPCI_DEV;
-typedef void				* PNDIS_PACKET;
 typedef char				NDIS_PACKET;
 typedef ra_dma_addr_t		NDIS_PHYSICAL_ADDRESS;
 typedef ra_dma_addr_t		* PNDIS_PHYSICAL_ADDRESS;
@@ -577,7 +576,7 @@ do {															\
 #define RTMP_OS_NETDEV_SET_TYPE_MONITOR		RtmpOsSetNetDevTypeMonitor
 
 #define QUEUE_ENTRY_TO_PACKET(pEntry) \
-	(PNDIS_PACKET)(pEntry)
+	(struct sk_buff *)(pEntry)
 
 #define PACKET_TO_QUEUE_ENTRY(pPacket) \
 	(PQUEUE_ENTRY)(pPacket)

@@ -70,32 +70,32 @@ ULONG RtmpOsCopyToUser(VOID *to, const void *from, ULONG n);
 BOOLEAN RtmpOsStatsAlloc(VOID **ppStats, VOID **ppIwStats);
 
 /* OS Packet */
-PNDIS_PACKET RtmpOSNetPktAlloc(VOID *pReserved, int size);
+struct sk_buff *RtmpOSNetPktAlloc(VOID *pReserved, int size);
 
-PNDIS_PACKET RTMP_AllocateFragPacketBuffer(VOID *pReserved, ULONG Length);
+struct sk_buff *RTMP_AllocateFragPacketBuffer(VOID *pReserved, ULONG Length);
 
 NDIS_STATUS RTMPAllocateNdisPacket(
 	IN	VOID					*pReserved,
-	OUT PNDIS_PACKET			*ppPacket,
+	OUT struct sk_buff *		*ppPacket,
 	IN	PUCHAR					pHeader,
 	IN	UINT					HeaderLen,
 	IN	PUCHAR					pData,
 	IN	UINT					DataLen);
 
-VOID RTMPFreeNdisPacket(VOID *pReserved, PNDIS_PACKET pPacket);
+VOID RTMPFreeNdisPacket(VOID *pReserved, struct sk_buff *pPacket);
 
 void RTMP_QueryPacketInfo(
-	IN  PNDIS_PACKET pPacket,
+	IN  struct sk_buff *pPacket,
 	OUT PACKET_INFO *pPacketInfo,
 	OUT PUCHAR *pSrcBufVA,
 	OUT	UINT *pSrcBufLen);
 
-PNDIS_PACKET DuplicatePacket(
+struct sk_buff *DuplicatePacket(
 	IN	struct net_device *pNetDev,
-	IN	PNDIS_PACKET pPacket,
+	IN	struct sk_buff *pPacket,
 	IN	UCHAR FromWhichBSSID);
 
-PNDIS_PACKET duplicate_pkt(
+struct sk_buff *duplicate_pkt(
 	IN	struct net_device *pNetDev,
 	IN	PUCHAR pHeader802_3,
     IN  UINT HdrLen,
@@ -103,11 +103,11 @@ PNDIS_PACKET duplicate_pkt(
 	IN	ULONG DataSize,
 	IN	UCHAR FromWhichBSSID);
 
-PNDIS_PACKET duplicate_pkt_with_TKIP_MIC(
+struct sk_buff *duplicate_pkt_with_TKIP_MIC(
 	IN	VOID					*pReserved,
-	IN	PNDIS_PACKET			pOldPkt);
+	IN	struct sk_buff *		pOldPkt);
 
-PNDIS_PACKET duplicate_pkt_with_VLAN(
+struct sk_buff *duplicate_pkt_with_VLAN(
 	IN	struct net_device *			pNetDev,
 	IN	USHORT					VLAN_VID,
 	IN	USHORT					VLAN_Priority,
@@ -120,7 +120,7 @@ PNDIS_PACKET duplicate_pkt_with_VLAN(
 
 typedef void (*RTMP_CB_8023_PACKET_ANNOUNCE)(
 			IN	VOID			*pCtrlBkPtr,
-			IN	PNDIS_PACKET	pPacket,
+			IN	struct sk_buff *pPacket,
 			IN	UCHAR			OpMode);
 
 BOOLEAN RTMPL2FrameTxAction(
@@ -132,15 +132,15 @@ BOOLEAN RTMPL2FrameTxAction(
 	IN	UINT32					data_len,
 	IN	UCHAR			OpMode);
 
-PNDIS_PACKET ExpandPacket(
+struct sk_buff *ExpandPacket(
 	IN	VOID					*pReserved,
-	IN	PNDIS_PACKET			pPacket,
+	IN	struct sk_buff *		pPacket,
 	IN	UINT32					ext_head_len,
 	IN	UINT32					ext_tail_len);
 
-PNDIS_PACKET ClonePacket(
+struct sk_buff *ClonePacket(
 	IN	VOID					*pReserved,
-	IN	PNDIS_PACKET			pPacket,
+	IN	struct sk_buff *		pPacket,
 	IN	PUCHAR					pData,
 	IN	ULONG					DataSize);
 
@@ -149,7 +149,7 @@ void wlan_802_11_to_802_3_packet(
 	IN	UCHAR					OpMode,
 	IN	USHORT					VLAN_VID,
 	IN	USHORT					VLAN_Priority,
-	IN	PNDIS_PACKET			pRxPacket,
+	IN	struct sk_buff *		pRxPacket,
 	IN	UCHAR					*pData,
 	IN	ULONG					DataSize,
 	IN	PUCHAR					pHeader802_3,
@@ -168,31 +168,31 @@ UCHAR VLAN_8023_Header_Copy(
 
 VOID RtmpOsPktBodyCopy(
 	IN	struct net_device *			pNetDev,
-	IN	PNDIS_PACKET			pNetPkt,
+	IN	struct sk_buff *		pNetPkt,
 	IN	ULONG					ThisFrameLen,
 	IN	PUCHAR					pData);
 
-INT RtmpOsIsPktCloned(PNDIS_PACKET pNetPkt);
-PNDIS_PACKET RtmpOsPktCopy(PNDIS_PACKET pNetPkt);
-PNDIS_PACKET RtmpOsPktClone(PNDIS_PACKET pNetPkt);
+INT RtmpOsIsPktCloned(struct sk_buff *pNetPkt);
+struct sk_buff *RtmpOsPktCopy(struct sk_buff *pNetPkt);
+struct sk_buff *RtmpOsPktClone(struct sk_buff *pNetPkt);
 
-VOID RtmpOsPktDataPtrAssign(PNDIS_PACKET pNetPkt, UCHAR *pData);
+VOID RtmpOsPktDataPtrAssign(struct sk_buff *pNetPkt, UCHAR *pData);
 
-VOID RtmpOsPktLenAssign(PNDIS_PACKET pNetPkt, LONG Len);
-VOID RtmpOsPktTailAdjust(PNDIS_PACKET pNetPkt, UINT removedTagLen);
+VOID RtmpOsPktLenAssign(struct sk_buff *pNetPkt, LONG Len);
+VOID RtmpOsPktTailAdjust(struct sk_buff *pNetPkt, UINT removedTagLen);
 
-PUCHAR RtmpOsPktTailBufExtend(PNDIS_PACKET pNetPkt, UINT len);
-PUCHAR RtmpOsPktHeadBufExtend(PNDIS_PACKET pNetPkt, UINT len);
-VOID RtmpOsPktReserve(PNDIS_PACKET pNetPkt, UINT len);
+PUCHAR RtmpOsPktTailBufExtend(struct sk_buff *pNetPkt, UINT len);
+PUCHAR RtmpOsPktHeadBufExtend(struct sk_buff *pNetPkt, UINT len);
+VOID RtmpOsPktReserve(struct sk_buff *pNetPkt, UINT len);
 
-VOID RtmpOsPktProtocolAssign(PNDIS_PACKET pNetPkt);
-VOID RtmpOsPktInfPpaSend(PNDIS_PACKET pNetPkt);
-VOID RtmpOsPktRcvHandle(PNDIS_PACKET pNetPkt);
-VOID RtmpOsPktNatMagicTag(PNDIS_PACKET pNetPkt);
-VOID RtmpOsPktNatNone(PNDIS_PACKET pNetPkt);
-VOID RtmpOsPktInit(PNDIS_PACKET pNetPkt, struct net_device *pNetDev, UCHAR *buf, USHORT len);
+VOID RtmpOsPktProtocolAssign(struct sk_buff *pNetPkt);
+VOID RtmpOsPktInfPpaSend(struct sk_buff *pNetPkt);
+VOID RtmpOsPktRcvHandle(struct sk_buff *pNetPkt);
+VOID RtmpOsPktNatMagicTag(struct sk_buff *pNetPkt);
+VOID RtmpOsPktNatNone(struct sk_buff *pNetPkt);
+VOID RtmpOsPktInit(struct sk_buff *pNetPkt, struct net_device *pNetDev, UCHAR *buf, USHORT len);
 
-PNDIS_PACKET RtmpOsPktIappMakeUp(struct net_device *pNetDev, UINT8 *pMac);
+struct sk_buff *RtmpOsPktIappMakeUp(struct net_device *pNetDev, UINT8 *pMac);
 
 BOOLEAN RtmpOsPktOffsetInit(VOID);
 
@@ -584,7 +584,7 @@ void RTMP_FreeFirstTxBuffer(
 	IN	PVOID					VirtualAddress,
 	IN	NDIS_PHYSICAL_ADDRESS	PhysicalAddress);
 
-PNDIS_PACKET RTMP_AllocateRxPacketBuffer(
+struct sk_buff *RTMP_AllocateRxPacketBuffer(
 	IN	VOID					*pReserved,
 	IN	VOID					*pPciDev,
 	IN	ULONG					Length,

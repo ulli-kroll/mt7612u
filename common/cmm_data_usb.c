@@ -1026,7 +1026,7 @@ VOID RtmpUSBDataKickOut(
 int RtmpUSBMgmtKickOut(
 	IN struct rtmp_adapter *pAd,
 	IN UCHAR QueIdx,
-	IN PNDIS_PACKET pPacket,
+	IN struct sk_buff *pPacket,
 	IN UCHAR *pSrcBufVA,
 	IN UINT SrcBufLen)
 {
@@ -1189,7 +1189,7 @@ Return Value:
 Note:
 ========================================================================
 */
-PNDIS_PACKET GetPacketFromRxRing(
+struct sk_buff *GetPacketFromRxRing(
 	IN struct rtmp_adapter *pAd,
 	OUT RX_BLK *pRxBlk,
 	OUT BOOLEAN *pbReschedule,
@@ -1198,7 +1198,7 @@ PNDIS_PACKET GetPacketFromRxRing(
 	UCHAR RxRingNo)
 {
 	RX_CONTEXT *pRxContext;
-	PNDIS_PACKET pNetPkt;
+	struct sk_buff *pNetPkt;
 	UCHAR *pData;
 	ULONG ThisFrameLen, RxBufferLength, valid_len;
 	RXWI_STRUC *pRxWI;

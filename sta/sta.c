@@ -163,7 +163,7 @@ INT RTMPCheckRxError(
 INT StaAllowToSendPacket(
 	struct rtmp_adapter *pAd,
 	struct wifi_dev *wdev,
-	PNDIS_PACKET pPacket,
+	struct sk_buff *pPacket,
 	UCHAR *pWcid)
 {
 	BOOLEAN allowToSend;
@@ -205,7 +205,7 @@ INT StaAllowToSendPacket(
 INT StaAllowToSendPacket_new(
 	IN struct rtmp_adapter *pAd,
 	IN struct wifi_dev *wdev,
-	IN PNDIS_PACKET pPacket,
+	IN struct sk_buff *pPacket,
 	IN UCHAR *pWcid)
 {
 	MAC_TABLE_ENTRY *pEntry;

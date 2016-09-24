@@ -79,7 +79,7 @@ NTSTATUS PMF_RsnCapableValidation(
 
 BOOLEAN	PMF_PerformTxFrameAction(
 	IN Pstruct rtmp_adapter pAd,
-	OUT PNDIS_PACKET pPacket);
+	OUT struct sk_buff *pPacket);
 
 BOOLEAN	PMF_PerformRxFrameAction(
 	IN Pstruct rtmp_adapter pAd,

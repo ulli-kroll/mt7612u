@@ -762,7 +762,7 @@ VOID APCleanupPsQueue(
 	IN  PQUEUE_HEADER   pQueue)
 {
 	PQUEUE_ENTRY pEntry;
-	PNDIS_PACKET pPacket;
+	struct sk_buff *pPacket;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("%s(): (0x%08lx)...\n", __FUNCTION__, (ULONG)pQueue));
 

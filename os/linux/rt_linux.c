@@ -309,7 +309,7 @@ void RtmpFlashWrite(
 #endif /* defined(RTMP_RBUS_SUPPORT) || defined(RTMP_FLASH_SUPPORT) */
 
 
-PNDIS_PACKET RtmpOSNetPktAlloc(VOID *dummy, int size)
+struct sk_buff *RtmpOSNetPktAlloc(VOID *dummy, int size)
 {
 	struct sk_buff *skb;
 	/* Add 2 more bytes for ip header alignment */
@@ -317,10 +317,10 @@ PNDIS_PACKET RtmpOSNetPktAlloc(VOID *dummy, int size)
 	if (skb != NULL)
 		MEM_DBG_PKT_ALLOC_INC(skb);
 
-	return ((PNDIS_PACKET) skb);
+	return skb;
 }
 
-PNDIS_PACKET RTMP_AllocateFragPacketBuffer(VOID *dummy, ULONG len)
+struct sk_buff *RTMP_AllocateFragPacketBuffer(VOID *dummy, ULONG len)
 {
 	struct sk_buff *pkt;
 
@@ -335,7 +335,7 @@ PNDIS_PACKET RTMP_AllocateFragPacketBuffer(VOID *dummy, ULONG len)
 		MEM_DBG_PKT_ALLOC_INC(pkt);
 	}
 
-	return (PNDIS_PACKET) pkt;
+	return pkt;
 }
 
 
@@ -346,7 +346,7 @@ PNDIS_PACKET RTMP_AllocateFragPacketBuffer(VOID *dummy, ULONG len)
 */
 NDIS_STATUS RTMPAllocateNdisPacket(
 	IN VOID *pReserved,
-	OUT PNDIS_PACKET *ppPacket,
+	OUT struct sk_buff **ppPacket,
 	IN UCHAR *pHeader,
 	IN UINT HeaderLen,
 	IN UCHAR *pData,
@@ -377,7 +377,7 @@ NDIS_STATUS RTMPAllocateNdisPacket(
 	skb_put(pPacket, HeaderLen + DataLen);
 /* printk(KERN_ERR "%s : pPacket = %p, len = %d\n", __FUNCTION__, pPacket, GET_OS_PKT_LEN(pPacket));*/
 
-	*ppPacket = (PNDIS_PACKET)pPacket;
+	*ppPacket = pPacket;
 
 	return NDIS_STATUS_SUCCESS;
 }
@@ -390,7 +390,7 @@ NDIS_STATUS RTMPAllocateNdisPacket(
 	corresponding NDIS_BUFFER and allocated memory.
   ========================================================================
 */
-VOID RTMPFreeNdisPacket(VOID *pReserved, PNDIS_PACKET pPacket)
+VOID RTMPFreeNdisPacket(VOID *pReserved, struct sk_buff *pPacket)
 {
 	dev_kfree_skb_any(RTPKT_TO_OSPKT(pPacket));
 	MEM_DBG_PKT_FREE_INC(pPacket);
@@ -398,7 +398,7 @@ VOID RTMPFreeNdisPacket(VOID *pReserved, PNDIS_PACKET pPacket)
 
 
 void RTMP_QueryPacketInfo(
-	IN PNDIS_PACKET pPacket,
+	IN struct sk_buff *pPacket,
 	OUT PACKET_INFO *info,
 	OUT UCHAR **pSrcBufVA,
 	OUT UINT *pSrcBufLen)
@@ -413,7 +413,7 @@ void RTMP_QueryPacketInfo(
 
 #ifdef TX_PKT_SG
 	if (RTMP_GET_PKT_SG(pPacket)) {
-		struct sk_buff *skb = (struct sk_buff *)pPacket;
+		struct sk_buff *skb = pPacket;
 		int i, nr_frags = skb_shinfo(skb)->nr_frags;
 
 		info->BufferCount =  nr_frags + 1;
@@ -434,13 +434,13 @@ void RTMP_QueryPacketInfo(
 
 
 
-PNDIS_PACKET DuplicatePacket(
+struct sk_buff *DuplicatePacket(
 	IN struct net_device *pNetDev,
-	IN PNDIS_PACKET pPacket,
+	IN struct sk_buff *pPacket,
 	IN UCHAR FromWhichBSSID)
 {
 	struct sk_buff *skb;
-	PNDIS_PACKET pRetPacket = NULL;
+	struct sk_buff *pRetPacket = NULL;
 	USHORT DataSize;
 	UCHAR *pData;
 
@@ -459,7 +459,7 @@ PNDIS_PACKET DuplicatePacket(
 }
 
 
-PNDIS_PACKET duplicate_pkt(
+struct sk_buff *duplicate_pkt(
 	IN struct net_device *pNetDev,
 	IN PUCHAR pHeader802_3,
 	IN UINT HdrLen,
@@ -468,7 +468,7 @@ PNDIS_PACKET duplicate_pkt(
 	IN UCHAR FromWhichBSSID)
 {
 	struct sk_buff *skb;
-	PNDIS_PACKET pPacket = NULL;
+	struct sk_buff *pPacket = NULL;
 
 	if ((skb =
 	     __dev_alloc_skb(HdrLen + DataSize + 2, MEM_ALLOC_FLAG)) != NULL) {
@@ -488,7 +488,7 @@ PNDIS_PACKET duplicate_pkt(
 
 
 #define TKIP_TX_MIC_SIZE		8
-PNDIS_PACKET duplicate_pkt_with_TKIP_MIC(VOID *pReserved, PNDIS_PACKET pPacket)
+struct sk_buff *duplicate_pkt_with_TKIP_MIC(VOID *pReserved, struct sk_buff *pPacket)
 {
 	struct sk_buff *skb, *newskb;
 
@@ -514,7 +514,7 @@ PNDIS_PACKET duplicate_pkt_with_TKIP_MIC(VOID *pReserved, PNDIS_PACKET pPacket)
 }
 
 #ifdef CONFIG_AP_SUPPORT
-PNDIS_PACKET duplicate_pkt_with_VLAN(
+struct sk_buff *duplicate_pkt_with_VLAN(
 	IN struct net_device *pNetDev,
 	IN USHORT VLAN_VID,
 	IN USHORT VLAN_Priority,
@@ -526,7 +526,7 @@ PNDIS_PACKET duplicate_pkt_with_VLAN(
 	IN UCHAR *TPID)
 {
 	struct sk_buff *skb;
-	PNDIS_PACKET pPacket = NULL;
+	struct sk_buff *pPacket = NULL;
 	UINT16 VLAN_Size;
 
 	if ((skb = __dev_alloc_skb(HdrLen + DataSize + LENGTH_802_1Q + 2,
@@ -606,9 +606,9 @@ BOOLEAN RTMPL2FrameTxAction(
 }
 
 
-PNDIS_PACKET ExpandPacket(
+struct sk_buff *ExpandPacket(
 	IN VOID *pReserved,
-	IN PNDIS_PACKET pPacket,
+	IN struct sk_buff *pPacket,
 	IN UINT32 ext_head_len,
 	IN UINT32 ext_tail_len)
 {
@@ -643,9 +643,9 @@ PNDIS_PACKET ExpandPacket(
 
 }
 
-PNDIS_PACKET ClonePacket(
+struct sk_buff *ClonePacket(
 	IN VOID *pReserved,
-	IN PNDIS_PACKET pPacket,
+	IN struct sk_buff *pPacket,
 	IN PUCHAR pData,
 	IN ULONG DataSize)
 {
@@ -671,12 +671,12 @@ PNDIS_PACKET ClonePacket(
 }
 
 VOID RtmpOsPktInit(
-	IN PNDIS_PACKET pNetPkt,
+	IN struct sk_buff *pNetPkt,
 	IN struct net_device *pNetDev,
 	IN UCHAR *pData,
 	IN USHORT DataSize)
 {
-	PNDIS_PACKET pRxPkt;
+	struct sk_buff *pRxPkt;
 
 	pRxPkt = RTPKT_TO_OSPKT(pNetPkt);
 
@@ -692,7 +692,7 @@ void wlan_802_11_to_802_3_packet(
 	IN UCHAR OpMode,
 	IN USHORT VLAN_VID,
 	IN USHORT VLAN_Priority,
-	IN PNDIS_PACKET pRxPacket,
+	IN struct sk_buff *pRxPacket,
 	IN UCHAR *pData,
 	IN ULONG DataSize,
 	IN PUCHAR pHeader802_3,
@@ -2072,7 +2072,7 @@ Return Value:
 Note:
 ========================================================================
 */
-VOID RtmpOsPktProtocolAssign(PNDIS_PACKET pNetPkt)
+VOID RtmpOsPktProtocolAssign(struct sk_buff *pNetPkt)
 {
 	struct sk_buff *pRxPkt = RTPKT_TO_OSPKT(pNetPkt);
 	pRxPkt->protocol = eth_type_trans(pRxPkt, pRxPkt->dev);
@@ -2115,7 +2115,7 @@ Return Value:
 Note:
 ========================================================================
 */
-VOID RtmpOsPktRcvHandle(PNDIS_PACKET pNetPkt)
+VOID RtmpOsPktRcvHandle(struct sk_buff *pNetPkt)
 {
 	struct sk_buff *pRxPkt = RTPKT_TO_OSPKT(pNetPkt);
 
@@ -2148,7 +2148,7 @@ struct net_device *RtmpOsPktNetDevGet(VOID *pPkt)
 	return GET_OS_PKT_NETDEV(pPkt);
 }
 
-VOID RtmpOsPktNatMagicTag(IN PNDIS_PACKET pNetPkt)
+VOID RtmpOsPktNatMagicTag(IN struct sk_buff *pNetPkt)
 {
 #if !defined(CONFIG_RA_NAT_NONE)
 #if defined (CONFIG_RA_HW_NAT)  || defined (CONFIG_RA_HW_NAT_MODULE)
@@ -2159,7 +2159,7 @@ VOID RtmpOsPktNatMagicTag(IN PNDIS_PACKET pNetPkt)
 }
 
 
-VOID RtmpOsPktNatNone(IN PNDIS_PACKET pNetPkt)
+VOID RtmpOsPktNatNone(IN struct sk_buff *pNetPkt)
 {
 #if defined(CONFIG_RA_NAT_NONE)
 #if defined (CONFIG_RA_HW_NAT)  || defined (CONFIG_RA_HW_NAT_MODULE)
@@ -3909,7 +3909,7 @@ Note:
 */
 VOID RtmpOsPktBodyCopy(
 	struct net_device *pNetDev,
-	PNDIS_PACKET pNetPkt,
+	struct sk_buff *pNetPkt,
 	ULONG ThisFrameLen,
 	PUCHAR pData)
 {
@@ -3933,7 +3933,7 @@ Return Value:
 Note:
 ========================================================================
 */
-INT RtmpOsIsPktCloned(PNDIS_PACKET pNetPkt)
+INT RtmpOsIsPktCloned(struct sk_buff *pNetPkt)
 {
 	return OS_PKT_CLONED(pNetPkt);
 }
@@ -3953,7 +3953,7 @@ Return Value:
 Note:
 ========================================================================
 */
-PNDIS_PACKET RtmpOsPktCopy(PNDIS_PACKET pNetPkt)
+struct sk_buff *RtmpOsPktCopy(struct sk_buff *pNetPkt)
 {
 	return skb_copy(RTPKT_TO_OSPKT(pNetPkt), GFP_ATOMIC);
 }
@@ -3973,7 +3973,7 @@ Return Value:
 Note:
 ========================================================================
 */
-PNDIS_PACKET RtmpOsPktClone(PNDIS_PACKET pNetPkt)
+struct sk_buff *RtmpOsPktClone(struct sk_buff *pNetPkt)
 {
 	return skb_clone(RTPKT_TO_OSPKT(pNetPkt), MEM_ALLOC_FLAG);
 }
@@ -3994,7 +3994,7 @@ Return Value:
 Note:
 ========================================================================
 */
-VOID RtmpOsPktDataPtrAssign(PNDIS_PACKET pNetPkt, UCHAR *pData)
+VOID RtmpOsPktDataPtrAssign(struct sk_buff *pNetPkt, UCHAR *pData)
 {
 	SET_OS_PKT_DATAPTR(pNetPkt, pData);
 }
@@ -4015,7 +4015,7 @@ Return Value:
 Note:
 ========================================================================
 */
-VOID RtmpOsPktLenAssign(PNDIS_PACKET pNetPkt, LONG Len)
+VOID RtmpOsPktLenAssign(struct sk_buff *pNetPkt, LONG Len)
 {
 	SET_OS_PKT_LEN(pNetPkt, Len);
 }
@@ -4036,7 +4036,7 @@ Return Value:
 Note:
 ========================================================================
 */
-VOID RtmpOsPktTailAdjust(PNDIS_PACKET pNetPkt, UINT removedTagLen)
+VOID RtmpOsPktTailAdjust(struct sk_buff *pNetPkt, UINT removedTagLen)
 {
 	OS_PKT_TAIL_ADJUST(pNetPkt, removedTagLen);
 }
@@ -4057,7 +4057,7 @@ Return Value:
 Note:
 ========================================================================
 */
-PUCHAR RtmpOsPktTailBufExtend(PNDIS_PACKET pNetPkt, UINT Len)
+PUCHAR RtmpOsPktTailBufExtend(struct sk_buff *pNetPkt, UINT Len)
 {
 	return OS_PKT_TAIL_BUF_EXTEND(pNetPkt, Len);
 }
@@ -4078,7 +4078,7 @@ Return Value:
 Note:
 ========================================================================
 */
-VOID RtmpOsPktReserve(PNDIS_PACKET pNetPkt, UINT Len)
+VOID RtmpOsPktReserve(struct sk_buff *pNetPkt, UINT Len)
 {
 	OS_PKT_RESERVE(pNetPkt, Len);
 }
@@ -4099,7 +4099,7 @@ Return Value:
 Note:
 ========================================================================
 */
-PUCHAR RtmpOsPktHeadBufExtend(PNDIS_PACKET pNetPkt, UINT Len)
+PUCHAR RtmpOsPktHeadBufExtend(struct sk_buff *pNetPkt, UINT Len)
 {
 	return OS_PKT_HEAD_BUF_EXTEND(pNetPkt, Len);
 }

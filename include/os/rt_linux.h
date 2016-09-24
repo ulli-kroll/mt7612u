@@ -158,7 +158,6 @@ extern	const struct iw_handler_def rt28xx_ap_iw_handler_def;
 typedef struct net_device_stats	NET_DEV_STATS;
 typedef struct pci_dev 		* PPCI_DEV;
 typedef struct wireless_dev	* PWIRELESS_DEV;
-typedef void				* PNDIS_PACKET;
 typedef char				NDIS_PACKET;
 typedef	ra_dma_addr_t			NDIS_PHYSICAL_ADDRESS;
 typedef	ra_dma_addr_t			* PNDIS_PHYSICAL_ADDRESS;
@@ -808,7 +807,7 @@ void linux_pci_unmap_single(void *handle, ra_dma_addr_t dma_addr, size_t size, i
 #define RTMP_OS_NETDEV_CARRIER_OFF(_pNetDev)	netif_carrier_off((_pNetDev))
 
 #define QUEUE_ENTRY_TO_PACKET(pEntry) \
-	(PNDIS_PACKET)(pEntry)
+	(struct sk_buff *)(pEntry)
 
 #define PACKET_TO_QUEUE_ENTRY(pPacket) \
 	(PQUEUE_ENTRY)(pPacket)
@@ -832,7 +831,7 @@ void linux_pci_unmap_single(void *handle, ra_dma_addr_t dma_addr, size_t size, i
  *             os packet to rt packet
  */
 #define RTPKT_TO_OSPKT(_p)		((struct sk_buff *)(_p))
-#define OSPKT_TO_RTPKT(_p)		((PNDIS_PACKET)(_p))
+#define OSPKT_TO_RTPKT(_p)		((struct sk_buff *)(_p))
 
 #define GET_OS_PKT_DATAPTR(_pkt) \
 		(RTPKT_TO_OSPKT(_pkt)->data)
@@ -888,7 +887,7 @@ void linux_pci_unmap_single(void *handle, ra_dma_addr_t dma_addr, size_t size, i
 
 #define RTMP_OS_PKT_INIT(__pRxPacket, __pNetDev, __pData, __DataSize)		\
 {																			\
-	PNDIS_PACKET __pRxPkt;													\
+	struct sk_buff *__pRxPkt;													\
 	__pRxPkt = RTPKT_TO_OSPKT(__pRxPacket);									\
 	SET_OS_PKT_NETDEV(__pRxPkt, __pNetDev);									\
 	SET_OS_PKT_DATAPTR(__pRxPkt, __pData);									\

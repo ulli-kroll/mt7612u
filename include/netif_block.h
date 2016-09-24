@@ -26,6 +26,6 @@ VOID releaseNetIf(
 VOID StopNetIfQueue(
 	IN Pstruct rtmp_adapter pAd,
 	IN UCHAR QueIdx,
-	IN PNDIS_PACKET pPacket);
+	IN struct sk_buff *pPacket);
 #endif /* __NET_IF_BLOCK_H__ */
 

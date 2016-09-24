@@ -87,7 +87,7 @@ void HotspotAPReload(struct net_device *net_dev)
 BOOLEAN HSIPv4Check(
 			IN struct rtmp_adapter *pAd,
 			PUCHAR pWcid,
-			PNDIS_PACKET pPacket,
+			struct sk_buff *pPacket,
 			PUCHAR pSrcBuf,
 			UINT16 srcPort,
 			UINT16 dstPort)

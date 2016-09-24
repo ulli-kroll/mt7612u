@@ -64,7 +64,7 @@ VOID releaseNetIf(
 VOID StopNetIfQueue(
 	IN struct rtmp_adapter *pAd,
 	IN UCHAR QueIdx,
-	IN PNDIS_PACKET pPacket)
+	IN struct sk_buff *pPacket)
 {
 	struct net_device *NetDev = NULL, wdev_NetDev= NULL;
 	UCHAR IfIdx = 0;

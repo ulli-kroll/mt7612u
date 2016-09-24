@@ -103,7 +103,7 @@ Routine Description:
 
 Arguments:
     NDIS_HANDLE 	MiniportAdapterContext	Pointer refer to the device handle, i.e., the pAd.
-	PPNDIS_PACKET	ppPacketArray			The packet array need to do transmission.
+	Pstruct sk_buff *ppPacketArray			The packet array need to do transmission.
 	UINT			NumberOfPackets			Number of packet in packet array.
 
 Return Value:
@@ -117,7 +117,7 @@ Note:
 VOID wdev_tx_pkts(NDIS_HANDLE dev_hnd, struct sk_buff **pkt_list, UINT pkt_cnt, struct wifi_dev *wdev)
 {
 	struct rtmp_adapter *pAd = (struct rtmp_adapter *)dev_hnd;
-	PNDIS_PACKET pPacket;
+	struct sk_buff *pPacket;
 	BOOLEAN allowToSend;
 	UCHAR wcid = MCAST_WCID;
 	UINT Index;

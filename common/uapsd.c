@@ -467,7 +467,7 @@ Note:
 VOID UAPSD_PacketEnqueue(
 	IN	struct rtmp_adapter *	pAd,
 	IN	MAC_TABLE_ENTRY		*pEntry,
-	IN	PNDIS_PACKET		pPacket,
+	IN	struct sk_buff *	pPacket,
 	IN	UINT32				IdAc)
 {
 	/*
@@ -756,7 +756,7 @@ VOID UAPSD_SP_AUE_Handle(
 				if (pEntry->pUAPSDEOSPFrame != NULL)
 				{
 					/* transmit the EOSP frame */
-					PNDIS_PACKET pPkt;
+					struct sk_buff *pPkt;
 
 
 #ifdef UAPSD_DEBUG
@@ -1100,7 +1100,7 @@ BOOLEAN UAPSD_PsPollHandle(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 	QUEUE_HEADER	*pAcPsQue;
 	QUEUE_HEADER	*pAcSwQue;
 	PQUEUE_ENTRY	pQuedEntry;
-	PNDIS_PACKET	pQuedPkt;
+	struct sk_buff *pQuedPkt;
 	UINT32	AcQueId;
 	/*
 		AC ID          = VO > VI > BK > BE
@@ -1299,7 +1299,7 @@ VOID UAPSD_TriggerFrameHandle(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry,
 	QUEUE_HEADER	*pAcPsQue;
 	QUEUE_HEADER	*pAcSwQue, *pLastAcSwQue;
 	PQUEUE_ENTRY	pQuedEntry;
-	PNDIS_PACKET	pQuedPkt;
+	struct sk_buff *pQuedPkt;
 
 	UINT32	AcQueId;
 	UINT32	TxPktNum, SpMaxLen;
@@ -1930,7 +1930,7 @@ VOID UAPSD_UnTagFrame(
 					if (pEntry->pUAPSDEOSPFrame != NULL)
 	                {
 	                    /* transmit the EOSP frame */
-						PNDIS_PACKET pPkt;
+						struct sk_buff *pPkt;
 
 						pPkt = QUEUE_ENTRY_TO_PACKET(pEntry->pUAPSDEOSPFrame);
 						QueId = RTMP_GET_PACKET_UAPSD_QUE_ID(pPkt);

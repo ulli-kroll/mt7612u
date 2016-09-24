@@ -446,11 +446,11 @@ static INT process_nbns_packet(
 
 void announce_802_3_packet(
 	IN VOID *pAdSrc,
-	IN PNDIS_PACKET pPacket,
+	IN struct sk_buff *pPacket,
 	IN UCHAR OpMode)
 {
 	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdSrc;
-	PNDIS_PACKET pRxPkt = pPacket;
+	struct sk_buff *pRxPkt = pPacket;
 
 
 	ASSERT(pPacket);
@@ -471,7 +471,7 @@ void announce_802_3_packet(
 #ifdef CONFIG_AP_SUPPORT
 #if defined(PLATFORM_BL2348) || defined(PLATFORM_BL23570)
 	{
-		extern int (*pToUpperLayerPktSent)(PNDIS_PACKET *pSkb);
+		extern int (*pToUpperLayerPktSent)(struct sk_buff **pSkb);
 		RtmpOsPktProtocolAssign(pRxPkt);
 		pToUpperLayerPktSent(pRxPkt);
 		return;
@@ -699,7 +699,7 @@ int RTMPSendPackets(
 {
 	struct wifi_dev *wdev = (struct wifi_dev *)dev_hnd;
 	struct rtmp_adapter *pAd;
-	PNDIS_PACKET pPacket = pkt_list[0];
+	struct sk_buff *pPacket = pkt_list[0];
 
 	ASSERT(wdev->sys_handle);
 	pAd = (struct rtmp_adapter *)wdev->sys_handle;

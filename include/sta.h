@@ -92,7 +92,7 @@ NDIS_STATUS	STAHardTransmit(
 
 INT STASendPacket(
 	IN struct rtmp_adapter *pAd,
-	IN PNDIS_PACKET pPacket);
+	IN struct sk_buff *pPacket);
 
 INT STAInitialize(struct rtmp_adapter *pAd);
 

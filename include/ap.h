@@ -61,14 +61,14 @@ BOOLEAN APBridgeToWirelessSta(
 INT ApAllowToSendPacket(
 	IN struct rtmp_adapter *pAd,
 	IN struct wifi_dev *wdev,
-	IN PNDIS_PACKET pPacket,
+	IN struct sk_buff *pPacket,
 	OUT UCHAR *pWcid);
 
-INT APSendPacket(struct rtmp_adapter *pAd, PNDIS_PACKET pPacket);
+INT APSendPacket(struct rtmp_adapter *pAd, struct sk_buff *pPacket);
 
 NDIS_STATUS APInsertPsQueue(
 	IN struct rtmp_adapter *pAd,
-	IN PNDIS_PACKET pPacket,
+	IN struct sk_buff *pPacket,
 	IN MAC_TABLE_ENTRY *pMacEntry,
 	IN UCHAR QueIdx);
 

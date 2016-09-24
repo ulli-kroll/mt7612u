@@ -488,7 +488,7 @@ int rt28xx_packet_xmit(struct sk_buff *skb)
 {
 	struct net_device *net_dev = skb->dev;
 	struct wifi_dev *wdev;
-	PNDIS_PACKET pPacket = (PNDIS_PACKET)skb;
+	struct sk_buff *pPacket = skb;
 
 	wdev = RTMP_OS_NETDEV_GET_WDEV(net_dev);
 	ASSERT(wdev);
@@ -519,7 +519,7 @@ int rt28xx_send_packets(struct sk_buff *skb, struct net_device *ndev)
 {
 	if (!(RTMP_OS_NETDEV_STATE_RUNNING(ndev)))
 	{
-		RELEASE_NDIS_PACKET(NULL, (PNDIS_PACKET)skb, NDIS_STATUS_FAILURE);
+		RELEASE_NDIS_PACKET(NULL, (struct sk_buff *)skb, NDIS_STATUS_FAILURE);
 		return 0;
 	}
 

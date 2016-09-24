@@ -85,7 +85,7 @@ VOID RTMPResetTxRxRingMemory(
 	for (index = 0; index < NUM_OF_TX_RING; index++)
 	{
 		PQUEUE_ENTRY pEntry;
-		PNDIS_PACKET pPacket;
+		struct sk_buff *pPacket;
 		PQUEUE_HEADER pQueue;
 
 		RTMP_IRQ_LOCK(&pAd->irq_lock, IrqFlags);

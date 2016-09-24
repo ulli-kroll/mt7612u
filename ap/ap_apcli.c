@@ -1470,7 +1470,7 @@ static inline BOOLEAN ValidApCliEntry(struct rtmp_adapter *pAd, INT apCliIdx)
 INT ApCliAllowToSendPacket(
 	IN struct rtmp_adapter *pAd,
 	IN struct wifi_dev *wdev,
-	IN PNDIS_PACKET pPacket,
+	IN struct sk_buff *pPacket,
 	OUT UCHAR *pWcid)
 {
 	UCHAR idx;

@@ -43,13 +43,13 @@ INT (*RTMP_COM_IoctlHandle)(
 
 int (*RTMPSendPackets)(
 	IN	NDIS_HANDLE MiniportAdapterContext,
-	IN	PPNDIS_PACKET ppPacketArray,
+	IN	Pstruct sk_buff *ppPacketArray,
 	IN	UINT NumberOfPackets,
 	IN	UINT32 PktTotalLen,
 	IN	RTMP_NET_ETH_CONVERT_DEV_SEARCH Func);
 
 int (*P2P_PacketSend)(
-	IN	PNDIS_PACKET				pPktSrc,
+	IN	struct sk_buff *			pPktSrc,
 	IN	struct net_device *				pDev,
 	IN	RTMP_NET_PACKET_TRANSMIT	Func);
 
@@ -167,7 +167,7 @@ int	RTMPSendPackets(
 	IN	RTMP_NET_ETH_CONVERT_DEV_SEARCH	Func);
 
 int P2P_PacketSend(
-	IN	PNDIS_PACKET				pPktSrc,
+	IN	struct sk_buff *			pPktSrc,
 	IN	struct net_device *				pDev,
 	IN	RTMP_NET_PACKET_TRANSMIT	Func);
 
@@ -282,7 +282,7 @@ VOID RTMP_P2P_Init(VOID *pAd, struct net_device *main_dev_p);
  INT P2P_VirtualIF_Open(struct net_device *dev_p);
  INT P2P_VirtualIF_Close(struct net_device *dev_p);
  INT P2P_VirtualIF_PacketSend(
-	 IN PNDIS_PACKET	 skb_p,
+	 IN struct sk_buff * skb_p,
 	 IN struct net_device *	 dev_p);
  VOID RTMP_P2P_Remove(VOID *pAd);
 

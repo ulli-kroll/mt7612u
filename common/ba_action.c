@@ -102,7 +102,7 @@ VOID BA_MaxWinSizeReasign(
 
 void Announce_Reordering_Packet(struct rtmp_adapter *pAd, struct reordering_mpdu *mpdu)
 {
-	PNDIS_PACKET pPacket;
+	struct sk_buff *pPacket;
 
 	pPacket = mpdu->pPacket;
 	if (mpdu->bAMSDU)
@@ -1607,7 +1607,7 @@ void convert_reordering_packet_to_preAMSDU_or_802_3_packet(
 	IN	RX_BLK			*pRxBlk,
 	IN  UCHAR			FromWhichBSSID)
 {
-	PNDIS_PACKET	pRxPkt;
+	struct sk_buff *pRxPkt;
 	UCHAR			Header802_3[LENGTH_802_3];
 
 /*

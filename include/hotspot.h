@@ -160,7 +160,7 @@ enum {
 BOOLEAN HSIPv4Check(
 			IN Pstruct rtmp_adapter pAd,
 			PUCHAR pWcid,
-			PNDIS_PACKET pPacket,
+			struct sk_buff *pPacket,
 			PUCHAR pSrcBUf,
 			UINT16 srcPort,
 			UINT16 dscPort);

@@ -617,7 +617,7 @@ VOID RTUSBRejectPendingPackets(
 {
 	UCHAR			Index;
 	PQUEUE_ENTRY	pEntry;
-	PNDIS_PACKET	pPacket;
+	struct sk_buff *pPacket;
 	PQUEUE_HEADER	pQueue;
 
 

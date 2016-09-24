@@ -35,7 +35,7 @@
 INT ApAllowToSendPacket(
 	IN struct rtmp_adapter *pAd,
 	IN struct wifi_dev *wdev,
-	IN PNDIS_PACKET pPacket,
+	IN struct sk_buff *pPacket,
 	IN UCHAR *pWcid)
 {
 	PACKET_INFO PacketInfo;
@@ -155,7 +155,7 @@ static struct reason_id_str pkt_drop_code[]={
 		You only can put OS-indepened & AP related code in here.
 ========================================================================
 */
-INT APSendPacket(struct rtmp_adapter *pAd, PNDIS_PACKET pPacket)
+INT APSendPacket(struct rtmp_adapter *pAd, struct sk_buff *pPacket)
 {
 	PACKET_INFO PacketInfo;
 	UCHAR *pSrcBufVA;
@@ -764,7 +764,7 @@ static inline PUCHAR AP_Build_ARalink_Frame_Header(struct rtmp_adapter *pAd, TX_
 {
 	PUCHAR			pHeaderBufPtr;/*, pSaveBufPtr; */
 	HEADER_802_11	*pHeader_802_11;
-	PNDIS_PACKET	pNextPacket;
+	struct sk_buff *pNextPacket;
 	UINT32			nextBufLen;
 	PQUEUE_ENTRY	pQEntry;
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
@@ -2961,7 +2961,7 @@ VOID AP_NDPA_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 NDIS_STATUS APHardTransmit(struct rtmp_adapter *pAd, TX_BLK *pTxBlk, UCHAR QueIdx)
 {
 	PQUEUE_ENTRY pQEntry;
-	PNDIS_PACKET pPacket;
+	struct sk_buff *pPacket;
 
 	if ((pAd->Dot11_H.RDMode != RD_NORMAL_MODE)
 		)
@@ -3792,7 +3792,7 @@ done:
 
 VOID Announce_or_Forward_802_3_Packet(
 	IN	struct rtmp_adapter *pAd,
-	IN	PNDIS_PACKET	pPacket,
+	IN	struct sk_buff *pPacket,
 	IN	UCHAR			FromWhichBSSID)
 {
 	if (APFowardWirelessStaToWirelessSta(pAd, pPacket, FromWhichBSSID))
@@ -4001,7 +4001,7 @@ VOID APHandleRxDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 	RXINFO_STRUC *pRxInfo = pRxBlk->pRxInfo;
 	RXWI_STRUC *pRxWI = pRxBlk->pRxWI;
 	HEADER_802_11 *pHeader = pRxBlk->pHeader;
-	PNDIS_PACKET pRxPacket = pRxBlk->pRxPacket;
+	struct sk_buff *pRxPacket = pRxBlk->pRxPacket;
 	BOOLEAN bFragment = FALSE;
 	MAC_TABLE_ENTRY *pEntry = NULL;
 	UCHAR FromWhichBSSID = BSS0;
@@ -4428,7 +4428,7 @@ VOID APHandleRxDataFrame_Hdr_Trns(
 	RXINFO_STRUC *pRxInfo = pRxBlk->pRxInfo;
 	RXWI_STRUC *pRxWI = pRxBlk->pRxWI;
 	HEADER_802_11 *pHeader = pRxBlk->pHeader;
-	PNDIS_PACKET pRxPacket = pRxBlk->pRxPacket;
+	struct sk_buff *pRxPacket = pRxBlk->pRxPacket;
 	BOOLEAN bFragment = FALSE;
 	MAC_TABLE_ENTRY *pEntry = NULL;
 	UCHAR FromWhichBSSID = BSS0;
@@ -4799,13 +4799,13 @@ err:
 
 BOOLEAN APFowardWirelessStaToWirelessSta(
 	IN	struct rtmp_adapter *pAd,
-	IN	PNDIS_PACKET pPacket,
+	IN	struct sk_buff *pPacket,
 	IN	ULONG FromWhichBSSID)
 {
 	MAC_TABLE_ENTRY *pEntry = NULL;
 	BOOLEAN bAnnounce, bDirectForward;
 	UCHAR *pHeader802_3;
-	PNDIS_PACKET pForwardPacket;
+	struct sk_buff *pForwardPacket;
 
 
 #ifdef INF_AMAZON_SE
@@ -4964,7 +4964,7 @@ BOOLEAN APFowardWirelessStaToWirelessSta(
 */
 NDIS_STATUS APInsertPsQueue(
 	IN struct rtmp_adapter *pAd,
-	IN PNDIS_PACKET pPacket,
+	IN struct sk_buff *pPacket,
 	IN MAC_TABLE_ENTRY *pMacEntry,
 	IN UCHAR QueIdx)
 {

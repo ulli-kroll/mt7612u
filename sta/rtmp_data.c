@@ -343,7 +343,7 @@ VOID STAHandleRxDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 	RXINFO_STRUC *pRxInfo = pRxBlk->pRxInfo;
 	RXWI_STRUC *pRxWI = pRxBlk->pRxWI;
 	HEADER_802_11 *pHeader = pRxBlk->pHeader;
-	PNDIS_PACKET pRxPacket = pRxBlk->pRxPacket;
+	struct sk_buff *pRxPacket = pRxBlk->pRxPacket;
 	BOOLEAN bFragment = FALSE;
 	MAC_TABLE_ENTRY *pEntry = NULL;
 	UCHAR FromWhichBSSID = BSS0;
@@ -775,7 +775,7 @@ VOID STAHandleRxDataFrame_Hdr_Trns(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 	RXINFO_STRUC *pRxInfo = pRxBlk->pRxInfo;
 	RXWI_STRUC *pRxWI = pRxBlk->pRxWI;
 	HEADER_802_11 *pHeader = pRxBlk->pHeader;
-	PNDIS_PACKET pRxPacket = pRxBlk->pRxPacket;
+	struct sk_buff *pRxPacket = pRxBlk->pRxPacket;
 	BOOLEAN bFragment = FALSE;
 	MAC_TABLE_ENTRY *pEntry = NULL;
 	UCHAR FromWhichBSSID = BSS0;
@@ -1178,7 +1178,7 @@ Note:
 	You only can put OS-indepened & STA related code in here.
 ========================================================================
 */
-INT STASendPacket(struct rtmp_adapter *pAd, PNDIS_PACKET pPacket)
+INT STASendPacket(struct rtmp_adapter *pAd, struct sk_buff *pPacket)
 {
 	PACKET_INFO PacketInfo;
 	UCHAR *pSrcBufVA;
@@ -1815,7 +1815,7 @@ static inline PUCHAR STA_Build_ARalink_Frame_Header(
 {
 	PUCHAR pHeaderBufPtr;
 	HEADER_802_11 *pHeader_802_11;
-	PNDIS_PACKET pNextPacket;
+	struct sk_buff *pNextPacket;
 	UINT32 nextBufLen;
 	PQUEUE_ENTRY pQEntry;
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
@@ -3389,7 +3389,7 @@ VOID STA_NDPA_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 
 	Arguments:
 		pAd 	Pointer to our adapter
-		PNDIS_PACKET	Pointer to outgoing Ndis frame
+		struct sk_buff *Pointer to outgoing Ndis frame
 		NumberOfFrag	Number of fragment required
 
 	Return Value:
@@ -3553,7 +3553,7 @@ NDIS_STATUS STAHardTransmit(struct rtmp_adapter *pAd, TX_BLK *pTxBlk, UCHAR QueI
 
 VOID Sta_Announce_or_Forward_802_3_Packet(
 	IN struct rtmp_adapter *pAd,
-	IN PNDIS_PACKET pPacket,
+	IN struct sk_buff *pPacket,
 	IN UCHAR FromWhichBSSID)
 {
 	if (TRUE

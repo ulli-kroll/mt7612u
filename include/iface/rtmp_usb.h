@@ -143,7 +143,7 @@ VOID RtmpUSB_FinalWriteTxResource(struct rtmp_adapter *pAd, struct _TX_BLK *pTxB
 
 VOID RtmpUSBDataLastTxIdx(struct rtmp_adapter *pAd, UCHAR QueIdx, USHORT TxIdx);
 VOID RtmpUSBDataKickOut(struct rtmp_adapter *pAd, struct _TX_BLK *pTxBlk, UCHAR QueIdx);
-int RtmpUSBMgmtKickOut(struct rtmp_adapter *pAd, UCHAR QIdx, PNDIS_PACKET pkt, UCHAR *pSrcBufVA, UINT SrcBufLen);
+int RtmpUSBMgmtKickOut(struct rtmp_adapter *pAd, UCHAR QIdx, struct sk_buff *pkt, UCHAR *pSrcBufVA, UINT SrcBufLen);
 VOID RtmpUSBNullFrameKickOut(struct rtmp_adapter *pAd, UCHAR QIdx, UCHAR *pNullFrm, UINT32 frmLen);
 
 VOID RTUSBWatchDog(struct rtmp_adapter *pAd);

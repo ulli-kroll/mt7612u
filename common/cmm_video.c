@@ -58,7 +58,7 @@ VOID TxSwQDepthAdjust(IN struct rtmp_adapter *pAd, IN UINT32 qLen)
 	ULONG IrqFlags;
 	INT qIdx;
 	QUEUE_HEADER *pTxQ, *pEntry;
-	PNDIS_PACKET pPacket;
+	struct sk_buff *pPacket;
 
 	RTMP_IRQ_LOCK(&pAd->irq_lock, IrqFlags);
 	pAd->TxSwQMaxLen = qLen;

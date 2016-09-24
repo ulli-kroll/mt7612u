@@ -732,7 +732,7 @@ BOOLEAN IPv6ProxyARP(IN struct rtmp_adapter *pAd,
 
 VOID WNMIPv4ProxyARPCheck(
 			IN struct rtmp_adapter *pAd,
-			PNDIS_PACKET pPacket,
+			struct sk_buff *pPacket,
 			USHORT srcPort,
 			USHORT dstPort,
 			PUCHAR pSrcBuf)
@@ -757,7 +757,7 @@ VOID WNMIPv4ProxyARPCheck(
 
 VOID WNMIPv6ProxyARPCheck(
 			IN struct rtmp_adapter *pAd,
-			PNDIS_PACKET pPacket,
+			struct sk_buff *pPacket,
 			PUCHAR pSrcBuf)
 {
 	UCHAR apidx = RTMP_GET_PACKET_NET_DEVICE(pPacket);

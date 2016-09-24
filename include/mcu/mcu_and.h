@@ -184,7 +184,7 @@ struct cmd_msg {
 	MSG_RSP_HANDLER rsp_handler;
 	enum cmd_msg_state state;
 	void *priv;
-	PNDIS_PACKET net_pkt;
+	struct sk_buff *net_pkt;
 #ifdef RTMP_USB_SUPPORT
 	PURB urb;
 #endif
@@ -414,7 +414,7 @@ void andes_cmd_msg_bh(unsigned long param);
 int usb_rx_cmd_msg_submit(struct rtmp_adapter *ad);
 int usb_rx_cmd_msgs_receive(struct rtmp_adapter *ad);
 void andes_bh_schedule(struct rtmp_adapter *ad);
-void pci_kick_out_cmd_msg_complete(PNDIS_PACKET net_pkt);
+void pci_kick_out_cmd_msg_complete(struct sk_buff *net_pkt);
 int andes_load_cr(struct rtmp_adapter *ad, u32 cr_type, UINT8 temp_level, UINT8 channel);
 int andes_switch_channel(struct rtmp_adapter *ad, u8 channel, BOOLEAN scan, unsigned int bw, unsigned int tx_rx_setting, u8 bbp_ch_idx);
 int andes_init_gain(struct rtmp_adapter *ad, UINT8 channel, BOOLEAN force_mode, unsigned int gain_from_e2p);

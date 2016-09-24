@@ -1149,7 +1149,7 @@ INT PMF_ExtractBIPAction(
 
 BOOLEAN	PMF_PerformTxFrameAction(
 	IN struct rtmp_adapter *pAd,
-	OUT PNDIS_PACKET pPacket)
+	OUT struct sk_buff *pPacket)
 {
 	PHEADER_802_11 pHeader_802_11;
 	PACKET_INFO PacketInfo;

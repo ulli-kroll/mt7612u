@@ -1119,7 +1119,7 @@ struct cmd_msg *andes_alloc_cmd_msg(struct rtmp_adapter *ad, unsigned int length
 	struct cmd_msg *msg = NULL;
 	RTMP_CHIP_CAP *cap = &ad->chipCap;
 	struct MCU_CTRL *ctl = &ad->MCUCtrl;
-	PNDIS_PACKET net_pkt = NULL;
+	struct sk_buff *net_pkt = NULL;
 #ifdef RTMP_USB_SUPPORT
 	PURB urb = NULL;
 #endif
@@ -1216,7 +1216,7 @@ void andes_init_cmd_msg(struct cmd_msg *msg, u8 type, BOOLEAN need_wait, u16 tim
 
 void andes_append_cmd_msg(struct cmd_msg *msg, char *data, unsigned int len)
 {
-	PNDIS_PACKET net_pkt = msg->net_pkt;
+	struct sk_buff *net_pkt = msg->net_pkt;
 
 	if (data)
 		memcpy(OS_PKT_TAIL_BUF_EXTEND(net_pkt, len), data, len);
@@ -1224,7 +1224,7 @@ void andes_append_cmd_msg(struct cmd_msg *msg, char *data, unsigned int len)
 
 void andes_free_cmd_msg(struct cmd_msg *msg)
 {
-	PNDIS_PACKET net_pkt = msg->net_pkt;
+	struct sk_buff *net_pkt = msg->net_pkt;
 	struct rtmp_adapter *ad = (struct rtmp_adapter *)(msg->priv);
 	struct MCU_CTRL *ctl = &ad->MCUCtrl;
 
@@ -1458,7 +1458,7 @@ static struct cmd_msg *andes_dequeue_cmd_msg(struct MCU_CTRL *ctl, DL_LIST *list
 
 void andes_rx_process_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *rx_msg)
 {
-	PNDIS_PACKET net_pkt = rx_msg->net_pkt;
+	struct sk_buff *net_pkt = rx_msg->net_pkt;
 	struct cmd_msg *msg, *msg_tmp;
 	RXFCE_INFO_CMD *rx_info = (RXFCE_INFO_CMD *)GET_OS_PKT_DATAPTR(net_pkt);
 	struct MCU_CTRL *ctl = &ad->MCUCtrl;
@@ -1538,7 +1538,7 @@ void andes_rx_process_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *rx_msg)
 #ifdef RTMP_USB_SUPPORT
 static void usb_rx_cmd_msg_complete(PURB urb)
 {
-	PNDIS_PACKET net_pkt = (PNDIS_PACKET)RTMP_OS_USB_CONTEXT_GET(urb);
+	struct sk_buff *net_pkt = (struct sk_buff *)RTMP_OS_USB_CONTEXT_GET(urb);
 	struct cmd_msg *msg = CMD_MSG_CB(net_pkt)->msg;
 	struct rtmp_adapter *ad = (struct rtmp_adapter *)msg->priv;
 	POS_COOKIE pObj = (POS_COOKIE)ad->OS_Cookie;
@@ -1599,7 +1599,7 @@ int usb_rx_cmd_msg_submit(struct rtmp_adapter *ad)
 	POS_COOKIE pObj = (POS_COOKIE)ad->OS_Cookie;
 	struct MCU_CTRL *ctl = &ad->MCUCtrl;
 	struct cmd_msg *msg = NULL;
-	PNDIS_PACKET net_pkt = NULL;
+	struct sk_buff *net_pkt = NULL;
 	int ret = 0;
 
 	if (!OS_TEST_BIT(MCU_INIT, &ctl->flags))
@@ -1714,7 +1714,7 @@ void andes_bh_schedule(struct rtmp_adapter *ad)
 #ifdef RTMP_USB_SUPPORT
 static void usb_kick_out_cmd_msg_complete(PURB urb)
 {
-	PNDIS_PACKET net_pkt = (PNDIS_PACKET)RTMP_OS_USB_CONTEXT_GET(urb);
+	struct sk_buff *net_pkt = (struct sk_buff *)RTMP_OS_USB_CONTEXT_GET(urb);
 	struct cmd_msg *msg = CMD_MSG_CB(net_pkt)->msg;
 	struct rtmp_adapter *ad = (struct rtmp_adapter *)msg->priv;
 	struct MCU_CTRL *ctl = &ad->MCUCtrl;
@@ -1752,7 +1752,7 @@ int usb_kick_out_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *msg)
 	struct MCU_CTRL *ctl = &ad->MCUCtrl;
 	POS_COOKIE pObj = (POS_COOKIE)ad->OS_Cookie;
 	int ret = 0;
-	PNDIS_PACKET net_pkt = msg->net_pkt;
+	struct sk_buff *net_pkt = msg->net_pkt;
 	RTMP_CHIP_CAP *pChipCap = &ad->chipCap;
 
 	if (msg->state != tx_retransmit) {
@@ -1937,7 +1937,7 @@ void andes_ctrl_exit(struct rtmp_adapter *ad)
 static int andes_dequeue_and_kick_out_cmd_msgs(struct rtmp_adapter *ad)
 {
 	struct cmd_msg *msg = NULL;
-	PNDIS_PACKET net_pkt = NULL;
+	struct sk_buff *net_pkt = NULL;
 	struct MCU_CTRL *ctl = &ad->MCUCtrl;
 	int ret = NDIS_STATUS_SUCCESS;
 	TXINFO_NMAC_CMD *tx_info;

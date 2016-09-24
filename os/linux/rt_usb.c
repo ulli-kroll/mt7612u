@@ -455,7 +455,7 @@ static void rtusb_mgmt_dma_done_tasklet(unsigned long data)
 	struct rtmp_adapter *	pAd;
 	PTX_CONTEXT		pMLMEContext;
 	int				index;
-	PNDIS_PACKET	pPacket;
+	struct sk_buff *pPacket;
 	purbb_t			pUrb;
 	NTSTATUS		Status;
 	unsigned long	IrqFlags;

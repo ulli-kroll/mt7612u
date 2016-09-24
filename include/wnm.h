@@ -234,14 +234,14 @@ VOID Clear_All_PROXY_TABLE(IN Pstruct rtmp_adapter pAd);
 #ifdef CONFIG_AP_SUPPORT
 VOID WNMIPv4ProxyARPCheck(
 			IN Pstruct rtmp_adapter pAd,
-			PNDIS_PACKET pPacket,
+			struct sk_buff *pPacket,
 			USHORT srcPort,
 			USHORT dstPort,
 			PUCHAR pSrcBuf);
 
 VOID WNMIPv6ProxyARPCheck(
 			IN Pstruct rtmp_adapter pAd,
-			PNDIS_PACKET pPacket,
+			struct sk_buff *pPacket,
 			PUCHAR pSrcBuf);
 #endif /* CONFIG_AP_SUPPORT */
 

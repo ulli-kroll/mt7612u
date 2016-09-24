@@ -468,7 +468,7 @@ VOID RTMPCkipInsertCMIC(
     IN  struct rtmp_adapter *  pAd,
     OUT PUCHAR          pMIC,
     IN  PUCHAR          p80211hdr,
-    IN  PNDIS_PACKET    pPacket,
+    IN  struct sk_buff *   pPacket,
     IN  PCIPHER_KEY     pKey,
     IN  PUCHAR          mic_snap)
 {

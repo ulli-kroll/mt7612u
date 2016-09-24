@@ -469,7 +469,7 @@ Note:
 UAPSD_EXTERN VOID UAPSD_PacketEnqueue(
 	IN	struct rtmp_adapter *	pAd,
 	IN	MAC_TABLE_ENTRY		*pEntry,
-	IN	PNDIS_PACKET		pPacket,
+	IN	struct sk_buff *	pPacket,
 	IN	UINT32				IdAc);
 
 
@@ -491,7 +491,7 @@ Note:
 */
 UAPSD_EXTERN VOID UAPSD_QoSNullTxMgmtTxDoneHandle(
 	IN	struct rtmp_adapter *	pAd,
-	IN	PNDIS_PACKET		pPacket,
+	IN	struct sk_buff *	pPacket,
 	IN	UCHAR				*pDstMac);
 
 
@@ -589,7 +589,7 @@ Note:
 */
 UAPSD_EXTERN VOID UAPSD_SP_PacketCheck(
 	IN	struct rtmp_adapter *	pAd,
-	IN	PNDIS_PACKET		pPacket,
+	IN	struct sk_buff *	pPacket,
 	IN	UCHAR				*pDstMac);
 
 

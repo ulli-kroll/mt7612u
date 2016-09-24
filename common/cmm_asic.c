@@ -3064,7 +3064,7 @@ INT rtmp_asic_top_init(struct rtmp_adapter *pAd)
 
 INT StopDmaRx(struct rtmp_adapter *pAd, UCHAR Level)
 {
-	PNDIS_PACKET pRxPacket;
+	struct sk_buff *pRxPacket;
 	RX_BLK RxBlk, *pRxBlk;
 	UINT32 RxPending = 0, MacReg = 0, MTxCycle = 0;
 	BOOLEAN bReschedule = FALSE;

@@ -37,7 +37,7 @@
 
 extern INT ApCliAllowToSendPacket(
 	struct rtmp_adapter *pAd, struct wifi_dev *wdev,
-	PNDIS_PACKET pPacket, UCHAR *pWcid);
+	struct sk_buff *pPacket, UCHAR *pWcid);
 
 BOOLEAN CFG80211DRV_OpsChgVirtualInf(struct rtmp_adapter *pAd, VOID *pData)
 {
@@ -471,7 +471,7 @@ static INT CFG80211_VirtualIF_Close(struct net_device *dev_p)
 	return 0;
 }
 
-static INT CFG80211_PacketSend(PNDIS_PACKET pPktSrc, struct net_device *pDev, RTMP_NET_PACKET_TRANSMIT Func)
+static INT CFG80211_PacketSend(struct sk_buff *pPktSrc, struct net_device *pDev, RTMP_NET_PACKET_TRANSMIT Func)
 {
     	struct rtmp_adapter *pAd;
     	pAd = RTMP_OS_NETDEV_GET_PRIV(pDev);
@@ -821,7 +821,7 @@ static INT CFG80211_DummyP2pIf_Ioctl(
 }
 
 static INT CFG80211_DummyP2pIf_PacketSend(
-	IN PNDIS_PACKET 	skb_p,
+	IN struct sk_buff *	skb_p,
 	IN struct net_device *		dev_p)
 {
 	return 0;

@@ -318,7 +318,7 @@ NDIS_STATUS MiniportMMRequest(
 	IN UCHAR *pData,
 	IN UINT Length)
 {
-	PNDIS_PACKET pPacket;
+	struct sk_buff *pPacket;
 	NDIS_STATUS Status = NDIS_STATUS_SUCCESS;
 	ULONG FreeNum;
 	BOOLEAN bUseDataQ = FALSE, FlgDataQForce = FALSE, FlgIsLocked = FALSE;
@@ -461,14 +461,14 @@ NDIS_STATUS MiniportMMRequest(
 void AP_QueuePsActionPacket(
 	IN	struct rtmp_adapter *pAd,
 	IN	MAC_TABLE_ENTRY	*pMacEntry,
-	IN	PNDIS_PACKET	pPacket,
+	IN	struct sk_buff *pPacket,
 	IN	BOOLEAN			FlgIsDeltsFrame,
 	IN	BOOLEAN			FlgIsLocked,
 	IN	UCHAR			MgmtQid)
 {
 #ifdef UAPSD_SUPPORT
 #ifdef UAPSD_CC_FUNC_PS_MGMT_TO_LEGACY
-	PNDIS_PACKET DuplicatePkt = NULL;
+	struct sk_buff *DuplicatePkt = NULL;
 #endif /* UAPSD_CC_FUNC_PS_MGMT_TO_LEGACY */
 #endif /* UAPSD_SUPPORT */
 
@@ -596,7 +596,7 @@ Label_Legacy_PS:
 NDIS_STATUS MlmeHardTransmit(
 	IN struct rtmp_adapter *pAd,
 	IN UCHAR QueIdx,
-	IN PNDIS_PACKET pPacket,
+	IN struct sk_buff *pPacket,
 	IN BOOLEAN FlgDataQForce,
 	IN BOOLEAN FlgIsLocked)
 {
@@ -719,7 +719,7 @@ NDIS_STATUS MlmeHardTransmit(
 NDIS_STATUS MlmeHardTransmitMgmtRing(
 	IN struct rtmp_adapter *pAd,
 	IN UCHAR QueIdx,
-	IN PNDIS_PACKET pPacket)
+	IN struct sk_buff *pPacket)
 {
 	PACKET_INFO PacketInfo;
 	UCHAR *pSrcBufVA;
@@ -1155,7 +1155,7 @@ NDIS_STATUS MlmeHardTransmitMgmtRing(
 								(2).Normal
 	========================================================================
 */
-static UCHAR TxPktClassification(struct rtmp_adapter *pAd, PNDIS_PACKET  pPacket, TX_BLK *pTxBlk)
+static UCHAR TxPktClassification(struct rtmp_adapter *pAd, struct sk_buff * pPacket, TX_BLK *pTxBlk)
 {
 	UCHAR TxFrameType = TX_UNKOWN_FRAME;
 	UCHAR Wcid;
@@ -1267,7 +1267,7 @@ static UCHAR TxPktClassification(struct rtmp_adapter *pAd, PNDIS_PACKET  pPacket
 BOOLEAN RTMP_FillTxBlkInfo(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 {
 	PACKET_INFO PacketInfo;
-	PNDIS_PACKET pPacket;
+	struct sk_buff *pPacket;
 	MAC_TABLE_ENTRY *pMacEntry = NULL;
 
 	pPacket = pTxBlk->pPacket;
@@ -1522,7 +1522,7 @@ VOID RTMPDeQueuePacket(
 	IN INT Max_Tx_Packets)
 {
 	PQUEUE_ENTRY pEntry = NULL;
-	PNDIS_PACKET pPacket;
+	struct sk_buff *pPacket;
 	NDIS_STATUS Status = NDIS_STATUS_SUCCESS;
 	UCHAR Count=0;
 	PQUEUE_HEADER   pQueue;
@@ -1953,7 +1953,7 @@ VOID RTMPResumeMsduTransmission(
 UINT deaggregate_AMSDU_announce(
 	IN	struct rtmp_adapter *pAd,
 	IN	RX_BLK			*pRxBlk,
-	PNDIS_PACKET		pPacket,
+	struct sk_buff *	pPacket,
 	IN	PUCHAR			pData,
 	IN	ULONG			DataSize,
 	IN	UCHAR			OpMode)
@@ -1965,7 +1965,7 @@ UINT deaggregate_AMSDU_announce(
     UCHAR			Header802_3[14];
 
 	PUCHAR			pPayload, pDA, pSA, pRemovedLLCSNAP;
-	PNDIS_PACKET	pClonePacket;
+	struct sk_buff *pClonePacket;
 
 #ifdef CONFIG_AP_SUPPORT
 	UCHAR FromWhichBSSID = RTMP_GET_PACKET_IF(pPacket);
@@ -2156,7 +2156,7 @@ UINT deaggregate_AMSDU_announce(
 
 UINT BA_Reorder_AMSDU_Annnounce(
 	IN	struct rtmp_adapter *pAd,
-	IN	PNDIS_PACKET	pPacket,
+	IN	struct sk_buff *pPacket,
 	IN	UCHAR			OpMode)
 {
 	PUCHAR			pData;
@@ -2259,7 +2259,7 @@ static inline VOID Sniff2BytesFromNdisBuffer(
 
 BOOLEAN RTMPCheckEtherType(
 	IN struct rtmp_adapter *pAd,
-	IN PNDIS_PACKET	pPacket,
+	IN struct sk_buff *pPacket,
 	IN MAC_TABLE_ENTRY *pMacEntry,
 	IN struct wifi_dev *wdev,
 	OUT UCHAR *pUserPriority,
@@ -2631,7 +2631,7 @@ VOID Update_Rssi_Sample(
 /* Normal legacy Rx packet indication*/
 VOID Indicate_Legacy_Packet(struct rtmp_adapter *pAd, RX_BLK *pRxBlk, UCHAR FromWhichBSSID)
 {
-	PNDIS_PACKET pRxPacket = pRxBlk->pRxPacket;
+	struct sk_buff *pRxPacket = pRxBlk->pRxPacket;
 	UCHAR Header802_3[LENGTH_802_3];
 	USHORT VLAN_VID = 0, VLAN_Priority = 0;
 
@@ -2754,7 +2754,7 @@ VOID Indicate_Legacy_Packet_Hdr_Trns(
 	IN RX_BLK *pRxBlk,
 	IN UCHAR FromWhichBSSID)
 {
-	PNDIS_PACKET pRxPacket = pRxBlk->pRxPacket;
+	struct sk_buff *pRxPacket = pRxBlk->pRxPacket;
 	UCHAR Header802_3[LENGTH_802_3];
 	USHORT VLAN_VID = 0, VLAN_Priority = 0;
 
@@ -2933,7 +2933,7 @@ VOID CmmRxRalinkFrameIndicate(
 	UINT16			Msdu2Size;
 	UINT16 			Payload1Size, Payload2Size;
 	PUCHAR 			pData2;
-	PNDIS_PACKET	pPacket2 = NULL;
+	struct sk_buff *pPacket2 = NULL;
 	USHORT			VLAN_VID = 0, VLAN_Priority = 0;
 
 
@@ -3047,13 +3047,13 @@ VOID CmmRxRalinkFrameIndicate(
 	}
 
 
-PNDIS_PACKET RTMPDeFragmentDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
+struct sk_buff *RTMPDeFragmentDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 {
 	HEADER_802_11 *pHeader = pRxBlk->pHeader;
-	PNDIS_PACKET pRxPacket = pRxBlk->pRxPacket;
+	struct sk_buff *pRxPacket = pRxBlk->pRxPacket;
 	UCHAR *pData = pRxBlk->pData;
 	USHORT DataSize = pRxBlk->DataSize;
-	PNDIS_PACKET pRetPacket = NULL;
+	struct sk_buff *pRetPacket = NULL;
 	UCHAR *pFragBuffer = NULL;
 	BOOLEAN bReassDone = FALSE;
 	UCHAR HeaderRoom = 0;
@@ -3137,7 +3137,7 @@ done:
 	/* otherwise return NULL*/
 	if (bReassDone)
 	{
-		PNDIS_PACKET pNewFragPacket;
+		struct sk_buff *pNewFragPacket;
 
 		/* allocate a new packet buffer for fragment*/
 		pNewFragPacket = RTMP_AllocateFragPacketBuffer(pAd, RX_BUFFER_NORMSIZE);
@@ -3519,7 +3519,7 @@ VOID RtmpPrepareHwNullFrame(
 VOID dev_rx_mgmt_frm(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 {
 	HEADER_802_11 *pHeader = pRxBlk->pHeader;
-	PNDIS_PACKET pRxPacket = pRxBlk->pRxPacket;
+	struct sk_buff *pRxPacket = pRxBlk->pRxPacket;
 	INT op_mode = pRxBlk->OpMode;
 	BOOLEAN 	bPassTheBcastPkt = FALSE;
 	INT			i;
@@ -3755,7 +3755,7 @@ done:
 VOID dev_rx_ctrl_frm(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 {
 	HEADER_802_11 *pHeader = pRxBlk->pHeader;
-	PNDIS_PACKET pRxPacket = pRxBlk->pRxPacket;
+	struct sk_buff *pRxPacket = pRxBlk->pRxPacket;
 
 	switch (pHeader->FC.SubType)
 	{
@@ -3869,7 +3869,7 @@ BOOLEAN rtmp_rx_done_handle(struct rtmp_adapter *pAd)
 	RXINFO_STRUC *pRxInfo;
 	UCHAR *pData;
 	RXWI_STRUC *pRxWI;
-	PNDIS_PACKET pRxPacket;
+	struct sk_buff *pRxPacket;
 	HEADER_802_11 *pHeader;
 	RX_BLK rxblk, *pRxBlk;
 	BOOLEAN bCmdRspPacket = FALSE;
