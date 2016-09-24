@@ -1258,6 +1258,7 @@ ifeq ($(PLATFORM),PC)
 KSRC = /lib/modules/$(shell uname -r)/build
 CROSS_COMPILE =
 EXTRA_CFLAGS += -DCONFIG_LITTLE_ENDIAN
+EXTRA_CFLAGS += -Wno-unused
 SUBARCH := $(shell uname -m | sed -e s/i.86/i386/)
 ARCH ?= $(SUBARCH)
 endif
