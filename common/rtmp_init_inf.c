@@ -35,7 +35,7 @@ NDIS_STATUS WriteDatThread(struct rtmp_adapter *pAd);
 #endif /* PROFILE_STORE */
 #endif /* CONFIG_STA_SUPPORT */
 
-int rt28xx_init(VOID *pAdSrc, PSTRING pHostName)
+int rt28xx_init(VOID *pAdSrc)
 {
 	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdSrc;
 	NDIS_STATUS Status;

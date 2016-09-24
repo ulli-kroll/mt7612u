@@ -105,9 +105,7 @@ VOID RTMPDrvOpen(VOID *pAd);
 VOID RTMPDrvClose(VOID *pAd, VOID *net_dev);
 VOID RTMPInfClose(VOID *pAd);
 
-int rt28xx_init(
-	IN VOID						*pAd,
-	IN PSTRING					pHostName);
+int rt28xx_init(VOID *pAd);
 
 struct net_device *RtmpPhyNetDevMainCreate(VOID *pAd);
 
