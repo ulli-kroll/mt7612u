@@ -110,8 +110,8 @@ int rt28xx_init(struct rtmp_adapter *pAd);
 struct net_device *RtmpPhyNetDevMainCreate(struct rtmp_adapter *pAd);
 
 /* ========================================================================== */
-int rt28xx_close(VOID *dev);
-int rt28xx_open(VOID *dev);
+int rt28xx_close(struct net_device  *dev);
+int rt28xx_open(struct net_device  *dev);
 
 __inline INT VIRTUAL_IF_UP(VOID *pAd)
 {
