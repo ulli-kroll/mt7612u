@@ -4,11 +4,12 @@ Driver for 802.11ac USB Adapter with MT7610U chipset
 STA, AP and Monitor Modes are possible  
 Current setting for this driver is APSTA mode as default.  
 STA mode is working fine  
-AP mode can crash your kernel if you call `iwconfig` after module loading
+AP mode **can** crash your kernel if you call `iwconfig` after module loading
 
+<u>At least v4.2 is needed to compile this module</u>  
+sorry people with older kernels, the code is removed.
 
 This driver is **currently** under **heavy** development.  
-and using wireless-ext (not cfg80211)  
 
 Tested on X86_64 platform(s) **only**,  
 cross compile possible, but not fully tested.  
