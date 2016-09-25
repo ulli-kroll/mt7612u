@@ -2400,25 +2400,6 @@ INT rt28xx_sta_ioctl(struct net_device *net_dev, struct ifreq *rq, INT cmd)
 								NULL, 0, RT_DEV_PRIV_FLAGS_GET(net_dev));
 /*			RTMPIoctlGetSiteSurvey(pAd, wrq); */
 		    break;
-#ifdef DBG
-		case RTPRIV_IOCTL_MAC:
-			RTMP_STA_IoctlHandle(pAd, wrq, CMD_RTPRIV_IOCTL_MAC, 0,
-								NULL, 0, RT_DEV_PRIV_FLAGS_GET(net_dev));
-/*			RTMPIoctlMAC(pAd, wrq); */
-			break;
-		case RTPRIV_IOCTL_E2P:
-			RTMP_STA_IoctlHandle(pAd, wrq, CMD_RTPRIV_IOCTL_E2P, 0,
-								NULL, 0, RT_DEV_PRIV_FLAGS_GET(net_dev));
-/*			RTMPIoctlE2PROM(pAd, wrq); */
-			break;
-#ifdef RTMP_RF_RW_SUPPORT
-		case RTPRIV_IOCTL_RF:
-			RTMP_STA_IoctlHandle(pAd, wrq, CMD_RTPRIV_IOCTL_RF, 0,
-								NULL, 0, RT_DEV_PRIV_FLAGS_GET(net_dev));
-/*			RTMPIoctlRF(pAd, wrq); */
-			break;
-#endif /* RTMP_RF_RW_SUPPORT */
-#endif /* DBG */
 
         case SIOCETHTOOL:
                 break;

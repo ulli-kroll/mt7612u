@@ -8032,12 +8032,6 @@ INT Set_PSMode_Proc(struct rtmp_adapter *pAd, PSTRING arg);
 INT Set_Wpa_Support(struct rtmp_adapter *pAd, PSTRING arg);
 #endif /* WPA_SUPPLICANT_SUPPORT */
 
-#ifdef DBG
-VOID RTMPIoctlMAC(struct rtmp_adapter *pAd, RTMP_IOCTL_INPUT_STRUCT *wrq);
-VOID RTMPIoctlE2PROM(struct rtmp_adapter *pAd, RTMP_IOCTL_INPUT_STRUCT *wrq);
-#endif /* DBG */
-
-
 NDIS_STATUS RTMPWPANoneAddKeyProc(struct rtmp_adapter *pAd, VOID *pBuf);
 
 INT Set_FragTest_Proc(struct rtmp_adapter *pAd, PSTRING arg);
