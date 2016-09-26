@@ -476,7 +476,7 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 		{
 			HT_EXT_CHANNEL_SWITCH_ANNOUNCEMENT_IE	HtExtChannelSwitchIe;
 			build_ext_channel_switch_ie(pAd, &HtExtChannelSwitchIe);
-			NdisMoveMemory(ptr, &HtExtChannelSwitchIe, sizeof(HT_EXT_CHANNEL_SWITCH_ANNOUNCEMENT_IE));
+			memmove(ptr, &HtExtChannelSwitchIe, sizeof(HT_EXT_CHANNEL_SWITCH_ANNOUNCEMENT_IE));
 			ptr += sizeof(HT_EXT_CHANNEL_SWITCH_ANNOUNCEMENT_IE);
 			FrameLen += sizeof(HT_EXT_CHANNEL_SWITCH_ANNOUNCEMENT_IE);
 		}
@@ -508,7 +508,7 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 					wb_info.center_freq_1 = vht_cent_ch_freq(pAd, pComCfg->Channel);
 					wb_info.center_freq_2 = 0;
 				}
-				NdisMoveMemory(ptr, &wb_info, sizeof(WIDE_BW_CH_SWITCH_ELEMENT));
+				memmove(ptr, &wb_info, sizeof(WIDE_BW_CH_SWITCH_ELEMENT));
 				wb_len = sizeof(WIDE_BW_CH_SWITCH_ELEMENT);
 				ptr += wb_len;
 				wb_len += 2;
@@ -519,7 +519,7 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 			tp_len = build_vht_txpwr_envelope(pAd, (UCHAR *)&txpwr_env);
 			*(ptr + 1) = tp_len;
 			ptr += 2;
-			NdisMoveMemory(ptr, &txpwr_env, tp_len);
+			memmove(ptr, &txpwr_env, tp_len);
 			ptr += tp_len;
 			tp_len += 2;
 			*ch_sw_wrapper = wb_len + tp_len;
@@ -559,21 +559,21 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 								 HtLen1,          &pComCfg->AddHTInfo,
 						  END_OF_ARGS);
 #else
-		NdisMoveMemory(&HtCapabilityTmp, &pComCfg->HtCapability, HtLen);
+		memmove(&HtCapabilityTmp, &pComCfg->HtCapability, HtLen);
 		*(USHORT *)(&HtCapabilityTmp.HtCapInfo) = SWAP16(*(USHORT *)(&HtCapabilityTmp.HtCapInfo));
 #ifdef UNALIGNMENT_SUPPORT
 		{
 			EXT_HT_CAP_INFO extHtCapInfo;
 
-			NdisMoveMemory((PUCHAR)(&extHtCapInfo), (PUCHAR)(&HtCapabilityTmp.ExtHtCapInfo), sizeof(EXT_HT_CAP_INFO));
+			memmove(&extHtCapInfo), &HtCapabilityTmp.ExtHtCapInfo, sizeof(EXT_HT_CAP_INFO));
 			*(USHORT *)(&extHtCapInfo) = cpu2le16(*(USHORT *)(&extHtCapInfo));
-			NdisMoveMemory((PUCHAR)(&HtCapabilityTmp.ExtHtCapInfo), (PUCHAR)(&extHtCapInfo), sizeof(EXT_HT_CAP_INFO));
+			memmove(&HtCapabilityTmp.ExtHtCapInfo), &extHtCapInfo, sizeof(EXT_HT_CAP_INFO));
 		}
 #else
 		*(USHORT *)(&HtCapabilityTmp.ExtHtCapInfo) = SWAP16(*(USHORT *)(&HtCapabilityTmp.ExtHtCapInfo));
 #endif /* UNALIGNMENT_SUPPORT */
 
-		NdisMoveMemory(&addHTInfoTmp, &pComCfg->AddHTInfo, HtLen1);
+		memmove(&addHTInfoTmp, &pComCfg->AddHTInfo, HtLen1);
 		*(USHORT *)(&addHTInfoTmp.AddHtInfo2) = SWAP16(*(USHORT *)(&addHTInfoTmp.AddHtInfo2));
 		*(USHORT *)(&addHTInfoTmp.AddHtInfo3) = SWAP16(*(USHORT *)(&addHTInfoTmp.AddHtInfo3));
 
@@ -718,7 +718,7 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
         UAPSD_MR_IE_FILL(WmeParmIe[8], &pMbss->UapsdInfo);
 #endif /* UAPSD_SUPPORT */
 
-		NdisMoveMemory(AIFSN, pAd->ApCfg.BssEdcaParm.Aifsn, sizeof(AIFSN));
+		memmove(AIFSN, pAd->ApCfg.BssEdcaParm.Aifsn, sizeof(AIFSN));
 
 
 		for (i=QID_AC_BE; i<=QID_AC_VO; i++)
@@ -815,15 +815,15 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 						  HtLen,          					&pComCfg->HtCapability,
 						  END_OF_ARGS);
 #else
-			NdisMoveMemory(&HtCapabilityTmp, &pComCfg->HtCapability, HtLen);
+			memmove(&HtCapabilityTmp, &pComCfg->HtCapability, HtLen);
 			*(USHORT *)(&HtCapabilityTmp.HtCapInfo) = SWAP16(*(USHORT *)(&HtCapabilityTmp.HtCapInfo));
 #ifdef UNALIGNMENT_SUPPORT
 		{
 			EXT_HT_CAP_INFO extHtCapInfo;
 
-			NdisMoveMemory((PUCHAR)(&extHtCapInfo), (PUCHAR)(&HtCapabilityTmp.ExtHtCapInfo), sizeof(EXT_HT_CAP_INFO));
+			memmove(&extHtCapInfo, &HtCapabilityTmp.ExtHtCapInfo, sizeof(EXT_HT_CAP_INFO));
 			*(USHORT *)(&extHtCapInfo) = cpu2le16(*(USHORT *)(&extHtCapInfo));
-			NdisMoveMemory((PUCHAR)(&HtCapabilityTmp.ExtHtCapInfo), (PUCHAR)(&extHtCapInfo), sizeof(EXT_HT_CAP_INFO));
+			memmove(&HtCapabilityTmp.ExtHtCapInfo, &extHtCapInfo, sizeof(EXT_HT_CAP_INFO));
 		}
 #else
 			*(USHORT *)(&HtCapabilityTmp.ExtHtCapInfo) = SWAP16(*(USHORT *)(&HtCapabilityTmp.ExtHtCapInfo));
@@ -848,7 +848,7 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 						  HtLen1, 							&pComCfg->AddHTInfo,
 						  END_OF_ARGS);
 #else
-			NdisMoveMemory(&addHTInfoTmp, &pComCfg->AddHTInfo, HtLen1);
+			memmove(&addHTInfoTmp, &pComCfg->AddHTInfo, HtLen1);
 			*(USHORT *)(&addHTInfoTmp.AddHtInfo2) = SWAP16(*(USHORT *)(&addHTInfoTmp.AddHtInfo2));
 			*(USHORT *)(&addHTInfoTmp.AddHtInfo3) = SWAP16(*(USHORT *)(&addHTInfoTmp.AddHtInfo3));
 

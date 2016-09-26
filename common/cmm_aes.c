@@ -527,7 +527,7 @@ BOOLEAN RTMPSoftDecryptAES(
 		aes128k128d(pWpaKey->Key, ctr_preload, aes_out);
 
 		bitwise_xor(aes_out, pData + payload_index, chain_buffer);
-		NdisMoveMemory(pData + payload_index - 8, chain_buffer, 16);
+		memmove(pData + payload_index - 8, chain_buffer, 16);
 		payload_index += 16;
 	}
 
@@ -545,12 +545,12 @@ BOOLEAN RTMPSoftDecryptAES(
 								num_blocks + 1);
 
 		NdisZeroMemory(padded_buffer, 16);
-		NdisMoveMemory(padded_buffer, pData + payload_index, payload_remainder);
+		memmove(padded_buffer, pData + payload_index, payload_remainder);
 
 		aes128k128d(pWpaKey->Key, ctr_preload, aes_out);
 
 		bitwise_xor(aes_out, padded_buffer, chain_buffer);
-		NdisMoveMemory(pData + payload_index - 8, chain_buffer, payload_remainder);
+		memmove(pData + payload_index - 8, chain_buffer, payload_remainder);
 		payload_index += payload_remainder;
 	}
 
@@ -563,13 +563,13 @@ BOOLEAN RTMPSoftDecryptAES(
 							PN,
 							0);
 	NdisZeroMemory(padded_buffer, 16);
-	NdisMoveMemory(padded_buffer, pData + payload_index, 8);
+	memmove(padded_buffer, pData + payload_index, 8);
 
 	aes128k128d(pWpaKey->Key, ctr_preload, aes_out);
 
 	bitwise_xor(aes_out, padded_buffer, chain_buffer);
 
-	NdisMoveMemory(TrailMIC, chain_buffer, 8);
+	memmove(TrailMIC, chain_buffer, 8);
 
 
 
@@ -620,7 +620,7 @@ BOOLEAN RTMPSoftDecryptAES(
 	if (payload_remainder > 0)
 	{
 		NdisZeroMemory(padded_buffer, 16);
-		NdisMoveMemory(padded_buffer, pData + payload_index, payload_remainder);
+		memmove(padded_buffer, pData + payload_index, payload_remainder);
 
 		bitwise_xor(aes_out, padded_buffer, chain_buffer);
 		aes128k128d(pWpaKey->Key, chain_buffer, aes_out);
@@ -685,7 +685,7 @@ VOID RTMPConstructCCMPAAD(
 	len = 2;
 
 	/* Append Addr 1, 2 & 3 */
-	NdisMoveMemory(&aad_hdr[len], pHdr + 4, 3 * MAC_ADDR_LEN);
+	memmove(&aad_hdr[len], pHdr + 4, 3 * MAC_ADDR_LEN);
 	len += (3 * MAC_ADDR_LEN);
 
 	/*  SC -
@@ -700,7 +700,7 @@ VOID RTMPConstructCCMPAAD(
 	/* Append the Addr4 field if present. */
 	if (a4_exists)
 	{
-		NdisMoveMemory(&aad_hdr[len], pHdr + 24, MAC_ADDR_LEN);
+		memmove(&aad_hdr[len], pHdr + 24, MAC_ADDR_LEN);
 		len += MAC_ADDR_LEN;
 	}
 
@@ -773,7 +773,7 @@ VOID RTMPConstructCCMPNonce(
 	n_offset += 1;
 
 	/* Fill in MPDU Address A2 field */
-	NdisMoveMemory(&nonce_hdr[n_offset], pHdr + 10, MAC_ADDR_LEN);
+	memmove(&nonce_hdr[n_offset], pHdr + 10, MAC_ADDR_LEN);
 	n_offset += MAC_ADDR_LEN;
 
 	/* Fill in the PN. The PN field occupies octets 7¡V12.
@@ -1110,7 +1110,7 @@ VOID CCMP_test_vector(
 
 	/* Encrypt action */
 	NdisZeroMemory(res_buf, 100);
-	NdisMoveMemory(res_buf, P_TEXT_DATA, sizeof(P_TEXT_DATA));
+	memmove(res_buf, P_TEXT_DATA, sizeof(P_TEXT_DATA));
 	res_len = sizeof(C_TEXT_DATA);
 	if (AES_CCM_Encrypt(res_buf, sizeof(P_TEXT_DATA),
 					TK, sizeof(TK),
@@ -1130,7 +1130,7 @@ VOID CCMP_test_vector(
 
 	/* Decrypt action */
 	NdisZeroMemory(res_buf, 100);
-	NdisMoveMemory(res_buf, C_TEXT_DATA, sizeof(C_TEXT_DATA));
+	memmove(res_buf, C_TEXT_DATA, sizeof(C_TEXT_DATA));
 	res_len = sizeof(P_TEXT_DATA);
 	if (AES_CCM_Decrypt(res_buf, sizeof(C_TEXT_DATA), TK, 16,
 					CCM_NONCE, sizeof(CCM_NONCE),

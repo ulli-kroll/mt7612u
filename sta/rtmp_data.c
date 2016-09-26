@@ -89,7 +89,7 @@ VOID STARxEAPOLFrameIndicate(
 						pAd->SharedKey[BSS0][idx].CipherAlg = CipherAlg;
 						pAd->SharedKey[BSS0][idx].KeyLen =
 						    pAd->StaCfg.wpa_supplicant_info.DesireSharedKey[idx].KeyLen;
-						NdisMoveMemory(pAd->SharedKey[BSS0][idx].Key,
+						memmove(pAd->SharedKey[BSS0][idx].Key,
 							       pAd->StaCfg.wpa_supplicant_info.DesireSharedKey[idx].Key,
 							       pAd->StaCfg.wpa_supplicant_info.DesireSharedKey[idx].KeyLen);
 					}
@@ -109,7 +109,7 @@ VOID STARxEAPOLFrameIndicate(
 		 */
 		{
 			pTmpBuf = pRxBlk->pData - LENGTH_802_11;
-			NdisMoveMemory(pTmpBuf, pRxBlk->pHeader, LENGTH_802_11);
+			memmove(pTmpBuf, pRxBlk->pHeader, LENGTH_802_11);
 
 			REPORT_MGMT_FRAME_TO_MLME(pAd, pRxBlk->wcid,
 						  pTmpBuf,
@@ -1948,7 +1948,7 @@ VOID STA_AMPDU_Frame_Tx(
 		{
 			/* NOTE: Please make sure the size of pMacEntry->CachedBuf[] is smaller than pTxBlk->HeaderBuf[]!!!! */
 #ifndef VENDOR_FEATURE1_SUPPORT
-			NdisMoveMemory((PUCHAR)
+			memmove((PUCHAR)
 				       (&pTxBlk->HeaderBuf[TXINFO_SIZE]),
 				       (PUCHAR) (&pMacEntry->CachedBuf[0]),
 				       TXWISize + sizeof (HEADER_802_11));
@@ -2187,7 +2187,7 @@ VOID STA_AMPDU_Frame_Tx(
 					pTxBlk->pSrcBufData -= LENGTH_802_1_H;
 					pTxBlk->SrcBufLen += LENGTH_802_1_H;
 
-					NdisMoveMemory(pTxBlk->pSrcBufData,
+					memmove(pTxBlk->pSrcBufData,
 						       pTxBlk->pExtraLlcSnapEncap, 6);
 				}
 
@@ -2223,11 +2223,11 @@ VOID STA_AMPDU_Frame_Tx(
 				EXTRA_LLCSNAP_ENCAP_FROM_PKT_OFFSET(pTxBlk->pSrcBufData - 2,
 								    pTxBlk->pExtraLlcSnapEncap);
 				if (pTxBlk->pExtraLlcSnapEncap) {
-					NdisMoveMemory(pHeaderBufPtr,
+					memmove(pHeaderBufPtr,
 						       pTxBlk->pExtraLlcSnapEncap, 6);
 					pHeaderBufPtr += 6;
 					/* get 2 octets (TypeofLen) */
-					NdisMoveMemory(pHeaderBufPtr,
+					memmove(pHeaderBufPtr,
 						       pTxBlk->pSrcBufData - 2,
 						       2);
 					pHeaderBufPtr += 2;
@@ -2254,12 +2254,12 @@ VOID STA_AMPDU_Frame_Tx(
 			RTMPWriteTxWI_Data(pAd, (TXWI_STRUC *) (&pTxBlk->HeaderBuf[TXINFO_SIZE]), pTxBlk);
 
 			NdisZeroMemory((PUCHAR) (&pMacEntry->CachedBuf[0]), sizeof (pMacEntry->CachedBuf));
-			NdisMoveMemory((PUCHAR) (&pMacEntry->CachedBuf[0]), (PUCHAR) (&pTxBlk->HeaderBuf[TXINFO_SIZE]), (pHeaderBufPtr -(PUCHAR) (&pTxBlk->HeaderBuf[TXINFO_SIZE])));
+			memmove((PUCHAR) (&pMacEntry->CachedBuf[0]), (PUCHAR) (&pTxBlk->HeaderBuf[TXINFO_SIZE]), (pHeaderBufPtr -(PUCHAR) (&pTxBlk->HeaderBuf[TXINFO_SIZE])));
 
 #ifdef VENDOR_FEATURE1_SUPPORT
 			/* use space to get performance enhancement */
 			NdisZeroMemory((PUCHAR) (&pMacEntry->HeaderBuf[0]), sizeof (pMacEntry->HeaderBuf));
-			NdisMoveMemory((PUCHAR) (&pMacEntry->HeaderBuf[0]),
+			memmove((PUCHAR) (&pMacEntry->HeaderBuf[0]),
 				       (PUCHAR) (&pTxBlk->HeaderBuf[0]),
 				       (pHeaderBufPtr - (PUCHAR) (&pTxBlk->HeaderBuf[0])));
 #endif /* VENDOR_FEATURE1_SUPPORT */
@@ -2334,7 +2334,7 @@ VOID STA_AMPDU_Frame_Tx_Hdr_Trns(
 		if ((pMacEntry->isCached))
 		{
 			/* NOTE: Please make sure the size of pMacEntry->CachedBuf[] is smaller than pTxBlk->HeaderBuf[]!!!! */
-			NdisMoveMemory((PUCHAR)
+			memmove((PUCHAR)
 				       (&pTxBlk->HeaderBuf[TXINFO_SIZE]),
 				       (PUCHAR) (&pMacEntry->CachedBuf[0]),
 				       TXWISize + WIFI_INFO_SIZE);
@@ -2395,7 +2395,7 @@ VOID STA_AMPDU_Frame_Tx_Hdr_Trns(
 
 			NdisZeroMemory((PUCHAR) (&pMacEntry->CachedBuf[0]),
 				       sizeof (pMacEntry->CachedBuf));
-			NdisMoveMemory((PUCHAR) (&pMacEntry->CachedBuf[0]),
+			memmove((PUCHAR) (&pMacEntry->CachedBuf[0]),
 				       (PUCHAR) (&pTxBlk->HeaderBuf[TXINFO_SIZE]),
 				       TXWISize + WIFI_INFO_SIZE);
 
@@ -2497,7 +2497,7 @@ VOID STA_AMSDU_Frame_Tx(
 		subFrameHeader = pHeaderBufPtr;
 		subFramePayloadLen = pTxBlk->SrcBufLen;
 
-		NdisMoveMemory(subFrameHeader, pTxBlk->pSrcBufHeader, 12);
+		memmove(subFrameHeader, pTxBlk->pSrcBufHeader, 12);
 
 
 		pHeaderBufPtr += AMSDU_SUBHEAD_LEN;
@@ -2510,11 +2510,11 @@ VOID STA_AMSDU_Frame_Tx(
 		subFramePayloadLen = pTxBlk->SrcBufLen;
 
 		if (pTxBlk->pExtraLlcSnapEncap) {
-			NdisMoveMemory(pHeaderBufPtr,
+			memmove(pHeaderBufPtr,
 				       pTxBlk->pExtraLlcSnapEncap, 6);
 			pHeaderBufPtr += 6;
 			/* get 2 octets (TypeofLen) */
-			NdisMoveMemory(pHeaderBufPtr, pTxBlk->pSrcBufData - 2,
+			memmove(pHeaderBufPtr, pTxBlk->pSrcBufData - 2,
 				       2);
 			pHeaderBufPtr += 2;
 			pTxBlk->MpduHeaderLen += LENGTH_802_1_H;
@@ -2657,7 +2657,7 @@ VOID STA_Legacy_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 			pTxBlk->pSrcBufData -= LENGTH_802_1_H;
 			pTxBlk->SrcBufLen += LENGTH_802_1_H;
 
-			NdisMoveMemory(pTxBlk->pSrcBufData,
+			memmove(pTxBlk->pSrcBufData,
 				       pTxBlk->pExtraLlcSnapEncap, 6);
 		}
 
@@ -2696,12 +2696,12 @@ VOID STA_Legacy_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 		if (pTxBlk->pExtraLlcSnapEncap) {
 			UCHAR vlan_size;
 
-			NdisMoveMemory(pHeaderBufPtr, pTxBlk->pExtraLlcSnapEncap, 6);
+			memmove(pHeaderBufPtr, pTxBlk->pExtraLlcSnapEncap, 6);
 			pHeaderBufPtr += 6;
 			/* skip vlan tag */
 			vlan_size = (bVLANPkt) ? LENGTH_802_1Q : 0;
 			/* get 2 octets (TypeofLen) */
-			NdisMoveMemory(pHeaderBufPtr,
+			memmove(pHeaderBufPtr,
 				       pTxBlk->pSrcBufHeader + 12 + vlan_size,
 				       2);
 			pHeaderBufPtr += 2;
@@ -2888,11 +2888,11 @@ VOID STA_ARalink_Frame_Tx(
 							    pTxBlk->pExtraLlcSnapEncap);
 
 			if (pTxBlk->pExtraLlcSnapEncap) {
-				NdisMoveMemory(pHeaderBufPtr,
+				memmove(pHeaderBufPtr,
 					       pTxBlk->pExtraLlcSnapEncap, 6);
 				pHeaderBufPtr += 6;
 				/* get 2 octets (TypeofLen) */
-				NdisMoveMemory(pHeaderBufPtr, pTxBlk->pSrcBufData - 2, 2);
+				memmove(pHeaderBufPtr, pTxBlk->pSrcBufData - 2, 2);
 				pHeaderBufPtr += 2;
 				pTxBlk->MpduHeaderLen += LENGTH_802_1_H;
 			}
@@ -2905,11 +2905,11 @@ VOID STA_ARalink_Frame_Tx(
 			   A-Ralink sub-sequent frame header is the same as 802.3 header.
 			   DA(6)+SA(6)+FrameType(2)
 			 */
-			NdisMoveMemory(pHeaderBufPtr, pTxBlk->pSrcBufHeader,
+			memmove(pHeaderBufPtr, pTxBlk->pSrcBufHeader,
 				       12);
 			pHeaderBufPtr += 12;
 			/* get 2 octets (TypeofLen) */
-			NdisMoveMemory(pHeaderBufPtr, pTxBlk->pSrcBufData - 2,
+			memmove(pHeaderBufPtr, pTxBlk->pSrcBufData - 2,
 				       2);
 			pHeaderBufPtr += 2;
 			pTxBlk->MpduHeaderLen = ARALINK_SUBHEAD_LEN;
@@ -3067,7 +3067,7 @@ VOID STA_Fragment_Frame_Tx(
 			pTxBlk->pSrcBufData -= LENGTH_802_1_H;
 			pTxBlk->SrcBufLen += LENGTH_802_1_H;
 
-			NdisMoveMemory(pTxBlk->pSrcBufData,
+			memmove(pTxBlk->pSrcBufData,
 				       pTxBlk->pExtraLlcSnapEncap, 6);
 		}
 
@@ -3095,13 +3095,13 @@ VOID STA_Fragment_Frame_Tx(
 		if (pTxBlk->pExtraLlcSnapEncap) {
 			UCHAR vlan_size;
 
-			NdisMoveMemory(pHeaderBufPtr,
+			memmove(pHeaderBufPtr,
 				       pTxBlk->pExtraLlcSnapEncap, 6);
 			pHeaderBufPtr += 6;
 			/* skip vlan tag */
 			vlan_size = (bVLANPkt) ? LENGTH_802_1Q : 0;
 			/* get 2 octets (TypeofLen) */
-			NdisMoveMemory(pHeaderBufPtr,
+			memmove(pHeaderBufPtr,
 				       pTxBlk->pSrcBufHeader + 12 + vlan_size,
 				       2);
 			pHeaderBufPtr += 2;
@@ -3123,7 +3123,7 @@ VOID STA_Fragment_Frame_Tx(
 		   NOTE: DON'T refer the skb->len directly after following copy. Becasue the length is not adjust
 		   to correct lenght, refer to pTxBlk->SrcBufLen for the packet length in following progress.
 		 */
-		NdisMoveMemory(pTxBlk->pSrcBufData + pTxBlk->SrcBufLen,
+		memmove(pTxBlk->pSrcBufData + pTxBlk->SrcBufLen,
 			       &pAd->PrivateInfo.Tx.MIC[0], 8);
 		pTxBlk->SrcBufLen += 8;
 		pTxBlk->TotalFrameLen += 8;
@@ -3178,7 +3178,7 @@ VOID STA_Fragment_Frame_Tx(
 					    NDIS_STATUS_FAILURE);
 			return;
 		}
-		NdisMoveMemory(tmp_ptr, pTxBlk->pSrcBufData, pTxBlk->SrcBufLen);
+		memmove(tmp_ptr, pTxBlk->pSrcBufData, pTxBlk->SrcBufLen);
 	}
 #endif /* SOFT_ENCRYPT */
 
@@ -3219,7 +3219,7 @@ VOID STA_Fragment_Frame_Tx(
 		if (TX_BLK_TEST_FLAG(pTxBlk, fTX_bSwEncrypt)) {
 			UCHAR ext_offset = 0;
 
-			NdisMoveMemory(pTxBlk->pSrcBufData,
+			memmove(pTxBlk->pSrcBufData,
 				       tmp_ptr + buf_offset, pTxBlk->SrcBufLen);
 			buf_offset += pTxBlk->SrcBufLen;
 

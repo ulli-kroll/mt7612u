@@ -1477,7 +1477,7 @@ VOID RT28xx_UpdateBeaconToAsic(
 		if (NdisEqualMemory(pBeaconSync->BeaconTxWI[bcn_idx], &pAd->BeaconTxWI, TXWISize) == FALSE)
 		{	/* If BeaconTxWI changed, we need to rewrite the TxWI for the Beacon frames.*/
 			pBeaconSync->BeaconBitMap &= (~(BEACON_BITMAP_MASK & (1 << bcn_idx)));
-			NdisMoveMemory(pBeaconSync->BeaconTxWI[bcn_idx], &pAd->BeaconTxWI, TXWISize);
+			memmove(pBeaconSync->BeaconTxWI[bcn_idx], &pAd->BeaconTxWI, TXWISize);
 		}
 
 		if ((pBeaconSync->BeaconBitMap & (1 << bcn_idx)) != (1 << bcn_idx))
@@ -1498,7 +1498,7 @@ VOID RT28xx_UpdateBeaconToAsic(
 		{
 			if (NdisEqualMemory(ptr, pBeaconFrame, 2) == FALSE)
 			{
-				NdisMoveMemory(ptr, pBeaconFrame, 2);
+				memmove(ptr, pBeaconFrame, 2);
 				longValue =  *ptr + (*(ptr+1)<<8);
 				RTMP_CHIP_UPDATE_BEACON(pAd, pAd->BeaconOffset[bcn_idx] + TXWISize + i, longValue, 2);
 			}
@@ -1911,7 +1911,7 @@ VOID RT28xxUsbMlmeRadioOFF(
 				pMsgElem->Machine = ASSOC_STATE_MACHINE;
 				pMsgElem->MsgType = MT2_MLME_DISASSOC_REQ;
 				pMsgElem->MsgLen = sizeof(MLME_DISASSOC_REQ_STRUCT);
-				NdisMoveMemory(pMsgElem->Msg, &DisReq, sizeof(MLME_DISASSOC_REQ_STRUCT));
+				memmove(pMsgElem->Msg, &DisReq, sizeof(MLME_DISASSOC_REQ_STRUCT));
 
 				MlmeDisassocReqAction(pAd, pMsgElem);
 				os_free_mem(NULL, pMsgElem);

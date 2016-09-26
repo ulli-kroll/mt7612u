@@ -204,7 +204,6 @@ typedef VOID * 			RTMP_OS_FD;
 /***********************************************************************************
  *	OS Memory Access related data structure and definitions
  ***********************************************************************************/
-#define NdisMoveMemory(Destination, Source, Length) memmove(Destination, Source, Length)
 #define NdisCopyMemory(Destination, Source, Length) memcpy(Destination, Source, Length)
 #define NdisZeroMemory(Destination, Length)         memset(Destination, 0, Length)
 #define NdisFillMemory(Destination, Length, Fill)   memset(Destination, Fill, Length)

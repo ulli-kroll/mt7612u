@@ -279,7 +279,7 @@ static VOID ApCliMlmeAssocReqAction(
 			HT_CAPABILITY_IE HtCapabilityTmp;
 
 			NdisZeroMemory(&HtCapabilityTmp, sizeof(HT_CAPABILITY_IE));
-			NdisMoveMemory(&HtCapabilityTmp, &apcli_entry->MlmeAux.HtCapability, apcli_entry->MlmeAux.HtCapabilityLen);
+			memmove(&HtCapabilityTmp, &apcli_entry->MlmeAux.HtCapability, apcli_entry->MlmeAux.HtCapabilityLen);
 #ifdef DOT11N_SS3_SUPPORT
 			HtCapabilityTmp.MCSSet[2] = (apcli_entry->MlmeAux.HtCapability.MCSSet[2] & apcli_entry->RxMcsSet[2]);
 #endif /* DOT11N_SS3_SUPPORT */
@@ -429,7 +429,7 @@ static VOID ApCliMlmeAssocReqAction(
                         FrameLen += TmpWpaAssocIeLen;
 
                         VarIesOffset = 0;
-                        NdisMoveMemory(apcli_entry->ReqVarIEs + VarIesOffset,
+                        memmove(apcli_entry->ReqVarIEs + VarIesOffset,
 				       apcli_entry->wpa_supplicant_info.pWpaAssocIe, apcli_entry->wpa_supplicant_info.WpaAssocIeLen);
                         VarIesOffset += apcli_entry->wpa_supplicant_info.WpaAssocIeLen;
 
@@ -486,7 +486,7 @@ static VOID ApCliMlmeAssocReqAction(
 				{
 					// Set PMK number
 					*(PUSHORT) &apcli_entry->RSN_IE[apcli_entry->RSNIE_Len] = 1;
-					NdisMoveMemory(&apcli_entry->RSN_IE[apcli_entry->RSNIE_Len + 2], &apcli_entry->SavedPMK[idx].PMKID, 16);
+					memmove(&apcli_entry->RSN_IE[apcli_entry->RSNIE_Len + 2], &apcli_entry->SavedPMK[idx].PMKID, 16);
                     			apcli_entry->RSNIE_Len += 18;
 				}
 			}
@@ -690,9 +690,9 @@ static VOID ApCliPeerAssocRspAction(
 					if (WMODE_CAP_AC(pAd->CommonCfg.PhyMode) && ie_list->vht_cap_len && ie_list->vht_op_len)
 					{
 						DBGPRINT(RT_DEBUG_TRACE, ("There is vht le at Assoc Rsp ifIndex=%d vht_cap_len=%d\n", ifIndex,ie_list->vht_cap_len));
-						NdisMoveMemory(&pApCliEntry->MlmeAux.vht_cap, &(ie_list->vht_cap), ie_list->vht_cap_len);
+						memmove(&pApCliEntry->MlmeAux.vht_cap, &(ie_list->vht_cap), ie_list->vht_cap_len);
 						pApCliEntry->MlmeAux.vht_cap_len = ie_list->vht_cap_len;
-						NdisMoveMemory(&pApCliEntry->MlmeAux.vht_op, &(ie_list->vht_op), ie_list->vht_op_len);
+						memmove(&pApCliEntry->MlmeAux.vht_op, &(ie_list->vht_op), ie_list->vht_op_len);
 						pApCliEntry->MlmeAux.vht_op_len = ie_list->vht_op_len;
 					}
 #endif /* DOT11_VHT_AC */
@@ -879,16 +879,16 @@ static VOID ApCliAssocPostProc(
 
 	pApCliEntry->MlmeAux.BssType = BSS_INFRA;
 	pApCliEntry->MlmeAux.CapabilityInfo = CapabilityInfo & SUPPORTED_CAPABILITY_INFO;
-	NdisMoveMemory(&pApCliEntry->MlmeAux.APEdcaParm, pEdcaParm, sizeof(EDCA_PARM));
+	memmove(&pApCliEntry->MlmeAux.APEdcaParm, pEdcaParm, sizeof(EDCA_PARM));
 
 	/* filter out un-supported rates */
 	pApCliEntry->MlmeAux.SupRateLen = SupRateLen;
-	NdisMoveMemory(pApCliEntry->MlmeAux.SupRate, SupRate, SupRateLen);
+	memmove(pApCliEntry->MlmeAux.SupRate, SupRate, SupRateLen);
     RTMPCheckRates(pAd, pApCliEntry->MlmeAux.SupRate, &(pApCliEntry->MlmeAux.SupRateLen));
 
 	/* filter out un-supported rates */
 	pApCliEntry->MlmeAux.ExtRateLen = ExtRateLen;
-	NdisMoveMemory(pApCliEntry->MlmeAux.ExtRate, ExtRate, ExtRateLen);
+	memmove(pApCliEntry->MlmeAux.ExtRate, ExtRate, ExtRateLen);
     RTMPCheckRates(pAd, pApCliEntry->MlmeAux.ExtRate, &(pApCliEntry->MlmeAux.ExtRateLen));
 
 	DBGPRINT(RT_DEBUG_TRACE, (HtCapabilityLen ? "%s===> 11n HT STA\n" : "%s===> legacy STA\n", __FUNCTION__));
@@ -910,7 +910,7 @@ VOID ApcliSendAssocIEsToWpaSupplicant(
 	if ((pAd->ApCfg.ApCliTab[ifIndex].ReqVarIELen + 17) <= IW_CUSTOM_MAX)
 	{
 		sprintf(custom, "ASSOCINFO_ReqIEs=");
-		NdisMoveMemory(custom+17, pAd->ApCfg.ApCliTab[ifIndex].ReqVarIEs, pAd->ApCfg.ApCliTab[ifIndex].ReqVarIELen);
+		memmove(custom+17, pAd->ApCfg.ApCliTab[ifIndex].ReqVarIEs, pAd->ApCfg.ApCliTab[ifIndex].ReqVarIELen);
 		RtmpOSWrielessEventSend(pAd->net_dev, RT_WLAN_EVENT_CUSTOM, RT_REQIE_EVENT_FLAG, NULL, (PUCHAR)custom, pAd->ApCfg.ApCliTab[ifIndex].ReqVarIELen + 17);
 
 		RtmpOSWrielessEventSend(pAd->net_dev, RT_WLAN_EVENT_CUSTOM, RT_ASSOCINFO_EVENT_FLAG, NULL, NULL, 0);

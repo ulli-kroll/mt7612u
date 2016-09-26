@@ -1008,7 +1008,7 @@ int rt_ioctl_giwscan(struct net_device *dev,
 			memset(&custom[0], 0, MAX_CUSTOM_LEN);
     		iwe.cmd = IWEVCUSTOM;
             iwe.u.data.length = (pIoctlScan->pBssTable[i].WpaIeLen * 2) + 7;
-            NdisMoveMemory(custom, "wpa_ie=", 7);
+            memmove(custom, "wpa_ie=", 7);
             for (idx = 0; idx < pIoctlScan->pBssTable[i].WpaIeLen; idx++)
                 sprintf(custom, "%s%02x", custom, pIoctlScan->pBssTable[i].pWpaIe[idx]);
             previous_ev = current_ev;
@@ -1031,7 +1031,7 @@ int rt_ioctl_giwscan(struct net_device *dev,
 			memset(&custom[0], 0, MAX_CUSTOM_LEN);
     		iwe.cmd = IWEVCUSTOM;
             iwe.u.data.length = (pIoctlScan->pBssTable[i].RsnIeLen * 2) + 7;
-            NdisMoveMemory(custom, "rsn_ie=", 7);
+            memmove(custom, "rsn_ie=", 7);
 			for (idx = 0; idx < pIoctlScan->pBssTable[i].RsnIeLen; idx++)
                 sprintf(custom, "%s%02x", custom, pIoctlScan->pBssTable[i].pRsnIe[idx]);
             previous_ev = current_ev;

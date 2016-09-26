@@ -909,7 +909,7 @@ INT Set_ExtCountryCode_Proc(
 
 	if(strlen(arg) == 2)
 	{
-		NdisMoveMemory(pAd->CommonCfg.CountryCode, arg, 2);
+		memmove(pAd->CommonCfg.CountryCode, arg, 2);
 		pAd->CommonCfg.bCountryFlag = TRUE;
 	}
 	else
@@ -920,7 +920,7 @@ INT Set_ExtCountryCode_Proc(
 
 	{
 		UCHAR CountryCode[3] = {0};
-		NdisMoveMemory(CountryCode, pAd->CommonCfg.CountryCode, 2);
+		memmove(CountryCode, pAd->CommonCfg.CountryCode, 2);
 		DBGPRINT(RT_DEBUG_TRACE, ("Set_CountryCode_Proc::(bCountryFlag=%d, CountryCode=%s)\n",
 							pAd->CommonCfg.bCountryFlag,
 							CountryCode));
@@ -1090,7 +1090,7 @@ INT Set_ChannelListAdd_Proc(
 				}
 			}
 		}
-		NdisMoveMemory(CountryCode, pAd->CommonCfg.CountryCode, 2);
+		memmove(CountryCode, pAd->CommonCfg.CountryCode, 2);
 		DBGPRINT(RT_DEBUG_TRACE, ("Add channel lists {%u, %u, %u, %s, %s} to %s.\n",
 							inChDesp.FirstChannel,
 							inChDesp.NumOfCh,
@@ -1131,7 +1131,7 @@ INT Set_ChannelListShow_Proc(
 		}
 	}
 
-	NdisMoveMemory(CountryCode, pAd->CommonCfg.CountryCode, 2);
+	memmove(CountryCode, pAd->CommonCfg.CountryCode, 2);
 	if (pAd->CommonCfg.DfsType == MAX_RD_REGION)
 		pAd->CommonCfg.DfsType = pChRegion->DfsType;
 	DBGPRINT(RT_DEBUG_ERROR, ("=========================================\n"));
@@ -1553,7 +1553,7 @@ VOID RTMPSetDesiredRates(struct rtmp_adapter *pAd, LONG Rates)
     }
 
     NdisZeroMemory(pAd->CommonCfg.DesireRate, MAX_LEN_OF_SUPPORTED_RATES);
-    NdisMoveMemory(pAd->CommonCfg.DesireRate, &aryRates, sizeof(NDIS_802_11_RATES));
+    memmove(pAd->CommonCfg.DesireRate, &aryRates, sizeof(NDIS_802_11_RATES));
     DBGPRINT(RT_DEBUG_TRACE, (" RTMPSetDesiredRates (%02x,%02x,%02x,%02x,%02x,%02x,%02x,%02x)\n",
         pAd->CommonCfg.DesireRate[0], pAd->CommonCfg.DesireRate[1],
         pAd->CommonCfg.DesireRate[2], pAd->CommonCfg.DesireRate[3],
@@ -2204,7 +2204,7 @@ VOID	RTMPCommSiteSurveyData(
 		/*SSID*/
 	NdisZeroMemory(Ssid, (MAX_LEN_OF_SSID +1));
 	if (RTMPCheckStrPrintAble((PCHAR)pBss->Ssid, pBss->SsidLen))
-		NdisMoveMemory(Ssid, pBss->Ssid, pBss->SsidLen);
+		memmove(Ssid, pBss->Ssid, pBss->SsidLen);
 	else
 	{
 		INT idx = 0;
@@ -4485,7 +4485,7 @@ INT	Show_SSID_Proc(
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 	{
 		POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
-		NdisMoveMemory(&ssid_str[0],
+		memmove(&ssid_str[0],
 						pAd->ApCfg.MBSSID[pObj->ioctl_if].Ssid,
 						pAd->ApCfg.MBSSID[pObj->ioctl_if].SsidLen);
 	}
@@ -4494,7 +4494,7 @@ INT	Show_SSID_Proc(
 #ifdef CONFIG_STA_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
 	{
-		NdisMoveMemory(&ssid_str[0],
+		memmove(&ssid_str[0],
 						pAd->CommonCfg.Ssid,
 						pAd->CommonCfg.SsidLen);
 	}
@@ -5031,7 +5031,7 @@ INT	Show_WepKey_Proc(
 #endif /* CONFIG_AP_SUPPORT */
 
 	KeyLength = pAd->SharedKey[index][KeyIdx].KeyLen;
-	NdisMoveMemory(Key, pAd->SharedKey[index][KeyIdx].Key, KeyLength);
+	memmove(Key, pAd->SharedKey[index][KeyIdx].Key, KeyLength);
 
 	/*check key string is ASCII or not*/
     if (RTMPCheckStrPrintAble((PCHAR)Key, KeyLength))
@@ -5094,12 +5094,12 @@ INT	Show_PMK_Proc(
     POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
 
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-		NdisMoveMemory(PMK, pAd->ApCfg.MBSSID[pObj->ioctl_if].PMK, 32);
+		memmove(PMK, pAd->ApCfg.MBSSID[pObj->ioctl_if].PMK, 32);
 #endif /* CONFIG_AP_SUPPORT */
 
 #ifdef CONFIG_STA_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
-		NdisMoveMemory(PMK, pAd->StaCfg.PMK, 32);
+		memmove(PMK, pAd->StaCfg.PMK, 32);
 #endif /* CONFIG_STA_SUPPORT */
 
     sprintf(pBuf, "\tPMK = ");
@@ -8108,7 +8108,7 @@ INT Show_Diag_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 		return FALSE;
 	}
 
-	NdisMoveMemory(pDiag, &pAd->DiagStruct, sizeof(RtmpDiagStruct));
+	memmove(pDiag, &pAd->DiagStruct, sizeof(RtmpDiagStruct));
 
 
 #ifdef DOT11N_SS3_SUPPORT

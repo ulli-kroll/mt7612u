@@ -104,7 +104,7 @@ Note:
 VOID RT_SHA1_Init (
     IN  SHA1_CTX_STRUC *pSHA_CTX)
 {
-    NdisMoveMemory(pSHA_CTX->HashValue, SHA1_DefaultHashValue,
+    memmove(pSHA_CTX->HashValue, SHA1_DefaultHashValue,
         sizeof(SHA1_DefaultHashValue));
     NdisZeroMemory(pSHA_CTX->Block, SHA1_BLOCK_SIZE);
     pSHA_CTX->MessageLen = 0;
@@ -135,7 +135,7 @@ VOID RT_SHA1_Hash (
     UINT32 a,b,c,d,e,T,f_t = 0;
 
     /* Prepare the message schedule, {W_i}, 0 < t < 15 */
-    NdisMoveMemory(W, pSHA_CTX->Block, SHA1_BLOCK_SIZE);
+    memmove(W, pSHA_CTX->Block, SHA1_BLOCK_SIZE);
     for (W_i = 0; W_i < 16; W_i++) {
         W[W_i] = cpu2be32(W[W_i]); /* Endian Swap */
     } /* End of for */
@@ -233,14 +233,14 @@ VOID RT_SHA1_Append (
     while (appendLen != MessageLen) {
         diffLen = MessageLen - appendLen;
         if ((pSHA_CTX->BlockLen + diffLen) <  SHA1_BLOCK_SIZE) {
-            NdisMoveMemory(pSHA_CTX->Block + pSHA_CTX->BlockLen,
+            memmove(pSHA_CTX->Block + pSHA_CTX->BlockLen,
                 Message + appendLen, diffLen);
             pSHA_CTX->BlockLen += diffLen;
             appendLen += diffLen;
         }
         else
         {
-            NdisMoveMemory(pSHA_CTX->Block + pSHA_CTX->BlockLen,
+            memmove(pSHA_CTX->Block + pSHA_CTX->BlockLen,
                 Message + appendLen, SHA1_BLOCK_SIZE - pSHA_CTX->BlockLen);
             appendLen += (SHA1_BLOCK_SIZE - pSHA_CTX->BlockLen);
             pSHA_CTX->BlockLen = SHA1_BLOCK_SIZE;
@@ -286,14 +286,14 @@ VOID RT_SHA1_End (
     /* Append the length of message in rightmost 64 bits */
     message_length_bits = pSHA_CTX->MessageLen*8;
     message_length_bits = cpu2be64(message_length_bits);
-    NdisMoveMemory(&pSHA_CTX->Block[56], &message_length_bits, 8);
+    memmove(&pSHA_CTX->Block[56], &message_length_bits, 8);
     RT_SHA1_Hash(pSHA_CTX);
 
     /* Return message digest, transform the UINT32 hash value to bytes */
     for (index = 0; index < 5;index++)
         pSHA_CTX->HashValue[index] = cpu2be32(pSHA_CTX->HashValue[index]);
         /* End of for */
-    NdisMoveMemory(DigestMessage, pSHA_CTX->HashValue, SHA1_DIGEST_SIZE);
+    memmove(DigestMessage, pSHA_CTX->HashValue, SHA1_DIGEST_SIZE);
 } /* End of RT_SHA1_End */
 
 
@@ -348,7 +348,7 @@ Note:
 VOID RT_SHA256_Init (
     IN  SHA256_CTX_STRUC *pSHA_CTX)
 {
-    NdisMoveMemory(pSHA_CTX->HashValue, SHA256_DefaultHashValue,
+    memmove(pSHA_CTX->HashValue, SHA256_DefaultHashValue,
         sizeof(SHA256_DefaultHashValue));
     NdisZeroMemory(pSHA_CTX->Block, SHA256_BLOCK_SIZE);
     pSHA_CTX->MessageLen = 0;
@@ -379,7 +379,7 @@ VOID RT_SHA256_Hash (
     UINT32 a,b,c,d,e,f,g,h,T1,T2;
 
     /* Prepare the message schedule, {W_i}, 0 < t < 15 */
-    NdisMoveMemory(W, pSHA_CTX->Block, SHA256_BLOCK_SIZE);
+    memmove(W, pSHA_CTX->Block, SHA256_BLOCK_SIZE);
     for (W_i = 0; W_i < 16; W_i++)
         W[W_i] = cpu2be32(W[W_i]); /* Endian Swap */
         /* End of for */
@@ -456,14 +456,14 @@ VOID RT_SHA256_Append (
     while (appendLen != MessageLen) {
         diffLen = MessageLen - appendLen;
         if ((pSHA_CTX->BlockLen + diffLen) <  SHA256_BLOCK_SIZE) {
-            NdisMoveMemory(pSHA_CTX->Block + pSHA_CTX->BlockLen,
+            memmove(pSHA_CTX->Block + pSHA_CTX->BlockLen,
                 Message + appendLen, diffLen);
             pSHA_CTX->BlockLen += diffLen;
             appendLen += diffLen;
         }
         else
         {
-            NdisMoveMemory(pSHA_CTX->Block + pSHA_CTX->BlockLen,
+            memmove(pSHA_CTX->Block + pSHA_CTX->BlockLen,
                 Message + appendLen, SHA256_BLOCK_SIZE - pSHA_CTX->BlockLen);
             appendLen += (SHA256_BLOCK_SIZE - pSHA_CTX->BlockLen);
             pSHA_CTX->BlockLen = SHA256_BLOCK_SIZE;
@@ -509,14 +509,14 @@ VOID RT_SHA256_End (
     /* Append the length of message in rightmost 64 bits */
     message_length_bits = pSHA_CTX->MessageLen*8;
     message_length_bits = cpu2be64(message_length_bits);
-    NdisMoveMemory(&pSHA_CTX->Block[56], &message_length_bits, 8);
+    memmove(&pSHA_CTX->Block[56], &message_length_bits, 8);
     RT_SHA256_Hash(pSHA_CTX);
 
     /* Return message digest, transform the UINT32 hash value to bytes */
     for (index = 0; index < 8;index++)
         pSHA_CTX->HashValue[index] = cpu2be32(pSHA_CTX->HashValue[index]);
         /* End of for */
-    NdisMoveMemory(DigestMessage, pSHA_CTX->HashValue, SHA256_DIGEST_SIZE);
+    memmove(DigestMessage, pSHA_CTX->HashValue, SHA256_DIGEST_SIZE);
 } /* End of RT_SHA256_End */
 
 

@@ -212,7 +212,7 @@ VOID WpaEAPOLKeyAction(
 	eapol_len = CONV_ARRARY_TO_UINT16(pEapol_packet->Body_Len) + LENGTH_EAPOL_H;
 
 	NdisZeroMemory((PUCHAR)&peerKeyInfo, sizeof(peerKeyInfo));
-	NdisMoveMemory((PUCHAR)&peerKeyInfo, (PUCHAR)&pEapol_packet->KeyDesc.KeyInfo, sizeof(KEY_INFO));
+	memmove((PUCHAR)&peerKeyInfo, (PUCHAR)&pEapol_packet->KeyDesc.KeyInfo, sizeof(KEY_INFO));
 
 
 	*((USHORT *)&peerKeyInfo) = cpu2le16(*((USHORT *)&peerKeyInfo));
@@ -573,7 +573,7 @@ BOOLEAN PeerWpaMessageSanity(
 	NdisZeroMemory(KEYDATA, MAX_LEN_OF_RSNIE);
 	NdisZeroMemory((PUCHAR)&EapolKeyInfo, sizeof(EapolKeyInfo));
 
-	NdisMoveMemory((PUCHAR)&EapolKeyInfo, (PUCHAR)&pMsg->KeyDesc.KeyInfo, sizeof(KEY_INFO));
+	memmove((PUCHAR)&EapolKeyInfo, (PUCHAR)&pMsg->KeyDesc.KeyInfo, sizeof(KEY_INFO));
 
 	*((USHORT *)&EapolKeyInfo) = cpu2le16(*((USHORT *)&EapolKeyInfo));
 
@@ -638,7 +638,7 @@ BOOLEAN PeerWpaMessageSanity(
 		UINT			eapol_len = CONV_ARRARY_TO_UINT16(pMsg->Body_Len) + 4;
 
 		/* Record the received MIC for check later*/
-		NdisMoveMemory(rcvd_mic, pMsg->KeyDesc.KeyMic, LEN_KEY_DESC_MIC);
+		memmove(rcvd_mic, pMsg->KeyDesc.KeyMic, LEN_KEY_DESC_MIC);
 		NdisZeroMemory(pMsg->KeyDesc.KeyMic, LEN_KEY_DESC_MIC);
 
         if (EapolKeyInfo.KeyDescVer == KEY_DESC_TKIP)	/* TKIP*/
@@ -648,7 +648,7 @@ BOOLEAN PeerWpaMessageSanity(
         else if (EapolKeyInfo.KeyDescVer == KEY_DESC_AES)	/* AES        */
         {
             RT_HMAC_SHA1(pEntry->PTK, LEN_PTK_KCK, (PUCHAR)pMsg, eapol_len, digest, SHA1_DIGEST_SIZE);
-            NdisMoveMemory(mic, digest, LEN_KEY_DESC_MIC);
+            memmove(mic, digest, LEN_KEY_DESC_MIC);
         }
                 else if (EapolKeyInfo.KeyDescVer == KEY_DESC_EXT)	/* AES-128 */
                 {
@@ -713,7 +713,7 @@ BOOLEAN PeerWpaMessageSanity(
 		}
 		else if ((MsgType == EAPOL_PAIR_MSG_2) || (MsgType == EAPOL_PAIR_MSG_3 && !bWPA2))
 		{
-			NdisMoveMemory(KEYDATA, pMsg->KeyDesc.KeyData, CONV_ARRARY_TO_UINT16(pMsg->KeyDesc.KeyDataLen));
+			memmove(KEYDATA, pMsg->KeyDesc.KeyData, CONV_ARRARY_TO_UINT16(pMsg->KeyDesc.KeyDataLen));
 		}
 		else
 		{
@@ -859,8 +859,8 @@ VOID WPAStart4WayHS(
 		pEapolFrame->KeyDesc.KeyData[4] = 0xAC;
 		pEapolFrame->KeyDesc.KeyData[5] = 0x04;
 
-		NdisMoveMemory(&pEapolFrame->KeyDesc.KeyData[6], &pMbss->PMKIDCache.BSSIDInfo[pEntry->PMKID_CacheIdx].PMKID, LEN_PMKID);
-		NdisMoveMemory(&pMbss->PMK, &pMbss->PMKIDCache.BSSIDInfo[pEntry->PMKID_CacheIdx].PMK, PMK_LEN);
+		memmove(&pEapolFrame->KeyDesc.KeyData[6], &pMbss->PMKIDCache.BSSIDInfo[pEntry->PMKID_CacheIdx].PMKID, LEN_PMKID);
+		memmove(&pMbss->PMK, &pMbss->PMKIDCache.BSSIDInfo[pEntry->PMKID_CacheIdx].PMK, PMK_LEN);
 
 		pEapolFrame->KeyDesc.KeyData[1] = 0x14;/* 4+LEN_PMKID*/
 		INC_UINT16_TO_ARRARY(pEapolFrame->KeyDesc.KeyDataLen, 6 + LEN_PMKID);
@@ -878,9 +878,9 @@ VOID WPAStart4WayHS(
                 pKeyDesc->KeyData[4] = 0xAC;
                 pKeyDesc->KeyData[5] = 0x04;
 
-                NdisMoveMemory(&PMK_key[0], "PMK Name", 8);
-                NdisMoveMemory(&PMK_key[8], pMbss->wdev.bssid, MAC_ADDR_LEN);
-                NdisMoveMemory(&PMK_key[14], pEntry->Addr, MAC_ADDR_LEN);
+                memmove(&PMK_key[0], "PMK Name", 8);
+                memmove(&PMK_key[8], pMbss->wdev.bssid, MAC_ADDR_LEN);
+                memmove(&PMK_key[14], pEntry->Addr, MAC_ADDR_LEN);
                 if (CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_USE_SHA256))
                 {
                         DBGPRINT(RT_DEBUG_TRACE, ("[PMF]%s: send Msg1 of 4-way using SHA256\n", __FUNCTION__));
@@ -891,7 +891,7 @@ VOID WPAStart4WayHS(
                         RT_HMAC_SHA1(pMbss->PMK, PMK_LEN, PMK_key, 20, digest, LEN_PMKID);
                 }
 
-                NdisMoveMemory(&pKeyDesc->KeyData[6], digest, LEN_PMKID);
+                memmove(&pKeyDesc->KeyData[6], digest, LEN_PMKID);
                 pKeyDesc->KeyData[1] = 0x14;// 4+LEN_PMKID
                 INC_UINT16_TO_ARRARY(pKeyDesc->KeyDataLen, 6 + LEN_PMKID);
                 INC_UINT16_TO_ARRARY(pEapolFrame->Body_Len, 6 + LEN_PMKID);
@@ -1007,10 +1007,10 @@ VOID PeerPairMsg1Action(
 		return;
 
 	/* Store Replay counter, it will use to verify message 3 and construct message 2*/
-	NdisMoveMemory(pEntry->R_Counter, pMsg1->KeyDesc.ReplayCounter, LEN_KEY_DESC_REPLAY);
+	memmove(pEntry->R_Counter, pMsg1->KeyDesc.ReplayCounter, LEN_KEY_DESC_REPLAY);
 
 	/* Store ANonce*/
-	NdisMoveMemory(pEntry->ANonce, pMsg1->KeyDesc.KeyNonce, LEN_KEY_DESC_NONCE);
+	memmove(pEntry->ANonce, pMsg1->KeyDesc.KeyNonce, LEN_KEY_DESC_NONCE);
 
 	/* Generate random SNonce*/
 	GenRandom(pAd, (UCHAR *)pCurrentAddr, pEntry->SNonce);
@@ -1027,7 +1027,7 @@ VOID PeerPairMsg1Action(
                         PTK,
                         LEN_AES_PTK);   /* Must is 48 bytes */
 
-                NdisMoveMemory(pEntry->PTK, PTK, LEN_AES_PTK);
+                memmove(pEntry->PTK, PTK, LEN_AES_PTK);
                 hex_dump("PTK", PTK, LEN_AES_PTK);
         }
         else
@@ -1044,7 +1044,7 @@ VOID PeerPairMsg1Action(
 				    LEN_PTK);
 
 		/* Save key to PTK entry*/
-		NdisMoveMemory(pEntry->PTK, PTK, LEN_PTK);
+		memmove(pEntry->PTK, PTK, LEN_PTK);
 	}
 
 	/* Update WpaState*/
@@ -1181,7 +1181,7 @@ VOID PeerPairMsg2Action(
 	MsgLen = Elem->MsgLen - LENGTH_802_11 - LENGTH_802_1_H;
 
 	/* Store SNonce*/
-	NdisMoveMemory(pEntry->SNonce, pMsg2->KeyDesc.KeyNonce, LEN_KEY_DESC_NONCE);
+	memmove(pEntry->SNonce, pMsg2->KeyDesc.KeyNonce, LEN_KEY_DESC_NONCE);
 
 #ifdef DOT11W_PMF_SUPPORT
         if ((CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_USE_SHA256)))
@@ -1195,7 +1195,7 @@ VOID PeerPairMsg2Action(
                         PTK,
                         LEN_AES_PTK);   /* Must is 48 bytes */
 
-                NdisMoveMemory(pEntry->PTK, PTK, LEN_AES_PTK);
+                memmove(pEntry->PTK, PTK, LEN_AES_PTK);
                 hex_dump("PTK", PTK, LEN_AES_PTK);
         }
         else
@@ -1218,7 +1218,7 @@ VOID PeerPairMsg2Action(
 					PTK,
 					LEN_PTK);
 
-    	NdisMoveMemory(pEntry->PTK, PTK, LEN_PTK);
+    	memmove(pEntry->PTK, PTK, LEN_PTK);
 	}
 
 	/* Sanity Check peer Pairwise message 2 - Replay Counter, MIC, RSNIE*/
@@ -1378,7 +1378,7 @@ VOID PeerPairMsg3Action(
 		return;
 
 	/* Save Replay counter, it will use construct message 4*/
-	NdisMoveMemory(pEntry->R_Counter, pMsg3->KeyDesc.ReplayCounter, LEN_KEY_DESC_REPLAY);
+	memmove(pEntry->R_Counter, pMsg3->KeyDesc.ReplayCounter, LEN_KEY_DESC_REPLAY);
 
 	/* Double check ANonce*/
 	if (!NdisEqualMemory(pEntry->ANonce, pMsg3->KeyDesc.KeyNonce, LEN_KEY_DESC_NONCE))
@@ -1425,7 +1425,7 @@ VOID PeerPairMsg3Action(
 	IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
 	{
 		{
-		NdisMoveMemory(pAd->StaCfg.PTK, pEntry->PTK, LEN_PTK);
+		memmove(pAd->StaCfg.PTK, pEntry->PTK, LEN_PTK);
 		WPAInstallPairwiseKey(pAd,
 							  BSS0,
 							  pEntry,
@@ -1576,9 +1576,9 @@ VOID PeerPairMsg4Action(
 				UCHAR  digest[80];
 
 				/* Calculate PMKID, refer to IEEE 802.11i-2004 8.5.1.2*/
-				NdisMoveMemory(&PMK_key[0], "PMK Name", 8);
-				NdisMoveMemory(&PMK_key[8], pAd->ApCfg.MBSSID[pEntry->apidx].wdev.bssid, MAC_ADDR_LEN);
-				NdisMoveMemory(&PMK_key[14], pEntry->Addr, MAC_ADDR_LEN);
+				memmove(&PMK_key[0], "PMK Name", 8);
+				memmove(&PMK_key[8], pAd->ApCfg.MBSSID[pEntry->apidx].wdev.bssid, MAC_ADDR_LEN);
+				memmove(&PMK_key[14], pEntry->Addr, MAC_ADDR_LEN);
 				RT_HMAC_SHA1(pAd->ApCfg.MBSSID[pEntry->apidx].PMK, PMK_LEN, PMK_key, 20, digest, SHA1_DIGEST_SIZE);
 				RTMPAddPMKIDCache(pAd, pEntry->apidx, pEntry->Addr, digest, pAd->ApCfg.MBSSID[pEntry->apidx].PMK);
 				DBGPRINT(RT_DEBUG_TRACE, ("Calc PMKID=%02x:%02x:%02x:%02x:%02x:%02x\n", digest[0],digest[1],digest[2],digest[3],digest[4],digest[5]));
@@ -1799,7 +1799,7 @@ VOID	PeerGroupMsg1Action(
 #endif /* CONFIG_AP_SUPPORT */
 
 	/* Save Replay counter, it will use to construct message 2*/
-	NdisMoveMemory(pEntry->R_Counter, pGroup->KeyDesc.ReplayCounter, LEN_KEY_DESC_REPLAY);
+	memmove(pEntry->R_Counter, pGroup->KeyDesc.ReplayCounter, LEN_KEY_DESC_REPLAY);
 
 	/* Allocate memory for output*/
 	os_alloc_mem(NULL, (PUCHAR *)&mpool, TX_EAPOL_BUFFER);
@@ -2220,13 +2220,13 @@ VOID	PRF(
     }
 
 	/* Generate concatenation input*/
-	NdisMoveMemory(input, prefix, prefix_len);
+	memmove(input, prefix, prefix_len);
 
 	/* Concatenate a single octet containing 0*/
 	input[prefix_len] =	0;
 
 	/* Concatenate specific data*/
-	NdisMoveMemory(&input[prefix_len + 1], data, data_len);
+	memmove(&input[prefix_len + 1], data, data_len);
 	total_len =	prefix_len + 1 + data_len;
 
 	/* Concatenate a single octet containing 0*/
@@ -2363,11 +2363,11 @@ VOID	KDF(
 	total_len = 2;
 
 	/* concatenate a prefix string*/
-	NdisMoveMemory(&input[total_len], label, label_len);
+	memmove(&input[total_len], label, label_len);
 	total_len += label_len;
 
 	/* concatenate the context*/
-	NdisMoveMemory(&input[total_len], data, data_len);
+	memmove(&input[total_len], data, data_len);
 	total_len += data_len;
 
 	/* concatenate the length in bits (16-bit unsigned integer)*/
@@ -2412,9 +2412,9 @@ VOID RTMPDerivePMKID(
 	UINT8	text_len;
 
 	/* Concatenate the text for PMKID calculation*/
-	NdisMoveMemory(&text_buf[0], "PMK Name", 8);
-	NdisMoveMemory(&text_buf[8], pAaddr, MAC_ADDR_LEN);
-	NdisMoveMemory(&text_buf[14], pSpaddr, MAC_ADDR_LEN);
+	memmove(&text_buf[0], "PMK Name", 8);
+	memmove(&text_buf[8], pAaddr, MAC_ADDR_LEN);
+	memmove(&text_buf[14], pSpaddr, MAC_ADDR_LEN);
 	text_len = 20;
 
 #ifdef DOT11W_PMF_SUPPORT
@@ -2433,7 +2433,7 @@ VOID RTMPDerivePMKID(
 	}
 
 	/* Truncate the first 128-bit of output result */
-	NdisMoveMemory(pPMKID, digest, LEN_PMKID);
+	memmove(pPMKID, digest, LEN_PMKID);
 
 }
 
@@ -2485,38 +2485,38 @@ VOID WpaDerivePTK(
 
 	/* Get smaller address*/
 	if (RTMPCompareMemory(SA, AA, 6) == 1)
-		NdisMoveMemory(concatenation, AA, 6);
+		memmove(concatenation, AA, 6);
 	else
-		NdisMoveMemory(concatenation, SA, 6);
+		memmove(concatenation, SA, 6);
 	CurrPos += 6;
 
 	/* Get larger address*/
 	if (RTMPCompareMemory(SA, AA, 6) == 1)
-		NdisMoveMemory(&concatenation[CurrPos], SA, 6);
+		memmove(&concatenation[CurrPos], SA, 6);
 	else
-		NdisMoveMemory(&concatenation[CurrPos], AA, 6);
+		memmove(&concatenation[CurrPos], AA, 6);
 
 	/* store the larger mac address for backward compatible of */
 	/* ralink proprietary STA-key issue		*/
-	NdisMoveMemory(temp, &concatenation[CurrPos], MAC_ADDR_LEN);
+	memmove(temp, &concatenation[CurrPos], MAC_ADDR_LEN);
 	CurrPos += 6;
 
 	/* Get smaller Nonce*/
 	if (RTMPCompareMemory(ANonce, SNonce, 32) == 0)
-		NdisMoveMemory(&concatenation[CurrPos], temp, 32);	/* patch for ralink proprietary STA-key issue*/
+		memmove(&concatenation[CurrPos], temp, 32);	/* patch for ralink proprietary STA-key issue*/
 	else if (RTMPCompareMemory(ANonce, SNonce, 32) == 1)
-		NdisMoveMemory(&concatenation[CurrPos], SNonce, 32);
+		memmove(&concatenation[CurrPos], SNonce, 32);
 	else
-		NdisMoveMemory(&concatenation[CurrPos], ANonce, 32);
+		memmove(&concatenation[CurrPos], ANonce, 32);
 	CurrPos += 32;
 
 	/* Get larger Nonce*/
 	if (RTMPCompareMemory(ANonce, SNonce, 32) == 0)
-		NdisMoveMemory(&concatenation[CurrPos], temp, 32);	/* patch for ralink proprietary STA-key issue*/
+		memmove(&concatenation[CurrPos], temp, 32);	/* patch for ralink proprietary STA-key issue*/
 	else if (RTMPCompareMemory(ANonce, SNonce, 32) == 1)
-		NdisMoveMemory(&concatenation[CurrPos], ANonce, 32);
+		memmove(&concatenation[CurrPos], ANonce, 32);
 	else
-		NdisMoveMemory(&concatenation[CurrPos], SNonce, 32);
+		memmove(&concatenation[CurrPos], SNonce, 32);
 	CurrPos += 32;
 
 	hex_dump("PMK", PMK, LEN_PMK);
@@ -2539,10 +2539,10 @@ VOID WpaDeriveGTK(
     UCHAR   Prefix[19];
     UCHAR   temp[80];
 
-    NdisMoveMemory(&concatenation[CurrPos], AA, 6);
+    memmove(&concatenation[CurrPos], AA, 6);
     CurrPos += 6;
 
-    NdisMoveMemory(&concatenation[CurrPos], GNonce , 32);
+    memmove(&concatenation[CurrPos], GNonce , 32);
     CurrPos += 32;
 
     Prefix[0] = 'G';
@@ -2566,7 +2566,7 @@ VOID WpaDeriveGTK(
     Prefix[18] = 'n';
 
     PRF(GMK, PMK_LEN, Prefix,  19, concatenation, 38 , temp, len);
-    NdisMoveMemory(output, temp, len);
+    memmove(output, temp, len);
 }
 
 /*
@@ -2610,22 +2610,22 @@ VOID	GenRandom(
 
 		/* concatenate the current time*/
 		NdisGetSystemUpTime(&CurrentTime);
-		NdisMoveMemory(&local[curr],  &CurrentTime,	sizeof(CurrentTime));
+		memmove(&local[curr],  &CurrentTime,	sizeof(CurrentTime));
 		curr +=	sizeof(CurrentTime);
 
 		/* concatenate the last result*/
-		NdisMoveMemory(&local[curr],  result, 32);
+		memmove(&local[curr],  result, 32);
 		curr +=	32;
 
 		/* concatenate a variable */
-		NdisMoveMemory(&local[curr],  &i,  2);
+		memmove(&local[curr],  &i,  2);
 		curr +=	2;
 
 		/* calculate the result*/
 		PRF(KeyCounter, 32, prefix,12, local, curr, result, 32);
 	}
 
-	NdisMoveMemory(random, result,	32);
+	memmove(random, result,	32);
 }
 
 /*
@@ -2674,43 +2674,43 @@ static VOID RTMPMakeRsnIeCipher(
         {
         	/* TKIP mode*/
             case Ndis802_11TKIPEnable:
-                NdisMoveMemory(pRsnie_cipher->mcast, OUI_WPA2_TKIP, 4);
+                memmove(pRsnie_cipher->mcast, OUI_WPA2_TKIP, 4);
                 pRsnie_cipher->ucount = 1;
-                NdisMoveMemory(pRsnie_cipher->ucast[0].oui, OUI_WPA2_TKIP, 4);
+                memmove(pRsnie_cipher->ucast[0].oui, OUI_WPA2_TKIP, 4);
                 *rsn_len = sizeof(RSNIE2);
                 break;
 
 			/* AES mode*/
             case Ndis802_11AESEnable:
 				if (bMixCipher)
-					NdisMoveMemory(pRsnie_cipher->mcast, OUI_WPA2_TKIP, 4);
+					memmove(pRsnie_cipher->mcast, OUI_WPA2_TKIP, 4);
 				else
-					NdisMoveMemory(pRsnie_cipher->mcast, OUI_WPA2_CCMP, 4);
+					memmove(pRsnie_cipher->mcast, OUI_WPA2_CCMP, 4);
                 pRsnie_cipher->ucount = 1;
-                NdisMoveMemory(pRsnie_cipher->ucast[0].oui, OUI_WPA2_CCMP, 4);
+                memmove(pRsnie_cipher->ucast[0].oui, OUI_WPA2_CCMP, 4);
                 *rsn_len = sizeof(RSNIE2);
                 break;
 
 			/* TKIP-AES mix mode*/
             case Ndis802_11TKIPAESMix:
-                NdisMoveMemory(pRsnie_cipher->mcast, OUI_WPA2_TKIP, 4);
+                memmove(pRsnie_cipher->mcast, OUI_WPA2_TKIP, 4);
 
 				PairwiseCnt = 1;
 				/* Insert WPA2 TKIP as the first pairwise cipher */
 				if (MIX_CIPHER_WPA2_TKIP_ON(FlexibleCipher))
 				{
-                	NdisMoveMemory(pRsnie_cipher->ucast[0].oui, OUI_WPA2_TKIP, 4);
+                	memmove(pRsnie_cipher->ucast[0].oui, OUI_WPA2_TKIP, 4);
 					/* Insert WPA2 AES as the secondary pairwise cipher*/
 					if (MIX_CIPHER_WPA2_AES_ON(FlexibleCipher))
 					{
-						NdisMoveMemory(pRsnIe + sizeof(RSNIE2), OUI_WPA2_CCMP, 4);
+						memmove(pRsnIe + sizeof(RSNIE2), OUI_WPA2_CCMP, 4);
 						PairwiseCnt = 2;
 					}
 				}
 				else
 				{
 					/* Insert WPA2 AES as the first pairwise cipher */
-					NdisMoveMemory(pRsnie_cipher->ucast[0].oui, OUI_WPA2_CCMP, 4);
+					memmove(pRsnie_cipher->ucast[0].oui, OUI_WPA2_CCMP, 4);
 				}
 
                 pRsnie_cipher->ucount = PairwiseCnt;
@@ -2728,10 +2728,10 @@ static VOID RTMPMakeRsnIeCipher(
 			switch(GroupCipher)
 			{
 				case Ndis802_11GroupWEP40Enabled:
-					NdisMoveMemory(pRsnie_cipher->mcast, OUI_WPA2_WEP40, 4);
+					memmove(pRsnie_cipher->mcast, OUI_WPA2_WEP40, 4);
 					break;
 				case Ndis802_11GroupWEP104Enabled:
-					NdisMoveMemory(pRsnie_cipher->mcast, OUI_WPA2_WEP104, 4);
+					memmove(pRsnie_cipher->mcast, OUI_WPA2_WEP104, 4);
 					break;
 			}
 		}
@@ -2746,50 +2746,50 @@ static VOID RTMPMakeRsnIeCipher(
 		RSNIE	*pRsnie_cipher = (RSNIE*)pRsnIe;
 
 		/* Assign OUI and version*/
-		NdisMoveMemory(pRsnie_cipher->oui, OUI_WPA_VERSION, 4);
+		memmove(pRsnie_cipher->oui, OUI_WPA_VERSION, 4);
         pRsnie_cipher->version = 1;
 
 		switch (WepStatus)
 		{
 			/* TKIP mode*/
             case Ndis802_11TKIPEnable:
-                NdisMoveMemory(pRsnie_cipher->mcast, OUI_WPA_TKIP, 4);
+                memmove(pRsnie_cipher->mcast, OUI_WPA_TKIP, 4);
                 pRsnie_cipher->ucount = 1;
-                NdisMoveMemory(pRsnie_cipher->ucast[0].oui, OUI_WPA_TKIP, 4);
+                memmove(pRsnie_cipher->ucast[0].oui, OUI_WPA_TKIP, 4);
                 *rsn_len = sizeof(RSNIE);
                 break;
 
 			/* AES mode*/
             case Ndis802_11AESEnable:
 				if (bMixCipher)
-					NdisMoveMemory(pRsnie_cipher->mcast, OUI_WPA_TKIP, 4);
+					memmove(pRsnie_cipher->mcast, OUI_WPA_TKIP, 4);
 				else
-					NdisMoveMemory(pRsnie_cipher->mcast, OUI_WPA_CCMP, 4);
+					memmove(pRsnie_cipher->mcast, OUI_WPA_CCMP, 4);
                 pRsnie_cipher->ucount = 1;
-                NdisMoveMemory(pRsnie_cipher->ucast[0].oui, OUI_WPA_CCMP, 4);
+                memmove(pRsnie_cipher->ucast[0].oui, OUI_WPA_CCMP, 4);
                 *rsn_len = sizeof(RSNIE);
                 break;
 
 			/* TKIP-AES mix mode*/
             case Ndis802_11TKIPAESMix:
-                NdisMoveMemory(pRsnie_cipher->mcast, OUI_WPA_TKIP, 4);
+                memmove(pRsnie_cipher->mcast, OUI_WPA_TKIP, 4);
 
 				PairwiseCnt = 1;
 				/* Insert WPA TKIP as the first pairwise cipher */
 				if (MIX_CIPHER_WPA_TKIP_ON(FlexibleCipher))
 				{
-                	NdisMoveMemory(pRsnie_cipher->ucast[0].oui, OUI_WPA_TKIP, 4);
+                	memmove(pRsnie_cipher->ucast[0].oui, OUI_WPA_TKIP, 4);
 					/* Insert WPA AES as the secondary pairwise cipher*/
 					if (MIX_CIPHER_WPA_AES_ON(FlexibleCipher))
 					{
-						NdisMoveMemory(pRsnIe + sizeof(RSNIE), OUI_WPA_CCMP, 4);
+						memmove(pRsnIe + sizeof(RSNIE), OUI_WPA_CCMP, 4);
 						PairwiseCnt = 2;
 					}
 				}
 				else
 				{
 					/* Insert WPA AES as the first pairwise cipher */
-					NdisMoveMemory(pRsnie_cipher->ucast[0].oui, OUI_WPA_CCMP, 4);
+					memmove(pRsnie_cipher->ucast[0].oui, OUI_WPA_CCMP, 4);
 				}
 
                 pRsnie_cipher->ucount = PairwiseCnt;
@@ -2807,10 +2807,10 @@ static VOID RTMPMakeRsnIeCipher(
 			switch(GroupCipher)
 			{
 				case Ndis802_11GroupWEP40Enabled:
-					NdisMoveMemory(pRsnie_cipher->mcast, OUI_WPA_WEP40, 4);
+					memmove(pRsnie_cipher->mcast, OUI_WPA_WEP40, 4);
 					break;
 				case Ndis802_11GroupWEP104Enabled:
-					NdisMoveMemory(pRsnie_cipher->mcast, OUI_WPA_WEP104, 4);
+					memmove(pRsnie_cipher->mcast, OUI_WPA_WEP104, 4);
 					break;
 			}
 		}
@@ -2862,17 +2862,17 @@ static VOID RTMPMakeRsnIeAKM(
         {
             case Ndis802_11AuthModeWPA2:
             case Ndis802_11AuthModeWPA1WPA2:
-                	NdisMoveMemory(pRsnie_auth->auth[0].oui, OUI_WPA2_8021X_AKM, 4);
+                	memmove(pRsnie_auth->auth[0].oui, OUI_WPA2_8021X_AKM, 4);
 
 #ifdef DOT11W_PMF_SUPPORT
 #ifdef CONFIG_AP_SUPPORT
                 IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
                 {
                         if (pAd->ApCfg.MBSSID[apidx].PmfCfg.MFPR) {
-                                NdisMoveMemory(pRsnie_auth->auth[0].oui, OUI_WPA2_1X_SHA256, 4);
+                                memmove(pRsnie_auth->auth[0].oui, OUI_WPA2_1X_SHA256, 4);
                                 DBGPRINT(RT_DEBUG_WARN, ("[PMF]%s: Insert 1X-SHA256 to AKM of RSNIE\n", __FUNCTION__));
                         } else if ((pAd->ApCfg.MBSSID[apidx].PmfCfg.MFPC) && (pAd->ApCfg.MBSSID[apidx].PmfCfg.PMFSHA256)) {
-                                NdisMoveMemory(pRsnie_auth->auth[0].oui + (4*AkmCnt), OUI_WPA2_1X_SHA256, 4);
+                                memmove(pRsnie_auth->auth[0].oui + (4*AkmCnt), OUI_WPA2_1X_SHA256, 4);
                                 AkmCnt++;
                                 DBGPRINT(RT_DEBUG_WARN, ("[PMF]%s: Insert 1X-SHA256 to AKM of RSNIE\n", __FUNCTION__));
                         }
@@ -2890,7 +2890,7 @@ static VOID RTMPMakeRsnIeAKM(
                                 pInBss = &pAd->MlmeAux.SsidBssTab.BssEntry[BssIdx];
                                 if (CLIENT_STATUS_TEST_FLAG(pInBss, fCLIENT_STATUS_USE_SHA256))
                                 {
-                                        NdisMoveMemory(pRsnie_auth->auth[0].oui, OUI_WPA2_1X_SHA256, 4);
+                                        memmove(pRsnie_auth->auth[0].oui, OUI_WPA2_1X_SHA256, 4);
                                         DBGPRINT(RT_DEBUG_WARN, ("[PMF]%s: Insert 1X-SHA256 to AKM of RSNIE\n", __FUNCTION__));
                                 }
                         }
@@ -2901,17 +2901,17 @@ static VOID RTMPMakeRsnIeAKM(
 
             case Ndis802_11AuthModeWPA2PSK:
             case Ndis802_11AuthModeWPA1PSKWPA2PSK:
-                	NdisMoveMemory(pRsnie_auth->auth[0].oui, OUI_WPA2_PSK_AKM, 4);
+                	memmove(pRsnie_auth->auth[0].oui, OUI_WPA2_PSK_AKM, 4);
 
 #ifdef DOT11W_PMF_SUPPORT
 #ifdef CONFIG_AP_SUPPORT
                 IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
                 {
                         if (pAd->ApCfg.MBSSID[apidx].PmfCfg.MFPR) {
-                                NdisMoveMemory(pRsnie_auth->auth[0].oui, OUI_WPA2_PSK_SHA256, 4);
+                                memmove(pRsnie_auth->auth[0].oui, OUI_WPA2_PSK_SHA256, 4);
                                 DBGPRINT(RT_DEBUG_WARN, ("[PMF]%s: Insert PSK-SHA256 to AKM of RSNIE\n", __FUNCTION__));
                         } else if ((pAd->ApCfg.MBSSID[apidx].PmfCfg.MFPC) && (pAd->ApCfg.MBSSID[apidx].PmfCfg.PMFSHA256)) {
-                                NdisMoveMemory(pRsnie_auth->auth[0].oui + (4*AkmCnt), OUI_WPA2_PSK_SHA256, 4);
+                                memmove(pRsnie_auth->auth[0].oui + (4*AkmCnt), OUI_WPA2_PSK_SHA256, 4);
                                 AkmCnt++;
                                 DBGPRINT(RT_DEBUG_WARN, ("[PMF]%s: Insert PSK-SHA256 to AKM of RSNIE\n", __FUNCTION__));
                         }
@@ -2930,7 +2930,7 @@ static VOID RTMPMakeRsnIeAKM(
                                 pInBss = &pAd->MlmeAux.SsidBssTab.BssEntry[BssIdx];
                                 if (CLIENT_STATUS_TEST_FLAG(pInBss, fCLIENT_STATUS_USE_SHA256))
                                 {
-                                        NdisMoveMemory(pRsnie_auth->auth[0].oui, OUI_WPA2_PSK_SHA256, 4);
+                                        memmove(pRsnie_auth->auth[0].oui, OUI_WPA2_PSK_SHA256, 4);
                                         DBGPRINT(RT_DEBUG_WARN, ("[PMF]%s: Insert PSK-SHA256 to AKM of RSNIE\n", __FUNCTION__));
                                 }
                         }
@@ -2950,16 +2950,16 @@ static VOID RTMPMakeRsnIeAKM(
         {
             case Ndis802_11AuthModeWPA:
             case Ndis802_11AuthModeWPA1WPA2:
-                NdisMoveMemory(pRsnie_auth->auth[0].oui, OUI_WPA_8021X_AKM, 4);
+                memmove(pRsnie_auth->auth[0].oui, OUI_WPA_8021X_AKM, 4);
                 break;
 
             case Ndis802_11AuthModeWPAPSK:
             case Ndis802_11AuthModeWPA1PSKWPA2PSK:
-                NdisMoveMemory(pRsnie_auth->auth[0].oui, OUI_WPA_PSK_AKM, 4);
+                memmove(pRsnie_auth->auth[0].oui, OUI_WPA_PSK_AKM, 4);
                 break;
 
 			case Ndis802_11AuthModeWPANone:
-                NdisMoveMemory(pRsnie_auth->auth[0].oui, OUI_WPA_NONE_AKM, 4);
+                memmove(pRsnie_auth->auth[0].oui, OUI_WPA_NONE_AKM, 4);
                 break;
 			default:
 				AkmCnt = 0;
@@ -3101,7 +3101,7 @@ static VOID RTMPInsertRsnIeZeroPMKID(
 InsertPMKIDCount:
 	pBuf = (pRsnIe + (*rsn_len));
 
-	NdisMoveMemory(pBuf, ZeroPmkID, 2);
+	memmove(pBuf, ZeroPmkID, 2);
 	(*rsn_len) += 2;	/* update current RSNIE length	*/
 }
 #endif /* DOT11W_PMF_SUPPORT */
@@ -3713,7 +3713,7 @@ BOOLEAN RTMPParseEapolKeyData(
 									DBGPRINT(RT_DEBUG_ERROR, ("ERROR: GTK Key length is too short (%d) \n", GTKLEN));
         							return FALSE;
 								}
-								NdisMoveMemory(GTK, pKdeGtk->GTK, GTKLEN);
+								memmove(GTK, pKdeGtk->GTK, GTKLEN);
 								DBGPRINT(RT_DEBUG_TRACE, ("GTK in KDE format ,DefaultKeyID=%d, KeyLen=%d \n", DefaultIdx, GTKLEN));
     						}
 #ifdef DOT11W_PMF_SUPPORT
@@ -3740,7 +3740,7 @@ BOOLEAN RTMPParseEapolKeyData(
 	{
 		DefaultIdx = GroupKeyIndex;
 		GTKLEN = KeyDataLength;
-		NdisMoveMemory(GTK, pMyKeyData, KeyDataLength);
+		memmove(GTK, pMyKeyData, KeyDataLength);
 		DBGPRINT(RT_DEBUG_TRACE, ("GTK without KDE, DefaultKeyID=%d, KeyLen=%d \n", DefaultIdx, GTKLEN));
 	}
 
@@ -3770,7 +3770,7 @@ BOOLEAN RTMPParseEapolKeyData(
        {
         {
     		/* set key material, TxMic and RxMic		*/
-    		NdisMoveMemory(pAd->StaCfg.GTK, GTK, GTKLEN);
+    		memmove(pAd->StaCfg.GTK, GTK, GTKLEN);
     		pAd->StaCfg.wdev.DefaultKeyId = DefaultIdx;
 
     		WPAInstallSharedKey(pAd,
@@ -3833,7 +3833,7 @@ VOID WPA_ConstructKdeHdr(
 	   Type, and Data fields. */
 	pHdr->Len = 4 + data_len;
 
-	NdisMoveMemory(pHdr->OUI, OUI_WPA2, 3);
+	memmove(pHdr->OUI, OUI_WPA2, 3);
 	pHdr->DataType = data_type;
 
 }
@@ -3998,20 +3998,20 @@ VOID	ConstructEapolMsg(
 	}
 
  	/* Fill in replay counter        		*/
-    NdisMoveMemory(pMsg->KeyDesc.ReplayCounter, pEntry->R_Counter, LEN_KEY_DESC_REPLAY);
+    memmove(pMsg->KeyDesc.ReplayCounter, pEntry->R_Counter, LEN_KEY_DESC_REPLAY);
 
 	/* Fill Key Nonce field		  */
 	/* ANonce : pairwise_msg1 & pairwise_msg3*/
 	/* SNonce : pairwise_msg2*/
 	/* GNonce : group_msg1_wpa1	*/
 	if ((MsgType <= EAPOL_PAIR_MSG_3) || ((!bWPA2 && (MsgType == EAPOL_GROUP_MSG_1))))
-    	NdisMoveMemory(pMsg->KeyDesc.KeyNonce, KeyNonce, LEN_KEY_DESC_NONCE);
+    	memmove(pMsg->KeyDesc.KeyNonce, KeyNonce, LEN_KEY_DESC_NONCE);
 
 	/* Fill key IV - WPA2 as 0, WPA1 as random*/
 	if (!bWPA2 && (MsgType == EAPOL_GROUP_MSG_1))
 	{
 		/* Suggest IV be random number plus some number,*/
-		NdisMoveMemory(pMsg->KeyDesc.KeyIv, &KeyNonce[16], LEN_KEY_DESC_IV);
+		memmove(pMsg->KeyDesc.KeyIv, &KeyNonce[16], LEN_KEY_DESC_IV);
         pMsg->KeyDesc.KeyIv[15] += 2;
 	}
 
@@ -4019,7 +4019,7 @@ VOID	ConstructEapolMsg(
     /* It contains the RSC for the GTK being installed.*/
 	if ((MsgType == EAPOL_PAIR_MSG_3 && bWPA2) || (MsgType == EAPOL_GROUP_MSG_1))
 	{
-        NdisMoveMemory(pMsg->KeyDesc.KeyRsc, TxRSC, 6);
+        memmove(pMsg->KeyDesc.KeyRsc, TxRSC, 6);
 	}
 
 	/* Clear Key MIC field for MIC calculation later   */
@@ -4148,7 +4148,7 @@ VOID	ConstructEapolKeyData(
 		}
 
 		/* Fill in GTK */
-		NdisMoveMemory(&Key_Data[data_offset], GTK, gtk_len);
+		memmove(&Key_Data[data_offset], GTK, gtk_len);
 		data_offset += gtk_len;
 
 #ifdef DOT11W_PMF_SUPPORT
@@ -4219,11 +4219,11 @@ VOID	ConstructEapolKeyData(
 								eGTK);
 		}
 
-		NdisMoveMemory(pMsg->KeyDesc.KeyData, eGTK, data_offset);
+		memmove(pMsg->KeyDesc.KeyData, eGTK, data_offset);
 	}
 	else
 	{
-		NdisMoveMemory(pMsg->KeyDesc.KeyData, Key_Data, data_offset);
+		memmove(pMsg->KeyDesc.KeyData, Key_Data, data_offset);
 	}
 
 	/* Update key data length field and total body length*/
@@ -4284,7 +4284,7 @@ VOID	CalculateMIC(
     if (KeyDescVer == KEY_DESC_AES)
  	{
 		RT_HMAC_SHA1(PTK, LEN_PTK_KCK, OutBuffer,  FrameLen, digest, SHA1_DIGEST_SIZE);
-		NdisMoveMemory(mic, digest, LEN_KEY_DESC_MIC);
+		memmove(mic, digest, LEN_KEY_DESC_MIC);
 	}
 	else if (KeyDescVer == KEY_DESC_TKIP)
 	{
@@ -4297,7 +4297,7 @@ VOID	CalculateMIC(
 	}
 
 	/* store the calculated MIC*/
-	NdisMoveMemory(pMsg->KeyDesc.KeyMic, mic, LEN_KEY_DESC_MIC);
+	memmove(pMsg->KeyDesc.KeyMic, mic, LEN_KEY_DESC_MIC);
 
 	os_free_mem(NULL, OutBuffer);
 }
@@ -4725,7 +4725,7 @@ PUINT8	WPA_ExtractSuiteFromRSNIE(
 		UINT16 	p_count;
 		PUINT8	pPmkidList = NULL;
 
-		NdisMoveMemory(&p_count, pBuf, sizeof(UINT16));
+		memmove(&p_count, pBuf, sizeof(UINT16));
 		p_count = cpu2le16(p_count);
 
 		/* Get count of the PMKID list */
@@ -4931,18 +4931,18 @@ VOID WPAInstallPairwiseKey(
 
 	/* Assign key material and its length */
     pEntry->PairwiseKey.KeyLen = LEN_TK;
-    NdisMoveMemory(pEntry->PairwiseKey.Key, &pEntry->PTK[OFFSET_OF_PTK_TK], LEN_TK);
+    memmove(pEntry->PairwiseKey.Key, &pEntry->PTK[OFFSET_OF_PTK_TK], LEN_TK);
 	if (pEntry->PairwiseKey.CipherAlg == CIPHER_TKIP)
 	{
 		if (bAE)
 		{
-		    NdisMoveMemory(pEntry->PairwiseKey.TxMic, &pEntry->PTK[OFFSET_OF_AP_TKIP_TX_MIC], LEN_TKIP_MIC);
-		    NdisMoveMemory(pEntry->PairwiseKey.RxMic, &pEntry->PTK[OFFSET_OF_AP_TKIP_RX_MIC], LEN_TKIP_MIC);
+		    memmove(pEntry->PairwiseKey.TxMic, &pEntry->PTK[OFFSET_OF_AP_TKIP_TX_MIC], LEN_TKIP_MIC);
+		    memmove(pEntry->PairwiseKey.RxMic, &pEntry->PTK[OFFSET_OF_AP_TKIP_RX_MIC], LEN_TKIP_MIC);
 		}
 		else
 		{
-		    NdisMoveMemory(pEntry->PairwiseKey.TxMic, &pEntry->PTK[OFFSET_OF_STA_TKIP_TX_MIC], LEN_TKIP_MIC);
-		    NdisMoveMemory(pEntry->PairwiseKey.RxMic, &pEntry->PTK[OFFSET_OF_STA_TKIP_RX_MIC], LEN_TKIP_MIC);
+		    memmove(pEntry->PairwiseKey.TxMic, &pEntry->PTK[OFFSET_OF_STA_TKIP_TX_MIC], LEN_TKIP_MIC);
+		    memmove(pEntry->PairwiseKey.RxMic, &pEntry->PTK[OFFSET_OF_STA_TKIP_RX_MIC], LEN_TKIP_MIC);
 		}
 	}
 
@@ -5023,7 +5023,7 @@ VOID WPAInstallSharedKey(
 		}
 
 		pSharedKey->KeyLen = GtkLen;
-		NdisMoveMemory(pSharedKey->Key, pGtk, GtkLen);
+		memmove(pSharedKey->Key, pGtk, GtkLen);
 	}
 	else
 	{
@@ -5036,18 +5036,18 @@ VOID WPAInstallSharedKey(
 		}
 
 		pSharedKey->KeyLen = LEN_TK;
-		NdisMoveMemory(pSharedKey->Key, pGtk, LEN_TK);
+		memmove(pSharedKey->Key, pGtk, LEN_TK);
 		if (pSharedKey->CipherAlg == CIPHER_TKIP)
 		{
 			if (bAE)
 			{
-				NdisMoveMemory(pSharedKey->TxMic, pGtk + 16, LEN_TKIP_MIC);
-				NdisMoveMemory(pSharedKey->RxMic, pGtk + 24, LEN_TKIP_MIC);
+				memmove(pSharedKey->TxMic, pGtk + 16, LEN_TKIP_MIC);
+				memmove(pSharedKey->RxMic, pGtk + 24, LEN_TKIP_MIC);
 			}
 			else
 			{
-				NdisMoveMemory(pSharedKey->TxMic, pGtk + 24, LEN_TKIP_MIC);
-				NdisMoveMemory(pSharedKey->RxMic, pGtk + 16, LEN_TKIP_MIC);
+				memmove(pSharedKey->TxMic, pGtk + 24, LEN_TKIP_MIC);
+				memmove(pSharedKey->RxMic, pGtk + 16, LEN_TKIP_MIC);
 			}
 		}
 	}

@@ -73,12 +73,12 @@ BOOLEAN PeerAssocReqCmmSanity(
 
 	Ptr = (PCHAR)Fr->Octet;
 
-	NdisMoveMemory(&ie_lists->CapabilityInfo, &Fr->Octet[0], 2);
-	NdisMoveMemory(&ie_lists->ListenInterval, &Fr->Octet[2], 2);
+	memmove(&ie_lists->CapabilityInfo, &Fr->Octet[0], 2);
+	memmove(&ie_lists->ListenInterval, &Fr->Octet[2], 2);
 
 	if (isReassoc)
 	{
-		NdisMoveMemory(&ie_lists->ApAddr[0], &Fr->Octet[4], 6);
+		memmove(&ie_lists->ApAddr[0], &Fr->Octet[4], 6);
 		eid_ptr = (PEID_STRUCT) &Fr->Octet[10];
 	}
 	else
@@ -99,7 +99,7 @@ BOOLEAN PeerAssocReqCmmSanity(
                 if ((eid_ptr->Len <= MAX_LEN_OF_SSID))
                 {
                     Sanity |= 0x01;
-                    NdisMoveMemory(&ie_lists->Ssid[0], eid_ptr->Octet, eid_ptr->Len);
+                    memmove(&ie_lists->Ssid[0], eid_ptr->Octet, eid_ptr->Len);
                     ie_lists->SsidLen = eid_ptr->Len;
                     DBGPRINT(RT_DEBUG_TRACE, ("PeerAssocReqSanity - SsidLen = %d  \n", ie_lists->SsidLen));
                 }
@@ -115,7 +115,7 @@ BOOLEAN PeerAssocReqCmmSanity(
 					(eid_ptr->Len > 0))
                 {
                     Sanity |= 0x02;
-                    NdisMoveMemory(&ie_lists->SupportedRates[0], eid_ptr->Octet, eid_ptr->Len);
+                    memmove(&ie_lists->SupportedRates[0], eid_ptr->Octet, eid_ptr->Len);
 
                     DBGPRINT(RT_DEBUG_TRACE,
 						("PeerAssocReqSanity - IE_SUPP_RATES., Len=%d. "
@@ -138,7 +138,7 @@ BOOLEAN PeerAssocReqCmmSanity(
                     /*DBGPRINT(RT_DEBUG_TRACE, ("PeerAssocReqSanity - wrong IE_SUPP_RATES\n")); */
                     Sanity |= 0x02;
                     ie_lists->SupportedRatesLen = 8;
-					NdisMoveMemory(&ie_lists->SupportedRates[0], RateDefault, 8);
+					memmove(&ie_lists->SupportedRates[0], RateDefault, 8);
 
                     DBGPRINT(RT_DEBUG_TRACE,
 						("PeerAssocReqSanity - wrong IE_SUPP_RATES., Len=%d\n",
@@ -149,13 +149,13 @@ BOOLEAN PeerAssocReqCmmSanity(
             case IE_EXT_SUPP_RATES:
                 if (eid_ptr->Len + ie_lists->SupportedRatesLen <= MAX_LEN_OF_SUPPORTED_RATES)
                 {
-                    NdisMoveMemory(&ie_lists->SupportedRates[ie_lists->SupportedRatesLen], eid_ptr->Octet,
+                    memmove(&ie_lists->SupportedRates[ie_lists->SupportedRatesLen], eid_ptr->Octet,
 									eid_ptr->Len);
                     ie_lists->SupportedRatesLen += eid_ptr->Len;
                 }
                 else
                 {
-                    NdisMoveMemory(&ie_lists->SupportedRates[ie_lists->SupportedRatesLen], eid_ptr->Octet,
+                    memmove(&ie_lists->SupportedRates[ie_lists->SupportedRatesLen], eid_ptr->Octet,
 									MAX_LEN_OF_SUPPORTED_RATES - (ie_lists->SupportedRatesLen));
                     ie_lists->SupportedRatesLen = MAX_LEN_OF_SUPPORTED_RATES;
                 }
@@ -164,7 +164,7 @@ BOOLEAN PeerAssocReqCmmSanity(
             case IE_HT_CAP:
 			if (eid_ptr->Len >= sizeof(HT_CAPABILITY_IE))
 			{
-				NdisMoveMemory(pHtCapability, eid_ptr->Octet, SIZE_HT_CAP_IE);
+				memmove(pHtCapability, eid_ptr->Octet, SIZE_HT_CAP_IE);
 
 				*(USHORT *)(&pHtCapability->HtCapInfo) = cpu2le16(*(USHORT *)(&pHtCapability->HtCapInfo));
 
@@ -172,9 +172,9 @@ BOOLEAN PeerAssocReqCmmSanity(
 				{
 					EXT_HT_CAP_INFO extHtCapInfo;
 
-					NdisMoveMemory((PUCHAR)(&extHtCapInfo), (PUCHAR)(&pHtCapability->ExtHtCapInfo), sizeof(EXT_HT_CAP_INFO));
+					memmove((&extHtCapInfo, &pHtCapability->ExtHtCapInfo, sizeof(EXT_HT_CAP_INFO));
 					*(USHORT *)(&extHtCapInfo) = cpu2le16(*(USHORT *)(&extHtCapInfo));
-					NdisMoveMemory((PUCHAR)(&pHtCapability->ExtHtCapInfo), (PUCHAR)(&extHtCapInfo), sizeof(EXT_HT_CAP_INFO));
+					memmove(&pHtCapability->ExtHtCapInfo, &extHtCapInfo, sizeof(EXT_HT_CAP_INFO));
 				}
 #else
 				*(USHORT *)(&pHtCapability->ExtHtCapInfo) = cpu2le16(*(USHORT *)(&pHtCapability->ExtHtCapInfo));
@@ -196,7 +196,7 @@ BOOLEAN PeerAssocReqCmmSanity(
 				INT ext_len = eid_ptr->Len;
 
 				ext_len = ext_len > sizeof(EXT_CAP_INFO_ELEMENT) ? sizeof(EXT_CAP_INFO_ELEMENT) : ext_len;
-				NdisMoveMemory(&ie_lists->ExtCapInfo, eid_ptr->Octet, ext_len);
+				memmove(&ie_lists->ExtCapInfo, eid_ptr->Octet, ext_len);
 				DBGPRINT(RT_DEBUG_WARN, ("PeerAssocReqSanity - IE_EXT_CAPABILITY!\n"));
 			}
 
@@ -219,16 +219,16 @@ BOOLEAN PeerAssocReqCmmSanity(
 						case 0x33:
 							if ((eid_ptr->Len-4) == sizeof(HT_CAPABILITY_IE))
 							{
-								NdisMoveMemory(pHtCapability, &eid_ptr->Octet[4], SIZE_HT_CAP_IE);
+								memmove(pHtCapability, &eid_ptr->Octet[4], SIZE_HT_CAP_IE);
 
 								*(USHORT *)(&pHtCapability->HtCapInfo) = cpu2le16(*(USHORT *)(&pHtCapability->HtCapInfo));
 #ifdef UNALIGNMENT_SUPPORT
 								{
 									EXT_HT_CAP_INFO extHtCapInfo;
 
-									NdisMoveMemory((PUCHAR)(&extHtCapInfo), (PUCHAR)(&pHtCapability->ExtHtCapInfo), sizeof(EXT_HT_CAP_INFO));
+									memmove(&extHtCapInfo, &pHtCapability->ExtHtCapInfo, sizeof(EXT_HT_CAP_INFO));
 									*(USHORT *)(&extHtCapInfo) = cpu2le16(*(USHORT *)(&extHtCapInfo));
-									NdisMoveMemory((PUCHAR)(&pHtCapability->ExtHtCapInfo), (PUCHAR)(&extHtCapInfo), sizeof(EXT_HT_CAP_INFO));
+									memmove(&pHtCapability->ExtHtCapInfo, &extHtCapInfo, sizeof(EXT_HT_CAP_INFO));
 								}
 #else
 								*(USHORT *)(&pHtCapability->ExtHtCapInfo) = cpu2le16(*(USHORT *)(&pHtCapability->ExtHtCapInfo));
@@ -287,7 +287,7 @@ BOOLEAN PeerAssocReqCmmSanity(
 					hex_dump("Received RSNIE in Assoc-Req", (UCHAR *)eid_ptr, eid_ptr->Len + 2);
 
 					/* Copy whole RSNIE context */
-                    NdisMoveMemory(&ie_lists->RSN_IE[0], eid_ptr, eid_ptr->Len + 2);
+                    memmove(&ie_lists->RSN_IE[0], eid_ptr, eid_ptr->Len + 2);
 					ie_lists->RSNIE_Len =eid_ptr->Len + 2;
 
                 }
@@ -306,7 +306,7 @@ BOOLEAN PeerAssocReqCmmSanity(
 		case IE_VHT_CAP:
 			if (eid_ptr->Len == sizeof(VHT_CAP_IE))
 			{
-				NdisMoveMemory(&ie_lists->vht_cap, eid_ptr->Octet, sizeof(VHT_CAP_IE));
+				memmove(&ie_lists->vht_cap, eid_ptr->Octet, sizeof(VHT_CAP_IE));
 				ie_lists->vht_cap_len = eid_ptr->Len;
 				DBGPRINT(RT_DEBUG_TRACE, ("%s():IE_VHT_CAP\n", __FUNCTION__));
 			}
@@ -319,7 +319,7 @@ BOOLEAN PeerAssocReqCmmSanity(
 		case IE_VHT_OP:
 			if (eid_ptr->Len == sizeof(VHT_OP_IE))
 			{
-				NdisMoveMemory(&ie_lists->vht_op, eid_ptr->Octet, sizeof(VHT_OP_IE));
+				memmove(&ie_lists->vht_op, eid_ptr->Octet, sizeof(VHT_OP_IE));
 				ie_lists->vht_op_len = eid_ptr->Len;
 				DBGPRINT(RT_DEBUG_TRACE, ("%s():IE_VHT_OP\n", __FUNCTION__));
 			}
@@ -327,7 +327,7 @@ BOOLEAN PeerAssocReqCmmSanity(
 		case IE_OPERATING_MODE_NOTIFY:
 			if (eid_ptr->Len == sizeof(OPERATING_MODE)) {
 				ie_lists->operating_mode_len = sizeof(OPERATING_MODE);
-				NdisMoveMemory(&ie_lists->operating_mode, &eid_ptr->Octet[0], sizeof(OPERATING_MODE));
+				memmove(&ie_lists->operating_mode, &eid_ptr->Octet[0], sizeof(OPERATING_MODE));
 				DBGPRINT(RT_DEBUG_TRACE, ("%s():IE_OPERATING_MODE_NOTIFY!\n", __FUNCTION__));
 			}
 			break;
@@ -373,7 +373,7 @@ BOOLEAN PeerDisassocReqSanity(
 
     COPY_MAC_ADDR(pAddr2, &Fr->Hdr.Addr2);
 	*SeqNum = Fr->Hdr.Sequence;
-    NdisMoveMemory(Reason, &Fr->Octet[0], 2);
+    memmove(Reason, &Fr->Octet[0], 2);
 
     return TRUE;
 }
@@ -399,7 +399,7 @@ BOOLEAN PeerDeauthReqSanity(
 
     COPY_MAC_ADDR(pAddr2, &Fr->Hdr.Addr2);
 	*SeqNum = Fr->Hdr.Sequence;
-    NdisMoveMemory(Reason, &Fr->Octet[0], 2);
+    memmove(Reason, &Fr->Octet[0], 2);
 
     return TRUE;
 }
@@ -429,9 +429,9 @@ BOOLEAN APPeerAuthSanity(
 
 	COPY_MAC_ADDR(pAddr1,  &Fr->Hdr.Addr1);		/* BSSID */
     COPY_MAC_ADDR(pAddr2,  &Fr->Hdr.Addr2);		/* SA */
-    NdisMoveMemory(Alg,    &Fr->Octet[0], 2);
-    NdisMoveMemory(Seq,    &Fr->Octet[2], 2);
-    NdisMoveMemory(Status, &Fr->Octet[4], 2);
+    memmove(Alg,    &Fr->Octet[0], 2);
+    memmove(Seq,    &Fr->Octet[2], 2);
+    memmove(Status, &Fr->Octet[4], 2);
 
     if (*Alg == AUTH_MODE_OPEN)
     {
@@ -453,7 +453,7 @@ BOOLEAN APPeerAuthSanity(
         }
         else if (*Seq == 2 || *Seq == 3)
         {
-            NdisMoveMemory(ChlgText, &Fr->Octet[8], CIPHER_TEXT_LEN);
+            memmove(ChlgText, &Fr->Octet[8], CIPHER_TEXT_LEN);
             return TRUE;
         }
         else

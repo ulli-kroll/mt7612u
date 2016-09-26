@@ -489,7 +489,7 @@ typedef struct _CMD_RSP_CONTEXT
 	RT_SET_ASIC_WCID Info;									\
 																\
 	Info.WCID = pEntry->wcid;									\
-	NdisMoveMemory(Info.Addr, pEntry->Addr, MAC_ADDR_LEN);		\
+	memmove(Info.Addr, pEntry->Addr, MAC_ADDR_LEN);		\
 																\
 	RTEnqueueInternalCmd(pAd, CMDTHREAD_SET_CLIENT_MAC_ENTRY, 	\
 							&Info, sizeof(RT_SET_ASIC_WCID));	\
@@ -547,7 +547,7 @@ typedef struct _CMD_RSP_CONTEXT
 	RT_ASIC_PAIRWISE_KEY Info;										\
 																		\
 	Info.WCID = _WCID;													\
-	NdisMoveMemory(&Info.CipherKey, _pCipherKey, sizeof(CIPHER_KEY));	\
+	memmove(&Info.CipherKey, _pCipherKey, sizeof(CIPHER_KEY));	\
 																		\
 	RTEnqueueInternalCmd(_pAd, CMDTHREAD_SET_ASIC_PAIRWISE_KEY,			\
 							&Info, sizeof(RT_ASIC_PAIRWISE_KEY));		\
@@ -560,7 +560,7 @@ typedef struct _CMD_RSP_CONTEXT
 																			\
 	Info.BssIndex = _BssIndex;												\
 	Info.KeyIdx = _KeyIdx;													\
-	NdisMoveMemory(&Info.CipherKey, _pCipherKey, sizeof(CIPHER_KEY));		\
+	memmove(&Info.CipherKey, _pCipherKey, sizeof(CIPHER_KEY));		\
 																			\
 	RTEnqueueInternalCmd(_pAd, CMDTHREAD_SET_ASIC_SHARED_KEY,				\
 							&Info, sizeof(RT_ASIC_SHARED_KEY));				\

@@ -1365,7 +1365,7 @@ INT Set_CountryCode_Proc(
 
 	if(strlen(arg) == 2)
 	{
-		NdisMoveMemory(pAd->CommonCfg.CountryCode, arg, 2);
+		memmove(pAd->CommonCfg.CountryCode, arg, 2);
 		pAd->CommonCfg.bCountryFlag = TRUE;
 	}
 	else
@@ -1506,7 +1506,7 @@ INT Set_CountryString_Proc(
 	if (success == TRUE)
 	{
 		NdisZeroMemory(pAd->CommonCfg.CountryCode, 3);
-		NdisMoveMemory(pAd->CommonCfg.CountryCode, allCountry[index].IsoName, 2);
+		memmove(pAd->CommonCfg.CountryCode, allCountry[index].IsoName, 2);
 		pAd->CommonCfg.CountryCode[2] = ' ';
 		/* After Set ChGeography need invoke SSID change procedural again for Beacon update. */
 		/* it's no longer necessary since APStartUp will rebuild channel again. */
@@ -1558,7 +1558,7 @@ INT	Set_AP_SSID_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 		mbss = &pAd->ApCfg.MBSSID[pObj->ioctl_if];
 
 		NdisZeroMemory(mbss->Ssid, MAX_LEN_OF_SSID);
-		NdisMoveMemory(mbss->Ssid, arg, strlen(arg));
+		memmove(mbss->Ssid, arg, strlen(arg));
 		mbss->SsidLen = (UCHAR)strlen(arg);
 		success = TRUE;
 
@@ -2791,7 +2791,7 @@ INT	Set_ACLAddEntry_Proc(
 	}
 
 	NdisZeroMemory(pacl, sizeof(RT_802_11_ACL));
-	NdisMoveMemory(pacl, &pAd->ApCfg.MBSSID[pObj->ioctl_if].AccessControlList, sizeof(RT_802_11_ACL));
+	memmove(pacl, &pAd->ApCfg.MBSSID[pObj->ioctl_if].AccessControlList, sizeof(RT_802_11_ACL));
 
 	while ((this_char = strsep((char **)&arg, ";")) != NULL)
 	{
@@ -2836,7 +2836,7 @@ INT	Set_ACLAddEntry_Proc(
 
 		if (!isDuplicate)
 		{
-			NdisMoveMemory(pacl->Entry[pacl->Num++].Addr, &macAddr, MAC_ADDR_LEN);
+			memmove(pacl->Entry[pacl->Num++].Addr, &macAddr, MAC_ADDR_LEN);
 		}
 
 		if (pacl->Num == MAX_NUM_OF_ACL_LIST)
@@ -2851,7 +2851,7 @@ INT	Set_ACLAddEntry_Proc(
 	ASSERT(pacl->Num < MAX_NUM_OF_ACL_LIST);
 
 	NdisZeroMemory(&pAd->ApCfg.MBSSID[pObj->ioctl_if].AccessControlList, sizeof(RT_802_11_ACL));
-	NdisMoveMemory(&pAd->ApCfg.MBSSID[pObj->ioctl_if].AccessControlList, pacl, sizeof(RT_802_11_ACL));
+	memmove(&pAd->ApCfg.MBSSID[pObj->ioctl_if].AccessControlList, pacl, sizeof(RT_802_11_ACL));
 
 	/* check if the change in ACL affects any existent association */
 	ApUpdateAccessControlList(pAd, pObj->ioctl_if);
@@ -2899,7 +2899,7 @@ INT	Set_ACLDelEntry_Proc(
 	POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
 
 	NdisZeroMemory(&acl, sizeof(RT_802_11_ACL));
-	NdisMoveMemory(&acl, &pAd->ApCfg.MBSSID[pObj->ioctl_if].AccessControlList, sizeof(RT_802_11_ACL));
+	memmove(&acl, &pAd->ApCfg.MBSSID[pObj->ioctl_if].AccessControlList, sizeof(RT_802_11_ACL));
 	NdisZeroMemory(nullAddr, MAC_ADDR_LEN);
 
 	while ((this_char = strsep((char **)&arg, ";")) != NULL)
@@ -2964,7 +2964,7 @@ INT	Set_ACLDelEntry_Proc(
 		}
 		else
 		{
-			NdisMoveMemory(&(pAd->ApCfg.MBSSID[pObj->ioctl_if].AccessControlList.Entry[i++]), acl.Entry[j].Addr, MAC_ADDR_LEN);
+			memmove(&(pAd->ApCfg.MBSSID[pObj->ioctl_if].AccessControlList.Entry[i++]), acl.Entry[j].Addr, MAC_ADDR_LEN);
 		}
 	}
 
@@ -3036,7 +3036,7 @@ INT	Set_ACLShowAll_Proc(
 	}
 
 	NdisZeroMemory(&acl, sizeof(RT_802_11_ACL));
-	NdisMoveMemory(&acl, &pAd->ApCfg.MBSSID[pObj->ioctl_if].AccessControlList, sizeof(RT_802_11_ACL));
+	memmove(&acl, &pAd->ApCfg.MBSSID[pObj->ioctl_if].AccessControlList, sizeof(RT_802_11_ACL));
 
 	/* Check if the list is already empty. */
 	if (acl.Num == 0)
@@ -3111,7 +3111,7 @@ INT	Set_ACLClearAll_Proc(
 	}
 
 	NdisZeroMemory(pacl, sizeof(RT_802_11_ACL));
-	NdisMoveMemory(pacl, &pAd->ApCfg.MBSSID[pObj->ioctl_if].AccessControlList, sizeof(RT_802_11_ACL));
+	memmove(pacl, &pAd->ApCfg.MBSSID[pObj->ioctl_if].AccessControlList, sizeof(RT_802_11_ACL));
 
 	/* Check if the list is already empty. */
 	if (pacl->Num == 0)
@@ -3138,7 +3138,7 @@ INT	Set_ACLClearAll_Proc(
 	ASSERT(pacl->Num == 0);
 
 	NdisZeroMemory(&(pAd->ApCfg.MBSSID[pObj->ioctl_if].AccessControlList), sizeof(RT_802_11_ACL));
-	NdisMoveMemory(&(pAd->ApCfg.MBSSID[pObj->ioctl_if].AccessControlList), pacl, sizeof(RT_802_11_ACL));
+	memmove(&(pAd->ApCfg.MBSSID[pObj->ioctl_if].AccessControlList), pacl, sizeof(RT_802_11_ACL));
 
 	/* check if the change in ACL affects any existent association */
 	ApUpdateAccessControlList(pAd, pObj->ioctl_if);
@@ -3298,7 +3298,7 @@ INT Set_AutoChannelSel_Proc(
 	{
 		if (strlen(arg) != 0)
 		{
-			NdisMoveMemory(Ssid.Ssid, arg, strlen(arg));
+			memmove(Ssid.Ssid, arg, strlen(arg));
 			Ssid.SsidLength = strlen(arg);
 		}
 		else   /*ANY ssid */
@@ -3892,7 +3892,7 @@ VOID RTMPIoctlQueryRadiusConf(
 				p1xBssInfo->radius_srv_info[srv_idx].radius_key_len = pMbss->radius_srv_info[srv_idx].radius_key_len;
 				if (pMbss->radius_srv_info[srv_idx].radius_key_len > 0)
 				{
-					NdisMoveMemory(p1xBssInfo->radius_srv_info[srv_idx].radius_key,
+					memmove(p1xBssInfo->radius_srv_info[srv_idx].radius_key,
 									pMbss->radius_srv_info[srv_idx].radius_key,
 									pMbss->radius_srv_info[srv_idx].radius_key_len);
 				}
@@ -3912,7 +3912,7 @@ VOID RTMPIoctlQueryRadiusConf(
 			if (KeyLen == 5 || KeyLen == 13)
 			{
 				p1xBssInfo->key_length = KeyLen;
-				NdisMoveMemory(p1xBssInfo->key_material, pAd->SharedKey[apidx][keyidx].Key, KeyLen);
+				memmove(p1xBssInfo->key_material, pAd->SharedKey[apidx][keyidx].Key, KeyLen);
 			}
 		}
 
@@ -3920,21 +3920,21 @@ VOID RTMPIoctlQueryRadiusConf(
 		if (pMbss->NasIdLen > 0)
 		{
 			p1xBssInfo->nasId_len = pMbss->NasIdLen;
-			NdisMoveMemory(p1xBssInfo->nasId, pMbss->NasId, pMbss->NasIdLen);
+			memmove(p1xBssInfo->nasId, pMbss->NasId, pMbss->NasIdLen);
 		}
 
 		/* get EAPifname */
 		if (pAd->ApCfg.EAPifname_len[apidx] > 0)
 		{
 			pConf->EAPifname_len[apidx] = pAd->ApCfg.EAPifname_len[apidx];
-			NdisMoveMemory(pConf->EAPifname[apidx], pAd->ApCfg.EAPifname[apidx], pAd->ApCfg.EAPifname_len[apidx]);
+			memmove(pConf->EAPifname[apidx], pAd->ApCfg.EAPifname[apidx], pAd->ApCfg.EAPifname_len[apidx]);
 		}
 
 		/* get PreAuthifname */
 		if (pAd->ApCfg.PreAuthifname_len[apidx] > 0)
 		{
 			pConf->PreAuthifname_len[apidx] = pAd->ApCfg.PreAuthifname_len[apidx];
-			NdisMoveMemory(pConf->PreAuthifname[apidx], pAd->ApCfg.PreAuthifname[apidx], pAd->ApCfg.PreAuthifname_len[apidx]);
+			memmove(pConf->PreAuthifname[apidx], pAd->ApCfg.PreAuthifname[apidx], pAd->ApCfg.PreAuthifname_len[apidx]);
 		}
 
 	}
@@ -4016,7 +4016,7 @@ VOID RTMPIoctlAddWPAKey(
 				INT	k_offset = 0;
 
 
-				NdisMoveMemory(pAd->ApCfg.MBSSID[apidx].PMK, pKey->KeyMaterial + k_offset, 32);
+				memmove(pAd->ApCfg.MBSSID[apidx].PMK, pKey->KeyMaterial + k_offset, 32);
     	        DBGPRINT(RT_DEBUG_TRACE, ("RTMPIoctlAddWPAKey-IF(ra%d) : Add PMK=%02x:%02x:%02x:%02x:%02x:%02x:%02x:%02x....\n", apidx,
             	pAd->ApCfg.MBSSID[apidx].PMK[0],pAd->ApCfg.MBSSID[apidx].PMK[1],pAd->ApCfg.MBSSID[apidx].PMK[2],pAd->ApCfg.MBSSID[apidx].PMK[3],
             	pAd->ApCfg.MBSSID[apidx].PMK[4],pAd->ApCfg.MBSSID[apidx].PMK[5],pAd->ApCfg.MBSSID[apidx].PMK[6],pAd->ApCfg.MBSSID[apidx].PMK[7]));
@@ -4052,7 +4052,7 @@ VOID RTMPIoctlAddWPAKey(
 					pKey->KeyLength = 16;
 				}
 				pAd->SharedKey[apidx][KeyIdx].KeyLen = (UCHAR) pKey->KeyLength;
-				NdisMoveMemory(pAd->SharedKey[apidx][KeyIdx].Key, &pKey->KeyMaterial, pKey->KeyLength);
+				memmove(pAd->SharedKey[apidx][KeyIdx].Key, &pKey->KeyMaterial, pKey->KeyLength);
 
 				/* Set Ciper type */
 				if (pKey->KeyLength == 5)
@@ -4081,7 +4081,7 @@ VOID RTMPIoctlAddWPAKey(
 
 					/* set key material and key length */
  					pEntry->PairwiseKey.KeyLen = (UCHAR)pKey->KeyLength;
-					NdisMoveMemory(pEntry->PairwiseKey.Key, &pKey->KeyMaterial, pKey->KeyLength);
+					memmove(pEntry->PairwiseKey.Key, &pKey->KeyMaterial, pKey->KeyLength);
 
 					/* set Cipher type */
 					if (pKey->KeyLength == 5)
@@ -4138,12 +4138,12 @@ VOID RTMPIoctlAddPMKIDCache(
 			UCHAR	digest[80], PMK_key[20], macaddr[MAC_ADDR_LEN];
 
 			/* Calculate PMKID */
-			NdisMoveMemory(&PMK_key[0], "PMK Name", 8);
-			NdisMoveMemory(&PMK_key[8], pAd->ApCfg.MBSSID[apidx].wdev.bssid, MAC_ADDR_LEN);
-			NdisMoveMemory(&PMK_key[14], pKey->addr, MAC_ADDR_LEN);
+			memmove(&PMK_key[0], "PMK Name", 8);
+			memmove(&PMK_key[8], pAd->ApCfg.MBSSID[apidx].wdev.bssid, MAC_ADDR_LEN);
+			memmove(&PMK_key[14], pKey->addr, MAC_ADDR_LEN);
 			RT_HMAC_SHA1(pKey->KeyMaterial, PMK_LEN, PMK_key, 20, digest, SHA1_DIGEST_SIZE);
 
-			NdisMoveMemory(macaddr, pKey->addr, MAC_ADDR_LEN);
+			memmove(macaddr, pKey->addr, MAC_ADDR_LEN);
 			RTMPAddPMKIDCache(pAd, apidx, macaddr, digest, pKey->KeyMaterial);
 
 			DBGPRINT(RT_DEBUG_TRACE, ("WPA2(pre-auth):(%02x:%02x:%02x:%02x:%02x:%02x)Calc PMKID=%02x:%02x:%02x:%02x:%02x:%02x\n",
@@ -4212,7 +4212,7 @@ VOID RTMPIoctlStaticWepCopy(
 			else
         	{
             	pEntry->PairwiseKey.KeyLen = pAd->SharedKey[apidx][KeyIdx].KeyLen;
-            	NdisMoveMemory(pEntry->PairwiseKey.Key, pAd->SharedKey[apidx][KeyIdx].Key, pEntry->PairwiseKey.KeyLen);
+            	memmove(pEntry->PairwiseKey.Key, pAd->SharedKey[apidx][KeyIdx].Key, pEntry->PairwiseKey.KeyLen);
             	pEntry->PairwiseKey.CipherAlg = pAd->SharedKey[apidx][KeyIdx].CipherAlg;
 
 				/* Add Pair-wise key to Asic */
@@ -4348,7 +4348,7 @@ VOID RTMPAPIoctlBBP32(struct rtmp_adapter *pAd, RTMP_IOCTL_INPUT_STRUCT *wrq)
 
 	if (argLen > 0)
 	{
-		NdisMoveMemory(arg, wrq->u.data.pointer, (argLen > 255) ? 255 : argLen);
+		memmove(arg, wrq->u.data.pointer, (argLen > 255) ? 255 : argLen);
 		ptr = arg;
 		sprintf(msg, "\n");
 		/* Parsing Read or Write */
@@ -4535,7 +4535,7 @@ VOID RTMPAPIoctlBBP(
 
 	if (argLen > 0)
 	{
-		NdisMoveMemory(arg, wrq->u.data.pointer, (argLen > 255) ? 255 : argLen);
+		memmove(arg, wrq->u.data.pointer, (argLen > 255) ? 255 : argLen);
 		ptr = arg;
 		sprintf(msg, "\n");
 		/* Parsing Read or Write */
@@ -4746,7 +4746,7 @@ VOID RTMPAPIoctlMAC(
 	if ((wrq->u.data.length > 1)
 		)
 	{
-		NdisMoveMemory(arg, wrq->u.data.pointer, (wrq->u.data.length > 255) ? 255 : wrq->u.data.length);
+		memmove(arg, wrq->u.data.pointer, (wrq->u.data.length > 255) ? 255 : wrq->u.data.length);
 		ptr = arg;
 		sprintf(msg, "\n");
 		/*Parsing Read or Write */
@@ -4801,7 +4801,7 @@ VOID RTMPAPIoctlMAC(
 			else
 			{
 				/*Write */
-				NdisMoveMemory(&temp2, value, strlen(value));
+				memmove(&temp2, value, strlen(value));
 				temp2[strlen(value)] = '\0';
 
 				/* Sanity check */
@@ -5115,7 +5115,7 @@ VOID RTMPAPIoctlRF(
 	if ((wrq->u.data.length > 1) /* No parameters. */
 		)
 	{
-		NdisMoveMemory(arg, wrq->u.data.pointer, (wrq->u.data.length > 255) ? 255 : wrq->u.data.length);
+		memmove(arg, wrq->u.data.pointer, (wrq->u.data.length > 255) ? 255 : wrq->u.data.length);
 		ptr = arg;
 		sprintf(msg, "\n");
 		/*Parsing Read or Write */
@@ -5343,7 +5343,7 @@ VOID RTMPAPIoctlE2PROM(
 #endif /* LINUX */
 		)
 	{
-		NdisMoveMemory(arg, wrq->u.data.pointer, (wrq->u.data.length > 255) ? 255 : wrq->u.data.length);
+		memmove(arg, wrq->u.data.pointer, (wrq->u.data.length > 255) ? 255 : wrq->u.data.length);
 		ptr = arg;
 		sprintf(msg, "\n");
 		/*Parsing Read or Write */
@@ -5397,7 +5397,7 @@ VOID RTMPAPIoctlE2PROM(
 			}
 			else
 			{ /*Write */
-				NdisMoveMemory(&temp2, value, strlen(value));
+				memmove(&temp2, value, strlen(value));
 				temp2[strlen(value)] = '\0';
 
 				/* Sanity check */
@@ -5826,7 +5826,7 @@ VOID RTMPIoctlQueryBaTable(
 
 		if (IS_ENTRY_CLIENT(pEntry) && (pEntry->Sst == SST_ASSOC) && (pEntry->TXBAbitmap))
 		{
-			NdisMoveMemory(BAT->BAOriEntry[index].MACAddr, pEntry->Addr, 6);
+			memmove(BAT->BAOriEntry[index].MACAddr, pEntry->Addr, 6);
 			for (j=0;j<8;j++)
 			{
 				if (pEntry->BAOriWcidArray[j] != 0)
@@ -5849,7 +5849,7 @@ VOID RTMPIoctlQueryBaTable(
 
 		if (IS_ENTRY_CLIENT(pEntry) && (pEntry->Sst == SST_ASSOC) && (pEntry->RXBAbitmap))
 		{
-			NdisMoveMemory(BAT->BARecEntry[index].MACAddr, pEntry->Addr, 6);
+			memmove(BAT->BARecEntry[index].MACAddr, pEntry->Addr, 6);
 			BAT->BARecEntry[index].BaBitmap = (UCHAR)pEntry->RXBAbitmap;
 			for (j = 0; j < 8; j++)
 			{
@@ -5945,7 +5945,7 @@ INT Set_ApCli_Ssid_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 #endif /* APCLI_CONNECTION_TRIAL */
 
 		NdisZeroMemory(apcli_entry->CfgSsid, MAX_LEN_OF_SSID);
-		NdisMoveMemory(apcli_entry->CfgSsid, arg, strlen(arg));
+		memmove(apcli_entry->CfgSsid, arg, strlen(arg));
 		apcli_entry->CfgSsidLen = (UCHAR)strlen(arg);
 		success = TRUE;
 
@@ -5955,7 +5955,7 @@ INT Set_ApCli_Ssid_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 			apcli_entry->PSKLen > 0)
 		{
 			NdisZeroMemory(PskKey, 100);
-			NdisMoveMemory(PskKey, apcli_entry->PSK, apcli_entry->PSKLen);
+			memmove(PskKey, apcli_entry->PSK, apcli_entry->PSKLen);
 
 			RT_CfgSetWPAPSKKey(pAd, (PSTRING)PskKey,
 									apcli_entry->PSKLen,
@@ -6228,7 +6228,7 @@ INT	Set_ApCli_WPAPSK_Proc(
 	if (retval == FALSE)
 		return FALSE;
 
-	NdisMoveMemory(pApCliEntry->PSK, arg, strlen(arg));
+	memmove(pApCliEntry->PSK, arg, strlen(arg));
 	pApCliEntry->PSKLen = strlen(arg);
 
 	return TRUE;
@@ -6766,7 +6766,7 @@ INT	Set_EAPIfName_Proc(
 		if (strlen(macptr) > 0)
 		{
 			pAd->ApCfg.EAPifname_len[i] = strlen(macptr);
-			NdisMoveMemory(pAd->ApCfg.EAPifname[i], macptr, strlen(macptr));
+			memmove(pAd->ApCfg.EAPifname[i], macptr, strlen(macptr));
 			DBGPRINT(RT_DEBUG_TRACE, ("NO.%d EAPifname=%s, len=%d\n", i,
 														pAd->ApCfg.EAPifname[i],
 														pAd->ApCfg.EAPifname_len[i]));
@@ -6787,7 +6787,7 @@ INT	Set_PreAuthIfName_Proc(
 		if (strlen(macptr) > 0)
 		{
 			pAd->ApCfg.PreAuthifname_len[i] = strlen(macptr);
-			NdisMoveMemory(pAd->ApCfg.PreAuthifname[i], macptr, strlen(macptr));
+			memmove(pAd->ApCfg.PreAuthifname[i], macptr, strlen(macptr));
 			DBGPRINT(RT_DEBUG_TRACE, ("NO.%d PreAuthifname=%s, len=%d\n", i,
 														pAd->ApCfg.PreAuthifname[i],
 														pAd->ApCfg.PreAuthifname_len[i]));
@@ -6871,7 +6871,7 @@ INT	Set_RADIUS_Key_Proc(
 			PRADIUS_SRV_INFO pSrvInfo = &pAd->ApCfg.MBSSID[apidx].radius_srv_info[srv_cnt];
 
 			pSrvInfo->radius_key_len = strlen(macptr);
-			NdisMoveMemory(pSrvInfo->radius_key, macptr, pSrvInfo->radius_key_len);
+			memmove(pSrvInfo->radius_key, macptr, pSrvInfo->radius_key_len);
 			srv_cnt ++;
 			DBGPRINT(RT_DEBUG_TRACE, ("IF(ra%d), radius_key(seq-%d)=%s, len=%d\n",
 										apidx, srv_cnt,
@@ -6913,7 +6913,7 @@ INT Set_McastPhyMode(
 	switch (PhyMode)
 	{
 		case MCAST_DISABLE: /* disable */
-			NdisMoveMemory(&pAd->CommonCfg.MCastPhyMode, &pAd->MacTab.Content[MCAST_WCID].HTPhyMode, sizeof(HTTRANSMIT_SETTING));
+			memmove(&pAd->CommonCfg.MCastPhyMode, &pAd->MacTab.Content[MCAST_WCID].HTPhyMode, sizeof(HTTRANSMIT_SETTING));
 			break;
 
 		case MCAST_CCK:	/* CCK */
@@ -7228,24 +7228,24 @@ VOID RTMPApCliAddKey(
 			    if (pApCliEntry->AuthMode == Ndis802_11AuthModeWPANone)
 	            		{
 		                NdisZeroMemory(pApCliEntry->PMK, 32);
-		                NdisMoveMemory(pApCliEntry->PMK, pKey->KeyMaterial, pKey->KeyLength);
+		                memmove(pApCliEntry->PMK, pKey->KeyMaterial, pKey->KeyLength);
 	                		goto end;
 	            		}
 			    /* Update PTK */
 			    NdisZeroMemory(&pMacEntry->PairwiseKey, sizeof(CIPHER_KEY));
 	            		pMacEntry->PairwiseKey.KeyLen = LEN_TK;
-	            		NdisMoveMemory(pMacEntry->PairwiseKey.Key, pKey->KeyMaterial, LEN_TK);
+	            		memmove(pMacEntry->PairwiseKey.Key, pKey->KeyMaterial, LEN_TK);
 
 		            if (pApCliEntry->PairCipher == Ndis802_11Encryption2Enabled)
 		            {
-		                NdisMoveMemory(pMacEntry->PairwiseKey.RxMic, pKey->KeyMaterial + LEN_TK, LEN_TKIP_MIC);
-		                NdisMoveMemory(pMacEntry->PairwiseKey.TxMic, pKey->KeyMaterial + LEN_TK + LEN_TKIP_MIC, LEN_TKIP_MIC);
+		                memmove(pMacEntry->PairwiseKey.RxMic, pKey->KeyMaterial + LEN_TK, LEN_TKIP_MIC);
+		                memmove(pMacEntry->PairwiseKey.TxMic, pKey->KeyMaterial + LEN_TK + LEN_TKIP_MIC, LEN_TKIP_MIC);
 		            }
 		            else
 
 		            {
-		            	NdisMoveMemory(pMacEntry->PairwiseKey.TxMic, pKey->KeyMaterial + LEN_TK, LEN_TKIP_MIC);
-		                NdisMoveMemory(pMacEntry->PairwiseKey.RxMic, pKey->KeyMaterial + LEN_TK + LEN_TKIP_MIC, LEN_TKIP_MIC);
+		            	memmove(pMacEntry->PairwiseKey.TxMic, pKey->KeyMaterial + LEN_TK, LEN_TKIP_MIC);
+		                memmove(pMacEntry->PairwiseKey.RxMic, pKey->KeyMaterial + LEN_TK + LEN_TKIP_MIC, LEN_TKIP_MIC);
 		            }
 
             /* Decide its ChiperAlg */
@@ -7281,18 +7281,18 @@ VOID RTMPApCliAddKey(
             pApCliEntry->DefaultKeyId = (pKey->KeyIndex & 0xFF);
             NdisZeroMemory(&pApCliEntry->SharedKey[pApCliEntry->DefaultKeyId], sizeof(CIPHER_KEY));
             pApCliEntry->SharedKey[pApCliEntry->DefaultKeyId].KeyLen = LEN_TK;
-            NdisMoveMemory(pApCliEntry->SharedKey[pApCliEntry->DefaultKeyId].Key, pKey->KeyMaterial, LEN_TK);
+            memmove(pApCliEntry->SharedKey[pApCliEntry->DefaultKeyId].Key, pKey->KeyMaterial, LEN_TK);
 
             if (pApCliEntry->GroupCipher == Ndis802_11Encryption2Enabled)
             {
-                NdisMoveMemory(pApCliEntry->SharedKey[pApCliEntry->DefaultKeyId].RxMic, pKey->KeyMaterial + LEN_TK, LEN_TKIP_MIC);
-                NdisMoveMemory(pApCliEntry->SharedKey[pApCliEntry->DefaultKeyId].TxMic, pKey->KeyMaterial + LEN_TK + LEN_TKIP_MIC, LEN_TKIP_MIC);
+                memmove(pApCliEntry->SharedKey[pApCliEntry->DefaultKeyId].RxMic, pKey->KeyMaterial + LEN_TK, LEN_TKIP_MIC);
+                memmove(pApCliEntry->SharedKey[pApCliEntry->DefaultKeyId].TxMic, pKey->KeyMaterial + LEN_TK + LEN_TKIP_MIC, LEN_TKIP_MIC);
             }
             else
 
             {
-            	NdisMoveMemory(pApCliEntry->SharedKey[pApCliEntry->DefaultKeyId].TxMic, pKey->KeyMaterial + LEN_TK, LEN_TKIP_MIC);
-                NdisMoveMemory(pApCliEntry->SharedKey[pApCliEntry->DefaultKeyId].RxMic, pKey->KeyMaterial + LEN_TK + LEN_TKIP_MIC, LEN_TKIP_MIC);
+            	memmove(pApCliEntry->SharedKey[pApCliEntry->DefaultKeyId].TxMic, pKey->KeyMaterial + LEN_TK, LEN_TKIP_MIC);
+                memmove(pApCliEntry->SharedKey[pApCliEntry->DefaultKeyId].RxMic, pKey->KeyMaterial + LEN_TK + LEN_TKIP_MIC, LEN_TKIP_MIC);
             }
 
             /* Update Shared Key CipherAlg */
@@ -7350,7 +7350,7 @@ VOID RTMPApCliAddKey(
 
 					/* set key material and key length */
  					pEntry->PairwiseKey.KeyLen = (UCHAR )pKey->KeyLength;
-					NdisMoveMemory(pEntry->PairwiseKey.Key, &pKey->KeyMaterial, pKey->KeyLength);
+					memmove(pEntry->PairwiseKey.Key, &pKey->KeyMaterial, pKey->KeyLength);
 
 					/* set Cipher type */
 					if (pKey->KeyLength == 5)
@@ -7380,7 +7380,7 @@ VOID RTMPApCliAddKey(
 
 				/*/ set key material and key length */
 				pApCliEntry->SharedKey[KeyIdx].KeyLen = (UCHAR) pKey->KeyLength;
-				NdisMoveMemory(pApCliEntry->SharedKey[KeyIdx].Key, &pKey->KeyMaterial, pKey->KeyLength);
+				memmove(pApCliEntry->SharedKey[KeyIdx].Key, &pKey->KeyMaterial, pKey->KeyLength);
 
 				/* Set Ciper type */
 				if (pKey->KeyLength == 5)
@@ -7569,7 +7569,7 @@ VOID RtmpHostapdSecuritySet(
 			RSNIE_Len[1]=*((UINT8 *)wrqin->u.data.pointer + 1);
 			DBGPRINT(RT_DEBUG_TRACE,( "IE1 %02x %02x\n",RSNIe[1],RSNIE_Len[1]));
 			pAd->ApCfg.MBSSID[apidx].RSNIE_Len[1] = RSNIE_Len[1];
-			NdisMoveMemory(pAd->ApCfg.MBSSID[apidx].RSN_IE[1], (UCHAR *)(wrqin->u.data.pointer)+2, RSNIE_Len[1]);
+			memmove(pAd->ApCfg.MBSSID[apidx].RSN_IE[1], (UCHAR *)(wrqin->u.data.pointer)+2, RSNIE_Len[1]);
 			offset_next_ie=RSNIE_Len[1]+2;
 		}
 		else
@@ -7584,7 +7584,7 @@ VOID RtmpHostapdSecuritySet(
 			break;
 		}
 		pAd->ApCfg.MBSSID[apidx].RSNIE_Len[0] = RSNIE_Len[0];
-		NdisMoveMemory(pAd->ApCfg.MBSSID[apidx].RSN_IE[0], ((UCHAR *)(wrqin->u.data.pointer))+2+offset_next_ie, RSNIE_Len[0]);
+		memmove(pAd->ApCfg.MBSSID[apidx].RSN_IE[0], ((UCHAR *)(wrqin->u.data.pointer))+2+offset_next_ie, RSNIE_Len[0]);
 		APMakeAllBssBeacon(pAd);
 		APUpdateAllBeaconFrame(pAd);
 	}
@@ -8298,14 +8298,14 @@ INT show_ed_stat_proc(struct rtmp_adapter *pAd, PSTRING arg)
 	RTMP_IRQ_LOCK(&pAd->irq_lock, irqflags);
 	start = pAd->ed_stat_sidx;
 	end = pAd->ed_stat_lidx;
-	NdisMoveMemory(&ed_stat[0], &pAd->ed_stat[0], sizeof(ed_stat));
-	NdisMoveMemory(&ed_2nd_stat[0], &pAd->ed_2nd_stat[0], sizeof(ed_2nd_stat));
-	NdisMoveMemory(&busy_stat[0], &pAd->ch_busy_stat[0], sizeof(busy_stat));
-	NdisMoveMemory(&idle_stat[0], &pAd->ch_idle_stat[0], sizeof(idle_stat));
-	NdisMoveMemory(&chk_time[0], &pAd->chk_time[0], sizeof(chk_time));
-	NdisMoveMemory(&trigger_stat[0], &pAd->ed_trigger_stat[0], sizeof(trigger_stat));
-	NdisMoveMemory(&silent_stat[0], &pAd->ed_silent_stat[0], sizeof(silent_stat));
-	NdisMoveMemory(&false_cca_stat[0], &pAd->false_cca_stat[0], sizeof(false_cca_stat));
+	memmove(&ed_stat[0], &pAd->ed_stat[0], sizeof(ed_stat));
+	memmove(&ed_2nd_stat[0], &pAd->ed_2nd_stat[0], sizeof(ed_2nd_stat));
+	memmove(&busy_stat[0], &pAd->ch_busy_stat[0], sizeof(busy_stat));
+	memmove(&idle_stat[0], &pAd->ch_idle_stat[0], sizeof(idle_stat));
+	memmove(&chk_time[0], &pAd->chk_time[0], sizeof(chk_time));
+	memmove(&trigger_stat[0], &pAd->ed_trigger_stat[0], sizeof(trigger_stat));
+	memmove(&silent_stat[0], &pAd->ed_silent_stat[0], sizeof(silent_stat));
+	memmove(&false_cca_stat[0], &pAd->false_cca_stat[0], sizeof(false_cca_stat));
 	RTMP_IRQ_UNLOCK(&pAd->irq_lock, irqflags);
 
 #ifdef CONFIG_AP_SUPPORT

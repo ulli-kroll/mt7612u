@@ -5977,7 +5977,7 @@ NDIS_STATUS ATEInit(
 	pATEInfo->Addr2[4] = 0xBB;
 	pATEInfo->Addr2[5] = 0xCC;
 
-	NdisMoveMemory(pATEInfo->Addr3, pATEInfo->Addr2, MAC_ADDR_LEN);
+	memmove(pATEInfo->Addr3, pATEInfo->Addr2, MAC_ADDR_LEN);
 
 	{
 		UINT32 data;
@@ -6001,8 +6001,8 @@ NDIS_STATUS ATEInit(
 	pATEInfo->Addr1[4] = 0xBB;
 	pATEInfo->Addr1[5] = 0xCC;
 
-	NdisMoveMemory(pATEInfo->Addr2, pATEInfo->Addr1, MAC_ADDR_LEN);
-	NdisMoveMemory(pATEInfo->Addr3, pATEInfo->Addr1, MAC_ADDR_LEN);
+	memmove(pATEInfo->Addr2, pATEInfo->Addr1, MAC_ADDR_LEN);
+	memmove(pATEInfo->Addr3, pATEInfo->Addr1, MAC_ADDR_LEN);
 	}
 	pATEInfo->bRxFER = 0;
 	pATEInfo->bQAEnabled = FALSE;

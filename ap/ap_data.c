@@ -1034,7 +1034,7 @@ VOID AP_AMPDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 	)
 	{
 #ifndef VENDOR_FEATURE1_SUPPORT
-		NdisMoveMemory((PUCHAR)(&pTxBlk->HeaderBuf[TXINFO_SIZE]), (PUCHAR)(&pMacEntry->CachedBuf[0]), TXWISize + sizeof(HEADER_802_11));
+		memmove(&pTxBlk->HeaderBuf[TXINFO_SIZE], &pMacEntry->CachedBuf[0], TXWISize + sizeof(HEADER_802_11));
 #else
 		pTxBlk->HeaderBuf = (UCHAR *)(pMacEntry->HeaderBuf);
 #endif /* VENDOR_FEATURE1_SUPPORT */
@@ -1286,7 +1286,7 @@ VOID AP_AMPDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 				pTxBlk->pSrcBufData -= LENGTH_802_1_H;
 				pTxBlk->SrcBufLen += LENGTH_802_1_H;
 
-				NdisMoveMemory(pTxBlk->pSrcBufData, pTxBlk->pExtraLlcSnapEncap, 6);
+				memmove(pTxBlk->pSrcBufData, pTxBlk->pExtraLlcSnapEncap, 6);
 			}
 
 			/* Construct and insert specific IV header to MPDU header */
@@ -1320,11 +1320,11 @@ VOID AP_AMPDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 			EXTRA_LLCSNAP_ENCAP_FROM_PKT_OFFSET(pTxBlk->pSrcBufData-2, pTxBlk->pExtraLlcSnapEncap);
 			if (pTxBlk->pExtraLlcSnapEncap)
 			{
-				NdisMoveMemory(pHeaderBufPtr, pTxBlk->pExtraLlcSnapEncap, 6);
+				memmove(pHeaderBufPtr, pTxBlk->pExtraLlcSnapEncap, 6);
 
 				pHeaderBufPtr += 6;
 				/* get 2 octets (TypeofLen) */
-				NdisMoveMemory(pHeaderBufPtr, pTxBlk->pSrcBufData-2, 2);
+				memmove(pHeaderBufPtr, pTxBlk->pSrcBufData-2, 2);
 
 				pHeaderBufPtr += 2;
 				pTxBlk->MpduHeaderLen += LENGTH_802_1_H;
@@ -1352,15 +1352,13 @@ VOID AP_AMPDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 
 
 		NdisZeroMemory((PUCHAR)(&pMacEntry->CachedBuf[0]), sizeof(pMacEntry->CachedBuf));
-		NdisMoveMemory((PUCHAR)(&pMacEntry->CachedBuf[0]),
-						(PUCHAR)(&pTxBlk->HeaderBuf[TXINFO_SIZE]),
+		memmove(&pMacEntry->CachedBuf[0], &pTxBlk->HeaderBuf[TXINFO_SIZE],
 						(pHeaderBufPtr - (PUCHAR)(&pTxBlk->HeaderBuf[TXINFO_SIZE])));
 
 #ifdef VENDOR_FEATURE1_SUPPORT
 		/* use space to get performance enhancement */
 		NdisZeroMemory((PUCHAR)(&pMacEntry->HeaderBuf[0]), sizeof(pMacEntry->HeaderBuf));
-		NdisMoveMemory((PUCHAR)(&pMacEntry->HeaderBuf[0]),
-						(PUCHAR)(&pTxBlk->HeaderBuf[0]),
+		memmove(&pMacEntry->HeaderBuf[0], &pTxBlk->HeaderBuf[0],
 						(pHeaderBufPtr - (PUCHAR)(&pTxBlk->HeaderBuf[0])));
 #endif /* VENDOR_FEATURE1_SUPPORT */
 
@@ -1476,10 +1474,7 @@ VOID AP_AMPDU_Frame_Tx_Hdr_Trns(
 	{
 		/* It should be cleared!!! */
 		/*NdisZeroMemory((PUCHAR)(&pTxBlk->HeaderBuf[0]), sizeof(pTxBlk->HeaderBuf)); */
-		NdisMoveMemory((PUCHAR)
-			       (&pTxBlk->HeaderBuf[TXINFO_SIZE]),
-			       (PUCHAR) (&pMacEntry->CachedBuf[0]),
-			       TXWISize + WIFI_INFO_SIZE);
+		memmove(&pTxBlk->HeaderBuf[TXINFO_SIZE], &pMacEntry->CachedBuf[0],TXWISize + WIFI_INFO_SIZE);
 
 		pWiBufPtr = (PUCHAR)(&pTxBlk->HeaderBuf[TXINFO_SIZE + TXWISize]);
 		APBuildCacheWifiInfo(pAd, pTxBlk, pWiBufPtr);
@@ -1539,8 +1534,7 @@ VOID AP_AMPDU_Frame_Tx_Hdr_Trns(
 		RTMPWriteTxWI_Data(pAd, (TXWI_STRUC *)(&pTxBlk->HeaderBuf[TXINFO_SIZE]), pTxBlk);
 
 		NdisZeroMemory((PUCHAR)(&pMacEntry->CachedBuf[0]), sizeof(pMacEntry->CachedBuf));
-		NdisMoveMemory((PUCHAR)(&pMacEntry->CachedBuf[0]),
-						(PUCHAR)(&pTxBlk->HeaderBuf[TXINFO_SIZE]),
+		memmove(&pMacEntry->CachedBuf[0], pTxBlk->HeaderBuf[TXINFO_SIZE],
 						TXWISize + WIFI_INFO_SIZE);
 
 
@@ -1713,7 +1707,7 @@ VOID AP_AMSDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 		subFrameHeader = pHeaderBufPtr;
 		subFramePayloadLen = pTxBlk->SrcBufLen;
 
-		NdisMoveMemory(subFrameHeader, pTxBlk->pSrcBufHeader, 12);
+		memmove(subFrameHeader, pTxBlk->pSrcBufHeader, 12);
 
 #ifdef APCLI_SUPPORT
 		if(TX_BLK_TEST_FLAG(pTxBlk, fTX_bApCliPacket))
@@ -1721,7 +1715,7 @@ VOID AP_AMSDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 			{
 				pApCliEntry = &pAd->ApCfg.ApCliTab[pTxBlk->pMacEntry->wdev_idx];
 				if (pApCliEntry->Valid)
-					NdisMoveMemory(&subFrameHeader[6] , pApCliEntry->wdev.if_addr, 6);
+					memmove(&subFrameHeader[6] , pApCliEntry->wdev.if_addr, 6);
 			}
 		}
 #endif /* APCLI_SUPPORT */
@@ -1739,10 +1733,10 @@ VOID AP_AMSDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 
 		if (pTxBlk->pExtraLlcSnapEncap)
 		{
-			NdisMoveMemory(pHeaderBufPtr, pTxBlk->pExtraLlcSnapEncap, 6);
+			memmove(pHeaderBufPtr, pTxBlk->pExtraLlcSnapEncap, 6);
 			pHeaderBufPtr += 6;
 			/* get 2 octets (TypeofLen) */
-			NdisMoveMemory(pHeaderBufPtr, pTxBlk->pSrcBufData-2, 2);
+			memmove(pHeaderBufPtr, pTxBlk->pSrcBufData-2, 2);
 			pHeaderBufPtr += 2;
 			pTxBlk->MpduHeaderLen += LENGTH_802_1_H;
 			subFramePayloadLen += LENGTH_802_1_H;
@@ -2049,7 +2043,7 @@ VOID AP_Legacy_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 			pTxBlk->pSrcBufData -= LENGTH_802_1_H;
 			pTxBlk->SrcBufLen  += LENGTH_802_1_H;
 
-			NdisMoveMemory(pTxBlk->pSrcBufData, pTxBlk->pExtraLlcSnapEncap, 6);
+			memmove(pTxBlk->pSrcBufData, pTxBlk->pExtraLlcSnapEncap, 6);
 		}
 
 		/* Construct and insert specific IV header to MPDU header */
@@ -2088,12 +2082,12 @@ VOID AP_Legacy_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 		{
 			UCHAR vlan_size;
 
-			NdisMoveMemory(pHeaderBufPtr, pTxBlk->pExtraLlcSnapEncap, 6);
+			memmove(pHeaderBufPtr, pTxBlk->pExtraLlcSnapEncap, 6);
 			pHeaderBufPtr += 6;
 			/* skip vlan tag */
 			vlan_size =  (bVLANPkt) ? LENGTH_802_1Q : 0;
 			/* get 2 octets (TypeofLen) */
-			NdisMoveMemory(pHeaderBufPtr, pTxBlk->pSrcBufHeader+12+vlan_size, 2);
+			memmove(pHeaderBufPtr, pTxBlk->pSrcBufHeader+12+vlan_size, 2);
 			pHeaderBufPtr += 2;
 			pTxBlk->MpduHeaderLen += LENGTH_802_1_H;
 		}
@@ -2459,7 +2453,7 @@ VOID AP_Fragment_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 			pTxBlk->pSrcBufData -= LENGTH_802_1_H;
 			pTxBlk->SrcBufLen  += LENGTH_802_1_H;
 
-			NdisMoveMemory(pTxBlk->pSrcBufData, pTxBlk->pExtraLlcSnapEncap, 6);
+			memmove(pTxBlk->pSrcBufData, pTxBlk->pExtraLlcSnapEncap, 6);
 		}
 
 		/* Construct and insert specific IV header to MPDU header */
@@ -2486,12 +2480,12 @@ VOID AP_Fragment_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 		{
 			UCHAR vlan_size;
 
-			NdisMoveMemory(pHeaderBufPtr, pTxBlk->pExtraLlcSnapEncap, 6);
+			memmove(pHeaderBufPtr, pTxBlk->pExtraLlcSnapEncap, 6);
 			pHeaderBufPtr += 6;
 			/* skip vlan tag */
 			vlan_size =  (bVLANPkt) ? LENGTH_802_1Q : 0;
 			/* get 2 octets (TypeofLen) */
-			NdisMoveMemory(pHeaderBufPtr, pTxBlk->pSrcBufHeader+12+vlan_size, 2);
+			memmove(pHeaderBufPtr, pTxBlk->pSrcBufHeader+12+vlan_size, 2);
 			pHeaderBufPtr += 2;
 			pTxBlk->MpduHeaderLen += LENGTH_802_1_H;
 		}
@@ -2510,7 +2504,7 @@ VOID AP_Fragment_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 			NOTE: DON'T refer the skb->len directly after following copy. Becasue the length is not adjust
 				to correct lenght, refer to pTxBlk->SrcBufLen for the packet length in following progress.
 		*/
-		NdisMoveMemory(pTxBlk->pSrcBufData + pTxBlk->SrcBufLen, &pAd->PrivateInfo.Tx.MIC[0], 8);
+		memmove(pTxBlk->pSrcBufData + pTxBlk->SrcBufLen, &pAd->PrivateInfo.Tx.MIC[0], 8);
 		pTxBlk->SrcBufLen += 8;
 		pTxBlk->TotalFrameLen += 8;
 	}
@@ -2592,7 +2586,7 @@ VOID AP_Fragment_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 			RELEASE_NDIS_PACKET(pAd, pTxBlk->pPacket, NDIS_STATUS_FAILURE);
 			return;
 		}
-		NdisMoveMemory(tmp_ptr, pTxBlk->pSrcBufData, pTxBlk->SrcBufLen);
+		memmove(tmp_ptr, pTxBlk->pSrcBufData, pTxBlk->SrcBufLen);
 	}
 #endif /* SOFT_ENCRYPT */
 
@@ -2634,7 +2628,7 @@ VOID AP_Fragment_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 		{
 			UCHAR	ext_offset = 0;
 
-			NdisMoveMemory(pTxBlk->pSrcBufData, tmp_ptr + buf_offset, pTxBlk->SrcBufLen);
+			memmove(pTxBlk->pSrcBufData, tmp_ptr + buf_offset, pTxBlk->SrcBufLen);
 			buf_offset += pTxBlk->SrcBufLen;
 
 			/* Encrypt the MPDU data by software */
@@ -2776,10 +2770,10 @@ VOID AP_ARalink_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 
 			if (pTxBlk->pExtraLlcSnapEncap)
 			{
-				NdisMoveMemory(pHeaderBufPtr, pTxBlk->pExtraLlcSnapEncap, 6);
+				memmove(pHeaderBufPtr, pTxBlk->pExtraLlcSnapEncap, 6);
 				pHeaderBufPtr += 6;
 				/* get 2 octets (TypeofLen) */
-				NdisMoveMemory(pHeaderBufPtr, pTxBlk->pSrcBufData-2, 2);
+				memmove(pHeaderBufPtr, pTxBlk->pSrcBufData-2, 2);
 				pHeaderBufPtr += 2;
 				pTxBlk->MpduHeaderLen += LENGTH_802_1_H;
 			}
@@ -2797,10 +2791,10 @@ VOID AP_ARalink_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 				A-Ralink sub-sequent frame header is the same as 802.3 header.
 					DA(6)+SA(6)+FrameType(2)
 			*/
-			NdisMoveMemory(pHeaderBufPtr, pTxBlk->pSrcBufHeader, 12);
+			memmove(pHeaderBufPtr, pTxBlk->pSrcBufHeader, 12);
 			pHeaderBufPtr += 12;
 			/* get 2 octets (TypeofLen) */
-			NdisMoveMemory(pHeaderBufPtr, pTxBlk->pSrcBufData-2, 2);
+			memmove(pHeaderBufPtr, pTxBlk->pSrcBufData-2, 2);
 			pHeaderBufPtr += 2;
 			pTxBlk->MpduHeaderLen = ARALINK_SUBHEAD_LEN;
 		}
@@ -3740,7 +3734,7 @@ VOID APRxEAPOLFrameIndicate(
 					/*  For Preventing ShardKey Table is cleared by remove key procedure. */
     				apcli_entry->SharedKey[idx].CipherAlg = CipherAlg;
 					apcli_entry->SharedKey[idx].KeyLen = sup_info->DesireSharedKey[idx].KeyLen;
-					NdisMoveMemory(apcli_entry->SharedKey[idx].Key,
+					memmove(apcli_entry->SharedKey[idx].Key,
 									   sup_info->DesireSharedKey[idx].Key,
 									   sup_info->DesireSharedKey[idx].KeyLen);
     				}
@@ -3777,7 +3771,7 @@ VOID APRxEAPOLFrameIndicate(
 #endif /* DOT1X_SUPPORT */
 	{
 		pTmpBuf = pRxBlk->pData - LENGTH_802_11;
-		NdisMoveMemory(pTmpBuf, pRxBlk->pHeader, LENGTH_802_11);
+		memmove(pTmpBuf, pRxBlk->pHeader, LENGTH_802_11);
 		REPORT_MGMT_FRAME_TO_MLME(pAd, pRxBlk->wcid, pTmpBuf,
 							pRxBlk->DataSize + LENGTH_802_11,
 							pRxBlk->rssi[0], pRxBlk->rssi[1], pRxBlk->rssi[2],

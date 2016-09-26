@@ -167,8 +167,8 @@ VOID	RTMPInitWepEngine(
 
 	/* WEP seed construction */
 	NdisZeroMemory(seed, 16);
-	NdisMoveMemory(seed, pIv, 3);
-	NdisMoveMemory(&seed[3], pKey, KeyLen);
+	memmove(seed, pIv, 3);
+	memmove(&seed[3], pKey, KeyLen);
 	seed_len = 3 + KeyLen;
 
 	/* RC4 uses a pseudo-random number generator (PRNG)
@@ -201,7 +201,7 @@ VOID RTMPConstructWEPIVHdr(
 {
 	NdisZeroMemory(iv_hdr, LEN_WEP_IV_HDR);
 
-	NdisMoveMemory(iv_hdr, pn, LEN_WEP_TSC);
+	memmove(iv_hdr, pn, LEN_WEP_TSC);
 
 	/* Append key index */
 	iv_hdr[3] = (key_idx << 6);
@@ -260,7 +260,7 @@ BOOLEAN	RTMPSoftEncryptWEP(
 	FCSCRC32 = cpu2le32(FCSCRC32);
 
 	/* Append 4-bytes ICV after the MPDU data */
-	NdisMoveMemory(pData + DataByteCnt, (PUCHAR)&FCSCRC32, LEN_ICV);
+	memmove(pData + DataByteCnt, (PUCHAR)&FCSCRC32, LEN_ICV);
 
 	/* Encrypt the MPDU plaintext data and ICV using ARC4 with a seed */
 	ARC4_Compute(ARC4_CTX, pData, DataByteCnt + LEN_ICV, pData);
@@ -348,7 +348,7 @@ BOOLEAN	RTMPSoftDecryptWEP(
 	plaintext_len = ciphertext_len - LEN_ICV;
 
 	/* Extract peer's the ICV */
-	NdisMoveMemory(&trailfcs, plaintext_ptr + plaintext_len, LEN_ICV);
+	memmove(&trailfcs, plaintext_ptr + plaintext_len, LEN_ICV);
 
 	/* WEP recomputes the ICV and
 	   bit-wise compares it with the decrypted ICV from the MPDU. */

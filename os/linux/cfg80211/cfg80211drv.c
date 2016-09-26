@@ -644,7 +644,7 @@ BOOLEAN CFG80211DRV_OpsLeave(
 
     DeAuthReq.Reason = REASON_DEAUTH_STA_LEAVING;
     pMsgElem->MsgLen = sizeof(MLME_DEAUTH_REQ_STRUCT);
-    NdisMoveMemory(pMsgElem->Msg, &DeAuthReq, sizeof(MLME_DEAUTH_REQ_STRUCT));
+    memmove(pMsgElem->Msg, &DeAuthReq, sizeof(MLME_DEAUTH_REQ_STRUCT));
     MlmeDeauthReqAction(pAd, pMsgElem);
     os_free_mem(NULL, pMsgElem);
 	pMsgElem = NULL;
@@ -791,7 +791,7 @@ BOOLEAN CFG80211DRV_StaKeyAdd(
 		{
 			// no PN is passed, PN is useless in PMF_CalculateBIPMIC()
 			NdisZeroMemory(&pPmfCfg->IPN[pKeyInfo->KeyId -4][0], LEN_WPA_TSC);
-			NdisMoveMemory(&pPmfCfg->IGTK[pKeyInfo->KeyId -4][0], pKeyInfo->KeyBuf, pKeyInfo->KeyLen);
+			memmove(&pPmfCfg->IGTK[pKeyInfo->KeyId -4][0], pKeyInfo->KeyBuf, pKeyInfo->KeyLen);
 		}
 		else
 		{
@@ -1391,7 +1391,7 @@ VOID CFG80211_RegRuleApply(
 				if (ChanId == pAd->TxPower[IdPwr].Channel)
 				{
 					/* init the channel info. */
-					NdisMoveMemory(&pAd->ChannelList[RecId],
+					memmove(&pAd->ChannelList[RecId],
 									&pAd->TxPower[IdPwr],
 									sizeof(CHANNEL_TX_POWER));
 

@@ -255,7 +255,7 @@ INT ATESetUpFrame(
 
 		/* fill 802.11 header */
 		{
-			NdisMoveMemory(&(pAd->NullFrame), TemplateFrame,
+			memmove(&(pAd->NullFrame), TemplateFrame,
 			sizeof(HEADER_802_11));
 		}
 

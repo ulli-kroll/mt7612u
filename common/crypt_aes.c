@@ -1191,7 +1191,7 @@ VOID AES_CMAC (
      *    - Execute RT_AES_Encrypt procedure.
      */
     PlainBlockStart = 0;
-    NdisMoveMemory(X, Const_Zero, AES_BLOCK_SIZES);
+    memmove(X, Const_Zero, AES_BLOCK_SIZES);
     while ((PlainTextLength - PlainBlockStart) > AES_BLOCK_SIZES)
     {
         for (Index = 0; Index < AES_BLOCK_SIZES; Index++)
@@ -1206,7 +1206,7 @@ VOID AES_CMAC (
                 Y[Index] = PlainText[PlainBlockStart + Index]^X[Index]^SubKey1[Index];
     } else {
         NdisZeroMemory(Y, AES_BLOCK_SIZES);
-        NdisMoveMemory(Y, &PlainText[PlainBlockStart], (PlainTextLength - PlainBlockStart));
+        memmove(Y, &PlainText[PlainBlockStart], (PlainTextLength - PlainBlockStart));
         Y[(PlainTextLength - PlainBlockStart)] = 0x80;
         for (Index = 0; Index < AES_BLOCK_SIZES; Index++)
                 Y[Index] = Y[Index]^X[Index]^SubKey2[Index];
@@ -1309,7 +1309,7 @@ VOID AES_CBC_Encrypt (
         CipherBlockStart += CipherBlockSize;
     }
 
-    NdisMoveMemory(Block, (&PlainText[0] + PlainBlockStart), (PlainTextLength - PlainBlockStart));
+    memmove(Block, (&PlainText[0] + PlainBlockStart), (PlainTextLength - PlainBlockStart));
     NdisFillMemory((Block + (((UINT) AES_BLOCK_SIZES) -PaddingSize)), PaddingSize, (UINT8) PaddingSize);
     if (CipherBlockStart == 0) {
        for (Index = 0; Index < AES_BLOCK_SIZES; Index++)
@@ -1473,8 +1473,8 @@ INT AES_Key_Wrap (
      */
     Number_Of_Block = PlainTextLength / AES_KEY_WRAP_BLOCK_SIZE; /* 64 bits each block
 */
-    NdisMoveMemory(IV, Default_IV, AES_KEY_WRAP_IV_LENGTH);
-    NdisMoveMemory(pResult, PlainText, PlainTextLength);
+    memmove(IV, Default_IV, AES_KEY_WRAP_IV_LENGTH);
+    memmove(pResult, PlainText, PlainTextLength);
 
 
     /*
@@ -1484,14 +1484,14 @@ INT AES_Key_Wrap (
     {
         for (Index_i = 0;Index_i < Number_Of_Block;Index_i++)
         {
-            NdisMoveMemory(Block_Input, IV, 8);
-            NdisMoveMemory(Block_Input + 8, pResult + (Index_i*8), 8);
+            memmove(Block_Input, IV, 8);
+            memmove(Block_Input + 8, pResult + (Index_i*8), 8);
             Temp_Length = sizeof(Block_B);
             RT_AES_Encrypt(Block_Input, AES_BLOCK_SIZES , Key, KeyLength, Block_B, &Temp_Length);
 
-            NdisMoveMemory(IV, Block_B, 8);
+            memmove(IV, Block_B, 8);
             IV[7] = Block_B[7] ^ ((Number_Of_Block * Index_j) + Index_i + 1);
-            NdisMoveMemory(pResult + (Index_i*8), (Block_B + 8), 8);
+            memmove(pResult + (Index_i*8), (Block_B + 8), 8);
         } /* End of for */
     } /* End of for */
 
@@ -1500,8 +1500,8 @@ INT AES_Key_Wrap (
      * 3. Output the results
      */
     *CipherTextLength = PlainTextLength + AES_KEY_WRAP_IV_LENGTH;
-    NdisMoveMemory(CipherText, IV, AES_KEY_WRAP_IV_LENGTH);
-    NdisMoveMemory(CipherText + AES_KEY_WRAP_IV_LENGTH, pResult, PlainTextLength);
+    memmove(CipherText, IV, AES_KEY_WRAP_IV_LENGTH);
+    memmove(CipherText + AES_KEY_WRAP_IV_LENGTH, pResult, PlainTextLength);
 
 /*    kfree(pResult);
 */
@@ -1568,8 +1568,8 @@ INT AES_Key_Unwrap (
      */
     Number_Of_Block = PlainLength / AES_KEY_WRAP_BLOCK_SIZE; /* 64 bits each block
 */
-    NdisMoveMemory(IV, CipherText, AES_KEY_WRAP_IV_LENGTH);
-    NdisMoveMemory(pResult, CipherText + AES_KEY_WRAP_IV_LENGTH, PlainLength);
+    memmove(IV, CipherText, AES_KEY_WRAP_IV_LENGTH);
+    memmove(pResult, CipherText + AES_KEY_WRAP_IV_LENGTH, PlainLength);
 
 
     /*
@@ -1580,13 +1580,13 @@ INT AES_Key_Unwrap (
         for (Index_i = (Number_Of_Block - 1);Index_i >= 0;Index_i--)
         {
             IV[7] = IV[7] ^ ((Number_Of_Block * Index_j) + Index_i + 1);
-            NdisMoveMemory(Block_Input, IV, 8);
-            NdisMoveMemory(Block_Input + 8, pResult + (Index_i*8), 8);
+            memmove(Block_Input, IV, 8);
+            memmove(Block_Input + 8, pResult + (Index_i*8), 8);
             Temp_Length = sizeof(Block_B);
             RT_AES_Decrypt(Block_Input, AES_BLOCK_SIZES , Key, KeyLength, Block_B, &Temp_Length);
 
-            NdisMoveMemory(IV, Block_B, 8);
-            NdisMoveMemory(pResult + (Index_i*8), (Block_B + 8), 8);
+            memmove(IV, Block_B, 8);
+            memmove(pResult + (Index_i*8), (Block_B + 8), 8);
         } /* End of for */
     } /* End of for */
 
@@ -1594,7 +1594,7 @@ INT AES_Key_Unwrap (
      * 3. Output the results
      */
     *PlainTextLength = PlainLength;
-    NdisMoveMemory(PlainText, pResult, PlainLength);
+    memmove(PlainText, pResult, PlainLength);
 
 /*    kfree(pResult);
 */

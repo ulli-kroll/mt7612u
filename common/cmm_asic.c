@@ -1492,7 +1492,7 @@ VOID AsicEnableIbssSync(struct rtmp_adapter *pAd)
 	{
 		TXWI_STRUC localTxWI;
 
-		NdisMoveMemory((PUCHAR)&localTxWI, (PUCHAR)&pAd->BeaconTxWI, TXWISize);
+		memmove(&localTxWI, &pAd->BeaconTxWI, TXWISize);
 		RTMPWIEndianChange(pAd, (PUCHAR)&localTxWI, TYPE_TXWI);
 #ifdef RLT_MAC
 		if (pAd->chipCap.hif_type == HIF_RLT)
@@ -1853,7 +1853,7 @@ VOID AsicSetEdcaParm(struct rtmp_adapter *pAd, PEDCA_PARM pEdcaParm)
 #endif /* CONFIG_STA_SUPPORT */
 		RTMP_IO_WRITE32(pAd, WMM_AIFSN_CFG, AifsnCsr.word);
 
-		NdisMoveMemory(&pAd->CommonCfg.APEdcaParm, pEdcaParm, sizeof(EDCA_PARM));
+		memmove(&pAd->CommonCfg.APEdcaParm, pEdcaParm, sizeof(EDCA_PARM));
 		if (!ADHOC_ON(pAd))
 		{
 			DBGPRINT(RT_DEBUG_TRACE,("EDCA [#%d]: AIFSN CWmin CWmax  TXOP(us)  ACM\n", pEdcaParm->EdcaUpdateCount));

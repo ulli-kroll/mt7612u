@@ -600,7 +600,7 @@ VOID RTMP_CFG80211_VirtualIF_Init(
 	RTMP_OS_NETDEV_SET_PRIV(new_dev_p, pAd);
 	pNetDevOps->needProtcted = TRUE;
 
-	NdisMoveMemory(&pNetDevOps->devAddr[0], &pAd->CurrentAddress[0], MAC_ADDR_LEN);
+	memmove(&pNetDevOps->devAddr[0], &pAd->CurrentAddress[0], MAC_ADDR_LEN);
 
 	//CFG_TODO
 	/*
@@ -887,7 +887,7 @@ VOID RTMP_CFG80211_DummyP2pIf_Init(
 	}
 
 	RTMP_OS_NETDEV_SET_PRIV(new_dev_p, pAd);
-	NdisMoveMemory(&pNetDevOps->devAddr[0], &pAd->CurrentAddress[0], MAC_ADDR_LEN);
+	memmove(&pNetDevOps->devAddr[0], &pAd->CurrentAddress[0], MAC_ADDR_LEN);
 	pNetDevOps->needProtcted = TRUE;
 
 	pWdev = kzalloc(sizeof(*pWdev), GFP_KERNEL);

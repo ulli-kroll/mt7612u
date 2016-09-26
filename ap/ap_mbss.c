@@ -141,7 +141,7 @@ VOID MBSS_Init(struct rtmp_adapter *pAd, RTMP_OS_NETDEV_OP_HOOK *pNetDevOps)
 		netDevHook.wdev = wdev;
 
 		/* Init MAC address of virtual network interface */
-		NdisMoveMemory(&netDevHook.devAddr[0], &wdev->bssid[0], MAC_ADDR_LEN);
+		memmove(&netDevHook.devAddr[0], &wdev->bssid[0], MAC_ADDR_LEN);
 
 		/* register this device to OS */
 		status = RtmpOSNetDevAttach(pAd->OpMode, pDevNew, &netDevHook);

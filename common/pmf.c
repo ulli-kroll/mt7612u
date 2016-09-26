@@ -186,7 +186,7 @@ VOID PMF_PeerSAQueryReqAction(
                         return;
                 }
 
-                NdisMoveMemory(&TransactionID, &Elem->Msg[LENGTH_802_11+2], sizeof(USHORT));
+                memmove(&TransactionID, &Elem->Msg[LENGTH_802_11+2], sizeof(USHORT));
 
                 /* Response the SA Query */
 		os_alloc_mem(NULL, (UCHAR **)&pOutBuffer, MAX_LEN_OF_MLME_BUFFER);
@@ -258,7 +258,7 @@ VOID PMF_PeerSAQueryRspAction(
                         return;
                 }
 
-                NdisMoveMemory(&TransactionID, &Elem->Msg[LENGTH_802_11+2], sizeof(USHORT));
+                memmove(&TransactionID, &Elem->Msg[LENGTH_802_11+2], sizeof(USHORT));
 
                 if (pEntry->TransactionID == TransactionID)
                 {
@@ -348,7 +348,7 @@ VOID PMF_ConstructBIPAad(
 	aad_len = 2;
 
 	/* Append Addr 1, 2 & 3 */
-	NdisMoveMemory(&aad_hdr[aad_len], pHdr + 4, 3 * MAC_ADDR_LEN);
+	memmove(&aad_hdr[aad_len], pHdr + 4, 3 * MAC_ADDR_LEN);
 	aad_len += (3 * MAC_ADDR_LEN);
 }
 
@@ -378,18 +378,18 @@ BOOLEAN PMF_CalculateBIPMIC(
 	NdisZeroMemory(m_buf, MGMT_DMA_BUFFER_SIZE);
 
 	/* Construct the concatenation */
-	NdisMoveMemory(m_buf, pAadHdr, LEN_PMF_BIP_AAD_HDR);
+	memmove(m_buf, pAadHdr, LEN_PMF_BIP_AAD_HDR);
  	total_len = LEN_PMF_BIP_AAD_HDR;
 
 	/* Append the Mgmt frame into the concatenation */
-	NdisMoveMemory(&m_buf[total_len], pFrameBuf, FrameLen);
+	memmove(&m_buf[total_len], pFrameBuf, FrameLen);
  	total_len += FrameLen;
 
 	/* Compute AES-128-CMAC over the concatenation */
         AES_CMAC(m_buf, total_len, pKey, 16, cmac_output, &mlen);
 
 	/* Truncate the first 64-bits */
-	NdisMoveMemory(pBipMic, cmac_output, LEN_PMF_BIP_MIC);
+	memmove(pBipMic, cmac_output, LEN_PMF_BIP_MIC);
 
 	os_free_mem(NULL, m_buf);
 
@@ -420,38 +420,38 @@ VOID PMF_DerivePTK(
 
 	/* Get smaller address */
 	if (RTMPCompareMemory(SA, AA, 6) == 1)
-		NdisMoveMemory(concatenation, AA, 6);
+		memmove(concatenation, AA, 6);
 	else
-		NdisMoveMemory(concatenation, SA, 6);
+		memmove(concatenation, SA, 6);
 	CurrPos += 6;
 
 	/* Get larger address */
 	if (RTMPCompareMemory(SA, AA, 6) == 1)
-		NdisMoveMemory(&concatenation[CurrPos], SA, 6);
+		memmove(&concatenation[CurrPos], SA, 6);
 	else
-		NdisMoveMemory(&concatenation[CurrPos], AA, 6);
+		memmove(&concatenation[CurrPos], AA, 6);
 
 	/* store the larger mac address for backward compatible of
 	   ralink proprietary STA-key issue */
-	NdisMoveMemory(temp, &concatenation[CurrPos], MAC_ADDR_LEN);
+	memmove(temp, &concatenation[CurrPos], MAC_ADDR_LEN);
 	CurrPos += 6;
 
 	/* Get smaller Nonce */
 	if (RTMPCompareMemory(ANonce, SNonce, 32) == 0)
-		NdisMoveMemory(&concatenation[CurrPos], temp, 32);
+		memmove(&concatenation[CurrPos], temp, 32);
 	else if (RTMPCompareMemory(ANonce, SNonce, 32) == 1)
-		NdisMoveMemory(&concatenation[CurrPos], SNonce, 32);
+		memmove(&concatenation[CurrPos], SNonce, 32);
 	else
-		NdisMoveMemory(&concatenation[CurrPos], ANonce, 32);
+		memmove(&concatenation[CurrPos], ANonce, 32);
 	CurrPos += 32;
 
 	/* Get larger Nonce */
 	if (RTMPCompareMemory(ANonce, SNonce, 32) == 0)
-		NdisMoveMemory(&concatenation[CurrPos], temp, 32);
+		memmove(&concatenation[CurrPos], temp, 32);
 	else if (RTMPCompareMemory(ANonce, SNonce, 32) == 1)
-		NdisMoveMemory(&concatenation[CurrPos], ANonce, 32);
+		memmove(&concatenation[CurrPos], ANonce, 32);
 	else
-		NdisMoveMemory(&concatenation[CurrPos], SNonce, 32);
+		memmove(&concatenation[CurrPos], SNonce, 32);
 	CurrPos += 32;
 
 	hex_dump("[PMF]PMK", PMK, LEN_PMK);
@@ -537,10 +537,10 @@ VOID PMF_InsertIGTKKDE(
 	idx = (pPmfCfg->IGTK_KeyIdx == 5) ? 1 : 0;
 
 	/* Fill in the IPN field */
-	NdisMoveMemory(igtk_kde_ptr->IPN, &pPmfCfg->IPN[idx][0], LEN_WPA_TSC);
+	memmove(igtk_kde_ptr->IPN, &pPmfCfg->IPN[idx][0], LEN_WPA_TSC);
 
 	/* Fill uin the IGTK field */
-	NdisMoveMemory(igtk_kde_ptr->IGTK, &pPmfCfg->IGTK[idx][0], LEN_AES_GTK);
+	memmove(igtk_kde_ptr->IGTK, &pPmfCfg->IGTK[idx][0], LEN_AES_GTK);
 
 	/* Update the total output length */
 	*pFrameLen = *pFrameLen + LEN_KDE_HDR + LEN_PMF_IGTK_KDE;
@@ -587,12 +587,12 @@ BOOLEAN PMF_ExtractIGTKKDE(
 		idx = 1;
 	offset += 2;
 
-	NdisMoveMemory(&pPmfCfg->IPN[idx][0], igtk_kde_ptr->IPN, LEN_WPA_TSC);
+	memmove(&pPmfCfg->IPN[idx][0], igtk_kde_ptr->IPN, LEN_WPA_TSC);
 	offset += LEN_WPA_TSC;
 
 	if ((buf_len - offset) == LEN_AES_GTK)
 	{
-		NdisMoveMemory(&pPmfCfg->IGTK[idx][0], igtk_kde_ptr->IGTK, LEN_AES_GTK);
+		memmove(&pPmfCfg->IGTK[idx][0], igtk_kde_ptr->IGTK, LEN_AES_GTK);
 	}
 	else
 	{
@@ -663,7 +663,7 @@ VOID PMF_MakeRsnIeGMgmtCipher(
 	   Management Frame Protection enabled. */
 	if (MFP_Enabled)
 	{
-		NdisMoveMemory(pBuf, OUI_PMF_BIP_CIPHER, LEN_OUI_SUITE);
+		memmove(pBuf, OUI_PMF_BIP_CIPHER, LEN_OUI_SUITE);
 		(*rsn_len) += sizeof(LEN_OUI_SUITE);
                 DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s: Insert BIP to the group management cipher of RSNIE\n", __FUNCTION__));
 	}
@@ -709,7 +709,7 @@ NTSTATUS PMF_RsnCapableValidation(
 	{
 		RSN_CAPABILITIES RsnCap;
 
-		NdisMoveMemory(&RsnCap, pBuf, sizeof(RSN_CAPABILITIES));
+		memmove(&RsnCap, pBuf, sizeof(RSN_CAPABILITIES));
 		RsnCap.word = cpu2le16(RsnCap.word);
 
 		peer_MFPC = RsnCap.field.MFPC;
@@ -906,7 +906,7 @@ INT PMF_EncryptUniRobustFrameAction(
 	/* Construct and insert 8-bytes CCMP header to MPDU header */
 	RTMPConstructCCMPHdr(0, pEntry->PmfTxTsc, pBuf);
 
-	NdisMoveMemory(pBuf + LEN_CCMP_HDR,
+	memmove(pBuf + LEN_CCMP_HDR,
 				   &pHdr->Octet[0],
 				   data_len);
 
@@ -919,7 +919,7 @@ INT PMF_EncryptUniRobustFrameAction(
 			data_len);
 
 	data_len += (LEN_CCMP_HDR + LEN_CCMP_MIC);
-	NdisMoveMemory(&pHdr->Octet[0], pBuf, data_len);
+	memmove(&pHdr->Octet[0], pBuf, data_len);
 
 	/* TSC increment for next transmittion */
 	INC_TX_TSC(pEntry->PmfTxTsc, LEN_WPA_TSC);
@@ -1038,7 +1038,7 @@ INT PMF_EncapBIPAction(
    	   Bits 12 - 15 are reserved and set to 0 on transmission and ignored on reception.
    	   The IGTK Key ID is either 4 or 5. The remaining Key IDs are reserved. */
 	pMMIE->KeyID[0] = pPmfCfg->IGTK_KeyIdx;
-	NdisMoveMemory(pMMIE->IPN, &pPmfCfg->IPN[idx][0], LEN_WPA_TSC);
+	memmove(pMMIE->IPN, &pPmfCfg->IPN[idx][0], LEN_WPA_TSC);
 
 	/* The transmitter shall insert a monotonically increasing non-neg-
 	   ative integer into the MMIE IPN field. */
@@ -1051,7 +1051,7 @@ INT PMF_EncapBIPAction(
 	PMF_CalculateBIPMIC(pAd, aad_hdr, pFrameBody, body_len, pKey, BIP_MIC);
 
 	/* Fill into the MMIE MIC field */
-	NdisMoveMemory(pMMIE->MIC, BIP_MIC, LEN_PMF_BIP_MIC);
+	memmove(pMMIE->MIC, BIP_MIC, LEN_PMF_BIP_MIC);
 
 	/* BIP doesn't need encrypt frame */
 	pHdr->FC.Wep = 0;
@@ -1126,7 +1126,7 @@ INT PMF_ExtractBIPAction(
 	pKey = &pPmfCfg->IGTK[idx][0];
 
 	/* store the MIC value of the received frame */
-	NdisMoveMemory(rcvd_mic, pMMIE->MIC, LEN_PMF_BIP_MIC);
+	memmove(rcvd_mic, pMMIE->MIC, LEN_PMF_BIP_MIC);
 	NdisZeroMemory(pMMIE->MIC, LEN_PMF_BIP_MIC);
 
 	/* Compute AAD  */

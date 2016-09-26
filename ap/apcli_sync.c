@@ -202,17 +202,17 @@ static VOID ApCliMlmeProbeReqAction(
 
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
 	pApCliEntry->MlmeAux.SupRateLen = pAd->cfg80211_ctrl.P2pSupRateLen;
-	NdisMoveMemory(pApCliEntry->MlmeAux.SupRate, pAd->cfg80211_ctrl.P2pSupRate, pAd->cfg80211_ctrl.P2pSupRateLen);
+	memmove(pApCliEntry->MlmeAux.SupRate, pAd->cfg80211_ctrl.P2pSupRate, pAd->cfg80211_ctrl.P2pSupRateLen);
 
 	pApCliEntry->MlmeAux.ExtRateLen = pAd->cfg80211_ctrl.P2pExtRateLen;
-	NdisMoveMemory(pApCliEntry->MlmeAux.ExtRate, pAd->cfg80211_ctrl.P2pExtRate, pAd->cfg80211_ctrl.P2pExtRateLen);
+	memmove(pApCliEntry->MlmeAux.ExtRate, pAd->cfg80211_ctrl.P2pExtRate, pAd->cfg80211_ctrl.P2pExtRateLen);
 #else
 	pApCliEntry->MlmeAux.SupRateLen = pAd->CommonCfg.SupRateLen;
-	NdisMoveMemory(pApCliEntry->MlmeAux.SupRate, pAd->CommonCfg.SupRate, pAd->CommonCfg.SupRateLen);
+	memmove(pApCliEntry->MlmeAux.SupRate, pAd->CommonCfg.SupRate, pAd->CommonCfg.SupRateLen);
 
 	/* Prepare the default value for extended rate */
 	pApCliEntry->MlmeAux.ExtRateLen = pAd->CommonCfg.ExtRateLen;
-	NdisMoveMemory(pApCliEntry->MlmeAux.ExtRate, pAd->CommonCfg.ExtRate, pAd->CommonCfg.ExtRateLen);
+	memmove(pApCliEntry->MlmeAux.ExtRate, pAd->CommonCfg.ExtRate, pAd->CommonCfg.ExtRateLen);
 #endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
 
 	RTMPSetTimer(&(pApCliEntry->MlmeAux.ProbeTimer), PROBE_TIMEOUT);
@@ -321,14 +321,14 @@ static VOID ApCliPeerProbeRspAtJoinAction(
 				goto LabelErr;
 			}
 
-			NdisMoveMemory(pAd->ScanTab.BssEntry[Bssidx].PTSF, &Elem->Msg[24], 4);
-			NdisMoveMemory(&pAd->ScanTab.BssEntry[Bssidx].TTSF[0], &Elem->TimeStamp.u.LowPart, 4);
-			NdisMoveMemory(&pAd->ScanTab.BssEntry[Bssidx].TTSF[4], &Elem->TimeStamp.u.LowPart, 4);
+			memmove(pAd->ScanTab.BssEntry[Bssidx].PTSF, &Elem->Msg[24], 4);
+			memmove(&pAd->ScanTab.BssEntry[Bssidx].TTSF[0], &Elem->TimeStamp.u.LowPart, 4);
+			memmove(&pAd->ScanTab.BssEntry[Bssidx].TTSF[4], &Elem->TimeStamp.u.LowPart, 4);
 			pAd->ScanTab.BssEntry[Bssidx].MinSNR = Elem->Signal % 10;
 			if (pAd->ScanTab.BssEntry[Bssidx].MinSNR == 0)
 				pAd->ScanTab.BssEntry[Bssidx].MinSNR = -5;
 
-			NdisMoveMemory(pAd->ScanTab.BssEntry[Bssidx].MacAddr, ie_list->Addr2, MAC_ADDR_LEN);
+			memmove(pAd->ScanTab.BssEntry[Bssidx].MacAddr, ie_list->Addr2, MAC_ADDR_LEN);
 		}
 
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
@@ -381,7 +381,7 @@ static VOID ApCliPeerProbeRspAtJoinAction(
 				if (ApCliValidateRSNIE(pAd, (PEID_STRUCT)pVIE, LenVIE, ifIndex))
 				{
 					pApCliEntry->MlmeAux.VarIELen = LenVIE;
-					NdisMoveMemory(pApCliEntry->MlmeAux.VarIEs, pVIE, pApCliEntry->MlmeAux.VarIELen);
+					memmove(pApCliEntry->MlmeAux.VarIEs, pVIE, pApCliEntry->MlmeAux.VarIELen);
 				}
 				else
 				{
@@ -428,10 +428,10 @@ static VOID ApCliPeerProbeRspAtJoinAction(
 				RTMPCancelTimer(&pApCliEntry->MlmeAux.ProbeTimer, &Cancelled);
 			}
 
-			NdisMoveMemory(pApCliEntry->MlmeAux.Ssid, ie_list->Ssid, ie_list->SsidLen);
+			memmove(pApCliEntry->MlmeAux.Ssid, ie_list->Ssid, ie_list->SsidLen);
 			pApCliEntry->MlmeAux.SsidLen = ie_list->SsidLen;
 
-			NdisMoveMemory(pApCliEntry->MlmeAux.Bssid, ie_list->Bssid, MAC_ADDR_LEN);
+			memmove(pApCliEntry->MlmeAux.Bssid, ie_list->Bssid, MAC_ADDR_LEN);
 			pApCliEntry->MlmeAux.CapabilityInfo = ie_list->CapabilityInfo & SUPPORTED_CAPABILITY_INFO;
 			pApCliEntry->MlmeAux.BssType = ie_list->BssType;
 			pApCliEntry->MlmeAux.BeaconPeriod = ie_list->BeaconPeriod;
@@ -444,10 +444,10 @@ static VOID ApCliPeerProbeRspAtJoinAction(
 			/* Copy AP's supported rate to MlmeAux for creating assoication request */
 			/* Also filter out not supported rate */
 			pApCliEntry->MlmeAux.SupRateLen = ie_list->SupRateLen;
-			NdisMoveMemory(pApCliEntry->MlmeAux.SupRate, ie_list->SupRate, ie_list->SupRateLen);
+			memmove(pApCliEntry->MlmeAux.SupRate, ie_list->SupRate, ie_list->SupRateLen);
 			RTMPCheckRates(pAd, pApCliEntry->MlmeAux.SupRate, &pApCliEntry->MlmeAux.SupRateLen);
 			pApCliEntry->MlmeAux.ExtRateLen = ie_list->ExtRateLen;
-			NdisMoveMemory(pApCliEntry->MlmeAux.ExtRate, ie_list->ExtRate, ie_list->ExtRateLen);
+			memmove(pApCliEntry->MlmeAux.ExtRate, ie_list->ExtRate, ie_list->ExtRateLen);
 			RTMPCheckRates(pAd, pApCliEntry->MlmeAux.ExtRate, &pApCliEntry->MlmeAux.ExtRateLen);
 #ifdef APCLI_CERT_SUPPORT
 			/*  Get the ext capability info element */
@@ -457,7 +457,7 @@ static VOID ApCliPeerProbeRspAtJoinAction(
 #endif /* DOT11N_DRAFT3 */
 				)
 			{
-				NdisMoveMemory(&pApCliEntry->MlmeAux.ExtCapInfo, &ie_list->ExtCapInfo,sizeof(ie_list->ExtCapInfo));
+				memmove(&pApCliEntry->MlmeAux.ExtCapInfo, &ie_list->ExtCapInfo,sizeof(ie_list->ExtCapInfo));
 #ifdef DOT11_N_SUPPORT
 #ifdef DOT11N_DRAFT3
 				DBGPRINT(RT_DEBUG_TRACE, ("\x1b[31m ApCliMlmeAux.ExtCapInfo=%d \x1b[m\n", pApCliEntry->MlmeAux.ExtCapInfo.BssCoexistMgmtSupport)); //zero debug 210121122
@@ -503,9 +503,9 @@ static VOID ApCliPeerProbeRspAtJoinAction(
 			/* copy QOS related information */
 			if (WMODE_CAP_N(pAd->CommonCfg.PhyMode))
 			{
-				NdisMoveMemory(&pApCliEntry->MlmeAux.APEdcaParm, &ie_list->EdcaParm, sizeof(EDCA_PARM));
-				NdisMoveMemory(&pApCliEntry->MlmeAux.APQbssLoad, &ie_list->QbssLoad, sizeof(QBSS_LOAD_PARM));
-				NdisMoveMemory(&pApCliEntry->MlmeAux.APQosCapability, &ie_list->QosCapability, sizeof(QOS_CAPABILITY_PARM));
+				memmove(&pApCliEntry->MlmeAux.APEdcaParm, &ie_list->EdcaParm, sizeof(EDCA_PARM));
+				memmove(&pApCliEntry->MlmeAux.APQbssLoad, &ie_list->QbssLoad, sizeof(QBSS_LOAD_PARM));
+				memmove(&pApCliEntry->MlmeAux.APQosCapability, &ie_list->QosCapability, sizeof(QOS_CAPABILITY_PARM));
 			}
 			else
 #endif /* DOT11_N_SUPPORT */
@@ -656,7 +656,7 @@ static VOID ApCliEnqueueProbeRequest(
 
 		ssidLen = SsidLen;
 		NdisZeroMemory(ssid, MAX_LEN_OF_SSID);
-		NdisMoveMemory(ssid, Ssid, ssidLen);
+		memmove(ssid, Ssid, ssidLen);
 
 		/* this ProbeRequest explicitly specify SSID to reduce unwanted ProbeResponse */
 		MakeOutgoingFrame(pOutBuffer,		&FrameLen,

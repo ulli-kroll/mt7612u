@@ -135,7 +135,7 @@ static BOOLEAN IsICMPv4EchoPacket(
 	UINT16 ProtoType;
 	UCHAR *Pos = pData;
 
-	NdisMoveMemory(&ProtoType, pData, 2);
+	memmove(&ProtoType, pData, 2);
 	ProtoType = OS_NTOHS(ProtoType);
 	Pos += 2;
 

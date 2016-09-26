@@ -895,7 +895,7 @@ void ITxBFGetEEPROM(
 		if (IS_MT76x2(pAd))
 		{
 			if (pAd->chipCap.FlgITxBfBinWrite)
-				NdisMoveMemory((PUCHAR) (&EE_Value[0]), &(pAd->EEPROMImage[EEPROM1_ITXBF_CAL]),2);
+				memmove((PUCHAR) (&EE_Value[0]), &(pAd->EEPROMImage[EEPROM1_ITXBF_CAL]),2);
 			else
 				RT28xx_EEPROM_READ16(pAd, EEPROM1_ITXBF_CAL, EE_Value[0]);
 
@@ -904,7 +904,7 @@ void ITxBFGetEEPROM(
 
 			for (i=0; i<4; i++) {
 				if (pAd->chipCap.FlgITxBfBinWrite)
-					NdisMoveMemory((PUCHAR) (&EE_Value[i]), &(pAd->EEPROMImage[EEPROM1_ITXBF_CAL + 2*i + 4]),2);
+					memmove((PUCHAR) (&EE_Value[i]), &(pAd->EEPROMImage[EEPROM1_ITXBF_CAL + 2*i + 4]),2);
 				else
 					RT28xx_EEPROM_READ16(pAd, EEPROM1_ITXBF_CAL + 2*i + 4, EE_Value[i]);
 				andValue &= EE_Value[i];
@@ -934,7 +934,7 @@ void ITxBFGetEEPROM(
 		if (IS_MT76x2(pAd))
 		{
 			if (pAd->chipCap.FlgITxBfBinWrite)
-				NdisMoveMemory((PUCHAR) (&EE_Value[0]), &(pAd->EEPROMImage[EEPROM1_ITXBF_CAL + 2]),2);
+				memmove((PUCHAR) (&EE_Value[0]), &(pAd->EEPROMImage[EEPROM1_ITXBF_CAL + 2]),2);
 			else
 				RT28xx_EEPROM_READ16(pAd, EEPROM1_ITXBF_CAL + 2, EE_Value[0]);
 			divParams->E1gBeg = (EE_Value[0] & 0x00FF);
@@ -942,7 +942,7 @@ void ITxBFGetEEPROM(
 
 			for (i=0; i<4; i++) {
 				if (pAd->chipCap.FlgITxBfBinWrite)
-					NdisMoveMemory((PUCHAR) (&EE_Value[i]), &(pAd->EEPROMImage[EEPROM1_ITXBF_CAL + 12 + 2*i]),2);
+					memmove((PUCHAR) (&EE_Value[i]), &(pAd->EEPROMImage[EEPROM1_ITXBF_CAL + 12 + 2*i]),2);
 				else
 					RT28xx_EEPROM_READ16(pAd, EEPROM1_ITXBF_CAL + 12 + 2*i, EE_Value[i]);
 				andValue &= EE_Value[i];
@@ -975,7 +975,7 @@ void ITxBFGetEEPROM(
 		{
 			for (i=0; i<14; i++) {
 				if (pAd->chipCap.FlgITxBfBinWrite)
-					NdisMoveMemory((PUCHAR) (&EE_Value[i]), &(pAd->EEPROMImage[EEPROM1_ITXBF_CAL + 20 + 2*i]),2);
+					memmove((PUCHAR) (&EE_Value[i]), &(pAd->EEPROMImage[EEPROM1_ITXBF_CAL + 20 + 2*i]),2);
 				else
 					RT28xx_EEPROM_READ16(pAd, EEPROM1_ITXBF_CAL + 20 + 2*i, EE_Value[i]);
 				andValue &= EE_Value[i];
@@ -1047,14 +1047,14 @@ void ITxBFSetEEPROM(
 		{
 			EE_Value[0] = phaseParams->E1gBeg | (phaseParams->E1gBeg<<8);
 			if (pAd->chipCap.FlgITxBfBinWrite)
-				NdisMoveMemory((PUCHAR) (&eeTmp), &(pAd->EEPROMImage[EEPROM1_ITXBF_CAL]),2);
+				memmove((PUCHAR) (&eeTmp), &(pAd->EEPROMImage[EEPROM1_ITXBF_CAL]),2);
 			else
 				RT28xx_EEPROM_READ16(pAd, EEPROM1_ITXBF_CAL, eeTmp);
 
 			if (eeTmp != EE_Value[0])
 			{
 				if (pAd->chipCap.FlgITxBfBinWrite)
-					NdisMoveMemory(&(pAd->EEPROMImage[EEPROM1_ITXBF_CAL]), (PUCHAR) (&EE_Value[0]),2);
+					memmove(&(pAd->EEPROMImage[EEPROM1_ITXBF_CAL]), (PUCHAR) (&EE_Value[0]),2);
 				else
 					RT28xx_EEPROM_WRITE16(pAd, EEPROM1_ITXBF_CAL, EE_Value[0]);
 			}
@@ -1069,14 +1069,14 @@ void ITxBFSetEEPROM(
 				eeAddr = EEPROM1_ITXBF_CAL + 2*i + 4;
 
 				if (pAd->chipCap.FlgITxBfBinWrite)
-					NdisMoveMemory((PUCHAR) (&eeTmp), &(pAd->EEPROMImage[eeAddr]),2);
+					memmove((PUCHAR) (&eeTmp), &(pAd->EEPROMImage[eeAddr]),2);
 				else
 					RT28xx_EEPROM_READ16(pAd, eeAddr, eeTmp);
 
 				if (eeTmp != EE_Value[i])
 				{
 					if (pAd->chipCap.FlgITxBfBinWrite)
-						NdisMoveMemory(&(pAd->EEPROMImage[eeAddr]), (PUCHAR) (&EE_Value[i]),2);
+						memmove(&(pAd->EEPROMImage[eeAddr]), (PUCHAR) (&EE_Value[i]),2);
 					else
 						RT28xx_EEPROM_WRITE16(pAd, eeAddr, EE_Value[i]);
 				}
@@ -1104,14 +1104,14 @@ void ITxBFSetEEPROM(
 		{
 			EE_Value[0] = divParams->E1gBeg | (divParams->E1gBeg<<8);
 			if (pAd->chipCap.FlgITxBfBinWrite)
-				NdisMoveMemory((PUCHAR) (&eeTmp), &(pAd->EEPROMImage[EEPROM1_ITXBF_CAL + 2]),2);
+				memmove((PUCHAR) (&eeTmp), &(pAd->EEPROMImage[EEPROM1_ITXBF_CAL + 2]),2);
 			else
 				RT28xx_EEPROM_READ16(pAd, EEPROM1_ITXBF_CAL + 2, eeTmp);
 
 			if (eeTmp != EE_Value[0])
 			{
 				if (pAd->chipCap.FlgITxBfBinWrite)
-					NdisMoveMemory(&(pAd->EEPROMImage[EEPROM1_ITXBF_CAL + 2]), (PUCHAR) (&EE_Value[0]),2);
+					memmove(&(pAd->EEPROMImage[EEPROM1_ITXBF_CAL + 2]), (PUCHAR) (&EE_Value[0]),2);
 				else
 					RT28xx_EEPROM_WRITE16(pAd, EEPROM1_ITXBF_CAL + 2, EE_Value[0]);
 			}
@@ -1125,14 +1125,14 @@ void ITxBFSetEEPROM(
 			{
 				eeAddr = EEPROM1_ITXBF_CAL + 12 + 2*i;
 				if (pAd->chipCap.FlgITxBfBinWrite)
-					NdisMoveMemory((PUCHAR) (&eeTmp), &(pAd->EEPROMImage[eeAddr]),2);
+					memmove((PUCHAR) (&eeTmp), &(pAd->EEPROMImage[eeAddr]),2);
 				else
 					RT28xx_EEPROM_READ16(pAd, eeAddr, eeTmp);
 
 				if (eeTmp != EE_Value[i])
 				{
 					if (pAd->chipCap.FlgITxBfBinWrite)
-						NdisMoveMemory(&(pAd->EEPROMImage[eeAddr]), (PUCHAR) (&EE_Value[i]),2);
+						memmove(&(pAd->EEPROMImage[eeAddr]), (PUCHAR) (&EE_Value[i]),2);
 					else
 						RT28xx_EEPROM_WRITE16(pAd, eeAddr, EE_Value[i]);
 				}
@@ -1167,14 +1167,14 @@ void ITxBFSetEEPROM(
 			{
 				eeAddr = EEPROM1_ITXBF_CAL + 20 + 2*i;
 				if (pAd->chipCap.FlgITxBfBinWrite)
-					NdisMoveMemory((PUCHAR) (&eeTmp), &(pAd->EEPROMImage[eeAddr]),2);
+					memmove((PUCHAR) (&eeTmp), &(pAd->EEPROMImage[eeAddr]),2);
 				else
 					RT28xx_EEPROM_READ16(pAd, eeAddr, eeTmp);
 
 				if (eeTmp != EE_Value[i])
 				{
 					if (pAd->chipCap.FlgITxBfBinWrite)
-						NdisMoveMemory(&(pAd->EEPROMImage[eeAddr]), (PUCHAR) (&EE_Value[i]),2);
+						memmove(&(pAd->EEPROMImage[eeAddr]), (PUCHAR) (&EE_Value[i]),2);
 					else
 						RT28xx_EEPROM_WRITE16(pAd, eeAddr, EE_Value[i]);
 				}

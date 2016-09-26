@@ -211,7 +211,7 @@ VOID CFG80211_ParseBeaconIE(struct rtmp_adapter *pAd, MULTISSID_STRUCT *pMbss, s
 						bMix = TRUE;
 					}
 				pMbss->RSNIE_Len[0] = wpa_ie[1];
-				NdisMoveMemory(pMbss->RSN_IE[0], wpa_ie+2, wpa_ie[1]);//copy rsn ie
+				memmove(pMbss->RSN_IE[0], wpa_ie+2, wpa_ie[1]);//copy rsn ie
 		}
 		else {
 			DBGPRINT(RT_DEBUG_TRACE,("%s:: Open/None case\n", __FUNCTION__));
@@ -353,7 +353,7 @@ VOID CFG80211_ParseBeaconIE(struct rtmp_adapter *pAd, MULTISSID_STRUCT *pMbss, s
 						bMix= TRUE;
 					}
 					pMbss->RSNIE_Len[0] = rsn_ie[1];
-					NdisMoveMemory(pMbss->RSN_IE[0], rsn_ie+2, rsn_ie[1]);//copy rsn ie
+					memmove(pMbss->RSN_IE[0], rsn_ie+2, rsn_ie[1]);//copy rsn ie
 			}
 			else {
 				DBGPRINT(RT_DEBUG_TRACE,("%s:: Open/None case\n", __FUNCTION__));

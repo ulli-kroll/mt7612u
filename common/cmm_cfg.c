@@ -67,15 +67,15 @@ UINT GenerateWpsPinCode(
 	{
 #ifdef APCLI_SUPPORT
 	    if (bFromApcli)
-	        NdisMoveMemory(&macAddr[0], pAd->ApCfg.ApCliTab[apidx].wdev.if_addr, MAC_ADDR_LEN);
+	        memmove(&macAddr[0], pAd->ApCfg.ApCliTab[apidx].wdev.if_addr, MAC_ADDR_LEN);
 	    else
 #endif /* APCLI_SUPPORT */
-		NdisMoveMemory(&macAddr[0], pAd->ApCfg.MBSSID[apidx].wdev.if_addr, MAC_ADDR_LEN);
+		memmove(&macAddr[0], pAd->ApCfg.MBSSID[apidx].wdev.if_addr, MAC_ADDR_LEN);
 	}
 #endif /* CONFIG_AP_SUPPORT */
 #ifdef CONFIG_STA_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
-		NdisMoveMemory(&macAddr[0], pAd->CurrentAddress, MAC_ADDR_LEN);
+		memmove(&macAddr[0], pAd->CurrentAddress, MAC_ADDR_LEN);
 #endif /* CONFIG_STA_SUPPORT */
 
 	iPin = macAddr[3] * 256 * 256 + macAddr[4] * 256 + macAddr[5];
@@ -206,10 +206,10 @@ UCHAR *wmode_2_str(UCHAR wmode)
 				if ((strlen(str) +  strlen(WMODE_STR[idx + 1])) >= (max_len - 1))
 					break;
 				if (strlen(str)) {
-					NdisMoveMemory(&str[pos], "/", 1);
+					memmove(&str[pos], "/", 1);
 					pos++;
 				}
-				NdisMoveMemory(&str[pos], WMODE_STR[idx + 1], strlen(WMODE_STR[idx + 1]));
+				memmove(&str[pos], WMODE_STR[idx + 1], strlen(WMODE_STR[idx + 1]));
 				pos += strlen(WMODE_STR[idx + 1]);
 			}
 			if (strlen(str) >= max_len)
@@ -541,7 +541,7 @@ INT	RT_CfgSetWepKey(
 		case 13: /*wep 104 Ascii type*/
 			bKeyIsHex = FALSE;
 			pSharedKey->KeyLen = KeyLen;
-			NdisMoveMemory(pSharedKey->Key, keyString, KeyLen);
+			memmove(pSharedKey->Key, keyString, KeyLen);
 			break;
 
 		case 10: /*wep 40 Hex type*/
@@ -610,7 +610,7 @@ INT RT_CfgSetWPAPSKKey(
 	else
 	{
 	    RtmpPasswordHash(keyString, pHashStr, hashStrLen, keyMaterial);
-	    NdisMoveMemory(pPMKBuf, keyMaterial, 32);
+	    memmove(pPMKBuf, keyMaterial, 32);
 	}
 
 	return TRUE;
@@ -887,7 +887,7 @@ INT RTMP_COM_IoctlHandle(
 					MsgElem->Machine = ASSOC_STATE_MACHINE;
 					MsgElem->MsgType = MT2_MLME_DISASSOC_REQ;
 					MsgElem->MsgLen = sizeof(MLME_DISASSOC_REQ_STRUCT);
-					NdisMoveMemory(MsgElem->Msg, &DisReq, sizeof(MLME_DISASSOC_REQ_STRUCT));
+					memmove(MsgElem->Msg, &DisReq, sizeof(MLME_DISASSOC_REQ_STRUCT));
 					/* Prevent to connect AP again in STAMlmePeriodicExec*/
 					pAd->MlmeAux.AutoReconnectSsidLen= 32;
 					NdisZeroMemory(pAd->MlmeAux.AutoReconnectSsid, pAd->MlmeAux.AutoReconnectSsidLen);
@@ -1511,7 +1511,7 @@ INT Set_SiteSurvey_Proc(
 	{
 		if ((strlen(arg) != 0) && (strlen(arg) <= MAX_LEN_OF_SSID))
     	{
-        	NdisMoveMemory(Ssid.Ssid, arg, strlen(arg));
+        	memmove(Ssid.Ssid, arg, strlen(arg));
         	Ssid.SsidLength = strlen(arg);
 		}
 

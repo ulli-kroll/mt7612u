@@ -477,7 +477,7 @@ static VOID ApCliCtrlJoinReqAction(
 #endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
 
 		JoinReq.SsidLen = pApCliEntry->CfgSsidLen;
-		NdisMoveMemory(&(JoinReq.Ssid), pApCliEntry->CfgSsid, JoinReq.SsidLen);
+		memmove(&(JoinReq.Ssid), pApCliEntry->CfgSsid, JoinReq.SsidLen);
 	}
 
 	DBGPRINT(RT_DEBUG_TRACE, ("(%s) Probe Ssid=%s, Bssid=%02x:%02x:%02x:%02x:%02x:%02x\n",
@@ -559,7 +559,7 @@ static VOID ApCliCtrlJoinReqTimeoutAction(
 	if (pApCliEntry->CfgSsidLen != 0)
 	{
 		JoinReq.SsidLen = pApCliEntry->CfgSsidLen;
-		NdisMoveMemory(&(JoinReq.Ssid), pApCliEntry->CfgSsid, JoinReq.SsidLen);
+		memmove(&(JoinReq.Ssid), pApCliEntry->CfgSsid, JoinReq.SsidLen);
 	}
 
 	DBGPRINT(RT_DEBUG_TRACE, ("(%s) Probe Ssid=%s, Bssid=%02x:%02x:%02x:%02x:%02x:%02x\n",
@@ -1353,7 +1353,7 @@ VOID ApCliWpaMicFailureReportFrame(
 	SET_UINT16_TO_ARRARY(pPacket->Body_Len, MIN_LEN_OF_EAPOL_KEY_MSG)
 
 	/* Key Replay Count */
-	NdisMoveMemory(pPacket->KeyDesc.ReplayCounter, apcli_entry->ReplayCounter, LEN_KEY_DESC_REPLAY);
+	memmove(pPacket->KeyDesc.ReplayCounter, apcli_entry->ReplayCounter, LEN_KEY_DESC_REPLAY);
    	inc_byte_array(apcli_entry->ReplayCounter, 8);
 
 	/* Convert to little-endian format. */
@@ -1381,13 +1381,13 @@ VOID ApCliWpaMicFailureReportFrame(
 	{	/* AES */
         	UCHAR digest[20] = {0};
 		RT_HMAC_SHA1(apcli_entry->PTK, LEN_PTK_KCK, pOutBuffer, FrameLen, digest, SHA1_DIGEST_SIZE);
-		NdisMoveMemory(Mic, digest, LEN_KEY_DESC_MIC);
+		memmove(Mic, digest, LEN_KEY_DESC_MIC);
 	}
 	else
 	{	/* TKIP */
 		RT_HMAC_MD5(apcli_entry->PTK, LEN_PTK_KCK, pOutBuffer, FrameLen, Mic, MD5_DIGEST_SIZE);
 	}
-	NdisMoveMemory(pPacket->KeyDesc.KeyMic, Mic, LEN_KEY_DESC_MIC);
+	memmove(pPacket->KeyDesc.KeyMic, Mic, LEN_KEY_DESC_MIC);
 
 	/* copy frame to Tx ring and send MIC failure report frame to authenticator */
 	RTMPToWirelessSta(pAd, &pAd->MacTab.Content[Wcid],
@@ -1489,7 +1489,7 @@ static VOID ApCliCtrlTrialConnectAction(
 	if (pApCliEntry->CfgSsidLen != 0)
 	{
 		JoinReq.SsidLen = pApCliEntry->CfgSsidLen;
-		NdisMoveMemory(&(JoinReq.Ssid), pApCliEntry->CfgSsid, JoinReq.SsidLen);
+		memmove(&(JoinReq.Ssid), pApCliEntry->CfgSsid, JoinReq.SsidLen);
 	}
 
 	DBGPRINT(RT_DEBUG_TRACE, ("(%s) Probe Ssid=%s, Bssid=%02x:%02x:%02x:%02x:%02x:%02x\n",

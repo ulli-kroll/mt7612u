@@ -246,7 +246,7 @@ INT rtmp_ee_bin_read16(
 	OUT USHORT 			*pValue)
 {
 	DBGPRINT(RT_DEBUG_TRACE, ("%s::Read from EEPROM buffer\n", __FUNCTION__));
-	NdisMoveMemory(pValue, &(pAd->EEPROMImage[Offset]), 2);
+	memmove(pValue, &(pAd->EEPROMImage[Offset]), 2);
 	*pValue = le2cpu16(*pValue);
 
 	return (*pValue);
@@ -260,7 +260,7 @@ INT rtmp_ee_bin_write16(
 {
 	DBGPRINT(RT_DEBUG_TRACE, ("%s::Write to EEPROM buffer\n", __FUNCTION__));
 	data = le2cpu16(data);
-	NdisMoveMemory(&(pAd->EEPROMImage[Offset]), &data, 2);
+	memmove(&(pAd->EEPROMImage[Offset]), &data, 2);
 
 	return 0;
 }
@@ -415,7 +415,7 @@ INT Set_LoadEepromBufferFromBin_Proc(
 		{
 			if ( pAd->chipCap.EEPROM_DEFAULT_BIN != NULL )
 			{
-				NdisMoveMemory(pAd->EEPROMImage, pAd->chipCap.EEPROM_DEFAULT_BIN,
+				memmove(pAd->EEPROMImage, pAd->chipCap.EEPROM_DEFAULT_BIN,
 					pAd->chipCap.EEPROM_DEFAULT_BIN_SIZE > MAX_EEPROM_BUFFER_SIZE?MAX_EEPROM_BUFFER_SIZE:pAd->chipCap.EEPROM_DEFAULT_BIN_SIZE);
 				DBGPRINT(RT_DEBUG_TRACE, ("Load EEPROM Buffer from default BIN.\n"));
 			}

@@ -2626,7 +2626,7 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 	{
 		pAd->CommonCfg.StreamMode = 3;
 		pAd->CommonCfg.StreamModeMCS = 0x0B0B;
-		NdisMoveMemory(&pAd->CommonCfg.StreamModeMac[0][0],
+		memmove(&pAd->CommonCfg.StreamModeMac[0][0],
 				BROADCAST_ADDR, MAC_ADDR_LEN);
 	}
 #endif /* STREAM_MODE_SUPPORT */

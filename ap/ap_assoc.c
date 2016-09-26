@@ -309,7 +309,7 @@ static USHORT update_associated_mac_entry(
 			CLIENT_STATUS_SET_FLAG(pEntry, fCLIENT_STATUS_MCSFEEDBACK_CAPABLE);
 
 		/* Record the received capability from association request */
-		NdisMoveMemory(&pEntry->HTCapability, &ie_list->HTCapability, sizeof(HT_CAPABILITY_IE));
+		memmove(&pEntry->HTCapability, &ie_list->HTCapability, sizeof(HT_CAPABILITY_IE));
 
 #ifdef DOT11_VHT_AC
 		if (WMODE_CAP_AC(pAd->CommonCfg.PhyMode) &&
@@ -369,7 +369,7 @@ static USHORT update_associated_mac_entry(
 				if (vht_cap_info->rx_stbc)
 					CLIENT_STATUS_SET_FLAG(pEntry, fCLIENT_STATUS_VHT_RXSTBC_CAPABLE);
 			}
-			NdisMoveMemory(&pEntry->vht_cap_ie, &ie_list->vht_cap, sizeof(VHT_CAP_IE));
+			memmove(&pEntry->vht_cap_ie, &ie_list->vht_cap, sizeof(VHT_CAP_IE));
 		}
 
 		if (ie_list->operating_mode_len == sizeof(OPERATING_MODE) &&
@@ -576,7 +576,7 @@ static USHORT APBuildAssociation(
 				return StatusCode;
 		}
 
-		NdisMoveMemory(pEntry->RSN_IE, &ie_list->RSN_IE[0], ie_list->RSNIE_Len);
+		memmove(pEntry->RSN_IE, &ie_list->RSN_IE[0], ie_list->RSNIE_Len);
 		pEntry->RSNIE_Len = ie_list->RSNIE_Len;
 
 
@@ -813,7 +813,7 @@ VOID ap_cmm_peer_assoc_req_action(
 		if (WMODE_CAP_AC(pAd->CommonCfg.PhyMode)) {
 			DBGPRINT(RT_DEBUG_TRACE, ("%s():Peer is VHT capable device!\n", __FUNCTION__));
 
-			NdisMoveMemory(&pEntry->ext_cap, &ie_list->ExtCapInfo, sizeof(ie_list->ExtCapInfo));
+			memmove(&pEntry->ext_cap, &ie_list->ExtCapInfo, sizeof(ie_list->ExtCapInfo));
 			DBGPRINT(RT_DEBUG_TRACE, ("\tOperatingModeNotification=%d\n",
 						pEntry->ext_cap.operating_mode_notification));
 			//dump_vht_cap(pAd, &ie_list->vht_cap);
@@ -981,7 +981,7 @@ SendAssocResponse:
 		ADD_HT_INFO_IE	addHTInfoTmp;
 #endif
 
-		NdisMoveMemory(&HtCapabilityRsp, &pAd->CommonCfg.HtCapability, ie_list->ht_cap_len);
+		memmove(&HtCapabilityRsp, &pAd->CommonCfg.HtCapability, ie_list->ht_cap_len);
 
 		/* add HT Capability IE */
 #ifndef RT_BIG_ENDIAN
@@ -994,21 +994,21 @@ SendAssocResponse:
 										HtLen1,			&pAd->CommonCfg.AddHTInfo,
 						  END_OF_ARGS);
 #else
-		NdisMoveMemory(&HtCapabilityTmp, &HtCapabilityRsp, ie_list->ht_cap_len);
+		memmove(&HtCapabilityTmp, &HtCapabilityRsp, ie_list->ht_cap_len);
 		*(USHORT *)(&HtCapabilityTmp.HtCapInfo) = SWAP16(*(USHORT *)(&HtCapabilityTmp.HtCapInfo));
 #ifdef UNALIGNMENT_SUPPORT
 		{
 			EXT_HT_CAP_INFO extHtCapInfo;
 
-			NdisMoveMemory((PUCHAR)(&extHtCapInfo), (PUCHAR)(&HtCapabilityTmp.ExtHtCapInfo), sizeof(EXT_HT_CAP_INFO));
+			memmove(&extHtCapInfo, &HtCapabilityTmp.ExtHtCapInfo, sizeof(EXT_HT_CAP_INFO));
 			*(USHORT *)(&extHtCapInfo) = cpu2le16(*(USHORT *)(&extHtCapInfo));
-			NdisMoveMemory((PUCHAR)(&HtCapabilityTmp.ExtHtCapInfo), (PUCHAR)(&extHtCapInfo), sizeof(EXT_HT_CAP_INFO));
+			memmove&HtCapabilityTmp.ExtHtCapInfo, &extHtCapInfo, sizeof(EXT_HT_CAP_INFO));
 		}
 #else
 		*(USHORT *)(&HtCapabilityTmp.ExtHtCapInfo) = SWAP16(*(USHORT *)(&HtCapabilityTmp.ExtHtCapInfo));
 #endif /* UNALIGNMENT_SUPPORT */
 
-		NdisMoveMemory(&addHTInfoTmp, &pAd->CommonCfg.AddHTInfo, HtLen1);
+		memmove(&addHTInfoTmp, &pAd->CommonCfg.AddHTInfo, HtLen1);
 		*(USHORT *)(&addHTInfoTmp.AddHtInfo2) = SWAP16(*(USHORT *)(&addHTInfoTmp.AddHtInfo2));
 		*(USHORT *)(&addHTInfoTmp.AddHtInfo3) = SWAP16(*(USHORT *)(&addHTInfoTmp.AddHtInfo3));
 

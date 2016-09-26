@@ -1017,7 +1017,7 @@ VOID handleHtcField(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 				pEntry->CurrTxRateIndex = legalMfbIdx;
 				MlmeClearTxQuality(pEntry);/* clear all history, same as train up, purpose??? */
 				NdisAcquireSpinLock(&pEntry->fLastChangeAccordingMfbLock);
-				NdisMoveMemory(pEntry->LegalMfbRS, pLegalMfbRS, sizeof(RTMP_RA_LEGACY_TB));
+				memmove(pEntry->LegalMfbRS, pLegalMfbRS, sizeof(RTMP_RA_LEGACY_TB));
 				pEntry->fLastChangeAccordingMfb = TRUE;
 				/* reset all OneSecTx counters */
 				/* RESET_ONE_SEC_TX_CNT(pEntry); */

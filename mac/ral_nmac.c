@@ -35,7 +35,7 @@ INT rlt_get_rxwi_phymode(RXWI_STRUC *rxwi)
 INT rlt_get_rxwi_rssi(RXWI_STRUC *rxwi, INT size, CHAR *rssi)
 {
 	if (size < sizeof(rxwi->RXWI_N.rssi)/ sizeof(UINT8))
-		NdisMoveMemory(rssi, &rxwi->RXWI_N.rssi[0], size);
+		memmove(rssi, &rxwi->RXWI_N.rssi[0], size);
 
 	return 0;
 }
@@ -44,12 +44,12 @@ INT rlt_get_rxwi_rssi(RXWI_STRUC *rxwi, INT size, CHAR *rssi)
 INT rlt_get_rxwi_snr(struct rtmp_adapter *pAd, RXWI_STRUC *rxwi, INT size, UCHAR *snr)
 {
 	if (IS_MT76x2(pAd)) {
-		NdisMoveMemory(snr, &rxwi->RXWI_N.bbp_rxinfo[2], size);
+		memmove(snr, &rxwi->RXWI_N.bbp_rxinfo[2], size);
 	}
 
 	// TODO: shiang-6590, fix me for SNR info of RXWI!!
 	if (size < 3)
-		NdisMoveMemory(snr, &rxwi->RXWI_N.bbp_rxinfo[0], size);
+		memmove(snr, &rxwi->RXWI_N.bbp_rxinfo[0], size);
 
 	return 0;
 }

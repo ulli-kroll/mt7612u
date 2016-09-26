@@ -436,9 +436,9 @@ int rt28xx_init(struct rtmp_adapter *pAd)
 	RtmpOSNetDevAddrSet(pAd->OpMode, pAd->net_dev, &pAd->CurrentAddress[0], NULL);
 #endif /* CONFIG_AP_SUPPORT */
 #ifdef CONFIG_STA_SUPPORT
-	NdisMoveMemory(&pAd->StaCfg.wdev.if_addr[0], &pAd->CurrentAddress[0], MAC_ADDR_LEN);
+	memmove(&pAd->StaCfg.wdev.if_addr[0], &pAd->CurrentAddress[0], MAC_ADDR_LEN);
 	RtmpOSNetDevAddrSet(pAd->OpMode, pAd->net_dev, &pAd->CurrentAddress[0], (PUCHAR)(pAd->StaCfg.dev_name));
-	NdisMoveMemory(&pAd->StaCfg.wdev.if_addr[0], &pAd->CurrentAddress[0], MAC_ADDR_LEN);
+	memmove(&pAd->StaCfg.wdev.if_addr[0], &pAd->CurrentAddress[0], MAC_ADDR_LEN);
 #endif /* CONFIG_STA_SUPPORT */
 
 #ifdef UAPSD_SUPPORT
@@ -943,7 +943,7 @@ VOID RTMPInfClose(struct rtmp_adapter *pAd)
 			MsgElem->Machine = ASSOC_STATE_MACHINE;
 			MsgElem->MsgType = MT2_MLME_DISASSOC_REQ;
 			MsgElem->MsgLen = sizeof(MLME_DISASSOC_REQ_STRUCT);
-			NdisMoveMemory(MsgElem->Msg, &DisReq, sizeof(MLME_DISASSOC_REQ_STRUCT));
+			memmove(MsgElem->Msg, &DisReq, sizeof(MLME_DISASSOC_REQ_STRUCT));
 
 			/* Prevent to connect AP again in STAMlmePeriodicExec*/
 			pAd->MlmeAux.AutoReconnectSsidLen= 32;
@@ -1095,8 +1095,8 @@ static void WriteConfToDatFile(struct rtmp_adapter *pAd)
 				if (strncmp(pTempStr, "SSID=", strlen("SSID=")) == 0)
 				{
 					NdisZeroMemory(pTempStr, 512);
-					NdisMoveMemory(pTempStr, "SSID=", strlen("SSID="));
-					NdisMoveMemory(pTempStr + 5, pAd->CommonCfg.Ssid, pAd->CommonCfg.SsidLen);
+					memmove(pTempStr, "SSID=", strlen("SSID="));
+					memmove(pTempStr + 5, pAd->CommonCfg.Ssid, pAd->CommonCfg.SsidLen);
 				}
 				else if (strncmp(pTempStr, "AuthMode=", strlen("AuthMode=")) == 0)
 				{

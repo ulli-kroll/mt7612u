@@ -2368,7 +2368,7 @@ VOID MlmeAutoReconnectLastSSID(struct rtmp_adapter *pAd)
 	{
 		NDIS_802_11_SSID OidSsid;
 		OidSsid.SsidLength = pAd->MlmeAux.AutoReconnectSsidLen;
-		NdisMoveMemory(OidSsid.Ssid, pAd->MlmeAux.AutoReconnectSsid, pAd->MlmeAux.AutoReconnectSsidLen);
+		memmove(OidSsid.Ssid, pAd->MlmeAux.AutoReconnectSsid, pAd->MlmeAux.AutoReconnectSsidLen);
 
 		DBGPRINT(RT_DEBUG_TRACE, ("Driver auto reconnect to last OID_802_11_SSID setting - %s, len - %d\n", pAd->MlmeAux.AutoReconnectSsid, pAd->MlmeAux.AutoReconnectSsidLen));
 		MlmeEnqueue(pAd,
@@ -2416,7 +2416,7 @@ VOID MlmeCheckForRoaming(struct rtmp_adapter *pAd, ULONG Now32)
 			continue;	 /* only AP with stronger RSSI is eligible for roaming*/
 
 		/* AP passing all above rules is put into roaming candidate table		 */
-		NdisMoveMemory(&pRoamTab->BssEntry[pRoamTab->BssNr], pBss, sizeof(BSS_ENTRY));
+		memmove(&pRoamTab->BssEntry[pRoamTab->BssNr], pBss, sizeof(BSS_ENTRY));
 		pRoamTab->BssNr += 1;
 	}
 
@@ -2473,7 +2473,7 @@ BOOLEAN MlmeCheckForFastRoaming(struct rtmp_adapter *pAd)
 
         DBGPRINT(RT_DEBUG_TRACE, ("max_rssi = %d, pBss->Rssi = %d\n", max_rssi, pBss->Rssi));
 		/* AP passing all above rules is put into roaming candidate table		 */
-		NdisMoveMemory(&pRoamTab->BssEntry[pRoamTab->BssNr], pBss, sizeof(BSS_ENTRY));
+		memmove(&pRoamTab->BssEntry[pRoamTab->BssNr], pBss, sizeof(BSS_ENTRY));
 		pRoamTab->BssNr += 1;
 	}
 
@@ -3614,11 +3614,11 @@ VOID BssTableDeleteEntry(BSS_TABLE *Tab, UCHAR *pBssid, UCHAR Channel)
 			for (j = i; j < Tab->BssNr - 1; j++)
 			{
 				pOldAddr = Tab->BssEntry[j].pVarIeFromProbRsp;
-				NdisMoveMemory(&(Tab->BssEntry[j]), &(Tab->BssEntry[j + 1]), sizeof(BSS_ENTRY));
+				memmove(&(Tab->BssEntry[j]), &(Tab->BssEntry[j + 1]), sizeof(BSS_ENTRY));
 				if (pOldAddr)
 				{
 					RTMPZeroMemory(pOldAddr, MAX_VIE_LEN);
-					NdisMoveMemory(pOldAddr,
+					memmove(pOldAddr,
 								   Tab->BssEntry[j + 1].pVarIeFromProbRsp,
 								   Tab->BssEntry[j + 1].VarIeFromProbeRspLen);
 					Tab->BssEntry[j].pVarIeFromProbRsp = pOldAddr;
@@ -3666,7 +3666,7 @@ VOID BssEntrySet(
 		if (NdisEqualMemory(ie_list->Ssid, ZeroSsid, ie_list->SsidLen) == 0)
 		{
 			NdisZeroMemory(pBss->Ssid, MAX_LEN_OF_SSID);
-			NdisMoveMemory(pBss->Ssid, ie_list->Ssid, ie_list->SsidLen);
+			memmove(pBss->Ssid, ie_list->Ssid, ie_list->SsidLen);
 			pBss->SsidLen = ie_list->SsidLen;
 			pBss->Hidden = 0;
 		}
@@ -3705,14 +3705,14 @@ VOID BssEntrySet(
 	pBss->Privacy = CAP_IS_PRIVACY_ON(pBss->CapabilityInfo);
 	ASSERT(ie_list->SupRateLen <= MAX_LEN_OF_SUPPORTED_RATES);
 	if (ie_list->SupRateLen <= MAX_LEN_OF_SUPPORTED_RATES)
-		NdisMoveMemory(pBss->SupRate, ie_list->SupRate, ie_list->SupRateLen);
+		memmove(pBss->SupRate, ie_list->SupRate, ie_list->SupRateLen);
 	else
-		NdisMoveMemory(pBss->SupRate, ie_list->SupRate, MAX_LEN_OF_SUPPORTED_RATES);
+		memmove(pBss->SupRate, ie_list->SupRate, MAX_LEN_OF_SUPPORTED_RATES);
 	pBss->SupRateLen = ie_list->SupRateLen;
 	ASSERT(ie_list->ExtRateLen <= MAX_LEN_OF_SUPPORTED_RATES);
 	if (ie_list->ExtRateLen > MAX_LEN_OF_SUPPORTED_RATES)
 		ie_list->ExtRateLen = MAX_LEN_OF_SUPPORTED_RATES;
-	NdisMoveMemory(pBss->ExtRate, ie_list->ExtRate, ie_list->ExtRateLen);
+	memmove(pBss->ExtRate, ie_list->ExtRate, ie_list->ExtRateLen);
 	pBss->NewExtChanOffset = ie_list->NewExtChannelOffset;
 	pBss->ExtRateLen = ie_list->ExtRateLen;
 	pBss->Channel = ie_list->Channel;
@@ -3722,7 +3722,7 @@ VOID BssEntrySet(
 	pBss->CkipFlag = ie_list->CkipFlag;
 
 	/* New for microsoft Fixed IEs*/
-	NdisMoveMemory(pBss->FixIEs.Timestamp, &ie_list->TimeStamp, 8);
+	memmove(pBss->FixIEs.Timestamp, &ie_list->TimeStamp, 8);
 	pBss->FixIEs.BeaconInterval = ie_list->BeaconPeriod;
 	pBss->FixIEs.Capabilities = ie_list->CapabilityInfo;
 
@@ -3730,7 +3730,7 @@ VOID BssEntrySet(
 	if (LengthVIE != 0)
 	{
 		pBss->VarIELen = LengthVIE;
-		NdisMoveMemory(pBss->VarIEs, pVIE, pBss->VarIELen);
+		memmove(pBss->VarIEs, pVIE, pBss->VarIELen);
 	}
 	else
 	{
@@ -3743,11 +3743,11 @@ VOID BssEntrySet(
 	if (ie_list->HtCapabilityLen> 0)
 	{
 		pBss->HtCapabilityLen = ie_list->HtCapabilityLen;
-		NdisMoveMemory(&pBss->HtCapability, &ie_list->HtCapability, ie_list->HtCapabilityLen);
+		memmove(&pBss->HtCapability, &ie_list->HtCapability, ie_list->HtCapabilityLen);
 		if (ie_list->AddHtInfoLen > 0)
 		{
 			pBss->AddHtInfoLen = ie_list->AddHtInfoLen;
-			NdisMoveMemory(&pBss->AddHtInfo, &ie_list->AddHtInfo, ie_list->AddHtInfoLen);
+			memmove(&pBss->AddHtInfo, &ie_list->AddHtInfo, ie_list->AddHtInfoLen);
 
 			pBss->CentralChannel = get_cent_ch_by_htinfo(pAd, &ie_list->AddHtInfo,
 											&ie_list->HtCapability);
@@ -3755,14 +3755,14 @@ VOID BssEntrySet(
 
 #ifdef DOT11_VHT_AC
 		if (ie_list->vht_cap_len) {
-			NdisMoveMemory(&pBss->vht_cap_ie, &ie_list->vht_cap_ie, ie_list->vht_cap_len);
+			memmove(&pBss->vht_cap_ie, &ie_list->vht_cap_ie, ie_list->vht_cap_len);
 			pBss->vht_cap_len = ie_list->vht_cap_len;
 		}
 
 		if (ie_list->vht_op_len) {
 			VHT_OP_IE *vht_op;
 
-			NdisMoveMemory(&pBss->vht_op_ie, &ie_list->vht_op_ie, ie_list->vht_op_len);
+			memmove(&pBss->vht_op_ie, &ie_list->vht_op_ie, ie_list->vht_op_len);
 			pBss->vht_op_len = ie_list->vht_op_len;
 			vht_op = &ie_list->vht_op_ie;
 			if ((vht_op->vht_op_info.ch_width > 0) &&
@@ -3786,15 +3786,15 @@ VOID BssEntrySet(
 
 	/* new for QOS*/
 	if (ie_list->EdcaParm.bValid)
-		NdisMoveMemory(&pBss->EdcaParm, &ie_list->EdcaParm, sizeof(EDCA_PARM));
+		memmove(&pBss->EdcaParm, &ie_list->EdcaParm, sizeof(EDCA_PARM));
 	else
 		pBss->EdcaParm.bValid = FALSE;
 	if (ie_list->QosCapability.bValid)
-		NdisMoveMemory(&pBss->QosCapability, &ie_list->QosCapability, sizeof(QOS_CAPABILITY_PARM));
+		memmove(&pBss->QosCapability, &ie_list->QosCapability, sizeof(QOS_CAPABILITY_PARM));
 	else
 		pBss->QosCapability.bValid = FALSE;
 	if (ie_list->QbssLoad.bValid)
-		NdisMoveMemory(&pBss->QbssLoad, &ie_list->QbssLoad, sizeof(QBSS_LOAD_PARM));
+		memmove(&pBss->QbssLoad, &ie_list->QbssLoad, sizeof(QBSS_LOAD_PARM));
 	else
 		pBss->QbssLoad.bValid = FALSE;
 
@@ -3832,7 +3832,7 @@ VOID BssEntrySet(
 							break;
 						}
 						pBss->WpsIE.IELen = pEid->Len + 2;
-						NdisMoveMemory(pBss->WpsIE.IE, pEid, pBss->WpsIE.IELen);
+						memmove(pBss->WpsIE.IE, pEid, pBss->WpsIE.IELen);
 #endif /* CONFIG_STA_SUPPORT */
 						break;
 					}
@@ -3845,7 +3845,7 @@ VOID BssEntrySet(
 							break;
 						}
 						pBss->WpaIE.IELen = pEid->Len + 2;
-						NdisMoveMemory(pBss->WpaIE.IE, pEid, pBss->WpaIE.IELen);
+						memmove(pBss->WpaIE.IE, pEid, pBss->WpaIE.IELen);
 					}
 #endif /* CONFIG_STA_SUPPORT */
 					break;
@@ -3860,12 +3860,12 @@ VOID BssEntrySet(
 							break;
 						}
 						pBss->RsnIE.IELen = pEid->Len + 2;
-						NdisMoveMemory(pBss->RsnIE.IE, pEid, pBss->RsnIE.IELen);
+						memmove(pBss->RsnIE.IE, pEid, pBss->RsnIE.IELen);
 					}
 					break;
 #ifdef EXT_BUILD_CHANNEL_LIST
 				case IE_COUNTRY:
-					NdisMoveMemory(&pBss->CountryString[0], pEid->Octet, 3);
+					memmove(&pBss->CountryString[0], pEid->Octet, 3);
 					pBss->bHasCountryIE = TRUE;
 					break;
 #endif /* EXT_BUILD_CHANNEL_LIST */
@@ -4102,7 +4102,7 @@ VOID BssTableSsidSort(
 			if (pAd->StaCfg.wpa_supplicant_info.WpaSupplicantUP & 0x80)
 			{
 				/* copy matching BSS from InTab to OutTab*/
-				NdisMoveMemory(pOutBss, pInBss, sizeof(BSS_ENTRY));
+				memmove(pOutBss, pInBss, sizeof(BSS_ENTRY));
 				OutTab->BssNr++;
 				continue;
 			}
@@ -4145,7 +4145,7 @@ VOID BssTableSsidSort(
                                 CLIENT_STATUS_CLEAR_FLAG(pInBss, fCLIENT_STATUS_USE_SHA256);
 
                                 RSN_CAPABILITIES RsnCap;
-                		NdisMoveMemory(&RsnCap, &pInBss->WPA2.RsnCapability, sizeof(RSN_CAPABILITIES));
+                		memmove(&RsnCap, &pInBss->WPA2.RsnCapability, sizeof(RSN_CAPABILITIES));
                 		RsnCap.word = cpu2le16(RsnCap.word);
                                 if ((pAd->StaCfg.PmfCfg.MFPR) && (RsnCap.field.MFPC == FALSE))
                                         continue;
@@ -4240,7 +4240,7 @@ VOID BssTableSsidSort(
 				continue;
 
 			/* copy matching BSS from InTab to OutTab*/
-			NdisMoveMemory(pOutBss, pInBss, sizeof(BSS_ENTRY));
+			memmove(pOutBss, pInBss, sizeof(BSS_ENTRY));
 
 			OutTab->BssNr++;
 		}
@@ -4321,7 +4321,7 @@ VOID BssTableSsidSort(
 					continue;
 
 			/* copy matching BSS from InTab to OutTab*/
-			NdisMoveMemory(pOutBss, pInBss, sizeof(BSS_ENTRY));
+			memmove(pOutBss, pInBss, sizeof(BSS_ENTRY));
 
 			OutTab->BssNr++;
 		}
@@ -4358,9 +4358,9 @@ VOID BssTableSortByRssi(
                         {
                                 if (OutTab->BssEntry[j].Rssi != OutTab->BssEntry[i].Rssi )
                                 {
-                                        NdisMoveMemory(pTmpBss, &OutTab->BssEntry[j], sizeof(BSS_ENTRY));
-                                        NdisMoveMemory(&OutTab->BssEntry[j], &OutTab->BssEntry[i], sizeof(BSS_ENTRY));
-                                        NdisMoveMemory(&OutTab->BssEntry[i], pTmpBss, sizeof(BSS_ENTRY));
+                                        memmove(pTmpBss, &OutTab->BssEntry[j], sizeof(BSS_ENTRY));
+                                        memmove(&OutTab->BssEntry[j], &OutTab->BssEntry[i], sizeof(BSS_ENTRY));
+                                        memmove(&OutTab->BssEntry[i], pTmpBss, sizeof(BSS_ENTRY));
                                 }
                         }
                 }
@@ -4836,7 +4836,7 @@ ULONG MakeOutgoingFrame(UCHAR *Buffer, ULONG *FrameLen, ...)
 			break;
 		}
 		p = va_arg(Args, PVOID);
-		NdisMoveMemory(&Buffer[TotLeng], p, leng);
+		memmove(&Buffer[TotLeng], p, leng);
 		TotLeng = TotLeng + leng;
 	} while(TRUE);
 
@@ -4932,7 +4932,7 @@ BOOLEAN MlmeEnqueue(
 
 	if (Msg != NULL)
 	{
-		NdisMoveMemory(Queue->Entry[Tail].Msg, Msg, MsgLen);
+		memmove(Queue->Entry[Tail].Msg, Msg, MsgLen);
 	}
 
 	NdisReleaseSpinLock(&(Queue->Lock));
@@ -5111,7 +5111,7 @@ BOOLEAN MlmeEnqueueForRecv(
 
 	if (Msg != NULL)
 	{
-		NdisMoveMemory(Queue->Entry[Tail].Msg, Msg, MsgLen);
+		memmove(Queue->Entry[Tail].Msg, Msg, MsgLen);
 	}
 
 	NdisReleaseSpinLock(&(Queue->Lock));
@@ -5334,8 +5334,8 @@ BOOLEAN MsgTypeSubst(struct rtmp_adapter *pAd, FRAME_802_11 *pFrame, INT *Machin
 			break;
 		case SUBTYPE_AUTH:
 			/* get the sequence number from payload 24 Mac Header + 2 bytes algorithm*/
-			NdisMoveMemory(&Seq, &pFrame->Octet[2], sizeof(USHORT));
-			NdisMoveMemory(&Alg, &pFrame->Octet[0], sizeof(USHORT));
+			memmove(&Seq, &pFrame->Octet[2], sizeof(USHORT));
+			memmove(&Alg, &pFrame->Octet[0], sizeof(USHORT));
 			if (Seq == 1 || Seq == 3)
 			{
 				*Machine = AUTH_RSP_STATE_MACHINE;
@@ -5574,7 +5574,7 @@ VOID RTMPCheckRates(struct rtmp_adapter *pAd, UCHAR SupRate[], UCHAR *SupRateLen
 				NewRate[NewRateLen++] = SupRate[i];
 
 	*SupRateLen = NewRateLen;
-	NdisMoveMemory(SupRate, NewRate, NewRateLen);
+	memmove(SupRate, NewRate, NewRateLen);
 }
 
 #ifdef CONFIG_STA_SUPPORT

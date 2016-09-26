@@ -167,7 +167,7 @@ VOID	WpaMicFailureReportFrame(
 	SET_UINT16_TO_ARRARY(pPacket->Body_Len, MIN_LEN_OF_EAPOL_KEY_MSG)
 
 	/* Key Replay Count */
-	NdisMoveMemory(pPacket->KeyDesc.ReplayCounter, pAd->StaCfg.ReplayCounter, LEN_KEY_DESC_REPLAY);
+	memmove(pPacket->KeyDesc.ReplayCounter, pAd->StaCfg.ReplayCounter, LEN_KEY_DESC_REPLAY);
     inc_byte_array(pAd->StaCfg.ReplayCounter, 8);
 
 	/* Convert to little-endian format. */
@@ -195,13 +195,13 @@ VOID	WpaMicFailureReportFrame(
 	{	/* AES */
         UCHAR digest[20] = {0};
 		RT_HMAC_SHA1(pAd->StaCfg.PTK, LEN_PTK_KCK, pOutBuffer, FrameLen, digest, SHA1_DIGEST_SIZE);
-		NdisMoveMemory(Mic, digest, LEN_KEY_DESC_MIC);
+		memmove(Mic, digest, LEN_KEY_DESC_MIC);
 	}
 	else
 	{	/* TKIP */
 		RT_HMAC_MD5(pAd->StaCfg.PTK, LEN_PTK_KCK, pOutBuffer, FrameLen, Mic, MD5_DIGEST_SIZE);
 	}
-	NdisMoveMemory(pPacket->KeyDesc.KeyMic, Mic, LEN_KEY_DESC_MIC);
+	memmove(pPacket->KeyDesc.KeyMic, Mic, LEN_KEY_DESC_MIC);
 
 	/* copy frame to Tx ring and send MIC failure report frame to authenticator */
 	RTMPToWirelessSta(pAd, &pAd->MacTab.Content[BSSID_WCID],
@@ -246,14 +246,14 @@ VOID WpaStaPairwiseKeySetting(struct rtmp_adapter *pAd)
 	/* Pairwise key shall use key#0  */
 	pSharedKey = &pAd->SharedKey[BSS0][0];
 
-	NdisMoveMemory(pAd->StaCfg.PTK, pEntry->PTK, LEN_PTK);
+	memmove(pAd->StaCfg.PTK, pEntry->PTK, LEN_PTK);
 
 	/* Prepare pair-wise key information into shared key table */
 	NdisZeroMemory(pSharedKey, sizeof(CIPHER_KEY));
 	pSharedKey->KeyLen = LEN_TK;
-    NdisMoveMemory(pSharedKey->Key, &pAd->StaCfg.PTK[32], LEN_TK);
-	NdisMoveMemory(pSharedKey->RxMic, &pAd->StaCfg.PTK[48], LEN_TKIP_MIC);
-	NdisMoveMemory(pSharedKey->TxMic, &pAd->StaCfg.PTK[48+LEN_TKIP_MIC], LEN_TKIP_MIC);
+    memmove(pSharedKey->Key, &pAd->StaCfg.PTK[32], LEN_TK);
+	memmove(pSharedKey->RxMic, &pAd->StaCfg.PTK[48], LEN_TKIP_MIC);
+	memmove(pSharedKey->TxMic, &pAd->StaCfg.PTK[48+LEN_TKIP_MIC], LEN_TKIP_MIC);
 
 	/* Decide its ChiperAlg */
 	if (pAd->StaCfg.PairCipher == Ndis802_11TKIPEnable)
@@ -264,9 +264,9 @@ VOID WpaStaPairwiseKeySetting(struct rtmp_adapter *pAd)
 		pSharedKey->CipherAlg = CIPHER_NONE;
 
 	/* Update these related information to MAC_TABLE_ENTRY */
-	NdisMoveMemory(pEntry->PairwiseKey.Key, &pAd->StaCfg.PTK[32], LEN_TK);
-	NdisMoveMemory(pEntry->PairwiseKey.RxMic, &pAd->StaCfg.PTK[48], LEN_TKIP_MIC);
-	NdisMoveMemory(pEntry->PairwiseKey.TxMic, &pAd->StaCfg.PTK[48+LEN_TKIP_MIC], LEN_TKIP_MIC);
+	memmove(pEntry->PairwiseKey.Key, &pAd->StaCfg.PTK[32], LEN_TK);
+	memmove(pEntry->PairwiseKey.RxMic, &pAd->StaCfg.PTK[48], LEN_TKIP_MIC);
+	memmove(pEntry->PairwiseKey.TxMic, &pAd->StaCfg.PTK[48+LEN_TKIP_MIC], LEN_TKIP_MIC);
 	pEntry->PairwiseKey.CipherAlg = pSharedKey->CipherAlg;
 
 	/* Update pairwise key information to ASIC Shared Key Table	 */
@@ -299,9 +299,9 @@ VOID WpaStaGroupKeySetting(struct rtmp_adapter *pAd)
 	/* Prepare pair-wise key information into shared key table */
 	NdisZeroMemory(pSharedKey, sizeof(CIPHER_KEY));
 	pSharedKey->KeyLen = LEN_TK;
-	NdisMoveMemory(pSharedKey->Key, pAd->StaCfg.GTK, LEN_TK);
-	NdisMoveMemory(pSharedKey->RxMic, &pAd->StaCfg.GTK[16], LEN_TKIP_MIC);
-	NdisMoveMemory(pSharedKey->TxMic, &pAd->StaCfg.GTK[24], LEN_TKIP_MIC);
+	memmove(pSharedKey->Key, pAd->StaCfg.GTK, LEN_TK);
+	memmove(pSharedKey->RxMic, &pAd->StaCfg.GTK[16], LEN_TKIP_MIC);
+	memmove(pSharedKey->TxMic, &pAd->StaCfg.GTK[24], LEN_TKIP_MIC);
 
 	/* Update Shared Key CipherAlg */
 	pSharedKey->CipherAlg = CIPHER_NONE;

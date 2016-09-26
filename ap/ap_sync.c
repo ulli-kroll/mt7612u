@@ -194,21 +194,21 @@ VOID APPeerProbeReqAction(
 							 sizeof(ADD_HT_INFO_IE),          &pAd->CommonCfg.AddHTInfo,
 							  END_OF_ARGS);
 #else
-			NdisMoveMemory(&HtCapabilityTmp, &pAd->CommonCfg.HtCapability, HtLen);
+			memmove(&HtCapabilityTmp, &pAd->CommonCfg.HtCapability, HtLen);
 			*(USHORT *)(&HtCapabilityTmp.HtCapInfo) = SWAP16(*(USHORT *)(&HtCapabilityTmp.HtCapInfo));
 #ifdef UNALIGNMENT_SUPPORT
 			{
 				EXT_HT_CAP_INFO extHtCapInfo;
 
-				NdisMoveMemory((PUCHAR)(&extHtCapInfo), (PUCHAR)(&HtCapabilityTmp.ExtHtCapInfo), sizeof(EXT_HT_CAP_INFO));
+				memmove(&extHtCapInfo, &HtCapabilityTmp.ExtHtCapInfo, sizeof(EXT_HT_CAP_INFO));
 				*(USHORT *)(&extHtCapInfo) = cpu2le16(*(USHORT *)(&extHtCapInfo));
-				NdisMoveMemory((PUCHAR)(&HtCapabilityTmp.ExtHtCapInfo), (PUCHAR)(&extHtCapInfo), sizeof(EXT_HT_CAP_INFO));
+				memmove(&HtCapabilityTmp.ExtHtCapInfo, &extHtCapInfo, sizeof(EXT_HT_CAP_INFO));
 			}
 #else
 			*(USHORT *)(&HtCapabilityTmp.ExtHtCapInfo) = cpu2le16(*(USHORT *)(&HtCapabilityTmp.ExtHtCapInfo));
 #endif /* UNALIGNMENT_SUPPORT */
 
-			NdisMoveMemory(&addHTInfoTmp, &pAd->CommonCfg.AddHTInfo, AddHtLen);
+			memmove(&addHTInfoTmp, &pAd->CommonCfg.AddHTInfo, AddHtLen);
 			*(USHORT *)(&addHTInfoTmp.AddHtInfo2) = SWAP16(*(USHORT *)(&addHTInfoTmp.AddHtInfo2));
 			*(USHORT *)(&addHTInfoTmp.AddHtInfo3) = SWAP16(*(USHORT *)(&addHTInfoTmp.AddHtInfo3));
 
@@ -547,15 +547,15 @@ VOID APPeerProbeReqAction(
 							  HtLen,          					&pAd->CommonCfg.HtCapability,
 							  END_OF_ARGS);
 #else
-				NdisMoveMemory(&HtCapabilityTmp, &pAd->CommonCfg.HtCapability, HtLen);
+				memmove(&HtCapabilityTmp, &pAd->CommonCfg.HtCapability, HtLen);
 				*(USHORT *)(&HtCapabilityTmp.HtCapInfo) = SWAP16(*(USHORT *)(&HtCapabilityTmp.HtCapInfo));
 #ifdef UNALIGNMENT_SUPPORT
 			{
 				EXT_HT_CAP_INFO extHtCapInfo;
 
-				NdisMoveMemory((PUCHAR)(&extHtCapInfo), (PUCHAR)(&HtCapabilityTmp.ExtHtCapInfo), sizeof(EXT_HT_CAP_INFO));
+				memmove(&extHtCapInfo), &HtCapabilityTmp.ExtHtCapInfo, sizeof(EXT_HT_CAP_INFO));
 				*(USHORT *)(&extHtCapInfo) = cpu2le16(*(USHORT *)(&extHtCapInfo));
-				NdisMoveMemory((PUCHAR)(&HtCapabilityTmp.ExtHtCapInfo), (PUCHAR)(&extHtCapInfo), sizeof(EXT_HT_CAP_INFO));
+				memmove(&HtCapabilityTmp.ExtHtCapInfo, &extHtCapInfo, sizeof(EXT_HT_CAP_INFO));
 			}
 #else
 			*(USHORT *)(&HtCapabilityTmp.ExtHtCapInfo) = cpu2le16(*(USHORT *)(&HtCapabilityTmp.ExtHtCapInfo));
@@ -580,7 +580,7 @@ VOID APPeerProbeReqAction(
 								  AddHtLen, 					  &pAd->CommonCfg.AddHTInfo,
 								  END_OF_ARGS);
 #else
-				NdisMoveMemory(&addHTInfoTmp, &pAd->CommonCfg.AddHTInfo, AddHtLen);
+				memmove(&addHTInfoTmp, &pAd->CommonCfg.AddHTInfo, AddHtLen);
 				*(USHORT *)(&addHTInfoTmp.AddHtInfo2) = SWAP16(*(USHORT *)(&addHTInfoTmp.AddHtInfo2));
 				*(USHORT *)(&addHTInfoTmp.AddHtInfo3) = SWAP16(*(USHORT *)(&addHTInfoTmp.AddHtInfo3));
 
@@ -894,7 +894,7 @@ VOID APPeerBeaconAction(
 
 					if (ie_list->operating_mode.rx_nss_type == 0) {
 						pEntry->force_op_mode = TRUE;
-						NdisMoveMemory(&pEntry->operating_mode, &ie_list->operating_mode, 1);
+						memmove(&pEntry->operating_mode, &ie_list->operating_mode, 1);
 
 						//printk("recv notify\n");
 					}
@@ -991,9 +991,9 @@ VOID APPeerBeaconAction(
 
 				if (Idx != BSS_NOT_FOUND)
 				{
-					NdisMoveMemory(pAd->ScanTab.BssEntry[Idx].PTSF, &Elem->Msg[24], 4);
-					NdisMoveMemory(&pAd->ScanTab.BssEntry[Idx].TTSF[0], &Elem->TimeStamp.u.LowPart, 4);
-					NdisMoveMemory(&pAd->ScanTab.BssEntry[Idx].TTSF[4], &Elem->TimeStamp.u.LowPart, 4);
+					memmove(pAd->ScanTab.BssEntry[Idx].PTSF, &Elem->Msg[24], 4);
+					memmove(&pAd->ScanTab.BssEntry[Idx].TTSF[0], &Elem->TimeStamp.u.LowPart, 4);
+					memmove(&pAd->ScanTab.BssEntry[Idx].TTSF[4], &Elem->TimeStamp.u.LowPart, 4);
 				}
 
 				if ((ap_count = BssChannelAPCount(&pAd->ScanTab, pAd->CommonCfg.Channel)) > pAd->ed_ap_threshold)
@@ -1165,7 +1165,7 @@ VOID APMlmeScanReqAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 		pAd->MlmeAux.BssType = BssType;
 		pAd->MlmeAux.ScanType = ScanType;
 		pAd->MlmeAux.SsidLen = SsidLen;
-		NdisMoveMemory(pAd->MlmeAux.Ssid, Ssid, SsidLen);
+		memmove(pAd->MlmeAux.Ssid, Ssid, SsidLen);
 
 		/* start from the first channel */
 #ifdef AP_PARTIAL_SCAN_SUPPORT
@@ -1333,9 +1333,9 @@ VOID APPeerBeaconAtScanAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 #endif /* APCLI_SUPPORT */
 		if (Idx != BSS_NOT_FOUND)
 		{
-			NdisMoveMemory(pAd->ScanTab.BssEntry[Idx].PTSF, &Elem->Msg[24], 4);
-			NdisMoveMemory(&pAd->ScanTab.BssEntry[Idx].TTSF[0], &Elem->TimeStamp.u.LowPart, 4);
-			NdisMoveMemory(&pAd->ScanTab.BssEntry[Idx].TTSF[4], &Elem->TimeStamp.u.LowPart, 4);
+			memmove(pAd->ScanTab.BssEntry[Idx].PTSF, &Elem->Msg[24], 4);
+			memmove(&pAd->ScanTab.BssEntry[Idx].TTSF[0], &Elem->TimeStamp.u.LowPart, 4);
+			memmove(&pAd->ScanTab.BssEntry[Idx].TTSF[4], &Elem->TimeStamp.u.LowPart, 4);
 		}
 
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
@@ -1433,7 +1433,7 @@ VOID ApSiteSurvey(
 	if (pSsid)
 	{
 	    ScanReq.SsidLen = pSsid->SsidLength;
-	    NdisMoveMemory(ScanReq.Ssid, pSsid->Ssid, pSsid->SsidLength);
+	    memmove(ScanReq.Ssid, pSsid->Ssid, pSsid->SsidLength);
 	}
     ScanReq.BssType = BSS_ANY;
     ScanReq.ScanType = ScanType;
@@ -1557,7 +1557,7 @@ VOID SupportRate(
 
 	if ((SupRateLen <= MAX_LEN_OF_SUPPORTED_RATES) && (SupRateLen > 0))
 	{
-		NdisMoveMemory(*ppRates, SupRate, SupRateLen);
+		memmove(*ppRates, SupRate, SupRateLen);
 		*RatesLen = SupRateLen;
 	}
 	else
@@ -1578,12 +1578,12 @@ VOID SupportRate(
 
 	if (ExtRateLen + *RatesLen <= MAX_LEN_OF_SUPPORTED_RATES)
 	{
-		NdisMoveMemory((*ppRates + (ULONG)*RatesLen), ExtRate, ExtRateLen);
+		memmove((*ppRates + (ULONG)*RatesLen), ExtRate, ExtRateLen);
 		*RatesLen = (*RatesLen) + ExtRateLen;
 	}
 	else
 	{
-		NdisMoveMemory((*ppRates + (ULONG)*RatesLen), ExtRate, MAX_LEN_OF_SUPPORTED_RATES - (*RatesLen));
+		memmove((*ppRates + (ULONG)*RatesLen), ExtRate, MAX_LEN_OF_SUPPORTED_RATES - (*RatesLen));
 		*RatesLen = MAX_LEN_OF_SUPPORTED_RATES;
 	}
 

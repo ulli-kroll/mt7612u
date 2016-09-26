@@ -171,7 +171,7 @@ VOID RTMPCkipMicInit(
     IN  PUCHAR              CK)
 {
     /* prepare for new mic calculation */
-    NdisMoveMemory(pContext->CK, CK, sizeof(pContext->CK));
+    memmove(pContext->CK, CK, sizeof(pContext->CK));
     pContext->accum = 0;
     pContext->position = 0;
 }
@@ -526,17 +526,17 @@ VOID RTMPCkipInsertCMIC(
 	{
 		for(i = 0; i < (16 / pKey->KeyLen); i++)
 		{
-			NdisMoveMemory(ckip_ck + i * pKey->KeyLen,
+			memmove(ckip_ck + i * pKey->KeyLen,
 							pKey->Key,
 							pKey->KeyLen);
 		}
-		NdisMoveMemory(ckip_ck + i * pKey->KeyLen,
+		memmove(ckip_ck + i * pKey->KeyLen,
 						pKey->Key,
 						16 - (i * pKey->KeyLen));
 	}
 	else
 	{
-		NdisMoveMemory(ckip_ck, pKey->Key, pKey->KeyLen);
+		memmove(ckip_ck, pKey->Key, pKey->KeyLen);
 	}
     RTMPCkipMicInit(&mic_ctx, ckip_ck);
     RTMPMicUpdate(&mic_ctx, pDA, MAC_ADDR_LEN);            /* MIC <-- DA */

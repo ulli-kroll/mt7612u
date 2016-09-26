@@ -237,7 +237,7 @@ BOOLEAN StaUpdateMacTableEntry(
 			CLIENT_STATUS_SET_FLAG(pEntry, fCLIENT_STATUS_RDG_CAPABLE);
 		if (ht_cap->ExtHtCapInfo.MCSFeedback == 0x03)
 			CLIENT_STATUS_SET_FLAG(pEntry, fCLIENT_STATUS_MCSFEEDBACK_CAPABLE);
-		NdisMoveMemory(&pEntry->HTCapability, ht_cap, htcap_len);
+		memmove(&pEntry->HTCapability, ht_cap, htcap_len);
 
 		assoc_ht_info_debugshow(pAd, pEntry, htcap_len, ht_cap);
 #ifdef DOT11_VHT_AC
@@ -246,7 +246,7 @@ BOOLEAN StaUpdateMacTableEntry(
 		{
 			vht_mode_adjust(pAd, pEntry, &ie_list->vht_cap, &ie_list->vht_op);
 			assoc_vht_info_debugshow(pAd, pEntry, &ie_list->vht_cap, &ie_list->vht_op);
-			NdisMoveMemory(&pEntry->vht_cap_ie, &ie_list->vht_cap, sizeof(VHT_CAP_IE));
+			memmove(&pEntry->vht_cap_ie, &ie_list->vht_cap, sizeof(VHT_CAP_IE));
 		}
 #endif /* DOT11_VHT_AC */
 	} else {

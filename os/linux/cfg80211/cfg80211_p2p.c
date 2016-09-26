@@ -1028,7 +1028,7 @@ VOID CFG80211DRV_P2pClientKeyAdd(struct rtmp_adapter *pAd, VOID *pData)
 				printk("APCLI: Set AES Security Set. [%d] (GROUP) %d\n", BssIdx, pKeyInfo->KeyLen);
 				NdisZeroMemory(&pApCliEntry->SharedKey[pKeyInfo->KeyId], sizeof(CIPHER_KEY));
 				pApCliEntry->SharedKey[pKeyInfo->KeyId].KeyLen = LEN_TK;
-				NdisMoveMemory(pApCliEntry->SharedKey[pKeyInfo->KeyId].Key, pKeyInfo->KeyBuf, pKeyInfo->KeyLen);
+				memmove(pApCliEntry->SharedKey[pKeyInfo->KeyId].Key, pKeyInfo->KeyBuf, pKeyInfo->KeyLen);
 
 				pApCliEntry->SharedKey[pKeyInfo->KeyId].CipherAlg = CIPHER_AES;
 
@@ -1056,7 +1056,7 @@ VOID CFG80211DRV_P2pClientKeyAdd(struct rtmp_adapter *pAd, VOID *pData)
 				pMacEntry->PairwiseKey.KeyLen = LEN_TK;
 
 				NdisCopyMemory(&pMacEntry->PTK[OFFSET_OF_PTK_TK], pKeyInfo->KeyBuf, OFFSET_OF_PTK_TK);
-				NdisMoveMemory(pMacEntry->PairwiseKey.Key, &pMacEntry->PTK[OFFSET_OF_PTK_TK], pKeyInfo->KeyLen);
+				memmove(pMacEntry->PairwiseKey.Key, &pMacEntry->PTK[OFFSET_OF_PTK_TK], pKeyInfo->KeyLen);
 
 				pMacEntry->PairwiseKey.CipherAlg = CIPHER_AES;
 
@@ -1090,7 +1090,7 @@ VOID CFG80211DRV_SetP2pCliAssocIe(struct rtmp_adapter *pAd, VOID *pData, UINT ie
 		if (apcli_entry->wpa_supplicant_info.pWpaAssocIe)
 		{
 			apcli_entry->wpa_supplicant_info.WpaAssocIeLen = ie_len;
-			NdisMoveMemory(apcli_entry->wpa_supplicant_info.pWpaAssocIe, pData, apcli_entry->wpa_supplicant_info.WpaAssocIeLen);
+			memmove(apcli_entry->wpa_supplicant_info.pWpaAssocIe, pData, apcli_entry->wpa_supplicant_info.WpaAssocIeLen);
 		}
 		else
 			apcli_entry->wpa_supplicant_info.WpaAssocIeLen = 0;

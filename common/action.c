@@ -161,9 +161,9 @@ VOID MlmeADDBAAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 		{
 			BA_PARM tmpBaParm;
 
-			NdisMoveMemory((PUCHAR)(&tmpBaParm), (PUCHAR)(&Frame.BaParm), sizeof(BA_PARM));
+			memmove(&tmpBaParm, &Frame.BaParm, sizeof(BA_PARM));
 			*(USHORT *)(&tmpBaParm) = cpu2le16(*(USHORT *)(&tmpBaParm));
-			NdisMoveMemory((PUCHAR)(&Frame.BaParm), (PUCHAR)(&tmpBaParm), sizeof(BA_PARM));
+			memmove(&Frame.BaParm, &tmpBaParm, sizeof(BA_PARM));
 		}
 #else
 		*(USHORT *)(&(Frame.BaParm)) = cpu2le16((*(USHORT *)(&(Frame.BaParm))));
@@ -909,7 +909,7 @@ VOID PeerPublicAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 					{
 						int apidx;
 
-						NdisMoveMemory((PUCHAR)&pAd->CommonCfg.LastBSSCoexist2040, (PUCHAR)pBssCoexistIe, sizeof(BSS_2040_COEXIST_IE));
+						memmove(&pAd->CommonCfg.LastBSSCoexist2040, pBssCoexistIe, sizeof(BSS_2040_COEXIST_IE));
 						pAd->CommonCfg.Bss2040CoexistFlag |= BSS_2040_COEXIST_INFO_SYNC;
 
 						if (!(pAd->CommonCfg.Bss2040CoexistFlag & BSS_2040_COEXIST_TIMER_FIRED))
@@ -1129,7 +1129,7 @@ VOID PeerVHTAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 
 				if (op_mode->rx_nss_type == 0) {
 					pEntry->force_op_mode = TRUE;
-					NdisMoveMemory(&pEntry->operating_mode, op_mode, 1);
+					memmove(&pEntry->operating_mode, op_mode, 1);
 				}
 			}
 			break;

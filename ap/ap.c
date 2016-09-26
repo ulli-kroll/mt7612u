@@ -163,7 +163,7 @@ VOID APStartUp(struct rtmp_adapter *pAd)
 
 		if ((pMbss->SsidLen <= 0) || (pMbss->SsidLen > MAX_LEN_OF_SSID))
 		{
-			NdisMoveMemory(pMbss->Ssid, "HT_AP", 5);
+			memmove(pMbss->Ssid, "HT_AP", 5);
 			pMbss->Ssid[5] = '0' + idx;
 			pMbss->SsidLen = 6;
 		}
@@ -215,7 +215,7 @@ VOID APStartUp(struct rtmp_adapter *pAd)
 
 		if (wdev->if_dev != NULL)
 		{
-			NdisMoveMemory(RTMP_OS_NETDEV_GET_PHYADDR(wdev->if_dev),
+			memmove(RTMP_OS_NETDEV_GET_PHYADDR(wdev->if_dev),
 								wdev->if_addr, MAC_ADDR_LEN);
 		}
 		COPY_MAC_ADDR(wdev->bssid, wdev->if_addr);
@@ -2154,12 +2154,12 @@ BOOLEAN DOT1X_InternalCmdAction(
 	if (pEntry)
 	{
 		apidx = pEntry->apidx;
-		NdisMoveMemory(s_addr, pEntry->Addr, MAC_ADDR_LEN);
+		memmove(s_addr, pEntry->Addr, MAC_ADDR_LEN);
 	}
 	else
 	{
 		/* Fake a Source Address for transmission */
-		NdisMoveMemory(s_addr, pAd->ApCfg.MBSSID[apidx].wdev.bssid, MAC_ADDR_LEN);
+		memmove(s_addr, pAd->ApCfg.MBSSID[apidx].wdev.bssid, MAC_ADDR_LEN);
 		s_addr[0] |= 0x80;
 	}
 
@@ -2174,7 +2174,7 @@ BOOLEAN DOT1X_InternalCmdAction(
 	offset += LENGTH_802_3;
 
 	/* Prepare the specific header of internal command */
-	NdisMoveMemory(&FrameBuf[offset], RalinkIe, sizeof(RalinkIe));
+	memmove(&FrameBuf[offset], RalinkIe, sizeof(RalinkIe));
 
 	/* Report to upper layer */
 	if (RTMP_L2_FRAME_TX_ACTION(pAd, apidx, FrameBuf, frame_len) == FALSE)
@@ -2222,7 +2222,7 @@ BOOLEAN DOT1X_EapTriggerAction(
 		offset += LENGTH_802_3;
 
 		/* Prepare a fake eapol-start body */
-		NdisMoveMemory(&FrameBuf[offset], eapol_start_1x_hdr, sizeof(eapol_start_1x_hdr));
+		memmove(&FrameBuf[offset], eapol_start_1x_hdr, sizeof(eapol_start_1x_hdr));
 
 		/* Report to upper layer */
 		if (RTMP_L2_FRAME_TX_ACTION(pAd, apidx, FrameBuf, frame_len) == FALSE)

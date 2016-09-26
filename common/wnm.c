@@ -159,7 +159,7 @@ BOOLEAN IsGratuitousARP(UCHAR *pData)
 	UCHAR *SenderIP;
 	UCHAR *TargetIP;
 
-	NdisMoveMemory(&ProtoType, pData, 2);
+	memmove(&ProtoType, pData, 2);
 	ProtoType = OS_NTOHS(ProtoType);
 	Pos += 2;
 
@@ -187,7 +187,7 @@ BOOLEAN IsUnsolicitedNeighborAdver(struct rtmp_adapter *pAd,
 	UCHAR *Pos = pData;
 	UINT16 ProtoType;
 
-	NdisMoveMemory(&ProtoType, pData, 2);
+	memmove(&ProtoType, pData, 2);
 	ProtoType = OS_NTOHS(ProtoType);
 	Pos += 2;
 
@@ -230,14 +230,14 @@ BOOLEAN IsIPv4ProxyARPCandidate(IN struct rtmp_adapter *pAd,
 	UCHAR *TargetIP;
 
 
-	NdisMoveMemory(&ProtoType, pData, 2);
+	memmove(&ProtoType, pData, 2);
 	ProtoType = OS_NTOHS(ProtoType);
 	Pos += 2;
 
 	if (ProtoType == ETH_P_ARP)
 	{
 		Pos += 6;
-		NdisMoveMemory(&ARPOperation, Pos, 2);
+		memmove(&ARPOperation, Pos, 2);
 		ARPOperation = OS_NTOHS(ARPOperation);
 		Pos += 2;
 
@@ -265,7 +265,7 @@ BOOLEAN IsIpv6DuplicateAddrDetect(struct rtmp_adapter *pAd,
 	UINT16 ProtoType;
 	RT_IPV6_ADDR *pIPv6Addr;
 
-	NdisMoveMemory(&ProtoType, pData, 2);
+	memmove(&ProtoType, pData, 2);
 	ProtoType = OS_NTOHS(ProtoType);
 	Pos += 2;
 
@@ -301,7 +301,7 @@ BOOLEAN IsIPv6ProxyARPCandidate(IN struct rtmp_adapter *pAd,
 	UINT16 ProtoType;
 	RT_IPV6_ADDR *pIPv6Addr;
 
-	NdisMoveMemory(&ProtoType, pData, 2);
+	memmove(&ProtoType, pData, 2);
 	ProtoType = OS_NTOHS(ProtoType);
 	Pos += 2;
 
@@ -337,7 +337,7 @@ BOOLEAN IsIPv6RouterSolicitation(IN struct rtmp_adapter *pAd,
 	UCHAR *Pos = pData;
 	UINT16 ProtoType;
 
-	NdisMoveMemory(&ProtoType, pData, 2);
+	memmove(&ProtoType, pData, 2);
 	ProtoType = OS_NTOHS(ProtoType);
 	Pos += 2;
 
@@ -363,7 +363,7 @@ BOOLEAN IsIPv6RouterAdvertisement(IN struct rtmp_adapter *pAd,
 	UCHAR *Pos = pData;
 	UINT16 ProtoType;
 
-	NdisMoveMemory(&ProtoType, pData, 2);
+	memmove(&ProtoType, pData, 2);
 	ProtoType = OS_NTOHS(ProtoType);
 	Pos += 2;
 
@@ -389,7 +389,7 @@ BOOLEAN IsTDLSPacket(IN struct rtmp_adapter *pAd,
 	UCHAR *Pos = pData;
 	UINT16 ProtoType;
 
-	NdisMoveMemory(&ProtoType, pData, 2);
+	memmove(&ProtoType, pData, 2);
 	ProtoType = OS_NTOHS(ProtoType);
 	Pos += 2;
 
@@ -457,8 +457,8 @@ BOOLEAN GetIPv4ProxyARPTable(IN struct rtmp_adapter *pAd,
 	RTMP_SEM_EVENT_WAIT(&pWNMCtrl->ProxyARPListLock, Ret);
 	DlListForEach(ProxyARPEntry, &pWNMCtrl->IPv4ProxyARPList, PROXY_ARP_IPV4_ENTRY, List)
 	{
-			NdisMoveMemory(ProxyARPUnit->TargetMACAddr, ProxyARPEntry->TargetMACAddr, MAC_ADDR_LEN);
-			NdisMoveMemory(ProxyARPUnit->TargetIPAddr, ProxyARPEntry->TargetIPAddr, 4);
+			memmove(ProxyARPUnit->TargetMACAddr, ProxyARPEntry->TargetMACAddr, MAC_ADDR_LEN);
+			memmove(ProxyARPUnit->TargetIPAddr, ProxyARPEntry->TargetIPAddr, 4);
 			ProxyARPUnit++;
 	}
 	RTMP_SEM_EVENT_UP(&pWNMCtrl->ProxyARPListLock);
@@ -481,9 +481,9 @@ BOOLEAN GetIPv6ProxyARPTable(IN struct rtmp_adapter *pAd,
 	RTMP_SEM_EVENT_WAIT(&pWNMCtrl->ProxyARPIPv6ListLock, Ret);
 	DlListForEach(ProxyARPEntry, &pWNMCtrl->IPv6ProxyARPList, PROXY_ARP_IPV6_ENTRY, List)
 	{
-			NdisMoveMemory(ProxyARPUnit->TargetMACAddr, ProxyARPEntry->TargetMACAddr, MAC_ADDR_LEN);
+			memmove(ProxyARPUnit->TargetMACAddr, ProxyARPEntry->TargetMACAddr, MAC_ADDR_LEN);
 			ProxyARPUnit->TargetIPType = ProxyARPEntry->TargetIPType;
-			NdisMoveMemory(ProxyARPUnit->TargetIPAddr, ProxyARPEntry->TargetIPAddr, 16);
+			memmove(ProxyARPUnit->TargetIPAddr, ProxyARPEntry->TargetIPAddr, 16);
 			ProxyARPUnit++;
 	}
 	RTMP_SEM_EVENT_UP(&pWNMCtrl->ProxyARPIPv6ListLock);
@@ -523,8 +523,8 @@ UINT32 AddIPv4ProxyARPEntry(IN struct rtmp_adapter *pAd,
 		return FALSE;
 	}
 
-	NdisMoveMemory(ProxyARPEntry->TargetMACAddr, pTargetMACAddr, 6);
-	NdisMoveMemory(ProxyARPEntry->TargetIPAddr, pTargetIPAddr, 4);
+	memmove(ProxyARPEntry->TargetMACAddr, pTargetMACAddr, 6);
+	memmove(ProxyARPEntry->TargetIPAddr, pTargetIPAddr, 4);
 
 	for (i = 0; i < 4; i++)
 		printk("pTargetIPv4Addr[%i] = %x\n", i, pTargetIPAddr[i]);
@@ -597,14 +597,14 @@ UINT32 AddIPv6ProxyARPEntry(IN struct rtmp_adapter *pAd,
 		return FALSE;
 	}
 
-	NdisMoveMemory(ProxyARPEntry->TargetMACAddr, pTargetMACAddr, 6);
+	memmove(ProxyARPEntry->TargetMACAddr, pTargetMACAddr, 6);
 
 	if (NdisEqualMemory(link_local, pTargetIPAddr, 2))
 		ProxyARPEntry->TargetIPType = IPV6_LINK_LOCAL;
 	else
 		ProxyARPEntry->TargetIPType = IPV6_GLOBAL;
 
-	NdisMoveMemory(ProxyARPEntry->TargetIPAddr, pTargetIPAddr, 16);
+	memmove(ProxyARPEntry->TargetIPAddr, pTargetIPAddr, 16);
 
 	for (i = 0; i < 6; i++)
 		printk("pTargetMACAddr[%i] = %x\n", i, pTargetMACAddr[i]);
@@ -773,7 +773,7 @@ VOID WNMIPv6ProxyARPCheck(
 			INT16 PayloadLen;
 			DBGPRINT(RT_DEBUG_OFF, ("This packet is router advertisement\n"));
 
-			NdisMoveMemory(&PayloadLen, Pos, 2);
+			memmove(&PayloadLen, Pos, 2);
 			PayloadLen = OS_NTOHS(PayloadLen);
 
 			/* IPv6 options */
@@ -796,7 +796,7 @@ VOID WNMIPv6ProxyARPCheck(
 					Prefix = (Pos + 16);
 
 					/* Copy global address prefix */
-					NdisMoveMemory(TargetIPAddr, Prefix, 8);
+					memmove(TargetIPAddr, Prefix, 8);
 
 					RTMP_SEM_EVENT_WAIT(&pWNMCtrl->ProxyARPListLock, Ret);
 					DlListForEach(ProxyARPEntry, &pWNMCtrl->IPv6ProxyARPList,
@@ -806,7 +806,7 @@ VOID WNMIPv6ProxyARPCheck(
 						{
 
 							/* Copy host ipv6 interface identifier */
-							NdisMoveMemory(&TargetIPAddr[8],
+							memmove(&TargetIPAddr[8],
 											&ProxyARPEntry->TargetIPAddr[8], 8);
 
 							/* Proxy MAC address/IPv6 mapping for global address */

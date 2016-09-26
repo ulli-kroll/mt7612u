@@ -110,7 +110,7 @@ static INT CFG80211DRV_UpdateApSettingFromBeacon(struct rtmp_adapter *pAd, UINT 
 	NdisZeroMemory(pMbss->Ssid, pMbss->SsidLen);
 	if (ssid_ie == NULL)
 	{
-		NdisMoveMemory(pMbss->Ssid, "CFG_Linux_GO", 12);
+		memmove(pMbss->Ssid, "CFG_Linux_GO", 12);
 		pMbss->SsidLen = 12;
 		DBGPRINT(RT_DEBUG_ERROR,("CFG: SSID Not Found In Packet\n"));
 	}
@@ -612,7 +612,7 @@ BOOLEAN CFG80211DRV_ApKeyAdd(
 				pObj = (POS_COOKIE) pAd->OS_Cookie;
 
 				pSharedKey = &pAd->SharedKey[apidx][pKeyInfo->KeyId];
-				NdisMoveMemory(pSharedKey->Key, pKeyInfo->KeyBuf, pKeyInfo->KeyLen);
+				memmove(pSharedKey->Key, pKeyInfo->KeyBuf, pKeyInfo->KeyLen);
 
 
 				if (pKeyInfo->KeyType == RT_CMD_80211_KEY_WEP40)
@@ -636,7 +636,7 @@ BOOLEAN CFG80211DRV_ApKeyAdd(
 					{
 						DBGPRINT(RT_DEBUG_TRACE, ("CFG: Set AES Security Set. (GROUP) %d\n", pKeyInfo->KeyLen));
 						pAd->SharedKey[MAIN_MBSSID][pKeyInfo->KeyId].KeyLen= LEN_TK;
-						NdisMoveMemory(pAd->SharedKey[MAIN_MBSSID][pKeyInfo->KeyId].Key, pKeyInfo->KeyBuf, pKeyInfo->KeyLen);
+						memmove(pAd->SharedKey[MAIN_MBSSID][pKeyInfo->KeyId].Key, pKeyInfo->KeyBuf, pKeyInfo->KeyLen);
 
 						pAd->SharedKey[MAIN_MBSSID][pKeyInfo->KeyId].CipherAlg = CIPHER_AES;
 
@@ -659,7 +659,7 @@ BOOLEAN CFG80211DRV_ApKeyAdd(
 						DBGPRINT(RT_DEBUG_TRACE, ("CFG: Set AES Security Set. (PAIRWISE) %d\n", pKeyInfo->KeyLen));
 						pEntry->PairwiseKey.KeyLen = LEN_TK;
 						NdisCopyMemory(&pEntry->PTK[OFFSET_OF_PTK_TK], pKeyInfo->KeyBuf, OFFSET_OF_PTK_TK);
-						NdisMoveMemory(pEntry->PairwiseKey.Key, &pEntry->PTK[OFFSET_OF_PTK_TK], pKeyInfo->KeyLen);
+						memmove(pEntry->PairwiseKey.Key, &pEntry->PTK[OFFSET_OF_PTK_TK], pKeyInfo->KeyLen);
 						pEntry->PairwiseKey.CipherAlg = CIPHER_AES;
 
 						AsicAddPairwiseKeyEntry(pAd, (UCHAR)pEntry->Aid, &pEntry->PairwiseKey);
@@ -682,7 +682,7 @@ BOOLEAN CFG80211DRV_ApKeyAdd(
 					{
 						DBGPRINT(RT_DEBUG_TRACE, ("CFG: Set TKIP Security Set. (GROUP) %d\n", pKeyInfo->KeyLen));
 						pAd->SharedKey[MAIN_MBSSID][pKeyInfo->KeyId].KeyLen= LEN_TK;
-						NdisMoveMemory(pAd->SharedKey[MAIN_MBSSID][pKeyInfo->KeyId].Key, pKeyInfo->KeyBuf, pKeyInfo->KeyLen);
+						memmove(pAd->SharedKey[MAIN_MBSSID][pKeyInfo->KeyId].Key, pKeyInfo->KeyBuf, pKeyInfo->KeyLen);
 
 						pAd->SharedKey[MAIN_MBSSID][pKeyInfo->KeyId].CipherAlg = CIPHER_TKIP;
 
@@ -705,7 +705,7 @@ BOOLEAN CFG80211DRV_ApKeyAdd(
 						DBGPRINT(RT_DEBUG_TRACE, ("CFG: Set TKIP Security Set. (PAIRWISE) %d\n", pKeyInfo->KeyLen));
 						pEntry->PairwiseKey.KeyLen = LEN_TK;
 						NdisCopyMemory(&pEntry->PTK[OFFSET_OF_PTK_TK], pKeyInfo->KeyBuf, OFFSET_OF_PTK_TK);
-						NdisMoveMemory(pEntry->PairwiseKey.Key, &pEntry->PTK[OFFSET_OF_PTK_TK], pKeyInfo->KeyLen);
+						memmove(pEntry->PairwiseKey.Key, &pEntry->PTK[OFFSET_OF_PTK_TK], pKeyInfo->KeyLen);
 						pEntry->PairwiseKey.CipherAlg = CIPHER_TKIP;
 
 						AsicAddPairwiseKeyEntry(pAd, (UCHAR)pEntry->Aid, &pEntry->PairwiseKey);

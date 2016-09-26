@@ -85,7 +85,7 @@ Note:
 VOID RT_MD5_Init (
     IN  MD5_CTX_STRUC *pMD5_CTX)
 {
-    NdisMoveMemory(pMD5_CTX->HashValue, MD5_DefaultHashValue,
+    memmove(pMD5_CTX->HashValue, MD5_DefaultHashValue,
         sizeof(MD5_DefaultHashValue));
     NdisZeroMemory(pMD5_CTX->Block, MD5_BLOCK_SIZE);
     pMD5_CTX->BlockLen   = 0;
@@ -116,7 +116,7 @@ VOID RT_MD5_Hash (
     UINT32 a,b,c,d;
 
     /* Prepare the message schedule, {X_i} */
-    NdisMoveMemory(X, pMD5_CTX->Block, MD5_BLOCK_SIZE);
+    memmove(X, pMD5_CTX->Block, MD5_BLOCK_SIZE);
     for (X_i = 0; X_i < 16; X_i++)
         X[X_i] = cpu2le32(X[X_i]); /* Endian Swap */
         /* End of for */
@@ -256,14 +256,14 @@ VOID RT_MD5_Append (
     while (appendLen != MessageLen) {
         diffLen = MessageLen - appendLen;
         if ((pMD5_CTX->BlockLen + diffLen) < MD5_BLOCK_SIZE) {
-            NdisMoveMemory(pMD5_CTX->Block + pMD5_CTX->BlockLen,
+            memmove(pMD5_CTX->Block + pMD5_CTX->BlockLen,
                 Message + appendLen, diffLen);
             pMD5_CTX->BlockLen += diffLen;
             appendLen += diffLen;
         }
         else
         {
-            NdisMoveMemory(pMD5_CTX->Block + pMD5_CTX->BlockLen,
+            memmove(pMD5_CTX->Block + pMD5_CTX->BlockLen,
                 Message + appendLen, MD5_BLOCK_SIZE - pMD5_CTX->BlockLen);
             appendLen += (MD5_BLOCK_SIZE - pMD5_CTX->BlockLen);
             pMD5_CTX->BlockLen = MD5_BLOCK_SIZE;
@@ -309,14 +309,14 @@ VOID RT_MD5_End (
     /* Append the length of message in rightmost 64 bits */
     message_length_bits = pMD5_CTX->MessageLen*8;
     message_length_bits = cpu2le64(message_length_bits);
-    NdisMoveMemory(&pMD5_CTX->Block[56], &message_length_bits, 8);
+    memmove(&pMD5_CTX->Block[56], &message_length_bits, 8);
     RT_MD5_Hash(pMD5_CTX);
 
     /* Return message digest, transform the UINT32 hash value to bytes */
     for (index = 0; index < 4;index++)
         pMD5_CTX->HashValue[index] = cpu2le32(pMD5_CTX->HashValue[index]);
         /* End of for */
-    NdisMoveMemory(DigestMessage, pMD5_CTX->HashValue, MD5_DIGEST_SIZE);
+    memmove(DigestMessage, pMD5_CTX->HashValue, MD5_DIGEST_SIZE);
 } /* End of RT_MD5_End */
 
 

@@ -163,7 +163,7 @@ BOOLEAN RTMPCheckUcast(
 	}
 
 	/* Store unicast cipher count */
-    NdisMoveMemory(&Count, pStaTmp, sizeof(USHORT));
+    memmove(&Count, pStaTmp, sizeof(USHORT));
     Count = cpu2le16(Count);
 
 
@@ -315,7 +315,7 @@ BOOLEAN RTMPCheckAKM(PUCHAR sta_akm, PUCHAR ap_rsn_ie, INT iswpa2)
     /*skip OUI(4),Vesrion(2),Multicast cipher(4) 4+2+4==10 */
         pTmp += 10;/*point to number of unicast */
 
-    NdisMoveMemory(&Count, pTmp, sizeof(USHORT));
+    memmove(&Count, pTmp, sizeof(USHORT));
     Count = cpu2le16(Count);
 
     pTmp   += sizeof(USHORT);/*pointer to unicast cipher */
@@ -328,7 +328,7 @@ BOOLEAN RTMPCheckAKM(PUCHAR sta_akm, PUCHAR ap_rsn_ie, INT iswpa2)
 		Count--;
 	}
 
-	NdisMoveMemory(&Count, pTmp, sizeof(USHORT));
+	memmove(&Count, pTmp, sizeof(USHORT));
     Count = cpu2le16(Count);
 
     pTmp   += sizeof(USHORT);/*pointer to AKM cipher */
@@ -398,7 +398,7 @@ BOOLEAN RTMPCheckAUTH(
 	}
 
 	/* Store unicast cipher count */
-    NdisMoveMemory(&Count, pStaTmp, sizeof(USHORT));
+    memmove(&Count, pStaTmp, sizeof(USHORT));
     Count = cpu2le16(Count);
 
 	/* pointer to unicast cipher */
@@ -413,7 +413,7 @@ BOOLEAN RTMPCheckAUTH(
 	}
 
 	/* Store AKM count */
-	NdisMoveMemory(&Count, pStaTmp, sizeof(USHORT));
+	memmove(&Count, pStaTmp, sizeof(USHORT));
     Count = cpu2le16(Count);
 
 	/*pointer to AKM cipher */
@@ -884,8 +884,8 @@ VOID WpaSend(struct rtmp_adapter *pAdapter, UCHAR *pPacket, ULONG Len)
 	PUCHAR pData;
 
 
-    NdisMoveMemory(Addr, pPacket, 6);
-	NdisMoveMemory(Header802_3, pPacket, LENGTH_802_3);
+    memmove(Addr, pPacket, 6);
+	memmove(Header802_3, pPacket, LENGTH_802_3);
     pEapHdr = (EAP_HDR*)(pPacket + LENGTH_802_3);
 	pData = (pPacket + LENGTH_802_3);
 
@@ -969,8 +969,8 @@ VOID RTMPAddPMKIDCache(
 	if ((CacheIdx = RTMPSearchPMKIDCache(pAd, apidx, pAddr)) != -1)
 	{
 		NdisGetSystemUpTime(&(pAd->ApCfg.MBSSID[apidx].PMKIDCache.BSSIDInfo[CacheIdx].RefreshTime));
-		NdisMoveMemory(&pAd->ApCfg.MBSSID[apidx].PMKIDCache.BSSIDInfo[CacheIdx].PMKID, PMKID, LEN_PMKID);
-		NdisMoveMemory(&pAd->ApCfg.MBSSID[apidx].PMKIDCache.BSSIDInfo[CacheIdx].PMK, PMK, PMK_LEN);
+		memmove(&pAd->ApCfg.MBSSID[apidx].PMKIDCache.BSSIDInfo[CacheIdx].PMKID, PMKID, LEN_PMKID);
+		memmove(&pAd->ApCfg.MBSSID[apidx].PMKIDCache.BSSIDInfo[CacheIdx].PMK, PMK, PMK_LEN);
 		DBGPRINT(RT_DEBUG_TRACE,
 					("RTMPAddPMKIDCache update %02x:%02x:%02x:%02x:%02x:%02x cache(%d) from IF(ra%d)\n",
 					PRINT_MAC(pAddr), CacheIdx, apidx));
@@ -986,8 +986,8 @@ VOID RTMPAddPMKIDCache(
 			pAd->ApCfg.MBSSID[apidx].PMKIDCache.BSSIDInfo[i].Valid = TRUE;
 			NdisGetSystemUpTime(&(pAd->ApCfg.MBSSID[apidx].PMKIDCache.BSSIDInfo[i].RefreshTime));
 			COPY_MAC_ADDR(&pAd->ApCfg.MBSSID[apidx].PMKIDCache.BSSIDInfo[i].MAC, pAddr);
-			NdisMoveMemory(&pAd->ApCfg.MBSSID[apidx].PMKIDCache.BSSIDInfo[i].PMKID, PMKID, LEN_PMKID);
-			NdisMoveMemory(&pAd->ApCfg.MBSSID[apidx].PMKIDCache.BSSIDInfo[i].PMK, PMK, PMK_LEN);
+			memmove(&pAd->ApCfg.MBSSID[apidx].PMKIDCache.BSSIDInfo[i].PMKID, PMKID, LEN_PMKID);
+			memmove(&pAd->ApCfg.MBSSID[apidx].PMKIDCache.BSSIDInfo[i].PMK, PMK, PMK_LEN);
 			DBGPRINT(RT_DEBUG_TRACE, ("RTMPAddPMKIDCache add %02x:%02x:%02x:%02x:%02x:%02x cache(%d) from IF(ra%d)\n",
             					PRINT_MAC(pAddr), i, apidx));
 			break;
@@ -1013,8 +1013,8 @@ VOID RTMPAddPMKIDCache(
 		pAd->ApCfg.MBSSID[apidx].PMKIDCache.BSSIDInfo[idx].Valid = TRUE;
 		NdisGetSystemUpTime(&(pAd->ApCfg.MBSSID[apidx].PMKIDCache.BSSIDInfo[idx].RefreshTime));
 		COPY_MAC_ADDR(&pAd->ApCfg.MBSSID[apidx].PMKIDCache.BSSIDInfo[idx].MAC, pAddr);
-		NdisMoveMemory(&pAd->ApCfg.MBSSID[apidx].PMKIDCache.BSSIDInfo[idx].PMKID, PMKID, LEN_PMKID);
-		NdisMoveMemory(&pAd->ApCfg.MBSSID[apidx].PMKIDCache.BSSIDInfo[idx].PMK, PMK, PMK_LEN);
+		memmove(&pAd->ApCfg.MBSSID[apidx].PMKIDCache.BSSIDInfo[idx].PMKID, PMKID, LEN_PMKID);
+		memmove(&pAd->ApCfg.MBSSID[apidx].PMKIDCache.BSSIDInfo[idx].PMK, PMK, PMK_LEN);
 		DBGPRINT(RT_DEBUG_TRACE, ("RTMPAddPMKIDCache add %02x:%02x:%02x:%02x:%02x:%02x cache(%ld) from IF(ra%d)\n",
            						PRINT_MAC(pAddr), idx, apidx));
 	}

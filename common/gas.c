@@ -230,12 +230,12 @@ static VOID SendGASRsp(
 		*Pos++ = Event->u.GAS_RSP_DATA.AdvertisementProID; /* Advertisement Protocol ID field */
 
 		tmpValue = cpu2le16(Event->u.GAS_RSP_DATA.QueryRspLen);
-		NdisMoveMemory(Pos, &tmpValue, 2);
+		memmove(Pos, &tmpValue, 2);
 		Pos += 2;
 		FrameLen +=	6;
 
 		if (Event->u.GAS_RSP_DATA.QueryRspLen > 0)
-			NdisMoveMemory(Pos, Event->u.GAS_RSP_DATA.QueryRsp, Event->u.GAS_RSP_DATA.QueryRspLen);
+			memmove(Pos, Event->u.GAS_RSP_DATA.QueryRsp, Event->u.GAS_RSP_DATA.QueryRspLen);
 
 		FrameLen += Event->u.GAS_RSP_DATA.QueryRspLen;
 
@@ -286,7 +286,7 @@ static VOID SendGASRsp(
 		*Pos++ = Event->u.GAS_RSP_MORE_DATA.AdvertisementProID; /* Advertisement Protocol ID field */
 
 		tmpValue = 0;
-		NdisMoveMemory(Pos, &tmpValue, 2);
+		memmove(Pos, &tmpValue, 2);
 
 		Pos += 2;
 		FrameLen +=	6;
@@ -408,7 +408,7 @@ VOID ReceiveGASInitReq(
 
 	GASPeerEntry->CurrentState = WAIT_PEER_GAS_REQ;
 	GASPeerEntry->QueryNum++;
-	NdisMoveMemory(GASPeerEntry->PeerMACAddr, GASFrame->Hdr.Addr2, MAC_ADDR_LEN);
+	memmove(GASPeerEntry->PeerMACAddr, GASFrame->Hdr.Addr2, MAC_ADDR_LEN);
 	GASPeerEntry->DialogToken = GASFrame->u.GAS_INIT_REQ.DialogToken;
 	GASPeerEntry->Priv = pAd;
 	RTMPInitTimer(pAd, &GASPeerEntry->PostReplyTimer,
@@ -424,7 +424,7 @@ VOID ReceiveGASInitReq(
 	DlListAddTail(&pGASCtrl->GASPeerList, &GASPeerEntry->List);
 	RTMP_SEM_UNLOCK(&pGASCtrl->GASPeerListLock);
 
-	NdisMoveMemory(&VarLen, GASFrame->u.GAS_INIT_REQ.Variable + 4, 2);
+	memmove(&VarLen, GASFrame->u.GAS_INIT_REQ.Variable + 4, 2);
 	VarLen = le2cpu16(VarLen);
 
 	os_alloc_mem(NULL, (UCHAR **)&Buf, sizeof(*Event) + VarLen);
@@ -442,7 +442,7 @@ VOID ReceiveGASInitReq(
 	Event->ControlIndex = APIndex;
 	Len += 1;
 
-	NdisMoveMemory(Event->PeerMACAddr, GASFrame->Hdr.Addr2, MAC_ADDR_LEN);
+	memmove(Event->PeerMACAddr, GASFrame->Hdr.Addr2, MAC_ADDR_LEN);
 	Len += MAC_ADDR_LEN;
 
 	Event->EventType = PEER_GAS_REQ;
@@ -457,12 +457,12 @@ VOID ReceiveGASInitReq(
 	Len += 1;
 	Pos++;
 
-	NdisMoveMemory(&Event->u.PEER_GAS_REQ_DATA.QueryReqLen, Pos, 2);
+	memmove(&Event->u.PEER_GAS_REQ_DATA.QueryReqLen, Pos, 2);
 	Event->u.PEER_GAS_REQ_DATA.QueryReqLen = le2cpu16(Event->u.PEER_GAS_REQ_DATA.QueryReqLen);
 	Len += 2;
 	Pos += 2;
 
-	NdisMoveMemory(Event->u.PEER_GAS_REQ_DATA.QueryReq, Pos, Event->u.PEER_GAS_REQ_DATA.QueryReqLen);
+	memmove(Event->u.PEER_GAS_REQ_DATA.QueryReq, Pos, Event->u.PEER_GAS_REQ_DATA.QueryReqLen);
 	Len += Event->u.PEER_GAS_REQ_DATA.QueryReqLen;
 
 	MlmeEnqueue(pAd, GAS_STATE_MACHINE, PEER_GAS_REQ, Len, Buf,0);
@@ -578,11 +578,11 @@ static VOID SendGASCBRsp(
 
 			tmpLen = cpu2le16(GASQueryRspFrag->FragQueryRspLen);
 
-			NdisMoveMemory(Pos, &tmpLen, 2);
+			memmove(Pos, &tmpLen, 2);
 			Pos += 2;
 			FrameLen +=	6;
 
-			NdisMoveMemory(Pos, GASQueryRspFrag->FragQueryRsp,
+			memmove(Pos, GASQueryRspFrag->FragQueryRsp,
 								GASQueryRspFrag->FragQueryRspLen);
 
 			FrameLen += GASQueryRspFrag->FragQueryRspLen;
@@ -591,7 +591,7 @@ static VOID SendGASCBRsp(
 		{
 			tmpLen = 0;
 
-			NdisMoveMemory(Pos, &tmpLen, 2);
+			memmove(Pos, &tmpLen, 2);
 			Pos += 2;
 			FrameLen +=	6;
 		}
@@ -652,11 +652,11 @@ static VOID SendGASCBRsp(
 
 		tmpLen = cpu2le16(GASQueryRspFrag->FragQueryRspLen);
 
-		NdisMoveMemory(Pos, &tmpLen, 2);
+		memmove(Pos, &tmpLen, 2);
 		Pos += 2;
 		FrameLen +=	6;
 
-		NdisMoveMemory(Pos, GASQueryRspFrag->FragQueryRsp,
+		memmove(Pos, GASQueryRspFrag->FragQueryRsp,
 							GASQueryRspFrag->FragQueryRspLen);
 
 		FrameLen += GASQueryRspFrag->FragQueryRspLen;
@@ -715,7 +715,7 @@ VOID ReceiveGASCBReq(
 	Event->ControlIndex = APIndex;
 	Len += 1;
 
-	NdisMoveMemory(Event->PeerMACAddr, GASFrame->Hdr.Addr2, MAC_ADDR_LEN);
+	memmove(Event->PeerMACAddr, GASFrame->Hdr.Addr2, MAC_ADDR_LEN);
 	Len += MAC_ADDR_LEN;
 
 	RTMP_SEM_LOCK(&pGASCtrl->GASPeerListLock);
@@ -770,7 +770,7 @@ VOID ReceiveGASCBReq(
 
 			GASPeerEntry->CurrentState = WAIT_GAS_CB_REQ;
 			GASPeerEntry->ControlIndex = Event->ControlIndex;
-			NdisMoveMemory(GASPeerEntry->PeerMACAddr, GASFrame->Hdr.Addr2, MAC_ADDR_LEN);
+			memmove(GASPeerEntry->PeerMACAddr, GASFrame->Hdr.Addr2, MAC_ADDR_LEN);
 			GASPeerEntry->DialogToken = GASFrame->u.GAS_CB_REQ.DialogToken;
 			GASPeerEntry->AdvertisementProID = ACCESS_NETWORK_QUERY_PROTOCOL; // FIXME
 			GASPeerEntry->Priv = pAd;
@@ -1020,7 +1020,7 @@ static VOID SendGASIndication(
 
 		GASRspEvent->ControlIndex = Event->ControlIndex;
 		Len += 1;
-		NdisMoveMemory(GASRspEvent->PeerMACAddr, Event->PeerMACAddr, MAC_ADDR_LEN);
+		memmove(GASRspEvent->PeerMACAddr, Event->PeerMACAddr, MAC_ADDR_LEN);
 		Len += MAC_ADDR_LEN;
 
 		GASRspEvent->EventType = GAS_RSP;
@@ -1074,7 +1074,7 @@ static VOID SendGASIndication(
 
 		GASRspEvent->ControlIndex = Event->ControlIndex;
 		Len += 1;
-		NdisMoveMemory(GASRspEvent->PeerMACAddr, Event->PeerMACAddr, MAC_ADDR_LEN);
+		memmove(GASRspEvent->PeerMACAddr, Event->PeerMACAddr, MAC_ADDR_LEN);
 		Len += MAC_ADDR_LEN;
 
 		GASRspEvent->EventType = GAS_RSP_MORE;
@@ -1124,7 +1124,7 @@ static VOID SendGASIndication(
 
 		GASRspEvent->ControlIndex = Event->ControlIndex;
 		Len += 1;
-		NdisMoveMemory(GASRspEvent->PeerMACAddr, Event->PeerMACAddr, MAC_ADDR_LEN);
+		memmove(GASRspEvent->PeerMACAddr, Event->PeerMACAddr, MAC_ADDR_LEN);
 		Len += MAC_ADDR_LEN;
 
 		GASRspEvent->EventType = GAS_RSP;

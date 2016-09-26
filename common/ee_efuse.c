@@ -150,7 +150,7 @@ UCHAR eFuseReadRegisters(
 	/*Step2. Write EFSROM_KICK (0x580, bit30) to 1 to kick-off physical read procedure.*/
 	eFuseCtrlStruc.field.EFSROM_KICK = 1;
 
-	NdisMoveMemory(&data, &eFuseCtrlStruc, 4);
+	memmove(&data, &eFuseCtrlStruc, 4);
 	RTMP_IO_WRITE32(pAd, efuse_ctrl_reg, data);
 
 	/*Step3. Polling EFSROM_KICK(0x580, bit30) until it become 0 again.*/
@@ -204,7 +204,7 @@ UCHAR eFuseReadRegisters(
 		data = data >> (8*(Offset & 0x3));
 #endif /* RT_BIG_ENDIAN */
 
-		NdisMoveMemory(pData, &data, Length);
+		memmove(pData, &data, Length);
 	}
 
 	return (UCHAR) eFuseCtrlStruc.field.EFSROM_AOUT;
@@ -253,7 +253,7 @@ VOID eFusePhysicalReadRegisters(
 	/*Step2. Write EFSROM_KICK (0x580, bit30) to 1 to kick-off physical read procedure.*/
 	eFuseCtrlStruc.field.EFSROM_KICK = 1;
 
-	NdisMoveMemory(&data, &eFuseCtrlStruc, 4);
+	memmove(&data, &eFuseCtrlStruc, 4);
 	RTMP_IO_WRITE32(pAd, efuse_ctrl_reg, data);
 
 	/*Step3. Polling EFSROM_KICK(0x580, bit30) until it become 0 again.*/
@@ -297,7 +297,7 @@ VOID eFusePhysicalReadRegisters(
 	data = data >> (8*(Offset & 0x3));
 #endif /* RT_BIG_ENDIAN */
 
-	NdisMoveMemory(pData, &data, Length);
+	memmove(pData, &data, Length);
 
 }
 
@@ -411,7 +411,7 @@ static VOID eFusePhysicalWriteRegisters(
 	/*Step2. Write EFSROM_KICK (0x580, bit30) to 1 to kick-off physical read procedure.*/
 	eFuseCtrlStruc.field.EFSROM_KICK = 1;
 
-	NdisMoveMemory(&data, &eFuseCtrlStruc, 4);
+	memmove(&data, &eFuseCtrlStruc, 4);
 	RTMP_IO_WRITE32(pAd, efuse_ctrl_reg, data);
 
 	/*Step3. Polling EFSROM_KICK(0x580, bit30) until it become 0 again.*/
@@ -479,7 +479,7 @@ static VOID eFusePhysicalWriteRegisters(
 	/*Step3. Write EFSROM_KICK (0x580, bit30) to 1 to kick-off physical write procedure.*/
 	eFuseCtrlStruc.field.EFSROM_KICK = 1;
 
-	NdisMoveMemory(&data, &eFuseCtrlStruc, 4);
+	memmove(&data, &eFuseCtrlStruc, 4);
 	RTMP_IO_WRITE32(pAd, efuse_ctrl_reg, data);
 
 	/*Step4. Polling EFSROM_KICK(0x580, bit30) until it become 0 again. It¡¦s done.*/
@@ -994,9 +994,9 @@ INT	set_eFuseLoadFromBin_Proc(
 	ptr = buffer;
 
  	if(strlen(arg)>0)
-		NdisMoveMemory(src, arg, strlen(arg));
+		memmove(src, arg, strlen(arg));
 	else
-		NdisMoveMemory(src, EEPROM_DEFULT_BIN_FILE, strlen(EEPROM_DEFULT_BIN_FILE));
+		memmove(src, EEPROM_DEFULT_BIN_FILE, strlen(EEPROM_DEFULT_BIN_FILE));
 	DBGPRINT(RT_DEBUG_OFF, ("FileName=%s\n",src));
 
 	RtmpOSFSInfoChange(&osfsInfo, TRUE);
@@ -1281,7 +1281,7 @@ INT eFuse_init(struct rtmp_adapter *pAd)
 		{
 			if ( pAd->chipCap.EEPROM_DEFAULT_BIN != NULL )
 			{
-				NdisMoveMemory(pAd->EEPROMImage, pAd->chipCap.EEPROM_DEFAULT_BIN,
+				memmove(pAd->EEPROMImage, pAd->chipCap.EEPROM_DEFAULT_BIN,
 					pAd->chipCap.EEPROM_DEFAULT_BIN_SIZE > MAX_EEPROM_BUFFER_SIZE?MAX_EEPROM_BUFFER_SIZE:pAd->chipCap.EEPROM_DEFAULT_BIN_SIZE);
 				DBGPRINT(RT_DEBUG_TRACE, ("Load EEPROM Buffer from default BIN.\n"));
 			}

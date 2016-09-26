@@ -102,7 +102,7 @@ static inline VOID AutoChBssEntrySet(
 		*/
 		if (NdisEqualMemory(Ssid, ZeroSsid, SsidLen) == 0)
 		{
-			NdisMoveMemory(pBss->Ssid, Ssid, SsidLen);
+			memmove(pBss->Ssid, Ssid, SsidLen);
 			pBss->SsidLen = SsidLen;
 		}
 	}
@@ -556,7 +556,7 @@ static inline UCHAR SelectClearChannelCCA(
 			{
 				min_dirty = dirtyness;
 				candidate_ch = channel_idx;
-				NdisMoveMemory(candidate_ExChannel, ExChannel, 2);
+				memmove(candidate_ExChannel, ExChannel, 2);
 			}
 		}
 	}

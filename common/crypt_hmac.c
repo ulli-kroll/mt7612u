@@ -72,7 +72,7 @@ VOID RT_HMAC_SHA1 (
      */
     NdisZeroMemory(K0, SHA1_BLOCK_SIZE);
     if (KeyLen <= SHA1_BLOCK_SIZE)
-        NdisMoveMemory(K0, Key, KeyLen);
+        memmove(K0, Key, KeyLen);
     else
         RT_SHA1(Key, KeyLen, K0);
     /* End of if */
@@ -104,9 +104,9 @@ VOID RT_HMAC_SHA1 (
     RT_SHA1_End(&sha_ctx2, Digest);
 
     if (MACLen > SHA1_DIGEST_SIZE)
-        NdisMoveMemory(MAC, Digest, SHA1_DIGEST_SIZE);
+        memmove(MAC, Digest, SHA1_DIGEST_SIZE);
     else
-        NdisMoveMemory(MAC, Digest, MACLen);
+        memmove(MAC, Digest, MACLen);
 } /* End of RT_HMAC_SHA1 */
 #endif /* HMAC_SHA1_SUPPORT */
 
@@ -155,7 +155,7 @@ VOID RT_HMAC_SHA256 (
      */
     NdisZeroMemory(K0, SHA256_BLOCK_SIZE);
     if (KeyLen <= SHA256_BLOCK_SIZE) {
-        NdisMoveMemory(K0, Key, KeyLen);
+        memmove(K0, Key, KeyLen);
     } else {
         RT_SHA256(Key, KeyLen, K0);
     }
@@ -187,9 +187,9 @@ VOID RT_HMAC_SHA256 (
     RT_SHA256_End(&sha_ctx2, Digest);
 
     if (MACLen > SHA256_DIGEST_SIZE)
-        NdisMoveMemory(MAC, Digest,SHA256_DIGEST_SIZE);
+        memmove(MAC, Digest,SHA256_DIGEST_SIZE);
     else
-        NdisMoveMemory(MAC, Digest, MACLen);
+        memmove(MAC, Digest, MACLen);
 
 } /* End of RT_HMAC_SHA256 */
 #endif /* HMAC_SHA256_SUPPORT */
@@ -239,7 +239,7 @@ VOID RT_HMAC_MD5(
      */
     NdisZeroMemory(K0, MD5_BLOCK_SIZE);
     if (KeyLen <= MD5_BLOCK_SIZE) {
-        NdisMoveMemory(K0, Key, KeyLen);
+        memmove(K0, Key, KeyLen);
     } else {
         RT_MD5(Key, KeyLen, K0);
     }
@@ -271,9 +271,9 @@ VOID RT_HMAC_MD5(
     RT_MD5_End(&md5_ctx2, Digest);
 
     if (MACLen > MD5_DIGEST_SIZE)
-        NdisMoveMemory(MAC, Digest, MD5_DIGEST_SIZE);
+        memmove(MAC, Digest, MD5_DIGEST_SIZE);
     else
-        NdisMoveMemory(MAC, Digest, MACLen);
+        memmove(MAC, Digest, MACLen);
 } /* End of RT_HMAC_SHA256 */
 #endif /* HMAC_MD5_SUPPORT */
 

@@ -2963,14 +2963,14 @@ VOID RTMPSetSupportMCS(
 	{
 		if (SupRateLen <= MAX_LEN_OF_SUPPORTED_RATES)
 		{
-			NdisMoveMemory(SupportedRates, SupRate, SupRateLen);
+			memmove(SupportedRates, SupRate, SupRateLen);
 			SupportedRatesLen = SupRateLen;
 		}
 		else
 		{
 			UCHAR RateDefault[8] = {0x82, 0x84, 0x8b, 0x96, 0x12, 0x24, 0x48, 0x6c};
 
-			NdisMoveMemory(SupportedRates, RateDefault, 8);
+			memmove(SupportedRates, RateDefault, 8);
 			SupportedRatesLen = 8;
 
 			DBGPRINT(RT_DEBUG_TRACE,("%s():wrong SUPP RATES., Len=%d\n",
@@ -2982,12 +2982,12 @@ VOID RTMPSetSupportMCS(
 	{
 		if ((SupRateLen + ExtRateLen) <= MAX_LEN_OF_SUPPORTED_RATES)
 		{
-			NdisMoveMemory(&SupportedRates[SupRateLen], ExtRate, ExtRateLen);
+			memmove(&SupportedRates[SupRateLen], ExtRate, ExtRateLen);
 			SupportedRatesLen += ExtRateLen;
 		}
 		else
 		{
-			NdisMoveMemory(&SupportedRates[SupRateLen], ExtRate, MAX_LEN_OF_SUPPORTED_RATES - ExtRateLen);
+			memmove(&SupportedRates[SupRateLen], ExtRate, MAX_LEN_OF_SUPPORTED_RATES - ExtRateLen);
 			SupportedRatesLen = MAX_LEN_OF_SUPPORTED_RATES;
 
 		}

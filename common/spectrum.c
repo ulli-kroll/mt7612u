@@ -1172,7 +1172,7 @@ VOID EnqueueMeasurementRep(
 		DBGPRINT(RT_DEBUG_TRACE, ("%s() allocate memory failed \n", __FUNCTION__));
 		return;
 	}
-	NdisMoveMemory(pOutBuffer, (PCHAR)&ActHdr, sizeof(HEADER_802_11));
+	memmove(pOutBuffer, (PCHAR)&ActHdr, sizeof(HEADER_802_11));
 	FrameLen = sizeof(HEADER_802_11);
 
 	InsertActField(pAd, (pOutBuffer + FrameLen), &FrameLen, CATEGORY_SPECTRUM, SPEC_MRP);
@@ -1227,7 +1227,7 @@ VOID EnqueueTPCReq(
 		DBGPRINT(RT_DEBUG_TRACE, ("%s() allocate memory failed \n", __FUNCTION__));
 		return;
 	}
-	NdisMoveMemory(pOutBuffer, (PCHAR)&ActHdr, sizeof(HEADER_802_11));
+	memmove(pOutBuffer, (PCHAR)&ActHdr, sizeof(HEADER_802_11));
 	FrameLen = sizeof(HEADER_802_11);
 
 	InsertActField(pAd, (pOutBuffer + FrameLen), &FrameLen, CATEGORY_SPECTRUM, SPEC_TPCRQ);
@@ -1280,7 +1280,7 @@ VOID EnqueueTPCRep(
 		DBGPRINT(RT_DEBUG_TRACE, ("%s() allocate memory failed \n", __FUNCTION__));
 		return;
 	}
-	NdisMoveMemory(pOutBuffer, (PCHAR)&ActHdr, sizeof(HEADER_802_11));
+	memmove(pOutBuffer, (PCHAR)&ActHdr, sizeof(HEADER_802_11));
 	FrameLen = sizeof(HEADER_802_11);
 
 	InsertActField(pAd, (pOutBuffer + FrameLen), &FrameLen, CATEGORY_SPECTRUM, SPEC_TPCRP);
@@ -1404,9 +1404,9 @@ static BOOLEAN PeerChSwAnnSanity(
 		switch(eid_ptr->Eid)
 		{
 			case IE_CHANNEL_SWITCH_ANNOUNCEMENT:
-				NdisMoveMemory(&pChSwAnnInfo->ChSwMode, eid_ptr->Octet, 1);
-				NdisMoveMemory(&pChSwAnnInfo->Channel, eid_ptr->Octet + 1, 1);
-				NdisMoveMemory(&pChSwAnnInfo->ChSwCnt, eid_ptr->Octet + 2, 1);
+				memmove(&pChSwAnnInfo->ChSwMode, eid_ptr->Octet, 1);
+				memmove(&pChSwAnnInfo->Channel, eid_ptr->Octet + 1, 1);
+				memmove(&pChSwAnnInfo->ChSwCnt, eid_ptr->Octet + 2, 1);
 
 				result = TRUE;
                 break;
@@ -1459,7 +1459,7 @@ static BOOLEAN PeerMeasureReqSanity(
 	if (pMeasureReqInfo == NULL)
 		return result;
 
-	NdisMoveMemory(pDialogToken, pFramePtr, 1);
+	memmove(pDialogToken, pFramePtr, 1);
 	pFramePtr += 1;
 	MsgLen -= 1;
 
@@ -1469,14 +1469,14 @@ static BOOLEAN PeerMeasureReqSanity(
 		switch(eid_ptr->Eid)
 		{
 			case IE_MEASUREMENT_REQUEST:
-				NdisMoveMemory(&pMeasureReqInfo->Token, eid_ptr->Octet, 1);
-				NdisMoveMemory(&pMeasureReqInfo->ReqMode.word, eid_ptr->Octet + 1, 1);
-				NdisMoveMemory(&pMeasureReqInfo->ReqType, eid_ptr->Octet + 2, 1);
+				memmove(&pMeasureReqInfo->Token, eid_ptr->Octet, 1);
+				memmove(&pMeasureReqInfo->ReqMode.word, eid_ptr->Octet + 1, 1);
+				memmove(&pMeasureReqInfo->ReqType, eid_ptr->Octet + 2, 1);
 				ptr = (PUCHAR)(eid_ptr->Octet + 3);
-				NdisMoveMemory(&pMeasureReq->ChNum, ptr, 1);
-				NdisMoveMemory(&MeasureStartTime, ptr + 1, 8);
+				memmove(&pMeasureReq->ChNum, ptr, 1);
+				memmove(&MeasureStartTime, ptr + 1, 8);
 				pMeasureReq->MeasureStartTime = SWAP64(MeasureStartTime);
-				NdisMoveMemory(&MeasureDuration, ptr + 9, 2);
+				memmove(&MeasureDuration, ptr + 9, 2);
 				pMeasureReq->MeasureDuration = SWAP16(MeasureDuration);
 
 				result = TRUE;
@@ -1549,7 +1549,7 @@ static BOOLEAN PeerMeasureReportSanity(
 	if (pMeasureReportInfo == NULL)
 		return result;
 
-	NdisMoveMemory(pDialogToken, pFramePtr, 1);
+	memmove(pDialogToken, pFramePtr, 1);
 	pFramePtr += 1;
 	MsgLen -= 1;
 
@@ -1559,37 +1559,37 @@ static BOOLEAN PeerMeasureReportSanity(
 		switch(eid_ptr->Eid)
 		{
 			case IE_MEASUREMENT_REPORT:
-				NdisMoveMemory(&pMeasureReportInfo->Token, eid_ptr->Octet, 1);
-				NdisMoveMemory(&pMeasureReportInfo->ReportMode, eid_ptr->Octet + 1, 1);
-				NdisMoveMemory(&pMeasureReportInfo->ReportType, eid_ptr->Octet + 2, 1);
+				memmove(&pMeasureReportInfo->Token, eid_ptr->Octet, 1);
+				memmove(&pMeasureReportInfo->ReportMode, eid_ptr->Octet + 1, 1);
+				memmove(&pMeasureReportInfo->ReportType, eid_ptr->Octet + 2, 1);
 				if (pMeasureReportInfo->ReportType == RM_BASIC)
 				{
 					PMEASURE_BASIC_REPORT pReport = (PMEASURE_BASIC_REPORT)pReportBuf;
 					ptr = (PUCHAR)(eid_ptr->Octet + 3);
-					NdisMoveMemory(&pReport->ChNum, ptr, 1);
-					NdisMoveMemory(&pReport->MeasureStartTime, ptr + 1, 8);
-					NdisMoveMemory(&pReport->MeasureDuration, ptr + 9, 2);
-					NdisMoveMemory(&pReport->Map, ptr + 11, 1);
+					memmove(&pReport->ChNum, ptr, 1);
+					memmove(&pReport->MeasureStartTime, ptr + 1, 8);
+					memmove(&pReport->MeasureDuration, ptr + 9, 2);
+					memmove(&pReport->Map, ptr + 11, 1);
 
 				}
 				else if (pMeasureReportInfo->ReportType == RM_CCA)
 				{
 					PMEASURE_CCA_REPORT pReport = (PMEASURE_CCA_REPORT)pReportBuf;
 					ptr = (PUCHAR)(eid_ptr->Octet + 3);
-					NdisMoveMemory(&pReport->ChNum, ptr, 1);
-					NdisMoveMemory(&pReport->MeasureStartTime, ptr + 1, 8);
-					NdisMoveMemory(&pReport->MeasureDuration, ptr + 9, 2);
-					NdisMoveMemory(&pReport->CCA_Busy_Fraction, ptr + 11, 1);
+					memmove(&pReport->ChNum, ptr, 1);
+					memmove(&pReport->MeasureStartTime, ptr + 1, 8);
+					memmove(&pReport->MeasureDuration, ptr + 9, 2);
+					memmove(&pReport->CCA_Busy_Fraction, ptr + 11, 1);
 
 				}
 				else if (pMeasureReportInfo->ReportType == RM_RPI_HISTOGRAM)
 				{
 					PMEASURE_RPI_REPORT pReport = (PMEASURE_RPI_REPORT)pReportBuf;
 					ptr = (PUCHAR)(eid_ptr->Octet + 3);
-					NdisMoveMemory(&pReport->ChNum, ptr, 1);
-					NdisMoveMemory(&pReport->MeasureStartTime, ptr + 1, 8);
-					NdisMoveMemory(&pReport->MeasureDuration, ptr + 9, 2);
-					NdisMoveMemory(&pReport->RPI_Density, ptr + 11, 8);
+					memmove(&pReport->ChNum, ptr, 1);
+					memmove(&pReport->MeasureStartTime, ptr + 1, 8);
+					memmove(&pReport->MeasureDuration, ptr + 9, 2);
+					memmove(&pReport->RPI_Density, ptr + 11, 8);
 				}
 				result = TRUE;
                 break;
@@ -1636,7 +1636,7 @@ static BOOLEAN PeerTpcReqSanity(
 	if (pDialogToken == NULL)
 		return result;
 
-	NdisMoveMemory(pDialogToken, pFramePtr, 1);
+	memmove(pDialogToken, pFramePtr, 1);
 	pFramePtr += 1;
 	MsgLen -= 1;
 
@@ -1693,7 +1693,7 @@ static BOOLEAN PeerTpcRepSanity(
 	if (pDialogToken == NULL)
 		return result;
 
-	NdisMoveMemory(pDialogToken, pFramePtr, 1);
+	memmove(pDialogToken, pFramePtr, 1);
 	pFramePtr += 1;
 	MsgLen -= 1;
 
@@ -1703,8 +1703,8 @@ static BOOLEAN PeerTpcRepSanity(
 		switch(eid_ptr->Eid)
 		{
 			case IE_TPC_REPORT:
-				NdisMoveMemory(&pTpcRepInfo->TxPwr, eid_ptr->Octet, 1);
-				NdisMoveMemory(&pTpcRepInfo->LinkMargin, eid_ptr->Octet + 1, 1);
+				memmove(&pTpcRepInfo->TxPwr, eid_ptr->Octet, 1);
+				memmove(&pTpcRepInfo->LinkMargin, eid_ptr->Octet + 1, 1);
 				result = TRUE;
                 break;
 
@@ -1941,7 +1941,7 @@ static VOID PeerTpcReqAction(
 	pFramePtr += 2;
 
 	/* Dialog token.*/
-	NdisMoveMemory(&DialogToken, pFramePtr, 1);
+	memmove(&DialogToken, pFramePtr, 1);
 
 	LinkMargin = (RealRssi / MIN_RCV_PWR);
 	if (PeerTpcReqSanity(pAd, Elem->Msg, Elem->MsgLen, &DialogToken))
@@ -2139,7 +2139,7 @@ INT Set_MeasureReq_Proc(
 						pAd->CurrentAddress,
 						pAd->CurrentAddress);
 
-	NdisMoveMemory(pOutBuffer, (PCHAR)&ActHdr, sizeof(HEADER_802_11));
+	memmove(pOutBuffer, (PCHAR)&ActHdr, sizeof(HEADER_802_11));
 	FrameLen = sizeof(HEADER_802_11);
 
 	TotalLen = sizeof(MEASURE_REQ_INFO) + sizeof(MEASURE_REQ);

@@ -240,7 +240,7 @@ BOOLEAN ApCliCheckHt(
 	}
 
 	/* Record the RxMcs of AP */
-	NdisMoveMemory(pApCliEntry->RxMcsSet, pHtCapability->MCSSet, 16);
+	memmove(pApCliEntry->RxMcsSet, pHtCapability->MCSSet, 16);
 
 	/* choose smaller setting */
 	aux_ht_cap->HtCapInfo.ChannelWidth = pAddHtInfo->AddHtInfo.RecomWidth & rt_ht_cap->ChannelWidth;
@@ -435,7 +435,7 @@ BOOLEAN ApCliLinkUp(struct rtmp_adapter *pAd, UCHAR ifIndex)
 				COPY_MAC_ADDR(&wdev->bssid[0], &pApCliEntry->MlmeAux.Bssid[0]);
 				COPY_MAC_ADDR(APCLI_ROOT_BSSID_GET(pAd, pApCliEntry->MacTabWCID), pApCliEntry->MlmeAux.Bssid);
 				pApCliEntry->SsidLen = pApCliEntry->MlmeAux.SsidLen;
-				NdisMoveMemory(pApCliEntry->Ssid, pApCliEntry->MlmeAux.Ssid, pApCliEntry->SsidLen);
+				memmove(pApCliEntry->Ssid, pApCliEntry->MlmeAux.Ssid, pApCliEntry->SsidLen);
 			}
 
 #ifdef WPA_SUPPLICANT_SUPPORT
@@ -500,7 +500,7 @@ BOOLEAN ApCliLinkUp(struct rtmp_adapter *pAd, UCHAR ifIndex)
 					if ((pEid->Eid == IE_WPA) && (NdisEqualMemory(pEid->Octet, WPA_OUI, 4))
 						&& (pMacEntry->AuthMode == Ndis802_11AuthModeWPA || pMacEntry->AuthMode == Ndis802_11AuthModeWPAPSK))
 					{
-						NdisMoveMemory(pMacEntry->RSN_IE, pVIE, (pEid->Len + 2));
+						memmove(pMacEntry->RSN_IE, pVIE, (pEid->Len + 2));
 						pMacEntry->RSNIE_Len = (pEid->Len + 2);
 						DBGPRINT(RT_DEBUG_TRACE, ("ApCliLinkUp: Store RSN_IE for WPA SM negotiation \n"));
 					}
@@ -508,7 +508,7 @@ BOOLEAN ApCliLinkUp(struct rtmp_adapter *pAd, UCHAR ifIndex)
 					else if ((pEid->Eid == IE_RSN) && (NdisEqualMemory(pEid->Octet + 2, RSN_OUI, 3))
 						&& (pMacEntry->AuthMode == Ndis802_11AuthModeWPA2 || pMacEntry->AuthMode == Ndis802_11AuthModeWPA2PSK))
 					{
-						NdisMoveMemory(pMacEntry->RSN_IE, pVIE, (pEid->Len + 2));
+						memmove(pMacEntry->RSN_IE, pVIE, (pEid->Len + 2));
 						pMacEntry->RSNIE_Len = (pEid->Len + 2);
 						DBGPRINT(RT_DEBUG_TRACE, ("ApCliLinkUp: Store RSN_IE for WPA2 SM negotiation \n"));
 					}
@@ -628,8 +628,8 @@ BOOLEAN ApCliLinkUp(struct rtmp_adapter *pAd, UCHAR ifIndex)
 					CLIENT_STATUS_SET_FLAG(pMacEntry, fCLIENT_STATUS_RDG_CAPABLE);
 				if (pHtCapability->ExtHtCapInfo.MCSFeedback == 0x03)
 					CLIENT_STATUS_SET_FLAG(pMacEntry, fCLIENT_STATUS_MCSFEEDBACK_CAPABLE);
-				NdisMoveMemory(&pMacEntry->HTCapability, &pApCliEntry->MlmeAux.HtCapability, sizeof(HT_CAPABILITY_IE));
-				NdisMoveMemory(pMacEntry->HTCapability.MCSSet, pApCliEntry->RxMcsSet, 16);
+				memmove(&pMacEntry->HTCapability, &pApCliEntry->MlmeAux.HtCapability, sizeof(HT_CAPABILITY_IE));
+				memmove(pMacEntry->HTCapability.MCSSet, pApCliEntry->RxMcsSet, 16);
 			}
 			else
 			{
@@ -1124,7 +1124,7 @@ BOOLEAN ApCliMsgTypeSubst(
 
 			case SUBTYPE_AUTH:
 				/* get the sequence number from payload 24 Mac Header + 2 bytes algorithm */
-				NdisMoveMemory(&Seq, &pFrame->Octet[2], sizeof(USHORT));
+				memmove(&Seq, &pFrame->Octet[2], sizeof(USHORT));
 				if (Seq == 2 || Seq == 4)
 				{
 					*Machine = APCLI_AUTH_STATE_MACHINE;
@@ -1231,9 +1231,9 @@ BOOLEAN ApCliPeerAssocRspSanity(
 	Ptr = (CHAR *) pFrame->Octet;
 	Length += LENGTH_802_11;
 
-	NdisMoveMemory(pCapabilityInfo, &pFrame->Octet[0], 2);
+	memmove(pCapabilityInfo, &pFrame->Octet[0], 2);
 	Length += 2;
-	NdisMoveMemory(pStatus,         &pFrame->Octet[2], 2);
+	memmove(pStatus,         &pFrame->Octet[2], 2);
 	Length += 2;
 	*pCkipFlag = 0;
 	*pExtRateLen = 0;
@@ -1242,7 +1242,7 @@ BOOLEAN ApCliPeerAssocRspSanity(
 	if (*pStatus != MLME_SUCCESS)
 		return TRUE;
 
-	NdisMoveMemory(pAid, &pFrame->Octet[4], 2);
+	memmove(pAid, &pFrame->Octet[4], 2);
 	Length += 2;
 
 	/* Aid already swaped byte order in RTMPFrameEndianChange() for big endian platform */
@@ -1257,7 +1257,7 @@ BOOLEAN ApCliPeerAssocRspSanity(
 		return FALSE;
 	}
 	else
-		NdisMoveMemory(SupRate, &pFrame->Octet[8], *pSupRateLen);
+		memmove(SupRate, &pFrame->Octet[8], *pSupRateLen);
 
 	Length = Length + 2 + *pSupRateLen;
 
@@ -1273,7 +1273,7 @@ BOOLEAN ApCliPeerAssocRspSanity(
 			case IE_EXT_SUPP_RATES:
 				if (pEid->Len <= MAX_LEN_OF_SUPPORTED_RATES)
 				{
-					NdisMoveMemory(ExtRate, pEid->Octet, pEid->Len);
+					memmove(ExtRate, pEid->Octet, pEid->Len);
 					*pExtRateLen = pEid->Len;
 				}
 				break;
@@ -1282,7 +1282,7 @@ BOOLEAN ApCliPeerAssocRspSanity(
 			case IE_HT_CAP2:
 				if (pEid->Len >= SIZE_HT_CAP_IE)  /*Note: allow extension.!! */
 				{
-					NdisMoveMemory(pHtCapability, pEid->Octet, SIZE_HT_CAP_IE);
+					memmove(pHtCapability, pEid->Octet, SIZE_HT_CAP_IE);
 					*(USHORT *) (&pHtCapability->HtCapInfo) = cpu2le16(*(USHORT *)(&pHtCapability->HtCapInfo));
 					*(USHORT *) (&pHtCapability->ExtHtCapInfo) = cpu2le16(*(USHORT *)(&pHtCapability->ExtHtCapInfo));
 					*pHtCapabilityLen = SIZE_HT_CAP_IE;
@@ -1299,7 +1299,7 @@ BOOLEAN ApCliPeerAssocRspSanity(
 				{
 					/* This IE allows extension, but we can ignore extra bytes beyond our knowledge , so only */
 					/* copy first sizeof(ADD_HT_INFO_IE) */
-					NdisMoveMemory(pAddHtInfo, pEid->Octet, sizeof(ADD_HT_INFO_IE));
+					memmove(pAddHtInfo, pEid->Octet, sizeof(ADD_HT_INFO_IE));
 					*pAddHtInfoLen = SIZE_ADD_HT_INFO_IE;
 				}
 				else
@@ -1320,7 +1320,7 @@ BOOLEAN ApCliPeerAssocRspSanity(
 #ifdef DOT11_VHT_AC
 			case IE_VHT_CAP:
 				if (pEid->Len == sizeof(VHT_CAP_IE)) {
-					NdisMoveMemory(&ie_list->vht_cap, pEid->Octet, sizeof(VHT_CAP_IE));
+					memmove(&ie_list->vht_cap, pEid->Octet, sizeof(VHT_CAP_IE));
 					ie_list->vht_cap_len = sizeof(VHT_CAP_IE);
 				} else {
 					DBGPRINT(RT_DEBUG_WARN, ("%s():wrong IE_VHT_CAP\n", __FUNCTION__));
@@ -1328,7 +1328,7 @@ BOOLEAN ApCliPeerAssocRspSanity(
 				break;
 			case IE_VHT_OP:
 				if (pEid->Len == sizeof(VHT_OP_IE)) {
-					NdisMoveMemory(&ie_list->vht_op, pEid->Octet, sizeof(VHT_OP_IE));
+					memmove(&ie_list->vht_op, pEid->Octet, sizeof(VHT_OP_IE));
 					ie_list->vht_op_len = sizeof(VHT_OP_IE);
 				}else {
 					DBGPRINT(RT_DEBUG_WARN, ("%s():wrong IE_VHT_OP\n", __FUNCTION__));
@@ -1616,7 +1616,7 @@ BOOLEAN ApCliValidateRSNIE(
 				pTmp += 1;
 
 				/* Store unicast cipher count */
-				NdisMoveMemory(&Count, pTmp, sizeof(USHORT));
+				memmove(&Count, pTmp, sizeof(USHORT));
 				Count = cpu2le16(Count);
 
 				/* pointer to unicast cipher */
@@ -1658,7 +1658,7 @@ BOOLEAN ApCliValidateRSNIE(
 				}
 
 				/* Get AKM suite counts */
-				NdisMoveMemory(&Count, pTmp, sizeof(USHORT));
+				memmove(&Count, pTmp, sizeof(USHORT));
 				Count = cpu2le16(Count);
 
 				pTmp   += sizeof(USHORT);
@@ -1754,7 +1754,7 @@ BOOLEAN ApCliValidateRSNIE(
 				pTmp += 1;
 
 				/* Get pairwise cipher counts */
-				NdisMoveMemory(&Count, pTmp, sizeof(USHORT));
+				memmove(&Count, pTmp, sizeof(USHORT));
 				Count = cpu2le16(Count);
 
 				pTmp   += sizeof(USHORT);
@@ -1796,7 +1796,7 @@ BOOLEAN ApCliValidateRSNIE(
 				}
 
 				/* Get AKM suite counts */
-				NdisMoveMemory(&Count, pTmp, sizeof(USHORT));
+				memmove(&Count, pTmp, sizeof(USHORT));
 				Count = cpu2le16(Count);
 
 				pTmp   += sizeof(USHORT);
@@ -2118,7 +2118,7 @@ VOID APCliInstallPairwiseKey(
 #ifdef MAC_APCLI_SUPPORT
 	BssIdx = APCLI_BSSID_IDX + IfIdx;
 #endif /* MAC_APCLI_SUPPORT */
-	NdisMoveMemory(pAd->ApCfg.ApCliTab[IfIdx].PTK, pEntry->PTK, LEN_PTK);
+	memmove(pAd->ApCfg.ApCliTab[IfIdx].PTK, pEntry->PTK, LEN_PTK);
 
 	WPAInstallPairwiseKey(pAd, BssIdx, pEntry, FALSE);
 }
@@ -2159,17 +2159,17 @@ BOOLEAN APCliInstallSharedKey(
 
 	/* Update GTK */
 	/* set key material, TxMic and RxMic for WPAPSK */
-	NdisMoveMemory(apcli_entry->GTK, pKey, GTK_len);
+	memmove(apcli_entry->GTK, pKey, GTK_len);
 	apcli_entry->wdev.DefaultKeyId = DefaultKeyIdx;
 
 	/* Update shared key table */
 	NdisZeroMemory(&apcli_entry->SharedKey[DefaultKeyIdx], sizeof(CIPHER_KEY));
 	apcli_entry->SharedKey[DefaultKeyIdx].KeyLen = GTK_len;
-	NdisMoveMemory(apcli_entry->SharedKey[DefaultKeyIdx].Key, pKey, LEN_TK);
+	memmove(apcli_entry->SharedKey[DefaultKeyIdx].Key, pKey, LEN_TK);
 	if (GTK_len == LEN_TKIP_GTK)
 	{
-		NdisMoveMemory(apcli_entry->SharedKey[DefaultKeyIdx].RxMic, pKey + 16, LEN_TKIP_MIC);
-		NdisMoveMemory(apcli_entry->SharedKey[DefaultKeyIdx].TxMic, pKey + 24, LEN_TKIP_MIC);
+		memmove(apcli_entry->SharedKey[DefaultKeyIdx].RxMic, pKey + 16, LEN_TKIP_MIC);
+		memmove(apcli_entry->SharedKey[DefaultKeyIdx].TxMic, pKey + 24, LEN_TKIP_MIC);
 	}
 
 	/* Update Shared Key CipherAlg */
@@ -2458,7 +2458,7 @@ VOID APCli_Init(struct rtmp_adapter *pAd, RTMP_OS_NETDEV_OP_HOOK *pNetDevOps)
 		pNetDevOps->priv_flags = INT_APCLI; /* we are virtual interface */
 		pNetDevOps->needProtcted = TRUE;
 		pNetDevOps->wdev = wdev;
-		NdisMoveMemory(pNetDevOps->devAddr, &wdev->if_addr[0], MAC_ADDR_LEN);
+		memmove(pNetDevOps->devAddr, &wdev->if_addr[0], MAC_ADDR_LEN);
 
 		/* register this device to OS */
 		RtmpOSNetDevAttach(pAd->OpMode, new_dev_p, pNetDevOps);
@@ -2625,7 +2625,7 @@ BOOLEAN ApCliAutoConnectExec(
 						("I/F(apcli%d) ApCliAutoConnectExec::(AuthMode=%s, EncrypType=%s)\n", ifIdx,
 						GetAuthMode(pBssEntry->AuthMode),
 						GetEncryptType(pBssEntry->WepStatus)) );
-				NdisMoveMemory(&pSsidBssTab->BssEntry[pSsidBssTab->BssNr++],
+				memmove(&pSsidBssTab->BssEntry[pSsidBssTab->BssNr++],
 								pBssEntry, sizeof(BSS_ENTRY));
 			}
 		}

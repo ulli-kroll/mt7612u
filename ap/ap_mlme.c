@@ -424,7 +424,7 @@ BOOLEAN APMsgTypeSubst(
             break;
         case SUBTYPE_AUTH:
             /* get the sequence number from payload 24 Mac Header + 2 bytes algorithm */
-            NdisMoveMemory(&Seq, &pFrame->Octet[2], sizeof(USHORT));
+            memmove(&Seq, &pFrame->Octet[2], sizeof(USHORT));
 
 			*Machine = AP_AUTH_STATE_MACHINE;
 			if (Seq == 1)

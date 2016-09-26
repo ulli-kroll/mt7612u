@@ -62,7 +62,7 @@ BOOLEAN MlmeStartReqSanity(
 	}
 
 	*pSsidLen = Info->SsidLen;
-	NdisMoveMemory(Ssid, Info->Ssid, *pSsidLen);
+	memmove(Ssid, Info->Ssid, *pSsidLen);
 
 	return TRUE;
 }
@@ -112,9 +112,9 @@ BOOLEAN PeerAssocRspSanity(
 	Ptr = (CHAR *) pFrame->Octet;
 	Length += LENGTH_802_11;
 
-	NdisMoveMemory(pCapabilityInfo, &pFrame->Octet[0], 2);
+	memmove(pCapabilityInfo, &pFrame->Octet[0], 2);
 	Length += 2;
-	NdisMoveMemory(pStatus, &pFrame->Octet[2], 2);
+	memmove(pStatus, &pFrame->Octet[2], 2);
 	Length += 2;
 	*pCkipFlag = 0;
 	*pExtRateLen = 0;
@@ -123,7 +123,7 @@ BOOLEAN PeerAssocRspSanity(
 	if (*pStatus != MLME_SUCCESS)
 		return TRUE;
 
-	NdisMoveMemory(pAid, &pFrame->Octet[4], 2);
+	memmove(pAid, &pFrame->Octet[4], 2);
 	Length += 2;
 
 	/* Aid already swaped byte order in RTMPFrameEndianChange() for big endian platform */
@@ -137,7 +137,7 @@ BOOLEAN PeerAssocRspSanity(
 		DBGPRINT(RT_DEBUG_TRACE, ("%s(): fail - wrong SupportedRates IE\n", __FUNCTION__));
 		return FALSE;
 	} else
-		NdisMoveMemory(SupRate, &pFrame->Octet[8], *pSupRateLen);
+		memmove(SupRate, &pFrame->Octet[8], *pSupRateLen);
 
 
 	Length = Length + 2 + *pSupRateLen;
@@ -155,7 +155,7 @@ BOOLEAN PeerAssocRspSanity(
 		{
 			case IE_EXT_SUPP_RATES:
 				if (pEid->Len <= MAX_LEN_OF_SUPPORTED_RATES) {
-					NdisMoveMemory(ExtRate, pEid->Octet, pEid->Len);
+					memmove(ExtRate, pEid->Octet, pEid->Len);
 					*pExtRateLen = pEid->Len;
 				}
 				break;
@@ -164,7 +164,7 @@ BOOLEAN PeerAssocRspSanity(
 			case IE_HT_CAP:
 			case IE_HT_CAP2:
 				if (pEid->Len >= SIZE_HT_CAP_IE) {	/* Note: allow extension.!! */
-					NdisMoveMemory(pHtCapability, pEid->Octet, SIZE_HT_CAP_IE);
+					memmove(pHtCapability, pEid->Octet, SIZE_HT_CAP_IE);
 
 					*(USHORT *) (&pHtCapability->HtCapInfo) = cpu2le16(*(USHORT *)(&pHtCapability->HtCapInfo));
 					*(USHORT *) (&pHtCapability->ExtHtCapInfo) = cpu2le16(*(USHORT *)(&pHtCapability->ExtHtCapInfo));
@@ -183,7 +183,7 @@ BOOLEAN PeerAssocRspSanity(
 					   This IE allows extension, but we can ignore extra bytes beyond our knowledge , so only
 					   copy first sizeof(ADD_HT_INFO_IE)
 					 */
-					NdisMoveMemory(pAddHtInfo, pEid->Octet, sizeof (ADD_HT_INFO_IE));
+					memmove(pAddHtInfo, pEid->Octet, sizeof (ADD_HT_INFO_IE));
 
 					*(USHORT *) (&pAddHtInfo->AddHtInfo2) = cpu2le16(*(USHORT *)(&pAddHtInfo->AddHtInfo2));
 					*(USHORT *) (&pAddHtInfo->AddHtInfo3) = cpu2le16(*(USHORT *)(&pAddHtInfo->AddHtInfo3));
@@ -205,7 +205,7 @@ BOOLEAN PeerAssocRspSanity(
 #ifdef DOT11_VHT_AC
 			case IE_VHT_CAP:
 				if (pEid->Len == sizeof(VHT_CAP_IE)) {
-					NdisMoveMemory(&ie_list->vht_cap, pEid->Octet, sizeof(VHT_CAP_IE));
+					memmove(&ie_list->vht_cap, pEid->Octet, sizeof(VHT_CAP_IE));
 					ie_list->vht_cap_len = sizeof(VHT_CAP_IE);
 				} else {
 					DBGPRINT(RT_DEBUG_WARN, ("%s():wrong IE_VHT_CAP\n", __FUNCTION__));
@@ -214,7 +214,7 @@ BOOLEAN PeerAssocRspSanity(
 
 			case IE_VHT_OP:
 				if (pEid->Len == sizeof(VHT_OP_IE)) {
-					NdisMoveMemory(&ie_list->vht_op, pEid->Octet, sizeof(VHT_OP_IE));
+					memmove(&ie_list->vht_op, pEid->Octet, sizeof(VHT_OP_IE));
 					ie_list->vht_op_len = sizeof(VHT_OP_IE);
 				}else {
 					DBGPRINT(RT_DEBUG_WARN, ("%s():wrong IE_VHT_OP\n", __FUNCTION__));
@@ -258,7 +258,7 @@ BOOLEAN PeerAssocRspSanity(
 					UCHAR MySize = sizeof(EXT_CAP_INFO_ELEMENT);
 
 					MaxSize = min(pEid->Len, MySize);
-					NdisMoveMemory(pExtCapInfo, &pEid->Octet[0], MaxSize);
+					memmove(pExtCapInfo, &pEid->Octet[0], MaxSize);
 					DBGPRINT(RT_DEBUG_WARN, ("PeerAssocReqSanity - IE_EXT_CAPABILITY!\n"));
 				}
 				break;
