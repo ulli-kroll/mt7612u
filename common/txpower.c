@@ -558,7 +558,7 @@ VOID AsicGetTxPowerOffset(struct rtmp_adapter *pAd, ULONG *TxPwr)
 		}
 	}
 
-	NdisCopyMemory(TxPwr, (UCHAR *)&CfgOfTxPwrCtrlOverMAC, sizeof(CfgOfTxPwrCtrlOverMAC));
+	memcpy(TxPwr, (UCHAR *)&CfgOfTxPwrCtrlOverMAC, sizeof(CfgOfTxPwrCtrlOverMAC));
 
 	DBGPRINT(RT_DEBUG_INFO, ("<--AsicGetTxPowerOffset\n"));
 }

@@ -2745,7 +2745,7 @@ static BOOLEAN DfsEventDrop(
 	if (pDfsEvent->EngineId != pPreDfsEvent->EngineId)
 	{
 		/* update prevoius event record then leave */
-		NdisCopyMemory(pPreDfsEvent, pDfsEvent, DFS_EVENT_SIZE);
+		memcpy(pPreDfsEvent, pDfsEvent, DFS_EVENT_SIZE);
 		return FALSE;
 	}
 
@@ -2776,7 +2776,7 @@ static BOOLEAN DfsEventDrop(
 	}
 
 	/* update prevoius event record */
-	NdisCopyMemory(pPreDfsEvent, pDfsEvent, DFS_EVENT_SIZE);
+	memcpy(pPreDfsEvent, pDfsEvent, DFS_EVENT_SIZE);
 
 	return RetVal;
 }

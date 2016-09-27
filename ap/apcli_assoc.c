@@ -670,7 +670,7 @@ static VOID ApCliPeerAssocRspAction(
 
             PFRAME_802_11 pFrame =  (PFRAME_802_11) (Elem->Msg);
             pAd->ApCfg.ApCliTab[ifIndex].ResVarIELen = Elem->MsgLen - 6 - sizeof (HEADER_802_11);
-            NdisCopyMemory(pAd->ApCfg.ApCliTab[ifIndex].ResVarIEs, &pFrame->Octet[6], pAd->ApCfg.ApCliTab[ifIndex].ResVarIELen);
+            memcpy(pAd->ApCfg.ApCliTab[ifIndex].ResVarIEs, &pFrame->Octet[6], pAd->ApCfg.ApCliTab[ifIndex].ResVarIELen);
 #endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
 
 			RTMPCancelTimer(&pAd->ApCfg.ApCliTab[ifIndex].MlmeAux.ApCliAssocTimer, &Cancelled);

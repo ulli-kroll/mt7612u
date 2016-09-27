@@ -434,7 +434,7 @@ INT CFG80211_SendMgmtFrame(struct rtmp_adapter *pAd, VOID *pData, ULONG Data)
 			os_alloc_mem(NULL, (UCHAR **)&pCfg80211_ctrl->pTxStatusBuf, Data);
 			if (pCfg80211_ctrl->pTxStatusBuf != NULL)
 			{
-				NdisCopyMemory(pCfg80211_ctrl->pTxStatusBuf, pData, Data);
+				memcpy(pCfg80211_ctrl->pTxStatusBuf, pData, Data);
 				pCfg80211_ctrl->TxStatusBufLen = Data;
 			}
 			else

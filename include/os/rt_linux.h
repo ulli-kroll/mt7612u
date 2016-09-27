@@ -445,7 +445,6 @@ do { \
  ***********************************************************************************/
 #define MEM_ALLOC_FLAG      (GFP_ATOMIC) /*(GFP_DMA | GFP_ATOMIC) */
 
-#define NdisCopyMemory(Destination, Source, Length) memcpy(Destination, Source, Length)
 #define NdisZeroMemory(Destination, Length)         memset(Destination, 0, Length)
 #define NdisFillMemory(Destination, Length, Fill)   memset(Destination, Fill, Length)
 #define NdisCmpMemory(Destination, Source, Length)  memcmp(Destination, Source, Length)

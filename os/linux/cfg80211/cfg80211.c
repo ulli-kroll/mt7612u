@@ -988,7 +988,7 @@ static int CFG80211_OpsKeyAdd(
 		{
 			CFG80211DBG(RT_DEBUG_TRACE, ("80211> KeyAdd STA(%02X:%02X:%02X:%02X:%02X:%02X) ==>\n",
 						PRINT_MAC(pMacAddr)));
-			NdisCopyMemory(KeyInfo.MAC, pMacAddr, MAC_ADDR_LEN);
+			memcpy(KeyInfo.MAC, pMacAddr, MAC_ADDR_LEN);
 		}
         CFG80211DBG(RT_DEBUG_OFF, ("80211> AP Key Add\n"));
         RTMP_DRIVER_80211_AP_KEY_ADD(pAd, &KeyInfo);
@@ -1106,7 +1106,7 @@ static int CFG80211_OpsKeyDel(
 	{
 		CFG80211DBG(RT_DEBUG_OFF, ("80211> KeyDel STA(%02X:%02X:%02X:%02X:%02X:%02X) ==>\n",
 				PRINT_MAC(pMacAddr)));
-		NdisCopyMemory(KeyInfo.MAC, pMacAddr, MAC_ADDR_LEN);
+		memcpy(KeyInfo.MAC, pMacAddr, MAC_ADDR_LEN);
 	}
 
 	MAC80211_PAD_GET(pAd, pWiphy);
@@ -1832,13 +1832,13 @@ static int CFG80211_OpsStartAp(
 	if (settings->beacon.head_len > 0)
 	{
 		os_alloc_mem(NULL, &beacon_head_buf, settings->beacon.head_len);
-		NdisCopyMemory(beacon_head_buf, settings->beacon.head, settings->beacon.head_len);
+		memcpy(beacon_head_buf, settings->beacon.head, settings->beacon.head_len);
 	}
 
 	if (settings->beacon.tail_len > 0)
 	{
 		os_alloc_mem(NULL, &beacon_tail_buf, settings->beacon.tail_len);
-		NdisCopyMemory(beacon_tail_buf, settings->beacon.tail, settings->beacon.tail_len);
+		memcpy(beacon_tail_buf, settings->beacon.tail, settings->beacon.tail_len);
 	}
 
 	bcn.beacon_head_len = settings->beacon.head_len;
@@ -1874,12 +1874,12 @@ static int CFG80211_OpsChangeBeacon(
 	if (info->head_len > 0)
 	{
 		os_alloc_mem(NULL, &beacon_head_buf, info->head_len);
-		NdisCopyMemory(beacon_head_buf, info->head, info->head_len);
+		memcpy(beacon_head_buf, info->head, info->head_len);
 	}
 
 	if (info->tail_len > 0) {
 		os_alloc_mem(NULL, &beacon_tail_buf, info->tail_len);
-		NdisCopyMemory(beacon_tail_buf, info->tail, info->tail_len);
+		memcpy(beacon_tail_buf, info->tail, info->tail_len);
 	}
 
 	bcn.beacon_head_len = info->head_len;
@@ -2022,7 +2022,7 @@ static struct wireless_dev* CFG80211_OpsVirtualInfAdd(
 	vifInfo.vifType = Type;
 	vifInfo.vifNameLen = strlen(name);
     memset(vifInfo.vifName, 0, sizeof(vifInfo.vifName));
-	NdisCopyMemory(vifInfo.vifName, name, vifInfo.vifNameLen);
+	memcpy(vifInfo.vifName, name, vifInfo.vifNameLen);
 
 	if (RTMP_DRIVER_80211_VIF_ADD(pAd, &vifInfo) != NDIS_STATUS_SUCCESS)
 		return NULL;

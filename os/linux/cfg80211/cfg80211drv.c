@@ -1661,8 +1661,8 @@ BOOLEAN CFG80211_checkScanTable(
 
 		ie[0] = WLAN_EID_SSID;
 		ie[1] = pApCliEntry->MlmeAux.SsidLen;
-		NdisCopyMemory(ie + 2, pApCliEntry->MlmeAux.Ssid, pApCliEntry->MlmeAux.SsidLen);
-		NdisCopyMemory(ie + 2 + pApCliEntry->MlmeAux.SsidLen, pBssEntry->pVarIeFromProbRsp,
+		memcpy(ie + 2, pApCliEntry->MlmeAux.Ssid, pApCliEntry->MlmeAux.SsidLen);
+		memcpy(ie + 2 + pApCliEntry->MlmeAux.SsidLen, pBssEntry->pVarIeFromProbRsp,
 				pBssEntry->VarIeFromProbeRspLen);
 
 		bss = cfg80211_inform_bss(pWiphy, chan,

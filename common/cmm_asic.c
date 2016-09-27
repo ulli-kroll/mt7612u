@@ -3366,8 +3366,8 @@ VOID RT28xxAndesWOWEnable(
 
 		pEntry = &pAd->MacTab.Content[BSSID_WCID];
 
-		NdisCopyMemory(sec_cfg.PTK, pEntry->PTK, 64);
-		NdisCopyMemory(sec_cfg.R_COUNTER, pEntry->R_Counter, LEN_KEY_DESC_REPLAY);
+		memcpy(sec_cfg.PTK, pEntry->PTK, 64);
+		memcpy(sec_cfg.R_COUNTER, pEntry->R_Counter, LEN_KEY_DESC_REPLAY);
 
 		sec_cfg.Key_Id = pAd->StaCfg.DefaultKeyId;
 		sec_cfg.Cipher_Alg = pEntry->WepStatus;

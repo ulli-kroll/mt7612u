@@ -776,13 +776,13 @@ VOID ap_cmm_peer_assoc_req_action(
 	pEntry->RateLen = ie_list->SupportedRatesLen;
 
 #ifdef RT_BIG_ENDIAN
-	NdisCopyMemory(&tmp_1,&ie_list->vht_cap.vht_cap, 4);
+	memcpy(&tmp_1,&ie_list->vht_cap.vht_cap, 4);
 	tmp_1=SWAP32(tmp_1);
-	NdisCopyMemory(&ie_list->vht_cap.vht_cap,&tmp_1, 4);
+	memcpy(&ie_list->vht_cap.vht_cap,&tmp_1, 4);
 
-	NdisCopyMemory(&tmp_2,&(ie_list->vht_cap.mcs_set), 8);
+	memcpy(&tmp_2,&(ie_list->vht_cap.mcs_set), 8);
 	tmp_2=SWAP64(tmp_2);
-	NdisCopyMemory(&(ie_list->vht_cap.mcs_set),&tmp_2, 8);
+	memcpy(&(ie_list->vht_cap.mcs_set),&tmp_2, 8);
 	//SWAP32((UINT32)vht_cap_ie.vht_cap);
 	//SWAP32((UINT32)vht_cap_ie.mcs_set);
 #endif /* RT_BIG_ENDIAN */

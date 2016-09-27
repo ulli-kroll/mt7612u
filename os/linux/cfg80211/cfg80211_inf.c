@@ -320,7 +320,7 @@ VOID RTMP_CFG80211_AddVifEntry(struct rtmp_adapter *pAd, struct net_device *pNew
 		pNewVifDev->net_dev = pNewNetDev;
 		pNewVifDev->devType = DevType;
 		NdisZeroMemory(pNewVifDev->CUR_MAC, MAC_ADDR_LEN);
-		NdisCopyMemory(pNewVifDev->CUR_MAC, pNewNetDev->dev_addr, MAC_ADDR_LEN);
+		memcpy(pNewVifDev->CUR_MAC, pNewNetDev->dev_addr, MAC_ADDR_LEN);
 
 		insertTailList(&pAd->cfg80211_ctrl.Cfg80211VifDevSet.vifDevList, (PLIST_ENTRY)pNewVifDev);
 		DBGPRINT(RT_DEBUG_TRACE, ("Add CFG80211 VIF Device, Type: %d.\n", pNewVifDev->devType));
@@ -566,7 +566,7 @@ VOID RTMP_CFG80211_VirtualIF_Init(
 	UINT32 MC_RowID = 0, IoctlIF = 0, Inf = INT_P2P;
 
 	memset(preIfName, 0, sizeof(preIfName));
-	NdisCopyMemory(preIfName, pDevName, devNameLen-1);
+	memcpy(preIfName, pDevName, devNameLen-1);
 
 	pNetDevOps=&netDevHook;
 

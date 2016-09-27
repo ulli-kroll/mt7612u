@@ -96,7 +96,7 @@ BOOLEAN CFG80211DRV_OpsScanSetSpecifyChannel(
 		os_alloc_mem(NULL, (UCHAR **)&cfg80211_ctrl->pCfg80211ChanList, sizeof(UINT32 *) * dataLen);
 		if (cfg80211_ctrl->pCfg80211ChanList != NULL)
 		{
-			NdisCopyMemory(cfg80211_ctrl->pCfg80211ChanList, pChanList, sizeof(UINT32 *) * dataLen);
+			memcpy(cfg80211_ctrl->pCfg80211ChanList, pChanList, sizeof(UINT32 *) * dataLen);
 			cfg80211_ctrl->Cfg80211ChanListLen = dataLen;
 			cfg80211_ctrl->Cfg80211CurChanIndex = 0 ; /* Start from index 0 */
 			return NDIS_STATUS_SUCCESS;
@@ -187,7 +187,7 @@ BOOLEAN CFG80211DRV_OpsScanExtraIesSet(struct rtmp_adapter *pAd)
 	os_alloc_mem(pAd, (UCHAR **)&(cfg80211_ctrl->pExtraIe), ie_len);
 	if (cfg80211_ctrl->pExtraIe)
 	{
-		NdisCopyMemory(cfg80211_ctrl->pExtraIe, pCfg80211_CB->pCfg80211_ScanReq->ie, ie_len);
+		memcpy(cfg80211_ctrl->pExtraIe, pCfg80211_CB->pCfg80211_ScanReq->ie, ie_len);
 		cfg80211_ctrl->ExtraIeLen = ie_len;
 		hex_dump("CFG8021_SCAN_EXTRAIE", cfg80211_ctrl->pExtraIe, cfg80211_ctrl->ExtraIeLen);
 	}

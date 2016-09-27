@@ -5617,8 +5617,8 @@ INT RT335xATETssiCalibrationExtend(
 		pAd->ate.bTSSICalbrEnableG = FALSE;
 	}
 
-	NdisCopyMemory(TssiRefPerChannel, pAd->ate.TssiRefPerChannel, CFG80211_NUM_OF_CHAN_2GHZ);
-	NdisCopyMemory(TssiDeltaPerChannel, pAd->ate.TssiDeltaPerChannel, CFG80211_NUM_OF_CHAN_2GHZ);
+	memcpy(TssiRefPerChannel, pAd->ate.TssiRefPerChannel, CFG80211_NUM_OF_CHAN_2GHZ);
+	memcpy(TssiDeltaPerChannel, pAd->ate.TssiDeltaPerChannel, CFG80211_NUM_OF_CHAN_2GHZ);
 
 	/* step 1: write TSSI_ref to EEPROM 0x6E */
 	CurrentChannel = 7;
@@ -5690,8 +5690,8 @@ INT RT335xATETssiCalibrationExtend(
 	RtmpusecDelay(10);
 
 	/* step 5: synchronize ATE private data structure with the values written to EEPROM */
-	NdisCopyMemory(pAd->ate.TssiRefPerChannel, TssiRefPerChannel, CFG80211_NUM_OF_CHAN_2GHZ);
-	NdisCopyMemory(pAd->ate.TssiDeltaPerChannel, TssiDeltaPerChannel, CFG80211_NUM_OF_CHAN_2GHZ);
+	memcpy(pAd->ate.TssiRefPerChannel, TssiRefPerChannel, CFG80211_NUM_OF_CHAN_2GHZ);
+	memcpy(pAd->ate.TssiDeltaPerChannel, TssiDeltaPerChannel, CFG80211_NUM_OF_CHAN_2GHZ);
 
 	return TRUE;
 }

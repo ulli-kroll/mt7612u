@@ -2818,7 +2818,7 @@ VOID RTMPApCliReconnectionCheck(
 							__FUNCTION__, pApCliCfgSsid));
 				pAd->ApCfg.ApCliAutoConnectRunning = TRUE;
 				Ssid.SsidLength = CfgSsidLen;
-				NdisCopyMemory(Ssid.Ssid, pApCliCfgSsid, CfgSsidLen);
+				memcpy(Ssid.Ssid, pApCliCfgSsid, CfgSsidLen);
 				ApSiteSurvey(pAd, &Ssid, SCAN_ACTIVE, FALSE);
 
 			}

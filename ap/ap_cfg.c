@@ -7690,7 +7690,7 @@ INT RTMP_AP_IoctlHandle(
 
 		case CMD_RTPRIV_IOCTL_AP_SIOCGIFHWADDR:
 			if (pObj->ioctl_if < MAX_MBSSID_NUM(pAd))
-				NdisCopyMemory((PSTRING) wrq->u.name, (PSTRING) pAd->ApCfg.MBSSID[pObj->ioctl_if].wdev.bssid, 6);
+				memcpy((PSTRING) wrq->u.name, (PSTRING) pAd->ApCfg.MBSSID[pObj->ioctl_if].wdev.bssid, 6);
 			break;
 
 		case CMD_RTPRIV_IOCTL_AP_SIOCGIWESSID:

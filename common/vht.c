@@ -433,9 +433,9 @@ INT build_vht_op_ie(struct rtmp_adapter *pAd, UCHAR *buf)
 
 #ifdef RT_BIG_ENDIAN
 	//SWAP16((UINT16)vht_op.basic_mcs_set);
-	NdisCopyMemory(&tmp,&vht_op.basic_mcs_set, 2);
+	memcpy(&tmp,&vht_op.basic_mcs_set, 2);
 	tmp=SWAP16(tmp);
-	NdisCopyMemory(&vht_op.basic_mcs_set,&tmp, 2);
+	memcpy(&vht_op.basic_mcs_set,&tmp, 2);
 #endif /* RT_BIG_ENDIAN */
 	memmove((UCHAR *)buf, (UCHAR *)&vht_op, sizeof(VHT_OP_IE));
 
@@ -564,13 +564,13 @@ INT build_vht_cap_ie(struct rtmp_adapter *pAd, UCHAR *buf)
 	}
 
 #ifdef RT_BIG_ENDIAN
-	NdisCopyMemory(&tmp_1,&vht_cap_ie.vht_cap, 4);
+	memcpy(&tmp_1,&vht_cap_ie.vht_cap, 4);
 	tmp_1 = SWAP32(tmp_1);
-	NdisCopyMemory(&vht_cap_ie.vht_cap,&tmp_1, 4);
+	memcpy(&vht_cap_ie.vht_cap,&tmp_1, 4);
 
-	NdisCopyMemory(&tmp_2,&vht_cap_ie.mcs_set, 8);
+	memcpy(&tmp_2,&vht_cap_ie.mcs_set, 8);
 	tmp_2=SWAP64(tmp_2);
-	NdisCopyMemory(&vht_cap_ie.mcs_set,&tmp_2, 8);
+	memcpy(&vht_cap_ie.mcs_set,&tmp_2, 8);
 
 	//hex_dump("&vht_cap_ie", &vht_cap_ie,  sizeof(VHT_CAP_IE));
 	//SWAP32((UINT32)vht_cap_ie.vht_cap);

@@ -636,18 +636,18 @@ VOID ScanNextChannel(struct rtmp_adapter *pAd, UCHAR OpMode)
 					//printk("=====================>specific the %s scanning\n", pAd->ApCfg.ApCliTab[0].CfgSsid);
 					/* 1. backup the original MlmeAux */
 					backSsidLen = pAd->MlmeAux.SsidLen;
-					NdisCopyMemory(backSsid, pAd->MlmeAux.Ssid, backSsidLen);
+					memcpy(backSsid, pAd->MlmeAux.Ssid, backSsidLen);
 
 					/* 2. fill the desried ssid into SM */
 					pAd->MlmeAux.SsidLen = desiredSsidLen;
-					NdisCopyMemory(pAd->MlmeAux.Ssid, pAd->ApCfg.ApCliTab[0].CfgSsid, desiredSsidLen);
+					memcpy(pAd->MlmeAux.Ssid, pAd->ApCfg.ApCliTab[0].CfgSsid, desiredSsidLen);
 
 					/* 3. scan action */
 					scan_active(pAd, OpMode, ScanType);
 
 					/* 4. restore to MlmeAux */
 					pAd->MlmeAux.SsidLen = backSsidLen;
-					NdisCopyMemory(pAd->MlmeAux.Ssid, backSsid, backSsidLen);
+					memcpy(pAd->MlmeAux.Ssid, backSsid, backSsidLen);
 				}
 			}
 #endif /* AP_PARTIAL_SCAN_SUPPORT */

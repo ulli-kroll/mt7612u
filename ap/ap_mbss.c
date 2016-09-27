@@ -134,7 +134,7 @@ VOID MBSS_Init(struct rtmp_adapter *pAd, RTMP_OS_NETDEV_OP_HOOK *pNetDevOps)
 		RTMP_OS_NETDEV_SET_WDEV(pDevNew, wdev);
 
 		/* init operation functions and flags */
-		NdisCopyMemory(&netDevHook, pNetDevOps, sizeof(netDevHook));
+		memcpy(&netDevHook, pNetDevOps, sizeof(netDevHook));
 
 		netDevHook.priv_flags = INT_MBSSID;
 		netDevHook.needProtcted = TRUE;

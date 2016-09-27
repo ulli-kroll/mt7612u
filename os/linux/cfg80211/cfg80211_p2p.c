@@ -174,7 +174,7 @@ BOOLEAN CFG80211DRV_OpsRemainOnChannel(struct rtmp_adapter *pAd, VOID *pData, UI
 	}
         cfg80211_ready_on_channel(pwdev,  pChanInfo->cookie, pChanInfo->chan, duration, GFP_ATOMIC);
 
-	NdisCopyMemory(&pCfg80211_ctrl->Cfg80211ChanInfo, pChanInfo, sizeof(CMD_RTPRIV_IOCTL_80211_CHAN));
+	memcpy(&pCfg80211_ctrl->Cfg80211ChanInfo, pChanInfo, sizeof(CMD_RTPRIV_IOCTL_80211_CHAN));
 
 	CFG80211_RemainOnChannelInit(pAd);
 
@@ -1055,7 +1055,7 @@ VOID CFG80211DRV_P2pClientKeyAdd(struct rtmp_adapter *pAd, VOID *pData)
 				NdisZeroMemory(&pMacEntry->PairwiseKey, sizeof(CIPHER_KEY));
 				pMacEntry->PairwiseKey.KeyLen = LEN_TK;
 
-				NdisCopyMemory(&pMacEntry->PTK[OFFSET_OF_PTK_TK], pKeyInfo->KeyBuf, OFFSET_OF_PTK_TK);
+				memcpy(&pMacEntry->PTK[OFFSET_OF_PTK_TK], pKeyInfo->KeyBuf, OFFSET_OF_PTK_TK);
 				memmove(pMacEntry->PairwiseKey.Key, &pMacEntry->PTK[OFFSET_OF_PTK_TK], pKeyInfo->KeyLen);
 
 				pMacEntry->PairwiseKey.CipherAlg = CIPHER_AES;
@@ -1178,7 +1178,7 @@ BOOLEAN CFG80211DRV_P2pClientConnect(struct rtmp_adapter *pAd, VOID *pData)
 	if (pConnInfo->pBssid != NULL)
 	{
 		NdisZeroMemory(apcli_entry->CfgApCliBssid, MAC_ADDR_LEN);
-		NdisCopyMemory(apcli_entry->CfgApCliBssid, pConnInfo->pBssid, MAC_ADDR_LEN);
+		memcpy(apcli_entry->CfgApCliBssid, pConnInfo->pBssid, MAC_ADDR_LEN);
 	}
 
 	OPSTATUS_SET_FLAG(pAd, fOP_AP_STATUS_MEDIA_STATE_CONNECTED);

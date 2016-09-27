@@ -117,7 +117,7 @@ static INT CFG80211DRV_UpdateApSettingFromBeacon(struct rtmp_adapter *pAd, UINT 
 	else
 	{
 		pMbss->SsidLen = ssid_ie[1];
-		NdisCopyMemory(pMbss->Ssid, ssid_ie+2, pMbss->SsidLen);
+		memcpy(pMbss->Ssid, ssid_ie+2, pMbss->SsidLen);
 		DBGPRINT(RT_DEBUG_TRACE,("CFG : SSID: %s, %d\n", pMbss->Ssid, pMbss->SsidLen));
 	}
 
@@ -220,7 +220,7 @@ VOID CFG80211_UpdateBeacon(
 	if (isAllUpdate)
 	{
 		/* 1. Update the Before TIM IE */
-		NdisCopyMemory(pBeaconFrame, beacon_head_buf, beacon_head_len);
+		memcpy(pBeaconFrame, beacon_head_buf, beacon_head_len);
 
 		/* 2. Update the TIM IE */
 		pAd->ApCfg.MBSSID[MAIN_MBSSID].TimIELocationInBeacon = beacon_head_len;
@@ -232,7 +232,7 @@ VOID CFG80211_UpdateBeacon(
 		os_alloc_mem(NULL, (UCHAR **)&pCfg80211_ctrl->beacon_tail_buf, beacon_tail_len);
 		if (pCfg80211_ctrl->beacon_tail_buf != NULL)
 		{
-			NdisCopyMemory(pCfg80211_ctrl->beacon_tail_buf, beacon_tail_buf, beacon_tail_len);
+			memcpy(pCfg80211_ctrl->beacon_tail_buf, beacon_tail_buf, beacon_tail_len);
 			pCfg80211_ctrl->beacon_tail_len = beacon_tail_len;
 		}
 		else
@@ -258,7 +258,7 @@ VOID CFG80211_UpdateBeacon(
 	/* 5. Update the AFTER TIM IE */
 	if (pCfg80211_ctrl->beacon_tail_buf != NULL)
 	{
-		NdisCopyMemory(pAd->ApCfg.MBSSID[MAIN_MBSSID].BeaconBuf +
+		memcpy(pAd->ApCfg.MBSSID[MAIN_MBSSID].BeaconBuf +
 			       pAd->ApCfg.MBSSID[MAIN_MBSSID].TimIELocationInBeacon + New_Tim_Len,
 			       pCfg80211_ctrl->beacon_tail_buf, pCfg80211_ctrl->beacon_tail_len);
 
@@ -658,7 +658,7 @@ BOOLEAN CFG80211DRV_ApKeyAdd(
 					{
 						DBGPRINT(RT_DEBUG_TRACE, ("CFG: Set AES Security Set. (PAIRWISE) %d\n", pKeyInfo->KeyLen));
 						pEntry->PairwiseKey.KeyLen = LEN_TK;
-						NdisCopyMemory(&pEntry->PTK[OFFSET_OF_PTK_TK], pKeyInfo->KeyBuf, OFFSET_OF_PTK_TK);
+						memcpy(&pEntry->PTK[OFFSET_OF_PTK_TK], pKeyInfo->KeyBuf, OFFSET_OF_PTK_TK);
 						memmove(pEntry->PairwiseKey.Key, &pEntry->PTK[OFFSET_OF_PTK_TK], pKeyInfo->KeyLen);
 						pEntry->PairwiseKey.CipherAlg = CIPHER_AES;
 
@@ -704,7 +704,7 @@ BOOLEAN CFG80211DRV_ApKeyAdd(
 					{
 						DBGPRINT(RT_DEBUG_TRACE, ("CFG: Set TKIP Security Set. (PAIRWISE) %d\n", pKeyInfo->KeyLen));
 						pEntry->PairwiseKey.KeyLen = LEN_TK;
-						NdisCopyMemory(&pEntry->PTK[OFFSET_OF_PTK_TK], pKeyInfo->KeyBuf, OFFSET_OF_PTK_TK);
+						memcpy(&pEntry->PTK[OFFSET_OF_PTK_TK], pKeyInfo->KeyBuf, OFFSET_OF_PTK_TK);
 						memmove(pEntry->PairwiseKey.Key, &pEntry->PTK[OFFSET_OF_PTK_TK], pKeyInfo->KeyLen);
 						pEntry->PairwiseKey.CipherAlg = CIPHER_TKIP;
 
