@@ -1,6 +1,6 @@
 <u>**MT7612U for Linux**</u>
 
-Driver for 802.11ac USB Adapter with MT7610U chipset  
+Driver for 802.11ac USB Adapter with MT7612U chipset  
 STA, AP and Monitor Modes are possible  
 Current setting for this driver is APSTA mode as default.  
 STA mode is working fine  
