@@ -208,22 +208,6 @@ int os_alloc_mem(
 		return NDIS_STATUS_FAILURE;
 }
 
-int os_alloc_mem_suspend(
-	IN VOID *pReserved,
-	OUT UCHAR **mem,
-	IN ULONG size)
-{
-	*mem = (PUCHAR) kmalloc(size, GFP_KERNEL);
-	if (*mem) {
-#ifdef VENDOR_FEATURE4_SUPPORT
-		OS_NumOfMemAlloc++;
-#endif /* VENDOR_FEATURE4_SUPPORT */
-
-		return NDIS_STATUS_SUCCESS;
-	} else
-		return NDIS_STATUS_FAILURE;
-}
-
 #if defined(RTMP_RBUS_SUPPORT) || defined(RTMP_FLASH_SUPPORT)
 /* The flag "CONFIG_RALINK_FLASH_API" is used for APSoC Linux SDK */
 #ifdef CONFIG_RALINK_FLASH_API

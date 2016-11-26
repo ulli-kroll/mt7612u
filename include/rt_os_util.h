@@ -52,7 +52,6 @@ UINT32 RtmpOsTickUnitGet(VOID);
 		mem shall be set as NULL if allocation failed
 */
 int os_alloc_mem(VOID *pReserved, UCHAR **mem, ULONG size);
-int os_alloc_mem_suspend(VOID *pReserved, UCHAR **mem, ULONG size);
 
 int AdapterBlockAllocateMemory(
 	IN	VOID *handle,
