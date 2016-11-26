@@ -76,7 +76,7 @@ VOID PeerAuthSimpleRspGenAndSend(
 	HEADER_802_11 AuthHdr;
 	ULONG FrameLen = 0;
 	PUCHAR pOutBuffer = NULL;
-	NDIS_STATUS NStatus;
+	int NStatus;
 
 	if (Reason != MLME_SUCCESS) {
 		DBGPRINT(RT_DEBUG_TRACE, ("Peer AUTH fail...\n"));

@@ -45,7 +45,7 @@ VOID APPeerProbeReqAction(
 {
 	PEER_PROBE_REQ_PARAM ProbeReqParam;
 	HEADER_802_11 ProbeRspHdr;
-	NDIS_STATUS NStatus;
+	int NStatus;
 	PUCHAR pOutBuffer = NULL;
 	ULONG FrameLen = 0, TmpLen;
 	LARGE_INTEGER FakeTimestamp;

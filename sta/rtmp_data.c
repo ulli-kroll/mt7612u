@@ -1382,14 +1382,14 @@ INT STASendPacket(struct rtmp_adapter *pAd, struct sk_buff *pPacket)
 	Actually, this function used to check if the TxHardware Queue still has frame need to send.
 	If no frame need to send, go to sleep, else, still wake up.
 */
-NDIS_STATUS RTMPFreeTXDRequest(
+int RTMPFreeTXDRequest(
 	IN struct rtmp_adapter *pAd,
 	IN UCHAR QueIdx,
 	IN UCHAR NumberRequired,
 	IN PUCHAR FreeNumberIs)
 {
 	/*ULONG         FreeNumber = 0; */
-	NDIS_STATUS Status = NDIS_STATUS_FAILURE;
+	int Status = NDIS_STATUS_FAILURE;
 	unsigned long IrqFlags;
 	HT_TX_CONTEXT *pHTTXContext;
 
@@ -3401,7 +3401,7 @@ VOID STA_NDPA_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 
 	========================================================================
 */
-NDIS_STATUS STAHardTransmit(struct rtmp_adapter *pAd, TX_BLK *pTxBlk, UCHAR QueIdx)
+int STAHardTransmit(struct rtmp_adapter *pAd, TX_BLK *pTxBlk, UCHAR QueIdx)
 {
 	struct sk_buff *pPacket;
 	PQUEUE_ENTRY pQEntry;

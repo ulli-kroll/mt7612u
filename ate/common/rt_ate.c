@@ -889,12 +889,12 @@ static INT ate_bbp_core_soft_reset(struct rtmp_adapter *pAd, BOOLEAN set_bw, INT
 }
 #endif /* RLT_BBP */
 
-static NDIS_STATUS ATESTART(
+static int ATESTART(
 	IN struct rtmp_adapter *pAd)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 	UINT32			MacData=0, atemode=0, temp=0;
-	NDIS_STATUS		Status = NDIS_STATUS_SUCCESS;
+	int 	Status = NDIS_STATUS_SUCCESS;
 #ifdef RTMP_MAC_USB
 	UCHAR LoopCount=0;
 #endif /* RTMP_MAC_USB */
@@ -1338,12 +1338,12 @@ static NDIS_STATUS ATESTART(
 }
 
 
-static NDIS_STATUS ATESTOP(
+static int ATESTOP(
 	IN struct rtmp_adapter *pAd)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 	UINT32			MacData=0, ring_index=0;
-	NDIS_STATUS		Status = NDIS_STATUS_SUCCESS;
+	int 	Status = NDIS_STATUS_SUCCESS;
 #ifdef RTMP_BBP
 	UCHAR			BbpData = 0;
 #endif /* RTMP_BBP */
@@ -1579,12 +1579,12 @@ static NDIS_STATUS ATESTOP(
 }
 
 
-static NDIS_STATUS TXCARR(
+static int TXCARR(
 	IN struct rtmp_adapter *pAd)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 	UINT32			MacData=0;
-	NDIS_STATUS		Status = NDIS_STATUS_SUCCESS;
+	int 	Status = NDIS_STATUS_SUCCESS;
 #ifdef RTMP_BBP
 	PATE_CHIP_STRUCT pChipStruct = pATEInfo->pChipStruct;
 	UCHAR BbpData = 0;
@@ -1691,12 +1691,12 @@ static NDIS_STATUS TXCARR(
 }
 
 
-static NDIS_STATUS TXCONT(
+static int TXCONT(
 	IN struct rtmp_adapter *pAd)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 	UINT32			MacData=0;
-	NDIS_STATUS		Status = NDIS_STATUS_SUCCESS;
+	int 	Status = NDIS_STATUS_SUCCESS;
 	UCHAR			BbpData = 0;
 	PATE_CHIP_STRUCT pChipStruct = pATEInfo->pChipStruct;
 #ifdef RLT_BBP
@@ -1915,12 +1915,12 @@ static NDIS_STATUS TXCONT(
 }
 
 
-static NDIS_STATUS TXCARS(
+static int TXCARS(
         IN struct rtmp_adapter *pAd)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 	UINT32			MacData=0;
-	NDIS_STATUS		Status = NDIS_STATUS_SUCCESS;
+	int 	Status = NDIS_STATUS_SUCCESS;
 	PATE_CHIP_STRUCT pChipStruct = pATEInfo->pChipStruct;
 #ifdef RTMP_BBP
 	UCHAR			BbpData = 0;
@@ -2034,7 +2034,7 @@ static NDIS_STATUS TXCARS(
 }
 
 
-static NDIS_STATUS TXFRAME(
+static int TXFRAME(
 	IN struct rtmp_adapter *pAd)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
@@ -2042,7 +2042,7 @@ static NDIS_STATUS TXFRAME(
 #ifdef RTMP_MAC_USB
 	ULONG			IrqFlags = 0;
 #endif /* RTMP_MAC_USB */
-	NDIS_STATUS		Status = NDIS_STATUS_SUCCESS;
+	int 	Status = NDIS_STATUS_SUCCESS;
 	UCHAR			BbpData = 0;
 	STRING			IPGStr[8] = {0};
 #ifdef RTMP_INTERNAL_TX_ALC
@@ -2268,12 +2268,12 @@ static NDIS_STATUS TXFRAME(
 }
 
 
-static NDIS_STATUS RXFRAME(
+static int RXFRAME(
 	IN struct rtmp_adapter *pAd)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 	UINT32			MacData=0;
-	NDIS_STATUS		Status = NDIS_STATUS_SUCCESS;
+	int 	Status = NDIS_STATUS_SUCCESS;
 #ifdef RTMP_BBP
 	UCHAR			BbpData = 0;
 #endif /* RTMP_BBP */
@@ -2383,12 +2383,12 @@ static NDIS_STATUS RXFRAME(
         NDIS_STATUS_SUCCESS if all parameters are OK.
 ==========================================================================
 */
-static NDIS_STATUS	ATECmdHandler(
+static int ATECmdHandler(
 	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
 	ATE_INFO *pATEInfo = &(pAd->ate);
-	NDIS_STATUS		Status = NDIS_STATUS_SUCCESS;
+	int 	Status = NDIS_STATUS_SUCCESS;
 	BOOLEAN bNeedTxRx = FALSE;
 	UINT value32;
 
@@ -5821,7 +5821,7 @@ extern ATE_CHIP_STRUCT mt76x2ate;
 
 ==========================================================================
 */
-NDIS_STATUS ChipStructAssign(
+int ChipStructAssign(
 	IN	struct rtmp_adapter *pAd)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
@@ -5897,7 +5897,7 @@ NDIS_STATUS ChipStructAssign(
 
 ==========================================================================
 */
-NDIS_STATUS ATEInit(
+int ATEInit(
 	IN	struct rtmp_adapter *pAd)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
@@ -6057,7 +6057,7 @@ NDIS_STATUS ATEInit(
 
 
 #ifdef RTMP_BBP
-NDIS_STATUS ATEBBPWriteWithRxChain(
+int ATEBBPWriteWithRxChain(
 	IN struct rtmp_adapter *pAd,
 	IN UCHAR bbpId,
 	IN CHAR bbpVal,

@@ -2077,7 +2077,7 @@ BOOLEAN  ApCliHandleRxBroadcastFrame(
 		&& pEntry->PortSecured==WPA_802_1X_PORT_SECURED
 		)
 	{
-		NDIS_STATUS NStatus;
+		int NStatus;
 
 		NStatus = RTMPSoftDecryptionAction(pAd,
 									 (PUCHAR)pHeader, 0,

@@ -2427,7 +2427,7 @@ inline void RTMPSetSTACipherSuites(struct rtmp_adapter *pAd, NDIS_802_11_ENCRYPT
 #ifdef  CREDENTIAL_STORE
 
 /*RECOVER THE OLD CONNECT INFO */
-NDIS_STATUS RecoverConnectInfo(
+int RecoverConnectInfo(
 	IN  struct rtmp_adapter *pAd)
 {
 	INT idx;
@@ -2485,7 +2485,7 @@ NDIS_STATUS RecoverConnectInfo(
 
 
 /*STORE THE CONNECT INFO*/
-NDIS_STATUS StoreConnectInfo(
+int StoreConnectInfo(
 	IN  struct rtmp_adapter *pAd)
 {
 	INT idx;
@@ -2541,7 +2541,7 @@ void RTMPSetCountryCode(struct rtmp_adapter *pAd, PSTRING CountryCode)
 }
 
 
-NDIS_STATUS	RTMPSetProfileParameters(
+int RTMPSetProfileParameters(
 	IN struct rtmp_adapter *pAd,
 	IN PSTRING	pBuffer)
 {
@@ -4611,7 +4611,7 @@ return flg_match_ok;
 
 
 #ifdef SINGLE_SKU_V2
-NDIS_STATUS	RTMPSetSingleSKUParameters(
+int RTMPSetSingleSKUParameters(
 	IN struct rtmp_adapter *pAd)
 {
 	PSTRING buffer;

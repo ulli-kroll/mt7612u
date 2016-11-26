@@ -967,9 +967,9 @@ static VOID ApMlmeInit(struct rtmp_adapter *pAd)
 
 	==========================================================================
 */
-NDIS_STATUS MlmeInit(struct rtmp_adapter *pAd)
+int MlmeInit(struct rtmp_adapter *pAd)
 {
-	NDIS_STATUS Status = NDIS_STATUS_SUCCESS;
+	int Status = NDIS_STATUS_SUCCESS;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("--> MLME Initialize\n"));
 
@@ -4856,7 +4856,7 @@ ULONG MakeOutgoingFrame(UCHAR *Buffer, ULONG *FrameLen, ...)
  IRQL = PASSIVE_LEVEL
 
  */
-NDIS_STATUS MlmeQueueInit(struct rtmp_adapter *pAd, MLME_QUEUE *Queue)
+int MlmeQueueInit(struct rtmp_adapter *pAd, MLME_QUEUE *Queue)
 {
 	INT i;
 

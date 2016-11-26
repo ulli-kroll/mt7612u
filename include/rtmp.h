@@ -5025,17 +5025,17 @@ char *get_bw_str(int bandwidth);
 BOOLEAN RTMPCheckForHang(
 	IN  NDIS_HANDLE MiniportAdapterContext);
 
-NDIS_STATUS RTMPAllocTxRxRingMemory(struct rtmp_adapter *pAd);
+int RTMPAllocTxRxRingMemory(struct rtmp_adapter *pAd);
 
 #ifdef RESOURCE_PRE_ALLOC
-NDIS_STATUS RTMPInitTxRxRingMemory(struct rtmp_adapter *pAd);
+int RTMPInitTxRxRingMemory(struct rtmp_adapter *pAd);
 #endif /* RESOURCE_PRE_ALLOC */
 
 VOID get_dev_config_idx(struct rtmp_adapter *pAd);
 UCHAR *get_dev_name_prefix(struct rtmp_adapter *pAd, INT dev_type);
 
-NDIS_STATUS	RTMPReadParametersHook(struct rtmp_adapter *pAd);
-NDIS_STATUS	RTMPSetProfileParameters(struct rtmp_adapter *pAd, PSTRING pBuffer);
+int RTMPReadParametersHook(struct rtmp_adapter *pAd);
+int RTMPSetProfileParameters(struct rtmp_adapter *pAd, PSTRING pBuffer);
 
 INT RTMPGetKeyParameter(
     IN PSTRING key,
@@ -5046,7 +5046,7 @@ INT RTMPGetKeyParameter(
 
 
 #ifdef SINGLE_SKU_V2
-NDIS_STATUS RTMPSetSingleSKUParameters(
+int RTMPSetSingleSKUParameters(
 	IN struct rtmp_adapter *pAd);
 
 VOID UpdateSkuRatePwr(struct rtmp_adapter *pAd, UCHAR ch, UCHAR bw, CHAR base_pwr);
@@ -5070,23 +5070,23 @@ VOID RTMP_WriteRF(
 	IN	UCHAR			Value,
 	IN	UCHAR			BitMask);
 
-NDIS_STATUS	RT30xxWriteRFRegister(
+int RT30xxWriteRFRegister(
 	IN	struct rtmp_adapter *pAd,
 	IN	UCHAR			regID,
 	IN	UCHAR			value);
 
-NDIS_STATUS	RT30xxReadRFRegister(
+int RT30xxReadRFRegister(
 	IN	struct rtmp_adapter *pAd,
 	IN	UCHAR			regID,
 	IN	PUCHAR			pValue);
 
-NDIS_STATUS	RT635xWriteRFRegister(
+int RT635xWriteRFRegister(
 	IN	struct rtmp_adapter *pAd,
 	IN	UCHAR			bank,
 	IN	UCHAR			regID,
 	IN	UCHAR			value);
 
-NDIS_STATUS	RT635xReadRFRegister(
+int RT635xReadRFRegister(
 	IN	struct rtmp_adapter *pAd,
 	IN	UCHAR			bank,
 	IN	UCHAR			regID,
@@ -5103,26 +5103,26 @@ BOOLEAN RTMPCheckPhyMode(
 	INOUT UCHAR *pPhyMode);
 
 #ifdef RLT_RF
-NDIS_STATUS rlt_rf_write(
+int rlt_rf_write(
 	IN struct rtmp_adapter *pAd,
 	IN UCHAR bank,
 	IN UCHAR regID,
 	IN UCHAR value);
 
-NDIS_STATUS rlt_rf_read(
+int rlt_rf_read(
 	IN struct rtmp_adapter *pAd,
 	IN UCHAR bank,
 	IN UCHAR regID,
 	IN UCHAR *pValue);
 #endif /* RLT_RF */
 
-NDIS_STATUS rtmp_rf_write(
+int rtmp_rf_write(
 	IN struct rtmp_adapter *pAd,
 	IN UCHAR bank,
 	IN UCHAR regID,
 	IN UCHAR value);
 
-NDIS_STATUS rtmp_rf_read(
+int rtmp_rf_read(
 	IN struct rtmp_adapter *pAd,
 	IN UCHAR bank,
 	IN UCHAR regID,
@@ -5131,8 +5131,8 @@ NDIS_STATUS rtmp_rf_read(
 VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd);
 VOID NICInitAsicFromEEPROM(struct rtmp_adapter *pAd);
 
-NDIS_STATUS NICInitializeAdapter(struct rtmp_adapter *pAd, BOOLEAN bHardReset);
-NDIS_STATUS NICInitializeAsic(struct rtmp_adapter *pAd, BOOLEAN bHardReset);
+int NICInitializeAdapter(struct rtmp_adapter *pAd, BOOLEAN bHardReset);
+int NICInitializeAsic(struct rtmp_adapter *pAd, BOOLEAN bHardReset);
 
 
 VOID RTMPRingCleanUp(
@@ -5144,7 +5144,7 @@ VOID UserCfgInit(struct rtmp_adapter *pAd);
 
 int load_patch(struct rtmp_adapter *ad);
 VOID erase_patch(struct rtmp_adapter *ad);
-NDIS_STATUS NICLoadFirmware(struct rtmp_adapter *pAd);
+int NICLoadFirmware(struct rtmp_adapter *pAd);
 VOID NICEraseFirmware(struct rtmp_adapter *pAd);
 
 VOID NICUpdateFifoStaCounters(struct rtmp_adapter *pAd);
@@ -5353,20 +5353,20 @@ VOID RTMPDeQueuePacket(
 	IN UCHAR QueIdx,
 	IN INT Max_Tx_Packets);
 
-NDIS_STATUS RTMPFreeTXDRequest(
+int RTMPFreeTXDRequest(
 	IN  struct rtmp_adapter *pAd,
 	IN  UCHAR           RingType,
 	IN  UCHAR           NumberRequired,
 	IN 	PUCHAR          FreeNumberIs);
 
-NDIS_STATUS MlmeHardTransmit(
+int MlmeHardTransmit(
 	IN  struct rtmp_adapter *pAd,
 	IN  UCHAR	QueIdx,
 	IN  struct sk_buff *   pPacket,
 	IN	BOOLEAN			FlgDataQForce,
 	IN	BOOLEAN			FlgIsLocked);
 
-NDIS_STATUS MlmeHardTransmitMgmtRing(
+int MlmeHardTransmitMgmtRing(
 	IN  struct rtmp_adapter *pAd,
 	IN  UCHAR	QueIdx,
 	IN  struct sk_buff *   pPacket);
@@ -5413,7 +5413,7 @@ VOID RTMPSuspendMsduTransmission(
 VOID RTMPResumeMsduTransmission(
 	IN struct rtmp_adapter *pAd);
 
-NDIS_STATUS MiniportMMRequest(
+int MiniportMMRequest(
 	IN struct rtmp_adapter *pAd,
 	IN UCHAR QueIdx,
 	IN UCHAR *pData,
@@ -5833,7 +5833,7 @@ VOID  BssTableSortByRssi(
 
 VOID BssCipherParse(BSS_ENTRY *pBss);
 
-NDIS_STATUS  MlmeQueueInit(
+int  MlmeQueueInit(
 	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE *Queue);
 
@@ -6767,7 +6767,7 @@ VOID InitLookupTable(struct rtmp_adapter *pAd);
 #endif /* RTMP_TEMPERATURE_COMPENSATION */
 
 VOID MlmeHalt(struct rtmp_adapter *pAd);
-NDIS_STATUS MlmeInit(struct rtmp_adapter *pAd);
+int MlmeInit(struct rtmp_adapter *pAd);
 
 VOID MlmeResetRalinkCounters(struct rtmp_adapter *pAd);
 
@@ -6884,7 +6884,7 @@ INT set_fw_debug(struct rtmp_adapter *pAd, PSTRING arg);
 
 INT set_cal_test(struct rtmp_adapter *pAd, PSTRING arg);
 
-NDIS_STATUS RTMPWPARemoveKeyProc(
+int RTMPWPARemoveKeyProc(
 	IN  struct rtmp_adapter *pAd,
 	IN  PVOID           pBuf);
 
@@ -7793,8 +7793,8 @@ VOID RT28xx_UpdateBeaconToAsic(
 void CfgInitHook(struct rtmp_adapter *pAd);
 
 
-NDIS_STATUS RtmpNetTaskInit(struct rtmp_adapter *pAd);
-NDIS_STATUS RtmpMgmtTaskInit(struct rtmp_adapter *pAd);
+int RtmpNetTaskInit(struct rtmp_adapter *pAd);
+int RtmpMgmtTaskInit(struct rtmp_adapter *pAd);
 VOID RtmpNetTaskExit(struct rtmp_adapter *pAd);
 VOID RtmpMgmtTaskExit(struct rtmp_adapter *pAd);
 
@@ -7804,8 +7804,8 @@ void tbtt_tasklet(unsigned long data);
 
 #ifdef CONFIG_STA_SUPPORT
 #ifdef CREDENTIAL_STORE
-NDIS_STATUS RecoverConnectInfo(struct rtmp_adapter *pAd);
-NDIS_STATUS StoreConnectInfo(struct rtmp_adapter *pAd);
+int RecoverConnectInfo(struct rtmp_adapter *pAd);
+int StoreConnectInfo(struct rtmp_adapter *pAd);
 #endif /* CREDENTIAL_STORE */
 #endif /* CONFIG_STA_SUPPORT */
 
@@ -7979,7 +7979,7 @@ VOID CMDHandler(struct rtmp_adapter *pAd);
 
 VOID RTThreadDequeueCmd(PCmdQ cmdq, PCmdQElmt *pcmdqelmt);
 
-NDIS_STATUS RTEnqueueInternalCmd(
+int RTEnqueueInternalCmd(
 	IN struct rtmp_adapter *pAd,
 	IN NDIS_OID			Oid,
 	IN PVOID			pInformationBuffer,
@@ -8032,7 +8032,7 @@ INT Set_PSMode_Proc(struct rtmp_adapter *pAd, PSTRING arg);
 INT Set_Wpa_Support(struct rtmp_adapter *pAd, PSTRING arg);
 #endif /* WPA_SUPPLICANT_SUPPORT */
 
-NDIS_STATUS RTMPWPANoneAddKeyProc(struct rtmp_adapter *pAd, VOID *pBuf);
+int RTMPWPANoneAddKeyProc(struct rtmp_adapter *pAd, VOID *pBuf);
 
 INT Set_FragTest_Proc(struct rtmp_adapter *pAd, PSTRING arg);
 
@@ -8153,7 +8153,7 @@ VOID RtmpCleanupPsQueue(
 	IN  struct rtmp_adapter *pAd,
 	IN  PQUEUE_HEADER   pQueue);
 
-NDIS_STATUS RtmpInsertPsQueue(
+int RtmpInsertPsQueue(
 	IN struct rtmp_adapter *pAd,
 	IN struct sk_buff *pPacket,
 	IN MAC_TABLE_ENTRY *pMacEntry,

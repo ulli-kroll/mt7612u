@@ -262,7 +262,7 @@ static UCHAR *get_dev_profile(struct rtmp_adapter *pAd)
 }
 
 
-NDIS_STATUS	RTMPReadParametersHook(struct rtmp_adapter *pAd)
+int RTMPReadParametersHook(struct rtmp_adapter *pAd)
 {
 	INT retval = NDIS_STATUS_FAILURE;
 	ULONG buf_size = MAX_INI_BUFFER_SIZE, fsize;

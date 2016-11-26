@@ -66,13 +66,13 @@ INT ApAllowToSendPacket(
 
 INT APSendPacket(struct rtmp_adapter *pAd, struct sk_buff *pPacket);
 
-NDIS_STATUS APInsertPsQueue(
+int APInsertPsQueue(
 	IN struct rtmp_adapter *pAd,
 	IN struct sk_buff *pPacket,
 	IN MAC_TABLE_ENTRY *pMacEntry,
 	IN UCHAR QueIdx);
 
-NDIS_STATUS APHardTransmit(struct rtmp_adapter *pAd, TX_BLK *pTxBlk, UCHAR QueIdx);
+int APHardTransmit(struct rtmp_adapter *pAd, TX_BLK *pTxBlk, UCHAR QueIdx);
 
 VOID APRxEAPOLFrameIndicate(
 	IN	struct rtmp_adapter *pAd,
@@ -204,7 +204,7 @@ VOID APAsicRxAntEvalTimeout(struct rtmp_adapter *pAd);
 /* ap.c */
 UCHAR get_apidx_by_addr(struct rtmp_adapter *pAd, UCHAR *addr);
 
-NDIS_STATUS APInitialize(struct rtmp_adapter *pAd);
+int APInitialize(struct rtmp_adapter *pAd);
 VOID APShutdown(struct rtmp_adapter *pAd);
 VOID APStartUp(struct rtmp_adapter *pAd);
 VOID APStop(struct rtmp_adapter *pAd);

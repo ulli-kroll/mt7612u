@@ -31,13 +31,13 @@
 
 #ifdef CONFIG_STA_SUPPORT
 #ifdef PROFILE_STORE
-NDIS_STATUS WriteDatThread(struct rtmp_adapter *pAd);
+int WriteDatThread(struct rtmp_adapter *pAd);
 #endif /* PROFILE_STORE */
 #endif /* CONFIG_STA_SUPPORT */
 
 int rt28xx_init(struct rtmp_adapter *pAd)
 {
-	NDIS_STATUS Status;
+	int Status;
 #ifdef RTMP_MAC_USB
 	UINT index = 0;
 #endif /* RTMP_MAC_USB */
@@ -1190,10 +1190,10 @@ INT write_dat_file_thread (
 	return 0;
 }
 
-NDIS_STATUS WriteDatThread(
+int WriteDatThread(
 	IN  struct rtmp_adapter *pAd)
 {
-	NDIS_STATUS status = NDIS_STATUS_FAILURE;
+	int status = NDIS_STATUS_FAILURE;
 	RTMP_OS_TASK *pTask;
 
 	if (pAd->bWriteDat == FALSE)

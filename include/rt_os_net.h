@@ -54,7 +54,7 @@ extern RTMP_NET_ABL_OPS *pRtmpDrvNetOps;
 VOID RtmpNetOpsInit(VOID *pNetOpsOrg);
 VOID RtmpNetOpsSet(VOID *pNetOpsOrg);
 
-NDIS_STATUS RTMPAllocAdapterBlock(PVOID handle, struct rtmp_adapter **ppAdapter);
+int RTMPAllocAdapterBlock(PVOID handle, struct rtmp_adapter **ppAdapter);
 VOID RTMPFreeAdapter(struct rtmp_adapter *pAd);
 BOOLEAN RtmpRaDevCtrlExit(struct rtmp_adapter *pAd);
 INT RtmpRaDevCtrlInit(struct rtmp_adapter *pAd, RTMP_INF_TYPE infType);

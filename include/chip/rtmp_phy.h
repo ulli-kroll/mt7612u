@@ -281,7 +281,7 @@ INT bbp_get_agc(struct rtmp_adapter *pAd, CHAR *agc, RX_CHAIN_IDX idx);
 INT filter_coefficient_ctrl(struct rtmp_adapter *pAd, UCHAR Channel);
 UCHAR get_random_seed_by_phy(struct rtmp_adapter *pAd);
 
-NDIS_STATUS NICInitBBP(struct rtmp_adapter *pAd);
+int NICInitBBP(struct rtmp_adapter *pAd);
 VOID InitRFRegisters(struct rtmp_adapter *pAd);
 
 typedef struct phy_ops{

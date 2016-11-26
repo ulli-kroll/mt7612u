@@ -98,7 +98,7 @@ VOID PeerAuthRspAtSeq2Action(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM * Elem)
 	HEADER_802_11 AuthHdr;
 	BOOLEAN TimerCancelled;
 	PUCHAR pOutBuffer = NULL;
-	NDIS_STATUS NStatus;
+	int NStatus;
 	ULONG FrameLen = 0;
 	USHORT Status2;
 	UCHAR ChallengeIe = IE_CHALLENGE_TEXT;
@@ -308,7 +308,7 @@ VOID MlmeDeauthReqAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 	MLME_DEAUTH_REQ_STRUCT *pInfo;
 	HEADER_802_11 DeauthHdr;
 	PUCHAR pOutBuffer = NULL;
-	NDIS_STATUS NStatus;
+	int NStatus;
 	ULONG FrameLen = 0;
 	USHORT Status;
 
@@ -402,7 +402,7 @@ VOID Cls2errAction(struct rtmp_adapter *pAd, UCHAR *pAddr)
 {
 	HEADER_802_11 DeauthHdr;
 	PUCHAR pOutBuffer = NULL;
-	NDIS_STATUS NStatus;
+	int NStatus;
 	ULONG FrameLen = 0;
 	USHORT Reason = REASON_CLS2ERR;
 
@@ -439,7 +439,7 @@ BOOLEAN AUTH_ReqSend(
 	ULONG Timeout;
 	HEADER_802_11 AuthHdr;
 	BOOLEAN TimerCancelled;
-	NDIS_STATUS NStatus;
+	int NStatus;
 	PUCHAR pOutBuffer = NULL;
 	ULONG FrameLen = 0, tmp = 0;
 

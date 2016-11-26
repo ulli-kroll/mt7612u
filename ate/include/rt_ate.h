@@ -792,15 +792,15 @@ VOID RTUSBRejectPendingPackets(
 #endif /* RTMP_MAC_USB */
 
 
-NDIS_STATUS ChipStructAssign(
+int ChipStructAssign(
  IN	struct rtmp_adapter *pAd);
 
-NDIS_STATUS ATEInit(
+int ATEInit(
  IN struct rtmp_adapter *pAd);
 
 
 #ifdef RTMP_BBP
-NDIS_STATUS ATEBBPWriteWithRxChain(
+int ATEBBPWriteWithRxChain(
  IN struct rtmp_adapter *pAd,
  IN UCHAR bbpId,
  IN CHAR bbpVal,

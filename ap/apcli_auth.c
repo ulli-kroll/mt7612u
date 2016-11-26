@@ -74,7 +74,7 @@ static VOID ApCliMlmeAuthReqAction(
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	BOOLEAN             Cancelled;
-	NDIS_STATUS         NState;
+	int         NState;
 	UCHAR               Addr[MAC_ADDR_LEN];
 	USHORT              Alg, Seq, Status;
 	ULONG               Timeout;
@@ -164,7 +164,7 @@ static VOID ApCliPeerAuthRspAtSeq2Action(struct rtmp_adapter *pAd, MLME_QUEUE_EL
 	UCHAR           CyperChlgText[CIPHER_TEXT_LEN + 8 + 8];
 	ULONG			c_len = 0;
 	HEADER_802_11   AuthHdr;
-	NDIS_STATUS     NState;
+	int     NState;
 	PUCHAR          pOutBuffer = NULL;
 	ULONG           FrameLen = 0;
 	APCLI_CTRL_MSG_STRUCT ApCliCtrlMsg;
@@ -485,7 +485,7 @@ static VOID ApCliMlmeDeauthReqAction(
 	HEADER_802_11 DeauthHdr;
 	PUCHAR pOutBuffer = NULL;
 	ULONG FrameLen = 0;
-	NDIS_STATUS NStatus;
+	int NStatus;
 	USHORT ifIndex = (USHORT)(Elem->Priv);
 	PULONG pCurrState = NULL;
 

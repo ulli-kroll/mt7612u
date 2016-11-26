@@ -108,14 +108,14 @@ VOID RTMP_WriteRF(
 
 	========================================================================
 */
-NDIS_STATUS RT30xxWriteRFRegister(
+int RT30xxWriteRFRegister(
 	IN	struct rtmp_adapter *pAd,
 	IN	UCHAR			regID,
 	IN	UCHAR			value)
 {
 	RF_CSR_CFG_STRUC rfcsr = { { 0 } };
 	UINT i = 0;
-	NDIS_STATUS	 ret;
+	int  ret;
 
 
 	ASSERT((regID <= pAd->chipCap.MaxNumOfRfId));
@@ -205,14 +205,14 @@ done:
 
 	========================================================================
 */
-NDIS_STATUS RT30xxReadRFRegister(
+int RT30xxReadRFRegister(
 	IN	struct rtmp_adapter *pAd,
 	IN	UCHAR			regID,
 	IN	PUCHAR			pValue)
 {
 	RF_CSR_CFG_STRUC rfcsr = { { 0 } };
 	UINT i=0, k=0;
-	NDIS_STATUS	 ret = STATUS_UNSUCCESSFUL;
+	int  ret = STATUS_UNSUCCESSFUL;
 
 
 

@@ -312,14 +312,14 @@ VOID RTMP_BASetup(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry, UINT8 UPrio
 
 	========================================================================
 */
-NDIS_STATUS MiniportMMRequest(
+int MiniportMMRequest(
 	IN struct rtmp_adapter *pAd,
 	IN UCHAR QueIdx,
 	IN UCHAR *pData,
 	IN UINT Length)
 {
 	struct sk_buff *pPacket;
-	NDIS_STATUS Status = NDIS_STATUS_SUCCESS;
+	int Status = NDIS_STATUS_SUCCESS;
 	ULONG FreeNum;
 	BOOLEAN bUseDataQ = FALSE, FlgDataQForce = FALSE, FlgIsLocked = FALSE;
 	int retryCnt = 0;
@@ -593,7 +593,7 @@ Label_Legacy_PS:
 
 	========================================================================
 */
-NDIS_STATUS MlmeHardTransmit(
+int MlmeHardTransmit(
 	IN struct rtmp_adapter *pAd,
 	IN UCHAR QueIdx,
 	IN struct sk_buff *pPacket,
@@ -716,7 +716,7 @@ NDIS_STATUS MlmeHardTransmit(
 }
 
 
-NDIS_STATUS MlmeHardTransmitMgmtRing(
+int MlmeHardTransmitMgmtRing(
 	IN struct rtmp_adapter *pAd,
 	IN UCHAR QueIdx,
 	IN struct sk_buff *pPacket)
@@ -1523,7 +1523,7 @@ VOID RTMPDeQueuePacket(
 {
 	PQUEUE_ENTRY pEntry = NULL;
 	struct sk_buff *pPacket;
-	NDIS_STATUS Status = NDIS_STATUS_SUCCESS;
+	int Status = NDIS_STATUS_SUCCESS;
 	UCHAR Count=0;
 	PQUEUE_HEADER   pQueue;
 	ULONG FreeNumber[NUM_OF_TX_RING];
@@ -1620,7 +1620,7 @@ VOID RTMPDeQueuePacket(
 			if (RTMP_GET_PACKET_MGMT_PKT(pPacket) == 1)
 			{
 				/* this is a management frame */
-				NDIS_STATUS status;
+				int status;
 
 				pEntry = RemoveHeadQueue(pQueue);
 
@@ -3294,7 +3294,7 @@ VOID RtmpEnqueueNullFrame(
 	IN BOOLEAN bEOSP,
 	IN UCHAR OldUP)
 {
-	NDIS_STATUS NState;
+	int NState;
 	HEADER_802_11 *pNullFr;
 	UCHAR *pFrame;
 	UINT frm_len;
@@ -3370,7 +3370,7 @@ VOID RtmpPrepareHwNullFrame(
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
 	TXWI_STRUC *pTxWI = &pAd->NullTxWI;
 	PUCHAR pNullFrame;
-	NDIS_STATUS NState;
+	int NState;
 	HEADER_802_11 *pNullFr;
 	ULONG Length;
 	UCHAR *ptr;

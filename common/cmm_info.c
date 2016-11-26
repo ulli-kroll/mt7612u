@@ -781,7 +781,7 @@ INT	Set_INF_AMAZON_SE_PPA_Proc(
 	UINT status;
 	UCHAR aggre;
 	UINT32 g_if_id;
-	NDIS_STATUS	re_val;
+	int re_val;
 
 	aggre = simple_strtol(arg, 0, 10);
 
@@ -1566,13 +1566,13 @@ VOID RTMPSetDesiredRates(struct rtmp_adapter *pAd, LONG Rates)
 
 
 #if defined(CONFIG_STA_SUPPORT) || defined(WPA_SUPPLICANT_SUPPORT)
-NDIS_STATUS RTMPWPARemoveKeyProc(
+int RTMPWPARemoveKeyProc(
 	IN	struct rtmp_adapter *pAd,
 	IN	PVOID			pBuf)
 {
 	PNDIS_802_11_REMOVE_KEY pKey;
 	ULONG					KeyIdx;
-	NDIS_STATUS 			Status = NDIS_STATUS_FAILURE;
+	int 			Status = NDIS_STATUS_FAILURE;
 	BOOLEAN 	bTxKey; 		/* Set the key as transmit key*/
 	BOOLEAN 	bPairwise;		/* Indicate the key is pairwise key*/
 	BOOLEAN 	bKeyRSC;		/* indicate the receive  SC set by KeyRSC value.*/

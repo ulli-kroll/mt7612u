@@ -101,7 +101,7 @@ VOID MlmeADDBAAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 	MLME_ADDBA_REQ_STRUCT *pInfo;
 	UCHAR Addr[6];
 	PUCHAR pOutBuffer = NULL;
-	NDIS_STATUS NStatus;
+	int NStatus;
 	ULONG Idx;
 	FRAME_ADDBA_REQ Frame;
 	ULONG FrameLen;
@@ -375,7 +375,7 @@ VOID SendBSS2040CoexistMgmtAction(
 	IN UCHAR InfoReq)
 {
 	UCHAR *pOutBuffer = NULL;
-	NDIS_STATUS NStatus;
+	int NStatus;
 	FRAME_ACTION_HDR Frame;
 	ULONG FrameLen;
 	BSS_2040_COEXIST_ELEMENT BssCoexistInfo;
@@ -635,7 +635,7 @@ VOID Send2040CoexistAction(
 	IN BOOLEAN bAddIntolerantCha)
 {
 	UCHAR *pOutBuffer = NULL;
-	NDIS_STATUS NStatus;
+	int NStatus;
 	FRAME_ACTION_HDR Frame;
 	ULONG FrameLen;
 	UINT32 IntolerantChaRepLen;
@@ -1007,7 +1007,7 @@ VOID PeerRMAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 VOID SendNotifyBWActionFrame(struct rtmp_adapter *pAd, UCHAR Wcid, UCHAR apidx)
 {
 	UCHAR *pOutBuffer = NULL, *pAddr1;
-	NDIS_STATUS NStatus;
+	int NStatus;
 	FRAME_ACTION_HDR Frame;
 	ULONG FrameLen;
 	struct rtmp_wifi_dev *wdev;
@@ -1193,7 +1193,7 @@ VOID SendRefreshBAR(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 {
 	FRAME_BAR FrameBar;
 	ULONG FrameLen;
-	NDIS_STATUS NStatus;
+	int NStatus;
 	UCHAR *pOutBuffer = NULL, i, TID;
 	USHORT Sequence, idx;
 	BA_ORI_ENTRY *pBAEntry;

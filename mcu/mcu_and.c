@@ -568,9 +568,9 @@ VOID usb_uploadfw_complete(purbb_t urb, pregs *pt_regs)
 	RTMP_OS_COMPLETE(load_fw_done);
 }
 
-static NDIS_STATUS usb_load_ivb(struct rtmp_adapter *ad)
+static int usb_load_ivb(struct rtmp_adapter *ad)
 {
-	NDIS_STATUS Status = NDIS_STATUS_SUCCESS;
+	int Status = NDIS_STATUS_SUCCESS;
 	RTMP_CHIP_CAP *cap = &ad->chipCap;
 
 
@@ -604,7 +604,7 @@ static NDIS_STATUS usb_load_ivb(struct rtmp_adapter *ad)
 	return Status;
 }
 
-NDIS_STATUS andes_usb_loadfw(struct rtmp_adapter *ad)
+int andes_usb_loadfw(struct rtmp_adapter *ad)
 {
 	PURB urb;
 	POS_COOKIE obj = (POS_COOKIE)ad->OS_Cookie;

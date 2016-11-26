@@ -621,7 +621,7 @@ static VOID ApCliEnqueueProbeRequest(
 	OUT PCHAR Ssid,
 	IN USHORT ifIndex)
 {
-	NDIS_STATUS     NState;
+	int     NState;
 	PUCHAR          pOutBuffer;
 	ULONG           FrameLen = 0;
 	HEADER_802_11   Hdr80211;

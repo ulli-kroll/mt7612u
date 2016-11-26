@@ -34,7 +34,7 @@ INT phy_probe(struct rtmp_adapter *pAd)
 }
 
 
-NDIS_STATUS NICInitBBP(struct rtmp_adapter *pAd)
+int NICInitBBP(struct rtmp_adapter *pAd)
 {
 	UINT32 Index = 0, val;
 

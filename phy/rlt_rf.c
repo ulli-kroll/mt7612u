@@ -66,14 +66,14 @@ static inline BOOLEAN rf_csr_poll_idle(struct rtmp_adapter *pAd, UINT32 *rfcsr)
 }
 
 
-NDIS_STATUS rlt_rf_write(
+int rlt_rf_write(
 	IN struct rtmp_adapter *pAd,
 	IN UCHAR bank,
 	IN UCHAR regID,
 	IN UCHAR value)
 {
 	RF_CSR_CFG_STRUC rfcsr = { { 0 } };
-	NDIS_STATUS	 ret;
+	int  ret;
 
 
 
@@ -148,7 +148,7 @@ done:
 
 	========================================================================
 */
-NDIS_STATUS rlt_rf_read(
+int rlt_rf_read(
 	IN struct rtmp_adapter *pAd,
 	IN UCHAR bank,
 	IN UCHAR regID,
@@ -157,7 +157,7 @@ NDIS_STATUS rlt_rf_read(
 	RF_CSR_CFG_STRUC rfcsr = { { 0 } };
 	UINT i=0, k=0;
 	BOOLEAN rf_status;
-	NDIS_STATUS	 ret = STATUS_UNSUCCESSFUL;
+	int  ret = STATUS_UNSUCCESSFUL;
 
 
 

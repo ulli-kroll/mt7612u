@@ -50,7 +50,7 @@ INT MCURandomWrite(struct rtmp_adapter *pAd, RTMP_REG_PAIR *RegPair, UINT32 Num)
 
 INT mcu_sys_init(struct rtmp_adapter *pAd)
 {
-	NDIS_STATUS Status;
+	int Status;
 
 	/* Load MCU firmware*/
 	MCU_CTRL_INIT(pAd);

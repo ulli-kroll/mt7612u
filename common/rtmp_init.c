@@ -62,10 +62,10 @@ NDIS_SPIN_LOCK TimerSemLock;
 
 	========================================================================
 */
-NDIS_STATUS RTMPAllocAdapterBlock(VOID *handle, struct rtmp_adapter **ppAdapter)
+int RTMPAllocAdapterBlock(VOID *handle, struct rtmp_adapter **ppAdapter)
 {
 	struct rtmp_adapter *pAd = NULL;
-	NDIS_STATUS	 Status;
+	int  Status;
 	INT index;
 	UCHAR *pBeaconBuf = NULL;
 
@@ -1184,9 +1184,9 @@ VOID NICInitAsicFromEEPROM(struct rtmp_adapter *pAd)
 
 	========================================================================
 */
-NDIS_STATUS	NICInitializeAdapter(struct rtmp_adapter *pAd, BOOLEAN bHardReset)
+int NICInitializeAdapter(struct rtmp_adapter *pAd, BOOLEAN bHardReset)
 {
-	NDIS_STATUS Status = NDIS_STATUS_SUCCESS;
+	int Status = NDIS_STATUS_SUCCESS;
 	UINT rty_cnt = 0;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("--> NICInitializeAdapter\n"));
@@ -1241,7 +1241,7 @@ retry:
 
 	========================================================================
 */
-NDIS_STATUS	NICInitializeAsic(struct rtmp_adapter *pAd, BOOLEAN bHardReset)
+int NICInitializeAsic(struct rtmp_adapter *pAd, BOOLEAN bHardReset)
 {
 	ULONG Index = 0;
 	UINT32 mac_val = 0;

@@ -85,7 +85,7 @@ VOID STARxEAPOLFrameIndicate(
 	IN	RX_BLK			*pRxBlk,
 	IN	UCHAR			FromWhichBSSID);
 
-NDIS_STATUS	STAHardTransmit(
+int STAHardTransmit(
 	IN struct rtmp_adapter *pAd,
 	IN TX_BLK			*pTxBlk,
 	IN  UCHAR			QueIdx);

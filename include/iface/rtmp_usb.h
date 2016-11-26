@@ -115,7 +115,7 @@ NTSTATUS RTUSBVenderReset(struct rtmp_adapter *pAd);
 BOOLEAN AsicCheckCommandOk(struct rtmp_adapter *pAd, UCHAR cmd);
 
 
-NDIS_STATUS	RTUSBEnqueueCmdFromNdis(struct rtmp_adapter *pAd, NDIS_OID Oid, BOOLEAN SetInfo, PVOID pInfoBuf, UINT32 BufLen);
+int RTUSBEnqueueCmdFromNdis(struct rtmp_adapter *pAd, NDIS_OID Oid, BOOLEAN SetInfo, PVOID pInfoBuf, UINT32 BufLen);
 VOID RTUSBDequeueCmd(PCmdQ cmdq, PCmdQElmt *pcmdqelmt);
 INT RTUSBCmdThread(ULONG Context);
 
@@ -126,13 +126,13 @@ VOID RTUSBBssBeaconStart(struct rtmp_adapter * pAd);
 VOID RTUSBBssBeaconInit(struct rtmp_adapter *pAd);
 
 
-NDIS_STATUS RTUSBSetHardWareRegister(struct rtmp_adapter *pAd, PVOID pBuf);
-NDIS_STATUS	RTUSBWriteHWMACAddress(struct rtmp_adapter *pAd);
-NDIS_STATUS RTUSBQueryHardWareRegister(struct rtmp_adapter *pAd, PVOID pBuf);
+int RTUSBSetHardWareRegister(struct rtmp_adapter *pAd, PVOID pBuf);
+int RTUSBWriteHWMACAddress(struct rtmp_adapter *pAd);
+int RTUSBQueryHardWareRegister(struct rtmp_adapter *pAd, PVOID pBuf);
 
 VOID RTUSBMlmeHardTransmit(struct rtmp_adapter *pAd, struct _MGMT_STRUC *pMgmt);
 
-NDIS_STATUS	RTUSBFreeDescRequest(struct rtmp_adapter *pAd, UCHAR BulkOutPipeId, UINT32 req_cnt);
+int RTUSBFreeDescRequest(struct rtmp_adapter *pAd, UCHAR BulkOutPipeId, UINT32 req_cnt);
 BOOLEAN	RTUSBNeedQueueBackForAgg(struct rtmp_adapter *pAd, UCHAR BulkOutPipeId);
 
 USHORT RtmpUSB_WriteSubTxResource(struct rtmp_adapter *pAd, struct _TX_BLK *pTxBlk, BOOLEAN bIsLast, USHORT *freeCnt);

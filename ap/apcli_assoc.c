@@ -181,7 +181,7 @@ static VOID ApCliMlmeAssocReqAction(
 	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
-	NDIS_STATUS		 NStatus;
+	int 	 NStatus;
 	BOOLEAN          Cancelled;
 	UCHAR            ApAddr[6];
 	HEADER_802_11    AssocHdr;
@@ -544,7 +544,7 @@ static VOID ApCliMlmeDisassocReqAction(
 	HEADER_802_11         DisassocHdr;
 	PUCHAR                 pOutBuffer = NULL;
 	ULONG                 FrameLen = 0;
-	NDIS_STATUS           NStatus;
+	int           NStatus;
 	APCLI_CTRL_MSG_STRUCT ApCliCtrlMsg;
 	USHORT ifIndex = (USHORT)(Elem->Priv);
 	PULONG pCurrState = NULL;

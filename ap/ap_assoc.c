@@ -647,7 +647,7 @@ VOID ap_cmm_peer_assoc_req_action(
 	USHORT StatusCode = MLME_SUCCESS;
 	USHORT Aid;
 	PUCHAR pOutBuffer = NULL;
-	NDIS_STATUS NStatus;
+	int NStatus;
 	ULONG FrameLen = 0;
 	UCHAR MaxSupportedRate = 0;
 	UCHAR SupRateLen, PhyMode, FlgIs11bSta;
@@ -1504,7 +1504,7 @@ VOID APMlmeKickOutSta(struct rtmp_adapter *pAd, UCHAR *pStaAddr, UCHAR Wcid, USH
 	HEADER_802_11 DisassocHdr;
 	PUCHAR pOutBuffer = NULL;
 	ULONG FrameLen = 0;
-	NDIS_STATUS NStatus;
+	int NStatus;
 	MAC_TABLE_ENTRY *pEntry;
 	UCHAR Aid;
 	UCHAR ApIdx;
@@ -1560,7 +1560,7 @@ VOID APMlmeKickOutAllSta(struct rtmp_adapter *pAd, UCHAR apidx, USHORT Reason)
     HEADER_802_11 DisassocHdr;
     PUCHAR pOutBuffer = NULL;
     ULONG FrameLen = 0;
-    NDIS_STATUS     NStatus;
+    int     NStatus;
     UCHAR           BROADCAST_ADDR[MAC_ADDR_LEN] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
     PPMF_CFG        pPmfCfg = NULL;
     INT             i;
@@ -1643,7 +1643,7 @@ VOID APCls3errAction(struct rtmp_adapter *pAd, ULONG Wcid, HEADER_802_11 *pHeade
     HEADER_802_11         DisassocHdr;
     PUCHAR                pOutBuffer = NULL;
     ULONG                 FrameLen = 0;
-    NDIS_STATUS           NStatus;
+    int           NStatus;
     USHORT                Reason = REASON_CLS3ERR;
     MAC_TABLE_ENTRY       *pEntry = NULL;
 

@@ -2952,7 +2952,7 @@ VOID AP_NDPA_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 		None
 	========================================================================
 */
-NDIS_STATUS APHardTransmit(struct rtmp_adapter *pAd, TX_BLK *pTxBlk, UCHAR QueIdx)
+int APHardTransmit(struct rtmp_adapter *pAd, TX_BLK *pTxBlk, UCHAR QueIdx)
 {
 	PQUEUE_ENTRY pQEntry;
 	struct sk_buff *pPacket;
@@ -4950,7 +4950,7 @@ BOOLEAN APFowardWirelessStaToWirelessSta(
 		NDIS_STATUS_FAILURE: If failed to do en-queue.
 ========================================================================
 */
-NDIS_STATUS APInsertPsQueue(
+int APInsertPsQueue(
 	IN struct rtmp_adapter *pAd,
 	IN struct sk_buff *pPacket,
 	IN MAC_TABLE_ENTRY *pMacEntry,

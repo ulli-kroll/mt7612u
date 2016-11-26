@@ -302,7 +302,7 @@ VOID RtmpKickOutHwNullFrame(
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
 	TXWI_STRUC NullTxWI, *pTxWI = NULL;
 	PUCHAR pNullFrame;
-	NDIS_STATUS NState;
+	int NState;
 	PHEADER_802_11 pNullFr;
 	ULONG Length;
 	UCHAR *ptr;

@@ -61,9 +61,9 @@ UCHAR get_apidx_by_addr(struct rtmp_adapter *pAd, UCHAR *addr)
 		used for wireless client bridging.
 	==========================================================================
  */
-NDIS_STATUS APInitialize(struct rtmp_adapter *pAd)
+int APInitialize(struct rtmp_adapter *pAd)
 {
-	NDIS_STATUS     Status = NDIS_STATUS_SUCCESS;
+	int     Status = NDIS_STATUS_SUCCESS;
 	INT				i;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("---> APInitialize\n"));
@@ -1075,7 +1075,7 @@ VOID MacTableMaintenance(struct rtmp_adapter *pAd)
 			if (pEntry->Sst == SST_ASSOC)
 			{
 				PUCHAR pOutBuffer = NULL;
-				NDIS_STATUS NStatus;
+				int NStatus;
 				ULONG FrameLen = 0;
 				HEADER_802_11 DeAuthHdr;
 				USHORT Reason;
@@ -1684,7 +1684,7 @@ VOID ApUpdateAccessControlList(struct rtmp_adapter *pAd, UCHAR Apidx)
 	BOOLEAN  Matched;
 
 	PUCHAR      pOutBuffer = NULL;
-	NDIS_STATUS NStatus;
+	int NStatus;
 	ULONG       FrameLen = 0;
 	HEADER_802_11 DisassocHdr;
 	USHORT      Reason;

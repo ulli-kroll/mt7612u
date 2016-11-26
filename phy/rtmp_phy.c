@@ -369,7 +369,7 @@ static INT rtmp_bbp_set_mmps(struct rtmp_adapter *pAd, BOOLEAN ReduceCorePower)
 }
 
 
-static NDIS_STATUS AsicBBPWriteWithRxChain(
+static int AsicBBPWriteWithRxChain(
 	IN struct rtmp_adapter *pAd,
 	IN UCHAR bbpId,
 	IN CHAR bbpVal,
@@ -414,7 +414,7 @@ static NDIS_STATUS AsicBBPWriteWithRxChain(
 }
 
 
-static NDIS_STATUS AsicBBPReadWithRxChain(
+static int AsicBBPReadWithRxChain(
 	IN struct rtmp_adapter *pAd,
 	IN UCHAR bbpId,
 	IN CHAR *pBbpVal,

@@ -135,7 +135,7 @@ INT Set_PwrConstraint(
 	IN	PSTRING			arg);
 
 
-NDIS_STATUS	MeasureReqTabInit(
+int MeasureReqTabInit(
 	IN struct rtmp_adapter *pAd);
 
 VOID MeasureReqTabExit(
@@ -173,7 +173,7 @@ VOID InsertDialogToken(
 	OUT PULONG pFrameLen,
 	IN UINT8 DialogToken);
 
-NDIS_STATUS	TpcReqTabInit(
+int TpcReqTabInit(
 	IN struct rtmp_adapter *pAd);
 
 VOID TpcReqTabExit(

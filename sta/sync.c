@@ -169,7 +169,7 @@ VOID MlmeForceJoinReqAction(
 {
 	BOOLEAN        TimerCancelled;
 	HEADER_802_11 Hdr80211;
-	NDIS_STATUS   NStatus;
+	int   NStatus;
 	ULONG         FrameLen = 0;
 	PUCHAR        pOutBuffer = NULL;
 	PUCHAR        pSupRate = NULL;
@@ -629,7 +629,7 @@ VOID MlmeJoinReqAction(
 	BSS_ENTRY    *pBss;
 	BOOLEAN       TimerCancelled;
 	HEADER_802_11 Hdr80211;
-	NDIS_STATUS   NStatus;
+	int   NStatus;
 	ULONG         FrameLen = 0;
 	PUCHAR        pOutBuffer = NULL;
 	PUCHAR        pSupRate = NULL;
@@ -2591,7 +2591,7 @@ VOID PeerProbeReqAction(
 	UCHAR		  HtLen, AddHtLen, NewExtLen;
 #endif /* DOT11_N_SUPPORT */
 	HEADER_802_11 ProbeRspHdr;
-	NDIS_STATUS   NStatus;
+	int   NStatus;
 	PUCHAR        pOutBuffer = NULL;
 	ULONG         FrameLen = 0;
 	LARGE_INTEGER FakeTimestamp;
@@ -2874,7 +2874,7 @@ VOID EnqueuePsPoll(struct rtmp_adapter *pAd)
  */
 VOID EnqueueProbeRequest(struct rtmp_adapter *pAd)
 {
-	NDIS_STATUS     NState;
+	int     NState;
 	PUCHAR          pOutBuffer;
 	ULONG           FrameLen = 0;
 	HEADER_802_11   Hdr80211;

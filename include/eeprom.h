@@ -793,7 +793,7 @@ NTSTATUS RTUSBWriteEEPROM16(
 /*************************************************************************
   *	Public function declarations for flash-based chipset
   ************************************************************************/
-NDIS_STATUS rtmp_nv_init(
+int rtmp_nv_init(
 	IN struct rtmp_adapter *pAd);
 
 int rtmp_ee_flash_read(

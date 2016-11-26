@@ -354,7 +354,7 @@ PCIPHER_KEY RTMPSwCipherKeySelection(
 	IN RX_BLK *pRxBlk,
 	IN PMAC_TABLE_ENTRY pEntry);
 
-NDIS_STATUS RTMPSoftDecryptionAction(
+int RTMPSoftDecryptionAction(
 	IN struct rtmp_adapter *pAd,
 	IN PUCHAR pHdr,
 	IN UCHAR UserPriority,

@@ -986,7 +986,7 @@ VOID MacTableReset(struct rtmp_adapter *pAd)
 	BOOLEAN Cancelled;
 #ifdef CONFIG_AP_SUPPORT
 	UCHAR *pOutBuffer = NULL;
-	NDIS_STATUS NStatus;
+	int NStatus;
 	ULONG FrameLen = 0;
 	HEADER_802_11 DeAuthHdr;
 	USHORT Reason;

@@ -9,7 +9,7 @@
 #include	"rt_config.h"
 
 
-NDIS_STATUS RTUSBFreeDescriptorRelease(struct rtmp_adapter *pAd, UCHAR BulkOutPipeId)
+int RTUSBFreeDescriptorRelease(struct rtmp_adapter *pAd, UCHAR BulkOutPipeId)
 {
 	HT_TX_CONTEXT *pHTTXContext;
 	unsigned long IrqFlags;
@@ -43,12 +43,12 @@ NDIS_STATUS RTUSBFreeDescriptorRelease(struct rtmp_adapter *pAd, UCHAR BulkOutPi
 
 	========================================================================
 */
-NDIS_STATUS	RTUSBFreeDescRequest(
+int RTUSBFreeDescRequest(
 	IN struct rtmp_adapter *pAd,
 	IN UCHAR BulkOutPipeId,
 	IN UINT32 req_cnt)
 {
-	NDIS_STATUS	 Status = NDIS_STATUS_FAILURE;
+	int  Status = NDIS_STATUS_FAILURE;
 	unsigned long IrqFlags;
 	HT_TX_CONTEXT *pHTTXContext;
 
@@ -297,12 +297,12 @@ VOID ComposeNullFrame(struct rtmp_adapter *pAd)
 		=>
 		=>
 */
-static inline NDIS_STATUS RtmpUSBCanDoWrite(
+static inline int RtmpUSBCanDoWrite(
 	IN struct rtmp_adapter *pAd,
 	IN UCHAR QueIdx,
 	IN HT_TX_CONTEXT *pHTTXContext)
 {
-	NDIS_STATUS	canWrite = NDIS_STATUS_RESOURCES;
+	int canWrite = NDIS_STATUS_RESOURCES;
 
 #ifdef USB_BULK_BUF_ALIGMENT
 	if( ((pHTTXContext->CurWriteIdx< pHTTXContext->NextBulkIdx  ) &&   (pHTTXContext->NextBulkIdx - pHTTXContext->CurWriteIdx == 1))
@@ -374,7 +374,7 @@ USHORT	RtmpUSB_WriteFragTxResource(
 	TXWI_STRUC		*pTxWI;
 	PUCHAR			pWirelessPacket = NULL;
 	UCHAR			QueIdx;
-	NDIS_STATUS		Status;
+	int 	Status;
 	unsigned long	IrqFlags;
 	UINT32			USBDMApktLen = 0, DMAHdrLen, padding;
 #ifdef USB_BULK_BUF_ALIGMENT
@@ -575,7 +575,7 @@ USHORT RtmpUSB_WriteSingleTxResource(
 	UCHAR *pWirelessPacket, *buf;
 	UCHAR QueIdx;
 	unsigned long	IrqFlags;
-	NDIS_STATUS Status;
+	int Status;
 	UINT32 hdr_copy_len, hdr_len, dma_len = 0, padding;
 #ifndef USB_BULK_BUF_ALIGMENT
 	BOOLEAN bTxQLastRound = FALSE;
@@ -751,7 +751,7 @@ USHORT RtmpUSB_WriteMultiTxResource(
 	TXWI_STRUC *pTxWI;
 	UCHAR *pWirelessPacket = NULL;
 	UCHAR QueIdx;
-	NDIS_STATUS Status;
+	int Status;
 	unsigned long IrqFlags;
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
 

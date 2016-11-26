@@ -51,12 +51,12 @@ UINT32 RtmpOsTickUnitGet(VOID);
 
 		mem shall be set as NULL if allocation failed
 */
-NDIS_STATUS os_alloc_mem(VOID *pReserved, UCHAR **mem, ULONG size);
-NDIS_STATUS os_alloc_mem_suspend(VOID *pReserved, UCHAR **mem, ULONG size);
+int os_alloc_mem(VOID *pReserved, UCHAR **mem, ULONG size);
+int os_alloc_mem_suspend(VOID *pReserved, UCHAR **mem, ULONG size);
 
-NDIS_STATUS os_free_mem(VOID *pReserved, VOID *mem);
+int os_free_mem(VOID *pReserved, VOID *mem);
 
-NDIS_STATUS AdapterBlockAllocateMemory(
+int AdapterBlockAllocateMemory(
 	IN	VOID *handle,
 	OUT	VOID **ppAd,
 	IN	UINT32 SizeOfpAd);
@@ -74,7 +74,7 @@ struct sk_buff *RtmpOSNetPktAlloc(VOID *pReserved, int size);
 
 struct sk_buff *RTMP_AllocateFragPacketBuffer(VOID *pReserved, ULONG Length);
 
-NDIS_STATUS RTMPAllocateNdisPacket(
+int RTMPAllocateNdisPacket(
 	IN	VOID					*pReserved,
 	OUT struct sk_buff *		*ppPacket,
 	IN	PUCHAR					pHeader,
@@ -316,18 +316,18 @@ BOOLEAN RtmpOSTaskAlloc(RTMP_OS_TASK *pTask, LIST_HEADER *pTaskList);
 
 VOID RtmpOSTaskFree(RTMP_OS_TASK *pTask);
 
-NDIS_STATUS RtmpOSTaskKill(RTMP_OS_TASK *pTaskOrg);
+int RtmpOSTaskKill(RTMP_OS_TASK *pTaskOrg);
 
 INT RtmpOSTaskNotifyToExit(RTMP_OS_TASK *pTaskOrg);
 
 VOID RtmpOSTaskCustomize(RTMP_OS_TASK *pTaskOrg);
 
-NDIS_STATUS RtmpOSTaskAttach(
+int RtmpOSTaskAttach(
 	IN	RTMP_OS_TASK *pTaskOrg,
 	IN	RTMP_OS_TASK_CALLBACK	fn,
 	IN	ULONG arg);
 
-NDIS_STATUS RtmpOSTaskInit(
+int RtmpOSTaskInit(
 	IN	RTMP_OS_TASK *pTaskOrg,
 	IN	PSTRING pTaskName,
 	IN	VOID *pPriv,

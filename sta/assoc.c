@@ -174,7 +174,7 @@ VOID MlmeAssocReqAction(
 	USHORT CapabilityInfo;
 	BOOLEAN TimerCancelled;
 	PUCHAR pOutBuffer = NULL;
-	NDIS_STATUS NStatus;
+	int NStatus;
 	ULONG FrameLen = 0;
 	ULONG tmp;
 	USHORT VarIesOffset = 0;
@@ -613,7 +613,7 @@ VOID MlmeReassocReqAction(
 	ULONG Timeout;
 	ULONG FrameLen = 0;
 	BOOLEAN TimerCancelled;
-	NDIS_STATUS NStatus;
+	int NStatus;
 	ULONG tmp;
 	PUCHAR pOutBuffer = NULL;
 	USHORT Status;
@@ -840,7 +840,7 @@ VOID MlmeDisassocReqAction(
 	PHEADER_802_11 pDisassocHdr;
 	PUCHAR pOutBuffer = NULL;
 	ULONG FrameLen = 0;
-	NDIS_STATUS NStatus;
+	int NStatus;
 	BOOLEAN TimerCancelled;
 	ULONG Timeout = 500;
 	USHORT Status;
@@ -1543,7 +1543,7 @@ VOID Cls3errAction(struct rtmp_adapter *pAd, UCHAR *pAddr)
 	PHEADER_802_11 pDisassocHdr;
 	PUCHAR pOutBuffer = NULL;
 	ULONG FrameLen = 0;
-	NDIS_STATUS NStatus;
+	int NStatus;
 	USHORT Reason = REASON_CLS3ERR;
 
 	NStatus = MlmeAllocateMemory(pAd, &pOutBuffer);	/*Get an unused nonpaged memory */
