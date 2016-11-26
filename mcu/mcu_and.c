@@ -554,7 +554,7 @@ int andes_usb_erase_rom_patch(struct rtmp_adapter *ad)
 
 	if (cap->load_code_method == BIN_FILE_METHOD) {
 		if (cap->rom_patch)
-			os_free_mem(NULL, cap->rom_patch);
+			kfree(cap->rom_patch);
 			cap->rom_patch = NULL;
 	}
 
@@ -1107,7 +1107,7 @@ int andes_usb_erasefw(struct rtmp_adapter *ad)
 
 	if (cap->load_code_method == BIN_FILE_METHOD) {
 		if (cap->FWImageName)
-			os_free_mem(NULL, cap->FWImageName);
+			kfree(cap->FWImageName);
 			cap->FWImageName = NULL;
 	}
 
@@ -1165,7 +1165,7 @@ struct cmd_msg *andes_alloc_cmd_msg(struct rtmp_adapter *ad, unsigned int length
 #ifdef RTMP_USB_SUPPORT
 error2:
 #endif
-	os_free_mem(NULL, msg);
+	kfree(msg);
 error1:
 	RTMPFreeNdisPacket(ad, net_pkt);
 error0:
@@ -1239,7 +1239,7 @@ void andes_free_cmd_msg(struct cmd_msg *msg)
 	RTUSB_FREE_URB(msg->urb);
 #endif
 
-	os_free_mem(NULL, msg);
+	kfree(msg);
 
 	RTMPFreeNdisPacket(ad, net_pkt);
 	ctl->free_cmd_msg++;
@@ -2663,7 +2663,7 @@ int andes_sc_random_write(struct rtmp_adapter *ad, CR_REG *table, u32 nums, u32 
 
 	andes_random_write(ad, sw_ch_table, varlen / sizeof(RTMP_REG_PAIR));
 
-	os_free_mem(NULL, sw_ch_table);
+	kfree(sw_ch_table);
 
 	return 0;
 }
@@ -2701,7 +2701,7 @@ int andes_sc_rf_random_write(struct rtmp_adapter *ad, BANK_RF_CR_REG *table, u32
 
 	andes_rf_random_write(ad, sw_ch_table, varlen / sizeof(BANK_RF_REG_PAIR));
 
-	os_free_mem(NULL, sw_ch_table);
+	kfree(sw_ch_table);
 
 	return 0;
 }

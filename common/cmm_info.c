@@ -1236,7 +1236,7 @@ INT Set_ChannelListDel_Proc(
 	{
 		DBGPRINT(RT_DEBUG_TRACE, ("Default table used.\n" ));
 		if (pAd->CommonCfg.pChDesp != NULL)
-			os_free_mem(NULL, pAd->CommonCfg.pChDesp);
+			kfree(pAd->CommonCfg.pChDesp);
 		pAd->CommonCfg.pChDesp = NULL;
 		pAd->CommonCfg.DfsType = MAX_RD_REGION;
 	}
@@ -2446,7 +2446,7 @@ VOID RTMPIoctlGetSiteSurvey(
 	Status = copy_to_user(wrq->u.data.pointer, msg, wrq->u.data.length);
 
 	DBGPRINT(RT_DEBUG_TRACE, ("RTMPIoctlGetSiteSurvey - wrq->u.data.length = %d\n", wrq->u.data.length));
-	os_free_mem(NULL, (PUCHAR)msg);
+	kfree((PUCHAR)msg);
 }
 #endif
 
@@ -2507,7 +2507,7 @@ VOID RTMPIoctlGetMacTableStaInfo(
 	}
 
 	if (pMacTab != NULL)
-		os_free_mem(NULL, pMacTab);
+		kfree(pMacTab);
 }
 
 
@@ -2605,11 +2605,11 @@ VOID RTMPIoctlGetMacTable(
 	/* for compatible with old API just do the printk to console*/
 
 	DBGPRINT(RT_DEBUG_TRACE, ("%s", msg));
-	os_free_mem(NULL, msg);
+	kfree(msg);
 
 LabelOK:
 	if (pMacTab != NULL)
-		os_free_mem(NULL, pMacTab);
+		kfree(pMacTab);
 }
 
 #if defined(INF_AR9) || defined(BB_SOC)
@@ -2662,7 +2662,7 @@ VOID RTMPAR9IoctlGetMacTable(
 		DBGPRINT(RT_DEBUG_OFF, ("%s", msg));
 	}
 
-	os_free_mem(NULL, msg);
+	kfree(msg);
 }
 
 VOID RTMPIoctlGetSTAT2(
@@ -2710,7 +2710,7 @@ VOID RTMPIoctlGetSTAT2(
 		DBGPRINT(RT_DEBUG_OFF, ("%s", msg));
 	}
 
-	os_free_mem(NULL, msg);
+	kfree(msg);
 }
 
 
@@ -2766,7 +2766,7 @@ VOID RTMPIoctlGetRadioDynInfo(
 		DBGPRINT(RT_DEBUG_OFF, ("%s", msg));
 	}
 
-	os_free_mem(NULL, msg);
+	kfree(msg);
 }
 #endif/*CONFIG_AP_SUPPORT*/
 #endif/*AR9_MAPI_SUPPORT*/
@@ -5385,7 +5385,7 @@ INT show_devinfo_proc(struct rtmp_adapter *pAd, PSTRING arg)
 	pstr = wmode_2_str(pAd->CommonCfg.PhyMode);
 	if (pstr) {
 		DBGPRINT(RT_DEBUG_OFF, ("WirelessMode: %s(%d)\n", pstr, pAd->CommonCfg.PhyMode));
-		os_free_mem(pAd, pstr);
+		kfree(pstr);
 	}
 
 	DBGPRINT(RT_DEBUG_OFF, ("Channel: %d\n", pAd->CommonCfg.Channel));
@@ -5484,7 +5484,7 @@ INT show_sysinfo_proc(struct rtmp_adapter *pAd, PSTRING arg)
 			str = wmode_2_str(wdev->PhyMode);
 			if (str) {
 				DBGPRINT(RT_DEBUG_OFF, ("\t\tPhyMode:%s\n", str));
-				os_free_mem(pAd, str);
+				kfree(str);
 			}
 			DBGPRINT(RT_DEBUG_OFF, ("\t\tChannel:%d\n", wdev->channel));
 			DBGPRINT(RT_DEBUG_OFF, ("\t\tPortSecured/AllowTx: %d:%d\n",
@@ -5718,7 +5718,7 @@ INT	Set_InvTxBfTag_Proc(
 	/* Restore Profile Updates */
 	RTMP_IO_WRITE32(pAd, PFMU_R1, rValue);
 
-	os_free_mem(pAd, prof);
+	kfree(prof);
 #endif
 
 	return TRUE;
@@ -8261,7 +8261,7 @@ INT Show_Diag_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 	printk("\n-------------\n");
 
 done:
-	os_free_mem(pAd, pDiag);
+	kfree(pDiag);
 	return TRUE;
 }
 #endif /* DBG_DIAGNOSE */

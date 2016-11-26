@@ -480,7 +480,7 @@ static INT scan_active(struct rtmp_adapter *pAd, UCHAR OpMode, UCHAR ScanType)
 	}
 #endif /* CONFIG_STA_SUPPORT */
 
-	os_free_mem(pAd, frm_buf);
+	kfree(frm_buf);
 
 	return TRUE;
 }

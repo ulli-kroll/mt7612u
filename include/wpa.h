@@ -191,11 +191,6 @@
 	os_alloc_mem(NULL, (PUCHAR *)&_p, _s);		\
 }
 
-#define WPA_OS_FREE(_p)		\
-{							\
-	os_free_mem(NULL, _p);	\
-}
-
 #define WPA_GET_CURRENT_TIME(_time)		NdisGetSystemUpTime(_time);
 
 #endif /* End of Driver Mode */

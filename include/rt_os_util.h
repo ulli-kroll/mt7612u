@@ -54,8 +54,6 @@ UINT32 RtmpOsTickUnitGet(VOID);
 int os_alloc_mem(VOID *pReserved, UCHAR **mem, ULONG size);
 int os_alloc_mem_suspend(VOID *pReserved, UCHAR **mem, ULONG size);
 
-int os_free_mem(VOID *pReserved, VOID *mem);
-
 int AdapterBlockAllocateMemory(
 	IN	VOID *handle,
 	OUT	VOID **ppAd,

@@ -905,7 +905,7 @@ NTSTATUS eFuseWrite(
 	{
 		eFuseWriteRegisters(pAd, Offset+i, 2, &pValueX[i/2]);
 	}
-	os_free_mem(NULL, OddWriteByteBuf);
+	kfree(OddWriteByteBuf);
 	return TRUE;
 }
 
@@ -1060,7 +1060,7 @@ recoverFS:
 
 	if (memPtr)
 /*		kfree(memPtr);*/
-		os_free_mem(NULL, memPtr);
+		kfree(memPtr);
 
 	return retval;
 }

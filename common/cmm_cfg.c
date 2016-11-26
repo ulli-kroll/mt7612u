@@ -306,9 +306,9 @@ BOOLEAN wmode_band_equal(UCHAR smode, UCHAR tmode)
 			str1, smode, str2, tmode));
 	}
 	if (str1)
-		os_free_mem(NULL, str1);
+		kfree(str1);
 	if (str2)
-		os_free_mem(NULL, str2);
+		kfree(str2);
 
 	return eq;
 }
@@ -360,7 +360,7 @@ INT RT_CfgSetWirelessMode(struct rtmp_adapter *pAd, PSTRING arg)
 	{
 		DBGPRINT(RT_DEBUG_TRACE, ("%s(): Set WMODE=%s(0x%x)\n",
 				__FUNCTION__, mode_str, wmode));
-		os_free_mem(NULL, mode_str);
+		kfree(mode_str);
 	}
 
 	return TRUE;
@@ -383,7 +383,7 @@ static UCHAR RT_CfgMbssWirelessModeMaxGet(struct rtmp_adapter *pAd)
 		{
 			DBGPRINT(RT_DEBUG_TRACE, ("%s(BSS%d): wmode=%s(0x%x)\n",
 					__FUNCTION__, idx, mode_str, wdev->PhyMode));
-			os_free_mem(pAd, mode_str);
+			kfree(mode_str);
 		}
 		wmode |= wdev->PhyMode;
 	}
@@ -393,7 +393,7 @@ static UCHAR RT_CfgMbssWirelessModeMaxGet(struct rtmp_adapter *pAd)
 	{
 		DBGPRINT(RT_DEBUG_TRACE, ("%s(): Combined WirelessMode = %s(0x%x)\n",
 					__FUNCTION__, mode_str, wmode));
-		os_free_mem(pAd, mode_str);
+		kfree(mode_str);
 	}
 	return wmode;
 }
@@ -893,7 +893,7 @@ INT RTMP_COM_IoctlHandle(
 					memset(pAd->MlmeAux.AutoReconnectSsid, pAd->MlmeAux.AutoReconnectSsidLen);
 					pAd->Mlme.CntlMachine.CurrState = CNTL_WAIT_OID_DISASSOC;
 					MlmeDisassocReqAction(pAd, MsgElem);
-					os_free_mem(NULL, MsgElem);
+					kfree(MsgElem);
 				}
 				/*				RtmpusecDelay(1000);*/
 				RtmpOSWrielessEventSend(pAd->net_dev, RT_WLAN_EVENT_CGIWAP, -1, NULL, NULL, 0);
@@ -1135,7 +1135,7 @@ INT RTMP_COM_IoctlHandle(
 				status = ppa_hook_directpath_register_dev_fn(&pAd->g_if_id, pAd->net_dev, NULL, 0);
 				DBGPRINT(RT_DEBUG_TRACE, ("Unregister PPA::status=%d, if_id=%d\n", status, pAd->g_if_id));
 			}
-			os_free_mem(NULL, pAd->pDirectpathCb);
+			kfree(pAd->pDirectpathCb);
 			break;
 #endif /* INF_PPA_SUPPORT*/
 

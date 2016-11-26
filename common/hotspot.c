@@ -47,7 +47,7 @@ void wext_hotspot_onoff_event(struct net_device *net_dev, int onoff)
 
 	RtmpOSWrielessEventSend(net_dev, RT_WLAN_EVENT_CUSTOM,
 					OID_802_11_HS_ONOFF, NULL, (PUCHAR)buf, buflen);
-	os_free_mem(NULL, buf);
+	kfree(buf);
 }
 
 
@@ -73,7 +73,7 @@ static void wext_hotspot_ap_reload_event(struct net_device *net_dev)
 
 	RtmpOSWrielessEventSend(net_dev, RT_WLAN_EVENT_CUSTOM,
 					OID_802_11_HS_AP_RELOAD, NULL, (PUCHAR)buf, buflen);
-	os_free_mem(NULL, buf);
+	kfree(buf);
 }
 
 
@@ -274,37 +274,37 @@ VOID HSCtrlRemoveAllIE(PHOTSPOT_CTRL pHSCtrl)
 	if (pHSCtrl->P2PIELen)
 	{
 		pHSCtrl->P2PIELen = 0;
-		os_free_mem(NULL, pHSCtrl->P2PIE);
+		kfree(pHSCtrl->P2PIE);
 	}
 
 	if (pHSCtrl->HSIndicationIELen)
 	{
 		pHSCtrl->HSIndicationIELen = 0;
-		os_free_mem(NULL, pHSCtrl->HSIndicationIE);
+		kfree(pHSCtrl->HSIndicationIE);
 	}
 
 	if (pHSCtrl->InterWorkingIELen)
 	{
 		pHSCtrl->InterWorkingIELen = 0;
-		os_free_mem(NULL, pHSCtrl->InterWorkingIE);
+		kfree(pHSCtrl->InterWorkingIE);
 	}
 
 	if (pHSCtrl->AdvertisementProtoIELen)
 	{
 		pHSCtrl->AdvertisementProtoIELen = 0;
-		os_free_mem(NULL, pHSCtrl->AdvertisementProtoIE);
+		kfree(pHSCtrl->AdvertisementProtoIE);
 	}
 
 	if (pHSCtrl->QosMapSetIELen)
 	{
 		pHSCtrl->AdvertisementProtoIELen = 0;
-		os_free_mem(NULL, pHSCtrl->QosMapSetIE);
+		kfree(pHSCtrl->QosMapSetIE);
 	}
 
 	if (pHSCtrl->RoamingConsortiumIELen)
 	{
 		pHSCtrl->RoamingConsortiumIELen = 0;
-		os_free_mem(NULL, pHSCtrl->RoamingConsortiumIE);
+		kfree(pHSCtrl->RoamingConsortiumIE);
 	}
 }
 
@@ -367,7 +367,7 @@ INT Set_HotSpot_OnOff(
 	else
 		MlmeEnqueue(pAd, HSCTRL_STATE_MACHINE, HSCTRL_OFF, Len, Buf, 0);
 
-	os_free_mem(NULL, Buf);
+	kfree(Buf);
 
 	return TRUE;
 }

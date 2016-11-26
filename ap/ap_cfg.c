@@ -1315,7 +1315,7 @@ VOID RTMPAPGetAssoMacTable(
 		DBGPRINT(RT_DEBUG_OFF, ("%s", msg));
 	}
 
-	os_free_mem(NULL, msg);
+	kfree(msg);
 }
 
 
@@ -2870,7 +2870,7 @@ INT	Set_ACLAddEntry_Proc(
 #endif
 
 	if (pacl != NULL)
-		os_free_mem(NULL, pacl);
+		kfree(pacl);
 
 	return TRUE;
 }
@@ -3120,7 +3120,7 @@ INT	Set_ACLClearAll_Proc(
 		DBGPRINT(RT_DEBUG_WARN, ("No need to clear the Access Control List!\n"));
 
 		if (pacl != NULL)
-			os_free_mem(NULL, pacl);
+			kfree(pacl);
 
 		return TRUE;
 	}
@@ -3144,7 +3144,7 @@ INT	Set_ACLClearAll_Proc(
 	ApUpdateAccessControlList(pAd, pObj->ioctl_if);
 
 	if (pacl != NULL)
-		os_free_mem(NULL, pacl);
+		kfree(pacl);
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set::%s(Policy=%ld, Entry#=%ld)\n",
 		__FUNCTION__, pAd->ApCfg.MBSSID[pObj->ioctl_if].AccessControlList.Policy, pAd->ApCfg.MBSSID[pObj->ioctl_if].AccessControlList.Num));
@@ -3945,7 +3945,7 @@ VOID RTMPIoctlQueryRadiusConf(
 		DBGPRINT(RT_DEBUG_ERROR, ("%s: copy_to_user() fail\n", __FUNCTION__));
 	}
 
-	os_free_mem(NULL, mpool);
+	kfree(mpool);
 
 }
 
@@ -4468,7 +4468,7 @@ VOID RTMPAPIoctlBBP32(struct rtmp_adapter *pAd, RTMP_IOCTL_INPUT_STRUCT *wrq)
 		DBGPRINT(RT_DEBUG_OFF, ("%s\n", msg));
 	}
 
-	os_free_mem(NULL, mpool);
+	kfree(mpool);
 	if (!bAllowDump)
 		DBGPRINT(RT_DEBUG_TRACE, ("<==RTMPIoctlBBP\n\n"));
 }
@@ -4691,7 +4691,7 @@ VOID RTMPAPIoctlBBP(
 	}
 
 /*	kfree(mpool); */
-	os_free_mem(NULL, mpool);
+	kfree(mpool);
 	if (!bAllowDump)
 		DBGPRINT(RT_DEBUG_TRACE, ("<==RTMPIoctlBBP\n\n"));
 #endif /* RTMP_BBP */
@@ -4929,7 +4929,7 @@ VOID RTMPAPIoctlMAC(
 
 done:
 /*	kfree(mpool); */
-	os_free_mem(NULL, mpool);
+	kfree(mpool);
 	if (!bFromUI)
 		DBGPRINT(RT_DEBUG_INFO, ("<==RTMPIoctlMAC\n\n"));
 }
@@ -4984,7 +4984,7 @@ VOID RTMPAPIoctlRF_mt(
 #endif /* LINUX */
 	}
 
-	os_free_mem(NULL, mpool);
+	kfree(mpool);
 	DBGPRINT(RT_DEBUG_TRACE, ("<==RTMPIoctlRF\n\n"));
 }
 #endif /* MT_RF */
@@ -5045,7 +5045,7 @@ VOID RTMPAPIoctlRF_rlt(struct rtmp_adapter *pAdapter, RTMP_IOCTL_INPUT_STRUCT *w
 #endif /* LINUX */
 	}
 
-	os_free_mem(NULL, mpool);
+	kfree(mpool);
 	DBGPRINT(RT_DEBUG_TRACE, ("<==RTMPIoctlRF\n"));
 }
 #endif /* RLT_RF */
@@ -5282,7 +5282,7 @@ VOID RTMPAPIoctlRF(
 	}
 
 /*	kfree(mpool); */
-	os_free_mem(NULL, mpool);
+	kfree(mpool);
 	if (!bFromUI)
 		DBGPRINT(RT_DEBUG_TRACE, ("<==RTMPIoctlRF\n\n"));
 
@@ -5478,7 +5478,7 @@ VOID RTMPAPIoctlE2PROM(
 
 done:
 /*	kfree(mpool); */
-	os_free_mem(NULL, mpool);
+	kfree(mpool);
     if (wrq->u.data.flags != RT_OID_802_11_HARDWARE_REGISTER)
 	DBGPRINT(RT_DEBUG_TRACE, ("<==RTMPIoctlE2PROM\n"));
 }
@@ -5719,7 +5719,7 @@ VOID RTMPIoctlStatistics(struct rtmp_adapter *pAd, RTMP_IOCTL_INPUT_STRUCT *wrq)
     wrq->u.data.length = strlen(msg);
     Status = copy_to_user(wrq->u.data.pointer, msg, wrq->u.data.length);
 
-	os_free_mem(NULL, msg);
+	kfree(msg);
 /*	kfree(msg); */
 
 #if defined(TXBF_SUPPORT) && defined(ENHANCED_STAT_DISPLAY)

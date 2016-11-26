@@ -3290,7 +3290,7 @@ VOID STA_Fragment_Frame_Tx(
 
 #ifdef SOFT_ENCRYPT
 	if (tmp_ptr != NULL)
-		os_free_mem(pAd, tmp_ptr);
+		kfree(tmp_ptr);
 #endif /* SOFT_ENCRYPT */
 
 	/*
@@ -3371,7 +3371,7 @@ VOID STA_NDPA_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 		pTxBlk->Flags = FALSE; // No Acq Request
 
 		MiniportMMRequest(pAd, 0, buf, frm_len);
-		os_free_mem(pAd, buf);
+		kfree(buf);
 	}
 
 	pMacEntry->TxSndgType = SNDG_TYPE_DISABLE;

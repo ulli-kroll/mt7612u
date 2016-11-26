@@ -936,7 +936,7 @@ VOID CFG80211_PeerP2pBeacon(struct rtmp_adapter *pAd,
 	/* Init P2pSubelement */
        	if (P2pSubelement)
         {
-                os_free_mem(NULL, P2pSubelement);
+                kfree(P2pSubelement);
                 P2pSubelement = NULL;
         }
 
@@ -974,7 +974,7 @@ VOID CFG80211_PeerP2pBeacon(struct rtmp_adapter *pAd,
 CleanUp:
 	if (P2pSubelement)
 	{
-		os_free_mem(NULL, P2pSubelement);
+		kfree(P2pSubelement);
 		P2pSubelement = NULL;
 	}
 
@@ -1082,7 +1082,7 @@ VOID CFG80211DRV_SetP2pCliAssocIe(struct rtmp_adapter *pAd, VOID *pData, UINT ie
 	{
 		if (apcli_entry->wpa_supplicant_info.pWpaAssocIe)
 		{
-			os_free_mem(NULL, apcli_entry->wpa_supplicant_info.pWpaAssocIe);
+			kfree(apcli_entry->wpa_supplicant_info.pWpaAssocIe);
 			apcli_entry->wpa_supplicant_info.pWpaAssocIe = NULL;
 		}
 
@@ -1099,7 +1099,7 @@ VOID CFG80211DRV_SetP2pCliAssocIe(struct rtmp_adapter *pAd, VOID *pData, UINT ie
 	{
 		if (apcli_entry->wpa_supplicant_info.pWpaAssocIe)
 		{
-			os_free_mem(NULL, apcli_entry->wpa_supplicant_info.pWpaAssocIe);
+			kfree(apcli_entry->wpa_supplicant_info.pWpaAssocIe);
 			apcli_entry->wpa_supplicant_info.pWpaAssocIe = NULL;
 		}
 		apcli_entry->wpa_supplicant_info.WpaAssocIeLen = 0;

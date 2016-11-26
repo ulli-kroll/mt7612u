@@ -133,7 +133,7 @@ static VOID ApCliMlmeAuthReqAction(
 						  END_OF_ARGS);
 
 		MiniportMMRequest(pAd, QID_AC_BE, pOutBuffer, FrameLen);
-		os_free_mem(pAd, pOutBuffer);
+		kfree(pOutBuffer);
 
 		RTMPSetTimer(&pAd->ApCfg.ApCliTab[ifIndex].MlmeAux.ApCliAuthTimer, AUTH_TIMEOUT);
 		*pCurrState = APCLI_AUTH_WAIT_SEQ2;
@@ -304,9 +304,9 @@ static VOID ApCliPeerAuthRspAtSeq2Action(struct rtmp_adapter *pAd, MLME_QUEUE_EL
 
 LabelOK:
 	if (pOutBuffer != NULL)
-		os_free_mem(pAd, pOutBuffer);
+		kfree(pOutBuffer);
 	if (ChlgText != NULL)
-		os_free_mem(NULL, ChlgText);
+		kfree(ChlgText);
 	return;
 }
 
@@ -515,7 +515,7 @@ static VOID ApCliMlmeDeauthReqAction(
 		2,                    &pDeauthReq->Reason,
 		END_OF_ARGS);
 	MiniportMMRequest(pAd, 0, pOutBuffer, FrameLen);
-	os_free_mem(pAd, pOutBuffer);
+	kfree(pOutBuffer);
 
 	return;
 }

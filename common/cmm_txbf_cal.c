@@ -1707,7 +1707,7 @@ INT ITxBFLNACalibrationStartUp(
 	RTMP_IO_WRITE32(pAd,CAL_R5,  			 pCR_BK[64]);
 	RTMP_IO_WRITE32(pAd,PWR_PIN_CFG,         pCR_BK[65]);
 
-	os_free_mem(NULL, pCR_BK);
+	kfree(pCR_BK);
 
 	return cal_StatusFlg;
 }
@@ -3051,22 +3051,22 @@ int iCalcCalibration(struct rtmp_adapter *pAd, int calParams[2], int profileNum)
 
 	if (os_alloc_mem(pAd, (UCHAR **)&pImpData, sizeof(PFMU_DATA))!= NDIS_STATUS_SUCCESS)
 	{
-		os_free_mem(pAd, pExpData);
+		kfree(pExpData);
 		return -3;
 	}
 
 	if (os_alloc_mem(pAd, (UCHAR **)&pExpProf, sizeof(PFMU_PROFILE))!= NDIS_STATUS_SUCCESS)
 	{
-		os_free_mem(pAd, pImpData);
-		os_free_mem(pAd, pExpData);
+		kfree(pImpData);
+		kfree(pExpData);
 		return -3;
 	}
 
 	if (os_alloc_mem(pAd, (UCHAR **)&pImpProf, sizeof(PFMU_PROFILE)) != NDIS_STATUS_SUCCESS)
 	{
-		os_free_mem(pAd, pImpData);
-		os_free_mem(pAd, pExpData);
-		os_free_mem(pAd, pExpProf);
+		kfree(pImpData);
+		kfree(pExpData);
+		kfree(pExpProf);
 		return -3;
 	}
 
@@ -3218,10 +3218,10 @@ int iCalcCalibration(struct rtmp_adapter *pAd, int calParams[2], int profileNum)
 #endif
 
 exitCalcCal:
-	os_free_mem(pAd, pExpData);
-	os_free_mem(pAd, pImpData);
-	os_free_mem(pAd, pExpProf);
-	os_free_mem(pAd, pImpProf);
+	kfree(pExpData);
+	kfree(pImpData);
+	kfree(pExpProf);
+	kfree(pImpProf);
 
 
 	return result;

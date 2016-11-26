@@ -482,7 +482,7 @@ VOID RT_AES_Encrypt (
     *CipherBlockSize = ((UINT) AES_STATE_ROWS)*((UINT) AES_STATE_COLUMNS);
 
 	if (paes_ctx != NULL)
-		os_free_mem(NULL, paes_ctx);
+		kfree(paes_ctx);
 }
 
 
@@ -668,7 +668,7 @@ VOID RT_AES_Decrypt (
     *PlainBlockSize = ((UINT) AES_STATE_ROWS)*((UINT) AES_STATE_COLUMNS);
 
 	if (paes_ctx != NULL)
-		os_free_mem(NULL, paes_ctx);
+		kfree(paes_ctx);
 }
 
 
@@ -1505,7 +1505,7 @@ INT AES_Key_Wrap (
 
 /*    kfree(pResult);
 */
-	os_free_mem(NULL, pResult);
+	kfree(pResult);
     return 0;
 } /* End of AES_Key_Wrap */
 
@@ -1598,7 +1598,7 @@ INT AES_Key_Unwrap (
 
 /*    kfree(pResult);
 */
-	os_free_mem(NULL, pResult);
+	kfree(pResult);
     return 0;
 } /* End of AES_Key_Unwrap */
 

@@ -559,7 +559,7 @@ BOOLEAN PeerBeaconAndProbeRspSanity_Old(
                 {
                     DBGPRINT(RT_DEBUG_TRACE, ("%s() - wrong IE_CF_PARM\n", __FUNCTION__));
 					if (pPeerWscIe)
-						os_free_mem(NULL, pPeerWscIe);
+						kfree(pPeerWscIe);
                     return FALSE;
                 }
                 break;
@@ -573,7 +573,7 @@ BOOLEAN PeerBeaconAndProbeRspSanity_Old(
                 {
                     DBGPRINT(RT_DEBUG_TRACE, ("%s() - wrong IE_IBSS_PARM\n", __FUNCTION__));
 					if (pPeerWscIe)
-						os_free_mem(NULL, pPeerWscIe);
+						kfree(pPeerWscIe);
                     return FALSE;
                 }
                 break;
@@ -905,7 +905,7 @@ BOOLEAN PeerBeaconAndProbeRspSanity_Old(
 
 SanityCheck:
 	if (pPeerWscIe)
-		os_free_mem(NULL, pPeerWscIe);
+		kfree(pPeerWscIe);
 
 	if ((Sanity != 0x7) || ( bWscCheck == FALSE))
 	{
@@ -1175,7 +1175,7 @@ BOOLEAN PeerBeaconAndProbeRspSanity(
 			{
 				DBGPRINT(RT_DEBUG_TRACE, ("%s() - wrong IE_CF_PARM\n", __FUNCTION__));
 				if (pPeerWscIe)
-					os_free_mem(NULL, pPeerWscIe);
+					kfree(pPeerWscIe);
 				return FALSE;
 			}
 			break;
@@ -1189,7 +1189,7 @@ BOOLEAN PeerBeaconAndProbeRspSanity(
 			{
 				DBGPRINT(RT_DEBUG_TRACE, ("%s() - wrong IE_IBSS_PARM\n", __FUNCTION__));
 				if (pPeerWscIe)
-					os_free_mem(NULL, pPeerWscIe);
+					kfree(pPeerWscIe);
 				return FALSE;
 			}
 			break;
@@ -1574,7 +1574,7 @@ BOOLEAN PeerBeaconAndProbeRspSanity(
 
 SanityCheck:
 	if (pPeerWscIe)
-		os_free_mem(NULL, pPeerWscIe);
+		kfree(pPeerWscIe);
 
 	if ((Sanity != 0x7) || ( bWscCheck == FALSE))
 	{

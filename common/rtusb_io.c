@@ -1024,7 +1024,7 @@ int RTUSBEnqueueCmdFromNdis(
 			status = os_alloc_mem(pAd, (PUCHAR *)&cmdqelmt->buffer, InformationBufferLength);
 			if ((status != NDIS_STATUS_SUCCESS) || (cmdqelmt->buffer == NULL))
 			{
-				os_free_mem(NULL, cmdqelmt);
+				kfree(cmdqelmt);
 				return (NDIS_STATUS_RESOURCES);
 			}
 			else
@@ -1058,8 +1058,8 @@ int RTUSBEnqueueCmdFromNdis(
 	if (status == NDIS_STATUS_FAILURE)
 	{
 		if (cmdqelmt->buffer)
-			os_free_mem(pAd, cmdqelmt->buffer);
-		os_free_mem(pAd, cmdqelmt);
+			kfree(cmdqelmt->buffer);
+		kfree(cmdqelmt);
 	}
 	else
 	RTCMDUp(&pAd->cmdQTask);
@@ -2073,14 +2073,14 @@ VOID CMDHandler(struct rtmp_adapter *pAd)
 		if (cmdqelmt->CmdFromNdis == TRUE)
 		{
 			if (cmdqelmt->buffer != NULL)
-				os_free_mem(pAd, cmdqelmt->buffer);
-			os_free_mem(pAd, cmdqelmt);
+				kfree(cmdqelmt->buffer);
+			kfree(cmdqelmt);
 		}
 		else
 		{
 			if ((cmdqelmt->buffer != NULL) && (cmdqelmt->bufferlength != 0))
-				os_free_mem(pAd, cmdqelmt->buffer);
-			os_free_mem(pAd, cmdqelmt);
+				kfree(cmdqelmt->buffer);
+			kfree(cmdqelmt);
 		}
 	}	/* end of while */
 }

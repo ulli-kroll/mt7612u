@@ -2080,7 +2080,7 @@ VOID RTMPIoctlShow(
 						memmove(pMsgElem->Msg, &DisReq, sizeof(MLME_DISASSOC_REQ_STRUCT));
 
 						MlmeDisassocReqAction(pAd, pMsgElem);
-						os_free_mem(NULL, pMsgElem);
+						kfree(pMsgElem);
 
 						RtmpusecDelay(1000);
 					}
@@ -2762,11 +2762,11 @@ RtmpIoctl_rt_ioctl_siwessid(
 			memmove(pSsidString, pSsid->pSsid, pSsid->SsidLen);
 			if (Set_SSID_Proc(pAd, pSsidString) == FALSE)
 			{
-				os_free_mem(NULL, pSsidString);
+				kfree(pSsidString);
 				pSsid->Status = RTMP_IO_EINVAL;
 				return NDIS_STATUS_SUCCESS;
 			}
-			os_free_mem(NULL, pSsidString);
+			kfree(pSsidString);
 		}
 		else
 		{
@@ -3268,7 +3268,7 @@ RtmpIoctl_rt_ioctl_siwmlme(
 	}
 
 	if (pMsgElem != NULL)
-		os_free_mem(NULL, pMsgElem);
+		kfree(pMsgElem);
 
 	return NDIS_STATUS_SUCCESS;
 }
@@ -3821,7 +3821,7 @@ RtmpIoctl_rt_ioctl_siwgenie(
 		{
 			if (pAd->StaCfg.wpa_supplicant_info.pWpaAssocIe)
 			{
-				os_free_mem(NULL, pAd->StaCfg.wpa_supplicant_info.pWpaAssocIe);
+				kfree(pAd->StaCfg.wpa_supplicant_info.pWpaAssocIe);
 				pAd->StaCfg.wpa_supplicant_info.pWpaAssocIe = NULL;
 			}
 			os_alloc_mem(NULL, (UCHAR **)&pAd->StaCfg.wpa_supplicant_info.pWpaAssocIe, length);

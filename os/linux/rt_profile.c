@@ -598,13 +598,13 @@ VOID RTMPFreeAdapter(struct rtmp_adapter *pAd)
 	os_cookie = pAd->OS_Cookie;
 
 	if (pAd->BeaconBuf)
-		os_free_mem(NULL, pAd->BeaconBuf);
+		kfree(pAd->BeaconBuf);
 
 #ifdef MULTIPLE_CARD_SUPPORT
 #ifdef RTMP_FLASH_SUPPORT
 	if (pAd->eebuf && (pAd->eebuf != pAd->chipCap.EEPROM_DEFAULT_BIN))
 	{
-		os_free_mem(NULL, pAd->eebuf);
+		kfree(pAd->eebuf);
 		pAd->eebuf = NULL;
 	}
 #endif /* RTMP_FLASH_SUPPORT */
@@ -638,12 +638,12 @@ VOID RTMPFreeAdapter(struct rtmp_adapter *pAd)
 
 	if (pAd->iw_stats)
 	{
-		os_free_mem(NULL, pAd->iw_stats);
+		kfree(pAd->iw_stats);
 		pAd->iw_stats = NULL;
 	}
 	if (pAd->stats)
 	{
-		os_free_mem(NULL, pAd->stats);
+		kfree(pAd->stats);
 		pAd->stats = NULL;
 	}
 
@@ -665,7 +665,7 @@ VOID RTMPFreeAdapter(struct rtmp_adapter *pAd)
 
 	RtmpOsVfree(pAd); /* pci_free_consistent(os_cookie->pci_dev,sizeof(struct rtmp_adapter),pAd,os_cookie->pAd_pa); */
 	if (os_cookie)
-		os_free_mem(NULL, os_cookie);
+		kfree(os_cookie);
 }
 
 

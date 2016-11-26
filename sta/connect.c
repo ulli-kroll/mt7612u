@@ -355,7 +355,7 @@ VOID CntlOidScanProc(
 	pAd->Mlme.CntlMachine.CurrState = CNTL_WAIT_OID_LIST_SCAN;
 
 	if (pCurrBss != NULL)
-		os_free_mem(NULL, pCurrBss);
+		kfree(pCurrBss);
 }
 
 /*

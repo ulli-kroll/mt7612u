@@ -537,7 +537,7 @@ static int CFG80211_OpsScan(
 		RTMP_DRIVER_80211_SCAN_CHANNEL_LIST_SET(pAd, pChanList, pRequest->n_channels);
 
 		if (pChanList)
-			os_free_mem(NULL, pChanList);
+			kfree(pChanList);
 	}
 
 	/* use 1st SSID in the requested SSID list */
@@ -1852,9 +1852,9 @@ static int CFG80211_OpsStartAp(
 	RTMP_DRIVER_80211_BEACON_ADD(pAd, &bcn);
 
 	if (beacon_head_buf)
-		os_free_mem(NULL, beacon_head_buf);
+		kfree(beacon_head_buf);
 	if (beacon_tail_buf)
-		os_free_mem(NULL, beacon_tail_buf);
+		kfree(beacon_tail_buf);
 
 	return 0;
 }
@@ -1890,9 +1890,9 @@ static int CFG80211_OpsChangeBeacon(
 	RTMP_DRIVER_80211_BEACON_SET(pAd, &bcn);
 
 	if (beacon_head_buf)
-		os_free_mem(NULL, beacon_head_buf);
+		kfree(beacon_head_buf);
 	if (beacon_tail_buf)
-		os_free_mem(NULL, beacon_tail_buf);
+		kfree(beacon_tail_buf);
 	return 0;
 
 }
@@ -2380,7 +2380,7 @@ static struct wireless_dev *CFG80211_WdevAlloc(
 	wiphy_free(pWdev->wiphy);
 
  LabelErrWiphyNew:
-	os_free_mem(NULL, pWdev);
+	kfree(pWdev);
 
 	return NULL;
 } /* End of CFG80211_WdevAlloc */
@@ -2432,7 +2432,7 @@ BOOLEAN CFG80211_Register(
 	if (pCfg80211_CB->pCfg80211_Wdev == NULL)
 	{
 		DBGPRINT(RT_DEBUG_ERROR, ("80211> Allocate Wdev fail!\n"));
-		os_free_mem(NULL, pCfg80211_CB);
+		kfree(pCfg80211_CB);
 		return FALSE;
 	}
 

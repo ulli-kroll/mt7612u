@@ -68,7 +68,7 @@ INT CFG80211DRV_OpsScanGetNextChannel(
 		}
 		else
 		{
-            os_free_mem(NULL, cfg80211_ctrl->pCfg80211ChanList);
+            kfree(cfg80211_ctrl->pCfg80211ChanList);
             cfg80211_ctrl->pCfg80211ChanList = NULL;
             cfg80211_ctrl->Cfg80211ChanListLen = 0;
 			cfg80211_ctrl->Cfg80211CurChanIndex = 0;
@@ -91,7 +91,7 @@ BOOLEAN CFG80211DRV_OpsScanSetSpecifyChannel(
 	if (pChanList != NULL)
 	{
 		if (cfg80211_ctrl->pCfg80211ChanList != NULL)
-			os_free_mem(NULL, cfg80211_ctrl->pCfg80211ChanList);
+			kfree(cfg80211_ctrl->pCfg80211ChanList);
 
 		os_alloc_mem(NULL, (UCHAR **)&cfg80211_ctrl->pCfg80211ChanList, sizeof(UINT32 *) * dataLen);
 		if (cfg80211_ctrl->pCfg80211ChanList != NULL)
@@ -179,7 +179,7 @@ BOOLEAN CFG80211DRV_OpsScanExtraIesSet(struct rtmp_adapter *pAd)
 	/* Reset the ExtraIe and Len */
 	if (cfg80211_ctrl->pExtraIe)
 	{
-		os_free_mem(NULL, cfg80211_ctrl->pExtraIe);
+		kfree(cfg80211_ctrl->pExtraIe);
 		cfg80211_ctrl->pExtraIe = NULL;
 	}
 	cfg80211_ctrl->ExtraIeLen = 0;

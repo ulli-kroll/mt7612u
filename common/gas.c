@@ -119,7 +119,7 @@ void wext_send_anqp_req_event(struct net_device *net_dev, const char *peer_mac_a
 	RtmpOSWrielessEventSend(net_dev, RT_WLAN_EVENT_CUSTOM,
 					OID_802_11_HS_ANQP_REQ, NULL, (PUCHAR)buf, buflen);
 
-	os_free_mem(NULL, buf);
+	kfree(buf);
 
 }
 
@@ -193,7 +193,7 @@ static VOID SendGASRsp(
 			GASPeerEntry->GASRspBufferingTimerRunning = FALSE;
 		}
 		RTMPReleaseTimer(&GASPeerEntry->GASRspBufferingTimer, &Cancelled);
-		os_free_mem(NULL, GASPeerEntry);
+		kfree(GASPeerEntry);
 		return;
 	}
 
@@ -263,7 +263,7 @@ static VOID SendGASRsp(
 		GASPeerEntry->FreeResource++;
 
 		GASPeerEntry->FreeResource++;
-		os_free_mem(NULL, GASPeerEntry);
+		kfree(GASPeerEntry);
 
 	}
 	else if (Event->EventType == GAS_RSP_MORE)
@@ -308,7 +308,7 @@ static VOID SendGASRsp(
 
 	MiniportMMRequest(pAd, 0, Buf, FrameLen);
 
-	os_free_mem(NULL, Buf);
+	kfree(Buf);
 }
 
 
@@ -385,7 +385,7 @@ VOID ReceiveGASInitReq(
 					RTMPReleaseTimer(&GASPeerEntry->GASRspBufferingTimer, &Cancelled);
 					GASPeerEntry->FreeResource++;
 
-					os_free_mem(NULL, GASPeerEntry);
+					kfree(GASPeerEntry);
 				}
 			}
 			RTMP_SEM_UNLOCK(&pGASCtrl->GASPeerListLock);
@@ -468,13 +468,13 @@ VOID ReceiveGASInitReq(
 	MlmeEnqueue(pAd, GAS_STATE_MACHINE, PEER_GAS_REQ, Len, Buf,0);
 	RTMP_MLME_HANDLER(pAd);
 
-	os_free_mem(NULL, Buf);
+	kfree(Buf);
 
 	return;
 
 error:
 	DlListDel(&GASPeerEntry->List);
-	os_free_mem(NULL, GASPeerEntry);
+	kfree(GASPeerEntry);
 }
 
 
@@ -603,8 +603,8 @@ static VOID SendGASCBRsp(
 			&GASPeerEntry->GASQueryRspFragList, GAS_QUERY_RSP_FRAGMENT, List)
 		{
 			DlListDel(&GASQueryRspFrag->List);
-			os_free_mem(NULL, GASQueryRspFrag->FragQueryRsp);
-			os_free_mem(NULL, GASQueryRspFrag);
+			kfree(GASQueryRspFrag->FragQueryRsp);
+			kfree(GASQueryRspFrag);
 			GASPeerEntry->FreeResource += 2;
 		}
 
@@ -625,7 +625,7 @@ static VOID SendGASCBRsp(
 		RTMPReleaseTimer(&GASPeerEntry->PostReplyTimer, &Cancelled);
 		RTMPReleaseTimer(&GASPeerEntry->GASRspBufferingTimer, & Cancelled);
 
-		os_free_mem(NULL, GASPeerEntry);
+		kfree(GASPeerEntry);
 	}
 	else if (Event->EventType == GAS_CB_REQ_MORE)
 	{
@@ -666,7 +666,7 @@ static VOID SendGASCBRsp(
 
 	MiniportMMRequest(pAd, 0, Buf, FrameLen);
 
-	os_free_mem(NULL, Buf);
+	kfree(Buf);
 }
 
 
@@ -816,7 +816,7 @@ VOID ReceiveGASCBReq(
 
 
 error:
-	os_free_mem(NULL, Buf);
+	kfree(Buf);
 }
 
 
@@ -882,7 +882,7 @@ void PostReplyTimeout(
 
 	GASPeerEntry->FreeResource += 1;
 
-	os_free_mem(NULL, GASPeerEntry);
+	kfree(GASPeerEntry);
 
 }
 BUILD_TIMER_FUNCTION(PostReplyTimeout);
@@ -931,8 +931,8 @@ VOID GASRspBufferingTimeout(
 			&GASPeerEntry->GASQueryRspFragList, GAS_QUERY_RSP_FRAGMENT, List)
 		{
 			DlListDel(&GASQueryRspFrag->List);
-			os_free_mem(NULL, GASQueryRspFrag->FragQueryRsp);
-			os_free_mem(NULL, GASQueryRspFrag);
+			kfree(GASQueryRspFrag->FragQueryRsp);
+			kfree(GASQueryRspFrag);
 			GASPeerEntry->FreeResource += 2;
 		}
 
@@ -947,7 +947,7 @@ VOID GASRspBufferingTimeout(
 
 		GASPeerEntry->FreeResource += 1;
 
-		os_free_mem(NULL, GASPeerEntry);
+		kfree(GASPeerEntry);
 	}
 }
 BUILD_TIMER_FUNCTION(GASRspBufferingTimeout);
@@ -1055,7 +1055,7 @@ static VOID SendGASIndication(
 		MlmeEnqueue(pAd, GAS_STATE_MACHINE, GAS_RSP, Len, Buf, 0);
 		RTMP_MLME_HANDLER(pAd);
 
-		os_free_mem(NULL, Buf);
+		kfree(Buf);
 	}
 	else if (IsAdvertisementProIDValid(pAd, Event->u.PEER_GAS_REQ_DATA.AdvertisementProID) &&
 				pGASCtrl->ExternalANQPServerTest == 2) /* server not reachable for 4F test */
@@ -1105,7 +1105,7 @@ static VOID SendGASIndication(
 		MlmeEnqueue(pAd, GAS_STATE_MACHINE, GAS_RSP_MORE, Len, Buf, 0);
 		RTMP_MLME_HANDLER(pAd);
 
-		os_free_mem(NULL, Buf);
+		kfree(Buf);
 	}
 	else if (!IsAdvertisementProIDValid(pAd, Event->u.PEER_GAS_REQ_DATA.AdvertisementProID))
 	{
@@ -1159,7 +1159,7 @@ static VOID SendGASIndication(
 		MlmeEnqueue(pAd, GAS_STATE_MACHINE, GAS_RSP, Len, Buf, 0);
 		RTMP_MLME_HANDLER(pAd);
 
-		os_free_mem(NULL, Buf);
+		kfree(Buf);
 	}
 	else
 		DBGPRINT(RT_DEBUG_ERROR, ("%s: should not in this case\n", __FUNCTION__));
@@ -1216,8 +1216,8 @@ VOID GASCtrlExit(IN struct rtmp_adapter *pAd)
 			&GASPeerEntry->GASQueryRspFragList, GAS_QUERY_RSP_FRAGMENT, List)
 		{
 			DlListDel(&GASQueryRspFrag->List);
-			os_free_mem(NULL, GASQueryRspFrag->FragQueryRsp);
-			os_free_mem(NULL, GASQueryRspFrag);
+			kfree(GASQueryRspFrag->FragQueryRsp);
+			kfree(GASQueryRspFrag);
 		}
 
 		DlListInit(&GASPeerEntry->GASQueryRspFragList);
@@ -1236,7 +1236,7 @@ VOID GASCtrlExit(IN struct rtmp_adapter *pAd)
 
 		RTMPReleaseTimer(&GASPeerEntry->GASResponseTimer, &Cancelled);
 		RTMPReleaseTimer(&GASPeerEntry->GASCBDelayTimer, &Cancelled);
-		os_free_mem(NULL, GASPeerEntry);
+		kfree(GASPeerEntry);
 
 	}
 
@@ -1262,8 +1262,8 @@ VOID GASCtrlExit(IN struct rtmp_adapter *pAd)
 				&GASPeerEntry->GASQueryRspFragList, GAS_QUERY_RSP_FRAGMENT, List)
 			{
 				DlListDel(&GASQueryRspFrag->List);
-				os_free_mem(NULL, GASQueryRspFrag->FragQueryRsp);
-				os_free_mem(NULL, GASQueryRspFrag);
+				kfree(GASQueryRspFrag->FragQueryRsp);
+				kfree(GASQueryRspFrag);
 			}
 
 			DlListInit(&GASPeerEntry->GASQueryRspFragList);
@@ -1282,7 +1282,7 @@ VOID GASCtrlExit(IN struct rtmp_adapter *pAd)
 
 			RTMPReleaseTimer(&GASPeerEntry->PostReplyTimer, &Cancelled);
 			RTMPReleaseTimer(&GASPeerEntry->GASRspBufferingTimer, &Cancelled);
-			os_free_mem(NULL, GASPeerEntry);
+			kfree(GASPeerEntry);
 		}
 
 		DlListInit(&pGASCtrl->GASPeerList);

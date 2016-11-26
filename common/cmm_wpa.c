@@ -735,12 +735,12 @@ BOOLEAN PeerWpaMessageSanity(
 
 LabelOK:
 	if (KEYDATA != NULL)
-		os_free_mem(NULL, KEYDATA);
+		kfree(KEYDATA);
 	return TRUE;
 
 LabelErr:
 	if (KEYDATA != NULL)
-		os_free_mem(NULL, KEYDATA);
+		kfree(KEYDATA);
 	return FALSE;
 }
 
@@ -912,7 +912,7 @@ VOID WPAStart4WayHS(
 	/* Update State*/
 	pEntry->WpaState = AS_PTKSTART;
 
-	os_free_mem(NULL, mpool);
+	kfree(mpool);
 
 	DBGPRINT(RT_DEBUG_TRACE, ("<=== WPAStart4WayHS: send Msg1 of 4-way \n"));
 
@@ -1081,7 +1081,7 @@ VOID PeerPairMsg1Action(
 					  Header802_3, sizeof(Header802_3), (PUCHAR)pEapolFrame,
 					  CONV_ARRARY_TO_UINT16(pEapolFrame->Body_Len) + 4, TRUE);
 
-	os_free_mem(NULL, mpool);
+	kfree(mpool);
 
 	DBGPRINT(RT_DEBUG_TRACE, ("<=== PeerPairMsg1Action: send Msg2 of 4-way \n"));
 }
@@ -1288,7 +1288,7 @@ VOID PeerPairMsg2Action(
 		/* Update State*/
         pEntry->WpaState = AS_PTKINIT_NEGOTIATING;
 
-		os_free_mem(NULL, mpool);
+		kfree(mpool);
 
     }while(FALSE);
 
@@ -1490,7 +1490,7 @@ VOID PeerPairMsg3Action(
 					  (PUCHAR)pEapolFrame,
 					  CONV_ARRARY_TO_UINT16(pEapolFrame->Body_Len) + 4, TRUE);
 
-	os_free_mem(NULL, mpool);
+	kfree(mpool);
 
 
 	DBGPRINT(RT_DEBUG_TRACE, ("<=== PeerPairMsg3Action: send Msg4 of 4-way \n"));
@@ -1695,7 +1695,7 @@ VOID WPAStart2WayGroupHS(
 					  (PUCHAR)pEapolFrame,
 					  CONV_ARRARY_TO_UINT16(pEapolFrame->Body_Len) + 4, FALSE);
 
-	os_free_mem(NULL, mpool);
+	kfree(mpool);
 
     DBGPRINT(RT_DEBUG_TRACE, ("<=== WPAStart2WayGroupHS : send out Group Message 1 \n"));
 
@@ -1874,7 +1874,7 @@ VOID	PeerGroupMsg1Action(
 					  (PUCHAR)pEapolFrame,
 					  CONV_ARRARY_TO_UINT16(pEapolFrame->Body_Len) + 4, FALSE);
 
-	os_free_mem(NULL, mpool);
+	kfree(mpool);
 
 
 	DBGPRINT(RT_DEBUG_TRACE, ("<=== PeerGroupMsg1Action: send group message 2\n"));
@@ -1990,7 +1990,7 @@ VOID MlmeDeAuthAction(
 			MiniportMMRequest(pAd, MGMT_USE_QUEUE_FLAG, pOutBuffer, FrameLen);
 		else
 			MiniportMMRequest(pAd, 0, pOutBuffer, FrameLen);
-		os_free_mem(pAd, pOutBuffer);
+		kfree(pOutBuffer);
 
 		/* ApLogEvent(pAd, pEntry->Addr, EVENT_DISASSOCIATED);*/
 		MacTableDeleteEntry(pAd, pEntry->wcid, pEntry->Addr);
@@ -2244,7 +2244,7 @@ VOID	PRF(
 		/* update the last octet */
 		input[total_len - 1]++;
 	}
-    os_free_mem(NULL, input);
+    kfree(input);
 }
 
 /*
@@ -2384,7 +2384,7 @@ VOID	KDF(
 		input[0]++;			/* increment octet count*/
 
 	}
-    os_free_mem(NULL, input);
+    kfree(input);
 }
 
 
@@ -4230,7 +4230,7 @@ VOID	ConstructEapolKeyData(
 	SET_UINT16_TO_ARRARY(pMsg->KeyDesc.KeyDataLen, data_offset);
 	INC_UINT16_TO_ARRARY(pMsg->Body_Len, data_offset);
 
-	os_free_mem(NULL, mpool);
+	kfree(mpool);
 
 }
 
@@ -4299,7 +4299,7 @@ VOID	CalculateMIC(
 	/* store the calculated MIC*/
 	memmove(pMsg->KeyDesc.KeyMic, mic, LEN_KEY_DESC_MIC);
 
-	os_free_mem(NULL, OutBuffer);
+	kfree(OutBuffer);
 }
 
 UCHAR	RTMPExtractKeyIdxFromIVHdr(

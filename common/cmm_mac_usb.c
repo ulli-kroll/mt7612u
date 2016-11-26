@@ -268,7 +268,7 @@ VOID	RTMPFreeTxRxRingMemory(
 	}
 
 	if (pAd->MgmtDescRing.AllocVa)
-		os_free_mem(pAd, pAd->MgmtDescRing.AllocVa);
+		kfree(pAd->MgmtDescRing.AllocVa);
 
 
 	/* Free Tx frame resource*/
@@ -515,7 +515,7 @@ err:
 											sizeof(TX_BUFFER),
 											pMLMEContext->data_dma);
 		}
-		os_free_mem(pAd, pAd->MgmtDescRing.AllocVa);
+		kfree(pAd->MgmtDescRing.AllocVa);
 		pAd->MgmtDescRing.AllocVa = NULL;
 	}
 
@@ -1022,7 +1022,7 @@ err:
 											pMLMEContext->data_dma);
 			}
 		}
-		os_free_mem(pAd, pAd->MgmtDescRing.AllocVa);
+		kfree(pAd->MgmtDescRing.AllocVa);
 		pAd->MgmtDescRing.AllocVa = NULL;
 	}
 
@@ -1216,7 +1216,7 @@ VOID	RTMPFreeTxRxRingMemory(
 
 	}
 	if (pAd->MgmtDescRing.AllocVa)
-		os_free_mem(pAd, pAd->MgmtDescRing.AllocVa);
+		kfree(pAd->MgmtDescRing.AllocVa);
 
 
 	/* Free Tx frame resource*/
@@ -1669,9 +1669,9 @@ VOID RTUSBBssBeaconInit(
 
 error2:
 	for (j = 0; j < i; j++)
-		os_free_mem(pAd, pBeaconSync->BeaconTxWI[j]);
+		kfree(pBeaconSync->BeaconTxWI[j]);
 
-	os_free_mem(pAd, pAd->CommonCfg.pBeaconSync);
+	kfree(pAd->CommonCfg.pBeaconSync);
 
 error1:
 	DBGPRINT(RT_DEBUG_ERROR, ("memory are not available\n"));
@@ -1697,10 +1697,10 @@ VOID RTUSBBssBeaconExit(
 			memset(pBeaconSync->BeaconBuf[i], 0, HW_BEACON_OFFSET);
 			pBeaconSync->CapabilityInfoLocationInBeacon[i] = 0;
 			pBeaconSync->TimIELocationInBeacon[i] = 0;
-			os_free_mem(pAd, pBeaconSync->BeaconTxWI[i]);
+			kfree(pBeaconSync->BeaconTxWI[i]);
 		}
 
-		os_free_mem(pAd, pAd->CommonCfg.pBeaconSync);
+		kfree(pAd->CommonCfg.pBeaconSync);
 		pAd->CommonCfg.pBeaconSync = NULL;
 	}
 }
@@ -1914,7 +1914,7 @@ VOID RT28xxUsbMlmeRadioOFF(
 				memmove(pMsgElem->Msg, &DisReq, sizeof(MLME_DISASSOC_REQ_STRUCT));
 
 				MlmeDisassocReqAction(pAd, pMsgElem);
-				os_free_mem(NULL, pMsgElem);
+				kfree(pMsgElem);
 
 				RtmpusecDelay(1000);
 			}

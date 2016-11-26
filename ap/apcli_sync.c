@@ -540,9 +540,9 @@ static VOID ApCliPeerProbeRspAtJoinAction(
 
 LabelErr:
 	if (VarIE != NULL)
-		os_free_mem(NULL, VarIE);
+		kfree(VarIE);
 	if (ie_list != NULL)
-		os_free_mem(NULL, ie_list);
+		kfree(ie_list);
 
 	return;
 }
@@ -706,7 +706,7 @@ static VOID ApCliEnqueueProbeRequest(
 #endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE*/
 
 		MiniportMMRequest(pAd, QID_AC_BE, pOutBuffer, FrameLen);
-		os_free_mem(pAd, pOutBuffer);
+		kfree(pOutBuffer);
 	}
 
 	return;

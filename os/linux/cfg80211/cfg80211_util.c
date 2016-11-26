@@ -206,7 +206,7 @@ VOID CFG80211OS_UnRegister(VOID *pCB, VOID *pNetDevOrg)
 		SET_NETDEV_DEV(pNetDev, NULL);
 	}
 
-	os_free_mem(NULL, pCfg80211_CB);
+	kfree(pCfg80211_CB);
 }
 
 
@@ -293,7 +293,7 @@ BOOLEAN CFG80211_SupBandInit(
 		pRates = kzalloc(sizeof(*pRates) * NumOfRate, GFP_KERNEL);
 		if (!pRates)
 		{
-			os_free_mem(NULL, pChannels);
+			kfree(pChannels);
 			DBGPRINT(RT_DEBUG_ERROR, ("80211> ieee80211_rate allocation fail!\n"));
 			return FALSE;
 		}

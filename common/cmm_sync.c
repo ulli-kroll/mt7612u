@@ -92,7 +92,7 @@ VOID BuildChannelList(struct rtmp_adapter *pAd)
 			if (!pChannelListFlag)
 			{
 				DBGPRINT(RT_DEBUG_ERROR,("%s:Allocate memory for ChannelListFlag failed\n", __FUNCTION__));
-				os_free_mem(NULL, pChannelList);
+				kfree(pChannelList);
 				return;
 			}
 
@@ -125,8 +125,8 @@ VOID BuildChannelList(struct rtmp_adapter *pAd)
 
 			index += num;
 
-			os_free_mem(NULL, pChannelList);
-			os_free_mem(NULL, pChannelListFlag);
+			kfree(pChannelList);
+			kfree(pChannelListFlag);
 		}
 		bRegionFound = FALSE;
 		num = 0;
@@ -171,7 +171,7 @@ VOID BuildChannelList(struct rtmp_adapter *pAd)
 			if (!pChannelListFlag)
 			{
 				DBGPRINT(RT_DEBUG_ERROR,("%s:Allocate memory for ChannelListFlag failed\n", __FUNCTION__));
-				os_free_mem(NULL, pChannelList);
+				kfree(pChannelList);
 				return;
 			}
 
@@ -245,8 +245,8 @@ VOID BuildChannelList(struct rtmp_adapter *pAd)
 			}
 			index += num;
 
-			os_free_mem(NULL, pChannelList);
-			os_free_mem(NULL, pChannelListFlag);
+			kfree(pChannelList);
+			kfree(pChannelListFlag);
 		}
 	}
 

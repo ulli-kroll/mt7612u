@@ -60,7 +60,7 @@ void wext_send_btm_query_event(struct net_device *net_dev, const char *peer_mac_
 	RtmpOSWrielessEventSend(net_dev, RT_WLAN_EVENT_CUSTOM,
 					OID_802_11_WNM_BTM_QUERY, NULL, (PUCHAR)buf, buflen);
 
-	os_free_mem(NULL, buf);
+	kfree(buf);
 }
 
 void wext_send_btm_cfm_event(struct net_device *net_dev, const char *peer_mac_addr,
@@ -85,7 +85,7 @@ void wext_send_btm_cfm_event(struct net_device *net_dev, const char *peer_mac_ad
 	RtmpOSWrielessEventSend(net_dev, RT_WLAN_EVENT_CUSTOM,
 						OID_802_11_WNM_BTM_RSP, NULL, (PUCHAR)buf, buflen);
 
-	os_free_mem(NULL, buf);
+	kfree(buf);
 }
 
 void wext_send_proxy_arp_event(struct net_device *net_dev,
@@ -130,7 +130,7 @@ void wext_send_proxy_arp_event(struct net_device *net_dev,
 	RtmpOSWrielessEventSend(net_dev, RT_WLAN_EVENT_CUSTOM,
 						OID_802_11_WNM_PROXY_ARP, NULL, (PUCHAR)buf, buflen);
 
-	os_free_mem(NULL, buf);
+	kfree(buf);
 }
 
 
@@ -559,7 +559,7 @@ VOID RemoveIPv4ProxyARPEntry(IN struct rtmp_adapter *pAd,
 			//RTMP_SEM_EVENT_UP(&pWNMCtrl->ProxyARPListLock);
 			//return FALSE;
 			DlListDel(&ProxyARPEntry->List);
-			os_free_mem(NULL, ProxyARPEntry);
+			kfree(ProxyARPEntry);
 			break;
 		}
 	}
@@ -640,7 +640,7 @@ VOID RemoveIPv6ProxyARPEntry(IN struct rtmp_adapter *pAd,
 		if (MAC_ADDR_EQUAL(ProxyARPEntry->TargetMACAddr, pTargetMACAddr))
 		{
 			DlListDel(&ProxyARPEntry->List);
-			os_free_mem(NULL, ProxyARPEntry);
+			kfree(ProxyARPEntry);
 		}
 	}
 	RTMP_SEM_EVENT_UP(&pWNMCtrl->ProxyARPIPv6ListLock);
@@ -866,13 +866,13 @@ static VOID WNMCtrlRemoveAllIE(PWNM_CTRL pWNMCtrl)
 	if (pWNMCtrl->TimeadvertisementIELen)
 	{
 		pWNMCtrl->TimeadvertisementIELen = 0;
-		os_free_mem(NULL, pWNMCtrl->TimeadvertisementIE);
+		kfree(pWNMCtrl->TimeadvertisementIE);
 	}
 
 	if (pWNMCtrl->TimezoneIELen)
 	{
 		pWNMCtrl->TimezoneIELen = 0;
-		os_free_mem(NULL, pWNMCtrl->TimezoneIE);
+		kfree(pWNMCtrl->TimezoneIE);
 	}
 }
 
@@ -905,7 +905,7 @@ VOID WNMCtrlExit(IN struct rtmp_adapter *pAd)
 							&pWNMCtrl->IPv4ProxyARPList, PROXY_ARP_IPV4_ENTRY, List)
 		{
 			DlListDel(&ProxyARPIPv4Entry->List);
-			os_free_mem(NULL, ProxyARPIPv4Entry);
+			kfree(ProxyARPIPv4Entry);
 		}
 		DlListInit(&pWNMCtrl->IPv4ProxyARPList);
 		RTMP_SEM_EVENT_UP(&pWNMCtrl->ProxyARPListLock);
@@ -915,7 +915,7 @@ VOID WNMCtrlExit(IN struct rtmp_adapter *pAd)
 							&pWNMCtrl->IPv6ProxyARPList, PROXY_ARP_IPV6_ENTRY, List)
 		{
 			DlListDel(&ProxyARPIPv6Entry->List);
-			os_free_mem(NULL, ProxyARPIPv6Entry);
+			kfree(ProxyARPIPv6Entry);
 		}
 		DlListInit(&pWNMCtrl->IPv6ProxyARPList);
 		RTMP_SEM_EVENT_UP(&pWNMCtrl->ProxyARPIPv6ListLock);
@@ -949,7 +949,7 @@ VOID Clear_All_PROXY_TABLE(IN struct rtmp_adapter *pAd)
 						&pWNMCtrl->IPv4ProxyARPList, PROXY_ARP_IPV4_ENTRY, List)
 	{
 		DlListDel(&ProxyARPIPv4Entry->List);
-		os_free_mem(NULL, ProxyARPIPv4Entry);
+		kfree(ProxyARPIPv4Entry);
 	}
 	DlListInit(&pWNMCtrl->IPv4ProxyARPList);
 	RTMP_SEM_EVENT_UP(&pWNMCtrl->ProxyARPListLock);
@@ -959,7 +959,7 @@ VOID Clear_All_PROXY_TABLE(IN struct rtmp_adapter *pAd)
 						&pWNMCtrl->IPv6ProxyARPList, PROXY_ARP_IPV6_ENTRY, List)
 	{
 		DlListDel(&ProxyARPIPv6Entry->List);
-		os_free_mem(NULL, ProxyARPIPv6Entry);
+		kfree(ProxyARPIPv6Entry);
 	}
 	DlListInit(&pWNMCtrl->IPv6ProxyARPList);
 	RTMP_SEM_EVENT_UP(&pWNMCtrl->ProxyARPIPv6ListLock);

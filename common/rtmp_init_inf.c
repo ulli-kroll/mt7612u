@@ -548,7 +548,7 @@ err1:
 
 #ifdef DOT11_N_SUPPORT
 	if(pAd->mpdu_blk_pool.mem)
-		os_free_mem(pAd, pAd->mpdu_blk_pool.mem); /* free BA pool*/
+		kfree(pAd->mpdu_blk_pool.mem); /* free BA pool*/
 #endif /* DOT11_N_SUPPORT */
 
 #ifdef INF_AMAZON_SE
@@ -739,7 +739,7 @@ VOID RTMPDrvClose(struct rtmp_adapter *pAd, struct net_device *net_dev)
 
 #ifdef EXT_BUILD_CHANNEL_LIST
 	if (pAd->CommonCfg.pChDesp != NULL)
-		os_free_mem(NULL, pAd->CommonCfg.pChDesp);
+		kfree(pAd->CommonCfg.pChDesp);
 	pAd->CommonCfg.pChDesp = NULL;
 	pAd->CommonCfg.DfsType = MAX_RD_REGION;
 	pAd->CommonCfg.bCountryFlag = 0;
@@ -845,7 +845,7 @@ VOID RTMPDrvClose(struct rtmp_adapter *pAd, struct net_device *net_dev)
 		DlListForEachSafe(ch, ch_temp, &pAd->SingleSkuPwrList, CH_POWER, List)
 		{
 			DlListDel(&ch->List);
-			os_free_mem(NULL, ch);
+			kfree(ch);
 		}
 	}
 #endif /* SINGLE_SKU_V2 */
@@ -951,7 +951,7 @@ VOID RTMPInfClose(struct rtmp_adapter *pAd)
 
 			pAd->Mlme.CntlMachine.CurrState = CNTL_WAIT_OID_DISASSOC;
 			MlmeDisassocReqAction(pAd, MsgElem);
-			os_free_mem(NULL, MsgElem);
+			kfree(MsgElem);
 			}
 
 			RtmpusecDelay(1000);
@@ -965,14 +965,14 @@ VOID RTMPInfClose(struct rtmp_adapter *pAd)
 
 		if (pAd->StaCfg.wpa_supplicant_info.pWpsProbeReqIe)
 		{
-			os_free_mem(NULL, pAd->StaCfg.wpa_supplicant_info.pWpsProbeReqIe);
+			kfree(pAd->StaCfg.wpa_supplicant_info.pWpsProbeReqIe);
 			pAd->StaCfg.wpa_supplicant_info.pWpsProbeReqIe = NULL;
 			pAd->StaCfg.wpa_supplicant_info.WpsProbeReqIeLen = 0;
 		}
 
 		if (pAd->StaCfg.wpa_supplicant_info.pWpaAssocIe)
 		{
-			os_free_mem(NULL, pAd->StaCfg.wpa_supplicant_info.pWpaAssocIe);
+			kfree(pAd->StaCfg.wpa_supplicant_info.pWpaAssocIe);
 			pAd->StaCfg.wpa_supplicant_info.pWpaAssocIe = NULL;
 			pAd->StaCfg.wpa_supplicant_info.WpaAssocIeLen = 0;
 		}
@@ -1143,11 +1143,11 @@ static void WriteConfToDatFile(struct rtmp_adapter *pAd)
 
 WriteErr:
 	if (pTempStr)
-		os_free_mem(NULL, pTempStr);
+		kfree(pTempStr);
 ReadErr:
 WriteFileOpenErr:
 	if (cfgData)
-		os_free_mem(NULL, cfgData);
+		kfree(cfgData);
 out:
 	RtmpOSFSInfoChange(&osFSInfo, FALSE);
 

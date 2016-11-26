@@ -124,7 +124,7 @@ int RTEnqueueInternalCmd(
 		status = os_alloc_mem(pAd, (PUCHAR *)&cmdqelmt->buffer, InformationBufferLength);
 		if ((status != NDIS_STATUS_SUCCESS) || (cmdqelmt->buffer == NULL))
 		{
-			os_free_mem(pAd, cmdqelmt);
+			kfree(cmdqelmt);
 			return (NDIS_STATUS_RESOURCES);
 		}
 		else
@@ -159,8 +159,8 @@ int RTEnqueueInternalCmd(
 		if (status == NDIS_STATUS_FAILURE)
 		{
 			if (cmdqelmt->buffer)
-				os_free_mem(pAd, cmdqelmt->buffer);
-			os_free_mem(pAd, cmdqelmt);
+				kfree(cmdqelmt->buffer);
+			kfree(cmdqelmt);
 		}
 		else
 			RTCMDUp(&pAd->cmdQTask);

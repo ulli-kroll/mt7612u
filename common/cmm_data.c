@@ -2022,7 +2022,7 @@ UINT deaggregate_AMSDU_announce(
 				memmove(Elem->Msg+(LENGTH_802_11 + LENGTH_802_1_H), pPayload, PayloadSize);
 				Elem->MsgLen = LENGTH_802_11 + LENGTH_802_1_H + PayloadSize;
 				REPORT_MGMT_FRAME_TO_MLME(pAd, BSSID_WCID, Elem->Msg, Elem->MsgLen, 0, 0, 0, 0, OPMODE_STA);
-				os_free_mem(NULL, Elem);
+				kfree(Elem);
 				Elem = NULL;
 			}
 		}
@@ -2048,7 +2048,7 @@ UINT deaggregate_AMSDU_announce(
 						Elem->MsgLen = LENGTH_802_11 + LENGTH_802_1_H + PayloadSize;
 						REPORT_MGMT_FRAME_TO_MLME(pAd, apcli_entry->MacTabWCID, Elem->Msg, Elem->MsgLen, 0, 0, 0, 0, OPMODE_AP);
 					}
-					os_free_mem(NULL, Elem);
+					kfree(Elem);
 				}
 			}
 			/* A-MSDU has padding to multiple of 4 including subframe header.*/
@@ -3351,7 +3351,7 @@ body:
 		DBGPRINT(RT_DEBUG_INFO, ("send NULL Frame @%d Mbps to AID#%d...\n", RateIdToMbps[TxRate], AID & 0x3f));
 		MiniportMMRequest(pAd, WMM_UP2AC_MAP[7], (PUCHAR)pNullFr, frm_len);
 
-		os_free_mem(pAd, pFrame);
+		kfree(pFrame);
 	}
 }
 
@@ -3510,7 +3510,7 @@ VOID RtmpPrepareHwNullFrame(
 	}
 
 	if (pNullFrame)
-		os_free_mem(pAd, pNullFrame);
+		kfree(pNullFrame);
 
 }
 

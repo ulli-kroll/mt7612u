@@ -176,7 +176,7 @@ VOID	RTMPInitWepEngine(
 	ARC4_INIT(pARC4_CTX, &seed[0], seed_len);
 
 	if (seed != NULL)
-		os_free_mem(NULL, seed);
+		kfree(seed);
 }
 
 /*
@@ -243,7 +243,7 @@ BOOLEAN	RTMPSoftEncryptWEP(
 
 	if (pKey->KeyLen == 0)
 	{
-		os_free_mem(NULL, ARC4_CTX);
+		kfree(ARC4_CTX);
 		DBGPRINT(RT_DEBUG_ERROR, ("%s : The key is empty !\n", __FUNCTION__));
 		return FALSE;
 	}
@@ -266,7 +266,7 @@ BOOLEAN	RTMPSoftEncryptWEP(
 	ARC4_Compute(ARC4_CTX, pData, DataByteCnt + LEN_ICV, pData);
 
 	if (ARC4_CTX != NULL)
-		os_free_mem(NULL, ARC4_CTX);
+		kfree(ARC4_CTX);
 
 	return TRUE;
 }
@@ -315,7 +315,7 @@ BOOLEAN	RTMPSoftDecryptWEP(
 
 	if (pKey->KeyLen == 0)
 	{
-		os_free_mem(NULL, ARC4_CTX);
+		kfree(ARC4_CTX);
 		DBGPRINT(RT_DEBUG_ERROR, ("%s : The key is not available !\n", __FUNCTION__));
 		return FALSE;
 	}
@@ -332,7 +332,7 @@ BOOLEAN	RTMPSoftDecryptWEP(
 
 	/*skip payload length is zero*/
 	if ((*DataByteCnt) <= LEN_WEP_IV_HDR) {
-		os_free_mem(NULL, ARC4_CTX);
+		kfree(ARC4_CTX);
 		return FALSE;
 	}
 
@@ -357,7 +357,7 @@ BOOLEAN	RTMPSoftDecryptWEP(
 
     if(crc32 != cpu2le32(trailfcs))
     {
-		os_free_mem(NULL, ARC4_CTX);
+		kfree(ARC4_CTX);
 		DBGPRINT(RT_DEBUG_ERROR, ("! WEP Data CRC Error !\n"));	 /*CRC error.*/
 		return FALSE;
 	}
@@ -366,7 +366,7 @@ BOOLEAN	RTMPSoftDecryptWEP(
 	*DataByteCnt = plaintext_len;
 
 	if (ARC4_CTX != NULL)
-		os_free_mem(NULL, ARC4_CTX);
+		kfree(ARC4_CTX);
 
 	return TRUE;
 }

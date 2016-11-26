@@ -340,7 +340,7 @@ VOID RTMP_CFG80211_RemoveVifEntry(struct rtmp_adapter *pAd, struct net_device *p
 	if (pListEntry)
 	{
 		delEntryList(&pAd->cfg80211_ctrl.Cfg80211VifDevSet.vifDevList, pListEntry);
-		os_free_mem(NULL, pListEntry);
+		kfree(pListEntry);
 	}
 	else
 	{

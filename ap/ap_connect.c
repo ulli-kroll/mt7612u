@@ -195,7 +195,7 @@ VOID APMakeBssBeacon(struct rtmp_adapter *pAd, INT apidx)
 			}
 			FrameLen += TmpLen;
 
-			os_free_mem(NULL, TmpFrame);
+			kfree(TmpFrame);
 		}
 		else
 			DBGPRINT(RT_DEBUG_ERROR, ("%s: Allocate memory fail!!!\n", __FUNCTION__));

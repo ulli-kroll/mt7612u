@@ -344,7 +344,7 @@ VOID APPeerProbeReqAction(
 #endif /* EXT_BUILD_CHANNEL_LIST */
 
 
-				os_free_mem(NULL, TmpFrame);
+				kfree(TmpFrame);
 			}
 			else
 				DBGPRINT(RT_DEBUG_ERROR, ("%s: Allocate memory fail!!!\n", __FUNCTION__));
@@ -662,7 +662,7 @@ VOID APPeerProbeReqAction(
 	for (idx = 0; idx < mbss->ProbeRspTimes; idx++)
 		MiniportMMRequest(pAd, 0, pOutBuffer, FrameLen);
 
-	os_free_mem(pAd, pOutBuffer);
+	kfree(pOutBuffer);
 	}
 }
 
@@ -1026,9 +1026,9 @@ IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 
 LabelErr:
 	if (VarIE != NULL)
-		os_free_mem(NULL, VarIE);
+		kfree(VarIE);
 	if (ie_list != NULL)
-		os_free_mem(NULL, ie_list);
+		kfree(ie_list);
 
 	return;
 }
@@ -1366,9 +1366,9 @@ IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 
 LabelErr:
 	if (VarIE != NULL)
-		os_free_mem(NULL, VarIE);
+		kfree(VarIE);
 	if (ie_list != NULL)
-		os_free_mem(NULL, ie_list);
+		kfree(ie_list);
 
 }
 

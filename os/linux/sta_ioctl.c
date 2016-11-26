@@ -317,7 +317,7 @@ int rt_ioctl_giwrange(struct net_device *dev,
 	os_alloc_mem(NULL, (UCHAR **)&pFreq, sizeof(UINT32)*ChannelListNum);
 	if (pFreq == NULL)
 	{
-		os_free_mem(NULL, pChannel);
+		kfree(pChannel);
 		return -ENOMEM;
 	}
 
@@ -339,8 +339,8 @@ int rt_ioctl_giwrange(struct net_device *dev,
 		if (val == IW_MAX_FREQUENCIES)
 			break;
 	}
-	os_free_mem(NULL, pChannel);
-	os_free_mem(NULL, pFreq);
+	kfree(pChannel);
+	kfree(pFreq);
 
 	range->num_frequency = val;
 
@@ -525,7 +525,7 @@ int rt_ioctl_iwaplist(struct net_device *dev,
 	if (addr == NULL)
 	{
 		DBGPRINT(RT_DEBUG_ERROR, ("%s: Allocate memory fail!!!\n", __FUNCTION__));
-		os_free_mem(NULL, pBssList);
+		kfree(pBssList);
 		return 0;
 	}
 
@@ -547,8 +547,8 @@ int rt_ioctl_iwaplist(struct net_device *dev,
 	data->flags = 1;		/* signal quality present (sort of) */
 	memcpy(extra + i*sizeof(addr[0]), &qual, i*sizeof(qual[i]));
 
-	os_free_mem(NULL, addr);
-	os_free_mem(NULL, pBssList->pList);
+	kfree(addr);
+	kfree(pBssList->pList);
 	return 0;
 }
 
@@ -1060,7 +1060,7 @@ int rt_ioctl_giwscan(struct net_device *dev,
 
 go_out:
 	if (pIoctlScan->pBssTable != NULL)
-		os_free_mem(NULL, pIoctlScan->pBssTable);
+		kfree(pIoctlScan->pBssTable);
 
 	return status;
 }

@@ -569,7 +569,7 @@ VOID MlmeAssocReqAction(
 
 
 		MiniportMMRequest(pAd, 0, pOutBuffer, FrameLen);
-		os_free_mem(pAd, pOutBuffer);
+		kfree(pOutBuffer);
 
 		RTMPSetTimer(&pAd->MlmeAux.AssocTimer, Timeout);
 		pAd->Mlme.AssocMachine.CurrState = ASSOC_WAIT_RSP;
@@ -806,7 +806,7 @@ VOID MlmeReassocReqAction(
 		}
 
 		MiniportMMRequest(pAd, 0, pOutBuffer, FrameLen);
-		os_free_mem(pAd, pOutBuffer);
+		kfree(pOutBuffer);
 
 		RTMPSetTimer(&pAd->MlmeAux.ReassocTimer, Timeout * 2);	/* in mSec */
 		pAd->Mlme.AssocMachine.CurrState = REASSOC_WAIT_RSP;
@@ -883,7 +883,7 @@ VOID MlmeDisassocReqAction(
 	pDisassocHdr->FC.SubType = SUBTYPE_DEAUTH;
 	MiniportMMRequest(pAd, 0, pOutBuffer, FrameLen);
 
-	os_free_mem(pAd, pOutBuffer);
+	kfree(pOutBuffer);
 
 	pAd->StaCfg.DisassocReason = REASON_DISASSOC_STA_LEAVING;
 	COPY_MAC_ADDR(pAd->StaCfg.DisassocSta, pDisassocReq->Addr);
@@ -1056,7 +1056,7 @@ VOID PeerAssocRspAction(
 	}
 
 	if (ie_list != NULL)
-		os_free_mem(NULL, ie_list);
+		kfree(ie_list);
 }
 
 
@@ -1203,7 +1203,7 @@ VOID PeerReassocRspAction(
 	}
 
 	if (ie_list)
-		os_free_mem(pAd, ie_list);
+		kfree(ie_list);
 
 }
 
@@ -1567,7 +1567,7 @@ VOID Cls3errAction(struct rtmp_adapter *pAd, UCHAR *pAddr)
 	pDisassocHdr->FC.SubType = SUBTYPE_DEAUTH;
 	MiniportMMRequest(pAd, 0, pOutBuffer, FrameLen);
 
-	os_free_mem(pAd, pOutBuffer);
+	kfree(pOutBuffer);
 
 	pAd->StaCfg.DisassocReason = REASON_CLS3ERR;
 	COPY_MAC_ADDR(pAd->StaCfg.DisassocSta, pAddr);

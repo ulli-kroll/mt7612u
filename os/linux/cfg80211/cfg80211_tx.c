@@ -51,7 +51,8 @@ BOOLEAN CFG80211_SyncPacketWmmIe(struct rtmp_adapter *pAd, VOID *pData, ULONG da
 	const UINT WFA_OUI = 0x0050F2;
 	const UCHAR WMM_OUI_TYPE = 0x2;
 	UCHAR *wmm_ie = NULL;
-	return;//????
+
+	return;//????
 	//hex_dump("probe_rsp_in:", pData, dataLen);
 	wmm_ie = cfg80211_find_vendor_ie(WFA_OUI, WMM_OUI_TYPE, pData, dataLen);
 
@@ -149,7 +150,8 @@ VOID CFG80211_ParseBeaconIE(struct rtmp_adapter *pAd, MULTISSID_STRUCT *pMbss, s
 				/*Count = *(PUSHORT) pTmp;				*/
 				Count = (pTmp[1]<<8) + pTmp[0];
 				pTmp   += sizeof(USHORT);
-				/* Parsing all unicast cipher suite*/
+
+				/* Parsing all unicast cipher suite*/
 				while (Count > 0)
 				{
 					/* Skip OUI*/
@@ -427,7 +429,7 @@ INT CFG80211_SendMgmtFrame(struct rtmp_adapter *pAd, VOID *pData, ULONG Data)
 
 			if (pCfg80211_ctrl->pTxStatusBuf != NULL)
 			{
-				os_free_mem(NULL, pCfg80211_ctrl->pTxStatusBuf);
+				kfree(pCfg80211_ctrl->pTxStatusBuf);
 				pCfg80211_ctrl->pTxStatusBuf = NULL;
 			}
 

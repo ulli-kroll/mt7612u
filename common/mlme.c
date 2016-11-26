@@ -4367,7 +4367,7 @@ VOID BssTableSortByRssi(
         }
 
         if (pTmpBss != NULL)
-                os_free_mem(NULL, pTmpBss);
+                kfree(pTmpBss);
 }
 
 VOID BssCipherParse(BSS_ENTRY *pBss)

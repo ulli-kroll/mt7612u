@@ -129,7 +129,7 @@ VOID MlmeADDBAAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 		Idx = pEntry->BAOriWcidArray[pInfo->TID];
 		if (Idx == 0)
 		{
-			os_free_mem(pAd, pOutBuffer);
+			kfree(pOutBuffer);
 			DBGPRINT(RT_DEBUG_ERROR,("BA - MlmeADDBAAction() can't find BAOriEntry \n"));
 			return;
 		}
@@ -178,7 +178,7 @@ VOID MlmeADDBAAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 
 		MiniportMMRequest(pAd, (MGMT_USE_QUEUE_FLAG | WMM_UP2AC_MAP[pInfo->TID]), pOutBuffer, FrameLen);
 
-		os_free_mem(pAd, pOutBuffer);
+		kfree(pOutBuffer);
 
 		DBGPRINT(RT_DEBUG_TRACE,
 					("BA - Send ADDBA request. StartSeq = %x,  FrameLen = %ld. BufSize = %d\n",
@@ -226,7 +226,7 @@ VOID MlmeDELBAAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 
 		if(os_alloc_mem(pAd, &pOutBuffer2, MGMT_DMA_BUFFER_SIZE) != NDIS_STATUS_SUCCESS)
 		{
-			os_free_mem(pAd, pOutBuffer);
+			kfree(pOutBuffer);
 			DBGPRINT(RT_DEBUG_ERROR, ("BA - MlmeDELBAAction() allocate memory failed 2. \n"));
 			return;
 		}
@@ -236,8 +236,8 @@ VOID MlmeDELBAAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 		if (!pEntry->wdev)
 		{
 			DBGPRINT(RT_DEBUG_ERROR, ("%s():No binding wdev for wcid(%d)\n", __FUNCTION__, pInfo->Wcid));
-			os_free_mem(pAd, pOutBuffer);
-			os_free_mem(pAd, pOutBuffer2);
+			kfree(pOutBuffer);
+			kfree(pOutBuffer2);
 			return;
 		}
 
@@ -258,7 +258,7 @@ VOID MlmeDELBAAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 					  sizeof(FRAME_BAR), &FrameBar,
 					  END_OF_ARGS);
 		MiniportMMRequest(pAd, QID_AC_BE, pOutBuffer2, FrameLen);
-		os_free_mem(pAd, pOutBuffer2);
+		kfree(pOutBuffer2);
 		DBGPRINT(RT_DEBUG_TRACE,("BA - MlmeDELBAAction() . Send BAR to refresh peer reordering buffer \n"));
 
 		/* SEND DELBA FRAME*/
@@ -298,7 +298,7 @@ VOID MlmeDELBAAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 		              sizeof(FRAME_DELBA_REQ), &Frame,
 		              END_OF_ARGS);
 		MiniportMMRequest(pAd, QID_AC_BE, pOutBuffer, FrameLen);
-		os_free_mem(pAd, pOutBuffer);
+		kfree(pOutBuffer);
 		DBGPRINT(RT_DEBUG_TRACE, ("BA - MlmeDELBAAction() . 3 DELBA sent. Initiator(%d)\n", pInfo->Initiator));
     	}
 }
@@ -421,7 +421,7 @@ VOID SendBSS2040CoexistMgmtAction(
 				  	END_OF_ARGS);
 
 	MiniportMMRequest(pAd, QID_AC_BE, pOutBuffer, FrameLen);
-	os_free_mem(pAd, pOutBuffer);
+	kfree(pOutBuffer);
 
 	DBGPRINT(RT_DEBUG_ERROR,("ACT - SendBSS2040CoexistMgmtAction(BSSCoexist2040=0x%x)\n", BssCoexistInfo.BssCoexistIe.word));
 
@@ -684,7 +684,7 @@ VOID Send2040CoexistAction(
 	if (!((IntolerantChaRepLen == 0) && (pAd->CommonCfg.BSSCoexist2040.word == 0)))
 		MiniportMMRequest(pAd, QID_AC_BE, pOutBuffer, FrameLen + IntolerantChaRepLen);
 
-	os_free_mem(pAd, pOutBuffer);
+	kfree(pOutBuffer);
 
 	DBGPRINT(RT_DEBUG_TRACE,("ACT - Send2040CoexistAction( BSSCoexist2040 = 0x%x )  \n", pAd->CommonCfg.BSSCoexist2040.word));
 }
@@ -1037,7 +1037,7 @@ VOID SendNotifyBWActionFrame(struct rtmp_adapter *pAd, UCHAR Wcid, UCHAR apidx)
 	FrameLen++;
 
 	MiniportMMRequest(pAd, QID_AC_BE, pOutBuffer, FrameLen);
-	os_free_mem(pAd, pOutBuffer);
+	kfree(pOutBuffer);
 	DBGPRINT(RT_DEBUG_TRACE,("ACT - SendNotifyBWAction(NotifyBW= %d)!\n", pAd->CommonCfg.AddHTInfo.AddHtInfo.RecomWidth));
 
 }
@@ -1233,7 +1233,7 @@ VOID SendRefreshBAR(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 							  END_OF_ARGS);
 			MiniportMMRequest(pAd, (MGMT_USE_QUEUE_FLAG | WMM_UP2AC_MAP[TID]), pOutBuffer, FrameLen);
 
-			os_free_mem(pAd, pOutBuffer);
+			kfree(pOutBuffer);
 		}
 	}
 }

@@ -331,7 +331,7 @@ VOID MlmeForceJoinReqAction(
 #endif /* WPA_SUPPLICANT_SUPPORT */
 
 		MiniportMMRequest(pAd, 0, pOutBuffer, FrameLen);
-		os_free_mem(pAd, pOutBuffer);
+		kfree(pOutBuffer);
 	}
     } while (FALSE);
 
@@ -835,7 +835,7 @@ VOID MlmeJoinReqAction(
 
 
 			MiniportMMRequest(pAd, 0, pOutBuffer, FrameLen);
-			os_free_mem(pAd, pOutBuffer);
+			kfree(pOutBuffer);
 		}
 	} while (FALSE);
 
@@ -963,7 +963,7 @@ VOID MlmeStartReqAction(
 	}
 
 	if (VarIE != NULL)
-		os_free_mem(NULL, VarIE);
+		kfree(VarIE);
 }
 
 
@@ -1284,16 +1284,16 @@ LabelErr:
 
 LabelOK:
 	if (Ssid != NULL)
-		os_free_mem(NULL, Ssid);
+		kfree(Ssid);
 	if (VarIE != NULL)
-		os_free_mem(NULL, VarIE);
+		kfree(VarIE);
 	if (pHtCapability != NULL)
-		os_free_mem(NULL, pHtCapability);
+		kfree(pHtCapability);
 	if (pAddHtInfo != NULL)
-		os_free_mem(NULL, pAddHtInfo);
+		kfree(pAddHtInfo);
 
 	if (ie_list != NULL)
-		os_free_mem(NULL, ie_list);
+		kfree(ie_list);
 
 }
 //---Add by shiang to check correctness of new sanity function
@@ -1437,9 +1437,9 @@ LabelErr:
 
 LabelOK:
 	if (VarIE != NULL)
-		os_free_mem(NULL, VarIE);
+		kfree(VarIE);
 	if (ie_list != NULL)
-		os_free_mem(NULL, ie_list);
+		kfree(ie_list);
 	return;
 }
 
@@ -1820,9 +1820,9 @@ LabelErr:
 
 LabelOK:
 	if (ie_list != NULL)
-		os_free_mem(NULL, ie_list);
+		kfree(ie_list);
 	if (VarIE != NULL)
-		os_free_mem(NULL, VarIE);
+		kfree(VarIE);
 
 	return;
 }
@@ -2211,7 +2211,7 @@ VOID PeerBeacon(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 											ielist,
 											bcn_ie_list->CapabilityInfo);
 
-					os_free_mem(NULL, ielist);
+					kfree(ielist);
 					if ( result== FALSE)
 					{
 						DBGPRINT(RT_DEBUG_TRACE, ("ADHOC - Add Entry failed.\n"));
@@ -2569,9 +2569,9 @@ LabelErr:
 
 LabelOK:
 	if (VarIE != NULL)
-		os_free_mem(NULL, VarIE);
+		kfree(VarIE);
 	if (bcn_ie_list != NULL)
-		os_free_mem(NULL, bcn_ie_list);
+		kfree(bcn_ie_list);
 
 	return;
 }
@@ -2711,7 +2711,7 @@ VOID PeerProbeReqAction(
 
 
 			MiniportMMRequest(pAd, 0, pOutBuffer, FrameLen);
-			os_free_mem(pAd, pOutBuffer);
+			kfree(pOutBuffer);
 		}
 	}
 }
@@ -2899,7 +2899,7 @@ VOID EnqueueProbeRequest(struct rtmp_adapter *pAd)
 						  pAd->StaActive.SupRateLen,      pAd->StaActive.SupRate,
 						  END_OF_ARGS);
 		MiniportMMRequest(pAd, 0, pOutBuffer, FrameLen);
-		os_free_mem(pAd, pOutBuffer);
+		kfree(pOutBuffer);
 	}
 
 }

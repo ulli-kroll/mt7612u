@@ -151,7 +151,7 @@ VOID trigger_vht_ndpa(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *entry)
 	//			PRINT_MAC(entry->Addr)));
 	//hex_dump("VHT NDPA Frame", buf, frm_len);
 	MiniportMMRequest(pAd, 0, buf, frm_len);
-	os_free_mem(pAd, buf);
+	kfree(buf);
 
 #ifdef SOFT_SOUNDING
 	if (1) {

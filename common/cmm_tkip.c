@@ -913,7 +913,7 @@ VOID TKIP_GTK_KEY_WRAP(
 	ARC4_Compute(pARC4_CTX, input_text, input_len, output_text);
 
 	if (pARC4_CTX != NULL)
-		os_free_mem(NULL, pARC4_CTX);
+		kfree(pARC4_CTX);
 }
 
 VOID TKIP_GTK_KEY_UNWRAP(

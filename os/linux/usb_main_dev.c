@@ -105,7 +105,7 @@ static int rt2870_probe(
 	rv = RTMPAllocAdapterBlock(handle, &pAd);
 	if (rv != NDIS_STATUS_SUCCESS)
 	{
-		os_free_mem(NULL, handle);
+		kfree(handle);
 		goto err_out;
 	}
 

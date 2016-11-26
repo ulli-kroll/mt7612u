@@ -2532,7 +2532,7 @@ BOOLEAN ApCli_Close(struct rtmp_adapter *pAd, struct net_device *dev_p)
 
 			if (apcli_entry->wpa_supplicant_info.pWpaAssocIe)
 			{
-				os_free_mem(NULL, apcli_entry->wpa_supplicant_info.pWpaAssocIe);
+				kfree(apcli_entry->wpa_supplicant_info.pWpaAssocIe);
 				apcli_entry->wpa_supplicant_info.pWpaAssocIe = NULL;
 				apcli_entry->wpa_supplicant_info.WpaAssocIeLen = 0;
 			}

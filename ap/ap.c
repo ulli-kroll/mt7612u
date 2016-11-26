@@ -1099,7 +1099,7 @@ VOID MacTableMaintenance(struct rtmp_adapter *pAd)
 								2, &Reason,
 								END_OF_ARGS);
 				MiniportMMRequest(pAd, 0, pOutBuffer, FrameLen);
-				os_free_mem(pAd, pOutBuffer);
+				kfree(pOutBuffer);
 
 			}
 
@@ -1759,7 +1759,7 @@ VOID ApUpdateAccessControlList(struct rtmp_adapter *pAd, UCHAR Apidx)
 									pMbss->wdev.bssid);
 				MakeOutgoingFrame(pOutBuffer, &FrameLen, sizeof(HEADER_802_11), &DisassocHdr, 2, &Reason, END_OF_ARGS);
 				MiniportMMRequest(pAd, 0, pOutBuffer, FrameLen);
-				os_free_mem(pAd, pOutBuffer);
+				kfree(pOutBuffer);
 
 				RtmpusecDelay(5000);
 			}

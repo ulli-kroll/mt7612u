@@ -1065,7 +1065,7 @@ void AutoChBssTableDestroy(
 	if (pAd->pBssInfoTab)
 	{
 /*		kfree(pAd->pBssInfoTab); */
-		os_free_mem(NULL, pAd->pBssInfoTab);
+		kfree(pAd->pBssInfoTab);
 		pAd->pBssInfoTab = NULL;
 	}
 
@@ -1078,7 +1078,7 @@ void ChannelInfoDestroy(
 	if (pAd->pChannelInfo)
 	{
 /*		kfree(pAd->pChannelInfo); */
-		os_free_mem(NULL, pAd->pChannelInfo);
+		kfree(pAd->pChannelInfo);
 		pAd->pChannelInfo = NULL;
 	}
 

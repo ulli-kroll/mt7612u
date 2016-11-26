@@ -224,21 +224,6 @@ int os_alloc_mem_suspend(
 		return NDIS_STATUS_FAILURE;
 }
 
-/* pAd MUST allow to be NULL */
-int os_free_mem(
-	IN VOID *pReserved,
-	IN PVOID mem)
-{
-	ASSERT(mem);
-	kfree(mem);
-
-#ifdef VENDOR_FEATURE4_SUPPORT
-	OS_NumOfMemFree++;
-#endif /* VENDOR_FEATURE4_SUPPORT */
-
-	return NDIS_STATUS_SUCCESS;
-}
-
 #if defined(RTMP_RBUS_SUPPORT) || defined(RTMP_FLASH_SUPPORT)
 /* The flag "CONFIG_RALINK_FLASH_API" is used for APSoC Linux SDK */
 #ifdef CONFIG_RALINK_FLASH_API
@@ -1781,7 +1766,7 @@ VOID RtmpDrvAllMacPrint(
 		filp_close(file_w, NULL);
 	}
 	set_fs(orig_fs);
-	os_free_mem(NULL, msg);
+	kfree(msg);
 }
 
 
@@ -1833,7 +1818,7 @@ VOID RtmpDrvAllE2PPrint(
 		filp_close(file_w, NULL);
 	}
 	set_fs(orig_fs);
-	os_free_mem(NULL, msg);
+	kfree(msg);
 }
 
 
@@ -2063,7 +2048,7 @@ BOOLEAN RtmpOsStatsAlloc(
 #if WIRELESS_EXT >= 12
 	os_alloc_mem(NULL, (UCHAR **) ppIwStats, sizeof (struct iw_statistics));
 	if ((*ppIwStats) == NULL) {
-		os_free_mem(NULL, *ppStats);
+		kfree(*ppStats);
 		return FALSE;
 	}
 	memset((UCHAR *)* ppIwStats, 0, sizeof (struct iw_statistics));

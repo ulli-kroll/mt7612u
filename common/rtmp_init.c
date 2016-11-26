@@ -167,17 +167,17 @@ int RTMPAllocAdapterBlock(VOID *handle, struct rtmp_adapter **ppAdapter)
 	if (Status != NDIS_STATUS_SUCCESS)
 	{
 		if (pBeaconBuf)
-			os_free_mem(NULL, pBeaconBuf);
+			kfree(pBeaconBuf);
 
 		if (pAd != NULL)
 		{
 			if (pAd->stats != NULL)
-				os_free_mem(NULL, pAd->stats);
+				kfree(pAd->stats);
 
 			if (pAd->iw_stats != NULL)
-				os_free_mem(NULL, pAd->iw_stats);
+				kfree(pAd->iw_stats);
 
-			os_free_mem(NULL, pAd);
+			kfree(pAd);
 		}
 
 		return Status;
@@ -3247,7 +3247,7 @@ VOID RTMP_TimerListRelease(struct rtmp_adapter *pAd, VOID *pRsc)
 
 		/* free a timer record entry */
 		DBGPRINT(RT_DEBUG_ERROR, ("%s: release timer obj %lx!\n", __FUNCTION__, (ULONG)pRsc));
-		os_free_mem(NULL, pObj);
+		kfree(pObj);
 	}
 }
 
@@ -3283,7 +3283,7 @@ VOID RTMP_AllTimerListRelease(struct rtmp_adapter *pAd)
 		RTMPReleaseTimer(pObjOld->pRscObj, &Cancel);
 
 		//TODO: It will casued kernel panic on reboot
-		//os_free_mem(NULL, pObjOld);
+		//kfree(pObjOld);
 	}
 
 	/* reset TimerList */
@@ -3796,7 +3796,7 @@ extern UINT8  MC_CardUsed[MAX_NUM_OF_MULTIPLE_CARD];
 	RTMP_SEM_EVENT_DESTORY(&(pAd->tssi_lock));
 
 	if (pAd->UsbVendorReqBuf)
-		os_free_mem(pAd, pAd->UsbVendorReqBuf);
+		kfree(pAd->UsbVendorReqBuf);
 #endif /* RTMP_MAC_USB */
 
 	/*
@@ -3805,7 +3805,7 @@ extern UINT8  MC_CardUsed[MAX_NUM_OF_MULTIPLE_CARD];
 	for (index = 0; index < MAX_LEN_OF_BSS_TABLE; index++)
 	{
 		if (pAd->ProbeRespIE[index].pIe)
-			os_free_mem(pAd, pAd->ProbeRespIE[index].pIe);
+			kfree(pAd->ProbeRespIE[index].pIe);
 	}
 
 #ifdef RESOURCE_PRE_ALLOC

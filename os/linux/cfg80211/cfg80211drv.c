@@ -198,7 +198,7 @@ INT CFG80211DRV_IoctlHandle(
                 		pAd->ApCfg.MBSSID[MAIN_MBSSID].TimBitmaps[i] = 0;
 			if (pAd->cfg80211_ctrl.beacon_tail_buf != NULL)
 			{
-				os_free_mem(NULL, pAd->cfg80211_ctrl.beacon_tail_buf);
+				kfree(pAd->cfg80211_ctrl.beacon_tail_buf);
 				pAd->cfg80211_ctrl.beacon_tail_buf = NULL;
 			}
 			pAd->cfg80211_ctrl.beacon_tail_len = 0;
@@ -646,7 +646,7 @@ BOOLEAN CFG80211DRV_OpsLeave(
     pMsgElem->MsgLen = sizeof(MLME_DEAUTH_REQ_STRUCT);
     memmove(pMsgElem->Msg, &DeAuthReq, sizeof(MLME_DEAUTH_REQ_STRUCT));
     MlmeDeauthReqAction(pAd, pMsgElem);
-    os_free_mem(NULL, pMsgElem);
+    kfree(pMsgElem);
 	pMsgElem = NULL;
 
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
@@ -1102,7 +1102,7 @@ VOID CFG80211_UnRegister(
       	   But Hit close the device in Scanning */
      	if (pCfg80211_ctrl->pCfg80211ChanList != NULL)
      	{
-     		os_free_mem(NULL, pCfg80211_ctrl->pCfg80211ChanList);
+     		kfree(pCfg80211_ctrl->pCfg80211ChanList);
         	pCfg80211_ctrl->pCfg80211ChanList = NULL;
      	}
 
@@ -1111,7 +1111,7 @@ VOID CFG80211_UnRegister(
 
 	if(pCfg80211_ctrl->pExtraIe)
 	{
-		os_free_mem(NULL, pCfg80211_ctrl->pExtraIe);
+		kfree(pCfg80211_ctrl->pExtraIe);
 		pCfg80211_ctrl->pExtraIe = NULL;
 	}
 	pCfg80211_ctrl->ExtraIeLen = 0;
@@ -1120,7 +1120,7 @@ VOID CFG80211_UnRegister(
 CFG_TODO
      if (pAd->pTxStatusBuf != NULL)
      {
-         os_free_mem(NULL, pAd->pTxStatusBuf);
+         kfree(pAd->pTxStatusBuf);
          pAd->pTxStatusBuf = NULL;
      }
 	 pAd->TxStatusBufLen = 0;
@@ -1128,7 +1128,7 @@ CFG_TODO
 #ifdef CONFIG_AP_SUPPORT
     if (pAd->cfg80211_ctrl.beacon_tail_buf != NULL)
     {
-        os_free_mem(NULL, pAd->cfg80211_ctrl.beacon_tail_buf);
+        kfree(pAd->cfg80211_ctrl.beacon_tail_buf);
         pAd->cfg80211_ctrl.beacon_tail_buf = NULL;
     }
 	pAd->cfg80211_ctrl.beacon_tail_len = 0;
@@ -1686,7 +1686,7 @@ BOOLEAN CFG80211_checkScanTable(
 		}
 
 		if (ie != NULL)
-			os_free_mem(NULL, ie);
+			kfree(ie);
 
 		if (isOk)
 			return TRUE;

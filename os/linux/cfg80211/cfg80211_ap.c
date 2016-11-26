@@ -227,7 +227,7 @@ VOID CFG80211_UpdateBeacon(
 
 		/* 3. Store the Tail Part For appending later */
 		if (pCfg80211_ctrl->beacon_tail_buf != NULL)
-			 os_free_mem(NULL, pCfg80211_ctrl->beacon_tail_buf);
+			 kfree(pCfg80211_ctrl->beacon_tail_buf);
 
 		os_alloc_mem(NULL, (UCHAR **)&pCfg80211_ctrl->beacon_tail_buf, beacon_tail_len);
 		if (pCfg80211_ctrl->beacon_tail_buf != NULL)

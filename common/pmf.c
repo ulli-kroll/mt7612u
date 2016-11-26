@@ -143,7 +143,7 @@ VOID PMF_MlmeSAQueryReq(
 
                 /* transmit the frame */
                 MiniportMMRequest(pAd, QID_MGMT, pOutBuffer, FrameLen);
-                os_free_mem(NULL, pOutBuffer);
+                kfree(pOutBuffer);
 
                 DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s - Send SA Query Request to STA(%02x:%02x:%02x:%02x:%02x:%02x)\n",
 								__FUNCTION__, PRINT_MAC(pEntry->Addr)));
@@ -220,7 +220,7 @@ VOID PMF_PeerSAQueryReqAction(
 
                 /* transmit the frame */
                 MiniportMMRequest(pAd, QID_MGMT, pOutBuffer, FrameLen);
-                os_free_mem(NULL, pOutBuffer);
+                kfree(pOutBuffer);
 
 		DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s - Send SA Query Response to STA(%02x:%02x:%02x:%02x:%02x:%02x)\n", __FUNCTION__, PRINT_MAC(SAQRspHdr.Addr1)));
 	}
@@ -391,7 +391,7 @@ BOOLEAN PMF_CalculateBIPMIC(
 	/* Truncate the first 64-bits */
 	memmove(pBipMic, cmac_output, LEN_PMF_BIP_MIC);
 
-	os_free_mem(NULL, m_buf);
+	kfree(m_buf);
 
 	return TRUE;
 
@@ -924,7 +924,7 @@ INT PMF_EncryptUniRobustFrameAction(
 	/* TSC increment for next transmittion */
 	INC_TX_TSC(pEntry->PmfTxTsc, LEN_WPA_TSC);
 
-	os_free_mem(pAd, pBuf);
+	kfree(pBuf);
 
 	return PMF_STATUS_SUCCESS;
 

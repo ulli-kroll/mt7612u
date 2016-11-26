@@ -1016,14 +1016,14 @@ INT RTUSBCmdThread(
 				if (pCmdQElmt->CmdFromNdis == TRUE)
 				{
 					if (pCmdQElmt->buffer != NULL)
-						os_free_mem(pAd, pCmdQElmt->buffer);
-					os_free_mem(pAd, (PUCHAR)pCmdQElmt);
+						kfree(pCmdQElmt->buffer);
+					kfree((PUCHAR)pCmdQElmt);
 				}
 				else
 				{
 					if ((pCmdQElmt->buffer != NULL) && (pCmdQElmt->bufferlength != 0))
-						os_free_mem(pAd, pCmdQElmt->buffer);
-					os_free_mem(pAd, (PUCHAR)pCmdQElmt);
+						kfree(pCmdQElmt->buffer);
+					kfree((PUCHAR)pCmdQElmt);
 				}
 			}
 		}
