@@ -115,7 +115,7 @@ VOID MlmeADDBAAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 	if(MlmeAddBAReqSanity(pAd, Elem->Msg, Elem->MsgLen, Addr) &&
 		VALID_WCID(pInfo->Wcid))
 	{
-		NStatus = MlmeAllocateMemory(pAd, &pOutBuffer);  /* Get an unused nonpaged memory*/
+		NStatus = os_alloc_mem(pAd, &pOutBuffer, MGMT_DMA_BUFFER_SIZE);  /* Get an unused nonpaged memory*/
 		if(NStatus != NDIS_STATUS_SUCCESS)
 		{
 			DBGPRINT(RT_DEBUG_TRACE,("BA - MlmeADDBAAction() allocate memory failed \n"));
@@ -218,13 +218,13 @@ VOID MlmeDELBAAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 	if(MlmeDelBAReqSanity(pAd, Elem->Msg, Elem->MsgLen) &&
 		VALID_WCID(pInfo->Wcid))
 	{
-		if(MlmeAllocateMemory(pAd, &pOutBuffer) != NDIS_STATUS_SUCCESS)
+		if(os_alloc_mem(pAd, &pOutBuffer, MGMT_DMA_BUFFER_SIZE) != NDIS_STATUS_SUCCESS)
 		{
 			DBGPRINT(RT_DEBUG_ERROR,("BA - MlmeDELBAAction() allocate memory failed 1. \n"));
 			return;
 		}
 
-		if(MlmeAllocateMemory(pAd, &pOutBuffer2) != NDIS_STATUS_SUCCESS)
+		if(os_alloc_mem(pAd, &pOutBuffer2, MGMT_DMA_BUFFER_SIZE) != NDIS_STATUS_SUCCESS)
 		{
 			MlmeFreeMemory(pAd, pOutBuffer);
 			DBGPRINT(RT_DEBUG_ERROR, ("BA - MlmeDELBAAction() allocate memory failed 2. \n"));
@@ -396,7 +396,7 @@ VOID SendBSS2040CoexistMgmtAction(
 	BssIntolerantInfo.Len = 1;
 	BssIntolerantInfo.RegulatoryClass = get_regulatory_class(pAd);
 
-	NStatus = MlmeAllocateMemory(pAd, &pOutBuffer);  /*Get an unused nonpaged memory*/
+	NStatus = os_alloc_mem(pAd, &pOutBuffer, MGMT_DMA_BUFFER_SIZE);  /*Get an unused nonpaged memory*/
 	if(NStatus != NDIS_STATUS_SUCCESS)
 	{
 		DBGPRINT(RT_DEBUG_ERROR,("ACT - SendBSS2040CoexistMgmtAction() allocate memory failed \n"));
@@ -644,7 +644,7 @@ VOID Send2040CoexistAction(
         UCHAR apidx;
 #endif /* APCLI_SUPPORT */
 	IntolerantChaRepLen = 0;
-	NStatus = MlmeAllocateMemory(pAd, &pOutBuffer);  /*Get an unused nonpaged memory*/
+	NStatus = os_alloc_mem(pAd, &pOutBuffer, MGMT_DMA_BUFFER_SIZE);  /*Get an unused nonpaged memory*/
 	if(NStatus != NDIS_STATUS_SUCCESS)
 	{
 		DBGPRINT(RT_DEBUG_ERROR,("ACT - Send2040CoexistAction() allocate memory failed \n"));
@@ -1013,7 +1013,7 @@ VOID SendNotifyBWActionFrame(struct rtmp_adapter *pAd, UCHAR Wcid, UCHAR apidx)
 	struct rtmp_wifi_dev *wdev;
 
 
-	NStatus = MlmeAllocateMemory(pAd, &pOutBuffer);  /* Get an unused nonpaged memory */
+	NStatus = os_alloc_mem(pAd, &pOutBuffer, MGMT_DMA_BUFFER_SIZE);  /* Get an unused nonpaged memory */
 	if(NStatus != NDIS_STATUS_SUCCESS)
 	{
 		DBGPRINT(RT_DEBUG_ERROR,("ACT - SendNotifyBWAction() allocate memory failed \n"));
@@ -1212,7 +1212,7 @@ VOID SendRefreshBAR(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 
 			ASSERT(pBAEntry->Wcid < MAX_LEN_OF_MAC_TABLE);
 
-			NStatus = MlmeAllocateMemory(pAd, &pOutBuffer);  /*Get an unused nonpaged memory*/
+			NStatus = os_alloc_mem(pAd, &pOutBuffer, MGMT_DMA_BUFFER_SIZE);  /*Get an unused nonpaged memory*/
 			if(NStatus != NDIS_STATUS_SUCCESS)
 			{
 				DBGPRINT(RT_DEBUG_ERROR,("BA - MlmeADDBAAction() allocate memory failed \n"));

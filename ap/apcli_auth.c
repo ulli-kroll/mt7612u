@@ -110,7 +110,7 @@ static VOID ApCliMlmeAuthReqAction(
 		Status = MLME_SUCCESS;
 
 		/* allocate and send out AuthReq frame */
-		NState = MlmeAllocateMemory(pAd, &pOutBuffer);
+		NState = os_alloc_mem(pAd, &pOutBuffer, MGMT_DMA_BUFFER_SIZE);
 		if(NState != NDIS_STATUS_SUCCESS)
 		{
 			DBGPRINT(RT_DEBUG_ERROR, ("APCLI AUTH - MlmeAuthReqAction() allocate memory failed\n"));
@@ -220,7 +220,7 @@ static VOID ApCliPeerAuthRspAtSeq2Action(struct rtmp_adapter *pAd, MLME_QUEUE_EL
 					Seq++;
 					RemoteStatus = MLME_SUCCESS;
 					/* allocate and send out AuthRsp frame */
-					NState = MlmeAllocateMemory(pAd, &pOutBuffer);
+					NState = os_alloc_mem(pAd, &pOutBuffer, MGMT_DMA_BUFFER_SIZE);
 					if(NState != NDIS_STATUS_SUCCESS)
 					{
 						DBGPRINT(RT_DEBUG_TRACE, ("AUTH - ApCliPeerAuthRspAtSeq2Action allocate memory fail\n"));
@@ -502,7 +502,7 @@ static VOID ApCliMlmeDeauthReqAction(
 
 	*pCurrState= APCLI_AUTH_REQ_IDLE;
 
-	NStatus = MlmeAllocateMemory(pAd, &pOutBuffer);  /*Get an unused nonpaged memory */
+	NStatus = os_alloc_mem(pAd, &pOutBuffer, MGMT_DMA_BUFFER_SIZE);  /*Get an unused nonpaged memory */
 	if (NStatus != NDIS_STATUS_SUCCESS)
 		return;
 

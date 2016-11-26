@@ -3300,7 +3300,7 @@ VOID RtmpEnqueueNullFrame(
 	UINT frm_len;
 	MAC_TABLE_ENTRY *pEntry;
 
-	NState = MlmeAllocateMemory(pAd, (UCHAR **)&pFrame);
+	NState = os_alloc_mem(pAd, (UCHAR **)&pFrame, MGMT_DMA_BUFFER_SIZE);
 	pNullFr = (PHEADER_802_11) pFrame;
 
 	if (NState == NDIS_STATUS_SUCCESS)
@@ -3377,7 +3377,7 @@ VOID RtmpPrepareHwNullFrame(
 	UINT i;
 	UINT32 longValue;
 
-	NState = MlmeAllocateMemory(pAd, (PUCHAR *)&pNullFrame);
+	NState = os_alloc_mem(pAd, (PUCHAR *)&pNullFrame, MGMT_DMA_BUFFER_SIZE);
 
 	memset(pNullFrame, 0, 48);
 	memset(pTxWI, 0, TXWISize);

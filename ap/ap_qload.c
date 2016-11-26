@@ -160,10 +160,10 @@ static VOID QBSS_LoadAlarm(
 					USHORT Reason;
 
 					/*  send out a DISASSOC request frame */
-					NStatus = MlmeAllocateMemory(pAd, &pOutBuffer);
+					NStatus = os_alloc_mem(pAd, &pOutBuffer, MGMT_DMA_BUFFER_SIZE);
 					if (NStatus != NDIS_STATUS_SUCCESS)
 					{
-						DBGPRINT(RT_DEBUG_TRACE, (" MlmeAllocateMemory fail  ..\n"));
+						DBGPRINT(RT_DEBUG_TRACE, (" os_alloc_mem fail  ..\n"));
 						/*NdisReleaseSpinLock(&pAd->MacTabLock); */
 						continue;
 					}

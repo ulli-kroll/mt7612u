@@ -122,7 +122,7 @@ static VOID APMlmeDeauthReqAction(
         MacTableDeleteEntry(pAd, Elem->Wcid, pInfo->Addr);
 
         /* 2. send out DE-AUTH request frame */
-        NStatus = MlmeAllocateMemory(pAd, &pOutBuffer);
+        NStatus = os_alloc_mem(pAd, &pOutBuffer, MGMT_DMA_BUFFER_SIZE);
         if (NStatus != NDIS_STATUS_SUCCESS)
             return;
 
@@ -373,7 +373,7 @@ SendAuth:
 			RspReason = 0;
 			Seq++;
 
-			NStatus = MlmeAllocateMemory(pAd, &pOutBuffer);
+			NStatus = os_alloc_mem(pAd, &pOutBuffer, MGMT_DMA_BUFFER_SIZE);
 			if(NStatus != NDIS_STATUS_SUCCESS)
 				return;  /* if no memory, can't do anything */
 
@@ -568,7 +568,7 @@ VOID APCls2errAction(
 	}
 
 	/* send out DEAUTH frame */
-	NStatus = MlmeAllocateMemory(pAd, &pOutBuffer);
+	NStatus = os_alloc_mem(pAd, &pOutBuffer, MGMT_DMA_BUFFER_SIZE);
 	if (NStatus != NDIS_STATUS_SUCCESS)
 		return;
 
@@ -608,7 +608,7 @@ VOID APPeerAuthSimpleRspGenAndSend(
     int       NStatus;
 
 
-    NStatus = MlmeAllocateMemory(pAd, &pOutBuffer);
+    NStatus = os_alloc_mem(pAd, &pOutBuffer, MGMT_DMA_BUFFER_SIZE);
     if (NStatus != NDIS_STATUS_SUCCESS)
         return;
 

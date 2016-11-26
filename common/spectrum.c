@@ -1166,7 +1166,7 @@ VOID EnqueueMeasurementRep(
 						pAd->CurrentAddress,
 						pAd->CurrentAddress);
 
-	NStatus = MlmeAllocateMemory(pAd, (PVOID)&pOutBuffer);  /*Get an unused nonpaged memory*/
+	NStatus = os_alloc_mem(pAd, (PVOID)&pOutBuffer, MGMT_DMA_BUFFER_SIZE);  /*Get an unused nonpaged memory*/
 	if(NStatus != NDIS_STATUS_SUCCESS)
 	{
 		DBGPRINT(RT_DEBUG_TRACE, ("%s() allocate memory failed \n", __FUNCTION__));
@@ -1221,7 +1221,7 @@ VOID EnqueueTPCReq(
 						pAd->CurrentAddress,
 						pAd->CurrentAddress);
 
-	NStatus = MlmeAllocateMemory(pAd, (PVOID)&pOutBuffer);  /*Get an unused nonpaged memory*/
+	NStatus = os_alloc_mem(pAd, (PVOID)&pOutBuffer, MGMT_DMA_BUFFER_SIZE);  /*Get an unused nonpaged memory*/
 	if(NStatus != NDIS_STATUS_SUCCESS)
 	{
 		DBGPRINT(RT_DEBUG_TRACE, ("%s() allocate memory failed \n", __FUNCTION__));
@@ -1274,7 +1274,7 @@ VOID EnqueueTPCRep(
 						pAd->CurrentAddress,
 						pAd->CurrentAddress);
 
-	NStatus = MlmeAllocateMemory(pAd, (PVOID)&pOutBuffer);  /*Get an unused nonpaged memory*/
+	NStatus = os_alloc_mem(pAd, (PVOID)&pOutBuffer, MGMT_DMA_BUFFER_SIZE);  /*Get an unused nonpaged memory*/
 	if(NStatus != NDIS_STATUS_SUCCESS)
 	{
 		DBGPRINT(RT_DEBUG_TRACE, ("%s() allocate memory failed \n", __FUNCTION__));
@@ -2089,7 +2089,7 @@ INT Set_MeasureReq_Proc(
 	int NStatus;
 	ULONG FrameLen;
 
-	NStatus = MlmeAllocateMemory(pAd, (PVOID)&pOutBuffer);  /*Get an unused nonpaged memory*/
+	NStatus = os_alloc_mem(pAd, (PVOID)&pOutBuffer, MGMT_DMA_BUFFER_SIZE);  /*Get an unused nonpaged memory*/
 	if(NStatus != NDIS_STATUS_SUCCESS)
 	{
 		DBGPRINT(RT_DEBUG_TRACE, ("%s() allocate memory failed \n", __FUNCTION__));

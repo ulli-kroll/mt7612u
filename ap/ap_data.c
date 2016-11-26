@@ -2884,7 +2884,7 @@ VOID AP_NDPA_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 	{
 		wdev = pMacEntry->wdev;
 
-		if (MlmeAllocateMemory(pAd, &buf) != NDIS_STATUS_SUCCESS)
+		if (os_alloc_mem(pAd, &buf, MGMT_DMA_BUFFER_SIZE) != NDIS_STATUS_SUCCESS)
 			return;
 
 		memset(buf, 0, MGMT_DMA_BUFFER_SIZE);

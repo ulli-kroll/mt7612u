@@ -639,7 +639,7 @@ static VOID ApCliEnqueueProbeRequest(
 
 	pApCliEntry = &pAd->ApCfg.ApCliTab[ifIndex];
 
-	NState = MlmeAllocateMemory(pAd, &pOutBuffer);  /* Get an unused nonpaged memory */
+	NState = os_alloc_mem(pAd, &pOutBuffer, MGMT_DMA_BUFFER_SIZE);  /* Get an unused nonpaged memory */
 	if(NState != NDIS_STATUS_SUCCESS)
 	{
 		DBGPRINT(RT_DEBUG_TRACE, ("EnqueueProbeRequest() allocate memory fail\n"));

@@ -1015,10 +1015,10 @@ VOID MacTableReset(struct rtmp_adapter *pAd)
 				if (pMacEntry->Sst == SST_ASSOC)
 				{
 					/*  send out a De-authentication request frame*/
-					NStatus = MlmeAllocateMemory(pAd, &pOutBuffer);
+					NStatus = os_alloc_mem(pAd, &pOutBuffer, MGMT_DMA_BUFFER_SIZE);
 					if (NStatus != NDIS_STATUS_SUCCESS)
 					{
-						DBGPRINT(RT_DEBUG_TRACE, (" MlmeAllocateMemory fail  ..\n"));
+						DBGPRINT(RT_DEBUG_TRACE, (" os_alloc_mem fail  ..\n"));
 						/*NdisReleaseSpinLock(&pAd->MacTabLock);*/
 						return;
 					}

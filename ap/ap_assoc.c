@@ -829,7 +829,7 @@ VOID ap_cmm_peer_assoc_req_action(
 SendAssocResponse:
 #endif /* DOT11W_PMF_SUPPORT */
 	/* 3. send Association Response */
-	NStatus = MlmeAllocateMemory(pAd, &pOutBuffer);
+	NStatus = os_alloc_mem(pAd, &pOutBuffer, MGMT_DMA_BUFFER_SIZE);
 	if (NStatus != NDIS_STATUS_SUCCESS)
 		goto LabelOK;
 
@@ -1534,7 +1534,7 @@ VOID APMlmeKickOutSta(struct rtmp_adapter *pAd, UCHAR *pStaAddr, UCHAR Wcid, USH
         ApLogEvent(pAd, pStaAddr, EVENT_DISASSOCIATED);
 
 	    /* 2. send out a DISASSOC request frame */
-	    NStatus = MlmeAllocateMemory(pAd, &pOutBuffer);
+	    NStatus = os_alloc_mem(pAd, &pOutBuffer, MGMT_DMA_BUFFER_SIZE);
 	    if (NStatus != NDIS_STATUS_SUCCESS)
 	        return;
 
@@ -1569,7 +1569,7 @@ VOID APMlmeKickOutAllSta(struct rtmp_adapter *pAd, UCHAR apidx, USHORT Reason)
     if ((apidx < pAd->ApCfg.BssidNum) && (pPmfCfg))
     {
         /* Send out a Deauthentication request frame */
-        NStatus = MlmeAllocateMemory(pAd, &pOutBuffer);
+        NStatus = os_alloc_mem(pAd, &pOutBuffer, MGMT_DMA_BUFFER_SIZE);
         if (NStatus != NDIS_STATUS_SUCCESS)
             return;
         DBGPRINT(RT_DEBUG_ERROR, ("Send DISASSOC Broadcast frame(%d) with ra%d \n", Reason, apidx));
@@ -1657,7 +1657,7 @@ VOID APCls3errAction(struct rtmp_adapter *pAd, ULONG Wcid, HEADER_802_11 *pHeade
     }
 
     /* 2. send out a DISASSOC request frame */
-    NStatus = MlmeAllocateMemory(pAd, &pOutBuffer);
+    NStatus = os_alloc_mem(pAd, &pOutBuffer, MGMT_DMA_BUFFER_SIZE);
     if (NStatus != NDIS_STATUS_SUCCESS)
         return;
 

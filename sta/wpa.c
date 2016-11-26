@@ -174,7 +174,7 @@ VOID	WpaMicFailureReportFrame(
 	*((USHORT *)&pPacket->KeyDesc.KeyInfo) = cpu2le16(*((USHORT *)&pPacket->KeyDesc.KeyInfo));
 
 
-	MlmeAllocateMemory(pAd, (PUCHAR *)&pOutBuffer);  /* allocate memory */
+	os_alloc_mem(pAd, (PUCHAR *)&pOutBuffer, MGMT_DMA_BUFFER_SIZE);  /* allocate memory */
 	if(pOutBuffer == NULL)
 	{
 		os_free_mem(NULL, mpool);

@@ -602,7 +602,7 @@ VOID BAOriSessionAdd(
 					pBAEntry->BAWinSize, pBAEntry->ORIBATimer.TimerValue));
 
 		/* SEND BAR */
-		NStatus = MlmeAllocateMemory(pAd, &pOutBuffer2);  /*Get an unused nonpaged memory*/
+		NStatus = os_alloc_mem(pAd, &pOutBuffer2, MGMT_DMA_BUFFER_SIZE);  /*Get an unused nonpaged memory*/
 		if (NStatus != NDIS_STATUS_SUCCESS)
 		{
 			DBGPRINT(RT_DEBUG_TRACE,("BA - BAOriSessionAdd() allocate memory failed \n"));
@@ -1213,7 +1213,7 @@ VOID PeerAddBAReqAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 
 	pAddreqFrame = (PFRAME_ADDBA_REQ)(&Elem->Msg[0]);
 	/* 2. Always send back ADDBA Response */
-	NStatus = MlmeAllocateMemory(pAd, &pOutBuffer);	 /*Get an unused nonpaged memory*/
+	NStatus = os_alloc_mem(pAd, &pOutBuffer, MGMT_DMA_BUFFER_SIZE);	 /*Get an unused nonpaged memory*/
 	if (NStatus != NDIS_STATUS_SUCCESS)
 	{
 		DBGPRINT(RT_DEBUG_TRACE,("ACTION - PeerBAAction() allocate memory failed \n"));
@@ -1463,7 +1463,7 @@ VOID SendSMPSAction(struct rtmp_adapter *pAd, UCHAR Wcid, UCHAR smps)
 	ULONG FrameLen;
 
 
-	NStatus = MlmeAllocateMemory(pAd, &pOutBuffer);	 /*Get an unused nonpaged memory*/
+	NStatus = os_alloc_mem(pAd, &pOutBuffer, MGMT_DMA_BUFFER_SIZE);	 /*Get an unused nonpaged memory*/
 	if (NStatus != NDIS_STATUS_SUCCESS)
 	{
 		DBGPRINT(RT_DEBUG_ERROR,("BA - MlmeADDBAAction() allocate memory failed \n"));
@@ -1558,7 +1558,7 @@ VOID SendBeaconRequest(struct rtmp_adapter *pAd, UCHAR Wcid)
 	if (IS_ENTRY_APCLI(&pAd->MacTab.Content[Wcid]))
 		return;
 
-	NStatus = MlmeAllocateMemory(pAd, &pOutBuffer);	 /*Get an unused nonpaged memory*/
+	NStatus = os_alloc_mem(pAd, &pOutBuffer, MGMT_DMA_BUFFER_SIZE);	 /*Get an unused nonpaged memory*/
 	if (NStatus != NDIS_STATUS_SUCCESS)
 	{
 		DBGPRINT(RT_DEBUG_ERROR,("Radio - SendBeaconRequest() allocate memory failed \n"));

@@ -84,7 +84,7 @@ VOID PeerAuthSimpleRspGenAndSend(
 	}
 
 	/*Get an unused nonpaged memory */
-	NStatus = MlmeAllocateMemory(pAd, &pOutBuffer);
+	NStatus = os_alloc_mem(pAd, &pOutBuffer, MGMT_DMA_BUFFER_SIZE);
 	if (NStatus != NDIS_STATUS_SUCCESS)
 		return;
 

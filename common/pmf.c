@@ -896,7 +896,7 @@ INT PMF_EncryptUniRobustFrameAction(
 	}
 
 	/* Allocate a buffer for building PMF packet */
-	Status = MlmeAllocateMemory(pAd, &pBuf);
+	Status = os_alloc_mem(pAd, &pBuf, MGMT_DMA_BUFFER_SIZE);
 	if (Status != NDIS_STATUS_SUCCESS)
 	{
 		DBGPRINT(RT_DEBUG_ERROR,("%s : allocate PMF buffer fail!\n", __FUNCTION__));

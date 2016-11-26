@@ -313,7 +313,7 @@ VOID RtmpKickOutHwNullFrame(
 
 	if (bPrepareContent)
 	{
-		NState = MlmeAllocateMemory(pAd, (PUCHAR *)&pNullFrame);
+		NState = os_alloc_mem(pAd, (PUCHAR *)&pNullFrame, MGMT_DMA_BUFFER_SIZE);
 
 		memset(pNullFrame, 48);
 

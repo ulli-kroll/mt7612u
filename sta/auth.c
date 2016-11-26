@@ -142,8 +142,8 @@ VOID PeerAuthRspAtSeq2Action(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM * Elem)
 
 					/* Get an unused nonpaged memory */
 					NStatus =
-					    MlmeAllocateMemory(pAd,
-							       &pOutBuffer);
+					    os_alloc_mem(pAd,
+							       &pOutBuffer, MGMT_DMA_BUFFER_SIZE);
 					if (NStatus != NDIS_STATUS_SUCCESS) {
 						DBGPRINT(RT_DEBUG_TRACE,
 							 ("AUTH - PeerAuthRspAtSeq2Action() allocate memory fail\n"));
@@ -314,7 +314,7 @@ VOID MlmeDeauthReqAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 
 	pInfo = (MLME_DEAUTH_REQ_STRUCT *) Elem->Msg;
 
-	NStatus = MlmeAllocateMemory(pAd, &pOutBuffer);	/*Get an unused nonpaged memory */
+	NStatus = os_alloc_mem(pAd, &pOutBuffer, MGMT_DMA_BUFFER_SIZE);	/*Get an unused nonpaged memory */
 	if (NStatus != NDIS_STATUS_SUCCESS) {
 		DBGPRINT(RT_DEBUG_TRACE,
 			 ("AUTH - MlmeDeauthReqAction() allocate memory fail\n"));
@@ -406,7 +406,7 @@ VOID Cls2errAction(struct rtmp_adapter *pAd, UCHAR *pAddr)
 	ULONG FrameLen = 0;
 	USHORT Reason = REASON_CLS2ERR;
 
-	NStatus = MlmeAllocateMemory(pAd, &pOutBuffer);	/*Get an unused nonpaged memory */
+	NStatus = os_alloc_mem(pAd, &pOutBuffer, MGMT_DMA_BUFFER_SIZE);	/*Get an unused nonpaged memory */
 	if (NStatus != NDIS_STATUS_SUCCESS)
 		return;
 
@@ -463,7 +463,7 @@ BOOLEAN AUTH_ReqSend(
 		Seq = SeqNo;
 		Status = MLME_SUCCESS;
 
-		NStatus = MlmeAllocateMemory(pAd, &pOutBuffer);	/*Get an unused nonpaged memory */
+		NStatus = os_alloc_mem(pAd, &pOutBuffer, MGMT_DMA_BUFFER_SIZE);	/*Get an unused nonpaged memory */
 		if (NStatus != NDIS_STATUS_SUCCESS) {
 			DBGPRINT(RT_DEBUG_TRACE,
 				 ("%s - MlmeAuthReqAction(Alg:%d) allocate memory failed\n",

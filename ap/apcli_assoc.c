@@ -229,7 +229,7 @@ static VOID ApCliMlmeAssocReqAction(
 		RTMPCancelTimer(&apcli_entry->MlmeAux.ApCliAssocTimer, &Cancelled);
 
 		/* allocate and send out AssocRsp frame */
-		NStatus = MlmeAllocateMemory(pAd, &pOutBuffer);  /*Get an unused nonpaged memory */
+		NStatus = os_alloc_mem(pAd, &pOutBuffer);  /*Get an unused nonpaged memory */
 		if (NStatus != NDIS_STATUS_SUCCESS)
 		{
 			DBGPRINT(RT_DEBUG_TRACE, ("APCLI_ASSOC - ApCliMlmeAssocReqAction() allocate memory failed \n"));
@@ -559,7 +559,7 @@ static VOID ApCliMlmeDisassocReqAction(
 	pDisassocReq = (PMLME_DISASSOC_REQ_STRUCT)(Elem->Msg);
 
 	/* allocate and send out DeassocReq frame */
-	NStatus = MlmeAllocateMemory(pAd, &pOutBuffer);  /*Get an unused nonpaged memory */
+	NStatus = os_alloc_mem(pAd, &pOutBuffer);  /*Get an unused nonpaged memory */
 	if (NStatus != NDIS_STATUS_SUCCESS)
 	{
 		DBGPRINT(RT_DEBUG_TRACE, ("APCLI_ASSOC - ApCliMlmeDisassocReqAction() allocate memory failed\n"));
