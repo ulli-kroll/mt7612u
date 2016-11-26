@@ -108,7 +108,7 @@ int RTMPAllocAdapterBlock(VOID *handle, struct rtmp_adapter **ppAdapter)
 
 			pAd->OS_Cookie = handle;
 #ifdef WORKQUEUE_BH
-			((POS_COOKIE)(handle))->pAd_va = (UINT32)pAd;
+			((struct os_cookie *)(handle))->pAd_va = (UINT32)pAd;
 #endif /* WORKQUEUE_BH */
 		}
 		pAd->BeaconBuf = pBeaconBuf;

@@ -164,7 +164,7 @@ INT	Set_Cmm_WirelessMode_Proc(
 #ifdef CONFIG_AP_SUPPORT
 	UINT32 i = 0;
 #ifdef MBSS_SUPPORT
-	POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
+	struct os_cookie *pObj = pAd->OS_Cookie;
 
 	if (FlgIsDiffMbssModeUsed) {
 		LONG cfg_mode = simple_strtol(arg, 0, 10);
@@ -1584,7 +1584,7 @@ int RTMPWPARemoveKeyProc(
 	UCHAR ifIndex;
 	BOOLEAN apcliEn=FALSE;
 	INT idx, BssIdx;
-	POS_COOKIE	pObj = (POS_COOKIE) pAd->OS_Cookie;
+	struct os_cookie *pObj = pAd->OS_Cookie;
 #endif/*WPA_SUPPLICANT_SUPPORT*/
 #endif/*APCLI_SUPPORT*/
 	DBGPRINT(RT_DEBUG_TRACE,("---> RTMPWPARemoveKeyProc\n"));
@@ -2995,7 +2995,7 @@ INT	Set_HtBw_Proc(
 INT	Set_HtMcs_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
 #ifdef CONFIG_AP_SUPPORT
-	POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
+	struct os_cookie *pObj = pAd->OS_Cookie;
 #endif /* CONFIG_AP_SUPPORT */
 #ifdef CONFIG_STA_SUPPORT
 	BOOLEAN bAutoRate = FALSE;
@@ -3855,7 +3855,7 @@ INT	Set_FixedTxMode_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	struct rtmp_wifi_dev *wdev = NULL;
 #ifdef CONFIG_AP_SUPPORT
-    POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
+    struct os_cookie *pObj = pAd->OS_Cookie;
 #endif /* CONFIG_AP_SUPPORT */
 	INT	fix_tx_mode = RT_CfgSetFixedTxPhyMode(arg);
 
@@ -4484,7 +4484,7 @@ INT	Show_SSID_Proc(
 #ifdef CONFIG_AP_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 	{
-		POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
+		struct os_cookie *pObj = pAd->OS_Cookie;
 		memmove(&ssid_str[0],
 						pAd->ApCfg.MBSSID[pObj->ioctl_if].Ssid,
 						pAd->ApCfg.MBSSID[pObj->ioctl_if].SsidLen);
@@ -4675,7 +4675,7 @@ INT	Show_HtMcs_Proc(
 {
 	struct rtmp_wifi_dev *wdev = NULL;
 #ifdef CONFIG_AP_SUPPORT
-	POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
+	struct os_cookie *pObj = pAd->OS_Cookie;
 
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 		wdev = &pAd->ApCfg.MBSSID[pObj->ioctl_if].wdev;
@@ -4841,7 +4841,7 @@ INT	Show_WmmCapable_Proc(
 	IN	ULONG			BufLen)
 {
 #ifdef CONFIG_AP_SUPPORT
-    POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
+    struct os_cookie *pObj = pAd->OS_Cookie;
 
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 		snprintf(pBuf, BufLen, "\t%s", pAd->ApCfg.MBSSID[pObj->ioctl_if].wdev.bWmmCapable ? "TRUE":"FALSE");
@@ -4931,7 +4931,7 @@ INT	Show_AuthMode_Proc(
 	NDIS_802_11_AUTHENTICATION_MODE	AuthMode = Ndis802_11AuthModeOpen;
 	struct rtmp_wifi_dev *wdev = NULL;
 #ifdef CONFIG_AP_SUPPORT
-    POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
+    struct os_cookie *pObj = pAd->OS_Cookie;
 
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 		wdev  = &pAd->ApCfg.MBSSID[pObj->ioctl_if].wdev;
@@ -4964,7 +4964,7 @@ INT	Show_EncrypType_Proc(
 	struct rtmp_wifi_dev *wdev = NULL;
 	NDIS_802_11_WEP_STATUS	WepStatus = Ndis802_11WEPDisabled;
 #ifdef CONFIG_AP_SUPPORT
-    POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
+    struct os_cookie *pObj = pAd->OS_Cookie;
 
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 		wdev = &pAd->ApCfg.MBSSID[pObj->ioctl_if].wdev;
@@ -4995,7 +4995,7 @@ INT	Show_DefaultKeyID_Proc(
 {
 	struct rtmp_wifi_dev *wdev = NULL;
 #ifdef CONFIG_AP_SUPPORT
-    POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
+    struct os_cookie *pObj = pAd->OS_Cookie;
 
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 		wdev = &pAd->ApCfg.MBSSID[pObj->ioctl_if].wdev;
@@ -5024,7 +5024,7 @@ INT	Show_WepKey_Proc(
 	UCHAR   Key[16] = {0}, KeyLength = 0;
 	INT		index = BSS0;
 #ifdef CONFIG_AP_SUPPORT
-    POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
+    struct os_cookie *pObj = pAd->OS_Cookie;
 
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 		index = pObj->ioctl_if;
@@ -5091,7 +5091,7 @@ INT	Show_PMK_Proc(
 	UCHAR	PMK[32] = {0};
 
 #ifdef CONFIG_AP_SUPPORT
-    POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
+    struct os_cookie *pObj = pAd->OS_Cookie;
 
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 		memmove(PMK, pAd->ApCfg.MBSSID[pObj->ioctl_if].PMK, 32);
@@ -5152,7 +5152,7 @@ INT	Show_STA_RAInfo_Proc(
 #ifdef CONFIG_AP_SUPPORT
 INT Show_TxInfo_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
-	POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
+	struct os_cookie *pObj = pAd->OS_Cookie;
 	UCHAR apidx = pObj->ioctl_if;
 	INT i;
 
@@ -5593,11 +5593,11 @@ INT	Show_ModuleTxpower_Proc(
 {
 
  	INT i=0;
- 	POS_COOKIE pObj;
+ 	struct os_cookie *pObj;
  	UCHAR ifIndex;
 	BOOLEAN bConnect=FALSE;
 
- 	pObj = (POS_COOKIE) pAd->OS_Cookie;
+ 	pObj = pAd->OS_Cookie;
 
  	DBGPRINT(RT_DEBUG_TRACE, ("==>RTMPIoctlConnStatus\n"));
 

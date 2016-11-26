@@ -934,7 +934,7 @@ VOID WNMCtrlExit(IN struct rtmp_adapter *pAd)
 #ifdef CONFIG_AP_SUPPORT
 VOID Clear_All_PROXY_TABLE(IN struct rtmp_adapter *pAd)
 {
-	POS_COOKIE pObj = (POS_COOKIE)pAd->OS_Cookie;
+	struct os_cookie *pObj = pAd->OS_Cookie;
 	UCHAR APIndex = pObj->ioctl_if;
 	PWNM_CTRL pWNMCtrl;
 	UINT32 Ret;

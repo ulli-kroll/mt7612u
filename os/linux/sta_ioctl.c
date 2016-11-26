@@ -1430,7 +1430,7 @@ int rt_ioctl_setparam(struct net_device *dev, struct iw_request_info *info,
 			 void *w, char *extra)
 {
 	VOID *pAd;
-/*	POS_COOKIE pObj; */
+/*	struct os_cookie *pObj; */
 	PSTRING this_char = extra;
 	PSTRING value = NULL;
 	int  Status=0;
@@ -1527,7 +1527,7 @@ rt_private_show(struct net_device *dev, struct iw_request_info *info,
 	RTMP_IOCTL_INPUT_STRUCT wrqin;
 	INT				Status = 0;
 	VOID   			*pAd;
-/*	POS_COOKIE		pObj; */
+/*	struct os_cookie *	pObj; */
 	u32             subcmd = wrq->flags;
 	RT_CMD_STA_IOCTL_SHOW IoctlShow, *pIoctlShow = &IoctlShow;
 
@@ -1541,7 +1541,7 @@ rt_private_show(struct net_device *dev, struct iw_request_info *info,
 	}
 
 
-/*	pObj = (POS_COOKIE) pAd->OS_Cookie; */
+/*	pObj = pAd->OS_Cookie; */
 	if (extra == NULL)
 	{
 		wrq->length = 0;
@@ -2182,7 +2182,7 @@ const struct iw_handler_def rt28xx_iw_handler_def =
 
 INT rt28xx_sta_ioctl(struct net_device *net_dev, struct ifreq *rq, INT cmd)
 {
-/*	POS_COOKIE			pObj; */
+/*	struct os_cookie *		pObj; */
 	VOID        		*pAd = NULL;
 	struct iwreq        *wrqin = (struct iwreq *) rq;
 	RTMP_IOCTL_INPUT_STRUCT rt_wrq, *wrq = &rt_wrq;
@@ -2204,7 +2204,7 @@ INT rt28xx_sta_ioctl(struct net_device *net_dev, struct ifreq *rq, INT cmd)
 	wrq->u.data.length = wrqin->u.data.length;
 	org_len = wrq->u.data.length;
 
-/*	pObj = (POS_COOKIE) pAd->OS_Cookie; */
+/*	pObj = pAd->OS_Cookie; */
 
     /*check if the interface is down */
 /*    if(!RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_INTERRUPT_IN_USE)) */

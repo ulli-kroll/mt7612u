@@ -92,11 +92,11 @@ static int rt2870_probe(
 	}
 	memset(handle, 0, sizeof(struct os_cookie));
 
-	((POS_COOKIE)handle)->pUsb_Dev = usb_dev;
+	((struct os_cookie *)handle)->pUsb_Dev = usb_dev;
 
 #ifdef CONFIG_PM
 #ifdef USB_SUPPORT_SELECTIVE_SUSPEND
-	((POS_COOKIE)handle)->intf = intf;
+	((struct os_cookie *)handle)->intf = intf;
 #endif /* USB_SUPPORT_SELECTIVE_SUSPEND */
 #endif /* CONFIG_PM */
 

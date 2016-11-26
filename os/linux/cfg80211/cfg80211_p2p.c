@@ -1116,7 +1116,7 @@ BOOLEAN CFG80211DRV_P2pClientConnect(struct rtmp_adapter *pAd, VOID *pData)
 	APCLI_STRUCT *apcli_entry;
 	apcli_entry = &pAd->ApCfg.ApCliTab[MAIN_MBSSID];
 
-	POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
+	struct os_cookie *pObj = pAd->OS_Cookie;
 	pObj->ioctl_if_type = INT_APCLI;
 
 	pConnInfo = (CMD_RTPRIV_IOCTL_80211_CONNECT *)pData;

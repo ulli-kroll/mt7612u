@@ -182,7 +182,7 @@ VOID MlmeForceJoinReqAction(
 
 #ifdef CONFIG_PM
 #ifdef USB_SUPPORT_SELECTIVE_SUSPEND
-	POS_COOKIE  pObj = (POS_COOKIE) pAd->OS_Cookie;
+	struct os_cookie * pObj = pAd->OS_Cookie;
 #endif /* USB_SUPPORT_SELECTIVE_SUSPEND */
 #endif /* CONFIG_PM */
 
@@ -642,7 +642,7 @@ VOID MlmeJoinReqAction(
 
 #ifdef CONFIG_PM
 #ifdef USB_SUPPORT_SELECTIVE_SUSPEND
-	POS_COOKIE  pObj = (POS_COOKIE) pAd->OS_Cookie;
+	struct os_cookie * pObj = pAd->OS_Cookie;
 #endif /* USB_SUPPORT_SELECTIVE_SUSPEND */
 #endif /* CONFIG_PM */
 	BOOLEAN       bChangeInitBW = FALSE;

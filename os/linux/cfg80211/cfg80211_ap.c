@@ -607,9 +607,9 @@ BOOLEAN CFG80211DRV_ApKeyAdd(
 		{
 				UCHAR CipherAlg;
 				CIPHER_KEY	*pSharedKey;
-				POS_COOKIE pObj;
+				struct os_cookie *pObj;
 
-				pObj = (POS_COOKIE) pAd->OS_Cookie;
+				pObj = pAd->OS_Cookie;
 
 				pSharedKey = &pAd->SharedKey[apidx][pKeyInfo->KeyId];
 				memmove(pSharedKey->Key, pKeyInfo->KeyBuf, pKeyInfo->KeyLen);

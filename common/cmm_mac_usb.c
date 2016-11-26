@@ -27,7 +27,7 @@ static int RTMPAllocUsbBulkBufStruct(
 	IN ra_dma_addr_t *pDmaAddr,
 	IN PSTRING pBufName)
 {
-	POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
+	struct os_cookie *pObj = pAd->OS_Cookie;
 
 
 	*ppUrb = RTUSB_ALLOC_URB(0);
@@ -54,7 +54,7 @@ static int RTMPFreeUsbBulkBufStruct(
 	IN INT bufLen,
 	IN ra_dma_addr_t data_dma)
 {
-	POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
+	struct os_cookie *pObj = pAd->OS_Cookie;
 
 	if (NULL != *ppUrb) {
 		RTUSB_UNLINK_URB(*ppUrb);
@@ -737,7 +737,7 @@ int NICInitRecv(
 {
 	UCHAR				i;
 	int 		Status = NDIS_STATUS_SUCCESS;
-	POS_COOKIE			pObj = (POS_COOKIE) pAd->OS_Cookie;
+	struct os_cookie *		pObj = pAd->OS_Cookie;
 	PCMD_RSP_CONTEXT pCmdRspEventContext = &pAd->CmdRspEventContext;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("--> NICInitRecv\n"));
@@ -836,7 +836,7 @@ int NICInitTransmit(
 	PTX_CONTEXT		pNullContext   = &(pAd->NullContext);
 	PTX_CONTEXT		pPsPollContext = &(pAd->PsPollContext);
 	PTX_CONTEXT		pMLMEContext = NULL;
-	POS_COOKIE		pObj = (POS_COOKIE) pAd->OS_Cookie;
+	struct os_cookie *	pObj = pAd->OS_Cookie;
 	PVOID			RingBaseVa;
 	RTMP_MGMT_RING  *pMgmtRing;
 
@@ -1759,9 +1759,9 @@ VOID BeaconUpdateExec(
 
 			if (pAd->ApCfg.DtimCount == 0 && pBeaconSync->DtimBitOn)
 			{
-				POS_COOKIE pObj;
+				struct os_cookie *pObj;
 
-				pObj = (POS_COOKIE) pAd->OS_Cookie;
+				pObj = pAd->OS_Cookie;
 				RTMP_OS_TASKLET_SCHE(&pObj->tbtt_task);
 			}
 #ifdef RT_CFG80211_SUPPORT
@@ -1992,7 +1992,7 @@ VOID RT28xxUsbAsicRadioOn(struct rtmp_adapter *pAd)
 
 #ifdef CONFIG_PM
 #ifdef USB_SUPPORT_SELECTIVE_SUSPEND
-	POS_COOKIE  pObj = (POS_COOKIE) pAd->OS_Cookie;
+	struct os_cookie * pObj = pAd->OS_Cookie;
 
 
 	DBGPRINT(RT_DEBUG_TRACE, ("--> %s\n", __FUNCTION__));

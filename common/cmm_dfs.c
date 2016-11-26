@@ -3301,11 +3301,11 @@ static VOID SwCheckDfsEventWithFw(
 
 void schedule_dfs_task(struct rtmp_adapter *pAd)
 {
-	POS_COOKIE pObj;
+	struct os_cookie *pObj;
 	PRADAR_DETECT_STRUCT pRadarDetect = &pAd->CommonCfg.RadarDetect;
 	PDFS_SW_DETECT_PARAM pDfsSwParam = &pRadarDetect->DfsSwParam;
 
-    pObj = (POS_COOKIE) pAd->OS_Cookie;
+    pObj = pAd->OS_Cookie;
 
 	if (pRadarDetect->DFSAPRestart == 1)
 	{

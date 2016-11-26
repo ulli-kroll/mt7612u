@@ -596,10 +596,6 @@ struct os_cookie {
 	INT 					ioctl_if;
 };
 
-typedef struct os_cookie	* POS_COOKIE;
-
-
-
 /***********************************************************************************
  *	OS debugging and printing related definitions and data structure
  ***********************************************************************************/
@@ -673,7 +669,7 @@ void linux_pci_unmap_single(void *handle, ra_dma_addr_t dma_addr, size_t size, i
 	linux_pci_map_single(_handle, _ptr, _size, _sd_idx, _dir)
 
 #define PCI_UNMAP_SINGLE(_pAd, _ptr, _size, _dir)						\
-	linux_pci_unmap_single(((POS_COOKIE)(_pAd->OS_Cookie))->pci_dev, _ptr, _size, _dir)
+	linux_pci_unmap_single(((_pAd->OS_Cookie))->pci_dev, _ptr, _size, _dir)
 
 #define PCI_ALLOC_CONSISTENT(_pci_dev, _size, _ptr) \
 	pci_alloc_consistent(_pci_dev, _size, _ptr)

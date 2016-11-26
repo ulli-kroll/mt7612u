@@ -1425,9 +1425,9 @@ void rtmp_read_pmf_parameters_from_file(
         IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
         {
                 INT apidx;
-                POS_COOKIE pObj;
+                struct os_cookie *pObj;
 
-                pObj = (POS_COOKIE) pAd->OS_Cookie;
+                pObj = pAd->OS_Cookie;
                 for (apidx = 0; apidx < pAd->ApCfg.BssidNum; apidx++)
                 {
                         pAd->ApCfg.MBSSID[apidx].PmfCfg.Desired_MFPC = FALSE;
@@ -1512,9 +1512,9 @@ INT Set_PMFMFPC_Proc (
 #ifdef CONFIG_AP_SUPPORT
         IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
         {
-                POS_COOKIE pObj;
+                struct os_cookie *pObj;
 
-                pObj = (POS_COOKIE) pAd->OS_Cookie;
+                pObj = pAd->OS_Cookie;
                 if (simple_strtol(arg, 0, 10))
                         pAd->ApCfg.MBSSID[pObj->ioctl_if].PmfCfg.Desired_MFPC = TRUE;
                 else
@@ -1595,9 +1595,9 @@ INT Set_PMFMFPR_Proc (
 #ifdef CONFIG_AP_SUPPORT
         IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
         {
-                POS_COOKIE pObj;
+                struct os_cookie *pObj;
 
-                pObj = (POS_COOKIE) pAd->OS_Cookie;
+                pObj = pAd->OS_Cookie;
                 if (simple_strtol(arg, 0, 10))
                         pAd->ApCfg.MBSSID[pObj->ioctl_if].PmfCfg.Desired_MFPR = TRUE;
                 else
@@ -1662,9 +1662,9 @@ INT Set_PMFSHA256_Proc (
 #ifdef CONFIG_AP_SUPPORT
         IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
         {
-                POS_COOKIE pObj;
+                struct os_cookie *pObj;
 
-                pObj = (POS_COOKIE) pAd->OS_Cookie;
+                pObj = pAd->OS_Cookie;
                 if (simple_strtol(arg, 0, 10))
                         pAd->ApCfg.MBSSID[pObj->ioctl_if].PmfCfg.Desired_PMFSHA256 = TRUE;
                 else

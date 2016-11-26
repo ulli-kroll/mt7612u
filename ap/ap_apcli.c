@@ -2576,7 +2576,7 @@ BOOLEAN ApCli_Close(struct rtmp_adapter *pAd, struct net_device *dev_p)
 BOOLEAN ApCliAutoConnectExec(
 	IN  struct rtmp_adapter *  pAd)
 {
-	POS_COOKIE  	pObj = (POS_COOKIE) pAd->OS_Cookie;
+	struct os_cookie * 	pObj = pAd->OS_Cookie;
 	UCHAR			ifIdx, CfgSsidLen, entryIdx;
 	STRING			*pCfgSsid;
 	BSS_TABLE		*pScanTab, *pSsidBssTab;
@@ -2701,7 +2701,7 @@ BOOLEAN ApCliAutoConnectExec(
 VOID ApCliSwitchCandidateAP(
 	IN struct rtmp_adapter *pAd)
 {
-	POS_COOKIE  	pObj = (POS_COOKIE) pAd->OS_Cookie;
+	struct os_cookie * 	pObj = pAd->OS_Cookie;
 	BSS_TABLE 		*pSsidBssTab;
 	PAPCLI_STRUCT	pApCliEntry;
 	UCHAR			lastEntryIdx, ifIdx = pObj->ioctl_if;

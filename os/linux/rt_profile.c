@@ -328,7 +328,7 @@ void tbtt_tasklet(unsigned long data)
 #ifdef CONFIG_AP_SUPPORT
 #ifdef WORKQUEUE_BH
 	struct work_struct *work = (struct work_struct *)data;
-	POS_COOKIE pObj = container_of(work, struct os_cookie, tbtt_task);
+	struct os_cookie *pObj = container_of(work, struct os_cookie, tbtt_task);
 	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pObj->pAd_va;
 #else
 		struct rtmp_adapter *pAd = (struct rtmp_adapter *)data;
@@ -592,10 +592,10 @@ extern NDIS_SPIN_LOCK TimerSemLock;
 
 VOID RTMPFreeAdapter(struct rtmp_adapter *pAd)
 {
-	POS_COOKIE os_cookie;
+	struct os_cookie *os_cookie;
 	int index;
 
-	os_cookie=(POS_COOKIE)pAd->OS_Cookie;
+	os_cookie = pAd->OS_Cookie;
 
 	if (pAd->BeaconBuf)
 		os_free_mem(NULL, pAd->BeaconBuf);
@@ -819,7 +819,7 @@ Note:
 INT RTMP_AP_IoctlPrepare(struct rtmp_adapter *pAd, VOID *pCB)
 {
 	RT_CMD_AP_IOCTL_CONFIG *pConfig = (RT_CMD_AP_IOCTL_CONFIG *)pCB;
-	POS_COOKIE pObj;
+	struct os_cookie *pObj;
 	USHORT index;
 	INT	Status = NDIS_STATUS_SUCCESS;
 #ifdef CONFIG_APSTA_MIXED_SUPPORT
@@ -827,7 +827,7 @@ INT RTMP_AP_IoctlPrepare(struct rtmp_adapter *pAd, VOID *pCB)
 #endif /* CONFIG_APSTA_MIXED_SUPPORT */
 
 
-	pObj = (POS_COOKIE) pAd->OS_Cookie;
+	pObj =  pAd->OS_Cookie;
 
 	if((pConfig->priv_flags == INT_MAIN) && !RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_INTERRUPT_IN_USE))
 	{

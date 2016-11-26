@@ -212,7 +212,7 @@ inline INT Set_HotSpot_DGAF(
 	IN struct rtmp_adapter *pAd,
 	UCHAR Disable)
 {
-	POS_COOKIE pObj = (POS_COOKIE)pAd->OS_Cookie;
+	struct os_cookie *pObj = pAd->OS_Cookie;
 	UCHAR APIndex = pObj->ioctl_if;
 	PHOTSPOT_CTRL pHSCtrl;
 
@@ -229,7 +229,7 @@ INT Set_HotSpot_Param(
 	UINT32 Value)
 {
 
-	POS_COOKIE pObj = (POS_COOKIE)pAd->OS_Cookie;
+	struct os_cookie *pObj = pAd->OS_Cookie;
 	UCHAR APIndex = pObj->ioctl_if;
 	PHOTSPOT_CTRL pHSCtrl;
 	PWNM_CTRL pWNMCtrl;
@@ -313,7 +313,7 @@ VOID HSCtrlRemoveAllIE(PHOTSPOT_CTRL pHSCtrl)
 VOID Clear_Hotspot_All_IE(
 	IN struct rtmp_adapter *pAd)
 {
-	POS_COOKIE pObj = (POS_COOKIE)pAd->OS_Cookie;
+	struct os_cookie *pObj = pAd->OS_Cookie;
 	UCHAR APIndex = pObj->ioctl_if;
 	PHOTSPOT_CTRL pHSCtrl;
 
@@ -333,7 +333,7 @@ INT Set_HotSpot_OnOff(
 	HSCTRL_EVENT_DATA *Event;
 	UINT32 Len = 0;
 #ifdef CONFIG_AP_SUPPORT
-	POS_COOKIE pObj = (POS_COOKIE)pAd->OS_Cookie;
+	struct os_cookie *pObj = pAd->OS_Cookie;
 	UCHAR APIndex = pObj->ioctl_if;
 #endif /* CONFIG_AP_SUPPORT */
 
