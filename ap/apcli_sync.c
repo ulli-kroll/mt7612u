@@ -706,7 +706,7 @@ static VOID ApCliEnqueueProbeRequest(
 #endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE*/
 
 		MiniportMMRequest(pAd, QID_AC_BE, pOutBuffer, FrameLen);
-		MlmeFreeMemory(pAd, pOutBuffer);
+		os_free_mem(pAd, pOutBuffer);
 	}
 
 	return;

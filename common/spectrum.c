@@ -1188,7 +1188,7 @@ VOID EnqueueMeasurementRep(
 	InsertMeasureReportIE(pAd, (pOutBuffer + FrameLen), &FrameLen, &MeasureRepIE, ReportInfoLen, pReportInfo);
 
 	MiniportMMRequest(pAd, QID_AC_BE, pOutBuffer, FrameLen);
-	MlmeFreeMemory(pAd, pOutBuffer);
+	os_free_mem(pAd, pOutBuffer);
 
 	return;
 }
@@ -1239,7 +1239,7 @@ VOID EnqueueTPCReq(
 	InsertTpcReqIE(pAd, (pOutBuffer + FrameLen), &FrameLen);
 
 	MiniportMMRequest(pAd, QID_AC_BE, pOutBuffer, FrameLen);
-	MlmeFreeMemory(pAd, pOutBuffer);
+	os_free_mem(pAd, pOutBuffer);
 
 	return;
 }
@@ -1292,7 +1292,7 @@ VOID EnqueueTPCRep(
 	InsertTpcReportIE(pAd, (pOutBuffer + FrameLen), &FrameLen, TxPwr, LinkMargin);
 
 	MiniportMMRequest(pAd, QID_AC_BE, pOutBuffer, FrameLen);
-	MlmeFreeMemory(pAd, pOutBuffer);
+	os_free_mem(pAd, pOutBuffer);
 
 	return;
 }
@@ -2164,7 +2164,7 @@ INT Set_MeasureReq_Proc(
 	MiniportMMRequest(pAd, QID_AC_BE, pOutBuffer, (UINT)FrameLen);
 
 END_OF_MEASURE_REQ:
-	MlmeFreeMemory(pAd, pOutBuffer);
+	os_free_mem(pAd, pOutBuffer);
 
 	return TRUE;
 }

@@ -883,7 +883,7 @@ SendAssocResponse:
 			              SupRateLen, pAd->CommonCfg.SupRate,
 			              END_OF_ARGS);
 			MiniportMMRequest(pAd, 0, pOutBuffer, FrameLen);
-			MlmeFreeMemory(pAd, (PVOID) pOutBuffer);
+			os_free_mem(pAd, (PVOID) pOutBuffer);
 		}
 
 		RTMPSendWirelessEvent(pAd, IW_MAC_FILTER_LIST_EVENT_FLAG, ie_list->Addr2, pEntry->apidx, 0);
@@ -1189,7 +1189,7 @@ SendAssocResponse:
 
 
 	MiniportMMRequest(pAd, 0, pOutBuffer, FrameLen);
-	MlmeFreeMemory(pAd, (PVOID) pOutBuffer);
+	os_free_mem(pAd, (PVOID) pOutBuffer);
 
 #ifdef DOT11W_PMF_SUPPORT
 	if (StatusCode == MLME_ASSOC_REJ_TEMPORARILY)
@@ -1548,7 +1548,7 @@ VOID APMlmeKickOutSta(struct rtmp_adapter *pAd, UCHAR *pStaAddr, UCHAR Wcid, USH
 	                      2,                     &Reason,
 	                      END_OF_ARGS);
 	    MiniportMMRequest(pAd, 0, pOutBuffer, FrameLen);
-	    MlmeFreeMemory(pAd, pOutBuffer);
+	    os_free_mem(pAd, pOutBuffer);
 		MacTableDeleteEntry(pAd, Aid, pStaAddr);
     }
 }
@@ -1606,7 +1606,7 @@ VOID APMlmeKickOutAllSta(struct rtmp_adapter *pAd, UCHAR apidx, USHORT Reason)
         }
 
         MiniportMMRequest(pAd, 0, pOutBuffer, FrameLen);
-        MlmeFreeMemory(pAd, pOutBuffer);
+        os_free_mem(pAd, pOutBuffer);
     }
 }
 #endif /* DOT11W_PMF_PLUGFEST */
@@ -1671,7 +1671,7 @@ VOID APCls3errAction(struct rtmp_adapter *pAd, ULONG Wcid, HEADER_802_11 *pHeade
                       2,                     &Reason,
                       END_OF_ARGS);
     MiniportMMRequest(pAd, 0, pOutBuffer, FrameLen);
-    MlmeFreeMemory(pAd, pOutBuffer);
+    os_free_mem(pAd, pOutBuffer);
 }
 
 

@@ -448,9 +448,6 @@ do { \
 #define NdisCmpMemory(Destination, Source, Length)  memcmp(Destination, Source, Length)
 #define NdisEqualMemory(Source1, Source2, Length)   (!memcmp(Source1, Source2, Length))
 #define RTMPEqualMemory(Source1, Source2, Length)	(!memcmp(Source1, Source2, Length))
-
-#define MlmeFreeMemory(_pAd, _pVA)			os_free_mem(_pAd, _pVA)
-
 #define COPY_MAC_ADDR(Addr1, Addr2)             memcpy((Addr1), (Addr2), MAC_ADDR_LEN)
 
 

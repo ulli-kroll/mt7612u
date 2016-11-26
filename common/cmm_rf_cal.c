@@ -398,7 +398,7 @@ VOID RtmpKickOutHwNullFrame(
 		}
 
 		if (pNullFrame)
-			MlmeFreeMemory(pAd, pNullFrame);
+			os_free_mem(pAd, pNullFrame);
 	}
 
 	if (bTransmit)

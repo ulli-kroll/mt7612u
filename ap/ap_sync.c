@@ -662,7 +662,7 @@ VOID APPeerProbeReqAction(
 	for (idx = 0; idx < mbss->ProbeRspTimes; idx++)
 		MiniportMMRequest(pAd, 0, pOutBuffer, FrameLen);
 
-	MlmeFreeMemory(pAd, pOutBuffer);
+	os_free_mem(pAd, pOutBuffer);
 	}
 }
 

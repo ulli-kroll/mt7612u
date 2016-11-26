@@ -510,7 +510,7 @@ static VOID ApCliMlmeAssocReqAction(
 			FrameLen += tmp;
 		}
 		MiniportMMRequest(pAd, QID_AC_BE, pOutBuffer, FrameLen);
-		MlmeFreeMemory(pAd, pOutBuffer);
+		os_free_mem(pAd, pOutBuffer);
 
 			RTMPSetTimer(&apcli_entry->MlmeAux.ApCliAssocTimer, Timeout);
 		*pCurrState = APCLI_ASSOC_WAIT_RSP;
@@ -582,7 +582,7 @@ static VOID ApCliMlmeDisassocReqAction(
 						2,						&pDisassocReq->Reason,
 						END_OF_ARGS);
 	MiniportMMRequest(pAd, QID_AC_BE, pOutBuffer, FrameLen);
-	MlmeFreeMemory(pAd, pOutBuffer);
+	os_free_mem(pAd, pOutBuffer);
 
     *pCurrState = APCLI_ASSOC_IDLE;
 

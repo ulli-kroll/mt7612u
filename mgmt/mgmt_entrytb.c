@@ -1035,7 +1035,7 @@ VOID MacTableReset(struct rtmp_adapter *pAd)
 										END_OF_ARGS);
 
 					MiniportMMRequest(pAd, 0, pOutBuffer, FrameLen);
-					MlmeFreeMemory(pAd, pOutBuffer);
+					os_free_mem(pAd, pOutBuffer);
 					RtmpusecDelay(5000);
 				}
 			}

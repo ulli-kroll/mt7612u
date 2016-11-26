@@ -3351,7 +3351,7 @@ body:
 		DBGPRINT(RT_DEBUG_INFO, ("send NULL Frame @%d Mbps to AID#%d...\n", RateIdToMbps[TxRate], AID & 0x3f));
 		MiniportMMRequest(pAd, WMM_UP2AC_MAP[7], (PUCHAR)pNullFr, frm_len);
 
-		MlmeFreeMemory(pAd, pFrame);
+		os_free_mem(pAd, pFrame);
 	}
 }
 
@@ -3510,7 +3510,7 @@ VOID RtmpPrepareHwNullFrame(
 	}
 
 	if (pNullFrame)
-		MlmeFreeMemory(pAd, pNullFrame);
+		os_free_mem(pAd, pNullFrame);
 
 }
 

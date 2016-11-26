@@ -627,7 +627,7 @@ VOID BAOriSessionAdd(
 							sizeof(FRAME_BAR), &FrameBar,
 							END_OF_ARGS);
 		MiniportMMRequest(pAd, QID_AC_BE, pOutBuffer2, FrameLen);
-		MlmeFreeMemory(pAd, pOutBuffer2);
+		os_free_mem(pAd, pOutBuffer2);
 
 		if (pBAEntry->ORIBATimer.TimerValue)
 			RTMPSetTimer(&pBAEntry->ORIBATimer, pBAEntry->ORIBATimer.TimerValue); /* in mSec */
@@ -1308,7 +1308,7 @@ VOID PeerAddBAReqAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 					  sizeof(FRAME_ADDBA_RSP),  &ADDframe,
 			  END_OF_ARGS);
 	MiniportMMRequest(pAd, QID_AC_BE, pOutBuffer, FrameLen);
-	MlmeFreeMemory(pAd, pOutBuffer);
+	os_free_mem(pAd, pOutBuffer);
 
 	DBGPRINT(RT_DEBUG_TRACE, ("%s(%d): TID(%d), BufSize(%d) <== \n", __FUNCTION__, Elem->Wcid, ADDframe.BaParm.TID,
 							  ADDframe.BaParm.BufSize));
@@ -1472,7 +1472,7 @@ VOID SendSMPSAction(struct rtmp_adapter *pAd, UCHAR Wcid, UCHAR smps)
 
 	if (!VALID_WCID(Wcid))
 	{
-		MlmeFreeMemory(pAd, pOutBuffer);
+		os_free_mem(pAd, pOutBuffer);
 		DBGPRINT(RT_DEBUG_ERROR,("BA - Invalid WCID(%d)\n",  Wcid));
 		return;
 	}
@@ -1481,7 +1481,7 @@ VOID SendSMPSAction(struct rtmp_adapter *pAd, UCHAR Wcid, UCHAR smps)
 	wdev = pEntry->wdev;
 	if (!wdev)
 	{
-		MlmeFreeMemory(pAd, pOutBuffer);
+		os_free_mem(pAd, pOutBuffer);
 		DBGPRINT(RT_DEBUG_ERROR, ("BA - wdev is null\n"));
 		return;
 	}
@@ -1515,7 +1515,7 @@ VOID SendSMPSAction(struct rtmp_adapter *pAd, UCHAR Wcid, UCHAR smps)
 					  sizeof(FRAME_SMPS_ACTION), &Frame,
 					  END_OF_ARGS);
 	MiniportMMRequest(pAd, QID_AC_BE, pOutBuffer, FrameLen);
-	MlmeFreeMemory(pAd, pOutBuffer);
+	os_free_mem(pAd, pOutBuffer);
 	DBGPRINT(RT_DEBUG_ERROR,("HT - %s( %d )  \n", __FUNCTION__, Frame.smps));
 }
 
@@ -1596,7 +1596,7 @@ VOID SendBeaconRequest(struct rtmp_adapter *pAd, UCHAR Wcid)
 					  sizeof(BEACON_REQUEST),			&BeaconReq,
 					  END_OF_ARGS);
 	MiniportMMRequest(pAd, QID_AC_BE, pOutBuffer, FrameLen);
-	MlmeFreeMemory(pAd, pOutBuffer);
+	os_free_mem(pAd, pOutBuffer);
 	DBGPRINT(RT_DEBUG_TRACE,("Radio - SendBeaconRequest\n"));
 }
 #endif /* CONFIG_AP_SUPPORT */

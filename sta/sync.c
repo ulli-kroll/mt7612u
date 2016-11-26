@@ -331,7 +331,7 @@ VOID MlmeForceJoinReqAction(
 #endif /* WPA_SUPPLICANT_SUPPORT */
 
 		MiniportMMRequest(pAd, 0, pOutBuffer, FrameLen);
-		MlmeFreeMemory(pAd, pOutBuffer);
+		os_free_mem(pAd, pOutBuffer);
 	}
     } while (FALSE);
 
@@ -835,7 +835,7 @@ VOID MlmeJoinReqAction(
 
 
 			MiniportMMRequest(pAd, 0, pOutBuffer, FrameLen);
-			MlmeFreeMemory(pAd, pOutBuffer);
+			os_free_mem(pAd, pOutBuffer);
 		}
 	} while (FALSE);
 
@@ -2711,7 +2711,7 @@ VOID PeerProbeReqAction(
 
 
 			MiniportMMRequest(pAd, 0, pOutBuffer, FrameLen);
-			MlmeFreeMemory(pAd, pOutBuffer);
+			os_free_mem(pAd, pOutBuffer);
 		}
 	}
 }
@@ -2899,7 +2899,7 @@ VOID EnqueueProbeRequest(struct rtmp_adapter *pAd)
 						  pAd->StaActive.SupRateLen,      pAd->StaActive.SupRate,
 						  END_OF_ARGS);
 		MiniportMMRequest(pAd, 0, pOutBuffer, FrameLen);
-		MlmeFreeMemory(pAd, pOutBuffer);
+		os_free_mem(pAd, pOutBuffer);
 	}
 
 }

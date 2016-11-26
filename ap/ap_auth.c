@@ -139,7 +139,7 @@ static VOID APMlmeDeauthReqAction(
                           END_OF_ARGS);
         MiniportMMRequest(pAd, 0, pOutBuffer, FrameLen);
 
-        MlmeFreeMemory(pAd, pOutBuffer);
+        os_free_mem(pAd, pOutBuffer);
     }
 }
 
@@ -392,7 +392,7 @@ SendAuth:
 								CIPHER_TEXT_LEN,       pAd->ApMlmeAux.Challenge,
 								END_OF_ARGS);
 			MiniportMMRequest(pAd, 0, pOutBuffer, FrameLen);
-			MlmeFreeMemory(pAd, pOutBuffer);
+			os_free_mem(pAd, pOutBuffer);
 		}
 		else
 			; /* MAC table full, what should we respond ???? */
@@ -585,7 +585,7 @@ VOID APCls2errAction(
 					  2, &Reason,
 					  END_OF_ARGS);
 	MiniportMMRequest(pAd, 0, pOutBuffer, FrameLen);
-	MlmeFreeMemory(pAd, pOutBuffer);
+	os_free_mem(pAd, pOutBuffer);
 }
 
 
@@ -632,6 +632,6 @@ VOID APPeerAuthSimpleRspGenAndSend(
 					  2,						&StatusCode,
 					  END_OF_ARGS);
 	MiniportMMRequest(pAd, 0, pOutBuffer, FrameLen);
-	MlmeFreeMemory(pAd, pOutBuffer);
+	os_free_mem(pAd, pOutBuffer);
 }
 

@@ -924,7 +924,7 @@ INT PMF_EncryptUniRobustFrameAction(
 	/* TSC increment for next transmittion */
 	INC_TX_TSC(pEntry->PmfTxTsc, LEN_WPA_TSC);
 
-	MlmeFreeMemory(pAd, pBuf);
+	os_free_mem(pAd, pBuf);
 
 	return PMF_STATUS_SUCCESS;
 

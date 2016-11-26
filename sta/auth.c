@@ -190,7 +190,7 @@ VOID PeerAuthRspAtSeq2Action(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM * Elem)
 							       iv_hdr,
 							       &pAd->SharedKey[BSS0][wdev->DefaultKeyId],
 							       CyperChlgText, c_len) == FALSE) {
-						MlmeFreeMemory(pAd, pOutBuffer);
+						os_free_mem(pAd, pOutBuffer);
 						pAd->Mlme.AuthMachine.CurrState = AUTH_REQ_IDLE;
 						Status2 = MLME_FAIL_NO_RESOURCE;
 						MlmeEnqueue(pAd,
@@ -213,7 +213,7 @@ VOID PeerAuthRspAtSeq2Action(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM * Elem)
 							  END_OF_ARGS);
 
 					MiniportMMRequest(pAd, 0, pOutBuffer, FrameLen);
-					MlmeFreeMemory(pAd, pOutBuffer);
+					os_free_mem(pAd, pOutBuffer);
 
 					RTMPSetTimer(&pAd->MlmeAux.AuthTimer, AUTH_TIMEOUT);
 					pAd->Mlme.AuthMachine.CurrState = AUTH_WAIT_SEQ4;
@@ -334,7 +334,7 @@ VOID MlmeDeauthReqAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 	MakeOutgoingFrame(pOutBuffer, &FrameLen, sizeof (HEADER_802_11),
 			  &DeauthHdr, 2, &pInfo->Reason, END_OF_ARGS);
 	MiniportMMRequest(pAd, 0, pOutBuffer, FrameLen);
-	MlmeFreeMemory(pAd, pOutBuffer);
+	os_free_mem(pAd, pOutBuffer);
 
 	pAd->StaCfg.DeauthReason = pInfo->Reason;
 	COPY_MAC_ADDR(pAd->StaCfg.DeauthSta, pInfo->Addr);
@@ -418,7 +418,7 @@ VOID Cls2errAction(struct rtmp_adapter *pAd, UCHAR *pAddr)
 	MakeOutgoingFrame(pOutBuffer, &FrameLen, sizeof (HEADER_802_11),
 			  &DeauthHdr, 2, &Reason, END_OF_ARGS);
 	MiniportMMRequest(pAd, 0, pOutBuffer, FrameLen);
-	MlmeFreeMemory(pAd, pOutBuffer);
+	os_free_mem(pAd, pOutBuffer);
 
 	pAd->StaCfg.DeauthReason = Reason;
 	COPY_MAC_ADDR(pAd->StaCfg.DeauthSta, pAddr);
@@ -492,7 +492,7 @@ BOOLEAN AUTH_ReqSend(
 		}
 
 		MiniportMMRequest(pAd, 0, pOutBuffer, FrameLen);
-		MlmeFreeMemory(pAd, pOutBuffer);
+		os_free_mem(pAd, pOutBuffer);
 
 		RTMPSetTimer(pAuthTimer, Timeout);
 		return TRUE;

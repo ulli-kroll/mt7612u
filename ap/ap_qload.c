@@ -178,7 +178,7 @@ static VOID QBSS_LoadAlarm(
 				    	                  2,                     &Reason,
 				    	                  END_OF_ARGS);
 				    	MiniportMMRequest(pAd, 0, pOutBuffer, FrameLen);
-				    	MlmeFreeMemory(pAd, pOutBuffer);
+				    	os_free_mem(pAd, pOutBuffer);
 				}
 
 				DBGPRINT(RT_DEBUG_TRACE, ("qbss> Alarm! Deauth the station "

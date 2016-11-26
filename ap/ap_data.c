@@ -2928,7 +2928,7 @@ VOID AP_NDPA_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 		pTxBlk->Flags = FALSE; // No Acq Request
 
 		MiniportMMRequest(pAd, 0, buf, frm_len);
-		MlmeFreeMemory(pAd, buf);
+		os_free_mem(pAd, buf);
 	}
 
 	pMacEntry->TxSndgType = SNDG_TYPE_DISABLE;

@@ -209,7 +209,7 @@ VOID	WpaMicFailureReportFrame(
 					  (PUCHAR)pPacket,
 					  CONV_ARRARY_TO_UINT16(pPacket->Body_Len) + 4, FALSE);
 
-	MlmeFreeMemory(pAd, (PUCHAR)pOutBuffer);
+	os_free_mem(pAd, (PUCHAR)pOutBuffer);
 
 	os_free_mem(NULL, mpool);
 
