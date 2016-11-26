@@ -383,7 +383,7 @@ NDIS_STATUS MiniportMMRequest(
 			ASSERT((sizeof(rtmpHwHdr) > hw_len));
 
 			/* We need to reserve space for rtmp hardware header. i.e., TxWI for RT2860 and TxInfo+TxWI for RT2870*/
-			NdisZeroMemory(&rtmpHwHdr, hw_len);
+			memset(&rtmpHwHdr, 0, hw_len);
 			Status = RTMPAllocateNdisPacket(pAd, &pPacket, (PUCHAR)&rtmpHwHdr[0], hw_len, pData, Length);
 			if (Status != NDIS_STATUS_SUCCESS)
 			{
@@ -1602,7 +1602,7 @@ VOID RTMPDeQueuePacket(
 			}
 
 			pTxBlk = &TxBlk;
-			NdisZeroMemory((PUCHAR)pTxBlk, sizeof(TX_BLK));
+			memset((PUCHAR)pTxBlk, 0, sizeof(TX_BLK));
 
 			pTxBlk->QueIdx = QueIdx;
 
@@ -3379,8 +3379,8 @@ VOID RtmpPrepareHwNullFrame(
 
 	NState = MlmeAllocateMemory(pAd, (PUCHAR *)&pNullFrame);
 
-	NdisZeroMemory(pNullFrame, 48);
-	NdisZeroMemory(pTxWI, TXWISize);
+	memset(pNullFrame, 0, 48);
+	memset(pTxWI, 0, TXWISize);
 
 	if (NState == NDIS_STATUS_SUCCESS)
 	{

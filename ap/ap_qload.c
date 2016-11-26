@@ -301,8 +301,8 @@ VOID QBSS_LoadInit(
 
 #ifdef QLOAD_FUNC_BUSY_TIME_STATS
 	/* clear busy time statistics */
-	NdisZeroMemory(pAd->QloadBusyCountPri, sizeof(pAd->QloadBusyCountPri));
-	NdisZeroMemory(pAd->QloadBusyCountSec, sizeof(pAd->QloadBusyCountSec));
+	memset(pAd->QloadBusyCountPri, 0, sizeof(pAd->QloadBusyCountPri));
+	memset(pAd->QloadBusyCountSec, 0, sizeof(pAd->QloadBusyCountSec));
 #endif /* QLOAD_FUNC_BUSY_TIME_STATS */
 
 #ifdef QLOAD_FUNC_BUSY_TIME_ALARM
@@ -762,8 +762,8 @@ VOID QBSS_LoadStatusClear(
 {
 #ifdef QLOAD_FUNC_BUSY_TIME_STATS
 	/* clear busy time statistics */
-	NdisZeroMemory(pAd->QloadBusyCountPri, sizeof(pAd->QloadBusyCountPri));
-	NdisZeroMemory(pAd->QloadBusyCountSec, sizeof(pAd->QloadBusyCountSec));
+	memset(pAd->QloadBusyCountPri, 0, sizeof(pAd->QloadBusyCountPri));
+	memset(pAd->QloadBusyCountSec, 0, sizeof(pAd->QloadBusyCountSec));
 #endif /* QLOAD_FUNC_BUSY_TIME_STATS */
 
 #ifdef QLOAD_FUNC_BUSY_TIME_ALARM

@@ -259,7 +259,7 @@ VOID APPeerProbeReqAction(
 			EXT_CAP_INFO_ELEMENT	extCapInfo;
 			UCHAR extInfoLen = sizeof(EXT_CAP_INFO_ELEMENT);
 
-			NdisZeroMemory(&extCapInfo, extInfoLen);
+			memset(&extCapInfo, 0, extInfoLen);
 
 #ifdef DOT11_N_SUPPORT
 #ifdef DOT11N_DRAFT3
@@ -326,7 +326,7 @@ VOID APPeerProbeReqAction(
 			os_alloc_mem(NULL, (UCHAR **)&TmpFrame, 256);
 			if (TmpFrame != NULL)
 			{
-				NdisZeroMemory(TmpFrame, 256);
+				memset(TmpFrame, 0, 256);
 
 				/* prepare channel information */
 #ifdef EXT_BUILD_CHANNEL_LIST
@@ -390,7 +390,7 @@ VOID APPeerProbeReqAction(
 
 
 			extInfoLen = sizeof(EXT_CAP_INFO_ELEMENT);
-			NdisZeroMemory(&extCapInfo, extInfoLen);
+			memset(&extCapInfo, 0, extInfoLen);
 
 			/* P802.11n_D1.10, HT Information Exchange Support */
 			if (WMODE_CAP_N(PhyMode) && (pAd->CommonCfg.Channel <= 14) &&
@@ -451,7 +451,7 @@ VOID APPeerProbeReqAction(
 			}
 #endif /* A_BAND_SUPPORT */
 
-			NdisZeroMemory(TmpFrame, sizeof(TmpFrame));
+			memset(TmpFrame, 0, sizeof(TmpFrame));
 
 			/* prepare channel information */
 			MakeOutgoingFrame(TmpFrame+TmpLen2,     &TmpLen,
@@ -711,7 +711,7 @@ VOID APPeerBeaconAction(
 		DBGPRINT(RT_DEBUG_ERROR, ("%s: Allocate ie_list fail!!!\n", __FUNCTION__));
 		goto LabelErr;
 	}
-	NdisZeroMemory(ie_list, sizeof(BCN_IE_LIST));
+	memset(ie_list, 0, sizeof(BCN_IE_LIST));
 
 	/* Init Variable IE structure */
 	os_alloc_mem(NULL, (UCHAR **)&VarIE, MAX_VIE_LEN);
@@ -1220,7 +1220,7 @@ VOID APPeerBeaconAtScanAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 		DBGPRINT(RT_DEBUG_ERROR, ("%s: Alloc memory for ie_list fail!!!\n", __FUNCTION__));
 		return;
 	}
-	NdisZeroMemory((UCHAR *)ie_list, sizeof(BCN_IE_LIST));
+	memset((UCHAR *)ie_list, 0, sizeof(BCN_IE_LIST));
 
 	/* allocate memory */
 	os_alloc_mem(NULL, (UCHAR **)&VarIE, MAX_VIE_LEN);

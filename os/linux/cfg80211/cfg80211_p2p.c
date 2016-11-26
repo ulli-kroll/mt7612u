@@ -1026,7 +1026,7 @@ VOID CFG80211DRV_P2pClientKeyAdd(struct rtmp_adapter *pAd, VOID *pData)
 			if (pApCliEntry->wdev.WepStatus == Ndis802_11Encryption3Enabled)
 			{
 				printk("APCLI: Set AES Security Set. [%d] (GROUP) %d\n", BssIdx, pKeyInfo->KeyLen);
-				NdisZeroMemory(&pApCliEntry->SharedKey[pKeyInfo->KeyId], sizeof(CIPHER_KEY));
+				memset(&pApCliEntry->SharedKey[pKeyInfo->KeyId], 0, sizeof(CIPHER_KEY));
 				pApCliEntry->SharedKey[pKeyInfo->KeyId].KeyLen = LEN_TK;
 				memmove(pApCliEntry->SharedKey[pKeyInfo->KeyId].Key, pKeyInfo->KeyBuf, pKeyInfo->KeyLen);
 
@@ -1052,7 +1052,7 @@ VOID CFG80211DRV_P2pClientKeyAdd(struct rtmp_adapter *pAd, VOID *pData)
 			if(pMacEntry)
 			{
 				printk("APCLI: Set AES Security Set. [%d] (PAIRWISE) %d\n", BssIdx, pKeyInfo->KeyLen);
-				NdisZeroMemory(&pMacEntry->PairwiseKey, sizeof(CIPHER_KEY));
+				memset(&pMacEntry->PairwiseKey, 0, sizeof(CIPHER_KEY));
 				pMacEntry->PairwiseKey.KeyLen = LEN_TK;
 
 				memcpy(&pMacEntry->PTK[OFFSET_OF_PTK_TK], pKeyInfo->KeyBuf, OFFSET_OF_PTK_TK);
@@ -1177,7 +1177,7 @@ BOOLEAN CFG80211DRV_P2pClientConnect(struct rtmp_adapter *pAd, VOID *pData)
 
 	if (pConnInfo->pBssid != NULL)
 	{
-		NdisZeroMemory(apcli_entry->CfgApCliBssid, MAC_ADDR_LEN);
+		memset(apcli_entry->CfgApCliBssid, 0, MAC_ADDR_LEN);
 		memcpy(apcli_entry->CfgApCliBssid, pConnInfo->pBssid, MAC_ADDR_LEN);
 	}
 

@@ -117,7 +117,7 @@ NDIS_STATUS RTEnqueueInternalCmd(
 	status = os_alloc_mem(pAd, (PUCHAR *)&cmdqelmt, sizeof(CmdQElmt));
 	if ((status != NDIS_STATUS_SUCCESS) || (cmdqelmt == NULL))
 		return (NDIS_STATUS_RESOURCES);
-	NdisZeroMemory(cmdqelmt, sizeof(CmdQElmt));
+	memset(cmdqelmt, 0, sizeof(CmdQElmt));
 
 	if(InformationBufferLength > 0)
 	{

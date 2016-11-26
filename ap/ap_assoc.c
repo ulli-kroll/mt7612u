@@ -389,11 +389,11 @@ static USHORT update_associated_mac_entry(
 	else
 	{
 		pAd->MacTab.fAnyStationIsLegacy = TRUE;
-		NdisZeroMemory(&pEntry->HTCapability, sizeof(HT_CAPABILITY_IE));
+		memset(&pEntry->HTCapability, 0, sizeof(HT_CAPABILITY_IE));
 #ifdef DOT11_VHT_AC
 		// TODO: shiang-usw, it's ugly and need to revise it
-		NdisZeroMemory(&pEntry->vht_cap_ie, sizeof(VHT_CAP_IE));
-		NdisZeroMemory(&pEntry->SupportVHTMCS, sizeof(pEntry->SupportVHTMCS));
+		memset(&pEntry->vht_cap_ie, 0, sizeof(VHT_CAP_IE));
+		memset(&pEntry->SupportVHTMCS, 0, sizeof(pEntry->SupportVHTMCS));
 		pEntry->SupportRateMode &= (~SUPPORT_VHT_MODE);
 #endif /* DOT11_VHT_AC */
 	}
@@ -678,7 +678,7 @@ VOID ap_cmm_peer_assoc_req_action(
 		DBGPRINT(RT_DEBUG_ERROR, ("%s(): mem alloc failed\n", __FUNCTION__));
 		return;
 	}
-	NdisZeroMemory(ie_list, sizeof(IE_LISTS));
+	memset(ie_list, 0, sizeof(IE_LISTS));
 
 	if (!PeerAssocReqCmmSanity(pAd, isReassoc, Elem->Msg, Elem->MsgLen, ie_list))
 		goto LabelOK;
@@ -734,7 +734,7 @@ VOID ap_cmm_peer_assoc_req_action(
 		/* clear GTK state */
 		pEntry->GTKState = REKEY_NEGOTIATING;
 
-		NdisZeroMemory(&pEntry->PairwiseKey, sizeof(CIPHER_KEY));
+		memset(&pEntry->PairwiseKey, 0, sizeof(CIPHER_KEY));
 
 		/* clear this entry as no-security mode */
 		AsicRemovePairwiseKeyEntry(pAd, pEntry->wcid);
@@ -1118,7 +1118,7 @@ SendAssocResponse:
 
 
 		extInfoLen = sizeof(EXT_CAP_INFO_ELEMENT);
-		NdisZeroMemory(&extCapInfo, extInfoLen);
+		memset(&extCapInfo, 0, extInfoLen);
 
 #ifdef DOT11_N_SUPPORT
 #ifdef DOT11N_DRAFT3
@@ -1575,7 +1575,7 @@ VOID APMlmeKickOutAllSta(struct rtmp_adapter *pAd, UCHAR apidx, USHORT Reason)
         DBGPRINT(RT_DEBUG_ERROR, ("Send DISASSOC Broadcast frame(%d) with ra%d \n", Reason, apidx));
 
         /* 802.11 Header */
-        NdisZeroMemory(&DisassocHdr, sizeof(HEADER_802_11));
+        memset(&DisassocHdr, 0, sizeof(HEADER_802_11));
         DisassocHdr.FC.Type = FC_TYPE_MGMT;
         DisassocHdr.FC.SubType = SUBTYPE_DISASSOC;
         DisassocHdr.FC.ToDs = 0;

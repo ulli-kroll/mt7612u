@@ -715,7 +715,7 @@ VOID AES_CCM_MAC (
     /*
      * 1. Formatting of the Control Information and the Nonce
      */
-    NdisZeroMemory(Block, AES_BLOCK_SIZES);
+    memset(Block, 0, AES_BLOCK_SIZES);
     if (AADLength > 0)
         Block[0] |= 0x40; /* Set bit 6 to 1 */
     Temp_Value = ((MACLength - 2) >> 1) << 3; /* Set bit 3-5 to (t-2)/2 */
@@ -731,7 +731,7 @@ VOID AES_CCM_MAC (
     Block[14] = (PayloadLength >> 8) & 0xff;
     Block[15] = PayloadLength & 0xff;
 
-    NdisZeroMemory(Block_MAC, AES_BLOCK_SIZES);
+    memset(Block_MAC, 0, AES_BLOCK_SIZES);
     Temp_Length = sizeof(Block_MAC);
     RT_AES_Encrypt(Block, AES_BLOCK_SIZES , Key, KeyLength, Block_MAC, &Temp_Length);
 
@@ -741,7 +741,7 @@ VOID AES_CCM_MAC (
      *      If (2^16 - 2^8) < AADLength < 2^32, AData_Length = 6
      *      If 2^32 < AADLength < 2^64, AData_Length = 10 (not implement)
      */
-    NdisZeroMemory(Block, AES_BLOCK_SIZES);
+    memset(Block, 0, AES_BLOCK_SIZES);
     if ((AADLength > 0) && (AADLength < 0xFF00)) {
         Block_Index = 2;
         Block[0] = (AADLength >> 8) & 0xff;
@@ -766,12 +766,12 @@ VOID AES_CCM_MAC (
             Block[Temp_Index + Block_Index] = AAD[ADD_Index + Temp_Index];
         for (Temp_Index = 0; Temp_Index < AES_BLOCK_SIZES; Temp_Index++)
             Block[Temp_Index] ^= Block_MAC[Temp_Index];
-        NdisZeroMemory(Block_MAC, AES_BLOCK_SIZES);
+        memset(Block_MAC, 0, AES_BLOCK_SIZES);
         Temp_Length = sizeof(Block_MAC);
         RT_AES_Encrypt(Block, AES_BLOCK_SIZES , Key, KeyLength, Block_MAC, &Temp_Length);
         ADD_Index += Copy_Length;
         Block_Index = 0;
-        NdisZeroMemory(Block, AES_BLOCK_SIZES);
+        memset(Block, 0, AES_BLOCK_SIZES);
     }
 
     /*
@@ -779,7 +779,7 @@ VOID AES_CCM_MAC (
      */
     while (Payload_Index < PayloadLength)
     {
-        NdisZeroMemory(Block, AES_BLOCK_SIZES);
+        memset(Block, 0, AES_BLOCK_SIZES);
         Copy_Length = PayloadLength - Payload_Index;
         if (Copy_Length > AES_BLOCK_SIZES)
             Copy_Length = AES_BLOCK_SIZES;
@@ -787,7 +787,7 @@ VOID AES_CCM_MAC (
             Block[Temp_Index] = Payload[Payload_Index + Temp_Index];
         for (Temp_Index = 0; Temp_Index < AES_BLOCK_SIZES; Temp_Index++)
             Block[Temp_Index] ^= Block_MAC[Temp_Index];
-        NdisZeroMemory(Block_MAC, AES_BLOCK_SIZES);
+        memset(Block_MAC, 0, AES_BLOCK_SIZES);
         Temp_Length = sizeof(Block_MAC);
         RT_AES_Encrypt(Block, AES_BLOCK_SIZES , Key, KeyLength, Block_MAC, &Temp_Length);
         Payload_Index += Copy_Length;
@@ -880,7 +880,7 @@ INT AES_CCM_Encrypt (
     /*
      * 1. Formatting of the Counter Block
      */
-    NdisZeroMemory(Block_CTR, AES_BLOCK_SIZES);
+    memset(Block_CTR, 0, AES_BLOCK_SIZES);
     Temp_Value = (15 - NonceLength) - 1; /* Set bit 0-2 to (q-1), q = 15 - Nonce Length */
     Block_CTR[0] |= Temp_Value;
     for (Temp_Index = 0; Temp_Index < NonceLength; Temp_Index++)
@@ -1001,7 +1001,7 @@ INT AES_CCM_Decrypt (
     /*
      * 2. Formatting of the Counter Block
      */
-    NdisZeroMemory(Block_CTR, AES_BLOCK_SIZES);
+    memset(Block_CTR, 0, AES_BLOCK_SIZES);
     Temp_Value = (15 - NonceLength) - 1; /* Set bit 0-2 to (q-1), q = 15 - Nonce Length */
     Block_CTR[0] |= Temp_Value;
     for (Temp_Index = 0; Temp_Index < NonceLength; Temp_Index++)
@@ -1180,8 +1180,8 @@ VOID AES_CMAC (
     }
 
     /* Step 1.  (K1,K2) := Generate_Subkey(K); */
-    NdisZeroMemory(SubKey1, 16);
-    NdisZeroMemory(SubKey2, 16);
+    memset(SubKey1, 0, 16);
+    memset(SubKey2, 0, 16);
     AES_CMAC_GenerateSubKey(Key, KeyLength, SubKey1, SubKey2);
 
     /*
@@ -1205,7 +1205,7 @@ VOID AES_CMAC (
         for (Index = 0; Index < AES_BLOCK_SIZES; Index++)
                 Y[Index] = PlainText[PlainBlockStart + Index]^X[Index]^SubKey1[Index];
     } else {
-        NdisZeroMemory(Y, AES_BLOCK_SIZES);
+        memset(Y, 0, AES_BLOCK_SIZES);
         memmove(Y, &PlainText[PlainBlockStart], (PlainTextLength - PlainBlockStart));
         Y[(PlainTextLength - PlainBlockStart)] = 0x80;
         for (Index = 0; Index < AES_BLOCK_SIZES; Index++)

@@ -267,7 +267,7 @@ static VOID ApCliTrialConnectTimeout(
 			DBGPRINT(RT_DEBUG_TRACE, ("%s, RetryCnt:%d, pCurrState = %d, \n", __func__, pApCliEntry->NewRootApRetryCnt, *pCurrState));
 			pApCliEntry->TrialCh=0;
 			MlmeEnqueue(pAd, APCLI_CTRL_STATE_MACHINE, APCLI_CTRL_DISCONNECT_REQ, 0, NULL, ifIndex);
-			NdisZeroMemory(pAd->ApCfg.ApCliTab[ifIndex].CfgSsid, MAX_LEN_OF_SSID);//cleanup CfgSsid.
+			memset(pAd->ApCfg.ApCliTab[ifIndex].CfgSsid, 0, MAX_LEN_OF_SSID);//cleanup CfgSsid.
 			pApCliEntry->CfgSsidLen = 0;
 			pApCliEntry->NewRootApRetryCnt = 0;//cleanup retry count
 			pApCliEntry->Enable = FALSE;
@@ -350,7 +350,7 @@ static VOID ApCliTrialConnectRetryTimeout(
 			pApCliEntry->TrialCh=0;
 			ApCliLinkDown(pAd, ifIndex);
 			MlmeEnqueue(pAd, APCLI_CTRL_STATE_MACHINE, APCLI_CTRL_DISCONNECT_REQ, 0, NULL, ifIndex);
-			NdisZeroMemory(pAd->ApCfg.ApCliTab[ifIndex].CfgSsid, MAX_LEN_OF_SSID);//cleanup CfgSsid.
+			memset(pAd->ApCfg.ApCliTab[ifIndex].CfgSsid, 0, MAX_LEN_OF_SSID);//cleanup CfgSsid.
 			pApCliEntry->CfgSsidLen = 0;
 			pApCliEntry->NewRootApRetryCnt = 0;//cleanup retry count
 			pApCliEntry->Enable = FALSE;
@@ -372,7 +372,7 @@ static VOID ApCliTrialConnectRetryTimeout(
 		DBGPRINT(RT_DEBUG_TRACE, ("ApCli_SYNC - %s, jump back to origin channel to wait for User's operation!\n", __func__));
 		AsicSwitchChannel(pAd, pAd->CommonCfg.CentralChannel, TRUE);
 		AsicEnableBssSync(pAd);//jump back to origin channel, regenerate beacon.
-		NdisZeroMemory(pAd->ApCfg.ApCliTab[ifIndex].CfgSsid, MAX_LEN_OF_SSID);//cleanup CfgSsid.
+		memset(pAd->ApCfg.ApCliTab[ifIndex].CfgSsid, 0, MAX_LEN_OF_SSID);//cleanup CfgSsid.
 		pApCliEntry->CfgSsidLen = 0;
 		pApCliEntry->NewRootApRetryCnt = 0;//cleanup retry count
 		pApCliEntry->Enable = FALSE;
@@ -398,7 +398,7 @@ static VOID ApCliTrialConnectRetryTimeout(
 			DBGPRINT(RT_DEBUG_TRACE, ("%s, RetryCnt:%d, pCurrState = %d, \n", __func__, pApCliEntry->NewRootApRetryCnt, *pCurrState));
 			pApCliEntry->TrialCh=0;
 			MlmeEnqueue(pAd, APCLI_CTRL_STATE_MACHINE, APCLI_CTRL_DISCONNECT_REQ, 0, NULL, ifIndex);
-			NdisZeroMemory(pAd->ApCfg.ApCliTab[ifIndex].CfgSsid, MAX_LEN_OF_SSID);//cleanup CfgSsid.
+			memset(pAd->ApCfg.ApCliTab[ifIndex].CfgSsid, 0, MAX_LEN_OF_SSID);//cleanup CfgSsid.
 			pApCliEntry->CfgSsidLen = 0;
 			pApCliEntry->NewRootApRetryCnt = 0;//cleanup retry count
 			pApCliEntry->Enable = FALSE;
@@ -436,7 +436,7 @@ static VOID ApCliCtrlJoinReqAction(
 
 	pApCliEntry = &pAd->ApCfg.ApCliTab[ifIndex];
 
-	NdisZeroMemory(&JoinReq, sizeof(APCLI_MLME_JOIN_REQ_STRUCT));
+	memset(&JoinReq, 0, sizeof(APCLI_MLME_JOIN_REQ_STRUCT));
 
 	if (!MAC_ADDR_EQUAL(pApCliEntry->CfgApCliBssid, ZERO_MAC_ADDR))
 	{
@@ -531,8 +531,8 @@ static VOID ApCliCtrlJoinReqTimeoutAction(
 			switch to try next candidate AP.
 		*/
 		*pCurrState = APCLI_CTRL_DISCONNECTED;
-		NdisZeroMemory(pAd->MlmeAux.Bssid, MAC_ADDR_LEN);
-		NdisZeroMemory(pAd->MlmeAux.Ssid, MAX_LEN_OF_SSID);
+		memset(pAd->MlmeAux.Bssid, 0, MAC_ADDR_LEN);
+		memset(pAd->MlmeAux.Ssid, 0, MAX_LEN_OF_SSID);
 		pApCliEntry->ProbeReqCnt = 0;
 
 		if (pAd->ApCfg.ApCliAutoConnectRunning == TRUE)
@@ -549,7 +549,7 @@ static VOID ApCliCtrlJoinReqTimeoutAction(
 
 	pApCliEntry = &pAd->ApCfg.ApCliTab[ifIndex];
 
-	NdisZeroMemory(&JoinReq, sizeof(APCLI_MLME_JOIN_REQ_STRUCT));
+	memset(&JoinReq, 0, sizeof(APCLI_MLME_JOIN_REQ_STRUCT));
 
 	if (!MAC_ADDR_EQUAL(pApCliEntry->CfgApCliBssid, ZERO_MAC_ADDR))
 	{
@@ -712,8 +712,8 @@ static VOID ApCliCtrlAuthRspAction(
 		else
 		{
 			{
-				NdisZeroMemory(pApCliEntry->MlmeAux.Bssid, MAC_ADDR_LEN);
-				NdisZeroMemory(pApCliEntry->MlmeAux.Ssid, MAX_LEN_OF_SSID);
+				memset(pApCliEntry->MlmeAux.Bssid, 0, MAC_ADDR_LEN);
+				memset(pApCliEntry->MlmeAux.Ssid, 0, MAX_LEN_OF_SSID);
 				pApCliEntry->AuthReqCnt = 0;
 			}
 			*pCurrState = APCLI_CTRL_DISCONNECTED;
@@ -812,8 +812,8 @@ static VOID ApCliCtrlAuthReqTimeoutAction(
 		if (pApCliEntry->AuthReqCnt > 5)
 		{
 			*pCurrState = APCLI_CTRL_DISCONNECTED;
-			NdisZeroMemory(pApCliEntry->MlmeAux.Bssid, MAC_ADDR_LEN);
-			NdisZeroMemory(pApCliEntry->MlmeAux.Ssid, MAX_LEN_OF_SSID);
+			memset(pApCliEntry->MlmeAux.Bssid, 0, MAC_ADDR_LEN);
+			memset(pApCliEntry->MlmeAux.Ssid, 0, MAX_LEN_OF_SSID);
 			pApCliEntry->AuthReqCnt = 0;
 
 #ifdef APCLI_AUTO_CONNECT_SUPPORT
@@ -1024,8 +1024,8 @@ static VOID ApCliCtrlAssocReqTimeoutAction(
 		if (pApCliEntry->AssocReqCnt > 5)
 		{
 			*pCurrState = APCLI_CTRL_DISCONNECTED;
-			NdisZeroMemory(pAd->ApCfg.ApCliTab[ifIndex].MlmeAux.Bssid, MAC_ADDR_LEN);
-			NdisZeroMemory(pAd->ApCfg.ApCliTab[ifIndex].MlmeAux.Ssid, MAX_LEN_OF_SSID);
+			memset(pAd->ApCfg.ApCliTab[ifIndex].MlmeAux.Bssid, 0, MAC_ADDR_LEN);
+			memset(pAd->ApCfg.ApCliTab[ifIndex].MlmeAux.Ssid, 0, MAX_LEN_OF_SSID);
 			pApCliEntry->AssocReqCnt = 0;
 
 #ifdef APCLI_AUTO_CONNECT_SUPPORT
@@ -1089,9 +1089,9 @@ static VOID ApCliCtrlDisconnectReqAction(
 	pApCliEntry->Valid = FALSE;
 
 	/* clear MlmeAux.Ssid and Bssid. */
-		NdisZeroMemory(pAd->ApCfg.ApCliTab[ifIndex].MlmeAux.Bssid, MAC_ADDR_LEN);
+		memset(pAd->ApCfg.ApCliTab[ifIndex].MlmeAux.Bssid, 0, MAC_ADDR_LEN);
 		pAd->ApCfg.ApCliTab[ifIndex].MlmeAux.SsidLen = 0;
-		NdisZeroMemory(pAd->ApCfg.ApCliTab[ifIndex].MlmeAux.Ssid, MAX_LEN_OF_SSID);
+		memset(pAd->ApCfg.ApCliTab[ifIndex].MlmeAux.Ssid, 0, MAX_LEN_OF_SSID);
 		pAd->ApCfg.ApCliTab[ifIndex].MlmeAux.Rssi = 0;
 	}
 
@@ -1148,9 +1148,9 @@ static VOID ApCliCtrlPeerDeAssocReqAction(
 	pApCliEntry->Valid = FALSE;
 
 	/* clear MlmeAux.Ssid and Bssid. */
-		NdisZeroMemory(pAd->ApCfg.ApCliTab[ifIndex].MlmeAux.Bssid, MAC_ADDR_LEN);
+		memset(pAd->ApCfg.ApCliTab[ifIndex].MlmeAux.Bssid, 0, MAC_ADDR_LEN);
 		pAd->ApCfg.ApCliTab[ifIndex].MlmeAux.SsidLen = 0;
-		NdisZeroMemory(pAd->ApCfg.ApCliTab[ifIndex].MlmeAux.Ssid, MAX_LEN_OF_SSID);
+		memset(pAd->ApCfg.ApCliTab[ifIndex].MlmeAux.Ssid, 0, MAX_LEN_OF_SSID);
 		pAd->ApCfg.ApCliTab[ifIndex].MlmeAux.Rssi = 0;
 	}
 
@@ -1201,9 +1201,9 @@ static VOID ApCliCtrlDeAssocAction(
 	pApCliEntry->Valid = FALSE;
 
 	/* clear MlmeAux.Ssid and Bssid. */
-		NdisZeroMemory(pAd->ApCfg.ApCliTab[ifIndex].MlmeAux.Bssid, MAC_ADDR_LEN);
+		memset(pAd->ApCfg.ApCliTab[ifIndex].MlmeAux.Bssid, 0, MAC_ADDR_LEN);
 		pAd->ApCfg.ApCliTab[ifIndex].MlmeAux.SsidLen = 0;
-		NdisZeroMemory(pAd->ApCfg.ApCliTab[ifIndex].MlmeAux.Ssid, MAX_LEN_OF_SSID);
+		memset(pAd->ApCfg.ApCliTab[ifIndex].MlmeAux.Ssid, 0, MAX_LEN_OF_SSID);
 		pAd->ApCfg.ApCliTab[ifIndex].MlmeAux.Rssi = 0;
 	}
 
@@ -1261,9 +1261,9 @@ static VOID ApCliCtrlDeAuthAction(
 		pApCliEntry->Valid = FALSE;
 
 		/* clear MlmeAux.Ssid and Bssid. */
-		NdisZeroMemory(pAd->ApCfg.ApCliTab[ifIndex].MlmeAux.Bssid, MAC_ADDR_LEN);
+		memset(pAd->ApCfg.ApCliTab[ifIndex].MlmeAux.Bssid, 0, MAC_ADDR_LEN);
 		pAd->ApCfg.ApCliTab[ifIndex].MlmeAux.SsidLen = 0;
-		NdisZeroMemory(pAd->ApCfg.ApCliTab[ifIndex].MlmeAux.Ssid, MAX_LEN_OF_SSID);
+		memset(pAd->ApCfg.ApCliTab[ifIndex].MlmeAux.Ssid, 0, MAX_LEN_OF_SSID);
 		pAd->ApCfg.ApCliTab[ifIndex].MlmeAux.Rssi = 0;
 	}
 
@@ -1322,7 +1322,7 @@ VOID ApCliWpaMicFailureReportFrame(
     }
 
 	pPacket = (PEAPOL_PACKET)mpool;
-	NdisZeroMemory(pPacket, TX_EAPOL_BUFFER);
+	memset(pPacket, 0, TX_EAPOL_BUFFER);
 
 	pPacket->ProVer	= EAPOL_VER;
 	pPacket->ProType	= EAPOLKey;
@@ -1376,7 +1376,7 @@ VOID ApCliWpaMicFailureReportFrame(
 		              END_OF_ARGS);
 
 	/* Prepare and Fill MIC value */
-	NdisZeroMemory(Mic, sizeof(Mic));
+	memset(Mic, 0, sizeof(Mic));
 	if(wdev->WepStatus  == Ndis802_11Encryption3Enabled)
 	{	/* AES */
         	UCHAR digest[20] = {0};
@@ -1479,7 +1479,7 @@ static VOID ApCliCtrlTrialConnectAction(
 		}
 	}
 
-	NdisZeroMemory(&JoinReq, sizeof(APCLI_MLME_JOIN_REQ_STRUCT));
+	memset(&JoinReq, 0, sizeof(APCLI_MLME_JOIN_REQ_STRUCT));
 
 	if (!MAC_ADDR_EQUAL(pApCliEntry->CfgApCliBssid, ZERO_MAC_ADDR))
 	{

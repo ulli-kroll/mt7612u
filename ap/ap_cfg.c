@@ -1370,7 +1370,7 @@ INT Set_CountryCode_Proc(
 	}
 	else
 	{
-		NdisZeroMemory(pAd->CommonCfg.CountryCode, 3);
+		memset(pAd->CommonCfg.CountryCode, 0, 3);
 		pAd->CommonCfg.bCountryFlag = FALSE;
 	}
 
@@ -1448,7 +1448,7 @@ INT Set_CountryString_Proc(
 
 		for (index = 0; index < NUM_OF_COUNTRIES; index++)
 		{
-			NdisZeroMemory(name_buffer, 40);
+			memset(name_buffer, 0, 40);
 			snprintf(name_buffer, sizeof(name_buffer), "\"%s\"", (PSTRING) allCountry[index].pCountryName);
 
 			if (strncmp((PSTRING) allCountry[index].pCountryName, arg, strlen(arg)) == 0)
@@ -1505,7 +1505,7 @@ INT Set_CountryString_Proc(
 
 	if (success == TRUE)
 	{
-		NdisZeroMemory(pAd->CommonCfg.CountryCode, 3);
+		memset(pAd->CommonCfg.CountryCode, 0, 3);
 		memmove(pAd->CommonCfg.CountryCode, allCountry[index].IsoName, 2);
 		pAd->CommonCfg.CountryCode[2] = ' ';
 		/* After Set ChGeography need invoke SSID change procedural again for Beacon update. */
@@ -1557,7 +1557,7 @@ INT	Set_AP_SSID_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 	{
 		mbss = &pAd->ApCfg.MBSSID[pObj->ioctl_if];
 
-		NdisZeroMemory(mbss->Ssid, MAX_LEN_OF_SSID);
+		memset(mbss->Ssid, 0, MAX_LEN_OF_SSID);
 		memmove(mbss->Ssid, arg, strlen(arg));
 		mbss->SsidLen = (UCHAR)strlen(arg);
 		success = TRUE;
@@ -1612,7 +1612,7 @@ INT Set_TxRate_Proc(
 {
 	POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
 
-	NdisZeroMemory(pAd->ApCfg.MBSSID[pObj->ioctl_if].DesiredRates, MAX_LEN_OF_SUPPORTED_RATES);
+	memset(pAd->ApCfg.MBSSID[pObj->ioctl_if].DesiredRates, 0, MAX_LEN_OF_SUPPORTED_RATES);
 
 	pAd->ApCfg.MBSSID[pObj->ioctl_if].DesiredRatesIndex = simple_strtol(arg, 0, 10);
 	/* todo RTMPBuildDesireRate(pAd, pObj->ioctl_if, pAd->ApCfg.MBSSID[pObj->ioctl_if].DesiredRatesIndex); */
@@ -2790,7 +2790,7 @@ INT	Set_ACLAddEntry_Proc(
 		return FALSE;
 	}
 
-	NdisZeroMemory(pacl, sizeof(RT_802_11_ACL));
+	memset(pacl, 0, sizeof(RT_802_11_ACL));
 	memmove(pacl, &pAd->ApCfg.MBSSID[pObj->ioctl_if].AccessControlList, sizeof(RT_802_11_ACL));
 
 	while ((this_char = strsep((char **)&arg, ";")) != NULL)
@@ -2850,7 +2850,7 @@ INT	Set_ACLAddEntry_Proc(
 
 	ASSERT(pacl->Num < MAX_NUM_OF_ACL_LIST);
 
-	NdisZeroMemory(&pAd->ApCfg.MBSSID[pObj->ioctl_if].AccessControlList, sizeof(RT_802_11_ACL));
+	memset(&pAd->ApCfg.MBSSID[pObj->ioctl_if].AccessControlList, 0, sizeof(RT_802_11_ACL));
 	memmove(&pAd->ApCfg.MBSSID[pObj->ioctl_if].AccessControlList, pacl, sizeof(RT_802_11_ACL));
 
 	/* check if the change in ACL affects any existent association */
@@ -2898,9 +2898,9 @@ INT	Set_ACLDelEntry_Proc(
 	BOOLEAN					isFound=FALSE;
 	POS_COOKIE pObj = (POS_COOKIE) pAd->OS_Cookie;
 
-	NdisZeroMemory(&acl, sizeof(RT_802_11_ACL));
+	memset(&acl, 0, sizeof(RT_802_11_ACL));
 	memmove(&acl, &pAd->ApCfg.MBSSID[pObj->ioctl_if].AccessControlList, sizeof(RT_802_11_ACL));
-	NdisZeroMemory(nullAddr, MAC_ADDR_LEN);
+	memset(nullAddr, 0, MAC_ADDR_LEN);
 
 	while ((this_char = strsep((char **)&arg, ";")) != NULL)
 	{
@@ -2938,7 +2938,7 @@ INT	Set_ACLDelEntry_Proc(
 			if (memcmp(acl.Entry[j].Addr, &macAddr, MAC_ADDR_LEN) == 0)
 			{
 				isFound = TRUE;
-				NdisZeroMemory(acl.Entry[j].Addr, MAC_ADDR_LEN);
+				memset(acl.Entry[j].Addr, 0, MAC_ADDR_LEN);
 				DBGPRINT(RT_DEBUG_TRACE, ("The entry %02x:%02x:%02x:%02x:%02x:%02x founded will be deleted!\n",
 	        		macAddr[0],macAddr[1],macAddr[2],macAddr[3],macAddr[4],macAddr[5]));
 			}
@@ -2951,7 +2951,7 @@ INT	Set_ACLDelEntry_Proc(
 		}
 	}
 
-	NdisZeroMemory(&pAd->ApCfg.MBSSID[pObj->ioctl_if].AccessControlList, sizeof(RT_802_11_ACL));
+	memset(&pAd->ApCfg.MBSSID[pObj->ioctl_if].AccessControlList, 0, sizeof(RT_802_11_ACL));
 	pAd->ApCfg.MBSSID[pObj->ioctl_if].AccessControlList.Policy = acl.Policy;
 	ASSERT(pAd->ApCfg.MBSSID[pObj->ioctl_if].AccessControlList.Num == 0);
 	i = 0;
@@ -3035,7 +3035,7 @@ INT	Set_ACLShowAll_Proc(
 		return FALSE;  /* Invalid argument */
 	}
 
-	NdisZeroMemory(&acl, sizeof(RT_802_11_ACL));
+	memset(&acl, 0, sizeof(RT_802_11_ACL));
 	memmove(&acl, &pAd->ApCfg.MBSSID[pObj->ioctl_if].AccessControlList, sizeof(RT_802_11_ACL));
 
 	/* Check if the list is already empty. */
@@ -3110,7 +3110,7 @@ INT	Set_ACLClearAll_Proc(
 		return FALSE;
 	}
 
-	NdisZeroMemory(pacl, sizeof(RT_802_11_ACL));
+	memset(pacl, 0, sizeof(RT_802_11_ACL));
 	memmove(pacl, &pAd->ApCfg.MBSSID[pObj->ioctl_if].AccessControlList, sizeof(RT_802_11_ACL));
 
 	/* Check if the list is already empty. */
@@ -3131,13 +3131,13 @@ INT	Set_ACLClearAll_Proc(
 	/* Keep the corresponding policy unchanged. */
 	do
 	{
-		NdisZeroMemory(pacl->Entry[pacl->Num - 1].Addr, MAC_ADDR_LEN);
+		memset(pacl->Entry[pacl->Num - 1].Addr, 0, MAC_ADDR_LEN);
 		pacl->Num -= 1;
 	}while (pacl->Num > 0);
 
 	ASSERT(pacl->Num == 0);
 
-	NdisZeroMemory(&(pAd->ApCfg.MBSSID[pObj->ioctl_if].AccessControlList), sizeof(RT_802_11_ACL));
+	memset(&(pAd->ApCfg.MBSSID[pObj->ioctl_if].AccessControlList), 0, sizeof(RT_802_11_ACL));
 	memmove(&(pAd->ApCfg.MBSSID[pObj->ioctl_if].AccessControlList), pacl, sizeof(RT_802_11_ACL));
 
 	/* check if the change in ACL affects any existent association */
@@ -3293,7 +3293,7 @@ INT Set_AutoChannelSel_Proc(
 	NDIS_802_11_SSID Ssid;
 
 
-	NdisZeroMemory(&Ssid, sizeof(NDIS_802_11_SSID));
+	memset(&Ssid, 0, sizeof(NDIS_802_11_SSID));
 	if (strlen(arg) <= MAX_LEN_OF_SSID)
 	{
 		if (strlen(arg) != 0)
@@ -3856,7 +3856,7 @@ VOID RTMPIoctlQueryRadiusConf(
         DBGPRINT(RT_DEBUG_ERROR, ("!!!%s: out of resource!!!\n", __FUNCTION__));
         return;
     }
-	NdisZeroMemory(mpool, sizeof(DOT1X_CMM_CONF));
+	memset(mpool, 0, sizeof(DOT1X_CMM_CONF));
 
 	pConf = (PDOT1X_CMM_CONF)mpool;
 
@@ -4338,7 +4338,7 @@ VOID RTMPAPIoctlBBP32(struct rtmp_adapter *pAd, RTMP_IOCTL_INPUT_STRUCT *wrq)
 		return;
 	}
 
-	NdisZeroMemory(mpool, MAX_BBP_MSG_SIZE * 2 +256+12);
+	memset(mpool, 0, MAX_BBP_MSG_SIZE * 2 +256+12);
 	msg = (PSTRING)((ULONG)(mpool+3) & (ULONG)~0x03);
 	arg = (PSTRING)((ULONG)(msg+MAX_BBP_MSG_SIZE * 2+3) & (ULONG)~0x03);
 
@@ -4524,7 +4524,7 @@ VOID RTMPAPIoctlBBP(
 		return;
 	}
 
-	NdisZeroMemory(mpool, MAX_BBP_MSG_SIZE+256+12);
+	memset(mpool, MAX_BBP_MSG_SIZE+256+12);
 	msg = (PSTRING)((ULONG)(mpool+3) & (ULONG)~0x03);
 	arg = (PSTRING)((ULONG)(msg+MAX_BBP_MSG_SIZE+3) & (ULONG)~0x03);
 
@@ -4953,7 +4953,7 @@ VOID RTMPAPIoctlRF_mt(
 		return;
 	}
 
-	NdisZeroMemory(mpool, memLen);
+	memset(mpool, 0, memLen);
 	msg = (PSTRING)((ULONG)(mpool+3) & (ULONG)~0x03);
 
 	if (bIsPrintAllRF)
@@ -5012,7 +5012,7 @@ VOID RTMPAPIoctlRF_rlt(struct rtmp_adapter *pAdapter, RTMP_IOCTL_INPUT_STRUCT *w
 
 	bFromUI = ((wrq->u.data.flags & RTPRIV_IOCTL_FLAG_UI) == RTPRIV_IOCTL_FLAG_UI) ? TRUE : FALSE;
 
-	NdisZeroMemory(mpool, memLen);
+	memset(mpool, memLen);
 	msg = (PSTRING)((ULONG)(mpool+3) & (ULONG)~0x03);
 	arg = (PSTRING)((ULONG)(msg+2048+3) & (ULONG)~0x03);
 	argLen = strlen((char *)(wrq->u.data.pointer));
@@ -5108,7 +5108,7 @@ VOID RTMPAPIoctlRF(
 
 	bFromUI = ((wrq->u.data.flags & RTPRIV_IOCTL_FLAG_UI) == RTPRIV_IOCTL_FLAG_UI) ? TRUE : FALSE;
 
-	NdisZeroMemory(mpool, memLen);
+	memset(mpool, 0, memLen);
 	msg = (PSTRING)((ULONG)(mpool+3) & (ULONG)~0x03);
 	arg = (PSTRING)((ULONG)(msg+2048+3) & (ULONG)~0x03);
 
@@ -5944,7 +5944,7 @@ INT Set_ApCli_Ssid_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 		}
 #endif /* APCLI_CONNECTION_TRIAL */
 
-		NdisZeroMemory(apcli_entry->CfgSsid, MAX_LEN_OF_SSID);
+		memset(apcli_entry->CfgSsid, MAX_LEN_OF_SSID);
 		memmove(apcli_entry->CfgSsid, arg, strlen(arg));
 		apcli_entry->CfgSsidLen = (UCHAR)strlen(arg);
 		success = TRUE;
@@ -5954,7 +5954,7 @@ INT Set_ApCli_Ssid_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 			(wdev->AuthMode == Ndis802_11AuthModeWPA2PSK)) &&
 			apcli_entry->PSKLen > 0)
 		{
-			NdisZeroMemory(PskKey, 100);
+			memset(PskKey, 100);
 			memmove(PskKey, apcli_entry->PSK, apcli_entry->PSKLen);
 
 			RT_CfgSetWPAPSKKey(pAd, (PSTRING)PskKey,
@@ -6004,7 +6004,7 @@ INT Set_ApCli_Bssid_Proc(
 		ApCliIfDown(pAd);
 	}
 
-	NdisZeroMemory(pAd->ApCfg.ApCliTab[ifIndex].CfgApCliBssid, MAC_ADDR_LEN);
+	memset(pAd->ApCfg.ApCliTab[ifIndex].CfgApCliBssid, MAC_ADDR_LEN);
 
 	if(strlen(arg) == 17)  /* Mac address acceptable format 01:02:03:04:05:06 length 17 */
 	{
@@ -7227,12 +7227,12 @@ VOID RTMPApCliAddKey(
 		{
 			    if (pApCliEntry->AuthMode == Ndis802_11AuthModeWPANone)
 	            		{
-		                NdisZeroMemory(pApCliEntry->PMK, 32);
+		                memset(pApCliEntry->PMK, 32);
 		                memmove(pApCliEntry->PMK, pKey->KeyMaterial, pKey->KeyLength);
 	                		goto end;
 	            		}
 			    /* Update PTK */
-			    NdisZeroMemory(&pMacEntry->PairwiseKey, sizeof(CIPHER_KEY));
+			    memset(&pMacEntry->PairwiseKey, sizeof(CIPHER_KEY));
 	            		pMacEntry->PairwiseKey.KeyLen = LEN_TK;
 	            		memmove(pMacEntry->PairwiseKey.Key, pKey->KeyMaterial, LEN_TK);
 
@@ -7279,7 +7279,7 @@ VOID RTMPApCliAddKey(
         {
             /* Update GTK  */
             pApCliEntry->DefaultKeyId = (pKey->KeyIndex & 0xFF);
-            NdisZeroMemory(&pApCliEntry->SharedKey[pApCliEntry->DefaultKeyId], sizeof(CIPHER_KEY));
+            memset(&pApCliEntry->SharedKey[pApCliEntry->DefaultKeyId], sizeof(CIPHER_KEY));
             pApCliEntry->SharedKey[pApCliEntry->DefaultKeyId].KeyLen = LEN_TK;
             memmove(pApCliEntry->SharedKey[pApCliEntry->DefaultKeyId].Key, pKey->KeyMaterial, LEN_TK);
 
@@ -7564,7 +7564,7 @@ VOID RtmpHostapdSecuritySet(
 		if(wrqin->u.data.length != RSNIE_Len[0]+2)
 		{
 			DBGPRINT(RT_DEBUG_TRACE,("IE use WPA1 WPA2\n"));
-			NdisZeroMemory(pAd->ApCfg.MBSSID[apidx].RSN_IE[1], MAX_LEN_OF_RSNIE);
+			memset(pAd->ApCfg.MBSSID[apidx].RSN_IE[1], MAX_LEN_OF_RSNIE);
 			RSNIe[1]=*(UINT8 *)wrqin->u.data.pointer;
 			RSNIE_Len[1]=*((UINT8 *)wrqin->u.data.pointer + 1);
 			DBGPRINT(RT_DEBUG_TRACE,( "IE1 %02x %02x\n",RSNIe[1],RSNIE_Len[1]));
@@ -7575,7 +7575,7 @@ VOID RtmpHostapdSecuritySet(
 		else
 			DBGPRINT(RT_DEBUG_TRACE,("IE use only %02x\n",RSNIe[0]));
 
-		NdisZeroMemory(pAd->ApCfg.MBSSID[apidx].RSN_IE[0], MAX_LEN_OF_RSNIE);
+		memset(pAd->ApCfg.MBSSID[apidx].RSN_IE[0], MAX_LEN_OF_RSNIE);
 		RSNIe[0]=*(((UINT8 *)wrqin->u.data.pointer)+offset_next_ie);
 		RSNIE_Len[0]=*(((UINT8 *)wrqin->u.data.pointer) + offset_next_ie + 1);
 		if(IE_WPA != RSNIe[0] && IE_RSN != RSNIe[0] )
@@ -8103,13 +8103,13 @@ INT ed_monitor_exit(struct rtmp_adapter *pAd)
 	RTMP_IRQ_LOCK(&pAd->irq_lock, irqflag);
 	DBGPRINT(RT_DEBUG_OFF, ("@@@ %s : ===>\n", __FUNCTION__));
 
-	NdisZeroMemory(&pAd->ed_stat[0], sizeof(pAd->ed_stat));
-	NdisZeroMemory(&pAd->ch_idle_stat[0], sizeof(pAd->ch_idle_stat));
-	NdisZeroMemory(&pAd->ch_busy_stat[0], sizeof(pAd->ch_busy_stat));
-	NdisZeroMemory(&pAd->chk_time[0], sizeof(pAd->chk_time));
-	NdisZeroMemory(&pAd->ed_trigger_stat[0], sizeof(pAd->ed_trigger_stat));
-	NdisZeroMemory(&pAd->ed_silent_stat[0], sizeof(pAd->ed_silent_stat));
-	NdisZeroMemory(&pAd->false_cca_stat[0], sizeof(pAd->false_cca_stat));
+	memset(&pAd->ed_stat[0], sizeof(pAd->ed_stat));
+	memset(&pAd->ch_idle_stat[0], sizeof(pAd->ch_idle_stat));
+	memset(&pAd->ch_busy_stat[0], sizeof(pAd->ch_busy_stat));
+	memset(&pAd->chk_time[0], sizeof(pAd->chk_time));
+	memset(&pAd->ed_trigger_stat[0], sizeof(pAd->ed_trigger_stat));
+	memset(&pAd->ed_silent_stat[0], sizeof(pAd->ed_silent_stat));
+	memset(&pAd->false_cca_stat[0], sizeof(pAd->false_cca_stat));
 
 	pAd->ed_stat_lidx = pAd->ed_stat_sidx = 0;
 	pAd->ed_trigger_cnt = 0;
@@ -8144,13 +8144,13 @@ INT ed_monitor_init(struct rtmp_adapter *pAd)
 	RTMP_IRQ_LOCK(&pAd->irq_lock, irqflag);
 	DBGPRINT(RT_DEBUG_OFF, ("@@@ %s : ===>\n", __FUNCTION__));
 
-	NdisZeroMemory(&pAd->ed_stat[0], sizeof(pAd->ed_stat));
-	NdisZeroMemory(&pAd->ch_idle_stat[0], sizeof(pAd->ch_idle_stat));
-	NdisZeroMemory(&pAd->ch_busy_stat[0], sizeof(pAd->ch_busy_stat));
-	NdisZeroMemory(&pAd->chk_time[0], sizeof(pAd->chk_time));
-	NdisZeroMemory(&pAd->ed_trigger_stat[0], sizeof(pAd->ed_trigger_stat));
-	NdisZeroMemory(&pAd->ed_silent_stat[0], sizeof(pAd->ed_silent_stat));
-	NdisZeroMemory(&pAd->false_cca_stat[0], sizeof(pAd->false_cca_stat));
+	memset(&pAd->ed_stat[0], sizeof(pAd->ed_stat));
+	memset(&pAd->ch_idle_stat[0], sizeof(pAd->ch_idle_stat));
+	memset(&pAd->ch_busy_stat[0], sizeof(pAd->ch_busy_stat));
+	memset(&pAd->chk_time[0], sizeof(pAd->chk_time));
+	memset(&pAd->ed_trigger_stat[0], sizeof(pAd->ed_trigger_stat));
+	memset(&pAd->ed_silent_stat[0], sizeof(pAd->ed_silent_stat));
+	memset(&pAd->false_cca_stat[0], sizeof(pAd->false_cca_stat));
 
 	pAd->ed_stat_lidx = pAd->ed_stat_sidx = 0;
 	pAd->ed_trigger_cnt = 0;

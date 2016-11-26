@@ -1001,7 +1001,7 @@ VOID CFG80211OS_NewSta(IN struct net_device *pNetDev, IN const PUCHAR mac_addr, 
 	struct station_info sinfo;
 	struct ieee80211_mgmt *mgmt;
 
-	NdisZeroMemory(&sinfo, sizeof(sinfo));
+	memset(&sinfo, 0, sizeof(sinfo));
 
 /* If get error here, be sure patch the cfg80211_new_sta.patch into kernel. */
 

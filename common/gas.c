@@ -108,7 +108,7 @@ void wext_send_anqp_req_event(struct net_device *net_dev, const char *peer_mac_a
 
 	buflen = sizeof(*req_data) + anqp_req_len;
 	os_alloc_mem(NULL, (UCHAR **)&buf, buflen);
-	NdisZeroMemory(buf, buflen);
+	memset(buf, buflen);
 
 	req_data = (struct anqp_req_data *)buf;
 	req_data->ifindex = RtmpOsGetNetIfIndex(net_dev);
@@ -197,7 +197,7 @@ static VOID SendGASRsp(
 		return;
 	}
 
-	NdisZeroMemory(Buf, sizeof(*GASFrame) + VarLen);
+	memset(Buf, sizeof(*GASFrame) + VarLen);
 
 	GASFrame = (GAS_FRAME *)Buf;
 
@@ -403,7 +403,7 @@ VOID ReceiveGASInitReq(
 		return;
 	}
 
-	NdisZeroMemory(GASPeerEntry, sizeof(*GASPeerEntry));
+	memset(GASPeerEntry, sizeof(*GASPeerEntry));
 	GASPeerEntry->AllocResource++;
 
 	GASPeerEntry->CurrentState = WAIT_PEER_GAS_REQ;
@@ -435,7 +435,7 @@ VOID ReceiveGASInitReq(
 		goto error;
 	}
 
-	NdisZeroMemory(Buf, sizeof(*Event) + VarLen);
+	memset(Buf, sizeof(*Event) + VarLen);
 
 	Event = (GAS_EVENT_DATA *)Buf;
 
@@ -531,7 +531,7 @@ static VOID SendGASCBRsp(
 		return;
 	}
 
-	NdisZeroMemory(Buf, sizeof(*GASFrame) + VarLen);
+	memset(Buf, sizeof(*GASFrame) + VarLen);
 
 	GASFrame = (GAS_FRAME *)Buf;
 
@@ -708,7 +708,7 @@ VOID ReceiveGASCBReq(
 		return;
 	}
 
-	NdisZeroMemory(Buf, sizeof(*Event));
+	memset(Buf, sizeof(*Event));
 
 	Event = (GAS_EVENT_DATA *)Buf;
 
@@ -766,7 +766,7 @@ VOID ReceiveGASCBReq(
 				goto error;
 			}
 
-			NdisZeroMemory(GASPeerEntry, sizeof(*GASPeerEntry));
+			memset(GASPeerEntry, sizeof(*GASPeerEntry));
 
 			GASPeerEntry->CurrentState = WAIT_GAS_CB_REQ;
 			GASPeerEntry->ControlIndex = Event->ControlIndex;
@@ -1014,7 +1014,7 @@ static VOID SendGASIndication(
 			return;
 		}
 
-		NdisZeroMemory(Buf, sizeof(*GASRspEvent));
+		memset(Buf, sizeof(*GASRspEvent));
 
 		GASRspEvent = (GAS_EVENT_DATA *)Buf;
 
@@ -1068,7 +1068,7 @@ static VOID SendGASIndication(
 			return;
 		}
 
-		NdisZeroMemory(Buf, sizeof(*GASRspEvent));
+		memset(Buf, sizeof(*GASRspEvent));
 
 		GASRspEvent = (GAS_EVENT_DATA *)Buf;
 
@@ -1118,7 +1118,7 @@ static VOID SendGASIndication(
 			return;
 		}
 
-		NdisZeroMemory(Buf, sizeof(*GASRspEvent));
+		memset(Buf, sizeof(*GASRspEvent));
 
 		GASRspEvent = (GAS_EVENT_DATA *)Buf;
 
@@ -1175,7 +1175,7 @@ static VOID GASCtrlInit(IN struct rtmp_adapter *pAd)
 
 #ifdef CONFIG_STA_SUPPORT
 	pGASCtrl = &pAd->StaCfg.GASCtrl;
-	NdisZeroMemory(pGASCtrl, sizeof(*pGASCtrl));
+	memset(pGASCtrl, sizeof(*pGASCtrl));
 	NdisAllocateSpinLock(pAd, &pGASCtrl->GASPeerListLock);
 	DlListInit(&pGASCtrl->GASPeerList);
 #endif
@@ -1184,7 +1184,7 @@ static VOID GASCtrlInit(IN struct rtmp_adapter *pAd)
 	for (APIndex = 0; APIndex < MAX_MBSSID_NUM(pAd); APIndex++)
 	{
 		pGASCtrl = &pAd->ApCfg.MBSSID[APIndex].GASCtrl;
-		NdisZeroMemory(pGASCtrl, sizeof(*pGASCtrl));
+		memset(pGASCtrl, sizeof(*pGASCtrl));
 		NdisAllocateSpinLock(pAd, &pGASCtrl->GASPeerListLock);
 		DlListInit(&pGASCtrl->GASPeerList);
 	}

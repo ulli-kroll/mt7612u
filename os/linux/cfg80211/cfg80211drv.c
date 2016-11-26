@@ -631,7 +631,7 @@ BOOLEAN CFG80211DRV_OpsLeave(
 	pAd->cfg80211_ctrl.FlgCfg80211Connecting = FALSE;
 
     pAd->MlmeAux.AutoReconnectSsidLen= 32;
-    NdisZeroMemory(pAd->MlmeAux.AutoReconnectSsid, pAd->MlmeAux.AutoReconnectSsidLen);
+    memset(pAd->MlmeAux.AutoReconnectSsid, 0, pAd->MlmeAux.AutoReconnectSsidLen);
 
     os_alloc_mem(pAd, (UCHAR **)&pMsgElem, sizeof(MLME_QUEUE_ELEM));
 
@@ -790,7 +790,7 @@ BOOLEAN CFG80211DRV_StaKeyAdd(
 		if (pKeyInfo->KeyId == 4 || pKeyInfo->KeyId == 5)
 		{
 			// no PN is passed, PN is useless in PMF_CalculateBIPMIC()
-			NdisZeroMemory(&pPmfCfg->IPN[pKeyInfo->KeyId -4][0], LEN_WPA_TSC);
+			memset(&pPmfCfg->IPN[pKeyInfo->KeyId -4][0], 0, LEN_WPA_TSC);
 			memmove(&pPmfCfg->IGTK[pKeyInfo->KeyId -4][0], pKeyInfo->KeyBuf, pKeyInfo->KeyLen);
 		}
 		else
@@ -1324,7 +1324,7 @@ VOID CFG80211_RegRuleApply(
 	RTMP_IRQ_LOCK(&pAd->irq_lock, IrqFlags);
 
 	/* zero first */
-	NdisZeroMemory(pAd->ChannelList,
+	memset(pAd->ChannelList, 0,
 					MAX_NUM_OF_CHANNELS * sizeof(CHANNEL_TX_POWER));
 
 	/* 2.4GHZ & 5GHz */
@@ -1506,7 +1506,7 @@ BOOLEAN CFG80211_SupBandReInit(
 	CFG80211DBG(RT_DEBUG_TRACE, ("80211> re-init bands...\n"));
 
 	/* re-init bands */
-	NdisZeroMemory(&BandInfo, sizeof(BandInfo));
+	memset(&BandInfo, 0, sizeof(BandInfo));
 	CFG80211_BANDINFO_FILL(pAd, &BandInfo);
 
 	return CFG80211OS_SupBandReInit(CFG80211CB, &BandInfo);

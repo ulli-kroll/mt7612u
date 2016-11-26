@@ -308,7 +308,7 @@ INT rtmp_ee_load_from_bin(
 		}
 		else
 		{
-			NdisZeroMemory(pAd->EEPROMImage, MAX_EEPROM_BIN_FILE_SIZE);
+			memset(pAd->EEPROMImage, 0, MAX_EEPROM_BIN_FILE_SIZE);
 			ret_val = RtmpOSFileRead(srcf, (PSTRING)pAd->EEPROMImage, MAX_EEPROM_BIN_FILE_SIZE);
 
 			if (ret_val > 0)

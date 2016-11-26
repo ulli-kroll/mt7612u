@@ -1463,7 +1463,7 @@ VOID RTMPSendNullFrame(
 		return;
 	}
 
-	NdisZeroMemory(NullFrame, 48);
+	memset(NullFrame, 0, 48);
 	Length = sizeof (HEADER_802_11);
 
 	pHeader_802_11 = (PHEADER_802_11) NullFrame;
@@ -1596,7 +1596,7 @@ VOID STABuildWifiInfo(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 	pWI =
 	    (WIFI_INFO_STRUC *) & pTxBlk->HeaderBuf[TXINFO_SIZE + TXWISize];
 
-	NdisZeroMemory(pWI, WIFI_INFO_SIZE);
+	memset(pWI, 0, WIFI_INFO_SIZE);
 
 	pWI->field.QoS = (TX_BLK_TEST_FLAG(pTxBlk, fTX_bWMM)) ? 1 : 0;
 
@@ -1692,7 +1692,7 @@ VOID STABuildCommon802_11Header(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 	/* normal wlan header size : 24 octets */
 	pTxBlk->MpduHeaderLen = sizeof (HEADER_802_11);
 	wifi_hdr = (HEADER_802_11 *)&pTxBlk->HeaderBuf[TXINFO_SIZE + TXWISize + TSO_SIZE];
-	NdisZeroMemory(wifi_hdr, sizeof (HEADER_802_11));
+	memset(wifi_hdr, 0, sizeof (HEADER_802_11));
 
 	wifi_hdr->FC.FrDs = 0;
 	wifi_hdr->FC.Type = FC_TYPE_DATA;
@@ -2050,7 +2050,7 @@ VOID STA_AMPDU_Frame_Tx(
 					/* mark HTC bit */
 					pHeader_802_11->FC.Order = 1;
 
-					NdisZeroMemory(pHeaderBufPtr, sizeof(HT_CONTROL));
+					memset(pHeaderBufPtr, 0, sizeof(HT_CONTROL));
 					((PHT_CONTROL)pHeaderBufPtr)->RDG = 1;
 				}
 
@@ -2071,7 +2071,7 @@ VOID STA_AMPDU_Frame_Tx(
 				if (bHTCPlus == FALSE)
 				{
 					bHTCPlus = TRUE;
-					NdisZeroMemory(pHeaderBufPtr, sizeof(HT_CONTROL));
+					memset(pHeaderBufPtr, 0, sizeof(HT_CONTROL));
 				}
 
 				if (pMacEntry->TxSndgType == SNDG_TYPE_SOUNDING)
@@ -2118,7 +2118,7 @@ VOID STA_AMPDU_Frame_Tx(
 				if (bHTCPlus == FALSE)
 				{
 					bHTCPlus = TRUE;
-					NdisZeroMemory(pHeaderBufPtr, sizeof(HT_CONTROL));
+					memset(pHeaderBufPtr, 0, sizeof(HT_CONTROL));
 				}
 				MFB_PerPareMRQ(pAd, pHeaderBufPtr, pMacEntry);
 			}
@@ -2128,7 +2128,7 @@ VOID STA_AMPDU_Frame_Tx(
 				if (bHTCPlus == FALSE)
 				{
 					bHTCPlus = TRUE;
-					NdisZeroMemory(pHeaderBufPtr, sizeof(HT_CONTROL));
+					memset(pHeaderBufPtr, 0, sizeof(HT_CONTROL));
 				}
 				MFB_PerPareMFB(pAd, pHeaderBufPtr, pMacEntry);// not complete yet!!!
 				pMacEntry->toTxMfb = 0;
@@ -2253,12 +2253,12 @@ VOID STA_AMPDU_Frame_Tx(
 		} else {
 			RTMPWriteTxWI_Data(pAd, (TXWI_STRUC *) (&pTxBlk->HeaderBuf[TXINFO_SIZE]), pTxBlk);
 
-			NdisZeroMemory((PUCHAR) (&pMacEntry->CachedBuf[0]), sizeof (pMacEntry->CachedBuf));
+			memset((PUCHAR) (&pMacEntry->CachedBuf[0]), 0, sizeof (pMacEntry->CachedBuf));
 			memmove((PUCHAR) (&pMacEntry->CachedBuf[0]), (PUCHAR) (&pTxBlk->HeaderBuf[TXINFO_SIZE]), (pHeaderBufPtr -(PUCHAR) (&pTxBlk->HeaderBuf[TXINFO_SIZE])));
 
 #ifdef VENDOR_FEATURE1_SUPPORT
 			/* use space to get performance enhancement */
-			NdisZeroMemory((PUCHAR) (&pMacEntry->HeaderBuf[0]), sizeof (pMacEntry->HeaderBuf));
+			memset((PUCHAR) (&pMacEntry->HeaderBuf[0]), 0, sizeof (pMacEntry->HeaderBuf));
 			memmove((PUCHAR) (&pMacEntry->HeaderBuf[0]),
 				       (PUCHAR) (&pTxBlk->HeaderBuf[0]),
 				       (pHeaderBufPtr - (PUCHAR) (&pTxBlk->HeaderBuf[0])));
@@ -2393,7 +2393,7 @@ VOID STA_AMPDU_Frame_Tx_Hdr_Trns(
 					   (TXWI_STRUC *) (&pTxBlk->HeaderBuf[TXINFO_SIZE]),
 					   pTxBlk);
 
-			NdisZeroMemory((PUCHAR) (&pMacEntry->CachedBuf[0]),
+			memset((PUCHAR) (&pMacEntry->CachedBuf[0]), 0,
 				       sizeof (pMacEntry->CachedBuf));
 			memmove((PUCHAR) (&pMacEntry->CachedBuf[0]),
 				       (PUCHAR) (&pTxBlk->HeaderBuf[TXINFO_SIZE]),
@@ -2485,7 +2485,7 @@ VOID STA_AMSDU_Frame_Tx(
 			pHeaderBufPtr = &pTxBlk->HeaderBuf[0];
 			padding = ROUND_UP(AMSDU_SUBHEAD_LEN + subFramePayloadLen, 4) -
 								(AMSDU_SUBHEAD_LEN + subFramePayloadLen);
-			NdisZeroMemory(pHeaderBufPtr, padding + AMSDU_SUBHEAD_LEN);
+			memset(pHeaderBufPtr, 0, padding + AMSDU_SUBHEAD_LEN);
 			pHeaderBufPtr += padding;
 			pTxBlk->MpduHeaderLen = padding;
 		}
@@ -3332,7 +3332,7 @@ VOID STA_NDPA_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 		if (MlmeAllocateMemory(pAd, &buf) != NDIS_STATUS_SUCCESS)
 			return;
 
-		NdisZeroMemory(buf, MGMT_DMA_BUFFER_SIZE);
+		memset(buf, 0, MGMT_DMA_BUFFER_SIZE);
 
 		vht_ndpa = (VHT_NDPA_FRAME *)buf;
 		frm_len = sizeof(VHT_NDPA_FRAME);

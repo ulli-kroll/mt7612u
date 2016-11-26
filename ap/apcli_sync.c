@@ -218,8 +218,8 @@ static VOID ApCliMlmeProbeReqAction(
 	RTMPSetTimer(&(pApCliEntry->MlmeAux.ProbeTimer), PROBE_TIMEOUT);
 
 #ifdef APCLI_CONNECTION_TRIAL
-	NdisZeroMemory(pAd->ApCfg.ApCliTab[ifIndex].MlmeAux.Bssid, MAC_ADDR_LEN);
-	NdisZeroMemory(pAd->ApCfg.ApCliTab[ifIndex].MlmeAux.Ssid, MAX_LEN_OF_SSID);
+	memset(pAd->ApCfg.ApCliTab[ifIndex].MlmeAux.Bssid, 0, MAC_ADDR_LEN);
+	memset(pAd->ApCfg.ApCliTab[ifIndex].MlmeAux.Ssid, 0, MAX_LEN_OF_SSID);
 	memcpy(pAd->ApCfg.ApCliTab[ifIndex].MlmeAux.Bssid, pAd->ApCfg.ApCliTab[ifIndex].CfgApCliBssid, MAC_ADDR_LEN);
 	memcpy(pAd->ApCfg.ApCliTab[ifIndex].MlmeAux.Ssid, pAd->ApCfg.ApCliTab[ifIndex].CfgSsid, pAd->ApCfg.ApCliTab[ifIndex].CfgSsidLen);
 #endif /* APCLI_CONNECTION_TRIAL */
@@ -276,7 +276,7 @@ static VOID ApCliPeerProbeRspAtJoinAction(
 		DBGPRINT(RT_DEBUG_ERROR, ("%s: Allocate ie_list fail!!!\n", __FUNCTION__));
 		goto LabelErr;
 	}
-	NdisZeroMemory(ie_list, sizeof(BCN_IE_LIST));
+	memset(ie_list, 0, sizeof(BCN_IE_LIST));
 
 	pCurrState = &pAd->ApCfg.ApCliTab[ifIndex].SyncCurrState;
 	if (PeerBeaconAndProbeRspSanity(pAd,
@@ -467,7 +467,7 @@ static VOID ApCliPeerProbeRspAtJoinAction(
 			}
 #endif /* APCLI_CERT_SUPPORT */
 #ifdef DOT11_N_SUPPORT
-			NdisZeroMemory(pApCliEntry->RxMcsSet,sizeof(pApCliEntry->RxMcsSet));
+			memset(pApCliEntry->RxMcsSet,sizeof(pApCliEntry->RxMcsSet));
 			/* filter out un-supported ht rates */
 			if ((ie_list->HtCapabilityLen > 0) &&
 				(pApCliEntry->wdev.DesiredHtPhyInfo.bHtEnable) &&
@@ -510,9 +510,9 @@ static VOID ApCliPeerProbeRspAtJoinAction(
 			else
 #endif /* DOT11_N_SUPPORT */
 			{
-				NdisZeroMemory(&pApCliEntry->MlmeAux.APEdcaParm, sizeof(EDCA_PARM));
-				NdisZeroMemory(&pApCliEntry->MlmeAux.APQbssLoad, sizeof(QBSS_LOAD_PARM));
-				NdisZeroMemory(&pApCliEntry->MlmeAux.APQosCapability, sizeof(QOS_CAPABILITY_PARM));
+				memset(&pApCliEntry->MlmeAux.APEdcaParm, sizeof(EDCA_PARM));
+				memset(&pApCliEntry->MlmeAux.APQbssLoad, sizeof(QBSS_LOAD_PARM));
+				memset(&pApCliEntry->MlmeAux.APQosCapability, sizeof(QOS_CAPABILITY_PARM));
 			}
 
 			DBGPRINT(RT_DEBUG_TRACE, ("APCLI SYNC - after JOIN, SupRateLen=%d, ExtRateLen=%d\n",
@@ -655,7 +655,7 @@ static VOID ApCliEnqueueProbeRequest(
 				pAd->ApCfg.ApCliTab[ifIndex].CfgApCliBssid, pAd->ApCfg.ApCliTab[ifIndex].CfgApCliBssid, ifIndex);
 
 		ssidLen = SsidLen;
-		NdisZeroMemory(ssid, MAX_LEN_OF_SSID);
+		memset(ssid, MAX_LEN_OF_SSID);
 		memmove(ssid, Ssid, ssidLen);
 
 		/* this ProbeRequest explicitly specify SSID to reduce unwanted ProbeResponse */

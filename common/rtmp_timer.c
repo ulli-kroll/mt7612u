@@ -339,14 +339,14 @@ void RtmpTimerQInit(struct rtmp_adapter *pAd)
 
 	NdisAllocateSpinLock(pAd, &pAd->TimerQLock);
 
-	NdisZeroMemory(&pAd->TimerQ, sizeof(pAd->TimerQ));
+	memset(&pAd->TimerQ, 0, sizeof(pAd->TimerQ));
 
 	os_alloc_mem(pAd, &pAd->TimerQ.pTimerQPoll, sizeof(RTMP_TIMER_TASK_ENTRY) * TIMER_QUEUE_SIZE_MAX);
 	if (pAd->TimerQ.pTimerQPoll)
 	{
 		pEntry = NULL;
 		pQNode = (RTMP_TIMER_TASK_ENTRY *)pAd->TimerQ.pTimerQPoll;
-		NdisZeroMemory(pAd->TimerQ.pTimerQPoll, sizeof(RTMP_TIMER_TASK_ENTRY) * TIMER_QUEUE_SIZE_MAX);
+		memset(pAd->TimerQ.pTimerQPoll, 0, sizeof(RTMP_TIMER_TASK_ENTRY) * TIMER_QUEUE_SIZE_MAX);
 
 		RTMP_INT_LOCK(&pAd->TimerQLock, irqFlags);
 		for (i = 0 ;i <TIMER_QUEUE_SIZE_MAX; i++)

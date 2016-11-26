@@ -812,7 +812,7 @@ VOID MacTableMaintenance(struct rtmp_adapter *pAd)
 	INT total_sta = 0;
 #endif /* ED_MONITOR */
 
-	NdisZeroMemory(fAnyStationPortSecured, sizeof(fAnyStationPortSecured));
+	memset(fAnyStationPortSecured, 0, sizeof(fAnyStationPortSecured));
 
 	pMacTable = &pAd->MacTab;
 	pMacTable->fAnyStationInPsm = FALSE;
@@ -2149,7 +2149,7 @@ BOOLEAN DOT1X_InternalCmdAction(
 	UINT8			offset = 0;
 
 	/* Init the frame buffer */
-	NdisZeroMemory(FrameBuf, frame_len);
+	memset(FrameBuf, 0, frame_len);
 
 	if (pEntry)
 	{
@@ -2212,7 +2212,7 @@ BOOLEAN DOT1X_EapTriggerAction(
     if((pEntry->AuthMode == Ndis802_11AuthModeWPA) || (pEntry->AuthMode == Ndis802_11AuthModeWPA2) || (pAd->ApCfg.MBSSID[apidx].wdev.IEEE8021X == TRUE))
 	{
 		/* Init the frame buffer */
-		NdisZeroMemory(FrameBuf, frame_len);
+		memset(FrameBuf, 0, frame_len);
 
 		/* Assign apidx */
 		apidx = pEntry->apidx;

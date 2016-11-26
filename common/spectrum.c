@@ -337,7 +337,7 @@ NDIS_STATUS	MeasureReqTabInit(
 /*	pAd->CommonCfg.pMeasureReqTab = kmalloc(sizeof(MEASURE_REQ_TAB), GFP_ATOMIC);*/
 	os_alloc_mem(pAd, (UCHAR **)&(pAd->CommonCfg.pMeasureReqTab), sizeof(MEASURE_REQ_TAB));
 	if (pAd->CommonCfg.pMeasureReqTab)
-		NdisZeroMemory(pAd->CommonCfg.pMeasureReqTab, sizeof(MEASURE_REQ_TAB));
+		memset(pAd->CommonCfg.pMeasureReqTab, 0, sizeof(MEASURE_REQ_TAB));
 	else
 	{
 		DBGPRINT(RT_DEBUG_ERROR, ("%s Fail to alloc memory for pAd->CommonCfg.pMeasureReqTab.\n", __FUNCTION__));
@@ -448,7 +448,7 @@ PMEASURE_REQ_ENTRY MeasureReqInsert(
 					pProbeEntry = pProbeEntry->pNext;
 				} while (pProbeEntry);
 
-				NdisZeroMemory(pEntry, sizeof(MEASURE_REQ_ENTRY));
+				memset(pEntry, 0, sizeof(MEASURE_REQ_ENTRY));
 				pTab->Size--;
 
 				break;
@@ -543,7 +543,7 @@ VOID MeasureReqDelete(
 			pProbeEntry = pProbeEntry->pNext;
 		} while (pProbeEntry);
 
-		NdisZeroMemory(pEntry, sizeof(MEASURE_REQ_ENTRY));
+		memset(pEntry, 0, sizeof(MEASURE_REQ_ENTRY));
 		pTab->Size--;
 
 		RTMP_SEM_UNLOCK(&pAd->CommonCfg.MeasureReqTabLock);
@@ -562,7 +562,7 @@ NDIS_STATUS	TpcReqTabInit(
 /*	pAd->CommonCfg.pTpcReqTab = kmalloc(sizeof(TPC_REQ_TAB), GFP_ATOMIC);*/
 	os_alloc_mem(pAd, (UCHAR **)&(pAd->CommonCfg.pTpcReqTab), sizeof(TPC_REQ_TAB));
 	if (pAd->CommonCfg.pTpcReqTab)
-		NdisZeroMemory(pAd->CommonCfg.pTpcReqTab, sizeof(TPC_REQ_TAB));
+		memset(pAd->CommonCfg.pTpcReqTab, 0, sizeof(TPC_REQ_TAB));
 	else
 	{
 		DBGPRINT(RT_DEBUG_ERROR, ("%s Fail to alloc memory for pAd->CommonCfg.pTpcReqTab.\n", __FUNCTION__));
@@ -674,7 +674,7 @@ static PTPC_REQ_ENTRY TpcReqInsert(
 					pProbeEntry = pProbeEntry->pNext;
 				} while (pProbeEntry);
 
-				NdisZeroMemory(pEntry, sizeof(TPC_REQ_ENTRY));
+				memset(pEntry, 0, sizeof(TPC_REQ_ENTRY));
 				pTab->Size--;
 
 				break;
@@ -769,7 +769,7 @@ static VOID TpcReqDelete(
 			pProbeEntry = pProbeEntry->pNext;
 		} while (pProbeEntry);
 
-		NdisZeroMemory(pEntry, sizeof(TPC_REQ_ENTRY));
+		memset(pEntry, 0, sizeof(TPC_REQ_ENTRY));
 		pTab->Size--;
 
 		RTMP_SEM_UNLOCK(&pAd->CommonCfg.TpcReqTabLock);
@@ -1123,7 +1123,7 @@ VOID MakeMeasurementReqFrame(
 	}
 
 	/* prepare Measurement IE.*/
-	NdisZeroMemory(&MeasureReqIE, sizeof(MEASURE_REQ_INFO));
+	memset(&MeasureReqIE, 0, sizeof(MEASURE_REQ_INFO));
 	MeasureReqIE.Token = MeasureToken;
 	MeasureReqIE.ReqMode.word = MeasureReqMode;
 	MeasureReqIE.ReqType = MeasureReqType;
@@ -1181,7 +1181,7 @@ VOID EnqueueMeasurementRep(
 	InsertDialogToken(pAd, (pOutBuffer + FrameLen), &FrameLen, DialogToken);
 
 	/* prepare Measurement IE.*/
-	NdisZeroMemory(&MeasureRepIE, sizeof(MEASURE_REPORT_INFO));
+	memset(&MeasureRepIE, 0, sizeof(MEASURE_REPORT_INFO));
 	MeasureRepIE.Token = MeasureToken;
 	MeasureRepIE.ReportMode = MeasureReqMode;
 	MeasureRepIE.ReportType = MeasureReqType;
@@ -1739,7 +1739,7 @@ static VOID PeerChSwAnnAction(
 	ULONG Bssidx = 0;
 #endif /* CONFIG_STA_SUPPORT */
 
-	NdisZeroMemory(&ChSwAnnInfo, sizeof(CH_SW_ANN_INFO));
+	memset(&ChSwAnnInfo, 0, sizeof(CH_SW_ANN_INFO));
 	if (! PeerChSwAnnSanity(pAd, Elem->Msg, Elem->MsgLen, &ChSwAnnInfo))
 	{
 		DBGPRINT(RT_DEBUG_TRACE, ("Invalid Channel Switch Action Frame.\n"));
@@ -1870,8 +1870,8 @@ static VOID PeerMeasureReportAction(
 		return;
 	}
 
-	NdisZeroMemory(&MeasureReportInfo, sizeof(MEASURE_REPORT_INFO));
-	NdisZeroMemory(pMeasureReportInfo, sizeof(MEASURE_RPI_REPORT));
+	memset(&MeasureReportInfo, 0, sizeof(MEASURE_REPORT_INFO));
+	memset(pMeasureReportInfo, 0, sizeof(MEASURE_RPI_REPORT));
 	if (PeerMeasureReportSanity(pAd, Elem->Msg, Elem->MsgLen, &DialogToken, &MeasureReportInfo, pMeasureReportInfo))
 	{
 		do {
@@ -1969,7 +1969,7 @@ static VOID PeerTpcRepAction(
 	TPC_REPORT_INFO TpcRepInfo;
 	PTPC_REQ_ENTRY pEntry = NULL;
 
-	NdisZeroMemory(&TpcRepInfo, sizeof(TPC_REPORT_INFO));
+	memset(&TpcRepInfo, 0, sizeof(TPC_REPORT_INFO));
 	if (PeerTpcRepSanity(pAd, Elem->Msg, Elem->MsgLen, &DialogToken, &TpcRepInfo))
 	{
 		if ((pEntry = TpcReqLookUp(pAd, DialogToken)) != NULL)

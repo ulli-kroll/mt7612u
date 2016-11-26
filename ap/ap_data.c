@@ -645,7 +645,7 @@ static inline VOID APBuildWifiInfo(
 	pWI =
 	    (WIFI_INFO_STRUC *) & pTxBlk->HeaderBuf[TXINFO_SIZE + TXWISize];
 
-	NdisZeroMemory(pWI, WIFI_INFO_SIZE);
+	memset(pWI, 0, WIFI_INFO_SIZE);
 
 #ifdef APCLI_SUPPORT
 	if (IS_ENTRY_APCLI(pTxBlk->pMacEntry))
@@ -696,7 +696,7 @@ static inline VOID APBuildCommon802_11Header(struct rtmp_adapter *pAd, TX_BLK *p
 	/* normal wlan header size : 24 octets */
 	pTxBlk->MpduHeaderLen = sizeof(HEADER_802_11);
 	wifi_hdr = (HEADER_802_11 *) &pTxBlk->HeaderBuf[TXINFO_SIZE + TXWISize + TSO_SIZE];
-	NdisZeroMemory(wifi_hdr, sizeof(HEADER_802_11));
+	memset(wifi_hdr, 0, sizeof(HEADER_802_11));
 
 	wifi_hdr->FC.FrDs = 1;
 	wifi_hdr->FC.Type = FC_TYPE_DATA;
@@ -899,7 +899,7 @@ static inline PUCHAR AP_Build_AMSDU_Frame_Header(
 		NdisAcquireSpinLock(&pMacEntry->TxSndgLock);
 		if (pMacEntry->TxSndgType >= SNDG_TYPE_SOUNDING)
 		{
-			NdisZeroMemory(pHeaderBufPtr, sizeof(HT_CONTROL));
+			memset(pHeaderBufPtr, 0, sizeof(HT_CONTROL));
 
 			if (pMacEntry->TxSndgType == SNDG_TYPE_SOUNDING)
 			{
@@ -954,7 +954,7 @@ static inline PUCHAR AP_Build_AMSDU_Frame_Header(
 			if (bHTCPlus == FALSE)
 			{
 				bHTCPlus = TRUE;
-				NdisZeroMemory(pHeaderBufPtr, sizeof(HT_CONTROL));
+				memset(pHeaderBufPtr, 0, sizeof(HT_CONTROL));
 			}
 
 			MFB_PerPareMRQ(pAd, pHeaderBufPtr, pMacEntry);
@@ -964,7 +964,7 @@ static inline PUCHAR AP_Build_AMSDU_Frame_Header(
 		{
 			if (bHTCPlus == FALSE)
 			{
-				NdisZeroMemory(pHeaderBufPtr, sizeof(HT_CONTROL));
+				memset(pHeaderBufPtr, 0, sizeof(HT_CONTROL));
 				bHTCPlus = TRUE;
 			}
 
@@ -1145,7 +1145,7 @@ VOID AP_AMPDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 #endif /* TXBF_SUPPORT */
 		)
 		{
-			NdisZeroMemory(pHeaderBufPtr, sizeof(HT_CONTROL));
+			memset(pHeaderBufPtr, 0, sizeof(HT_CONTROL));
 			((PHT_CONTROL)pHeaderBufPtr)->RDG = 1;
 			bHTCPlus = TRUE;
 		}
@@ -1160,7 +1160,7 @@ VOID AP_AMPDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 			{
 				if (bHTCPlus == FALSE)
 				{
-				NdisZeroMemory(pHeaderBufPtr, sizeof(HT_CONTROL));
+				memset(pHeaderBufPtr, 0, sizeof(HT_CONTROL));
 					bHTCPlus = TRUE;
 				}
 
@@ -1216,7 +1216,7 @@ VOID AP_AMPDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 			{
 				if (bHTCPlus == FALSE)
 				{
-				NdisZeroMemory(pHeaderBufPtr, sizeof(HT_CONTROL));
+				memset(pHeaderBufPtr, 0, sizeof(HT_CONTROL));
 					bHTCPlus = TRUE;
 				}
 				MFB_PerPareMRQ(pAd, pHeaderBufPtr, pMacEntry);
@@ -1227,7 +1227,7 @@ VOID AP_AMPDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 			{
 				if (bHTCPlus == FALSE)
 				{
-				NdisZeroMemory(pHeaderBufPtr, sizeof(HT_CONTROL));
+				memset(pHeaderBufPtr, 0, sizeof(HT_CONTROL));
 					bHTCPlus = TRUE;
 				}
 				MFB_PerPareMFB(pAd, pHeaderBufPtr, pMacEntry);/* not complete yet!!! */
@@ -1351,13 +1351,13 @@ VOID AP_AMPDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 
 
 
-		NdisZeroMemory((PUCHAR)(&pMacEntry->CachedBuf[0]), sizeof(pMacEntry->CachedBuf));
+		memset((PUCHAR)(&pMacEntry->CachedBuf[0]), 0, sizeof(pMacEntry->CachedBuf));
 		memmove(&pMacEntry->CachedBuf[0], &pTxBlk->HeaderBuf[TXINFO_SIZE],
 						(pHeaderBufPtr - (PUCHAR)(&pTxBlk->HeaderBuf[TXINFO_SIZE])));
 
 #ifdef VENDOR_FEATURE1_SUPPORT
 		/* use space to get performance enhancement */
-		NdisZeroMemory((PUCHAR)(&pMacEntry->HeaderBuf[0]), sizeof(pMacEntry->HeaderBuf));
+		memset((PUCHAR)(&pMacEntry->HeaderBuf[0]), 0, sizeof(pMacEntry->HeaderBuf));
 		memmove(&pMacEntry->HeaderBuf[0], &pTxBlk->HeaderBuf[0],
 						(pHeaderBufPtr - (PUCHAR)(&pTxBlk->HeaderBuf[0])));
 #endif /* VENDOR_FEATURE1_SUPPORT */
@@ -1473,7 +1473,7 @@ VOID AP_AMPDU_Frame_Tx_Hdr_Trns(
 	)
 	{
 		/* It should be cleared!!! */
-		/*NdisZeroMemory((PUCHAR)(&pTxBlk->HeaderBuf[0]), sizeof(pTxBlk->HeaderBuf)); */
+		/*memset((PUCHAR)(&pTxBlk->HeaderBuf[0]), 0, sizeof(pTxBlk->HeaderBuf)); */
 		memmove(&pTxBlk->HeaderBuf[TXINFO_SIZE], &pMacEntry->CachedBuf[0],TXWISize + WIFI_INFO_SIZE);
 
 		pWiBufPtr = (PUCHAR)(&pTxBlk->HeaderBuf[TXINFO_SIZE + TXWISize]);
@@ -1533,7 +1533,7 @@ VOID AP_AMPDU_Frame_Tx_Hdr_Trns(
 	{
 		RTMPWriteTxWI_Data(pAd, (TXWI_STRUC *)(&pTxBlk->HeaderBuf[TXINFO_SIZE]), pTxBlk);
 
-		NdisZeroMemory((PUCHAR)(&pMacEntry->CachedBuf[0]), sizeof(pMacEntry->CachedBuf));
+		memset((PUCHAR)(&pMacEntry->CachedBuf[0]), 0, sizeof(pMacEntry->CachedBuf));
 		memmove(&pMacEntry->CachedBuf[0], pTxBlk->HeaderBuf[TXINFO_SIZE],
 						TXWISize + WIFI_INFO_SIZE);
 
@@ -1694,7 +1694,7 @@ VOID AP_AMSDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 		{
 			pHeaderBufPtr = &pTxBlk->HeaderBuf[TXINFO_SIZE];
 			padding = ROUND_UP(AMSDU_SUBHEAD_LEN + subFramePayloadLen, 4) - (AMSDU_SUBHEAD_LEN + subFramePayloadLen);
-			NdisZeroMemory(pHeaderBufPtr, padding + AMSDU_SUBHEAD_LEN);
+			memset(pHeaderBufPtr, 0, padding + AMSDU_SUBHEAD_LEN);
 			pHeaderBufPtr += padding;
 			pTxBlk->MpduHeaderLen = padding;
 			pTxBlk->HdrPadLen += padding;
@@ -1935,7 +1935,7 @@ VOID AP_Legacy_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 			NdisAcquireSpinLock(&pMacEntry->TxSndgLock);
 			if (pMacEntry->TxSndgType >= SNDG_TYPE_SOUNDING)
 			{
-				NdisZeroMemory(pHeaderBufPtr, sizeof(HT_CONTROL));
+				memset(pHeaderBufPtr, 0, sizeof(HT_CONTROL));
 
 				if (pMacEntry->TxSndgType == SNDG_TYPE_SOUNDING)
 				{
@@ -1989,7 +1989,7 @@ VOID AP_Legacy_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 			{
 				if (bHTCPlus == FALSE)
 				{
-					NdisZeroMemory(pHeaderBufPtr, sizeof(HT_CONTROL));
+					memset(pHeaderBufPtr, 0, sizeof(HT_CONTROL));
 					bHTCPlus = TRUE;
 				}
 				MFB_PerPareMRQ(pAd, pHeaderBufPtr, pMacEntry);
@@ -2000,7 +2000,7 @@ VOID AP_Legacy_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 			{
 				if (bHTCPlus == FALSE)
 				{
-					NdisZeroMemory(pHeaderBufPtr, sizeof(HT_CONTROL));
+					memset(pHeaderBufPtr, 0, sizeof(HT_CONTROL));
 					bHTCPlus = TRUE;
 				}
 
@@ -2887,7 +2887,7 @@ VOID AP_NDPA_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 		if (MlmeAllocateMemory(pAd, &buf) != NDIS_STATUS_SUCCESS)
 			return;
 
-		NdisZeroMemory(buf, MGMT_DMA_BUFFER_SIZE);
+		memset(buf, 0, MGMT_DMA_BUFFER_SIZE);
 
 		vht_ndpa = (VHT_NDPA_FRAME *)buf;
 		frm_len = sizeof(VHT_NDPA_FRAME);
@@ -5028,7 +5028,7 @@ VOID ApCliRTMPSendNullFrame(
 		return;
 	}
 
-	NdisZeroMemory(NullFrame, 48);
+	memset(NullFrame, 0, 48);
 	Length = sizeof(HEADER_802_11);
 
 	pHeader_802_11 = (PHEADER_802_11) NullFrame;

@@ -110,7 +110,7 @@ VOID MlmeADDBAAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 	struct rtmp_wifi_dev *wdev;
 
 	pInfo = (MLME_ADDBA_REQ_STRUCT *)Elem->Msg;
-	NdisZeroMemory(&Frame, sizeof(FRAME_ADDBA_REQ));
+	memset(&Frame, 0, sizeof(FRAME_ADDBA_REQ));
 
 	if(MlmeAddBAReqSanity(pAd, Elem->Msg, Elem->MsgLen, Addr) &&
 		VALID_WCID(pInfo->Wcid))
@@ -212,7 +212,7 @@ VOID MlmeDELBAAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 
 	pInfo = (MLME_DELBA_REQ_STRUCT *)Elem->Msg;
 	/* must send back DELBA */
-	NdisZeroMemory(&Frame, sizeof(FRAME_DELBA_REQ));
+	memset(&Frame, 0, sizeof(FRAME_DELBA_REQ));
 	DBGPRINT(RT_DEBUG_TRACE, ("==> MlmeDELBAAction(), Initiator(%d) \n", pInfo->Initiator));
 
 	if(MlmeDelBAReqSanity(pAd, Elem->Msg, Elem->MsgLen) &&
@@ -385,8 +385,8 @@ VOID SendBSS2040CoexistMgmtAction(
 
 	DBGPRINT(RT_DEBUG_TRACE, ("SendBSS2040CoexistMgmtAction(): Wcid=%d, apidx=%d, InfoReq=%d!\n", Wcid, apidx, InfoReq));
 
-	NdisZeroMemory((PUCHAR)&BssCoexistInfo, sizeof(BSS_2040_COEXIST_ELEMENT));
-	NdisZeroMemory((PUCHAR)&BssIntolerantInfo, sizeof(BSS_2040_INTOLERANT_CH_REPORT));
+	memset((PUCHAR)&BssCoexistInfo, 0, sizeof(BSS_2040_COEXIST_ELEMENT));
+	memset((PUCHAR)&BssIntolerantInfo, 0, sizeof(BSS_2040_INTOLERANT_CH_REPORT));
 
 	BssCoexistInfo.ElementID = IE_2040_BSS_COEXIST;
 	BssCoexistInfo.Len = 1;
@@ -1247,7 +1247,7 @@ VOID ActHeaderInit(
     IN UCHAR *sa,
     IN UCHAR *bssid)
 {
-    NdisZeroMemory(pHdr80211, sizeof(HEADER_802_11));
+    memset(pHdr80211, 0, sizeof(HEADER_802_11));
 	pHdr80211->FC.Type = FC_TYPE_MGMT;
     pHdr80211->FC.SubType = SUBTYPE_ACTION;
 
@@ -1265,7 +1265,7 @@ VOID BarHeaderInit(
 {
 /*	USHORT	Duration;*/
 
-	NdisZeroMemory(pCntlBar, sizeof(FRAME_BAR));
+	memset(pCntlBar, 0, sizeof(FRAME_BAR));
 	pCntlBar->FC.Type = FC_TYPE_CNTL;
 	pCntlBar->FC.SubType = SUBTYPE_BLOCK_ACK_REQ;
    	pCntlBar->BarControl.MTID = 0;

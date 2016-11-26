@@ -643,7 +643,7 @@ VOID RTUSBBulkOutDataPacket(struct rtmp_adapter *pAd, UCHAR BulkOutPipeId, UCHAR
 
 		/* USB DMA engine requires to pad extra 4 bytes. This pad doesn't count into real bulkoutsize.*/
 	pAppendant = &pWirelessPkt[TmpBulkEndPos];
-	NdisZeroMemory(pAppendant, 8);
+	memset(pAppendant, 0, 8);
 		ThisBulkSize += 4;
 		pHTTXContext->LastOne = TRUE;
 
@@ -1032,7 +1032,7 @@ VOID DoBulkIn(IN struct rtmp_adapter *pAd)
 	RTMP_IRQ_UNLOCK(&pAd->BulkInLock, IrqFlags);
 
 	/* Init Rx context descriptor*/
-	NdisZeroMemory(pRxContext->TransferBuffer, pRxContext->BulkInOffset);
+	memset(pRxContext->TransferBuffer, 0, pRxContext->BulkInOffset);
 	RTUSBInitRxDesc(pAd, pRxContext);
 
 	pUrb = pRxContext->pUrb;

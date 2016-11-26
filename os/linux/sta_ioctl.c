@@ -1004,7 +1004,7 @@ int rt_ioctl_giwscan(struct net_device *dev,
 		/*================================ */
         if (pIoctlScan->pBssTable[i].WpaIeLen > 0)
         {
-    		NdisZeroMemory(&iwe, sizeof(iwe));
+    		memset(&iwe, 0, sizeof(iwe));
 			memset(&custom[0], 0, MAX_CUSTOM_LEN);
     		iwe.cmd = IWEVCUSTOM;
             iwe.u.data.length = (pIoctlScan->pBssTable[i].WpaIeLen * 2) + 7;
@@ -1027,7 +1027,7 @@ int rt_ioctl_giwscan(struct net_device *dev,
         /*WPA2 IE */
         if (pIoctlScan->pBssTable[i].RsnIeLen > 0)
         {
-    		NdisZeroMemory(&iwe, sizeof(iwe));
+    		memset(&iwe, 0, sizeof(iwe));
 			memset(&custom[0], 0, MAX_CUSTOM_LEN);
     		iwe.cmd = IWEVCUSTOM;
             iwe.u.data.length = (pIoctlScan->pBssTable[i].RsnIeLen * 2) + 7;

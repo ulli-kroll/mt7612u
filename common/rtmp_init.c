@@ -85,7 +85,7 @@ NDIS_STATUS RTMPAllocAdapterBlock(VOID *handle, struct rtmp_adapter **ppAdapter)
 			DBGPRINT_ERR(("Failed to allocate memory - BeaconBuf!\n"));
 			break;
 		}
-		NdisZeroMemory(pBeaconBuf, MAX_BEACON_SIZE);
+		memset(pBeaconBuf, 0, MAX_BEACON_SIZE);
 
 		/* Allocate struct rtmp_adapter memory block*/
 		Status = AdapterBlockAllocateMemory(handle, (PVOID *)&pAd, sizeof(struct rtmp_adapter));
@@ -2151,7 +2151,7 @@ VOID NICUpdateRawCounters(struct rtmp_adapter *pAd)
 
 		if (pDiag->inited == 0)
 		{
-			NdisZeroMemory(pDiag, sizeof(struct _RtmpDiagStrcut_));
+			memset(pDiag, 0, sizeof(struct _RtmpDiagStrcut_));
 			pDiag->ArrayStartIdx = pDiag->ArrayCurIdx = 0;
 			pDiag->inited = 1;
 		}
@@ -2188,7 +2188,7 @@ VOID NICUpdateRawCounters(struct rtmp_adapter *pAd)
 			INC_RING_INDEX(pDiag->ArrayCurIdx,  DIAGNOSE_TIME);
 			ArrayCurIdx = pDiag->ArrayCurIdx;
 
-			NdisZeroMemory(&pDiag->diag_info[ArrayCurIdx], sizeof(pDiag->diag_info[ArrayCurIdx]));
+			memset(&pDiag->diag_info[ArrayCurIdx], 0, sizeof(pDiag->diag_info[ArrayCurIdx]));
 
 			if (pDiag->ArrayCurIdx == pDiag->ArrayStartIdx)
 				INC_RING_INDEX(pDiag->ArrayStartIdx,  DIAGNOSE_TIME);
@@ -2435,7 +2435,7 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 
 	pAd->CommonCfg.TxPower = 100; /*mW*/
 
-	NdisZeroMemory(&pAd->CommonCfg.IOTestParm, sizeof(pAd->CommonCfg.IOTestParm));
+	memset(&pAd->CommonCfg.IOTestParm, 0, sizeof(pAd->CommonCfg.IOTestParm));
 #ifdef CONFIG_STA_SUPPORT
 	pAd->CountDowntoPsm = 0;
 	pAd->StaCfg.Connectinfoflag = FALSE;
@@ -2550,7 +2550,7 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 	pAd->CommonCfg.TxStream = 0;
 	pAd->CommonCfg.RxStream = 0;
 
-	NdisZeroMemory(&pAd->BeaconTxWI, TXWISize);
+	memset(&pAd->BeaconTxWI, 0, TXWISize);
 
 #ifdef DOT11_VHT_AC
 	if (IS_MT76x2(pAd))
@@ -2560,7 +2560,7 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 #endif /* DOT11_VHT_AC */
 
 #ifdef DOT11_N_SUPPORT
-	NdisZeroMemory(&pAd->CommonCfg.HtCapability, sizeof(pAd->CommonCfg.HtCapability));
+	memset(&pAd->CommonCfg.HtCapability, 0, sizeof(pAd->CommonCfg.HtCapability));
 	pAd->HTCEnable = FALSE;
 	pAd->bBroadComHT = FALSE;
 	pAd->CommonCfg.bRdg = FALSE;
@@ -2582,7 +2582,7 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 
 	pAd->CommonCfg.bRcvBSSWidthTriggerEvents = FALSE;
 
-	NdisZeroMemory(&pAd->CommonCfg.AddHTInfo, sizeof(pAd->CommonCfg.AddHTInfo));
+	memset(&pAd->CommonCfg.AddHTInfo, 0, sizeof(pAd->CommonCfg.AddHTInfo));
 	pAd->CommonCfg.BACapability.field.MMPSmode = MMPS_DISABLE;
 	pAd->CommonCfg.BACapability.field.MpduDensity = 0;
 	pAd->CommonCfg.BACapability.field.Policy = IMMED_BA;
@@ -2702,7 +2702,7 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 		pAd->CommonCfg.NdisRadioStateOff = FALSE;		/* New to support microsoft disable radio with OID command*/
 
 		pAd->StaCfg.RssiTrigger = 0;
-		NdisZeroMemory(&pAd->StaCfg.RssiSample, sizeof(RSSI_SAMPLE));
+		memset(&pAd->StaCfg.RssiSample, 0, sizeof(RSSI_SAMPLE));
 		pAd->StaCfg.RssiTriggerMode = RSSI_TRIGGERED_UPON_BELOW_THRESHOLD;
 		pAd->StaCfg.AtimWin = 0;
 		pAd->StaCfg.DefaultListenCount = 3;/*default listen count;*/
@@ -2761,7 +2761,7 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 		if (pAd->StaCfg.LastScanTime > 10 * OS_HZ)
 			pAd->StaCfg.LastScanTime -= (10 * OS_HZ);
 
-		NdisZeroMemory(pAd->nickname, IW_ESSID_MAX_SIZE+1);
+		memset(pAd->nickname, 0, IW_ESSID_MAX_SIZE+1);
 #ifdef PROFILE_STORE
 		pAd->bWriteDat = FALSE;
 #endif /* PROFILE_STORE */
@@ -2786,12 +2786,12 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 		pAd->StaCfg.wpa_supplicant_info.WpaSupplicantScanCount = 0;
 #endif /* WPA_SUPPLICANT_SUPPORT */
 
-		NdisZeroMemory(pAd->StaCfg.ReplayCounter, 8);
+		memset(pAd->StaCfg.ReplayCounter, 0, 8);
 
 
 		pAd->StaCfg.bAutoConnectByBssid = FALSE;
 		pAd->StaCfg.BeaconLostTime = BEACON_LOST_TIME;
-		NdisZeroMemory(pAd->StaCfg.WpaPassPhrase, 64);
+		memset(pAd->StaCfg.WpaPassPhrase, 0, 64);
 		pAd->StaCfg.WpaPassPhraseLen = 0;
 		pAd->StaCfg.bAutoRoaming = FALSE;
 		pAd->StaCfg.bForceTxBurst = FALSE;
@@ -2855,7 +2855,7 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 
 			/* PMK cache setting*/
 			mbss->PMKCachePeriod = (10 * 60 * OS_HZ); /* unit : tick(default: 10 minute)*/
-			NdisZeroMemory(&mbss->PMKIDCache, sizeof(NDIS_AP_802_11_PMKID));
+			memset(&mbss->PMKIDCache, 0, sizeof(NDIS_AP_802_11_PMKID));
 
 			/* dot1x related per BSS */
 			mbss->radius_srv_num = 0;
@@ -2977,7 +2977,7 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 	pAd->BbpForCCK = FALSE;
 
 	/* initialize MAC table and allocate spin lock*/
-	NdisZeroMemory(&pAd->MacTab, sizeof(MAC_TABLE));
+	memset(&pAd->MacTab, 0, sizeof(MAC_TABLE));
 	InitializeQueueHeader(&pAd->MacTab.McastPsQueue);
 	NdisAllocateSpinLock(pAd, &pAd->MacTabLock);
 
@@ -3592,8 +3592,8 @@ static INT RtmpChipOpsRegister(struct rtmp_adapter *pAd, INT infType)
 	RTMP_CHIP_OP *pChipOps = &pAd->chipOps;
 	int ret = 0;
 
-	NdisZeroMemory(pChipOps, sizeof(RTMP_CHIP_OP));
-	NdisZeroMemory(&pAd->chipCap, sizeof(RTMP_CHIP_CAP));
+	memset(pChipOps, 0, sizeof(RTMP_CHIP_OP));
+	memset(&pAd->chipCap, 0, sizeof(RTMP_CHIP_CAP));
 
 	ret = RtmpChipOpsHook(pAd);
 

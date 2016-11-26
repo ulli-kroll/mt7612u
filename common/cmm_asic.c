@@ -1669,7 +1669,7 @@ VOID AsicSetEdcaParm(struct rtmp_adapter *pAd, PEDCA_PARM pEdcaParm)
 
 		RTMP_IO_WRITE32(pAd, WMM_AIFSN_CFG, 0x00002222);
 
-		NdisZeroMemory(&pAd->CommonCfg.APEdcaParm, sizeof(EDCA_PARM));
+		memset(&pAd->CommonCfg.APEdcaParm, 0, sizeof(EDCA_PARM));
 
 	}
 	else
@@ -2012,8 +2012,8 @@ VOID RTMPGetTxTscFromAsic(struct rtmp_adapter *pAd, UCHAR apidx, UCHAR *pTxTsc)
 	}
 
 	/* Initial value */
-	NdisZeroMemory(IvEiv, 8);
-	NdisZeroMemory(pTxTsc, 6);
+	memset(IvEiv, 0, 8);
+	memset(pTxTsc, 0, 6);
 
 	/* Get apidx for this BSSID */
 	GET_GroupKey_WCID(pAd, Wcid, apidx);
@@ -3209,7 +3209,7 @@ INT AsicReadAggCnt(struct rtmp_adapter *pAd, ULONG *aggCnt, int cnt_len)
 	};
 
 
-	NdisZeroMemory(aggCnt, cnt_len * sizeof(ULONG));
+	memset(aggCnt, 0, cnt_len * sizeof(ULONG));
 	seg = (sizeof(aggReg) /sizeof(USHORT));
 
 	cnt = 0;
@@ -3307,10 +3307,10 @@ VOID RT28xxAndesWOWEnable(
 	MAC_TABLE_ENTRY *pEntry = NULL;
 
 
-	NdisZeroMemory(&CmdUnit, sizeof(CmdUnit));
+	memset(&CmdUnit, sizeof(CmdUnit));
 
 	/* WOW enable */
-	NdisZeroMemory(&wow_param, sizeof(wow_param));
+	memset(&wow_param, sizeof(wow_param));
 
 	wow_param.Parameter = WOW_ENABLE; /* WOW enable */
 	wow_param.Value = TRUE;
@@ -3330,7 +3330,7 @@ VOID RT28xxAndesWOWEnable(
 
 	RtmpOsMsDelay(1);
 	/* mask configuration */
-	NdisZeroMemory(&mask_cfg, sizeof(mask_cfg));
+	memset(&mask_cfg, sizeof(mask_cfg));
 
 	mask_cfg.Config_Type = WOW_MASK_CFG; 	/* detect mask config */
 	mask_cfg.Function_Enable = TRUE;
@@ -3355,7 +3355,7 @@ VOID RT28xxAndesWOWEnable(
 	/* security configuration */
 	if (pAd->StaCfg.AuthMode >= Ndis802_11AuthModeWPAPSK)
 	{
-		NdisZeroMemory(&sec_cfg, sizeof(sec_cfg));
+		memset(&sec_cfg, sizeof(sec_cfg));
 
 		sec_cfg.Config_Type = WOW_SEC_CFG; 	/* security config */
 
@@ -3395,7 +3395,7 @@ VOID RT28xxAndesWOWEnable(
 
 	/* Infra configuration */
 
-	NdisZeroMemory(&infra_cfg, sizeof(infra_cfg));
+	memset(&infra_cfg, sizeof(infra_cfg));
 
 	infra_cfg.Config_Type = WOW_INFRA_CFG; 	/* infra config */
 
@@ -3426,7 +3426,7 @@ VOID RT28xxAndesWOWEnable(
 	/* P2P configuration */
 
 	/* Wakeup Option */
-	NdisZeroMemory(&wow_param, sizeof(wow_param));
+	memset(&wow_param, sizeof(wow_param));
 
 	wow_param.Parameter = WOW_WAKEUP; /* Wakeup Option */
 	if (pAd->WOW_Cfg.bInBand)
@@ -3462,7 +3462,7 @@ VOID RT28xxAndesWOWEnable(
 
 
 	/* traffic to Andes */
-	NdisZeroMemory(&wow_param, sizeof(wow_param));
+	memset(&wow_param, sizeof(wow_param));
 	wow_param.Parameter = WOW_TRAFFIC; /* Traffic switch */
 	wow_param.Value = WOW_PKT_TO_ANDES;	/* incoming packet to FW */
 
@@ -3500,10 +3500,10 @@ VOID RT28xxAndesWOWDisable(
     //pAd->Flags &= ~0x80000;
     RTMP_CLEAR_FLAG(pAd, fRTMP_ADAPTER_IDLE_RADIO_OFF);
 
-    NdisZeroMemory(&CmdUnit, sizeof(CmdUnit));
+    memset(&CmdUnit, sizeof(CmdUnit));
 
     /* WOW disable */
-    NdisZeroMemory(&param, sizeof(param));
+    memset(&param, sizeof(param));
     param.Parameter = WOW_ENABLE;
     param.Value = FALSE;
 
@@ -3523,7 +3523,7 @@ VOID RT28xxAndesWOWDisable(
 
 
     /* traffic to Host */
-    NdisZeroMemory(&param, sizeof(param));
+    memset(&param, 0, sizeof(param));
     param.Parameter = WOW_TRAFFIC;
     param.Value = WOW_PKT_TO_HOST;
 

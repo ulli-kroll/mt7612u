@@ -107,7 +107,7 @@ static INT CFG80211DRV_UpdateApSettingFromBeacon(struct rtmp_adapter *pAd, UINT 
 	ht_info = cfg80211_find_ie(CFG_HT_OP_EID, pBeacon->beacon_tail, pBeacon->beacon_tail_len);
 
 	/* SSID */
-	NdisZeroMemory(pMbss->Ssid, pMbss->SsidLen);
+	memset(pMbss->Ssid, 0, pMbss->SsidLen);
 	if (ssid_ie == NULL)
 	{
 		memmove(pMbss->Ssid, "CFG_Linux_GO", 12);
@@ -526,7 +526,7 @@ BOOLEAN CFG80211DRV_ApKeyDel(
 
 		if (pEntry && (pEntry->Aid != 0))
 		{
-			NdisZeroMemory(&pEntry->PairwiseKey, sizeof(CIPHER_KEY));
+			memset(&pEntry->PairwiseKey, 0, sizeof(CIPHER_KEY));
 			AsicRemovePairwiseKeyEntry(pAd, (UCHAR)pEntry->Aid);
 		}
 	}

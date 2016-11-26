@@ -824,7 +824,7 @@ NTSTATUS RTUSBWriteRFRegister(struct rtmp_adapter *pAd, UINT32 Value)
 	UINT i = 0;
 	NTSTATUS status;
 
-	NdisZeroMemory(&PhyCsr4, sizeof(RF_CSR_CFG0_STRUC));
+	memset(&PhyCsr4, sizeof(RF_CSR_CFG0_STRUC));
 
 	RTMP_SEM_EVENT_WAIT(&pAd->reg_atomic, status);
 	if (status != 0) {

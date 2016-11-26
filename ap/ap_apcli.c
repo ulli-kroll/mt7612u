@@ -171,7 +171,7 @@ VOID ApCliMgtMacHeaderInit(
     IN UCHAR *pBssid,
     IN USHORT ifIndex)
 {
-    NdisZeroMemory(pHdr80211, sizeof(HEADER_802_11));
+    memset(pHdr80211, 0, sizeof(HEADER_802_11));
     pHdr80211->FC.Type = FC_TYPE_MGMT;
     pHdr80211->FC.SubType = SubType;
     pHdr80211->FC.ToDs = ToDs;
@@ -299,7 +299,7 @@ BOOLEAN ApCliCheckVht(
 	}
 
 	/* Will check ChannelWidth for MCSSet[4] below */
-	//NdisZeroMemory(&pApCliEntry->MlmeAux.vht_cap.mcs_set, sizeof(VHT_MCS_SET));
+	//memset(&pApCliEntry->MlmeAux.vht_cap.mcs_set, 0, sizeof(VHT_MCS_SET));
 	//pApCliEntry->MlmeAux.vht_cap.mcs_set.rx_high_rate = pAd->CommonCfg.RxStream * 325;
 	//pApCliEntry->MlmeAux.vht_cap.mcs_set.tx_high_rate = pAd->CommonCfg.TxStream * 325;
 
@@ -320,7 +320,7 @@ VOID ComposeP2PPsPoll(
     	struct rtmp_wifi_dev *wdev;
        wdev = &pApCliEntry->wdev;
 
-	NdisZeroMemory(&pApCliEntry->PsPollFrame, sizeof (PSPOLL_FRAME));
+	memset(&pApCliEntry->PsPollFrame, 0, sizeof (PSPOLL_FRAME));
 	pApCliEntry->PsPollFrame.FC.Type = FC_TYPE_CNTL;
 	pApCliEntry->PsPollFrame.FC.SubType = SUBTYPE_PS_POLL;
 	pApCliEntry->PsPollFrame.Aid = pAd->ApCfg.ApCliTab[0].MlmeAux.Aid | 0xC000;
@@ -336,7 +336,7 @@ VOID ComposeP2PNullFrame(
    	struct rtmp_wifi_dev *wdev;
        wdev = &pApCliEntry->wdev;
 
-	NdisZeroMemory(&pApCliEntry->NullFrame, sizeof (HEADER_802_11));
+	memset(&pApCliEntry->NullFrame, 0, sizeof (HEADER_802_11));
 	pApCliEntry->NullFrame.FC.Type = FC_TYPE_DATA;
 	pApCliEntry->NullFrame.FC.SubType = SUBTYPE_DATA_NULL;
 	pApCliEntry->NullFrame.FC.ToDs = 1;
@@ -2163,7 +2163,7 @@ BOOLEAN APCliInstallSharedKey(
 	apcli_entry->wdev.DefaultKeyId = DefaultKeyIdx;
 
 	/* Update shared key table */
-	NdisZeroMemory(&apcli_entry->SharedKey[DefaultKeyIdx], sizeof(CIPHER_KEY));
+	memset(&apcli_entry->SharedKey[DefaultKeyIdx], 0, sizeof(CIPHER_KEY));
 	apcli_entry->SharedKey[DefaultKeyIdx].KeyLen = GTK_len;
 	memmove(apcli_entry->SharedKey[DefaultKeyIdx].Key, pKey, LEN_TK);
 	if (GTK_len == LEN_TKIP_GTK)
@@ -2631,7 +2631,7 @@ BOOLEAN ApCliAutoConnectExec(
 		}
 	}
 
-	NdisZeroMemory(&pSsidBssTab->BssEntry[pSsidBssTab->BssNr], sizeof(BSS_ENTRY));
+	memset(&pSsidBssTab->BssEntry[pSsidBssTab->BssNr], 0, sizeof(BSS_ENTRY));
 
 	/*
 		Sort by Rssi in the increasing order, and connect to
@@ -2719,7 +2719,7 @@ VOID ApCliSwitchCandidateAP(
 		delete (zero) the previous connected-failled entry and always
 		connect to the last entry in talbe until the talbe is empty.
 	*/
-	NdisZeroMemory(&pSsidBssTab->BssEntry[--pSsidBssTab->BssNr], sizeof(BSS_ENTRY));
+	memset(&pSsidBssTab->BssEntry[--pSsidBssTab->BssNr], 0, sizeof(BSS_ENTRY));
 	lastEntryIdx = pSsidBssTab->BssNr -1;
 
 	if ((pSsidBssTab->BssNr > 0) && (pSsidBssTab->BssNr < MAX_LEN_OF_BSS_TABLE))

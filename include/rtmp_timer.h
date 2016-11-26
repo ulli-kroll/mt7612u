@@ -62,7 +62,7 @@ typedef struct _RALINK_TIMER_STRUCT {
 	BOOLEAN Repeat;		/* True if periodic timer */
 	ULONG TimerValue;	/* Timer value in milliseconds */
 	ULONG cookie;		/* os specific object */
-	void *pAd;
+	struct rtmp_adapter *pAd;
 #ifdef RTMP_TIMER_TASK_SUPPORT
 	RTMP_TIMER_TASK_HANDLE handle;
 #endif				/* RTMP_TIMER_TASK_SUPPORT */
@@ -92,7 +92,7 @@ void rtmp_timer_##_func(unsigned long data)										\
 	struct rtmp_adapter 		*_pAd;											\
 																			\
 	_pTimer->handle = _func;													\
-	_pAd = (struct rtmp_adapter *)_pTimer->pAd;										\
+	_pAd = _pTimer->pAd;										\
 	_pQNode = RtmpTimerQInsert(_pAd, _pTimer); 								\
 	if ((_pQNode == NULL) && (_pAd->TimerQ.status & RTMP_TASK_CAN_DO_INSERT))	\
 		RTMP_OS_Add_Timer(&_pTimer->TimerObj, OS_HZ);               					\

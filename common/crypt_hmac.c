@@ -62,15 +62,15 @@ VOID RT_HMAC_SHA1 (
     UINT8 Digest[SHA1_DIGEST_SIZE];
     UINT index;
 
-    NdisZeroMemory(&sha_ctx1, sizeof(SHA1_CTX_STRUC));
-    NdisZeroMemory(&sha_ctx2, sizeof(SHA1_CTX_STRUC));
+    memset(&sha_ctx1, 0, sizeof(SHA1_CTX_STRUC));
+    memset(&sha_ctx2, 0, sizeof(SHA1_CTX_STRUC));
     /*
      * If the length of K = B(Block size): K0 = K.
      * If the length of K > B: hash K to obtain an L byte string,
      * then append (B-L) zeros to create a B-byte string K0 (i.e., K0 = H(K) || 00...00).
      * If the length of K < B: append zeros to the end of K to create a B-byte string K0
      */
-    NdisZeroMemory(K0, SHA1_BLOCK_SIZE);
+    memset(K0, 0, SHA1_BLOCK_SIZE);
     if (KeyLen <= SHA1_BLOCK_SIZE)
         memmove(K0, Key, KeyLen);
     else
@@ -145,15 +145,15 @@ VOID RT_HMAC_SHA256 (
     UINT8 Digest[SHA256_DIGEST_SIZE];
     UINT index;
 
-    NdisZeroMemory(&sha_ctx1, sizeof(SHA256_CTX_STRUC));
-    NdisZeroMemory(&sha_ctx2, sizeof(SHA256_CTX_STRUC));
+    memset(&sha_ctx1, 0, sizeof(SHA256_CTX_STRUC));
+    memset(&sha_ctx2, 0, sizeof(SHA256_CTX_STRUC));
     /*
      * If the length of K = B(Block size): K0 = K.
      * If the length of K > B: hash K to obtain an L byte string,
      * then append (B-L) zeros to create a B-byte string K0 (i.e., K0 = H(K) || 00...00).
      * If the length of K < B: append zeros to the end of K to create a B-byte string K0
      */
-    NdisZeroMemory(K0, SHA256_BLOCK_SIZE);
+    memset(K0, 0, SHA256_BLOCK_SIZE);
     if (KeyLen <= SHA256_BLOCK_SIZE) {
         memmove(K0, Key, KeyLen);
     } else {
@@ -229,15 +229,15 @@ VOID RT_HMAC_MD5(
     UINT8 Digest[MD5_DIGEST_SIZE];
     UINT index;
 
-    NdisZeroMemory(&md5_ctx1, sizeof(MD5_CTX_STRUC));
-    NdisZeroMemory(&md5_ctx2, sizeof(MD5_CTX_STRUC));
+    memset(&md5_ctx1, 0, sizeof(MD5_CTX_STRUC));
+    memset(&md5_ctx2, 0, sizeof(MD5_CTX_STRUC));
     /*
      * If the length of K = B(Block size): K0 = K.
      * If the length of K > B: hash K to obtain an L byte string,
      * then append (B-L) zeros to create a B-byte string K0 (i.e., K0 = H(K) || 00...00).
      * If the length of K < B: append zeros to the end of K to create a B-byte string K0
      */
-    NdisZeroMemory(K0, MD5_BLOCK_SIZE);
+    memset(K0, 0, MD5_BLOCK_SIZE);
     if (KeyLen <= MD5_BLOCK_SIZE) {
         memmove(K0, Key, KeyLen);
     } else {

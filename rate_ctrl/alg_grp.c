@@ -497,7 +497,7 @@ VOID TriggerQuickInitMCSRate(
 {
    	PUCHAR pTable;
    	pTable = pEntry->pTable;
-    NdisZeroMemory(pEntry->DownTxMCSRate, sizeof(pEntry->DownTxMCSRate));
+    memset(pEntry->DownTxMCSRate, 0, sizeof(pEntry->DownTxMCSRate));
 
 #ifdef DOT11_VHT_AC
 #ifdef NEW_RATE_ADAPT_SUPPORT
@@ -599,7 +599,7 @@ BOOLEAN QuickInitMCSRate(
 
         pEntry->LastSaveRateIdx = CurrRateIdx;
 
-        NdisZeroMemory(pEntry->DownTxMCSRate, sizeof(pEntry->DownTxMCSRate));
+        memset(pEntry->DownTxMCSRate, 0, sizeof(pEntry->DownTxMCSRate));
 
         MlmeClearAllTxQuality(pEntry);	/* clear all history */
 

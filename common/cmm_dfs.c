@@ -2849,8 +2849,8 @@ static void dfs_sw_init(struct rtmp_adapter *pAd)
 		pDfsSwParam->hw_idx[k] = 0;
 	}
 
-	NdisZeroMemory(pDfsSwParam->DFS_T, sizeof(pDfsSwParam->DFS_T));
-	NdisZeroMemory(pDfsSwParam->DFS_W, sizeof(pDfsSwParam->DFS_W));
+	memset(pDfsSwParam->DFS_T, sizeof(pDfsSwParam->DFS_T));
+	memset(pDfsSwParam->DFS_W, sizeof(pDfsSwParam->DFS_W));
 }
 
 void modify_table1(struct rtmp_adapter *pAd, ULONG idx, ULONG value)
@@ -3217,7 +3217,7 @@ static VOID SwCheckDfsEventWithFw(
 		if (BBPR127_OWERID == 1)
 			continue;
 
-		NdisZeroMemory(BBPR127_Table, DFS_EVENT_BUFFER_SIZE);
+		memset(BBPR127_Table, DFS_EVENT_BUFFER_SIZE);
 		RTUSBMultiRead(pAd, BBPR127TABLE_OFFSET + (BBP127TableIdx * 512), BBPR127_Table, DFS_EVENT_BUFFER_SIZE);
 
 		OwenerIDValue = 0x01;

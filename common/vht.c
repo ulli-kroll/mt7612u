@@ -115,7 +115,7 @@ VOID trigger_vht_ndpa(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *entry)
 	if (MlmeAllocateMemory(pAd, &buf) != NDIS_STATUS_SUCCESS)
 		return;
 
-	NdisZeroMemory(buf, MGMT_DMA_BUFFER_SIZE);
+	memset(buf, 0, MGMT_DMA_BUFFER_SIZE);
 
 	vht_ndpa = (VHT_NDPA_FRAME *)buf;
 	frm_len = sizeof(VHT_NDPA_FRAME);
@@ -159,7 +159,7 @@ VOID trigger_vht_ndpa(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *entry)
 		UCHAR *qos_p;
 		UCHAR NullFrame[48];
 
-		NdisZeroMemory(NullFrame, 48);
+		memset(NullFrame, 0, 48);
 		pNullFr = (PHEADER_802_11)&NullFrame[0];
 		frm_len = sizeof(HEADER_802_11);
 
@@ -336,7 +336,7 @@ INT build_vht_txpwr_envelope(struct rtmp_adapter *pAd, UCHAR *buf)
 	INT len = 0, pwr_cnt;
 	VHT_TXPWR_ENV_IE txpwr_env;
 
-	NdisZeroMemory(&txpwr_env, sizeof(txpwr_env));
+	memset(&txpwr_env, 0, sizeof(txpwr_env));
 
 	if (pAd->CommonCfg.vht_bw == VHT_BW_80) {
 		pwr_cnt = 2;
@@ -373,7 +373,7 @@ INT build_vht_op_ie(struct rtmp_adapter *pAd, UCHAR *buf)
 	UINT16 tmp;
 #endif /* RT_BIG_ENDIAN */
 
-	NdisZeroMemory((UCHAR *)&vht_op, sizeof(VHT_OP_IE));
+	memset((UCHAR *)&vht_op, 0, sizeof(VHT_OP_IE));
 	vht_op.vht_op_info.ch_width = (pAd->CommonCfg.vht_bw == VHT_BW_80 ? 1: 0);
 
 #ifdef CONFIG_AP_SUPPORT
@@ -457,7 +457,7 @@ INT build_vht_cap_ie(struct rtmp_adapter *pAd, UCHAR *buf)
 	UINT64 tmp_2;
 #endif /*RT_BIG_ENDIAN*/
 
-	NdisZeroMemory((UCHAR *)&vht_cap_ie,  sizeof(VHT_CAP_IE));
+	memset((UCHAR *)&vht_cap_ie,  0, sizeof(VHT_CAP_IE));
 	vht_cap_ie.vht_cap.max_mpdu_len = 0; // TODO: Ask Jerry about hardware limitation.
 	vht_cap_ie.vht_cap.ch_width = 0; /* not support 160 or 80 + 80 MHz */
 

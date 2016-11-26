@@ -315,12 +315,12 @@ VOID RtmpKickOutHwNullFrame(
 	{
 		NState = MlmeAllocateMemory(pAd, (PUCHAR *)&pNullFrame);
 
-		NdisZeroMemory(pNullFrame, 48);
+		memset(pNullFrame, 48);
 
 		if (NState == NDIS_STATUS_SUCCESS)
 		{
 			pTxWI = &NullTxWI;
-			NdisZeroMemory(pTxWI, TXWISize);
+			memset(pTxWI, TXWISize);
 
 			pNullFr = (PHEADER_802_11) pNullFrame;
 			Length = sizeof(HEADER_802_11);

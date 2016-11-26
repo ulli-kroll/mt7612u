@@ -86,7 +86,7 @@ VOID RTMPWriteTxWI(
 		Todo: remove the following line if short preamble functionality works
 	*/
 	OPSTATUS_CLEAR_FLAG(pAd, fOP_STATUS_SHORT_PREAMBLE_INUSED);
-	NdisZeroMemory(&TxWI, TXWISize);
+	memset(&TxWI, 0, TXWISize);
 	pTxWI = &TxWI;
 
 #ifdef DOT11_N_SUPPORT
@@ -281,7 +281,7 @@ VOID RTMPWriteTxWI_Data(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pTx
 		Todo: remove the following line if short preamble functionality works
 	*/
 	OPSTATUS_CLEAR_FLAG(pAd, fOP_STATUS_SHORT_PREAMBLE_INUSED);
-	NdisZeroMemory(pTxWI, TXWISize);
+	memset(pTxWI, 0, TXWISize);
 
 #ifdef CONFIG_STA_SUPPORT
 #endif /* CONFIG_STA_SUPPORT */

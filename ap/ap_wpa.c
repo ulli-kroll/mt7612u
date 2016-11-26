@@ -1163,7 +1163,7 @@ VOID ieee80211_notify_michael_failure(
 		       ether_sprintf(pHeader->Addr2));
 	 }
 	RtmpOSWrielessEventSend(pAd->net_dev, RT_WLAN_EVENT_CUSTOM, -1, NULL, NULL, 0);
-/*	NdisZeroMemory(&wrqu, sizeof(wrqu)); */
+/*	memset(&wrqu, 0, sizeof(wrqu)); */
 /*	wrqu.data.length = strlen(buf); */
 /*	wireless_send_event(dev, RT_WLAN_EVENT_CUSTOM, &wrqu, buf); */
 }
@@ -1191,12 +1191,12 @@ VOID    ApcliWpaSendEapolStart(
 
 	DBGPRINT(RT_DEBUG_TRACE, ("-----> ApCliWpaSendEapolStart\n"));
 
-	NdisZeroMemory(Header802_3,sizeof(UCHAR)*14);
+	memset(Header802_3,0, sizeof(UCHAR)*14);
 
 	MAKE_802_3_HEADER(Header802_3, pBssid, &pApCliEntry->wdev.if_addr[0], EAPOL);
 
 	// Zero message 2 body
-	NdisZeroMemory(&Packet, sizeof(Packet));
+	memset(&Packet, 0, sizeof(Packet));
 	Packet.Version = EAPOL_VER;
 	Packet.Type    = EAPOLStart;
 	Packet.Length  = cpu2be16(0);
@@ -1225,7 +1225,7 @@ VOID	ApCliRTMPReportMicError(
 	{
 		pAd->ApCfg.ApCliTab[ifIndex].MicErrCnt++;
 		pAd->ApCfg.ApCliTab[ifIndex].LastMicErrorTime = Now;
-		NdisZeroMemory(pAd->ApCfg.ApCliTab[ifIndex].ReplayCounter, 8);
+		memset(pAd->ApCfg.ApCliTab[ifIndex].ReplayCounter, 0, 8);
 	}
 	else if (pAd->ApCfg.ApCliTab[ifIndex].MicErrCnt == 1)
 	{

@@ -1236,7 +1236,7 @@ VOID MlmeResetRalinkCounters(struct rtmp_adapter *pAd)
 	if (!ATE_ON(pAd))
 #endif /* RALINK_ATE */
 		/* for performace enchanement */
-		NdisZeroMemory(&pAd->RalinkCounters,
+		memset(&pAd->RalinkCounters, 0,
 						(UINT32)&pAd->RalinkCounters.OneSecEnd -
 						(UINT32)&pAd->RalinkCounters.OneSecStart);
 
@@ -3468,7 +3468,7 @@ VOID BssTableInit(BSS_TABLE *Tab)
 	{
 		UCHAR *pOldAddr = Tab->BssEntry[i].pVarIeFromProbRsp;
 
-		NdisZeroMemory(&Tab->BssEntry[i], sizeof(BSS_ENTRY));
+		memset(&Tab->BssEntry[i], 0, sizeof(BSS_ENTRY));
 
 		Tab->BssEntry[i].Rssi = -127;	/* initial the rssi as a minimum value */
 		if (pOldAddr)
@@ -3626,7 +3626,7 @@ VOID BssTableDeleteEntry(BSS_TABLE *Tab, UCHAR *pBssid, UCHAR Channel)
 			}
 
 			pOldAddr = Tab->BssEntry[Tab->BssNr - 1].pVarIeFromProbRsp;
-			NdisZeroMemory(&(Tab->BssEntry[Tab->BssNr - 1]), sizeof(BSS_ENTRY));
+			memset(&(Tab->BssEntry[Tab->BssNr - 1]), 0, sizeof(BSS_ENTRY));
 			if (pOldAddr)
 			{
 				RTMPZeroMemory(pOldAddr, MAX_VIE_LEN);
@@ -3665,7 +3665,7 @@ VOID BssEntrySet(
 		/* We have to prevent this case overwrite correct table*/
 		if (NdisEqualMemory(ie_list->Ssid, ZeroSsid, ie_list->SsidLen) == 0)
 		{
-			NdisZeroMemory(pBss->Ssid, MAX_LEN_OF_SSID);
+			memset(pBss->Ssid, 0, MAX_LEN_OF_SSID);
 			memmove(pBss->Ssid, ie_list->Ssid, ie_list->SsidLen);
 			pBss->SsidLen = ie_list->SsidLen;
 			pBss->Hidden = 0;
@@ -3676,7 +3676,7 @@ VOID BssEntrySet(
 		/* avoid  Hidden SSID form beacon to overwirite correct SSID from probe response */
 		if (NdisEqualMemory(pBss->Ssid, ZeroSsid, pBss->SsidLen))
 		{
-			NdisZeroMemory(pBss->Ssid, MAX_LEN_OF_SSID);
+			memset(pBss->Ssid, 0, MAX_LEN_OF_SSID);
 			pBss->SsidLen = 0;
 		}
 	}
@@ -3804,14 +3804,14 @@ VOID BssEntrySet(
 
 
 #ifdef CONFIG_STA_SUPPORT
-		NdisZeroMemory(&pBss->WpaIE.IE[0], MAX_CUSTOM_LEN);
-		NdisZeroMemory(&pBss->RsnIE.IE[0], MAX_CUSTOM_LEN);
-		NdisZeroMemory(&pBss->WpsIE.IE[0], MAX_CUSTOM_LEN);
+		memset(&pBss->WpaIE.IE[0], 0, MAX_CUSTOM_LEN);
+		memset(&pBss->RsnIE.IE[0], 0, MAX_CUSTOM_LEN);
+		memset(&pBss->WpsIE.IE[0], 0, MAX_CUSTOM_LEN);
 		pBss->WpaIE.IELen = 0;
 		pBss->RsnIE.IELen = 0;
 		pBss->WpsIE.IELen = 0;
 #ifdef EXT_BUILD_CHANNEL_LIST
-		NdisZeroMemory(&pBss->CountryString[0], 3);
+		memset(&pBss->CountryString[0], 0, 3);
 		pBss->bHasCountryIE = FALSE;
 #endif /* EXT_BUILD_CHANNEL_LIST */
 #endif /* CONFIG_STA_SUPPORT */
@@ -3955,13 +3955,13 @@ ULONG BssTableSetEntry(
 					)
 				{
 					Idx = Tab->BssOverlapNr;
-					NdisZeroMemory(&(Tab->BssEntry[Idx]), sizeof(BSS_ENTRY));
+					memset(&(Tab->BssEntry[Idx]), 0, sizeof(BSS_ENTRY));
 					BssEntrySet(pAd, &Tab->BssEntry[Idx], ie_list, Rssi, LengthVIE, pVIE);
 					Tab->BssOverlapNr += 1;
 					Tab->BssOverlapNr = Tab->BssOverlapNr % MAX_LEN_OF_BSS_TABLE;
 #ifdef RT_CFG80211_SUPPORT
 					pAd->cfg80211_ctrl.Cfg_pending_SsidLen = 0;
-					NdisZeroMemory(pAd->cfg80211_ctrl.Cfg_pending_Ssid, MAX_LEN_OF_SSID+1);
+					memset(pAd->cfg80211_ctrl.Cfg_pending_Ssid, 0, MAX_LEN_OF_SSID+1);
 #endif /* RT_CFG80211_SUPPORT */
 				}
 				return Idx;
@@ -4758,7 +4758,7 @@ VOID MgtMacHeaderInit(
 	IN UCHAR *pSA,
 	IN UCHAR *pBssid)
 {
-	NdisZeroMemory(pHdr80211, sizeof(HEADER_802_11));
+	memset(pHdr80211, 0, sizeof(HEADER_802_11));
 
 	pHdr80211->FC.Type = FC_TYPE_MGMT;
 	pHdr80211->FC.SubType = SubType;
@@ -4789,7 +4789,7 @@ VOID MgtMacHeaderInitExt(
     IN UCHAR *pAddr2,
     IN UCHAR *pAddr3)
 {
-    NdisZeroMemory(pHdr80211, sizeof(HEADER_802_11));
+    memset(pHdr80211, 0, sizeof(HEADER_802_11));
 
     pHdr80211->FC.Type = FC_TYPE_MGMT;
     pHdr80211->FC.SubType = SubType;
@@ -4870,7 +4870,7 @@ NDIS_STATUS MlmeQueueInit(struct rtmp_adapter *pAd, MLME_QUEUE *Queue)
 	{
 		Queue->Entry[i].Occupied = FALSE;
 		Queue->Entry[i].MsgLen = 0;
-		NdisZeroMemory(Queue->Entry[i].Msg, MGMT_DMA_BUFFER_SIZE);
+		memset(Queue->Entry[i].Msg, 0, MGMT_DMA_BUFFER_SIZE);
 	}
 
 	return NDIS_STATUS_SUCCESS;
@@ -5676,7 +5676,7 @@ BOOLEAN RTMPCheckHt(
 	}
 
 	/* Will check ChannelWidth for MCSSet[4] below*/
-	NdisZeroMemory(&pAd->MlmeAux.HtCapability.MCSSet[0], 16);
+	memset(&pAd->MlmeAux.HtCapability.MCSSet[0], 0, 16);
 	pAd->MlmeAux.HtCapability.MCSSet[4] = 0x1;
 	switch (pAd->CommonCfg.RxStream)
 	{
@@ -5794,7 +5794,7 @@ BOOLEAN RTMPCheckVht(
 	}
 
 	/* Will check ChannelWidth for MCSSet[4] below */
-	NdisZeroMemory(&pAd->MlmeAux.vht_cap.mcs_set, sizeof(VHT_MCS_SET));
+	memset(&pAd->MlmeAux.vht_cap.mcs_set, 0, sizeof(VHT_MCS_SET));
 	pAd->MlmeAux.vht_cap.mcs_set.rx_high_rate = pAd->CommonCfg.RxStream * 325;
 	pAd->MlmeAux.vht_cap.mcs_set.tx_high_rate = pAd->CommonCfg.TxStream * 325;
 

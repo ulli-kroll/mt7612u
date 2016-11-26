@@ -224,7 +224,7 @@ VOID MlmeAssocReqAction(
 		/*COPY_MAC_ADDR(pAd->StaCfg.AssocInfo.RequestFixedIEs.CurrentAPAddress, ApAddr); */
 		pAd->StaCfg.AssocInfo.OffsetRequestIEs = sizeof (NDIS_802_11_ASSOCIATION_INFORMATION);
 
-		NdisZeroMemory(pAd->StaCfg.ReqVarIEs, MAX_VIE_LEN);
+		memset(pAd->StaCfg.ReqVarIEs, 0, MAX_VIE_LEN);
 		/* First add SSID */
 		VarIesOffset = 0;
 		memmove(pAd->StaCfg.ReqVarIEs + VarIesOffset, &SsidIe, 1);
@@ -291,7 +291,7 @@ VOID MlmeAssocReqAction(
 			PHT_CAPABILITY_IE pHtCapability;
 #ifdef RT_BIG_ENDIAN
 			HT_CAPABILITY_IE HtCapabilityTmp;
-			NdisZeroMemory(&HtCapabilityTmp, sizeof (HT_CAPABILITY_IE));
+			memset(&HtCapabilityTmp, 0, sizeof (HT_CAPABILITY_IE));
 			memmove(&HtCapabilityTmp, &pAd->MlmeAux.HtCapability, pAd->MlmeAux.HtCapabilityLen);
 			*(USHORT *) (&HtCapabilityTmp.HtCapInfo) = SWAP16(*(USHORT *) (&HtCapabilityTmp.HtCapInfo));
 			*(USHORT *) (&HtCapabilityTmp.ExtHtCapInfo) = SWAP16(*(USHORT *) (&HtCapabilityTmp.ExtHtCapInfo));
@@ -348,7 +348,7 @@ VOID MlmeAssocReqAction(
 			UCHAR extInfoLen;
 
 			extInfoLen = sizeof (EXT_CAP_INFO_ELEMENT);
-			NdisZeroMemory(&extCapInfo, extInfoLen);
+			memset(&extCapInfo, 0, extInfoLen);
 
 #ifdef DOT11N_DRAFT3
 			if ((pAd->CommonCfg.bBssCoexEnable == TRUE) &&
@@ -414,7 +414,7 @@ VOID MlmeAssocReqAction(
 			    && pAd->MlmeAux.APEdcaParm.bAPSDCapable) {
 				QBSS_STA_INFO_PARM QosInfo;
 
-				NdisZeroMemory(&QosInfo, sizeof(QBSS_STA_INFO_PARM));
+				memset(&QosInfo, 0, sizeof(QBSS_STA_INFO_PARM));
 				QosInfo.UAPSD_AC_BE = pAd->CommonCfg.bAPSDAC_BE;
 				QosInfo.UAPSD_AC_BK = pAd->CommonCfg.bAPSDAC_BK;
 				QosInfo.UAPSD_AC_VI = pAd->CommonCfg.bAPSDAC_VI;
@@ -676,7 +676,7 @@ VOID MlmeReassocReqAction(
 			    && pAd->MlmeAux.APEdcaParm.bAPSDCapable) {
 				QBSS_STA_INFO_PARM QosInfo;
 
-				NdisZeroMemory(&QosInfo, sizeof (QBSS_STA_INFO_PARM));
+				memset(&QosInfo, 0, sizeof (QBSS_STA_INFO_PARM));
 				QosInfo.UAPSD_AC_BE = pAd->CommonCfg.bAPSDAC_BE;
 				QosInfo.UAPSD_AC_BK = pAd->CommonCfg.bAPSDAC_BK;
 				QosInfo.UAPSD_AC_VI = pAd->CommonCfg.bAPSDAC_VI;
@@ -701,7 +701,7 @@ VOID MlmeReassocReqAction(
 
 #ifdef RT_BIG_ENDIAN
 			HT_CAPABILITY_IE HtCapabilityTmp;
-			NdisZeroMemory(&HtCapabilityTmp, sizeof (HT_CAPABILITY_IE));
+			memset(&HtCapabilityTmp, 0, sizeof (HT_CAPABILITY_IE));
 			memmove(&HtCapabilityTmp, &pAd->MlmeAux.HtCapability, pAd->MlmeAux.HtCapabilityLen);
 			*(USHORT *) (&HtCapabilityTmp.HtCapInfo) = SWAP16(*(USHORT *) (&HtCapabilityTmp.HtCapInfo));
 			*(USHORT *) (&HtCapabilityTmp.ExtHtCapInfo) = SWAP16(*(USHORT *) (&HtCapabilityTmp.ExtHtCapInfo));
@@ -759,7 +759,7 @@ VOID MlmeReassocReqAction(
 			EXT_CAP_INFO_ELEMENT extCapInfo;
 			UCHAR extInfoLen;
 
-			NdisZeroMemory(&extCapInfo, sizeof (EXT_CAP_INFO_ELEMENT));
+			memset(&extCapInfo, 0, sizeof (EXT_CAP_INFO_ELEMENT));
 			extInfoLen = sizeof(EXT_CAP_INFO_ELEMENT);
 
 
@@ -945,7 +945,7 @@ VOID PeerAssocRspAction(
 		DBGPRINT(RT_DEBUG_OFF, ("%s():mem alloc failed!\n", __FUNCTION__));
 		return;
 	}
-	NdisZeroMemory((UCHAR *)ie_list, sizeof(IE_LISTS));
+	memset((UCHAR *)ie_list, 0, sizeof(IE_LISTS));
 
 	if (PeerAssocRspSanity(pAd, Elem->Msg, Elem->MsgLen,
 			       Addr2, &CapabilityInfo, &Status, &Aid, SupRate,
@@ -1097,7 +1097,7 @@ VOID PeerReassocRspAction(
 		DBGPRINT(RT_DEBUG_OFF, ("%s():mem alloc failed!\n", __FUNCTION__));
 		return;
 	}
-	NdisZeroMemory((UCHAR *)ie_list, sizeof(IE_LISTS));
+	memset((UCHAR *)ie_list, 0, sizeof(IE_LISTS));
 
 	if (PeerAssocRspSanity(pAd, Elem->Msg, Elem->MsgLen, Addr2,
 			       &CapabilityInfo, &Status, &Aid, SupRate,
@@ -1307,7 +1307,7 @@ VOID AssocPostProc(
 		struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
 		/* Init variable */
 		pEntry->RSNIE_Len = 0;
-		NdisZeroMemory(pEntry->RSN_IE, MAX_LEN_OF_RSNIE);
+		memset(pEntry->RSN_IE, 0, MAX_LEN_OF_RSNIE);
 
 		/* Store appropriate RSN_IE for WPA SM negotiation later */
 		if ((wdev->AuthMode >= Ndis802_11AuthModeWPA)

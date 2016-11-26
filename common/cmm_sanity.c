@@ -341,7 +341,7 @@ BOOLEAN PeerBeaconAndProbeRspSanity_Old(
 #endif /* NATIVE_WPA_SUPPLICANT_SUPPORT */
 #endif /* CONFIG_STA_SUPPORT */
     *AddHtInfoLen = 0;					/* Set the length of VIE to init value 0*/
-    NdisZeroMemory(pExtCapInfo, sizeof(EXT_CAP_INFO_ELEMENT));
+    memset(pExtCapInfo, 0, sizeof(EXT_CAP_INFO_ELEMENT));
     *pRalinkIe = 0;
     *pNewChannel = 0;
     *NewExtChannelOffset = 0xff;	/*Default 0xff means no such IE*/
@@ -2035,7 +2035,7 @@ BOOLEAN PeerProbeReqSanity(
 #endif /* CONFIG_AP_SUPPORT */
 	UINT		total_ie_len = 0;
 
-	NdisZeroMemory(ProbeReqParam, sizeof(*ProbeReqParam));
+	memset(ProbeReqParam, 0, sizeof(*ProbeReqParam));
 
     /* to prevent caller from using garbage output value*/
 #ifdef CONFIG_AP_SUPPORT

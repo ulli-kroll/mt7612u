@@ -39,7 +39,7 @@ void wext_hotspot_onoff_event(struct net_device *net_dev, int onoff)
 	buflen = sizeof(*hotspot_onoff);
 
 	os_alloc_mem(NULL, (UCHAR **)&buf, buflen);
-	NdisZeroMemory(buf, buflen);
+	memset(buf, buflen);
 
 	hotspot_onoff = (struct hs_onoff *)buf;
 	hotspot_onoff->ifindex = RtmpOsGetNetIfIndex(net_dev);
@@ -66,7 +66,7 @@ static void wext_hotspot_ap_reload_event(struct net_device *net_dev)
 
 	buflen = sizeof(*hotspot_onoff);
 	os_alloc_mem(NULL, (UCHAR **)&buf, buflen);
-	NdisZeroMemory(buf, buflen);
+	memset(buf, buflen);
 
 	hotspot_onoff = (struct hs_onoff *)buf;
 	hotspot_onoff->ifindex = RtmpOsGetNetIfIndex(net_dev);
@@ -345,7 +345,7 @@ INT Set_HotSpot_OnOff(
 		return FALSE;
 	}
 
-	NdisZeroMemory(Buf, sizeof(*Event));
+	memset(Buf, sizeof(*Event));
 
 	Event = (HSCTRL_EVENT_DATA *)Buf;
 #ifdef CONFIG_STA_SUPPORT
@@ -480,7 +480,7 @@ static VOID HSCtrlInit(
 
 #ifdef CONFIG_STA_SUPPORT
 	pHSCtrl = &pAd->StaCfg.HotSpotCtrl;
-	NdisZeroMemory(pHSCtrl, sizeof(*pHSCtrl));
+	memset(pHSCtrl, sizeof(*pHSCtrl));
 	pHSCtrl->HotSpotEnable = 0;
 	pHSCtrl->HSCtrlState = HSCTRL_IDLE;
 #endif /* CONFIG_STA_SUPPORT */
@@ -489,7 +489,7 @@ static VOID HSCtrlInit(
 	for (APIndex = 0; APIndex < MAX_MBSSID_NUM(pAd); APIndex++)
 	{
 		pHSCtrl = &pAd->ApCfg.MBSSID[APIndex].HotSpotCtrl;
-		NdisZeroMemory(pHSCtrl, sizeof(*pHSCtrl));
+		memset(pHSCtrl, sizeof(*pHSCtrl));
 		pHSCtrl->HotSpotEnable = 0;
 		pHSCtrl->HSCtrlState = HSCTRL_IDLE;
 	}

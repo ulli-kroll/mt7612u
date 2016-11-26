@@ -987,7 +987,7 @@ INT	set_eFuseLoadFromBin_Proc(
 	if (memPtr == NULL)
 		return FALSE;
 
-	NdisZeroMemory(memPtr, memSize);
+	memset(memPtr, 0, memSize);
 	src = memPtr; /* kmalloc(128, MEM_ALLOC_FLAG);*/
 	buffer = src + 128;		/* kmalloc(MAX_EEPROM_BIN_FILE_SIZE, MEM_ALLOC_FLAG);*/
 	PDATA = (USHORT*)(buffer + MAX_EEPROM_BIN_FILE_SIZE);	/* kmalloc(sizeof(USHORT)*8,MEM_ALLOC_FLAG);*/
@@ -1345,7 +1345,7 @@ INT Set_LoadEepromBufferFromEfuse_Proc(
 		if (free_blk > (pAd->chipCap.EFUSE_USAGE_MAP_SIZE - 5))
 			return FALSE;
 
-		NdisZeroMemory(pAd->EEPROMImage, MAX_EEPROM_BIN_FILE_SIZE);
+		memset(pAd->EEPROMImage, 0, MAX_EEPROM_BIN_FILE_SIZE);
 		eFuseRead(pAd, 0, (PUSHORT)&pAd->EEPROMImage[0], MAX_EEPROM_BIN_FILE_SIZE);
 #ifdef RT_BIG_ENDIAN
 		for(i = 0;i < MAX_EEPROM_BIN_FILE_SIZE >> 1; i++)

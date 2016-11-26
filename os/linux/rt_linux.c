@@ -999,7 +999,7 @@ static inline NDIS_STATUS __RtmpOSTaskInit(
 	ASSERT(pTask);
 
 #ifndef KTHREAD_SUPPORT
-	NdisZeroMemory((PUCHAR) (pTask), sizeof (OS_TASK));
+	memset((PUCHAR) (pTask), 0, sizeof (OS_TASK));
 #endif
 
 	len = strlen(pTaskName);
@@ -1327,7 +1327,7 @@ int RtmpOSNetDevAddrSet(
 	/* work-around for the SuSE due to it has it's own interface name management system. */
 	RT_CONFIG_IF_OPMODE_ON_STA(OpMode) {
 		if (dev_name != NULL) {
-			NdisZeroMemory(dev_name, 16);
+			memset(dev_name, 0, 16);
 			memmove(dev_name, net_dev->name, strlen(net_dev->name));
 		}
 	}
@@ -1448,7 +1448,7 @@ INT RtmpOSNetDevOpsAlloc(PVOID *pNetDevOps)
 {
 	*pNetDevOps = (PVOID) vmalloc(sizeof (struct net_device_ops));
 	if (*pNetDevOps) {
-		NdisZeroMemory(*pNetDevOps, sizeof (struct net_device_ops));
+		memset(*pNetDevOps, 0, sizeof (struct net_device_ops));
 		return NDIS_STATUS_SUCCESS;
 	} else {
 		return NDIS_STATUS_FAILURE;
@@ -1719,7 +1719,7 @@ NDIS_STATUS AdapterBlockAllocateMemory(VOID *handle, VOID **ppAd, UINT32 SizeOfp
 {
 	*ppAd = (PVOID) vmalloc(SizeOfpAd);
 	if (*ppAd) {
-		NdisZeroMemory(*ppAd, SizeOfpAd);
+		memset(*ppAd, 0, SizeOfpAd);
 		return NDIS_STATUS_SUCCESS;
 	} else
 		return NDIS_STATUS_FAILURE;
@@ -2058,7 +2058,7 @@ BOOLEAN RtmpOsStatsAlloc(
 	os_alloc_mem(NULL, (UCHAR **) ppStats, sizeof (struct net_device_stats));
 	if ((*ppStats) == NULL)
 		return FALSE;
-	NdisZeroMemory((UCHAR *) *ppStats, sizeof (struct net_device_stats));
+	memset((UCHAR *) *ppStats, 0, sizeof (struct net_device_stats));
 
 #if WIRELESS_EXT >= 12
 	os_alloc_mem(NULL, (UCHAR **) ppIwStats, sizeof (struct iw_statistics));
@@ -2066,7 +2066,7 @@ BOOLEAN RtmpOsStatsAlloc(
 		os_free_mem(NULL, *ppStats);
 		return FALSE;
 	}
-	NdisZeroMemory((UCHAR *)* ppIwStats, sizeof (struct iw_statistics));
+	memset((UCHAR *)* ppIwStats, 0, sizeof (struct iw_statistics));
 #endif
 
 	return TRUE;

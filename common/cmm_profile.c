@@ -613,7 +613,7 @@ static void rtmp_read_key_parms_from_file(IN  struct rtmp_adapter *pAd, PSTRING 
 	ULONG		KeyType[HW_BEACON_MAX_NUM];
 	ULONG		KeyIdx;
 
-	NdisZeroMemory(KeyType, sizeof(KeyType));
+	memset(KeyType, 0, sizeof(KeyType));
 
 	/*DefaultKeyID*/
 	if(RTMPGetKeyParameter("DefaultKeyID", tmpbuf, 25, buffer, TRUE))
@@ -743,7 +743,7 @@ static void rtmp_read_ap_client_from_file(
 	ULONG		KeyLen;
 	struct rtmp_wifi_dev *wdev;
 
-	NdisZeroMemory(KeyType, sizeof(KeyType));
+	memset(KeyType, 0, sizeof(KeyType));
 
 	/*ApCliEnable*/
 	if(RTMPGetKeyParameter("ApCliEnable", tmpbuf, 128, buffer, TRUE))
@@ -762,7 +762,7 @@ static void rtmp_read_ap_client_from_file(
 			{
 				/*pApCliEntry->WpaState = SS_NOTUSE;*/
 				/*pApCliEntry->PortSecured = WPA_802_1X_PORT_NOT_SECURED;*/
-				/*NdisZeroMemory(pApCliEntry->ReplayCounter, LEN_KEY_DESC_REPLAY); */
+				/*memset(pApCliEntry->ReplayCounter, 0, LEN_KEY_DESC_REPLAY); */
 			}
 			DBGPRINT(RT_DEBUG_TRACE, ("ApCliEntry[%d].Enable=%d\n", i, pApCliEntry->Enable));
 	    }
@@ -801,7 +801,7 @@ static void rtmp_read_ap_client_from_file(
 				pApCliEntry->Valid = FALSE;/* it should be set when successfuley association*/
 			} else
 			{
-				NdisZeroMemory(&(pApCliEntry->CfgSsid), MAX_LEN_OF_SSID);
+				memset(&(pApCliEntry->CfgSsid), 0, MAX_LEN_OF_SSID);
 				continue;
 			}
 			DBGPRINT(RT_DEBUG_TRACE, ("ApCliEntry[%d].CfgSsidLen=%d, CfgSsid=%s\n", i, pApCliEntry->CfgSsidLen, pApCliEntry->CfgSsid));
@@ -2362,16 +2362,16 @@ static void HTParametersHook(
 void RTMPSetSTASSID(struct rtmp_adapter *pAd, PSTRING SSID)
 {
 	pAd->CommonCfg.SsidLen = (UCHAR) strlen(SSID);
-	NdisZeroMemory(pAd->CommonCfg.Ssid, NDIS_802_11_LENGTH_SSID);
+	memset(pAd->CommonCfg.Ssid, 0, NDIS_802_11_LENGTH_SSID);
 	memmove(pAd->CommonCfg.Ssid, SSID, pAd->CommonCfg.SsidLen);
 	pAd->CommonCfg.LastSsidLen= pAd->CommonCfg.SsidLen;
-	NdisZeroMemory(pAd->CommonCfg.LastSsid, NDIS_802_11_LENGTH_SSID);
+	memset(pAd->CommonCfg.LastSsid, 0, NDIS_802_11_LENGTH_SSID);
 	memmove(pAd->CommonCfg.LastSsid, SSID, pAd->CommonCfg.LastSsidLen);
 	pAd->MlmeAux.AutoReconnectSsidLen = pAd->CommonCfg.SsidLen;
-	NdisZeroMemory(pAd->MlmeAux.AutoReconnectSsid, NDIS_802_11_LENGTH_SSID);
+	memset(pAd->MlmeAux.AutoReconnectSsid, 0, NDIS_802_11_LENGTH_SSID);
 	memmove(pAd->MlmeAux.AutoReconnectSsid, SSID, pAd->MlmeAux.AutoReconnectSsidLen);
 	pAd->MlmeAux.SsidLen = pAd->CommonCfg.SsidLen;
-	NdisZeroMemory(pAd->MlmeAux.Ssid, NDIS_802_11_LENGTH_SSID);
+	memset(pAd->MlmeAux.Ssid, 0, NDIS_802_11_LENGTH_SSID);
 	memmove(pAd->MlmeAux.Ssid, SSID, pAd->MlmeAux.SsidLen);
 }
 
@@ -2433,7 +2433,7 @@ NDIS_STATUS RecoverConnectInfo(
 	INT idx;
 	char ssidStr[NDIS_802_11_LENGTH_SSID + 1];
 
-	NdisZeroMemory(&ssidStr[0], sizeof(ssidStr));
+	memset(&ssidStr[0], sizeof(ssidStr));
 
 	RTMP_SEM_LOCK(&pAd->StaCtIf.Lock);
 	if ((pAd->StaCtIf.Changeable== FALSE) || (pAd->StaCtIf.SsidLen > NDIS_802_11_LENGTH_SSID))
@@ -4651,7 +4651,7 @@ NDIS_STATUS	RTMPSetSingleSKUParameters(
 	}
 
 	/* card information file exists so reading the card information */
-	NdisZeroMemory(buffer, MAX_INI_BUFFER_SIZE);
+	memset(buffer, MAX_INI_BUFFER_SIZE);
 	retval = RtmpOSFileRead(srcf, buffer, MAX_INI_BUFFER_SIZE);
 
 	if (retval < 0) {
@@ -4668,7 +4668,7 @@ NDIS_STATUS	RTMPSetSingleSKUParameters(
 			if (!strncmp(readline, "ch", 2)) {
 				CH_POWER *pwr = NULL;
 				os_alloc_mem(NULL, (UCHAR **)&pwr, sizeof(*pwr));
-				NdisZeroMemory(pwr, sizeof(*pwr));
+				memset(pwr, sizeof(*pwr));
 
 				token= rstrtok(readline +2 ," ");
 				channel = simple_strtol(token, 0, 10);

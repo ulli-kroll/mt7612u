@@ -1970,7 +1970,7 @@ static int CFG80211_OpsStaChg(
 	UINT8 *pMacAddr,
 	struct station_parameters *params)
 {
-	void *pAd;
+	struct rtmp_adapter *pAd;
 	CFG80211_CB *p80211CB;
 
 	CFG80211DBG(RT_DEBUG_TRACE, ("80211> Change STA(%02X:%02X:%02X:%02X:%02X:%02X) ==>\n", PRINT_MAC(pMacAddr)));
@@ -2012,7 +2012,7 @@ static struct wireless_dev* CFG80211_OpsVirtualInfAdd(
         IN u32                                          *pFlags,
         struct vif_params                               *pParams)
 {
-	VOID *pAd;
+	struct rtmp_adapter *pAd;
 	CMD_RTPRIV_IOCTL_80211_VIF_SET vifInfo;
 	PWIRELESS_DEV pDev = NULL;
     	MAC80211_PAD_GET(pAd, pWiphy);
@@ -2037,7 +2037,7 @@ static int CFG80211_OpsVirtualInfDel(
 	IN struct wireless_dev *pwdev
 	)
 {
-	void *pAd;
+	struct rtmp_adapter *pAd;
 	struct net_device *dev = NULL;
 	dev = pwdev->netdev;
 
@@ -2082,7 +2082,7 @@ static int CFG80211_stop_p2p_device(
 	struct wiphy *pWiphy,
 	struct wireless_dev *wdev)
 {
-	void *pAd;
+	struct rtmp_adapter *pAd;
 	struct net_device *dev = wdev->netdev;
 	CFG80211DBG(RT_DEBUG_OFF, ("80211> %s, %s [%d]==>\n", __FUNCTION__, dev->name, dev->ieee80211_ptr->iftype));
 	MAC80211_PAD_GET(pAd, pWiphy);
@@ -2275,7 +2275,7 @@ struct cfg80211_ops CFG80211_Ops = {
 static struct wireless_dev *CFG80211_WdevAlloc(
 	IN CFG80211_CB					*pCfg80211_CB,
 	IN CFG80211_BAND				*pBandInfo,
-	IN VOID 						*pAd,
+	IN struct rtmp_adapter				*pAd,
 	IN struct device				*pDev)
 {
 	struct wireless_dev *pWdev;
@@ -2407,7 +2407,7 @@ Note:
 ========================================================================
 */
 BOOLEAN CFG80211_Register(
-	IN VOID						*pAd,
+	IN struct rtmp_adapter			*pAd,
 	IN struct device			*pDev,
 	IN struct net_device		*pNetDev)
 {

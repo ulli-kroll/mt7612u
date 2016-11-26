@@ -421,7 +421,7 @@ VOID MlmeForceScanReqAction(
 		pAd->MlmeAux.BssType = BssType;
 		pAd->MlmeAux.ScanType = ScanType;
 		pAd->MlmeAux.SsidLen = SsidLen;
-       	 NdisZeroMemory(pAd->MlmeAux.Ssid, MAX_LEN_OF_SSID);
+       	 memset(pAd->MlmeAux.Ssid, 0, MAX_LEN_OF_SSID);
 		memmove(pAd->MlmeAux.Ssid, Ssid, SsidLen);
 
 		/*
@@ -569,7 +569,7 @@ VOID MlmeScanReqAction(
 		pAd->MlmeAux.BssType = BssType;
 		pAd->MlmeAux.ScanType = ScanType;
 		pAd->MlmeAux.SsidLen = SsidLen;
-		NdisZeroMemory(pAd->MlmeAux.Ssid, MAX_LEN_OF_SSID);
+		memset(pAd->MlmeAux.Ssid, 0, MAX_LEN_OF_SSID);
 		memmove(pAd->MlmeAux.Ssid, Ssid, SsidLen);
 
 		/*
@@ -937,12 +937,12 @@ VOID MlmeStartReqAction(
 		{
 			pAd->MlmeAux.HtCapabilityLen = 0;
 			pAd->StaActive.SupportedPhyInfo.bHtEnable = FALSE;
-			NdisZeroMemory(&pAd->StaActive.SupportedPhyInfo.MCSSet[0], 16);
+			memset(&pAd->StaActive.SupportedPhyInfo.MCSSet[0], 0, 16);
 		}
 		/* temporarily not support QOS in IBSS */
-		NdisZeroMemory(&pAd->MlmeAux.APEdcaParm, sizeof(EDCA_PARM));
-		NdisZeroMemory(&pAd->MlmeAux.APQbssLoad, sizeof(QBSS_LOAD_PARM));
-		NdisZeroMemory(&pAd->MlmeAux.APQosCapability, sizeof(QOS_CAPABILITY_PARM));
+		memset(&pAd->MlmeAux.APEdcaParm, 0, sizeof(EDCA_PARM));
+		memset(&pAd->MlmeAux.APQbssLoad, 0, sizeof(QBSS_LOAD_PARM));
+		memset(&pAd->MlmeAux.APQosCapability, 0, sizeof(QOS_CAPABILITY_PARM));
 
 		AsicSwitchChannel(pAd, pAd->MlmeAux.Channel, FALSE);
 		AsicLockChannel(pAd, pAd->MlmeAux.Channel);
@@ -1012,18 +1012,18 @@ VOID rtmp_dbg_sanity_diff(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 		goto LabelErr;
 
 
-	NdisZeroMemory(&QbssLoad, sizeof(QBSS_LOAD_PARM)); /* woody */
+	memset(&QbssLoad, 0, sizeof(QBSS_LOAD_PARM)); /* woody */
 #ifdef DOT11_N_SUPPORT
     RTMPZeroMemory(pHtCapability, sizeof(HT_CAPABILITY_IE));
 	RTMPZeroMemory(pAddHtInfo, sizeof(ADD_HT_INFO_IE));
 #endif /* DOT11_N_SUPPORT */
 
-	NdisZeroMemory(Ssid, MAX_LEN_OF_SSID);
+	memset(Ssid, 0, MAX_LEN_OF_SSID);
 
 	os_alloc_mem(NULL, (UCHAR **)&ie_list, sizeof(BCN_IE_LIST));
 	if (ie_list == NULL)
 		goto LabelErr;
-	NdisZeroMemory(ie_list, sizeof(BCN_IE_LIST));
+	memset(ie_list, 0, sizeof(BCN_IE_LIST));
 
 
 	sanity_new = PeerBeaconAndProbeRspSanity(pAd,
@@ -1321,7 +1321,7 @@ VOID PeerBeaconAtScanAction(
 		DBGPRINT(RT_DEBUG_ERROR, ("%s():Alloc ie_list failed!\n", __FUNCTION__));
 		return;
 	}
-	NdisZeroMemory((UCHAR *)ie_list, sizeof(BCN_IE_LIST));
+	memset((UCHAR *)ie_list, 0, sizeof(BCN_IE_LIST));
 
 	/* Init Variable IE structure */
 	os_alloc_mem(NULL, (UCHAR **)&VarIE, MAX_VIE_LEN);
@@ -1473,7 +1473,7 @@ VOID PeerBeaconAtJoinAction(
 	os_alloc_mem(NULL, (UCHAR **)&ie_list, sizeof(BCN_IE_LIST));
 	if (ie_list == NULL)
 		goto LabelErr;
-	NdisZeroMemory(ie_list, sizeof(BCN_IE_LIST));
+	memset(ie_list, 0, sizeof(BCN_IE_LIST));
 
 	os_alloc_mem(NULL, (UCHAR **)&VarIE, MAX_VIE_LEN);
 	if (VarIE == NULL)
@@ -1628,7 +1628,7 @@ VOID PeerBeaconAtJoinAction(
 			memmove(pAd->MlmeAux.ExtRate, ie_list->ExtRate, ie_list->ExtRateLen);
 			RTMPCheckRates(pAd, pAd->MlmeAux.ExtRate, &pAd->MlmeAux.ExtRateLen);
 
-			NdisZeroMemory(pAd->StaActive.SupportedPhyInfo.MCSSet, 16);
+			memset(pAd->StaActive.SupportedPhyInfo.MCSSet, 0, 16);
 
 
 			/*  Get the ext capability info element */
@@ -1760,9 +1760,9 @@ VOID PeerBeaconAtJoinAction(
 			}
 			else
 			{
-				NdisZeroMemory(&pAd->MlmeAux.APEdcaParm, sizeof(EDCA_PARM));
-				NdisZeroMemory(&pAd->MlmeAux.APQbssLoad, sizeof(QBSS_LOAD_PARM));
-				NdisZeroMemory(&pAd->MlmeAux.APQosCapability, sizeof(QOS_CAPABILITY_PARM));
+				memset(&pAd->MlmeAux.APEdcaParm, 0, sizeof(EDCA_PARM));
+				memset(&pAd->MlmeAux.APQbssLoad, 0, sizeof(QBSS_LOAD_PARM));
+				memset(&pAd->MlmeAux.APQosCapability, 0, sizeof(QOS_CAPABILITY_PARM));
 			}
 
 			DBGPRINT(RT_DEBUG_TRACE, ("%s(): - after JOIN, SupRateLen=%d, ExtRateLen=%d\n",
@@ -1861,7 +1861,7 @@ VOID PeerBeacon(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 	os_alloc_mem(NULL, (UCHAR **)&bcn_ie_list, sizeof(BCN_IE_LIST));
 	if (bcn_ie_list == NULL)
 		goto LabelErr;
-	NdisZeroMemory(bcn_ie_list, sizeof(BCN_IE_LIST));
+	memset(bcn_ie_list, 0, sizeof(BCN_IE_LIST));
 
 	os_alloc_mem(NULL, (UCHAR **)&VarIE, MAX_VIE_LEN);
 	if (VarIE == NULL)
@@ -2029,7 +2029,7 @@ VOID PeerBeacon(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 			pAd->StaCfg.DtimPeriod = bcn_ie_list->DtimPeriod;
 			pAd->StaCfg.LastBeaconRxTime = Now;
 
-			NdisZeroMemory(&RxWI, RXWISize);
+			memset(&RxWI, 0, RXWISize);
 #ifdef RLT_MAC
 			if (pAd->chipCap.hif_type == HIF_RLT)
 			{
@@ -2192,7 +2192,7 @@ VOID PeerBeacon(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 					os_alloc_mem(NULL, (UCHAR **)&ielist, sizeof(IE_LISTS));
 					if (!ielist)
 						goto LabelOK;
-					NdisZeroMemory((UCHAR *)ielist, sizeof(IE_LISTS));
+					memset((UCHAR *)ielist, 0, sizeof(IE_LISTS));
 
 					if (bcn_ie_list->vht_cap_len && bcn_ie_list->vht_op_len)
 					{

@@ -49,7 +49,7 @@ void wext_send_btm_query_event(struct net_device *net_dev, const char *peer_mac_
 
 	buflen = sizeof(*query_data) + btm_query_len;
 	os_alloc_mem(NULL, (UCHAR **)&buf, buflen);
-	NdisZeroMemory(buf, buflen);
+	memset(buf, buflen);
 
 	query_data = (struct btm_query_data *)buf;
 	query_data->ifindex = RtmpOsGetNetIfIndex(net_dev);
@@ -74,7 +74,7 @@ void wext_send_btm_cfm_event(struct net_device *net_dev, const char *peer_mac_ad
 
 	buflen = sizeof(*rsp_data) + btm_rsp_len;
 	os_alloc_mem(NULL, (UCHAR **)&buf, buflen);
-	NdisZeroMemory(buf, buflen);
+	memset(buf, buflen);
 
 	rsp_data = (struct btm_rsp_data *)buf;
 	rsp_data->ifindex = RtmpOsGetNetIfIndex(net_dev);
@@ -108,7 +108,7 @@ void wext_send_proxy_arp_event(struct net_device *net_dev,
 	buflen = sizeof(*arp_entry) + varlen;
 
 	os_alloc_mem(NULL, (UCHAR **)&buf, buflen);
-	NdisZeroMemory(buf, buflen);
+	memset(buf, buflen);
 
 	arp_entry = (struct proxy_arp_entry *)buf;
 
@@ -849,7 +849,7 @@ VOID WNMCtrlInit(IN struct rtmp_adapter *pAd)
 	for (APIndex = 0; APIndex < MAX_MBSSID_NUM(pAd); APIndex++)
 	{
 		pWNMCtrl = &pAd->ApCfg.MBSSID[APIndex].WNMCtrl;
-		NdisZeroMemory(pWNMCtrl, sizeof(*pWNMCtrl));
+		memset(pWNMCtrl, sizeof(*pWNMCtrl));
 		RTMP_SEM_EVENT_INIT(&pWNMCtrl->BTMPeerListLock, &pAd->RscSemMemList);
 		RTMP_SEM_EVENT_INIT(&pWNMCtrl->ProxyARPListLock, &pAd->RscSemMemList);
 		RTMP_SEM_EVENT_INIT(&pWNMCtrl->ProxyARPIPv6ListLock, &pAd->RscSemMemList);

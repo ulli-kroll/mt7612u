@@ -67,7 +67,7 @@ VOID RTMPReportMicError(struct rtmp_adapter *pAd, PCIPHER_KEY pWpaKey)
 	{
 		pAd->StaCfg.MicErrCnt++;
 		pAd->StaCfg.LastMicErrorTime = Now;
-        NdisZeroMemory(pAd->StaCfg.ReplayCounter, 8);
+        memset(pAd->StaCfg.ReplayCounter, 0, 8);
 	}
 	else if (pAd->StaCfg.MicErrCnt == 1)
 	{
@@ -140,7 +140,7 @@ VOID	WpaMicFailureReportFrame(
     }
 
 	pPacket = (PEAPOL_PACKET)mpool;
-	NdisZeroMemory(pPacket, TX_EAPOL_BUFFER);
+	memset(pPacket, 0, TX_EAPOL_BUFFER);
 
 	pPacket->ProVer	= EAPOL_VER;
 	pPacket->ProType	= EAPOLKey;
@@ -190,7 +190,7 @@ VOID	WpaMicFailureReportFrame(
 		              END_OF_ARGS);
 
 	/* Prepare and Fill MIC value */
-	NdisZeroMemory(Mic, sizeof(Mic));
+	memset(Mic, 0, sizeof(Mic));
 	if(pAd->StaCfg.wdev.WepStatus  == Ndis802_11AESEnable)
 	{	/* AES */
         UCHAR digest[20] = {0};
@@ -249,7 +249,7 @@ VOID WpaStaPairwiseKeySetting(struct rtmp_adapter *pAd)
 	memmove(pAd->StaCfg.PTK, pEntry->PTK, LEN_PTK);
 
 	/* Prepare pair-wise key information into shared key table */
-	NdisZeroMemory(pSharedKey, sizeof(CIPHER_KEY));
+	memset(pSharedKey, 0, sizeof(CIPHER_KEY));
 	pSharedKey->KeyLen = LEN_TK;
     memmove(pSharedKey->Key, &pAd->StaCfg.PTK[32], LEN_TK);
 	memmove(pSharedKey->RxMic, &pAd->StaCfg.PTK[48], LEN_TKIP_MIC);
@@ -297,7 +297,7 @@ VOID WpaStaGroupKeySetting(struct rtmp_adapter *pAd)
 	pSharedKey = &pAd->SharedKey[BSS0][pAd->StaCfg.wdev.DefaultKeyId];
 
 	/* Prepare pair-wise key information into shared key table */
-	NdisZeroMemory(pSharedKey, sizeof(CIPHER_KEY));
+	memset(pSharedKey, 0, sizeof(CIPHER_KEY));
 	pSharedKey->KeyLen = LEN_TK;
 	memmove(pSharedKey->Key, pAd->StaCfg.GTK, LEN_TK);
 	memmove(pSharedKey->RxMic, &pAd->StaCfg.GTK[16], LEN_TKIP_MIC);
@@ -352,12 +352,12 @@ VOID WpaSendEapolStart(struct rtmp_adapter *pAd, UCHAR *pBssid)
 
 	DBGPRINT(RT_DEBUG_TRACE, ("-----> WpaSendEapolStart\n"));
 
-	NdisZeroMemory(Header802_3,sizeof(UCHAR)*14);
+	memset(Header802_3, 0, sizeof(UCHAR)*14);
 
 	MAKE_802_3_HEADER(Header802_3, pBssid, &pAd->CurrentAddress[0], EAPOL);
 
 	/* Zero message 2 body */
-	NdisZeroMemory(&Packet, sizeof(Packet));
+	memset(&Packet, 0, sizeof(Packet));
 	Packet.Version = EAPOL_VER;
 	Packet.Type    = EAPOLStart;
 	Packet.Length  = cpu2be16(0);

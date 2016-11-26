@@ -314,12 +314,12 @@ VOID RTMP_CFG80211_AddVifEntry(struct rtmp_adapter *pAd, struct net_device *pNew
 	os_alloc_mem(NULL, (UCHAR **)&pNewVifDev, sizeof(CFG80211_VIF_DEV));
 	if (pNewVifDev)
 	{
-		NdisZeroMemory(pNewVifDev, sizeof(CFG80211_VIF_DEV));
+		memset(pNewVifDev, 0, sizeof(CFG80211_VIF_DEV));
 
 		pNewVifDev->pNext = NULL;
 		pNewVifDev->net_dev = pNewNetDev;
 		pNewVifDev->devType = DevType;
-		NdisZeroMemory(pNewVifDev->CUR_MAC, MAC_ADDR_LEN);
+		memset(pNewVifDev->CUR_MAC, 0, MAC_ADDR_LEN);
 		memcpy(pNewVifDev->CUR_MAC, pNewNetDev->dev_addr, MAC_ADDR_LEN);
 
 		insertTailList(&pAd->cfg80211_ctrl.Cfg80211VifDevSet.vifDevList, (PLIST_ENTRY)pNewVifDev);
@@ -573,7 +573,7 @@ VOID RTMP_CFG80211_VirtualIF_Init(
 	DBGPRINT(RT_DEBUG_TRACE, ("%s ---> (%s, %s, %d)\n", __FUNCTION__, pDevName, preIfName, preIfIndex));
 
 	/* init operation functions and flags */
-	NdisZeroMemory(&netDevHook, sizeof(netDevHook));
+	memset(&netDevHook, 0, sizeof(netDevHook));
 	netDevHook.open = CFG80211_VirtualIF_Open;	     /* device opem hook point */
 	netDevHook.stop = CFG80211_VirtualIF_Close;	     /* device close hook point */
 	netDevHook.xmit = CFG80211_VirtualIF_PacketSend; /* hard transmit hook point */
@@ -716,7 +716,7 @@ VOID RTMP_CFG80211_VirtualIF_Remove(
 			OPSTATUS_CLEAR_FLAG(pAd, fOP_AP_STATUS_MEDIA_STATE_CONNECTED);
 			cfg80211_disconnected(dev_p, 0, NULL, 0, GFP_KERNEL);
 
-			NdisZeroMemory(pAd->ApCfg.ApCliTab[MAIN_MBSSID].CfgApCliBssid, MAC_ADDR_LEN);
+			memset(pAd->ApCfg.ApCliTab[MAIN_MBSSID].CfgApCliBssid, 0, MAC_ADDR_LEN);
 			RtmpOSNetDevDetach(dev_p);
 			rtmp_wdev_idx_unreg(pAd, wdev);
 			pAd->flg_apcli_init = FALSE;
@@ -867,7 +867,7 @@ VOID RTMP_CFG80211_DummyP2pIf_Init(
 	pNetDevOps=&netDevHook;
 
 	/* init operation functions and flags */
-	NdisZeroMemory(&netDevHook, sizeof(netDevHook));
+	memset(&netDevHook, 0, sizeof(netDevHook));
 	netDevHook.open = CFG80211_DummyP2pIf_Open;	     /* device opem hook point */
 	netDevHook.stop = CFG80211_DummyP2pIf_Close;	     /* device close hook point */
 	netDevHook.xmit = CFG80211_DummyP2pIf_PacketSend;    /* hard transmit hook point */

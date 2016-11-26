@@ -278,7 +278,7 @@ static VOID ApCliMlmeAssocReqAction(
 			ULONG TmpLen;
 			HT_CAPABILITY_IE HtCapabilityTmp;
 
-			NdisZeroMemory(&HtCapabilityTmp, sizeof(HT_CAPABILITY_IE));
+			memset(&HtCapabilityTmp, sizeof(HT_CAPABILITY_IE));
 			memmove(&HtCapabilityTmp, &apcli_entry->MlmeAux.HtCapability, apcli_entry->MlmeAux.HtCapabilityLen);
 #ifdef DOT11N_SS3_SUPPORT
 			HtCapabilityTmp.MCSSet[2] = (apcli_entry->MlmeAux.HtCapability.MCSSet[2] & apcli_entry->RxMcsSet[2]);
@@ -312,7 +312,7 @@ static VOID ApCliMlmeAssocReqAction(
 			UCHAR extInfoLen;
 
 			extInfoLen = sizeof (EXT_CAP_INFO_ELEMENT);
-			NdisZeroMemory(&extCapInfo, extInfoLen);
+			memset(&extCapInfo, extInfoLen);
 
 #ifdef APCLI_CERT_SUPPORT
 			if ((pAd->CommonCfg.bBssCoexEnable == TRUE) &&
@@ -394,7 +394,7 @@ static VOID ApCliMlmeAssocReqAction(
 			{
 				QBSS_STA_INFO_PARM QosInfo;
 
-				NdisZeroMemory(&QosInfo, sizeof(QBSS_STA_INFO_PARM));
+				memset(&QosInfo, sizeof(QBSS_STA_INFO_PARM));
 				QosInfo.UAPSD_AC_BE = pAd->CommonCfg.bAPSDAC_BE;
 				QosInfo.UAPSD_AC_BK = pAd->CommonCfg.bAPSDAC_BK;
 				QosInfo.UAPSD_AC_VI = pAd->CommonCfg.bAPSDAC_VI;
@@ -416,7 +416,7 @@ static VOID ApCliMlmeAssocReqAction(
 
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
 		apcli_entry->ReqVarIELen = 0;
-	        NdisZeroMemory(apcli_entry->ReqVarIEs, MAX_VIE_LEN);
+	        memset(apcli_entry->ReqVarIEs, MAX_VIE_LEN);
 
                 if ((apcli_entry->wpa_supplicant_info.WpaSupplicantUP & 0x7F ) ==  WPA_SUPPLICANT_ENABLE)
                 {
@@ -654,7 +654,7 @@ static VOID ApCliPeerAssocRspAction(
 		return;
 	}
 
-	NdisZeroMemory((UCHAR *)ie_list, sizeof(IE_LISTS));
+	memset((UCHAR *)ie_list, sizeof(IE_LISTS));
 
 	if (ApCliPeerAssocRspSanity(pAd, Elem->Msg, Elem->MsgLen, Addr2, &CapabilityInfo, &Status, &Aid, SupRate, &SupRateLen, ExtRate, &ExtRateLen,
 		&HtCapability, &AddHtInfo, &HtCapabilityLen,&AddHtInfoLen,&NewExtChannelOffset, &EdcaParm, &CkipFlag, ie_list))
@@ -665,7 +665,7 @@ static VOID ApCliPeerAssocRspAction(
 			DBGPRINT(RT_DEBUG_TRACE, ("APCLI_ASSOC - receive ASSOC_RSP to me (status=%d)\n", Status));
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
 			/* Store the AssocRsp Frame to wpa_supplicant via CFG80211 */
-            NdisZeroMemory(pAd->ApCfg.ApCliTab[ifIndex].ResVarIEs, MAX_VIE_LEN);
+            memset(pAd->ApCfg.ApCliTab[ifIndex].ResVarIEs, MAX_VIE_LEN);
             pAd->ApCfg.ApCliTab[ifIndex].ResVarIELen = 0;
 
             PFRAME_802_11 pFrame =  (PFRAME_802_11) (Elem->Msg);

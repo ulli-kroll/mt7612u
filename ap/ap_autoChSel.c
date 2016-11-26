@@ -118,7 +118,7 @@ static inline VOID AutoChBssTableReset(
 	IN struct rtmp_adapter *pAd)
 {
 	if (pAd->pBssInfoTab)
-		NdisZeroMemory(pAd->pBssInfoTab, sizeof(BSSINFO));
+		memset(pAd->pBssInfoTab, 0, sizeof(BSSINFO));
 	else
 		DBGPRINT(RT_DEBUG_ERROR, ("pAd->pBssInfoTab equal NULL.\n"));
 
@@ -129,7 +129,7 @@ static VOID ChannelInfoReset(
 	IN struct rtmp_adapter *pAd)
 {
 	if (pAd->pChannelInfo)
-		NdisZeroMemory(pAd->pChannelInfo, sizeof(CHANNELINFO));
+		memset(pAd->pChannelInfo, 0, sizeof(CHANNELINFO));
 	else
 		DBGPRINT(RT_DEBUG_ERROR, ("pAd->pChannelInfo equal NULL.\n"));
 
@@ -535,7 +535,7 @@ static inline UCHAR SelectClearChannelCCA(
 					}
 					else
 					{
-						NdisZeroMemory(ExChannel, sizeof(ExChannel));
+						memset(ExChannel, 0, sizeof(ExChannel));
 						if (((channel_idx - 4) >=0) && ((channel_idx - 4) < pAd->ChannelListNum))
 						{
 							dirtyness += pChannelInfo->dirtyness[channel_idx - 4];
@@ -891,7 +891,7 @@ static inline UCHAR SelectClearChannelApCnt(
 		UCHAR min_ApCnt = 255;
 		final_channel = 0;
 
-		NdisZeroMemory(candidate, MAX_NUM_OF_CHANNELS+1);
+		memset(candidate, 0, MAX_NUM_OF_CHANNELS+1);
 		for (channel_index=0 ; channel_index < pAd->ChannelListNum ; channel_index++)
 		{
 			if (pChannelInfo->SkipList[channel_index] == TRUE)
@@ -1038,7 +1038,7 @@ void AutoChBssTableInit(
 /*	pAd->pBssInfoTab = (PBSSINFO)kmalloc(sizeof(BSSINFO), GFP_ATOMIC); */
 	os_alloc_mem(pAd, (UCHAR **)&pAd->pBssInfoTab, sizeof(BSSINFO));
 	if (pAd->pBssInfoTab)
-		NdisZeroMemory(pAd->pBssInfoTab, sizeof(BSSINFO));
+		memset(pAd->pBssInfoTab, 0, sizeof(BSSINFO));
 	else
 		DBGPRINT(RT_DEBUG_ERROR, ("%s Fail to alloc memory for pAd->pBssInfoTab", __FUNCTION__));
 
@@ -1051,7 +1051,7 @@ void ChannelInfoInit(
 /*	pAd->pChannelInfo = (PCHANNELINFO)kmalloc(sizeof(CHANNELINFO), GFP_ATOMIC); */
 	os_alloc_mem(pAd, (UCHAR **)&pAd->pChannelInfo, sizeof(CHANNELINFO));
 	if (pAd->pChannelInfo)
-		NdisZeroMemory(pAd->pChannelInfo, sizeof(CHANNELINFO));
+		memset(pAd->pChannelInfo, 0, sizeof(CHANNELINFO));
 	else
 		DBGPRINT(RT_DEBUG_ERROR, ("%s Fail to alloc memory for pAd->pChannelInfo", __FUNCTION__));
 

@@ -143,7 +143,7 @@ BOOLEAN StaUpdateMacTableEntry(
 
 	NdisAcquireSpinLock(&pAd->MacTabLock);
 	if (pEntry) {
-		NdisZeroMemory(pEntry->R_Counter, sizeof(pEntry->R_Counter));
+		memset(pEntry->R_Counter, 0, sizeof(pEntry->R_Counter));
 		pEntry->PortSecured = WPA_802_1X_PORT_SECURED;
 		if ((MaxSupportedRate < RATE_FIRST_OFDM_RATE) ||
 		    WMODE_EQUAL(pAd->CommonCfg.PhyMode, WMODE_B)) {
@@ -168,7 +168,7 @@ BOOLEAN StaUpdateMacTableEntry(
 
 	wdev = &pAd->StaCfg.wdev;
 #ifdef DOT11_N_SUPPORT
-	NdisZeroMemory(&pEntry->HTCapability, sizeof (pEntry->HTCapability));
+	memset(&pEntry->HTCapability, 0, sizeof (pEntry->HTCapability));
 	/* If this Entry supports 802.11n, upgrade to HT rate. */
 	if (((wdev->WepStatus != Ndis802_11WEPEnabled)
 	     && (wdev->WepStatus != Ndis802_11TKIPEnable))
@@ -418,13 +418,13 @@ MAC_TABLE_ENTRY *MacTableInsertEntry(
 			RTMPCancelTimer(&pEntry->SAQueryConfirmTimer, &Cancelled);
 #endif /* DOT11W_PMF_SUPPORT */
 
-			NdisZeroMemory(pEntry, sizeof(MAC_TABLE_ENTRY));
+			memset(pEntry, 0, sizeof(MAC_TABLE_ENTRY));
 
 			if (CleanAll == TRUE)
 			{
 				pEntry->MaxSupportedRate = RATE_11;
 				pEntry->CurrTxRate = RATE_11;
-				NdisZeroMemory(pEntry, sizeof(MAC_TABLE_ENTRY));
+				memset(pEntry, 0, sizeof(MAC_TABLE_ENTRY));
 				pEntry->PairwiseKey.KeyLen = 0;
 				pEntry->PairwiseKey.CipherAlg = CIPHER_NONE;
 			}
@@ -507,7 +507,7 @@ MAC_TABLE_ENTRY *MacTableInsertEntry(
 			pEntry->CMTimerRunning = FALSE;
 			pEntry->EnqueueEapolStartTimerRunning = EAPOL_START_DISABLE;
 			pEntry->RSNIE_Len = 0;
-			NdisZeroMemory(pEntry->R_Counter, sizeof(pEntry->R_Counter));
+			memset(pEntry->R_Counter, 0, sizeof(pEntry->R_Counter));
 			pEntry->ReTryCounter = PEER_MSG1_RETRY_TIMER_CTR;
 
 			if (IS_ENTRY_MESH(pEntry))
@@ -933,8 +933,8 @@ BOOLEAN MacTableDeleteEntry(struct rtmp_adapter *pAd, USHORT wcid, UCHAR *pAddr)
 #endif /* DROP_MASK_SUPPORT */
 
 
-//   			NdisZeroMemory(pEntry, sizeof(MAC_TABLE_ENTRY));
-			NdisZeroMemory(pEntry->Addr, MAC_ADDR_LEN);
+//   			memset(pEntry, 0, sizeof(MAC_TABLE_ENTRY));
+			memset(pEntry->Addr, 0, MAC_ADDR_LEN);
 			/* invalidate the entry */
 			SET_ENTRY_NONE(pEntry);
 			pEntry->PortSecured = WPA_802_1X_PORT_NOT_SECURED;
@@ -1059,8 +1059,8 @@ VOID MacTableReset(struct rtmp_adapter *pAd)
 		DBGPRINT(RT_DEBUG_TRACE, ("2McastPsQueue.Number %ld...\n", pAd->MacTab.McastPsQueue.Number));
 
 		/* ENTRY PREEMPTION: Zero Mac Table but entry's content */
-/*		NdisZeroMemory(&pAd->MacTab, sizeof(MAC_TABLE));*/
-		NdisZeroMemory(&pAd->MacTab.Size,
+/*		memset(&pAd->MacTab, 0, sizeof(MAC_TABLE));*/
+		memset(&pAd->MacTab.Size, 0,
 							sizeof(MAC_TABLE)-
 							sizeof(pAd->MacTab.Hash)-
 							sizeof(pAd->MacTab.Content));

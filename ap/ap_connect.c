@@ -154,7 +154,7 @@ VOID APMakeBssBeacon(struct rtmp_adapter *pAd, INT apidx)
 		os_alloc_mem(NULL, (UCHAR **)&TmpFrame, 256);
 		if (TmpFrame != NULL)
 		{
-			NdisZeroMemory(TmpFrame, 256);
+			memset(TmpFrame, 0, 256);
 
 			/* prepare channel information */
 #ifdef EXT_BUILD_CHANNEL_LIST
@@ -498,7 +498,7 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 				*ptr = IE_WIDE_BW_CH_SWITCH;
 				*(ptr + 1) = sizeof(WIDE_BW_CH_SWITCH_ELEMENT);
 				ptr += 2;
-				NdisZeroMemory(&wb_info, sizeof(WIDE_BW_CH_SWITCH_ELEMENT));
+				memset(&wb_info, 0, sizeof(WIDE_BW_CH_SWITCH_ELEMENT));
 				if (pComCfg->vht_bw == VHT_BW_2040)
 					wb_info.new_ch_width = 0;
 				else
@@ -515,7 +515,7 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 			}
 
 			*ptr = IE_VHT_TXPWR_ENV;
-			NdisZeroMemory(&txpwr_env, sizeof(VHT_TXPWR_ENV_IE));
+			memset(&txpwr_env, 0, sizeof(VHT_TXPWR_ENV_IE));
 			tp_len = build_vht_txpwr_envelope(pAd, (UCHAR *)&txpwr_env);
 			*(ptr + 1) = tp_len;
 			ptr += 2;
@@ -640,7 +640,7 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 
 
 		extInfoLen = sizeof(EXT_CAP_INFO_ELEMENT);
-		NdisZeroMemory(&extCapInfo, extInfoLen);
+		memset(&extCapInfo, 0, extInfoLen);
 
 #ifdef DOT11_N_SUPPORT
 #ifdef DOT11N_DRAFT3

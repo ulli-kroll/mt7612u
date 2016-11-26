@@ -885,7 +885,7 @@ VOID RTMPDrvClose(struct rtmp_adapter *pAd, struct net_device *net_dev)
 
 	/* clear MAC table */
 	/* TODO: do not clear spin lock, such as fLastChangeAccordingMfbLock */
-	NdisZeroMemory(&pAd->MacTab, sizeof(MAC_TABLE));
+	memset(&pAd->MacTab, 0, sizeof(MAC_TABLE));
 
 	/* release all timers */
 	RtmpusecDelay(2000);
@@ -947,7 +947,7 @@ VOID RTMPInfClose(struct rtmp_adapter *pAd)
 
 			/* Prevent to connect AP again in STAMlmePeriodicExec*/
 			pAd->MlmeAux.AutoReconnectSsidLen= 32;
-			NdisZeroMemory(pAd->MlmeAux.AutoReconnectSsid, pAd->MlmeAux.AutoReconnectSsidLen);
+			memset(pAd->MlmeAux.AutoReconnectSsid, 0, pAd->MlmeAux.AutoReconnectSsidLen);
 
 			pAd->Mlme.CntlMachine.CurrState = CNTL_WAIT_OID_DISASSOC;
 			MlmeDisassocReqAction(pAd, MsgElem);
@@ -1048,7 +1048,7 @@ static void WriteConfToDatFile(struct rtmp_adapter *pAd)
 			DBGPRINT(RT_DEBUG_TRACE, ("CfgData mem alloc fail. (fileLen = %ld)\n", fileLen));
 			goto out;
 		}
-		NdisZeroMemory(cfgData, fileLen);
+		memset(cfgData, fileLen);
 		RtmpOSFileSeek(file_r, 0);
 		rv = RtmpOSFileRead(file_r, (PSTRING)cfgData, fileLen);
 		RtmpOSFileClose(file_r);
@@ -1082,7 +1082,7 @@ static void WriteConfToDatFile(struct rtmp_adapter *pAd)
 			int i = 0;
 			PSTRING ptr;
 
-			NdisZeroMemory(pTempStr, 512);
+			memset(pTempStr, 512);
 			ptr = (PSTRING) offset;
 			while(*ptr && *ptr != '\n')
 			{
@@ -1094,13 +1094,13 @@ static void WriteConfToDatFile(struct rtmp_adapter *pAd)
 				offset += strlen(pTempStr) + 1;
 				if (strncmp(pTempStr, "SSID=", strlen("SSID=")) == 0)
 				{
-					NdisZeroMemory(pTempStr, 512);
+					memset(pTempStr, 512);
 					memmove(pTempStr, "SSID=", strlen("SSID="));
 					memmove(pTempStr + 5, pAd->CommonCfg.Ssid, pAd->CommonCfg.SsidLen);
 				}
 				else if (strncmp(pTempStr, "AuthMode=", strlen("AuthMode=")) == 0)
 				{
-					NdisZeroMemory(pTempStr, 512);
+					memset(pTempStr, 512);
 					if (pAd->StaCfg.AuthMode == Ndis802_11AuthModeOpen)
 						sprintf(pTempStr, "AuthMode=OPEN");
 					else if (pAd->StaCfg.AuthMode == Ndis802_11AuthModeShared)
@@ -1120,7 +1120,7 @@ static void WriteConfToDatFile(struct rtmp_adapter *pAd)
 				}
 				else if (strncmp(pTempStr, "EncrypType=", strlen("EncrypType=")) == 0)
 				{
-					NdisZeroMemory(pTempStr, 512);
+					memset(pTempStr, 512);
 					if (pAd->StaCfg.WepStatus == Ndis802_11WEPDisabled)
 						sprintf(pTempStr, "EncrypType=NONE");
 					else if (pAd->StaCfg.WepStatus == Ndis802_11WEPEnabled)

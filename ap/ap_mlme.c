@@ -48,7 +48,7 @@ VOID Bss2040CoexistTimeOut(
 
 	/* Recovery to original setting when next DTIM Interval. */
 	pAd->CommonCfg.Bss2040CoexistFlag &= (~BSS_2040_COEXIST_TIMER_FIRED);
-	NdisZeroMemory(&pAd->CommonCfg.LastBSSCoexist2040, sizeof(BSS_2040_COEXIST_IE));
+	memset(&pAd->CommonCfg.LastBSSCoexist2040, 0, sizeof(BSS_2040_COEXIST_IE));
 	pAd->CommonCfg.Bss2040CoexistFlag |= BSS_2040_COEXIST_INFO_SYNC;
 
 	if (pAd->CommonCfg.bBssCoexEnable == FALSE)

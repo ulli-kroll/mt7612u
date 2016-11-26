@@ -87,7 +87,7 @@ VOID RT_MD5_Init (
 {
     memmove(pMD5_CTX->HashValue, MD5_DefaultHashValue,
         sizeof(MD5_DefaultHashValue));
-    NdisZeroMemory(pMD5_CTX->Block, MD5_BLOCK_SIZE);
+    memset(pMD5_CTX->Block, 0, MD5_BLOCK_SIZE);
     pMD5_CTX->BlockLen   = 0;
     pMD5_CTX->MessageLen = 0;
 } /* End of RT_MD5_Init */
@@ -222,7 +222,7 @@ VOID RT_MD5_Hash (
     pMD5_CTX->HashValue[2] += c;
     pMD5_CTX->HashValue[3] += d;
 
-    NdisZeroMemory(pMD5_CTX->Block, MD5_BLOCK_SIZE);
+    memset(pMD5_CTX->Block, 0, MD5_BLOCK_SIZE);
     pMD5_CTX->BlockLen = 0;
 } /* End of RT_MD5_Hash */
 
@@ -343,7 +343,7 @@ VOID RT_MD5 (
 {
     MD5_CTX_STRUC md5_ctx;
 
-    NdisZeroMemory(&md5_ctx, sizeof(MD5_CTX_STRUC));
+    memset(&md5_ctx, 0, sizeof(MD5_CTX_STRUC));
     RT_MD5_Init(&md5_ctx);
     RT_MD5_Append(&md5_ctx, Message, MessageLen);
     RT_MD5_End(&md5_ctx, DigestMessage);

@@ -544,7 +544,7 @@ BOOLEAN RTMPSoftDecryptAES(
 								PN,
 								num_blocks + 1);
 
-		NdisZeroMemory(padded_buffer, 16);
+		memset(padded_buffer, 0, 16);
 		memmove(padded_buffer, pData + payload_index, payload_remainder);
 
 		aes128k128d(pWpaKey->Key, ctr_preload, aes_out);
@@ -562,7 +562,7 @@ BOOLEAN RTMPSoftDecryptAES(
 							pData,
 							PN,
 							0);
-	NdisZeroMemory(padded_buffer, 16);
+	memset(padded_buffer, 0, 16);
 	memmove(padded_buffer, pData + payload_index, 8);
 
 	aes128k128d(pWpaKey->Key, ctr_preload, aes_out);
@@ -619,7 +619,7 @@ BOOLEAN RTMPSoftDecryptAES(
 	/* Add on the final payload block if it needs padding */
 	if (payload_remainder > 0)
 	{
-		NdisZeroMemory(padded_buffer, 16);
+		memset(padded_buffer, 0, 16);
 		memmove(padded_buffer, pData + payload_index, payload_remainder);
 
 		bitwise_xor(aes_out, padded_buffer, chain_buffer);
@@ -807,7 +807,7 @@ VOID RTMPConstructCCMPHdr(
 	IN UCHAR *pn,
 	OUT UCHAR *ccmp_hdr)
 {
-	NdisZeroMemory(ccmp_hdr, LEN_CCMP_HDR);
+	memset(ccmp_hdr, 0, LEN_CCMP_HDR);
 
 	ccmp_hdr[0] = pn[0];
 	ccmp_hdr[1] = pn[1];
@@ -853,8 +853,8 @@ BOOLEAN RTMPSoftEncryptCCMP(
 #endif
 
 	/* Initial variable */
-	NdisZeroMemory(aad_hdr, 30);
-	NdisZeroMemory(nonce_hdr, 13);
+	memset(aad_hdr, 0, 30);
+	memset(nonce_hdr, 0, 13);
 
 	/* Indicate type and subtype of Frame Control field */
 	frame_type = (((*pHdr) >> 2) & 0x03);
@@ -954,8 +954,8 @@ BOOLEAN RTMPSoftDecryptCCMP(
 	}
 
 	/* Initial variable */
-	NdisZeroMemory(aad_hdr, 30);
-	NdisZeroMemory(nonce_hdr, 13);
+	memset(aad_hdr, 0, 30);
+	memset(nonce_hdr, 0, 13);
 
 	/* Indicate type and subtype of Frame Control field */
 	frame_type = (((*pHdr) >> 2) & 0x03);
@@ -1075,7 +1075,7 @@ VOID CCMP_test_vector(
 	printk("== CCMP test vector == \n");
 
 	/* Check AAD */
-	NdisZeroMemory(res_buf, 100);
+	memset(res_buf, 0, 100);
 	res_len = 0;
 	RTMPConstructCCMPAAD(HDR, TRUE, 0, 0, res_buf, &res_len);
 	if (res_len == 22 && NdisEqualMemory(res_buf, AAD, res_len))
@@ -1086,7 +1086,7 @@ VOID CCMP_test_vector(
 		hex_dump("Calculate AAD", res_buf, res_len);
 	}
 	/* Check NONCE */
-	NdisZeroMemory(res_buf, 100);
+	memset(res_buf, 0, 100);
 	res_len = 0;
 	RTMPConstructCCMPNonce(HDR, 0, 0, FALSE, PN, res_buf, &res_len);
 	if (res_len == 13 && NdisEqualMemory(res_buf, CCM_NONCE, res_len))
@@ -1097,7 +1097,7 @@ VOID CCMP_test_vector(
 		hex_dump("Calculate NONCE", res_buf, res_len);
 	}
 	/* Check CCMP-Header */
-	NdisZeroMemory(res_buf, 100);
+	memset(res_buf, 0, 100);
 	res_len = 0;
 	RTMPConstructCCMPHdr(Key_ID, PN, res_buf);
 	if (NdisEqualMemory(res_buf, CCMP_HDR, 8))
@@ -1109,7 +1109,7 @@ VOID CCMP_test_vector(
 	}
 
 	/* Encrypt action */
-	NdisZeroMemory(res_buf, 100);
+	memset(res_buf, 0, 100);
 	memmove(res_buf, P_TEXT_DATA, sizeof(P_TEXT_DATA));
 	res_len = sizeof(C_TEXT_DATA);
 	if (AES_CCM_Encrypt(res_buf, sizeof(P_TEXT_DATA),
@@ -1129,7 +1129,7 @@ VOID CCMP_test_vector(
 	}
 
 	/* Decrypt action */
-	NdisZeroMemory(res_buf, 100);
+	memset(res_buf, 0, 100);
 	memmove(res_buf, C_TEXT_DATA, sizeof(C_TEXT_DATA));
 	res_len = sizeof(P_TEXT_DATA);
 	if (AES_CCM_Decrypt(res_buf, sizeof(C_TEXT_DATA), TK, 16,

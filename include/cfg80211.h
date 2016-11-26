@@ -91,7 +91,7 @@ Note:
 ========================================================================
 */
 BOOLEAN CFG80211_Register(
-	VOID						*pAd,
+	struct rtmp_adapter			*pAd,
 	struct device				*pDev,
 	struct net_device			*pNetDev);
 

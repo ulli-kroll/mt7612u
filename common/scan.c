@@ -91,7 +91,7 @@ static INT scan_ch_restore(struct rtmp_adapter *pAd, UCHAR OpMode)
 		*/
 		if (ADHOC_ON(pAd))
 		{
-			NdisZeroMemory(pAd->MlmeAux.Ssid, MAX_LEN_OF_SSID);
+			memset(pAd->MlmeAux.Ssid, 0, MAX_LEN_OF_SSID);
 			pAd->MlmeAux.SsidLen = pAd->CommonCfg.SsidLen;
 			memmove(pAd->MlmeAux.Ssid, pAd->CommonCfg.Ssid, pAd->CommonCfg.SsidLen);
 		}
@@ -818,7 +818,7 @@ VOID ScanParmFill(
 	IN UCHAR BssType,
 	IN UCHAR ScanType)
 {
-	NdisZeroMemory(ScanReq->Ssid, MAX_LEN_OF_SSID);
+	memset(ScanReq->Ssid, 0, MAX_LEN_OF_SSID);
 	ScanReq->SsidLen = SsidLen;
 	memmove(ScanReq->Ssid, Ssid, SsidLen);
 	ScanReq->BssType = BssType;

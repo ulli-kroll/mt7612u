@@ -1471,7 +1471,7 @@ static NDIS_STATUS ATESTOP(
 	for (ring_index = 0; ring_index < (RX_RING_SIZE); ring_index++)
 	{
 		PRX_CONTEXT  pRxContext = &(pAd->RxContext[ring_index]);
-		NdisZeroMemory(pRxContext->TransferBuffer, MAX_RXBULK_SIZE);
+		memset(pRxContext->TransferBuffer, 0, MAX_RXBULK_SIZE);
 
 		pRxContext->pAd	= pAd;
 		pRxContext->pIrp = NULL;
@@ -3838,7 +3838,7 @@ INT Set_ATE_Load_E2P_Proc(
 	if (value > 0)
 	{
 		/* zero the e2p buffer */
-		NdisZeroMemory((PUCHAR)WriteEEPROM, EEPROM_SIZE);
+		memset((PUCHAR)WriteEEPROM, 0, EEPROM_SIZE);
 
 		RtmpOSFSInfoChange(&osFSInfo, TRUE);
 
@@ -5902,7 +5902,7 @@ NDIS_STATUS ATEInit(
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 
-	NdisZeroMemory(pATEInfo, sizeof(ATE_INFO));
+	memset(pATEInfo, 0, sizeof(ATE_INFO));
 
 	if (ChipStructAssign(pAd) != NDIS_STATUS_SUCCESS)
 	{
@@ -6017,8 +6017,8 @@ NDIS_STATUS ATEInit(
 #ifdef RTMP_INTERNAL_TX_ALC
 #if defined(RT3350) || defined(RT3352)
 	pATEInfo->bTSSICalbrEnableG = FALSE;
-	NdisZeroMemory((PUCHAR)&(pATEInfo->TssiRefPerChannel), CFG80211_NUM_OF_CHAN_2GHZ);
-	NdisZeroMemory((PUCHAR)&(pATEInfo->TssiDeltaPerChannel), CFG80211_NUM_OF_CHAN_2GHZ);
+	memset((PUCHAR)&(pATEInfo->TssiRefPerChannel), 0, CFG80211_NUM_OF_CHAN_2GHZ);
+	memset((PUCHAR)&(pATEInfo->TssiDeltaPerChannel), 0, CFG80211_NUM_OF_CHAN_2GHZ);
 #endif /* defined(RT3350) || defined(RT3352) */
 #endif /* RTMP_INTERNAL_TX_ALC */
 
@@ -6371,7 +6371,7 @@ VOID ATEPeriodicExec(
 			pATEInfo->OneSecPeriodicRound++;
 
 			/* for performace enchanement */
-			NdisZeroMemory(&pAd->RalinkCounters,
+			memset(&pAd->RalinkCounters, 0,
 							(UINT32)&pAd->RalinkCounters.OneSecEnd -
 							(UINT32)&pAd->RalinkCounters.OneSecStart);
 			NICUpdateRawCounters(pAd);

@@ -375,7 +375,7 @@ BOOLEAN PMF_CalculateBIPMIC(
         }
 
 	/* Initialize the buffer */
-	NdisZeroMemory(m_buf, MGMT_DMA_BUFFER_SIZE);
+	memset(m_buf, MGMT_DMA_BUFFER_SIZE);
 
 	/* Construct the concatenation */
 	memmove(m_buf, pAadHdr, LEN_PMF_BIP_AAD_HDR);
@@ -415,8 +415,8 @@ VOID PMF_DerivePTK(
 			'e', 'x', 'p', 'a', 'n', 's', 'i', 'o', 'n'};
 
 	/* initiate the concatenation input */
-	NdisZeroMemory(temp, sizeof(temp));
-	NdisZeroMemory(concatenation, 76);
+	memset(temp, sizeof(temp));
+	memset(concatenation, 76);
 
 	/* Get smaller address */
 	if (RTMPCompareMemory(SA, AA, 6) == 1)
@@ -528,7 +528,7 @@ VOID PMF_InsertIGTKKDE(
 
 	/* Prepare the IGTK KDE */
 	igtk_kde_ptr = (PPMF_IGTK_KDE)(pFrameBuf + LEN_KDE_HDR);
-	NdisZeroMemory(igtk_kde_ptr, LEN_PMF_IGTK_KDE);
+	memset(igtk_kde_ptr, LEN_PMF_IGTK_KDE);
 
 	/* Bits 0-11 define a value in the range 0-4095.
 	   Bits 12 - 15 are reserved and set to 0 on transmission and ignored on reception.
@@ -1032,7 +1032,7 @@ INT PMF_EncapBIPAction(
 		idx = 1;
 	pKey = &pPmfCfg->IGTK[idx][0];
 
-	NdisZeroMemory(pMMIE, LEN_PMF_MMIE);
+	memset(pMMIE, LEN_PMF_MMIE);
 
 	/* Bits 0-11 define a value in the range 0-4095.
    	   Bits 12 - 15 are reserved and set to 0 on transmission and ignored on reception.
@@ -1127,7 +1127,7 @@ INT PMF_ExtractBIPAction(
 
 	/* store the MIC value of the received frame */
 	memmove(rcvd_mic, pMMIE->MIC, LEN_PMF_BIP_MIC);
-	NdisZeroMemory(pMMIE->MIC, LEN_PMF_BIP_MIC);
+	memset(pMMIE->MIC, LEN_PMF_BIP_MIC);
 
 	/* Compute AAD  */
 	PMF_ConstructBIPAad((PUCHAR)pMgmtFrame, aad_hdr);

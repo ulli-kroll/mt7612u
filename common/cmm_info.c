@@ -914,7 +914,7 @@ INT Set_ExtCountryCode_Proc(
 	}
 	else
 	{
-		NdisZeroMemory(pAd->CommonCfg.CountryCode, 3);
+		memset(pAd->CommonCfg.CountryCode, 0, 3);
 		pAd->CommonCfg.bCountryFlag = FALSE;
 	}
 
@@ -1244,7 +1244,7 @@ INT Set_ChannelListDel_Proc(
 	{
 		DBGPRINT(RT_DEBUG_TRACE, ("Remove all entries.\n" ));
 		for (EntryIdx = 0; EntryIdx < MAX_PRECONFIG_DESP_ENTRY_SIZE; EntryIdx++)
-			NdisZeroMemory(&pChDesp[EntryIdx], sizeof(CH_DESP));
+			memset(&pChDesp[EntryIdx], 0, sizeof(CH_DESP));
 	}
 	else if (TargetIdx < (MAX_PRECONFIG_DESP_ENTRY_SIZE-1))
 	{
@@ -1265,7 +1265,7 @@ INT Set_ChannelListDel_Proc(
 		}
 		for (EntryIdx = TargetIdx; EntryIdx < NumOfEntry; EntryIdx++)
 			memcpy(&pChDesp[EntryIdx], &pChDesp[EntryIdx+1], sizeof(CH_DESP));
-		NdisZeroMemory(&pChDesp[EntryIdx], sizeof(CH_DESP)); /*NULL entry*/
+		memset(&pChDesp[EntryIdx], 0, sizeof(CH_DESP)); /*NULL entry*/
 		DBGPRINT(RT_DEBUG_TRACE, ("Entry %u deleted.\n", TargetIdx));
 	}
 	else
@@ -1356,9 +1356,9 @@ INT	Set_ResetStatCounter_Proc(
 	/* add the most up-to-date h/w raw counters into software counters*/
 	NICUpdateRawCounters(pAd);
 
-	NdisZeroMemory(&pAd->WlanCounters, sizeof(COUNTER_802_11));
-	NdisZeroMemory(&pAd->Counters8023, sizeof(COUNTER_802_3));
-	NdisZeroMemory(&pAd->RalinkCounters, sizeof(COUNTER_RALINK));
+	memset(&pAd->WlanCounters, 0, sizeof(COUNTER_802_11));
+	memset(&pAd->Counters8023, 0, sizeof(COUNTER_802_3));
+	memset(&pAd->RalinkCounters, 0, sizeof(COUNTER_RALINK));
 
 #ifdef RALINK_ATE
 #endif /* RALINK_ATE */
@@ -1371,7 +1371,7 @@ INT	Set_ResetStatCounter_Proc(
 	{
 		int i;
 		for (i=0; i<MAX_LEN_OF_MAC_TABLE; i++)
-			NdisZeroMemory(&pAd->MacTab.Content[i].TxBFCounters, sizeof(pAd->MacTab.Content[i].TxBFCounters));
+			memset(&pAd->MacTab.Content[i].TxBFCounters, 0, sizeof(pAd->MacTab.Content[i].TxBFCounters));
 	}
 #endif /* TXBF_SUPPORT */
 
@@ -1552,7 +1552,7 @@ VOID RTMPSetDesiredRates(struct rtmp_adapter *pAd, LONG Rates)
             break;
     }
 
-    NdisZeroMemory(pAd->CommonCfg.DesireRate, MAX_LEN_OF_SUPPORTED_RATES);
+    memset(pAd->CommonCfg.DesireRate, 0, MAX_LEN_OF_SUPPORTED_RATES);
     memmove(pAd->CommonCfg.DesireRate, &aryRates, sizeof(NDIS_802_11_RATES));
     DBGPRINT(RT_DEBUG_TRACE, (" RTMPSetDesiredRates (%02x,%02x,%02x,%02x,%02x,%02x,%02x,%02x)\n",
         pAd->CommonCfg.DesireRate[0], pAd->CommonCfg.DesireRate[1],
@@ -1708,7 +1708,7 @@ VOID RTMPWPARemoveAllKeys(struct rtmp_adapter *pAd)
 	for (i = 0; i < SHARE_KEY_NUM; i++)
     {
 		DBGPRINT(RT_DEBUG_TRACE,("remove %s key #%d\n", CipherName[pAd->SharedKey[BSS0][i].CipherAlg], i));
-		NdisZeroMemory(&pAd->SharedKey[BSS0][i], sizeof(CIPHER_KEY));
+		memset(&pAd->SharedKey[BSS0][i], 0, sizeof(CIPHER_KEY));
 
 		AsicRemoveSharedKeyEntry(pAd, BSS0, i);
 	}
@@ -1769,9 +1769,9 @@ VOID RTMPSetPhyMode(struct rtmp_adapter *pAd, ULONG phymode)
 		DBGPRINT(RT_DEBUG_ERROR, ("RTMPSetPhyMode: channel is out of range, use first channel=%d \n", pAd->CommonCfg.Channel));
 	}
 
-	NdisZeroMemory(pAd->CommonCfg.SupRate, MAX_LEN_OF_SUPPORTED_RATES);
-	NdisZeroMemory(pAd->CommonCfg.ExtRate, MAX_LEN_OF_SUPPORTED_RATES);
-	NdisZeroMemory(pAd->CommonCfg.DesireRate, MAX_LEN_OF_SUPPORTED_RATES);
+	memset(pAd->CommonCfg.SupRate, 0, MAX_LEN_OF_SUPPORTED_RATES);
+	memset(pAd->CommonCfg.ExtRate, 0, MAX_LEN_OF_SUPPORTED_RATES);
+	memset(pAd->CommonCfg.DesireRate, 0, MAX_LEN_OF_SUPPORTED_RATES);
 	switch (phymode) {
 		case (WMODE_B):
 			pAd->CommonCfg.SupRate[0]  = 0x82;	  /* 1 mbps, in units of 0.5 Mbps, basic rate*/
@@ -1898,8 +1898,8 @@ VOID RTMPSetPhyMode(struct rtmp_adapter *pAd, ULONG phymode)
 
 //CFG_TODO
 #ifdef RT_CFG80211_P2P_SUPPORT
-	NdisZeroMemory(pAd->cfg80211_ctrl.P2pSupRate, MAX_LEN_OF_SUPPORTED_RATES);
-	NdisZeroMemory(pAd->cfg80211_ctrl.P2pExtRate, MAX_LEN_OF_SUPPORTED_RATES);
+	memset(pAd->cfg80211_ctrl.P2pSupRate, 0, MAX_LEN_OF_SUPPORTED_RATES);
+	memset(pAd->cfg80211_ctrl.P2pExtRate, 0, MAX_LEN_OF_SUPPORTED_RATES);
 
 	pAd->cfg80211_ctrl.P2pSupRate[0]  = 0x8C;        /* 6 mbps, in units of 0.5 Mbps, basic rate*/
 	pAd->cfg80211_ctrl.P2pSupRate[1]  = 0x12;        /* 9 mbps, in units of 0.5 Mbps*/
@@ -2202,7 +2202,7 @@ VOID	RTMPCommSiteSurveyData(
 
 
 		/*SSID*/
-	NdisZeroMemory(Ssid, (MAX_LEN_OF_SSID +1));
+	memset(Ssid, 0, (MAX_LEN_OF_SSID +1));
 	if (RTMPCheckStrPrintAble((PCHAR)pBss->Ssid, pBss->SsidLen))
 		memmove(Ssid, pBss->Ssid, pBss->SsidLen);
 	else
@@ -2468,7 +2468,7 @@ VOID RTMPIoctlGetMacTableStaInfo(
 		return;
 	}
 
-	NdisZeroMemory(pMacTab, sizeof(RT_802_11_MAC_TABLE));
+	memset(pMacTab, 0, sizeof(RT_802_11_MAC_TABLE));
 	for (i=0; i<MAX_LEN_OF_MAC_TABLE; i++)
 	{
 		pEntry = &(pAd->MacTab.Content[i]);
@@ -2531,7 +2531,7 @@ VOID RTMPIoctlGetMacTable(
 		return;
 	}
 
-	NdisZeroMemory(pMacTab, sizeof(RT_802_11_MAC_TABLE));
+	memset(pMacTab, 0, sizeof(RT_802_11_MAC_TABLE));
 	pMacTab->Num = 0;
 	for (i=0; i<MAX_LEN_OF_MAC_TABLE; i++)
 	{
@@ -4480,7 +4480,7 @@ INT	Show_SSID_Proc(
 	UCHAR	ssid_str[33];
 
 
-	NdisZeroMemory(&ssid_str[0], 33);
+	memset(&ssid_str[0], 0, 33);
 #ifdef CONFIG_AP_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 	{

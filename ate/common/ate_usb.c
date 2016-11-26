@@ -251,7 +251,7 @@ INT ATESetUpFrame(
 	{
 		/* set the in use bit */
 		pNullContext->InUse = TRUE;
-		NdisZeroMemory(&(pAd->NullFrame), sizeof(HEADER_802_11));
+		memset(&(pAd->NullFrame), 0, sizeof(HEADER_802_11));
 
 		/* fill 802.11 header */
 		{
@@ -388,7 +388,7 @@ INT ATESetUpFrame(
 		ASSERT((padLen <= (RTMP_PKT_TAIL_PADDING - 4/* 4 == MaxBulkOutsize alignment padding */)));
 
 		/* Now memzero all extra padding bytes. */
-		NdisZeroMemory(pDest, padLen);
+		memset(pDest, 0, padLen);
 		pDest += padLen;
 
 		/* Update pTxInfo->TxInfoPktLen to include padding. */
@@ -399,7 +399,7 @@ INT ATESetUpFrame(
 		/* If TransferBufferLength is multiple of 64, add extra 4 bytes again. */
 		if ((TransferBufferLength % pAd->BulkOutMaxPacketSize) == 0)
 		{
-			NdisZeroMemory(pDest, 4);
+			memset(pDest, 0, 4);
 			TransferBufferLength += 4;
 		}
 
