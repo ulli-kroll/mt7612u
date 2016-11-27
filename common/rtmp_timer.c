@@ -341,9 +341,10 @@ void RtmpTimerQInit(struct rtmp_adapter *pAd)
 
 	memset(&pAd->TimerQ, 0, sizeof(pAd->TimerQ));
 
-	os_alloc_mem(pAd, &pAd->TimerQ.pTimerQPoll, sizeof(RTMP_TIMER_TASK_ENTRY) * TIMER_QUEUE_SIZE_MAX);
-	if (pAd->TimerQ.pTimerQPoll)
-	{
+	pAd->TimerQ.pTimerQPoll =
+		kmalloc(sizeof(RTMP_TIMER_TASK_ENTRY) * TIMER_QUEUE_SIZE_MAX,
+			GFP_ATOMIC);
+	if (pAd->TimerQ.pTimerQPoll) {
 		pEntry = NULL;
 		pQNode = (RTMP_TIMER_TASK_ENTRY *)pAd->TimerQ.pTimerQPoll;
 		memset(pAd->TimerQ.pTimerQPoll, 0, sizeof(RTMP_TIMER_TASK_ENTRY) * TIMER_QUEUE_SIZE_MAX);

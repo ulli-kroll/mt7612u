@@ -433,7 +433,8 @@ INT CFG80211_SendMgmtFrame(struct rtmp_adapter *pAd, VOID *pData, ULONG Data)
 				pCfg80211_ctrl->pTxStatusBuf = NULL;
 			}
 
-			os_alloc_mem(NULL, (UCHAR **)&pCfg80211_ctrl->pTxStatusBuf, Data);
+			pCfg80211_ctrl->pTxStatusBuf =
+					kmalloc(Data, GFP_ATOMIC);
 			if (pCfg80211_ctrl->pTxStatusBuf != NULL)
 			{
 				memcpy(pCfg80211_ctrl->pTxStatusBuf, pData, Data);

@@ -2068,9 +2068,8 @@ VOID RTMPIoctlShow(
 					MLME_DISASSOC_REQ_STRUCT DisReq;
 					MLME_QUEUE_ELEM *pMsgElem;
 
-					os_alloc_mem(NULL, (UCHAR **)&pMsgElem, sizeof(MLME_QUEUE_ELEM));
-					if (pMsgElem)
-					{
+					pMsgElem = kmalloc(sizeof(MLME_QUEUE_ELEM), GFP_ATOMIC);
+					if (pMsgElem) {
 						COPY_MAC_ADDR(&DisReq.Addr, pAd->CommonCfg.Bssid);
 						DisReq.Reason =  REASON_DISASSOC_STA_LEAVING;
 
@@ -2676,10 +2675,10 @@ RtmpIoctl_rt_ioctl_giwscan(
 	if (pIoctlScan->BssNr == 0)
 		return NDIS_STATUS_SUCCESS;
 
-	os_alloc_mem(NULL, (UCHAR **)&(pIoctlScan->pBssTable),
-				pAd->ScanTab.BssNr * sizeof(RT_CMD_STA_IOCTL_BSS_TABLE));
-	if (pIoctlScan->pBssTable == NULL)
-	{
+	pIoctlScan->pBssTable =
+			kmalloc(pAd->ScanTab.BssNr * sizeof(RT_CMD_STA_IOCTL_BSS_TABLE),
+				GFP_ATOMIC);
+	if (pIoctlScan->pBssTable == NULL) {
 		DBGPRINT(RT_DEBUG_ERROR, ("Allocate memory fail!\n"));
 		return NDIS_STATUS_FAILURE;
 	}
@@ -2755,9 +2754,8 @@ RtmpIoctl_rt_ioctl_siwessid(
 		PSTRING	pSsidString = NULL;
 
 		/* Includes null character. */
-		os_alloc_mem(NULL, (UCHAR **)&pSsidString, MAX_LEN_OF_SSID+1);
-		if (pSsidString)
-		{
+		pSsidString = kmalloc(MAX_LEN_OF_SSID+1, GFP_ATOMIC);
+		if (pSsidString) {
 			memset(pSsidString, 0, MAX_LEN_OF_SSID+1);
 			memmove(pSsidString, pSsid->pSsid, pSsid->SsidLen);
 			if (Set_SSID_Proc(pAd, pSsidString) == FALSE)
@@ -3224,9 +3222,8 @@ RtmpIoctl_rt_ioctl_siwmlme(
 
 
 	/* allocate memory */
-	os_alloc_mem(NULL, (UCHAR **)&pMsgElem, sizeof(MLME_QUEUE_ELEM));
-	if (pMsgElem == NULL)
-	{
+	pMsgElem = kmalloc(sizeof(MLME_QUEUE_ELEM), GFP_ATOMIC);
+	if (pMsgElem == NULL) {
 		DBGPRINT(RT_DEBUG_ERROR, ("%s: Allocate memory fail!!!\n", __FUNCTION__));
 		return NDIS_STATUS_FAILURE;
 	}
@@ -3824,9 +3821,9 @@ RtmpIoctl_rt_ioctl_siwgenie(
 				kfree(pAd->StaCfg.wpa_supplicant_info.pWpaAssocIe);
 				pAd->StaCfg.wpa_supplicant_info.pWpaAssocIe = NULL;
 			}
-			os_alloc_mem(NULL, (UCHAR **)&pAd->StaCfg.wpa_supplicant_info.pWpaAssocIe, length);
-			if (pAd->StaCfg.wpa_supplicant_info.pWpaAssocIe)
-			{
+			pAd->StaCfg.wpa_supplicant_info.pWpaAssocIe =
+					kmalloc(length, GFP_ATOMIC);
+			if (pAd->StaCfg.wpa_supplicant_info.pWpaAssocIe) {
 				pAd->StaCfg.wpa_supplicant_info.WpaAssocIeLen = length;
 				memmove(pAd->StaCfg.wpa_supplicant_info.pWpaAssocIe, pData, pAd->StaCfg.wpa_supplicant_info.WpaAssocIeLen);
 				pAd->StaCfg.wpa_supplicant_info.bRSN_IE_FromWpaSupplicant = TRUE;

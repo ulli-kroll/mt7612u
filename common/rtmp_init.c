@@ -78,9 +78,8 @@ int RTMPAllocAdapterBlock(VOID *handle, struct rtmp_adapter **ppAdapter)
 
 	do
 	{
-		os_alloc_mem(NULL, (UCHAR **)&pBeaconBuf, MAX_BEACON_SIZE);
-		if (pBeaconBuf == NULL)
-		{
+		pBeaconBuf = kmalloc(MAX_BEACON_SIZE, GFP_ATOMIC);
+		if (pBeaconBuf == NULL) {
 			Status = NDIS_STATUS_FAILURE;
 			DBGPRINT_ERR(("Failed to allocate memory - BeaconBuf!\n"));
 			break;
@@ -186,7 +185,10 @@ int RTMPAllocAdapterBlock(VOID *handle, struct rtmp_adapter **ppAdapter)
 	/* Init ProbeRespIE Table */
 	for (index = 0; index < MAX_LEN_OF_BSS_TABLE; index++)
 	{
-		if (os_alloc_mem(pAd,&pAd->ProbeRespIE[index].pIe, MAX_VIE_LEN) == NDIS_STATUS_SUCCESS)
+		pAd->ProbeRespIE[index].pIe =
+			kmalloc(MAX_VIE_LEN, GFP_ATOMIC);
+
+		if (pAd->ProbeRespIE[index].pIe == NULL)
 			RTMPZeroMemory(pAd->ProbeRespIE[index].pIe, MAX_VIE_LEN);
 		else
 			pAd->ProbeRespIE[index].pIe = NULL;
@@ -3205,9 +3207,8 @@ VOID RTMP_TimerListAdd(struct rtmp_adapter *pAd, VOID *pRsc)
 	}
 
 	/* allocate a timer record entry */
-	os_alloc_mem(NULL, (UCHAR **)&(pObj), sizeof(LIST_RESOURCE_OBJ_ENTRY));
-	if (pObj == NULL)
-	{
+	pObj = kmalloc(sizeof(LIST_RESOURCE_OBJ_ENTRY), GFP_ATOMIC);
+	if (pObj == NULL) {
 		DBGPRINT(RT_DEBUG_ERROR, ("%s: alloc timer obj fail!\n", __FUNCTION__));
 		return;
 	}
@@ -3694,9 +3695,8 @@ INT RtmpRaDevCtrlInit(struct rtmp_adapter *pAd, RTMP_INF_TYPE infType)
 	RTMP_SEM_EVENT_INIT(&(pAd->mcu_atomic), &pAd->RscSemMemList);
 	RTMP_SEM_EVENT_INIT(&(pAd->tssi_lock), &pAd->RscSemMemList);
 
-	os_alloc_mem(pAd, (PUCHAR *)&pAd->UsbVendorReqBuf, MAX_PARAM_BUFFER_SIZE - 1);
-	if (pAd->UsbVendorReqBuf == NULL)
-	{
+	pAd->UsbVendorReqBuf = kmalloc(MAX_PARAM_BUFFER_SIZE - 1, GFP_ATOMIC);
+	if (pAd->UsbVendorReqBuf == NULL) {
 		DBGPRINT(RT_DEBUG_ERROR, ("Allocate vendor request temp buffer failed!\n"));
 		return FALSE;
 	}

@@ -934,24 +934,23 @@ VOID RTMPInfClose(struct rtmp_adapter *pAd)
 			MLME_DISASSOC_REQ_STRUCT	DisReq;
 			MLME_QUEUE_ELEM *MsgElem;
 
-			os_alloc_mem(NULL, (UCHAR **)&MsgElem, sizeof(MLME_QUEUE_ELEM));
-			if (MsgElem)
-			{
-			COPY_MAC_ADDR(DisReq.Addr, pAd->CommonCfg.Bssid);
-			DisReq.Reason =  REASON_DEAUTH_STA_LEAVING;
+			MsgElem = kmalloc(sizeof(MLME_QUEUE_ELEM), GFP_ATOMIC);
+			if (MsgElem) {
+				COPY_MAC_ADDR(DisReq.Addr, pAd->CommonCfg.Bssid);
+				DisReq.Reason =  REASON_DEAUTH_STA_LEAVING;
 
-			MsgElem->Machine = ASSOC_STATE_MACHINE;
-			MsgElem->MsgType = MT2_MLME_DISASSOC_REQ;
-			MsgElem->MsgLen = sizeof(MLME_DISASSOC_REQ_STRUCT);
-			memmove(MsgElem->Msg, &DisReq, sizeof(MLME_DISASSOC_REQ_STRUCT));
+				MsgElem->Machine = ASSOC_STATE_MACHINE;
+				MsgElem->MsgType = MT2_MLME_DISASSOC_REQ;
+				MsgElem->MsgLen = sizeof(MLME_DISASSOC_REQ_STRUCT);
+				memmove(MsgElem->Msg, &DisReq, sizeof(MLME_DISASSOC_REQ_STRUCT));
 
-			/* Prevent to connect AP again in STAMlmePeriodicExec*/
-			pAd->MlmeAux.AutoReconnectSsidLen= 32;
-			memset(pAd->MlmeAux.AutoReconnectSsid, 0, pAd->MlmeAux.AutoReconnectSsidLen);
+				/* Prevent to connect AP again in STAMlmePeriodicExec*/
+				pAd->MlmeAux.AutoReconnectSsidLen= 32;
+				memset(pAd->MlmeAux.AutoReconnectSsid, 0, pAd->MlmeAux.AutoReconnectSsidLen);
 
-			pAd->Mlme.CntlMachine.CurrState = CNTL_WAIT_OID_DISASSOC;
-			MlmeDisassocReqAction(pAd, MsgElem);
-			kfree(MsgElem);
+				pAd->Mlme.CntlMachine.CurrState = CNTL_WAIT_OID_DISASSOC;
+				MlmeDisassocReqAction(pAd, MsgElem);
+				kfree(MsgElem);
 			}
 
 			RtmpusecDelay(1000);
@@ -1041,9 +1040,8 @@ static void WriteConfToDatFile(struct rtmp_adapter *pAd)
 		{
 			fileLen += rv;
 		}
-		os_alloc_mem(NULL, (UCHAR **)&cfgData, fileLen);
-		if (cfgData == NULL)
-		{
+		cfgData = kmalloc(fileLen, GFP_ATOMIC);
+		if (cfgData == NULL) {
 			RtmpOSFileClose(file_r);
 			DBGPRINT(RT_DEBUG_TRACE, ("CfgData mem alloc fail. (fileLen = %ld)\n", fileLen));
 			goto out;
@@ -1069,9 +1067,8 @@ static void WriteConfToDatFile(struct rtmp_adapter *pAd)
 		offset = (PCHAR) rtstrstr((PSTRING) cfgData, "Default\n");
 		offset += strlen("Default\n");
 		RtmpOSFileWrite(file_w, (PSTRING)cfgData, (int)(offset-cfgData));
-		os_alloc_mem(NULL, (UCHAR **)&pTempStr, 512);
-		if (!pTempStr)
-		{
+		pTempStr = kmalloc(512, GFP_ATOMIC);
+		if (!pTempStr) {
 			DBGPRINT(RT_DEBUG_TRACE, ("pTempStr mem alloc fail. (512)\n"));
 			RtmpOSFileClose(file_w);
 			goto WriteErr;

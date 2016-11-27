@@ -266,7 +266,7 @@ INT rt28xx_ap_ioctl(struct net_device *net_dev, struct ifreq *rq, int cmd)
 				UINT32 len;
 
 				/* allocate memory */
-				os_alloc_mem(NULL, (UCHAR **)&prange, sizeof(struct iw_range));
+				prange = kmalloc(sizeof(struct iw_range), GFP_ATOMIC);
 				if (prange == NULL)
 				{
 					DBGPRINT(RT_DEBUG_ERROR, ("%s: Allocate memory fail!!!\n", __FUNCTION__));

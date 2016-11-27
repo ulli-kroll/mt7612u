@@ -102,8 +102,8 @@ VOID PMF_MlmeSAQueryReq(
         if (pPmfCfg)
         {
                 /* Send the SA Query Request */
-		os_alloc_mem(NULL, (UCHAR **)&pOutBuffer, MAX_LEN_OF_MLME_BUFFER);
-                if(pOutBuffer == NULL)
+		pOutBuffer = kmalloc(MAX_LEN_OF_MLME_BUFFER, GFP_ATOMIC);
+                if (pOutBuffer == NULL)
                         return;
 
 #ifdef CONFIG_AP_SUPPORT
@@ -189,8 +189,8 @@ VOID PMF_PeerSAQueryReqAction(
                 memmove(&TransactionID, &Elem->Msg[LENGTH_802_11+2], sizeof(USHORT));
 
                 /* Response the SA Query */
-		os_alloc_mem(NULL, (UCHAR **)&pOutBuffer, MAX_LEN_OF_MLME_BUFFER);
-                if(pOutBuffer == NULL)
+		pOutBuffer = kmalloc(MAX_LEN_OF_MLME_BUFFER, GFP_ATOMIC);
+                if (pOutBuffer == NULL)
                         return;
 
 #ifdef CONFIG_AP_SUPPORT
@@ -367,9 +367,8 @@ BOOLEAN PMF_CalculateBIPMIC(
 	UINT mlen = AES_KEY128_LENGTH;
 
 	/* Allocate memory for MIC calculation */
-	os_alloc_mem(NULL, (PUCHAR *)&m_buf, MGMT_DMA_BUFFER_SIZE);
-        if (m_buf == NULL)
-        {
+	m_buf = kmalloc(MGMT_DMA_BUFFER_SIZE, GFP_ATOMIC);
+        if (m_buf == NULL) {
                 DBGPRINT(RT_DEBUG_ERROR, ("%s : out of resource.\n", __FUNCTION__));
                 return FALSE;
         }
@@ -896,9 +895,8 @@ INT PMF_EncryptUniRobustFrameAction(
 	}
 
 	/* Allocate a buffer for building PMF packet */
-	Status = os_alloc_mem(pAd, &pBuf, MGMT_DMA_BUFFER_SIZE);
-	if (Status != NDIS_STATUS_SUCCESS)
-	{
+	pBuf = kmalloc(MGMT_DMA_BUFFER_SIZE, GFP_ATOMIC);
+	if (pBuf == NULL) {
 		DBGPRINT(RT_DEBUG_ERROR,("%s : allocate PMF buffer fail!\n", __FUNCTION__));
 		return PMF_UNICAST_ENCRYPT_FAILURE;
 	}

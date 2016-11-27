@@ -311,9 +311,8 @@ VOID RTMP_CFG80211_AddVifEntry(struct rtmp_adapter *pAd, struct net_device *pNew
 {
 	PCFG80211_VIF_DEV pNewVifDev = NULL;
 
-	os_alloc_mem(NULL, (UCHAR **)&pNewVifDev, sizeof(CFG80211_VIF_DEV));
-	if (pNewVifDev)
-	{
+	pNewVifDev = kmalloc(sizeof(CFG80211_VIF_DEV), GFP_ATOMIC);
+	if (pNewVifDev) {
 		memset(pNewVifDev, 0, sizeof(CFG80211_VIF_DEV));
 
 		pNewVifDev->pNext = NULL;

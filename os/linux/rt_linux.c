@@ -192,22 +192,6 @@ ULONG RTMPMsecsToJiffies(UINT32 m)
 
 /* pAd MUST allow to be NULL */
 
-int os_alloc_mem(
-	IN VOID *pReserved,
-	OUT UCHAR **mem,
-	IN ULONG size)
-{
-	*mem = (PUCHAR) kmalloc(size, GFP_ATOMIC);
-	if (*mem) {
-#ifdef VENDOR_FEATURE4_SUPPORT
-		OS_NumOfMemAlloc++;
-#endif /* VENDOR_FEATURE4_SUPPORT */
-
-		return NDIS_STATUS_SUCCESS;
-	} else
-		return NDIS_STATUS_FAILURE;
-}
-
 #if defined(RTMP_RBUS_SUPPORT) || defined(RTMP_FLASH_SUPPORT)
 /* The flag "CONFIG_RALINK_FLASH_API" is used for APSoC Linux SDK */
 #ifdef CONFIG_RALINK_FLASH_API
@@ -1716,7 +1700,7 @@ VOID RtmpDrvAllMacPrint(
 	STRING *msg;
 	UINT32 macAddr = 0, macValue = 0;
 
-	os_alloc_mem(NULL, (UCHAR **)&msg, 1024);
+	msg = kmalloc(1024, GFP_ATOMIC);
 	if (!msg)
 		return;
 
@@ -1767,7 +1751,7 @@ VOID RtmpDrvAllE2PPrint(
 	USHORT eepAddr = 0;
 	USHORT eepValue;
 
-	os_alloc_mem(NULL, (UCHAR **)&msg, 1024);
+	msg = kmalloc(1024, GFP_ATOMIC);
 	if (!msg)
 		return;
 
@@ -2024,13 +2008,13 @@ BOOLEAN RtmpOsStatsAlloc(
 	IN VOID **ppStats,
 	IN VOID **ppIwStats)
 {
-	os_alloc_mem(NULL, (UCHAR **) ppStats, sizeof (struct net_device_stats));
+	*ppStats = kmalloc(sizeof (struct net_device_stats), GFP_ATOMIC);
 	if ((*ppStats) == NULL)
 		return FALSE;
 	memset((UCHAR *) *ppStats, 0, sizeof (struct net_device_stats));
 
 #if WIRELESS_EXT >= 12
-	os_alloc_mem(NULL, (UCHAR **) ppIwStats, sizeof (struct iw_statistics));
+	*ppIwStats = kmalloc(sizeof (struct iw_statistics), GFP_ATOMIC);
 	if ((*ppIwStats) == NULL) {
 		kfree(*ppStats);
 		return FALSE;

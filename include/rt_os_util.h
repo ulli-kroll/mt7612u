@@ -39,19 +39,6 @@ VOID RtmpOsGetSystemUpTime(ULONG *pTime);
 UINT32 RtmpOsTickUnitGet(VOID);
 
 
-/*
-	OS Memory
-*/
-/*
-	Function:
-		allocate memory
-	Parameters:
-
-	Return:
-
-		mem shall be set as NULL if allocation failed
-*/
-int os_alloc_mem(VOID *pReserved, UCHAR **mem, ULONG size);
 
 int AdapterBlockAllocateMemory(
 	IN	VOID *handle,

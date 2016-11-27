@@ -1231,9 +1231,9 @@ VOID RTMPAPGetAssoMacTable(
 	INT i;
 	char *msg;
 
-	os_alloc_mem(NULL, (UCHAR **)&msg, sizeof(CHAR)*(MAX_LEN_OF_MAC_TABLE*ASSO_MAC_LINE_LEN));
-	if (msg == NULL)
-	{
+	msg = kmalloc(sizeof(CHAR)*(MAX_LEN_OF_MAC_TABLE*ASSO_MAC_LINE_LEN),
+			GFP_ATOMIC);
+	if (msg == NULL) {
 		DBGPRINT(RT_DEBUG_ERROR, ("%s():Alloc memory failed\n", __FUNCTION__));
 		return;
 	}
@@ -2783,9 +2783,8 @@ INT	Set_ACLAddEntry_Proc(
 	}
 
 	/* allocate memory */
-	os_alloc_mem(NULL, (UCHAR **)&pacl, sizeof(RT_802_11_ACL));
-	if (pacl == NULL)
-	{
+	pacl = kmalloc(sizeof(RT_802_11_ACL), GFP_ATOMIC);
+	if (pacl == NULL) {
 		DBGPRINT(RT_DEBUG_ERROR, ("%s: Allocate memory fail!!!\n", __FUNCTION__));
 		return FALSE;
 	}
@@ -3103,9 +3102,8 @@ INT	Set_ACLClearAll_Proc(
 	}
 
 	/* allocate memory */
-	os_alloc_mem(NULL, (UCHAR **)&pacl, sizeof(RT_802_11_ACL));
-	if (pacl == NULL)
-	{
+	pacl = kmalloc(sizeof(RT_802_11_ACL), GFP_ATOMIC);
+	if (pacl == NULL) {
 		DBGPRINT(RT_DEBUG_ERROR, ("%s: Allocate memory fail!!!\n", __FUNCTION__));
 		return FALSE;
 	}
@@ -3850,12 +3848,12 @@ VOID RTMPIoctlQueryRadiusConf(
 	DBGPRINT(RT_DEBUG_TRACE, ("RTMPIoctlQueryRadiusConf==>\n"));
 
 	/* Allocate memory */
-	os_alloc_mem(NULL, (PUCHAR *)&mpool, sizeof(DOT1X_CMM_CONF));
-    if (mpool == NULL)
-    {
-        DBGPRINT(RT_DEBUG_ERROR, ("!!!%s: out of resource!!!\n", __FUNCTION__));
-        return;
-    }
+	mpool = kmalloc(sizeof(DOT1X_CMM_CONF), GFP_ATOMIC);
+	if (mpool == NULL) {
+		DBGPRINT(RT_DEBUG_ERROR, ("!!!%s: out of resource!!!\n", __FUNCTION__));
+		return;
+	}
+
 	memset(mpool, 0, sizeof(DOT1X_CMM_CONF));
 
 	pConf = (PDOT1X_CMM_CONF)mpool;
@@ -4333,7 +4331,7 @@ VOID RTMPAPIoctlBBP32(struct rtmp_adapter *pAd, RTMP_IOCTL_INPUT_STRUCT *wrq)
 
 
 
-	os_alloc_mem(NULL, (UCHAR **)&mpool, sizeof(CHAR)*(MAX_BBP_MSG_SIZE * 2 +256+12));
+	mpool = kmalloc(sizeof(CHAR)*(MAX_BBP_MSG_SIZE * 2 +256+12), GFP_ATOMIC);
 	if (mpool == NULL) {
 		return;
 	}
@@ -4519,7 +4517,7 @@ VOID RTMPAPIoctlBBP(
 #endif /* RT65xx */
 
 #ifdef RTMP_BBP
-	os_alloc_mem(NULL, (UCHAR **)&mpool, sizeof(CHAR)*(MAX_BBP_MSG_SIZE+256+12));
+	mpool = kmalloc(sizeof(CHAR)*(MAX_BBP_MSG_SIZE+256+12), GFP_ATOMIC);
 	if (mpool == NULL) {
 		return;
 	}
@@ -4731,7 +4729,7 @@ VOID RTMPAPIoctlMAC(
 
 
 
-	os_alloc_mem(NULL, (UCHAR **)&mpool, sizeof(CHAR)*(4096+256+12));
+	mpool = kmalloc(sizeof(CHAR)*(4096+256+12), GFP_ATOMIC);
 	if (!mpool)
 		return;
 
@@ -4948,7 +4946,7 @@ VOID RTMPAPIoctlRF_mt(
 
 	DBGPRINT(RT_DEBUG_TRACE, ("==>RTMPIoctlRF\n"));
 
-	os_alloc_mem(NULL, (UCHAR **)&mpool, memLen);
+	mpool = kmalloc(memLen, GFP_ATOMIC);
 	if (mpool == NULL) {
 		return;
 	}
@@ -5005,7 +5003,7 @@ VOID RTMPAPIoctlRF_rlt(struct rtmp_adapter *pAdapter, RTMP_IOCTL_INPUT_STRUCT *w
 	DBGPRINT(RT_DEBUG_TRACE, ("==>RTMPIoctlRF (maxRFIdx = %d)\n", maxRFIdx));
 
 	memLen = 12*(maxRFIdx+1)*MAC_RF_BANK;
-	os_alloc_mem(NULL, (UCHAR **)&mpool, memLen);
+	mpool = kmalloc(memLen, GFP_ATOMIC);
 	if (mpool == NULL) {
 		return;
 	}
@@ -5101,7 +5099,7 @@ VOID RTMPAPIoctlRF(
 	maxRFIdx = pAdapter->chipCap.MaxNumOfRfId;
 
 /*	mpool = (PSTRING)kmalloc(memLen, MEM_ALLOC_FLAG); */
-	os_alloc_mem(NULL, (UCHAR **)&mpool, memLen);
+	mpool = kmalloc(memLen, GFP_ATOMIC);
 	if (mpool == NULL) {
 		return;
 	}
@@ -5324,7 +5322,7 @@ VOID RTMPAPIoctlE2PROM(
 	BOOLEAN				bIsPrintAllE2PROM = FALSE;
 
 /*	mpool = (PSTRING)kmalloc(sizeof(CHAR)*(4096+256+12), MEM_ALLOC_FLAG); */
-	os_alloc_mem(NULL, (UCHAR **)&mpool, sizeof(CHAR)*(4096+256+12));
+	mpool = kmalloc(sizeof(CHAR)*(4096+256+12), GFP_ATOMIC);
 
 	if (mpool == NULL) {
 		return;
@@ -5525,7 +5523,7 @@ VOID RTMPIoctlStatistics(struct rtmp_adapter *pAd, RTMP_IOCTL_INPUT_STRUCT *wrq)
 	RTMP_CHIP_CAP *pChipCap = &pAd->chipCap;
 
 /*	msg = (PSTRING)kmalloc(sizeof(CHAR)*(2048), MEM_ALLOC_FLAG); */
-	os_alloc_mem(pAd, (UCHAR **)&msg, sizeof(CHAR)*(2048));
+	msg = kmalloc(sizeof(CHAR)*(2048), GFP_ATOMIC);
 	if (msg == NULL) {
 		return;
 	}

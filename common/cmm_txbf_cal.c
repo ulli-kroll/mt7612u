@@ -653,8 +653,8 @@ static UINT32 *ITxBFSaveData(struct rtmp_adapter *pAd)
 	UINT32 *saveData, *sdPtr, macAddr, maxAddr;
 
 	/* Save 48KB MAC data. */
-	if (os_alloc_mem(pAd, (UCHAR **)&saveData, 0xC000)!= NDIS_STATUS_SUCCESS)
-	{
+	saveData = kmalloc(0xC000, GFP_ATOMIC);
+	if (saveData == NULL) {
 		DBGPRINT(RT_DEBUG_ERROR, ("%s():Alloc memory failed\n", __FUNCTION__));
 		return NULL;
 	}
@@ -3044,26 +3044,26 @@ int iCalcCalibration(struct rtmp_adapter *pAd, int calParams[2], int profileNum)
 	struct timeval tval1, tval2;
 #endif
 
-	if (os_alloc_mem(pAd, (UCHAR **)&pExpData, sizeof(PFMU_DATA)) != NDIS_STATUS_SUCCESS)
-	{
+	pExpData = kmalloc(sizeof(PFMU_DATA), GFP_ATOMIC);
+	if (pExpData == NULL) {
 		return -3;
 	}
 
-	if (os_alloc_mem(pAd, (UCHAR **)&pImpData, sizeof(PFMU_DATA))!= NDIS_STATUS_SUCCESS)
-	{
+	pImpData = kmalloc(sizeof(PFMU_DATA), GFP_ATOMIC);
+	if (pImpData == NULL) {
 		kfree(pExpData);
 		return -3;
 	}
 
-	if (os_alloc_mem(pAd, (UCHAR **)&pExpProf, sizeof(PFMU_PROFILE))!= NDIS_STATUS_SUCCESS)
-	{
+	pExpProf = kmalloc(sizeof(PFMU_PROFILE), GFP_ATOMIC);
+	if (pExpProf == NULL) {
 		kfree(pImpData);
 		kfree(pExpData);
 		return -3;
 	}
 
-	if (os_alloc_mem(pAd, (UCHAR **)&pImpProf, sizeof(PFMU_PROFILE)) != NDIS_STATUS_SUCCESS)
-	{
+	pImpProf = kmalloc(sizeof(PFMU_PROFILE), GFP_ATOMIC);
+	if (pImpProf == NULL) {
 		kfree(pImpData);
 		kfree(pExpData);
 		kfree(pExpProf);

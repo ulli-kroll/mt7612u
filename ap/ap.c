@@ -1081,10 +1081,9 @@ VOID MacTableMaintenance(struct rtmp_adapter *pAd)
 				USHORT Reason;
 
 				/*  send out a DISASSOC request frame */
-				NStatus = os_alloc_mem(pAd, &pOutBuffer, MGMT_DMA_BUFFER_SIZE);
-				if (NStatus != NDIS_STATUS_SUCCESS)
-				{
-					DBGPRINT(RT_DEBUG_TRACE, (" os_alloc_mem fail  ..\n"));
+				pOutBuffer  = kmalloc(MGMT_DMA_BUFFER_SIZE, GFP_ATOMIC);
+				if (pOutBuffer == NULL) {
+					DBGPRINT(RT_DEBUG_TRACE, (" kmalloc fail  ..\n"));
 					/*NdisReleaseSpinLock(&pAd->MacTabLock); */
 					continue;
 				}
@@ -1743,10 +1742,10 @@ VOID ApUpdateAccessControlList(struct rtmp_adapter *pAd, UCHAR Apidx)
 			if (pEntry->Sst == SST_ASSOC)
 			{
 				/* send out a DISASSOC frame */
-				NStatus = os_alloc_mem(pAd, &pOutBuffer, MGMT_DMA_BUFFER_SIZE);
-				if (NStatus != NDIS_STATUS_SUCCESS)
+				pOutBuffer = kmalloc(MGMT_DMA_BUFFER_SIZE, GFP_ATOMIC);
+				if (pOutBuffer == NULL)
 				{
-					DBGPRINT(RT_DEBUG_TRACE, (" os_alloc_mem fail  ..\n"));
+					DBGPRINT(RT_DEBUG_TRACE, (" kmalloc fail  ..\n"));
 					return;
 				}
 

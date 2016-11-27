@@ -107,7 +107,7 @@ void wext_send_anqp_req_event(struct net_device *net_dev, const char *peer_mac_a
 	char *buf;
 
 	buflen = sizeof(*req_data) + anqp_req_len;
-	os_alloc_mem(NULL, (UCHAR **)&buf, buflen);
+	buf = kmalloc(buflen, GFP_ATOMIC);
 	memset(buf, buflen);
 
 	req_data = (struct anqp_req_data *)buf;
@@ -169,10 +169,8 @@ static VOID SendGASRsp(
 		VarLen += Event->u.GAS_RSP_DATA.QueryRspLen;
 	}
 
-	os_alloc_mem(NULL, (UCHAR **)&Buf, sizeof(*GASFrame) + VarLen);
-
-	if (!Buf)
-	{
+	buf = kmalloc(sizeof(*GASFrame) + VarLen, GFP_ATOMIC);
+	if (!Buf) {
 		DBGPRINT(RT_DEBUG_ERROR, ("%s Not available memory\n", __FUNCTION__));
         GASSetPeerCurrentState(pAd, Elem, WAIT_PEER_GAS_REQ);
 
@@ -395,10 +393,8 @@ VOID ReceiveGASInitReq(
 		//return;
 	}
 
-	os_alloc_mem(NULL, (UCHAR **)&GASPeerEntry, sizeof(*GASPeerEntry));
-
-	if (!GASPeerEntry)
-	{
+	GASPeerEntry = kmalloc(sizeof(*GASPeerEntry), GFP_ATOMIC);
+	if (!GASPeerEntry) {
 		DBGPRINT(RT_DEBUG_ERROR, ("%s Not available memory\n", __FUNCTION__));
 		return;
 	}
@@ -427,10 +423,8 @@ VOID ReceiveGASInitReq(
 	memmove(&VarLen, GASFrame->u.GAS_INIT_REQ.Variable + 4, 2);
 	VarLen = le2cpu16(VarLen);
 
-	os_alloc_mem(NULL, (UCHAR **)&Buf, sizeof(*Event) + VarLen);
-
-	if (!Buf)
-	{
+	Buf = kmalloc( (UCHAR **)&Buf, sizeof(*Event) + VarLen, GFP_ATOMIC);
+	if (!Buf) {
 		DBGPRINT(RT_DEBUG_ERROR, ("%s Not available memory\n", __FUNCTION__));
 		goto error;
 	}
@@ -523,10 +517,8 @@ static VOID SendGASCBRsp(
 	}
 	RTMP_SEM_UNLOCK(&pGASCtrl->GASPeerListLock);
 
-	os_alloc_mem(NULL, (UCHAR **)&Buf, sizeof(*GASFrame) + VarLen);
-
-	if (!Buf)
-	{
+	Buf = kmalloc(sizeof(*GASFrame) + VarLen, GFP_ATOMIC);
+	if (!Buf) {
 		DBGPRINT(RT_DEBUG_ERROR, ("%s Not available memory\n", __FUNCTION__));
 		return;
 	}
@@ -700,10 +692,8 @@ VOID ReceiveGASCBReq(
 		return;
 	}
 
-	os_alloc_mem(NULL, (UCHAR **)&Buf, sizeof(*Event));
-
-	if (!Buf)
-	{
+	Buf = kmalloc(sizeof(*Event), GFP_ATOMIC);
+	if (!Buf) {
 		DBGPRINT(RT_DEBUG_ERROR, ("%s Not available memory\n", __FUNCTION__));
 		return;
 	}
@@ -758,10 +748,8 @@ VOID ReceiveGASCBReq(
 		}
 		else
 		{
-			os_alloc_mem(NULL, (UCHAR **)&GASPeerEntry, sizeof(*GASPeerEntry));
-
-			if (!GASPeerEntry)
-			{
+			GASPeerEntry = kmalloc(sizeof(*GASPeerEntry), GFP_ATOMIC);
+			if (!GASPeerEntry) {
 				DBGPRINT(RT_DEBUG_ERROR, ("%s Not available memory\n", __FUNCTION__));
 				goto error;
 			}
@@ -1006,10 +994,8 @@ static VOID SendGASIndication(
 	else if (IsAdvertisementProIDValid(pAd, Event->u.PEER_GAS_REQ_DATA.AdvertisementProID) &&
 				pGASCtrl->ExternalANQPServerTest == 1) /* server not reachable for 2F test */
 	{
-		os_alloc_mem(NULL, (UCHAR **)&Buf, sizeof(*GASRspEvent));
-
-		if (!Buf)
-		{
+		Buf = kmalloc(sizeof(*GASRspEvent), GFP_ATOMIC);
+		if (!Buf) {
 			DBGPRINT(RT_DEBUG_ERROR, ("%s Not available memory\n", __FUNCTION__));
 			return;
 		}
@@ -1060,10 +1046,8 @@ static VOID SendGASIndication(
 	else if (IsAdvertisementProIDValid(pAd, Event->u.PEER_GAS_REQ_DATA.AdvertisementProID) &&
 				pGASCtrl->ExternalANQPServerTest == 2) /* server not reachable for 4F test */
 	{
-		os_alloc_mem(NULL, (UCHAR **)&Buf, sizeof(*GASRspEvent));
-
-		if (!Buf)
-		{
+		Buf = kmalloc(sizeof(*GASRspEvent), GFP_ATOMIC);
+		if (!Buf) {
 			DBGPRINT(RT_DEBUG_ERROR, ("%s Not available memory\n", __FUNCTION__));
 			return;
 		}
@@ -1110,10 +1094,8 @@ static VOID SendGASIndication(
 	else if (!IsAdvertisementProIDValid(pAd, Event->u.PEER_GAS_REQ_DATA.AdvertisementProID))
 	{
 		/* Do not support this advertisement protocol, such as MIH */
-		os_alloc_mem(NULL, (UCHAR **)&Buf, sizeof(*GASRspEvent));
-
-		if (!Buf)
-		{
+		buf = kmalloc(sizeof(*GASRspEvent), GFP_ATOMIC);
+		if (!Buf) {
 			DBGPRINT(RT_DEBUG_ERROR, ("%s Not available memory\n", __FUNCTION__));
 			return;
 		}

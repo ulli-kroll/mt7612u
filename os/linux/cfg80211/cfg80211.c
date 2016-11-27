@@ -520,7 +520,7 @@ static int CFG80211_OpsScan(
 	{
 		UINT32 *pChanList;
 		UINT idx;
-		os_alloc_mem(NULL, (UCHAR **)&pChanList, sizeof(UINT32 *) * pRequest->n_channels);
+		pChanList = kmalloc(sizeof(UINT32 *) * pRequest->n_channels, GFP_ATOMIC);
         if (pChanList == NULL)
         {
         	DBGPRINT(RT_DEBUG_ERROR, ("%s::Alloc memory fail\n", __FUNCTION__));
@@ -1831,13 +1831,13 @@ static int CFG80211_OpsStartAp(
 
 	if (settings->beacon.head_len > 0)
 	{
-		os_alloc_mem(NULL, &beacon_head_buf, settings->beacon.head_len);
+		beacon_head_buf = kmalloc(settings->beacon.head_len, GFP_ATOMIC);
 		memcpy(beacon_head_buf, settings->beacon.head, settings->beacon.head_len);
 	}
 
 	if (settings->beacon.tail_len > 0)
 	{
-		os_alloc_mem(NULL, &beacon_tail_buf, settings->beacon.tail_len);
+		beacon_tail_buf =  kmalloc(settings->beacon.tail_len, GFP_ATOMIC);
 		memcpy(beacon_tail_buf, settings->beacon.tail, settings->beacon.tail_len);
 	}
 
@@ -1873,12 +1873,12 @@ static int CFG80211_OpsChangeBeacon(
 
 	if (info->head_len > 0)
 	{
-		os_alloc_mem(NULL, &beacon_head_buf, info->head_len);
+		beacon_head_buf = kmalloc(info->head_len, GFP_ATOMIC);
 		memcpy(beacon_head_buf, info->head, info->head_len);
 	}
 
 	if (info->tail_len > 0) {
-		os_alloc_mem(NULL, &beacon_tail_buf, info->tail_len);
+		beacon_tail_buf = kmalloc(info->tail_len, GFP_ATOMIC);
 		memcpy(beacon_tail_buf, info->tail, info->tail_len);
 	}
 
@@ -2417,9 +2417,8 @@ BOOLEAN CFG80211_Register(
 
 
 	/* allocate Main Device Info structure */
-	os_alloc_mem(NULL, (UCHAR **)&pCfg80211_CB, sizeof(CFG80211_CB));
-	if (pCfg80211_CB == NULL)
-	{
+	pCfg80211_CB = kmalloc(sizeof(CFG80211_CB), GFP_ATOMIC);
+	if (pCfg80211_CB == NULL) {
 		DBGPRINT(RT_DEBUG_ERROR, ("80211> Allocate MAC80211 CB fail!\n"));
 		return FALSE;
 	}

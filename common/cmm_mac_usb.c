@@ -582,7 +582,8 @@ int RTMPAllocTxRxRingMemory(
 
 		/* Allocate MGMT ring descriptor's memory*/
 		pAd->MgmtDescRing.AllocSize = MGMT_RING_SIZE * sizeof(TX_CONTEXT);
-		os_alloc_mem(pAd, (PUCHAR *)(&pAd->MgmtDescRing.AllocVa), pAd->MgmtDescRing.AllocSize);
+		pAd->MgmtDescRing.AllocVa =
+			kmalloc(pAd->MgmtDescRing.AllocSize, GFP_ATOMIC);
 		if (pAd->MgmtDescRing.AllocVa == NULL)
 		{
 			DBGPRINT_ERR(("Failed to allocate a big buffer for MgmtDescRing!\n"));
@@ -897,9 +898,9 @@ int NICInitTransmit(
 
 		/* Allocate MGMT ring descriptor's memory*/
 		pAd->MgmtDescRing.AllocSize = MGMT_RING_SIZE * sizeof(TX_CONTEXT);
-		os_alloc_mem(pAd, (PUCHAR *)(&pAd->MgmtDescRing.AllocVa), pAd->MgmtDescRing.AllocSize);
-		if (pAd->MgmtDescRing.AllocVa == NULL)
-		{
+		pAd->MgmtDescRing.AllocVa =
+			kmalloc(pAd->MgmtDescRing.AllocSize, GFP_ATOMIC);
+		if (pAd->MgmtDescRing.AllocVa == NULL) {
 			DBGPRINT_ERR(("Failed to allocate a big buffer for MgmtDescRing!\n"));
 			Status = NDIS_STATUS_RESOURCES;
 			goto err;
@@ -1641,10 +1642,10 @@ VOID RTUSBBssBeaconInit(
 	int i, j;
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
 
-	os_alloc_mem(pAd, (PUCHAR *)(&pAd->CommonCfg.pBeaconSync), sizeof(BEACON_SYNC_STRUCT));
+	pAd->CommonCfg.pBeaconSync =
+		kmalloc(sizeof(BEACON_SYNC_STRUCT), GFP_ATOMIC);
 
-	if (pAd->CommonCfg.pBeaconSync)
-	{
+	if (pAd->CommonCfg.pBeaconSync) {
 		pBeaconSync = pAd->CommonCfg.pBeaconSync;
 		memset(pBeaconSync, 0, sizeof(BEACON_SYNC_STRUCT));
 		for(i=0; i < HW_BEACON_MAX_COUNT(pAd); i++)
@@ -1652,7 +1653,8 @@ VOID RTUSBBssBeaconInit(
 			memset(pBeaconSync->BeaconBuf[i], 0, HW_BEACON_OFFSET);
 			pBeaconSync->CapabilityInfoLocationInBeacon[i] = 0;
 			pBeaconSync->TimIELocationInBeacon[i] = 0;
-			os_alloc_mem(pAd, &pBeaconSync->BeaconTxWI[i], TXWISize);
+			pBeaconSync->BeaconTxWI[i] =
+				kmalloc(TXWISize, GFP_ATOMIC);
 			if (pBeaconSync->BeaconTxWI[i])
 				memset(pBeaconSync->BeaconTxWI[i], 0, TXWISize);
 			else
@@ -1902,9 +1904,8 @@ VOID RT28xxUsbMlmeRadioOFF(
 			MLME_DISASSOC_REQ_STRUCT DisReq;
 			MLME_QUEUE_ELEM *pMsgElem;
 
-			os_alloc_mem(pAd, (UCHAR **)&pMsgElem, sizeof(MLME_QUEUE_ELEM));
-			if (pMsgElem)
-			{
+			pMsgElem = kmalloc(sizeof(MLME_QUEUE_ELEM), GFP_ATOMIC);
+			if (pMsgElem) {
 				COPY_MAC_ADDR(&DisReq.Addr, pAd->CommonCfg.Bssid);
 				DisReq.Reason =  REASON_DISASSOC_STA_LEAVING;
 

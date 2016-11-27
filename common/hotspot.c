@@ -38,7 +38,7 @@ void wext_hotspot_onoff_event(struct net_device *net_dev, int onoff)
 
 	buflen = sizeof(*hotspot_onoff);
 
-	os_alloc_mem(NULL, (UCHAR **)&buf, buflen);
+	buf = kmalloc(buflen, GFP_ATOMIC);
 	memset(buf, buflen);
 
 	hotspot_onoff = (struct hs_onoff *)buf;
@@ -65,7 +65,7 @@ static void wext_hotspot_ap_reload_event(struct net_device *net_dev)
 	char *buf;
 
 	buflen = sizeof(*hotspot_onoff);
-	os_alloc_mem(NULL, (UCHAR **)&buf, buflen);
+	buf = kmalloc(buflen, GFP_ATOMIC);
 	memset(buf, buflen);
 
 	hotspot_onoff = (struct hs_onoff *)buf;
@@ -337,10 +337,8 @@ INT Set_HotSpot_OnOff(
 	UCHAR APIndex = pObj->ioctl_if;
 #endif /* CONFIG_AP_SUPPORT */
 
-	os_alloc_mem(NULL, (UCHAR **)&Buf, sizeof(*Event));
-
-	if (!Buf)
-	{
+	buf = kmalloc(sizeof(*Event), GFP_ATOMIC);
+	if (!Buf) {
 		DBGPRINT(RT_DEBUG_ERROR, ("%s Not available memory\n", __FUNCTION__));
 		return FALSE;
 	}

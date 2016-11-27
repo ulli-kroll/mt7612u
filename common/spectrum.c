@@ -335,7 +335,8 @@ int MeasureReqTabInit(
 	NdisAllocateSpinLock(pAd, &pAd->CommonCfg.MeasureReqTabLock);
 
 /*	pAd->CommonCfg.pMeasureReqTab = kmalloc(sizeof(MEASURE_REQ_TAB), GFP_ATOMIC);*/
-	os_alloc_mem(pAd, (UCHAR **)&(pAd->CommonCfg.pMeasureReqTab), sizeof(MEASURE_REQ_TAB));
+	pAd->CommonCfg.pMeasureReqTab =
+		kmalloc(sizeof(MEASURE_REQ_TAB), GFP_ATOMIC);
 	if (pAd->CommonCfg.pMeasureReqTab)
 		memset(pAd->CommonCfg.pMeasureReqTab, 0, sizeof(MEASURE_REQ_TAB));
 	else
@@ -560,7 +561,8 @@ int TpcReqTabInit(
 	NdisAllocateSpinLock(pAd, &pAd->CommonCfg.TpcReqTabLock);
 
 /*	pAd->CommonCfg.pTpcReqTab = kmalloc(sizeof(TPC_REQ_TAB), GFP_ATOMIC);*/
-	os_alloc_mem(pAd, (UCHAR **)&(pAd->CommonCfg.pTpcReqTab), sizeof(TPC_REQ_TAB));
+	pAd->CommonCfg.pTpcReqTab =
+		kmalloc(sizeof(TPC_REQ_TAB), GFP_ATOMIC);
 	if (pAd->CommonCfg.pTpcReqTab)
 		memset(pAd->CommonCfg.pTpcReqTab, 0, sizeof(TPC_REQ_TAB));
 	else
@@ -1166,9 +1168,8 @@ VOID EnqueueMeasurementRep(
 						pAd->CurrentAddress,
 						pAd->CurrentAddress);
 
-	NStatus = os_alloc_mem(pAd, (PVOID)&pOutBuffer, MGMT_DMA_BUFFER_SIZE);  /*Get an unused nonpaged memory*/
-	if(NStatus != NDIS_STATUS_SUCCESS)
-	{
+	pOutBuffer = kmalloc(MGMT_DMA_BUFFER_SIZE, GFP_ATOMIC);  /*Get an unused nonpaged memory*/
+	if (pOutBuffer == NULL) {
 		DBGPRINT(RT_DEBUG_TRACE, ("%s() allocate memory failed \n", __FUNCTION__));
 		return;
 	}
@@ -1221,9 +1222,8 @@ VOID EnqueueTPCReq(
 						pAd->CurrentAddress,
 						pAd->CurrentAddress);
 
-	NStatus = os_alloc_mem(pAd, (PVOID)&pOutBuffer, MGMT_DMA_BUFFER_SIZE);  /*Get an unused nonpaged memory*/
-	if(NStatus != NDIS_STATUS_SUCCESS)
-	{
+	pOutBuffer = kmalloc(MGMT_DMA_BUFFER_SIZE, GFP_ATOMIC);  /*Get an unused nonpaged memory*/
+	if (pOutBuffer != NDIS_STATUS_SUCCESS) {
 		DBGPRINT(RT_DEBUG_TRACE, ("%s() allocate memory failed \n", __FUNCTION__));
 		return;
 	}
@@ -1274,9 +1274,8 @@ VOID EnqueueTPCRep(
 						pAd->CurrentAddress,
 						pAd->CurrentAddress);
 
-	NStatus = os_alloc_mem(pAd, (PVOID)&pOutBuffer, MGMT_DMA_BUFFER_SIZE);  /*Get an unused nonpaged memory*/
-	if(NStatus != NDIS_STATUS_SUCCESS)
-	{
+	pOutBuffer = kmalloc(MGMT_DMA_BUFFER_SIZE, GFP_ATOMIC);  /*Get an unused nonpaged memory*/
+	if (pOutBuffer == NDIS_STATUS_SUCCESS) {
 		DBGPRINT(RT_DEBUG_TRACE, ("%s() allocate memory failed \n", __FUNCTION__));
 		return;
 	}
@@ -1862,10 +1861,9 @@ static VOID PeerMeasureReportAction(
 /*	if (pAd->CommonCfg.bIEEE80211H != TRUE)*/
 /*		return;*/
 
-	os_alloc_mem(pAd, (UCHAR **)&pMeasureReportInfo, sizeof(MEASURE_RPI_REPORT));
+	pMeasureReportInfo = kmalloc(sizeof(MEASURE_RPI_REPORT), GFP_ATOMIC);
 /*	if ((pMeasureReportInfo = kmalloc(sizeof(MEASURE_RPI_REPORT), GFP_ATOMIC)) == NULL)*/
-	if (pMeasureReportInfo == NULL)
-	{
+	if (pMeasureReportInfo == NULL) {
 		DBGPRINT(RT_DEBUG_ERROR, ("%s unable to alloc memory for measure report buffer (size=%d).\n", __FUNCTION__, sizeof(MEASURE_RPI_REPORT)));
 		return;
 	}
@@ -2089,9 +2087,8 @@ INT Set_MeasureReq_Proc(
 	int NStatus;
 	ULONG FrameLen;
 
-	NStatus = os_alloc_mem(pAd, (PVOID)&pOutBuffer, MGMT_DMA_BUFFER_SIZE);  /*Get an unused nonpaged memory*/
-	if(NStatus != NDIS_STATUS_SUCCESS)
-	{
+	pOutBuffer = kmalloc(MGMT_DMA_BUFFER_SIZE, GFP_ATOMIC);  /*Get an unused nonpaged memory*/
+	if (pOutBuffer == NULL) {
 		DBGPRINT(RT_DEBUG_TRACE, ("%s() allocate memory failed \n", __FUNCTION__));
 		goto END_OF_MEASURE_REQ;
 	}

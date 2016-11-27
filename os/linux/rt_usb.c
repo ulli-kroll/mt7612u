@@ -1060,7 +1060,7 @@ void InitUSBDevice(RT_CMD_USB_INIT *config, VOID *ad_src)
 	RTMP_SEM_EVENT_INIT(&(ad->reg_atomic), &ad->RscSemMemList);
 	RTMP_SEM_EVENT_INIT(&(ad->hw_atomic), &ad->RscSemMemList);
 	RTMP_SEM_EVENT_INIT(&(ad->mcu_atomic), &ad->RscSemMemList);
-	os_alloc_mem(ad, (PUCHAR *)&ad->UsbVendorReqBuf, MAX_PARAM_BUFFER_SIZE - 1);
+	ad->UsbVendorReqBuf = kmalloc(MAX_PARAM_BUFFER_SIZE - 1, GFP_ATOMIC);
 
 	if (ad->UsbVendorReqBuf == NULL) {
 		DBGPRINT(RT_DEBUG_ERROR, ("Allocate vendor request temp buffer failed!\n"));

@@ -79,18 +79,16 @@ VOID BuildChannelList(struct rtmp_adapter *pAd)
 
 		if (num > 0)
 		{
-			os_alloc_mem(NULL, (UCHAR **)&pChannelList, num * sizeof(UCHAR));
+			pChannelList = kmalloc(num * sizeof(UCHAR), GFP_ATOMIC);
 
-			if (!pChannelList)
-			{
+			if (!pChannelList) {
 				DBGPRINT(RT_DEBUG_ERROR,("%s:Allocate memory for ChannelList failed\n", __FUNCTION__));
 				return;
 			}
 
-			os_alloc_mem(NULL, (UCHAR **)&pChannelListFlag, num * sizeof(UCHAR));
+			pChannelListFlag = kmalloc(num * sizeof(UCHAR), GFP_ATOMIC);
 
-			if (!pChannelListFlag)
-			{
+			if (!pChannelListFlag) {
 				DBGPRINT(RT_DEBUG_ERROR,("%s:Allocate memory for ChannelListFlag failed\n", __FUNCTION__));
 				kfree(pChannelList);
 				return;
@@ -158,18 +156,16 @@ VOID BuildChannelList(struct rtmp_adapter *pAd)
 #ifdef CONFIG_AP_SUPPORT
 			UCHAR q=0;
 #endif /* CONFIG_AP_SUPPORT */
-			os_alloc_mem(NULL, (UCHAR **)&pChannelList, num * sizeof(UCHAR));
+			pChannelList = kmalloc(num * sizeof(UCHAR), GFP_ATOMIC);
 
-			if (!pChannelList)
-			{
+			if (!pChannelList) {
 				DBGPRINT(RT_DEBUG_ERROR,("%s:Allocate memory for ChannelList failed\n", __FUNCTION__));
 				return;
 			}
 
-			os_alloc_mem(NULL, (UCHAR **)&pChannelListFlag, num * sizeof(UCHAR));
+			pChannelListFlag = kmalloc(num * sizeof(UCHAR), GFP_ATOMIC);
 
-			if (!pChannelListFlag)
-			{
+			if (!pChannelListFlag) {
 				DBGPRINT(RT_DEBUG_ERROR,("%s:Allocate memory for ChannelListFlag failed\n", __FUNCTION__));
 				kfree(pChannelList);
 				return;

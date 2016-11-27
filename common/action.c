@@ -115,9 +115,8 @@ VOID MlmeADDBAAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 	if(MlmeAddBAReqSanity(pAd, Elem->Msg, Elem->MsgLen, Addr) &&
 		VALID_WCID(pInfo->Wcid))
 	{
-		NStatus = os_alloc_mem(pAd, &pOutBuffer, MGMT_DMA_BUFFER_SIZE);  /* Get an unused nonpaged memory*/
-		if(NStatus != NDIS_STATUS_SUCCESS)
-		{
+		pOutBuffer = kmalloc(MGMT_DMA_BUFFER_SIZE, GFP_ATOMIC);  /* Get an unused nonpaged memory*/
+		if (pOutBuffer == NULL) {
 			DBGPRINT(RT_DEBUG_TRACE,("BA - MlmeADDBAAction() allocate memory failed \n"));
 			return;
 		}
@@ -218,14 +217,15 @@ VOID MlmeDELBAAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 	if(MlmeDelBAReqSanity(pAd, Elem->Msg, Elem->MsgLen) &&
 		VALID_WCID(pInfo->Wcid))
 	{
-		if(os_alloc_mem(pAd, &pOutBuffer, MGMT_DMA_BUFFER_SIZE) != NDIS_STATUS_SUCCESS)
-		{
+		pOutBuffer = kmalloc(MGMT_DMA_BUFFER_SIZE, GFP_ATOMIC);
+
+		if(pOutBuffer == NULL) {
 			DBGPRINT(RT_DEBUG_ERROR,("BA - MlmeDELBAAction() allocate memory failed 1. \n"));
 			return;
 		}
 
-		if(os_alloc_mem(pAd, &pOutBuffer2, MGMT_DMA_BUFFER_SIZE) != NDIS_STATUS_SUCCESS)
-		{
+		pOutBuffer2 = kmalloc(MGMT_DMA_BUFFER_SIZE, GFP_ATOMIC);
+		if (pOutBuffer2 == NULL) {
 			kfree(pOutBuffer);
 			DBGPRINT(RT_DEBUG_ERROR, ("BA - MlmeDELBAAction() allocate memory failed 2. \n"));
 			return;
@@ -396,9 +396,8 @@ VOID SendBSS2040CoexistMgmtAction(
 	BssIntolerantInfo.Len = 1;
 	BssIntolerantInfo.RegulatoryClass = get_regulatory_class(pAd);
 
-	NStatus = os_alloc_mem(pAd, &pOutBuffer, MGMT_DMA_BUFFER_SIZE);  /*Get an unused nonpaged memory*/
-	if(NStatus != NDIS_STATUS_SUCCESS)
-	{
+	pOutBuffer = kmalloc(MGMT_DMA_BUFFER_SIZE, GFP_ATOMIC);  /*Get an unused nonpaged memory*/
+	if(pOutBuffer == NULL) {
 		DBGPRINT(RT_DEBUG_ERROR,("ACT - SendBSS2040CoexistMgmtAction() allocate memory failed \n"));
 		return;
 	}
@@ -644,9 +643,8 @@ VOID Send2040CoexistAction(
         UCHAR apidx;
 #endif /* APCLI_SUPPORT */
 	IntolerantChaRepLen = 0;
-	NStatus = os_alloc_mem(pAd, &pOutBuffer, MGMT_DMA_BUFFER_SIZE);  /*Get an unused nonpaged memory*/
-	if(NStatus != NDIS_STATUS_SUCCESS)
-	{
+	pOutBuffer = kmalloc(MGMT_DMA_BUFFER_SIZE, GFP_ATOMIC);  /*Get an unused nonpaged memory*/
+	if (pOutBuffer == NULL) {
 		DBGPRINT(RT_DEBUG_ERROR,("ACT - Send2040CoexistAction() allocate memory failed \n"));
 		return;
 	}
@@ -1013,9 +1011,8 @@ VOID SendNotifyBWActionFrame(struct rtmp_adapter *pAd, UCHAR Wcid, UCHAR apidx)
 	struct rtmp_wifi_dev *wdev;
 
 
-	NStatus = os_alloc_mem(pAd, &pOutBuffer, MGMT_DMA_BUFFER_SIZE);  /* Get an unused nonpaged memory */
-	if(NStatus != NDIS_STATUS_SUCCESS)
-	{
+	pOutBuffer = kmalloc(MGMT_DMA_BUFFER_SIZE, GFP_ATOMIC);  /* Get an unused nonpaged memory */
+	if (pOutBuffer == NULL) {
 		DBGPRINT(RT_DEBUG_ERROR,("ACT - SendNotifyBWAction() allocate memory failed \n"));
 		return;
 	}
@@ -1212,9 +1209,8 @@ VOID SendRefreshBAR(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 
 			ASSERT(pBAEntry->Wcid < MAX_LEN_OF_MAC_TABLE);
 
-			NStatus = os_alloc_mem(pAd, &pOutBuffer, MGMT_DMA_BUFFER_SIZE);  /*Get an unused nonpaged memory*/
-			if(NStatus != NDIS_STATUS_SUCCESS)
-			{
+			pOutBuffer = kmalloc(MGMT_DMA_BUFFER_SIZE, GFP_ATOMIC);  /*Get an unused nonpaged memory*/
+			if (pOutBuffer == NULL) {
 				DBGPRINT(RT_DEBUG_ERROR,("BA - MlmeADDBAAction() allocate memory failed \n"));
 				return;
 			}

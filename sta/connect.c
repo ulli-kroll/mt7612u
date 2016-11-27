@@ -326,7 +326,7 @@ VOID CntlOidScanProc(
 
 
 	/* allocate memory */
-	os_alloc_mem(NULL, (UCHAR **) & pCurrBss, sizeof (BSS_ENTRY));
+	pCurrBss = kmalloc(sizeof (BSS_ENTRY), GFP_ATOMIC);
 	if (pCurrBss == NULL) {
 		DBGPRINT(RT_DEBUG_ERROR,
 			 ("%s: Allocate memory fail!!!\n", __FUNCTION__));

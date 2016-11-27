@@ -48,7 +48,7 @@ void wext_send_btm_query_event(struct net_device *net_dev, const char *peer_mac_
 	char *buf;
 
 	buflen = sizeof(*query_data) + btm_query_len;
-	os_alloc_mem(NULL, (UCHAR **)&buf, buflen);
+	buf = kmalloc(buflen, GFP_ATOMIC);
 	memset(buf, buflen);
 
 	query_data = (struct btm_query_data *)buf;
@@ -73,7 +73,7 @@ void wext_send_btm_cfm_event(struct net_device *net_dev, const char *peer_mac_ad
 
 
 	buflen = sizeof(*rsp_data) + btm_rsp_len;
-	os_alloc_mem(NULL, (UCHAR **)&buf, buflen);
+	buf = kmalloc(buflen, GFP_ATOMIC);
 	memset(buf, buflen);
 
 	rsp_data = (struct btm_rsp_data *)buf;
@@ -107,7 +107,7 @@ void wext_send_proxy_arp_event(struct net_device *net_dev,
 
 	buflen = sizeof(*arp_entry) + varlen;
 
-	os_alloc_mem(NULL, (UCHAR **)&buf, buflen);
+	buf = kmalloc(buflen, GFP_ATOMIC);
 	memset(buf, buflen);
 
 	arp_entry = (struct proxy_arp_entry *)buf;
@@ -515,10 +515,8 @@ UINT32 AddIPv4ProxyARPEntry(IN struct rtmp_adapter *pAd,
 	}
 	RTMP_SEM_EVENT_UP(&pWNMCtrl->ProxyARPListLock);
 
-	os_alloc_mem(NULL, (UCHAR **)&ProxyARPEntry, sizeof(*ProxyARPEntry));
-
-	if (!ProxyARPEntry)
-	{
+	ProxyARPEntry = kmalloc(sizeof(*ProxyARPEntry), GFP_ATOMIC);
+	if (!ProxyARPEntry) {
 		DBGPRINT(RT_DEBUG_ERROR, ("%s Not available memory\n", __FUNCTION__));
 		return FALSE;
 	}
@@ -589,10 +587,9 @@ UINT32 AddIPv6ProxyARPEntry(IN struct rtmp_adapter *pAd,
 	}
 	RTMP_SEM_EVENT_UP(&pWNMCtrl->ProxyARPIPv6ListLock);
 
-	os_alloc_mem(NULL, (UCHAR **)&ProxyARPEntry, sizeof(*ProxyARPEntry));
+	ProxyARPEntry = kmalloc(sizeof(*ProxyARPEntry), GFP_ATOMIC);
 
-	if (!ProxyARPEntry)
-	{
+	if (!ProxyARPEntry) {
 		DBGPRINT(RT_DEBUG_ERROR, ("%s Not available memory\n", __FUNCTION__));
 		return FALSE;
 	}

@@ -229,9 +229,8 @@ VOID CFG80211_UpdateBeacon(
 		if (pCfg80211_ctrl->beacon_tail_buf != NULL)
 			 kfree(pCfg80211_ctrl->beacon_tail_buf);
 
-		os_alloc_mem(NULL, (UCHAR **)&pCfg80211_ctrl->beacon_tail_buf, beacon_tail_len);
-		if (pCfg80211_ctrl->beacon_tail_buf != NULL)
-		{
+		pCfg80211_ctrl->beacon_tail_buf = kmalloc(beacon_tail_len, GFP_ATOMIC);
+		if (pCfg80211_ctrl->beacon_tail_buf != NULL) {
 			memcpy(pCfg80211_ctrl->beacon_tail_buf, beacon_tail_buf, beacon_tail_len);
 			pCfg80211_ctrl->beacon_tail_len = beacon_tail_len;
 		}

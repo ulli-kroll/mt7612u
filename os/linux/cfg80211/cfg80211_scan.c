@@ -93,9 +93,9 @@ BOOLEAN CFG80211DRV_OpsScanSetSpecifyChannel(
 		if (cfg80211_ctrl->pCfg80211ChanList != NULL)
 			kfree(cfg80211_ctrl->pCfg80211ChanList);
 
-		os_alloc_mem(NULL, (UCHAR **)&cfg80211_ctrl->pCfg80211ChanList, sizeof(UINT32 *) * dataLen);
-		if (cfg80211_ctrl->pCfg80211ChanList != NULL)
-		{
+		cfg80211_ctrl->pCfg80211ChanList =
+			kmalloc(sizeof(UINT32 *) * dataLen, GFP_ATOMIC);
+		if (cfg80211_ctrl->pCfg80211ChanList != NULL) {
 			memcpy(cfg80211_ctrl->pCfg80211ChanList, pChanList, sizeof(UINT32 *) * dataLen);
 			cfg80211_ctrl->Cfg80211ChanListLen = dataLen;
 			cfg80211_ctrl->Cfg80211CurChanIndex = 0 ; /* Start from index 0 */
@@ -184,7 +184,7 @@ BOOLEAN CFG80211DRV_OpsScanExtraIesSet(struct rtmp_adapter *pAd)
 	}
 	cfg80211_ctrl->ExtraIeLen = 0;
 
-	os_alloc_mem(pAd, (UCHAR **)&(cfg80211_ctrl->pExtraIe), ie_len);
+	cfg80211_ctrl->pExtraIe = kmalloc(ie_len, GFP_ATOMIC);
 	if (cfg80211_ctrl->pExtraIe)
 	{
 		memcpy(cfg80211_ctrl->pExtraIe, pCfg80211_CB->pCfg80211_ScanReq->ie, ie_len);

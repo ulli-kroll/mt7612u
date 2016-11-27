@@ -875,7 +875,7 @@ NTSTATUS eFuseWrite(
 	PUSHORT OddWriteByteBuf;
 
 /*	OddWriteByteBuf=(PUSHORT)kmalloc(sizeof(USHORT)*2, MEM_ALLOC_FLAG);*/
-	os_alloc_mem(NULL, (UCHAR **)&OddWriteByteBuf, sizeof(USHORT)*2);
+	OddWriteByteBuf = kmalloc(sizeof(USHORT)*2, GFP_ATOMIC);
 	/* The input value=3070 will be stored as following*/
 	/* Little-endian		S	|	S	Big-endian*/
 	/* addr			1	0	|	0	1	*/
@@ -983,7 +983,7 @@ INT	set_eFuseLoadFromBin_Proc(
 
 	memSize = 128 + MAX_EEPROM_BIN_FILE_SIZE + sizeof(USHORT) * 8;
 /*	memPtr = kmalloc(memSize, MEM_ALLOC_FLAG);*/
-	os_alloc_mem(NULL, (UCHAR **)&memPtr, memSize);
+	memPtr = kmalloc(memSize, GFP_ATOMIC);
 	if (memPtr == NULL)
 		return FALSE;
 

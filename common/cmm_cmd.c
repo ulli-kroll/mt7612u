@@ -114,16 +114,15 @@ int RTEnqueueInternalCmd(
 	PCmdQElmt	cmdqelmt = NULL;
 
 
-	status = os_alloc_mem(pAd, (PUCHAR *)&cmdqelmt, sizeof(CmdQElmt));
-	if ((status != NDIS_STATUS_SUCCESS) || (cmdqelmt == NULL))
+	cmdqelmt = kmalloc(sizeof(CmdQElmt), GFP_ATOMIC);
+	if (cmdqelmt == NULL)
 		return (NDIS_STATUS_RESOURCES);
 	memset(cmdqelmt, 0, sizeof(CmdQElmt));
 
 	if(InformationBufferLength > 0)
 	{
-		status = os_alloc_mem(pAd, (PUCHAR *)&cmdqelmt->buffer, InformationBufferLength);
-		if ((status != NDIS_STATUS_SUCCESS) || (cmdqelmt->buffer == NULL))
-		{
+		cmdqelmt->buffer = kmalloc(InformationBufferLength, GFP_ATOMIC);
+		if (cmdqelmt->buffer == NULL) {
 			kfree(cmdqelmt);
 			return (NDIS_STATUS_RESOURCES);
 		}

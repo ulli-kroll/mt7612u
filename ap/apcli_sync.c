@@ -261,18 +261,16 @@ static VOID ApCliPeerProbeRspAtJoinAction(
 		return;
 
 	/* Init Variable IE structure */
-	os_alloc_mem(NULL, (UCHAR **)&VarIE, MAX_VIE_LEN);
-	if (VarIE == NULL)
-	{
+	VarIE = kmalloc(MAX_VIE_LEN, GFP_ATOMIC);
+	if (VarIE == NULL) {
 		DBGPRINT(RT_DEBUG_ERROR, ("%s: Allocate memory fail!!!\n", __FUNCTION__));
 		goto LabelErr;
 	}
 	pVIE = (PNDIS_802_11_VARIABLE_IEs) VarIE;
 	pVIE->Length = 0;
 
-	os_alloc_mem(NULL, (UCHAR **)&ie_list, sizeof(BCN_IE_LIST));
-	if (ie_list == NULL)
-	{
+	ie_list = kmalloc((sizeof(BCN_IE_LIST), GFP_ATOMIC);
+	if (ie_list == NULL) {
 		DBGPRINT(RT_DEBUG_ERROR, ("%s: Allocate ie_list fail!!!\n", __FUNCTION__));
 		goto LabelErr;
 	}
@@ -639,9 +637,8 @@ static VOID ApCliEnqueueProbeRequest(
 
 	pApCliEntry = &pAd->ApCfg.ApCliTab[ifIndex];
 
-	NState = os_alloc_mem(pAd, &pOutBuffer, MGMT_DMA_BUFFER_SIZE);  /* Get an unused nonpaged memory */
-	if(NState != NDIS_STATUS_SUCCESS)
-	{
+	pOutBuffer = kmalloc(MGMT_DMA_BUFFER_SIZENStatus != NDIS_STATUS_SUCCESS));  /* Get an unused nonpaged memory */
+	if (pOutBuffer == NULL) {
 		DBGPRINT(RT_DEBUG_TRACE, ("EnqueueProbeRequest() allocate memory fail\n"));
 		return;
 	}

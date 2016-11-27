@@ -2016,9 +2016,8 @@ UINT deaggregate_AMSDU_announce(
 		{
 			MLME_QUEUE_ELEM *Elem;
 
-			os_alloc_mem(pAd, (UCHAR **)&Elem, sizeof(MLME_QUEUE_ELEM));
-			if (Elem != NULL)
-			{
+			Elem = kmalloc(sizeof(MLME_QUEUE_ELEM), GFP_ATOMIC);
+			if (Elem != NULL) {
 				memmove(Elem->Msg+(LENGTH_802_11 + LENGTH_802_1_H), pPayload, PayloadSize);
 				Elem->MsgLen = LENGTH_802_11 + LENGTH_802_1_H + PayloadSize;
 				REPORT_MGMT_FRAME_TO_MLME(pAd, BSSID_WCID, Elem->Msg, Elem->MsgLen, 0, 0, 0, 0, OPMODE_STA);
@@ -2038,9 +2037,8 @@ UINT deaggregate_AMSDU_announce(
 			{
 				APCLI_STRUCT *apcli_entry;
 				apcli_entry = &pAd->ApCfg.ApCliTab[0];
-				os_alloc_mem(pAd, (UCHAR **)&Elem, sizeof(MLME_QUEUE_ELEM));
-				if (Elem != NULL)
-				{
+				Elem = kmalloc(sizeof(MLME_QUEUE_ELEM), GFP_ATOMIC);
+				if (Elem != NULL) {
 					if (pRxBlk != NULL)
 					{
 						memmove(Elem->Msg, pRxBlk->pHeader, LENGTH_802_11);
@@ -3300,11 +3298,10 @@ VOID RtmpEnqueueNullFrame(
 	UINT frm_len;
 	MAC_TABLE_ENTRY *pEntry;
 
-	NState = os_alloc_mem(pAd, (UCHAR **)&pFrame, MGMT_DMA_BUFFER_SIZE);
+	pFrame = kmalloc(MGMT_DMA_BUFFER_SIZE, GFP_ATOMIC);
 	pNullFr = (PHEADER_802_11) pFrame;
 
-	if (NState == NDIS_STATUS_SUCCESS)
-	{
+	if (pFrame != NULL) {
 		frm_len = sizeof(HEADER_802_11);
 
 		pEntry = MacTableLookup(pAd, pAddr);
@@ -3377,7 +3374,7 @@ VOID RtmpPrepareHwNullFrame(
 	UINT i;
 	UINT32 longValue;
 
-	NState = os_alloc_mem(pAd, (PUCHAR *)&pNullFrame, MGMT_DMA_BUFFER_SIZE);
+	pNullFrame = kmalloc(MGMT_DMA_BUFFER_SIZE, GFP_ATOMIC);
 
 	memset(pNullFrame, 0, 48);
 	memset(pTxWI, 0, TXWISize);

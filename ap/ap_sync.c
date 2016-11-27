@@ -99,8 +99,8 @@ VOID APPeerProbeReqAction(
 
 
 		/* allocate and send out ProbeRsp frame */
-		NStatus = os_alloc_mem(pAd, &pOutBuffer, MGMT_DMA_BUFFER_SIZE);
-		if (NStatus != NDIS_STATUS_SUCCESS)
+		pOutBuffer = kmalloc(MGMT_DMA_BUFFER_SIZE, GFP_ATOMIC);
+		if (pOutBuffer == NULL)
 			return;
 
 		MgtMacHeaderInit(pAd, &ProbeRspHdr, SUBTYPE_PROBE_RSP, 0, ProbeReqParam.Addr2,
@@ -323,9 +323,8 @@ VOID APPeerProbeReqAction(
 			ULONG TmpLen, TmpLen2=0;
 			UCHAR *TmpFrame = NULL;
 
-			os_alloc_mem(NULL, (UCHAR **)&TmpFrame, 256);
-			if (TmpFrame != NULL)
-			{
+			TmpFrame = kmalloc(256, GFP_ATOMIC);
+			if (TmpFrame != NULL) {
 				memset(TmpFrame, 0, 256);
 
 				/* prepare channel information */
@@ -705,18 +704,16 @@ VOID APPeerBeaconAction(
 
 
 	/* allocate memory */
-	os_alloc_mem(NULL, (UCHAR **)&ie_list, sizeof(BCN_IE_LIST));
-	if (ie_list == NULL)
-	{
+	ie_list = kmalloc(sizeof(BCN_IE_LIST), GFP_ATOMIC);
+	if (ie_list == NULL) {
 		DBGPRINT(RT_DEBUG_ERROR, ("%s: Allocate ie_list fail!!!\n", __FUNCTION__));
 		goto LabelErr;
 	}
 	memset(ie_list, 0, sizeof(BCN_IE_LIST));
 
 	/* Init Variable IE structure */
-	os_alloc_mem(NULL, (UCHAR **)&VarIE, MAX_VIE_LEN);
-	if (VarIE == NULL)
-	{
+	VarIE = kmalloc(MAX_VIE_LEN, GFP_ATOMIC);
+	if (VarIE == NULL) {
 		DBGPRINT(RT_DEBUG_ERROR, ("%s: Allocate VarIE fail!!!\n", __FUNCTION__));
 		goto LabelErr;
 	}
@@ -1215,7 +1212,7 @@ VOID APPeerBeaconAtScanAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 	BCN_IE_LIST *ie_list = NULL;
 
 
-	os_alloc_mem(pAd, (UCHAR **)&ie_list, sizeof(BCN_IE_LIST));
+	ie_list = kmalloc(sizeof(BCN_IE_LIST), GFP_ATOMIC);
 	if (!ie_list) {
 		DBGPRINT(RT_DEBUG_ERROR, ("%s: Alloc memory for ie_list fail!!!\n", __FUNCTION__));
 		return;
@@ -1223,7 +1220,7 @@ VOID APPeerBeaconAtScanAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 	memset((UCHAR *)ie_list, 0, sizeof(BCN_IE_LIST));
 
 	/* allocate memory */
-	os_alloc_mem(NULL, (UCHAR **)&VarIE, MAX_VIE_LEN);
+	VarIE = kmalloc(MAX_VIE_LEN, GFP_ATOMIC);
 	if (VarIE == NULL)
 	{
 		DBGPRINT(RT_DEBUG_ERROR, ("%s: Allocate memory fail!!!\n", __FUNCTION__));

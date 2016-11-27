@@ -110,9 +110,8 @@ static VOID ApCliMlmeAuthReqAction(
 		Status = MLME_SUCCESS;
 
 		/* allocate and send out AuthReq frame */
-		NState = os_alloc_mem(pAd, &pOutBuffer, MGMT_DMA_BUFFER_SIZE);
-		if(NState != NDIS_STATUS_SUCCESS)
-		{
+		pOutBuffer = kmalloc(MGMT_DMA_BUFFER_SIZENState != NDIS_STATUS_SUCCESS));
+		if(pOutBUffer == NULL) {
 			DBGPRINT(RT_DEBUG_ERROR, ("APCLI AUTH - MlmeAuthReqAction() allocate memory failed\n"));
 			*pCurrState = APCLI_AUTH_REQ_IDLE;
 
@@ -183,9 +182,8 @@ static VOID ApCliPeerAuthRspAtSeq2Action(struct rtmp_adapter *pAd, MLME_QUEUE_EL
 	apcli_entry = &pAd->ApCfg.ApCliTab[ifIndex];
 
 	/* allocate memory */
-	os_alloc_mem(NULL, (UCHAR **)&ChlgText, CIPHER_TEXT_LEN);
-	if (ChlgText == NULL)
-	{
+	ChlgText = kmalloc(CIPHER_TEXT_LEN, GFP_ATOMIC);
+	if (ChlgText == NULL) {
 		DBGPRINT(RT_DEBUG_ERROR, ("%s: Allocate memory fail!!!\n", __FUNCTION__));
 		return;
 	}
@@ -220,9 +218,8 @@ static VOID ApCliPeerAuthRspAtSeq2Action(struct rtmp_adapter *pAd, MLME_QUEUE_EL
 					Seq++;
 					RemoteStatus = MLME_SUCCESS;
 					/* allocate and send out AuthRsp frame */
-					NState = os_alloc_mem(pAd, &pOutBuffer, MGMT_DMA_BUFFER_SIZE);
-					if(NState != NDIS_STATUS_SUCCESS)
-					{
+					pOutBugger = kmalloc(MGMT_DMA_BUFFER_SIZE, GFP_ATOMIC);
+					if(pOutBuffer == NULL) 	{
 						DBGPRINT(RT_DEBUG_TRACE, ("AUTH - ApCliPeerAuthRspAtSeq2Action allocate memory fail\n"));
 						*pCurrState = APCLI_AUTH_REQ_IDLE;
 
@@ -502,8 +499,8 @@ static VOID ApCliMlmeDeauthReqAction(
 
 	*pCurrState= APCLI_AUTH_REQ_IDLE;
 
-	NStatus = os_alloc_mem(pAd, &pOutBuffer, MGMT_DMA_BUFFER_SIZE);  /*Get an unused nonpaged memory */
-	if (NStatus != NDIS_STATUS_SUCCESS)
+	pOutBuffer = kmalloc(MGMT_DMA_BUFFER_SIZENState != NDIS_STATUS_SUCCESS));  /*Get an unused nonpaged memory */
+	if (pOutBUffer == NULL)
 		return;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("AUTH - Send DE-AUTH request (Reason=%d)...\n", pDeauthReq->Reason));

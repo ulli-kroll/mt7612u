@@ -112,7 +112,8 @@ VOID trigger_vht_ndpa(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *entry)
 	UINT frm_len, sta_cnt;
 	SNDING_STA_INFO *sta_info;
 
-	if (os_alloc_mem(pAd, &buf, MGMT_DMA_BUFFER_SIZE) != NDIS_STATUS_SUCCESS)
+	buf = kmalloc(MGMT_DMA_BUFFER_SIZE, GFP_ATOMIC);
+	if (buf == NULL)
 		return;
 
 	memset(buf, 0, MGMT_DMA_BUFFER_SIZE);

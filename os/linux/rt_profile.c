@@ -273,7 +273,7 @@ int RTMPReadParametersHook(struct rtmp_adapter *pAd)
 #endif /*HOSTAPD_SUPPORT */
 
 		{
-			os_alloc_mem(pAd, (UCHAR **)&buffer, MAX_INI_BUFFER_SIZE);
+			buffer = kmalloc(MAX_INI_BUFFER_SIZE, GFP_ATOMIC);
 			if (buffer) {
 				memset(buffer, 0x00, buf_size);
 

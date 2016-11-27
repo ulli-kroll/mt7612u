@@ -122,8 +122,8 @@ static VOID APMlmeDeauthReqAction(
         MacTableDeleteEntry(pAd, Elem->Wcid, pInfo->Addr);
 
         /* 2. send out DE-AUTH request frame */
-        NStatus = os_alloc_mem(pAd, &pOutBuffer, MGMT_DMA_BUFFER_SIZE);
-        if (NStatus != NDIS_STATUS_SUCCESS)
+        pOutBuffer = kmalloc(MGMT_DMA_BUFFER_SIZE, GFP_ATOMIC);
+        if (pOutBuffer == NULL)
             return;
 
         DBGPRINT(RT_DEBUG_TRACE,
@@ -373,8 +373,8 @@ SendAuth:
 			RspReason = 0;
 			Seq++;
 
-			NStatus = os_alloc_mem(pAd, &pOutBuffer, MGMT_DMA_BUFFER_SIZE);
-			if(NStatus != NDIS_STATUS_SUCCESS)
+			pOutBuffer = kmalloc(MGMT_DMA_BUFFER_SIZE, GFP_ATOMIC);
+			if(pOutBuffer == NULL)
 				return;  /* if no memory, can't do anything */
 
 			DBGPRINT(RT_DEBUG_TRACE, ("AUTH - Send AUTH seq#2 (Challenge)\n"));
@@ -568,8 +568,8 @@ VOID APCls2errAction(
 	}
 
 	/* send out DEAUTH frame */
-	NStatus = os_alloc_mem(pAd, &pOutBuffer, MGMT_DMA_BUFFER_SIZE);
-	if (NStatus != NDIS_STATUS_SUCCESS)
+	pOutBuffer = kmalloc(MGMT_DMA_BUFFER_SIZE, GFP_ATOMIC);
+	if (pOutBuffer == NULL)
 		return;
 
 	DBGPRINT(RT_DEBUG_TRACE,
@@ -608,8 +608,8 @@ VOID APPeerAuthSimpleRspGenAndSend(
     int       NStatus;
 
 
-    NStatus = os_alloc_mem(pAd, &pOutBuffer, MGMT_DMA_BUFFER_SIZE);
-    if (NStatus != NDIS_STATUS_SUCCESS)
+    pOutBuffer = kmalloc(MGMT_DMA_BUFFER_SIZE, GFP_ATOMIC);
+    if (pOutBuffer == NULL)
         return;
 
     if (StatusCode == MLME_SUCCESS)

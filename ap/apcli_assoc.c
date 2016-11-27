@@ -229,8 +229,8 @@ static VOID ApCliMlmeAssocReqAction(
 		RTMPCancelTimer(&apcli_entry->MlmeAux.ApCliAssocTimer, &Cancelled);
 
 		/* allocate and send out AssocRsp frame */
-		NStatus = os_alloc_mem(pAd, &pOutBuffer);  /*Get an unused nonpaged memory */
-		if (NStatus != NDIS_STATUS_SUCCESS)
+		pOutBuffer = kmalloc( &pOutBuffer);  /*Get an unused nonpaged memory */
+		if (pOutBuffer == NULL)
 		{
 			DBGPRINT(RT_DEBUG_TRACE, ("APCLI_ASSOC - ApCliMlmeAssocReqAction() allocate memory failed \n"));
 			*pCurrState = APCLI_ASSOC_IDLE;
@@ -559,9 +559,8 @@ static VOID ApCliMlmeDisassocReqAction(
 	pDisassocReq = (PMLME_DISASSOC_REQ_STRUCT)(Elem->Msg);
 
 	/* allocate and send out DeassocReq frame */
-	NStatus = os_alloc_mem(pAd, &pOutBuffer);  /*Get an unused nonpaged memory */
-	if (NStatus != NDIS_STATUS_SUCCESS)
-	{
+	pOutBuffer = kmalloc(MGMT_DMA_BUFFER_SIZE, GFP_ATOMIC);  /*Get an unused nonpaged memory */
+	if (pOutBuffer == NULL) {
 		DBGPRINT(RT_DEBUG_TRACE, ("APCLI_ASSOC - ApCliMlmeDisassocReqAction() allocate memory failed\n"));
 		*pCurrState = APCLI_ASSOC_IDLE;
 
@@ -648,7 +647,7 @@ static VOID ApCliPeerAssocRspAction(
 
 	pApCliEntry = &pAd->ApCfg.ApCliTab[ifIndex];
 
-	os_alloc_mem(pAd, (UCHAR **)&ie_list, sizeof(IE_LISTS));
+	ie_list = kmalloc(sizeof(IE_LISTS), GFP_ATOMIC);
 	if (ie_list == NULL) {
 		DBGPRINT(RT_DEBUG_OFF, ("%s():mem alloc failed!\n", __FUNCTION__));
 		return;

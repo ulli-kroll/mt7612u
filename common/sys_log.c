@@ -106,9 +106,8 @@ VOID RtmpDrvSendWirelessEvent(
 
 	/*Allocate memory and copy the msg. */
 /*	if((pBuf = kmalloc(IW_CUSTOM_MAX_LEN, GFP_ATOMIC)) != NULL) */
-	os_alloc_mem(NULL, (UCHAR **)&pBuf, IW_CUSTOM_MAX_LEN);
-	if(pBuf != NULL)
-	{
+	pBuf = kmalloc(IW_CUSTOM_MAX_LEN, GFP_ATOMIC);
+	if (pBuf != NULL) {
 		/*Prepare the payload */
 		memset(pBuf, 0, IW_CUSTOM_MAX_LEN);
 

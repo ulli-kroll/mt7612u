@@ -673,7 +673,7 @@ VOID ap_cmm_peer_assoc_req_action(
 #endif /*RT_BIG_ENDIAN*/
 
 	/* allocate memory */
-	os_alloc_mem(NULL, (UCHAR **)&ie_list, sizeof(IE_LISTS));
+	ie_list = kmalloc(sizeof(IE_LISTS), GFP_ATOMIC);
 	if (ie_list == NULL) {
 		DBGPRINT(RT_DEBUG_ERROR, ("%s(): mem alloc failed\n", __FUNCTION__));
 		return;
@@ -829,8 +829,8 @@ VOID ap_cmm_peer_assoc_req_action(
 SendAssocResponse:
 #endif /* DOT11W_PMF_SUPPORT */
 	/* 3. send Association Response */
-	NStatus = os_alloc_mem(pAd, &pOutBuffer, MGMT_DMA_BUFFER_SIZE);
-	if (NStatus != NDIS_STATUS_SUCCESS)
+	pOutBuffer = kmalloc(MGMT_DMA_BUFFER_SIZE, GFP_ATOMIC);
+	if (pOutBuffer == NULL)
 		goto LabelOK;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("%s - Send %s response (Status=%d)...\n", sAssoc, sAssoc, StatusCode));
@@ -1534,8 +1534,8 @@ VOID APMlmeKickOutSta(struct rtmp_adapter *pAd, UCHAR *pStaAddr, UCHAR Wcid, USH
         ApLogEvent(pAd, pStaAddr, EVENT_DISASSOCIATED);
 
 	    /* 2. send out a DISASSOC request frame */
-	    NStatus = os_alloc_mem(pAd, &pOutBuffer, MGMT_DMA_BUFFER_SIZE);
-	    if (NStatus != NDIS_STATUS_SUCCESS)
+	    pOutBuffer = kmalloc(MGMT_DMA_BUFFER_SIZE, GFP_ATOMIC);
+	    if (pOutBuffer == NULL)
 	        return;
 
 	    DBGPRINT(RT_DEBUG_TRACE, ("ASSOC - MLME disassociates %02x:%02x:%02x:%02x:%02x:%02x; Send DISASSOC request\n",
@@ -1569,8 +1569,8 @@ VOID APMlmeKickOutAllSta(struct rtmp_adapter *pAd, UCHAR apidx, USHORT Reason)
     if ((apidx < pAd->ApCfg.BssidNum) && (pPmfCfg))
     {
         /* Send out a Deauthentication request frame */
-        NStatus = os_alloc_mem(pAd, &pOutBuffer, MGMT_DMA_BUFFER_SIZE);
-        if (NStatus != NDIS_STATUS_SUCCESS)
+        pOutBuffer = kmalloc(MGMT_DMA_BUFFER_SIZE, GFP_ATOMIC);
+        if (pOutBuffer == NULL)
             return;
         DBGPRINT(RT_DEBUG_ERROR, ("Send DISASSOC Broadcast frame(%d) with ra%d \n", Reason, apidx));
 
@@ -1657,8 +1657,8 @@ VOID APCls3errAction(struct rtmp_adapter *pAd, ULONG Wcid, HEADER_802_11 *pHeade
     }
 
     /* 2. send out a DISASSOC request frame */
-    NStatus = os_alloc_mem(pAd, &pOutBuffer, MGMT_DMA_BUFFER_SIZE);
-    if (NStatus != NDIS_STATUS_SUCCESS)
+    pOutBuffer = kmalloc(MGMT_DMA_BUFFER_SIZE, GFP_ATOMIC);
+    if (pOutBuffer == NULL)
         return;
 
     DBGPRINT(RT_DEBUG_TRACE, ("ASSOC - Class 3 Error, Send DISASSOC frame to %02x:%02x:%02x:%02x:%02x:%02x\n",

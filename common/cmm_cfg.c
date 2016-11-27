@@ -196,8 +196,8 @@ UCHAR *wmode_2_str(UCHAR wmode)
 	INT idx, pos, max_len;
 
 	max_len = WMODE_COMP * 3;
-	if (os_alloc_mem(NULL, &str, max_len) == NDIS_STATUS_SUCCESS)
-	{
+	str = kmalloc(max_len, GFP_ATOMIC);
+	if (str != NULL) {
 		memset(str, 0, max_len);
 		pos = 0;
 		for (idx = 0; idx < WMODE_COMP; idx++)
@@ -879,9 +879,8 @@ INT RTMP_COM_IoctlHandle(
 			{
 				MLME_DISASSOC_REQ_STRUCT	DisReq;
 				MLME_QUEUE_ELEM *MsgElem;
-				os_alloc_mem(NULL, (UCHAR **)&MsgElem, sizeof(MLME_QUEUE_ELEM));
-				if (MsgElem)
-				{
+				MsgElem = kmalloc(sizeof(MLME_QUEUE_ELEM), GFP_ATOMIC);
+				if (MsgElem) {
 					COPY_MAC_ADDR(DisReq.Addr, pAd->CommonCfg.Bssid);
 					DisReq.Reason =  REASON_DEAUTH_STA_LEAVING;
 					MsgElem->Machine = ASSOC_STATE_MACHINE;
@@ -1125,7 +1124,8 @@ INT RTMP_COM_IoctlHandle(
 
 #ifdef INF_PPA_SUPPORT
 		case CMD_RTPRIV_IOCTL_INF_PPA_INIT:
-			os_alloc_mem(NULL, (UCHAR **)&(pAd->pDirectpathCb), sizeof(PPA_DIRECTPATH_CB));
+			pAd->pDirectpathCb =
+				kmalloc(sizeof(PPA_DIRECTPATH_CB), GFP_ATOMIC);
 			break;
 
 		case CMD_RTPRIV_IOCTL_INF_PPA_EXIT:

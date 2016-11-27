@@ -633,7 +633,7 @@ BOOLEAN CFG80211DRV_OpsLeave(
     pAd->MlmeAux.AutoReconnectSsidLen= 32;
     memset(pAd->MlmeAux.AutoReconnectSsid, 0, pAd->MlmeAux.AutoReconnectSsidLen);
 
-    os_alloc_mem(pAd, (UCHAR **)&pMsgElem, sizeof(MLME_QUEUE_ELEM));
+    pMsgElem = kmalloc(sizeof(MLME_QUEUE_ELEM), GFP_ATOMIC);
 
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
 	if (IfType == RT_CMD_80211_IFTYPE_P2P_CLIENT)
@@ -1652,9 +1652,8 @@ BOOLEAN CFG80211_checkScanTable(
 
 		ieLen = 2 + pApCliEntry->MlmeAux.SsidLen + pBssEntry->VarIeFromProbeRspLen;
 
-		os_alloc_mem(NULL, (UCHAR **)&ie, ieLen);
-		if (!ie)
-		{
+		ie = kmalloc(ieLen, GFP_ATOMIC);
+		if (!ie) {
 			CFG80211DBG(RT_DEBUG_ERROR, ("Memory Allocate Fail in CFG80211_checkScanTable\n"));
 			return FALSE;
 		}

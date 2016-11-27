@@ -4342,9 +4342,8 @@ VOID BssTableSortByRssi(
         BSS_ENTRY *pTmpBss = NULL;
 
         /* allocate memory */
-        os_alloc_mem(NULL, (UCHAR **)&pTmpBss, sizeof(BSS_ENTRY));
-        if (pTmpBss == NULL)
-        {
+        pTmpBss = kmalloc(sizeof(BSS_ENTRY), GFP_ATOMIC);
+        if (pTmpBss == NULL) {
                 DBGPRINT(RT_DEBUG_ERROR, ("%s: Allocate memory fail!!!\n", __FUNCTION__));
                 return;
         }

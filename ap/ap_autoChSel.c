@@ -1036,7 +1036,7 @@ void AutoChBssTableInit(
 	IN struct rtmp_adapter *pAd)
 {
 /*	pAd->pBssInfoTab = (PBSSINFO)kmalloc(sizeof(BSSINFO), GFP_ATOMIC); */
-	os_alloc_mem(pAd, (UCHAR **)&pAd->pBssInfoTab, sizeof(BSSINFO));
+	pAd->pBssInfoTab = kmalloc(sizeof(BSSINFO), GFP_ATOMIC);
 	if (pAd->pBssInfoTab)
 		memset(pAd->pBssInfoTab, 0, sizeof(BSSINFO));
 	else
@@ -1049,7 +1049,7 @@ void ChannelInfoInit(
 	IN struct rtmp_adapter *pAd)
 {
 /*	pAd->pChannelInfo = (PCHANNELINFO)kmalloc(sizeof(CHANNELINFO), GFP_ATOMIC); */
-	os_alloc_mem(pAd, (UCHAR **)&pAd->pChannelInfo, sizeof(CHANNELINFO));
+	pAd->pChannelInfo = kmalloc(sizeof(CHANNELINFO), GFP_ATOMIC);
 	if (pAd->pChannelInfo)
 		memset(pAd->pChannelInfo, 0, sizeof(CHANNELINFO));
 	else

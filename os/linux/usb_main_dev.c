@@ -84,9 +84,8 @@ static int rt2870_probe(
 #endif /* CONFIG_PM */
 
 
-	os_alloc_mem(NULL, (UCHAR **)&handle, sizeof(struct os_cookie));
-	if (handle == NULL)
-	{
+	handle = kmalloc(sizeof(struct os_cookie), GFP_ATOMIC);
+	if (handle == NULL) {
 		printk("rt2870_probe(): Allocate memory for os handle failed!\n");
 		return -ENOMEM;
 	}

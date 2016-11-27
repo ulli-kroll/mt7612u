@@ -151,7 +151,7 @@ VOID APMakeBssBeacon(struct rtmp_adapter *pAd, INT apidx)
 		UCHAR *TmpFrame = NULL;
 		UCHAR CountryIe = IE_COUNTRY;
 
-		os_alloc_mem(NULL, (UCHAR **)&TmpFrame, 256);
+		TmpFrame = kmalloc(256, GFP_ATOMIC);
 		if (TmpFrame != NULL)
 		{
 			memset(TmpFrame, 0, 256);

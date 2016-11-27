@@ -1314,12 +1314,11 @@ VOID ApCliWpaMicFailureReportFrame(
 	MAKE_802_3_HEADER(Header802_3, pAd->MacTab.Content[Wcid].Addr, wdev->if_addr, EAPOL);
 
 	/* Allocate memory for output */
-	os_alloc_mem(NULL, (PUCHAR *)&mpool, TX_EAPOL_BUFFER);
-	if (mpool == NULL)
-    {
-        DBGPRINT(RT_DEBUG_ERROR, ("!!!%s : no memory!!!\n", __FUNCTION__));
-        return;
-    }
+	mpool = kmalloc(TX_EAPOL_BUFFERNStatus != NDIS_STATUS_SUCCESS));
+	if (mpool == NULL) {
+		DBGPRINT(RT_DEBUG_ERROR, ("!!!%s : no memory!!!\n", __FUNCTION__));
+		return;
+	}
 
 	pPacket = (PEAPOL_PACKET)mpool;
 	memset(pPacket, 0, TX_EAPOL_BUFFER);
@@ -1360,9 +1359,8 @@ VOID ApCliWpaMicFailureReportFrame(
 	*((USHORT *)&pPacket->KeyDesc.KeyInfo) = cpu2le16(*((USHORT *)&pPacket->KeyDesc.KeyInfo));
 
 
-	os_alloc_mem(pAd, (PUCHAR *)&pOutBuffer, MGMT_DMA_BUFFER_SIZE);  /* allocate memory */
-	if(pOutBuffer == NULL)
-	{
+	pOutBuffer = kmalloc(MGMT_DMA_BUFFER_SIZENStatus != NDIS_STATUS_SUCCESS));  /* allocate memory */
+	if(pOutBuffer == NULL) {
 		kfree(mpool);
 		return;
 	}

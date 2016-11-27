@@ -1133,7 +1133,7 @@ struct cmd_msg *andes_alloc_cmd_msg(struct rtmp_adapter *ad, unsigned int length
 
 	OS_PKT_RESERVE(net_pkt, cap->cmd_header_len);
 
-	os_alloc_mem(NULL, (PUCHAR *)&msg, sizeof(*msg));
+	msg = kmalloc(sizeof(*msg), GFP_ATOMIC);
 
 	if (!msg) {
 		DBGPRINT(RT_DEBUG_ERROR, ("can not allocate cmd msg\n"));
@@ -2645,7 +2645,7 @@ int andes_sc_random_write(struct rtmp_adapter *ad, CR_REG *table, u32 nums, u32 
 		}
 	}
 
-	os_alloc_mem(NULL, (UCHAR **)&sw_ch_table, varlen);
+	sw_ch_table = kmalloc(varlen, GFP_ATOMIC);
 
 	if (!sw_ch_table) {
 		DBGPRINT(RT_DEBUG_ERROR, ("%s: memory is not available for allocating switch channel table\n", __FUNCTION__));
@@ -2682,7 +2682,7 @@ int andes_sc_rf_random_write(struct rtmp_adapter *ad, BANK_RF_CR_REG *table, u32
 		}
 	}
 
-	os_alloc_mem(NULL, (UCHAR **)&sw_ch_table, varlen);
+	sw_ch_table = kmalloc(varlen, GFP_ATOMIC);
 
 	if (!sw_ch_table) {
 		DBGPRINT(RT_DEBUG_ERROR, ("%s: memory is not available for allocating switch channel table\n", __FUNCTION__));

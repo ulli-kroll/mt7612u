@@ -186,11 +186,6 @@
 #define WPA_BSSID(_pAd, _apidx) 	(_pAd)->CommonCfg.Bssid
 #endif /* defined(CONFIG_STA_SUPPORT) */
 
-#define WPA_OS_MALLOC(_p, _s)		\
-{									\
-	os_alloc_mem(NULL, (PUCHAR *)&_p, _s);		\
-}
-
 #define WPA_GET_CURRENT_TIME(_time)		NdisGetSystemUpTime(_time);
 
 #endif /* End of Driver Mode */

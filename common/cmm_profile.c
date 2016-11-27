@@ -380,7 +380,7 @@ INT RTMPGetKeyParameter(
 
 
 	keyLen = strlen(key);
-	os_alloc_mem(NULL, (PUCHAR *)&pMemBuf, MAX_PARAM_BUFFER_SIZE  * 2);
+	pMemBuf = kmalloc(MAX_PARAM_BUFFER_SIZE  * 2, GFP_ATOMIC);
 	if (pMemBuf == NULL)
 		return (FALSE);
 
@@ -484,14 +484,13 @@ INT RTMPGetKeyParameterWithOffset(
 	if (*end_offset >= MAX_INI_BUFFER_SIZE)
 		return (FALSE);
 
-	os_alloc_mem(NULL, (PUCHAR *)&temp_buf1, MAX_PARAM_BUFFER_SIZE);
+	temp_buf1 = kmalloc(MAX_PARAM_BUFFER_SIZE, GFP_ATOMIC);
 
 	if(temp_buf1 == NULL)
-        return (FALSE);
+		return (FALSE);
 
-	os_alloc_mem(NULL, (PUCHAR *)&temp_buf2, MAX_PARAM_BUFFER_SIZE);
-	if(temp_buf2 == NULL)
-	{
+	temp_buf2 = kmalloc(MAX_PARAM_BUFFER_SIZE, GFP_ATOMIC);
+	if(temp_buf2 == NULL) {
 		kfree((PUCHAR)temp_buf1);
         return (FALSE);
 	}
@@ -2551,7 +2550,7 @@ int RTMPSetProfileParameters(
 	PSTRING					macptr;
 	INT						i = 0, retval;
 
-	os_alloc_mem(NULL, (UCHAR **)&tmpbuf, MAX_PARAM_BUFFER_SIZE);
+	tmpbuf = kmalloc(MAX_PARAM_BUFFER_SIZE, GFP_ATOMIC);
 	if(tmpbuf == NULL)
 		return NDIS_STATUS_FAILURE;
 
@@ -4275,13 +4274,12 @@ BOOLEAN RTMP_CardInfoRead(
 	RTMP_OS_FS_INFO osFSInfo;
 
 	/* init*/
-	os_alloc_mem(NULL, (UCHAR **)&buffer, MAX_INI_BUFFER_SIZE);
+	buffer = kmalloc(MAX_INI_BUFFER_SIZE, GFP_ATOMIC);
 	if (buffer == NULL)
 		return FALSE;
 
-	os_alloc_mem(NULL, (UCHAR **)&tmpbuf, MAX_PARAM_BUFFER_SIZE);
-	if(tmpbuf == NULL)
-	{
+	tmpbuf = kmalloc(MAX_PARAM_BUFFER_SIZE, GFP_ATOMIC);
+	if(tmpbuf == NULL) {
 		kfree(buffer);
 		return NDIS_STATUS_FAILURE;
 	}
@@ -4628,7 +4626,7 @@ int RTMPSetSingleSKUParameters(
 	DlListInit(&pAd->SingleSkuPwrList);
 
 	/* init */
-	os_alloc_mem(NULL, (UCHAR **)&buffer, MAX_INI_BUFFER_SIZE);
+	buffer = kmalloc(MAX_INI_BUFFER_SIZE, GFP_ATOMIC);
 	if (buffer == NULL)
 		return FALSE;
 
@@ -4667,7 +4665,7 @@ int RTMPSetSingleSKUParameters(
 
 			if (!strncmp(readline, "ch", 2)) {
 				CH_POWER *pwr = NULL;
-				os_alloc_mem(NULL, (UCHAR **)&pwr, sizeof(*pwr));
+				pwr = kmalloc(sizeof(*pwr), GFP_ATOMIC);
 				memset(pwr, sizeof(*pwr));
 
 				token= rstrtok(readline +2 ," ");
@@ -4784,8 +4782,8 @@ int RTMPSetSingleSKUParameters(
 				}
 
 				StartCh->num ++;
-				os_alloc_mem(pAd, (PUCHAR *)&temp, StartCh->num);
-				if (StartCh->Channel != NULL) {
+				temp = kmalloc(StartCh->num, GFP_ATOMIC);
+				if (temp != NULL) {
 					memmove(temp, StartCh->Channel, StartCh->num-1);
 					kfree(StartCh->Channel);
 				}

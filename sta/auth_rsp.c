@@ -84,8 +84,8 @@ VOID PeerAuthSimpleRspGenAndSend(
 	}
 
 	/*Get an unused nonpaged memory */
-	NStatus = os_alloc_mem(pAd, &pOutBuffer, MGMT_DMA_BUFFER_SIZE);
-	if (NStatus != NDIS_STATUS_SUCCESS)
+	pOutBuffer = kmalloc(MGMT_DMA_BUFFER_SIZE, GFP_ATOMIC);
+	if (pOutBuffer == NULL)
 		return;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Send AUTH response (seq#2)...\n"));

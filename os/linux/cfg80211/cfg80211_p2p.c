@@ -940,7 +940,7 @@ VOID CFG80211_PeerP2pBeacon(struct rtmp_adapter *pAd,
                 P2pSubelement = NULL;
         }
 
-	os_alloc_mem(pAd, &P2pSubelement, MAX_VIE_LEN);
+	P2pSubelement = kmalloc(MAX_VIE_LENGFP_ATOMIC);
 	if (P2pSubelement == NULL)
 	{
 		DBGPRINT(RT_DEBUG_ERROR, ("%s::Allocate memory size(=%d) failed\n", __FUNCTION__, MAX_VIE_LEN));
@@ -1086,7 +1086,8 @@ VOID CFG80211DRV_SetP2pCliAssocIe(struct rtmp_adapter *pAd, VOID *pData, UINT ie
 			apcli_entry->wpa_supplicant_info.pWpaAssocIe = NULL;
 		}
 
-		os_alloc_mem(NULL, (UCHAR **)&apcli_entry->wpa_supplicant_info.pWpaAssocIe, ie_len);
+		apcli_entry->wpa_supplicant_info.pWpaAssocIe =
+			kmalloc(ie_len, GFP_ATOMIC);
 		if (apcli_entry->wpa_supplicant_info.pWpaAssocIe)
 		{
 			apcli_entry->wpa_supplicant_info.WpaAssocIeLen = ie_len;

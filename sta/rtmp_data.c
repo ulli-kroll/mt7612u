@@ -3169,7 +3169,7 @@ VOID STA_Fragment_Frame_Tx(
 #ifdef SOFT_ENCRYPT
 	if (TX_BLK_TEST_FLAG(pTxBlk, fTX_bSwEncrypt)) {
 		/* store the outgoing frame for calculating MIC per fragmented frame */
-		os_alloc_mem(pAd, (PUCHAR *) & tmp_ptr, pTxBlk->SrcBufLen);
+		tmp_ptr = kmalloc(pTxBlk->SrcBufLen, GFP_ATOMIC);
 		if (tmp_ptr == NULL) {
 			DBGPRINT(RT_DEBUG_ERROR,
 				 ("!!!%s : no memory for SW MIC calculation !!!\n",
@@ -3329,7 +3329,8 @@ VOID STA_NDPA_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 	{
 		wdev = pMacEntry->wdev;
 
-		if (os_alloc_mem(pAd, &buf, MGMT_DMA_BUFFER_SIZE) != NDIS_STATUS_SUCCESS, MGMT_DMA_BUFFER_SIZE)
+		buf = kmalloc(MGMT_DMA_BUFFER_SIZE, GFP_ATOMIC);
+		if (buf == NULL)
 			return;
 
 		memset(buf, 0, MGMT_DMA_BUFFER_SIZE);

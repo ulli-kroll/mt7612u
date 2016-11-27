@@ -802,9 +802,10 @@ INT	Set_INF_AMAZON_SE_PPA_Proc(
 			if (pAd->pDirectpathCb == NULL)
 			{
 				DBGPRINT(RT_DEBUG_TRACE, ("Allocate memory for pDirectpathCb\n"));
-				re_val = os_alloc_mem(NULL, (UCHAR **)&(pAd->pDirectpathCb), sizeof(PPA_DIRECTPATH_CB));
+				pAd->pDirectpathCb =
+					kmalloc(sizeof(PPA_DIRECTPATH_CB), GFP_ATOMIC);
 
-				if (re_val != NDIS_STATUS_SUCCESS)
+				if (pAd->pDirectpathCb == NULL)
 					return FALSE;
 			}
 
@@ -1056,7 +1057,8 @@ INT Set_ChannelListAdd_Proc(
 		UCHAR CountryCode[3] = {0};
 		if (pAd->CommonCfg.pChDesp == NULL)
 		{
-			os_alloc_mem(pAd,  &pAd->CommonCfg.pChDesp, MAX_PRECONFIG_DESP_ENTRY_SIZE*sizeof(CH_DESP));
+			pAd->CommonCfg.pChDesp =
+				kmalloc(MAX_PRECONFIG_DESP_ENTRY_SIZE*sizeof(CH_DESP), GFP_ATOMIC);
 			pChDesp = (PCH_DESP) pAd->CommonCfg.pChDesp;
 			if (pChDesp)
 			{
@@ -1074,7 +1076,7 @@ INT Set_ChannelListAdd_Proc(
 			}
 			else
 			{
-				DBGPRINT(RT_DEBUG_ERROR, ("os_alloc_mem failded.\n"));
+				DBGPRINT(RT_DEBUG_ERROR, ("kmalloc failded.\n"));
 				return FALSE;
 			}
 		}
@@ -1207,9 +1209,8 @@ INT Set_ChannelListDel_Proc(
 
 	if (pAd->CommonCfg.pChDesp == NULL)
 	{
-		os_alloc_mem(pAd,  &pAd->CommonCfg.pChDesp, MAX_PRECONFIG_DESP_ENTRY_SIZE*sizeof(CH_DESP));
-		if (pAd->CommonCfg.pChDesp)
-		{
+		pAd->CommonCfg.pChDesp = kmalloc(MAX_PRECONFIG_DESP_ENTRY_SIZE*sizeof(CH_DESP), GFP_ATOMIC);
+		if (pAd->CommonCfg.pChDesp) {
 			pChDesp = (PCH_DESP) pAd->CommonCfg.pChDesp;
 			for (EntryIdx= 0; pChRegion->pChDesp[EntryIdx].FirstChannel != 0; EntryIdx++)
 			{
@@ -1225,7 +1226,7 @@ INT Set_ChannelListDel_Proc(
 		}
 		else
 		{
-			DBGPRINT(RT_DEBUG_ERROR, ("os_alloc_mem failded.\n"));
+			DBGPRINT(RT_DEBUG_ERROR, ("kmalloc failded.\n"));
 			return FALSE;
 		}
 	}
@@ -2395,10 +2396,8 @@ VOID RTMPIoctlGetSiteSurvey(
 	else
 		BufLen = wrq->u.data.length;
 
-	os_alloc_mem(NULL, (PUCHAR *)&msg, TotalLen);
-
-	if (msg == NULL)
-	{
+	msg = kmalloc(TotalLen, GFP_ATOMIC);
+	if (msg == NULL) {
 		DBGPRINT(RT_DEBUG_TRACE, ("RTMPIoctlGetSiteSurvey - msg memory alloc fail.\n"));
 		return;
 	}
@@ -2461,9 +2460,8 @@ VOID RTMPIoctlGetMacTableStaInfo(
 	MAC_TABLE_ENTRY *pEntry;
 
 	/* allocate memory */
-	os_alloc_mem(NULL, (UCHAR **)&pMacTab, sizeof(RT_802_11_MAC_TABLE));
-	if (pMacTab == NULL)
-	{
+	pMacTab = kmalloc(sizeof(RT_802_11_MAC_TABLE), GFP_ATOMIC);
+	if (pMacTab == NULL) {
 		DBGPRINT(RT_DEBUG_ERROR, ("%s: Allocate memory fail!!!\n", __FUNCTION__));
 		return;
 	}
@@ -2524,9 +2522,8 @@ VOID RTMPIoctlGetMacTable(
 	char *msg;
 
 	/* allocate memory */
-	os_alloc_mem(NULL, (UCHAR **)&pMacTab, sizeof(RT_802_11_MAC_TABLE));
-	if (pMacTab == NULL)
-	{
+	pMacTab = kmalloc(sizeof(RT_802_11_MAC_TABLE), GFP_ATOMIC);
+	if (pMacTab == NULL) {
 		DBGPRINT(RT_DEBUG_ERROR, ("%s: Allocate memory fail!!!\n", __FUNCTION__));
 		return;
 	}
@@ -2570,9 +2567,8 @@ VOID RTMPIoctlGetMacTable(
 		DBGPRINT(RT_DEBUG_TRACE, ("%s: copy_to_user() fail\n", __FUNCTION__));
 	}
 
-	os_alloc_mem(NULL, (UCHAR **)&msg, sizeof(CHAR)*(MAX_LEN_OF_MAC_TABLE*MAC_LINE_LEN));
-	if (msg == NULL)
-	{
+	msg = kmalloc(sizeof(CHAR)*(MAX_LEN_OF_MAC_TABLE*MAC_LINE_LEN), GFP_ATOMIC);
+	if (msg == NULL) {
 		DBGPRINT(RT_DEBUG_ERROR, ("%s():Alloc memory failed\n", __FUNCTION__));
 		goto LabelOK;
 	}
@@ -2622,9 +2618,8 @@ VOID RTMPAR9IoctlGetMacTable(
 	INT i;
 	char *msg;
 
-	os_alloc_mem(NULL, (UCHAR **)&msg, sizeof(CHAR)*(MAX_LEN_OF_MAC_TABLE*MAC_LINE_LEN));
-	if (msg == NULL)
-	{
+	msg = kmalloc(sizeof(CHAR)*(MAX_LEN_OF_MAC_TABLE*MAC_LINE_LEN), GFP_ATOMIC);
+	if (msg == NULL) {
 		DBGPRINT(RT_DEBUG_ERROR, ("%s():Alloc memory failed\n", __FUNCTION__));
 		return;
 	}
@@ -2673,9 +2668,8 @@ VOID RTMPIoctlGetSTAT2(
 	PMULTISSID_STRUCT	pMbss;
 	INT apidx;
 
-	os_alloc_mem(NULL, (UCHAR **)&msg, sizeof(CHAR)*(pAd->ApCfg.BssidNum*(14*128)));
-	if (msg == NULL)
-	{
+	msg = kmalloc(sizeof(CHAR)*(pAd->ApCfg.BssidNum*(14*128)), GFP_ATOMIC);
+	if (msg == NULL) {
 		DBGPRINT(RT_DEBUG_ERROR, ("%s():Alloc memory failed\n", __FUNCTION__));
 		return;
 	}
@@ -2724,9 +2718,8 @@ VOID RTMPIoctlGetRadioDynInfo(
 	struct rtmp_wifi_dev *wdev;
 
 /*	msg = kmalloc(sizeof(CHAR)*(4096), MEM_ALLOC_FLAG);*/
-	os_alloc_mem(NULL, (UCHAR **)&msg, sizeof(CHAR)*(4096));
-	if (msg == NULL)
-	{
+	msg = kmalloc(sizeof(CHAR)*(4096), GFP_ATOMIC);
+	if (msg == NULL) {
 		DBGPRINT(RT_DEBUG_ERROR, ("%s():Alloc memory failed\n", __FUNCTION__));
 		return;
 	}
@@ -5694,8 +5687,8 @@ INT	Set_InvTxBfTag_Proc(
 #else
 	PFMU_PROFILE	   *prof;
 
-	if (os_alloc_mem(pAd, (UCHAR **)&prof, sizeof(PROFILE_DATA))!= NDIS_STATUS_SUCCESS)
-	{
+	prof = kmalloc(sizeof(PROFILE_DATA), GFP_ATOMIC);
+	if (prof == NULL) {
 		return -3;
 	}
 
@@ -8102,7 +8095,7 @@ INT Show_Diag_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 	UCHAR vht_mcs_max_idx = MAX_VHT_MCS_SET;
 #endif /* DOT11_VHT_AC */
 
-	os_alloc_mem(pAd, &pDiag, sizeof(RtmpDiagStruct));
+	pDiag = kmalloc(sizeof(RtmpDiagStruct), GFP_ATOMIC);
 	if (!pDiag) {
 		DBGPRINT(RT_DEBUG_ERROR, ("%s():AllocMem failed!\n", __FUNCTION__));
 		return FALSE;

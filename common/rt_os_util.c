@@ -218,7 +218,7 @@ INT32  RtPrivIoctlSetVal(VOID)
 PVOID RtmpAllocCompletion(VOID)
 {
 	struct completion *comp = NULL;
-	os_alloc_mem(NULL, (UCHAR **)&comp, sizeof(struct completion));
+	comp = kmalloc(sizeof(struct completion), GFP_ATOMIC);
 	if (comp)
 		init_completion(comp);
 
