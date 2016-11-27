@@ -19,7 +19,7 @@
 #include "rt_os_util.h"
 #include "rt_os_net.h"
 
-#define RTMP_DRV_NAME		"mt7610u"
+#define RTMP_DRV_NAME		"mt7612u"
 
 extern USB_DEVICE_ID rtusb_dev_id[];
 extern INT const rtusb_usb_id_len;
