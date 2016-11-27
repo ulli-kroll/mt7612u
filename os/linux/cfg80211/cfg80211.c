@@ -1933,9 +1933,10 @@ static int CFG80211_OpsChangeBss(
 static int CFG80211_OpsStaDel(
 	struct wiphy *pWiphy,
 	struct net_device *dev,
-	UINT8 *pMacAddr)
+	struct station_del_parameters *params)
 {
 	VOID *pAd;
+	UINT8 *pMacAddr = params->mac;
 	MAC80211_PAD_GET(pAd, pWiphy);
 
 	CFG80211DBG(RT_DEBUG_TRACE, ("80211> %s ==>\n", __FUNCTION__));
