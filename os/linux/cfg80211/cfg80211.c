@@ -427,6 +427,7 @@ static int CFG80211_OpsScan(
 #ifdef CONFIG_STA_SUPPORT
 	VOID *pAd;
 	CFG80211_CB *pCfg80211_CB;
+	struct net_device *pNdev = NULL;
 
 	struct iw_scan_req IwReq;
 	union iwreq_data Wreq;
@@ -436,8 +437,6 @@ static int CFG80211_OpsScan(
 	CFG80211DBG(RT_DEBUG_TRACE, ("80211> %s ==> %s(%d)\n", __FUNCTION__, pNdev->name, pNdev->ieee80211_ptr->iftype));
 #endif
 	MAC80211_PAD_GET(pAd, pWiphy);
-
-	struct net_device *pNdev = NULL;
 	RTMP_DRIVER_NET_DEV_GET(pAd, &pNdev);
 
 	/* YF_TODO: record the scan_req per netdevice */
@@ -1733,9 +1732,9 @@ static void CFG80211_OpsMgmtFrameRegister(
     u16 frame_type, bool reg)
 {
 	VOID *pAd;
-	MAC80211_PAD_GET(pAd, pWiphy);
-
 	struct net_device *dev = NULL;
+
+	MAC80211_PAD_GET(pAd, pWiphy);
 	RTMP_DRIVER_NET_DEV_GET(pAd, &dev);
 
 	CFG80211DBG(RT_DEBUG_INFO, ("80211> %s ==>\n", __FUNCTION__));
@@ -1754,37 +1753,37 @@ static void CFG80211_OpsMgmtFrameRegister(
 //Supplicant_NEW_TDLS
 
 static int CFG80211_OpsMgmtTx(
-    IN struct wiphy *pWiphy,
-    IN struct wireless_dev *wdev,
-    IN struct ieee80211_channel *pChan,
-    IN bool Offchan,
-    IN unsigned int Wait,
-    IN const u8 *pBuf,
-    IN size_t Len,
-    IN bool no_cck,
-    IN bool done_wait_for_ack,
-    IN u64 *pCookie)
+	IN struct wiphy *pWiphy,
+	IN struct wireless_dev *wdev,
+	IN struct ieee80211_channel *pChan,
+	IN bool Offchan,
+	IN unsigned int Wait,
+	IN const u8 *pBuf,
+	IN size_t Len,
+	IN bool no_cck,
+	IN bool done_wait_for_ack,
+	IN u64 *pCookie)
 {
-    VOID *pAd;
-    UINT32 ChanId;
-
-    CFG80211DBG(RT_DEBUG_INFO, ("80211> %s ==>\n", __FUNCTION__));
-    MAC80211_PAD_GET(pAd, pWiphy);
-
+	VOID *pAd;
+	UINT32 ChanId;
 	struct net_device *dev = NULL;
+
+	CFG80211DBG(RT_DEBUG_INFO, ("80211> %s ==>\n", __FUNCTION__));
+	MAC80211_PAD_GET(pAd, pWiphy);
+
 	RTMP_DRIVER_NET_DEV_GET(pAd, &dev);
 
-    /* get channel number */
-    ChanId = ieee80211_frequency_to_channel(pChan->center_freq);
-    CFG80211DBG(RT_DEBUG_INFO, ("80211> Mgmt Channel = %d\n", ChanId));
+	/* get channel number */
+	ChanId = ieee80211_frequency_to_channel(pChan->center_freq);
+	CFG80211DBG(RT_DEBUG_INFO, ("80211> Mgmt Channel = %d\n", ChanId));
 
 	/* Send the Frame with basic rate 6 */
-    if (no_cck)
+	if (no_cck)
 		; //pAd->isCfgDeviceInP2p = TRUE;
 
-    *pCookie = 5678;
-    RTMP_DRIVER_80211_CHANNEL_LOCK(pAd, ChanId);
-    RTMP_DRIVER_80211_MGMT_FRAME_SEND(pAd, pBuf, Len);
+	*pCookie = 5678;
+	RTMP_DRIVER_80211_CHANNEL_LOCK(pAd, ChanId);
+	RTMP_DRIVER_80211_MGMT_FRAME_SEND(pAd, pBuf, Len);
 
 	/* Mark it for using Supplicant-Based off-channel wait
 		if (Offchan)
