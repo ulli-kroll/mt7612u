@@ -1956,7 +1956,7 @@ static int CFG80211_OpsStaDel(
 static int CFG80211_OpsStaAdd(
         struct wiphy *wiphy,
         struct net_device *dev,
-        UINT8 *mac,
+        const u8 *mac,
 	struct station_parameters *params)
 {
 	CFG80211DBG(RT_DEBUG_TRACE, ("80211> %s ==>\n", __FUNCTION__));
