@@ -1278,15 +1278,6 @@ int NICInitializeAsic(struct rtmp_adapter *pAd, BOOLEAN bHardReset)
 		RTMP_IO_WRITE32(pAd, PBF_SYS_CTRL, mac_val);
 	}
 
-#ifdef RTMP_MAC
-	if (pAd->chipCap.hif_type == HIF_RTMP) {
-		RTMP_IO_WRITE32(pAd, MAC_SYS_CTRL, 0x3);
-		RTUSBVenderReset(pAd);
-
-		RtmpusecDelay(1);
-		RTMP_IO_WRITE32(pAd, MAC_SYS_CTRL, 0x0);
-	}
-#endif /* RTMP_MAC */
 #endif /* RTMP_MAC_USB */
 
 #ifdef CONFIG_ANDES_SUPPORT
@@ -1296,25 +1287,6 @@ int NICInitializeAsic(struct rtmp_adapter *pAd, BOOLEAN bHardReset)
 	rtmp_mac_init(pAd);
 
 	rtmp_mac_bcn_buf_init(pAd);
-
-#ifdef RTMP_MAC
-	if (pAd->chipCap.hif_type == HIF_RTMP) {
-		/* Before program BBP, we need to wait BBP/RF get wake up.*/
-		Index = 0;
-		do
-		{
-			if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST))
-				return NDIS_STATUS_FAILURE;
-
-			RTMP_IO_READ32(pAd, MAC_STATUS_CFG, &mac_val);
-			if ((mac_val & 0x03) == 0)	/* if BB.RF is stable*/
-				break;
-
-			DBGPRINT(RT_DEBUG_TRACE, ("Check if MAC_STATUS_CFG is busy(=%x)\n", mac_val));
-			RtmpusecDelay(1000);
-		} while (Index++ < 100);
-	}
-#endif /* RTMP_MAC */
 
 	NICInitBBP(pAd);
 
@@ -1380,13 +1352,6 @@ int NICInitializeAsic(struct rtmp_adapter *pAd, BOOLEAN bHardReset)
 			share_key_mode_base = RLT_SHARED_KEY_MODE_BASE;
 		}
 #endif /* RLT_MAC */
-#ifdef RTMP_MAC
-		if (pAd->chipCap.hif_type == HIF_RTMP) {
-			wcid_attr_base = MAC_WCID_ATTRIBUTE_BASE;
-			wcid_attr_size = HW_WCID_ATTRI_SIZE;
-			share_key_mode_base = SHARED_KEY_MODE_BASE;
-		}
-#endif /* RTMP_MAC */
 
 		for (KeyIdx = 0; KeyIdx < 4; KeyIdx++)
 		{

@@ -1352,11 +1352,6 @@ BOOLEAN	PMF_PerformRxFrameAction(
 			}
 #endif /* RLT_MAC */
 
-#ifdef RTMP_MAC
-			if (pAd->chipCap.hif_type == HIF_RTMP) {
-					pRxWI->MPDUtotalByteCount -= (LEN_CCMP_HDR + LEN_CCMP_MIC);
-			}
-#endif /* RTMP_MAC */
 	        	break;
 		}
 		case GROUP_ROBUST_FRAME:
@@ -1382,12 +1377,7 @@ BOOLEAN	PMF_PerformRxFrameAction(
 			}
 #endif /* RLT_MAC */
 
-#ifdef RTMP_MAC
-			if (pAd->chipCap.hif_type == HIF_RTMP) {
-					pRxWI->MPDUtotalByteCount -= (2 + LEN_PMF_MMIE);
-			}
-#endif /* RTMP_MAC */
-		        break;
+			break;
 	        }
 	}
 	}

@@ -30,9 +30,6 @@
 #ifdef RLT_MAC
 #include "mac_ral/nmac/ral_nmac_usb.h"
 #endif /* RLT_MAC */
-#ifdef RTMP_MAC
-#include "mac_ral/omac/ral_omac_usb.h"
-#endif /* RTMP_MAC */
 
 #include "mac_ral/rtmp_mac.h"
 #include "chip/rtmp_phy.h"
@@ -41,12 +38,6 @@
 
 
 #define USB_CYC_CFG				0x02a4
-
-
-#ifdef RTMP_MAC
-#define RTMP_USB_DMA_CFG 0x02a0
-#endif /* RTMP_MAC */
-
 
 #ifdef RT_BIG_ENDIAN
 typedef	union _USB_DMA_CFG_STRUC {

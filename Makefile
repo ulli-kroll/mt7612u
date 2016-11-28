@@ -804,10 +804,6 @@ ifeq ($(HAS_RLT_MAC),y)
 obj_mac += mac/ral_nmac.o
 endif
 
-ifeq ($(HAS_RTMP_MAC),y)
-obj_mac += mac/ral_omac.o
-endif
-
 obj_cmm += $(obj_phy) $(obj_mac)
 
 ifeq ($(HAS_BLOCK_NET_IF),y)

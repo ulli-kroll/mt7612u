@@ -321,10 +321,6 @@ inline CHAR GetFrequencyOffsetField(
 				FreqOffset = (CHAR)(pRxWI->RXWI_N.bbp_rxinfo[1]);
 		}
 #endif /* RLT_MAC */
-#ifdef RTMP_MAC
-		if (pAd->chipCap.hif_type == HIF_RTMP)
-			FreqOffset = (CHAR)(pRxWI->RXWI_O.SNR1);
-#endif /* RTMP_MAC */
 	}
 	else if (RxWIFrqOffsetField == RXWI_FRQ_OFFSET_FIELD1)
 	{
@@ -333,10 +329,6 @@ inline CHAR GetFrequencyOffsetField(
 				FreqOffset = (CHAR)(pRxWI->RXWI_N.bbp_rxinfo[4]);
 		}
 #endif /* RLT_MAC */
-#ifdef RTMP_MAC
-		if (pAd->chipCap.hif_type == HIF_RTMP)
-			FreqOffset = (CHAR)(pRxWI->RXWI_O.FOFFSET);
-#endif /* RTMP_MAC */
 	}
 	else
 		DBGPRINT(RT_DEBUG_ERROR, ("%s:Unknow Frequency Offset location(%d)\n", __FUNCTION__, RxWIFrqOffsetField));

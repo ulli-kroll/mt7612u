@@ -159,35 +159,6 @@ static VOID ATEWriteTxWI(
 	}
 #endif /* RLT_MAC */
 
-#ifdef RTMP_MAC
-	if (pAd->chipCap.hif_type == HIF_RTMP) {
-		struct  _TXWI_OMAC *txwi_o = (struct  _TXWI_OMAC *)pTxWI;
-
-		txwi_o->FRAG= FRAG;
-		txwi_o->TS = InsTimestamp;
-		txwi_o->AMPDU = AMPDU;
-
-		txwi_o->MIMOps = PWR_ACTIVE;
-		txwi_o->MpduDensity = 4;
-		txwi_o->ACK = Ack;
-		txwi_o->txop = Txopmode;
-		txwi_o->NSEQ = NSeq;
-		txwi_o->BAWinSize = BASize;
-
-		txwi_o->wcid = WCID;
-		txwi_o->MPDUtotalByteCnt = Length;
-		txwi_o->PacketId = PID;
-
-		txwi_o->BW = Transmit.field.BW;
-		txwi_o->ShortGI = Transmit.field.ShortGI;
-		txwi_o->STBC= Transmit.field.STBC;
-
-		txwi_o->MCS = Transmit.field.MCS;
-		txwi_o->PHYMODE= Transmit.field.MODE;
-		txwi_o->CFACK = CfAck;
-	}
-#endif /* RTMP_MAC */
-
 	return;
 }
 
@@ -302,26 +273,6 @@ INT ATESetUpFrame(
 			cfack = pATEInfo->TxWI.TXWI_N.CFACK;
 		}
 #endif /* RLT_MAC */
-
-#ifdef RTMP_MAC
-		if (pAd->chipCap.hif_type == HIF_RTMP) {
-			bw = pATEInfo->TxWI.TXWI_O.BW;
-			sgi = pATEInfo->TxWI.TXWI_O.ShortGI;
-			stbc = pATEInfo->TxWI.TXWI_O.STBC;
-			mcs = pATEInfo->TxWI.TXWI_O.MCS;
-			phymode = pATEInfo->TxWI.TXWI_O.PHYMODE;
-			frag = pATEInfo->TxWI.TXWI_O.FRAG;
-			ts = pATEInfo->TxWI.TXWI_O.TS;
-			ampdu = pATEInfo->TxWI.TXWI_O.AMPDU;
-			ack =pATEInfo->TxWI.TXWI_O.ACK;
-			nseq = pATEInfo->TxWI.TXWI_O.NSEQ;
-			basize = pATEInfo->TxWI.TXWI_O.BAWinSize;
-			mpdu_len = pATEInfo->TxWI.TXWI_O.MPDUtotalByteCnt;
-			pid = pATEInfo->TxWI.TXWI_O.PacketId;
-			txop = pATEInfo->TxWI.TXWI_O.txop;
-			cfack = pATEInfo->TxWI.TXWI_O.CFACK;
-		}
-#endif /* RTMP_MAC */
 
 		/* fill TxWI */
 		if (pATEInfo->bQATxStart == TRUE)

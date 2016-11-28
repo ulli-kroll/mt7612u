@@ -1337,43 +1337,6 @@ VOID RT28XXDMAEnable(struct rtmp_adapter *pAd)
 {
 	USB_DMA_CFG_STRUC	UsbCfg;
 
-
-#ifdef RTMP_MAC
-	if (pAd->chipCap.hif_type == HIF_RTMP) {
-		RTMP_IO_WRITE32(pAd, MAC_SYS_CTRL, 0x4);
-
-		if (AsicWaitPDMAIdle(pAd, 200, 1000) == FALSE) {
-			if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST))
-				return;
-		}
-
-		RtmpusecDelay(50);
-
-		WPDMA_GLO_CFG_STRUC GloCfg;
-
-		RTMP_IO_READ32(pAd, WPDMA_GLO_CFG, &GloCfg.word);
-		GloCfg.field.EnTXWriteBackDDONE = 1;
-		GloCfg.field.EnableRxDMA = 1;
-		GloCfg.field.EnableTxDMA = 1;
-		RTMP_IO_WRITE32(pAd, WPDMA_GLO_CFG, GloCfg.word);
-		DBGPRINT(RT_DEBUG_TRACE, ("<== WRITE DMA offset 0x208 = 0x%x\n", GloCfg.word));
-
-		UsbCfg.word = 0;
-		UsbCfg.field.phyclear = 0;
-		/* usb version is 1.1,do not use bulk in aggregation */
-		if ((pAd->BulkInMaxPacketSize >= 512) && (pAd->usb_ctl.usb_aggregation))
-				UsbCfg.field.RxBulkAggEn = 1;
-		else
-				UsbCfg.field.RxBulkAggEn = 0;
-		/* for last packet, PBF might use more than limited, so minus 2 to prevent from error */
-		UsbCfg.field.RxBulkAggLmt = (MAX_RXBULK_SIZE /1024)-3;
-		UsbCfg.field.RxBulkAggTOut = 0x80; /* 2006-10-18 */
-		UsbCfg.field.RxBulkEn = 1;
-		UsbCfg.field.TxBulkEn = 1;
-	}
-#endif /* RTMP_MAC */
-
-
 #if defined(MT76x0) || defined(MT76x2)
 	if (IS_MT76x0(pAd) || IS_MT76x2(pAd)) {
 		USB_CFG_READ(pAd, &UsbCfg.word);
@@ -2167,42 +2130,4 @@ BOOLEAN AsicCheckCommandOk(
 }
 
 
-#ifdef WOW_SUPPORT
-#ifdef RTMP_MAC
-VOID RT28xxUsbAsicWOWEnable(
-	IN struct rtmp_adapter *pAd)
-{
-	UINT32 Value;
-
-	/* load WOW-enable firmware */
-	AsicLoadWOWFirmware(pAd, TRUE);
-	/* put null frame data to MCU memory from 0x7780 */
-	AsicWOWSendNullFrame(pAd, pAd->CommonCfg.TxRate, (OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_WMM_INUSED) ? TRUE:FALSE));
-	/* send WOW enable command to MCU. */
-	AsicSendCommandToMcu(pAd, 0x33, 0xff, pAd->WOW_Cfg.nSelectedGPIO, pAd->WOW_Cfg.nDelay, FALSE);
-	/* set GPIO pulse hold time at MSB (Byte) */
-	RTMP_IO_READ32(pAd, GPIO_HOLDTIME_OFFSET, &Value);
-	Value &= 0x00FFFFFF;
-	Value |= (pAd->WOW_Cfg.nHoldTime << 24);
-	RTMP_IO_WRITE32(pAd, GPIO_HOLDTIME_OFFSET, Value);
-	DBGPRINT(RT_DEBUG_OFF, ("Send WOW enable cmd (%d/%d/%d)\n", pAd->WOW_Cfg.nDelay, pAd->WOW_Cfg.nSelectedGPIO, pAd->WOW_Cfg.nHoldTime));
-	RTMP_IO_READ32(pAd, GPIO_HOLDTIME_OFFSET, &Value);
-	DBGPRINT(RT_DEBUG_OFF, ("Hold time: 0x7020 ==> %x\n", Value));
-}
-
-VOID RT28xxUsbAsicWOWDisable(
-	IN struct rtmp_adapter *pAd)
-{
-	UINT32 Value;
-	/* load normal firmware */
-	AsicLoadWOWFirmware(pAd, FALSE);
-	/* for suspend/resume, needs to restore RX Queue operation mode to auto mode */
-	RTMP_IO_READ32(pAd, PBF_CFG, &Value);
-	Value &= ~0x2200;
-	RTMP_IO_WRITE32(pAd, PBF_CFG, Value);
-    //AsicSendCommandToMcu(pAd, 0x34, 0xff, 0x00, 0x00, FALSE);   /* send WOW disable command to MCU*/
-    DBGPRINT(RT_DEBUG_OFF, ("MCU back to normal mode (%d/%d)\n", pAd->WOW_Cfg.nDelay, pAd->WOW_Cfg.nSelectedGPIO));
-}
-#endif /* RTMP_MAC */
-#endif /* WOW_SUPPORT */
 #endif /* RTMP_MAC_USB */

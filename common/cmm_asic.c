@@ -1483,11 +1483,6 @@ VOID AsicEnableIbssSync(struct rtmp_adapter *pAd)
 	}
 #endif /* RLT_MAC */
 
-#ifdef RTMP_MAC
-	if (pAd->chipCap.hif_type == HIF_RTMP)
-		beaconLen = pAd->BeaconTxWI.TXWI_O.MPDUtotalByteCnt;
-#endif /* RTMP_MAC */
-
 #ifdef RT_BIG_ENDIAN
 	{
 		TXWI_STRUC localTxWI;
@@ -1501,10 +1496,6 @@ VOID AsicEnableIbssSync(struct rtmp_adapter *pAd)
 		}
 #endif /* RLT_MAC */
 
-#ifdef RTMP_MAC
-		if (pAd->chipCap.hif_type == HIF_RTMP)
-			beaconLen = localTxWI.TXWI_O.MPDUtotalByteCnt;
-#endif /* RTMP_MAC */
 	}
 #endif /* RT_BIG_ENDIAN */
 
@@ -2042,12 +2033,6 @@ VOID RTMPGetTxTscFromAsic(struct rtmp_adapter *pAd, UCHAR apidx, UCHAR *pTxTsc)
 		}
 #endif /* RLT_MAC */
 
-#ifdef RTMP_MAC
-		if (pAd->chipCap.hif_type == HIF_RTMP) {
-			iveiv_tb_base = MAC_IVEIV_TABLE_BASE;
-			iveiv_tb_size = HW_IVEIV_ENTRY_SIZE;
-		}
-#endif /* RTMP_MAC */
 		/* Read IVEIV from Asic */
 		offset = iveiv_tb_base + (Wcid * iveiv_tb_size);
 
@@ -2147,15 +2132,6 @@ VOID AsicAddSharedKeyEntry(
 			share_key_size = RLT_HW_KEY_ENTRY_SIZE;
 		}
 #endif /* RLT_MAC */
-#ifdef RTMP_MAC
-		if (pAd->chipCap.hif_type == HIF_RTMP) {
-			if (org_bssindex >= 8)
-				share_key_base = SHARED_KEY_TABLE_BASE_EXT;
-			else
-			share_key_base = SHARED_KEY_TABLE_BASE;
-			share_key_size = HW_KEY_ENTRY_SIZE;
-		}
-#endif /* RTMP_MAC */
 
 		offset = share_key_base + (4*BssIndex + KeyIdx)*share_key_size;
 
@@ -2188,14 +2164,6 @@ VOID AsicAddSharedKeyEntry(
 			share_key_mode_base= RLT_SHARED_KEY_MODE_BASE;
 		}
 #endif /* RLT_MAC */
-#ifdef RTMP_MAC
-		if (pAd->chipCap.hif_type == HIF_RTMP) {
-			if (org_bssindex >= 8)
-				share_key_mode_base = SHARED_KEY_MODE_BASE_EXT;
-			else
-			share_key_mode_base = SHARED_KEY_MODE_BASE;
-		}
-#endif /* RTMP_MAC */
 
 		/* Update cipher algorithm. WSTA always use BSS0*/
 		RTMP_IO_READ32(pAd, share_key_mode_base + 4 * (BssIndex/2), &csr1.word);
@@ -2245,10 +2213,6 @@ VOID AsicRemoveSharedKeyEntry(
 		if (pAd->chipCap.hif_type == HIF_RLT)
 			share_key_mode_base= RLT_SHARED_KEY_MODE_BASE;
 #endif /* RLT_MAC */
-#ifdef RTMP_MAC
-		if (pAd->chipCap.hif_type == HIF_RTMP)
-			share_key_mode_base = SHARED_KEY_MODE_BASE;
-#endif /* RTMP_MAC */
 
 		RTMP_IO_READ32(pAd, share_key_mode_base+4*(BssIndex/2), &csr1.word);
 		if ((BssIndex%2) == 0)
@@ -2297,13 +2261,6 @@ VOID AsicUpdateWCIDIVEIV(
 		iveiv_tb_size = RLT_HW_IVEIV_ENTRY_SIZE;
 	}
 #endif /* RLT_MAC */
-
-#ifdef RTMP_MAC
-	if (pAd->chipCap.hif_type == HIF_RTMP) {
-		iveiv_tb_base = MAC_IVEIV_TABLE_BASE;
-		iveiv_tb_size = HW_IVEIV_ENTRY_SIZE;
-	}
-#endif /* RTMP_MAC */
 
 	offset = iveiv_tb_base + (WCID * iveiv_tb_size);
 
@@ -2365,12 +2322,6 @@ VOID AsicUpdateWcidAttributeEntry(
 		wcid_attr_size = RLT_HW_WCID_ATTRI_SIZE;
 	}
 #endif /* RLT_MAC */
-#ifdef RTMP_MAC
-	if (pAd->chipCap.hif_type == HIF_RTMP) {
-		wcid_attr_base = MAC_WCID_ATTRIBUTE_BASE;
-		wcid_attr_size = HW_WCID_ATTRI_SIZE;
-	}
-#endif /* RTMP_MAC */
 
 	/* Initialize the content of WCID Attribue  */
 	WCIDAttri.word = 0;
@@ -2471,8 +2422,6 @@ VOID AsicAddPairwiseKeyEntry(
 	UCHAR *pTxMic = pCipherKey->TxMic;
 	UCHAR *pRxMic = pCipherKey->RxMic;
 	UCHAR CipherAlg = pCipherKey->CipherAlg;
-#ifdef RTMP_MAC
-#endif /* RTMP_MAC */
 
 #ifdef RLT_MAC
 	if (pAd->chipCap.hif_type == HIF_RLT) {
@@ -2480,12 +2429,6 @@ VOID AsicAddPairwiseKeyEntry(
 		pairwise_key_len = RLT_HW_KEY_ENTRY_SIZE;
 	}
 #endif /* RLT_MAC */
-#ifdef RTMP_MAC
-	if (pAd->chipCap.hif_type == HIF_RTMP) {
-		pairwise_key_base = PAIRWISE_KEY_TABLE_BASE;
-		pairwise_key_len = HW_KEY_ENTRY_SIZE;
-	}
-#endif /* RTMP_MAC */
 
 	/* EKEY */
 	offset = pairwise_key_base + (WCID * pairwise_key_len);
@@ -2514,8 +2457,6 @@ VOID AsicAddPairwiseKeyEntry(
 		RTUSBMultiWrite(pAd, offset, &pCipherKey->RxMic[0], 8, FALSE);
 #endif /* RTMP_MAC_USB */
 	}
-#ifdef RTMP_MAC
-#endif /* RTMP_MAC */
 	DBGPRINT(RT_DEBUG_TRACE,("AsicAddPairwiseKeyEntry: WCID #%d Alg=%s\n",WCID, CipherName[CipherAlg]));
 	DBGPRINT(RT_DEBUG_TRACE,("	Key = %02x:%02x:%02x:%02x:%02x:%02x:%02x:%02x:%02x:%02x:%02x:%02x:%02x:%02x:%02x:%02x\n",
 		pKey[0],pKey[1],pKey[2],pKey[3],pKey[4],pKey[5],pKey[6],pKey[7],pKey[8],pKey[9],pKey[10],pKey[11],pKey[12],pKey[13],pKey[14],pKey[15]));
@@ -2895,11 +2836,6 @@ VOID AsicWOWSendNullFrame(
 	}
 #endif /* RLT_MAC */
 
-#ifdef RTMP_MAC
-	if (pAd->chipCap.hif_type == HIF_RTMP)
-		packet_len = TxWI->TXWI_O.MPDUtotalByteCnt;
-#endif /* RTMP_MAC */
-
 	DBGPRINT(RT_DEBUG_OFF, ("TxWI:\n"));
 	/* copy TxWI to MCU memory */
 	ptr = (PUCHAR)TxWI;
@@ -2928,10 +2864,6 @@ VOID AsicWOWSendNullFrame(
 		if (pAd->chipCap.hif_type == HIF_RLT)
 			share_key_mode_base= RLT_SHARED_KEY_MODE_BASE;
 #endif /* RLT_MAC */
-#ifdef RTMP_MAC
-		if (pAd->chipCap.hif_type == HIF_RTMP)
-			share_key_mode_base = SHARED_KEY_MODE_BASE;
-#endif /* RTMP_MAC */
 
 		RTMP_IO_READ32(pAd, share_key_mode_base, &Value);
 		switch (cipher) /* don't care WEP, because it dosen't have re-key issue */

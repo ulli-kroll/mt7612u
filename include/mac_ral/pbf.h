@@ -34,11 +34,6 @@
 #include "mac_ral/nmac/ral_nmac_pbf.h"
 #endif /* RLT_MAC */
 
-#ifdef RTMP_MAC
-#include "mac_ral/omac/ral_omac_pbf.h"
-#endif /* RTMP_MAC */
-
-
 /* ================================================================================= */
 /* Register format  for PBF                                                                                                                                                     */
 /* ================================================================================= */

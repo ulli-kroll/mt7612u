@@ -459,11 +459,6 @@ int RtmpChipOpsHook(VOID *pCB)
 	pChipOps->DisableAPMIMOPS = DisableAPMIMOPSv1;
 #endif /* GREENAP_SUPPORT */
 
-#ifdef RTMP_MAC
-	// TODO: default settings for rest of the chips!! change this to really default chip.
-	RTxx_default_Init(pAd);
-#endif /* RTMP_MAC */
-
 	/* We depends on RfICType and MACVersion to assign the corresponding operation callbacks. */
 
 

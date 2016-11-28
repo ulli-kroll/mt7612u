@@ -1858,12 +1858,6 @@ VOID LinkUp(struct rtmp_adapter *pAd, UCHAR BssType)
 	if (pAd->chipCap.hif_type == HIF_RLT)
 		pbf_reg = RLT_PBF_MAX_PCNT;
 #endif /* RLT_MAC */
-#ifdef RTMP_MAC
-	if (pAd->chipCap.hif_type == HIF_RTMP) {
-		pbf_reg = PBF_MAX_PCNT;
-		RTMP_IO_WRITE32(pAd, pbf_reg, pbf_val);
-	}
-#endif /* RTMP_MAC */
 
 	RTMP_IO_READ32(pAd, EDCA_AC0_CFG, &Data);
 	Data &= 0xFFFFFF00;

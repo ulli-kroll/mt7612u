@@ -571,15 +571,6 @@ VOID RTMPDrvOpen(struct rtmp_adapter *pAdSrc)
 #ifdef CONFIG_STA_SUPPORT
 #endif /* CONFIG_STA_SUPPORT */
 
-#ifdef RTMP_MAC
-	// TODO: shiang-usw, check this for RMTP_MAC
-	if (pAd->chipCap.hif_type == HIF_RTMP) {
-
-		/* Now Enable RxTx*/
-		RTMPEnableRxTx(pAd);
-	}
-#endif /* RTMP_MAC */
-
 	RTMP_SET_FLAG(pAd, fRTMP_ADAPTER_START_UP);
 
 

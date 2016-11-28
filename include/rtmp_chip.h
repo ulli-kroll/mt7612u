@@ -1537,11 +1537,6 @@ VOID EnableAPMIMOPSv1(struct rtmp_adapter *pAd, BOOLEAN ReduceCorePower);
 VOID DisableAPMIMOPSv1(struct rtmp_adapter *pAd);
 #endif /* GREENAP_SUPPORT */
 
-#ifdef RTMP_MAC
-VOID RTxx_default_Init(struct rtmp_adapter *pAd);
-#endif /* RTMP_MAC */
-
-
 /* global variable */
 extern FREQUENCY_ITEM RtmpFreqItems3020[];
 extern FREQUENCY_ITEM FreqItems3020_Xtal20M[];

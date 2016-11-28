@@ -78,10 +78,6 @@ VOID dump_rxinfo(struct rtmp_adapter *pAd, RXINFO_STRUC *pRxInfo)
 	DBGPRINT(RT_DEBUG_OFF, ("\tdeauth=%d\n", pRxInfo->deauth));
 	DBGPRINT(RT_DEBUG_OFF, ("\taction_wanted=%d\n", pRxInfo->action_wanted));
 	DBGPRINT(RT_DEBUG_OFF, ("\trsv=%d\n", pRxInfo->rsv));
-
-#ifdef RTMP_MAC
-	DBGPRINT(RT_DEBUG_OFF, ("\t"));
-#endif /* RTMP_MAC */
 }
 
 
@@ -95,11 +91,6 @@ VOID dump_txinfo(struct rtmp_adapter *pAd, TXINFO_STRUC *pTxInfo)
 	if (pAd->chipCap.hif_type == HIF_RLT)
 		dump_rlt_txinfo(pAd, pTxInfo);
 #endif /* RLT_MAC */
-
-#ifdef RTMP_MAC
-	if (pAd->chipCap.hif_type == HIF_RTMP)
-		DBGPRINT(RT_DEBUG_OFF, ("\n"));
-#endif /* RTMP_MAC */
 }
 
 
@@ -112,11 +103,6 @@ VOID dump_txwi(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI)
 	if (pAd->chipCap.hif_type == HIF_RLT)
 		dump_rlt_txwi(pAd, pTxWI);
 #endif /* RLT_MAC */
-
-#ifdef RTMP_MAC
-	if (pAd->chipCap.hif_type == HIF_RTMP)
-		dump_rtmp_txwi(pAd, pTxWI);
-#endif /* RTMP_MAC */
 }
 
 
@@ -129,11 +115,6 @@ VOID dump_rxwi(struct rtmp_adapter *pAd, RXWI_STRUC *pRxWI)
 	if (pAd->chipCap.hif_type == HIF_RLT)
 		dump_rlt_rxwi(pAd, pRxWI);
 #endif /* RLT_MAC */
-
-#ifdef RTMP_MAC
-	if (pAd->chipCap.hif_type == HIF_RTMP)
-		dump_rtmp_rxwi(pAd, pRxWI);
-#endif /* RTMP_MAC */
 }
 
 
@@ -360,11 +341,6 @@ int MiniportMMRequest(
 			}
 #endif /* RLT_MAC */
 
-#ifdef RTMP_MAC
-			if (pAd->chipCap.hif_type == HIF_RTMP) {
-				RT28xxUsbAsicRadioOn(pAd);
-			}
-#endif /* RTMP_MAC */
 		}
 #endif /* RTMP_MAC_USB */
 #endif /* CONFIG_STA_SUPPORT */
@@ -1061,11 +1037,6 @@ int MlmeHardTransmitMgmtRing(
 				tx_rate, IFS_BACKOFF, transmit);
 
 #ifdef SPECIFIC_TX_POWER_SUPPORT
-#ifdef RTMP_MAC
-		if ((IS_RT6352(pAd) || IS_MT76x2(pAd)) &&
-			(pAd->chipCap.hif_type == HIF_RTMP) && (pMacEntry == NULL))
-        	pFirstTxWI->TXWI_O.TxPwrAdj = TxPwrAdj;
-#endif /* RTMP_MAC */
 #ifdef RLT_MAC
 		if ((IS_RT6352(pAd) || IS_MT76x2(pAd)) &&
 			(pAd->chipCap.hif_type == HIF_RLT) && (pMacEntry == NULL))
@@ -3465,10 +3436,6 @@ VOID RtmpPrepareHwNullFrame(
 		}
 
 		if (bWaitACK) {
-#ifdef RTMP_MAC
-			if (pAd->chipCap.hif_type == HIF_RTMP)
-				pTxWI->TXWI_O.TXRPT = 1;
-#endif /* RTMP_MAC */
 #ifdef RLT_MAC
 			// TODO: shiang, how about RT65xx series??
 #endif /* RLT_MAC */

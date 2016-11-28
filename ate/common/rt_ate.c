@@ -95,16 +95,6 @@ CHAR ATEGetDesiredTSSI(
 
 
 #if defined( RT3352) || defined(RT3350)
-#ifdef RTMP_MAC
-	if (pAd->chipCap.hif_type == HIF_RTMP)
-	{
-		MCS = (UCHAR)(pATEInfo->TxWI.TXWI_O.MCS);
-		phy_mode = (UCHAR)(pATEInfo->TxWI.TXWI_O.PHYMODE);
-		stbc = (UCHAR)(pATEInfo->TxWI.TXWI_O.STBC);
-		bw = (UCHAR)(pATEInfo->TxWI.TXWI_O.BW);
-	}
-#endif /* RTMP_MAC */
-
 	if (phy_mode == MODE_CCK)
 	{
 		if (MCS > 3) /* boundary verification */
@@ -278,19 +268,6 @@ VOID ATESampleRssi(
 		}
 	}
 #endif /* RLT_MAC */
-
-#ifdef RTMP_MAC
-	if (pAd->chipCap.hif_type == HIF_RTMP)
-	{
-		rssi[0] = pRxWI->RXWI_O.RSSI0;
-		rssi[1] = pRxWI->RXWI_O.RSSI1;
-		rssi[2] = pRxWI->RXWI_O.RSSI2;
-
-		snr[0] = pRxWI->RXWI_O.SNR0;
-		snr[1] = pRxWI->RXWI_O.SNR1;
-		snr[2] = pRxWI->RXWI_O.SNR2;
-	}
-#endif /* RTMP_MAC */
 
 	if (rssi[0] != 0)
 	{
@@ -594,14 +571,6 @@ static VOID SetJapanFilter(struct rtmp_adapter *pAd)
 		phy_mode = pATEInfo->TxWI.TXWI_N.PHYMODE;
 	}
 #endif /* RLT_MAC*/
-
-#ifdef RTMP_MAC
-	if (pAd->chipCap.hif_type == HIF_RTMP)
-	{
-		bw = pATEInfo->TxWI.TXWI_O.BW;
-		phy_mode = pATEInfo->TxWI.TXWI_O.PHYMODE;
-	}
-#endif /* RTMP_MAC */
 
 #ifdef RTMP_BBP
 	if (pAd->chipCap.hif_type == HIF_RTMP)
@@ -3306,10 +3275,6 @@ INT	Set_ATE_TX_BW_Proc(
 	if (pAd->chipCap.hif_type == HIF_RLT)
 		bw = pATEInfo->TxWI.TXWI_N.BW;
 #endif /* RLT_MAC*/
-#ifdef RTMP_MAC
-	if (pAd->chipCap.hif_type == HIF_RTMP)
-		bw = pATEInfo->TxWI.TXWI_O.BW;
-#endif /* RTMP_MAC */
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_ATE_TX_BW_Proc (BBPCurrentBW = %d)\n", bw));
 	}
@@ -3406,11 +3371,6 @@ INT	Set_ATE_TX_MCS_Proc(
 		phy_mode = pATEInfo->TxWI.TXWI_N.PHYMODE;
 #endif /* RLT_MAC*/
 
-#ifdef RTMP_MAC
-	if (pAd->chipCap.hif_type == HIF_RTMP)
-		phy_mode = pATEInfo->TxWI.TXWI_O.PHYMODE;
-#endif /* RTMP_MAC */
-
 	MCS = simple_strtol(arg, 0, 10);
 	result = CheckMCSValid(pAd, phy_mode, MCS);
 
@@ -3420,11 +3380,6 @@ INT	Set_ATE_TX_MCS_Proc(
 		if (pAd->chipCap.hif_type == HIF_RLT)
 			pATEInfo->TxWI.TXWI_N.MCS = MCS;
 #endif /* RLT_MAC*/
-
-#ifdef RTMP_MAC
-		if (pAd->chipCap.hif_type == HIF_RTMP)
-			pATEInfo->TxWI.TXWI_O.MCS = MCS;
-#endif /* RTMP_MAC */
 	}
 	else
 	{
@@ -3470,11 +3425,6 @@ INT	Set_ATE_TX_STBC_Proc(
 			pATEInfo->TxWI.TXWI_N.STBC = stbc;
 	}
 #endif /* RLT_MAC */
-
-#ifdef RTMP_MAC
-	if (pAd->chipCap.hif_type == HIF_RTMP)
-		pATEInfo->TxWI.TXWI_O.STBC = stbc;
-#endif /* RTMP_MAC */
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_ATE_TX_STBC_Proc (GI = %d)\n", stbc));
 	DBGPRINT(RT_DEBUG_TRACE, ("Ralink: Set_ATE_TX_STBC_Proc Success\n"));
@@ -3530,20 +3480,6 @@ INT	Set_ATE_TX_MODE_Proc(
 		}
 	}
 #endif /* RLT_MAC*/
-
-#ifdef RTMP_MAC
-	if (pAd->chipCap.hif_type == HIF_RTMP)
-	{
-		pATEInfo->TxWI.TXWI_O.PHYMODE = phy_mode;
-		bw = pATEInfo->TxWI.TXWI_O.BW;
-
-		if (phy_mode == MODE_CCK)
-		{
-			pATEInfo->TxWI.TXWI_O.BW = BW_20;
-			bw = BW_20;
-		}
-	}
-#endif /* RTMP_MAC */
 
 #ifdef RT65xx
 	/* Turn on BBP 20MHz mode by request here. */
@@ -3681,13 +3617,6 @@ INT	Set_ATE_TX_GI_Proc(
 		pATEInfo->TxWI.TXWI_N.ShortGI= (sgi > 1 ? 0 : sgi);
 	}
 #endif /* RLT_MAC*/
-
-#ifdef RTMP_MAC
-	if (pAd->chipCap.hif_type == HIF_RTMP)
-	{
-		pATEInfo->TxWI.TXWI_O.ShortGI = (sgi > 1 ? 0 : sgi);
-	}
-#endif /* RTMP_MAC */
 
 	if (sgi > 1)
 	{
@@ -5283,17 +5212,6 @@ INT	Set_ATE_Show_Proc(
 	}
 #endif /* RLT_MAC*/
 
-#ifdef RTMP_MAC
-	if (pAd->chipCap.hif_type == HIF_RTMP)
-	{
-		bw = pATEInfo->TxWI.TXWI_O.BW;
-		phy_mode = pATEInfo->TxWI.TXWI_O.PHYMODE;
-		sgi = pATEInfo->TxWI.TXWI_O.ShortGI;
-		mcs = pATEInfo->TxWI.TXWI_O.MCS;
-	}
-#endif /* RTMP_MAC */
-
-
 	switch (pATEInfo->Mode)
 	{
 #ifdef CONFIG_RT2880_ATE_CMD_NEW
@@ -5938,16 +5856,6 @@ int ATEInit(
 	}
 #endif /* RLT_MAC*/
 
-#ifdef RTMP_MAC
-	if (pAd->chipCap.hif_type == HIF_RTMP)
-	{
-		pATEInfo->TxWI.TXWI_O.BW = BW_20;
-		pATEInfo->TxWI.TXWI_O.PHYMODE = MODE_OFDM;
-		pATEInfo->TxWI.TXWI_O.MCS = 7;
-		pATEInfo->TxWI.TXWI_O.ShortGI = 0;/* LONG GI : 800 ns*/
-	}
-#endif /* RTMP_MAC */
-
 	pATEInfo->Channel = 1;
 	pATEInfo->TxAntennaSel = 1;
 	pATEInfo->RxAntennaSel = 0;
@@ -6118,226 +6026,6 @@ INT Set_ADCDump_Proc(
 	if (pAd->chipCap.hif_type == HIF_RLT)
 		return FALSE;
 #endif /* RLT_MAC */
-
-#ifdef RTMP_MAC
-	// TODO: this function need to revise to make it more clear!
-	if (pAd->chipCap.hif_type == HIF_RTMP)
-	{
-		UCHAR BBP_R21_Ori=0,BBP_R60_Ori=0,BBP_R142_ORI=0,BBP_R143_ORI=0;
-		UINT32 MACValue=0,PBF_SYS_CTRL_ORI=0,PBF_CAP_CTRL_ORI=0;
-		UINT32 CaptureModeOffset=0,CaptureStartAddr=0;
-		UINT32 SMM_Addr;
-		UINT32 PKT_Addr;
-		int i = 0;
-		PSTRING					src = "ADCDump.txt";
-		RTMP_OS_FD				srcf;
-		RTMP_OS_FS_INFO			osFSInfo;
-		UCHAR				msg[128];
-		UCHAR				msg1[128];
-		CAPTURE_MODE_SHARE_MEMORY     SMMValued;
-		CAPTURE_MODE_PACKET_BUFFER    PKTValue1d;
-		CAPTURE_MODE_PACKET_BUFFER    PKTValue2d;
-		UCHAR retval=0;
-		UCHAR DataSourceADC6=simple_strtol(arg, 0, 10);
-
-		pAd->ate.Mode = ATE_START;
-
-		/* Disable Tx/Rx */
-		RTMP_IO_WRITE32(pAd, MAC_SYS_CTRL, 0x00);
-		BBP_IO_READ8_BY_REG_ID(pAd, BBP_R21, &BBP_R21_Ori);
-
-		/* Disable BBP power saving */
-
-		/* disable all Tx/Rx Queue */
-		RTMP_IO_WRITE32(pAd, PBF_CFG, 0x00000000);
-
-		/* capture mode */
-		RTMP_IO_READ32(pAd, PBF_SYS_CTRL, &MACValue);
-		PBF_SYS_CTRL_ORI=MACValue;
-		MACValue |= 0x00004000; /* bit[14]=1 */
-		RTMP_IO_WRITE32(pAd, PBF_SYS_CTRL, MACValue);
-
-		/* capture setting */
-		if (DataSourceADC6 == 1)
-		{
-			BBP_IO_READ8_BY_REG_ID(pAd, BBP_R60, &BBP_R60_Ori);
-			BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R60, 0x80);
-			BBP_IO_READ8_BY_REG_ID(pAd, BBP_R142, &BBP_R142_ORI);
-			BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R142, 0x10);
-			BBP_IO_READ8_BY_REG_ID(pAd, BBP_R143, &BBP_R143_ORI);
-			BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R143, 0x05);
-
-			RTMP_IO_READ32(pAd, PBF_CAP_CTRL, &MACValue);
-			PBF_CAP_CTRL_ORI=MACValue;
-			MACValue |= 0x00008000; /* set bit[15]=1 for ADC 6 */
-			MACValue &= ~0x80000000; /* set bit[31]=0 */
-			RTMP_IO_WRITE32(pAd, PBF_CAP_CTRL, MACValue);
-		}
-		else
-		{
-			RTMP_IO_READ32(pAd, PBF_CAP_CTRL, &MACValue);
-			PBF_CAP_CTRL_ORI=MACValue;
-			MACValue &= ~0x80008000; /* set bit[31]=0, bit[15]=0 for ADC 8 */
-			RTMP_IO_WRITE32(pAd, PBF_CAP_CTRL, MACValue);
-		}
-
-		/* trigger offset */
-		RTMP_IO_READ32(pAd, PBF_CAP_CTRL, &MACValue);
-		MACValue &= ~(0x1FFF0000);
-		RTMP_IO_WRITE32(pAd, PBF_CAP_CTRL, MACValue);
-
-		if ((CaptureModeOffset > 0) && (CaptureModeOffset <= 0x1FFF))
-		{
-			RTMP_IO_READ32(pAd, PBF_CAP_CTRL, &MACValue);
-			MACValue |= CaptureModeOffset << 16;
-			RTMP_IO_WRITE32(pAd, PBF_CAP_CTRL, MACValue);
-		}
-
-		/* start capture */
-		RTMP_IO_READ32(pAd, PBF_CAP_CTRL, &MACValue);
-		MACValue = MACValue | 0x40000000; /* set bit[30]=1 */
-		RTMP_IO_WRITE32(pAd, PBF_CAP_CTRL, MACValue);
-
-		if (0)
-		{
-			/* start TX */
-			RTMP_IO_WRITE32(pAd, MAC_SYS_CTRL, 0x4);
-		}
-		else
-		{
-			/* start RX */
-			RTMP_IO_WRITE32(pAd, MAC_SYS_CTRL, 0x8);
-		}
-
-		/* Wait until [0x440] bit30=0 */
-		do
-		{
-			i++;
-			RtmpusecDelay(10);
-			RTMP_IO_READ32(pAd, PBF_CAP_CTRL, &MACValue);
-			MACValue = MACValue & 0x40000000; /* bit[30] */
-
-			if (MACValue == 0)
-			{
-				break;
-			}
-
-			if (i == 1000) /* 3 sec */
-			{
-				printk("Error, over 3s\n");
-				break;
-			}
-		} while (MACValue != 0);
-
-		if (DataSourceADC6 == 1)
-		{
-			/* restore BBP R60 */
-			BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R60, BBP_R60_Ori);
-		}
-
-		/* Stop TX/RX */
-		RTMP_IO_WRITE32(pAd, MAC_SYS_CTRL, 0x0);
-
-		/* Read [0x440] bit[12:0] */
-		RTMP_IO_READ32(pAd, PBF_CAP_CTRL, &CaptureStartAddr);
-		CaptureStartAddr = CaptureStartAddr & 0x00001FFF;
-
-		/* Dump data from MAC memory */
-		RtmpOSFSInfoChange(&osFSInfo, TRUE);
-
-		SMM_Addr=SMM_BASEADDR+CaptureStartAddr*2;
-		PKT_Addr=PKT_BASEADDR+CaptureStartAddr*4;
-
-		/* SMM Address must be four byte alignment*/
-		SMM_Addr=(SMM_Addr/4)*4;
-
-		/* open file */
-		if (src && *src)
-		{
-			srcf = RtmpOSFileOpen(src, O_WRONLY|O_CREAT, 0);
-
-			if (IS_FILE_OPEN_ERR(srcf))
-			{
-				DBGPRINT(RT_DEBUG_ERROR, ("--> Error opening %s\n", src));
-				return FALSE;
-			}
-			else
-			{
-				memset(msg, 0x00, 128);
-				memset(msg1, 0x00, 128);
-
-				for (i=0;i<0x1000;i++)
-				{
-					RTMP_IO_READ32(pAd,SMM_Addr, &SMMValued.Value);
-					SMM_Addr += 4;
-
-					if(SMM_Addr >= 0x8000)
-						SMM_Addr = SMM_Addr - SMM_BASEADDR;
-
-					RTMP_IO_READ32(pAd,PKT_Addr, &PKTValue1d.Value);
-					PKT_Addr += 4;
-
-					if(PKT_Addr >= 0x10000)
-						PKT_Addr = PKT_Addr - PKT_BASEADDR;
-
-					RTMP_IO_READ32(pAd,PKT_Addr, &PKTValue2d.Value);
-					PKT_Addr += 4;
-
-					if(PKT_Addr >= 0x10000)
-						PKT_Addr = PKT_Addr - PKT_BASEADDR;
-
-					sprintf(msg, "%d %d %d %d %d %d\n",SMMValued.field.LOW_BYTE1,SMMValued.field.LOW_BYTE0
-					              ,PKTValue1d.field.BYTE3,PKTValue1d.field.BYTE2
-					              ,PKTValue1d.field.BYTE1,PKTValue1d.field.BYTE0);
-					sprintf(msg1, "%d %d %d %d %d %d\n",SMMValued.field.LOW_BYTE1,SMMValued.field.LOW_BYTE0
-					              ,PKTValue2d.field.BYTE3,PKTValue2d.field.BYTE2
-					              ,PKTValue2d.field.BYTE1,PKTValue2d.field.BYTE0);
-
-					retval=RtmpOSFileWrite(srcf, (PSTRING)msg, strlen(msg));
-					retval=RtmpOSFileWrite(srcf, (PSTRING)msg1, strlen(msg1));
-				}
-			}
-		}
-		else
-		{
-			DBGPRINT(RT_DEBUG_ERROR, ("--> Error src  or srcf is null\n"));
-			return FALSE;
-		}
-
-		retval=RtmpOSFileClose(srcf);
-
-		if (retval)
-		{
-			DBGPRINT(RT_DEBUG_TRACE, ("--> Error %d closing %s\n", -retval, src));
-		}
-
-		RtmpOSFSInfoChange(&osFSInfo, FALSE);
-
-		BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R21, BBP_R21_Ori);
-		BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R60, BBP_R60_Ori);
-
-		BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R142, BBP_R142_ORI);
-		BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R142, BBP_R142_ORI);
-		RTMP_IO_WRITE32(pAd, PBF_SYS_CTRL, PBF_SYS_CTRL_ORI);
-		RTMP_IO_WRITE32(pAd, PBF_CAP_CTRL, PBF_CAP_CTRL_ORI);
-
-		/* Finish */
-		/* normal mode */
-		RTMP_IO_READ32(pAd, PBF_SYS_CTRL, &MACValue);
-		MACValue &= ~0x00004000;
-		RTMP_IO_WRITE32(pAd, PBF_SYS_CTRL, MACValue);
-
-		/* reset packet buffer */
-		RTMP_IO_WRITE32(pAd, PBF_CTRL,0x00000020 );
-
-		/* enable Tx/Rx Queue */
-		RTMP_IO_WRITE32(pAd, PBF_CFG, 0x00F40016);
-		RTMP_IO_WRITE32(pAd, MAC_SYS_CTRL, 0x0C);
-		pAd->ate.Mode = ATE_STOP;
-
-		return TRUE;
-	}
-#endif /* RTMP_MAC */
 
 	return FALSE;
 }

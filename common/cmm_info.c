@@ -2021,12 +2021,6 @@ VOID	RTMPAddWcidAttributeEntry(
 			wcid_attr_size = RLT_HW_WCID_ATTRI_SIZE;
 		}
 #endif /* RLT_MAC */
-#ifdef RTMP_MAC
-		if (pAd->chipCap.hif_type == HIF_RTMP) {
-			wcid_attr_base = MAC_WCID_ATTRIBUTE_BASE;
-			wcid_attr_size = HW_WCID_ATTRI_SIZE;
-		}
-#endif /* RTMP_MAC */
 
 		offset = wcid_attr_base + (Wcid * wcid_attr_size);
 #ifdef CONFIG_AP_SUPPORT
@@ -2074,13 +2068,6 @@ VOID	RTMPAddWcidAttributeEntry(
 			iveiv_tb_size = RLT_HW_IVEIV_ENTRY_SIZE;
 		}
 #endif /* RLT_MAC */
-
-#ifdef RTMP_MAC
-		if (pAd->chipCap.hif_type == HIF_RTMP) {
-			iveiv_tb_base = MAC_IVEIV_TABLE_BASE;
-			iveiv_tb_size = HW_IVEIV_ENTRY_SIZE;
-		}
-#endif /* RTMP_MAC */
 
 		offset = iveiv_tb_base + (Wcid * iveiv_tb_size);
 

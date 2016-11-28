@@ -2039,15 +2039,6 @@ VOID PeerBeacon(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 				}
 			}
 #endif /* RLT_MAC */
-#ifdef RTMP_MAC
-			if (pAd->chipCap.hif_type == HIF_RTMP)
-			{
-				RxWI.RXWI_O.RSSI0= Elem->Rssi0;
-				RxWI.RXWI_O.RSSI1 = Elem->Rssi1;
-				RxWI.RXWI_O.RSSI2 = Elem->Rssi2;
-				RxWI.RXWI_O.phy_mode = 0; /* Prevent SNR calculate error. */
-			}
-#endif /* RTMP_MAC */
 			if (INFRA_ON(pAd)) {
 				MAC_TABLE_ENTRY *pEntry = &pAd->MacTab.Content[BSSID_WCID];
 				if (pEntry)

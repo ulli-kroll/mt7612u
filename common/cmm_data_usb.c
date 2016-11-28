@@ -186,27 +186,6 @@ VOID rlt_usb_write_txinfo(
 	}
 #endif /* RLT_MAC */
 
-#ifdef RTMP_MAC
-	if (pAd->chipCap.hif_type == HIF_RTMP) {
-		struct _TXINFO_OMAC *omac_info = (struct _TXINFO_OMAC *)pTxInfo;
-
-		omac_info->USBDMATxPktLen = USBDMApktLen;
-		omac_info->QSEL = QueueSel;
-		if (QueueSel != FIFO_EDCA)
-			DBGPRINT(RT_DEBUG_TRACE, ("====> QueueSel != FIFO_EDCA <====\n"));
-		omac_info->USBDMANextVLD = FALSE;	/*NextValid;   Need to check with Jan about this.*/
-		omac_info->USBDMATxburst = TxBurst;
-		omac_info->WIV = bWiv;
-
-#ifndef USB_BULK_BUF_ALIGMENT
-		omac_info->SwUseLastRound = 0;
-#else
-		omac_info->bFragLasAlignmentsectiontRound = 0;
-#endif /* USB_BULK_BUF_ALIGMENT */
-
-	}
-#endif /* RTMP_MAC */
-
 }
 
 
@@ -927,11 +906,6 @@ VOID RtmpUSB_FinalWriteTxResource(
 	}
 #endif /* RLT_MAC */
 
-#ifdef RTMP_MAC
-	if (pAd->chipCap.hif_type == HIF_RTMP)
-		pTxWI->TXWI_O.MPDUtotalByteCnt = totalMPDUSize;
-#endif /* RTMP_MAC */
-
 		/* Update the pHTTXContext->CurWritePosition*/
 
 		pHTTXContext->CurWritePosition += (TXINFO_SIZE + USBDMApktLen);
@@ -1291,36 +1265,6 @@ if (0) {
 		pRxBlk->ldpc_ex_sym = rxwi_n->ldpc_ex_sym;
 	}
 #endif /* RLT_MAC */
-
-#ifdef RTMP_MAC
-	if (pAd->chipCap.hif_type == HIF_RTMP) {
-			ruct _RXWI_OMAC *rxwi_o = (struct _RXWI_OMAC *)(GET_OS_PKT_DATAPTR(pRxPacket));
-		pRxInfo = *(RXINFO_STRUC *)(pData + ThisFrameLen);
-		pRxWI = (RXWI_STRUC *)pData;
-
-		rxwi_n = (struct _RXWI_NMAC *)(pData);
-		pRxBlk->pRxWI = (RXWI_STRUC *)(pData);
-		pRxBlk->MPDUtotalByteCnt = rxwi_n->MPDUtotalByteCnt;
-		pRxBlk->wcid = rxwi_n->wcid;
-		pRxBlk->key_idx = rxwi_n->key_idx;
-		pRxBlk->bss_idx = rxwi_n->bss_idx;
-		pRxBlk->TID = rxwi_n->tid;
-		pRxBlk->DataSize = rxwi_n->MPDUtotalByteCnt;
-
-		pRxBlk->rx_rate.field.MODE = rxwi_n->phy_mode;
-		pRxBlk->rx_rate.field.MCS = rxwi_n->mcs;
-		pRxBlk->rx_rate.field.BW = rxwi_n->bw;
-		pRxBlk->rx_rate.field.STBC = rxwi_n->stbc;
-		pRxBlk->rx_rate.field.ShortGI = rxwi_n->sgi;
-		pRxBlk->rssi[0] = rxwi_n->rssi[0];
-		pRxBlk->rssi[1] = rxwi_n->rssi[1];
-		pRxBlk->rssi[2] = rxwi_n->rssi[2];
-		pRxBlk->snr[0] = rxwi_n->bbp_rxinfo[0];
-		pRxBlk->snr[1] = rxwi_n->bbp_rxinfo[1];
-		pRxBlk->snr[2] = rxwi_n->bbp_rxinfo[2];
-		pRxBlk->freq_offset = rxwi_n->bbp_rxinfo[4];
-	}
-#endif /* RTMP_MAC */
 
 #ifdef RT_BIG_ENDIAN
 	RTMPWIEndianChange(pAd, pData, TYPE_RXWI);
