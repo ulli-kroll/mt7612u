@@ -25,9 +25,6 @@ HAS_MULTI_INF=n
 # Support ATE function
 HAS_ATE=y
 
-# Support LLTD function
-HAS_LLTD=n
-
 # Support Wpa_Supplicant
 # i.e. wpa_supplicant -Dralink
 HAS_WPA_SUPPLICANT=y
@@ -725,10 +722,6 @@ endif
 
 ifeq ($(HAS_MC_SUPPORT),y)
 WFLAGS += -DMULTIPLE_CARD_SUPPORT
-endif
-
-ifeq ($(HAS_LLTD),y)
-WFLAGS += -DLLTD_SUPPORT
 endif
 
 EXTRA_CFLAGS := $(WFLAGS)

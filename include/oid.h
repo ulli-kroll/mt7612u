@@ -945,18 +945,6 @@ typedef struct _NDIS_802_11_CAPABILITY {
 #define RT_OID_WSC_QUERY_PEER_INFO_ON_RUNNING		0x075C
 #define RT_OID_WSC_MAC_ADDRESS						0x0760
 
-#ifdef LLTD_SUPPORT
-/* for consistency with RT61 */
-#define RT_OID_GET_PHY_MODE                         0x761
-#ifdef CONFIG_AP_SUPPORT
-#define RT_OID_GET_LLTD_ASSO_TABLE                  0x762
-#ifdef APCLI_SUPPORT
-#define RT_OID_GET_REPEATER_AP_LINEAGE				0x763
-#endif /* APCLI_SUPPORT */
-#endif /* CONFIG_AP_SUPPORT */
-#endif /* LLTD_SUPPORT */
-
-
 #ifdef CON_WPS
 #define RT_OID_WSC_SET_CON_WPS_STOP                 0x0764
 #endif /* CON_WPS */
@@ -1232,20 +1220,6 @@ typedef struct {
 	UCHAR SHORTGI;
 	UCHAR rsv;
 } OID_SET_HT_PHYMODE, *POID_SET_HT_PHYMODE;
-
-
-#ifdef LLTD_SUPPORT
-typedef struct _RT_LLTD_ASSOICATION_ENTRY {
-	UCHAR Addr[MAC_ADDR_LEN];
-	unsigned short MOR;	/* maximum operational rate */
-	UCHAR phyMode;
-} RT_LLTD_ASSOICATION_ENTRY, *PRT_LLTD_ASSOICATION_ENTRY;
-
-typedef struct _RT_LLTD_ASSOICATION_TABLE {
-	unsigned int Num;
-	RT_LLTD_ASSOICATION_ENTRY Entry[MAX_NUMBER_OF_MAC];
-} RT_LLTD_ASSOICATION_TABLE, *PRT_LLTD_ASSOICATION_TABLE;
-#endif /* LLTD_SUPPORT */
 
 #ifdef CONFIG_STA_SUPPORT
 
