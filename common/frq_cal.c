@@ -314,21 +314,9 @@ inline CHAR GetFrequencyOffsetField(
 {
 	CHAR FreqOffset = 0;
 
-	if (RxWIFrqOffsetField == RXWI_FRQ_OFFSET_FIELD0)
-	{
-#ifdef RLT_MAC
-		if (pAd->chipCap.hif_type == HIF_RLT) {
-				FreqOffset = (CHAR)(pRxWI->RXWI_N.bbp_rxinfo[1]);
-		}
-#endif /* RLT_MAC */
-	}
-	else if (RxWIFrqOffsetField == RXWI_FRQ_OFFSET_FIELD1)
-	{
-#ifdef RLT_MAC
-		if (pAd->chipCap.hif_type == HIF_RTMP) {
-				FreqOffset = (CHAR)(pRxWI->RXWI_N.bbp_rxinfo[4]);
-		}
-#endif /* RLT_MAC */
+	if (RxWIFrqOffsetField == RXWI_FRQ_OFFSET_FIELD0) {
+		FreqOffset = (CHAR)(pRxWI->RXWI_N.bbp_rxinfo[1]);
+	} else if (RxWIFrqOffsetField == RXWI_FRQ_OFFSET_FIELD1) {
 	}
 	else
 		DBGPRINT(RT_DEBUG_ERROR, ("%s:Unknow Frequency Offset location(%d)\n", __FUNCTION__, RxWIFrqOffsetField));

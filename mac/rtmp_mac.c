@@ -171,8 +171,7 @@ VOID RTMPWriteTxWI(
 #endif /* TXBF_SUPPORT */
 
 
-#ifdef RLT_MAC
-	if (pAd->chipCap.hif_type == HIF_RLT) {
+	{
 		struct _TXWI_NMAC *txwi_n = (struct _TXWI_NMAC *)pTxWI;
 		txwi_n->FRAG = FRAG;
 		txwi_n->CFACK= CFACK;
@@ -215,7 +214,6 @@ VOID RTMPWriteTxWI(
 #endif /* TXBF_SUPPORT */
 
 	}
-#endif /* RLT_MAC */
 
 	memmove(pOutTxWI, &TxWI, TXWISize);
 //+++Add by shiang for debug
@@ -448,8 +446,7 @@ VOID RTMPWriteTxWI_Data(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pTx
 #endif /* MCS_LUT_SUPPORT */
 #endif /* TXBF_SUPPORT */
 
-#ifdef RLT_MAC
-	if (pAd->chipCap.hif_type == HIF_RLT) {
+	{
 		struct _TXWI_NMAC *txwi_n = (struct _TXWI_NMAC *)pTxWI;
 
 		txwi_n->FRAG = TX_BLK_TEST_FLAG(pTxBlk, fTX_bAllowFrag);
@@ -508,8 +505,6 @@ VOID RTMPWriteTxWI_Data(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pTx
 #endif /* MCS_LUT_SUPPORT */
 
 	}
-#endif /* RLT_MAC */
-
 }
 
 
@@ -681,8 +676,7 @@ VOID RTMPWriteTxWI_Cache(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pT
 		/* set PID for TxRateSwitching*/
 		pkt_id = mcs;
 
-#ifdef RLT_MAC
-	if (pAd->chipCap.hif_type == HIF_RLT) {
+	{
 		struct _TXWI_NMAC *txwi_n = (struct _TXWI_NMAC *)pTxWI;
 
 #ifdef TXBF_SUPPORT
@@ -728,7 +722,6 @@ VOID RTMPWriteTxWI_Cache(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pT
 		txwi_n->lut_en = lut_enable;
 #endif /* MCS_LUT_SUPPORT */
 	}
-#endif /* RLT_MAC */
 
 }
 
@@ -737,10 +730,7 @@ INT get_pkt_rssi_by_rxwi(struct rtmp_adapter *pAd, RXWI_STRUC *rxwi, INT size, C
 {
 	INT status = 0;
 
-#ifdef RLT_MAC
-	if (pAd->chipCap.hif_type == HIF_RLT)
-		status = rlt_get_rxwi_rssi(rxwi, size, rssi);
-#endif /* RLT_MAC */
+	status = rlt_get_rxwi_rssi(rxwi, size, rssi);
 
 	return status;
 }
@@ -750,10 +740,7 @@ INT get_pkt_snr_by_rxwi(struct rtmp_adapter *pAd, RXWI_STRUC *rxwi, INT size, UC
 {
 	INT status = 0;
 
-#ifdef RLT_MAC
-	if (pAd->chipCap.hif_type == HIF_RLT)
-		status = rlt_get_rxwi_snr(pAd, rxwi, size, snr);
-#endif /* RLT_MAC */
+	status = rlt_get_rxwi_snr(pAd, rxwi, size, snr);
 
 	return status;
 }
@@ -763,10 +750,7 @@ INT get_pkt_phymode_by_rxwi(struct rtmp_adapter *pAd, RXWI_STRUC *rxwi)
 {
 	INT status = 0;
 
-#ifdef RLT_MAC
-	if (pAd->chipCap.hif_type == HIF_RLT)
-		status = rlt_get_rxwi_phymode(rxwi);
-#endif /* RLT_MAC */
+	status = rlt_get_rxwi_phymode(rxwi);
 
 	return status;
 
@@ -781,12 +765,7 @@ INT set_lut_phy_rate(
 	UINT32 mac_reg = 0;
 	USHORT reg_id = 0x1C00 + (wcid << 3);
 
-#ifdef RLT_MAC
-	if (pAd->chipCap.hif_type == HIF_RLT)
-	{
-		mac_reg = (mcs | (bw << 7) | (gi << 9) | (stbc << 10) | (mode << 13));
-	}
-#endif /* RLT_MAC */
+	mac_reg = (mcs | (bw << 7) | (gi << 9) | (stbc << 10) | (mode << 13));
 
 	if (mac_reg)
 		RTMP_IO_WRITE32(pAd, reg_id, mac_reg);
@@ -914,8 +893,6 @@ VOID rtmp_mac_bcn_buf_init(IN struct rtmp_adapter *pAd)
 					idx, pChipCap->BcnBase[idx], idx, pAd->BeaconOffset[idx]));
 	}
 
-#ifdef RLT_MAC
-	if (pAd->chipCap.hif_type == HIF_RLT)
 	{
 		RTMP_REG_PAIR bcn_mac_reg_tb[] = {
 			{RLT_BCN_OFFSET0, 0x18100800},
@@ -931,7 +908,6 @@ VOID rtmp_mac_bcn_buf_init(IN struct rtmp_adapter *pAd)
 									bcn_mac_reg_tb[idx].Value);
 		}
 	}
-#endif /* RLT_MAC */
 }
 
 
@@ -939,20 +915,14 @@ INT rtmp_mac_pbf_init(struct rtmp_adapter *pAd)
 {
 	INT idx, tb_size = 0;
 	RTMP_REG_PAIR *pbf_regs = NULL;
-#ifdef RLT_MAC
+
 	RTMP_REG_PAIR rlt_pbf_regs[]={
 		{TX_MAX_PCNT,		0xefef3f1f},
 		{RX_MAX_PCNT,		0xfebf},
 	};
-#endif /* RLT_MAC */
 
-#ifdef RLT_MAC
-	if (pAd->chipCap.hif_type == HIF_RLT)
-	{
-		pbf_regs = &rlt_pbf_regs[0];
-		tb_size = (sizeof(rlt_pbf_regs) / sizeof(RTMP_REG_PAIR));
-	}
-#endif /* RLT_MAC */
+	pbf_regs = &rlt_pbf_regs[0];
+	tb_size = (sizeof(rlt_pbf_regs) / sizeof(RTMP_REG_PAIR));
 
 	if ((pbf_regs != NULL) && (tb_size > 0))
 	{

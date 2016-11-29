@@ -130,8 +130,8 @@ static VOID ATEWriteTxWI(
 	IN	HTTRANSMIT_SETTING	Transmit)
 {
 	OPSTATUS_CLEAR_FLAG(pAd, fOP_STATUS_SHORT_PREAMBLE_INUSED);
-#ifdef RLT_MAC
-	if (pAd->chipCap.hif_type == HIF_RLT) {
+
+	{
 		struct  _TXWI_NMAC *txwi_n = (struct  _TXWI_NMAC *)pTxWI;
 
 		txwi_n->FRAG = FRAG;
@@ -157,7 +157,6 @@ static VOID ATEWriteTxWI(
 		txwi_n->PHYMODE= Transmit.field.MODE;
 		txwi_n->CFACK = CfAck;
 	}
-#endif /* RLT_MAC */
 
 	return;
 }
@@ -254,25 +253,21 @@ INT ATESetUpFrame(
 
 		pTxWI = (TXWI_STRUC *)&pAd->NullContext.TransferBuffer->field.WirelessPacket[TXINFO_SIZE];
 
-#ifdef RLT_MAC
-		if (pAd->chipCap.hif_type == HIF_RLT) {
-			bw = pATEInfo->TxWI.TXWI_N.BW;
-			sgi = pATEInfo->TxWI.TXWI_N.ShortGI;
-			stbc = pATEInfo->TxWI.TXWI_N.STBC;
-			mcs = pATEInfo->TxWI.TXWI_N.MCS;
-			phymode = pATEInfo->TxWI.TXWI_N.PHYMODE;
-			frag = pATEInfo->TxWI.TXWI_N.FRAG;
-			ts = pATEInfo->TxWI.TXWI_N.TS;
-			ampdu = pATEInfo->TxWI.TXWI_N.AMPDU;
-			ack =pATEInfo->TxWI.TXWI_N.ACK;
-			nseq = pATEInfo->TxWI.TXWI_N.NSEQ;
-			basize = pATEInfo->TxWI.TXWI_N.BAWinSize;
-			mpdu_len = pATEInfo->TxWI.TXWI_N.MPDUtotalByteCnt;
-			pid = pATEInfo->TxWI.TXWI_N.TxPktId;
-			txop = pATEInfo->TxWI.TXWI_N.txop;
-			cfack = pATEInfo->TxWI.TXWI_N.CFACK;
-		}
-#endif /* RLT_MAC */
+		bw = pATEInfo->TxWI.TXWI_N.BW;
+		sgi = pATEInfo->TxWI.TXWI_N.ShortGI;
+		stbc = pATEInfo->TxWI.TXWI_N.STBC;
+		mcs = pATEInfo->TxWI.TXWI_N.MCS;
+		phymode = pATEInfo->TxWI.TXWI_N.PHYMODE;
+		frag = pATEInfo->TxWI.TXWI_N.FRAG;
+		ts = pATEInfo->TxWI.TXWI_N.TS;
+		ampdu = pATEInfo->TxWI.TXWI_N.AMPDU;
+		ack =pATEInfo->TxWI.TXWI_N.ACK;
+		nseq = pATEInfo->TxWI.TXWI_N.NSEQ;
+		basize = pATEInfo->TxWI.TXWI_N.BAWinSize;
+		mpdu_len = pATEInfo->TxWI.TXWI_N.MPDUtotalByteCnt;
+		pid = pATEInfo->TxWI.TXWI_N.TxPktId;
+		txop = pATEInfo->TxWI.TXWI_N.txop;
+		cfack = pATEInfo->TxWI.TXWI_N.CFACK;
 
 		/* fill TxWI */
 		if (pATEInfo->bQATxStart == TRUE)

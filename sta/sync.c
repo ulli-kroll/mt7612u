@@ -2028,17 +2028,12 @@ VOID PeerBeacon(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 			pAd->StaCfg.LastBeaconRxTime = Now;
 
 			memset(&RxWI, 0, RXWISize);
-#ifdef RLT_MAC
-			if (pAd->chipCap.hif_type == HIF_RLT)
-			{
-				{
-					RxWI.RXWI_N.rssi[0]= Elem->Rssi0;
-					RxWI.RXWI_N.rssi[1] = Elem->Rssi1;
-					RxWI.RXWI_N.rssi[2] = Elem->Rssi2;
-					RxWI.RXWI_N.phy_mode = 0; /* Prevent SNR calculate error. */
-				}
-			}
-#endif /* RLT_MAC */
+
+			RxWI.RXWI_N.rssi[0]= Elem->Rssi0;
+			RxWI.RXWI_N.rssi[1] = Elem->Rssi1;
+			RxWI.RXWI_N.rssi[2] = Elem->Rssi2;
+			RxWI.RXWI_N.phy_mode = 0; /* Prevent SNR calculate error. */
+
 			if (INFRA_ON(pAd)) {
 				MAC_TABLE_ENTRY *pEntry = &pAd->MacTab.Content[BSSID_WCID];
 				if (pEntry)

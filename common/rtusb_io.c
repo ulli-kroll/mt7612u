@@ -2087,11 +2087,7 @@ VOID RTUSBWatchDog(struct rtmp_adapter *pAd)
 		return;
 #endif /* CONFIG_STA_SUPPORT */
 
-#ifdef RLT_MAC
-	// TODO: shiang-usw, need to check if this function still required!!
-	if (pAd->chipCap.hif_type == HIF_RLT)
-		return;
-#endif /* RLT_MAC */
+	return;
 }
 
 #endif /* RTMP_MAC_USB */

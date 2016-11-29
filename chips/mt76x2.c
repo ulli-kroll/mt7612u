@@ -4267,7 +4267,6 @@ static const RTMP_CHIP_CAP MT76x2_ChipCap = {
 	.MACRegisterVer = "",
 	.BBPRegisterVer = "MT7662E1_BBP_CR_20130116.xls",
 	.RFRegisterVer = "",
-	.hif_type = HIF_RLT,
 	.rf_type = RF_MT,
 #ifdef DYNAMIC_VGA_SUPPORT
 	.dynamic_vga_support = TRUE,

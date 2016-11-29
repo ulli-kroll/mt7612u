@@ -87,10 +87,7 @@ VOID dump_txinfo(struct rtmp_adapter *pAd, TXINFO_STRUC *pTxInfo)
 
 	DBGPRINT(RT_DEBUG_OFF, ("TxInfo Fields:\n"));
 
-#ifdef RLT_MAC
-	if (pAd->chipCap.hif_type == HIF_RLT)
-		dump_rlt_txinfo(pAd, pTxInfo);
-#endif /* RLT_MAC */
+	dump_rlt_txinfo(pAd, pTxInfo);
 }
 
 
@@ -99,10 +96,8 @@ VOID dump_txwi(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI)
 	hex_dump("TxWI Raw Data: ", (UCHAR *)pTxWI, pAd->chipCap.TXWISize);
 
 	DBGPRINT(RT_DEBUG_OFF, ("TxWI Fields:\n"));
-#ifdef RLT_MAC
-	if (pAd->chipCap.hif_type == HIF_RLT)
-		dump_rlt_txwi(pAd, pTxWI);
-#endif /* RLT_MAC */
+
+	dump_rlt_txwi(pAd, pTxWI);
 }
 
 
@@ -111,10 +106,8 @@ VOID dump_rxwi(struct rtmp_adapter *pAd, RXWI_STRUC *pRxWI)
 	hex_dump("RxWI Raw Data", (UCHAR *)pRxWI, pAd->chipCap.RXWISize);
 
 	DBGPRINT(RT_DEBUG_OFF, ("RxWI Fields:\n"));
-#ifdef RLT_MAC
-	if (pAd->chipCap.hif_type == HIF_RLT)
-		dump_rlt_rxwi(pAd, pRxWI);
-#endif /* RLT_MAC */
+
+	dump_rlt_rxwi(pAd, pRxWI);
 }
 
 
@@ -172,12 +165,10 @@ VOID dump_rxblk(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 	DBGPRINT(RT_DEBUG_TRACE,("\tData Pointer info:\n"));
 	DBGPRINT(RT_DEBUG_TRACE,("\t\tpRxInfo=0x%p\n", pRxBlk->pRxInfo));
 	dump_rxinfo(pAd, pRxBlk->pRxInfo);
-#ifdef RLT_MAC
-	if (pAd->chipCap.hif_type == HIF_RLT) {
-		DBGPRINT(RT_DEBUG_TRACE,("\t\tpRxFceInfo=0x%p\n", pRxBlk->pRxFceInfo));
-		dumpRxFCEInfo(pAd, pRxBlk->pRxFceInfo);
-	}
-#endif /* RLT_MAC */
+
+	DBGPRINT(RT_DEBUG_TRACE,("\t\tpRxFceInfo=0x%p\n", pRxBlk->pRxFceInfo));
+	dumpRxFCEInfo(pAd, pRxBlk->pRxFceInfo);
+
 	DBGPRINT(RT_DEBUG_TRACE,("\t\tpRxWI=0x%p\n", pRxBlk->pRxWI));
 	dump_rxwi(pAd, pRxBlk->pRxWI);
 	DBGPRINT(RT_DEBUG_TRACE,("\t\tpRxPacket=0x%p, len=%d\n", pRxBlk->pRxPacket, pRxBlk->MPDUtotalByteCnt));
@@ -193,10 +184,9 @@ VOID dump_rxblk(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 	DBGPRINT(RT_DEBUG_TRACE,("\t\tWCID=%d\n", pRxBlk->wcid));
 	DBGPRINT(RT_DEBUG_TRACE,("\t\tPhyMode=%d(%s)\n", pRxBlk->rx_rate.field.MODE, get_phymode_str(pRxBlk->rx_rate.field.MODE)));
 	DBGPRINT(RT_DEBUG_TRACE,("\t\tMCS=%d\n", pRxBlk->rx_rate.field.MCS));
-#ifdef RLT_MAC
-	if (pAd->chipCap.hif_type == HIF_RLT)
-		DBGPRINT(RT_DEBUG_TRACE,("\t\tldpc=%d\n", pRxBlk->rx_rate.field.ldpc));
-#endif /* RLT_MAC */
+
+	DBGPRINT(RT_DEBUG_TRACE,("\t\tldpc=%d\n", pRxBlk->rx_rate.field.ldpc));
+
 	DBGPRINT(RT_DEBUG_TRACE,("\t\tBW=%d\n", pRxBlk->rx_rate.field.BW));
 	DBGPRINT(RT_DEBUG_TRACE,("\t\tSGI=%d\n", pRxBlk->rx_rate.field.ShortGI));
 	DBGPRINT(RT_DEBUG_TRACE,("\t\tMPDUtotalByteCnt=%d\n", pRxBlk->MPDUtotalByteCnt));
@@ -334,14 +324,8 @@ int MiniportMMRequest(
 
 #ifdef CONFIG_STA_SUPPORT
 #ifdef RTMP_MAC_USB
-		if(RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_IDLE_RADIO_OFF)) {
-#ifdef RLT_MAC
-			if (pAd->chipCap.hif_type == HIF_RLT) {
-					ASIC_RADIO_ON(pAd, MLME_RADIO_ON);
-			}
-#endif /* RLT_MAC */
-
-		}
+		if(RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_IDLE_RADIO_OFF))
+			ASIC_RADIO_ON(pAd, MLME_RADIO_ON);
 #endif /* RTMP_MAC_USB */
 #endif /* CONFIG_STA_SUPPORT */
 
@@ -3884,9 +3868,6 @@ BOOLEAN rtmp_rx_done_handle(struct rtmp_adapter *pAd)
 
 
 #ifndef HDR_TRANS_SUPPORT
-#ifdef RLT_MAC
-		// TODO: shiang-6590, handle packet from other ports
-		if (pAd->chipCap.hif_type == HIF_RLT)
 		{
 			RXFCE_INFO *pFceInfo = rxblk.pRxFceInfo;
 			if ((pFceInfo->info_type != 0) || (pFceInfo->pkt_80211 != 1))
@@ -3903,7 +3884,6 @@ BOOLEAN rtmp_rx_done_handle(struct rtmp_adapter *pAd)
 				continue;
 			}
 		}
-#endif /* RLT_MAC */
 #endif /* HDR_TRANS_SUPPORT */
 
 #ifdef RT_BIG_ENDIAN

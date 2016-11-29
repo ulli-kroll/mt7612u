@@ -1345,13 +1345,10 @@ int NICInitializeAsic(struct rtmp_adapter *pAd, BOOLEAN bHardReset)
 	if (bHardReset)
 	{
 		UINT32 wcid_attr_base = 0, wcid_attr_size = 0, share_key_mode_base = 0;
-#ifdef RLT_MAC
-		if (pAd->chipCap.hif_type == HIF_RLT) {
-			wcid_attr_base = RLT_MAC_WCID_ATTRIBUTE_BASE;
-			wcid_attr_size = RLT_HW_WCID_ATTRI_SIZE;
-			share_key_mode_base = RLT_SHARED_KEY_MODE_BASE;
-		}
-#endif /* RLT_MAC */
+
+		wcid_attr_base = RLT_MAC_WCID_ATTRIBUTE_BASE;
+		wcid_attr_size = RLT_HW_WCID_ATTRI_SIZE;
+		share_key_mode_base = RLT_SHARED_KEY_MODE_BASE;
 
 		for (KeyIdx = 0; KeyIdx < 4; KeyIdx++)
 		{

@@ -250,24 +250,19 @@ VOID ATESampleRssi(
 	CHAR rssi[3] = {0};
 	CHAR snr[3] = {0};
 
-#ifdef RLT_MAC
-	if (pAd->chipCap.hif_type == HIF_RLT)
-	{
-		rssi[0] = pRxWI->RXWI_N.rssi[0];
-		rssi[1] = pRxWI->RXWI_N.rssi[1];
-		rssi[2] = pRxWI->RXWI_N.rssi[2];
+	rssi[0] = pRxWI->RXWI_N.rssi[0];
+	rssi[1] = pRxWI->RXWI_N.rssi[1];
+	rssi[2] = pRxWI->RXWI_N.rssi[2];
 
-		if ( IS_MT76x2(pAd) ) {
-			snr[0] = pRxWI->RXWI_N.bbp_rxinfo[2];
-			snr[1] = pRxWI->RXWI_N.bbp_rxinfo[3];
-			snr[2] = pRxWI->RXWI_N.bbp_rxinfo[4];
-		} else {
-			snr[0] = pRxWI->RXWI_N.bbp_rxinfo[0];
-			snr[1] = pRxWI->RXWI_N.bbp_rxinfo[1];
-			snr[2] = pRxWI->RXWI_N.bbp_rxinfo[2];
+	if ( IS_MT76x2(pAd) ) {
+		snr[0] = pRxWI->RXWI_N.bbp_rxinfo[2];
+		snr[1] = pRxWI->RXWI_N.bbp_rxinfo[3];
+		snr[2] = pRxWI->RXWI_N.bbp_rxinfo[4];
+	} else {
+		snr[0] = pRxWI->RXWI_N.bbp_rxinfo[0];
+		snr[1] = pRxWI->RXWI_N.bbp_rxinfo[1];
+		snr[2] = pRxWI->RXWI_N.bbp_rxinfo[2];
 		}
-	}
-#endif /* RLT_MAC */
 
 	if (rssi[0] != 0)
 	{
@@ -564,13 +559,8 @@ static VOID SetJapanFilter(struct rtmp_adapter *pAd)
 	PATE_INFO pATEInfo = &(pAd->ate);
 	UCHAR bw = 0, phy_mode = 0;
 
-#ifdef RLT_MAC
-	if (pAd->chipCap.hif_type == HIF_RLT)
-	{
-		bw = pATEInfo->TxWI.TXWI_N.BW;
-		phy_mode = pATEInfo->TxWI.TXWI_N.PHYMODE;
-	}
-#endif /* RLT_MAC*/
+	bw = pATEInfo->TxWI.TXWI_N.BW;
+	phy_mode = pATEInfo->TxWI.TXWI_N.PHYMODE;
 
 #ifdef RTMP_BBP
 	if (pAd->chipCap.hif_type == HIF_RTMP)
@@ -3271,10 +3261,7 @@ INT	Set_ATE_TX_BW_Proc(
 	{
 		status = pATEInfo->pChipStruct->Set_BW_Proc(pAd, arg);
 
-#ifdef RLT_MAC
-	if (pAd->chipCap.hif_type == HIF_RLT)
-		bw = pATEInfo->TxWI.TXWI_N.BW;
-#endif /* RLT_MAC*/
+	bw = pATEInfo->TxWI.TXWI_N.BW;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_ATE_TX_BW_Proc (BBPCurrentBW = %d)\n", bw));
 	}
@@ -3366,23 +3353,14 @@ INT	Set_ATE_TX_MCS_Proc(
 	UCHAR MCS, phy_mode = 0;
 	INT result;
 
-#ifdef RLT_MAC
-	if (pAd->chipCap.hif_type == HIF_RLT)
-		phy_mode = pATEInfo->TxWI.TXWI_N.PHYMODE;
-#endif /* RLT_MAC*/
+	phy_mode = pATEInfo->TxWI.TXWI_N.PHYMODE;
 
 	MCS = simple_strtol(arg, 0, 10);
 	result = CheckMCSValid(pAd, phy_mode, MCS);
 
-	if (result != -1)
-	{
-#ifdef RLT_MAC
-		if (pAd->chipCap.hif_type == HIF_RLT)
-			pATEInfo->TxWI.TXWI_N.MCS = MCS;
-#endif /* RLT_MAC*/
-	}
-	else
-	{
+	if (result != -1) {
+		pATEInfo->TxWI.TXWI_N.MCS = MCS;
+	} else {
 		DBGPRINT_ERR(("Set_ATE_TX_MCS_Proc::Out of range, refer to rate table.\n"));
 		return FALSE;
 	}
@@ -3419,12 +3397,7 @@ INT	Set_ATE_TX_STBC_Proc(
 		return FALSE;
 	}
 
-#ifdef RLT_MAC
-	if (pAd->chipCap.hif_type == HIF_RLT)
-	{
-			pATEInfo->TxWI.TXWI_N.STBC = stbc;
-	}
-#endif /* RLT_MAC */
+	pATEInfo->TxWI.TXWI_N.STBC = stbc;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_ATE_TX_STBC_Proc (GI = %d)\n", stbc));
 	DBGPRINT(RT_DEBUG_TRACE, ("Ralink: Set_ATE_TX_STBC_Proc Success\n"));
@@ -3467,19 +3440,13 @@ INT	Set_ATE_TX_MODE_Proc(
 		return FALSE;
 	}
 
-#ifdef RLT_MAC
-	if (pAd->chipCap.hif_type == HIF_RLT)
-	{
-		pATEInfo->TxWI.TXWI_N.PHYMODE = phy_mode;
-		bw = pATEInfo->TxWI.TXWI_N.BW;
+	pATEInfo->TxWI.TXWI_N.PHYMODE = phy_mode;
+	bw = pATEInfo->TxWI.TXWI_N.BW;
 
-		if (phy_mode == MODE_CCK)
-		{
-			pATEInfo->TxWI.TXWI_N.BW = BW_20;
-			bw = BW_20;
-		}
+	if (phy_mode == MODE_CCK) {
+		pATEInfo->TxWI.TXWI_N.BW = BW_20;
+		bw = BW_20;
 	}
-#endif /* RLT_MAC*/
 
 #ifdef RT65xx
 	/* Turn on BBP 20MHz mode by request here. */
@@ -3611,12 +3578,8 @@ INT	Set_ATE_TX_GI_Proc(
 	UCHAR sgi;
 
 	sgi = simple_strtol(arg, 0, 10);
-#ifdef RLT_MAC
-	if (pAd->chipCap.hif_type == HIF_RLT)
-	{
-		pATEInfo->TxWI.TXWI_N.ShortGI= (sgi > 1 ? 0 : sgi);
-	}
-#endif /* RLT_MAC*/
+
+	pATEInfo->TxWI.TXWI_N.ShortGI= (sgi > 1 ? 0 : sgi);
 
 	if (sgi > 1)
 	{
@@ -5202,15 +5165,10 @@ INT	Set_ATE_Show_Proc(
 	PSTRING TxMode_String = NULL;
 	UCHAR bw = 0, phy_mode = 0, sgi =0, mcs =0;
 
-#ifdef RLT_MAC
-	if (pAd->chipCap.hif_type == HIF_RLT)
-	{
-		bw = pATEInfo->TxWI.TXWI_N.BW;
-		phy_mode = pATEInfo->TxWI.TXWI_N.PHYMODE;
-		sgi = pATEInfo->TxWI.TXWI_N.ShortGI;
-		mcs = pATEInfo->TxWI.TXWI_N.MCS;
-	}
-#endif /* RLT_MAC*/
+	bw = pATEInfo->TxWI.TXWI_N.BW;
+	phy_mode = pATEInfo->TxWI.TXWI_N.PHYMODE;
+	sgi = pATEInfo->TxWI.TXWI_N.ShortGI;
+	mcs = pATEInfo->TxWI.TXWI_N.MCS;
 
 	switch (pATEInfo->Mode)
 	{
@@ -5846,15 +5804,11 @@ int ATEInit(
 	pATEInfo->bFixedPayload = 1;
 	pATEInfo->IPG = 200;/* 200 : sync with QA */
 	pATEInfo->TxLength = 1058;
-#ifdef RLT_MAC
-	if (pAd->chipCap.hif_type == HIF_RLT)
-	{
-		pATEInfo->TxWI.TXWI_N.BW = BW_20;
-		pATEInfo->TxWI.TXWI_N.PHYMODE = MODE_OFDM;
-		pATEInfo->TxWI.TXWI_N.MCS = 7;
-		pATEInfo->TxWI.TXWI_N.ShortGI = 0;/* LONG GI : 800 ns*/
-	}
-#endif /* RLT_MAC*/
+
+	pATEInfo->TxWI.TXWI_N.BW = BW_20;
+	pATEInfo->TxWI.TXWI_N.PHYMODE = MODE_OFDM;
+	pATEInfo->TxWI.TXWI_N.MCS = 7;
+	pATEInfo->TxWI.TXWI_N.ShortGI = 0;/* LONG GI : 800 ns*/
 
 	pATEInfo->Channel = 1;
 	pATEInfo->TxAntennaSel = 1;
@@ -6022,11 +5976,6 @@ INT Set_ADCDump_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
-#ifdef RLT_MAC
-	if (pAd->chipCap.hif_type == HIF_RLT)
-		return FALSE;
-#endif /* RLT_MAC */
-
 	return FALSE;
 }
 

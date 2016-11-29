@@ -161,8 +161,7 @@ VOID rlt_usb_write_txinfo(
 	IN UCHAR NextValid,
 	IN UCHAR TxBurst)
 {
-#ifdef RLT_MAC
-	if (pAd->chipCap.hif_type == HIF_RLT) {
+	{
 		struct _TXINFO_NMAC_PKT *nmac_info = (struct _TXINFO_NMAC_PKT *)pTxInfo;
 
 		nmac_info->pkt_80211 = 1;
@@ -184,8 +183,6 @@ VOID rlt_usb_write_txinfo(
 		pTxInfo->bFragLasAlignmentsectiontRound = 0;
 #endif /* USB_BULK_BUF_ALIGMENT */
 	}
-#endif /* RLT_MAC */
-
 }
 
 
@@ -900,11 +897,8 @@ VOID RtmpUSB_FinalWriteTxResource(
 				the length = 802.11 header + payload_of_all_batch_frames
 		*/
 		pTxWI= (TXWI_STRUC *)(pWirelessPacket + TXINFO_SIZE);
-#ifdef RLT_MAC
-	if (pAd->chipCap.hif_type == HIF_RLT) {
-			pTxWI->TXWI_N.MPDUtotalByteCnt = totalMPDUSize;
-	}
-#endif /* RLT_MAC */
+
+		pTxWI->TXWI_N.MPDUtotalByteCnt = totalMPDUSize;
 
 		/* Update the pHTTXContext->CurWritePosition*/
 
@@ -1191,10 +1185,8 @@ struct sk_buff *GetPacketFromRxRing(
 
 	RxBufferLength = pRxContext->BulkInOffset - pAd->ReadPosition;
 	valid_len = RXDMA_FIELD_SIZE + RXWISize + sizeof(RXINFO_STRUC);
-#ifdef RLT_MAC
-	if (pAd->chipCap.hif_type == HIF_RLT)
-		valid_len += sizeof(RXFCE_INFO);
-#endif /* RLT_MAC */
+
+	valid_len += sizeof(RXFCE_INFO);
 
 	if (RxBufferLength < valid_len)
 	{
@@ -1234,8 +1226,7 @@ if (0) {
 
 	pData += RXDMA_FIELD_SIZE;
 
-#ifdef RLT_MAC
-	if (pAd->chipCap.hif_type == HIF_RLT) {
+	{
 		struct _RXWI_NMAC *rxwi_n;
 		pRxInfo = (RXINFO_STRUC *)pData;
 		pRxFceInfo = (RXFCE_INFO *)(pData + ThisFrameLen);
@@ -1264,7 +1255,6 @@ if (0) {
 		pRxBlk->freq_offset = rxwi_n->bbp_rxinfo[4];
 		pRxBlk->ldpc_ex_sym = rxwi_n->ldpc_ex_sym;
 	}
-#endif /* RLT_MAC */
 
 #ifdef RT_BIG_ENDIAN
 	RTMPWIEndianChange(pAd, pData, TYPE_RXWI);
@@ -1294,12 +1284,8 @@ if (0) {
 	RTMPDescriptorEndianChange((PUCHAR)pRxInfo, TYPE_RXINFO);
 #endif /* RT_BIG_ENDIAN */
 
-#ifdef RLT_MAC
-	if (pAd->chipCap.hif_type == HIF_RLT) {
-		memmove((VOID *)&pRxBlk->hw_rx_info[0], (VOID *)pRxFceInfo, sizeof(RXFCE_INFO));
-		pRxBlk->pRxFceInfo = (RXFCE_INFO *)&pRxBlk->hw_rx_info[0];
-	}
-#endif /* RLT_MAC */
+	memmove((VOID *)&pRxBlk->hw_rx_info[0], (VOID *)pRxFceInfo, sizeof(RXFCE_INFO));
+	pRxBlk->pRxFceInfo = (RXFCE_INFO *)&pRxBlk->hw_rx_info[0];
 
 	memmove(&pRxBlk->hw_rx_info[RXINFO_OFFSET], pRxInfo, RXINFO_SIZE);
 	pRxBlk->pRxInfo = (RXINFO_STRUC *)&pRxBlk->hw_rx_info[RXINFO_OFFSET];

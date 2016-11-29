@@ -1476,12 +1476,7 @@ VOID AsicEnableIbssSync(struct rtmp_adapter *pAd)
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
 	UINT32 longptr;
 
-#ifdef RLT_MAC
-	if (pAd->chipCap.hif_type == HIF_RLT)
-	{
-			beaconLen = pAd->BeaconTxWI.TXWI_N.MPDUtotalByteCnt;
-	}
-#endif /* RLT_MAC */
+	beaconLen = pAd->BeaconTxWI.TXWI_N.MPDUtotalByteCnt;
 
 #ifdef RT_BIG_ENDIAN
 	{
@@ -1489,12 +1484,8 @@ VOID AsicEnableIbssSync(struct rtmp_adapter *pAd)
 
 		memmove(&localTxWI, &pAd->BeaconTxWI, TXWISize);
 		RTMPWIEndianChange(pAd, (PUCHAR)&localTxWI, TYPE_TXWI);
-#ifdef RLT_MAC
-		if (pAd->chipCap.hif_type == HIF_RLT)
-		{
-				beaconLen = localTxWI.TXWI_N.MPDUtotalByteCnt;
-		}
-#endif /* RLT_MAC */
+
+		beaconLen = localTxWI.TXWI_N.MPDUtotalByteCnt;
 
 	}
 #endif /* RT_BIG_ENDIAN */
@@ -2026,12 +2017,8 @@ VOID RTMPGetTxTscFromAsic(struct rtmp_adapter *pAd, UCHAR apidx, UCHAR *pTxTsc)
 		UINT32 temp1, temp2;
 		UINT32 iveiv_tb_base = 0, iveiv_tb_size = 0;
 
-#ifdef RLT_MAC
-		if (pAd->chipCap.hif_type == HIF_RLT) {
-			iveiv_tb_base = RLT_MAC_IVEIV_TABLE_BASE;
-			iveiv_tb_size = RLT_HW_IVEIV_ENTRY_SIZE;
-		}
-#endif /* RLT_MAC */
+		iveiv_tb_base = RLT_MAC_IVEIV_TABLE_BASE;
+		iveiv_tb_size = RLT_HW_IVEIV_ENTRY_SIZE;
 
 		/* Read IVEIV from Asic */
 		offset = iveiv_tb_base + (Wcid * iveiv_tb_size);
@@ -2123,15 +2110,11 @@ VOID AsicAddSharedKeyEntry(
 	{
 		/* fill key material - key + TX MIC + RX MIC*/
 		UINT32 share_key_base = 0, share_key_size = 0;
-#ifdef RLT_MAC
-		if (pAd->chipCap.hif_type == HIF_RLT) {
-			if (org_bssindex >= 8)
-				share_key_base = RLT_SHARED_KEY_TABLE_BASE_EXT;
-			else
-			share_key_base = RLT_SHARED_KEY_TABLE_BASE;
-			share_key_size = RLT_HW_KEY_ENTRY_SIZE;
-		}
-#endif /* RLT_MAC */
+		if (org_bssindex >= 8)
+			share_key_base = RLT_SHARED_KEY_TABLE_BASE_EXT;
+		else
+		share_key_base = RLT_SHARED_KEY_TABLE_BASE;
+		share_key_size = RLT_HW_KEY_ENTRY_SIZE;
 
 		offset = share_key_base + (4*BssIndex + KeyIdx)*share_key_size;
 
@@ -2156,14 +2139,11 @@ VOID AsicAddSharedKeyEntry(
 
 	{
 		UINT32 share_key_mode_base = 0;
-#ifdef RLT_MAC
-		if (pAd->chipCap.hif_type == HIF_RLT) {
-			if (org_bssindex >= 8)
-				share_key_mode_base = RLT_SHARED_KEY_MODE_BASE_EXT;
-			else
-			share_key_mode_base= RLT_SHARED_KEY_MODE_BASE;
-		}
-#endif /* RLT_MAC */
+
+		if (org_bssindex >= 8)
+			share_key_mode_base = RLT_SHARED_KEY_MODE_BASE_EXT;
+		else
+		share_key_mode_base= RLT_SHARED_KEY_MODE_BASE;
 
 		/* Update cipher algorithm. WSTA always use BSS0*/
 		RTMP_IO_READ32(pAd, share_key_mode_base + 4 * (BssIndex/2), &csr1.word);
@@ -2209,10 +2189,8 @@ VOID AsicRemoveSharedKeyEntry(
 
 	{
 		UINT32 share_key_mode_base = 0;
-#ifdef RLT_MAC
-		if (pAd->chipCap.hif_type == HIF_RLT)
-			share_key_mode_base= RLT_SHARED_KEY_MODE_BASE;
-#endif /* RLT_MAC */
+
+		share_key_mode_base= RLT_SHARED_KEY_MODE_BASE;
 
 		RTMP_IO_READ32(pAd, share_key_mode_base+4*(BssIndex/2), &csr1.word);
 		if ((BssIndex%2) == 0)
@@ -2255,12 +2233,8 @@ VOID AsicUpdateWCIDIVEIV(
 	ULONG	offset;
 	UINT32 iveiv_tb_base = 0, iveiv_tb_size = 0;
 
-#ifdef RLT_MAC
-	if (pAd->chipCap.hif_type == HIF_RLT) {
-		iveiv_tb_base = RLT_MAC_IVEIV_TABLE_BASE;
-		iveiv_tb_size = RLT_HW_IVEIV_ENTRY_SIZE;
-	}
-#endif /* RLT_MAC */
+	iveiv_tb_base = RLT_MAC_IVEIV_TABLE_BASE;
+	iveiv_tb_size = RLT_HW_IVEIV_ENTRY_SIZE;
 
 	offset = iveiv_tb_base + (WCID * iveiv_tb_size);
 
@@ -2316,12 +2290,9 @@ VOID AsicUpdateWcidAttributeEntry(
 	WCID_ATTRIBUTE_STRUC WCIDAttri;
 	USHORT offset;
 	UINT32 wcid_attr_base = 0, wcid_attr_size = 0;
-#ifdef RLT_MAC
-	if (pAd->chipCap.hif_type == HIF_RLT) {
-		wcid_attr_base = RLT_MAC_WCID_ATTRIBUTE_BASE;
-		wcid_attr_size = RLT_HW_WCID_ATTRI_SIZE;
-	}
-#endif /* RLT_MAC */
+
+	wcid_attr_base = RLT_MAC_WCID_ATTRIBUTE_BASE;
+	wcid_attr_size = RLT_HW_WCID_ATTRI_SIZE;
 
 	/* Initialize the content of WCID Attribue  */
 	WCIDAttri.word = 0;
@@ -2423,12 +2394,8 @@ VOID AsicAddPairwiseKeyEntry(
 	UCHAR *pRxMic = pCipherKey->RxMic;
 	UCHAR CipherAlg = pCipherKey->CipherAlg;
 
-#ifdef RLT_MAC
-	if (pAd->chipCap.hif_type == HIF_RLT) {
-		pairwise_key_base = RLT_PAIRWISE_KEY_TABLE_BASE;
-		pairwise_key_len = RLT_HW_KEY_ENTRY_SIZE;
-	}
-#endif /* RLT_MAC */
+	pairwise_key_base = RLT_PAIRWISE_KEY_TABLE_BASE;
+	pairwise_key_len = RLT_HW_KEY_ENTRY_SIZE;
 
 	/* EKEY */
 	offset = pairwise_key_base + (WCID * pairwise_key_len);

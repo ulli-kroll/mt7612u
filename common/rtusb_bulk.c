@@ -365,16 +365,12 @@ VOID RTUSBBulkOutDataPacket(struct rtmp_adapter *pAd, UCHAR BulkOutPipeId, UCHAR
 		pTxInfo = (TXINFO_STRUC *)&pWirelessPkt[TmpBulkEndPos];
 		pTxWI = (TXWI_STRUC *)&pWirelessPkt[TmpBulkEndPos + TXINFO_SIZE];
 
-#ifdef RLT_MAC
-		if (pAd->chipCap.hif_type == HIF_RLT) {
-			{
-				ampdu = pTxWI->TXWI_N.AMPDU;
-				phy_mode = pTxWI->TXWI_N.PHYMODE;
-				pid = pTxWI->TXWI_N.TxPktId;
-				txwi_pkt_len = pTxWI->TXWI_N.MPDUtotalByteCnt;
-			}
+		{
+			ampdu = pTxWI->TXWI_N.AMPDU;
+			phy_mode = pTxWI->TXWI_N.PHYMODE;
+			pid = pTxWI->TXWI_N.TxPktId;
+			txwi_pkt_len = pTxWI->TXWI_N.MPDUtotalByteCnt;
 		}
-#endif /* RLT_MAC */
 
 		if (pAd->bForcePrintTX == TRUE)
 			DBGPRINT(RT_DEBUG_TRACE, ("RTUSBBulkOutDataPacket AMPDU = %d.\n",   ampdu));
