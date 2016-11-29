@@ -621,6 +621,7 @@ int andes_usb_loadfw(struct rtmp_adapter *ad)
 	u32 ilm_len = 0, dlm_len = 0;
 	u16 fw_ver, build_ver;
 	RTMP_OS_COMPLETION load_fw_done;
+	u8 *fw_image;
 
 	if (cap->ram_code_protect) {
 loadfw_protect:
@@ -669,16 +670,18 @@ loadfw_protect:
 		goto error0;
 	}
 
+	fw_image = cap->FWImageName;
+
 	/* Get FW information */
-	ilm_len = (*(cap->FWImageName + 3) << 24) | (*(cap->FWImageName + 2) << 16) |
-			 (*(cap->FWImageName + 1) << 8) | (*cap->FWImageName);
+	ilm_len = (*(fw_image + 3) << 24) | (*(fw_image + 2) << 16) |
+		  (*(fw_image + 1) << 8) | (*fw_image);
 
-	dlm_len = (*(cap->FWImageName + 7) << 24) | (*(cap->FWImageName + 6) << 16) |
-			 (*(cap->FWImageName + 5) << 8) | (*(cap->FWImageName + 4));
+	dlm_len = (*(fw_image + 7) << 24) | (*(fw_image + 6) << 16) |
+		  (*(fw_image + 5) << 8) | (*(fw_image + 4));
 
-	fw_ver = (*(cap->FWImageName + 11) << 8) | (*(cap->FWImageName + 10));
+	fw_ver = (*(fw_image + 11) << 8) | (*(fw_image + 10));
 
-	build_ver = (*(cap->FWImageName + 9) << 8) | (*(cap->FWImageName + 8));
+	build_ver = (*(fw_image + 9) << 8) | (*(fw_image + 8));
 
 	DBGPRINT(RT_DEBUG_OFF, ("fw version:%d.%d.%02d ", (fw_ver & 0xf000) >> 8,
 						(fw_ver & 0x0f00) >> 8, fw_ver & 0x00ff));
@@ -686,15 +689,15 @@ loadfw_protect:
 	DBGPRINT(RT_DEBUG_OFF, ("build time:"));
 
 	for (loop = 0; loop < 16; loop++)
-		DBGPRINT(RT_DEBUG_OFF, ("%c", *(cap->FWImageName + 16 + loop)));
+		DBGPRINT(RT_DEBUG_OFF, ("%c", *(fw_image + 16 + loop)));
 
 	DBGPRINT(RT_DEBUG_OFF, ("\n"));
 
 	if (IS_MT76x2(ad)) {
-		if (((strncmp(cap->FWImageName + 16, "20130811", 8) >= 0)) && (MT_REV_GTE(ad, MT76x2, REV_MT76x2E3))) {
+		if (((strncmp(fw_image + 16, "20130811", 8) >= 0)) && (MT_REV_GTE(ad, MT76x2, REV_MT76x2E3))) {
 			DBGPRINT(RT_DEBUG_OFF, ("fw for E3 IC\n"));
 
-		} else if (((strncmp(cap->FWImageName + 16, "20130811", 8) < 0)) && (MT_REV_LT(ad, MT76x2, REV_MT76x2E3))){
+		} else if (((strncmp(fw_image + 16, "20130811", 8) < 0)) && (MT_REV_LT(ad, MT76x2, REV_MT76x2E3))){
 
 			DBGPRINT(RT_DEBUG_OFF, ("fw for E2 IC\n"));
 		} else {
@@ -728,8 +731,7 @@ loadfw_protect:
 	/* Allocate URB */
 	urb = RTUSB_ALLOC_URB(0);
 
-	if (!urb)
-	{
+	if (!urb) {
 		DBGPRINT(RT_DEBUG_ERROR, ("can not allocate URB\n"));
 		ret = NDIS_STATUS_RESOURCES;
 		goto error0;
@@ -738,8 +740,7 @@ loadfw_protect:
 	/* Allocate TransferBuffer */
 	fw_data = RTUSB_URB_ALLOC_BUFFER(obj->pUsb_Dev, UPLOAD_FW_UNIT, &fw_dma);
 
-	if (!fw_data)
-	{
+	if (!fw_data) {
 		ret = NDIS_STATUS_RESOURCES;
 		goto error1;
 	}
@@ -754,13 +755,11 @@ loadfw_protect:
 		cur_len = 0x00;
 
 	/* Loading ILM */
-	while (1)
-	{
+	while (1) {
 		s32 sent_len_max = UPLOAD_FW_UNIT - sizeof(*tx_info) - USB_END_PADDING;
 		sent_len = (ilm_len - cur_len) >=  sent_len_max ? sent_len_max : (ilm_len - cur_len);
 
-		if (sent_len > 0)
-		{
+		if (sent_len > 0) {
 			tx_info = (TXINFO_NMAC_CMD *)fw_data;
 			tx_info->info_type = CMD_PACKET;
 			tx_info->pkt_len = sent_len;
@@ -769,7 +768,7 @@ loadfw_protect:
 #ifdef RT_BIG_ENDIAN
 			RTMPDescriptorEndianChange((PUCHAR)tx_info, TYPE_TXINFO);
 #endif
-			memmove(fw_data + sizeof(*tx_info), cap->FWImageName + FW_INFO_SIZE + cur_len, sent_len);
+			memmove(fw_data + sizeof(*tx_info), fw_image + FW_INFO_SIZE + cur_len, sent_len);
 
 			/* four zero bytes for end padding */
 			memset(fw_data + sizeof(*tx_info) + sent_len, 0, USB_END_PADDING);
@@ -778,17 +777,16 @@ loadfw_protect:
 
 			/* Set FCE DMA descriptor */
 			ret = RTUSB_VendorRequest(ad,
-										 USBD_TRANSFER_DIRECTION_OUT,
-										 DEVICE_VENDOR_REQUEST_OUT,
-										 0x42,
-										 value,
-										 0x230,
-										 NULL,
-										 0);
+					 USBD_TRANSFER_DIRECTION_OUT,
+					 DEVICE_VENDOR_REQUEST_OUT,
+					 0x42,
+					 value,
+					 0x230,
+					 NULL,
+					 0);
 
 
-			if (ret)
-			{
+			if (ret) {
 				DBGPRINT(RT_DEBUG_ERROR, ("set fce dma descriptor fail\n"));
 				goto error2;
 			}
@@ -797,16 +795,15 @@ loadfw_protect:
 
 			/* Set FCE DMA descriptor */
 			ret = RTUSB_VendorRequest(ad,
-										 USBD_TRANSFER_DIRECTION_OUT,
-										 DEVICE_VENDOR_REQUEST_OUT,
-										 0x42,
-										 value,
-										 0x232,
-										 NULL,
-										 0);
+					 USBD_TRANSFER_DIRECTION_OUT,
+					 DEVICE_VENDOR_REQUEST_OUT,
+					 0x42,
+					 value,
+					 0x232,
+					 NULL,
+					 0);
 
-			if (ret)
-			{
+			if (ret) {
 				DBGPRINT(RT_DEBUG_ERROR, ("set fce dma descriptor fail\n"));
 				goto error2;
 			}
@@ -822,16 +819,15 @@ loadfw_protect:
 
 			/* Set FCE DMA length */
 			ret = RTUSB_VendorRequest(ad,
-										 USBD_TRANSFER_DIRECTION_OUT,
-										 DEVICE_VENDOR_REQUEST_OUT,
-										 0x42,
-										 value,
-										 0x234,
-										 NULL,
-										 0);
+					 USBD_TRANSFER_DIRECTION_OUT,
+					 DEVICE_VENDOR_REQUEST_OUT,
+					 0x42,
+					 value,
+					 0x234,
+					 NULL,
+					 0);
 
-			if (ret)
-			{
+			if (ret) {
 				DBGPRINT(RT_DEBUG_ERROR, ("set fce dma length fail\n"));
 				goto error2;
 			}
@@ -840,42 +836,39 @@ loadfw_protect:
 
 			/* Set FCE DMA length */
 			ret = RTUSB_VendorRequest(ad,
-										 USBD_TRANSFER_DIRECTION_OUT,
-										 DEVICE_VENDOR_REQUEST_OUT,
-										 0x42,
-										 value,
-										 0x236,
-										 NULL,
-										 0);
+					 USBD_TRANSFER_DIRECTION_OUT,
+					 DEVICE_VENDOR_REQUEST_OUT,
+					 0x42,
+					 value,
+					 0x236,
+					 NULL,
+					 0);
 
-			if (ret)
-			{
+			if (ret) {
 				DBGPRINT(RT_DEBUG_ERROR, ("set fce dma length fail\n"));
 				goto error2;
 			}
 
 			/* Initialize URB descriptor */
 			RTUSB_FILL_HTTX_BULK_URB(urb,
-									 obj->pUsb_Dev,
-									 cap->CommandBulkOutAddr,
-									 fw_data,
-									 sent_len + sizeof(*tx_info) + USB_END_PADDING,
-									 usb_uploadfw_complete,
-									 &load_fw_done,
-									 fw_dma);
+					 obj->pUsb_Dev,
+					 cap->CommandBulkOutAddr,
+					 fw_data,
+					 sent_len + sizeof(*tx_info) + USB_END_PADDING,
+					 usb_uploadfw_complete,
+					 &load_fw_done,
+					 fw_dma);
 
 			ret = RTUSB_SUBMIT_URB(urb);
 
-			if (ret)
-			{
+			if (ret) {
 				DBGPRINT(RT_DEBUG_ERROR, ("submit urb fail\n"));
 				goto error2;
 			}
 
 			DBGPRINT(RT_DEBUG_INFO, ("%s: submit urb, sent_len = %d, ilm_ilm = %d, cur_len = %d\n", __FUNCTION__, sent_len, ilm_len, cur_len));
 
-			if (!RTMP_OS_WAIT_FOR_COMPLETION_TIMEOUT(&load_fw_done, RTMPMsecsToJiffies(UPLOAD_FW_TIMEOUT)))
-			{
+			if (!RTMP_OS_WAIT_FOR_COMPLETION_TIMEOUT(&load_fw_done, RTMPMsecsToJiffies(UPLOAD_FW_TIMEOUT))) {
 				RTUSB_UNLINK_URB(urb);
 				ret = NDIS_STATUS_FAILURE;
 				DBGPRINT(RT_DEBUG_ERROR, ("upload fw timeout(%dms)\n", UPLOAD_FW_TIMEOUT));
@@ -890,9 +883,7 @@ loadfw_protect:
 			RTUSBWriteMACRegister(ad, TX_CPU_PORT_FROM_FCE_CPU_DESC_INDEX, mac_value, FALSE);
 
 			RtmpOsMsDelay(5);
-		}
-		else
-		{
+		} else {
 			break;
 		}
 
@@ -906,13 +897,11 @@ loadfw_protect:
 	cur_len = 0x00;
 
 	/* Loading DLM */
-	while (1)
-	{
+	while (1) {
 		s32 sent_len_max = UPLOAD_FW_UNIT - sizeof(*tx_info) - USB_END_PADDING;
 		sent_len = (dlm_len - cur_len) >= sent_len_max ? sent_len_max : (dlm_len - cur_len);
 
-		if (sent_len > 0)
-		{
+		if (sent_len > 0) {
 			tx_info = (TXINFO_NMAC_CMD *)fw_data;
 			tx_info->info_type = CMD_PACKET;
 			tx_info->pkt_len = sent_len;
@@ -921,7 +910,7 @@ loadfw_protect:
 #ifdef RT_BIG_ENDIAN
 			RTMPDescriptorEndianChange((PUCHAR)tx_info, TYPE_TXINFO);
 #endif
-			memmove(fw_data + sizeof(*tx_info), cap->FWImageName + FW_INFO_SIZE + ilm_len + cur_len, sent_len);
+			memmove(fw_data + sizeof(*tx_info), fw_image + FW_INFO_SIZE + ilm_len + cur_len, sent_len);
 
 			memset(fw_data + sizeof(*tx_info) + sent_len, 0, USB_END_PADDING);
 
@@ -932,17 +921,16 @@ loadfw_protect:
 
 			/* Set FCE DMA descriptor */
 			ret = RTUSB_VendorRequest(ad,
-										 USBD_TRANSFER_DIRECTION_OUT,
-										 DEVICE_VENDOR_REQUEST_OUT,
-										 0x42,
-										 value,
-										 0x230,
-										 NULL,
-										 0);
+					 USBD_TRANSFER_DIRECTION_OUT,
+					 DEVICE_VENDOR_REQUEST_OUT,
+					 0x42,
+					 value,
+					 0x230,
+					 NULL,
+					 0);
 
 
-			if (ret)
-			{
+			if (ret) {
 				DBGPRINT(RT_DEBUG_ERROR, ("set fce dma descriptor fail\n"));
 				goto error2;
 			}
@@ -954,21 +942,18 @@ loadfw_protect:
 
 			/* Set FCE DMA descriptor */
 			ret = RTUSB_VendorRequest(ad,
-									  USBD_TRANSFER_DIRECTION_OUT,
-									  DEVICE_VENDOR_REQUEST_OUT,
-									  0x42,
-									  value,
-									  0x232,
-									  NULL,
-									  0);
+					  USBD_TRANSFER_DIRECTION_OUT,
+					  DEVICE_VENDOR_REQUEST_OUT,
+					  0x42,
+					  value,
+					  0x232,
+					  NULL,
+					  0);
 
-			if (ret)
-			{
+			if (ret) {
 				DBGPRINT(RT_DEBUG_ERROR, ("set fce dma descriptor fail\n"));
 				goto error2;
 			}
-
-
 
 			cur_len += sent_len;
 
@@ -979,16 +964,15 @@ loadfw_protect:
 
 			/* Set FCE DMA length */
 			ret = RTUSB_VendorRequest(ad,
-									  USBD_TRANSFER_DIRECTION_OUT,
-									  DEVICE_VENDOR_REQUEST_OUT,
-									  0x42,
-									  value,
-									  0x234,
-									  NULL,
-									  0);
+					  USBD_TRANSFER_DIRECTION_OUT,
+					  DEVICE_VENDOR_REQUEST_OUT,
+					  0x42,
+					  value,
+					  0x234,
+					  NULL,
+					  0);
 
-			if (ret)
-			{
+			if (ret) {
 				DBGPRINT(RT_DEBUG_ERROR, ("set fce dma length fail\n"));
 				goto error2;
 			}
@@ -997,42 +981,39 @@ loadfw_protect:
 
 			/* Set FCE DMA length */
 			ret = RTUSB_VendorRequest(ad,
-								  	  USBD_TRANSFER_DIRECTION_OUT,
-									  DEVICE_VENDOR_REQUEST_OUT,
-									  0x42,
-									  value,
-									  0x236,
-									  NULL,
-									  0);
+				  	  USBD_TRANSFER_DIRECTION_OUT,
+					  DEVICE_VENDOR_REQUEST_OUT,
+					  0x42,
+					  value,
+					  0x236,
+					  NULL,
+					  0);
 
-			if (ret)
-			{
+			if (ret) {
 				DBGPRINT(RT_DEBUG_ERROR, ("set fce dma length fail\n"));
 				goto error2;
 			}
 
 			/* Initialize URB descriptor */
 			RTUSB_FILL_HTTX_BULK_URB(urb,
-									 obj->pUsb_Dev,
-									 cap->CommandBulkOutAddr,
-									 fw_data,
-									 sent_len + sizeof(*tx_info) + USB_END_PADDING,
-									 usb_uploadfw_complete,
-									 &load_fw_done,
-									 fw_dma);
+					 obj->pUsb_Dev,
+					 cap->CommandBulkOutAddr,
+					 fw_data,
+					 sent_len + sizeof(*tx_info) + USB_END_PADDING,
+					 usb_uploadfw_complete,
+					 &load_fw_done,
+					 fw_dma);
 
 			ret = RTUSB_SUBMIT_URB(urb);
 
-			if (ret)
-			{
+			if (ret) {
 				DBGPRINT(RT_DEBUG_ERROR, ("submit urb fail\n"));
 				goto error2;
 			}
 
 			DBGPRINT(RT_DEBUG_INFO, ("%s: submit urb, sent_len = %d, dlm_len = %d, cur_len = %d\n", __FUNCTION__, sent_len, dlm_len, cur_len));
 
-			if (!RTMP_OS_WAIT_FOR_COMPLETION_TIMEOUT(&load_fw_done, RTMPMsecsToJiffies(UPLOAD_FW_TIMEOUT)))
-			{
+			if (!RTMP_OS_WAIT_FOR_COMPLETION_TIMEOUT(&load_fw_done, RTMPMsecsToJiffies(UPLOAD_FW_TIMEOUT))) {
 				RTUSB_UNLINK_URB(urb);
 				ret = NDIS_STATUS_FAILURE;
 				DBGPRINT(RT_DEBUG_ERROR, ("upload fw timeout(%dms)\n", UPLOAD_FW_TIMEOUT));
@@ -1046,9 +1027,7 @@ loadfw_protect:
 			mac_value++;
 			RTUSBWriteMACRegister(ad, TX_CPU_PORT_FROM_FCE_CPU_DESC_INDEX, mac_value, FALSE);
 			RtmpOsMsDelay(5);
-		}
-		else
-		{
+		} else {
 			break;
 		}
 
@@ -1058,12 +1037,11 @@ loadfw_protect:
 
 	/* Upload new 64 bytes interrupt vector or reset andes */
 	DBGPRINT(RT_DEBUG_OFF, ("\n"));
-	usb_load_ivb(ad, cap->FWImageName);
+	usb_load_ivb(ad, fw_image);
 
 	/* Check MCU if ready */
 	loop = 0;
-	do
-	{
+	do {
 		RTUSBReadMACRegister(ad, COM_REG0, &mac_value);
 		if ((mac_value & 0x01) == 0x01)
 			break;
