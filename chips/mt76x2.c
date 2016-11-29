@@ -4264,9 +4264,6 @@ static const RTMP_CHIP_CAP MT76x2_ChipCap = {
 	.rom_patch_len = sizeof(mt7662_rom_patch),
 	.rom_patch_bin_file_name = "mtk/mt7662_patch_e1_hdr.bin",
 	.load_code_method = HEADER_METHOD,
-	.MACRegisterVer = "",
-	.BBPRegisterVer = "MT7662E1_BBP_CR_20130116.xls",
-	.RFRegisterVer = "",
 	.rf_type = RF_MT,
 #ifdef DYNAMIC_VGA_SUPPORT
 	.dynamic_vga_support = TRUE,

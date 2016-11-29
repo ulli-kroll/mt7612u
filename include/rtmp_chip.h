@@ -835,10 +835,6 @@ struct _RTMP_CHIP_CAP_ {
 	UCHAR *rom_patch_bin_file_name;
 	UINT32 rom_patch_len;
 	UINT32 fw_len;
-	UCHAR *MACRegisterVer;
-	UCHAR *BBPRegisterVer;
-	UCHAR *RFRegisterVer;
-
 
 	BOOLEAN tssi_enable;
 	BOOLEAN ed_cca_enable;
