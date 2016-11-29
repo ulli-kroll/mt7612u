@@ -82,11 +82,6 @@
 #define LOCAL_TXBUF_SIZE        2048
 #endif /* RTMP_MAC_USB */
 
-#ifdef MULTIPLE_CARD_SUPPORT
-/* MC: Multple Cards */
-#define MAX_NUM_OF_MULTIPLE_CARD		32
-#endif /* MULTIPLE_CARD_SUPPORT */
-
 #ifdef MEMORY_OPTIMIZATION
 #define MAX_RX_PROCESS		32
 #else

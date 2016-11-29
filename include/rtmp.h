@@ -4194,13 +4194,6 @@ struct rtmp_adapter {
 #ifdef CONFIG_AP_SUPPORT
 #endif /* CONFIG_AP_SUPPORT */
 
-
-#ifdef MULTIPLE_CARD_SUPPORT
-	INT32 MC_RowID;
-	STRING MC_FileName[256];
-	UINT32 E2P_OFFSET_IN_FLASH[MAX_NUM_OF_MULTIPLE_CARD];
-#endif /* MULTIPLE_CARD_SUPPORT */
-
 	ULONG TbttTickCount;	/* beacon timestamp work-around */
 
 #ifdef CONFIG_AP_SUPPORT

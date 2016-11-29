@@ -254,9 +254,6 @@ static UCHAR *get_dev_profile(struct rtmp_adapter *pAd)
 		}
 #endif /* CONFIG_STA_SUPPORT */
 	}
-#ifdef MULTIPLE_CARD_SUPPORT
-	src = (PSTRING)pAd->MC_FileName;
-#endif /* MULTIPLE_CARD_SUPPORT */
 
 	return src;
 }
@@ -599,16 +596,6 @@ VOID RTMPFreeAdapter(struct rtmp_adapter *pAd)
 
 	if (pAd->BeaconBuf)
 		kfree(pAd->BeaconBuf);
-
-#ifdef MULTIPLE_CARD_SUPPORT
-#ifdef RTMP_FLASH_SUPPORT
-	if (pAd->eebuf && (pAd->eebuf != pAd->chipCap.EEPROM_DEFAULT_BIN))
-	{
-		kfree(pAd->eebuf);
-		pAd->eebuf = NULL;
-	}
-#endif /* RTMP_FLASH_SUPPORT */
-#endif /* MULTIPLE_CARD_SUPPORT */
 
 	NdisFreeSpinLock(&pAd->MgmtRingLock);
 

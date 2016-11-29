@@ -2365,9 +2365,6 @@ VOID APCli_Init(struct rtmp_adapter *pAd, RTMP_OS_NETDEV_OP_HOOK *pNetDevOps)
 		UINT32 MC_RowID = 0, IoctlIF = 0;
 		char *dev_name;
 
-#ifdef MULTIPLE_CARD_SUPPORT
-		MC_RowID = pAd->MC_RowID;
-#endif /* MULTIPLE_CARD_SUPPORT */
 #ifdef HOSTAPD_SUPPORT
 		IoctlIF = pAd->IoctlIF;
 #endif /* HOSTAPD_SUPPORT */

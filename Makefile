@@ -720,10 +720,6 @@ ifeq ($(HAS_DFS_SUPPORT),y)
 WFLAGS += -DDFS_SUPPORT
 endif
 
-ifeq ($(HAS_MC_SUPPORT),y)
-WFLAGS += -DMULTIPLE_CARD_SUPPORT
-endif
-
 EXTRA_CFLAGS := $(WFLAGS)
 
 #RT28xx_DIR = home directory of RT28xx source code

@@ -274,25 +274,7 @@ INT rtmp_ee_load_from_bin(
 	RTMP_OS_FD srcf;
 	RTMP_OS_FS_INFO osFSInfo;
 
-#ifdef RT_SOC_SUPPORT
-#ifdef MULTIPLE_CARD_SUPPORT
-	STRING bin_file_path[128];
-	PSTRING bin_file_name = NULL;
-	UINT32 chip_ver = (pAd->MACVersion >> 16);
-
-	if (rtmp_get_default_bin_file_by_chip(pAd, chip_ver, &bin_file_name) == TRUE)
-	{
-		if (pAd->MC_RowID > 0)
-			sprintf(bin_file_path, "%s%s", EEPROM_2ND_FILE_DIR, bin_file_name);
-		else
-			sprintf(bin_file_path, "%s%s", EEPROM_1ST_FILE_DIR, bin_file_name);
-
-		src = bin_file_path;
-	}
-	else
-#endif /* MULTIPLE_CARD_SUPPORT */
-#endif /* RT_SOC_SUPPORT */
-		src = BIN_FILE_PATH;
+	src = BIN_FILE_PATH;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("%s::FileName=%s\n", __FUNCTION__, src));
 
@@ -341,25 +323,7 @@ INT rtmp_ee_write_to_bin(
 	RTMP_OS_FD srcf;
 	RTMP_OS_FS_INFO osFSInfo;
 
-#ifdef RT_SOC_SUPPORT
-#ifdef MULTIPLE_CARD_SUPPORT
-	STRING bin_file_path[128];
-	PSTRING bin_file_name = NULL;
-	UINT32 chip_ver = (pAd->MACVersion >> 16);
-
-	if (rtmp_get_default_bin_file_by_chip(pAd, chip_ver, &bin_file_name) == TRUE)
-	{
-		if (pAd->MC_RowID > 0)
-			sprintf(bin_file_path, "%s%s", EEPROM_2ND_FILE_DIR, bin_file_name);
-		else
-			sprintf(bin_file_path, "%s%s", EEPROM_1ST_FILE_DIR, bin_file_name);
-
-		src = bin_file_path;
-	}
-	else
-#endif /* MULTIPLE_CARD_SUPPORT */
-#endif /* RT_SOC_SUPPORT */
-		src = BIN_FILE_PATH;
+	src = BIN_FILE_PATH;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("%s::FileName=%s\n", __FUNCTION__, src));
 
