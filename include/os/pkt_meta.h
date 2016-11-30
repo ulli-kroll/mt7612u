@@ -292,11 +292,6 @@
 
 
 /* [CB_OFF + 24]  */
-#ifdef INF_AMAZON_SE
-/* [CB_OFF+25], 1B, Iverson patch for WMM A5-T07 ,WirelessStaToWirelessSta do not bulk out aggregate */
-#define RTMP_SET_PACKET_NOBULKOUT(_p, _morebit)			(PACKET_CB(_p, 24) = _morebit)
-#define RTMP_GET_PACKET_NOBULKOUT(_p)					(PACKET_CB(_p, 24))
-#endif /* INF_AMAZON_SE */
 /* Max skb->cb = 48B = [CB_OFF+38] */
 
 

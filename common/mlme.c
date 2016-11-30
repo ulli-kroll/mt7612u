@@ -1307,12 +1307,6 @@ VOID MlmePeriodicExec(
 	}
 #endif /* MICROWAVE_OVEN_SUPPORT */
 
-#ifdef INF_AMAZON_SE
-#ifdef RTMP_MAC_USB
-	SoftwareFlowControl(pAd);
-#endif /* RTMP_MAC_USB */
-#endif /* INF_AMAZON_SE */
-
 #ifdef CONFIG_STA_SUPPORT
 
 	IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
@@ -1506,9 +1500,7 @@ VOID MlmePeriodicExec(
 		RTMP_SECOND_CCA_DETECTION(pAd);
 
 #ifdef RTMP_MAC_USB
-#ifndef INF_AMAZON_SE
 		RTUSBWatchDog(pAd);
-#endif /* INF_AMAZON_SE */
 #endif /* RTMP_MAC_USB */
 
 #ifdef DOT11_N_SUPPORT

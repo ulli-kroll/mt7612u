@@ -3738,13 +3738,6 @@ struct rtmp_adapter {
 	UCHAR bulkResetPipeid;
 	BOOLEAN MgmtBulkPending;
 	ULONG bulkResetReq[6];
-#ifdef INF_AMAZON_SE
-	ULONG BulkOutDataSizeCount[NUM_OF_TX_RING];
-	BOOLEAN BulkOutDataFlag[NUM_OF_TX_RING];
-	ULONG BulkOutDataSizeLimit[NUM_OF_TX_RING];
-	UCHAR RunningQueueNoCount;
-	UCHAR LastRunningQueueNo;
-#endif /* #ifdef INF_AMAZON_SE */
 
 #ifdef CONFIG_STA_SUPPORT
 	USHORT CountDowntoPsm;
@@ -7907,11 +7900,6 @@ VOID MFB_PerPareMFB(struct rtmp_adapter *pAd, VOID *pBuf, MAC_TABLE_ENTRY *pEntr
 /*
  * Function Prototype in rtusb_bulk.c
  */
-
-#ifdef INF_AMAZON_SE
-VOID SoftwareFlowControl(struct rtmp_adapter *pAd) ;
-#endif /* INF_AMAZON_SE */
-
 
 VOID RTUSBInitTxDesc(
 	IN	struct rtmp_adapter *pAd,

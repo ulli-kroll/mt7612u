@@ -551,9 +551,6 @@ err1:
 		kfree(pAd->mpdu_blk_pool.mem); /* free BA pool*/
 #endif /* DOT11_N_SUPPORT */
 
-#ifdef INF_AMAZON_SE
-err0:
-#endif /* INF_AMAZON_SE */
 #ifdef ST
 err0:
 #endif /* ST */

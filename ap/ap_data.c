@@ -321,10 +321,6 @@ INT APSendPacket(struct rtmp_adapter *pAd, struct sk_buff *pPacket)
 	RTMP_SET_PACKET_UP(pPacket, UserPriority);
 	RTMP_SET_PACKET_MGMT_PKT(pPacket, 0x00); /* mark as non-management frame */
 
-#ifdef INF_AMAZON_SE
-	pAd->BulkOutDataSizeCount[QueIdx]+=SrcBufLen;
-#endif /* INF_AMAZON_SE */
-
 	/*
 		4. put to corrsponding TxSwQueue or Power-saving queue
 
@@ -4797,11 +4793,6 @@ BOOLEAN APFowardWirelessStaToWirelessSta(
 	struct sk_buff *pForwardPacket;
 
 
-#ifdef INF_AMAZON_SE
-	/*Iverson patch for WMM A5-T07 ,WirelessStaToWirelessSta do not bulk out aggregate */
-	RTMP_SET_PACKET_NOBULKOUT(pPacket, FALSE);
-#endif /* INF_AMAZON_SE */
-
 #ifdef APCLI_SUPPORT
 	/* have no need to forwad the packet to WM */
 	if (FromWhichBSSID >= MIN_NET_DEVICE_FOR_APCLI)
@@ -4919,11 +4910,6 @@ BOOLEAN APFowardWirelessStaToWirelessSta(
 
 			RTMP_SET_PACKET_WCID(pForwardPacket, pEntry ? pEntry->wcid : MCAST_WCID);
 			RTMP_SET_PACKET_MOREDATA(pForwardPacket, FALSE);
-
-#ifdef INF_AMAZON_SE
-			/*Iverson patch for WMM A5-T07 ,WirelessStaToWirelessSta do not bulk out aggregate */
-			RTMP_SET_PACKET_NOBULKOUT(pForwardPacket, TRUE);
-#endif /* INF_AMAZON_SE */
 
 			APSendPacket(pAd, pForwardPacket);
 		}

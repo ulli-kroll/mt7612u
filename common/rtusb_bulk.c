@@ -35,102 +35,6 @@
 /* Match total 6 bulkout endpoint to corresponding queue.*/
 UCHAR	EpToQueue[6]={FIFO_EDCA, FIFO_EDCA, FIFO_EDCA, FIFO_EDCA, FIFO_EDCA, FIFO_MGMT};
 
-
-
-#ifdef INF_AMAZON_SE
-UINT16 MaxBulkOutsSizeLimit[5][4] =
-{
-	/* Priority high -> low*/
-	{ 24576, 2048, 2048, 2048 },	/* 0 AC	*/
-	{ 24576, 2048, 2048, 2048 },	/* 1 AC	 */
-	{ 24576, 2048, 2048, 2048 }, 	/* 2 ACs*/
-	{ 24576, 6144, 2048, 2048 }, 	/* 3 ACs*/
-	{ 24576, 6144, 4096, 2048 }		/* 4 ACs*/
-};
-
-
-VOID SoftwareFlowControl(
-	IN struct rtmp_adapter *pAd)
-{
-	BOOLEAN ResetBulkOutSize=FALSE;
-	UCHAR i=0,RunningQueueNo=0,QueIdx=0,HighWorkingAcCount=0;
-	UINT PacketsInQueueSize=0;
-	UCHAR Priority[]={1,0,2,3};
-
-	for (i=0;i<NUM_OF_TX_RING;i++)
-	{
-
-		if (pAd->TxContext[i].CurWritePosition>=pAd->TxContext[i].ENextBulkOutPosition)
-		{
-			PacketsInQueueSize=pAd->TxContext[i].CurWritePosition-pAd->TxContext[i].ENextBulkOutPosition;
-		}
-		else
-		{
-			PacketsInQueueSize=MAX_TXBULK_SIZE-pAd->TxContext[i].ENextBulkOutPosition+pAd->TxContext[i].CurWritePosition;
-		}
-
-		if (pAd->BulkOutDataSizeCount[i]>20480 || PacketsInQueueSize>6144)
-		{
-			RunningQueueNo++;
-			pAd->BulkOutDataFlag[i]=TRUE;
-		}
-		else
-			pAd->BulkOutDataFlag[i]=FALSE;
-
-		pAd->BulkOutDataSizeCount[i]=0;
-	}
-
-	if (RunningQueueNo>pAd->LastRunningQueueNo)
-	{
-		DBGPRINT(RT_DEBUG_INFO,("SoftwareFlowControl  reset %d > %d \n",RunningQueueNo,pAd->LastRunningQueueNo));
-
-		ResetBulkOutSize=TRUE;
-		 pAd->RunningQueueNoCount=0;
-		 pAd->LastRunningQueueNo=RunningQueueNo;
-	}
-	else if (RunningQueueNo==pAd->LastRunningQueueNo)
-	{
-pAd->RunningQueueNoCount=0;
-	}
-	else if (RunningQueueNo<pAd->LastRunningQueueNo)
-	{
-		DBGPRINT(RT_DEBUG_INFO,("SoftwareFlowControl  reset %d < %d \n",RunningQueueNo,pAd->LastRunningQueueNo));
-		pAd->RunningQueueNoCount++;
-		if (pAd->RunningQueueNoCount>=6)
-		{
-			ResetBulkOutSize=TRUE;
-			pAd->RunningQueueNoCount=0;
-			pAd->LastRunningQueueNo=RunningQueueNo;
-		}
-	}
-
-	if (ResetBulkOutSize==TRUE)
-	{
-		for (QueIdx=0;QueIdx<NUM_OF_TX_RING;QueIdx++)
-		{
-			HighWorkingAcCount=0;
-			for (i=0;i<NUM_OF_TX_RING;i++)
-			{
-				if (QueIdx==i)
-					continue;
-
-				if (pAd->BulkOutDataFlag[i]==TRUE && Priority[i]>Priority[QueIdx])
-						HighWorkingAcCount++;
-
-			}
-			pAd->BulkOutDataSizeLimit[QueIdx]=MaxBulkOutsSizeLimit[RunningQueueNo][HighWorkingAcCount];
-		}
-
-			DBGPRINT(RT_DEBUG_TRACE, ("Reset bulkout size AC0(BE):%7d AC1(BK):%7d AC2(VI):%7d AC3(VO):%7d %d\n",pAd->BulkOutDataSizeLimit[0]
-			,pAd->BulkOutDataSizeLimit[1]
-			,pAd->BulkOutDataSizeLimit[2]
-			,pAd->BulkOutDataSizeLimit[3]
-			,RunningQueueNo));
-	}
-}
-#endif /* INF_AMAZON_SE */
-
-
 VOID	RTUSBInitTxDesc(
 	IN	struct rtmp_adapter *pAd,
 	IN	PTX_CONTEXT		pTxContext,
@@ -379,31 +283,6 @@ VOID RTUSBBulkOutDataPacket(struct rtmp_adapter *pAd, UCHAR BulkOutPipeId, UCHAR
 		/*if ((ThisBulkSize != 0)  && (pTxWI->AMPDU == 0))*/
 		if ((ThisBulkSize != 0) && (phy_mode == MODE_CCK))
 		{
-#ifdef INF_AMAZON_SE
-			/*Iverson Add for AMAZON USB (RT2070 &&  RT3070) to pass WMM A2-T4 ~ A2-T10*/
-			if(OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_WMM_INUSED))
-			{
-				/*Iverson patch for WMM A5-T07 ,WirelessStaToWirelessSta do not bulk out aggregate*/
-				if(pid == 6)
-                {
-		            pHTTXContext->ENextBulkOutPosition = TmpBulkEndPos;
-					break;
-                }
-				else if (((ThisBulkSize&0xffff8000) != 0) || ((ThisBulkSize&pAd->BulkOutDataSizeLimit[BulkOutPipeId]) == pAd->BulkOutDataSizeLimit[BulkOutPipeId]))
-				{
-					pHTTXContext->ENextBulkOutPosition = TmpBulkEndPos;
-					break;
-				}
-
-			}
-			else if (((ThisBulkSize&0xffff8000) != 0) || ((ThisBulkSize&0x1000) == 0x1000))
-			{
-				/* Limit BulkOut size to about 4k bytes.*/
-				pHTTXContext->ENextBulkOutPosition = TmpBulkEndPos;
-				break;
-			}
-#endif /* INF_AMAZON_SE */
-#ifndef INF_AMAZON_SE
 #ifndef USB_BULK_BUF_ALIGMENT
 			if (((ThisBulkSize&0xffff8000) != 0) || ((ThisBulkSize&0x1000) == 0x1000))
 			{
@@ -423,7 +302,6 @@ VOID RTUSBBulkOutDataPacket(struct rtmp_adapter *pAd, UCHAR BulkOutPipeId, UCHAR
 			}
 
 #endif /* USB_BULK_BUF_ALIGMENT */
-#endif /* INF_AMAZON_SE */
 #ifndef USB_BULK_BUF_ALIGMENT
 			else if (((pAd->BulkOutMaxPacketSize < 512) && ((ThisBulkSize&0xfffff800) != 0) ) /*|| ( (ThisBulkSize != 0)  && (pTxWI->AMPDU == 0))*/)
 			{
@@ -461,13 +339,6 @@ VOID RTUSBBulkOutDataPacket(struct rtmp_adapter *pAd, UCHAR BulkOutPipeId, UCHAR
 
 			break;
 		}
-#ifdef INF_AMAZON_SE
-		else if (((ThisBulkSize&0xffff8000) != 0) || ((ThisBulkSize&pAd->BulkOutDataSizeLimit[BulkOutPipeId]) == pAd->BulkOutDataSizeLimit[BulkOutPipeId]))
-		{
-			pHTTXContext->ENextBulkOutPosition = TmpBulkEndPos;
-			break;
-		}
-#endif /* INF_AMAZON_SE */
 #ifndef USB_BULK_BUF_ALIGMENT
 		else if (((pAd->BulkOutMaxPacketSize < 512) && ((ThisBulkSize&0xfffff800) != 0) ) /*|| ( (ThisBulkSize != 0)  && (pTxWI->AMPDU == 0))*/)
 		{	/* For USB 1.1 or peer which didn't support AMPDU, limit the BulkOut size. */

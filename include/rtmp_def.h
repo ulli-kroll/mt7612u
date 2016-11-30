@@ -73,11 +73,7 @@
 #define TX_RING_SIZE            8	/* 1 */
 #define PRIO_RING_SIZE          8
 #define MGMT_RING_SIZE       	32	/* PRIO_RING_SIZE */
-#ifdef INF_AMAZON_SE
-#define RX_RING_SIZE            1
-#else
 #define RX_RING_SIZE            8
-#endif /* INF_AMAZON_SE */
 #define MAX_TX_PROCESS          4
 #define LOCAL_TXBUF_SIZE        2048
 #endif /* RTMP_MAC_USB */

@@ -395,17 +395,6 @@ VOID RTMPWriteTxWI_Data(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pTx
 	/* for rate adapation*/
 	pkt_id = mcs;
 
-#ifdef INF_AMAZON_SE
-	/*Iverson patch for WMM A5-T07 ,WirelessStaToWirelessSta do not bulk out aggregate */
-	if( RTMP_GET_PACKET_NOBULKOUT(pTxBlk->pPacket))
-	{
-		if(phy_mode == MODE_CCK)
-			pkt_id = 6;
-	}
-#endif /* INF_AMAZON_SE */
-
-
-
 #ifdef MCS_LUT_SUPPORT
 	if ((RTMP_TEST_MORE_FLAG(pAd, fASIC_CAP_MCS_LUT)) &&
 		(wcid < 128) &&
