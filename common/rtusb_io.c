@@ -72,7 +72,6 @@ void usb_cfg_read_v3(struct rtmp_adapter *ad, u32 *value)
 	u32 io_value;
 
 	ret = RTUSB_VendorRequest(ad,
-							  (USBD_TRANSFER_DIRECTION_IN | USBD_SHORT_TRANSFER_OK),
 							  DEVICE_VENDOR_REQUEST_IN,
 							  0x47,
 							  0,
@@ -96,7 +95,6 @@ void usb_cfg_write_v3(struct rtmp_adapter *ad, u32 value)
 	io_value = cpu2le32(value);
 
 	ret = RTUSB_VendorRequest(ad,
-							  USBD_TRANSFER_DIRECTION_OUT,
 							  DEVICE_VENDOR_REQUEST_OUT,
 							  0x46,
 							  0,
@@ -119,7 +117,6 @@ static NTSTATUS RTUSBFirmwareRun(struct rtmp_adapter *pAd)
 
 	Status = RTUSB_VendorRequest(
 		pAd,
-		USBD_TRANSFER_DIRECTION_OUT,
 		DEVICE_VENDOR_REQUEST_OUT,
 		0x01,
 		0x8,
@@ -155,7 +152,6 @@ NTSTATUS RTUSBFirmwareOpmode(struct rtmp_adapter *pAd, UINT32 *pValue)
 
 	Status = RTUSB_VendorRequest(
 		pAd,
-		(USBD_TRANSFER_DIRECTION_IN | USBD_SHORT_TRANSFER_OK),
 		DEVICE_VENDOR_REQUEST_IN,
 		0x1,
 		0x11,
@@ -216,7 +212,6 @@ NTSTATUS RTUSBVenderReset(struct rtmp_adapter *pAd)
 	DBGPRINT_RAW(RT_DEBUG_ERROR, ("-->RTUSBVenderReset\n"));
 	Status = RTUSB_VendorRequest(
 		pAd,
-		USBD_TRANSFER_DIRECTION_OUT,
 		DEVICE_VENDOR_REQUEST_OUT,
 		0x01,
 		0x1,
@@ -246,9 +241,7 @@ NTSTATUS RTUSBVenderReset(struct rtmp_adapter *pAd)
 */
 NTSTATUS RTUSBMultiRead(struct rtmp_adapter *pAd, USHORT addr, UCHAR *buf, USHORT len)
 {
-	return RTUSB_VendorRequest(pAd, (USBD_TRANSFER_DIRECTION_IN |
-										USBD_SHORT_TRANSFER_OK),
-								DEVICE_VENDOR_REQUEST_IN,
+	return RTUSB_VendorRequest(pAd, DEVICE_VENDOR_REQUEST_IN,
 								0x7, 0, addr, buf, len);
 }
 
@@ -286,7 +279,6 @@ NTSTATUS RTUSBMultiWrite_nBytes(
 		actLen = (actLen > batchLen ? batchLen : actLen);
 		Status = RTUSB_VendorRequest(
 			pAd,
-			USBD_TRANSFER_DIRECTION_OUT,
 			DEVICE_VENDOR_REQUEST_OUT,
 			0x6,
 			0,
@@ -327,8 +319,7 @@ NTSTATUS RTUSBMultiWrite_nBytes(
 NTSTATUS RTUSBMultiWrite_OneByte(struct rtmp_adapter *pAd, USHORT Offset, UCHAR *pData)
 {
 	/* TODO: In 2870, use this funciton carefully cause it's not stable.*/
-	return RTUSB_VendorRequest(pAd, USBD_TRANSFER_DIRECTION_OUT,
-								DEVICE_VENDOR_REQUEST_OUT,
+	return RTUSB_VendorRequest(pAd, DEVICE_VENDOR_REQUEST_OUT,
 								0x6, 0, Offset, pData, 1);
 }
 
@@ -365,8 +356,7 @@ NTSTATUS RTUSBSingleWrite(
 	IN	USHORT Value,
 	IN	BOOLEAN WriteHigh)
 {
-	return RTUSB_VendorRequest(pAd, USBD_TRANSFER_DIRECTION_OUT,
-								DEVICE_VENDOR_REQUEST_OUT,
+	return RTUSB_VendorRequest(pAd, DEVICE_VENDOR_REQUEST_OUT,
 								(WriteHigh == TRUE) ? 0x10 : 0x2,
 								Value, Offset, NULL, 0);
 }
@@ -394,7 +384,6 @@ NTSTATUS RTUSBReadMACRegister(struct rtmp_adapter *pAd, USHORT Offset, UINT32 *p
 
 	Status = RTUSB_VendorRequest(
 		pAd,
-		(USBD_TRANSFER_DIRECTION_IN | USBD_SHORT_TRANSFER_OK),
 		DEVICE_VENDOR_REQUEST_IN,
 		0x7,
 		0,
@@ -470,7 +459,6 @@ int write_reg(struct rtmp_adapter *ad, UINT32 base, UINT16 offset, UINT32 val)
 	io_value = cpu2le32(val);
 
 	ret = RTUSB_VendorRequest(ad,
-							  USBD_TRANSFER_DIRECTION_OUT,
 							  DEVICE_VENDOR_REQUEST_OUT,
 							  req,
 							  0,
@@ -499,7 +487,6 @@ int read_reg(struct rtmp_adapter *ad, UINT32 base, UINT16 offset, UINT32 *value)
 		req = 0x7;
 
 	ret = RTUSB_VendorRequest(ad,
-							  (USBD_TRANSFER_DIRECTION_IN | USBD_SHORT_TRANSFER_OK),
 							  DEVICE_VENDOR_REQUEST_IN,
 							  req,
 							  0,
@@ -866,9 +853,7 @@ done:
 */
 NTSTATUS RTUSBReadEEPROM(struct rtmp_adapter *pAd, USHORT adr, UCHAR *buf, USHORT len)
 {
-	return RTUSB_VendorRequest(pAd, (USBD_TRANSFER_DIRECTION_IN |
-									USBD_SHORT_TRANSFER_OK),
-								DEVICE_VENDOR_REQUEST_IN,
+	return RTUSB_VendorRequest(pAd, DEVICE_VENDOR_REQUEST_IN,
 								0x9, 0, adr, buf, len);
 }
 
@@ -889,8 +874,7 @@ NTSTATUS RTUSBReadEEPROM(struct rtmp_adapter *pAd, USHORT adr, UCHAR *buf, USHOR
 */
 NTSTATUS RTUSBWriteEEPROM(struct rtmp_adapter *pAd, USHORT adr, UCHAR *buf, USHORT len)
 {
-	return RTUSB_VendorRequest(pAd, USBD_TRANSFER_DIRECTION_OUT,
-								DEVICE_VENDOR_REQUEST_OUT,
+	return RTUSB_VendorRequest(pAd, DEVICE_VENDOR_REQUEST_OUT,
 								0x8, 0, adr, buf, len);
 }
 
@@ -962,8 +946,7 @@ VOID RTUSBPutToSleep(struct rtmp_adapter *pAd)
 */
 NTSTATUS RTUSBWakeUp(struct rtmp_adapter *pAd)
 {
-	return RTUSB_VendorRequest(pAd, USBD_TRANSFER_DIRECTION_OUT,
-								DEVICE_VENDOR_REQUEST_OUT,
+	return RTUSB_VendorRequest(pAd, DEVICE_VENDOR_REQUEST_OUT,
 								0x01, 0x09, 0, NULL, 0);
 }
 
@@ -1089,7 +1072,6 @@ int RTUSBEnqueueCmdFromNdis(
 */
 NTSTATUS RTUSB_VendorRequest(
 	IN	struct rtmp_adapter *pAd,
-	IN	UINT32			TransferFlags,
 	IN	UCHAR			RequestType,
 	IN	UCHAR			Request,
 	IN	USHORT			Value,
@@ -1165,8 +1147,8 @@ NTSTATUS RTUSB_VendorRequest(
 	  	RTMP_SEM_EVENT_UP(&(pAd->UsbVendorReq_semaphore));
 
         	if (RET < 0) {
-			DBGPRINT(RT_DEBUG_ERROR, ("RTUSB_VendorRequest failed(%d),TxFlags=0x%x, ReqType=%s, Req=0x%x, Idx=0x%x,pAd->Flags=0x%lx\n",
-						RET, TransferFlags, (RequestType == DEVICE_VENDOR_REQUEST_OUT ? "OUT" : "IN"), Request, Index, pAd->Flags));
+			DBGPRINT(RT_DEBUG_ERROR, ("RTUSB_VendorRequest failed(%d), ReqType=%s, Req=0x%x, Idx=0x%x,pAd->Flags=0x%lx\n",
+						RET, (RequestType == DEVICE_VENDOR_REQUEST_OUT ? "OUT" : "IN"), Request, Index, pAd->Flags));
 			if (Request == 0x2)
 				DBGPRINT(RT_DEBUG_ERROR, ("\tRequest Value=0x%04x!\n", Value));
 

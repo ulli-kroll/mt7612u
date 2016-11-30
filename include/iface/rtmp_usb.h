@@ -85,7 +85,6 @@ struct _TX_BLK;
 
 NTSTATUS RTUSB_VendorRequest(
 	IN	struct rtmp_adapter *pAd,
-	IN	UINT32 TxFlags,
 	IN	UCHAR ReservedBits,
 	IN	UCHAR Request,
 	IN	USHORT val,

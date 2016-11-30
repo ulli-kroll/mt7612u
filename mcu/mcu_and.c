@@ -52,7 +52,6 @@ int andes_usb_enable_patch(struct rtmp_adapter *ad)
 	DBGPRINT(RT_DEBUG_OFF, ("%s\n", __FUNCTION__));
 
 	ret = RTUSB_VendorRequest(ad,
-							  USBD_TRANSFER_DIRECTION_OUT,
 							  DEVICE_CLASS_REQUEST_OUT,
 							  0x01,
 							  0x12,
@@ -74,7 +73,6 @@ int andes_usb_reset_wmt(struct rtmp_adapter *ad)
 	DBGPRINT(RT_DEBUG_OFF, ("%s\n", __FUNCTION__));
 
 	RTUSB_VendorRequest(ad,
-						USBD_TRANSFER_DIRECTION_OUT,
 						DEVICE_CLASS_REQUEST_OUT,
 						0x01,
 						0x12,
@@ -122,7 +120,6 @@ int andes_usb_chk_crc(struct rtmp_adapter *ad, u32 checksum_len)
 	memmove(&cmd[4], &checksum_len, 4);
 
 	ret = RTUSB_VendorRequest(ad,
-							  USBD_TRANSFER_DIRECTION_OUT,
 							  DEVICE_VENDOR_REQUEST_OUT,
 							  0x01,
 							  0x20,
@@ -142,7 +139,6 @@ u16 andes_usb_get_crc(struct rtmp_adapter *ad)
 	while (1) {
 
 		ret = RTUSB_VendorRequest(ad,
-								 (USBD_TRANSFER_DIRECTION_IN | USBD_SHORT_TRANSFER_OK),
 								 DEVICE_VENDOR_REQUEST_IN,
 								 0x01,
 								 0x21,
@@ -358,7 +354,6 @@ load_patch_protect:
 
 			/* Set FCE DMA descriptor */
 			ret = RTUSB_VendorRequest(ad,
-										 USBD_TRANSFER_DIRECTION_OUT,
 										 DEVICE_VENDOR_REQUEST_OUT,
 										 0x42,
 										 value,
@@ -377,7 +372,6 @@ load_patch_protect:
 
 			/* Set FCE DMA descriptor */
 			ret = RTUSB_VendorRequest(ad,
-										 USBD_TRANSFER_DIRECTION_OUT,
 										 DEVICE_VENDOR_REQUEST_OUT,
 										 0x42,
 										 value,
@@ -400,7 +394,6 @@ load_patch_protect:
 
 			/* Set FCE DMA length */
 			ret = RTUSB_VendorRequest(ad,
-										 USBD_TRANSFER_DIRECTION_OUT,
 										 DEVICE_VENDOR_REQUEST_OUT,
 										 0x42,
 										 value,
@@ -418,7 +411,6 @@ load_patch_protect:
 
 			/* Set FCE DMA length */
 			ret = RTUSB_VendorRequest(ad,
-										 USBD_TRANSFER_DIRECTION_OUT,
 										 DEVICE_VENDOR_REQUEST_OUT,
 										 0x42,
 										 value,
@@ -576,7 +568,6 @@ static int usb_load_ivb(struct rtmp_adapter *ad, u8 *fw_image)
 
 	if (cap->load_iv) {
 		Status = RTUSB_VendorRequest(ad,
-				 USBD_TRANSFER_DIRECTION_OUT,
 				 DEVICE_VENDOR_REQUEST_OUT,
 				 0x01,
 				 0x12,
@@ -585,7 +576,6 @@ static int usb_load_ivb(struct rtmp_adapter *ad, u8 *fw_image)
 				 64);
 	} else {
 		Status = RTUSB_VendorRequest(ad,
-				 USBD_TRANSFER_DIRECTION_OUT,
 				 DEVICE_VENDOR_REQUEST_OUT,
 				 0x01,
 				 0x12,
@@ -777,7 +767,6 @@ loadfw_protect:
 
 			/* Set FCE DMA descriptor */
 			ret = RTUSB_VendorRequest(ad,
-					 USBD_TRANSFER_DIRECTION_OUT,
 					 DEVICE_VENDOR_REQUEST_OUT,
 					 0x42,
 					 value,
@@ -795,7 +784,6 @@ loadfw_protect:
 
 			/* Set FCE DMA descriptor */
 			ret = RTUSB_VendorRequest(ad,
-					 USBD_TRANSFER_DIRECTION_OUT,
 					 DEVICE_VENDOR_REQUEST_OUT,
 					 0x42,
 					 value,
@@ -819,7 +807,6 @@ loadfw_protect:
 
 			/* Set FCE DMA length */
 			ret = RTUSB_VendorRequest(ad,
-					 USBD_TRANSFER_DIRECTION_OUT,
 					 DEVICE_VENDOR_REQUEST_OUT,
 					 0x42,
 					 value,
@@ -836,7 +823,6 @@ loadfw_protect:
 
 			/* Set FCE DMA length */
 			ret = RTUSB_VendorRequest(ad,
-					 USBD_TRANSFER_DIRECTION_OUT,
 					 DEVICE_VENDOR_REQUEST_OUT,
 					 0x42,
 					 value,
@@ -921,7 +907,6 @@ loadfw_protect:
 
 			/* Set FCE DMA descriptor */
 			ret = RTUSB_VendorRequest(ad,
-					 USBD_TRANSFER_DIRECTION_OUT,
 					 DEVICE_VENDOR_REQUEST_OUT,
 					 0x42,
 					 value,
@@ -942,7 +927,6 @@ loadfw_protect:
 
 			/* Set FCE DMA descriptor */
 			ret = RTUSB_VendorRequest(ad,
-					  USBD_TRANSFER_DIRECTION_OUT,
 					  DEVICE_VENDOR_REQUEST_OUT,
 					  0x42,
 					  value,
@@ -964,7 +948,6 @@ loadfw_protect:
 
 			/* Set FCE DMA length */
 			ret = RTUSB_VendorRequest(ad,
-					  USBD_TRANSFER_DIRECTION_OUT,
 					  DEVICE_VENDOR_REQUEST_OUT,
 					  0x42,
 					  value,
@@ -981,7 +964,6 @@ loadfw_protect:
 
 			/* Set FCE DMA length */
 			ret = RTUSB_VendorRequest(ad,
-				  	  USBD_TRANSFER_DIRECTION_OUT,
 					  DEVICE_VENDOR_REQUEST_OUT,
 					  0x42,
 					  value,
