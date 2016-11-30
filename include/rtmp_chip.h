@@ -1093,7 +1093,6 @@ struct _RTMP_CHIP_OP_ {
 	void (*MCUCtrlExit)(struct rtmp_adapter *ad);
 #ifdef CONFIG_ANDES_SUPPORT
 	void (*fw_init)(struct rtmp_adapter *ad);
-	int (*BurstWrite)(struct rtmp_adapter *ad, UINT32 Offset, UINT32 *Data, UINT32 Cnt);
 	int (*RandomRead)(struct rtmp_adapter *ad, RTMP_REG_PAIR *RegPair, UINT32 Num);
 	int (*RFRandomRead)(struct rtmp_adapter *ad, BANK_RF_REG_PAIR *RegPair, UINT32 Num);
 	int (*ReadModifyWrite)(struct rtmp_adapter *ad, R_M_W_REG *RegPair, UINT32 Num);

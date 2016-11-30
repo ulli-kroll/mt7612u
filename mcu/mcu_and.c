@@ -2097,64 +2097,6 @@ MSG_EVENT_HANDLER msg_event_handler_tb[] =
 };
 
 
-int andes_burst_write(struct rtmp_adapter *ad, u32 offset, u32 *data, u32 cnt)
-{
-	struct cmd_msg *msg;
-	unsigned int var_len, offset_num, cur_len = 0, sent_len;
-	u32 value, i, cur_index = 0;
-	RTMP_CHIP_CAP *cap = &ad->chipCap;
-	int ret = 0;
-	BOOLEAN last_packet = FALSE;
-
-	if (!data)
-		return -1;
-
-	offset_num = cnt / ((cap->InbandPacketMaxLen - sizeof(offset)) / 4);
-
-	if (cnt % ((cap->InbandPacketMaxLen - sizeof(offset)) / 4))
-		var_len = sizeof(offset) * (offset_num + 1) + 4 * cnt;
-	else
-		var_len = sizeof(offset) * offset_num + 4 * cnt;
-
-	while (cur_len < var_len) {
-		sent_len = (var_len - cur_len) > cap->InbandPacketMaxLen
-									? cap->InbandPacketMaxLen : (var_len - cur_len);
-
-		if (((sent_len < cap->InbandPacketMaxLen) || ((cur_len + cap->InbandPacketMaxLen) == var_len)))
-			last_packet = TRUE;
-
-		msg = andes_alloc_cmd_msg(ad, sent_len);
-
-		if (!msg) {
-			ret = NDIS_STATUS_RESOURCES;
-			goto error;
-		}
-
-		if (last_packet) {
-			andes_init_cmd_msg(msg, CMD_BURST_WRITE, TRUE, 0, TRUE, TRUE, 0, NULL, NULL);
-		}else {
-			andes_init_cmd_msg(msg, CMD_BURST_WRITE, FALSE, 0, FALSE, FALSE, 0, NULL, NULL);
-		}
-
-
-		value = cpu2le32(offset + cap->WlanMemmapOffset + cur_index * 4);
-		andes_append_cmd_msg(msg, (char *)&value, 4);
-
-		for (i = 0; i < ((sent_len - 4) / 4); i++) {
-			value = cpu2le32(data[i + cur_index]);
-			andes_append_cmd_msg(msg, (char *)&value, 4);
-		}
-
-		ret = andes_send_cmd_msg(ad, msg);
-
-
-		cur_index += ((sent_len - 4) / 4);
-		cur_len += cap->InbandPacketMaxLen;
-	}
-
-error:
-	return ret;
-}
 
 static void andes_random_read_callback(struct cmd_msg *msg, char *rsp_payload, u16 rsp_payload_len)
 {
