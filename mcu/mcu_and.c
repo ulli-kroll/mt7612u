@@ -183,6 +183,7 @@ int andes_usb_load_rom_patch(struct rtmp_adapter *ad)
 	USB_DMA_CFG_STRUC cfg;
 	u32 patch_len = 0;
 	RTMP_OS_COMPLETION load_rom_patch_done;
+	u8 *fw_patch_image;
 
 	if (cap->rom_code_protect) {
 load_patch_protect:
@@ -236,6 +237,8 @@ load_patch_protect:
 		goto error0;
 	}
 
+	fw_patch_image = cap->rom_patch;
+
 	RTUSBVenderReset(ad);
 	RtmpOsMsDelay(5);
 
@@ -243,13 +246,13 @@ load_patch_protect:
 	DBGPRINT(RT_DEBUG_OFF, ("build time = \n"));
 
 	for (loop = 0; loop < 16; loop++)
-		DBGPRINT(RT_DEBUG_OFF, ("%c", *(cap->rom_patch + loop)));
+		DBGPRINT(RT_DEBUG_OFF, ("%c", *(fw_patch_image + loop)));
 
 	if (IS_MT76x2(ad)) {
-		if (((strncmp(cap->rom_patch, "20130809", 8) >= 0)) && (MT_REV_GTE(ad, MT76x2, REV_MT76x2E3))) {
+		if (((strncmp(fw_patch_image, "20130809", 8) >= 0)) && (MT_REV_GTE(ad, MT76x2, REV_MT76x2E3))) {
 			DBGPRINT(RT_DEBUG_OFF, ("rom patch for E3 IC\n"));
 
-		} else if (((strncmp(cap->rom_patch, "20130809", 8) < 0)) && (MT_REV_LT(ad, MT76x2, REV_MT76x2E3))){
+		} else if (((strncmp(fw_patch_image, "20130809", 8) < 0)) && (MT_REV_LT(ad, MT76x2, REV_MT76x2E3))){
 
 			DBGPRINT(RT_DEBUG_OFF, ("rom patch for E2 IC\n"));
 		} else {
@@ -266,21 +269,21 @@ load_patch_protect:
 	DBGPRINT(RT_DEBUG_OFF, ("platform = \n"));
 
 	for (loop = 0; loop < 4; loop++)
-		DBGPRINT(RT_DEBUG_OFF, ("%c", *(cap->rom_patch + 16 + loop)));
+		DBGPRINT(RT_DEBUG_OFF, ("%c", *(fw_patch_image + 16 + loop)));
 
 	DBGPRINT(RT_DEBUG_OFF, ("\n"));
 
 	DBGPRINT(RT_DEBUG_OFF, ("hw/sw version = \n"));
 
 	for (loop = 0; loop < 4; loop++)
-		DBGPRINT(RT_DEBUG_OFF, ("%c", *(cap->rom_patch + 20 + loop)));
+		DBGPRINT(RT_DEBUG_OFF, ("%c", *(fw_patch_image + 20 + loop)));
 
 	DBGPRINT(RT_DEBUG_OFF, ("\n"));
 
 	DBGPRINT(RT_DEBUG_OFF, ("patch version = \n"));
 
 	for (loop = 0; loop < 4; loop++)
-		DBGPRINT(RT_DEBUG_OFF, ("%c", *(cap->rom_patch + 24 + loop)));
+		DBGPRINT(RT_DEBUG_OFF, ("%c", *(fw_patch_image + 24 + loop)));
 
 	DBGPRINT(RT_DEBUG_OFF, ("\n"));
 
@@ -343,7 +346,7 @@ load_patch_protect:
 #ifdef RT_BIG_ENDIAN
 			RTMPDescriptorEndianChange((PUCHAR)tx_info, TYPE_TXINFO);
 #endif
-			memmove(rom_patch_data + sizeof(*tx_info), cap->rom_patch + PATCH_INFO_SIZE + cur_len, sent_len);
+			memmove(rom_patch_data + sizeof(*tx_info), fw_patch_image + PATCH_INFO_SIZE + cur_len, sent_len);
 
 			/* four zero bytes for end padding */
 			memset(rom_patch_data + sizeof(*tx_info) + sent_len, 0, 4);
@@ -468,7 +471,7 @@ load_patch_protect:
 
 	RTMP_OS_EXIT_COMPLETION(&load_rom_patch_done);
 
-	total_checksum = checksume16(cap->rom_patch + PATCH_INFO_SIZE, patch_len);
+	total_checksum = checksume16(fw_patch_image + PATCH_INFO_SIZE, patch_len);
 
 	RtmpOsMsDelay(5);
 	DBGPRINT(RT_DEBUG_OFF, ("Send checksum req..\n"));
