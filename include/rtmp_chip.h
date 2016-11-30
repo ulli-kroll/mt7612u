@@ -1094,7 +1094,6 @@ struct _RTMP_CHIP_OP_ {
 #ifdef CONFIG_ANDES_SUPPORT
 	void (*fw_init)(struct rtmp_adapter *ad);
 	int (*BurstWrite)(struct rtmp_adapter *ad, UINT32 Offset, UINT32 *Data, UINT32 Cnt);
-	int (*BurstRead)(struct rtmp_adapter *ad, UINT32 Offset, UINT32 Cnt, UINT32 *Data);
 	int (*RandomRead)(struct rtmp_adapter *ad, RTMP_REG_PAIR *RegPair, UINT32 Num);
 	int (*RFRandomRead)(struct rtmp_adapter *ad, BANK_RF_REG_PAIR *RegPair, UINT32 Num);
 	int (*ReadModifyWrite)(struct rtmp_adapter *ad, R_M_W_REG *RegPair, UINT32 Num);
@@ -1350,12 +1349,6 @@ do {	\
 do {												\
 		if (_pAd->chipOps.BurstWrite != NULL)		\
 			_pAd->chipOps.BurstWrite(_pAd, _Offset, _pData, _Cnt);\
-} while (0)
-
-#define BURST_READ(_pAd, _Offset, _Cnt, _pData)	\
-do {											\
-		if (_pAd->chipOps.BurstRead != NULL)	\
-			_pAd->chipOps.BurstRead(_pAd, _Offset, _Cnt, _pData);	\
 } while (0)
 
 #define RANDOM_READ(_pAd, _RegPair, _Num)	\
