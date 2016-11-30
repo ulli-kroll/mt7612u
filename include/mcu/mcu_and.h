@@ -397,7 +397,6 @@ int andes_send_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *msg);
 int andes_random_read(struct rtmp_adapter *ad, RTMP_REG_PAIR *reg_pair, u32 num);
 int andes_rf_random_read(struct rtmp_adapter *ad, struct _BANK_RF_REG_PAIR *reg_pair, u32 num);
 int andes_read_modify_write(struct rtmp_adapter *ad, struct _R_M_W_REG *reg_pair, u32 num);
-int andes_rf_read_modify_write(struct rtmp_adapter *ad, struct _RF_R_M_W_REG *reg_pair, u32 num);
 int andes_random_write(struct rtmp_adapter *ad, RTMP_REG_PAIR *reg_pair, u32 num);
 int andes_rf_random_write(struct rtmp_adapter *ad, struct _BANK_RF_REG_PAIR *reg_pair, u32 num);
 int andes_sc_random_write(struct rtmp_adapter *ad, CR_REG *table, u32 nums, u32 flags);
