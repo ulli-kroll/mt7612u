@@ -50,19 +50,6 @@
 	========================================================================
 */
 #ifdef RLT_MAC
-// For MT76x0 and older
-void usb_cfg_read_v2(struct rtmp_adapter *ad, u32 *value)
-{
-	RTUSBReadMACRegister(ad, RLT_USB_DMA_CFG, value);
-}
-
-
-// For MT76x0 and older
-void usb_cfg_write_v2(struct rtmp_adapter *ad, u32 value)
-{
-	RTUSBWriteMACRegister(ad, RLT_USB_DMA_CFG, value, FALSE);
-}
-
 
 #ifdef MT76x2
 // For MT7662 and newer
