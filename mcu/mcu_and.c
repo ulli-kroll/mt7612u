@@ -170,7 +170,7 @@ VOID usb_upload_rom_patch_complete(purbb_t urb, pregs *pt_regs)
 int andes_usb_load_rom_patch(struct rtmp_adapter *ad)
 {
 	PURB urb;
-	struct os_cookie *obj = ad->OS_Cookie;
+	struct usb_device *udev = ad->OS_Cookie->pUsb_Dev;
 	ra_dma_addr_t rom_patch_dma;
 	PUCHAR rom_patch_data;
 	TXINFO_NMAC_CMD *tx_info;
@@ -222,7 +222,7 @@ load_patch_protect:
 	USB_CFG_WRITE(ad, cfg.word);
 
 	if (cap->load_code_method == BIN_FILE_METHOD)
-		OS_LOAD_CODE_FROM_BIN(&cap->rom_patch, cap->rom_patch_bin_file_name, obj->pUsb_Dev, &cap->rom_patch_len);
+		OS_LOAD_CODE_FROM_BIN(&cap->rom_patch, cap->rom_patch_bin_file_name, udev, &cap->rom_patch_len);
 	else
 		cap->rom_patch = cap->rom_patch_header_image;
 
@@ -313,7 +313,7 @@ load_patch_protect:
 	}
 
 	/* Allocate TransferBuffer */
-	rom_patch_data = RTUSB_URB_ALLOC_BUFFER(obj->pUsb_Dev, UPLOAD_PATCH_UNIT, &rom_patch_dma);
+	rom_patch_data = RTUSB_URB_ALLOC_BUFFER(udev, UPLOAD_PATCH_UNIT, &rom_patch_dma);
 
 	if (!rom_patch_data)
 	{
@@ -429,7 +429,7 @@ load_patch_protect:
 
 			/* Initialize URB descriptor */
 			RTUSB_FILL_HTTX_BULK_URB(urb,
-									 obj->pUsb_Dev,
+									 udev,
 									 cap->CommandBulkOutAddr,
 									 rom_patch_data,
 									 sent_len + sizeof(*tx_info) + 4,
@@ -528,7 +528,7 @@ load_patch_protect:
 
 error2:
 	/* Free TransferBuffer */
-	RTUSB_URB_FREE_BUFFER(obj->pUsb_Dev, UPLOAD_PATCH_UNIT, rom_patch_data, rom_patch_dma);
+	RTUSB_URB_FREE_BUFFER(udev, UPLOAD_PATCH_UNIT, rom_patch_data, rom_patch_dma);
 
 error1:
 	/* Free URB */
@@ -600,7 +600,7 @@ static int usb_load_ivb(struct rtmp_adapter *ad, u8 *fw_image)
 int andes_usb_loadfw(struct rtmp_adapter *ad)
 {
 	PURB urb;
-	struct os_cookie *obj = ad->OS_Cookie;
+	struct usb_device *udev = ad->OS_Cookie->pUsb_Dev;
 	ra_dma_addr_t fw_dma;
 	PUCHAR fw_data;
 	TXINFO_NMAC_CMD *tx_info;
@@ -648,7 +648,7 @@ loadfw_protect:
 	USB_CFG_WRITE(ad, cfg.word);
 
 	if (cap->load_code_method == BIN_FILE_METHOD)
-		OS_LOAD_CODE_FROM_BIN(&cap->FWImageName, cap->fw_bin_file_name, obj->pUsb_Dev, &cap->fw_len);
+		OS_LOAD_CODE_FROM_BIN(&cap->FWImageName, cap->fw_bin_file_name, udev, &cap->fw_len);
 	else
 		cap->FWImageName = cap->fw_header_image;
 
@@ -731,7 +731,7 @@ loadfw_protect:
 	}
 
 	/* Allocate TransferBuffer */
-	fw_data = RTUSB_URB_ALLOC_BUFFER(obj->pUsb_Dev, UPLOAD_FW_UNIT, &fw_dma);
+	fw_data = RTUSB_URB_ALLOC_BUFFER(udev, UPLOAD_FW_UNIT, &fw_dma);
 
 	if (!fw_data) {
 		ret = NDIS_STATUS_RESOURCES;
@@ -840,7 +840,7 @@ loadfw_protect:
 
 			/* Initialize URB descriptor */
 			RTUSB_FILL_HTTX_BULK_URB(urb,
-					 obj->pUsb_Dev,
+					 udev,
 					 cap->CommandBulkOutAddr,
 					 fw_data,
 					 sent_len + sizeof(*tx_info) + USB_END_PADDING,
@@ -981,7 +981,7 @@ loadfw_protect:
 
 			/* Initialize URB descriptor */
 			RTUSB_FILL_HTTX_BULK_URB(urb,
-					 obj->pUsb_Dev,
+					 udev,
 					 cap->CommandBulkOutAddr,
 					 fw_data,
 					 sent_len + sizeof(*tx_info) + USB_END_PADDING,
@@ -1045,7 +1045,7 @@ loadfw_protect:
 
 error2:
 	/* Free TransferBuffer */
-	RTUSB_URB_FREE_BUFFER(obj->pUsb_Dev, UPLOAD_FW_UNIT, fw_data, fw_dma);
+	RTUSB_URB_FREE_BUFFER(udev, UPLOAD_FW_UNIT, fw_data, fw_dma);
 
 error1:
 	/* Free URB */
