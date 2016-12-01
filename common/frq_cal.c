@@ -38,46 +38,6 @@ VOID InitFrequencyCalibrationMode(
 	struct rtmp_adapter *pAd,
 	UINT8 Mode)
 {
-#ifdef RTMP_BBP
-	BBP_R179_STRUC BbpR179 = {{0}};
-	BBP_R180_STRUC BbpR180 = {{0}};
-	BBP_R182_STRUC BbpR182 = {{0}};
-
-	// TODO: shiang-6590, fix me, I don't know which MODE0 yet for RLT series!
-	if (pAd->chipCap.hif_type == HIF_RTMP) {
-		if (Mode == FREQ_CAL_INIT_MODE0)
-		{
-			/* Initialize the RX_END_STATUS (1, 5) for "Rx OFDM/CCK frequency offset report"*/
-			BbpR179.field.DataIndex1 = 1;
-			RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R179, BbpR179.byte);
-			BbpR180.field.DataIndex2 = 5;
-			RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R180, BbpR180.byte);
-			BbpR182.field.DataArray = BBP_R57; /* Rx OFDM/CCK frequency offset report*/
-			RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R182, BbpR182.byte);
-		}
-		else if (Mode == FREQ_CAL_INIT_MODE1)
-		{
-			/* Initialize the RX_END_STATUS (1, 3) for "Rx OFDM/CCK frequency offset report"*/
-			BbpR179.field.DataIndex1 = 1;
-			RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R179, BbpR179.byte);
-			BbpR180.field.DataIndex2 = 3;
-			RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R180, BbpR180.byte);
-			BbpR182.field.DataArray = BBP_R57; /* Rx OFDM/CCK frequency offset report*/
-			RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R182, BbpR182.byte);
-		}
-		else if (Mode == FREQ_CAL_INIT_MODE2)
-		{
-			/* Initialize the RX_END_STATUS (1) for "Rx OFDM/CCK frequency offset report"*/
-			RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R142, 1);
-			RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R143, BBP_R57); /* Rx OFDM/CCK frequency offset report*/
-		}
-		else
-		{
-			DBGPRINT(RT_DEBUG_ERROR, ("%s:Unknow mode = %d\n", __FUNCTION__, Mode));
-		}
-	}
-	else
-#endif /* RTMP_BBP */
 	{
 		DBGPRINT(RT_DEBUG_ERROR, ("%s:Unknow mode = %d\n", __FUNCTION__, Mode));
 	}

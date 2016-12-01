@@ -301,14 +301,6 @@ do {	\
 }
 
 /* Clear BBP R22 to reset Tx Mode (bit7~bit0) = 0. */
-#ifdef RTMP_BBP
-#define ATE_BBP_RESET_TX_MODE(_A, _I, _pV)			\
-{													\
-	ATE_BBP_IO_READ8_BY_REG_ID(_A, _I, _pV);		\
-	(*(_pV)) &= (0x00);							\
-	ATE_BBP_IO_WRITE8_BY_REG_ID(_A, _I, (*(_pV)));	\
-}
-#endif /* RTMP_BBP */
 
 /* Set BBP R22 to start Continuous Tx Mode (bit7) = 1. */
 #define ATE_BBP_START_CTS_TX_MODE(_A, _I, _pV)		\
@@ -797,18 +789,6 @@ int ChipStructAssign(
 
 int ATEInit(
  IN struct rtmp_adapter *pAd);
-
-
-#ifdef RTMP_BBP
-int ATEBBPWriteWithRxChain(
- IN struct rtmp_adapter *pAd,
- IN UCHAR bbpId,
- IN CHAR bbpVal,
- IN RX_CHAIN_IDX rx_ch_idx);
-#endif /* RTMP_BBP */
-
-
-
 
 
 

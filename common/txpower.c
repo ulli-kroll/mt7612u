@@ -1240,20 +1240,6 @@ VOID AsicCompensatePowerViaBBP(struct rtmp_adapter *pAd, CHAR *pTotalDeltaPower)
 	}
 #endif /* RT65xx */
 
-#ifdef RTMP_BBP
-	if (pAd->chipCap.hif_type == HIF_RTMP)
-	{
-		UCHAR	BbpR1 = 0;
-
-		/* The BBP R1 controls the transmit power for all rates */
-		RTMP_BBP_IO_READ8_BY_REG_ID(pAd, BBP_R1, &BbpR1);
-		BbpR1 &= ~MDSM_BBP_R1_STATIC_TX_POWER_CONTROL_MASK;
-		BbpR1 |= mdsm_drop_pwr;
-		RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R1, BbpR1);
-
-		DBGPRINT(RT_DEBUG_INFO, ("%s: <After> TotalDeltaPower = %d dBm, BbpR1 = 0x%02X \n", __FUNCTION__, *pTotalDeltaPower, BbpR1));
-	}
-#endif /* RTMP_BBP */
 }
 
 

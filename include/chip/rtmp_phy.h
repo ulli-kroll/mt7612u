@@ -35,9 +35,6 @@
 #include "phy/rlt_bbp.h"
 #endif /* RLT_BBP */
 
-#ifdef RTMP_BBP
-#include "phy/rtmp_bbp.h"
-#endif /* RTMP_BBP */
 
 
 /*

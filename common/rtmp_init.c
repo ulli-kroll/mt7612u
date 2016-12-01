@@ -972,32 +972,15 @@ VOID NICInitAsicFromEEPROM(struct rtmp_adapter *pAd)
 #ifdef CONFIG_STA_SUPPORT
 	UINT32 data = 0;
 #endif /* CONFIG_STA_SUPPORT */
-#if defined(RT30xx) || defined(RTMP_BBP)
+#if defined(RT30xx)
 	USHORT i;
-#endif /* defined(RT30xx) || defined(RTMP_BBP) */
+#endif /* defined(RT30xx) */
 #ifdef RALINK_ATE
 	USHORT value;
 #endif /* RALINK_ATE */
 	EEPROM_NIC_CONFIG2_STRUC NicConfig2;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("--> NICInitAsicFromEEPROM\n"));
-#ifdef RTMP_BBP
-	// TODO: shiang, fix this for some chips which has side-effect (ex: 5572/3572, etc.)
-	if (pAd->chipCap.hif_type == HIF_RTMP)
-	{
-		for (i = EEPROM_BBP_ARRAY_OFFSET; i < NUM_EEPROM_BBP_PARMS; i++)
-		{
-			UCHAR BbpRegIdx, BbpValue;
-
-			if ((pAd->EEPROMDefaultValue[i] != 0xFFFF) && (pAd->EEPROMDefaultValue[i] != 0))
-			{
-				BbpRegIdx = (UCHAR)(pAd->EEPROMDefaultValue[i] >> 8);
-				BbpValue  = (UCHAR)(pAd->EEPROMDefaultValue[i] & 0xff);
-				RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BbpRegIdx, BbpValue);
-			}
-		}
-	}
-#endif /* RTMP_BBP */
 
 	NicConfig2.word = pAd->NicConfig2.word;
 
@@ -2933,9 +2916,6 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 	/* if not initial this value, the default value will be 0.*/
 	pAd->BbpTuning.R66CurrentValue = 0x38;
 
-#ifdef RTMP_BBP
-	pAd->Bbp94 = BBPR94_DEFAULT;
-#endif /* RTMP_BBP */
 	pAd->BbpForCCK = FALSE;
 
 	/* initialize MAC table and allocate spin lock*/

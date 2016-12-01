@@ -423,21 +423,6 @@ VOID ATEAsicSwitchChannel(
 VOID BbpSoftReset(
 	IN struct rtmp_adapter *pAd)
 {
-#ifdef RTMP_BBP
-	if (pAd->chipCap.hif_type == HIF_RTMP)
-	{
-		UCHAR BbpData = 0;
-
-		/* Soft reset, set BBP R21 bit0=1->0 */
-		ATE_BBP_IO_READ8_BY_REG_ID(pAd, BBP_R21, &BbpData);
-		BbpData |= 0x00000001; /* set bit0=1 */
-		ATE_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R21, BbpData);
-
-		ATE_BBP_IO_READ8_BY_REG_ID(pAd, BBP_R21, &BbpData);
-		BbpData &= ~(0x00000001); /* set bit0=0 */
-		ATE_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R21, BbpData);
-	}
-#endif /* RTMP_BBP */
 	return;
 }
 
@@ -562,31 +547,6 @@ static VOID SetJapanFilter(struct rtmp_adapter *pAd)
 	bw = pATEInfo->TxWI.TXWI_N.BW;
 	phy_mode = pATEInfo->TxWI.TXWI_N.PHYMODE;
 
-#ifdef RTMP_BBP
-	if (pAd->chipCap.hif_type == HIF_RTMP)
-	{
-		UCHAR BbpData = 0;
-
-		/*
-			If Channel=14 and Bandwidth=20M and Mode=CCK, set BBP R4 bit5=1
-			(Japan Tx filter coefficients)when (TXFRAME or TXCONT).
-		*/
-		ATE_BBP_IO_READ8_BY_REG_ID(pAd, BBP_R4, &BbpData);
-
-		if ((phy_mode == MODE_CCK) && (pATEInfo->Channel == 14) && (bw == BW_20))
-		{
-			BbpData |= 0x20;    /* turn on */
-			DBGPRINT(RT_DEBUG_TRACE, ("SetJapanFilter!!!\n"));
-		}
-		else
-		{
-			BbpData &= 0xdf;    /* turn off */
-			DBGPRINT(RT_DEBUG_TRACE, ("ClearJapanFilter!!!\n"));
-		}
-
-		ATE_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R4, BbpData);
-	}
-#endif /* RTMP_BBP */
 	return;
 }
 
@@ -862,9 +822,6 @@ static int ATESTART(
 #ifdef RLT_BBP
 	UINT32 bbp_val;
 #endif /* RLT_BBP */
-#ifdef RTMP_BBP
-	UCHAR BbpData = 0;
-#endif /* RTMP_BBP */
 
 	DBGPRINT(RT_DEBUG_TRACE, ("ATE : ===> %s\n", __FUNCTION__));
 
@@ -944,18 +901,6 @@ static int ATESTART(
 		{
 			UCHAR RestoreRfICType=pAd->RfIcType;
 
-#ifdef RTMP_BBP
-			BbpHardReset(pAd);
-
-			if (pAd->chipCap.hif_type == HIF_RTMP)
-			{
-				UINT32 bbp_id = 0;
-
-				/* Restore All BBP Value */
-				for (bbp_id = 0; bbp_id < ATE_BBP_REG_NUM; bbp_id++)
-					ATE_BBP_IO_WRITE8_BY_REG_ID(pAd, bbp_id, restore_BBP[bbp_id]);
-			}
-#endif /* RTMP_BBP */
 
 			pAd->RfIcType=RestoreRfICType;
 		}
@@ -974,27 +919,10 @@ static int ATESTART(
 			}
 #endif /* RT65xx */
 #endif /* RLT_BBP */
-#ifdef RTMP_BBP
-			if (pAd->chipCap.hif_type == HIF_RTMP)
-			{
-				/* No Carrier Test set BBP R22 bit6=0, bit[5~0]=0x0 */
-				ATE_BBP_IO_READ8_BY_REG_ID(pAd, BBP_R22, &BbpData);
-				BbpData &= 0xFFFFFF80; /* clear bit6, bit[5~0] */
-				ATE_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R22, BbpData);
-				BbpSoftReset(pAd);
-			}
-#endif /* RTMP_BBP */
 			RTMP_IO_WRITE32(pAd, TX_PIN_CFG, (pATEInfo->Default_TX_PIN_CFG));
 		}
 		else
 		{
-#ifdef RTMP_BBP
-			if (pAd->chipCap.hif_type == HIF_RTMP)
-			{
-				/* No Carrier Test set BBP R22 bit7=0, bit6=0, bit[5~0]=0x0 */
-				ATE_BBP_RESET_TX_MODE(pAd, BBP_R22, &BbpData);
-			}
-#endif /* RTMP_BBP */
 		}
 	}
 	else if (atemode == ATE_TXCARRSUPP)
@@ -1003,14 +931,6 @@ static int ATESTART(
 		{
 			UINT32			bbp_index=0;
 			UCHAR			RestoreRfICType=pAd->RfIcType;
-
-#ifdef RTMP_BBP
-			BbpHardReset(pAd);
-
-			/* Restore All BBP Value */
-			for (bbp_index=0;bbp_index<ATE_BBP_REG_NUM;bbp_index++)
-				ATE_BBP_IO_WRITE8_BY_REG_ID(pAd,bbp_index,restore_BBP[bbp_index]);
-#endif /* RTMP_BBP */
 
 			pAd->RfIcType=RestoreRfICType;
 		}
@@ -1030,14 +950,6 @@ static int ATESTART(
 		}
 #endif /* RT65xx */
 #endif /* RLT_BBP */
-#ifdef RTMP_BBP
-		if (pAd->chipCap.hif_type == HIF_RTMP) {
-			/* No Cont. TX set BBP R22 bit7=0 */
-			ATE_BBP_STOP_CTS_TX_MODE(pAd, BBP_R22, &BbpData);
-			/* No Carrier Suppression set BBP R24 bit0=0 */
-			ATE_BBP_CTS_TX_SIN_WAVE_DISABLE(pAd, BBP_R24, &BbpData);
-		}
-#endif /* RTMP_BBP */
 
 		if (pATEInfo->TxMethod == TX_METHOD_1)
 		{
@@ -1049,10 +961,6 @@ static int ATESTART(
 			}
 #endif /* RT65xx */
 #endif /* RLT_BBP */
-#ifdef RTMP_BBP
-			if (pAd->chipCap.hif_type == HIF_RTMP)
-				BbpSoftReset(pAd);
-#endif /* RTMP_BBP */
 			RTMP_IO_WRITE32(pAd, TX_PIN_CFG, (pATEInfo->Default_TX_PIN_CFG));
 		}
 	}
@@ -1069,14 +977,6 @@ static int ATESTART(
 			{
 				UINT32			bbp_index=0;
 				UCHAR			RestoreRfICType=pAd->RfIcType;
-
-#ifdef RTMP_BBP
-				BbpHardReset(pAd);
-
-				/* Restore All BBP Value */
-				for (bbp_index=0;bbp_index<ATE_BBP_REG_NUM;bbp_index++)
-					ATE_BBP_IO_WRITE8_BY_REG_ID(pAd,bbp_index,restore_BBP[bbp_index]);
-#endif /* RTMP_BBP */
 
 				pAd->RfIcType=RestoreRfICType;
 			}
@@ -1101,13 +1001,6 @@ static int ATESTART(
 			}
 #endif /* RT65xx */
 #endif /* RLT_BBP */
-#ifdef RTMP_BBP
-			if (pAd->chipCap.hif_type == HIF_RTMP)
-			{
-				/* Not Cont. TX anymore, so set BBP R22 bit7=0 */
-				ATE_BBP_STOP_CTS_TX_MODE(pAd, BBP_R22, &BbpData);
-			}
-#endif /* RTMP_BBP */
 
 			if (pATEInfo->TxMethod == TX_METHOD_1)
 			{
@@ -1119,12 +1012,6 @@ static int ATESTART(
 				}
 #endif /* RT65xx */
 #endif /* RLT_BBP */
-#ifdef RTMP_BBP
-				if (pAd->chipCap.hif_type == HIF_RTMP)
-				{
-					BbpSoftReset(pAd);
-				}
-#endif /* RTMP_BBP */
 				RTMP_IO_WRITE32(pAd, TX_PIN_CFG, (pATEInfo->Default_TX_PIN_CFG));
 			}
 		}
@@ -1270,13 +1157,6 @@ static int ATESTART(
 
 
 #ifdef RTMP_MAC_USB
-#ifdef RTMP_BBP
-	if (pAd->chipCap.hif_type == HIF_RTMP)
-	{
-	/* Default value in BBP R22 is 0x0. */
-   	ATE_BBP_RESET_TX_MODE(pAd, BBP_R22, &BbpData);
-	}
-#endif /* RTMP_BBP */
 	/* Clear bit4 to stop continuous Tx production test. */
 	ATE_MAC_TX_CTS_DISABLE(pAd, MAC_SYS_CTRL, &MacData);
 
@@ -1303,9 +1183,6 @@ static int ATESTOP(
 	PATE_INFO pATEInfo = &(pAd->ate);
 	UINT32			MacData=0, ring_index=0;
 	int 	Status = NDIS_STATUS_SUCCESS;
-#ifdef RTMP_BBP
-	UCHAR			BbpData = 0;
-#endif /* RTMP_BBP */
 	ATE_CHIP_STRUCT *pChipStruct = pATEInfo->pChipStruct;
 	BOOLEAN Cancelled;
 
@@ -1315,15 +1192,6 @@ static int ATESTOP(
 	{
 		UINT32			bbp_index=0;
 		UCHAR			RestoreRfICType=pAd->RfIcType;
-
-#ifdef RTMP_BBP
-		BbpHardReset(pAd);
-
-		/* Supposed that we have had a record in restore_BBP[] */
-		/* restore all BBP value */
-		for (bbp_index=0;bbp_index<ATE_BBP_REG_NUM;bbp_index++)
-			ATE_BBP_IO_WRITE8_BY_REG_ID(pAd,bbp_index,restore_BBP[bbp_index]);
-#endif /* RTMP_BBP */
 
 		ASSERT(RestoreRfICType != 0);
 		pAd->RfIcType=RestoreRfICType;
@@ -1337,13 +1205,6 @@ static int ATESTOP(
 	}
 #endif /* RT65xx */
 #endif /* RLT_BBP */
-#ifdef RTMP_BBP
-	if (pAd->chipCap.hif_type == HIF_RTMP)
-	{
-	/* Default value in BBP R22 is 0x0. */
-	ATE_BBP_RESET_TX_MODE(pAd, BBP_R22, &BbpData);
-	}
-#endif /* RTMP_BBP */
 #ifdef MT76x2
 	if (IS_MT76x2(pAd))
 		DISABLE_TX_RX(pAd, GUIRADIO_OFF);
@@ -1544,10 +1405,6 @@ static int TXCARR(
 	PATE_INFO pATEInfo = &(pAd->ate);
 	UINT32			MacData=0;
 	int 	Status = NDIS_STATUS_SUCCESS;
-#ifdef RTMP_BBP
-	PATE_CHIP_STRUCT pChipStruct = pATEInfo->pChipStruct;
-	UCHAR BbpData = 0;
-#endif /* RTMP_BBP */
 #ifdef RLT_BBP
 	UINT32 bbp_val;
 #endif /* RLT_BBP */
@@ -1555,23 +1412,6 @@ static int TXCARR(
 	DBGPRINT(RT_DEBUG_TRACE, ("ATE : ===> %s\n", __FUNCTION__));
 
 	pATEInfo->Mode = ATE_TXCARR;
-#ifdef RTMP_BBP
-	if (pAd->chipCap.hif_type == HIF_RTMP)
-	{
-		if (pChipStruct->bBBPStoreTXCARR == TRUE)
-		{
-			UINT32 bbp_index=0;
-
-			/* Zero All BBP Value */
-			for (bbp_index=0;bbp_index<ATE_BBP_REG_NUM;bbp_index++)
-				restore_BBP[bbp_index]=0;
-
-			/* Record All BBP Value */
-			for (bbp_index=0;bbp_index<ATE_BBP_REG_NUM;bbp_index++)
-				ATE_BBP_IO_READ8_BY_REG_ID(pAd,bbp_index,&restore_BBP[bbp_index]);
-		}
-	}
-#endif /* RTMP_BBP */
 #ifdef RTMP_MAC_USB
 	/* Disable Rx */
 	ATE_MAC_RX_DISABLE(pAd, MAC_SYS_CTRL, &MacData);
@@ -1619,25 +1459,9 @@ static int TXCARR(
 			}
 #endif /* RT65xx */
 #endif /* RLT_BBP */
-#ifdef RTMP_BBP
-			if (pAd->chipCap.hif_type == HIF_RTMP) {
-				/* Carrier Test set BBP R22 bit6=1, bit[5~0]=0x01 */
-				ATE_BBP_IO_READ8_BY_REG_ID(pAd, BBP_R22, &BbpData);
-				BbpData &= 0xFFFFFF80; /* bit6, bit[5~0] */
-				BbpData |= 0x00000041; /* set bit6=1, bit[5~0]=0x01 */
-				ATE_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R22, BbpData);
-			}
-#endif /* RTMP_BBP */
 		}
 		else
 		{
-#ifdef RTMP_BBP
-			/* Carrier Test set BBP R22 bit7=1, bit6=1, bit[5~0]=0x01 */
-			ATE_BBP_IO_READ8_BY_REG_ID(pAd, BBP_R22, &BbpData);
-			BbpData &= 0xFFFFFF00; /* clear bit7, bit6, bit[5~0] */
-			BbpData |= 0x000000C1; /* set bit7=1, bit6=1, bit[5~0]=0x01 */
-			ATE_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R22, BbpData);
-#endif /* RTMP_BBP */
 			// TODO: how to handle this for RLT_BBP?
 
 			/* Set MAC_SYS_CTRL(0x1004) Continuous Tx Production Test (bit4) = 1. */
@@ -1675,13 +1499,6 @@ static int TXCONT(
 		ATE_MAC_TX_CTS_DISABLE(pAd, MAC_SYS_CTRL, &MacData);
 		ATE_MAC_TX_DISABLE(pAd, MAC_SYS_CTRL, &MacData);
 
-#ifdef RTMP_BBP
-		if (pAd->chipCap.hif_type == HIF_RTMP)
-		{
-			/* set BBP R22 bit7=0 */
-			ATE_BBP_STOP_CTS_TX_MODE(pAd, BBP_R22, &BbpData);
-		}
-#endif /* RTMP_BBP */
 	}
 	else
 	{
@@ -1694,24 +1511,6 @@ static int TXCONT(
 			}
 		}
 	}
-
-#ifdef RTMP_BBP
-	if (pChipStruct->bBBPStoreTXCONT == TRUE)
-	{
-		if (pAd->chipCap.hif_type == HIF_RTMP)
-		{
-			UINT32 bbp_index=0;
-
-			/* Zero All BBP Value */
-			for(bbp_index=0;bbp_index<ATE_BBP_REG_NUM;bbp_index++)
-			restore_BBP[bbp_index]=0;
-
-			/* Record All BBP Value */
-			for(bbp_index=0;bbp_index<ATE_BBP_REG_NUM;bbp_index++)
-				ATE_BBP_IO_READ8_BY_REG_ID(pAd,bbp_index,&restore_BBP[bbp_index]);
-		}
-	}
-#endif /* RTMP_BBP */
 
 	/* Step 1: send 50 packets first. */
 	pATEInfo->TxCount = 50;
@@ -1800,12 +1599,6 @@ static int TXCONT(
 			RTMP_IO_WRITE32(pAd, DACCLK_EN_DLY_CFG, 0x80008000);
 #endif /* RT65xx */
 #endif /* RLT_BBP */
-#ifdef RTMP_BBP
-		if (pAd->chipCap.hif_type == HIF_RTMP) {
-			/* Cont. TX set BBP R22 bit7=1 */
-			ATE_BBP_START_CTS_TX_MODE(pAd, BBP_R22, &BbpData);
-		}
-#endif /* RTMP_BBP */
 
 #ifdef RT5592EP_SUPPORT
 		/* enable continuous tx production test */
@@ -1818,13 +1611,6 @@ static int TXCONT(
 		/* Step 2: send more 50 packets then start Continuous Tx Mode. */
 		/* Abort Tx, RX DMA. */
 		RtmpDmaEnable(pAd, 0);
-#ifdef RTMP_BBP
-	if (pAd->chipCap.hif_type == HIF_RTMP)
-	{
-		/* Cont. TX set BBP R22 bit7=1 */
-		ATE_BBP_START_CTS_TX_MODE(pAd, BBP_R22, &BbpData);
-	}
-#endif /* RTMP_BBP */
 
 		pATEInfo->TxCount = 50;
 
@@ -1881,9 +1667,6 @@ static int TXCARS(
 	UINT32			MacData=0;
 	int 	Status = NDIS_STATUS_SUCCESS;
 	PATE_CHIP_STRUCT pChipStruct = pATEInfo->pChipStruct;
-#ifdef RTMP_BBP
-	UCHAR			BbpData = 0;
-#endif /* RTMP_BBP */
 #ifdef RLT_BBP
 	UINT32 bbp_val;
 #endif /* RLT_BBP */
@@ -1891,23 +1674,6 @@ static int TXCARS(
 	DBGPRINT(RT_DEBUG_TRACE, ("ATE : ===> %s\n", __FUNCTION__));
 
 	pATEInfo->Mode = ATE_TXCARRSUPP;
-#ifdef RTMP_BBP
-	if (pChipStruct->bBBPStoreTXCARRSUPP == TRUE)
-	{
-		if (pAd->chipCap.hif_type == HIF_RTMP)
-		{
-			UINT32 bbp_index=0;
-
-			/* Zero All BBP Value */
-			for (bbp_index=0;bbp_index<ATE_BBP_REG_NUM;bbp_index++)
-			restore_BBP[bbp_index]=0;
-
-			/* Record All BBP Value */
-			for (bbp_index=0;bbp_index<ATE_BBP_REG_NUM;bbp_index++)
-				ATE_BBP_IO_READ8_BY_REG_ID(pAd,bbp_index,&restore_BBP[bbp_index]);
-		}
-	}
-#endif /* RTMP_BBP */
 #ifdef RTMP_MAC_USB
 	/* Disable Rx */
 	ATE_MAC_RX_DISABLE(pAd, MAC_SYS_CTRL, &MacData);
@@ -1963,24 +1729,9 @@ static int TXCARS(
 #endif /* RLT_BBP */
 
 
-#ifdef RTMP_BBP
-			if (pAd->chipCap.hif_type == HIF_RTMP) {
-				/* Carrier Suppression set BBP R22 bit7=1 (Enable Continuous Tx Mode) */
-				ATE_BBP_START_CTS_TX_MODE(pAd, BBP_R22, &BbpData);
-				/* Carrier Suppression set BBP R24 bit0=1 (TX continuously send out 5.5MHZ sin save) */
-				ATE_BBP_CTS_TX_SIN_WAVE_ENABLE(pAd, BBP_R24, &BbpData);
-			}
-#endif /* RTMP_BBP */
 		}
 		else
 		{
-#ifdef RTMP_BBP
-			/* Carrier Suppression set BBP R22 bit7=1 (Enable Continuous Tx Mode) */
-			ATE_BBP_START_CTS_TX_MODE(pAd, BBP_R22, &BbpData);
-
-			/* Carrier Suppression set BBP R24 bit0=1 (TX continuously send out 5.5MHZ sin save) */
-			ATE_BBP_CTS_TX_SIN_WAVE_ENABLE(pAd, BBP_R24, &BbpData);
-#endif /* RTMP_BBP */
 			// TODO: how to handle this for RLT_BBP??
 
 			/* Set MAC_SYS_CTRL(0x1004) Continuous Tx Production Test (bit4) = 1. */
@@ -2065,14 +1816,6 @@ static int TXFRAME(
 #ifdef RTMP_MAC_USB
 	/* Soft reset BBP. */
 	BbpSoftReset(pAd);
-
-#ifdef RTMP_BBP
-	if (pAd->chipCap.hif_type == HIF_RTMP)
-	{
-		/* Default value in BBP R22 is 0x0. */
-	   	ATE_BBP_RESET_TX_MODE(pAd, BBP_R22, &BbpData);
-	}
-#endif /* RTMP_BBP */
 
 	/* Clear bit4 to stop continuous Tx production test. */
 	ATE_MAC_TX_CTS_DISABLE(pAd, MAC_SYS_CTRL, &MacData);
@@ -2233,9 +1976,6 @@ static int RXFRAME(
 	PATE_INFO pATEInfo = &(pAd->ate);
 	UINT32			MacData=0;
 	int 	Status = NDIS_STATUS_SUCCESS;
-#ifdef RTMP_BBP
-	UCHAR			BbpData = 0;
-#endif /* RTMP_BBP */
 #ifdef RTMP_MAC_USB
 	UINT32			ring_index=0;
 #endif /* RTMP_MAC_USB */
@@ -2246,15 +1986,6 @@ static int RXFRAME(
 
 	/* Disable Rx of MAC block */
 	ATE_MAC_RX_DISABLE(pAd, MAC_SYS_CTRL, &MacData);
-
-#ifdef RTMP_BBP
-	if (pAd->chipCap.hif_type == HIF_RTMP)
-	{
-		/* Default value in BBP R22 is 0x0. */
-		ATE_BBP_RESET_TX_MODE(pAd, BBP_R22, &BbpData);
-	}
-#endif /* RTMP_BBP */
-
 
 	/* Clear bit4 to stop continuous Tx production test. */
 	ATE_MAC_TX_CTS_DISABLE(pAd, MAC_SYS_CTRL, &MacData);
@@ -3459,14 +3190,6 @@ INT	Set_ATE_TX_MODE_Proc(
 	/* Turn on BBP 20MHz mode by request here. */
 	if (phy_mode == MODE_CCK)
 	{
-#ifdef RTMP_BBP
-		if (pAd->chipCap.hif_type == HIF_RTMP)
-		{
-			ATE_BBP_IO_READ8_BY_REG_ID(pAd, BBP_R4, &BbpData);
-			BbpData &= (~0x18);
-			ATE_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R4, BbpData);
-		}
-#endif /* RTMP_BBP */
 		DBGPRINT(RT_DEBUG_OFF, ("Set_ATE_TX_MODE_Proc::CCK Only support 20MHZ. Switch to 20MHZ.\n"));
 	}
 
@@ -4438,16 +4161,6 @@ INT Set_ATE_TXBF_INIT_Proc(
 	snprintf(cmdStr, sizeof(cmdStr), "%d\n", (eepromVal & 0xff));
 	Set_ATE_TX_FREQ_OFFSET_Proc(pAd, cmdStr);
 
-#ifdef RTMP_BBP
-	/* bbp 65=29 */
-	RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R65, 0x29);
-
-	/* bbp 163=bd */
-	RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R163, 0xbd);
-
-	/* bbp 173=28 */
-	RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R173, 0x28);
-#endif /* RTMP_BBP */
 #else
 	RTMP_IO_WRITE32(pAd, TXBE_R12, 0x00000028);
 #endif /* MT76x2 */
@@ -4706,22 +4419,8 @@ INT Set_ATE_TXBF_GOLDEN_Proc(
 	snprintf(cmdStr, sizeof(cmdStr), "%d\n", (eepromVal & 0xff));
 	Set_ATE_TX_FREQ_OFFSET_Proc(pAd, cmdStr);
 
-#ifdef RTMP_BBP
-	/* iwpriv ra0 bbp 65=29 */
-	/* iwpriv ra0 bbp 163=9d */
-	/* iwpriv ra0 bbp 173=00 */
-	RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R65, 0x29);
-	RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R163, 0x9d);
-	RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R173, 0x00);
-#endif /* RTMP_BBP */
-
 	/* iwpriv ra0 set ATE=RXFRAME */
 	Set_ATE_Proc(pAd, "RXFRAME");
-
-#ifdef RTMP_BBP
-	/* reset the BBP_R173 as 0 to eliminate the compensation */
-	RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R173, 0x00);
-#endif /* RTMP_BBP */
 
 	return TRUE;
 
@@ -4881,12 +4580,6 @@ INT Set_ATE_TXBF_VERIFY_NoComp_Proc(
 	if (Set_InvTxBfTag_Proc(pAd, "0") == FALSE)
 		return FALSE;
 
-#ifdef RTMP_BBP
-	/* save current BBP_R173 value and reset it as 0 */
-	RTMP_BBP_IO_READ8_BY_REG_ID(pAd, BBP_R173, &bbpR173);
-	RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R173, 0);
-#endif /* RTMP_BBP */
-
 	/* force BBP_R173 value when do following procedures. */
 	Set_ATE_ForceBBP_Proc(pAd, "173");
 
@@ -4902,11 +4595,6 @@ INT Set_ATE_TXBF_VERIFY_NoComp_Proc(
 
 	/* iwpriv ra0 set ITxBfCal=0 */
 	retval = pAd->chipOps.fITxBfCal(pAd, "0");
-
-#ifdef RTMP_BBP
-	/* recovery the BBP_173 to original value */
-	RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R173, bbpR173);
-#endif /* RTMP_BBP */
 
 	/* done and return */
 	return retval;
@@ -5915,54 +5603,6 @@ int ATEInit(
 
 	return NDIS_STATUS_SUCCESS;
 }
-
-
-
-#ifdef RTMP_BBP
-int ATEBBPWriteWithRxChain(
-	IN struct rtmp_adapter *pAd,
-	IN UCHAR bbpId,
-	IN CHAR bbpVal,
-	IN RX_CHAIN_IDX rx_ch_idx)
-{
-	UCHAR idx = 0, val = 0;
-
-	if (((pAd->MACVersion & 0xffff0000) < 0x28830000) ||
-		(pAd->Antenna.field.RxPath == 1))
-	{
-		ATE_BBP_IO_WRITE8_BY_REG_ID(pAd, bbpId, bbpVal);
-		return NDIS_STATUS_SUCCESS;
-	}
-
-	while (rx_ch_idx != 0)
-	{
-		if (idx >= pAd->Antenna.field.RxPath)
-			break;
-
-		if (rx_ch_idx & 0x01)
-		{
-			ATE_BBP_IO_READ8_BY_REG_ID(pAd, BBP_R27, &val);
-			val = (val & (~0x60)/* clear bit5 and bit6 */) | (idx << 5);
-#ifdef RTMP_MAC_USB
-			if (IS_USB_INF(pAd))
-			{
-				ATE_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R27, val);
-				ATE_BBP_IO_WRITE8_BY_REG_ID(pAd, bbpId, bbpVal);
-			}
-#endif /* RTMP_MAC_USB */
-
-
-			DBGPRINT(RT_DEBUG_INFO,
-					("%s(Idx):Write(R%d,val:0x%x) to Chain(0x%x, idx:%d)\n",
-						__FUNCTION__, bbpId, bbpVal, rx_ch_idx, idx));
-		}
-		rx_ch_idx >>= 1;
-		idx++;
-	}
-
-	return NDIS_STATUS_SUCCESS;
-}
-#endif /* RTMP_BBP */
 
 #define SMM_BASEADDR                      0x4000
 #define PKT_BASEADDR                      0x8000

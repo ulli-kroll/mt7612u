@@ -3827,11 +3827,11 @@ struct rtmp_adapter {
 	/* --------------------------- */
 	/* BBP Control                               */
 	/* --------------------------- */
-#if defined(RTMP_BBP) || defined(RALINK_ATE)
+#if defined(RALINK_ATE)
 	// TODO: shiang-6590, remove "defined(RALINK_ATE)" after ATE has fully re-organized!
 	UCHAR BbpWriteLatch[MAX_BBP_ID + 1];	/* record last BBP register value written via BBP_IO_WRITE/BBP_IO_WRITE_VY_REG_ID */
 	UCHAR Bbp94;
-#endif /* defined(RTMP_BBP) || defined(RALINK_ATE) */
+#endif /* defined(RALINK_ATE) */
 
 	CHAR BbpRssiToDbmDelta;	/* change from UCHAR to CHAR for high power */
 	BBP_R66_TUNING BbpTuning;
