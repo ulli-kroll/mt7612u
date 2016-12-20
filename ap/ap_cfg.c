@@ -3371,46 +3371,7 @@ INT Show_DriverInfo_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	DBGPRINT(RT_DEBUG_OFF, ("driver version: %s.\n", AP_DRIVER_VERSION));
 
-#ifdef CONFIG_ANDES_SUPPORT
-	if (pAd->chipCap.MCUType == ANDES) {
-		UINT32 loop = 0;
-		RTMP_CHIP_CAP *cap = &pAd->chipCap;
-
-		if (pAd->chipCap.need_load_fw) {
-			USHORT fw_ver, build_ver;
-			fw_ver = (*(cap->FWImageName + 11) << 8) | (*(cap->FWImageName + 10));
-			build_ver = (*(cap->FWImageName + 9) << 8) | (*(cap->FWImageName + 8));
-
-			DBGPRINT(RT_DEBUG_OFF, ("fw version:%d.%d.%02d ", (fw_ver & 0xf000) >> 8,
-							(fw_ver & 0x0f00) >> 8, fw_ver & 0x00ff));
-			DBGPRINT(RT_DEBUG_OFF, ("build:%x\n", build_ver));
-			DBGPRINT(RT_DEBUG_OFF, ("build time:"));
-
-			for (loop = 0; loop < 16; loop++)
-				DBGPRINT(RT_DEBUG_OFF, ("%c", *(cap->FWImageName + 16 + loop)));
-
-			DBGPRINT(RT_DEBUG_OFF, ("\n"));
-		}
-
-		if (pAd->chipCap.need_load_rom_patch) {
-			DBGPRINT(RT_DEBUG_OFF, ("rom patch version = \n"));
-
-			for (loop = 0; loop < 4; loop++)
-				DBGPRINT(RT_DEBUG_OFF, ("%c", *(cap->rom_patch + 24 + loop)));
-
-			DBGPRINT(RT_DEBUG_OFF, ("\n"));
-
-			DBGPRINT(RT_DEBUG_OFF, ("build time = \n"));
-
-			for (loop = 0; loop < 16; loop++)
-				DBGPRINT(RT_DEBUG_OFF, ("%c", *(cap->rom_patch + loop)));
-
-			DBGPRINT(RT_DEBUG_OFF, ("\n"));
-		}
-	}
-#endif
-
-    return TRUE;
+	return TRUE;
 }
 
 
