@@ -826,15 +826,12 @@ struct _RTMP_CHIP_CAP_ {
 	INT XtalType;
 #endif
 
+	u8 *fw_name;		/* ULLI : rename to catch compiler errors */
 	UCHAR load_code_method;
-	UCHAR *FWImageName;
-	UCHAR *fw_header_image;
-	UCHAR *fw_bin_file_name;
 	UCHAR *rom_patch;
 	UCHAR *rom_patch_header_image;
 	UCHAR *rom_patch_bin_file_name;
 	UINT32 rom_patch_len;
-	UINT32 fw_len;
 
 	BOOLEAN tssi_enable;
 	BOOLEAN ed_cca_enable;

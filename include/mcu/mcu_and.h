@@ -384,7 +384,6 @@ enum CALIBRATION_TEST_TYPE {
 
 #ifdef RTMP_MAC_USB
 int andes_usb_loadfw(struct rtmp_adapter *ad);
-int andes_usb_erasefw(struct rtmp_adapter *ad);
 int andes_usb_load_rom_patch(struct rtmp_adapter *ad);
 int andes_usb_erase_rom_patch(struct rtmp_adapter *ad);
 void andes_usb_fw_init(struct rtmp_adapter *ad);

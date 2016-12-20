@@ -94,7 +94,6 @@ VOID ChipOpsMCUHook(struct rtmp_adapter *pAd, enum MCU_TYPE MCUType)
 
 		if (pChipCap->need_load_fw) {
 			pChipOps->loadFirmware = andes_usb_loadfw;
-			pChipOps->eraseFirmware = andes_usb_erasefw;
 		}
 
 		pChipOps->fw_init = andes_usb_fw_init;

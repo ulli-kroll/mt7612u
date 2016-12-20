@@ -614,7 +614,20 @@ int andes_usb_loadfw(struct rtmp_adapter *ad)
 	u32 ilm_len = 0, dlm_len = 0;
 	u16 fw_ver, build_ver;
 	RTMP_OS_COMPLETION load_fw_done;
+	const struct firmware *fw;
 	u8 *fw_image;
+
+	dev_info(&udev->dev, "loading firmware %s\n", cap->fw_name);
+
+	ret = request_firmware(&fw, cap->fw_name, &udev->dev);
+	if (ret) {
+		dev_info(&udev->dev, "loading failed %s\n", cap->fw_name);
+		return ret;
+	}
+
+	fw_image = (u8 *) fw->data;
+
+	dev_info(&udev->dev, "firmware %s loaded\n", cap->fw_name);
 
 	if (cap->ram_code_protect) {
 loadfw_protect:
@@ -646,24 +659,6 @@ loadfw_protect:
 	USB_CFG_READ(ad, &cfg.word);
 	cfg.word |= 0x00c00020;
 	USB_CFG_WRITE(ad, cfg.word);
-
-	if (cap->load_code_method == BIN_FILE_METHOD)
-		OS_LOAD_CODE_FROM_BIN(&cap->FWImageName, cap->fw_bin_file_name, udev, &cap->fw_len);
-	else
-		cap->FWImageName = cap->fw_header_image;
-
-	if (!cap->FWImageName) {
-		if (cap->load_code_method == BIN_FILE_METHOD) {
-			DBGPRINT(RT_DEBUG_ERROR, ("%s:Please assign a fw image(/lib/firmware/%s), load_method(%d)\n", __FUNCTION__, cap->fw_bin_file_name, cap->load_code_method));
-		} else {
-			DBGPRINT(RT_DEBUG_ERROR, ("%s:Please assign a fw image, load_method(%d)\n",
-				__FUNCTION__, cap->load_code_method));
-		}
-		ret = NDIS_STATUS_FAILURE;
-		goto error0;
-	}
-
-	fw_image = cap->FWImageName;
 
 	/* Get FW information */
 	ilm_len = (*(fw_image + 3) << 24) | (*(fw_image + 2) << 16) |
@@ -1061,21 +1056,6 @@ error0:
 	return ret;
 }
 #endif
-
-int andes_usb_erasefw(struct rtmp_adapter *ad)
-{
-	RTMP_CHIP_CAP *cap = &ad->chipCap;
-
-	DBGPRINT(RT_DEBUG_OFF, ("%s\n", __FUNCTION__));
-
-	if (cap->load_code_method == BIN_FILE_METHOD) {
-		if (cap->FWImageName)
-			kfree(cap->FWImageName);
-			cap->FWImageName = NULL;
-	}
-
-	return 0;
-}
 
 struct cmd_msg *andes_alloc_cmd_msg(struct rtmp_adapter *ad, unsigned int length)
 {

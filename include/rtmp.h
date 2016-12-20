@@ -5131,7 +5131,6 @@ VOID UserCfgInit(struct rtmp_adapter *pAd);
 int load_patch(struct rtmp_adapter *ad);
 VOID erase_patch(struct rtmp_adapter *ad);
 int NICLoadFirmware(struct rtmp_adapter *pAd);
-VOID NICEraseFirmware(struct rtmp_adapter *pAd);
 
 VOID NICUpdateFifoStaCounters(struct rtmp_adapter *pAd);
 VOID NICUpdateRawCounters(struct rtmp_adapter *pAd);

@@ -354,8 +354,6 @@ VOID RT65xxDisableTxRx(
 	if ((Level == RTMP_HALT) &&
 		(RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST) == FALSE))
 	{
-		if (!pAd->chipCap.ram_code_protect)
-			NICEraseFirmware(pAd);
 
 		/*
  		 * Disable RF/MAC and do not do reset WLAN under below cases
