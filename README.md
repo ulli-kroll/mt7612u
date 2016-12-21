@@ -6,6 +6,8 @@ Current setting for this driver is APSTA mode as default.
 STA mode is working fine  
 AP mode **can** crash your kernel if you call `iwconfig` after module loading
 
+You need to install the firmware blobs
+
 <u>At least v4.2 is needed to compile this module</u>  
 sorry people with older kernels, the code is removed.
 
@@ -17,6 +19,9 @@ cross compile possible, but not fully tested.
 For compiling type  
 `make`  
 in source dir  
+
+For install the needed firmware files  
+`sudo make installfw`
 
 For install the driver use  
 `sudo insmod mt7612u.ko`  
