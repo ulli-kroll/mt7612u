@@ -1224,14 +1224,7 @@ endif
 
 export RT28xx_DIR RT28xx_MODE KSRC CROSS_COMPILE CROSS_COMPILE_INCLUDE PLATFORM RELEASE CHIPSET MODULE  KSRC HAS_WOW_SUPPORT
 
-all: build_tools modules
-
-build_tools:
-	$(MAKE) -C tools
-	$(RT28xx_DIR)/tools/bin2h
-
-test:
-	$(MAKE) -C tools test
+all: modules
 
 modules:
 	$(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE) -C $(KSRC) M=$(PWD) modules
