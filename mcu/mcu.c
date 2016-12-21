@@ -89,7 +89,6 @@ VOID ChipOpsMCUHook(struct rtmp_adapter *pAd, enum MCU_TYPE MCUType)
 #ifdef RTMP_USB_SUPPORT
 		if (pChipCap->need_load_rom_patch) {
 			pChipOps->load_rom_patch = andes_usb_load_rom_patch;
-			pChipOps->erase_rom_patch = andes_usb_erase_rom_patch;
 		}
 
 		if (pChipCap->need_load_fw) {

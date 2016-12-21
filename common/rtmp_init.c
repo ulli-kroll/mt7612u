@@ -2161,12 +2161,6 @@ int load_patch(struct rtmp_adapter *ad)
 	return ret;
 }
 
-VOID erase_patch(struct rtmp_adapter *ad)
-{
-	if (ad->chipOps.erase_rom_patch)
-		ad->chipOps.erase_rom_patch(ad);
-}
-
 int NICLoadFirmware(struct rtmp_adapter *ad)
 {
 	int ret	= NDIS_STATUS_SUCCESS;

@@ -184,6 +184,17 @@ int andes_usb_load_rom_patch(struct rtmp_adapter *ad)
 	u32 patch_len = 0;
 	RTMP_OS_COMPLETION load_rom_patch_done;
 	u8 *fw_patch_image;
+	const struct firmware *fw;
+
+	dev_info(&udev->dev, "loading firmware patch %s\n", cap->fw_patch_name);
+
+	ret = request_firmware(&fw, cap->fw_patch_name, &udev->dev);
+	if (ret) {
+		dev_info(&udev->dev, "loading failed patch %s\n", cap->fw_patch_name);
+		return ret;
+	}
+
+	dev_info(&udev->dev, "firmware %s patch loaded\n", cap->fw_name);
 
 	if (cap->rom_code_protect) {
 load_patch_protect:
@@ -221,23 +232,7 @@ load_patch_protect:
 	cfg.word |= 0x00c00020;
 	USB_CFG_WRITE(ad, cfg.word);
 
-	if (cap->load_code_method == BIN_FILE_METHOD)
-		OS_LOAD_CODE_FROM_BIN(&cap->rom_patch, cap->rom_patch_bin_file_name, udev, &cap->rom_patch_len);
-	else
-		cap->rom_patch = cap->rom_patch_header_image;
-
-	if (!cap->rom_patch) {
-		if (cap->load_code_method == BIN_FILE_METHOD) {
-			DBGPRINT(RT_DEBUG_ERROR, ("%s:Please assign a rom patch(/lib/firmware/%s), load_method(%d)\n", __FUNCTION__, cap->rom_patch_bin_file_name, cap->load_code_method));
-		} else {
-			DBGPRINT(RT_DEBUG_ERROR, ("%s:Please assign a rom patch, load_method(%d)\n",
-				__FUNCTION__, cap->load_code_method));
-		}
-		ret = NDIS_STATUS_FAILURE;
-		goto error0;
-	}
-
-	fw_patch_image = cap->rom_patch;
+	fw_patch_image = (u8 *) fw->data;
 
 	RTUSBVenderReset(ad);
 	RtmpOsMsDelay(5);
@@ -326,7 +321,7 @@ load_patch_protect:
 	RTMP_OS_INIT_COMPLETION(&load_rom_patch_done);
 
 	cur_len = 0x00;
-	patch_len = cap->rom_patch_len - PATCH_INFO_SIZE;
+	patch_len = fw->size - PATCH_INFO_SIZE;
 
 	/* loading rom patch */
 	while (1) {
@@ -539,21 +534,6 @@ error0:
 		RTUSBWriteMACRegister(ad, SEMAPHORE_03, 0x1, FALSE);
 
 	return ret;
-}
-
-int andes_usb_erase_rom_patch(struct rtmp_adapter *ad)
-{
-	RTMP_CHIP_CAP *cap = &ad->chipCap;
-
-	DBGPRINT(RT_DEBUG_OFF, ("%s\n", __FUNCTION__));
-
-	if (cap->load_code_method == BIN_FILE_METHOD) {
-		if (cap->rom_patch)
-			kfree(cap->rom_patch);
-			cap->rom_patch = NULL;
-	}
-
-	return 0;
 }
 
 VOID usb_uploadfw_complete(purbb_t urb, pregs *pt_regs)

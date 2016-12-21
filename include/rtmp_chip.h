@@ -827,11 +827,7 @@ struct _RTMP_CHIP_CAP_ {
 #endif
 
 	u8 *fw_name;		/* ULLI : rename to catch compiler errors */
-	UCHAR load_code_method;
-	UCHAR *rom_patch;
-	UCHAR *rom_patch_header_image;
-	UCHAR *rom_patch_bin_file_name;
-	UINT32 rom_patch_len;
+	u8 *fw_patch_name;	/* ULLI : rename to catch compiler errors */
 
 	BOOLEAN tssi_enable;
 	BOOLEAN ed_cca_enable;
@@ -983,7 +979,6 @@ struct _RTMP_CHIP_OP_ {
 
 	/* MCU related callback functions */
 	int (*load_rom_patch)(struct rtmp_adapter *ad);
-	int (*erase_rom_patch)(struct rtmp_adapter *ad);
 	int (*loadFirmware)(struct rtmp_adapter *pAd);
 	int (*eraseFirmware)(struct rtmp_adapter *pAd);
 	int (*sendCommandToMcu)(struct rtmp_adapter *pAd, UCHAR cmd, UCHAR token, UCHAR arg0, UCHAR arg1, BOOLEAN FlgIsNeedLocked);	/* int (*sendCommandToMcu)(struct rtmp_adapter *pAd, UCHAR cmd, UCHAR token, UCHAR arg0, UCHAR arg1); */
