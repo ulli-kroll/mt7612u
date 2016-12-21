@@ -1,8 +1,5 @@
 #include "rt_config.h"
 
-#include "mcu/mt7662_rom_patch.h"
-#include "mcu/mt7662_firmware.h"
-
 #ifdef RTMP_EFUSE_SUPPORT
 #include "eeprom/mt76x2_e2p.h"
 #endif /* RTMP_EFUSE_SUPPORT */
