@@ -448,9 +448,9 @@ static inline VOID DfsDetectionDisable(struct rtmp_adapter *pAd)
 
 static inline VOID StagerRadarGetPRIs(struct rtmp_adapter *pAd,
 									UINT8 dfs_channel,
-									PUINT32 pT1,
-									PUINT32 pT2,
-									PUINT32 pT3)
+									uint32_t *pT1,
+									uint32_t *pT2,
+									uint32_t *pT3)
 {
 	UINT32 T_all = 0;
 #ifdef RLT_BBP
@@ -507,10 +507,10 @@ static inline VOID StagerRadarGetPRIs(struct rtmp_adapter *pAd,
 
 static inline VOID DfsHwDetectionGetPulseInfo(struct rtmp_adapter *pAd,
 										UINT8	ChannelIndex,
-										PUINT32 pPeriod,
-										PUINT32 pWidth1,
-										PUINT32 pWidth2,
-										PUINT32 pBurst)
+										uint32_t *pPeriod,
+										uint32_t *pWidth1,
+										uint32_t *pWidth2,
+										uint32_t *pBurst)
 {
 #ifdef RLT_BBP
 	UINT32 bbp_val = 0;

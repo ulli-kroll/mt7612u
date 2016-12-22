@@ -433,7 +433,7 @@ static VOID eFusePhysicalWriteRegisters(
 	efuseDataOffset =  efuse_data;
 	for(i=0; i< 4; i++)
 	{
-		RTMP_IO_READ32(pAd, efuseDataOffset, (PUINT32) &eFuseDataBuffer[i]);
+		RTMP_IO_READ32(pAd, efuseDataOffset, (uint32_t *) &eFuseDataBuffer[i]);
 #if defined(RT3290) || defined(RT65xx) || defined(MT7601)
 		if (IS_RT3290(pAd) || IS_RT65XX(pAd) || IS_MT7601(pAd))
 			efuseDataOffset += 4;

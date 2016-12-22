@@ -596,10 +596,10 @@ BOOLEAN CFG80211_P2pHandleNoAAttri(struct rtmp_adapter *pAd, PMAC_TABLE_ENTRY pM
 
 		pNoADesc = (PP2P_NOA_DESC)(pData+5);
 		pMacClient->CFGP2pInfo.NoADesc[0].Count = pNoADesc->Count;
-		pMacClient->CFGP2pInfo.NoADesc[0].Duration = *(PUINT32)&pNoADesc->Duration[0];
-		pMacClient->CFGP2pInfo.NoADesc[0].Interval = *(PUINT32)&pNoADesc->Interval[0];
-		pMacClient->CFGP2pInfo.NoADesc[0].StartTime = *(PUINT32)&pNoADesc->StartTime[0];
-		StartTime = *(PUINT32)&pNoADesc->StartTime[0];
+		pMacClient->CFGP2pInfo.NoADesc[0].Duration = *(uint32_t *)&pNoADesc->Duration[0];
+		pMacClient->CFGP2pInfo.NoADesc[0].Interval = *(uint32_t *)&pNoADesc->Interval[0];
+		pMacClient->CFGP2pInfo.NoADesc[0].StartTime = *(uint32_t *)&pNoADesc->StartTime[0];
+		StartTime = *(uint32_t *)&pNoADesc->StartTime[0];
 
 		if (pMacClient->CFGP2pInfo.NoADesc[0].Token == index)
 		{
