@@ -669,7 +669,7 @@ VOID ap_cmm_peer_assoc_req_action(
 	CHAR rssi;
 #ifdef RT_BIG_ENDIAN
 	uint32_t tmp_1;
-	UINT64 tmp_2;
+	uint64_t tmp_2;
 #endif /*RT_BIG_ENDIAN*/
 
 	/* allocate memory */

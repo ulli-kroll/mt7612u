@@ -826,7 +826,7 @@ VOID CFG80211OS_Scaning(
 	{
 		struct timeval tv;
 		do_gettimeofday(&tv);
-		mgmt->u.probe_resp.timestamp = ((UINT64) tv.tv_sec * 1000000) + tv.tv_usec;
+		mgmt->u.probe_resp.timestamp = ((uint64_t) tv.tv_sec * 1000000) + tv.tv_usec;
 	}
 
 	/* inform 80211 a scan is got */

@@ -455,7 +455,7 @@ INT build_vht_cap_ie(struct rtmp_adapter *pAd, UCHAR *buf)
 	INT rx_nss, tx_nss, mcs_cap;
 #ifdef RT_BIG_ENDIAN
 	uint32_t tmp_1;
-	UINT64 tmp_2;
+	uint64_t tmp_2;
 #endif /*RT_BIG_ENDIAN*/
 
 	memset((UCHAR *)&vht_cap_ie,  0, sizeof(VHT_CAP_IE));

@@ -1597,7 +1597,7 @@ BOOLEAN CFG80211_checkScanTable(
 	struct cfg80211_bss *bss;
 	struct ieee80211_channel *chan;
 	uint32_t CenFreq;
-	UINT64 timestamp;
+	uint64_t timestamp;
 	struct timeval tv;
 	UCHAR *ie, ieLen = 0;
 	BOOLEAN isOk = FALSE;
@@ -1617,7 +1617,7 @@ BOOLEAN CFG80211_checkScanTable(
 
 	/* Fake TSF */
 	do_gettimeofday(&tv);
-	timestamp = ((UINT64)tv.tv_sec * 1000000) + tv.tv_usec;
+	timestamp = ((uint64_t)tv.tv_sec * 1000000) + tv.tv_usec;
 
 	bss = cfg80211_get_bss(pWiphy, NULL, pApCliEntry->MlmeAux.Bssid,
 			       pApCliEntry->MlmeAux.Ssid, pApCliEntry->MlmeAux.SsidLen,

@@ -394,7 +394,7 @@ typedef struct __CMD_RTPRIV_IOCTL_80211_CHAN {
 
 	uint32_t MonFilterFlag;
 
-	UINT64 cookie;
+	uint64_t cookie;
 	PVOID chan;
 	PWIRELESS_DEV pWdev;
 } CMD_RTPRIV_IOCTL_80211_CHAN;
@@ -490,9 +490,9 @@ typedef struct __CMD_RTPRIV_IOCTL_80211_REG_NOTIFY {
 typedef struct __CMD_RTPRIV_IOCTL_80211_SURVEY {
 
 	VOID *pCfg80211;
-/*	UINT64 ChannelTime; */ /* idle + busy, not support */
-	UINT64 ChannelTimeBusy;
-	UINT64 ChannelTimeExtBusy;
+/*	uint64_t ChannelTime; */ /* idle + busy, not support */
+	uint64_t ChannelTimeBusy;
+	uint64_t ChannelTimeExtBusy;
 } CMD_RTPRIV_IOCTL_80211_SURVEY;
 
 #endif /* RT_CFG80211_SUPPORT */
