@@ -146,7 +146,7 @@ INT CFG80211DRV_OpsScanGetNextChannel(struct rtmp_adapter *pAdOrg);
 VOID CFG80211_ScanStatusLockInit(struct rtmp_adapter *pAdCB, UINT init);
 
 VOID CFG80211_Scaning(
-	struct rtmp_adapter *pAdCB, UINT32	BssIdx, UINT32 ChanId, UCHAR *pFrame, UINT32 FrameLen, INT32 RSSI);
+	struct rtmp_adapter *pAdCB, uint32_t BssIdx, uint32_t ChanId, UCHAR *pFrame, uint32_t FrameLen, INT32 RSSI);
 
 VOID CFG80211_ScanEnd(struct rtmp_adapter *pAdCB, BOOLEAN FlgIsAborted);
 
@@ -159,14 +159,14 @@ VOID CFG80211_P2pClientConnectResultInform(
         IN struct rtmp_adapter                          *pAdCB,
         IN UCHAR                                        *pBSSID,
         IN UCHAR                                        *pReqIe,
-        IN UINT32                                       ReqIeLen,
+        IN uint32_t                                       ReqIeLen,
         IN UCHAR                                        *pRspIe,
-        IN UINT32                                       RspIeLen,
+        IN uint32_t                                       RspIeLen,
         IN UCHAR                                        FlgIsSuccess);
 
 VOID CFG80211_ConnectResultInform(
-	struct rtmp_adapter *pAdCB, UCHAR *pBSSID,	UCHAR *pReqIe, UINT32 ReqIeLen,
-	UCHAR *pRspIe, UINT32 RspIeLen,	UCHAR FlgIsSuccess);
+	struct rtmp_adapter *pAdCB, UCHAR *pBSSID,	UCHAR *pReqIe, uint32_t ReqIeLen,
+	UCHAR *pRspIe, uint32_t RspIeLen,	UCHAR FlgIsSuccess);
 VOID CFG80211DRV_PmkidConfig(VOID *pAdOrg, VOID *pData);
 
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
@@ -185,9 +185,9 @@ INT CFG80211_ApStaDel(struct rtmp_adapter *pAdCB, UCHAR *pMac);
 VOID CFG80211_UpdateBeacon(
    struct rtmp_adapter            *pAdOrg,
    UCHAR                          *beacon_head_buf,
-   UINT32                          beacon_head_len,
+   uint32_t                          beacon_head_len,
    UCHAR                          *beacon_tail_buf,
-   UINT32                          beacon_tail_len,
+   uint32_t                          beacon_tail_len,
    BOOLEAN                         isAllUpdate);
 
 INT CFG80211_ApStaDelSendEvent(struct rtmp_adapter *pAd, const PUCHAR mac_addr);
@@ -293,11 +293,11 @@ VOID CFG80211RemainOnChannelTimeout(
 BOOLEAN CFG80211DRV_OpsRemainOnChannel(
 	struct rtmp_adapter				*pAdOrg,
 	VOID						*pData,
-	UINT32 						duration);
+	uint32_t 						duration);
 
 BOOLEAN CFG80211DRV_OpsCancelRemainOnChannel(
         struct rtmp_adapter                             *pAdOrg,
-        UINT32                                          cookie);
+        uint32_t                                          cookie);
 
 
 VOID CFG80211DRV_OpsMgmtFrameProbeRegister(
@@ -314,7 +314,7 @@ BOOLEAN CFG80211_CheckActionFrameType(
         IN  struct rtmp_adapter 								 *pAd,
 		IN	PUCHAR										 preStr,
 		IN	PUCHAR										 pData,
-		IN	UINT32                              		 length);
+		IN	uint32_t                              		 length);
 
 
 BOOLEAN CFG80211_SyncPacketWmmIe(struct rtmp_adapter *pAd, VOID *pData, ULONG dataLen);

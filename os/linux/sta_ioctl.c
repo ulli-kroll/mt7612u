@@ -254,7 +254,7 @@ int rt_ioctl_giwrange(struct net_device *dev,
 	int i;
 	ULONG Mode, ChannelListNum;
 	UCHAR *pChannel;
-	UINT32 *pFreq;
+	uint32_t *pFreq;
 
 	GET_PAD_FROM_NET_DEV(pAd, dev);
 
@@ -314,7 +314,7 @@ int rt_ioctl_giwrange(struct net_device *dev,
 	pChannel = kmalloc(sizeof(UCHAR)*ChannelListNum, GFP_ATOMIC);
 	if (pChannel == NULL)
 		return -ENOMEM;
-	pFreq = kmalloc(sizeof(UINT32)*ChannelListNum, GFP_ATOMIC);
+	pFreq = kmalloc(sizeof(uint32_t)*ChannelListNum, GFP_ATOMIC);
 	if (pFreq == NULL) {
 		kfree(pChannel);
 		return -ENOMEM;
@@ -2037,7 +2037,7 @@ int rt_ioctl_siwrate(struct net_device *dev,
 			union iwreq_data *wrqu, char *extra)
 {
     VOID   *pAd = NULL;
-    UINT32          rate = wrqu->bitrate.value, fixed = wrqu->bitrate.fixed;
+    uint32_t          rate = wrqu->bitrate.value, fixed = wrqu->bitrate.fixed;
 	RT_CMD_RATE_SET CmdRate;
 
 	GET_PAD_FROM_NET_DEV(pAd, dev);
@@ -2186,7 +2186,7 @@ INT rt28xx_sta_ioctl(struct net_device *net_dev, struct ifreq *rq, INT cmd)
 /*	BOOLEAN				StateMachineTouched = FALSE; */
 	INT					Status = NDIS_STATUS_SUCCESS;
 	USHORT				subcmd;
-	UINT32				org_len;
+	uint32_t 			org_len;
 
 	GET_PAD_FROM_NET_DEV(pAd, net_dev);
 

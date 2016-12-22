@@ -165,7 +165,7 @@ typedef struct __TX_PWR_CFG
 	UINT8 MCS;
 	UINT16 req;
 	UINT8 shift;
-	UINT32 BitMask;
+	uint32_t BitMask;
 } TX_PWR_CFG;
 
 /* Note: the size of TxPwrCfg is too large, do not put it to function */
@@ -208,7 +208,7 @@ CHAR RTMP_GetTxPwr(
 	IN struct rtmp_adapter *pAd,
 	IN HTTRANSMIT_SETTING HTTxMode)
 {
-	UINT32 Value;
+	uint32_t Value;
 	INT Idx;
 	UINT8 PhyMode;
 	CHAR CurTxPwr;

@@ -83,46 +83,46 @@
 typedef	union _RF_CSR_CFG_STRUC {
 #ifdef RT_BIG_ENDIAN
 	struct {
-		UINT32 Rsvd18:14;				/* Reserved */
-		UINT32 RF_CSR_KICK:1;			/* kick RF register read/write */
-		UINT32 RF_CSR_WR:1;			/* 0: read  1: write */
-		UINT32 TESTCSR_RFACC_REGNUM:8;	/* RF register ID */
-		UINT32 RF_CSR_DATA:8;			/* DATA */
+		uint32_t Rsvd18:14;				/* Reserved */
+		uint32_t RF_CSR_KICK:1;			/* kick RF register read/write */
+		uint32_t RF_CSR_WR:1;			/* 0: read  1: write */
+		uint32_t TESTCSR_RFACC_REGNUM:8;	/* RF register ID */
+		uint32_t RF_CSR_DATA:8;			/* DATA */
 	} non_bank;
 #ifdef RLT_RF
 #ifdef RT65xx
 	struct {
-		UINT32 RF_CSR_KICK:1;
-		UINT32 RF_CSR_WR:1;
-		UINT32 rsv18:12;
-		UINT32 RF_CSR_REG_BANK:3;
-		UINT32 RF_CSR_REG_ID:7;
-		UINT32 RF_CSR_DATA:8;
+		uint32_t RF_CSR_KICK:1;
+		uint32_t RF_CSR_WR:1;
+		uint32_t rsv18:12;
+		uint32_t RF_CSR_REG_BANK:3;
+		uint32_t RF_CSR_REG_ID:7;
+		uint32_t RF_CSR_DATA:8;
 	} bank_65xx;
 #endif /* RT65xx */
 #endif /* RLT_RF */
 #else
 	struct {
-		UINT32 RF_CSR_DATA:8;
-		UINT32 TESTCSR_RFACC_REGNUM:8;
-		UINT32 RF_CSR_WR:1;
-		UINT32 RF_CSR_KICK:1;
-		UINT32 Rsvd18:14;
+		uint32_t RF_CSR_DATA:8;
+		uint32_t TESTCSR_RFACC_REGNUM:8;
+		uint32_t RF_CSR_WR:1;
+		uint32_t RF_CSR_KICK:1;
+		uint32_t Rsvd18:14;
 	} non_bank;
 #ifdef RLT_RF
 #ifdef RT65xx
 	struct {
-		UINT32 RF_CSR_DATA:8;
-		UINT32 RF_CSR_REG_ID:7;
-		UINT32 RF_CSR_REG_BANK:3;
-		UINT32 rsv18:12;
-		UINT32 RF_CSR_WR:1;
-		UINT32 RF_CSR_KICK:1;
+		uint32_t RF_CSR_DATA:8;
+		uint32_t RF_CSR_REG_ID:7;
+		uint32_t RF_CSR_REG_BANK:3;
+		uint32_t rsv18:12;
+		uint32_t RF_CSR_WR:1;
+		uint32_t RF_CSR_KICK:1;
 	} bank_65xx;
 #endif /* RT65xx */
 #endif /* RLT_RF */
 #endif /* RT_BIG_ENDIAN */
-	UINT32 word;
+	uint32_t word;
 }RF_CSR_CFG_STRUC;
 
 
@@ -178,9 +178,9 @@ typedef struct _BANK_RF_REG_PAIR {
 } BANK_RF_REG_PAIR, *PBANK_RF_REG_PAIR;
 
 typedef struct _R_M_W_REG{
-	UINT32 Register;
-	UINT32 ClearBitMask;
-	UINT32 Value;
+	uint32_t Register;
+	uint32_t ClearBitMask;
+	uint32_t Value;
 } R_M_W_REG, *PR_M_W_REG;
 
 typedef struct _RF_R_M_W_REG{

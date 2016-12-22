@@ -133,7 +133,7 @@ static NTSTATUS RTUSBFirmwareRun(struct rtmp_adapter *pAd)
 
 	========================================================================
 */
-NTSTATUS RTUSBFirmwareOpmode(struct rtmp_adapter *pAd, UINT32 *pValue)
+NTSTATUS RTUSBFirmwareOpmode(struct rtmp_adapter *pAd, uint32_t *pValue)
 {
 	NTSTATUS	Status;
 
@@ -166,7 +166,7 @@ NTSTATUS RTUSBFirmwareOpmode(struct rtmp_adapter *pAd, UINT32 *pValue)
 */
 NTSTATUS RTUSBFirmwareWrite(struct rtmp_adapter *pAd, UCHAR *pFwImage, ULONG FwLen)
 {
-	UINT32 MacReg;
+	uint32_t MacReg;
 	NTSTATUS Status;
 	USHORT writeLen;
 
@@ -364,10 +364,10 @@ NTSTATUS RTUSBSingleWrite(
 
 	========================================================================
 */
-NTSTATUS RTUSBReadMACRegister(struct rtmp_adapter *pAd, USHORT Offset, UINT32 *pValue)
+NTSTATUS RTUSBReadMACRegister(struct rtmp_adapter *pAd, USHORT Offset, uint32_t *pValue)
 {
 	NTSTATUS Status = 0;
-	UINT32 localVal;
+	uint32_t localVal;
 
 	Status = RTUSB_VendorRequest(
 		pAd,
@@ -406,11 +406,11 @@ NTSTATUS RTUSBReadMACRegister(struct rtmp_adapter *pAd, USHORT Offset, UINT32 *p
 NTSTATUS RTUSBWriteMACRegister(
 	IN struct rtmp_adapter *pAd,
 	IN USHORT Offset,
-	IN UINT32 Value,
+	IN uint32_t Value,
 	IN BOOLEAN bWriteHigh)
 {
 	NTSTATUS Status;
-	UINT32 localVal;
+	uint32_t localVal;
 
 	localVal = Value;
 
@@ -434,11 +434,11 @@ NTSTATUS RTUSBWriteMACRegister(
 }
 
 
-int write_reg(struct rtmp_adapter *ad, UINT32 base, UINT16 offset, UINT32 val)
+int write_reg(struct rtmp_adapter *ad, uint32_t base, UINT16 offset, uint32_t val)
 {
 	NTSTATUS ret;
 	UINT8 req;
-	UINT32 io_value;
+	uint32_t io_value;
 
 	if (base == 0x40)
 		req = 0x46;
@@ -462,11 +462,11 @@ int write_reg(struct rtmp_adapter *ad, UINT32 base, UINT16 offset, UINT32 val)
 }
 
 
-int read_reg(struct rtmp_adapter *ad, UINT32 base, UINT16 offset, UINT32 *value)
+int read_reg(struct rtmp_adapter *ad, uint32_t base, UINT16 offset, uint32_t *value)
 {
 	NTSTATUS ret;
 	UINT8 req;
-	UINT32 io_value;
+	uint32_t io_value;
 
 	if (base == 0x40)
 		req = 0x47;
@@ -572,7 +572,7 @@ NTSTATUS RTUSBWriteEEPROM16(struct rtmp_adapter *pAd, USHORT offset, USHORT valu
 */
 VOID RTUSBPutToSleep(struct rtmp_adapter *pAd)
 {
-	UINT32 value;
+	uint32_t value;
 
 	/* Timeout 0x40 x 50us*/
 	value = (SLEEPCID<<16)+(OWNERMCU<<24)+ (0x40<<8)+1;
@@ -624,7 +624,7 @@ int RTUSBEnqueueCmdFromNdis(
 	IN	NDIS_OID		Oid,
 	IN	BOOLEAN			SetInformation,
 	IN	PVOID			pInformationBuffer,
-	IN	UINT32			InformationBufferLength)
+	IN	uint32_t 		InformationBufferLength)
 {
 	int status;
 	PCmdQElmt	cmdqelmt = NULL;
@@ -730,7 +730,7 @@ NTSTATUS RTUSB_VendorRequest(
 	IN	USHORT			Value,
 	IN	USHORT			Index,
 	IN	PVOID			TransferBuffer,
-	IN	UINT32			TransferBufferLength)
+	IN	uint32_t 		TransferBufferLength)
 {
 	int				RET = 0;
 	struct os_cookie *	pObj = pAd->OS_Cookie;
@@ -858,7 +858,7 @@ NTSTATUS CheckGPIOHdlr(struct rtmp_adapter *pAd, PCmdQElmt CMDQelmt)
 #ifdef CONFIG_STA_SUPPORT
 		IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
 		{
-			UINT32 data;
+			uint32_t data;
 
 			/* Read GPIO pin2 as Hardware controlled radio state*/
 			RTUSBReadMACRegister( pAd, GPIO_CTRL_CFG, &data);
@@ -1055,7 +1055,7 @@ static NTSTATUS ResetBulkOutHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQe
 /* All transfers must be aborted or cancelled before attempting to reset the pipe.*/
 static NTSTATUS ResetBulkInHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 {
-	UINT32 MACValue;
+	uint32_t MACValue;
 	NTSTATUS ntStatus;
 
 	DBGPRINT_RAW(RT_DEBUG_TRACE, ("CmdThread : CMDTHREAD_RESET_BULK_IN === >\n"));
@@ -1179,7 +1179,7 @@ static NTSTATUS SetAsicWcidHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQel
 {
 	RT_SET_ASIC_WCID	SetAsicWcid;
 	USHORT		offset;
-	UINT32		MACValue, MACRValue = 0;
+	uint32_t 	MACValue, MACRValue = 0;
 	SetAsicWcid = *((PRT_SET_ASIC_WCID)(CMDQelmt->buffer));
 
 	if (SetAsicWcid.WCID >= MAX_LEN_OF_MAC_TABLE)
@@ -1712,7 +1712,7 @@ VOID RTUSBWatchDog(struct rtmp_adapter *pAd)
 	ULONG irqFlags;
 	PURB pUrb;
 	BOOLEAN needDumpSeq = FALSE;
-	UINT32 MACValue;
+	uint32_t MACValue;
 
 	if(RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST))
 		return;

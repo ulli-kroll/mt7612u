@@ -1896,7 +1896,7 @@ static int andes_dequeue_and_kick_out_cmd_msgs(struct rtmp_adapter *ad)
 			tx_info->pkt_len = GET_OS_PKT_LEN(net_pkt) - sizeof(*tx_info);
 
 #ifdef RT_BIG_ENDIAN
-			*(UINT32 *)tx_info = le2cpu32(*(UINT32 *)tx_info);
+			*(uint32_t *)tx_info = le2cpu32(*(uint32_t *)tx_info);
 			//RTMPDescriptorEndianChange((PUCHAR)tx_info, TYPE_TXINFO);
 #endif
 		}

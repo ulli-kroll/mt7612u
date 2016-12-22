@@ -196,7 +196,7 @@ VOID	RtmpOsUsbInitRxDesc(
 	IN	VOID			*pUsb_Dev,
 	IN	UINT			BulkInEpAddr,
 	IN	UCHAR			*pTransferBuffer,
-	IN	UINT32			BufSize,
+	IN	uint32_t 		BufSize,
 	IN	USB_COMPLETE_HANDLER	Func,
 	IN	VOID			*pRxContext,
 	IN	ra_dma_addr_t		TransferDma)
@@ -316,7 +316,7 @@ Return Value:
 Note:
 ========================================================================
 */
-UINT32 RtmpOsGetUsbDevVendorID(IN VOID *pUsbDev) {
+uint32_t RtmpOsGetUsbDevVendorID(IN VOID *pUsbDev) {
 	return ((struct usb_device *) pUsbDev)->descriptor.idVendor;
 }
 
@@ -334,7 +334,7 @@ Return Value:
 Note:
 ========================================================================
 */
-UINT32 RtmpOsGetUsbDevProductID(IN VOID *pUsbDev) {
+uint32_t RtmpOsGetUsbDevProductID(IN VOID *pUsbDev) {
 	return ((struct usb_device *) pUsbDev)->descriptor.idProduct;
 }
 

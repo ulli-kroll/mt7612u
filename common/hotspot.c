@@ -225,8 +225,8 @@ inline INT Set_HotSpot_DGAF(
 
 INT Set_HotSpot_Param(
 	IN struct rtmp_adapter *pAd,
-	UINT32 Param,
-	UINT32 Value)
+	uint32_t Param,
+	uint32_t Value)
 {
 
 	struct os_cookie *pObj = pAd->OS_Cookie;
@@ -331,7 +331,7 @@ INT Set_HotSpot_OnOff(
 {
 	UCHAR *Buf;
 	HSCTRL_EVENT_DATA *Event;
-	UINT32 Len = 0;
+	uint32_t Len = 0;
 #ifdef CONFIG_AP_SUPPORT
 	struct os_cookie *pObj = pAd->OS_Cookie;
 	UCHAR APIndex = pObj->ioctl_if;

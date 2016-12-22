@@ -48,7 +48,7 @@ int RtmpInsertPsQueue(
 	ULONG IrqFlags;
 #ifdef UAPSD_SUPPORT
 	/* put the U-APSD packet to its U-APSD queue by AC ID */
-	UINT32 ac_id = QueIdx - QID_AC_BE; /* should be >= 0 */
+	uint32_t ac_id = QueIdx - QID_AC_BE; /* should be >= 0 */
 
 	if (UAPSD_MR_IS_UAPSD_AC(pMacEntry, ac_id))
 	{
@@ -189,7 +189,7 @@ VOID RtmpHandleRxPsPoll(struct rtmp_adapter *pAd, UCHAR *pAddr, USHORT wcid, BOO
 			if (pMacEntry->PsQueue.Head)
 			{
 #ifdef UAPSD_SUPPORT
-				UINT32 NumOfOldPsPkt;
+				uint32_t NumOfOldPsPkt;
 				NumOfOldPsPkt = pAd->TxSwQueue[QID_AC_BE].Number;
 #endif /* UAPSD_SUPPORT */
 
@@ -380,7 +380,7 @@ VOID RtmpPsActiveExtendCheck(struct rtmp_adapter *pAd)
 }
 
 
-VOID RtmpPsModeChange(struct rtmp_adapter *pAd, UINT32 PsMode)
+VOID RtmpPsModeChange(struct rtmp_adapter *pAd, uint32_t PsMode)
 {
 	if (pAd->StaCfg.BssType == BSS_INFRA)
 	{

@@ -642,7 +642,7 @@ VOID RTMPDrvOpen(struct rtmp_adapter *pAdSrc)
 	pAd->CommonCfg.txRetryCfg = 0;
 
 	{
-		UINT32	TxRtyCfg;
+		uint32_t TxRtyCfg;
 
 		RTMP_IO_READ32(pAd, TX_RTY_CFG, &TxRtyCfg);
 		pAd->CommonCfg.txRetryCfg = TxRtyCfg;
@@ -654,7 +654,7 @@ VOID RTMPDrvOpen(struct rtmp_adapter *pAdSrc)
 
 VOID RTMPDrvClose(struct rtmp_adapter *pAd, struct net_device *net_dev)
 {
-	UINT32 i = 0;
+	uint32_t i = 0;
 
 
 #ifdef RT_CFG80211_SUPPORT
@@ -976,7 +976,7 @@ VOID RTMPInfClose(struct rtmp_adapter *pAd)
 struct net_device *RtmpPhyNetDevMainCreate(struct rtmp_adapter *pAd)
 {
 	struct net_device *pDevNew;
-	UINT32 MC_RowID = 0, IoctlIF = 0;
+	uint32_t MC_RowID = 0, IoctlIF = 0;
 	char *dev_name;
 
 #ifdef HOSTAPD_SUPPORT
@@ -984,7 +984,7 @@ struct net_device *RtmpPhyNetDevMainCreate(struct rtmp_adapter *pAd)
 #endif /* HOSTAPD_SUPPORT */
 
 	dev_name = get_dev_name_prefix(pAd, INT_MAIN);
-	pDevNew = RtmpOSNetDevCreate((INT32)MC_RowID, (UINT32 *)&IoctlIF,
+	pDevNew = RtmpOSNetDevCreate((INT32)MC_RowID, (uint32_t *)&IoctlIF,
 					INT_MAIN, 0, sizeof(struct mt_dev_priv), dev_name);
 
 #ifdef HOSTAPD_SUPPORT

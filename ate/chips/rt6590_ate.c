@@ -43,8 +43,8 @@ extern VOID SetRfChFreqParametersMT76x0(struct rtmp_adapter *pAd, UCHAR Channel)
 static INT ate_bbp_set_ctrlch(struct rtmp_adapter *pAd, INT ext_ch)
 {
 /*	PATE_INFO pATEInfo = &(pAd->ate); */
-	UINT32 agc, agc_r0 = 0;
-	UINT32 be, be_r0 = 0;
+	uint32_t agc, agc_r0 = 0;
+	uint32_t be, be_r0 = 0;
 
 
 	RTMP_BBP_IO_READ32(pAd, AGC1_R0, &agc_r0);
@@ -116,8 +116,8 @@ static VOID MT76x0ATEAsicSwitchChannel(
     IN struct rtmp_adapter *pAd)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
-	UINT32 Index;
-	UINT32 rf_phy_mode, rf_bw = RF_BW_20;
+	uint32_t Index;
+	uint32_t rf_phy_mode, rf_bw = RF_BW_20;
 	UCHAR Channel = 0;
 	UCHAR RFValue = 0;
 
@@ -167,7 +167,7 @@ static VOID MT76x0ATEAsicSwitchChannel(
 		{
 			if ((MT76x0_BPP_SWITCH_Tab[Index].RegDate.Register == AGC1_R8))
 			{
-				UINT32 eLNAgain = (MT76x0_BPP_SWITCH_Tab[Index].RegDate.Value & 0x0000FF00) >> 8;
+				uint32_t eLNAgain = (MT76x0_BPP_SWITCH_Tab[Index].RegDate.Value & 0x0000FF00) >> 8;
 
 				if (Channel > 14)
 				{
@@ -214,7 +214,7 @@ static INT MT76x0ATETxPwrHandler(
 	IN char index)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
-	UINT32 MacValue = 0;
+	uint32_t MacValue = 0;
 	USHORT value = 0;
 	CHAR TxPower = 0;
 	CHAR bw_power_delta = 0;
@@ -512,7 +512,7 @@ VOID MT76x0ATE_MakeUpTssiTable(
 	IN struct rtmp_adapter *pAd)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
-	UINT32   MAC_Value;
+	uint32_t   MAC_Value;
 
 	/* MCS POWER */
 	RTMP_IO_READ32(pAd, TX_PWR_CFG_0, &MAC_Value);
@@ -851,7 +851,7 @@ static VOID MT76x0ATE_GetTargetPower(
 	IN struct rtmp_adapter *pAd)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
-	UINT32 MAC_Value;
+	uint32_t MAC_Value;
 	USHORT index;
 	UCHAR Tx_Rate;
 	CHAR Eas_power_adj = 0;
@@ -966,7 +966,7 @@ static VOID MT76x0ATE_EstimateDeltaPower(
 	INT32 tssi_meas=0;
 	INT32 tssi_dc;
 	INT32 pkt_type_delta=0, bbp_6db_power=0;
-	UINT32 BBP_Value;
+	uint32_t BBP_Value;
 	USHORT EE_Value;
 	CHAR idx = 0;
 
@@ -1189,7 +1189,7 @@ static VOID MT76x0ATE_IntTxAlcProcess(
 	IN struct rtmp_adapter *pAd)
 {
 	INT32 tssi_delta0;
-	UINT32 MAC_Value;
+	uint32_t MAC_Value;
 	CHAR tssi_write;
 
 	MT76x0ATE_GetTargetPower(pAd);
@@ -1217,7 +1217,7 @@ VOID MT76x0ATE_TSSI_DC_Calibration(
 	IN  struct rtmp_adapter *pAd)
 {
 	UCHAR RF_Value;
-	UINT32 MAC_Value, BBP_Value;
+	uint32_t MAC_Value, BBP_Value;
 	USHORT i = 0;
 
 	pAd->hw_cfg.cent_ch = pAd->ate.Channel;
@@ -1335,7 +1335,7 @@ VOID MT76x0ATE_Enable9BitIchannelADC(
 	IN BOOLEAN bForDcCal)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
-	UINT32 BBP_Value;
+	uint32_t BBP_Value;
 	INT32 wait = 0;
 
 	if (pATEInfo->Channel > 14)
@@ -1353,7 +1353,7 @@ VOID MT76x0ATE_Enable9BitIchannelADC(
 
 	if (bForDcCal)
 	{
-		UINT32 OrgTxCount = pATEInfo->TxCount;
+		uint32_t OrgTxCount = pATEInfo->TxCount;
 
 		/* Send 5 packets (write TX information) */
 		pATEInfo->TxCount = 5;
@@ -1437,7 +1437,7 @@ static VOID MT76x0ATETssiCompensation(
 	IN struct rtmp_adapter *pAd)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
-	UINT32 parameter = 0;
+	uint32_t parameter = 0;
 	INT32 BandWidthSel = pATEInfo->TxWI.TXWI_N.BW;
 
 	MT76x0ATE_Enable9BitIchannelADC(pAd, FALSE);
@@ -1465,8 +1465,8 @@ static VOID MT76x0ATETssiCompensation(
 static VOID MT76x0ATE_AsicExtraPowerOverMAC(
 	IN struct rtmp_adapter *pAd)
 {
-	UINT32 ExtraPwrOverMAC = 0;
-	UINT32 ExtraPwrOverTxPwrCfg7 = 0, ExtraPwrOverTxPwrCfg9 = 0;
+	uint32_t ExtraPwrOverMAC = 0;
+	uint32_t ExtraPwrOverTxPwrCfg7 = 0, ExtraPwrOverTxPwrCfg9 = 0;
 
 	/*
 		For OFDM_54 and HT_MCS_7, extra fill the corresponding register value into MAC 0x13D4
@@ -1551,9 +1551,9 @@ VOID MT76x0ATE_Calibration(
 	IN BOOLEAN bPowerOn,
 	IN BOOLEAN bFullCal)
 {
-	UINT32 MacReg = 0, reg_val = 0, reg_tx_alc = 0;
+	uint32_t MacReg = 0, reg_val = 0, reg_tx_alc = 0;
 #ifdef RTMP_MAC_USB
-	UINT32 RET;
+	uint32_t RET;
 #endif /* RTMP_MAC_USB */
 
 	/* MT7610 is 5G band only */
@@ -1881,7 +1881,7 @@ static VOID MT76x0ATE_CalculateTxpower(
 VOID MT76x0AteReadTxPwrPerRate(
 	IN struct rtmp_adapter *pAd)
 {
-	UINT32 data;
+	uint32_t data;
 	USHORT value;
 	UCHAR TxPwrBw40ABand, TxPwrBw80ABand, TxPwrBw40GBand;
 	UCHAR t1, t2, t3, t4;

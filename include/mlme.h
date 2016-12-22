@@ -254,113 +254,113 @@ typedef struct  _TRIGGER_EVENT_TAB{
 */
 typedef struct GNU_PACKED _EXT_CAP_INFO_ELEMENT{
 #ifdef RT_BIG_ENDIAN
-	UINT32 interworking:1;
-	UINT32	TDLSChSwitchSupport:1; /* bit30: TDLS Channel Switching */
-	UINT32	TDLSPeerPSMSupport:1; /* bit29: TDLS Peer PSM Support */
-	UINT32	UAPSDBufSTASupport:1; /* bit28: Peer U-APSD Buffer STA Support */
-	UINT32 utc_tsf_offset:1;
-	UINT32	DMSSupport:1;
-	UINT32 ssid_list:1;
-	UINT32 channel_usage:1;
-	UINT32 timing_measurement:1;
-	UINT32 mbssid:1;
-	UINT32 ac_sta_cnt:1;
-	UINT32 qos_traffic_cap:1;
-	UINT32	BssTransitionManmt:1;
-	UINT32 tim_bcast:1;
-	UINT32	WNMSleepSupport:1;/*bit 17*/
-	UINT32	TFSSupport:1;/*bit 16*/
-	UINT32 geospatial_location:1;
-	UINT32 civic_location:1;
-	UINT32 collocated_interference_report:1;
-	UINT32 proxy_arp:1;
-	UINT32	FMSSupport:1;/*bit 11*/
-	UINT32 location_tracking:1;
-	UINT32 mcast_diagnostics:1;
-	UINT32 diagnostics:1;
-	UINT32 event:1;
-	UINT32 s_psmp_support:1;
-	UINT32 rsv5:1;
-	UINT32 psmp_cap:1;
-	UINT32 rsv3:1;
-	UINT32	ExtendChannelSwitch:1;
-	UINT32 rsv1:1;
-	UINT32	BssCoexistMgmtSupport:1;
+	uint32_t interworking:1;
+	uint32_t TDLSChSwitchSupport:1; /* bit30: TDLS Channel Switching */
+	uint32_t TDLSPeerPSMSupport:1; /* bit29: TDLS Peer PSM Support */
+	uint32_t UAPSDBufSTASupport:1; /* bit28: Peer U-APSD Buffer STA Support */
+	uint32_t utc_tsf_offset:1;
+	uint32_t DMSSupport:1;
+	uint32_t ssid_list:1;
+	uint32_t channel_usage:1;
+	uint32_t timing_measurement:1;
+	uint32_t mbssid:1;
+	uint32_t ac_sta_cnt:1;
+	uint32_t qos_traffic_cap:1;
+	uint32_t BssTransitionManmt:1;
+	uint32_t tim_bcast:1;
+	uint32_t WNMSleepSupport:1;/*bit 17*/
+	uint32_t TFSSupport:1;/*bit 16*/
+	uint32_t geospatial_location:1;
+	uint32_t civic_location:1;
+	uint32_t collocated_interference_report:1;
+	uint32_t proxy_arp:1;
+	uint32_t FMSSupport:1;/*bit 11*/
+	uint32_t location_tracking:1;
+	uint32_t mcast_diagnostics:1;
+	uint32_t diagnostics:1;
+	uint32_t event:1;
+	uint32_t s_psmp_support:1;
+	uint32_t rsv5:1;
+	uint32_t psmp_cap:1;
+	uint32_t rsv3:1;
+	uint32_t ExtendChannelSwitch:1;
+	uint32_t rsv1:1;
+	uint32_t BssCoexistMgmtSupport:1;
 #else
-	UINT32	BssCoexistMgmtSupport:1;
-	UINT32 rsv1:1;
-	UINT32	ExtendChannelSwitch:1;
-	UINT32 rsv3:1;
-	UINT32 psmp_cap:1;
-	UINT32 rsv5:1;
-	UINT32 s_psmp_support:1;
-	UINT32 event:1;
-	UINT32 diagnostics:1;
-	UINT32 mcast_diagnostics:1;
-	UINT32 location_tracking:1;
-	UINT32	FMSSupport:1;/*bit 11*/
-	UINT32 proxy_arp:1;
-	UINT32 collocated_interference_report:1;
-	UINT32 civic_location:1;
-	UINT32 geospatial_location:1;
-	UINT32	TFSSupport:1;/*bit 16*/
-	UINT32	WNMSleepSupport:1;/*bit 17*/
-	UINT32 tim_bcast:1;
-	UINT32	BssTransitionManmt:1;
-	UINT32 qos_traffic_cap:1;
-	UINT32 ac_sta_cnt:1;
-	UINT32 mbssid:1;
-	UINT32 timing_measurement:1;
-	UINT32 channel_usage:1;
-	UINT32 ssid_list:1;
-	UINT32	DMSSupport:1;
-	UINT32 utc_tsf_offset:1;
-	UINT32	UAPSDBufSTASupport:1; /* bit28: Peer U-APSD Buffer STA Support */
-	UINT32	TDLSPeerPSMSupport:1; /* bit29: TDLS Peer PSM Support */
-	UINT32	TDLSChSwitchSupport:1; /* bit30: TDLS Channel Switching */
-	UINT32 interworking:1;
+	uint32_t BssCoexistMgmtSupport:1;
+	uint32_t rsv1:1;
+	uint32_t ExtendChannelSwitch:1;
+	uint32_t rsv3:1;
+	uint32_t psmp_cap:1;
+	uint32_t rsv5:1;
+	uint32_t s_psmp_support:1;
+	uint32_t event:1;
+	uint32_t diagnostics:1;
+	uint32_t mcast_diagnostics:1;
+	uint32_t location_tracking:1;
+	uint32_t FMSSupport:1;/*bit 11*/
+	uint32_t proxy_arp:1;
+	uint32_t collocated_interference_report:1;
+	uint32_t civic_location:1;
+	uint32_t geospatial_location:1;
+	uint32_t TFSSupport:1;/*bit 16*/
+	uint32_t WNMSleepSupport:1;/*bit 17*/
+	uint32_t tim_bcast:1;
+	uint32_t BssTransitionManmt:1;
+	uint32_t qos_traffic_cap:1;
+	uint32_t ac_sta_cnt:1;
+	uint32_t mbssid:1;
+	uint32_t timing_measurement:1;
+	uint32_t channel_usage:1;
+	uint32_t ssid_list:1;
+	uint32_t DMSSupport:1;
+	uint32_t utc_tsf_offset:1;
+	uint32_t UAPSDBufSTASupport:1; /* bit28: Peer U-APSD Buffer STA Support */
+	uint32_t TDLSPeerPSMSupport:1; /* bit29: TDLS Peer PSM Support */
+	uint32_t TDLSChSwitchSupport:1; /* bit30: TDLS Channel Switching */
+	uint32_t interworking:1;
 #endif /* RT_BIG_ENDIAN */
 
 #ifdef RT_BIG_ENDIAN
-	UINT32 rsv63:1;
-	UINT32 operating_mode_notification:1;
-	UINT32 tdls_wider_bw:1;
-	UINT32 rsv49:13;
-	UINT32 utf8_ssid:1;
-	UINT32 rsv47:1;
-	UINT32 wnm_notification:1;
-	UINT32 uapsd_coex:1;
-	UINT32 id_location:1;
-	UINT32 service_interval_granularity:2;
-	UINT32 reject_unadmitted_frame:1;
-	UINT32 TDLSChSwitchProhibited:1; /* bit39: TDLS Channel Switching Prohibited */
-	UINT32 TDLSProhibited:1; /* bit38: TDLS Prohibited */
-	UINT32 TDLSSupport:1; /* bit37: TDLS Support */
-	UINT32 msgcf_cap:1;
-	UINT32 rsv35:1;
-	UINT32 sspn_inf:1;
-	UINT32 ebr:1;
-	UINT32 qosmap:1;
+	uint32_t rsv63:1;
+	uint32_t operating_mode_notification:1;
+	uint32_t tdls_wider_bw:1;
+	uint32_t rsv49:13;
+	uint32_t utf8_ssid:1;
+	uint32_t rsv47:1;
+	uint32_t wnm_notification:1;
+	uint32_t uapsd_coex:1;
+	uint32_t id_location:1;
+	uint32_t service_interval_granularity:2;
+	uint32_t reject_unadmitted_frame:1;
+	uint32_t TDLSChSwitchProhibited:1; /* bit39: TDLS Channel Switching Prohibited */
+	uint32_t TDLSProhibited:1; /* bit38: TDLS Prohibited */
+	uint32_t TDLSSupport:1; /* bit37: TDLS Support */
+	uint32_t msgcf_cap:1;
+	uint32_t rsv35:1;
+	uint32_t sspn_inf:1;
+	uint32_t ebr:1;
+	uint32_t qosmap:1;
 #else
-	UINT32 qosmap:1;
-	UINT32 ebr:1;
-	UINT32 sspn_inf:1;
-	UINT32 rsv35:1;
-	UINT32 msgcf_cap:1;
-	UINT32 TDLSSupport:1; /* bit37: TDLS Support */
-	UINT32 TDLSProhibited:1; /* bit38: TDLS Prohibited */
-	UINT32 TDLSChSwitchProhibited:1; /* bit39: TDLS Channel Switching Prohibited */
-	UINT32 reject_unadmitted_frame:1;
-	UINT32 service_interval_granularity:2;
-	UINT32 id_location:1;
-	UINT32 uapsd_coex:1;
-	UINT32 wnm_notification:1;
-	UINT32 rsv47:1;
-	UINT32 utf8_ssid:1;
-	UINT32 rsv49:13;
-	UINT32 tdls_wider_bw:1;
-	UINT32 operating_mode_notification:1;
-	UINT32 rsv63:1;
+	uint32_t qosmap:1;
+	uint32_t ebr:1;
+	uint32_t sspn_inf:1;
+	uint32_t rsv35:1;
+	uint32_t msgcf_cap:1;
+	uint32_t TDLSSupport:1; /* bit37: TDLS Support */
+	uint32_t TDLSProhibited:1; /* bit38: TDLS Prohibited */
+	uint32_t TDLSChSwitchProhibited:1; /* bit39: TDLS Channel Switching Prohibited */
+	uint32_t reject_unadmitted_frame:1;
+	uint32_t service_interval_granularity:2;
+	uint32_t id_location:1;
+	uint32_t uapsd_coex:1;
+	uint32_t wnm_notification:1;
+	uint32_t rsv47:1;
+	uint32_t utf8_ssid:1;
+	uint32_t rsv49:13;
+	uint32_t tdls_wider_bw:1;
+	uint32_t operating_mode_notification:1;
+	uint32_t rsv63:1;
 #endif // RT_BIG_ENDIAN //
 }EXT_CAP_INFO_ELEMENT, *PEXT_CAP_INFO_ELEMENT;
 
@@ -412,18 +412,18 @@ typedef struct _RT_PHY_INFO{
 
 #ifdef DOT11_VHT_AC
 typedef struct _RT_VHT_CAP{
-	UINT32 vht_bw:2;
-	UINT32 vht_txstbc:1;
-	UINT32 vht_rxstbc:3;
-	UINT32 sgi_80m:1;
-	UINT32 vht_htc:1;
+	uint32_t vht_bw:2;
+	uint32_t vht_txstbc:1;
+	uint32_t vht_rxstbc:3;
+	uint32_t sgi_80m:1;
+	uint32_t vht_htc:1;
 
-	UINT32 vht_mcs_ss1:2;
-	UINT32 vht_mcs_ss2:2;
-	UINT32 vht_rx_rate:2;
-	UINT32 vht_tx_rate:2;
+	uint32_t vht_mcs_ss1:2;
+	uint32_t vht_mcs_ss2:2;
+	uint32_t vht_rx_rate:2;
+	uint32_t vht_tx_rate:2;
 
-	UINT32 rsv:16;
+	uint32_t rsv:16;
 }RT_VHT_CAP;
 #endif /* DOT11_VHT_AC */
 

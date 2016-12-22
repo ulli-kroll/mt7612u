@@ -52,8 +52,8 @@ extern UCHAR mt76x2_mac_a_band_internal_pa_cr_nums;
 #define ATE_TX_TARGET_PWR_DEFAULT_VALUE		5
 #define MT76x2_TSSI_STABLE_COUNT		3
 
-static UINT32 mt76x2_ate_calibration_delay;
-static UINT32 mt76x2_ate_tssi_stable_count;
+static uint32_t mt76x2_ate_calibration_delay;
+static uint32_t mt76x2_ate_tssi_stable_count;
 static UCHAR mt76x2_2G_tx0_pwr_offset_save = 0;
 static UCHAR mt76x2_2G_tx1_pwr_offset_save = 0;
 static UCHAR mt76x2_5G_tx0_pwr_offset_save = 0;
@@ -66,11 +66,11 @@ static void mt76x2_ate_switch_channel(struct rtmp_adapter *ad)
 {
 	PATE_INFO pATEInfo = &(ad->ate);
 	unsigned int latch_band, band, bw, tx_rx_setting;
-	UINT32 ret, i, value, value1, restore_value, loop = 0;
+	uint32_t ret, i, value, value1, restore_value, loop = 0;
 	UCHAR bbp_ch_idx = 0;
 	BOOLEAN band_change = FALSE;
 	u8 channel = 0;
-	UINT32 eLNA_gain_from_e2p = 0;
+	uint32_t eLNA_gain_from_e2p = 0;
 
 	SYNC_CHANNEL_WITH_QA(pATEInfo, &channel);
 
@@ -1136,7 +1136,7 @@ VOID mt76x2_ate_rx_vga_init(
 	IN struct rtmp_adapter *	ad)
 {
 #ifdef DYNAMIC_VGA_SUPPORT
-	UINT32 bbp_val;
+	uint32_t bbp_val;
 
 	RTMP_BBP_IO_READ32(ad, AGC1_R8, &bbp_val);
 	bbp_val = (bbp_val & 0xffff80ff) | (ad->CommonCfg.lna_vga_ctl.agc_vga_init_0 << 8);
@@ -1580,7 +1580,7 @@ void mt76x2_ate_temp_tx_alc(struct rtmp_adapter *ad)
 
 VOID mt76x2_adjust_tssi_offset(
 		IN struct rtmp_adapter *pAd,
-		IN UINT32 *slope_offset)
+		IN uint32_t *slope_offset)
 {
 	CHAR OrgTSSIOffset0, OrgTSSIOffset1;
 	CHAR TSSIOffsetDelta0, TSSIOffsetDelta1;
@@ -1705,10 +1705,10 @@ VOID mt76x2_ate_asic_adjust_tx_power(
 {
 	RTMP_CHIP_CAP *cap = &pAd->chipCap;
 	ANDES_CALIBRATION_PARAM param;
-	UINT32 pa_mode = 0, tssi_slope_offset = 0;
-	UINT32 ret = 0;
+	uint32_t pa_mode = 0, tssi_slope_offset = 0;
+	uint32_t ret = 0;
 	PATE_INFO   pATEInfo = &(pAd->ate);
-	UINT32 value;
+	uint32_t value;
 	char TxPower = 0;
 
 
@@ -1983,7 +1983,7 @@ VOID mt76x2_ate_asic_calibration(
 
 	//UCHAR channel = pAd->ate.Channel;
 	UCHAR i;
-	UINT32 bbpValue;
+	uint32_t bbpValue;
 	DBGPRINT(RT_DEBUG_TRACE, ("%s: channel=%d ate_mode=0x%x\n", __FUNCTION__, pAd->ate.Channel, ate_mode));
 
 	mt76x2_ate_calibration_delay = 0;
@@ -2034,7 +2034,7 @@ VOID mt76x2_ate_asic_calibration(
 
 
 VOID mt76x2_ate_do_calibration(
-	IN struct rtmp_adapter *pAd, UINT32 cal_id, UINT32 param)
+	IN struct rtmp_adapter *pAd, uint32_t cal_id, uint32_t param)
 {
 
 	switch (cal_id )

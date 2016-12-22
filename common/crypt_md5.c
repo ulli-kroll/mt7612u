@@ -41,26 +41,26 @@
 #define ROTL32(x,n) ROTL(x,n,32) /* 32 bits word */
 
 #define ROUND1(a, b, c, d, x, s, ac) {          \
-    (a) += F((b),(c),(d)) + (x) + (UINT32)(ac); \
+    (a) += F((b),(c),(d)) + (x) + (uint32_t)(ac); \
     (a)  = ROTL32((a),(s));                     \
     (a) += (b);                                 \
 }
 #define ROUND2(a, b, c, d, x, s, ac) {          \
-    (a) += G((b),(c),(d)) + (x) + (UINT32)(ac); \
+    (a) += G((b),(c),(d)) + (x) + (uint32_t)(ac); \
     (a)  = ROTL32((a),(s));                     \
     (a) += (b);                                 \
 }
 #define ROUND3(a, b, c, d, x, s, ac) {          \
-    (a) += H((b),(c),(d)) + (x) + (UINT32)(ac); \
+    (a) += H((b),(c),(d)) + (x) + (uint32_t)(ac); \
     (a)  = ROTL32((a),(s));                     \
     (a) += (b);                                 \
 }
 #define ROUND4(a, b, c, d, x, s, ac) {          \
-    (a) += I((b),(c),(d)) + (x) + (UINT32)(ac); \
+    (a) += I((b),(c),(d)) + (x) + (uint32_t)(ac); \
     (a)  = ROTL32((a),(s));                     \
     (a) += (b);                                 \
 }
-static const UINT32 MD5_DefaultHashValue[4] = {
+static const uint32_t MD5_DefaultHashValue[4] = {
     0x67452301UL, 0xefcdab89UL, 0x98badcfeUL, 0x10325476UL
 };
 #endif /* MD5_SUPPORT */
@@ -111,9 +111,9 @@ Note:
 VOID RT_MD5_Hash (
     IN  MD5_CTX_STRUC *pMD5_CTX)
 {
-    UINT32 X_i;
-    UINT32 X[16];
-    UINT32 a,b,c,d;
+    uint32_t X_i;
+    uint32_t X[16];
+    uint32_t a,b,c,d;
 
     /* Prepare the message schedule, {X_i} */
     memmove(X, pMD5_CTX->Block, MD5_BLOCK_SIZE);
@@ -312,7 +312,7 @@ VOID RT_MD5_End (
     memmove(&pMD5_CTX->Block[56], &message_length_bits, 8);
     RT_MD5_Hash(pMD5_CTX);
 
-    /* Return message digest, transform the UINT32 hash value to bytes */
+    /* Return message digest, transform the uint32_t hash value to bytes */
     for (index = 0; index < 4;index++)
         pMD5_CTX->HashValue[index] = cpu2le32(pMD5_CTX->HashValue[index]);
         /* End of for */

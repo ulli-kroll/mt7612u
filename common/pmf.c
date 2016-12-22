@@ -65,7 +65,7 @@ VOID PMF_MlmeSAQueryReq(
 {
         PUCHAR pOutBuffer = NULL;
         HEADER_802_11 SAQReqHdr;
-        UINT32 FrameLen = 0;
+        uint32_t FrameLen = 0;
         UCHAR SACategoryType, SAActionType;
         UINT ccmp_len = LEN_CCMP_HDR + LEN_CCMP_MIC;
         UCHAR ccmp_buf[ccmp_len];
@@ -164,7 +164,7 @@ VOID PMF_PeerSAQueryReqAction(
                 USHORT TransactionID;
                 PUCHAR pOutBuffer = NULL;
                 HEADER_802_11 SAQRspHdr;
-                UINT32 FrameLen = 0;
+                uint32_t FrameLen = 0;
                 UCHAR SACategoryType, SAActionType;
                 UINT ccmp_len = LEN_CCMP_HDR + LEN_CCMP_MIC;
                 UCHAR ccmp_buf[ccmp_len];
@@ -357,12 +357,12 @@ BOOLEAN PMF_CalculateBIPMIC(
 	IN struct rtmp_adapter *pAd,
 	IN PUCHAR pAadHdr,
 	IN PUCHAR pFrameBuf,
-	IN UINT32 FrameLen,
+	IN uint32_t FrameLen,
 	IN PUCHAR pKey,
 	OUT PUCHAR pBipMic)
 {
 	UCHAR *m_buf;
-	UINT32 total_len;
+	uint32_t total_len;
 	UCHAR cmac_output[16];
 	UINT mlen = AES_KEY128_LENGTH;
 
@@ -989,7 +989,7 @@ INT PMF_EncapBIPAction(
 	UCHAR aad_hdr[LEN_PMF_BIP_AAD_HDR];
 	UCHAR BIP_MIC[LEN_PMF_BIP_MIC];
 	PUCHAR pFrameBody = &pHdr->Octet[0];
-	UINT32 body_len = mgmt_len - LENGTH_802_11;
+	uint32_t body_len = mgmt_len - LENGTH_802_11;
 
 	/* Sanity check the total frame body length */
 	if (body_len <= (2 + LEN_PMF_MMIE))
@@ -1071,7 +1071,7 @@ INT PMF_ExtractBIPAction(
 	UCHAR aad_hdr[LEN_PMF_BIP_AAD_HDR];
 	UCHAR rcvd_mic[LEN_PMF_BIP_MIC];
 	UCHAR cal_mic[LEN_PMF_BIP_MIC];
-	UINT32 body_len = mgmt_len - LENGTH_802_11;
+	uint32_t body_len = mgmt_len - LENGTH_802_11;
 
 
 	/* Sanity check the total frame body length */

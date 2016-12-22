@@ -88,7 +88,7 @@ VOID APMakeBssBeacon(struct rtmp_adapter *pAd, INT apidx)
 	PUCHAR pBeaconFrame = (PUCHAR)pAd->ApCfg.MBSSID[apidx].BeaconBuf;
 	UCHAR *ptr;
 	UINT i;
-	UINT32 longValue, reg_base;
+	uint32_t longValue, reg_base;
 	HTTRANSMIT_SETTING BeaconTransmit = {.word = 0};   /* MGMT frame PHY rate setting when operatin at Ht rate. */
 	UCHAR PhyMode, SupRateLen;
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
@@ -949,7 +949,7 @@ static UCHAR GetBcnNum(struct rtmp_adapter *pAd)
 VOID APMakeAllBssBeacon(struct rtmp_adapter *pAd)
 {
 	INT		i, j;
-	UINT32	regValue;
+	uint32_t regValue;
 	UCHAR	NumOfMacs;
 	UCHAR	NumOfBcns;
 	UINT8 TXWISize = pAd->chipCap.TXWISize;

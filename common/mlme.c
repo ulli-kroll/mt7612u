@@ -107,7 +107,7 @@ UCHAR ZeroSsid[32] = {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x0
 #ifdef DYNAMIC_VGA_SUPPORT
 void dynamic_ed_cca_threshold_adjust(struct rtmp_adapter * pAd)
 {
-	UINT32 reg_val = 0;
+	uint32_t reg_val = 0;
 	CHAR high_gain = 0, mid_gain = 0, low_gain = 0, ulow_gain = 0, lna_gain_mode = 0;
 	UCHAR lna_gain = 0, vga_gain = 0, y = 0, z = 0;
 
@@ -153,7 +153,7 @@ void dynamic_ed_cca_threshold_adjust(struct rtmp_adapter * pAd)
 void update_rssi_for_channel_model(struct rtmp_adapter * pAd)
 {
 	INT32 rx0_rssi, rx1_rssi;
-	UINT32 bbp_valuse = 0;
+	uint32_t bbp_valuse = 0;
 
 #ifdef CONFIG_STA_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
@@ -186,7 +186,7 @@ void update_rssi_for_channel_model(struct rtmp_adapter * pAd)
 
 void dynamic_cck_mrc(struct rtmp_adapter * pAd)
 {
-	UINT32 bbp_val = 0;
+	uint32_t bbp_val = 0;
 
 	/* CCK MRC PER bump at larger power ~-30dBm */
 	if (pAd->CommonCfg.RxStream >= 2) {
@@ -208,7 +208,7 @@ void dynamic_cck_mrc(struct rtmp_adapter * pAd)
 BOOLEAN dynamic_channel_model_adjust(struct rtmp_adapter *pAd)
 {
 	UCHAR mode = 0, default_init_vga = 0, eLNA_init_vga = 0, iLNA_init_vga = 0;
-	UINT32 value = 0;
+	uint32_t value = 0;
 	BOOLEAN no_dynamic_vga = FALSE;
 
 	/* dynamic_chE_mode:
@@ -417,7 +417,7 @@ void periodic_monitor_false_cca_adjust_vga(struct rtmp_adapter *pAd)
 		(pAd->chipCap.dynamic_vga_support) &&
 		OPSTATUS_TEST_FLAG(pAd, fOP_AP_STATUS_MEDIA_STATE_CONNECTED)) {
 		UCHAR val1, val2;
-		UINT32 bbp_val1, bbp_val2;
+		uint32_t bbp_val1, bbp_val2;
 		BOOLEAN no_dynamic_vga = FALSE;
 
 		if (dynamic_channel_model_adjust(pAd) == TRUE) {
@@ -502,7 +502,7 @@ void periodic_monitor_rssi_adjust_vga(struct rtmp_adapter *pAd)
 {
 	if ((pAd->CommonCfg.lna_vga_ctl.bDyncVgaEnable) &&
 		(pAd->chipCap.dynamic_vga_support) && INFRA_ON(pAd)) {
-		UINT32 bbp_val1 = 0, bbp_val2 = 0;
+		uint32_t bbp_val1 = 0, bbp_val2 = 0;
 
 		andes_dynamic_vga(pAd, pAd->CommonCfg.Channel, FALSE, FALSE,
 			pAd->chipCap.avg_rssi_all, pAd->RalinkCounters.OneSecFalseCCACnt);
@@ -522,7 +522,7 @@ void periodic_monitor_rssi_adjust_vga(struct rtmp_adapter *pAd)
 #ifdef CONFIG_STA_SUPPORT
 void periodic_check_channel_smoothing(struct rtmp_adapter *ad)
 {
-	UINT32 bbp_value;
+	uint32_t bbp_value;
 	CHAR Rssi = RTMPAvgRssi(ad, &ad->StaCfg.RssiSample);
 
 	if (Rssi < -50) {
@@ -1237,8 +1237,8 @@ VOID MlmeResetRalinkCounters(struct rtmp_adapter *pAd)
 #endif /* RALINK_ATE */
 		/* for performace enchanement */
 		memset(&pAd->RalinkCounters, 0,
-						(UINT32)&pAd->RalinkCounters.OneSecEnd -
-						(UINT32)&pAd->RalinkCounters.OneSecStart);
+						(uint32_t)&pAd->RalinkCounters.OneSecEnd -
+						(uint32_t)&pAd->RalinkCounters.OneSecStart);
 
 	return;
 }
@@ -1359,7 +1359,7 @@ VOID MlmePeriodicExec(
 			(STA_TGN_WIFI_ON(pAd)) &&
 			((pAd->MACVersion & 0xffff) == 0x0101))
 		{
-			UINT32 txop_cfg;
+			uint32_t txop_cfg;
 
 			/* This is the fix for wifi 11n extension channel overlapping test case.  for 2860D*/
 			if (pAd->CommonCfg.IOTestParm.bToggle == FALSE)
@@ -1634,7 +1634,7 @@ VOID MlmePeriodicExec(
 			{
 				int count = 0;
 				BOOLEAN MAC_ready = FALSE;
-				UINT32	MacCsr12 = 0;
+				uint32_t MacCsr12 = 0;
 
 				/* Disable MAC*/
 				RTMP_IO_WRITE32(pAd, MAC_SYS_CTRL, 0x0);
@@ -1696,7 +1696,7 @@ VOID MlmePeriodicExec(
 			{
 
 
-			UINT32	MacReg = 0;
+			uint32_t MacReg = 0;
 
 			RTMP_IO_READ32(pAd, 0x10F4, &MacReg);
 			if (((MacReg & 0x20000000) && (MacReg & 0x80)) || ((MacReg & 0x20000000) && (MacReg & 0x20)))
@@ -2592,11 +2592,11 @@ VOID MlmeCalculateChannelQuality(
 	UCHAR NorRssi;
 	CHAR  MaxRssi;
 	RSSI_SAMPLE *pRssiSample = NULL;
-	UINT32 OneSecTxNoRetryOkCount = 0;
-	UINT32 OneSecTxRetryOkCount = 0;
-	UINT32 OneSecTxFailCount = 0;
-	UINT32 OneSecRxOkCnt = 0;
-	UINT32 OneSecRxFcsErrCnt = 0;
+	uint32_t OneSecTxNoRetryOkCount = 0;
+	uint32_t OneSecTxRetryOkCount = 0;
+	uint32_t OneSecTxFailCount = 0;
+	uint32_t OneSecRxOkCnt = 0;
+	uint32_t OneSecRxFcsErrCnt = 0;
 	ULONG ChannelQuality = 0;  /* 0..100, Channel Quality Indication for Roaming*/
 #ifdef CONFIG_STA_SUPPORT
 	ULONG LastBeaconRxTime = 0;
@@ -5513,7 +5513,7 @@ UCHAR RandomByte(struct rtmp_adapter *pAd)
 
 UCHAR RandomByte2(struct rtmp_adapter *pAd)
 {
-	UINT32 a,b;
+	uint32_t a,b;
 	UCHAR value, seed = 0;
 
 	/*MAC statistic related*/
@@ -6543,9 +6543,9 @@ Return Value:
 Note:
 ========================================================================
 */
-BOOLEAN CHAN_PropertyCheck(struct rtmp_adapter *pAd, UINT32 ChanNum, UCHAR Property)
+BOOLEAN CHAN_PropertyCheck(struct rtmp_adapter *pAd, uint32_t ChanNum, UCHAR Property)
 {
-	UINT32 IdChan;
+	uint32_t IdChan;
 
 	/* look for all registered channels */
 	for(IdChan=0; IdChan<pAd->ChannelListNum; IdChan++)

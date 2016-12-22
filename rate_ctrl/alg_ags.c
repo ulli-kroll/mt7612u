@@ -190,7 +190,7 @@ INT Show_AGS_Proc(
     IN  PSTRING arg)
 {
 	MAC_TABLE_ENTRY *pEntry = &pAd->MacTab.Content[1];
-	UINT32 IdQuality;
+	uint32_t IdQuality;
 
 
 	DBGPRINT(RT_DEBUG_OFF, ("MCS Group\t\tMCS Index\n"));

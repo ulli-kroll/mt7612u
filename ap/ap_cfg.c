@@ -2281,7 +2281,7 @@ INT	Set_AP_PMKCachePeriod_Proc(
 {
 	struct os_cookie *	pObj = pAd->OS_Cookie;
 	UCHAR		apidx = pObj->ioctl_if;
-	UINT32 val = simple_strtol(arg, 0, 10);
+	uint32_t val = simple_strtol(arg, 0, 10);
 
 	pAd->ApCfg.MBSSID[apidx].PMKCachePeriod = val * 60 * OS_HZ;
 
@@ -3378,7 +3378,7 @@ INT Show_DriverInfo_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 INT	Show_StaCount_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	INT i;
-    	UINT32 RegValue;
+    	uint32_t RegValue;
 
 	printk("\n");
 	RTMP_IO_READ32(pAd, BKOFF_SLOT_CFG, &RegValue);
@@ -4147,7 +4147,7 @@ VOID RTMPIoctlStaticWepCopy(
     }
     else
     {
-    	UINT32 len;
+    	uint32_t len;
 
         len = copy_from_user(&MacAddr, wrq->u.data.pointer, wrq->u.data.length);
         pEntry = MacTableLookup(pAd, MacAddr);
@@ -4281,7 +4281,7 @@ VOID RTMPAPIoctlBBP32(struct rtmp_adapter *pAd, RTMP_IOCTL_INPUT_STRUCT *wrq)
 {
 	PSTRING				this_char;
 	PSTRING				value;
-	UINT32				regBBP = 0;
+	uint32_t 			regBBP = 0;
 	PSTRING				mpool, msg; /*msg[2048]; */
 	PSTRING				arg; /*arg[255]; */
 	PSTRING				ptr;
@@ -4396,7 +4396,7 @@ VOID RTMPAPIoctlBBP32(struct rtmp_adapter *pAd, RTMP_IOCTL_INPUT_STRUCT *wrq)
 			{DSC_R0,    DSC_R10},
 			{PFMU_R0,   PFMU_R57}
 		};
-		UINT32 reg, i;
+		uint32_t reg, i;
 
 		memset(msg, 0x00, MAX_BBP_MSG_SIZE * 2);
 		sprintf(msg, "\n");
@@ -4491,10 +4491,10 @@ VOID RTMPAPIoctlMAC(
 	INT j = 0, k = 0;
 	PSTRING mpool, msg;
 	PSTRING arg, ptr;
-	UINT32 macAddr = 0;
+	uint32_t macAddr = 0;
 	UCHAR temp[16];
 	STRING temp2[16];
-	UINT32 macValue;
+	uint32_t macValue;
 	BOOLEAN bIsPrintAllMAC = FALSE, bFromUI;
 
 
@@ -4650,7 +4650,7 @@ VOID RTMPAPIoctlMAC(
 	}
 	else
 	{
-		UINT32 IdMac, mac_s = 0x1000;
+		uint32_t IdMac, mac_s = 0x1000;
 #if defined(RT65xx) || defined (MT7601)
 		if (IS_RT65XX(pAd) || IS_MT7601(pAd))
 			mac_s = 0x0;
@@ -4741,7 +4741,7 @@ VOID RTMPAPIoctlRF_mt(
 		}
 		RtmpDrvAllRFPrint(NULL, msg, strlen(msg));
 
-		DBGPRINT(RT_DEBUG_TRACE, ("strlen(msg)=%d\n", (UINT32)strlen(msg)));
+		DBGPRINT(RT_DEBUG_TRACE, ("strlen(msg)=%d\n", (uint32_t)strlen(msg)));
 		/* Copy the information into the user buffer */
 #ifdef LINUX
 		wrq->u.data.length = strlen("Dump to RFDump.txt");
@@ -5045,7 +5045,7 @@ VOID RTMPAPIoctlRF(
 
 	if (!bFromUI)
 	{
-		DBGPRINT(RT_DEBUG_ERROR, ("Dump RF msg[%d]=\n", (UINT32)strlen(msg)));
+		DBGPRINT(RT_DEBUG_ERROR, ("Dump RF msg[%d]=\n", (uint32_t)strlen(msg)));
 		DBGPRINT(RT_DEBUG_OFF, ("%s\n", msg));
 	}
 
@@ -5276,7 +5276,7 @@ VOID RTMPIoctlStatistics(struct rtmp_adapter *pAd, RTMP_IOCTL_INPUT_STRUCT *wrq)
 	INT Status;
 	PSTRING msg;
 	ULONG txCount = 0;
-	UINT32 rxCount = 0;
+	uint32_t rxCount = 0;
 #ifdef ENHANCED_STAT_DISPLAY
 	ULONG per, plr;
 	INT i;
@@ -5365,8 +5365,8 @@ VOID RTMPIoctlStatistics(struct rtmp_adapter *pAd, RTMP_IOCTL_INPUT_STRUCT *wrq)
     			if (IS_ENTRY_CLIENT(pEntry) && pEntry->Sst==SST_ASSOC)
 				{
 					//sprintf(msg+strlen(msg), "sta mac: %02x:%02x:%02x:%02x:%02x:%02x\n", pEntry->wdev->if_addr[0], pEntry->wdev->if_addr[1],  pEntry->wdev->if_addr[2],  pEntry->wdev->if_addr[3],  pEntry->wdev->if_addr[4],  pEntry->wdev->if_addr[5]);
-					UINT32 lastRxRate = pEntry->LastRxRate;
-					UINT32 lastTxRate = pEntry->LastTxRate;
+					uint32_t lastRxRate = pEntry->LastRxRate;
+					uint32_t lastTxRate = pEntry->LastTxRate;
 #ifdef RT65xx
 					if (IS_RT65XX(pAd)) {
 						ULONG TxTotalCnt, TxSuccess, TxRetransmit, TxFailCount, TxErrorRatio = 0;
@@ -6512,7 +6512,7 @@ INT	Set_OwnIPAddr_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
-	UINT32		ip_addr;
+	uint32_t 	ip_addr;
 
 	if (rtinet_aton(arg, &ip_addr))
  	{
@@ -6573,7 +6573,7 @@ INT	Set_RADIUS_Server_Proc(
 	UCHAR	    apidx = pObj->ioctl_if;
 	PSTRING		macptr;
 	INT			count;
-	UINT32		ip_addr;
+	uint32_t 	ip_addr;
 	INT			srv_cnt = 0;
 
 	for (count = 0, macptr = rstrtok(arg,";"); (macptr && count < MAX_RADIUS_SRV_NUM); macptr = rstrtok(NULL,";"), count++)
@@ -6612,7 +6612,7 @@ INT	Set_RADIUS_Port_Proc(
 		{
 			PRADIUS_SRV_INFO pSrvInfo = &pAd->ApCfg.MBSSID[apidx].radius_srv_info[srv_cnt];
 
-        	pSrvInfo->radius_port = (UINT32) simple_strtol(macptr, 0, 10);
+        	pSrvInfo->radius_port = (uint32_t) simple_strtol(macptr, 0, 10);
 			srv_cnt ++;
 			DBGPRINT(RT_DEBUG_TRACE, ("IF(ra%d), radius_port(seq-%d)=%d\n",
 									  apidx, srv_cnt, pSrvInfo->radius_port));
@@ -7226,7 +7226,7 @@ INT	Show_MbssInfo_Display_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
-	UINT32 IdBss;
+	uint32_t IdBss;
 	UCHAR PhyMode;
 	CHAR *mod_str = NULL;
 
@@ -7615,7 +7615,7 @@ INT RTMP_AP_IoctlHandle(
 			RtmpDrvRateGet(pAd, HtPhyMode.field.MODE, HtPhyMode.field.ShortGI,
 							HtPhyMode.field.BW, HtPhyMode.field.MCS,
 							pAd->Antenna.field.TxPath,
-							(UINT32 *)&pRate->BitRate);
+							(uint32_t *)&pRate->BitRate);
 		}
 			break;
 
@@ -7642,7 +7642,7 @@ INT Set_AP_DyncVgaEnable_Proc(
 	IN	PSTRING		arg)
 {
 	UINT Enable;
-	UINT32 bbp_val;
+	uint32_t bbp_val;
 
 	Enable = simple_strtol(arg, 0, 10);
 
@@ -7730,8 +7730,8 @@ INT set_thermal_protection_criteria_proc(
 #ifdef ED_MONITOR
 INT edcca_tx_stop_start(struct rtmp_adapter *pAd, BOOLEAN stop)
 {
-	UINT32 macCfg  = 0, macCfg_2 = 0, macStatus = 0;
-	UINT32 MTxCycle = 0;
+	uint32_t macCfg  = 0, macCfg_2 = 0, macStatus = 0;
+	uint32_t MTxCycle = 0;
 	ULONG stTime = 0, mt_time = 0, mr_time = 0;
 
 	/* Disable MAC Tx and wait MAC Tx/Rx status in idle state or direcyl enable tx */
@@ -7773,13 +7773,13 @@ INT edcca_tx_stop_start(struct rtmp_adapter *pAd, BOOLEAN stop)
 
 INT ed_status_read(struct rtmp_adapter *pAd)
 {
-	UINT32 period_us = pAd->ed_chk_period * 1000;
+	uint32_t period_us = pAd->ed_chk_period * 1000;
 	ULONG irqflag;
 	BOOLEAN stop_edcca = FALSE;
 	BOOLEAN stop_tx = FALSE;
 	INT percent;
 	RX_STA_CNT1_STRUC RxStaCnt1;
-	UINT32 ch_idle_stat=0, ch_busy_stat=0, ed_2nd_stat=0, ed_stat=0;
+	uint32_t ch_idle_stat=0, ch_busy_stat=0, ed_2nd_stat=0, ed_stat=0;
 
 	RTMP_IO_READ32(pAd, CH_IDLE_STA, &ch_idle_stat);
 	RTMP_IO_READ32(pAd, 0x1140, &ed_stat);
@@ -8056,9 +8056,9 @@ INT set_ed_current_rssi_threhold_proc(struct rtmp_adapter *pAd, PSTRING arg)
 INT show_ed_stat_proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	unsigned long irqflags;
-	UINT32 ed_stat[ED_STAT_CNT], ed_2nd_stat[ED_STAT_CNT], false_cca_stat[ED_STAT_CNT];
-	UINT32 silent_stat[ED_STAT_CNT], trigger_stat[ED_STAT_CNT];
-	UINT32 busy_stat[ED_STAT_CNT], idle_stat[ED_STAT_CNT];
+	uint32_t ed_stat[ED_STAT_CNT], ed_2nd_stat[ED_STAT_CNT], false_cca_stat[ED_STAT_CNT];
+	uint32_t silent_stat[ED_STAT_CNT], trigger_stat[ED_STAT_CNT];
+	uint32_t busy_stat[ED_STAT_CNT], idle_stat[ED_STAT_CNT];
 	ULONG chk_time[ED_STAT_CNT];
 	INT period_us = 0;
 	UCHAR start = 0, end = 0, idx = 0;
@@ -8203,7 +8203,7 @@ static INT Set_AP_VENDOR_SPECIFIC_IE(
 	IN struct rtmp_adapter *pAd,
 	IN UINT8 OUIType,
 	IN PSTRING IE,
-	IN UINT32 IELen)
+	IN uint32_t IELen)
 {
 	struct os_cookie *pObj = pAd->OS_Cookie;
 	UCHAR apidx = pObj->ioctl_if;
@@ -8223,7 +8223,7 @@ static INT Set_AP_VENDOR_SPECIFIC_IE(
 INT Set_AP_IE(
 	IN struct rtmp_adapter *pAd,
 	IN PSTRING IE,
-	IN UINT32 IELen)
+	IN uint32_t IELen)
 {
 	UINT8 EID;
 	UINT8 OUIType;

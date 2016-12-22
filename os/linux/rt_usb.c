@@ -1069,7 +1069,7 @@ void InitUSBDevice(RT_CMD_USB_INIT *config, VOID *ad_src)
 
 #ifdef RLT_MAC
 	if (config->driver_info == RLT_MAC_BASE) {
-		UINT32 value;
+		uint32_t value;
 		RTMP_IO_READ32(ad, 0x00, &value);
 		ad->ChipID = value;
 #ifdef RT65xx

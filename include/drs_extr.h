@@ -232,7 +232,7 @@ VOID RTMPSetSupportMCS(
 VOID TriggerQuickInitMCSRate(
     IN struct rtmp_adapter *pAd,
     IN struct _MAC_TABLE_ENTRY	*pEntry,
-    IN UINT32 CheckInterval);
+    IN uint32_t CheckInterval);
 
 BOOLEAN QuickInitMCSRate(
     IN struct rtmp_adapter *pAd,

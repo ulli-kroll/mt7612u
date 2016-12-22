@@ -49,7 +49,7 @@ void mt7612_set_ed_cca(struct rtmp_adapter *ad, BOOLEAN enable);
 
 #ifdef RALINK_ATE
 VOID mt76x2_ate_do_calibration(
-	struct rtmp_adapter *ad, UINT32 cal_id, UINT32 param);
+	struct rtmp_adapter *ad, uint32_t cal_id, uint32_t param);
 #endif /* RALINK_ATE */
 
 struct mt76x2_frequency_item {

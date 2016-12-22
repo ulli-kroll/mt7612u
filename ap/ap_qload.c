@@ -82,7 +82,7 @@ static VOID QBSS_LoadAlarm(
  	IN		struct rtmp_adapter *pAd);
 static VOID QBSS_LoadAlarmBusyTimeThresholdReset(
  	IN		struct rtmp_adapter *pAd,
-	IN		UINT32			TimePeriod);
+	IN		uint32_t 		TimePeriod);
 #endif /* QLOAD_FUNC_BUSY_TIME_ALARM */
 
 
@@ -125,7 +125,7 @@ static VOID QBSS_LoadAlarm(
 		(pAd->CommonCfg.AddHTInfo.AddHtInfo.RecomWidth != 0))
 	{
 		MAC_TABLE *pMacTable;
-		UINT32 StaId;
+		uint32_t StaId;
 
 
 		DBGPRINT(RT_DEBUG_TRACE, ("qbss> Alarm! Change to 20 bw...\n"));
@@ -233,7 +233,7 @@ Note:
 */
 static VOID QBSS_LoadAlarmBusyTimeThresholdReset(
  	IN		struct rtmp_adapter *pAd,
-	IN		UINT32			TimePeriod)
+	IN		uint32_t 		TimePeriod)
 {
 	pAd->QloadBusyTimeThreshold = TimePeriod;
 	pAd->QloadBusyTimeThreshold *= pAd->QloadAlarmBusyTimeThreshold;
@@ -265,7 +265,7 @@ Note:
 VOID QBSS_LoadInit(
  	IN		struct rtmp_adapter *pAd)
 {
-	UINT32 IdBss;
+	uint32_t IdBss;
 
 
 	/* check whether any BSS enables WMM feature */
@@ -404,7 +404,7 @@ Return Value:
 Note:
 ========================================================================
 */
-UINT32 QBSS_LoadBusyTimeGet(
+uint32_t QBSS_LoadBusyTimeGet(
  	IN		struct rtmp_adapter *pAd)
 {
 	if (pAd->QloadChanUtilBeaconCnt == 0)
@@ -462,7 +462,7 @@ Note:
 */
 BOOLEAN QBSS_LoadIsBusyTimeAccepted(
  	IN		struct rtmp_adapter *pAd,
-	IN		UINT32			BusyTime)
+	IN		uint32_t 		BusyTime)
 {
 #ifdef QLOAD_FUNC_BUSY_TIME_ALARM
 	if (pAd->QloadAlarmBusyTimeThreshold == 0)
@@ -493,7 +493,7 @@ Note:
 	function is using.
 ========================================================================
 */
-UINT32 QBSS_LoadElementAppend(
+uint32_t QBSS_LoadElementAppend(
  	IN		struct rtmp_adapter *pAd,
 	OUT		UINT8			*pBeaconBuf)
 {
@@ -554,10 +554,10 @@ VOID QBSS_LoadUpdate(
  	IN		struct rtmp_adapter *pAd,
 	IN		ULONG			UpTime)
 {
-	UINT32 ChanUtilNu, ChanUtilDe;
-	UINT32 BusyTime = 0;
-	UINT32 BusyTimeId;
-	UINT32 TimePeriod = pAd->CommonCfg.BeaconPeriod;
+	uint32_t ChanUtilNu, ChanUtilDe;
+	uint32_t BusyTime = 0;
+	uint32_t BusyTimeId;
+	uint32_t TimePeriod = pAd->CommonCfg.BeaconPeriod;
 #ifdef QLOAD_FUNC_BUSY_TIME_ALARM
 	BOOLEAN FlgIsBusyOverThreshold = FALSE;
 	BOOLEAN FlgIsAlarmNeeded = FALSE;
@@ -575,7 +575,7 @@ VOID QBSS_LoadUpdate(
 		(UpTime > pAd->QloadUpTimeLast))
 	{
 		/* re-calculate time period */
-		TimePeriod = (UINT32)(UpTime - pAd->QloadUpTimeLast);
+		TimePeriod = (uint32_t)(UpTime - pAd->QloadUpTimeLast);
 
 		/* translate to mini-second */
 		TimePeriod = (TimePeriod*1000)/OS_HZ;
@@ -795,8 +795,8 @@ INT	Show_QoSLoad_Proc(
 	IN	PSTRING			arg)
 {
 #ifdef QLOAD_FUNC_BUSY_TIME_STATS
-	UINT32 BusyTimeId;
-	UINT32 Time;
+	uint32_t BusyTimeId;
+	uint32_t Time;
 
 
 	Time = pAd->CommonCfg.BeaconPeriod / QLOAD_BUSY_INTERVALS;

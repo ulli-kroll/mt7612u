@@ -48,30 +48,30 @@
 #ifdef RT_BIG_ENDIAN
 typedef	union	_EFUSE_CTRL_STRUC {
 	struct	{
-		UINT32            SEL_EFUSE:1;
-		UINT32            EFSROM_KICK:1;
-		UINT32            RESERVED:4;
-		UINT32            EFSROM_AIN:10;
-		UINT32            EFSROM_LDO_ON_TIME:2;
-		UINT32            EFSROM_LDO_OFF_TIME:6;
-		UINT32            EFSROM_MODE:2;
-		UINT32            EFSROM_AOUT:6;
+		uint32_t            SEL_EFUSE:1;
+		uint32_t            EFSROM_KICK:1;
+		uint32_t            RESERVED:4;
+		uint32_t            EFSROM_AIN:10;
+		uint32_t            EFSROM_LDO_ON_TIME:2;
+		uint32_t            EFSROM_LDO_OFF_TIME:6;
+		uint32_t            EFSROM_MODE:2;
+		uint32_t            EFSROM_AOUT:6;
 	}	field;
-	UINT32			word;
+	uint32_t 		word;
 }	EFUSE_CTRL_STRUC, *PEFUSE_CTRL_STRUC;
 #else
 typedef	union	_EFUSE_CTRL_STRUC {
 	struct	{
-		UINT32            EFSROM_AOUT:6;
-		UINT32            EFSROM_MODE:2;
-		UINT32            EFSROM_LDO_OFF_TIME:6;
-		UINT32            EFSROM_LDO_ON_TIME:2;
-		UINT32            EFSROM_AIN:10;
-		UINT32            RESERVED:4;
-		UINT32            EFSROM_KICK:1;
-		UINT32            SEL_EFUSE:1;
+		uint32_t            EFSROM_AOUT:6;
+		uint32_t            EFSROM_MODE:2;
+		uint32_t            EFSROM_LDO_OFF_TIME:6;
+		uint32_t            EFSROM_LDO_ON_TIME:2;
+		uint32_t            EFSROM_AIN:10;
+		uint32_t            RESERVED:4;
+		uint32_t            EFSROM_KICK:1;
+		uint32_t            SEL_EFUSE:1;
 	}	field;
-	UINT32			word;
+	uint32_t 		word;
 }	EFUSE_CTRL_STRUC, *PEFUSE_CTRL_STRUC;
 #endif /* RT_BIG_ENDIAN */
 
@@ -130,8 +130,8 @@ UCHAR eFuseReadRegisters(
 	EFUSE_CTRL_STRUC		eFuseCtrlStruc;
 	int	i;
 	USHORT	efuseDataOffset;
-	UINT32	data;
-	UINT32 efuse_ctrl_reg = EFUSE_CTRL;
+	uint32_t data;
+	uint32_t efuse_ctrl_reg = EFUSE_CTRL;
 
 #if defined(RT3290) || defined(RT65xx) || defined(MT7601)
 	if (IS_RT3290(pAd) || IS_RT65XX(pAd) || IS_MT7601(pAd))
@@ -233,8 +233,8 @@ VOID eFusePhysicalReadRegisters(
 	EFUSE_CTRL_STRUC		eFuseCtrlStruc;
 	int	i;
 	USHORT	efuseDataOffset;
-	UINT32	data;
-	UINT32 efuse_ctrl_reg = EFUSE_CTRL;
+	uint32_t data;
+	uint32_t efuse_ctrl_reg = EFUSE_CTRL;
 
 #if defined(RT3290) || defined(RT65xx) || defined(MT7601)
 	if (IS_RT3290(pAd) || IS_RT65XX(pAd) || IS_MT7601(pAd))
@@ -387,8 +387,8 @@ static VOID eFusePhysicalWriteRegisters(
 	EFUSE_CTRL_STRUC		eFuseCtrlStruc;
 	int	i;
 	USHORT	efuseDataOffset, efuse_data = EFUSE_DATA3;
-	UINT32	data, eFuseDataBuffer[4];
-	UINT32 efuse_ctrl_reg = EFUSE_CTRL;
+	uint32_t data, eFuseDataBuffer[4];
+	uint32_t efuse_ctrl_reg = EFUSE_CTRL;
 
 #if defined(RT3290) || defined(RT65xx) || defined(MT7601)
 	if (IS_RT3290(pAd) || IS_RT65XX(pAd) || IS_MT7601(pAd)) {
@@ -801,7 +801,7 @@ static VOID eFuseWritePhysical(
 	USHORT* pValueX = &pInBuf[2];				/* value ...		*/
 
 #ifdef MT76x2
-	UINT32	MacReg0x14c = 0, MacReg0x24 = 0;
+	uint32_t MacReg0x14c = 0, MacReg0x24 = 0;
 #endif /* MT76x2 */
 
 	DBGPRINT(RT_DEBUG_TRACE, ("eFuseWritePhysical Offset=0x%x, length=%d\n", Offset, Length));
@@ -811,7 +811,7 @@ static VOID eFuseWritePhysical(
 #ifdef MT76x2
 	if ( IS_MT76x2(pAd) )
 	{
-		UINT32 MacValue;
+		uint32_t MacValue;
 
 		RTMP_IO_READ32(pAd, CLK_ENABLE,  &MacValue);
 		MacReg0x14c = MacValue;
@@ -1302,7 +1302,7 @@ INT eFuse_init(struct rtmp_adapter *pAd)
 
 INT efuse_probe(struct rtmp_adapter *pAd)
 {
-	UINT32 eFuseCtrl, ctrl_reg;
+	uint32_t eFuseCtrl, ctrl_reg;
 
 
 	if (WaitForAsicReady(pAd) == FALSE)

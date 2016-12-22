@@ -725,9 +725,9 @@ BOOLEAN RTMPSoftDecryptTKIP(
 	ULONG			pnh;/* Most significant 32 bits of PN */
 	ARC4_CTX_STRUC 	ARC4_CTX;
 	PUCHAR			plaintext_ptr;
-	UINT32			plaintext_len;
+	uint32_t 		plaintext_len;
 	PUCHAR			ciphertext_ptr;
-	UINT32			ciphertext_len;
+	uint32_t 		ciphertext_len;
 	UINT			crc32 = 0;
 	UINT			trailfcs = 0;
 	UCHAR			MIC[8];
@@ -882,7 +882,7 @@ VOID TKIP_GTK_KEY_WRAP(
     IN UCHAR    *key,
     IN UCHAR	*iv,
     IN UCHAR    *input_text,
-    IN UINT32    input_len,
+    IN uint32_t    input_len,
     OUT UCHAR   *output_text)
 {
 	UCHAR	ekey[LEN_KEY_DESC_IV + LEN_PTK_KEK];
@@ -919,7 +919,7 @@ VOID TKIP_GTK_KEY_UNWRAP(
     IN UCHAR    *key,
     IN UCHAR	*iv,
     IN UCHAR    *input_text,
-    IN UINT32    input_len,
+    IN uint32_t    input_len,
     OUT UCHAR   *output_text)
 {
 	TKIP_GTK_KEY_WRAP(key, iv, input_text, input_len, output_text);

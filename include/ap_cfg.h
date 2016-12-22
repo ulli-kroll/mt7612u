@@ -88,7 +88,7 @@ VOID RtmpDrvRateGet(
 	IN	UINT8					BW,
 	IN	UINT8					MCS,
 	IN  UINT8                   Antena,
-	OUT	UINT32					*pRate);
+	OUT	uint32_t 				*pRate);
 
 
 #ifdef DOT11_N_SUPPORT
@@ -131,7 +131,7 @@ INT Set_AP_Daemon_Status(
 INT Set_AP_IE(
 	IN struct rtmp_adapter *pAd,
 	IN PSTRING IE,
-	IN UINT32 IELen);
+	IN uint32_t IELen);
 
 
 INT	ApCfg_Set_AuthMode_Proc(

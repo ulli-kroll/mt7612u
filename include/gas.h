@@ -91,8 +91,8 @@ typedef struct _GAS_PEER_ENTRY {
 #endif /* CONFIG_STA_SUPPORT */
 	UCHAR GASRspFragNum;
 	UCHAR CurrentGASFragNum;
-	UINT32 AllocResource;
-	UINT32 FreeResource;
+	uint32_t AllocResource;
+	uint32_t FreeResource;
 	UCHAR QueryNum;
 	DL_LIST GASQueryRspFragList;
 }GAS_PEER_ENTRY, *PGAS_PEER_ENTRY;

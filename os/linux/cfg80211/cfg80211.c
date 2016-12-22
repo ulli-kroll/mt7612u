@@ -158,7 +158,7 @@ static const UCHAR Cfg80211_Chan[] = {
 };
 
 
-static const UINT32 CipherSuites[] = {
+static const uint32_t CipherSuites[] = {
 	WLAN_CIPHER_SUITE_WEP40,
 	WLAN_CIPHER_SUITE_WEP104,
 	WLAN_CIPHER_SUITE_TKIP,
@@ -225,7 +225,7 @@ static int CFG80211_OpsChannelSet(
 	VOID *pAd;
 	CFG80211_CB *p80211CB;
 	CMD_RTPRIV_IOCTL_80211_CHAN ChanInfo;
-	UINT32 ChanId;
+	uint32_t ChanId;
 
 	CFG80211DBG(RT_DEBUG_TRACE, ("80211> %s ==>\n", __FUNCTION__));
 	MAC80211_PAD_GET(pAd, pWiphy);
@@ -517,9 +517,9 @@ static int CFG80211_OpsScan(
 	DBGPRINT(RT_DEBUG_INFO, ("80211> [%d] Channels In ProbeRequest.\n",  pRequest->n_channels));
 	if ( pRequest->n_channels > 0 )
 	{
-		UINT32 *pChanList;
+		uint32_t *pChanList;
 		UINT idx;
-		pChanList = kmalloc(sizeof(UINT32 *) * pRequest->n_channels, GFP_ATOMIC);
+		pChanList = kmalloc(sizeof(uint32_t *) * pRequest->n_channels, GFP_ATOMIC);
         if (pChanList == NULL)
         {
         	DBGPRINT(RT_DEBUG_ERROR, ("%s::Alloc memory fail\n", __FUNCTION__));
@@ -868,7 +868,7 @@ Note:
 */
 static int CFG80211_OpsWiphyParamsSet(
 	IN struct wiphy						*pWiphy,
-	IN UINT32							Changed)
+	IN uint32_t 						Changed)
 {
 	VOID *pAd;
 
@@ -1691,7 +1691,7 @@ static int CFG80211_OpsRemainOnChannel(
 	OUT u64 *cookie)
 {
 	VOID *pAd;
-	UINT32 ChanId;
+	uint32_t ChanId;
 	CMD_RTPRIV_IOCTL_80211_CHAN ChanInfo;
 	u32 rndCookie;
 
@@ -1765,7 +1765,7 @@ static int CFG80211_OpsMgmtTx(
 	IN u64 *pCookie)
 {
 	VOID *pAd;
-	UINT32 ChanId;
+	uint32_t ChanId;
 	struct net_device *dev = NULL;
 
 	CFG80211DBG(RT_DEBUG_INFO, ("80211> %s ==>\n", __FUNCTION__));

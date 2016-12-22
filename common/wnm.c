@@ -403,13 +403,13 @@ BOOLEAN IsTDLSPacket(IN struct rtmp_adapter *pAd,
 }
 
 
-UINT32 IPv4ProxyARPTableLen(IN struct rtmp_adapter *pAd,
+uint32_t IPv4ProxyARPTableLen(IN struct rtmp_adapter *pAd,
 							IN struct _MULTISSID_STRUCT *pMbss)
 {
 
 	PWNM_CTRL pWNMCtrl = &pMbss->WNMCtrl;
 	PROXY_ARP_IPV4_ENTRY *ProxyARPEntry;
-	UINT32 TableLen = 0;
+	uint32_t TableLen = 0;
 	INT32 Ret;
 
 	DBGPRINT(RT_DEBUG_OFF, ("%s\n", __FUNCTION__));
@@ -424,12 +424,12 @@ UINT32 IPv4ProxyARPTableLen(IN struct rtmp_adapter *pAd,
 	return TableLen;
 }
 
-UINT32 IPv6ProxyARPTableLen(IN struct rtmp_adapter *pAd,
+uint32_t IPv6ProxyARPTableLen(IN struct rtmp_adapter *pAd,
 							IN struct _MULTISSID_STRUCT *pMbss)
 {
 	PWNM_CTRL pWNMCtrl = &pMbss->WNMCtrl;
 	PROXY_ARP_IPV6_ENTRY *ProxyARPEntry;
-	UINT32 TableLen = 0;
+	uint32_t TableLen = 0;
 	INT32 Ret;
 
 	RTMP_SEM_EVENT_WAIT(&pWNMCtrl->ProxyARPIPv6ListLock, Ret);
@@ -491,7 +491,7 @@ BOOLEAN GetIPv6ProxyARPTable(IN struct rtmp_adapter *pAd,
 	return TRUE;
 }
 
-UINT32 AddIPv4ProxyARPEntry(IN struct rtmp_adapter *pAd,
+uint32_t AddIPv4ProxyARPEntry(IN struct rtmp_adapter *pAd,
 					   		IN MULTISSID_STRUCT *pMbss,
 							PUCHAR pTargetMACAddr,
 							PUCHAR pTargetIPAddr)
@@ -564,7 +564,7 @@ VOID RemoveIPv4ProxyARPEntry(IN struct rtmp_adapter *pAd,
 	RTMP_SEM_EVENT_UP(&pWNMCtrl->ProxyARPListLock);
 }
 
-UINT32 AddIPv6ProxyARPEntry(IN struct rtmp_adapter *pAd,
+uint32_t AddIPv6ProxyARPEntry(IN struct rtmp_adapter *pAd,
 							IN MULTISSID_STRUCT *pMbss,
 							PUCHAR pTargetMACAddr,
 							PUCHAR pTargetIPAddr)
@@ -877,7 +877,7 @@ static VOID WNMCtrlRemoveAllIE(PWNM_CTRL pWNMCtrl)
 VOID WNMCtrlExit(IN struct rtmp_adapter *pAd)
 {
 	PWNM_CTRL pWNMCtrl;
-	UINT32 Ret;
+	uint32_t Ret;
 #ifdef CONFIG_AP_SUPPORT
 	PROXY_ARP_IPV4_ENTRY *ProxyARPIPv4Entry, *ProxyARPIPv4EntryTmp;
 	PROXY_ARP_IPV6_ENTRY *ProxyARPIPv6Entry, *ProxyARPIPv6EntryTmp;
@@ -934,7 +934,7 @@ VOID Clear_All_PROXY_TABLE(IN struct rtmp_adapter *pAd)
 	struct os_cookie *pObj = pAd->OS_Cookie;
 	UCHAR APIndex = pObj->ioctl_if;
 	PWNM_CTRL pWNMCtrl;
-	UINT32 Ret;
+	uint32_t Ret;
 	PROXY_ARP_IPV4_ENTRY *ProxyARPIPv4Entry, *ProxyARPIPv4EntryTmp;
 	PROXY_ARP_IPV6_ENTRY *ProxyARPIPv6Entry, *ProxyARPIPv6EntryTmp;
 

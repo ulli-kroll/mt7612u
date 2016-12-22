@@ -522,8 +522,8 @@ typedef ULONGLONG NDIS_802_11_KEY_RSC;
 /* The dot1x related structure.
    It's used to communicate with DOT1X daemon */
 typedef struct GNU_PACKED _RADIUS_SRV_INFO {
-	UINT32 radius_ip;
-	UINT32 radius_port;
+	uint32_t radius_ip;
+	uint32_t radius_port;
 	UCHAR radius_key[64];
 	UCHAR radius_key_len;
 } RADIUS_SRV_INFO, *PRADIUS_SRV_INFO;
@@ -540,12 +540,12 @@ typedef struct GNU_PACKED _DOT1X_BSS_INFO {
 } DOT1X_BSS_INFO, *PDOT1X_BSS_INFO;
 
 typedef struct GNU_PACKED _DOT1X_CMM_CONF {
-	UINT32 Length;		/* Length of this structure */
+	uint32_t Length;		/* Length of this structure */
 	UCHAR mbss_num;		/* indicate multiple BSS number */
-	UINT32 own_ip_addr;
-	UINT32 retry_interval;
-	UINT32 session_timeout_interval;
-	UINT32 quiet_interval;
+	uint32_t own_ip_addr;
+	uint32_t retry_interval;
+	uint32_t session_timeout_interval;
+	uint32_t quiet_interval;
 	UCHAR EAPifname[8][IFNAMSIZ];
 	UCHAR EAPifname_len[8];
 	UCHAR PreAuthifname[8][IFNAMSIZ];
@@ -555,7 +555,7 @@ typedef struct GNU_PACKED _DOT1X_CMM_CONF {
 
 typedef struct GNU_PACKED _DOT1X_IDLE_TIMEOUT {
 	UCHAR StaAddr[6];
-	UINT32 idle_timeout;
+	uint32_t idle_timeout;
 } DOT1X_IDLE_TIMEOUT, *PDOT1X_IDLE_TIMEOUT;
 
 typedef struct GNU_PACKED _DOT1X_QUERY_STA_AID {
@@ -1083,9 +1083,9 @@ typedef struct _RT_802_11_MAC_ENTRY {
 	CHAR AvgRssi0;
 	CHAR AvgRssi1;
 	CHAR AvgRssi2;
-	UINT32 ConnectedTime;
+	uint32_t ConnectedTime;
 	MACHTTRANSMIT_SETTING TxRate;
-	UINT32 LastRxRate;
+	uint32_t LastRxRate;
 
 //sync with MT7620
 	SHORT StreamSnr[3];				/* BF SNR from RXWI. Units=0.25 dB. 22 dB offset removed */
@@ -1306,15 +1306,15 @@ enum {
 };
 
 struct bbp_info {
-	UINT32 bbp_start;
-	UINT32 bbp_end;
+	uint32_t bbp_start;
+	uint32_t bbp_end;
 	UINT8 bbp_value[0];
 };
 
 struct bbp32_info {
-	UINT32 bbp_start;
-	UINT32 bbp_end;
-	UINT32 bbp_value[0];
+	uint32_t bbp_start;
+	uint32_t bbp_end;
+	uint32_t bbp_value[0];
 };
 
 struct rf_info {
@@ -1334,20 +1334,20 @@ struct rf_index_info {
 	UINT8 rf_index;
 	UINT16 rf_start;
 	UINT16 rf_end;
-	UINT32 rf_value[0];
+	uint32_t rf_value[0];
 };
 
 struct mac_info {
-	UINT32 mac_start;
-	UINT32 mac_end;
-	UINT32 mac_value[0];
+	uint32_t mac_start;
+	uint32_t mac_end;
+	uint32_t mac_value[0];
 };
 
 struct mem_map_info {
 	u32 base;
 	UINT16 mem_map_start;
 	UINT16 mem_map_end;
-	UINT32 mem_map_value[0];
+	uint32_t mem_map_value[0];
 };
 
 struct e2p_info {
@@ -1366,56 +1366,56 @@ struct phy_mode_info {
 };
 
 struct anqp_req_data {
-	UINT32 ifindex;
+	uint32_t ifindex;
 	UCHAR peer_mac_addr[6];
-	UINT32 anqp_req_len;
+	uint32_t anqp_req_len;
 	UCHAR anqp_req[0];
 };
 
 struct anqp_rsp_data {
-	UINT32 ifindex;
+	uint32_t ifindex;
 	UCHAR peer_mac_addr[6];
 	UINT16 status;
-	UINT32 anqp_rsp_len;
+	uint32_t anqp_rsp_len;
 	UCHAR anqp_rsp[0];
 };
 
 struct hs_onoff {
-	UINT32 ifindex;
+	uint32_t ifindex;
 	UCHAR hs_onoff;
 	UCHAR event_trigger;
 	UCHAR event_type;
 };
 
 struct hs_param_setting {
-	UINT32 param;
-	UINT32 value;
+	uint32_t param;
+	uint32_t value;
 };
 
 
 struct btm_req_data {
-	UINT32 ifindex;
+	uint32_t ifindex;
 	UCHAR peer_mac_addr[6];
-	UINT32 btm_req_len;
+	uint32_t btm_req_len;
 	UCHAR btm_req[0];
 };
 
 struct btm_query_data {
-	UINT32 ifindex;
+	uint32_t ifindex;
 	UCHAR peer_mac_addr[6];
-	UINT32 btm_query_len;
+	uint32_t btm_query_len;
 	UCHAR btm_query[0];
 };
 
 struct btm_rsp_data {
-	UINT32 ifindex;
+	uint32_t ifindex;
 	UCHAR peer_mac_addr[6];
-	UINT32 btm_rsp_len;
+	uint32_t btm_rsp_len;
 	UCHAR btm_rsp[0];
 };
 
 struct proxy_arp_entry {
-	UINT32 ifindex;
+	uint32_t ifindex;
 	UCHAR ip_type;
 	UCHAR from_ds;
 	UCHAR source_mac_addr[6];

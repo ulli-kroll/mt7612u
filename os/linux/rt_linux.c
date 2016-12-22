@@ -70,7 +70,7 @@ ULONG OS_NumOfPktAlloc = 0, OS_NumOfPktFree = 0;
 BOOLEAN FlgIsUtilInit = FALSE;
 OS_NDIS_SPIN_LOCK UtilSemLock;
 
-BOOLEAN RTMP_OS_Alloc_RscOnly(VOID *pRscSrc, UINT32 RscLen);
+BOOLEAN RTMP_OS_Alloc_RscOnly(VOID *pRscSrc, uint32_t RscLen);
 BOOLEAN RTMP_OS_Remove_Rsc(LIST_HEADER *pRscList, VOID *pRscSrc);
 
 /*
@@ -184,7 +184,7 @@ void RTMP_GetCurrentSystemTick(ULONG *pNow)
 	*pNow = jiffies;
 }
 
-ULONG RTMPMsecsToJiffies(UINT32 m)
+ULONG RTMPMsecsToJiffies(uint32_t m)
 {
 
 	return msecs_to_jiffies(m);
@@ -521,7 +521,7 @@ BOOLEAN RTMPL2FrameTxAction(
 	IN RTMP_CB_8023_PACKET_ANNOUNCE _announce_802_3_packet,
 	IN UCHAR apidx,
 	IN UCHAR *pData,
-	IN UINT32 data_len,
+	IN uint32_t data_len,
 	IN UCHAR OpMode)
 {
 	struct sk_buff *skb = dev_alloc_skb(data_len + 2);
@@ -556,18 +556,18 @@ BOOLEAN RTMPL2FrameTxAction(
 struct sk_buff *ExpandPacket(
 	IN VOID *pReserved,
 	IN struct sk_buff *pPacket,
-	IN UINT32 ext_head_len,
-	IN UINT32 ext_tail_len)
+	IN uint32_t ext_head_len,
+	IN uint32_t ext_tail_len)
 {
 	struct sk_buff *skb, *newskb;
 
 	skb = RTPKT_TO_OSPKT(pPacket);
 	if (skb_cloned(skb) || (skb_headroom(skb) < ext_head_len)
 	    || (skb_tailroom(skb) < ext_tail_len)) {
-		UINT32 head_len =
+		uint32_t head_len =
 		    (skb_headroom(skb) <
 		     ext_head_len) ? ext_head_len : skb_headroom(skb);
-		UINT32 tail_len =
+		uint32_t tail_len =
 		    (skb_tailroom(skb) <
 		     ext_tail_len) ? ext_tail_len : skb_tailroom(skb);
 
@@ -998,7 +998,7 @@ BOOLEAN __RtmpOSTaskWait(
 	return TRUE;
 }
 
-static UINT32 RtmpOSWirelessEventTranslate(IN UINT32 eventType)
+static uint32_t RtmpOSWirelessEventTranslate(IN uint32_t eventType)
 {
 	switch (eventType) {
 	case RT_WLAN_EVENT_CUSTOM:
@@ -1036,11 +1036,11 @@ static UINT32 RtmpOSWirelessEventTranslate(IN UINT32 eventType)
 
 int RtmpOSWrielessEventSend(
 	IN struct net_device *pNetDev,
-	IN UINT32 eventType,
+	IN uint32_t eventType,
 	IN INT flags,
 	IN PUCHAR pSrcMac,
 	IN PUCHAR pData,
-	IN UINT32 dataLen)
+	IN uint32_t dataLen)
 {
 	union iwreq_data wrqu;
 
@@ -1067,12 +1067,12 @@ int RtmpOSWrielessEventSend(
 
 int RtmpOSWrielessEventSendExt(
 	IN struct net_device *pNetDev,
-	IN UINT32 eventType,
+	IN uint32_t eventType,
 	IN INT flags,
 	IN PUCHAR pSrcMac,
 	IN PUCHAR pData,
-	IN UINT32 dataLen,
-	IN UINT32 family)
+	IN uint32_t dataLen,
+	IN uint32_t family)
 {
 	union iwreq_data wrqu;
 
@@ -1264,7 +1264,7 @@ char *RtmpOsGetNetDevName(struct net_device *pDev)
 }
 
 
-UINT32 RtmpOsGetNetIfIndex(struct net_device*pDev)
+uint32_t RtmpOsGetNetIfIndex(struct net_device*pDev)
 {
 	return pDev->ifindex;
 }
@@ -1297,7 +1297,7 @@ int RtmpOSNetDevAddrSet(
   */
 static int RtmpOSNetDevRequestName(
 	IN INT32 MC_RowID,
-	IN UINT32 *pIoctlIF,
+	IN uint32_t *pIoctlIF,
 	IN struct net_device *dev,
 	IN PSTRING pPrefixStr,
 	IN INT devIdx)
@@ -1370,7 +1370,7 @@ void RtmpOSNetDevFree(struct net_device *pNetDev)
 
 INT RtmpOSNetDevAlloc(
 	IN struct net_device **new_dev_p,
-	IN UINT32 privDataSize)
+	IN uint32_t privDataSize)
 {
 	*new_dev_p = NULL;
 
@@ -1543,7 +1543,7 @@ int RtmpOSNetDevAttach(
 
 struct net_device *RtmpOSNetDevCreate(
 	IN INT32 MC_RowID,
-	IN UINT32 *pIoctlIF,
+	IN uint32_t *pIoctlIF,
 	IN INT devType,
 	IN INT devNum,
 	IN INT privMemSize,
@@ -1657,7 +1657,7 @@ Return Value:
 Note:
 ========================================================================
 */
-int AdapterBlockAllocateMemory(VOID *handle, VOID **ppAd, UINT32 SizeOfpAd)
+int AdapterBlockAllocateMemory(VOID *handle, VOID **ppAd, uint32_t SizeOfpAd)
 {
 	*ppAd = (PVOID) vmalloc(SizeOfpAd);
 	if (*ppAd) {
@@ -1678,16 +1678,16 @@ UINT RtmpOsWirelessExtVerGet(VOID)
 
 VOID RtmpDrvAllMacPrint(
 	IN VOID *pReserved,
-	IN UINT32 *pBufMac,
-	IN UINT32 AddrStart,
-	IN UINT32 AddrEnd,
-	IN UINT32 AddrStep)
+	IN uint32_t *pBufMac,
+	IN uint32_t AddrStart,
+	IN uint32_t AddrEnd,
+	IN uint32_t AddrStep)
 {
 	struct file *file_w;
 	PSTRING fileName = "MacDump.txt";
 	mm_segment_t orig_fs;
 	STRING *msg;
-	UINT32 macAddr = 0, macValue = 0;
+	uint32_t macAddr = 0, macValue = 0;
 
 	msg = kmalloc(1024, GFP_ATOMIC);
 	if (!msg)
@@ -1730,8 +1730,8 @@ VOID RtmpDrvAllMacPrint(
 VOID RtmpDrvAllE2PPrint(
 	IN VOID *pReserved,
 	IN USHORT *pMacContent,
-	IN UINT32 AddrEnd,
-	IN UINT32 AddrStep)
+	IN uint32_t AddrEnd,
+	IN uint32_t AddrStep)
 {
 	struct file *file_w;
 	PSTRING fileName = "EEPROMDump.txt";
@@ -1782,7 +1782,7 @@ VOID RtmpDrvAllE2PPrint(
 VOID RtmpDrvAllRFPrint(
 	IN VOID *pReserved,
 	IN UCHAR *pBuf,
-	IN UINT32 BufLen)
+	IN uint32_t BufLen)
 {
 	struct file *file_w;
 	PSTRING fileName = "RFDump.txt";
@@ -1892,7 +1892,7 @@ INT32 RtmpOsFileIsErr(IN VOID *pFile)
 
 int RtmpOSIRQRelease(
 	IN struct net_device *pNetDev,
-	IN UINT32 infType,
+	IN uint32_t infType,
 	IN PPCI_DEV pci_dev,
 	IN BOOLEAN *pHaveMsi)
 {
@@ -2189,7 +2189,7 @@ void OS_CLEAR_BIT(int bit, unsigned long *flags)
 }
 
 #ifndef BB_SOC
-void OS_LOAD_CODE_FROM_BIN(unsigned char **image, char *bin_name, void *inf_dev, UINT32 *code_len)
+void OS_LOAD_CODE_FROM_BIN(unsigned char **image, char *bin_name, void *inf_dev, uint32_t *code_len)
 {
 	struct device *dev;
 	const struct firmware *fw_entry;

@@ -72,7 +72,7 @@ int	RTMPSendPackets(
 	IN	NDIS_HANDLE		MiniportAdapterContext,
 	IN	struct sk_buff		**ppPacketArray,
 	IN	UINT			NumberOfPackets,
-	IN	UINT32			PktTotalLen,
+	IN	uint32_t 		PktTotalLen,
 	IN	RTMP_NET_ETH_CONVERT_DEV_SEARCH	Func);
 
 int P2P_PacketSend(
@@ -217,15 +217,15 @@ BOOLEAN RTMP_CFG80211_VIF_P2P_CLI_ON(struct rtmp_adapter *pAdSrc);
 #endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
 #endif /* RT_CFG80211_P2P_SUPPORT */
 
-struct net_device *RTMP_CFG80211_FindVifEntry_ByType(struct rtmp_adapter *pAdSrc, UINT32 devType);
-PWIRELESS_DEV RTMP_CFG80211_FindVifEntryWdev_ByType(struct rtmp_adapter *pAdSrc, UINT32 devType);
-VOID RTMP_CFG80211_AddVifEntry(struct rtmp_adapter *pAdSrc, struct net_device *pNewNetDev, UINT32 DevType);
+struct net_device *RTMP_CFG80211_FindVifEntry_ByType(struct rtmp_adapter *pAdSrc, uint32_t devType);
+PWIRELESS_DEV RTMP_CFG80211_FindVifEntryWdev_ByType(struct rtmp_adapter *pAdSrc, uint32_t devType);
+VOID RTMP_CFG80211_AddVifEntry(struct rtmp_adapter *pAdSrc, struct net_device *pNewNetDev, uint32_t DevType);
 VOID RTMP_CFG80211_RemoveVifEntry(struct rtmp_adapter *pAdSrc, struct net_device *pNewNetDev);
 
 struct net_device *RTMP_CFG80211_VirtualIF_Get(struct rtmp_adapter *pAdSrc);
 VOID RTMP_CFG80211_VirtualIF_CancelP2pClient(struct rtmp_adapter *pAdSrc);
-VOID RTMP_CFG80211_VirtualIF_Init(struct rtmp_adapter *pAd, CHAR *pIfName, UINT32 DevType);
-VOID RTMP_CFG80211_VirtualIF_Remove(struct rtmp_adapter *pAd,struct net_device *dev_p, UINT32 DevType);
+VOID RTMP_CFG80211_VirtualIF_Init(struct rtmp_adapter *pAd, CHAR *pIfName, uint32_t DevType);
+VOID RTMP_CFG80211_VirtualIF_Remove(struct rtmp_adapter *pAd,struct net_device *dev_p, uint32_t DevType);
 VOID RTMP_CFG80211_AllVirtualIF_Remove(struct rtmp_adapter *pAdSrc);
 
 

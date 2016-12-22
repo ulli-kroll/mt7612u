@@ -143,7 +143,7 @@ VOID UpdateChannelInfo(
 {
 	if(pAd->pChannelInfo != NULL)
 	{
-		UINT32	BusyTime;
+		uint32_t BusyTime;
 
 		if ( Alg == ChannelAlgCCA )
 		{
@@ -325,7 +325,7 @@ static inline UCHAR SelectClearChannelCCA(
 	PCHANNELINFO pChannelInfo = pAd->pChannelInfo;
 	INT ch = 1, channel_idx, BssTab_idx;
 	BSSENTRY *pBss;
-	UINT32 min_dirty, min_falsecca;
+	uint32_t min_dirty, min_falsecca;
 	int candidate_ch;
 	UCHAR  ExChannel[2] = {0}, candidate_ExChannel[2] = {0};
 	UCHAR base;
@@ -453,7 +453,7 @@ static inline UCHAR SelectClearChannelCCA(
 
 		if (pChannelInfo->FalseCCA[channel_idx] <= CCA_THRESHOLD)
 		{
-			UINT32 dirtyness = pChannelInfo->dirtyness[channel_idx];
+			uint32_t dirtyness = pChannelInfo->dirtyness[channel_idx];
 			ch = pAd->ChannelList[channel_idx].Channel;
 
 #ifdef AP_QLOAD_SUPPORT
@@ -588,7 +588,7 @@ static inline UCHAR SelectClearChannelCCA(
 
 		if (pChannelInfo->FalseCCA[channel_idx] > CCA_THRESHOLD)
 		{
-			UINT32 falsecca = pChannelInfo->FalseCCA[channel_idx] + pChannelInfo->dirtyness[channel_idx];
+			uint32_t falsecca = pChannelInfo->FalseCCA[channel_idx] + pChannelInfo->dirtyness[channel_idx];
 			ch = pAd->ChannelList[channel_idx].Channel;
 
 #ifdef DOT11_N_SUPPORT
@@ -1137,7 +1137,7 @@ UCHAR SelectBestChannel(struct rtmp_adapter *pAd, ChannelSel_Alg Alg)
 
 VOID APAutoChannelInit(struct rtmp_adapter *pAd)
 {
-	UINT32 BusyTime;
+	uint32_t BusyTime;
 
 	/* reset bss table */
 	AutoChBssTableReset(pAd);

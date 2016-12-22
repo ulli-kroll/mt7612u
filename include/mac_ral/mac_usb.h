@@ -43,71 +43,71 @@
 typedef	union _USB_DMA_CFG_STRUC {
 #if defined(MT76x0) || defined(MT76x2)
 	struct {
-		UINT32 TxBusy:1;   	/*USB DMA TX FSM busy. debug only */
-		UINT32 RxBusy:1;        /*USB DMA RX FSM busy. debug only */
-		UINT32 EpoutValid:6;        /*OUT endpoint data valid. debug only */
-		UINT32 TxBulkEn:1;        /*Enable USB DMA Tx */
-		UINT32 RxBulkEn:1;        /*Enable USB DMA Rx */
-		UINT32 RxBulkAggEn:1;        /*Enable Rx Bulk Aggregation */
-		UINT32 WL_LPK_EN:1;        /*Halt TXOP count down when TX buffer is full. */
-		UINT32 TxClear:1;        /*Clear USB DMA TX path */
-		UINT32 RX_DROP_OR_PADDING:1;  	/* Drop current WL RX packets in UDMA */
-		UINT32 wakeup_en:1;	/* USB wakeup host enable */
-		UINT32 UDMA_TX_WL_DROP:1;	/* Drop current WL TX packets in UDMA */
-		UINT32 RxBulkAggLmt:8;        /*Rx Bulk Aggregation Limit  in unit of 1024 bytes */
-		UINT32 RxBulkAggTOut:8;        /*Rx Bulk Aggregation TimeOut  in unit of 33ns */
+		uint32_t TxBusy:1;   	/*USB DMA TX FSM busy. debug only */
+		uint32_t RxBusy:1;        /*USB DMA RX FSM busy. debug only */
+		uint32_t EpoutValid:6;        /*OUT endpoint data valid. debug only */
+		uint32_t TxBulkEn:1;        /*Enable USB DMA Tx */
+		uint32_t RxBulkEn:1;        /*Enable USB DMA Rx */
+		uint32_t RxBulkAggEn:1;        /*Enable Rx Bulk Aggregation */
+		uint32_t WL_LPK_EN:1;        /*Halt TXOP count down when TX buffer is full. */
+		uint32_t TxClear:1;        /*Clear USB DMA TX path */
+		uint32_t RX_DROP_OR_PADDING:1;  	/* Drop current WL RX packets in UDMA */
+		uint32_t wakeup_en:1;	/* USB wakeup host enable */
+		uint32_t UDMA_TX_WL_DROP:1;	/* Drop current WL TX packets in UDMA */
+		uint32_t RxBulkAggLmt:8;        /*Rx Bulk Aggregation Limit  in unit of 1024 bytes */
+		uint32_t RxBulkAggTOut:8;        /*Rx Bulk Aggregation TimeOut  in unit of 33ns */
 	} field_76xx;
 #endif /* defined(MT76x0) || defined(MT76x2) */
 	struct {
-		UINT32 TxBusy:1;   	/*USB DMA TX FSM busy. debug only */
-		UINT32 RxBusy:1;        /*USB DMA RX FSM busy. debug only */
-		UINT32 EpoutValid:6;        /*OUT endpoint data valid. debug only */
-		UINT32 TxBulkEn:1;        /*Enable USB DMA Tx */
-		UINT32 RxBulkEn:1;        /*Enable USB DMA Rx */
-		UINT32 RxBulkAggEn:1;        /*Enable Rx Bulk Aggregation */
-		UINT32 TxopHalt:1;        /*Halt TXOP count down when TX buffer is full. */
-		UINT32 TxClear:1;        /*Clear USB DMA TX path */
-		UINT32 rsv:2;
-		UINT32 phyclear:1;        		/*phy watch dog enable. write 1 */
-		UINT32 RxBulkAggLmt:8;        /*Rx Bulk Aggregation Limit  in unit of 1024 bytes */
-		UINT32 RxBulkAggTOut:8;        /*Rx Bulk Aggregation TimeOut  in unit of 33ns */
+		uint32_t TxBusy:1;   	/*USB DMA TX FSM busy. debug only */
+		uint32_t RxBusy:1;        /*USB DMA RX FSM busy. debug only */
+		uint32_t EpoutValid:6;        /*OUT endpoint data valid. debug only */
+		uint32_t TxBulkEn:1;        /*Enable USB DMA Tx */
+		uint32_t RxBulkEn:1;        /*Enable USB DMA Rx */
+		uint32_t RxBulkAggEn:1;        /*Enable Rx Bulk Aggregation */
+		uint32_t TxopHalt:1;        /*Halt TXOP count down when TX buffer is full. */
+		uint32_t TxClear:1;        /*Clear USB DMA TX path */
+		uint32_t rsv:2;
+		uint32_t phyclear:1;        		/*phy watch dog enable. write 1 */
+		uint32_t RxBulkAggLmt:8;        /*Rx Bulk Aggregation Limit  in unit of 1024 bytes */
+		uint32_t RxBulkAggTOut:8;        /*Rx Bulk Aggregation TimeOut  in unit of 33ns */
 	} field;
-	UINT32 word;
+	uint32_t word;
 } USB_DMA_CFG_STRUC;
 #else
 typedef	union _USB_DMA_CFG_STRUC {
 #if defined(MT76x0) || defined(MT76x2)
 	struct {
-		UINT32 RxBulkAggTOut:8;        /*Rx Bulk Aggregation TimeOut  in unit of 33ns */
-		UINT32 RxBulkAggLmt:8;        /*Rx Bulk Aggregation Limit  in unit of 256 bytes */
-		UINT32 UDMA_TX_WL_DROP:1;	/* Drop current WL TX packets in UDMA */
-		UINT32 wakeup_en:1;			/* USB wakeup host enable */
-		UINT32 RX_DROP_OR_PADDING:1; 	/* Drop current WL RX packets in UDMA */
-		UINT32 TxClear:1;        /*Clear USB DMA TX path */
-		UINT32 WL_LPK_EN:1;        /*Halt TXOP count down when TX buffer is full. */
-		UINT32 RxBulkAggEn:1;        /*Enable Rx Bulk Aggregation */
-		UINT32 RxBulkEn:1;        /*Enable USB DMA Rx */
-		UINT32 TxBulkEn:1;        /*Enable USB DMA Tx */
-		UINT32 EpoutValid:6;        /*OUT endpoint data valid */
-		UINT32 RxBusy:1;        /*USB DMA RX FSM busy */
-		UINT32 TxBusy:1;   	/*USB DMA TX FSM busy */
+		uint32_t RxBulkAggTOut:8;        /*Rx Bulk Aggregation TimeOut  in unit of 33ns */
+		uint32_t RxBulkAggLmt:8;        /*Rx Bulk Aggregation Limit  in unit of 256 bytes */
+		uint32_t UDMA_TX_WL_DROP:1;	/* Drop current WL TX packets in UDMA */
+		uint32_t wakeup_en:1;			/* USB wakeup host enable */
+		uint32_t RX_DROP_OR_PADDING:1; 	/* Drop current WL RX packets in UDMA */
+		uint32_t TxClear:1;        /*Clear USB DMA TX path */
+		uint32_t WL_LPK_EN:1;        /*Halt TXOP count down when TX buffer is full. */
+		uint32_t RxBulkAggEn:1;        /*Enable Rx Bulk Aggregation */
+		uint32_t RxBulkEn:1;        /*Enable USB DMA Rx */
+		uint32_t TxBulkEn:1;        /*Enable USB DMA Tx */
+		uint32_t EpoutValid:6;        /*OUT endpoint data valid */
+		uint32_t RxBusy:1;        /*USB DMA RX FSM busy */
+		uint32_t TxBusy:1;   	/*USB DMA TX FSM busy */
 	} field_76xx;
 #endif /* defined(MT76x0) || defined(MT76x2) */
 	struct {
-		UINT32 RxBulkAggTOut:8;        /*Rx Bulk Aggregation TimeOut  in unit of 33ns */
-		UINT32 RxBulkAggLmt:8;        /*Rx Bulk Aggregation Limit  in unit of 256 bytes */
-		UINT32 phyclear:1;        		/*phy watch dog enable. write 1 */
-		UINT32 rsv:2;
-		UINT32 TxClear:1;        /*Clear USB DMA TX path */
-		UINT32 TxopHalt:1;        /*Halt TXOP count down when TX buffer is full. */
-		UINT32 RxBulkAggEn:1;        /*Enable Rx Bulk Aggregation */
-		UINT32 RxBulkEn:1;        /*Enable USB DMA Rx */
-		UINT32 TxBulkEn:1;        /*Enable USB DMA Tx */
-		UINT32 EpoutValid:6;        /*OUT endpoint data valid */
-		UINT32 RxBusy:1;        /*USB DMA RX FSM busy */
-		UINT32 TxBusy:1;   	/*USB DMA TX FSM busy */
+		uint32_t RxBulkAggTOut:8;        /*Rx Bulk Aggregation TimeOut  in unit of 33ns */
+		uint32_t RxBulkAggLmt:8;        /*Rx Bulk Aggregation Limit  in unit of 256 bytes */
+		uint32_t phyclear:1;        		/*phy watch dog enable. write 1 */
+		uint32_t rsv:2;
+		uint32_t TxClear:1;        /*Clear USB DMA TX path */
+		uint32_t TxopHalt:1;        /*Halt TXOP count down when TX buffer is full. */
+		uint32_t RxBulkAggEn:1;        /*Enable Rx Bulk Aggregation */
+		uint32_t RxBulkEn:1;        /*Enable USB DMA Rx */
+		uint32_t TxBulkEn:1;        /*Enable USB DMA Tx */
+		uint32_t EpoutValid:6;        /*OUT endpoint data valid */
+		uint32_t RxBusy:1;        /*USB DMA RX FSM busy */
+		uint32_t TxBusy:1;   	/*USB DMA TX FSM busy */
 	} field;
-	UINT32 word;
+	uint32_t word;
 } USB_DMA_CFG_STRUC;
 #endif
 
@@ -183,11 +183,11 @@ typedef	union _USB_DMA_CFG_STRUC {
 */
 #ifdef RT_BIG_ENDIAN
 typedef	struct GNU_PACKED _RXD_STRUC{
-	UINT32 dma_len;
+	uint32_t dma_len;
 }RXD_STRUC, *PRXD_STRUC;
 #else
 typedef	struct GNU_PACKED _RXD_STRUC{
-	UINT32 dma_len;
+	uint32_t dma_len;
 }RXD_STRUC, *PRXD_STRUC;
 #endif
 

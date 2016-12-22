@@ -60,7 +60,7 @@
 /* timing */
 #define UAPSD_TIMESTAMP_GET(__pAd, __TimeStamp)			\
 	{													\
-		UINT32 __CSR=0;	UINT64 __Value64;				\
+		uint32_t __CSR=0;	UINT64 __Value64;				\
 		RTMP_IO_READ32((__pAd), TSF_TIMER_DW0, &__CSR);	\
 		__TimeStamp = (UINT64)__CSR;					\
 		RTMP_IO_READ32((__pAd), TSF_TIMER_DW1, &__CSR);	\
@@ -213,7 +213,7 @@
 #define UAPSD_MR_ENTRY_RESET(__pAd, __pEntry)								\
 	{																		\
 		MAC_TABLE_ENTRY *__pSta; 											\
-		UINT32 __IdAc;														\
+		uint32_t __IdAc;														\
 		__pSta = (__pEntry);												\
 		/* clear all U-APSD queues */										\
 		for(__IdAc=0; __IdAc<WMM_NUM_OF_AC; __IdAc++)						\
@@ -470,7 +470,7 @@ UAPSD_EXTERN VOID UAPSD_PacketEnqueue(
 	IN	struct rtmp_adapter *	pAd,
 	IN	MAC_TABLE_ENTRY		*pEntry,
 	IN	struct sk_buff *	pPacket,
-	IN	UINT32				IdAc);
+	IN	uint32_t 			IdAc);
 
 
 /*
@@ -610,7 +610,7 @@ Note:
 ========================================================================
 */
 UAPSD_EXTERN VOID UAPSD_TimingRecordCtrl(
-	IN	UINT32				Flag);
+	IN	uint32_t 			Flag);
 
 /*
 ========================================================================
@@ -634,7 +634,7 @@ Note:
 */
 UAPSD_EXTERN VOID UAPSD_TimingRecord(
 	IN	struct rtmp_adapter *	pAd,
-	IN	UINT32				Type);
+	IN	uint32_t 			Type);
 
 /*
 ========================================================================
@@ -652,7 +652,7 @@ Note:
 ========================================================================
 */
 UAPSD_EXTERN VOID UAPSD_TimeingRecordLoopIndex(
-	IN	UINT32				LoopIndex);
+	IN	uint32_t 			LoopIndex);
 #endif /* UAPSD_TIMING_RECORD_FUNC */
 
 
@@ -729,7 +729,7 @@ UAPSD_EXTERN VOID UAPSD_TagFrame(
 	IN	struct rtmp_adapter 	*pAd,
 	IN	struct sk_buff		*pPkt,
 	IN	UCHAR				Wcid,
-	IN	UINT32				PktOffset);
+	IN	uint32_t 			PktOffset);
 
 
 /*
@@ -753,8 +753,8 @@ Note:
 UAPSD_EXTERN VOID UAPSD_UnTagFrame(
 	IN	struct rtmp_adapter *pAd,
 	IN	UCHAR			AcQueId,
-	IN	UINT32			bulkStartPos,
-	IN	UINT32			bulkEnPos);
+	IN	uint32_t 		bulkStartPos,
+	IN	uint32_t 		bulkEnPos);
 #endif /* RTMP_MAC_USB */
 
 /* End of ap_uapsd.h */

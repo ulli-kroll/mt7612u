@@ -2279,7 +2279,7 @@ UINT8 GetCuntryMaxTxPwr(
 /* for OS_ABL */
 VOID RTMP_MapChannelID2KHZ(
 	IN UCHAR Ch,
-	OUT UINT32 *pFreq)
+	OUT uint32_t *pFreq)
 {
 	int chIdx;
 	for (chIdx = 0; chIdx < CH_HZ_ID_MAP_NUM; chIdx++)

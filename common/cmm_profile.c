@@ -1419,7 +1419,7 @@ static void rtmp_read_radius_parms_from_file(IN  struct rtmp_adapter *pAd, PSTRI
 {
 	STRING					tok_str[16];
 	PSTRING					macptr;
-	UINT32					ip_addr;
+	uint32_t 				ip_addr;
 	INT						i=0;
 	BOOLEAN					bUsePrevFormat = FALSE;
 	USHORT					offset;
@@ -1521,7 +1521,7 @@ static void rtmp_read_radius_parms_from_file(IN  struct rtmp_adapter *pAd, PSTRI
 			{
 				INT		srv_idx = count[i];
 
-            	pAd->ApCfg.MBSSID[i].radius_srv_info[srv_idx].radius_port = (UINT32) simple_strtol(macptr, 0, 10);
+            	pAd->ApCfg.MBSSID[i].radius_srv_info[srv_idx].radius_port = (uint32_t) simple_strtol(macptr, 0, 10);
 				count[i] ++;
 				DBGPRINT(RT_DEBUG_TRACE, ("IF(ra%d), radius_port(seq-%d)=%d\n", i, count[i], pAd->ApCfg.MBSSID[i].radius_srv_info[srv_idx].radius_port));
 			}
@@ -2782,7 +2782,7 @@ int RTMPSetProfileParameters(
 #ifdef MBSS_SUPPORT
 					/* for first time, update all phy mode is same as ra0 */
 					{
-						UINT32 IdBss;
+						uint32_t IdBss;
 						for(IdBss=1; IdBss<pAd->ApCfg.BssidNum; IdBss++)
 							pAd->ApCfg.MBSSID[IdBss].wdev.PhyMode = pAd->ApCfg.MBSSID[0].wdev.PhyMode;
 					}
@@ -4437,8 +4437,8 @@ free_resource:
 
 #endif /* SINGLE_SKU_V2 */
 
-UINT32 RalinkRate_Legacy [] = {2, 4, 11, 22, 12, 18, 24, 36, 48, 72, 96, 108};
-UINT32 RalinkRate_HT_1NSS[Rate_BW_MAX][Rate_GI_MAX][Rate_MCS] =
+uint32_t RalinkRate_Legacy [] = {2, 4, 11, 22, 12, 18, 24, 36, 48, 72, 96, 108};
+uint32_t RalinkRate_HT_1NSS[Rate_BW_MAX][Rate_GI_MAX][Rate_MCS] =
 {
 	{
 		{13, 26, 39, 52,  78,  104, 117, 130, 0, 0},{14, 29, 43,  57, 87, 115, 130, 144, 0, 0}     /*20MHz, 800ns & 400 ns GI, MCS0~9*/
@@ -4450,7 +4450,7 @@ UINT32 RalinkRate_HT_1NSS[Rate_BW_MAX][Rate_GI_MAX][Rate_MCS] =
 		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}			   ,{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}	   			  /*80MHz, 800ns & 400 ns GI, MCS0~9*/
 	},
 };
-UINT32 RalinkRate_VHT_1NSS[Rate_BW_MAX][Rate_GI_MAX][Rate_MCS] =
+uint32_t RalinkRate_VHT_1NSS[Rate_BW_MAX][Rate_GI_MAX][Rate_MCS] =
 {
 	{
 		{13,  26,  39, 52,  78,  104, 117, 130, 156,  0} , {14,  29,  43,  57,  87, 115, 130, 144, 173,   0}      /*20MHz, 800ns & 400 ns GI, MCS0~9*/
@@ -4472,7 +4472,7 @@ UINT8 newRateGetAntenna(UINT8 MCS)
 
 void print_RalinkRate_HT(void)
 {
-	UINT32 i,j,k;
+	uint32_t i,j,k;
 
 	for(i=0;i < Rate_BW_MAX;i++)
 	{

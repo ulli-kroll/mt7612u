@@ -1032,7 +1032,7 @@ VOID asic_mcs_lut_update(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 
 	if(RTMP_TEST_MORE_FLAG(pAd, fASIC_CAP_MCS_LUT) && (pEntry->wcid < 128))
 	{
-		UINT32 wcid_offset;
+		uint32_t wcid_offset;
 		HW_RATE_CTRL_STRUCT rate_ctrl;
 
 #ifdef RLT_MAC
@@ -3156,13 +3156,13 @@ VOID RTMPSetSupportMCS(
 
 INT	Set_RateAlg_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
-	UINT32 ra_alg;
+	uint32_t ra_alg;
 
 	ra_alg = simple_strtol(arg, 0, 10);
 
 	if ((ra_alg < RATE_ALG_MAX_NUM) && (ra_alg != pAd->rateAlg))
 	{
-		UINT32 IdEntry;
+		uint32_t IdEntry;
 
 		pAd->rateAlg = ra_alg;
 		for(IdEntry = 0; IdEntry < MAX_LEN_OF_MAC_TABLE; IdEntry++)

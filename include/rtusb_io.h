@@ -118,8 +118,8 @@ typedef struct _RT_ASIC_WCID_SEC_INFO {
 
 typedef struct _RT_ASIC_WCID_IVEIV_ENTRY {
 	UINT8 Wcid;
-	UINT32 Iv;
-	UINT32 Eiv;
+	uint32_t Iv;
+	uint32_t Eiv;
 } RT_ASIC_WCID_IVEIV_ENTRY, *PRT_ASIC_WCID_IVEIV_ENTRY;
 
 typedef struct _RT_ASIC_WCID_ATTR_ENTRY {
@@ -200,7 +200,7 @@ void usb_cfg_read_v1(struct rtmp_adapter *ad, u32 *value);
 void usb_cfg_write_v1(struct rtmp_adapter *ad, u32 value);
 void usb_cfg_read_v3(struct rtmp_adapter *ad, u32 *value);
 void usb_cfg_write_v3(struct rtmp_adapter *ad, u32 value);
-int write_reg(struct rtmp_adapter *ad, UINT32 base, UINT16 offset, UINT32 val);
-int read_reg(struct rtmp_adapter *ad, UINT32 base, UINT16 offset, UINT32 *value);
+int write_reg(struct rtmp_adapter *ad, uint32_t base, UINT16 offset, uint32_t val);
+int read_reg(struct rtmp_adapter *ad, uint32_t base, UINT16 offset, uint32_t *value);
 
 #endif /* __RTUSB_IO_H__ */

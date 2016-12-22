@@ -266,7 +266,7 @@ BOOLEAN ba_reordering_resource_init(struct rtmp_adapter *pAd, int num)
 	freelist->next = NULL;
 	freelist->qlen = 0;
 
-	DBGPRINT(RT_DEBUG_TRACE, ("Allocate %d memory for BA reordering\n", (UINT32)(num*sizeof(struct reordering_mpdu))));
+	DBGPRINT(RT_DEBUG_TRACE, ("Allocate %d memory for BA reordering\n", (uint32_t)(num*sizeof(struct reordering_mpdu))));
 
 	/* allocate number of mpdu_blk memory */
 	mem = kmalloc(num*sizeof(struct reordering_mpdu), GFP_ATOMIC);
@@ -2199,7 +2199,7 @@ static VOID Peer_DelBA_Tx_Adapt_Enable(
 
 	if (pEntry)
 	{
-		UINT32 MacReg = 0;
+		uint32_t MacReg = 0;
 		BOOLEAN Cancelled;
 
 		pEntry->bPeerDelBaTxAdaptEn = 1;
@@ -2240,7 +2240,7 @@ static VOID Peer_DelBA_Tx_Adapt_Disable(
 
 		if (IS_RT6352(pAd))
 		{
-			UINT32 MacReg = 0;
+			uint32_t MacReg = 0;
 			/* Disable Tx Mac look up table (Ressume original setting) */
 			RTMP_IO_READ32(pAd, TX_FBK_LIMIT, &MacReg);
 			MacReg &= ~(1 << 18);

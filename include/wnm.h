@@ -143,8 +143,8 @@ typedef struct _PROXY_ARP_IPV6_UNIT {
 } PROXY_ARP_IPV6_UNIT, *PPROXY_ARP_IPV6_UNIT;
 
 typedef struct _WNM_CTRL {
-	UINT32 TimeadvertisementIELen;
-	UINT32 TimezoneIELen;
+	uint32_t TimeadvertisementIELen;
+	uint32_t TimezoneIELen;
 	PUCHAR TimeadvertisementIE;
 	PUCHAR TimezoneIE;
 	RTMP_OS_SEM BTMPeerListLock;
@@ -196,20 +196,20 @@ BOOLEAN IPv6ProxyARP(IN Pstruct rtmp_adapter pAd,
 					 IN PUCHAR pData,
 					 IN BOOLEAN FromDS);
 
-UINT32 AddIPv4ProxyARPEntry(IN Pstruct rtmp_adapter pAd,
+uint32_t AddIPv4ProxyARPEntry(IN Pstruct rtmp_adapter pAd,
 					   		IN struct _MULTISSID_STRUCT *pMbss,
 							IN PUCHAR pTargetMACAddr,
 							IN PUCHAR pTargetIPAddr);
 
-UINT32 AddIPv6ProxyARPEntry(IN Pstruct rtmp_adapter pAd,
+uint32_t AddIPv6ProxyARPEntry(IN Pstruct rtmp_adapter pAd,
 					   		IN struct _MULTISSID_STRUCT *pMbss,
 							IN PUCHAR pTargetMACAddr,
 							IN PUCHAR pTargetIPAddr);
 
-UINT32 IPv4ProxyARPTableLen(IN Pstruct rtmp_adapter pAd,
+uint32_t IPv4ProxyARPTableLen(IN Pstruct rtmp_adapter pAd,
 							IN struct _MULTISSID_STRUCT *pMbss);
 
-UINT32 IPv6ProxyARPTableLen(IN Pstruct rtmp_adapter pAd,
+uint32_t IPv6ProxyARPTableLen(IN Pstruct rtmp_adapter pAd,
 							IN struct _MULTISSID_STRUCT *pMbss);
 
 BOOLEAN GetIPv4ProxyARPTable(IN Pstruct rtmp_adapter pAd,

@@ -34,7 +34,7 @@
 #ifdef RTMP_USB_SUPPORT
 VOID RT65xxUsbAsicRadioOff(struct rtmp_adapter *pAd, UCHAR Stage)
 {
-	UINT32 Value, ret;
+	uint32_t Value, ret;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("--> %s\n", __FUNCTION__));
 
@@ -76,11 +76,11 @@ VOID RT65xxUsbAsicRadioOff(struct rtmp_adapter *pAd, UCHAR Stage)
 
 VOID RT65xxUsbAsicRadioOn(struct rtmp_adapter *pAd, UCHAR Stage)
 {
-	UINT32 MACValue = 0;
-	UINT32 rx_filter_flag;
+	uint32_t MACValue = 0;
+	uint32_t rx_filter_flag;
 	WPDMA_GLO_CFG_STRUC GloCfg;
 	RTMP_CHIP_OP *pChipOps = &pAd->chipOps;
-	UINT32 ret;
+	uint32_t ret;
 
 	RTMP_CLEAR_PSFLAG(pAd, fRTMP_PS_MCU_SLEEP);
 #ifdef CONFIG_PM
@@ -163,8 +163,8 @@ VOID RT65xxDisableTxRx(
 	struct rtmp_adapter *pAd,
 	UCHAR Level)
 {
-	UINT32 MacReg = 0;
-	UINT32 MTxCycle;
+	uint32_t MacReg = 0;
+	uint32_t MTxCycle;
 	BOOLEAN bResetWLAN = FALSE;
 	BOOLEAN bFree = TRUE;
 	UINT8 CheckFreeTimes = 0;
@@ -376,7 +376,7 @@ VOID RT65xxDisableTxRx(
 
 VOID dump_bw_info(struct rtmp_adapter *pAd)
 {
-		UINT32 core_r1, agc_r0, be_r0, band_cfg;
+		uint32_t core_r1, agc_r0, be_r0, band_cfg;
 		static UCHAR *bw_str[]={"20", "10", "40", "80"};
 		UCHAR bw, prim_ch_idx, decode_cap;
 		static UCHAR *decode_str[] = {"0", "20", "40", "20/40",

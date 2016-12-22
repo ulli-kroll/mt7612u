@@ -4479,7 +4479,7 @@ VOID RTMPSoftEncryptionAction(
 	IN	UCHAR			CipherAlg,
 	IN	PUCHAR			pHdr,
 	IN	PUCHAR			pSrcBufData,
-	IN	UINT32			SrcBufLen,
+	IN	uint32_t 		SrcBufLen,
 	IN	UCHAR			KeyIdx,
 	IN	PCIPHER_KEY		pKey,
 	OUT	UINT8			*ext_len)
@@ -5069,7 +5069,7 @@ VOID RTMPSetWcidSecurityInfo(
 	UINT8				Wcid,
 	UINT8				KeyTabFlag)
 {
-	UINT32			IV = 0;
+	uint32_t 		IV = 0;
 	UINT8			IV_KEYID = 0;
 
 	/* Prepare initial IV value */

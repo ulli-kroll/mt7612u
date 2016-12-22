@@ -186,7 +186,7 @@ static VOID ATEWriteTxInfo(
 
 INT ATESetUpFrame(
 	IN struct rtmp_adapter *pAd,
-	IN UINT32 TxIdx)
+	IN uint32_t TxIdx)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 	UINT pos = 0;
@@ -195,7 +195,7 @@ INT ATESetUpFrame(
 	HTTRANSMIT_SETTING	TxHTPhyMode;
 	TXWI_STRUC *pTxWI;
 	TXINFO_STRUC *pTxInfo;
-	UINT32			TransferBufferLength, OrgBufferLength = 0;
+	uint32_t 		TransferBufferLength, OrgBufferLength = 0;
 	UCHAR			padLen = 0;
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
 	UCHAR bw, sgi, stbc, mcs, phymode, frag, ts, ampdu, ack, nseq, basize, pid, txop, cfack;

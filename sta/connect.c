@@ -1324,11 +1324,11 @@ VOID AdhocTurnOnQos(struct rtmp_adapter *pAd)
 VOID LinkUp(struct rtmp_adapter *pAd, UCHAR BssType)
 {
 	ULONG Now;
-	UINT32 Data;
+	uint32_t Data;
 	BOOLEAN Cancelled;
 	UCHAR idx = 0;
 	MAC_TABLE_ENTRY *pEntry = NULL;
-	UINT32 pbf_reg = 0, pbf_val, burst_txop;
+	uint32_t pbf_reg = 0, pbf_val, burst_txop;
 	struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
 
 	/* Init ChannelQuality to prevent DEAD_CQI at initial LinkUp */
@@ -1804,7 +1804,7 @@ VOID LinkUp(struct rtmp_adapter *pAd, UCHAR BssType)
 
 #ifdef DOT11_N_SUPPORT
 	if ((pAd->StaActive.SupportedPhyInfo.bHtEnable == TRUE)) {
-		UINT32 factor = 0;
+		uint32_t factor = 0;
 
 		/* If HT AP doesn't support MaxRAmpduFactor = 1, we need to set max PSDU to 0. */
 		/* Because our Init value is 1 at MACRegTable. */
@@ -1866,7 +1866,7 @@ VOID LinkUp(struct rtmp_adapter *pAd, UCHAR BssType)
 	if ((pAd->CommonCfg.IOTestParm.bLastAtheros == TRUE)
 	    && ((STA_WEP_ON(pAd)) || (STA_TKIP_ON(pAd)))) {
 		if (pAd->CommonCfg.bEnableTxBurst) {
-			UINT32 MACValue = 0;
+			uint32_t MACValue = 0;
 			/* Force disable TXOP value in this case. The same action in MLMEUpdateProtect too */
 			RTMP_IO_READ32(pAd, EDCA_AC0_CFG, &MACValue);
 			MACValue &= 0xFFFFFF00;

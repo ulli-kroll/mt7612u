@@ -107,9 +107,9 @@ static int iAtan2(int y, int x)
 	isqrt - fixed point sqrt
 		x - unsigned value
 */
-static UINT32 isqrt (UINT32 x)
+static uint32_t isqrt (uint32_t x)
 {
-	UINT32 base, y;
+	uint32_t base, y;
 
 	if (x &      0xF0000000)
 		base = 1<<15;
@@ -419,7 +419,7 @@ static VOID CalcDividerPhase(
 {
 	int i;
 	UCHAR  channel = pAd->CommonCfg.Channel;
-	UINT32 phaseCaliStatus, phaseCaliResult, rfValue[2], value32;
+	uint32_t phaseCaliStatus, phaseCaliResult, rfValue[2], value32;
 	UCHAR  divPhCalPath[2]={RX0TX0, RX1TX1};
 	UCHAR  timeOutCount, AGCtimeOutCount;
 	LONG   mCalPhase0[2];
@@ -428,7 +428,7 @@ static VOID CalcDividerPhase(
 	UCHAR   VGAGainIdx[2] = {4,4};
 	BOOLEAN SwAgc1stflg = TRUE;
 	BOOLEAN gBandFlg = FALSE;
-	UINT32  tmp_Value;
+	uint32_t  tmp_Value;
 
 	// band check
 	if (channel <= 14) gBandFlg = TRUE;
@@ -648,9 +648,9 @@ static VOID CalcDividerPhase(
 	ITxBFSaveData - save MAC data
 		Returns pointer to allocated buffer containing saved data
 */
-static UINT32 *ITxBFSaveData(struct rtmp_adapter *pAd)
+static uint32_t *ITxBFSaveData(struct rtmp_adapter *pAd)
 {
-	UINT32 *saveData, *sdPtr, macAddr, maxAddr;
+	uint32_t *saveData, *sdPtr, macAddr, maxAddr;
 
 	/* Save 48KB MAC data. */
 	saveData = kmalloc(0xC000, GFP_ATOMIC);
@@ -672,9 +672,9 @@ static UINT32 *ITxBFSaveData(struct rtmp_adapter *pAd)
 	ITxBFSaveData - restore MAC data
 		saveData - buffer containing data to restore
 */
-static void ITxBFRestoreData(struct rtmp_adapter *pAd, UINT32 *saveData)
+static void ITxBFRestoreData(struct rtmp_adapter *pAd, uint32_t *saveData)
 {
-	UINT32 *sdPtr, macAddr, maxAddr;
+	uint32_t *sdPtr, macAddr, maxAddr;
 
 	maxAddr = 0x10000;
 
@@ -1373,19 +1373,19 @@ INT mt76x2_ITxBFDividerCalibration(
 	int peak[3][3];
 	LONG d01, d21;
 	int result = TRUE;
-	UINT32 value32;
+	uint32_t value32;
 
 	UCHAR divPhaseValue[2];
 	PCAP_IQ_DATA capIqData = NULL;
 	ITXBF_PHASE_PARAMS phaseParams;
 	UCHAR phaseValues[2];
 
-	UINT32 *saveData = NULL;
-	UINT32 saveSysCtrl, savePbfCfg, saveMacSysCtrl, saveDmaCtrl;
+	uint32_t *saveData = NULL;
+	uint32_t saveSysCtrl, savePbfCfg, saveMacSysCtrl, saveDmaCtrl;
 	int allocSize = (calFunction==11? MAX_CAPTURE_LENGTH: DIVCAL_CAPTURE_LENGTH)*sizeof(COMPLEX_VALUE)*3;
 	BOOLEAN displayParams = (calFunction==0 || calFunction==10);
 
-	UINT32 phaseCaliStatus, phaseCaliResult;
+	uint32_t phaseCaliStatus, phaseCaliResult;
 	UCHAR  timeOutCount;
 	LONG   mCalPhase0[4], mCalPhase1[4];
 	LONG   avgIData, avgQData;
@@ -1722,24 +1722,24 @@ INT mt76x2_ITxBFLNACalibration(
 	IN BOOLEAN gBand)
 {
 	PCAP_IQ_DATA capIqData;
-	UINT32  *saveData, saveSysCtrl, savePbfCfg, saveMacSysCtrl;
+	uint32_t  *saveData, saveSysCtrl, savePbfCfg, saveMacSysCtrl;
 
 	LONG    phase[2];
 	LONG    mPhase[MAX_LNA_CAPS];
 
-	UINT32  phaseCaliStatus, phaseCaliResult;
+	uint32_t  phaseCaliStatus, phaseCaliResult;
 	UCHAR   timeOutCount, AGCtimeOutCount;
 	INT     mPhase0[2], mPhase1[2];
 	INT     mCalPhase0[2], mCalPhase1[2];
 	INT     avgIData, avgQData, peakIValue;
-	UINT32  extLoopBackCRBk[6];
-	UINT32  value32;
-	UINT32  TRXSel_aband[2] = {0x01FECD28, 0x01FECD28};
-	UINT32  TRXSel0[2] = {0xDC1A1414, 0xDC1A0014}, TRXSel1[2] = {0x014ECD28, 0x016E1D28};
-	UINT32  RXGainSel[4] = {0x000B8888, 0x000A8888, 0x000A8888, 0x00098888};
-	UINT32  TRSW_aband[2] = {0x0004012F, 0x0004012A};
-	UINT32  TRSW[2] = {0xF004012F, 0xF004012A};
-	UINT32  TxgGainSel[2] = {0x00010130, 0x00010100};
+	uint32_t  extLoopBackCRBk[6];
+	uint32_t  value32;
+	uint32_t  TRXSel_aband[2] = {0x01FECD28, 0x01FECD28};
+	uint32_t  TRXSel0[2] = {0xDC1A1414, 0xDC1A0014}, TRXSel1[2] = {0x014ECD28, 0x016E1D28};
+	uint32_t  RXGainSel[4] = {0x000B8888, 0x000A8888, 0x000A8888, 0x00098888};
+	uint32_t  TRSW_aband[2] = {0x0004012F, 0x0004012A};
+	uint32_t  TRSW[2] = {0xF004012F, 0xF004012A};
+	uint32_t  TxgGainSel[2] = {0x00010130, 0x00010100};
 	UCHAR   i, ii;
 	UCHAR   pathIdx[2] = {0, 1};
 	UCHAR   TRLoopSel[2] = {0x00, 0x05};
@@ -2099,7 +2099,7 @@ INT ITxBFPhaseCalibrationStartUp(
 	IN INT calFunction,
 	IN USHORT ch)
 {
-	UINT32 CR_BK[35];
+	uint32_t CR_BK[35];
 
 	mt_rf_read(pAd, RF_Path0, RFDIGI_TRX17, &CR_BK[0]);
 	mt_rf_read(pAd, RF_Path0, RFDIGI_TRX38, &CR_BK[1]);
@@ -2188,8 +2188,8 @@ INT ITxBFPhaseCalibration(
 	IN USHORT ch)
 {
 	ITXBF_PHASE_PARAMS phaseParams;
-	UINT32 phaseCaliStatus, phaseCaliResult;
-	UINT32 value32[2];
+	uint32_t phaseCaliStatus, phaseCaliResult;
+	uint32_t value32[2];
 	UCHAR  timeOutCount;
 	INT    mPhase0, mPhase1;
 	INT    mCalPhase0, mCalPhase1;
@@ -2930,7 +2930,7 @@ UCHAR Read_PFMUTxBfProfile(
 	SC_TABLE_ENTRY *pTab;
 	INT j, c;
 	UCHAR  r163Value = 0;
-	UINT32 value32;
+	uint32_t value32;
 	UCHAR  GrpTab[3] = {1, 2, 4};
 	UCHAR  GrpInc;
 

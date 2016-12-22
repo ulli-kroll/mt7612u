@@ -600,8 +600,8 @@ struct _RTMP_CHIP_CAP_ {
 	REG_PAIR *pBBPRegTable;
 	UCHAR bbpRegTbSize;
 
-	UINT32 MaxNumOfRfId;
-	UINT32 MaxNumOfBbpId;
+	uint32_t MaxNumOfRfId;
+	uint32_t MaxNumOfBbpId;
 
 #define RF_REG_WT_METHOD_NONE			0
 #define RF_REG_WT_METHOD_STEP_ON		1
@@ -662,10 +662,10 @@ struct _RTMP_CHIP_CAP_ {
 	INT32 temp_25_ref; /* a quantification value of temperature, but not ¢J */
 	INT32 current_temp; /* unit ¢J */
 #ifdef RTMP_TEMPERATURE_TX_ALC
-	UINT32 high_temp_slope_a_band; /* slope with unit (¢J /dB) */
-	UINT32 low_temp_slope_a_band; /* slope with unit (¢J /dB) */
-	UINT32 high_temp_slope_g_band; /* slope with unit (¢J /dB) */
-	UINT32 low_temp_slope_g_band; /* slope with unit (¢J /dB) */
+	uint32_t high_temp_slope_a_band; /* slope with unit (¢J /dB) */
+	uint32_t low_temp_slope_a_band; /* slope with unit (¢J /dB) */
+	uint32_t high_temp_slope_g_band; /* slope with unit (¢J /dB) */
+	uint32_t low_temp_slope_g_band; /* slope with unit (¢J /dB) */
 	INT32 tc_upper_bound_a_band; /* unit dB */
 	INT32 tc_lower_bound_a_band; /* unit dB */
 	INT32 tc_upper_bound_g_band; /* unit dB */
@@ -781,7 +781,7 @@ struct _RTMP_CHIP_CAP_ {
 #endif /* CONFIG_STA_SUPPORT */
 
 #ifdef RT5592EP_SUPPORT
-	UINT32 Priv; /* Flag for RT5592 EP */
+	uint32_t Priv; /* Flag for RT5592 EP */
 #endif /* RT5592EP_SUPPORT */
 
 #ifdef RT65xx
@@ -790,8 +790,8 @@ struct _RTMP_CHIP_CAP_ {
 #endif /* RT65xx */
 
 #ifdef CONFIG_ANDES_SUPPORT
-	UINT32 WlanMemmapOffset;
-	UINT32 InbandPacketMaxLen; /* must be 48 multible */
+	uint32_t WlanMemmapOffset;
+	uint32_t InbandPacketMaxLen; /* must be 48 multible */
 	UINT8 CmdRspRxRing;
 	BOOLEAN IsComboChip;
 	BOOLEAN need_load_fw;
@@ -998,15 +998,15 @@ struct _RTMP_CHIP_OP_ {
 	/* Power save */
 	void (*EnableAPMIMOPS)(struct rtmp_adapter *pAd, IN BOOLEAN ReduceCorePower);
 	void (*DisableAPMIMOPS)(struct rtmp_adapter *pAd);
-	INT (*PwrSavingOP)(struct rtmp_adapter *pAd, UINT32 PwrOP, UINT32 PwrLevel,
-							UINT32 ListenInterval, UINT32 PreTBTTLeadTime,
+	INT (*PwrSavingOP)(struct rtmp_adapter *pAd, uint32_t PwrOP, uint32_t PwrLevel,
+							uint32_t ListenInterval, uint32_t PreTBTTLeadTime,
 							UINT8 TIMByteOffset, UINT8 TIMBytePattern);
 
 	/* Chip tuning */
 	VOID (*RxSensitivityTuning)(IN struct rtmp_adapter *pAd);
 
 	/* MAC */
-	VOID (*BeaconUpdate)(struct rtmp_adapter *pAd, USHORT Offset, UINT32 Value, UINT8 Unit);
+	VOID (*BeaconUpdate)(struct rtmp_adapter *pAd, USHORT Offset, uint32_t Value, UINT8 Unit);
 
 	/* BBP adjust */
 	VOID (*ChipBBPAdjust)(IN struct rtmp_adapter *pAd);
@@ -1024,7 +1024,7 @@ struct _RTMP_CHIP_OP_ {
 	/* IQ Calibration */
 	VOID (*ChipIQCalibration)(struct rtmp_adapter *pAd, UCHAR Channel);
 
-	UINT32 (*ChipGetCurrentTemp)(struct rtmp_adapter *pAd);
+	uint32_t (*ChipGetCurrentTemp)(struct rtmp_adapter *pAd);
 #ifdef THERMAL_PROTECT_SUPPORT
 	VOID (*ThermalProDefaultCond)(struct rtmp_adapter *pAd);
 	VOID (*ThermalPro1stCond)(struct rtmp_adapter *pAd);
@@ -1032,7 +1032,7 @@ struct _RTMP_CHIP_OP_ {
 #endif /* THERMAL_PROTECT_SUPPORT */
 
 	/* TX ALC */
-	UINT32 (*TSSIRatio)(INT32 delta_power);
+	uint32_t (*TSSIRatio)(INT32 delta_power);
 	VOID (*InitDesiredTSSITable)(IN struct rtmp_adapter *pAd);
 	int (*ATETssiCalibration)(struct rtmp_adapter *pAd, PSTRING arg);
 	int (*ATETssiCalibrationExtend)(struct rtmp_adapter *pAd, PSTRING arg);
@@ -1085,12 +1085,12 @@ struct _RTMP_CHIP_OP_ {
 	void (*MCUCtrlExit)(struct rtmp_adapter *ad);
 #ifdef CONFIG_ANDES_SUPPORT
 	void (*fw_init)(struct rtmp_adapter *ad);
-	int (*RandomRead)(struct rtmp_adapter *ad, RTMP_REG_PAIR *RegPair, UINT32 Num);
-	int (*RandomWrite)(struct rtmp_adapter *ad, RTMP_REG_PAIR *RegPair, UINT32 Num);
-	int (*RFRandomWrite)(struct rtmp_adapter *ad, BANK_RF_REG_PAIR *RegPair, UINT32 Num);
+	int (*RandomRead)(struct rtmp_adapter *ad, RTMP_REG_PAIR *RegPair, uint32_t Num);
+	int (*RandomWrite)(struct rtmp_adapter *ad, RTMP_REG_PAIR *RegPair, uint32_t Num);
+	int (*RFRandomWrite)(struct rtmp_adapter *ad, BANK_RF_REG_PAIR *RegPair, uint32_t Num);
 	int (*sc_random_write)(struct rtmp_adapter *ad, CR_REG *table, u32 num, u32 flags);
 	int (*sc_rf_random_write)(struct rtmp_adapter *ad, BANK_RF_CR_REG *table, u32 num, u32 flags);
-	void (*Calibration)(struct rtmp_adapter *pAd, UINT32 CalibrationID, ANDES_CALIBRATION_PARAM *param);
+	void (*Calibration)(struct rtmp_adapter *pAd, uint32_t CalibrationID, ANDES_CALIBRATION_PARAM *param);
 #endif /* CONFIG_ANDES_SUPPORT */
 	void (*DisableTxRx)(struct rtmp_adapter *ad, UCHAR Level);
 	void (*AsicRadioOn)(struct rtmp_adapter *ad, UCHAR Stage);
@@ -1114,7 +1114,7 @@ struct _RTMP_CHIP_OP_ {
 	void (*usb_cfg_read)(struct rtmp_adapter *ad, u32 *value);
 	void (*usb_cfg_write)(struct rtmp_adapter *ad, u32 value);
 	void (*show_pwr_info)(struct rtmp_adapter *ad);
-	void (*cal_test)(struct rtmp_adapter *ad, UINT32 type);
+	void (*cal_test)(struct rtmp_adapter *ad, uint32_t type);
 };
 
 #define RTMP_CHIP_ENABLE_AP_MIMOPS(__pAd, __ReduceCorePower)	\
@@ -1472,13 +1472,13 @@ VOID rlt_bcn_buf_init(struct rtmp_adapter *pAd);
 VOID RtmpChipWriteHighMemory(
 	IN	struct rtmp_adapter *pAd,
 	IN	USHORT			Offset,
-	IN	UINT32			Value,
+	IN	uint32_t 		Value,
 	IN	UINT8			Unit);
 
 VOID RtmpChipWriteMemory(
 	IN	struct rtmp_adapter *pAd,
 	IN	USHORT			Offset,
-	IN	UINT32			Value,
+	IN	uint32_t 		Value,
 	IN	UINT8			Unit);
 
 VOID RTMPReadChannelPwr(struct rtmp_adapter *pAd);

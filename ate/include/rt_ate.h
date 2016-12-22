@@ -96,12 +96,12 @@ typedef struct _ATE_CHIP_STRUCT {
 typedef union _CAPTURE_MODE_SHARE_MEMORY {
 	struct
 	{
-		UINT32       LOW_BYTE0:8;
-		UINT32       LOW_BYTE1:8;
-		UINT32       HIGH_BYTE0:8;
-		UINT32       HIGH_BYTE1:8;
+		uint32_t       LOW_BYTE0:8;
+		uint32_t       LOW_BYTE1:8;
+		uint32_t       HIGH_BYTE0:8;
+		uint32_t       HIGH_BYTE1:8;
 	} field;
-	UINT32                   Value;
+	uint32_t                   Value;
 }CAPTURE_MODE_SHARE_MEMORY, *PCAPTURE_MODE_SHARE_MEMORY;
 
 typedef struct _ATE_INFO {
@@ -132,11 +132,11 @@ typedef struct _ATE_INFO {
 	UCHAR Payload;		/* Payload pattern */
 	BOOLEAN bFixedPayload;
 	UCHAR TxMethod; /* Early chipsets must be applied old TXCONT/TXCARR/TXCARS mechanism. */
-	UINT32 TxLength;
-	UINT32 TxCount;
-	UINT32 TxDoneCount;	/* Tx DMA Done */
-	UINT32 RFFreqOffset;
-	UINT32 IPG;
+	uint32_t TxLength;
+	uint32_t TxCount;
+	uint32_t TxDoneCount;	/* Tx DMA Done */
+	uint32_t RFFreqOffset;
+	uint32_t IPG;
 	BOOLEAN bRxFER;		/* Show Rx Frame Error Rate */
 	BOOLEAN	bQAEnabled;	/* QA is used. */
 	BOOLEAN bQATxStart;	/* Have compiled QA in and use it to ATE tx. */
@@ -159,8 +159,8 @@ typedef struct _ATE_INFO {
 	SHORT	txSoundingMode;	/* Sounding mode for non-QA ATE. 0=none, 1=Data Sounding, 2=NDP */
 	UCHAR	calParams[2];
 #endif				/* TXBF_SUPPORT */
-	UINT32 RxTotalCnt;
-	UINT32 RxCntPerSec;
+	uint32_t RxTotalCnt;
+	uint32_t RxCntPerSec;
 	UCHAR	forceBBPReg;	/* force to not update the specific BBP register, now used for ATE TxBF */
 
 	CHAR LastSNR0;		/* last received SNR */
@@ -177,18 +177,18 @@ typedef struct _ATE_INFO {
 	SHORT AvgRssi0X8;	/* sum of last 8 frames' RSSI */
 	SHORT AvgRssi1X8;	/* sum of last 8 frames' RSSI */
 	SHORT AvgRssi2X8;	/* sum of last 8 frames' RSSI */
-	UINT32 NumOfAvgRssiSample;
-	UINT32 Default_TX_PIN_CFG;
+	uint32_t NumOfAvgRssiSample;
+	uint32_t Default_TX_PIN_CFG;
 	USHORT HLen;		/* Header Length */
 
 #ifdef TXBF_SUPPORT
 #define MAX_SOUNDING_RESPONSE_SIZE	(57*2*2*9+3+2+6)	/* Assume 114 carriers (40MHz), 3x3, 8bits/coeff, + SNR + HT HEADER + MIMO CONTROL FIELD */
 	UCHAR sounding;
-	UINT32 sounding_jiffies;
+	uint32_t sounding_jiffies;
 	CHAR soundingSNR[3];
-	UINT32 LastRxRate;
-	UINT32 LastTxRate;
-	UINT32 soundingRespSize;	/* Size of Sounding response */
+	uint32_t LastRxRate;
+	uint32_t LastTxRate;
+	uint32_t soundingRespSize;	/* Size of Sounding response */
 	UCHAR soundingResp[MAX_SOUNDING_RESPONSE_SIZE];	/* Entire Sounding response */
 #endif /* TXBF_SUPPORT */
 	RALINK_TIMER_STRUCT PeriodicTimer;
@@ -777,7 +777,7 @@ VOID RtmpDmaEnable(
 
 INT ATESetUpFrame(
 	IN struct rtmp_adapter *pAd,
-	IN UINT32 TxIdx);
+	IN uint32_t TxIdx);
 
 VOID RTUSBRejectPendingPackets(
 	IN	struct rtmp_adapter *pAd);

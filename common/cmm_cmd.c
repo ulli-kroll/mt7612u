@@ -108,7 +108,7 @@ int RTEnqueueInternalCmd(
 	IN struct rtmp_adapter *pAd,
 	IN NDIS_OID			Oid,
 	IN PVOID			pInformationBuffer,
-	IN UINT32			InformationBufferLength)
+	IN uint32_t 		InformationBufferLength)
 {
 	int status;
 	PCmdQElmt	cmdqelmt = NULL;

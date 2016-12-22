@@ -637,7 +637,7 @@ VOID Send2040CoexistAction(
 	int NStatus;
 	FRAME_ACTION_HDR Frame;
 	ULONG FrameLen;
-	UINT32 IntolerantChaRepLen;
+	uint32_t IntolerantChaRepLen;
 	UCHAR HtLen = 1;
 #ifdef APCLI_SUPPORT
         UCHAR apidx;

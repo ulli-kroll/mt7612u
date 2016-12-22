@@ -55,12 +55,12 @@ typedef struct GNU_PACKED _HSCTRL_EVENT_DATA {
 } HSCTRL_EVENT_DATA, *PHSCTRL_EVENT_DATA;
 
 typedef struct _HOTSPOT_CTRL {
-	UINT32 HSIndicationIELen;
-	UINT32 P2PIELen;
-	UINT32 InterWorkingIELen;
-	UINT32 AdvertisementProtoIELen;
-	UINT32 QosMapSetIELen;
-	UINT32 RoamingConsortiumIELen;
+	uint32_t HSIndicationIELen;
+	uint32_t P2PIELen;
+	uint32_t InterWorkingIELen;
+	uint32_t AdvertisementProtoIELen;
+	uint32_t QosMapSetIELen;
+	uint32_t RoamingConsortiumIELen;
 	PUCHAR InterWorkingIE;
 	PUCHAR AdvertisementProtoIE;
 	PUCHAR QosMapSetIE;
@@ -76,7 +76,7 @@ typedef struct _HOTSPOT_CTRL {
 	BOOLEAN DGAFDisable;
 	UINT8 L2Filter;
 	BOOLEAN ICMPv4Deny;
-	UINT32 MMPDUSize;
+	uint32_t MMPDUSize;
 } HOTSPOT_CTRL, *PHOTSPOT_CTRL;
 
 enum {
@@ -148,8 +148,8 @@ void HotspotAPReload(struct net_device *net_dev);
 
 INT Set_HotSpot_Param(
 	IN Pstruct rtmp_adapter pAd,
-	UINT32 Param,
-	UINT32 Value);
+	uint32_t Param,
+	uint32_t Value);
 
 enum {
 	HS_ON_OFF_BASE,

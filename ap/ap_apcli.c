@@ -369,7 +369,7 @@ BOOLEAN ApCliLinkUp(struct rtmp_adapter *pAd, UCHAR ifIndex)
 	PMAC_TABLE_ENTRY pMacEntry = NULL;
 	struct rtmp_wifi_dev *wdev;
 #ifdef APCLI_CERT_SUPPORT
-	UINT32 Data;
+	uint32_t Data;
 #endif /* APCLI_CERT_SUPPORT */
 	do
 	{
@@ -2362,7 +2362,7 @@ VOID APCli_Init(struct rtmp_adapter *pAd, RTMP_OS_NETDEV_OP_HOOK *pNetDevOps)
 	/* create virtual network interface */
 	for (idx = 0; idx < MAX_APCLI_NUM; idx++)
 	{
-		UINT32 MC_RowID = 0, IoctlIF = 0;
+		uint32_t MC_RowID = 0, IoctlIF = 0;
 		char *dev_name;
 
 #ifdef HOSTAPD_SUPPORT

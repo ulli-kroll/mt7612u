@@ -16,7 +16,7 @@ typedef struct _CmdQ {
 	UINT size;
 	CmdQElmt *head;
 	CmdQElmt *tail;
-	UINT32 CmdQState;
+	uint32_t CmdQState;
 } CmdQ, *PCmdQ;
 
 #define EnqueueCmd(cmdq, cmdqelmt)		\
@@ -354,17 +354,17 @@ typedef struct __CMD_RTPRIV_IOCTL_80211_BEACON {
         INT32 dtim_period;
         UCHAR *beacon_head;
 		UCHAR *beacon_tail;
-        UINT32 beacon_head_len; /* Before TIM IE */
-		UINT32 beacon_tail_len; /* After TIM IE */
+        uint32_t beacon_head_len; /* Before TIM IE */
+		uint32_t beacon_tail_len; /* After TIM IE */
 
 	UCHAR *beacon_ies;
-	UINT32 beacon_ies_len;
+	uint32_t beacon_ies_len;
 	UCHAR *proberesp_ies;
-	UINT32 proberesp_ies_len;
+	uint32_t proberesp_ies_len;
 	UCHAR *assocresp_ies;
-	UINT32 assocresp_ies_len;
+	uint32_t assocresp_ies_len;
 	UCHAR *probe_resp;
-	UINT32 probe_resp_len;
+	uint32_t probe_resp_len;
 	ULONG ssid_len;
 	UCHAR hidden_ssid;
 	struct cfg80211_crypto_settings crypto;
@@ -392,7 +392,7 @@ typedef struct __CMD_RTPRIV_IOCTL_80211_CHAN {
 	UINT8 IfType;
 	UINT8 ChanType;
 
-	UINT32 MonFilterFlag;
+	uint32_t MonFilterFlag;
 
 	UINT64 cookie;
 	PVOID chan;
@@ -409,13 +409,13 @@ typedef struct __CMD_RTPRIV_IOCTL_80211_VIF_PARM {
 	UINT8 newIfType;
 	UINT8 oldIfType;
 
-	UINT32 MonFilterFlag;
+	uint32_t MonFilterFlag;
 
 } CMD_RTPRIV_IOCTL_80211_VIF_PARM;
 
 typedef struct __CMD_RTPRIV_IOCTL_80211_IBSS {
 
-	UINT32 BeaconInterval;
+	uint32_t BeaconInterval;
 	UCHAR *pSsid;
 } CMD_RTPRIV_IOCTL_80211_IBSS;
 
@@ -427,12 +427,12 @@ typedef struct __CMD_RTPRIV_IOCTL_80211_STA {
 	UINT8 MAC[MAC_ADDR_LEN];
 	ULONG DataRate;
 
-	UINT32 TxRateFlags;
+	uint32_t TxRateFlags;
 
-	UINT32 TxRateMCS;
+	uint32_t TxRateMCS;
 	INT32 Signal;
-	UINT32 TxPacketCnt;
-	UINT32 InactiveTime;
+	uint32_t TxPacketCnt;
+	uint32_t InactiveTime;
 } CMD_RTPRIV_IOCTL_80211_STA;
 
 #define RT_CMD_80211_KEY_WEP40			0x00
@@ -448,7 +448,7 @@ typedef struct __CMD_RTPRIV_IOCTL_80211_KEY {
 	UINT8 KeyId;
 	BOOLEAN bPairwise;
 	UINT8 KeyLen;
-	UINT32 cipher;
+	uint32_t cipher;
 	UINT8 MAC[MAC_ADDR_LEN];
 } CMD_RTPRIV_IOCTL_80211_KEY;
 
@@ -466,11 +466,11 @@ typedef struct __CMD_RTPRIV_IOCTL_80211_CONNECT {
 	UINT8 GroupwiseEncrypType;
 
 	UINT8 *pKey;
-	UINT32 KeyLen;
+	uint32_t KeyLen;
 	UINT8 KeyIdx;
 
 	UINT8 *pSsid;
-	UINT32 SsidLen;
+	uint32_t SsidLen;
 
 	UINT8 *pBssid;
 
@@ -564,8 +564,8 @@ typedef enum _CMD_RTPRIV_IOCTL_STATION {
 #define RT_WLAN_EVENT_PIN							0x07
 
 typedef struct __RT_CMD_RATE_SET {
-	IN UINT32 Rate;
-	IN UINT32 Fixed;
+	IN uint32_t Rate;
+	IN uint32_t Fixed;
 } RT_CMD_RATE_SET;
 
 typedef struct __RT_CMD_PARAM_SET {
@@ -584,8 +584,8 @@ typedef struct __RT_CMD_MBSS_KICKOUT {
 } RT_CMD_MBSS_KICKOUT;
 
 typedef struct __RT_CMD_USB_MORE_FLAG_CONFIG {
-	IN UINT32 VendorID;
-	IN UINT32 ProductID;
+	IN uint32_t VendorID;
+	IN uint32_t ProductID;
 } RT_CMD_USB_MORE_FLAG_CONFIG;
 
 typedef struct __RT_CMD_USB_DEV_CONFIG {
@@ -654,9 +654,9 @@ typedef struct __RT_CMD_IW_STATS {
 typedef struct __RT_CMD_PCIE_INIT {
 
 	IN VOID *pPciDev;
-	IN UINT32 ConfigDeviceID;
-	IN UINT32 ConfigSubsystemVendorID;
-	IN UINT32 ConfigSubsystemID;
+	IN uint32_t ConfigDeviceID;
+	IN uint32_t ConfigSubsystemVendorID;
+	IN uint32_t ConfigSubsystemID;
 } RT_CMD_PCIE_INIT;
 
 typedef struct __RT_CMD_AP_IOCTL_CONFIG {
@@ -681,7 +681,7 @@ typedef struct __RT_CMD_AP_IOCTL_SSID {
 
 typedef struct __RT_CMD_IOCTL_RATE {
 	IN ULONG priv_flags;
-	OUT UINT32 BitRate;
+	OUT uint32_t BitRate;
 } RT_CMD_IOCTL_RATE;
 
 #define RTMP_CMD_STA_MODE_AUTO			0x00
@@ -702,14 +702,14 @@ typedef struct __RT_CMD_STA_IOCTL_BSS {
 } RT_CMD_STA_IOCTL_BSS;
 
 typedef struct __RT_CMD_STA_IOCTL_BSS_LIST {
-	IN UINT32 MaxNum;
-	OUT UINT32 BssNum;
+	IN uint32_t MaxNum;
+	OUT uint32_t BssNum;
 	OUT RT_CMD_STA_IOCTL_BSS *pList;
 } RT_CMD_STA_IOCTL_BSS_LIST;
 
 typedef struct __RT_CMD_STA_IOCTL_SCAN {
 	IN UCHAR FlgScanThisSsid;
-	IN UINT32 SsidLen;
+	IN uint32_t SsidLen;
 	IN CHAR *pSsid;
 	OUT INT32 Status;
 } RT_CMD_STA_IOCTL_SCAN;
@@ -748,14 +748,14 @@ typedef struct __RT_CMD_STA_IOCTL_BSS_TABLE {
 
 typedef struct __RT_CMD_STA_IOCTL_SCAN_TABLE {
 	IN ULONG priv_flags;
-	OUT UINT32 BssNr;
+	OUT uint32_t BssNr;
 	OUT RT_CMD_STA_IOCTL_BSS_TABLE *pBssTable;	/* must be freed by caller */
 	OUT UCHAR MainSharedKey[4][16];
 } RT_CMD_STA_IOCTL_SCAN_TABLE;
 
 typedef struct __RT_CMD_STA_IOCTL_SSID {
 	IN UCHAR FlgAnySsid;
-	INOUT UINT32 SsidLen;
+	INOUT uint32_t SsidLen;
 	INOUT CHAR *pSsid;
 	OUT INT32 Status;
 } RT_CMD_STA_IOCTL_SSID;
@@ -775,7 +775,7 @@ typedef struct __RT_CMD_STA_IOCTL_SECURITY {
 #define RT_CMD_STA_IOCTL_SECURITY_ALG_WEP		0x02
 #define RT_CMD_STA_IOCTL_SECURITY_ALG_TKIP		0x03
 #define RT_CMD_STA_IOCTL_SECURITY_ALG_CCMP		0x04
-	IN UINT32 Alg;
+	IN uint32_t Alg;
 
 #define RT_CMD_STA_IOCTL_SECURTIY_EXT_SET_TX_KEY	0x01
 #define RT_CMD_STA_IOCTL_SECURTIY_EXT_GROUP_KEY		0x02
@@ -793,22 +793,22 @@ typedef struct __RT_CMD_STA_IOCTL_SECURITY {
 } RT_CMD_STA_IOCTL_SECURITY;
 
 typedef struct __RT_CMD_STA_IOCTL_WSC_U32_ITEM {
-	IN UINT32 *pUWrq;
+	IN uint32_t *pUWrq;
 	OUT INT32 Status;
 } RT_CMD_STA_IOCTL_WSC_U32_ITEM;
 
 typedef struct __RT_CMD_STA_IOCTL_WSC_STR_ITEM {
-	IN UINT32 Subcmd;
+	IN uint32_t Subcmd;
 	IN CHAR *pData;
-	IN UINT32 length;
+	IN uint32_t length;
 
 	OUT INT32 Status;
 } RT_CMD_STA_IOCTL_WSC_STR_ITEM;
 
 typedef struct __RT_CMD_STA_IOCTL_SHOW {
 	IN CHAR *pData;
-	IN UINT32 MaxSize;
-	IN UINT32 InfType;
+	IN uint32_t MaxSize;
+	IN uint32_t InfType;
 } RT_CMD_STA_IOCTL_SHOW;
 
 #define RT_CMD_STA_IOCTL_IW_MLME_DEAUTH		0x01
@@ -851,12 +851,12 @@ typedef struct __RT_CMD_STA_IOCTL_SECURITY_ADV {
 
 #define RT_CMD_STA_IOCTL_WPA_AUTH_COUNTERMEASURES			0xA0
 
-	IN UINT32 flags;
-	IN UINT32 value;
+	IN uint32_t flags;
+	IN uint32_t value;
 } RT_CMD_STA_IOCTL_SECURITY_ADV;
 
 typedef struct __RT_CMD_STA_IOCTL_RSN_IE {
-	INOUT UINT32 length;
+	INOUT uint32_t length;
 	INOUT UCHAR *pRsnIe;
 } RT_CMD_STA_IOCTL_RSN_IE;
 
@@ -864,14 +864,14 @@ typedef struct __RT_CMD_STA_IOCTL_PMA_SA {
 #define RT_CMD_STA_IOCTL_PMA_SA_FLUSH					0x01
 #define RT_CMD_STA_IOCTL_PMA_SA_REMOVE					0x02
 #define RT_CMD_STA_IOCTL_PMA_SA_ADD						0x03
-	IN UINT32 Cmd;
+	IN uint32_t Cmd;
 	IN UCHAR *pBssid;
 	IN UCHAR *pPmkid;
 } RT_CMD_STA_IOCTL_PMA_SA;
 
 typedef struct __RT_CMD_USB_INIT {
 	VOID *pUsbDev;
-	UINT32 driver_info;
+	uint32_t driver_info;
 } RT_CMD_USB_INIT;
 
 #endif /* __RTMP_CMD_H__ */

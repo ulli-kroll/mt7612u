@@ -695,8 +695,8 @@ VOID AsicGetAutoAgcOffsetForExternalTxAlc(
 
 VOID AsicExtraPowerOverMAC(struct rtmp_adapter *pAd)
 {
-	UINT32 txpwr = 0;
-	UINT32 txpwr7 = 0, txpwr8 = 0, txpwr9 = 0;
+	uint32_t txpwr = 0;
+	uint32_t txpwr7 = 0, txpwr8 = 0, txpwr9 = 0;
 
 	/* For OFDM_54 and HT_MCS_7, extra fill the corresponding register value into MAC 0x13D4 */
 	RTMP_IO_READ32(pAd, 0x1318, &txpwr);
@@ -1230,7 +1230,7 @@ VOID AsicCompensatePowerViaBBP(struct rtmp_adapter *pAd, CHAR *pTotalDeltaPower)
 #ifdef RT65xx
 	if (IS_RT65XX(pAd))
 	{
-		UINT32 bbp_val = 0;
+		uint32_t bbp_val = 0;
 
 		RTMP_BBP_IO_READ32(pAd, TXBE_R4, &bbp_val);
 		bbp_val &= (~0x3);
@@ -1521,7 +1521,7 @@ VOID RTMPReadTxPwrPerRate(struct rtmp_adapter *pAd)
 */
 VOID RTMPReadChannelPwr(struct rtmp_adapter *pAd)
 {
-	UINT32					i, choffset;
+	uint32_t 				i, choffset;
 	EEPROM_TX_PWR_STRUC	    Power;
 	EEPROM_TX_PWR_STRUC	    Power2;
 

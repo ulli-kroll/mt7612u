@@ -1296,7 +1296,7 @@ INT STASendPacket(struct rtmp_adapter *pAd, struct sk_buff *pPacket)
 			resource, and the NDIS packet will be indicated NDIS_STATUS_FAILURE. This should
 			rarely happen and the penalty is just like a TX RETRY fail. Affordable.
 		*/
-		UINT32 Size;
+		uint32_t Size;
 
 		AllowFragSize = (pAd->CommonCfg.FragmentThreshold) - LENGTH_802_11 - LENGTH_CRC;
 		Size = PacketInfo.TotalPacketLength - LENGTH_802_3 + LENGTH_802_1_H;
@@ -1816,7 +1816,7 @@ static inline PUCHAR STA_Build_ARalink_Frame_Header(
 	PUCHAR pHeaderBufPtr;
 	HEADER_802_11 *pHeader_802_11;
 	struct sk_buff *pNextPacket;
-	UINT32 nextBufLen;
+	uint32_t nextBufLen;
 	PQUEUE_ENTRY pQEntry;
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
 
@@ -2965,7 +2965,7 @@ VOID STA_Fragment_Frame_Tx(
 	UCHAR fragNum = 0;
 	PACKET_INFO PacketInfo;
 	USHORT EncryptionOverhead = 0;
-	UINT32 FreeMpduSize, SrcRemainingBytes;
+	uint32_t FreeMpduSize, SrcRemainingBytes;
 	USHORT AckDuration;
 	UINT NextMpduSize;
 	BOOLEAN bVLANPkt;
@@ -2973,7 +2973,7 @@ VOID STA_Fragment_Frame_Tx(
 	HTTRANSMIT_SETTING *pTransmit;
 #ifdef SOFT_ENCRYPT
 	PUCHAR tmp_ptr = NULL;
-	UINT32 buf_offset = 0;
+	uint32_t buf_offset = 0;
 #endif /* SOFT_ENCRYPT */
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
 

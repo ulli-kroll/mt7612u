@@ -30,7 +30,7 @@
 #include "rt_config.h"
 
 
-static inline BOOLEAN rf_csr_poll_idle(struct rtmp_adapter *pAd, UINT32 *rfcsr)
+static inline BOOLEAN rf_csr_poll_idle(struct rtmp_adapter *pAd, uint32_t *rfcsr)
 {
 	RF_CSR_CFG_STRUC *csr_val;
 	BOOLEAN idle = BUSY;

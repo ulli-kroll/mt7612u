@@ -167,9 +167,9 @@ VOID dump_rlt_txinfo(struct rtmp_adapter *pAd, TXINFO_STRUC *pTxInfo)
 
 
 
-static UINT32 asic_set_wlan_func(struct rtmp_adapter *pAd, BOOLEAN enable)
+static uint32_t asic_set_wlan_func(struct rtmp_adapter *pAd, BOOLEAN enable)
 {
-	UINT32 reg;
+	uint32_t reg;
 
 	RTMP_IO_FORCE_READ32(pAd, WLAN_FUN_CTRL, &reg);
 
@@ -207,7 +207,7 @@ static UINT32 asic_set_wlan_func(struct rtmp_adapter *pAd, BOOLEAN enable)
 
 INT rlt_wlan_chip_onoff(struct rtmp_adapter *pAd, BOOLEAN bOn, BOOLEAN bResetWLAN)
 {
-	UINT32 reg = 0;
+	uint32_t reg = 0;
 
 #ifdef RTMP_FLASH_SUPPORT
 #endif /* RTMP_FLASH_SUPPORT */
@@ -215,7 +215,7 @@ INT rlt_wlan_chip_onoff(struct rtmp_adapter *pAd, BOOLEAN bOn, BOOLEAN bResetWLA
 
 #ifdef RTMP_MAC_USB
 	if (IS_USB_INF(pAd)) {
-		UINT32 ret;
+		uint32_t ret;
 
 		RTMP_SEM_EVENT_WAIT(&pAd->hw_atomic, ret);
 		if (ret != 0) {

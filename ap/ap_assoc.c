@@ -668,7 +668,7 @@ VOID ap_cmm_peer_assoc_req_action(
 	BOOLEAN bAssocNoRsp = FALSE;
 	CHAR rssi;
 #ifdef RT_BIG_ENDIAN
-	UINT32 tmp_1;
+	uint32_t tmp_1;
 	UINT64 tmp_2;
 #endif /*RT_BIG_ENDIAN*/
 
@@ -783,8 +783,8 @@ VOID ap_cmm_peer_assoc_req_action(
 	memcpy(&tmp_2,&(ie_list->vht_cap.mcs_set), 8);
 	tmp_2=SWAP64(tmp_2);
 	memcpy(&(ie_list->vht_cap.mcs_set),&tmp_2, 8);
-	//SWAP32((UINT32)vht_cap_ie.vht_cap);
-	//SWAP32((UINT32)vht_cap_ie.mcs_set);
+	//SWAP32((uint32_t)vht_cap_ie.vht_cap);
+	//SWAP32((uint32_t)vht_cap_ie.mcs_set);
 #endif /* RT_BIG_ENDIAN */
 
 	RTMPSetSupportMCS(pAd,
@@ -958,7 +958,7 @@ SendAssocResponse:
 		UCHAR IEType = IE_TIMEOUT_INTERVAL; //IE:0x15
 		UCHAR IELen = 5;
 		UCHAR TIType = 3;
-		UINT32 units = 1 << 10; //1 seconds, should be 0x3E8
+		uint32_t units = 1 << 10; //1 seconds, should be 0x3E8
 		MakeOutgoingFrame(pOutBuffer+FrameLen, &TmpLen,
                                 1, &IEType,
                                 1, &IELen,

@@ -103,7 +103,7 @@ INT32 CalcRCalibrationCode(
 VOID R_Calibration(
 	IN struct rtmp_adapter *pAd)
 {
-	UINT32 saveMacSysCtrl;
+	uint32_t saveMacSysCtrl;
 	UCHAR  saveRfB0R1, saveRfB0R34, saveRfB0R35;
 	UCHAR  saveRfB5R4, saveRfB5R17, saveRfB5R18;
 	UCHAR  saveRfB5R19, saveRfB5R20;
@@ -113,7 +113,7 @@ VOID R_Calibration(
 	UCHAR R_Cal_Code = 0;
 	CHAR D1 = 0, D2 = 0;
 	UCHAR RFValue;
-	UINT32 MAC_RF_BYPASS0, MAC_RF_CONTROL0, MAC_PWR_PIN_CFG;
+	uint32_t MAC_RF_BYPASS0, MAC_RF_CONTROL0, MAC_PWR_PIN_CFG;
 
 	/* Save RF Register */
 	RT635xReadRFRegister(pAd, RF_BANK0, RF_R01, &saveRfB0R1);
@@ -137,8 +137,8 @@ VOID R_Calibration(
 	RTMP_IO_READ32(pAd, PWR_PIN_CFG, &MAC_PWR_PIN_CFG);
 
 	{
-		UINT32 macCfg, macStatus;
-		UINT32 MTxCycle, MRxCycle;
+		uint32_t macCfg, macStatus;
+		uint32_t MTxCycle, MRxCycle;
 		ULONG stTime, mt_time, mr_time;
 
 		/* Disable MAC Tx and MAC Rx and wait MAC Tx/Rx status in idle state */
@@ -281,7 +281,7 @@ INT Set_TestLoftTxIQCalibration_Proc(
 	IN struct rtmp_adapter *pAd,
 	IN PSTRING arg)
 {
-	UINT32 Value;
+	uint32_t Value;
 
 	Value = simple_strtol(arg, 0, 10);
 
@@ -307,7 +307,7 @@ VOID RtmpKickOutHwNullFrame(
 	ULONG Length;
 	UCHAR *ptr;
 	UINT i;
-	UINT32 longValue, macStatus;
+	uint32_t longValue, macStatus;
 	USHORT k_count = 0;
 	HTTRANSMIT_SETTING MlmeTransmit;
 
@@ -494,7 +494,7 @@ VOID DPD_AM_AM_LUT_Scaling(
 	USHORT k_count = 0;
 	UCHAR AM_temp = 0, AM_scaling = 0;
 	SHORT AM_Dealta = 0;
-	UINT32 check_loop = 0;
+	uint32_t check_loop = 0;
 	UCHAR scaling_vector[] = {0, 0, 0, 0, 0, 0, 0, 0,
 								0, 0, 0, 0, 0, 0, 0, 0,
 								0, 0, 0, 0, 0, 0, 0, 0,
@@ -551,8 +551,8 @@ UCHAR DPD_Calibration(
 	IN UCHAR AntIdx)
 {
 	UCHAR index, Max_Retry = 0, Pass_Thres = 0,byteValue = 0;
-	UINT32 macStatus, macValue;
-	UINT32 saveMacSysCtrl, saveTxPinCfg, saveTxAlgCfg0;
+	uint32_t macStatus, macValue;
+	uint32_t saveMacSysCtrl, saveTxPinCfg, saveTxAlgCfg0;
 	USHORT AM_SUM =0, AM_10 = 0, k_count = 0;
 	BOOLEAN DPD_Cal_success = FALSE, bNeedDoDPD = TRUE;
 	UCHAR saveBbpR27, saveBbpR65;
@@ -575,7 +575,7 @@ UCHAR DPD_Calibration(
 	INT32 gain_atten_bb = 0, gain_atten_rf = 0, txALC_req = 0;
 	INT32 txALC_req_at, txALC_req_skip2, txALC_req_skip3;
 	INT32 txALC_req_sat = 0;
-	UINT32 macValue_Tx_Cfg0 = 0,macValue_2nd, check_loop = 0;
+	uint32_t macValue_Tx_Cfg0 = 0,macValue_2nd, check_loop = 0;
 	BOOLEAN bInternalTxALC = FALSE;
 
 	/* init base power by e2p target power */
@@ -2137,7 +2137,7 @@ BOOLEAN BW_Filter_Calibration(
 	UINT8 saveRfB5R42, saveRfB5R43, saveRfB5R44, saveRfB5R45, saveRfB5R46;
 	UINT8 saveRfB5R58, saveRfB5R59;
 	UINT8 saveBBP159R0, saveBBP159R2, saveBBPR23;
-	UINT32 MAC_RF_CONTROL0, MAC_RF_BYPASS0;
+	uint32_t MAC_RF_CONTROL0, MAC_RF_BYPASS0;
 
 	DBGPRINT(RT_DEBUG_ERROR, (" %s BW Filter Calibration !!!\n", (bTxCal == TRUE ? "TX" : "RX")));
 
@@ -2410,7 +2410,7 @@ VOID RxDCOC_Calibration(
 	IN struct rtmp_adapter *pAd)
 {
 	UCHAR BbpReg = 0;
-	UINT32 MacValue = 0, MacValue1 = 0;
+	uint32_t MacValue = 0, MacValue1 = 0;
 	USHORT k_count = 0;
 	UINT8 saveRfB0R2, saveRfB5R4, saveRfB7R4, RFValue;
 
@@ -2484,9 +2484,9 @@ VOID RxDCOC_Calibration(
  *   VOID RXIQCalibraton(VOID)
  *
  ****************************************************************************/
-static UINT32 do_sqrt_accumulation(UINT32 si)
+static uint32_t do_sqrt_accumulation(uint32_t si)
 {
-    UINT32 root,root_pre,bit;
+    uint32_t root,root_pre,bit;
     CHAR   i;
     bit = 1 << 15;
     root = 0;
@@ -2512,7 +2512,7 @@ VOID RXIQ_Calibration(
 
 	UINT8 BBP1, BBP4;
 	UINT8 BBPR241, BBPR242;
-	UINT32 i;
+	uint32_t i;
 	UINT8 ch_idx;
 	UINT8 bbpval;
 	UINT8 rfval, vga_idx=0;
@@ -2520,14 +2520,14 @@ VOID RXIQ_Calibration(
 	INT32 Sigma_i, Sigma_q, R_iq, G_rx;
 	INT32 G_imb;
 	INT32 Ph_rx;
-	UINT32 saveMacSysCtrl = 0;
-	UINT32 orig_RF_CONTROL0 = 0; // 0x0518
-	UINT32 orig_RF_BYPASS0  = 0; // 0x051c
-	UINT32 orig_RF_CONTROL1 = 0; // 0x0520
-	UINT32 orig_RF_BYPASS1  = 0; // 0x0524
-	UINT32 orig_RF_CONTROL3 = 0; // 0x0530
-	UINT32 orig_RF_BYPASS3  = 0; // 0x0534
-	UINT32 macStatus, k_count, bbpval1 = 0;
+	uint32_t saveMacSysCtrl = 0;
+	uint32_t orig_RF_CONTROL0 = 0; // 0x0518
+	uint32_t orig_RF_BYPASS0  = 0; // 0x051c
+	uint32_t orig_RF_CONTROL1 = 0; // 0x0520
+	uint32_t orig_RF_BYPASS1  = 0; // 0x0524
+	uint32_t orig_RF_CONTROL3 = 0; // 0x0530
+	uint32_t orig_RF_BYPASS3  = 0; // 0x0534
+	uint32_t macStatus, k_count, bbpval1 = 0;
 	UCHAR rf_vga_table[]={0x20, 0x21, 0x22,
 							0x38, 0x39, 0x3a,
 							0x3b, 0x3c, 0x3d,
@@ -2756,7 +2756,7 @@ VOID RXIQ_Calibration(
 
     			for (i = 0; i < 5; i++) // 0 mi, 1 mq, 2 si, 3 sq, 4 riq
     			{
-			        UINT32 BBPtemp = 0;
+			        uint32_t BBPtemp = 0;
 			        UINT8 value = 0;
 			        INT32 result = 0;
 
@@ -2949,7 +2949,7 @@ VOID RF_SELF_TXDC_CAL(
 	// RF_CONTROL2: 0x0528
 	// RF_BYPASS2 : 0x052c
 	UCHAR RfB5R1_Org, RfB7R1_Org, RFValue;
-	UINT32 mac0518, mac051c,mac0528,mac052c;
+	uint32_t mac0518, mac051c,mac0528,mac052c;
 	CHAR  i;
 
 	DBGPRINT(RT_DEBUG_INFO, ("RF Tx_0 self calibration start\n"));

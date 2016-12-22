@@ -30,7 +30,7 @@
 #ifndef __RTMP_TYPE_H__
 #define __RTMP_TYPE_H__
 
-
+#include <linux/types.h>
 
 #ifndef GNU_PACKED
 #define GNU_PACKED  __attribute__ ((packed))
@@ -42,7 +42,6 @@
 /* For example, linux type definition */
 typedef unsigned char UINT8;
 typedef unsigned short UINT16;
-typedef unsigned int UINT32;
 typedef unsigned long long UINT64;
 typedef short INT16;
 typedef int INT32;
@@ -104,8 +103,8 @@ typedef union _LARGE_INTEGER {
 
 /* Register set pair for initialzation register set definition */
 typedef struct _RTMP_REG_PAIR {
-	UINT32 Register;
-	UINT32 Value;
+	uint32_t Register;
+	uint32_t Value;
 } RTMP_REG_PAIR, *PRTMP_REG_PAIR;
 
 typedef struct _REG_PAIR {
@@ -140,10 +139,10 @@ typedef struct _REG_PAIR_PHY{
 /* Register set pair for initialzation register set definition */
 typedef struct _RTMP_RF_REGS {
 	UCHAR Channel;
-	UINT32 R1;
-	UINT32 R2;
-	UINT32 R3;
-	UINT32 R4;
+	uint32_t R1;
+	uint32_t R2;
+	uint32_t R3;
+	uint32_t R4;
 } RTMP_RF_REGS, *PRTMP_RF_REGS;
 
 typedef struct _FREQUENCY_ITEM {
@@ -170,13 +169,13 @@ typedef struct _QUEUE_HEADER {
 } QUEUE_HEADER, *PQUEUE_HEADER;
 
 typedef struct _CR_REG {
-	UINT32 flags;
-	UINT32 offset;
-	UINT32 value;
+	uint32_t flags;
+	uint32_t offset;
+	uint32_t value;
 } CR_REG, *PCR_REG;
 
 typedef struct _BANK_RF_CR_REG {
-	UINT32 flags;
+	uint32_t flags;
 	UCHAR bank;
 	UCHAR offset;
 	UCHAR value;

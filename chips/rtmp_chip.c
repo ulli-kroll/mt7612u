@@ -51,7 +51,7 @@ Note:
 VOID RtmpChipWriteHighMemory(
 	IN struct rtmp_adapter *pAd,
 	IN USHORT Offset,
-	IN UINT32 Value,
+	IN uint32_t Value,
 	IN UINT8 Unit)
 {
 #ifdef RTMP_MAC_USB
@@ -94,7 +94,7 @@ Note:
 VOID RtmpChipWriteMemory(
 	IN	struct rtmp_adapter *pAd,
 	IN	USHORT			Offset,
-	IN	UINT32			Value,
+	IN	uint32_t 		Value,
 	IN	UINT8			Unit)
 {
 	switch(Unit)
@@ -254,7 +254,7 @@ VOID rlt_bcn_buf_init(struct rtmp_adapter *pAd)
 
 
 #ifdef HW_ANTENNA_DIVERSITY_SUPPORT
-UINT32 SetHWAntennaDivsersity(
+uint32_t SetHWAntennaDivsersity(
 	IN Pstruct rtmp_adapter 	pAd,
 	IN BOOLEAN				Enable)
 {
@@ -340,7 +340,7 @@ UINT32 SetHWAntennaDivsersity(
 
 INT WaitForAsicReady(struct rtmp_adapter *pAd)
 {
-	UINT32 mac_val = 0, reg = MAC_CSR0;
+	uint32_t mac_val = 0, reg = MAC_CSR0;
 	int idx = 0;
 
 	do
@@ -365,7 +365,7 @@ INT WaitForAsicReady(struct rtmp_adapter *pAd)
 
 INT AsicGetMacVersion(struct rtmp_adapter *pAd)
 {
-	UINT32 reg = MAC_CSR0;
+	uint32_t reg = MAC_CSR0;
 
 
 #ifdef RT65xx
@@ -406,7 +406,7 @@ int RtmpChipOpsHook(VOID *pCB)
 {
 	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pCB;
 	RTMP_CHIP_CAP *pChipCap = &pAd->chipCap;
-	UINT32 MacValue;
+	uint32_t MacValue;
 	int ret = 0;
 	RTMP_CHIP_OP *pChipOps = &pAd->chipOps;
 

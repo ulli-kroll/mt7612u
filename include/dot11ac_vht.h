@@ -211,51 +211,51 @@ typedef struct GNU_PACKED _OPERATING_MODE_NOTIFICATION{
 */
 typedef struct GNU_PACKED _VHT_CAP_INFO{
 #ifdef RT_BIG_ENDIAN
-	UINT32 rsv:2;
-	UINT32 tx_ant_consistency:1;
-	UINT32 rx_ant_consistency:1;
-	UINT32 vht_link_adapt:2;
-	UINT32 max_ampdu_exp:3;
-	UINT32 htc_vht_cap:1;
-	UINT32 vht_txop_ps:1;
-	UINT32 bfee_cap_mu:1;
-	UINT32 bfer_cap_mu:1;
-	UINT32 num_snd_dimension:3;
+	uint32_t rsv:2;
+	uint32_t tx_ant_consistency:1;
+	uint32_t rx_ant_consistency:1;
+	uint32_t vht_link_adapt:2;
+	uint32_t max_ampdu_exp:3;
+	uint32_t htc_vht_cap:1;
+	uint32_t vht_txop_ps:1;
+	uint32_t bfee_cap_mu:1;
+	uint32_t bfer_cap_mu:1;
+	uint32_t num_snd_dimension:3;
 
-	UINT32 cmp_st_num_bfer:3;
-	UINT32 bfee_cap_su:1;
-	UINT32 bfer_cap_su:1;
-	UINT32 rx_stbc:3;
+	uint32_t cmp_st_num_bfer:3;
+	uint32_t bfee_cap_su:1;
+	uint32_t bfer_cap_su:1;
+	uint32_t rx_stbc:3;
 
-	UINT32 tx_stbc:1;
-	UINT32 sgi_160M:1;
-	UINT32 sgi_80M:1;
-	UINT32 rx_ldpc:1;
-	UINT32 ch_width:2;
-	UINT32 max_mpdu_len:2;
+	uint32_t tx_stbc:1;
+	uint32_t sgi_160M:1;
+	uint32_t sgi_80M:1;
+	uint32_t rx_ldpc:1;
+	uint32_t ch_width:2;
+	uint32_t max_mpdu_len:2;
 #else
-	UINT32 max_mpdu_len:2;	/* 0: 3895, 1: 7991, 2: 11454, 3: rsv */
-	UINT32 ch_width:2;	/* */
-	UINT32 rx_ldpc:1;
-	UINT32 sgi_80M:1;
-	UINT32 sgi_160M:1;
-	UINT32 tx_stbc:1;
+	uint32_t max_mpdu_len:2;	/* 0: 3895, 1: 7991, 2: 11454, 3: rsv */
+	uint32_t ch_width:2;	/* */
+	uint32_t rx_ldpc:1;
+	uint32_t sgi_80M:1;
+	uint32_t sgi_160M:1;
+	uint32_t tx_stbc:1;
 
-	UINT32 rx_stbc:3;
-	UINT32 bfer_cap_su:1;
-	UINT32 bfee_cap_su:1;
-	UINT32 cmp_st_num_bfer:3;
+	uint32_t rx_stbc:3;
+	uint32_t bfer_cap_su:1;
+	uint32_t bfee_cap_su:1;
+	uint32_t cmp_st_num_bfer:3;
 
-	UINT32 num_snd_dimension:3;
-	UINT32 bfer_cap_mu:1;
-	UINT32 bfee_cap_mu:1;
-	UINT32 vht_txop_ps:1;
-	UINT32 htc_vht_cap:1;
-	UINT32 max_ampdu_exp:3;
-	UINT32 vht_link_adapt:2;
-	UINT32 rx_ant_consistency:1;
-	UINT32 tx_ant_consistency:1;
-	UINT32 rsv:2;
+	uint32_t num_snd_dimension:3;
+	uint32_t bfer_cap_mu:1;
+	uint32_t bfee_cap_mu:1;
+	uint32_t vht_txop_ps:1;
+	uint32_t htc_vht_cap:1;
+	uint32_t max_ampdu_exp:3;
+	uint32_t vht_link_adapt:2;
+	uint32_t rx_ant_consistency:1;
+	uint32_t tx_ant_consistency:1;
+	uint32_t rsv:2;
 #endif /* RT_BIG_ENDIAN */
 }VHT_CAP_INFO;
 
@@ -510,39 +510,39 @@ typedef struct GNU_PACKED _VHT_TXPWR_ENV_IE{
 
 typedef struct  GNU_PACKED _VHT_CONTROL{
 #ifdef RT_BIG_ENDIAN
-	UINT32 RDG:1;
-	UINT32 ACConstraint:1;
-	UINT32 unso_mfb:1;
-	UINT32 fb_tx_type:1;
-	UINT32 coding:1;
-	UINT32 gid_h:3;
-	UINT32 mfb_snr:6;
-	UINT32 mfb_bw:2;
-	UINT32 mfb_mcs:4;
-	UINT32 mfb_n_sts:3;
-	UINT32 mfsi_gidl:3;
-	UINT32 stbc_ind:1;
-	UINT32 comp_msi:2;
-	UINT32 mrq:1;
-	UINT32 rsv:1;
-	UINT32 vht:1;
+	uint32_t RDG:1;
+	uint32_t ACConstraint:1;
+	uint32_t unso_mfb:1;
+	uint32_t fb_tx_type:1;
+	uint32_t coding:1;
+	uint32_t gid_h:3;
+	uint32_t mfb_snr:6;
+	uint32_t mfb_bw:2;
+	uint32_t mfb_mcs:4;
+	uint32_t mfb_n_sts:3;
+	uint32_t mfsi_gidl:3;
+	uint32_t stbc_ind:1;
+	uint32_t comp_msi:2;
+	uint32_t mrq:1;
+	uint32_t rsv:1;
+	uint32_t vht:1;
 #else
-	UINT32 vht:1;
-	UINT32 rsv:1;
-	UINT32 mrq:1;
-	UINT32 comp_msi:2;
-	UINT32 stbc_ind:1;
-	UINT32 mfsi_gidl:3;
-	UINT32 mfb_n_sts:3;
-	UINT32 mfb_mcs:4;
-	UINT32 mfb_bw:2;
-	UINT32 mfb_snr:6;
-	UINT32 gid_h:3;
-	UINT32 coding:1;
-	UINT32 fb_tx_type:1;
-	UINT32 unso_mfb:1;
-	UINT32 ACConstraint:1;
-	UINT32 RDG:1;
+	uint32_t vht:1;
+	uint32_t rsv:1;
+	uint32_t mrq:1;
+	uint32_t comp_msi:2;
+	uint32_t stbc_ind:1;
+	uint32_t mfsi_gidl:3;
+	uint32_t mfb_n_sts:3;
+	uint32_t mfb_mcs:4;
+	uint32_t mfb_bw:2;
+	uint32_t mfb_snr:6;
+	uint32_t gid_h:3;
+	uint32_t coding:1;
+	uint32_t fb_tx_type:1;
+	uint32_t unso_mfb:1;
+	uint32_t ACConstraint:1;
+	uint32_t RDG:1;
 #endif
 }VHT_CONTROL;
 

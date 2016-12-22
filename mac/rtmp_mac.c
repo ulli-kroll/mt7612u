@@ -751,7 +751,7 @@ INT set_lut_phy_rate(
 	UINT8 mcs, UINT8 bw, 	UINT8 gi,
 	UINT8 stbc, UINT8 mode)
 {
-	UINT32 mac_reg = 0;
+	uint32_t mac_reg = 0;
 	USHORT reg_id = 0x1C00 + (wcid << 3);
 
 	mac_reg = (mcs | (bw << 7) | (gi << 9) | (stbc << 10) | (mode << 13));
@@ -765,7 +765,7 @@ INT set_lut_phy_rate(
 
 INT rtmp_mac_set_band(struct rtmp_adapter *pAd, int  band)
 {
-	UINT32 val, band_cfg;
+	uint32_t val, band_cfg;
 
 
 	RTMP_IO_READ32(pAd, TX_BAND_CFG, &band_cfg);
@@ -790,7 +790,7 @@ INT rtmp_mac_set_band(struct rtmp_adapter *pAd, int  band)
 
 INT rtmp_mac_set_ctrlch(struct rtmp_adapter *pAd, UINT8 extch)
 {
-	UINT32 val, band_cfg;
+	uint32_t val, band_cfg;
 
 	RTMP_IO_READ32(pAd, TX_BAND_CFG, &band_cfg);
 	val = band_cfg & (~0x1);
@@ -816,7 +816,7 @@ INT rtmp_mac_set_ctrlch(struct rtmp_adapter *pAd, UINT8 extch)
 
 INT rtmp_mac_set_mmps(struct rtmp_adapter *pAd, INT ReduceCorePower)
 {
-	UINT32 mac_val, org_val;
+	uint32_t mac_val, org_val;
 
 	RTMP_IO_READ32(pAd, 0x1210, &org_val);
 	mac_val = org_val;
@@ -835,7 +835,7 @@ INT rtmp_mac_set_mmps(struct rtmp_adapter *pAd, INT ReduceCorePower)
 #define BCN_TBTT_OFFSET		64	/*defer 64 us*/
 VOID ReSyncBeaconTime(struct rtmp_adapter *pAd)
 {
-	UINT32  Offset;
+	uint32_t  Offset;
 	BCN_TIME_CFG_STRUC csr;
 
 	Offset = (pAd->TbttTickCount) % (BCN_TBTT_OFFSET);

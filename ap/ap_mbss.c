@@ -93,7 +93,7 @@ VOID MBSS_Init(struct rtmp_adapter *pAd, RTMP_OS_NETDEV_OP_HOOK *pNetDevOps)
 	for(IdBss=FIRST_MBSSID; IdBss<MaxNumBss; IdBss++)
 	{
 		struct rtmp_wifi_dev *wdev;
-		UINT32 MC_RowID = 0, IoctlIF = 0;
+		uint32_t MC_RowID = 0, IoctlIF = 0;
 		char *dev_name;
 #ifdef HOSTAPD_SUPPORT
 		IoctlIF = pAd->IoctlIF;

@@ -873,5 +873,5 @@ INT Set_EepromBufferWriteBack_Proc(
   ************************************************************************/
 INT RtmpChipOpsEepromHook(struct rtmp_adapter *pAd, INT infType);
 
-BOOLEAN rtmp_get_default_bin_file_by_chip(struct rtmp_adapter *pAd, UINT32 ChipVersion, PSTRING *pBinFileName);
+BOOLEAN rtmp_get_default_bin_file_by_chip(struct rtmp_adapter *pAd, uint32_t ChipVersion, PSTRING *pBinFileName);
 #endif /* __EEPROM_H__ */

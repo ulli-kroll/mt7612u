@@ -136,7 +136,7 @@ static VOID dump_txblk(TX_BLK *pTxBlk)
 		if (pPacket)
 		{
 			pBuf = GET_OS_PKT_DATAPTR(pPacket);
-			DBGPRINT(RT_DEBUG_TRACE,("\t\t[%d]:ptr=0x%x, Len=%d!\n", i, (UINT32)(GET_OS_PKT_DATAPTR(pPacket)), GET_OS_PKT_LEN(pPacket)));
+			DBGPRINT(RT_DEBUG_TRACE,("\t\t[%d]:ptr=0x%x, Len=%d!\n", i, (uint32_t)(GET_OS_PKT_DATAPTR(pPacket)), GET_OS_PKT_LEN(pPacket)));
 			DBGPRINT(RT_DEBUG_TRACE,("\t\t"));
 			for (j =0 ; j < GET_OS_PKT_LEN(pPacket); j++)
 			{
@@ -873,7 +873,7 @@ int MlmeHardTransmitMgmtRing(
 #ifdef CONFIG_AP_SUPPORT
 #ifdef SPECIFIC_TX_POWER_SUPPORT
 					/* Find which MBSSID to be send this probeRsp */
-					UINT32 apidx = get_apidx_by_addr(pAd, pHeader_802_11->Addr2);
+					uint32_t apidx = get_apidx_by_addr(pAd, pHeader_802_11->Addr2);
 
 					if ( !(apidx >= pAd->ApCfg.BssidNum) &&
 					     (pAd->ApCfg.MBSSID[apidx].TxPwrAdj != -1) /* &&
@@ -2355,7 +2355,7 @@ BOOLEAN RTMPCheckEtherType(
 	{
 		case ETH_TYPE_IPv4:
 			{
-				UINT32 pktLen = GET_OS_PKT_LEN(pPacket);
+				uint32_t pktLen = GET_OS_PKT_LEN(pPacket);
 
 				ASSERT((pktLen > (ETH_HDR_LEN + IP_HDR_LEN)));	/* 14 for ethernet header, 20 for IP header*/
 				RTMP_SET_PACKET_IPV4(pPacket, 1);
@@ -3178,7 +3178,7 @@ BOOLEAN RTMPExpandPacketForSwEncrypt(
 	IN TX_BLK *pTxBlk)
 {
 	PACKET_INFO PacketInfo;
-	UINT32	ex_head = 0, ex_tail = 0;
+	uint32_t ex_head = 0, ex_tail = 0;
 	UCHAR 	NumberOfFrag = RTMP_GET_PACKET_FRAGMENTS(pTxBlk->pPacket);
 
 	if (pTxBlk->CipherAlg == CIPHER_AES)
@@ -3327,7 +3327,7 @@ VOID RtmpPrepareHwNullFrame(
 	ULONG Length;
 	UCHAR *ptr;
 	UINT i;
-	UINT32 longValue;
+	uint32_t longValue;
 
 	pNullFrame = kmalloc(MGMT_DMA_BUFFER_SIZE, GFP_ATOMIC);
 
@@ -3811,7 +3811,7 @@ VOID dev_rx_ctrl_frm(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 
 BOOLEAN rtmp_rx_done_handle(struct rtmp_adapter *pAd)
 {
-	UINT32 RxProcessed, RxPending;
+	uint32_t RxProcessed, RxPending;
 	BOOLEAN bReschedule = FALSE;
 	RXD_STRUC *pRxD;
 	RXINFO_STRUC *pRxInfo;
@@ -4202,7 +4202,7 @@ VOID drop_mask_per_client_reset(
 	struct rtmp_adapter *ad)
 {
 	INT i;
-	UINT32 max_wcid_num = MAX_LEN_OF_MAC_TABLE;
+	uint32_t max_wcid_num = MAX_LEN_OF_MAC_TABLE;
 
 	for ( i = 0; i < max_wcid_num; i++)
 	{
@@ -4231,7 +4231,7 @@ VOID set_drop_mask_per_client(
 {
 	BOOLEAN cancelled = 0;
 	BOOLEAN write_to_mac = 0;
-	UINT32 timeout = 0;
+	uint32_t timeout = 0;
 
 	if (ad->ApCfg.EntryClientCount < 3)
 		return;

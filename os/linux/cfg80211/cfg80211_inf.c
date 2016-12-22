@@ -111,7 +111,7 @@ BOOLEAN CFG80211DRV_OpsChgVirtualInf(struct rtmp_adapter *pAd, VOID *pData)
 
 		if (pVifParm->MonFilterFlag != 0)
 		{
-			UINT32 Filter;
+			uint32_t Filter;
 
 			RTMP_IO_READ32(pAd, RX_FILTR_CFG, &Filter);
 
@@ -265,7 +265,7 @@ PCFG80211_VIF_DEV RTMP_CFG80211_FindVifEntry_ByMac(struct rtmp_adapter *pAd, str
 	return NULL;
 }
 
-struct net_device *RTMP_CFG80211_FindVifEntry_ByType(struct rtmp_adapter *pAd, UINT32 devType)
+struct net_device *RTMP_CFG80211_FindVifEntry_ByType(struct rtmp_adapter *pAd, uint32_t devType)
 {
 	PLIST_HEADER  pCacheList = &pAd->cfg80211_ctrl.Cfg80211VifDevSet.vifDevList;
 	PCFG80211_VIF_DEV       	pDevEntry = NULL;
@@ -287,7 +287,7 @@ struct net_device *RTMP_CFG80211_FindVifEntry_ByType(struct rtmp_adapter *pAd, U
 
 PWIRELESS_DEV RTMP_CFG80211_FindVifEntryWdev_ByType(
 	IN      struct rtmp_adapter *pAd,
-	      UINT32    devType)
+	      uint32_t    devType)
 {
 	PLIST_HEADER  pCacheList = &pAd->cfg80211_ctrl.Cfg80211VifDevSet.vifDevList;
 	PCFG80211_VIF_DEV       	pDevEntry = NULL;
@@ -307,7 +307,7 @@ PWIRELESS_DEV RTMP_CFG80211_FindVifEntryWdev_ByType(
 	return NULL;
 }
 
-VOID RTMP_CFG80211_AddVifEntry(struct rtmp_adapter *pAd, struct net_device *pNewNetDev, UINT32 DevType)
+VOID RTMP_CFG80211_AddVifEntry(struct rtmp_adapter *pAd, struct net_device *pNewNetDev, uint32_t DevType)
 {
 	PCFG80211_VIF_DEV pNewVifDev = NULL;
 
@@ -548,7 +548,7 @@ static INT CFG80211_VirtualIF_Ioctl(
 VOID RTMP_CFG80211_VirtualIF_Init(
 	IN struct rtmp_adapter	*pAd,
 	IN CHAR			*pDevName,
-	IN UINT32                DevType)
+	IN uint32_t                DevType)
 {
 	RTMP_OS_NETDEV_OP_HOOK	netDevHook, *pNetDevOps;
 	struct net_device *new_dev_p;
@@ -562,7 +562,7 @@ VOID RTMP_CFG80211_VirtualIF_Init(
 	UINT preIfIndex = pDevName[devNameLen-1] - 48;
 	CFG80211_CB *p80211CB = pAd->pCfg80211_CB;
 	struct wireless_dev *pWdev;
-	UINT32 MC_RowID = 0, IoctlIF = 0, Inf = INT_P2P;
+	uint32_t MC_RowID = 0, IoctlIF = 0, Inf = INT_P2P;
 
 	memset(preIfName, 0, sizeof(preIfName));
 	memcpy(preIfName, pDevName, devNameLen-1);
@@ -690,7 +690,7 @@ VOID RTMP_CFG80211_VirtualIF_Init(
 VOID RTMP_CFG80211_VirtualIF_Remove(
 	IN  struct rtmp_adapter			 *pAd,
 	IN	struct net_device *		  dev_p,
-	IN  UINT32                DevType)
+	IN  uint32_t                DevType)
 {
 	BOOLEAN isGoOn = FALSE;
 	struct rtmp_wifi_dev *wdev;
@@ -846,7 +846,7 @@ VOID RTMP_CFG80211_DummyP2pIf_Init(
 	PCFG80211_CTRL cfg80211_ctrl = &pAd->cfg80211_ctrl;
 	RTMP_OS_NETDEV_OP_HOOK	netDevHook, *pNetDevOps;
 	struct net_device *new_dev_p;
-	UINT32 MC_RowID = 0, IoctlIF = 0, Inf = INT_P2P;
+	uint32_t MC_RowID = 0, IoctlIF = 0, Inf = INT_P2P;
 	UINT preIfIndex = 0;
 	struct wireless_dev *pWdev;
 

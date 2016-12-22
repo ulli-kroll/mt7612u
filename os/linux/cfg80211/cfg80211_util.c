@@ -131,7 +131,7 @@ const struct ieee80211_rate Cfg80211_SupRate[12] = {
 	},
 };
 
-static const UINT32 CipherSuites[] = {
+static const uint32_t CipherSuites[] = {
 	WLAN_CIPHER_SUITE_WEP40,
 	WLAN_CIPHER_SUITE_WEP104,
 	WLAN_CIPHER_SUITE_TKIP,
@@ -252,9 +252,9 @@ BOOLEAN CFG80211_SupBandInit(
 	struct ieee80211_channel *pChannels = (struct ieee80211_channel *)pChannelsOrg;
 	struct ieee80211_rate *pRates = (struct ieee80211_rate *)pRatesOrg;
 	struct ieee80211_supported_band *pBand;
-	UINT32 NumOfChan = 0, NumOfRate = 0;
-	UINT32 IdLoop = 0;
-	UINT32 CurTxPower;
+	uint32_t NumOfChan = 0, NumOfRate = 0;
+	uint32_t IdLoop = 0;
+	uint32_t CurTxPower;
 
 	/* sanity check */
 	if (pDriverBandInfo->RFICType == 0)
@@ -634,10 +634,10 @@ BOOLEAN CFG80211OS_BandInfoGet(
 }
 
 
-UINT32 CFG80211OS_ChanNumGet(
+uint32_t CFG80211OS_ChanNumGet(
 	IN VOID						*pCB,
 	IN VOID						*pWiphyOrg,
-	IN UINT32					IdBand)
+	IN uint32_t 				IdBand)
 {
 	CFG80211_CB *pCfg80211_CB = (CFG80211_CB *)pCB;
 	struct wiphy *pWiphy = (struct wiphy *)pWiphyOrg;
@@ -662,10 +662,10 @@ UINT32 CFG80211OS_ChanNumGet(
 BOOLEAN CFG80211OS_ChanInfoGet(
 	IN VOID						*pCB,
 	IN VOID						*pWiphyOrg,
-	IN UINT32					IdBand,
-	IN UINT32					IdChan,
-	OUT UINT32					*pChanId,
-	OUT UINT32					*pPower,
+	IN uint32_t 				IdBand,
+	IN uint32_t 				IdChan,
+	OUT uint32_t 				*pChanId,
+	OUT uint32_t 				*pPower,
 	OUT BOOLEAN					*pFlgIsRadar)
 {
 	CFG80211_CB *pCfg80211_CB = (CFG80211_CB *)pCB;
@@ -721,7 +721,7 @@ Note:
 */
 BOOLEAN CFG80211OS_ChanInfoInit(
 	IN VOID						*pCB,
-	IN UINT32					InfoIndex,
+	IN uint32_t 				InfoIndex,
 	IN UCHAR					ChanId,
 	IN UCHAR					MaxTxPwr,
 	IN BOOLEAN					FlgIsNMode,
@@ -769,9 +769,9 @@ Note:
 */
 VOID CFG80211OS_Scaning(
 	IN VOID						*pCB,
-	IN UINT32					ChanId,
+	IN uint32_t 				ChanId,
 	IN UCHAR					*pFrame,
-	IN UINT32					FrameLen,
+	IN uint32_t 				FrameLen,
 	IN INT32					RSSI,
 	IN BOOLEAN					FlgIsNMode,
 	IN UINT8					BW)
@@ -779,8 +779,8 @@ VOID CFG80211OS_Scaning(
 #ifdef CONFIG_STA_SUPPORT
 	CFG80211_CB *pCfg80211_CB = (CFG80211_CB *)pCB;
 	struct ieee80211_supported_band *pBand;
-	UINT32 IdChan;
-	UINT32 CenFreq;
+	uint32_t IdChan;
+	uint32_t CenFreq;
 	UINT CurBand;
 	struct wiphy *pWiphy = pCfg80211_CB->pCfg80211_Wdev->wiphy;
 	struct cfg80211_bss *bss = NULL;
@@ -909,9 +909,9 @@ void CFG80211OS_ConnectResultInform(
 	IN VOID *pCB,
 	IN UCHAR *pBSSID,
 	IN UCHAR *pReqIe,
-	IN UINT32 ReqIeLen,
+	IN uint32_t ReqIeLen,
 	IN UCHAR *pRspIe,
-	IN UINT32 RspIeLen,
+	IN uint32_t RspIeLen,
 	IN UCHAR FlgIsSuccess)
 {
 	CFG80211_CB *pCfg80211_CB = (CFG80211_CB *)pCB;
@@ -946,9 +946,9 @@ void CFG80211OS_P2pClientConnectResultInform(
 	IN struct net_device *				pNetDev,
 	IN UCHAR					*pBSSID,
 	IN UCHAR					*pReqIe,
-	IN UINT32					ReqIeLen,
+	IN uint32_t 				ReqIeLen,
 	IN UCHAR					*pRspIe,
-	IN UINT32					RspIeLen,
+	IN uint32_t 				RspIeLen,
 	IN UCHAR					FlgIsSuccess)
 {
 	if ((pNetDev == NULL) || (pBSSID == NULL))
@@ -978,7 +978,7 @@ void CFG80211OS_P2pClientConnectResultInform(
 	}
 }
 
-BOOLEAN CFG80211OS_RxMgmt(IN struct net_device *pNetDev, IN INT32 freq, IN PUCHAR frame, IN UINT32 len)
+BOOLEAN CFG80211OS_RxMgmt(IN struct net_device *pNetDev, IN INT32 freq, IN PUCHAR frame, IN uint32_t len)
 {
 	return cfg80211_rx_mgmt(pNetDev,
 				freq,
@@ -988,7 +988,7 @@ BOOLEAN CFG80211OS_RxMgmt(IN struct net_device *pNetDev, IN INT32 freq, IN PUCHA
 				GFP_ATOMIC);
 }
 
-VOID CFG80211OS_TxStatus(IN struct net_device *pNetDev, IN INT32 cookie, IN PUCHAR frame, IN UINT32 len, IN BOOLEAN ack)
+VOID CFG80211OS_TxStatus(IN struct net_device *pNetDev, IN INT32 cookie, IN PUCHAR frame, IN uint32_t len, IN BOOLEAN ack)
 {
 	struct wireless_dev *pWdev;
 	pWdev = pNetDev->ieee80211_ptr ;
@@ -996,7 +996,7 @@ VOID CFG80211OS_TxStatus(IN struct net_device *pNetDev, IN INT32 cookie, IN PUCH
 	return cfg80211_mgmt_tx_status(pNetDev, cookie, frame, len, ack, GFP_ATOMIC);
 }
 
-VOID CFG80211OS_NewSta(IN struct net_device *pNetDev, IN const PUCHAR mac_addr, IN const PUCHAR assoc_frame, IN UINT32 assoc_len)
+VOID CFG80211OS_NewSta(IN struct net_device *pNetDev, IN const PUCHAR mac_addr, IN const PUCHAR assoc_frame, IN uint32_t assoc_len)
 {
 	struct station_info sinfo;
 	struct ieee80211_mgmt *mgmt;
@@ -1026,8 +1026,8 @@ VOID CFG80211OS_MICFailReport(struct net_device *pNetDev, const PUCHAR src_addr,
 
 VOID CFG80211OS_Roamed(
 	struct net_device *pNetDev, IN UCHAR *pBSSID,
-	IN UCHAR *pReqIe, IN UINT32 ReqIeLen,
-	IN UCHAR *pRspIe, IN UINT32 RspIeLen)
+	IN UCHAR *pReqIe, IN uint32_t ReqIeLen,
+	IN UCHAR *pRspIe, IN uint32_t RspIeLen)
 {
 	cfg80211_roamed(pNetDev,
 		NULL,

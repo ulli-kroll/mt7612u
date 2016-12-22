@@ -72,7 +72,7 @@ Return Value:
 Note:
 ========================================================================
 */
-UINT32 BG_FTPH_PacketFromApHandle(
+uint32_t BG_FTPH_PacketFromApHandle(
 	IN		struct sk_buff *pPacket);
 
 #endif /* __BR_FTPH_H__ */

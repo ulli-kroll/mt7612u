@@ -297,7 +297,7 @@ INT APSendPacket(struct rtmp_adapter *pAd, struct sk_buff *pPacket)
 			resource, and the NDIS packet will be indicated NDIS_STATUS_FAILURE. This should
 			rarely happen and the penalty is just like a TX RETRY fail. Affordable.
 		*/
-		UINT32 Size;
+		uint32_t Size;
 
 		AllowFragSize = (pAd->CommonCfg.FragmentThreshold) - LENGTH_802_11 - LENGTH_CRC;
 		Size = PacketInfo.TotalPacketLength - LENGTH_802_3 + LENGTH_802_1_H;
@@ -761,7 +761,7 @@ static inline PUCHAR AP_Build_ARalink_Frame_Header(struct rtmp_adapter *pAd, TX_
 	PUCHAR			pHeaderBufPtr;/*, pSaveBufPtr; */
 	HEADER_802_11	*pHeader_802_11;
 	struct sk_buff *pNextPacket;
-	UINT32			nextBufLen;
+	uint32_t 		nextBufLen;
 	PQUEUE_ENTRY	pQEntry;
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
 
@@ -2326,7 +2326,7 @@ VOID AP_Fragment_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 	USHORT freeCnt = 1; /* no use */
 	UCHAR fragNum = 0;
 	USHORT EncryptionOverhead = 0;
-	UINT32 FreeMpduSize, SrcRemainingBytes;
+	uint32_t FreeMpduSize, SrcRemainingBytes;
 	USHORT AckDuration;
 	UINT NextMpduSize;
 	BOOLEAN bVLANPkt;
@@ -2334,7 +2334,7 @@ VOID AP_Fragment_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 	PACKET_INFO PacketInfo;
 #ifdef SOFT_ENCRYPT
 	UCHAR *tmp_ptr = NULL;
-	UINT32 buf_offset = 0;
+	uint32_t buf_offset = 0;
 #endif /* SOFT_ENCRYPT */
 	HTTRANSMIT_SETTING	*pTransmit;
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
@@ -3284,7 +3284,7 @@ VOID detect_wmm_traffic(
 
 VOID dynamic_tune_be_tx_op(struct rtmp_adapter *pAd, ULONG nonBEpackets)
 {
-	UINT32 RegValue;
+	uint32_t RegValue;
 	AC_TXOP_CSR0_STRUC csr0;
 
 	if (pAd->CommonCfg.bEnableTxBurst
@@ -3363,7 +3363,7 @@ VOID dynamic_tune_be_tx_op(struct rtmp_adapter *pAd, ULONG nonBEpackets)
 #ifdef DOT11_VHT_AC
 				else if (pAd->MacTab.Size == 1) {
 					MAC_TABLE_ENTRY *pEntry = NULL;
-					UINT32 i = 0;
+					uint32_t i = 0;
 
 		                    for (i = 1; i< MAX_LEN_OF_MAC_TABLE; i++) {
 						pEntry = &pAd->MacTab.Content[i];
@@ -3473,7 +3473,7 @@ VOID APRxErrorHandle(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 				{
 #ifdef HOSTAPD_SUPPORT
 					if(pAd->ApCfg.MBSSID[pEntry->apidx].Hostapd == Hostapd_EXT)
-						ieee80211_notify_michael_failure(pAd, pRxBlk->pHeader, (UINT32)pRxBlk->key_idx, 0);
+						ieee80211_notify_michael_failure(pAd, pRxBlk->pHeader, (uint32_t)pRxBlk->key_idx, 0);
 			      		else
 #endif/*HOSTAPD_SUPPORT*/
 		      			{
@@ -4946,7 +4946,7 @@ int APInsertPsQueue(
 	ULONG IrqFlags;
 #ifdef UAPSD_SUPPORT
 	/* put the U-APSD packet to its U-APSD queue by AC ID */
-	UINT32 ac_id = QueIdx - QID_AC_BE; /* should be >= 0 */
+	uint32_t ac_id = QueIdx - QID_AC_BE; /* should be >= 0 */
 
 
 	if (UAPSD_MR_IS_UAPSD_AC(pMacEntry, ac_id))

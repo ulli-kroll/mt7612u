@@ -69,19 +69,19 @@ struct _RF_R_M_W_REG;
 
 #ifdef RT_BIG_ENDIAN
 typedef struct GNU_PACKED _TXINFO_NMAC_CMD_PKT{
-	UINT32 info_type:2;
-	UINT32 d_port:3;
-	UINT32 cmd_type:7;
-	UINT32 cmd_seq:4;
-	UINT32 pkt_len:16;
+	uint32_t info_type:2;
+	uint32_t d_port:3;
+	uint32_t cmd_type:7;
+	uint32_t cmd_seq:4;
+	uint32_t pkt_len:16;
 }TXINFO_NMAC_CMD_PKT;
 #else
 typedef struct GNU_PACKED _TXINFO_NMAC_CMD_PKT {
-	UINT32 pkt_len:16;
-	UINT32 cmd_seq:4;
-	UINT32 cmd_type:7;
-	UINT32 d_port:3;
-	UINT32 info_type:2;
+	uint32_t pkt_len:16;
+	uint32_t cmd_seq:4;
+	uint32_t cmd_type:7;
+	uint32_t d_port:3;
+	uint32_t info_type:2;
 }TXINFO_NMAC_CMD_PKT;
 #endif /* RT_BIG_ENDIAN */
 
@@ -368,11 +368,11 @@ struct mcu_skb_data {
 };
 
 typedef	union _ANDES_CALIBRATION_PARAM {
-	UINT32 generic;
+	uint32_t generic;
 #ifdef MT76x2
 	struct {
-		UINT32 pa_mode;
-		UINT32 tssi_slope_offset;
+		uint32_t pa_mode;
+		uint32_t tssi_slope_offset;
 	} mt76x2_tssi_comp_param;
 #endif
 } ANDES_CALIBRATION_PARAM;

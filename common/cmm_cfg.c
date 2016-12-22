@@ -450,7 +450,7 @@ INT RT_CfgSetMbssWirelessMode(struct rtmp_adapter *pAd, PSTRING arg)
 		}
 		else
 		{
-			UINT32 IdBss;
+			uint32_t IdBss;
 
 			/* replace all phy mode with the one with different band */
 			DBGPRINT(RT_DEBUG_TRACE,
@@ -1005,7 +1005,7 @@ INT RTMP_COM_IoctlHandle(
 
 		case CMD_RTPRIV_IOCTL_CHAN_LIST_GET:
 		{
-			UINT32 i;
+			uint32_t i;
 			UCHAR *pChannel = (UCHAR *)pData;
 
 			for (i = 1; i <= pAd->ChannelListNum; i++)
@@ -1018,9 +1018,9 @@ INT RTMP_COM_IoctlHandle(
 
 		case CMD_RTPRIV_IOCTL_FREQ_LIST_GET:
 		{
-			UINT32 i;
-			UINT32 *pFreq = (UINT32 *)pData;
-			UINT32 m;
+			uint32_t i;
+			uint32_t *pFreq = (uint32_t *)pData;
+			uint32_t m;
 
 			for (i = 1; i <= pAd->ChannelListNum; i++)
 			{
@@ -1044,7 +1044,7 @@ INT RTMP_COM_IoctlHandle(
 		case CMD_RTPRIV_IOCTL_USB_MORE_FLAG_SET:
 		{
 			RT_CMD_USB_MORE_FLAG_CONFIG *pConfig;
-			UINT32 VendorID, ProductID;
+			uint32_t VendorID, ProductID;
 
 
 			pConfig = (RT_CMD_USB_MORE_FLAG_CONFIG *)pData;
@@ -1078,7 +1078,7 @@ INT RTMP_COM_IoctlHandle(
 		case CMD_RTPRIV_IOCTL_USB_CONFIG_INIT:
 		{
 			RT_CMD_USB_DEV_CONFIG *pConfig;
-			UINT32 i;
+			uint32_t i;
 			pConfig = (RT_CMD_USB_DEV_CONFIG *)pData;
 
 			pAd->NumberOfPipes = pConfig->NumberOfPipes;
@@ -1435,7 +1435,7 @@ INT RTMP_COM_IoctlHandle(
 			RtmpDrvRateGet(pAd, HtPhyMode.field.MODE, GI,
 							BW, HtPhyMode.field.MCS,
 							pAd->Antenna.field.TxPath,
-							(UINT32 *)&pRate->BitRate);
+							(uint32_t *)&pRate->BitRate);
 		}
 			break;
 #endif /* CONFIG_AP_SUPPORT */

@@ -214,7 +214,7 @@ VOID APCleanupPsQueue(struct rtmp_adapter *pAd, QUEUE_HEADER *pQueue);
 
 VOID MacTableMaintenance(struct rtmp_adapter *pAd);
 
-UINT32 MacTableAssocStaNumGet(struct rtmp_adapter *pAd);
+uint32_t MacTableAssocStaNumGet(struct rtmp_adapter *pAd);
 
 MAC_TABLE_ENTRY *APSsPsInquiry(
     IN  struct rtmp_adapter *  pAd,

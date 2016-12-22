@@ -113,7 +113,7 @@ VOID CFG80211RemainOnChannelTimeout(
 }
 
 /* Set a given time on specific channel to listen action Frame */
-BOOLEAN CFG80211DRV_OpsRemainOnChannel(struct rtmp_adapter *pAd, VOID *pData, UINT32 duration)
+BOOLEAN CFG80211DRV_OpsRemainOnChannel(struct rtmp_adapter *pAd, VOID *pData, uint32_t duration)
 {
 	CMD_RTPRIV_IOCTL_80211_CHAN *pChanInfo;
 	BOOLEAN Cancelled;
@@ -191,7 +191,7 @@ BOOLEAN CFG80211DRV_OpsRemainOnChannel(struct rtmp_adapter *pAd, VOID *pData, UI
 	return TRUE;
 }
 
-BOOLEAN CFG80211DRV_OpsCancelRemainOnChannel(struct rtmp_adapter *pAd, UINT32 cookie)
+BOOLEAN CFG80211DRV_OpsCancelRemainOnChannel(struct rtmp_adapter *pAd, uint32_t cookie)
 {
 	BOOLEAN Cancelled;
 	CFG80211DBG(RT_DEBUG_TRACE, ("%s\n", __FUNCTION__));
@@ -697,7 +697,7 @@ BOOLEAN CFG80211_P2pHandleNoAAttri(struct rtmp_adapter *pAd, PMAC_TABLE_ENTRY pM
 
 
 VOID CFG80211_P2pParseNoASubElmt(struct rtmp_adapter *pAd, VOID *Msg, ULONG MsgLen,
-                                 UCHAR wcidindex, UINT32 Sequence)
+                                 UCHAR wcidindex, uint32_t Sequence)
 {
 	PCFG80211_CTRL pP2PCtrl = &pAd->cfg80211_ctrl;
 	ULONG Length = 0, AttriLen = 0, LeftLength = 0;
@@ -1112,7 +1112,7 @@ BOOLEAN CFG80211DRV_P2pClientConnect(struct rtmp_adapter *pAd, VOID *pData)
 {
 	CMD_RTPRIV_IOCTL_80211_CONNECT *pConnInfo;
 	UCHAR Connect_SSID[NDIS_802_11_LENGTH_SSID];
-	UINT32 Connect_SSIDLen;
+	uint32_t Connect_SSIDLen;
 
 	APCLI_STRUCT *apcli_entry;
 	apcli_entry = &pAd->ApCfg.ApCliTab[MAIN_MBSSID];
@@ -1194,8 +1194,8 @@ BOOLEAN CFG80211DRV_P2pClientConnect(struct rtmp_adapter *pAd, VOID *pData)
 
 VOID CFG80211_P2pClientConnectResultInform(
 	struct rtmp_adapter *pAd, UCHAR *pBSSID,
-        UCHAR *pReqIe, UINT32 ReqIeLen,
-        UCHAR *pRspIe, UINT32 RspIeLen,
+        UCHAR *pReqIe, uint32_t ReqIeLen,
+        UCHAR *pRspIe, uint32_t RspIeLen,
         UCHAR FlgIsSuccess)
 {
 	CFG80211OS_P2pClientConnectResultInform(pAd->ApCfg.ApCliTab[MAIN_MBSSID].wdev.if_dev, pBSSID,

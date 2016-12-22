@@ -86,7 +86,7 @@ BOOLEAN CFG80211DRV_OpsScanSetSpecifyChannel(
 	UINT8						 dataLen)
 {
 	PCFG80211_CTRL cfg80211_ctrl = &pAd->cfg80211_ctrl;
-	UINT32 *pChanList = (UINT32 *) pData;
+	uint32_t *pChanList = (uint32_t *) pData;
 
 	if (pChanList != NULL)
 	{
@@ -94,9 +94,9 @@ BOOLEAN CFG80211DRV_OpsScanSetSpecifyChannel(
 			kfree(cfg80211_ctrl->pCfg80211ChanList);
 
 		cfg80211_ctrl->pCfg80211ChanList =
-			kmalloc(sizeof(UINT32 *) * dataLen, GFP_ATOMIC);
+			kmalloc(sizeof(uint32_t *) * dataLen, GFP_ATOMIC);
 		if (cfg80211_ctrl->pCfg80211ChanList != NULL) {
-			memcpy(cfg80211_ctrl->pCfg80211ChanList, pChanList, sizeof(UINT32 *) * dataLen);
+			memcpy(cfg80211_ctrl->pCfg80211ChanList, pChanList, sizeof(uint32_t *) * dataLen);
 			cfg80211_ctrl->Cfg80211ChanListLen = dataLen;
 			cfg80211_ctrl->Cfg80211CurChanIndex = 0 ; /* Start from index 0 */
 			return NDIS_STATUS_SUCCESS;
@@ -237,7 +237,7 @@ static void CFG80211_UpdateBssTableRssi(
 	struct cfg80211_bss *bss;
 	BSS_ENTRY *pBssEntry;
 	UINT index;
-	UINT32 CenFreq;
+	uint32_t CenFreq;
 
 	for (index = 0; index < pAd->ScanTab.BssNr; index++)
 	{
@@ -283,10 +283,10 @@ Note:
 */
 VOID CFG80211_Scaning(
 	IN struct rtmp_adapter					*pAd,
-	IN UINT32						BssIdx,
-	IN UINT32						ChanId,
+	IN uint32_t 					BssIdx,
+	IN uint32_t 					ChanId,
 	IN UCHAR						*pFrame,
-	IN UINT32						FrameLen,
+	IN uint32_t 					FrameLen,
 	IN INT32						RSSI)
 {
 #ifdef CONFIG_STA_SUPPORT

@@ -279,7 +279,7 @@ INT CFG80211DRV_IoctlHandle(
 #ifdef RFKILL_HW_SUPPORT
 				case CMD_RTPRIV_IOCTL_80211_RFKILL:
 				{
-					UINT32 data = 0;
+					uint32_t data = 0;
 					BOOLEAN active;
 
 					/* Read GPIO pin2 as Hardware controlled radio state */
@@ -673,7 +673,7 @@ BOOLEAN CFG80211DRV_StaGet(
 {
 	MAC_TABLE_ENTRY *pEntry;
 	ULONG DataRate = 0;
-	UINT32 RSSI;
+	uint32_t RSSI;
 
 
 	pEntry = MacTableLookup(pAd, pIbssInfo->MAC);
@@ -725,7 +725,7 @@ BOOLEAN CFG80211DRV_StaGet(
 {
 	HTTRANSMIT_SETTING PhyInfo;
 	ULONG DataRate = 0;
-	UINT32 RSSI;
+	uint32_t RSSI;
 
 
 	/* fill tx rate */
@@ -859,7 +859,7 @@ BOOLEAN CFG80211DRV_Connect(
 #ifdef CONFIG_STA_SUPPORT
 	CMD_RTPRIV_IOCTL_80211_CONNECT *pConnInfo;
 	UCHAR SSID[NDIS_802_11_LENGTH_SSID + 1]; /* Add One for SSID_Len == 32 */
-	UINT32 SSIDLen;
+	uint32_t SSIDLen;
 	RT_CMD_STA_IOCTL_SECURITY_ADV IoctlWpa;
 
 	if (OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_INFRA_ON) &&
@@ -1160,7 +1160,7 @@ VOID CFG80211_BeaconCountryRegionParse(
 	IN UINT16					LenVIE)
 {
 	UCHAR *pElement = (UCHAR *)pVIE;
-	UINT32 LenEmt;
+	uint32_t LenEmt;
 
 
 	while(LenVIE > 0)
@@ -1303,8 +1303,8 @@ VOID CFG80211_RegRuleApply(
 	IN UCHAR					*pAlpha2)
 {
 	VOID *pBand24G, *pBand5G;
-	UINT32 IdBand, IdChan, IdPwr;
-	UINT32 ChanNum, ChanId, Power, RecId, DfsType;
+	uint32_t IdBand, IdChan, IdPwr;
+	uint32_t ChanNum, ChanId, Power, RecId, DfsType;
 	BOOLEAN FlgIsRadar;
 	ULONG IrqFlags;
 #ifdef DFS_SUPPORT
@@ -1458,9 +1458,9 @@ VOID CFG80211_ConnectResultInform(
 	IN struct rtmp_adapter				*pAd,
 	IN UCHAR					*pBSSID,
 	IN UCHAR					*pReqIe,
-	IN UINT32					ReqIeLen,
+	IN uint32_t 				ReqIeLen,
 	IN UCHAR					*pRspIe,
-	IN UINT32					RspIeLen,
+	IN uint32_t 				RspIeLen,
 	IN UCHAR					FlgIsSuccess)
 {
 	CFG80211DBG(RT_DEBUG_TRACE, ("80211> CFG80211_ConnectResultInform ==>\n"));
@@ -1596,7 +1596,7 @@ BOOLEAN CFG80211_checkScanTable(
 	ULONG bss_idx = BSS_NOT_FOUND;
 	struct cfg80211_bss *bss;
 	struct ieee80211_channel *chan;
-	UINT32 CenFreq;
+	uint32_t CenFreq;
 	UINT64 timestamp;
 	struct timeval tv;
 	UCHAR *ie, ieLen = 0;

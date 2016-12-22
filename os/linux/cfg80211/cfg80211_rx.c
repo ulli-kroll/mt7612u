@@ -69,7 +69,7 @@ BOOLEAN CFG80211_CheckActionFrameType(
         IN  struct rtmp_adapter 								 *pAd,
 		IN	PUCHAR										 preStr,
 		IN	PUCHAR										 pData,
-		IN	UINT32                              		 length)
+		IN	uint32_t                              		 length)
 {
 	BOOLEAN isP2pFrame = FALSE;
 	struct ieee80211_mgmt *mgmt;
@@ -204,7 +204,7 @@ BOOLEAN CFG80211_HandleP2pMgmtFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk, UC
 	PHEADER_802_11 pHeader = pRxBlk->pHeader;
 	struct net_device *pNetDev = NULL;
 	PCFG80211_CTRL pCfg80211_ctrl = &pAd->cfg80211_ctrl;
-	UINT32 freq;
+	uint32_t freq;
 
 	if ((pHeader->FC.SubType == SUBTYPE_PROBE_REQ) ||
 	 	 ((pHeader->FC.SubType == SUBTYPE_ACTION) &&

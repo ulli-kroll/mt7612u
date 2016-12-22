@@ -537,7 +537,7 @@ INT Set_NetworkType_Proc(
     IN  struct rtmp_adapter *  pAd,
     IN  PSTRING          arg)
 {
-    UINT32	Value = 0;
+    uint32_t Value = 0;
 
     if (strcmp(arg, "Adhoc") == 0)
 	{
@@ -1429,7 +1429,7 @@ INT Set_DyncVgaEnable_Proc(
 	IN	PSTRING		arg)
 {
 	UINT Enable;
-	UINT32 bbp_val;
+	uint32_t bbp_val;
 
 	Enable = simple_strtol(arg, 0, 10);
 
@@ -1457,7 +1457,7 @@ INT Set_DyncVgaEnable_Proc(
 INT	Show_Adhoc_MacTable_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			extra,
-	IN	UINT32			size)
+	IN	uint32_t 		size)
 {
 	INT i;
 
@@ -1836,7 +1836,7 @@ INT Set_WOW_Enable(
         IN struct rtmp_adapter *       pAd,
         IN PSTRING              arg)
 {
-	UINT32 Val;
+	uint32_t Val;
 	UINT8 Pin = pAd->WOW_Cfg.nSelectedGPIO;
 	ULONG Value = simple_strtol(arg, 0, 10);
 
@@ -1933,7 +1933,7 @@ INT Set_WOW_InBand(
 void	getBaInfo(
 	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			pOutBuf,
-	IN	UINT32			size)
+	IN	uint32_t 		size)
 {
 	INT i, j;
 	BA_ORI_ENTRY *pOriBAEntry;
@@ -1984,7 +1984,7 @@ void	getBaInfo(
 VOID RTMPIoctlShow(
 	IN	struct rtmp_adapter *		pAd,
 	IN	RTMP_IOCTL_INPUT_STRUCT	*wrq,
-	IN	UINT32					subcmd,
+	IN	uint32_t 				subcmd,
 	IN	VOID					*pData,
 	IN	ULONG					Data)
 {
@@ -1992,7 +1992,7 @@ VOID RTMPIoctlShow(
 	struct os_cookie *pObj;
 	INT Status = 0;
 	char *extra = (char *)pIoctlShow->pData;
-	UINT32 size = (UINT32)(pIoctlShow->MaxSize);
+	uint32_t size = (uint32_t)(pIoctlShow->MaxSize);
 
 
 	pObj = pAd->OS_Cookie;
@@ -2658,7 +2658,7 @@ RtmpIoctl_rt_ioctl_giwscan(
 	RT_CMD_STA_IOCTL_SCAN_TABLE *pIoctlScan = (RT_CMD_STA_IOCTL_SCAN_TABLE *)pData;
 	RT_CMD_STA_IOCTL_BSS_TABLE *pBssTable;
 	BSS_ENTRY *pBssEntry;
-	UINT32 IdBss;
+	uint32_t IdBss;
 
 
 	pIoctlScan->BssNr = 0;
@@ -3213,7 +3213,7 @@ RtmpIoctl_rt_ioctl_siwmlme(
 	IN	struct rtmp_adapter 		*pAd,
 	IN	VOID					*pData,
 	IN	ULONG					Data,
-	IN	UINT32					Subcmd)
+	IN	uint32_t 				Subcmd)
 {
 	MLME_QUEUE_ELEM				*pMsgElem = NULL;
 	MLME_DISASSOC_REQ_STRUCT	DisAssocReq;
@@ -4014,8 +4014,8 @@ Note:
 INT RtmpIoctl_rt_ioctl_siwrate(struct rtmp_adapter *pAd, VOID *pData, ULONG Data)
 {
 	RT_CMD_RATE_SET *pCmdRate = (RT_CMD_RATE_SET *)pData;
-	UINT32 rate = pCmdRate->Rate;
-	UINT32 fixed = pCmdRate->Fixed;
+	uint32_t rate = pCmdRate->Rate;
+	uint32_t fixed = pCmdRate->Fixed;
 	struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
 
     /*
@@ -4095,7 +4095,7 @@ RtmpIoctl_rt_ioctl_giwrate(struct rtmp_adapter *pAd, VOID *pData, ULONG Data)
     else
         ht_setting.word = pAd->MacTab.Content[BSSID_WCID].HTPhyMode.word;
 RtmpDrvRateGet(NULL,ht_setting.field.MODE,ht_setting.field.ShortGI,ht_setting.field.BW
-	,ht_setting.field.MCS,newRateGetAntenna(ht_setting.field.MCS),(UINT32 *)pData);
+	,ht_setting.field.MCS,newRateGetAntenna(ht_setting.field.MCS),(uint32_t *)pData);
 
 	return NDIS_STATUS_SUCCESS;
 }
@@ -4351,8 +4351,8 @@ RtmpIoctl_rt_private_get_statistics(
 				PMAC_TABLE_ENTRY pEntry = &(pAd->MacTab.Content[i]);
 				if (IS_ENTRY_CLIENT(pEntry) && pEntry->Sst==SST_ASSOC)
 				{
-					UINT32 lastRxRate = pEntry->LastRxRate;
-					UINT32 lastTxRate = pEntry->LastTxRate;
+					uint32_t lastRxRate = pEntry->LastRxRate;
+					uint32_t lastTxRate = pEntry->LastTxRate;
 
 #ifdef RT65xx
 					if (IS_RT65XX(pAd)) {
@@ -4497,11 +4497,11 @@ INT RTMP_STA_IoctlHandle(
 			break;
 
 		case CMD_RTPRIV_IOCTL_CHID_2_FREQ:
-			RTMP_MapChannelID2KHZ(Data, (UINT32 *)pData);
+			RTMP_MapChannelID2KHZ(Data, (uint32_t *)pData);
 			break;
 
 		case CMD_RTPRIV_IOCTL_FREQ_2_CHID:
-			RTMP_MapKHZ2ChannelID(Data, (UINT32 *)pData);
+			RTMP_MapKHZ2ChannelID(Data, (uint32_t *)pData);
 			break;
 
 		case CMD_RTPRIV_IOCTL_ORI_DEV_TYPE_SET:
@@ -4542,7 +4542,7 @@ INT RTMP_STA_IoctlHandle(
 		{
 			RT_CMD_STA_IOCTL_BSS_LIST *pBssList = (RT_CMD_STA_IOCTL_BSS_LIST *)pData;
 			RT_CMD_STA_IOCTL_BSS *pList;
-			UINT32 i;
+			uint32_t i;
 
 			pBssList->BssNum = pAd->ScanTab.BssNr;
 			for (i = 0; i <pBssList->MaxNum ; i++)

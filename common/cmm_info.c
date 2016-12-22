@@ -124,7 +124,7 @@ INT	Set_Cmm_WirelessMode_Proc(
 {
 	INT	success = TRUE;
 #ifdef CONFIG_AP_SUPPORT
-	UINT32 i = 0;
+	uint32_t i = 0;
 #ifdef MBSS_SUPPORT
 	struct os_cookie *pObj = pAd->OS_Cookie;
 
@@ -742,7 +742,7 @@ INT	Set_INF_AMAZON_SE_PPA_Proc(
 {
 	UINT status;
 	UCHAR aggre;
-	UINT32 g_if_id;
+	uint32_t g_if_id;
 	int re_val;
 
 	aggre = simple_strtol(arg, 0, 10);
@@ -1907,7 +1907,7 @@ VOID	RTMPAddWcidAttributeEntry(
 	IN 	UCHAR		 	CipherAlg,
 	IN 	MAC_TABLE_ENTRY *pEntry)
 {
-	UINT32		WCIDAttri = 0;
+	uint32_t 	WCIDAttri = 0;
 	USHORT		offset;
 	UCHAR		IVEIV = 0;
 	USHORT		Wcid = 0;
@@ -1976,7 +1976,7 @@ VOID	RTMPAddWcidAttributeEntry(
 
 	/* Update WCID attribute table*/
 	{
-		UINT32 wcid_attr_base = 0, wcid_attr_size = 0;
+		uint32_t wcid_attr_base = 0, wcid_attr_size = 0;
 
 		wcid_attr_base = RLT_MAC_WCID_ATTRIBUTE_BASE;
 		wcid_attr_size = RLT_HW_WCID_ATTRI_SIZE;
@@ -2019,7 +2019,7 @@ VOID	RTMPAddWcidAttributeEntry(
 
 	/* Update IV/EIV table*/
 	{
-		UINT32 iveiv_tb_base = 0, iveiv_tb_size = 0;
+		uint32_t iveiv_tb_base = 0, iveiv_tb_size = 0;
 
 		iveiv_tb_base = RLT_MAC_IVEIV_TABLE_BASE;
 		iveiv_tb_size = RLT_HW_IVEIV_ENTRY_SIZE;
@@ -2130,7 +2130,7 @@ PSTRING GetAuthMode(CHAR auth)
 VOID	RTMPCommSiteSurveyData(
 	IN  PSTRING msg,
 	IN  BSS_ENTRY *pBss,
-	IN  UINT32 MsgLen)
+	IN  uint32_t MsgLen)
 {
 	INT         Rssi = 0;
 	UINT        Rssi_Quality = 0;
@@ -2326,7 +2326,7 @@ VOID RTMPIoctlGetSiteSurvey(
 	INT 		Status=0;
     INT         max_len = LINE_LEN;
 	BSS_ENTRY *pBss;
-	UINT32 TotalLen, BufLen = IW_SCAN_MAX_DATA;
+	uint32_t TotalLen, BufLen = IW_SCAN_MAX_DATA;
 
 #ifdef CONFIG_STA_SUPPORT
 #endif /* CONFIG_STA_SUPPORT */
@@ -4197,7 +4197,7 @@ INT Set_StreamMode_Proc(
     IN  struct rtmp_adapter *  pAd,
     IN  PSTRING         arg)
 {
-	UINT32 streamWord, reg, regAddr;
+	uint32_t streamWord, reg, regAddr;
 
 	if (pAd->chipCap.FlgHwStreamMode == FALSE)
 	{
@@ -5110,7 +5110,7 @@ INT Show_TxInfo_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 INT Show_MacTable_Proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	INT i;
-    	UINT32 RegValue;
+    	uint32_t RegValue;
 	ULONG DataRate=0;
 
 
@@ -5396,7 +5396,7 @@ PSTRING wdev_type2str(int type)
 INT show_sysinfo_proc(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	INT idx;
-	UINT32 total_size = 0, cntr_size;
+	uint32_t total_size = 0, cntr_size;
 	struct rtmp_wifi_dev *wdev;
 
 
@@ -6273,7 +6273,7 @@ INT	Set_ITxBfEn_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			arg)
 {
-	UINT32  i;
+	uint32_t  i;
 	UCHAR   enableITxBF;
 	BOOLEAN bCalibrated;
 	UINT8   byteValue;
@@ -7423,7 +7423,7 @@ INT Set_RateAdaptInterval(
 	IN struct rtmp_adapter *pAd,
 	IN PSTRING arg)
 {
-	UINT32 ra_time, ra_qtime;
+	uint32_t ra_time, ra_qtime;
 	PSTRING token;
 	char sep = ':';
 	ULONG irqFlags;
@@ -7710,7 +7710,7 @@ INT set_force_vht_tx_stbc(struct rtmp_adapter *pAd, PSTRING arg)
 INT set_force_ext_cca(struct rtmp_adapter *pAd, PSTRING arg)
 {
 	ULONG cca_cfg;
-	UINT32 mac_val;
+	uint32_t mac_val;
 
 	cca_cfg = (simple_strtol(arg, 0, 10) > 0 ? TRUE : FALSE);
 	if (cca_cfg)
@@ -7725,8 +7725,8 @@ INT set_force_ext_cca(struct rtmp_adapter *pAd, PSTRING arg)
 
 INT set_rx_rts_cts(struct rtmp_adapter *pAd, PSTRING arg)
 {
-	UINT32 do_rx, i;
-	UINT32 mac_val, mask;
+	uint32_t do_rx, i;
+	uint32_t mac_val, mask;
 	PSTRING cmds[4]={"no", "rts", "cts", "all"};
 
 	for (i =0 ; i < 4; i++) {
@@ -7988,7 +7988,7 @@ INT RTMPShowCfgValue(
 	IN	struct rtmp_adapter *pAd,
 	IN	PSTRING			pName,
 	IN	PSTRING			pBuf,
-	IN	UINT32			MaxLen)
+	IN	uint32_t 		MaxLen)
 {
 	INT	Status = 0;
 

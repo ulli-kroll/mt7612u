@@ -129,7 +129,7 @@ VOID APShutdown(struct rtmp_adapter *pAd)
  */
 VOID APStartUp(struct rtmp_adapter *pAd)
 {
-	UINT32 i;
+	uint32_t i;
 	BOOLEAN bWmmCapable = FALSE;
 	UCHAR idx;
 	BOOLEAN TxPreamble, SpectrumMgmt = FALSE;
@@ -664,7 +664,7 @@ VOID APStop(
 	IN struct rtmp_adapter *pAd)
 {
 	BOOLEAN Cancelled;
-	UINT32 Value;
+	uint32_t Value;
 	INT idx;
 	MULTISSID_STRUCT *pMbss;
 
@@ -1302,11 +1302,11 @@ VOID MacTableMaintenance(struct rtmp_adapter *pAd)
 }
 
 
-UINT32 MacTableAssocStaNumGet(
+uint32_t MacTableAssocStaNumGet(
 	IN struct rtmp_adapter *pAd)
 {
-	UINT32 num = 0;
-	UINT32 i;
+	uint32_t num = 0;
+	uint32_t i;
 
 
 	for (i = 1; i < MAX_LEN_OF_MAC_TABLE; i++)

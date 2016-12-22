@@ -143,7 +143,7 @@ VOID rtmp_asic_init_txrx_ring(struct rtmp_adapter *pAd)
 {
 	DELAY_INT_CFG_STRUC IntCfg;
 	WPDMA_GLO_CFG_STRUC GloCfg;
-	UINT32 phy_addr, offset;
+	uint32_t phy_addr, offset;
 	INT i;
 
 

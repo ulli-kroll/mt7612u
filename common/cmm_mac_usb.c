@@ -1394,7 +1394,7 @@ VOID RT28xx_UpdateBeaconToAsic(
 	UCHAR  			*ptr;
 	UINT  			i, padding;
 	BEACON_SYNC_STRUCT *pBeaconSync = pAd->CommonCfg.pBeaconSync;
-	UINT32			longValue;
+	uint32_t 		longValue;
 /*	USHORT			shortValue;*/
 	BOOLEAN			bBcnReq = FALSE;
 	UCHAR			bcn_idx = 0;
@@ -1697,7 +1697,7 @@ VOID BeaconUpdateExec(
 {
 	struct rtmp_adapter *pAd = (struct rtmp_adapter *)FunctionContext;
 	LARGE_INTEGER	tsfTime_a;/*, tsfTime_b, deltaTime_exp, deltaTime_ab;*/
-	UINT32			delta, delta2MS, period2US, remain, remain_low, remain_high;
+	uint32_t 		delta, delta2MS, period2US, remain, remain_low, remain_high;
 /*	BOOLEAN			positive;*/
 
 	if (pAd->CommonCfg.IsUpdateBeacon==TRUE)
@@ -1944,7 +1944,7 @@ VOID RT28xxUsbAsicRadioOff(struct rtmp_adapter *pAd)
 
 VOID RT28xxUsbAsicRadioOn(struct rtmp_adapter *pAd)
 {
-	UINT32 MACValue = 0;
+	uint32_t MACValue = 0;
 	BOOLEAN brc;
 	UINT RetryRound = 0;
 	WPDMA_GLO_CFG_STRUC GloCfg;
@@ -2061,8 +2061,8 @@ BOOLEAN AsicCheckCommandOk(
 	IN struct rtmp_adapter *pAd,
 	IN UCHAR		 Command)
 {
-	UINT32	CmdStatus, CID, i;
-	UINT32	ThisCIDMask = 0;
+	uint32_t CmdStatus, CID, i;
+	uint32_t ThisCIDMask = 0;
 	INT ret;
 
 

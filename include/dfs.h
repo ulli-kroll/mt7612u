@@ -51,7 +51,7 @@
 
 /*#define DFS_SW_RADAR_DECLARE_THRES	3*/
 #ifdef RLT_BBP
-#define DFS_EVENT_SIZE						4    /* Number of UINT32 of each DFS event buffer data */
+#define DFS_EVENT_SIZE						4    /* Number of uint32_t of each DFS event buffer data */
 #else
 #define DFS_EVENT_SIZE						6    /* Number of bytes of each DFS event */
 #endif
@@ -148,7 +148,7 @@
 
 #define MT7650_DFS_EVENT_BUFF_PRINT(_StarIdx,  _TableIdx, _BufSize)				\
 {																				\
-	UINT32 __k;																	\
+	uint32_t __k;																	\
 	for (__k = _StarIdx; __k < _BufSize; __k++)									\
 	{																			\
 		DBGPRINT(RT_DEBUG_TRACE, ("0x%08x ", _TableIdx[__k]));					\
@@ -164,7 +164,7 @@
 		/* AGC Input Control */
 #define MT7650_ADJUST_DFS_AGC(_pAd)			\
 {	\
-	UINT32 bbp_val = 0, dfs_r31 = 0;				\
+	uint32_t bbp_val = 0, dfs_r31 = 0;				\
 		RTMP_BBP_IO_READ32(_pAd, AGC1_R4, &bbp_val); \
 		dfs_r31 = (bbp_val & 0x003f0000) >> 16;\
 		RTMP_BBP_IO_READ32(_pAd, AGC1_R8, &bbp_val);\
@@ -178,7 +178,7 @@
 /* Normal AGC1_R4 must adjust accordingly as AGC1_R8 change */
 #define MT7650_ADJUST_AGC(_pAd)	\
 {	\
-	UINT32 Agc_R8 = 0, Agc_R4 = 0;				\
+	uint32_t Agc_R8 = 0, Agc_R4 = 0;				\
 		RTMP_BBP_IO_READ32(_pAd, AGC1_R8, &Agc_R8); \
 		Agc_R8 = (((Agc_R8 & 0x00007e00) >> 9) +1) >> 1;\
 		RTMP_BBP_IO_READ32(_pAd, AGC1_R4, &Agc_R4);\
@@ -195,7 +195,7 @@
 
 #define DFS_EVENT_BUFF_PRINT(_StarIdx,  _TableIdx, _BufSize)						\
 {																				\
-	UINT32 k;																	\
+	uint32_t k;																	\
 	for (k = _StarIdx; k < _BufSize; k++)											\
 	{																			\
 		DBGPRINT(RT_DEBUG_TRACE, ("0x%02x ", _TableIdx[k]));						\
@@ -214,7 +214,7 @@
 #ifdef RTMP_MAC_USB
 #define INIT_DFS_EVENT_BUFF_SHARED_MEMORY(_pAd, _StartOffset, _NumOfPages, _InitVal)	\
 {																						\
-	UINT32 i = 0;																			\
+	uint32_t i = 0;																			\
 	for (i = _StartOffset; i < _StartOffset + (_NumOfPages*384); i++)							\
 		RTUSBSingleWrite(_pAd, i, _InitVal, FALSE);											\
 																						\
@@ -274,7 +274,7 @@ typedef struct _DFS_ENGINE_LOCAL_CFG {
 	UCHAR	EpsilonT;
 	ULONG	BLow;
 	ULONG	BHigh;
-	UINT32	EventExpiration;
+	uint32_t EventExpiration;
 	UINT16	PwrJump;
 } DFS_ENGINE_LOCAL_CFG, *pDFS_ENGINE_LOCAL_CFG;
 
@@ -311,7 +311,7 @@ typedef struct _NewDFSDebugResult
 
 typedef struct _DFS_EVENT{
 	UINT8  EngineId;
-	UINT32 TimeStamp;
+	uint32_t TimeStamp;
 	UINT16 Width;
 #ifdef RLT_BBP
 	UINT16 phase;
@@ -332,7 +332,7 @@ typedef struct _DFS_SW_DETECT_PARAM{
 	UCHAR dfs_declare_thres;
 	ULONG dfs_w_counter;
 	DFS_EVENT PreDfsEvent;		/* previous radar event */
-	UINT32 EvtDropAdjTime;		/* timing threshold for adjacent event */
+	uint32_t EvtDropAdjTime;		/* timing threshold for adjacent event */
 	UINT sw_idx[NEW_DFS_MAX_CHANNEL];
 	UINT hw_idx[NEW_DFS_MAX_CHANNEL];
 	UINT pr_idx[NEW_DFS_MAX_CHANNEL];

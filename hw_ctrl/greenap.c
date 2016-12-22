@@ -98,7 +98,7 @@ VOID DisableAPMIMOPSv1(
 	UCHAR	BBPR3=0,BBPR1=0;
 	ULONG	TxPinCfg = 0x00050F0A; /* Gary 2007/08/09 0x050A0A */
 	UCHAR	CentralChannel;
-	UINT32	Value=0;
+	uint32_t	Value=0;
 
 
 

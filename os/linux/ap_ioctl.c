@@ -101,7 +101,7 @@ INT rt28xx_ap_ioctl(struct net_device *net_dev, struct ifreq *rq, int cmd)
     INT				Status = NDIS_STATUS_SUCCESS;
     USHORT			subcmd;
 	INT			apidx=0;
-	UINT32		org_len;
+	uint32_t 	org_len;
 	RT_CMD_AP_IOCTL_CONFIG IoctlConfig, *pIoctlConfig = &IoctlConfig;
 
 	GET_PAD_FROM_NET_DEV(pAd, net_dev);
@@ -263,7 +263,7 @@ INT rt28xx_ap_ioctl(struct net_device *net_dev, struct ifreq *rq, int cmd)
 		    {
 /*				struct iw_range range; */
 				struct iw_range *prange = NULL;
-				UINT32 len;
+				uint32_t len;
 
 				/* allocate memory */
 				prange = kmalloc(sizeof(struct iw_range), GFP_ATOMIC);

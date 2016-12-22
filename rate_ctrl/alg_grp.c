@@ -493,7 +493,7 @@ UCHAR get_rate_idx_by_rate(struct rtmp_adapter *pAd, UCHAR *rate_tb,  USHORT rat
 VOID TriggerQuickInitMCSRate(
     	IN struct rtmp_adapter *	pAd,
 	    IN PMAC_TABLE_ENTRY	pEntry,
-        IN UINT32 CheckInterval)
+        IN uint32_t CheckInterval)
 {
    	PUCHAR pTable;
    	pTable = pEntry->pTable;
@@ -2264,7 +2264,7 @@ VOID MlmeDynamicTxRateSwitchingAdapt(
 		if (pEntry->wcid >= 1 && pEntry->wcid <= 8)
 		{
 			WCID_TX_CNT_STRUC wcidTxCnt;
-			UINT32 regAddr, offset;
+			uint32_t regAddr, offset;
 			ULONG HwTxCnt, HwErrRatio = 0;
 
 			regAddr = WCID_TX_CNT_0 + (pEntry->wcid - 1) * 4;

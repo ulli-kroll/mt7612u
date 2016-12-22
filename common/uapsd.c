@@ -25,15 +25,15 @@
 UCHAR gUAPSD_FlgNotQueueMaintain;
 
 #ifdef UAPSD_DEBUG
-UINT32 gUAPSD_SP_CloseAbnormalNum;
+uint32_t gUAPSD_SP_CloseAbnormalNum;
 #endif /* UAPSD_DEBUG */
 
 #ifdef UAPSD_TIMING_RECORD_FUNC
 /* all unit: us */
 
 UCHAR  gUAPSD_TimingFlag;
-UINT32 gUAPSD_TimingIndexUapsd;
-UINT32 gUAPSD_TimingLoopIndex;
+uint32_t gUAPSD_TimingIndexUapsd;
+uint32_t gUAPSD_TimingLoopIndex;
 
 /* ISR start timestamp */
 UINT64 gUAPSD_TimingIsr[UAPSD_TIMING_RECORD_MAX];
@@ -45,9 +45,9 @@ UINT64 gUAPSD_TimingTrgRcv[UAPSD_TIMING_RECORD_MAX];
 UINT64 gUAPSD_TimingMov2Tx[UAPSD_TIMING_RECORD_MAX];
 UINT64 gUAPSD_TimingTx2Air[UAPSD_TIMING_RECORD_MAX];
 
-UINT32 gUAPSD_TimingSumIsr2Tasklet;
-UINT32 gUAPSD_TimingSumTrig2Txqueue;
-UINT32 gUAPSD_TimingSumTxqueue2Air;
+uint32_t gUAPSD_TimingSumIsr2Tasklet;
+uint32_t gUAPSD_TimingSumTrig2Txqueue;
+uint32_t gUAPSD_TimingSumTxqueue2Air;
 #endif /* UAPSD_TIMING_RECORD_FUNC */
 
 
@@ -377,7 +377,7 @@ VOID UAPSD_AssocParse(
 {
 	PQBSS_STA_INFO_PARM  pQosInfo;
 	UCHAR UAPSD[4];
-	UINT32 IdApsd;
+	uint32_t IdApsd;
 
 
 	/* check if the station enables UAPSD function */
@@ -468,7 +468,7 @@ VOID UAPSD_PacketEnqueue(
 	IN	struct rtmp_adapter *	pAd,
 	IN	MAC_TABLE_ENTRY		*pEntry,
 	IN	struct sk_buff *	pPacket,
-	IN	UINT32				IdAc)
+	IN	uint32_t 			IdAc)
 {
 	/*
 		1. the STATION is UAPSD STATION;
@@ -547,7 +547,7 @@ Note:
 VOID UAPSD_QueueMaintenance(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 {
 	QUEUE_HEADER *pQue;
-	UINT32 IdAc;
+	uint32_t IdAc;
 	BOOLEAN FlgUapsdPkt, FlgEospPkt;
 #ifdef RTMP_MAC_USB
 	ULONG IrqFlags;
@@ -869,7 +869,7 @@ Note:
 */
 VOID UAPSD_SP_CloseInRVDone(struct rtmp_adapter *pAd)
 {
-	UINT32 IdEntry;
+	uint32_t IdEntry;
 	int FirstWcid = 0;
 
 
@@ -932,7 +932,7 @@ Return Value:
 Note:
 ========================================================================
 */
-VOID UAPSD_TimingRecordCtrl(UINT32 Flag)
+VOID UAPSD_TimingRecordCtrl(uint32_t Flag)
 {
 	if (gUAPSD_TimingFlag == UAPSD_TIMING_CTRL_SUSPEND)
 		return;
@@ -961,9 +961,9 @@ Note:
 	UAPSD_TIMING_RECORD_TX2AIR
 ========================================================================
 */
-VOID UAPSD_TimingRecord(struct rtmp_adapter *pAd, UINT32 Type)
+VOID UAPSD_TimingRecord(struct rtmp_adapter *pAd, uint32_t Type)
 {
-	UINT32 Index;
+	uint32_t Index;
 
 	if (gUAPSD_TimingFlag == UAPSD_TIMING_CTRL_STOP)
 		return;
@@ -1018,11 +1018,11 @@ VOID UAPSD_TimingRecord(struct rtmp_adapter *pAd, UINT32 Type)
 
 			/* sum the delay */
 			gUAPSD_TimingSumIsr2Tasklet += \
-				(UINT32)(gUAPSD_TimingTasklet[Index] - gUAPSD_TimingIsr[Index]);
+				(uint32_t)(gUAPSD_TimingTasklet[Index] - gUAPSD_TimingIsr[Index]);
 			gUAPSD_TimingSumTrig2Txqueue += \
-				(UINT32)(gUAPSD_TimingMov2Tx[Index] - gUAPSD_TimingTrgRcv[Index]);
+				(uint32_t)(gUAPSD_TimingMov2Tx[Index] - gUAPSD_TimingTrgRcv[Index]);
 			gUAPSD_TimingSumTxqueue2Air += \
-				(UINT32)(gUAPSD_TimingTx2Air[Index] - gUAPSD_TimingMov2Tx[Index]);
+				(uint32_t)(gUAPSD_TimingTx2Air[Index] - gUAPSD_TimingMov2Tx[Index]);
 
 			/* display average delay */
 			if ((Index % UAPSD_TIMING_RECORD_DISPLAY_TIMES) == 0)
@@ -1049,9 +1049,9 @@ VOID UAPSD_TimingRecord(struct rtmp_adapter *pAd, UINT32 Type)
 			gUAPSD_TimingFlag = UAPSD_TIMING_CTRL_STOP;
 
 			DBGPRINT(RT_DEBUG_TRACE, ("sam> Isr->Tasklet:%d, Trig->TxQueue:%d, TxQueue->TxDone:%d\n",
-				(UINT32)(gUAPSD_TimingTasklet[Index] - gUAPSD_TimingIsr[Index]),
-				(UINT32)(gUAPSD_TimingMov2Tx[Index] - gUAPSD_TimingTrgRcv[Index]),
-				(UINT32)(gUAPSD_TimingTx2Air[Index] - gUAPSD_TimingMov2Tx[Index])));
+				(uint32_t)(gUAPSD_TimingTasklet[Index] - gUAPSD_TimingIsr[Index]),
+				(uint32_t)(gUAPSD_TimingMov2Tx[Index] - gUAPSD_TimingTrgRcv[Index]),
+				(uint32_t)(gUAPSD_TimingTx2Air[Index] - gUAPSD_TimingMov2Tx[Index])));
 			break;
 	}
 }
@@ -1072,7 +1072,7 @@ Return Value:
 Note:
 ========================================================================
 */
-VOID UAPSD_TimeingRecordLoopIndex(UINT32 LoopIndex)
+VOID UAPSD_TimeingRecordLoopIndex(uint32_t LoopIndex)
 {
 	gUAPSD_TimingLoopIndex = LoopIndex;
 }
@@ -1101,18 +1101,18 @@ BOOLEAN UAPSD_PsPollHandle(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 	QUEUE_HEADER	*pAcSwQue;
 	PQUEUE_ENTRY	pQuedEntry;
 	struct sk_buff *pQuedPkt;
-	UINT32	AcQueId;
+	uint32_t AcQueId;
 	/*
 		AC ID          = VO > VI > BK > BE
 		so we need to change BE & BK
 		=> AC priority = VO > VI > BE > BK
 	*/
-	UINT32	AcPriority[WMM_NUM_OF_AC] = { 1, 0, 2, 3 };
+	uint32_t AcPriority[WMM_NUM_OF_AC] = { 1, 0, 2, 3 };
 	UCHAR	QueIdList[WMM_NUM_OF_AC] = { QID_AC_BE, QID_AC_BK,
                                             QID_AC_VI, QID_AC_VO };
 	BOOLEAN	FlgQueEmpty;
 	INT32	IdAc; /* must be signed, can not use unsigned */
-	UINT32	Aid, QueId;
+	uint32_t Aid, QueId;
 
 
 	if (pEntry == NULL)
@@ -1301,22 +1301,22 @@ VOID UAPSD_TriggerFrameHandle(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry,
 	PQUEUE_ENTRY	pQuedEntry;
 	struct sk_buff *pQuedPkt;
 
-	UINT32	AcQueId;
-	UINT32	TxPktNum, SpMaxLen;
+	uint32_t AcQueId;
+	uint32_t TxPktNum, SpMaxLen;
     /*
 		AC ID          = VO > VI > BK > BE
 		so we need to change BE & BK
 		=> AC priority = VO > VI > BE > BK
 	*/
-	UINT32	AcPriority[WMM_NUM_OF_AC] = { 1, 0, 2, 3 };
+	uint32_t AcPriority[WMM_NUM_OF_AC] = { 1, 0, 2, 3 };
 	/* 0: deliver all U-APSD packets */
-	UINT32	SpLenMap[WMM_NUM_OF_AC] = { 0, 2, 4, 6 };
+	uint32_t SpLenMap[WMM_NUM_OF_AC] = { 0, 2, 4, 6 };
 	UCHAR	QueIdList[WMM_NUM_OF_AC] = { QID_AC_BE, QID_AC_BK,
                                             QID_AC_VI, QID_AC_VO };
 	BOOLEAN	FlgQueEmpty;
 	BOOLEAN	FlgNullSnd;
 	BOOLEAN	FlgMgmtFrame;
-	UINT32	Aid, QueId;
+	uint32_t Aid, QueId;
 	INT32	IdAc; /* must be signed, can not use unsigned */
 /*	ULONG    FlgIrq; */
 
@@ -1796,7 +1796,7 @@ VOID UAPSD_TagFrame(
 	IN	struct rtmp_adapter 	*pAd,
 	IN	struct sk_buff		*pPkt,
 	IN	UCHAR				Wcid,
-	IN	UINT32				PktOffset)
+	IN	uint32_t 			PktOffset)
 {
 	MAC_TABLE_ENTRY *pEntry;
 	UCHAR AcQueId;
@@ -1848,12 +1848,12 @@ Note:
 VOID UAPSD_UnTagFrame(
 	IN	struct rtmp_adapter *pAd,
 	IN	UCHAR			AcQueId,
-	IN	UINT32			bulkStartPos,
-	IN	UINT32			bulkEnPos)
+	IN	uint32_t 		bulkStartPos,
+	IN	uint32_t 		bulkEnPos)
 {
 	MAC_TABLE_ENTRY *pEntry;
-	UINT32 IdEntry;
-	UINT32 TxPktTagOffset;
+	uint32_t IdEntry;
+	uint32_t TxPktTagOffset;
 	UINT16 QueId;
 	int		FirstWcid = 1;
 

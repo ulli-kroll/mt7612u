@@ -320,7 +320,7 @@ VOID ReceiveGASInitReq(
 	PGAS_CTRL pGASCtrl = NULL;
 	UCHAR APIndex, *Pos, *Buf;
 	UINT16 VarLen;
-	UINT32 Len = 0;
+	uint32_t Len = 0;
 	BOOLEAN IsFound = FALSE, Cancelled;;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("%s\n", __FUNCTION__));
@@ -671,7 +671,7 @@ VOID ReceiveGASCBReq(
 	GAS_PEER_ENTRY *GASPeerEntry;
 	PGAS_CTRL pGASCtrl = NULL;
 	UCHAR APIndex, *Buf;
-	UINT32 Len = 0;
+	uint32_t Len = 0;
 	BOOLEAN IsGASCBReqMore = FALSE;
 	BOOLEAN IsFound = FALSE;
 
@@ -951,7 +951,7 @@ static VOID SendGASIndication(
 	PGAS_CTRL pGASCtrl = &pAd->ApCfg.MBSSID[Event->ControlIndex].GASCtrl;
 	struct net_device *NetDev = pAd->ApCfg.MBSSID[Event->ControlIndex].wdev.if_dev;
 	UCHAR *Buf;
-	UINT32 Len = 0;
+	uint32_t Len = 0;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("%s\n", __FUNCTION__));
 	/*

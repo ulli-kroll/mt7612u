@@ -122,11 +122,11 @@ typedef enum{
 	       (((UINT16) (x) & (UINT16) 0xff00U) >> 8)))
 
 #define SWAP32(x) \
-    ((UINT32) (\
-	       (((UINT32) (x) & (UINT32) 0x000000ffUL) << 24) | \
-	       (((UINT32) (x) & (UINT32) 0x0000ff00UL) << 8) | \
-	       (((UINT32) (x) & (UINT32) 0x00ff0000UL) >> 8) | \
-	       (((UINT32) (x) & (UINT32) 0xff000000UL) >> 24)))
+    ((uint32_t) (\
+	       (((uint32_t) (x) & (uint32_t) 0x000000ffUL) << 24) | \
+	       (((uint32_t) (x) & (uint32_t) 0x0000ff00UL) << 8) | \
+	       (((uint32_t) (x) & (uint32_t) 0x00ff0000UL) >> 8) | \
+	       (((uint32_t) (x) & (uint32_t) 0xff000000UL) >> 24)))
 
 #define SWAP64(x) \
     ((UINT64)( \
@@ -149,8 +149,8 @@ typedef enum{
 #define le2cpu16(x) SWAP16((x))
 #define cpu2be64(x) ((UINT64)(x))
 #define be2cpu64(x) ((UINT64)(x))
-#define cpu2be32(x) ((UINT32)(x))
-#define be2cpu32(x) ((UINT32)(x))
+#define cpu2be32(x) ((uint32_t)(x))
+#define be2cpu32(x) ((uint32_t)(x))
 #define cpu2be16(x) ((UINT16)(x))
 #define be2cpu16(x) ((UINT16)(x))
 
@@ -158,8 +158,8 @@ typedef enum{
 
 #define cpu2le64(x) ((UINT64)(x))
 #define le2cpu64(x) ((UINT64)(x))
-#define cpu2le32(x) ((UINT32)(x))
-#define le2cpu32(x) ((UINT32)(x))
+#define cpu2le32(x) ((uint32_t)(x))
+#define le2cpu32(x) ((uint32_t)(x))
 #define cpu2le16(x) ((UINT16)(x))
 #define le2cpu16(x) ((UINT16)(x))
 #define cpu2be64(x) SWAP64((x))

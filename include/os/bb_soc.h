@@ -14,7 +14,7 @@ typedef struct _BBUPollingMode{
 	RALINK_TIMER_STRUCT			PollingModeDetect;
 	BOOLEAN							PollingModeDetectRunning;
 	struct work_struct					PollingDataBH;
-	UINT32   							pAd_va;
+	uint32_t   							pAd_va;
 	NDIS_SPIN_LOCK          			PollingModeLock;
 }BBUPollingMode,*PBBUPollingMode;
 

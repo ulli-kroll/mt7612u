@@ -175,7 +175,7 @@ VOID RTUSBBulkOutDataPacket(struct rtmp_adapter *pAd, UCHAR BulkOutPipeId, UCHAR
 	ULONG TmpBulkEndPos, ThisBulkSize;
 	unsigned long	IrqFlags = 0, IrqFlags2 = 0;
 	UCHAR *pWirelessPkt, *pAppendant;
-	UINT32 aggregation_num = 0;
+	uint32_t aggregation_num = 0;
 #ifdef USB_BULK_BUF_ALIGMENT
 	BOOLEAN bLasAlignmentsectiontRound = FALSE;
 #else

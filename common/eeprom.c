@@ -28,7 +28,7 @@
 #include "rt_config.h"
 
 struct chip_map{
-	UINT32 ChipVersion;
+	uint32_t ChipVersion;
 	PSTRING name;
 };
 
@@ -101,7 +101,7 @@ INT RtmpChipOpsEepromHook(
 {
 	RTMP_CHIP_OP *pChipOps = &pAd->chipOps;
 	UCHAR e2p_type;
-	UINT32 val;
+	uint32_t val;
 
 #ifdef TXBF_SUPPORT
 	if (pAd->chipCap.FlgITxBfBinWrite)
@@ -205,7 +205,7 @@ INT RtmpChipOpsEepromHook(
 
 BOOLEAN rtmp_get_default_bin_file_by_chip(
 	IN struct rtmp_adapter *pAd,
-	IN UINT32 	ChipVersion,
+	IN uint32_t 	ChipVersion,
 	OUT PSTRING *pBinFileName)
 {
 	BOOLEAN found = FALSE;

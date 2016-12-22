@@ -28,7 +28,7 @@
 
 #include "rt_config.h"
 
-static INT CFG80211DRV_UpdateTimIE(struct rtmp_adapter *pAd, UINT mbss_idx, PUCHAR pBeaconFrame, UINT32 tim_ie_pos)
+static INT CFG80211DRV_UpdateTimIE(struct rtmp_adapter *pAd, UINT mbss_idx, PUCHAR pBeaconFrame, uint32_t tim_ie_pos)
 {
 	UCHAR  ID_1B, TimFirst, TimLast, *pTim, *ptr, New_Tim_Len;
 	UINT  i;
@@ -204,9 +204,9 @@ VOID CFG80211DRV_DisableApInterface(struct rtmp_adapter *pAd)
 VOID CFG80211_UpdateBeacon(
 	struct rtmp_adapter                                *pAd,
 	UCHAR 										    *beacon_head_buf,
-	UINT32											beacon_head_len,
+	uint32_t 										beacon_head_len,
 	UCHAR 										    *beacon_tail_buf,
-	UINT32											beacon_tail_len,
+	uint32_t 										beacon_tail_len,
 	BOOLEAN											isAllUpdate)
 {
 	PCFG80211_CTRL pCfg80211_ctrl = &pAd->cfg80211_ctrl;
@@ -214,7 +214,7 @@ VOID CFG80211_UpdateBeacon(
 	PUCHAR pBeaconFrame = (PUCHAR)pAd->ApCfg.MBSSID[MAIN_MBSSID].BeaconBuf;
 	TXWI_STRUC *pTxWI = &pAd->BeaconTxWI;
 	UCHAR New_Tim_Len;
-	UINT32 beacon_len;
+	uint32_t beacon_len;
 
 	/* Invoke From CFG80211 OPS For setting Beacon buffer */
 	if (isAllUpdate)
@@ -302,7 +302,7 @@ BOOLEAN CFG80211DRV_OpsBeaconSet(struct rtmp_adapter *pAd, VOID *pData)
 BOOLEAN CFG80211DRV_OpsBeaconAdd(struct rtmp_adapter *pAd, VOID *pData)
 {
 	CMD_RTPRIV_IOCTL_80211_BEACON *pBeacon;
-	UINT32 rx_filter_flag;
+	uint32_t rx_filter_flag;
 	BOOLEAN Cancelled;
 	INT i;
 	PMULTISSID_STRUCT pMbss = &pAd->ApCfg.MBSSID[MAIN_MBSSID];

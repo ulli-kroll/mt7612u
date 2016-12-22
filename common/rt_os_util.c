@@ -29,9 +29,9 @@ VOID RtmpDrvRateGet(
 	IN	UINT8					BW,
 	IN	UINT8					MCS,
 	IN      UINT8                                   Antenna,
-	OUT	UINT32					*pRate)
+	OUT	uint32_t 				*pRate)
 {
-	UINT32 MCS_1NSS = (UINT32) MCS;
+	uint32_t MCS_1NSS = (uint32_t) MCS;
 	*pRate = 0;
 
 	DBGPRINT(RT_DEBUG_TRACE,("<==== %s \nMODE: %x shortGI: %x BW: %x MCS: %x Antenna: %x \n"
@@ -107,8 +107,8 @@ VOID RtmpMeshDown(
 
 
 BOOLEAN RtmpOsCmdDisplayLenCheck(
-	IN UINT32 LenSrc,
-	IN UINT32 Offset)
+	IN uint32_t LenSrc,
+	IN uint32_t Offset)
 {
 	if (LenSrc > (IW_PRIV_SIZE_MASK - Offset))
 		return FALSE;
@@ -146,7 +146,7 @@ VOID WpaSendMicFailureToWpaSupplicant(
 int wext_notify_event_assoc(
 	IN struct net_device *pNetDev,
 	IN UCHAR *ReqVarIEs,
-	IN UINT32 ReqVarIELen)
+	IN uint32_t ReqVarIELen)
 {
 	char custom[IW_CUSTOM_MAX] = {0};
 
@@ -186,7 +186,7 @@ int wext_notify_event_assoc(
 VOID SendAssocIEsToWpaSupplicant(
 	IN struct net_device *pNetDev,
 	IN UCHAR *ReqVarIEs,
-	IN UINT32 ReqVarIELen)
+	IN uint32_t ReqVarIELen)
 {
 	STRING custom[IW_CUSTOM_MAX] = {0};
 
@@ -244,7 +244,7 @@ VOID RtmpComplete(VOID *Completion)
 }
 
 
-ULONG RtmpMsecsToJiffies(UINT32 msecs)
+ULONG RtmpMsecsToJiffies(uint32_t msecs)
 {
 	return msecs_to_jiffies(msecs);
 }

@@ -420,7 +420,7 @@ static inline VOID DfsCaptureModeControl(struct rtmp_adapter *pAd,
 			((bCapLastEvents == TRUE) << 2);
 
 #ifdef RLT_BBP
-	RTMP_BBP_IO_WRITE32(pAd, DFS_R36, (UINT32) bbp_val);
+	RTMP_BBP_IO_WRITE32(pAd, DFS_R36, (uint32_t) bbp_val);
 #else
 	BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R126, bbp_val);
 #endif /* MT76x0 */
@@ -452,9 +452,9 @@ static inline VOID StagerRadarGetPRIs(struct rtmp_adapter *pAd,
 									uint32_t *pT2,
 									uint32_t *pT3)
 {
-	UINT32 T_all = 0;
+	uint32_t T_all = 0;
 #ifdef RLT_BBP
-	UINT32 bbp_val = 0;
+	uint32_t bbp_val = 0;
 	PDFS_PROGRAM_PARAM pDfsProgramParam = \
 					&pAd->CommonCfg.RadarDetect.DfsProgramParam;
 #else
@@ -513,7 +513,7 @@ static inline VOID DfsHwDetectionGetPulseInfo(struct rtmp_adapter *pAd,
 										uint32_t *pBurst)
 {
 #ifdef RLT_BBP
-	UINT32 bbp_val = 0;
+	uint32_t bbp_val = 0;
 	PDFS_PROGRAM_PARAM pDfsProgramParam = \
 					&pAd->CommonCfg.RadarDetect.DfsProgramParam;
 #else
@@ -583,7 +583,7 @@ static inline VOID DfsProgramBbpValues(struct rtmp_adapter *pAd,
 
 #ifdef RLT_BBP
 	{
-		UINT32 bbp_val = 0;
+		uint32_t bbp_val = 0;
 
 		DfsInputControl = pDfsProgramParam->Symmetric_Round << 4;
 
@@ -2081,7 +2081,7 @@ static BOOLEAN StagerRadarCheck(IN struct rtmp_adapter *pAd, UINT8 dfs_channel)
  */
 static BOOLEAN ChirpRadarCheck(IN struct rtmp_adapter *pAd)
 {
-	UINT32 CurrentTime, delta;
+	uint32_t CurrentTime, delta;
 	PRADAR_DETECT_STRUCT pRadarDetect = &pAd->CommonCfg.RadarDetect;
 
 
@@ -2189,7 +2189,7 @@ static BOOLEAN DfsChannelCheck(
 {
 	pNewDFSTable pDFSTable;
 	UINT8 i;
-	UINT32 T, W, W2, B;
+	uint32_t T, W, W2, B;
 	BOOLEAN radarDeclared = 0;
 
 	T = W = W2 = B = 0;
@@ -2250,8 +2250,8 @@ static BOOLEAN MT7650DfsEventDataFetch(
 		OUT PDFS_EVENT pDfsEvent)
 {
 	UINT8 idx;
-	UINT32 EventBuff[DFS_EVENT_SIZE] = {0};
-	UINT32 bbp_val;
+	uint32_t EventBuff[DFS_EVENT_SIZE] = {0};
+	uint32_t bbp_val;
 
 	/* Read a event from event buffer */
 	for (idx = 0; idx < DFS_EVENT_SIZE; idx++)
@@ -2314,7 +2314,7 @@ static BOOLEAN DfsEventDataFetch(
 {
 	UINT8 idx;
 	UINT8 EventBuff[DFS_EVENT_SIZE] = {0};
-	UINT32 bbp_val;
+	uint32_t bbp_val;
 
 	/* Read a event from event buffer */
 	for (idx = 0; idx < DFS_EVENT_SIZE; idx++)
@@ -2736,7 +2736,7 @@ static BOOLEAN DfsEventDrop(
 		IN struct rtmp_adapter *pAd,
 		IN PDFS_EVENT pDfsEvent)
 {
-	UINT32 TimeDiff = 0;  /* unit: 50ns */
+	uint32_t TimeDiff = 0;  /* unit: 50ns */
 	UINT16 PreEnvtWidth = 0;
 	BOOLEAN RetVal = FALSE;
 	PDFS_SW_DETECT_PARAM pDfsSwParam = &pAd->CommonCfg.RadarDetect.DfsSwParam;
@@ -2979,7 +2979,7 @@ void modify_table1(struct rtmp_adapter *pAd, ULONG idx, ULONG value)
 			break;
 
 		case 0xd:
-			pDFSTable->entry[x].EventExpiration= (UINT32)value;
+			pDFSTable->entry[x].EventExpiration= (uint32_t)value;
 			break;
 
 		case 0xe:

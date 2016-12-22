@@ -36,7 +36,7 @@ INT phy_probe(struct rtmp_adapter *pAd)
 
 int NICInitBBP(struct rtmp_adapter *pAd)
 {
-	UINT32 Index = 0, val;
+	uint32_t Index = 0, val;
 
 	/* Before program BBP, we need to wait BBP/RF get wake up.*/
 	do
