@@ -659,7 +659,7 @@ VOID ap_cmm_peer_assoc_req_action(
 	UCHAR SubType;
 	BOOLEAN bACLReject = FALSE;
 #ifdef DOT1X_SUPPORT
-	PUINT8 pPmkid = NULL;
+	uint8_t * pPmkid = NULL;
 	UINT8 pmkid_count = 0;
 #endif /* DOT1X_SUPPORT */
 	struct rtmp_wifi_dev *wdev;

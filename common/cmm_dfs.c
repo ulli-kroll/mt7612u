@@ -388,7 +388,7 @@ static inline BOOLEAN NewRadarDetectionMcuStop(struct rtmp_adapter *pAd)
 }
 
 
-static inline VOID DfsHwDetectionStatusGet(struct rtmp_adapter *pAd, PUINT8 pDetectedChannels)
+static inline VOID DfsHwDetectionStatusGet(struct rtmp_adapter *pAd, uint8_t * pDetectedChannels)
 {
 #ifdef RLT_BBP
 	RTMP_BBP_IO_READ32(pAd, DFS_R1, pDetectedChannels);

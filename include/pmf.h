@@ -71,7 +71,7 @@ VOID PMF_MakeRsnIeGMgmtCipher(
 
 NTSTATUS PMF_RsnCapableValidation(
         IN Pstruct rtmp_adapter pAd,
-        IN PUINT8 pRsnie,
+        IN uint8_t * pRsnie,
         IN UINT rsnie_len,
         IN BOOLEAN self_MFPC,
 	IN BOOLEAN self_MFPR,

@@ -631,7 +631,7 @@ VOID PMF_MakeRsnIeGMgmtCipher(
 	OUT PUCHAR pRsnIe,
 	OUT UCHAR *rsn_len)
 {
-	PUINT8 pBuf;
+	uint8_t * pBuf;
 	BOOLEAN MFP_Enabled = FALSE;
 
 	/* it could be ignored in WPA1 mode */
@@ -683,14 +683,14 @@ Note:
 */
 NTSTATUS PMF_RsnCapableValidation(
         IN struct rtmp_adapter *pAd,
-        IN PUINT8 pRsnie,
+        IN uint8_t * pRsnie,
         IN UINT rsnie_len,
         IN BOOLEAN self_MFPC,
 	IN BOOLEAN self_MFPR,
         IN PMAC_TABLE_ENTRY pEntry)
 {
 	UINT8 count;
-	PUINT8 pBuf = NULL;
+	uint8_t * pBuf = NULL;
 	BOOLEAN	peer_MFPC = FALSE, peer_MFPR = FALSE;
 
 	/* Check the peer's MPFC and MPFR -
