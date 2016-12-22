@@ -2218,7 +2218,7 @@ BOOLEAN RTMPCheckEtherType(
 	OUT UCHAR *pUserPriority,
 	OUT UCHAR *pQueIdx)
 {
-	UINT16 TypeLen;
+	uint16_t TypeLen;
 	UCHAR Byte0, Byte1, *pSrcBuf, up = 0;
 
 	pSrcBuf = GET_OS_PKT_DATAPTR(pPacket);
@@ -2361,7 +2361,7 @@ BOOLEAN RTMPCheckEtherType(
 				RTMP_SET_PACKET_IPV4(pPacket, 1);
 				if (*(pSrcBuf + 9) == IP_PROTO_UDP)
 				{
-					UINT16 srcPort, dstPort;
+					uint16_t srcPort, dstPort;
 
 					pSrcBuf += IP_HDR_LEN;
 					srcPort = OS_NTOHS(get_unaligned((uint16_t *)(pSrcBuf)));
@@ -2883,8 +2883,8 @@ VOID CmmRxRalinkFrameIndicate(
 	IN	UCHAR FromWhichBSSID)
 {
 	UCHAR			Header802_3[LENGTH_802_3];
-	UINT16			Msdu2Size;
-	UINT16 			Payload1Size, Payload2Size;
+	uint16_t 		Msdu2Size;
+	uint16_t 			Payload1Size, Payload2Size;
 	PUCHAR 			pData2;
 	struct sk_buff *pPacket2 = NULL;
 	USHORT			VLAN_VID = 0, VLAN_Priority = 0;
@@ -3539,7 +3539,7 @@ VOID dev_rx_mgmt_frm(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 			(pHeader->FC.Wep == 1) && (pRxInfo->Decrypted == 0))
 		{
 			UCHAR *pMgmt = (PUCHAR)pHeader;
-			UINT16 mgmt_len = pRxBlk->MPDUtotalByteCnt;
+			uint16_t mgmt_len = pRxBlk->MPDUtotalByteCnt;
 			MAC_TABLE_ENTRY *pEntry = NULL;
 
 			/* Skip 802.11 headre */

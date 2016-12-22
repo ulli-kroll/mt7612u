@@ -474,7 +474,7 @@ struct sk_buff *duplicate_pkt_with_VLAN(
 {
 	struct sk_buff *skb;
 	struct sk_buff *pPacket = NULL;
-	UINT16 VLAN_Size;
+	uint16_t VLAN_Size;
 
 	if ((skb = __dev_alloc_skb(HdrLen + DataSize + LENGTH_802_1Q + 2,
 				   MEM_ALLOC_FLAG)) != NULL) {
@@ -1599,7 +1599,7 @@ UCHAR VLAN_8023_Header_Copy(
 	IN UCHAR FromWhichBSSID,
 	IN UCHAR *TPID)
 {
-	UINT16 TCI;
+	uint16_t TCI;
 	UCHAR VLAN_Size = 0;
 
 	if (VLAN_VID != 0) {
@@ -1618,12 +1618,12 @@ UCHAR VLAN_8023_Header_Copy(
 
 		/* copy VLAN tag (4B) */
 		/* do NOT use memcpy to speed up */
-		*(UINT16 *) (pData + LENGTH_802_3_NO_TYPE) = *(UINT16 *) TPID;
-		*(UINT16 *) (pData + LENGTH_802_3_NO_TYPE + 2) = TCI;
+		*(uint16_t *) (pData + LENGTH_802_3_NO_TYPE) = *(uint16_t *) TPID;
+		*(uint16_t *) (pData + LENGTH_802_3_NO_TYPE + 2) = TCI;
 
 		/* copy type/len (2B) */
-		*(UINT16 *) (pData + LENGTH_802_3_NO_TYPE + LENGTH_802_1Q) =
-		    *(UINT16 *) & pHeader802_3[LENGTH_802_3 -
+		*(uint16_t *) (pData + LENGTH_802_3_NO_TYPE + LENGTH_802_1Q) =
+		    *(uint16_t *) & pHeader802_3[LENGTH_802_3 -
 					       LENGTH_802_3_TYPE];
 
 		/* copy tail if exist */

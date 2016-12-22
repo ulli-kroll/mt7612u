@@ -86,45 +86,45 @@
 /* 2-byte Frame control field */
 typedef struct GNU_PACKED {
 #ifdef RT_BIG_ENDIAN
-	UINT16 Order:1;		/* Strict order expected */
-	UINT16 Wep:1;		/* Wep data */
-	UINT16 MoreData:1;	/* More data bit */
-	UINT16 PwrMgmt:1;	/* Power management bit */
-	UINT16 Retry:1;		/* Retry status bit */
-	UINT16 MoreFrag:1;	/* More fragment bit */
-	UINT16 FrDs:1;		/* From DS indication */
-	UINT16 ToDs:1;		/* To DS indication */
-	UINT16 SubType:4;	/* MSDU subtype */
-	UINT16 Type:2;		/* MSDU type */
-	UINT16 Ver:2;		/* Protocol version */
+	uint16_t Order:1;		/* Strict order expected */
+	uint16_t Wep:1;		/* Wep data */
+	uint16_t MoreData:1;	/* More data bit */
+	uint16_t PwrMgmt:1;	/* Power management bit */
+	uint16_t Retry:1;		/* Retry status bit */
+	uint16_t MoreFrag:1;	/* More fragment bit */
+	uint16_t FrDs:1;		/* From DS indication */
+	uint16_t ToDs:1;		/* To DS indication */
+	uint16_t SubType:4;	/* MSDU subtype */
+	uint16_t Type:2;		/* MSDU type */
+	uint16_t Ver:2;		/* Protocol version */
 #else
-        UINT16 Ver:2;		/* Protocol version */
-	UINT16 Type:2;		/* MSDU type, refer to FC_TYPE_XX */
-	UINT16 SubType:4;	/* MSDU subtype, refer to  SUBTYPE_XXX */
-	UINT16 ToDs:1;		/* To DS indication */
-	UINT16 FrDs:1;		/* From DS indication */
-	UINT16 MoreFrag:1;	/* More fragment bit */
-	UINT16 Retry:1;		/* Retry status bit */
-	UINT16 PwrMgmt:1;	/* Power management bit */
-	UINT16 MoreData:1;	/* More data bit */
-	UINT16 Wep:1;		/* Wep data */
-	UINT16 Order:1;		/* Strict order expected */
+        uint16_t Ver:2;		/* Protocol version */
+	uint16_t Type:2;		/* MSDU type, refer to FC_TYPE_XX */
+	uint16_t SubType:4;	/* MSDU subtype, refer to  SUBTYPE_XXX */
+	uint16_t ToDs:1;		/* To DS indication */
+	uint16_t FrDs:1;		/* From DS indication */
+	uint16_t MoreFrag:1;	/* More fragment bit */
+	uint16_t Retry:1;		/* Retry status bit */
+	uint16_t PwrMgmt:1;	/* Power management bit */
+	uint16_t MoreData:1;	/* More data bit */
+	uint16_t Wep:1;		/* Wep data */
+	uint16_t Order:1;		/* Strict order expected */
 #endif	/* !RT_BIG_ENDIAN */
 } FRAME_CONTROL, *PFRAME_CONTROL;
 
 
 typedef struct GNU_PACKED _HEADER_802_11 {
         FRAME_CONTROL   FC;
-        UINT16          Duration;
+        uint16_t          Duration;
         UCHAR           Addr1[6];
         UCHAR           Addr2[6];
 	UCHAR		Addr3[6];
 #ifdef RT_BIG_ENDIAN
-	UINT16		Sequence:12;
-	UINT16		Frag:4;
+	uint16_t 	Sequence:12;
+	uint16_t 	Frag:4;
 #else
-	UINT16		Frag:4;
-	UINT16		Sequence:12;
+	uint16_t 	Frag:4;
+	uint16_t 	Sequence:12;
 #endif /* !RT_BIG_ENDIAN */
 	UCHAR		Octet[0];
 }HEADER_802_11, *PHEADER_802_11;

@@ -434,7 +434,7 @@ NTSTATUS RTUSBWriteMACRegister(
 }
 
 
-int write_reg(struct rtmp_adapter *ad, uint32_t base, UINT16 offset, uint32_t val)
+int write_reg(struct rtmp_adapter *ad, uint32_t base, uint16_t offset, uint32_t val)
 {
 	NTSTATUS ret;
 	UINT8 req;
@@ -462,7 +462,7 @@ int write_reg(struct rtmp_adapter *ad, uint32_t base, UINT16 offset, uint32_t va
 }
 
 
-int read_reg(struct rtmp_adapter *ad, uint32_t base, UINT16 offset, uint32_t *value)
+int read_reg(struct rtmp_adapter *ad, uint32_t base, uint16_t offset, uint32_t *value)
 {
 	NTSTATUS ret;
 	UINT8 req;

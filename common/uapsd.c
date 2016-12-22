@@ -1854,7 +1854,7 @@ VOID UAPSD_UnTagFrame(
 	MAC_TABLE_ENTRY *pEntry;
 	uint32_t IdEntry;
 	uint32_t TxPktTagOffset;
-	UINT16 QueId;
+	uint16_t QueId;
 	int		FirstWcid = 1;
 
 

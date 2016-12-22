@@ -180,8 +180,8 @@ struct sk_buff *RtmpOsPktIappMakeUp(struct net_device *pNetDev, UINT8 *pMac);
 
 BOOLEAN RtmpOsPktOffsetInit(VOID);
 
-UINT16 RtmpOsNtohs(UINT16 Value);
-UINT16 RtmpOsHtons(UINT16 Value);
+uint16_t RtmpOsNtohs(uint16_t Value);
+uint16_t RtmpOsHtons(uint16_t Value);
 uint32_t RtmpOsNtohl(uint32_t Value);
 uint32_t RtmpOsHtonl(uint32_t Value);
 
@@ -373,9 +373,9 @@ ULONG RTMP_PCI_Readb(VOID *pAddr);
 int RtmpOsPciConfigReadWord(
 	IN	VOID					*pDev,
 	IN	uint32_t 				Offset,
-	OUT UINT16					*pValue);
+	OUT uint16_t 				*pValue);
 
-int RtmpOsPciConfigWriteWord(VOID *pDev, uint32_t Offset, UINT16 Value);
+int RtmpOsPciConfigWriteWord(VOID *pDev, uint32_t Offset, uint16_t Value);
 int RtmpOsPciConfigReadDWord(VOID *pDev, uint32_t Offset, uint32_t *pValue);
 int RtmpOsPciConfigWriteDWord(VOID *pDev, uint32_t Offset, uint32_t Value);
 
@@ -477,7 +477,7 @@ VOID RtmpOsWlanEventSet(
 	IN	BOOLEAN					*pCfgWEnt,
 	IN	BOOLEAN					FlgIsWEntSup);
 
-UINT16 RtmpOsGetUnaligned(UINT16 *pWord);
+uint16_t RtmpOsGetUnaligned(uint16_t *pWord);
 
 uint32_t RtmpOsGetUnaligned32(uint32_t *pWord);
 
@@ -713,8 +713,8 @@ typedef struct __CFG80211_BAND {
 	uint32_t MaxTxPwr;
 	uint32_t MaxBssTable;
 
-	UINT16 RtsThreshold;
-	UINT16 FragmentThreshold;
+	uint16_t RtsThreshold;
+	uint16_t FragmentThreshold;
 	uint32_t RetryMaxCnt; /* bit0~7: short; bit8 ~ 15: long */
 	BOOLEAN FlgIsBMode;
 } CFG80211_BAND;

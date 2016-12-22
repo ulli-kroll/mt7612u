@@ -98,8 +98,8 @@ typedef struct _CH_POWER_{
 #endif /* SINGLE_SKU_V2 */
 
 typedef struct _CH_FREQ_MAP_{
-	UINT16		channel;
-	UINT16		freqKHz;
+	uint16_t 	channel;
+	uint16_t 	freqKHz;
 }CH_FREQ_MAP;
 
 extern CH_FREQ_MAP CH_HZ_ID_MAP[];
@@ -163,7 +163,7 @@ UCHAR GetChannelFlag(
 	IN PCH_DESC pChDesc,
 	IN UCHAR index);
 
-UINT16 TotalChNum(
+uint16_t TotalChNum(
 	IN PCH_DESC pChDesc);
 
 #endif /* __CHLIST_H__ */

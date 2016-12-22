@@ -220,8 +220,8 @@
 }
 
 #define RTMP_GET_PACKET_PROTOCOL(_p) \
-	((((UINT16)PACKET_CB(_p, 11)) << 8) \
-	| ((UINT16)PACKET_CB(_p, 10)))
+	((((uint16_t)PACKET_CB(_p, 11)) << 8) \
+	| ((uint16_t)PACKET_CB(_p, 10)))
 
 
 /* [CB_OFF + 12]  */

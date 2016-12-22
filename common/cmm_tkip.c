@@ -707,7 +707,7 @@ BOOLEAN RTMPSoftDecryptTKIP(
 	IN 		UCHAR    		UserPriority,
 	IN 		PCIPHER_KEY		pKey,
 	INOUT 	PUCHAR			pData,
-	IN 		UINT16			*DataByteCnt)
+	IN 		uint16_t 		*DataByteCnt)
 {
 	PHEADER_802_11	pFrame;
 	UINT8			frame_type;

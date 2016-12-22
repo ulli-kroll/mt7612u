@@ -936,7 +936,7 @@ INT PMF_DecryptUniRobustFrameAction(
 	PMAC_TABLE_ENTRY pEntry = NULL;
 	PHEADER_802_11 pHeader = (PHEADER_802_11)pMgmtFrame;
 	PUCHAR pDate = pMgmtFrame + LENGTH_802_11;
-	UINT16 data_len = mgmt_len - LENGTH_802_11;
+	uint16_t data_len = mgmt_len - LENGTH_802_11;
 
 
 	/* Check if the length is valid */

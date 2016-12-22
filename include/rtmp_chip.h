@@ -551,14 +551,14 @@ typedef struct _TX_POWER_TUNING_ENTRY_STRUCT {
 
 struct RF_BANK_OFFSET {
 	UINT8 RFBankIndex;
-	UINT16 RFStart;
-	UINT16 RFEnd;
+	uint16_t RFStart;
+	uint16_t RFEnd;
 };
 
 struct RF_INDEX_OFFSET {
 	UINT8 RFIndex;
-	UINT16 RFStart;
-	UINT16 RFEnd;
+	uint16_t RFStart;
+	uint16_t RFEnd;
 };
 
 /*
@@ -612,8 +612,8 @@ struct _RTMP_CHIP_CAP_ {
 	UINT8 BcnMaxNum;	/* software use */
 	UINT8 BcnMaxHwNum;	/* hardware limitation */
 	UINT8 WcidHwRsvNum;	/* hardware available WCID number */
-	UINT16 BcnMaxHwSize;	/* hardware maximum beacon size */
-	UINT16 BcnBase[HW_BEACON_MAX_NUM];	/* hardware beacon base address */
+	uint16_t BcnMaxHwSize;	/* hardware maximum beacon size */
+	uint16_t BcnBase[HW_BEACON_MAX_NUM];	/* hardware beacon base address */
 
 	/* function */
 	/* use UINT8, not bit-or to speed up driver */
@@ -732,14 +732,14 @@ struct _RTMP_CHIP_CAP_ {
 
 	/* ---------------------------- others ---------------------------------- */
 #ifdef RTMP_EFUSE_SUPPORT
-	UINT16 EFUSE_USAGE_MAP_START;
-	UINT16 EFUSE_USAGE_MAP_END;
+	uint16_t EFUSE_USAGE_MAP_START;
+	uint16_t EFUSE_USAGE_MAP_END;
 	UINT8 EFUSE_USAGE_MAP_SIZE;
 	UINT8 EFUSE_RESERVED_SIZE;
 #endif /* RTMP_EFUSE_SUPPORT */
 
 	UCHAR *EEPROM_DEFAULT_BIN;
-	UINT16 EEPROM_DEFAULT_BIN_SIZE;
+	uint16_t EEPROM_DEFAULT_BIN_SIZE;
 
 #ifdef RTMP_FLASH_SUPPORT
 	BOOLEAN ee_inited;
@@ -821,7 +821,7 @@ struct _RTMP_CHIP_CAP_ {
 #endif
 
 #ifdef CONFIG_SWITCH_CHANNEL_OFFLOAD
-	UINT16 ChannelParamsSize;
+	uint16_t ChannelParamsSize;
 	UCHAR *ChannelParam;
 	INT XtalType;
 #endif

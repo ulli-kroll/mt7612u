@@ -2737,7 +2737,7 @@ static BOOLEAN DfsEventDrop(
 		IN PDFS_EVENT pDfsEvent)
 {
 	uint32_t TimeDiff = 0;  /* unit: 50ns */
-	UINT16 PreEnvtWidth = 0;
+	uint16_t PreEnvtWidth = 0;
 	BOOLEAN RetVal = FALSE;
 	PDFS_SW_DETECT_PARAM pDfsSwParam = &pAd->CommonCfg.RadarDetect.DfsSwParam;
 	PDFS_EVENT pPreDfsEvent = &pDfsSwParam->PreDfsEvent;
@@ -2983,7 +2983,7 @@ void modify_table1(struct rtmp_adapter *pAd, ULONG idx, ULONG value)
 			break;
 
 		case 0xe:
-			pDFSTable->entry[x].PwrJump= (UINT16)value;
+			pDFSTable->entry[x].PwrJump= (uint16_t)value;
 			break;
 
 		default:

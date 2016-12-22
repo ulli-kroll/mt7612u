@@ -1725,7 +1725,7 @@ static VOID ba_enqueue_reordering_packet(
 	IN	UCHAR			FromWhichBSSID)
 {
 	struct reordering_mpdu *mpdu_blk;
-	UINT16	Sequence = (UINT16) pRxBlk->pHeader->Sequence;
+	uint16_t Sequence = (uint16_t) pRxBlk->pHeader->Sequence;
 
 	mpdu_blk = ba_mpdu_blk_alloc(pAd);
 	if ((mpdu_blk != NULL) &&
@@ -1787,7 +1787,7 @@ static VOID ba_enqueue_reordering_packet_hdr_trns(
 	IN	UCHAR			FromWhichBSSID)
 {
 	struct reordering_mpdu *mpdu_blk;
-	UINT16	Sequence = (UINT16) pRxBlk->pHeader->Sequence;
+	uint16_t Sequence = (uint16_t) pRxBlk->pHeader->Sequence;
 
 	mpdu_blk = ba_mpdu_blk_alloc(pAd);
 	if ((mpdu_blk != NULL) &&
@@ -1871,7 +1871,7 @@ VOID Indicate_AMPDU_Packet(struct rtmp_adapter *pAd, RX_BLK *pRxBlk, UCHAR FromW
 {
 	USHORT Idx;
 	PBA_REC_ENTRY pBAEntry = NULL;
-	UINT16 Sequence = pRxBlk->pHeader->Sequence;
+	uint16_t Sequence = pRxBlk->pHeader->Sequence;
 	ULONG Now32;
 
 	if (!RX_BLK_TEST_FLAG(pRxBlk, fRX_AMSDU) &&  (pRxBlk->DataSize > MAX_RX_PKT_LEN))
@@ -2003,7 +2003,7 @@ VOID Indicate_AMPDU_Packet_Hdr_Trns(
 {
 	USHORT Idx;
 	PBA_REC_ENTRY pBAEntry = NULL;
-	UINT16 Sequence = pRxBlk->pHeader->Sequence;
+	uint16_t Sequence = pRxBlk->pHeader->Sequence;
 	ULONG Now32;
 	UCHAR Wcid = pRxBlk->wcid;
 	UCHAR TID = pRxBlk->TID;

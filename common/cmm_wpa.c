@@ -3388,7 +3388,7 @@ BOOLEAN RTMPCheckWPAframe(
     }
 	/* Skip 2-bytes EAPoL type */
     if (NdisEqualMemory(EAPOL, pData, 2))
-/*	if (*(UINT16 *)EAPOL == *(UINT16 *)pData)*/
+/*	if (*(uint16_t *)EAPOL == *(uint16_t *)pData)*/
     {
         pData += 2;
     }
@@ -3458,7 +3458,7 @@ BOOLEAN RTMPCheckWPAframe_Hdr_Trns(
 
 	/* Skip 2-bytes EAPoL type */
     if (NdisEqualMemory(EAPOL, pData, 2))
-	/* if (*(UINT16 *)EAPOL == *(UINT16 *)pData) */
+	/* if (*(uint16_t *)EAPOL == *(uint16_t *)pData) */
     {
 		pData += 2;
     }
@@ -4394,7 +4394,7 @@ int RTMPSoftDecryptionAction(
 	IN 		UCHAR    		UserPriority,
 	IN 		PCIPHER_KEY		pKey,
 	INOUT 	PUCHAR			pData,
-	INOUT 	UINT16			*DataByteCnt)
+	INOUT 	uint16_t 		*DataByteCnt)
 {
 	int NStatus;
 	NStatus =0;
@@ -4551,7 +4551,7 @@ uint8_t *	WPA_ExtractSuiteFromRSNIE(
 		else
 		{
 			PRSNIE	pRsnie;
-			UINT16 	u_cnt;
+			uint16_t 	u_cnt;
 
 			pRsnie = (PRSNIE)pBuf;
 			u_cnt = cpu2le16(pRsnie->ucount);
@@ -4592,7 +4592,7 @@ uint8_t *	WPA_ExtractSuiteFromRSNIE(
 		else
 		{
 			PRSNIE2	pRsnie2;
-			UINT16 	u_cnt;
+			uint16_t 	u_cnt;
 
 			pRsnie2 = (PRSNIE2)pBuf;
 			u_cnt = cpu2le16(pRsnie2->ucount);
@@ -4642,7 +4642,7 @@ uint8_t *	WPA_ExtractSuiteFromRSNIE(
 	else
 	{
 		PRSNIE_AUTH	pAkm;
-		UINT16 		a_cnt;
+		uint16_t 		a_cnt;
 
 		/* pointer to AKM count */
 	pAkm = (PRSNIE_AUTH)pBuf;
@@ -4703,17 +4703,17 @@ uint8_t *	WPA_ExtractSuiteFromRSNIE(
 	}
 
 	/* Extract PMKID-list field */
-	if (len < sizeof(UINT16))
+	if (len < sizeof(uint16_t))
 	{
 		DBGPRINT(RT_DEBUG_TRACE, ("%s : The peer RSNIE doesn't include PMKID list Count\n", __FUNCTION__));
 		goto out;
 	}
 	else
 	{
-		UINT16 	p_count;
+		uint16_t 	p_count;
 		uint8_t *	pPmkidList = NULL;
 
-		memmove(&p_count, pBuf, sizeof(UINT16));
+		memmove(&p_count, pBuf, sizeof(uint16_t));
 		p_count = cpu2le16(p_count);
 
 		/* Get count of the PMKID list */
@@ -4740,7 +4740,7 @@ uint8_t *	WPA_ExtractSuiteFromRSNIE(
 		else
 		{
 			/* The PMKID field shall be without PMKID-List */
-			offset = sizeof(UINT16);
+			offset = sizeof(uint16_t);
 			pPmkidList = NULL;
 		}
 
@@ -4836,7 +4836,7 @@ VOID RTMPInsertRSNIE(
 	PUCHAR	pTmpBuf;
 	ULONG 	TempLen = 0;
 	UINT8 	extra_len = 0;
-	UINT16 	pmk_count = 0;
+	uint16_t 	pmk_count = 0;
 	UCHAR	ie_num;
 	UINT8 	total_len = 0;
     UCHAR	WPA2_OUI[3]={0x00,0x0F,0xAC};
@@ -4846,7 +4846,7 @@ VOID RTMPInsertRSNIE(
 	/* PMKID-List Must larger than 0 and the multiple of 16. */
 	if (pmkid_len > 0 && ((pmkid_len & 0x0f) == 0))
 	{
-		extra_len = sizeof(UINT16) + pmkid_len;
+		extra_len = sizeof(uint16_t) + pmkid_len;
 
 		pmk_count = (pmkid_len >> 4);
 		pmk_count = cpu2le16(pmk_count);

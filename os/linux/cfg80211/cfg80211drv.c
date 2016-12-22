@@ -1157,7 +1157,7 @@ Note:
 VOID CFG80211_BeaconCountryRegionParse(
 	IN struct rtmp_adapter		*pAd,
 	IN NDIS_802_11_VARIABLE_IEs	*pVIE,
-	IN UINT16					LenVIE)
+	IN uint16_t 				LenVIE)
 {
 	UCHAR *pElement = (UCHAR *)pVIE;
 	uint32_t LenEmt;

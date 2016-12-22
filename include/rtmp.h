@@ -789,8 +789,8 @@ typedef struct _STREAM_MODE_ENTRY_{
 typedef struct _MO_CFG_STRUCT {
 	BOOLEAN		bEnable;
 	UINT8  		nPeriod_Cnt; 	/* measurement period 100ms, mitigate the interference period 900 ms */
-	UINT16 		nFalseCCACnt;
-	UINT16		nFalseCCATh;	/* default is 100 */
+	uint16_t 		nFalseCCACnt;
+	uint16_t 	nFalseCCATh;	/* default is 100 */
 } MO_CFG_STRUCT, *PMO_CFG_STRUCT;
 #endif /* MICROWAVE_OVEN_SUPPORT */
 
@@ -801,17 +801,17 @@ typedef struct _LNA_VGA_CTL_STRUCT {
 	BOOLEAN		bEnable;
 	BOOLEAN		bDyncVgaEnable;
 	UINT8  		nPeriod_Cnt; 	/* measurement period 100ms, mitigate the interference period 900 ms */
-	UINT16 		nFalseCCACnt;
-	UINT16		nFalseCCATh;	/* default is 100 */
-	UINT16		nLowFalseCCATh;
+	uint16_t 		nFalseCCACnt;
+	uint16_t 	nFalseCCATh;	/* default is 100 */
+	uint16_t 	nLowFalseCCATh;
 		uint32_t 	agc1_r8_backup;
 	UCHAR		agc_vga_init_0;
 	UCHAR 		agc_vga_ori_0; /* the original vga gain initialized by firmware at start up */
-	UINT16		agc_0_vga_set1_2;
+	uint16_t 	agc_0_vga_set1_2;
 		uint32_t 	agc1_r9_backup;
 	UCHAR 		agc_vga_init_1;
 	UCHAR 		agc_vga_ori_1; /* the original vga gain initialized by firmware at start up */
-	UINT16		agc_1_vga_set1_2;
+	uint16_t 	agc_1_vga_set1_2;
 } LNA_VGA_CTL_STRUCT, *PLNA_VGA_CTL_STRUCT;
 #endif /* DYNAMIC_VGA_SUPPORT */
 
@@ -1493,7 +1493,7 @@ typedef struct _MULTISSID_STRUCT {
 
 	UCHAR MaxStaNum;	/* Limit the STA connection number per BSS */
 	UCHAR StaCount;
-	UINT16 StationKeepAliveTime;	/* unit: second */
+	uint16_t StationKeepAliveTime;	/* unit: second */
 
 	struct net_device *MSSIDDev;
 	/*
@@ -1912,11 +1912,11 @@ typedef struct _COMMON_CONFIG {
 #endif /* MCAST_RATE_SPECIFIC */
 
 #ifdef SINGLE_SKU
-	UINT16 DefineMaxTxPwr;
+	uint16_t DefineMaxTxPwr;
 	BOOLEAN bSKUMode;
-	UINT16 AntGain;
-	UINT16 BandedgeDelta;
-	UINT16 ModuleTxpower;
+	uint16_t AntGain;
+	uint16_t BandedgeDelta;
+	uint16_t ModuleTxpower;
 #endif /* SINGLE_SKU */
 
 #ifdef SINGLE_SKU_V2
@@ -1952,7 +1952,7 @@ typedef struct _COMMON_CONFIG {
 
 	UCHAR	StreamMode; /* 0=disabled, 1=enable for 1SS, 2=enable for 2SS, 3=enable for 1,2SS */
 	UCHAR	StreamModeMac[STREAM_MODE_STA_NUM][MAC_ADDR_LEN];
-	UINT16	StreamModeMCS;	/* Bit map for enabling Stream Mode based on MCS */
+	uint16_t StreamModeMCS;	/* Bit map for enabling Stream Mode based on MCS */
 #endif /* STREAM_MODE_SUPPORT */
 
 #ifdef DOT11_N_SUPPORT
@@ -2402,7 +2402,7 @@ typedef struct _MAC_TABLE_ENTRY {
 
 	UCHAR HdrPadLen;	/* recording Header Padding Length; */
 	UCHAR MpduHeaderLen;
-	UINT16 Protocol;
+	uint16_t Protocol;
 #endif /* VENDOR_FEATURE1_SUPPORT */
 
 	USHORT TxSeq[NUM_OF_TID];
@@ -2468,7 +2468,7 @@ typedef struct _MAC_TABLE_ENTRY {
 	BOOLEAN IsReassocSta;	/* Indicate whether this is a reassociation procedure */
 	ULONG NoDataIdleCount;
 	ULONG AssocDeadLine;
-	UINT16 StationKeepAliveCount;	/* unit: second */
+	uint16_t StationKeepAliveCount;	/* unit: second */
 	USHORT CapabilityInfo;
 	UCHAR PsMode;
 	UCHAR FlgPsModeIsWakeForAWhile; /* wake up for a while until a condition */
@@ -3791,7 +3791,7 @@ struct rtmp_adapter {
 
 	uint32_t MACVersion;	/* MAC version. Record rt2860C(0x28600100) or rt2860D (0x28600101).. */
 	uint32_t ChipID;
-	UINT16 ChipId; 		/* Chip version. Read from EEPROM 0x00 to identify RT5390H */
+	uint16_t ChipId; 		/* Chip version. Read from EEPROM 0x00 to identify RT5390H */
 	INT dev_idx;
 
 	/* --------------------------- */
@@ -4968,7 +4968,7 @@ static inline VOID	RTMPFrameEndianChange(
 static inline VOID ConvertMulticastIP2MAC(
 	IN PUCHAR pIpAddr,
 	IN PUCHAR *ppMacAddr,
-	IN UINT16 ProtoType)
+	IN uint16_t ProtoType)
 {
 	if (pIpAddr == NULL)
 		return;
@@ -7835,9 +7835,9 @@ uint32_t QBSS_LoadElementAppend(struct rtmp_adapter *pAd, UINT8 *buf_p);
 uint32_t QBSS_LoadElementParse(
  	IN		struct rtmp_adapter *pAd,
 	IN		UINT8			*pElement,
-	OUT		UINT16			*pStationCount,
+	OUT		uint16_t 		*pStationCount,
 	OUT		UINT8			*pChanUtil,
-	OUT		UINT16			*pAvalAdmCap);
+	OUT		uint16_t 		*pAvalAdmCap);
 
 VOID QBSS_LoadUpdate(struct rtmp_adapter *pAd, ULONG UpTime);
 VOID QBSS_LoadStatusClear(struct rtmp_adapter *pAd);

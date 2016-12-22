@@ -596,23 +596,23 @@ typedef	struct GNU_PACKED _RXWI_NMAC {
 
 typedef struct GNU_PACKED _NMAC_HW_RATE_CTRL_STRUCT{
 #ifdef RT_BIG_ENDIAN
-	UINT16 PHYMODE:3;
-	UINT16 iTxBF:1;
-	UINT16 eTxBF:1;
-	UINT16 STBC:1;
-	UINT16 ShortGI:1;
-	UINT16 BW:2;			/* channel bandwidth 20/40/80 MHz */
-	UINT16 ldpc:1;
-	UINT16 MCS:6;
+	uint16_t PHYMODE:3;
+	uint16_t iTxBF:1;
+	uint16_t eTxBF:1;
+	uint16_t STBC:1;
+	uint16_t ShortGI:1;
+	uint16_t BW:2;			/* channel bandwidth 20/40/80 MHz */
+	uint16_t ldpc:1;
+	uint16_t MCS:6;
 #else
-	UINT16 MCS:6;
-	UINT16 ldpc:1;
-	UINT16 BW:2;
-	UINT16 ShortGI:1;
-	UINT16 STBC:1;
-	UINT16 eTxBF:1;
-	UINT16 iTxBF:1;
-	UINT16 PHYMODE:3;
+	uint16_t MCS:6;
+	uint16_t ldpc:1;
+	uint16_t BW:2;
+	uint16_t ShortGI:1;
+	uint16_t STBC:1;
+	uint16_t eTxBF:1;
+	uint16_t iTxBF:1;
+	uint16_t PHYMODE:3;
 #endif /* RT_BIG_ENDIAN */
 }NMAC_HW_RATE_CTRL_STRUCT;
 

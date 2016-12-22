@@ -162,7 +162,7 @@ BOOLEAN HSIPv4Check(
 			PUCHAR pWcid,
 			struct sk_buff *pPacket,
 			PUCHAR pSrcBUf,
-			UINT16 srcPort,
-			UINT16 dscPort);
+			uint16_t srcPort,
+			uint16_t dscPort);
 #endif
 #endif /* __HOTSPOT_H__ */

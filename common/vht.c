@@ -371,7 +371,7 @@ INT build_vht_op_ie(struct rtmp_adapter *pAd, UCHAR *buf)
 	VHT_OP_IE vht_op;
 	UCHAR cent_ch;
 #ifdef RT_BIG_ENDIAN
-	UINT16 tmp;
+	uint16_t tmp;
 #endif /* RT_BIG_ENDIAN */
 
 	memset((UCHAR *)&vht_op, 0, sizeof(VHT_OP_IE));
@@ -433,7 +433,7 @@ INT build_vht_op_ie(struct rtmp_adapter *pAd, UCHAR *buf)
 	}
 
 #ifdef RT_BIG_ENDIAN
-	//SWAP16((UINT16)vht_op.basic_mcs_set);
+	//SWAP16((uint16_t)vht_op.basic_mcs_set);
 	memcpy(&tmp,&vht_op.basic_mcs_set, 2);
 	tmp=SWAP16(tmp);
 	memcpy(&vht_op.basic_mcs_set,&tmp, 2);

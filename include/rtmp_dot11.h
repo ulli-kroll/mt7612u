@@ -82,7 +82,7 @@ typedef struct GNU_PACKED _AC_PARAM_RECORD{
 	UINT8 aci_aifsn;
 	UINT8 ecw_max:4;
 	UINT8 ecw_min: 4;
-	UINT16 txop_limit;
+	uint16_t txop_limit;
 }AC_PARAM_RECORD;
 
 

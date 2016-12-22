@@ -480,7 +480,7 @@ INT mt76x2_ate_tx_pwr_Evaluation(
 	CHAR tx0_pwr = 0, tx1_pwr = 0;
 	UCHAR channel = pATEInfo->Channel;
 	UCHAR bw = pATEInfo->TxWI.TXWI_N.BW;
-	UINT16 value, value1;
+	uint16_t value, value1;
 	INT ret = TRUE;
 
 	if ( channel > 14 )

@@ -490,7 +490,7 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, BOOLEAN s
 	RTMP_CHIP_CAP *cap = &ad->chipCap;
 	unsigned int latch_band, band, bw, tx_rx_setting;
 	uint32_t ret, i, value, value1, restore_value, loop = 0;
-	UINT16 e2p_value;
+	uint16_t e2p_value;
 	UCHAR bbp_ch_idx;
 	BOOLEAN band_change = FALSE;
 	uint32_t RegValue = 0;
@@ -1305,7 +1305,7 @@ static void mt76x2_init_mac_cr(struct rtmp_adapter *ad)
 
 static void mt76x2_init_rf_cr(struct rtmp_adapter *ad)
 {
-	UINT16 value;
+	uint16_t value;
 
 	andes_load_cr(ad, RF_BBP_CR, 0, 0);
 }
@@ -1509,7 +1509,7 @@ int mt76x2_reinit_hi_lna_gain(struct rtmp_adapter *ad, u8 channel)
 
 int mt76x2_get_rx_high_gain(struct rtmp_adapter *ad)
 {
-	UINT16 value;
+	uint16_t value;
 	RTMP_CHIP_CAP *cap = &ad->chipCap;
 
 	RT28xx_EEPROM_READ16(ad, RF_2G_RX_HIGH_GAIN, value);
@@ -4019,9 +4019,9 @@ static VOID mt76x2_init_dev_nick_name(struct rtmp_adapter *ad)
 #ifdef CAL_FREE_IC_SUPPORT
 static BOOLEAN mt76x2_is_cal_free_ic(struct rtmp_adapter *ad)
 {
-	UINT16	NicConfig, FrequencyOffset;
-	UINT16	PowerDelta, TssiSlope, TxPower;
-	UINT16	EfuseValue;
+	uint16_t NicConfig, FrequencyOffset;
+	uint16_t PowerDelta, TssiSlope, TxPower;
+	uint16_t EfuseValue;
 	UINT	EfuseFreeBlock=0;
 
 	eFuseGetFreeBlockCount(ad, &EfuseFreeBlock);
@@ -4057,7 +4057,7 @@ static BOOLEAN mt76x2_is_cal_free_ic(struct rtmp_adapter *ad)
 
 static VOID mt76x2_cal_free_data_get(struct rtmp_adapter *ad)
 {
-	UINT16 value;
+	uint16_t value;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("%s\n", __FUNCTION__));
 
@@ -4069,20 +4069,20 @@ static VOID mt76x2_cal_free_data_get(struct rtmp_adapter *ad)
 	eFuseReadRegisters(ad, A_BAND_EXT_PA_SETTING, 2, &value);
 	ad->EEPROMImage[A_BAND_EXT_PA_SETTING + 1] = (value >> 8) & 0xFF;
 	eFuseReadRegisters(ad, TX0_G_BAND_TSSI_SLOPE, 2, &value);
-	*(UINT16 *)(&ad->EEPROMImage[TX0_G_BAND_TSSI_SLOPE]) = value;
+	*(uint16_t *)(&ad->EEPROMImage[TX0_G_BAND_TSSI_SLOPE]) = value;
 	eFuseReadRegisters(ad, TX1_G_BAND_TSSI_SLOPE, 2, &value);
-	*(UINT16 *)(&ad->EEPROMImage[TX1_G_BAND_TSSI_SLOPE]) = value;
+	*(uint16_t *)(&ad->EEPROMImage[TX1_G_BAND_TSSI_SLOPE]) = value;
 
 	/* 0x62 0x63 0x67 0x68 0x6C 0x6D */
 	eFuseReadRegisters(ad, GRP0_TX0_A_BAND_TSSI_SLOPE, 2, &value);
 	if ( value != 0 )
-		*(UINT16 *)(&ad->EEPROMImage[GRP0_TX0_A_BAND_TSSI_SLOPE]) = value;
+		*(uint16_t *)(&ad->EEPROMImage[GRP0_TX0_A_BAND_TSSI_SLOPE]) = value;
 	eFuseReadRegisters(ad, GRP0_TX0_A_BAND_CHL_PWR_DELTA_HI, 2, &value);
 	ad->EEPROMImage[GRP0_TX0_A_BAND_CHL_PWR_DELTA_HI + 1] = (value & GRP1_TX0_A_BAND_TSSI_SLOPE_MASK) >> 8;
 	eFuseReadRegisters(ad, GRP1_TX0_A_BAND_TSSI_OFFSET, 2, &value);
 	ad->EEPROMImage[GRP1_TX0_A_BAND_TSSI_OFFSET] = value & GRP1_TX0_A_BAND_TSSI_OFFSET_MASK;
 	eFuseReadRegisters(ad, GRP2_TX0_A_BAND_TSSI_SLOPE, 2, &value);
-	*(UINT16 *)(&ad->EEPROMImage[GRP2_TX0_A_BAND_TSSI_SLOPE]) = value;
+	*(uint16_t *)(&ad->EEPROMImage[GRP2_TX0_A_BAND_TSSI_SLOPE]) = value;
 
 	/* 0x71 0x72 0x76 0x77 0x7B 0x7C */
 	eFuseReadRegisters(ad, GRP2_TX0_A_BAND_CHL_PWR_DELTA_HI, 2, &value);
@@ -4090,7 +4090,7 @@ static VOID mt76x2_cal_free_data_get(struct rtmp_adapter *ad)
 	eFuseReadRegisters(ad, GRP3_TX0_A_BAND_TSSI_OFFSET, 2, &value);
 	ad->EEPROMImage[GRP3_TX0_A_BAND_TSSI_OFFSET] = value & GRP3_TX0_A_BAND_TSSI_OFFSET_MASK;
 	eFuseReadRegisters(ad, GRP4_TX0_A_BAND_TSSI_SLOPE, 2, &value);
-	*(UINT16 *)(&ad->EEPROMImage[GRP4_TX0_A_BAND_TSSI_SLOPE]) = value;
+	*(uint16_t *)(&ad->EEPROMImage[GRP4_TX0_A_BAND_TSSI_SLOPE]) = value;
 	eFuseReadRegisters(ad, GRP4_TX0_A_BAND_CHL_PWR_DELTA_HI, 2, &value);
 	ad->EEPROMImage[GRP4_TX0_A_BAND_CHL_PWR_DELTA_HI + 1] = (value & GRP5_TX0_A_BAND_TSSI_SLOPE_MASK) >> 8;
 	eFuseReadRegisters(ad, GRP5_TX0_A_BAND_TSSI_OFFSET, 2, &value);
@@ -4099,13 +4099,13 @@ static VOID mt76x2_cal_free_data_get(struct rtmp_adapter *ad)
 	/* 0x80 0x81 0x85 0x86 0x8A 0x8B 0x8F */
 	eFuseReadRegisters(ad, GRP0_TX1_A_BAND_TSSI_SLOPE, 2, &value);
 	if ( value != 0 )
-		*(UINT16 *)(&ad->EEPROMImage[GRP0_TX1_A_BAND_TSSI_SLOPE]) = value;
+		*(uint16_t *)(&ad->EEPROMImage[GRP0_TX1_A_BAND_TSSI_SLOPE]) = value;
 	eFuseReadRegisters(ad, GRP0_TX1_A_BAND_CHL_PWR_DELTA_HI, 2, &value);
 	ad->EEPROMImage[GRP0_TX1_A_BAND_CHL_PWR_DELTA_HI + 1] = (value & GRP1_TX1_A_BAND_TSSI_SLOPE_MASK) >> 8;
 	eFuseReadRegisters(ad, GRP1_TX1_A_BAND_TSSI_OFFSET, 2, &value);
 	ad->EEPROMImage[GRP1_TX1_A_BAND_TSSI_OFFSET] = value & GRP1_TX1_A_BAND_TSSI_OFFSET_MASK;
 	eFuseReadRegisters(ad, GRP2_TX1_A_BAND_TSSI_SLOPE, 2, &value);
-	*(UINT16 *)(&ad->EEPROMImage[GRP2_TX1_A_BAND_TSSI_SLOPE]) = value;
+	*(uint16_t *)(&ad->EEPROMImage[GRP2_TX1_A_BAND_TSSI_SLOPE]) = value;
 	eFuseReadRegisters(ad, GRP2_TX1_A_BAND_CHL_PWR_DELTA_HI, 2, &value);
 	ad->EEPROMImage[GRP2_TX1_A_BAND_CHL_PWR_DELTA_HI + 1] = (value & GRP3_TX1_A_BAND_TSSI_SLOPE_MASK) >> 8;
 
@@ -4113,7 +4113,7 @@ static VOID mt76x2_cal_free_data_get(struct rtmp_adapter *ad)
 	eFuseReadRegisters(ad, GRP3_TX1_A_BAND_TSSI_OFFSET, 2, &value);
 	ad->EEPROMImage[GRP3_TX1_A_BAND_TSSI_OFFSET] = value & GRP3_TX1_A_BAND_TSSI_OFFSET_MASK;
 	eFuseReadRegisters(ad, GRP4_TX1_A_BAND_TSSI_SLOPE, 2, &value);
-	*(UINT16 *)(&ad->EEPROMImage[GRP4_TX1_A_BAND_TSSI_SLOPE]) = value;
+	*(uint16_t *)(&ad->EEPROMImage[GRP4_TX1_A_BAND_TSSI_SLOPE]) = value;
 	eFuseReadRegisters(ad, GRP4_TX1_A_BAND_CHL_PWR_DELTA_HI, 2, &value);
 	ad->EEPROMImage[GRP4_TX1_A_BAND_CHL_PWR_DELTA_HI + 1] = (value & GRP5_TX1_A_BAND_TSSI_SLOPE_MASK) >> 8;
 	eFuseReadRegisters(ad, GRP5_TX1_A_BAND_TSSI_OFFSET, 2, &value);
@@ -4127,11 +4127,11 @@ static VOID mt76x2_cal_free_data_get(struct rtmp_adapter *ad)
 	eFuseReadRegisters(ad, RF_2G_RX_HIGH_GAIN, 2, &value);
 	ad->EEPROMImage[RF_2G_RX_HIGH_GAIN+1] = (value >> 8) & 0xFF;
 	eFuseReadRegisters(ad, RF_5G_GRP0_1_RX_HIGH_GAIN, 2, &value);
-	*(UINT16 *)(&ad->EEPROMImage[RF_5G_GRP0_1_RX_HIGH_GAIN]) = value;
+	*(uint16_t *)(&ad->EEPROMImage[RF_5G_GRP0_1_RX_HIGH_GAIN]) = value;
 	eFuseReadRegisters(ad, RF_5G_GRP2_3_RX_HIGH_GAIN, 2, &value);
-	*(UINT16 *)(&ad->EEPROMImage[RF_5G_GRP2_3_RX_HIGH_GAIN]) = value;
+	*(uint16_t *)(&ad->EEPROMImage[RF_5G_GRP2_3_RX_HIGH_GAIN]) = value;
 	eFuseReadRegisters(ad, RF_5G_GRP4_5_RX_HIGH_GAIN, 2, &value);
-	*(UINT16 *)(&ad->EEPROMImage[RF_5G_GRP4_5_RX_HIGH_GAIN]) = value;
+	*(uint16_t *)(&ad->EEPROMImage[RF_5G_GRP4_5_RX_HIGH_GAIN]) = value;
 
 	/* BT: 0x138 0x13D 0x13E 0x13F */
 	eFuseReadRegisters(ad, BT_RCAL_RESULT, 2, &value);
@@ -4142,7 +4142,7 @@ static VOID mt76x2_cal_free_data_get(struct rtmp_adapter *ad)
 		ad->EEPROMImage[BT_VCDL_CALIBRATION+1] = (value >> 8) & 0xFF;
 	eFuseReadRegisters(ad, BT_PMUCFG, 2, &value);
 	if ( value != 0xFFFF )
-		*(UINT16 *)(&ad->EEPROMImage[BT_PMUCFG]) = value;
+		*(uint16_t *)(&ad->EEPROMImage[BT_PMUCFG]) = value;
 
 }
 #endif /* CAL_FREE_IC_SUPPORT */

@@ -62,24 +62,24 @@ enum IPV6_TYPE{
 typedef struct GNU_PACKED _BTM_EVENT_DATA {
 	UCHAR ControlIndex;
 	UCHAR PeerMACAddr[MAC_ADDR_LEN];
-	UINT16 EventType;
+	uint16_t EventType;
 	union {
 #ifdef CONFIG_STA_SUPPORT
 		struct {
 			UCHAR DialogToken;
-			UINT16 BTMQueryLen;
+			uint16_t BTMQueryLen;
 			UCHAR BTMQuery[0];
 		} GNU_PACKED BTM_QUERY_DATA;
 
 		struct {
 			UCHAR DialogToken;
-			UINT16 BTMRspLen;
+			uint16_t BTMRspLen;
 			UCHAR BTMRsp[0];
 		} GNU_PACKED BTM_RSP_DATA;
 
 		struct {
 			UCHAR DialogToken;
-			UINT16 BTMReqLen;
+			uint16_t BTMReqLen;
 			UCHAR BTMReq[0];
 		} GNU_PACKED PEER_BTM_REQ_DATA;
 #endif /* CONFIG_STA_SUPPORT */
@@ -87,19 +87,19 @@ typedef struct GNU_PACKED _BTM_EVENT_DATA {
 #ifdef CONFIG_AP_SUPPORT
 		struct {
 			UCHAR DialogToken;
-			UINT16 BTMReqLen;
+			uint16_t BTMReqLen;
 			UCHAR BTMReq[0];
 		} GNU_PACKED BTM_REQ_DATA;
 
 		struct {
 			UCHAR DialogToken;
-			UINT16 BTMQueryLen;
+			uint16_t BTMQueryLen;
 			UCHAR BTMQuery[0];
 		} GNU_PACKED PEER_BTM_QUERY_DATA;
 
 		struct {
 			UCHAR DialogToken;
-			UINT16 BTMRspLen;
+			uint16_t BTMRspLen;
 			UCHAR BTMRsp[0];
 		} GNU_PACKED PEER_BTM_RSP_DATA;
 #endif /* CONFIG_AP_SUPPORT */

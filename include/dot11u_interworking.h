@@ -57,8 +57,8 @@ typedef struct GNU_PACKED _GAS_FRAME
 		struct {
 			UCHAR Action;
 			UCHAR DialogToken;
-			UINT16 StatusCode;
-			UINT16 GASComebackDelay;
+			uint16_t StatusCode;
+			uint16_t GASComebackDelay;
 			/*
  			 *  Following are advertisement protocol element,
  			 *  query response length, and query response(optional)
@@ -72,9 +72,9 @@ typedef struct GNU_PACKED _GAS_FRAME
 		struct {
 			UCHAR Action;
 			UCHAR DialogToken;
-			UINT16 StatusCode;
+			uint16_t StatusCode;
 			UCHAR GASRspFragID;
-			UINT16 GASComebackDelay;
+			uint16_t GASComebackDelay;
 			/*
  			 * Following are advertisment protocol element,
  			 * query response length, and query response(optional)

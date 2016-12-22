@@ -319,7 +319,7 @@ VOID ReceiveGASInitReq(
 	GAS_PEER_ENTRY *GASPeerEntry, *GASPeerEntryTmp;
 	PGAS_CTRL pGASCtrl = NULL;
 	UCHAR APIndex, *Pos, *Buf;
-	UINT16 VarLen;
+	uint16_t VarLen;
 	uint32_t Len = 0;
 	BOOLEAN IsFound = FALSE, Cancelled;;
 

@@ -36,35 +36,35 @@
 /*  HT Capability INFO field in HT Cap IE . */
 typedef struct GNU_PACKED _HT_CAP_INFO{
 #ifdef RT_BIG_ENDIAN
-	UINT16	LSIGTxopProSup:1;
-	UINT16	Forty_Mhz_Intolerant:1;
-	UINT16	PSMP:1;
-	UINT16	CCKmodein40:1;
-	UINT16	AMsduSize:1;
-	UINT16	DelayedBA:1;
-	UINT16	RxSTBC:2;
-	UINT16	TxSTBC:1;
-	UINT16	ShortGIfor40:1;
-	UINT16	ShortGIfor20:1;
-	UINT16	GF:1;
-	UINT16	MimoPs:2;
-	UINT16	ChannelWidth:1;
-	UINT16	ht_rx_ldpc:1;
+	uint16_t LSIGTxopProSup:1;
+	uint16_t Forty_Mhz_Intolerant:1;
+	uint16_t PSMP:1;
+	uint16_t CCKmodein40:1;
+	uint16_t AMsduSize:1;
+	uint16_t DelayedBA:1;
+	uint16_t RxSTBC:2;
+	uint16_t TxSTBC:1;
+	uint16_t ShortGIfor40:1;
+	uint16_t ShortGIfor20:1;
+	uint16_t GF:1;
+	uint16_t MimoPs:2;
+	uint16_t ChannelWidth:1;
+	uint16_t ht_rx_ldpc:1;
 #else
-	UINT16	ht_rx_ldpc:1;
-	UINT16	ChannelWidth:1;
-	UINT16	MimoPs:2;		/* mimo power safe */
-	UINT16	GF:1;			/* green field */
-	UINT16	ShortGIfor20:1;
-	UINT16	ShortGIfor40:1;	/* for40MHz */
-	UINT16	TxSTBC:1;		/* 0:not supported,  1:if supported */
-	UINT16	RxSTBC:2;
-	UINT16	DelayedBA:1;
-	UINT16	AMsduSize:1;	/* only support as zero */
-	UINT16	CCKmodein40:1;
-	UINT16	PSMP:1;
-	UINT16	Forty_Mhz_Intolerant:1;
-	UINT16	LSIGTxopProSup:1;
+	uint16_t ht_rx_ldpc:1;
+	uint16_t ChannelWidth:1;
+	uint16_t MimoPs:2;		/* mimo power safe */
+	uint16_t GF:1;			/* green field */
+	uint16_t ShortGIfor20:1;
+	uint16_t ShortGIfor40:1;	/* for40MHz */
+	uint16_t TxSTBC:1;		/* 0:not supported,  1:if supported */
+	uint16_t RxSTBC:2;
+	uint16_t DelayedBA:1;
+	uint16_t AMsduSize:1;	/* only support as zero */
+	uint16_t CCKmodein40:1;
+	uint16_t PSMP:1;
+	uint16_t Forty_Mhz_Intolerant:1;
+	uint16_t LSIGTxopProSup:1;
 #endif /* RT_BIG_ENDIAN */
 } HT_CAP_INFO;
 
@@ -123,21 +123,21 @@ typedef struct GNU_PACKED _HT_MCS_SET{
 /*  HT Capability INFO field in HT Cap IE . */
 typedef struct GNU_PACKED _EXT_HT_CAP_INFO{
 #ifdef RT_BIG_ENDIAN
-	UINT16	rsv2:4;
-	UINT16	RDGSupport:1;	/*reverse Direction Grant  support */
-	UINT16	PlusHTC:1;	/*+HTC control field support */
-	UINT16	MCSFeedback:2;	/*0:no MCS feedback, 2:unsolicited MCS feedback, 3:Full MCS feedback,  1:rsv. */
-	UINT16	rsv:5;/*momi power safe */
-	UINT16	TranTime:2;
-	UINT16	Pco:1;
+	uint16_t rsv2:4;
+	uint16_t RDGSupport:1;	/*reverse Direction Grant  support */
+	uint16_t PlusHTC:1;	/*+HTC control field support */
+	uint16_t MCSFeedback:2;	/*0:no MCS feedback, 2:unsolicited MCS feedback, 3:Full MCS feedback,  1:rsv. */
+	uint16_t rsv:5;/*momi power safe */
+	uint16_t TranTime:2;
+	uint16_t Pco:1;
 #else
-	UINT16	Pco:1;
-	UINT16	TranTime:2;
-	UINT16	rsv:5;/*momi power safe */
-	UINT16	MCSFeedback:2;	/*0:no MCS feedback, 2:unsolicited MCS feedback, 3:Full MCS feedback,  1:rsv. */
-	UINT16	PlusHTC:1;	/*+HTC control field support */
-	UINT16	RDGSupport:1;	/*reverse Direction Grant  support */
-	UINT16	rsv2:4;
+	uint16_t Pco:1;
+	uint16_t TranTime:2;
+	uint16_t rsv:5;/*momi power safe */
+	uint16_t MCSFeedback:2;	/*0:no MCS feedback, 2:unsolicited MCS feedback, 3:Full MCS feedback,  1:rsv. */
+	uint16_t PlusHTC:1;	/*+HTC control field support */
+	uint16_t RDGSupport:1;	/*reverse Direction Grant  support */
+	uint16_t rsv2:4;
 #endif /* RT_BIG_ENDIAN */
 } EXT_HT_CAP_INFO, *PEXT_HT_CAP_INFO;
 

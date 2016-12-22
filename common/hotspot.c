@@ -89,8 +89,8 @@ BOOLEAN HSIPv4Check(
 			PUCHAR pWcid,
 			struct sk_buff *pPacket,
 			PUCHAR pSrcBuf,
-			UINT16 srcPort,
-			UINT16 dstPort)
+			uint16_t srcPort,
+			uint16_t dstPort)
 {
 	UCHAR apidx = RTMP_GET_PACKET_NET_DEVICE(pPacket);
 	MULTISSID_STRUCT *pMbss = &pAd->ApCfg.MBSSID[apidx];
@@ -132,7 +132,7 @@ static BOOLEAN IsICMPv4EchoPacket(
 			IN struct rtmp_adapter *pAd,
 			IN PUCHAR pData)
 {
-	UINT16 ProtoType;
+	uint16_t ProtoType;
 	UCHAR *Pos = pData;
 
 	memmove(&ProtoType, pData, 2);

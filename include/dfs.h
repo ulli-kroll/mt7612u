@@ -275,7 +275,7 @@ typedef struct _DFS_ENGINE_LOCAL_CFG {
 	ULONG	BLow;
 	ULONG	BHigh;
 	uint32_t EventExpiration;
-	UINT16	PwrJump;
+	uint16_t PwrJump;
 } DFS_ENGINE_LOCAL_CFG, *pDFS_ENGINE_LOCAL_CFG;
 
 typedef struct _DFS_PROGRAM_PARAM{
@@ -312,11 +312,11 @@ typedef struct _NewDFSDebugResult
 typedef struct _DFS_EVENT{
 	UINT8  EngineId;
 	uint32_t TimeStamp;
-	UINT16 Width;
+	uint16_t Width;
 #ifdef RLT_BBP
-	UINT16 phase;
+	uint16_t phase;
 	UINT8 power_stable_counter;
-	UINT16 current_power;
+	uint16_t current_power;
 #endif /* MT76x0 */
 }DFS_EVENT, *PDFS_EVENT;
 

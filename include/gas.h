@@ -64,7 +64,7 @@ typedef struct _GAS_QUERY_RSP_FRAGMENT
 {
 	DL_LIST List;
 	UCHAR GASRspFragID;
-	UINT16 FragQueryRspLen;
+	uint16_t FragQueryRspLen;
 	UCHAR *FragQueryRsp;
 }GAS_QUERY_RSP_FRAGMENT, *PGAS_QUERY_RSP_FRAGMENT;
 
@@ -110,28 +110,28 @@ typedef struct _GAS_CTRL {
 typedef struct GNU_PACKED _GAS_EVENT_DATA {
 	UCHAR ControlIndex;
 	UCHAR PeerMACAddr[MAC_ADDR_LEN];
-	UINT16 EventType;
+	uint16_t EventType;
 	union{
 #ifdef CONFIG_STA_SUPPORT
 		struct {
 			UCHAR DialogToken;
 			UCHAR AdvertisementProID;
-			UINT16 QueryReqLen;
+			uint16_t QueryReqLen;
 			UCHAR QueryReq[0];
 		} GNU_PACKED GAS_REQ_DATA;
 		struct {
-			UINT16 StatusCode;
+			uint16_t StatusCode;
 			UCHAR AdvertisementProID;
-			UINT16 QueryRspLen;
+			uint16_t QueryRspLen;
 			UCHAR QueryRsp[0];
 		} GNU_PACKED PEER_GAS_RSP_DATA;
 		struct {
 			UCHAR DialogToken;
 		} GNU_PACKED PEER_GAS_RSP_MORE_DATA;
 		struct {
-			UINT16 StatusCode;
+			uint16_t StatusCode;
 			UCHAR AdvertisementProID;
-			UINT16 QueryRspLen;
+			uint16_t QueryRspLen;
 			UCHAR QueryRsp[0];
 		} GNU_PACKED GAS_CB_RSP_DATA;
 		struct {
@@ -142,33 +142,33 @@ typedef struct GNU_PACKED _GAS_EVENT_DATA {
 #ifdef CONFIG_AP_SUPPORT
 		struct {
 			UCHAR DialogToken;
-			UINT16 StatusCode;
-			UINT16 GASComebackDelay;
+			uint16_t StatusCode;
+			uint16_t GASComebackDelay;
 			UCHAR AdvertisementProID;
-			UINT16 QueryRspLen;
+			uint16_t QueryRspLen;
 			UCHAR QueryRsp[0];
 		} GNU_PACKED GAS_RSP_DATA;
 		struct {
 			UCHAR DialogToken;
-			UINT16 StatusCode;
-			UINT16 GASComebackDelay;
+			uint16_t StatusCode;
+			uint16_t GASComebackDelay;
 			UCHAR AdvertisementProID;
 		} GNU_PACKED GAS_RSP_MORE_DATA;
 		struct {
 			UCHAR DialogToken;
 			UCHAR AdvertisementProID;
-			UINT16 QueryReqLen;
+			uint16_t QueryReqLen;
 			UCHAR QueryReq[0];
 		} GNU_PACKED PEER_GAS_REQ_DATA;
 		struct {
 			UCHAR DialogToken;
 			UCHAR AdvertisementProID;
-			UINT16 StatusCode;
+			uint16_t StatusCode;
 		} GNU_PACKED GAS_CB_REQ_DATA;
 		struct {
 			UCHAR DialogToken;
 			UCHAR AdvertisementProID;
-			UINT16 StatusCode;
+			uint16_t StatusCode;
 		} GNU_PACKED GAS_CB_REQ_MORE_DATA;
 #endif /* CONFIG_AP_SUPPORT */
 	}u;

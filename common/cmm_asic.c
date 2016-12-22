@@ -357,7 +357,7 @@ VOID AsicUpdateProtect(
 #ifdef DOT11_VHT_AC
 #ifdef RT65xx
 	PROT_CFG_STRUC vht_port_cfg = {.word = 0};
-	UINT16 protect_rate = 0;
+	uint16_t protect_rate = 0;
 #endif /* RT65xx */
 #endif /* DOT11_VHT_AC */
 

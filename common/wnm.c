@@ -155,7 +155,7 @@ void SendProxyARPEvent(struct net_device *net_dev,
 BOOLEAN IsGratuitousARP(UCHAR *pData)
 {
 	UCHAR *Pos = pData;
-	UINT16 ProtoType;
+	uint16_t ProtoType;
 	UCHAR *SenderIP;
 	UCHAR *TargetIP;
 
@@ -185,7 +185,7 @@ BOOLEAN IsUnsolicitedNeighborAdver(struct rtmp_adapter *pAd,
 								   PUCHAR pData)
 {
 	UCHAR *Pos = pData;
-	UINT16 ProtoType;
+	uint16_t ProtoType;
 
 	memmove(&ProtoType, pData, 2);
 	ProtoType = OS_NTOHS(ProtoType);
@@ -224,8 +224,8 @@ BOOLEAN IsIPv4ProxyARPCandidate(IN struct rtmp_adapter *pAd,
 						   		IN PUCHAR pData)
 {
 	UCHAR *Pos = pData;
-	UINT16 ProtoType;
-	UINT16 ARPOperation;
+	uint16_t ProtoType;
+	uint16_t ARPOperation;
 	UCHAR *SenderIP;
 	UCHAR *TargetIP;
 
@@ -262,7 +262,7 @@ BOOLEAN IsIpv6DuplicateAddrDetect(struct rtmp_adapter *pAd,
 								  PUCHAR pData)
 {
 	UCHAR *Pos = pData;
-	UINT16 ProtoType;
+	uint16_t ProtoType;
 	RT_IPV6_ADDR *pIPv6Addr;
 
 	memmove(&ProtoType, pData, 2);
@@ -298,7 +298,7 @@ BOOLEAN IsIPv6ProxyARPCandidate(IN struct rtmp_adapter *pAd,
 								IN PUCHAR pData)
 {
 	UCHAR *Pos = pData;
-	UINT16 ProtoType;
+	uint16_t ProtoType;
 	RT_IPV6_ADDR *pIPv6Addr;
 
 	memmove(&ProtoType, pData, 2);
@@ -335,7 +335,7 @@ BOOLEAN IsIPv6RouterSolicitation(IN struct rtmp_adapter *pAd,
 								 IN PUCHAR pData)
 {
 	UCHAR *Pos = pData;
-	UINT16 ProtoType;
+	uint16_t ProtoType;
 
 	memmove(&ProtoType, pData, 2);
 	ProtoType = OS_NTOHS(ProtoType);
@@ -361,7 +361,7 @@ BOOLEAN IsIPv6RouterAdvertisement(IN struct rtmp_adapter *pAd,
 								  IN PUCHAR pData)
 {
 	UCHAR *Pos = pData;
-	UINT16 ProtoType;
+	uint16_t ProtoType;
 
 	memmove(&ProtoType, pData, 2);
 	ProtoType = OS_NTOHS(ProtoType);
@@ -387,7 +387,7 @@ BOOLEAN IsTDLSPacket(IN struct rtmp_adapter *pAd,
 					 IN PUCHAR pData)
 {
 	UCHAR *Pos = pData;
-	UINT16 ProtoType;
+	uint16_t ProtoType;
 
 	memmove(&ProtoType, pData, 2);
 	ProtoType = OS_NTOHS(ProtoType);

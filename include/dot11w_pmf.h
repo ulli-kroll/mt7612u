@@ -58,14 +58,14 @@ typedef union GNU_PACKED _PMF_IGTK_KEY_ID
 {
 	struct GNU_PACKED{
 #ifdef RT_BIG_ENDIAN
-	UINT16 :4;
-	UINT16 KeyId:12;
+	uint16_t :4;
+	uint16_t KeyId:12;
 #else
-	UINT16 KeyId:12;
-	UINT16 :4;
+	uint16_t KeyId:12;
+	uint16_t :4;
 #endif
 	} field;
-	UINT16 word;
+	uint16_t word;
 } PMF_IGTK_KEY_ID, *PPMF_IGTK_KEY_ID;
 
 /* The SubIE of Fast BSS transition information element */
