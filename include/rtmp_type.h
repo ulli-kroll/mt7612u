@@ -55,7 +55,6 @@ typedef unsigned long ULONG;
 typedef unsigned char *PUINT8;
 typedef unsigned short *PUINT16;
 typedef int *PINT32;
-typedef long long *PINT64;
 
 /* modified for fixing compile warning on Sigma 8634 platform */
 typedef char STRING;
