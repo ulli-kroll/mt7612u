@@ -2172,7 +2172,7 @@ INT	Set_AP_RekeyInterval_Proc(
 {
 	struct os_cookie *	pObj = pAd->OS_Cookie;
 	UCHAR		apidx = pObj->ioctl_if;
-	INT32	val;
+	int32_t val;
 
 	val = simple_strtol(arg, 0, 10);
 
@@ -7677,7 +7677,7 @@ INT set_dynamic_lna_trigger_timer_proc(
 	IN struct rtmp_adapter *pAd,
 	IN PSTRING			arg)
 {
-	INT32 val = simple_strtol(arg, 0, 10);
+	int32_t val = simple_strtol(arg, 0, 10);
 
 	pAd->chipCap.dynamic_lna_trigger_timer = (val <= 0) ? 1 : val;
 
@@ -7689,7 +7689,7 @@ INT set_dynamic_lna_trigger_timer_proc(
 
 INT set_false_cca_hi_th(struct rtmp_adapter *pAd, PSTRING arg)
 {
-	INT32 val = simple_strtol(arg, 0, 10);
+	int32_t val = simple_strtol(arg, 0, 10);
 
 	pAd->CommonCfg.lna_vga_ctl.nFalseCCATh = (val <= 0) ? 800 : val;
 
@@ -7702,7 +7702,7 @@ INT set_false_cca_hi_th(struct rtmp_adapter *pAd, PSTRING arg)
 
 INT set_false_cca_low_th(struct rtmp_adapter *pAd, PSTRING arg)
 {
-	INT32 val = simple_strtol(arg, 0, 10);
+	int32_t val = simple_strtol(arg, 0, 10);
 
 	pAd->CommonCfg.lna_vga_ctl.nLowFalseCCATh = (val <= 0) ? 10 : val;
 
@@ -7718,7 +7718,7 @@ INT set_thermal_protection_criteria_proc(
 	IN struct rtmp_adapter *pAd,
 	IN PSTRING	arg)
 {
-	INT32 criteria = simple_strtol(arg, 0, 10);
+	int32_t criteria = simple_strtol(arg, 0, 10);
 
 	pAd->thermal_pro_criteria = (criteria <= 0) ? 80 : criteria;
 

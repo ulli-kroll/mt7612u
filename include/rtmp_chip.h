@@ -659,33 +659,33 @@ struct _RTMP_CHIP_CAP_ {
 #endif /* TXRX_SW_ANTDIV_SUPPORT */
 
 	BOOLEAN temp_tx_alc_enable;
-	INT32 temp_25_ref; /* a quantification value of temperature, but not ¢J */
-	INT32 current_temp; /* unit ¢J */
+	int32_t temp_25_ref; /* a quantification value of temperature, but not ¢J */
+	int32_t current_temp; /* unit ¢J */
 #ifdef RTMP_TEMPERATURE_TX_ALC
 	uint32_t high_temp_slope_a_band; /* slope with unit (¢J /dB) */
 	uint32_t low_temp_slope_a_band; /* slope with unit (¢J /dB) */
 	uint32_t high_temp_slope_g_band; /* slope with unit (¢J /dB) */
 	uint32_t low_temp_slope_g_band; /* slope with unit (¢J /dB) */
-	INT32 tc_upper_bound_a_band; /* unit dB */
-	INT32 tc_lower_bound_a_band; /* unit dB */
-	INT32 tc_upper_bound_g_band; /* unit dB */
-	INT32 tc_lower_bound_g_band; /* unit dB */
+	int32_t tc_upper_bound_a_band; /* unit dB */
+	int32_t tc_lower_bound_a_band; /* unit dB */
+	int32_t tc_upper_bound_g_band; /* unit dB */
+	int32_t tc_lower_bound_g_band; /* unit dB */
 #endif /* RTMP_TEMPERATURE_TX_ALC */
 
 #ifdef DYNAMIC_VGA_SUPPORT
 	BOOLEAN dynamic_vga_support;
-	INT32 compensate_level;
-	INT32 avg_rssi_0;
-	INT32 avg_rssi_1;
-	INT32 avg_rssi_all;
+	int32_t compensate_level;
+	int32_t avg_rssi_0;
+	int32_t avg_rssi_1;
+	int32_t avg_rssi_all;
 	UCHAR dynamic_chE_mode;
 	BOOLEAN dynamic_chE_trigger;
 #ifdef CONFIG_AP_SUPPORT
-	INT32 dynamic_lna_trigger_timer;
+	int32_t dynamic_lna_trigger_timer;
 	BOOLEAN microwave_enable;
-	INT32 agc1_r35_backup;
-	INT32 agc1_r39_backup;
-	INT32 agc1_r41_backup;
+	int32_t agc1_r35_backup;
+	int32_t agc1_r39_backup;
+	int32_t agc1_r41_backup;
 #endif /* CONFIG_AP_SUPPORT */
 #endif /* DYNAMIC_VGA_SUPPORT */
 
@@ -1032,7 +1032,7 @@ struct _RTMP_CHIP_OP_ {
 #endif /* THERMAL_PROTECT_SUPPORT */
 
 	/* TX ALC */
-	uint32_t (*TSSIRatio)(INT32 delta_power);
+	uint32_t (*TSSIRatio)(int32_t delta_power);
 	VOID (*InitDesiredTSSITable)(IN struct rtmp_adapter *pAd);
 	int (*ATETssiCalibration)(struct rtmp_adapter *pAd, PSTRING arg);
 	int (*ATETssiCalibrationExtend)(struct rtmp_adapter *pAd, PSTRING arg);

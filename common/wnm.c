@@ -410,7 +410,7 @@ uint32_t IPv4ProxyARPTableLen(IN struct rtmp_adapter *pAd,
 	PWNM_CTRL pWNMCtrl = &pMbss->WNMCtrl;
 	PROXY_ARP_IPV4_ENTRY *ProxyARPEntry;
 	uint32_t TableLen = 0;
-	INT32 Ret;
+	int32_t Ret;
 
 	DBGPRINT(RT_DEBUG_OFF, ("%s\n", __FUNCTION__));
 
@@ -430,7 +430,7 @@ uint32_t IPv6ProxyARPTableLen(IN struct rtmp_adapter *pAd,
 	PWNM_CTRL pWNMCtrl = &pMbss->WNMCtrl;
 	PROXY_ARP_IPV6_ENTRY *ProxyARPEntry;
 	uint32_t TableLen = 0;
-	INT32 Ret;
+	int32_t Ret;
 
 	RTMP_SEM_EVENT_WAIT(&pWNMCtrl->ProxyARPIPv6ListLock, Ret);
 	DlListForEach(ProxyARPEntry, &pWNMCtrl->IPv6ProxyARPList, PROXY_ARP_IPV6_ENTRY, List)
@@ -450,7 +450,7 @@ BOOLEAN GetIPv4ProxyARPTable(IN struct rtmp_adapter *pAd,
 	PWNM_CTRL pWNMCtrl = &pMbss->WNMCtrl;
 	PROXY_ARP_IPV4_ENTRY *ProxyARPEntry;
 	PROXY_ARP_IPV4_UNIT *ProxyARPUnit = (PROXY_ARP_IPV4_UNIT *)(*ProxyARPTable);
-	INT32 Ret;
+	int32_t Ret;
 
 	DBGPRINT(RT_DEBUG_OFF, ("%s\n", __FUNCTION__));
 
@@ -474,7 +474,7 @@ BOOLEAN GetIPv6ProxyARPTable(IN struct rtmp_adapter *pAd,
 	PWNM_CTRL pWNMCtrl = &pMbss->WNMCtrl;
 	PROXY_ARP_IPV6_ENTRY *ProxyARPEntry;
 	PROXY_ARP_IPV6_UNIT *ProxyARPUnit = (PROXY_ARP_IPV6_UNIT *)(*ProxyARPTable);
-	INT32 Ret;
+	int32_t Ret;
 
 	DBGPRINT(RT_DEBUG_OFF, ("%s\n", __FUNCTION__));
 
@@ -500,7 +500,7 @@ uint32_t AddIPv4ProxyARPEntry(IN struct rtmp_adapter *pAd,
 	int i = 0;
 	PWNM_CTRL pWNMCtrl = &pMbss->WNMCtrl;
 	PROXY_ARP_IPV4_ENTRY *ProxyARPEntry;
-	INT32 Ret;
+	int32_t Ret;
 
 	DBGPRINT(RT_DEBUG_OFF, ("%s\n", __FUNCTION__));
 
@@ -541,7 +541,7 @@ VOID RemoveIPv4ProxyARPEntry(IN struct rtmp_adapter *pAd,
 {
 	PWNM_CTRL pWNMCtrl = &pMbss->WNMCtrl;
 	PROXY_ARP_IPV4_ENTRY *ProxyARPEntry, *ProxyARPEntryTmp;
-	INT32 Ret;
+	int32_t Ret;
 
 	DBGPRINT(RT_DEBUG_OFF, ("%s\n", __FUNCTION__));
 
@@ -571,7 +571,7 @@ uint32_t AddIPv6ProxyARPEntry(IN struct rtmp_adapter *pAd,
 {
 	PWNM_CTRL pWNMCtrl = &pMbss->WNMCtrl;
 	PROXY_ARP_IPV6_ENTRY *ProxyARPEntry;
-	INT32 Ret;
+	int32_t Ret;
 	UINT8 i;
 	DBGPRINT(RT_DEBUG_OFF, ("%s\n", __FUNCTION__));
 
@@ -623,7 +623,7 @@ VOID RemoveIPv6ProxyARPEntry(IN struct rtmp_adapter *pAd,
 {
 	PWNM_CTRL pWNMCtrl = &pMbss->WNMCtrl;
 	PROXY_ARP_IPV6_ENTRY *ProxyARPEntry, *ProxyARPEntryTmp;
-	INT32 Ret;
+	int32_t Ret;
 
 	DBGPRINT(RT_DEBUG_OFF, ("%s\n", __FUNCTION__));
 
@@ -655,7 +655,7 @@ BOOLEAN IPv4ProxyARP(IN struct rtmp_adapter *pAd,
 	PUCHAR SourceMACAddr = pData + 10;
 	PUCHAR SourceIPAddr = pData + 16;
 	PUCHAR TargetIPAddr = pData + 26;
-	INT32 Ret;
+	int32_t Ret;
 	DBGPRINT(RT_DEBUG_TRACE, ("%s\n", __FUNCTION__));
 
 	RTMP_SEM_EVENT_WAIT(&pWNMCtrl->ProxyARPListLock, Ret);
@@ -696,7 +696,7 @@ BOOLEAN IPv6ProxyARP(IN struct rtmp_adapter *pAd,
 	PUCHAR SourceMACAddr = pData + 68;
 	PUCHAR SourceIPAddr = pData + 10;
 	PUCHAR TargetIPAddr = pData + 50;
-	INT32 Ret;
+	int32_t Ret;
 
 	DBGPRINT(RT_DEBUG_OFF, ("%s\n", __FUNCTION__));
 
@@ -785,7 +785,7 @@ VOID WNMIPv6ProxyARPCheck(
 				if (*Pos == 0x03)
 				{
 					UCHAR *Prefix;
-					INT32 Ret;
+					int32_t Ret;
 					PROXY_ARP_IPV6_ENTRY *ProxyARPEntry;
 					PWNM_CTRL pWNMCtrl = &pMbss->WNMCtrl;
 

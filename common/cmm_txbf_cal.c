@@ -183,9 +183,9 @@ static void icexp(short c[2], int phase)
 	icMult - fixed point complex multiply
 		r = a*b
 */
-static void icMult(INT32 r[2], INT32 a[2], INT32 b0, INT32 b1)
+static void icMult(int32_t r[2], int32_t a[2], int32_t b0, int32_t b1)
 {
-	INT32 t;
+	int32_t t;
 	t = a[0]*b0 - a[1]*b1;
 	r[1] = a[0]*b1 + a[1]*b0;
 	r[0] = t;
@@ -3015,9 +3015,9 @@ static UCHAR maxCarrTab[3] = {PROFILE_MAX_CARRIERS_20,
 		                      PROFILE_MAX_CARRIERS_40,
 		                 	  PROFILE_MAX_CARRIERS_80};
 
-INT32 ei0[PROFILE_MAX_CARRIERS_40][2];
-INT32 ei1[PROFILE_MAX_CARRIERS_40][2];
-INT32 ei2[PROFILE_MAX_CARRIERS_40][2];
+int32_t ei0[PROFILE_MAX_CARRIERS_40][2];
+int32_t ei1[PROFILE_MAX_CARRIERS_40][2];
+int32_t ei2[PROFILE_MAX_CARRIERS_40][2];
 
 /*
 	iCalcCalibration - calculate calibration parameters
@@ -3029,10 +3029,10 @@ int iCalcCalibration(struct rtmp_adapter *pAd, int calParams[2], int profileNum)
 {
 	int	  pi, maxCarriers, ii;
 	short rot[2], rot1[2];
-	INT32 c0[2], c1[2];
-	INT32 minSum=0;
+	int32_t c0[2], c1[2];
+	int32_t minSum=0;
 	int	  di1=0, di2=0;
-	INT32 ed[2], id[2];
+	int32_t ed[2], id[2];
 	PFMU_PROFILE *pExpProf, *pImpProf;
     PFMU_DATA    *pExpData, *pImpData;
 	SHORT        cos_psi21_e, sin_psi21_e, cos_phill_e, sin_phill_e;
@@ -3177,7 +3177,7 @@ int iCalcCalibration(struct rtmp_adapter *pAd, int calParams[2], int profileNum)
 	// Max value should be Phase[ii] = Phase[ei0] - Phase[ei1]
 	// By the check every phase index and find the min power (if sum -= isqrt(xx)), then you can find Phase[ii]
 	for (ii=0; ii<P_RESOLUTION; ii++) {
-		INT32 ei[2], sum = 0;
+		int32_t ei[2], sum = 0;
 
 		icexp(rot, ii*256/P_RESOLUTION);
 

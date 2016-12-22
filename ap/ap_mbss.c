@@ -71,7 +71,7 @@ VOID MBSS_Init(struct rtmp_adapter *pAd, RTMP_OS_NETDEV_OP_HOOK *pNetDevOps)
 {
 #define MBSS_MAX_DEV_NUM	32
 	struct net_device *pDevNew;
-	INT32 IdBss, MaxNumBss;
+	int32_t IdBss, MaxNumBss;
 	INT status;
 	RTMP_OS_NETDEV_OP_HOOK netDevHook;
 
@@ -204,10 +204,10 @@ Return Value:
 Note:
 ========================================================================
 */
-INT32 RT28xx_MBSS_IdxGet(struct rtmp_adapter *pAd, struct net_device *pDev)
+int32_t RT28xx_MBSS_IdxGet(struct rtmp_adapter *pAd, struct net_device *pDev)
 {
-	INT32 BssId = -1;
-	INT32 IdBss;
+	int32_t BssId = -1;
+	int32_t IdBss;
 
 
 	for(IdBss=0; IdBss<pAd->ApCfg.BssidNum; IdBss++)

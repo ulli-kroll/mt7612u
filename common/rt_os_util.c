@@ -207,9 +207,9 @@ VOID SendAssocIEsToWpaSupplicant(
 #endif /* WPA_SUPPLICANT_SUPPORT */
 #endif /*CONFIG_STA_SUPPORT*/
 
-INT32  RtPrivIoctlSetVal(VOID)
+int32_t  RtPrivIoctlSetVal(VOID)
 {
-    return (INT32)RTPRIV_IOCTL_SET;
+    return (int32_t)RTPRIV_IOCTL_SET;
 }
 
 

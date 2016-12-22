@@ -772,7 +772,7 @@ VOID CFG80211OS_Scaning(
 	IN uint32_t 				ChanId,
 	IN UCHAR					*pFrame,
 	IN uint32_t 				FrameLen,
-	IN INT32					RSSI,
+	IN int32_t 				RSSI,
 	IN BOOLEAN					FlgIsNMode,
 	IN UINT8					BW)
 {
@@ -978,7 +978,7 @@ void CFG80211OS_P2pClientConnectResultInform(
 	}
 }
 
-BOOLEAN CFG80211OS_RxMgmt(IN struct net_device *pNetDev, IN INT32 freq, IN PUCHAR frame, IN uint32_t len)
+BOOLEAN CFG80211OS_RxMgmt(IN struct net_device *pNetDev, IN int32_t freq, IN PUCHAR frame, IN uint32_t len)
 {
 	return cfg80211_rx_mgmt(pNetDev,
 				freq,
@@ -988,7 +988,7 @@ BOOLEAN CFG80211OS_RxMgmt(IN struct net_device *pNetDev, IN INT32 freq, IN PUCHA
 				GFP_ATOMIC);
 }
 
-VOID CFG80211OS_TxStatus(IN struct net_device *pNetDev, IN INT32 cookie, IN PUCHAR frame, IN uint32_t len, IN BOOLEAN ack)
+VOID CFG80211OS_TxStatus(IN struct net_device *pNetDev, IN int32_t cookie, IN PUCHAR frame, IN uint32_t len, IN BOOLEAN ack)
 {
 	struct wireless_dev *pWdev;
 	pWdev = pNetDev->ieee80211_ptr ;

@@ -984,7 +984,7 @@ struct net_device *RtmpPhyNetDevMainCreate(struct rtmp_adapter *pAd)
 #endif /* HOSTAPD_SUPPORT */
 
 	dev_name = get_dev_name_prefix(pAd, INT_MAIN);
-	pDevNew = RtmpOSNetDevCreate((INT32)MC_RowID, (uint32_t *)&IoctlIF,
+	pDevNew = RtmpOSNetDevCreate((int32_t)MC_RowID, (uint32_t *)&IoctlIF,
 					INT_MAIN, 0, sizeof(struct mt_dev_priv), dev_name);
 
 #ifdef HOSTAPD_SUPPORT

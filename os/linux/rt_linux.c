@@ -977,7 +977,7 @@ static inline int __RtmpOSTaskInit(
 BOOLEAN __RtmpOSTaskWait(
 	IN VOID *pReserved,
 	IN OS_TASK *pTask,
-	IN INT32 *pStatus)
+	IN int32_t *pStatus)
 {
 #ifdef KTHREAD_SUPPORT
 	RTMP_WAIT_EVENT_INTERRUPTIBLE((*pStatus), pTask);
@@ -1296,7 +1296,7 @@ int RtmpOSNetDevAddrSet(
   *	Assign the network dev name for created Ralink WiFi interface.
   */
 static int RtmpOSNetDevRequestName(
-	IN INT32 MC_RowID,
+	IN int32_t MC_RowID,
 	IN uint32_t *pIoctlIF,
 	IN struct net_device *dev,
 	IN PSTRING pPrefixStr,
@@ -1542,7 +1542,7 @@ int RtmpOSNetDevAttach(
 
 
 struct net_device *RtmpOSNetDevCreate(
-	IN INT32 MC_RowID,
+	IN int32_t MC_RowID,
 	IN uint32_t *pIoctlIF,
 	IN INT devType,
 	IN INT devNum,
@@ -1885,7 +1885,7 @@ Note:
 	rt_linux.h, not rt_drv.h
 ========================================================================
 */
-INT32 RtmpOsFileIsErr(IN VOID *pFile)
+int32_t RtmpOsFileIsErr(IN VOID *pFile)
 {
 	return IS_FILE_OPEN_ERR(pFile);
 }
@@ -2300,7 +2300,7 @@ int RtmpOSTaskInit(
 }
 
 
-BOOLEAN RtmpOSTaskWait(VOID *pReserved, RTMP_OS_TASK * pTask, INT32 *pStatus)
+BOOLEAN RtmpOSTaskWait(VOID *pReserved, RTMP_OS_TASK * pTask, int32_t *pStatus)
 {
 	return __RtmpOSTaskWait(pReserved, pTask, pStatus);
 }

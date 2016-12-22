@@ -889,7 +889,7 @@ NTSTATUS CheckGPIOHdlr(struct rtmp_adapter *pAd, PCmdQElmt CMDQelmt)
 
 static NTSTATUS ResetBulkOutHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 {
-	INT32 MACValue = 0;
+	int32_t MACValue = 0;
 	UCHAR Index = 0;
 	int ret=0;
 	PHT_TX_CONTEXT	pHTTXContext;

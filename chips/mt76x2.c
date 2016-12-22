@@ -3006,7 +3006,7 @@ void percentage_delta_pwr(struct rtmp_adapter *ad)
 void mt76x2_get_current_temp(struct rtmp_adapter *ad)
 {
 	RTMP_CHIP_CAP *pChipCap = &ad->chipCap;
-	INT32 temp_val = 0;
+	int32_t temp_val = 0;
 
 	read_reg(ad, 0x40, 0xD000, &temp_val);
 	temp_val &= 0x7F;
@@ -3119,7 +3119,7 @@ void mt76x2_read_tx_alc_info_from_eeprom(struct rtmp_adapter *ad)
 void mt76x2_temp_tx_alc(struct rtmp_adapter *ad)
 {
 	RTMP_CHIP_CAP *pChipCap = &ad->chipCap;
-	INT32 temp_diff = 0, dB_diff = 0, tx0_temp_comp = 0, tx1_temp_comp = 0;
+	int32_t temp_diff = 0, dB_diff = 0, tx0_temp_comp = 0, tx1_temp_comp = 0;
 	UCHAR tc_init_val = 0;
 
 #ifdef SINGLE_SKU_V2
@@ -3826,10 +3826,10 @@ void mt76x2_update_per_rate_pwr(struct rtmp_adapter *ad)
 UCHAR mt76x2_update_sku_pwr(struct rtmp_adapter *ad, u8 channel)
 {
 	CH_POWER *ch, *ch_temp;
-	INT32 i = 0, j = 0, pwr_delta = 0;
+	int32_t i = 0, j = 0, pwr_delta = 0;
 	uint32_t reg_val = 0;
 	CHAR ch_delta_pwr = 0;
-	INT32 rate_pwr = 0;
+	int32_t rate_pwr = 0;
 	BOOLEAN bFound = FALSE;
 	UCHAR start_ch = 0;
 	const CHAR DefaultTargetPwr = ad->DefaultTargetPwr;

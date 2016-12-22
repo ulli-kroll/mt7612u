@@ -192,7 +192,7 @@ void RtmpOSFileSeek(RTMP_OS_FD osfd, int offset);
 int RtmpOSFileRead(RTMP_OS_FD osfd, char *pDataPtr, int readLen);
 int RtmpOSFileWrite(RTMP_OS_FD osfd, char *pDataPtr, int writeLen);
 
-INT32 RtmpOsFileIsErr(VOID *pFile);
+int32_t RtmpOsFileIsErr(VOID *pFile);
 
 void RtmpOSFSInfoChange(RTMP_OS_FS_INFO *pOSFSInfoOrg, BOOLEAN bSet);
 
@@ -229,7 +229,7 @@ void RtmpOSNetDevProtect(
 	IN BOOLEAN lock_it);
 
 struct net_device *RtmpOSNetDevCreate(
-	IN	INT32					MC_RowID,
+	IN	int32_t 				MC_RowID,
 	IN	uint32_t 				*pIoctlIF,
 	IN	INT 					devType,
 	IN	INT						devNum,
@@ -292,7 +292,7 @@ BOOLEAN RtmpOsTaskletKill(RTMP_NET_TASK_STRUCT *pTasklet);
 VOID RtmpOsTaskletDataAssign(RTMP_NET_TASK_STRUCT *pTasklet, ULONG Data);
 
 VOID RtmpOsTaskWakeUp(RTMP_OS_TASK *pTaskOrg);
-INT32 RtmpOsTaskIsKilled(RTMP_OS_TASK *pTaskOrg);
+int32_t RtmpOsTaskIsKilled(RTMP_OS_TASK *pTaskOrg);
 
 BOOLEAN RtmpOsCheckTaskLegality(RTMP_OS_TASK *pTaskOrg);
 
@@ -321,11 +321,11 @@ int RtmpOSTaskInit(
 BOOLEAN RtmpOSTaskWait(
 	IN	VOID *pReserved,
 	IN	RTMP_OS_TASK *pTaskOrg,
-	IN	INT32 *pStatus);
+	IN	int32_t *pStatus);
 
 VOID *RtmpOsTaskDataGet(RTMP_OS_TASK *pTaskOrg);
 
-INT32 RtmpThreadPidKill(RTMP_OS_PID	 PID);
+int32_t RtmpThreadPidKill(RTMP_OS_PID	 PID);
 
 /* OS Cache */
 VOID RtmpOsDCacheFlush(ULONG AddrStart, ULONG Size);
@@ -390,7 +390,7 @@ VOID RtmpOsPciMsiDisable(VOID *pDev);
 ULONG RtmpOsMaxScanDataGet(VOID);
 
 /* OS Interrutp */
-INT32 RtmpOsIsInInterrupt(VOID);
+int32_t RtmpOsIsInInterrupt(VOID);
 
 /* OS USB */
 VOID *RtmpOsUsbUrbDataGet(VOID *pUrb);
@@ -777,7 +777,7 @@ VOID CFG80211OS_Scaning(
 	IN uint32_t 				ChanId,
 	IN UCHAR					*pFrame,
 	IN uint32_t 				FrameLen,
-	IN INT32					RSSI,
+	IN int32_t 				RSSI,
 	IN BOOLEAN					FlgIsNMode,
 	IN UINT8					BW);
 
@@ -803,8 +803,8 @@ void CFG80211OS_P2pClientConnectResultInform(
 	IN uint32_t 				RspIeLen,
 	IN UCHAR					FlgIsSuccess);
 
-BOOLEAN CFG80211OS_RxMgmt(IN struct net_device *pNetDev, IN INT32 freq, IN PUCHAR frame, IN uint32_t len);
-VOID CFG80211OS_TxStatus(IN struct net_device *pNetDev, IN INT32 cookie, 	IN PUCHAR frame, IN uint32_t len, IN BOOLEAN ack);
+BOOLEAN CFG80211OS_RxMgmt(IN struct net_device *pNetDev, IN int32_t freq, IN PUCHAR frame, IN uint32_t len);
+VOID CFG80211OS_TxStatus(IN struct net_device *pNetDev, IN int32_t cookie, 	IN PUCHAR frame, IN uint32_t len, IN BOOLEAN ack);
 VOID CFG80211OS_NewSta(IN struct net_device *pNetDev, IN const PUCHAR mac_addr, IN const PUCHAR assoc_frame, IN uint32_t assoc_len);
 VOID CFG80211OS_DelSta(IN struct net_device *pNetDev, IN const PUCHAR mac_addr);
 VOID CFG80211OS_MICFailReport(IN struct net_device *pNetDev, IN const PUCHAR src_addr, IN BOOLEAN unicast, IN INT key_id, IN const PUCHAR tsc );
@@ -841,7 +841,7 @@ extern UINT8 newRateGetAntenna(UINT8 MCS);
 #include "vrut_ubm.h"
 #endif /* PLATFORM_UBM_IPX8 */
 
-INT32  RtPrivIoctlSetVal(VOID);
+int32_t  RtPrivIoctlSetVal(VOID);
 
 void OS_SPIN_LOCK(NDIS_SPIN_LOCK *lock);
 void OS_SPIN_UNLOCK(NDIS_SPIN_LOCK *lock);

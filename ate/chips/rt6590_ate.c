@@ -420,7 +420,7 @@ typedef struct  _TSSI_COMPENSATION_TABLE
 
 TSSI_COMPENSATION_TABLE AteTssiTable;
 
-static INT32 TSSI_DELTA_PRE;
+static int32_t TSSI_DELTA_PRE;
 static SHORT TSSI_Linear0;
 static SHORT TSSI_Linear1;
 static CHAR Current_TSSI_DC;
@@ -957,15 +957,15 @@ static VOID MT76x0ATE_GetTargetPower(
 
 static VOID MT76x0ATE_EstimateDeltaPower(
 	IN struct rtmp_adapter *pAd,
-	OUT INT32 *tssi_delta0)
+	OUT int32_t *tssi_delta0)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
-	INT32 tssi_slope0=0;
-	INT32 tssi_offset0=0;
-	INT32 tssi_target=0, tssi_delta_tmp;
-	INT32 tssi_meas=0;
-	INT32 tssi_dc;
-	INT32 pkt_type_delta=0, bbp_6db_power=0;
+	int32_t tssi_slope0=0;
+	int32_t tssi_offset0=0;
+	int32_t tssi_target=0, tssi_delta_tmp;
+	int32_t tssi_meas=0;
+	int32_t tssi_dc;
+	int32_t pkt_type_delta=0, bbp_6db_power=0;
 	uint32_t BBP_Value;
 	USHORT EE_Value;
 	CHAR idx = 0;
@@ -1188,7 +1188,7 @@ static VOID MT76x0ATE_EstimateDeltaPower(
 static VOID MT76x0ATE_IntTxAlcProcess(
 	IN struct rtmp_adapter *pAd)
 {
-	INT32 tssi_delta0;
+	int32_t tssi_delta0;
 	uint32_t MAC_Value;
 	CHAR tssi_write;
 
@@ -1336,7 +1336,7 @@ VOID MT76x0ATE_Enable9BitIchannelADC(
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 	uint32_t BBP_Value;
-	INT32 wait = 0;
+	int32_t wait = 0;
 
 	if (pATEInfo->Channel > 14)
 	{
@@ -1438,7 +1438,7 @@ static VOID MT76x0ATETssiCompensation(
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 	uint32_t parameter = 0;
-	INT32 BandWidthSel = pATEInfo->TxWI.TXWI_N.BW;
+	int32_t BandWidthSel = pATEInfo->TxWI.TXWI_N.BW;
 
 	MT76x0ATE_Enable9BitIchannelADC(pAd, FALSE);
 	MT76x0ATE_IntTxAlcProcess(pAd);

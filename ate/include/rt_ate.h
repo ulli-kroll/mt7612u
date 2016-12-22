@@ -86,11 +86,11 @@ typedef struct _ATE_CHIP_STRUCT {
 	BOOLEAN bBBPLoadATESTOP;
 
 	/* TSSI related */
-	INT32 tssi_slope[2];
-	INT32 tssi_offset[3][2];
-	INT32 pwr_diff_pre[2];
-	INT32 ant_pwr_offset[2];
-	INT32 curr_temperature;
+	int32_t tssi_slope[2];
+	int32_t tssi_offset[3][2];
+	int32_t pwr_diff_pre[2];
+	int32_t ant_pwr_offset[2];
+	int32_t curr_temperature;
 }ATE_CHIP_STRUCT, *PATE_CHIP_STRUCT;
 
 typedef union _CAPTURE_MODE_SHARE_MEMORY {

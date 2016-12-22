@@ -614,7 +614,7 @@ typedef struct _RTMP_RX_RING {
 	RTMP_DMACB Cell[RX_RING_SIZE];
 	uint32_t RxCpuIdx;
 	uint32_t RxDmaIdx;
-	INT32 RxSwReadIdx;	/* software next read index */
+	int32_t RxSwReadIdx;	/* software next read index */
 	uint32_t hw_desc_base;
 	uint32_t hw_cidx_addr;
 	uint32_t hw_didx_addr;
@@ -1421,7 +1421,7 @@ struct rtmp_wifi_dev{
 	UCHAR LastSNR1;
 #ifdef DOT11N_SS3_SUPPORT
 	UCHAR LastSNR2;
-	INT32 BF_SNR[3];	/* Last RXWI BF SNR. Units=0.25 dB */
+	int32_t BF_SNR[3];	/* Last RXWI BF SNR. Units=0.25 dB */
 #endif /* DOT11N_SS3_SUPPORT */
 	RSSI_SAMPLE RssiSample;
 	ULONG NumOfAvgRssiSample;
@@ -2159,7 +2159,7 @@ typedef struct _STA_ADMIN_CONFIG {
 	UCHAR LastSNR1;		/* last received BEACON's SNR for 2nd  antenna */
 #ifdef DOT11N_SS3_SUPPORT
 	UCHAR LastSNR2;		/* last received BEACON's SNR for 3nd  antenna */
-	INT32 BF_SNR[3];	/* Last RXWI BF SNR. Units=0.25 dB */
+	int32_t BF_SNR[3];	/* Last RXWI BF SNR. Units=0.25 dB */
 #endif /* DOT11N_SS3_SUPPORT */
 	RSSI_SAMPLE RssiSample;
 	ULONG NumOfAvgRssiSample;
@@ -2650,7 +2650,7 @@ typedef struct _MAC_TABLE_ENTRY {
 	uint32_t StatTxRetryOkCount;
 	uint32_t StatTxFailCount;
 
-	INT32  DownTxMCSRate[NUM_OF_SWFB];
+	int32_t  DownTxMCSRate[NUM_OF_SWFB];
 	uint32_t LowPacket;
 	UCHAR  LastSaveRateIdx;
 
@@ -3894,8 +3894,8 @@ struct rtmp_adapter {
 
 #ifdef THERMAL_PROTECT_SUPPORT
 	BOOLEAN force_one_tx_stream;
-	INT32 last_thermal_pro_temp;
-	INT32 thermal_pro_criteria;
+	int32_t last_thermal_pro_temp;
+	int32_t thermal_pro_criteria;
 #endif /* THERMAL_PROTECT_SUPPORT */
 
 
@@ -4157,7 +4157,7 @@ struct rtmp_adapter {
 	ULONG BulkInCompleteFail;
 	/*--- */
 
-	INT32 rts_tx_retry_num;
+	int32_t rts_tx_retry_num;
 	struct wificonf WIFItestbed;
 
 	UCHAR TssiGain;

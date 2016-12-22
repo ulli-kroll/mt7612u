@@ -3186,7 +3186,7 @@ VOID RT28xxAndesWOWEnable(
 	NEW_WOW_PARAM_STRUCT wow_param;
 	struct CMD_UNIT CmdUnit;
 	RTMP_CHIP_CAP *pChipCap = &pAd->chipCap;
-	INT32 Ret;
+	int32_t Ret;
 	MAC_TABLE_ENTRY *pEntry = NULL;
 
 
@@ -3318,7 +3318,7 @@ VOID RT28xxAndesWOWEnable(
 	}
 	else
 	{
-		INT32 Value;
+		int32_t Value;
 
 		wow_param.Value = WOW_WAKEUP_BY_GPIO;
 
@@ -3373,7 +3373,7 @@ VOID RT28xxAndesWOWDisable(
     NEW_WOW_PARAM_STRUCT param;
     struct CMD_UNIT CmdUnit;
     RTMP_CHIP_CAP *pChipCap = &pAd->chipCap;
-    INT32 Ret;
+    int32_t Ret;
     uint32_t Value;
     MAC_TABLE_ENTRY *pEntry = NULL;
 
@@ -3445,7 +3445,7 @@ VOID RT28xxAndesWOWDisable(
 
 	if (pAd->WOW_Cfg.bInBand == FALSE)
 	{
-		INT32 Value;
+		int32_t Value;
 
 		RTMP_IO_READ32(pAd, WLAN_FUN_CTRL, &Value);
 		printk("\x1b[31m%s: 0x80 = %x\x1b[m\n", __FUNCTION__, Value);
@@ -3461,7 +3461,7 @@ VOID thermal_protection(
 	IN struct rtmp_adapter 	*pAd)
 {
 	RTMP_CHIP_OP *pChipOps = &pAd->chipOps;
-	INT32 temp_diff = 0, current_temp = 0;
+	int32_t temp_diff = 0, current_temp = 0;
 
 	if (pAd->chipCap.ThermalProtectSup == FALSE)
 		return;

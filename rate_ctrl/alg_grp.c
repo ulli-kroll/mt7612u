@@ -548,7 +548,7 @@ BOOLEAN QuickInitMCSRate(
     if(pEntry->LowPacket == TRUE)
     {
         CHAR DownIdx, DownIdx1, MaxIdx = 0;
-        INT32 Sum, PER;
+        int32_t Sum, PER;
         pTable = pEntry->pTable;
         CurrRateIdx = pEntry->CurrTxRateIndex;
 

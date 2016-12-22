@@ -78,12 +78,12 @@ REG_PAIR RT6352_RFR3R4_TABLE[] =
 
 UCHAR RT6352_VGA_TABLE_PARMS = (sizeof(RT6352_VGA_TABLE) / sizeof(REG_PAIR));
 
-INT32 CalcRCalibrationCode(
+int32_t CalcRCalibrationCode(
 	IN struct rtmp_adapter *pAd,
-	IN INT32 D1,
-	IN INT32 D2)
+	IN int32_t D1,
+	IN int32_t D2)
 {
-	INT32 CalCode;
+	int32_t CalCode;
 
 	CalCode = ((D2 - D1) * 1000) / 43;
 	if((CalCode%10) >= 5)
@@ -109,7 +109,7 @@ VOID R_Calibration(
 	UCHAR  saveRfB5R19, saveRfB5R20;
 	UCHAR  saveBBPR22, saveBBPR47, saveBBPR49;
 	UCHAR byteValue = 0;
-	INT32 RCalCode;
+	int32_t RCalCode;
 	UCHAR R_Cal_Code = 0;
 	CHAR D1 = 0, D2 = 0;
 	UCHAR RFValue;
@@ -569,12 +569,12 @@ UCHAR DPD_Calibration(
 	UCHAR VGA_Upper_Bound, VGA_Lower_Bound, AM_63 = 0, VGA_code = 0;
 	UCHAR saveBbpR159;//, BBPValue;
 	CHAR VGA_code_idx = 0, target_power, delta_power;
-	INT32 txALC_init = 0, txALC_limit = 0;
-	INT32 temp_comp, tx_alc_txwi = 0;
-	INT32 txvga2, txvga3, mac_gain_atten;
-	INT32 gain_atten_bb = 0, gain_atten_rf = 0, txALC_req = 0;
-	INT32 txALC_req_at, txALC_req_skip2, txALC_req_skip3;
-	INT32 txALC_req_sat = 0;
+	int32_t txALC_init = 0, txALC_limit = 0;
+	int32_t temp_comp, tx_alc_txwi = 0;
+	int32_t txvga2, txvga3, mac_gain_atten;
+	int32_t gain_atten_bb = 0, gain_atten_rf = 0, txALC_req = 0;
+	int32_t txALC_req_at, txALC_req_skip2, txALC_req_skip3;
+	int32_t txALC_req_sat = 0;
 	uint32_t macValue_Tx_Cfg0 = 0,macValue_2nd, check_loop = 0;
 	BOOLEAN bInternalTxALC = FALSE;
 
@@ -2516,10 +2516,10 @@ VOID RXIQ_Calibration(
 	UINT8 ch_idx;
 	UINT8 bbpval;
 	UINT8 rfval, vga_idx=0;
-	INT32 mi = 0, mq = 0, si = 0, sq = 0, riq = 0;
-	INT32 Sigma_i, Sigma_q, R_iq, G_rx;
-	INT32 G_imb;
-	INT32 Ph_rx;
+	int32_t mi = 0, mq = 0, si = 0, sq = 0, riq = 0;
+	int32_t Sigma_i, Sigma_q, R_iq, G_rx;
+	int32_t G_imb;
+	int32_t Ph_rx;
 	uint32_t saveMacSysCtrl = 0;
 	uint32_t orig_RF_CONTROL0 = 0; // 0x0518
 	uint32_t orig_RF_BYPASS0  = 0; // 0x051c
@@ -2758,7 +2758,7 @@ VOID RXIQ_Calibration(
     			{
 			        uint32_t BBPtemp = 0;
 			        UINT8 value = 0;
-			        INT32 result = 0;
+			        int32_t result = 0;
 
 				RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R158, 0x1E);
 				RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R159, i);

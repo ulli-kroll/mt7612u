@@ -1418,7 +1418,7 @@ VOID NICUpdateFifoStaCounters(struct rtmp_adapter *pAd)
 	MAC_TABLE_ENTRY		*pEntry = NULL;
 	uint32_t 			i = 0;
 	UCHAR				pid = 0, wcid = 0;
-	INT32				reTry;
+	int32_t 			reTry;
 	UCHAR				succMCS, PhyMode;
 
 #ifdef RALINK_ATE

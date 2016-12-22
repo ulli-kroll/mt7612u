@@ -287,7 +287,7 @@ VOID CFG80211_Scaning(
 	IN uint32_t 					ChanId,
 	IN UCHAR						*pFrame,
 	IN uint32_t 					FrameLen,
-	IN INT32						RSSI)
+	IN int32_t 					RSSI)
 {
 #ifdef CONFIG_STA_SUPPORT
 	VOID *pCfg80211_CB = pAd->pCfg80211_CB;

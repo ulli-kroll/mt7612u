@@ -171,7 +171,7 @@ static const uint32_t CipherSuites[] = {
 /*
 	The driver's regulatory notification callback.
 */
-static INT32 CFG80211_RegNotifier(
+static int32_t CFG80211_RegNotifier(
 	IN struct wiphy					*pWiphy,
 	IN struct regulatory_request	*pRequest);
 
@@ -716,7 +716,7 @@ static int CFG80211_OpsPwrMgmt(
 	IN struct wiphy						*pWiphy,
 	IN struct net_device				*pNdev,
 	IN bool                              enabled,
-	IN INT32                             timeout)
+	IN int32_t                             timeout)
 {
 	VOID *pAd;
 	CFG80211DBG(RT_DEBUG_TRACE, ("80211> %s ==> power save %s\n", __FUNCTION__,(enabled ? "enable" : "disable")));
@@ -1281,11 +1281,11 @@ static int CFG80211_OpsConnect(
 	VOID *pAd;
 	CMD_RTPRIV_IOCTL_80211_CONNECT ConnInfo;
 	struct ieee80211_channel *pChannel = pSme->channel;
-	INT32 Pairwise = 0;
-	INT32 Groupwise = 0;
-	INT32 Keymgmt = 0;
-	INT32 WpaVersion = 0;
-	INT32 Chan = -1, Idx;
+	int32_t Pairwise = 0;
+	int32_t Groupwise = 0;
+	int32_t Keymgmt = 0;
+	int32_t WpaVersion = 0;
+	int32_t Chan = -1, Idx;
 
 	CFG80211DBG(RT_DEBUG_TRACE, ("80211> %s ==>\n", __FUNCTION__));
 
@@ -2484,7 +2484,7 @@ Return Value:
 Note:
 ========================================================================
 */
-static INT32 CFG80211_RegNotifier(
+static int32_t CFG80211_RegNotifier(
 	IN struct wiphy					*pWiphy,
 	IN struct regulatory_request	*pRequest)
 {

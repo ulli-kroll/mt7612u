@@ -146,7 +146,7 @@ INT CFG80211DRV_OpsScanGetNextChannel(struct rtmp_adapter *pAdOrg);
 VOID CFG80211_ScanStatusLockInit(struct rtmp_adapter *pAdCB, UINT init);
 
 VOID CFG80211_Scaning(
-	struct rtmp_adapter *pAdCB, uint32_t BssIdx, uint32_t ChanId, UCHAR *pFrame, uint32_t FrameLen, INT32 RSSI);
+	struct rtmp_adapter *pAdCB, uint32_t BssIdx, uint32_t ChanId, UCHAR *pFrame, uint32_t FrameLen, int32_t RSSI);
 
 VOID CFG80211_ScanEnd(struct rtmp_adapter *pAdCB, BOOLEAN FlgIsAborted);
 

@@ -30,10 +30,10 @@
 #define DPD_CAL_PASS_THRES		5
 #define DPD_CAL_MAX_RETRY		5
 
-INT32 CalcRCalibrationCode(
+int32_t CalcRCalibrationCode(
 	IN Pstruct rtmp_adapter pAd,
-	IN INT32 D1,
-	IN INT32 D2);
+	IN int32_t D1,
+	IN int32_t D2);
 
 INT Set_TestRxIQCalibration_Proc(
 	IN struct rtmp_adapter *pAd,

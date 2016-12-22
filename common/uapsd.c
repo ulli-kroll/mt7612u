@@ -297,7 +297,7 @@ VOID UAPSD_AllPacketDeliver(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 	PQUEUE_ENTRY pQueEntry;
 	UCHAR QueIdList[WMM_NUM_OF_AC] = { QID_AC_BE, QID_AC_BK,
 	                 QID_AC_VI, QID_AC_VO };
-	INT32 IdAc, QueId; /* must be signed, can not be unsigned */
+	int32_t IdAc, QueId; /* must be signed, can not be unsigned */
 
 
 	RTMP_SEM_LOCK(&pAd->UAPSDEOSPLock);
@@ -1111,7 +1111,7 @@ BOOLEAN UAPSD_PsPollHandle(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 	UCHAR	QueIdList[WMM_NUM_OF_AC] = { QID_AC_BE, QID_AC_BK,
                                             QID_AC_VI, QID_AC_VO };
 	BOOLEAN	FlgQueEmpty;
-	INT32	IdAc; /* must be signed, can not use unsigned */
+	int32_t IdAc; /* must be signed, can not use unsigned */
 	uint32_t Aid, QueId;
 
 
@@ -1317,7 +1317,7 @@ VOID UAPSD_TriggerFrameHandle(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry,
 	BOOLEAN	FlgNullSnd;
 	BOOLEAN	FlgMgmtFrame;
 	uint32_t Aid, QueId;
-	INT32	IdAc; /* must be signed, can not use unsigned */
+	int32_t IdAc; /* must be signed, can not use unsigned */
 /*	ULONG    FlgIrq; */
 
 #ifdef UAPSD_SP_ACCURATE

@@ -1528,7 +1528,7 @@ INT	mt76x2_set_ate_tx_bw_proc(
 void mt76x2_ate_temp_tx_alc(struct rtmp_adapter *ad)
 {
 	RTMP_CHIP_CAP *pChipCap = &ad->chipCap;
-	INT32 temp_diff = 0, dB_diff = 0, tx0_temp_comp = 0, tx1_temp_comp = 0;
+	int32_t temp_diff = 0, dB_diff = 0, tx0_temp_comp = 0, tx1_temp_comp = 0;
 
 	if (pChipCap->temp_tx_alc_enable) {
 		mt76x2_get_current_temp(ad);
@@ -1585,7 +1585,7 @@ VOID mt76x2_adjust_tssi_offset(
 	CHAR OrgTSSIOffset0, OrgTSSIOffset1;
 	CHAR TSSIOffsetDelta0, TSSIOffsetDelta1;
 	CHAR NewTSSIOffset0, NewTSSIOffset1;
-	INT32 CurrentTemperature;
+	int32_t CurrentTemperature;
 
 	OrgTSSIOffset0 = (*slope_offset >> 16) & 0xFF;
 	OrgTSSIOffset1 = (*slope_offset >> 24) & 0xFF;

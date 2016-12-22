@@ -812,7 +812,7 @@ static BOOLEAN IsAdvertisementProIDValid(
 	IN struct rtmp_adapter *pAd,
 	IN enum DOT11U_ADVERTISMENT_PROTOCOL_ID AdvertisementProtoID)
 {
-	INT32 i;
+	int32_t i;
 
 	for (i = 0; i < sizeof(dot11GASAdvertisementID)
 					/ sizeof(enum DOT11U_ADVERTISMENT_PROTOCOL_ID); i++)

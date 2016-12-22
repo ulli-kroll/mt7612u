@@ -152,7 +152,7 @@ void dynamic_ed_cca_threshold_adjust(struct rtmp_adapter * pAd)
 
 void update_rssi_for_channel_model(struct rtmp_adapter * pAd)
 {
-	INT32 rx0_rssi, rx1_rssi;
+	int32_t rx0_rssi, rx1_rssi;
 	uint32_t bbp_valuse = 0;
 
 #ifdef CONFIG_STA_SUPPORT
