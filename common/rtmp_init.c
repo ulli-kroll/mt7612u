@@ -477,10 +477,13 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 
 
 	// TODO: shiang, why we only check oxff00??
-	if (((Antenna.word & 0xFF00) == 0xFF00) || IS_MT76x2(pAd))
+	if (((Antenna.word & 0xFF00) == 0xFF00) || IS_MT76x2(pAd)) {
 /*	if (Antenna.word == 0xFFFF)*/
-		RTMP_CHIP_ANTENNA_INFO_DEFAULT_RESET(pAd, &Antenna);
-
+		Antenna.word = 0;
+		Antenna.field.RfIcType = RFIC_7662;
+		Antenna.field.TxPath = 2;
+		Antenna.field.RxPath = 2;
+	}
 	/* Choose the desired Tx&Rx stream.*/
 	if ((pAd->CommonCfg.TxStream == 0) || (pAd->CommonCfg.TxStream > Antenna.field.TxPath))
 		pAd->CommonCfg.TxStream = Antenna.field.TxPath;

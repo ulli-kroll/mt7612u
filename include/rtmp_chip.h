@@ -1051,7 +1051,6 @@ struct _RTMP_CHIP_OP_ {
 	VOID (*AsicAdjustTxPower)(struct rtmp_adapter *pAd);
 
 	/* Antenna */
-	VOID (*AsicAntennaDefaultReset)(struct rtmp_adapter *pAd, union _EEPROM_ANTENNA_STRUC *pAntenna);
 	VOID (*SetRxAnt)(struct rtmp_adapter *pAd, UCHAR Ant);
 
 	/* EEPROM */
@@ -1242,12 +1241,6 @@ do {	\
 do {	\
 		if (__pAd->chipOps.HighPowerTuning != NULL)	\
 			__pAd->chipOps.HighPowerTuning(__pAd, __pRssi);	\
-} while (0)
-
-#define RTMP_CHIP_ANTENNA_INFO_DEFAULT_RESET(__pAd, __pAntenna)	\
-do {	\
-		if (__pAd->chipOps.AsicAntennaDefaultReset != NULL)	\
-			__pAd->chipOps.AsicAntennaDefaultReset(__pAd, __pAntenna);	\
 } while (0)
 
 #define RTMP_NET_DEV_NICKNAME_INIT(__pAd)	\

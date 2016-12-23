@@ -2943,15 +2943,6 @@ static void mt76x2_show_pwr_info(struct rtmp_adapter *ad)
 	DBGPRINT(RT_DEBUG_OFF, ("TX1 power compensation = 0x%x\n", value & 0x3f));
 }
 
-static void mt76x2_antenna_default_reset(struct rtmp_adapter	*pAd,
-										 EEPROM_ANTENNA_STRUC *pAntenna)
-{
-	pAntenna->word = 0;
-	pAntenna->field.RfIcType = RFIC_7662;
-	pAntenna->field.TxPath = 2;
-	pAntenna->field.RxPath = 2;
-}
-
 void percentage_delta_pwr(struct rtmp_adapter *ad)
 {
 	CHAR mac_drop_pwr = 0, tx_alc_ch_init_0 = 0, tx_alc_ch_init_1 = 0;
@@ -4295,7 +4286,6 @@ static const RTMP_CHIP_OP MT76x2_ChipOp = {
 	.ChipSwitchChannel = mt76x2_switch_channel,
 	.AsicMacInit = mt76x2_init_mac_cr,
 	.AsicRfInit = mt76x2_init_rf_cr,
-	.AsicAntennaDefaultReset = mt76x2_antenna_default_reset,
 
 	// ITxBf phase calibration
 #ifdef TXBF_SUPPORT
