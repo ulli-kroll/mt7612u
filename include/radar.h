@@ -82,20 +82,20 @@ VOID RadarDetectPeriodic(
 
 INT	Set_CSPeriod_Proc(
 	IN	struct rtmp_adapter *pAdapter,
-	IN	PSTRING			arg);
+	IN	char *		arg);
 
 INT Set_ChMovingTime_Proc(
 	IN struct rtmp_adapter *pAd,
-	IN PSTRING arg);
+	IN char *arg);
 
 INT Set_BlockChReset_Proc(
 	IN struct rtmp_adapter *pAd,
-	IN PSTRING arg);
+	IN char *arg);
 
 #if defined(DFS_SUPPORT) || defined(CARRIER_DETECTION_SUPPORT)
 INT	Set_RadarShow_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg);
+	IN	char *		arg);
 
 VOID CckMrcStatusCtrl(
 	IN struct rtmp_adapter *pAd);

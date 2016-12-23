@@ -1185,7 +1185,7 @@ BOOLEAN CFG80211DRV_P2pClientConnect(struct rtmp_adapter *pAd, VOID *pData)
 	OPSTATUS_SET_FLAG(pAd, fOP_AP_STATUS_MEDIA_STATE_CONNECTED);
 
 	pAd->cfg80211_ctrl.FlgCfg80211Connecting = TRUE;
-	Set_ApCli_Ssid_Proc(pAd, (PSTRING)Connect_SSID);
+	Set_ApCli_Ssid_Proc(pAd, (char *)Connect_SSID);
 	Set_ApCli_Enable_Proc(pAd, "1");
 	CFG80211DBG(RT_DEBUG_OFF, ("80211> APCLI CONNECTING SSID = %s\n", Connect_SSID));
 

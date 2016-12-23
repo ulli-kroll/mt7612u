@@ -32,27 +32,27 @@ INT 	NfcBuildOOBDevPasswdTLV(
 
 INT		Set_NfcStatus_Proc(
 	IN  struct rtmp_adapter 	*pAd,
-	IN  PSTRING			arg);
+	IN  char *		arg);
 
 INT 	Set_NfcPasswdToken_Proc(
 	IN  struct rtmp_adapter 	*pAd,
-	IN  PSTRING			arg);
+	IN  char *		arg);
 
 INT 	Set_NfcConfigurationToken_Proc(
 	IN  struct rtmp_adapter 	*pAd,
-	IN  PSTRING			arg);
+	IN  char *		arg);
 
 INT 	Get_NfcStatus_Proc(
 	IN	Pstruct rtmp_adapter pAd,
-	IN	PSTRING			arg);
+	IN	char *		arg);
 
 INT		Set_DoWpsByNFC_Proc(
 	IN  Pstruct rtmp_adapter 	pAd,
-	IN  PSTRING 			arg);
+	IN  char *			arg);
 
 INT Set_NfcRegenPK_Proc(
 	IN Pstruct rtmp_adapter 	pAd,
-	IN PSTRING 			arg);
+	IN char *			arg);
 
 
 #endif /* __WSC_NFC_H__ */

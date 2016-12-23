@@ -3154,7 +3154,7 @@ VOID RTMPSetSupportMCS(
 }
 
 
-INT	Set_RateAlg_Proc(struct rtmp_adapter *pAd, PSTRING arg)
+INT	Set_RateAlg_Proc(struct rtmp_adapter *pAd, char *arg)
 {
 	uint32_t ra_alg;
 

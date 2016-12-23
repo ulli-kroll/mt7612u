@@ -263,7 +263,7 @@ VOID ChannelSwitchingCountDownProc(
 */
 INT	Set_CSPeriod_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	pAd->Dot11_H.CSPeriod = (USHORT) simple_strtol(arg, 0, 10);
 
@@ -291,7 +291,7 @@ INT	Set_CSPeriod_Proc(
 */
 INT Set_ChMovingTime_Proc(
 	IN struct rtmp_adapter *pAd,
-	IN PSTRING arg)
+	IN char *arg)
 {
 	USHORT Value;
 
@@ -324,7 +324,7 @@ INT Set_ChMovingTime_Proc(
 */
 INT Set_BlockChReset_Proc(
 	IN struct rtmp_adapter *pAd,
-	IN PSTRING arg)
+	IN char *arg)
 {
 	INT i;
 
@@ -341,7 +341,7 @@ INT Set_BlockChReset_Proc(
 
 INT	Set_RadarShow_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 #ifdef DFS_SUPPORT
 	UINT8 idx;

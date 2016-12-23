@@ -29,7 +29,7 @@
 
 struct chip_map{
 	uint32_t ChipVersion;
-	PSTRING name;
+	char *name;
 };
 
 struct chip_map RTMP_CHIP_E2P_FILE_TABLE[] = {
@@ -206,7 +206,7 @@ INT RtmpChipOpsEepromHook(
 BOOLEAN rtmp_get_default_bin_file_by_chip(
 	IN struct rtmp_adapter *pAd,
 	IN uint32_t 	ChipVersion,
-	OUT PSTRING *pBinFileName)
+	OUT char **pBinFileName)
 {
 	BOOLEAN found = FALSE;
 	INT i;
@@ -269,7 +269,7 @@ INT rtmp_ee_bin_write16(
 INT rtmp_ee_load_from_bin(
 	IN struct rtmp_adapter *	pAd)
 {
-	PSTRING src = NULL;
+	char *src = NULL;
 	INT ret_val;
 	RTMP_OS_FD srcf;
 	RTMP_OS_FS_INFO osFSInfo;
@@ -291,7 +291,7 @@ INT rtmp_ee_load_from_bin(
 		else
 		{
 			memset(pAd->EEPROMImage, 0, MAX_EEPROM_BIN_FILE_SIZE);
-			ret_val = RtmpOSFileRead(srcf, (PSTRING)pAd->EEPROMImage, MAX_EEPROM_BIN_FILE_SIZE);
+			ret_val = RtmpOSFileRead(srcf, (char *)pAd->EEPROMImage, MAX_EEPROM_BIN_FILE_SIZE);
 
 			if (ret_val > 0)
 				ret_val = NDIS_STATUS_SUCCESS;
@@ -318,7 +318,7 @@ INT rtmp_ee_load_from_bin(
 INT rtmp_ee_write_to_bin(
 	IN struct rtmp_adapter *	pAd)
 {
-	PSTRING src = NULL;
+	char *src = NULL;
 	INT ret_val;
 	RTMP_OS_FD srcf;
 	RTMP_OS_FS_INFO osFSInfo;
@@ -339,7 +339,7 @@ INT rtmp_ee_write_to_bin(
 			return FALSE;
 		}
 		else
-			RtmpOSFileWrite(srcf, (PSTRING)pAd->EEPROMImage, MAX_EEPROM_BIN_FILE_SIZE);
+			RtmpOSFileWrite(srcf, (char *)pAd->EEPROMImage, MAX_EEPROM_BIN_FILE_SIZE);
 	}
 	else
 	{
@@ -359,7 +359,7 @@ INT rtmp_ee_write_to_bin(
 
 INT Set_LoadEepromBufferFromBin_Proc(
 	IN struct rtmp_adapter *pAd,
-	IN PSTRING			arg)
+	IN char *		arg)
 {
 	UINT bEnable = simple_strtol(arg, 0, 10);
 	INT result;
@@ -406,7 +406,7 @@ INT Set_LoadEepromBufferFromBin_Proc(
 
 INT Set_EepromBufferWriteBack_Proc(
 	IN struct rtmp_adapter *pAd,
-	IN PSTRING			arg)
+	IN char *		arg)
 {
 	UINT e2p_mode = simple_strtol(arg, 0, 10);
 

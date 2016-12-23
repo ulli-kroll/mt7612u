@@ -2075,7 +2075,7 @@ static int RXFRAME(
 */
 static int ATECmdHandler(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	ATE_INFO *pATEInfo = &(pAd->ate);
 	int 	Status = NDIS_STATUS_SUCCESS;
@@ -2212,7 +2212,7 @@ static int ATECmdHandler(
 
 INT	Set_ATE_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 
@@ -2262,10 +2262,10 @@ INT	Set_ATE_Proc(
 */
 INT	Set_ATE_DA_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
-	PSTRING				value;
+	char *			value;
 	INT					octet;
 
 	/* Mac address acceptable format 01:02:03:04:05:06 length 17 */
@@ -2325,10 +2325,10 @@ INT	Set_ATE_DA_Proc(
 */
 INT	Set_ATE_SA_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
-	PSTRING				value;
+	char *			value;
 	INT					octet;
 
 	/* Mac address acceptable format 01:02:03:04:05:06 length 17 */
@@ -2387,10 +2387,10 @@ INT	Set_ATE_SA_Proc(
 */
 INT	Set_ATE_BSSID_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
-	PSTRING				value;
+	char *			value;
 	INT					octet;
 
 	/* Mac address acceptable format 01:02:03:04:05:06 length 17 */
@@ -2450,7 +2450,7 @@ INT	Set_ATE_BSSID_Proc(
 */
 INT	Set_ATE_CHANNEL_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 	UCHAR channel;
@@ -2491,7 +2491,7 @@ INT	Set_ATE_CHANNEL_Proc(
 */
 INT	Set_ATE_INIT_CHAN_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 	int index;
@@ -2566,7 +2566,7 @@ INT	Set_ATE_INIT_CHAN_Proc(
 */
 static INT ATESetAntennaTxPower(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING 		arg,
+	IN	char *		arg,
 	IN  INT 		Antenna)
 
 {
@@ -2671,7 +2671,7 @@ static INT ATESetAntennaTxPower(
 */
 INT	Set_ATE_TX_POWER0_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	INT ret;
 
@@ -2691,7 +2691,7 @@ INT	Set_ATE_TX_POWER0_Proc(
 */
 INT	Set_ATE_TX_POWER1_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	INT ret;
 
@@ -2712,7 +2712,7 @@ INT	Set_ATE_TX_POWER1_Proc(
 */
 INT	Set_ATE_TX_POWER2_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	INT ret;
 
@@ -2733,7 +2733,7 @@ INT	Set_ATE_TX_POWER2_Proc(
 */
 INT	Set_ATE_TX_POWER_EVALUATION_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 
 	PATE_INFO pATEInfo = &(pAd->ate);
@@ -2757,7 +2757,7 @@ INT	Set_ATE_TX_POWER_EVALUATION_Proc(
 */
 INT	Set_ATE_TX_Antenna_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 	CHAR value;
@@ -2797,7 +2797,7 @@ INT	Set_ATE_TX_Antenna_Proc(
 */
 INT	Set_ATE_RX_Antenna_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 	CHAR value;
@@ -2897,7 +2897,7 @@ VOID ATEAsicTemperCompensation(
 */
 INT Set_ATE_PA_Bias_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 	UCHAR PABias = 0;
@@ -2947,7 +2947,7 @@ INT Set_ATE_PA_Bias_Proc(
 */
 INT	Set_ATE_TX_FREQ_OFFSET_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 	INT ret = FALSE;
@@ -2981,7 +2981,7 @@ INT	Set_ATE_TX_FREQ_OFFSET_Proc(
 */
 INT	Set_ATE_TX_BW_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 	INT status = FALSE;
@@ -3016,7 +3016,7 @@ INT	Set_ATE_TX_BW_Proc(
 */
 INT	Set_ATE_TX_LENGTH_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 
@@ -3050,7 +3050,7 @@ INT	Set_ATE_TX_LENGTH_Proc(
 */
 INT	Set_ATE_TX_COUNT_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 
@@ -3078,7 +3078,7 @@ INT	Set_ATE_TX_COUNT_Proc(
 */
 INT	Set_ATE_TX_MCS_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 	UCHAR MCS, phy_mode = 0;
@@ -3117,7 +3117,7 @@ INT	Set_ATE_TX_MCS_Proc(
 */
 INT	Set_ATE_TX_STBC_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 	UCHAR stbc = simple_strtol(arg, 0, 10);
@@ -3155,7 +3155,7 @@ INT	Set_ATE_TX_STBC_Proc(
 */
 INT	Set_ATE_TX_MODE_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 	UCHAR BbpData = 0;
@@ -3295,7 +3295,7 @@ INT	Set_ATE_TX_MODE_Proc(
 */
 INT	Set_ATE_TX_GI_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 	UCHAR sgi;
@@ -3322,7 +3322,7 @@ INT	Set_ATE_TX_GI_Proc(
 
 INT	Set_ATE_RX_FER_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 
@@ -3346,7 +3346,7 @@ INT	Set_ATE_RX_FER_Proc(
 
 INT Set_ATE_Read_RF_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 #ifdef RTMP_RF_RW_SUPPORT
 	UCHAR RFValue = 0;
@@ -3375,7 +3375,7 @@ INT Set_ATE_Read_RF_Proc(
 #ifndef RTMP_RF_RW_SUPPORT
 INT Set_ATE_Write_RF1_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	uint32_t value = (uint32_t) simple_strtol(arg, 0, 16);
 
@@ -3388,7 +3388,7 @@ INT Set_ATE_Write_RF1_Proc(
 
 INT Set_ATE_Write_RF2_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	uint32_t value = (uint32_t) simple_strtol(arg, 0, 16);
 
@@ -3401,7 +3401,7 @@ INT Set_ATE_Write_RF2_Proc(
 
 INT Set_ATE_Write_RF3_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	uint32_t value = (uint32_t) simple_strtol(arg, 0, 16);
 
@@ -3414,7 +3414,7 @@ INT Set_ATE_Write_RF3_Proc(
 
 INT Set_ATE_Write_RF4_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	uint32_t value = (uint32_t) simple_strtol(arg, 0, 16);
 
@@ -3437,10 +3437,10 @@ INT Set_ATE_Write_RF4_Proc(
 */
 INT Set_ATE_Load_E2P_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	BOOLEAN		    	ret = FALSE;
-	PSTRING			src = EEPROM_BIN_FILE_NAME;
+	char *		src = EEPROM_BIN_FILE_NAME;
 	RTMP_OS_FD		srcf;
 	int32_t 			retval;
 	USHORT 			WriteEEPROM[(EEPROM_SIZE >> 1)];
@@ -3469,7 +3469,7 @@ INT Set_ATE_Load_E2P_Proc(
 			}
 
 			/* read the firmware from the file *.bin */
-			FileLength = RtmpOSFileRead(srcf, (PSTRING)WriteEEPROM, EEPROM_SIZE);
+			FileLength = RtmpOSFileRead(srcf, (char *)WriteEEPROM, EEPROM_SIZE);
 
 			if (FileLength != EEPROM_SIZE)
 			{
@@ -3524,7 +3524,7 @@ INT Set_ATE_Load_E2P_Proc(
 */
 INT Set_ATE_Load_E2P_From_Buf_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	BOOLEAN		    	ret = FALSE;
 	uint32_t 			value = (uint32_t) simple_strtol(arg, 0, 10);
@@ -3547,7 +3547,7 @@ INT Set_ATE_Load_E2P_From_Buf_Proc(
 
 INT Set_ATE_Read_E2P_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	USHORT buffer[EEPROM_SIZE >> 1];
 	USHORT *p;
@@ -3583,7 +3583,7 @@ INT Set_ATE_Read_E2P_Proc(
 */
 INT	Set_ATE_AUTO_ALC_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 	uint32_t value = simple_strtol(arg, 0, 10);
@@ -3640,7 +3640,7 @@ INT	Set_ATE_AUTO_ALC_Proc(
 */
 INT	Set_ATE_TEMP_SENSOR_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 	BOOLEAN value = simple_strtol(arg, 0, 10);
@@ -3677,7 +3677,7 @@ INT	Set_ATE_TEMP_SENSOR_Proc(
 */
 INT Set_ATE_SINGLE_SKU_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING 		arg)
+	IN	char *		arg)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 	BOOLEAN value = simple_strtol(arg, 0, 10);
@@ -3704,7 +3704,7 @@ INT Set_ATE_SINGLE_SKU_Proc(
 */
 INT	Set_ATE_TXBF_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 	CHAR value;
@@ -3797,7 +3797,7 @@ INT	Set_ATE_TXBF_Proc(
 */
 INT	Set_ATE_TXSOUNDING_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 	CHAR value;
@@ -3833,7 +3833,7 @@ INT	Set_ATE_TXSOUNDING_Proc(
 */
 INT	Set_ATE_TXBF_DIVCAL_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 	int value;
@@ -3931,7 +3931,7 @@ INT	Set_ATE_TXBF_DIVCAL_Proc(
 */
 INT	Set_ATE_TXBF_LNACAL_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 	int value;
@@ -4098,7 +4098,7 @@ static BOOLEAN rtmp_ate_txbf_cal_valid_ch(
 */
 INT Set_ATE_TXBF_INIT_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 	int val;
@@ -4190,7 +4190,7 @@ INT Set_ATE_TXBF_INIT_Proc(
 */
 INT Set_ATE_TXBF_CAL_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	UCHAR   ch;
 	UCHAR   cmdStr[32];
@@ -4286,7 +4286,7 @@ UCHAR CHTbl[9]={1, 14, 36, 64, 100, 120, 140, 149, 173};
 
 INT Set_ATE_TXBF_New_CAL_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	UCHAR ch, calLoop, i;
 	UCHAR cmdStr[32];
@@ -4370,7 +4370,7 @@ INT Set_ATE_TXBF_New_CAL_Proc(
 */
 INT Set_ATE_TXBF_GOLDEN_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	UCHAR ch;
 	UCHAR cmdStr[32];
@@ -4444,7 +4444,7 @@ INT Set_ATE_TXBF_GOLDEN_Proc(
 */
 INT Set_ATE_TXBF_VERIFY_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	UCHAR ch;
 	UCHAR cmdStr[32];
@@ -4502,7 +4502,7 @@ INT Set_ATE_TXBF_VERIFY_Proc(
 
 INT Set_ATE_ForceBBP_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 	UCHAR bbpReg;
@@ -4540,7 +4540,7 @@ INT Set_ATE_ForceBBP_Proc(
 */
 INT Set_ATE_TXBF_VERIFY_NoComp_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	UCHAR ch;
 	UCHAR cmdStr[32];
@@ -4621,7 +4621,7 @@ INT Set_ATE_TXBF_VERIFY_NoComp_Proc(
 
 INT Set_ATE_New_Phase_Verify(
 	IN	struct rtmp_adapter *pAd,
-	IN  PSTRING         arg)
+	IN  char *        arg)
 {
 	UCHAR ch, calLoop, i;
 	BOOLEAN allChflg=FALSE;
@@ -4696,7 +4696,7 @@ INT Set_ATE_New_Phase_Verify(
 */
 INT	Set_ATE_IPG_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 	uint32_t           data, value;
@@ -4787,10 +4787,10 @@ INT	Set_ATE_IPG_Proc(
 */
 INT	Set_ATE_Payload_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
-	PSTRING				value;
+	char *			value;
 
 	value = arg;
 
@@ -4821,7 +4821,7 @@ INT	Set_ATE_Payload_Proc(
 */
 INT	Set_ATE_Fixed_Payload_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 	uint32_t value = simple_strtol(arg, 0, 10);
@@ -4846,11 +4846,11 @@ INT	Set_ATE_Fixed_Payload_Proc(
 
 INT	Set_ATE_Show_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
-	PSTRING Mode_String = NULL;
-	PSTRING TxMode_String = NULL;
+	char *Mode_String = NULL;
+	char *TxMode_String = NULL;
 	UCHAR bw = 0, phy_mode = 0, sgi =0, mcs =0;
 
 	bw = pATEInfo->TxWI.TXWI_N.BW;
@@ -4964,7 +4964,7 @@ INT	Set_ATE_Show_Proc(
 
 INT	Set_ATE_Help_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 #ifdef CONFIG_RT2880_ATE_CMD_NEW
 	DBGPRINT(RT_DEBUG_OFF, ("ATE=ATESTART, ATESTOP, TXCONT, TXCARR, TXCARS, TXFRAME, RXFRAME\n"));
@@ -5037,7 +5037,7 @@ INT	Set_ATE_Help_Proc(
 #ifdef RTMP_TEMPERATURE_CALIBRATION
 INT Set_ATE_TEMP_CAL_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	INT ret = TRUE;
 
@@ -5048,7 +5048,7 @@ INT Set_ATE_TEMP_CAL_Proc(
 
 INT Set_ATE_SHOW_TSSI_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	INT ret = TRUE;
 
@@ -5061,7 +5061,7 @@ INT Set_ATE_SHOW_TSSI_Proc(
 #if defined(RTMP_INTERNAL_TX_ALC) || defined(RTMP_TEMPERATURE_COMPENSATION)
 INT Set_ATE_TSSI_CALIBRATION_EX_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 
@@ -5084,7 +5084,7 @@ INT Set_ATE_TSSI_CALIBRATION_EX_Proc(
 
 INT Set_ATE_TSSI_CALIBRATION_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 
@@ -5104,7 +5104,7 @@ INT Set_ATE_TSSI_CALIBRATION_Proc(
 #if defined(RT3350) || defined(RT3352)
 INT RT335x2_Set_ATE_TSSI_CALIBRATION_ENABLE_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 		{
 	BOOLEAN	bTSSICalbrEnableG = FALSE;
 
@@ -5162,7 +5162,7 @@ CHAR InsertTssi(UCHAR InChannel, UCHAR Channel0, UCHAR Channel1,CHAR Tssi0, CHAR
 
 INT RT335xATETssiCalibrationExtend(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	CHAR		TssiRefPerChannel[CFG80211_NUM_OF_CHAN_2GHZ], TssiDeltaPerChannel[CFG80211_NUM_OF_CHAN_2GHZ];
 	UCHAR		CurrentChannel;
@@ -5269,7 +5269,7 @@ INT RT335xATETssiCalibrationExtend(
 
 INT Set_ATE_READ_EXTERNAL_TSSI_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	RTMP_CHIP_ATE_READ_EXTERNAL_TSSI(pAd, arg);
 	return TRUE;
@@ -5283,7 +5283,7 @@ INT Set_ATE_READ_EXTERNAL_TSSI_Proc(
 #ifdef MT76x2
 INT Set_ATE_DO_CALIBRATION_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	INT rv = 0;
 	uint32_t cal_id, param;
@@ -5304,7 +5304,7 @@ INT Set_ATE_DO_CALIBRATION_Proc(
 
 INT Set_ATE_Load_CR_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	INT rv = 0;
 	uint32_t mode;
@@ -5614,7 +5614,7 @@ int ATEInit(
 #endif /* RLT_MAC */
 INT Set_ADCDump_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	return FALSE;
 }

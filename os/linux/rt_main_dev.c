@@ -45,7 +45,7 @@
 /* Private Variables Used                                              */
 /*---------------------------------------------------------------------*/
 
-PSTRING mode = "";		/* supported mode: normal/ate/monitor;  default: normal */
+char *mode = "";		/* supported mode: normal/ate/monitor;  default: normal */
 
 module_param(mode, charp, 0);
 MODULE_PARM_DESC (mode, "rt_wifi: wireless operation mode");

@@ -124,15 +124,15 @@ VOID PeerSpectrumAction(
  */
 INT Set_MeasureReq_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg);
+	IN	char *		arg);
 
 INT Set_TpcReq_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg);
+	IN	char *		arg);
 
 INT Set_PwrConstraint(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg);
+	IN	char *		arg);
 
 
 int MeasureReqTabInit(
@@ -157,7 +157,7 @@ VOID InsertChannelRepIE(
 	IN struct rtmp_adapter *pAd,
 	OUT PUCHAR pFrameBuf,
 	OUT PULONG pFrameLen,
-	IN PSTRING pCountry,
+	IN char *pCountry,
 	IN UINT8 RegulatoryClass);
 
 VOID InsertTpcReportIE(

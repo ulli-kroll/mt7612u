@@ -588,7 +588,7 @@ BOOLEAN CFG80211DRV_OpsSetChannel(struct rtmp_adapter *pAd, VOID *pData)
 		MakeIbssBeacon(pAd);
 		AsicEnableIbssSync(pAd);
 
-		Set_SSID_Proc(pAd, (PSTRING)pAd->CommonCfg.Ssid);
+		Set_SSID_Proc(pAd, (char *)pAd->CommonCfg.Ssid);
 	}
 
 	if (IfType == RT_CMD_80211_IFTYPE_MONITOR)
@@ -613,7 +613,7 @@ BOOLEAN CFG80211DRV_OpsJoinIbss(
 	pAd->StaCfg.bAutoReconnect = TRUE;
 
 	pAd->CommonCfg.BeaconPeriod = pIbssInfo->BeaconInterval;
-	Set_SSID_Proc(pAd, (PSTRING)pIbssInfo->pSsid);
+	Set_SSID_Proc(pAd, (char *)pIbssInfo->pSsid);
 #endif /* CONFIG_STA_SUPPORT */
 	return TRUE;
 }
@@ -893,7 +893,7 @@ BOOLEAN CFG80211DRV_Connect(
 		pAd->StaCfg.wpa_supplicant_info.WpaSupplicantUP |= WPA_SUPPLICANT_ENABLE_WPS;  /* Set_Wpa_Support(pAd, "3") */
 		Set_AuthMode_Proc(pAd, "OPEN");
 		Set_EncrypType_Proc(pAd, "NONE");
-		Set_SSID_Proc(pAd, (PSTRING)SSID);
+		Set_SSID_Proc(pAd, (char *)SSID);
 
 		return TRUE;
 	}
@@ -1007,7 +1007,7 @@ BOOLEAN CFG80211DRV_Connect(
 					("80211> pAd->StaCfg.DefaultKeyId = %d\n",
 					pAd->StaCfg.wdev.DefaultKeyId));
 
-		Set_Wep_Key_Proc(pAd, (PSTRING)KeyBuf, (INT)pConnInfo->KeyLen, (INT)pConnInfo->KeyIdx);
+		Set_Wep_Key_Proc(pAd, (char *)KeyBuf, (INT)pConnInfo->KeyLen, (INT)pConnInfo->KeyIdx);
 
 	} /* End of if */
 
@@ -1022,7 +1022,7 @@ BOOLEAN CFG80211DRV_Connect(
 	}
 #endif /* DOT11W_PMF_SUPPORT */
 
-	Set_SSID_Proc(pAd, (PSTRING)SSID);
+	Set_SSID_Proc(pAd, (char *)SSID);
 	CFG80211DBG(RT_DEBUG_TRACE, ("80211> Connecting SSID = %s\n", SSID));
 #endif /* CONFIG_STA_SUPPORT */
 

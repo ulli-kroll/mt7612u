@@ -3084,9 +3084,9 @@ UCHAR BtoH(STRING ch)
 
 	IRQL = PASSIVE_LEVEL
 */
-void AtoH(PSTRING src, PUCHAR dest, int destlen)
+void AtoH(char *src, PUCHAR dest, int destlen)
 {
-	PSTRING srcptr;
+	char *srcptr;
 	PUCHAR destTemp;
 
 	srcptr = src;

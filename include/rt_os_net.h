@@ -178,7 +178,7 @@ INT ApCli_VirtualIF_Close(struct net_device *dev_p);
 VOID RT28xx_ApCli_Remove(struct rtmp_adapter *pAd);
 
 
-VOID RTMP_Mesh_Init(struct rtmp_adapter *pAd, struct net_device *main_dev_p, PSTRING pHostName);
+VOID RTMP_Mesh_Init(struct rtmp_adapter *pAd, struct net_device *main_dev_p, char *pHostName);
 INT Mesh_VirtualIF_Open(struct net_device *pDev);
 INT Mesh_VirtualIF_Close(struct net_device *pDev);
 VOID RTMP_Mesh_Remove(struct rtmp_adapter *pAd);

@@ -348,7 +348,7 @@ VOID CntlOidScanProc(
 	}
 
 
-	ScanParmFill(pAd, &ScanReq, (PSTRING) Elem->Msg, Elem->MsgLen, BSS_ANY,
+	ScanParmFill(pAd, &ScanReq, (char *) Elem->Msg, Elem->MsgLen, BSS_ANY,
 		     SCAN_ACTIVE);
 	MlmeEnqueue(pAd, SYNC_STATE_MACHINE, MT2_MLME_SCAN_REQ,
 		    sizeof (MLME_SCAN_REQ_STRUCT), &ScanReq, 0);
@@ -540,7 +540,7 @@ VOID CntlOidSsidProc(
 
 			if((pAd->StaCfg.ConnectinfoChannel != 0) && (pAd->StaCfg.Connectinfoflag == TRUE))
 			{
-				ScanParmFill(pAd, &ScanReq, (PSTRING) pAd->MlmeAux.Ssid,
+				ScanParmFill(pAd, &ScanReq, (char *) pAd->MlmeAux.Ssid,
 					pAd->MlmeAux.SsidLen, BSS_ANY, SCAN_ACTIVE);
 				MlmeEnqueue(pAd, SYNC_STATE_MACHINE, MT2_MLME_FORCE_SCAN_REQ,
 					sizeof (MLME_SCAN_REQ_STRUCT), &ScanReq, 0);
@@ -548,7 +548,7 @@ VOID CntlOidSsidProc(
 			}
 			else
 			{
-				ScanParmFill(pAd, &ScanReq, (PSTRING) pAd->MlmeAux.Ssid,
+				ScanParmFill(pAd, &ScanReq, (char *) pAd->MlmeAux.Ssid,
 					     pAd->MlmeAux.SsidLen, BSS_ANY, SCAN_ACTIVE);
 				MlmeEnqueue(pAd, SYNC_STATE_MACHINE, MT2_MLME_SCAN_REQ,
 					    sizeof (MLME_SCAN_REQ_STRUCT), &ScanReq, 0);
@@ -691,7 +691,7 @@ VOID CntlOidRTBssidProc(
 				pAd->Mlme.CntlMachine.CurrState = CNTL_WAIT_JOIN;
 			}
 			else	{
-				ScanParmFill(pAd, &ScanReq, (PSTRING) pAd->MlmeAux.Ssid,
+				ScanParmFill(pAd, &ScanReq, (char *) pAd->MlmeAux.Ssid,
 				     pAd->MlmeAux.SsidLen, BSS_ANY, SCAN_ACTIVE);
 				MlmeEnqueue(pAd, SYNC_STATE_MACHINE, MT2_MLME_SCAN_REQ,
 					    sizeof (MLME_SCAN_REQ_STRUCT), &ScanReq, 0);

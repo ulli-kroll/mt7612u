@@ -126,7 +126,7 @@ static char *RT2870STA_dat =
 
 struct dev_type_name_map{
 	INT type;
-	PSTRING prefix[2];
+	char *prefix[2];
 };
 
 
@@ -168,7 +168,7 @@ static struct dev_type_name_map prefix_map[] =
 
 struct dev_id_name_map{
 	INT chip_id;
-	PSTRING chip_name;
+	char *chip_name;
 };
 
 static const struct dev_id_name_map id_name_list[]=
@@ -263,7 +263,7 @@ int RTMPReadParametersHook(struct rtmp_adapter *pAd)
 {
 	INT retval = NDIS_STATUS_FAILURE;
 	ULONG buf_size = MAX_INI_BUFFER_SIZE, fsize;
-	PSTRING buffer = NULL;
+	char *buffer = NULL;
 
 #ifdef HOSTAPD_SUPPORT
 	int i;
@@ -903,7 +903,7 @@ INT RTMP_AP_IoctlPrepare(struct rtmp_adapter *pAd, VOID *pCB)
 
 VOID AP_E2PROM_IOCTL_PostCtrl(
 	IN	RTMP_IOCTL_INPUT_STRUCT	*wrq,
-	IN	PSTRING					msg)
+	IN	char *				msg)
 {
 	wrq->u.data.length = strlen(msg);
 	if (copy_to_user(wrq->u.data.pointer, msg, wrq->u.data.length))

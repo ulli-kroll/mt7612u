@@ -73,7 +73,7 @@ VOID RtmpDrvSendWirelessEvent(
 	IN  UCHAR					BssIdx,
 	IN	CHAR					Rssi)
 {
-	PSTRING	pBuf = NULL, pBufPtr = NULL;
+	char *pBuf = NULL, *pBufPtr = NULL;
 	USHORT	event, type, BufLen;
 	UCHAR	event_table_len = 0;
 

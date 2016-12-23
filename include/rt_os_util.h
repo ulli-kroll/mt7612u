@@ -214,7 +214,7 @@ INT RtmpOSNotifyRawData(struct net_device *pNetDev, UCHAR *buf, INT len, ULONG t
 
 #endif /* CONFIG_STA_SUPPORT */
 
-struct net_device *RtmpOSNetDevGetByName(struct net_device *pNetDev, PSTRING pDevName);
+struct net_device *RtmpOSNetDevGetByName(struct net_device *pNetDev, char *pDevName);
 
 void RtmpOSNetDeviceRefPut(struct net_device *pNetDev);
 
@@ -234,7 +234,7 @@ struct net_device *RtmpOSNetDevCreate(
 	IN	INT 					devType,
 	IN	INT						devNum,
 	IN	INT						privMemSize,
-	IN	PSTRING					pNamePrefix);
+	IN	char *				pNamePrefix);
 
 BOOLEAN RtmpOSNetDevIsUp(struct net_device *pDev);
 
@@ -313,7 +313,7 @@ int RtmpOSTaskAttach(
 
 int RtmpOSTaskInit(
 	IN	RTMP_OS_TASK *pTaskOrg,
-	IN	PSTRING pTaskName,
+	IN	char *pTaskName,
 	IN	VOID *pPriv,
 	IN	LIST_HEADER *pTaskList,
 	IN	LIST_HEADER *pSemList);
@@ -501,13 +501,13 @@ VOID RtmpDrvRateGet(
 
 char * rtstrchr(const char * s, int c);
 
-PSTRING   WscGetAuthTypeStr(USHORT authFlag);
+char *  WscGetAuthTypeStr(USHORT authFlag);
 
-PSTRING   WscGetEncryTypeStr(USHORT encryFlag);
+char *  WscGetEncryTypeStr(USHORT encryFlag);
 
-USHORT WscGetAuthTypeFromStr(PSTRING arg);
+USHORT WscGetAuthTypeFromStr(char *arg);
 
-USHORT WscGetEncrypTypeFromStr(PSTRING arg);
+USHORT WscGetEncrypTypeFromStr(char *arg);
 
 VOID RtmpMeshDown(
 	IN VOID *pDrvCtrlBK,

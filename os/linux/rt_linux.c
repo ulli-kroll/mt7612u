@@ -892,7 +892,7 @@ static inline void __RtmpOSTaskCustomize(OS_TASK *pTask)
 {
 #ifndef KTHREAD_SUPPORT
 
-	daemonize((PSTRING) & pTask->taskName[0] /*"%s",pAd->net_dev->name */ );
+	daemonize((char *) & pTask->taskName[0] /*"%s",pAd->net_dev->name */ );
 
 	allow_signal(SIGTERM);
 	allow_signal(SIGKILL);
@@ -943,7 +943,7 @@ static inline int __RtmpOSTaskAttach(
 
 static inline int __RtmpOSTaskInit(
 	IN OS_TASK *pTask,
-	IN PSTRING pTaskName,
+	IN char *pTaskName,
 	IN VOID *pPriv,
 	IN LIST_HEADER *pSemList)
 {
@@ -1299,7 +1299,7 @@ static int RtmpOSNetDevRequestName(
 	IN int32_t MC_RowID,
 	IN uint32_t *pIoctlIF,
 	IN struct net_device *dev,
-	IN PSTRING pPrefixStr,
+	IN char *pPrefixStr,
 	IN INT devIdx)
 {
 	struct net_device *existNetDev;
@@ -1397,7 +1397,7 @@ INT RtmpOSNetDevOpsAlloc(PVOID *pNetDevOps)
 	}
 }
 
-struct net_device *RtmpOSNetDevGetByName(struct net_device *pNetDev, PSTRING pDevName)
+struct net_device *RtmpOSNetDevGetByName(struct net_device *pNetDev, char *pDevName)
 {
 	struct net_device *pTargetNetDev = NULL;
 
@@ -1547,7 +1547,7 @@ struct net_device *RtmpOSNetDevCreate(
 	IN INT devType,
 	IN INT devNum,
 	IN INT privMemSize,
-	IN PSTRING pNamePrefix)
+	IN char *pNamePrefix)
 {
 	struct net_device *pNetDev = NULL;
 	struct net_device_ops *pNetDevOps = NULL;
@@ -1684,7 +1684,7 @@ VOID RtmpDrvAllMacPrint(
 	IN uint32_t AddrStep)
 {
 	struct file *file_w;
-	PSTRING fileName = "MacDump.txt";
+	char *fileName = "MacDump.txt";
 	mm_segment_t orig_fs;
 	STRING *msg;
 	uint32_t macAddr = 0, macValue = 0;
@@ -1734,7 +1734,7 @@ VOID RtmpDrvAllE2PPrint(
 	IN uint32_t AddrStep)
 {
 	struct file *file_w;
-	PSTRING fileName = "EEPROMDump.txt";
+	char *fileName = "EEPROMDump.txt";
 	mm_segment_t orig_fs;
 	STRING *msg;
 	USHORT eepAddr = 0;
@@ -1785,7 +1785,7 @@ VOID RtmpDrvAllRFPrint(
 	IN uint32_t BufLen)
 {
 	struct file *file_w;
-	PSTRING fileName = "RFDump.txt";
+	char *fileName = "RFDump.txt";
 	mm_segment_t orig_fs;
 
 	orig_fs = get_fs();
@@ -2291,7 +2291,7 @@ int RtmpOSTaskAttach(
 
 int RtmpOSTaskInit(
 	RTMP_OS_TASK *pTask,
-	PSTRING pTaskName,
+	char *pTaskName,
 	VOID *pPriv,
 	LIST_HEADER *pTaskList,
 	LIST_HEADER *pSemList)

@@ -130,23 +130,23 @@ INT Set_AP_Daemon_Status(
 
 INT Set_AP_IE(
 	IN struct rtmp_adapter *pAd,
-	IN PSTRING IE,
+	IN char *IE,
 	IN uint32_t IELen);
 
 
 INT	ApCfg_Set_AuthMode_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	INT				apidx,
-	IN	PSTRING			arg);
+	IN	char *		arg);
 
 INT	ApCfg_Set_MaxStaNum_Proc(
 	IN struct rtmp_adapter *	pAd,
 	IN INT				apidx,
-	IN PSTRING 			arg);
+	IN char *			arg);
 
 INT	ApCfg_Set_IdleTimeout_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg);
+	IN	char *		arg);
 
 
 #ifdef APCLI_SUPPORT

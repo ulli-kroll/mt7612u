@@ -25,7 +25,7 @@ static int RTMPAllocUsbBulkBufStruct(
 	IN PVOID *ppXBuffer,
 	IN INT	bufLen,
 	IN ra_dma_addr_t *pDmaAddr,
-	IN PSTRING pBufName)
+	IN char *pBufName)
 {
 	struct os_cookie *pObj = pAd->OS_Cookie;
 

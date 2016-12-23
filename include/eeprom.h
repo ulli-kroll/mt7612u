@@ -861,11 +861,11 @@ INT rtmp_ee_write_to_prom(
 
 INT Set_LoadEepromBufferFromBin_Proc(
 	IN struct rtmp_adapter *pAd,
-	IN PSTRING			arg);
+	IN char *		arg);
 
 INT Set_EepromBufferWriteBack_Proc(
 	IN struct rtmp_adapter *pAd,
-	IN PSTRING			arg);
+	IN char *		arg);
 
 
 /*************************************************************************
@@ -873,5 +873,5 @@ INT Set_EepromBufferWriteBack_Proc(
   ************************************************************************/
 INT RtmpChipOpsEepromHook(struct rtmp_adapter *pAd, INT infType);
 
-BOOLEAN rtmp_get_default_bin_file_by_chip(struct rtmp_adapter *pAd, uint32_t ChipVersion, PSTRING *pBinFileName);
+BOOLEAN rtmp_get_default_bin_file_by_chip(struct rtmp_adapter *pAd, uint32_t ChipVersion, char **pBinFileName);
 #endif /* __EEPROM_H__ */

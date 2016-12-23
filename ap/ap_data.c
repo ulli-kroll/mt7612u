@@ -107,7 +107,7 @@ enum pkt_tx_status{
 
 struct reason_id_str{
 	INT id;
-	PSTRING code_str;
+	char *code_str;
 };
 
 static struct reason_id_str pkt_drop_code[]={

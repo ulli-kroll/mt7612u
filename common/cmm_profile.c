@@ -29,10 +29,10 @@
 #define ETH_MAC_ADDR_STR_LEN 17  /* in format of xx:xx:xx:xx:xx:xx*/
 
 /* We assume the s1 is a sting, s2 is a memory space with 6 bytes. and content of s1 will be changed.*/
-BOOLEAN rtstrmactohex(PSTRING s1, PSTRING s2)
+BOOLEAN rtstrmactohex(char *s1, char *s2)
 {
 	int i = 0;
-	PSTRING ptokS = s1, ptokE = s1;
+	char *ptokS = s1, *ptokE = s1;
 
 	if (strlen(s1) != ETH_MAC_ADDR_STR_LEN)
 		return FALSE;
@@ -58,9 +58,9 @@ BOOLEAN rtstrmactohex(PSTRING s1, PSTRING s2)
 
 #define ASC_LOWER(_x)	((((_x) >= 0x41) && ((_x) <= 0x5a)) ? (_x) + 0x20 : (_x))
 /* we assume the s1 and s2 both are strings.*/
-BOOLEAN rtstrcasecmp(PSTRING s1, PSTRING s2)
+BOOLEAN rtstrcasecmp(char *s1, char *s2)
 {
-	PSTRING p1 = s1, p2 = s2;
+	char *p1 = s1, *p2 = s2;
 	CHAR c1, c2;
 
 	if (strlen(s1) != strlen(s2))
@@ -81,7 +81,7 @@ BOOLEAN rtstrcasecmp(PSTRING s1, PSTRING s2)
 
 
 /* we assume the s1 (buffer) and s2 (key) both are strings.*/
-PSTRING rtstrstruncasecmp(PSTRING s1, PSTRING s2)
+char *rtstrstruncasecmp(char *s1, char *s2)
 {
 	INT l1, l2, i;
 	char temp1, temp2;
@@ -125,7 +125,7 @@ PSTRING rtstrstruncasecmp(PSTRING s1, PSTRING s2)
   * @s1: The string to be searched
   * @s2: The string to search for
   */
-PSTRING rtstrstr(PSTRING s1,const PSTRING s2)
+char *rtstrstr(const char *s1,const char *s2)
 {
 	INT l1, l2;
 
@@ -152,10 +152,10 @@ PSTRING rtstrstr(PSTRING s1,const PSTRING s2)
  * @ct: The characters to search for
  * * WARNING: strtok is deprecated, use strsep instead. However strsep is not compatible with old architecture.
  */
-PSTRING __rstrtok;
-PSTRING rstrtok(PSTRING s,const PSTRING ct)
+char *__rstrtok;
+char *rstrtok(char *s,const char *ct)
 {
-	PSTRING sbegin, send;
+	char *sbegin, *send;
 
 	sbegin  = s ? s : __rstrtok;
 	if (!sbegin)
@@ -185,11 +185,11 @@ PSTRING rstrtok(PSTRING s,const PSTRING ct)
  * @ct: The delimiter to search for.
  * Notice : We suppose the delimiter is a single-char string(for example : ";").
  */
-INT delimitcnt(PSTRING s,PSTRING ct)
+INT delimitcnt(char *s,char *ct)
 {
 	INT count = 0;
 	/* point to the beginning of the line */
-	PSTRING token = s;
+	char *token = s;
 
 	for ( ;; )
 	{
@@ -218,7 +218,7 @@ INT delimitcnt(PSTRING s,PSTRING ct)
   * into binary data.
   * returns nonzero if the address is valid, zero if not.
   */
-int rtinet_aton(PSTRING cp, unsigned int *addr)
+int rtinet_aton(const char *cp, unsigned int *addr)
 {
 	unsigned int 	val;
 	int         	base, n;
@@ -329,11 +329,11 @@ int rtinet_aton(PSTRING cp, unsigned int *addr)
         Others                      Success
     ========================================================================
 */
-PSTRING RTMPFindSection(
-    IN  PSTRING   buffer)
+char *RTMPFindSection(
+    IN  char *  buffer)
 {
     STRING temp_buf[32];
-    PSTRING  ptr;
+    char * ptr;
 
     strcpy(temp_buf, "Default");
 
@@ -366,16 +366,16 @@ PSTRING RTMPFindSection(
     ========================================================================
 */
 INT RTMPGetKeyParameter(
-    IN PSTRING key,
-    OUT PSTRING dest,
+    IN char *key,
+    OUT char *dest,
     IN INT destsize,
-    IN PSTRING buffer,
+    IN char *buffer,
     IN BOOLEAN bTrimSpace)
 {
-	PSTRING pMemBuf, temp_buf1 = NULL, temp_buf2 = NULL;
-	PSTRING start_ptr, end_ptr;
-	PSTRING ptr;
-	PSTRING offset = NULL;
+	char *pMemBuf, *temp_buf1 = NULL, *temp_buf2 = NULL;
+	char *start_ptr, *end_ptr;
+	char *ptr;
+	char *offset = NULL;
 	INT  len, keyLen;
 
 
@@ -386,7 +386,7 @@ INT RTMPGetKeyParameter(
 
 	memset(pMemBuf, 0, MAX_PARAM_BUFFER_SIZE * 2);
 	temp_buf1 = pMemBuf;
-	temp_buf2 = (PSTRING)(pMemBuf + MAX_PARAM_BUFFER_SIZE);
+	temp_buf2 = (char *)(pMemBuf + MAX_PARAM_BUFFER_SIZE);
 
 
 	/*find section*/
@@ -466,19 +466,19 @@ INT RTMPGetKeyParameter(
     ========================================================================
 */
 INT RTMPGetKeyParameterWithOffset(
-    IN  PSTRING   key,
-    OUT PSTRING   dest,
+    IN  char *  key,
+    OUT char *  dest,
     OUT	USHORT	*end_offset,
     IN  INT     destsize,
-    IN  PSTRING   buffer,
+    IN  char *  buffer,
     IN	BOOLEAN	bTrimSpace)
 {
-    PSTRING temp_buf1 = NULL;
-    PSTRING temp_buf2 = NULL;
-    PSTRING start_ptr;
-    PSTRING end_ptr;
-    PSTRING ptr;
-    PSTRING offset = 0;
+    char *temp_buf1 = NULL;
+    char *temp_buf2 = NULL;
+    char *start_ptr;
+    char *end_ptr;
+    char *ptr;
+    char *offset = 0;
     INT  len;
 
 	if (*end_offset >= MAX_INI_BUFFER_SIZE)
@@ -576,9 +576,9 @@ inline void RTMPSetSTADefKeyId(struct rtmp_adapter *pAd, ULONG KeyIdx)
 #endif /* CONFIG_STA_SUPPORT */
 
 
-static int rtmp_parse_key_buffer_from_file(IN  struct rtmp_adapter *pAd,IN  PSTRING buffer,IN  ULONG KeyType,IN  INT BSSIdx,IN  INT KeyIdx)
+static int rtmp_parse_key_buffer_from_file(IN  struct rtmp_adapter *pAd,IN  char *buffer,IN  ULONG KeyType,IN  INT BSSIdx,IN  INT KeyIdx)
 {
-	PSTRING		keybuff;
+	char *	keybuff;
 	/*INT			i = BSSIdx, idx = KeyIdx, retVal;*/
 	ULONG		KeyLen;
 	/*UCHAR		CipherAlg = CIPHER_WEP64;*/
@@ -604,10 +604,10 @@ static int rtmp_parse_key_buffer_from_file(IN  struct rtmp_adapter *pAd,IN  PSTR
 }
 
 
-static void rtmp_read_key_parms_from_file(IN  struct rtmp_adapter *pAd, PSTRING tmpbuf, PSTRING buffer)
+static void rtmp_read_key_parms_from_file(IN  struct rtmp_adapter *pAd, char *tmpbuf, char *buffer)
 {
 	STRING		tok_str[16];
-	PSTRING		macptr;
+	char *	macptr;
 	INT			i = 0, idx;
 	ULONG		KeyType[HW_BEACON_MAX_NUM];
 	ULONG		KeyIdx;
@@ -729,10 +729,10 @@ static void rtmp_read_key_parms_from_file(IN  struct rtmp_adapter *pAd, PSTRING 
 #ifdef APCLI_SUPPORT
 static void rtmp_read_ap_client_from_file(
 	IN struct rtmp_adapter *pAd,
-	IN PSTRING tmpbuf,
-	IN PSTRING buffer)
+	IN char *tmpbuf,
+	IN char *buffer)
 {
-	PSTRING		macptr = NULL;
+	char *	macptr = NULL;
 	INT			i=0, j=0, idx;
 	UCHAR		macAddress[MAC_ADDR_LEN];
 	PAPCLI_STRUCT   pApCliEntry = NULL;
@@ -1064,10 +1064,10 @@ static void rtmp_read_ap_client_from_file(
 #endif /* APCLI_SUPPORT */
 
 
-static void rtmp_read_acl_parms_from_file(IN  struct rtmp_adapter *pAd, PSTRING tmpbuf, PSTRING buffer)
+static void rtmp_read_acl_parms_from_file(IN  struct rtmp_adapter *pAd, char *tmpbuf, char *buffer)
 {
 	STRING		tok_str[32];
-	PSTRING		macptr;
+	char *	macptr;
 	INT			i=0, j=0, idx;
 	UCHAR		macAddress[MAC_ADDR_LEN];
 
@@ -1147,9 +1147,9 @@ static void rtmp_read_acl_parms_from_file(IN  struct rtmp_adapter *pAd, PSTRING 
 
     ========================================================================
 */
-static void rtmp_read_ap_wmm_parms_from_file(IN  struct rtmp_adapter *pAd, PSTRING tmpbuf, PSTRING buffer)
+static void rtmp_read_ap_wmm_parms_from_file(IN  struct rtmp_adapter *pAd, char *tmpbuf, char *buffer)
 {
-	PSTRING					macptr;
+	char *				macptr;
 	INT						i=0;
 
 	/*WmmCapable*/
@@ -1415,10 +1415,10 @@ static void rtmp_read_ap_wmm_parms_from_file(IN  struct rtmp_adapter *pAd, PSTRI
 
     ========================================================================
 */
-static void rtmp_read_radius_parms_from_file(IN  struct rtmp_adapter *pAd, PSTRING tmpbuf, PSTRING buffer)
+static void rtmp_read_radius_parms_from_file(IN  struct rtmp_adapter *pAd, char *tmpbuf, char *buffer)
 {
 	STRING					tok_str[16];
-	PSTRING					macptr;
+	char *				macptr;
 	uint32_t 				ip_addr;
 	INT						i=0;
 	BOOLEAN					bUsePrevFormat = FALSE;
@@ -1598,9 +1598,9 @@ static void rtmp_read_radius_parms_from_file(IN  struct rtmp_adapter *pAd, PSTRI
 }
 #endif /* DOT1X_SUPPORT */
 
-static int rtmp_parse_wpapsk_buffer_from_file(IN  struct rtmp_adapter *pAd,IN  PSTRING buffer,IN  INT BSSIdx)
+static int rtmp_parse_wpapsk_buffer_from_file(IN  struct rtmp_adapter *pAd,IN  char *buffer,IN  INT BSSIdx)
 {
-	PSTRING		tmpbuf = buffer;
+	char *	tmpbuf = buffer;
 	INT			i = BSSIdx;
 	/*UCHAR		keyMaterial[40];*/
 	ULONG		len = strlen(tmpbuf);
@@ -1623,7 +1623,7 @@ static int rtmp_parse_wpapsk_buffer_from_file(IN  struct rtmp_adapter *pAd,IN  P
 #ifdef CONFIG_STA_SUPPORT
 static void rtmp_read_sta_wmm_parms_from_file(IN  struct rtmp_adapter *pAd, char *tmpbuf, char *buffer)
 {
-	PSTRING					macptr;
+	char *				macptr;
 	INT						i=0;
 	BOOLEAN					bWmmEnable = FALSE;
 
@@ -1711,8 +1711,8 @@ static void rtmp_read_sta_wmm_parms_from_file(IN  struct rtmp_adapter *pAd, char
 #ifdef DOT11_VHT_AC
 static void VHTParametersHook(
 	IN struct rtmp_adapter *pAd,
-	IN PSTRING pValueStr,
-	IN PSTRING pInput)
+	IN char *pValueStr,
+	IN char *pInput)
 {
 	long Value;
 
@@ -1826,13 +1826,13 @@ static void VHTParametersHook(
 #ifdef DOT11_N_SUPPORT
 static void HTParametersHook(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING		  pValueStr,
-	IN	PSTRING		  pInput)
+	IN	char *	  pValueStr,
+	IN	char *	  pInput)
 {
 	long Value;
 #ifdef CONFIG_AP_SUPPORT
 	INT			i=0;
-	PSTRING		Bufptr;
+	char *	Bufptr;
 #endif /* CONFIG_AP_SUPPORT */
 
     if (RTMPGetKeyParameter("HT_PROTECT", pValueStr, 25, pInput, TRUE))
@@ -2246,7 +2246,7 @@ static void HTParametersHook(
 			if (RTMPGetKeyParameter("OBSSScanParam", pValueStr, 32, pInput, TRUE))
 			{
 				int ObssScanValue, idx;
-				PSTRING	macptr;
+				char *macptr;
 				for (idx = 0, macptr = rstrtok(pValueStr,";"); macptr; macptr = rstrtok(NULL,";"), idx++)
 				{
 					ObssScanValue = simple_strtol(macptr, 0, 10);
@@ -2358,7 +2358,7 @@ static void HTParametersHook(
 
 
 #ifdef CONFIG_STA_SUPPORT
-void RTMPSetSTASSID(struct rtmp_adapter *pAd, PSTRING SSID)
+void RTMPSetSTASSID(struct rtmp_adapter *pAd, char *SSID)
 {
 	pAd->CommonCfg.SsidLen = (UCHAR) strlen(SSID);
 	memset(pAd->CommonCfg.Ssid, 0, NDIS_802_11_LENGTH_SSID);
@@ -2375,7 +2375,7 @@ void RTMPSetSTASSID(struct rtmp_adapter *pAd, PSTRING SSID)
 }
 
 
-void RTMPSetSTAPassPhrase(struct rtmp_adapter *pAd, PSTRING PassPh)
+void RTMPSetSTAPassPhrase(struct rtmp_adapter *pAd, char *PassPh)
 {
 	struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
 	int ret = TRUE;
@@ -2523,7 +2523,7 @@ int StoreConnectInfo(
 #endif /* CONFIG_STA_SUPPORT */
 
 
-void RTMPSetCountryCode(struct rtmp_adapter *pAd, PSTRING CountryCode)
+void RTMPSetCountryCode(struct rtmp_adapter *pAd, char *CountryCode)
 {
 	memmove(pAd->CommonCfg.CountryCode, CountryCode , 2);
 	pAd->CommonCfg.CountryCode[2] = ' ';
@@ -2533,7 +2533,7 @@ void RTMPSetCountryCode(struct rtmp_adapter *pAd, PSTRING CountryCode)
 		memmove(pAd->StaCfg.StaOriCountryCode, CountryCode , 2);
 #endif /* EXT_BUILD_CHANNEL_LIST */
 #endif /* CONFIG_STA_SUPPORT */
-	if (strlen((PSTRING) pAd->CommonCfg.CountryCode) != 0)
+	if (strlen(pAd->CommonCfg.CountryCode) != 0)
 		pAd->CommonCfg.bCountryFlag = TRUE;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("CountryCode=%s\n", pAd->CommonCfg.CountryCode));
@@ -2542,12 +2542,12 @@ void RTMPSetCountryCode(struct rtmp_adapter *pAd, PSTRING CountryCode)
 
 int RTMPSetProfileParameters(
 	IN struct rtmp_adapter *pAd,
-	IN PSTRING	pBuffer)
+	IN char *pBuffer)
 {
-	PSTRING					tmpbuf;
+	char *				tmpbuf;
 	ULONG					RtsThresh;
 	ULONG					FragThresh;
-	PSTRING					macptr;
+	char *				macptr;
 	INT						i = 0, retval;
 
 	tmpbuf = kmalloc(MAX_PARAM_BUFFER_SIZE, GFP_ATOMIC);
@@ -2663,7 +2663,7 @@ int RTMPSetProfileParameters(
 						{
 							memmove(pAd->ApCfg.MBSSID[i].Ssid, tmpbuf , strlen(tmpbuf));
 					    	pAd->ApCfg.MBSSID[i].Ssid[strlen(tmpbuf)] = '\0';
-								    	pAd->ApCfg.MBSSID[i].SsidLen = strlen((PSTRING) pAd->ApCfg.MBSSID[i].Ssid);
+								    	pAd->ApCfg.MBSSID[i].SsidLen = strlen((char *) pAd->ApCfg.MBSSID[i].Ssid);
 							if (bSSIDxIsUsed == FALSE)
 							{
 								bSSIDxIsUsed = TRUE;
@@ -2698,7 +2698,7 @@ int RTMPSetProfileParameters(
 
 								memmove(pAd->ApCfg.MBSSID[apidx].Ssid, macptr , strlen(macptr));
 				    			pAd->ApCfg.MBSSID[apidx].Ssid[strlen(macptr)] = '\0';
-							   pAd->ApCfg.MBSSID[apidx].SsidLen = strlen((PSTRING) pAd->ApCfg.MBSSID[apidx].Ssid);
+							   pAd->ApCfg.MBSSID[apidx].SsidLen = strlen((char *) pAd->ApCfg.MBSSID[apidx].Ssid);
 
 				    			DBGPRINT(RT_DEBUG_TRACE, ("SSID[%d]=%s\n", i, pAd->ApCfg.MBSSID[apidx].Ssid));
 							}
@@ -2709,7 +2709,7 @@ int RTMPSetProfileParameters(
 							{
 								memmove(pAd->ApCfg.MBSSID[BSS0].Ssid, tmpbuf , strlen(tmpbuf));
 						    	pAd->ApCfg.MBSSID[BSS0].Ssid[strlen(tmpbuf)] = '\0';
-									    	pAd->ApCfg.MBSSID[BSS0].SsidLen = strlen((PSTRING) pAd->ApCfg.MBSSID[BSS0].Ssid);
+									    	pAd->ApCfg.MBSSID[BSS0].SsidLen = strlen((char *) pAd->ApCfg.MBSSID[BSS0].Ssid);
 								DBGPRINT(RT_DEBUG_TRACE, ("SSID=%s\n", pAd->ApCfg.MBSSID[BSS0].Ssid));
 							}
 						}
@@ -4204,11 +4204,11 @@ int RTMPSetProfileParameters(
 int RTMPSetSingleSKUParameters(
 	IN struct rtmp_adapter *pAd)
 {
-	PSTRING buffer;
-	PSTRING	readline, token;
+	char *buffer;
+	char *readline, *token;
 	RTMP_OS_FD srcf;
 	INT retval;
-	PSTRING ptr;
+	char *ptr;
 	int index, i;
 	CH_POWER *StartCh = NULL;
 	UCHAR MaxPwr;

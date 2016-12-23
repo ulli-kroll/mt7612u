@@ -792,7 +792,7 @@ Note:
 */
 INT	Show_QoSLoad_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 #ifdef QLOAD_FUNC_BUSY_TIME_STATS
 	uint32_t BusyTimeId;
@@ -847,7 +847,7 @@ Note:
 */
 INT	Set_QloadClr_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			Arg)
+	IN	char *		Arg)
 {
 	QBSS_LoadStatusClear(pAd);
 	return TRUE;
@@ -871,7 +871,7 @@ Note:
 */
 INT	Set_QloadAlarmTimeThreshold_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			Arg)
+	IN	char *		Arg)
 {
 #ifdef QLOAD_FUNC_BUSY_TIME_ALARM
 	pAd->QloadAlarmBusyTimeThreshold = (UCHAR)simple_strtol(Arg, 0, 10);
@@ -902,7 +902,7 @@ Note:
 */
 INT	Set_QloadAlarmNumThreshold_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			Arg)
+	IN	char *		Arg)
 {
 #ifdef QLOAD_FUNC_BUSY_TIME_ALARM
 	pAd->QloadAlarmBusyNumThreshold = (UCHAR)simple_strtol(Arg, 0, 10);

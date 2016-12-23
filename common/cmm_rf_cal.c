@@ -269,7 +269,7 @@ VOID R_Calibration(
 
 INT Set_TestRxIQCalibration_Proc(
 	IN struct rtmp_adapter *pAd,
-	IN PSTRING arg)
+	IN char *arg)
 {
 	DBGPRINT(RT_DEBUG_OFF, ("TestRxIQCalibration !!!\n"));
 	RXIQ_Calibration(pAd);
@@ -279,7 +279,7 @@ INT Set_TestRxIQCalibration_Proc(
 
 INT Set_TestLoftTxIQCalibration_Proc(
 	IN struct rtmp_adapter *pAd,
-	IN PSTRING arg)
+	IN char *arg)
 {
 	uint32_t Value;
 
@@ -1611,7 +1611,7 @@ VOID DoDPDCalibration(
 
 INT Set_TestDPDCalibration_Proc(
 	IN struct rtmp_adapter *pAd,
-	IN PSTRING arg)
+	IN char *arg)
 {
 #ifdef RALINK_ATE
 	PATE_INFO pATEInfo = &(pAd->ate);
@@ -1667,7 +1667,7 @@ INT Set_TestDPDCalibration_Proc(
 
 INT Set_TestDPDCalibrationTX0_Proc(
 	IN struct rtmp_adapter *pAd,
-	IN PSTRING arg)
+	IN char *arg)
 {
 	UCHAR Ant0 = 0;
 	UCHAR byteValue = 0;
@@ -1825,7 +1825,7 @@ INT Set_TestDPDCalibrationTX0_Proc(
 
 INT Set_TestDPDCalibrationTX1_Proc(
 	IN struct rtmp_adapter *pAd,
-	IN PSTRING arg)
+	IN char *arg)
 {
 	UCHAR Ant1 = 0;
 	UCHAR byteValue = 0;
@@ -1983,7 +1983,7 @@ INT Set_TestDPDCalibrationTX1_Proc(
 
 INT Set_DPDCalPassThres_Proc(
 	IN struct rtmp_adapter *pAd,
-	IN PSTRING arg)
+	IN char *arg)
 {
 	pAd->chipCap.DPDCalPassThres = simple_strtol(arg, 0, 10);
 

@@ -596,9 +596,9 @@ int rt_ioctl_giwscan(struct net_device *dev,
 {
 	VOID *pAd = NULL;
 	int i=0, status = 0;
-	PSTRING current_ev = extra, previous_ev = extra;
-	PSTRING end_buf;
-	PSTRING current_val;
+	char *current_ev = extra, *previous_ev = extra;
+	char *end_buf;
+	char *current_val;
 	STRING custom[MAX_CUSTOM_LEN] = {0};
 #ifndef IWEVGENIE
 	unsigned char idx;
@@ -766,7 +766,7 @@ int rt_ioctl_giwscan(struct net_device *dev,
 		iwe.u.data.flags = 1;
 
         previous_ev = current_ev;
-		current_ev = IWE_STREAM_ADD_POINT(info, current_ev,end_buf, &iwe, (PSTRING) pIoctlScan->pBssTable[i].Ssid);
+		current_ev = IWE_STREAM_ADD_POINT(info, current_ev,end_buf, &iwe, (char *) pIoctlScan->pBssTable[i].Ssid);
         if (current_ev == previous_ev)
         {
 #if WIRELESS_EXT >= 17
@@ -1428,8 +1428,8 @@ int rt_ioctl_setparam(struct net_device *dev, struct iw_request_info *info,
 {
 	VOID *pAd;
 /*	struct os_cookie *pObj; */
-	PSTRING this_char = extra;
-	PSTRING value = NULL;
+	char *this_char = extra;
+	char *value = NULL;
 	int  Status=0;
 	RT_CMD_PARAM_SET CmdParam;
 
@@ -1519,7 +1519,7 @@ rt_private_get_statistics(struct net_device *dev, struct iw_request_info *info,
 
 static int
 rt_private_show(struct net_device *dev, struct iw_request_info *info,
-		struct iw_point *wrq, PSTRING extra)
+		struct iw_point *wrq, char *extra)
 {
 	RTMP_IOCTL_INPUT_STRUCT wrqin;
 	INT				Status = 0;
@@ -2290,7 +2290,7 @@ INT rt28xx_sta_ioctl(struct net_device *net_dev, struct ifreq *rq, INT cmd)
 			RTMP_STA_IoctlHandle(pAd, NULL, CMD_RTPRIV_IOCTL_STA_SIOCGIWNICKN, 0,
 							pNickName, 0, RT_DEV_PRIV_FLAGS_GET(net_dev));
 
-            erq->length = pNickName->NameLen; /*strlen((PSTRING) pAd->nickname); */
+            erq->length = pNickName->NameLen; /*strlen((char *) pAd->nickname); */
             Status = copy_to_user(erq->pointer, nickname, erq->length);
 			break;
 		}

@@ -251,11 +251,11 @@ VOID ApCliSimulateRecvBeacon(struct rtmp_adapter *pAd);
 #ifdef APCLI_AUTO_CONNECT_SUPPORT
 extern INT Set_ApCli_Enable_Proc(
     IN  Pstruct rtmp_adapter pAd,
-    IN  PSTRING arg);
+    IN  char *arg);
 
 extern INT Set_ApCli_Bssid_Proc(
     IN  Pstruct rtmp_adapter pAd,
-    IN  PSTRING arg);
+    IN  char *arg);
 
 BOOLEAN ApCliAutoConnectExec(
 	IN  Pstruct rtmp_adapter   pAd);

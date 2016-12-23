@@ -66,7 +66,6 @@ typedef unsigned char BOOLEAN;
 typedef void VOID;
 #endif /* LINUX */
 
-typedef char *PSTRING;
 typedef VOID *PVOID;
 typedef CHAR *PCHAR;
 typedef UCHAR *PUCHAR;

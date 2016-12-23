@@ -29,7 +29,7 @@
 #include "rt_config.h"
 
 static BOOLEAN RT_isLegalCmdBeforeInfUp(
-       IN PSTRING SetCmd);
+       IN char *SetCmd);
 
 
 INT ComputeChecksum(
@@ -122,7 +122,7 @@ char* get_bw_str(int bandwidth)
 */
 INT RT_CfgSetCountryRegion(
 	IN struct rtmp_adapter *pAd,
-	IN PSTRING			arg,
+	IN char *		arg,
 	IN INT				band)
 {
 	LONG region;
@@ -187,8 +187,8 @@ static UCHAR CFG_WMODE_MAP[]={
 };
 
 
-static PSTRING BAND_STR[] = {"Invalid", "2.4G", "5G", "2.4G/5G"};
-static PSTRING WMODE_STR[]= {"", "A", "B", "G", "gN", "aN", "AC"};
+static char *BAND_STR[] = {"Invalid", "2.4G", "5G", "2.4G/5G"};
+static char *WMODE_STR[]= {"", "A", "B", "G", "gN", "aN", "AC"};
 
 UCHAR *wmode_2_str(UCHAR wmode)
 {
@@ -322,7 +322,7 @@ BOOLEAN wmode_band_equal(UCHAR smode, UCHAR tmode)
         TRUE if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
-INT RT_CfgSetWirelessMode(struct rtmp_adapter *pAd, PSTRING arg)
+INT RT_CfgSetWirelessMode(struct rtmp_adapter *pAd, char *arg)
 {
 	LONG cfg_mode;
 	UCHAR wmode, *mode_str;
@@ -407,7 +407,7 @@ static UCHAR RT_CfgMbssWirelessModeMaxGet(struct rtmp_adapter *pAd)
         TRUE if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
-INT RT_CfgSetMbssWirelessMode(struct rtmp_adapter *pAd, PSTRING arg)
+INT RT_CfgSetMbssWirelessMode(struct rtmp_adapter *pAd, char *arg)
 {
 	INT cfg_mode;
 	UCHAR wmode;
@@ -472,7 +472,7 @@ INT RT_CfgSetMbssWirelessMode(struct rtmp_adapter *pAd, PSTRING arg)
 
 
 static BOOLEAN RT_isLegalCmdBeforeInfUp(
-       IN PSTRING SetCmd)
+       IN char *SetCmd)
 {
 		BOOLEAN TestFlag;
 		TestFlag =	!strcmp(SetCmd, "Debug") ||
@@ -496,7 +496,7 @@ static BOOLEAN RT_isLegalCmdBeforeInfUp(
 
 INT RT_CfgSetShortSlot(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	LONG ShortSlot;
 
@@ -523,7 +523,7 @@ INT RT_CfgSetShortSlot(
 */
 INT	RT_CfgSetWepKey(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			keyString,
+	IN	char *		keyString,
 	IN	CIPHER_KEY		*pSharedKey,
 	IN	INT				keyIdx)
 {
@@ -587,7 +587,7 @@ INT	RT_CfgSetWepKey(
 */
 INT RT_CfgSetWPAPSKKey(
 	IN struct rtmp_adapter *pAd,
-	IN PSTRING		keyString,
+	IN char *	keyString,
 	IN INT			keyStringLen,
 	IN UCHAR		*pHashStr,
 	IN INT			hashStrLen,
@@ -616,7 +616,7 @@ INT RT_CfgSetWPAPSKKey(
 	return TRUE;
 }
 
-INT	RT_CfgSetFixedTxPhyMode(PSTRING arg)
+INT	RT_CfgSetFixedTxPhyMode(char *arg)
 {
 	INT fix_tx_mode = FIXED_TXMODE_HT;
 	ULONG value;
@@ -651,7 +651,7 @@ INT	RT_CfgSetFixedTxPhyMode(PSTRING arg)
 
 INT	RT_CfgSetMacAddress(
 	IN 	struct rtmp_adapter *	pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	INT	i, mac_len;
 
@@ -679,7 +679,7 @@ INT	RT_CfgSetMacAddress(
 	return TRUE;
 }
 
-INT	RT_CfgSetTxMCSProc(PSTRING arg, BOOLEAN *pAutoRate)
+INT	RT_CfgSetTxMCSProc(char *arg, BOOLEAN *pAutoRate)
 {
 	INT	Value = simple_strtol(arg, 0, 10);
 	INT	TxMcs;
@@ -701,7 +701,7 @@ INT	RT_CfgSetTxMCSProc(PSTRING arg, BOOLEAN *pAutoRate)
 
 INT	RT_CfgSetAutoFallBack(
 	IN 	struct rtmp_adapter *	pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	TX_RTY_CFG_STRUC tx_rty_cfg;
 	UCHAR AutoFallBack = (UCHAR)simple_strtol(arg, 0, 10);
@@ -974,7 +974,7 @@ INT RTMP_COM_IoctlHandle(
 #endif /* IFUP_IN_PROBE */
 			)
 			{
-				if(pData == NULL ||	RT_isLegalCmdBeforeInfUp((PSTRING) pData) == FALSE)
+				if(pData == NULL ||	RT_isLegalCmdBeforeInfUp((char *) pData) == FALSE)
 				return NDIS_STATUS_FAILURE;
 			}
 			break;
@@ -1478,7 +1478,7 @@ INT RTMP_COM_IoctlHandle(
 */
 INT Set_SiteSurvey_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	NDIS_802_11_SSID Ssid;
 	struct os_cookie *pObj;
@@ -1554,7 +1554,7 @@ INT Set_SiteSurvey_Proc(
 
 INT	Set_Antenna_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	ANT_DIVERSITY_TYPE UsedAnt;
 	int i;
@@ -1594,7 +1594,7 @@ INT	Set_Antenna_Proc(
 
 
 
-INT set_tssi_enable(struct rtmp_adapter *pAd, PSTRING arg)
+INT set_tssi_enable(struct rtmp_adapter *pAd, char *arg)
 {
 	UINT8 tssi_enable = 0;
 
@@ -1615,7 +1615,7 @@ INT set_tssi_enable(struct rtmp_adapter *pAd, PSTRING arg)
 
 
 #ifdef CONFIG_ANDES_SUPPORT
-INT set_fw_debug(struct rtmp_adapter *ad, PSTRING arg)
+INT set_fw_debug(struct rtmp_adapter *ad, char *arg)
 {
 	UINT8 fw_debug_param;
 

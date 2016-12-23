@@ -1404,10 +1404,10 @@ RSNA policy selection in an IBSS: IEEE P802.11w Table 8-1b
 */
 void rtmp_read_pmf_parameters_from_file(
 	IN struct rtmp_adapter *pAd,
-	IN PSTRING tmpbuf,
-	IN PSTRING pBuffer)
+	IN char *tmpbuf,
+	IN char *pBuffer)
 {
-	PSTRING macptr;
+	char *macptr;
 
 #ifdef CONFIG_AP_SUPPORT
         IF_DEV_CONFIG_OPMODE_ON_AP(pAd)

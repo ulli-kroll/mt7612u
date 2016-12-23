@@ -57,7 +57,7 @@ typedef struct _CH_DESP {
 } CH_DESP, *PCH_DESP;
 
 typedef struct _CH_REGION {
-	UCHAR CountReg[3];
+	char CountReg[3];
 	UCHAR DfsType;			/* 0: CE, 1: FCC, 2: JAP, 3:JAP_W53, JAP_W56 */
 	CH_DESP *pChDesp;
 	BOOLEAN edcca_on;
@@ -68,7 +68,7 @@ extern CH_REGION ChRegion[];
 
 #ifdef ED_MONITOR
 typedef struct _COUNTRY_PROP {
-	UCHAR CountReg[3];
+	char CountReg[3];
 	UCHAR DfsType;			/* 0: CE, 1: FCC, 2: JAP, 3:JAP_W53, JAP_W56 */
 	BOOLEAN edcca_on;
 } COUNTRY_PROP, *PCOUNTRY_PROP;

@@ -974,7 +974,7 @@ struct _RTMP_CHIP_OP_ {
 	/* ITxBf calibration */
 	int (*fITxBfDividerCalibration)(struct rtmp_adapter *pAd, int calFunction, int calMethod, UCHAR *divPhase);
 	void (*fITxBfLNAPhaseCompensate)(struct rtmp_adapter *pAd);
-	int (*fITxBfCal)(struct rtmp_adapter *pAd, PSTRING arg);
+	int (*fITxBfCal)(struct rtmp_adapter *pAd, char *arg);
 	int (*fITxBfLNACalibration)(struct rtmp_adapter *pAd, int calFunction, int calMethod, BOOLEAN gBand);
 
 	/* MCU related callback functions */
@@ -1034,9 +1034,9 @@ struct _RTMP_CHIP_OP_ {
 	/* TX ALC */
 	uint32_t (*TSSIRatio)(int32_t delta_power);
 	VOID (*InitDesiredTSSITable)(IN struct rtmp_adapter *pAd);
-	int (*ATETssiCalibration)(struct rtmp_adapter *pAd, PSTRING arg);
-	int (*ATETssiCalibrationExtend)(struct rtmp_adapter *pAd, PSTRING arg);
-	int (*ATEReadExternalTSSI)(struct rtmp_adapter *pAd, PSTRING arg);
+	int (*ATETssiCalibration)(struct rtmp_adapter *pAd, char *arg);
+	int (*ATETssiCalibrationExtend)(struct rtmp_adapter *pAd, char *arg);
+	int (*ATEReadExternalTSSI)(struct rtmp_adapter *pAd, char *arg);
 
 	VOID (*AsicTxAlcGetAutoAgcOffset)(
 				IN struct rtmp_adapter	*pAd,

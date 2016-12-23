@@ -37,7 +37,7 @@ int32_t CalcRCalibrationCode(
 
 INT Set_TestRxIQCalibration_Proc(
 	IN struct rtmp_adapter *pAd,
-	IN PSTRING arg);
+	IN char *arg);
 
 VOID R_Calibration(
 	IN Pstruct rtmp_adapter pAd);
@@ -64,19 +64,19 @@ VOID DoDPDCalibration(
 
 INT Set_DPDCalPassThres_Proc(
 	IN struct rtmp_adapter *pAd,
-	IN PSTRING arg);
+	IN char *arg);
 
 INT Set_TestDPDCalibration_Proc(
 	IN struct rtmp_adapter *pAd,
-	IN PSTRING arg);
+	IN char *arg);
 
 INT Set_TestDPDCalibrationTX0_Proc(
 	IN struct rtmp_adapter *pAd,
-	IN PSTRING arg);
+	IN char *arg);
 
 INT Set_TestDPDCalibrationTX1_Proc(
 	IN struct rtmp_adapter *pAd,
-	IN PSTRING arg);
+	IN char *arg);
 
 VOID LOFT_IQ_Calibration(
 	IN struct rtmp_adapter *pAd);

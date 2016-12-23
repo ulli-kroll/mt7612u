@@ -925,7 +925,7 @@ NTSTATUS eFuseWrite(
 */
 INT set_eFuseGetFreeBlockCount_Proc(
    	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	UINT free_num = 0;
 
@@ -940,7 +940,7 @@ INT set_eFuseGetFreeBlockCount_Proc(
 
 INT set_eFusedump_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	USHORT InBuf[3];
 	INT i = 0;
@@ -966,13 +966,13 @@ INT set_eFusedump_Proc(
 
 INT	set_eFuseLoadFromBin_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
-	PSTRING					src;
+	char *				src;
 	RTMP_OS_FD				srcf;
 	RTMP_OS_FS_INFO			osfsInfo;
 	INT 						retval, memSize;
-	PSTRING					buffer, memPtr;
+	char *				buffer, *memPtr;
 	INT						TotalByte= 0;
 	USHORT					*PDATA;
 	UCHAR					all_ff[16] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
@@ -1326,7 +1326,7 @@ INT efuse_probe(struct rtmp_adapter *pAd)
 #ifdef RALINK_ATE
 INT Set_LoadEepromBufferFromEfuse_Proc(
 	IN struct rtmp_adapter *pAd,
-	IN PSTRING			arg)
+	IN char *		arg)
 {
 	UINT bEnable = simple_strtol(arg, 0, 10);
 	UINT free_blk = 0;
@@ -1365,7 +1365,7 @@ INT Set_LoadEepromBufferFromEfuse_Proc(
 
 INT set_eFuseBufferModeWriteBack_Proc(
 	IN struct rtmp_adapter *pAd,
-	IN PSTRING			arg)
+	IN char *		arg)
 {
 	UINT bEnable = simple_strtol(arg, 0, 10);
 
@@ -1381,7 +1381,7 @@ INT set_eFuseBufferModeWriteBack_Proc(
 
 INT set_BinModeWriteBack_Proc(
 	IN struct rtmp_adapter *pAd,
-	IN PSTRING			arg)
+	IN char *		arg)
 {
 	UINT bEnable = simple_strtol(arg, 0, 10);
 

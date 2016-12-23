@@ -449,65 +449,65 @@ BOOLEAN DfsSwCheckOnHwDetection(
 
 INT	Show_BlockCh_Proc(
 	IN	Pstruct rtmp_adapter pAd,
-	IN	PSTRING			arg);
+	IN	char *		arg);
 
 INT	Set_RadarDebug_Proc(
 	IN	Pstruct rtmp_adapter pAd,
-	IN	PSTRING			arg);
+	IN	char *		arg);
 
 INT	Set_ResetRadarHwDetect_Proc(
 	IN	Pstruct rtmp_adapter pAd,
-	IN	PSTRING			arg);
+	IN	char *		arg);
 
 INT Set_DfsSwDisable_Proc(
 	IN	Pstruct rtmp_adapter pAd,
-	IN	PSTRING			arg);
+	IN	char *		arg);
 
 INT Set_DfsEnvtDropAdjTime_Proc(
 	IN Pstruct rtmp_adapter   pAd,
-	IN PSTRING  arg);
+	IN char * arg);
 
 INT	Set_RadarStart_Proc(
 	IN	Pstruct rtmp_adapter pAd,
-	IN	PSTRING			arg);
+	IN	char *		arg);
 
 INT	Set_RadarStop_Proc(
 	IN	Pstruct rtmp_adapter pAd,
-	IN	PSTRING			arg);
+	IN	char *		arg);
 
 #ifdef DFS_ATP_SUPPORT
-INT Set_DfsAtpStart_Proc(IN Pstruct rtmp_adapter , IN PSTRING );
-INT Set_DfsAtpReset_Proc(IN Pstruct rtmp_adapter , IN PSTRING );
-INT Set_DfsAtpReport_Proc(IN Pstruct rtmp_adapter , IN PSTRING );
+INT Set_DfsAtpStart_Proc(IN Pstruct rtmp_adapter , IN char *);
+INT Set_DfsAtpReset_Proc(IN Pstruct rtmp_adapter , IN char *);
+INT Set_DfsAtpReport_Proc(IN Pstruct rtmp_adapter , IN char *);
 #endif
 
 INT	Set_RadarSetTbl1_Proc(
 	IN	Pstruct rtmp_adapter pAd,
-	IN	PSTRING			arg);
+	IN	char *		arg);
 
 INT	Set_RadarSetTbl2_Proc(
 	IN	Pstruct rtmp_adapter pAd,
-	IN	PSTRING			arg);
+	IN	char *		arg);
 
 INT	Set_PollTime_Proc(
 	IN	Pstruct rtmp_adapter pAd,
-	IN	PSTRING			arg);
+	IN	char *		arg);
 
 INT	Set_PrintBusyIdle_Proc(
 	IN	Pstruct rtmp_adapter pAd,
-	IN	PSTRING			arg);
+	IN	char *		arg);
 
 INT	Set_BusyIdleRatio_Proc(
 	IN	Pstruct rtmp_adapter pAd,
-	IN	PSTRING			arg);
+	IN	char *		arg);
 
 INT	Set_DfsRssiHigh_Proc(
 	IN	Pstruct rtmp_adapter pAd,
-	IN	PSTRING			arg);
+	IN	char *		arg);
 
 INT	Set_DfsRssiLow_Proc(
 	IN	Pstruct rtmp_adapter pAd,
-	IN	PSTRING			arg);
+	IN	char *		arg);
 
 void dfs_tasklet(unsigned long data);
 

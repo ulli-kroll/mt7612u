@@ -112,7 +112,7 @@ UINT8 GetRegulatoryMaxTxPwr(
 	UINT8 RegulatoryClass;
 	UINT8 MaxRegulatoryClassNum;
 	PDOT11_REGULATORY_INFORMATION pRegulatoryClass;
-	PSTRING pCountry = (PSTRING)(pAd->CommonCfg.CountryCode);
+	char *pCountry = (pAd->CommonCfg.CountryCode);
 
 
 	if (strncmp(pCountry, "US", 2) == 0)
@@ -828,7 +828,7 @@ VOID InsertChannelRepIE(
 	IN struct rtmp_adapter *pAd,
 	OUT PUCHAR pFrameBuf,
 	OUT PULONG pFrameLen,
-	IN PSTRING pCountry,
+	IN char *pCountry,
 	IN UINT8 RegulatoryClass)
 {
 	ULONG TempLen;
@@ -2068,11 +2068,11 @@ VOID PeerSpectrumAction(
  */
 INT Set_MeasureReq_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	UINT wcid = 1;
 	UINT ArgIdx;
-	PSTRING thisChar;
+	char *thisChar;
 
 	MEASURE_REQ_MODE MeasureReqMode;
 	UINT8 MeasureReqToken = RandomByte(pAd);
@@ -2168,7 +2168,7 @@ END_OF_MEASURE_REQ:
 
 INT Set_TpcReq_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	UINT wcid;
 
@@ -2193,7 +2193,7 @@ INT Set_TpcReq_Proc(
 #ifdef CONFIG_AP_SUPPORT
 INT Set_PwrConstraint(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 
 typedef struct __PWR_CONSTRAIN_CFG
@@ -2265,7 +2265,7 @@ typedef struct __PWR_CONSTRAIN_CFG
 
 
 static PDOT11_REGULATORY_INFORMATION GetRugClassRegion(
-	IN PSTRING pCountryCode,
+	IN char *pCountryCode,
 	IN UINT8 RugClass)
 {
 	PDOT11_REGULATORY_INFORMATION pRugClass;
@@ -2308,7 +2308,7 @@ VOID RguClass_BuildBcnChList(
 			break;
 
 		pRguClassRegion = GetRugClassRegion(
-							(PSTRING)pAd->CommonCfg.CountryCode,
+							(char *)pAd->CommonCfg.CountryCode,
 							pAd->CommonCfg.RegulatoryClass[loop]);
 
 		pChList = &pRguClassRegion->ChannelSet;

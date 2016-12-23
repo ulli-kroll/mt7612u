@@ -842,7 +842,7 @@ VOID ApRadarDetectPeriodic(
 	1 = Don't Switch Channel when Radar Hit */
 INT	Set_RadarDebug_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	PRADAR_DETECT_STRUCT pRadarDetect = &pAd->CommonCfg.RadarDetect;
 
@@ -878,7 +878,7 @@ INT	Set_RadarDebug_Proc(
 
 INT	Set_ResetRadarHwDetect_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	DfsResetHwDetectionStatus(pAd);
 	return TRUE;
@@ -886,7 +886,7 @@ INT	Set_ResetRadarHwDetect_Proc(
 
 INT Set_DfsSwDisable_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	PRADAR_DETECT_STRUCT pRadarDetect = &pAd->CommonCfg.RadarDetect;
 
@@ -897,7 +897,7 @@ INT Set_DfsSwDisable_Proc(
 
 INT Set_DfsEnvtDropAdjTime_Proc(
 	IN struct rtmp_adapter *  pAd,
-	IN PSTRING  arg)
+	IN char * arg)
 {
 	PDFS_SW_DETECT_PARAM pDfsSwParam = &pAd->CommonCfg.RadarDetect.DfsSwParam;
 	pDfsSwParam->EvtDropAdjTime = simple_strtol(arg, 0, 10);
@@ -907,7 +907,7 @@ INT Set_DfsEnvtDropAdjTime_Proc(
 
 INT	Set_RadarStart_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	PDFS_PROGRAM_PARAM pDfsProgramParam = &pAd->CommonCfg.RadarDetect.DfsProgramParam;
 
@@ -927,14 +927,14 @@ INT	Set_RadarStart_Proc(
 
 INT	Set_RadarStop_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	NewRadarDetectionStop(pAd);
 	return TRUE;
 }
 
 #ifdef DFS_ATP_SUPPORT
-INT Set_DfsAtpStart_Proc(IN struct rtmp_adapter *pAd, IN PSTRING arg)
+INT Set_DfsAtpStart_Proc(IN struct rtmp_adapter *pAd, IN char *arg)
 {
 	INT ret;
 
@@ -968,7 +968,7 @@ INT Set_DfsAtpStart_Proc(IN struct rtmp_adapter *pAd, IN PSTRING arg)
 	return TRUE;
 }
 
-INT Set_DfsAtpReset_Proc(IN struct rtmp_adapter *pAd, IN PSTRING arg)
+INT Set_DfsAtpReset_Proc(IN struct rtmp_adapter *pAd, IN char *arg)
 {
 	if (simple_strtol(arg, 0, 10) == 1) {
 		/* reset the flag */
@@ -980,7 +980,7 @@ INT Set_DfsAtpReset_Proc(IN struct rtmp_adapter *pAd, IN PSTRING arg)
 	return TRUE;
 }
 
-INT Set_DfsAtpReport_Proc(IN struct rtmp_adapter *pAd, IN PSTRING arg)
+INT Set_DfsAtpReport_Proc(IN struct rtmp_adapter *pAd, IN char *arg)
 {
 	printk ("%s\n", __FUNCTION__);
 	if (pAd->CommonCfg.RadarDetect.atp_radar_detect == TRUE) {
@@ -995,7 +995,7 @@ INT Set_DfsAtpReport_Proc(IN struct rtmp_adapter *pAd, IN PSTRING arg)
 
 INT	Set_RadarSetTbl1_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	PUCHAR p2 = arg;
 	ULONG idx, value;
@@ -1031,7 +1031,7 @@ INT	Set_RadarSetTbl1_Proc(
 
 INT	Set_RadarSetTbl2_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	PUCHAR p2 = arg;
 	ULONG idx, value;
@@ -1055,7 +1055,7 @@ INT	Set_RadarSetTbl2_Proc(
 
 INT	Set_PollTime_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	PRADAR_DETECT_STRUCT pRadarDetect = &pAd->CommonCfg.RadarDetect;
 	pRadarDetect->PollTime = simple_strtol(arg, 0, 10);
@@ -1064,7 +1064,7 @@ INT	Set_PollTime_Proc(
 
 INT	Set_PrintBusyIdle_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	PRADAR_DETECT_STRUCT pRadarDetect = &pAd->CommonCfg.RadarDetect;
 	pRadarDetect->print_ch_busy_sta = simple_strtol(arg, 0, 10);
@@ -1073,7 +1073,7 @@ INT	Set_PrintBusyIdle_Proc(
 
 INT	Set_BusyIdleRatio_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	PRADAR_DETECT_STRUCT pRadarDetect = &pAd->CommonCfg.RadarDetect;
 	pRadarDetect->ch_busy_idle_ratio = simple_strtol(arg, 0, 10);
@@ -1082,7 +1082,7 @@ INT	Set_BusyIdleRatio_Proc(
 
 INT	Set_DfsRssiHigh_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	PRADAR_DETECT_STRUCT pRadarDetect = &pAd->CommonCfg.RadarDetect;
 	pRadarDetect->DfsRssiHigh = simple_strtol(arg, 0, 10);
@@ -1091,7 +1091,7 @@ INT	Set_DfsRssiHigh_Proc(
 
 INT	Set_DfsRssiLow_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	PRADAR_DETECT_STRUCT pRadarDetect = &pAd->CommonCfg.RadarDetect;
 	pRadarDetect->DfsRssiLow = simple_strtol(arg, 0, 10);
@@ -1100,7 +1100,7 @@ INT	Set_DfsRssiLow_Proc(
 
 INT	Show_BlockCh_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	int i;
 

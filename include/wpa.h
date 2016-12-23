@@ -415,7 +415,7 @@ INT WpaCheckEapCode(
 #endif /* WPA_SUPPLICANT_SUPPORT */
 
 
-PSTRING GetEapolMsgType(CHAR msg);
+char *GetEapolMsgType(CHAR msg);
 
 #ifdef CONFIG_STA_SUPPORT
 #endif /* CONFIG_STA_SUPPORT */

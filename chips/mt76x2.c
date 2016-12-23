@@ -867,7 +867,7 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, BOOLEAN s
 void mt76x2_external_pa_rf_dac_control(struct rtmp_adapter *ad, u8 channel)
 {
 	if (isExternalPAMode(ad, channel)) {
-		if (!strncmp((PSTRING)ad->CommonCfg.CountryCode, "US", 2)
+		if (!strncmp(ad->CommonCfg.CountryCode, "US", 2)
 			&& (channel >= 36 && channel <= 48)) {
 				mt_rf_write(ad, 0, 0x058, 0x226C6000);
 				mt_rf_write(ad, 1, 0x058, 0x226C6000);
@@ -4007,11 +4007,11 @@ static VOID mt76x2_init_dev_nick_name(struct rtmp_adapter *ad)
 
 #ifdef RTMP_MAC_USB
 	if (IS_MT7662U(ad))
-		snprintf((PSTRING) ad->nickname, sizeof(ad->nickname), "mt7662u_sta");
+		snprintf(ad->nickname, sizeof(ad->nickname), "mt7662u_sta");
 	else if (IS_MT7632U(ad))
-		snprintf((PSTRING) ad->nickname, sizeof(ad->nickname), "mt7632u_sta");
+		snprintf(ad->nickname, sizeof(ad->nickname), "mt7632u_sta");
 	else if (IS_MT7612U(ad))
-		snprintf((PSTRING) ad->nickname, sizeof(ad->nickname), "mt7612u_sta");
+		snprintf(ad->nickname, sizeof(ad->nickname), "mt7612u_sta");
 #endif
 }
 #endif /* CONFIG_STA_SUPPORT */

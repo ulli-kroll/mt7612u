@@ -276,9 +276,9 @@ BOOLEAN APPeerAuthSanity(
 	);
 
 #ifdef DOT1X_SUPPORT
-INT	Set_OwnIPAddr_Proc(struct rtmp_adapter *pAd, PSTRING arg);
-INT	Set_EAPIfName_Proc(struct rtmp_adapter *pAd, PSTRING arg);
-INT	Set_PreAuthIfName_Proc(struct rtmp_adapter *pAd, PSTRING arg);
+INT	Set_OwnIPAddr_Proc(struct rtmp_adapter *pAd, char *arg);
+INT	Set_EAPIfName_Proc(struct rtmp_adapter *pAd, char *arg);
+INT	Set_PreAuthIfName_Proc(struct rtmp_adapter *pAd, char *arg);
 
 /* Define in ap.c */
 BOOLEAN DOT1X_InternalCmdAction(
@@ -289,7 +289,7 @@ BOOLEAN DOT1X_InternalCmdAction(
 BOOLEAN DOT1X_EapTriggerAction(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry);
 #endif /* DOT1X_SUPPORT */
 
-VOID AP_E2PROM_IOCTL_PostCtrl(RTMP_IOCTL_INPUT_STRUCT *wrq, PSTRING msg);
+VOID AP_E2PROM_IOCTL_PostCtrl(RTMP_IOCTL_INPUT_STRUCT *wrq, char *msg);
 
 VOID IAPP_L2_UpdatePostCtrl(struct rtmp_adapter *pAd, UINT8 *mac, INT bssid);
 

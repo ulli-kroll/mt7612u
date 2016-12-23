@@ -87,8 +87,8 @@ BOOLEAN	PMF_PerformRxFrameAction(
 
 void rtmp_read_pmf_parameters_from_file(
 	IN Pstruct rtmp_adapter pAd,
-	IN PSTRING tmpbuf,
-	IN PSTRING pBuffer);
+	IN char *tmpbuf,
+	IN char *pBuffer);
 
 INT Set_PMFMFPC_Proc (
 	IN Pstruct rtmp_adapter pAd,

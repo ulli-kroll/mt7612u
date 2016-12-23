@@ -335,7 +335,7 @@ static INT MT76x0ATETxPwrHandler(
 */
 static INT	MT76x0_Set_ATE_TX_BW_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 	UCHAR BBPCurrentBW;
@@ -374,7 +374,7 @@ static INT	MT76x0_Set_ATE_TX_BW_Proc(
 */
 static INT	MT76x0_Set_ATE_TX_FREQ_OFFSET_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 	UCHAR RFFreqOffset = 0;

@@ -561,7 +561,7 @@ VOID RT28xxATERxVGAInit(
 */
 INT	RT28xx_Set_ATE_TX_BW_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 	INT powerIndex;
@@ -727,7 +727,7 @@ INT	RT28xx_Set_ATE_TX_BW_Proc(
 
 INT	RT28xx_Set_ATE_TX_FREQ_OFFSET_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 	ULONG R4 = 0;

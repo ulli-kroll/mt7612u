@@ -1000,7 +1000,7 @@ struct net_device *RtmpPhyNetDevMainCreate(struct rtmp_adapter *pAd)
 static void WriteConfToDatFile(struct rtmp_adapter *pAd)
 {
 	char	*cfgData = 0, *offset = 0;
-	PSTRING fileName = NULL, pTempStr = NULL;
+	char *fileName = NULL, *pTempStr = NULL;
 	RTMP_OS_FD file_r, file_w;
 	RTMP_OS_FS_INFO osFSInfo;
 	LONG rv, fileLen = 0;
@@ -1033,7 +1033,7 @@ static void WriteConfToDatFile(struct rtmp_adapter *pAd)
 		}
 		memset(cfgData, fileLen);
 		RtmpOSFileSeek(file_r, 0);
-		rv = RtmpOSFileRead(file_r, (PSTRING)cfgData, fileLen);
+		rv = RtmpOSFileRead(file_r, (char *)cfgData, fileLen);
 		RtmpOSFileClose(file_r);
 		if (rv != fileLen)
 		{
@@ -1049,9 +1049,9 @@ static void WriteConfToDatFile(struct rtmp_adapter *pAd)
 	}
 	else
 	{
-		offset = (PCHAR) rtstrstr((PSTRING) cfgData, "Default\n");
+		offset = (PCHAR) rtstrstr((char *) cfgData, "Default\n");
 		offset += strlen("Default\n");
-		RtmpOSFileWrite(file_w, (PSTRING)cfgData, (int)(offset-cfgData));
+		RtmpOSFileWrite(file_w, (char *)cfgData, (int)(offset-cfgData));
 		pTempStr = kmalloc(512, GFP_ATOMIC);
 		if (!pTempStr) {
 			DBGPRINT(RT_DEBUG_TRACE, ("pTempStr mem alloc fail. (512)\n"));
@@ -1062,10 +1062,10 @@ static void WriteConfToDatFile(struct rtmp_adapter *pAd)
 		for (;;)
 		{
 			int i = 0;
-			PSTRING ptr;
+			char *ptr;
 
 			memset(pTempStr, 512);
-			ptr = (PSTRING) offset;
+			ptr = (char *) offset;
 			while(*ptr && *ptr != '\n')
 			{
 				pTempStr[i++] = *ptr++;

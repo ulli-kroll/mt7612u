@@ -1379,7 +1379,7 @@ VOID mt76x2_ate_set_tx_rx_path(
 
 INT	mt76x2_set_ate_tx_bw_proc(
 	IN	struct rtmp_adapter *ad,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	u32 core, core_r1 = 0, core_r4 = 0;
 	u32 agc, agc_r0 = 0;
@@ -1944,7 +1944,7 @@ VOID mt76x2_ate_asic_adjust_tx_power(
 
 INT	mt76x2_set_ate_tx_freq_offset_proc(
 	IN	struct rtmp_adapter *ad,
-	IN	PSTRING			arg)
+	IN	char *		arg)
 {
 	u32 freq_offset = 0;
 	u32 value = 0;

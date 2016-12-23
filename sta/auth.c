@@ -427,7 +427,7 @@ BOOLEAN AUTH_ReqSend(
 	IN struct rtmp_adapter *pAd,
 	IN PMLME_QUEUE_ELEM pElem,
 	IN PRALINK_TIMER_STRUCT pAuthTimer,
-	IN PSTRING pSMName,
+	IN char *pSMName,
 	IN USHORT SeqNo,
 	IN PUCHAR pNewElement,
 	IN ULONG ElementLen)
