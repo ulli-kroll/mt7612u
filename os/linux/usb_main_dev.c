@@ -519,8 +519,6 @@ VOID __exit rtusb_exit(void)
 	printk("<--- rtusb exit\n");
 }
 
-#ifndef MULTI_INF_SUPPORT
-
 module_init(rtusb_init);
 module_exit(rtusb_exit);
 
@@ -536,6 +534,4 @@ MODULE_LICENSE("GPL");
 MODULE_VERSION(STA_DRIVER_VERSION);
 #endif
 #endif /* CONFIG_STA_SUPPORT */
-
-#endif /* MULTI_INF_SUPPORT */
 

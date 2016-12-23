@@ -1147,17 +1147,5 @@ INT RtmpOSNetDevOpsAlloc(
 
 #include "os/rt_os.h"
 
-
-#ifdef MULTI_INF_SUPPORT
-
-
-#ifdef RTMP_USB_SUPPORT
-INT __init rtusb_init(void);
-VOID __exit rtusb_exit(void);
-#endif /* RTMP_USB_SUPPORT */
-
-
-#endif /* MULTI_INF_SUPPORT */
-
 #endif /* __RT_LINUX_H__ */
 

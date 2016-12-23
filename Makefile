@@ -19,9 +19,6 @@ endif
 
 MODULE = $(word 1, $(CHIPSET))
 
-# Support Multiple Interface within single driver
-HAS_MULTI_INF=n
-
 # Support ATE function
 HAS_ATE=y
 
@@ -211,10 +208,6 @@ WFLAGS += -I$(RT28xx_DIR)/include
 
 
 
-
-ifeq ($(HAS_MULTI_INF),y)
-WFLAGS += -DMULTI_INF_SUPPORT
-endif
 
 ifeq ($(HAS_KTHREAD_SUPPORT),y)
 WFLAGS += -DKTHREAD_SUPPORT
@@ -973,12 +966,6 @@ endif
 ifeq ($(HAS_QA_SUPPORT),y)
 $(MOD_NAME)-objs += ate/common/rt_qa.o
 endif
-
-#ifdef MULTI_INF_SUPPORT
-ifeq ($(HAS_MULTI_INF),y)
-$(MOD_NAME)-objs += os/linux/multi_main_dev.o
-endif
-#endif // MULTI_INF_SUPPORT //
 
 #ifdef BG_FT_SUPPORT
 ifeq ($(HAS_BGFP_SUPPORT),y)
