@@ -1047,7 +1047,7 @@ BOOLEAN MlmeRAHybridRule(
 
 
 
-    DBGPRINT(RT_DEBUG_TRACE, ("RAA : Tx OK Counter %d %d\n", NewTxOkCount , pEntry->LastTxOkCount));
+    DBGPRINT(RT_DEBUG_TRACE, ("RAA : Tx OK Counter %ld %ld\n", NewTxOkCount , pEntry->LastTxOkCount));
 
 	if (100*NewTxOkCount > pAd->CommonCfg.TrainUpHighThrd*pEntry->LastTxOkCount)
 		return FALSE;
@@ -1477,7 +1477,7 @@ VOID APQuickResponeForRateUpExecAdapt(/* actually for both up and down */
 	}
 
 
-	DBGPRINT(RT_DEBUG_INFO, ("Quick PER %d, Total Cnt %d\n", TxErrorRatio, TxTotalCnt));
+	DBGPRINT(RT_DEBUG_INFO, ("Quick PER %ld, Total Cnt %ld\n", TxErrorRatio, TxTotalCnt));
 
 #ifdef MFB_SUPPORT
 	if (pEntry->fLastChangeAccordingMfb == TRUE)
@@ -1786,7 +1786,7 @@ VOID APMlmeDynamicTxRateSwitchingAdapt(struct rtmp_adapter *pAd, UINT i)
 	UpRateIdx = MlmeSelectUpRate(pAd, pEntry, pCurrTxRate);
 	DownRateIdx = MlmeSelectDownRate(pAd, pEntry, CurrRateIdx);
 
-	DBGPRINT(RT_DEBUG_TRACE, ("Average PER %d, Cur %d, Up %d, Dn %d\n", TxErrorRatio,
+	DBGPRINT(RT_DEBUG_TRACE, ("Average PER %ld, Cur %d, Up %d, Dn %d\n", TxErrorRatio,
 								CurrRateIdx, UpRateIdx, DownRateIdx));
 
 	DBGPRINT(RT_DEBUG_TRACE, ("RAA:Tx Quality 1SS %d, 2SS %d\n",
@@ -2274,7 +2274,7 @@ VOID MlmeDynamicTxRateSwitchingAdapt(
 			if (HwTxCnt)
 				HwErrRatio = (wcidTxCnt.field.reTryCnt * 100) / HwTxCnt;
 
-			DBGPRINT(RT_DEBUG_TRACE ,("%s():TxErrRatio(Wcid:%d, MCS:%d, Hw:0x%x-0x%x, Sw:0x%x-%x)\n",
+			DBGPRINT(RT_DEBUG_TRACE ,("%s():TxErrRatio(Wcid:%d, MCS:%d, Hw:0x%lx-0x%lx, Sw:0x%lx-%lx)\n",
 					__FUNCTION__, pEntry->wcid, pEntry->HTPhyMode.field.MCS,
 					HwTxCnt, HwErrRatio, TxTotalCnt, TxErrorRatio));
 

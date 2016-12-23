@@ -875,7 +875,7 @@ VOID MlmeDynamicTxRateSwitching(
 						HwErrRatio = 0;
 
 					DBGPRINT(RT_DEBUG_INFO | DBG_FUNC_RA,
-							("%s():Aid:%d, MCS:%d, CuTxRaIdx=%d,TxErrRatio(Hw:%d-%d%%, Sw:%d-%d%%)\n",
+							("%s():Aid:%d, MCS:%d, CuTxRaIdx=%d,TxErrRatio(Hw:%ld-%ld%%, Sw:%ld-%ld%%)\n",
 							__FUNCTION__, pEntry->Aid, pEntry->HTPhyMode.field.MCS,
 							pEntry->CurrTxRateIndex,
 							HwTxCnt, HwErrRatio, TxTotalCnt, TxErrorRatio));
@@ -1382,7 +1382,7 @@ VOID StaQuickResponeForRateUpExec(
 				if (HwTxCnt)
 					HwErrRatio = (wcidTxCnt.field.reTryCnt * 100) / HwTxCnt;
 
-					DBGPRINT(RT_DEBUG_INFO | DBG_FUNC_RA, ("%s():TxErrRatio(wcid:%d, MCS:%d, Hw:0x%x-0x%x, Sw:0x%x-%x)\n",
+					DBGPRINT(RT_DEBUG_INFO | DBG_FUNC_RA, ("%s():TxErrRatio(wcid:%d, MCS:%d, Hw:0x%lx-0x%lx, Sw:0x%lx-%lx)\n",
 						__FUNCTION__, pEntry->wcid, pEntry->HTPhyMode.field.MCS,
 						HwTxCnt, HwErrRatio, TxTotalCnt, TxErrorRatio));
 

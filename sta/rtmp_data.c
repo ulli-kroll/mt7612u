@@ -3419,7 +3419,7 @@ int STAHardTransmit(struct rtmp_adapter *pAd, TX_BLK *pTxBlk, UCHAR QueIdx)
 	ASSERT(pTxBlk->TxPacketList.Number);
 	if (pTxBlk->TxPacketList.Head == NULL) {
 		DBGPRINT(RT_DEBUG_ERROR,
-			 ("pTxBlk->TotalFrameNum == %ld!\n",
+			 ("pTxBlk->TotalFrameNum == %d!\n",
 			  pTxBlk->TxPacketList.Number));
 		return NDIS_STATUS_FAILURE;
 	}

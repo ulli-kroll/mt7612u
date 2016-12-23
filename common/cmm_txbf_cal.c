@@ -572,7 +572,7 @@ static VOID CalcDividerPhase(
 			DBGPRINT(RT_DEBUG_TRACE,(
 				    "CAL_R11=0x%x\n"
 					"Peak I value=0x%x\n"
-					"I value=0x%x, Q value=0x%x\n",
+					"I value=0x%lx, Q value=0x%lx\n",
 					phaseCaliResult,
 					peakI[i],
 					avgIData, avgQData));
@@ -726,10 +726,10 @@ static UCHAR InterpParam_check(int ch, int chBeg, int chEnd, UCHAR yBeg, UCHAR y
 
 	DBGPRINT(RT_DEBUG_TRACE,
 		  ("%s : \n"
-		   "x    = mapChannelKHz(%d) = %d\n"
-		   "xBeg = mapChannelKHz(%d) = %d\n"
-		   "xEnd = mapChannelKHz(%d) = %d\n"
-		   "yDelta = %d\n"
+		   "x    = mapChannelKHz(%d) = %ld\n"
+		   "xBeg = mapChannelKHz(%d) = %ld\n"
+		   "xEnd = mapChannelKHz(%d) = %ld\n"
+		   "yDelta = %ld\n"
 		   "output = %d\n",
 		   __FUNCTION__,
 		   ch, x,
@@ -1292,7 +1292,7 @@ INT ITxBFDividerCalibrationStartUp(
 	RTMP_IO_READ32(pAd,TXBE_R5,   &CR_BK[33]);
 	RTMP_IO_READ32(pAd,PWR_PIN_CFG,&CR_BK[34]);
 	NdisGetSystemUpTime(&stTimeChk1);
-	DBGPRINT(RT_DEBUG_INFO, ("%s : Divider calibration duration1 = %d ms\n",
+	DBGPRINT(RT_DEBUG_INFO, ("%s : Divider calibration duration1 = %ld ms\n",
 		     __FUNCTION__, (stTimeChk1 - stTimeChk0)*1000/OS_HZ));
 
 	// Do the divider calibration
@@ -1300,7 +1300,7 @@ INT ITxBFDividerCalibrationStartUp(
 	RTMP_IO_WRITE32(pAd, AGC1_R0, 0x7408);
 	calStatusReport = mt76x2_ITxBFDividerCalibration(pAd, calFunction, calMethod, divPhase);
 	NdisGetSystemUpTime(&stTimeChk1);
-	DBGPRINT(RT_DEBUG_INFO, ("%s : Divider calibration duration2 = %d ms\n",
+	DBGPRINT(RT_DEBUG_INFO, ("%s : Divider calibration duration2 = %ld ms\n",
 		     __FUNCTION__, (stTimeChk1 - stTimeChk0)*1000/OS_HZ));
 
 	mt_rf_write(pAd, RF_Path0, RFDIGI_TRX17, CR_BK[0]);
@@ -2335,12 +2335,12 @@ INT ITxBFPhaseCalibration(
 			    "Paht0 CAL_R11=0x%x\n"
 			    "Phase=%d\n"
 				"Peak I value=0x%x\n"
-				"I value=0x%x, Q value=0x%x\n"
+				"I value=0x%lx, Q value=0x%lx\n"
 				"MidVGA[0] = 0x%x\n",
 				phaseCaliResult,
-				(360*mPhase0)>>8,
+				((360*mPhase0)>>8),
 				//mPhase0,
-				phaseCaliResult >> 24,
+				(phaseCaliResult >> 24),
 				avgIData, avgQData,
 				MidVGA[0]));
 
@@ -2421,7 +2421,7 @@ INT ITxBFPhaseCalibration(
 			    "Paht1 CAL_R11=0x%x\n"
 				"Phase=%d\n"
 				"Peak I value=0x%x\n"
-				"I value=0x%x, Q value=0x%x\n"
+				"I value=0x%lx, Q value=0x%lx\n"
 				"MidVGA[1] = 0x%x\n",
 				phaseCaliResult,
 				(360*mPhase1)>>8,

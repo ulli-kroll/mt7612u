@@ -111,7 +111,7 @@ VOID RtmpCleanupPsQueue(struct rtmp_adapter *pAd, QUEUE_HEADER *pQueue)
 	while (pQueue->Head)
 	{
 		DBGPRINT(RT_DEBUG_TRACE,
-					("RtmpCleanupPsQueue %ld...\n",pQueue->Number));
+					("RtmpCleanupPsQueue %d...\n",pQueue->Number));
 
 		pQEntry = RemoveHeadQueue(pQueue);
 		/*pPacket = CONTAINING_RECORD(pEntry, NDIS_PACKET, MiniportReservedEx); */

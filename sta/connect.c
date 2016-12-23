@@ -584,7 +584,7 @@ VOID CntlOidSsidProc(
 		if ((pAd->MlmeAux.SsidBssTab.BssNr == 0) && (pAd->MlmeAux.BssType == BSS_INFRA)
 		    && (pAd->cfg80211_ctrl.FlgCfg80211Connecting == TRUE))
 		{
-			DBGPRINT(RT_DEBUG_TRACE, ("CFG80211_MLME: No matching BSS, Report cfg80211_layer SM to Idle --> %d\n",
+			DBGPRINT(RT_DEBUG_TRACE, ("CFG80211_MLME: No matching BSS, Report cfg80211_layer SM to Idle --> %ld\n",
 								pAd->Mlme.CntlMachine.CurrState));
 
 			pAd->cfg80211_ctrl.Cfg_pending_SsidLen = pAd->MlmeAux.SsidLen;

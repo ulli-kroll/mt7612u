@@ -1420,7 +1420,7 @@ VOID PeerBeaconAtScanAction(
 #ifdef LINUX
 #ifdef RT_CFG80211_SUPPORT
 		if (RTMPEqualMemory(ie_list->Ssid, "DIRECT-", 7))
-			DBGPRINT(RT_DEBUG_OFF, ("%s P2P_SCANNING: %s [%d]\n", __FUNCTION__, ie_list->Ssid, Idx));
+			DBGPRINT(RT_DEBUG_OFF, ("%s P2P_SCANNING: %s [%ld]\n", __FUNCTION__, ie_list->Ssid, Idx));
 
 		RT_CFG80211_SCANNING_INFORM(pAd, Idx, Elem->Channel, (UCHAR *)pFrame,
 									Elem->MsgLen, Rssi);
@@ -1800,7 +1800,7 @@ VOID PeerBeaconAtJoinAction(
 #ifdef LINUX
 #ifdef RT_CFG80211_SUPPORT
 			if (RTMPEqualMemory(ie_list->Ssid, "DIRECT-", 7))
-                        	DBGPRINT(RT_DEBUG_OFF, ("%s P2P_SCANNING: %s [%d]\n", __FUNCTION__, ie_list->Ssid, Idx));
+                        	DBGPRINT(RT_DEBUG_OFF, ("%s P2P_SCANNING: %s [%ld]\n", __FUNCTION__, ie_list->Ssid, Idx));
 
 			RT_CFG80211_SCANNING_INFORM(pAd, Idx, Elem->Channel, Elem->Msg,
 										Elem->MsgLen, Rssi);
@@ -1928,7 +1928,7 @@ VOID PeerBeacon(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 #ifdef LINUX
 #ifdef RT_CFG80211_SUPPORT
 //                if (RTMPEqualMemory(ie_list->Ssid, "DIRECT-", 7))
-                        DBGPRINT(RT_DEBUG_INFO, ("%s PASSIVE SCANNING: %s [%d]\n", __FUNCTION__, bcn_ie_list->Ssid, Bssidx));
+                        DBGPRINT(RT_DEBUG_INFO, ("%s PASSIVE SCANNING: %s [%ld]\n", __FUNCTION__, bcn_ie_list->Ssid, Bssidx));
 
                   RT_CFG80211_SCANNING_INFORM(pAd, Bssidx, Elem->Channel, Elem->Msg,
                                                                         Elem->MsgLen, RealRssi);

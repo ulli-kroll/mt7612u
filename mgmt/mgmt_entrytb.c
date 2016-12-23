@@ -1052,10 +1052,10 @@ VOID MacTableReset(struct rtmp_adapter *pAd)
 		{
 			pAd->ApCfg.MBSSID[apidx].StaCount = 0;
 		}
-		DBGPRINT(RT_DEBUG_TRACE, ("McastPsQueue.Number %ld...\n", pAd->MacTab.McastPsQueue.Number));
+		DBGPRINT(RT_DEBUG_TRACE, ("McastPsQueue.Number %d...\n", pAd->MacTab.McastPsQueue.Number));
 		if (pAd->MacTab.McastPsQueue.Number > 0)
 			APCleanupPsQueue(pAd, &pAd->MacTab.McastPsQueue);
-		DBGPRINT(RT_DEBUG_TRACE, ("2McastPsQueue.Number %ld...\n", pAd->MacTab.McastPsQueue.Number));
+		DBGPRINT(RT_DEBUG_TRACE, ("2McastPsQueue.Number %d...\n", pAd->MacTab.McastPsQueue.Number));
 
 		/* ENTRY PREEMPTION: Zero Mac Table but entry's content */
 /*		memset(&pAd->MacTab, 0, sizeof(MAC_TABLE));*/
