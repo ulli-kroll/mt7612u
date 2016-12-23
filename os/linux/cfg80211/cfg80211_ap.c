@@ -28,7 +28,7 @@
 
 #include "rt_config.h"
 
-static INT CFG80211DRV_UpdateTimIE(struct rtmp_adapter *pAd, UINT mbss_idx, PUCHAR pBeaconFrame, uint32_t tim_ie_pos)
+static INT CFG80211DRV_UpdateTimIE(struct rtmp_adapter *pAd, UINT mbss_idx, u8 *pBeaconFrame, uint32_t tim_ie_pos)
 {
 	UCHAR  ID_1B, TimFirst, TimLast, *pTim, *ptr, New_Tim_Len;
 	UINT  i;
@@ -211,7 +211,7 @@ VOID CFG80211_UpdateBeacon(
 {
 	PCFG80211_CTRL pCfg80211_ctrl = &pAd->cfg80211_ctrl;
 	HTTRANSMIT_SETTING BeaconTransmit;   /* MGMT frame PHY rate setting when operatin at Ht rate. */
-	PUCHAR pBeaconFrame = (PUCHAR)pAd->ApCfg.MBSSID[MAIN_MBSSID].BeaconBuf;
+	u8 *pBeaconFrame = (u8 *)pAd->ApCfg.MBSSID[MAIN_MBSSID].BeaconBuf;
 	TXWI_STRUC *pTxWI = &pAd->BeaconTxWI;
 	UCHAR New_Tim_Len;
 	uint32_t beacon_len;
@@ -795,7 +795,7 @@ INT CFG80211_setApDefaultKey(
 	return 0;
 }
 
-INT CFG80211_ApStaDelSendEvent(struct rtmp_adapter *pAd, const PUCHAR mac_addr)
+INT CFG80211_ApStaDelSendEvent(struct rtmp_adapter *pAd, const u8 *mac_addr)
 {
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
 	struct net_device *pNetDev = NULL;

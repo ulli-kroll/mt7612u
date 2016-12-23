@@ -117,7 +117,7 @@ void wext_send_anqp_req_event(struct net_device *net_dev, const char *peer_mac_a
 	memcpy(req_data->anqp_req, anqp_req, anqp_req_len);
 
 	RtmpOSWrielessEventSend(net_dev, RT_WLAN_EVENT_CUSTOM,
-					OID_802_11_HS_ANQP_REQ, NULL, (PUCHAR)buf, buflen);
+					OID_802_11_HS_ANQP_REQ, NULL, (u8 *)buf, buflen);
 
 	kfree(buf);
 

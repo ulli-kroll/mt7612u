@@ -501,7 +501,7 @@ int rt28xx_send_packets(struct sk_buff *skb, struct net_device *ndev)
 		return 0;
 	}
 
-	memset((PUCHAR)&skb->cb[CB_OFF], 0, 26);
+	memset((u8 *)&skb->cb[CB_OFF], 0, 26);
 	MEM_DBG_PKT_ALLOC_INC(skb);
 
 	return rt28xx_packet_xmit(skb);
@@ -523,7 +523,7 @@ struct iw_statistics *rt28xx_get_wireless_stats(struct net_device *net_dev)
 	DBGPRINT(RT_DEBUG_TRACE, ("rt28xx_get_wireless_stats --->\n"));
 
 	pDrvIwStats->priv_flags = RT_DEV_PRIV_FLAGS_GET(net_dev);
-	pDrvIwStats->dev_addr = (PUCHAR)net_dev->dev_addr;
+	pDrvIwStats->dev_addr = (u8 *)net_dev->dev_addr;
 
 	if (RTMP_DRIVER_IW_STATS_GET(pAd, pDrvIwStats) != NDIS_STATUS_SUCCESS)
 		return NULL;

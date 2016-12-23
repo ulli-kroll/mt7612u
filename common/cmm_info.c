@@ -738,7 +738,7 @@ INT	Set_PktAggregate_Proc(
 #ifdef INF_PPA_SUPPORT
 INT	Set_INF_AMAZON_SE_PPA_Proc(
 	IN	struct rtmp_adapter *pAd,
-	IN	PUCHAR			arg)
+	IN	u8 *		arg)
 {
 	UINT status;
 	UCHAR aggre;
@@ -965,7 +965,7 @@ INT Set_ChannelListAdd_Proc(
 	/* Parsing the arg, IN:arg; OUT:inChRegion */
 	{
 		UCHAR strBuff[64], count = 0;
-		PUCHAR	pStart, pEnd, tempIdx, tempBuff[5];
+		u8 *pStart, *pEnd, *tempIdx, *tempBuff[5];
 
 		if (strlen(arg) <64)
 			memcpy(strBuff, arg, strlen(arg));
@@ -2387,7 +2387,7 @@ VOID RTMPIoctlGetSiteSurvey(
 	Status = copy_to_user(wrq->u.data.pointer, msg, wrq->u.data.length);
 
 	DBGPRINT(RT_DEBUG_TRACE, ("RTMPIoctlGetSiteSurvey - wrq->u.data.length = %d\n", wrq->u.data.length));
-	kfree((PUCHAR)msg);
+	kfree((u8 *)msg);
 }
 #endif
 
@@ -2749,7 +2749,7 @@ INT	Set_BASetup_Proc(
 		DBGPRINT(RT_DEBUG_OFF, ("\n%02x:%02x:%02x:%02x:%02x:%02x-%02x\n",
 								mac[0], mac[1], mac[2], mac[3], mac[4], mac[5], tid));
 
-	    pEntry = MacTableLookup(pAd, (PUCHAR) mac);
+	    pEntry = MacTableLookup(pAd, (u8 *) mac);
 
     	if (pEntry) {
         	DBGPRINT(RT_DEBUG_OFF, ("\nSetup BA Session: Tid = %d\n", tid));
@@ -2829,7 +2829,7 @@ INT	Set_BAOriTearDown_Proc(
 	    DBGPRINT(RT_DEBUG_OFF, ("\n%02x:%02x:%02x:%02x:%02x:%02x-%02x",
 								PRINT_MAC(mac), tid));
 
-	    pEntry = MacTableLookup(pAd, (PUCHAR) mac);
+	    pEntry = MacTableLookup(pAd, (u8 *) mac);
 
 	    if (pEntry) {
 	        DBGPRINT(RT_DEBUG_OFF, ("\nTear down Ori BA Session: Tid = %d\n", tid));
@@ -2883,7 +2883,7 @@ INT	Set_BARecTearDown_Proc(
 		DBGPRINT(RT_DEBUG_OFF, ("\n%02x:%02x:%02x:%02x:%02x:%02x-%02x",
 								PRINT_MAC(mac), tid));
 
-		pEntry = MacTableLookup(pAd, (PUCHAR) mac);
+		pEntry = MacTableLookup(pAd, (u8 *) mac);
 
 		if (pEntry) {
 		    DBGPRINT(RT_DEBUG_OFF, ("\nTear down Rec BA Session: Tid = %d\n", tid));
@@ -6025,11 +6025,11 @@ INT	Set_ETxBfEnCond_Proc(
 #ifndef MT76x2
 	if (pAd->CommonCfg.RegTransmitSetting.field.ITxBfEn || enableETxBf)
 	{
-		RT30xxReadRFRegister(pAd, RF_R39, (PUCHAR)&byteValue);
+		RT30xxReadRFRegister(pAd, RF_R39, (u8 *)&byteValue);
 		byteValue |= 0x40;
 		RT30xxWriteRFRegister(pAd, RF_R39, (UCHAR)byteValue);
 
-		RT30xxReadRFRegister(pAd, RF_R49, (PUCHAR)&byteValue);
+		RT30xxReadRFRegister(pAd, RF_R49, (u8 *)&byteValue);
 		byteValue |= 0x20;
 		RT30xxWriteRFRegister(pAd, RF_R49, (UCHAR)byteValue);
 	}
@@ -6038,11 +6038,11 @@ INT	Set_ETxBfEnCond_Proc(
 		/* depends on Gary Tsao's comments. we shall disable it */
 		if (pAd->CommonCfg.RegTransmitSetting.field.ITxBfEn == 0)
 		{
-			RT30xxReadRFRegister(pAd, RF_R39, (PUCHAR)&byteValue);
+			RT30xxReadRFRegister(pAd, RF_R39, (u8 *)&byteValue);
 			byteValue &= (~0x40);
 			RT30xxWriteRFRegister(pAd, RF_R39, (UCHAR)byteValue);
 
-			RT30xxReadRFRegister(pAd, RF_R49, (PUCHAR)&byteValue);
+			RT30xxReadRFRegister(pAd, RF_R49, (u8 *)&byteValue);
 			byteValue &= (~0x20);
 			RT30xxWriteRFRegister(pAd, RF_R49, (UCHAR)byteValue);
 		}
@@ -6226,11 +6226,11 @@ INT	Set_ITxBfEn_Proc(
 
 	if (enableITxBF || pAd->CommonCfg.ETxBfEnCond)
 	{
-		RT30xxReadRFRegister(pAd, RF_R39, (PUCHAR)&byteValue);
+		RT30xxReadRFRegister(pAd, RF_R39, (u8 *)&byteValue);
 		byteValue |= 0x40;
 		RT30xxWriteRFRegister(pAd, RF_R39, (UCHAR)byteValue);
 
-		RT30xxReadRFRegister(pAd, RF_R49, (PUCHAR)&byteValue);
+		RT30xxReadRFRegister(pAd, RF_R49, (u8 *)&byteValue);
 		byteValue |= 0x20;
 		RT30xxWriteRFRegister(pAd, RF_R49, (UCHAR)byteValue);
 	}
@@ -6245,11 +6245,11 @@ INT	Set_ITxBfEn_Proc(
 		/* depends on Gary Tsao's comments. */
 		if (pAd->CommonCfg.ETxBfEnCond == 0)
 		{
-		RT30xxReadRFRegister(pAd, RF_R39, (PUCHAR)&byteValue);
+		RT30xxReadRFRegister(pAd, RF_R39, (u8 *)&byteValue);
 			byteValue &= (~0x40);
 		RT30xxWriteRFRegister(pAd, RF_R39, (UCHAR)byteValue);
 
-		RT30xxReadRFRegister(pAd, RF_R49, (PUCHAR)&byteValue);
+		RT30xxReadRFRegister(pAd, RF_R49, (u8 *)&byteValue);
 			byteValue &= (~0x20);
 		RT30xxWriteRFRegister(pAd, RF_R49, (UCHAR)byteValue);
 	}
@@ -6386,7 +6386,7 @@ INT Set_VhtNDPA_Sounding_Proc(struct rtmp_adapter *pAd, char *arg)
 		DBGPRINT(RT_DEBUG_OFF, ("\n%02x:%02x:%02x:%02x:%02x:%02x-%02x\n",
 					PRINT_MAC(mac), mcs));
 
-		pEntry = MacTableLookup(pAd, (PUCHAR) mac);
+		pEntry = MacTableLookup(pAd, (u8 *) mac);
 	    	if (pEntry) {
 #ifdef SOFT_SOUNDING
 			pEntry->snd_rate.field.MODE = MODE_VHT;

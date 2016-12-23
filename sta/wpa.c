@@ -115,7 +115,7 @@ VOID	WpaMicFailureReportFrame(
 	IN  struct rtmp_adapter *  pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
-	PUCHAR              pOutBuffer = NULL;
+	u8 *             pOutBuffer = NULL;
 	UCHAR               Header802_3[14];
 	ULONG               FrameLen = 0;
 	UCHAR				*mpool;
@@ -204,10 +204,10 @@ VOID	WpaMicFailureReportFrame(
 	/* copy frame to Tx ring and send MIC failure report frame to authenticator */
 	RTMPToWirelessSta(pAd, &pAd->MacTab.Content[BSSID_WCID],
 					  Header802_3, LENGTH_802_3,
-					  (PUCHAR)pPacket,
+					  (u8 *)pPacket,
 					  CONV_ARRARY_TO_UINT16(pPacket->Body_Len) + 4, FALSE);
 
-	kfree((PUCHAR)pOutBuffer);
+	kfree((u8 *)pOutBuffer);
 
 	kfree(mpool);
 
@@ -362,7 +362,7 @@ VOID WpaSendEapolStart(struct rtmp_adapter *pAd, UCHAR *pBssid)
 
 	/* Copy frame to Tx ring */
 	RTMPToWirelessSta((struct rtmp_adapter *)pAd, &pAd->MacTab.Content[BSSID_WCID],
-					 Header802_3, LENGTH_802_3, (PUCHAR)&Packet, 4, TRUE);
+					 Header802_3, LENGTH_802_3, (u8 *)&Packet, 4, TRUE);
 
 	DBGPRINT(RT_DEBUG_TRACE, ("<----- WpaSendEapolStart\n"));
 }

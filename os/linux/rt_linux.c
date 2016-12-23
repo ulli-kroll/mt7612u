@@ -392,7 +392,7 @@ struct sk_buff *DuplicatePacket(
 	UCHAR *pData;
 
 	DataSize = (USHORT) GET_OS_PKT_LEN(pPacket);
-	pData = (PUCHAR) GET_OS_PKT_DATAPTR(pPacket);
+	pData = (u8 *) GET_OS_PKT_DATAPTR(pPacket);
 
 	skb = skb_clone(RTPKT_TO_OSPKT(pPacket), MEM_ALLOC_FLAG);
 	if (skb) {
@@ -408,9 +408,9 @@ struct sk_buff *DuplicatePacket(
 
 struct sk_buff *duplicate_pkt(
 	IN struct net_device *pNetDev,
-	IN PUCHAR pHeader802_3,
+	IN u8 *pHeader802_3,
 	IN UINT HdrLen,
-	IN PUCHAR pData,
+	IN u8 *pData,
 	IN ULONG DataSize,
 	IN UCHAR FromWhichBSSID)
 {
@@ -465,9 +465,9 @@ struct sk_buff *duplicate_pkt_with_VLAN(
 	IN struct net_device *pNetDev,
 	IN USHORT VLAN_VID,
 	IN USHORT VLAN_Priority,
-	IN PUCHAR pHeader802_3,
+	IN u8 *pHeader802_3,
 	IN UINT HdrLen,
-	IN PUCHAR pData,
+	IN u8 *pData,
 	IN ULONG DataSize,
 	IN UCHAR FromWhichBSSID,
 	IN UCHAR *TPID)
@@ -593,7 +593,7 @@ struct sk_buff *ExpandPacket(
 struct sk_buff *ClonePacket(
 	IN VOID *pReserved,
 	IN struct sk_buff *pPacket,
-	IN PUCHAR pData,
+	IN u8 *pData,
 	IN ULONG DataSize)
 {
 	struct sk_buff *pRxPkt;
@@ -642,7 +642,7 @@ void wlan_802_11_to_802_3_packet(
 	IN struct sk_buff *pRxPacket,
 	IN UCHAR *pData,
 	IN ULONG DataSize,
-	IN PUCHAR pHeader802_3,
+	IN u8 *pHeader802_3,
 	IN UCHAR FromWhichBSSID,
 	IN UCHAR *TPID)
 {
@@ -734,7 +734,7 @@ void hex_dump(char *str, UCHAR *pSrcBufVA, UINT SrcBufLen)
 VOID RtmpOsSendWirelessEvent(
 	IN struct rtmp_adapter *pAd,
 	IN USHORT Event_flag,
-	IN PUCHAR pAddr,
+	IN u8 *pAddr,
 	IN UCHAR BssIdx,
 	IN CHAR Rssi,
 	IN RTMP_OS_SEND_WLAN_EVENT pFunc)
@@ -952,7 +952,7 @@ static inline int __RtmpOSTaskInit(
 	ASSERT(pTask);
 
 #ifndef KTHREAD_SUPPORT
-	memset((PUCHAR) (pTask), 0, sizeof (OS_TASK));
+	memset((u8 *) (pTask), 0, sizeof (OS_TASK));
 #endif
 
 	len = strlen(pTaskName);
@@ -1038,8 +1038,8 @@ int RtmpOSWrielessEventSend(
 	IN struct net_device *pNetDev,
 	IN uint32_t eventType,
 	IN INT flags,
-	IN PUCHAR pSrcMac,
-	IN PUCHAR pData,
+	IN u8 *pSrcMac,
+	IN u8 *pData,
 	IN uint32_t dataLen)
 {
 	union iwreq_data wrqu;
@@ -1069,8 +1069,8 @@ int RtmpOSWrielessEventSendExt(
 	IN struct net_device *pNetDev,
 	IN uint32_t eventType,
 	IN INT flags,
-	IN PUCHAR pSrcMac,
-	IN PUCHAR pData,
+	IN u8 *pSrcMac,
+	IN u8 *pData,
 	IN uint32_t dataLen,
 	IN uint32_t family)
 {
@@ -1273,8 +1273,8 @@ uint32_t RtmpOsGetNetIfIndex(struct net_device*pDev)
 int RtmpOSNetDevAddrSet(
 	IN UCHAR OpMode,
 	IN struct net_device *net_dev,
-	IN PUCHAR pMacAddr,
-	IN PUCHAR dev_name)
+	IN u8 *pMacAddr,
+	IN u8 *dev_name)
 {
 #ifdef CONFIG_STA_SUPPORT
 	/* work-around for the SuSE due to it has it's own interface name management system. */
@@ -1593,9 +1593,9 @@ struct net_device *RtmpOSNetDevCreate(
 UCHAR VLAN_8023_Header_Copy(
 	IN USHORT VLAN_VID,
 	IN USHORT VLAN_Priority,
-	IN PUCHAR pHeader802_3,
+	IN u8 *pHeader802_3,
 	IN UINT HdrLen,
-	OUT PUCHAR pData,
+	OUT u8 *pData,
 	IN UCHAR FromWhichBSSID,
 	IN UCHAR *TPID)
 {
@@ -2109,7 +2109,7 @@ VOID RtmpOsDCacheFlush(
 #ifdef CONFIG_STA_SUPPORT
 INT RtmpOSNotifyRawData(
 	IN struct net_device *pNetDev,
-	IN PUCHAR buff,
+	IN u8 *buff,
 	IN INT len,
 	IN ULONG type,
 	IN USHORT protocol)

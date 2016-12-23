@@ -145,8 +145,8 @@ typedef struct _PROXY_ARP_IPV6_UNIT {
 typedef struct _WNM_CTRL {
 	uint32_t TimeadvertisementIELen;
 	uint32_t TimezoneIELen;
-	PUCHAR TimeadvertisementIE;
-	PUCHAR TimezoneIE;
+	u8 *TimeadvertisementIE;
+	u8 *TimezoneIE;
 	RTMP_OS_SEM BTMPeerListLock;
 	BOOLEAN ProxyARPEnable;
 	RTMP_OS_SEM ProxyARPListLock;
@@ -161,50 +161,50 @@ enum IPTYPE {
 	IPV6
 };
 
-BOOLEAN IsGratuitousARP(IN PUCHAR pData);
+BOOLEAN IsGratuitousARP(IN u8 *pData);
 
 BOOLEAN IsUnsolicitedNeighborAdver(Pstruct rtmp_adapter pAd,
-								   PUCHAR pData);
+								   u8 *pData);
 
 BOOLEAN IsIPv4ProxyARPCandidate(IN Pstruct rtmp_adapter pAd,
-								IN PUCHAR pData);
+								IN u8 *pData);
 
 BOOLEAN IsIPv6ProxyARPCandidate(IN Pstruct rtmp_adapter pAd,
-								IN PUCHAR pData);
+								IN u8 *pData);
 
 BOOLEAN IsIPv6RouterSolicitation(IN Pstruct rtmp_adapter pAd,
-								 IN PUCHAR pData);
+								 IN u8 *pData);
 
 BOOLEAN IsIPv6RouterAdvertisement(IN Pstruct rtmp_adapter pAd,
-								  IN PUCHAR pData);
+								  IN u8 *pData);
 
 BOOLEAN IsTDLSPacket(IN Pstruct rtmp_adapter pAd,
-					 IN PUCHAR pData);
+					 IN u8 *pData);
 
 struct _MULTISSID_STRUCT;
 
 BOOLEAN IPv4ProxyARP(IN Pstruct rtmp_adapter pAd,
 				 	 IN struct _MULTISSID_STRUCT *pMbss,
-				 	 IN PUCHAR pData,
+				 	 IN u8 *pData,
 					 IN BOOLEAN FromDS);
 
 BOOLEAN IsIpv6DuplicateAddrDetect(Pstruct rtmp_adapter pAd,
-								  PUCHAR pData);
+								  u8 *pData);
 
 BOOLEAN IPv6ProxyARP(IN Pstruct rtmp_adapter pAd,
 					 IN struct _MULTISSID_STRUCT *pMbss,
-					 IN PUCHAR pData,
+					 IN u8 *pData,
 					 IN BOOLEAN FromDS);
 
 uint32_t AddIPv4ProxyARPEntry(IN Pstruct rtmp_adapter pAd,
 					   		IN struct _MULTISSID_STRUCT *pMbss,
-							IN PUCHAR pTargetMACAddr,
-							IN PUCHAR pTargetIPAddr);
+							IN u8 *pTargetMACAddr,
+							IN u8 *pTargetIPAddr);
 
 uint32_t AddIPv6ProxyARPEntry(IN Pstruct rtmp_adapter pAd,
 					   		IN struct _MULTISSID_STRUCT *pMbss,
-							IN PUCHAR pTargetMACAddr,
-							IN PUCHAR pTargetIPAddr);
+							IN u8 *pTargetMACAddr,
+							IN u8 *pTargetIPAddr);
 
 uint32_t IPv4ProxyARPTableLen(IN Pstruct rtmp_adapter pAd,
 							IN struct _MULTISSID_STRUCT *pMbss);
@@ -214,19 +214,19 @@ uint32_t IPv6ProxyARPTableLen(IN Pstruct rtmp_adapter pAd,
 
 BOOLEAN GetIPv4ProxyARPTable(IN Pstruct rtmp_adapter pAd,
 							 IN struct _MULTISSID_STRUCT *pMbss,
-							 OUT	PUCHAR *ProxyARPTable);
+							 OUT	u8 **ProxyARPTable);
 
 BOOLEAN GetIPv6ProxyARPTable(IN Pstruct rtmp_adapter pAd,
 							 IN struct _MULTISSID_STRUCT *pMbss,
-							 OUT	PUCHAR *ProxyARPTable);
+							 OUT	u8 **ProxyARPTable);
 
 VOID RemoveIPv4ProxyARPEntry(IN Pstruct rtmp_adapter pAd,
 					   		IN struct _MULTISSID_STRUCT *pMbss,
-							PUCHAR pTargetMACAddr);
+							u8 *pTargetMACAddr);
 
 VOID RemoveIPv6ProxyARPEntry(IN Pstruct rtmp_adapter pAd,
 							IN struct _MULTISSID_STRUCT *pMbss,
-							PUCHAR pTargetMACAddr);
+							u8 *pTargetMACAddr);
 
 VOID WNMCtrlInit(IN Pstruct rtmp_adapter pAd);
 VOID WNMCtrlExit(IN Pstruct rtmp_adapter pAd);
@@ -237,12 +237,12 @@ VOID WNMIPv4ProxyARPCheck(
 			struct sk_buff *pPacket,
 			USHORT srcPort,
 			USHORT dstPort,
-			PUCHAR pSrcBuf);
+			u8 *pSrcBuf);
 
 VOID WNMIPv6ProxyARPCheck(
 			IN Pstruct rtmp_adapter pAd,
 			struct sk_buff *pPacket,
-			PUCHAR pSrcBuf);
+			u8 *pSrcBuf);
 #endif /* CONFIG_AP_SUPPORT */
 
 

@@ -82,7 +82,7 @@ BOOLEAN PeerAssocRspSanity(
 	IN struct rtmp_adapter *pAd,
 	IN VOID *pMsg,
 	IN ULONG MsgLen,
-	OUT PUCHAR pAddr2,
+	OUT u8 *pAddr2,
 	OUT USHORT *pCapabilityInfo,
 	OUT USHORT *pStatus,
 	OUT USHORT *pAid,
@@ -227,7 +227,7 @@ BOOLEAN PeerAssocRspSanity(
 				/* handle WME PARAMTER ELEMENT */
 				if (NdisEqualMemory(pEid->Octet, WME_PARM_ELEM, 6) && (pEid->Len == 24))
 				{
-					PUCHAR ptr;
+					u8 *ptr;
 					int i;
 
 					/* parsing EDCA parameters */
@@ -239,7 +239,7 @@ BOOLEAN PeerAssocRspSanity(
 					    pEid->Octet[6] & 0x0f;
 					pEdcaParm->bAPSDCapable =
 					    (pEid->Octet[6] & 0x80) ? 1 : 0;
-					ptr = (PUCHAR) & pEid->Octet[8];
+					ptr = (u8 *) & pEid->Octet[8];
 					for (i = 0; i < 4; i++) {
 						UCHAR aci = (*ptr & 0x60) >> 5;	/* b5~6 is AC INDEX */
 						pEdcaParm->bACM[aci] = (((*ptr) & 0x10) == 0x10);	/* b5 is ACM */

@@ -413,7 +413,7 @@ VOID txSndgSameMcs(
 	IN	MAC_TABLE_ENTRY	*pEntry,
 	IN	UCHAR smoothMfb)/*smoothMfb should be the current mcs */
 {
-	PUCHAR		pTable;
+	u8 *	pTable;
 	UCHAR 		TableSize = 0;
 	UCHAR		InitTxRateIdx, i, step;
 	BOOLEAN		bWriteEnable;
@@ -518,7 +518,7 @@ VOID txSndgOtherGroup(
 	IN	struct rtmp_adapter *pAd,
 	IN	MAC_TABLE_ENTRY	*pEntry)
 {
-	PUCHAR		pTable;
+	u8 *	pTable;
 	UCHAR 		TableSize = 0;
 	UCHAR		InitTxRateIdx, i, step;
 	UCHAR		byteValue = 0;
@@ -589,7 +589,7 @@ UINT convertSnrToThroughput(
 	IN INT snr0,
 	IN INT snr1,
 	IN INT snr2,
-	IN PUCHAR pTable,
+	IN u8 *pTable,
 	OUT UCHAR *bestMcsPtr,
 	OUT UCHAR *bestRateIdxPtr
 
@@ -710,7 +710,7 @@ VOID chooseBestMethod(
 /*	UCHAR bestMethod;0:original, 1:inverted TxBF, 2:first sndg, 3:second sndg*/
 	UINT tp[4], bestTp;
 	UCHAR streams, i;
-	PUCHAR		pTable;
+	u8 *	pTable;
 	UCHAR 		TableSize = 0;
 	UCHAR		InitTxRateIdx;
 	UCHAR		byteValue = 0;

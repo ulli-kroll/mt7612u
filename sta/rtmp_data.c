@@ -52,7 +52,7 @@ VOID STARxEAPOLFrameIndicate(
 			     WpaCheckEapCode(pAd, pRxBlk->pData,
 					     pRxBlk->DataSize,
 					     LENGTH_802_1_H))) {
-				PUCHAR Key;
+				u8 *Key;
 				UCHAR CipherAlg;
 				int idx = 0;
 
@@ -412,7 +412,7 @@ VOID STAHandleRxDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 			DBGPRINT(RT_DEBUG_INFO, ("bAPSDCapable\n"));
 
 			/* Qos bit 4 */
-			pData = (PUCHAR) pHeader + LENGTH_802_11;
+			pData = (u8 *) pHeader + LENGTH_802_11;
 			if ((*pData >> 4) & 0x01)
 			{
  				{
@@ -610,7 +610,7 @@ VOID STAHandleRxDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 
 		/* Decryption by Software */
 		if (RTMPSoftDecryptionAction(pAd,
-					     (PUCHAR) pHeader,
+					     (u8 *) pHeader,
 					     UserPriority,
 					     pSwKey,
 					     pRxBlk->pData,
@@ -812,7 +812,7 @@ VOID STAHandleRxDataFrame_Hdr_Trns(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 			DBGPRINT(RT_DEBUG_INFO, ("bAPSDCapable\n"));
 
 			/* Qos bit 4 */
-			pData = (PUCHAR) pHeader + LENGTH_802_11;
+			pData = (u8 *) pHeader + LENGTH_802_11;
 			if ((*pData >> 4) & 0x01)
 			{
 				DBGPRINT(RT_DEBUG_INFO,
@@ -1012,7 +1012,7 @@ VOID STAHandleRxDataFrame_Hdr_Trns(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 
 		/* Decryption by Software */
 		if (RTMPSoftDecryptionAction(pAd,
-					     (PUCHAR) pHeader,
+					     (u8 *) pHeader,
 					     UserPriority,
 					     pSwKey,
 					     pRxBlk->pTransData + 14,
@@ -1386,7 +1386,7 @@ int RTMPFreeTXDRequest(
 	IN struct rtmp_adapter *pAd,
 	IN UCHAR QueIdx,
 	IN UCHAR NumberRequired,
-	IN PUCHAR FreeNumberIs)
+	IN u8 *FreeNumberIs)
 {
 	/*ULONG         FreeNumber = 0; */
 	int Status = NDIS_STATUS_FAILURE;
@@ -1524,7 +1524,7 @@ VOID STAFindCipherAlgorithm(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 	NDIS_802_11_ENCRYPTION_STATUS Cipher;	/* To indicate cipher used for this packet */
 	UCHAR CipherAlg = CIPHER_NONE;	/* cipher alogrithm */
 	UCHAR KeyIdx = 0xff;
-	PUCHAR pSrcBufVA;
+	u8 *pSrcBufVA;
 	PCIPHER_KEY pKey = NULL;
 	PMAC_TABLE_ENTRY pMacEntry;
 	struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
@@ -1809,11 +1809,11 @@ VOID STABuildCache802_11Header(
 #endif /* DOT11_N_SUPPORT */
 
 
-static inline PUCHAR STA_Build_ARalink_Frame_Header(
+static inline u8 *STA_Build_ARalink_Frame_Header(
 	IN struct rtmp_adapter *pAd,
 	IN TX_BLK *pTxBlk)
 {
-	PUCHAR pHeaderBufPtr;
+	u8 *pHeaderBufPtr;
 	HEADER_802_11 *pHeader_802_11;
 	struct sk_buff *pNextPacket;
 	uint32_t nextBufLen;
@@ -1844,7 +1844,7 @@ static inline PUCHAR STA_Build_ARalink_Frame_Header(
 
 	/* padding at front of LLC header. LLC header should at 4-bytes aligment. */
 	pTxBlk->HdrPadLen = (ULONG) pHeaderBufPtr;
-	pHeaderBufPtr = (PUCHAR) ROUND_UP(pHeaderBufPtr, 4);
+	pHeaderBufPtr = (u8 *) ROUND_UP(pHeaderBufPtr, 4);
 	pTxBlk->HdrPadLen = (ULONG) (pHeaderBufPtr - pTxBlk->HdrPadLen);
 
 	/* For RA Aggregation, */
@@ -1867,11 +1867,11 @@ static inline PUCHAR STA_Build_ARalink_Frame_Header(
 
 
 #ifdef DOT11_N_SUPPORT
-static inline PUCHAR STA_Build_AMSDU_Frame_Header(
+static inline u8 *STA_Build_AMSDU_Frame_Header(
 	IN struct rtmp_adapter *pAd,
 	IN TX_BLK *pTxBlk)
 {
-	PUCHAR pHeaderBufPtr;
+	u8 *pHeaderBufPtr;
 	HEADER_802_11 *pHeader_802_11;
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
 
@@ -1904,7 +1904,7 @@ static inline PUCHAR STA_Build_AMSDU_Frame_Header(
 	   @@@ MpduHeaderLen excluding padding @@@
 	 */
 	pTxBlk->HdrPadLen = (ULONG) pHeaderBufPtr;
-	pHeaderBufPtr = (PUCHAR) ROUND_UP(pHeaderBufPtr, 4);
+	pHeaderBufPtr = (u8 *) ROUND_UP(pHeaderBufPtr, 4);
 	pTxBlk->HdrPadLen = (ULONG) (pHeaderBufPtr - pTxBlk->HdrPadLen);
 
 	return pHeaderBufPtr;
@@ -1917,7 +1917,7 @@ VOID STA_AMPDU_Frame_Tx(
 	IN TX_BLK *pTxBlk)
 {
 	HEADER_802_11 *pHeader_802_11;
-	PUCHAR pHeaderBufPtr;
+	u8 *pHeaderBufPtr;
 	USHORT FreeNumber = 0;
 	MAC_TABLE_ENTRY *pMacEntry;
 	BOOLEAN bVLANPkt;
@@ -1948,9 +1948,9 @@ VOID STA_AMPDU_Frame_Tx(
 		{
 			/* NOTE: Please make sure the size of pMacEntry->CachedBuf[] is smaller than pTxBlk->HeaderBuf[]!!!! */
 #ifndef VENDOR_FEATURE1_SUPPORT
-			memmove((PUCHAR)
+			memmove((u8 *)
 				       (&pTxBlk->HeaderBuf[TXINFO_SIZE]),
-				       (PUCHAR) (&pMacEntry->CachedBuf[0]),
+				       (u8 *) (&pMacEntry->CachedBuf[0]),
 				       TXWISize + sizeof (HEADER_802_11));
 #else
 			pTxBlk->HeaderBuf = (UCHAR *) (pMacEntry->HeaderBuf);
@@ -2163,7 +2163,7 @@ VOID STA_AMPDU_Frame_Tx(
 			   @@@ MpduHeaderLen excluding padding @@@
 			 */
 			pTxBlk->HdrPadLen = (ULONG) pHeaderBufPtr;
-			pHeaderBufPtr = (PUCHAR) ROUND_UP(pHeaderBufPtr, 4);
+			pHeaderBufPtr = (u8 *) ROUND_UP(pHeaderBufPtr, 4);
 			pTxBlk->HdrPadLen = (ULONG) (pHeaderBufPtr - pTxBlk->HdrPadLen);
 
 #ifdef VENDOR_FEATURE1_SUPPORT
@@ -2203,7 +2203,7 @@ VOID STA_AMPDU_Frame_Tx(
 				/* Encrypt the MPDU data by software */
 				RTMPSoftEncryptionAction(pAd,
 							 pTxBlk->CipherAlg,
-							 (PUCHAR)
+							 (u8 *)
 							 pHeader_802_11,
 							 pTxBlk->pSrcBufData,
 							 pTxBlk->SrcBufLen,
@@ -2253,15 +2253,15 @@ VOID STA_AMPDU_Frame_Tx(
 		} else {
 			RTMPWriteTxWI_Data(pAd, (TXWI_STRUC *) (&pTxBlk->HeaderBuf[TXINFO_SIZE]), pTxBlk);
 
-			memset((PUCHAR) (&pMacEntry->CachedBuf[0]), 0, sizeof (pMacEntry->CachedBuf));
-			memmove((PUCHAR) (&pMacEntry->CachedBuf[0]), (PUCHAR) (&pTxBlk->HeaderBuf[TXINFO_SIZE]), (pHeaderBufPtr -(PUCHAR) (&pTxBlk->HeaderBuf[TXINFO_SIZE])));
+			memset((u8 *) (&pMacEntry->CachedBuf[0]), 0, sizeof (pMacEntry->CachedBuf));
+			memmove((u8 *) (&pMacEntry->CachedBuf[0]), (u8 *) (&pTxBlk->HeaderBuf[TXINFO_SIZE]), (pHeaderBufPtr -(u8 *) (&pTxBlk->HeaderBuf[TXINFO_SIZE])));
 
 #ifdef VENDOR_FEATURE1_SUPPORT
 			/* use space to get performance enhancement */
-			memset((PUCHAR) (&pMacEntry->HeaderBuf[0]), 0, sizeof (pMacEntry->HeaderBuf));
-			memmove((PUCHAR) (&pMacEntry->HeaderBuf[0]),
-				       (PUCHAR) (&pTxBlk->HeaderBuf[0]),
-				       (pHeaderBufPtr - (PUCHAR) (&pTxBlk->HeaderBuf[0])));
+			memset((u8 *) (&pMacEntry->HeaderBuf[0]), 0, sizeof (pMacEntry->HeaderBuf));
+			memmove((u8 *) (&pMacEntry->HeaderBuf[0]),
+				       (u8 *) (&pTxBlk->HeaderBuf[0]),
+				       (pHeaderBufPtr - (u8 *) (&pTxBlk->HeaderBuf[0])));
 #endif /* VENDOR_FEATURE1_SUPPORT */
 
 			pMacEntry->isCached = TRUE;
@@ -2334,12 +2334,12 @@ VOID STA_AMPDU_Frame_Tx_Hdr_Trns(
 		if ((pMacEntry->isCached))
 		{
 			/* NOTE: Please make sure the size of pMacEntry->CachedBuf[] is smaller than pTxBlk->HeaderBuf[]!!!! */
-			memmove((PUCHAR)
+			memmove((u8 *)
 				       (&pTxBlk->HeaderBuf[TXINFO_SIZE]),
-				       (PUCHAR) (&pMacEntry->CachedBuf[0]),
+				       (u8 *) (&pMacEntry->CachedBuf[0]),
 				       TXWISize + WIFI_INFO_SIZE);
 
-			pWiBufPtr = (PUCHAR) (&pTxBlk->HeaderBuf[TXINFO_SIZE + TXWISize]);
+			pWiBufPtr = (u8 *) (&pTxBlk->HeaderBuf[TXINFO_SIZE + TXWISize]);
 
 			STABuildCacheWifiInfo(pAd, pTxBlk, pWiBufPtr);
 
@@ -2393,10 +2393,10 @@ VOID STA_AMPDU_Frame_Tx_Hdr_Trns(
 					   (TXWI_STRUC *) (&pTxBlk->HeaderBuf[TXINFO_SIZE]),
 					   pTxBlk);
 
-			memset((PUCHAR) (&pMacEntry->CachedBuf[0]), 0,
+			memset((u8 *) (&pMacEntry->CachedBuf[0]), 0,
 				       sizeof (pMacEntry->CachedBuf));
-			memmove((PUCHAR) (&pMacEntry->CachedBuf[0]),
-				       (PUCHAR) (&pTxBlk->HeaderBuf[TXINFO_SIZE]),
+			memmove((u8 *) (&pMacEntry->CachedBuf[0]),
+				       (u8 *) (&pTxBlk->HeaderBuf[TXINFO_SIZE]),
 				       TXWISize + WIFI_INFO_SIZE);
 
 
@@ -2438,7 +2438,7 @@ VOID STA_AMSDU_Frame_Tx(
 	IN struct rtmp_adapter *pAd,
 	IN TX_BLK *pTxBlk)
 {
-	PUCHAR pHeaderBufPtr;
+	u8 *pHeaderBufPtr;
 	USHORT FreeNumber = 0;
 	USHORT subFramePayloadLen = 0;	/* AMSDU Subframe length without AMSDU-Header / Padding */
 	USHORT totalMPDUSize = 0;
@@ -2637,7 +2637,7 @@ VOID STA_Legacy_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 
 	/* The remaining content of MPDU header should locate at 4-octets aligment */
 	pTxBlk->HdrPadLen = (ULONG) pHeaderBufPtr;
-	pHeaderBufPtr = (PUCHAR) ROUND_UP(pHeaderBufPtr, 4);
+	pHeaderBufPtr = (u8 *) ROUND_UP(pHeaderBufPtr, 4);
 	pTxBlk->HdrPadLen = (ULONG) (pHeaderBufPtr - pTxBlk->HdrPadLen);
 
 #ifdef SOFT_ENCRYPT
@@ -2744,7 +2744,7 @@ VOID STA_Legacy_Frame_Tx_Hdr_Trns(
 	IN struct rtmp_adapter *pAd,
 	IN TX_BLK *pTxBlk)
 {
-	PUCHAR pHeaderBufPtr;
+	u8 *pHeaderBufPtr;
 	USHORT FreeNumber = 0;
 	BOOLEAN bVLANPkt;
 	PQUEUE_ENTRY pQEntry;
@@ -2833,7 +2833,7 @@ VOID STA_ARalink_Frame_Tx(
 	IN struct rtmp_adapter *pAd,
 	IN TX_BLK * pTxBlk)
 {
-	PUCHAR pHeaderBufPtr;
+	u8 *pHeaderBufPtr;
 	USHORT freeCnt = 0;
 	USHORT totalMPDUSize = 0;
 	USHORT FirstTx, LastTxIdx;
@@ -2960,7 +2960,7 @@ VOID STA_Fragment_Frame_Tx(
 	IN TX_BLK *pTxBlk)
 {
 	HEADER_802_11 *pHeader_802_11;
-	PUCHAR pHeaderBufPtr;
+	u8 *pHeaderBufPtr;
 	USHORT freeCnt = 0;
 	UCHAR fragNum = 0;
 	PACKET_INFO PacketInfo;
@@ -2972,7 +2972,7 @@ VOID STA_Fragment_Frame_Tx(
 	PQUEUE_ENTRY pQEntry;
 	HTTRANSMIT_SETTING *pTransmit;
 #ifdef SOFT_ENCRYPT
-	PUCHAR tmp_ptr = NULL;
+	u8 *tmp_ptr = NULL;
 	uint32_t buf_offset = 0;
 #endif /* SOFT_ENCRYPT */
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
@@ -3049,7 +3049,7 @@ VOID STA_Fragment_Frame_Tx(
 	   LLC header should locate at 4-octets aligment
 	 */
 	pTxBlk->HdrPadLen = (ULONG) pHeaderBufPtr;
-	pHeaderBufPtr = (PUCHAR) ROUND_UP(pHeaderBufPtr, 4);
+	pHeaderBufPtr = (u8 *) ROUND_UP(pHeaderBufPtr, 4);
 	pTxBlk->HdrPadLen = (ULONG) (pHeaderBufPtr - pTxBlk->HdrPadLen);
 
 #ifdef SOFT_ENCRYPT
@@ -3226,7 +3226,7 @@ VOID STA_Fragment_Frame_Tx(
 			/* Encrypt the MPDU data by software */
 			RTMPSoftEncryptionAction(pAd,
 						 pTxBlk->CipherAlg,
-						 (PUCHAR) pHeader_802_11,
+						 (u8 *) pHeader_802_11,
 						 pTxBlk->pSrcBufData,
 						 pTxBlk->SrcBufLen,
 						 pTxBlk->KeyIdx,

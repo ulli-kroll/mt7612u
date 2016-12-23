@@ -74,7 +74,7 @@ VOID WpaStaGroupKeySetting(
 
 VOID WpaSendEapolStart(
 	IN	struct rtmp_adapter *pAdapter,
-	IN  PUCHAR          pBssid);
+	IN  u8 *         pBssid);
 
 
 VOID STAHandleRxDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk);

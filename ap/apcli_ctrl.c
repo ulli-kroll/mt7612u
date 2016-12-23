@@ -1277,7 +1277,7 @@ VOID ApCliWpaMicFailureReportFrame(
 		IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
-	PUCHAR              pOutBuffer = NULL;
+	u8 *             pOutBuffer = NULL;
 	UCHAR               Header802_3[14];
 	ULONG               FrameLen = 0;
 	UCHAR				*mpool;
@@ -1390,10 +1390,10 @@ VOID ApCliWpaMicFailureReportFrame(
 	/* copy frame to Tx ring and send MIC failure report frame to authenticator */
 	RTMPToWirelessSta(pAd, &pAd->MacTab.Content[Wcid],
 					  Header802_3, LENGTH_802_3,
-					  (PUCHAR)pPacket,
+					  (u8 *)pPacket,
 					  CONV_ARRARY_TO_UINT16(pPacket->Body_Len) + 4, FALSE);
 
-	kfree((PUCHAR)pOutBuffer);
+	kfree((u8 *)pOutBuffer);
 
 	kfree(mpool);
 

@@ -40,7 +40,7 @@
 VOID APMlmeDynamicTxRateSwitching(struct rtmp_adapter *pAd)
 {
 	UINT i;
-	PUCHAR pTable;
+	u8 *pTable;
 	UCHAR TableSize = 0, InitTxRateIdx, TrainUp, TrainDown;
 	UCHAR UpRateIdx, DownRateIdx, CurrRateIdx;
 	MAC_TABLE_ENTRY *pEntry;
@@ -443,7 +443,7 @@ VOID APQuickResponeForRateUpExec(
 {
 	struct rtmp_adapter *		pAd = (struct rtmp_adapter *)FunctionContext;
 	UINT					i;
-	PUCHAR					pTable;
+	u8 *				pTable;
 	UCHAR					TableSize = 0;
 	UCHAR					CurrRateIdx;
 	ULONG					AccuTxTotalCnt, TxTotalCnt, TxCnt;
@@ -755,7 +755,7 @@ VOID APQuickResponeForRateUpExec(
 VOID MlmeDynamicTxRateSwitching(
 	IN struct rtmp_adapter *pAd)
 {
-	PUCHAR					pTable;
+	u8 *				pTable;
 	UCHAR					TableSize = 0;
 	UCHAR					UpRateIdx = 0, DownRateIdx = 0, CurrRateIdx;
 	ULONG					i, TxTotalCnt;
@@ -1238,7 +1238,7 @@ VOID StaQuickResponeForRateUpExec(
 {
 	struct rtmp_adapter *		pAd = (struct rtmp_adapter *)FunctionContext;
 	ULONG					i;
-	PUCHAR					pTable;
+	u8 *				pTable;
 	UCHAR					TableSize = 0;
 	UCHAR					CurrRateIdx;
 	ULONG					TxTotalCnt;

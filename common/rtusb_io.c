@@ -537,7 +537,7 @@ NTSTATUS RTUSBReadEEPROM16(struct rtmp_adapter *pAd, USHORT offset, USHORT *pDat
 	NTSTATUS status;
 	USHORT  localData;
 
-	status = RTUSBReadEEPROM(pAd, offset, (PUCHAR)(&localData), 2);
+	status = RTUSBReadEEPROM(pAd, offset, (u8 *)(&localData), 2);
 	if (status == STATUS_SUCCESS)
 		*pData = le2cpu16(localData);
 
@@ -551,7 +551,7 @@ NTSTATUS RTUSBWriteEEPROM16(struct rtmp_adapter *pAd, USHORT offset, USHORT valu
 	USHORT tmpVal;
 
 	tmpVal = cpu2le16(value);
-	return RTUSBWriteEEPROM(pAd, offset, (PUCHAR)&(tmpVal), 2);
+	return RTUSBWriteEEPROM(pAd, offset, (u8 *)&(tmpVal), 2);
 }
 
 
@@ -1305,7 +1305,7 @@ static NTSTATUS SetPortSecuredHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMD
 
 static NTSTATUS RemovePairwiseKeyHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 {
-	UCHAR Wcid = *((PUCHAR)(CMDQelmt->buffer));
+	UCHAR Wcid = *((u8 *)(CMDQelmt->buffer));
 
 	AsicRemovePairwiseKeyEntry(pAd, Wcid);
 	return NDIS_STATUS_SUCCESS;

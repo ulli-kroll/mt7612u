@@ -89,7 +89,7 @@ BOOLEAN CFG80211_SyncPacketWmmIe(struct rtmp_adapter *pAd, VOID *pData, ULONG da
 VOID CFG80211_ParseBeaconIE(struct rtmp_adapter *pAd, MULTISSID_STRUCT *pMbss, struct rtmp_wifi_dev *wdev,UCHAR *wpa_ie,UCHAR *rsn_ie)
 {
 	PEID_STRUCT 		 pEid;
-	PUCHAR				pTmp;
+	u8 *			pTmp;
 	NDIS_802_11_ENCRYPTION_STATUS	TmpCipher;
 	NDIS_802_11_ENCRYPTION_STATUS	PairCipher;		/* Unicast cipher 1, this one has more secured cipher suite */
 	NDIS_802_11_ENCRYPTION_STATUS	PairCipherAux;	/* Unicast cipher 2 if AP announce two unicast cipher suite */

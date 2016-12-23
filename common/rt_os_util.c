@@ -120,10 +120,10 @@ BOOLEAN RtmpOsCmdDisplayLenCheck(
 #ifdef WPA_SUPPLICANT_SUPPORT
 VOID WpaSendMicFailureToWpaSupplicant(
 	IN struct net_device *pNetDev,
-	IN const PUCHAR src_addr,
+	IN const u8 *src_addr,
 	IN BOOLEAN bUnicast,
 	IN INT key_id,
-	IN const PUCHAR tsc)
+	IN const u8 *tsc)
 {
 #ifdef RT_CFG80211_SUPPORT
 	CFG80211OS_MICFailReport(pNetDev, src_addr, bUnicast, key_id, tsc);
@@ -134,7 +134,7 @@ VOID WpaSendMicFailureToWpaSupplicant(
 	if(bUnicast)
 		sprintf(custom, "%s unicast", custom);
 
-	RtmpOSWrielessEventSend(pNetDev, RT_WLAN_EVENT_CUSTOM, -1, NULL, (PUCHAR)custom, strlen(custom));
+	RtmpOSWrielessEventSend(pNetDev, RT_WLAN_EVENT_CUSTOM, -1, NULL, (u8 *)custom, strlen(custom));
 #endif /* RT_CFG80211_SUPPORT */
 
 	return;
@@ -194,7 +194,7 @@ VOID SendAssocIEsToWpaSupplicant(
 	{
 		snprintf(custom, sizeof(custom), "ASSOCINFO_ReqIEs=");
 		memmove(custom+17, ReqVarIEs, ReqVarIELen);
-		RtmpOSWrielessEventSend(pNetDev, RT_WLAN_EVENT_CUSTOM, RT_REQIE_EVENT_FLAG, NULL, (PUCHAR)custom, ReqVarIELen + 17);
+		RtmpOSWrielessEventSend(pNetDev, RT_WLAN_EVENT_CUSTOM, RT_REQIE_EVENT_FLAG, NULL, (u8 *)custom, ReqVarIELen + 17);
 
 		RtmpOSWrielessEventSend(pNetDev, RT_WLAN_EVENT_CUSTOM, RT_ASSOCINFO_EVENT_FLAG, NULL, NULL, 0);
 	}

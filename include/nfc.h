@@ -3,7 +3,7 @@
 
 VOID	NfcParseRspCommand(
 	IN  Pstruct rtmp_adapter pAd,
-	IN  PUCHAR pData,
+	IN  u8 *pData,
 	IN  USHORT DataLen);
 
 VOID	NfcCommand(
@@ -11,7 +11,7 @@ VOID	NfcCommand(
 	IN	UCHAR Action,
 	IN  UCHAR Type,
 	IN  SHORT DataLen,
-	IN  PUCHAR pData);
+	IN  u8 *pData);
 
 VOID	NfcGenRandomPasswd(
 	IN  Pstruct rtmp_adapter pAd,

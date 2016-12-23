@@ -35,7 +35,7 @@ static void ap_assoc_info_debugshow(
 	IN IE_LISTS *ie_list)
 {
 #ifdef DBG
-	PUCHAR	sAssoc = isReassoc ? (PUCHAR)"ReASSOC" : (PUCHAR)"ASSOC";
+	u8 *sAssoc = isReassoc ? (u8 *)"ReASSOC" : (u8 *)"ASSOC";
 #endif /* DBG */
 	struct rtmp_wifi_dev *wdev;
 
@@ -646,7 +646,7 @@ VOID ap_cmm_peer_assoc_req_action(
 	USHORT CapabilityInfoForAssocResp;
 	USHORT StatusCode = MLME_SUCCESS;
 	USHORT Aid;
-	PUCHAR pOutBuffer = NULL;
+	u8 *pOutBuffer = NULL;
 	int NStatus;
 	ULONG FrameLen = 0;
 	UCHAR MaxSupportedRate = 0;
@@ -654,7 +654,7 @@ VOID ap_cmm_peer_assoc_req_action(
 	UCHAR i;
 	MAC_TABLE_ENTRY *pEntry;
 #ifdef DBG
-	UCHAR *sAssoc = isReassoc ? (PUCHAR)"ReASSOC" : (PUCHAR)"ASSOC";
+	UCHAR *sAssoc = isReassoc ? (u8 *)"ReASSOC" : (u8 *)"ASSOC";
 #endif /* DBG */
 	UCHAR SubType;
 	BOOLEAN bACLReject = FALSE;
@@ -1111,7 +1111,7 @@ SendAssocResponse:
 		/* 7.3.2.27 Extended Capabilities IE */
 		{
 		ULONG TmpLen, infoPos;
-		PUCHAR pInfo;
+		u8 *pInfo;
 		UCHAR extInfoLen;
 		BOOLEAN bNeedAppendExtIE = FALSE;
 		EXT_CAP_INFO_ELEMENT extCapInfo;
@@ -1241,13 +1241,13 @@ SendAssocResponse:
 			    ((pNetDev = RTMP_CFG80211_FindVifEntry_ByType(pAd, RT_CMD_80211_IFTYPE_P2P_GO)) != NULL))
 			{
 				DBGPRINT(RT_DEBUG_TRACE, ("CONCURRENT_DEVICE CFG : GO NOITFY THE CLIENT ASSOCIATED\n"));
-				CFG80211OS_NewSta(pNetDev, ie_list->Addr2, (PUCHAR)Elem->Msg, Elem->MsgLen);
+				CFG80211OS_NewSta(pNetDev, ie_list->Addr2, (u8 *)Elem->Msg, Elem->MsgLen);
 			}
 			else
 #endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
 			{
 				DBGPRINT(RT_DEBUG_TRACE, ("SINGLE_DEVICE CFG : GO NOITFY THE CLIENT ASSOCIATED\n"));
-				CFG80211OS_NewSta(pAd->net_dev, ie_list->Addr2, (PUCHAR)Elem->Msg, Elem->MsgLen);
+				CFG80211OS_NewSta(pAd->net_dev, ie_list->Addr2, (u8 *)Elem->Msg, Elem->MsgLen);
 				if (pEntry->WepStatus == Ndis802_11WEPEnabled)
 				{
 					/* Set WEP key to ASIC */
@@ -1502,7 +1502,7 @@ VOID MbssKickOutStas(struct rtmp_adapter *pAd, INT apidx, USHORT Reason)
 VOID APMlmeKickOutSta(struct rtmp_adapter *pAd, UCHAR *pStaAddr, UCHAR Wcid, USHORT Reason)
 {
 	HEADER_802_11 DisassocHdr;
-	PUCHAR pOutBuffer = NULL;
+	u8 *pOutBuffer = NULL;
 	ULONG FrameLen = 0;
 	int NStatus;
 	MAC_TABLE_ENTRY *pEntry;
@@ -1558,7 +1558,7 @@ VOID APMlmeKickOutSta(struct rtmp_adapter *pAd, UCHAR *pStaAddr, UCHAR Wcid, USH
 VOID APMlmeKickOutAllSta(struct rtmp_adapter *pAd, UCHAR apidx, USHORT Reason)
 {
     HEADER_802_11 DisassocHdr;
-    PUCHAR pOutBuffer = NULL;
+    u8 *pOutBuffer = NULL;
     ULONG FrameLen = 0;
     int     NStatus;
     UCHAR           BROADCAST_ADDR[MAC_ADDR_LEN] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
@@ -1641,7 +1641,7 @@ VOID APMlmeDisassocReqAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 VOID APCls3errAction(struct rtmp_adapter *pAd, ULONG Wcid, HEADER_802_11 *pHeader)
 {
     HEADER_802_11         DisassocHdr;
-    PUCHAR                pOutBuffer = NULL;
+    u8 *               pOutBuffer = NULL;
     ULONG                 FrameLen = 0;
     int           NStatus;
     USHORT                Reason = REASON_CLS3ERR;

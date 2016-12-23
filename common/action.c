@@ -100,7 +100,7 @@ VOID MlmeADDBAAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 	MLME_ADDBA_REQ_STRUCT *pInfo;
 	UCHAR Addr[6];
-	PUCHAR pOutBuffer = NULL;
+	u8 *pOutBuffer = NULL;
 	int NStatus;
 	ULONG Idx;
 	FRAME_ADDBA_REQ Frame;
@@ -200,7 +200,7 @@ VOID MlmeADDBAAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 VOID MlmeDELBAAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 	MLME_DELBA_REQ_STRUCT *pInfo;
-	PUCHAR pOutBuffer = NULL, pOutBuffer2 = NULL;
+	u8 *pOutBuffer = NULL, *pOutBuffer2 = NULL;
 	ULONG Idx;
 	FRAME_DELBA_REQ Frame;
 	ULONG FrameLen;
@@ -317,7 +317,7 @@ VOID MlmeDLSAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 
 VOID MlmeInvalidAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
-	/*PUCHAR		   pOutBuffer = NULL;*/
+	/*u8 *	   pOutBuffer = NULL;*/
 	/*Return the receiving frame except the MSB of category filed set to 1.  7.3.1.11*/
 }
 
@@ -385,8 +385,8 @@ VOID SendBSS2040CoexistMgmtAction(
 
 	DBGPRINT(RT_DEBUG_TRACE, ("SendBSS2040CoexistMgmtAction(): Wcid=%d, apidx=%d, InfoReq=%d!\n", Wcid, apidx, InfoReq));
 
-	memset((PUCHAR)&BssCoexistInfo, 0, sizeof(BSS_2040_COEXIST_ELEMENT));
-	memset((PUCHAR)&BssIntolerantInfo, 0, sizeof(BSS_2040_INTOLERANT_CH_REPORT));
+	memset((u8 *)&BssCoexistInfo, 0, sizeof(BSS_2040_COEXIST_ELEMENT));
+	memset((u8 *)&BssIntolerantInfo, 0, sizeof(BSS_2040_INTOLERANT_CH_REPORT));
 
 	BssCoexistInfo.ElementID = IE_2040_BSS_COEXIST;
 	BssCoexistInfo.Len = 1;
@@ -433,7 +433,7 @@ VOID StaPublicAction(struct rtmp_adapter *pAd, BSS_2040_COEXIST_IE *pBssCoexIE)
 {
 	MLME_SCAN_REQ_STRUCT ScanReq;
 
-	DBGPRINT(RT_DEBUG_TRACE,("ACTION - StaPeerPublicAction  Bss2040Coexist = %x\n", *((PUCHAR)pBssCoexIE)));
+	DBGPRINT(RT_DEBUG_TRACE,("ACTION - StaPeerPublicAction  Bss2040Coexist = %x\n", *((u8 *)pBssCoexIE)));
 
 	/* AP asks Station to return a 20/40 BSS Coexistence mgmt frame.  So we first starts a scan, then send back 20/40 BSS Coexistence mgmt frame */
 	if ((pBssCoexIE->field.InfoReq == 1) && (OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_SCAN_2040)))
@@ -820,12 +820,12 @@ VOID PeerPublicAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 
 
 				pCoexistInfo = (BSS_2040_COEXIST_ELEMENT *) &Elem->Msg[LENGTH_802_11+2];
-				/*hex_dump("CoexistInfo", (PUCHAR)pCoexistInfo, sizeof(BSS_2040_COEXIST_ELEMENT));*/
+				/*hex_dump("CoexistInfo", (u8 *)pCoexistInfo, sizeof(BSS_2040_COEXIST_ELEMENT));*/
 				if (Elem->MsgLen >= (LENGTH_802_11 + sizeof(BSS_2040_COEXIST_ELEMENT) + sizeof(BSS_2040_INTOLERANT_CH_REPORT)))
 				{
-					pIntolerantReport = (BSS_2040_INTOLERANT_CH_REPORT *)((PUCHAR)pCoexistInfo + sizeof(BSS_2040_COEXIST_ELEMENT));
+					pIntolerantReport = (BSS_2040_INTOLERANT_CH_REPORT *)((u8 *)pCoexistInfo + sizeof(BSS_2040_COEXIST_ELEMENT));
 				}
-				/*hex_dump("IntolerantReport ", (PUCHAR)pIntolerantReport, sizeof(BSS_2040_INTOLERANT_CH_REPORT));*/
+				/*hex_dump("IntolerantReport ", (u8 *)pIntolerantReport, sizeof(BSS_2040_INTOLERANT_CH_REPORT));*/
 
 				if(pAd->CommonCfg.bBssCoexEnable == FALSE || (pAd->CommonCfg.bForty_Mhz_Intolerant == TRUE))
 				{
@@ -1256,8 +1256,8 @@ VOID ActHeaderInit(
 VOID BarHeaderInit(
 	IN	struct rtmp_adapter *pAd,
 	IN OUT PFRAME_BAR pCntlBar,
-	IN PUCHAR pDA,
-	IN PUCHAR pSA)
+	IN u8 *pDA,
+	IN u8 *pSA)
 {
 /*	USHORT	Duration;*/
 
@@ -1292,7 +1292,7 @@ VOID BarHeaderInit(
  */
 VOID InsertActField(
 	IN struct rtmp_adapter *pAd,
-	OUT PUCHAR pFrameBuf,
+	OUT u8 *pFrameBuf,
 	OUT PULONG pFrameLen,
 	IN UINT8 Category,
 	IN UINT8 ActCode)

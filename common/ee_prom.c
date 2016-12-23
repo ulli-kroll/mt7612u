@@ -270,7 +270,7 @@ INT rtmp_ee_write_to_prom(
 
 #ifdef RTMP_USB_SUPPORT
 	if (pAd->infType == RTMP_DEV_INF_USB)
-		RTUSBWriteEEPROM(pAd, offset, (PUCHAR)pAd->EEPROMImage, EEPROM_SIZE);
+		RTUSBWriteEEPROM(pAd, offset, (u8 *)pAd->EEPROMImage, EEPROM_SIZE);
 	else
 #endif /* RTMP_USB_SUPPORT */
 	{

@@ -110,7 +110,7 @@ VOID BBU_PCIE_Init(){
 	pcieRegInitConfig();
 }
 
-VOID BBUPrepareMAC(IN struct rtmp_adapter *pAd, PUCHAR macaddr ){
+VOID BBUPrepareMAC(IN struct rtmp_adapter *pAd, u8 *macaddr ){
 	UCHAR FourByteOffset = 0;
 	UCHAR NWlanExt = 0;
 

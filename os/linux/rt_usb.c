@@ -203,7 +203,7 @@ static void rtusb_dataout_complete(unsigned long data)
 	}
 	else	/* STATUS_OTHER */
 	{
-		PUCHAR	pBuf;
+		u8 *pBuf;
 
 		pAd->BulkOutCompleteOther++;
 
@@ -1017,13 +1017,13 @@ INT RTUSBCmdThread(
 				{
 					if (pCmdQElmt->buffer != NULL)
 						kfree(pCmdQElmt->buffer);
-					kfree((PUCHAR)pCmdQElmt);
+					kfree((u8 *)pCmdQElmt);
 				}
 				else
 				{
 					if ((pCmdQElmt->buffer != NULL) && (pCmdQElmt->bufferlength != 0))
 						kfree(pCmdQElmt->buffer);
-					kfree((PUCHAR)pCmdQElmt);
+					kfree((u8 *)pCmdQElmt);
 				}
 			}
 		}

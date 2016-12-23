@@ -190,7 +190,7 @@ VOID CFG80211_UpdateBeacon(
    uint32_t                          beacon_tail_len,
    BOOLEAN                         isAllUpdate);
 
-INT CFG80211_ApStaDelSendEvent(struct rtmp_adapter *pAd, const PUCHAR mac_addr);
+INT CFG80211_ApStaDelSendEvent(struct rtmp_adapter *pAd, const u8 *mac_addr);
 
 
 /* Information Releated */
@@ -312,8 +312,8 @@ VOID CFG80211DRV_OpsMgmtFrameActionRegister(
 
 BOOLEAN CFG80211_CheckActionFrameType(
         IN  struct rtmp_adapter 								 *pAd,
-		IN	PUCHAR										 preStr,
-		IN	PUCHAR										 pData,
+		IN	u8 *									 preStr,
+		IN	u8 *									 pData,
 		IN	uint32_t                              		 length);
 
 
@@ -324,7 +324,7 @@ INT CFG80211_SendMgmtFrame(struct rtmp_adapter *pAd, VOID *pData, ULONG Data);
 #ifdef RT_CFG80211_P2P_SUPPORT
 VOID CFG80211_PeerP2pBeacon(
 	IN struct rtmp_adapter *pAd,
-	IN PUCHAR	pAddr2,
+	IN u8 *pAddr2,
 	IN MLME_QUEUE_ELEM *Elem,
 	IN LARGE_INTEGER   TimeStamp);
 
@@ -342,7 +342,7 @@ BOOLEAN CFG80211_P2pResetNoATimer(
 BOOLEAN CFG80211_P2pHandleNoAAttri(
 	IN struct rtmp_adapter *pAd,
 	IN PMAC_TABLE_ENTRY	pMacClient,
-	IN PUCHAR pData);
+	IN u8 *pData);
 
 #endif /* RT_CFG80211_P2P_SUPPORT */
 

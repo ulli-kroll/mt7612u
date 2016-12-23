@@ -52,9 +52,9 @@
 
 BOOLEAN APBridgeToWirelessSta(
     IN  struct rtmp_adapter *  pAd,
-    IN  PUCHAR          pHeader,
+    IN  u8 *         pHeader,
     IN  UINT            HdrLen,
-    IN  PUCHAR          pData,
+    IN  u8 *         pData,
     IN  UINT            DataLen,
     IN  ULONG           fromwdsidx);
 
@@ -154,13 +154,13 @@ VOID ApSiteSurvey(
 	IN	BOOLEAN				ChannelSel);
 
 VOID SupportRate(
-	IN PUCHAR SupRate,
+	IN u8 *SupRate,
 	IN UCHAR SupRateLen,
-	IN PUCHAR ExtRate,
+	IN u8 *ExtRate,
 	IN UCHAR ExtRateLen,
-	OUT PUCHAR *Rates,
-	OUT PUCHAR RatesLen,
-	OUT PUCHAR pMaxSupportRate);
+	OUT u8 **Rates,
+	OUT u8 *RatesLen,
+	OUT u8 *pMaxSupportRate);
 
 
 BOOLEAN ApScanRunning(struct rtmp_adapter *pAd);
@@ -218,7 +218,7 @@ uint32_t MacTableAssocStaNumGet(struct rtmp_adapter *pAd);
 
 MAC_TABLE_ENTRY *APSsPsInquiry(
     IN  struct rtmp_adapter *  pAd,
-    IN  PUCHAR          pAddr,
+    IN  u8 *         pAddr,
     OUT SST             *Sst,
     OUT USHORT          *Aid,
     OUT UCHAR           *PsMode,
@@ -227,7 +227,7 @@ MAC_TABLE_ENTRY *APSsPsInquiry(
 #ifdef SYSTEM_LOG_SUPPORT
 VOID ApLogEvent(
     IN struct rtmp_adapter *   pAd,
-    IN PUCHAR           pAddr,
+    IN u8 *          pAddr,
     IN USHORT           Event);
 #else
 #define ApLogEvent(_pAd, _pAddr, _Event)
@@ -251,7 +251,7 @@ BOOLEAN PeerDisassocReqSanity(
     IN struct rtmp_adapter *pAd,
     IN VOID *Msg,
     IN ULONG MsgLen,
-    OUT PUCHAR pAddr2,
+    OUT u8 *pAddr2,
     OUT	uint16_t *SeqNum,
     OUT USHORT *Reason);
 
@@ -259,7 +259,7 @@ BOOLEAN PeerDeauthReqSanity(
     IN struct rtmp_adapter *pAd,
     IN VOID *Msg,
     IN ULONG MsgLen,
-    OUT PUCHAR pAddr2,
+    OUT u8 *pAddr2,
    	OUT	uint16_t *SeqNum,
     OUT USHORT *Reason);
 
@@ -267,8 +267,8 @@ BOOLEAN APPeerAuthSanity(
     IN struct rtmp_adapter *pAd,
     IN VOID *Msg,
     IN ULONG MsgLen,
-	OUT PUCHAR pAddr1,
-    OUT PUCHAR pAddr2,
+	OUT u8 *pAddr1,
+    OUT u8 *pAddr2,
     OUT USHORT *Alg,
     OUT USHORT *Seq,
     OUT USHORT *Status,

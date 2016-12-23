@@ -2920,7 +2920,7 @@ INT Set_ATE_PA_Bias_Proc(
 
 #ifdef RTMP_RF_RW_SUPPORT
 #ifndef RLT_RF
-	ATE_RF_IO_READ8_BY_REG_ID(pAd, RF_R19, (PUCHAR)&RFValue);
+	ATE_RF_IO_READ8_BY_REG_ID(pAd, RF_R19, (u8 *)&RFValue);
 	RFValue = (((RFValue & 0x0F) | (pATEInfo->PABias << 4)));
 	ATE_RF_IO_WRITE8_BY_REG_ID(pAd, RF_R19, (UCHAR)RFValue);
 #endif /* !RLT_RF */
@@ -3356,7 +3356,7 @@ INT Set_ATE_Read_RF_Proc(
 	{
 		for (index = 0; index < 32; index++)
 		{
-			RT30xxReadRFRegister(pAd, index, (PUCHAR)&RFValue);
+			RT30xxReadRFRegister(pAd, index, (u8 *)&RFValue);
 			DBGPRINT(RT_DEBUG_OFF, ("R%d=%d\n",index,RFValue));
 		}
 	}
@@ -3453,7 +3453,7 @@ INT Set_ATE_Load_E2P_Proc(
 	if (value > 0)
 	{
 		/* zero the e2p buffer */
-		memset((PUCHAR)WriteEEPROM, 0, EEPROM_SIZE);
+		memset((u8 *)WriteEEPROM, 0, EEPROM_SIZE);
 
 		RtmpOSFSInfoChange(&osFSInfo, TRUE);
 
@@ -5567,8 +5567,8 @@ int ATEInit(
 #ifdef RTMP_INTERNAL_TX_ALC
 #if defined(RT3350) || defined(RT3352)
 	pATEInfo->bTSSICalbrEnableG = FALSE;
-	memset((PUCHAR)&(pATEInfo->TssiRefPerChannel), 0, CFG80211_NUM_OF_CHAN_2GHZ);
-	memset((PUCHAR)&(pATEInfo->TssiDeltaPerChannel), 0, CFG80211_NUM_OF_CHAN_2GHZ);
+	memset((u8 *)&(pATEInfo->TssiRefPerChannel), 0, CFG80211_NUM_OF_CHAN_2GHZ);
+	memset((u8 *)&(pATEInfo->TssiDeltaPerChannel), 0, CFG80211_NUM_OF_CHAN_2GHZ);
 #endif /* defined(RT3350) || defined(RT3352) */
 #endif /* RTMP_INTERNAL_TX_ALC */
 

@@ -118,7 +118,7 @@ UINT FCSTAB_32[256] =
 */
 UINT	RTMP_CALC_FCS32(
 	IN	UINT	Fcs,
-	IN	PUCHAR	Cp,
+	IN	u8 *Cp,
 	IN	INT		Len)
 {
 	while (Len--)
@@ -150,12 +150,12 @@ UINT	RTMP_CALC_FCS32(
 	========================================================================
 */
 VOID	RTMPInitWepEngine(
-	IN	PUCHAR			pIv,
-	IN	PUCHAR			pKey,
+	IN	u8 *		pIv,
+	IN	u8 *		pKey,
 	IN	UCHAR			KeyLen,
 	OUT	ARC4_CTX_STRUC  *pARC4_CTX)
 {
-	PUCHAR	seed = NULL;
+	u8 *seed = NULL;
 	UINT8	seed_len;
 
 	seed = kmalloc(sizeof(UCHAR)*16, GFP_ATOMIC);
@@ -225,9 +225,9 @@ VOID RTMPConstructWEPIVHdr(
 */
 BOOLEAN	RTMPSoftEncryptWEP(
 	IN 		struct rtmp_adapter *	pAd,
-	IN 		PUCHAR			pIvHdr,
+	IN 		u8 *		pIvHdr,
 	IN 		PCIPHER_KEY		pKey,
-	INOUT 	PUCHAR			pData,
+	INOUT 	u8 *		pData,
 	IN 		ULONG			DataByteCnt)
 {
 	ARC4_CTX_STRUC *ARC4_CTX = NULL;
@@ -258,7 +258,7 @@ BOOLEAN	RTMPSoftEncryptWEP(
 	FCSCRC32 = cpu2le32(FCSCRC32);
 
 	/* Append 4-bytes ICV after the MPDU data */
-	memmove(pData + DataByteCnt, (PUCHAR)&FCSCRC32, LEN_ICV);
+	memmove(pData + DataByteCnt, (u8 *)&FCSCRC32, LEN_ICV);
 
 	/* Encrypt the MPDU plaintext data and ICV using ARC4 with a seed */
 	ARC4_Compute(ARC4_CTX, pData, DataByteCnt + LEN_ICV, pData);
@@ -292,14 +292,14 @@ BOOLEAN	RTMPSoftEncryptWEP(
 BOOLEAN	RTMPSoftDecryptWEP(
 	IN 		struct rtmp_adapter *	pAd,
 	IN 		PCIPHER_KEY		pKey,
-	INOUT 	PUCHAR			pData,
+	INOUT 	u8 *		pData,
 	INOUT 	uint16_t 		*DataByteCnt)
 {
 	/*ARC4_CTX_STRUC 	ARC4_CTX;*/
 	ARC4_CTX_STRUC 	*ARC4_CTX = NULL;
-	PUCHAR			plaintext_ptr;
+	u8 *		plaintext_ptr;
 	uint16_t 		plaintext_len;
-	PUCHAR			ciphertext_ptr;
+	u8 *		ciphertext_ptr;
 	uint16_t 		ciphertext_len;
 	UINT			trailfcs;
 	UINT    		crc32;

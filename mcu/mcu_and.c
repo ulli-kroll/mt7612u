@@ -172,7 +172,7 @@ int andes_usb_load_rom_patch(struct rtmp_adapter *ad)
 	PURB urb;
 	struct usb_device *udev = ad->OS_Cookie->pUsb_Dev;
 	ra_dma_addr_t rom_patch_dma;
-	PUCHAR rom_patch_data;
+	u8 *rom_patch_data;
 	TXINFO_NMAC_CMD *tx_info;
 	s32 sent_len;
 	u32 cur_len = 0;
@@ -339,7 +339,7 @@ load_patch_protect:
 			tx_info->d_port = CPU_TX_PORT;
 
 #ifdef RT_BIG_ENDIAN
-			RTMPDescriptorEndianChange((PUCHAR)tx_info, TYPE_TXINFO);
+			RTMPDescriptorEndianChange((u8 *)tx_info, TYPE_TXINFO);
 #endif
 			memmove(rom_patch_data + sizeof(*tx_info), fw_patch_image + PATCH_INFO_SIZE + cur_len, sent_len);
 
@@ -582,7 +582,7 @@ int andes_usb_loadfw(struct rtmp_adapter *ad)
 	PURB urb;
 	struct usb_device *udev = ad->OS_Cookie->pUsb_Dev;
 	ra_dma_addr_t fw_dma;
-	PUCHAR fw_data;
+	u8 *fw_data;
 	TXINFO_NMAC_CMD *tx_info;
 	s32 sent_len;
 	u32 cur_len = 0;
@@ -734,7 +734,7 @@ loadfw_protect:
 			tx_info->d_port = CPU_TX_PORT;
 
 #ifdef RT_BIG_ENDIAN
-			RTMPDescriptorEndianChange((PUCHAR)tx_info, TYPE_TXINFO);
+			RTMPDescriptorEndianChange((u8 *)tx_info, TYPE_TXINFO);
 #endif
 			memmove(fw_data + sizeof(*tx_info), fw_image + FW_INFO_SIZE + cur_len, sent_len);
 
@@ -872,7 +872,7 @@ loadfw_protect:
 			tx_info->d_port = CPU_TX_PORT;
 
 #ifdef RT_BIG_ENDIAN
-			RTMPDescriptorEndianChange((PUCHAR)tx_info, TYPE_TXINFO);
+			RTMPDescriptorEndianChange((u8 *)tx_info, TYPE_TXINFO);
 #endif
 			memmove(fw_data + sizeof(*tx_info), fw_image + FW_INFO_SIZE + ilm_len + cur_len, sent_len);
 
@@ -1387,7 +1387,7 @@ void andes_rx_process_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *rx_msg)
 	struct MCU_CTRL *ctl = &ad->MCUCtrl;
 	unsigned long flags;
 #ifdef RT_BIG_ENDIAN
-	RTMPDescriptorEndianChange((PUCHAR)rx_info, TYPE_RXINFO);
+	RTMPDescriptorEndianChange((u8 *)rx_info, TYPE_RXINFO);
 #endif
 
 	DBGPRINT(RT_DEBUG_INFO, ("(andex_rx_cmd)info_type=%d,evt_type=%d,d_port=%d,"
@@ -1897,7 +1897,7 @@ static int andes_dequeue_and_kick_out_cmd_msgs(struct rtmp_adapter *ad)
 
 #ifdef RT_BIG_ENDIAN
 			*(uint32_t *)tx_info = le2cpu32(*(uint32_t *)tx_info);
-			//RTMPDescriptorEndianChange((PUCHAR)tx_info, TYPE_TXINFO);
+			//RTMPDescriptorEndianChange((u8 *)tx_info, TYPE_TXINFO);
 #endif
 		}
 

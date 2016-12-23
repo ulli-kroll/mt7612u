@@ -61,7 +61,7 @@ BOOLEAN MlmeAddBAReqSanity(
     IN struct rtmp_adapter *pAd,
     IN VOID *Msg,
     IN ULONG MsgLen,
-    OUT PUCHAR pAddr2)
+    OUT u8 *pAddr2)
 {
     PMLME_ADDBA_REQ_STRUCT   pInfo;
 
@@ -147,7 +147,7 @@ BOOLEAN PeerAddBAReqActionSanity(
     IN struct rtmp_adapter *pAd,
     IN VOID *pMsg,
     IN ULONG MsgLen,
-	OUT PUCHAR pAddr2)
+	OUT u8 *pAddr2)
 {
 	PFRAME_802_11 pFrame = (PFRAME_802_11)pMsg;
 	PFRAME_ADDBA_REQ pAddFrame;
@@ -250,8 +250,8 @@ BOOLEAN PeerBeaconAndProbeRspSanity_Old(
     IN VOID *Msg,
     IN ULONG MsgLen,
     IN UCHAR  MsgChannel,
-    OUT PUCHAR pAddr2,
-    OUT PUCHAR pBssid,
+    OUT u8 *pAddr2,
+    OUT u8 *pBssid,
     OUT CHAR Ssid[],
     OUT UCHAR *pSsidLen,
     OUT UCHAR *pBssType,
@@ -466,7 +466,7 @@ BOOLEAN PeerBeaconAndProbeRspSanity_Old(
 				{
 					*pPreNHtCapabilityLen = 0;	/* Now we only support 26 bytes.*/
 
-					Ptr = (PUCHAR) pVIE;
+					Ptr = (u8 *) pVIE;
 					memmove(Ptr + *LengthVIE, &pEid->Eid, pEid->Len + 2);
 					*LengthVIE += (pEid->Len + 2);
 				}
@@ -496,7 +496,7 @@ BOOLEAN PeerBeaconAndProbeRspSanity_Old(
 #ifdef CONFIG_STA_SUPPORT
 				IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
 				{
-			                Ptr = (PUCHAR) pVIE;
+			                Ptr = (u8 *) pVIE;
 			                memmove(Ptr + *LengthVIE, &pEid->Eid, pEid->Len + 2);
 			                *LengthVIE += (pEid->Len + 2);
 				}
@@ -637,13 +637,13 @@ BOOLEAN PeerBeaconAndProbeRspSanity_Old(
                 else if (NdisEqualMemory(pEid->Octet, WPA_OUI, 4))
                 {
                     /* Copy to pVIE which will report to bssid list.*/
-                    Ptr = (PUCHAR) pVIE;
+                    Ptr = (u8 *) pVIE;
                     memmove(Ptr + *LengthVIE, &pEid->Eid, pEid->Len + 2);
                     *LengthVIE += (pEid->Len + 2);
                 }
                 else if (NdisEqualMemory(pEid->Octet, WME_PARM_ELEM, 6) && (pEid->Len == 24))
                 {
-                    PUCHAR ptr;
+                    u8 *ptr;
                     int i;
 
                     /* parsing EDCA parameters*/
@@ -736,12 +736,12 @@ BOOLEAN PeerBeaconAndProbeRspSanity_Old(
 #ifdef NATIVE_WPA_SUPPLICANT_SUPPORT
 			if (SubType == SUBTYPE_BEACON)
 			{
-				PUCHAR		pData;
+				u8 *	pData;
 				INT			Len = 0;
 				USHORT		DataLen = 0;
 				PWSC_IE		pWscIE;
 
-				pData = (PUCHAR) pEid->Octet + 4;
+				pData = (u8 *) pEid->Octet + 4;
 				Len = (SHORT)(pEid->Len - 4);
 
 				while (Len > 0)
@@ -829,7 +829,7 @@ BOOLEAN PeerBeaconAndProbeRspSanity_Old(
                 if (RTMPEqualMemory(pEid->Octet + 2, RSN_OUI, 3))
                 {
                     /* Copy to pVIE which will report to microsoft bssid list.*/
-                    Ptr = (PUCHAR) pVIE;
+                    Ptr = (u8 *) pVIE;
                     memmove(Ptr + *LengthVIE, &pEid->Eid, pEid->Len + 2);
                     *LengthVIE += (pEid->Len + 2);
                 }
@@ -838,7 +838,7 @@ BOOLEAN PeerBeaconAndProbeRspSanity_Old(
 #ifdef CONFIG_STA_SUPPORT
 #if defined (EXT_BUILD_CHANNEL_LIST) || defined (RT_CFG80211_SUPPORT)
 			case IE_COUNTRY:
-				Ptr = (PUCHAR) pVIE;
+				Ptr = (u8 *) pVIE;
                 memmove(Ptr + *LengthVIE, &pEid->Eid, pEid->Len + 2);
                 *LengthVIE += (pEid->Len + 2);
 				break;
@@ -854,7 +854,7 @@ BOOLEAN PeerBeaconAndProbeRspSanity_Old(
                     pQbssLoad->RemainingAdmissionControl = pEid->Octet[3] + pEid->Octet[4] * 256;
 
 					/* Copy to pVIE*/
-                    Ptr = (PUCHAR) pVIE;
+                    Ptr = (u8 *) pVIE;
                     memmove(Ptr + *LengthVIE, &pEid->Eid, pEid->Len + 2);
                     *LengthVIE += (pEid->Len + 2);
                 }
@@ -895,7 +895,7 @@ BOOLEAN PeerBeaconAndProbeRspSanity_Old(
 		if (pPeerWscIe && (PeerWscIeLen > 0) && (PeerWscIeLen <= 512) && ( bWscCheck == TRUE))
 		{
 			UCHAR WscIe[] = {0xdd, 0x00, 0x00, 0x50, 0xF2, 0x04};
-			Ptr = (PUCHAR) pVIE;
+			Ptr = (u8 *) pVIE;
 			WscIe[1] = PeerWscIeLen + 4;
 			memmove(Ptr + *LengthVIE, WscIe, 6);
 			memmove(Ptr + *LengthVIE + 6, pPeerWscIe, PeerWscIeLen);
@@ -1085,7 +1085,7 @@ BOOLEAN PeerBeaconAndProbeRspSanity(
 				{
 					ie_list->PreNHtCapabilityLen = 0;	/* Now we only support 26 bytes.*/
 
-					Ptr = (PUCHAR) pVIE;
+					Ptr = (u8 *) pVIE;
 					memmove(Ptr + *LengthVIE, &pEid->Eid, pEid->Len + 2);
 					*LengthVIE += (pEid->Len + 2);
 				}
@@ -1115,7 +1115,7 @@ BOOLEAN PeerBeaconAndProbeRspSanity(
 #ifdef CONFIG_STA_SUPPORT
 				IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
 				{
-					Ptr = (PUCHAR) pVIE;
+					Ptr = (u8 *) pVIE;
 					memmove(Ptr + *LengthVIE, &pEid->Eid, pEid->Len + 2);
 					*LengthVIE += (pEid->Len + 2);
 				}
@@ -1261,13 +1261,13 @@ BOOLEAN PeerBeaconAndProbeRspSanity(
 			else if (NdisEqualMemory(pEid->Octet, WPA_OUI, 4))
 			{
 				/* Copy to pVIE which will report to bssid list.*/
-				Ptr = (PUCHAR) pVIE;
+				Ptr = (u8 *) pVIE;
 				memmove(Ptr + *LengthVIE, &pEid->Eid, pEid->Len + 2);
 				*LengthVIE += (pEid->Len + 2);
 			}
 			else if (NdisEqualMemory(pEid->Octet, WME_PARM_ELEM, 6) && (pEid->Len == 24))
 			{
-				PUCHAR ptr;
+				u8 *ptr;
 				int i;
 
 				/* parsing EDCA parameters*/
@@ -1360,12 +1360,12 @@ BOOLEAN PeerBeaconAndProbeRspSanity(
 #ifdef NATIVE_WPA_SUPPLICANT_SUPPORT
 			if ( SubType == SUBTYPE_BEACON )
 			{
-				PUCHAR		pData;
+				u8 *	pData;
 				INT			Len = 0;
 				USHORT		DataLen = 0;
 				PWSC_IE		pWscIE;
 
-				pData = (PUCHAR) pEid->Octet + 4;
+				pData = (u8 *) pEid->Octet + 4;
 				Len = (SHORT)(pEid->Len - 4);
 
 				while (Len > 0)
@@ -1450,7 +1450,7 @@ BOOLEAN PeerBeaconAndProbeRspSanity(
 			if (RTMPEqualMemory(pEid->Octet + 2, RSN_OUI, 3))
 			{
 				/* Copy to pVIE which will report to microsoft bssid list.*/
-				Ptr = (PUCHAR) pVIE;
+				Ptr = (u8 *) pVIE;
 				memmove(Ptr + *LengthVIE, &pEid->Eid, pEid->Len + 2);
 				*LengthVIE += (pEid->Len + 2);
 			}
@@ -1460,7 +1460,7 @@ BOOLEAN PeerBeaconAndProbeRspSanity(
 #ifdef CONFIG_STA_SUPPORT
 #if defined (EXT_BUILD_CHANNEL_LIST) || defined (RT_CFG80211_SUPPORT)
 		case IE_COUNTRY:
-			Ptr = (PUCHAR) pVIE;
+			Ptr = (u8 *) pVIE;
 			memmove(Ptr + *LengthVIE, &pEid->Eid, pEid->Len + 2);
 			*LengthVIE += (pEid->Len + 2);
 			break;
@@ -1476,7 +1476,7 @@ BOOLEAN PeerBeaconAndProbeRspSanity(
 				ie_list->QbssLoad.RemainingAdmissionControl = pEid->Octet[3] + pEid->Octet[4] * 256;
 
 				/* Copy to pVIE*/
-				Ptr = (PUCHAR) pVIE;
+				Ptr = (u8 *) pVIE;
 				memmove(Ptr + *LengthVIE, &pEid->Eid, pEid->Len + 2);
 				*LengthVIE += (pEid->Len + 2);
 			}
@@ -1564,7 +1564,7 @@ BOOLEAN PeerBeaconAndProbeRspSanity(
 	if (pPeerWscIe && (PeerWscIeLen > 0) && (PeerWscIeLen <= 512) && ( bWscCheck == TRUE))
 	{
 		UCHAR WscIe[] = {0xdd, 0x00, 0x00, 0x50, 0xF2, 0x04};
-		Ptr = (PUCHAR) pVIE;
+		Ptr = (u8 *) pVIE;
 		WscIe[1] = PeerWscIeLen + 4;
 		memmove(Ptr + *LengthVIE, WscIe, 6);
 		memmove(Ptr + *LengthVIE + 6, pPeerWscIe, PeerWscIeLen);
@@ -1747,9 +1747,9 @@ BOOLEAN PeerDeauthSanity(
     IN struct rtmp_adapter *pAd,
     IN VOID *Msg,
     IN ULONG MsgLen,
-    OUT PUCHAR pAddr1,
-    OUT PUCHAR pAddr2,
-    OUT PUCHAR pAddr3,
+    OUT u8 *pAddr1,
+    OUT u8 *pAddr2,
+    OUT u8 *pAddr3,
     OUT USHORT *pReason)
 {
     PFRAME_802_11 pFrame = (PFRAME_802_11)Msg;
@@ -1777,7 +1777,7 @@ BOOLEAN PeerAuthSanity(
     IN struct rtmp_adapter *pAd,
     IN VOID *Msg,
     IN ULONG MsgLen,
-    OUT PUCHAR pAddr,
+    OUT u8 *pAddr,
     OUT USHORT *pAlg,
     OUT USHORT *pSeq,
     OUT USHORT *pStatus,
@@ -1838,7 +1838,7 @@ BOOLEAN MlmeAuthReqSanity(
     IN struct rtmp_adapter *pAd,
     IN VOID *Msg,
     IN ULONG MsgLen,
-    OUT PUCHAR pAddr,
+    OUT u8 *pAddr,
     OUT ULONG *pTimeout,
     OUT USHORT *pAlg)
 {
@@ -1879,7 +1879,7 @@ BOOLEAN MlmeAssocReqSanity(
     IN struct rtmp_adapter *pAd,
     IN VOID *Msg,
     IN ULONG MsgLen,
-    OUT PUCHAR pApAddr,
+    OUT u8 *pApAddr,
     OUT USHORT *pCapabilityInfo,
     OUT ULONG *pTimeout,
     OUT USHORT *pListenIntv)
@@ -1910,7 +1910,7 @@ BOOLEAN PeerDisassocSanity(
     IN struct rtmp_adapter *pAd,
     IN VOID *Msg,
     IN ULONG MsgLen,
-    OUT PUCHAR pAddr2,
+    OUT u8 *pAddr2,
     OUT USHORT *pReason)
 {
     PFRAME_802_11 pFrame = (PFRAME_802_11)Msg;

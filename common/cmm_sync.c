@@ -51,8 +51,8 @@ VOID BuildChannelList(struct rtmp_adapter *pAd)
 	UCHAR i, j, index=0, num=0;
 	PCH_DESC pChDesc = NULL;
 	BOOLEAN bRegionFound = FALSE;
-	PUCHAR pChannelList;
-	PUCHAR pChannelListFlag;
+	u8 *pChannelList;
+	u8 *pChannelListFlag;
 
 	memset(pAd->ChannelList, 0, MAX_NUM_OF_CHANNELS * sizeof(CHANNEL_TX_POWER));
 

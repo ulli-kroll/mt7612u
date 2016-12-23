@@ -997,7 +997,7 @@ INT	Set_RadarSetTbl1_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg)
 {
-	PUCHAR p2 = arg;
+	u8 *p2 = arg;
 	ULONG idx, value;
 	PDFS_PROGRAM_PARAM pDfsProgramParam = &pAd->CommonCfg.RadarDetect.DfsProgramParam;
 
@@ -1033,7 +1033,7 @@ INT	Set_RadarSetTbl2_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg)
 {
-	PUCHAR p2 = arg;
+	u8 *p2 = arg;
 	ULONG idx, value;
 
 	while((*p2 != ':') && (*p2 != '\0'))
@@ -3241,7 +3241,7 @@ static VOID SwCheckDfsEventWithFw(
 
 		for (k = 0; k < NumEvent; k++)
 		{
-			PUCHAR pTableOffset = NULL;
+			u8 *pTableOffset = NULL;
 			if (IS_RT3572(pAd))
 			{
 				pTableOffset = (BBPR127_Table+1) + (DFS_EVENT_SIZE*k);

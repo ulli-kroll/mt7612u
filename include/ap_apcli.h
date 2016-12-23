@@ -110,7 +110,7 @@ VOID RT28xx_ApCli_Close(
 
 INT ApCliIfLookUp(
 	IN Pstruct rtmp_adapter pAd,
-	IN PUCHAR pAddr);
+	IN u8 *pAddr);
 
 
 VOID ApCliMgtMacHeaderInit(
@@ -118,8 +118,8 @@ VOID ApCliMgtMacHeaderInit(
     IN OUT PHEADER_802_11 pHdr80211,
     IN UCHAR SubType,
     IN UCHAR ToDs,
-    IN PUCHAR pDA,
-    IN PUCHAR pBssid,
+    IN u8 *pDA,
+    IN u8 *pBssid,
     IN USHORT ifIndex);
 
 #ifdef DOT11_N_SUPPORT
@@ -172,7 +172,7 @@ BOOLEAN ApCliPeerAssocRspSanity(
     IN Pstruct rtmp_adapter pAd,
     IN VOID *pMsg,
     IN ULONG MsgLen,
-    OUT PUCHAR pAddr2,
+    OUT u8 *pAddr2,
     OUT USHORT *pCapabilityInfo,
     OUT USHORT *pStatus,
     OUT USHORT *pAid,
@@ -206,14 +206,14 @@ VOID	ApCliPeerGroupMsg1Action(
 
 BOOLEAN ApCliCheckRSNIE(
 	IN  Pstruct rtmp_adapter   pAd,
-	IN  PUCHAR          pData,
+	IN  u8 *         pData,
 	IN  UCHAR           DataLen,
 	IN  MAC_TABLE_ENTRY *pEntry,
 	OUT	UCHAR			*Offset);
 
 BOOLEAN ApCliParseKeyData(
 	IN  Pstruct rtmp_adapter   pAd,
-	IN  PUCHAR          pKeyData,
+	IN  u8 *         pKeyData,
 	IN  UCHAR           KeyDataLen,
 	IN  MAC_TABLE_ENTRY *pEntry,
 	IN	UCHAR			IfIdx,
@@ -231,7 +231,7 @@ VOID APCliInstallPairwiseKey(
 
 BOOLEAN APCliInstallSharedKey(
 	IN  Pstruct rtmp_adapter   pAd,
-	IN  PUCHAR          pKey,
+	IN  u8 *         pKey,
 	IN  UCHAR           KeyLen,
 	IN	UCHAR			DefaultKeyIdx,
 	IN  MAC_TABLE_ENTRY *pEntry);

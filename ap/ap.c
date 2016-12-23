@@ -327,7 +327,7 @@ VOID APStartUp(struct rtmp_adapter *pAd)
 		{
 			RT_CfgSetWPAPSKKey(pAd, pMbss->WPAKeyString,
 								strlen(pMbss->WPAKeyString),
-								(PUCHAR)pAd->ApCfg.MBSSID[idx].Ssid,
+								(u8 *)pAd->ApCfg.MBSSID[idx].Ssid,
 								pAd->ApCfg.MBSSID[idx].SsidLen,
 								pAd->ApCfg.MBSSID[idx].PMK);
 		}
@@ -1069,7 +1069,7 @@ VOID MacTableMaintenance(struct rtmp_adapter *pAd)
 
 			if (pEntry->Sst == SST_ASSOC)
 			{
-				PUCHAR pOutBuffer = NULL;
+				u8 *pOutBuffer = NULL;
 				int NStatus;
 				ULONG FrameLen = 0;
 				HEADER_802_11 DeAuthHdr;
@@ -1385,7 +1385,7 @@ MAC_TABLE_ENTRY *APSsPsInquiry(
  */
 VOID ApLogEvent(
 	IN struct rtmp_adapter *pAd,
-	IN PUCHAR   pAddr,
+	IN u8 *  pAddr,
 	IN USHORT   Event)
 {
 	if (pAd->EventTab.Num < MAX_NUM_OF_EVENT)
@@ -1631,7 +1631,7 @@ BOOLEAN ApCheckLongPreambleSTA(
 */
 BOOLEAN ApCheckAccessControlList(
 	IN struct rtmp_adapter *pAd,
-	IN PUCHAR        pAddr,
+	IN u8 *       pAddr,
 	IN UCHAR         Apidx)
 {
 	BOOLEAN Result = TRUE;
@@ -1677,7 +1677,7 @@ VOID ApUpdateAccessControlList(struct rtmp_adapter *pAd, UCHAR Apidx)
 	USHORT   AclIdx, MacIdx;
 	BOOLEAN  Matched;
 
-	PUCHAR      pOutBuffer = NULL;
+	u8 *     pOutBuffer = NULL;
 	int NStatus;
 	ULONG       FrameLen = 0;
 	HEADER_802_11 DisassocHdr;

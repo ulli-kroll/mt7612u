@@ -58,7 +58,7 @@ void wext_send_btm_query_event(struct net_device *net_dev, const char *peer_mac_
 	memcpy(query_data->btm_query, btm_query, btm_query_len);
 
 	RtmpOSWrielessEventSend(net_dev, RT_WLAN_EVENT_CUSTOM,
-					OID_802_11_WNM_BTM_QUERY, NULL, (PUCHAR)buf, buflen);
+					OID_802_11_WNM_BTM_QUERY, NULL, (u8 *)buf, buflen);
 
 	kfree(buf);
 }
@@ -83,7 +83,7 @@ void wext_send_btm_cfm_event(struct net_device *net_dev, const char *peer_mac_ad
 	memcpy(rsp_data->btm_rsp, btm_rsp, btm_rsp_len);
 
 	RtmpOSWrielessEventSend(net_dev, RT_WLAN_EVENT_CUSTOM,
-						OID_802_11_WNM_BTM_RSP, NULL, (PUCHAR)buf, buflen);
+						OID_802_11_WNM_BTM_RSP, NULL, (u8 *)buf, buflen);
 
 	kfree(buf);
 }
@@ -128,7 +128,7 @@ void wext_send_proxy_arp_event(struct net_device *net_dev,
 		printk("error not such ip type packet\n");
 
 	RtmpOSWrielessEventSend(net_dev, RT_WLAN_EVENT_CUSTOM,
-						OID_802_11_WNM_PROXY_ARP, NULL, (PUCHAR)buf, buflen);
+						OID_802_11_WNM_PROXY_ARP, NULL, (u8 *)buf, buflen);
 
 	kfree(buf);
 }
@@ -182,7 +182,7 @@ BOOLEAN IsGratuitousARP(UCHAR *pData)
 
 
 BOOLEAN IsUnsolicitedNeighborAdver(struct rtmp_adapter *pAd,
-								   PUCHAR pData)
+								   u8 *pData)
 {
 	UCHAR *Pos = pData;
 	uint16_t ProtoType;
@@ -221,7 +221,7 @@ BOOLEAN IsUnsolicitedNeighborAdver(struct rtmp_adapter *pAd,
 
 
 BOOLEAN IsIPv4ProxyARPCandidate(IN struct rtmp_adapter *pAd,
-						   		IN PUCHAR pData)
+						   		IN u8 *pData)
 {
 	UCHAR *Pos = pData;
 	uint16_t ProtoType;
@@ -259,7 +259,7 @@ BOOLEAN IsIPv4ProxyARPCandidate(IN struct rtmp_adapter *pAd,
 
 
 BOOLEAN IsIpv6DuplicateAddrDetect(struct rtmp_adapter *pAd,
-								  PUCHAR pData)
+								  u8 *pData)
 {
 	UCHAR *Pos = pData;
 	uint16_t ProtoType;
@@ -295,7 +295,7 @@ BOOLEAN IsIpv6DuplicateAddrDetect(struct rtmp_adapter *pAd,
 }
 
 BOOLEAN IsIPv6ProxyARPCandidate(IN struct rtmp_adapter *pAd,
-								IN PUCHAR pData)
+								IN u8 *pData)
 {
 	UCHAR *Pos = pData;
 	uint16_t ProtoType;
@@ -332,7 +332,7 @@ BOOLEAN IsIPv6ProxyARPCandidate(IN struct rtmp_adapter *pAd,
 
 
 BOOLEAN IsIPv6RouterSolicitation(IN struct rtmp_adapter *pAd,
-								 IN PUCHAR pData)
+								 IN u8 *pData)
 {
 	UCHAR *Pos = pData;
 	uint16_t ProtoType;
@@ -358,7 +358,7 @@ BOOLEAN IsIPv6RouterSolicitation(IN struct rtmp_adapter *pAd,
 
 
 BOOLEAN IsIPv6RouterAdvertisement(IN struct rtmp_adapter *pAd,
-								  IN PUCHAR pData)
+								  IN u8 *pData)
 {
 	UCHAR *Pos = pData;
 	uint16_t ProtoType;
@@ -384,7 +384,7 @@ BOOLEAN IsIPv6RouterAdvertisement(IN struct rtmp_adapter *pAd,
 
 
 BOOLEAN IsTDLSPacket(IN struct rtmp_adapter *pAd,
-					 IN PUCHAR pData)
+					 IN u8 *pData)
 {
 	UCHAR *Pos = pData;
 	uint16_t ProtoType;
@@ -444,7 +444,7 @@ uint32_t IPv6ProxyARPTableLen(IN struct rtmp_adapter *pAd,
 
 BOOLEAN GetIPv4ProxyARPTable(IN struct rtmp_adapter *pAd,
 						 	 IN struct _MULTISSID_STRUCT *pMbss,
-						 	 PUCHAR *ProxyARPTable)
+						 	 u8 **ProxyARPTable)
 {
 
 	PWNM_CTRL pWNMCtrl = &pMbss->WNMCtrl;
@@ -468,7 +468,7 @@ BOOLEAN GetIPv4ProxyARPTable(IN struct rtmp_adapter *pAd,
 
 BOOLEAN GetIPv6ProxyARPTable(IN struct rtmp_adapter *pAd,
 						 	 IN struct _MULTISSID_STRUCT *pMbss,
-						 	 PUCHAR *ProxyARPTable)
+						 	 u8 **ProxyARPTable)
 {
 
 	PWNM_CTRL pWNMCtrl = &pMbss->WNMCtrl;
@@ -493,8 +493,8 @@ BOOLEAN GetIPv6ProxyARPTable(IN struct rtmp_adapter *pAd,
 
 uint32_t AddIPv4ProxyARPEntry(IN struct rtmp_adapter *pAd,
 					   		IN MULTISSID_STRUCT *pMbss,
-							PUCHAR pTargetMACAddr,
-							PUCHAR pTargetIPAddr)
+							u8 *pTargetMACAddr,
+							u8 *pTargetIPAddr)
 {
 
 	int i = 0;
@@ -537,7 +537,7 @@ uint32_t AddIPv4ProxyARPEntry(IN struct rtmp_adapter *pAd,
 
 VOID RemoveIPv4ProxyARPEntry(IN struct rtmp_adapter *pAd,
 					   		IN MULTISSID_STRUCT *pMbss,
-							PUCHAR pTargetMACAddr)
+							u8 *pTargetMACAddr)
 {
 	PWNM_CTRL pWNMCtrl = &pMbss->WNMCtrl;
 	PROXY_ARP_IPV4_ENTRY *ProxyARPEntry, *ProxyARPEntryTmp;
@@ -566,8 +566,8 @@ VOID RemoveIPv4ProxyARPEntry(IN struct rtmp_adapter *pAd,
 
 uint32_t AddIPv6ProxyARPEntry(IN struct rtmp_adapter *pAd,
 							IN MULTISSID_STRUCT *pMbss,
-							PUCHAR pTargetMACAddr,
-							PUCHAR pTargetIPAddr)
+							u8 *pTargetMACAddr,
+							u8 *pTargetIPAddr)
 {
 	PWNM_CTRL pWNMCtrl = &pMbss->WNMCtrl;
 	PROXY_ARP_IPV6_ENTRY *ProxyARPEntry;
@@ -619,7 +619,7 @@ uint32_t AddIPv6ProxyARPEntry(IN struct rtmp_adapter *pAd,
 
 VOID RemoveIPv6ProxyARPEntry(IN struct rtmp_adapter *pAd,
 							IN MULTISSID_STRUCT *pMbss,
-							PUCHAR pTargetMACAddr)
+							u8 *pTargetMACAddr)
 {
 	PWNM_CTRL pWNMCtrl = &pMbss->WNMCtrl;
 	PROXY_ARP_IPV6_ENTRY *ProxyARPEntry, *ProxyARPEntryTmp;
@@ -645,16 +645,16 @@ VOID RemoveIPv6ProxyARPEntry(IN struct rtmp_adapter *pAd,
 
 BOOLEAN IPv4ProxyARP(IN struct rtmp_adapter *pAd,
 				 	 IN MULTISSID_STRUCT *pMbss,
-				 	 IN PUCHAR pData,
+				 	 IN u8 *pData,
 					 IN BOOLEAN FromDS)
 {
 	PWNM_CTRL pWNMCtrl = &pMbss->WNMCtrl;
 	struct net_device *NetDev = pMbss->wdev.if_dev;
 	BOOLEAN IsFound = FALSE;
 	PROXY_ARP_IPV4_ENTRY *ProxyARPEntry;
-	PUCHAR SourceMACAddr = pData + 10;
-	PUCHAR SourceIPAddr = pData + 16;
-	PUCHAR TargetIPAddr = pData + 26;
+	u8 *SourceMACAddr = pData + 10;
+	u8 *SourceIPAddr = pData + 16;
+	u8 *TargetIPAddr = pData + 26;
 	int32_t Ret;
 	DBGPRINT(RT_DEBUG_TRACE, ("%s\n", __FUNCTION__));
 
@@ -686,16 +686,16 @@ BOOLEAN IPv4ProxyARP(IN struct rtmp_adapter *pAd,
 
 BOOLEAN IPv6ProxyARP(IN struct rtmp_adapter *pAd,
 					 IN MULTISSID_STRUCT *pMbss,
-					 IN PUCHAR pData,
+					 IN u8 *pData,
 					 IN BOOLEAN FromDS)
 {
 	PWNM_CTRL pWNMCtrl = &pMbss->WNMCtrl;
 	struct net_device *NetDev = pMbss->wdev.if_dev;
 	BOOLEAN IsFound = FALSE;
 	PROXY_ARP_IPV6_ENTRY *ProxyARPEntry;
-	PUCHAR SourceMACAddr = pData + 68;
-	PUCHAR SourceIPAddr = pData + 10;
-	PUCHAR TargetIPAddr = pData + 50;
+	u8 *SourceMACAddr = pData + 68;
+	u8 *SourceIPAddr = pData + 10;
+	u8 *TargetIPAddr = pData + 50;
 	int32_t Ret;
 
 	DBGPRINT(RT_DEBUG_OFF, ("%s\n", __FUNCTION__));
@@ -732,7 +732,7 @@ VOID WNMIPv4ProxyARPCheck(
 			struct sk_buff *pPacket,
 			USHORT srcPort,
 			USHORT dstPort,
-			PUCHAR pSrcBuf)
+			u8 *pSrcBuf)
 {
 	UCHAR apidx = RTMP_GET_PACKET_NET_DEVICE(pPacket);
 	MULTISSID_STRUCT *pMbss = &pAd->ApCfg.MBSSID[apidx];
@@ -755,7 +755,7 @@ VOID WNMIPv4ProxyARPCheck(
 VOID WNMIPv6ProxyARPCheck(
 			IN struct rtmp_adapter *pAd,
 			struct sk_buff *pPacket,
-			PUCHAR pSrcBuf)
+			u8 *pSrcBuf)
 {
 	UCHAR apidx = RTMP_GET_PACKET_NET_DEVICE(pPacket);
 	MULTISSID_STRUCT *pMbss = &pAd->ApCfg.MBSSID[apidx];

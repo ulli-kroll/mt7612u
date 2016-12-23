@@ -160,7 +160,7 @@ typedef	struct GNU_PACKED _IV_CONTROL_
 	========================================================================
 */
 ULONG	RTMPTkipGetUInt32(
-	IN	PUCHAR	pMICKey)
+	IN	u8 *pMICKey)
 {
 	ULONG	res = 0;
 	INT		i;
@@ -193,7 +193,7 @@ ULONG	RTMPTkipGetUInt32(
 	========================================================================
 */
 VOID	RTMPTkipPutUInt32(
-	IN OUT	PUCHAR		pDst,
+	IN OUT	u8 *	pDst,
 	IN		ULONG		val)
 {
 	INT i;
@@ -226,7 +226,7 @@ VOID	RTMPTkipPutUInt32(
 */
 VOID RTMPTkipSetMICKey(
 	IN	PTKIP_KEY_INFO	pTkip,
-	IN	PUCHAR			pMICKey)
+	IN	u8 *		pMICKey)
 {
 	/* Set the key */
 	pTkip->K0 = RTMPTkipGetUInt32(pMICKey);
@@ -304,7 +304,7 @@ VOID	RTMPTkipAppendByte(
 */
 VOID	RTMPTkipAppend(
 	IN	PTKIP_KEY_INFO	pTkip,
-	IN	PUCHAR			pSrc,
+	IN	u8 *		pSrc,
 	IN	UINT			nBytes)
 {
 	/* This is simple */
@@ -376,11 +376,11 @@ VOID	RTMPTkipGetMIC(
 */
 VOID	RTMPInitMICEngine(
 	IN	struct rtmp_adapter *pAd,
-	IN	PUCHAR			pKey,
-	IN	PUCHAR			pDA,
-	IN	PUCHAR			pSA,
+	IN	u8 *		pKey,
+	IN	u8 *		pDA,
+	IN	u8 *		pSA,
 	IN  UCHAR           UserPriority,
-	IN	PUCHAR			pMICKey)
+	IN	u8 *		pMICKey)
 {
 	ULONG Priority = UserPriority;
 
@@ -391,7 +391,7 @@ VOID	RTMPInitMICEngine(
 	/* SA*/
 	RTMPTkipAppend(&pAd->PrivateInfo.Tx, pSA, MAC_ADDR_LEN);
 	/* Priority + 3 bytes of 0*/
-	RTMPTkipAppend(&pAd->PrivateInfo.Tx, (PUCHAR)&Priority, 4);
+	RTMPTkipAppend(&pAd->PrivateInfo.Tx, (u8 *)&Priority, 4);
 }
 
 /*
@@ -420,10 +420,10 @@ VOID	RTMPInitMICEngine(
 */
 BOOLEAN	RTMPTkipCompareMICValue(
 	IN	struct rtmp_adapter *pAd,
-	IN	PUCHAR			pSrc,
-	IN	PUCHAR			pDA,
-	IN	PUCHAR			pSA,
-	IN	PUCHAR			pMICKey,
+	IN	u8 *		pSrc,
+	IN	u8 *		pDA,
+	IN	u8 *		pSA,
+	IN	u8 *		pMICKey,
 	IN	UCHAR			UserPriority,
 	IN	UINT			Len)
 {
@@ -437,7 +437,7 @@ BOOLEAN	RTMPTkipCompareMICValue(
 	/* SA*/
 	RTMPTkipAppend(&pAd->PrivateInfo.Rx, pSA, MAC_ADDR_LEN);
 	/* Priority + 3 bytes of 0*/
-	RTMPTkipAppend(&pAd->PrivateInfo.Rx, (PUCHAR)&Priority, 4);
+	RTMPTkipAppend(&pAd->PrivateInfo.Rx, (u8 *)&Priority, 4);
 
 	/* Calculate MIC value from plain text data*/
 	RTMPTkipAppend(&pAd->PrivateInfo.Rx, pSrc, Len);
@@ -485,14 +485,14 @@ BOOLEAN	RTMPTkipCompareMICValue(
 VOID	RTMPCalculateMICValue(
 	IN	struct rtmp_adapter *pAd,
 	IN	struct sk_buff *pPacket,
-	IN	PUCHAR			pEncap,
+	IN	u8 *		pEncap,
 	IN	PCIPHER_KEY		pKey,
 	IN	UCHAR			apidx)
 {
 	PACKET_INFO		PacketInfo;
-	PUCHAR			pSrcBufVA;
+	u8 *		pSrcBufVA;
 	UINT			SrcBufLen;
-	PUCHAR			pSrc;
+	u8 *		pSrc;
     UCHAR           UserPriority;
 	UCHAR			vlan_offset = 0;
 
@@ -703,10 +703,10 @@ VOID RTMPTkipMixKey(
 */
 BOOLEAN RTMPSoftDecryptTKIP(
 	IN 		struct rtmp_adapter *	pAd,
-	IN 		PUCHAR			pHdr,
+	IN 		u8 *		pHdr,
 	IN 		UCHAR    		UserPriority,
 	IN 		PCIPHER_KEY		pKey,
-	INOUT 	PUCHAR			pData,
+	INOUT 	u8 *		pData,
 	IN 		uint16_t 		*DataByteCnt)
 {
 	PHEADER_802_11	pFrame;
@@ -724,9 +724,9 @@ BOOLEAN RTMPSoftDecryptTKIP(
 	ULONG			pnl;/* Least significant 16 bits of PN */
 	ULONG			pnh;/* Most significant 32 bits of PN */
 	ARC4_CTX_STRUC 	ARC4_CTX;
-	PUCHAR			plaintext_ptr;
+	u8 *		plaintext_ptr;
 	uint32_t 		plaintext_len;
-	PUCHAR			ciphertext_ptr;
+	u8 *		ciphertext_ptr;
 	uint32_t 		ciphertext_len;
 	UINT			crc32 = 0;
 	UINT			trailfcs = 0;

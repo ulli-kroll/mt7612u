@@ -52,8 +52,8 @@
 VOID RTMP_ReadRF(
 	IN	struct rtmp_adapter *pAd,
 	IN	UCHAR			RegID,
-	OUT	PUCHAR			pValue1,
-	OUT PUCHAR			pValue2,
+	OUT	u8 *		pValue1,
+	OUT u8 *		pValue2,
 	IN	UCHAR			BitMask)
 {
 	UCHAR RfReg = 0;
@@ -208,7 +208,7 @@ done:
 int RT30xxReadRFRegister(
 	IN	struct rtmp_adapter *pAd,
 	IN	UCHAR			regID,
-	IN	PUCHAR			pValue)
+	IN	u8 *		pValue)
 {
 	RF_CSR_CFG_STRUC rfcsr = { { 0 } };
 	UINT i=0, k=0;

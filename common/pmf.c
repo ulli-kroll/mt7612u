@@ -63,7 +63,7 @@ VOID PMF_MlmeSAQueryReq(
         IN struct rtmp_adapter *pAd,
         IN MAC_TABLE_ENTRY *pEntry)
 {
-        PUCHAR pOutBuffer = NULL;
+        u8 *pOutBuffer = NULL;
         HEADER_802_11 SAQReqHdr;
         uint32_t FrameLen = 0;
         UCHAR SACategoryType, SAActionType;
@@ -162,7 +162,7 @@ VOID PMF_PeerSAQueryReqAction(
                 PMAC_TABLE_ENTRY pEntry;
                 PFRAME_802_11 pHeader;
                 USHORT TransactionID;
-                PUCHAR pOutBuffer = NULL;
+                u8 *pOutBuffer = NULL;
                 HEADER_802_11 SAQRspHdr;
                 uint32_t FrameLen = 0;
                 UCHAR SACategoryType, SAActionType;
@@ -334,7 +334,7 @@ VOID PMF_SAQueryConfirmTimeOut(
 
 
 VOID PMF_ConstructBIPAad(
-        IN PUCHAR pHdr,
+        IN u8 *pHdr,
 	OUT UCHAR *aad_hdr)
 {
 	UINT8 aad_len = 0;
@@ -355,11 +355,11 @@ VOID PMF_ConstructBIPAad(
 
 BOOLEAN PMF_CalculateBIPMIC(
 	IN struct rtmp_adapter *pAd,
-	IN PUCHAR pAadHdr,
-	IN PUCHAR pFrameBuf,
+	IN u8 *pAadHdr,
+	IN u8 *pFrameBuf,
 	IN uint32_t FrameLen,
-	IN PUCHAR pKey,
-	OUT PUCHAR pBipMic)
+	IN u8 *pKey,
+	OUT u8 *pBipMic)
 {
 	UCHAR *m_buf;
 	uint32_t total_len;
@@ -507,7 +507,7 @@ VOID PMF_DeriveIGTK(
 VOID PMF_InsertIGTKKDE(
 	IN struct rtmp_adapter *pAd,
 	IN INT apidx,
-	IN PUCHAR pFrameBuf,
+	IN u8 *pFrameBuf,
 	OUT PULONG pFrameLen)
 {
 	PPMF_IGTK_KDE igtk_kde_ptr;
@@ -564,7 +564,7 @@ VOID PMF_InsertIGTKKDE(
 */
 BOOLEAN PMF_ExtractIGTKKDE(
 	IN struct rtmp_adapter *pAd,
-	IN PUCHAR pBuf,
+	IN u8 *pBuf,
 	IN INT buf_len)
 {
 	PPMF_IGTK_KDE igtk_kde_ptr;
@@ -628,7 +628,7 @@ VOID PMF_MakeRsnIeGMgmtCipher(
 	IN  struct rtmp_adapter *pAd,
 	IN UCHAR ElementID,
 	IN UCHAR apidx,
-	OUT PUCHAR pRsnIe,
+	OUT u8 *pRsnIe,
 	OUT UCHAR *rsn_len)
 {
 	uint8_t * pBuf;
@@ -780,9 +780,9 @@ Note:
 */
 INT PMF_RobustFrameClassify(
 	IN PHEADER_802_11 pHdr,
-	IN PUCHAR pFrame,
+	IN u8 *pFrame,
 	IN UINT	frame_len,
-	IN PUCHAR pData,
+	IN u8 *pData,
 	IN BOOLEAN IsRx)
 {
 	PMAC_TABLE_ENTRY pEntry = pData;
@@ -860,13 +860,13 @@ INT PMF_RobustFrameClassify(
 
 INT PMF_EncryptUniRobustFrameAction(
 	IN struct rtmp_adapter *pAd,
-	IN PUCHAR pMgmtFrame,
+	IN u8 *pMgmtFrame,
 	IN UINT mgmt_len)
 {
 	PMAC_TABLE_ENTRY pEntry = NULL;
 	PHEADER_802_11 pHdr = (PHEADER_802_11)pMgmtFrame;
 	INT data_len;
-	PUCHAR pBuf;
+	u8 *pBuf;
 	INT Status;
 
 	/* Check if the length is valid */
@@ -910,7 +910,7 @@ INT PMF_EncryptUniRobustFrameAction(
 
 	// Encrypt the MPDU data by software
 	RTMPSoftEncryptCCMP(pAd,
-			(PUCHAR)pHdr,
+			(u8 *)pHdr,
 			pEntry->PmfTxTsc,
 			pEntry->PairwiseKey.Key,
 			pBuf + LEN_CCMP_HDR,
@@ -930,12 +930,12 @@ INT PMF_EncryptUniRobustFrameAction(
 
 INT PMF_DecryptUniRobustFrameAction(
 	IN struct rtmp_adapter *pAd,
-	INOUT PUCHAR pMgmtFrame,
+	INOUT u8 *pMgmtFrame,
 	IN UINT	mgmt_len)
 {
 	PMAC_TABLE_ENTRY pEntry = NULL;
 	PHEADER_802_11 pHeader = (PHEADER_802_11)pMgmtFrame;
-	PUCHAR pDate = pMgmtFrame + LENGTH_802_11;
+	u8 *pDate = pMgmtFrame + LENGTH_802_11;
 	uint16_t data_len = mgmt_len - LENGTH_802_11;
 
 
@@ -978,17 +978,17 @@ INT PMF_DecryptUniRobustFrameAction(
 
 INT PMF_EncapBIPAction(
 	IN struct rtmp_adapter *pAd,
-	IN PUCHAR pMgmtFrame,
+	IN u8 *pMgmtFrame,
 	IN UINT	mgmt_len)
 {
 	PHEADER_802_11 pHdr = (PHEADER_802_11)pMgmtFrame;
 	PPMF_CFG pPmfCfg = NULL;
 	PPMF_MMIE pMMIE;
 	INT idx = 0;
-	PUCHAR pKey = NULL;
+	u8 *pKey = NULL;
 	UCHAR aad_hdr[LEN_PMF_BIP_AAD_HDR];
 	UCHAR BIP_MIC[LEN_PMF_BIP_MIC];
-	PUCHAR pFrameBody = &pHdr->Octet[0];
+	u8 *pFrameBody = &pHdr->Octet[0];
 	uint32_t body_len = mgmt_len - LENGTH_802_11;
 
 	/* Sanity check the total frame body length */
@@ -1043,7 +1043,7 @@ INT PMF_EncapBIPAction(
 	INC_TX_TSC(pPmfCfg->IPN[idx], LEN_WPA_TSC);
 
 	/* Compute AAD  */
-	PMF_ConstructBIPAad((PUCHAR)pHdr, aad_hdr);
+	PMF_ConstructBIPAad((u8 *)pHdr, aad_hdr);
 
 	/* Calculate BIP MIC */
 	PMF_CalculateBIPMIC(pAd, aad_hdr, pFrameBody, body_len, pKey, BIP_MIC);
@@ -1059,7 +1059,7 @@ INT PMF_EncapBIPAction(
 
 INT PMF_ExtractBIPAction(
 	IN struct rtmp_adapter *pAd,
-	INOUT PUCHAR pMgmtFrame,
+	INOUT u8 *pMgmtFrame,
 	IN UINT	mgmt_len)
 {
 	PPMF_CFG pPmfCfg = NULL;
@@ -1067,7 +1067,7 @@ INT PMF_ExtractBIPAction(
 	PHEADER_802_11 pHeader = (PHEADER_802_11)pMgmtFrame;
 	PPMF_MMIE pMMIE;
 	INT idx = 0;
-	PUCHAR pKey = NULL;
+	u8 *pKey = NULL;
 	UCHAR aad_hdr[LEN_PMF_BIP_AAD_HDR];
 	UCHAR rcvd_mic[LEN_PMF_BIP_MIC];
 	UCHAR cal_mic[LEN_PMF_BIP_MIC];
@@ -1128,7 +1128,7 @@ INT PMF_ExtractBIPAction(
 	memset(pMMIE->MIC, LEN_PMF_BIP_MIC);
 
 	/* Compute AAD  */
-	PMF_ConstructBIPAad((PUCHAR)pMgmtFrame, aad_hdr);
+	PMF_ConstructBIPAad((u8 *)pMgmtFrame, aad_hdr);
 
 	/* Calculate BIP MIC */
 	PMF_CalculateBIPMIC(pAd, aad_hdr,
@@ -1151,7 +1151,7 @@ BOOLEAN	PMF_PerformTxFrameAction(
 {
 	PHEADER_802_11 pHeader_802_11;
 	PACKET_INFO PacketInfo;
-	PUCHAR pSrcBufVA;
+	u8 *pSrcBufVA;
 	UINT SrcBufLen;
         UINT8 TXWISize = pAd->chipCap.TXWISize;
 	INT FrameType;
@@ -1168,9 +1168,9 @@ BOOLEAN	PMF_PerformTxFrameAction(
 
 	FrameType = PMF_RobustFrameClassify(
 				(PHEADER_802_11)pHeader_802_11,
-				(PUCHAR)( ((PUCHAR) pHeader_802_11) + LENGTH_802_11),
+				(u8 *)( ((u8 *) pHeader_802_11) + LENGTH_802_11),
 				(SrcBufLen - LENGTH_802_11 - TXINFO_SIZE - TXWISize),
-				(PUCHAR) pEntry,
+				(u8 *) pEntry,
 				FALSE);
 
 	switch (FrameType)
@@ -1242,13 +1242,13 @@ BOOLEAN	PMF_PerformRxFrameAction(
 	IN RX_BLK *pRxBlk)
 {
 	INT FrameType;
-	PUCHAR pMgmtFrame;
+	u8 *pMgmtFrame;
 	UINT mgmt_len;
 	RXWI_STRUC *pRxWI = pRxBlk->pRxWI;
 	PHEADER_802_11 pHeader = pRxBlk->pHeader;
 	PMAC_TABLE_ENTRY pEntry = NULL;
 
-	pMgmtFrame = (PUCHAR)pHeader;
+	pMgmtFrame = (u8 *)pHeader;
 	mgmt_len = pRxBlk->MPDUtotalByteCnt;
 
 	pEntry = MacTableLookup(pAd, pHeader->Addr2);
@@ -1260,9 +1260,9 @@ BOOLEAN	PMF_PerformRxFrameAction(
 		return TRUE;
 
 	FrameType = PMF_RobustFrameClassify(pHeader,
-					(PUCHAR)(pMgmtFrame + LENGTH_802_11),
+					(u8 *)(pMgmtFrame + LENGTH_802_11),
                                         (mgmt_len - LENGTH_802_11),
-                                        (PUCHAR) pEntry,
+                                        (u8 *) pEntry,
                                         TRUE);
 
 #ifdef CONFIG_AP_SUPPORT

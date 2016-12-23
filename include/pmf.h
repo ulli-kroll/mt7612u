@@ -54,19 +54,19 @@ VOID PMF_DeriveIGTK(
 VOID PMF_InsertIGTKKDE(
 	IN Pstruct rtmp_adapter pAd,
 	IN INT apidx,
-	IN PUCHAR pFrameBuf,
+	IN u8 *pFrameBuf,
 	OUT PULONG pFrameLen);
 
 BOOLEAN PMF_ExtractIGTKKDE(
 	IN Pstruct rtmp_adapter pAd,
-	IN PUCHAR pBuf,
+	IN u8 *pBuf,
 	IN INT buf_len);
 
 VOID PMF_MakeRsnIeGMgmtCipher(
 	IN Pstruct rtmp_adapter pAd,
 	IN UCHAR ElementID,
 	IN UCHAR apidx,
-	OUT PUCHAR pRsnIe,
+	OUT u8 *pRsnIe,
 	OUT UCHAR *rsn_len);
 
 NTSTATUS PMF_RsnCapableValidation(

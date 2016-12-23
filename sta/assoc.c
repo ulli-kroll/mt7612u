@@ -173,7 +173,7 @@ VOID MlmeAssocReqAction(
 	ULONG Timeout;
 	USHORT CapabilityInfo;
 	BOOLEAN TimerCancelled;
-	PUCHAR pOutBuffer = NULL;
+	u8 *pOutBuffer = NULL;
 	int NStatus;
 	ULONG FrameLen = 0;
 	ULONG tmp;
@@ -420,7 +420,7 @@ VOID MlmeAssocReqAction(
 				QosInfo.UAPSD_AC_VI = pAd->CommonCfg.bAPSDAC_VI;
 				QosInfo.UAPSD_AC_VO = pAd->CommonCfg.bAPSDAC_VO;
 				QosInfo.MaxSPLength = pAd->CommonCfg.MaxSPLength;
-				WmeIe[8] |= *(PUCHAR) & QosInfo;
+				WmeIe[8] |= *(u8 *) & QosInfo;
 			} else {
 				/* The Parameter Set Count is set to ¡§0¡¨ in the association request frames */
 				/* WmeIe[8] |= (pAd->MlmeAux.APEdcaParm.EdcaUpdateCount & 0x0f); */
@@ -615,7 +615,7 @@ VOID MlmeReassocReqAction(
 	BOOLEAN TimerCancelled;
 	int NStatus;
 	ULONG tmp;
-	PUCHAR pOutBuffer = NULL;
+	u8 *pOutBuffer = NULL;
 	USHORT Status;
 
 	/* Block all authentication request durning WPA block period */
@@ -684,7 +684,7 @@ VOID MlmeReassocReqAction(
 				QosInfo.MaxSPLength = pAd->CommonCfg.MaxSPLength;
 
 				DBGPRINT(RT_DEBUG_TRACE, ("uapsd> MaxSPLength = %d!\n", QosInfo.MaxSPLength));
-				WmeIe[8] |= *(PUCHAR) & QosInfo;
+				WmeIe[8] |= *(u8 *) & QosInfo;
 			}
 
 			MakeOutgoingFrame(pOutBuffer + FrameLen, &tmp,
@@ -838,7 +838,7 @@ VOID MlmeDisassocReqAction(
 	PMLME_DISASSOC_REQ_STRUCT pDisassocReq;
 	HEADER_802_11 DisassocHdr;
 	PHEADER_802_11 pDisassocHdr;
-	PUCHAR pOutBuffer = NULL;
+	u8 *pOutBuffer = NULL;
 	ULONG FrameLen = 0;
 	int NStatus;
 	BOOLEAN TimerCancelled;
@@ -1219,7 +1219,7 @@ VOID PeerReassocRspAction(
  */
 VOID AssocPostProc(
 	IN struct rtmp_adapter *pAd,
-	IN PUCHAR pAddr2,
+	IN u8 *pAddr2,
 	IN USHORT CapabilityInfo,
 	IN USHORT Aid,
 	IN UCHAR SupRate[],
@@ -1312,7 +1312,7 @@ VOID AssocPostProc(
 		/* Store appropriate RSN_IE for WPA SM negotiation later */
 		if ((wdev->AuthMode >= Ndis802_11AuthModeWPA)
 		    && (pAd->ScanTab.BssEntry[Idx].VarIELen != 0)) {
-			PUCHAR pVIE;
+			u8 *pVIE;
 			USHORT len;
 			PEID_STRUCT pEid;
 
@@ -1541,7 +1541,7 @@ VOID Cls3errAction(struct rtmp_adapter *pAd, UCHAR *pAddr)
 {
 	HEADER_802_11 DisassocHdr;
 	PHEADER_802_11 pDisassocHdr;
-	PUCHAR pOutBuffer = NULL;
+	u8 *pOutBuffer = NULL;
 	ULONG FrameLen = 0;
 	int NStatus;
 	USHORT Reason = REASON_CLS3ERR;

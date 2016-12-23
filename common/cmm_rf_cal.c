@@ -301,7 +301,7 @@ VOID RtmpKickOutHwNullFrame(
 {
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
 	TXWI_STRUC NullTxWI, *pTxWI = NULL;
-	PUCHAR pNullFrame;
+	u8 *pNullFrame;
 	int NState;
 	PHEADER_802_11 pNullFr;
 	ULONG Length;
@@ -368,7 +368,7 @@ VOID RtmpKickOutHwNullFrame(
 			pTxWI->TXWI_O.PHYMODE = MODE_HTMIX;
 			pTxWI->TXWI_O.BW = 0;
 
-			ptr = (PUCHAR)&NullTxWI;
+			ptr = (u8 *)&NullTxWI;
 
 #ifdef RT_BIG_ENDIAN
 			RTMPWIEndianChange(pAd, ptr, TYPE_TXWI);

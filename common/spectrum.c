@@ -826,7 +826,7 @@ static UINT8 GetCurTxPwr(
  */
 VOID InsertChannelRepIE(
 	IN struct rtmp_adapter *pAd,
-	OUT PUCHAR pFrameBuf,
+	OUT u8 *pFrameBuf,
 	OUT PULONG pFrameLen,
 	IN char *pCountry,
 	IN UINT8 RegulatoryClass)
@@ -834,7 +834,7 @@ VOID InsertChannelRepIE(
 	ULONG TempLen;
 	UINT8 Len;
 	UINT8 IEId = IE_AP_CHANNEL_REPORT;
-	PUCHAR pChListPtr = NULL;
+	u8 *pChListPtr = NULL;
 	PDOT11_CHANNEL_SET pChannelSet = NULL;
 
 	Len = 1;
@@ -906,7 +906,7 @@ VOID InsertChannelRepIE(
  */
 VOID InsertDialogToken(
 	IN struct rtmp_adapter *pAd,
-	OUT PUCHAR pFrameBuf,
+	OUT u8 *pFrameBuf,
 	OUT PULONG pFrameLen,
 	IN UINT8 DialogToken)
 {
@@ -934,7 +934,7 @@ VOID InsertDialogToken(
  */
  static VOID InsertTpcReqIE(
 	IN struct rtmp_adapter *pAd,
-	OUT PUCHAR pFrameBuf,
+	OUT u8 *pFrameBuf,
 	OUT PULONG pFrameLen)
 {
 	ULONG TempLen;
@@ -967,7 +967,7 @@ VOID InsertDialogToken(
  */
 VOID InsertTpcReportIE(
 	IN struct rtmp_adapter *pAd,
-	OUT PUCHAR pFrameBuf,
+	OUT u8 *pFrameBuf,
 	OUT PULONG pFrameLen,
 	IN UINT8 TxPwr,
 	IN UINT8 LinkMargin)
@@ -1013,7 +1013,7 @@ VOID InsertTpcReportIE(
  */
 static VOID InsertMeasureReqIE(
 	IN struct rtmp_adapter *pAd,
-	OUT PUCHAR pFrameBuf,
+	OUT u8 *pFrameBuf,
 	OUT PULONG pFrameLen,
 	IN UINT8 Len,
 	IN PMEASURE_REQ_INFO pMeasureReqIE)
@@ -1051,7 +1051,7 @@ static VOID InsertMeasureReqIE(
  */
 static VOID InsertMeasureReportIE(
 	IN struct rtmp_adapter *pAd,
-	OUT PUCHAR pFrameBuf,
+	OUT u8 *pFrameBuf,
 	OUT PULONG pFrameLen,
 	IN PMEASURE_REPORT_INFO pMeasureReportIE,
 	IN UINT8 ReportLnfoLen,
@@ -1096,7 +1096,7 @@ static VOID InsertMeasureReportIE(
  */
 VOID MakeMeasurementReqFrame(
 	IN struct rtmp_adapter *pAd,
-	OUT PUCHAR pOutBuffer,
+	OUT u8 *pOutBuffer,
 	OUT PULONG pFrameLen,
 	IN UINT8 TotalLen,
 	IN UINT8 Category,
@@ -1149,7 +1149,7 @@ VOID MakeMeasurementReqFrame(
  */
 VOID EnqueueMeasurementRep(
 	IN struct rtmp_adapter *pAd,
-	IN PUCHAR pDA,
+	IN u8 *pDA,
 	IN UINT8 DialogToken,
 	IN UINT8 MeasureToken,
 	IN UINT8 MeasureReqMode,
@@ -1157,7 +1157,7 @@ VOID EnqueueMeasurementRep(
 	IN UINT8 ReportInfoLen,
 	IN uint8_t * pReportInfo)
 {
-	PUCHAR pOutBuffer = NULL;
+	u8 *pOutBuffer = NULL;
 	int NStatus;
 	ULONG FrameLen;
 	HEADER_802_11 ActHdr;
@@ -1208,10 +1208,10 @@ VOID EnqueueMeasurementRep(
  */
 VOID EnqueueTPCReq(
 	IN struct rtmp_adapter *pAd,
-	IN PUCHAR pDA,
+	IN u8 *pDA,
 	IN UCHAR DialogToken)
 {
-	PUCHAR pOutBuffer = NULL;
+	u8 *pOutBuffer = NULL;
 	int NStatus;
 	ULONG FrameLen;
 
@@ -1258,12 +1258,12 @@ VOID EnqueueTPCReq(
  */
 VOID EnqueueTPCRep(
 	IN struct rtmp_adapter *pAd,
-	IN PUCHAR pDA,
+	IN u8 *pDA,
 	IN UINT8 DialogToken,
 	IN UINT8 TxPwr,
 	IN UINT8 LinkMargin)
 {
-	PUCHAR pOutBuffer = NULL;
+	u8 *pOutBuffer = NULL;
 	int NStatus;
 	ULONG FrameLen;
 
@@ -1333,8 +1333,8 @@ static BOOLEAN DfsRequirementCheck(
 
 VOID NotifyChSwAnnToPeerAPs(
 	IN struct rtmp_adapter *pAd,
-	IN PUCHAR pRA,
-	IN PUCHAR pTA,
+	IN u8 *pRA,
+	IN u8 *pTA,
 	IN UINT8 ChSwMode,
 	IN UINT8 Channel)
 {
@@ -1383,7 +1383,7 @@ static BOOLEAN PeerChSwAnnSanity(
 	OUT PCH_SW_ANN_INFO pChSwAnnInfo)
 {
 	PFRAME_802_11 Fr = (PFRAME_802_11)pMsg;
-	PUCHAR pFramePtr = Fr->Octet;
+	u8 *pFramePtr = Fr->Octet;
 	BOOLEAN result = FALSE;
 	PEID_STRUCT eid_ptr;
 
@@ -1398,7 +1398,7 @@ static BOOLEAN PeerChSwAnnSanity(
 		return result;
 
 	eid_ptr = (PEID_STRUCT)pFramePtr;
-	while (((UCHAR*)eid_ptr + eid_ptr->Len + 1) < ((PUCHAR)pFramePtr + MsgLen))
+	while (((UCHAR*)eid_ptr + eid_ptr->Len + 1) < ((u8 *)pFramePtr + MsgLen))
 	{
 		switch(eid_ptr->Eid)
 		{
@@ -1441,10 +1441,10 @@ static BOOLEAN PeerMeasureReqSanity(
 	OUT PMEASURE_REQ pMeasureReq)
 {
 	PFRAME_802_11 Fr = (PFRAME_802_11)pMsg;
-	PUCHAR pFramePtr = Fr->Octet;
+	u8 *pFramePtr = Fr->Octet;
 	BOOLEAN result = FALSE;
 	PEID_STRUCT eid_ptr;
-	PUCHAR ptr;
+	u8 *ptr;
 	uint64_t MeasureStartTime;
 	uint16_t MeasureDuration;
 
@@ -1463,7 +1463,7 @@ static BOOLEAN PeerMeasureReqSanity(
 	MsgLen -= 1;
 
 	eid_ptr = (PEID_STRUCT)pFramePtr;
-	while (((UCHAR*)eid_ptr + eid_ptr->Len + 1) < ((PUCHAR)pFramePtr + MsgLen))
+	while (((UCHAR*)eid_ptr + eid_ptr->Len + 1) < ((u8 *)pFramePtr + MsgLen))
 	{
 		switch(eid_ptr->Eid)
 		{
@@ -1471,7 +1471,7 @@ static BOOLEAN PeerMeasureReqSanity(
 				memmove(&pMeasureReqInfo->Token, eid_ptr->Octet, 1);
 				memmove(&pMeasureReqInfo->ReqMode.word, eid_ptr->Octet + 1, 1);
 				memmove(&pMeasureReqInfo->ReqType, eid_ptr->Octet + 2, 1);
-				ptr = (PUCHAR)(eid_ptr->Octet + 3);
+				ptr = (u8 *)(eid_ptr->Octet + 3);
 				memmove(&pMeasureReq->ChNum, ptr, 1);
 				memmove(&MeasureStartTime, ptr + 1, 8);
 				pMeasureReq->MeasureStartTime = SWAP64(MeasureStartTime);
@@ -1533,10 +1533,10 @@ static BOOLEAN PeerMeasureReportSanity(
 	OUT uint8_t * pReportBuf)
 {
 	PFRAME_802_11 Fr = (PFRAME_802_11)pMsg;
-	PUCHAR pFramePtr = Fr->Octet;
+	u8 *pFramePtr = Fr->Octet;
 	BOOLEAN result = FALSE;
 	PEID_STRUCT eid_ptr;
-	PUCHAR ptr;
+	u8 *ptr;
 
 	/* skip 802.11 header.*/
 	MsgLen -= sizeof(HEADER_802_11);
@@ -1553,7 +1553,7 @@ static BOOLEAN PeerMeasureReportSanity(
 	MsgLen -= 1;
 
 	eid_ptr = (PEID_STRUCT)pFramePtr;
-	while (((UCHAR*)eid_ptr + eid_ptr->Len + 1) < ((PUCHAR)pFramePtr + MsgLen))
+	while (((UCHAR*)eid_ptr + eid_ptr->Len + 1) < ((u8 *)pFramePtr + MsgLen))
 	{
 		switch(eid_ptr->Eid)
 		{
@@ -1564,7 +1564,7 @@ static BOOLEAN PeerMeasureReportSanity(
 				if (pMeasureReportInfo->ReportType == RM_BASIC)
 				{
 					PMEASURE_BASIC_REPORT pReport = (PMEASURE_BASIC_REPORT)pReportBuf;
-					ptr = (PUCHAR)(eid_ptr->Octet + 3);
+					ptr = (u8 *)(eid_ptr->Octet + 3);
 					memmove(&pReport->ChNum, ptr, 1);
 					memmove(&pReport->MeasureStartTime, ptr + 1, 8);
 					memmove(&pReport->MeasureDuration, ptr + 9, 2);
@@ -1574,7 +1574,7 @@ static BOOLEAN PeerMeasureReportSanity(
 				else if (pMeasureReportInfo->ReportType == RM_CCA)
 				{
 					PMEASURE_CCA_REPORT pReport = (PMEASURE_CCA_REPORT)pReportBuf;
-					ptr = (PUCHAR)(eid_ptr->Octet + 3);
+					ptr = (u8 *)(eid_ptr->Octet + 3);
 					memmove(&pReport->ChNum, ptr, 1);
 					memmove(&pReport->MeasureStartTime, ptr + 1, 8);
 					memmove(&pReport->MeasureDuration, ptr + 9, 2);
@@ -1584,7 +1584,7 @@ static BOOLEAN PeerMeasureReportSanity(
 				else if (pMeasureReportInfo->ReportType == RM_RPI_HISTOGRAM)
 				{
 					PMEASURE_RPI_REPORT pReport = (PMEASURE_RPI_REPORT)pReportBuf;
-					ptr = (PUCHAR)(eid_ptr->Octet + 3);
+					ptr = (u8 *)(eid_ptr->Octet + 3);
 					memmove(&pReport->ChNum, ptr, 1);
 					memmove(&pReport->MeasureStartTime, ptr + 1, 8);
 					memmove(&pReport->MeasureDuration, ptr + 9, 2);
@@ -1622,7 +1622,7 @@ static BOOLEAN PeerTpcReqSanity(
 	OUT uint8_t * pDialogToken)
 {
 	PFRAME_802_11 Fr = (PFRAME_802_11)pMsg;
-	PUCHAR pFramePtr = Fr->Octet;
+	u8 *pFramePtr = Fr->Octet;
 	BOOLEAN result = FALSE;
 	PEID_STRUCT eid_ptr;
 
@@ -1640,7 +1640,7 @@ static BOOLEAN PeerTpcReqSanity(
 	MsgLen -= 1;
 
 	eid_ptr = (PEID_STRUCT)pFramePtr;
-	while (((UCHAR*)eid_ptr + eid_ptr->Len + 1) < ((PUCHAR)pFramePtr + MsgLen))
+	while (((UCHAR*)eid_ptr + eid_ptr->Len + 1) < ((u8 *)pFramePtr + MsgLen))
 	{
 		switch(eid_ptr->Eid)
 		{
@@ -1679,7 +1679,7 @@ static BOOLEAN PeerTpcRepSanity(
 	OUT PTPC_REPORT_INFO pTpcRepInfo)
 {
 	PFRAME_802_11 Fr = (PFRAME_802_11)pMsg;
-	PUCHAR pFramePtr = Fr->Octet;
+	u8 *pFramePtr = Fr->Octet;
 	BOOLEAN result = FALSE;
 	PEID_STRUCT eid_ptr;
 
@@ -1697,7 +1697,7 @@ static BOOLEAN PeerTpcRepSanity(
 	MsgLen -= 1;
 
 	eid_ptr = (PEID_STRUCT)pFramePtr;
-	while (((UCHAR*)eid_ptr + eid_ptr->Len + 1) < ((PUCHAR)pFramePtr + MsgLen))
+	while (((UCHAR*)eid_ptr + eid_ptr->Len + 1) < ((u8 *)pFramePtr + MsgLen))
 	{
 		switch(eid_ptr->Eid)
 		{
@@ -1921,7 +1921,7 @@ static VOID PeerTpcReqAction(
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	PFRAME_802_11 pFr = (PFRAME_802_11)Elem->Msg;
-	PUCHAR pFramePtr = pFr->Octet;
+	u8 *pFramePtr = pFr->Octet;
 	UINT8 DialogToken;
 	UINT8 TxPwr = GetCurTxPwr(pAd, Elem->Wcid);
 	UINT8 LinkMargin = 0;
@@ -2083,7 +2083,7 @@ INT Set_MeasureReq_Proc(
 	UINT8 TotalLen;
 
 	HEADER_802_11 ActHdr;
-	PUCHAR pOutBuffer = NULL;
+	u8 *pOutBuffer = NULL;
 	int NStatus;
 	ULONG FrameLen;
 
@@ -2294,7 +2294,7 @@ static PDOT11_REGULATORY_INFORMATION GetRugClassRegion(
 
 VOID RguClass_BuildBcnChList(
 	IN struct rtmp_adapter *pAd,
-	OUT PUCHAR pBuf,
+	OUT u8 *pBuf,
 	OUT	PULONG pBufLen)
 {
 	INT loop;

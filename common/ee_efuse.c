@@ -98,7 +98,7 @@ static VOID eFuseWritePhysical(
 	IN	struct rtmp_adapter *pAd,
   	PUSHORT lpInBuffer,
 	ULONG nInBufferSize,
-  	PUCHAR lpOutBuffer,
+  	u8 *lpOutBuffer,
   	ULONG nOutBufferSize);
 
 static NTSTATUS eFuseWriteRegistersFromBin(
@@ -789,7 +789,7 @@ static VOID eFuseWritePhysical(
 	IN	struct rtmp_adapter *pAd,
   	PUSHORT lpInBuffer,
 	ULONG nInBufferSize,
-  	PUCHAR lpOutBuffer,
+  	u8 *lpOutBuffer,
   	ULONG nOutBufferSize
 )
 {

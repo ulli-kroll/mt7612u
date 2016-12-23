@@ -68,7 +68,7 @@ static VOID ApCliInvalidStateWhenDisassociate(
 
 static VOID ApCliAssocPostProc(
 	IN struct rtmp_adapter *pAd,
-	IN PUCHAR pAddr2,
+	IN u8 *pAddr2,
 	IN USHORT CapabilityInfo,
 	IN USHORT IfIndex,
 	IN UCHAR SupRate[],
@@ -189,7 +189,7 @@ static VOID ApCliMlmeAssocReqAction(
 	USHORT           ListenIntv;
 	ULONG            Timeout;
 	USHORT           CapabilityInfo;
-	PUCHAR           pOutBuffer = NULL;
+	u8 *          pOutBuffer = NULL;
 	ULONG            FrameLen = 0;
 	ULONG            tmp;
 	UCHAR            SsidIe    = IE_SSID;
@@ -400,7 +400,7 @@ static VOID ApCliMlmeAssocReqAction(
 				QosInfo.UAPSD_AC_VI = pAd->CommonCfg.bAPSDAC_VI;
 				QosInfo.UAPSD_AC_VO = pAd->CommonCfg.bAPSDAC_VO;
 				QosInfo.MaxSPLength = pAd->CommonCfg.MaxSPLength;
-				WmeIe[8] |= *(PUCHAR)&QosInfo;
+				WmeIe[8] |= *(u8 *)&QosInfo;
 			}
 			else
 			{
@@ -542,7 +542,7 @@ static VOID ApCliMlmeDisassocReqAction(
 {
 	PMLME_DISASSOC_REQ_STRUCT pDisassocReq;
 	HEADER_802_11         DisassocHdr;
-	PUCHAR                 pOutBuffer = NULL;
+	u8 *                pOutBuffer = NULL;
 	ULONG                 FrameLen = 0;
 	int           NStatus;
 	APCLI_CTRL_MSG_STRUCT ApCliCtrlMsg;
@@ -857,7 +857,7 @@ static VOID ApCliInvalidStateWhenDisassociate(
  */
 static VOID ApCliAssocPostProc(
 	IN struct rtmp_adapter *pAd,
-	IN PUCHAR pAddr2,
+	IN u8 *pAddr2,
 	IN USHORT CapabilityInfo,
 	IN USHORT IfIndex,
 	IN UCHAR SupRate[],
@@ -910,7 +910,7 @@ VOID ApcliSendAssocIEsToWpaSupplicant(
 	{
 		sprintf(custom, "ASSOCINFO_ReqIEs=");
 		memmove(custom+17, pAd->ApCfg.ApCliTab[ifIndex].ReqVarIEs, pAd->ApCfg.ApCliTab[ifIndex].ReqVarIELen);
-		RtmpOSWrielessEventSend(pAd->net_dev, RT_WLAN_EVENT_CUSTOM, RT_REQIE_EVENT_FLAG, NULL, (PUCHAR)custom, pAd->ApCfg.ApCliTab[ifIndex].ReqVarIELen + 17);
+		RtmpOSWrielessEventSend(pAd->net_dev, RT_WLAN_EVENT_CUSTOM, RT_REQIE_EVENT_FLAG, NULL, (u8 *)custom, pAd->ApCfg.ApCliTab[ifIndex].ReqVarIELen + 17);
 
 		RtmpOSWrielessEventSend(pAd->net_dev, RT_WLAN_EVENT_CUSTOM, RT_ASSOCINFO_EVENT_FLAG, NULL, NULL, 0);
 	}

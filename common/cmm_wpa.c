@@ -211,8 +211,8 @@ VOID WpaEAPOLKeyAction(
 	pEapol_packet = (PEAPOL_PACKET)&Elem->Msg[LENGTH_802_11 + LENGTH_802_1_H];
 	eapol_len = CONV_ARRARY_TO_UINT16(pEapol_packet->Body_Len) + LENGTH_EAPOL_H;
 
-	memset((PUCHAR)&peerKeyInfo, 0, sizeof(peerKeyInfo));
-	memmove((PUCHAR)&peerKeyInfo, (PUCHAR)&pEapol_packet->KeyDesc.KeyInfo, sizeof(KEY_INFO));
+	memset((u8 *)&peerKeyInfo, 0, sizeof(peerKeyInfo));
+	memmove((u8 *)&peerKeyInfo, (u8 *)&pEapol_packet->KeyDesc.KeyInfo, sizeof(KEY_INFO));
 
 
 	*((USHORT *)&peerKeyInfo) = cpu2le16(*((USHORT *)&peerKeyInfo));
@@ -457,9 +457,9 @@ VOID WpaEAPOLKeyAction(
 VOID RTMPToWirelessSta(
     IN struct rtmp_adapter *pAd,
     IN PMAC_TABLE_ENTRY pEntry,
-    IN PUCHAR pHeader802_3,
+    IN u8 *pHeader802_3,
     IN UINT HdrLen,
-    IN PUCHAR pData,
+    IN u8 *pData,
     IN UINT DataLen,
     IN BOOLEAN bClearFrame)
 {
@@ -570,9 +570,9 @@ BOOLEAN PeerWpaMessageSanity(
 	memset(mic, 0, sizeof(mic));
 	memset(digest, 0, sizeof(digest));
 	memset(KEYDATA, 0, MAX_LEN_OF_RSNIE);
-	memset((PUCHAR)&EapolKeyInfo, 0, sizeof(EapolKeyInfo));
+	memset((u8 *)&EapolKeyInfo, 0, sizeof(EapolKeyInfo));
 
-	memmove((PUCHAR)&EapolKeyInfo, (PUCHAR)&pMsg->KeyDesc.KeyInfo, sizeof(KEY_INFO));
+	memmove((u8 *)&EapolKeyInfo, (u8 *)&pMsg->KeyDesc.KeyInfo, sizeof(KEY_INFO));
 
 	*((USHORT *)&EapolKeyInfo) = cpu2le16(*((USHORT *)&EapolKeyInfo));
 
@@ -642,17 +642,17 @@ BOOLEAN PeerWpaMessageSanity(
 
         if (EapolKeyInfo.KeyDescVer == KEY_DESC_TKIP)	/* TKIP*/
         {
-            RT_HMAC_MD5(pEntry->PTK, LEN_PTK_KCK, (PUCHAR)pMsg, eapol_len, mic, MD5_DIGEST_SIZE);
+            RT_HMAC_MD5(pEntry->PTK, LEN_PTK_KCK, (u8 *)pMsg, eapol_len, mic, MD5_DIGEST_SIZE);
         }
         else if (EapolKeyInfo.KeyDescVer == KEY_DESC_AES)	/* AES        */
         {
-            RT_HMAC_SHA1(pEntry->PTK, LEN_PTK_KCK, (PUCHAR)pMsg, eapol_len, digest, SHA1_DIGEST_SIZE);
+            RT_HMAC_SHA1(pEntry->PTK, LEN_PTK_KCK, (u8 *)pMsg, eapol_len, digest, SHA1_DIGEST_SIZE);
             memmove(mic, digest, LEN_KEY_DESC_MIC);
         }
                 else if (EapolKeyInfo.KeyDescVer == KEY_DESC_EXT)	/* AES-128 */
                 {
                         UINT mlen = AES_KEY128_LENGTH;
-                        AES_CMAC((PUCHAR)pMsg, eapol_len, pEntry->PTK, LEN_PTK_KCK, mic, &mlen);
+                        AES_CMAC((u8 *)pMsg, eapol_len, pEntry->PTK, LEN_PTK_KCK, mic, &mlen);
                 }
 
 
@@ -900,7 +900,7 @@ VOID WPAStart4WayHS(
 	/* Make outgoing frame*/
     MAKE_802_3_HEADER(Header802_3, pEntry->Addr, pBssid, EAPOL);
     RTMPToWirelessSta(pAd, pEntry, Header802_3,
-					  LENGTH_802_3, (PUCHAR)pEapolFrame,
+					  LENGTH_802_3, (u8 *)pEapolFrame,
 					  CONV_ARRARY_TO_UINT16(pEapolFrame->Body_Len) + 4,
 					  (pEntry->PortSecured == WPA_802_1X_PORT_SECURED) ? FALSE : TRUE);
 
@@ -1075,7 +1075,7 @@ VOID PeerPairMsg1Action(
 	MAKE_802_3_HEADER(Header802_3, pEntry->Addr, pCurrentAddr, EAPOL);
 
 	RTMPToWirelessSta(pAd, pEntry,
-					  Header802_3, sizeof(Header802_3), (PUCHAR)pEapolFrame,
+					  Header802_3, sizeof(Header802_3), (u8 *)pEapolFrame,
 					  CONV_ARRARY_TO_UINT16(pEapolFrame->Body_Len) + 4, TRUE);
 
 	kfree(mpool);
@@ -1274,7 +1274,7 @@ VOID PeerPairMsg2Action(
         /* Make outgoing frame*/
         MAKE_802_3_HEADER(Header802_3, pEntry->Addr, pBssid, EAPOL);
         RTMPToWirelessSta(pAd, pEntry, Header802_3, LENGTH_802_3,
-						  (PUCHAR)pEapolFrame,
+						  (u8 *)pEapolFrame,
 						  CONV_ARRARY_TO_UINT16(pEapolFrame->Body_Len) + 4,
 						  (pEntry->PortSecured == WPA_802_1X_PORT_SECURED) ? FALSE : TRUE);
 
@@ -1482,7 +1482,7 @@ VOID PeerPairMsg3Action(
 	MAKE_802_3_HEADER(Header802_3, pEntry->Addr, pCurrentAddr, EAPOL);
 	RTMPToWirelessSta(pAd, pEntry,
 					  Header802_3, sizeof(Header802_3),
-					  (PUCHAR)pEapolFrame,
+					  (u8 *)pEapolFrame,
 					  CONV_ARRARY_TO_UINT16(pEapolFrame->Body_Len) + 4, TRUE);
 
 	kfree(mpool);
@@ -1686,7 +1686,7 @@ VOID WPAStart2WayGroupHS(
     MAKE_802_3_HEADER(Header802_3, pEntry->Addr, pBssid, EAPOL);
     RTMPToWirelessSta(pAd, pEntry,
 					  Header802_3, LENGTH_802_3,
-					  (PUCHAR)pEapolFrame,
+					  (u8 *)pEapolFrame,
 					  CONV_ARRARY_TO_UINT16(pEapolFrame->Body_Len) + 4, FALSE);
 
 	kfree(mpool);
@@ -1864,7 +1864,7 @@ VOID	PeerGroupMsg1Action(
 
 	RTMPToWirelessSta(pAd, pEntry,
 					  Header802_3, sizeof(Header802_3),
-					  (PUCHAR)pEapolFrame,
+					  (u8 *)pEapolFrame,
 					  CONV_ARRARY_TO_UINT16(pEapolFrame->Body_Len) + 4, FALSE);
 
 	kfree(mpool);
@@ -1918,7 +1918,7 @@ VOID MlmeDeAuthAction(
 	IN USHORT           Reason,
 	IN BOOLEAN          bDataFrameFirst)
 {
-    PUCHAR          pOutBuffer = NULL;
+    u8 *         pOutBuffer = NULL;
     ULONG           FrameLen = 0;
     HEADER_802_11   DeAuthHdr;
     int     NStatus;
@@ -2004,7 +2004,7 @@ VOID PeerGroupMsg2Action(
     IN UINT             MsgLen)
 {
     UINT            	Len;
-    PUCHAR          	pData;
+    u8 *         	pData;
     BOOLEAN         	Cancelled;
 	PEAPOL_PACKET       pMsg2;
 	UCHAR				group_cipher = Ndis802_11WEPDisabled;
@@ -2038,7 +2038,7 @@ VOID PeerGroupMsg2Action(
 		}
 #endif /* CONFIG_AP_SUPPORT */
 
-        pData = (PUCHAR)Msg;
+        pData = (u8 *)Msg;
 		pMsg2 = (PEAPOL_PACKET) (pData + LENGTH_802_1_H);
         Len = MsgLen - LENGTH_802_1_H;
 
@@ -2282,7 +2282,7 @@ static void F(char *password, unsigned char *ssid, int ssidlength, int iteration
 * ssidlength - length of ssid in octets
 * output must be 40 octets in length and outputs 256 bits of key
 */
-int RtmpPasswordHash(char *password, PUCHAR ssid, INT ssidlength, PUCHAR output)
+int RtmpPasswordHash(char *password, u8 *ssid, INT ssidlength, u8 *output)
 {
     if ((strlen(password) > 63) || (ssidlength > 32))
         return 0;
@@ -2645,7 +2645,7 @@ static VOID RTMPMakeRsnIeCipher(
 	IN	UCHAR			apidx,
 	IN	BOOLEAN			bMixCipher,
 	IN	UCHAR			FlexibleCipher,
-	OUT	PUCHAR			pRsnIe,
+	OUT	u8 *		pRsnIe,
 	OUT	UCHAR			*rsn_len)
 {
 	UCHAR	PairwiseCnt;
@@ -2836,7 +2836,7 @@ static VOID RTMPMakeRsnIeAKM(
 	IN	UCHAR			ElementID,
 	IN	UINT			AuthMode,
 	IN	UCHAR			apidx,
-	OUT	PUCHAR			pRsnIe,
+	OUT	u8 *		pRsnIe,
 	OUT	UCHAR			*rsn_len)
 {
 	RSNIE_AUTH		*pRsnie_auth;
@@ -2987,7 +2987,7 @@ static VOID RTMPMakeRsnIeCap(
 	IN  struct rtmp_adapter *  pAd,
 	IN	UCHAR			ElementID,
 	IN	UCHAR			apidx,
-	OUT	PUCHAR			pRsnIe,
+	OUT	u8 *		pRsnIe,
 	OUT	UCHAR			*rsn_len)
 {
 	RSN_CAPABILITIES    *pRSN_Cap;
@@ -3058,7 +3058,7 @@ static VOID RTMPInsertRsnIeZeroPMKID(
 	IN  struct rtmp_adapter *  pAd,
 	IN	UCHAR			ElementID,
 	IN	UCHAR			apidx,
-	OUT	PUCHAR			pRsnIe,
+	OUT	u8 *		pRsnIe,
 	OUT	UCHAR			*rsn_len)
 {
 	uint8_t *    	pBuf;
@@ -3116,10 +3116,10 @@ InsertPMKIDCount:
 */
 VOID RTMPMakeRSNIE(struct rtmp_adapter *pAd, UINT AuthMode, UINT WepStatus, UCHAR apidx)
 {
-	PUCHAR		pRsnIe = NULL;			/* primary RSNIE*/
+	u8 *	pRsnIe = NULL;			/* primary RSNIE*/
 	UCHAR 		*rsnielen_cur_p = 0;	/* the length of the primary RSNIE 		*/
 #ifdef CONFIG_AP_SUPPORT
-	PUCHAR		pRsnIe_ex = NULL;		/* secondary RSNIE, it's ONLY used in WPA-mix mode */
+	u8 *	pRsnIe_ex = NULL;		/* secondary RSNIE, it's ONLY used in WPA-mix mode */
 	BOOLEAN               bMixRsnIe = FALSE;      /* indicate WPA-mix mode is on or off*/
 	UCHAR		s_offset;
 #endif /* CONFIG_AP_SUPPORT */
@@ -3437,7 +3437,7 @@ BOOLEAN RTMPCheckWPAframe(
 BOOLEAN RTMPCheckWPAframe_Hdr_Trns(
     IN struct rtmp_adapter *   pAd,
     IN PMAC_TABLE_ENTRY	pEntry,
-    IN PUCHAR           pData,
+    IN u8 *          pData,
     IN ULONG            DataByteCount,
 	IN UCHAR			FromWhichBSSID)
 {
@@ -3556,12 +3556,12 @@ char *GetEapolMsgType(CHAR msg)
 */
 BOOLEAN RTMPCheckRSNIE(
 	IN  struct rtmp_adapter *  pAd,
-	IN  PUCHAR          pData,
+	IN  u8 *         pData,
 	IN  UCHAR           DataLen,
 	IN  MAC_TABLE_ENTRY *pEntry,
 	OUT	UCHAR			*Offset)
 {
-	PUCHAR              pVIE;
+	u8 *             pVIE;
 	UCHAR               len;
 	PEID_STRUCT         pEid;
 	BOOLEAN				result = FALSE;
@@ -3632,14 +3632,14 @@ BOOLEAN RTMPCheckRSNIE(
 */
 BOOLEAN RTMPParseEapolKeyData(
 	IN  struct rtmp_adapter *  pAd,
-	IN  PUCHAR          pKeyData,
+	IN  u8 *         pKeyData,
 	IN  UCHAR           KeyDataLen,
 	IN	UCHAR			GroupKeyIndex,
 	IN	UCHAR			MsgType,
 	IN	BOOLEAN			bWPA2,
 	IN  MAC_TABLE_ENTRY *pEntry)
 {
-    PUCHAR              pMyKeyData = pKeyData;
+    u8 *             pMyKeyData = pKeyData;
     UCHAR               KeyDataLength = KeyDataLen;
 	UCHAR				GTK[MAX_LEN_GTK];
     UCHAR               GTKLEN = 0;
@@ -3809,7 +3809,7 @@ BOOLEAN RTMPParseEapolKeyData(
 VOID WPA_ConstructKdeHdr(
 	IN 	UINT8	data_type,
 	IN 	UINT8 	data_len,
-	OUT PUCHAR 	pBuf)
+	OUT u8 *	pBuf)
 {
 	PKDE_HDR	pHdr;
 
@@ -4291,7 +4291,7 @@ VOID	CalculateMIC(
 }
 
 UCHAR	RTMPExtractKeyIdxFromIVHdr(
-	IN	PUCHAR			pIV,
+	IN	u8 *		pIV,
 	IN	UINT8			CipherAlg)
 {
 	UCHAR	keyIdx = 0xFF;
@@ -4390,10 +4390,10 @@ CIPHER_KEY *RTMPSwCipherKeySelection(
 */
 int RTMPSoftDecryptionAction(
 	IN	struct rtmp_adapter *	pAd,
-	IN 		PUCHAR			pHdr,
+	IN 		u8 *		pHdr,
 	IN 		UCHAR    		UserPriority,
 	IN 		PCIPHER_KEY		pKey,
-	INOUT 	PUCHAR			pData,
+	INOUT 	u8 *		pData,
 	INOUT 	uint16_t 		*DataByteCnt)
 {
 	int NStatus;
@@ -4451,8 +4451,8 @@ int RTMPSoftDecryptionAction(
 VOID RTMPSoftConstructIVHdr(
 	IN	UCHAR			CipherAlg,
 	IN	UCHAR			key_id,
-	IN	PUCHAR			pTxIv,
-	OUT PUCHAR 			pHdrIv,
+	IN	u8 *		pTxIv,
+	OUT u8 *			pHdrIv,
 	OUT	UINT8			*hdr_iv_len)
 {
 	*hdr_iv_len = 0;
@@ -4477,8 +4477,8 @@ VOID RTMPSoftConstructIVHdr(
 VOID RTMPSoftEncryptionAction(
 	IN	struct rtmp_adapter *pAd,
 	IN	UCHAR			CipherAlg,
-	IN	PUCHAR			pHdr,
-	IN	PUCHAR			pSrcBufData,
+	IN	u8 *		pHdr,
+	IN	u8 *		pSrcBufData,
 	IN	uint32_t 		SrcBufLen,
 	IN	UCHAR			KeyIdx,
 	IN	PCIPHER_KEY		pKey,
@@ -4826,14 +4826,14 @@ VOID WpaShowAllsuite(
 }
 
 VOID RTMPInsertRSNIE(
-	IN PUCHAR pFrameBuf,
+	IN u8 *pFrameBuf,
 	OUT PULONG pFrameLen,
 	IN uint8_t * rsnie_ptr,
 	IN UINT8  rsnie_len,
 	IN uint8_t * pmkid_ptr,
 	IN UINT8  pmkid_len)
 {
-	PUCHAR	pTmpBuf;
+	u8 *pTmpBuf;
 	ULONG 	TempLen = 0;
 	UINT8 	extra_len = 0;
 	uint16_t 	pmk_count = 0;
@@ -5129,7 +5129,7 @@ INT WpaCheckEapCode(
 	IN USHORT OffSet)
 {
 
-	PUCHAR	pData;
+	u8 *pData;
 	INT	result = 0;
 
 	if( FrameLen < OffSet + LENGTH_EAPOL_H + LENGTH_EAP_H )

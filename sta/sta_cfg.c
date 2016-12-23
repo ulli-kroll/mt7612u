@@ -1672,7 +1672,7 @@ VOID RTMPAddKey(struct rtmp_adapter *pAd, PNDIS_802_11_KEY pKey)
 	else	/* dynamic WEP from wpa_supplicant */
 	{
 		UCHAR	CipherAlg;
-    	PUCHAR	Key;
+    	u8 *Key;
 
 		if(pKey->KeyLength == 32)
 			goto end;

@@ -85,7 +85,7 @@ VOID APMakeBssBeacon(struct rtmp_adapter *pAd, INT apidx)
 	HEADER_802_11 BcnHdr;
 	LARGE_INTEGER FakeTimestamp;
 	ULONG FrameLen = 0;
-	PUCHAR pBeaconFrame = (PUCHAR)pAd->ApCfg.MBSSID[apidx].BeaconBuf;
+	u8 *pBeaconFrame = (u8 *)pAd->ApCfg.MBSSID[apidx].BeaconBuf;
 	UCHAR *ptr;
 	UINT i;
 	uint32_t longValue, reg_base;
@@ -257,7 +257,7 @@ VOID APMakeBssBeacon(struct rtmp_adapter *pAd, INT apidx)
 	/*
 		step 6. move BEACON TXD and frame content to on-chip memory
 	*/
-	ptr = (PUCHAR)&pAd->BeaconTxWI;
+	ptr = (u8 *)&pAd->BeaconTxWI;
 #ifdef RT_BIG_ENDIAN
     RTMPWIEndianChange(pAd, ptr, TYPE_TXWI);
 #endif
@@ -272,7 +272,7 @@ VOID APMakeBssBeacon(struct rtmp_adapter *pAd, INT apidx)
 	}
 
 	/* update BEACON frame content. start right after the TXWI field. */
-	ptr = (PUCHAR)pMbss->BeaconBuf;
+	ptr = (u8 *)pMbss->BeaconBuf;
 #ifdef RT_BIG_ENDIAN
 	RTMPFrameEndianChange(pAd, ptr, DIR_WRITE, FALSE);
 #endif
@@ -629,7 +629,7 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 	/* 7.3.2.27 Extended Capabilities IE */
 	{
 		ULONG TmpLen, infoPos;
-		PUCHAR pInfo;
+		u8 *pInfo;
 		UCHAR extInfoLen;
 		BOOLEAN	bNeedAppendExtIE = FALSE;
 		EXT_CAP_INFO_ELEMENT	extCapInfo;
@@ -659,7 +659,7 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 			extCapInfo.operating_mode_notification = 1;
 #endif /* DOT11_VHT_AC */
 
-		pInfo = (PUCHAR)(&extCapInfo);
+		pInfo = (u8 *)(&extCapInfo);
 		for (infoPos = 0; infoPos < extInfoLen; infoPos++)
 		{
 			if (pInfo[infoPos] != 0)

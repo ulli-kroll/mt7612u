@@ -46,7 +46,7 @@ void wext_hotspot_onoff_event(struct net_device *net_dev, int onoff)
 	hotspot_onoff->hs_onoff = onoff;
 
 	RtmpOSWrielessEventSend(net_dev, RT_WLAN_EVENT_CUSTOM,
-					OID_802_11_HS_ONOFF, NULL, (PUCHAR)buf, buflen);
+					OID_802_11_HS_ONOFF, NULL, (u8 *)buf, buflen);
 	kfree(buf);
 }
 
@@ -72,7 +72,7 @@ static void wext_hotspot_ap_reload_event(struct net_device *net_dev)
 	hotspot_onoff->ifindex = RtmpOsGetNetIfIndex(net_dev);
 
 	RtmpOSWrielessEventSend(net_dev, RT_WLAN_EVENT_CUSTOM,
-					OID_802_11_HS_AP_RELOAD, NULL, (PUCHAR)buf, buflen);
+					OID_802_11_HS_AP_RELOAD, NULL, (u8 *)buf, buflen);
 	kfree(buf);
 }
 
@@ -86,9 +86,9 @@ void HotspotAPReload(struct net_device *net_dev)
 #ifdef CONFIG_AP_SUPPORT
 BOOLEAN HSIPv4Check(
 			IN struct rtmp_adapter *pAd,
-			PUCHAR pWcid,
+			u8 *pWcid,
 			struct sk_buff *pPacket,
-			PUCHAR pSrcBuf,
+			u8 *pSrcBuf,
 			uint16_t srcPort,
 			uint16_t dstPort)
 {
@@ -107,7 +107,7 @@ BOOLEAN HSIPv4Check(
 			if (*pWcid == MCAST_WCID && pMbss->HotSpotCtrl.DGAFDisable)
 			{
 					UCHAR Index;
-					PUCHAR pSrcBufOriginal = GET_OS_PKT_DATAPTR(pPacket);
+					u8 *pSrcBufOriginal = GET_OS_PKT_DATAPTR(pPacket);
 					for (Index = 0; Index < MAC_ADDR_LEN; Index++)
 					{
 						DBGPRINT(RT_DEBUG_OFF, ("Original source address(%d) = %02x\n",Index, pSrcBufOriginal[Index]));
@@ -130,7 +130,7 @@ BOOLEAN HSIPv4Check(
 
 static BOOLEAN IsICMPv4EchoPacket(
 			IN struct rtmp_adapter *pAd,
-			IN PUCHAR pData)
+			IN u8 *pData)
 {
 	uint16_t ProtoType;
 	UCHAR *Pos = pData;
@@ -165,7 +165,7 @@ static BOOLEAN IsICMPv4EchoPacket(
 BOOLEAN L2FilterInspection(
 			IN struct rtmp_adapter *pAd,
 			IN PHOTSPOT_CTRL pHSCtrl,
-			IN PUCHAR pData)
+			IN u8 *pData)
 {
 	if (IsICMPv4EchoPacket(pAd, pData))
 	{

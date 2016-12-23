@@ -125,7 +125,7 @@ VOID BuildChannelListEx(
 
 VOID BuildBeaconChList(
 	IN struct rtmp_adapter *pAd,
-	OUT PUCHAR pBuf,
+	OUT u8 *pBuf,
 	OUT	PULONG pBufLen);
 #endif /* EXT_BUILD_CHANNEL_LIST */
 

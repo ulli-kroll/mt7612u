@@ -3,7 +3,7 @@
 
 VOID InsertDMSReqElement(
 	IN struct rtmp_adapter *pAd,
-	OUT PUCHAR pFrameBuf,
+	OUT u8 *pFrameBuf,
 	OUT PULONG pFrameLen,
 	IN WNM_DMS_REQUEST_ELEMENT DMSReqElement)
 {
@@ -22,7 +22,7 @@ VOID InsertDMSReqElement(
 
 VOID WNM_InsertDMS(
 	IN struct rtmp_adapter *pAd,
-	OUT PUCHAR pFrameBuf,
+	OUT u8 *pFrameBuf,
 	OUT PULONG pFrameLen,
 	IN UINT8 Len,
 	IN UCHAR DMSID,

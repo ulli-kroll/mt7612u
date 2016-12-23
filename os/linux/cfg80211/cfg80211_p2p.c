@@ -230,9 +230,9 @@ INT CFG80211_setPowerMgmt(struct rtmp_adapter *pAd, UINT Enable)
 
 	==========================================================================
  */
-VOID CFG80211_P2PMakeFakeNoATlv(struct rtmp_adapter *pAd, ULONG StartTime, PUCHAR pOutBuffer)
+VOID CFG80211_P2PMakeFakeNoATlv(struct rtmp_adapter *pAd, ULONG StartTime, u8 *pOutBuffer)
 {
-	PUCHAR	pDest;
+	u8 *pDest;
 	PP2PCLIENT_NOA_SCHEDULE pNoa = &pAd->cfg80211_ctrl.GONoASchedule;
 	pDest = pOutBuffer;
 
@@ -564,7 +564,7 @@ ULONG CFG80211_P2pGetTimeStamp(struct rtmp_adapter *pAd)
 	return Value;
 }
 
-BOOLEAN CFG80211_P2pHandleNoAAttri(struct rtmp_adapter *pAd, PMAC_TABLE_ENTRY pMacClient, PUCHAR pData)
+BOOLEAN CFG80211_P2pHandleNoAAttri(struct rtmp_adapter *pAd, PMAC_TABLE_ENTRY pMacClient, u8 *pData)
 {
 	PP2P_NOA_DESC pNoADesc;
 	ULONG Value, GPDiff, NoALen, StartTime;
@@ -704,7 +704,7 @@ VOID CFG80211_P2pParseNoASubElmt(struct rtmp_adapter *pAd, VOID *Msg, ULONG MsgL
 	PP2PEID_STRUCT pP2pEid;
 	PEID_STRUCT pEid;
 	BOOLEAN brc = FALSE, bNoAAttriExist = FALSE;
-	PUCHAR pPtrEid = NULL;
+	u8 *pPtrEid = NULL;
 
 	/* Intel sends multiple P2P IE... So I can't give each input a default value.. */
 	if (MsgLen == 0)
@@ -719,7 +719,7 @@ VOID CFG80211_P2pParseNoASubElmt(struct rtmp_adapter *pAd, VOID *Msg, ULONG MsgL
 		{
 			/* Get Request content capability */
 			pP2pEid = (PP2PEID_STRUCT) &pEid->Octet[4];
-			pPtrEid = (PUCHAR) pP2pEid;
+			pPtrEid = (u8 *) pP2pEid;
 			AttriLen = pP2pEid->Len[0] + pP2pEid->Len[1] *8;
 			Length = 0;
 
@@ -729,7 +729,7 @@ VOID CFG80211_P2pParseNoASubElmt(struct rtmp_adapter *pAd, VOID *Msg, ULONG MsgL
 				{
 					case SUBID_P2P_NOA:
 					{
-						PUCHAR pData = &pEid->Octet[0];
+						u8 *pData = &pEid->Octet[0];
 						DBGPRINT(RT_DEBUG_TRACE, ("P2P_PS Get NoA Attr: %x %x %x %x %x %x %x %x %x \n",
 									*(pData+0), *(pData+1), *(pData+2), *(pData+3),
 									*(pData+4), *(pData+5), *(pData+6), *(pData+7), *(pData+8)));
@@ -750,7 +750,7 @@ VOID CFG80211_P2pParseNoASubElmt(struct rtmp_adapter *pAd, VOID *Msg, ULONG MsgL
 
 				Length = Length + 3 + AttriLen;  /* Eid[1] + Len[1]+ content[Len] */
 				pP2pEid = (PP2PEID_STRUCT)((UCHAR*)pP2pEid + 3 + AttriLen);
-				pPtrEid = (PUCHAR) pP2pEid;
+				pPtrEid = (u8 *) pP2pEid;
 				AttriLen = pP2pEid->Len[0] + pP2pEid->Len[1] *8;
 			}
 		}
@@ -780,15 +780,15 @@ VOID CFG80211_P2pParseNoASubElmt(struct rtmp_adapter *pAd, VOID *Msg, ULONG MsgL
 
 BOOLEAN CFG8211_PeerP2pBeaconSanity(
 	struct rtmp_adapter *pAd, VOID *Msg, ULONG MsgLen,
-	PUCHAR pAddr2, CHAR Ssid[], UCHAR *pSsidLen,
+	u8 *pAddr2, CHAR Ssid[], UCHAR *pSsidLen,
 	ULONG *Peerip, ULONG *P2PSubelementLen,
-	PUCHAR pP2pSubelement)
+	u8 *pP2pSubelement)
 {
 	PFRAME_802_11 pFrame;
 	PEID_STRUCT pEid;
 	ULONG Length = 0;
 	BOOLEAN	brc = FALSE, bFirstP2pOUI = TRUE;
-	PUCHAR Ptr;
+	u8 *Ptr;
 
 	pFrame = (PFRAME_802_11)Msg;
 	Length += LENGTH_802_11;
@@ -913,13 +913,13 @@ BOOLEAN CFG8211_PeerP2pBeaconSanity(
 
 
 VOID CFG80211_PeerP2pBeacon(struct rtmp_adapter *pAd,
-	PUCHAR pAddr2, MLME_QUEUE_ELEM *Elem, LARGE_INTEGER TimeStamp)
+	u8 *pAddr2, MLME_QUEUE_ELEM *Elem, LARGE_INTEGER TimeStamp)
 {
 	PCFG80211_CTRL pP2PCtrl = &pAd->cfg80211_ctrl;
 
 	UCHAR	Addr2[6], SsidLen, Ssid[32];
 	ULONG	PeerIp, P2PSubelementLen;
-	PUCHAR	P2pSubelement = NULL;
+	u8 *P2pSubelement = NULL;
 	PFRAME_802_11		pFrame;
 	PMAC_TABLE_ENTRY pMacEntry = NULL;
 

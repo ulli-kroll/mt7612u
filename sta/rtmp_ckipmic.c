@@ -168,7 +168,7 @@ VOID CKIP_key_permute
 /* prepare for calculation of a new mic */
 VOID RTMPCkipMicInit(
     IN  PMIC_CONTEXT        pContext,
-    IN  PUCHAR              CK)
+    IN  u8 *             CK)
 {
     /* prepare for new mic calculation */
     memmove(pContext->CK, CK, sizeof(pContext->CK));
@@ -179,7 +179,7 @@ VOID RTMPCkipMicInit(
 /* add some bytes to the mic calculation */
 VOID RTMPMicUpdate(
     IN  PMIC_CONTEXT        pContext,
-    IN  PUCHAR              pOctets,
+    IN  u8 *             pOctets,
     IN  INT                 len)
 {
     INT     byte_position;
@@ -232,9 +232,9 @@ ULONG RTMPMicGetCoefficient(
 /* 128 bit data.                        */
 /****************************************/
 VOID xor_128(
-    IN  PUCHAR  a,
-    IN  PUCHAR  b,
-    OUT PUCHAR  out)
+    IN  u8 * a,
+    IN  u8 * b,
+    OUT u8 * out)
 {
     INT i;
 
@@ -251,9 +251,9 @@ UCHAR RTMPCkipSbox(
 }
 
 VOID xor_32(
-    IN  PUCHAR  a,
-    IN  PUCHAR  b,
-    OUT PUCHAR  out)
+    IN  u8 * a,
+    IN  u8 * b,
+    OUT u8 * out)
 {
     INT i;
 
@@ -264,7 +264,7 @@ VOID xor_32(
 }
 
 VOID next_key(
-    IN  PUCHAR  key,
+    IN  u8 * key,
     IN  INT     round)
 {
     UCHAR       rcon;
@@ -291,8 +291,8 @@ VOID next_key(
 }
 
 VOID byte_sub(
-    IN  PUCHAR  in,
-    OUT PUCHAR  out)
+    IN  u8 * in,
+    OUT u8 * out)
 {
     INT i;
 
@@ -303,8 +303,8 @@ VOID byte_sub(
 }
 
 VOID shift_row(
-    IN  PUCHAR  in,
-    OUT PUCHAR  out)
+    IN  u8 * in,
+    OUT u8 * out)
 {
     out[0] =  in[0];
     out[1] =  in[5];
@@ -325,8 +325,8 @@ VOID shift_row(
 }
 
 VOID mix_column(
-    IN  PUCHAR  in,
-    OUT PUCHAR  out)
+    IN  u8 * in,
+    OUT u8 * out)
 {
     INT         i;
     UCHAR       add1b[4];
@@ -388,9 +388,9 @@ VOID mix_column(
 }
 
 VOID RTMPAesEncrypt(
-    IN  PUCHAR  key,
-    IN  PUCHAR  data,
-    IN  PUCHAR  ciphertext)
+    IN  u8 * key,
+    IN  u8 * data,
+    IN  u8 * ciphertext)
 {
     INT             round;
     INT             i;
@@ -466,16 +466,16 @@ VOID RTMPMicFinal(
 
 VOID RTMPCkipInsertCMIC(
     IN  struct rtmp_adapter *  pAd,
-    OUT PUCHAR          pMIC,
-    IN  PUCHAR          p80211hdr,
+    OUT u8 *         pMIC,
+    IN  u8 *         p80211hdr,
     IN  struct sk_buff *   pPacket,
     IN  PCIPHER_KEY     pKey,
-    IN  PUCHAR          mic_snap)
+    IN  u8 *         mic_snap)
 {
 	PACKET_INFO		PacketInfo;
-	PUCHAR			pSrcBufVA;
+	u8 *		pSrcBufVA;
 	ULONG			SrcBufLen;
-    PUCHAR          pDA, pSA, pProto;
+    u8 *         pDA, *pSA, *pProto;
     UCHAR           bigethlen[2];
 	UCHAR			ckip_ck[16];
     MIC_CONTEXT     mic_ctx;

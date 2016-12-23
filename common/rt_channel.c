@@ -1571,7 +1571,7 @@ CH_REGION ChRegion[] =
 };
 
 static PCH_REGION GetChRegion(
-	IN PUCHAR CntryCode)
+	IN u8 *CntryCode)
 {
 	INT loop = 0;
 	PCH_REGION pChRegion = NULL;
@@ -1595,7 +1595,7 @@ static PCH_REGION GetChRegion(
 
 static VOID ChBandCheck(
 	IN UCHAR PhyMode,
-	OUT PUCHAR pChType)
+	OUT u8 *pChType)
 {
 	*pChType = 0;
 	if (WMODE_CAP_5G(PhyMode))
@@ -1762,7 +1762,7 @@ VOID BuildChannelListEx(
 
 VOID BuildBeaconChList(
 	IN struct rtmp_adapter *pAd,
-	OUT PUCHAR pBuf,
+	OUT u8 *pBuf,
 	OUT	PULONG pBufLen)
 {
 	INT i;
@@ -1941,7 +1941,7 @@ COUNTRY_PROP CountryProp[]=
 };
 
 static PCOUNTRY_PROP GetCountryProp(
-	IN PUCHAR CntryCode)
+	IN u8 *CntryCode)
 {
 	INT loop = 0;
 	PCOUNTRY_PROP pCountryProp = NULL;

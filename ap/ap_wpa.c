@@ -123,7 +123,7 @@ BOOLEAN RTMPCheckUcast(
     IN PEID_STRUCT      eid_ptr,
     IN MAC_TABLE_ENTRY	*pEntry)
 {
-	PUCHAR 	pStaTmp;
+	u8 *	pStaTmp;
 	USHORT	Count;
 	UCHAR 	apidx;
 	struct rtmp_wifi_dev *wdev;
@@ -143,7 +143,7 @@ BOOLEAN RTMPCheckUcast(
 	}
 
 	/* Store STA RSN_IE capability */
-	pStaTmp = (PUCHAR)&eid_ptr->Octet[0];
+	pStaTmp = (u8 *)&eid_ptr->Octet[0];
 	if(eid_ptr->Eid == IE_WPA2)
 	{
 		/* skip Version(2),Multicast cipter(4) 2+4==6 */
@@ -301,9 +301,9 @@ BOOLEAN RTMPCheckUcast(
          FALSE otherwise
     ==========================================================================
 */
-BOOLEAN RTMPCheckAKM(PUCHAR sta_akm, PUCHAR ap_rsn_ie, INT iswpa2)
+BOOLEAN RTMPCheckAKM(u8 *sta_akm, u8 *ap_rsn_ie, INT iswpa2)
 {
-	PUCHAR pTmp;
+	u8 *pTmp;
 	USHORT Count;
 
 	pTmp = ap_rsn_ie;
@@ -362,7 +362,7 @@ BOOLEAN RTMPCheckAUTH(
     IN PEID_STRUCT      eid_ptr,
     IN MAC_TABLE_ENTRY	*pEntry)
 {
-	PUCHAR pStaTmp;
+	u8 *pStaTmp;
 	USHORT Count;
 	UCHAR 	apidx;
 
@@ -378,7 +378,7 @@ BOOLEAN RTMPCheckAUTH(
 	}
 
 	/* Store STA RSN_IE capability */
-	pStaTmp = (PUCHAR)&eid_ptr->Octet[0];
+	pStaTmp = (u8 *)&eid_ptr->Octet[0];
 	if(eid_ptr->Eid == IE_WPA2)
 	{
 		/* skip Version(2),Multicast cipter(4) 2+4==6 */
@@ -467,7 +467,7 @@ BOOLEAN RTMPCheckAUTH(
 UINT	APValidateRSNIE(
 	IN struct rtmp_adapter *   pAd,
 	IN PMAC_TABLE_ENTRY pEntry,
-	IN PUCHAR			pRsnIe,
+	IN u8 *		pRsnIe,
 	IN UCHAR			rsnie_len)
 {
 	UINT StatusCode = MLME_SUCCESS;
@@ -881,7 +881,7 @@ VOID WpaSend(struct rtmp_adapter *pAdapter, UCHAR *pPacket, ULONG Len)
 	UCHAR Addr[MAC_ADDR_LEN];
 	UCHAR Header802_3[LENGTH_802_3];
 	MAC_TABLE_ENTRY *pEntry;
-	PUCHAR pData;
+	u8 *pData;
 
 
     memmove(Addr, pPacket, 6);
@@ -959,7 +959,7 @@ VOID WpaSend(struct rtmp_adapter *pAdapter, UCHAR *pPacket, ULONG Len)
 VOID RTMPAddPMKIDCache(
 	IN  struct rtmp_adapter *  		pAd,
 	IN	INT						apidx,
-	IN	PUCHAR				pAddr,
+	IN	u8 *			pAddr,
 	IN	UCHAR					*PMKID,
 	IN	UCHAR					*PMK)
 {
@@ -1023,7 +1023,7 @@ VOID RTMPAddPMKIDCache(
 INT RTMPSearchPMKIDCache(
 	IN  struct rtmp_adapter *  pAd,
 	IN	INT				apidx,
-	IN	PUCHAR		pAddr)
+	IN	u8 *	pAddr)
 {
 	INT	i = 0;
 
@@ -1182,7 +1182,7 @@ const CHAR* ether_sprintf(const UINT8 *mac)
 #ifdef WPA_SUPPLICANT_SUPPORT
 VOID    ApcliWpaSendEapolStart(
 	IN	struct rtmp_adapter *pAd,
-	IN  PUCHAR          pBssid,
+	IN  u8 *         pBssid,
 	IN  PMAC_TABLE_ENTRY pMacEntry,
 	IN	PAPCLI_STRUCT pApCliEntry)
 {
@@ -1203,7 +1203,7 @@ VOID    ApcliWpaSendEapolStart(
 
 	// Copy frame to Tx ring
 	RTMPToWirelessSta((struct rtmp_adapter *)pAd, pMacEntry,
-					 Header802_3, LENGTH_802_3, (PUCHAR)&Packet, 4, TRUE);
+					 Header802_3, LENGTH_802_3, (u8 *)&Packet, 4, TRUE);
 
 	DBGPRINT(RT_DEBUG_TRACE, ("<----- WpaSendEapolStart\n"));
 }

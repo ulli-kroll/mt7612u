@@ -344,7 +344,7 @@ int MiniportMMRequest(
 
 			/* We need to reserve space for rtmp hardware header. i.e., TxWI for RT2860 and TxInfo+TxWI for RT2870*/
 			memset(&rtmpHwHdr, 0, hw_len);
-			Status = RTMPAllocateNdisPacket(pAd, &pPacket, (PUCHAR)&rtmpHwHdr[0], hw_len, pData, Length);
+			Status = RTMPAllocateNdisPacket(pAd, &pPacket, (u8 *)&rtmpHwHdr[0], hw_len, pData, Length);
 			if (Status != NDIS_STATUS_SUCCESS)
 			{
 				DBGPRINT(RT_DEBUG_WARN, ("MiniportMMRequest (error:: can't allocate NDIS PACKET)\n"));
@@ -915,7 +915,7 @@ int MlmeHardTransmitMgmtRing(
 	}
 
 #ifdef RT_BIG_ENDIAN
-	RTMPFrameEndianChange(pAd, (PUCHAR)pHeader_802_11, DIR_WRITE, FALSE);
+	RTMPFrameEndianChange(pAd, (u8 *)pHeader_802_11, DIR_WRITE, FALSE);
 #endif
 
 
@@ -1033,7 +1033,7 @@ int MlmeHardTransmitMgmtRing(
 //---Add by shiang for debug
 
 #ifdef RT_BIG_ENDIAN
-	RTMPWIEndianChange(pAd, (PUCHAR)pFirstTxWI, TYPE_TXWI);
+	RTMPWIEndianChange(pAd, (u8 *)pFirstTxWI, TYPE_TXWI);
 #endif
 
 
@@ -1254,7 +1254,7 @@ BOOLEAN RTMP_FillTxBlkInfo(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 		pTxBlk->pMacEntry = NULL;
 		{
 #ifdef MCAST_RATE_SPECIFIC
-			PUCHAR pDA = GET_OS_PKT_DATAPTR(pPacket);
+			u8 *pDA = GET_OS_PKT_DATAPTR(pPacket);
 			if (((*pDA & 0x01) == 0x01) && (*pDA != 0xff))
 				pTxBlk->pTransmit = &pAd->CommonCfg.MCastPhyMode;
 			else
@@ -1557,7 +1557,7 @@ VOID RTMPDeQueuePacket(
 			}
 
 			pTxBlk = &TxBlk;
-			memset((PUCHAR)pTxBlk, 0, sizeof(TX_BLK));
+			memset((u8 *)pTxBlk, 0, sizeof(TX_BLK));
 
 			pTxBlk->QueIdx = QueIdx;
 
@@ -1909,7 +1909,7 @@ UINT deaggregate_AMSDU_announce(
 	IN	struct rtmp_adapter *pAd,
 	IN	RX_BLK			*pRxBlk,
 	struct sk_buff *	pPacket,
-	IN	PUCHAR			pData,
+	IN	u8 *		pData,
 	IN	ULONG			DataSize,
 	IN	UCHAR			OpMode)
 {
@@ -1919,7 +1919,7 @@ UINT deaggregate_AMSDU_announce(
 	UINT			nMSDU;
     UCHAR			Header802_3[14];
 
-	PUCHAR			pPayload, pDA, pSA, pRemovedLLCSNAP;
+	u8 *		pPayload, *pDA, *pSA, *pRemovedLLCSNAP;
 	struct sk_buff *pClonePacket;
 
 #ifdef CONFIG_AP_SUPPORT
@@ -2112,11 +2112,11 @@ UINT BA_Reorder_AMSDU_Annnounce(
 	IN	struct sk_buff *pPacket,
 	IN	UCHAR			OpMode)
 {
-	PUCHAR			pData;
+	u8 *		pData;
 	USHORT			DataSize;
 	UINT			nMSDU = 0;
 
-	pData = (PUCHAR) GET_OS_PKT_DATAPTR(pPacket);
+	pData = (u8 *) GET_OS_PKT_DATAPTR(pPacket);
 	DataSize = (USHORT) GET_OS_PKT_LEN(pPacket);
 
 	nMSDU = deaggregate_AMSDU_announce(pAd, NULL, pPacket, pData, DataSize, OpMode);
@@ -2149,7 +2149,7 @@ VOID Indicate_AMSDU_Packet(
 VOID AssocParmFill(
 	IN struct rtmp_adapter *pAd,
 	IN OUT MLME_ASSOC_REQ_STRUCT *AssocReq,
-	IN PUCHAR                     pAddr,
+	IN u8 *                    pAddr,
 	IN USHORT                     CapabilityInfo,
 	IN ULONG                      Timeout,
 	IN USHORT                     ListenIntv)
@@ -2173,7 +2173,7 @@ VOID AssocParmFill(
 VOID DisassocParmFill(
 	IN struct rtmp_adapter *pAd,
 	IN OUT MLME_DISASSOC_REQ_STRUCT *DisassocReq,
-	IN PUCHAR pAddr,
+	IN u8 *pAddr,
 	IN USHORT Reason)
 {
 	COPY_MAC_ADDR(DisassocReq->Addr, pAddr);
@@ -2885,7 +2885,7 @@ VOID CmmRxRalinkFrameIndicate(
 	UCHAR			Header802_3[LENGTH_802_3];
 	uint16_t 		Msdu2Size;
 	uint16_t 			Payload1Size, Payload2Size;
-	PUCHAR 			pData2;
+	u8 *			pData2;
 	struct sk_buff *pPacket2 = NULL;
 	USHORT			VLAN_VID = 0, VLAN_Priority = 0;
 
@@ -3301,7 +3301,7 @@ body:
 		pNullFr->Duration = RTMPCalcDuration(pAd, TxRate, frm_len);
 
 		DBGPRINT(RT_DEBUG_INFO, ("send NULL Frame @%d Mbps to AID#%d...\n", RateIdToMbps[TxRate], AID & 0x3f));
-		MiniportMMRequest(pAd, WMM_UP2AC_MAP[7], (PUCHAR)pNullFr, frm_len);
+		MiniportMMRequest(pAd, WMM_UP2AC_MAP[7], (u8 *)pNullFr, frm_len);
 
 		kfree(pFrame);
 	}
@@ -3321,7 +3321,7 @@ VOID RtmpPrepareHwNullFrame(
 {
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
 	TXWI_STRUC *pTxWI = &pAd->NullTxWI;
-	PUCHAR pNullFrame;
+	u8 *pNullFrame;
 	int NState;
 	HEADER_802_11 *pNullFr;
 	ULONG Length;
@@ -3426,7 +3426,7 @@ VOID RtmpPrepareHwNullFrame(
 
 		}
 
-		ptr = (PUCHAR)&pAd->NullTxWI;
+		ptr = (u8 *)&pAd->NullTxWI;
 #ifdef RT_BIG_ENDIAN
 		RTMPWIEndianChange(pAd, ptr, TYPE_TXWI);
 #endif /* RT_BIG_ENDIAN */
@@ -3538,7 +3538,7 @@ VOID dev_rx_mgmt_frm(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 		if ((pHeader->FC.SubType == SUBTYPE_AUTH) &&
 			(pHeader->FC.Wep == 1) && (pRxInfo->Decrypted == 0))
 		{
-			UCHAR *pMgmt = (PUCHAR)pHeader;
+			UCHAR *pMgmt = (u8 *)pHeader;
 			uint16_t mgmt_len = pRxBlk->MPDUtotalByteCnt;
 			MAC_TABLE_ENTRY *pEntry = NULL;
 
@@ -3733,7 +3733,7 @@ VOID dev_rx_ctrl_frm(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 #endif /* RT_CFG80211_P2P_SUPPORT */
 			{
 				USHORT Aid = pHeader->Duration & 0x3fff;
-				PUCHAR pAddr = pHeader->Addr2;
+				u8 *pAddr = pHeader->Addr2;
 				MAC_TABLE_ENTRY *pEntry;
 
 				if (pRxBlk->wcid < MAX_LEN_OF_MAC_TABLE) {
@@ -3887,8 +3887,8 @@ BOOLEAN rtmp_rx_done_handle(struct rtmp_adapter *pAd)
 #endif /* HDR_TRANS_SUPPORT */
 
 #ifdef RT_BIG_ENDIAN
-		RTMPFrameEndianChange(pAd, (PUCHAR)pHeader, DIR_READ, TRUE);
-		RTMPWIEndianChange(pAd , (PUCHAR)pRxWI, TYPE_RXWI);
+		RTMPFrameEndianChange(pAd, (u8 *)pHeader, DIR_READ, TRUE);
+		RTMPWIEndianChange(pAd , (u8 *)pRxWI, TYPE_RXWI);
 #endif
 
 //+++Add by shiang for debug

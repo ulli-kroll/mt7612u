@@ -50,7 +50,7 @@ static int RTMPAllocUsbBulkBufStruct(
 static int RTMPFreeUsbBulkBufStruct(
 	IN struct rtmp_adapter *pAd,
 	IN PURB *ppUrb,
-	IN PUCHAR *ppXBuffer,
+	IN u8 **ppXBuffer,
 	IN INT bufLen,
 	IN ra_dma_addr_t data_dma)
 {
@@ -216,7 +216,7 @@ VOID	RTMPFreeTxRxRingMemory(
 		if (pRxContext)
 			RTMPFreeUsbBulkBufStruct(pAd,
 										&pRxContext->pUrb,
-										(PUCHAR *)&pRxContext->TransferBuffer,
+										(u8 **)&pRxContext->TransferBuffer,
 										MAX_RXBULK_SIZE,
 										pRxContext->data_dma);
 	}
@@ -224,7 +224,7 @@ VOID	RTMPFreeTxRxRingMemory(
 	/* Command Response */
 	RTMPFreeUsbBulkBufStruct(pAd,
 							 &pCmdRspEventContext->pUrb,
-							 (PUCHAR *)&pCmdRspEventContext->CmdRspBuffer,
+							 (u8 **)&pCmdRspEventContext->CmdRspBuffer,
 							 CMD_RSP_BULK_SIZE,
 							 pCmdRspEventContext->data_dma);
 
@@ -233,14 +233,14 @@ VOID	RTMPFreeTxRxRingMemory(
 	/* Free PsPoll frame resource*/
 	RTMPFreeUsbBulkBufStruct(pAd,
 								&pPsPollContext->pUrb,
-								(PUCHAR *)&pPsPollContext->TransferBuffer,
+								(u8 **)&pPsPollContext->TransferBuffer,
 								sizeof(TX_BUFFER),
 								pPsPollContext->data_dma);
 
 	/* Free NULL frame resource*/
 	RTMPFreeUsbBulkBufStruct(pAd,
 								&pNullContext->pUrb,
-								(PUCHAR *)&pNullContext->TransferBuffer,
+								(u8 **)&pNullContext->TransferBuffer,
 								sizeof(TX_BUFFER),
 								pNullContext->data_dma);
 
@@ -278,7 +278,7 @@ VOID	RTMPFreeTxRxRingMemory(
 		if (pHTTXContext)
 			RTMPFreeUsbBulkBufStruct(pAd,
 										&pHTTXContext->pUrb,
-										(PUCHAR *)&pHTTXContext->TransferBuffer,
+										(u8 **)&pHTTXContext->TransferBuffer,
 										sizeof(HTTX_BUFFER),
 										pHTTXContext->data_dma);
 	}
@@ -456,7 +456,7 @@ int NICInitTransmit(
 			pMLMEContext->SelfIdx = i;
 
 			/* Offset to next ring descriptor address*/
-			RingBaseVa = (PUCHAR) RingBaseVa + sizeof(TX_CONTEXT);
+			RingBaseVa = (u8 *) RingBaseVa + sizeof(TX_CONTEXT);
 		}
 		DBGPRINT(RT_DEBUG_TRACE, ("MGMT Ring: total %d entry allocated\n", i));
 
@@ -511,7 +511,7 @@ err:
 			if (pMLMEContext)
 				RTMPFreeUsbBulkBufStruct(pAd,
 											&pMLMEContext->pUrb,
-											(PUCHAR *)&pMLMEContext->TransferBuffer,
+											(u8 **)&pMLMEContext->TransferBuffer,
 											sizeof(TX_BUFFER),
 											pMLMEContext->data_dma);
 		}
@@ -937,7 +937,7 @@ int NICInitTransmit(
 			pMLMEContext->SelfIdx = i;
 
 			/* Offset to next ring descriptor address*/
-			RingBaseVa = (PUCHAR) RingBaseVa + sizeof(TX_CONTEXT);
+			RingBaseVa = (u8 *) RingBaseVa + sizeof(TX_CONTEXT);
 		}
 		DBGPRINT(RT_DEBUG_TRACE, ("MGMT Ring: total %d entry allocated\n", i));
 
@@ -996,14 +996,14 @@ err:
 	/* Free PsPoll frame resource*/
 	RTMPFreeUsbBulkBufStruct(pAd,
 								&pPsPollContext->pUrb,
-								(PUCHAR *)&pPsPollContext->TransferBuffer,
+								(u8 **)&pPsPollContext->TransferBuffer,
 								sizeof(TX_BUFFER),
 								pPsPollContext->data_dma);
 
 	/* Free NULL frame resource*/
 	RTMPFreeUsbBulkBufStruct(pAd,
 								&pNullContext->pUrb,
-								(PUCHAR *)&pNullContext->TransferBuffer,
+								(u8 **)&pNullContext->TransferBuffer,
 								sizeof(TX_BUFFER),
 								pNullContext->data_dma);
 
@@ -1018,7 +1018,7 @@ err:
 			{
 				RTMPFreeUsbBulkBufStruct(pAd,
 											&pMLMEContext->pUrb,
-											(PUCHAR *)&pMLMEContext->TransferBuffer,
+											(u8 **)&pMLMEContext->TransferBuffer,
 											sizeof(TX_BUFFER),
 											pMLMEContext->data_dma);
 			}
@@ -1036,7 +1036,7 @@ err:
 		{
 			RTMPFreeUsbBulkBufStruct(pAd,
 										&pHTTxContext->pUrb,
-										(PUCHAR *)&pHTTxContext->TransferBuffer,
+										(u8 **)&pHTTxContext->TransferBuffer,
 										sizeof(HTTX_BUFFER),
 										pHTTxContext->data_dma);
 		}
@@ -1165,7 +1165,7 @@ VOID	RTMPFreeTxRxRingMemory(
 		if (pRxContext)
 			RTMPFreeUsbBulkBufStruct(pAd,
 										&pRxContext->pUrb,
-										(PUCHAR *)&pRxContext->TransferBuffer,
+										(u8 **)&pRxContext->TransferBuffer,
 										MAX_RXBULK_SIZE,
 										pRxContext->data_dma);
 	}
@@ -1174,7 +1174,7 @@ VOID	RTMPFreeTxRxRingMemory(
 	{
 		RTMPFreeUsbBulkBufStruct(pAd,
 								 &pCmdRspEventContext->pUrb,
-								 (PUCHAR *)&pCmdRspEventContext->TransferBuffer,
+								 (u8 **)&pCmdRspEventContext->TransferBuffer,
 								 CMD_RSP_BULK_SIZE,
 								 pCmdRspEventContext->data_dma);
 	}
@@ -1182,14 +1182,14 @@ VOID	RTMPFreeTxRxRingMemory(
 	/* Free PsPoll frame resource*/
 	RTMPFreeUsbBulkBufStruct(pAd,
 								&pPsPollContext->pUrb,
-								(PUCHAR *)&pPsPollContext->TransferBuffer,
+								(u8 **)&pPsPollContext->TransferBuffer,
 								sizeof(TX_BUFFER),
 								pPsPollContext->data_dma);
 
 	/* Free NULL frame resource*/
 	RTMPFreeUsbBulkBufStruct(pAd,
 								&pNullContext->pUrb,
-								(PUCHAR *)&pNullContext->TransferBuffer,
+								(u8 **)&pNullContext->TransferBuffer,
 								sizeof(TX_BUFFER),
 								pNullContext->data_dma);
 
@@ -1227,7 +1227,7 @@ VOID	RTMPFreeTxRxRingMemory(
 			if (pHTTXContext)
 			RTMPFreeUsbBulkBufStruct(pAd,
 										&pHTTXContext->pUrb,
-										(PUCHAR *)&pHTTXContext->TransferBuffer,
+										(u8 **)&pHTTXContext->TransferBuffer,
 										sizeof(HTTX_BUFFER),
 										pHTTXContext->data_dma);
 		}
@@ -1390,7 +1390,7 @@ VOID RT28xx_UpdateBeaconToAsic(
 	IN ULONG			FrameLen,
 	IN ULONG			UpdatePos)
 {
-	PUCHAR        	pBeaconFrame = NULL;
+	u8 *       	pBeaconFrame = NULL;
 	UCHAR  			*ptr;
 	UINT  			i, padding;
 	BEACON_SYNC_STRUCT *pBeaconSync = pAd->CommonCfg.pBeaconSync;
@@ -1404,7 +1404,7 @@ VOID RT28xx_UpdateBeaconToAsic(
 	if ((apidx < pAd->ApCfg.BssidNum) && (apidx < MAX_MBSSID_NUM(pAd)))
 	{
 		bcn_idx = pAd->ApCfg.MBSSID[apidx].BcnBufIdx;
-		pBeaconFrame = (PUCHAR) pAd->ApCfg.MBSSID[apidx].BeaconBuf;
+		pBeaconFrame = (u8 *) pAd->ApCfg.MBSSID[apidx].BeaconBuf;
 		bBcnReq = BeaconTransmitRequired(pAd, apidx, &pAd->ApCfg.MBSSID[apidx]);
 	}
 #endif /* CONFIG_AP_SUPPORT */
@@ -1434,7 +1434,7 @@ VOID RT28xx_UpdateBeaconToAsic(
 	}
 	else
 	{
-		ptr = (PUCHAR)&pAd->BeaconTxWI;
+		ptr = (u8 *)&pAd->BeaconTxWI;
 #ifdef RT_BIG_ENDIAN
 		RTMPWIEndianChange(pAd, ptr, TYPE_TXWI);
 #endif
@@ -1456,7 +1456,7 @@ VOID RT28xx_UpdateBeaconToAsic(
 
 		ptr = pBeaconSync->BeaconBuf[bcn_idx];
 		padding = (FrameLen & 0x01);
-		memset((PUCHAR)(pBeaconFrame + FrameLen), 0, padding);
+		memset((u8 *)(pBeaconFrame + FrameLen), 0, padding);
 		FrameLen += padding;
 		for (i = 0 ; i < FrameLen /*HW_BEACON_OFFSET*/; i += 2)
 		{
@@ -1476,7 +1476,7 @@ VOID RT28xx_UpdateBeaconToAsic(
 		/* For AP interface, set the DtimBitOn so that we can send Bcast/Mcast frame out after this beacon frame.*/
 #ifdef CONFIG_AP_SUPPORT
 		{
-			ptr = (PUCHAR) (pAd->ApCfg.MBSSID[apidx].BeaconBuf + pAd->ApCfg.MBSSID[apidx].TimIELocationInBeacon);
+			ptr = (u8 *) (pAd->ApCfg.MBSSID[apidx].BeaconBuf + pAd->ApCfg.MBSSID[apidx].TimIELocationInBeacon);
 			if ((*(ptr + 4)) & 0x01)
 				pBeaconSync->DtimBitOn |= (1 << apidx);
 			else

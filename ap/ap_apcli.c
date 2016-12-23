@@ -416,14 +416,14 @@ BOOLEAN ApCliLinkUp(struct rtmp_adapter *pAd, UCHAR ifIndex)
 #endif /* CONFIG_WIFI_PKT_FWD */
 
 		/* Insert the Remote AP to our MacTable. */
-		/*pMacEntry = MacTableInsertApCliEntry(pAd, (PUCHAR)(pAd->ApCfg.ApCliTab[0].MlmeAux.Bssid)); */
-		pMacEntry = MacTableInsertEntry(pAd, (PUCHAR)(pApCliEntry->MlmeAux.Bssid),
+		/*pMacEntry = MacTableInsertApCliEntry(pAd, (u8 *)(pAd->ApCfg.ApCliTab[0].MlmeAux.Bssid)); */
+		pMacEntry = MacTableInsertEntry(pAd, (u8 *)(pApCliEntry->MlmeAux.Bssid),
 										wdev, (ifIndex + MIN_NET_DEVICE_FOR_APCLI),
 										OPMODE_AP, TRUE);
 		if (pMacEntry)
 		{
 			UCHAR Rates[MAX_LEN_OF_SUPPORTED_RATES];
-			PUCHAR pRates = Rates;
+			u8 *pRates = Rates;
 			UCHAR RatesLen;
 			UCHAR MaxSupportedRate = 0;
 
@@ -486,7 +486,7 @@ BOOLEAN ApCliLinkUp(struct rtmp_adapter *pAd, UCHAR ifIndex)
 			*/
 			if ((pMacEntry->AuthMode >= Ndis802_11AuthModeWPA) && (pApCliEntry->MlmeAux.VarIELen != 0))
 			{
-				PUCHAR pVIE;
+				u8 *pVIE;
 				UCHAR len;
 				PEID_STRUCT pEid;
 
@@ -1202,7 +1202,7 @@ BOOLEAN ApCliPeerAssocRspSanity(
     IN struct rtmp_adapter *pAd,
     IN VOID *pMsg,
     IN ULONG MsgLen,
-    OUT PUCHAR pAddr2,
+    OUT u8 *pAddr2,
     OUT USHORT *pCapabilityInfo,
     OUT USHORT *pStatus,
     OUT USHORT *pAid,
@@ -1342,7 +1342,7 @@ BOOLEAN ApCliPeerAssocRspSanity(
 				/* handle WME PARAMTER ELEMENT */
 				if (NdisEqualMemory(pEid->Octet, WME_PARM_ELEM, 6) && (pEid->Len == 24))
 				{
-					PUCHAR ptr;
+					u8 *ptr;
 					int i;
 
 					/* parsing EDCA parameters */
@@ -1353,7 +1353,7 @@ BOOLEAN ApCliPeerAssocRspSanity(
 					/*pEdcaParm->bMoreDataAck    = FALSE; // pEid->Octet[0] & 0x80; */
 					pEdcaParm->EdcaUpdateCount = pEid->Octet[6] & 0x0f;
 					pEdcaParm->bAPSDCapable    = (pEid->Octet[6] & 0x80) ? 1 : 0;
-					ptr = (PUCHAR) &pEid->Octet[8];
+					ptr = (u8 *) &pEid->Octet[8];
 					for (i=0; i<4; i++)
 					{
 						UCHAR aci = (*ptr & 0x60) >> 5; /* b5~6 is AC INDEX */
@@ -1525,7 +1525,7 @@ BOOLEAN ApCliValidateRSNIE(
 	IN USHORT eid_len,
 	IN USHORT idx)
 {
-	PUCHAR pVIE, pTmp;
+	u8 *pVIE, *pTmp;
 	UCHAR len;
 	PEID_STRUCT         pEid;
 	CIPHER_SUITE		WPA;			/* AP announced WPA cipher suite */
@@ -1542,7 +1542,7 @@ BOOLEAN ApCliValidateRSNIE(
 	NDIS_802_11_AUTHENTICATION_MODE WPA2_AuthModeAux;
 	struct rtmp_wifi_dev *wdev;
 
-	pVIE = (PUCHAR) pEid_ptr;
+	pVIE = (u8 *) pEid_ptr;
 	len	 = eid_len;
 
 	/*if (len >= MAX_LEN_OF_RSNIE || len <= MIN_LEN_OF_RSNIE) */
@@ -2080,7 +2080,7 @@ BOOLEAN  ApCliHandleRxBroadcastFrame(
 		int NStatus;
 
 		NStatus = RTMPSoftDecryptionAction(pAd,
-									 (PUCHAR)pHeader, 0,
+									 (u8 *)pHeader, 0,
 									 &pApCliEntry->SharedKey[pRxBlk->key_idx],
 									 pRxBlk->pData,
 									 &(pRxBlk->DataSize));
@@ -2126,7 +2126,7 @@ VOID APCliInstallPairwiseKey(
 
 BOOLEAN APCliInstallSharedKey(
 	IN  struct rtmp_adapter *  pAd,
-	IN  PUCHAR          pKey,
+	IN  u8 *         pKey,
 	IN  UCHAR           KeyLen,
 	IN	UCHAR			DefaultKeyIdx,
 	IN  MAC_TABLE_ENTRY *pEntry)

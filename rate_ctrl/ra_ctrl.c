@@ -2714,7 +2714,7 @@ VOID MlmeCheckRDG(
 	IN struct rtmp_adapter *	pAd,
 	IN PMAC_TABLE_ENTRY	pEntry)
 {
-	PUCHAR pTable = pEntry->pTable;
+	u8 *pTable = pEntry->pTable;
 
 	/*  Turn off RDG when 3s and rx count > tx count*5 */
 	if (((pTable == RateSwitchTable11BGN3S) ||

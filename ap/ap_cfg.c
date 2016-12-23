@@ -3200,7 +3200,7 @@ INT	Set_AP_WPAPSK_Proc(
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_WPAPSK_Proc::(WPAPSK=%s)\n", arg));
 
 	pMBSSStruct = &pAd->ApCfg.MBSSID[apidx];
-	retval = RT_CfgSetWPAPSKKey(pAd, arg, strlen(arg), (PUCHAR)pMBSSStruct->Ssid, pMBSSStruct->SsidLen, pMBSSStruct->PMK);
+	retval = RT_CfgSetWPAPSKKey(pAd, arg, strlen(arg), (u8 *)pMBSSStruct->Ssid, pMBSSStruct->SsidLen, pMBSSStruct->PMK);
 	if (retval == FALSE)
 		return FALSE;
 
@@ -3938,7 +3938,7 @@ VOID RTMPIoctlRadiusData(
     	|| (wdev->AuthMode == Ndis802_11AuthModeWPA2)
     	|| (wdev->AuthMode == Ndis802_11AuthModeWPA1WPA2)
     	|| (wdev->IEEE8021X == TRUE))
-    	WpaSend(pAd, (PUCHAR)wrq->u.data.pointer, wrq->u.data.length);
+    	WpaSend(pAd, (u8 *)wrq->u.data.pointer, wrq->u.data.length);
 }
 
 
@@ -3985,7 +3985,7 @@ VOID RTMPIoctlAddWPAKey(
 	else	/* Old WEP stuff */
 	{
 		UCHAR	CipherAlg;
-    	PUCHAR	Key;
+    	u8 *Key;
 
 		if(pKey->KeyLength > 16)
 			return;
@@ -5727,7 +5727,7 @@ INT Set_ApCli_Ssid_Proc(struct rtmp_adapter *pAd, char *arg)
 
 			RT_CfgSetWPAPSKKey(pAd, (char *)PskKey,
 									apcli_entry->PSKLen,
-									(PUCHAR)apcli_entry->CfgSsid,
+									(u8 *)apcli_entry->CfgSsid,
 									apcli_entry->CfgSsidLen,
 									apcli_entry->PMK);
 		}
@@ -5992,7 +5992,7 @@ INT	Set_ApCli_WPAPSK_Proc(
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_ApCli_WPAPSK_Proc::(WPAPSK=%s)\n", arg));
 
-	retval = RT_CfgSetWPAPSKKey(pAd, arg, strlen(arg), (PUCHAR)pApCliEntry->CfgSsid, pApCliEntry->CfgSsidLen, pApCliEntry->PMK);
+	retval = RT_CfgSetWPAPSKKey(pAd, arg, strlen(arg), (u8 *)pApCliEntry->CfgSsid, pApCliEntry->CfgSsidLen, pApCliEntry->PMK);
 	if (retval == FALSE)
 		return FALSE;
 
@@ -7098,7 +7098,7 @@ VOID RTMPApCliAddKey(
 	else	/* dynamic WEP from wpa_supplicant */
 	{
 		UCHAR	CipherAlg;
-    	PUCHAR	Key;
+    	u8 *Key;
 
 		if(pKey->KeyLength == 32)
 			goto end;

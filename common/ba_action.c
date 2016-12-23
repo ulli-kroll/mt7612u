@@ -254,7 +254,7 @@ void ba_reordering_resource_release(struct rtmp_adapter *pAd)
 BOOLEAN ba_reordering_resource_init(struct rtmp_adapter *pAd, int num)
 {
 	int     i;
-	PUCHAR  mem;
+	u8 * mem;
 	struct reordering_mpdu *mpdu_blk;
 	struct reordering_list *freelist;
 
@@ -1160,7 +1160,7 @@ VOID PeerAddBAReqAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 	UCHAR Status = 1;
 	UCHAR pAddr[6];
 	FRAME_ADDBA_RSP ADDframe;
-	PUCHAR pOutBuffer = NULL;
+	u8 *pOutBuffer = NULL;
 	int NStatus;
 	PFRAME_ADDBA_REQ pAddreqFrame = NULL;
 	ULONG FrameLen, *ptemp;

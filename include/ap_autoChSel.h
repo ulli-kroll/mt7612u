@@ -27,8 +27,8 @@
 
 ULONG AutoChBssSearchWithSSID(
 	IN struct rtmp_adapter *pAd,
-	IN PUCHAR Bssid,
-	IN PUCHAR pSsid,
+	IN u8 *Bssid,
+	IN u8 *pSsid,
 	IN UCHAR SsidLen,
 	IN UCHAR Channel);
 
@@ -42,7 +42,7 @@ VOID UpdateChannelInfo(
 
 ULONG AutoChBssInsertEntry(
 	IN struct rtmp_adapter *pAd,
-	IN PUCHAR pBssid,
+	IN u8 *pBssid,
 	IN CHAR Ssid[],
 	IN UCHAR SsidLen,
 	IN UCHAR ChannelNo,

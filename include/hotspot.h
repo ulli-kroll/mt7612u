@@ -61,12 +61,12 @@ typedef struct _HOTSPOT_CTRL {
 	uint32_t AdvertisementProtoIELen;
 	uint32_t QosMapSetIELen;
 	uint32_t RoamingConsortiumIELen;
-	PUCHAR InterWorkingIE;
-	PUCHAR AdvertisementProtoIE;
-	PUCHAR QosMapSetIE;
-	PUCHAR RoamingConsortiumIE;
-	PUCHAR HSIndicationIE;
-	PUCHAR P2PIE;
+	u8 *InterWorkingIE;
+	u8 *AdvertisementProtoIE;
+	u8 *QosMapSetIE;
+	u8 *RoamingConsortiumIE;
+	u8 *HSIndicationIE;
+	u8 *P2PIE;
 	BOOLEAN  HSDaemonReady;
 	BOOLEAN HotSpotEnable;
 	enum HSCTRL_STATE HSCtrlState;
@@ -97,7 +97,7 @@ enum {
 BOOLEAN L2FilterInspection(
 			IN Pstruct rtmp_adapter pAd,
 			IN PHOTSPOT_CTRL pHSCtrl,
-			IN PUCHAR pData);
+			IN u8 *pData);
 
 VOID HSCtrlStateMachineInit(
 	IN	Pstruct rtmp_adapter 	pAd,
@@ -159,9 +159,9 @@ enum {
 #ifdef CONFIG_AP_SUPPORT
 BOOLEAN HSIPv4Check(
 			IN Pstruct rtmp_adapter pAd,
-			PUCHAR pWcid,
+			u8 *pWcid,
 			struct sk_buff *pPacket,
-			PUCHAR pSrcBUf,
+			u8 *pSrcBUf,
 			uint16_t srcPort,
 			uint16_t dscPort);
 #endif

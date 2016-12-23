@@ -46,7 +46,7 @@ VOID APPeerProbeReqAction(
 	PEER_PROBE_REQ_PARAM ProbeReqParam;
 	HEADER_802_11 ProbeRspHdr;
 	int NStatus;
-	PUCHAR pOutBuffer = NULL;
+	u8 *pOutBuffer = NULL;
 	ULONG FrameLen = 0, TmpLen;
 	LARGE_INTEGER FakeTimestamp;
 	UCHAR DsLen = 1;
@@ -722,7 +722,7 @@ VOID APPeerBeaconAction(
 
 
 
-	pRates = (PUCHAR)Rates;
+	pRates = (u8 *)Rates;
 
 	ie_list->Channel = Elem->Channel;
 	RealRssi = RTMPMaxRssi(pAd, ConvertToRssi(pAd, Elem->Rssi0, RSSI_0),
@@ -845,7 +845,7 @@ VOID APPeerBeaconAction(
                     if(ie_list->MessageToMe &&
                        NdisEqualMemory(pAd->ApCfg.ApCliTab[ifIndex].CfgApCliBssid, ie_list->Bssid, MAC_ADDR_LEN))
 					{
-						MiniportMMRequest(pAd, 0, (PUCHAR)&pAd->ApCfg.ApCliTab[0].PsPollFrame, sizeof(PSPOLL_FRAME));
+						MiniportMMRequest(pAd, 0, (u8 *)&pAd->ApCfg.ApCliTab[0].PsPollFrame, sizeof(PSPOLL_FRAME));
 					}
 				}
 #endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
@@ -1013,7 +1013,7 @@ IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 {
 	if (ie_list->Channel == pAd->ApCfg.AutoChannel_Channel)
 	{
-		if (AutoChBssSearchWithSSID(pAd, ie_list->Bssid, (PUCHAR)ie_list->Ssid, ie_list->SsidLen, ie_list->Channel) == BSS_NOT_FOUND)
+		if (AutoChBssSearchWithSSID(pAd, ie_list->Bssid, (u8 *)ie_list->Ssid, ie_list->SsidLen, ie_list->Channel) == BSS_NOT_FOUND)
 			pAd->pChannelInfo->ApCnt[pAd->ApCfg.current_channel_index]++;
 		AutoChBssInsertEntry(pAd, ie_list->Bssid, ie_list->Ssid, ie_list->SsidLen, ie_list->Channel, ie_list->NewExtChannelOffset, RealRssi);
 	}
@@ -1353,7 +1353,7 @@ IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 {
 	if (ie_list->Channel == pAd->ApCfg.AutoChannel_Channel)
 	{
-		if (AutoChBssSearchWithSSID(pAd, ie_list->Bssid, (PUCHAR)ie_list->Ssid, ie_list->SsidLen, ie_list->Channel) == BSS_NOT_FOUND)
+		if (AutoChBssSearchWithSSID(pAd, ie_list->Bssid, (u8 *)ie_list->Ssid, ie_list->SsidLen, ie_list->Channel) == BSS_NOT_FOUND)
 			pAd->pChannelInfo->ApCnt[pAd->ApCfg.current_channel_index]++;
 
 		AutoChBssInsertEntry(pAd, ie_list->Bssid, (CHAR *)ie_list->Ssid, ie_list->SsidLen, ie_list->Channel, ie_list->NewExtChannelOffset, RealRssi);
@@ -1540,13 +1540,13 @@ VOID APSyncStateMachineInit(
 
 
 VOID SupportRate(
-	IN PUCHAR SupRate,
+	IN u8 *SupRate,
 	IN UCHAR SupRateLen,
-	IN PUCHAR ExtRate,
+	IN u8 *ExtRate,
 	IN UCHAR ExtRateLen,
-	OUT PUCHAR *ppRates,
-	OUT PUCHAR RatesLen,
-	OUT PUCHAR pMaxSupportRate)
+	OUT u8 **ppRates,
+	OUT u8 *RatesLen,
+	OUT u8 *pMaxSupportRate)
 {
 	INT i;
 

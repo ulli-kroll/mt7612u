@@ -67,8 +67,8 @@ VOID CFG80211_Announce802_3Packet(struct rtmp_adapter *pAd, RX_BLK *pRxBlk, UCHA
 
 BOOLEAN CFG80211_CheckActionFrameType(
         IN  struct rtmp_adapter 								 *pAd,
-		IN	PUCHAR										 preStr,
-		IN	PUCHAR										 pData,
+		IN	u8 *									 preStr,
+		IN	u8 *									 pData,
 		IN	uint32_t                              		 length)
 {
 	BOOLEAN isP2pFrame = FALSE;
@@ -221,7 +221,7 @@ BOOLEAN CFG80211_HandleP2pMgmtFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk, UC
 				{
 					DBGPRINT(RT_DEBUG_INFO, ("VIF STA GO RtmpOsCFG80211RxMgmt OK!! TYPE = %d, freq = %d, %02x:%02x:%02x:%02x:%02x:%02x\n",
 									  pHeader->FC.SubType, freq, PRINT_MAC(pHeader->Addr2)));
-					CFG80211OS_RxMgmt(pNetDev, freq, (PUCHAR)pHeader, pRxWI->RXWI_N.MPDUtotalByteCnt);
+					CFG80211OS_RxMgmt(pNetDev, freq, (u8 *)pHeader, pRxWI->RXWI_N.MPDUtotalByteCnt);
 
 					if (OpMode == OPMODE_AP)
 						return TRUE;
@@ -235,7 +235,7 @@ BOOLEAN CFG80211_HandleP2pMgmtFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk, UC
 			{
 				DBGPRINT(RT_DEBUG_INFO,("MAIN STA RtmpOsCFG80211RxMgmt OK!! TYPE = %d, freq = %d, %02x:%02x:%02x:%02x:%02x:%02x\n",
 										pHeader->FC.SubType, freq, PRINT_MAC(pHeader->Addr2)));
-				CFG80211OS_RxMgmt(CFG80211_GetEventDevice(pAd), freq, (PUCHAR)pHeader, pRxWI->RXWI_N.MPDUtotalByteCnt);
+				CFG80211OS_RxMgmt(CFG80211_GetEventDevice(pAd), freq, (u8 *)pHeader, pRxWI->RXWI_N.MPDUtotalByteCnt);
 
 				if (OpMode == OPMODE_AP)
 						return TRUE;

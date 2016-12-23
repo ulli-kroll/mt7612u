@@ -3527,8 +3527,8 @@ ULONG BssChannelAPCount(
 
 ULONG BssSsidTableSearch(
 	IN BSS_TABLE *Tab,
-	IN PUCHAR	 pBssid,
-	IN PUCHAR	 pSsid,
+	IN u8 * pBssid,
+	IN u8 * pSsid,
 	IN UCHAR	 SsidLen,
 	IN UCHAR	 Channel)
 {
@@ -3554,8 +3554,8 @@ ULONG BssSsidTableSearch(
 
 ULONG BssTableSearchWithSSID(
 	IN BSS_TABLE *Tab,
-	IN PUCHAR	 Bssid,
-	IN PUCHAR	 pSsid,
+	IN u8 * Bssid,
+	IN u8 * pSsid,
 	IN UCHAR	 SsidLen,
 	IN UCHAR	 Channel)
 {
@@ -4364,7 +4364,7 @@ VOID BssTableSortByRssi(
 VOID BssCipherParse(BSS_ENTRY *pBss)
 {
 	PEID_STRUCT 		 pEid;
-	PUCHAR				pTmp;
+	u8 *			pTmp;
 	PRSN_IE_HEADER_STRUCT			pRsnHeader;
 	PCIPHER_SUITE_STRUCT			pCipher;
 	PAKM_SUITE_STRUCT				pAKM;
@@ -4410,7 +4410,7 @@ VOID BssCipherParse(BSS_ENTRY *pBss)
 	while (Length > 0)
 	{
 		/* Parse cipher suite base on WPA1 & WPA2, they should be parsed differently*/
-		pTmp = ((PUCHAR) pBss->VarIEs) + pBss->VarIELen - Length;
+		pTmp = ((u8 *) pBss->VarIEs) + pBss->VarIELen - Length;
 		pEid = (PEID_STRUCT) pTmp;
 		switch (pEid->Eid)
 		{
@@ -4430,7 +4430,7 @@ VOID BssCipherParse(BSS_ENTRY *pBss)
 					This part should be improved in the future when AP supported multiple cipher suite.
 					For now, it's OK since almost all APs have fixed cipher suite supported.
 				*/
-				/* pTmp = (PUCHAR) pEid->Octet;*/
+				/* pTmp = (u8 *) pEid->Octet;*/
 				pTmp   += 11;
 
 				/*
@@ -5268,11 +5268,11 @@ BOOLEAN MsgTypeSubst(struct rtmp_adapter *pAd, FRAME_802_11 *pFrame, INT *Machin
 {
 	USHORT	Seq, Alg;
 	UCHAR	EAPType;
-	PUCHAR	pData;
+	u8 *pData;
 	BOOLEAN bRV = FALSE;
 
 	/* Pointer to start of data frames including SNAP header*/
-	pData = (PUCHAR) pFrame + LENGTH_802_11;
+	pData = (u8 *) pFrame + LENGTH_802_11;
 
 	/* The only data type will pass to this function is EAPOL frame*/
 	if (pFrame->Hdr.FC.Type == FC_TYPE_DATA)

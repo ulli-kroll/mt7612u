@@ -69,7 +69,7 @@ char const *pWirelessSysEventText[IW_SYS_EVENT_TYPE_NUM] = {
 VOID RtmpDrvSendWirelessEvent(
 	IN	struct rtmp_adapter			*pAd,
 	IN	USHORT					Event_flag,
-	IN	PUCHAR 					pAddr,
+	IN	u8 *					pAddr,
 	IN  UCHAR					BssIdx,
 	IN	CHAR					Rssi)
 {
@@ -137,7 +137,7 @@ VOID RtmpDrvSendWirelessEvent(
 		pBufPtr[pBufPtr - pBuf] = '\0';
 		BufLen = pBufPtr - pBuf;
 
-		RtmpOSWrielessEventSend(pAd->net_dev, RT_WLAN_EVENT_CUSTOM, Event_flag, NULL, (PUCHAR)pBuf, BufLen);
+		RtmpOSWrielessEventSend(pAd->net_dev, RT_WLAN_EVENT_CUSTOM, Event_flag, NULL, (u8 *)pBuf, BufLen);
 		/*DBGPRINT(RT_DEBUG_TRACE, ("%s : %s\n", __FUNCTION__, pBuf)); */
 
 /*		kfree(pBuf); */

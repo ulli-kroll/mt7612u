@@ -197,7 +197,7 @@ typedef	struct GNU_PACKED _RXD_STRUC{
 */
 typedef	struct _MGMT_STRUC {
 	BOOLEAN		Valid;
-	PUCHAR		pBuffer;
+	u8 *	pBuffer;
 	ULONG		Length;
 } MGMT_STRUC, *PMGMT_STRUC;
 
@@ -297,7 +297,7 @@ typedef struct _CMD_CONTEXT
 	PVOID pAd;
 	PURB pUrb;
 	ra_dma_addr_t data_dma;
-	PUCHAR TransferBuffer;
+	u8 *TransferBuffer;
 	BOOLEAN IRPPending;
 }  CMD_CONTEXT, *PCMD_CONTEXT, **PPCMD_CONTEXT;
 
@@ -307,7 +307,7 @@ typedef struct _CMD_CONTEXT
 */
 typedef struct _RX_CONTEXT
 {
-	PUCHAR				TransferBuffer;
+	u8 *			TransferBuffer;
 	PVOID				pAd;
 	PIRP				pIrp;/*used to cancel pending bulk in. */
 	PURB				pUrb;
@@ -326,7 +326,7 @@ typedef struct _RX_CONTEXT
 
 typedef struct _CMD_RSP_CONTEXT
 {
-	PUCHAR CmdRspBuffer;
+	u8 *CmdRspBuffer;
 	PVOID pAd;
 	PURB pUrb;
 	BOOLEAN IRPPending;

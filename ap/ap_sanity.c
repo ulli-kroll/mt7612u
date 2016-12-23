@@ -365,7 +365,7 @@ BOOLEAN PeerDisassocReqSanity(
     IN struct rtmp_adapter *pAd,
     IN VOID *Msg,
     IN ULONG MsgLen,
-    OUT PUCHAR pAddr2,
+    OUT u8 *pAddr2,
     OUT	uint16_t *SeqNum,
     OUT USHORT *Reason)
 {
@@ -391,7 +391,7 @@ BOOLEAN PeerDeauthReqSanity(
     IN struct rtmp_adapter *pAd,
     IN VOID *Msg,
     IN ULONG MsgLen,
-    OUT PUCHAR pAddr2,
+    OUT u8 *pAddr2,
     OUT	uint16_t *SeqNum,
     OUT USHORT *Reason)
 {
@@ -417,8 +417,8 @@ BOOLEAN APPeerAuthSanity(
     IN struct rtmp_adapter *pAd,
     IN VOID *Msg,
     IN ULONG MsgLen,
-    OUT PUCHAR pAddr1,
-    OUT PUCHAR pAddr2,
+    OUT u8 *pAddr1,
+    OUT u8 *pAddr2,
     OUT USHORT *Alg,
     OUT USHORT *Seq,
     OUT USHORT *Status,

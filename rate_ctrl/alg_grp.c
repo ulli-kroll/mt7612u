@@ -495,7 +495,7 @@ VOID TriggerQuickInitMCSRate(
 	    IN PMAC_TABLE_ENTRY	pEntry,
         IN uint32_t CheckInterval)
 {
-   	PUCHAR pTable;
+   	u8 *pTable;
    	pTable = pEntry->pTable;
     memset(pEntry->DownTxMCSRate, 0, sizeof(pEntry->DownTxMCSRate));
 
@@ -541,7 +541,7 @@ BOOLEAN QuickInitMCSRate(
 	    IN struct rtmp_adapter *	pAd,
 	    IN PMAC_TABLE_ENTRY	pEntry)
 {
-	PUCHAR					pTable;
+	u8 *				pTable;
 	UCHAR					CurrRateIdx;
 	RTMP_RA_GRP_TB          *pCurrTxRate;
 
@@ -1386,7 +1386,7 @@ VOID APQuickResponeForRateUpExecAdapt(/* actually for both up and down */
     IN struct rtmp_adapter *pAd,
     IN UINT idx)
 {
-	PUCHAR					pTable;
+	u8 *				pTable;
 	UCHAR					CurrRateIdx;
 	ULONG					AccuTxTotalCnt, TxTotalCnt, TxCnt;
 	ULONG					TxErrorRatio = 0;
@@ -1712,7 +1712,7 @@ VOID APQuickResponeForRateUpExecAdapt(/* actually for both up and down */
  */
 VOID APMlmeDynamicTxRateSwitchingAdapt(struct rtmp_adapter *pAd, UINT i)
 {
-	PUCHAR pTable;
+	u8 *pTable;
 	UCHAR UpRateIdx, DownRateIdx, CurrRateIdx, TrainUp, TrainDown;
 	ULONG TxTotalCnt, TxSuccess, TxRetransmit, TxFailCount, TxErrorRatio;
 	MAC_TABLE_ENTRY *pEntry;
@@ -1961,7 +1961,7 @@ VOID StaQuickResponeForRateUpExecAdapt(
 	IN ULONG i,
 	IN CHAR  Rssi)
 {
-	PUCHAR					pTable;
+	u8 *				pTable;
 	UCHAR					CurrRateIdx;
 	ULONG					TxTotalCnt;
 	ULONG					TxErrorRatio = 0;
@@ -2226,7 +2226,7 @@ VOID MlmeDynamicTxRateSwitchingAdapt(
 	IN ULONG TxRetransmit,
 	IN ULONG TxFailCount)
 {
-	PUCHAR			  pTable;
+	u8 *		  pTable;
 	UCHAR			  UpRateIdx, DownRateIdx, CurrRateIdx;
 	ULONG			  TxTotalCnt;
 	ULONG			  TxErrorRatio = 0;

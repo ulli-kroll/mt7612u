@@ -61,9 +61,9 @@ struct sk_buff *RTMP_AllocateFragPacketBuffer(VOID *pReserved, ULONG Length);
 int RTMPAllocateNdisPacket(
 	IN	VOID					*pReserved,
 	OUT struct sk_buff *		*ppPacket,
-	IN	PUCHAR					pHeader,
+	IN	u8 *				pHeader,
 	IN	UINT					HeaderLen,
-	IN	PUCHAR					pData,
+	IN	u8 *				pData,
 	IN	UINT					DataLen);
 
 VOID RTMPFreeNdisPacket(VOID *pReserved, struct sk_buff *pPacket);
@@ -71,7 +71,7 @@ VOID RTMPFreeNdisPacket(VOID *pReserved, struct sk_buff *pPacket);
 void RTMP_QueryPacketInfo(
 	IN  struct sk_buff *pPacket,
 	OUT PACKET_INFO *pPacketInfo,
-	OUT PUCHAR *pSrcBufVA,
+	OUT u8 **pSrcBufVA,
 	OUT	UINT *pSrcBufLen);
 
 struct sk_buff *DuplicatePacket(
@@ -81,9 +81,9 @@ struct sk_buff *DuplicatePacket(
 
 struct sk_buff *duplicate_pkt(
 	IN	struct net_device *pNetDev,
-	IN	PUCHAR pHeader802_3,
+	IN	u8 *pHeader802_3,
     IN  UINT HdrLen,
-	IN	PUCHAR pData,
+	IN	u8 *pData,
 	IN	ULONG DataSize,
 	IN	UCHAR FromWhichBSSID);
 
@@ -95,9 +95,9 @@ struct sk_buff *duplicate_pkt_with_VLAN(
 	IN	struct net_device *			pNetDev,
 	IN	USHORT					VLAN_VID,
 	IN	USHORT					VLAN_Priority,
-	IN	PUCHAR					pHeader802_3,
+	IN	u8 *				pHeader802_3,
     IN  UINT            		HdrLen,
-	IN	PUCHAR					pData,
+	IN	u8 *				pData,
 	IN	ULONG					DataSize,
 	IN	UCHAR					FromWhichBSSID,
 	IN	UCHAR					*TPID);
@@ -112,7 +112,7 @@ BOOLEAN RTMPL2FrameTxAction(
 	IN	struct net_device *			pNetDev,
 	IN	RTMP_CB_8023_PACKET_ANNOUNCE _announce_802_3_packet,
 	IN	UCHAR					apidx,
-	IN	PUCHAR					pData,
+	IN	u8 *				pData,
 	IN	uint32_t 				data_len,
 	IN	UCHAR			OpMode);
 
@@ -125,7 +125,7 @@ struct sk_buff *ExpandPacket(
 struct sk_buff *ClonePacket(
 	IN	VOID					*pReserved,
 	IN	struct sk_buff *		pPacket,
-	IN	PUCHAR					pData,
+	IN	u8 *				pData,
 	IN	ULONG					DataSize);
 
 void wlan_802_11_to_802_3_packet(
@@ -136,7 +136,7 @@ void wlan_802_11_to_802_3_packet(
 	IN	struct sk_buff *		pRxPacket,
 	IN	UCHAR					*pData,
 	IN	ULONG					DataSize,
-	IN	PUCHAR					pHeader802_3,
+	IN	u8 *				pHeader802_3,
 	IN  UCHAR					FromWhichBSSID,
 	IN	UCHAR					*TPID);
 
@@ -144,9 +144,9 @@ void wlan_802_11_to_802_3_packet(
 UCHAR VLAN_8023_Header_Copy(
 	IN	USHORT					VLAN_VID,
 	IN	USHORT					VLAN_Priority,
-	IN	PUCHAR					pHeader802_3,
+	IN	u8 *				pHeader802_3,
 	IN	UINT            		HdrLen,
-	OUT PUCHAR					pData,
+	OUT u8 *				pData,
 	IN	UCHAR					FromWhichBSSID,
 	IN	UCHAR					*TPID);
 
@@ -154,7 +154,7 @@ VOID RtmpOsPktBodyCopy(
 	IN	struct net_device *			pNetDev,
 	IN	struct sk_buff *		pNetPkt,
 	IN	ULONG					ThisFrameLen,
-	IN	PUCHAR					pData);
+	IN	u8 *				pData);
 
 INT RtmpOsIsPktCloned(struct sk_buff *pNetPkt);
 struct sk_buff *RtmpOsPktCopy(struct sk_buff *pNetPkt);
@@ -165,8 +165,8 @@ VOID RtmpOsPktDataPtrAssign(struct sk_buff *pNetPkt, UCHAR *pData);
 VOID RtmpOsPktLenAssign(struct sk_buff *pNetPkt, LONG Len);
 VOID RtmpOsPktTailAdjust(struct sk_buff *pNetPkt, UINT removedTagLen);
 
-PUCHAR RtmpOsPktTailBufExtend(struct sk_buff *pNetPkt, UINT len);
-PUCHAR RtmpOsPktHeadBufExtend(struct sk_buff *pNetPkt, UINT len);
+u8 *RtmpOsPktTailBufExtend(struct sk_buff *pNetPkt, UINT len);
+u8 *RtmpOsPktHeadBufExtend(struct sk_buff *pNetPkt, UINT len);
 VOID RtmpOsPktReserve(struct sk_buff *pNetPkt, UINT len);
 
 VOID RtmpOsPktProtocolAssign(struct sk_buff *pNetPkt);
@@ -200,8 +200,8 @@ void RtmpOSFSInfoChange(RTMP_OS_FS_INFO *pOSFSInfoOrg, BOOLEAN bSet);
 int RtmpOSNetDevAddrSet(
 	IN UCHAR OpMode,
 	IN struct net_device *pNetDev,
-	IN PUCHAR pMacAddr,
-	IN PUCHAR dev_name);
+	IN u8 *pMacAddr,
+	IN u8 *dev_name);
 
 void RtmpOSNetDevClose(struct net_device *pNetDev);
 void RtmpOSNetDevFree(struct net_device *pNetDev);
@@ -410,14 +410,14 @@ void hex_dump(char *str, unsigned char *pSrcBufVA, unsigned int SrcBufLen);
 typedef VOID (*RTMP_OS_SEND_WLAN_EVENT)(
 	IN	struct rtmp_adapter			*pAdSrc,
 	IN	USHORT					Event_flag,
-	IN	PUCHAR 					pAddr,
+	IN	u8 *					pAddr,
 	IN  UCHAR					BssIdx,
 	IN	CHAR					Rssi);
 
 VOID RtmpOsSendWirelessEvent(
 	IN	struct rtmp_adapter	*pAd,
 	IN	USHORT			Event_flag,
-	IN	PUCHAR 			pAddr,
+	IN	u8 *			pAddr,
 	IN	UCHAR			BssIdx,
 	IN	CHAR			Rssi,
 	IN	RTMP_OS_SEND_WLAN_EVENT pFunc);
@@ -433,16 +433,16 @@ int RtmpOSWrielessEventSend(
 	IN	struct net_device *			pNetDev,
 	IN	uint32_t 				eventType,
 	IN	INT						flags,
-	IN	PUCHAR					pSrcMac,
-	IN	PUCHAR					pData,
+	IN	u8 *				pSrcMac,
+	IN	u8 *				pData,
 	IN	uint32_t 				dataLen);
 
 int RtmpOSWrielessEventSendExt(
 	IN	struct net_device *			pNetDev,
 	IN	uint32_t 				eventType,
 	IN	INT						flags,
-	IN	PUCHAR					pSrcMac,
-	IN	PUCHAR					pData,
+	IN	u8 *				pSrcMac,
+	IN	u8 *				pData,
 	IN	uint32_t 				dataLen,
 	IN	uint32_t 				family);
 
@@ -522,10 +522,10 @@ BOOLEAN RtmpOsCmdDisplayLenCheck(
 
 VOID    WpaSendMicFailureToWpaSupplicant(
 	IN	struct net_device *			pNetDev,
-	IN const PUCHAR src_addr,
+	IN const u8 *src_addr,
 	IN BOOLEAN bUnicast,
 	IN INT key_id,
-	IN const PUCHAR tsc);
+	IN const u8 *tsc);
 
 int wext_notify_event_assoc(
 	IN	struct net_device *			pNetDev,
@@ -658,7 +658,7 @@ VOID	RtmpOsUsbInitHTTxDesc(
 	IN	VOID			*pUrbSrc,
 	IN	VOID			*pUsb_Dev,
 	IN	UINT			BulkOutEpAddr,
-	IN	PUCHAR			pSrc,
+	IN	u8 *		pSrc,
 	IN	ULONG			BulkOutSize,
 	IN	USB_COMPLETE_HANDLER	Func,
 	IN	VOID			*pTxContext,
@@ -803,14 +803,14 @@ void CFG80211OS_P2pClientConnectResultInform(
 	IN uint32_t 				RspIeLen,
 	IN UCHAR					FlgIsSuccess);
 
-BOOLEAN CFG80211OS_RxMgmt(IN struct net_device *pNetDev, IN int32_t freq, IN PUCHAR frame, IN uint32_t len);
-VOID CFG80211OS_TxStatus(IN struct net_device *pNetDev, IN int32_t cookie, 	IN PUCHAR frame, IN uint32_t len, IN BOOLEAN ack);
-VOID CFG80211OS_NewSta(IN struct net_device *pNetDev, IN const PUCHAR mac_addr, IN const PUCHAR assoc_frame, IN uint32_t assoc_len);
-VOID CFG80211OS_DelSta(IN struct net_device *pNetDev, IN const PUCHAR mac_addr);
-VOID CFG80211OS_MICFailReport(IN struct net_device *pNetDev, IN const PUCHAR src_addr, IN BOOLEAN unicast, IN INT key_id, IN const PUCHAR tsc );
+BOOLEAN CFG80211OS_RxMgmt(IN struct net_device *pNetDev, IN int32_t freq, IN u8 *frame, IN uint32_t len);
+VOID CFG80211OS_TxStatus(IN struct net_device *pNetDev, IN int32_t cookie, 	IN u8 *frame, IN uint32_t len, IN BOOLEAN ack);
+VOID CFG80211OS_NewSta(IN struct net_device *pNetDev, IN const u8 *mac_addr, IN const u8 *assoc_frame, IN uint32_t assoc_len);
+VOID CFG80211OS_DelSta(IN struct net_device *pNetDev, IN const u8 *mac_addr);
+VOID CFG80211OS_MICFailReport(IN struct net_device *pNetDev, IN const u8 *src_addr, IN BOOLEAN unicast, IN INT key_id, IN const u8 *tsc );
 VOID CFG80211OS_Roamed(struct net_device *pNetDev, IN UCHAR *pBSSID,
 					   UCHAR *pReqIe, uint32_t ReqIeLen, UCHAR *pRspIe, uint32_t RspIeLen);
-VOID CFG80211OS_RecvObssBeacon(VOID *pCB, const PUCHAR pFrame, INT frameLen, INT freq);
+VOID CFG80211OS_RecvObssBeacon(VOID *pCB, const u8 *pFrame, INT frameLen, INT freq);
 #endif /* RT_CFG80211_SUPPORT */
 
 

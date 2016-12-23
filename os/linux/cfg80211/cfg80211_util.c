@@ -978,7 +978,7 @@ void CFG80211OS_P2pClientConnectResultInform(
 	}
 }
 
-BOOLEAN CFG80211OS_RxMgmt(IN struct net_device *pNetDev, IN int32_t freq, IN PUCHAR frame, IN uint32_t len)
+BOOLEAN CFG80211OS_RxMgmt(IN struct net_device *pNetDev, IN int32_t freq, IN u8 *frame, IN uint32_t len)
 {
 	return cfg80211_rx_mgmt(pNetDev,
 				freq,
@@ -988,7 +988,7 @@ BOOLEAN CFG80211OS_RxMgmt(IN struct net_device *pNetDev, IN int32_t freq, IN PUC
 				GFP_ATOMIC);
 }
 
-VOID CFG80211OS_TxStatus(IN struct net_device *pNetDev, IN int32_t cookie, IN PUCHAR frame, IN uint32_t len, IN BOOLEAN ack)
+VOID CFG80211OS_TxStatus(IN struct net_device *pNetDev, IN int32_t cookie, IN u8 *frame, IN uint32_t len, IN BOOLEAN ack)
 {
 	struct wireless_dev *pWdev;
 	pWdev = pNetDev->ieee80211_ptr ;
@@ -996,7 +996,7 @@ VOID CFG80211OS_TxStatus(IN struct net_device *pNetDev, IN int32_t cookie, IN PU
 	return cfg80211_mgmt_tx_status(pNetDev, cookie, frame, len, ack, GFP_ATOMIC);
 }
 
-VOID CFG80211OS_NewSta(IN struct net_device *pNetDev, IN const PUCHAR mac_addr, IN const PUCHAR assoc_frame, IN uint32_t assoc_len)
+VOID CFG80211OS_NewSta(IN struct net_device *pNetDev, IN const u8 *mac_addr, IN const u8 *assoc_frame, IN uint32_t assoc_len)
 {
 	struct station_info sinfo;
 	struct ieee80211_mgmt *mgmt;
@@ -1012,12 +1012,12 @@ VOID CFG80211OS_NewSta(IN struct net_device *pNetDev, IN const PUCHAR mac_addr, 
 	return cfg80211_new_sta(pNetDev, mac_addr, &sinfo, GFP_ATOMIC);
 }
 
-VOID CFG80211OS_DelSta(IN struct net_device *pNetDev, IN const PUCHAR mac_addr)
+VOID CFG80211OS_DelSta(IN struct net_device *pNetDev, IN const u8 *mac_addr)
 {
 	return cfg80211_del_sta(pNetDev, mac_addr, GFP_ATOMIC);
 }
 
-VOID CFG80211OS_MICFailReport(struct net_device *pNetDev, const PUCHAR src_addr, BOOLEAN unicast, INT key_id, const PUCHAR tsc)
+VOID CFG80211OS_MICFailReport(struct net_device *pNetDev, const u8 *src_addr, BOOLEAN unicast, INT key_id, const u8 *tsc)
 {
 	cfg80211_michael_mic_failure(pNetDev, src_addr,
 		(unicast ? NL80211_KEYTYPE_PAIRWISE : NL80211_KEYTYPE_GROUP),
@@ -1039,7 +1039,7 @@ VOID CFG80211OS_Roamed(
 
 
 #if 0  /* ULLI : disabled, not used ?? */
-VOID CFG80211OS_RecvObssBeacon(VOID *pCB, const PUCHAR pFrame, INT frameLen, INT freq)
+VOID CFG80211OS_RecvObssBeacon(VOID *pCB, const u8 *pFrame, INT frameLen, INT freq)
 {
 	CFG80211_CB *pCfg80211_CB = (CFG80211_CB *)pCB;
 	struct wiphy *pWiphy = pCfg80211_CB->pCfg80211_Wdev->wiphy;

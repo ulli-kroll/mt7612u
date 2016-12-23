@@ -171,10 +171,10 @@ VOID MlmeForceJoinReqAction(
 	HEADER_802_11 Hdr80211;
 	int   NStatus;
 	ULONG         FrameLen = 0;
-	PUCHAR        pOutBuffer = NULL;
-	PUCHAR        pSupRate = NULL;
+	u8 *       pOutBuffer = NULL;
+	u8 *       pSupRate = NULL;
 	UCHAR         SupRateLen;
-	PUCHAR        pExtRate = NULL;
+	u8 *       pExtRate = NULL;
 	UCHAR         ExtRateLen;
 	UCHAR         ASupRate[] = {0x8C, 0x12, 0x98, 0x24, 0xb0, 0x48, 0x60, 0x6C};
 	UCHAR         ASupRateLen = sizeof(ASupRate)/sizeof(UCHAR);
@@ -630,10 +630,10 @@ VOID MlmeJoinReqAction(
 	HEADER_802_11 Hdr80211;
 	int   NStatus;
 	ULONG         FrameLen = 0;
-	PUCHAR        pOutBuffer = NULL;
-	PUCHAR        pSupRate = NULL;
+	u8 *       pOutBuffer = NULL;
+	u8 *       pSupRate = NULL;
 	UCHAR         SupRateLen;
-	PUCHAR        pExtRate = NULL;
+	u8 *       pExtRate = NULL;
 	UCHAR         ExtRateLen;
 	UCHAR         ASupRate[] = {0x8C, 0x12, 0x98, 0x24, 0xb0, 0x48, 0x60, 0x6C};
 	UCHAR         ASupRateLen = sizeof(ASupRate)/sizeof(UCHAR);
@@ -2576,7 +2576,7 @@ VOID PeerProbeReqAction(
 #endif /* DOT11_N_SUPPORT */
 	HEADER_802_11 ProbeRspHdr;
 	int   NStatus;
-	PUCHAR        pOutBuffer = NULL;
+	u8 *       pOutBuffer = NULL;
 	ULONG         FrameLen = 0;
 	LARGE_INTEGER FakeTimestamp;
 	UCHAR         DsLen = 1, IbssLen = 2;
@@ -2842,7 +2842,7 @@ VOID EnqueuePsPoll(struct rtmp_adapter *pAd)
 
 	if (pAd->StaCfg.WindowsPowerMode == Ndis802_11PowerModeLegacy_PSP)
     	pAd->PsPollFrame.FC.PwrMgmt = PWR_SAVE;
-	MiniportMMRequest(pAd, 0, (PUCHAR)&pAd->PsPollFrame, sizeof(PSPOLL_FRAME));
+	MiniportMMRequest(pAd, 0, (u8 *)&pAd->PsPollFrame, sizeof(PSPOLL_FRAME));
 #ifdef RTMP_MAC_USB
 	/* Keep Waking up */
 	if (pAd->CountDowntoPsm == 0)
@@ -2859,7 +2859,7 @@ VOID EnqueuePsPoll(struct rtmp_adapter *pAd)
 VOID EnqueueProbeRequest(struct rtmp_adapter *pAd)
 {
 	int     NState;
-	PUCHAR          pOutBuffer;
+	u8 *         pOutBuffer;
 	ULONG           FrameLen = 0;
 	HEADER_802_11   Hdr80211;
 

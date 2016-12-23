@@ -37,7 +37,7 @@ BOOLEAN RTMPSpoofedMgmtDetection(
 
 VOID RTMPConflictSsidDetection(
 	IN struct rtmp_adapter *pAd,
-	IN PUCHAR			pSsid,
+	IN u8 *		pSsid,
 	IN UCHAR			SsidLen,
 	IN CHAR				Rssi0,
 	IN CHAR				Rssi1,

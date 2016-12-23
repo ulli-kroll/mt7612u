@@ -75,7 +75,7 @@ VOID PeerAuthSimpleRspGenAndSend(
 {
 	HEADER_802_11 AuthHdr;
 	ULONG FrameLen = 0;
-	PUCHAR pOutBuffer = NULL;
+	u8 *pOutBuffer = NULL;
 	int NStatus;
 
 	if (Reason != MLME_SUCCESS) {
