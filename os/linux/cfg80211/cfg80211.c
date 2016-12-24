@@ -593,7 +593,7 @@ static int CFG80211_OpsIbssJoin(
 	/* init */
 	memset(&IbssInfo, 0, sizeof(IbssInfo));
 	IbssInfo.BeaconInterval = pParams->beacon_interval;
-	IbssInfo.pSsid = pParams->ssid;
+	IbssInfo.pSsid = (char *) pParams->ssid;
 
 	/* ibss join */
 	RTMP_DRIVER_80211_IBSS_JOIN(pAd, &IbssInfo);
@@ -1372,7 +1372,7 @@ static int CFG80211_OpsConnect(
 
 	ConnInfo.pKey = (UINT8 *)(pSme->key);
 	ConnInfo.KeyLen = pSme->key_len;
-	ConnInfo.pSsid = pSme->ssid;
+	ConnInfo.pSsid = (char *) pSme->ssid;
 	ConnInfo.SsidLen = pSme->ssid_len;
 	ConnInfo.KeyIdx = pSme->key_idx;
 	/* YF@20120328: Reset to default */
@@ -1424,7 +1424,7 @@ static int CFG80211_OpsConnect(
 	{
 		CFG80211DBG(RT_DEBUG_OFF, ("80211> Connect bssid %02x:%02x:%02x:%02x:%02x:%02x\n",
 				PRINT_MAC(pSme->bssid)));
-		ConnInfo.pBssid = pSme->bssid;
+		ConnInfo.pBssid = (char *) pSme->bssid;
 	}
 
 	RTMP_DRIVER_80211_CONNECT(pAd, &ConnInfo, pNdev->ieee80211_ptr->iftype);
@@ -1596,7 +1596,7 @@ static int CFG80211_OpsPmksaSet(
 
 	pIoctlPmaSa->Cmd = RT_CMD_STA_IOCTL_PMA_SA_ADD;
 	pIoctlPmaSa->pBssid = (UCHAR *)pPmksa->bssid;
-	pIoctlPmaSa->pPmkid = pPmksa->pmkid;
+	pIoctlPmaSa->pPmkid = (char *)  pPmksa->pmkid;
 
 	RTMP_DRIVER_80211_PMKID_CTRL(pAd, pIoctlPmaSa);
 #endif /* CONFIG_STA_SUPPORT */
@@ -1639,7 +1639,7 @@ static int CFG80211_OpsPmksaDel(
 
 	pIoctlPmaSa->Cmd = RT_CMD_STA_IOCTL_PMA_SA_REMOVE;
 	pIoctlPmaSa->pBssid = (UCHAR *)pPmksa->bssid;
-	pIoctlPmaSa->pPmkid = pPmksa->pmkid;
+	pIoctlPmaSa->pPmkid = (char *) pPmksa->pmkid;
 
 	RTMP_DRIVER_80211_PMKID_CTRL(pAd, pIoctlPmaSa);
 #endif /* CONFIG_STA_SUPPORT */
@@ -1783,7 +1783,7 @@ static int CFG80211_OpsMgmtTx(
 
 	*pCookie = 5678;
 	RTMP_DRIVER_80211_CHANNEL_LOCK(pAd, ChanId);
-	RTMP_DRIVER_80211_MGMT_FRAME_SEND(pAd, pBuf, Len);
+	RTMP_DRIVER_80211_MGMT_FRAME_SEND(pAd, (u8 *) pBuf, Len);
 
 	/* Mark it for using Supplicant-Based off-channel wait
 		if (Offchan)
@@ -1936,7 +1936,7 @@ static int CFG80211_OpsStaDel(
 	struct station_del_parameters *params)
 {
 	VOID *pAd;
-	UINT8 *pMacAddr = params->mac;
+	UINT8 *pMacAddr = (u8 *) params->mac;
 	MAC80211_PAD_GET(pAd, pWiphy);
 
 	CFG80211DBG(RT_DEBUG_TRACE, ("80211> %s ==>\n", __FUNCTION__));
