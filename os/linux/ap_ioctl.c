@@ -31,61 +31,9 @@
 #include "rt_os_net.h"
 #include <linux/wireless.h>
 
-struct iw_priv_args ap_privtab[] = {
-{ RTPRIV_IOCTL_SET,
-/* 1024 --> 1024 + 512 */
-/* larger size specific to allow 64 ACL MAC addresses to be set up all at once. */
-  IW_PRIV_TYPE_CHAR | 1536, 0,
-  "set"},
-{ RTPRIV_IOCTL_SHOW,
-  IW_PRIV_TYPE_CHAR | 1024, 0,
-  "show"},
-{ RTPRIV_IOCTL_GSITESURVEY,
-  0, IW_PRIV_TYPE_CHAR | 1024 ,
-  "get_site_survey"},
-#ifdef INF_AR9
-  { RTPRIV_IOCTL_GET_AR9_SHOW,
-  IW_PRIV_TYPE_CHAR | 1024, IW_PRIV_TYPE_CHAR | 1024 ,
-  "ar9_show"},
-#endif
-  { RTPRIV_IOCTL_SET_WSCOOB,
-  IW_PRIV_TYPE_CHAR | 1024, IW_PRIV_TYPE_CHAR | 1024 ,
-  "set_wsc_oob"},
-{ RTPRIV_IOCTL_GET_MAC_TABLE,
-  IW_PRIV_TYPE_CHAR | 1024, IW_PRIV_TYPE_CHAR | 1024 ,
-  "get_mac_table"},
-{ RTPRIV_IOCTL_E2P,
-  IW_PRIV_TYPE_CHAR | 1024, IW_PRIV_TYPE_CHAR | 1024,
-  "e2p"},
-#if defined(DBG) ||(defined(BB_SOC)&&defined(RALINK_ATE))
-{ RTPRIV_IOCTL_BBP,
-  IW_PRIV_TYPE_CHAR | 1024, IW_PRIV_TYPE_CHAR | 1024,
-  "bbp"},
-{ RTPRIV_IOCTL_MAC,
-  IW_PRIV_TYPE_CHAR | 1024, IW_PRIV_TYPE_CHAR | 1024,
-  "mac"},
-#ifdef RTMP_RF_RW_SUPPORT
-{ RTPRIV_IOCTL_RF,
-  IW_PRIV_TYPE_CHAR | 1024, IW_PRIV_TYPE_CHAR | 1024,
-  "rf"},
-#endif /* RTMP_RF_RW_SUPPORT */
-#endif /* defined(DBG) ||(defined(BB_SOC)&&defined(RALINK_ATE)) */
-
-{ RTPRIV_IOCTL_QUERY_BATABLE,
-  IW_PRIV_TYPE_CHAR | 1024, IW_PRIV_TYPE_CHAR | 1024 ,
-  "get_ba_table"},
-{ RTPRIV_IOCTL_STATISTICS,
-  IW_PRIV_TYPE_CHAR | 1024, IW_PRIV_TYPE_CHAR | 1024,
-  "stat"}
-};
-
-
 #ifdef CONFIG_APSTA_MIXED_SUPPORT
 const struct iw_handler_def rt28xx_ap_iw_handler_def =
 {
-#define	N(a)	(sizeof (a) / sizeof (a[0]))
-	.private_args	= (struct iw_priv_args *) ap_privtab,
-	.num_private_args	= N(ap_privtab),
 #if IW_HANDLER_VERSION >= 7
 	.get_wireless_stats = rt28xx_get_wireless_stats,
 #endif
@@ -309,21 +257,6 @@ INT rt28xx_ap_ioctl(struct net_device *net_dev, struct ifreq *rq, int cmd)
 			break;
 #endif /* HOSTAPD_SUPPORT */
 
-		case SIOCGIWPRIV:
-			if (wrqin->u.data.pointer)
-			{
-				if ( access_ok(VERIFY_WRITE, wrqin->u.data.pointer, sizeof(ap_privtab)) != TRUE)
-					break;
-				if ((sizeof(ap_privtab) / sizeof(ap_privtab[0])) <= wrq->u.data.length)
-				{
-					wrqin->u.data.length = sizeof(ap_privtab) / sizeof(ap_privtab[0]);
-					if (copy_to_user(wrqin->u.data.pointer, ap_privtab, sizeof(ap_privtab)))
-						Status = RTMP_IO_EFAULT;
-				}
-				else
-					Status = RTMP_IO_E2BIG;
-			}
-			break;
 		case RTPRIV_IOCTL_SET:
 			{
 				if( access_ok(VERIFY_READ, wrqin->u.data.pointer, wrqin->u.data.length) == TRUE)
