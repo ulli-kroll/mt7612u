@@ -121,7 +121,7 @@ static VOID dump_txblk(TX_BLK *pTxBlk)
 	DBGPRINT(RT_DEBUG_TRACE,("Dump TX_BLK Structure:\n"));
 	DBGPRINT(RT_DEBUG_TRACE,("\tTxFrameType=%d!\n", pTxBlk->TxFrameType));
 	DBGPRINT(RT_DEBUG_TRACE,("\tTotalFrameLen=%d\n", pTxBlk->TotalFrameLen));
-	DBGPRINT(RT_DEBUG_TRACE,("\tTotalFrameNum=%ld!\n", pTxBlk->TxPacketList.Number));
+	DBGPRINT(RT_DEBUG_TRACE,("\tTotalFrameNum=%d!\n", pTxBlk->TxPacketList.Number));
 	DBGPRINT(RT_DEBUG_TRACE,("\tTotalFragNum=%d!\n", pTxBlk->TotalFragNum));
 	DBGPRINT(RT_DEBUG_TRACE,("\tpPacketList=\n"));
 

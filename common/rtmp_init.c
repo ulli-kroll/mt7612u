@@ -111,7 +111,7 @@ int RTMPAllocAdapterBlock(VOID *handle, struct rtmp_adapter **ppAdapter)
 #endif /* WORKQUEUE_BH */
 		}
 		pAd->BeaconBuf = pBeaconBuf;
-		DBGPRINT(RT_DEBUG_OFF, ("\n\n=== pAd = %p, size = %d ===\n\n", pAd, sizeof(struct rtmp_adapter)));
+		DBGPRINT(RT_DEBUG_OFF, ("\n\n=== pAd = %p, size = %d ===\n\n", pAd, (int) sizeof(struct rtmp_adapter)));
 
 		if (RtmpOsStatsAlloc(&pAd->stats, &pAd->iw_stats) == FALSE)
 		{

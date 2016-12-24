@@ -41,12 +41,12 @@ INT Set_DriverVersion_Proc(
 {
 #ifdef CONFIG_AP_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-		DBGPRINT(RT_DEBUG_OFF, ("Driver version-%s %s %s\n", AP_DRIVER_VERSION));
+		DBGPRINT(RT_DEBUG_OFF, ("Driver version-%s\n", AP_DRIVER_VERSION));
 #endif /* CONFIG_AP_SUPPORT */
 
 #ifdef CONFIG_STA_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
-		DBGPRINT(RT_DEBUG_OFF, ("Driver version-%s %s %s\n", STA_DRIVER_VERSION));
+		DBGPRINT(RT_DEBUG_OFF, ("Driver version-%s\n", STA_DRIVER_VERSION));
 #endif /* CONFIG_STA_SUPPORT */
 
 
@@ -5282,36 +5282,36 @@ INT show_sysinfo_proc(struct rtmp_adapter *pAd, char *arg)
 	DBGPRINT(RT_DEBUG_OFF, ("Memory Statistics:\n"));
 
 	DBGPRINT(RT_DEBUG_OFF, ("\tsize>\n"));
-	DBGPRINT(RT_DEBUG_OFF, ("\t\tpAd = \t\t%d bytes\n\n", sizeof(*pAd)));
+	DBGPRINT(RT_DEBUG_OFF, ("\t\tpAd = \t\t%d bytes\n\n", (int) sizeof(*pAd)));
 
-	DBGPRINT(RT_DEBUG_OFF, ("\t\t\tCommonCfg = \t%d bytes\n", sizeof(pAd->CommonCfg)));
+	DBGPRINT(RT_DEBUG_OFF, ("\t\t\tCommonCfg = \t%d bytes\n", (int) sizeof(pAd->CommonCfg)));
 	total_size += sizeof(pAd->CommonCfg);
 #ifdef CONFIG_AP_SUPPORT
-	DBGPRINT(RT_DEBUG_OFF, ("\t\t\tApCfg = \t%d bytes\n", sizeof(pAd->ApCfg)));
+	DBGPRINT(RT_DEBUG_OFF, ("\t\t\tApCfg = \t%d bytes\n", (int) sizeof(pAd->ApCfg)));
 	total_size += sizeof(pAd->ApCfg);
 	DBGPRINT(RT_DEBUG_OFF, ("\t\t\t\tMBSSID = \t%d B (PerMBSS =%d B, Total MBSS Num= %d)\n",
-				sizeof(pAd->ApCfg.MBSSID), sizeof(struct _MULTISSID_STRUCT), HW_BEACON_MAX_NUM));
+				sizeof(pAd->ApCfg.MBSSID), (int) sizeof(struct _MULTISSID_STRUCT), HW_BEACON_MAX_NUM));
 #ifdef APCLI_SUPPORT
 	DBGPRINT(RT_DEBUG_OFF, ("\t\t\t\t\tAPCLI = \t%d bytes (PerAPCLI =%d bytes, Total APCLI Num= %d)\n",
-				sizeof(pAd->ApCfg.ApCliTab), sizeof(struct _APCLI_STRUCT), MAX_APCLI_NUM));
+				sizeof(pAd->ApCfg.ApCliTab), (int) sizeof(struct _APCLI_STRUCT), MAX_APCLI_NUM));
 #endif /* APCLI_SUPPORT */
 #endif /* CONFIG_AP_SUPPORT */
 
 
-	DBGPRINT(RT_DEBUG_OFF, ("\t\t\tMgmtRing = \t%d bytes\n", sizeof(pAd->MgmtRing)));
+	DBGPRINT(RT_DEBUG_OFF, ("\t\t\tMgmtRing = \t%d bytes\n", (int) sizeof(pAd->MgmtRing)));
 	total_size += sizeof(pAd->MgmtRing);
 
-	DBGPRINT(RT_DEBUG_OFF, ("\t\t\tMlme = \t%d bytes\n", sizeof(pAd->Mlme)));
+	DBGPRINT(RT_DEBUG_OFF, ("\t\t\tMlme = \t%d bytes\n", (int) sizeof(pAd->Mlme)));
 	total_size += sizeof(pAd->Mlme);
 #ifdef CONFIG_STA_SUPPORT
-	DBGPRINT(RT_DEBUG_OFF, ("\t\t\tMlmeAux = \t%d bytes\n", sizeof(pAd->MlmeAux)));
+	DBGPRINT(RT_DEBUG_OFF, ("\t\t\tMlmeAux = \t%d bytes\n", (int) sizeof(pAd->MlmeAux)));
 	total_size += sizeof(pAd->MlmeAux);
 #endif /* CONFIG_STA_SUPPORT */
-	DBGPRINT(RT_DEBUG_OFF, ("\t\t\tMacTab = \t%d bytes\n", sizeof(pAd->MacTab)));
+	DBGPRINT(RT_DEBUG_OFF, ("\t\t\tMacTab = \t%d bytes\n", (int) sizeof(pAd->MacTab)));
 	total_size += sizeof(pAd->MacTab);
 
 #ifdef DOT11_N_SUPPORT
-	DBGPRINT(RT_DEBUG_OFF, ("\t\t\tBATable = \t%d bytes\n", sizeof(pAd->BATable)));
+	DBGPRINT(RT_DEBUG_OFF, ("\t\t\tBATable = \t%d bytes\n", (int) sizeof(pAd->BATable)));
 	total_size += sizeof(pAd->BATable);
 #endif /* DOT11_N_SUPPORT */
 
@@ -5322,7 +5322,7 @@ INT show_sysinfo_proc(struct rtmp_adapter *pAd, char *arg)
 	total_size += cntr_size;
 
 #if defined (AP_SCAN_SUPPORT) || defined (CONFIG_STA_SUPPORT)
-	DBGPRINT(RT_DEBUG_OFF, ("\t\t\tScanTab = \t%d bytes\n", sizeof(pAd->ScanTab)));
+	DBGPRINT(RT_DEBUG_OFF, ("\t\t\tScanTab = \t%d bytes\n", (int) sizeof(pAd->ScanTab)));
 	total_size += sizeof(pAd->ScanTab);
 #endif
 	DBGPRINT(RT_DEBUG_OFF, ("\tsize> Total = \t\t%d bytes, Others = %d bytes\n\n",

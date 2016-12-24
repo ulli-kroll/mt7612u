@@ -763,7 +763,7 @@ VOID APCleanupPsQueue(
 
 	while (pQueue->Head)
 	{
-		DBGPRINT(RT_DEBUG_TRACE, ("%s():%ld...\n", __FUNCTION__, pQueue->Number));
+		DBGPRINT(RT_DEBUG_TRACE, ("%s():%d...\n", __FUNCTION__, pQueue->Number));
 
 		pEntry = RemoveHeadQueue(pQueue);
 		/*pPacket = CONTAINING_RECORD(pEntry, NDIS_PACKET, MiniportReservedEx); */

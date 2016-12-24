@@ -358,7 +358,7 @@ INT APSendPacket(struct rtmp_adapter *pAd, struct sk_buff *pPacket)
 		if (pAd->MacTab.McastPsQueue.Number >= MAX_PACKETS_IN_MCAST_PS_QUEUE)
 		{
 			RELEASE_NDIS_PACKET(pAd, pPacket, NDIS_STATUS_FAILURE);
-			DBGPRINT(RT_DEBUG_TRACE, ("M/BCAST PSQ(=%ld) full, drop it!\n", pAd->MacTab.McastPsQueue.Number));
+			DBGPRINT(RT_DEBUG_TRACE, ("M/BCAST PSQ(=%d) full, drop it!\n", pAd->MacTab.McastPsQueue.Number));
 			return NDIS_STATUS_FAILURE;
 		}
 		else
@@ -3142,7 +3142,7 @@ BOOLEAN APChkCls2Cls3Err(struct rtmp_adapter *pAd, UCHAR wcid, HEADER_802_11 *hd
 	{
 		MAC_TABLE_ENTRY *pEntry;
 
-		DBGPRINT(RT_DEBUG_WARN, ("%s():Rx a frame from %02x:%02x:%02x:%02x:%02x:%02x with WCID(%ld) > %d\n",
+		DBGPRINT(RT_DEBUG_WARN, ("%s():Rx a frame from %02x:%02x:%02x:%02x:%02x:%02x with WCID(%d) > %d\n",
 					__FUNCTION__, PRINT_MAC(hdr->Addr2),
 					wcid, MAX_LEN_OF_MAC_TABLE));
 //+++Add by shiang for debug

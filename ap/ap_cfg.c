@@ -2173,7 +2173,7 @@ INT Set_AP_PROBE_RSP_TIMES(
         if ((input >= 0) && (input <= 10))
                 pAd->ApCfg.MBSSID[apidx].ProbeRspTimes = input;
         else
-                DBGPRINT(RT_DEBUG_ERROR, ("AP[%d]->ProbeRspTimes: Out of Range\n"));
+                DBGPRINT(RT_DEBUG_ERROR, ("AP[%d]->ProbeRspTimes: Out of Range\n", apidx));
 
 	DBGPRINT(RT_DEBUG_TRACE, ("AP[%d]->ProbeRspTimes: %d\n", apidx, pAd->ApCfg.MBSSID[apidx].ProbeRspTimes));
 
@@ -3545,7 +3545,7 @@ INT	Show_Sat_Proc(
 {
 	/* Sanity check for calculation of sucessful count */
 	printk("TransmitCountFromOS = %d\n", pAd->WlanCounters.TransmitCountFrmOs.u.LowPart);
-	printk("TransmittedFragmentCount = %ld\n", pAd->WlanCounters.TransmittedFragmentCount.u.LowPart + pAd->WlanCounters.MulticastTransmittedFrameCount.QuadPart);
+	printk("TransmittedFragmentCount = %lld\n", pAd->WlanCounters.TransmittedFragmentCount.u.LowPart + pAd->WlanCounters.MulticastTransmittedFrameCount.QuadPart);
 	printk("MulticastTransmittedFrameCount = %d\n", pAd->WlanCounters.MulticastTransmittedFrameCount.u.LowPart);
 	printk("FailedCount = %d\n", pAd->WlanCounters.FailedCount.u.LowPart);
 	printk("RetryCount = %d\n", pAd->WlanCounters.RetryCount.u.LowPart);
@@ -3656,7 +3656,7 @@ INT	Show_Sat_Reset_Proc(
 {
 	/* Sanity check for calculation of sucessful count */
 
-	printk("TransmittedFragmentCount = %ld\n", pAd->WlanCounters.TransmittedFragmentCount.u.LowPart + pAd->WlanCounters.MulticastTransmittedFrameCount.QuadPart);
+	printk("TransmittedFragmentCount = %lld\n", pAd->WlanCounters.TransmittedFragmentCount.u.LowPart + pAd->WlanCounters.MulticastTransmittedFrameCount.QuadPart);
 	printk("MulticastTransmittedFrameCount = %d\n", pAd->WlanCounters.MulticastTransmittedFrameCount.u.LowPart);
 	printk("FailedCount = %d\n", pAd->WlanCounters.FailedCount.u.LowPart);
 	printk("RetryCount = %d\n", pAd->WlanCounters.RetryCount.u.LowPart);

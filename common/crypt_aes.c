@@ -1461,7 +1461,7 @@ INT AES_Key_Wrap (
 /*    if ((pResult = (UINT8 *) kmalloc(sizeof(UINT8)*PlainTextLength, GFP_ATOMIC)) == NULL) {
 */
     if (pResult == NULL) {
-    	DBGPRINT(RT_DEBUG_ERROR, ("AES_Key_Wrap: allocate %d bytes memory failure.\n", sizeof(UINT8)*PlainTextLength));
+    	DBGPRINT(RT_DEBUG_ERROR, ("AES_Key_Wrap: allocate %d bytes memory failure.\n", (int) sizeof(UINT8)*PlainTextLength));
         return -2;
     } /* End of if */
 
@@ -1556,7 +1556,7 @@ INT AES_Key_Unwrap (
 /*    if ((pResult = (UINT8 *) kmalloc(sizeof(UINT8)*PlainLength, GFP_ATOMIC)) == NULL) {
 */
 	if (pResult == NULL) {
-		DBGPRINT(RT_DEBUG_ERROR, ("AES_Key_Unwrap: allocate %d bytes memory failure.\n", sizeof(UINT8)*PlainLength));
+		DBGPRINT(RT_DEBUG_ERROR, ("AES_Key_Unwrap: allocate %d bytes memory failure.\n", (int) sizeof(UINT8)*PlainLength));
 		return -2;
 	} /* End of if */
 

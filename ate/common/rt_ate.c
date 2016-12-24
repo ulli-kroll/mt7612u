@@ -4009,7 +4009,7 @@ INT	Set_ATE_TXBF_LNACAL_Proc(
 	NdisGetSystemUpTime(&stTimeChk1);
 
 	DBGPRINT(RT_DEBUG_WARN, (
-			"%s : Time consumption : %d sec\n",__FUNCTION__, (stTimeChk1 - stTimeChk0)*1000/OS_HZ));
+			"%s : Time consumption : %ld sec\n",__FUNCTION__, (stTimeChk1 - stTimeChk0)*1000/OS_HZ));
 
 	if (pAd->chipCap.FlgITxBfBinWrite)
 	{
@@ -4168,7 +4168,7 @@ INT Set_ATE_TXBF_INIT_Proc(
 	NdisGetSystemUpTime(&stTimeChk1);
 
 	DBGPRINT(RT_DEBUG_WARN, (
-			"%s : Time consumption : %d sec\n",__FUNCTION__, (stTimeChk1 - stTimeChk0)*1000/OS_HZ));
+			"%s : Time consumption : %ld sec\n",__FUNCTION__, (stTimeChk1 - stTimeChk0)*1000/OS_HZ));
 
 	return TRUE;
 }
@@ -4330,7 +4330,7 @@ INT Set_ATE_TXBF_New_CAL_Proc(
 		NdisGetSystemUpTime(&stTimeChk3);
 
 		DBGPRINT(RT_DEBUG_WARN, (
-			"%s : Time consumption : switch time = %d sec\n",__FUNCTION__, (stTimeChk3 - stTimeChk2)*1000/OS_HZ));
+			"%s : Time consumption : switch time = %ld sec\n",__FUNCTION__, (stTimeChk3 - stTimeChk2)*1000/OS_HZ));
 
 		// Residual phase calculation
 		ITxBFPhaseCalibrationStartUp(pAd, 1, ch);
@@ -4339,7 +4339,7 @@ INT Set_ATE_TXBF_New_CAL_Proc(
 	NdisGetSystemUpTime(&stTimeChk1);
 
 	DBGPRINT(RT_DEBUG_WARN, (
-			"%s : Time consumption : %d sec\n",__FUNCTION__, (stTimeChk1 - stTimeChk0)*1000/OS_HZ));
+			"%s : Time consumption : %ld sec\n",__FUNCTION__, (stTimeChk1 - stTimeChk0)*1000/OS_HZ));
 
 	if (pAd->chipCap.FlgITxBfBinWrite)
 	{
@@ -4677,7 +4677,7 @@ INT Set_ATE_New_Phase_Verify(
 	NdisGetSystemUpTime(&stTimeChk1);
 
 	DBGPRINT(RT_DEBUG_WARN, (
-			"%s : Time consumption : %d sec\n",__FUNCTION__, (stTimeChk1 - stTimeChk0)*1000/OS_HZ));
+			"%s : Time consumption : %ld sec\n",__FUNCTION__, (stTimeChk1 - stTimeChk0)*1000/OS_HZ));
 
 	return TRUE;
 }
