@@ -271,18 +271,6 @@ INT rt28xx_ap_ioctl(struct net_device *net_dev, struct ifreq *rq, int cmd)
 			}
 			break;
 
-#if defined(INF_AR9) || defined(BB_SOC)
-#if defined(AR9_MAPI_SUPPORT) || defined(BB_SOC)
-		case RTPRIV_IOCTL_GET_AR9_SHOW:
-			{
-				if( access_ok(VERIFY_READ, wrqin->u.data.pointer, wrqin->u.data.length) == TRUE)
-					Status = RTMP_AP_IoctlHandle(pAd, wrq, CMD_RTPRIV_IOCTL_GET_AR9_SHOW, 0, NULL, 0);
-			}
-		    break;
-#endif /* defined(INF_AR9) || defined(BB_SOC) */
-#endif /* defined(AR9_MAPI_SUPPORT) || defined(BB_SOC) */
-
-
 /* modified by Red@Ralink, 2009/09/30 */
 		case RTPRIV_IOCTL_GET_MAC_TABLE:
 			RTMP_AP_IoctlHandle(pAd, wrq, CMD_RTPRIV_IOCTL_GET_MAC_TABLE, 0, NULL, 0);

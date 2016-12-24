@@ -1318,32 +1318,6 @@ VOID RTMPAPGetAssoMacTable(
 	kfree(msg);
 }
 
-
-#if defined(INF_AR9) || defined(BB_SOC)
-#if defined(AR9_MAPI_SUPPORT) || defined(BB_SOC)
-INT RTMPAPPrivIoctlAR9Show(
-	IN struct rtmp_adapter *pAd,
-	IN RTMP_IOCTL_INPUT_STRUCT *pIoctlCmdStr)
-{
-	INT Status = NDIS_STATUS_SUCCESS;
-
-		if(!strcmp(pIoctlCmdStr->u.data.pointer, "get_mac_table"))
-		{
-			RTMPAR9IoctlGetMacTable(pAd,pIoctlCmdStr);
-		}
-		else if(!strcmp(pIoctlCmdStr->u.data.pointer, "get_stat2"))
-		{
-			RTMPIoctlGetSTAT2(pAd,pIoctlCmdStr);
-		}
-		else if(!strcmp(pIoctlCmdStr->u.data.pointer, "get_radio_dyn_info"))
-		{
-			RTMPIoctlGetRadioDynInfo(pAd,pIoctlCmdStr);
-		}
-	return Status;
-}
-#endif /*AR9_MAPI_SUPPORT*/
-#endif/*AR9_INF*/
-
 /*
     ==========================================================================
     Description:
@@ -7443,14 +7417,6 @@ INT RTMP_AP_IoctlHandle(
 			break;
 #endif /* RTMP_RF_RW_SUPPORT */
 #endif /* defined(DBG) || defined(BB_SOC) */
-
-#ifdef INF_AR9
-#ifdef AR9_MAPI_SUPPORT
-		case CMD_RTPRIV_IOCTL_GET_AR9_SHOW:
-			Status = RTMPAPPrivIoctlAR9Show(pAd, wrq);
-			break;
-#endif /*AR9_MAPI_SUPPORT*/
-#endif/* INF_AR9 */
 
 		case CMD_RTPRIV_IOCTL_GET_MAC_TABLE_STRUCT:
 			RTMPIoctlGetMacTableStaInfo(pAd, wrq);

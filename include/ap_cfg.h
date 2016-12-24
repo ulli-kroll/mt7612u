@@ -16,26 +16,6 @@ VOID RTMPAPGetAssoMacTable(
 	IN struct rtmp_adapter *pAd,
 	IN RTMP_IOCTL_INPUT_STRUCT *pIoctlCmdStr);
 
-#if defined(INF_AR9) || defined(BB_SOC)
-#if defined(AR9_MAPI_SUPPORT) || defined(BB_SOC)
-INT RTMPAPPrivIoctlAR9Show(
-	IN struct rtmp_adapter *pAd,
-	IN RTMP_IOCTL_INPUT_STRUCT *pIoctlCmdStr);
-
-VOID RTMPAR9IoctlGetMacTable(
-	IN struct rtmp_adapter *pAd,
-	IN RTMP_IOCTL_INPUT_STRUCT *wrq);
-
-VOID RTMPIoctlGetSTAT2(
-	IN struct rtmp_adapter *pAd,
-	IN RTMP_IOCTL_INPUT_STRUCT *wrq);
-
-VOID RTMPIoctlGetRadioDynInfo(
-	IN struct rtmp_adapter *pAd,
-	IN RTMP_IOCTL_INPUT_STRUCT *wrq);
-#endif /*AR9_MAPI_SUPPORT*/
-#endif/* INF_AR9 */
-
 INT RTMPAPSetInformation(
 	IN	struct rtmp_adapter *pAd,
 	IN	OUT	RTMP_IOCTL_INPUT_STRUCT	*rq,
