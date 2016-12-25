@@ -40,10 +40,7 @@ uint32_t RtmpOsTickUnitGet(VOID);
 
 
 
-int AdapterBlockAllocateMemory(
-	IN	VOID *handle,
-	OUT	VOID **ppAd,
-	IN	uint32_t SizeOfpAd);
+int AdapterBlockAllocateMemory(struct rtmp_adapter **ppAd, uint32_t SizeOfpAd);
 
 VOID *RtmpOsVmalloc(ULONG Size);
 VOID RtmpOsVfree(VOID *pMem);

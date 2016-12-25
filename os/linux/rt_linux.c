@@ -1657,9 +1657,9 @@ Return Value:
 Note:
 ========================================================================
 */
-int AdapterBlockAllocateMemory(VOID *handle, VOID **ppAd, uint32_t SizeOfpAd)
+int AdapterBlockAllocateMemory(struct rtmp_adapter **ppAd, uint32_t SizeOfpAd)
 {
-	*ppAd = (PVOID) vmalloc(SizeOfpAd);
+	*ppAd = vmalloc(SizeOfpAd);
 	if (*ppAd) {
 		memset(*ppAd, 0, SizeOfpAd);
 		return NDIS_STATUS_SUCCESS;

@@ -87,7 +87,7 @@ int RTMPAllocAdapterBlock(VOID *handle, struct rtmp_adapter **ppAdapter)
 		memset(pBeaconBuf, 0, MAX_BEACON_SIZE);
 
 		/* Allocate struct rtmp_adapter memory block*/
-		Status = AdapterBlockAllocateMemory(handle, (PVOID *)&pAd, sizeof(struct rtmp_adapter));
+		Status = AdapterBlockAllocateMemory(&pAd, sizeof(struct rtmp_adapter));
 		if (Status != NDIS_STATUS_SUCCESS)
 		{
 			DBGPRINT_ERR(("Failed to allocate memory - ADAPTER\n"));
