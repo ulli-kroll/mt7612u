@@ -4161,12 +4161,6 @@ void mt7612_set_ed_cca(struct rtmp_adapter *ad, BOOLEAN enable)
 }
 #endif /* ED_MONITOR */
 
-VOID mt76x2_antenna_sel_ctl(
-	IN struct rtmp_adapter *ad)
-{
-/* Antenna selection control in 76x2 is controlled by fw/rom_patch */
-}
-
 static const RTMP_CHIP_CAP MT76x2_ChipCap = {
 	.max_nss = 2,
 #ifdef DOT11_VHT_AC

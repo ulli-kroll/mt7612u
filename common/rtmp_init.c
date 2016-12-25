@@ -443,11 +443,6 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 	/* Read Tx AGC control bit*/
 		Antenna.word = pAd->EEPROMDefaultValue[EEPROM_NIC_CFG1_OFFSET];
 
-#ifdef MT76x2
-	if (IS_MT76x2(pAd))
-		mt76x2_antenna_sel_ctl(pAd);
-#endif /* MT76x2 */
-
 #ifdef RT8592
 	if (IS_RT8592(pAd)) {
 		DBGPRINT(RT_DEBUG_OFF, ("RT85592: EEPROM(NicConfig1=0x%04x) - Antenna.RfIcType=%d, TxPath=%d, RxPath=%d\n",
