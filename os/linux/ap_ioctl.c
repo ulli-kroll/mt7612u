@@ -296,9 +296,6 @@ INT rt28xx_ap_ioctl(struct net_device *net_dev, struct ifreq *rq, int cmd)
 			RTMP_AP_IoctlHandle(pAd, wrq, CMD_RTPRIV_IOCTL_QUERY_BATABLE, 0, NULL, 0);
 		    break;
 #endif /* DOT11_N_SUPPORT */
-		case RTPRIV_IOCTL_E2P:
-			RTMP_AP_IoctlHandle(pAd, wrq, CMD_RTPRIV_IOCTL_E2P, 0, NULL, 0);
-			break;
 
 #if defined(DBG) ||(defined(BB_SOC)&&defined(RALINK_ATE))
 		case RTPRIV_IOCTL_BBP:

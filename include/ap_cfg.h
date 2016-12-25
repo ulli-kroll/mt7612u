@@ -38,11 +38,6 @@ VOID RTMPIoctlGetMacTable(
 	IN struct rtmp_adapter *pAd,
 	IN RTMP_IOCTL_INPUT_STRUCT *wrq);
 
-
-VOID RTMPAPIoctlE2PROM(
-    IN  struct rtmp_adapter *  pAdapter,
-    IN  RTMP_IOCTL_INPUT_STRUCT    *wrq);
-
 #if defined(DBG) ||(defined(BB_SOC)&&defined(RALINK_ATE))
 VOID RTMPAPIoctlBBP(
     IN  struct rtmp_adapter *  pAdapter,
