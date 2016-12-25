@@ -43,10 +43,6 @@ VOID RTMPAPIoctlBBP(
     IN  struct rtmp_adapter *  pAdapter,
     IN  RTMP_IOCTL_INPUT_STRUCT    *wrq);
 
-VOID RTMPAPIoctlMAC(
-    IN  struct rtmp_adapter *  pAdapter,
-    IN  RTMP_IOCTL_INPUT_STRUCT    *wrq);
-
 #ifdef RTMP_RF_RW_SUPPORT
 VOID RTMPAPIoctlRF(
 	IN	struct rtmp_adapter *pAdapter,
