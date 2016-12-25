@@ -257,20 +257,6 @@ INT rt28xx_ap_ioctl(struct net_device *net_dev, struct ifreq *rq, int cmd)
 			break;
 #endif /* HOSTAPD_SUPPORT */
 
-		case RTPRIV_IOCTL_SET:
-			{
-				if( access_ok(VERIFY_READ, wrqin->u.data.pointer, wrqin->u.data.length) == TRUE)
-					Status = RTMP_AP_IoctlHandle(pAd, wrq, CMD_RTPRIV_IOCTL_SET, 0, NULL, 0);
-			}
-			break;
-
-		case RTPRIV_IOCTL_SHOW:
-			{
-				if( access_ok(VERIFY_READ, wrqin->u.data.pointer, wrqin->u.data.length) == TRUE)
-					Status = RTMP_AP_IoctlHandle(pAd, wrq, CMD_RTPRIV_IOCTL_SHOW, 0, NULL, 0);
-			}
-			break;
-
 /* modified by Red@Ralink, 2009/09/30 */
 		case RTPRIV_IOCTL_GET_MAC_TABLE:
 			RTMP_AP_IoctlHandle(pAd, wrq, CMD_RTPRIV_IOCTL_GET_MAC_TABLE, 0, NULL, 0);
