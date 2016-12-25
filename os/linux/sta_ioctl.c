@@ -2003,35 +2003,6 @@ int rt_ioctl_siwpmksa(struct net_device *dev,
 }
 #endif /* #if WIRELESS_EXT > 17 */
 
-#ifdef DBG
-static int
-rt_private_ioctl_bbp(struct net_device *dev, struct iw_request_info *info,
-		struct iw_point *wrq, char *extra)
-{
-	RTMP_IOCTL_INPUT_STRUCT wrqin;
-	INT					Status = 0;
-    VOID       			*pAd = NULL;
-
-	GET_PAD_FROM_NET_DEV(pAd, dev);
-
-
-	memset(extra, 0x00, IW_PRIV_SIZE_MASK);
-
-	wrqin.u.data.pointer = wrq->pointer;
-	wrqin.u.data.length = wrq->length;
-
-	RTMP_STA_IoctlHandle(pAd, &wrqin, CMD_RTPRIV_IOCTL_BBP, 0,
-						extra, IW_PRIV_SIZE_MASK, RT_DEV_PRIV_FLAGS_GET(dev));
-
-	wrq->length = wrqin.u.data.length;
-
-
-	DBGPRINT(RT_DEBUG_TRACE, ("<==rt_private_ioctl_bbp\n\n"));
-
-    return Status;
-}
-#endif /* DBG */
-
 int rt_ioctl_siwrate(struct net_device *dev,
 			struct iw_request_info *info,
 			union iwreq_data *wrqu, char *extra)
