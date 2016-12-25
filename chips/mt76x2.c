@@ -4180,7 +4180,6 @@ static const RTMP_CHIP_CAP MT76x2_ChipCap = {
 #endif /* STREAM_MODE_SUPPORT */
 #ifdef TXBF_SUPPORT
 	.FlgHwTxBfCap = TRUE,
-	.FlgITxBfBinWrite = FALSE,
 #endif /* TXBF_SUPPORT */
 #ifdef FIFO_EXT_SUPPORT
 	.FlgHwFifoExtCap = TRUE,

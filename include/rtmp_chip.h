@@ -638,7 +638,6 @@ struct _RTMP_CHIP_CAP_ {
 #endif /* STREAM_MODE_SUPPORT */
 #ifdef TXBF_SUPPORT
 	BOOLEAN FlgHwTxBfCap;
-	BOOLEAN FlgITxBfBinWrite;
 #endif /* TXBF_SUPPORT */
 #ifdef FIFO_EXT_SUPPORT
 	BOOLEAN FlgHwFifoExtCap;

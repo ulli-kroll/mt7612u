@@ -4011,12 +4011,6 @@ INT	Set_ATE_TXBF_LNACAL_Proc(
 	DBGPRINT(RT_DEBUG_WARN, (
 			"%s : Time consumption : %ld sec\n",__FUNCTION__, (stTimeChk1 - stTimeChk0)*1000/OS_HZ));
 
-	if (pAd->chipCap.FlgITxBfBinWrite)
-	{
-		// Wite the calibrated phase into bit file
-		set_BinModeWriteBack_Proc(pAd, "1");
-	}
-
 	return TRUE;
 }
 
@@ -4256,12 +4250,6 @@ INT Set_ATE_TXBF_CAL_Proc(
 	if (pAd->chipOps.fITxBfCal(pAd, "1") == FALSE)
 		return FALSE;
 
-	if (pAd->chipCap.FlgITxBfBinWrite)
-	{
-		// Wite the calibrated phase into bit file
-		set_BinModeWriteBack_Proc(pAd, "1");
-	}
-
 	return TRUE;
 
 
@@ -4340,12 +4328,6 @@ INT Set_ATE_TXBF_New_CAL_Proc(
 
 	DBGPRINT(RT_DEBUG_WARN, (
 			"%s : Time consumption : %ld sec\n",__FUNCTION__, (stTimeChk1 - stTimeChk0)*1000/OS_HZ));
-
-	if (pAd->chipCap.FlgITxBfBinWrite)
-	{
-		// Wite the calibrated phase into bit file
-		set_BinModeWriteBack_Proc(pAd, "1");
-	}
 
 	return TRUE;
 

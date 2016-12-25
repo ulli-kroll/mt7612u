@@ -103,11 +103,6 @@ INT RtmpChipOpsEepromHook(
 	UCHAR e2p_type;
 	uint32_t val;
 
-#ifdef TXBF_SUPPORT
-	if (pAd->chipCap.FlgITxBfBinWrite)
-		pAd->E2pAccessMode = E2P_BIN_MODE;
-#endif
-
 	e2p_type = pAd->E2pAccessMode;
 
 	DBGPRINT(RT_DEBUG_OFF, ("%s::e2p_type=%d, inf_Type=%d\n", __FUNCTION__, e2p_type, infType));
