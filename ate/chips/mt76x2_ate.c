@@ -2058,11 +2058,7 @@ VOID mt76x2_ate_do_calibration(
 			CHIP_CALIBRATION(pAd, TXIQ_CALIBRATION_7662, param);
 			break;
 		case DPD_CALIBRATION_7662:
-			if (IS_PCI_INF(pAd)
-#ifdef RTMP_USB_SUPPORT
-				|| IS_USB3_INF(pAd)
-#endif
-			) {
+			if (IS_USB3_INF(pAd)) {
 				/* DPD Calibration */
 				CHIP_CALIBRATION(pAd, DPD_CALIBRATION_7662, param);
 			}

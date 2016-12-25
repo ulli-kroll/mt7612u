@@ -1258,7 +1258,7 @@ static void mt76x2_init_mac_cr(struct rtmp_adapter *ad)
  	 * add 504, 50c value per ben kao suggestion for rx receivce packet, need to revise this bit
      * only mt7662u do not this setting
 	 */
-	if (IS_MT76x2E(ad) || IS_MT76x2U(ad)) {
+	if (IS_MT76x2U(ad)) {
 		RTMP_IO_WRITE32(ad, 0x504, 0x06000000);
 		RTMP_IO_WRITE32(ad, 0x50c, 0x08800000);
 		RtmpOsMsDelay(5);

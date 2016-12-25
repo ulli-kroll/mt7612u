@@ -188,9 +188,6 @@ static uint32_t asic_set_wlan_func(struct rtmp_adapter *pAd, BOOLEAN enable)
 			Diable WLAN function and clock
 			WLAN_FUN_CTRL[1:0] = 0x0
 		*/
-		if (IS_PCIE_INF(pAd))
-			reg &= ~WLAN_FUN_CTRL_PCIE_APP0_CLK_REQ;
-
 		reg &= ~WLAN_FUN_CTRL_WLAN_EN;
 		reg &= ~WLAN_FUN_CTRL_WLAN_CLK_EN;
 	}

@@ -97,10 +97,7 @@ VOID APShutdown(struct rtmp_adapter *pAd)
 	DBGPRINT(RT_DEBUG_TRACE, ("---> APShutdown\n"));
 /*	if (pAd->OpMode == OPMODE_AP) */
 
-#ifdef RT65xx
-	if (!IS_MT76x0E(pAd) && !IS_MT76x2E(pAd))
-#endif /* RT65xx */
-		MlmeRadioOff(pAd);
+	MlmeRadioOff(pAd);
 
 
 

@@ -184,31 +184,22 @@ struct _RSSI_SAMPLE;
 #define IS_MT7601U(_pAd)	(IS_MT7601(_pAd) && (IS_USB_INF(_pAd)))
 
 #define IS_MT7650(_pAd)		(((_pAd)->ChipID & 0xffff0000) == 0x76500000)
-#define IS_MT7650E(_pAd)	((((_pAd)->ChipID & 0xffff0000) == 0x76500000) && (IS_PCIE_INF(_pAd)))
 #define IS_MT7650U(_pAd)	((((_pAd)->ChipID & 0xffff0000) == 0x76500000) && (IS_USB_INF(_pAd)))
 #define IS_MT7630(_pAd)		(((_pAd)->ChipID & 0xffff0000) == 0x76300000)
-#define IS_MT7630E(_pAd)	((((_pAd)->ChipID & 0xffff0000) == 0x76300000) && (IS_PCIE_INF(_pAd)))
 #define IS_MT7630U(_pAd)	((((_pAd)->ChipID & 0xffff0000) == 0x76300000) && (IS_USB_INF(_pAd)))
 #define IS_MT7610(_pAd)		(((_pAd)->ChipID & 0xffff0000) == 0x76100000)
-#define IS_MT7610E(_pAd)	((((_pAd)->ChipID & 0xffff0000) == 0x76100000) && (IS_PCIE_INF(_pAd)))
 #define IS_MT7610U(_pAd)	((((_pAd)->ChipID & 0xffff0000) == 0x76100000) && (IS_USB_INF(_pAd)))
 #define IS_MT76x0(_pAd)		(IS_MT7610(_pAd) || IS_MT7630(_pAd) || IS_MT7650(_pAd))
-#define IS_MT76x0E(_pAd)	(IS_MT7650E(_pAd) || IS_MT7630E(_pAd) || IS_MT7610E(_pAd))
 #define IS_MT76x0U(_pAd)	(IS_MT7650U(_pAd) || IS_MT7630U(_pAd) || IS_MT7610U(_pAd))
 
 #define IS_MT7662(_pAd)		(((_pAd)->ChipID & 0xffff0000) == 0x76620000)
-#define IS_MT7662E(_pAd)	((((_pAd)->ChipID & 0xffff0000) == 0x76620000) && (IS_PCIE_INF(_pAd)))
 #define IS_MT7662U(_pAd)	((((_pAd)->ChipID & 0xffff0000) == 0x76620000) && (IS_USB_INF(_pAd)))
 #define IS_MT7632(_pAd)		(((_pAd)->ChipID & 0xffff0000) == 0x76320000)
-#define IS_MT7632E(_pAd)	((((_pAd)->ChipID & 0xffff0000) == 0x76320000) && (IS_PCIE_INF(_pAd)))
 #define IS_MT7632U(_pAd)	((((_pAd)->ChipID & 0xffff0000) == 0x76320000) && (IS_USB_INF(_pAd)))
 #define IS_MT7612(_pAd)		(((_pAd)->ChipID & 0xffff0000) == 0x76120000)
-#define IS_MT7612E(_pAd)	((((_pAd)->ChipID & 0xffff0000) == 0x76120000) && (IS_PCIE_INF(_pAd)))
 #define IS_MT7612U(_pAd)	((((_pAd)->ChipID & 0xffff0000) == 0x76120000) && (IS_USB_INF(_pAd)))
 #define IS_MT7602(_pAd)		(((_pAd)->ChipID & 0xffff0000) == 0x76020000)
-#define IS_MT7602E(_pAd)	((((_pAd)->ChipID & 0xffff0000) == 0x76020000) && (IS_PCIE_INF(_pAd)))
 #define IS_MT76x2(_pAd)		(IS_MT7662(_pAd) || IS_MT7632(_pAd) || IS_MT7612(_pAd) || IS_MT7602(_pAd))
-#define IS_MT76x2E(_pAd)	(IS_MT7662E(_pAd) || IS_MT7632E(_pAd) || IS_MT7612E(_pAd) || IS_MT7602E(_pAd))
 #define IS_MT76x2U(_pAd)	(IS_MT7662U(_pAd) || IS_MT7632U(_pAd) || IS_MT7612U(_pAd))
 #define REV_MT76x2E3        	0x0022
 #define REV_MT76x2E4        	0x0033
@@ -225,9 +216,6 @@ struct _RSSI_SAMPLE;
 
 #define IS_USB_INF(_pAd)		((_pAd)->infType == RTMP_DEV_INF_USB)
 #define IS_USB3_INF(_pAd)		((IS_USB_INF(_pAd)) && ((_pAd)->BulkOutMaxPacketSize == 1024))
-#define IS_PCIE_INF(_pAd)		((_pAd)->infType == RTMP_DEV_INF_PCIE)
-#define IS_PCI_INF(_pAd)		(((_pAd)->infType == RTMP_DEV_INF_PCI) || IS_PCIE_INF(_pAd))
-#define IS_PCI_ONLY_INF(_pAd)	((_pAd)->infType == RTMP_DEV_INF_PCI)
 #define IS_RBUS_INF(_pAd) ((_pAd)->infType == RTMP_DEV_INF_RBUS)
 
 #define RT_REV_LT(_pAd, _chip, _rev)\
