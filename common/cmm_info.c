@@ -4935,8 +4935,8 @@ INT Show_TxInfo_Proc(struct rtmp_adapter *pAd, char *arg)
 	INT i;
 
 	printk("BSS%d\n", apidx);
-	printk("TX Retry Count: %7d\n", pAd->ApCfg.MBSSID[apidx].StatTxRetryOkCount);
-	printk("TX Fail  Count: %7d\n", pAd->ApCfg.MBSSID[apidx].StatTxFailCount);
+	printk("TX Retry Count: %7ld\n", pAd->ApCfg.MBSSID[apidx].StatTxRetryOkCount);
+	printk("TX Fail  Count: %7ld\n", pAd->ApCfg.MBSSID[apidx].StatTxFailCount);
 	printk("--------------------------------------\n");
 	for (i=0; i<MAX_LEN_OF_MAC_TABLE; i++)
 	{
@@ -6639,7 +6639,7 @@ INT Set_TxBfProfileDataRead(
 	UINT    value32, readValue32[5];
 	INT 	i;
 
-	printk("arg length=%d\n", strlen(arg));
+	printk("arg length=%d\n", (int) strlen(arg));
 
 	/* Profile Select : Subcarrier Select */
 	if(strlen(arg) != 5)
