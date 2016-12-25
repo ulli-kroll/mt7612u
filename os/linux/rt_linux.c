@@ -398,7 +398,7 @@ struct sk_buff *DuplicatePacket(
 	if (skb) {
 		MEM_DBG_PKT_ALLOC_INC(skb);
 		skb->dev = pNetDev;
-		pRetPacket = OSPKT_TO_RTPKT(skb);
+		pRetPacket = skb;
 	}
 
 	return pRetPacket;
@@ -427,7 +427,7 @@ struct sk_buff *duplicate_pkt(
 		memmove(skb->tail, pData, DataSize);
 		skb_put(skb, DataSize);
 		skb->dev = pNetDev;
-		pPacket = OSPKT_TO_RTPKT(skb);
+		pPacket = skb;
 	}
 
 	return pPacket;
@@ -455,7 +455,7 @@ struct sk_buff *duplicate_pkt_with_TKIP_MIC(VOID *pReserved, struct sk_buff *pPa
 		MEM_DBG_PKT_ALLOC_INC(skb);
 	}
 
-	return OSPKT_TO_RTPKT(skb);
+	return skb;
 
 
 }
@@ -493,7 +493,7 @@ struct sk_buff *duplicate_pkt_with_VLAN(
 		memmove(skb->tail, pData, DataSize);
 		skb_put(skb, DataSize);
 		skb->dev = pNetDev;	/*get_netdev_from_bssid(pAd, FromWhichBSSID); */
-		pPacket = OSPKT_TO_RTPKT(skb);
+		pPacket = skb;
 	}
 
 	return pPacket;
@@ -586,7 +586,7 @@ struct sk_buff *ExpandPacket(
 		MEM_DBG_PKT_ALLOC_INC(skb);
 	}
 
-	return OSPKT_TO_RTPKT(skb);
+	return skb;
 
 }
 
