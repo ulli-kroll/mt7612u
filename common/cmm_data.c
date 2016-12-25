@@ -1253,13 +1253,7 @@ BOOLEAN RTMP_FillTxBlkInfo(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 	{
 		pTxBlk->pMacEntry = NULL;
 		{
-#ifdef MCAST_RATE_SPECIFIC
-			u8 *pDA = GET_OS_PKT_DATAPTR(pPacket);
-			if (((*pDA & 0x01) == 0x01) && (*pDA != 0xff))
-				pTxBlk->pTransmit = &pAd->CommonCfg.MCastPhyMode;
-			else
-#endif /* MCAST_RATE_SPECIFIC */
-				pTxBlk->pTransmit = &pAd->MacTab.Content[MCAST_WCID].HTPhyMode;
+			pTxBlk->pTransmit = &pAd->MacTab.Content[MCAST_WCID].HTPhyMode;
 		}
 
 		TX_BLK_CLEAR_FLAG(pTxBlk, fTX_bAckRequired);	/* AckRequired = FALSE, when broadcast packet in Adhoc mode.*/

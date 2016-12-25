@@ -2579,11 +2579,6 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 	pAd->CommonCfg.DebugFlags = 0;
 #endif /* DBG_CTRL_SUPPORT */
 
-
-#ifdef MCAST_RATE_SPECIFIC
-	pAd->CommonCfg.MCastPhyMode.word = pAd->MacTab.Content[MCAST_WCID].HTPhyMode.word;
-#endif /* MCAST_RATE_SPECIFIC */
-
 	/* WFA policy - disallow TH rate in WEP or TKIP cipher */
 	pAd->CommonCfg.HT_DisallowTKIP = TRUE;
 

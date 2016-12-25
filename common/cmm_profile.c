@@ -2075,10 +2075,6 @@ static void HTParametersHook(
 		else
 			pAd->CommonCfg.RegTransmitSetting.field.BW = BW_20;
 
-#ifdef MCAST_RATE_SPECIFIC
-		pAd->CommonCfg.MCastPhyMode.field.BW = pAd->CommonCfg.RegTransmitSetting.field.BW;
-#endif /* MCAST_RATE_SPECIFIC */
-
 		DBGPRINT(RT_DEBUG_TRACE, ("HT: Channel Width = %s\n", (Value==BW_40) ? "40 MHz" : "20 MHz" ));
 	}
 
@@ -4043,71 +4039,6 @@ int RTMPSetProfileParameters(
 #ifdef CONFIG_AP_SUPPORT
 				IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 				{
-#ifdef MCAST_RATE_SPECIFIC
-					/* McastPhyMode*/
-					if (RTMPGetKeyParameter("McastPhyMode", tmpbuf, 32, pBuffer, TRUE))
-					{
-						UCHAR PhyMode = simple_strtol(tmpbuf, 0, 10);
-									pAd->CommonCfg.MCastPhyMode.field.BW = pAd->CommonCfg.RegTransmitSetting.field.BW;
-						switch (PhyMode)
-						{
-										case MCAST_DISABLE: /* disable*/
-											memmove(&pAd->CommonCfg.MCastPhyMode,
-												&pAd->MacTab.Content[MCAST_WCID].HTPhyMode, sizeof(HTTRANSMIT_SETTING));
-											break;
-
-										case MCAST_CCK:	/* CCK*/
-											pAd->CommonCfg.MCastPhyMode.field.MODE = MODE_CCK;
-											pAd->CommonCfg.MCastPhyMode.field.BW =  BW_20;
-								break;
-
-										case MCAST_OFDM:	/* OFDM*/
-											pAd->CommonCfg.MCastPhyMode.field.MODE = MODE_OFDM;
-								break;
-#ifdef DOT11_N_SUPPORT
-										case MCAST_HTMIX:	/* HTMIX*/
-											pAd->CommonCfg.MCastPhyMode.field.MODE = MODE_HTMIX;
-								break;
-#endif /* DOT11_N_SUPPORT */
-
-							default:
-								DBGPRINT(RT_DEBUG_OFF, ("unknow Muticast PhyMode %d.\n", PhyMode));
-								DBGPRINT(RT_DEBUG_OFF, ("0:Disable 1:CCK, 2:OFDM, 3:HTMIX.\n"));
-								break;
-						}
-					}
-					else
-									memmove(&pAd->CommonCfg.MCastPhyMode,
-										&pAd->MacTab.Content[MCAST_WCID].HTPhyMode, sizeof(HTTRANSMIT_SETTING));
-
-					/* McastMcs*/
-					if (RTMPGetKeyParameter("McastMcs", tmpbuf, 32, pBuffer, TRUE))
-					{
-						UCHAR Mcs = simple_strtol(tmpbuf, 0, 10);
-						switch(pAd->CommonCfg.MCastPhyMode.field.MODE)
-						{
-							case MODE_CCK:
-								if ((Mcs <= 3) || (Mcs >= 8 && Mcs <= 11))
-									pAd->CommonCfg.MCastPhyMode.field.MCS = Mcs;
-								else
-									DBGPRINT(RT_DEBUG_OFF, ("MCS must in range of 0 ~ 3 and 8 ~ 11 for CCK Mode.\n"));
-								break;
-
-							case MODE_OFDM:
-								if (Mcs > 7)
-									DBGPRINT(RT_DEBUG_OFF, ("MCS must in range from 0 to 7 for CCK Mode.\n"));
-								else
-									pAd->CommonCfg.MCastPhyMode.field.MCS = Mcs;
-								break;
-
-							default:
-								pAd->CommonCfg.MCastPhyMode.field.MCS = Mcs;
-								break;
-						}
-					}
-					else
-						pAd->CommonCfg.MCastPhyMode.field.MCS = 0;
-#endif /* MCAST_RATE_SPECIFIC */
 				}
 #endif /* CONFIG_AP_SUPPORT */
 

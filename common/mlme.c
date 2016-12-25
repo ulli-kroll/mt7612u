@@ -3165,19 +3165,6 @@ VOID MlmeUpdateTxRates(struct rtmp_adapter *pAd, BOOLEAN bLinkUp, UCHAR apidx)
 		pAd->CommonCfg.BasicMlmeRate = pAd->CommonCfg.MlmeRate;
 
 #ifdef CONFIG_AP_SUPPORT
-#ifdef MCAST_RATE_SPECIFIC
-		{
-			/* set default value if MCastPhyMode is not initialized */
-			HTTRANSMIT_SETTING tPhyMode;
-
-			memset(&tPhyMode, 0, sizeof(HTTRANSMIT_SETTING));
-			if (memcmp(&pAd->CommonCfg.MCastPhyMode, &tPhyMode, sizeof(HTTRANSMIT_SETTING)) == 0)
-			{
-				memmove(&pAd->CommonCfg.MCastPhyMode, &pAd->MacTab.Content[MCAST_WCID].HTPhyMode,
-							sizeof(HTTRANSMIT_SETTING));
-			}
-		}
-#endif /* MCAST_RATE_SPECIFIC */
 #endif /* CONFIG_AP_SUPPORT */
 	}
 

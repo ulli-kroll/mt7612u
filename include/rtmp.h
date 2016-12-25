@@ -1875,10 +1875,6 @@ typedef struct _COMMON_CONFIG {
 	UCHAR RxStream;
 
 	/* transmit phy mode, trasmit rate for Multicast. */
-#ifdef MCAST_RATE_SPECIFIC
-	UCHAR McastTransmitMcs;
-	UCHAR McastTransmitPhyMode;
-#endif /* MCAST_RATE_SPECIFIC */
 
 	BOOLEAN bHardwareRadio;	/* Hardware controlled Radio enabled */
 
@@ -1907,9 +1903,6 @@ typedef struct _COMMON_CONFIG {
 	PTPC_REQ_TAB pTpcReqTab;
 
 	/* transmit phy mode, trasmit rate for Multicast. */
-#ifdef MCAST_RATE_SPECIFIC
-	HTTRANSMIT_SETTING MCastPhyMode;
-#endif /* MCAST_RATE_SPECIFIC */
 
 #ifdef SINGLE_SKU
 	uint16_t DefineMaxTxPwr;

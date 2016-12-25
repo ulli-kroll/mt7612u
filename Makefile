@@ -42,10 +42,6 @@ HAS_DFS_SUPPORT=n
 # Support ED CCA monitor
 HAS_ED_MONITOR_SUPPORT=n
 
-
-# Support user specific transmit rate of Multicast packet.
-HAS_MCAST_RATE_SPECIFIC_SUPPORT=n
-
 # Support for Multiple Cards
 HAS_MC_SUPPORT=n
 
@@ -267,10 +263,6 @@ endif
 
 ifeq ($(HAS_ED_MONITOR_SUPPORT),y)
 WFLAGS += -DED_MONITOR
-endif
-
-ifeq ($(HAS_MCAST_RATE_SPECIFIC_SUPPORT), y)
-WFLAGS += -DMCAST_RATE_SPECIFIC
 endif
 
 ifeq ($(HAS_DOT11_N_SUPPORT),y)
@@ -504,10 +496,6 @@ endif
 
 ifeq ($(HAS_CS_SUPPORT),y)
 WFLAGS += -DCARRIER_DETECTION_SUPPORT
-endif
-
-ifeq ($(HAS_MCAST_RATE_SPECIFIC_SUPPORT), y)
-WFLAGS += -DMCAST_RATE_SPECIFIC
 endif
 
 ifeq ($(HAS_QOS_DLS_SUPPORT),y)
