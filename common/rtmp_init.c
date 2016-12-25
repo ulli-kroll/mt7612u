@@ -62,7 +62,7 @@ NDIS_SPIN_LOCK TimerSemLock;
 
 	========================================================================
 */
-int RTMPAllocAdapterBlock(VOID *handle, struct rtmp_adapter **ppAdapter)
+int RTMPAllocAdapterBlock(struct os_cookie *handle, struct rtmp_adapter **ppAdapter)
 {
 	struct rtmp_adapter *pAd = NULL;
 	int  Status;
