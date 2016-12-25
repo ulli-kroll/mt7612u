@@ -1423,63 +1423,6 @@ rt_ioctl_giwencode(struct net_device *dev,
 
 }
 
-int rt_ioctl_setparam(struct net_device *dev, struct iw_request_info *info,
-			 void *w, char *extra)
-{
-	VOID *pAd;
-/*	struct os_cookie *pObj; */
-	char *this_char = extra;
-	char *value = NULL;
-	int  Status=0;
-	RT_CMD_PARAM_SET CmdParam;
-
-	GET_PAD_FROM_NET_DEV(pAd, dev);
-
-	if (pAd == NULL)
-	{
-		/* if 1st open fail, pAd will be free;
-		   So the net_dev->priv will be NULL in 2rd open */
-		return -ENETDOWN;
-	}
-
-
-
-	if (!*this_char)
-		return -EINVAL;
-
-	if ((value = rtstrchr(this_char, '=')) != NULL)
-		*value++ = 0;
-
-	/*check if the interface is down */
-/*    	if(!RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_INTERRUPT_IN_USE)) */
-		if (RTMP_DRIVER_IOCTL_SANITY_CHECK(pAd, this_char) != NDIS_STATUS_SUCCESS)
-    	{
-    		DBGPRINT(RT_DEBUG_TRACE, ("INFO::Network is down!\n"));
-			return -ENETDOWN;
-    	}
-	else
-	{
-		if (!value && (strcmp(this_char, "SiteSurvey") != 0))
-		    return -EINVAL;
-		else if (!value && (strcmp(this_char, "SiteSurvey") == 0))
-			goto SET_PROC;
-
-		/* reject setting nothing besides ANY ssid(ssidLen=0) */
-		if (!*value && (strcmp(this_char, "SSID") != 0))
-			return -EINVAL;
-	}
-
-SET_PROC:
-	CmdParam.pThisChar = this_char;
-	CmdParam.pValue = value;
-	RTMP_STA_IoctlHandle(pAd, NULL, CMD_RTPRIV_IOCTL_PARAM_SET, 0,
-						&CmdParam, 0, RT_DEV_PRIV_FLAGS_GET(dev));
-/*	Status = RTMPSTAPrivIoctlSet(pAd, this_char, value); */
-
-    return Status;
-}
-
-
 
 static int
 rt_private_get_statistics(struct net_device *dev, struct iw_request_info *info,
@@ -2357,11 +2300,6 @@ INT rt28xx_sta_ioctl(struct net_device *net_dev, struct ifreq *rq, INT cmd)
 
 			Status = RTMP_STA_IoctlHandle(pAd, wrq, CMD_RT_PRIV_IOCTL, subcmd,
 										NULL, 0, RT_DEV_PRIV_FLAGS_GET(net_dev));
-			break;
-		case RTPRIV_IOCTL_SET:
-			if(access_ok(VERIFY_READ, wrqin->u.data.pointer, wrqin->u.data.length) != TRUE)
-					break;
-			return rt_ioctl_setparam(net_dev, NULL, NULL, wrqin->u.data.pointer);
 			break;
 		case RTPRIV_IOCTL_GSITESURVEY:
 			RTMP_STA_IoctlHandle(pAd, wrq, CMD_RTPRIV_IOCTL_SITESURVEY_GET, 0,

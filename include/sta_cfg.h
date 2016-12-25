@@ -30,11 +30,6 @@
 #ifndef __STA_CFG_H__
 #define __STA_CFG_H__
 
-INT RTMPSTAPrivIoctlSet(
-	IN struct rtmp_adapter *pAd,
-	IN char *SetProcName,
-	IN char *ProcArg);
-
 #if (defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT)
 /* set WOW enable */
 INT Set_WOW_Enable(
