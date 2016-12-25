@@ -654,9 +654,6 @@ struct _RTMP_CHIP_CAP_ {
 	enum MCU_TYPE MCUType;
 	enum RF_TYPE rf_type;
 
-#ifdef TXRX_SW_ANTDIV_SUPPORT
-	BOOLEAN bTxRxSwAntDiv;
-#endif /* TXRX_SW_ANTDIV_SUPPORT */
 
 	BOOLEAN temp_tx_alc_enable;
 	int32_t temp_25_ref; /* a quantification value of temperature, but not ¢J */

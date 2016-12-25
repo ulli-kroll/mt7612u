@@ -107,11 +107,6 @@ HAS_IFUP_IN_PROBE_SUPPORT=n
 #Support for dot11w Protected Management Frame
 HAS_DOT11W_PMF_SUPPORT=n
 
-
-#Support TXRX SW Antenna Diversity
-HAS_TXRX_SW_ANTDIV_SUPPORT=n
-
-
 #Support for Bridge Fast Path & Bridge Fast Path function open to other module
 HAS_BGFP_SUPPORT=n
 HAS_BGFP_OPEN_SUPPORT=n
@@ -353,11 +348,6 @@ WFLAGS += -DCFG_TDLS_SUPPORT -DUAPSD_SUPPORT
 endif
 endif
 
-ifeq ($(HAS_TXRX_SW_ANTDIV_SUPPORT),y)
-WFLAGS += -DTXRX_SW_ANTDIV_SUPPORT
-endif
-
-
 endif #// endif of RT2860_MODE == AP //
 
 ########################################################
@@ -463,11 +453,6 @@ ifeq ($(HAS_CFG80211_TDLS_SUPPORT),y)
 WFLAGS += -DCFG_TDLS_SUPPORT -DUAPSD_SUPPORT
 endif
 endif
-
-ifeq ($(HAS_TXRX_SW_ANTDIV_SUPPORT),y)
-WFLAGS += -DTXRX_SW_ANTDIV_SUPPORT
-endif
-
 
 ifeq ($(HAS_WIDI_SUPPORT),y)
 WFLAGS += -DWIDI_SUPPORT
