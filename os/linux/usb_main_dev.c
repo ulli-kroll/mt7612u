@@ -51,10 +51,10 @@ static int rt2870_probe(
 	struct usb_interface *intf,
 	struct usb_device *usb_dev,
 	const USB_DEVICE_ID *dev_id,
-	VOID **ppAd)
+	struct rtmp_adapter **ppAd)
 {
 	struct net_device *net_dev = NULL;
-	VOID *pAd = (VOID *) NULL;
+	struct rtmp_adapter *pAd = NULL;
 	INT status, rv;
 	PVOID handle;
 	RTMP_OS_NETDEV_OP_HOOK netDevHook;
@@ -214,7 +214,7 @@ Return Value:
 Note:
 ========================================================================
 */
-static void rt2870_disconnect(struct usb_device *dev, VOID *pAd)
+static void rt2870_disconnect(struct usb_device *dev, struct rtmp_adapter *pAd)
 {
 	struct net_device *net_dev;
 
@@ -439,7 +439,7 @@ static BOOLEAN USBDevConfigInit(struct usb_device *dev, struct usb_interface *in
 
 static int rtusb_probe(struct usb_interface *intf, const USB_DEVICE_ID *id)
 {
-	VOID *pAd;
+	struct rtmp_adapter *pAd;
 	struct usb_device *dev;
 	int rv;
 
@@ -468,7 +468,7 @@ static int rtusb_probe(struct usb_interface *intf, const USB_DEVICE_ID *id)
 static void rtusb_disconnect(struct usb_interface *intf)
 {
 	struct usb_device *dev = interface_to_usbdev(intf);
-	VOID *pAd;
+	struct rtmp_adapter *pAd;
 
 	pAd = usb_get_intfdata(intf);
 #ifdef IFUP_IN_PROBE
