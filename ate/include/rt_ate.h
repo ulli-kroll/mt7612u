@@ -487,9 +487,6 @@ CHAR InsertTssi(
 	IN CHAR Tssi0,
 	IN CHAR Tssi1);
 
-INT RT335xATETssiCalibrationExtend(
-	IN struct rtmp_adapter		*pAd,
-	IN char *				arg);
 #endif /* defined(RT3350) || defined(RT3352) */
 
 CHAR ATEGetDesiredTSSI(
