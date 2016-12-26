@@ -690,10 +690,6 @@ INT	Set_ATE_TXBF_LNACAL_Proc(
 	IN	char *		arg);
 
 #ifdef MT76x2
-INT Set_ATE_TXBF_New_CAL_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg);
-
 INT Set_ATE_New_Phase_Verify(
 	IN	struct rtmp_adapter *pAd,
 	IN  char *        arg);
