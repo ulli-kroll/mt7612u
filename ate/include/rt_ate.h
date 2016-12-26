@@ -724,14 +724,6 @@ INT	Set_ATE_Help_Proc(
 VOID DefaultATEAsicAdjustTxPower(
 	IN struct rtmp_adapter *pAd);
 
-
-
-#ifdef MT76x2
-INT Set_ATE_DO_CALIBRATION_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg);
-#endif /* MT76x2 */
-
 VOID ATEAsicAdjustTxPower(
 	IN struct rtmp_adapter *pAd);
 

@@ -4881,33 +4881,6 @@ INT Set_ATE_READ_EXTERNAL_TSSI_Proc(
 }
 #endif /* RTMP_TEMPERATURE_COMPENSATION */
 
-
-
-
-
-#ifdef MT76x2
-INT Set_ATE_DO_CALIBRATION_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg)
-{
-	INT rv = 0;
-	uint32_t cal_id, param;
-
-	if (arg)
-	{
-		rv = sscanf(arg, "%d-%d", &(cal_id), &(param));
-		DBGPRINT(RT_DEBUG_TRACE, ("%s():cal_id = %d, param = %d\n", __FUNCTION__, cal_id, param));
-		if (rv == 2)
-		{
-			mt76x2_ate_do_calibration(pAd, cal_id, param);
-		}
-	}
-
-	return TRUE;
-}
-
-#endif /* MT76x2 */
-
 struct ate_chip_struct RALINKDefault =
 {
 	/* functions */
