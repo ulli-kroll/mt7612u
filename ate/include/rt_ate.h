@@ -697,10 +697,6 @@ INT	Set_ATE_TXBF_LNACAL_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg);
 
-INT Set_ATE_TXBF_INIT_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg);
-
 INT Set_ATE_TXBF_CAL_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg);
