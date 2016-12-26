@@ -3662,35 +3662,6 @@ INT	Set_ATE_TEMP_SENSOR_Proc(
 	return TRUE;
 }
 
-#ifdef SINGLE_SKU_V2
-/*
-==========================================================================
-	Description:
-		Enable SINGLE_SKU
-
-		0: disable
-		1: enable
-
-		Return:
-			TRUE if all parameters are OK, FALSE otherwise
-==========================================================================
-*/
-INT Set_ATE_SINGLE_SKU_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg)
-{
-	PATE_INFO pATEInfo = &(pAd->ate);
-	BOOLEAN value = simple_strtol(arg, 0, 10);
-	if (pATEInfo->pChipStruct->do_ATE_single_sku != NULL)
-	{
-		pATEInfo->pChipStruct->do_ATE_single_sku(pAd, value);
-	}
-
-	return TRUE;
-}
-#endif
-
-
 
 #ifdef TXBF_SUPPORT
 
