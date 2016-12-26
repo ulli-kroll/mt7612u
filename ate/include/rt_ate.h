@@ -59,7 +59,6 @@
 
 struct ate_chip_struct {
 	/* functions */
-	VOID	(*ChannelSwitch)(struct rtmp_adapter *pAd);
 	INT		(*TxPwrHandler)(struct rtmp_adapter *pAd, char index);
 	INT		(*TxPwrEvaluation)(struct rtmp_adapter *pAd);
 	INT		(*TssiCalibration)(struct rtmp_adapter *pAd, char *arg);

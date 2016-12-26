@@ -2078,7 +2078,6 @@ static void mt76x2_ate_single_sku(IN struct rtmp_adapter *pAd, IN BOOLEAN value)
 struct ate_chip_struct mt76x2ate =
 {
 	/* functions */
-	.ChannelSwitch = mt76x2_ate_switch_channel,
 	.TxPwrHandler = mt76x2_ate_tx_pwr_handler,
 	.TxPwrEvaluation = mt76x2_ate_tx_pwr_Evaluation,
 	.TssiCalibration = NULL,
