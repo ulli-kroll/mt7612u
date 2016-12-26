@@ -399,27 +399,6 @@ VOID ATEAsicSetTxRxPath(
 	return;
 }
 
-
-/*
-==========================================================================
-    Description:
-
-	AsicSwitchChannel() dedicated for ATE.
-
-==========================================================================
-*/
-VOID ATEAsicSwitchChannel(
-    IN struct rtmp_adapter *pAd)
-{
-	PATE_INFO pATEInfo = &(pAd->ate);
-
-	if (pATEInfo->pChipStruct->ChannelSwitch != NULL)
-		pATEInfo->pChipStruct->ChannelSwitch(pAd);
-
-	return;
-}
-
-
 VOID BbpSoftReset(
 	IN struct rtmp_adapter *pAd)
 {

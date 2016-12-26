@@ -707,8 +707,6 @@ VOID ATEAsicSetTxRxPath(struct rtmp_adapter *pAd);
 
 VOID RtmpRfIoWrite(struct rtmp_adapter *pAd);
 
-VOID ATEAsicSwitchChannel(struct rtmp_adapter *pAd);
-
 VOID BbpSoftReset(struct rtmp_adapter *pAd);
 
 
