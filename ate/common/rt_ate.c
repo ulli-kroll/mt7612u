@@ -2972,7 +2972,6 @@ CHAR InsertTssi(UCHAR InChannel, UCHAR Channel0, UCHAR Channel1,CHAR Tssi0, CHAR
 struct ate_chip_struct RALINKDefault =
 {
 	/* functions */
-	.TxPwrHandler = NULL,
 	.TssiCalibration = NULL,
 	.ExtendedTssiCalibration = NULL,
 	.RxVGAInit = NULL,
