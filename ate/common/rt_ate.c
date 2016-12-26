@@ -1775,41 +1775,6 @@ INT Set_ATE_PA_Bias_Proc(
 /*
 ==========================================================================
     Description:
-        Set ATE RF BW
-
-    Return:
-        TRUE if all parameters are OK, FALSE otherwise
-==========================================================================
-*/
-INT	Set_ATE_TX_BW_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg)
-{
-	PATE_INFO pATEInfo = &(pAd->ate);
-	INT status = FALSE;
-	UCHAR bw = 0;
-
-
-	if (pATEInfo->pChipStruct->Set_BW_Proc != NULL)
-	{
-		status = pATEInfo->pChipStruct->Set_BW_Proc(pAd, arg);
-
-	bw = pATEInfo->TxWI.TXWI_N.BW;
-
-	DBGPRINT(RT_DEBUG_TRACE, ("Set_ATE_TX_BW_Proc (BBPCurrentBW = %d)\n", bw));
-	}
-	DBGPRINT(RT_DEBUG_TRACE, ("Ralink: Set_ATE_TX_BW_Proc %s\n", status == TRUE ? "success" : "failed"));
-
-#ifdef CONFIG_AP_SUPPORT
-#endif /* CONFIG_AP_SUPPORT */
-
-	return TRUE;
-}
-
-
-/*
-==========================================================================
-    Description:
         Set ATE Tx frame length
 
     Return:
