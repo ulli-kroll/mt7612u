@@ -64,7 +64,6 @@ struct ate_chip_struct {
 	VOID	(*AsicSetTxRxPath)(struct rtmp_adapter *pAd);
 	VOID	(*AdjustTxPower)(struct rtmp_adapter *pAd);
 	VOID	(*AsicExtraPowerOverMAC)(struct rtmp_adapter *pAd);
-	VOID	(*AsicCalibration)(struct rtmp_adapter *pAd, UCHAR ate_mode);
 	VOID 	(*TemperCompensation)(struct rtmp_adapter *pAd);
 #ifdef SINGLE_SKU_V2
 	VOID 	(*do_ATE_single_sku)(struct rtmp_adapter *pAd, BOOLEAN value);
@@ -242,13 +241,6 @@ typedef struct _ATE_INFO {
 #ifdef DOT11N_SS3_SUPPORT
 #define ANT_2 3
 #endif /* DOT11N_SS3_SUPPORT */
-
-#define ATE_ASIC_CALIBRATION(__pAd, __ate_mode)	\
-do {	\
-		if (__pAd->ate.pChipStruct->AsicCalibration != NULL)	\
-			__pAd->ate.pChipStruct->AsicCalibration(__pAd, __ate_mode);	\
-} while (0)
-
 
 #define ATE_MAC_TX_ENABLE(_A, _I, _pV)	\
 {										\

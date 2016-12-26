@@ -840,62 +840,6 @@ VOID mt76x2_ate_asic_adjust_tx_power(
 
 }
 
-VOID mt76x2_ate_asic_calibration(
-	IN struct rtmp_adapter *pAd, UCHAR ate_mode)
-{
-
-	//UCHAR channel = pAd->ate.Channel;
-	UCHAR i;
-	uint32_t bbpValue;
-	DBGPRINT(RT_DEBUG_TRACE, ("%s: channel=%d ate_mode=0x%x\n", __FUNCTION__, pAd->ate.Channel, ate_mode));
-
-	mt76x2_ate_calibration_delay = 0;
-	mt76x2_ate_tssi_stable_count = MT76x2_TSSI_STABLE_COUNT;
-
-	switch ( ate_mode )
-	{
-		case ATE_STOP:
-			if (MT_REV_LT(pAd, MT76x2, REV_MT76x2E3)) {
-				RTMP_IO_WRITE32(pAd, 0x200C , 0x0700030A);
-				RTMP_IO_WRITE32(pAd, 0x2394 , 0x2121262C);
-			}
-			break;
-		case ATE_START:
-			break;
-		case ATE_RXFRAME:
-			if (MT_REV_LT(pAd, MT76x2, REV_MT76x2E3)) {
-				RTMP_IO_WRITE32(pAd, 0x200C , 0x0600030A);
-				RTMP_IO_WRITE32(pAd, 0x2394 , 0x1010161C);
-			}
-
-			if ( pAd->ate.RxAntennaSel == 2 )
-			{
-				for ( i = 0; i < 4 ; i++ ) {
-					RTMP_BBP_IO_WRITE32(pAd, 0x2C50, i);
-
-					RTMP_BBP_IO_READ32(pAd, 0x2c64, &bbpValue);
-					//printk("0x2c64 = 0x%x\n", bbpValue);
-					RTMP_BBP_IO_WRITE32(pAd, 0x2c60, bbpValue);
-
-					RTMP_BBP_IO_READ32(pAd, 0x2c74, &bbpValue);
-					//printk("0x2c74 = 0x%x\n", bbpValue);
-					RTMP_BBP_IO_WRITE32(pAd, 0x2c70, bbpValue);
-				}
-
-				RTMP_BBP_IO_READ32(pAd, 0x2814, &bbpValue);
-				//printk("0x2814 = 0x%x\n", bbpValue);
-				RTMP_BBP_IO_WRITE32(pAd, 0x2814, 0);
-			}
-			break;
-		case ATE_TXFRAME:
-			break;
-		default:
-			break;
-	}
-
-}
-
-
 VOID mt76x2_ate_do_calibration(
 	IN struct rtmp_adapter *pAd, uint32_t cal_id, uint32_t param)
 {
@@ -982,7 +926,6 @@ struct ate_chip_struct mt76x2ate =
 	.AsicSetTxRxPath = mt76x2_ate_set_tx_rx_path,
 	.AdjustTxPower = mt76x2_ate_asic_adjust_tx_power,
 	//.AsicExtraPowerOverMAC = DefaultATEAsicExtraPowerOverMAC,
-	.AsicCalibration = mt76x2_ate_asic_calibration,
 #ifdef SINGLE_SKU_V2
 	.do_ATE_single_sku = mt76x2_ate_single_sku,
 #endif
