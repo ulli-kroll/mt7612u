@@ -198,25 +198,6 @@ INT mt76x2_ate_tx_pwr_handler(
 	return 0;
 }
 
-VOID mt76x2_ate_rx_vga_init(
-	IN struct rtmp_adapter *	ad)
-{
-#ifdef DYNAMIC_VGA_SUPPORT
-	uint32_t bbp_val;
-
-	RTMP_BBP_IO_READ32(ad, AGC1_R8, &bbp_val);
-	bbp_val = (bbp_val & 0xffff80ff) | (ad->CommonCfg.lna_vga_ctl.agc_vga_init_0 << 8);
-	RTMP_BBP_IO_WRITE32(ad, AGC1_R8, bbp_val);
-
-	//if (ad->CommonCfg.RxStream >= 2) {
-	RTMP_BBP_IO_READ32(ad, AGC1_R9, &bbp_val);
-	bbp_val = (bbp_val & 0xffff80ff) | (ad->CommonCfg.lna_vga_ctl.agc_vga_init_1 << 8);
-	RTMP_BBP_IO_WRITE32(ad, AGC1_R9, bbp_val);
-	//}
-#endif /* DYNAMIC_VGA_SUPPORT */
-}
-
-
 VOID mt76x2_ate_set_tx_rx(
     IN struct rtmp_adapter *ad,
     IN CHAR tx,
@@ -1146,7 +1127,6 @@ struct ate_chip_struct mt76x2ate =
 	/* functions */
 	.TssiCalibration = NULL,
 	.ExtendedTssiCalibration = NULL /* RT5572_ATETssiCalibrationExtend */,
-	.RxVGAInit = mt76x2_ate_rx_vga_init,
 	.AsicSetTxRxPath = mt76x2_ate_set_tx_rx_path,
 	.AdjustTxPower = mt76x2_ate_asic_adjust_tx_power,
 	//.AsicExtraPowerOverMAC = DefaultATEAsicExtraPowerOverMAC,

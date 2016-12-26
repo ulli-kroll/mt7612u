@@ -2939,7 +2939,6 @@ struct ate_chip_struct RALINKDefault =
 	/* functions */
 	.TssiCalibration = NULL,
 	.ExtendedTssiCalibration = NULL,
-	.RxVGAInit = NULL,
 	.AsicSetTxRxPath = NULL,
 	.AdjustTxPower = NULL,
 	.AsicExtraPowerOverMAC = NULL,

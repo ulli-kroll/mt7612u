@@ -61,7 +61,6 @@ struct ate_chip_struct {
 	/* functions */
 	INT		(*TssiCalibration)(struct rtmp_adapter *pAd, char *arg);
 	INT		(*ExtendedTssiCalibration)(struct rtmp_adapter *pAd, char *arg);
-	VOID	(*RxVGAInit)(struct rtmp_adapter *pAd);
 	VOID	(*AsicSetTxRxPath)(struct rtmp_adapter *pAd);
 	VOID	(*AdjustTxPower)(struct rtmp_adapter *pAd);
 	VOID	(*AsicExtraPowerOverMAC)(struct rtmp_adapter *pAd);
@@ -342,9 +341,6 @@ do {	\
         VOID
 ==========================================================================
 */
-#define ATE_CHIP_RX_VGA_GAIN_INIT(__pAd)								\
-	if (__pAd->ate.pChipStruct->RxVGAInit != NULL)	\
-		__pAd->ate.pChipStruct->RxVGAInit(__pAd)
 
 #define ATE_CHIP_SET_TX_RX_PATH(__pAd)								\
 	if (__pAd->ate.pChipStruct->AsicSetTxRxPath != NULL)	\
