@@ -489,12 +489,6 @@ INT Set_ATE_SHOW_TSSI_Proc(
 	IN	char *		arg);
 #endif /* RTMP_TEMPERATURE_CALIBRATION */
 
-#ifdef DOT11N_SS3_SUPPORT
-INT	Set_ATE_TX_POWER2_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg);
-#endif /* DOT11N_SS3_SUPPORT */
-
 INT	Set_ATE_TX_POWER_EVALUATION_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg);

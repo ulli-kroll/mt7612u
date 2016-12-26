@@ -1712,29 +1712,6 @@ static INT ATESetAntennaTxPower(
 	return TRUE;
 }
 
-
-#ifdef DOT11N_SS3_SUPPORT
-/*
-==========================================================================
-    Description:
-        Set ATE Tx Power2
-
-    Return:
-        TRUE if all parameters are OK, FALSE otherwise
-==========================================================================
-*/
-INT	Set_ATE_TX_POWER2_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg)
-{
-	INT ret;
-
-	ret = ATESetAntennaTxPower(pAd, arg, 2);
-	return ret;
-}
-#endif /* DOT11N_SS3_SUPPORT */
-
-
 /*
 ==========================================================================
     Description:
