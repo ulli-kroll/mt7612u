@@ -1629,48 +1629,6 @@ INT	Set_ATE_BSSID_Proc(
 	return TRUE;
 }
 
-
-
-
-/*
-==========================================================================
-    Description:
-        Set ATE Tx Channel
-
-    Return:
-        TRUE if all parameters are OK, FALSE otherwise
-==========================================================================
-*/
-INT	Set_ATE_CHANNEL_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg)
-{
-	PATE_INFO pATEInfo = &(pAd->ate);
-	UCHAR channel;
-
-
-	channel = simple_strtol(arg, 0, 10);
-
-	/* to allow A band channel : ((channel < 1) || (channel > 14)) */
-	if ((channel < 1) || (channel > 216))
-	{
-		DBGPRINT_ERR(("Set_ATE_CHANNEL_Proc::Out of range, it should be in range of 1~14.\n"));
-		return FALSE;
-	}
-
-	pATEInfo->Channel = channel;
-
-
-	DBGPRINT(RT_DEBUG_TRACE, ("Set_ATE_CHANNEL_Proc (ATE Channel = %d)\n", pATEInfo->Channel));
-	DBGPRINT(RT_DEBUG_TRACE, ("Ralink: Set_ATE_CHANNEL_Proc Success\n"));
-
-#ifdef CONFIG_AP_SUPPORT
-#endif /* CONFIG_AP_SUPPORT */
-
-	return TRUE;
-}
-
-
 /*
 ==========================================================================
     Description:

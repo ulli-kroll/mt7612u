@@ -441,11 +441,6 @@ INT	Set_ATE_BSSID_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg);
 
-
-INT	Set_ATE_CHANNEL_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg);
-
 INT	Set_ATE_INIT_CHAN_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg);
