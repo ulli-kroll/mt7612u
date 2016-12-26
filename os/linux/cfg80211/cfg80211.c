@@ -619,12 +619,10 @@ Note:
 	For iw utility: ibss leave
 ========================================================================
 */
-static int CFG80211_OpsIbssLeave(
-	IN struct wiphy					*pWiphy,
-	IN struct net_device			*pNdev)
+static int CFG80211_OpsIbssLeave(struct wiphy *pWiphy,
+	struct net_device *pNdev)
 {
 	VOID *pAd;
-
 
 	CFG80211DBG(RT_DEBUG_TRACE, ("80211> %s ==>\n", __FUNCTION__));
 	MAC80211_PAD_GET(pAd, pWiphy);
@@ -658,10 +656,8 @@ Note:
 	 @NL80211_TX_POWER_FIXED: fix TX power to the mBm parameter
 ========================================================================
 */
-static int CFG80211_OpsTxPwrSet(
-	IN struct wiphy						*pWiphy,
-	IN enum nl80211_tx_power_setting	Type,
-	IN int								dBm)
+static int CFG80211_OpsTxPwrSet(struct wiphy *pWiphy, struct wireless_dev *wdev,
+	enum nl80211_tx_power_setting Type, int dBm)
 {
 
 	CFG80211DBG(RT_DEBUG_TRACE, ("80211> %s ==>\n", __FUNCTION__));
@@ -685,9 +681,8 @@ Return Value:
 Note:
 ========================================================================
 */
-static int CFG80211_OpsTxPwrGet(
-	IN struct wiphy						*pWiphy,
-	IN int								*pdBm)
+static int CFG80211_OpsTxPwrGet(struct wiphy *pWiphy, struct wireless_dev *wdev,
+	int *pdBm)
 {
 	CFG80211DBG(RT_DEBUG_TRACE, ("80211> %s ==>\n", __FUNCTION__));
 	return -EOPNOTSUPP;
@@ -746,11 +741,9 @@ Return Value:
 Note:
 ========================================================================
 */
-static int CFG80211_OpsStaGet(
-	IN struct wiphy						*pWiphy,
-	IN struct net_device				*pNdev,
-	IN UINT8							*pMac,
-	IN struct station_info				*pSinfo)
+static int CFG80211_OpsStaGet(struct wiphy *pWiphy,
+	struct net_device *pNdev, const u8 *pMac,
+	struct station_info *pSinfo)
 {
 	VOID *pAd;
 	CMD_RTPRIV_IOCTL_80211_STA StaInfo;
@@ -1752,8 +1745,7 @@ static void CFG80211_OpsMgmtFrameRegister(
 
 //Supplicant_NEW_TDLS
 
-static int CFG80211_OpsMgmtTx(
-	IN struct wiphy *pWiphy,
+static int CFG80211_OpsMgmtTx(struct wiphy *pWiphy,
 	IN struct wireless_dev *wdev,
 	IN struct ieee80211_channel *pChan,
 	IN bool Offchan,
@@ -1964,11 +1956,8 @@ static int CFG80211_OpsStaAdd(
 	return 0;
 }
 
-static int CFG80211_OpsStaChg(
-	struct wiphy *pWiphy,
-	struct net_device *dev,
-	UINT8 *pMacAddr,
-	struct station_parameters *params)
+static int CFG80211_OpsStaChg(struct wiphy *pWiphy, struct net_device *dev,
+	const u8 *pMacAddr, struct station_parameters *params)
 {
 	struct rtmp_adapter *pAd;
 	CFG80211_CB *p80211CB;
@@ -2006,11 +1995,9 @@ static int CFG80211_OpsStaChg(
 
 
 static struct wireless_dev* CFG80211_OpsVirtualInfAdd(
-        IN struct wiphy                                 *pWiphy,
-        IN char 										*name,
-        IN enum nl80211_iftype                 			 Type,
-        IN u32                                          *pFlags,
-        struct vif_params                               *pParams)
+        struct wiphy *pWiphy, const char *name,
+        unsigned char name_assign_type, enum nl80211_iftype Type,
+        u32 *pFlags, struct vif_params *pParams)
 {
 	struct rtmp_adapter *pAd;
 	CMD_RTPRIV_IOCTL_80211_VIF_SET vifInfo;
@@ -2078,7 +2065,7 @@ static int CFG80211_start_p2p_device(
 	return 0;
 }
 
-static int CFG80211_stop_p2p_device(
+static void CFG80211_stop_p2p_device(
 	struct wiphy *pWiphy,
 	struct wireless_dev *wdev)
 {
