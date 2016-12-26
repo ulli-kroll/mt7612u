@@ -670,10 +670,6 @@ INT	Set_ATE_Show_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg);
 
-INT	Set_ATE_Help_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg);
-
 VOID DefaultATEAsicAdjustTxPower(
 	IN struct rtmp_adapter *pAd);
 
