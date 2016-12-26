@@ -446,26 +446,6 @@ VOID ITxBfBbpInit(
 }
 #endif
 
-static VOID BbpHardReset(
-	IN struct rtmp_adapter *pAd)
-{
-	uint32_t MacData = 0;
-
-
-	RTMP_IO_READ32(pAd, MAC_SYS_CTRL, &MacData);
-	MacData = MacData | 0x00000002;
-	RTMP_IO_WRITE32(pAd, MAC_SYS_CTRL, MacData);
-
-	RtmpOsMsDelay(10);
-
-	RTMP_IO_READ32(pAd, MAC_SYS_CTRL, &MacData);
-	MacData = MacData & ~(0x00000002);
-	RTMP_IO_WRITE32(pAd, MAC_SYS_CTRL, MacData);
-
-	return;
-}
-
-
 static int CheckMCSValid(
 	IN struct rtmp_adapter *pAd,
 	IN UCHAR Mode,
