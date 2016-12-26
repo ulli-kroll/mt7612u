@@ -2189,46 +2189,6 @@ static int ATECmdHandler(
 	return Status;
 }
 
-
-INT	Set_ATE_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg)
-{
-	PATE_INFO pATEInfo = &(pAd->ate);
-
-	/* Handle ATEACTIVE and ATEPASSIVE commands as a special case */
-	if (!strcmp(arg, "ATEACTIVE"))
-	{
-		pATEInfo->PassiveMode = FALSE;
-		return TRUE;
-	}
-
-	if (!strcmp(arg, "ATEPASSIVE"))
-	{
-		pATEInfo->PassiveMode = TRUE;
-		return TRUE;
-	}
-
-	/* Disallow all other ATE commands in passive mode */
-	if (pATEInfo->PassiveMode)
-		return TRUE;
-
-	if (ATECmdHandler(pAd, arg) == NDIS_STATUS_SUCCESS)
-	{
-		DBGPRINT(RT_DEBUG_TRACE, ("Set_ATE_Proc Success\n"));
-
-#ifdef CONFIG_AP_SUPPORT
-#endif /* CONFIG_AP_SUPPORT */
-		return TRUE;
-	}
-	else
-	{
-		DBGPRINT_ERR(("Set_ATE_Proc Failed\n"));
-		return FALSE;
-	}
-}
-
-
 /*
 ==========================================================================
     Description:

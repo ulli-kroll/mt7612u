@@ -429,10 +429,6 @@ VOID rt_ee_write_bulk(
 	IN  USHORT offset,
 	IN  USHORT length);
 
-INT Set_ATE_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg);
-
 INT	Set_ATE_DA_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg);
