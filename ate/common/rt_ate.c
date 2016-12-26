@@ -3648,43 +3648,6 @@ INT	Set_ATE_TEMP_SENSOR_Proc(
 /*
 ==========================================================================
     Description:
-        Set ATE Sounding type
-			0 => no sounding
-			1 => Data sounding
-			2 => 2 stream NDP sounding
-			3 => 3 stream NDP Sounding
-
-    Return:
-        TRUE if all parameters are OK, FALSE otherwise
-==========================================================================
-*/
-INT	Set_ATE_TXSOUNDING_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg)
-{
-	PATE_INFO pATEInfo = &(pAd->ate);
-	CHAR value;
-
-	value = simple_strtol(arg, 0, 10);
-
-	if (value<0 || value>3)
-	{
-		DBGPRINT_ERR(("Set_ATE_TXSOUNDING_Proc: Invalid parameter %d\n", value));
-		return FALSE;
-	}
-
-	pATEInfo->txSoundingMode = value;
-
-#ifdef CONFIG_AP_SUPPORT
-#endif /* CONFIG_AP_SUPPORT */
-
-	return TRUE;
-}
-
-
-/*
-==========================================================================
-    Description:
 	Sanity check for the channel of Implicit TxBF calibration.
 
     Return:

@@ -666,10 +666,6 @@ INT Set_ATE_Fixed_Payload_Proc(
     IN  char *        arg);
 
 #ifdef TXBF_SUPPORT
-INT	Set_ATE_TXSOUNDING_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg);
-
 INT Set_ATE_TXBF_GOLDEN_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg);
