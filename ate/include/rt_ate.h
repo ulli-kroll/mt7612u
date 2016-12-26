@@ -76,7 +76,6 @@ struct ate_chip_struct {
 
 	/* command handlers */
 	INT		(*Set_BW_Proc)(struct rtmp_adapter *pAd, char *arg);
-	INT		(*Set_FREQ_OFFSET_Proc)(struct rtmp_adapter *pAd, char *arg);
 
 	/* variables */
 	INT maxTxPwrCnt;

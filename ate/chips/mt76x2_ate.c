@@ -1941,42 +1941,6 @@ VOID mt76x2_ate_asic_adjust_tx_power(
 
 }
 
-
-INT	mt76x2_set_ate_tx_freq_offset_proc(
-	IN	struct rtmp_adapter *ad,
-	IN	char *		arg)
-{
-	u32 freq_offset = 0;
-	u32 value = 0;
-//	u32 misc_ctrl = 0;
-//	u8 count = 0;
-
-	freq_offset = simple_strtol(arg, 0, 10);
-	freq_offset &= 0xFF;
-	ad->ate.RFFreqOffset = freq_offset;
-
-	/* Set crystal trim1 */
-	read_reg(ad, 0x40, XO_CTRL5, &value);
-	value &= 0xffff80ff;
-	value |= ((freq_offset & XTAL_TRIM1_MASK) << 8);
-	write_reg(ad, 0x40, XO_CTRL5, value);
-
-	/* Enable */
-	read_reg(ad, 0x40, XO_CTRL6, &value);
-	value &= 0xffff80ff;
-	value |= (0x7f << 8);
-	write_reg(ad, 0x40, XO_CTRL6, value);
-
-	DBGPRINT(RT_DEBUG_TRACE, ("Set_ATE_TX_FREQOFFSET_Proc (RFFreqOffset = %d)\n", ad->ate.RFFreqOffset));
-	DBGPRINT(RT_DEBUG_TRACE, ("Ralink: Set_ATE_TX_FREQOFFSET_Proc Success\n"));
-
-#ifdef CONFIG_AP_SUPPORT
-#endif /* CONFIG_AP_SUPPORT */
-
-	return TRUE;
-}
-
-
 VOID mt76x2_ate_asic_calibration(
 	IN struct rtmp_adapter *pAd, UCHAR ate_mode)
 {
@@ -2124,7 +2088,6 @@ struct ate_chip_struct mt76x2ate =
 	.AdjustTxPower = mt76x2_ate_asic_adjust_tx_power,
 	//.AsicExtraPowerOverMAC = DefaultATEAsicExtraPowerOverMAC,
 	.Set_BW_Proc = mt76x2_set_ate_tx_bw_proc,
-	.Set_FREQ_OFFSET_Proc = mt76x2_set_ate_tx_freq_offset_proc,
 	.AsicCalibration = mt76x2_ate_asic_calibration,
 #ifdef SINGLE_SKU_V2
 	.do_ATE_single_sku = mt76x2_ate_single_sku,
