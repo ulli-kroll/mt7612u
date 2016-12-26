@@ -71,7 +71,6 @@ struct ate_chip_struct {
 #endif
 
 	/* command handlers */
-	INT		(*Set_BW_Proc)(struct rtmp_adapter *pAd, char *arg);
 
 	/* variables */
 	INT maxTxPwrCnt;

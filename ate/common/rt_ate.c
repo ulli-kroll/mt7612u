@@ -2912,7 +2912,6 @@ struct ate_chip_struct RALINKDefault =
 #endif
 
 	/* command handlers */
-	.Set_BW_Proc = NULL,
 
 	/* variables */
 	.maxTxPwrCnt = 5,
