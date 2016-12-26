@@ -1713,25 +1713,6 @@ static INT ATESetAntennaTxPower(
 }
 
 
-/*
-==========================================================================
-    Description:
-        Set ATE Tx Power0
-
-    Return:
-        TRUE if all parameters are OK, FALSE otherwise
-==========================================================================
-*/
-INT	Set_ATE_TX_POWER0_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg)
-{
-	INT ret;
-
-	ret = ATESetAntennaTxPower(pAd, arg, 0);
-	return ret;
-}
-
 
 /*
 ==========================================================================
