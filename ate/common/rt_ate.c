@@ -4906,28 +4906,6 @@ INT Set_ATE_DO_CALIBRATION_Proc(
 	return TRUE;
 }
 
-
-INT Set_ATE_Load_CR_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg)
-{
-	INT rv = 0;
-	uint32_t mode;
-	UINT8 temp_level, channel;
-
-	if (arg)
-	{
-		rv = sscanf(arg, "%u-%u-%u", &(mode), &(temp_level), &(channel));
-		DBGPRINT(RT_DEBUG_TRACE, ("%s():mode = %d, temp_level = %d, channel = %d\n", __FUNCTION__, mode, temp_level, channel));
-		if (rv == 3)
-		{
-			andes_load_cr(pAd, mode, temp_level, channel);
-		}
-	}
-
-	return TRUE;
-}
-
 #endif /* MT76x2 */
 
 struct ate_chip_struct RALINKDefault =
