@@ -3705,30 +3705,6 @@ static BOOLEAN rtmp_ate_txbf_cal_valid_ch(
 	return bValidCh;
 }
 
-INT Set_ATE_ForceBBP_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg)
-{
-	PATE_INFO pATEInfo = &(pAd->ate);
-	UCHAR bbpReg;
-
-	bbpReg = simple_strtol(arg, 0, 10);
-
-	/*
-		0: no any restriction for BBP writing
-		1~255: force to not allow to change this specific BBP register.
-
-		Note:
-			BBP_R0 is not write-able, so use 0 as the rest operation shall be safe enough
-	*/
-	pATEInfo->forceBBPReg = bbpReg;
-	DBGPRINT(RT_DEBUG_TRACE, ("Set_ATE_ForceBBP_Proc:(forceBBPReg value=%d)\n", pATEInfo->forceBBPReg));
-
-	return TRUE;
-}
-
-
-
 #endif /* TXBF_SUPPORT */
 
 

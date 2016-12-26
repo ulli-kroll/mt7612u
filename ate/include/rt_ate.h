@@ -665,12 +665,6 @@ INT Set_ATE_Fixed_Payload_Proc(
     IN  struct rtmp_adapter *  pAd,
     IN  char *        arg);
 
-#ifdef TXBF_SUPPORT
-INT Set_ATE_ForceBBP_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg);
-#endif /* TXBF_SUPPORT */
-
 
 INT	Set_ATE_Show_Proc(
 	IN	struct rtmp_adapter *pAd,
