@@ -680,10 +680,6 @@ INT Set_ATE_TXBF_GOLDEN_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg);
 
-INT Set_ATE_TXBF_VERIFY_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg);
-
 INT Set_ATE_TXBF_VERIFY_NoComp_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg);
