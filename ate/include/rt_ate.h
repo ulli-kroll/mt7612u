@@ -670,12 +670,6 @@ INT	Set_ATE_TXSOUNDING_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg);
 
-#ifdef MT76x2
-INT Set_ATE_New_Phase_Verify(
-	IN	struct rtmp_adapter *pAd,
-	IN  char *        arg);
-#endif
-
 INT Set_ATE_TXBF_GOLDEN_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg);
