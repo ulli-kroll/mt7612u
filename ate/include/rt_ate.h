@@ -670,8 +670,6 @@ VOID  ATEPeriodicExec(
 	IN PVOID SystemSpecific2,
 	IN PVOID SystemSpecific3);
 
-VOID ATEAsicSetTxRxPath(struct rtmp_adapter *pAd);
-
 VOID RtmpRfIoWrite(struct rtmp_adapter *pAd);
 
 VOID BbpSoftReset(struct rtmp_adapter *pAd);

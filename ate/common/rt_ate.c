@@ -388,17 +388,6 @@ VOID RtmpRfIoWrite(
 }
 #endif /* RT_RF */
 
-VOID ATEAsicSetTxRxPath(
-    IN struct rtmp_adapter *pAd)
-{
-	PATE_INFO pATEInfo = &(pAd->ate);
-
-	if (pATEInfo->pChipStruct->AsicSetTxRxPath != NULL)
-		pATEInfo->pChipStruct->AsicSetTxRxPath(pAd);
-
-	return;
-}
-
 VOID BbpSoftReset(
 	IN struct rtmp_adapter *pAd)
 {
