@@ -507,14 +507,6 @@ INT Set_ATE_SHOW_TSSI_Proc(
 	IN	char *		arg);
 #endif /* RTMP_TEMPERATURE_CALIBRATION */
 
-
-#ifdef RTMP_TEMPERATURE_COMPENSATION
-
-INT Set_ATE_READ_EXTERNAL_TSSI_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg);
-#endif /* RTMP_TEMPERATURE_COMPENSATION */
-
 INT	Set_ATE_TX_POWER0_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg);

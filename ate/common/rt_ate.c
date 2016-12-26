@@ -4868,19 +4868,6 @@ INT RT335xATETssiCalibrationExtend(
 #endif /* defined(RT3350) || defined(RT3352) */
 #endif /* RTMP_INTERNAL_TX_ALC */
 
-
-#ifdef RTMP_TEMPERATURE_COMPENSATION
-
-
-INT Set_ATE_READ_EXTERNAL_TSSI_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg)
-{
-	RTMP_CHIP_ATE_READ_EXTERNAL_TSSI(pAd, arg);
-	return TRUE;
-}
-#endif /* RTMP_TEMPERATURE_COMPENSATION */
-
 struct ate_chip_struct RALINKDefault =
 {
 	/* functions */
