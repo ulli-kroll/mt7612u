@@ -1597,30 +1597,6 @@ INT	Set_ATE_BSSID_Proc(
 /*
 ==========================================================================
     Description:
-        Set ATE Tx Power for evaluation
-
-    Return:
-        TRUE if all parameters are OK, FALSE otherwise
-==========================================================================
-*/
-INT	Set_ATE_TX_POWER_EVALUATION_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg)
-{
-
-	PATE_INFO pATEInfo = &(pAd->ate);
-
-	if (pATEInfo->pChipStruct->TxPwrEvaluation!= NULL)
-		pATEInfo->pChipStruct->TxPwrEvaluation(pAd);
-	else
-		return FALSE;
-
-	return TRUE;
-}
-
-/*
-==========================================================================
-    Description:
         Set ATE Tx Antenna
 
     Return:

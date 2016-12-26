@@ -476,10 +476,6 @@ INT Set_ATE_SHOW_TSSI_Proc(
 	IN	char *		arg);
 #endif /* RTMP_TEMPERATURE_CALIBRATION */
 
-INT	Set_ATE_TX_POWER_EVALUATION_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg);
-
 INT	Set_ATE_TX_Antenna_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg);
