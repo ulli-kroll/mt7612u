@@ -473,20 +473,6 @@ static int CheckMCSValid(
 	return -1;
 }
 
-
-INT ATETxPwrHandler(
-	IN struct rtmp_adapter *pAd,
-	IN char index)
-{
-	PATE_INFO pATEInfo = &(pAd->ate);
-
-	if (pATEInfo->pChipStruct->TxPwrHandler != NULL)
-		pATEInfo->pChipStruct->TxPwrHandler(pAd, index);
-
-	return 0;
-}
-
-
 /*
 ========================================================================
 

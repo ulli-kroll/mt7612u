@@ -380,21 +380,9 @@ INT ATEResetBulkOut(
 	IN struct rtmp_adapter *pAd);
 #endif /* RTMP_MAC_USB */
 
-INT DefaultATETxPwrHandler(
-	IN struct rtmp_adapter *pAd,
-	IN char index);
-
-
-
-
-
 #if defined(RT28xx) || defined(RT2880)
 VOID RT28xxATEAsicSwitchChannel(
     IN struct rtmp_adapter *pAd);
-
-INT RT28xxATETxPwrHandler(
-	IN struct rtmp_adapter *pAd,
-	IN char index);
 #endif /* defined(RT28xx) || defined(RT2880) */
 
 
