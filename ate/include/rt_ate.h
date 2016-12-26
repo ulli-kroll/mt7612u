@@ -555,11 +555,6 @@ INT	RT28xx_Set_ATE_TX_FREQ_OFFSET_Proc(
 	IN	char *		arg);
 #endif /* defined(RT28xx) || defined(RT2880) */
 
-
-INT	Set_ATE_TX_FREQ_OFFSET_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg);
-
 INT	Default_Set_ATE_TX_BW_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg);

@@ -2915,41 +2915,6 @@ INT Set_ATE_PA_Bias_Proc(
 }
 #endif /* RT3350 */
 
-
-/*
-==========================================================================
-    Description:
-        Set ATE RF frequence offset
-
-    Return:
-        TRUE if all parameters are OK, FALSE otherwise
-==========================================================================
-*/
-INT	Set_ATE_TX_FREQ_OFFSET_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg)
-{
-	PATE_INFO pATEInfo = &(pAd->ate);
-	INT ret = FALSE;
-
-	if (pATEInfo->pChipStruct->Set_FREQ_OFFSET_Proc != NULL)
-	{
-		ret = pATEInfo->pChipStruct->Set_FREQ_OFFSET_Proc(pAd, arg);
-	}
-
-	if (ret == TRUE)
-	{
-		DBGPRINT(RT_DEBUG_TRACE, ("Set_ATE_TX_FREQ_OFFSET_Proc (RFFreqOffset = %d)\n", pATEInfo->RFFreqOffset));
-		DBGPRINT(RT_DEBUG_TRACE, ("Ralink: Set_ATE_TX_FREQ_OFFSET_Proc Success\n"));
-
-#ifdef CONFIG_AP_SUPPORT
-#endif /* CONFIG_AP_SUPPORT */
-	}
-
-	return ret;
-}
-
-
 /*
 ==========================================================================
     Description:
