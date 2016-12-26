@@ -57,7 +57,7 @@
 #define BBP_R182			182
 // TODO: ---End
 
-typedef struct _ATE_CHIP_STRUCT {
+struct ate_chip_struct {
 	/* functions */
 	VOID	(*ChannelSwitch)(struct rtmp_adapter *pAd);
 	INT		(*TxPwrHandler)(struct rtmp_adapter *pAd, char index);
@@ -91,7 +91,7 @@ typedef struct _ATE_CHIP_STRUCT {
 	int32_t pwr_diff_pre[2];
 	int32_t ant_pwr_offset[2];
 	int32_t curr_temperature;
-}ATE_CHIP_STRUCT, *PATE_CHIP_STRUCT;
+};
 
 typedef union _CAPTURE_MODE_SHARE_MEMORY {
 	struct
@@ -105,7 +105,7 @@ typedef union _CAPTURE_MODE_SHARE_MEMORY {
 }CAPTURE_MODE_SHARE_MEMORY, *PCAPTURE_MODE_SHARE_MEMORY;
 
 typedef struct _ATE_INFO {
-	PATE_CHIP_STRUCT pChipStruct;
+	struct ate_chip_struct *pChipStruct;
 	UCHAR Mode;
 	BOOLEAN PassiveMode;
 #ifdef RT3350

@@ -2111,7 +2111,7 @@ static void mt76x2_ate_single_sku(IN struct rtmp_adapter *pAd, IN BOOLEAN value)
 
 }
 #endif
-struct _ATE_CHIP_STRUCT mt76x2ate =
+struct ate_chip_struct mt76x2ate =
 {
 	/* functions */
 	.ChannelSwitch = mt76x2_ate_switch_channel,

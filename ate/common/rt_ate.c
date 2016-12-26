@@ -817,7 +817,7 @@ static int ATESTART(
 #ifdef RTMP_MAC_USB
 	UCHAR LoopCount=0;
 #endif /* RTMP_MAC_USB */
-	PATE_CHIP_STRUCT pChipStruct = pATEInfo->pChipStruct;
+	struct ate_chip_struct *pChipStruct = pATEInfo->pChipStruct;
 	BOOLEAN Cancelled;
 #ifdef RLT_BBP
 	uint32_t bbp_val;
@@ -1183,7 +1183,7 @@ static int ATESTOP(
 	PATE_INFO pATEInfo = &(pAd->ate);
 	uint32_t 		MacData=0, ring_index=0;
 	int 	Status = NDIS_STATUS_SUCCESS;
-	ATE_CHIP_STRUCT *pChipStruct = pATEInfo->pChipStruct;
+	struct ate_chip_struct *pChipStruct = pATEInfo->pChipStruct;
 	BOOLEAN Cancelled;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("ATE : ===> %s\n", __FUNCTION__));
@@ -1481,7 +1481,7 @@ static int TXCONT(
 	uint32_t 		MacData=0;
 	int 	Status = NDIS_STATUS_SUCCESS;
 	UCHAR			BbpData = 0;
-	PATE_CHIP_STRUCT pChipStruct = pATEInfo->pChipStruct;
+	struct ate_chip_struct *pChipStruct = pATEInfo->pChipStruct;
 #ifdef RLT_BBP
 	uint32_t bbp_val;
 #endif /* RLT_BBP */
@@ -1666,7 +1666,7 @@ static int TXCARS(
 	PATE_INFO pATEInfo = &(pAd->ate);
 	uint32_t 		MacData=0;
 	int 	Status = NDIS_STATUS_SUCCESS;
-	PATE_CHIP_STRUCT pChipStruct = pATEInfo->pChipStruct;
+	struct ate_chip_struct *pChipStruct = pATEInfo->pChipStruct;
 #ifdef RLT_BBP
 	uint32_t bbp_val;
 #endif /* RLT_BBP */
@@ -5307,7 +5307,7 @@ INT Set_ATE_Load_CR_Proc(
 
 #endif /* MT76x2 */
 
-struct _ATE_CHIP_STRUCT RALINKDefault =
+struct ate_chip_struct RALINKDefault =
 {
 	/* functions */
 	.ChannelSwitch = NULL,
@@ -5352,12 +5352,12 @@ extern ATE_CHIP_STRUCT RALINK2870;
 
 
 #ifdef RT8592
-extern ATE_CHIP_STRUCT RALINK85592;
+extern struct ate_chip_struct RALINK85592;
 #endif /* RT8592 */
 
 
 #ifdef MT76x2
-extern ATE_CHIP_STRUCT mt76x2ate;
+extern struct ate_chip_struct mt76x2ate;
 #endif /* MT76x2 */
 /*
 ==========================================================================
