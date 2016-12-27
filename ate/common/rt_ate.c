@@ -584,45 +584,6 @@ VOID ATEDisableAsicProtect(
 	return;
 }
 
-#ifdef RLT_BBP
-static INT ate_bbp_core_soft_reset(struct rtmp_adapter *pAd, BOOLEAN set_bw, INT bw)
-{
-	uint32_t bbp_val;
-
-	RTMP_BBP_IO_READ32(pAd, CORE_R4, &bbp_val);
-	bbp_val |= 0x1;
-	RTMP_BBP_IO_WRITE32(pAd, CORE_R4, bbp_val);
-	RtmpusecDelay(1000);
-
-	if (set_bw == TRUE)
-	{
-		RTMP_BBP_IO_READ32(pAd, CORE_R1, &bbp_val);
-		bbp_val &= (~0x18);
-		switch (bw)
-		{
-			case BW_40:
-				bbp_val |= 0x10;
-				break;
-			case BW_80:
-				bbp_val |= 0x18;
-				break;
-			case BW_20:
-			default:
-					break;
-		}
-		RTMP_BBP_IO_WRITE32(pAd, CORE_R1, bbp_val);
-		RtmpusecDelay(1000);
-	}
-	RTMP_BBP_IO_READ32(pAd, CORE_R4, &bbp_val);
-	bbp_val &= (~0x1);
-	RTMP_BBP_IO_WRITE32(pAd, CORE_R4, bbp_val);
-	RtmpusecDelay(1000);
-
-	return 0;
-}
-#endif /* RLT_BBP */
-
-
 /*
 ==========================================================================
     Description:
