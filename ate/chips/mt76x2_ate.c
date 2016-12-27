@@ -414,15 +414,6 @@ VOID mt76x2_ate_set_tx_rx(
 
 }
 
-VOID mt76x2_ate_set_tx_rx_path(
-    IN struct rtmp_adapter *ad)
-{
-	PATE_INFO   pATEInfo = &(ad->ate);
-
-	DBGPRINT(RT_DEBUG_TRACE, ("%s : Mode = %d\n", __FUNCTION__, pATEInfo->Mode));
-	mt76x2_ate_set_tx_rx(ad, pATEInfo->TxAntennaSel, pATEInfo->RxAntennaSel);
-}
-
 #ifdef RTMP_TEMPERATURE_TX_ALC
 void mt76x2_ate_temp_tx_alc(struct rtmp_adapter *ad)
 {
@@ -870,7 +861,6 @@ struct ate_chip_struct mt76x2ate =
 	/* functions */
 	.TssiCalibration = NULL,
 	.ExtendedTssiCalibration = NULL /* RT5572_ATETssiCalibrationExtend */,
-	.AsicSetTxRxPath = mt76x2_ate_set_tx_rx_path,
 	.AdjustTxPower = mt76x2_ate_asic_adjust_tx_power,
 	//.AsicExtraPowerOverMAC = DefaultATEAsicExtraPowerOverMAC,
 #ifdef SINGLE_SKU_V2

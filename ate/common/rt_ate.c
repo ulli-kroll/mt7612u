@@ -1267,7 +1267,6 @@ struct ate_chip_struct RALINKDefault =
 	/* functions */
 	.TssiCalibration = NULL,
 	.ExtendedTssiCalibration = NULL,
-	.AsicSetTxRxPath = NULL,
 	.AdjustTxPower = NULL,
 	.AsicExtraPowerOverMAC = NULL,
 #ifdef SINGLE_SKU_V2

@@ -61,7 +61,6 @@ struct ate_chip_struct {
 	/* functions */
 	INT		(*TssiCalibration)(struct rtmp_adapter *pAd, char *arg);
 	INT		(*ExtendedTssiCalibration)(struct rtmp_adapter *pAd, char *arg);
-	VOID	(*AsicSetTxRxPath)(struct rtmp_adapter *pAd);
 	VOID	(*AdjustTxPower)(struct rtmp_adapter *pAd);
 	VOID	(*AsicExtraPowerOverMAC)(struct rtmp_adapter *pAd);
 	VOID 	(*TemperCompensation)(struct rtmp_adapter *pAd);
@@ -332,12 +331,6 @@ typedef struct _ATE_INFO {
         VOID
 ==========================================================================
 */
-
-#define ATE_CHIP_SET_TX_RX_PATH(__pAd)								\
-	if (__pAd->ate.pChipStruct->AsicSetTxRxPath != NULL)	\
-		__pAd->ate.pChipStruct->AsicSetTxRxPath(__pAd)
-
-
 
 #ifdef RTMP_MAC_USB
 #define ATE_BBP_IO_READ8_BY_REG_ID(_A, _I, _pV)    RTMP_BBP_IO_READ8_BY_REG_ID(_A, _I, _pV)
