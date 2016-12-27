@@ -584,21 +584,6 @@ VOID ATEDisableAsicProtect(
 	return;
 }
 
-#ifdef CONFIG_STA_SUPPORT
-
-VOID RTMPStationStart(
-    IN  struct rtmp_adapter *  pAd)
-{
-    DBGPRINT(RT_DEBUG_TRACE, ("==> RTMPStationStart\n"));
-
-
-	DBGPRINT(RT_DEBUG_TRACE, ("<== RTMPStationStart\n"));
-}
-#endif /* CONFIG_STA_SUPPORT */
-
-
-
-
 #ifdef RLT_BBP
 static INT ate_bbp_core_soft_reset(struct rtmp_adapter *pAd, BOOLEAN set_bw, INT bw)
 {
