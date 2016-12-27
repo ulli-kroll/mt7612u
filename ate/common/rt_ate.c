@@ -1343,64 +1343,6 @@ INT Set_ATE_Write_RF4_Proc(
 }
 #endif /* RTMP_RF_RW_SUPPORT */
 
-/*
-==========================================================================
-    Description:
-        Enable ATE auto Tx alc (Tx auto level control).
-        According to the chip temperature, auto adjust the transmit power.
-
-        0: disable
-        1: enable
-
-        Return:
-        	TRUE if all parameters are OK, FALSE otherwise
-==========================================================================
-*/
-INT	Set_ATE_AUTO_ALC_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg)
-{
-	PATE_INFO pATEInfo = &(pAd->ate);
-	uint32_t value = simple_strtol(arg, 0, 10);
-
-	if (value > 0)
-	{
-#ifdef MT76x0_TSSI_CAL_COMPENSATION
-		if (IS_MT76x0(pAd))
-		{
-			MT76x0ATE_TSSI_DC_Calibration(pAd);
-			MT76x0ATE_Enable9BitIchannelADC(pAd, TRUE);
-		}
-#endif /* MT76x0_TSSI_CAL_COMPENSATION */
-#ifdef RTMP_INTERNAL_TX_ALC
-#endif /* RTMP_INTERNAL_TX_ALC */
-		pATEInfo->bAutoTxAlc = TRUE;
-		DBGPRINT(RT_DEBUG_TRACE, ("ATEAUTOALC = TRUE , auto alc enabled!\n"));
-	}
-	else
-	{
-		pATEInfo->bAutoTxAlc = FALSE;
-#ifdef MT76x0_TSSI_CAL_COMPENSATION
-		if (IS_MT76x0(pAd))
-		{
-			uint32_t MacValue;
-
-			/* clean up MAC 0x13B4 */
-			RTMP_IO_READ32(pAd, TX_ALC_CFG_1, &MacValue);
-			MacValue = MacValue & (~0x3f);
-			RTMP_IO_WRITE32(pAd, TX_ALC_CFG_1, MacValue);
-		}
-#endif /* MT76x0_TSSI_CAL_COMPENSATION */
-		DBGPRINT(RT_DEBUG_TRACE, ("ATEAUTOALC = FALSE , auto alc disabled!\n"));
-	}
-
-#ifdef CONFIG_AP_SUPPORT
-#endif /* CONFIG_AP_SUPPORT */
-
-	return TRUE;
-}
-
-
 #ifdef TXBF_SUPPORT
 
 /*
