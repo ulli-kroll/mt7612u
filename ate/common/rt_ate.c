@@ -585,17 +585,6 @@ VOID ATEDisableAsicProtect(
 }
 
 #ifdef CONFIG_STA_SUPPORT
-VOID RTMPStationStop(
-    IN  struct rtmp_adapter *  pAd)
-{
-    DBGPRINT(RT_DEBUG_TRACE, ("==> RTMPStationStop\n"));
-
-
-    /* Do nothing. */
-
-    DBGPRINT(RT_DEBUG_TRACE, ("<== RTMPStationStop\n"));
-}
-
 
 VOID RTMPStationStart(
     IN  struct rtmp_adapter *  pAd)
