@@ -1295,26 +1295,6 @@ INT Set_ATE_TSSI_CALIBRATION_EX_Proc(
 
 #ifdef RTMP_INTERNAL_TX_ALC
 
-
-INT Set_ATE_TSSI_CALIBRATION_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg)
-{
-	PATE_INFO pATEInfo = &(pAd->ate);
-
-	if (pATEInfo->pChipStruct->TssiCalibration != NULL)
-{
-		pATEInfo->pChipStruct->TssiCalibration(pAd, arg);
-	}
-	else
-	{
-		RTMP_CHIP_ATE_TSSI_CALIBRATION(pAd, arg);
-	}
-
-	return TRUE;
-}
-
-
 #if defined(RT3350) || defined(RT3352)
 INT RT335x2_Set_ATE_TSSI_CALIBRATION_ENABLE_Proc(
 	IN	struct rtmp_adapter *pAd,

@@ -424,10 +424,6 @@ INT Set_ATE_TSSI_CALIBRATION_EX_Proc(
 #endif /* defined(RTMP_INTERNAL_TX_ALC) || defined(RTMP_TEMPERATURE_COMPENSATION) */
 
 #ifdef RTMP_INTERNAL_TX_ALC
-INT Set_ATE_TSSI_CALIBRATION_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg);
-
 INT Set_ATE_TSSI_CALIBRATION_EX_Proc(
 	IN      struct rtmp_adapter *  pAd,
 	IN      char *                arg);
