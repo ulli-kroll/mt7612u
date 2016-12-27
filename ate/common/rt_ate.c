@@ -1217,37 +1217,6 @@ INT	Set_ATE_Payload_Proc(
 	return TRUE;
 }
 
-
-/*
-==========================================================================
-    Description:
-        Set ATE fixed/random payload pattern for TxFrame
-
-    Return:
-        TRUE if all parameters are OK, FALSE otherwise
-==========================================================================
-*/
-INT	Set_ATE_Fixed_Payload_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg)
-{
-	PATE_INFO pATEInfo = &(pAd->ate);
-	uint32_t value = simple_strtol(arg, 0, 10);
-
-	if ( value == 0 )
-		pATEInfo->bFixedPayload = FALSE;
-	else
-		pATEInfo->bFixedPayload = TRUE;
-
-	DBGPRINT(RT_DEBUG_TRACE, ("Set_ATE_Fixed_Payload_Proc (Fixed Payload  = %d)\n", pATEInfo->bFixedPayload));
-	DBGPRINT(RT_DEBUG_TRACE, ("Ralink: Set_ATE_Fixed_Payload_Proc Success\n"));
-
-#ifdef CONFIG_AP_SUPPORT
-#endif /* CONFIG_AP_SUPPORT */
-
-	return TRUE;
-}
-
 #ifdef RTMP_TEMPERATURE_CALIBRATION
 INT Set_ATE_TEMP_CAL_Proc(
 	IN	struct rtmp_adapter *pAd,
@@ -1274,47 +1243,6 @@ INT Set_ATE_SHOW_TSSI_Proc(
 #ifdef RTMP_INTERNAL_TX_ALC
 
 #if defined(RT3350) || defined(RT3352)
-INT RT335x2_Set_ATE_TSSI_CALIBRATION_ENABLE_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg)
-		{
-	BOOLEAN	bTSSICalbrEnableG = FALSE;
-
-	if (pAd->TxPowerCtrl.bInternalTxALC == FALSE)
-			{
-		DBGPRINT_ERR(("Please set e2p 0x36 as 0x2024!!!\n"));
-		return FALSE;
-		}
-
-	if ((!IS_RT3350(pAd)) && (!IS_RT3352(pAd)))
-	{
-		DBGPRINT_ERR(("Not support TSSI calibration since not 3350/3352 chip!!!\n"));
-		return FALSE;
-	}
-
-	if (strcmp(arg, "0") == 0)
-		{
-		bTSSICalbrEnableG = FALSE;
-		DBGPRINT(RT_DEBUG_TRACE, ("TSSI calibration disabled!\n"));
-	}
-	else if (strcmp(arg, "1") == 0)
-			{
-		bTSSICalbrEnableG = TRUE;
-		DBGPRINT(RT_DEBUG_TRACE, ("TSSI calibration enabled!\n"));
-			}
-	else
-	{
-		return FALSE;
-		}
-
-	pAd->ate.bTSSICalbrEnableG = bTSSICalbrEnableG;
-
-#ifdef CONFIG_AP_SUPPORT
-#endif /* CONFIG_AP_SUPPORT */
-
-	return TRUE;
-	}
-
 
 CHAR InsertTssi(UCHAR InChannel, UCHAR Channel0, UCHAR Channel1,CHAR Tssi0, CHAR Tssi1)
 {
