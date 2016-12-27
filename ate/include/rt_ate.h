@@ -417,18 +417,7 @@ INT Set_ADCDump_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg);
 
-#if defined(RTMP_INTERNAL_TX_ALC) || defined(RTMP_TEMPERATURE_COMPENSATION)
-INT Set_ATE_TSSI_CALIBRATION_EX_Proc(
-	IN      struct rtmp_adapter *  pAd,
-	IN      char *                arg);
-#endif /* defined(RTMP_INTERNAL_TX_ALC) || defined(RTMP_TEMPERATURE_COMPENSATION) */
-
 #ifdef RTMP_INTERNAL_TX_ALC
-INT Set_ATE_TSSI_CALIBRATION_EX_Proc(
-	IN      struct rtmp_adapter *  pAd,
-	IN      char *                arg);
-
-
 #if defined(RT3350) || defined(RT3352)
 INT RT335x_Set_ATE_TSSI_CALIBRATION_ENABLE_Proc(
 	IN	struct rtmp_adapter *pAd,

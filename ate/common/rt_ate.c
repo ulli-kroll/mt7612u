@@ -1271,28 +1271,6 @@ INT Set_ATE_SHOW_TSSI_Proc(
 }
 #endif /* RTMP_TEMPERATURE_CALIBRATION */
 
-
-#if defined(RTMP_INTERNAL_TX_ALC) || defined(RTMP_TEMPERATURE_COMPENSATION)
-INT Set_ATE_TSSI_CALIBRATION_EX_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg)
-{
-	PATE_INFO pATEInfo = &(pAd->ate);
-
-	if (pATEInfo->pChipStruct->ExtendedTssiCalibration != NULL)
-	{
-		pATEInfo->pChipStruct->ExtendedTssiCalibration(pAd, arg);
-	}
-	else
-	{
-		RTMP_CHIP_ATE_TSSI_CALIBRATION_EXTEND(pAd, arg);
-	}
-
-	return TRUE;
-}
-#endif /* defined(RTMP_INTERNAL_TX_ALC) || defined(RTMP_TEMPERATURE_COMPENSATION) */
-
-
 #ifdef RTMP_INTERNAL_TX_ALC
 
 #if defined(RT3350) || defined(RT3352)
