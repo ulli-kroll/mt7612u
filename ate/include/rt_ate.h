@@ -551,11 +551,6 @@ INT Set_ATE_Write_RF4_Proc(
 	IN	char *		arg);
 #endif /* (!defined(RTMP_RF_RW_SUPPORT)) && (!defined(RLT_RF)) */
 
-
-INT	Set_ATE_IPG_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg);
-
 INT Set_ATE_Payload_Proc(
     IN  struct rtmp_adapter *  pAd,
     IN  char *        arg);
