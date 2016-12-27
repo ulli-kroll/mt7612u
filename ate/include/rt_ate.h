@@ -564,11 +564,6 @@ INT Set_ATE_Load_E2P_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg);
 
-INT Set_ATE_Read_E2P_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg);
-
-
 INT	Set_ATE_AUTO_ALC_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg);

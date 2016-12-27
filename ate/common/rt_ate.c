@@ -1625,29 +1625,6 @@ INT Set_ATE_Load_E2P_Proc(
     return ret;
 }
 
-INT Set_ATE_Read_E2P_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg)
-{
-	USHORT buffer[EEPROM_SIZE >> 1];
-	USHORT *p;
-	int i;
-
-	rt_ee_read_all(pAd, (USHORT *)buffer);
-	p = buffer;
-	for (i = 0; i < (EEPROM_SIZE >> 1); i++)
-	{
-		DBGPRINT(RT_DEBUG_OFF, ("%4.4x ", *p));
-		if (((i+1) % 16) == 0)
-			DBGPRINT(RT_DEBUG_OFF, ("\n"));
-		p++;
-	}
-	return TRUE;
-}
-
-
-
-
 /*
 ==========================================================================
     Description:
