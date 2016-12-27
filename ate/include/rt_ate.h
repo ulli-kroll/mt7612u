@@ -520,10 +520,6 @@ INT	Set_ATE_TX_STBC_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg);
 
-INT	Set_ATE_TX_MODE_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg);
-
 INT	Set_ATE_TX_GI_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg);
