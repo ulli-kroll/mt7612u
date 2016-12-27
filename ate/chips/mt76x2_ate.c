@@ -840,59 +840,6 @@ VOID mt76x2_ate_asic_adjust_tx_power(
 
 }
 
-VOID mt76x2_ate_do_calibration(
-	IN struct rtmp_adapter *pAd, uint32_t cal_id, uint32_t param)
-{
-
-	switch (cal_id )
-	{
-		case SX_LOGEN_CALIBRATION_7662:
-			/* SX Calibration */
-			CHIP_CALIBRATION(pAd, SX_LOGEN_CALIBRATION_7662, param);
-		break;
-
-		case LC_CALIBRATION_7662:
-			/* LC Calibration */
-			CHIP_CALIBRATION(pAd, LC_CALIBRATION_7662, param);
-		break;
-
-		case TX_LOFT_CALIBRATION_7662:
-			/* TX LOFT */
-			CHIP_CALIBRATION(pAd, TX_LOFT_CALIBRATION_7662, param);
-			break;
-		case TXIQ_CALIBRATION_7662:
-			/* TXIQ Clibration */
-			CHIP_CALIBRATION(pAd, TXIQ_CALIBRATION_7662, param);
-			break;
-		case DPD_CALIBRATION_7662:
-			if (IS_USB3_INF(pAd)) {
-				/* DPD Calibration */
-				CHIP_CALIBRATION(pAd, DPD_CALIBRATION_7662, param);
-			}
-			break;
-		case RXIQC_FI_CALIBRATION_7662:
-			/* RXIQC-FI */
-			CHIP_CALIBRATION(pAd, RXIQC_FI_CALIBRATION_7662, param);
-			break;
-
-		case RXIQC_FD_CALIBRATION_7662:
-			/* RXIQC-FI */
-			CHIP_CALIBRATION(pAd, RXIQC_FD_CALIBRATION_7662, param);
-			break;
-
-		case RXDCOC_CALIBRATION_7662:
-			/* RXDCOC calibration */
-			CHIP_CALIBRATION(pAd, RXDCOC_CALIBRATION_7662, param);
-			break;
-		case RC_CALIBRATION_7662:
-			/* RX LPF calibration */
-			CHIP_CALIBRATION(pAd, RC_CALIBRATION_7662, param);
-			break;
-		default:
-		break;
-	}
-
-}
 #ifdef SINGLE_SKU_V2
 static void mt76x2_ate_single_sku(IN struct rtmp_adapter *pAd, IN BOOLEAN value)
 {
