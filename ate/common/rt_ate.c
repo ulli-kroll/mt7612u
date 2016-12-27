@@ -1625,40 +1625,6 @@ INT Set_ATE_Load_E2P_Proc(
     return ret;
 }
 
-
-#ifdef RTMP_EFUSE_SUPPORT
-/*
-==========================================================================
-    Description:
-        Load and Write E-Fuse from pAd->EEPROMImage.
-
-        Return:
-        	TRUE if all parameters are OK, FALSE otherwise
-==========================================================================
-*/
-INT Set_ATE_Load_E2P_From_Buf_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg)
-{
-	BOOLEAN		    	ret = FALSE;
-	uint32_t 			value = (uint32_t) simple_strtol(arg, 0, 10);
-
-	DBGPRINT(RT_DEBUG_OFF, ("===> %s (value=%d)\n\n", __FUNCTION__, value));
-
-	if (value > 0)
-	{
-		rt_ee_write_all(pAd, pAd->EEPROMImage);
-		ret = TRUE;
-
-	}
-
-    DBGPRINT(RT_DEBUG_OFF, ("<=== %s (ret=%d)\n", __FUNCTION__, ret));
-
-    return ret;
-}
-#endif /* RTMP_EFUSE_SUPPORT */
-
-
 INT Set_ATE_Read_E2P_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg)

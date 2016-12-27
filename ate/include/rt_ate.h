@@ -564,12 +564,6 @@ INT Set_ATE_Load_E2P_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg);
 
-#ifdef RTMP_EFUSE_SUPPORT
-INT Set_ATE_Load_E2P_From_Buf_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg);
-#endif /* RTMP_EFUSE_SUPPORT */
-
 INT Set_ATE_Read_E2P_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg);
