@@ -475,11 +475,6 @@ VOID DefaultATEAsicExtraPowerOverMAC(
 
 VOID ATEAsicExtraPowerOverMAC(
 	IN	struct rtmp_adapter *pAd);
-#ifdef RT3350
-INT	Set_ATE_PA_Bias_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg);
-#endif /* RT3350 */
 
 INT	Default_Set_ATE_TX_FREQ_OFFSET_Proc(
 	IN	struct rtmp_adapter *pAd,

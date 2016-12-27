@@ -1068,57 +1068,6 @@ VOID ATEAsicTemperCompensation(
 	return;
 }
 
-
-#ifdef RT3350
-/*
-==========================================================================
-    Description:
-        Set ATE PA bias to improve EVM
-
-    Return:
-        TRUE if all parameters are OK, FALSE otherwise
-==========================================================================
-*/
-INT Set_ATE_PA_Bias_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg)
-{
-	PATE_INFO pATEInfo = &(pAd->ate);
-	UCHAR PABias = 0;
-	UCHAR RFValue;
-
-	if (!IS_RT3350(pAd))
-	{
-		return FALSE;
-	}
-
-	PABias = simple_strtol(arg, 0, 10);
-
-	if (PABias >= 16)
-	{
-		DBGPRINT_ERR(("Set_ATE_PA_Bias_Proc::Out of range, it should be in range of 0~15.\n"));
-		return FALSE;
-	}
-
-	pATEInfo->PABias = PABias;
-
-#ifdef RTMP_RF_RW_SUPPORT
-#ifndef RLT_RF
-	ATE_RF_IO_READ8_BY_REG_ID(pAd, RF_R19, (u8 *)&RFValue);
-	RFValue = (((RFValue & 0x0F) | (pATEInfo->PABias << 4)));
-	ATE_RF_IO_WRITE8_BY_REG_ID(pAd, RF_R19, (UCHAR)RFValue);
-#endif /* !RLT_RF */
-#endif /* RTMP_RF_RW_SUPPORT */
-	DBGPRINT(RT_DEBUG_TRACE, ("Set_ATE_PA_Bias_Proc (PABias = %d)\n", pATEInfo->PABias));
-	DBGPRINT(RT_DEBUG_TRACE, ("Ralink: Set_ATE_PA_Bias_Proc Success\n"));
-
-#ifdef CONFIG_AP_SUPPORT
-#endif /* CONFIG_AP_SUPPORT */
-
-	return TRUE;
-}
-#endif /* RT3350 */
-
 /*
 ==========================================================================
     Description:
