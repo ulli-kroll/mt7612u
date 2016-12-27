@@ -1401,43 +1401,6 @@ INT	Set_ATE_AUTO_ALC_Proc(
 }
 
 
-/*
-==========================================================================
-    Description:
-        Enable Tx temperature sensor.
-
-        0: disable
-        1: enable
-
-        Return:
-        	TRUE if all parameters are OK, FALSE otherwise
-==========================================================================
-*/
-INT	Set_ATE_TEMP_SENSOR_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg)
-{
-	PATE_INFO pATEInfo = &(pAd->ate);
-	BOOLEAN value = simple_strtol(arg, 0, 10);
-
-	if (value > 0)
-	{
-		pATEInfo->bLowTemperature = TRUE;
-		DBGPRINT(RT_DEBUG_TRACE, ("ATETEMPSENSOR = TRUE , temperature sensor enabled!\n"));
-	}
-	else
-	{
-		pATEInfo->bLowTemperature = FALSE;
-		DBGPRINT(RT_DEBUG_TRACE, ("ATETEMPSENSOR = FALSE , temperature sensor disabled!\n"));
-	}
-
-#ifdef CONFIG_AP_SUPPORT
-#endif /* CONFIG_AP_SUPPORT */
-
-	return TRUE;
-}
-
-
 #ifdef TXBF_SUPPORT
 
 /*

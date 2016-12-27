@@ -555,10 +555,6 @@ INT	Set_ATE_AUTO_ALC_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg);
 
-INT	Set_ATE_TEMP_SENSOR_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg);
-
 INT	Set_ATE_IPG_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg);
