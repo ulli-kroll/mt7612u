@@ -8084,13 +8084,6 @@ VOID RTMP_TxEvmCalibration(
 	IN struct rtmp_adapter *pAd);
 #endif /* defined(RT3350) || defined(RT33xx) */
 
-VOID RTMPIoctlShow(
-	IN struct rtmp_adapter *pAd,
-	IN RTMP_IOCTL_INPUT_STRUCT *rq,
-	IN uint32_t subcmd,
-	IN VOID *pData,
-	IN ULONG Data);
-
 INT RTMP_COM_IoctlHandle(
 	IN struct rtmp_adapter *pAdSrc,
 	IN RTMP_IOCTL_INPUT_STRUCT *wrq,
