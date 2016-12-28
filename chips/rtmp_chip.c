@@ -428,10 +428,6 @@ int RtmpChipOpsHook(VOID *pCB)
 		return -1;
 #endif /* RT65xx */
 
-	/* default init */
-	pAd->rateAlg = RATE_ALG_LEGACY;
-
-
 	/* EDCCA */
 	pChipOps->ChipSetEDCCA= NULL;
 

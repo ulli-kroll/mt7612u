@@ -101,9 +101,7 @@ typedef struct  _RTMP_RA_GRP_TB
 #define RATE_DOWN		2		/* Trying lower rate */
 
 enum RATE_ADAPT_ALG{
-	RATE_ALG_LEGACY = 1,
 	RATE_ALG_GRP = 2,
-	RATE_ALG_AGS = 3,
 	RATE_ALG_MAX_NUM
 };
 
