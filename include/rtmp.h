@@ -8094,7 +8094,6 @@ INT RTMP_AP_IoctlPrepare(struct rtmp_adapter *pAd, VOID *pCB);
 
 
 INT Set_VcoPeriod_Proc(struct rtmp_adapter *pAd, char *arg);
-INT	Set_RateAlg_Proc(struct rtmp_adapter *pAd, char *arg);
 
 #ifdef SINGLE_SKU
 INT Set_ModuleTxpower_Proc(struct rtmp_adapter *pAd, char *arg);
