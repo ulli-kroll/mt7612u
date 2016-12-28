@@ -1096,7 +1096,6 @@ struct _RTMP_CHIP_OP_ {
 
 	void (*usb_cfg_read)(struct rtmp_adapter *ad, u32 *value);
 	void (*usb_cfg_write)(struct rtmp_adapter *ad, u32 value);
-	void (*show_pwr_info)(struct rtmp_adapter *ad);
 	void (*cal_test)(struct rtmp_adapter *ad, uint32_t type);
 };
 

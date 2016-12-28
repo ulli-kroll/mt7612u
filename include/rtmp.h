@@ -8261,7 +8261,6 @@ VOID asic_tune_be_wmm(
 INT set_rf(struct rtmp_adapter *pAd, char *arg);
 int write_reg(struct rtmp_adapter *ad, u32 base, u16 offset, u32 value);
 int read_reg(struct rtmp_adapter *ad, u32 base, u16 offset, u32 *value);
-INT show_pwr_info(struct rtmp_adapter *ad, char *arg);
 #ifdef DBG_DIAGNOSE
 INT Show_Diag_Proc(struct rtmp_adapter *pAd, char *arg);
 #endif

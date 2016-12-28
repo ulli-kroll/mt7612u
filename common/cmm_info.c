@@ -7860,15 +7860,6 @@ INT RTMPShowCfgValue(
 }
 
 
-INT show_pwr_info(struct rtmp_adapter *ad, char *arg)
-{
-	if (ad->chipOps.show_pwr_info) {
-		ad->chipOps.show_pwr_info(ad);
-	}
-
-	return 0;
-}
-
 #ifdef DBG_DIAGNOSE
 INT Show_Diag_Proc(struct rtmp_adapter *pAd, char *arg)
 {
