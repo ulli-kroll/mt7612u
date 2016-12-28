@@ -429,7 +429,7 @@ int RtmpChipOpsHook(VOID *pCB)
 #endif /* RT65xx */
 
 	/* default init */
-	RTMP_DRS_ALG_INIT(pAd, RATE_ALG_LEGACY);
+	pAd->rateAlg = RATE_ALG_LEGACY;
 
 
 	/* EDCCA */

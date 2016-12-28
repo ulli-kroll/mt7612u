@@ -378,9 +378,5 @@ VOID MlmeSelectTxRateTable(
 	IN UCHAR *pTableSize,
 	IN UCHAR *pInitTxRateIdx);
 
-/* normal rate switch */
-#define RTMP_DRS_ALG_INIT(__pAd, __Alg)										\
-	(__pAd)->rateAlg = __Alg;
-
 #endif /* __DRS_EXTR_H__ */
 

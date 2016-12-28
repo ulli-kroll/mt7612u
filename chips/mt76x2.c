@@ -4163,7 +4163,7 @@ VOID mt76x2_init(struct rtmp_adapter *pAd)
 
 	pChipCap->asic_caps |= (fASIC_CAP_MCS_LUT);
 
-	RTMP_DRS_ALG_INIT(pAd, RATE_ALG_GRP);
+	pAd->rateAlg = RATE_ALG_GRP;
 
 	rlt_bcn_buf_init(pAd);
 
