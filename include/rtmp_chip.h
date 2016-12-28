@@ -1070,7 +1070,6 @@ struct _RTMP_CHIP_OP_ {
 	void (*fw_init)(struct rtmp_adapter *ad);
 	int (*RandomRead)(struct rtmp_adapter *ad, RTMP_REG_PAIR *RegPair, uint32_t Num);
 	int (*RandomWrite)(struct rtmp_adapter *ad, RTMP_REG_PAIR *RegPair, uint32_t Num);
-	int (*RFRandomWrite)(struct rtmp_adapter *ad, BANK_RF_REG_PAIR *RegPair, uint32_t Num);
 	int (*sc_random_write)(struct rtmp_adapter *ad, CR_REG *table, u32 num, u32 flags);
 	int (*sc_rf_random_write)(struct rtmp_adapter *ad, BANK_RF_CR_REG *table, u32 num, u32 flags);
 	void (*Calibration)(struct rtmp_adapter *pAd, uint32_t CalibrationID, ANDES_CALIBRATION_PARAM *param);
@@ -1326,12 +1325,6 @@ do {										\
 do {	\
 		if (_pAd->chipOps.RandomWrite != NULL)	\
 			_pAd->chipOps.RandomWrite(_pAd, _RegPair, _Num);	\
-} while (0)
-
-#define RF_RANDOM_WRITE(_pAd, _RegPair, _Num)	\
-do {	\
-		if (_pAd->chipOps.RFRandomWrite != NULL)	\
-			_pAd->chipOps.RFRandomWrite(_pAd, _RegPair, _Num);	\
 } while (0)
 
 #define RTMP_SECOND_CCA_DETECTION(__pAd) \
