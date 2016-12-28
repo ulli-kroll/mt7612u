@@ -1459,50 +1459,6 @@ rt_private_get_statistics(struct net_device *dev, struct iw_request_info *info,
     return Status;
 }
 
-
-static int
-rt_private_show(struct net_device *dev, struct iw_request_info *info,
-		struct iw_point *wrq, char *extra)
-{
-	RTMP_IOCTL_INPUT_STRUCT wrqin;
-	INT				Status = 0;
-	VOID   			*pAd;
-/*	struct os_cookie *	pObj; */
-	u32             subcmd = wrq->flags;
-	RT_CMD_STA_IOCTL_SHOW IoctlShow, *pIoctlShow = &IoctlShow;
-
-	GET_PAD_FROM_NET_DEV(pAd, dev);
-
-	if (pAd == NULL)
-	{
-		/* if 1st open fail, pAd will be free;
-		   So the net_dev->priv will be NULL in 2rd open */
-		return -ENETDOWN;
-	}
-
-
-/*	pObj = pAd->OS_Cookie; */
-	if (extra == NULL)
-	{
-		wrq->length = 0;
-		return -EIO;
-	}
-	memset(extra, 0x00, IW_PRIV_SIZE_MASK);
-
-
-	wrqin.u.data.pointer = wrq->pointer;
-	wrqin.u.data.length = wrq->length;
-
-	pIoctlShow->pData = (CHAR *)extra;
-	pIoctlShow->MaxSize = IW_PRIV_SIZE_MASK;
-	pIoctlShow->InfType = RT_DEV_PRIV_FLAGS_GET(dev);
-	RTMP_STA_IoctlHandle(pAd, &wrqin, CMD_RTPRIV_IOCTL_SHOW, subcmd,
-						pIoctlShow, 0, RT_DEV_PRIV_FLAGS_GET(dev));
-
-	wrq->length = wrqin.u.data.length;
-    return Status;
-}
-
 #ifdef SIOCSIWMLME
 int rt_ioctl_siwmlme(struct net_device *dev,
 			   struct iw_request_info *info,
