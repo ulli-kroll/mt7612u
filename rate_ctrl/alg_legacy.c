@@ -91,14 +91,6 @@ VOID APMlmeDynamicTxRateSwitching(struct rtmp_adapter *pAd)
 		}
 #endif /* NEW_RATE_ADAPT_SUPPORT */
 
-#ifdef AGS_SUPPORT
-		if (SUPPORT_AGS(pAd) && AGS_IS_USING(pAd, pTable))
-		{
-			ApMlmeDynamicTxRateSwitchingAGS(pAd, i);
-			continue;
-		}
-#endif /* AGS_SUPPORT */
-
 		/* NICUpdateFifoStaCounters(pAd); */
 
 		if (pAd->MacTab.Size == 1)
@@ -768,9 +760,6 @@ VOID MlmeDynamicTxRateSwitching(
 	CHAR					Rssi, TmpIdx = 0;
 	ULONG					TxRetransmit = 0, TxSuccess = 0, TxFailCount = 0;
 	RSSI_SAMPLE				*pRssi = &pAd->StaCfg.RssiSample;
-#ifdef AGS_SUPPORT
-	AGS_STATISTICS_INFO		AGSStatisticsInfo = {0};
-#endif /* AGS_SUPPORT */
 
 #ifdef RALINK_ATE
 	if (ATE_ON(pAd))
@@ -822,21 +811,6 @@ VOID MlmeDynamicTxRateSwitching(
 					("DRS:Wcid=%d, TxSuccess=%ld, TxRetransmit=%ld, TxFailCount=%ld \n",
 					pEntry->wcid, TxSuccess, TxRetransmit, TxFailCount));
 
-#ifdef AGS_SUPPORT
-			if (SUPPORT_AGS(pAd))
-			{
-
-				/* Gather the statistics information*/
-
-				AGSStatisticsInfo.RSSI = Rssi;
-				AGSStatisticsInfo.TxErrorRatio = TxErrorRatio;
-				AGSStatisticsInfo.AccuTxTotalCnt = TxTotalCnt;
-				AGSStatisticsInfo.TxTotalCnt = TxTotalCnt;
-				AGSStatisticsInfo.TxSuccess = TxSuccess;
-				AGSStatisticsInfo.TxRetransmit = TxRetransmit;
-				AGSStatisticsInfo.TxFailCount = TxFailCount;
-			}
-#endif /* AGS_SUPPORT */
 		}
 		else
 		{
@@ -889,21 +863,6 @@ VOID MlmeDynamicTxRateSwitching(
 #endif /* FIFO_EXT_SUPPORT */
 
 
-#ifdef AGS_SUPPORT
-			if (SUPPORT_AGS(pAd))
-			{
-
-				/* Gather the statistics information*/
-
-				AGSStatisticsInfo.RSSI = Rssi;
-				AGSStatisticsInfo.TxErrorRatio = TxErrorRatio;
-				AGSStatisticsInfo.AccuTxTotalCnt = TxTotalCnt;
-				AGSStatisticsInfo.TxTotalCnt = TxTotalCnt;
-				AGSStatisticsInfo.TxSuccess = pEntry->OneSecTxNoRetryOkCount;
-				AGSStatisticsInfo.TxRetransmit = pEntry->OneSecTxRetryOkCount;
-				AGSStatisticsInfo.TxFailCount = pEntry->OneSecTxFailCount;
-			}
-#endif /* AGS_SUPPORT */
 		}
 
 		if (TxTotalCnt)
@@ -943,15 +902,6 @@ VOID MlmeDynamicTxRateSwitching(
 
 		CurrRateIdx = pEntry->CurrTxRateIndex;
 
-#ifdef AGS_SUPPORT
-		if (AGS_IS_USING(pAd, pTable))
-		{
-			/* The dynamic Tx rate switching for AGS (Adaptive Group Switching)*/
-			MlmeDynamicTxRateSwitchingAGS(pAd, pEntry, pTable, TableSize, &AGSStatisticsInfo, InitTxRateIdx);
-
-			continue;
-		}
-#endif /* AGS_SUPPORT */
 
 		if (CurrRateIdx >= TableSize)
 			CurrRateIdx = TableSize - 1;
@@ -1251,9 +1201,6 @@ VOID StaQuickResponeForRateUpExec(
 #ifdef TXBF_SUPPORT
 	BOOLEAN					CurrPhyETxBf, CurrPhyITxBf;
 #endif /* TXBF_SUPPORT */
-#ifdef AGS_SUPPORT
-	AGS_STATISTICS_INFO		AGSStatisticsInfo = {0};
-#endif /* AGS_SUPPORT */
 
 	pAd->StaCfg.StaQuickResponeForRateUpTimerRunning = FALSE;
 
@@ -1340,21 +1287,6 @@ VOID StaQuickResponeForRateUpExec(
 			if (TxTotalCnt)
 				TxErrorRatio = ((TxRetransmit + TxFailCount) * 100) / TxTotalCnt;
 
-#ifdef AGS_SUPPORT
-			if (SUPPORT_AGS(pAd))
-			{
-
-				/* Gather the statistics information*/
-
-				AGSStatisticsInfo.RSSI = Rssi;
-				AGSStatisticsInfo.TxErrorRatio = TxErrorRatio;
-				AGSStatisticsInfo.AccuTxTotalCnt = TxTotalCnt;
-				AGSStatisticsInfo.TxTotalCnt = TxTotalCnt;
-				AGSStatisticsInfo.TxSuccess = TxSuccess;
-				AGSStatisticsInfo.TxRetransmit = TxRetransmit;
-				AGSStatisticsInfo.TxFailCount = TxFailCount;
-			}
-#endif /* AGS_SUPPORT */
 		}
 		else
 		{
@@ -1394,34 +1326,8 @@ VOID StaQuickResponeForRateUpExec(
 			}
 #endif /* FIFO_EXT_SUPPORT */
 
-#ifdef AGS_SUPPORT
-			if (SUPPORT_AGS(pAd))
-			{
-
-				/* Gather the statistics information*/
-
-				AGSStatisticsInfo.RSSI = Rssi;
-				AGSStatisticsInfo.TxErrorRatio = TxErrorRatio;
-				AGSStatisticsInfo.AccuTxTotalCnt = TxTotalCnt;
-				AGSStatisticsInfo.TxTotalCnt = TxTotalCnt;
-				AGSStatisticsInfo.TxSuccess = pEntry->OneSecTxNoRetryOkCount;
-				AGSStatisticsInfo.TxRetransmit = pEntry->OneSecTxRetryOkCount;
-				AGSStatisticsInfo.TxFailCount = pEntry->OneSecTxFailCount;
-			}
-#endif /* AGS_SUPPORT */
 		}
 
-#ifdef AGS_SUPPORT
-		if (AGS_IS_USING(pAd, pTable))
-		{
-
-			/* The dynamic Tx rate switching for AGS (Adaptive Group Switching)*/
-
-			StaQuickResponeForRateUpExecAGS(pAd, pEntry, pTable, TableSize, &AGSStatisticsInfo, InitTxRateIdx);
-
-			continue; /* Skip the remaining procedure of the old Tx rate switching*/
-		}
-#endif /* AGS_SUPPORT */
 
 #ifdef DBG_CTRL_SUPPORT
 		/* Debug option: Concise RA log */

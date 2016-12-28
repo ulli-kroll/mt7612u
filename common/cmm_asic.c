@@ -45,21 +45,6 @@ VOID AsicUpdateAutoFallBackTable(
 #endif /* DOT11N_SS3_SUPPORT */
 	RTMP_RA_LEGACY_TB *pCurrTxRate, *pNextTxRate;
 
-#ifdef AGS_SUPPORT
-	RTMP_RA_AGS_TB *pCurrTxRate_AGS, *pNextTxRate_AGS;
-	BOOLEAN					bUseAGS = FALSE;
-
-	if (AGS_IS_USING(pAd, pRateTable))
-	{
-		DBGPRINT(RT_DEBUG_TRACE, ("%s: Use AGS\n", __FUNCTION__));
-
-		bUseAGS = TRUE;
-
-		Ht3SSCfg0.word = 0x1211100f;
-		Ht3SSCfg1.word = 0x16151413;
-	}
-#endif /* AGS_SUPPORT */
-
 #ifdef DOT11N_SS3_SUPPORT
 	if (IS_RT3883(pAd))
 	{
@@ -86,26 +71,10 @@ VOID AsicUpdateAutoFallBackTable(
 		goto skipUpdate;
 #endif /* NEW_RATE_ADAPT_SUPPORT */
 
-#ifdef AGS_SUPPORT
-	if (bUseAGS)
-	{
-		pNextTxRate_AGS = (RTMP_RA_AGS_TB *)pRateTable+1;
-		pNextTxRate = (RTMP_RA_LEGACY_TB *)pNextTxRate_AGS;
-	}
-	else
-#endif /* AGS_SUPPORT */
 		pNextTxRate = (RTMP_RA_LEGACY_TB *)pRateTable+1;
 
 	for (i = 1; i < *((u8 *) pRateTable); i++)
 	{
-#ifdef AGS_SUPPORT
-		if (bUseAGS)
-		{
-			pCurrTxRate_AGS = (RTMP_RA_AGS_TB *)pRateTable+1+i;
-			pCurrTxRate = (RTMP_RA_LEGACY_TB *)pCurrTxRate_AGS;
-		}
-		else
-#endif /* AGS_SUPPORT */
 			pCurrTxRate = (RTMP_RA_LEGACY_TB *)pRateTable+1+i;
 
 		switch (pCurrTxRate->Mode)
@@ -204,40 +173,6 @@ VOID AsicUpdateAutoFallBackTable(
 							}
 						}
 						else
-#ifdef AGS_SUPPORT
-						if ((bUseAGS == TRUE) &&
-							(pCurrTxRate->CurrMCS >= 16) && (pCurrTxRate->CurrMCS <= 23))
-						{
-							switch(pCurrTxRate->CurrMCS)
-							{
-								case 16:
-									Ht3SSCfg0.field.HTMCS16FBK = pNextTxRate->CurrMCS;
-									break;
-								case 17:
-									Ht3SSCfg0.field.HTMCS17FBK = pNextTxRate->CurrMCS;
-									break;
-								case 18:
-									Ht3SSCfg0.field.HTMCS18FBK = pNextTxRate->CurrMCS;
-									break;
-								case 19:
-									Ht3SSCfg0.field.HTMCS19FBK = pNextTxRate->CurrMCS;
-									break;
-								case 20:
-									Ht3SSCfg1.field.HTMCS20FBK = pNextTxRate->CurrMCS;
-									break;
-								case 21:
-									Ht3SSCfg1.field.HTMCS21FBK = pNextTxRate->CurrMCS;
-									break;
-								case 22:
-									Ht3SSCfg1.field.HTMCS22FBK = pNextTxRate->CurrMCS;
-									break;
-								case 23:
-									Ht3SSCfg1.field.HTMCS23FBK = pNextTxRate->CurrMCS;
-									break;
-							}
-						}
-						else
-#endif /* AGS_SUPPORT */
 							DBGPRINT(RT_DEBUG_ERROR, ("AsicUpdateAutoFallBackTable: not support CurrMCS=%d\n", pCurrTxRate->CurrMCS));
 					}
 				}
@@ -248,17 +183,6 @@ VOID AsicUpdateAutoFallBackTable(
 		pNextTxRate = pCurrTxRate;
 	}
 
-#ifdef AGS_SUPPORT
-	if (bUseAGS == TRUE)
-	{
-		Ht3SSCfg0.field.HTMCS16FBK = 0x8; // MCS 16 -> MCS 8
-		HtCfg1.field.HTMCS8FBK = 0x0; // MCS 8 -> MCS 0
-
-		LgCfg0.field.OFDMMCS2FBK = 0x3; // OFDM 12 -> CCK 11
-		LgCfg0.field.OFDMMCS1FBK = 0x2; // OFDM 9 -> CCK 5.5
-		LgCfg0.field.OFDMMCS0FBK = 0x2; // OFDM 6 -> CCK 5.5
-	}
-#endif /* AGS_SUPPORT */
 
 #ifdef NEW_RATE_ADAPT_SUPPORT
 skipUpdate:
@@ -271,9 +195,6 @@ skipUpdate:
 
 #ifdef DOT11N_SS3_SUPPORT
 	if (IS_RT2883(pAd) || IS_RT3883(pAd)
-#ifdef AGS_SUPPORT
-		|| (bUseAGS == TRUE)
-#endif /* AGS_SUPPORT */
 	)
 	{
 		RTMP_IO_WRITE32(pAd, TX_FBK_CFG_3S_0, Ht3SSCfg0.word);

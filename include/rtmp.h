@@ -2544,10 +2544,6 @@ typedef struct _MAC_TABLE_ENTRY {
 	UCHAR mcsGroup;/* the mcs group to be tried */
 #endif /* NEW_RATE_ADAPT_SUPPORT */
 
-#ifdef AGS_SUPPORT
-	AGS_CONTROL AGSCtrl;	/* AGS control */
-#endif /* AGS_SUPPORT */
-
 	/* to record the each TX rate's quality. 0 is best, the bigger the worse. */
 	USHORT TxQuality[MAX_TX_RATE_INDEX + 1];
 	BOOLEAN fLastSecAccordingRSSI;

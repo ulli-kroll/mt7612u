@@ -154,11 +154,6 @@ HAS_STREAM_MODE_SUPPORT=n
 
 HAS_NEW_RATE_ADAPT_SUPPORT=n
 
-HAS_RATE_ADAPT_AGS_SUPPORT=n
-
-
-
-
 #MT7601
 HAS_RX_CSO_SUPPORT=y
 
@@ -282,10 +277,6 @@ endif
 
 ifeq ($(HAS_NEW_RATE_ADAPT_SUPPORT),y)
 WFLAGS += -DNEW_RATE_ADAPT_SUPPORT
-endif
-
-ifeq ($(HAS_RATE_ADAPT_AGS_SUPPORT),y)
-WFLAGS += -DAGS_SUPPORT
 endif
 
 ifeq ($(HAS_GREENAP_SUPPORT),y)
@@ -737,7 +728,6 @@ obj_cmm := \
 	common/txpower.o\
 	rate_ctrl/ra_ctrl.o\
 	rate_ctrl/alg_legacy.o\
-	rate_ctrl/alg_ags.o\
 	chips/rtmp_chip.o\
 	mgmt/mgmt_hw.o\
 	mgmt/mgmt_entrytb.o\
@@ -778,10 +768,6 @@ endif
 
 ifeq ($(HAS_NEW_RATE_ADAPT_SUPPORT),y)
 obj_cmm += rate_ctrl/alg_grp.o
-endif
-
-ifeq ($(HAS_RATE_ADAPT_AGS_SUPPORT),y)
-obj_cmm += rate_ctrl/alg_ags.o
 endif
 
 ifeq ($(HAS_DFS_SUPPORT),y)

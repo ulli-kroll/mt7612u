@@ -2581,11 +2581,6 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 	pAd->ra_interval = DEF_RA_TIME_INTRVAL;
 	pAd->ra_fast_interval = DEF_QUICK_RA_TIME_INTERVAL;
 
-#ifdef AGS_SUPPORT
-	if (pAd->rateAlg == RATE_ALG_AGS)
-		pAd->ra_fast_interval = AGS_QUICK_RA_TIME_INTERVAL;
-#endif /* AGS_SUPPORT */
-
 	/* Tx Sw queue length setting */
 	pAd->TxSwQMaxLen = MAX_PACKETS_IN_QUEUE;
 

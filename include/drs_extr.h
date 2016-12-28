@@ -309,40 +309,6 @@ INT Set_RateTable_Proc(
 	IN  char *arg);
 #endif /*NEW_RATE_ADAPT_SUPPORT*/
 
-#ifdef AGS_SUPPORT
-INT Show_AGS_Proc(
-    IN  struct rtmp_adapter *pAd,
-    IN  char *		arg);
-
-#ifdef CONFIG_STA_SUPPORT
-VOID MlmeDynamicTxRateSwitchingAGS(
-	IN struct rtmp_adapter *pAd,
-	IN PMAC_TABLE_ENTRY pEntry,
-	IN u8 *pTable,
-	IN UCHAR TableSize,
-	IN PAGS_STATISTICS_INFO pAGSStatisticsInfo,
-	IN UCHAR InitTxRateIdx);
-
-VOID StaQuickResponeForRateUpExecAGS(
-	IN struct rtmp_adapter *pAd,
-	IN PMAC_TABLE_ENTRY pEntry,
-	IN u8 *pTable,
-	IN UCHAR TableSize,
-	IN PAGS_STATISTICS_INFO pAGSStatisticsInfo,
-	IN UCHAR InitTxRateIdx);
-#endif /* CONFIG_STA_SUPPORT */
-
-#ifdef CONFIG_AP_SUPPORT
-VOID ApMlmeDynamicTxRateSwitchingAGS(
-	IN struct rtmp_adapter *pAd,
-	IN INT idx);
-
-VOID ApQuickResponeForRateUpExecAGS(
-	IN struct rtmp_adapter *pAd,
-	IN INT idx);
-#endif /* CONFIG_AP_SUPPORT */
-#endif /* AGS_SUPPORT */
-
 #ifdef CONFIG_AP_SUPPORT
 VOID APMlmeDynamicTxRateSwitchingAdapt(struct rtmp_adapter *pAd, UINT idx);
 VOID APQuickResponeForRateUpExecAdapt(struct rtmp_adapter *pAd, UINT idx);
