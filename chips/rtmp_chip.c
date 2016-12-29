@@ -363,29 +363,6 @@ INT WaitForAsicReady(struct rtmp_adapter *pAd)
 }
 
 
-INT AsicGetMacVersion(struct rtmp_adapter *pAd)
-{
-	uint32_t reg = MAC_CSR0;
-
-
-#ifdef RT65xx
-	if (IS_RT65XX(pAd))
-		RTMP_IO_READ32(pAd, ASIC_VERSION, &pAd->ChipID);
-#endif /* RT65xx */
-
-	if (WaitForAsicReady(pAd) == TRUE)
-	{
-		RTMP_IO_READ32(pAd, reg, &pAd->MACVersion);
-		DBGPRINT(RT_DEBUG_OFF, ("MACVersion[Ver:Rev]=0x%08x : 0x%08x\n",
-					pAd->MACVersion, pAd->ChipID));
-		return TRUE;
-	}
-	else
-	{
-		DBGPRINT(RT_DEBUG_ERROR, ("%s() failed!\n", __FUNCTION__));
-		return FALSE;
-	}
-}
 
 
 /*
