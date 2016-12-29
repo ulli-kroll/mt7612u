@@ -1241,8 +1241,8 @@ int NICInitializeAsic(struct rtmp_adapter *pAd, BOOLEAN bHardReset)
 
 	// TODO: shiang, how about the value setting of pAd->MACVersion?? Original it assigned here
 
-	DBGPRINT(RT_DEBUG_TRACE, ("%s():MACVersion[Ver:Rev=0x%08x]\n",
-			__FUNCTION__, pAd->MACVersion));
+	DBGPRINT(RT_DEBUG_OFF, ("MAC[Ver=0x%08x]\n",
+				pAd->MACVersion));
 	if (!(IS_MT7601(pAd) || IS_MT76x2(pAd))) {
 		/* turn on bit13 (set to zero) after rt2860D. This is to solve high-current issue.*/
 		RTMP_IO_READ32(pAd, PBF_SYS_CTRL, &mac_val);

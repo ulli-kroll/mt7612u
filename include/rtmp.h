@@ -3780,7 +3780,6 @@ struct rtmp_adapter {
 
 	uint32_t MACVersion;	/* MAC version. Record rt2860C(0x28600100) or rt2860D (0x28600101).. */
 	uint32_t ChipID;
-	uint16_t ChipId; 		/* Chip version. Read from EEPROM 0x00 to identify RT5390H */
 	INT dev_idx;
 
 	/* --------------------------- */
