@@ -2273,45 +2273,6 @@ int andes_sc_random_write(struct rtmp_adapter *ad, CR_REG *table, u32 nums, u32 
 	return 0;
 }
 
-int andes_sc_rf_random_write(struct rtmp_adapter *ad, BANK_RF_CR_REG *table, u32 nums, u32 flags)
-{
-	u32 varlen = 0, i, j;
-	BANK_RF_REG_PAIR *sw_ch_table = NULL, temp;
-
-	if (!table)
-		return -1;
-
-	for (i = 0; i < nums; i++) {
-		if ((table[i].flags & (_BAND | _BW | _TX_RX_SETTING)) == flags) {
-			varlen += sizeof(BANK_RF_REG_PAIR);
-		}
-	}
-
-	sw_ch_table = kmalloc(varlen, GFP_ATOMIC);
-
-	if (!sw_ch_table) {
-		DBGPRINT(RT_DEBUG_ERROR, ("%s: memory is not available for allocating switch channel table\n", __FUNCTION__));
-		return -1;
-	}
-
-	for (i = 0, j = 0; i < nums; i++) {
-		if ((table[i].flags & (_BAND | _BW | _TX_RX_SETTING)) == flags) {
-			temp.Bank = table[i].bank;
-			temp.Register = table[i].offset;
-			temp.Value = table[i].value;
-			memmove(&sw_ch_table[j], &temp, sizeof(temp));
-			j++;
-		}
-	}
-
-	andes_rf_random_write(ad, sw_ch_table, varlen / sizeof(BANK_RF_REG_PAIR));
-
-	kfree(sw_ch_table);
-
-	return 0;
-}
-
-
 int andes_pwr_saving(struct rtmp_adapter *ad, u32 op, u32 level,
 					 u32 listen_interval, u32 pre_tbtt_lead_time,
 					 u8 tim_byte_offset, u8 tim_byte_pattern)
