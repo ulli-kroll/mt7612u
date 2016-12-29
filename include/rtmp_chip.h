@@ -1070,7 +1070,6 @@ struct _RTMP_CHIP_OP_ {
 	void (*fw_init)(struct rtmp_adapter *ad);
 	int (*RandomRead)(struct rtmp_adapter *ad, RTMP_REG_PAIR *RegPair, uint32_t Num);
 	int (*RandomWrite)(struct rtmp_adapter *ad, RTMP_REG_PAIR *RegPair, uint32_t Num);
-	int (*sc_random_write)(struct rtmp_adapter *ad, CR_REG *table, u32 num, u32 flags);
 	void (*Calibration)(struct rtmp_adapter *pAd, uint32_t CalibrationID, ANDES_CALIBRATION_PARAM *param);
 #endif /* CONFIG_ANDES_SUPPORT */
 	void (*DisableTxRx)(struct rtmp_adapter *ad, UCHAR Level);
@@ -1332,12 +1331,6 @@ do {	\
 	{	\
 		__pAd->chipOps.SecondCCADetection(__pAd);	\
 	}	\
-} while (0)
-
-#define SC_RANDOM_WRITE(_ad, _table, _num, _flags)	\
-do {	\
-		if (_ad->chipOps.sc_random_write != NULL)	\
-			_ad->chipOps.sc_random_write(_ad, _table, _num, _flags);	\
 } while (0)
 
 #define DISABLE_TX_RX(_pAd, _Level)	\
