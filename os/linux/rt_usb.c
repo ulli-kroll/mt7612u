@@ -1055,6 +1055,7 @@ void InitUSBDevice(RT_CMD_USB_INIT *config, VOID *ad_src)
 {
 	struct rtmp_adapter *ad = (struct rtmp_adapter *)ad_src;
 	ad->infType = RTMP_DEV_INF_USB;
+	uint32_t value;
 
 	RTMP_SEM_EVENT_INIT(&(ad->UsbVendorReq_semaphore), &ad->RscSemMemList);
 	RTMP_SEM_EVENT_INIT(&(ad->reg_atomic), &ad->RscSemMemList);
@@ -1067,20 +1068,15 @@ void InitUSBDevice(RT_CMD_USB_INIT *config, VOID *ad_src)
 		return;
 	}
 
-#ifdef RLT_MAC
-	if (config->driver_info == RLT_MAC_BASE) {
-		uint32_t value;
-		RTMP_IO_READ32(ad, 0x00, &value);
-		ad->ChipID = value;
+	RTMP_IO_READ32(ad, 0x00, &value);
+	ad->ChipID = value;
 #ifdef RT65xx
 	if (IS_RT65XX(ad))
 		rlt_wlan_chip_onoff(ad, TRUE, TRUE);
 #endif
 #ifdef MT76x2
-    if (IS_MT76x2(ad))
+	if (IS_MT76x2(ad))
 		mt76x2_pwrOn(ad);
-#endif
-	}
 #endif
 
 	RtmpRaDevCtrlInit(ad, ad->infType);
