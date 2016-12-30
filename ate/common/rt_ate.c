@@ -870,16 +870,6 @@ VOID DefaultATEAsicExtraPowerOverMAC(
 	ExtraPwrOverTxPwrCfg9 |= (ExtraPwrOverMAC & 0x0000FF00) >> 8; /* Get Tx power for STBC MCS 7 */
 	RTMP_IO_WRITE32(pAd, TX_PWR_CFG_9, ExtraPwrOverTxPwrCfg9);
 
-	if (IS_RT5392(pAd))
-	{
-		/*  For HT_MCS_15, extra fill the corresponding register value into MAC 0x13DC */
-		RTMP_IO_READ32(pAd, 0x1320, &ExtraPwrOverMAC);
-		ExtraPwrOverTxPwrCfg8 |= (ExtraPwrOverMAC & 0x0000FF00) >> 8; /* Get Tx power for HT MCS 15 */
-		RTMP_IO_WRITE32(pAd, TX_PWR_CFG_8, ExtraPwrOverTxPwrCfg8);
-
-		DBGPRINT(RT_DEBUG_TRACE, ("Offset =0x13D8, TxPwr = 0x%08X, ", (UINT)ExtraPwrOverTxPwrCfg8));
-	}
-
 	DBGPRINT(RT_DEBUG_TRACE, ("Offset = 0x13D4, TxPwr = 0x%08X, Offset = 0x13DC, TxPwr = 0x%08X\n",
 		(UINT)ExtraPwrOverTxPwrCfg7,
 		(UINT)ExtraPwrOverTxPwrCfg9));
@@ -1111,15 +1101,6 @@ INT Set_ATE_Read_RF_Proc(
 	UCHAR RFValue = 0;
 	INT index=0;
 
-	if (IS_RT30xx(pAd) || IS_RT3572(pAd))
-	{
-		for (index = 0; index < 32; index++)
-		{
-			RT30xxReadRFRegister(pAd, index, (u8 *)&RFValue);
-			DBGPRINT(RT_DEBUG_OFF, ("R%d=%d\n",index,RFValue));
-		}
-	}
-	else
 #endif /* RTMP_RF_RW_SUPPORT */
 	{
 		DBGPRINT(RT_DEBUG_OFF, ("R1 = %x\n", pAd->LatchRfRegs.R1));
@@ -1415,7 +1396,7 @@ int ATEInit(
 	pATEInfo->TxDoneCount = 0;
 	pATEInfo->RFFreqOffset = 0;
 #if defined(RT5370) || defined(RT5390) || defined(RT6352) || defined(RT65xx)
-	if (IS_RT5392(pAd) || IS_RT6352(pAd) || IS_RT65XX(pAd))
+	if (IS_RT65XX(pAd))
 		pATEInfo->Payload = 0xAA;
 	else
 #endif /* defined(RT5370) || defined(RT5390) || defined(RT6352) || defined(RT65xx) */
@@ -1505,21 +1486,10 @@ int ATEInit(
 
 	/* Default TXCONT/TXCARR/TXCARS mechanism is TX_METHOD_1 */
 	pATEInfo->TxMethod = TX_METHOD_1;
-	if ((IS_RT2070(pAd) || IS_RT2860(pAd) || IS_RT2872(pAd) || IS_RT2883(pAd)))
-	{
-		/* Early chipsets must be applied original TXCONT/TXCARR/TXCARS mechanism. */
-		pATEInfo->TxMethod = TX_METHOD_0;
-	}
 
 	/* Power range is 0~31 in A band. */
 	pATEInfo->MinTxPowerBandA = 0;
 	pATEInfo->MaxTxPowerBandA = 31;
-	if ((IS_RT2860(pAd)) || (IS_RT2872(pAd)) || (IS_RT2883(pAd)))
-	{
-		/* Power range of early chipsets is -7~15 in A band. */
-		pATEInfo->MinTxPowerBandA = -7;
-		pATEInfo->MaxTxPowerBandA = 15;
-	}
 
 #ifdef TXBF_SUPPORT
 	pATEInfo->bTxBF = FALSE;
@@ -1606,7 +1576,7 @@ VOID ATEPeriodicExec(
 				return;
 			}
 
-			if ((!IS_RT6352(pAd)) && (!IS_MT76x0(pAd)) &&  (!IS_MT76x2(pAd)))
+			if ((!IS_MT76x0(pAd)) &&  (!IS_MT76x2(pAd)))
 			{
 				/* MT7620 and MT7610E have adjusted Tx power above */
 				if ((pATEInfo->bAutoTxAlc == TRUE) && (pATEInfo->Mode == ATE_TXFRAME))

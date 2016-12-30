@@ -1988,21 +1988,6 @@ VOID STAMlmePeriodicExec(struct rtmp_adapter *pAd)
 					RTUSBWriteMACRegister(pAd, EDCA_AC2_CFG, Ac2Cfg.word, FALSE);
 				}
 			}
-			else if ( IS_RT3070(pAd) &&
-			(pAd->RalinkCounters.OneSecOsTxCount[QID_AC_VO] == 0) &&
-			(pAd->RalinkCounters.OneSecOsTxCount[QID_AC_BK] == 0) &&
-			(pAd->RalinkCounters.OneSecOsTxCount[QID_AC_VI] == 0) &&
-			(pAd->RalinkCounters.OneSecOsTxCount[QID_AC_BE] >= 300)&&
-			(pAd->RalinkCounters.OneSecOsTxCount[QID_AC_BE] <= 1500)&&
-			(pAd->CommonCfg.IOTestParm.bRTSLongProtOn==FALSE))
-			{
-				if (Ac0Cfg.field.AcTxop!=0x07)
-				{
-					Ac0Cfg.field.AcTxop = 0x07;
-					Ac0Cfg.field.Aifsn = 0xc;
-					RTUSBWriteMACRegister(pAd, EDCA_AC0_CFG, Ac0Cfg.word, FALSE);
-				}
-			}
 			else if ((pAd->RalinkCounters.OneSecOsTxCount[QID_AC_VO] == 0) &&
 			(pAd->RalinkCounters.OneSecOsTxCount[QID_AC_BK] == 0) &&
 			(pAd->RalinkCounters.OneSecOsTxCount[QID_AC_VI] == 0) &&

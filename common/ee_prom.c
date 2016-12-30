@@ -191,12 +191,6 @@ int rtmp_ee_prom_read16(
 	RTMP_IO_WRITE32(pAd, E2PROM_CSR, x);
 
 	/* patch can not access e-Fuse issue*/
-	if (IS_RT2860(pAd))
-	{
-		/* kick a pulse*/
-		RaiseClock(pAd, &x);
-		LowerClock(pAd, &x);
-	}
 
 	/* output the read_opcode and register number in that order    */
 	ShiftOutBits(pAd, EEPROM_READ_OPCODE, 3);
@@ -234,12 +228,6 @@ int rtmp_ee_prom_write16(
 	RTMP_IO_WRITE32(pAd, E2PROM_CSR, x);
 
 	/* patch can not access e-Fuse issue*/
-	if (IS_RT2860(pAd))
-	{
-		/* kick a pulse*/
-		RaiseClock(pAd, &x);
-		LowerClock(pAd, &x);
-	}
 
 	/* output the read_opcode ,register number and data in that order */
 	ShiftOutBits(pAd, EEPROM_WRITE_OPCODE, 3);

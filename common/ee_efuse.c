@@ -134,7 +134,7 @@ UCHAR eFuseReadRegisters(
 	uint32_t efuse_ctrl_reg = EFUSE_CTRL;
 
 #if defined(RT3290) || defined(RT65xx) || defined(MT7601)
-	if (IS_RT3290(pAd) || IS_RT65XX(pAd) || IS_MT7601(pAd))
+	if (IS_RT65XX(pAd) || IS_MT7601(pAd))
 		efuse_ctrl_reg = EFUSE_CTRL_3290;
 #endif /* defined(RT3290) || defined(RT65xx) || defined(MT7601) */
 
@@ -181,7 +181,7 @@ UCHAR eFuseReadRegisters(
 	{
 		/*Step4. Read 16-byte of data from EFUSE_DATA0-3 (0x590-0x59C)*/
 #if defined(RT3290) || defined(RT65xx) || defined(MT7601)
-		if (IS_RT3290(pAd) || IS_RT65XX(pAd) || IS_MT7601(pAd))
+		if (IS_RT65XX(pAd) || IS_MT7601(pAd))
 			efuseDataOffset =  EFUSE_DATA0_3290 + (Offset & 0xC);
 		else
 #endif /* defined(RT3290) || defined(RT65xx) || defined(MT7601) */
@@ -237,7 +237,7 @@ VOID eFusePhysicalReadRegisters(
 	uint32_t efuse_ctrl_reg = EFUSE_CTRL;
 
 #if defined(RT3290) || defined(RT65xx) || defined(MT7601)
-	if (IS_RT3290(pAd) || IS_RT65XX(pAd) || IS_MT7601(pAd))
+	if (IS_RT65XX(pAd) || IS_MT7601(pAd))
 		efuse_ctrl_reg = EFUSE_CTRL_3290;
 #endif /* defined(RT3290) || defined(RT65xx) || defined(MT7601) */
 
@@ -283,7 +283,7 @@ VOID eFusePhysicalReadRegisters(
 	/*598:7 6 5 4*/
 	/*59C:3 2 1 0*/
 #if defined(RT3290) || defined(RT65xx) || defined(MT7601)
-	if (IS_RT3290(pAd) || IS_RT65XX(pAd) || IS_MT7601(pAd))
+	if (IS_RT65XX(pAd) || IS_MT7601(pAd))
 		efuseDataOffset =  EFUSE_DATA0_3290 + (Offset & 0xC)  ;
 	else
 #endif /* defined(RT3290) || defined(RT65xx) || defined(MT7601) */
@@ -391,7 +391,7 @@ static VOID eFusePhysicalWriteRegisters(
 	uint32_t efuse_ctrl_reg = EFUSE_CTRL;
 
 #if defined(RT3290) || defined(RT65xx) || defined(MT7601)
-	if (IS_RT3290(pAd) || IS_RT65XX(pAd) || IS_MT7601(pAd)) {
+	if (IS_RT65XX(pAd) || IS_MT7601(pAd)) {
 		efuse_ctrl_reg = EFUSE_CTRL_3290;
 		efuse_data = EFUSE_DATA0_3290;
 	}
@@ -435,7 +435,7 @@ static VOID eFusePhysicalWriteRegisters(
 	{
 		RTMP_IO_READ32(pAd, efuseDataOffset, (uint32_t *) &eFuseDataBuffer[i]);
 #if defined(RT3290) || defined(RT65xx) || defined(MT7601)
-		if (IS_RT3290(pAd) || IS_RT65XX(pAd) || IS_MT7601(pAd))
+		if (IS_RT65XX(pAd) || IS_MT7601(pAd))
 			efuseDataOffset += 4;
 		else
 #endif /* defined(RT3290) || defined(RT65xx) || defined(MT7601) */
@@ -460,7 +460,7 @@ static VOID eFusePhysicalWriteRegisters(
 	{
 		RTMP_IO_WRITE32(pAd, efuseDataOffset, eFuseDataBuffer[i]);
 #if defined(RT3290) || defined(RT65xx) || defined(MT7601)
-		if (IS_RT3290(pAd) || IS_RT65XX(pAd) || IS_MT7601(pAd))
+		if (IS_RT65XX(pAd) || IS_MT7601(pAd))
 			efuseDataOffset += 4;
 		else
 #endif /* defined(RT3290) || defined(RT65xx) || defined(MT7601) */
@@ -1091,11 +1091,6 @@ int RtmpEfuseSupportCheck(
 {
 	USHORT value;
 
-	if (IS_RT30xx(pAd) || IS_RT3593(pAd))
-	{
-		eFusePhysicalReadRegisters(pAd, EFUSE_TAG, 2, &value);
-		pAd->EFuseTag = (value & 0xff);
-	}
 	return 0;
 }
 

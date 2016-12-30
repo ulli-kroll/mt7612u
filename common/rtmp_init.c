@@ -842,9 +842,7 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 				only when this value is not zero
 			RT359x default value is 0x02
 	*/
-	if (IS_RT30xx(pAd) || IS_RT3572(pAd)  || IS_RT3593(pAd)
-		|| IS_RT5390(pAd) || IS_RT5392(pAd) || IS_RT5592(pAd)
-		|| IS_RT3290(pAd) || IS_RT65XX(pAd) || IS_MT7601(pAd))
+	if (IS_RT65XX(pAd) || IS_MT7601(pAd))
 	{
 		RT28xx_EEPROM_READ16(pAd, EEPROM_TXMIXER_GAIN_2_4G, value);
 		pAd->TxMixerGain24G = 0;
@@ -927,11 +925,9 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 
 
 
-	DBGPRINT(RT_DEBUG_TRACE, ("%s: pAd->Antenna.field.BoardType = %d, IS_MINI_CARD(pAd) = %d, IS_RT5390U(pAd) = %d\n",
+	DBGPRINT(RT_DEBUG_TRACE, ("%s: pAd->Antenna.field.BoardType = %d\n",
 		__FUNCTION__,
-		pAd->Antenna.field.BoardType,
-		IS_MINI_CARD(pAd),
-		IS_RT5390U(pAd)));
+		pAd->Antenna.field.BoardType));
 
 
 	DBGPRINT(RT_DEBUG_TRACE, ("<-- NICReadEEPROMParameters\n"));
@@ -1016,14 +1012,6 @@ VOID NICInitAsicFromEEPROM(struct rtmp_adapter *pAd)
 #ifdef PCIE_PS_SUPPORT
 #endif /* PCIE_PS_SUPPORT */
 #endif /* CONFIG_STA_SUPPORT */
-#ifdef RTMP_MAC_USB
-		if (IS_RT30xx(pAd)|| IS_RT3572(pAd))
-		{
-			RTMP_CHIP_OP *pChipOps = &pAd->chipOps;
-			if (pChipOps->AsicReverseRfFromSleepMode)
-				pChipOps->AsicReverseRfFromSleepMode(pAd, TRUE);
-		}
-#endif /* RTMP_MAC_USB */
 
 #ifdef WIN_NDIS
 	/* Turn off patching for cardbus controller */
@@ -1081,10 +1069,7 @@ VOID NICInitAsicFromEEPROM(struct rtmp_adapter *pAd)
 	RT28xx_EEPROM_READ16(pAd, EEPROM_TSSI_GAIN_AND_ATTENUATION, value);
 	value = (value & 0x00FF);
 
-	if (IS_RT5390(pAd))
-		pAd->TssiGain = 0x02;	 /* RT5390 uses 2 as TSSI gain/attenuation default value */
-	else
-		pAd->TssiGain = 0x03; /* RT5392 uses 3 as TSSI gain/attenuation default value */
+	pAd->TssiGain = 0x03; /* RT5392 uses 3 as TSSI gain/attenuation default value */
 
 	if ((value != 0x00) && (value != 0xFF))
 		pAd->TssiGain =  (UCHAR) (value & 0x000F);
@@ -1263,14 +1248,12 @@ int NICInitializeAsic(struct rtmp_adapter *pAd, BOOLEAN bHardReset)
 	NICInitBBP(pAd);
 
 
-	if ((IS_RT3883(pAd)) || IS_RT65XX(pAd) ||
-		((pAd->MACVersion >= RALINK_2880E_VERSION) &&
-		(pAd->MACVersion < RALINK_3070_VERSION))) /* 3*3*/
+	if (IS_RT65XX(pAd)) /* 3*3*/
 	{
 		uint32_t csr;
 		RTMP_IO_READ32(pAd, MAX_LEN_CFG, &csr);
 #if defined(RT2883) || defined(RT3883) || defined(RT3593) || defined(RT65xx) || defined(MT7601)
-		if (IS_RT2883(pAd) || IS_RT3883(pAd) || IS_RT3593(pAd) || IS_RT65XX(pAd) || IS_MT7601(pAd))
+		if (IS_RT65XX(pAd) || IS_MT7601(pAd))
 			csr |= 0x3fff;
 		else
 #endif /* defined(RT2883) || defined(RT3883) || defined(RT3593) || defined(RT65xx) || defined(MT7601) */
@@ -2851,11 +2834,6 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 		pAd->CommonCfg.lna_vga_ctl.nLowFalseCCATh = 10;
 	}
 
-	if (IS_RT6352(pAd)) {
-		pAd->CommonCfg.lna_vga_ctl.bDyncVgaEnable = TRUE;
-		pAd->CommonCfg.lna_vga_ctl.nFalseCCATh = 600;
-		pAd->CommonCfg.lna_vga_ctl.nLowFalseCCATh = 10;
-	}
 #endif /* DYNAMIC_VGA_SUPPORT */
 #endif /* CONFIG_AP_SUPPORT */
 

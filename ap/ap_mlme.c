@@ -502,14 +502,6 @@ VOID APAsicEvaluateRxAnt(
 		return;
 #endif /* RT76x0 */
 
-
-#ifdef TXBF_SUPPORT
-	/* TODO: we didn't do RxAnt evaluate for 3x3 chips */
-	if (IS_RT3883(pAd) || IS_RT2883(pAd))
-		return;
-#endif /* TXBF_SUPPORT */
-
-
 #ifdef DOT11_N_SUPPORT
 #ifdef GREENAP_SUPPORT
 	if (pAd->ApCfg.bGreenAPActive == TRUE)

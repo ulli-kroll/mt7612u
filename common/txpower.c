@@ -609,12 +609,6 @@ VOID AsicGetAutoAgcOffsetForExternalTxAlc(
 		{
 			bbp_get_temp(pAd, &BbpR49.byte);
 
-			/* TSSI representation */
-			if (IS_RT3071(pAd) || IS_RT3390(pAd) || IS_RT3090A(pAd) || IS_RT3572(pAd)) /* 5-bits */
-			{
-				BbpR49.byte = (BbpR49.byte & 0x1F);
-			}
-
 			/* (p) TssiPlusBoundaryG[0] = 0 = (m) TssiMinusBoundaryG[0] */
 			/* compensate: +4     +3   +2   +1    0   -1   -2   -3   -4 * steps */
 			/* step value is defined in pAd->TxAgcStepG for tx power value */
@@ -1534,13 +1528,9 @@ VOID RTMPReadChannelPwr(struct rtmp_adapter *pAd)
 	for (i = 0; i < 7; i++)
 	{
 #if defined(RT5370) || defined(RT5372) || defined(RT5390) || defined(RT5392) || defined(RT5592) || defined(RT3290) || defined(RT65xx)
-		if (IS_RT5390(pAd) || IS_RT5392(pAd) || IS_RT5592(pAd) || IS_RT3290(pAd) || IS_RT65XX(pAd))
+		if (IS_RT65XX(pAd))
 		{
 			 RT28xx_EEPROM_READ16(pAd, EEPROM_G_TX_PWR_OFFSET + i * 2,Power.word);
-			if (IS_RT5392(pAd) || IS_RT5592(pAd))
-			{
-				RT28xx_EEPROM_READ16(pAd, EEPROM_G_TX2_PWR_OFFSET + i * 2,Power2.word);
-			}
 			pAd->TxPower[i * 2].Channel = i * 2 + 1;
 			pAd->TxPower[i * 2 + 1].Channel = i * 2 + 2;
 
@@ -1562,27 +1552,6 @@ VOID RTMPReadChannelPwr(struct rtmp_adapter *pAd)
 				pAd->TxPower[i * 2 + 1].Power = Power.field.Byte1;
 			}
 
-			if (IS_RT5392(pAd) || IS_RT5592(pAd))
-			{
-				if ((Power2.field.Byte0 > 0x27) || (Power2.field.Byte0 < 0))
-				{
-					pAd->TxPower[i * 2].Power2 = DEFAULT_RF_TX_POWER;
-				}
-				else
-				{
-					pAd->TxPower[i * 2].Power2 = Power2.field.Byte0;
-				}
-
-				if ((Power2.field.Byte1 > 0x27) || (Power2.field.Byte1 < 0))
-				{
-					pAd->TxPower[i * 2 + 1].Power2 = DEFAULT_RF_TX_POWER;
-				}
-				else
-				{
-					pAd->TxPower[i * 2 + 1].Power2 = Power2.field.Byte1;
-				}
-			}
-
 			DBGPRINT(RT_DEBUG_TRACE, ("%s: TxPower[%d].Power = 0x%02X, TxPower[%d].Power = 0x%02X\n",
 				__FUNCTION__,
 				i * 2,
@@ -1590,15 +1559,6 @@ VOID RTMPReadChannelPwr(struct rtmp_adapter *pAd)
 				i * 2 + 1,
 				pAd->TxPower[i * 2 + 1].Power));
 
-			if (IS_RT5392(pAd) || IS_RT5592(pAd))
-			{
-				DBGPRINT(RT_DEBUG_TRACE, ("%s: TxPower[%d].Power2 = 0x%02X, TxPower[%d].Power2 = 0x%02X\n",
-					__FUNCTION__,
-					i * 2,
-					pAd->TxPower[i * 2].Power2,
-					i * 2 + 1,
-					pAd->TxPower[i * 2 + 1].Power2));
-			}
 		}
 		else
 #endif /* defined(RT5370) || defined(RT5372) || defined(RT5390) || defined(RT5392) || defined(RT5592) || defined(RT65xx) */
@@ -1636,9 +1596,6 @@ VOID RTMPReadChannelPwr(struct rtmp_adapter *pAd)
 
 
 	{
-		if (IS_RT5592(pAd))
-			return;
-
 		/* 1. U-NII lower/middle band: 36, 38, 40; 44, 46, 48; 52, 54, 56; 60, 62, 64 (including central frequency in BW 40MHz)*/
 		/* 1.1 Fill up channel*/
 		choffset = 14;

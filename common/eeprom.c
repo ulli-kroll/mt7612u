@@ -81,9 +81,7 @@ UCHAR RtmpEepromGetDefault(
 	}
 #endif /* CONFIG_RT_SECOND_CARD */
 
-	if (IS_RT2860(pAd) || IS_RT2870(pAd))
-		e2p_dafault = E2P_EEPROM_MODE;
-	else if (pAd->infType == RTMP_DEV_INF_RBUS)
+	if (pAd->infType == RTMP_DEV_INF_RBUS)
 		e2p_dafault = E2P_FLASH_MODE;
 	else
 		e2p_dafault = E2P_EFUSE_MODE;
@@ -210,11 +208,6 @@ BOOLEAN rtmp_get_default_bin_file_by_chip(
 
 	for (i = 0; RTMP_CHIP_E2P_FILE_TABLE[i].ChipVersion != 0; i++ )
 	{
-		if (IS_RT6352(pAd))
-		{
-			ChipVersion = 0x7620;
-		}
-
 		if (RTMP_CHIP_E2P_FILE_TABLE[i].ChipVersion == ChipVersion)
 		{
 			*pBinFileName = RTMP_CHIP_E2P_FILE_TABLE[i].name;
