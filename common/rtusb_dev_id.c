@@ -40,6 +40,7 @@ USB_DEVICE_ID rtusb_dev_id[] = {
 	{USB_DEVICE(0x0b05, 0x180b),  .driver_info = RLT_MAC_BASE},	/*  ASUS USB N53 B1 */
 	{USB_DEVICE(0x7392, 0xb711),  .driver_info = RLT_MAC_BASE},	/*  Edimax EW 7722 UAC */
 	{USB_DEVICE(0x0846, 0x9053),  .driver_info = RLT_MAC_BASE},	/*  Netgear A6210 */
+	{USB_DEVICE(0x057c, 0x8503),  .driver_info = RLT_MAC_BASE},	/*  AVM FRITZ!WLAN USB Stick AC 860 */
 #endif
 	{ }/* Terminating entry */
 };
