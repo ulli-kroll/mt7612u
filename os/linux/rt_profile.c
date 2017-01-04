@@ -823,9 +823,6 @@ INT RTMP_AP_IoctlPrepare(struct rtmp_adapter *pAd, VOID *pCB)
 #ifdef CONFIG_APSTA_MIXED_SUPPORT
 				&& (strstr(pConfig->pCmdData, "OpMode") == NULL)
 #endif /* CONFIG_APSTA_MIXED_SUPPORT */
-#ifdef SINGLE_SKU
-				&& (strstr(pConfig->pCmdData, "ModuleTxpower") == NULL)
-#endif /* SINGLE_SKU */
 			)
 			{
 				return -ENETDOWN;

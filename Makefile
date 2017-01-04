@@ -56,9 +56,6 @@ HAS_EXT_BUILD_CHANNEL_LIST=n
 #Support features of 802.11n Draft3
 HAS_DOT11N_DRAFT3_SUPPORT=y
 
-#Support features of Single SKU.
-HAS_SINGLE_SKU_SUPPORT=n
-
 #Support features of 802.11n
 HAS_DOT11_N_SUPPORT=y
 
@@ -202,10 +199,6 @@ endif
 
 ifeq ($(HAS_STREAM_MODE_SUPPORT),y)
 WFLAGS += -DSTREAM_MODE_SUPPORT
-endif
-
-ifeq ($(HAS_SINGLE_SKU_SUPPORT),y)
-WFLAGS += -DSINGLE_SKU
 endif
 
 ifeq ($(HAS_DOT11_VHT_SUPPORT),y)

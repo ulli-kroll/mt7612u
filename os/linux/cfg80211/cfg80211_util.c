@@ -300,11 +300,7 @@ BOOLEAN CFG80211_SupBandInit(
 	}
 
 	/* get TX power */
-#ifdef SINGLE_SKU
-	CurTxPower = pDriverBandInfo->DefineMaxTxPwr; /* dBm */
-#else
 	CurTxPower = 20; /* unknown */
-#endif /* SINGLE_SKU */
 
 	CFG80211DBG(RT_DEBUG_ERROR, ("80211> CurTxPower = %d dBm\n", CurTxPower));
 

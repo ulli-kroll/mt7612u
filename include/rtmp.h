@@ -1904,14 +1904,6 @@ typedef struct _COMMON_CONFIG {
 
 	/* transmit phy mode, trasmit rate for Multicast. */
 
-#ifdef SINGLE_SKU
-	uint16_t DefineMaxTxPwr;
-	BOOLEAN bSKUMode;
-	uint16_t AntGain;
-	uint16_t BandedgeDelta;
-	uint16_t ModuleTxpower;
-#endif /* SINGLE_SKU */
-
 	BOOLEAN HT_DisallowTKIP;	/* Restrict the encryption type in 11n HT mode */
 
 	BOOLEAN HT_Disable;	/* 1: disable HT function; 0: enable HT function */
@@ -5435,14 +5427,6 @@ VOID AsicGetAutoAgcOffsetForTemperatureSensor(
 	IN PCHAR 				pDeltaPowerByBbpR1);
 #endif /* RTMP_TEMPERATURE_COMPENSATION */
 
-#ifdef SINGLE_SKU
-VOID GetSingleSkuDeltaPower(
-	IN 		struct rtmp_adapter *pAd,
-	IN 		PCHAR 			pTotalDeltaPower,
-	INOUT 	PULONG			pSingleSKUTotalDeltaPwr,
-	INOUT  	u8 *             	pSingleSKUBbpR1Offset);
-#endif /* SINGLE_SKU*/
-
 VOID AsicPercentageDeltaPower(
 	IN 		struct rtmp_adapter *		pAd,
 	IN		CHAR				Rssi,
@@ -8068,10 +8052,6 @@ INT RTMP_AP_IoctlPrepare(struct rtmp_adapter *pAd, VOID *pCB);
 
 
 INT Set_VcoPeriod_Proc(struct rtmp_adapter *pAd, char *arg);
-
-#ifdef SINGLE_SKU
-INT Set_ModuleTxpower_Proc(struct rtmp_adapter *pAd, char *arg);
-#endif /* SINGLE_SKU */
 
 VOID RtmpEnqueueNullFrame(
 	IN struct rtmp_adapter *pAd,

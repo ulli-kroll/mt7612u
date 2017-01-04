@@ -4068,26 +4068,6 @@ int RTMPSetProfileParameters(
 #endif /* CONFIG_AP_SUPPORT */
 
 
-#ifdef SINGLE_SKU
-				if(RTMPGetKeyParameter("AntGain", tmpbuf, 10, pBuffer, TRUE))
-				{
-					UCHAR AntGain = simple_strtol(tmpbuf, 0, 10);
-					pAd->CommonCfg.AntGain= AntGain;
-
-					DBGPRINT(RT_DEBUG_TRACE, ("AntGain=%d\n", pAd->CommonCfg.AntGain));
-				}
-				if(RTMPGetKeyParameter("BandedgeDelta", tmpbuf, 10, pBuffer, TRUE))
-				{
-					UCHAR Bandedge = simple_strtol(tmpbuf, 0, 10);
-					pAd->CommonCfg.BandedgeDelta = Bandedge;
-
-					DBGPRINT(RT_DEBUG_TRACE, ("BandedgeDelta=%d\n", pAd->CommonCfg.BandedgeDelta));
-				}
-#endif /* SINGLE_SKU */
-
-
-
-
 #if (defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT)
 		/* set GPIO pin for wake-up signal */
 		if (RTMPGetKeyParameter("WOW_GPIO", tmpbuf, 10, pBuffer, TRUE))
