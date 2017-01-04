@@ -1912,11 +1912,6 @@ typedef struct _COMMON_CONFIG {
 	uint16_t ModuleTxpower;
 #endif /* SINGLE_SKU */
 
-#ifdef SINGLE_SKU_V2
-#endif /* SINGLE_SKU_V2 */
-
-
-
 	BOOLEAN HT_DisallowTKIP;	/* Restrict the encryption type in 11n HT mode */
 
 	BOOLEAN HT_Disable;	/* 1: disable HT function; 0: enable HT function */
@@ -4253,15 +4248,6 @@ struct rtmp_adapter {
 #endif /* WLAN_SKB_RECYCLE */
 
 
-#ifdef SINGLE_SKU_V2
-	DL_LIST SingleSkuPwrList;
-	UCHAR DefaultTargetPwr;
-	CHAR SingleSkuRatePwrDiff[18];
-	BOOLEAN bOpenFileSuccess;
-	BOOLEAN sku_init_done;
-	UCHAR tc_init_val;
-#endif /* SINGLE_SKU_V2 */
-
 #ifdef ED_MONITOR
 	BOOLEAN ed_chk;
 
@@ -5017,14 +5003,6 @@ INT RTMPGetKeyParameter(
     IN INT destsize,
     IN char *buffer,
     IN BOOLEAN bTrimSpace);
-
-
-#ifdef SINGLE_SKU_V2
-int RTMPSetSingleSKUParameters(
-	IN struct rtmp_adapter *pAd);
-
-VOID UpdateSkuRatePwr(struct rtmp_adapter *pAd, UCHAR ch, UCHAR bw, CHAR base_pwr);
-#endif /* SINGLE_SKU_V2 */
 
 
 #ifdef RTMP_RF_RW_SUPPORT

@@ -592,9 +592,6 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 #ifdef RTMP_TEMPERATURE_TX_ALC
 		mt76x2_read_tx_alc_info_from_eeprom(pAd);
 #endif /* RTMP_TEMPERATURE_TX_ALC */
-#ifdef SINGLE_SKU_V2
-		mt76x2_read_single_sku_info_from_eeprom(pAd);
-#endif /* SINGLE_SKU_V2 */
 	}
 #endif /* MT76x2 */
 
@@ -890,9 +887,6 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 	DBGPRINT(RT_DEBUG_TRACE, ("Single SKU Mode is %s\n",
 				pAd->CommonCfg.bSKUMode ? "Enable" : "Disable"));
 #endif /* SINGLE_SKU */
-
-#ifdef SINGLE_SKU_V2
-#endif /* SINGLE_SKU_V2 */
 
 #ifdef RTMP_EFUSE_SUPPORT
 	RtmpEfuseSupportCheck(pAd);
@@ -2365,11 +2359,6 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 
 	pAd->bAutoTxAgcA = FALSE;			/* Default is OFF*/
 	pAd->bAutoTxAgcG = FALSE;			/* Default is OFF*/
-
-#ifdef SINGLE_SKU_V2
-	pAd->sku_init_done = FALSE;
-	pAd->tc_init_val = 0;
-#endif /* SINGLE_SKU_V2 */
 
 #if defined(RTMP_INTERNAL_TX_ALC) || defined(RTMP_TEMPERATURE_COMPENSATION)
 	pAd->TxPowerCtrl.bInternalTxALC = FALSE; /* Off by default */

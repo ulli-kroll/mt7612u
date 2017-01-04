@@ -604,14 +604,14 @@ struct _RTMP_CHIP_CAP_ {
 
 #endif /* defined(RTMP_INTERNAL_TX_ALC) || defined(RTMP_TEMPERATURE_COMPENSATION) */
 
-#if defined(RTMP_INTERNAL_TX_ALC) || defined(SINGLE_SKU_V2)
+#if defined(RTMP_INTERNAL_TX_ALC)
 	INT16	PAModeCCK[4];
 	INT16	PAModeOFDM[8];
 	INT16	PAModeHT[16];
 #ifdef DOT11_VHT_AC
 	INT16	PAModeVHT[10];
 #endif /* DOT11_VHT_AC */
-#endif /* defined(RTMP_INTERNAL_TX_ALC) || defined(SINGLE_SKU_V2) */
+#endif /* defined(RTMP_INTERNAL_TX_ALC) */
 
 	/* ---------------------------- packet ---------------------------------- */
 	UINT8 TXWISize;
@@ -693,11 +693,6 @@ struct _RTMP_CHIP_CAP_ {
 
 	UINT8 cmd_header_len;
 	UINT8 cmd_padding_len;
-
-#ifdef SINGLE_SKU_V2
-	CHAR	Apwrdelta;
-	CHAR	Gpwrdelta;
-#endif /* SINGLE_SKU_V2 */
 
 #ifdef RTMP_USB_SUPPORT
 	UINT8 DataBulkInAddr;
@@ -829,12 +824,6 @@ struct _RTMP_CHIP_CAP_ {
 
 	MT76x2_RATE_PWR_Table rate_pwr_table;
 
-#ifdef SINGLE_SKU_V2
-	UCHAR tssi_54m_target_pwr_a_band[A_BAND_GRP_NUM];
-	UCHAR tssi_54m_target_pwr_g_band;
-	UCHAR tssi_off_54m_target_pwr_a_band;
-	UCHAR tssi_off_54m_target_pwr_g_band;
-#endif /* SINGLE_SKU_V2 */
 #endif
 
 };

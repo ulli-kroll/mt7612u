@@ -827,17 +827,6 @@ VOID RTMPDrvClose(struct rtmp_adapter *pAd, struct net_device *net_dev)
 		RTMP_CLEAR_FLAG(pAd, fRTMP_ADAPTER_INTERRUPT_IN_USE);
 	}
 
-#ifdef SINGLE_SKU_V2
-	{
-		CH_POWER *ch, *ch_temp;
-		DlListForEachSafe(ch, ch_temp, &pAd->SingleSkuPwrList, CH_POWER, List)
-		{
-			DlListDel(&ch->List);
-			kfree(ch);
-		}
-	}
-#endif /* SINGLE_SKU_V2 */
-
 	/* Free Ring or USB buffers*/
 #ifdef RESOURCE_PRE_ALLOC
 	RTMPResetTxRxRingMemory(pAd);

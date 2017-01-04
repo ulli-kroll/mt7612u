@@ -1250,9 +1250,6 @@ struct ate_chip_struct RALINKDefault =
 	.ExtendedTssiCalibration = NULL,
 	.AdjustTxPower = NULL,
 	.AsicExtraPowerOverMAC = NULL,
-#ifdef SINGLE_SKU_V2
-	.do_ATE_single_sku = NULL,
-#endif
 
 	/* command handlers */
 
@@ -1472,9 +1469,6 @@ int ATEInit(
 	pATEInfo->bQARxStart = FALSE;
 	pATEInfo->bAutoTxAlc = FALSE;
 	pATEInfo->bLowTemperature = FALSE;
-#ifdef SINGLE_SKU_V2
-	pATEInfo->bDoSingleSKU = FALSE;
-#endif
 	pATEInfo->bAutoVcoCal = FALSE;
 #ifdef RTMP_INTERNAL_TX_ALC
 #if defined(RT3350) || defined(RT3352)

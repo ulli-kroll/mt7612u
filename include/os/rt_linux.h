@@ -120,10 +120,6 @@ typedef struct usb_ctrlrequest devctrlrequest;
 
 extern const struct iw_handler_def rt28xx_iw_handler_def;
 
-#ifdef SINGLE_SKU_V2
-#define SINGLE_SKU_TABLE_FILE_NAME	"/etc/Wireless/RT2870STA/SingleSKU.dat"
-#endif /* SINGLE_SKU_V2 */
-
 #endif /* CONFIG_STA_SUPPORT */
 
 #ifdef CONFIG_APSTA_MIXED_SUPPORT

@@ -609,31 +609,6 @@ VOID mt76x2_ate_asic_adjust_tx_power(
 
 }
 
-#ifdef SINGLE_SKU_V2
-static void mt76x2_ate_single_sku(IN struct rtmp_adapter *pAd, IN BOOLEAN value)
-{
-	PATE_INFO pATEInfo = &(pAd->ate);
-	if (value > 0)
-		{
-			pATEInfo->bDoSingleSKU = TRUE;
-			DBGPRINT(RT_DEBUG_TRACE, ("ATESINGLESKU = TRUE , enabled single sku in ATE!\n"));
-		}
-		else
-		{
-			u32 value1 = 0;
-			pATEInfo->bDoSingleSKU = FALSE;
-			DBGPRINT(RT_DEBUG_TRACE, ("ATESINGLESKU = FALSE , disabled single sku in ATE!\n"));
-			//show_pwr_info(pAd,NULL);
-			DBGPRINT(RT_DEBUG_TRACE, ("\n\n=========================== restore per rate!\n"));
-			mt76x2_adjust_per_rate_pwr_delta(pAd, pAd->ate.Channel,0); //restore per_rate_delta pwr in 0x1314
-
-			//show_pwr_info(pAd,NULL);
-
-			DBGPRINT(RT_DEBUG_TRACE, ("per_rate_delta restored!\n"));
-		}
-
-}
-#endif
 struct ate_chip_struct mt76x2ate =
 {
 	/* functions */
@@ -641,9 +616,6 @@ struct ate_chip_struct mt76x2ate =
 	.ExtendedTssiCalibration = NULL /* RT5572_ATETssiCalibrationExtend */,
 	.AdjustTxPower = mt76x2_ate_asic_adjust_tx_power,
 	//.AsicExtraPowerOverMAC = DefaultATEAsicExtraPowerOverMAC,
-#ifdef SINGLE_SKU_V2
-	.do_ATE_single_sku = mt76x2_ate_single_sku,
-#endif
 	/* variables */
 	.maxTxPwrCnt = 5,
 	.bBBPStoreTXCARR = FALSE,

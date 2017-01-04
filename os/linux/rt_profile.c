@@ -292,10 +292,6 @@ int RTMPReadParametersHook(struct rtmp_adapter *pAd)
 		}
 #endif /*HOSTAPD_SUPPORT */
 
-#ifdef SINGLE_SKU_V2
-	RTMPSetSingleSKUParameters(pAd);
-#endif /* SINGLE_SKU_V2 */
-
 	return (retval);
 
 }

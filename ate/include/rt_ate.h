@@ -64,9 +64,6 @@ struct ate_chip_struct {
 	VOID	(*AdjustTxPower)(struct rtmp_adapter *pAd);
 	VOID	(*AsicExtraPowerOverMAC)(struct rtmp_adapter *pAd);
 	VOID 	(*TemperCompensation)(struct rtmp_adapter *pAd);
-#ifdef SINGLE_SKU_V2
-	VOID 	(*do_ATE_single_sku)(struct rtmp_adapter *pAd, BOOLEAN value);
-#endif
 
 	/* command handlers */
 
@@ -134,9 +131,6 @@ typedef struct _ATE_INFO {
 	BOOLEAN bQATxStart;	/* Have compiled QA in and use it to ATE tx. */
 	BOOLEAN bQARxStart;	/* Have compiled QA in and use it to ATE rx. */
 	BOOLEAN bAutoTxAlc;	/* Set Auto Tx Alc */
-#ifdef SINGLE_SKU_V2
-	BOOLEAN bDoSingleSKU; /*Do Single SKU in ATE*/
-#endif
 	BOOLEAN bAutoVcoCal; /* Set Auto VCO periodic calibration. */
 	BOOLEAN bLowTemperature; /* Trigger Temperature Sensor */
 #ifdef RTMP_INTERNAL_TX_ALC

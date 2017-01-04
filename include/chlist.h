@@ -74,29 +74,6 @@ typedef struct _COUNTRY_PROP {
 } COUNTRY_PROP, *PCOUNTRY_PROP;
 #endif /* ED_MONITOR */
 
-#ifdef SINGLE_SKU_V2
-// TODO: shiang-usw, integrate these data structures to a single one!
-#define	SINGLE_SKU_TABLE_LENGTH		(SINGLE_SKU_TABLE_CCK_LENGTH+SINGLE_SKU_TABLE_OFDM_LENGTH+(SINGLE_SKU_TABLE_HT_LENGTH*2))
-
-#define SINGLE_SKU_TABLE_CCK_LENGTH	4
-#define SINGLE_SKU_TABLE_OFDM_LENGTH	8
-#define SINGLE_SKU_TABLE_HT_LENGTH	16
-#define SINGLE_SKU_TABLE_VHT_LENGTH	10 /* VHT80 MCS 0 ~ 9 */
-
-// TODO: shiang-usw, need to re-organize these for MT7610/MT7601/MT7620!!
-typedef struct _CH_POWER_{
-	DL_LIST		List;
-	UCHAR		StartChannel;
-	UCHAR		num;
-	UCHAR		*Channel;
-	UCHAR		PwrCCK[SINGLE_SKU_TABLE_CCK_LENGTH];
-	UCHAR		PwrOFDM[SINGLE_SKU_TABLE_OFDM_LENGTH];
-	UCHAR		PwrHT20[SINGLE_SKU_TABLE_HT_LENGTH];
-	UCHAR		PwrHT40[SINGLE_SKU_TABLE_HT_LENGTH];
-	UCHAR		PwrVHT80[SINGLE_SKU_TABLE_VHT_LENGTH];
-}CH_POWER;
-#endif /* SINGLE_SKU_V2 */
-
 typedef struct _CH_FREQ_MAP_{
 	uint16_t 	channel;
 	uint16_t 	freqKHz;

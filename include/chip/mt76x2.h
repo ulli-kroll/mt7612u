@@ -33,15 +33,6 @@ void mt76x2_read_tx_alc_info_from_eeprom(struct rtmp_adapter *ad);
 void mt76x2_temp_tx_alc(struct rtmp_adapter *ad);
 #endif /* RTMP_TEMPERATURE_TX_ALC */
 
-#ifdef SINGLE_SKU_V2
-void mt76x2_single_sku(struct rtmp_adapter *ad, u8 channel);
-void mt76x2_read_single_sku_info_from_eeprom(struct rtmp_adapter *ad);
-void mt76x2_make_up_rate_pwr_table(struct rtmp_adapter *ad);
-UCHAR mt76x2_get_sku_channel_base_pwr(struct rtmp_adapter *ad, u8 channel);
-void mt76x2_update_per_rate_pwr(struct rtmp_adapter *ad);
-UCHAR mt76x2_update_sku_pwr(struct rtmp_adapter *ad, u8 channel);
-#endif /* SINGLE_SKU_V2 */
-
 #ifdef ED_MONITOR
 void mt7612_set_ed_cca(struct rtmp_adapter *ad, BOOLEAN enable);
 #endif /* ED_MONITOR */
