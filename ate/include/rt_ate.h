@@ -187,31 +187,10 @@ typedef struct _ATE_INFO {
 	Use bitmap to allow coexist of ATE_TXFRAME
 	and ATE_RXFRAME(i.e.,to support LoopBack mode).
 */
-#define fATE_IDLE					0x00
-#define fATE_TX_ENABLE				0x01
-#define fATE_RX_ENABLE				0x02
-#define fATE_TXCONT_ENABLE			0x04
-#define fATE_TXCARR_ENABLE			0x08
-#define fATE_TXCARRSUPP_ENABLE		0x10
-#define fATE_RESERVED_1				0x20
-#define fATE_RESERVED_2				0x40
 #define fATE_EXIT					0x80
 
-/* Enter/Reset ATE */
-#define	ATE_START                   (fATE_IDLE)
 /* Stop/Exit ATE */
 #define	ATE_STOP                    (fATE_EXIT)
-/* Continuous Transmit Frames (without time gap) */
-#define	ATE_TXCONT                  ((fATE_TX_ENABLE)|(fATE_TXCONT_ENABLE))
-/* Transmit Carrier */
-#define	ATE_TXCARR                  ((fATE_TX_ENABLE)|(fATE_TXCARR_ENABLE))
-/* Transmit Carrier Suppression (information without carrier) */
-#define	ATE_TXCARRSUPP              ((fATE_TX_ENABLE)|(fATE_TXCARRSUPP_ENABLE))
-/* Transmit Frames */
-#define	ATE_TXFRAME                 (fATE_TX_ENABLE)
-/* Receive Frames */
-#define	ATE_RXFRAME                 (fATE_RX_ENABLE)
-
 
 #ifdef RTMP_INTERNAL_TX_ALC
 #define EEPROM_TSSI_ENABLE 0x36

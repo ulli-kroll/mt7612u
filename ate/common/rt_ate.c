@@ -1528,14 +1528,6 @@ VOID ATEPeriodicExec(
 	if (ATE_ON(pAd))
 	{
 		pATEInfo->PeriodicRound++;
-#ifdef MT76x2
-		if ( IS_MT76x2(pAd) )
-		{
-			if ( (pATEInfo->Mode == ATE_TXFRAME) && (pATEInfo->bAutoTxAlc == TRUE) )			{
-				ATEAsicAdjustTxPower(pAd);
-			}
-		}
-#endif /* MT76x2 */
 
 		/* Normal 1 second ATE PeriodicExec.*/
 		//if (pATEInfo->PeriodicRound % (ATE_TASK_EXEC_MULTIPLE) == 0)
@@ -1573,8 +1565,6 @@ VOID ATEPeriodicExec(
 			if ((!IS_MT76x0(pAd)) &&  (!IS_MT76x2(pAd)))
 			{
 				/* MT7620 and MT7610E have adjusted Tx power above */
-				if ((pATEInfo->bAutoTxAlc == TRUE) && (pATEInfo->Mode == ATE_TXFRAME))
-					ATEAsicAdjustTxPower(pAd);
 
 				ATEAsicExtraPowerOverMAC(pAd);
 			}
@@ -1585,11 +1575,6 @@ VOID ATEPeriodicExec(
 			/* do VCO calibration per four seconds */
 			if (pATEInfo->PeriodicRound % (ATE_TASK_EXEC_MULTIPLE * 4) == 0)
 			{
-				if ((pAd->ate.bAutoVcoCal == TRUE) && (pATEInfo->Mode == ATE_TXFRAME))
-				{
-					{
-					}
-				}
 			}
 
 		}

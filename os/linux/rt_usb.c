@@ -884,12 +884,6 @@ static void rtusb_ate_ac0_dma_done_tasklet(unsigned long data)
 		pAd->WlanCounters.TransmittedFragmentCount.u.HighPart++;
 	}
 
-	if (((pAd->ContinBulkOut == TRUE ) ||(atomic_read(&pAd->BulkOutRemained) > 0))
-		&& (pAd->ate.Mode & ATE_TXFRAME))
-	{
-		RTUSB_SET_BULK_FLAG(pAd, fRTUSB_BULK_OUT_DATA_ATE);
-	}
-	else
 	{
 		RTUSB_CLEAR_BULK_FLAG(pAd, fRTUSB_BULK_OUT_DATA_ATE);
 	}
