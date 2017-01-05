@@ -486,11 +486,6 @@ VOID APAsicEvaluateRxAnt(
 {
 	ULONG	TxTotalCnt;
 
-#ifdef RALINK_ATE
-	if (ATE_ON(pAd))
-		return;
-#endif /* RALINK_ATE */
-
 #ifdef RT8592
 	// TODO: shiang-6590, for 8592, this EvaaluateRxAnt still need??
 	if (IS_RT8592(pAd))
@@ -543,11 +538,6 @@ VOID APAsicEvaluateRxAnt(
 VOID APAsicRxAntEvalTimeout(struct rtmp_adapter *pAd)
 {
 	CHAR rssi0, rssi1, rssi2;
-
-#ifdef RALINK_ATE
-	if (ATE_ON(pAd))
-		return;
-#endif /* RALINK_ATE */
 
 	/* if the traffic is low, use average rssi as the criteria */
 	if (pAd->Mlme.bLowThroughput == TRUE)

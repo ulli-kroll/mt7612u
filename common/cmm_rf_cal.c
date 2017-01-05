@@ -673,16 +673,6 @@ UCHAR DPD_Calibration(
 			// no dpd when power is less 15 dBm or greater 20 dBm
 			bInternalTxALC = FALSE;
 #ifdef RTMP_INTERNAL_TX_ALC
-#ifdef RALINK_ATE
-			if (ATE_ON(pAd))
-			{
-				PATE_INFO pATEInfo = &(pAd->ate);
-
-				if (pATEInfo->bAutoTxAlc == TRUE)
-					bInternalTxALC = TRUE;
-			}
-			else
-#endif /* RALINK_ATE */
 			{
 				if(pAd->TxPowerCtrl.bInternalTxALC == TRUE)
 					bInternalTxALC = TRUE;
@@ -708,9 +698,6 @@ UCHAR DPD_Calibration(
 			else
 #endif /* RTMP_INTERNAL_TX_ALC */
 			{
-#ifdef RALINK_ATE
-				if (!ATE_ON(pAd))
-#endif /* RALINK_ATE */
 				{
 					RTMP_IO_READ32(pAd, TX_ALG_CFG_1, &macValue);
 					delta_power = (macValue & 0x3F);
@@ -820,16 +807,6 @@ UCHAR DPD_Calibration(
 			// no dpd when power is less 15 dBm or greater 20 dBm
 			bInternalTxALC = FALSE;
 #ifdef RTMP_INTERNAL_TX_ALC
-#ifdef RALINK_ATE
-			if (ATE_ON(pAd))
-			{
-				PATE_INFO pATEInfo = &(pAd->ate);
-
-				if (pATEInfo->bAutoTxAlc == TRUE)
-					bInternalTxALC = TRUE;
-			}
-			else
-#endif /* RALINK_ATE */
 			{
 				if(pAd->TxPowerCtrl.bInternalTxALC == TRUE)
 					bInternalTxALC = TRUE;
@@ -855,9 +832,6 @@ UCHAR DPD_Calibration(
 			else
 #endif /* RTMP_INTERNAL_TX_ALC */
 			{
-#ifdef RALINK_ATE
-				if (!ATE_ON(pAd))
-#endif /* RALINK_ATE */
 				{
 					/* for single sku */
 					RTMP_IO_READ32(pAd, TX_ALG_CFG_1, &macValue);
@@ -1387,16 +1361,6 @@ UCHAR DPD_Calibration(
 	if (pAd->CommonCfg.BBPCurrentBW == BW_40)
 		byteValue |= 0x10;
 
-#ifdef RALINK_ATE
-	if (ATE_ON(pAd))
-	{
-		PATE_INFO pATEInfo = &(pAd->ate);
-
-		byteValue &= (~0x18);
-		if (pATEInfo->TxWI.TXWI_O.BW == BW_40)
-			byteValue |= 0x10;
-	}
-#endif /* RALINK_ATE */
 	RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R4, byteValue);
 
 	RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R21, 0x1);
@@ -1445,33 +1409,10 @@ VOID DoDPDCalibration(
 
 	DBGPRINT(RT_DEBUG_INFO, (" Do DPD Calibration !!!\n"));
 
-#ifdef RALINK_ATE
-	if (ATE_ON(pAd))
-	{
-		ATE_BBP_IO_READ8_BY_REG_ID(pAd, BBP_R1, &saveBbpR1);
-		BBPValue = saveBbpR1;
-		BBPValue &= (~0x18);
-		BBPValue |= 0x10;
-		ATE_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R1, BBPValue);
-
-		ATE_RF_IO_READ8_BY_REG_ID(pAd, RF_BANK0, RF_R02, &saveRfB0R2);
-		RFValue = saveRfB0R2;
-		RFValue |= 0x33;
-		ATE_RF_IO_WRITE8_BY_REG_ID(pAd, RF_BANK0, RF_R02, RFValue);
-	}
-#endif /* RALINK_ATE */
 
 	Ant0 = DPD_Calibration(pAd, 0);
 	if (pAd->Antenna.field.TxPath > 1)
 		Ant1 = DPD_Calibration(pAd, 1);
-
-#ifdef RALINK_ATE
-	if (ATE_ON(pAd))
-	{
-		ATE_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R1, saveBbpR1);
-		ATE_RF_IO_WRITE8_BY_REG_ID(pAd, RF_BANK0, RF_R02, saveRfB0R2);
-	}
-#endif /* RALINK_ATE */
 
 	if ((Ant0 == 2) || (Ant1 == 2))
 	{
@@ -1551,16 +1492,6 @@ VOID DoDPDCalibration(
 		byteValue &= (~0x18);
 		if (pAd->CommonCfg.BBPCurrentBW == BW_40)
 			byteValue |= 0x10;
-#ifdef RALINK_ATE
-		if (ATE_ON(pAd))
-		{
-			PATE_INFO pATEInfo = &(pAd->ate);
-
-			byteValue &= (~0x18);
-			if (pATEInfo->TxWI.TXWI_O.BW == BW_40)
-				byteValue |= 0x10;
-		}
-#endif /* RALINK_ATE */
 
 		RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R4, byteValue);
 
@@ -1613,9 +1544,6 @@ INT Set_TestDPDCalibration_Proc(
 	IN struct rtmp_adapter *pAd,
 	IN char *arg)
 {
-#ifdef RALINK_ATE
-	PATE_INFO pATEInfo = &(pAd->ate);
-#endif /* RALINK_ATE */
 	INT bDPDCalibrationEnable = 0;
 
 	DBGPRINT(RT_DEBUG_WARN, (" TestDPDCalibration !!!\n"));
@@ -1626,12 +1554,6 @@ INT Set_TestDPDCalibration_Proc(
 
 	if (bDPDCalibrationEnable == 0)
 	{
-#ifdef RALINK_ATE
-		if (ATE_ON(pAd))
-		{
-			pATEInfo->bDPDEnable = FALSE;
-		}
-#endif /* RALINK_ATE */
 		RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R186, 0x00);
 		RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R187, 0x00);
 		RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R188, 0x00);
@@ -1643,12 +1565,6 @@ INT Set_TestDPDCalibration_Proc(
 
 	if (bDPDCalibrationEnable == 1)
 	{
-#ifdef RALINK_ATE
-		if (ATE_ON(pAd))
-		{
-			pATEInfo->bDPDEnable = TRUE;
-		}
-#endif /* RALINK_ATE */
 		pAd->Tx0_DPD_ALC_tag0 = 0;
 		pAd->Tx0_DPD_ALC_tag1 = 0;
 		pAd->Tx1_DPD_ALC_tag0 = 0;
@@ -1685,12 +1601,6 @@ INT Set_TestDPDCalibrationTX0_Proc(
 
 	if (bDPDCalibrationEnable == 0)
 	{
-#ifdef RALINK_ATE
-		if (ATE_ON(pAd))
-		{
-			pATEInfo->bDPDEnable = FALSE;
-		}
-#endif /* RALINK_ATE */
 		RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R186, 0x00);
 		RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R187, 0x00);
 		RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R188, 0x00);
@@ -1699,30 +1609,9 @@ INT Set_TestDPDCalibrationTX0_Proc(
 		return TRUE;
 	}
 
-#ifdef RALINK_ATE
-	if (ATE_ON(pAd))
-	{
-		ATE_BBP_IO_READ8_BY_REG_ID(pAd, BBP_R1, &saveBbpR1);
-		BBPValue = saveBbpR1;
-		BBPValue &= (~0x18);
-		BBPValue |= 0x10;
-		ATE_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R1, BBPValue);
-
-		ATE_RF_IO_READ8_BY_REG_ID(pAd, RF_BANK0, RF_R02, &saveRfB0R2);
-		RFValue = saveRfB0R2;
-		RFValue |= 0x33;
-		ATE_RF_IO_WRITE8_BY_REG_ID(pAd, RF_BANK0, RF_R02, RFValue);
-	}
-#endif /* RALINK_ATE */
 
 	if (bDPDCalibrationEnable == 1)
 	{
-#ifdef RALINK_ATE
-		if (ATE_ON(pAd))
-		{
-			pATEInfo->bDPDEnable = TRUE;
-		}
-#endif /* RALINK_ATE */
 		pAd->Tx0_DPD_ALC_tag0 = 0;
 		pAd->Tx0_DPD_ALC_tag1 = 0;
 		pAd->Tx0_DPD_ALC_tag0_flag = 0x0;
@@ -1730,14 +1619,6 @@ INT Set_TestDPDCalibrationTX0_Proc(
 	}
 
 	Ant0 = DPD_Calibration(pAd, 0);
-
-#ifdef RALINK_ATE
-	if (ATE_ON(pAd))
-	{
-		ATE_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R1, saveBbpR1);
-		ATE_RF_IO_WRITE8_BY_REG_ID(pAd, RF_BANK0, RF_R02, saveRfB0R2);
-	}
-#endif /* RALINK_ATE */
 
 	if (Ant0 == 2)
 	{
@@ -1781,15 +1662,6 @@ INT Set_TestDPDCalibrationTX0_Proc(
 		byteValue &= (~0x18);
 		if (pAd->CommonCfg.BBPCurrentBW == BW_40)
 			byteValue |= 0x10;
-
-#ifdef RALINK_ATE
-		if (ATE_ON(pAd))
-		{
-			byteValue &= (~0x18);
-			if (pATEInfo->TxWI.TXWI_O.BW == BW_40)
-				byteValue |= 0x10;
-		}
-#endif /* RALINK_ATE */
 
 		RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R4, byteValue);
 
@@ -1843,12 +1715,6 @@ INT Set_TestDPDCalibrationTX1_Proc(
 
 	if (bDPDCalibrationEnable == 0)
 	{
-#ifdef RALINK_ATE
-		if (ATE_ON(pAd))
-		{
-			pATEInfo->bDPDEnable = FALSE;
-		}
-#endif /* RALINK_ATE */
 		RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R186, 0x00);
 		RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R187, 0x00);
 		RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R188, 0x00);
@@ -1857,30 +1723,8 @@ INT Set_TestDPDCalibrationTX1_Proc(
 		return TRUE;
 	}
 
-#ifdef RALINK_ATE
-	if (ATE_ON(pAd))
-	{
-		ATE_BBP_IO_READ8_BY_REG_ID(pAd, BBP_R1, &saveBbpR1);
-		BBPValue = saveBbpR1;
-		BBPValue &= (~0x18);
-		BBPValue |= 0x10;
-		ATE_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R1, BBPValue);
-
-		ATE_RF_IO_READ8_BY_REG_ID(pAd, RF_BANK0, RF_R02, &saveRfB0R2);
-		RFValue = saveRfB0R2;
-		RFValue |= 0x33;
-		ATE_RF_IO_WRITE8_BY_REG_ID(pAd, RF_BANK0, RF_R02, RFValue);
-	}
-#endif /* RALINK_ATE */
-
 	if (bDPDCalibrationEnable == 1)
 	{
-#ifdef RALINK_ATE
-		if (ATE_ON(pAd))
-		{
-			pATEInfo->bDPDEnable = TRUE;
-		}
-#endif /* RALINK_ATE */
 		pAd->Tx1_DPD_ALC_tag0 = 0;
 		pAd->Tx1_DPD_ALC_tag1 = 0;
 		pAd->Tx1_DPD_ALC_tag0_flag = 0x0;
@@ -1888,14 +1732,6 @@ INT Set_TestDPDCalibrationTX1_Proc(
 	}
 
 	Ant1 = DPD_Calibration(pAd, 1);
-
-#ifdef RALINK_ATE
-	if (ATE_ON(pAd))
-	{
-		ATE_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R1, saveBbpR1);
-		ATE_RF_IO_WRITE8_BY_REG_ID(pAd, RF_BANK0, RF_R02, saveRfB0R2);
-	}
-#endif /* RALINK_ATE */
 
 	if (Ant1 == 2)
 	{
@@ -1939,15 +1775,6 @@ INT Set_TestDPDCalibrationTX1_Proc(
 		byteValue &= (~0x18);
 		if (pAd->CommonCfg.BBPCurrentBW == BW_40)
 			byteValue |= 0x10;
-
-#ifdef RALINK_ATE
-		if (ATE_ON(pAd))
-		{
-			byteValue &= (~0x18);
-			if (pATEInfo->TxWI.TXWI_O.BW == BW_40)
-				byteValue |= 0x10;
-		}
-#endif /* RALINK_ATE */
 
 		RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R4, byteValue);
 

@@ -5636,11 +5636,6 @@ INT	Set_ITxBfLnaCal_Proc(
 	UCHAR channel = pAd->CommonCfg.Channel;
 	int calFunction;
 
-#ifdef RALINK_ATE
-	if (ATE_ON(pAd))
-		channel = pAd->ate.Channel;
-#endif /* RALINK_ATE */
-
 	calFunction = simple_strtol(arg, 0, 10);
 
 	return pAd->chipOps.fITxBfLNACalibration(pAd, calFunction, 0, channel<=14);
@@ -5661,11 +5656,6 @@ INT	mt76x2_Set_ITxBfCal_Proc(
 	ITXBF_PHASE_PARAMS phaseParams;
 	UCHAR divPhase[2] = {0}, phaseValues[2] = {0};
 	UCHAR channel = pAd->CommonCfg.Channel;
-
-#ifdef RALINK_ATE
-	if (ATE_ON(pAd))
-		channel = pAd->ate.Channel;
-#endif /* RALINK_ATE */
 
 	ret = iCalcCalibration(pAd, calParams, 0);
 	if (ret < 0) {

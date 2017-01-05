@@ -500,14 +500,6 @@ VOID ScanNextChannel(struct rtmp_adapter *pAd, UCHAR OpMode)
 	RALINK_TIMER_STRUCT *sc_timer = NULL;
 	UINT stay_time = 0;
 
-
-#ifdef RALINK_ATE
-	/* Nothing to do in ATE mode. */
-	if (ATE_ON(pAd))
-		return;
-#endif /* RALINK_ATE */
-
-
 #ifdef CONFIG_STA_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
 	{

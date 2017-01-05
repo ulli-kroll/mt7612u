@@ -48,13 +48,6 @@ VOID APMlmeDynamicTxRateSwitching(struct rtmp_adapter *pAd)
 	CHAR Rssi, TmpIdx = 0;
 	ULONG TxTotalCnt, TxErrorRatio = 0, TxSuccess, TxRetransmit, TxFailCount;
 
-#ifdef RALINK_ATE
-   	if (ATE_ON(pAd))
-   	{
-		return;
-   	}
-#endif /* RALINK_ATE */
-
 	/* walk through MAC table, see if need to change AP's TX rate toward each entry */
 	for (i = 1; i < MAX_LEN_OF_MAC_TABLE; i++)
 	{
@@ -760,13 +753,6 @@ VOID MlmeDynamicTxRateSwitching(
 	CHAR					Rssi, TmpIdx = 0;
 	ULONG					TxRetransmit = 0, TxSuccess = 0, TxFailCount = 0;
 	RSSI_SAMPLE				*pRssi = &pAd->StaCfg.RssiSample;
-
-#ifdef RALINK_ATE
-	if (ATE_ON(pAd))
-	{
-		return;
-	}
-#endif /* RALINK_ATE */
 
 	/* Update statistic counter */
 	NicGetTxRawCounters(pAd, &TxStaCnt0, &StaTx1);

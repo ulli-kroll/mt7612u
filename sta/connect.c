@@ -318,13 +318,6 @@ VOID CntlOidScanProc(
 /*	BSS_ENTRY                  CurrBss; */
 	BSS_ENTRY *pCurrBss = NULL;
 
-#ifdef RALINK_ATE
-/* Disable scanning when ATE is running. */
-	if (ATE_ON(pAd))
-		return;
-#endif /* RALINK_ATE */
-
-
 	/* allocate memory */
 	pCurrBss = kmalloc(sizeof (BSS_ENTRY), GFP_ATOMIC);
 	if (pCurrBss == NULL) {
@@ -616,13 +609,6 @@ VOID CntlOidRTBssidProc(
 	MLME_JOIN_REQ_STRUCT JoinReq;
 	BSS_ENTRY *pInBss = NULL;
 	struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
-
-
-#ifdef RALINK_ATE
-/* No need to perform this routine when ATE is running. */
-	if (ATE_ON(pAd))
-		return;
-#endif /* RALINK_ATE */
 
 	/* record user desired settings */
 	COPY_MAC_ADDR(pAd->MlmeAux.Bssid, pOidBssid);
@@ -2018,12 +2004,6 @@ VOID LinkDown(
 	/* Do nothing if monitor mode is on */
 	if (MONITOR_ON(pAd))
 		return;
-
-#ifdef RALINK_ATE
-	/* Nothing to do in ATE mode. */
-	if (ATE_ON(pAd))
-		return;
-#endif /* RALINK_ATE */
 
 #ifdef PCIE_PS_SUPPORT
 	/* Not allow go to sleep within linkdown function. */

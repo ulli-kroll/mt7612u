@@ -1360,12 +1360,6 @@ VOID NICUpdateFifoStaCounters(struct rtmp_adapter *pAd)
 	int32_t 			reTry;
 	UCHAR				succMCS, PhyMode;
 
-#ifdef RALINK_ATE
-	/* Nothing to do in ATE mode */
-	if (ATE_ON(pAd))
-		return;
-#endif /* RALINK_ATE */
-
 #ifdef RTMP_MAC_USB
 #ifdef CONFIG_STA_SUPPORT
 	if(RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_IDLE_RADIO_OFF))

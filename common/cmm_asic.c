@@ -282,11 +282,6 @@ VOID AsicUpdateProtect(
 #endif /* RT65xx */
 #endif /* DOT11_VHT_AC */
 
-#ifdef RALINK_ATE
-	if (ATE_ON(pAd))
-		return;
-#endif /* RALINK_ATE */
-
 #ifdef DOT11_N_SUPPORT
 	if (!(pAd->CommonCfg.bHTProtect) && (OperationMode != 8))
 		return;

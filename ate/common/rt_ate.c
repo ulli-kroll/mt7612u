@@ -1385,7 +1385,6 @@ int ATEInit(
 
 	OS_NdisAllocateSpinLock(&(pATEInfo->TssiSemLock));
 
-	pATEInfo->Mode = ATE_STOP;
 #ifdef RT3350
 	pATEInfo->PABias = 0;
 #endif /* RT3350  */
@@ -1525,61 +1524,6 @@ VOID ATEPeriodicExec(
 	struct rtmp_adapter *pAd = (struct rtmp_adapter *)FunctionContext;
 	PATE_INFO pATEInfo = &(pAd->ate);
 
-	if (ATE_ON(pAd))
-	{
-		pATEInfo->PeriodicRound++;
-
-		/* Normal 1 second ATE PeriodicExec.*/
-		//if (pATEInfo->PeriodicRound % (ATE_TASK_EXEC_MULTIPLE) == 0)
-		{
-			pATEInfo->OneSecPeriodicRound++;
-
-			/* for performace enchanement */
-			memset(&pAd->RalinkCounters, 0,
-							(uint32_t)&pAd->RalinkCounters.OneSecEnd -
-							(uint32_t)&pAd->RalinkCounters.OneSecStart);
-			NICUpdateRawCounters(pAd);
-
-			if (pATEInfo->bRxFER == 1)
-			{
-				pATEInfo->RxTotalCnt += pATEInfo->RxCntPerSec;
-				ate_print(KERN_EMERG "ATEPeriodicExec: Rx packet cnt = %d/%d\n",
-				pATEInfo->RxCntPerSec, pATEInfo->RxTotalCnt);
-				pATEInfo->RxCntPerSec = 0;
-
-				if (pATEInfo->RxAntennaSel == 0)
-					ate_print(KERN_EMERG "ATEPeriodicExec: Rx AvgRssi0=%d, AvgRssi1=%d, AvgRssi2=%d\n\n",
-						pATEInfo->AvgRssi0, pATEInfo->AvgRssi1, pATEInfo->AvgRssi2);
-				else
-					ate_print(KERN_EMERG "ATEPeriodicExec: Rx AvgRssi=%d\n\n", pATEInfo->AvgRssi0);
-			}
-
-			MlmeResetRalinkCounters(pAd);
-
-			/* In QA Mode, QA will handle all registers. */
-			if (pATEInfo->bQAEnabled == TRUE)
-			{
-				return;
-			}
-
-			if ((!IS_MT76x0(pAd)) &&  (!IS_MT76x2(pAd)))
-			{
-				/* MT7620 and MT7610E have adjusted Tx power above */
-
-				ATEAsicExtraPowerOverMAC(pAd);
-			}
-
-			/* only for MT7601 so far */
-			ATEAsicTemperCompensation(pAd);
-
-			/* do VCO calibration per four seconds */
-			if (pATEInfo->PeriodicRound % (ATE_TASK_EXEC_MULTIPLE * 4) == 0)
-			{
-			}
-
-		}
-	}
-	else
 	{
 		DBGPRINT_ERR(("%s is NOT called in ATE mode.\n", __FUNCTION__));
 	}

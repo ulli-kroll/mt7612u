@@ -1167,12 +1167,6 @@ VOID mt76x2_ITxBFLoadLNAComp(
 	UCHAR channel = pAd->CommonCfg.Channel;
 	UINT  value32;
 
-
-#ifdef RALINK_ATE
-	if (ATE_ON(pAd))
-		channel = pAd->ate.Channel;
-#endif /* RALINK_ATE */
-
 	/* Get values */
 	ITxBFGetEEPROM(pAd, 0, &lnaParams, 0);
 
@@ -1354,11 +1348,6 @@ INT mt76x2_ITxBFDividerCalibration(
 #ifdef TIMESTAMP_CAL_CAPTURE1
 	do_gettimeofday(&tval0);
 #endif
-
-#ifdef RALINK_ATE
-	if (ATE_ON(pAd))
-		channel = pAd->ate.Channel;
-#endif /* RALINK_ATE */
 
 	/* Handle optional divPhase parameter */
 	if (divPhase == NULL)
@@ -1719,11 +1708,6 @@ INT mt76x2_ITxBFLNACalibration(
 #ifdef TIMESTAMP_CAL_CAPTURE1
 	do_gettimeofday(&tval0);
 #endif
-
-#ifdef RALINK_ATE
-	if (ATE_ON(pAd))
-		channel = pAd->ate.Channel;
-#endif /* RALINK_ATE */
 
 	for (i = 0; i < 2; i++) // HM, ML
 	{

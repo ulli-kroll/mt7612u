@@ -1444,12 +1444,6 @@ VOID RTMPSendNullFrame(
 	ULONG Length;
 	PHEADER_802_11 pHeader_802_11;
 	struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
-#ifdef RALINK_ATE
-	if (ATE_ON(pAd))
-	{
-		return;
-	}
-#endif /* RALINK_ATE */
 
 	/* WPA 802.1x secured port control */
 	if (((wdev->AuthMode == Ndis802_11AuthModeWPA) ||

@@ -3133,12 +3133,6 @@ VOID NewUsbTimerCB_Radar(
 	UCHAR radarDeclared = 0;
 	PRADAR_DETECT_STRUCT pRadarDetect = &pAd->CommonCfg.RadarDetect;
 
-#ifdef RALINK_ATE
-	/* Nothing to do in ATE mode */
-	if (ATE_ON(pAd))
-		return;
-#endif /* RALINK_ATE */
-
 	if (!DFS_CHECK_FLAGS(pAd, pRadarDetect) ||
 		(pRadarDetect->PollTime == 0))
 		return;

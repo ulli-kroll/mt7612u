@@ -847,14 +847,6 @@ NTSTATUS RTUSB_ResetDevice(struct rtmp_adapter *pAd)
 
 NTSTATUS CheckGPIOHdlr(struct rtmp_adapter *pAd, PCmdQElmt CMDQelmt)
 {
-#ifdef RALINK_ATE
-		if (ATE_ON(pAd))
-		{
-			DBGPRINT(RT_DEBUG_TRACE, ("The driver is in ATE mode now\n"));
-			return NDIS_STATUS_SUCCESS;
-		}
-#endif /* RALINK_ATE */
-
 #ifdef CONFIG_STA_SUPPORT
 		IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
 		{
@@ -964,11 +956,6 @@ static NTSTATUS ResetBulkOutHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQe
 			/*NdisReleaseSpinLock(&pAd->BulkOutLock[pAd->bulkResetPipeid]);*/
 			RTMP_INT_UNLOCK(&pAd->BulkOutLock[pAd->bulkResetPipeid], IrqFlags);
 
-#ifdef RALINK_ATE
-			if (ATE_ON(pAd))
-				ret = ATEResetBulkOut(pAd);
-			else
-#endif /* RALINK_ATE */
 			{
 				RTUSBInitHTTxDesc(pAd, pHTTXContext, pAd->bulkResetPipeid,
 													pHTTXContext->BulkOutSize,
@@ -1068,11 +1055,6 @@ static NTSTATUS ResetBulkInHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQel
 	}
 #endif /* CONFIG_STA_SUPPORT */
 
-#ifdef RALINK_ATE
-	if (ATE_ON(pAd))
-		ATEResetBulkIn(pAd);
-	else
-#endif /* RALINK_ATE */
 	{
 		/*while ((atomic_read(&pAd->PendingRx) > 0) && (!RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST))) */
 		if((pAd->PendingRx > 0) && (!RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST)))

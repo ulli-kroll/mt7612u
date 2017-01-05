@@ -571,21 +571,8 @@ USBHST_STATUS RTUSBBulkOutDataPacketComplete(URBCompleteStatus Status, purbb_t p
 	switch (BulkOutPipeId)
 	{
 		case EDCA_AC0_PIPE:
-#ifdef RALINK_ATE
-				if (!ATE_ON(pAd))
-				{
-#endif /* RALINK_ATE */
 					RTMP_NET_TASK_DATA_ASSIGN(&pObj->ac0_dma_done_task, (unsigned long)pURB);
 					RTMP_OS_TASKLET_SCHE(&pObj->ac0_dma_done_task);
-#ifdef RALINK_ATE
-				}
-				else
-				{
-					RTMP_NET_TASK_DATA_ASSIGN(&pObj->ate_ac0_dma_done_task, (unsigned long)pURB);
-					RTMP_OS_TASKLET_SCHE(&pObj->ate_ac0_dma_done_task);
-				}
-#endif /* RALINK_ATE */
-
 				break;
 		case EDCA_AC1_PIPE:
 				RTMP_NET_TASK_DATA_ASSIGN(&pObj->ac1_dma_done_task, (unsigned long)pURB);
@@ -1073,9 +1060,6 @@ VOID	RTUSBKickBulkOut(
 {
 	/* BulkIn Reset will reset whole USB PHY. So we need to make sure fRTMP_ADAPTER_BULKIN_RESET not flaged.*/
 	if (!RTMP_TEST_FLAG(pAd ,fRTMP_ADAPTER_NEED_STOP_TX)
-#ifdef RALINK_ATE
-		&& !(ATE_ON(pAd))
-#endif /* RALINK_ATE */
 		)
 	{
 		/* 2. PS-Poll frame is next*/
@@ -1112,18 +1096,6 @@ VOID	RTUSBKickBulkOut(
 
 		}
 	}
-
-#ifdef RALINK_ATE
-	else if((ATE_ON(pAd)) &&
-			!RTMP_TEST_FLAG(pAd , fRTMP_ADAPTER_NEED_STOP_TX))
-	{
-		if (RTUSB_TEST_BULK_FLAG(pAd, fRTUSB_BULK_OUT_DATA_ATE))
-		{
-			ATE_RTUSBBulkOutDataPacket(pAd, EDCA_AC0_PIPE);
-		}
-	}
-#endif /* RALINK_ATE */
-
 }
 
 /*

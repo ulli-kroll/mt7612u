@@ -3961,20 +3961,6 @@ BOOLEAN rtmp_rx_done_handle(struct rtmp_adapter *pAd)
 		pAd->RalinkCounters.RxCount++;
 		pAd->RalinkCounters.OneSecRxCount++;
 
-#ifdef RALINK_ATE
-		if (ATE_ON(pAd))
-		{
-				INC_COUNTER64(pAd->WlanCounters.ReceivedFragmentCount);
-
-			pAd->ate.RxCntPerSec++;
-			ATESampleRssi(pAd, pRxWI);
-
-
-			RELEASE_NDIS_PACKET(pAd, pRxPacket, NDIS_STATUS_SUCCESS);
-			continue;
-		}
-#endif /* RALINK_ATE */
-
 #ifdef STATS_COUNT_SUPPORT
 		INC_COUNTER64(pAd->WlanCounters.ReceivedFragmentCount);
 #endif /* STATS_COUNT_SUPPORT */

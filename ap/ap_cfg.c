@@ -3804,16 +3804,6 @@ VOID RTMPAPIoctlRF(
 				{
 					if (rfId <= pAdapter->chipCap.MaxNumOfRfId)
 					{
-#ifdef RALINK_ATE
-						if (ATE_ON(pAdapter))
-						{
-								RT30xxReadRFRegister(pAdapter, rfId, &regRF);
-
-							/* Sync with QA for comparation */
-							sprintf(msg+strlen(msg), "%03d = %02X\n", rfId, regRF);
-						}
-						else
-#endif /* RALINK_ATE */
 						{
 							/* according to Andy, Gary, David require. */
 							/* the command rf shall read rf register directly for dubug. */
@@ -3844,23 +3834,6 @@ VOID RTMPAPIoctlRF(
 				{
 					if (rfId <= pAdapter->chipCap.MaxNumOfRfId)
 					{
-#ifdef RALINK_ATE
-						if (ATE_ON(pAdapter))
-						{
-							{
-								RT30xxReadRFRegister(pAdapter, rfId, &regRF);
-								RT30xxWriteRFRegister(pAdapter, (UCHAR)rfId,(UCHAR) rfValue);
-							}
-
-
-							/* Read it back for showing. */
-								RT30xxReadRFRegister(pAdapter, rfId, &regRF);
-
-							/* Sync with QA for comparation */
-							sprintf(msg+strlen(msg), "%03d = %02X\n", rfId, regRF);
-						}
-						else
-#endif /* RALINK_ATE */
 						{
 							/* according to Andy, Gary, David require. */
 							/* the command RF shall read/write RF register directly for dubug. */
@@ -3898,21 +3871,6 @@ VOID RTMPAPIoctlRF(
 		sprintf(msg, "\n");
 		for (rfId = 0; rfId <= maxRFIdx; rfId++)
 		{
-#ifdef RALINK_ATE
-			/*
-				In RT2860 ATE mode, we do not load 8051 firmware.
-				We must access RF registers directly.
-				For RT2870 ATE mode, ATE_RF_IO_WRITE8(/READ8)_BY_REG_ID are redefined.
-			*/
-			if (ATE_ON(pAdapter))
-			{
-					RT30xxReadRFRegister(pAdapter, rfId, &regRF);
-
-				/* Sync with QA for comparation */
-				sprintf(msg+strlen(msg), "%03d = %02X\n", rfId, regRF);
-			}
-			else
-#endif /* RALINK_ATE */
 			{
 				/* according to Andy, Gary, David require. */
 				/* the command RF shall read/write RF register directly for dubug. */

@@ -95,7 +95,6 @@ typedef union _CAPTURE_MODE_SHARE_MEMORY {
 
 typedef struct _ATE_INFO {
 	struct ate_chip_struct *pChipStruct;
-	UCHAR Mode;
 	BOOLEAN PassiveMode;
 #ifdef RT3350
 	UCHAR   PABias;
@@ -187,10 +186,6 @@ typedef struct _ATE_INFO {
 	Use bitmap to allow coexist of ATE_TXFRAME
 	and ATE_RXFRAME(i.e.,to support LoopBack mode).
 */
-#define fATE_EXIT					0x80
-
-/* Stop/Exit ATE */
-#define	ATE_STOP                    (fATE_EXIT)
 
 #ifdef RTMP_INTERNAL_TX_ALC
 #define EEPROM_TSSI_ENABLE 0x36
@@ -204,7 +199,6 @@ typedef struct _ATE_INFO {
 #endif /* RTMP_INTERNAL_TX_ALC */
 
 #define	LEN_OF_ARG 16
-#define ATE_ON(_p)              (((_p)->ate.Mode) != ATE_STOP)
 #define TX_METHOD_0 0 /* Early chipsets must be applied this original TXCONT/TXCARR/TXCARS mechanism. */
 #define TX_METHOD_1 1 /* Default TXCONT/TXCARR/TXCARS mechanism is TX_METHOD_1 */
 #define ANT_ALL 0

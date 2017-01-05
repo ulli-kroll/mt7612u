@@ -521,8 +521,8 @@ INT ATEResetBulkOut(
 		If driver is still in ATE TXFRAME mode,
 		keep on transmitting ATE frames.
 	*/
-	DBGPRINT(RT_DEBUG_TRACE, ("pATEInfo->Mode == %d\npAd->ContinBulkOut == %d\npAd->BulkOutRemained == %d\n",
-		pATEInfo->Mode, pAd->ContinBulkOut, atomic_read(&pAd->BulkOutRemained)));
+	DBGPRINT(RT_DEBUG_TRACE, ("Ad->ContinBulkOut == %d\npAd->BulkOutRemained == %d\n",
+		pAd->ContinBulkOut, atomic_read(&pAd->BulkOutRemained)));
 
 	return ret;
 }

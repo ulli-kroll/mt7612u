@@ -430,17 +430,6 @@ static void rx_done_tasklet(unsigned long data)
 
 	ASSERT((pRxContext->InUse == pRxContext->IRPPending));
 
-#ifdef RALINK_ATE
-	if (ATE_ON(pAd))
-	{
-		/* If the driver is in ATE mode and Rx frame is set into here. */
-		if (pAd->ContinBulkIn == TRUE)
-		{
-			RTUSBBulkReceive(pAd);
-		}
-	}
-	else
-#endif /* RALINK_ATE */
 	RTUSBBulkReceive(pAd);
 
 

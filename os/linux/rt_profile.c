@@ -680,14 +680,6 @@ int RTMPSendPackets(
 		return 0;
 	}
 
-#ifdef RALINK_ATE
-	if (ATE_ON(pAd))
-	{
-		RELEASE_NDIS_PACKET(pAd, pPacket, NDIS_STATUS_SUCCESS);
-		return 0;
-	}
-#endif /* RALINK_ATE */
-
 #ifdef CONFIG_STA_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
 	{

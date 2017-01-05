@@ -1846,11 +1846,6 @@ VOID PeerBeacon(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 
 	BCN_IE_LIST *bcn_ie_list = NULL;
 
-#ifdef RALINK_ATE
-    if (ATE_ON(pAd))
-		return;
-#endif /* RALINK_ATE */
-
 	if (!(INFRA_ON(pAd) || ADHOC_ON(pAd)
 		))
 		return;
@@ -2834,12 +2829,6 @@ VOID InvalidStateWhenStart(
  */
 VOID EnqueuePsPoll(struct rtmp_adapter *pAd)
 {
-#ifdef RALINK_ATE
-    if (ATE_ON(pAd))
-		return;
-#endif /* RALINK_ATE */
-
-
 	if (pAd->StaCfg.WindowsPowerMode == Ndis802_11PowerModeLegacy_PSP)
     	pAd->PsPollFrame.FC.PwrMgmt = PWR_SAVE;
 	MiniportMMRequest(pAd, 0, (u8 *)&pAd->PsPollFrame, sizeof(PSPOLL_FRAME));
