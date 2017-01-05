@@ -908,10 +908,6 @@ ifeq ($(HAS_ATE),y)
 $(MOD_NAME)-objs += ate/common/rt_ate.o
 endif
 
-ifeq ($(HAS_QA_SUPPORT),y)
-$(MOD_NAME)-objs += ate/common/rt_qa.o
-endif
-
 #ifdef BG_FT_SUPPORT
 ifeq ($(HAS_BGFP_SUPPORT),y)
 $(MOD_NAME)-objs += \
@@ -989,10 +985,6 @@ ifeq ($(HAS_ATE),y)
 $(MOD_NAME)-objs += ate/common/rt_ate.o
 endif
 
-ifeq ($(HAS_QA_SUPPORT),y)
-$(MOD_NAME)-objs += ate/common/rt_qa.o
-endif
-
 endif
 #endif // CONFIG_STA_SUPPORT //
 
@@ -1055,10 +1047,6 @@ endif
 
 ifeq ($(HAS_ATE),y)
 $(MOD_NAME)-objs += ate/common/rt_ate.o
-endif
-
-ifeq ($(HAS_QA_SUPPORT),y)
-$(MOD_NAME)-objs += ate/common/rt_qa.o
 endif
 
 #ifdef CRDA_SUPPORT
