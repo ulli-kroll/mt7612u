@@ -175,35 +175,6 @@ CHAR ATEGetDesiredTSSI(
 #endif /* defined( RT3352) || defined(RT3350) || defined(MT7601) */
 #endif /* RTMP_INTERNAL_TX_ALC */
 
-
-/*
-==========================================================================
-	Description:
-		Gives CCK TX rate 2 more dB TX power.
-		This routine works only in ATE mode.
-
-		calculate desired Tx power in RF R3.Tx0~5,	should consider -
-		0. TxPowerPercentage
-		1. auto calibration based on TSSI feedback
-		2. extra 2 db for CCK
-		3. -10 db upon very-short distance (AvgRSSI >= -40db) to AP
-
-==========================================================================
-*/
-VOID ATEAsicAdjustTxPower(
-	IN struct rtmp_adapter *pAd)
-{
-	PATE_INFO pATEInfo = &(pAd->ate);
-
-	if (pATEInfo->pChipStruct->AdjustTxPower != NULL)
-		pATEInfo->pChipStruct->AdjustTxPower(pAd);
-	else
-		DBGPRINT_ERR(("%s: AdjustTxPower() for this chipset does not exist !\n", __FUNCTION__));
-
-	return;
-}
-
-
 CHAR ATEConvertToRssi(
 	IN struct rtmp_adapter *pAd,
 	IN	CHAR	Rssi,
@@ -1248,7 +1219,6 @@ struct ate_chip_struct RALINKDefault =
 	/* functions */
 	.TssiCalibration = NULL,
 	.ExtendedTssiCalibration = NULL,
-	.AdjustTxPower = NULL,
 	.AsicExtraPowerOverMAC = NULL,
 
 	/* command handlers */

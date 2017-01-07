@@ -478,7 +478,6 @@ struct ate_chip_struct mt76x2ate =
 	/* functions */
 	.TssiCalibration = NULL,
 	.ExtendedTssiCalibration = NULL /* RT5572_ATETssiCalibrationExtend */,
-	.AdjustTxPower = mt76x2_ate_asic_adjust_tx_power,
 	//.AsicExtraPowerOverMAC = DefaultATEAsicExtraPowerOverMAC,
 	/* variables */
 	.maxTxPwrCnt = 5,

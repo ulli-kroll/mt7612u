@@ -61,7 +61,6 @@ struct ate_chip_struct {
 	/* functions */
 	INT		(*TssiCalibration)(struct rtmp_adapter *pAd, char *arg);
 	INT		(*ExtendedTssiCalibration)(struct rtmp_adapter *pAd, char *arg);
-	VOID	(*AdjustTxPower)(struct rtmp_adapter *pAd);
 	VOID	(*AsicExtraPowerOverMAC)(struct rtmp_adapter *pAd);
 	VOID 	(*TemperCompensation)(struct rtmp_adapter *pAd);
 
@@ -499,9 +498,6 @@ INT Set_ATE_Write_RF4_Proc(
 INT Set_ATE_Payload_Proc(
     IN  struct rtmp_adapter *  pAd,
     IN  char *        arg);
-
-VOID DefaultATEAsicAdjustTxPower(
-	IN struct rtmp_adapter *pAd);
 
 VOID ATEAsicAdjustTxPower(
 	IN struct rtmp_adapter *pAd);
