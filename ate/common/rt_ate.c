@@ -1269,18 +1269,6 @@ int ChipStructAssign(
 {
 	PATE_INFO pATEInfo = &(pAd->ate);
 
-	pATEInfo->pChipStruct = &RALINKDefault;
-
-#ifdef RT8592
-	if (IS_RT8592(pAd))
-	{
-		pATEInfo->pChipStruct = &RALINK85592;
-		DBGPRINT(RT_DEBUG_OFF, ("%s(): RALINK85592 hook !\n", __FUNCTION__));
-		return NDIS_STATUS_SUCCESS;
-	}
-#endif /* RT8592 */
-
-
 #ifdef MT76x2
 	if (IS_MT76x2(pAd))
 	{
@@ -1289,44 +1277,6 @@ int ChipStructAssign(
 		return NDIS_STATUS_SUCCESS;
 	}
 #endif /* MT76x2 */
-
-
-
-
-
-
-
-
-#ifdef RT28xx
-	if (IS_RT2860(pAd))
-	{
-
-
-	}
-#endif /* RT28xx */
-
-
-
-
-#ifdef RT8592
-	if (IS_RT8592(pAd))
-	{
-		pATEInfo->pChipStruct = &RALINK85592;
-		return NDIS_STATUS_SUCCESS;
-	}
-#endif /* RT8592 */
-
-
-	/* sanity check */
-	if (pATEInfo->pChipStruct == &RALINKDefault)
-	{
-		/* Unknown chipset ! */
-		DBGPRINT_ERR(("Warning - Unknown chipset !!!\n"));
-		DBGPRINT_ERR(("MAC Version is %u\n", ((pAd->MACVersion & 0xFFFF0000) >> 16)));
-		DBGPRINT_ERR(("Interface type is %d\n", pAd->infType));
-
-		return NDIS_STATUS_FAILURE;
-	}
 
 	return NDIS_STATUS_SUCCESS;
 }
