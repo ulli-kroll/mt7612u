@@ -58,12 +58,6 @@
 // TODO: ---End
 
 struct ate_chip_struct {
-	/* functions */
-	INT		(*TssiCalibration)(struct rtmp_adapter *pAd, char *arg);
-	INT		(*ExtendedTssiCalibration)(struct rtmp_adapter *pAd, char *arg);
-	VOID	(*AsicExtraPowerOverMAC)(struct rtmp_adapter *pAd);
-	VOID 	(*TemperCompensation)(struct rtmp_adapter *pAd);
-
 	/* command handlers */
 
 	/* variables */
@@ -383,12 +377,6 @@ CHAR ATEGetDesiredTSSI(
 	IN struct rtmp_adapter *	pAd);
 
 #endif /* RTMP_INTERNAL_TX_ALC */
-
-VOID DefaultATEAsicExtraPowerOverMAC(
-	IN	struct rtmp_adapter *		pAd);
-
-VOID ATEAsicExtraPowerOverMAC(
-	IN	struct rtmp_adapter *pAd);
 
 INT	Default_Set_ATE_TX_FREQ_OFFSET_Proc(
 	IN	struct rtmp_adapter *pAd,
