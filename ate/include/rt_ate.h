@@ -304,18 +304,6 @@ typedef struct _ATE_INFO {
 		if(1 /*!(in_interrupt() & 0xffff0000)*/)	\
 			RTMP_IRQ_UNLOCK((pLock), IrqFlags);
 
-VOID ATE_RTUSBBulkOutDataPacket(
-	IN	struct rtmp_adapter *pAd,
-	IN	UCHAR			BulkOutPipeId);
-
-VOID ATE_RTUSBCancelPendingBulkInIRP(
-	IN	struct rtmp_adapter *pAd);
-
-VOID ATEResetBulkIn(
-	IN struct rtmp_adapter *pAd);
-
-INT ATEResetBulkOut(
-	IN struct rtmp_adapter *pAd);
 #endif /* RTMP_MAC_USB */
 
 #if defined(RT28xx) || defined(RT2880)
@@ -412,27 +400,6 @@ VOID ATEAsicAdjustTxPower(
 VOID ATESampleRssi(
 	IN struct rtmp_adapter *pAd,
 	IN RXWI_STRUC *pRxWI);
-
-
-#ifdef RTMP_MAC_USB
-INT TxDmaBusy(
-	IN struct rtmp_adapter *pAd);
-
-INT RxDmaBusy(
-	IN struct rtmp_adapter *pAd);
-
-VOID RtmpDmaEnable(
-	IN struct rtmp_adapter *pAd,
-	IN INT Enable);
-
-INT ATESetUpFrame(
-	IN struct rtmp_adapter *pAd,
-	IN uint32_t TxIdx);
-
-VOID RTUSBRejectPendingPackets(
-	IN	struct rtmp_adapter *pAd);
-#endif /* RTMP_MAC_USB */
-
 
 int ChipStructAssign(
  IN	struct rtmp_adapter *pAd);
