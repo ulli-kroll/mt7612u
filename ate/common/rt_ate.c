@@ -873,40 +873,6 @@ VOID ATEAsicTemperCompensation(
 /*
 ==========================================================================
     Description:
-        Set ATE Tx frame length
-
-    Return:
-        TRUE if all parameters are OK, FALSE otherwise
-==========================================================================
-*/
-INT	Set_ATE_TX_LENGTH_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg)
-{
-	PATE_INFO pATEInfo = &(pAd->ate);
-
-	pATEInfo->TxLength = simple_strtol(arg, 0, 10);
-
-	if ((pATEInfo->TxLength < 24) || (pATEInfo->TxLength > (MAX_FRAME_SIZE - 34/* == 2312 */)))
-	{
-		pATEInfo->TxLength = (MAX_FRAME_SIZE - 34/* == 2312 */);
-		DBGPRINT_ERR(("Set_ATE_TX_LENGTH_Proc::Out of range, it should be in range of 24~%d.\n", (MAX_FRAME_SIZE - 34/* == 2312 */)));
-		return FALSE;
-	}
-
-	DBGPRINT(RT_DEBUG_TRACE, ("Set_ATE_TX_LENGTH_Proc (TxLength = %d)\n", pATEInfo->TxLength));
-	DBGPRINT(RT_DEBUG_TRACE, ("Ralink: Set_ATE_TX_LENGTH_Proc Success\n"));
-
-#ifdef CONFIG_AP_SUPPORT
-#endif /* CONFIG_AP_SUPPORT */
-
-	return TRUE;
-}
-
-
-/*
-==========================================================================
-    Description:
         Set ATE Tx frame count
 
     Return:
