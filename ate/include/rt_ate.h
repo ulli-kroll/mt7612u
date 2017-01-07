@@ -360,18 +360,6 @@ VOID rt_ee_write_bulk(
 	IN  USHORT offset,
 	IN  USHORT length);
 
-INT	Set_ATE_DA_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg);
-
-INT	Set_ATE_SA_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg);
-
-INT	Set_ATE_BSSID_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg);
-
 INT Set_ADCDump_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg);
@@ -395,24 +383,6 @@ CHAR ATEGetDesiredTSSI(
 	IN struct rtmp_adapter *	pAd);
 
 #endif /* RTMP_INTERNAL_TX_ALC */
-
-#ifdef RTMP_TEMPERATURE_CALIBRATION
-INT Set_ATE_TEMP_CAL_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg);
-
-INT Set_ATE_SHOW_TSSI_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg);
-#endif /* RTMP_TEMPERATURE_CALIBRATION */
-
-INT	Set_ATE_TX_Antenna_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg);
-
-INT	Set_ATE_RX_Antenna_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg);
 
 VOID DefaultATEAsicExtraPowerOverMAC(
 	IN	struct rtmp_adapter *		pAd);
@@ -447,31 +417,6 @@ INT	RT28xx_Set_ATE_TX_BW_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg);
 #endif /* defined(RT28xx) || defined(RT2880) */
-
-INT	Set_ATE_TX_MCS_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg);
-
-INT	Set_ATE_TX_STBC_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg);
-
-INT	Set_ATE_TX_GI_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg);
-
-
-INT	Set_ATE_RX_FER_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg);
-
-INT Set_ATE_Read_RF_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg);
-
-INT Set_ATE_Payload_Proc(
-    IN  struct rtmp_adapter *  pAd,
-    IN  char *        arg);
 
 VOID ATEAsicAdjustTxPower(
 	IN struct rtmp_adapter *pAd);
