@@ -873,34 +873,6 @@ VOID ATEAsicTemperCompensation(
 /*
 ==========================================================================
     Description:
-        Set ATE Tx frame count
-
-    Return:
-        TRUE if all parameters are OK, FALSE otherwise
-==========================================================================
-*/
-INT	Set_ATE_TX_COUNT_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg)
-{
-	PATE_INFO pATEInfo = &(pAd->ate);
-
-	pATEInfo->TxCount = simple_strtol(arg, 0, 10);
-
-
-	DBGPRINT(RT_DEBUG_TRACE, ("Set_ATE_TX_COUNT_Proc (TxCount = %d)\n", pATEInfo->TxCount));
-	DBGPRINT(RT_DEBUG_TRACE, ("Ralink: Set_ATE_TX_COUNT_Proc Success\n"));
-
-#ifdef CONFIG_AP_SUPPORT
-#endif /* CONFIG_AP_SUPPORT */
-
-	return TRUE;
-}
-
-
-/*
-==========================================================================
-    Description:
         Set ATE Tx frame MCS
 
         Return:

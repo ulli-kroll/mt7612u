@@ -448,10 +448,6 @@ INT	RT28xx_Set_ATE_TX_BW_Proc(
 	IN	char *		arg);
 #endif /* defined(RT28xx) || defined(RT2880) */
 
-INT	Set_ATE_TX_COUNT_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg);
-
 INT	Set_ATE_TX_MCS_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg);
