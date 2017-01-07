@@ -477,24 +477,6 @@ INT Set_ATE_Read_RF_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg);
 
-#if (!defined(RTMP_RF_RW_SUPPORT)) && (!defined(RLT_RF))
-INT Set_ATE_Write_RF1_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg);
-
-INT Set_ATE_Write_RF2_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg);
-
-INT Set_ATE_Write_RF3_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg);
-
-INT Set_ATE_Write_RF4_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg);
-#endif /* (!defined(RTMP_RF_RW_SUPPORT)) && (!defined(RLT_RF)) */
-
 INT Set_ATE_Payload_Proc(
     IN  struct rtmp_adapter *  pAd,
     IN  char *        arg);

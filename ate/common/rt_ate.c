@@ -1084,56 +1084,6 @@ INT Set_ATE_Read_RF_Proc(
 
 
 #ifndef RTMP_RF_RW_SUPPORT
-INT Set_ATE_Write_RF1_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg)
-{
-	uint32_t value = (uint32_t) simple_strtol(arg, 0, 16);
-
-	pAd->LatchRfRegs.R1 = value;
-	RtmpRfIoWrite(pAd);
-
-	return TRUE;
-}
-
-
-INT Set_ATE_Write_RF2_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg)
-{
-	uint32_t value = (uint32_t) simple_strtol(arg, 0, 16);
-
-	pAd->LatchRfRegs.R2 = value;
-	RtmpRfIoWrite(pAd);
-
-	return TRUE;
-}
-
-
-INT Set_ATE_Write_RF3_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg)
-{
-	uint32_t value = (uint32_t) simple_strtol(arg, 0, 16);
-
-	pAd->LatchRfRegs.R3 = value;
-	RtmpRfIoWrite(pAd);
-
-	return TRUE;
-}
-
-
-INT Set_ATE_Write_RF4_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg)
-{
-	uint32_t value = (uint32_t) simple_strtol(arg, 0, 16);
-
-	pAd->LatchRfRegs.R4 = value;
-	RtmpRfIoWrite(pAd);
-
-	return TRUE;
-}
 #endif /* RTMP_RF_RW_SUPPORT */
 
 /*
