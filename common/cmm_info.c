@@ -1323,9 +1323,6 @@ INT	Set_ResetStatCounter_Proc(
 	memset(&pAd->Counters8023, 0, sizeof(COUNTER_802_3));
 	memset(&pAd->RalinkCounters, 0, sizeof(COUNTER_RALINK));
 
-#ifdef RALINK_ATE
-#endif /* RALINK_ATE */
-
 #ifdef CONFIG_AP_SUPPORT
 #endif /* CONFIG_AP_SUPPORT */
 
@@ -5677,25 +5674,11 @@ INT	mt76x2_Set_ITxBfCal_Proc(
 			pAd->chipOps.fITxBfDividerCalibration(pAd, 10, 0, divPhase);
 			phaseValues[0] = calParams[0] - divPhase[0];
 			DBGPRINT(RT_DEBUG_OFF, ("ITxBfCal Result = [0x%02x]\n", phaseValues[0]));
-#ifdef RALINK_ATE
-			pAd->ate.calParams[0] = (UCHAR)phaseValues[0];
-
-			/* Double check */
-			DBGPRINT((calFunction==0? RT_DEBUG_OFF: RT_DEBUG_WARN),
-					("ITxBfCal Result in ATE = [0x%02x]\n", pAd->ate.calParams[0]));
-#endif /* RALINK_ATE */
 			break;
 
 		case 1:
 			/* Display result */
 			DBGPRINT(RT_DEBUG_OFF, ("ITxBfCal Result = [0x%02x]\n", calParams[0]));
-#ifdef RALINK_ATE
-			pAd->ate.calParams[0] = (UCHAR)calParams[0];
-
-			/* Double check */
-			DBGPRINT((calFunction==0? RT_DEBUG_OFF: RT_DEBUG_WARN),
-					("ITxBfCal Result in ATE = [0x%02x]\n", pAd->ate.calParams[0]));
-#endif /* RALINK_ATE */
 
 			//mt_rf_write(pAd, RF_Path0,	   RFDIGI_TRX4, 0x28585); // Auto LNA gain
 			//mt_rf_write(pAd, RF_Path1,	   RFDIGI_TRX4, 0x28585); // Auto LNA gain

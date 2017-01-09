@@ -632,13 +632,6 @@ VOID RTMPFreeAdapter(struct rtmp_adapter *pAd)
 
 	NdisFreeSpinLock(&TimerSemLock);
 
-#ifdef RALINK_ATE
-#ifdef RTMP_MAC_USB
-	RTMP_OS_ATMOIC_DESTROY(&pAd->BulkOutRemained);
-	RTMP_OS_ATMOIC_DESTROY(&pAd->BulkInRemained);
-#endif /* RTMP_MAC_USB */
-#endif /* RALINK_ATE */
-
 	RTMP_OS_FREE_TIMER(pAd);
 	RTMP_OS_FREE_LOCK(pAd);
 	RTMP_OS_FREE_TASKLET(pAd);

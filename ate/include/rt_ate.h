@@ -29,12 +29,6 @@
 #ifndef __RT_ATE_H__
 #define __RT_ATE_H__
 
-#ifdef RALINK_ATE
-#ifndef STATS_COUNT_SUPPORT
-#error "For ATE support, please set HAS_ATE=y and HAS_STATS_COUNT=y."
-#endif /* !STATS_COUNT_SUPPORT */
-#endif /* RALINK_ATE */
-
 #include "mac_ral/rtmp_mac.h"
 #include "chip/rtmp_phy.h"
 

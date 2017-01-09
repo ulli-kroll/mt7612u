@@ -2140,10 +2140,6 @@ INT ITxBFPhaseCalibration(
 	INT    phaseValues[2] = {0};
 	BOOLEAN gBandFlg = FALSE;
 
-#ifdef RALINK_ATE
-	ch = pAd->ate.Channel;
-#endif
-
 	if (ch <= 14) gBandFlg = TRUE;
 
 	/* DPD and TSSI HW off */

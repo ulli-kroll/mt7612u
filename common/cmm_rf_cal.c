@@ -1403,9 +1403,6 @@ VOID DoDPDCalibration(
 {
 	UCHAR Ant0 = 0, Ant1 = 0;
 	UCHAR byteValue = 0;
-#ifdef RALINK_ATE
-	UCHAR saveBbpR1 = 0, saveRfB0R2 = 0, BBPValue = 0, RFValue = 0;
-#endif /* RALINK_ATE */
 
 	DBGPRINT(RT_DEBUG_INFO, (" Do DPD Calibration !!!\n"));
 
@@ -1587,10 +1584,6 @@ INT Set_TestDPDCalibrationTX0_Proc(
 {
 	UCHAR Ant0 = 0;
 	UCHAR byteValue = 0;
-#ifdef RALINK_ATE
-	PATE_INFO pATEInfo = &(pAd->ate);
-	UCHAR saveBbpR1 = 0, saveRfB0R2 = 0, BBPValue = 0, RFValue = 0;
-#endif /* RALINK_ATE */
 	INT bDPDCalibrationEnable = 0;
 
 	DBGPRINT(RT_DEBUG_WARN, (" TestDPDCalibrationTX0 !!!\n"));
@@ -1701,10 +1694,6 @@ INT Set_TestDPDCalibrationTX1_Proc(
 {
 	UCHAR Ant1 = 0;
 	UCHAR byteValue = 0;
-#ifdef RALINK_ATE
-	PATE_INFO pATEInfo = &(pAd->ate);
-	UCHAR saveBbpR1 = 0, saveRfB0R2 = 0, BBPValue = 0, RFValue = 0;
-#endif /* RALINK_ATE */
 	INT bDPDCalibrationEnable = 0;
 
 	DBGPRINT(RT_DEBUG_WARN, (" TestDPDCalibrationTX1 !!!\n"));

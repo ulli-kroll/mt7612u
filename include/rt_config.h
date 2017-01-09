@@ -98,18 +98,6 @@
 #include "netif_block.h"
 #endif /* BLOCK_NET_IF */
 
-
-#ifdef RALINK_ATE
-#include "rt_ate.h"
-#endif /* RALINK_ATE */
-
-
-
-
-
-
-
-
 #if defined(AP_WSC_INCLUDED) || defined(STA_WSC_INCLUDED)
 #define WSC_INCLUDED
 #endif

@@ -213,13 +213,6 @@ ifeq ($(HAS_HDR_TRANS_SUPPORT),y)
 WFLAGS += -DHDR_TRANS_SUPPORT
 endif
 
-
-ifeq ($(HAS_ATE),y)
-WFLAGS += -DRALINK_ATE
-WFLAGS += -DCONFIG_RT2880_ATE_CMD_NEW
-WFLAGS += -I$(RT28xx_DIR)/ate/include
-endif
-
 ifeq ($(HAS_CAL_FREE_IC_SUPPORT),y)
 WFLAGS += -DCAL_FREE_IC_SUPPORT
 endif
@@ -904,10 +897,6 @@ $(MOD_NAME)-objs := \
 	$(obj_wsc)\
 	$(obj_phy)
 
-ifeq ($(HAS_ATE),y)
-$(MOD_NAME)-objs += ate/common/rt_ate.o
-endif
-
 #ifdef BG_FT_SUPPORT
 ifeq ($(HAS_BGFP_SUPPORT),y)
 $(MOD_NAME)-objs += \
@@ -979,12 +968,6 @@ ifeq ($(HAS_QOS_DLS_SUPPORT),y)
 $(MOD_NAME)-objs += sta/dls.o
 endif
 
-
-
-ifeq ($(HAS_ATE),y)
-$(MOD_NAME)-objs += ate/common/rt_ate.o
-endif
-
 endif
 #endif // CONFIG_STA_SUPPORT //
 
@@ -1043,12 +1026,6 @@ ifeq ($(HAS_QOS_DLS_SUPPORT),y)
 $(MOD_NAME)-objs += sta/dls.o
 endif
 
-
-
-ifeq ($(HAS_ATE),y)
-$(MOD_NAME)-objs += ate/common/rt_ate.o
-endif
-
 #ifdef CRDA_SUPPORT
 ifeq ($(HAS_CFG80211_SUPPORT),y)
 $(MOD_NAME)-objs += \
@@ -1090,12 +1067,6 @@ $(MOD_NAME)-objs += \
 ifeq ($(HAS_RTMP_FLASH_SUPPORT),y)
 $(MOD_NAME)-objs += \
 	common/ee_flash.o
-endif
-
-ifeq ($(HAS_ATE),y)
-$(MOD_NAME)-objs += \
-        ate/chips/mt76x2_ate.o\
-        ate/common/ate_usb.o
 endif
 
 ifeq ($(HAS_TSO_SUPPORT),y)

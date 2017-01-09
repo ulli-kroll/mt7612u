@@ -283,13 +283,13 @@ INT rt28xx_ap_ioctl(struct net_device *net_dev, struct ifreq *rq, int cmd)
 		    break;
 #endif /* DOT11_N_SUPPORT */
 
-#if defined(DBG) ||(defined(BB_SOC)&&defined(RALINK_ATE))
+#if defined(DBG)
 #ifdef RTMP_RF_RW_SUPPORT
 		case RTPRIV_IOCTL_RF:
 			RTMP_AP_IoctlHandle(pAd, wrq, CMD_RTPRIV_IOCTL_RF, 0, NULL, 0);
 			break;
 #endif /* RTMP_RF_RW_SUPPORT */
-#endif /* defined(DBG) ||(defined(BB_SOC)&&defined(RALINK_ATE)) */
+#endif /* defined(DBG) */
 
 		default:
 /*			DBGPRINT(RT_DEBUG_ERROR, ("IOCTL::unknown IOCTL's cmd = 0x%08x\n", cmd)); */

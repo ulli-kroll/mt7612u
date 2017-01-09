@@ -225,14 +225,6 @@ int rt28xx_init(struct rtmp_adapter *pAd)
 		this's chip variant and may different for different chips
 	*/
 
-#ifdef RALINK_ATE
-	if (ATEInit(pAd) != NDIS_STATUS_SUCCESS)
-	{
-		DBGPRINT(RT_DEBUG_ERROR, ("%s(): ATE initialization failed !\n", __FUNCTION__));
-		goto err6;
-	}
-#endif /* RALINK_ATE */
-
 #ifdef RTMP_FREQ_CALIBRATION_SUPPORT
 #ifdef CONFIG_STA_SUPPORT
 	/* Initialize the frequency calibration*/
@@ -305,10 +297,6 @@ int rt28xx_init(struct rtmp_adapter *pAd)
 		RtmpusecDelay(10000);
 	}
 #endif /* RTMP_MAC_USB */
-
-#ifdef RALINK_ATE
-#endif /* RALINK_ATE */
-
 
 #ifdef RTMP_INTERNAL_TX_ALC
 #endif /* RTMP_INTERNAL_TX_ALC */

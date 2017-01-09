@@ -3603,7 +3603,7 @@ VOID RTMPIoctlQueryStaAid(
 #endif /* DOT1X_SUPPORT */
 
 
-#if defined(DBG) ||(defined(BB_SOC)&&defined(RALINK_ATE))
+#if defined(DBG)
 
 #ifdef MT_RF
 VOID RTMPAPIoctlRF_mt(

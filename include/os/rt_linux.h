@@ -535,9 +535,6 @@ struct os_cookie {
 	RTMP_NET_TASK_STRUCT cmd_rsp_event_task;
 	RTMP_NET_TASK_STRUCT mgmt_dma_done_task;
 	RTMP_NET_TASK_STRUCT ac0_dma_done_task;
-#ifdef RALINK_ATE
-	RTMP_NET_TASK_STRUCT ate_ac0_dma_done_task;
-#endif /* RALINK_ATE */
 	RTMP_NET_TASK_STRUCT ac1_dma_done_task;
 	RTMP_NET_TASK_STRUCT ac2_dma_done_task;
 	RTMP_NET_TASK_STRUCT ac3_dma_done_task;
@@ -1104,36 +1101,6 @@ extern int rausb_control_msg(VOID *dev,
 							int timeout);
 
 /*#endif // RTMP_USB_SUPPORT */
-
-#ifdef RALINK_ATE
-/******************************************************************************
-
-  	ATE related definitions
-
-******************************************************************************/
-#define ate_print printk
-#define ATEDBGPRINT DBGPRINT
-
-#ifdef RTMP_MAC_USB
-#ifdef CONFIG_AP_SUPPORT
-#define EEPROM_BIN_FILE_NAME  "/etc/Wireless/RT2870AP/e2p.bin"
-#endif /* CONFIG_AP_SUPPORT */
-#ifdef CONFIG_STA_SUPPORT
-#undef EEPROM_BIN_FILE_NAME /* Avoid APSTA mode re-define issue */
-#define EEPROM_BIN_FILE_NAME  "/etc/Wireless/RT2870STA/e2p.bin"
-#endif /* CONFIG_STA_SUPPORT */
-#endif /* RTMP_MAC_USB */
-
-#ifdef RTMP_USB_SUPPORT
-
-/* Prototypes of completion funuc. */
-#define ATE_RTUSBBulkOutDataPacketComplete(Status, pURB, pt_regs)    ATE_RTUSBBulkOutDataPacketComplete(pURB)
-
-USBHST_STATUS ATE_RTUSBBulkOutDataPacketComplete(URBCompleteStatus Status, purbb_t pURB, pregs *pt_regs);
-
-#endif /* RTMP_USB_SUPPORT */
-
-#endif /* RALINK_ATE */
 
 INT RtmpOSNetDevOpsAlloc(
 	IN PVOID *pNetDevOps);

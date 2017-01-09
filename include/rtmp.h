@@ -97,16 +97,6 @@ typedef struct _UAPSD_INFO {
 #include "frq_cal.h"
 #endif /* RTMP_FREQ_CALIBRATION_SUPPORT */
 
-#ifdef RALINK_ATE
-#include "rt_ate.h"
-#endif /* RALINK_ATE */
-
-
-
-
-
-
-
 // TODO: shiang-6590, remove it after ATE fully re-organized! copy from rtmp_bbp.h
 #ifndef MAX_BBP_ID
 	#define MAX_BBP_ID	136
@@ -3657,11 +3647,6 @@ struct rtmp_adapter {
 /*	wait_queue_head_t	 *wait; */
 	VOID *wait;
 
-#ifdef RALINK_ATE
-	/* lock for ATE */
-	NDIS_SPIN_LOCK GenericLock;	/* ATE Tx/Rx generic spinlock */
-#endif /* RALINK_ATE */
-
 #endif /* RTMP_MAC_USB */
 
 	/* resource for software backlog queues */
@@ -3802,11 +3787,6 @@ struct rtmp_adapter {
 	/* --------------------------- */
 	/* BBP Control                               */
 	/* --------------------------- */
-#if defined(RALINK_ATE)
-	// TODO: shiang-6590, remove "defined(RALINK_ATE)" after ATE has fully re-organized!
-	UCHAR BbpWriteLatch[MAX_BBP_ID + 1];	/* record last BBP register value written via BBP_IO_WRITE/BBP_IO_WRITE_VY_REG_ID */
-	UCHAR Bbp94;
-#endif /* defined(RALINK_ATE) */
 
 	CHAR BbpRssiToDbmDelta;	/* change from UCHAR to CHAR for high power */
 	BBP_R66_TUNING BbpTuning;
@@ -4136,15 +4116,6 @@ struct rtmp_adapter {
 	struct wificonf WIFItestbed;
 
 	UCHAR TssiGain;
-#ifdef RALINK_ATE
-	ATE_INFO ate;
-#ifdef RTMP_MAC_USB
-	BOOLEAN ContinBulkOut;	/*ATE bulk out control */
-	BOOLEAN ContinBulkIn;	/*ATE bulk in control */
-	RTMP_OS_ATOMIC BulkOutRemained;
-	RTMP_OS_ATOMIC BulkInRemained;
-#endif /* RTMP_MAC_USB */
-#endif /* RALINK_ATE */
 
 #ifdef DOT11_N_SUPPORT
 	struct reordering_mpdu_pool mpdu_blk_pool;
@@ -6633,20 +6604,6 @@ NTSTATUS eFuseWrite(
 	IN PUSHORT			pData,
 	IN USHORT			length);
 
-#ifdef RALINK_ATE
-INT Set_LoadEepromBufferFromEfuse_Proc(
-	IN struct rtmp_adapter *pAd,
-	IN char *		arg);
-
-INT set_eFuseBufferModeWriteBack_Proc(
-	IN struct rtmp_adapter *pAd,
-	IN char *		arg);
-
-INT set_BinModeWriteBack_Proc(
-	IN struct rtmp_adapter *pAd,
-	IN char *		arg);
-
-#endif /* RALINK_ATE */
 #endif /* RTMP_EFUSE_SUPPORT */
 
 

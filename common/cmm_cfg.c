@@ -1372,10 +1372,6 @@ INT RTMP_COM_IoctlHandle(
 				return NDIS_STATUS_FAILURE;
 			break;
 
-
-#ifdef RALINK_ATE
-#endif /* RALINK_ATE */
-
 		case CMD_RTPRIV_IOCTL_MAC_ADDR_GET:
 			{
 				UCHAR mac_addr[MAC_ADDR_LEN];

@@ -162,9 +162,6 @@ VOID RTMPResetTxRxRingMemory(
 	NdisFreeSpinLock(&pAd->MLMEBulkOutLock);
 
 	NdisFreeSpinLock(&pAd->CmdQLock);
-#ifdef RALINK_ATE
-	NdisFreeSpinLock(&pAd->GenericLock);
-#endif /* RALINK_ATE */
 	/* Clear all pending bulk-out request flags.*/
 	RTUSB_CLEAR_BULK_FLAG(pAd, 0xffffffff);
 
@@ -698,10 +695,6 @@ int RTMPInitTxRxRingMemory
 		NdisAllocateSpinLock(pAd, &pAd->TxContextQueueLock[num]);
 	}
 
-#ifdef RALINK_ATE
-	NdisAllocateSpinLock(pAd, &pAd->GenericLock);
-#endif /* RALINK_ATE */
-
 	NICInitRecv(pAd);
 
 
@@ -1097,12 +1090,6 @@ int RTMPAllocTxRxRingMemory(
 			NdisAllocateSpinLock(pAd, &pAd->TxContextQueueLock[num]);
 		}
 
-#ifdef RALINK_ATE
-		NdisAllocateSpinLock(pAd, &pAd->GenericLock);
-#endif /* RALINK_ATE */
-
-
-
 		/* Init send data structures and related parameters*/
 
 		Status = NICInitTransmit(pAd);
@@ -1248,9 +1235,6 @@ VOID	RTMPFreeTxRxRingMemory(
 	NdisFreeSpinLock(&pAd->MLMEBulkOutLock);
 
 	NdisFreeSpinLock(&pAd->CmdQLock);
-#ifdef RALINK_ATE
-	NdisFreeSpinLock(&pAd->GenericLock);
-#endif /* RALINK_ATE */
 
 	/* Clear all pending bulk-out request flags.*/
 	RTUSB_CLEAR_BULK_FLAG(pAd, 0xffffffff);

@@ -1269,14 +1269,6 @@ VOID	RTUSBCancelPendingBulkOutIRP(
 			RtmpusecDelay(200);
 		}
 
-#ifdef RALINK_ATE
-		pHTTXContext->bCopySavePad = 0;
-		pHTTXContext->CurWritePosition = 0;
-		pHTTXContext->CurWriteRealPos = 0;
-		pHTTXContext->bCurWriting = FALSE;
-		pHTTXContext->NextBulkOutPosition = 0;
-		pHTTXContext->ENextBulkOutPosition = 0;
-#endif /* RALINK_ATE */
 		pAd->BulkOutPending[Idx] = FALSE;
 	}
 
