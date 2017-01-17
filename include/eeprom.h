@@ -829,10 +829,6 @@ INT rtmp_ee_write_to_prom(
 	IN struct rtmp_adapter *pAd);
 #endif /* RT65xx */
 
-INT Set_LoadEepromBufferFromBin_Proc(
-	IN struct rtmp_adapter *pAd,
-	IN char *		arg);
-
 INT Set_EepromBufferWriteBack_Proc(
 	IN struct rtmp_adapter *pAd,
 	IN char *		arg);

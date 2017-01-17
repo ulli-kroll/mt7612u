@@ -229,54 +229,6 @@ INT rtmp_ee_write_to_bin(
 	return TRUE;
 }
 
-
-INT Set_LoadEepromBufferFromBin_Proc(
-	IN struct rtmp_adapter *pAd,
-	IN char *		arg)
-{
-	UINT bEnable = simple_strtol(arg, 0, 10);
-	INT result;
-
-#ifdef CAL_FREE_IC_SUPPORT
-		BOOLEAN bCalFree=0;
-#endif /* CAL_FREE_IC_SUPPORT */
-
-	if (bEnable < 0)
-		return FALSE;
-	else
-	{
-		DBGPRINT(RT_DEBUG_TRACE, ("Load EEPROM buffer from BIN, and change to BIN buffer mode\n"));
-		result = rtmp_ee_load_from_bin(pAd);
-
-		if ( result == FALSE )
-		{
-			if ( pAd->chipCap.EEPROM_DEFAULT_BIN != NULL )
-			{
-				memmove(pAd->EEPROMImage, pAd->chipCap.EEPROM_DEFAULT_BIN,
-					pAd->chipCap.EEPROM_DEFAULT_BIN_SIZE > MAX_EEPROM_BUFFER_SIZE?MAX_EEPROM_BUFFER_SIZE:pAd->chipCap.EEPROM_DEFAULT_BIN_SIZE);
-				DBGPRINT(RT_DEBUG_TRACE, ("Load EEPROM Buffer from default BIN.\n"));
-			}
-
-		}
-
-		/* Change to BIN eeprom buffer mode */
-		pAd->E2pAccessMode = E2P_BIN_MODE;
-		RtmpChipOpsEepromHook(pAd, pAd->infType);
-
-#ifdef CAL_FREE_IC_SUPPORT
-		RTMP_CAL_FREE_IC_CHECK(pAd, bCalFree);
-
-		if ( bCalFree == TRUE ) {
-			RTMP_CAL_FREE_DATA_GET(pAd);
-			DBGPRINT(RT_DEBUG_TRACE, ("Load Cal Free data from e-fuse.\n"));
-		}
-#endif /* CAL_FREE_IC_SUPPORT */
-
-		return TRUE;
-	}
-}
-
-
 INT Set_EepromBufferWriteBack_Proc(
 	IN struct rtmp_adapter *pAd,
 	IN char *		arg)
