@@ -2881,16 +2881,6 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 #endif /* APCLI_SUPPORT */
 
 
-#ifdef MICROWAVE_OVEN_SUPPORT
-	if (pAd->OpMode == OPMODE_AP)
-		pAd->CommonCfg.MO_Cfg.bEnable = TRUE;
-	else
-		pAd->CommonCfg.MO_Cfg.bEnable = FALSE;
-	pAd->CommonCfg.MO_Cfg.nFalseCCATh = MO_FALSE_CCA_TH;
-#endif /* MICROWAVE_OVEN_SUPPORT */
-
-
-
 #ifdef DOT11_VHT_AC
 	pAd->CommonCfg.bNonVhtDisallow = FALSE;
 #endif /* DOT11_VHT_AC */

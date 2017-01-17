@@ -960,12 +960,6 @@ struct _RTMP_CHIP_OP_ {
 	void (*AsicRadioOn)(struct rtmp_adapter *ad, UCHAR Stage);
 	void (*AsicRadioOff)(struct rtmp_adapter *ad, u8 Stage);
 
-#ifdef MICROWAVE_OVEN_SUPPORT
-	VOID (*AsicMeasureFalseCCA)(IN struct rtmp_adapter *pAd);
-
-	VOID (*AsicMitigateMicrowave)(IN struct rtmp_adapter *pAd);
-#endif /* MICROWAVE_OVEN_SUPPORT */
-
 #ifdef DYNAMIC_VGA_SUPPORT
 	VOID (*AsicDynamicVgaGainControl)(IN struct rtmp_adapter *pAd);
 #endif /* DYNAMIC_VGA_SUPPORT */
@@ -1221,20 +1215,6 @@ do {	\
 	if (_pAd->chipOps.AsicRadioOff != NULL)	\
 		_pAd->chipOps.AsicRadioOff(_pAd, _Stage);	\
 } while (0)
-
-#ifdef MICROWAVE_OVEN_SUPPORT
-#define ASIC_MEASURE_FALSE_CCA(_pAd)	\
-do {	\
-	if (_pAd->chipOps.AsicMeasureFalseCCA != NULL)	\
-		_pAd->chipOps.AsicMeasureFalseCCA(_pAd);	\
-} while (0)
-
-#define ASIC_MITIGATE_MICROWAVE(_pAd)	\
-do {	\
-	if (_pAd->chipOps.AsicMitigateMicrowave != NULL)	\
-		_pAd->chipOps.AsicMitigateMicrowave(_pAd);	\
-} while (0)
-#endif /* MICROWAVE_OVEN_SUPPORT */
 
 #if (defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT)
 #define ASIC_WOW_ENABLE(_pAd)	\

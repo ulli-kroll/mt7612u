@@ -2752,25 +2752,6 @@ VOID AsicWOWSendNullFrame(
 #endif /* WOW_SUPPORT */
 
 
-#ifdef MICROWAVE_OVEN_SUPPORT
-VOID AsicMeasureFalseCCA(
-	IN struct rtmp_adapter *pAd
-)
-{
-	if (pAd->chipOps.AsicMeasureFalseCCA)
-		pAd->chipOps.AsicMeasureFalseCCA(pAd);
-}
-
-VOID AsicMitigateMicrowave(
-	IN struct rtmp_adapter *pAd
-)
-{
-	if (pAd->chipOps.AsicMitigateMicrowave)
-		pAd->chipOps.AsicMitigateMicrowave(pAd);
-}
-#endif /* MICROWAVE_OVEN_SUPPORT */
-
-
 INT AsicSetPreTbttInt(struct rtmp_adapter *pAd, BOOLEAN enable)
 {
 	uint32_t val;

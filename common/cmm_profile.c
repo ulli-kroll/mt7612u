@@ -3918,13 +3918,6 @@ int RTMPSetProfileParameters(
 			Set_WOW_InBand(pAd, tmpbuf);
 #endif /* (defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT) */
 
-#ifdef MICROWAVE_OVEN_SUPPORT
-		if (RTMPGetKeyParameter("MO_FalseCCATh", tmpbuf, 10, pBuffer, TRUE))
-			Set_MO_FalseCCATh_Proc(pAd, tmpbuf);
-#endif /* MICROWAVE_OVEN_SUPPORT */
-
-
-
 #ifdef RTMP_USB_SUPPORT
 		if (RTMPGetKeyParameter("USBAggregation", tmpbuf, 10, pBuffer, TRUE)) {
 			pAd->usb_ctl.usb_aggregation = simple_strtol(tmpbuf, 0, 10);

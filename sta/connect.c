@@ -1962,10 +1962,6 @@ VOID LinkUp(struct rtmp_adapter *pAd, UCHAR BssType)
 
 	pAd->MacTab.MsduLifeTime = 5; /* default 5 seconds */
 
-#ifdef MICROWAVE_OVEN_SUPPORT
-	pAd->CommonCfg.MO_Cfg.bEnable = TRUE;
-#endif /* MICROWAVE_OVEN_SUPPORT */
-
 }
 
 

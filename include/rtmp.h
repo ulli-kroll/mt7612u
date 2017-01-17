@@ -768,16 +768,6 @@ typedef struct _STREAM_MODE_ENTRY_{
 }STREAM_MODE_ENTRY;
 #endif /* STREAM_MODE_SUPPORT */
 
-/* for Microwave oven */
-#ifdef MICROWAVE_OVEN_SUPPORT
-typedef struct _MO_CFG_STRUCT {
-	BOOLEAN		bEnable;
-	UINT8  		nPeriod_Cnt; 	/* measurement period 100ms, mitigate the interference period 900 ms */
-	uint16_t 		nFalseCCACnt;
-	uint16_t 	nFalseCCATh;	/* default is 100 */
-} MO_CFG_STRUCT, *PMO_CFG_STRUCT;
-#endif /* MICROWAVE_OVEN_SUPPORT */
-
 /* TODO: need to integrate with MICROWAVE_OVEN_SUPPORT */
 #ifdef DYNAMIC_VGA_SUPPORT
 /* for dynamic vga */
@@ -1921,14 +1911,6 @@ typedef struct _COMMON_CONFIG {
 #ifdef DBG_CTRL_SUPPORT
 	ULONG DebugFlags;	/* Temporary debug flags */
 #endif /* DBG_CTRL_SUPPORT */
-
-
-
-
-#ifdef MICROWAVE_OVEN_SUPPORT
-	MO_CFG_STRUCT MO_Cfg;	/* data structure for mitigating microwave interference */
-#endif /* MICROWAVE_OVEN_SUPPORT */
-
 
 /* TODO: need to integrate with MICROWAVE_OVEN_SUPPORT */
 #ifdef DYNAMIC_VGA_SUPPORT
@@ -6511,20 +6493,6 @@ CHAR RTMPMinSnr(
 VOID AsicSetRxAnt(
 	IN struct rtmp_adapter *pAd,
 	IN UCHAR			Ant);
-
-#ifdef MICROWAVE_OVEN_SUPPORT
-INT Set_MO_FalseCCATh_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg);
-
-VOID AsicMeasureFalseCCA(
-	IN struct rtmp_adapter *pAd
-);
-
-VOID AsicMitigateMicrowave(
-	IN struct rtmp_adapter *pAd
-);
-#endif /* MICROWAVE_OVEN_SUPPORT */
 
 #ifdef RTMP_EFUSE_SUPPORT
 INT set_eFuseGetFreeBlockCount_Proc(

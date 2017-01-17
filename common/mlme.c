@@ -1258,37 +1258,7 @@ VOID MlmePeriodicExec(
 	pApCliEntry = &pAd->ApCfg.ApCliTab[0];
 #endif
 
-#ifdef MICROWAVE_OVEN_SUPPORT
-	/* update False CCA count to an array */
-	NICUpdateRxStatusCnt1(pAd, pAd->Mlme.PeriodicRound%10);
-#endif /* MICROWAVE_OVEN_SUPPORT */
-
 	/* No More 0x84 MCU CMD from v.30 FW*/
-
-#ifdef MICROWAVE_OVEN_SUPPORT
-	if (pAd->CommonCfg.MO_Cfg.bEnable)
-	{
-		UINT8 stage = pAd->Mlme.PeriodicRound%10;
-
-		if (stage == MO_MEAS_PERIOD)
-		{
-			ASIC_MEASURE_FALSE_CCA(pAd);
-			pAd->CommonCfg.MO_Cfg.nPeriod_Cnt = 0;
-		}
-		else if (stage == MO_IDLE_PERIOD)
-		{
-			uint16_t Idx;
-
-			for (Idx = MO_MEAS_PERIOD + 1; Idx < MO_IDLE_PERIOD + 1; Idx++)
-				pAd->CommonCfg.MO_Cfg.nFalseCCACnt += pAd->RalinkCounters.FalseCCACnt_100MS[Idx];
-
-			//printk("%s: fales cca1 %d\n", __FUNCTION__, pAd->CommonCfg.MO_Cfg.nFalseCCACnt);
-			if (pAd->CommonCfg.MO_Cfg.nFalseCCACnt > pAd->CommonCfg.MO_Cfg.nFalseCCATh)
-				ASIC_MITIGATE_MICROWAVE(pAd);
-
-		}
-	}
-#endif /* MICROWAVE_OVEN_SUPPORT */
 
 #ifdef CONFIG_STA_SUPPORT
 
