@@ -57,11 +57,13 @@ VOID RtmpChipWriteHighMemory(
 #ifdef RTMP_MAC_USB
 	switch(Unit)
 	{
+		/* ULLI : strange I can remember about u32 contraints */
 		case 1:
 			RTUSBSingleWrite(pAd, Offset, Value, TRUE);
 			break;
 		case 2:
 		{
+		/* ULLI : strange I can remember about u32 contraints */
 			uint16_t ShortVal = (uint16_t)Value;
 			RTUSBMultiWrite(pAd, Offset, (UCHAR *) &ShortVal, 2, TRUE);
 			break;
@@ -178,8 +180,6 @@ VOID RtmpChipBcnInit(
 		pChipCap->WcidHwRsvNum = 238;
 	else
 		pChipCap->WcidHwRsvNum = 255;
-
-	pAd->chipOps.BeaconUpdate = RtmpChipWriteMemory;
 }
 
 
@@ -244,9 +244,6 @@ VOID rlt_bcn_buf_init(struct rtmp_adapter *pAd)
 	pChipCap->BcnBase[13] = 0xda00;
 	pChipCap->BcnBase[14] = 0xdc00;
 	pChipCap->BcnBase[15] = 0xde00;
-
-
-	pAd->chipOps.BeaconUpdate = RtmpChipWriteMemory;
 }
 #endif /* RLT_MAC */
 

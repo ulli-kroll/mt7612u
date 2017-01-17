@@ -881,9 +881,6 @@ struct _RTMP_CHIP_OP_ {
 	/* Chip tuning */
 	VOID (*RxSensitivityTuning)(IN struct rtmp_adapter *pAd);
 
-	/* MAC */
-	VOID (*BeaconUpdate)(struct rtmp_adapter *pAd, USHORT Offset, uint32_t Value, UINT8 Unit);
-
 	/* BBP adjust */
 	VOID (*ChipBBPAdjust)(IN struct rtmp_adapter *pAd);
 
@@ -1169,13 +1166,6 @@ do {	\
 				__pAd->chipOps.ChipSpecFunc[__FuncId](__pAd, __pData, __Data);	\
 		}	\
 } while (0)
-
-#define RTMP_CHIP_UPDATE_BEACON(__pAd, Offset, Value, Unit)	\
-do {	\
-		if (__pAd->chipOps.BeaconUpdate != NULL)	\
-			__pAd->chipOps.BeaconUpdate(__pAd, Offset, Value, Unit);	\
-} while (0)
-
 
 #define RTMP_CHIP_CCK_MRC_STATUS_CTRL(__pAd)	\
 do {	\

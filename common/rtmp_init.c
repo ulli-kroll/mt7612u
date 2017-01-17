@@ -1268,7 +1268,7 @@ int NICInitializeAsic(struct rtmp_adapter *pAd, BOOLEAN bHardReset)
 			if (pAd->BeaconOffset[apidx] > 0) {
 				// TODO: shiang-6590, if we didn't define MBSS_SUPPORT, the pAd->BeaconOffset[x] may set as 0 when chipCap.BcnMaxHwNum != HW_BEACON_MAX_COUNT
 				for (i = 0; i < HW_BEACON_OFFSET; i+=4)
-					RTMP_CHIP_UPDATE_BEACON(pAd, pAd->BeaconOffset[apidx] + i, 0x00, 4);
+					RtmpChipWriteMemory(pAd, pAd->BeaconOffset[apidx] + i, 0x00, 4);
 
 #ifdef RTMP_MAC_USB
 				IF_DEV_CONFIG_OPMODE_ON_AP(pAd)

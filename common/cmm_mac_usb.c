@@ -1410,7 +1410,7 @@ VOID RT28xx_UpdateBeaconToAsic(
 		/* when the ra interface is down, do not send its beacon frame */
 		/* clear all zero */
 		for(i=0; i < TXWISize; i+=4) {
-			RTMP_CHIP_UPDATE_BEACON(pAd, pAd->BeaconOffset[bcn_idx] + i, 0x00, 4);
+			RtmpChipWriteMemory(pAd, pAd->BeaconOffset[bcn_idx] + i, 0x00, 4);
 		}
 
 		pBeaconSync->BeaconBitMap &= (~(BEACON_BITMAP_MASK & (1 << bcn_idx)));
@@ -1433,7 +1433,7 @@ VOID RT28xx_UpdateBeaconToAsic(
 			for (i=0; i < TXWISize; i+=4)
 			{
 				longValue =  *ptr + (*(ptr+1)<<8) + (*(ptr+2)<<16) + (*(ptr+3)<<24);
-				RTMP_CHIP_UPDATE_BEACON(pAd, pAd->BeaconOffset[bcn_idx] + i, longValue, 4);
+				RtmpChipWriteMemory(pAd, pAd->BeaconOffset[bcn_idx] + i, longValue, 4);
 				ptr += 4;
 			}
 		}
@@ -1448,7 +1448,7 @@ VOID RT28xx_UpdateBeaconToAsic(
 			{
 				memmove(ptr, pBeaconFrame, 2);
 				longValue =  *ptr + (*(ptr+1)<<8);
-				RTMP_CHIP_UPDATE_BEACON(pAd, pAd->BeaconOffset[bcn_idx] + TXWISize + i, longValue, 2);
+				RtmpChipWriteMemory(pAd, pAd->BeaconOffset[bcn_idx] + TXWISize + i, longValue, 2);
 			}
 			ptr +=2;
 			pBeaconFrame += 2;
@@ -1507,7 +1507,7 @@ VOID RTUSBBssBeaconStop(
 			memset(pBeaconSync->BeaconTxWI[i], 0, TXWISize);
 
 			for (offset=0; offset<HW_BEACON_OFFSET; offset+=4)
-				RTMP_CHIP_UPDATE_BEACON(pAd, pAd->BeaconOffset[i] + offset, 0x00, 4);
+				RtmpChipWriteMemory(pAd, pAd->BeaconOffset[i] + offset, 0x00, 4);
 
 			pBeaconSync->CapabilityInfoLocationInBeacon[i] = 0;
 			pBeaconSync->TimIELocationInBeacon[i] = 0;
