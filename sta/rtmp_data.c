@@ -2284,9 +2284,6 @@ VOID STA_AMPDU_Frame_Tx(
 #endif /* DBG_CTRL_SUPPORT */
 
 		/* Kick out Tx */
-#ifdef PCIE_PS_SUPPORT
-		if (!RTMP_TEST_PSFLAG(pAd, fRTMP_PS_DISABLE_TX))
-#endif /* PCIE_PS_SUPPORT */
 			HAL_KickOutTx(pAd, pTxBlk, pTxBlk->QueIdx);
 
 		pAd->RalinkCounters.KickTxCount++;
@@ -2415,9 +2412,6 @@ VOID STA_AMPDU_Frame_Tx_Hdr_Trns(
 #endif /* DBG_CTRL_SUPPORT */
 
 		/* Kick out Tx */
-#ifdef PCIE_PS_SUPPORT
-		if (!RTMP_TEST_PSFLAG(pAd, fRTMP_PS_DISABLE_TX))
-#endif /* PCIE_PS_SUPPORT */
 			HAL_KickOutTx(pAd, pTxBlk, pTxBlk->QueIdx);
 
 		pAd->RalinkCounters.KickTxCount++;
@@ -2555,9 +2549,6 @@ VOID STA_AMSDU_Frame_Tx(
 	HAL_LastTxIdx(pAd, pTxBlk->QueIdx, LastTxIdx);
 
 	/* Kick out Tx */
-#ifdef PCIE_PS_SUPPORT
-	if (!RTMP_TEST_PSFLAG(pAd, fRTMP_PS_DISABLE_TX))
-#endif /* PCIE_PS_SUPPORT */
 		HAL_KickOutTx(pAd, pTxBlk, pTxBlk->QueIdx);
 }
 #endif /* DOT11_N_SUPPORT */
@@ -2726,9 +2717,6 @@ VOID STA_Legacy_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 	/*
 	   Kick out Tx
 	 */
-#ifdef PCIE_PS_SUPPORT
-	if (!RTMP_TEST_PSFLAG(pAd, fRTMP_PS_DISABLE_TX))
-#endif /* PCIE_PS_SUPPORT */
 		HAL_KickOutTx(pAd, pTxBlk, pTxBlk->QueIdx);
 }
 
@@ -2816,9 +2804,6 @@ VOID STA_Legacy_Frame_Tx_Hdr_Trns(
 	/*
 	   Kick out Tx
 	 */
-#ifdef PCIE_PS_SUPPORT
-	if (!RTMP_TEST_PSFLAG(pAd, fRTMP_PS_DISABLE_TX))
-#endif /* PCIE_PS_SUPPORT */
 		HAL_KickOutTx(pAd, pTxBlk, pTxBlk->QueIdx);
 }
 #endif /* HDR_TRANS_SUPPORT */
@@ -2941,9 +2926,6 @@ VOID STA_ARalink_Frame_Tx(
 	/*
 	   Kick out Tx
 	 */
-#ifdef PCIE_PS_SUPPORT
-	if (!RTMP_TEST_PSFLAG(pAd, fRTMP_PS_DISABLE_TX))
-#endif /* PCIE_PS_SUPPORT */
 		HAL_KickOutTx(pAd, pTxBlk, pTxBlk->QueIdx);
 
 }
@@ -3290,9 +3272,6 @@ VOID STA_Fragment_Frame_Tx(
 	/*
 	   Kick out Tx
 	 */
-#ifdef PCIE_PS_SUPPORT
-	if (!RTMP_TEST_PSFLAG(pAd, fRTMP_PS_DISABLE_TX))
-#endif /* PCIE_PS_SUPPORT */
 		HAL_KickOutTx(pAd, pTxBlk, pTxBlk->QueIdx);
 }
 

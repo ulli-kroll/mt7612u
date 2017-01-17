@@ -1260,10 +1260,6 @@ VOID RTMPWPARemoveAllKeys(struct rtmp_adapter *pAd)
 		wdev->AuthMode == Ndis802_11AuthModeWPANone)
 		return;
 
-#ifdef PCIE_PS_SUPPORT
-        RTMP_CLEAR_PSFLAG(pAd, fRTMP_PS_CAN_GO_SLEEP);
-#endif /* PCIE_PS_SUPPORT */
-
 	/* set BSSID wcid entry of the Pair-wise Key table as no-security mode*/
 	AsicRemovePairwiseKeyEntry(pAd, BSSID_WCID);
 
@@ -1275,10 +1271,6 @@ VOID RTMPWPARemoveAllKeys(struct rtmp_adapter *pAd)
 
 		AsicRemoveSharedKeyEntry(pAd, BSS0, i);
 	}
-#ifdef PCIE_PS_SUPPORT
-	RTMP_SET_PSFLAG(pAd, fRTMP_PS_CAN_GO_SLEEP);
-#endif /* PCIE_PS_SUPPORT */
-
 }
 #endif /* CONFIG_STA_SUPPORT */
 

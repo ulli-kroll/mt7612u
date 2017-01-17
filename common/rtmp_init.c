@@ -961,8 +961,6 @@ VOID NICInitAsicFromEEPROM(struct rtmp_adapter *pAd)
 
 
 	}
-#ifdef PCIE_PS_SUPPORT
-#endif /* PCIE_PS_SUPPORT */
 #endif /* CONFIG_STA_SUPPORT */
 
 #ifdef WIN_NDIS
@@ -2792,12 +2790,6 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 	pAd->ApCfg.EntryLifeCheck = MAC_ENTRY_LIFE_CHECK_CNT;
 
 #endif /* CONFIG_AP_SUPPORT */
-
-#ifdef CONFIG_STA_SUPPORT
-#ifdef PCIE_PS_SUPPORT
-	RTMP_SET_PSFLAG(pAd, fRTMP_PS_CAN_GO_SLEEP);
-#endif /* PCIE_PS_SUPPORT */
-#endif /* CONFIG_STA_SUPPORT */
 
 	pAd->RxAnt.Pair1PrimaryRxAnt = 0;
 	pAd->RxAnt.Pair1SecondaryRxAnt = 1;

@@ -1556,9 +1556,6 @@ VOID LinkUp(struct rtmp_adapter *pAd, UCHAR BssType)
 		*/
 		if (wdev->AuthMode >= Ndis802_11AuthModeWPA) {
 			/* Remove all WPA keys */
-#ifdef PCIE_PS_SUPPORT
-			RTMP_CLEAR_PSFLAG(pAd, fRTMP_PS_CAN_GO_SLEEP);
-#endif /* PCIE_PS_SUPPORT */
 /*
  		 for dhcp,issue ,wpa_supplicant ioctl too fast , at link_up, it will add key before driver remove key
 		 move to assoc.c
@@ -2001,12 +1998,6 @@ VOID LinkDown(
 	if (MONITOR_ON(pAd))
 		return;
 
-#ifdef PCIE_PS_SUPPORT
-	/* Not allow go to sleep within linkdown function. */
-	RTMP_CLEAR_PSFLAG(pAd, fRTMP_PS_CAN_GO_SLEEP);
-#endif /* PCIE_PS_SUPPORT */
-
-
 	RTMPSendWirelessEvent(pAd, IW_STA_LINKDOWN_EVENT_FLAG, NULL, BSS0, 0);
 
 	DBGPRINT(RT_DEBUG_TRACE, ("!!! LINK DOWN !!!\n"));
@@ -2020,16 +2011,6 @@ VOID LinkDown(
 		CFG80211DRV_OpsScanInLinkDownAction(pAd);
 #endif /* RT_CFG80211_SUPPORT */
 
-#ifdef PCIE_PS_SUPPORT
-
-	if (OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_ADVANCE_POWER_SAVE_PCIE_DEVICE)) {
-		BOOLEAN Cancelled;
-		pAd->Mlme.bPsPollTimerRunning = FALSE;
-		RTMPCancelTimer(&pAd->Mlme.PsPollTimer, &Cancelled);
-	}
-
-	pAd->bPCIclkOff = FALSE;
-#endif /* PCIE_PS_SUPPORT */
 	if (OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_DOZE)
 /*||	RTMP_TEST_PSFLAG(pAd, fRTMP_PS_SET_PCI_CLK_OFF_COMMAND) */
 	    || RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_IDLE_RADIO_OFF)) {
@@ -2248,10 +2229,6 @@ VOID LinkDown(
 	RTMP_IO_WRITE32(pAd, MAX_LEN_CFG, 0x1fff);
 	RTMP_CLEAR_FLAG(pAd, fRTMP_ADAPTER_BSS_SCAN_IN_PROGRESS);
 /* Allow go to sleep after linkdown steps. */
-#ifdef  PCIE_PS_SUPPORT
-
-	RTMP_SET_PSFLAG(pAd, fRTMP_PS_CAN_GO_SLEEP);
-#endif /* PCIE_PS_SUPPORT */
 
 
 #ifdef WPA_SUPPLICANT_SUPPORT

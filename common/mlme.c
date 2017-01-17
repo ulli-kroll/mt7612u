@@ -988,15 +988,6 @@ int MlmeInit(struct rtmp_adapter *pAd)
 			/* state machine init*/
 			MlmeCntlInit(pAd, &pAd->Mlme.CntlMachine, NULL);
 
-#ifdef PCIE_PS_SUPPORT
-			if (OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_ADVANCE_POWER_SAVE_PCIE_DEVICE))
-			{
-			    /* only PCIe cards need these two timers*/
-				RTMPInitTimer(pAd, &pAd->Mlme.PsPollTimer, GET_TIMER_FUNCTION(PsPollWakeExec), pAd, FALSE);
-				RTMPInitTimer(pAd, &pAd->Mlme.RadioOnOffTimer, GET_TIMER_FUNCTION(RadioOnExec), pAd, FALSE);
-			}
-#endif /* PCIE_PS_SUPPORT */
-
 			RTMPInitTimer(pAd, &pAd->Mlme.LinkDownTimer, GET_TIMER_FUNCTION(LinkDownExec), pAd, FALSE);
 			RTMPInitTimer(pAd, &pAd->StaCfg.StaQuickResponeForRateUpTimer, GET_TIMER_FUNCTION(StaQuickResponeForRateUpExec), pAd, FALSE);
 			pAd->StaCfg.StaQuickResponeForRateUpTimerRunning = FALSE;
@@ -1129,15 +1120,6 @@ VOID MlmeHalt(struct rtmp_adapter *pAd)
 		RTMPCancelTimer(&pAd->MlmeAux.BeaconTimer, &Cancelled);
 		RTMPCancelTimer(&pAd->MlmeAux.ScanTimer, &Cancelled);
 
-
-#ifdef PCIE_PS_SUPPORT
-	    if (OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_ADVANCE_POWER_SAVE_PCIE_DEVICE)
-			&&(pAd->StaCfg.PSControl.field.EnableNewPS == TRUE))
-	    {
-	   	    RTMPCancelTimer(&pAd->Mlme.PsPollTimer, &Cancelled);
-		    RTMPCancelTimer(&pAd->Mlme.RadioOnOffTimer, &Cancelled);
-		}
-#endif /* PCIE_PS_SUPPORT */
 
 		RTMPCancelTimer(&pAd->Mlme.LinkDownTimer, &Cancelled);
 
@@ -2456,9 +2438,6 @@ VOID MlmeCheckPsmChange(struct rtmp_adapter *pAd, ULONG Now32)
 		(pAd->StaCfg.Psm == PWR_ACTIVE) &&
 /*		(! RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_BSS_SCAN_IN_PROGRESS))*/
 		(pAd->Mlme.CntlMachine.CurrState == CNTL_IDLE)
-#ifdef PCIE_PS_SUPPORT
-		&& RTMP_TEST_PSFLAG(pAd, fRTMP_PS_CAN_GO_SLEEP)
-#endif /* PCIE_PS_SUPPORT */
 #ifdef RTMP_MAC_USB
 		&& (pAd->CountDowntoPsm == 0)
 #endif /* RTMP_MAC_USB */

@@ -558,17 +558,6 @@ VOID RTMPDrvOpen(struct rtmp_adapter *pAdSrc)
 
 	RTMP_SET_FLAG(pAd, fRTMP_ADAPTER_START_UP);
 
-
-
-
-#ifdef CONFIG_STA_SUPPORT
-#ifdef PCIE_PS_SUPPORT
-	IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
-        RTMPInitPCIeLinkCtrlValue(pAd);
-#endif /* PCIE_PS_SUPPORT */
-
-#endif /* CONFIG_STA_SUPPORT */
-
 #ifdef CONFIG_AP_SUPPORT
 #ifdef BG_FT_SUPPORT
 	BG_FTPH_Init();
@@ -687,9 +676,6 @@ VOID RTMPDrvClose(struct rtmp_adapter *pAd, struct net_device *net_dev)
 #ifdef CONFIG_STA_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
 	{
-#ifdef PCIE_PS_SUPPORT
-		RTMPPCIeLinkCtrlValueRestore(pAd, RESTORE_CLOSE);
-#endif /* PCIE_PS_SUPPORT */
 
 		/* If dirver doesn't wake up firmware here,*/
 		/* NICLoadFirmware will hang forever when interface is up again.*/

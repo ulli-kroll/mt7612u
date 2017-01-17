@@ -2814,27 +2814,6 @@ INT rtmp_asic_top_init(struct rtmp_adapter *pAd)
 	}
 #endif /* RLT_MAC */
 
-
-#ifdef CONFIG_STA_SUPPORT
-#ifdef PCIE_PS_SUPPORT
-	IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
-	{
-	    	/* If dirver doesn't wake up firmware here,*/
-	    	/* NICLoadFirmware will hang forever when interface is up again.*/
-	    	if (OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_DOZE) &&
-	        	OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_ADVANCE_POWER_SAVE_PCIE_DEVICE))
-	    	{
-	        	AUTO_WAKEUP_STRUC AutoWakeupCfg;
-
-			AsicForceWakeup(pAd, TRUE);
-	        	AutoWakeupCfg.word = 0;
-		    	RTMP_IO_WRITE32(pAd, AUTO_WAKEUP_CFG, AutoWakeupCfg.word);
-	        	OPSTATUS_CLEAR_FLAG(pAd, fOP_STATUS_DOZE);
-	    	}
-	}
-#endif /* PCIE_PS_SUPPORT */
-#endif /* CONFIG_STA_SUPPORT */
-
 	/* Make sure MAC gets ready.*/
 	if (WaitForAsicReady(pAd) != TRUE)
 		return FALSE;

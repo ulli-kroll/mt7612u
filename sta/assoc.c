@@ -1319,11 +1319,6 @@ VOID AssocPostProc(
 			pVIE = pAd->ScanTab.BssEntry[Idx].VarIEs;
 			len = pAd->ScanTab.BssEntry[Idx].VarIELen;
 
-#ifdef PCIE_PS_SUPPORT
-			/* Don't allow to go to sleep mode if authmode is WPA-related. */
-			/*This can make Authentication process more smoothly. */
-			RTMP_CLEAR_PSFLAG(pAd, fRTMP_PS_CAN_GO_SLEEP);
-#endif /* PCIE_PS_SUPPORT */
 			while (len > 0) {
 				pEid = (PEID_STRUCT) pVIE;
 				/* For WPA/WPAPSK */

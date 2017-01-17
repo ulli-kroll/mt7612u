@@ -85,11 +85,6 @@ BUILD_TIMER_FUNCTION(DisassocTimeout);
 BUILD_TIMER_FUNCTION(LinkDownExec);
 BUILD_TIMER_FUNCTION(StaQuickResponeForRateUpExec);
 BUILD_TIMER_FUNCTION(WpaDisassocApAndBlockAssoc);
-#ifdef PCIE_PS_SUPPORT
-BUILD_TIMER_FUNCTION(PsPollWakeExec);
-BUILD_TIMER_FUNCTION(RadioOnExec);
-#endif /* PCIE_PS_SUPPORT */
-
 
 
 #ifdef RTMP_MAC_USB

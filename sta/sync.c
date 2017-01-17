@@ -210,15 +210,6 @@ VOID MlmeForceJoinReqAction(
 #endif /* USB_SUPPORT_SELECTIVE_SUSPEND */
 #endif /* CONFIG_PM */
 
-#ifdef PCIE_PS_SUPPORT
-    if ((OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_ADVANCE_POWER_SAVE_PCIE_DEVICE)) &&
-        (IDLE_ON(pAd)) &&
-		(pAd->StaCfg.bRadio == TRUE) &&
-		(RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_IDLE_RADIO_OFF)))
-	{
-			RT28xxPciAsicRadioOn(pAd, GUI_IDLE_POWER_SAVE);
-	}
-#endif /* PCIE_PS_SUPPORT */
 
 	/* reset all the timers */
 	RTMPCancelTimer(&pAd->MlmeAux.ScanTimer, &TimerCancelled);
@@ -496,25 +487,6 @@ VOID MlmeScanReqAction(
 		return;
 	}
 
-#ifdef PCIE_PS_SUPPORT
-    if ((OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_ADVANCE_POWER_SAVE_PCIE_DEVICE)) &&
-        (IDLE_ON(pAd)) &&
-		(pAd->StaCfg.bRadio == TRUE) &&
-		(RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_IDLE_RADIO_OFF)))
-	{
-	    if (pAd->StaCfg.PSControl.field.EnableNewPS == FALSE)
-		{
-			AsicSendCmdToMcuAndWait(pAd, 0x31, PowerWakeCID, 0x00, 0x02, FALSE);
-			RTMP_CLEAR_FLAG(pAd, fRTMP_ADAPTER_IDLE_RADIO_OFF);
-			DBGPRINT(RT_DEBUG_TRACE, ("PSM - Issue Wake up command \n"));
-		}
-		else
-		{
-			RT28xxPciAsicRadioOn(pAd, GUI_IDLE_POWER_SAVE);
-		}
-	}
-#endif /* PCIE_PS_SUPPORT */
-
 	/* first check the parameter sanity */
 	if (MlmeScanReqSanity(pAd,
 						  Elem->Msg,
@@ -670,15 +642,6 @@ VOID MlmeJoinReqAction(
 
 
 
-#ifdef PCIE_PS_SUPPORT
-    if ((OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_ADVANCE_POWER_SAVE_PCIE_DEVICE)) &&
-        (IDLE_ON(pAd)) &&
-		(pAd->StaCfg.bRadio == TRUE) &&
-		(RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_IDLE_RADIO_OFF)))
-	{
-		RT28xxPciAsicRadioOn(pAd, GUI_IDLE_POWER_SAVE);
-	}
-#endif /* PCIE_PS_SUPPORT */
 
 	/* reset all the timers */
 	RTMPCancelTimer(&pAd->MlmeAux.ScanTimer, &TimerCancelled);
@@ -2422,15 +2385,6 @@ VOID PeerBeacon(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 				*/
 				if (bcn_ie_list->MessageToMe)
 				{
-#ifdef PCIE_PS_SUPPORT
-					if (OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_ADVANCE_POWER_SAVE_PCIE_DEVICE))
-					{
-						/* Restore to correct BBP R3 value */
-						if (pAd->Antenna.field.RxPath > 1)
-							RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R3, pAd->StaCfg.BBPR3);
-						/* Turn clk to 80Mhz. */
-					}
-#endif /* PCIE_PS_SUPPORT */
 #ifdef UAPSD_SUPPORT
 					if (pAd->StaCfg.UapsdInfo.bAPSDCapable &&
 						pAd->CommonCfg.APEdcaParm.bAPSDCapable &&
@@ -2462,13 +2416,6 @@ VOID PeerBeacon(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 				}
 				else if (bcn_ie_list->BcastFlag && (bcn_ie_list->DtimCount == 0) && OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_RECEIVE_DTIM))
 				{
-#ifdef PCIE_PS_SUPPORT
-					if (OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_ADVANCE_POWER_SAVE_PCIE_DEVICE))
-					{
-						if (pAd->Antenna.field.RxPath > 1)
-							RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R3, pAd->StaCfg.BBPR3);
-					}
-#endif /* PCIE_PS_SUPPORT */
 				}
 				else if ((pAd->TxSwQueue[QID_AC_BK].Number != 0) ||
 						(pAd->TxSwQueue[QID_AC_BE].Number != 0) ||
@@ -2482,13 +2429,6 @@ VOID PeerBeacon(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 				{
 					/* TODO: consider scheduled HCCA. might not be proper to use traditional DTIM-based power-saving scheme */
 					/* can we cheat here (i.e. just check MGMT & AC_BE) for better performance? */
-#ifdef PCIE_PS_SUPPORT
-					if (OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_ADVANCE_POWER_SAVE_PCIE_DEVICE))
-					{
-						if (pAd->Antenna.field.RxPath > 1)
-							RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R3, pAd->StaCfg.BBPR3);
-					}
-#endif /* PCIE_PS_SUPPORT */
 				}
 				else
 				{
