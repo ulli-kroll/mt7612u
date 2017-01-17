@@ -810,12 +810,6 @@ $(MOD_NAME)-objs += \
 	os/linux/rt_linux.o\
 	os/linux/rt_main_dev.o
 
-ifeq ($(HAS_SNIFFER_SUPPORT),y)
-$(MOD_NAME)-objs += \
-	sniffer/sniffer_prism.o	\
-	sniffer/sniffer_radiotap.o
-endif
-
 #endif // CRDA_SUPPORT //
 
 endif
@@ -837,12 +831,6 @@ $(MOD_NAME)-objs += \
 	os/linux/sta_ioctl.o\
 	os/linux/rt_linux.o\
 	os/linux/rt_main_dev.o
-
-ifeq ($(HAS_SNIFFER_SUPPORT),y)
-$(MOD_NAME)-objs += \
-	sniffer/sniffer_prism.o\
-	sniffer/sniffer_radiotap.o
-endif
 
 #ifdef ETH_CONVERT
 ifeq ($(HAS_ETH_CONVERT_SUPPORT), y)
@@ -895,12 +883,6 @@ $(MOD_NAME)-objs += \
 	os/linux/sta_ioctl.o\
 	os/linux/rt_linux.o\
 	os/linux/rt_main_dev.o
-
-ifeq ($(HAS_SNIFFER_SUPPORT),y)
-$(MOD_NAME)-objs += \
-	sniffer/sniffer_prism.o\
-	sniffer/sniffer_radiotap.o
-endif
 
 #ifdef ETH_CONVERT
 ifeq ($(HAS_ETH_CONVERT_SUPPORT), y)
