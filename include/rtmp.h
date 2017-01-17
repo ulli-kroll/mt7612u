@@ -3728,11 +3728,6 @@ struct rtmp_adapter {
 	UCHAR EEPROMImage[MAX_EEPROM_BUFFER_SIZE];
 	UCHAR E2pAccessMode; /* Used to identify flash, efuse, eeprom or bin from start-up */
 
-#ifdef RTMP_FLASH_SUPPORT
-	UCHAR *eebuf;
-	uint32_t flash_offset;
-#endif /* RTMP_FLASH_SUPPORT */
-
 	EEPROM_ANTENNA_STRUC Antenna;	/* Since ANtenna definition is different for a & g. We need to save it for future reference. */
 	EEPROM_NIC_CONFIG2_STRUC NicConfig2;
 #if defined(BT_COEXISTENCE_SUPPORT) || defined(RT3290) || defined(RT8592) || defined(MT76x2)

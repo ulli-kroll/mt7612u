@@ -132,26 +132,6 @@ INT RtmpChipOpsEepromHook(
 			return 0;
 		}
 
-#ifdef RTMP_FLASH_SUPPORT
-		case E2P_FLASH_MODE:
-		{
-			pChipOps->eeinit = rtmp_nv_init;
-			pChipOps->eeread = rtmp_ee_flash_read;
-			pChipOps->eewrite = rtmp_ee_flash_write;
-			pAd->flash_offset = DEFAULT_RF_OFFSET;
-#ifdef CONFIG_RT_FIRST_CARD
-			if ( pAd->dev_idx == 0 )
-				pAd->flash_offset = CONFIG_RT_FIRST_IF_RF_OFFSET;
-#endif /* CONFIG_RT_FIRST_CARD */
-#ifdef CONFIG_RT_SECOND_CARD
-			if ( pAd->dev_idx == 1 )
-				pAd->flash_offset = CONFIG_RT_SECOND_IF_RF_OFFSET;
-#endif /* CONFIG_RT_FIRST_CARD */
-			DBGPRINT(RT_DEBUG_OFF, ("NVM is FLASH mode\n"));
-			return 0;
-		}
-#endif /* RTMP_FLASH_SUPPORT */
-
 #ifdef RTMP_EFUSE_SUPPORT
 		case E2P_EFUSE_MODE:
 		default:
@@ -409,13 +389,6 @@ INT Set_EepromBufferWriteBack_Proc(
 			rtmp_ee_write_to_efuse(pAd);
 			break;
 #endif /* RTMP_EFUSE_SUPPORT */
-
-#ifdef RTMP_FLASH_SUPPORT
-		case E2P_FLASH_MODE:
-			DBGPRINT(RT_DEBUG_OFF, ("Write EEPROM buffer back to Flash\n"));
-			rtmp_ee_flash_write_all(pAd, (PUSHORT)pAd->EEPROMImage);
-			break;
-#endif /* RTMP_FLASH_SUPPORT */
 
 #ifdef RT65xx
 		case E2P_EEPROM_MODE:

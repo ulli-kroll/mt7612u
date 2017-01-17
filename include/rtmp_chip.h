@@ -628,10 +628,6 @@ struct _RTMP_CHIP_CAP_ {
 	UCHAR *EEPROM_DEFAULT_BIN;
 	uint16_t EEPROM_DEFAULT_BIN_SIZE;
 
-#ifdef RTMP_FLASH_SUPPORT
-	BOOLEAN ee_inited;
-#endif /* RTMP_FLASH_SUPPORT */
-
 	/*
 		Define the burst size of WPDMA of PCI
 		0 : 4 DWORD (16bytes)

@@ -388,9 +388,6 @@ enum EEPROM_STORAGE_TYPE{
 #ifdef RTMP_EFUSE_SUPPORT
 	EEPROM_EFUSE = 1,
 #endif /* RTMP_EFUSE_SUPPORT */
-#ifdef RTMP_FLASH_SUPPORT
-	EEPROM_FLASH = 2,
-#endif /* RTMP_FLASH_SUPPORT */
 };
 
 #define A_BAND_20_80_BW_PWR_DELTA 0x52
@@ -789,7 +786,7 @@ NTSTATUS RTUSBWriteEEPROM16(
 #endif /* RTMP_USB_SUPPORT */
 
 
-#if defined(RTMP_RBUS_SUPPORT) || defined(RTMP_FLASH_SUPPORT)
+#if defined(RTMP_RBUS_SUPPORT)
 /*************************************************************************
   *	Public function declarations for flash-based chipset
   ************************************************************************/
@@ -814,7 +811,7 @@ VOID rtmp_ee_flash_write_all(
 	IN struct rtmp_adapter *pAd,
 	IN USHORT 			*Data);
 
-#endif /* defined(RTMP_RBUS_SUPPORT) || defined(RTMP_FLASH_SUPPORT) */
+#endif /* defined(RTMP_RBUS_SUPPORT) */
 
 
 #ifdef RTMP_EFUSE_SUPPORT

@@ -192,7 +192,7 @@ ULONG RTMPMsecsToJiffies(uint32_t m)
 
 /* pAd MUST allow to be NULL */
 
-#if defined(RTMP_RBUS_SUPPORT) || defined(RTMP_FLASH_SUPPORT)
+#if defined(RTMP_RBUS_SUPPORT)
 /* The flag "CONFIG_RALINK_FLASH_API" is used for APSoC Linux SDK */
 #ifdef CONFIG_RALINK_FLASH_API
 
@@ -253,7 +253,7 @@ void RtmpFlashWrite(
 #endif
 #endif /* CONFIG_RALINK_FLASH_API */
 }
-#endif /* defined(RTMP_RBUS_SUPPORT) || defined(RTMP_FLASH_SUPPORT) */
+#endif /* defined(RTMP_RBUS_SUPPORT) */
 
 
 struct sk_buff *RtmpOSNetPktAlloc(VOID *dummy, int size)

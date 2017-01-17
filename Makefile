@@ -113,8 +113,6 @@ HAS_MT76XX_BT_COEXISTENCE_SUPPORT=n
 
 HAS_TEMPERATURE_TX_ALC=n
 
-HAS_RTMP_FLASH_SUPPORT=n
-
 HAS_TXBF_SUPPORT=y
 HAS_VHT_TXBF_SUPPORT=y
 
@@ -161,10 +159,6 @@ WFLAGS += -I$(RT28xx_DIR)/include
 
 ifeq ($(HAS_KTHREAD_SUPPORT),y)
 WFLAGS += -DKTHREAD_SUPPORT
-endif
-
-ifeq ($(HAS_RTMP_FLASH_SUPPORT),y)
-WFLAGS += -DRTMP_FLASH_SUPPORT
 endif
 
 ifeq ($(HAS_STREAM_MODE_SUPPORT),y)
@@ -924,11 +918,6 @@ $(MOD_NAME)-objs += \
 	mcu/mcu_and.o\
 	phy/rt_rf.o\
 	phy/mt_rf.o
-
-ifeq ($(HAS_RTMP_FLASH_SUPPORT),y)
-$(MOD_NAME)-objs += \
-	common/ee_flash.o
-endif
 
 ifeq ($(HAS_TSO_SUPPORT),y)
 $(MOD_NAME)-objs += \

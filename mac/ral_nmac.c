@@ -206,10 +206,6 @@ INT rlt_wlan_chip_onoff(struct rtmp_adapter *pAd, BOOLEAN bOn, BOOLEAN bResetWLA
 {
 	uint32_t reg = 0;
 
-#ifdef RTMP_FLASH_SUPPORT
-#endif /* RTMP_FLASH_SUPPORT */
-
-
 #ifdef RTMP_MAC_USB
 	if (IS_USB_INF(pAd)) {
 		uint32_t ret;
