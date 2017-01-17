@@ -79,10 +79,6 @@ HAS_IFUP_IN_PROBE_SUPPORT=n
 #Support for dot11w Protected Management Frame
 HAS_DOT11W_PMF_SUPPORT=n
 
-#Support for Bridge Fast Path & Bridge Fast Path function open to other module
-HAS_BGFP_SUPPORT=n
-HAS_BGFP_OPEN_SUPPORT=n
-
 # Support HOSTAPD function
 HAS_HOSTAPD_SUPPORT=n
 
@@ -491,14 +487,6 @@ endif
 #
 ##########################################################
 
-ifeq ($(HAS_BGFP_SUPPORT),y)
-WFLAGS += -DBG_FT_SUPPORT
-endif
-
-ifeq ($(HAS_BGFP_OPEN_SUPPORT),y)
-WFLAGS += -DBG_FT_OPEN_SUPPORT
-endif
-
 ifeq ($(HAS_DOT11W_PMF_SUPPORT),y)
 WFLAGS += -DDOT11W_PMF_SUPPORT -DSOFT_ENCRYPT
 endif
@@ -827,13 +815,6 @@ $(MOD_NAME)-objs := \
 	$(obj_cmm)\
 	$(obj_wsc)\
 	$(obj_phy)
-
-#ifdef BG_FT_SUPPORT
-ifeq ($(HAS_BGFP_SUPPORT),y)
-$(MOD_NAME)-objs += \
-	os/linux/br_ftph.o
-endif
-#endif // BG_FT_SUPPORT //
 
 $(MOD_NAME)-objs += \
 	common/rt_os_util.o\
