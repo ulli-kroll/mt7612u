@@ -1637,10 +1637,6 @@ void	getBaInfo(
 		return RtmpIoctl_rt_ioctl_siwessid(__pAd, __pData, __Data);			\
 	case CMD_RTPRIV_IOCTL_STA_SIOCGIWESSID:									\
 		return RtmpIoctl_rt_ioctl_giwessid(__pAd, __pData, __Data);			\
-	case CMD_RTPRIV_IOCTL_STA_SIOCSIWNICKN:									\
-		return RtmpIoctl_rt_ioctl_siwnickn(__pAd, __pData, __Data);			\
-	case CMD_RTPRIV_IOCTL_STA_SIOCGIWNICKN:									\
-		return RtmpIoctl_rt_ioctl_giwnickn(__pAd, __pData, __Data);			\
 	case CMD_RTPRIV_IOCTL_STA_SIOCSIWRTS:									\
 		return RtmpIoctl_rt_ioctl_siwrts(__pAd, __pData, __Data);			\
 	case CMD_RTPRIV_IOCTL_STA_SIOCGIWRTS:									\
@@ -2273,70 +2269,6 @@ RtmpIoctl_rt_ioctl_giwessid(
 	}
 	return NDIS_STATUS_SUCCESS;
 }
-
-
-/*
-========================================================================
-Routine Description:
-	Handler for CMD_RTPRIV_IOCTL_STA_SIOCSIWNICKN.
-
-Arguments:
-	pAd				- WLAN control block pointer
-	*pData			- the communication data pointer
-	Data			- the communication data
-
-Return Value:
-	NDIS_STATUS_SUCCESS or NDIS_STATUS_FAILURE
-
-Note:
-========================================================================
-*/
-INT
-RtmpIoctl_rt_ioctl_siwnickn(
-	IN	struct rtmp_adapter 		*pAd,
-	IN	VOID					*pData,
-	IN	ULONG					Data)
-{
-	memset(pAd->nickname, 0, IW_ESSID_MAX_SIZE + 1);
-	memcpy(pAd->nickname, pData, Data);
-	return NDIS_STATUS_SUCCESS;
-}
-
-
-/*
-========================================================================
-Routine Description:
-	Handler for CMD_RTPRIV_IOCTL_STA_SIOCGIWNICKN.
-
-Arguments:
-	pAd				- WLAN control block pointer
-	*pData			- the communication data pointer
-	Data			- the communication data
-
-Return Value:
-	NDIS_STATUS_SUCCESS or NDIS_STATUS_FAILURE
-
-Note:
-========================================================================
-*/
-INT
-RtmpIoctl_rt_ioctl_giwnickn(
-	IN	struct rtmp_adapter 		*pAd,
-	IN	VOID					*pData,
-	IN	ULONG					Data)
-{
-	RT_CMD_STA_IOCTL_NICK_NAME *IoctlName = (RT_CMD_STA_IOCTL_NICK_NAME *)pData;
-
-
-	if (IoctlName->NameLen > strlen(pAd->nickname) + 1)
-		IoctlName->NameLen = strlen(pAd->nickname) + 1;
-	if (IoctlName->NameLen > 0) {
-		memcpy(IoctlName->pName, pAd->nickname, IoctlName->NameLen-1);
-		IoctlName->pName[IoctlName->NameLen-1] = '\0';
-	}
-	return NDIS_STATUS_SUCCESS;
-}
-
 
 /*
 ========================================================================

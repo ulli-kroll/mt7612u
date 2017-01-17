@@ -933,8 +933,6 @@ struct _RTMP_CHIP_OP_ {
 	/* high power tuning */
 	VOID (*HighPowerTuning)(struct rtmp_adapter *pAd, struct _RSSI_SAMPLE *pRssi);
 
-	/* Others */
-	VOID (*NetDevNickNameInit)(IN struct rtmp_adapter *pAd);
 #ifdef CAL_FREE_IC_SUPPORT
 	BOOLEAN (*is_cal_free_ic)(IN struct rtmp_adapter *pAd);
 	VOID (*cal_free_data_get)(IN struct rtmp_adapter *pAd);
@@ -1107,12 +1105,6 @@ do {	\
 do {	\
 		if (__pAd->chipOps.HighPowerTuning != NULL)	\
 			__pAd->chipOps.HighPowerTuning(__pAd, __pRssi);	\
-} while (0)
-
-#define RTMP_NET_DEV_NICKNAME_INIT(__pAd)	\
-do {	\
-		if (__pAd->chipOps.NetDevNickNameInit != NULL)	\
-			__pAd->chipOps.NetDevNickNameInit(__pAd);	\
 } while (0)
 
 #ifdef CAL_FREE_IC_SUPPORT
@@ -1317,11 +1309,6 @@ VOID RtmpChipWriteMemory(
 
 VOID RTMPReadChannelPwr(struct rtmp_adapter *pAd);
 VOID RTMPReadTxPwrPerRate(struct rtmp_adapter *pAd);
-
-
-VOID NetDevNickNameInit(IN struct rtmp_adapter *pAd);
-
-
 
 #ifdef GREENAP_SUPPORT
 VOID EnableAPMIMOPSv2(struct rtmp_adapter *pAd, BOOLEAN ReduceCorePower);

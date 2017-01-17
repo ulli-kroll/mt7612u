@@ -3930,7 +3930,6 @@ struct rtmp_adapter {
 	/* ----------------------------------------------- */
 	STA_ADMIN_CONFIG StaCfg;	/* user desired settings */
 	STA_ACTIVE_CONFIG StaActive;	/* valid only when ADHOC_ON(pAd) || INFRA_ON(pAd) */
-	char nickname[IW_ESSID_MAX_SIZE + 1];	/* nickname, only used in the iwconfig i/f */
 	NDIS_MEDIA_STATE PreMediaState;
 #endif /* CONFIG_STA_SUPPORT */
 

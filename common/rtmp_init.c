@@ -573,9 +573,6 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 			pAd->phy_ctrl.rf_band_cap = RFIC_24GHZ;
 	}
 
-
-	RTMP_NET_DEV_NICKNAME_INIT(pAd);
-
 #ifdef MT76x2
 	if (IS_MT76x2(pAd))
 	{
@@ -2574,7 +2571,6 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 		if (pAd->StaCfg.LastScanTime > 10 * OS_HZ)
 			pAd->StaCfg.LastScanTime -= (10 * OS_HZ);
 
-		memset(pAd->nickname, 0, IW_ESSID_MAX_SIZE+1);
 #ifdef PROFILE_STORE
 		pAd->bWriteDat = FALSE;
 #endif /* PROFILE_STORE */

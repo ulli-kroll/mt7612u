@@ -2965,21 +2965,6 @@ void mt76x2_temp_tx_alc(struct rtmp_adapter *ad)
 }
 #endif /* RTMP_TEMPERATURE_TX_ALC */
 
-#ifdef CONFIG_STA_SUPPORT
-static VOID mt76x2_init_dev_nick_name(struct rtmp_adapter *ad)
-{
-
-#ifdef RTMP_MAC_USB
-	if (IS_MT7662U(ad))
-		snprintf(ad->nickname, sizeof(ad->nickname), "mt7662u_sta");
-	else if (IS_MT7632U(ad))
-		snprintf(ad->nickname, sizeof(ad->nickname), "mt7632u_sta");
-	else if (IS_MT7612U(ad))
-		snprintf(ad->nickname, sizeof(ad->nickname), "mt7612u_sta");
-#endif
-}
-#endif /* CONFIG_STA_SUPPORT */
-
 #ifdef CAL_FREE_IC_SUPPORT
 static BOOLEAN mt76x2_is_cal_free_ic(struct rtmp_adapter *ad)
 {
@@ -3273,9 +3258,6 @@ static const RTMP_CHIP_OP MT76x2_ChipOp = {
 	.AsicTxAlcGetAutoAgcOffset = NULL,
 	.ATEReadExternalTSSI = NULL,
 	.TSSIRatio = NULL,
-#ifdef CONFIG_STA_SUPPORT
-	.NetDevNickNameInit = mt76x2_init_dev_nick_name,
-#endif
 	.RxSensitivityTuning = NULL,
 	.DisableTxRx = RT65xxDisableTxRx,
 #ifdef RTMP_USB_SUPPORT
