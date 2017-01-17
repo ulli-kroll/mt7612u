@@ -681,18 +681,6 @@ VOID RtmpOsUsbDmaMapping(
 	IN	VOID			*pUrb);
 #endif /* RTMP_MAC_USB */
 
-#if defined(RTMP_RBUS_SUPPORT)
-void RtmpFlashRead(
-	UCHAR * p,
-	ULONG a,
-	ULONG b);
-
-void RtmpFlashWrite(
-	UCHAR * p,
-	ULONG a,
-	ULONG b);
-#endif /* defined(RTMP_RBUS_SUPPORT) */
-
 uint32_t RtmpOsGetUsbDevVendorID(
 	IN VOID *pUsbDev);
 

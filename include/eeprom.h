@@ -786,33 +786,6 @@ NTSTATUS RTUSBWriteEEPROM16(
 #endif /* RTMP_USB_SUPPORT */
 
 
-#if defined(RTMP_RBUS_SUPPORT)
-/*************************************************************************
-  *	Public function declarations for flash-based chipset
-  ************************************************************************/
-int rtmp_nv_init(
-	IN struct rtmp_adapter *pAd);
-
-int rtmp_ee_flash_read(
-	IN struct rtmp_adapter *pAd,
-	IN USHORT 			Offset,
-	OUT USHORT 			*pValue);
-
-int rtmp_ee_flash_write(
-	IN struct rtmp_adapter *pAd,
-	IN USHORT 			Offset,
-	IN USHORT 			Data);
-
-VOID rtmp_ee_flash_read_all(
-	IN struct rtmp_adapter *pAd,
-	IN USHORT 			*Data);
-
-VOID rtmp_ee_flash_write_all(
-	IN struct rtmp_adapter *pAd,
-	IN USHORT 			*Data);
-
-#endif /* defined(RTMP_RBUS_SUPPORT) */
-
 
 #ifdef RTMP_EFUSE_SUPPORT
 /*************************************************************************

@@ -2816,18 +2816,6 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 	}
 #endif /* defined(AP_SCAN_SUPPORT) || defined(CONFIG_STA_SUPPORT) */
 
-
-
-
-#ifdef RMTP_RBUS_SUPPORT
-#ifdef VIDEO_TURBINE_SUPPORT
-	VideoConfigInit(pAd);
-#endif /* VIDEO_TURBINE_SUPPORT */
-#endif /* RMTP_RBUS_SUPPORT */
-
-
-
-
 #if (defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT)
 	pAd->WOW_Cfg.bEnable = FALSE;
 	pAd->WOW_Cfg.bWOWFirmware = FALSE;	/* load normal firmware */
