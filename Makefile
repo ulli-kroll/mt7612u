@@ -52,11 +52,6 @@ HAS_DOT11_N_SUPPORT=y
 #Support for 802.11ac VHT
 HAS_DOT11_VHT_SUPPORT=y
 
-
-
-#Support for 2860/2880 co-exist
-HAS_RT2880_RT2860_COEXIST=n
-
 HAS_KTHREAD_SUPPORT=n
 
 
@@ -868,14 +863,6 @@ $(MOD_NAME)-objs += \
 endif
 
 #endif // CRDA_SUPPORT //
-
-ifeq ($(HAS_RT2880_RT2860_COEXIST),y)
-RT28XX_AP_OBJ += \
-	os/linux/rt_pci_rbus.o\
-	os/linux/rt_rbus_pci_util.o\
-	os/linux/pci_main_dev.o\
-	common/dfs.o
-endif
 
 endif
 #endif // CONFIG_AP_SUPPORT //
