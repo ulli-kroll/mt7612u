@@ -2101,15 +2101,6 @@ VOID LinkDown(
 	*/
 		OPSTATUS_CLEAR_FLAG(pAd, fOP_STATUS_BG_PROTECTION_INUSED);
 
-#ifdef EXT_BUILD_CHANNEL_LIST
-		/* Country IE of the AP will be evaluated and will be used. */
-		if (pAd->StaCfg.IEEE80211dClientMode != Rt802_11_D_None) {
-			memmove(&pAd->CommonCfg.CountryCode[0],
-				       &pAd->StaCfg.StaOriCountryCode[0], 2);
-			pAd->CommonCfg.Geography = pAd->StaCfg.StaOriGeography;
-			BuildChannelListEx(pAd);
-		}
-#endif /* EXT_BUILD_CHANNEL_LIST */
 
 	}
 

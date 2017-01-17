@@ -3750,10 +3750,6 @@ VOID BssEntrySet(
 		pBss->WpaIE.IELen = 0;
 		pBss->RsnIE.IELen = 0;
 		pBss->WpsIE.IELen = 0;
-#ifdef EXT_BUILD_CHANNEL_LIST
-		memset(&pBss->CountryString[0], 0, 3);
-		pBss->bHasCountryIE = FALSE;
-#endif /* EXT_BUILD_CHANNEL_LIST */
 #endif /* CONFIG_STA_SUPPORT */
 		pEid = (PEID_STRUCT) pVIE;
 		while ((Length + 2 + (USHORT)pEid->Len) <= LengthVIE)
@@ -3803,12 +3799,6 @@ VOID BssEntrySet(
 						memmove(pBss->RsnIE.IE, pEid, pBss->RsnIE.IELen);
 					}
 					break;
-#ifdef EXT_BUILD_CHANNEL_LIST
-				case IE_COUNTRY:
-					memmove(&pBss->CountryString[0], pEid->Octet, 3);
-					pBss->bHasCountryIE = TRUE;
-					break;
-#endif /* EXT_BUILD_CHANNEL_LIST */
 #endif /* CONFIG_STA_SUPPORT */
 			}
 			Length = Length + 2 + (USHORT)pEid->Len;  /* Eid[1] + Len[1]+ content[Len]*/
@@ -4047,17 +4037,6 @@ VOID BssTableSsidSort(
 				continue;
 			}
 #endif /* WPA_SUPPLICANT_SUPPORT */
-
-
-#ifdef EXT_BUILD_CHANNEL_LIST
-			/* If no Country IE exists no Connection will be established when IEEE80211dClientMode is strict.*/
-			if ((pAd->StaCfg.IEEE80211dClientMode == Rt802_11_D_Strict) &&
-				(pInBss->bHasCountryIE == FALSE))
-			{
-				DBGPRINT(RT_DEBUG_TRACE,("StaCfg.IEEE80211dClientMode == Rt802_11_D_Strict, but this AP doesn't have country IE.\n"));
-				continue;
-			}
-#endif /* EXT_BUILD_CHANNEL_LIST */
 
 #ifdef DOT11_N_SUPPORT
 			/* 2.4G/5G N only mode*/

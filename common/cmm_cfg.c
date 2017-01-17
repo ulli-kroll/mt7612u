@@ -479,13 +479,6 @@ static BOOLEAN RT_isLegalCmdBeforeInfUp(
 #ifdef CONFIG_APSTA_MIXED_SUPPORT
 					!strcmp(SetCmd, "OpMode") ||
 #endif /* CONFIG_APSTA_MIXED_SUPPORT */
-#ifdef EXT_BUILD_CHANNEL_LIST
-					!strcmp(SetCmd, "CountryCode") ||
-					!strcmp(SetCmd, "DfsType") ||
-					!strcmp(SetCmd, "ChannelListAdd") ||
-					!strcmp(SetCmd, "ChannelListShow") ||
-					!strcmp(SetCmd, "ChannelListDel") ||
-#endif /* EXT_BUILD_CHANNEL_LIST */
 					FALSE; /* default */
        return TestFlag;
 }
@@ -1028,13 +1021,6 @@ INT RTMP_COM_IoctlHandle(
 			}
 		}
 			break;
-
-#ifdef EXT_BUILD_CHANNEL_LIST
-       case CMD_RTPRIV_SET_PRECONFIG_VALUE:
-       /* Set some preconfigured value before interface up*/
-           pAd->CommonCfg.DfsType = MAX_RD_REGION;
-           break;
-#endif /* EXT_BUILD_CHANNEL_LIST */
 
 
 #ifdef RTMP_USB_SUPPORT

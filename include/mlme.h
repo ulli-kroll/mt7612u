@@ -977,10 +977,6 @@ typedef struct _BSS_ENTRY{
 	WPA_IE_ RsnIE;
 	WPA_IE_ WpsIE;
 
-#ifdef EXT_BUILD_CHANNEL_LIST
-	UCHAR CountryString[3];
-	BOOLEAN bHasCountryIE;
-#endif /* EXT_BUILD_CHANNEL_LIST */
 #endif /* CONFIG_STA_SUPPORT */
 
 } BSS_ENTRY;

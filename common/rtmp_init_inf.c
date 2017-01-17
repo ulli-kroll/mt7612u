@@ -713,13 +713,6 @@ VOID RTMPDrvClose(struct rtmp_adapter *pAd, struct net_device *net_dev)
 		RTMP_SET_FLAG(pAd, fRTMP_ADAPTER_HALT_IN_PROGRESS);
 	}
 
-#ifdef EXT_BUILD_CHANNEL_LIST
-	if (pAd->CommonCfg.pChDesp != NULL)
-		kfree(pAd->CommonCfg.pChDesp);
-	pAd->CommonCfg.pChDesp = NULL;
-	pAd->CommonCfg.DfsType = MAX_RD_REGION;
-	pAd->CommonCfg.bCountryFlag = 0;
-#endif /* EXT_BUILD_CHANNEL_LIST */
 	pAd->CommonCfg.bCountryFlag = FALSE;
 
 

@@ -157,9 +157,6 @@ VOID APMakeBssBeacon(struct rtmp_adapter *pAd, INT apidx)
 			memset(TmpFrame, 0, 256);
 
 			/* prepare channel information */
-#ifdef EXT_BUILD_CHANNEL_LIST
-			BuildBeaconChList(pAd, TmpFrame, &TmpLen2);
-#else
 			{
 				UCHAR MaxTxPower = GetCuntryMaxTxPwr(pAd, pAd->CommonCfg.Channel);
 				MakeOutgoingFrame(TmpFrame+TmpLen2,     &TmpLen,
@@ -169,8 +166,6 @@ VOID APMakeBssBeacon(struct rtmp_adapter *pAd, INT apidx)
 									END_OF_ARGS);
 				TmpLen2 += TmpLen;
 			}
-#endif /* EXT_BUILD_CHANNEL_LIST */
-
 
 			/* need to do the padding bit check, and concatenate it */
 			if ((TmpLen2%2) == 0)

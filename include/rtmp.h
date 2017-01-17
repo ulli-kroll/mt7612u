@@ -1631,11 +1631,6 @@ typedef struct _MULTISSID_STRUCT {
 typedef struct _COMMON_CONFIG {
 	BOOLEAN bCountryFlag;
 	UCHAR CountryCode[3];
-#ifdef EXT_BUILD_CHANNEL_LIST
-	UCHAR Geography;
-	UCHAR DfsType;
-	u8 *pChDesp;
-#endif /* EXT_BUILD_CHANNEL_LIST */
 	UCHAR CountryRegion;	/* Enum of country region, 0:FCC, 1:IC, 2:ETSI, 3:SPAIN, 4:France, 5:MKK, 6:MKK1, 7:Israel */
 	UCHAR CountryRegionForABand;	/* Enum of country region for A band */
 	UCHAR PhyMode;
@@ -2180,16 +2175,6 @@ typedef struct _STA_ADMIN_CONFIG {
 
 	BOOLEAN bTGnWifiTest;
 	BOOLEAN bSkipAutoScanConn;
-
-
-#ifdef EXT_BUILD_CHANNEL_LIST
-	UCHAR IEEE80211dClientMode;
-	UCHAR StaOriCountryCode[3];
-	UCHAR StaOriGeography;
-#endif /* EXT_BUILD_CHANNEL_LIST */
-
-
-
 
 #ifdef DOT11W_PMF_SUPPORT
 	PMF_CFG PmfCfg;
@@ -7121,14 +7106,6 @@ INT ifx_ra_start_xmit (
 
 INT	Set_IEEE80211H_Proc(struct rtmp_adapter *pAd, char *arg);
 
-#ifdef EXT_BUILD_CHANNEL_LIST
-INT Set_ExtCountryCode_Proc(struct rtmp_adapter *pAd, char *arg);
-INT Set_ExtDfsType_Proc(struct rtmp_adapter *pAd, char *arg);
-INT Set_ChannelListAdd_Proc(struct rtmp_adapter *pAd, char *arg);
-INT Set_ChannelListShow_Proc(struct rtmp_adapter *pAd, char *arg);
-INT Set_ChannelListDel_Proc(struct rtmp_adapter *pAd, char *arg);
-#endif /* EXT_BUILD_CHANNEL_LIST */
-
 #ifdef DBG
 INT	Set_Debug_Proc(struct rtmp_adapter *pAd, char *arg);
 INT	Set_DebugFunc_Proc(struct rtmp_adapter *pAd, char *arg);
@@ -7914,9 +7891,6 @@ INT Set_TGnWifiTest_Proc(struct rtmp_adapter *pAd, char *arg);
 INT Set_LongRetryLimit_Proc(struct rtmp_adapter *pAd, char *arg);
 INT Set_ShortRetryLimit_Proc(struct rtmp_adapter *pAd, char *arg);
 
-#ifdef EXT_BUILD_CHANNEL_LIST
-INT Set_Ieee80211dClientMode_Proc(struct rtmp_adapter *pAd, char *arg);
-#endif /* EXT_BUILD_CHANNEL_LIST */
 
 INT	Show_Adhoc_MacTable_Proc(struct rtmp_adapter *pAd, char *extra, uint32_t size);
 

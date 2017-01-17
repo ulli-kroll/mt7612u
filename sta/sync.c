@@ -701,22 +701,6 @@ VOID MlmeJoinReqAction(
 	pAd->MlmeAux.Channel = pBss->Channel;
 	pAd->MlmeAux.CentralChannel = pBss->CentralChannel;
 
-#ifdef EXT_BUILD_CHANNEL_LIST
-	/* Country IE of the AP will be evaluated and will be used. */
-	if ((pAd->StaCfg.IEEE80211dClientMode != Rt802_11_D_None) &&
-		(pBss->bHasCountryIE == TRUE))
-	{
-		memmove(&pAd->CommonCfg.CountryCode[0], &pBss->CountryString[0], 2);
-		if (pBss->CountryString[2] == 'I')
-			pAd->CommonCfg.Geography = IDOR;
-		else if (pBss->CountryString[2] == 'O')
-			pAd->CommonCfg.Geography = ODOR;
-		else
-			pAd->CommonCfg.Geography = BOTH;
-		BuildChannelListEx(pAd);
-	}
-#endif /* EXT_BUILD_CHANNEL_LIST */
-
 	{
 		bChangeInitBW = TRUE;
 	}

@@ -836,13 +836,13 @@ BOOLEAN PeerBeaconAndProbeRspSanity_Old(
                 break;
 
 #ifdef CONFIG_STA_SUPPORT
-#if defined (EXT_BUILD_CHANNEL_LIST) || defined (RT_CFG80211_SUPPORT)
+#if defined (RT_CFG80211_SUPPORT)
 			case IE_COUNTRY:
 				Ptr = (u8 *) pVIE;
                 memmove(Ptr + *LengthVIE, &pEid->Eid, pEid->Len + 2);
                 *LengthVIE += (pEid->Len + 2);
 				break;
-#endif /* EXT_BUILD_CHANNEL_LIST */
+#endif /* RT_CFG80211_SUPPORT */
 #endif /* CONFIG_STA_SUPPORT */
 
             case IE_QBSS_LOAD:
@@ -1458,13 +1458,13 @@ BOOLEAN PeerBeaconAndProbeRspSanity(
 
 
 #ifdef CONFIG_STA_SUPPORT
-#if defined (EXT_BUILD_CHANNEL_LIST) || defined (RT_CFG80211_SUPPORT)
+#if defined (RT_CFG80211_SUPPORT)
 		case IE_COUNTRY:
 			Ptr = (u8 *) pVIE;
 			memmove(Ptr + *LengthVIE, &pEid->Eid, pEid->Len + 2);
 			*LengthVIE += (pEid->Len + 2);
 			break;
-#endif /* EXT_BUILD_CHANNEL_LIST */
+#endif /* RT_CFG80211_SUPPORT */
 #endif /* CONFIG_STA_SUPPORT */
 
 		case IE_QBSS_LOAD:

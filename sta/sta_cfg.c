@@ -1058,26 +1058,6 @@ INT Set_TGnWifiTest_Proc(
 	return TRUE;
 }
 
-#ifdef EXT_BUILD_CHANNEL_LIST
-INT Set_Ieee80211dClientMode_Proc(
-    IN  struct rtmp_adapter *  pAdapter,
-    IN  char *         arg)
-{
-    if (simple_strtol(arg, 0, 10) == 0)
-        pAdapter->StaCfg.IEEE80211dClientMode = Rt802_11_D_None;
-    else if (simple_strtol(arg, 0, 10) == 1)
-        pAdapter->StaCfg.IEEE80211dClientMode = Rt802_11_D_Flexible;
-    else if (simple_strtol(arg, 0, 10) == 2)
-        pAdapter->StaCfg.IEEE80211dClientMode = Rt802_11_D_Strict;
-    else
-        return FALSE;
-
-    DBGPRINT(RT_DEBUG_TRACE, ("Set_Ieee802dMode_Proc::(IEEEE0211dMode=%d)\n", pAdapter->StaCfg.IEEE80211dClientMode));
-    return TRUE;
-}
-#endif /* EXT_BUILD_CHANNEL_LIST */
-
-
 #ifdef DYNAMIC_VGA_SUPPORT
 INT Set_DyncVgaEnable_Proc(
 	IN	struct rtmp_adapter *pAd,

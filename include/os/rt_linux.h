@@ -58,7 +58,6 @@
 
 #ifdef RT_CFG80211_SUPPORT
 #include <net/mac80211.h>
-//#define EXT_BUILD_CHANNEL_LIST		/* must define with CRDA */
 #endif /* RT_CFG80211_SUPPORT */
 
 

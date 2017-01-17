@@ -343,12 +343,6 @@ INT rt_android_private_command_entry(
 #define RTMP_DRIVER_P2P_INF_CHECK(__pAd, __InfId)							\
 	RTMP_COM_IoctlHandle(__pAd, NULL, CMD_RTPRIV_IOCTL_INF_P2P_CHECK, 0, NULL, __InfId)
 
-#ifdef EXT_BUILD_CHANNEL_LIST
-#define RTMP_DRIVER_SET_PRECONFIG_VALUE(__pAd)								\
-	RTMP_COM_IoctlHandle(__pAd, NULL, CMD_RTPRIV_SET_PRECONFIG_VALUE, 0, NULL, 0)
-#endif /* EXT_BUILD_CHANNEL_LIST */
-
-
 #ifdef RT_CFG80211_SUPPORT
 /* General Part */
 #define RTMP_DRIVER_CFG80211_START(__pAd)									\

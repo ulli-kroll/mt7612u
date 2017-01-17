@@ -43,29 +43,6 @@ typedef struct _COUNTRY_REGION_CH_DESC {
 	PCH_DESC pChDesc;
 }COUNTRY_REGION_CH_DESC, *PCOUNTRY_REGION_CH_DESC;
 
-#ifdef EXT_BUILD_CHANNEL_LIST
-#define ODOR			0
-#define IDOR			1
-#define BOTH			2
-
-typedef struct _CH_DESP {
-	UCHAR FirstChannel;
-	UCHAR NumOfCh;
-	CHAR MaxTxPwr;			/* dBm */
-	UCHAR Geography;			/* 0:out door, 1:in door, 2:both */
-	BOOLEAN DfsReq;			/* Dfs require, 0: No, 1: yes. */
-} CH_DESP, *PCH_DESP;
-
-typedef struct _CH_REGION {
-	char CountReg[3];
-	UCHAR DfsType;			/* 0: CE, 1: FCC, 2: JAP, 3:JAP_W53, JAP_W56 */
-	CH_DESP *pChDesp;
-	BOOLEAN edcca_on;
-} CH_REGION, *PCH_REGION;
-
-extern CH_REGION ChRegion[];
-#endif /* EXT_BUILD_CHANNEL_LIST */
-
 #ifdef ED_MONITOR
 typedef struct _COUNTRY_PROP {
 	char CountReg[3];
@@ -95,16 +72,6 @@ extern int CH_HZ_ID_MAP_NUM;
 BOOLEAN GetEDCCASupport(
 	IN struct rtmp_adapter *pAd);
 #endif /* ED_MONITOR */
-
-#ifdef EXT_BUILD_CHANNEL_LIST
-VOID BuildChannelListEx(
-	IN struct rtmp_adapter *pAd);
-
-VOID BuildBeaconChList(
-	IN struct rtmp_adapter *pAd,
-	OUT u8 *pBuf,
-	OUT	PULONG pBufLen);
-#endif /* EXT_BUILD_CHANNEL_LIST */
 
 #ifdef DOT11_N_SUPPORT
 VOID N_ChannelCheck(struct rtmp_adapter *pAd);

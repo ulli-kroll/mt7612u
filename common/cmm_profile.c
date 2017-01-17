@@ -2523,12 +2523,6 @@ void RTMPSetCountryCode(struct rtmp_adapter *pAd, char *CountryCode)
 {
 	memmove(pAd->CommonCfg.CountryCode, CountryCode , 2);
 	pAd->CommonCfg.CountryCode[2] = ' ';
-#ifdef CONFIG_STA_SUPPORT
-#ifdef EXT_BUILD_CHANNEL_LIST
-	IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
-		memmove(pAd->StaCfg.StaOriCountryCode, CountryCode , 2);
-#endif /* EXT_BUILD_CHANNEL_LIST */
-#endif /* CONFIG_STA_SUPPORT */
 	if (strlen(pAd->CommonCfg.CountryCode) != 0)
 		pAd->CommonCfg.bCountryFlag = TRUE;
 
@@ -2586,32 +2580,6 @@ int RTMPSetProfileParameters(
 		if(RTMPGetKeyParameter("CountryCode", tmpbuf, 25, pBuffer, TRUE))
 			RTMPSetCountryCode(pAd, tmpbuf);
 		}
-
-#ifdef EXT_BUILD_CHANNEL_LIST
-		/*ChannelGeography*/
-		if(RTMPGetKeyParameter("ChannelGeography", tmpbuf, 25, pBuffer, TRUE))
-		{
-			UCHAR Geography = (UCHAR) simple_strtol(tmpbuf, 0, 10);
-			if (Geography <= BOTH)
-			{
-				pAd->CommonCfg.Geography = Geography;
-				pAd->CommonCfg.CountryCode[2] =
-					(pAd->CommonCfg.Geography == BOTH) ? ' ' : ((pAd->CommonCfg.Geography == IDOR) ? 'I' : 'O');
-#ifdef CONFIG_STA_SUPPORT
-#ifdef EXT_BUILD_CHANNEL_LIST
-				IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
-					pAd->StaCfg.StaOriGeography = pAd->CommonCfg.Geography;
-#endif /* EXT_BUILD_CHANNEL_LIST */
-#endif /* CONFIG_STA_SUPPORT */
-				DBGPRINT(RT_DEBUG_TRACE, ("ChannelGeography=%d\n", pAd->CommonCfg.Geography));
-			}
-		}
-		else
-		{
-			pAd->CommonCfg.Geography = BOTH;
-			pAd->CommonCfg.CountryCode[2] = ' ';
-		}
-#endif /* EXT_BUILD_CHANNEL_LIST */
 
 #ifdef CONFIG_AP_SUPPORT
 		IF_DEV_CONFIG_OPMODE_ON_AP(pAd)

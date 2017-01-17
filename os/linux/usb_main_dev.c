@@ -176,10 +176,6 @@ static int rt2870_probe(
 }
 #endif /* PRE_ASSIGN_MAC_ADDR */
 
-#ifdef EXT_BUILD_CHANNEL_LIST
-	RTMP_DRIVER_SET_PRECONFIG_VALUE(pAd);
-#endif /* EXT_BUILD_CHANNEL_LIST */
-
 	DBGPRINT(RT_DEBUG_TRACE, ("<===rt2870_probe()!\n"));
 
 	return 0;

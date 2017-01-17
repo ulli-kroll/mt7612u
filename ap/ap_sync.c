@@ -328,9 +328,6 @@ VOID APPeerProbeReqAction(
 				memset(TmpFrame, 0, 256);
 
 				/* prepare channel information */
-#ifdef EXT_BUILD_CHANNEL_LIST
-				BuildBeaconChList(pAd, TmpFrame, &TmpLen2);
-#else
 				{
 					UCHAR MaxTxPower = GetCuntryMaxTxPwr(pAd, pAd->CommonCfg.Channel);
 					MakeOutgoingFrame(TmpFrame+TmpLen2,     &TmpLen,
@@ -340,7 +337,6 @@ VOID APPeerProbeReqAction(
 										END_OF_ARGS);
 					TmpLen2 += TmpLen;
 				}
-#endif /* EXT_BUILD_CHANNEL_LIST */
 
 
 				kfree(TmpFrame);

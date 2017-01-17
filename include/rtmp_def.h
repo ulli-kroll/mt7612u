@@ -152,10 +152,6 @@
 #ifdef CONFIG_STA_SUPPORT
 #endif /* CONFIG_STA_SUPPORT */
 
-#ifdef EXT_BUILD_CHANNEL_LIST
-#define MAX_PRECONFIG_DESP_ENTRY_SIZE  11
-#endif /* EXT_BUILD_CHANNEL_LIST */
-
 
 /*
 	struct rtmp_adapter flags

@@ -165,12 +165,6 @@ INT Set_CountryCode_Proc(
     IN  struct rtmp_adapter *  pAdapter,
     IN  char *         arg);
 
-#ifdef EXT_BUILD_CHANNEL_LIST
-INT Set_ChGeography_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg);
-#endif /* EXT_BUILD_CHANNEL_LIST */
-
 #ifdef SPECIFIC_TX_POWER_SUPPORT
 INT Set_AP_PKT_PWR(
     IN  struct rtmp_adapter *  pAdapter,
@@ -686,12 +680,6 @@ INT Set_CountryCode_Proc(
 	IN	char *		arg)
 {
 
-#ifdef EXT_BUILD_CHANNEL_LIST
-	/* reset temp table status */
-	pAd->CommonCfg.pChDesp = NULL;
-	pAd->CommonCfg.DfsType = MAX_RD_REGION;
-#endif /* EXT_BUILD_CHANNEL_LIST */
-
 	if(strlen(arg) == 2)
 	{
 		memmove(pAd->CommonCfg.CountryCode, arg, 2);
@@ -713,32 +701,6 @@ INT Set_CountryCode_Proc(
 	return TRUE;
 }
 
-#ifdef EXT_BUILD_CHANNEL_LIST
-INT Set_ChGeography_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg)
-{
-	ULONG Geography;
-
-	Geography = simple_strtol(arg, 0, 10);
-	if (Geography <= BOTH)
-		pAd->CommonCfg.Geography = Geography;
-	else
-		DBGPRINT(RT_DEBUG_ERROR, ("Set_ChannelGeography_Proc::(wrong setting. 0: Out-door, 1: in-door, 2: both)\n"));
-
-	pAd->CommonCfg.CountryCode[2] =
-		(pAd->CommonCfg.Geography == BOTH) ? ' ' : ((pAd->CommonCfg.Geography == IDOR) ? 'I' : 'O');
-
-	DBGPRINT(RT_DEBUG_ERROR, ("Set_ChannelGeography_Proc:: Geography = %s\n", pAd->CommonCfg.Geography == ODOR ? "out-door" : (pAd->CommonCfg.Geography == IDOR ? "in-door" : "both")));
-
-	/* After Set ChGeography need invoke SSID change procedural again for Beacon update. */
-	/* it's no longer necessary since APStartUp will rebuild channel again. */
-	/*BuildChannelListEx(pAd); */
-
-	return TRUE;
-}
-#endif /* EXT_BUILD_CHANNEL_LIST */
-
 
 /*
     ==========================================================================
@@ -756,10 +718,6 @@ INT Set_CountryString_Proc(
 	INT   index = 0;
 	INT   success = TRUE;
 	STRING  name_buffer[40] = {0};
-
-#ifdef EXT_BUILD_CHANNEL_LIST
-	return -EOPNOTSUPP;
-#endif /* EXT_BUILD_CHANNEL_LIST */
 
 	if(strlen(arg) <= 38)
 	{
