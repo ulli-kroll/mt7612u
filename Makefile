@@ -116,9 +116,6 @@ HAS_TEMPERATURE_TX_ALC=n
 
 HAS_RTMP_FLASH_SUPPORT=n
 
-#Support WIDI feature
-#Must enable HAS_WSC at the same time.
-
 HAS_TXBF_SUPPORT=y
 HAS_VHT_TXBF_SUPPORT=y
 
@@ -739,10 +736,6 @@ endif
 
 ifeq ($(HAS_IDS_SUPPORT),y)
 obj_ap += ap/ap_ids.o
-endif
-
-ifeq ($(HAS_WSC),y)
-obj_ap += common/wsc_ufd.o
 endif
 
 obj_ap += \
