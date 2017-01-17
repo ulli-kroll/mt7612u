@@ -32,19 +32,6 @@ struct chip_map{
 	char *name;
 };
 
-struct chip_map RTMP_CHIP_E2P_FILE_TABLE[] = {
-	{0x3071,	"RT3092_PCIe_LNA_2T2R_ALC_V1_2.bin"},
-	{0x3090,	"RT3092_PCIe_LNA_2T2R_ALC_V1_2.bin"},
-	{0x3593,	"HMC_RT3593_PCIe_3T3R_V1_3.bin"},
-	{0x5392,	"RT5392_PCIe_2T2R_ALC_V1_4.bin"},
-	{0x5592,	"RT5592_PCIe_2T2R_V1_7.bin"},
-	{0x7602, "MT7602E_EEPROM.bin"},
-	{0x7612, "MT7612E_EEPROM.bin"},
-	{0x7620,	"MT7620_AP_2T2R-4L_V15.BIN"},
-	{0,}
-};
-
-
 struct chip_map chip_card_id_map[] ={
 	{7620, ""},
 };
@@ -165,40 +152,6 @@ INT RtmpChipOpsEepromHook(
 	DBGPRINT(RT_DEBUG_OFF, ("NVM is EEPROM mode\n"));
 	return 0;
 }
-
-
-BOOLEAN rtmp_get_default_bin_file_by_chip(
-	IN struct rtmp_adapter *pAd,
-	IN uint32_t 	ChipVersion,
-	OUT char **pBinFileName)
-{
-	BOOLEAN found = FALSE;
-	INT i;
-
-	DBGPRINT(RT_DEBUG_OFF, ("%s::chip version=0x%04x\n", __FUNCTION__, ChipVersion));
-
-	for (i = 0; RTMP_CHIP_E2P_FILE_TABLE[i].ChipVersion != 0; i++ )
-	{
-		if (RTMP_CHIP_E2P_FILE_TABLE[i].ChipVersion == ChipVersion)
-		{
-			*pBinFileName = RTMP_CHIP_E2P_FILE_TABLE[i].name;
-			DBGPRINT(RT_DEBUG_OFF,
-						("%s(): Found E2P bin file name:%s\n",
-						__FUNCTION__, *pBinFileName));
-			found = TRUE;
-			break;
-		}
-	}
-
-	if (found == TRUE)
-		DBGPRINT(RT_DEBUG_OFF, ("%s::Found E2P bin file name=%s\n", __FUNCTION__, *pBinFileName));
-	else
-		DBGPRINT(RT_DEBUG_ERROR, ("%s::E2P bin file name not found\n", __FUNCTION__));
-
-	return found;
-}
-
-
 INT rtmp_ee_bin_read16(
 	IN struct rtmp_adapter 	*pAd,
 	IN USHORT 			Offset,

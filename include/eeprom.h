@@ -842,6 +842,4 @@ INT Set_EepromBufferWriteBack_Proc(
   *	Public function declarations for prom operation callback functions setting
   ************************************************************************/
 INT RtmpChipOpsEepromHook(struct rtmp_adapter *pAd, INT infType);
-
-BOOLEAN rtmp_get_default_bin_file_by_chip(struct rtmp_adapter *pAd, uint32_t ChipVersion, char **pBinFileName);
 #endif /* __EEPROM_H__ */
