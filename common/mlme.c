@@ -459,9 +459,6 @@ void periodic_monitor_false_cca_adjust_vga(struct rtmp_adapter *pAd)
 					pAd->chipCap.compensate_level = 0x10;
 				bbp_val1 = (bbp_val1 & 0xffff80ff) | (val1 << 8);
 				RTMP_BBP_IO_WRITE32(pAd, AGC1_R8, bbp_val1);
-#ifdef DFS_SUPPORT
-       		pAd->CommonCfg.RadarDetect.bAdjustDfsAgc = TRUE;
-#endif
 			}
 
 			if (pAd->CommonCfg.RxStream >= 2) {
@@ -480,9 +477,6 @@ void periodic_monitor_false_cca_adjust_vga(struct rtmp_adapter *pAd)
 					pAd->chipCap.compensate_level = 0;
 				bbp_val1 = (bbp_val1 & 0xffff80ff) | (val1 << 8);
 				RTMP_BBP_IO_WRITE32(pAd, AGC1_R8, bbp_val1);
-#ifdef DFS_SUPPORT
-				pAd->CommonCfg.RadarDetect.bAdjustDfsAgc = TRUE;
-#endif
 			}
 
 			if (pAd->CommonCfg.RxStream >= 2) {
@@ -1433,13 +1427,6 @@ VOID MlmePeriodicExec(
 #ifdef CONFIG_AP_SUPPORT
 		IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 		{
-#ifdef DFS_SUPPORT
-#ifdef RTMP_MAC_USB
-			if ((pAd->CommonCfg.Channel > 14) &&
-				(pAd->CommonCfg.bIEEE80211H == TRUE))
-				NewUsbTimerCB_Radar(pAd);
-#endif /* RTMP_MAC_USB */
-#endif /* DFS_SUPPORT */
 		}
 #endif /* CONFIG_AP_SUPPORT */
 

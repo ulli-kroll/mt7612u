@@ -2357,12 +2357,6 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 #endif /* AP_SCAN_SUPPORT */
 #endif /* CONFIG_AP_SUPPORT */
 
-
-#ifdef DFS_SUPPORT
-	pAd->CommonCfg.RadarDetect.bDfsInit = FALSE;
-#endif /* DFS_SUPPORT */
-
-
 #ifdef UAPSD_SUPPORT
 #ifdef CONFIG_AP_SUPPORT
 {

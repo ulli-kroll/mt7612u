@@ -3164,9 +3164,6 @@ static const RTMP_CHIP_CAP MT76x2_ChipCap = {
 	.MaxNumOfBbpId = 200,
 	.pBBPRegTable = NULL,
 	.bbpRegTbSize = 0,
-#ifdef DFS_SUPPORT
-	.DfsEngineNum = 4,
-#endif /* DFS_SUPPORT */
 #ifdef NEW_MBSSID_MODE
 #ifdef ENHANCE_NEW_MBSSID_MODE
 	.MBSSIDMode = MBSSID_MODE4,

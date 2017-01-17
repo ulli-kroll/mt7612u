@@ -34,11 +34,6 @@ HAS_NATIVE_WPA_SUPPLICANT_SUPPORT=n
 #Support Net interface block while Tx-Sw queue full
 HAS_BLOCK_NET_IF=n
 
-
-#Support DFS function
-HAS_DFS_SUPPORT=n
-
-
 # Support ED CCA monitor
 HAS_ED_MONITOR_SUPPORT=n
 
@@ -652,10 +647,6 @@ ifeq ($(HAS_BLOCK_NET_IF),y)
 WFLAGS += -DBLOCK_NET_IF
 endif
 
-ifeq ($(HAS_DFS_SUPPORT),y)
-WFLAGS += -DDFS_SUPPORT
-endif
-
 EXTRA_CFLAGS := $(WFLAGS)
 
 #RT28xx_DIR = home directory of RT28xx source code
@@ -747,10 +738,6 @@ endif
 
 ifeq ($(HAS_NEW_RATE_ADAPT_SUPPORT),y)
 obj_cmm += rate_ctrl/alg_grp.o
-endif
-
-ifeq ($(HAS_DFS_SUPPORT),y)
-obj_cmm += common/cmm_dfs.o
 endif
 
 ifeq ($(HAS_CS_SUPPORT),y)

@@ -546,21 +546,6 @@ struct os_cookie {
 	RTMP_NET_TASK_STRUCT uapsd_eosp_sent_task;
 #endif /* UAPSD_SUPPORT */
 
-#ifdef CONFIG_AP_SUPPORT
-#ifdef DFS_SUPPORT
-#ifdef DFS_SOFTWARE_SUPPORT
-	RTMP_NET_TASK_STRUCT pulse_radar_detect_task;
-	RTMP_NET_TASK_STRUCT width_radar_detect_task;
-#endif /* DFS_SOFTWARE_SUPPORT */
-#endif /* DFS_SUPPORT */
-
-
-#ifdef DFS_SUPPORT
-	struct tasklet_struct	dfs_task;
-#endif /* DFS_SUPPORT */
-
-#endif /* CONFIG_AP_SUPPORT */
-
 #ifdef RTMP_MAC_USB
 	RTMP_NET_TASK_STRUCT null_frame_complete_task;
 	RTMP_NET_TASK_STRUCT pspoll_frame_complete_task;

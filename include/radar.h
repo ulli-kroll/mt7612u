@@ -92,7 +92,7 @@ INT Set_BlockChReset_Proc(
 	IN struct rtmp_adapter *pAd,
 	IN char *arg);
 
-#if defined(DFS_SUPPORT) || defined(CARRIER_DETECTION_SUPPORT)
+#if defined(CARRIER_DETECTION_SUPPORT)
 INT	Set_RadarShow_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg);
@@ -103,6 +103,6 @@ VOID CckMrcStatusCtrl(
 VOID RadarGLRTCompensate(
 	IN struct rtmp_adapter *pAd);
 
-#endif /*defined(DFS_SUPPORT) || defined(CARRIER_DETECTION_SUPPORT)*/
+#endif /* defined(CARRIER_DETECTION_SUPPORT)*/
 
 #endif /* __RADAR_H__ */

@@ -87,12 +87,6 @@ typedef struct _UAPSD_INFO {
 
 #include "radar.h"
 
-
-#ifdef DFS_SUPPORT
-#include "dfs.h"
-#endif /* DFS_SUPPORT */
-
-
 #ifdef RTMP_FREQ_CALIBRATION_SUPPORT
 #include "frq_cal.h"
 #endif /* RTMP_FREQ_CALIBRATION_SUPPORT */
@@ -1775,12 +1769,6 @@ typedef struct _COMMON_CONFIG {
 
 	BOOLEAN NdisRadioStateOff;	/*For HCT 12.0, set this flag to TRUE instead of called MlmeRadioOff. */
 	ABGBAND_STATE BandState;        /* For setting BBP used on B/G or A mode. */
-
-
-#ifdef DFS_SUPPORT
-	/* IEEE802.11H--DFS. */
-	RADAR_DETECT_STRUCT RadarDetect;
-#endif /* DFS_SUPPORT */
 
 #ifdef DOT11_N_SUPPORT
 	/* HT */

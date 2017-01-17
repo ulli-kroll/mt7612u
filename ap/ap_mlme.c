@@ -270,9 +270,6 @@ VOID APMlmePeriodicExec(
 		&& (pAd->CommonCfg.bIEEE80211H == 1)
 		)
 	{
-#ifdef DFS_SUPPORT
-		ApRadarDetectPeriodic(pAd);
-#else
 		pAd->Dot11_H.InServiceMonitorCount++;
 		if (pAd->Dot11_H.RDMode == RD_SILENCE_MODE)
 		{
@@ -282,7 +279,6 @@ VOID APMlmePeriodicExec(
 				pAd->Dot11_H.RDMode = RD_NORMAL_MODE;
 			}
 		}
-#endif /* !DFS_SUPPORT */
 		}
 #endif /* A_BAND_SUPPORT */
 

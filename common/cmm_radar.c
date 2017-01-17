@@ -242,13 +242,8 @@ VOID ChannelSwitchingCountDownProc(
 	pAd->Dot11_H.CSCount++;
 	if (pAd->Dot11_H.CSCount >= pAd->Dot11_H.CSPeriod)
 	{
-#ifdef DFS_SUPPORT
-		pAd->CommonCfg.RadarDetect.DFSAPRestart = 1;
-		schedule_dfs_task(pAd);
-#else
 		APStop(pAd);
 		APStartUp(pAd);
-#endif /* !DFS_SUPPORT */
 	}
 }
 #endif /* CONFIG_AP_SUPPORT */
@@ -337,45 +332,12 @@ INT Set_BlockChReset_Proc(
 }
 
 
-#if defined(DFS_SUPPORT) || defined(CARRIER_DETECTION_SUPPORT)
+#if defined(CARRIER_DETECTION_SUPPORT)
 
 INT	Set_RadarShow_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg)
 {
-#ifdef DFS_SUPPORT
-	UINT8 idx;
-	PRADAR_DETECT_STRUCT pRadarDetect = &pAd->CommonCfg.RadarDetect;
-	PDFS_PROGRAM_PARAM pDfsProgramParam = &pRadarDetect->DfsProgramParam;
-	PDFS_SW_DETECT_PARAM pDfsSwParam = &pRadarDetect->DfsSwParam;
-	PCHAR RDMode[]= {"Normal State", "Switching State", "Silent State"};
-
-		printk("DFSUseTasklet = %d\n", pRadarDetect->use_tasklet);
-		printk("McuRadarDebug = %x\n", (unsigned int)pRadarDetect->McuRadarDebug);
-		printk("PollTime = %d\n", pRadarDetect->PollTime);
-		printk("ChEnable = %d (0x%x)\n", pDfsProgramParam->ChEnable, pDfsProgramParam->ChEnable);
-		printk("DeltaDelay = %d\n", pDfsProgramParam->DeltaDelay);
-		printk("PeriodErr = %d\n", pDfsSwParam->dfs_period_err);
-		printk("MaxPeriod = %d\n", (unsigned int)pDfsSwParam->dfs_max_period);
-		printk("Ch0LErr = %d\n", pDfsSwParam->dfs_width_ch0_err_L);
-		printk("Ch0HErr = %d\n", pDfsSwParam->dfs_width_ch0_err_H);
-		printk("Ch1Shift = %d\n", pDfsSwParam->dfs_width_diff_ch1_Shift);
-		printk("Ch2Shift = %d\n", pDfsSwParam->dfs_width_diff_ch2_Shift);
-		printk("DfsRssiHigh = %d\n", pRadarDetect->DfsRssiHigh);
-		printk("DfsRssiLow = %d\n", pRadarDetect->DfsRssiLow);
-		printk("DfsSwDisable = %u\n", pRadarDetect->bDfsSwDisable);
-		printk("CheckLoop = %d\n", pDfsSwParam->dfs_check_loop);
-		printk("DeclareThres = %d\n", pDfsSwParam->dfs_declare_thres);
-		for (idx=0; idx < pAd->chipCap.DfsEngineNum; idx++)
-			printk("sw_idx[%u] = %u\n", idx, pDfsSwParam->sw_idx[idx]);
-		for (idx=0; idx < pAd->chipCap.DfsEngineNum; idx++)
-			printk("hw_idx[%u] = %u\n", idx, pDfsSwParam->hw_idx[idx]);
-
-	printk("pAd->Dot11_H.ChMovingTime = %d\n", pAd->Dot11_H.ChMovingTime);
-	printk("pAd->Dot11_H.RDMode = %s\n", RDMode[pAd->Dot11_H.RDMode]);
-	printk("pAd->Dot11_H.RDCount = %d\n", pAd->Dot11_H.RDCount);
-	printk("pAd->Dot11_H.CalBufTime = %d\n", pAd->Dot11_H.CalBufTime);
-#endif /* DFS_SUPPORT */
 
 
 	return TRUE;
@@ -409,5 +371,5 @@ VOID CckMrcStatusCtrl(IN struct rtmp_adapter *pAd)
 VOID RadarGLRTCompensate(IN struct rtmp_adapter *pAd)
 {
 }
-#endif /*defined(DFS_SUPPORT) || defined(CARRIER_DETECTION_SUPPORT) */
+#endif /* defined(CARRIER_DETECTION_SUPPORT) */
 

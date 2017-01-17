@@ -631,9 +631,6 @@ struct _RTMP_CHIP_CAP_ {
 #ifdef RTMP_FLASH_SUPPORT
 	BOOLEAN ee_inited;
 #endif /* RTMP_FLASH_SUPPORT */
-#ifdef DFS_SUPPORT
-	UINT8 DfsEngineNum;
-#endif /* DFS_SUPPORT */
 
 	/*
 		Define the burst size of WPDMA of PCI

@@ -1307,9 +1307,6 @@ VOID CFG80211_RegRuleApply(
 	uint32_t ChanNum, ChanId, Power, RecId, DfsType;
 	BOOLEAN FlgIsRadar;
 	ULONG IrqFlags;
-#ifdef DFS_SUPPORT
-	RADAR_DETECT_STRUCT	*pRadarDetect;
-#endif /* DFS_SUPPORT */
 
 
 	CFG80211DBG(RT_DEBUG_TRACE, ("crda> CFG80211_RegRuleApply ==>\n"));
@@ -1329,9 +1326,6 @@ VOID CFG80211_RegRuleApply(
 
 	/* 2.4GHZ & 5GHz */
 	RecId = 0;
-#ifdef DFS_SUPPORT
-	pRadarDetect = &pAd->CommonCfg.RadarDetect;
-#endif /* DFS_SUPPORT */
 
 	/* find the DfsType */
 	DfsType = CE;

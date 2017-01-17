@@ -2584,15 +2584,6 @@ typedef	union _QOS_CSR1_STRUC {
 #define SHAREDKEYTABLE			0
 #define PAIRWISEKEYTABLE		1
 
-#ifdef RTMP_MAC_USB
-#ifdef DFS_SUPPORT
-#define BBPR127TABLE_OWNERID			0x4CA0
-#define BBPR127TABLE_OFFSET				0x4D00
-#endif /* DFS_SUPPORT */
-#endif /* RTMP_MAC_USB */
-
-
-
 struct rtmp_adapter;
 
 INT get_pkt_phymode_by_rxwi(struct rtmp_adapter *pAd, RXWI_STRUC *rxwi);

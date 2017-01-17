@@ -598,11 +598,6 @@ DBGPRINT(RT_DEBUG_OFF, ("%s(): AP Set CentralFreq at %d(Prim=%d, HT-CentCh=%d, V
 	APMakeAllBssBeacon(pAd);
 	APUpdateAllBeaconFrame(pAd);
 
-#ifdef DFS_SUPPORT
-	if (IS_DOT11_H_RADAR_STATE(pAd, RD_SILENCE_MODE))
-		NewRadarDetectionStart(pAd);
-#endif /* DFS_SUPPORT */
-
 	if (pAd->Dot11_H.RDMode == RD_NORMAL_MODE)
 		AsicEnableBssSync(pAd);
 
@@ -674,10 +669,6 @@ VOID APStop(
 		ed_monitor_exit(pAd);
 	}
 #endif /* ED_MONITOR */
-
-#ifdef DFS_SUPPORT
-		NewRadarDetectionStop(pAd);
-#endif /* DFS_SUPPORT */
 
 #ifdef CONFIG_AP_SUPPORT
 #endif /* CONFIG_AP_SUPPORT */
