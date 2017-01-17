@@ -351,13 +351,6 @@ endif
 
 endif
 
-
-
-
-ifeq ($(HAS_CS_SUPPORT),y)
-WFLAGS += -DCARRIER_DETECTION_SUPPORT
-endif
-
 ifeq ($(HAS_STATS_COUNT),y)
 WFLAGS += -DSTATS_COUNT_SUPPORT
 endif
@@ -459,10 +452,6 @@ ifeq ($(HAS_IGMP_SNOOP_SUPPORT),y)
 WFLAGS += -DIGMP_SNOOP_SUPPORT
 endif
 
-ifeq ($(HAS_CS_SUPPORT),y)
-WFLAGS += -DCARRIER_DETECTION_SUPPORT
-endif
-
 ifeq ($(HAS_QOS_DLS_SUPPORT),y)
 WFLAGS += -DQOS_DLS_SUPPORT
 endif
@@ -493,11 +482,6 @@ endif
 
 ifeq ($(HAS_NEW_RATE_ADAPT_SUPPORT),y)
 WFLAGS += -DNEW_RATE_ADAPT_SUPPORT
-endif
-
-
-ifeq ($(HAS_CS_SUPPORT),y)
-WFLAGS += -DCARRIER_DETECTION_SUPPORT
 endif
 
 ifeq ($(HAS_STATS_COUNT),y)
@@ -739,11 +723,6 @@ endif
 ifeq ($(HAS_NEW_RATE_ADAPT_SUPPORT),y)
 obj_cmm += rate_ctrl/alg_grp.o
 endif
-
-ifeq ($(HAS_CS_SUPPORT),y)
-obj_cmm += common/cmm_cs.o
-endif
-
 
 #ifdef ANDES_FIRMWARE_SUPPORT
 ifeq ($(HAS_ANDES_FIRMWARE_SUPPORT),y)
