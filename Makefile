@@ -9,7 +9,6 @@ endif
 # rt3562(for rt3592), rt3050, rt3350, rt3352, rt5350, rt5370, rt5390, rt5572, rt5592,
 # rt8592(for rt85592),
 # mt7601e, mt7601u,
-# mt7620,
 # mt7650e, mt7630e, mt7610e, mt7650u, mt7630u, mt7610u
 # mt7662e, mt7632e, mt7612e, mt7662u, mt7632u, mt7612u
 
@@ -488,12 +487,6 @@ endif
 # ChipSet specific definitions.
 #
 #################################################
-
-#MT7620
-ifneq ($(findstring mt7620,$(CHIPSET)),)
-WFLAGS += -DRTMP_RBUS_SUPPORT -DRTMP_MAC_PCI -DRT6352 -DRTMP_RF_RW_SUPPORT -DRF_BANK -DRTMP_FLASH_SUPPORT -DCONFIG_SWMCU_SUPPORT -DSPECIFIC_BCN_BUF_SUPPORT -DVCORECAL_SUPPORT -DRESOURCE_PRE_ALLOC -DENHANCED_STAT_DISPLAY -DLOFT_IQ_CAL_SUPPORT -DRTMP_TEMPERATURE_CALIBRATION -DDYNAMIC_VGA_SUPPORT -DMCS_LUT_SUPPORT -DPEER_DELBA_TX_ADAPT -DENHANCE_ULTP
-endif
-## End of MT7620 ##
 
 # MT7650U
 ifneq ($(or $(findstring mt7650u,$(CHIPSET)),$(findstring mt7630u,$(CHIPSET)),$(findstring mt7610u,$(CHIPSET))),)
