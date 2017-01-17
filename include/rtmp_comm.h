@@ -227,11 +227,7 @@ extern ULONG OS_NumOfPktAlloc, OS_NumOfPktFree;
 /* ======================== Interface ======================================= */
 typedef enum _RTMP_INF_TYPE_
 {
-	RTMP_DEV_INF_UNKNOWN = 0,
-	RTMP_DEV_INF_PCI = 1,
 	RTMP_DEV_INF_USB = 2,
-	RTMP_DEV_INF_RBUS = 4,
-	RTMP_DEV_INF_PCIE = 5,
 }RTMP_INF_TYPE;
 
 #if defined(CONFIG_AP_SUPPORT) && defined(CONFIG_STA_SUPPORT)

@@ -81,9 +81,6 @@ UCHAR RtmpEepromGetDefault(
 	}
 #endif /* CONFIG_RT_SECOND_CARD */
 
-	if (pAd->infType == RTMP_DEV_INF_RBUS)
-		e2p_dafault = E2P_FLASH_MODE;
-	else
 		e2p_dafault = E2P_EFUSE_MODE;
 
 out:
@@ -110,12 +107,6 @@ INT RtmpChipOpsEepromHook(
 
 	/* If e2p_type is out of range, get the default mode */
 	e2p_type = ((e2p_type != 0) && (e2p_type < NUM_OF_E2P_MODE)) ? e2p_type : RtmpEepromGetDefault(pAd);
-
-	if (infType == RTMP_DEV_INF_RBUS)
-	{
-		e2p_type = E2P_FLASH_MODE;
-		pChipOps->loadFirmware = NULL;
-	}
 
 	pAd->E2pAccessMode = e2p_type;
 
