@@ -550,13 +550,6 @@ void announce_802_3_packet(
 	}
 
 
-#ifdef CONFIG_AP_SUPPORT
-#ifdef BG_FT_SUPPORT
-		if (BG_FTPH_PacketFromApHandle(pRxPkt) == 0)
-			return;
-#endif /* BG_FT_SUPPORT */
-#endif /* CONFIG_AP_SUPPORT */
-
 		RtmpOsPktProtocolAssign(pRxPkt);
 
 #if defined (CONFIG_WIFI_PKT_FWD)

@@ -558,13 +558,6 @@ VOID RTMPDrvOpen(struct rtmp_adapter *pAdSrc)
 
 	RTMP_SET_FLAG(pAd, fRTMP_ADAPTER_START_UP);
 
-#ifdef CONFIG_AP_SUPPORT
-#ifdef BG_FT_SUPPORT
-	BG_FTPH_Init();
-#endif /* BG_FT_SUPPORT */
-#endif /* CONFIG_AP_SUPPORT */
-
-
 //+++Add by shiang for debug
 	DBGPRINT(RT_DEBUG_OFF, ("%s(1):Check if PDMA is idle!\n", __FUNCTION__));
 	AsicWaitPDMAIdle(pAd, 5, 10);
@@ -665,13 +658,6 @@ VOID RTMPDrvClose(struct rtmp_adapter *pAd, struct net_device *net_dev)
 		}
 #endif /* CREDENTIAL_STORE */
 #endif /* CONFIG_STA_SUPPORT */
-
-#ifdef CONFIG_AP_SUPPORT
-#ifdef BG_FT_SUPPORT
-	BG_FTPH_Remove();
-#endif /* BG_FT_SUPPORT */
-#endif /* CONFIG_AP_SUPPORT */
-
 
 #ifdef CONFIG_STA_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
