@@ -7168,7 +7168,6 @@ INT Show_MacTable_Proc(struct rtmp_adapter *pAd, char *arg);
 INT Show_sta_tr_proc(struct rtmp_adapter *pAd, char *arg);
 INT show_stainfo_proc(struct rtmp_adapter *pAd, char *arg);
 INT show_devinfo_proc(struct rtmp_adapter *pAd, char *arg);
-INT show_sysinfo_proc(struct rtmp_adapter *pAd, char *arg);
 INT show_trinfo_proc(struct rtmp_adapter *pAd, char *arg);
 INT Show_TxInfo_Proc(struct rtmp_adapter *pAd, char *arg);
 
