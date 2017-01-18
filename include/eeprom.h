@@ -808,5 +808,5 @@ INT rtmp_ee_write_to_efuse(
 /*************************************************************************
   *	Public function declarations for prom operation callback functions setting
   ************************************************************************/
-INT RtmpChipOpsEepromHook(struct rtmp_adapter *pAd, INT infType);
+INT RtmpChipOpsEepromHook(struct rtmp_adapter *pAd);
 #endif /* __EEPROM_H__ */

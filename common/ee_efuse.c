@@ -1263,7 +1263,7 @@ INT eFuse_init(struct rtmp_adapter *pAd)
 		pAd->bUseEfuse = FALSE;
 
 		/* Forse to use BIN eeprom buffer mode */
-		RtmpChipOpsEepromHook(pAd, pAd->infType);
+		RtmpChipOpsEepromHook(pAd);
 
 #ifdef CAL_FREE_IC_SUPPORT
 		//pAd->bFroceEEPROMBuffer = TRUE;

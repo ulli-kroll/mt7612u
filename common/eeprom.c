@@ -37,31 +37,16 @@ struct chip_map chip_card_id_map[] ={
 };
 
 
-INT RtmpChipOpsEepromHook(
-	IN struct rtmp_adapter 	*pAd,
-	IN INT				infType)
+INT RtmpChipOpsEepromHook(struct rtmp_adapter *pAd)
 {
 	RTMP_CHIP_OP *pChipOps = &pAd->chipOps;
 	uint32_t val;
 
 
 	/* Hook functions based on interface types for EEPROM */
-	switch (infType)
-	{
+	pChipOps->eeinit = NULL;
+	pChipOps->eeread = RTUSBReadEEPROM16;
+	pChipOps->eewrite = RTUSBWriteEEPROM16;
 
-#ifdef RTMP_USB_SUPPORT
-		case RTMP_DEV_INF_USB:
-			pChipOps->eeinit = NULL;
-			pChipOps->eeread = RTUSBReadEEPROM16;
-			pChipOps->eewrite = RTUSBWriteEEPROM16;
-			break;
-#endif /* RTMP_USB_SUPPORT */
-
-		default:
-			DBGPRINT(RT_DEBUG_ERROR, ("%s::hook failed\n", __FUNCTION__));
-			break;
-	}
-
-	DBGPRINT(RT_DEBUG_OFF, ("NVM is EEPROM mode\n"));
 	return 0;
 }

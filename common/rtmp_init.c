@@ -3372,7 +3372,7 @@ static INT RtmpChipOpsRegister(struct rtmp_adapter *pAd, INT infType)
 	get_dev_config_idx(pAd);
 
 	/* set eeprom related hook functions */
-	ret = RtmpChipOpsEepromHook(pAd, infType);
+	ret = RtmpChipOpsEepromHook(pAd);
 
 	return ret;
 }
