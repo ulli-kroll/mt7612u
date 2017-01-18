@@ -1261,7 +1261,6 @@ INT eFuse_init(struct rtmp_adapter *pAd)
 		DBGPRINT(RT_DEBUG_OFF, ("Load EEPROM buffer from BIN, and force to use BIN buffer mode\n"));
 
 		pAd->bUseEfuse = FALSE;
-		result = rtmp_ee_load_from_bin(pAd);
 
 		/* Forse to use BIN eeprom buffer mode */
 		RtmpChipOpsEepromHook(pAd, pAd->infType);

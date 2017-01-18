@@ -806,35 +806,6 @@ INT rtmp_ee_write_to_efuse(
 #endif /* RTMP_EFUSE_SUPPORT */
 
 /*************************************************************************
-  *	Public function declarations for using BIN buffer mode to access eeprom contents
-  ************************************************************************/
-INT rtmp_ee_bin_read16(
-	IN struct rtmp_adapter *pAd,
-	IN USHORT 			Offset,
-	OUT USHORT 			*pValue);
-
-INT rtmp_ee_bin_write16(
-	IN struct rtmp_adapter *pAd,
-	IN USHORT 			Offset,
-	IN USHORT 			data);
-
-INT rtmp_ee_load_from_bin(
-	IN struct rtmp_adapter *pAd);
-
-INT rtmp_ee_write_to_bin(
-	IN struct rtmp_adapter *pAd);
-
-#ifdef RT65xx
-INT rtmp_ee_write_to_prom(
-	IN struct rtmp_adapter *pAd);
-#endif /* RT65xx */
-
-INT Set_EepromBufferWriteBack_Proc(
-	IN struct rtmp_adapter *pAd,
-	IN char *		arg);
-
-
-/*************************************************************************
   *	Public function declarations for prom operation callback functions setting
   ************************************************************************/
 INT RtmpChipOpsEepromHook(struct rtmp_adapter *pAd, INT infType);
