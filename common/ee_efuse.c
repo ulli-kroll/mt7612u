@@ -1065,17 +1065,6 @@ recoverFS:
 	return retval;
 }
 
-
-
-int rtmp_ee_efuse_read16(
-	IN struct rtmp_adapter *pAd,
-	IN USHORT Offset,
-	OUT USHORT *pValue)
-{
-	eFuseReadRegisters(pAd, Offset, 2, pValue);
-	return (*pValue);
-}
-
 VOID eFuseGetFreeBlockCount(IN struct rtmp_adapter *pAd,
 	PUINT EfuseFreeBlock)
 {

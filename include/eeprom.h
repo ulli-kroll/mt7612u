@@ -787,17 +787,6 @@ NTSTATUS RTUSBWriteEEPROM16(
 
 
 
-#ifdef RTMP_EFUSE_SUPPORT
-/*************************************************************************
-  *	Public function declarations for efuse-based chipset
-  ************************************************************************/
-int rtmp_ee_efuse_read16(
-	IN struct rtmp_adapter *pAd,
-	IN USHORT 			Offset,
-	OUT USHORT 			*pValue);
-
-
-#endif /* RTMP_EFUSE_SUPPORT */
 
 /*************************************************************************
   *	Public function declarations for prom operation callback functions setting
