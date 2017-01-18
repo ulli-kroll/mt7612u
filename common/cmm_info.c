@@ -5188,26 +5188,6 @@ INT Set_ETxBfIncapable_Proc(
 }
 
 /*
-	Set_ITxBfLNACal_Proc - Calculate ITxBf LNA Calibration parameters
-	usage: iwpriv ra0 set ITxBfLnaCal=dd
-			0=>display calibration parameters
-			1=>update EEPROM values
-			2=>update BBP R174
-			10=>display calibration parameters and dump capture data
-*/
-INT	Set_ITxBfLnaCal_Proc(
-	IN	struct rtmp_adapter *pAd,
-    IN  char *        arg)
-{
-	UCHAR channel = pAd->CommonCfg.Channel;
-	int calFunction;
-
-	calFunction = simple_strtol(arg, 0, 10);
-
-	return pAd->chipOps.fITxBfLNACalibration(pAd, calFunction, 0, channel<=14);
-}
-
-/*
 	Set_ETxBfEnCond_Proc - enable/disable ETxBF
 	usage: iwpriv ra0 set ETxBfEnCond=dd
 		0=>disable, 1=>enable
