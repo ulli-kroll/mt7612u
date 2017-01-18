@@ -6497,10 +6497,6 @@ INT set_eFusedump_Proc(
 	IN struct rtmp_adapter *pAd,
 	IN char *		arg);
 
-INT set_eFuseLoadFromBin_Proc(
-	IN struct rtmp_adapter *pAd,
-	IN char *		arg);
-
 UCHAR eFuseReadRegisters(
 	IN	struct rtmp_adapter *pAd,
 	IN	USHORT			Offset,
