@@ -7054,7 +7054,6 @@ INT	Set_ITxBfCal_Proc(struct rtmp_adapter *pAd, char *arg);
 INT	Set_ITxBfLnaCal_Proc(struct rtmp_adapter *pAd, char *arg);
 INT	Set_ETxBfEnCond_Proc(struct rtmp_adapter *pAd, char *arg);
 INT Set_ETxBfCodebook_Proc(struct rtmp_adapter *pAd, char *arg);
-INT Set_ETxBfCoefficient_Proc(struct rtmp_adapter *pAd, char *arg);
 INT Set_ETxBfNoncompress_Proc(struct rtmp_adapter *pAd, char *arg);
 INT Set_ETxBfIncapable_Proc(struct rtmp_adapter *pAd, char *arg);
 INT	Set_StaETxBfEnCond_Proc(struct rtmp_adapter *pAd, char *arg);
