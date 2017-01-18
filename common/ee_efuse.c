@@ -283,13 +283,6 @@ VOID eFuseGetFreeBlockCount(IN struct rtmp_adapter *pAd,
 	USHORT	LogicalAddress;
 	USHORT	FirstFreeBlock = 0xffff, LastFreeBlock = 0xffff;
 
-#ifndef CAL_FREE_IC_SUPPORT
-	if(!pAd->bUseEfuse)
-		{
-		DBGPRINT(RT_DEBUG_TRACE,("eFuseGetFreeBlockCount Only supports efuse Mode\n"));
-		return ;
-		}
-#endif /* CAL_FREE_IC_SUPPORT */
 	*EfuseFreeBlock = 0;
 	/* find first free block*/
 	if( (pAd->chipCap.EFUSE_USAGE_MAP_START % 2) != 0)
@@ -408,8 +401,6 @@ INT eFuse_init(struct rtmp_adapter *pAd)
 
 		DBGPRINT(RT_DEBUG_OFF, ("NVM is efuse and the information is too less to bring up the interface\n"));
 		DBGPRINT(RT_DEBUG_OFF, ("Load EEPROM buffer from BIN, and force to use BIN buffer mode\n"));
-
-		pAd->bUseEfuse = FALSE;
 
 		/* Forse to use BIN eeprom buffer mode */
 		RtmpChipOpsEepromHook(pAd);

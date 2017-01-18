@@ -3721,10 +3721,6 @@ struct rtmp_adapter {
 	BOOLEAN EepromAccess;
 	UCHAR EFuseTag;
 
-#ifdef RTMP_EFUSE_SUPPORT
-	BOOLEAN bUseEfuse;
-#endif /* RTMP_EFUSE_SUPPORT */
-
 	UCHAR EEPROMImage[MAX_EEPROM_BUFFER_SIZE];
 
 	EEPROM_ANTENNA_STRUC Antenna;	/* Since ANtenna definition is different for a & g. We need to save it for future reference. */

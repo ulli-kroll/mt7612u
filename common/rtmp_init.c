@@ -302,14 +302,6 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 
 	DBGPRINT(RT_DEBUG_TRACE, ("--> NICReadEEPROMParameters\n"));
 
-
-	if (pAd->chipOps.eeinit)
-	{
-		/* If we are run in Multicard mode, the eeinit shall execute in RTMP_CardInfoRead() */
-		pAd->chipOps.eeinit(pAd);
-
-	}
-
 	/* Read MAC setting from EEPROM and record as permanent MAC address */
 	DBGPRINT(RT_DEBUG_TRACE, ("Initialize MAC Address from E2PROM \n"));
 

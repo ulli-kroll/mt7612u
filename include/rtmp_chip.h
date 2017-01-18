@@ -836,7 +836,6 @@ struct _RTMP_CHIP_OP_ {
 	int (*sys_onoff)(struct rtmp_adapter *pAd, BOOLEAN on, BOOLEAN reser);
 
 	/*  Calibration access related callback functions */
-	int (*eeinit)(struct rtmp_adapter *pAd);
 	int (*eeread)(struct rtmp_adapter *pAd, USHORT offset, PUSHORT pValue);
 	int (*eewrite)(struct rtmp_adapter *pAd, USHORT offset, USHORT value);
 

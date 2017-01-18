@@ -4101,13 +4101,6 @@ VOID RTMPIoctlStatistics(struct rtmp_adapter *pAd, RTMP_IOCTL_INPUT_STRUCT *wrq)
 	sprintf(msg+strlen(msg), "\n");
 #endif
 
-#ifdef RTMP_EFUSE_SUPPORT
-	if (pAd->bUseEfuse == TRUE)
-	{
-		eFuseGetFreeBlockCount(pAd, &efusefreenum);
-		sprintf(msg+strlen(msg), "efuseFreeNumber                 = %d\n", efusefreenum);
-	}
-#endif /* RTMP_EFUSE_SUPPORT */
     /* Copy the information into the user buffer */
     wrq->u.data.length = strlen(msg);
     Status = copy_to_user(wrq->u.data.pointer, msg, wrq->u.data.length);
