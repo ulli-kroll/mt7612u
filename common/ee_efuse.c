@@ -937,32 +937,6 @@ INT set_eFuseGetFreeBlockCount_Proc(
 	return TRUE;
 }
 
-
-INT set_eFusedump_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg)
-{
-	USHORT InBuf[3];
-	INT i = 0;
-
-	if (pAd->bUseEfuse == FALSE)
-		return FALSE;
-
-	for (i = 0; i < pAd->chipCap.EFUSE_USAGE_MAP_END/2; i++)
-	{
-		InBuf[0] = 2*i;
-		InBuf[1] = 2;
-		InBuf[2] = 0x0;
-
-		eFuseReadPhysical(pAd, &InBuf[0], 4, &InBuf[2], 2);
-
-		if (i%4 == 0)
-			DBGPRINT(RT_DEBUG_OFF, ("\nBlock %x:", i/8));
-		DBGPRINT(RT_DEBUG_OFF, ("%04x ", InBuf[2]));
-	}
-	return TRUE;
-}
-
 VOID eFuseGetFreeBlockCount(IN struct rtmp_adapter *pAd,
 	PUINT EfuseFreeBlock)
 {
