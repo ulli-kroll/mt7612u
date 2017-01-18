@@ -3726,7 +3726,6 @@ struct rtmp_adapter {
 #endif /* RTMP_EFUSE_SUPPORT */
 
 	UCHAR EEPROMImage[MAX_EEPROM_BUFFER_SIZE];
-	UCHAR E2pAccessMode; /* Used to identify flash, efuse, eeprom or bin from start-up */
 
 	EEPROM_ANTENNA_STRUC Antenna;	/* Since ANtenna definition is different for a & g. We need to save it for future reference. */
 	EEPROM_NIC_CONFIG2_STRUC NicConfig2;

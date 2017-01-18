@@ -42,56 +42,8 @@ INT RtmpChipOpsEepromHook(
 	IN INT				infType)
 {
 	RTMP_CHIP_OP *pChipOps = &pAd->chipOps;
-	UCHAR e2p_type;
 	uint32_t val;
 
-	e2p_type = pAd->E2pAccessMode;
-
-	DBGPRINT(RT_DEBUG_OFF, ("%s::e2p_type=%d, inf_Type=%d\n", __FUNCTION__, e2p_type, infType));
-
-	if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST))
-		return -1;
-
-	/* If e2p_type is out of range, get the default mode */
-	e2p_type = ((e2p_type != 0) && (e2p_type < NUM_OF_E2P_MODE)) ?
-		    e2p_type : E2P_EFUSE_MODE;
-
-	pAd->E2pAccessMode = e2p_type;
-
-	switch (e2p_type)
-	{
-		case E2P_EEPROM_MODE:
-			break;
-		case E2P_BIN_MODE:
-		{
-			pChipOps->eeinit = rtmp_ee_load_from_bin;
-			pChipOps->eeread = rtmp_ee_bin_read16;
-			pChipOps->eewrite = rtmp_ee_bin_write16;
-			DBGPRINT(RT_DEBUG_OFF, ("NVM is BIN mode\n"));
-			return 0;
-		}
-
-#ifdef RTMP_EFUSE_SUPPORT
-		case E2P_EFUSE_MODE:
-		default:
-		{
-			efuse_probe(pAd);
-			if (pAd->bUseEfuse)
-			{
-				pChipOps->eeinit = eFuse_init;
-				pChipOps->eeread = rtmp_ee_efuse_read16;
-				pChipOps->eewrite = rtmp_ee_efuse_write16;
-				DBGPRINT(RT_DEBUG_OFF, ("NVM is EFUSE mode\n"));
-				return 0;
-			}
-			else
-			{
-				DBGPRINT(RT_DEBUG_ERROR, ("%s::hook efuse mode failed\n", __FUNCTION__));
-				break;
-			}
-		}
-#endif /* RTMP_EFUSE_SUPPORT */
-	}
 
 	/* Hook functions based on interface types for EEPROM */
 	switch (infType)

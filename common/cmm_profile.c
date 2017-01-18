@@ -2567,13 +2567,6 @@ int RTMPSetProfileParameters(
 			DBGPRINT(RT_DEBUG_TRACE, ("CountryRegionABand=%d\n", pAd->CommonCfg.CountryRegionForABand));
 		}
 
-		/* E2pAccessMode */
-		if (RTMPGetKeyParameter("E2pAccessMode", tmpbuf, 25, pBuffer, TRUE))
-		{
-			pAd->E2pAccessMode = (UCHAR) simple_strtol(tmpbuf, 0, 10);
-			DBGPRINT(RT_DEBUG_OFF, ("E2pAccessMode=%d\n", pAd->E2pAccessMode));
-		}
-
 		/*CountryCode*/
 		if (pAd->CommonCfg.bCountryFlag == 0)
 		{

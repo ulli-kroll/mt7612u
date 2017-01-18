@@ -1264,7 +1264,6 @@ INT eFuse_init(struct rtmp_adapter *pAd)
 		result = rtmp_ee_load_from_bin(pAd);
 
 		/* Forse to use BIN eeprom buffer mode */
-		pAd->E2pAccessMode = E2P_BIN_MODE;
 		RtmpChipOpsEepromHook(pAd, pAd->infType);
 
 #ifdef CAL_FREE_IC_SUPPORT
