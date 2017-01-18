@@ -5077,30 +5077,6 @@ INT	Set_InvTxBfTag_Proc(
 }
 
 
-
-
-/*
-	Set_ETxBfCodebook_Proc - Set ETxBf Codebook
-	usage: iwpriv ra0 set ETxBfCodebook=0 to 3
-*/
-INT Set_ETxBfCodebook_Proc(
-    IN  struct rtmp_adapter *  pAd,
-    IN  char *        arg)
-{
-	TX_TXBF_CFG_0_STRUC regValue;
-	ULONG t = simple_strtol(arg, 0, 10);
-
-	if (t > 3) {
-		DBGPRINT(RT_DEBUG_ERROR, ("Set_ETxBfCodebook_Proc: value > 3!\n"));
-		return FALSE;
-	}
-
-	RTMP_IO_READ32(pAd, TX_TXBF_CFG_0, &regValue.word);
-	regValue.field.EtxbfFbkCode = t;
-	RTMP_IO_WRITE32(pAd, TX_TXBF_CFG_0, regValue.word);
-	return TRUE;
-}
-
 /*
 	Set_ETxBfNoncompress_Proc - Set ETxBf Noncompress option
 		usage: iwpriv ra0 set ETxBfNoncompress=0 or 1
