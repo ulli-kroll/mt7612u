@@ -3239,7 +3239,6 @@ static const RTMP_CHIP_OP MT76x2_ChipOp = {
 #ifdef TXBF_SUPPORT
 	.fITxBfDividerCalibration = ITxBFDividerCalibrationStartUp,
 	.fITxBfLNAPhaseCompensate = mt76x2_ITxBFLoadLNAComp,
-	.fITxBfCal = mt76x2_Set_ITxBfCal_Proc,
 	.fITxBfLNACalibration = ITxBFLNACalibrationStartUp,
 #endif
 

@@ -842,7 +842,6 @@ struct _RTMP_CHIP_OP_ {
 	/* ITxBf calibration */
 	int (*fITxBfDividerCalibration)(struct rtmp_adapter *pAd, int calFunction, int calMethod, UCHAR *divPhase);
 	void (*fITxBfLNAPhaseCompensate)(struct rtmp_adapter *pAd);
-	int (*fITxBfCal)(struct rtmp_adapter *pAd, char *arg);
 	int (*fITxBfLNACalibration)(struct rtmp_adapter *pAd, int calFunction, int calMethod, BOOLEAN gBand);
 
 	/* MCU related callback functions */
