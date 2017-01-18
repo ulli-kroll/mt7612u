@@ -442,28 +442,5 @@ INT eFuse_init(struct rtmp_adapter *pAd)
 }
 
 
-INT efuse_probe(struct rtmp_adapter *pAd)
-{
-	uint32_t eFuseCtrl, ctrl_reg;
-
-
-	if (WaitForAsicReady(pAd) == FALSE)
-		return -1;
-
-	pAd->bUseEfuse=FALSE;
-#ifdef RT65xx
-	// TODO: shiang-6590, find a better naming for EFUSE_CTRL_3290!!
-	if (IS_RT65XX(pAd))
-		ctrl_reg = EFUSE_CTRL_3290;
-	else
-#endif /* RT65xx */
-		ctrl_reg = EFUSE_CTRL;
-	RTMP_IO_READ32(pAd, ctrl_reg, &eFuseCtrl);
-	pAd->bUseEfuse = ( (eFuseCtrl & 0x80000000) == 0x80000000) ? 1 : 0;
-
-	return 0;
-}
-
-
 #endif /* RTMP_EFUSE_SUPPORT */
 
