@@ -7049,7 +7049,6 @@ INT	Set_StatETxBf_Proc(struct rtmp_adapter *pAd, char *arg);
 INT	Set_TxBfTag_Proc(struct rtmp_adapter *pAd, char *arg);
 INT Set_ITxBfTimeout_Proc(struct rtmp_adapter *pAd, char *arg);
 INT Set_ETxBfTimeout_Proc(struct rtmp_adapter *pAd, char *arg);
-INT	Set_InvTxBfTag_Proc(struct rtmp_adapter *pAd, char *arg);
 INT	Set_ITxBfCal_Proc(struct rtmp_adapter *pAd, char *arg);
 INT	Set_ITxBfLnaCal_Proc(struct rtmp_adapter *pAd, char *arg);
 INT	Set_ETxBfEnCond_Proc(struct rtmp_adapter *pAd, char *arg);
