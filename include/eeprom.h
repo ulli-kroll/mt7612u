@@ -796,10 +796,6 @@ int rtmp_ee_efuse_read16(
 	IN USHORT 			Offset,
 	OUT USHORT 			*pValue);
 
-int rtmp_ee_efuse_write16(
-	IN struct rtmp_adapter *pAd,
-	IN USHORT 			Offset,
-	IN USHORT 			data);
 
 #endif /* RTMP_EFUSE_SUPPORT */
 

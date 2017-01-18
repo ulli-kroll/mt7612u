@@ -1077,15 +1077,6 @@ int rtmp_ee_efuse_read16(
 }
 
 
-int rtmp_ee_efuse_write16(
-	IN struct rtmp_adapter *pAd,
-	IN USHORT Offset,
-	IN USHORT data)
-{
-	eFuseWrite(pAd,Offset ,&data, 2);
-	return 0;
-}
-
 int RtmpEfuseSupportCheck(
 	IN struct rtmp_adapter *pAd)
 {
