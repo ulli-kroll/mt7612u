@@ -849,10 +849,6 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 		mt76x2_get_external_lna_gain(pAd);
 #endif /* MT76x2 */
 
-#ifdef RTMP_EFUSE_SUPPORT
-	RtmpEfuseSupportCheck(pAd);
-#endif /* RTMP_EFUSE_SUPPORT */
-
 #ifdef RTMP_INTERNAL_TX_ALC
 #ifdef RT65xx
 	if (IS_MT76x0(pAd) || IS_MT76x2(pAd))

@@ -1076,15 +1076,6 @@ int rtmp_ee_efuse_read16(
 	return (*pValue);
 }
 
-
-int RtmpEfuseSupportCheck(
-	IN struct rtmp_adapter *pAd)
-{
-	USHORT value;
-
-	return 0;
-}
-
 VOID eFuseGetFreeBlockCount(IN struct rtmp_adapter *pAd,
 	PUINT EfuseFreeBlock)
 {
