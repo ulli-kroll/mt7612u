@@ -5124,30 +5124,6 @@ INT Set_ETxBfCoefficient_Proc(
 	return TRUE;
 }
 
-
-/*
-	Set_ETxBfGrouping_Proc - Set ETxBf Grouping
-		usage: iwpriv ra0 set ETxBfGrouping=0 to 2
-*/
-INT Set_ETxBfGrouping_Proc(
-    IN  struct rtmp_adapter *  pAd,
-    IN  char *        arg)
-{
-	TX_TXBF_CFG_0_STRUC regValue;
-	ULONG t = simple_strtol(arg, 0, 10);
-
-	if (t > 2) {
-		DBGPRINT(RT_DEBUG_ERROR, ("Set_ETxBfGrouping_Proc: value > 2!\n"));
-		return FALSE;
-	}
-
-	RTMP_IO_READ32(pAd, TX_TXBF_CFG_0, &regValue.word);
-	regValue.field.EtxbfFbkNg = t;
-	RTMP_IO_WRITE32(pAd, TX_TXBF_CFG_0, regValue.word);
-	return TRUE;
-}
-
-
 /*
 	Set_ETxBfNoncompress_Proc - Set ETxBf Noncompress option
 		usage: iwpriv ra0 set ETxBfNoncompress=0 or 1
