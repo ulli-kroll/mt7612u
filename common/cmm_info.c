@@ -5187,28 +5187,6 @@ INT Set_ETxBfIncapable_Proc(
 	return TRUE;
 }
 
-
-/*
-	Set_ITxBfDivCal_Proc - Calculate ITxBf Divider Calibration parameters
-	usage: iwpriv ra0 set ITxBfDivCal=dd
-			0=>display calibration parameters
-			1=>update EEPROM values
-			2=>update BBP R176
-			10=>display calibration parameters and dump capture data
-			11=>Skip divider calibration, just capture and dump capture data
-*/
-INT	Set_ITxBfDivCal_Proc(
-	IN	struct rtmp_adapter *pAd,
-    IN  char *        arg)
-{
-	int calFunction;
-
-	calFunction = simple_strtol(arg, 0, 10);
-
-	return pAd->chipOps.fITxBfDividerCalibration(pAd, calFunction, 0, NULL);
-}
-
-
 /*
 	Set_ITxBfLNACal_Proc - Calculate ITxBf LNA Calibration parameters
 	usage: iwpriv ra0 set ITxBfLnaCal=dd
