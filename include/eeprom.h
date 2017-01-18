@@ -801,8 +801,6 @@ int rtmp_ee_efuse_write16(
 	IN USHORT 			Offset,
 	IN USHORT 			data);
 
-INT rtmp_ee_write_to_efuse(
-	IN struct rtmp_adapter *pAd);
 #endif /* RTMP_EFUSE_SUPPORT */
 
 /*************************************************************************

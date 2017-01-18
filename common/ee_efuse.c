@@ -1094,38 +1094,6 @@ int RtmpEfuseSupportCheck(
 	return 0;
 }
 
-INT rtmp_ee_write_to_efuse(
-	IN struct rtmp_adapter *	pAd)
-{
-	USHORT	length = pAd->chipCap.EEPROM_DEFAULT_BIN_SIZE;
-	UCHAR	*ptr = pAd->EEPROMImage;
-	UCHAR	index;
-	UCHAR	all_ff[16] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
-	USHORT offset = 0;
-	USHORT value;
-
-	for ( offset = 0 ; offset < length ; offset += 16 )
-	{
-		if ( memcmp( ptr, all_ff, 16 ) )
-		{
-			DBGPRINT(RT_DEBUG_TRACE, ("offset 0x%04x: ", offset));
-			for ( index = 0 ; index < 16 ; index += 2 )
-			{
-				value = *(USHORT *)(ptr + index);
-				eFuseWrite(pAd, offset + index ,&value, 2);
-				DBGPRINT(RT_DEBUG_TRACE, ("0x%04x ", value));
-			}
-			DBGPRINT(RT_DEBUG_TRACE, ("\n"));
-		}
-
-		ptr += 16;
-	}
-
-	return TRUE;
-
-}
-
-
 VOID eFuseGetFreeBlockCount(IN struct rtmp_adapter *pAd,
 	PUINT EfuseFreeBlock)
 {
