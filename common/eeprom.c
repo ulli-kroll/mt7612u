@@ -37,20 +37,6 @@ struct chip_map chip_card_id_map[] ={
 };
 
 
-UCHAR RtmpEepromGetDefault(
-	IN struct rtmp_adapter 	*pAd)
-{
-	UCHAR e2p_dafault = 0;
-
-		e2p_dafault = E2P_EFUSE_MODE;
-
-out:
-	DBGPRINT(RT_DEBUG_OFF, ("%s::e2p_dafault=%d\n", __FUNCTION__, e2p_dafault));
-	return e2p_dafault;
-}
-
-
-
 INT RtmpChipOpsEepromHook(
 	IN struct rtmp_adapter 	*pAd,
 	IN INT				infType)
@@ -67,7 +53,8 @@ INT RtmpChipOpsEepromHook(
 		return -1;
 
 	/* If e2p_type is out of range, get the default mode */
-	e2p_type = ((e2p_type != 0) && (e2p_type < NUM_OF_E2P_MODE)) ? e2p_type : RtmpEepromGetDefault(pAd);
+	e2p_type = ((e2p_type != 0) && (e2p_type < NUM_OF_E2P_MODE)) ?
+		    e2p_type : E2P_EFUSE_MODE;
 
 	pAd->E2pAccessMode = e2p_type;
 
