@@ -142,14 +142,6 @@ struct dev_type_name_map{
 #define xdef_to_str(s)   def_to_str(s)
 #define def_to_str(s)    #s
 
-#define FIRST_EEPROM_FILE_PATH	"/etc_ro/Wireless/RT2860/"
-#define FIRST_AP_PROFILE_PATH		"/etc/Wireless/RT2860/RT2860.dat"
-#define FIRST_CHIP_ID	xdef_to_str(CONFIG_RT_FIRST_CARD)
-
-#define SECOND_EEPROM_FILE_PATH	"/etc_ro/Wireless/iNIC/"
-#define SECOND_AP_PROFILE_PATH	"/etc/Wireless/iNIC/iNIC_ap.dat"
-#define SECOND_CHIP_ID	xdef_to_str(CONFIG_RT_SECOND_CARD)
-
 static struct dev_type_name_map prefix_map[] =
 {
 	{INT_MAIN, 		{INF_MAIN_DEV_NAME, SECOND_INF_MAIN_DEV_NAME}},
@@ -182,26 +174,6 @@ static int probe_cnt = 1;
 VOID get_dev_config_idx(struct rtmp_adapter *pAd)
 {
 	INT idx = 0;
-#if defined(CONFIG_RT_FIRST_CARD) && defined(CONFIG_RT_SECOND_CARD)
-	INT first_card = 0, second_card = 0;
-
-	A2Hex(first_card, FIRST_CHIP_ID);
-	A2Hex(second_card, SECOND_CHIP_ID);
-	DBGPRINT(RT_DEBUG_TRACE, ("chip_id1=0x%x, chip_id2=0x%x, pAd->MACVersion=0x%x\n", first_card, second_card, pAd->MACVersion));
-
-//	if ((pAd->MACVersion & chip_id) == CONFIG_RT_SECOND_CARD)
-//		pAd->flash_offset = SECOND_RF_OFFSET;
-
-	if ((first_card == second_card) || IS_MT76x2(pAd)) {
-		idx = probe_cnt;
-		probe_cnt--;
-	} else {
-		if (IS_RT8592(pAd))
-			idx = 0;
-		else if (IS_RT5392(pAd) || IS_MT76x0(pAd))
-			idx = 1;
-	}
-#endif /* defined(CONFIG_RT_FIRST_CARD) && defined(CONFIG_RT_SECOND_CARD) */
 
 	pAd->dev_idx = idx;
 }
