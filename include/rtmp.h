@@ -6521,12 +6521,6 @@ NTSTATUS eFuseRead(
 	OUT	PUSHORT			pData,
 	IN USHORT			Length);
 
-NTSTATUS eFuseWrite(
-   	IN struct rtmp_adapter *pAd,
-	IN USHORT			Offset,
-	IN PUSHORT			pData,
-	IN USHORT			length);
-
 #endif /* RTMP_EFUSE_SUPPORT */
 
 

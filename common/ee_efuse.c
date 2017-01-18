@@ -864,65 +864,6 @@ static VOID eFuseWritePhysical(
 
 ========================================================================
 */
-NTSTATUS eFuseWrite(
-   	IN	struct rtmp_adapter *pAd,
-	IN	USHORT			Offset,
-	IN	PUSHORT			pData,
-	IN	USHORT			length)
-{
-	int i;
-	USHORT* pValueX = (PUSHORT) pData;				/*value ...		*/
-	PUSHORT OddWriteByteBuf;
-
-/*	OddWriteByteBuf=(PUSHORT)kmalloc(sizeof(USHORT)*2, MEM_ALLOC_FLAG);*/
-	OddWriteByteBuf = kmalloc(sizeof(USHORT)*2, GFP_ATOMIC);
-	/* The input value=3070 will be stored as following*/
-	/* Little-endian		S	|	S	Big-endian*/
-	/* addr			1	0	|	0	1	*/
-	/* Ori-V			30	70	|	30	70	*/
-	/* After swapping*/
-	/*				30	70	|	70	30*/
-	/* Casting*/
-	/*				3070	|	7030 (x)*/
-	/* The swapping should be removed for big-endian*/
-	if (OddWriteByteBuf == NULL)
-		return FALSE;
-	if((Offset%2)!=0)
-	{
-		length+=2;
-		Offset-=1;
-		eFuseRead(pAd,Offset,OddWriteByteBuf,2);
-		eFuseRead(pAd,Offset+2,(OddWriteByteBuf+1),2);
-		*OddWriteByteBuf&=0x00ff;
-		*OddWriteByteBuf|=((*pData)&0xff)<<8;
-		*(OddWriteByteBuf+1)&=0xff00;
-		*(OddWriteByteBuf+1)|=(*pData&0xff00)>>8;
-		pValueX=OddWriteByteBuf;
-
-	}
-
-	for(i=0; i<length; i+=2)
-	{
-		eFuseWriteRegisters(pAd, Offset+i, 2, &pValueX[i/2]);
-	}
-	kfree(OddWriteByteBuf);
-	return TRUE;
-}
-
-
-/*
-========================================================================
-
-	Routine Description:
-
-	Arguments:
-
-	Return Value:
-
-	Note:
-
-========================================================================
-*/
 INT set_eFuseGetFreeBlockCount_Proc(
    	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg)
