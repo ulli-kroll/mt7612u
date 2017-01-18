@@ -348,36 +348,6 @@ VOID eFuseReadPhysical(
 
 ========================================================================
 */
-NTSTATUS eFuseRead(
-	IN	struct rtmp_adapter *pAd,
-	IN	USHORT			Offset,
-	OUT	PUSHORT			pData,
-	IN	USHORT			Length)
-{
-	NTSTATUS Status = STATUS_SUCCESS;
-	UCHAR	EFSROM_AOUT;
-	int	i;
-
-	for(i=0; i<Length; i+=2)
-	{
-		EFSROM_AOUT = eFuseReadRegisters(pAd, Offset+i, 2, &pData[i/2]);
-	}
-	return Status;
-}
-
-/*
-========================================================================
-
-	Routine Description:
-
-	Arguments:
-
-	Return Value:
-
-	Note:
-
-========================================================================
-*/
 static VOID eFusePhysicalWriteRegisters(
 	IN	struct rtmp_adapter *pAd,
 	IN	USHORT Offset,

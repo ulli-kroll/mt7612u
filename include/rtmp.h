@@ -6515,12 +6515,6 @@ INT eFuse_init(
 INT efuse_probe(
 	IN struct rtmp_adapter 	*pAd);
 
-NTSTATUS eFuseRead(
-	IN struct rtmp_adapter *pAd,
-	IN USHORT			Offset,
-	OUT	PUSHORT			pData,
-	IN USHORT			Length);
-
 #endif /* RTMP_EFUSE_SUPPORT */
 
 
