@@ -75,13 +75,6 @@ typedef	union	_EFUSE_CTRL_STRUC {
 }	EFUSE_CTRL_STRUC, *PEFUSE_CTRL_STRUC;
 #endif /* RT_BIG_ENDIAN */
 
-VOID eFuseReadPhysical(
-	IN	struct rtmp_adapter *pAd,
-  	IN	PUSHORT lpInBuffer,
-  	IN	ULONG nInBufferSize,
-  	OUT	PUSHORT lpOutBuffer,
-  	IN	ULONG nOutBufferSize);
-
 static VOID eFusePhysicalWriteRegisters(
 	IN	struct rtmp_adapter *pAd,
 	IN	USHORT Offset,
@@ -308,40 +301,6 @@ VOID eFusePhysicalReadRegisters(
 
 ========================================================================
 */
-VOID eFuseReadPhysical(
-	IN	struct rtmp_adapter *pAd,
-  	IN	PUSHORT lpInBuffer,
-  	IN	ULONG nInBufferSize,
-  	OUT	PUSHORT lpOutBuffer,
-  	IN	ULONG nOutBufferSize
-)
-{
-	USHORT* pInBuf = (USHORT*)lpInBuffer;
-	USHORT* pOutBuf = (USHORT*)lpOutBuffer;
-
-	USHORT Offset = pInBuf[0];					/*addr*/
-	USHORT Length = pInBuf[1];					/*length*/
-	int 		i;
-
-	for(i=0; i<Length; i+=2)
-	{
-		eFusePhysicalReadRegisters(pAd,Offset+i, 2, &pOutBuf[i/2]);
-	}
-}
-
-/*
-========================================================================
-
-	Routine Description:
-
-	Arguments:
-
-	Return Value:
-
-	Note:
-
-========================================================================
-*/
 static VOID eFusePhysicalWriteRegisters(
 	IN	struct rtmp_adapter *pAd,
 	IN	USHORT Offset,
@@ -540,34 +499,6 @@ static VOID eFuseWritePhysical(
 #endif /* MT76x2 */
 
 	}
-}
-
-
-/*
-========================================================================
-
-	Routine Description:
-
-	Arguments:
-
-	Return Value:
-
-	Note:
-
-========================================================================
-*/
-INT set_eFuseGetFreeBlockCount_Proc(
-   	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg)
-{
-	UINT free_num = 0;
-
-	if (pAd->bUseEfuse == FALSE)
-		return FALSE;
-
-	eFuseGetFreeBlockCount(pAd, &free_num);
-	DBGPRINT(RT_DEBUG_OFF, ("efuseFreeNumber = %d\n", free_num));
-	return TRUE;
 }
 
 VOID eFuseGetFreeBlockCount(IN struct rtmp_adapter *pAd,

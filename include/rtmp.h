@@ -6489,9 +6489,6 @@ VOID AsicSetRxAnt(
 	IN UCHAR			Ant);
 
 #ifdef RTMP_EFUSE_SUPPORT
-INT set_eFuseGetFreeBlockCount_Proc(
-   	IN struct rtmp_adapter *pAd,
-	IN char *		arg);
 
 UCHAR eFuseReadRegisters(
 	IN	struct rtmp_adapter *pAd,
