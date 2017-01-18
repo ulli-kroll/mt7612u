@@ -81,13 +81,6 @@ static VOID eFusePhysicalWriteRegisters(
 	IN	USHORT Length,
 	OUT	USHORT* pData);
 
-static VOID eFuseWritePhysical(
-	IN	struct rtmp_adapter *pAd,
-  	PUSHORT lpInBuffer,
-	ULONG nInBufferSize,
-  	u8 *lpOutBuffer,
-  	ULONG nOutBufferSize);
-
 static NTSTATUS eFuseWriteRegistersFromBin(
 	IN	struct rtmp_adapter *pAd,
 	IN	USHORT Offset,
@@ -420,84 +413,6 @@ static VOID eFusePhysicalWriteRegisters(
 
 		RtmpusecDelay(2);
 		i++;
-	}
-}
-
-/*
-========================================================================
-
-	Routine Description:
-
-	Arguments:
-
-	Return Value:
-
-	Note:
-
-========================================================================
-*/
-static VOID eFuseWritePhysical(
-	IN	struct rtmp_adapter *pAd,
-  	PUSHORT lpInBuffer,
-	ULONG nInBufferSize,
-  	u8 *lpOutBuffer,
-  	ULONG nOutBufferSize
-)
-{
-	USHORT* pInBuf = (USHORT*)lpInBuffer;
-	int 		i;
-	/*USHORT* pOutBuf = (USHORT*)ioBuffer;*/
-	USHORT Offset = pInBuf[0];					/* addr*/
-	USHORT Length = pInBuf[1];					/* length*/
-	USHORT* pValueX = &pInBuf[2];				/* value ...		*/
-
-#ifdef MT76x2
-	uint32_t MacReg0x14c = 0, MacReg0x24 = 0;
-#endif /* MT76x2 */
-
-	DBGPRINT(RT_DEBUG_TRACE, ("eFuseWritePhysical Offset=0x%x, length=%d\n", Offset, Length));
-
-	{
-
-#ifdef MT76x2
-	if ( IS_MT76x2(pAd) )
-	{
-		uint32_t MacValue;
-
-		RTMP_IO_READ32(pAd, CLK_ENABLE,  &MacValue);
-		MacReg0x14c = MacValue;
-		MacValue |= 0x2000000;
-		RTMP_IO_WRITE32(pAd, CLK_ENABLE, MacValue);
-
-		RTMP_IO_READ32(pAd, 0x24,  &MacValue);
-		MacReg0x24 = MacValue;
-		MacValue |= 0xC000;
-		MacValue &= ~0x3F00;
-		MacValue |= 0x800;
-		RTMP_IO_WRITE32(pAd, 0x24, MacValue);
-	}
-#endif /* MT76x2 */
-
-		/* Little-endian		S	|	S	Big-endian*/
-		/* addr	3	2	1	0	|	0	1	2	3*/
-		/* Ori-V	D	C	B	A	|	A	B	C	D*/
-		/* After swapping*/
-		/*		D	C	B	A	|	D	C	B	A*/
-		/* Both the little and big-endian use the same sequence to write  data.*/
-		/* Therefore, we only need swap data when read the data.*/
-		for (i=0; i<Length; i+=2)
-		{
-			eFusePhysicalWriteRegisters(pAd, Offset+i, 2, &pValueX[i/2]);
-		}
-
-#ifdef MT76x2
-		if ( IS_MT76x2(pAd) )
-		{
-			RTMP_IO_WRITE32(pAd, CLK_ENABLE, MacReg0x14c);
-			RTMP_IO_WRITE32(pAd, 0x24, MacReg0x24);
-		}
-#endif /* MT76x2 */
-
 	}
 }
 
