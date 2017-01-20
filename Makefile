@@ -476,43 +476,6 @@ endif
 #
 #################################################
 
-# MT7650U
-ifneq ($(or $(findstring mt7650u,$(CHIPSET)),$(findstring mt7630u,$(CHIPSET)),$(findstring mt7610u,$(CHIPSET))),)
-HAS_RLT_BBP=y
-HAS_RLT_MAC=y
-HAS_RLT_RF=y
-
-WFLAGS += -DMT76x0 -DRT65xx -DRLT_MAC -DRLT_BBP -DRLT_RF -DRTMP_MAC_USB -DRTMP_USB_SUPPORT -DRTMP_TIMER_TASK_SUPPORT
-WFLAGS += -DA_BAND_SUPPORT -DRX_DMA_SCATTER -DRTMP_EFUSE_SUPPORT -DNEW_MBSSID_MODE -DCONFIG_ANDES_SUPPORT
-
-ifneq ($(findstring mt7650u,$(CHIPSET)),)
-WFLAGS += -DMT7650
-endif
-
-ifneq ($(findstring mt7630u,$(CHIPSET)),)
-WFLAGS += -DMT7630
-endif
-
-ifneq ($(findstring mt7610u,$(CHIPSET)),)
-WFLAGS += -DMT7610
-endif
-
-ifneq ($(findstring $(RT28xx_MODE),AP),)
-#WFLAGS += -DSPECIFIC_BCN_BUF_SUPPORT
-endif
-
-ifeq ($(HAS_CSO_SUPPORT), y)
-WFLAGS += -DCONFIG_CSO_SUPPORT
-ifeq ($(HAS_TSO_SUPPORT), y)
-WFLAGS += -DCONFIG_TSO_SUPPORT -DTX_PKT_SG
-endif
-endif
-
-endif
-## End of MT7650U ##
-
-# MT7662U
-ifneq ($(or $(findstring mt7662u,$(CHIPSET)),$(findstring mt7662u,$(CHIPSET))),)
 WFLAGS += -DMT76x2 -DRT65xx -DRLT_MAC -DRLT_BBP -DMT_RF -DRTMP_MAC_USB -DRTMP_USB_SUPPORT -DRTMP_TIMER_TASK_SUPPORT -DA_BAND_SUPPORT -DRTMP_EFUSE_SUPPORT -DNEW_MBSSID_MODE -DCONFIG_ANDES_SUPPORT -DRTMP_RF_RW_SUPPORT -DDYNAMIC_VGA_SUPPORT
 HAS_NEW_RATE_ADAPT_SUPPORT=y
 ifeq ($(HAS_NEW_RATE_ADAPT_SUPPORT),y)
@@ -522,14 +485,6 @@ WFLAGS += -DFIFO_EXT_SUPPORT
 HAS_RLT_BBP=y
 HAS_RLT_MAC=y
 
-ifneq ($(findstring mt7662u,$(CHIPSET)),)
-WFLAGS += -DMT7662
-endif
-
-ifneq ($(findstring mt7612u,$(CHIPSET)),)
-WFLAGS += -DMT7612
-endif
-
 ifeq ($(HAS_CSO_SUPPORT), y)
 WFLAGS += -DCONFIG_CSO_SUPPORT -DCONFIG_TSO_SUPPORT
 endif
@@ -537,10 +492,6 @@ endif
 ifneq ($(findstring $(RT28xx_MODE),STA APSTA),)
 WFLAGS += -DRTMP_FREQ_CALIBRATION_SUPPORT
 endif
-
-CHIPSET_DAT = 2870
-endif
-## End of 7662U ##
 
 #################################################
 # Platform Related definitions
@@ -886,7 +837,6 @@ endif
 
 #chip releated
 
-ifneq ($(or $(findstring mt7662u,$(CHIPSET)),$(findstring mt7612u,$(CHIPSET))),)
 $(MOD_NAME)-objs += \
 	common/cmm_mac_usb.o\
 	common/cmm_data_usb.o\
@@ -927,8 +877,6 @@ $(MOD_NAME)-objs += \
         common/frq_cal.o
 endif
 
-endif
-#endif // MT76x2 //
 
 # Declare the contents of the .PHONY variable as phony.  We keep that
 # information in a variable so we can use it in if_changed and friends.
