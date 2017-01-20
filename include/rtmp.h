@@ -2991,14 +2991,6 @@ typedef enum _RT_GREEN_AP_LEVEL {
 /* ----------- end of AP ---------------------------- */
 #endif /* CONFIG_AP_SUPPORT */
 
-#ifdef BLOCK_NET_IF
-typedef struct _BLOCK_QUEUE_ENTRY {
-	BOOLEAN SwTxQueueBlockFlag;
-	LIST_HEADER NetIfList;
-} BLOCK_QUEUE_ENTRY, *PBLOCK_QUEUE_ENTRY;
-#endif /* BLOCK_NET_IF */
-
-
 struct wificonf {
 	BOOLEAN bShortGI;
 	BOOLEAN bGreenField;
@@ -4069,10 +4061,6 @@ struct rtmp_adapter {
 
 	VOID *iw_stats;
 	VOID *stats;
-
-#ifdef BLOCK_NET_IF
-	BLOCK_QUEUE_ENTRY blockQueueTab[NUM_OF_TX_RING];
-#endif /* BLOCK_NET_IF */
 
 #ifdef CONFIG_AP_SUPPORT
 #endif /* CONFIG_AP_SUPPORT */

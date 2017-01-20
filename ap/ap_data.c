@@ -331,9 +331,6 @@ INT APSendPacket(struct rtmp_adapter *pAd, struct sk_buff *pPacket)
 
 		if (pAd->TxSwQueue[QueIdx].Number >= pAd->TxSwQMaxLen)
 		{
-#ifdef BLOCK_NET_IF
-			StopNetIfQueue(pAd, QueIdx, pPacket);
-#endif /* BLOCK_NET_IF */
 			RELEASE_NDIS_PACKET(pAd, pPacket, NDIS_STATUS_FAILURE);
 			return NDIS_STATUS_FAILURE;
 		}
@@ -392,9 +389,6 @@ INT APSendPacket(struct rtmp_adapter *pAd, struct sk_buff *pPacket)
 			if (pAd->TxSwQueue[QueIdx].Number >= pAd->TxSwQMaxLen)
 			{
 				{
-#ifdef BLOCK_NET_IF
-					StopNetIfQueue(pAd, QueIdx, pPacket);
-#endif /* BLOCK_NET_IF */
 					RELEASE_NDIS_PACKET(pAd, pPacket, NDIS_STATUS_FAILURE);
 
 					return NDIS_STATUS_FAILURE;

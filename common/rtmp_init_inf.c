@@ -129,10 +129,6 @@ int rt28xx_init(struct rtmp_adapter *pAd)
 
 	CfgInitHook(pAd);
 
-#ifdef BLOCK_NET_IF
-	initblockQueueTab(pAd);
-#endif /* BLOCK_NET_IF */
-
 	Status = MeasureReqTabInit(pAd);
 	if (Status != NDIS_STATUS_SUCCESS)
 	{

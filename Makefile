@@ -30,9 +30,6 @@ HAS_WPA_SUPPLICANT=y
 # i.e. wpa_supplicant -Dwext
 HAS_NATIVE_WPA_SUPPLICANT_SUPPORT=n
 
-#Support Net interface block while Tx-Sw queue full
-HAS_BLOCK_NET_IF=n
-
 # Support ED CCA monitor
 HAS_ED_MONITOR_SUPPORT=n
 
@@ -498,10 +495,6 @@ endif
 #
 #################################################
 
-ifeq ($(HAS_BLOCK_NET_IF),y)
-WFLAGS += -DBLOCK_NET_IF
-endif
-
 EXTRA_CFLAGS := $(WFLAGS)
 
 #RT28xx_DIR = home directory of RT28xx source code
@@ -586,10 +579,6 @@ obj_mac += mac/ral_nmac.o
 endif
 
 obj_cmm += $(obj_phy) $(obj_mac)
-
-ifeq ($(HAS_BLOCK_NET_IF),y)
-obj_cmm += common/netif_block.o
-endif
 
 ifeq ($(HAS_NEW_RATE_ADAPT_SUPPORT),y)
 obj_cmm += rate_ctrl/alg_grp.o

@@ -1332,9 +1332,6 @@ INT STASendPacket(struct rtmp_adapter *pAd, struct sk_buff *pPacket)
 		RTMP_IRQ_LOCK(&pAd->irq_lock, IrqFlags);
 		if (pAd->TxSwQueue[QueIdx].Number >= pAd->TxSwQMaxLen) {
 			RTMP_IRQ_UNLOCK(&pAd->irq_lock, IrqFlags);
-#ifdef BLOCK_NET_IF
-			StopNetIfQueue(pAd, QueIdx, pPacket);
-#endif /* BLOCK_NET_IF */
 			RELEASE_NDIS_PACKET(pAd, pPacket, NDIS_STATUS_FAILURE);
 
 			return NDIS_STATUS_FAILURE;

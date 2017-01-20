@@ -94,10 +94,6 @@
 #include "sta.h"
 #endif /* CONFIG_STA_SUPPORT */
 
-#ifdef BLOCK_NET_IF
-#include "netif_block.h"
-#endif /* BLOCK_NET_IF */
-
 #if defined(AP_WSC_INCLUDED) || defined(STA_WSC_INCLUDED)
 #define WSC_INCLUDED
 #endif
