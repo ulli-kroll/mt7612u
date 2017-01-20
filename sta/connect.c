@@ -167,7 +167,6 @@ VOID MlmeCntlMachinePerformAction(
 #endif /* RT_CFG80211_SUPPORT */
 
 
-#ifdef DOT11N_DRAFT3
 			/* AP sent a 2040Coexistence mgmt frame, then station perform a scan, and then send back the respone. */
 			if ((pAd->CommonCfg.BSSCoexist2040.field.InfoReq == 1)
 			    && INFRA_ON(pAd)
@@ -175,7 +174,6 @@ VOID MlmeCntlMachinePerformAction(
 				Update2040CoexistFrameAndNotify(pAd, BSSID_WCID,
 								TRUE);
 			}
-#endif /* DOT11N_DRAFT3 */
 
 #ifdef WPA_SUPPLICANT_SUPPORT
 			if ( pAd->StaCfg.bAutoReconnect == TRUE &&
@@ -1902,7 +1900,6 @@ VOID LinkUp(struct rtmp_adapter *pAd, UCHAR BssType)
 
 
 #ifdef DOT11_N_SUPPORT
-#ifdef DOT11N_DRAFT3
 	if (INFRA_ON(pAd)) {
 		if ((pAd->CommonCfg.bBssCoexEnable == TRUE)
 		    && (pAd->CommonCfg.Channel <= 14)
@@ -1927,7 +1924,6 @@ VOID LinkUp(struct rtmp_adapter *pAd, UCHAR BssType)
 				  pAd->MlmeAux.ExtCapInfo.BssCoexistMgmtSupport));
 		}
 	}
-#endif /* DOT11N_DRAFT3 */
 #endif /* DOT11_N_SUPPORT */
 
 #ifdef WPA_SUPPLICANT_SUPPORT
@@ -2216,14 +2212,12 @@ VOID LinkDown(
 #endif /* DOT11_N_SUPPORT */
 
 #ifdef DOT11_N_SUPPORT
-#ifdef DOT11N_DRAFT3
 	OPSTATUS_CLEAR_FLAG(pAd, fOP_STATUS_SCAN_2040);
 	pAd->CommonCfg.BSSCoexist2040.word = 0;
 	TriEventInit(pAd);
 	for (i = 0; i < (pAd->ChannelListNum - 1); i++) {
 		pAd->ChannelList[i].bEffectedChannel = FALSE;
 	}
-#endif /* DOT11N_DRAFT3 */
 #endif /* DOT11_N_SUPPORT */
 
 	RTMP_IO_WRITE32(pAd, MAX_LEN_CFG, 0x1fff);

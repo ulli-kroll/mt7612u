@@ -120,7 +120,6 @@ static VOID QBSS_LoadAlarm(
 
 	/* check if we have already been 20M bandwidth */
 #ifdef DOT11_N_SUPPORT
-#ifdef DOT11N_DRAFT3
 	if ((pAd->CommonCfg.AddHTInfo.AddHtInfo.ExtChanOffset != 0) &&
 		(pAd->CommonCfg.AddHTInfo.AddHtInfo.RecomWidth != 0))
 	{
@@ -203,7 +202,6 @@ static VOID QBSS_LoadAlarm(
 		QBSS_LoadAlarmResume(pAd);
 	}
 	else
-#endif /* DOT11N_DRAFT3 */
 #endif /* DOT11_N_SUPPORT */
 	{
 		/* we are in 20MHz bandwidth so try to switch channel */

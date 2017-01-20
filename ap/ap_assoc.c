@@ -66,10 +66,8 @@ static void ap_assoc_info_debugshow(
 
 
 		DBGPRINT(RT_DEBUG_TRACE, ("\tExt Cap Info: \n"));
-#ifdef DOT11N_DRAFT3
 		DBGPRINT(RT_DEBUG_TRACE, ("\t\tBss2040CoexistMgmt=%d\n",
 				pEntry->BSS2040CoexistenceMgmtSupport));
-#endif /* DOT11N_DRAFT3 */
 #ifdef DOT11_VHT_AC
 		DBGPRINT(RT_DEBUG_TRACE, ("\t\tOperatinModeNotification(%d)\n",
 				pEntry->ext_cap.operating_mode_notification));
@@ -222,16 +220,13 @@ static USHORT update_associated_mac_entry(
 	{
 		ht_mode_adjust(pAd, pEntry, &ie_list->HTCapability, &pAd->CommonCfg.DesiredHtPhy);
 
-#ifdef DOT11N_DRAFT3
 		if (ie_list->ExtCapInfo.BssCoexistMgmtSupport)
 			pEntry->BSS2040CoexistenceMgmtSupport = 1;
-#endif /* DOT11N_DRAFT3 */
 
 
 		/* 40Mhz BSS Width Trigger events */
 		if (ie_list->HTCapability.HtCapInfo.Forty_Mhz_Intolerant)
 		{
-#ifdef DOT11N_DRAFT3
 			pEntry->bForty_Mhz_Intolerant = TRUE;
 			pAd->MacTab.fAnyStaFortyIntolerant = TRUE;
 			if(((pAd->CommonCfg.HtCapability.HtCapInfo.ChannelWidth == BW_40) &&
@@ -247,7 +242,6 @@ static USHORT update_associated_mac_entry(
 				pAd->CommonCfg.Bss2040CoexistFlag |= BSS_2040_COEXIST_INFO_SYNC;
 			}
 			DBGPRINT(RT_DEBUG_TRACE, ("pEntry set 40MHz Intolerant as 1\n"));
-#endif /* DOT11N_DRAFT3 */
 			Handle_BSS_Width_Trigger_Events(pAd);
 		}
 
@@ -1067,7 +1061,6 @@ SendAssocResponse:
 			FrameLen += TmpLen;
 		}
 
-#ifdef DOT11N_DRAFT3
 	 	/* P802.11n_D3.03, 7.3.2.60 Overlapping BSS Scan Parameters IE */
 	 	if (WMODE_CAP_N(pAd->CommonCfg.PhyMode) &&
 			(pAd->CommonCfg.HtCapability.HtCapInfo.ChannelWidth == 1))
@@ -1094,7 +1087,6 @@ SendAssocResponse:
 
 			FrameLen += TmpLen;
 	 	}
-#endif /* DOT11N_DRAFT3 */
 
 #ifdef DOT11_VHT_AC
 		if (WMODE_CAP_AC(pAd->CommonCfg.PhyMode) &&
@@ -1121,7 +1113,6 @@ SendAssocResponse:
 		memset(&extCapInfo, 0, extInfoLen);
 
 #ifdef DOT11_N_SUPPORT
-#ifdef DOT11N_DRAFT3
 		/* P802.11n_D1.10, HT Information Exchange Support */
 		if (WMODE_CAP_N(pAd->CommonCfg.PhyMode)
 			&& (pAd->CommonCfg.Channel <= 14)
@@ -1130,7 +1121,6 @@ SendAssocResponse:
 		{
 			extCapInfo.BssCoexistMgmtSupport = 1;
 		}
-#endif /* DOT11N_DRAFT3 */
 #endif /* DOT11_N_SUPPORT */
 
 

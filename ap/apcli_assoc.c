@@ -305,7 +305,6 @@ static VOID ApCliMlmeAssocReqAction(
 #endif /* DOT11_VHT_AC */
 		}
 
-#ifdef DOT11N_DRAFT3
 		{
 			ULONG TmpLen;
 			EXT_CAP_INFO_ELEMENT extCapInfo;
@@ -339,7 +338,6 @@ static VOID ApCliMlmeAssocReqAction(
 			FrameLen += TmpLen;
 		}
 
-#endif /* DOT11N_DRAFT3 */
 #endif /* DOT11_N_SUPPORT */
 
 #ifdef AGGREGATION_SUPPORT

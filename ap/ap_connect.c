@@ -579,7 +579,6 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 #endif
 		FrameLen += TmpLen;
 
-#ifdef DOT11N_DRAFT3
 	 	/*
 			P802.11n_D3.03, 7.3.2.60 Overlapping BSS Scan Parameters IE
 		*/
@@ -608,7 +607,6 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 
 			FrameLen += TmpLen;
 	 	}
-#endif /* DOT11N_DRAFT3 */
 
 
 #ifdef DOT11_VHT_AC
@@ -634,7 +632,6 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 		memset(&extCapInfo, 0, extInfoLen);
 
 #ifdef DOT11_N_SUPPORT
-#ifdef DOT11N_DRAFT3
 		/* P802.11n_D1.10, HT Information Exchange Support */
 		if (WMODE_CAP_N(PhyMode) && (pComCfg->Channel <= 14) &&
 			(pMbss->wdev.DesiredHtPhyInfo.bHtEnable) &&
@@ -643,7 +640,6 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 		{
 			extCapInfo.BssCoexistMgmtSupport = 1;
 		}
-#endif /* DOT11N_DRAFT3 */
 #endif /* DOT11_N_SUPPORT */
 
 
@@ -1087,9 +1083,7 @@ VOID APUpdateAllBeaconFrame(struct rtmp_adapter *pAd)
 {
 	INT		i;
 #ifdef DOT11_N_SUPPORT
-#ifdef DOT11N_DRAFT3
 	BOOLEAN FlgQloadIsAlarmIssued = FALSE;
-#endif /* DOT11N_DRAFT3 */
 #endif /* DOT11_N_SUPPORT */
 
 	if (pAd->ApCfg.DtimCount == 0)
@@ -1097,7 +1091,6 @@ VOID APUpdateAllBeaconFrame(struct rtmp_adapter *pAd)
 	else
 		pAd->ApCfg.DtimCount -= 1;
 #ifdef DOT11_N_SUPPORT
-#ifdef DOT11N_DRAFT3
 	/* QLOAD ALARM */
 #ifdef AP_QLOAD_SUPPORT
 	FlgQloadIsAlarmIssued = QBSS_LoadIsAlarmIssued(pAd);
@@ -1135,7 +1128,6 @@ VOID APUpdateAllBeaconFrame(struct rtmp_adapter *pAd)
 				prevBW, prevExtChOffset));
 		pAd->CommonCfg.Bss2040CoexistFlag |= BSS_2040_COEXIST_INFO_NOTIFY;
 	}
-#endif /* DOT11N_DRAFT3 */
 #endif /* DOT11_N_SUPPORT */
 
 	for(i=0; i<pAd->ApCfg.BssidNum; i++)

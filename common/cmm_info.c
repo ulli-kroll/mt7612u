@@ -3067,7 +3067,6 @@ INT	Set_HtMimoPs_Proc(
 }
 
 
-#ifdef DOT11N_DRAFT3
 INT Set_HT_BssCoex_Proc(
 	IN	struct rtmp_adapter *	pAd,
 	IN	char *			pParam)
@@ -3104,7 +3103,6 @@ INT Set_HT_BssCoexApCntThr_Proc(
 
 	return TRUE;
 }
-#endif /* DOT11N_DRAFT3 */
 
 #endif /* DOT11_N_SUPPORT */
 
@@ -6316,10 +6314,8 @@ void assoc_ht_info_debugshow(
 			pEntry->MaxRAmpduFactor, pEntry->MpduDensity,
 			pEntry->MmpsMode, pEntry->AMsduSize));
 
-#ifdef DOT11N_DRAFT3
 		DBGPRINT(RT_DEBUG_TRACE, ("\tExt Cap Info: \n"));
 		DBGPRINT(RT_DEBUG_TRACE, ("\t\tBss2040CoexistMgmt=%d\n", pEntry->BSS2040CoexistenceMgmtSupport));
-#endif /* DOT11N_DRAFT3 */
 	}
 }
 

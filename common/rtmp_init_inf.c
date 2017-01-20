@@ -361,7 +361,6 @@ int rt28xx_init(struct rtmp_adapter *pAd)
 			/* If WMODE_CAP_N(phymode) and BW=40 check extension channel, after select channel  */
 			N_ChannelCheck(pAd);
 
-#ifdef DOT11N_DRAFT3
         		/*
          			We only do this Overlapping BSS Scan when system up, for the
 				other situation of channel changing, we depends on station's
@@ -382,7 +381,6 @@ int rt28xx_init(struct rtmp_adapter *pAd)
 
 			RTMP_11N_D3_TimerInit(pAd);
 /*			RTMPInitTimer(pAd, &pAd->CommonCfg.Bss2040CoexistTimer, GET_TIMER_FUNCTION(Bss2040CoexistTimeOut), pAd, FALSE);*/
-#endif /* DOT11N_DRAFT3 */
 #endif /* DOT11_N_SUPPORT */
 
 
@@ -703,13 +701,11 @@ VOID RTMPDrvClose(struct rtmp_adapter *pAd, struct net_device *net_dev)
 		RTMPCancelTimer(&pAd->CommonCfg.BeaconUpdateTimer, &Cancelled);
 #endif /* RTMP_MAC_USB */
 
-#ifdef DOT11N_DRAFT3
 		if (pAd->CommonCfg.Bss2040CoexistFlag & BSS_2040_COEXIST_TIMER_FIRED)
 		{
 			RTMPCancelTimer(&pAd->CommonCfg.Bss2040CoexistTimer, &Cancelled);
 			pAd->CommonCfg.Bss2040CoexistFlag  = 0;
 		}
-#endif /* DOT11N_DRAFT3 */
 
 		/* PeriodicTimer already been canceled by MlmeHalt() API.*/
 		/*RTMPCancelTimer(&pAd->PeriodicTimer,	&Cancelled);*/

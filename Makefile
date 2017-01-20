@@ -39,9 +39,6 @@ HAS_MC_SUPPORT=n
 #Support for PCI-MSI
 HAS_MSI_SUPPORT=n
 
-#Support features of 802.11n Draft3
-HAS_DOT11N_DRAFT3_SUPPORT=y
-
 #Support features of 802.11n
 HAS_DOT11_N_SUPPORT=y
 
@@ -194,10 +191,6 @@ endif
 ifeq ($(HAS_DOT11_N_SUPPORT),y)
 WFLAGS += -DDOT11_N_SUPPORT
 
-ifeq ($(HAS_DOT11N_DRAFT3_SUPPORT),y)
-WFLAGS += -DDOT11N_DRAFT3
-endif
-
 ifeq ($(HAS_TXBF_SUPPORT),y)
 WFLAGS += -DTXBF_SUPPORT
 endif
@@ -285,10 +278,6 @@ endif
 
 ifeq ($(HAS_DOT11_N_SUPPORT),y)
 WFLAGS += -DDOT11_N_SUPPORT
-
-ifeq ($(HAS_DOT11N_DRAFT3_SUPPORT),y)
-WFLAGS += -DDOT11N_DRAFT3
-endif
 
 ifeq ($(HAS_TXBF_SUPPORT),y)
 WFLAGS += -DTXBF_SUPPORT
@@ -410,10 +399,6 @@ endif
 
 ifeq ($(HAS_DOT11_N_SUPPORT),y)
 WFLAGS += -DDOT11_N_SUPPORT
-endif
-
-ifeq ($(HAS_DOT11N_DRAFT3_SUPPORT),y)
-WFLAGS += -DDOT11N_DRAFT3
 endif
 
 ifeq ($(HAS_TXBF_SUPPORT),y)

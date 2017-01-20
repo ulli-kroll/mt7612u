@@ -2168,7 +2168,6 @@ SKIP_AUTO_SCAN_CONN:
 #endif /* P2P_SUPPORT || RT_CFG80211_P2P_CONCURRENT_DEVICE */
 
 #ifdef DOT11_N_SUPPORT
-#ifdef DOT11N_DRAFT3
 	/* Perform 20/40 BSS COEX scan every Dot11BssWidthTriggerScanInt	*/
 	if ((OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_SCAN_2040)) &&
 		(pAd->CommonCfg.Dot11BssWidthTriggerScanInt != 0) &&
@@ -2198,7 +2197,6 @@ SKIP_AUTO_SCAN_CONN:
 							pAd->RalinkCounters.LastOneSecTotalTxCount,
 							pAd->RalinkCounters.LastOneSecRxOkDataCnt));
 	}
-#endif /* DOT11N_DRAFT3 */
 #endif /* DOT11_N_SUPPORT */
 
 	return;
@@ -3865,7 +3863,6 @@ ULONG BssTableSetEntry(
 
 #if defined(CONFIG_STA_SUPPORT) || defined(APCLI_SUPPORT)
 #ifdef DOT11_N_SUPPORT
-#ifdef DOT11N_DRAFT3
 VOID  TriEventInit(struct rtmp_adapter *pAd)
 {
 	UCHAR i;
@@ -3937,7 +3934,6 @@ INT TriEventTableSetEntry(
 
 	return 0;
 }
-#endif /* DOT11N_DRAFT3 */
 #endif /* DOT11_N_SUPPORT */
 #endif /* defined(CONFIG_STA_SUPPORT) || defined(APCLI_SUPPORT) */
 

@@ -450,17 +450,13 @@ static VOID ApCliPeerProbeRspAtJoinAction(
 #ifdef APCLI_CERT_SUPPORT
 			/*  Get the ext capability info element */
 			if (pAd->bApCliCertTest == TRUE
-#ifdef DOT11N_DRAFT3
 				&& pAd->CommonCfg.bBssCoexEnable == TRUE
-#endif /* DOT11N_DRAFT3 */
 				)
 			{
 				memmove(&pApCliEntry->MlmeAux.ExtCapInfo, &ie_list->ExtCapInfo,sizeof(ie_list->ExtCapInfo));
 #ifdef DOT11_N_SUPPORT
-#ifdef DOT11N_DRAFT3
 				DBGPRINT(RT_DEBUG_TRACE, ("\x1b[31m ApCliMlmeAux.ExtCapInfo=%d \x1b[m\n", pApCliEntry->MlmeAux.ExtCapInfo.BssCoexistMgmtSupport)); //zero debug 210121122
 					pAd->CommonCfg.ExtCapIE.BssCoexistMgmtSupport = 1;
-#endif /* DOT11N_DRAFT3 */
 #endif /* DOT11_N_SUPPORT */
 			}
 #endif /* APCLI_CERT_SUPPORT */

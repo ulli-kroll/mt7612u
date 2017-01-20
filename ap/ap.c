@@ -812,9 +812,7 @@ VOID MacTableMaintenance(struct rtmp_adapter *pAd)
 	pMacTable->fAnyStationIsHT=FALSE;
 #endif /* GREENAP_SUPPORT */
 
-#ifdef DOT11N_DRAFT3
 	pMacTable->fAnyStaFortyIntolerant = FALSE;
-#endif /* DOT11N_DRAFT3 */
 	pMacTable->fAllStationGainGoodMCS = TRUE;
 #endif /* DOT11_N_SUPPORT */
 
@@ -892,10 +890,8 @@ VOID MacTableMaintenance(struct rtmp_adapter *pAd)
 			pMacTable->fAnyStationIsHT=TRUE;
 #endif /* GREENAP_SUPPORT */
 
-#ifdef DOT11N_DRAFT3
 		if (pEntry->bForty_Mhz_Intolerant)
 			pMacTable->fAnyStaFortyIntolerant = TRUE;
-#endif /* DOT11N_DRAFT3 */
 
 		/* Get minimum AMPDU size from STA */
 		if (MinimumAMPDUSize > pEntry->MaxRAmpduFactor)
@@ -1118,7 +1114,6 @@ VOID MacTableMaintenance(struct rtmp_adapter *pAd)
 		if (pEntry->PortSecured == WPA_802_1X_PORT_SECURED)
 			fAnyStationPortSecured[pEntry->apidx]++;
 #ifdef DOT11_N_SUPPORT
-#ifdef DOT11N_DRAFT3
 		if ((pEntry->BSS2040CoexistenceMgmtSupport)
 			&& (pAd->CommonCfg.Bss2040CoexistFlag & BSS_2040_COEXIST_INFO_NOTIFY)
 			&& (pAd->CommonCfg.bBssCoexEnable == TRUE)
@@ -1126,7 +1121,6 @@ VOID MacTableMaintenance(struct rtmp_adapter *pAd)
 		{
 			SendNotifyBWActionFrame(pAd, pEntry->wcid, pEntry->apidx);
 		}
-#endif /* DOT11N_DRAFT3 */
 #endif /* DOT11_N_SUPPORT */
 
 #if defined(PRE_ANT_SWITCH) || defined(CFO_TRACK)
@@ -1203,10 +1197,8 @@ VOID MacTableMaintenance(struct rtmp_adapter *pAd)
 #endif /* ED_MONITOR */
 
 #ifdef DOT11_N_SUPPORT
-#ifdef DOT11N_DRAFT3
 	if (pAd->CommonCfg.Bss2040CoexistFlag & BSS_2040_COEXIST_INFO_NOTIFY)
 		pAd->CommonCfg.Bss2040CoexistFlag &= (~BSS_2040_COEXIST_INFO_NOTIFY);
-#endif /* DOT11N_DRAFT3 */
 
 	/* If all associated STAs are Ralink-chipset, AP shall enable RDG. */
 	if (pAd->CommonCfg.bRdg && pMacTable->fAllStationAsRalink)
@@ -1752,7 +1744,6 @@ VOID ApUpdateAccessControlList(struct rtmp_adapter *pAd, UCHAR Apidx)
 
 
 #ifdef DOT11_N_SUPPORT
-#ifdef DOT11N_DRAFT3
 /*
 	Depends on the 802.11n Draft 4.0, Before the HT AP start a BSS, it should scan some specific channels to
 collect information of existing BSSs, then depens on the collected channel information, adjust the primary channel
@@ -2099,7 +2090,6 @@ VOID APOverlappingBSSScan(struct rtmp_adapter *pAd)
 
 	return;
 }
-#endif /* DOT11N_DRAFT3 */
 #endif /* DOT11_N_SUPPORT */
 
 #ifdef DOT1X_SUPPORT

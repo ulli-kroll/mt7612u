@@ -314,7 +314,6 @@ UCHAR NextChannel(struct rtmp_adapter *pAd, UCHAR channel)
 		if (channel == pAd->ChannelList[i].Channel)
 		{
 #ifdef DOT11_N_SUPPORT
-#ifdef DOT11N_DRAFT3
 			/* Only scan effected channel if this is a SCAN_2040_BSS_COEXIST*/
 			/* 2009 PF#2: Nee to handle the second channel of AP fall into affected channel range.*/
 			if ((pAd->MlmeAux.ScanType == SCAN_2040_BSS_COEXIST) && (pAd->ChannelList[i+1].Channel >14))
@@ -323,7 +322,6 @@ UCHAR NextChannel(struct rtmp_adapter *pAd, UCHAR channel)
 				continue;
 			}
 			else
-#endif /* DOT11N_DRAFT3 */
 #endif /* DOT11_N_SUPPORT */
 			{
 				/* Record this channel's idx in ChannelList array.*/

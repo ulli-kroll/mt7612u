@@ -1406,7 +1406,6 @@ static VOID ApCliCtrlScanDoneAction(
 	IN MLME_QUEUE_ELEM *Elem)
 {
 
-#ifdef DOT11N_DRAFT3
 	USHORT ifIndex = (USHORT)(Elem->Priv);
 	UCHAR i;
 	/* AP sent a 2040Coexistence mgmt frame, then station perform a scan, and then send back the respone. */
@@ -1421,7 +1420,6 @@ static VOID ApCliCtrlScanDoneAction(
 			}
 		}
 	}
-#endif /* DOT11N_DRAFT3 */
 }
 #endif /* APCLI_CERT_SUPPORT */
 

@@ -897,20 +897,16 @@ typedef struct _BBP_R66_TUNING {
 
 
 #ifdef DOT11_N_SUPPORT
-#ifdef DOT11N_DRAFT3
 #define EFFECTED_CH_SECONDARY 0x1
 #define EFFECTED_CH_PRIMARY	0x2
 #define EFFECTED_CH_LEGACY		0x4
-#endif /* DOT11N_DRAFT3 */
 #endif /* DOT11_N_SUPPORT */
 
 /* structure to store channel TX power */
 typedef struct _CHANNEL_TX_POWER {
 	USHORT RemainingTimeForUse;	/*unit: sec */
 	UCHAR Channel;
-#ifdef DOT11N_DRAFT3
 	BOOLEAN bEffectedChannel;	/* For BW 40 operating in 2.4GHz , the "effected channel" is the channel that is covered in 40Mhz. */
-#endif /* DOT11N_DRAFT3 */
 	CHAR Power;
 	CHAR Power2;
 #ifdef DOT11N_SS3_SUPPORT
@@ -1219,7 +1215,6 @@ typedef struct {
 	BOOLEAN bAllTid;	/* If True, delete all TID for BA sessions with this MACaddr. */
 } OID_ADD_BA_ENTRY, *POID_ADD_BA_ENTRY;
 
-#ifdef DOT11N_DRAFT3
 typedef enum _BSS2040COEXIST_FLAG {
 	BSS_2040_COEXIST_DISABLE = 0,
 	BSS_2040_COEXIST_TIMER_FIRED = 1,
@@ -1233,7 +1228,6 @@ typedef struct _BssCoexChRange_ {
 	UCHAR effectChStart;
 	UCHAR effectChEnd;
 } BSS_COEX_CH_RANGE;
-#endif /* DOT11N_DRAFT3 */
 
 #define IS_VHT_STA(_pMacEntry)	(_pMacEntry->MaxHTPhyMode.field.MODE == MODE_VHT)
 #define IS_HT_STA(_pMacEntry)	\
@@ -1766,7 +1760,6 @@ typedef struct _COMMON_CONFIG {
 
 	EXT_CAP_INFO_ELEMENT ExtCapIE;	/* this is the extened capibility IE appreed in MGMT frames. Doesn't need to update once set in Init. */
 
-#ifdef DOT11N_DRAFT3
 	BOOLEAN bBssCoexEnable;
 	/*
 	   Following two paramters now only used for the initial scan operation. the AP only do
@@ -1801,7 +1794,6 @@ typedef struct _COMMON_CONFIG {
 
 	BOOLEAN bOverlapScanning;
 	BOOLEAN bBssCoexNotify;
-#endif /* DOT11N_DRAFT3 */
 
 	BOOLEAN bHTProtect;
 	BOOLEAN bMIMOPSEnable;
@@ -2167,9 +2159,7 @@ typedef struct _STA_ADMIN_CONFIG {
 	BOOLEAN bForceTxBurst;	/* 1: force enble TX PACKET BURST, 0: disable */
 	BOOLEAN bAutoConnectIfNoSSID;
 #ifdef DOT11_N_SUPPORT
-#ifdef DOT11N_DRAFT3
 	UCHAR RegClass;		/*IE_SUPP_REG_CLASS: 2009 PF#3: For 20/40 Intolerant Channel Report */
-#endif /* DOT11N_DRAFT3 */
 	BOOLEAN bAdhocN;
 #endif /* DOT11_N_SUPPORT */
 	BOOLEAN bAdhocCreator;	/*TRUE indicates divice is Creator. */
@@ -2602,10 +2592,8 @@ typedef struct _MAC_TABLE_ENTRY {
 	UCHAR AMsduSize;
 	UCHAR MmpsMode;		/* MIMO power save mode. */
 
-#ifdef DOT11N_DRAFT3
 	UCHAR BSS2040CoexistenceMgmtSupport;
 	BOOLEAN bForty_Mhz_Intolerant;
-#endif /* DOT11N_DRAFT3 */
 
 #ifdef DOT11_VHT_AC
 	VHT_CAP_IE vht_cap_ie;
@@ -5090,7 +5078,6 @@ VOID SendRefreshBAR(
 	IN	struct rtmp_adapter *pAd,
 	IN	MAC_TABLE_ENTRY	*pEntry);
 
-#ifdef DOT11N_DRAFT3
 VOID RTMP_11N_D3_TimerInit(
 	IN struct rtmp_adapter *pAd);
 
@@ -5134,7 +5121,6 @@ VOID Send2040CoexistAction(
 VOID UpdateBssScanParm(
 	IN struct rtmp_adapter *pAd,
 	IN OVERLAP_BSS_SCAN_IE APBssScan);
-#endif /* DOT11N_DRAFT3 */
 
 INT AsicSetRalinkBurstMode(struct rtmp_adapter *pAd, BOOLEAN enable);
 #endif /* DOT11_N_SUPPORT */
@@ -5635,7 +5621,6 @@ VOID BATableInsertEntry(
 	IN UCHAR OriginatorStatus,
     IN BOOLEAN IsRecipient);
 
-#ifdef DOT11N_DRAFT3
 VOID Bss2040CoexistTimeOut(
 	IN PVOID SystemSpecific1,
 	IN PVOID FunctionContext,
@@ -5655,7 +5640,6 @@ INT TriEventTableSetEntry(
 	IN UCHAR			RegClass,
 	IN UCHAR ChannelNo);
 
-#endif /* DOT11N_DRAFT3 */
 #endif /* DOT11_N_SUPPORT */
 
 VOID BssTableSsidSort(
@@ -6212,14 +6196,12 @@ BOOLEAN PeerBeaconAndProbeRspSanity(
 
 
 #ifdef DOT11_N_SUPPORT
-#ifdef DOT11N_DRAFT3
 BOOLEAN PeerBeaconAndProbeRspSanity2(
 	IN struct rtmp_adapter *pAd,
 	IN VOID *Msg,
 	IN ULONG MsgLen,
 	IN OVERLAP_BSS_SCAN_IE *BssScan,
 	OUT UCHAR 	*RegClass);
-#endif /* DOT11N_DRAFT3 */
 #endif /* DOT11_N_SUPPORT */
 
 BOOLEAN PeerAddBAReqActionSanity(
@@ -6734,7 +6716,6 @@ CHAR    ConvertToRssi(
 
 CHAR ConvertToSnr(struct rtmp_adapter *pAd, UCHAR Snr);
 
-#ifdef DOT11N_DRAFT3
 VOID BuildEffectedChannelList(
 	IN struct rtmp_adapter *pAd);
 
@@ -6748,7 +6729,6 @@ VOID CntlChannelWidth(
 	IN UCHAR			ChannelWidth,
 	IN UCHAR			SecondaryChannelOffset);
 
-#endif /* DOT11N_DRAFT3 */
 
 
 VOID APAsicEvaluateRxAnt(
@@ -7182,10 +7162,8 @@ INT	Set_HtAutoBa_Proc(struct rtmp_adapter *pAd, char *arg);
 INT	Set_HtProtect_Proc(struct rtmp_adapter *pAd, char *arg);
 INT	Set_HtMimoPs_Proc(struct rtmp_adapter *pAd, char *arg);
 
-#ifdef DOT11N_DRAFT3
 INT Set_HT_BssCoex_Proc(struct rtmp_adapter *pAd, char *arg);
 INT Set_HT_BssCoexApCntThr_Proc(struct rtmp_adapter *pAd, char *arg);
-#endif /* DOT11N_DRAFT3 */
 
 
 #ifdef CONFIG_AP_SUPPORT

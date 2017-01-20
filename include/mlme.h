@@ -122,9 +122,7 @@ enum SCAN_MODE{
 	SCAN_ACTIVE = 0x00,			/* all channels */
 	SCAN_CISCO_ACTIVE = 0x1,	/* single channel only */
 	FAST_SCAN_ACTIVE = 0x2,
-#ifdef DOT11N_DRAFT3
 	SCAN_2040_BSS_COEXIST = 0x4,
-#endif /* DOT11N_DRAFT3 */
 	SCAN_ACTIVE_MAX,
 
 	/* Passive scan, no probe request, only wait beacon and probe response */

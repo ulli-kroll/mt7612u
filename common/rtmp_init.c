@@ -2375,7 +2375,6 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 	pAd->bBroadComHT = FALSE;
 	pAd->CommonCfg.bRdg = FALSE;
 
-#ifdef DOT11N_DRAFT3
 	pAd->CommonCfg.Dot11OBssScanPassiveDwell = dot11OBSSScanPassiveDwell;	/* Unit : TU. 5~1000*/
 	pAd->CommonCfg.Dot11OBssScanActiveDwell = dot11OBSSScanActiveDwell;	/* Unit : TU. 10~1000*/
 	pAd->CommonCfg.Dot11BssWidthTriggerScanInt = dot11BSSWidthTriggerScanInterval;	/* Unit : Second	*/
@@ -2388,7 +2387,6 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 	pAd->CommonCfg.bBssCoexEnable = TRUE; /* by default, we enable this feature, you can disable it via the profile or ioctl command*/
 	pAd->CommonCfg.BssCoexApCntThr = 0;
 	pAd->CommonCfg.Bss2040NeedFallBack = 0;
-#endif  /* DOT11N_DRAFT3 */
 
 	pAd->CommonCfg.bRcvBSSWidthTriggerEvents = FALSE;
 
@@ -3533,12 +3531,10 @@ BOOLEAN RtmpRaDevCtrlExit(IN struct rtmp_adapter *pAd)
 
 #ifdef CONFIG_AP_SUPPORT
 #ifdef DOT11_N_SUPPORT
-#ifdef DOT11N_DRAFT3
 VOID RTMP_11N_D3_TimerInit(struct rtmp_adapter *pAd)
 {
 	RTMPInitTimer(pAd, &pAd->CommonCfg.Bss2040CoexistTimer, GET_TIMER_FUNCTION(Bss2040CoexistTimeOut), pAd, FALSE);
 }
-#endif /* DOT11N_DRAFT3 */
 #endif /* DOT11_N_SUPPORT */
 #endif /* CONFIG_AP_SUPPORT */
 

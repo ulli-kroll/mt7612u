@@ -492,10 +492,8 @@ INT Set_UAPSD_Proc(
 
 #ifdef CONFIG_AP_SUPPORT
 
-#ifdef DOT11N_DRAFT3
 INT Set_OBSSScanParam_Proc(struct rtmp_adapter *pAd, char *arg);
 INT Set_AP2040ReScan_Proc(struct rtmp_adapter *pAd, char *arg);
-#endif /* DOT11N_DRAFT3 */
 
 INT Set_EntryLifeCheck_Proc(
 	IN struct rtmp_adapter *	pAd,
@@ -2890,9 +2888,7 @@ INT	Show_Sat_Proc(
 	printk("TransmittedMPDUsInAMPDUCount = %ld\n", (ULONG)pAd->RalinkCounters.TransmittedMPDUsInAMPDUCount.u.LowPart);
 	printk("TransmittedOctetsInAMPDUCount = %ld\n", (ULONG)pAd->RalinkCounters.TransmittedOctetsInAMPDUCount.u.LowPart);
 	printk("MPDUInReceivedAMPDUCount = %ld\n", (ULONG)pAd->RalinkCounters.MPDUInReceivedAMPDUCount.u.LowPart);
-#ifdef DOT11N_DRAFT3
 	printk("fAnyStaFortyIntolerant=%d\n", pAd->MacTab.fAnyStaFortyIntolerant);
-#endif /* DOT11N_DRAFT3 */
 #endif /* DOT11_N_SUPPORT */
 
 {
@@ -5287,7 +5283,6 @@ INT Set_UAPSD_Proc(
 #endif /* UAPSD_SUPPORT */
 
 #ifdef DOT11_N_SUPPORT
-#ifdef DOT11N_DRAFT3
 INT Set_OBSSScanParam_Proc(
 	IN struct rtmp_adapter *	pAd,
 	IN char *		arg)
@@ -5397,7 +5392,6 @@ INT	Set_AP2040ReScan_Proc(
 
 	return TRUE;
 }
-#endif /* DOT11N_DRAFT3 */
 #endif /* DOT11_N_SUPPORT */
 
 INT Set_EntryLifeCheck_Proc(

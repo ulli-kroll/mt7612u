@@ -262,7 +262,6 @@ VOID APPeerProbeReqAction(
 			memset(&extCapInfo, 0, extInfoLen);
 
 #ifdef DOT11_N_SUPPORT
-#ifdef DOT11N_DRAFT3
 			/* P802.11n_D1.10, HT Information Exchange Support */
 			if ((pAd->CommonCfg.PhyMode >= PHY_11ABGN_MIXED) && (pAd->CommonCfg.Channel <= 14) &&
 				(pAd->ApCfg.MBSSID[apidx].wdev.DesiredHtPhyInfo.bHtEnable) &&
@@ -270,7 +269,6 @@ VOID APPeerProbeReqAction(
 			{
 				extCapInfo.BssCoexistMgmtSupport = 1;
 			}
-#endif /* DOT11N_DRAFT3 */
 #endif /* DOT11_N_SUPPORT */
 
 
@@ -347,7 +345,6 @@ VOID APPeerProbeReqAction(
 
 
 #ifdef DOT11_N_SUPPORT
-#ifdef DOT11N_DRAFT3
 	 	/* P802.11n_D3.03, 7.3.2.60 Overlapping BSS Scan Parameters IE */
 	 	if (WMODE_CAP_N(PhyMode) &&
 			(pAd->CommonCfg.Channel <= 14) &&
@@ -403,7 +400,6 @@ VOID APPeerProbeReqAction(
 				FrameLen += TmpLen;
 			}
 		}
-#endif /* DOT11N_DRAFT3 */
 #endif /* DOT11_N_SUPPORT */
 
 	    /* add country IE, power constraint IE */
@@ -737,9 +733,7 @@ VOID APPeerBeaconAction(
 		/* ignore BEACON not in this channel */
 		if (ie_list->Channel != pAd->CommonCfg.Channel
 #ifdef DOT11_N_SUPPORT
-#ifdef DOT11N_DRAFT3
 			&& (pAd->CommonCfg.bOverlapScanning == FALSE)
-#endif /* DOT11N_DRAFT3 */
 #endif /* DOT11_N_SUPPORT */
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
 			&& (!RTMP_CFG80211_VIF_P2P_CLI_ON(pAd))
@@ -760,9 +754,7 @@ VOID APPeerBeaconAction(
 
 #ifdef DOT11_N_SUPPORT
 		if ((pAd->CommonCfg.HtCapability.HtCapInfo.ChannelWidth == BW_40)
-#ifdef DOT11N_DRAFT3
 			&& (pAd->CommonCfg.bOverlapScanning == FALSE)
-#endif /* DOT11N_DRAFT3 */
 		   )
 		{
 			if (pAd->CommonCfg.Channel<=14)
@@ -905,7 +897,6 @@ VOID APPeerBeaconAction(
 
 
 #ifdef DOT11_N_SUPPORT
-#ifdef DOT11N_DRAFT3
 		if (pAd->CommonCfg.bOverlapScanning == TRUE)
 		{
 			INT		index,secChIdx;
@@ -960,7 +951,6 @@ VOID APPeerBeaconAction(
 				}
 			}
 		}
-#endif /* DOT11N_DRAFT3 */
 #endif /* DOT11_N_SUPPORT */
 
 #ifdef ED_MONITOR
@@ -1245,9 +1235,7 @@ VOID APPeerBeaconAtScanAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 		/* ignore BEACON not in this channel */
 		if (ie_list->Channel != pAd->MlmeAux.Channel
 #ifdef DOT11_N_SUPPORT
-#ifdef DOT11N_DRAFT3
 			&& (pAd->CommonCfg.bOverlapScanning == FALSE)
-#endif /* DOT11N_DRAFT3 */
 #endif /* DOT11_N_SUPPORT */
 		   )
 		{
@@ -1286,7 +1274,6 @@ VOID APPeerBeaconAtScanAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 #ifdef APCLI_SUPPORT
 #ifdef APCLI_CERT_SUPPORT
 #ifdef DOT11_N_SUPPORT
-#ifdef DOT11N_DRAFT3
 		/* Check if this scan channel is the effeced channel */
 		if (APCLI_IF_UP_CHECK(pAd, 0) && pAd->bApCliCertTest == TRUE
 			&& (pAd->CommonCfg.bBssCoexEnable == TRUE)
@@ -1320,7 +1307,6 @@ VOID APPeerBeaconAtScanAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 				}
 			}
 		}
-#endif /* DOT11N_DRAFT3 */
 #endif /* DOT11_N_SUPPORT */
 #endif /* APCLI_CERT_SUPPORT */
 #endif /* APCLI_SUPPORT */

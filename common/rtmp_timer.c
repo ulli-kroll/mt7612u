@@ -58,9 +58,7 @@ extern VOID APDetectOverlappingExec(
 
 BUILD_TIMER_FUNCTION(APDetectOverlappingExec);
 
-#ifdef DOT11N_DRAFT3
 BUILD_TIMER_FUNCTION(Bss2040CoexistTimeOut);
-#endif /* DOT11N_DRAFT3 */
 
 BUILD_TIMER_FUNCTION(GREKEYPeriodicExec);
 BUILD_TIMER_FUNCTION(CMTimerExec);

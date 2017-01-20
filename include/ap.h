@@ -173,13 +173,11 @@ UCHAR FindPartialScanChannel(
 #ifdef DOT11_N_SUPPORT
 VOID APUpdateOperationMode(struct rtmp_adapter *pAd);
 
-#ifdef DOT11N_DRAFT3
 VOID APOverlappingBSSScan(struct rtmp_adapter *pAd);
 
 INT GetBssCoexEffectedChRange(
 	IN struct rtmp_adapter *pAd,
 	IN BSS_COEX_CH_RANGE *pCoexChRange);
-#endif /* DOT11N_DRAFT3 */
 #endif /* DOT11_N_SUPPORT */
 
 

@@ -786,7 +786,6 @@ BOOLEAN ApCliLinkUp(struct rtmp_adapter *pAd, UCHAR ifIndex)
 					pApCliEntry->MlmeAux.HtCapabilityLen);
 
 #ifdef DOT11_N_SUPPORT
-#ifdef DOT11N_DRAFT3
 #ifdef APCLI_CERT_SUPPORT
 	if (pAd->bApCliCertTest == TRUE)
 	{
@@ -826,7 +825,6 @@ BOOLEAN ApCliLinkUp(struct rtmp_adapter *pAd, UCHAR ifIndex)
 		}
 	}
 #endif /* APCLI_CERT_SUPPORT */
-#endif /* DOT11N_DRAFT3 */
 #endif /* DOT11_N_SUPPORT */
 	return result;
 }

@@ -436,10 +436,8 @@ VOID MlmeForceScanReqAction(
 		bbp_set_bw(pAd, BW_20);
 		DBGPRINT(RT_DEBUG_TRACE, ("SYNC - BBP R4 to 20MHz.l\n"));
 #ifdef DOT11_N_SUPPORT
-#ifdef DOT11N_DRAFT3
 		/* Before scan, reset trigger event table. */
 		TriEventInit(pAd);
-#endif /* DOT11N_DRAFT3 */
 #endif /* DOT11_N_SUPPORT */
 
 		ScanNextChannel(pAd, OPMODE_STA);
@@ -570,10 +568,8 @@ VOID MlmeScanReqAction(
 		DBGPRINT(RT_DEBUG_TRACE, ("SYNC - BBP R4 to 20MHz.l\n"));
 
 #ifdef DOT11_N_SUPPORT
-#ifdef DOT11N_DRAFT3
 		/* Before scan, reset trigger event table. */
 		TriEventInit(pAd);
-#endif /* DOT11N_DRAFT3 */
 #endif /* DOT11_N_SUPPORT */
 
 		ScanNextChannel(pAd, OPMODE_STA);
@@ -1304,7 +1300,6 @@ VOID PeerBeaconAtScanAction(
 		Idx = BssTableSetEntry(pAd, &pAd->ScanTab, ie_list, Rssi, LenVIE, pVIE);
 #ifdef DOT11_N_SUPPORT
 		/* TODO: Check for things need to do when enable "DOT11V_WNM_SUPPORT" */
-#ifdef DOT11N_DRAFT3
 		/* Check if this scan channel is the effeced channel */
 		if (INFRA_ON(pAd)
 			&& (pAd->CommonCfg.bBssCoexEnable == TRUE)
@@ -1337,7 +1332,6 @@ VOID PeerBeaconAtScanAction(
 				}
 			}
 		}
-#endif /* DOT11N_DRAFT3 */
 #endif /* DOT11_N_SUPPORT */
 		if (Idx != BSS_NOT_FOUND)
 		{
@@ -1585,11 +1579,9 @@ VOID PeerBeaconAtJoinAction(
 #endif /* DOT11_VHT_AC */
 
 #ifdef DOT11_N_SUPPORT
-#ifdef DOT11N_DRAFT3
 			DBGPRINT(RT_DEBUG_TRACE, ("MlmeAux.ExtCapInfo=%d\n", pAd->MlmeAux.ExtCapInfo.BssCoexistMgmtSupport));
 			if (pAd->CommonCfg.bBssCoexEnable == TRUE)
 				pAd->CommonCfg.ExtCapIE.BssCoexistMgmtSupport = 1;
-#endif /* DOT11N_DRAFT3 */
 
 			if (((wdev->WepStatus != Ndis802_11WEPEnabled) && (wdev->WepStatus != Ndis802_11TKIPEnable))
 				|| (pAd->CommonCfg.HT_DisallowTKIP == FALSE))
@@ -1950,7 +1942,6 @@ VOID PeerBeacon(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 			UINT8 RXWISize = pAd->chipCap.RXWISize;
 
 #ifdef DOT11_N_SUPPORT
-#ifdef DOT11N_DRAFT3
 			OVERLAP_BSS_SCAN_IE	BssScan;
 			UCHAR					RegClass;
 			BOOLEAN					brc;
@@ -1962,7 +1953,6 @@ VOID PeerBeacon(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 				UpdateBssScanParm(pAd, BssScan);
 				pAd->StaCfg.RegClass = RegClass;
 			}
-#endif /* DOT11N_DRAFT3 */
 #endif /* DOT11_N_SUPPORT */
 
 			pAd->StaCfg.DtimCount = bcn_ie_list->DtimCount;
@@ -2291,7 +2281,6 @@ VOID PeerBeacon(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 				memmove(&pAd->CommonCfg.APQbssLoad, &bcn_ie_list->QbssLoad, sizeof(QBSS_LOAD_PARM));
 				memmove(&pAd->CommonCfg.APQosCapability, &bcn_ie_list->QosCapability, sizeof(QOS_CAPABILITY_PARM));
 #ifdef DOT11_N_SUPPORT
-#ifdef DOT11N_DRAFT3
 				/*
 				   2009: PF#1: 20/40 Coexistence in 2.4 GHz Band
 				   When AP changes "STA Channel Width" and "Secondary Channel Offset" fields of HT Operation Element in the Beacon to 0
@@ -2368,7 +2357,6 @@ VOID PeerBeacon(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 						BuildEffectedChannelList(pAd);
 					}
 				}
-#endif /* DOT11N_DRAFT3 */
 #endif /* DOT11_N_SUPPORT */
 			}
 
@@ -2802,7 +2790,6 @@ VOID EnqueueProbeRequest(struct rtmp_adapter *pAd)
 
 
 #ifdef DOT11_N_SUPPORT
-#ifdef DOT11N_DRAFT3
 
 /*
 	========================================================================
@@ -2884,7 +2871,6 @@ VOID CntlChannelWidth(
 		bbp_get_agc(pAd, &pAd->BbpTuning.R66CurrentValue, RX_CHAIN_0);
 	}
 }
-#endif /* DOT11N_DRAFT3 */
 #endif /* DOT11_N_SUPPORT */
 
 /*

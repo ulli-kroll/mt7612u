@@ -1588,7 +1588,6 @@ SanityCheck:
 }
 
 
-#ifdef DOT11N_DRAFT3
 /*
 	==========================================================================
 	Description:
@@ -1675,7 +1674,6 @@ BOOLEAN PeerBeaconAndProbeRspSanity2(
 	return brc;
 
 }
-#endif /* DOT11N_DRAFT3 */
 
 #if defined(AP_SCAN_SUPPORT) || defined(CONFIG_STA_SUPPORT)
 /*

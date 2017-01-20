@@ -351,7 +351,6 @@ VOID PeerBAAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 }
 
 
-#ifdef DOT11N_DRAFT3
 #ifdef CONFIG_AP_SUPPORT
 extern UCHAR get_regulatory_class(IN struct rtmp_adapter *pAd);
 
@@ -783,7 +782,6 @@ VOID ChannelSwitchAction(
 					pAd->CommonCfg.CentralChannel));
 	}
 }
-#endif /* DOT11N_DRAFT3 */
 #endif /* DOT11_N_SUPPORT */
 
 
@@ -802,7 +800,6 @@ VOID PeerPublicAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 	switch(Action)
 	{
 #ifdef DOT11_N_SUPPORT
-#ifdef DOT11N_DRAFT3
 		case ACTION_BSS_2040_COEXIST:	/* Format defined in IEEE 7.4.7a.1 in 11n Draf3.03*/
 			{
 				/*UCHAR	BssCoexist;*/
@@ -950,7 +947,6 @@ VOID PeerPublicAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 #endif /* CONFIG_STA_SUPPORT */
 			}
 			break;
-#endif /* DOT11N_DRAFT3 */
 #endif /* DOT11_N_SUPPORT */
 
 #if defined(CONFIG_HOTSPOT) && defined(CONFIG_AP_SUPPORT)
@@ -1001,7 +997,6 @@ VOID PeerRMAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 #ifdef DOT11_N_SUPPORT
 
 #ifdef CONFIG_AP_SUPPORT
-#ifdef DOT11N_DRAFT3
 VOID SendNotifyBWActionFrame(struct rtmp_adapter *pAd, UCHAR Wcid, UCHAR apidx)
 {
 	UCHAR *pOutBuffer = NULL, *pAddr1;
@@ -1038,7 +1033,6 @@ VOID SendNotifyBWActionFrame(struct rtmp_adapter *pAd, UCHAR Wcid, UCHAR apidx)
 	DBGPRINT(RT_DEBUG_TRACE,("ACT - SendNotifyBWAction(NotifyBW= %d)!\n", pAd->CommonCfg.AddHTInfo.AddHtInfo.RecomWidth));
 
 }
-#endif /* DOT11N_DRAFT3 */
 #endif /* CONFIG_AP_SUPPORT */
 
 

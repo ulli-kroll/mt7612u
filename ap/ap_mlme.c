@@ -34,7 +34,6 @@ extern UCHAR  ZeroSsid[32];
 int DetectOverlappingPeriodicRound;
 
 
-#ifdef DOT11N_DRAFT3
 VOID Bss2040CoexistTimeOut(
 	IN PVOID SystemSpecific1,
 	IN PVOID FunctionContext,
@@ -62,7 +61,6 @@ VOID Bss2040CoexistTimeOut(
 		SendBSS2040CoexistMgmtAction(pAd, MCAST_WCID, apidx, 0);
 
 }
-#endif /* DOT11N_DRAFT3 */
 
 #endif /* DOT11_N_SUPPORT */
 
@@ -285,7 +283,6 @@ VOID APMlmePeriodicExec(
 
 #ifdef APCLI_SUPPORT
 #ifdef DOT11_N_SUPPORT
-#ifdef DOT11N_DRAFT3
 #ifdef APCLI_CERT_SUPPORT
 	/* Perform 20/40 BSS COEX scan every Dot11BssWidthTriggerScanInt	*/
 	if (APCLI_IF_UP_CHECK(pAd, 0) && (pAd->bApCliCertTest == TRUE))
@@ -326,7 +323,6 @@ VOID APMlmePeriodicExec(
 		}
 	}
 #endif /* APCLI_CERT_SUPPORT */
-#endif /* DOT11N_DRAFT3 */
 #endif /* DOT11_N_SUPPORT */
 #endif /* APCLI_SUPPORT */
 }
