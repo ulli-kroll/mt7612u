@@ -146,7 +146,6 @@ VOID APPeerProbeReqAction(
 			FrameLen += TmpLen;
 		}
 
-#ifdef A_BAND_SUPPORT
 		/* add Channel switch announcement IE */
 		if ((pAd->CommonCfg.Channel > 14)
 			&& (pAd->CommonCfg.bIEEE80211H == 1)
@@ -165,7 +164,6 @@ VOID APPeerProbeReqAction(
 							  END_OF_ARGS);
 			FrameLen += TmpLen;
 		}
-#endif /* A_BAND_SUPPORT */
 
 #ifdef DOT11_N_SUPPORT
 		if (WMODE_CAP_N(PhyMode) &&
@@ -410,7 +408,6 @@ VOID APPeerProbeReqAction(
 			UCHAR CountryIe = IE_COUNTRY;
 			UCHAR MaxTxPower=16;
 
-#ifdef A_BAND_SUPPORT
 			/*
 			Only 802.11a APs that comply with 802.11h are required to include
 			a Power Constrint Element(IE=32) in beacons and probe response frames
@@ -440,7 +437,6 @@ VOID APPeerProbeReqAction(
 				}
 #endif /* DOT11_VHT_AC */
 			}
-#endif /* A_BAND_SUPPORT */
 
 			memset(TmpFrame, 0, sizeof(TmpFrame));
 
@@ -476,7 +472,6 @@ VOID APPeerProbeReqAction(
 			FrameLen += TmpLen;
 		}/* Country IE - */
 
-#ifdef A_BAND_SUPPORT
 		/* add Channel switch announcement IE */
 		if ((pAd->CommonCfg.Channel > 14)
 			&& (pAd->CommonCfg.bIEEE80211H == 1)
@@ -507,7 +502,6 @@ VOID APPeerProbeReqAction(
 #endif /* DOT11_N_SUPPORT */
 			FrameLen += TmpLen;
 		}
-#endif /* A_BAND_SUPPORT */
 
 #ifdef DOT11_N_SUPPORT
 		if (WMODE_CAP_N(PhyMode) &&
@@ -915,20 +909,16 @@ VOID APPeerBeaconAction(
 						pAdd_HtInfo = &ie_list->AddHtInfo.AddHtInfo;
 						if (pAdd_HtInfo->ExtChanOffset == EXTCHA_BELOW)
 						{
-#ifdef A_BAND_SUPPORT
 							if (ie_list->Channel > 14)
 								secChIdx = ((index > 0) ? (index - 1) : -1);
 							else
-#endif /* A_BAND_SUPPORT */
 								secChIdx = ((index >= 4) ? (index - 4) : -1);
 						}
 						else if (pAdd_HtInfo->ExtChanOffset == EXTCHA_ABOVE)
 						{
-#ifdef A_BAND_SUPPORT
 							if (ie_list->Channel > 14)
 								secChIdx = (((index+1) < pAd->ChannelListNum) ? (index + 1) : -1);
 							else
-#endif /* A_BAND_SUPPORT */
 								secChIdx = (((index+4) < pAd->ChannelListNum) ? (index + 4) : -1);
 						}
 

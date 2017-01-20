@@ -4216,10 +4216,8 @@ INT ed_monitor_exit(struct rtmp_adapter *pAd);
 /* The upper-bound of the Tx power tuning entry in G band */
 #define UPPERBOUND_TX_POWER_TUNING_ENTRY(__pAd)		((__pAd)->chipCap.TxAlcTxPowerUpperBound_2G)
 
-#ifdef A_BAND_SUPPORT
 /* The upper-bound of the Tx power tuning entry in A band */
 #define UPPERBOUND_TX_POWER_TUNING_ENTRY_5G(__pAd)		((__pAd)->chipCap.TxAlcTxPowerUpperBound_5G)
-#endif /* A_BAND_SUPPORT */
 
 /* Temperature compensation lookup table */
 

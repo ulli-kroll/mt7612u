@@ -597,10 +597,8 @@ struct _RTMP_CHIP_CAP_ {
 #if defined(RTMP_INTERNAL_TX_ALC) || defined(RTMP_TEMPERATURE_COMPENSATION)
 	UINT8 TxAlcTxPowerUpperBound_2G;
 	const TX_POWER_TUNING_ENTRY_STRUCT *TxPowerTuningTable_2G;
-#ifdef A_BAND_SUPPORT
 	UINT8 TxAlcTxPowerUpperBound_5G;
 	const TX_POWER_TUNING_ENTRY_STRUCT *TxPowerTuningTable_5G;
-#endif /* A_BAND_SUPPORT */
 
 #endif /* defined(RTMP_INTERNAL_TX_ALC) || defined(RTMP_TEMPERATURE_COMPENSATION) */
 

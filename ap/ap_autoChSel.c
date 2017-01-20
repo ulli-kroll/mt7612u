@@ -28,7 +28,6 @@ extern UCHAR ZeroSsid[32];
 static inline INT GetABandChOffset(
 	IN INT Channel)
 {
-#ifdef A_BAND_SUPPORT
 	if ((Channel == 36) || (Channel == 44)
 			|| (Channel == 52) || (Channel == 60)
 			|| (Channel == 100) || (Channel == 108)
@@ -47,7 +46,6 @@ static inline INT GetABandChOffset(
 	{
 		return -1;
 	}
-#endif /* A_BAND_SUPPORT */
 	return 0;
 }
 

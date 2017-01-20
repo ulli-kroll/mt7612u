@@ -128,7 +128,6 @@ VOID InitLookupTable(
 	DBGPRINT(RT_DEBUG_TRACE, ("\tStep = %u\n", Step[IEEE80211_BAND_2G]));
 	DBGPRINT(RT_DEBUG_TRACE, ("\tRefTemp = %d\n", pAd->TxPowerCtrl.RefTemp[IEEE80211_BAND_2G]));
 
-#ifdef A_BAND_SUPPORT
 	if (RFIC_IS_5G_BAND(pAd))
 	{
 		DBGPRINT(RT_DEBUG_TRACE, ("[temp. compensation 5G] EEPROM\n"));
@@ -193,7 +192,6 @@ VOID InitLookupTable(
 
 		band_nums = IEEE80211_BAND_NUMS;
 	}
-#endif /* A_BAND_SUPPORT */
 
 #ifdef RT8592
 	if (IS_RT8592(pAd)) {
@@ -311,7 +309,6 @@ VOID AsicGetAutoAgcOffsetForTemperatureSensor(
 
 	*pTotalDeltaPwr = 0;
 
-#ifdef A_BAND_SUPPORT
 	if (pAd->CommonCfg.Channel > 14)
 	{
 		/* a band channel */
@@ -324,7 +321,6 @@ VOID AsicGetAutoAgcOffsetForTemperatureSensor(
 		rf_txpwr_bnd = 0x2b;
 	}
 	else
-#endif /* A_BAND_SUPPORT */
 	{
 		/* bg band channel */
 		bAutoTxAgc = pAd->bAutoTxAgcG;

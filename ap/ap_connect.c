@@ -446,7 +446,6 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 		FrameLen += 3;
 	}
 
-#ifdef A_BAND_SUPPORT
 	/* fill up Channel Switch Announcement Element */
 	if ((pComCfg->Channel > 14)
 		&& (pComCfg->bIEEE80211H == 1)
@@ -521,7 +520,6 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 
 #endif /* DOT11_N_SUPPORT */
 	}
-#endif /* A_BAND_SUPPORT */
 
 #ifdef DOT11_N_SUPPORT
 	/* step 5. Update HT. Since some fields might change in the same BSS. */
@@ -730,7 +728,6 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 		FrameLen += QBSS_LoadElementAppend(pAd, pBeaconFrame+FrameLen);
 #endif /* AP_QLOAD_SUPPORT */
 
-#ifdef A_BAND_SUPPORT
 	/*
 		Only 802.11a APs that comply with 802.11h are required to include a
 		Power Constrint Element(IE=32) in beacons and probe response frames
@@ -769,7 +766,6 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 #endif /* DOT11_VHT_AC */
 
 	}
-#endif /* A_BAND_SUPPORT */
 
 
 #ifdef DOT11_N_SUPPORT
@@ -879,12 +875,10 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 
 
 	/* step 6. Since FrameLen may change, update TXWI. */
-#ifdef A_BAND_SUPPORT
 	if (pAd->CommonCfg.Channel > 14) {
 		BeaconTransmit.field.MODE = MODE_OFDM;
 		BeaconTransmit.field.MCS = MCS_RATE_6;
 	}
-#endif /* A_BAND_SUPPORT */
 
 #ifdef SPECIFIC_TX_POWER_SUPPORT
 	/* Specific Power for Long-Range Beacon */

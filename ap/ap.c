@@ -141,12 +141,10 @@ VOID APStartUp(struct rtmp_adapter *pAd)
 
 	TxPreamble = (pAd->CommonCfg.TxPreamble == Rt802_11PreambleLong ? 0 : 1);
 
-#ifdef A_BAND_SUPPORT
 	/* Decide the Capability information field */
 	/* In IEEE Std 802.1h-2003, the spectrum management bit is enabled in the 5 GHz band */
 	if ((pAd->CommonCfg.Channel > 14) && pAd->CommonCfg.bIEEE80211H == TRUE)
 		SpectrumMgmt = TRUE;
-#endif /* A_BAND_SUPPORT */
 
 	for (idx = 0; idx < pAd->ApCfg.BssidNum; idx++)
 	{
@@ -1506,11 +1504,9 @@ VOID APUpdateCapabilityAndErpIe(
 	bUseBGProtection = (pAd->CommonCfg.UseBGProtection == 1) ||    /* always use */
 						((pAd->CommonCfg.UseBGProtection == 0) && ERP_IS_USE_PROTECTION(ErpIeContent));
 
-#ifdef A_BAND_SUPPORT
 	/* always no BG protection in A-band. falsely happened when switching A/G band to a dual-band AP */
 	if (pAd->CommonCfg.Channel > 14)
 		bUseBGProtection = FALSE;
-#endif /* A_BAND_SUPPORT */
 
 	if (bUseBGProtection != OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_BG_PROTECTION_INUSED))
 	{
@@ -1539,11 +1535,9 @@ VOID APUpdateCapabilityAndErpIe(
 	else
 		pAd->ApCfg.ErpIeContent = ErpIeContent;
 
-#ifdef A_BAND_SUPPORT
 	/* Force to use ShortSlotTime at A-band */
 	if (pAd->CommonCfg.Channel > 14)
 		ShortSlotCapable = TRUE;
-#endif /* A_BAND_SUPPORT */
 
 	/* deicide CapabilityInfo.ShortSlotTime bit */
     for (apidx=0; apidx<pAd->ApCfg.BssidNum; apidx++)
@@ -1552,9 +1546,7 @@ VOID APUpdateCapabilityAndErpIe(
 
 		/* In A-band, the ShortSlotTime bit should be ignored. */
 		if (ShortSlotCapable
-#ifdef A_BAND_SUPPORT
 			&& (pAd->CommonCfg.Channel <= 14)
-#endif /* A_BAND_SUPPORT */
 			)
     		(*pCapInfo) |= 0x0400;
 		else
@@ -1813,7 +1805,6 @@ INT GetBssCoexEffectedChRange(
 	memset(pCoexChRange, 0, sizeof(BSS_COEX_CH_RANGE));
 
 	/* Build the effected channel list, if something wrong, return directly. */
-#ifdef A_BAND_SUPPORT
 	if (pAd->CommonCfg.Channel > 14)
 	{	/* For 5GHz band */
 		for (index = 0; index < pAd->ChannelListNum; index++)
@@ -1858,7 +1849,6 @@ INT GetBssCoexEffectedChRange(
 		}
 	}
 	else
-#endif /* A_BAND_SUPPORT */
 	{	/* For 2.4GHz band */
 		for (index = 0; index < pAd->ChannelListNum; index++)
 		{
@@ -1932,7 +1922,6 @@ VOID APOverlappingBSSScan(struct rtmp_adapter *pAd)
 	}
 
 	/* Build the effected channel list, if something wrong, return directly. */
-#ifdef A_BAND_SUPPORT
 	if (pAd->CommonCfg.Channel > 14)
 	{	/* For 5GHz band */
 		for (index = 0; index < pAd->ChannelListNum; index++)
@@ -1966,7 +1955,6 @@ VOID APOverlappingBSSScan(struct rtmp_adapter *pAd)
 		}
 	}
 	else
-#endif /* A_BAND_SUPPORT */
 	{	/* For 2.4GHz band */
 		for (index = 0; index < pAd->ChannelListNum; index++)
 		{

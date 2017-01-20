@@ -263,7 +263,6 @@ VOID APMlmePeriodicExec(
     }
 #endif /* DOT11_N_SUPPORT */
 
-#ifdef A_BAND_SUPPORT
 	if ( (pAd->CommonCfg.Channel > 14)
 		&& (pAd->CommonCfg.bIEEE80211H == 1)
 		)
@@ -278,8 +277,6 @@ VOID APMlmePeriodicExec(
 			}
 		}
 		}
-#endif /* A_BAND_SUPPORT */
-
 
 #ifdef APCLI_SUPPORT
 #ifdef DOT11_N_SUPPORT
