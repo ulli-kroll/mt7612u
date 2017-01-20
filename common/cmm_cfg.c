@@ -957,11 +957,6 @@ INT RTMP_COM_IoctlHandle(
 		case CMD_RTPRIV_IOCTL_SANITY_CHECK:
 		/* sanity check before IOCTL */
 			if ((!RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_INTERRUPT_IN_USE))
-#ifdef IFUP_IN_PROBE
-			|| (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_RESET_IN_PROGRESS))
-			|| (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_HALT_IN_PROGRESS))
-			|| (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST))
-#endif /* IFUP_IN_PROBE */
 			)
 			{
 				if(pData == NULL ||	RT_isLegalCmdBeforeInfUp((char *) pData) == FALSE)
