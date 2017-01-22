@@ -1096,9 +1096,12 @@ error0:
 }
 
 void andes_init_cmd_msg(struct cmd_msg *msg, u8 type, BOOLEAN need_wait, u16 timeout,
-							   BOOLEAN need_retransmit, BOOLEAN need_rsp, u16 rsp_payload_len,
-							   char *rsp_payload, MSG_RSP_HANDLER rsp_handler)
+							   BOOLEAN need_retransmit, BOOLEAN need_rsp)
 {
+	u16 rsp_payload_len = 0;
+	char *rsp_payload = NULL;
+	MSG_RSP_HANDLER rsp_handler = NULL;
+
 	msg->type = type;
 #ifdef RTMP_USB_SUPPORT
 	msg->need_wait= need_wait;
@@ -2087,9 +2090,9 @@ int andes_random_write(struct rtmp_adapter *ad, RTMP_REG_PAIR *reg_pair, u32 num
 		}
 
 		if (last_packet)
-			andes_init_cmd_msg(msg, CMD_RANDOM_WRITE, TRUE, 0, TRUE, TRUE, 0, NULL, NULL);
+			andes_init_cmd_msg(msg, CMD_RANDOM_WRITE, TRUE, 0, TRUE, TRUE);
 		else
-			andes_init_cmd_msg(msg, CMD_RANDOM_WRITE, FALSE, 0, FALSE, FALSE, 0, NULL, NULL);
+			andes_init_cmd_msg(msg, CMD_RANDOM_WRITE, FALSE, 0, FALSE, FALSE);
 
 		for (i = 0; i < (sent_len / 8); i++)
 		{
@@ -2141,9 +2144,9 @@ int andes_rf_random_write(struct rtmp_adapter *ad, BANK_RF_REG_PAIR *reg_pair, u
 		}
 
 		if (last_packet)
-			andes_init_cmd_msg(msg, CMD_RANDOM_WRITE, TRUE, 0, TRUE, TRUE, 0, NULL, NULL);
+			andes_init_cmd_msg(msg, CMD_RANDOM_WRITE, TRUE, 0, TRUE, TRUE);
 		else
-			andes_init_cmd_msg(msg, CMD_RANDOM_WRITE, FALSE, 0, FALSE, FALSE, 0, NULL, NULL);
+			andes_init_cmd_msg(msg, CMD_RANDOM_WRITE, FALSE, 0, FALSE, FALSE);
 
 		for (i = 0; i < (sent_len / 8); i++) {
 			value = 0;
@@ -2202,7 +2205,7 @@ int andes_pwr_saving(struct rtmp_adapter *ad, u32 op, u32 level,
 		goto error;
 	}
 
-	andes_init_cmd_msg(msg, CMD_POWER_SAVING_OP, FALSE, 0, FALSE, FALSE, 0, NULL, NULL);
+	andes_init_cmd_msg(msg, CMD_POWER_SAVING_OP, FALSE, 0, FALSE, FALSE);
 
 	/* Power operation */
 	value = cpu2le32(op);
@@ -2252,9 +2255,9 @@ int andes_fun_set(struct rtmp_adapter *ad, u32 fun_id, u32 param)
 	}
 
 	if (fun_id != Q_SELECT)
-		andes_init_cmd_msg(msg, CMD_FUN_SET_OP, TRUE, 0, TRUE, TRUE, 0, NULL, NULL);
+		andes_init_cmd_msg(msg, CMD_FUN_SET_OP, TRUE, 0, TRUE, TRUE);
 	else
-		andes_init_cmd_msg(msg, CMD_FUN_SET_OP, FALSE, 0, FALSE, FALSE, 0, NULL, NULL);
+		andes_init_cmd_msg(msg, CMD_FUN_SET_OP, FALSE, 0, FALSE, FALSE);
 
 	/* Function ID */
 	value = cpu2le32(fun_id);
@@ -2295,7 +2298,7 @@ int andes_calibration(struct rtmp_adapter *ad, u32 cal_id, ANDES_CALIBRATION_PAR
 		goto error;
 	}
 
-	andes_init_cmd_msg(msg, CMD_CALIBRATION_OP, TRUE, 0, TRUE, TRUE, 0, NULL, NULL);
+	andes_init_cmd_msg(msg, CMD_CALIBRATION_OP, TRUE, 0, TRUE, TRUE);
 
 	/* Calibration ID */
 	value = cpu2le32(cal_id);
@@ -2340,7 +2343,7 @@ int andes_load_cr(struct rtmp_adapter *ad, u32 cr_type, UINT8 temp_level, UINT8 
 		goto error;
 	}
 
-	andes_init_cmd_msg(msg, CMD_LOAD_CR, TRUE, 0, TRUE, TRUE, 0, NULL, NULL);
+	andes_init_cmd_msg(msg, CMD_LOAD_CR, TRUE, 0, TRUE, TRUE);
 
 	/* CR type */
 	value &= ~LOAD_CR_MODE_MASK;
@@ -2384,7 +2387,7 @@ int andes_switch_channel(struct rtmp_adapter *ad, u8 channel, BOOLEAN scan, unsi
 		goto error;
 	}
 
-	andes_init_cmd_msg(msg, CMD_SWITCH_CHANNEL_OP, TRUE, 0, TRUE, TRUE, 0, NULL, NULL);
+	andes_init_cmd_msg(msg, CMD_SWITCH_CHANNEL_OP, TRUE, 0, TRUE, TRUE);
 
 	/*
      * switch channel related param
@@ -2415,7 +2418,7 @@ int andes_switch_channel(struct rtmp_adapter *ad, u8 channel, BOOLEAN scan, unsi
 		goto error;
 	}
 
-	andes_init_cmd_msg(msg, CMD_SWITCH_CHANNEL_OP, TRUE, 0, TRUE, TRUE, 0, NULL, NULL);
+	andes_init_cmd_msg(msg, CMD_SWITCH_CHANNEL_OP, TRUE, 0, TRUE, TRUE);
 
 	/*
      * switch channel related param
@@ -2468,7 +2471,7 @@ int andes_init_gain(struct rtmp_adapter *ad, UINT8 channel, BOOLEAN force_mode, 
 		goto error;
 	}
 
-	andes_init_cmd_msg(msg, CMD_INIT_GAIN_OP, TRUE, 0, TRUE, TRUE, 0, NULL, NULL);
+	andes_init_cmd_msg(msg, CMD_INIT_GAIN_OP, TRUE, 0, TRUE, TRUE);
 
 	/* init gain parameter#1 */
 	if (force_mode == TRUE)
@@ -2505,7 +2508,7 @@ int andes_dynamic_vga(struct rtmp_adapter *ad, UINT8 channel, BOOLEAN mode, BOOL
 		goto error;
 	}
 
-	andes_init_cmd_msg(msg, CMD_DYNC_VGA_OP, TRUE, 0, TRUE, TRUE, 0, NULL, NULL);
+	andes_init_cmd_msg(msg, CMD_DYNC_VGA_OP, TRUE, 0, TRUE, TRUE);
 
 	/* dynamic VGA parameter#1: TRUE = AP mode ; FALSE = STA mode */
 	if (mode == TRUE)
@@ -2548,7 +2551,7 @@ int andes_led_op(struct rtmp_adapter *ad, u32 led_idx, u32 link_status)
 		goto error;
 	}
 
-	andes_init_cmd_msg(msg, CMD_LED_MODE_OP, FALSE, 0, FALSE, FALSE, 0, NULL, NULL);
+	andes_init_cmd_msg(msg, CMD_LED_MODE_OP, FALSE, 0, FALSE, FALSE);
 
 	/* Led index */
 	value = cpu2le32(led_idx);

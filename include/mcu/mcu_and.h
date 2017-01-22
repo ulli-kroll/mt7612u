@@ -413,8 +413,7 @@ int andes_dynamic_vga(struct rtmp_adapter *ad, UINT8 channel, BOOLEAN mode, BOOL
 int andes_led_op(struct rtmp_adapter *ad, u32 led_idx, u32 link_status);
 struct cmd_msg *andes_alloc_cmd_msg(struct rtmp_adapter *ad, unsigned int length);
 void andes_init_cmd_msg(struct cmd_msg *msg, u8 type, BOOLEAN need_wait, u16 timeout,
-							   BOOLEAN need_retransmit, BOOLEAN need_rsp, u16 rsp_payload_len,
-							   char *rsp_payload, MSG_RSP_HANDLER rsp_handler);
+							   BOOLEAN need_retransmit, BOOLEAN need_rsp);
 void andes_append_cmd_msg(struct cmd_msg *msg, char *data, unsigned int len);
 
 #define MAX_CALIBRATION_WAIT_TIME						100
