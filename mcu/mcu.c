@@ -104,7 +104,6 @@ VOID ChipOpsMCUHook(struct rtmp_adapter *pAd, enum MCU_TYPE MCUType)
 			pChipOps->MCUCtrlInit = andes_ctrl_init;
 			pChipOps->MCUCtrlExit = andes_ctrl_exit;
 			pChipOps->Calibration = andes_calibration;
-			pChipOps->RandomRead = andes_random_read;
 			pChipOps->RandomWrite = andes_random_write;
 			pChipOps->PwrSavingOP = andes_pwr_saving;
 		}

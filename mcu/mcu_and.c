@@ -2059,65 +2059,6 @@ MSG_EVENT_HANDLER msg_event_handler_tb[] =
 	andes_dfs_detect_event_handler,
 };
 
-
-
-static void andes_random_read_callback(struct cmd_msg *msg, char *rsp_payload, u16 rsp_payload_len)
-{
-	u32 i;
-	RTMP_REG_PAIR *reg_pair = (RTMP_REG_PAIR *)msg->rsp_payload;
-
-	for (i = 0; i < msg->rsp_payload_len / 8; i++) {
-		memmove(&reg_pair[i].Value, rsp_payload + 8 * i + 4, 4);
-		reg_pair[i].Value = le2cpu32(reg_pair[i].Value);
-	}
-}
-
-int andes_random_read(struct rtmp_adapter *ad, RTMP_REG_PAIR *reg_pair, u32 num)
-{
-	struct cmd_msg *msg;
-	unsigned int var_len = num * 8, cur_len = 0, receive_len;
-	u32 i, value, cur_index = 0;
-	RTMP_CHIP_CAP *cap = &ad->chipCap;
-	int ret = 0;
-
-	if (!reg_pair)
-		return -1;
-
-	while (cur_len < var_len)
-	{
-		receive_len = (var_len - cur_len) > cap->InbandPacketMaxLen
-									   ? cap->InbandPacketMaxLen
-									   : (var_len - cur_len);
-
-		msg = andes_alloc_cmd_msg(ad, receive_len);
-
-		if (!msg) {
-			ret = NDIS_STATUS_RESOURCES;
-			goto error;
-		}
-
-		andes_init_cmd_msg(msg, CMD_RANDOM_READ, TRUE, 0, TRUE, TRUE, receive_len,
-									(char *)&reg_pair[cur_index], andes_random_read_callback);
-
-		for (i = 0; i < receive_len / 8; i++) {
-			value = cpu2le32(reg_pair[i + cur_index].Register + cap->WlanMemmapOffset);
-			andes_append_cmd_msg(msg, (char *)&value, 4);
-			value = 0;
-			andes_append_cmd_msg(msg, (char *)&value, 4);
-		}
-
-
-		ret = andes_send_cmd_msg(ad, msg);
-
-
-		cur_index += receive_len / 8;
-		cur_len += cap->InbandPacketMaxLen;
-	}
-
-error:
-	return ret;
-}
-
 int andes_random_write(struct rtmp_adapter *ad, RTMP_REG_PAIR *reg_pair, u32 num)
 {
 	struct cmd_msg *msg;

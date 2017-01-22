@@ -944,7 +944,6 @@ struct _RTMP_CHIP_OP_ {
 	void (*MCUCtrlExit)(struct rtmp_adapter *ad);
 #ifdef CONFIG_ANDES_SUPPORT
 	void (*fw_init)(struct rtmp_adapter *ad);
-	int (*RandomRead)(struct rtmp_adapter *ad, RTMP_REG_PAIR *RegPair, uint32_t Num);
 	int (*RandomWrite)(struct rtmp_adapter *ad, RTMP_REG_PAIR *RegPair, uint32_t Num);
 	void (*Calibration)(struct rtmp_adapter *pAd, uint32_t CalibrationID, ANDES_CALIBRATION_PARAM *param);
 #endif /* CONFIG_ANDES_SUPPORT */
@@ -1168,13 +1167,6 @@ do {												\
 		if (_pAd->chipOps.BurstWrite != NULL)		\
 			_pAd->chipOps.BurstWrite(_pAd, _Offset, _pData, _Cnt);\
 } while (0)
-
-#define RANDOM_READ(_pAd, _RegPair, _Num)	\
-do {										\
-		if (_pAd->chipOps.RandomRead != NULL)	\
-			_pAd->chipOps.RandomRead(_pAd, _RegPair, _Num);	\
-} while (0)
-
 
 #define RANDOM_WRITE(_pAd, _RegPair, _Num)	\
 do {	\
