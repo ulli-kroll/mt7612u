@@ -394,7 +394,6 @@ void andes_ctrl_exit(struct rtmp_adapter *ad);
 int andes_send_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *msg);
 int andes_read_modify_write(struct rtmp_adapter *ad, struct _R_M_W_REG *reg_pair, u32 num);
 int andes_random_write(struct rtmp_adapter *ad, RTMP_REG_PAIR *reg_pair, u32 num);
-int andes_rf_random_write(struct rtmp_adapter *ad, struct _BANK_RF_REG_PAIR *reg_pair, u32 num);
 int andes_fun_set(struct rtmp_adapter *ad, u32 fun_id, u32 param);
 int andes_pwr_saving(struct rtmp_adapter *ad, u32 op, u32 level,
 					 u32 listen_interval, u32 pre_tbtt_lead_time,
