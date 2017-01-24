@@ -452,7 +452,7 @@ struct sk_buff *duplicate_pkt_with_VLAN(
 	========================================================================
 */
 BOOLEAN RTMPL2FrameTxAction(
-	IN VOID * pCtrlBkPtr,
+	IN struct rtmp_adapter *pAd,
 	IN struct net_device *pNetDev,
 	IN RTMP_CB_8023_PACKET_ANNOUNCE _announce_802_3_packet,
 	IN UCHAR apidx,
@@ -482,7 +482,7 @@ BOOLEAN RTMPL2FrameTxAction(
 
 	DBGPRINT(RT_DEBUG_TRACE, ("%s doen\n", __FUNCTION__));
 
-	_announce_802_3_packet(pCtrlBkPtr, skb, OpMode);
+	_announce_802_3_packet(pAd, skb, OpMode);
 
 	return TRUE;
 

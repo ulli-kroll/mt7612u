@@ -100,12 +100,12 @@ struct sk_buff *duplicate_pkt_with_VLAN(
 	IN	UCHAR					*TPID);
 
 typedef void (*RTMP_CB_8023_PACKET_ANNOUNCE)(
-			IN	VOID			*pCtrlBkPtr,
+			IN	struct rtmp_adapter *pAdr,
 			IN	struct sk_buff *pPacket,
 			IN	UCHAR			OpMode);
 
 BOOLEAN RTMPL2FrameTxAction(
-	IN  VOID					*pCtrlBkPtr,
+	IN  struct rtmp_adapter *pAd,
 	IN	struct net_device *			pNetDev,
 	IN	RTMP_CB_8023_PACKET_ANNOUNCE _announce_802_3_packet,
 	IN	UCHAR					apidx,
