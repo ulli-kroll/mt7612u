@@ -4540,7 +4540,7 @@ INT Show_MacTable_Proc(struct rtmp_adapter *pAd, char *arg)
 {
 	INT i;
     	uint32_t RegValue;
-	ULONG DataRate=0;
+	uint32_t DataRate=0;
 
 
 	printk("\n");
@@ -4637,7 +4637,7 @@ INT Show_MacTable_Proc(struct rtmp_adapter *pAd, char *arg)
 INT show_stainfo_proc(struct rtmp_adapter *pAd, char *arg)
 {
 	INT i;
-	ULONG DataRate=0;
+	uint32_t DataRate=0;
 	UCHAR mac_addr[MAC_ADDR_LEN];
 	char *token;
 	CHAR sep[1] = {':'};
@@ -4891,7 +4891,7 @@ INT show_trinfo_proc(struct rtmp_adapter *pAd, char *arg)
 }
 #endif/*APCLI_SUPPORT*/
 
-void  getRate(HTTRANSMIT_SETTING HTSetting, ULONG* fLastTxRxRate)
+void  getRate(HTTRANSMIT_SETTING HTSetting, uint32_t *fLastTxRxRate)
 
 {
 	VOID *pAd = NULL;

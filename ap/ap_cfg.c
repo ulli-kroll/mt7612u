@@ -573,7 +573,7 @@ VOID RTMPAPGetAssoMacTable(
 	IN struct rtmp_adapter *pAd,
 	IN RTMP_IOCTL_INPUT_STRUCT *wrq)
 {
-	ULONG DataRate=0;
+	uint32_t DataRate=0;
 
 	INT i;
 	char *msg;
