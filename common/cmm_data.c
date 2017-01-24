@@ -110,51 +110,6 @@ VOID dump_rxwi(struct rtmp_adapter *pAd, RXWI_STRUC *pRxWI)
 	dump_rlt_rxwi(pAd, pRxWI);
 }
 
-
-#ifdef DBG_DIAGNOSE
-static VOID dump_txblk(TX_BLK *pTxBlk)
-{
-	struct sk_buff *pPacket;
-	int i, frameNum;
-	PQUEUE_ENTRY	pQEntry;
-
-	DBGPRINT(RT_DEBUG_TRACE,("Dump TX_BLK Structure:\n"));
-	DBGPRINT(RT_DEBUG_TRACE,("\tTxFrameType=%d!\n", pTxBlk->TxFrameType));
-	DBGPRINT(RT_DEBUG_TRACE,("\tTotalFrameLen=%d\n", pTxBlk->TotalFrameLen));
-	DBGPRINT(RT_DEBUG_TRACE,("\tTotalFrameNum=%d!\n", pTxBlk->TxPacketList.Number));
-	DBGPRINT(RT_DEBUG_TRACE,("\tTotalFragNum=%d!\n", pTxBlk->TotalFragNum));
-	DBGPRINT(RT_DEBUG_TRACE,("\tpPacketList=\n"));
-
-	frameNum = pTxBlk->TxPacketList.Number;
-
-	for(i=0; i < frameNum; i++)
-	{	int j;
-		UCHAR	*pBuf;
-
-		pQEntry = RemoveHeadQueue(&pTxBlk->TxPacketList);
-		pPacket = QUEUE_ENTRY_TO_PACKET(pQEntry);
-		if (pPacket)
-		{
-			pBuf = GET_OS_PKT_DATAPTR(pPacket);
-			DBGPRINT(RT_DEBUG_TRACE,("\t\t[%d]:ptr=0x%x, Len=%d!\n", i, (uint32_t)(GET_OS_PKT_DATAPTR(pPacket)), GET_OS_PKT_LEN(pPacket)));
-			DBGPRINT(RT_DEBUG_TRACE,("\t\t"));
-			for (j =0 ; j < GET_OS_PKT_LEN(pPacket); j++)
-			{
-				DBGPRINT(RT_DEBUG_TRACE,("%02x ", (pBuf[j] & 0xff)));
-				if (j == 16)
-					break;
-			}
-			InsertTailQueue(&pTxBlk->TxPacketList, PACKET_TO_QUEUE_ENTRY(pPacket));
-		}
-	}
-	DBGPRINT(RT_DEBUG_TRACE,("\tWcid=%d!\n", pTxBlk->Wcid));
-	DBGPRINT(RT_DEBUG_TRACE,("\tapidx=%d!\n", pTxBlk->apidx));
-	DBGPRINT(RT_DEBUG_TRACE,("----EndOfDump\n"));
-
-}
-#endif
-
-
 VOID dump_rxblk(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 {
 	DBGPRINT(RT_DEBUG_TRACE,("Dump RX_BLK Structure:\n"));
