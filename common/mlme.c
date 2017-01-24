@@ -1198,12 +1198,30 @@ VOID MlmeHalt(struct rtmp_adapter *pAd)
 
 VOID MlmeResetRalinkCounters(struct rtmp_adapter *pAd)
 {
+	int i;
+
 	pAd->RalinkCounters.LastOneSecRxOkDataCnt = pAd->RalinkCounters.OneSecRxOkDataCnt;
 
-		/* for performace enchanement */
-		memset(&pAd->RalinkCounters, 0,
-						(uint32_t)&pAd->RalinkCounters.OneSecEnd -
-						(uint32_t)&pAd->RalinkCounters.OneSecStart);
+	pAd->RalinkCounters.OneSecBeaconSentCnt = 0;
+	pAd->RalinkCounters.OneSecFalseCCACnt = 0;	/* CCA error count, for debug purpose, might move to global counter */
+	pAd->RalinkCounters.OneSecRxFcsErrCnt = 0;	/* CRC error */
+	pAd->RalinkCounters.OneSecRxOkCnt = 0;	/* RX without error */
+	pAd->RalinkCounters.OneSecTxFailCount = 0;
+	pAd->RalinkCounters.OneSecTxNoRetryOkCount = 0;
+	pAd->RalinkCounters.OneSecTxRetryOkCount = 0;
+	pAd->RalinkCounters.OneSecRxOkDataCnt = 0;	/* unicast-to-me DATA frame count */
+	pAd->RalinkCounters.OneSecTransmittedByteCount = 0;	/* both successful and failure, used to calculate TX throughput */
+
+	for (i = 0; i < NUM_OF_TX_RING; i++) {
+		pAd->RalinkCounters.OneSecOsTxCount[i] = 0;
+		pAd->RalinkCounters.OneSecDmaDoneCount[i] = 0;
+	}
+
+	pAd->RalinkCounters.OneSecTxDoneCount = 0;
+	pAd->RalinkCounters.OneSecRxCount = 0;
+	pAd->RalinkCounters.OneSecReceivedByteCount = 0;
+	pAd->RalinkCounters.OneSecTxAggregationCount = 0;
+	pAd->RalinkCounters.OneSecRxAggregationCount = 0;
 
 	return;
 }

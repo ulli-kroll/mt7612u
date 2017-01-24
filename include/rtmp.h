@@ -662,7 +662,6 @@ typedef struct _COUNTER_802_11 {
 
 
 typedef struct _COUNTER_RALINK {
-	uint32_t OneSecStart;	/* for one sec count clear use */
 	uint32_t OneSecBeaconSentCnt;
 	uint32_t OneSecFalseCCACnt;	/* CCA error count, for debug purpose, might move to global counter */
 	uint32_t OneSecRxFcsErrCnt;	/* CRC error */
@@ -680,7 +679,6 @@ typedef struct _COUNTER_RALINK {
 	uint32_t OneSecReceivedByteCount;
 	uint32_t OneSecTxAggregationCount;
 	uint32_t OneSecRxAggregationCount;
-	uint32_t OneSecEnd;	/* for one sec count clear use */
 
 	ULONG TransmittedByteCount;	/* both successful and failure, used to calculate TX throughput */
 	ULONG ReceivedByteCount;	/* both CRC okay and CRC error, used to calculate RX throughput */
