@@ -6959,7 +6959,7 @@ BOOLEAN rtstrmactohex(char *s1, char *s2);
 BOOLEAN rtstrcasecmp(char *s1, char *s2);
 char *rtstrstruncasecmp(char *s1, char *s2);
 
-char *rtstrstr( const char *s1, const char *s2);
+char *rtstrstr(char *s1, char *s2);
 char *rstrtok( char *s, const char *ct);
 int rtinet_aton(const char *cp, unsigned int *addr);
 

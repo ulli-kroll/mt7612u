@@ -125,7 +125,7 @@ char *rtstrstruncasecmp(char *s1, char *s2)
   * @s1: The string to be searched
   * @s2: The string to search for
   */
-char *rtstrstr(const char *s1,const char *s2)
+char *rtstrstr(char *s1, char *s2)
 {
 	INT l1, l2;
 
