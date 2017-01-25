@@ -160,7 +160,7 @@ u16 andes_usb_get_crc(struct rtmp_adapter *ad)
 	return crc;
 }
 
-VOID usb_upload_rom_patch_complete(purbb_t urb, pregs *pt_regs)
+static void usb_upload_rom_patch_complete(struct urb *urb)
 {
 	RTMP_OS_COMPLETION *load_rom_patch_done = (RTMP_OS_COMPLETION *)RTMP_OS_USB_CONTEXT_GET(urb);
 
@@ -536,7 +536,7 @@ error0:
 	return ret;
 }
 
-VOID usb_uploadfw_complete(purbb_t urb, pregs *pt_regs)
+static void usb_uploadfw_complete(struct urb *urb)
 {
 	RTMP_OS_COMPLETION *load_fw_done = (RTMP_OS_COMPLETION *)RTMP_OS_USB_CONTEXT_GET(urb);
 
