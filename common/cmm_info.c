@@ -4513,29 +4513,6 @@ INT	Show_STA_RAInfo_Proc(
 	return 0;
 }
 
-#ifdef CONFIG_AP_SUPPORT
-INT Show_TxInfo_Proc(struct rtmp_adapter *pAd, char *arg)
-{
-	struct os_cookie *pObj = pAd->OS_Cookie;
-	UCHAR apidx = pObj->ioctl_if;
-	INT i;
-
-	printk("BSS%d\n", apidx);
-	printk("TX Retry Count: %7ld\n", pAd->ApCfg.MBSSID[apidx].StatTxRetryOkCount);
-	printk("TX Fail  Count: %7ld\n", pAd->ApCfg.MBSSID[apidx].StatTxFailCount);
-	printk("--------------------------------------\n");
-	for (i=0; i<MAX_LEN_OF_MAC_TABLE; i++)
-	{
-		PMAC_TABLE_ENTRY pEntry = &pAd->MacTab.Content[i];
-		if ((IS_ENTRY_CLIENT(pEntry)) && (pEntry->apidx == apidx) && (pEntry->Sst == SST_ASSOC))
-		{
-			printk("%02X:%02X:%02X:%02X:%02X:%02X ==>", PRINT_MAC(pEntry->Addr));
-			printk("TX Retry(%7d), Tx Fail(%7d)\n", pEntry->StatTxRetryOkCount, pEntry->StatTxFailCount);
-		}
-	}
-}
-#endif /* CONFIG_AP_SUPPORT */
-
 INT Show_MacTable_Proc(struct rtmp_adapter *pAd, char *arg)
 {
 	INT i;
