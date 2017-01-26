@@ -122,6 +122,9 @@ VOID FrequencyCalibrationMode(
 VOID FrequencyCalibration(
 	IN struct rtmp_adapter *pAd)
 {
+	/*BOOLEAN bUpdateRFR = FALSE;*/
+	CHAR HighFreqTriggerPoint = 0, LowFreqTriggerPoint = 0;
+	CHAR DecreaseFreqOffset = 0, IncreaseFreqOffset = 0;
 
 #ifdef MT76x2
 	if (IS_MT76x2(pAd))
@@ -181,10 +184,6 @@ VOID FrequencyCalibration(
 		return;
 	}
 #endif /* MT76x2 */
-
-	/*BOOLEAN bUpdateRFR = FALSE;*/
-	CHAR HighFreqTriggerPoint = 0, LowFreqTriggerPoint = 0;
-	CHAR DecreaseFreqOffset = 0, IncreaseFreqOffset = 0;
 
 	/* Frequency calibration period: */
 	/* a) 10 seconds: Check the reported frequency offset*/

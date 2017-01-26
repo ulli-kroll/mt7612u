@@ -808,9 +808,9 @@ BOOLEAN CFG80211DRV_StaKeyAdd(
 	}
 	else
 	{
-		DBGPRINT(RT_DEBUG_TRACE, ("Set_WPAPSK_Proc ==> %d, %d, %d...\n", pKeyInfo->KeyId, pKeyInfo->KeyType, strlen(pKeyInfo->KeyBuf)));
-
 		RT_CMD_STA_IOCTL_SECURITY IoctlSec;
+
+		DBGPRINT(RT_DEBUG_TRACE, ("Set_WPAPSK_Proc ==> %d, %d, %d...\n", pKeyInfo->KeyId, pKeyInfo->KeyType, strlen(pKeyInfo->KeyBuf)));
 
 		IoctlSec.KeyIdx = pKeyInfo->KeyId;
 		IoctlSec.pData = pKeyInfo->KeyBuf;

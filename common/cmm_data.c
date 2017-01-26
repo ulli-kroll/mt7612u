@@ -2162,6 +2162,7 @@ BOOLEAN RTMPCheckEtherType(
 {
 	uint16_t TypeLen;
 	UCHAR Byte0, Byte1, *pSrcBuf, up = 0;
+	BOOLEAN isMcast = FALSE;
 
 	pSrcBuf = GET_OS_PKT_DATAPTR(pPacket);
 	ASSERT(pSrcBuf);
@@ -2169,7 +2170,6 @@ BOOLEAN RTMPCheckEtherType(
 	RTMP_SET_PACKET_SPECIFIC(pPacket, 0);
 
 #ifdef CONFIG_AP_SUPPORT
-	BOOLEAN isMcast = FALSE;
 	if(IS_MULTICAST_MAC_ADDR(pSrcBuf))
 		isMcast = TRUE;
 #endif /* CONFIG_AP_SUPPORT */

@@ -307,6 +307,7 @@ BOOLEAN CFG80211DRV_OpsBeaconAdd(struct rtmp_adapter *pAd, VOID *pData)
 	INT i;
 	PMULTISSID_STRUCT pMbss = &pAd->ApCfg.MBSSID[MAIN_MBSSID];
 	struct rtmp_wifi_dev *wdev = &pMbss->wdev;
+	UCHAR num_idx;
 
 	CFG80211DBG(RT_DEBUG_TRACE, ("80211> %s ==>\n", __FUNCTION__));
 #ifdef RTMP_MAC_USB
@@ -487,7 +488,6 @@ BOOLEAN CFG80211DRV_OpsBeaconAdd(struct rtmp_adapter *pAd, VOID *pData)
 	 * Support multiple BulkIn IRP,
 	 * the value on pAd->CommonCfg.NumOfBulkInIRP may be large than 1.
 	 */
-	UCHAR num_idx;
 	for(num_idx=0; num_idx < pAd->CommonCfg.NumOfBulkInIRP; num_idx++)
 	{
 		RTUSBBulkReceive(pAd);

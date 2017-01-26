@@ -494,6 +494,7 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, BOOLEAN s
 	UCHAR bbp_ch_idx;
 	BOOLEAN band_change = FALSE;
 	uint32_t RegValue = 0;
+	uint32_t eLNA_gain_from_e2p = 0;
 
 #ifdef RTMP_MAC_USB
 	if (IS_USB_INF(ad)) {
@@ -661,7 +662,6 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, BOOLEAN s
 
 	andes_switch_channel(ad, channel, scan, bw, tx_rx_setting, bbp_ch_idx);
 
-	uint32_t eLNA_gain_from_e2p = 0;
 	eLNA_gain_from_e2p = ((ad->ALNAGain2 & 0xFF) << 24) | ((ad->ALNAGain1 & 0xFF) << 16) | ((ad->ALNAGain0 & 0xFF) << 8) | (ad->BLNAGain & 0xFF);
 	andes_init_gain(ad, channel, TRUE, eLNA_gain_from_e2p);
 
@@ -1017,6 +1017,7 @@ done:
 void mt76x2_calibration(struct rtmp_adapter *ad, u8 channel)
 {
 	uint32_t value, value1, restore_value, loop = 0;
+        uint32_t mac_val = 0;
 
 	if ( IS_DOT11_H_RADAR_STATE(ad, RD_SILENCE_MODE))
 	{
@@ -1026,7 +1027,6 @@ void mt76x2_calibration(struct rtmp_adapter *ad, u8 channel)
 	}
 
 #ifdef RTMP_USB_SUPPORT
-        uint32_t mac_val = 0;
         RTMP_IO_READ32(ad, TXOP_CTRL_CFG, &mac_val);
         if ((mac_val & 0x100000) == 0x100000)
         {
@@ -1146,6 +1146,7 @@ static void mt76x2_init_mac_cr(struct rtmp_adapter *ad)
 	u32 i;
 	u32 value = 0;
 	u16 e2p_value;
+	char xtal_freq_offset = 0;
 
 	/*
 		Enable PBF and MAC clock
@@ -1205,7 +1206,6 @@ static void mt76x2_init_mac_cr(struct rtmp_adapter *ad)
  	 */
 	RT28xx_EEPROM_READ16(ad, G_BAND_BANDEDGE_PWR_BACK_OFF, e2p_value);
 
-	char xtal_freq_offset = 0;
 	if (((e2p_value & 0xff) == 0x00) || ((e2p_value & 0xff) == 0xff))
 		xtal_freq_offset = 0;
 	else if ((e2p_value & 0x80) == 0x80)
@@ -3283,6 +3283,7 @@ static const RTMP_CHIP_OP MT76x2_ChipOp = {
 VOID mt76x2_init(struct rtmp_adapter *pAd)
 {
 	RTMP_CHIP_CAP *pChipCap = &pAd->chipCap;
+	uint32_t mac_val = 0;
 
 	memcpy(&pAd->chipCap, &MT76x2_ChipCap, sizeof(RTMP_CHIP_CAP));
 	memcpy(&pAd->chipOps, &MT76x2_ChipOp, sizeof(RTMP_CHIP_OP));
@@ -3298,7 +3299,6 @@ VOID mt76x2_init(struct rtmp_adapter *pAd)
 		pChipCap->phy_caps = (fPHY_CAP_24G | fPHY_CAP_5G | fPHY_CAP_HT | fPHY_CAP_LDPC);
 
 #ifdef DOT11_VHT_AC
-	uint32_t mac_val = 0;
 	RTMP_IO_READ32(pAd, 0x38, &mac_val);
 
 	if ((mac_val & 0x80000) == 0x80000)

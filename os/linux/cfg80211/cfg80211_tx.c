@@ -58,6 +58,8 @@ BOOLEAN CFG80211_SyncPacketWmmIe(struct rtmp_adapter *pAd, VOID *pData, ULONG da
 
 	if (wmm_ie != NULL)
         {
+                UINT i = QID_AC_BE;
+		
 #ifdef UAPSD_SUPPORT
                 if (pAd->ApCfg.MBSSID[0].UapsdInfo.bAPSDCapable == TRUE)
                 {
@@ -65,8 +67,6 @@ BOOLEAN CFG80211_SyncPacketWmmIe(struct rtmp_adapter *pAd, VOID *pData, ULONG da
                 }
 #endif /* UAPSD_SUPPORT */
 
-
-                UINT i = QID_AC_BE;
                 /* WMM: sync from driver's EDCA paramter */
                 for (i = QID_AC_BE; i <= QID_AC_VO; i++)
                 {
@@ -423,6 +423,7 @@ INT CFG80211_SendMgmtFrame(struct rtmp_adapter *pAd, VOID *pData, ULONG Data)
 	{
 		{
 			PCFG80211_CTRL pCfg80211_ctrl = &pAd->cfg80211_ctrl;
+			struct ieee80211_mgmt *mgmt;
 
 			pCfg80211_ctrl->TxStatusInUsed = TRUE;
 			pCfg80211_ctrl->TxStatusSeq = pAd->Sequence;
@@ -449,7 +450,6 @@ INT CFG80211_SendMgmtFrame(struct rtmp_adapter *pAd, VOID *pData, ULONG Data)
 			CFG80211_CheckActionFrameType(pAd, "TX", pData, Data);
 
 #ifdef CONFIG_AP_SUPPORT
-			struct ieee80211_mgmt *mgmt;
         		mgmt = (struct ieee80211_mgmt *)pData;
         		if (ieee80211_is_probe_resp(mgmt->frame_control))
 			{

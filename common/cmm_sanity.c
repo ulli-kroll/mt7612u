@@ -1510,11 +1510,11 @@ BOOLEAN PeerBeaconAndProbeRspSanity(
 		case IE_OPERATING_MODE_NOTIFY:
 			if (pEid->Len == sizeof(OPERATING_MODE)) {
 #ifdef CONFIG_STA_SUPPORT
-				if (!INFRA_ON(pAd))
-					break;
-
 				MAC_TABLE_ENTRY *pEntry = &pAd->MacTab.Content[BSSID_WCID];
 				OPERATING_MODE op_mode;
+
+				if (!INFRA_ON(pAd))
+					break;
 
 				memmove(&op_mode, &pEid->Octet[0], sizeof(OPERATING_MODE));
 

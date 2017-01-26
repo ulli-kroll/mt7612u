@@ -457,6 +457,7 @@ static void rtusb_mgmt_dma_done_tasklet(unsigned long data)
 	pAd 			= pMLMEContext->pAd;
 /*	Status			= pUrb->status; */
 	index 			= pMLMEContext->SelfIdx;
+	HEADER_802_11  *pHeader;
 
 	ASSERT((pAd->MgmtRing.TxDmaIdx == index));
 
@@ -522,7 +523,6 @@ static void rtusb_mgmt_dma_done_tasklet(unsigned long data)
 
 
 #if RT_CFG80211_SUPPORT
-	HEADER_802_11  *pHeader;
 	pHeader = (HEADER_802_11 *)(GET_OS_PKT_DATAPTR(pPacket)+ TXINFO_SIZE + pAd->chipCap.TXWISize);
 	CFG80211_SendMgmtFrameDone(pAd, pHeader->Sequence);
 #endif /* RT_CFG80211_SUPPORT */
@@ -939,8 +939,8 @@ INT RTUSBCmdThread(
 void InitUSBDevice(RT_CMD_USB_INIT *config, VOID *ad_src)
 {
 	struct rtmp_adapter *ad = (struct rtmp_adapter *)ad_src;
-	ad->infType = RTMP_DEV_INF_USB;
 	uint32_t value;
+	ad->infType = RTMP_DEV_INF_USB;
 
 	RTMP_SEM_EVENT_INIT(&(ad->UsbVendorReq_semaphore), &ad->RscSemMemList);
 	RTMP_SEM_EVENT_INIT(&(ad->reg_atomic), &ad->RscSemMemList);

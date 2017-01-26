@@ -115,13 +115,10 @@ VOID CFG80211RemainOnChannelTimeout(
 /* Set a given time on specific channel to listen action Frame */
 BOOLEAN CFG80211DRV_OpsRemainOnChannel(struct rtmp_adapter *pAd, VOID *pData, uint32_t duration)
 {
-	CMD_RTPRIV_IOCTL_80211_CHAN *pChanInfo;
+	CMD_RTPRIV_IOCTL_80211_CHAN *pChanInfo = (CMD_RTPRIV_IOCTL_80211_CHAN *) pData;
 	BOOLEAN Cancelled;
 	PCFG80211_CTRL pCfg80211_ctrl = &pAd->cfg80211_ctrl;
 	UCHAR lock_channel;
-
-	pChanInfo = (CMD_RTPRIV_IOCTL_80211_CHAN *) pData;
-
         PWIRELESS_DEV pwdev = NULL;
         pwdev = pChanInfo->pWdev;
 
