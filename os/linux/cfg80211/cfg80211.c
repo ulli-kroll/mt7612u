@@ -1768,7 +1768,7 @@ static int CFG80211_OpsMgmtTx(struct wiphy *pWiphy,
 
 static int CFG80211_OpsTxCancelWait(
 	struct wiphy *pWiphy,
-	struct net_device *pDev,
+	struct wireless_dev *wdev,
 	u64 cookie)
 {
 	CFG80211DBG(RT_DEBUG_OFF, ("80211> %s ==>\n", __FUNCTION__));
