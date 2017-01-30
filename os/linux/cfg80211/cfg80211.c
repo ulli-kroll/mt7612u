@@ -1799,7 +1799,7 @@ static int CFG80211_OpsStartAp(
 {
 	struct rtmp_adapter *pAd;
 	CMD_RTPRIV_IOCTL_80211_BEACON bcn;
-	UCHAR *beacon_head_buf, *beacon_tail_buf;
+	u8 *beacon_head_buf = NULL, *beacon_tail_buf = NULL;
 
 	pAd = MAC80211_PAD_GET(pWiphy);
 	if (pAd == NULL)
@@ -1842,7 +1842,7 @@ static int CFG80211_OpsChangeBeacon(
 {
 	struct rtmp_adapter *pAd;
 	CMD_RTPRIV_IOCTL_80211_BEACON bcn;
-	UCHAR *beacon_head_buf, *beacon_tail_buf;
+	u8 *beacon_head_buf = NULL, *beacon_tail_buf = NULL;
 
 	pAd = MAC80211_PAD_GET(pWiphy);
 	if (pAd == NULL)
