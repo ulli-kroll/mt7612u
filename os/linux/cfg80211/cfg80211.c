@@ -1723,17 +1723,15 @@ static void CFG80211_OpsMgmtFrameRegister(
 
 //Supplicant_NEW_TDLS
 
-static int CFG80211_OpsMgmtTx(struct wiphy *pWiphy,
-	struct wireless_dev 	*wdev,
-	struct ieee80211_channel	*pChan,
-	bool Offchan,
-	unsigned int Wait,
-	const u8 *pBuf,
-	size_t Len,
-	bool no_cck,
-	bool done_wait_for_ack,
+static int CFG80211_OpsMgmtTx(
+	struct wiphy *pWiphy,
+	struct wireless_dev *wdev,
+	struct cfg80211_mgmt_tx_params *params,
 	u64 *pCookie)
 {
+	const u8 *pBuf = params->buf;
+	size_t Len = params->len;
+	struct ieee80211_channel *pChan = params->chan;
 	struct rtmp_adapter *pAd;
 	uint32_t ChanId;
 	struct net_device *dev = NULL;
@@ -1750,8 +1748,6 @@ static int CFG80211_OpsMgmtTx(struct wiphy *pWiphy,
 	CFG80211DBG(RT_DEBUG_INFO, ("80211> Mgmt Channel = %d\n", ChanId));
 
 	/* Send the Frame with basic rate 6 */
-	if (no_cck)
-		; //pAd->isCfgDeviceInP2p = TRUE;
 
 	*pCookie = 5678;
 	RTMP_DRIVER_80211_CHANNEL_LOCK(pAd, ChanId);
