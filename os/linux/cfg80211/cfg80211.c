@@ -222,7 +222,7 @@ static int CFG80211_OpsChannelSet(
 	IN enum nl80211_channel_type	ChannelType)
 
 {
-	VOID *pAd;
+	struct rtmp_adapter *pAd;
 	CFG80211_CB *p80211CB;
 	CMD_RTPRIV_IOCTL_80211_CHAN ChanInfo;
 	uint32_t ChanId;
@@ -294,7 +294,7 @@ static int CFG80211_OpsVirtualInfChg(
 	IN u32							*pFlags,
 	struct vif_params				*pParams)
 {
-	VOID *pAd;
+	struct rtmp_adapter *pAd;
 	CFG80211_CB *pCfg80211_CB;
 	struct net_device *pNetDev;
 	CMD_RTPRIV_IOCTL_80211_VIF_PARM VifInfo;
@@ -425,7 +425,7 @@ static int CFG80211_OpsScan(
 	IN struct cfg80211_scan_request *pRequest)
 {
 #ifdef CONFIG_STA_SUPPORT
-	VOID *pAd;
+	struct rtmp_adapter *pAd;
 	CFG80211_CB *pCfg80211_CB;
 	struct net_device *pNdev = NULL;
 
@@ -581,7 +581,7 @@ static int CFG80211_OpsIbssJoin(
 	IN struct net_device			*pNdev,
 	IN struct cfg80211_ibss_params	*pParams)
 {
-	VOID *pAd;
+	struct rtmp_adapter *pAd;
 	CMD_RTPRIV_IOCTL_80211_IBSS IbssInfo;
 
 
@@ -622,7 +622,7 @@ Note:
 static int CFG80211_OpsIbssLeave(struct wiphy *pWiphy,
 	struct net_device *pNdev)
 {
-	VOID *pAd;
+	struct rtmp_adapter *pAd;
 
 	CFG80211DBG(RT_DEBUG_TRACE, ("80211> %s ==>\n", __FUNCTION__));
 	MAC80211_PAD_GET(pAd, pWiphy);
@@ -713,7 +713,7 @@ static int CFG80211_OpsPwrMgmt(
 	IN bool                              enabled,
 	IN int32_t                             timeout)
 {
-	VOID *pAd;
+	struct rtmp_adapter *pAd;
 	CFG80211DBG(RT_DEBUG_TRACE, ("80211> %s ==> power save %s\n", __FUNCTION__,(enabled ? "enable" : "disable")));
 
 	MAC80211_PAD_GET(pAd, pWiphy);
@@ -745,7 +745,7 @@ static int CFG80211_OpsStaGet(struct wiphy *pWiphy,
 	struct net_device *pNdev, const u8 *pMac,
 	struct station_info *pSinfo)
 {
-	VOID *pAd;
+	struct rtmp_adapter *pAd;
 	CMD_RTPRIV_IOCTL_80211_STA StaInfo;
 
 	CFG80211DBG(RT_DEBUG_TRACE, ("80211> %s ==>\n", __FUNCTION__));
@@ -824,7 +824,7 @@ static int CFG80211_OpsStaDump(
 	IN UINT8							*pMac,
 	IN struct station_info				*pSinfo)
 {
-	VOID *pAd;
+	struct rtmp_adapter *pAd;
 
 	if (Idx != 0)
 		return -ENOENT;
@@ -863,7 +863,7 @@ static int CFG80211_OpsWiphyParamsSet(
 	IN struct wiphy						*pWiphy,
 	IN uint32_t 						Changed)
 {
-	VOID *pAd;
+	struct rtmp_adapter *pAd;
 
 	CFG80211DBG(RT_DEBUG_TRACE, ("80211> %s ==>\n", __FUNCTION__));
 	MAC80211_PAD_GET(pAd, pWiphy);
@@ -911,7 +911,7 @@ static int CFG80211_OpsKeyAdd(
 	IN const UINT8						*pMacAddr,
 	IN struct key_params				*pParams)
 {
-	VOID *pAd;
+	struct rtmp_adapter *pAd;
 	CMD_RTPRIV_IOCTL_80211_KEY KeyInfo;
 	CFG80211_CB *p80211CB;
 	p80211CB = NULL;
@@ -1088,7 +1088,7 @@ static int CFG80211_OpsKeyDel(
 	IN bool								Pairwise,
 	IN const UINT8						*pMacAddr)
 {
-    VOID *pAd;
+    struct rtmp_adapter *pAd;
     CMD_RTPRIV_IOCTL_80211_KEY KeyInfo;
 	CFG80211_CB *p80211CB;
 	p80211CB = NULL;
@@ -1156,7 +1156,7 @@ static int CFG80211_OpsKeyDefaultSet(
 	IN bool								Unicast,
 	IN bool								Multicast)
 {
-	VOID *pAd;
+	struct rtmp_adapter *pAd;
 
 
 	CFG80211DBG(RT_DEBUG_TRACE, ("80211> %s ==>\n", __FUNCTION__));
@@ -1200,7 +1200,7 @@ static int CFG80211_OpsMgmtKeyDefaultSet(
 	IN struct net_device				*pNdev,
 	IN UINT8							KeyIdx)
 {
-	VOID *pAd;
+	struct rtmp_adapter *pAd;
 
 
 	CFG80211DBG(RT_DEBUG_TRACE, ("80211> %s ==>\n", __FUNCTION__));
@@ -1271,7 +1271,7 @@ static int CFG80211_OpsConnect(
 	IN struct cfg80211_connect_params	*pSme)
 {
 #ifdef CONFIG_STA_SUPPORT
-	VOID *pAd;
+	struct rtmp_adapter *pAd;
 	CMD_RTPRIV_IOCTL_80211_CONNECT ConnInfo;
 	struct ieee80211_channel *pChannel = pSme->channel;
 	int32_t Pairwise = 0;
@@ -1451,7 +1451,7 @@ static int CFG80211_OpsDisconnect(
 {
 #ifdef CONFIG_STA_SUPPORT
 
-	VOID *pAd;
+	struct rtmp_adapter *pAd;
 
 
 	CFG80211DBG(RT_DEBUG_TRACE, ("80211> %s ==>\n", __FUNCTION__));
@@ -1470,7 +1470,7 @@ static int CFG80211_OpsDisconnect(
 static int CFG80211_OpsRFKill(
 	IN struct wiphy						*pWiphy)
 {
-	VOID		*pAd;
+	struct rtmp_adapter		*pAd;
 	BOOLEAN		active;
 
 	CFG80211DBG(RT_DEBUG_TRACE, ("80211> %s ==>\n", __FUNCTION__));
@@ -1523,7 +1523,7 @@ static int CFG80211_OpsSurveyGet(
 	IN int								Idx,
 	IN struct survey_info				*pSurvey)
 {
-	VOID *pAd;
+	struct rtmp_adapter *pAd;
 	CMD_RTPRIV_IOCTL_80211_SURVEY SurveyInfo;
 
 
@@ -1577,7 +1577,7 @@ static int CFG80211_OpsPmksaSet(
 	IN struct cfg80211_pmksa			*pPmksa)
 {
 #ifdef CONFIG_STA_SUPPORT
-	VOID *pAd;
+	struct rtmp_adapter *pAd;
 	RT_CMD_STA_IOCTL_PMA_SA IoctlPmaSa, *pIoctlPmaSa = &IoctlPmaSa;
 
 
@@ -1621,7 +1621,7 @@ static int CFG80211_OpsPmksaDel(
 	IN struct cfg80211_pmksa			*pPmksa)
 {
 #ifdef CONFIG_STA_SUPPORT
-	VOID *pAd;
+	struct rtmp_adapter *pAd;
 	RT_CMD_STA_IOCTL_PMA_SA IoctlPmaSa, *pIoctlPmaSa = &IoctlPmaSa;
 
 	CFG80211DBG(RT_DEBUG_OFF, ("80211> %s ==>\n", __FUNCTION__));
@@ -1662,7 +1662,7 @@ static int CFG80211_OpsPmksaFlush(
 	IN struct net_device				*pNdev)
 {
 #ifdef CONFIG_STA_SUPPORT
-	VOID *pAd;
+	struct rtmp_adapter *pAd;
 	RT_CMD_STA_IOCTL_PMA_SA IoctlPmaSa, *pIoctlPmaSa = &IoctlPmaSa;
 
 
@@ -1683,7 +1683,7 @@ static int CFG80211_OpsRemainOnChannel(
 	IN unsigned int duration,
 	OUT u64 *cookie)
 {
-	VOID *pAd;
+	struct rtmp_adapter *pAd;
 	uint32_t ChanId;
 	CMD_RTPRIV_IOCTL_80211_CHAN ChanInfo;
 	u32 rndCookie;
@@ -1724,7 +1724,7 @@ static void CFG80211_OpsMgmtFrameRegister(
 	struct wireless_dev *wdev,
     u16 frame_type, bool reg)
 {
-	VOID *pAd;
+	struct rtmp_adapter *pAd;
 	struct net_device *dev = NULL;
 
 	MAC80211_PAD_GET(pAd, pWiphy);
@@ -1756,7 +1756,7 @@ static int CFG80211_OpsMgmtTx(struct wiphy *pWiphy,
 	IN bool done_wait_for_ack,
 	IN u64 *pCookie)
 {
-	VOID *pAd;
+	struct rtmp_adapter *pAd;
 	uint32_t ChanId;
 	struct net_device *dev = NULL;
 
@@ -1800,7 +1800,7 @@ static int CFG80211_OpsCancelRemainOnChannel(
 	struct wireless_dev *wdev,
     u64 cookie)
 {
-    VOID *pAd;
+    struct rtmp_adapter *pAd;
     CFG80211DBG(RT_DEBUG_INFO, ("80211> %s ==>\n", __FUNCTION__));
     MAC80211_PAD_GET(pAd, pWiphy);
     /* It cause the Supplicant-based OffChannel Hang */
@@ -1813,7 +1813,7 @@ static int CFG80211_OpsStartAp(
 	struct net_device *netdev,
 	struct cfg80211_ap_settings *settings)
 {
-    VOID *pAd;
+    struct rtmp_adapter *pAd;
     CMD_RTPRIV_IOCTL_80211_BEACON bcn;
     UCHAR *beacon_head_buf, *beacon_tail_buf;
 
@@ -1855,7 +1855,7 @@ static int CFG80211_OpsChangeBeacon(
 	struct net_device *netdev,
 	struct cfg80211_beacon_data *info)
 {
-    VOID *pAd;
+    struct rtmp_adapter *pAd;
     CMD_RTPRIV_IOCTL_80211_BEACON bcn;
     UCHAR *beacon_head_buf, *beacon_tail_buf;
 
@@ -1892,7 +1892,7 @@ static int CFG80211_OpsStopAp(
 	struct wiphy *pWiphy,
 	struct net_device *netdev)
 {
-	VOID *pAd;
+	struct rtmp_adapter *pAd;
 	MAC80211_PAD_GET(pAd, pWiphy);
 
 	CFG80211DBG(RT_DEBUG_OFF, ("80211> %s ==>\n", __FUNCTION__));
@@ -1907,7 +1907,7 @@ static int CFG80211_OpsChangeBss(
 	struct bss_parameters *params)
 {
 
-	VOID *pAd;
+	struct rtmp_adapter *pAd;
 	MAC80211_PAD_GET(pAd, pWiphy);
 	CMD_RTPRIV_IOCTL_80211_BSS_PARM bssInfo;
 
@@ -1927,7 +1927,7 @@ static int CFG80211_OpsStaDel(
 	struct net_device *dev,
 	struct station_del_parameters *params)
 {
-	VOID *pAd;
+	struct rtmp_adapter *pAd;
 	UINT8 *pMacAddr = (u8 *) params->mac;
 	MAC80211_PAD_GET(pAd, pWiphy);
 
@@ -2058,10 +2058,12 @@ static int CFG80211_start_p2p_device(
 	struct wiphy *pWiphy,
 	struct wireless_dev *wdev)
 {
-	void *pAd;
+	struct rtmp_adapter *pAd;
 	struct net_device *dev = wdev->netdev;
+
 	CFG80211DBG(RT_DEBUG_OFF, ("80211> %s, %s [%d]==>\n", __FUNCTION__, dev->name, dev->ieee80211_ptr->iftype));
 	MAC80211_PAD_GET(pAd, pWiphy);
+
 	return 0;
 }
 
@@ -2071,8 +2073,10 @@ static void CFG80211_stop_p2p_device(
 {
 	struct rtmp_adapter *pAd;
 	struct net_device *dev = wdev->netdev;
+
 	CFG80211DBG(RT_DEBUG_OFF, ("80211> %s, %s [%d]==>\n", __FUNCTION__, dev->name, dev->ieee80211_ptr->iftype));
 	MAC80211_PAD_GET(pAd, pWiphy);
+
 	return 0;
 }
 
@@ -2475,7 +2479,7 @@ static int32_t CFG80211_RegNotifier(
 	IN struct wiphy					*pWiphy,
 	IN struct regulatory_request	*pRequest)
 {
-	VOID *pAd;
+	struct rtmp_adapter *pAd;
 	ULONG *pPriv;
 
 
