@@ -160,7 +160,7 @@ INT CFG80211_StaPortSecured(
     UINT    					  flag);
 
 /* AP Related*/
-INT CFG80211_ApStaDel(struct rtmp_adapter *pAdCB, UCHAR *pMac);
+void CFG80211_ApStaDel(struct rtmp_adapter *pAdCB, UCHAR *pMac);
 
 VOID CFG80211_UpdateBeacon(
    struct rtmp_adapter            *pAdOrg,
@@ -170,7 +170,7 @@ VOID CFG80211_UpdateBeacon(
    uint32_t                          beacon_tail_len,
    BOOLEAN                         isAllUpdate);
 
-INT CFG80211_ApStaDelSendEvent(struct rtmp_adapter *pAd, const u8 *mac_addr);
+void CFG80211_ApStaDelSendEvent(struct rtmp_adapter *pAd, const u8 *mac_addr);
 
 
 /* Information Releated */
@@ -328,7 +328,7 @@ BOOLEAN CFG80211_P2pHandleNoAAttri(
 
 #ifdef CONFIG_AP_SUPPORT
 
-VOID CFG80211_ParseBeaconIE(struct rtmp_adapter *pAd, MULTISSID_STRUCT *pMbss, struct rtmp_wifi_dev *wdev,UCHAR *wpa_ie,UCHAR *rsn_ie);
+void CFG80211_ParseBeaconIE(struct rtmp_adapter *pAd, MULTISSID_STRUCT *pMbss, struct rtmp_wifi_dev *wdev, const u8 *wpa_ie, const u8 *rsn_ie);
 
 #endif
 
@@ -337,7 +337,7 @@ VOID CFG80211_Convert802_3Packet(struct rtmp_adapter *pAd, RX_BLK *pRxBlk, UCHAR
 VOID CFG80211_Announce802_3Packet(struct rtmp_adapter *pAd, RX_BLK *pRxBlk, UCHAR FromWhichBSSID);
 VOID CFG80211_SendMgmtFrameDone(struct rtmp_adapter *pAd, USHORT Sequence);
 VOID CFG80211_SwitchTxChannel(struct rtmp_adapter *pAd, ULONG Data);
-BOOLEAN CFG80211DRV_OpsBeaconSet(struct rtmp_adapter *pAd,void  *pData);
+void CFG80211DRV_OpsBeaconSet(struct rtmp_adapter *pAd,void  *pData);
 BOOLEAN CFG80211DRV_OpsBeaconAdd(struct rtmp_adapter *pAd, void  *pData);
 void CFG80211DRV_DisableApInterface(struct rtmp_adapter *pAd);
 BOOLEAN CFG80211DRV_OpsVifAdd(struct rtmp_adapter *pA, void  *pData);

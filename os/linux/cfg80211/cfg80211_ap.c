@@ -288,7 +288,7 @@ VOID CFG80211_UpdateBeacon(
 
 }
 
-BOOLEAN CFG80211DRV_OpsBeaconSet(struct rtmp_adapter *pAd, VOID *pData)
+void CFG80211DRV_OpsBeaconSet(struct rtmp_adapter *pAd, VOID *pData)
 {
 	CMD_RTPRIV_IOCTL_80211_BEACON *pBeacon;
 	pBeacon = (CMD_RTPRIV_IOCTL_80211_BEACON *)pData;
@@ -757,7 +757,7 @@ INT CFG80211_StaPortSecured(
 	return 0;
 }
 
-INT CFG80211_ApStaDel(
+void CFG80211_ApStaDel(
 	IN struct rtmp_adapter                          *pAd,
 	IN UCHAR                                        *pMac)
 {
@@ -795,7 +795,7 @@ INT CFG80211_setApDefaultKey(
 	return 0;
 }
 
-INT CFG80211_ApStaDelSendEvent(struct rtmp_adapter *pAd, const u8 *mac_addr)
+void CFG80211_ApStaDelSendEvent(struct rtmp_adapter *pAd, const u8 *mac_addr)
 {
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
 	struct net_device *pNetDev = NULL;

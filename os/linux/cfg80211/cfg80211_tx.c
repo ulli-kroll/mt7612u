@@ -86,7 +86,7 @@ BOOLEAN CFG80211_SyncPacketWmmIe(struct rtmp_adapter *pAd, VOID *pData, ULONG da
 
 	return FALSE;
 }
-VOID CFG80211_ParseBeaconIE(struct rtmp_adapter *pAd, MULTISSID_STRUCT *pMbss, struct rtmp_wifi_dev *wdev,UCHAR *wpa_ie,UCHAR *rsn_ie)
+void CFG80211_ParseBeaconIE(struct rtmp_adapter *pAd, MULTISSID_STRUCT *pMbss, struct rtmp_wifi_dev *wdev, const u8 *wpa_ie, const u8 *rsn_ie)
 {
 	PEID_STRUCT 		 pEid;
 	u8 *			pTmp;
