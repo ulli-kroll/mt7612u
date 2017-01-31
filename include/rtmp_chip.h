@@ -1253,7 +1253,6 @@ do {	\
 #endif /* DYNAMIC_VGA_SUPPORT */
 
 int RtmpChipOpsHook(VOID *pCB);
-VOID RtmpChipBcnInit(struct rtmp_adapter *pAd);
 VOID RtmpChipBcnSpecInit(struct rtmp_adapter *pAd);
 #ifdef RLT_MAC
 VOID rlt_bcn_buf_init(struct rtmp_adapter *pAd);

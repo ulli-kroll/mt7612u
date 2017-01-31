@@ -133,56 +133,6 @@ VOID RtmpChipBcnSpecInit(struct rtmp_adapter *pAd)
 {
 }
 
-
-/*
-========================================================================
-Routine Description:
-	Initialize normal beacon frame architecture.
-
-Arguments:
-	pAd				- WLAN control block pointer
-
-Return Value:
-	None
-
-Note:
-========================================================================
-*/
-VOID RtmpChipBcnInit(
-	IN struct rtmp_adapter *pAd)
-{
-	RTMP_CHIP_CAP *pChipCap = &pAd->chipCap;
-
-
-	pChipCap->FlgIsSupSpecBcnBuf = FALSE;
-	pChipCap->BcnMaxHwNum = 8;
-	pChipCap->BcnMaxNum = (pChipCap->BcnMaxHwNum - MAX_MESH_NUM - MAX_APCLI_NUM);
-	pChipCap->BcnMaxHwSize = 0x1000;
-
-	pChipCap->BcnBase[0] = 0x7800;
-	pChipCap->BcnBase[1] = 0x7A00;
-	pChipCap->BcnBase[2] = 0x7C00;
-	pChipCap->BcnBase[3] = 0x7E00;
-	pChipCap->BcnBase[4] = 0x7200;
-	pChipCap->BcnBase[5] = 0x7400;
-	pChipCap->BcnBase[6] = 0x5DC0;
-	pChipCap->BcnBase[7] = 0x5BC0;
-
-	/*
-		If the MAX_MBSSID_NUM is larger than 6,
-		it shall reserve some WCID space(wcid 222~253) for beacon frames.
-		-	these wcid 238~253 are reserved for beacon#6(ra6).
-		-	these wcid 222~237 are reserved for beacon#7(ra7).
-	*/
-	if (pChipCap->BcnMaxNum == 8)
-		pChipCap->WcidHwRsvNum = 222;
-	else if (pChipCap->BcnMaxNum == 7)
-		pChipCap->WcidHwRsvNum = 238;
-	else
-		pChipCap->WcidHwRsvNum = 255;
-}
-
-
 #ifdef RLT_MAC
 /*
 ========================================================================
