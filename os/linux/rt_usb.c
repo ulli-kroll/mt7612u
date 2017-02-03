@@ -448,6 +448,7 @@ static void rtusb_mgmt_dma_done_tasklet(unsigned long data)
 	purbb_t			pUrb;
 	NTSTATUS		Status;
 	unsigned long	IrqFlags;
+	HEADER_802_11  *pHeader;
 
 
 	pUrb			= (purbb_t)data;
@@ -457,7 +458,6 @@ static void rtusb_mgmt_dma_done_tasklet(unsigned long data)
 	pAd 			= pMLMEContext->pAd;
 /*	Status			= pUrb->status; */
 	index 			= pMLMEContext->SelfIdx;
-	HEADER_802_11  *pHeader;
 
 	ASSERT((pAd->MgmtRing.TxDmaIdx == index));
 

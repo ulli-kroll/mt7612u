@@ -1891,12 +1891,12 @@ static int CFG80211_OpsChangeBss(
         struct net_device *netdev,
 	struct bss_parameters *params)
 {
-
 	struct rtmp_adapter *pAd;
+	CMD_RTPRIV_IOCTL_80211_BSS_PARM bssInfo;
+
 	pAd = MAC80211_PAD_GET(pWiphy);
 	if (pAd == NULL)
 		return -EINVAL;
-	CMD_RTPRIV_IOCTL_80211_BSS_PARM bssInfo;
 
 	CFG80211DBG(RT_DEBUG_TRACE, ("80211> %s ==>\n", __FUNCTION__));
 

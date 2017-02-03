@@ -793,6 +793,8 @@ VOID MacTableMaintenance(struct rtmp_adapter *pAd)
 	INT total_sta = 0;
 #endif /* ED_MONITOR */
 
+	CHAR rssiIndex = 0, overRssiThresCount = 0;
+
 	memset(fAnyStationPortSecured, 0, sizeof(fAnyStationPortSecured));
 
 	pMacTable = &pAd->MacTab;
@@ -1021,7 +1023,7 @@ VOID MacTableMaintenance(struct rtmp_adapter *pAd)
 		}
 
 		//YF: kickout sta when 3 of 5 exceeds the threshold.
-		CHAR rssiIndex = 0, overRssiThresCount = 0;
+
 		if (pMbss->RssiLowForStaKickOut != 0)
 		{
 #define CHECK_DATA_RSSI_UP_BOUND 3

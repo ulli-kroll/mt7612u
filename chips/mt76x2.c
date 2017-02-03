@@ -495,6 +495,7 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, BOOLEAN s
 	BOOLEAN band_change = FALSE;
 	uint32_t RegValue = 0;
 	uint32_t eLNA_gain_from_e2p = 0;
+	uint32_t mac_val = 0;
 
 #ifdef RTMP_MAC_USB
 	if (IS_USB_INF(ad)) {
@@ -683,7 +684,6 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, BOOLEAN s
 
 
 #ifdef RTMP_USB_SUPPORT
-	uint32_t mac_val = 0;
 	RTMP_IO_READ32(ad, TXOP_CTRL_CFG, &mac_val);
 	if ((mac_val & 0x100000) == 0x100000)
 	{
