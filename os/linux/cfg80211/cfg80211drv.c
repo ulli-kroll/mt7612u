@@ -469,9 +469,7 @@ BOOLEAN CFG80211DRV_OpsSetChannel(struct rtmp_adapter *pAd, VOID *pData)
 	CMD_RTPRIV_IOCTL_80211_CHAN *pChan;
 	UINT8 ChanId, IfType, ChannelType;
 	UCHAR lock_channel;
-#ifdef DOT11_N_SUPPORT
 	BOOLEAN FlgIsChanged;
-#endif /* DOT11_N_SUPPORT */
 
 /*
  *  enum nl80211_channel_type {

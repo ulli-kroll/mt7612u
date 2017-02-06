@@ -24,7 +24,6 @@
     ---------  ----------    ----------------------------------------------
 */
 
-#ifdef DOT11_N_SUPPORT
 
 
 #ifndef _DOT11N_HT_H_
@@ -349,5 +348,4 @@ typedef union GNU_PACKED _BSS_2040_COEXIST_IE{
 
 
 #endif /* _DOT11N_HT_H_ */
-#endif /* DOT11_N_SUPPORT */
 

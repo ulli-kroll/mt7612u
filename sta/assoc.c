@@ -281,7 +281,6 @@ VOID MlmeAssocReqAction(
 			FrameLen += tmp;
 		}
 
-#ifdef DOT11_N_SUPPORT
 		/* HT */
 		if ((pAd->MlmeAux.HtCapabilityLen > 0)
 		    && WMODE_CAP_N(pAd->CommonCfg.PhyMode)
@@ -339,7 +338,6 @@ VOID MlmeAssocReqAction(
 			}
 #endif /* DOT11_VHT_AC */
 		}
-#endif /* DOT11_N_SUPPORT */
 
 		{
 			ULONG TmpLen;
@@ -686,7 +684,6 @@ VOID MlmeReassocReqAction(
 			MakeOutgoingFrame(pOutBuffer + FrameLen, &tmp,
 					  9, &WmeIe[0], END_OF_ARGS);
 			FrameLen += tmp;
-#ifdef DOT11_N_SUPPORT
 		/* HT */
 		if ((pAd->MlmeAux.HtCapabilityLen > 0)
 		    && WMODE_CAP_N(pAd->CommonCfg.PhyMode)) {
@@ -745,7 +742,6 @@ VOID MlmeReassocReqAction(
 			}
 #endif /* DOT11_VHT_AC */
 		}
-#endif /* DOT11_N_SUPPORT */
 		} // end of pAd->MlmeAux.APEdcaParm.bValid
 
 		if (FALSE
@@ -954,13 +950,11 @@ VOID PeerAssocRspAction(
 		if (MAC_ADDR_EQUAL(Addr2, pAd->MlmeAux.Bssid)) {
 			DBGPRINT(RT_DEBUG_TRACE,
 				 ("%s():ASSOC - receive ASSOC_RSP to me (status=%d)\n", __FUNCTION__, Status));
-#ifdef DOT11_N_SUPPORT
 			DBGPRINT(RT_DEBUG_TRACE,
 				 ("%s():MacTable [%d].AMsduSize = %d. ClientStatusFlags = 0x%lx \n",
 				  __FUNCTION__, Elem->Wcid,
 				  pAd->MacTab.Content[BSSID_WCID].AMsduSize,
 				  pAd->MacTab.Content[BSSID_WCID].ClientStatusFlags));
-#endif /* DOT11_N_SUPPORT */
 			RTMPCancelTimer(&pAd->MlmeAux.AssocTimer, &TimerCancelled);
 
 
@@ -1236,7 +1230,6 @@ VOID AssocPostProc(
 	pAd->MlmeAux.Aid = Aid;
 	pAd->MlmeAux.CapabilityInfo = CapabilityInfo & SUPPORTED_CAPABILITY_INFO;
 
-#ifdef DOT11_N_SUPPORT
 	/* Some HT AP might lost WMM IE. We add WMM ourselves. beacuase HT requires QoS on. */
 	if ((HtCapabilityLen > 0) && (pEdcaParm->bValid == FALSE)) {
 		pEdcaParm->bValid = TRUE;
@@ -1261,7 +1254,6 @@ VOID AssocPostProc(
 		pEdcaParm->Txop[3] = 48;
 
 	}
-#endif /* DOT11_N_SUPPORT */
 
 	memmove(&pAd->MlmeAux.APEdcaParm, pEdcaParm, sizeof (EDCA_PARM));
 
@@ -1276,7 +1268,6 @@ VOID AssocPostProc(
 	RTMPCheckRates(pAd, pAd->MlmeAux.ExtRate, &pAd->MlmeAux.ExtRateLen);
 
 	pEntry = &pAd->MacTab.Content[BSSID_WCID];
-#ifdef DOT11_N_SUPPORT
 	if (HtCapabilityLen > 0) {
 		RTMPCheckHt(pAd, BSSID_WCID, pHtCapability, pAddHtInfo);
 	}
@@ -1293,7 +1284,6 @@ VOID AssocPostProc(
 		RTMPCheckVht(pAd, BSSID_WCID, &ie_list->vht_cap, &ie_list->vht_op);
 	}
 #endif /* DOT11_VHT_AC */
-#endif /* DOT11_N_SUPPORT */
 
 	/* Set New WPA information */
 	Idx = BssTableSearch(&pAd->ScanTab, pAddr2, pAd->MlmeAux.Channel);

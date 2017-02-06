@@ -109,14 +109,12 @@ VOID BuildChannelList(struct rtmp_adapter *pAd)
 						pAd->ChannelList[index + i].Flags = pChannelListFlag[i];
 				}
 
-#ifdef DOT11_N_SUPPORT
 						if (N_ChannelGroupCheck(pAd, pAd->ChannelList[index + i].Channel))
 							pAd->ChannelList[index + i].Flags |= CHANNEL_40M_CAP;
 #ifdef DOT11_VHT_AC
 						if (vht80_channel_group(pAd, pAd->ChannelList[index + i].Channel))
 							pAd->ChannelList[index + i].Flags |= CHANNEL_80M_CAP;
 #endif /* DOT11_VHT_AC */
-#endif /* DOT11_N_SUPPORT */
 
 				pAd->ChannelList[index+i].MaxTxPwr = 20;
 			}
@@ -223,14 +221,12 @@ VOID BuildChannelList(struct rtmp_adapter *pAd)
 						pAd->ChannelList[index + i].Flags = pChannelListFlag[i];
 				}
 
-#ifdef DOT11_N_SUPPORT
 				if (N_ChannelGroupCheck(pAd, pAd->ChannelList[index + i].Channel))
 					pAd->ChannelList[index + i].Flags |= CHANNEL_40M_CAP;
 #ifdef DOT11_VHT_AC
 				if (vht80_channel_group(pAd, pAd->ChannelList[index + i].Channel))
 					pAd->ChannelList[index + i].Flags |= CHANNEL_80M_CAP;
 #endif /* DOT11_VHT_AC */
-#endif /* DOT11_N_SUPPORT */
 
 				for (j=0; j<15; j++)
 				{
@@ -313,7 +309,6 @@ UCHAR NextChannel(struct rtmp_adapter *pAd, UCHAR channel)
 	{
 		if (channel == pAd->ChannelList[i].Channel)
 		{
-#ifdef DOT11_N_SUPPORT
 			/* Only scan effected channel if this is a SCAN_2040_BSS_COEXIST*/
 			/* 2009 PF#2: Nee to handle the second channel of AP fall into affected channel range.*/
 			if ((pAd->MlmeAux.ScanType == SCAN_2040_BSS_COEXIST) && (pAd->ChannelList[i+1].Channel >14))
@@ -322,7 +317,6 @@ UCHAR NextChannel(struct rtmp_adapter *pAd, UCHAR channel)
 				continue;
 			}
 			else
-#endif /* DOT11_N_SUPPORT */
 			{
 				/* Record this channel's idx in ChannelList array.*/
 			next_channel = pAd->ChannelList[i+1].Channel;
@@ -479,7 +473,6 @@ CHAR ConvertToSnr(struct rtmp_adapter *pAd, UCHAR Snr)
 
 
 #ifdef CONFIG_AP_SUPPORT
-#ifdef DOT11_N_SUPPORT
 extern int DetectOverlappingPeriodicRound;
 
 VOID Handle_BSS_Width_Trigger_Events(struct rtmp_adapter *pAd)
@@ -501,6 +494,5 @@ VOID Handle_BSS_Width_Trigger_Events(struct rtmp_adapter *pAd)
         DetectOverlappingPeriodicRound = 31;
 	}
 }
-#endif /* DOT11_N_SUPPORT */
 #endif /* CONFIG_AP_SUPPORT */
 

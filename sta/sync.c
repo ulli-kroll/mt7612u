@@ -107,10 +107,7 @@ VOID BeaconTimeout(
 	if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_HALT_IN_PROGRESS))
 		return;
 
-#ifdef DOT11_N_SUPPORT
-	if ((pAd->CommonCfg.BBPCurrentBW == BW_40)
-	)
-	{
+	if ((pAd->CommonCfg.BBPCurrentBW == BW_40)) {
 		bbp_set_bw(pAd, BW_40);
 
 		AsicSwitchChannel(pAd, pAd->CommonCfg.CentralChannel, FALSE);
@@ -118,7 +115,6 @@ VOID BeaconTimeout(
 		DBGPRINT(RT_DEBUG_TRACE, ("SYNC - End of SCAN, restore to 40MHz channel %d, Total BSS[%02d]\n",
 									pAd->CommonCfg.CentralChannel, pAd->ScanTab.BssNr));
 	}
-#endif /* DOT11_N_SUPPORT */
 
 	MlmeEnqueue(pAd, SYNC_STATE_MACHINE, MT2_BEACON_TIMEOUT, 0, NULL, 0);
 	RTMP_MLME_HANDLER(pAd);
@@ -435,10 +431,8 @@ VOID MlmeForceScanReqAction(
 		/* Let BBP register at 20MHz to do scan */
 		bbp_set_bw(pAd, BW_20);
 		DBGPRINT(RT_DEBUG_TRACE, ("SYNC - BBP R4 to 20MHz.l\n"));
-#ifdef DOT11_N_SUPPORT
 		/* Before scan, reset trigger event table. */
 		TriEventInit(pAd);
-#endif /* DOT11_N_SUPPORT */
 
 		ScanNextChannel(pAd, OPMODE_STA);
 		if(pAd->StaCfg.ConnectinfoChannel != 0)
@@ -567,10 +561,8 @@ VOID MlmeScanReqAction(
 		bbp_set_bw(pAd, BW_20);
 		DBGPRINT(RT_DEBUG_TRACE, ("SYNC - BBP R4 to 20MHz.l\n"));
 
-#ifdef DOT11_N_SUPPORT
 		/* Before scan, reset trigger event table. */
 		TriEventInit(pAd);
-#endif /* DOT11_N_SUPPORT */
 
 		ScanNextChannel(pAd, OPMODE_STA);
 	}
@@ -857,7 +849,6 @@ VOID MlmeStartReqAction(
 		pAd->MlmeAux.ExtRateLen = pAd->CommonCfg.ExtRateLen;
 		memmove(pAd->MlmeAux.ExtRate, pAd->CommonCfg.ExtRate, MAX_LEN_OF_SUPPORTED_RATES);
 		RTMPCheckRates(pAd, pAd->MlmeAux.ExtRate, &pAd->MlmeAux.ExtRateLen);
-#ifdef DOT11_N_SUPPORT
 		if (WMODE_CAP_N(pAd->CommonCfg.PhyMode) && (pAd->StaCfg.bAdhocN == TRUE))
 		{
 			RTMPUpdateHTIE(&pAd->CommonCfg.DesiredHtPhy, &wdev->DesiredHtPhyInfo.MCSSet[0], &pAd->MlmeAux.HtCapability, &pAd->MlmeAux.AddHtInfo);
@@ -873,9 +864,7 @@ VOID MlmeStartReqAction(
 			}
 #endif /* DOT11_VHT_AC */
 		}
-		else
-#endif /* DOT11_N_SUPPORT */
-		{
+		else {
 			pAd->MlmeAux.HtCapabilityLen = 0;
 			pAd->StaActive.SupportedPhyInfo.bHtEnable = FALSE;
 			memset(&pAd->StaActive.SupportedPhyInfo.MCSSet[0], 0, 16);
@@ -954,10 +943,9 @@ VOID rtmp_dbg_sanity_diff(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 
 
 	memset(&QbssLoad, 0, sizeof(QBSS_LOAD_PARM)); /* woody */
-#ifdef DOT11_N_SUPPORT
-    RTMPZeroMemory(pHtCapability, sizeof(HT_CAPABILITY_IE));
+
+	RTMPZeroMemory(pHtCapability, sizeof(HT_CAPABILITY_IE));
 	RTMPZeroMemory(pAddHtInfo, sizeof(ADD_HT_INFO_IE));
-#endif /* DOT11_N_SUPPORT */
 
 	memset(Ssid, 0, MAX_LEN_OF_SSID);
 
@@ -1292,13 +1280,11 @@ VOID PeerBeaconAtScanAction(
 							ConvertToRssi(pAd, Elem->Rssi2, RSSI_2));
 
 
-#ifdef DOT11_N_SUPPORT
 		if ((ie_list->HtCapabilityLen > 0) || (ie_list->PreNHtCapabilityLen > 0))
 			ie_list->HtCapabilityLen = SIZE_HT_CAP_IE;
-#endif /* DOT11_N_SUPPORT */
 
 		Idx = BssTableSetEntry(pAd, &pAd->ScanTab, ie_list, Rssi, LenVIE, pVIE);
-#ifdef DOT11_N_SUPPORT
+
 		/* TODO: Check for things need to do when enable "DOT11V_WNM_SUPPORT" */
 		/* Check if this scan channel is the effeced channel */
 		if (INFRA_ON(pAd)
@@ -1332,7 +1318,7 @@ VOID PeerBeaconAtScanAction(
 				}
 			}
 		}
-#endif /* DOT11_N_SUPPORT */
+
 		if (Idx != BSS_NOT_FOUND)
 		{
 			BSS_ENTRY *pBssEntry = &pAd->ScanTab.BssEntry[Idx];
@@ -1400,11 +1386,8 @@ VOID PeerBeaconAtJoinAction(
 	NDIS_802_11_VARIABLE_IEs *pVIE = NULL;
 	ULONG Idx = 0;
 	CHAR Rssi = 0;
-
-#ifdef DOT11_N_SUPPORT
 	UCHAR CentralChannel;
 	BOOLEAN bAllowNrate = FALSE;
-#endif /* DOT11_N_SUPPORT */
 	BCN_IE_LIST *ie_list = NULL;
 
 
@@ -1578,7 +1561,6 @@ VOID PeerBeaconAtJoinAction(
 			pAd->StaActive.SupportedPhyInfo.vht_bw = VHT_BW_2040;
 #endif /* DOT11_VHT_AC */
 
-#ifdef DOT11_N_SUPPORT
 			DBGPRINT(RT_DEBUG_TRACE, ("MlmeAux.ExtCapInfo=%d\n", pAd->MlmeAux.ExtCapInfo.BssCoexistMgmtSupport));
 			if (pAd->CommonCfg.bBssCoexEnable == TRUE)
 				pAd->CommonCfg.ExtCapIE.BssCoexistMgmtSupport = 1;
@@ -1658,9 +1640,7 @@ VOID PeerBeaconAtJoinAction(
 				}
 #endif /* DOT11_VHT_AC */
 			}
-			else
-#endif /* DOT11_N_SUPPORT */
-			{
+			else {
    				/* To prevent error, let legacy AP must have same CentralChannel and Channel. */
 				if ((ie_list->HtCapabilityLen == 0) && (ie_list->PreNHtCapabilityLen == 0))
 					pAd->MlmeAux.CentralChannel = pAd->MlmeAux.Channel;
@@ -1686,9 +1666,7 @@ VOID PeerBeaconAtJoinAction(
 
 			/* copy QOS related information */
 			if ((pAd->CommonCfg.bWmmCapable)
-#ifdef DOT11_N_SUPPORT
 				 || WMODE_CAP_N(pAd->CommonCfg.PhyMode)
-#endif /* DOT11_N_SUPPORT */
 				)
 			{
 				memmove(&pAd->MlmeAux.APEdcaParm, &ie_list->EdcaParm, sizeof(EDCA_PARM));
@@ -1831,14 +1809,12 @@ VOID PeerBeacon(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 		if (pAd->Mlme.CntlMachine.CurrState == CNTL_WAIT_DISASSOC)
 			goto LabelOK;
 
-#ifdef DOT11_N_SUPPORT
 		/* Copy Control channel for this BSSID. */
 		if (bcn_ie_list->AddHtInfoLen != 0)
 			bcn_ie_list->Channel = bcn_ie_list->AddHtInfo.ControlChan;
 
 		if ((bcn_ie_list->HtCapabilityLen > 0) || (bcn_ie_list->PreNHtCapabilityLen > 0))
 			bcn_ie_list->HtCapabilityLen = SIZE_HT_CAP_IE;
-#endif /* DOT11_N_SUPPORT */
 
 		/* Housekeeping "SsidBssTab" table for later-on ROAMing usage. */
 		Bssidx = BssTableSearchWithSSID(&pAd->MlmeAux.SsidBssTab, bcn_ie_list->Bssid, bcn_ie_list->Ssid, bcn_ie_list->SsidLen, bcn_ie_list->Channel);
@@ -1941,7 +1917,6 @@ VOID PeerBeacon(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 			RXWI_STRUC	RxWI;
 			UINT8 RXWISize = pAd->chipCap.RXWISize;
 
-#ifdef DOT11_N_SUPPORT
 			OVERLAP_BSS_SCAN_IE	BssScan;
 			UCHAR					RegClass;
 			BOOLEAN					brc;
@@ -1953,7 +1928,6 @@ VOID PeerBeacon(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 				UpdateBssScanParm(pAd, BssScan);
 				pAd->StaCfg.RegClass = RegClass;
 			}
-#endif /* DOT11_N_SUPPORT */
 
 			pAd->StaCfg.DtimCount = bcn_ie_list->DtimCount;
 			pAd->StaCfg.DtimPeriod = bcn_ie_list->DtimPeriod;
@@ -2238,7 +2212,6 @@ VOID PeerBeacon(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 					DBGPRINT(RT_DEBUG_WARN, ("SYNC - AP changed B/G protection to %d\n", bUseBGProtection));
 				}
 
-#ifdef DOT11_N_SUPPORT
 				/* check Ht protection mode. and adhere to the Non-GF device indication by AP. */
 				if ((bcn_ie_list->AddHtInfoLen != 0) &&
 					((bcn_ie_list->AddHtInfo.AddHtInfo2.OperaionMode != pAd->MlmeAux.AddHtInfo.AddHtInfo2.OperaionMode) ||
@@ -2258,7 +2231,6 @@ VOID PeerBeacon(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 					DBGPRINT(RT_DEBUG_TRACE, ("SYNC - AP changed N OperaionMode to %d\n",
 						pAd->MlmeAux.AddHtInfo.AddHtInfo2.OperaionMode));
 				}
-#endif /* DOT11_N_SUPPORT */
 
 				if (OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_SHORT_PREAMBLE_INUSED) &&
 					ERP_IS_USE_BARKER_PREAMBLE(bcn_ie_list->Erp))
@@ -2280,7 +2252,7 @@ VOID PeerBeacon(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 				/* copy QOS related information */
 				memmove(&pAd->CommonCfg.APQbssLoad, &bcn_ie_list->QbssLoad, sizeof(QBSS_LOAD_PARM));
 				memmove(&pAd->CommonCfg.APQosCapability, &bcn_ie_list->QosCapability, sizeof(QOS_CAPABILITY_PARM));
-#ifdef DOT11_N_SUPPORT
+
 				/*
 				   2009: PF#1: 20/40 Coexistence in 2.4 GHz Band
 				   When AP changes "STA Channel Width" and "Secondary Channel Offset" fields of HT Operation Element in the Beacon to 0
@@ -2357,7 +2329,6 @@ VOID PeerBeacon(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 						BuildEffectedChannelList(pAd);
 					}
 				}
-#endif /* DOT11_N_SUPPORT */
 			}
 
 			/* only INFRASTRUCTURE mode support power-saving feature */
@@ -2478,9 +2449,7 @@ VOID PeerProbeReqAction(
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	PEER_PROBE_REQ_PARAM ProbeReqParam;
-#ifdef DOT11_N_SUPPORT
 	UCHAR		  HtLen, AddHtLen, NewExtLen;
-#endif /* DOT11_N_SUPPORT */
 	HEADER_802_11 ProbeRspHdr;
 	int   NStatus;
 	u8 *       pOutBuffer = NULL;
@@ -2564,7 +2533,6 @@ VOID PeerProbeReqAction(
         		FrameLen += tmp;
         	}
 
-#ifdef DOT11_N_SUPPORT
 			if (WMODE_CAP_N(pAd->CommonCfg.PhyMode))
 			{
 				ULONG TmpLen;
@@ -2597,7 +2565,6 @@ VOID PeerProbeReqAction(
 				}
 				FrameLen += TmpLen;
 			}
-#endif /* DOT11_N_SUPPORT */
 
 
 
@@ -2789,7 +2756,6 @@ VOID EnqueueProbeRequest(struct rtmp_adapter *pAd)
 }
 
 
-#ifdef DOT11_N_SUPPORT
 
 /*
 	========================================================================
@@ -2827,7 +2793,6 @@ VOID CntlChannelWidth(
 	DBGPRINT(RT_DEBUG_TRACE, ("%s: ChannelWidth[%d] \n",__FUNCTION__,ch_bw));
 	DBGPRINT(RT_DEBUG_TRACE, ("%s: SecondaryChannelOffset[%d] \n",__FUNCTION__,sec_ch_offset));
 
-#ifdef DOT11_N_SUPPORT
 	/*Change to AP channel */
 	if (ch_bw == BW_40)
 	{
@@ -2845,7 +2810,6 @@ VOID CntlChannelWidth(
 		}
 	}
 	else
-#endif /* DOT11_N_SUPPORT */
 	{
 		rf_bw = BW_20;
 		ext_ch = EXTCHA_NONE;
@@ -2871,7 +2835,6 @@ VOID CntlChannelWidth(
 		bbp_get_agc(pAd, &pAd->BbpTuning.R66CurrentValue, RX_CHAIN_0);
 	}
 }
-#endif /* DOT11_N_SUPPORT */
 
 /*
     ==========================================================================

@@ -271,9 +271,7 @@ static VOID APPeerAuthReqAtIdleAction(
 				pEntry->bIAmBadAtheros = FALSE;
 			}
 
-#ifdef DOT11_N_SUPPORT
 			BASessionTearDownALL(pAd, pEntry->wcid);
-#endif /* DOT11_N_SUPPORT */
 			ASSERT(pEntry->Aid == Elem->Wcid);
 		}
 	}
@@ -472,9 +470,7 @@ static VOID APPeerAuthConfirmAction(
 
 			ASSERT(pEntry->Aid == Elem->Wcid);
 
-#ifdef DOT11_N_SUPPORT
 			BASessionTearDownALL(pAd, pEntry->wcid);
-#endif /* DOT11_N_SUPPORT */
 		}
 	}
 

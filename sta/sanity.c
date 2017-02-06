@@ -160,7 +160,6 @@ BOOLEAN PeerAssocRspSanity(
 				}
 				break;
 
-#ifdef DOT11_N_SUPPORT
 			case IE_HT_CAP:
 			case IE_HT_CAP2:
 				if (pEid->Len >= SIZE_HT_CAP_IE) {	/* Note: allow extension.!! */
@@ -221,7 +220,6 @@ BOOLEAN PeerAssocRspSanity(
 				}
 				break;
 #endif /* DOT11_VHT_AC */
-#endif /* DOT11_N_SUPPORT */
 
 			case IE_VENDOR_SPECIFIC:
 				/* handle WME PARAMTER ELEMENT */

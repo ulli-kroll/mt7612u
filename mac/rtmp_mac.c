@@ -89,17 +89,13 @@ VOID RTMPWriteTxWI(
 	memset(&TxWI, 0, TXWISize);
 	pTxWI = &TxWI;
 
-#ifdef DOT11_N_SUPPORT
 	BASize = 0;
 	stbc = pTransmit->field.STBC;
-#endif /* DOT11_N_SUPPORT */
 
 	/* If CCK or OFDM, BW must be 20*/
 	bw = (pTransmit->field.MODE <= MODE_OFDM) ? (BW_20) : (pTransmit->field.BW);
-#ifdef DOT11_N_SUPPORT
 	if (bw)
 		bw = (pAd->CommonCfg.AddHTInfo.AddHtInfo.RecomWidth == 0) ? (BW_20) : (pTransmit->field.BW);
-#endif /* DOT11_N_SUPPORT */
 
 	ldpc = pTransmit->field.ldpc;
 	mcs = pTransmit->field.MCS;
@@ -113,7 +109,6 @@ VOID RTMPWriteTxWI(
 		tx_stream_mode = (pTransmit->field.MODE <= MODE_OFDM) ? 0x93 : 0x0;
 #endif /* MT76x2 */
 
-#ifdef DOT11_N_SUPPORT
 	if (pMac)
 	{
 		if (pAd->CommonCfg.bMIMOPSEnable)
@@ -136,7 +131,6 @@ VOID RTMPWriteTxWI(
 
 		mpdu_density = pMac->MpduDensity;
 	}
-#endif /* DOT11_N_SUPPORT */
 
 
 #ifdef TXBF_SUPPORT
@@ -230,9 +224,7 @@ VOID RTMPWriteTxWI_Data(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pTx
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
 	UCHAR wcid, pkt_id;
 	UCHAR sgi, mcs, bw, stbc, phy_mode, ldpc;
-#ifdef DOT11_N_SUPPORT
 	UCHAR basize, ampdu, mimops = 0, mpdu_density = 0;
-#endif /* DOT11_N_SUPPORT */
 #ifdef TXBF_SUPPORT
 	UCHAR iTxBf, eTxBf, sounding, ndp_rate, ndp_bw;
 #endif /* TXBF_SUPPORT */
@@ -274,7 +266,6 @@ VOID RTMPWriteTxWI_Data(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pTx
 		tx_stream_mode = (pTransmit->field.MODE <= MODE_OFDM) ? 0x93 : 0x0;
 #endif /* MT76x2 */
 
-#ifdef DOT11_N_SUPPORT
 	if (bw)
 		bw = (pAd->CommonCfg.AddHTInfo.AddHtInfo.RecomWidth == 0) ? (BW_20) : (pTransmit->field.BW);
 
@@ -345,8 +336,6 @@ VOID RTMPWriteTxWI_Data(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pTx
 
 #endif /* TXBF_SUPPORT */
 
-#endif /* DOT11_N_SUPPORT */
-
 
 #ifdef TXBF_SUPPORT
 	if (pTxBlk->TxSndgPkt > SNDG_TYPE_DISABLE)
@@ -356,7 +345,6 @@ VOID RTMPWriteTxWI_Data(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pTx
 	}
 #endif /* TXBF_SUPPORT */
 
-#ifdef DOT11_N_SUPPORT
 	if (pMacEntry)
 	{
 		if ((pMacEntry->MmpsMode == MMPS_DYNAMIC) && (mcs > 7))
@@ -376,7 +364,6 @@ VOID RTMPWriteTxWI_Data(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pTx
 		else
 			mpdu_density = pMacEntry->MpduDensity;
 	}
-#endif /* DOT11_N_SUPPORT */
 
 #ifdef DBG_DIAGNOSE
 	if (pTxBlk->QueIdx== 0)
@@ -469,12 +456,10 @@ VOID RTMPWriteTxWI_Data(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pTx
 		txwi_n->BW = bw;
 		txwi_n->TxPktId = pkt_id;
 
-#ifdef DOT11_N_SUPPORT
 		txwi_n->AMPDU = ampdu;
 		txwi_n->BAWinSize = basize;
 		txwi_n->MIMOps = mimops;
 		txwi_n->MpduDensity = mpdu_density;
-#endif /* DOT11_N_SUPPORT */
 
 #ifdef TXBF_SUPPORT
 		txwi_n->Sounding = sounding;
@@ -500,9 +485,7 @@ VOID RTMPWriteTxWI_Cache(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pT
 	MAC_TABLE_ENTRY *pMacEntry = pTxBlk->pMacEntry;
 	UCHAR pkt_id;
 	UCHAR bw, mcs, stbc, phy_mode, sgi, ldpc;
-#ifdef DOT11_N_SUPPORT
 	UCHAR ampdu, basize = 0, mimops, mpdu_density = 0;
-#endif /* DOT11_N_SUPPORT */
 #ifdef TXBF_SUPPORT
 	UCHAR sounding, iTxBf, eTxBf, ndp_rate, ndp_bw;
 #endif /* TXBF_SUPPORT */
@@ -528,7 +511,6 @@ VOID RTMPWriteTxWI_Cache(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pT
 		tx_stream_mode = (pTransmit->field.MODE <= MODE_OFDM) ? 0x93 : 0x0;
 #endif /* MT76x2 */
 
-#ifdef DOT11_N_SUPPORT
 	ampdu = ((pMacEntry->NoBADataCountDown == 0) ? TRUE: FALSE);
 #ifdef TXBF_SUPPORT
 	if(pTxBlk->TxSndgPkt > SNDG_TYPE_DISABLE)
@@ -572,7 +554,6 @@ VOID RTMPWriteTxWI_Cache(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pT
 		}
 
 	}
-#endif /* DOT11_N_SUPPORT */
 
 #ifdef DBG_DIAGNOSE
 	if (pTxBlk->QueIdx== 0)
@@ -683,14 +664,12 @@ VOID RTMPWriteTxWI_Cache(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pT
 			txwi_n->ACK = 0;
 #endif /* WFA_VHT_PF */
 
-#ifdef DOT11_N_SUPPORT
 		txwi_n->AMPDU = ampdu;
 		if (basize)
 			txwi_n->BAWinSize = basize;
 		txwi_n->MIMOps = mimops;
 		if (mpdu_density)
 			txwi_n->MpduDensity = mpdu_density;
-#endif /* DOT11_N_SUPPORT */
 
 #ifdef TXBF_SUPPORT
 		txwi_n->Sounding = sounding;

@@ -995,7 +995,6 @@ typedef enum _RT_802_11_PHY_MODE {
 	PHY_11A = 2,
 	PHY_11ABG_MIXED = 3,
 	PHY_11G = 4,
-#ifdef DOT11_N_SUPPORT
 	PHY_11ABGN_MIXED = 5,	/* both band   5 */
 	PHY_11N_2_4G = 6,		/* 11n-only with 2.4G band      6 */
 	PHY_11GN_MIXED = 7,		/* 2.4G band      7 */
@@ -1003,7 +1002,6 @@ typedef enum _RT_802_11_PHY_MODE {
 	PHY_11BGN_MIXED = 9,	/* if check 802.11b.      9 */
 	PHY_11AGN_MIXED = 10,	/* if check 802.11b.      10 */
 	PHY_11N_5G = 11,		/* 11n-only with 5G band                11 */
-#endif /* DOT11_N_SUPPORT */
 #ifdef DOT11_VHT_AC
 	PHY_11VHT_N_ABG_MIXED = 12, /* 12 -> AC/A/AN/B/G/GN mixed */
 	PHY_11VHT_N_AG_MIXED = 13, /* 13 -> AC/A/AN/G/GN mixed  */
@@ -1023,14 +1021,7 @@ typedef enum _RT_802_11_PHY_MODE {
 	(__Mode == PHY_11N_5G) ||\
 	(__Mode == PHY_11VHT_N_MIXED) ||\
 	(__Mode == PHY_11VHT_N_A_MIXED))
-#elif defined(DOT11_N_SUPPORT)
-#define PHY_MODE_IS_5G_BAND(__Mode)	\
-	((__Mode == PHY_11A) ||			\
-	(__Mode == PHY_11ABG_MIXED) ||	\
-	(__Mode == PHY_11ABGN_MIXED) ||	\
-	(__Mode == PHY_11AN_MIXED) ||	\
-	(__Mode == PHY_11AGN_MIXED) ||	\
-	(__Mode == PHY_11N_5G))
+
 #else
 
 #define PHY_MODE_IS_5G_BAND(__Mode)	\
@@ -1099,7 +1090,6 @@ typedef struct _RT_802_11_MAC_TABLE {
 	RT_802_11_MAC_ENTRY Entry[MAX_NUMBER_OF_MAC];
 } RT_802_11_MAC_TABLE, *PRT_802_11_MAC_TABLE;
 
-#ifdef DOT11_N_SUPPORT
 #ifdef TXBF_SUPPORT
 typedef
     struct {
@@ -1120,7 +1110,6 @@ typedef
 	RT_COUNTER_TXBF Entry[MAX_NUMBER_OF_MAC];
 } RT_802_11_TXBF_TABLE;
 #endif /* TXBF_SUPPORT */
-#endif /* DOT11_N_SUPPORT */
 
 /* structure for query/set hardware register - MAC, BBP, RF register */
 typedef struct _RT_802_11_HARDWARE_REGISTER {

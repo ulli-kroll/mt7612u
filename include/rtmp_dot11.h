@@ -9,13 +9,11 @@
 #include "dot11_base.h"
 #include "dot11i_wpa.h"
 
-#ifdef DOT11_N_SUPPORT
 #include "dot11n_ht.h"
 
 #ifdef DOT11_VHT_AC
 #include "dot11ac_vht.h"
 #endif /* DOT11_VHT_AC */
-#endif /* DOT11_N_SUPPORT */
 
 #ifdef TXBF_SUPPORT
 /* CSI/Steering values */

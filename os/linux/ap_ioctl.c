@@ -277,11 +277,9 @@ INT rt28xx_ap_ioctl(struct net_device *net_dev, struct ifreq *rq, int cmd)
 			RTMP_AP_IoctlHandle(pAd, wrq, CMD_RTPRIV_IOCTL_STATISTICS, 0, NULL, 0);
 			break;
 
-#ifdef DOT11_N_SUPPORT
 		case RTPRIV_IOCTL_QUERY_BATABLE:
 			RTMP_AP_IoctlHandle(pAd, wrq, CMD_RTPRIV_IOCTL_QUERY_BATABLE, 0, NULL, 0);
 		    break;
-#endif /* DOT11_N_SUPPORT */
 
 #if defined(DBG)
 #ifdef RTMP_RF_RW_SUPPORT

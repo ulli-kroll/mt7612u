@@ -386,11 +386,6 @@ VOID AsicGetAutoAgcOffsetForTemperatureSensor(
 #ifdef E3_DBG_FALLBACK
 		TuningTableIndex0 = pAd->TxPowerCtrl.idxTxPowerTable
 									+ pAd->TxPowerCtrl.LookupTableIndex
-#ifdef DOT11_N_SUPPORT
-									+ pAd->TxPower[pAd->CommonCfg.CentralChannel-1].Power;
-#else
-									+ pAd->TxPower[pAd->CommonCfg.Channel-1].Power;
-#endif /* DOT11_N_SUPPORT */
 #else
 		TuningTableIndex0 = pAd->TxPowerCtrl.idxTxPowerTable
 									+ pAd->TxPowerCtrl.LookupTableIndex
@@ -405,11 +400,6 @@ VOID AsicGetAutoAgcOffsetForTemperatureSensor(
 #ifdef E3_DBG_FALLBACK
 		TuningTableIndex1 = pAd->TxPowerCtrl.idxTxPowerTable2
 									+ pAd->TxPowerCtrl.LookupTableIndex
-#ifdef DOT11_N_SUPPORT
-									+ pAd->TxPower[pAd->CommonCfg.CentralChannel-1].Power2;
-#else
-									+ pAd->TxPower[pAd->CommonCfg.Channel-1].Power2;
-#endif /* DOT11_N_SUPPORT */
 #else
 		TuningTableIndex1 = pAd->TxPowerCtrl.idxTxPowerTable2
 									+ pAd->TxPowerCtrl.LookupTableIndex

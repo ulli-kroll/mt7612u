@@ -112,7 +112,6 @@ VOID AsicUpdateAutoFallBackTable(
 					}
 				}
 				break;
-#ifdef DOT11_N_SUPPORT
 			case 2:		/* HT-MIX */
 			case 3:		/* HT-GF */
 				{
@@ -177,7 +176,6 @@ VOID AsicUpdateAutoFallBackTable(
 					}
 				}
 				break;
-#endif /* DOT11_N_SUPPORT */
 		}
 
 		pNextTxRate = pCurrTxRate;
@@ -282,7 +280,6 @@ VOID AsicUpdateProtect(
 #endif /* RT65xx */
 #endif /* DOT11_VHT_AC */
 
-#ifdef DOT11_N_SUPPORT
 	if (!(pAd->CommonCfg.bHTProtect) && (OperationMode != 8))
 		return;
 
@@ -292,16 +289,13 @@ VOID AsicUpdateProtect(
 		SetMask |= ALLN_SETPROTECT;
 		OperationMode = 8;
 	}
-#endif /* DOT11_N_SUPPORT */
 
 	/* Config ASIC RTS threshold register*/
 	RTMP_IO_READ32(pAd, TX_RTS_CFG, &MacReg);
 	MacReg &= 0xFF0000FF;
 	/* If the user want disable RtsThreshold and enbale Amsdu/Ralink-Aggregation, set the RtsThreshold as 4096*/
         if ((
-#ifdef DOT11_N_SUPPORT
 			(pAd->CommonCfg.BACapability.field.AmsduEnable) ||
-#endif /* DOT11_N_SUPPORT */
 			(pAd->CommonCfg.bAggregationCapable == TRUE))
             && pAd->CommonCfg.RtsThreshold == MAX_RTS_THRESHOLD)
         {
@@ -392,7 +386,6 @@ VOID AsicUpdateProtect(
 		}
 	}
 
-#ifdef DOT11_N_SUPPORT
 	/* Decide HT frame protection.*/
 	if ((SetMask & ALLN_SETPROTECT) != 0)
 	{
@@ -669,7 +662,6 @@ VOID AsicUpdateProtect(
 				break;
 		}
 	}
-#endif /* DOT11_N_SUPPORT */
 
 	offset = CCK_PROT_CFG;
 	for (i = 0;i < 6;i++)
@@ -1162,7 +1154,6 @@ INT AsicSetRxFilter(struct rtmp_adapter *pAd)
 }
 
 
-#ifdef DOT11_N_SUPPORT
 INT AsicSetRDG(struct rtmp_adapter *pAd, BOOLEAN bEnable)
 {
 	TX_LINK_CFG_STRUC TxLinkCfg;
@@ -1180,9 +1171,7 @@ INT AsicSetRDG(struct rtmp_adapter *pAd, BOOLEAN bEnable)
 		/* For CWC test, change txop from 0x30 to 0x20 in TxBurst mode*/
 		if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_DYNAMIC_BE_TXOP_ACTIVE)
 			&& (pAd->CommonCfg.bEnableTxBurst == TRUE)
-#ifdef DOT11_N_SUPPORT
 			&& (pAd->MacTab.fAnyStationMIMOPSDynamic == FALSE)
-#endif /* DOT11_N_SUPPORT */
 		)
 			Data |= 0x20;
 	}
@@ -1196,7 +1185,6 @@ INT AsicSetRDG(struct rtmp_adapter *pAd, BOOLEAN bEnable)
 
 	return TRUE;
 }
-#endif /* DOT11_N_SUPPORT */
 
 
 /*
@@ -1841,9 +1829,7 @@ VOID AsicSetSlotTime(
 	{
 		/* force using short SLOT time for FAE to demo performance when TxBurst is ON*/
 		if (((pAd->StaActive.SupportedPhyInfo.bHtEnable == FALSE) && (OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_WMM_INUSED)))
-#ifdef DOT11_N_SUPPORT
 			|| ((pAd->StaActive.SupportedPhyInfo.bHtEnable == TRUE) && (pAd->CommonCfg.BACapability.field.Policy == BA_NOTUSE))
-#endif /* DOT11_N_SUPPORT */
 			)
 		{
 			/* In this case, we will think it is doing Wi-Fi test*/
@@ -2620,7 +2606,6 @@ VOID AsicSetTxPreamble(struct rtmp_adapter *pAd, USHORT TxPreamble)
 }
 
 
-#ifdef DOT11_N_SUPPORT
 INT AsicSetRalinkBurstMode(struct rtmp_adapter *pAd, BOOLEAN enable)
 {
 	uint32_t 			Data = 0;
@@ -2636,9 +2621,7 @@ INT AsicSetRalinkBurstMode(struct rtmp_adapter *pAd, BOOLEAN enable)
 	Data &= 0xFFFFFF00;
 
 	if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_DYNAMIC_BE_TXOP_ACTIVE)
-#ifdef DOT11_N_SUPPORT
 		&& (pAd->MacTab.fAnyStationMIMOPSDynamic == FALSE)
-#endif // DOT11_N_SUPPORT //
 	)
 	{
 		if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_RDG_ACTIVE))
@@ -2656,7 +2639,6 @@ INT AsicSetRalinkBurstMode(struct rtmp_adapter *pAd, BOOLEAN enable)
 
 	return TRUE;
 }
-#endif // DOT11_N_SUPPORT //
 
 
 #ifdef WOW_SUPPORT
@@ -2941,7 +2923,6 @@ INT StopDmaTx(struct rtmp_adapter *pAd, UCHAR Level)
 }
 
 
-#ifdef DOT11_N_SUPPORT
 #ifdef MT76x2
 #define MAX_AGG_CNT	48
 #elif defined(RT65xx) || defined(MT7601)
@@ -2995,7 +2976,6 @@ INT AsicReadAggCnt(struct rtmp_adapter *pAd, ULONG *aggCnt, int cnt_len)
 	return TRUE;
 }
 
-#endif /* DOT11_N_SUPPORT */
 
 
 INT AsicSetChannel(struct rtmp_adapter *pAd, UCHAR ch, UINT8 bw, UINT8 ext_ch, BOOLEAN bScan)

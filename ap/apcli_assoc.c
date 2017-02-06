@@ -270,7 +270,6 @@ static VOID ApCliMlmeAssocReqAction(
 			FrameLen += tmp;
 		}
 
-#ifdef DOT11_N_SUPPORT
 		/* HT */
 		if ((apcli_entry->MlmeAux.HtCapabilityLen > 0) &&
 			WMODE_CAP_N(pAd->CommonCfg.PhyMode))
@@ -338,7 +337,6 @@ static VOID ApCliMlmeAssocReqAction(
 			FrameLen += TmpLen;
 		}
 
-#endif /* DOT11_N_SUPPORT */
 
 #ifdef AGGREGATION_SUPPORT
 		/*
@@ -890,10 +888,8 @@ static VOID ApCliAssocPostProc(
 
 	DBGPRINT(RT_DEBUG_TRACE, (HtCapabilityLen ? "%s===> 11n HT STA\n" : "%s===> legacy STA\n", __FUNCTION__));
 
-#ifdef DOT11_N_SUPPORT
 	if (HtCapabilityLen > 0 && WMODE_CAP_N(pAd->CommonCfg.PhyMode))
 		ApCliCheckHt(pAd, IfIndex, pHtCapability, pAddHtInfo);
-#endif /* DOT11_N_SUPPORT */
 
 }
 

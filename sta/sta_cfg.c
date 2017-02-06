@@ -222,9 +222,7 @@ INT Set_NetworkType_Proc(
 
 				DBGPRINT(RT_DEBUG_TRACE, ("NDIS_STATUS_MEDIA_DISCONNECT Event BB!\n"));
 			}
-#ifdef DOT11_N_SUPPORT
 			SetCommonHT(pAd);
-#endif /* DOT11_N_SUPPORT */
 		}
 		pAd->StaCfg.BssType = BSS_ADHOC;
 		RTMP_OS_NETDEV_SET_TYPE(pAd->net_dev, pAd->StaCfg.OriDevType);
@@ -256,9 +254,7 @@ INT Set_NetworkType_Proc(
 
 				LinkDown(pAd, FALSE);
 			}
-#ifdef DOT11_N_SUPPORT
 			SetCommonHT(pAd);
-#endif /* DOT11_N_SUPPORT */
 		}
 		pAd->StaCfg.BssType = BSS_INFRA;
 		RTMP_OS_NETDEV_SET_TYPE(pAd->net_dev, pAd->StaCfg.OriDevType);
@@ -293,21 +289,16 @@ INT Set_NetworkType_Proc(
 		DBGPRINT(RT_DEBUG_TRACE, ("fOP_STATUS_MEDIA_STATE_CONNECTED \n"));
 		if (pAd->CommonCfg.CentralChannel == 0)
 		{
-#ifdef DOT11_N_SUPPORT
 			if (WMODE_EQUAL(pAd->CommonCfg.PhyMode, WMODE_A | WMODE_AN))
 				pAd->CommonCfg.CentralChannel = 36;
 			else
-#endif /* DOT11_N_SUPPORT */
 				pAd->CommonCfg.CentralChannel = 6;
 		}
-#ifdef DOT11_N_SUPPORT
 		else
 			N_ChannelCheck(pAd);
-#endif /* DOT11_N_SUPPORT */
 
 
 		/* same procedure with window driver */
-#ifdef DOT11_N_SUPPORT
 		if (WMODE_CAP_N(pAd->CommonCfg.PhyMode) &&
 			pAd->CommonCfg.RegTransmitSetting.field.BW == BW_40 &&
 			pAd->CommonCfg.RegTransmitSetting.field.EXTCHA == EXTCHA_ABOVE)
@@ -329,7 +320,6 @@ INT Set_NetworkType_Proc(
 			rf_channel = pAd->CommonCfg.CentralChannel;
 		}
 		else
-#endif /* DOT11_N_SUPPORT */
 		{
 			/* 20MHz */
 			rf_bw = BW_20;
@@ -1098,9 +1088,7 @@ INT	Show_Adhoc_MacTable_Proc(
 
 	sprintf(extra, "\n");
 
-#ifdef DOT11_N_SUPPORT
 	sprintf(extra, "%sHT Operating Mode : %d\n", extra, pAd->CommonCfg.AddHTInfo.AddHtInfo2.OperaionMode);
-#endif /* DOT11_N_SUPPORT */
 
 	sprintf(extra + strlen(extra), "\n%-19s%-4s%-4s%-7s%-7s%-7s%-10s%-6s%-6s%-6s%-6s\n",
 			"MAC", "AID", "BSS", "RSSI0", "RSSI1", "RSSI2", "PhMd", "BW", "MCS", "SGI", "STBC");
@@ -1452,14 +1440,12 @@ INT Set_AdhocN_Proc(
     IN  struct rtmp_adapter *pAd,
     IN  char *		arg)
 {
-#ifdef DOT11_N_SUPPORT
 	if (simple_strtol(arg, 0, 10) == 0)
         pAd->StaCfg.bAdhocN = FALSE;
 	else
 		pAd->StaCfg.bAdhocN = TRUE;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("IF Set_AdhocN_Proc::(bAdhocN=%d)\n", pAd->StaCfg.bAdhocN));
-#endif /* DOT11_N_SUPPORT */
 	return TRUE;
 }
 
@@ -1564,7 +1550,6 @@ INT Set_WOW_InBand(
 }
 #endif /* (defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT) */
 
-#ifdef DOT11_N_SUPPORT
 void	getBaInfo(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		pOutBuf,
@@ -1613,7 +1598,6 @@ void	getBaInfo(
 
 	return;
 }
-#endif /* DOT11_N_SUPPORT */
 
 /* ------------------- Functions for Standard IOCTL ------------------------- */
 #define RTMP_STA_STANDARD_IOCTL_HANDLE(__pAd, __pData, __Data, __SubCmd)	\
@@ -3398,9 +3382,7 @@ INT RtmpIoctl_rt_ioctl_siwrate(struct rtmp_adapter *pAd, VOID *pData, ULONG Data
 			(pAd->MacTab.Content[BSSID_WCID].HTPhyMode.field.MODE <= MODE_OFDM))
 			RTMPSetDesiredRates(pAd, -1);
 
-#ifdef DOT11_N_SUPPORT
 			SetCommonHT(pAd);
-#endif /* DOT11_N_SUPPORT */
 	}
 	else
 	{
@@ -3413,9 +3395,7 @@ INT RtmpIoctl_rt_ioctl_siwrate(struct rtmp_adapter *pAd, VOID *pData, ULONG Data
 			else
 			{
 				wdev->DesiredTransmitSetting.field.MCS = MCS_AUTO;
-#ifdef DOT11_N_SUPPORT
 				SetCommonHT(pAd);
-#endif /* DOT11_N_SUPPORT */
 			}
 			DBGPRINT(RT_DEBUG_TRACE,
 					("rt_ioctl_siwrate::(HtMcs=%d)\n", wdev->DesiredTransmitSetting.field.MCS));
@@ -3770,12 +3750,9 @@ RtmpIoctl_rt_private_get_statistics(
     sprintf(extra+strlen(extra), "WpaSupplicantUP                 = %d\n\n", pAd->StaCfg.wpa_supplicant_info.WpaSupplicantUP);
 #endif /* WPA_SUPPLICANT_SUPPORT */
 
-
-
-#ifdef DOT11_N_SUPPORT
 	/* Display Tx Aggregation statistics */
 	DisplayTxAgg(pAd);
-#endif /* DOT11_N_SUPPORT */
+
 	return NDIS_STATUS_SUCCESS;
 }
 

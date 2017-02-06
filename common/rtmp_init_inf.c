@@ -75,11 +75,9 @@ int rt28xx_init(struct rtmp_adapter *pAd)
 	}
 #endif /* CONFIG_AP_SUPPORT */
 
-#ifdef DOT11_N_SUPPORT
 	/* Allocate BA Reordering memory*/
 	if (ba_reordering_resource_init(pAd, MAX_REORDERING_MPDU_NUM) != TRUE)
 		goto err1;
-#endif /* DOT11_N_SUPPORT */
 
 #ifdef RESOURCE_PRE_ALLOC
 	Status = RTMPInitTxRxRingMemory(pAd);
@@ -183,7 +181,6 @@ int rt28xx_init(struct rtmp_adapter *pAd)
 #endif /* CONFIG_STA_SUPPORT */
 
 
-#ifdef DOT11_N_SUPPORT
    	/*Init Ba Capability parameters.*/
 	pAd->CommonCfg.DesiredHtPhy.MpduDensity = (UCHAR)pAd->CommonCfg.BACapability.field.MpduDensity;
 	pAd->CommonCfg.DesiredHtPhy.AmsduEnable = (USHORT)pAd->CommonCfg.BACapability.field.AmsduEnable;
@@ -193,7 +190,6 @@ int rt28xx_init(struct rtmp_adapter *pAd)
 	pAd->CommonCfg.HtCapability.HtCapInfo.MimoPs = (USHORT)pAd->CommonCfg.BACapability.field.MMPSmode;
 	pAd->CommonCfg.HtCapability.HtCapInfo.AMsduSize = (USHORT)pAd->CommonCfg.BACapability.field.AmsduSize;
 	pAd->CommonCfg.HtCapability.HtCapParm.MpduDensity = (UCHAR)pAd->CommonCfg.BACapability.field.MpduDensity;
-#endif /* DOT11_N_SUPPORT */
 
 	/* after reading Registry, we now know if in AP mode or STA mode */
 	DBGPRINT(RT_DEBUG_OFF, ("3. Phy Mode = %d\n", pAd->CommonCfg.PhyMode));
@@ -264,11 +260,9 @@ int rt28xx_init(struct rtmp_adapter *pAd)
 		goto err6;
 	}
 
-#ifdef DOT11_N_SUPPORT
 	DBGPRINT(RT_DEBUG_OFF, ("MCS Set = %02x %02x %02x %02x %02x\n", pAd->CommonCfg.HtCapability.MCSSet[0],
            pAd->CommonCfg.HtCapability.MCSSet[1], pAd->CommonCfg.HtCapability.MCSSet[2],
            pAd->CommonCfg.HtCapability.MCSSet[3], pAd->CommonCfg.HtCapability.MCSSet[4]));
-#endif /* DOT11_N_SUPPORT */
 
 #ifdef WIN_NDIS
 	/* Patch cardbus controller if EEPROM said so. */
@@ -357,7 +351,6 @@ int rt28xx_init(struct rtmp_adapter *pAd)
 				pAd->ApCfg.bAutoChannelAtBootup = FALSE;
 			}
 
-#ifdef DOT11_N_SUPPORT
 			/* If WMODE_CAP_N(phymode) and BW=40 check extension channel, after select channel  */
 			N_ChannelCheck(pAd);
 
@@ -381,7 +374,6 @@ int rt28xx_init(struct rtmp_adapter *pAd)
 
 			RTMP_11N_D3_TimerInit(pAd);
 /*			RTMPInitTimer(pAd, &pAd->CommonCfg.Bss2040CoexistTimer, GET_TIMER_FUNCTION(Bss2040CoexistTimeOut), pAd, FALSE);*/
-#endif /* DOT11_N_SUPPORT */
 
 
 			APStartUp(pAd);
@@ -465,7 +457,6 @@ int rt28xx_init(struct rtmp_adapter *pAd)
 #endif /* STREAM_MODE_SUPPORT */
 
 
-#ifdef DOT11_N_SUPPORT
 #ifdef TXBF_SUPPORT
 #ifndef MT76x2
 	if (pAd->CommonCfg.ITxBfTimeout)
@@ -483,7 +474,6 @@ int rt28xx_init(struct rtmp_adapter *pAd)
 		RTMP_IO_WRITE32(pAd, TX_TXBF_CFG_3, pAd->CommonCfg.ETxBfTimeout);
 	}
 #endif /* TXBF_SUPPORT */
-#endif /* DOT11_N_SUPPORT */
 
 
 
@@ -528,10 +518,8 @@ err1:
 #endif /* CONFIG_AP_SUPPORT */
 
 
-#ifdef DOT11_N_SUPPORT
 	if(pAd->mpdu_blk_pool.mem)
 		kfree(pAd->mpdu_blk_pool.mem); /* free BA pool*/
-#endif /* DOT11_N_SUPPORT */
 
 #ifdef ST
 err0:
@@ -786,10 +774,8 @@ VOID RTMPDrvClose(struct rtmp_adapter *pAd, struct net_device *net_dev)
 	skb_queue_purge(&pAd->rx0_recycle);
 #endif /* WLAN_SKB_RECYCLE */
 
-#ifdef DOT11_N_SUPPORT
 	/* Free BA reorder resource*/
 	ba_reordering_resource_release(pAd);
-#endif /* DOT11_N_SUPPORT */
 
 	UserCfgExit(pAd); /* must after ba_reordering_resource_release */
 

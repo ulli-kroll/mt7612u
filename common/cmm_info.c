@@ -169,7 +169,6 @@ INT	Set_Cmm_WirelessMode_Proc(
 			pAd->StaCfg.LastScanTime = 0;
 
 			RTMPSetPhyMode(pAd, pAd->CommonCfg.PhyMode);
-#ifdef DOT11_N_SUPPORT
 			if (WMODE_CAP_N(pAd->CommonCfg.PhyMode))
 			{
 				pAd->CommonCfg.BACapability.field.AutoBA = TRUE;
@@ -180,7 +179,6 @@ INT	Set_Cmm_WirelessMode_Proc(
 				pAd->CommonCfg.BACapability.field.AutoBA = FALSE;
 				pAd->CommonCfg.REGBACapability.field.AutoBA = FALSE;
 			}
-#endif /* DOT11_N_SUPPORT */
 			/* Set AdhocMode rates*/
 			if (pAd->StaCfg.BssType == BSS_ADHOC)
 			{
@@ -303,13 +301,11 @@ INT	Set_Channel_Proc(
 			{
 				UCHAR rf_channel;
 
-#ifdef DOT11_N_SUPPORT
 				N_ChannelCheck(pAd);
 				if (WMODE_CAP_N(pAd->CommonCfg.PhyMode) &&
 					pAd->CommonCfg.RegTransmitSetting.field.BW == BW_40)
 					rf_channel = N_SetCenCh(pAd, pAd->CommonCfg.Channel);
 				else
-#endif /* DOT11_N_SUPPORT */
 					rf_channel = pAd->CommonCfg.Channel;
 
 				AsicSwitchChannel(pAd, rf_channel, FALSE);
@@ -374,9 +370,7 @@ INT	Set_Channel_Proc(
 			}
 
 			pAd->CommonCfg.Channel = Channel;
-#ifdef DOT11_N_SUPPORT
 			N_ChannelCheck(pAd);
-#endif /* DOT11_N_SUPPORT */
 
 			if ((pAd->CommonCfg.Channel > 14 )
 				&& (pAd->CommonCfg.bIEEE80211H == TRUE))
@@ -1346,10 +1340,8 @@ VOID RTMPSetPhyMode(struct rtmp_adapter *pAd, ULONG phymode)
 		*/
 		case (WMODE_B | WMODE_G):
 		case (WMODE_A | WMODE_B | WMODE_G):
-#ifdef DOT11_N_SUPPORT
 		case (WMODE_A | WMODE_B | WMODE_G | WMODE_GN | WMODE_AN):
 		case (WMODE_B | WMODE_G | WMODE_GN):
-#endif /* DOT11_N_SUPPORT */
 #ifdef DOT11_VHT_AC
 		case  (WMODE_B | WMODE_G | WMODE_GN |WMODE_A | WMODE_AN | WMODE_AC):
 #endif /* DOT11_VHT_AC */
@@ -1383,13 +1375,11 @@ VOID RTMPSetPhyMode(struct rtmp_adapter *pAd, ULONG phymode)
 
 		case (WMODE_A):
 		case (WMODE_G):
-#ifdef DOT11_N_SUPPORT
 		case (WMODE_A | WMODE_AN):
 		case (WMODE_A | WMODE_G | WMODE_GN | WMODE_AN):
 		case (WMODE_G | WMODE_GN):
 		case (WMODE_GN):
 		case (WMODE_AN):
-#endif /* DOT11_N_SUPPORT */
 #ifdef DOT11_VHT_AC
 		case (WMODE_A | WMODE_AN | WMODE_AC):
 		case (WMODE_AN | WMODE_AC):
@@ -1471,9 +1461,7 @@ VOID RTMPSetPhyMode(struct rtmp_adapter *pAd, ULONG phymode)
 #endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
 #endif /* RT_CFG80211_P2P_SUPPORT */
 
-#ifdef DOT11_N_SUPPORT
 	SetCommonHT(pAd);
-#endif /* DOT11_N_SUPPORT */
 
 #ifdef DOT11_VHT_AC
 	SetCommonVHT(pAd);
@@ -2009,9 +1997,7 @@ VOID RTMPIoctlGetMacTableStaInfo(
 			pDst->Aid = (UCHAR)pEntry->Aid;
 			pDst->Psm = pEntry->PsMode;
 
-#ifdef DOT11_N_SUPPORT
 			pDst->MimoPs = pEntry->MmpsMode;
-#endif /* DOT11_N_SUPPORT */
 
 			/* Fill in RSSI per entry*/
 			pDst->AvgRssi0 = pEntry->RssiSample.AvgRssi0;
@@ -2073,9 +2059,7 @@ VOID RTMPIoctlGetMacTable(
 			COPY_MAC_ADDR(pDst->Addr, &pEntry->Addr);
 			pDst->Aid = (UCHAR)pEntry->Aid;
 			pDst->Psm = pEntry->PsMode;
-#ifdef DOT11_N_SUPPORT
 			pDst->MimoPs = pEntry->MmpsMode;
-#endif /* DOT11_N_SUPPORT */
 
 			/* Fill in RSSI per entry*/
 			pDst->AvgRssi0 = pEntry->RssiSample.AvgRssi0;
@@ -2138,7 +2122,6 @@ LabelOK:
 		kfree(pMacTab);
 }
 
-#ifdef DOT11_N_SUPPORT
 INT	Set_BASetup_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg)
@@ -2976,7 +2959,6 @@ INT	Set_HtRxStream_Proc(
 	return TRUE;
 }
 
-#ifdef DOT11_N_SUPPORT
 #ifdef GREENAP_SUPPORT
 INT	Set_GreenAP_Proc(
 	IN	struct rtmp_adapter *pAd,
@@ -3000,7 +2982,6 @@ INT	Set_GreenAP_Proc(
 	return TRUE;
 }
 #endif /* GREENAP_SUPPORT */
-#endif /* DOT11_N_SUPPORT */
 #endif /* CONFIG_AP_SUPPORT */
 
 INT	Set_ForceShortGI_Proc(
@@ -3104,7 +3085,6 @@ INT Set_HT_BssCoexApCntThr_Proc(
 	return TRUE;
 }
 
-#endif /* DOT11_N_SUPPORT */
 
 
 #ifdef DOT11_VHT_AC
@@ -3891,7 +3871,6 @@ INT	Show_WirelessMode_Proc(
 		case (WMODE_G):
 			snprintf(pBuf, BufLen, "\t11G");
 			break;
-#ifdef DOT11_N_SUPPORT
 		case (WMODE_A | WMODE_B | WMODE_G | WMODE_GN | WMODE_AN):
 			snprintf(pBuf, BufLen, "\t11A/B/G/N");
 			break;
@@ -3913,7 +3892,6 @@ INT	Show_WirelessMode_Proc(
 		case (WMODE_AN):
 			snprintf(pBuf, BufLen, "\t11N only with 5G");
 			break;
-#endif /* DOT11_N_SUPPORT */
 		default:
 			snprintf(pBuf, BufLen, "\tUnknow Value(%d)", pAd->CommonCfg.PhyMode);
 			break;
@@ -4015,7 +3993,6 @@ INT	Show_FragThreshold_Proc(
 	return 0;
 }
 
-#ifdef DOT11_N_SUPPORT
 INT	Show_HtBw_Proc(
 	IN	struct rtmp_adapter *pAd,
 	OUT	char *		pBuf,
@@ -4159,7 +4136,6 @@ INT	Show_HtAutoBa_Proc(
 	snprintf(pBuf, BufLen, "\t%s", pAd->CommonCfg.BACapability.field.AutoBA ? "TRUE":"FALSE");
 	return 0;
 }
-#endif /* DOT11_N_SUPPORT */
 
 INT	Show_CountryRegion_Proc(
 	IN	struct rtmp_adapter *pAd,
@@ -4526,10 +4502,8 @@ INT Show_MacTable_Proc(struct rtmp_adapter *pAd, char *arg)
 			OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_SHORT_SLOT_INUSED) ? "short" : "long",
  			RegValue);
 
-#ifdef DOT11_N_SUPPORT
 	printk("HT Operating Mode : %d\n", pAd->CommonCfg.AddHTInfo.AddHtInfo2.OperaionMode);
 	printk("\n");
-#endif /* DOT11_N_SUPPORT */
 
 	printk("\n%-19s%-4s%-4s%-4s%-4s%-8s",
 		   "MAC", "AID", "BSS", "PSM", "WMM", "MIMOPS");
@@ -4563,9 +4537,7 @@ INT Show_MacTable_Proc(struct rtmp_adapter *pAd, char *arg)
 			printk("%-4d", (int)pEntry->apidx);
 			printk("%-4d", (int)pEntry->PsMode);
 			printk("%-4d", (int)CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_WMM_CAPABLE));
-#ifdef DOT11_N_SUPPORT
 			printk("%-8d", (int)pEntry->MmpsMode);
-#endif /* DOT11_N_SUPPORT */
 
 		        if (pAd->CommonCfg.RxStream == 3)
                 		printk("%-7d%-7d%-7d", pEntry->RssiSample.AvgRssi0, pEntry->RssiSample.AvgRssi1, pEntry->RssiSample.AvgRssi2);
@@ -4682,9 +4654,7 @@ INT show_stainfo_proc(struct rtmp_adapter *pAd, char *arg)
 	printk("%-4d", (int)pEntry->apidx);
 	printk("%-4d", (int)pEntry->PsMode);
 	printk("%-4d", (int)CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_WMM_CAPABLE));
-#ifdef DOT11_N_SUPPORT
 	printk("%-8d", (int)pEntry->MmpsMode);
-#endif /* DOT11_N_SUPPORT */
 	printk("%-7d", pEntry->RssiSample.AvgRssi0);
 	printk("%-7d", pEntry->RssiSample.AvgRssi1);
 	printk("%-7d", pEntry->RssiSample.AvgRssi2);
@@ -6223,7 +6193,6 @@ INT Set_TxBfProfileTag_Flg(
 #endif  //MT76x2
 
 
-#ifdef DOT11_N_SUPPORT
 void assoc_ht_info_debugshow(
 	IN struct rtmp_adapter *pAd,
 	IN MAC_TABLE_ENTRY *pEntry,
@@ -6313,7 +6282,6 @@ INT	Set_BurstMode_Proc(
 
 	return TRUE;
 }
-#endif /* DOT11_N_SUPPORT */
 
 
 #ifdef DOT11_VHT_AC
@@ -6718,7 +6686,6 @@ INT set_cal_test(struct rtmp_adapter *pAd, char *arg)
 }
 
 
-#ifdef DOT11_N_SUPPORT
 
 #ifdef MT76x2
 #define MAX_AGG_CNT	48
@@ -6746,7 +6713,6 @@ void DisplayTxAgg (struct rtmp_adapter *pAd)
 	printk("====================\n");
 
 }
-#endif /* DOT11_N_SUPPORT */
 
 static INT set_rtmp_rf(struct rtmp_adapter *pAd, char *arg)
 {
@@ -6878,7 +6844,6 @@ static struct {
 	{"BGProtection",			Show_BGProtection_Proc},
 	{"RTSThreshold",			Show_RTSThreshold_Proc},
 	{"FragThreshold",			Show_FragThreshold_Proc},
-#ifdef DOT11_N_SUPPORT
 	{"HtBw",					Show_HtBw_Proc},
 	{"HtMcs",					Show_HtMcs_Proc},
 	{"HtGi",					Show_HtGi_Proc},
@@ -6889,7 +6854,6 @@ static struct {
 	{"HtRdg",		        	Show_HtRdg_Proc},
 	{"HtAmsdu",		        	Show_HtAmsdu_Proc},
 	{"HtAutoBa",		        Show_HtAutoBa_Proc},
-#endif /* DOT11_N_SUPPORT */
 	{"CountryRegion",			Show_CountryRegion_Proc},
 	{"CountryRegionABand",		Show_CountryRegionABand_Proc},
 	{"CountryCode",				Show_CountryCode_Proc},
@@ -7040,7 +7004,6 @@ INT Show_Diag_Proc(struct rtmp_adapter *pAd, char *arg)
 	}
 #endif /* DBG_TX_RING_DEPTH */
 
-#ifdef DOT11_N_SUPPORT
 #ifdef DBG_TX_AGG_CNT
 	printk("\n    %-12s\n", "Tx-Agged AMPDUCnt");
 	for (McsIdx =0 ; McsIdx < 16; McsIdx++)
@@ -7054,7 +7017,6 @@ INT Show_Diag_Proc(struct rtmp_adapter *pAd, char *arg)
 		printk("\n");
 	}
 #endif /* DBG_TX_AGG_CNT */
-#endif /* DOT11_N_SUPPORT */
 
 #ifdef DBG_TX_MCS
 	printk("\n    %-12s\n", "TxMcsCnt_HT");

@@ -65,7 +65,6 @@ VOID ActionStateMachineInit(
 
 	StateMachineSetAction(S, ACT_IDLE, MT2_PEER_DLS_CATE, (STATE_MACHINE_FUNC)ReservedAction);
 
-#ifdef DOT11_N_SUPPORT
 	StateMachineSetAction(S, ACT_IDLE, MT2_PEER_BA_CATE, (STATE_MACHINE_FUNC)PeerBAAction);
 	StateMachineSetAction(S, ACT_IDLE, MT2_PEER_HT_CATE, (STATE_MACHINE_FUNC)PeerHTAction);
 #ifdef DOT11_VHT_AC
@@ -74,7 +73,6 @@ VOID ActionStateMachineInit(
 	StateMachineSetAction(S, ACT_IDLE, MT2_MLME_ADD_BA_CATE, (STATE_MACHINE_FUNC)MlmeADDBAAction);
 	StateMachineSetAction(S, ACT_IDLE, MT2_MLME_ORI_DELBA_CATE, (STATE_MACHINE_FUNC)MlmeDELBAAction);
 	StateMachineSetAction(S, ACT_IDLE, MT2_MLME_REC_DELBA_CATE, (STATE_MACHINE_FUNC)MlmeDELBAAction);
-#endif /* DOT11_N_SUPPORT */
 
 	StateMachineSetAction(S, ACT_IDLE, MT2_PEER_PUBLIC_CATE, (STATE_MACHINE_FUNC)PeerPublicAction);
 	StateMachineSetAction(S, ACT_IDLE, MT2_PEER_RM_CATE, (STATE_MACHINE_FUNC)PeerRMAction);
@@ -95,7 +93,6 @@ VOID ActionStateMachineInit(
 }
 
 
-#ifdef DOT11_N_SUPPORT
 VOID MlmeADDBAAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 	MLME_ADDBA_REQ_STRUCT *pInfo;
@@ -302,7 +299,6 @@ VOID MlmeDELBAAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 		DBGPRINT(RT_DEBUG_TRACE, ("BA - MlmeDELBAAction() . 3 DELBA sent. Initiator(%d)\n", pInfo->Initiator));
     	}
 }
-#endif /* DOT11_N_SUPPORT */
 
 
 VOID MlmeQOSAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
@@ -331,7 +327,6 @@ VOID PeerQOSAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 
 
 
-#ifdef DOT11_N_SUPPORT
 VOID PeerBAAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 	UCHAR Action = Elem->Msg[LENGTH_802_11+1];
@@ -782,7 +777,6 @@ VOID ChannelSwitchAction(
 					pAd->CommonCfg.CentralChannel));
 	}
 }
-#endif /* DOT11_N_SUPPORT */
 
 
 VOID PeerPublicAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
@@ -799,7 +793,6 @@ VOID PeerPublicAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 
 	switch(Action)
 	{
-#ifdef DOT11_N_SUPPORT
 		case ACTION_BSS_2040_COEXIST:	/* Format defined in IEEE 7.4.7a.1 in 11n Draf3.03*/
 			{
 				/*UCHAR	BssCoexist;*/
@@ -947,7 +940,6 @@ VOID PeerPublicAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 #endif /* CONFIG_STA_SUPPORT */
 			}
 			break;
-#endif /* DOT11_N_SUPPORT */
 
 #if defined(CONFIG_HOTSPOT) && defined(CONFIG_AP_SUPPORT)
 		case ACTION_GAS_INIT_REQ:
@@ -994,7 +986,6 @@ VOID PeerRMAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 }
 
 
-#ifdef DOT11_N_SUPPORT
 
 #ifdef CONFIG_AP_SUPPORT
 VOID SendNotifyBWActionFrame(struct rtmp_adapter *pAd, UCHAR Wcid, UCHAR apidx)
@@ -1222,7 +1213,6 @@ VOID SendRefreshBAR(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 		}
 	}
 }
-#endif /* DOT11_N_SUPPORT */
 
 
 VOID ActHeaderInit(

@@ -170,7 +170,6 @@ UCHAR FindPartialScanChannel(
 	IN struct rtmp_adapter *pAd);
 #endif /* AP_PARTIAL_SCAN_SUPPORT */
 
-#ifdef DOT11_N_SUPPORT
 VOID APUpdateOperationMode(struct rtmp_adapter *pAd);
 
 VOID APOverlappingBSSScan(struct rtmp_adapter *pAd);
@@ -178,7 +177,6 @@ VOID APOverlappingBSSScan(struct rtmp_adapter *pAd);
 INT GetBssCoexEffectedChRange(
 	IN struct rtmp_adapter *pAd,
 	IN BSS_COEX_CH_RANGE *pCoexChRange);
-#endif /* DOT11_N_SUPPORT */
 
 
 /* ap_mlme.c */

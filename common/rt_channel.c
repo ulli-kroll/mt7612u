@@ -584,7 +584,6 @@ BOOLEAN GetEDCCASupport(
 }
 #endif /* ED_MONITOR */
 
-#ifdef DOT11_N_SUPPORT
 static BOOLEAN IsValidChannel(
 	IN struct rtmp_adapter *pAd,
 	IN UCHAR channel)
@@ -814,7 +813,6 @@ UCHAR N_SetCenCh(struct rtmp_adapter *pAd, UCHAR prim_ch)
 
 	return pAd->CommonCfg.CentralChannel;
 }
-#endif /* DOT11_N_SUPPORT */
 
 
 UINT8 GetCuntryMaxTxPwr(

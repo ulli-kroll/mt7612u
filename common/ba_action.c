@@ -1,4 +1,3 @@
-#ifdef DOT11_N_SUPPORT
 
 #include "rt_config.h"
 
@@ -2269,5 +2268,4 @@ VOID PeerDelBATxAdaptTimeOut(
 	Peer_DelBA_Tx_Adapt_Disable(pEntry->pAd, pEntry);
 }
 #endif /* PEER_DELBA_TX_ADAPT */
-#endif /* DOT11_N_SUPPORT */
 

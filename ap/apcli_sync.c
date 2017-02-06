@@ -250,9 +250,7 @@ static VOID ApCliPeerProbeRspAtJoinAction(
 	APCLI_CTRL_MSG_STRUCT ApCliCtrlMsg;
 	PAPCLI_STRUCT pApCliEntry = NULL;
 	struct rtmp_wifi_dev *wdev;
-#ifdef DOT11_N_SUPPORT
 	UCHAR CentralChannel;
-#endif /* DOT11_N_SUPPORT */
 	USHORT ifIndex = (USHORT)(Elem->Priv);
 	ULONG *pCurrState;
 	BCN_IE_LIST *ie_list = NULL;
@@ -454,13 +452,10 @@ static VOID ApCliPeerProbeRspAtJoinAction(
 				)
 			{
 				memmove(&pApCliEntry->MlmeAux.ExtCapInfo, &ie_list->ExtCapInfo,sizeof(ie_list->ExtCapInfo));
-#ifdef DOT11_N_SUPPORT
 				DBGPRINT(RT_DEBUG_TRACE, ("\x1b[31m ApCliMlmeAux.ExtCapInfo=%d \x1b[m\n", pApCliEntry->MlmeAux.ExtCapInfo.BssCoexistMgmtSupport)); //zero debug 210121122
 					pAd->CommonCfg.ExtCapIE.BssCoexistMgmtSupport = 1;
-#endif /* DOT11_N_SUPPORT */
 			}
 #endif /* APCLI_CERT_SUPPORT */
-#ifdef DOT11_N_SUPPORT
 			memset(pApCliEntry->RxMcsSet,sizeof(pApCliEntry->RxMcsSet));
 			/* filter out un-supported ht rates */
 			if ((ie_list->HtCapabilityLen > 0) &&
@@ -485,7 +480,6 @@ static VOID ApCliPeerProbeRspAtJoinAction(
 				}
 			}
 			else
-#endif /* DOT11_N_SUPPORT */
 			{
 				RTMPZeroMemory(&pApCliEntry->MlmeAux.HtCapability, SIZE_HT_CAP_IE);
 				RTMPZeroMemory(&pApCliEntry->MlmeAux.AddHtInfo, SIZE_ADD_HT_INFO_IE);
@@ -493,7 +487,6 @@ static VOID ApCliPeerProbeRspAtJoinAction(
 			}
 			ApCliUpdateMlmeRate(pAd, ifIndex);
 
-#ifdef DOT11_N_SUPPORT
 			/* copy QOS related information */
 			if (WMODE_CAP_N(pAd->CommonCfg.PhyMode))
 			{
@@ -502,7 +495,6 @@ static VOID ApCliPeerProbeRspAtJoinAction(
 				memmove(&pApCliEntry->MlmeAux.APQosCapability, &ie_list->QosCapability, sizeof(QOS_CAPABILITY_PARM));
 			}
 			else
-#endif /* DOT11_N_SUPPORT */
 			{
 				memset(&pApCliEntry->MlmeAux.APEdcaParm, sizeof(EDCA_PARM));
 				memset(&pApCliEntry->MlmeAux.APQbssLoad, sizeof(QBSS_LOAD_PARM));

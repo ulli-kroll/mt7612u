@@ -372,7 +372,6 @@ BOOLEAN CFG80211_SupBandInit(
 		pBand->channels = pChannels;
 		pBand->bitrates = pRates;
 
-#ifdef DOT11_N_SUPPORT
 		/* for HT, assign pBand->ht_cap */
 		pBand->ht_cap.ht_supported = true;
 		pBand->ht_cap.cap = IEEE80211_HT_CAP_SUP_WIDTH_20_40 |
@@ -410,7 +409,6 @@ BOOLEAN CFG80211_SupBandInit(
 
 		pBand->ht_cap.mcs.rx_mask[4] = 0x01; /* 40MHz*/
 		pBand->ht_cap.mcs.tx_params = IEEE80211_HT_MCS_TX_DEFINED;
-#endif /* DOT11_N_SUPPORT */
 
 		pWiphy->bands[NL80211_BAND_2GHZ] = pBand;
 	}
@@ -430,7 +428,6 @@ BOOLEAN CFG80211_SupBandInit(
 		pBand->channels = &pChannels[CFG80211_NUM_OF_CHAN_2GHZ];
 		pBand->bitrates = &pRates[4];
 
-#ifdef DOT11_N_SUPPORT
 		/* for HT, assign pBand->ht_cap */
 		pBand->ht_cap.ht_supported = true;
 		pBand->ht_cap.cap = IEEE80211_HT_CAP_SUP_WIDTH_20_40 |
@@ -466,7 +463,6 @@ BOOLEAN CFG80211_SupBandInit(
 
 		pBand->ht_cap.mcs.rx_mask[4] = 0x01; /* 40MHz*/
 		pBand->ht_cap.mcs.tx_params = IEEE80211_HT_MCS_TX_DEFINED;
-#endif /* DOT11_N_SUPPORT */
 
 		pWiphy->bands[NL80211_BAND_5GHZ] = pBand;
 	}

@@ -403,9 +403,7 @@ INT APSendPacket(struct rtmp_adapter *pAd, struct sk_buff *pPacket)
 		}
 	}
 
-#ifdef DOT11_N_SUPPORT
 	RTMP_BASetup(pAd, pMacEntry, UserPriority);
-#endif /* DOT11_N_SUPPORT */
 #ifdef APCLI_CERT_SUPPORT
 	pAd->RalinkCounters.OneSecOsTxCount[QueIdx]++;
 #endif /* APCLI_CERT_SUPPORT */
@@ -553,7 +551,6 @@ static inline VOID APFindCipherAlgorithm(struct rtmp_adapter *pAd, TX_BLK *pTxBl
 }
 
 
-#ifdef DOT11_N_SUPPORT
 static inline VOID APBuildCache802_11Header(
 	IN struct rtmp_adapter *pAd,
 	IN TX_BLK *pTxBlk,
@@ -617,7 +614,6 @@ static inline VOID APBuildCacheWifiInfo(
 	pMacEntry->TxSeq[pTxBlk->UserPriority] = (pMacEntry->TxSeq[pTxBlk->UserPriority]+1) & MAXSEQ;
 }
 #endif /* HDR_TRANS_TX_SUPPORT */
-#endif /* DOT11_N_SUPPORT */
 
 
 #ifdef HDR_TRANS_TX_SUPPORT
@@ -823,7 +819,6 @@ static inline u8 *AP_Build_ARalink_Frame_Header(struct rtmp_adapter *pAd, TX_BLK
 }
 
 
-#ifdef DOT11_N_SUPPORT
 static inline BOOLEAN BuildHtcField(
 	IN struct rtmp_adapter *pAd,
 	IN TX_BLK *pTxBlk,
@@ -1802,7 +1797,6 @@ VOID AP_AMSDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 	*/
 	HAL_KickOutTx(pAd, pTxBlk, pTxBlk->QueIdx);
 }
-#endif /* DOT11_N_SUPPORT */
 
 
 VOID AP_Legacy_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
@@ -3006,7 +3000,6 @@ int APHardTransmit(struct rtmp_adapter *pAd, TX_BLK *pTxBlk, UCHAR QueIdx)
 
 	switch (pTxBlk->TxFrameType)
 	{
-#ifdef DOT11_N_SUPPORT
 		case TX_AMPDU_FRAME:
 #ifdef HDR_TRANS_TX_SUPPORT
 			if (pTxBlk->NeedTrans)
@@ -3015,7 +3008,6 @@ int APHardTransmit(struct rtmp_adapter *pAd, TX_BLK *pTxBlk, UCHAR QueIdx)
 #endif /* HDR_TRANS_TX_SUPPORT */
 				AP_AMPDU_Frame_Tx(pAd, pTxBlk);
 			break;
-#endif /* DOT11_N_SUPPORT */
 		case TX_LEGACY_FRAME:
 #ifdef HDR_TRANS_TX_SUPPORT
 			if (pTxBlk->NeedTrans)
@@ -3030,11 +3022,9 @@ int APHardTransmit(struct rtmp_adapter *pAd, TX_BLK *pTxBlk, UCHAR QueIdx)
 #endif /* HDR_TRANS_TX_SUPPORT */
 			AP_Legacy_Frame_Tx(pAd, pTxBlk);
 			break;
-#ifdef DOT11_N_SUPPORT
 		case TX_AMSDU_FRAME:
 			AP_AMSDU_Frame_Tx(pAd, pTxBlk);
 			break;
-#endif /* DOT11_N_SUPPORT */
 		case TX_RALINK_FRAME:
 			AP_ARalink_Frame_Tx(pAd, pTxBlk);
 			break;
@@ -3185,10 +3175,8 @@ VOID detect_wmm_traffic(
 
 	/* For BE & BK case and TxBurst function is disabled */
 	if ((pAd->CommonCfg.bEnableTxBurst == FALSE)
-#ifdef DOT11_N_SUPPORT
 		&& (pAd->CommonCfg.bRdg == FALSE)
 		&& (pAd->CommonCfg.bRalinkBurstMode == FALSE)
-#endif /* DOT11_N_SUPPORT */
 		&& (FlgIsOutput == 1)
 	)
 	{
@@ -3244,9 +3232,7 @@ VOID detect_wmm_traffic(
 		pAd->OneSecondnonBEpackets++;
 
 		if (pAd->OneSecondnonBEpackets > 100
-#ifdef DOT11_N_SUPPORT
 			&& pAd->MacTab.fAnyStationMIMOPSDynamic
-#endif /* DOT11_N_SUPPORT */
 		)
 		{
 			if (!pAd->is_on)
@@ -3282,18 +3268,14 @@ VOID dynamic_tune_be_tx_op(struct rtmp_adapter *pAd, ULONG nonBEpackets)
 	AC_TXOP_CSR0_STRUC csr0;
 
 	if (pAd->CommonCfg.bEnableTxBurst
-#ifdef DOT11_N_SUPPORT
 		|| pAd->CommonCfg.bRdg
 		|| pAd->CommonCfg.bRalinkBurstMode
-#endif /* DOT11_N_SUPPORT */
 	)
 	{
 
 		if (
-#ifdef DOT11_N_SUPPORT
 			(pAd->WIFItestbed.bGreenField && pAd->MacTab.fAnyStationNonGF == TRUE) ||
 			((pAd->OneSecondnonBEpackets > nonBEpackets) || pAd->MacTab.fAnyStationMIMOPSDynamic) ||
-#endif /* DOT11_N_SUPPORT */
 			(pAd->MacTab.fAnyTxOPForceDisable))
 		{
 			if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_DYNAMIC_BE_TXOP_ACTIVE))
@@ -3863,13 +3845,11 @@ VOID APRxDataFrameAnnounce(
 		if (pEntry->WpaState == AS_AUTHENTICATION)
 			pEntry->WpaState = AS_AUTHENTICATION2;
 
-#ifdef DOT11_N_SUPPORT
 		if (RX_BLK_TEST_FLAG(pRxBlk, fRX_AMPDU) && (pAd->CommonCfg.bDisableReordering == 0))
 		{
 			Indicate_AMPDU_Packet(pAd, pRxBlk, FromWhichBSSID);
 		}
 		else
-#endif /* DOT11_N_SUPPORT */
 		{
 			/* Determin the destination of the EAP frame */
 			/*  to WPA state machine or upper layer */
@@ -3956,13 +3936,11 @@ VOID APRxDataFrameAnnounce_Hdr_Trns(
 		if (pEntry->WpaState == AS_AUTHENTICATION)
 			pEntry->WpaState = AS_AUTHENTICATION2;
 
-#ifdef DOT11_N_SUPPORT
 		if (RX_BLK_TEST_FLAG(pRxBlk, fRX_AMPDU) && (pAd->CommonCfg.bDisableReordering == 0))
 		{
 			Indicate_AMPDU_Packet_Hdr_Trns(pAd, pRxBlk, FromWhichBSSID);
 		}
 		else
-#endif /* DOT11_N_SUPPORT */
 		{
 			/* Determin the destination of the EAP frame */
 			/*  to WPA state machine or upper layer */
@@ -4129,7 +4107,6 @@ VOID APHandleRxDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 	ASSERT(pEntry->Aid == pRxBlk->wcid);
 
 
-#ifdef DOT11_N_SUPPORT
 #ifndef DOT11_VHT_AC
 #ifndef WFA_VHT_PF
 // TODO: shiang@PF#2, is this atheros protection still necessary here????
@@ -4148,7 +4125,6 @@ VOID APHandleRxDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 	}
 #endif /* WFA_VHT_PF */
 #endif /* DOT11_VHT_AC */
-#endif /* DOT11_N_SUPPORT */
 
    	/* update rssi sample */
    	Update_Rssi_Sample(pAd, &pEntry->RssiSample, pRxWI);
@@ -4290,9 +4266,7 @@ VOID APHandleRxDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 	{
 #ifdef AGGREGATION_SUPPORT
 		if (
-#ifdef DOT11_N_SUPPORT
 			(pRxBlk->rx_rate.field.MODE < MODE_HTMIX) &&
-#endif /* DOT11_N_SUPPORT */
 			(CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_AGGREGATION_CAPABLE))
 		)
 		{
@@ -4525,7 +4499,6 @@ if (0 /*!(pRxInfo->Mcast || pRxInfo->Bcast)*/){
 
 
 
-#ifdef DOT11_N_SUPPORT
 	/* check Atheros Client */
 	// TODO: shiang@PF#2, is this atheros protection still necessary here????
 	if (!pEntry->bIAmBadAtheros && (pFmeCtrl->Retry) &&
@@ -4538,7 +4511,6 @@ if (0 /*!(pRxInfo->Mcast || pRxInfo->Bcast)*/){
 		pEntry->bIAmBadAtheros = TRUE;
 
 	}
-#endif /* DOT11_N_SUPPORT */
 
    	/* update rssi sample */
    	Update_Rssi_Sample(pAd, &pEntry->RssiSample, pRxWI);
@@ -4662,9 +4634,7 @@ if (0 /*!(pRxInfo->Mcast || pRxInfo->Bcast)*/){
 	{
 #ifdef AGGREGATION_SUPPORT
 		if (
-#ifdef DOT11_N_SUPPORT
 			(pRxBlk->rx_rate.field.MODE < MODE_HTMIX) &&
-#endif /* DOT11_N_SUPPORT */
 			(CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_AGGREGATION_CAPABLE))
 		)
 		{

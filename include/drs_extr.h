@@ -117,7 +117,6 @@ extern UCHAR RateSwitchTable11B[];
 extern UCHAR RateSwitchTable11G[];
 extern UCHAR RateSwitchTable11BG[];
 
-#ifdef DOT11_N_SUPPORT
 extern UCHAR RateSwitchTable11BGN1S[];
 extern UCHAR RateSwitchTable11BGN2S[];
 extern UCHAR RateSwitchTable11BGN2SForABand[];
@@ -167,7 +166,6 @@ extern UCHAR RateTableVht2S_2G_BW40[];
 									(pTable)==RateSwitchTableAdapt11N3S)
 #endif /* DOT11_VHT_AC */
 #endif /* NEW_RATE_ADAPT_SUPPORT */
-#endif /* DOT11_N_SUPPORT */
 
 
 /* FUNCTION */

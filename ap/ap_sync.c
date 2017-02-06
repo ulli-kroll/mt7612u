@@ -165,7 +165,6 @@ VOID APPeerProbeReqAction(
 			FrameLen += TmpLen;
 		}
 
-#ifdef DOT11_N_SUPPORT
 		if (WMODE_CAP_N(PhyMode) &&
 			(wdev->DesiredHtPhyInfo.bHtEnable))
 		{
@@ -222,7 +221,6 @@ VOID APPeerProbeReqAction(
 #endif
 			FrameLen += TmpLen;
 		}
-#endif /* DOT11_N_SUPPORT */
 
 		/* Append RSN_IE when  WPA OR WPAPSK, */
 		if (wdev->AuthMode < Ndis802_11AuthModeWPA)
@@ -259,7 +257,6 @@ VOID APPeerProbeReqAction(
 
 			memset(&extCapInfo, 0, extInfoLen);
 
-#ifdef DOT11_N_SUPPORT
 			/* P802.11n_D1.10, HT Information Exchange Support */
 			if ((pAd->CommonCfg.PhyMode >= PHY_11ABGN_MIXED) && (pAd->CommonCfg.Channel <= 14) &&
 				(pAd->ApCfg.MBSSID[apidx].wdev.DesiredHtPhyInfo.bHtEnable) &&
@@ -267,7 +264,6 @@ VOID APPeerProbeReqAction(
 			{
 				extCapInfo.BssCoexistMgmtSupport = 1;
 			}
-#endif /* DOT11_N_SUPPORT */
 
 
 
@@ -342,7 +338,6 @@ VOID APPeerProbeReqAction(
 		}
 
 
-#ifdef DOT11_N_SUPPORT
 	 	/* P802.11n_D3.03, 7.3.2.60 Overlapping BSS Scan Parameters IE */
 	 	if (WMODE_CAP_N(PhyMode) &&
 			(pAd->CommonCfg.Channel <= 14) &&
@@ -398,7 +393,6 @@ VOID APPeerProbeReqAction(
 				FrameLen += TmpLen;
 			}
 		}
-#endif /* DOT11_N_SUPPORT */
 
 	    /* add country IE, power constraint IE */
 		if (pAd->CommonCfg.bCountryFlag)
@@ -489,7 +483,6 @@ VOID APPeerProbeReqAction(
 							  1,                        &pAd->Dot11_H.CSCount,
 							  END_OF_ARGS);
 			FrameLen += TmpLen;
-#ifdef DOT11_N_SUPPORT
    			if (pAd->CommonCfg.bExtChannelSwitchAnnouncement)
 			{
 				HT_EXT_CHANNEL_SWITCH_ANNOUNCEMENT_IE HtExtChannelSwitchIe;
@@ -499,11 +492,9 @@ VOID APPeerProbeReqAction(
 								  sizeof(HT_EXT_CHANNEL_SWITCH_ANNOUNCEMENT_IE),	&HtExtChannelSwitchIe,
 								  END_OF_ARGS);
 			}
-#endif /* DOT11_N_SUPPORT */
 			FrameLen += TmpLen;
 		}
 
-#ifdef DOT11_N_SUPPORT
 		if (WMODE_CAP_N(PhyMode) &&
 			(wdev->DesiredHtPhyInfo.bHtEnable))
 		{
@@ -588,7 +579,6 @@ VOID APPeerProbeReqAction(
 #endif /* DOT11_VHT_AC */
 
 		}
-#endif /* DOT11_N_SUPPORT */
 
 
 
@@ -607,10 +597,8 @@ VOID APPeerProbeReqAction(
 			RalinkSpecificIe[5] |= 0x1;
 		if (pAd->CommonCfg.bPiggyBackCapable)
 			RalinkSpecificIe[5] |= 0x2;
-#ifdef DOT11_N_SUPPORT
 		if (pAd->CommonCfg.bRdg)
 			RalinkSpecificIe[5] |= 0x4;
-#endif /* DOT11_N_SUPPORT */
 
 #ifdef DOT11_VHT_AC
 	if (pAd->CommonCfg.b256QAM_2G && WMODE_2G_ONLY(pAd->CommonCfg.PhyMode))
@@ -726,9 +714,7 @@ VOID APPeerBeaconAction(
 
 		/* ignore BEACON not in this channel */
 		if (ie_list->Channel != pAd->CommonCfg.Channel
-#ifdef DOT11_N_SUPPORT
 			&& (pAd->CommonCfg.bOverlapScanning == FALSE)
-#endif /* DOT11_N_SUPPORT */
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
 			&& (!RTMP_CFG80211_VIF_P2P_CLI_ON(pAd))
 #endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
@@ -738,15 +724,12 @@ VOID APPeerBeaconAction(
 		}
 
 
-#ifdef DOT11_N_SUPPORT
 		/* 40Mhz BSS Width Trigger events Intolerant devices */
 		if ((RealRssi > OBSS_BEACON_RSSI_THRESHOLD) && (ie_list->HtCapability.HtCapInfo.Forty_Mhz_Intolerant)) /* || (HtCapabilityLen == 0))) */
 		{
 			Handle_BSS_Width_Trigger_Events(pAd);
 		}
-#endif /* DOT11_N_SUPPORT */
 
-#ifdef DOT11_N_SUPPORT
 		if ((pAd->CommonCfg.HtCapability.HtCapInfo.ChannelWidth == BW_40)
 			&& (pAd->CommonCfg.bOverlapScanning == FALSE)
 		   )
@@ -782,7 +765,6 @@ VOID APPeerBeaconAction(
 					goto __End_Of_APPeerBeaconAction;
 			}
 		}
-#endif /* DOT11_N_SUPPORT */
 
                 SupportRate(ie_list->SupRate, ie_list->SupRateLen, ie_list->ExtRate, ie_list->ExtRateLen, &pRates, &RatesLen, &MaxSupportedRate);
 
@@ -797,14 +779,12 @@ VOID APPeerBeaconAction(
 
 		}
 
-#ifdef DOT11_N_SUPPORT
 		if ((pAd->CommonCfg.bHTProtect)
 			&& (ie_list->HtCapabilityLen == 0) && (RealRssi > OBSS_BEACON_RSSI_THRESHOLD))
 		{
 
 			pAd->ApCfg.LastNoneHTOLBCDetectTime = pAd->Mlme.Now32;
 		}
-#endif /* DOT11_N_SUPPORT */
 
 #ifdef APCLI_SUPPORT
 		if (Elem->Wcid < MAX_LEN_OF_MAC_TABLE)
@@ -890,7 +870,6 @@ VOID APPeerBeaconAction(
 #endif /* APCLI_SUPPORT */
 
 
-#ifdef DOT11_N_SUPPORT
 		if (pAd->CommonCfg.bOverlapScanning == TRUE)
 		{
 			INT		index,secChIdx;
@@ -941,7 +920,6 @@ VOID APPeerBeaconAction(
 				}
 			}
 		}
-#endif /* DOT11_N_SUPPORT */
 
 #ifdef ED_MONITOR
 		if (pAd->ed_chk) // only updat scan table when AP turn on edcca
@@ -1224,21 +1202,17 @@ VOID APPeerBeaconAtScanAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 
 		/* ignore BEACON not in this channel */
 		if (ie_list->Channel != pAd->MlmeAux.Channel
-#ifdef DOT11_N_SUPPORT
 			&& (pAd->CommonCfg.bOverlapScanning == FALSE)
-#endif /* DOT11_N_SUPPORT */
 		   )
 		{
 			//CFG_TODO
 			goto __End_Of_APPeerBeaconAtScanAction;
 		}
 
-#ifdef DOT11_N_SUPPORT
    		if ((RealRssi > OBSS_BEACON_RSSI_THRESHOLD) && (ie_list->HtCapability.HtCapInfo.Forty_Mhz_Intolerant)) /* || (HtCapabilityLen == 0))) */
 		{
 			Handle_BSS_Width_Trigger_Events(pAd);
 		}
-#endif /* DOT11_N_SUPPORT */
 
 
 		/*
@@ -1263,7 +1237,6 @@ VOID APPeerBeaconAtScanAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 		Idx = BssTableSetEntry(pAd, &pAd->ScanTab, ie_list, Rssi, LenVIE, pVIE);
 #ifdef APCLI_SUPPORT
 #ifdef APCLI_CERT_SUPPORT
-#ifdef DOT11_N_SUPPORT
 		/* Check if this scan channel is the effeced channel */
 		if (APCLI_IF_UP_CHECK(pAd, 0) && pAd->bApCliCertTest == TRUE
 			&& (pAd->CommonCfg.bBssCoexEnable == TRUE)
@@ -1297,7 +1270,6 @@ VOID APPeerBeaconAtScanAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 				}
 			}
 		}
-#endif /* DOT11_N_SUPPORT */
 #endif /* APCLI_CERT_SUPPORT */
 #endif /* APCLI_SUPPORT */
 		if (Idx != BSS_NOT_FOUND)
@@ -1567,7 +1539,6 @@ VOID SupportRate(
 	return;
 }
 
-#ifdef DOT11_N_SUPPORT
 /* Regulatory classes in the USA */
 
 typedef struct
@@ -1642,5 +1613,4 @@ void build_ext_channel_switch_ie(
 	pIE->NewChannelNum = pAd->CommonCfg.Channel;
     pIE->ChannelSwitchCount = (pAd->Dot11_H.CSPeriod - pAd->Dot11_H.CSCount - 1);
 }
-#endif /* DOT11_N_SUPPORT */
 

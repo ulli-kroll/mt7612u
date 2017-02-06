@@ -182,9 +182,7 @@ static INT scan_ch_restore(struct rtmp_adapter *pAd, UCHAR OpMode)
 		{
 			pAd->CommonCfg.Channel = SelectBestChannel(pAd, pAd->ApCfg.AutoChannelAlg);
 			pAd->ApCfg.bAutoChannelAtBootup = FALSE;
-#ifdef DOT11_N_SUPPORT
 			N_ChannelCheck(pAd);
-#endif /* DOT11_N_SUPPORT */
 			APStop(pAd);
 			APStartUp(pAd);
 		}
@@ -211,14 +209,12 @@ static INT scan_ch_restore(struct rtmp_adapter *pAd, UCHAR OpMode)
 
 #ifdef APCLI_SUPPORT
 #ifdef APCLI_CERT_SUPPORT
-#ifdef DOT11_N_SUPPORT
 		if (APCLI_IF_UP_CHECK(pAd, 0) && pAd->bApCliCertTest == TRUE && ScanType == SCAN_2040_BSS_COEXIST)
 		{
 			UCHAR Status=1;
 			DBGPRINT(RT_DEBUG_TRACE, ("@(%s)  Scan Done ScanType=%d\n", __FUNCTION__, ScanType));
 			MlmeEnqueue(pAd, APCLI_CTRL_STATE_MACHINE, APCLI_CTRL_SCAN_DONE, 2, &Status, 0);
 		}
-#endif /* DOT11_N_SUPPORT */
 #endif /* APCLI_CERT_SUPPORT */
 #endif /* APCLI_SUPPORT */
 #endif /* CONFIG_AP_SUPPORT */
@@ -259,12 +255,10 @@ static INT scan_active(struct rtmp_adapter *pAd, UCHAR OpMode, UCHAR ScanType)
 		return FALSE;
 	}
 
-#ifdef DOT11_N_SUPPORT
 	if (ScanType == SCAN_2040_BSS_COEXIST)
 	{
 		DBGPRINT(RT_DEBUG_INFO, ("SYNC - SCAN_2040_BSS_COEXIST !! Prepare to send Probe Request\n"));
 	}
-#endif /* DOT11_N_SUPPORT */
 
 	/* There is no need to send broadcast probe request if active scan is in effect.*/
 	SsidLen = 0;
@@ -317,7 +311,6 @@ static INT scan_active(struct rtmp_adapter *pAd, UCHAR OpMode, UCHAR ScanType)
 			FrameLen += Tmp;
 		}
 	}
-#ifdef DOT11_N_SUPPORT
 	if (WMODE_CAP_N(pAd->CommonCfg.PhyMode))
 	{
 		ULONG	Tmp;
@@ -405,7 +398,6 @@ static INT scan_active(struct rtmp_adapter *pAd, UCHAR OpMode, UCHAR ScanType)
 			FrameLen += Tmp;
 		}
 	}
-#endif /* DOT11_N_SUPPORT */
 
 #ifdef APCLI_SUPPORT
 #endif /* APCLI_SUPPORT */
@@ -678,7 +670,6 @@ BOOLEAN ScanRunning(struct rtmp_adapter *pAd)
 
 
 #if defined(CONFIG_STA_SUPPORT) || defined(APCLI_SUPPORT)
-#ifdef DOT11_N_SUPPORT
 VOID BuildEffectedChannelList(
 	IN struct rtmp_adapter *pAd)
 {
@@ -792,7 +783,6 @@ VOID DeleteEffectedChannelList(
 		pAd->ChannelList[i].bEffectedChannel = FALSE;
 	}
 }
-#endif /* DOT11_N_SUPPORT */
 
 VOID ScanParmFill(
 	IN struct rtmp_adapter *pAd,

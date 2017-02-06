@@ -580,9 +580,7 @@ VOID RTMPFreeAdapter(struct rtmp_adapter *pAd)
 	NdisFreeSpinLock(&pAd->UAPSDEOSPLock); /* OS_ABL_SUPPORT */
 #endif /* UAPSD_SUPPORT */
 
-#ifdef DOT11_N_SUPPORT
 	NdisFreeSpinLock(&pAd->mpdu_blk_pool.lock);
-#endif /* DOT11_N_SUPPORT */
 
 	if (pAd->iw_stats)
 	{

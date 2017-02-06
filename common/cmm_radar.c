@@ -189,7 +189,6 @@ UCHAR get_channel_by_reference(
 			{
 				if (pAd->ChannelList[ch_idx].RemainingTimeForUse < min_time)
 				{
-#ifdef DOT11_N_SUPPORT
 					/* If the channel not in 40MHz/80MHz group, ignore it. */
 					if (pAd->CommonCfg.RegTransmitSetting.field.BW == BW_40 &&
 						!(pAd->ChannelList[ch_idx].Flags & CHANNEL_40M_CAP))
@@ -199,7 +198,6 @@ UCHAR get_channel_by_reference(
 						!(pAd->ChannelList[ch_idx].Flags & CHANNEL_80M_CAP))
 						continue;
 #endif /* DOT11_VHT_AC */
-#endif /* DOT11_N_SUPPORT */
 
 					min_time = pAd->ChannelList[ch_idx].RemainingTimeForUse;
 					ch = pAd->ChannelList[ch_idx].Channel;

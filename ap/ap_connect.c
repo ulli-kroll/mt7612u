@@ -196,8 +196,6 @@ VOID APMakeBssBeacon(struct rtmp_adapter *pAd, INT apidx)
 			DBGPRINT(RT_DEBUG_ERROR, ("%s: Allocate memory fail!!!\n", __FUNCTION__));
 	}
 
-
-#ifdef DOT11_N_SUPPORT
 	/* AP Channel Report */
 	{
 		UCHAR APChannelReportIe = IE_AP_CHANNEL_REPORT;
@@ -224,8 +222,6 @@ VOID APMakeBssBeacon(struct rtmp_adapter *pAd, INT apidx)
 			FrameLen += TmpLen;
 		}
 	}
-
-#endif /* DOT11_N_SUPPORT */
 
 
 	BeaconTransmit.word = 0;
@@ -460,7 +456,6 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 		ptr += 5;
 		FrameLen += 5;
 
-#ifdef DOT11_N_SUPPORT
 		/* Extended Channel Switch Announcement Element */
 		if (pComCfg->bExtChannelSwitchAnnouncement)
 		{
@@ -518,10 +513,8 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 		}
 #endif /* DOT11_VHT_AC */
 
-#endif /* DOT11_N_SUPPORT */
 	}
 
-#ifdef DOT11_N_SUPPORT
 	/* step 5. Update HT. Since some fields might change in the same BSS. */
 	if (WMODE_CAP_N(PhyMode) && (wdev->DesiredHtPhyInfo.bHtEnable))
 	{
@@ -615,7 +608,6 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 		}
 #endif /* DOT11_VHT_AC */
 	}
-#endif /* DOT11_N_SUPPORT */
 
 	/* 7.3.2.27 Extended Capabilities IE */
 	{
@@ -629,7 +621,6 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 		extInfoLen = sizeof(EXT_CAP_INFO_ELEMENT);
 		memset(&extCapInfo, 0, extInfoLen);
 
-#ifdef DOT11_N_SUPPORT
 		/* P802.11n_D1.10, HT Information Exchange Support */
 		if (WMODE_CAP_N(PhyMode) && (pComCfg->Channel <= 14) &&
 			(pMbss->wdev.DesiredHtPhyInfo.bHtEnable) &&
@@ -638,7 +629,6 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 		{
 			extCapInfo.BssCoexistMgmtSupport = 1;
 		}
-#endif /* DOT11_N_SUPPORT */
 
 
 
@@ -768,7 +758,6 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 	}
 
 
-#ifdef DOT11_N_SUPPORT
 	if (WMODE_CAP_N(PhyMode) &&
 		(wdev->DesiredHtPhyInfo.bHtEnable))
 	{
@@ -845,7 +834,6 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 			FrameLen += TmpLen;
 		}
 	}
-#endif /* DOT11_N_SUPPORT */
 
    	/* add Ralink-specific IE here - Byte0.b0=1 for aggregation, Byte0.b1=1 for piggy-back */
 {
@@ -856,10 +844,8 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 		RalinkSpecificIe[5] |= 0x1;
 	if (pComCfg->bPiggyBackCapable)
 		RalinkSpecificIe[5] |= 0x2;
-#ifdef DOT11_N_SUPPORT
 	if (pComCfg->bRdg)
 		RalinkSpecificIe[5] |= 0x4;
-#endif /* DOT11_N_SUPPORT */
 
 #ifdef DOT11_VHT_AC
 	if (pComCfg->b256QAM_2G && WMODE_2G_ONLY(pComCfg->PhyMode))
@@ -1076,15 +1062,12 @@ VOID APMakeAllBssBeacon(struct rtmp_adapter *pAd)
 VOID APUpdateAllBeaconFrame(struct rtmp_adapter *pAd)
 {
 	INT		i;
-#ifdef DOT11_N_SUPPORT
 	BOOLEAN FlgQloadIsAlarmIssued = FALSE;
-#endif /* DOT11_N_SUPPORT */
 
 	if (pAd->ApCfg.DtimCount == 0)
 		pAd->ApCfg.DtimCount = pAd->ApCfg.DtimPeriod - 1;
 	else
 		pAd->ApCfg.DtimCount -= 1;
-#ifdef DOT11_N_SUPPORT
 	/* QLOAD ALARM */
 #ifdef AP_QLOAD_SUPPORT
 	FlgQloadIsAlarmIssued = QBSS_LoadIsAlarmIssued(pAd);
@@ -1122,7 +1105,6 @@ VOID APUpdateAllBeaconFrame(struct rtmp_adapter *pAd)
 				prevBW, prevExtChOffset));
 		pAd->CommonCfg.Bss2040CoexistFlag |= BSS_2040_COEXIST_INFO_NOTIFY;
 	}
-#endif /* DOT11_N_SUPPORT */
 
 	for(i=0; i<pAd->ApCfg.BssidNum; i++)
 	{

@@ -158,9 +158,7 @@ static VOID mt76x2_bbp_adjust(struct rtmp_adapter *pAd)
 	static char *ext_str[]={"extNone", "extAbove", "", "extBelow"};
 	UCHAR rf_bw, ext_ch;
 
-#ifdef DOT11_N_SUPPORT
 	if (get_ht_cent_ch(pAd, &rf_bw, &ext_ch) == FALSE)
-#endif /* DOT11_N_SUPPORT */
 	{
 		rf_bw = BW_20;
 		ext_ch = EXTCHA_NONE;
@@ -189,14 +187,12 @@ static VOID mt76x2_bbp_adjust(struct rtmp_adapter *pAd)
 	rtmp_mac_set_ctrlch(pAd, ext_ch);
 	bbp_set_ctrlch(pAd, ext_ch);
 
-#ifdef DOT11_N_SUPPORT
 	DBGPRINT(RT_DEBUG_TRACE, ("%s() : %s, ChannelWidth=%d, Channel=%d, ExtChanOffset=%d(%d) \n",
 					__FUNCTION__, ext_str[ext_ch],
 					pAd->CommonCfg.HtCapability.HtCapInfo.ChannelWidth,
 					pAd->CommonCfg.Channel,
 					pAd->CommonCfg.RegTransmitSetting.field.EXTCHA,
 					pAd->CommonCfg.AddHTInfo.AddHtInfo.ExtChanOffset));
-#endif /* DOT11_N_SUPPORT */
 }
 
 char get_chl_grp(u8 channel)

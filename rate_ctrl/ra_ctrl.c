@@ -54,7 +54,6 @@ UCHAR RateSwitchTable11G[] = {
 };
 
 
-#ifdef DOT11_N_SUPPORT
 UCHAR RateSwitchTable11N1S[] = {
 /* Item No.   Mode   Curr-MCS   TrainUp   TrainDown		 Mode- Bit0: STBC, Bit1: Short GI, Bit4~6: Mode(0:CCK, 1:OFDM, 2:HT Mix, 3:HT GF)*/
     0x0c, 0x0a,  0,  0,  0,						/* Initial used item after association*/
@@ -872,8 +871,6 @@ UCHAR RateTableVht2S_2G_BW20[] =
 
 #endif /*  NEW_RATE_ADAPT_SUPPORT */
 
-#endif /* DOT11_N_SUPPORT */
-
 
 /* MlmeGetSupportedMcs - fills in the table of mcs with index into the pTable
 		pAd - pointer to adapter
@@ -913,7 +910,6 @@ VOID MlmeGetSupportedMcs(
 			mcs[6] = idx;
 		else if ((pCurrTxRate->CurrMCS == MCS_7) && (pCurrTxRate->ShortGI == GI_800))
 			mcs[7] = idx;
-#ifdef DOT11_N_SUPPORT
 		else if (pCurrTxRate->CurrMCS == MCS_12)
 			mcs[12] = idx;
 		else if (pCurrTxRate->CurrMCS == MCS_13)
@@ -934,7 +930,6 @@ VOID MlmeGetSupportedMcs(
 		else if (pCurrTxRate->CurrMCS == MCS_23)
 			mcs[23] = idx;
 #endif /*  DOT11N_SS3_SUPPORT */
-#endif /*  DOT11_N_SUPPORT */
 	}
 
 #ifdef DBG_CTRL_SUPPORT
@@ -1196,7 +1191,6 @@ DBGPRINT(RT_DEBUG_INFO, ("%s(): txbw=%d, txmode=%d\n", __FUNCTION__, tx_bw, tx_m
 	}
 #endif /* DOT11_VHT_AC */
 
-#ifdef DOT11_N_SUPPORT
 	if (tx_mode == MODE_HTMIX || tx_mode == MODE_HTGREENFIELD)
 	{
 		if ((pTxRate->STBC) && (pEntry->MaxHTPhyMode.field.STBC))
@@ -1239,14 +1233,12 @@ DBGPRINT(RT_DEBUG_INFO, ("%s(): txbw=%d, txmode=%d\n", __FUNCTION__, tx_bw, tx_m
 			pEntry->HTPhyMode.field.STBC = STBC_NONE;
 	}
 #endif /* DOT11_VHT_AC */
-#endif /* DOT11_N_SUPPORT */
 
 	if (pTxRate->CurrMCS < MCS_AUTO)
 		pEntry->HTPhyMode.field.MCS = pTxRate->CurrMCS;
 
 	pEntry->HTPhyMode.field.MODE = tx_mode;
 
-#ifdef DOT11_N_SUPPORT
 	if ((pAd->WIFItestbed.bGreenField & pEntry->HTCapability.HtCapInfo.GF) && (pEntry->HTPhyMode.field.MODE == MODE_HTMIX))
 	{
 		/* force Tx GreenField */
@@ -1388,7 +1380,6 @@ DBGPRINT(RT_DEBUG_INFO, ("%s(): txbw=%d, txmode=%d\n", __FUNCTION__, tx_bw, tx_m
 	if (pAd->CommonCfg.DebugFlags & DBF_FORCE_SGI)
 		pEntry->HTPhyMode.field.ShortGI = GI_400;
 #endif /* DBG_CTRL_SUPPORT */
-#endif /* DOT11_N_SUPPORT */
 
 	pAd->LastTxRate = (USHORT)(pEntry->HTPhyMode.word);
 
@@ -1417,7 +1408,6 @@ VOID MlmeSetTxRate(
 	UCHAR tx_bw = pTxRate->BW;
 	HTTRANSMIT_SETTING *tx_setting = &pAd->StaCfg.wdev.HTPhyMode;
 
-#ifdef DOT11_N_SUPPORT
 	MaxMode = MODE_HTGREENFIELD;
 
 #ifdef DOT11_VHT_AC
@@ -1440,7 +1430,6 @@ VOID MlmeSetTxRate(
 	)
 		wdev->HTPhyMode.field.STBC = STBC_USE;
 	else
-#endif /*  DOT11_N_SUPPORT */
 		wdev->HTPhyMode.field.STBC = STBC_NONE;
 
 	if (pTxRate->CurrMCS < MCS_AUTO)
@@ -1496,23 +1485,18 @@ VOID MlmeSetTxRate(
 	{
 		USHORT OperationMode =0xffff;
 
-#ifdef DOT11_N_SUPPORT
 		if ((pAd->CommonCfg.RegTransmitSetting.field.HTMODE == HTMODE_GF) &&
 			(pAd->MlmeAux.HtCapability.HtCapInfo.GF == HTMODE_GF))
 			wdev->HTPhyMode.field.MODE = MODE_HTGREENFIELD;
 		else
-#endif /*  DOT11_N_SUPPORT */
 		if (tx_mode <= MaxMode)
 			wdev->HTPhyMode.field.MODE = tx_mode;
 
-#ifdef DOT11_N_SUPPORT
 		if (pTxRate->ShortGI && (wdev->MaxHTPhyMode.field.ShortGI))
 			wdev->HTPhyMode.field.ShortGI = GI_400;
 		else
-#endif /*  DOT11_N_SUPPORT */
 			wdev->HTPhyMode.field.ShortGI = GI_800;
 
-#ifdef DOT11_N_SUPPORT
 		/*  BW depends on Negotiated BW */
 		if (pEntry->MaxHTPhyMode.field.BW==BW_20 || pAd->CommonCfg.BBPCurrentBW==BW_20)
 			pEntry->HTPhyMode.field.BW = BW_20;
@@ -1624,7 +1608,6 @@ VOID MlmeSetTxRate(
 		if (OperationMode != 0xffff)
 			AsicUpdateProtect(pAd, OperationMode , ALLN_SETPROTECT, TRUE,
 							(BOOLEAN)pAd->MlmeAux.AddHtInfo.AddHtInfo2.NonGfPresent);
-#endif /* DOT11_N_SUPPORT */
 
 		pEntry->HTPhyMode.field.STBC	= wdev->HTPhyMode.field.STBC;
 		pEntry->HTPhyMode.field.ShortGI = wdev->HTPhyMode.field.ShortGI;
@@ -1781,7 +1764,6 @@ VOID MlmeSelectTxRateTable(
 		if ((pAd->OpMode == OPMODE_STA) && ADHOC_ON(pAd))
 		{
 			/* for ADHOC mode */
-#ifdef DOT11_N_SUPPORT
 			if (WMODE_CAP_N(pAd->CommonCfg.PhyMode) &&
 				(pEntry->HTCapability.MCSSet[0] != 0x00) &&
 				((pEntry->HTCapability.MCSSet[1] == 0x00) || (pAd->Antenna.field.TxPath == 1)))
@@ -1807,11 +1789,8 @@ VOID MlmeSelectTxRateTable(
 				}
 			}
 			else
-#endif /* DOT11_N_SUPPORT */
 			if ((pEntry->RateLen == 4)
-#ifdef DOT11_N_SUPPORT
 				&& (pEntry->HTCapability.MCSSet[0] == 0) && (pEntry->HTCapability.MCSSet[1] == 0)
-#endif /* DOT11_N_SUPPORT */
 			)
 				*ppTable = RateSwitchTable11B;
 			else if (pAd->LatchRfRegs.Channel <= 14)
@@ -1822,7 +1801,6 @@ VOID MlmeSelectTxRateTable(
 		}
 #endif /* CONFIG_STA_SUPPORT */
 
-#ifdef DOT11_N_SUPPORT
 		/*if ((pAd->StaActive.SupRateLen + pAd->StaActive.ExtRateLen == 12) && (pAd->StaActive.SupportedPhyInfo.MCSSet[0] == 0xff) &&*/
 		/*	((pAd->StaActive.SupportedPhyInfo.MCSSet[1] == 0x00) || (pAd->Antenna.field.TxPath == 1)))*/
 		if ((pEntry->SupportRateMode & (SUPPORT_OFDM_MODE)) &&
@@ -2048,14 +2026,11 @@ VOID MlmeSelectTxRateTable(
 			}
 		}
 #endif /* DOT11N_SS3_SUPPORT */
-#endif /* DOT11_N_SUPPORT */
 
 		if (((pEntry->SupportRateMode == SUPPORT_CCK_MODE) ||
 			WMODE_EQUAL(pAd->CommonCfg.PhyMode, WMODE_B))
-#ifdef DOT11_N_SUPPORT
 		/*Iverson mark for Adhoc b mode,sta will use rate 54  Mbps when connect with sta b/g/n mode */
 		/* && (pEntry->HTCapability.MCSSet[0] == 0) && (pEntry->HTCapability.MCSSet[1] == 0)*/
-#endif /* DOT11_N_SUPPORT */
 			)
 		{/* B only AP*/
 			*ppTable = RateSwitchTable11B;
@@ -2065,9 +2040,7 @@ VOID MlmeSelectTxRateTable(
 		/*else if ((pAd->StaActive.SupRateLen + pAd->StaActive.ExtRateLen > 8) && (pAd->StaActive.SupportedPhyInfo.MCSSet[0] == 0) && (pAd->StaActive.SupportedPhyInfo.MCSSet[1] == 0))*/
 		if ((pEntry->SupportRateMode & (SUPPORT_CCK_MODE)) &&
 			(pEntry->SupportRateMode & (SUPPORT_OFDM_MODE))
-#ifdef DOT11_N_SUPPORT
 			&& (pEntry->HTCapability.MCSSet[0] == 0) && (pEntry->HTCapability.MCSSet[1] == 0)
-#endif /* DOT11_N_SUPPORT */
 			)
 		{/* B/G  mixed AP*/
 			*ppTable = RateSwitchTable11BG;
@@ -2076,15 +2049,12 @@ VOID MlmeSelectTxRateTable(
 
 		/*else if ((pAd->StaActive.SupRateLen + pAd->StaActive.ExtRateLen == 8) && (pAd->StaActive.SupportedPhyInfo.MCSSet[0] == 0) && (pAd->StaActive.SupportedPhyInfo.MCSSet[1] == 0))*/
 		if ((pEntry->SupportRateMode & (SUPPORT_OFDM_MODE))
-#ifdef DOT11_N_SUPPORT
 			&& (pEntry->HTCapability.MCSSet[0] == 0) && (pEntry->HTCapability.MCSSet[1] == 0)
-#endif /* DOT11_N_SUPPORT */
 			)
 		{/* G only AP*/
 			*ppTable = RateSwitchTable11G;
 			break;
 		}
-#ifdef DOT11_N_SUPPORT
 #ifdef CONFIG_AP_SUPPORT
 		IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 		{
@@ -2124,15 +2094,12 @@ VOID MlmeSelectTxRateTable(
 			break;
 		}
 #endif /* CONFIG_AP_SUPPORT */
-#endif /* DOT11_N_SUPPORT */
 
 #ifdef CONFIG_STA_SUPPORT
 		IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
 		{
-#ifdef DOT11_N_SUPPORT
 			/*else if ((pAd->StaActive.SupportedPhyInfo.MCSSet[0] == 0) && (pAd->StaActive.SupportedPhyInfo.MCSSet[1] == 0))*/
 			if ((pEntry->HTCapability.MCSSet[0] == 0) && (pEntry->HTCapability.MCSSet[1] == 0))
-#endif /* DOT11_N_SUPPORT */
 			{	/* Legacy mode*/
 				if (pAd->CommonCfg.MaxTxRate <= RATE_11)
 				{
@@ -2148,7 +2115,6 @@ VOID MlmeSelectTxRateTable(
 				}
 				break;
 			}
-#ifdef DOT11_N_SUPPORT
 			{
 				if (pAd->LatchRfRegs.Channel <= 14)
 				{
@@ -2204,7 +2170,6 @@ VOID MlmeSelectTxRateTable(
 					}
 				}
 			}
-#endif /* DOT11_N_SUPPORT */
 			DBGPRINT_RAW(RT_DEBUG_ERROR,("DRS: unkown mode (SupRateLen=%d, ExtRateLen=%d, MCSSet[0]=0x%x, MCSSet[1]=0x%x)\n",
 						pAd->StaActive.SupRateLen,
 						pAd->StaActive.ExtRateLen,
@@ -2239,7 +2204,6 @@ UCHAR MlmeSelectTxRate(
 	UCHAR TxRateIdx = 0;
 	UCHAR *pTable = pEntry->pTable;
 
-#ifdef DOT11_N_SUPPORT
 #ifdef NEW_RATE_ADAPT_SUPPORT
 #ifdef DOT11_VHT_AC
 	if (pTable == RateTableVht2S || pTable == RateTableVht2S_BW20 || pTable == RateTableVht2S_BW40
@@ -2398,7 +2362,6 @@ UCHAR MlmeSelectTxRate(
 		}
 	}
 	else
-#endif /*  DOT11_N_SUPPORT */
 	{/*  Legacy mode */
 		if (mcs[7]>=0 && (Rssi > -70) && (pEntry->SupportOFDMMCS[MCS_7]))
 		TxRateIdx = mcs[7];
@@ -2813,7 +2776,6 @@ VOID MlmeNewTxRate(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 	}
 #endif /*  CONFIG_STA_SUPPORT */
 
-#ifdef DOT11_N_SUPPORT
 	/*  Disable invalid HT Duplicate modes to prevent PHY error */
 	if (pEntry->HTPhyMode.field.MCS==32)
 	{
@@ -2822,7 +2784,6 @@ VOID MlmeNewTxRate(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 		else
 			pEntry->HTPhyMode.field.STBC = 0;
 	}
-#endif /*  DOT11_N_SUPPORT */
 
 #ifdef TXBF_SUPPORT
 	if (pAd->chipCap.FlgHwTxBfCap)

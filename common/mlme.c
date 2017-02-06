@@ -79,13 +79,11 @@ USHORT RateIdTo500Kbps[] = { 2, 4, 11, 22, 12, 18, 24, 36, 48, 72, 96, 108, 144,
 UCHAR SsidIe = IE_SSID;
 UCHAR SupRateIe = IE_SUPP_RATES;
 UCHAR ExtRateIe = IE_EXT_SUPP_RATES;
-#ifdef DOT11_N_SUPPORT
 UCHAR HtCapIe = IE_HT_CAP;
 UCHAR AddHtInfoIe = IE_ADD_HT;
 UCHAR NewExtChanIe = IE_SECONDARY_CH_OFFSET;
 UCHAR BssCoexistIe = IE_2040_BSS_COEXIST;
 UCHAR ExtHtCapIe = IE_EXT_CAPABILITY;
-#endif /* DOT11_N_SUPPORT */
 UCHAR ExtCapIe = IE_EXT_CAPABILITY;
 UCHAR ErpIe = IE_ERP;
 UCHAR DsIe = IE_DS_PARM;
@@ -1449,10 +1447,8 @@ VOID MlmePeriodicExec(
 		RTUSBWatchDog(pAd);
 #endif /* RTMP_MAC_USB */
 
-#ifdef DOT11_N_SUPPORT
    		/* Need statistics after read counter. So put after NICUpdateRawCounters*/
 		ORIBATimerTimeout(pAd);
-#endif /* DOT11_N_SUPPORT */
 
 #ifdef DYNAMIC_VGA_SUPPORT
 #ifdef CONFIG_AP_SUPPORT
@@ -1836,7 +1832,6 @@ VOID STAMlmePeriodicExec(struct rtmp_adapter *pAd)
 	    	P2PMacTableMaintenance(pAd);
 #endif /* RT_CFG80211_P2P_SUPPORT */
 
-#ifdef DOT11_N_SUPPORT
 		if (pAd->CommonCfg.bHTProtect)
 		{
 			APUpdateOperationMode(pAd);
@@ -1845,7 +1840,6 @@ VOID STAMlmePeriodicExec(struct rtmp_adapter *pAd)
 				AsicUpdateProtect(pAd, (USHORT)pAd->CommonCfg.AddHTInfo.AddHtInfo2.OperaionMode, ALLN_SETPROTECT, FALSE, pAd->MacTab.fAnyStationNonGF);
 			}
 		}
-#endif /* DOT11_N_SUPPORT */
 	}
 #endif /* P2P_SUPPORT || RT_CFG80211_P2P_SUPPORT */
 
@@ -1906,7 +1900,6 @@ VOID STAMlmePeriodicExec(struct rtmp_adapter *pAd)
 
 
 #ifdef RTMP_MAC_USB
-#ifdef DOT11_N_SUPPORT
 /*for 1X1 STA pass 11n wifi wmm, need to change txop per case;*/
 /* 1x1 device for 802.11n WMM Test*/
 	if(!RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_IDLE_RADIO_OFF))
@@ -1959,7 +1952,6 @@ VOID STAMlmePeriodicExec(struct rtmp_adapter *pAd)
 			}
 		}
 	}
-#endif /* DOT11_N_SUPPORT */
 
 		/* TODO: for debug only. to be removed*/
 		pAd->RalinkCounters.OneSecOsTxCount[QID_AC_BE] = 0;
@@ -2155,7 +2147,6 @@ VOID STAMlmePeriodicExec(struct rtmp_adapter *pAd)
 
 SKIP_AUTO_SCAN_CONN:
 
-#ifdef DOT11_N_SUPPORT
     if ((pAd->MacTab.Content[BSSID_WCID].TXBAbitmap !=0) && (pAd->MacTab.fAnyBASession == FALSE)
 		&& (!RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_IDLE_RADIO_OFF)))
 	{
@@ -2168,7 +2159,6 @@ SKIP_AUTO_SCAN_CONN:
 		pAd->MacTab.fAnyBASession = FALSE;
 		AsicUpdateProtect(pAd, pAd->MlmeAux.AddHtInfo.AddHtInfo2.OperaionMode,  ALLN_SETPROTECT, FALSE, FALSE);
 	}
-#endif /* DOT11_N_SUPPORT */
 
 
 //YF_TODO
@@ -2185,7 +2175,6 @@ SKIP_AUTO_SCAN_CONN:
 	}
 #endif /* P2P_SUPPORT || RT_CFG80211_P2P_CONCURRENT_DEVICE */
 
-#ifdef DOT11_N_SUPPORT
 	/* Perform 20/40 BSS COEX scan every Dot11BssWidthTriggerScanInt	*/
 	if ((OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_SCAN_2040)) &&
 		(pAd->CommonCfg.Dot11BssWidthTriggerScanInt != 0) &&
@@ -2215,7 +2204,6 @@ SKIP_AUTO_SCAN_CONN:
 							pAd->RalinkCounters.LastOneSecTotalTxCount,
 							pAd->RalinkCounters.LastOneSecRxOkDataCnt));
 	}
-#endif /* DOT11_N_SUPPORT */
 
 	return;
 }
@@ -3110,7 +3098,6 @@ VOID MlmeUpdateTxRates(struct rtmp_adapter *pAd, BOOLEAN bLinkUp, UCHAR apidx)
 }
 
 
-#ifdef DOT11_N_SUPPORT
 /*
 	==========================================================================
 	Description:
@@ -3337,7 +3324,6 @@ VOID BATableExit(struct rtmp_adapter *pAd)
 	}
 	NdisFreeSpinLock(&pAd->BATabLock);
 }
-#endif /* DOT11_N_SUPPORT */
 
 
 VOID MlmeRadioOff(struct rtmp_adapter *pAd)
@@ -3644,7 +3630,6 @@ VOID BssEntrySet(
 
 	pBss->AddHtInfoLen = 0;
 	pBss->HtCapabilityLen = 0;
-#ifdef DOT11_N_SUPPORT
 	if (ie_list->HtCapabilityLen> 0)
 	{
 		pBss->HtCapabilityLen = ie_list->HtCapabilityLen;
@@ -3685,7 +3670,6 @@ VOID BssEntrySet(
 		}
 #endif /* DOT11_VHT_AC */
 	}
-#endif /* DOT11_N_SUPPORT */
 
 	BssCipherParse(pBss);
 
@@ -3880,7 +3864,6 @@ ULONG BssTableSetEntry(
 
 
 #if defined(CONFIG_STA_SUPPORT) || defined(APCLI_SUPPORT)
-#ifdef DOT11_N_SUPPORT
 VOID  TriEventInit(struct rtmp_adapter *pAd)
 {
 	UCHAR i;
@@ -3952,7 +3935,6 @@ INT TriEventTableSetEntry(
 
 	return 0;
 }
-#endif /* DOT11_N_SUPPORT */
 #endif /* defined(CONFIG_STA_SUPPORT) || defined(APCLI_SUPPORT) */
 
 #ifdef CONFIG_STA_SUPPORT
@@ -4001,7 +3983,6 @@ VOID BssTableSsidSort(
 			}
 #endif /* WPA_SUPPLICANT_SUPPORT */
 
-#ifdef DOT11_N_SUPPORT
 			/* 2.4G/5G N only mode*/
 			if ((pInBss->HtCapabilityLen == 0) &&
 				(WMODE_HT_ONLY(pAd->CommonCfg.PhyMode)))
@@ -4016,7 +3997,6 @@ VOID BssTableSsidSort(
 				DBGPRINT(RT_DEBUG_TRACE,("STA is in GN-only Mode, this AP is in B mode.\n"));
 				continue;
 			}
-#endif /* DOT11_N_SUPPORT */
 
 
 #ifdef DOT11W_PMF_SUPPORT
@@ -4131,7 +4111,6 @@ VOID BssTableSsidSort(
 			BSS_ENTRY *pOutBss = &OutTab->BssEntry[OutTab->BssNr];
 
 
-#ifdef DOT11_N_SUPPORT
 			/* 2.4G/5G N only mode*/
 			if ((pInBss->HtCapabilityLen == 0) &&
 				WMODE_HT_ONLY(pAd->CommonCfg.PhyMode))
@@ -4146,7 +4125,6 @@ VOID BssTableSsidSort(
 				DBGPRINT(RT_DEBUG_TRACE,("STA is in GN-only Mode, this AP is in B mode.\n"));
 				continue;
 			}
-#endif /* DOT11_N_SUPPORT */
 
 			/* New for WPA2*/
 			/* Check the Authmode first*/
@@ -5453,7 +5431,6 @@ VOID RTMPCheckRates(struct rtmp_adapter *pAd, UCHAR SupRate[], UCHAR *SupRateLen
 }
 
 #ifdef CONFIG_STA_SUPPORT
-#ifdef DOT11_N_SUPPORT
 BOOLEAN RTMPCheckChannel(struct rtmp_adapter *pAd, UCHAR CentralCh, UCHAR ch)
 {
 	UCHAR		k;
@@ -5697,7 +5674,6 @@ BOOLEAN RTMPCheckVht(
 	return TRUE;
 }
 #endif /* DOT11_VHT_AC */
-#endif /* DOT11_N_SUPPORT */
 
 
 /*
@@ -5731,13 +5707,11 @@ VOID RTMPUpdateMlmeRate(struct rtmp_adapter *pAd)
 			MinimumRate = RATE_1;
 			break;
 		case (WMODE_B | WMODE_G):
-#ifdef DOT11_N_SUPPORT
 		case (WMODE_B | WMODE_G | WMODE_GN | WMODE_A |WMODE_AN):
 		case (WMODE_B | WMODE_G | WMODE_GN):
 #ifdef DOT11_VHT_AC
 		case (WMODE_B | WMODE_G | WMODE_GN | WMODE_A |WMODE_AN | WMODE_AC):
 #endif /* DOT11_VHT_AC */
-#endif /* DOT11_N_SUPPORT */
 			if ((pAd->MlmeAux.SupRateLen == 4) &&
 				(pAd->MlmeAux.ExtRateLen == 0))
 				ProperMlmeRate = RATE_11; /* B only AP */
@@ -5750,7 +5724,6 @@ VOID RTMPUpdateMlmeRate(struct rtmp_adapter *pAd)
 				MinimumRate = RATE_6;
 			break;
 		case (WMODE_A):
-#ifdef DOT11_N_SUPPORT
 		case (WMODE_GN):
 		case (WMODE_G | WMODE_GN):
 		case (WMODE_A | WMODE_G | WMODE_GN | WMODE_AN):
@@ -5759,7 +5732,6 @@ VOID RTMPUpdateMlmeRate(struct rtmp_adapter *pAd)
 #ifdef DOT11_VHT_AC
 		case (WMODE_A | WMODE_G | WMODE_GN | WMODE_AN | WMODE_AC):
 #endif /* DOT11_VHT_AC */
-#endif /* DOT11_N_SUPPORT */
 			ProperMlmeRate = RATE_24;
 			MinimumRate = RATE_6;
 			break;

@@ -259,7 +259,6 @@ static inline UCHAR SelectClearChannelRandom(
 			if (AutoChannelSkipListCheck(pAd, pAd->ChannelList[i].Channel) == TRUE)
 				continue;
 
-#ifdef DOT11_N_SUPPORT
 			/* Check N-group of BW40 */
 			if ((pAd->CommonCfg.RegTransmitSetting.field.BW == BW_40 &&
 				(pAd->CommonCfg.vht_bw == VHT_BW_2040)) &&
@@ -272,7 +271,6 @@ static inline UCHAR SelectClearChannelRandom(
 				!(pAd->ChannelList[i].Flags & CHANNEL_80M_CAP))
 				continue;
 #endif /* DOT11_VHT_AC */
-#endif /* DOT11_N_SUPPORT */
 
 			/* Store available channel to temp list */
 			TempChList[cnt++] = pAd->ChannelList[i].Channel;
@@ -466,7 +464,6 @@ static inline UCHAR SelectClearChannelCCA(
 			}
 #endif /* AP_QLOAD_SUPPORT */
 
-#ifdef DOT11_N_SUPPORT
 			/*
 				User require 40MHz Bandwidth.
 				In the case, ignor all channel
@@ -548,7 +545,6 @@ static inline UCHAR SelectClearChannelCCA(
 					}
 				}
 			}
-#endif /* DOT11_N_SUPPORT */
 
 			if ((min_dirty > dirtyness))
 			{
@@ -589,13 +585,11 @@ static inline UCHAR SelectClearChannelCCA(
 			uint32_t falsecca = pChannelInfo->FalseCCA[channel_idx] + pChannelInfo->dirtyness[channel_idx];
 			ch = pAd->ChannelList[channel_idx].Channel;
 
-#ifdef DOT11_N_SUPPORT
 			if (((pAd->CommonCfg.RegTransmitSetting.field.BW == BW_40) &&
 				(pAd->CommonCfg.vht_bw == VHT_BW_2040))
 				&& (pChannelInfo->IsABand && (GetABandChOffset(ch) == 0))) {
 				continue;
 			}
-#endif /* DOT11_N_SUPPORT */
 #ifdef DOT11_VHT_AC
 			else if (pAd->CommonCfg.vht_bw == VHT_BW_80) {
 				if (!AC_ChannelGroupCheck(pAd, ch)) {

@@ -122,13 +122,11 @@ VOID ApCliMgtMacHeaderInit(
     IN u8 *pBssid,
     IN USHORT ifIndex);
 
-#ifdef DOT11_N_SUPPORT
 BOOLEAN ApCliCheckHt(
 	IN		Pstruct rtmp_adapter 		pAd,
 	IN		USHORT 				IfIndex,
 	IN OUT	HT_CAPABILITY_IE 	*pHtCapability,
 	IN OUT	ADD_HT_INFO_IE 		*pAddHtInfo);
-#endif /* DOT11_N_SUPPORT */
 
 #ifdef DOT11_VHT_AC
 BOOLEAN ApCliCheckVht(

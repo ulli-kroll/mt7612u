@@ -119,7 +119,6 @@ static VOID QBSS_LoadAlarm(
 	pAd->QloadAlarmNumber ++;
 
 	/* check if we have already been 20M bandwidth */
-#ifdef DOT11_N_SUPPORT
 	if ((pAd->CommonCfg.AddHTInfo.AddHtInfo.ExtChanOffset != 0) &&
 		(pAd->CommonCfg.AddHTInfo.AddHtInfo.RecomWidth != 0))
 	{
@@ -202,7 +201,6 @@ static VOID QBSS_LoadAlarm(
 		QBSS_LoadAlarmResume(pAd);
 	}
 	else
-#endif /* DOT11_N_SUPPORT */
 	{
 		/* we are in 20MHz bandwidth so try to switch channel */
 		DBGPRINT(RT_DEBUG_TRACE, ("qbss> Alarm! Switch channel...\n"));
@@ -591,7 +589,6 @@ VOID QBSS_LoadUpdate(
 	pAd->QloadUpTimeLast = UpTime;
 
 	/* do busy time statistics */
-#ifdef DOT11_N_SUPPORT
 	if ((pAd->CommonCfg.AddHTInfo.AddHtInfo.ExtChanOffset != 0) &&
 		(pAd->CommonCfg.AddHTInfo.AddHtInfo.RecomWidth != 0))
 	{
@@ -625,7 +622,6 @@ VOID QBSS_LoadUpdate(
 		}
 #endif /* QLOAD_FUNC_BUSY_TIME_ALARM */
 	}
-#endif /* DOT11_N_SUPPORT */
 
 	/* do busy time statistics for primary channel */
 	RTMP_IO_READ32(pAd, CH_BUSY_STA, &BusyTime);

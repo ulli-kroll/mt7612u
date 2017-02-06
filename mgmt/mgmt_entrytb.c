@@ -134,12 +134,10 @@ BOOLEAN StaUpdateMacTableEntry(
 	    && (MaxSupportedRate < RATE_FIRST_OFDM_RATE))
 		return FALSE;
 
-#ifdef DOT11_N_SUPPORT
 	/* 11n only */
 	if (WMODE_HT_ONLY(pAd->CommonCfg.PhyMode)
 	    && (htcap_len == 0))
 		return FALSE;
-#endif /* DOT11_N_SUPPORT */
 
 	NdisAcquireSpinLock(&pAd->MacTabLock);
 	if (pEntry) {
@@ -167,7 +165,6 @@ BOOLEAN StaUpdateMacTableEntry(
 	}
 
 	wdev = &pAd->StaCfg.wdev;
-#ifdef DOT11_N_SUPPORT
 	memset(&pEntry->HTCapability, 0, sizeof (pEntry->HTCapability));
 	/* If this Entry supports 802.11n, upgrade to HT rate. */
 	if (((wdev->WepStatus != Ndis802_11WEPEnabled)
@@ -252,7 +249,6 @@ BOOLEAN StaUpdateMacTableEntry(
 	} else {
 		pAd->MacTab.fAnyStationIsLegacy = TRUE;
 	}
-#endif /* DOT11_N_SUPPORT */
 
 	pEntry->HTPhyMode.word = pEntry->MaxHTPhyMode.word;
 	pEntry->CurrTxRate = pEntry->MaxSupportedRate;
@@ -801,10 +797,8 @@ BOOLEAN MacTableDeleteEntry(struct rtmp_adapter *pAd, USHORT wcid, UCHAR *pAddr)
 #endif
 
 
-#ifdef DOT11_N_SUPPORT
 			/* free resources of BA*/
 			BASessionTearDownALL(pAd, pEntry->wcid);
-#endif /* DOT11_N_SUPPORT */
 
 			/* Delete this entry from ASIC on-chip WCID Table*/
 			RTMP_STA_ENTRY_MAC_RESET(pAd, wcid);
@@ -958,9 +952,7 @@ BOOLEAN MacTableDeleteEntry(struct rtmp_adapter *pAd, USHORT wcid, UCHAR *pAddr)
 	/*Reset operating mode when no Sta.*/
 	if (pAd->MacTab.Size == 0)
 	{
-#ifdef DOT11_N_SUPPORT
 		pAd->CommonCfg.AddHTInfo.AddHtInfo2.OperaionMode = 0;
-#endif /* DOT11_N_SUPPORT */
 		RTMP_UPDATE_PROTECT(pAd, 0, ALLN_SETPROTECT, TRUE, 0);
 	}
 

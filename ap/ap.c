@@ -332,12 +332,10 @@ VOID APStartUp(struct rtmp_adapter *pAd)
 
 	}
 
-#ifdef DOT11_N_SUPPORT
 	if (phy_mode != pAd->CommonCfg.PhyMode)
 		RTMPSetPhyMode(pAd, phy_mode);
 
 	SetCommonHT(pAd);
-#endif /* DOT11_N_SUPPORT */
 
 	COPY_MAC_ADDR(pAd->CommonCfg.Bssid, pAd->CurrentAddress);
 
@@ -345,11 +343,9 @@ VOID APStartUp(struct rtmp_adapter *pAd)
 	/* In HT mode and two stream mode, both DACs are selected. */
 	/* In legacy mode or one stream mode, DAC-0 is selected. */
 	{
-#ifdef DOT11_N_SUPPORT
 		if (WMODE_CAP_N(pAd->CommonCfg.PhyMode) && (pAd->Antenna.field.TxPath == 2))
 			bbp_set_txdac(pAd, 2);
 		else
-#endif /* DOT11_N_SUPPORT */
 			bbp_set_txdac(pAd, 0);
 	}
 
@@ -371,14 +367,12 @@ VOID APStartUp(struct rtmp_adapter *pAd)
 	else
 		AsicSetEdcaParm(pAd, NULL);
 
-#ifdef DOT11_N_SUPPORT
 	if (!WMODE_CAP_N(pAd->CommonCfg.PhyMode))
 		pAd->CommonCfg.HtCapability.HtCapInfo.ChannelWidth = BW_20; /* Patch UI */
 
 	AsicSetRDG(pAd, pAd->CommonCfg.bRdg);
 
 	AsicSetRalinkBurstMode(pAd, pAd->CommonCfg.bRalinkBurstMode);
-#endif /* DOT11_N_SUPPORT */
 
 	AsicSetBssid(pAd, pAd->CurrentAddress);
 	mgmt_tb_set_mcast_entry(pAd);
@@ -428,7 +422,6 @@ DBGPRINT(RT_DEBUG_OFF, ("%s(): AP Set CentralFreq at %d(Prim=%d, HT-CentCh=%d, V
 //---Add by shiang for debug
 #endif /* DOT11_VHT_AC */
 
-#ifdef DOT11_N_SUPPORT
 #ifdef GREENAP_SUPPORT
 	if (pAd->ApCfg.bGreenAPEnable == TRUE)
 	{
@@ -436,16 +429,13 @@ DBGPRINT(RT_DEBUG_OFF, ("%s(): AP Set CentralFreq at %d(Prim=%d, HT-CentCh=%d, V
 		pAd->ApCfg.GreenAPLevel=GREENAP_WITHOUT_ANY_STAS_CONNECT;
 	}
 #endif /* GREENAP_SUPPORT */
-#endif /* DOT11_N_SUPPORT */
 
 	MlmeSetTxPreamble(pAd, (USHORT)pAd->CommonCfg.TxPreamble);
 	for (idx = 0; idx < pAd->ApCfg.BssidNum; idx++)
 	{
 		MlmeUpdateTxRates(pAd, FALSE, idx);
-#ifdef DOT11_N_SUPPORT
 		if (WMODE_CAP_N(pAd->CommonCfg.PhyMode))
 			MlmeUpdateHtTxRates(pAd, idx);
-#endif /* DOT11_N_SUPPORT */
 	}
 
 	/* Set the RadarDetect Mode as Normal, bc the APUpdateAllBeaconFram() will refer this parameter. */
@@ -455,12 +445,8 @@ DBGPRINT(RT_DEBUG_OFF, ("%s(): AP Set CentralFreq at %d(Prim=%d, HT-CentCh=%d, V
 	AsicUpdateProtect(pAd, 0, (ALLN_SETPROTECT|CCKSETPROTECT|OFDMSETPROTECT), TRUE, FALSE);
 
 	APUpdateCapabilityAndErpIe(pAd);
-#ifdef DOT11_N_SUPPORT
 	APUpdateOperationMode(pAd);
-#endif /* DOT11_N_SUPPORT */
 
-#ifdef DOT11_N_SUPPORT
-#endif /* DOT11_N_SUPPORT */
 
 
 	/* Initialize security variable per entry,
@@ -771,11 +757,9 @@ VOID APCleanupPsQueue(
 VOID MacTableMaintenance(struct rtmp_adapter *pAd)
 {
 	int i, startWcid;
-#ifdef DOT11_N_SUPPORT
 	ULONG MinimumAMPDUSize = pAd->CommonCfg.DesiredHtPhy.MaxRAmpduFactor; /*Default set minimum AMPDU Size to 2, i.e. 32K */
 	BOOLEAN	bRdgActive;
 	BOOLEAN bRalinkBurstMode;
-#endif /* DOT11_N_SUPPORT */
 	UINT fAnyStationPortSecured[HW_BEACON_MAX_NUM];
  	UINT bss_index;
 	MAC_TABLE *pMacTable;
@@ -802,7 +786,6 @@ VOID MacTableMaintenance(struct rtmp_adapter *pAd)
 	pMacTable->fAnyStationBadAtheros = FALSE;
 	pMacTable->fAnyTxOPForceDisable = FALSE;
 	pMacTable->fAllStationAsRalink = TRUE;
-#ifdef DOT11_N_SUPPORT
 	pMacTable->fAnyStationNonGF = FALSE;
 	pMacTable->fAnyStation20Only = FALSE;
 	pMacTable->fAnyStationIsLegacy = FALSE;
@@ -814,7 +797,6 @@ VOID MacTableMaintenance(struct rtmp_adapter *pAd)
 
 	pMacTable->fAnyStaFortyIntolerant = FALSE;
 	pMacTable->fAllStationGainGoodMCS = TRUE;
-#endif /* DOT11_N_SUPPORT */
 
 
 	startWcid = 1;
@@ -873,7 +855,6 @@ VOID MacTableMaintenance(struct rtmp_adapter *pAd)
 		if (pEntry->PsMode == PWR_SAVE)
 			pMacTable->fAnyStationInPsm = TRUE;
 
-#ifdef DOT11_N_SUPPORT
 		if (pEntry->MmpsMode == MMPS_DYNAMIC)
 			pMacTable->fAnyStationMIMOPSDynamic = TRUE;
 
@@ -896,15 +877,12 @@ VOID MacTableMaintenance(struct rtmp_adapter *pAd)
 		/* Get minimum AMPDU size from STA */
 		if (MinimumAMPDUSize > pEntry->MaxRAmpduFactor)
 			MinimumAMPDUSize = pEntry->MaxRAmpduFactor;
-#endif /* DOT11_N_SUPPORT */
 
 		if (pEntry->bIAmBadAtheros)
 		{
 			pMacTable->fAnyStationBadAtheros = TRUE;
-#ifdef DOT11_N_SUPPORT
 			if (pAd->CommonCfg.IOTestParm.bRTSLongProtOn == FALSE)
 				AsicUpdateProtect(pAd, 8, ALLN_SETPROTECT, FALSE, pMacTable->fAnyStationNonGF);
-#endif /* DOT11_N_SUPPORT */
 		}
 
 		/* detect the station alive status */
@@ -1113,7 +1091,6 @@ VOID MacTableMaintenance(struct rtmp_adapter *pAd)
 		/* Check if the port is secured */
 		if (pEntry->PortSecured == WPA_802_1X_PORT_SECURED)
 			fAnyStationPortSecured[pEntry->apidx]++;
-#ifdef DOT11_N_SUPPORT
 		if ((pEntry->BSS2040CoexistenceMgmtSupport)
 			&& (pAd->CommonCfg.Bss2040CoexistFlag & BSS_2040_COEXIST_INFO_NOTIFY)
 			&& (pAd->CommonCfg.bBssCoexEnable == TRUE)
@@ -1121,7 +1098,6 @@ VOID MacTableMaintenance(struct rtmp_adapter *pAd)
 		{
 			SendNotifyBWActionFrame(pAd, pEntry->wcid, pEntry->apidx);
 		}
-#endif /* DOT11_N_SUPPORT */
 
 #if defined(PRE_ANT_SWITCH) || defined(CFO_TRACK)
 		lastClient = i;
@@ -1196,7 +1172,6 @@ VOID MacTableMaintenance(struct rtmp_adapter *pAd)
 	}
 #endif /* ED_MONITOR */
 
-#ifdef DOT11_N_SUPPORT
 	if (pAd->CommonCfg.Bss2040CoexistFlag & BSS_2040_COEXIST_INFO_NOTIFY)
 		pAd->CommonCfg.Bss2040CoexistFlag &= (~BSS_2040_COEXIST_INFO_NOTIFY);
 
@@ -1211,7 +1186,6 @@ VOID MacTableMaintenance(struct rtmp_adapter *pAd)
 	else
 		bRalinkBurstMode = FALSE;
 
-#ifdef DOT11_N_SUPPORT
 #ifdef GREENAP_SUPPORT
 	if (WMODE_CAP_N(pAd->CommonCfg.PhyMode))
 	{
@@ -1240,14 +1214,12 @@ VOID MacTableMaintenance(struct rtmp_adapter *pAd)
 
 	if (bRalinkBurstMode != RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_RALINK_BURST_MODE))
 		AsicSetRalinkBurstMode(pAd, bRalinkBurstMode);
-#endif /* DOT11_N_SUPPORT */
 
 
 	if ((pMacTable->fAnyStationBadAtheros == FALSE) && (pAd->CommonCfg.IOTestParm.bRTSLongProtOn == TRUE))
 	{
 		AsicUpdateProtect(pAd, pAd->CommonCfg.AddHTInfo.AddHtInfo2.OperaionMode, ALLN_SETPROTECT, FALSE, pMacTable->fAnyStationNonGF);
 	}
-#endif /* DOT11_N_SUPPORT */
 
 	/*
 		4.
@@ -1383,7 +1355,6 @@ VOID ApLogEvent(
 #endif /* SYSTEM_LOG_SUPPORT */
 
 
-#ifdef DOT11_N_SUPPORT
 /*
 	==========================================================================
 	Description:
@@ -1437,7 +1408,6 @@ VOID APUpdateOperationMode(
 
 	pAd->CommonCfg.AddHTInfo.AddHtInfo2.NonGfPresent = pAd->MacTab.fAnyStationNonGF;
 }
-#endif /* DOT11_N_SUPPORT */
 
 /*
 	==========================================================================
@@ -1515,10 +1485,8 @@ VOID APUpdateCapabilityAndErpIe(
 		USHORT OperationMode = 0;
 		BOOLEAN	bNonGFExist = 0;
 
-#ifdef DOT11_N_SUPPORT
 		OperationMode = pAd->CommonCfg.AddHTInfo.AddHtInfo2.OperaionMode;
 		bNonGFExist = pAd->MacTab.fAnyStationNonGF;
-#endif /* DOT11_N_SUPPORT */
 		if (bUseBGProtection)
 		{
 			OPSTATUS_SET_FLAG(pAd, fOP_STATUS_BG_PROTECTION_INUSED);
@@ -1737,7 +1705,6 @@ VOID ApUpdateAccessControlList(struct rtmp_adapter *pAd, UCHAR Apidx)
 }
 
 
-#ifdef DOT11_N_SUPPORT
 /*
 	Depends on the 802.11n Draft 4.0, Before the HT AP start a BSS, it should scan some specific channels to
 collect information of existing BSSs, then depens on the collected channel information, adjust the primary channel
@@ -2080,7 +2047,6 @@ VOID APOverlappingBSSScan(struct rtmp_adapter *pAd)
 
 	return;
 }
-#endif /* DOT11_N_SUPPORT */
 
 #ifdef DOT1X_SUPPORT
 /*

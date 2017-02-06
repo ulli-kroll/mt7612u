@@ -1461,10 +1461,8 @@ static NTSTATUS ChannelRescanHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQ
 	DBGPRINT(RT_DEBUG_TRACE, ("cmd> Re-scan channel! \n"));
 
 	pAd->CommonCfg.Channel = AP_AUTO_CH_SEL(pAd, TRUE);
-#ifdef DOT11_N_SUPPORT
 	/* If WMODE_CAP_N(phymode) and BW=40 check extension channel, after select channel  */
 	N_ChannelCheck(pAd);
-#endif /* DOT11_N_SUPPORT */
 
 	DBGPRINT(RT_DEBUG_TRACE, ("cmd> Switch to %d! \n", pAd->CommonCfg.Channel));
 	APStop(pAd);

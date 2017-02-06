@@ -390,11 +390,9 @@ BOOLEAN CFG80211DRV_OpsBeaconAdd(struct rtmp_adapter *pAd, VOID *pData)
 
 	RTMPSetPhyMode(pAd, pAd->CommonCfg.PhyMode);
 
-#ifdef DOT11_N_SUPPORT
 	if (WMODE_CAP_N(pAd->CommonCfg.PhyMode) && (pAd->Antenna.field.TxPath == 2))
 		bbp_set_txdac(pAd, 2);
 	else
-#endif /* DOT11_N_SUPPORT */
 		bbp_set_txdac(pAd, 0);
 
 	/* Receiver Antenna selection */
@@ -418,11 +416,9 @@ BOOLEAN CFG80211DRV_OpsBeaconAdd(struct rtmp_adapter *pAd, VOID *pData)
 			AsicSetEdcaParm(pAd, NULL);
 	}
 
-#ifdef DOT11_N_SUPPORT
 	AsicSetRDG(pAd, pAd->CommonCfg.bRdg);
 
 	AsicSetRalinkBurstMode(pAd, pAd->CommonCfg.bRalinkBurstMode);
-#endif /* DOT11_N_SUPPORT */
 
 	AsicSetBssid(pAd, pAd->CurrentAddress);
 	mgmt_tb_set_mcast_entry(pAd);
@@ -449,19 +445,15 @@ BOOLEAN CFG80211DRV_OpsBeaconAdd(struct rtmp_adapter *pAd, VOID *pData)
 #endif
 		MlmeUpdateTxRates(pAd, FALSE, MIN_NET_DEVICE_FOR_MBSSID);
 
-#ifdef DOT11_N_SUPPORT
 	if (WMODE_CAP_N(pAd->CommonCfg.PhyMode))
 		MlmeUpdateHtTxRates(pAd, MIN_NET_DEVICE_FOR_MBSSID);
-#endif /* DOT11_N_SUPPORT */
 
 	/* Disable Protection first. */
 	if (!INFRA_ON(pAd))
 		AsicUpdateProtect(pAd, 0, (ALLN_SETPROTECT|CCKSETPROTECT|OFDMSETPROTECT), TRUE, FALSE);
 
 	APUpdateCapabilityAndErpIe(pAd);
-#ifdef DOT11_N_SUPPORT
 	APUpdateOperationMode(pAd);
-#endif /* DOT11_N_SUPPORT */
 	CFG80211_UpdateBeacon(pAd, pBeacon->beacon_head, pBeacon->beacon_head_len,
                                    pBeacon->beacon_tail, pBeacon->beacon_tail_len,
                                    TRUE);

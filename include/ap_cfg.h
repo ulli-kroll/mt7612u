@@ -62,11 +62,9 @@ VOID RtmpDrvRateGet(
 	OUT	uint32_t 				*pRate);
 
 
-#ifdef DOT11_N_SUPPORT
 VOID RTMPIoctlQueryBaTable(
 	IN	struct rtmp_adapter *pAd,
 	IN	RTMP_IOCTL_INPUT_STRUCT	*wrq);
-#endif /* DOT11_N_SUPPORT */
 
 #ifdef DOT1X_SUPPORT
 VOID RTMPIoctlStaticWepCopy(

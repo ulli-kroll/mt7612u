@@ -73,7 +73,6 @@ BOOLEAN GetEDCCASupport(
 	IN struct rtmp_adapter *pAd);
 #endif /* ED_MONITOR */
 
-#ifdef DOT11_N_SUPPORT
 VOID N_ChannelCheck(struct rtmp_adapter *pAd);
 UCHAR N_SetCenCh(struct rtmp_adapter *pAd, UCHAR channel);
 BOOLEAN N_ChannelGroupCheck(struct rtmp_adapter *pAd, UCHAR channel);
@@ -81,8 +80,6 @@ BOOLEAN N_ChannelGroupCheck(struct rtmp_adapter *pAd, UCHAR channel);
 INT get_vht_neighbor_index(UCHAR channel);
 BOOLEAN AC_ChannelGroupCheck(struct rtmp_adapter *pAd, UCHAR channel);
 #endif /* DOT11_VHT_AC */
-#endif /* DOT11_N_SUPPORT */
-
 UINT8 GetCuntryMaxTxPwr(
 	IN struct rtmp_adapter *pAd,
 	IN UINT8 channel);

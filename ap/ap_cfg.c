@@ -384,11 +384,9 @@ INT	Show_DriverInfo_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg);
 
-#ifdef DOT11_N_SUPPORT
 INT	Show_BaTable_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg);
-#endif /* DOT11_N_SUPPORT */
 
 INT	Show_Sat_Proc(
 	IN	struct rtmp_adapter *pAd,
@@ -622,9 +620,7 @@ VOID RTMPAPGetAssoMacTable(
 			sprintf(msg+strlen(msg),"%-4d", (int)pEntry->apidx);
 			sprintf(msg+strlen(msg),"%-4d", (int)pEntry->PsMode);
 			sprintf(msg+strlen(msg),"%-4d", (int)CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_WMM_CAPABLE));
-#ifdef DOT11_N_SUPPORT
 			sprintf(msg+strlen(msg),"%-8d", (int)pEntry->MmpsMode);
-#endif /* DOT11_N_SUPPORT */
 
 		        if (pAd->CommonCfg.RxStream == 3)
                 		sprintf(msg+strlen(msg),"%-7d%-7d%-7d", pEntry->RssiSample.AvgRssi0, pEntry->RssiSample.AvgRssi1, pEntry->RssiSample.AvgRssi2);
@@ -1065,10 +1061,8 @@ INT	Set_AP_WmmCapable_Proc(
 	}
 #endif
 
-#ifdef DOT11_N_SUPPORT
 	/*Sync with the HT relate info. In N mode, we should re-enable it */
 	SetCommonHT(pAd);
-#endif /* DOT11_N_SUPPORT */
 
 	DBGPRINT(RT_DEBUG_TRACE, ("IF(ra%d) Set_WmmCapable_Proc::(bWmmCapable=%d)\n",
 		pObj->ioctl_if, pAd->ApCfg.MBSSID[pObj->ioctl_if].wdev.bWmmCapable));
@@ -2671,10 +2665,8 @@ INT	Show_StaCount_Proc(struct rtmp_adapter *pAd, char *arg)
 			OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_SHORT_SLOT_INUSED) ? "short" : "long",
  			RegValue);
 
-#ifdef DOT11_N_SUPPORT
 	printk("HT Operating Mode : %d\n", pAd->CommonCfg.AddHTInfo.AddHtInfo2.OperaionMode);
 	printk("\n");
-#endif /* DOT11_N_SUPPORT */
 
 	printk("\n%-19s%-4s%-12s%-12s%-12s%-12s\n",
 		   "MAC", "AID","TxPackets","RxPackets","TxBytes","RxBytes");
@@ -2745,7 +2737,6 @@ INT	Show_StaSecurityInfo_Proc(struct rtmp_adapter *pAd, char *arg)
 }
 
 
-#ifdef DOT11_N_SUPPORT
 INT	Show_BaTable_Proc(struct rtmp_adapter *pAd, char *arg)
 {
 	INT i, j;
@@ -2802,7 +2793,6 @@ INT	Show_BaTable_Proc(struct rtmp_adapter *pAd, char *arg)
 
 	return TRUE;
 }
-#endif /* DOT11_N_SUPPORT */
 
 
 INT Show_RAInfo_Proc(struct rtmp_adapter *pAd, char *arg)
@@ -2877,7 +2867,6 @@ INT	Show_Sat_Proc(
 	printk("TransmittedFrameCount = %d\n", pAd->WlanCounters.TransmittedFragmentCount.u.LowPart);
 	printk("WEPUndecryptableCount = %d\n", pAd->WlanCounters.WEPUndecryptableCount.u.LowPart);
 
-#ifdef DOT11_N_SUPPORT
 	printk("\n===Some 11n statistics variables: \n");
 	/* Some 11n statistics variables */
 	printk("TransmittedAMSDUCount = %ld\n", (ULONG)pAd->RalinkCounters.TransmittedAMSDUCount.u.LowPart);
@@ -2889,7 +2878,6 @@ INT	Show_Sat_Proc(
 	printk("TransmittedOctetsInAMPDUCount = %ld\n", (ULONG)pAd->RalinkCounters.TransmittedOctetsInAMPDUCount.u.LowPart);
 	printk("MPDUInReceivedAMPDUCount = %ld\n", (ULONG)pAd->RalinkCounters.MPDUInReceivedAMPDUCount.u.LowPart);
 	printk("fAnyStaFortyIntolerant=%d\n", pAd->MacTab.fAnyStaFortyIntolerant);
-#endif /* DOT11_N_SUPPORT */
 
 {
 	int apidx;
@@ -2949,10 +2937,8 @@ INT	Show_Sat_Proc(
 
 }
 
-#ifdef DOT11_N_SUPPORT
 	/* Display Tx Aggregation statistics */
 	DisplayTxAgg(pAd);
-#endif /* DOT11_N_SUPPORT */
 
 	return TRUE;
 }
@@ -3060,10 +3046,8 @@ INT	Show_Sat_Reset_Proc(
 			}
 		}
 	}
-#ifdef DOT11_N_SUPPORT
 	/* Display Tx Aggregation statistics */
 	DisplayTxAgg(pAd);
-#endif /* DOT11_N_SUPPORT */
 
 	return TRUE;
 }
@@ -4167,7 +4151,6 @@ VOID RTMPIoctlStatistics(struct rtmp_adapter *pAd, RTMP_IOCTL_INPUT_STRUCT *wrq)
 }
 
 
-#ifdef DOT11_N_SUPPORT
 /*
     ==========================================================================
     Description:
@@ -4257,7 +4240,6 @@ VOID RTMPIoctlQueryBaTable(
 	vfree(BAT);
 
 }
-#endif /* DOT11_N_SUPPORT */
 
 
 #ifdef APCLI_SUPPORT
@@ -5282,7 +5264,6 @@ INT Set_UAPSD_Proc(
 } /* End of Set_UAPSD_Proc */
 #endif /* UAPSD_SUPPORT */
 
-#ifdef DOT11_N_SUPPORT
 INT Set_OBSSScanParam_Proc(
 	IN struct rtmp_adapter *	pAd,
 	IN char *		arg)
@@ -5392,7 +5373,6 @@ INT	Set_AP2040ReScan_Proc(
 
 	return TRUE;
 }
-#endif /* DOT11_N_SUPPORT */
 
 INT Set_EntryLifeCheck_Proc(
 	IN struct rtmp_adapter *	pAd,
@@ -5798,7 +5778,6 @@ INT	Show_MbssInfo_Display_Proc(
 				mod_str = "G Only";
 				break;
 
-#ifdef DOT11_N_SUPPORT
 			case (WMODE_A | WMODE_B | WMODE_G | WMODE_AN | WMODE_GN):
 				mod_str = "ABGN Mixed ==> BGN Mixed";
 				break;
@@ -5826,7 +5805,6 @@ INT	Show_MbssInfo_Display_Proc(
 			case (WMODE_AN):
 				mod_str = "5G N Only";
 				break;
-#endif /* DOT11_N_SUPPORT */
 		}
 	}
 
@@ -5939,12 +5917,9 @@ INT RTMP_AP_IoctlHandle(
 			RTMPIoctlStatistics(pAd, wrq);
 			break;
 
-
-#ifdef DOT11_N_SUPPORT
 		case CMD_RTPRIV_IOCTL_QUERY_BATABLE:
 		    RTMPIoctlQueryBaTable(pAd, wrq);
 		    break;
-#endif /* DOT11_N_SUPPORT */
 
 #ifdef DBG
 #ifdef RTMP_RF_RW_SUPPORT

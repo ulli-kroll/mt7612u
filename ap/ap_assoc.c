@@ -43,7 +43,6 @@ static void ap_assoc_info_debugshow(
 	DBGPRINT(RT_DEBUG_TRACE, ("%s - \n\tAssign AID=%d to STA %02x:%02x:%02x:%02x:%02x:%02x\n",
 		sAssoc, pEntry->Aid, PRINT_MAC(pEntry->Addr)));
 
-#ifdef DOT11_N_SUPPORT
 	if (ie_list->ht_cap_len && WMODE_CAP_N(pAd->CommonCfg.PhyMode))
 	{
 		assoc_ht_info_debugshow(pAd, pEntry, ie_list->ht_cap_len, &ie_list->HTCapability);
@@ -81,7 +80,6 @@ static void ap_assoc_info_debugshow(
 #endif /* DOT11_VHT_AC */
 	}
 	else
-#endif /* DOT11_N_SUPPORT */
 	{
 		DBGPRINT(RT_DEBUG_TRACE, ("%s - legacy STA\n", sAssoc));
 		DBGPRINT(RT_DEBUG_TRACE, ("\n%s - MODE=%d, MCS=%d\n", sAssoc,
@@ -197,7 +195,6 @@ static USHORT update_associated_mac_entry(
 #endif /* DOT11W_PMF_SUPPORT */
 #endif /* SOFT_ENCRYPT */
 
-#ifdef DOT11_N_SUPPORT
 	/*
 		WFA recommend to restrict the encryption type in 11n-HT mode.
 	 	So, the WEP and TKIP are not allowed in HT rate.
@@ -391,7 +388,6 @@ static USHORT update_associated_mac_entry(
 		pEntry->SupportRateMode &= (~SUPPORT_VHT_MODE);
 #endif /* DOT11_VHT_AC */
 	}
-#endif /* DOT11_N_SUPPORT */
 
 	pEntry->HTPhyMode.word = pEntry->MaxHTPhyMode.word;
 
@@ -483,9 +479,7 @@ static USHORT update_associated_mac_entry(
 		ApLogEvent(pAd, pEntry->Addr, EVENT_ASSOCIATED);
 
 	APUpdateCapabilityAndErpIe(pAd);
-#ifdef DOT11_N_SUPPORT
 	APUpdateOperationMode(pAd);
-#endif /* DOT11_N_SUPPORT */
 
 	pEntry->ReTryCounter = PEER_MSG1_RETRY_TIMER_CTR;
 
@@ -528,19 +522,15 @@ static USHORT APBuildAssociation(
 	MaxSupportedRate = dot11_2_ra_rate(MaxSupportedRateIn500Kbps);
 
     if ((WMODE_EQUAL(pAd->CommonCfg.PhyMode, WMODE_G)
-#ifdef DOT11_N_SUPPORT
 		|| WMODE_EQUAL(pAd->CommonCfg.PhyMode, (WMODE_G | WMODE_GN))
-#endif /* DOT11_N_SUPPORT */
 		)
 		&& (MaxSupportedRate < RATE_FIRST_OFDM_RATE)
 	)
 		return MLME_ASSOC_REJ_DATA_RATE;
 
-#ifdef DOT11_N_SUPPORT
 	/* 11n only */
 	if (WMODE_HT_ONLY(pAd->CommonCfg.PhyMode)&& (ie_list->ht_cap_len == 0))
 		return MLME_ASSOC_REJ_DATA_RATE;
-#endif /* DOT11_N_SUPPORT */
 
 #ifdef DOT11_VHT_AC
 	if (WMODE_CAP_AC(pAd->CommonCfg.PhyMode) &&
@@ -963,7 +953,6 @@ SendAssocResponse:
 	}
 #endif /* DOT11W_PMF_SUPPORT */
 
-#ifdef DOT11_N_SUPPORT
 	/* HT capability in AssocRsp frame. */
 	if ((ie_list->ht_cap_len > 0) && WMODE_CAP_N(pAd->CommonCfg.PhyMode))
 	{
@@ -1097,7 +1086,6 @@ SendAssocResponse:
 		}
 #endif /* DOT11_VHT_AC */
 	}
-#endif /* DOT11_N_SUPPORT */
 
 
 		/* 7.3.2.27 Extended Capabilities IE */
@@ -1112,7 +1100,6 @@ SendAssocResponse:
 		extInfoLen = sizeof(EXT_CAP_INFO_ELEMENT);
 		memset(&extCapInfo, 0, extInfoLen);
 
-#ifdef DOT11_N_SUPPORT
 		/* P802.11n_D1.10, HT Information Exchange Support */
 		if (WMODE_CAP_N(pAd->CommonCfg.PhyMode)
 			&& (pAd->CommonCfg.Channel <= 14)
@@ -1121,7 +1108,6 @@ SendAssocResponse:
 		{
 			extCapInfo.BssCoexistMgmtSupport = 1;
 		}
-#endif /* DOT11_N_SUPPORT */
 
 
 #ifdef DOT11_VHT_AC
@@ -1160,10 +1146,8 @@ SendAssocResponse:
 		RalinkSpecificIe[5] |= 0x1;
 	if (pAd->CommonCfg.bPiggyBackCapable)
 		RalinkSpecificIe[5] |= 0x2;
-#ifdef DOT11_N_SUPPORT
 	if (pAd->CommonCfg.bRdg)
 		RalinkSpecificIe[5] |= 0x4;
-#endif /* DOT11_N_SUPPORT */
 
 #ifdef DOT11_VHT_AC
 	if (pAd->CommonCfg.b256QAM_2G && WMODE_2G_ONLY(pAd->CommonCfg.PhyMode))
@@ -1203,7 +1187,6 @@ SendAssocResponse:
 		/* This is a reassociation procedure */
 		pEntry->IsReassocSta = isReassoc;
 
-#ifdef DOT11_N_SUPPORT
 		/* clear txBA bitmap */
 		pEntry->TXBAbitmap = 0;
 		if (pEntry->MaxHTPhyMode.field.MODE >= MODE_HTMIX)
@@ -1217,7 +1200,6 @@ SendAssocResponse:
 			}
 			/*BAOriSessionSetUp(pAd, pEntry, 0, 0, 3000, FALSE); */
 		}
-#endif /* DOT11_N_SUPPORT */
 
 
 #ifdef RT_CFG80211_SUPPORT

@@ -248,17 +248,10 @@ BOOLEAN RTMPCheckPhyMode(struct rtmp_adapter *pAd, UINT8 band_cap, UCHAR *pPhyMo
 
 	if (RetVal == FALSE)
 	{
-#ifdef DOT11_N_SUPPORT
 		if (band_cap == RFIC_5GHZ) /*5G ony: change to A/N mode */
 			*pPhyMode = PHY_11AN_MIXED;
 		else /* 2.4G only or Unknown supported band: change to B/G/N mode */
 			*pPhyMode = PHY_11BGN_MIXED;
-#else
-		if (band_cap == RFIC_5GHZ) /*5G ony: change to A mode */
-			*pPhyMode = PHY_11A;
-		else /* 2.4G only or Unknown supported band: change to B/G mode */
-			*pPhyMode = PHY_11BG_MIXED;
-#endif /* !DOT11_N_SUPPORT */
 
 		DBGPRINT(RT_DEBUG_TRACE,
 				("%s(): Changed PhyMode to %u\n",
@@ -549,13 +542,8 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 			DBGPRINT_RAW(RT_DEBUG_ERROR,
 						("%s():Err! chip not support 5G band %d!\n",
 						__FUNCTION__, pAd->RfIcType));
-#ifdef DOT11_N_SUPPORT
 			/* change to bgn mode */
 			Set_WirelessMode_Proc(pAd, "9");
-#else
-			/* change to bg mode */
-			Set_WirelessMode_Proc(pAd, "0");
-#endif /* DOT11_N_SUPPORT */
 			pAd->phy_ctrl.rf_band_cap = RFIC_24GHZ;
 		}
 		pAd->phy_ctrl.rf_band_cap = RFIC_24GHZ | RFIC_5GHZ;
@@ -1397,7 +1385,6 @@ VOID NICUpdateFifoStaCounters(struct rtmp_adapter *pAd)
 		pEntry->DebugFIFOCount++;
 
 
-#ifdef DOT11_N_SUPPORT
 #ifdef TXBF_SUPPORT
 		/* Update BF statistics*/
 		if (pAd->chipCap.FlgHwTxBfCap)
@@ -1448,7 +1435,6 @@ VOID NICUpdateFifoStaCounters(struct rtmp_adapter *pAd)
 		}
 	}
 #endif /* TXBF_SUPPORT */
-#endif /* DOT11_N_SUPPORT */
 
 #ifdef UAPSD_SUPPORT
 	UAPSD_SP_AUE_Handle(pAd, pEntry, StaFifo.field.TxSuccess);
@@ -1472,16 +1458,13 @@ VOID NICUpdateFifoStaCounters(struct rtmp_adapter *pAd)
 		if (pEntry->FIFOCount >= 1)
 		{
 			DBGPRINT(RT_DEBUG_TRACE, ("#"));
-#ifdef DOT11_N_SUPPORT
 			pEntry->NoBADataCountDown = 64;
-#endif /* DOT11_N_SUPPORT */
 
 			/* Update the continuous transmission counter.*/
 			pEntry->ContinueTxFailCnt++;
 
 			if(pEntry->PsMode == PWR_ACTIVE)
 			{
-#ifdef DOT11_N_SUPPORT
 				int tid;
 
 #ifdef CONFIG_AP_SUPPORT
@@ -1495,7 +1478,6 @@ VOID NICUpdateFifoStaCounters(struct rtmp_adapter *pAd)
 
 				for (tid=0; tid<NUM_OF_TID; tid++)
 					BAOriSessionTearDown(pAd, pEntry->wcid,  tid, FALSE, FALSE);
-#endif /* DOT11_N_SUPPORT */
 
 			}
 		}
@@ -1504,7 +1486,6 @@ VOID NICUpdateFifoStaCounters(struct rtmp_adapter *pAd)
 	}
 	else
 	{
-#ifdef DOT11_N_SUPPORT
 		if ((pEntry->PsMode != PWR_SAVE) && (pEntry->NoBADataCountDown > 0))
 		{
 			pEntry->NoBADataCountDown--;
@@ -1513,7 +1494,6 @@ VOID NICUpdateFifoStaCounters(struct rtmp_adapter *pAd)
 				DBGPRINT(RT_DEBUG_TRACE, ("@\n"));
 			}
 		}
-#endif /* DOT11_N_SUPPORT */
 		pEntry->FIFOCount = 0;
 		pEntry->OneSecTxNoRetryOkCount++;
 
@@ -2190,9 +2170,7 @@ VOID UserCfgExit(struct rtmp_adapter *pAd)
 	RTMP_DRIVER_80211_RESET(pAd);
 #endif /* RT_CFG80211_SUPPORT */
 
-#ifdef DOT11_N_SUPPORT
 	BATableExit(pAd);
-#endif /* DOT11_N_SUPPORT */
 
 
 	NdisFreeSpinLock(&pAd->MacTabLock);
@@ -2369,7 +2347,6 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 		pAd->CommonCfg.b256QAM_2G = FALSE;
 #endif /* DOT11_VHT_AC */
 
-#ifdef DOT11_N_SUPPORT
 	memset(&pAd->CommonCfg.HtCapability, 0, sizeof(pAd->CommonCfg.HtCapability));
 	pAd->HTCEnable = FALSE;
 	pAd->bBroadComHT = FALSE;
@@ -2418,7 +2395,6 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 		pAd->CommonCfg.TxBASize = 7;
 
 	pAd->CommonCfg.REGBACapability.word = pAd->CommonCfg.BACapability.word;
-#endif /* DOT11_N_SUPPORT */
 
 	pAd->CommonCfg.TxRate = RATE_6;
 
@@ -2590,9 +2566,7 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 		pAd->StaCfg.bForceTxBurst = FALSE;
 		pAd->StaCfg.bNotFirstScan = FALSE;
 		pAd->StaCfg.bImprovedScan = FALSE;
-#ifdef DOT11_N_SUPPORT
 		pAd->StaCfg.bAdhocN = TRUE;
-#endif /* DOT11_N_SUPPORT */
 		pAd->StaCfg.bFastConnect = FALSE;
 		pAd->StaCfg.bAdhocCreator = FALSE;
 	}
@@ -3530,12 +3504,10 @@ BOOLEAN RtmpRaDevCtrlExit(IN struct rtmp_adapter *pAd)
 
 
 #ifdef CONFIG_AP_SUPPORT
-#ifdef DOT11_N_SUPPORT
 VOID RTMP_11N_D3_TimerInit(struct rtmp_adapter *pAd)
 {
 	RTMPInitTimer(pAd, &pAd->CommonCfg.Bss2040CoexistTimer, GET_TIMER_FUNCTION(Bss2040CoexistTimeOut), pAd, FALSE);
 }
-#endif /* DOT11_N_SUPPORT */
 #endif /* CONFIG_AP_SUPPORT */
 
 

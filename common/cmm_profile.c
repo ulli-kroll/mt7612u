@@ -1823,7 +1823,6 @@ static void VHTParametersHook(
 #endif /* DOT11_VHT_AC */
 
 
-#ifdef DOT11_N_SUPPORT
 static void HTParametersHook(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *	  pValueStr,
@@ -2237,7 +2236,6 @@ static void HTParametersHook(
 		DBGPRINT(RT_DEBUG_TRACE, ("HT: Disallow TKIP mode = %s\n", (pAd->CommonCfg.HT_DisallowTKIP == TRUE) ? "ON" : "OFF" ));
 	}
 
-#ifdef DOT11_N_SUPPORT
 			if (RTMPGetKeyParameter("OBSSScanParam", pValueStr, 32, pInput, TRUE))
 			{
 				int ObssScanValue, idx;
@@ -2345,10 +2343,8 @@ static void HTParametersHook(
 		pAd->CommonCfg.bRalinkBurstMode = ((Value == 1) ? 1 : 0);
 		DBGPRINT(RT_DEBUG_TRACE, ("HT: RaBurstMode= %d\n", pAd->CommonCfg.bRalinkBurstMode));
 	}
-#endif /* DOT11_N_SUPPORT */
 
 }
-#endif /* DOT11_N_SUPPORT */
 
 
 #ifdef CONFIG_STA_SUPPORT
@@ -3714,9 +3710,7 @@ int RTMPSetProfileParameters(
 
 #endif /* CONFIG_AP_SUPPORT */
 
-#ifdef DOT11_N_SUPPORT
 				HTParametersHook(pAd, tmpbuf, pBuffer);
-#endif /* DOT11_N_SUPPORT */
 
 #ifdef DOT11_VHT_AC
 				VHTParametersHook(pAd, tmpbuf, pBuffer);

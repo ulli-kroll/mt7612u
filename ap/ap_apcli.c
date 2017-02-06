@@ -181,7 +181,6 @@ VOID ApCliMgtMacHeaderInit(
 }
 
 
-#ifdef DOT11_N_SUPPORT
 /*
 	========================================================================
 
@@ -264,7 +263,6 @@ BOOLEAN ApCliCheckHt(
 	/*COPY_AP_HTSETTINGS_FROM_BEACON(pAd, pHtCapability); */
 	return TRUE;
 }
-#endif /* DOT11_N_SUPPORT */
 
 #ifdef DOT11_VHT_AC
 BOOLEAN ApCliCheckVht(
@@ -583,7 +581,6 @@ BOOLEAN ApCliLinkUp(struct rtmp_adapter *pAd, UCHAR ifIndex)
 				}
 			}
 
-#ifdef DOT11_N_SUPPORT
 			/* If this Entry supports 802.11n, upgrade to HT rate. */
 			if (pApCliEntry->MlmeAux.HtCapabilityLen != 0)
 			{
@@ -637,7 +634,6 @@ BOOLEAN ApCliLinkUp(struct rtmp_adapter *pAd, UCHAR ifIndex)
 				DBGPRINT(RT_DEBUG_TRACE, ("ApCliLinkUp - MaxSupRate=%d Mbps\n",
 								  RateIdToMbps[pMacEntry->MaxSupportedRate]));
 			}
-#endif /* DOT11_N_SUPPORT */
 
 
 #ifdef DOT11_VHT_AC
@@ -686,9 +682,7 @@ BOOLEAN ApCliLinkUp(struct rtmp_adapter *pAd, UCHAR ifIndex)
 
 			/* set this entry WMM capable or not */
 			if ((pApCliEntry->MlmeAux.APEdcaParm.bValid)
-#ifdef DOT11_N_SUPPORT
 				|| IS_HT_STA(pMacEntry)
-#endif /* DOT11_N_SUPPORT */
 			)
 			{
 #ifdef APCLI_CERT_SUPPORT
@@ -785,7 +779,6 @@ BOOLEAN ApCliLinkUp(struct rtmp_adapter *pAd, UCHAR ifIndex)
 					&pApCliEntry->MlmeAux.HtCapability,
 					pApCliEntry->MlmeAux.HtCapabilityLen);
 
-#ifdef DOT11_N_SUPPORT
 #ifdef APCLI_CERT_SUPPORT
 	if (pAd->bApCliCertTest == TRUE)
 	{
@@ -825,7 +818,6 @@ BOOLEAN ApCliLinkUp(struct rtmp_adapter *pAd, UCHAR ifIndex)
 		}
 	}
 #endif /* APCLI_CERT_SUPPORT */
-#endif /* DOT11_N_SUPPORT */
 	return result;
 }
 
@@ -1275,7 +1267,6 @@ BOOLEAN ApCliPeerAssocRspSanity(
 					*pExtRateLen = pEid->Len;
 				}
 				break;
-#ifdef DOT11_N_SUPPORT
 			case IE_HT_CAP:
 			case IE_HT_CAP2:
 				if (pEid->Len >= SIZE_HT_CAP_IE)  /*Note: allow extension.!! */
@@ -1333,7 +1324,6 @@ BOOLEAN ApCliPeerAssocRspSanity(
 				}
 				break;
 #endif /* DOT11_VHT_AC */
-#endif /* DOT11_N_SUPPORT */
 			/* CCX2, WMM use the same IE value */
 			/* case IE_CCX_V2: */
 			case IE_VENDOR_SPECIFIC:
@@ -2226,13 +2216,11 @@ VOID ApCliUpdateMlmeRate(struct rtmp_adapter *pAd, USHORT ifIndex)
 			MinimumRate = RATE_1;
 			break;
 		case (WMODE_B | WMODE_G):
-#ifdef DOT11_N_SUPPORT
 		case (WMODE_A |WMODE_B | WMODE_G | WMODE_GN | WMODE_AN):
 		case (WMODE_B | WMODE_G | WMODE_GN):
 #ifdef DOT11_VHT_AC
 		case (WMODE_A |WMODE_B | WMODE_G | WMODE_GN | WMODE_AN | WMODE_AC):
 #endif /* DOT11_VHT_AC */
-#endif /* DOT11_N_SUPPORT */
 			if ((pApCliEntry->MlmeAux.SupRateLen == 4) &&
 				(pApCliEntry->MlmeAux.ExtRateLen == 0))
 				ProperMlmeRate = RATE_11; /* B only AP */
@@ -2245,7 +2233,6 @@ VOID ApCliUpdateMlmeRate(struct rtmp_adapter *pAd, USHORT ifIndex)
 				MinimumRate = RATE_6;
 			break;
 		case (WMODE_A):
-#ifdef DOT11_N_SUPPORT
 		case (WMODE_GN):
 		case (WMODE_G | WMODE_GN):
 		case (WMODE_A | WMODE_G | WMODE_AN | WMODE_GN):
@@ -2256,7 +2243,6 @@ VOID ApCliUpdateMlmeRate(struct rtmp_adapter *pAd, USHORT ifIndex)
 		case (WMODE_AN | WMODE_AC):
 		case (WMODE_A | WMODE_AN | WMODE_AC):
 #endif /* DOT11_VHT_AC */
-#endif /* DOT11_N_SUPPORT */
 			ProperMlmeRate = RATE_24;
 			MinimumRate = RATE_6;
 			break;

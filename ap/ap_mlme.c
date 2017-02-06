@@ -29,7 +29,6 @@
 #include <stdarg.h>
 
 extern UCHAR  ZeroSsid[32];
-#ifdef DOT11_N_SUPPORT
 
 int DetectOverlappingPeriodicRound;
 
@@ -62,7 +61,6 @@ VOID Bss2040CoexistTimeOut(
 
 }
 
-#endif /* DOT11_N_SUPPORT */
 
 
 VOID APDetectOverlappingExec(
@@ -71,7 +69,6 @@ VOID APDetectOverlappingExec(
 	IN PVOID SystemSpecific2,
 	IN PVOID SystemSpecific3)
 {
-#ifdef DOT11_N_SUPPORT
 	struct rtmp_adapter *pAd = (struct rtmp_adapter *)FunctionContext;
 
 	if (DetectOverlappingPeriodicRound == 0)
@@ -97,7 +94,6 @@ VOID APDetectOverlappingExec(
 		}
 		DetectOverlappingPeriodicRound--;
 	}
-#endif /* DOT11_N_SUPPORT */
 }
 
 
@@ -251,7 +247,6 @@ VOID APMlmePeriodicExec(
 	}
 #endif /* APCLI_SUPPORT */
 
-#ifdef DOT11_N_SUPPORT
     if (pAd->CommonCfg.bHTProtect)
     {
     	/*APUpdateCapabilityAndErpIe(pAd); */
@@ -261,7 +256,6 @@ VOID APMlmePeriodicExec(
         	AsicUpdateProtect(pAd, (USHORT)pAd->CommonCfg.AddHTInfo.AddHtInfo2.OperaionMode, ALLN_SETPROTECT, FALSE, pAd->MacTab.fAnyStationNonGF);
     	}
     }
-#endif /* DOT11_N_SUPPORT */
 
 	if ( (pAd->CommonCfg.Channel > 14)
 		&& (pAd->CommonCfg.bIEEE80211H == 1)
@@ -279,7 +273,6 @@ VOID APMlmePeriodicExec(
 		}
 
 #ifdef APCLI_SUPPORT
-#ifdef DOT11_N_SUPPORT
 #ifdef APCLI_CERT_SUPPORT
 	/* Perform 20/40 BSS COEX scan every Dot11BssWidthTriggerScanInt	*/
 	if (APCLI_IF_UP_CHECK(pAd, 0) && (pAd->bApCliCertTest == TRUE))
@@ -320,7 +313,6 @@ VOID APMlmePeriodicExec(
 		}
 	}
 #endif /* APCLI_CERT_SUPPORT */
-#endif /* DOT11_N_SUPPORT */
 #endif /* APCLI_SUPPORT */
 }
 
@@ -486,13 +478,11 @@ VOID APAsicEvaluateRxAnt(
 		return;
 #endif /* RT76x0 */
 
-#ifdef DOT11_N_SUPPORT
 #ifdef GREENAP_SUPPORT
 	if (pAd->ApCfg.bGreenAPActive == TRUE)
 		bbp_set_rxpath(pAd, 1);
 	else
 #endif /* GREENAP_SUPPORT */
-#endif /* DOT11_N_SUPPORT */
 		bbp_set_rxpath(pAd, pAd->Antenna.field.RxPath);
 
 	TxTotalCnt = pAd->RalinkCounters.OneSecTxNoRetryOkCount +
@@ -562,13 +552,11 @@ VOID APAsicRxAntEvalTimeout(struct rtmp_adapter *pAd)
 
 	/* Disable the below to fix 1T/2R issue. It's suggested by Rory at 2007/7/11. */
 
-#ifdef DOT11_N_SUPPORT
 #ifdef GREENAP_SUPPORT
 	if (pAd->ApCfg.bGreenAPActive == TRUE)
 		bbp_set_rxpath(pAd, 1);
 	else
 #endif /* GREENAP_SUPPORT */
-#endif /* DOT11_N_SUPPORT */
 		bbp_set_rxpath(pAd, pAd->Mlme.RealRxPath);
 
 

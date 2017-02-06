@@ -189,12 +189,10 @@ VOID STARxDataFrameAnnounce(
 		}
 	} else {
 		RX_BLK_SET_FLAG(pRxBlk, fRX_EAP);
-#ifdef DOT11_N_SUPPORT
 		if (RX_BLK_TEST_FLAG(pRxBlk, fRX_AMPDU)
 		    && (pAd->CommonCfg.bDisableReordering == 0)) {
 			Indicate_AMPDU_Packet(pAd, pRxBlk, FromWhichBSSID);
 		} else
-#endif /* DOT11_N_SUPPORT */
 		{
 			/* Determin the destination of the EAP frame */
 			/*  to WPA state machine or upper layer */
@@ -262,12 +260,10 @@ VOID STARxDataFrameAnnounce_Hdr_Trns(
 		}
 	} else {
 		RX_BLK_SET_FLAG(pRxBlk, fRX_EAP);
-#ifdef DOT11_N_SUPPORT
 		if (RX_BLK_TEST_FLAG(pRxBlk, fRX_AMPDU)
 		    && (pAd->CommonCfg.bDisableReordering == 0)) {
 			Indicate_AMPDU_Packet(pAd, pRxBlk, FromWhichBSSID);
 		} else
-#endif /* DOT11_N_SUPPORT */
 		{
 			/* Determin the destination of the EAP frame */
 			/*  to WPA state machine or upper layer */
@@ -571,12 +567,10 @@ VOID STAHandleRxDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 		} else
 #endif /* AGGREGATION_SUPPORT */
 		{
-#ifdef DOT11_N_SUPPORT
 			RX_BLK_SET_FLAG(pRxBlk, fRX_HTC);
 			/* skip HTC contorl field */
 			pRxBlk->pData += 4;
 			pRxBlk->DataSize -= 4;
-#endif /* DOT11_N_SUPPORT */
 		}
 	}
 
@@ -586,11 +580,9 @@ VOID STAHandleRxDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 		RX_BLK_SET_FLAG(pRxBlk, fRX_PAD);
 		pRxBlk->pData += 2;
 	}
-#ifdef DOT11_N_SUPPORT
 	if (pRxInfo->BA) {
 		RX_BLK_SET_FLAG(pRxBlk, fRX_AMPDU);
 	}
-#endif /* DOT11_N_SUPPORT */
 
 #if defined(SOFT_ENCRYPT) || defined(ADHOC_WPA2PSK_SUPPORT)
 	/* Use software to decrypt the encrypted frame if necessary.
@@ -974,11 +966,9 @@ VOID STAHandleRxDataFrame_Hdr_Trns(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 		} else
 #endif /* AGGREGATION_SUPPORT */
 		{
-#ifdef DOT11_N_SUPPORT
 			RX_BLK_SET_FLAG(pRxBlk, fRX_HTC);
 			/* skip HTC contorl field */
 			pData += 4;
-#endif /* DOT11_N_SUPPORT */
 		}
 	}
 
@@ -988,11 +978,9 @@ VOID STAHandleRxDataFrame_Hdr_Trns(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 		RX_BLK_SET_FLAG(pRxBlk, fRX_PAD);
 		pData += 2;
 	}
-#ifdef DOT11_N_SUPPORT
 	if (pRxInfo->BA) {
 		RX_BLK_SET_FLAG(pRxBlk, fRX_AMPDU);
 	}
-#endif /* DOT11_N_SUPPORT */
 
 #if defined(SOFT_ENCRYPT) || defined(ADHOC_WPA2PSK_SUPPORT)
 	/* Use software to decrypt the encrypted frame if necessary.
@@ -1279,11 +1267,9 @@ INT STASendPacket(struct rtmp_adapter *pAd, struct sk_buff *pPacket)
 		NumberOfFrag = 1;	/* Aggregation overwhelms fragmentation */
 	else if (CLIENT_STATUS_TEST_FLAG(pMacEntry, fCLIENT_STATUS_AMSDU_INUSED))
 		NumberOfFrag = 1;	/* Aggregation overwhelms fragmentation */
-#ifdef DOT11_N_SUPPORT
 	else if ((wdev->HTPhyMode.field.MODE == MODE_HTMIX)
 		 || (wdev->HTPhyMode.field.MODE == MODE_HTGREENFIELD))
 		NumberOfFrag = 1;	/* MIMO RATE overwhelms fragmentation */
-#endif /* DOT11_N_SUPPORT */
 	else
 	{
 		/*
@@ -1341,9 +1327,7 @@ INT STASendPacket(struct rtmp_adapter *pAd, struct sk_buff *pPacket)
 		RTMP_IRQ_UNLOCK(&pAd->irq_lock, IrqFlags);
 	}
 
-#ifdef DOT11_N_SUPPORT
 	RTMP_BASetup(pAd, pMacEntry, UserPriority);
-#endif /* DOT11_N_SUPPORT */
 
 	pAd->RalinkCounters.OneSecOsTxCount[QueIdx]++;	/* TODO: for debug only. to be removed */
 	return NDIS_STATUS_SUCCESS;
@@ -1748,7 +1732,6 @@ VOID STABuildCommon802_11Header(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 }
 
 
-#ifdef DOT11_N_SUPPORT
 VOID STABuildCache802_11Header(
 	IN struct rtmp_adapter *pAd,
 	IN TX_BLK *pTxBlk,
@@ -1797,8 +1780,6 @@ VOID STABuildCache802_11Header(
 	else
 		pHeader80211->FC.PwrMgmt = (RtmpPktPmBitCheck(pAd) == TRUE);
 }
-#endif /* DOT11_N_SUPPORT */
-
 
 static inline u8 *STA_Build_ARalink_Frame_Header(
 	IN struct rtmp_adapter *pAd,
@@ -1857,7 +1838,6 @@ static inline u8 *STA_Build_ARalink_Frame_Header(
 }
 
 
-#ifdef DOT11_N_SUPPORT
 static inline u8 *STA_Build_AMSDU_Frame_Header(
 	IN struct rtmp_adapter *pAd,
 	IN TX_BLK *pTxBlk)
@@ -2548,8 +2528,6 @@ VOID STA_AMSDU_Frame_Tx(
 	/* Kick out Tx */
 		HAL_KickOutTx(pAd, pTxBlk, pTxBlk->QueIdx);
 }
-#endif /* DOT11_N_SUPPORT */
-
 
 VOID STA_Legacy_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 {
@@ -3467,7 +3445,6 @@ int STAHardTransmit(struct rtmp_adapter *pAd, TX_BLK *pTxBlk, UCHAR QueIdx)
 #endif
 
 	switch (pTxBlk->TxFrameType) {
-#ifdef DOT11_N_SUPPORT
 	case TX_AMPDU_FRAME:
 #ifdef HDR_TRANS_SUPPORT
 		if (bDoHdrTrans)
@@ -3480,7 +3457,6 @@ int STAHardTransmit(struct rtmp_adapter *pAd, TX_BLK *pTxBlk, UCHAR QueIdx)
 	case TX_AMSDU_FRAME:
 		STA_AMSDU_Frame_Tx(pAd, pTxBlk);
 		break;
-#endif /* DOT11_N_SUPPORT */
 	case TX_LEGACY_FRAME:
 		{
 #ifdef HDR_TRANS_SUPPORT
