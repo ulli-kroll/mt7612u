@@ -263,7 +263,7 @@ VOID APMakeBssBeacon(struct rtmp_adapter *pAd, INT apidx)
 			(*(ptr + 2) << 16);
 			(*(ptr + 3) << 24);
 
-		RtmpChipWriteMemory(pAd, reg_base + i, dword, 4);
+		RTMP_IO_WRITE32(pAd, reg_base + i, dword);
 		ptr += 4;
 	}
 
@@ -282,7 +282,7 @@ VOID APMakeBssBeacon(struct rtmp_adapter *pAd, INT apidx)
 			(*(ptr + 2) << 16);
 			(*(ptr + 3) << 24);
 
-		RtmpChipWriteMemory(pAd, reg_base + i, dword, 4);
+		RTMP_IO_WRITE32(pAd, reg_base + i, dword);
 		ptr += 4;
 	}
 
@@ -950,7 +950,7 @@ VOID APMakeAllBssBeacon(struct rtmp_adapter *pAd)
 	{
 		for (j=0; j < TXWISize; j+=4)
 	    {
-			RtmpChipWriteMemory(pAd, pAd->BeaconOffset[i] + j, 0, 4);
+			RTMP_IO_WRITE32(pAd, pAd->BeaconOffset[i] + j, 0);
 	    }
 	}
 

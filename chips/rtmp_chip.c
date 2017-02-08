@@ -76,45 +76,6 @@ VOID RtmpChipWriteHighMemory(
 #endif /* RTMP_MAC_USB */
 }
 
-
-/*
-========================================================================
-Routine Description:
-	write memory
-
-Arguments:
-	pAd				- WLAN control block pointer
-	Offset			- Memory offsets
-	Value			- Written value
-	Unit				- Unit in "Byte"
-Return Value:
-	None
-
-Note:
-========================================================================
-*/
-VOID RtmpChipWriteMemory(
-	IN	struct rtmp_adapter *pAd,
-	IN	USHORT			Offset,
-	IN	uint32_t 		Value,
-	IN	UINT8			Unit)
-{
-	switch(Unit)
-	{
-		case 1:
-			RTMP_IO_WRITE8(pAd, Offset, Value);
-			break;
-		case 2:
-			RTMP_IO_WRITE16(pAd, Offset, Value);
-			break;
-		case 4:
-			RTMP_IO_WRITE32(pAd, Offset, Value);
-		default:
-			break;
-	}
-}
-
-
 /*
 ========================================================================
 Routine Description:

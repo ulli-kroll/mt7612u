@@ -1264,12 +1264,6 @@ VOID RtmpChipWriteHighMemory(
 	IN	uint32_t 		Value,
 	IN	UINT8			Unit);
 
-VOID RtmpChipWriteMemory(
-	IN	struct rtmp_adapter *pAd,
-	IN	USHORT			Offset,
-	IN	uint32_t 		Value,
-	IN	UINT8			Unit);
-
 VOID RTMPReadChannelPwr(struct rtmp_adapter *pAd);
 VOID RTMPReadTxPwrPerRate(struct rtmp_adapter *pAd);
 

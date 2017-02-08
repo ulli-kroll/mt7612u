@@ -1415,7 +1415,7 @@ VOID AsicEnableIbssSync(struct rtmp_adapter *pAd)
 			(*(ptr + 2) << 16);
 			(*(ptr + 3) << 24);
 
-		RtmpChipWriteMemory(pAd, HW_BEACON_BASE0(pAd) + i, dword, 4);
+		RTMP_IO_WRITE32(pAd, HW_BEACON_BASE0(pAd) + i, dword);
 		ptr += 4;
 	}
 
@@ -1429,8 +1429,8 @@ VOID AsicEnableIbssSync(struct rtmp_adapter *pAd)
 			(*(ptr + 2) << 16);
 			(*(ptr + 3) << 24);
 
-		RtmpChipWriteMemory(pAd, HW_BEACON_BASE0(pAd) + TXWISize + i,
-				    dword, 4);
+		RTMP_IO_WRITE32(pAd, HW_BEACON_BASE0(pAd) + TXWISize + i,
+				    dword);
 		ptr +=4;
 	}
 #endif /* RTMP_MAC_USB */
