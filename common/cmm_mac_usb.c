@@ -1378,7 +1378,6 @@ VOID RT28xx_UpdateBeaconToAsic(
 	UCHAR  			*ptr;
 	UINT  			i, padding;
 	BEACON_SYNC_STRUCT *pBeaconSync = pAd->CommonCfg.pBeaconSync;
-	uint32_t 		longValue;
 /*	USHORT			shortValue;*/
 	BOOLEAN			bBcnReq = FALSE;
 	UCHAR			bcn_idx = 0;
@@ -1428,30 +1427,46 @@ VOID RT28xx_UpdateBeaconToAsic(
 			memmove(pBeaconSync->BeaconTxWI[bcn_idx], &pAd->BeaconTxWI, TXWISize);
 		}
 
-		if ((pBeaconSync->BeaconBitMap & (1 << bcn_idx)) != (1 << bcn_idx))
-		{
-			for (i=0; i < TXWISize; i+=4)
-			{
-				longValue =  *ptr + (*(ptr+1)<<8) + (*(ptr+2)<<16) + (*(ptr+3)<<24);
-				RtmpChipWriteMemory(pAd, pAd->BeaconOffset[bcn_idx] + i, longValue, 4);
+		if ((pBeaconSync->BeaconBitMap & (1 << bcn_idx)) != (1 << bcn_idx)) {
+			for (i=0; i < TXWISize; i+=4) {
+				u32 dword;
+
+				dword =  *ptr +
+					(*(ptr + 1) << 8);
+					(*(ptr + 2) << 16);
+					(*(ptr + 3) << 24);
+
+				RtmpChipWriteMemory(pAd,
+						    pAd->BeaconOffset[bcn_idx] + i,
+						    dword, 4);
 				ptr += 4;
 			}
 		}
 
 		ptr = pBeaconSync->BeaconBuf[bcn_idx];
-		padding = (FrameLen & 0x01);
+		padding = (FrameLen & 0x03);	/* ULLI : 4 bytes */
 		memset((u8 *)(pBeaconFrame + FrameLen), 0, padding);
 		FrameLen += padding;
-		for (i = 0 ; i < FrameLen /*HW_BEACON_OFFSET*/; i += 2)
-		{
-			if (NdisEqualMemory(ptr, pBeaconFrame, 2) == FALSE)
-			{
-				memmove(ptr, pBeaconFrame, 2);
-				longValue =  *ptr + (*(ptr+1)<<8);
-				RtmpChipWriteMemory(pAd, pAd->BeaconOffset[bcn_idx] + TXWISize + i, longValue, 2);
+
+		/* ULLI : WTH ???, are programmers lazy of pointers ?? */
+
+		for (i = 0 ; i < FrameLen /*HW_BEACON_OFFSET*/; i += 4) {
+			if (NdisEqualMemory(ptr, pBeaconFrame, 4) == FALSE) {
+				u32 dword;
+
+				memmove(ptr, pBeaconFrame, 4);
+
+				dword =  *ptr +
+					(*(ptr + 1) << 8);
+					(*(ptr + 2) << 16);
+					(*(ptr + 3) << 24);
+
+				RtmpChipWriteMemory(pAd,
+					            pAd->BeaconOffset[bcn_idx] + TXWISize + i,
+					            dword, 4);
 			}
-			ptr +=2;
-			pBeaconFrame += 2;
+			ptr +=4;
+			pBeaconFrame += 4;
 		}
 
 

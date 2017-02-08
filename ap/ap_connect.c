@@ -88,7 +88,7 @@ VOID APMakeBssBeacon(struct rtmp_adapter *pAd, INT apidx)
 	u8 *pBeaconFrame = (u8 *)pAd->ApCfg.MBSSID[apidx].BeaconBuf;
 	UCHAR *ptr;
 	UINT i;
-	uint32_t longValue, reg_base;
+	uint32_t reg_base;
 	HTTRANSMIT_SETTING BeaconTransmit = {.word = 0};   /* MGMT frame PHY rate setting when operatin at Ht rate. */
 	UCHAR PhyMode, SupRateLen;
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
@@ -255,10 +255,15 @@ VOID APMakeBssBeacon(struct rtmp_adapter *pAd, INT apidx)
 
 
 	reg_base = pAd->BeaconOffset[pMbss->BcnBufIdx];
-	for (i=0; i < TXWISize; i+=4)
-	{
-		longValue = *ptr + (*(ptr+1)<<8) + (*(ptr+2)<<16) + (*(ptr+3)<<24);
-		RtmpChipWriteMemory(pAd, reg_base + i, longValue, 4);
+	for (i = 0; i < TXWISize; i += 4) {
+		u32 dword;
+
+		dword =  *ptr +
+			(*(ptr + 1) << 8);
+			(*(ptr + 2) << 16);
+			(*(ptr + 3) << 24);
+
+		RtmpChipWriteMemory(pAd, reg_base + i, dword, 4);
 		ptr += 4;
 	}
 
@@ -269,10 +274,15 @@ VOID APMakeBssBeacon(struct rtmp_adapter *pAd, INT apidx)
 #endif
 
 	reg_base = pAd->BeaconOffset[pMbss->BcnBufIdx] + TXWISize;
-	for (i= 0; i< FrameLen; i+=4)
-	{
-		longValue =  *ptr + (*(ptr+1)<<8) + (*(ptr+2)<<16) + (*(ptr+3)<<24);
-		RtmpChipWriteMemory(pAd, reg_base + i, longValue, 4);
+	for ( i= 0; i< FrameLen; i+=4) {
+		u32 dword;
+
+		dword =  *ptr +
+			(*(ptr + 1) << 8);
+			(*(ptr + 2) << 16);
+			(*(ptr + 3) << 24);
+
+		RtmpChipWriteMemory(pAd, reg_base + i, dword, 4);
 		ptr += 4;
 	}
 
