@@ -39,9 +39,6 @@ HAS_MC_SUPPORT=n
 #Support for PCI-MSI
 HAS_MSI_SUPPORT=n
 
-#Support features of 802.11n
-HAS_DOT11_N_SUPPORT=y
-
 #Support for 802.11ac VHT
 HAS_DOT11_VHT_SUPPORT=y
 
@@ -188,9 +185,6 @@ ifeq ($(HAS_ED_MONITOR_SUPPORT),y)
 WFLAGS += -DED_MONITOR
 endif
 
-ifeq ($(HAS_DOT11_N_SUPPORT),y)
-WFLAGS += -DDOT11_N_SUPPORT
-
 ifeq ($(HAS_TXBF_SUPPORT),y)
 WFLAGS += -DTXBF_SUPPORT
 endif
@@ -206,9 +200,6 @@ endif
 ifeq ($(HAS_GREENAP_SUPPORT),y)
 WFLAGS += -DGREENAP_SUPPORT
 endif
-
-endif
-
 
 ifeq ($(HAS_STATS_COUNT),y)
 WFLAGS += -DSTATS_COUNT_SUPPORT
@@ -276,9 +267,6 @@ WFLAGS += -DNATIVE_WPA_SUPPLICANT_SUPPORT
 endif
 endif
 
-ifeq ($(HAS_DOT11_N_SUPPORT),y)
-WFLAGS += -DDOT11_N_SUPPORT
-
 ifeq ($(HAS_TXBF_SUPPORT),y)
 WFLAGS += -DTXBF_SUPPORT
 endif
@@ -289,8 +277,6 @@ endif
 
 ifeq ($(HAS_NEW_RATE_ADAPT_SUPPORT),y)
 WFLAGS += -DNEW_RATE_ADAPT_SUPPORT
-endif
-
 endif
 
 ifeq ($(HAS_STATS_COUNT),y)
@@ -396,10 +382,6 @@ WFLAGS += -DNATIVE_WPA_SUPPLICANT_SUPPORT
 endif
 endif
 
-
-ifeq ($(HAS_DOT11_N_SUPPORT),y)
-WFLAGS += -DDOT11_N_SUPPORT
-endif
 
 ifeq ($(HAS_TXBF_SUPPORT),y)
 WFLAGS += -DTXBF_SUPPORT
@@ -570,7 +552,6 @@ endif
 
 
 #ifdef DOT11_N_SUPPORT
-ifeq ($(HAS_DOT11_N_SUPPORT),y)
 obj_cmm += \
         common/ba_action.o\
         mgmt/mgmt_ht.o
@@ -582,8 +563,6 @@ obj_cmm += \
         common/cmm_txbf_cal.o
 endif
 #endif // TXBF_SUPPORT //
-endif
-#endif // DOT11_N_SUPPORT //
 
 #ifdef DOT11_VHT_SUPPORT
 ifeq ($(HAS_DOT11_VHT_SUPPORT),y)
