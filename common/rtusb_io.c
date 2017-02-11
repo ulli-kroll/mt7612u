@@ -98,39 +98,6 @@ void usb_cfg_write_v3(struct rtmp_adapter *ad, u32 value)
 #endif /* MT76x2 */
 #endif /* RLT_MAC */
 
-
-/*
-	========================================================================
-
-	Routine Description: Get current firmware operation mode (Return Value)
-
-	Arguments:
-
-	Return Value:
-		0 or 1 = Downloaded by host driver
-		others = Driver doesn't download firmware
-
-	IRQL =
-
-	Note:
-
-	========================================================================
-*/
-NTSTATUS RTUSBFirmwareOpmode(struct rtmp_adapter *pAd, uint32_t *pValue)
-{
-	NTSTATUS	Status;
-
-	Status = RTUSB_VendorRequest(
-		pAd,
-		DEVICE_VENDOR_REQUEST_IN,
-		0x1,
-		0x11,
-		0,
-		pValue,
-		4);
-	return Status;
-}
-
 NTSTATUS RTUSBVenderReset(struct rtmp_adapter *pAd)
 {
 	NTSTATUS Status;
