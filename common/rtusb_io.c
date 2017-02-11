@@ -115,29 +115,6 @@ NTSTATUS RTUSBVenderReset(struct rtmp_adapter *pAd)
 	return Status;
 }
 
-
-/*
-	========================================================================
-
-	Routine Description: Read various length data from RT2573
-
-	Arguments:
-
-	Return Value:
-
-	IRQL =
-
-	Note:
-
-	========================================================================
-*/
-NTSTATUS RTUSBMultiRead(struct rtmp_adapter *pAd, USHORT addr, UCHAR *buf, USHORT len)
-{
-	return RTUSB_VendorRequest(pAd, DEVICE_VENDOR_REQUEST_IN,
-								0x7, 0, addr, buf, len);
-}
-
-
 /*
 	========================================================================
 
