@@ -7433,7 +7433,6 @@ INT	Set_OpMode_Proc(struct rtmp_adapter *pAd, char *arg);
 INT Set_LongRetryLimit_Proc(struct rtmp_adapter *pAd, char *arg);
 INT Set_ShortRetryLimit_Proc(struct rtmp_adapter *pAd, char *arg);
 INT Set_AutoFallBack_Proc(struct rtmp_adapter *pAd, char *arg);
-VOID RT28XXDMADisable(struct rtmp_adapter *pAd);
 VOID RT28XXDMAEnable(struct rtmp_adapter *pAd);
 
 VOID RT28xx_UpdateBeaconToAsic(

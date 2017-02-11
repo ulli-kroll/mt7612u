@@ -1282,25 +1282,6 @@ int RTUSBWriteHWMACAddress(struct rtmp_adapter *pAd)
 }
 
 
-/*
-========================================================================
-Routine Description:
-    Disable DMA.
-
-Arguments:
-	*pAd				the raxx interface data pointer
-
-Return Value:
-	None
-
-Note:
-========================================================================
-*/
-VOID RT28XXDMADisable(
-	IN struct rtmp_adapter 		*pAd)
-{
-	/* no use*/
-}
 
 
 /*

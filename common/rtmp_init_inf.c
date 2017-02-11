@@ -51,8 +51,6 @@ int rt28xx_init(struct rtmp_adapter *pAd)
 	DBGPRINT(RT_DEBUG_TRACE, ("MAC[Ver:Rev=0x%08x : 0x%08x]\n",
 				pAd->MACVersion, pAd->ChipID));
 
-	RT28XXDMADisable(pAd);
-
 	if (mcu_sys_init(pAd) != TRUE)
 		goto err1;
 
