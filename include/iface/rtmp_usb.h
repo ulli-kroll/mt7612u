@@ -122,7 +122,6 @@ VOID RTUSBBssBeaconInit(struct rtmp_adapter *pAd);
 
 
 int RTUSBSetHardWareRegister(struct rtmp_adapter *pAd, PVOID pBuf);
-int RTUSBWriteHWMACAddress(struct rtmp_adapter *pAd);
 int RTUSBQueryHardWareRegister(struct rtmp_adapter *pAd, PVOID pBuf);
 
 VOID RTUSBMlmeHardTransmit(struct rtmp_adapter *pAd, struct _MGMT_STRUC *pMgmt);

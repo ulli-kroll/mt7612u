@@ -1249,41 +1249,6 @@ VOID	RTMPFreeTxRxRingMemory(
 
 #endif /* RESOURCE_PRE_ALLOC */
 
-
-/*
-========================================================================
-Routine Description:
-    Write WLAN MAC address to USB 2870.
-
-Arguments:
-    pAd					Pointer to our adapter
-
-Return Value:
-	NDIS_STATUS_SUCCESS
-
-Note:
-========================================================================
-*/
-int RTUSBWriteHWMACAddress(struct rtmp_adapter *pAd)
-{
-	MAC_DW0_STRUC	StaMacReg0;
-	MAC_DW1_STRUC	StaMacReg1;
-	int 	Status = NDIS_STATUS_SUCCESS;
-	LARGE_INTEGER	NOW;
-
-
-	/* initialize the random number generator*/
-	RTMP_GetCurrentSystemTime(&NOW);
-
-	/* Write New MAC address to MAC_CSR2 & MAC_CSR3 & let ASIC know our new MAC*/
-	AsicSetDevMac(pAd, pAd->CurrentAddress);
-
-	return Status;
-}
-
-
-
-
 /*
 ========================================================================
 Routine Description:
