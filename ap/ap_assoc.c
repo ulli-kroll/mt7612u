@@ -393,23 +393,6 @@ static USHORT update_associated_mac_entry(
 
 	pEntry->CurrTxRate = pEntry->MaxSupportedRate;
 
-#ifdef MFB_SUPPORT
-	pEntry->lastLegalMfb = 0;
-	pEntry->isMfbChanged = FALSE;
-	pEntry->fLastChangeAccordingMfb = FALSE;
-
-	pEntry->toTxMrq = TRUE;
-	pEntry->msiToTx = 0;/*has to increment whenever a mrq is sent */
-	pEntry->mrqCnt = 0;
-
-	pEntry->pendingMfsi = 0;
-
-	pEntry->toTxMfb = FALSE;
-	pEntry->mfbToTx = 0;
-	pEntry->mfb0 = 0;
-	pEntry->mfb1 = 0;
-#endif	/* MFB_SUPPORT */
-
 	pEntry->freqOffsetValid = FALSE;
 
 #ifdef TXBF_SUPPORT

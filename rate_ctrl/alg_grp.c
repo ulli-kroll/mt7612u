@@ -1475,17 +1475,6 @@ VOID APQuickResponeForRateUpExecAdapt(/* actually for both up and down */
 
 	DBGPRINT(RT_DEBUG_INFO, ("Quick PER %ld, Total Cnt %ld\n", TxErrorRatio, TxTotalCnt));
 
-#ifdef MFB_SUPPORT
-	if (pEntry->fLastChangeAccordingMfb == TRUE)
-	{
-		pEntry->fLastChangeAccordingMfb = FALSE;
-		pEntry->LastSecTxRateChangeAction = RATE_NO_CHANGE;
-		DBGPRINT(RT_DEBUG_INFO | DBG_FUNC_RA,("DRS: MCS is according to MFB, and ignore tuning this sec \n"));
-		/*  reset all OneSecTx counters */
-		RESET_ONE_SEC_TX_CNT(pEntry);
-		return;
-	}
-#endif	/*  MFB_SUPPORT */
 
 	/*  Remember the current rate */
 	CurrRateIdx = pEntry->CurrTxRateIndex;
@@ -1812,27 +1801,6 @@ VOID APMlmeDynamicTxRateSwitchingAdapt(struct rtmp_adapter *pAd, UINT i)
 		MlmeRALog(pAd, pEntry, RAL_NEW_DRS, TxErrorRatio, TxTotalCnt);
 #endif /* DBG_CTRL_SUPPORT */
 
-#ifdef MFB_SUPPORT
-	if (pEntry->fLastChangeAccordingMfb == TRUE)
-	{
-		RTMP_RA_LEGACY_TB *pNextTxRate;
-
-		/* with this method mfb result can be applied every 500msec, instead of immediately */
-		NdisAcquireSpinLock(&pEntry->fLastChangeAccordingMfbLock);
-		pEntry->fLastChangeAccordingMfb = FALSE;
-		pEntry->LastSecTxRateChangeAction = RATE_NO_CHANGE;
-		NdisReleaseSpinLock(&pEntry->fLastChangeAccordingMfbLock);
-		APMlmeSetTxRate(pAd, pEntry, pEntry->LegalMfbRS);
-		DBGPRINT(RT_DEBUG_INFO,("DRS: MCS is according to MFB, and ignore tuning this sec \n"));
-		MlmeClearAllTxQuality(pEntry); /* clear all history, same as train up, purpose??? */
-		/*  reset all OneSecTx counters */
-		RESET_ONE_SEC_TX_CNT(pEntry);
-
-		pEntry->CurrTxRateIndex = (pEntry->LegalMfbRS)->ItemNo;
-		pNextTxRate = (RTMP_RA_LEGACY_TB *) &pTable[(pEntry->CurrTxRateIndex+1)*10]; /* actually = pEntry->LegalMfbRS */
-		return;
-	}
-#endif	/* MFB_SUPPORT */
 
 
 	/* Handle low traffic case */
@@ -1998,18 +1966,6 @@ VOID StaQuickResponeForRateUpExecAdapt(
 	if (TxTotalCnt)
 		TxErrorRatio = ((TxRetransmit + TxFailCount) * 100) / TxTotalCnt;
 
-#ifdef MFB_SUPPORT
-	if (pEntry->fLastChangeAccordingMfb == TRUE)
-	{
-		pEntry->fLastChangeAccordingMfb = FALSE;
-		pEntry->LastSecTxRateChangeAction = RATE_NO_CHANGE;
-		DBGPRINT(RT_DEBUG_INFO | DBG_FUNC_RA,("DRS: MCS is according to MFB, and ignore tuning this sec \n"));
-
-		/* reset all OneSecTx counters */
-		RESET_ONE_SEC_TX_CNT(pEntry);
-		return;
-	}
-#endif	/* MFB_SUPPORT */
 
 	/* Remember the current rate */
 	CurrRateIdx = pEntry->CurrTxRateIndex;
@@ -2309,19 +2265,6 @@ VOID MlmeDynamicTxRateSwitchingAdapt(
 		MlmeRALog(pAd, pEntry, RAL_NEW_DRS, TxErrorRatio, TxTotalCnt);
 #endif /* DBG_CTRL_SUPPORT */
 
-#ifdef MFB_SUPPORT
-	if (pEntry->fLastChangeAccordingMfb == TRUE)
-	{
-		pEntry->fLastChangeAccordingMfb = FALSE;
-		pEntry->LastSecTxRateChangeAction = RATE_NO_CHANGE;
-		DBGPRINT_RAW(RT_DEBUG_TRACE,("DRS: MCS is according to MFB, and ignore tuning this sec \n"));
-
-		/* reset all OneSecTx counters */
-		RESET_ONE_SEC_TX_CNT(pEntry);
-
-		return;
-	}
-#endif	/* MFB_SUPPORT */
 
 
 	/*

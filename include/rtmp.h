@@ -2466,22 +2466,6 @@ typedef struct _MAC_TABLE_ENTRY {
 	RALINK_TIMER_STRUCT DelBA_tx_AdaptTimer;
 #endif /* PEER_DELBA_TX_ADAPT */
 
-#ifdef MFB_SUPPORT
-	UCHAR lastLegalMfb;	/* last legal mfb which is used to set rate */
-	BOOLEAN isMfbChanged;	/* purpose: true when mfb has changed but the new mfb is not adopted for Tx */
-	struct _RTMP_RA_LEGACY_TB *LegalMfbRS;
-	BOOLEAN fLastChangeAccordingMfb;
-	NDIS_SPIN_LOCK fLastChangeAccordingMfbLock;
-/* Tx MRQ */
-	BOOLEAN toTxMrq;
-	UCHAR msiToTx, mrqCnt;	/*mrqCnt is used to count down the inverted-BF mrq to be sent */
-/* Rx mfb */
-	UCHAR pendingMfsi;
-/* Tx MFB */
-	BOOLEAN toTxMfb;
-	UCHAR	mfbToTx;
-	UCHAR	mfb0, mfb1;
-#endif	/* MFB_SUPPORT */
 #ifdef TXBF_SUPPORT
 	UCHAR			TxSndgType;
 	NDIS_SPIN_LOCK	TxSndgLock;
@@ -7568,10 +7552,6 @@ VOID RTMPSetAGCInitValue(struct rtmp_adapter *pAd, UCHAR BandWidth);
 VOID handleHtcField(struct rtmp_adapter *pAd, RX_BLK *pRxBlk);
 #endif /* TXBF_SUPPORT */
 
-#ifdef MFB_SUPPORT
-VOID MFB_PerPareMRQ(struct rtmp_adapter *pAd, VOID* pBuf, MAC_TABLE_ENTRY *pEntry);
-VOID MFB_PerPareMFB(struct rtmp_adapter *pAd, VOID *pBuf, MAC_TABLE_ENTRY *pEntry);
-#endif /* MFB_SUPPORT */
 
 #define VIRTUAL_IF_INC(__pAd) ((__pAd)->VirtualIfCnt++)
 #define VIRTUAL_IF_DEC(__pAd) ((__pAd)->VirtualIfCnt--)

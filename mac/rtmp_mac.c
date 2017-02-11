@@ -323,11 +323,6 @@ VOID RTMPWriteTxWI_Data(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pTx
 	}
 	else
 	{
-#ifdef MFB_SUPPORT
-		if (pMacEntry && (pMacEntry->mrqCnt >0) && (pMacEntry->toTxMrq == TRUE))
-			eTxBf = ~(pTransmit->field.eTxBF);
-		else
-#endif	/* MFB_SUPPORT */
 			eTxBf = pTransmit->field.eTxBF;
 		iTxBf = pTransmit->field.iTxBF;
 	}
@@ -590,14 +585,6 @@ VOID RTMPWriteTxWI_Cache(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pT
 	}
 	else
 	{
-#ifdef MFB_SUPPORT
-		if (pMacEntry && pMacEntry->mrqCnt >0 && pMacEntry->toTxMrq == 1)
-		{
-			eTxBf = ~(pTransmit->field.eTxBF);
-			DBGPRINT_RAW(RT_DEBUG_TRACE,("ETxBF in AP_AMPDU_Frame_Tx(): invert eTxBF\n"));
-		}
-		else
-#endif	/* MFB_SUPPORT */
 			eTxBf = pTransmit->field.eTxBF;
 
 		iTxBf = pTransmit->field.iTxBF;

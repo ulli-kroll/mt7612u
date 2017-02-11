@@ -924,39 +924,6 @@ static inline u8 *AP_Build_AMSDU_Frame_Header(
 		}
 		NdisReleaseSpinLock(&pMacEntry->TxSndgLock);
 
-#ifdef MFB_SUPPORT
-#if defined(MRQ_FORCE_TX) /* have to replace this by the correct condition!!! */
-		pMacEntry->HTCapability.ExtHtCapInfo.MCSFeedback = MCSFBK_MRQ;
-#endif
-
-		/*
-			Ignore sounding frame because the signal format of sounding frmae may
-			be different from normal data frame, which may result in different MFB
-		*/
-		if ((pMacEntry->HTCapability.ExtHtCapInfo.MCSFeedback >=MCSFBK_MRQ) &&
-			(pTxBlk->TxSndgPkt == SNDG_TYPE_DISABLE))
-		{
-			if (bHTCPlus == FALSE)
-			{
-				bHTCPlus = TRUE;
-				memset(pHeaderBufPtr, 0, sizeof(HT_CONTROL));
-			}
-
-			MFB_PerPareMRQ(pAd, pHeaderBufPtr, pMacEntry);
-		}
-
-		if (pAd->CommonCfg.HtCapability.ExtHtCapInfo.MCSFeedback >=MCSFBK_MRQ && pMacEntry->toTxMfb == 1)
-		{
-			if (bHTCPlus == FALSE)
-			{
-				memset(pHeaderBufPtr, 0, sizeof(HT_CONTROL));
-				bHTCPlus = TRUE;
-			}
-
-			MFB_PerPareMFB(pAd, pHeaderBufPtr, pMacEntry); /* not complete yet!!! */
-			pMacEntry->toTxMfb = 0;
-		}
-#endif /* MFB_SUPPORT */
 
 		if (bHTCPlus == TRUE)
 		{
@@ -1186,39 +1153,6 @@ VOID AP_AMPDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 
 			NdisReleaseSpinLock(&pMacEntry->TxSndgLock);
 
-#ifdef MFB_SUPPORT
-#if defined(MRQ_FORCE_TX)
-			/* have to replace this by the correct condition!!! */
-			pMacEntry->HTCapability.ExtHtCapInfo.MCSFeedback = MCSFBK_MRQ;
-#endif
-
-			/*
-				Ignore sounding frame because the signal format of sounding frmae may
-				be different from normal data frame, which may result in different MFB
-			*/
-			if ((pMacEntry->HTCapability.ExtHtCapInfo.MCSFeedback >=MCSFBK_MRQ) &&
-				(pTxBlk->TxSndgPkt == SNDG_TYPE_DISABLE))
-			{
-				if (bHTCPlus == FALSE)
-				{
-				memset(pHeaderBufPtr, 0, sizeof(HT_CONTROL));
-					bHTCPlus = TRUE;
-				}
-				MFB_PerPareMRQ(pAd, pHeaderBufPtr, pMacEntry);
-			}
-
-			if (pAd->CommonCfg.HtCapability.ExtHtCapInfo.MCSFeedback >=MCSFBK_MRQ &&
-				pMacEntry->toTxMfb == 1)
-			{
-				if (bHTCPlus == FALSE)
-				{
-				memset(pHeaderBufPtr, 0, sizeof(HT_CONTROL));
-					bHTCPlus = TRUE;
-				}
-				MFB_PerPareMFB(pAd, pHeaderBufPtr, pMacEntry);/* not complete yet!!! */
-				pMacEntry->toTxMfb = 0;
-			}
-#endif /* MFB_SUPPORT */
 		}
 #endif /* TXBF_SUPPORT */
 
@@ -1958,40 +1892,6 @@ VOID AP_Legacy_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 			}
 			NdisReleaseSpinLock(&pMacEntry->TxSndgLock);
 
-#ifdef MFB_SUPPORT
-#if defined(MRQ_FORCE_TX)
-			/* have to replace this by the correct condition!!! */
-			pMacEntry->HTCapability.ExtHtCapInfo.MCSFeedback = MCSFBK_MRQ;
-#endif
-
-			/*
-				Ignore sounding frame because the signal format of sounding frmae may
-				be different from normal data frame, which may result in different MFB
-			*/
-			if ((pMacEntry->HTCapability.ExtHtCapInfo.MCSFeedback >=MCSFBK_MRQ) &&
-				(pTxBlk->TxSndgPkt == SNDG_TYPE_DISABLE))
-			{
-				if (bHTCPlus == FALSE)
-				{
-					memset(pHeaderBufPtr, 0, sizeof(HT_CONTROL));
-					bHTCPlus = TRUE;
-				}
-				MFB_PerPareMRQ(pAd, pHeaderBufPtr, pMacEntry);
-			}
-
-			if (pAd->CommonCfg.HtCapability.ExtHtCapInfo.MCSFeedback >=MCSFBK_MRQ &&
-				pMacEntry->toTxMfb == 1)
-			{
-				if (bHTCPlus == FALSE)
-				{
-					memset(pHeaderBufPtr, 0, sizeof(HT_CONTROL));
-					bHTCPlus = TRUE;
-				}
-
-				MFB_PerPareMFB(pAd, pHeaderBufPtr, pMacEntry);/*  not complete yet!!!*/
-				pMacEntry->toTxMfb = 0;
-			}
-#endif /* MFB_SUPPORT */
 
 			if (bHTCPlus == TRUE)
 			{
