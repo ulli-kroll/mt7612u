@@ -135,7 +135,6 @@ extern UCHAR RateSwitchTableAdapt11N3S[];
 #define PER_THRD_ADJ			1
 
 /* ADAPT_RATE_TABLE - true if pTable is one of the Adaptive Rate Switch tables */
-#ifdef DOT11_VHT_AC
 extern UCHAR RateTableVht1S[];
 extern UCHAR RateTableVht1S_MCS9[];
 extern UCHAR RateTableVht2S[];
@@ -164,7 +163,6 @@ extern UCHAR RateTableVht2S_2G_BW40[];
 #define ADAPT_RATE_TABLE(pTable)	((pTable)==RateSwitchTableAdapt11N1S || \
 									(pTable)==RateSwitchTableAdapt11N2S || \
 									(pTable)==RateSwitchTableAdapt11N3S)
-#endif /* DOT11_VHT_AC */
 #endif /* NEW_RATE_ADAPT_SUPPORT */
 
 
@@ -217,10 +215,8 @@ VOID RTMPSetSupportMCS(
 	IN UCHAR SupRateLen,
 	IN UCHAR ExtRate[],
 	IN UCHAR ExtRateLen,
-#ifdef DOT11_VHT_AC
 	IN UCHAR vht_cap_len,
 	IN VHT_CAP_IE *vht_cap,
-#endif /* DOT11_VHT_AC */
 	IN HT_CAPABILITY_IE *pHtCapability,
 	IN UCHAR HtCapabilityLen);
 

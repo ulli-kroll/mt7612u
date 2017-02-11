@@ -315,7 +315,6 @@ VOID MlmeAssocReqAction(
 			}
 			FrameLen += TmpLen;
 
-#ifdef DOT11_VHT_AC
 			if (WMODE_CAP_AC(pAd->CommonCfg.PhyMode) &&
 				(pAd->MlmeAux.Channel > 14) &&
 				(pAd->MlmeAux.vht_cap_len)
@@ -336,7 +335,6 @@ VOID MlmeAssocReqAction(
 #endif /* VHT_TXBF_SUPPORT */
 				FrameLen += build_vht_ies(pAd, (UCHAR *)(pOutBuffer + FrameLen), SUBTYPE_ASSOC_REQ);
 			}
-#endif /* DOT11_VHT_AC */
 		}
 
 		{
@@ -355,11 +353,9 @@ VOID MlmeAssocReqAction(
 			}
 
 
-#ifdef DOT11_VHT_AC
 			if (WMODE_CAP_AC(pAd->CommonCfg.PhyMode) &&
 				(pAd->CommonCfg.Channel > 14))
 				extCapInfo.operating_mode_notification = 1;
-#endif /* DOT11_VHT_AC */
 
 
 			MakeOutgoingFrame(pOutBuffer + FrameLen, &TmpLen,
@@ -719,7 +715,6 @@ VOID MlmeReassocReqAction(
 			}
 			FrameLen += TmpLen;
 
-#ifdef DOT11_VHT_AC
 			if (WMODE_CAP_AC(pAd->CommonCfg.PhyMode) &&
 				(pAd->MlmeAux.Channel > 14) &&
 				(pAd->MlmeAux.vht_cap_len)
@@ -740,7 +735,6 @@ VOID MlmeReassocReqAction(
 #endif /* VHT_TXBF_SUPPORT */
 				FrameLen += build_vht_ies(pAd, (UCHAR *)(pOutBuffer + FrameLen), SUBTYPE_ASSOC_REQ);
 			}
-#endif /* DOT11_VHT_AC */
 		}
 		} // end of pAd->MlmeAux.APEdcaParm.bValid
 
@@ -1000,10 +994,8 @@ VOID PeerAssocRspAction(
 								SupRateLen,
 								ExtRate,
 								ExtRateLen,
-#ifdef DOT11_VHT_AC
 								ie_list->vht_cap_len,
 								&ie_list->vht_cap,
-#endif /* DOT11_VHT_AC */
 								&HtCapability,
 								HtCapabilityLen);
 
@@ -1145,10 +1137,8 @@ VOID PeerReassocRspAction(
 								SupRateLen,
 								ExtRate,
 								ExtRateLen,
-#ifdef DOT11_VHT_AC
 								ie_list->vht_cap_len,
 								&ie_list->vht_cap,
-#endif /* DOT11_VHT_AC */
 								&HtCapability,
 								HtCapabilityLen);
 
@@ -1279,11 +1269,9 @@ VOID AssocPostProc(
 		 ("%s():=>(Mmps=%d, AmsduSize=%d, )\n",
 		 	__FUNCTION__, pEntry->MmpsMode, pEntry->AMsduSize));
 
-#ifdef DOT11_VHT_AC
 	if (ie_list->vht_cap_len > 0 && ie_list->vht_op_len > 0) {
 		RTMPCheckVht(pAd, BSSID_WCID, &ie_list->vht_cap, &ie_list->vht_op);
 	}
-#endif /* DOT11_VHT_AC */
 
 	/* Set New WPA information */
 	Idx = BssTableSearch(&pAd->ScanTab, pAddr2, pAd->MlmeAux.Channel);

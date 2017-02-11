@@ -302,7 +302,6 @@ BOOLEAN PeerAssocReqCmmSanity(
 
 
 
-#ifdef DOT11_VHT_AC
 		case IE_VHT_CAP:
 			if (eid_ptr->Len == sizeof(VHT_CAP_IE))
 			{
@@ -331,7 +330,6 @@ BOOLEAN PeerAssocReqCmmSanity(
 				DBGPRINT(RT_DEBUG_TRACE, ("%s():IE_OPERATING_MODE_NOTIFY!\n", __FUNCTION__));
 			}
 			break;
-#endif /* DOT11_VHT_AC */
 
             default:
                 break;

@@ -265,12 +265,10 @@ static inline UCHAR SelectClearChannelRandom(
 				!(pAd->ChannelList[i].Flags & CHANNEL_40M_CAP))
 				continue;
 
-#ifdef DOT11_VHT_AC
 			/* Check VHT-group of BW80 */
 			if (pAd->CommonCfg.vht_bw == VHT_BW_80 &&
 				!(pAd->ChannelList[i].Flags & CHANNEL_80M_CAP))
 				continue;
-#endif /* DOT11_VHT_AC */
 
 			/* Store available channel to temp list */
 			TempChList[cnt++] = pAd->ChannelList[i].Channel;
@@ -474,14 +472,12 @@ static inline UCHAR SelectClearChannelCCA(
 				&& (pChannelInfo->IsABand && (GetABandChOffset(ch) == 0))) {
 				continue;
 			}
-#ifdef DOT11_VHT_AC
 			else if (pAd->CommonCfg.vht_bw == VHT_BW_80) {
 				if (!AC_ChannelGroupCheck(pAd, ch)) {
 					/* not in the BW_80 channel group */
 					continue;
 				}
 			}
-#endif /* DOT11_VHT_AC */
 
 			/*
 				Need to Consider the dirtyness of extending channel
@@ -500,7 +496,6 @@ static inline UCHAR SelectClearChannelCCA(
 						dirtyness += pChannelInfo->dirtyness[ChOffsetIdx];
 					}
 				}
-#ifdef DOT11_VHT_AC
 				else if (pAd->CommonCfg.vht_bw == VHT_BW_80) {
 					/* the same dirtyness with neighbor */
 					INT	vht_ch_idx = get_vht_neighbor_index(ch);
@@ -510,7 +505,6 @@ static inline UCHAR SelectClearChannelCCA(
 						pChannelInfo->dirtyness[vht_ch_idx+(channel_idx+2)] +
 						pChannelInfo->dirtyness[vht_ch_idx+(channel_idx+3)];
 				}
-#endif /* DOT11_VHT_AC */
 			}
 			else
 			{ /* 2.4G Hz */
@@ -590,14 +584,12 @@ static inline UCHAR SelectClearChannelCCA(
 				&& (pChannelInfo->IsABand && (GetABandChOffset(ch) == 0))) {
 				continue;
 			}
-#ifdef DOT11_VHT_AC
 			else if (pAd->CommonCfg.vht_bw == VHT_BW_80) {
 				if (!AC_ChannelGroupCheck(pAd, ch)) {
 					/* not in the BW_80 channel group */
 					continue;
 				}
 			}
-#endif /* DOT11_VHT_AC */
 
 			if ((pAd->CommonCfg.RegTransmitSetting.field.BW == BW_40) &&
 				(pAd->CommonCfg.vht_bw == VHT_BW_2040))
@@ -611,7 +603,6 @@ static inline UCHAR SelectClearChannelCCA(
 							pChannelInfo->dirtyness[ChOffsetIdx]);
 				}
 			}
-#ifdef DOT11_VHT_AC
 			else if (pAd->CommonCfg.vht_bw == VHT_BW_80) {
 				/* the same falsecca with neighbor */
 				INT	vht_ch_idx = get_vht_neighbor_index(ch);
@@ -625,7 +616,6 @@ static inline UCHAR SelectClearChannelCCA(
 					(pChannelInfo->dirtyness[vht_ch_idx+(channel_idx+3)] +
 					pChannelInfo->FalseCCA[vht_ch_idx+(channel_idx+3)]);
 			}
-#endif /* DOT11_VHT_AC */
 
 #ifdef AP_QLOAD_SUPPORT
 			/* QLOAD ALARM */
@@ -747,7 +737,6 @@ static inline UCHAR SelectClearChannelApCnt(
 						}
 					}
 				}
-#ifdef DOT11_VHT_AC
 				else if(pAd->CommonCfg.vht_bw == VHT_BW_80) {
 					INT	vht_ch_idx = get_vht_neighbor_index(pAd->ChannelList[channel_index].Channel);
 					pChannelInfo->dirtyness[vht_ch_idx+channel_index]++;
@@ -755,7 +744,6 @@ static inline UCHAR SelectClearChannelApCnt(
 					pChannelInfo->dirtyness[vht_ch_idx+(channel_index+2)]++;
 					pChannelInfo->dirtyness[vht_ch_idx+(channel_index+3)]++;
 				}
-#endif /* DOT11_VHT_AC */
 			}
 			/*2.4G */
 			if (!pChannelInfo->IsABand)
@@ -855,7 +843,6 @@ static inline UCHAR SelectClearChannelApCnt(
 				continue;
 			}
 		}
-#ifdef DOT11_VHT_AC
 		else if (pAd->CommonCfg.vht_bw == VHT_BW_80) {
 			if (!AC_ChannelGroupCheck(pAd, pAd->ChannelList[channel_index].Channel)) {
 				printk ("channel_%d is not in BW_80 channel group\n",
@@ -863,7 +850,6 @@ static inline UCHAR SelectClearChannelApCnt(
 				continue;
 			}
 		}
-#endif /* DOT11_VHT_AC */
 
 		if (pChannelInfo->dirtyness[channel_index] == 0)
 			break;
@@ -921,14 +907,12 @@ static inline UCHAR SelectClearChannelApCnt(
 						&& (BW40_ChannelCheck(pAd->ChannelList[channel_index].Channel) == FALSE)) {
 						continue;
 					}
-#ifdef DOT11_VHT_AC
 					else if (pAd->CommonCfg.vht_bw == VHT_BW_80) {
 						if (!AC_ChannelGroupCheck(pAd, pAd->ChannelList[channel_index].Channel)) {
 							/* not in the BW_80 channel group */
 							continue;
 						}
 					}
-#endif /* DOT11_VHT_AC */
 
 					if ((pAd->ApCfg.bAvoidDfsChannel == TRUE)
 							&&(pChannelInfo->IsABand == TRUE)
@@ -965,14 +949,12 @@ static inline UCHAR SelectClearChannelApCnt(
 				continue;
 			}
 		}
-#ifdef DOT11_VHT_AC
 		else if (pAd->CommonCfg.vht_bw == VHT_BW_80) {
 			if (!AC_ChannelGroupCheck(pAd, pAd->ChannelList[channel_index].Channel)) {
 				/* not in the BW_80 channel group */
 				continue;
 			}
 		}
-#endif /* DOT11_VHT_AC */
 
 		if ((pAd->ApCfg.bAvoidDfsChannel == TRUE)
 			&&(pChannelInfo->IsABand == TRUE)

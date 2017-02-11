@@ -1342,9 +1342,7 @@ VOID RTMPSetPhyMode(struct rtmp_adapter *pAd, ULONG phymode)
 		case (WMODE_A | WMODE_B | WMODE_G):
 		case (WMODE_A | WMODE_B | WMODE_G | WMODE_GN | WMODE_AN):
 		case (WMODE_B | WMODE_G | WMODE_GN):
-#ifdef DOT11_VHT_AC
 		case  (WMODE_B | WMODE_G | WMODE_GN |WMODE_A | WMODE_AN | WMODE_AC):
-#endif /* DOT11_VHT_AC */
 			pAd->CommonCfg.SupRate[0]  = 0x82;	  /* 1 mbps, in units of 0.5 Mbps, basic rate*/
 			pAd->CommonCfg.SupRate[1]  = 0x84;	  /* 2 mbps, in units of 0.5 Mbps, basic rate*/
 			pAd->CommonCfg.SupRate[2]  = 0x8B;	  /* 5.5 mbps, in units of 0.5 Mbps, basic rate*/
@@ -1380,11 +1378,9 @@ VOID RTMPSetPhyMode(struct rtmp_adapter *pAd, ULONG phymode)
 		case (WMODE_G | WMODE_GN):
 		case (WMODE_GN):
 		case (WMODE_AN):
-#ifdef DOT11_VHT_AC
 		case (WMODE_A | WMODE_AN | WMODE_AC):
 		case (WMODE_AN | WMODE_AC):
 		case (WMODE_G | WMODE_GN |WMODE_A | WMODE_AN | WMODE_AC):
-#endif /* DOT11_VHT_AC */
 			pAd->CommonCfg.SupRate[0]  = 0x8C;	  /* 6 mbps, in units of 0.5 Mbps, basic rate*/
 			pAd->CommonCfg.SupRate[1]  = 0x12;	  /* 9 mbps, in units of 0.5 Mbps*/
 			pAd->CommonCfg.SupRate[2]  = 0x98;	  /* 12 mbps, in units of 0.5 Mbps, basic rate*/
@@ -1463,9 +1459,7 @@ VOID RTMPSetPhyMode(struct rtmp_adapter *pAd, ULONG phymode)
 
 	SetCommonHT(pAd);
 
-#ifdef DOT11_VHT_AC
 	SetCommonVHT(pAd);
-#endif /* DOT11_VHT_AC */
 }
 
 
@@ -2350,13 +2344,10 @@ INT	Set_HtMcs_Proc(struct rtmp_adapter *pAd, char *arg)
 	BOOLEAN bAutoRate = FALSE;
 #endif /* CONFIG_STA_SUPPORT */
 	UCHAR HtMcs = MCS_AUTO, Mcs_tmp, ValidMcs = 15;
-#ifdef DOT11_VHT_AC
 	char *mcs_str, *ss_str;
 	UCHAR ss = 0, mcs = 0;
-#endif /* DOT11_VHT_AC */
 	struct rtmp_wifi_dev *wdev;
 
-#ifdef DOT11_VHT_AC
 	ss_str = arg;
 	if ((mcs_str = rtstrchr(arg, ':'))!= NULL)
 	{
@@ -2383,7 +2374,6 @@ INT	Set_HtMcs_Proc(struct rtmp_adapter *pAd, char *arg)
 		}
 	}
 	else
-#endif /* DOT11_VHT_AC */
 	{
 #ifdef DOT11N_SS3_SUPPORT
 		if (pAd->CommonCfg.TxStream >= 3)
@@ -3087,7 +3077,6 @@ INT Set_HT_BssCoexApCntThr_Proc(
 
 
 
-#ifdef DOT11_VHT_AC
 INT	Set_VhtBw_Proc(
 	IN struct rtmp_adapter *pAd,
 	IN char *arg)
@@ -3191,7 +3180,6 @@ INT	Set_VhtDisallowNonVHT_Proc(
 
 	return TRUE;
 }
-#endif /* DOT11_VHT_AC */
 
 
 
@@ -4548,11 +4536,9 @@ INT Show_MacTable_Proc(struct rtmp_adapter *pAd, char *arg)
 
 			printk("%-10s", get_phymode_str(pEntry->HTPhyMode.field.MODE));
 			printk("%-6s", get_bw_str(pEntry->HTPhyMode.field.BW));
-#ifdef DOT11_VHT_AC
 			if (pEntry->HTPhyMode.field.MODE == MODE_VHT)
 				printk("%dS-M%-2d", ((pEntry->HTPhyMode.field.MCS>>4) + 1), (pEntry->HTPhyMode.field.MCS & 0xf));
 			else
-#endif /* DOT11_VHT_AC */
 			printk("%-6d", pEntry->HTPhyMode.field.MCS);
 			printk("%-6d", pEntry->HTPhyMode.field.ShortGI);
 			printk("%-6d", pEntry->HTPhyMode.field.STBC);
@@ -4566,11 +4552,9 @@ INT Show_MacTable_Proc(struct rtmp_adapter *pAd, char *arg)
 //+++Add by shiang for debug
 			printk(" MaxCap:%-10s", get_phymode_str(pEntry->MaxHTPhyMode.field.MODE));
 			printk("%-6s", get_bw_str(pEntry->MaxHTPhyMode.field.BW));
-#ifdef DOT11_VHT_AC
 			if (pEntry->MaxHTPhyMode.field.MODE == MODE_VHT)
 				printk("%dS-M%d", ((pEntry->MaxHTPhyMode.field.MCS>>4) + 1), (pEntry->MaxHTPhyMode.field.MCS & 0xf));
 			else
-#endif /* DOT11_VHT_AC */
 			printk("%-6d", pEntry->MaxHTPhyMode.field.MCS);
 			printk("%-6d", pEntry->MaxHTPhyMode.field.ShortGI);
 			printk("%-6d\n", pEntry->MaxHTPhyMode.field.STBC);
@@ -4628,11 +4612,9 @@ INT show_stainfo_proc(struct rtmp_adapter *pAd, char *arg)
 	printk("\tPhyMode:%-10s\n", get_phymode_str(pEntry->MaxHTPhyMode.field.MODE));
 	printk("\tBW:%-6s\n", get_bw_str(pEntry->MaxHTPhyMode.field.BW));
 	printk("\tDataRate: \n");
-#ifdef DOT11_VHT_AC
 	if (pEntry->MaxHTPhyMode.field.MODE == MODE_VHT)
 		printk("%dS-M%d", ((pEntry->MaxHTPhyMode.field.MCS>>4) + 1), (pEntry->MaxHTPhyMode.field.MCS & 0xf));
 	else
-#endif /* DOT11_VHT_AC */
 	printk(" %-6d", pEntry->MaxHTPhyMode.field.MCS);
 	printk(" %-6d", pEntry->MaxHTPhyMode.field.ShortGI);
 	printk(" %-6d\n", pEntry->MaxHTPhyMode.field.STBC);
@@ -4660,11 +4642,9 @@ INT show_stainfo_proc(struct rtmp_adapter *pAd, char *arg)
 	printk("%-7d", pEntry->RssiSample.AvgRssi2);
 	printk("%-10s", get_phymode_str(pEntry->HTPhyMode.field.MODE));
 	printk("%-6s", get_bw_str(pEntry->HTPhyMode.field.BW));
-#ifdef DOT11_VHT_AC
 	if (pEntry->HTPhyMode.field.MODE == MODE_VHT)
 		printk("%dS-M%d", ((pEntry->HTPhyMode.field.MCS>>4) + 1), (pEntry->HTPhyMode.field.MCS & 0xf));
 	else
-#endif /* DOT11_VHT_AC */
 		printk("%-6d", pEntry->HTPhyMode.field.MCS);
 	printk("%-6d", pEntry->HTPhyMode.field.ShortGI);
 	printk("%-6d", pEntry->HTPhyMode.field.STBC);
@@ -4701,23 +4681,19 @@ INT show_devinfo_proc(struct rtmp_adapter *pAd, char *arg)
 
 	DBGPRINT(RT_DEBUG_OFF, ("Channel: %d\n", pAd->CommonCfg.Channel));
 	DBGPRINT(RT_DEBUG_OFF, ("\tCentralChannel: %d\n", pAd->CommonCfg.CentralChannel));
-#ifdef DOT11_VHT_AC
 	if (WMODE_CAP_AC(pAd->CommonCfg.PhyMode))
 		DBGPRINT(RT_DEBUG_OFF, ("\tVHT CentralChannel: %d\n", pAd->CommonCfg.vht_cent_ch));
-#endif /* DOT11_VHT_AC */
 	DBGPRINT(RT_DEBUG_OFF, ("\tRF Channel: %d\n", pAd->LatchRfRegs.Channel));
 
 	DBGPRINT(RT_DEBUG_OFF, ("Bandwidth\n"));
 	pstr = (pAd->CommonCfg.RegTransmitSetting.field.BW) ? "20/40" : "20";
 	DBGPRINT(RT_DEBUG_OFF, ("\tHT-BW: %s\n", pstr));
-#ifdef DOT11_VHT_AC
 	if (WMODE_CAP_AC(pAd->CommonCfg.PhyMode))
 	{
 		if (pAd->CommonCfg.vht_bw)
 			pstr = "80";
 		DBGPRINT(RT_DEBUG_OFF, ("\tVHT-BW: %s\n", pstr));
 	}
-#endif /* DOT11_VHT_AC */
 
 #ifdef RT65xx
 	if (IS_RT65XX(pAd))
@@ -6284,7 +6260,6 @@ INT	Set_BurstMode_Proc(
 }
 
 
-#ifdef DOT11_VHT_AC
 VOID assoc_vht_info_debugshow(
 	IN struct rtmp_adapter *pAd,
 	IN MAC_TABLE_ENTRY *pEntry,
@@ -6345,7 +6320,6 @@ VOID assoc_vht_info_debugshow(
 	DBGPRINT(RT_DEBUG_TRACE, ("\n"));
 
 }
-#endif /* DOT11_VHT_AC */
 
 
 INT Set_RateAdaptInterval(
@@ -6923,9 +6897,7 @@ INT Show_Diag_Proc(struct rtmp_adapter *pAd, char *arg)
 	UCHAR i, start, stop, McsIdx, SwQNumLevel, TxDescNumLevel;
 	unsigned long irqFlags;
 	UCHAR McsMaxIdx = MAX_MCS_SET;
-#ifdef DOT11_VHT_AC
 	UCHAR vht_mcs_max_idx = MAX_VHT_MCS_SET;
-#endif /* DOT11_VHT_AC */
 
 	pDiag = kmalloc(sizeof(RtmpDiagStruct), GFP_ATOMIC);
 	if (!pDiag) {
@@ -7028,7 +7000,6 @@ INT Show_Diag_Proc(struct rtmp_adapter *pAd, char *arg)
 		printk("\n");
 		}
 
-#ifdef DOT11_VHT_AC
 	printk("\n    %-12s\n", "TxMcsCnt_VHT");
 	for (McsIdx =0 ; McsIdx < vht_mcs_max_idx; McsIdx++)
 		{
@@ -7037,7 +7008,6 @@ INT Show_Diag_Proc(struct rtmp_adapter *pAd, char *arg)
 			printk("%-7d", pDiag->diag_info[i].TxMcsCnt_VHT[McsIdx]);
 		printk("\n");
 	}
-#endif /* DOT11_VHT_AC */
 #endif /* DBG_TX_MCS */
 
 
@@ -7066,7 +7036,6 @@ INT Show_Diag_Proc(struct rtmp_adapter *pAd, char *arg)
 		printk("\n");
 	}
 
-#ifdef DOT11_VHT_AC
 	printk("\n    %-12s\n", "RxMcsCnt_VHT");
 	for (McsIdx =0 ; McsIdx < vht_mcs_max_idx; McsIdx++)
 	{
@@ -7077,7 +7046,6 @@ INT Show_Diag_Proc(struct rtmp_adapter *pAd, char *arg)
 		}
 		printk("\n");
 	}
-#endif /* DOT11_VHT_AC */
 
 #endif /* DBG_RX_MCS */
 

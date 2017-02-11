@@ -193,11 +193,9 @@ UCHAR get_channel_by_reference(
 					if (pAd->CommonCfg.RegTransmitSetting.field.BW == BW_40 &&
 						!(pAd->ChannelList[ch_idx].Flags & CHANNEL_40M_CAP))
 						continue;
-#ifdef DOT11_VHT_AC
 					if (pAd->CommonCfg.vht_bw == VHT_BW_80 &&
 						!(pAd->ChannelList[ch_idx].Flags & CHANNEL_80M_CAP))
 						continue;
-#endif /* DOT11_VHT_AC */
 
 					min_time = pAd->ChannelList[ch_idx].RemainingTimeForUse;
 					ch = pAd->ChannelList[ch_idx].Channel;

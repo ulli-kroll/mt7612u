@@ -67,9 +67,7 @@ VOID ActionStateMachineInit(
 
 	StateMachineSetAction(S, ACT_IDLE, MT2_PEER_BA_CATE, (STATE_MACHINE_FUNC)PeerBAAction);
 	StateMachineSetAction(S, ACT_IDLE, MT2_PEER_HT_CATE, (STATE_MACHINE_FUNC)PeerHTAction);
-#ifdef DOT11_VHT_AC
 	StateMachineSetAction(S, ACT_IDLE, MT2_PEER_VHT_CATE, (STATE_MACHINE_FUNC)PeerVHTAction);
-#endif /* DOT11_VHT_AC */
 	StateMachineSetAction(S, ACT_IDLE, MT2_MLME_ADD_BA_CATE, (STATE_MACHINE_FUNC)MlmeADDBAAction);
 	StateMachineSetAction(S, ACT_IDLE, MT2_MLME_ORI_DELBA_CATE, (STATE_MACHINE_FUNC)MlmeDELBAAction);
 	StateMachineSetAction(S, ACT_IDLE, MT2_MLME_REC_DELBA_CATE, (STATE_MACHINE_FUNC)MlmeDELBAAction);
@@ -1089,7 +1087,6 @@ VOID PeerHTAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 }
 
 
-#ifdef DOT11_VHT_AC
 VOID PeerVHTAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 	UCHAR Action = Elem->Msg[LENGTH_802_11+1];
@@ -1127,7 +1124,6 @@ VOID PeerVHTAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 			break;
 	}
 }
-#endif /* DOT11_VHT_AC */
 
 
 /*

@@ -264,7 +264,6 @@ BOOLEAN ApCliCheckHt(
 	return TRUE;
 }
 
-#ifdef DOT11_VHT_AC
 BOOLEAN ApCliCheckVht(
 	IN struct rtmp_adapter *pAd,
 	IN UCHAR Wcid,
@@ -309,7 +308,6 @@ BOOLEAN ApCliCheckVht(
 
 	return TRUE;
 }
-#endif /* DOT11_VHT_AC */
 
 VOID ComposeP2PPsPoll(
 	IN struct rtmp_adapter *pAd,
@@ -636,13 +634,11 @@ BOOLEAN ApCliLinkUp(struct rtmp_adapter *pAd, UCHAR ifIndex)
 			}
 
 
-#ifdef DOT11_VHT_AC
 			if (WMODE_CAP_AC(pAd->CommonCfg.PhyMode) && pApCliEntry->MlmeAux.vht_cap_len &&  pApCliEntry->MlmeAux.vht_op_len)
 			{
 			vht_mode_adjust(pAd, pMacEntry, &(pApCliEntry->MlmeAux.vht_cap), &(pApCliEntry->MlmeAux.vht_op));
 				ApCliCheckVht(pAd,pMacEntry->Aid, pMacEntry,&(pApCliEntry->MlmeAux.vht_cap), &(pApCliEntry->MlmeAux.vht_op));
 			}
-#endif /* DOT11_VHT_AC */
 
 			pMacEntry->HTPhyMode.word = pMacEntry->MaxHTPhyMode.word;
 			pMacEntry->CurrTxRate = pMacEntry->MaxSupportedRate;
@@ -654,10 +650,8 @@ BOOLEAN ApCliLinkUp(struct rtmp_adapter *pAd, UCHAR ifIndex)
 							pApCliEntry->MlmeAux.SupRateLen,
 							pApCliEntry->MlmeAux.ExtRate,
 							pApCliEntry->MlmeAux.ExtRateLen,
-#ifdef DOT11_VHT_AC
 							pApCliEntry->MlmeAux.vht_cap_len,
 							&pApCliEntry->MlmeAux.vht_cap,
-#endif /* DOT11_VHT_AC */
 							&pApCliEntry->MlmeAux.HtCapability,
 							pApCliEntry->MlmeAux.HtCapabilityLen);
 
@@ -772,10 +766,8 @@ BOOLEAN ApCliLinkUp(struct rtmp_adapter *pAd, UCHAR ifIndex)
 					pApCliEntry->MlmeAux.SupRateLen,
 					pApCliEntry->MlmeAux.ExtRate,
 					pApCliEntry->MlmeAux.ExtRateLen,
-#ifdef DOT11_VHT_AC
 					pApCliEntry->MlmeAux.vht_cap_len,
 					&pApCliEntry->MlmeAux.vht_cap,
-#endif /* DOT11_VHT_AC */
 					&pApCliEntry->MlmeAux.HtCapability,
 					pApCliEntry->MlmeAux.HtCapabilityLen);
 
@@ -1306,7 +1298,6 @@ BOOLEAN ApCliPeerAssocRspSanity(
 					DBGPRINT(RT_DEBUG_WARN, ("%s():wrong IE_SECONDARY_CH_OFFSET\n", __FUNCTION__));
 				}
 				break;
-#ifdef DOT11_VHT_AC
 			case IE_VHT_CAP:
 				if (pEid->Len == sizeof(VHT_CAP_IE)) {
 					memmove(&ie_list->vht_cap, pEid->Octet, sizeof(VHT_CAP_IE));
@@ -1323,7 +1314,6 @@ BOOLEAN ApCliPeerAssocRspSanity(
 					DBGPRINT(RT_DEBUG_WARN, ("%s():wrong IE_VHT_OP\n", __FUNCTION__));
 				}
 				break;
-#endif /* DOT11_VHT_AC */
 			/* CCX2, WMM use the same IE value */
 			/* case IE_CCX_V2: */
 			case IE_VENDOR_SPECIFIC:
@@ -2218,9 +2208,7 @@ VOID ApCliUpdateMlmeRate(struct rtmp_adapter *pAd, USHORT ifIndex)
 		case (WMODE_B | WMODE_G):
 		case (WMODE_A |WMODE_B | WMODE_G | WMODE_GN | WMODE_AN):
 		case (WMODE_B | WMODE_G | WMODE_GN):
-#ifdef DOT11_VHT_AC
 		case (WMODE_A |WMODE_B | WMODE_G | WMODE_GN | WMODE_AN | WMODE_AC):
-#endif /* DOT11_VHT_AC */
 			if ((pApCliEntry->MlmeAux.SupRateLen == 4) &&
 				(pApCliEntry->MlmeAux.ExtRateLen == 0))
 				ProperMlmeRate = RATE_11; /* B only AP */
@@ -2238,11 +2226,9 @@ VOID ApCliUpdateMlmeRate(struct rtmp_adapter *pAd, USHORT ifIndex)
 		case (WMODE_A | WMODE_G | WMODE_AN | WMODE_GN):
 		case (WMODE_A | WMODE_AN):
 		case (WMODE_AN):
-#ifdef DOT11_VHT_AC
 		case (WMODE_AC):
 		case (WMODE_AN | WMODE_AC):
 		case (WMODE_A | WMODE_AN | WMODE_AC):
-#endif /* DOT11_VHT_AC */
 			ProperMlmeRate = RATE_24;
 			MinimumRate = RATE_6;
 			break;

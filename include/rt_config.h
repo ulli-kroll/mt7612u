@@ -127,9 +127,7 @@
 
 
 
-#ifdef DOT11_VHT_AC
 #include "vht.h"
-#endif /* DOT11_VHT_AC */
 #ifdef CONFIG_STA_SUPPORT
 #include "sta_cfg.h"
 #endif /* CONFIG_STA_SUPPORT */

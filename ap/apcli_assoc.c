@@ -294,14 +294,12 @@ static VOID ApCliMlmeAssocReqAction(
         							END_OF_ARGS);
 			FrameLen += TmpLen;
 
-#ifdef DOT11_VHT_AC
 			if (WMODE_CAP_AC(pAd->CommonCfg.PhyMode) &&
 				(pAd->CommonCfg.Channel > 14) &&
 				(apcli_entry->MlmeAux.vht_cap_len))
 			{
 				FrameLen += build_vht_ies(pAd, (UCHAR *)(pOutBuffer + FrameLen), SUBTYPE_ASSOC_REQ);
 			}
-#endif /* DOT11_VHT_AC */
 		}
 
 		{
@@ -323,11 +321,9 @@ static VOID ApCliMlmeAssocReqAction(
 				DBGPRINT(RT_DEBUG_TRACE, ("%s: BssCoexistMgmtSupport = 1\n", __FUNCTION__));
 			}
 #endif /* APCLI_CERT_SUPPORT */
-#ifdef DOT11_VHT_AC
 			if (WMODE_CAP_AC(pAd->CommonCfg.PhyMode) &&
 				(pAd->CommonCfg.Channel > 14))
 				extCapInfo.operating_mode_notification = 1;
-#endif /* DOT11_VHT_AC */
 
 			MakeOutgoingFrame(pOutBuffer + FrameLen, &TmpLen,
 					  1, &ExtCapIe,
@@ -677,7 +673,6 @@ static VOID ApCliPeerAssocRspAction(
 						ExtRate, ExtRateLen, &EdcaParm, &HtCapability, HtCapabilityLen, &AddHtInfo);
                     pAd->ApCfg.ApCliTab[0].MlmeAux.Aid = Aid;
 
-#ifdef DOT11_VHT_AC
 					RTMPZeroMemory(&pApCliEntry->MlmeAux.vht_cap, sizeof(VHT_CAP_IE));
 					RTMPZeroMemory(&pApCliEntry->MlmeAux.vht_op, sizeof(VHT_OP_IE));
 					pApCliEntry->MlmeAux.vht_cap_len = 0;
@@ -690,7 +685,6 @@ static VOID ApCliPeerAssocRspAction(
 						memmove(&pApCliEntry->MlmeAux.vht_op, &(ie_list->vht_op), ie_list->vht_op_len);
 						pApCliEntry->MlmeAux.vht_op_len = ie_list->vht_op_len;
 					}
-#endif /* DOT11_VHT_AC */
 				}
 
 				ApCliCtrlMsg.Status = MLME_SUCCESS;

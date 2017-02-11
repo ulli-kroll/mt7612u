@@ -25,7 +25,6 @@
     Shiang Tu  01-11-2012    created for 11ac
  */
 
-#ifdef DOT11_VHT_AC
 
 
 #ifndef __DOT11AC_VHT_H
@@ -661,5 +660,4 @@ typedef struct GNU_PACKED _PLCP_SERVICE_FIELD{
 
 #endif /* __DOT11AC_VHT_H */
 
-#endif /* DOT11_VHT_AC */
 

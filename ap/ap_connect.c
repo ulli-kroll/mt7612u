@@ -476,7 +476,6 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 			FrameLen += sizeof(HT_EXT_CHANNEL_SWITCH_ANNOUNCEMENT_IE);
 		}
 
-#ifdef DOT11_VHT_AC
 		if (WMODE_CAP_AC(PhyMode)) {
 			INT tp_len, wb_len = 0;
 			UCHAR *ch_sw_wrapper;
@@ -521,7 +520,6 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 
 			FrameLen += (2 + wb_len + tp_len);
 		}
-#endif /* DOT11_VHT_AC */
 
 	}
 
@@ -610,13 +608,11 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 	 	}
 
 
-#ifdef DOT11_VHT_AC
 		if (WMODE_CAP_AC(PhyMode) && (pComCfg->Channel > 14))
 		{
 			int _len = build_vht_ies(pAd, (UCHAR *)(pBeaconFrame+FrameLen), SUBTYPE_BEACON);
 			FrameLen += _len;
 		}
-#endif /* DOT11_VHT_AC */
 	}
 
 	/* 7.3.2.27 Extended Capabilities IE */
@@ -642,11 +638,9 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 
 
 
-#ifdef DOT11_VHT_AC
 		if (WMODE_CAP_AC(PhyMode) &&
 			(pAd->CommonCfg.Channel > 14))
 			extCapInfo.operating_mode_notification = 1;
-#endif /* DOT11_VHT_AC */
 
 		pInfo = (u8 *)(&extCapInfo);
 		for (infoPos = 0; infoPos < extInfoLen; infoPos++)
@@ -748,7 +742,6 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 						END_OF_ARGS);
 		FrameLen += TmpLen;
 
-#ifdef DOT11_VHT_AC
 		if (WMODE_CAP_AC(PhyMode)) {
 			ULONG TmpLen;
 			UINT8 vht_txpwr_env_ie = IE_VHT_TXPWR_ENV;
@@ -763,7 +756,6 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 						END_OF_ARGS);
 			FrameLen += TmpLen;
 		}
-#endif /* DOT11_VHT_AC */
 
 	}
 
@@ -857,10 +849,8 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 	if (pComCfg->bRdg)
 		RalinkSpecificIe[5] |= 0x4;
 
-#ifdef DOT11_VHT_AC
 	if (pComCfg->b256QAM_2G && WMODE_2G_ONLY(pComCfg->PhyMode))
 		RalinkSpecificIe[5] |= 0x8;
-#endif /* DOT11_VHT_AC */
 
 	MakeOutgoingFrame(pBeaconFrame+FrameLen, &TmpLen,
 						9,                   RalinkSpecificIe,

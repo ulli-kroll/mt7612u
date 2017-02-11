@@ -369,11 +369,9 @@ struct rx_signal_info{
 	_pAd->MacTab.Content[BSSID_WCID].MaxRAmpduFactor = (UCHAR)(_pHtCapability->HtCapParm.MaxRAmpduFactor);	\
 }
 
-#ifdef DOT11_VHT_AC
 #define COPY_VHT_FROM_MLME_AUX_TO_ACTIVE_CFG(_pAd)                                 \
 {                                                                                       \
 }
-#endif /* DOT11_VHT_AC */
 
 
 /*
@@ -1225,10 +1223,8 @@ typedef struct _BssCoexChRange_ {
 #define IS_HT_RATE(_pMacEntry)	\
 	(_pMacEntry->HTPhyMode.field.MODE >= MODE_HTMIX)
 
-#ifdef DOT11_VHT_AC
 #define IS_VHT_RATE(_pMacEntry)	\
 	(_pMacEntry->HTPhyMode.field.MODE == MODE_VHT)
-#endif
 #define PEER_IS_HT_RATE(_pMacEntry)	\
 	(_pMacEntry->HTPhyMode.field.MODE >= MODE_HTMIX)
 
@@ -1675,7 +1671,6 @@ typedef struct _COMMON_CONFIG {
 	BACAP_STRUC BACapability;	/*   NO USE = 0XFF  ;  IMMED_BA =1  ;  DELAY_BA=0 */
 	BACAP_STRUC REGBACapability;	/*   NO USE = 0XFF  ;  IMMED_BA =1  ;  DELAY_BA=0 */
 
-#ifdef DOT11_VHT_AC
 	BOOLEAN force_vht;
 	UCHAR vht_bw;
 	UCHAR vht_sgi_80;
@@ -1689,7 +1684,6 @@ typedef struct _COMMON_CONFIG {
 	USHORT vht_rx_hrate;
 	BOOLEAN ht20_forbid;
 	BOOLEAN vht_ldpc;
-#endif /* DOT11_VHT_AC */
 
 	IOT_STRUC IOTestParm;	/* 802.11n InterOpbility Test Parameter; */
 	ULONG TxPreamble;	/* Rt802_11PreambleLong, Rt802_11PreambleShort, Rt802_11PreambleAuto */
@@ -1705,9 +1699,7 @@ typedef struct _COMMON_CONFIG {
 
 	BOOLEAN bRdg;
 
-#ifdef DOT11_VHT_AC
 	BOOLEAN b256QAM_2G;
-#endif /* DOT11_VHT_AC */
 
 	BOOLEAN bWmmCapable;	/* 0:disable WMM, 1:enable WMM */
 	QOS_CAPABILITY_PARM APQosCapability;	/* QOS capability of the current associated AP */
@@ -1793,12 +1785,10 @@ typedef struct _COMMON_CONFIG {
 	uint32_t RestoreBurstMode;
 	BOOLEAN ht_ldpc;
 
-#ifdef DOT11_VHT_AC
 	uint32_t cfg_vht;
 	VHT_CAP_INFO vht_info;
 	VHT_CAP_IE vht_cap_ie;
 	BOOLEAN bNonVhtDisallow; /* Disallow non-VHT connection */
-#endif /* DOT11_VHT_AC */
 
 #ifdef SYSTEM_LOG_SUPPORT
 	/* Enable wireless event */
@@ -2204,9 +2194,7 @@ typedef struct _STA_ACTIVE_CONFIG {
 	/* Copy supported ht from desired AP's beacon. We are trying to match */
 	RT_PHY_INFO SupportedPhyInfo;
 	RT_HT_CAPABILITY SupportedHtPhy;
-#ifdef DOT11_VHT_AC
 	RT_VHT_CAP	SupVhtCap;
-#endif /* DOT11_VHT_AC */
 } STA_ACTIVE_CONFIG, *PSTA_ACTIVE_CONFIG;
 
 
@@ -2457,9 +2445,7 @@ typedef struct _MAC_TABLE_ENTRY {
 	BOOLEAN SupportCCKMCS[MAX_LEN_OF_CCK_RATES];
 	BOOLEAN SupportOFDMMCS[MAX_LEN_OF_OFDM_RATES];
 	BOOLEAN SupportHTMCS[MAX_LEN_OF_HT_RATES];
-#ifdef DOT11_VHT_AC
 	BOOLEAN SupportVHTMCS[MAX_LEN_OF_VHT_RATES];
-#endif /* DOT11_VHT_AC */
 
 #ifdef PEER_DELBA_TX_ADAPT
 	uint32_t bPeerDelBaTxAdaptEn;
@@ -2552,13 +2538,11 @@ typedef struct _MAC_TABLE_ENTRY {
 	UCHAR BSS2040CoexistenceMgmtSupport;
 	BOOLEAN bForty_Mhz_Intolerant;
 
-#ifdef DOT11_VHT_AC
 	VHT_CAP_IE vht_cap_ie;
 
 	/* only take effect if ext_cap.operating_mode_notification = 1 */
 	BOOLEAN force_op_mode;
 	OPERATING_MODE operating_mode;
-#endif /* DOT11_VHT_AC */
 
 
 	BOOLEAN bWscCapable;
@@ -2969,20 +2953,16 @@ struct dbg_diag_info{
 #ifdef DBG_TX_MCS
 	/* TxDate MCS Count in range from 0 to 15, step in 1 */
 	USHORT TxMcsCnt_HT[MAX_MCS_SET];
-#ifdef DOT11_VHT_AC
 	UINT TxMcsCnt_VHT[MAX_VHT_MCS_SET];
-#endif /* DOT11_VHT_AC */
 #endif /* DBG_TX_MCS */
 
 #ifdef DBG_RX_MCS
 	USHORT RxCrcErrCnt_HT[MAX_MCS_SET];
 	/* Rx HT MCS Count in range from 0 to 15, step in 1 */
 	USHORT RxMcsCnt_HT[MAX_MCS_SET];
-#ifdef DOT11_VHT_AC
 	USHORT RxCrcErrCnt_VHT[MAX_VHT_MCS_SET];
 	/* for VHT80MHz only, not calcuate 20/40 MHz packets */
 	UINT RxMcsCnt_VHT[MAX_VHT_MCS_SET];
-#endif /* DOT11_VHT_AC */
 #endif /* DBG_RX_MCS */
 };
 
@@ -3695,10 +3675,8 @@ struct rtmp_adapter {
 	ULONG Tx20MPwrCfgGBand[MAX_TXPOWER_ARRAY_SIZE];
 	ULONG Tx40MPwrCfgABand[MAX_TXPOWER_ARRAY_SIZE];
 	ULONG Tx40MPwrCfgGBand[MAX_TXPOWER_ARRAY_SIZE];
-#ifdef DOT11_VHT_AC
 	ULONG Tx80MPwrCfgABand[MAX_TXPOWER_ARRAY_SIZE]; // Per-rate Tx power control for VHT BW80 (5GHz only)
 	BOOLEAN force_vht_op_mode;
-#endif /* DOT11_VHT_AC */
 
 
 
@@ -6351,13 +6329,11 @@ BOOLEAN RTMPCheckHt(
 	INOUT HT_CAPABILITY_IE *pHtCapability,
 	INOUT ADD_HT_INFO_IE *pAddHtInfo);
 
-#ifdef DOT11_VHT_AC
 BOOLEAN RTMPCheckVht(
 	IN struct rtmp_adapter *pAd,
 	IN UCHAR Wcid,
 	IN VHT_CAP_IE *vht_cap,
 	IN VHT_OP_IE *vht_op);
-#endif /* DOT11_VHT_AC */
 
 VOID RTMPUpdateMlmeRate(
 	IN struct rtmp_adapter *pAd);
@@ -7111,14 +7087,12 @@ INT	Set_HtDisallowTKIP_Proc(struct rtmp_adapter *pAd, char *arg);
 INT	Set_BurstMode_Proc(struct rtmp_adapter *pAd, char *arg);
 
 
-#ifdef DOT11_VHT_AC
 INT Set_VhtBw_Proc(struct rtmp_adapter *pAd, char *arg);
 INT Set_VhtStbc_Proc(struct rtmp_adapter *pAd, char *arg);
 INT set_VhtBwSignal_Proc(struct rtmp_adapter *pAd, char *arg);
 INT	Set_VhtDisallowNonVHT_Proc(
 	IN struct rtmp_adapter *pAd,
 	IN char *arg);
-#endif /* DOT11_VHT_AC */
 
 
 #ifdef APCLI_SUPPORT

@@ -177,12 +177,10 @@ static UCHAR CFG_WMODE_MAP[]={
 	PHY_11BGN_MIXED, (WMODE_B | WMODE_G | WMODE_GN), /* 9 => B/G/GN mode*/
 	PHY_11AGN_MIXED, (WMODE_G | WMODE_GN | WMODE_A | WMODE_AN), /* 10 => A/AN/G/GN mode, not support B mode */
 	PHY_11N_5G, (WMODE_AN), /* 11 => only N in 5G band */
-#ifdef DOT11_VHT_AC
 	PHY_11VHT_N_ABG_MIXED, (WMODE_B | WMODE_G | WMODE_GN |WMODE_A | WMODE_AN | WMODE_AC), /* 12 => B/G/GN/A/AN/AC mixed*/
 	PHY_11VHT_N_AG_MIXED, (WMODE_G | WMODE_GN |WMODE_A | WMODE_AN | WMODE_AC), /* 13 => G/GN/A/AN/AC mixed , no B mode */
 	PHY_11VHT_N_A_MIXED, (WMODE_A | WMODE_AN | WMODE_AC), /* 14 => A/AC/AN mixed */
 	PHY_11VHT_N_MIXED, (WMODE_AN | WMODE_AC), /* 15 => AC/AN mixed, but no A mode */
-#endif /* DOT11_VHT_AC */
 	PHY_MODE_MAX, WMODE_INVALID /* default phy mode if not match */
 };
 
@@ -1394,13 +1392,11 @@ INT RTMP_COM_IoctlHandle(
 #endif /* MBSS_SUPPORT */
 			}
 
-#ifdef DOT11_VHT_AC
 			if (HtPhyMode.field.BW == BW_40 && pAd->CommonCfg.vht_bw == VHT_BW_80 && HtPhyMode.field.MODE >= MODE_VHT) {
 				BW = 2;
 				GI = pAd->CommonCfg.vht_sgi_80;
 			}
 			else
-#endif /* DOT11_VHT_AC */
 			{
 				BW = HtPhyMode.field.BW;
 				GI = HtPhyMode.field.ShortGI;

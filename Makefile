@@ -39,9 +39,6 @@ HAS_MC_SUPPORT=n
 #Support for PCI-MSI
 HAS_MSI_SUPPORT=n
 
-#Support for 802.11ac VHT
-HAS_DOT11_VHT_SUPPORT=y
-
 HAS_KTHREAD_SUPPORT=n
 
 
@@ -149,10 +146,6 @@ endif
 
 ifeq ($(HAS_STREAM_MODE_SUPPORT),y)
 WFLAGS += -DSTREAM_MODE_SUPPORT
-endif
-
-ifeq ($(HAS_DOT11_VHT_SUPPORT),y)
-WFLAGS += -DDOT11_VHT_AC
 endif
 
 ifeq ($(HAS_HDR_TRANS_SUPPORT),y)
@@ -564,12 +557,8 @@ obj_cmm += \
 endif
 #endif // TXBF_SUPPORT //
 
-#ifdef DOT11_VHT_SUPPORT
-ifeq ($(HAS_DOT11_VHT_SUPPORT),y)
 obj_vht += mgmt/mgmt_vht.o\
 	common/vht.o
-endif
-#endif // DOT11_VHT_SUPPORT //
 
 
 

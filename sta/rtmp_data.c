@@ -676,14 +676,12 @@ VOID STAHandleRxDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 				if (pRxBlk->rx_rate.field.MCS < MAX_MCS_SET)
 					diag_info->RxMcsCnt_HT[pRxBlk->rx_rate.field.MCS]++;
 			}
-#ifdef DOT11_VHT_AC
 			if (pRxBlk->rx_rate.field.MODE == MODE_VHT) {
 				INT mcs_idx = ((pRxBlk->rx_rate.field.MCS >> 4) * 10) +
 								(pRxBlk->rx_rate.field.MCS & 0xf);
 				if (mcs_idx < MAX_VHT_MCS_SET)
 					diag_info->RxMcsCnt_VHT[mcs_idx]++;
 			}
-#endif /* DOT11_VHT_AC */
 #endif /* DBG_RX_MCS */
 		}
 #endif /* DBG_DIAGNOSE */

@@ -468,7 +468,6 @@ VOID AsicGetTxPowerOffset(struct rtmp_adapter *pAd, ULONG *TxPwr)
 
 	CfgOfTxPwrCtrlOverMAC.NumOfEntries = 5; /* MAC 0x1314, 0x1318, 0x131C, 0x1320 and 1324 */
 
-#ifdef DOT11_VHT_AC
 	if (pAd->CommonCfg.BBPCurrentBW == BW_80 &&
 		pAd->CommonCfg.Channel > 14)
 	{
@@ -484,7 +483,6 @@ VOID AsicGetTxPowerOffset(struct rtmp_adapter *pAd, ULONG *TxPwr)
 		CfgOfTxPwrCtrlOverMAC.TxPwrCtrlOverMAC[4].RegisterValue = pAd->Tx80MPwrCfgABand[4];
 	}
 	else
-#endif /* DOT11_VHT_AC */
 	if (pAd->CommonCfg.BBPCurrentBW == BW_40)
 	{
 		if (pAd->CommonCfg.CentralChannel > 14)

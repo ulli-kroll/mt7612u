@@ -103,8 +103,6 @@ NTSTATUS RTUSBReadMACRegister(struct rtmp_adapter *pAd, USHORT Offset, uint32_t 
 NTSTATUS RTUSBReadEEPROM(struct rtmp_adapter *pAd, USHORT Offset, UCHAR *buf, USHORT len);
 NTSTATUS RTUSBWriteEEPROM(struct rtmp_adapter *pAd, USHORT Offset, UCHAR *buf, USHORT len);
 
-NTSTATUS RTUSBFirmwareWrite(struct rtmp_adapter *pAd, UCHAR *pFwImage, ULONG FwLen);
-
 NTSTATUS RTUSBVenderReset(struct rtmp_adapter *pAd);
 
 BOOLEAN AsicCheckCommandOk(struct rtmp_adapter *pAd, UCHAR cmd);

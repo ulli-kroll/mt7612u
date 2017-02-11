@@ -201,7 +201,6 @@ BOOLEAN PeerAssocRspSanity(
 				}
 				break;
 
-#ifdef DOT11_VHT_AC
 			case IE_VHT_CAP:
 				if (pEid->Len == sizeof(VHT_CAP_IE)) {
 					memmove(&ie_list->vht_cap, pEid->Octet, sizeof(VHT_CAP_IE));
@@ -219,7 +218,6 @@ BOOLEAN PeerAssocRspSanity(
 					DBGPRINT(RT_DEBUG_WARN, ("%s():wrong IE_VHT_OP\n", __FUNCTION__));
 				}
 				break;
-#endif /* DOT11_VHT_AC */
 
 			case IE_VENDOR_SPECIFIC:
 				/* handle WME PARAMTER ELEMENT */

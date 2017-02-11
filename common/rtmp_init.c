@@ -2340,12 +2340,10 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 
 	memset(&pAd->BeaconTxWI, 0, TXWISize);
 
-#ifdef DOT11_VHT_AC
 	if (IS_MT76x2(pAd))
 		pAd->CommonCfg.b256QAM_2G = TRUE;
 	else
 		pAd->CommonCfg.b256QAM_2G = FALSE;
-#endif /* DOT11_VHT_AC */
 
 	memset(&pAd->CommonCfg.HtCapability, 0, sizeof(pAd->CommonCfg.HtCapability));
 	pAd->HTCEnable = FALSE;
@@ -2821,9 +2819,7 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 #endif /* APCLI_SUPPORT */
 
 
-#ifdef DOT11_VHT_AC
 	pAd->CommonCfg.bNonVhtDisallow = FALSE;
-#endif /* DOT11_VHT_AC */
 
 #ifdef RTMP_USB_SUPPORT
 	pAd->usb_ctl.usb_aggregation = TRUE;

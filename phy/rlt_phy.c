@@ -208,7 +208,6 @@ static INT rlt_bbp_set_ctrlch(struct rtmp_adapter *pAd, UINT8 ext_ch)
 	agc = agc_r0 & (~0x300);
 	RTMP_BBP_IO_READ32(pAd, TXBE_R0, &be_r0);
 	be = (be_r0 & (~0x03));
-#ifdef DOT11_VHT_AC
 	if (pAd->CommonCfg.BBPCurrentBW == BW_80 &&
 		pAd->CommonCfg.Channel >= 36 &&
 		pAd->CommonCfg.vht_cent_ch)
@@ -244,7 +243,6 @@ static INT rlt_bbp_set_ctrlch(struct rtmp_adapter *pAd, UINT8 ext_ch)
 		}
 	}
 	else
-#endif /* DOT11_VHT_AC */
 	{
 		switch (ext_ch)
 		{

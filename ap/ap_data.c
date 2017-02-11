@@ -2973,14 +2973,12 @@ INT APCheckRxError(struct rtmp_adapter *pAd, RXINFO_STRUC *pRxInfo, RX_BLK *pRxB
 					if (pRxBlk->rx_rate.field.MCS < MAX_MCS_SET)
 						diag_info->RxCrcErrCnt_HT[pRxBlk->rx_rate.field.MCS]++;
 				}
-#ifdef DOT11_VHT_AC
 				if (pRxBlk->rx_rate.field.MODE == MODE_VHT) {
 					INT mcs_idx = ((pRxBlk->rx_rate.field.MCS >> 4) * 10) +
 									(pRxBlk->rx_rate.field.MCS & 0xf);
 					if (mcs_idx < MAX_VHT_MCS_SET)
 						diag_info->RxCrcErrCnt_VHT[mcs_idx]++;
 				}
-#endif /* DOT11_VHT_AC */
 #endif /* DBG_RX_MCS */
 			}
 		}
@@ -3236,7 +3234,6 @@ VOID dynamic_tune_be_tx_op(struct rtmp_adapter *pAd, ULONG nonBEpackets)
 					txop_value = 0x80;
 				else if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_RDG_ACTIVE))
 					txop_value = 0x80;
-#ifdef DOT11_VHT_AC
 				else if (pAd->MacTab.Size == 1) {
 					MAC_TABLE_ENTRY *pEntry = NULL;
 					uint32_t i = 0;
@@ -3260,7 +3257,6 @@ VOID dynamic_tune_be_tx_op(struct rtmp_adapter *pAd, ULONG nonBEpackets)
 						}
 					}
 				}
-#endif /* DOT11_VHT_AC */
 				else if (pAd->CommonCfg.bEnableTxBurst)
 					txop_value = txop_value_burst;
 				else
@@ -3901,14 +3897,12 @@ VOID APHandleRxDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 				if (pRxBlk->rx_rate.field.MCS < MAX_MCS_SET)
 					diag_info->RxMcsCnt_HT[pRxBlk->rx_rate.field.MCS]++;
 			}
-#ifdef DOT11_VHT_AC
 			if (pRxBlk->rx_rate.field.MODE == MODE_VHT) {
 				INT mcs_idx = ((pRxBlk->rx_rate.field.MCS >> 4) * 10) +
 								(pRxBlk->rx_rate.field.MCS & 0xf);
 				if (mcs_idx < MAX_VHT_MCS_SET)
 					diag_info->RxMcsCnt_VHT[mcs_idx]++;
 			}
-#endif /* DOT11_VHT_AC */
 #endif /* DBG_RX_MCS */
 		}
 #endif /* DBG_DIAGNOSE */
@@ -4005,26 +3999,6 @@ VOID APHandleRxDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 	}
 
 	ASSERT(pEntry->Aid == pRxBlk->wcid);
-
-
-#ifndef DOT11_VHT_AC
-#ifndef WFA_VHT_PF
-// TODO: shiang@PF#2, is this atheros protection still necessary here????
-	/* check Atheros Client */
-	if (!pEntry->bIAmBadAtheros && (pFmeCtrl->Retry) &&
-		(pRxBlk->rx_rate.field.MODE < MODE_VHT) &&
-		(pRxInfo->AMPDU == 1) && (pAd->CommonCfg.bHTProtect == TRUE)
-	)
-	{
-		if (pAd->CommonCfg.IOTestParm.bRTSLongProtOn == FALSE)
-			RTMP_UPDATE_PROTECT(pAd, 8 , ALLN_SETPROTECT, FALSE, FALSE);
-		pEntry->bIAmBadAtheros = TRUE;
-
-		if (pEntry->WepStatus != Ndis802_11WEPDisabled)
-			pEntry->MpduDensity = 6;
-	}
-#endif /* WFA_VHT_PF */
-#endif /* DOT11_VHT_AC */
 
    	/* update rssi sample */
    	Update_Rssi_Sample(pAd, &pEntry->RssiSample, pRxWI);

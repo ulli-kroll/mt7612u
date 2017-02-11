@@ -39,7 +39,6 @@ static INT scan_ch_restore(struct rtmp_adapter *pAd, UCHAR OpMode)
 #endif /*APCLI_CERT_SUPPORT*/
 #endif /*APCLI_SUPPORT*/
 
-#ifdef DOT11_VHT_AC
 	if (WMODE_CAP(pAd->CommonCfg.PhyMode, WMODE_AC) &&
 		(pAd->CommonCfg.Channel > 14) &&
 		(pAd->hw_cfg.bbp_bw == BW_80) &&
@@ -51,7 +50,6 @@ static INT scan_ch_restore(struct rtmp_adapter *pAd, UCHAR OpMode)
 	if (pAd->hw_cfg.bbp_bw == BW_80)
 		pAd->hw_cfg.cent_ch = pAd->CommonCfg.vht_cent_ch;
 	else
-#endif /* DOT11_VHT_AC */
 		pAd->hw_cfg.cent_ch = pAd->CommonCfg.CentralChannel;
 
 	if (pAd->CommonCfg.BBPCurrentBW != pAd->hw_cfg.bbp_bw)
@@ -402,12 +400,10 @@ static INT scan_active(struct rtmp_adapter *pAd, UCHAR OpMode, UCHAR ScanType)
 #ifdef APCLI_SUPPORT
 #endif /* APCLI_SUPPORT */
 
-#ifdef DOT11_VHT_AC
 	if (WMODE_CAP_AC(pAd->CommonCfg.PhyMode) &&
 		(pAd->MlmeAux.Channel > 14)) {
 		FrameLen += build_vht_ies(pAd, (UCHAR *)(frm_buf + FrameLen), SUBTYPE_PROBE_REQ);
 	}
-#endif /* DOT11_VHT_AC */
 
 
 #ifdef CONFIG_STA_SUPPORT

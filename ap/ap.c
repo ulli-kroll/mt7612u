@@ -404,23 +404,19 @@ VOID APStartUp(struct rtmp_adapter *pAd)
 
 	/* Clear BG-Protection flag */
 	OPSTATUS_CLEAR_FLAG(pAd, fOP_STATUS_BG_PROTECTION_INUSED);
-#ifdef DOT11_VHT_AC
 	if (pAd->CommonCfg.BBPCurrentBW == BW_80)
 		pAd->hw_cfg.cent_ch = pAd->CommonCfg.vht_cent_ch;
 	else
-#endif /* DOT11_VHT_AC */
 		pAd->hw_cfg.cent_ch = pAd->CommonCfg.CentralChannel;
 	AsicSwitchChannel(pAd, pAd->hw_cfg.cent_ch, FALSE);
 	AsicLockChannel(pAd, pAd->hw_cfg.cent_ch);
 
-#ifdef DOT11_VHT_AC
 //+++Add by shiang for debug
 DBGPRINT(RT_DEBUG_OFF, ("%s(): AP Set CentralFreq at %d(Prim=%d, HT-CentCh=%d, VHT-CentCh=%d, BBP_BW=%d)\n",
 						__FUNCTION__, pAd->hw_cfg.cent_ch, pAd->CommonCfg.Channel,
 						pAd->CommonCfg.CentralChannel, pAd->CommonCfg.vht_cent_ch,
 						pAd->CommonCfg.BBPCurrentBW));
 //---Add by shiang for debug
-#endif /* DOT11_VHT_AC */
 
 #ifdef GREENAP_SUPPORT
 	if (pAd->ApCfg.bGreenAPEnable == TRUE)

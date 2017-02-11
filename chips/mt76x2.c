@@ -165,7 +165,6 @@ static VOID mt76x2_bbp_adjust(struct rtmp_adapter *pAd)
 		pAd->CommonCfg.CentralChannel = pAd->CommonCfg.Channel;
 	}
 
-#ifdef DOT11_VHT_AC
 	if (WMODE_CAP(pAd->CommonCfg.PhyMode, WMODE_AC) &&
 		(pAd->CommonCfg.Channel > 14) &&
 		(rf_bw == BW_40) &&
@@ -179,7 +178,6 @@ static VOID mt76x2_bbp_adjust(struct rtmp_adapter *pAd)
 	DBGPRINT(RT_DEBUG_OFF, ("%s():rf_bw=%d, ext_ch=%d, PrimCh=%d, HT-CentCh=%d, VHT-CentCh=%d\n",
 				__FUNCTION__, rf_bw, ext_ch, pAd->CommonCfg.Channel,
 				pAd->CommonCfg.CentralChannel, pAd->CommonCfg.vht_cent_ch));
-#endif /* DOT11_VHT_AC */
 
 	bbp_set_bw(pAd, rf_bw);
 
@@ -503,11 +501,9 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, BOOLEAN s
 	}
 #endif /* RTMP_MAC_USB */
 
-#ifdef DOT11_VHT_AC
 	if (ad->CommonCfg.BBPCurrentBW == BW_80) {
 		bbp_ch_idx = vht_prim_ch_idx(channel, ad->CommonCfg.Channel);
 	} else
-#endif /* DOT11_VHT_AC */
 	if (ad->CommonCfg.BBPCurrentBW == BW_40) {
 		if (ad->CommonCfg.CentralChannel > ad->CommonCfg.Channel)
 			bbp_ch_idx = EXT_CH_ABOVE;
@@ -519,7 +515,6 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, BOOLEAN s
 
 	RTMP_IO_READ32(ad, EXT_CCA_CFG, &RegValue);
 	RegValue &= ~(0xFFF);
-#ifdef DOT11_VHT_AC
 	if (ad->CommonCfg.BBPCurrentBW == BW_80)
 	{
 		if (bbp_ch_idx == 0)
@@ -539,7 +534,6 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, BOOLEAN s
 			RegValue |= 0x81b;
 		}
 	} else
-#endif /* DOT11_VHT_AC */
 	if (ad->CommonCfg.BBPCurrentBW == BW_40)
 	{
 		if (ad->CommonCfg.CentralChannel > ad->CommonCfg.Channel)
@@ -1111,11 +1105,9 @@ static void mt76x2_cal_test(struct rtmp_adapter *ad, uint32_t type)
 {
 	UCHAR cent_ch;
 
-#ifdef DOT11_VHT_AC
 	if(ad->CommonCfg.BBPCurrentBW == BW_80)
 		cent_ch = ad->CommonCfg.vht_cent_ch;
 	else
-#endif /* DOT11_VHT_AC */
 		cent_ch = ad->CommonCfg.CentralChannel;
 
 }
@@ -2365,7 +2357,6 @@ int mt76x2_read_chl_pwr(struct rtmp_adapter *ad)
 
 	choffset = 14 + 12 + 16 + 11;
 
-#ifdef DOT11_VHT_AC
 	ASSERT((ad->TxPower[choffset].Channel == 42));
 
 	// TODO: shiang-6590, fix me for the TxPower setting code here!
@@ -2386,7 +2377,6 @@ int mt76x2_read_chl_pwr(struct rtmp_adapter *ad)
 
 	choffset += 5;		/* the central channel of VHT80 */
 	choffset = (MAX_NUM_OF_CHANNELS - 1);
-#endif /* DOT11_VHT_AC */
 
 	/* 4. Print and Debug*/
 	for (i = 0; i < choffset; i++)
@@ -3117,10 +3107,8 @@ void mt7612_set_ed_cca(struct rtmp_adapter *ad, BOOLEAN enable)
 
 static const RTMP_CHIP_CAP MT76x2_ChipCap = {
 	.max_nss = 2,
-#ifdef DOT11_VHT_AC
 	.max_vht_mcs = VHT_MCS_CAP_9,
 	.ac_off_mode = 0,
-#endif /* DOT11_VHT_AC */
 	.TXWISize = 20,
 	.RXWISize = 28,
 	.SnrFormula = SNR_FORMULA3,
@@ -3294,13 +3282,11 @@ VOID mt76x2_init(struct rtmp_adapter *pAd)
 	if (IS_MT7632(pAd))
 		pChipCap->phy_caps = (fPHY_CAP_24G | fPHY_CAP_5G | fPHY_CAP_HT | fPHY_CAP_LDPC);
 
-#ifdef DOT11_VHT_AC
 	RTMP_IO_READ32(pAd, 0x38, &mac_val);
 
 	if ((mac_val & 0x80000) == 0x80000)
 		pChipCap->ac_off_mode = 1;
 
-#endif /* DOT11_VHT_AC */
 
 
 

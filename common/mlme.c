@@ -3643,7 +3643,6 @@ VOID BssEntrySet(
 											&ie_list->HtCapability);
 		}
 
-#ifdef DOT11_VHT_AC
 		if (ie_list->vht_cap_len) {
 			memmove(&pBss->vht_cap_ie, &ie_list->vht_cap_ie, ie_list->vht_cap_len);
 			pBss->vht_cap_len = ie_list->vht_cap_len;
@@ -3668,7 +3667,6 @@ VOID BssEntrySet(
 				pBss->CentralChannel = vht_op->vht_op_info.center_freq_1;
 			}
 		}
-#endif /* DOT11_VHT_AC */
 	}
 
 	BssCipherParse(pBss);
@@ -5598,7 +5596,6 @@ BOOLEAN RTMPCheckHt(
 }
 
 
-#ifdef DOT11_VHT_AC
 /*
 	========================================================================
 
@@ -5673,7 +5670,6 @@ BOOLEAN RTMPCheckVht(
 
 	return TRUE;
 }
-#endif /* DOT11_VHT_AC */
 
 
 /*
@@ -5709,9 +5705,7 @@ VOID RTMPUpdateMlmeRate(struct rtmp_adapter *pAd)
 		case (WMODE_B | WMODE_G):
 		case (WMODE_B | WMODE_G | WMODE_GN | WMODE_A |WMODE_AN):
 		case (WMODE_B | WMODE_G | WMODE_GN):
-#ifdef DOT11_VHT_AC
 		case (WMODE_B | WMODE_G | WMODE_GN | WMODE_A |WMODE_AN | WMODE_AC):
-#endif /* DOT11_VHT_AC */
 			if ((pAd->MlmeAux.SupRateLen == 4) &&
 				(pAd->MlmeAux.ExtRateLen == 0))
 				ProperMlmeRate = RATE_11; /* B only AP */
@@ -5729,9 +5723,7 @@ VOID RTMPUpdateMlmeRate(struct rtmp_adapter *pAd)
 		case (WMODE_A | WMODE_G | WMODE_GN | WMODE_AN):
 		case (WMODE_A |WMODE_AN):
 		case (WMODE_AN):
-#ifdef DOT11_VHT_AC
 		case (WMODE_A | WMODE_G | WMODE_GN | WMODE_AN | WMODE_AC):
-#endif /* DOT11_VHT_AC */
 			ProperMlmeRate = RATE_24;
 			MinimumRate = RATE_6;
 			break;
@@ -5749,7 +5741,6 @@ VOID RTMPUpdateMlmeRate(struct rtmp_adapter *pAd)
 	}
 
 
-#ifdef DOT11_VHT_AC
 	if (WMODE_EQUAL(pAd->CommonCfg.PhyMode, WMODE_B))
 	{
 		ProperMlmeRate = RATE_11;
@@ -5775,7 +5766,6 @@ VOID RTMPUpdateMlmeRate(struct rtmp_adapter *pAd)
 			MinimumRate = RATE_6;
 		}
 	}
-#endif /* DOT11_VHT_AC */
 
 	for (i = 0; i < pAd->MlmeAux.SupRateLen; i++)
 	{
@@ -6269,9 +6259,7 @@ VOID RTMPUpdateLegacyTxSetting(UCHAR fixed_tx_mode, MAC_TABLE_ENTRY *pEntry)
 
 	if ((fixed_tx_mode != FIXED_TXMODE_CCK) &&
 		(fixed_tx_mode != FIXED_TXMODE_OFDM)
-#ifdef DOT11_VHT_AC
 		&& (fixed_tx_mode != FIXED_TXMODE_VHT)
-#endif /* DOT11_VHT_AC */
 	)
 		return;
 
@@ -6280,7 +6268,6 @@ VOID RTMPUpdateLegacyTxSetting(UCHAR fixed_tx_mode, MAC_TABLE_ENTRY *pEntry)
 	TransmitSetting.field.MODE = pEntry->HTPhyMode.field.MODE;
 	TransmitSetting.field.MCS = pEntry->HTPhyMode.field.MCS;
 
-#ifdef DOT11_VHT_AC
 	if (fixed_tx_mode == FIXED_TXMODE_VHT)
 	{
 		TransmitSetting.field.MODE = MODE_VHT;
@@ -6290,7 +6277,6 @@ VOID RTMPUpdateLegacyTxSetting(UCHAR fixed_tx_mode, MAC_TABLE_ENTRY *pEntry)
 			TransmitSetting.field.MCS = ((1 << 4) + MCS_7);
 	}
 	else
-#endif /* DOT11_VHT_AC */
 	if (fixed_tx_mode == FIXED_TXMODE_CCK)
 	{
 		TransmitSetting.field.MODE = MODE_CCK;

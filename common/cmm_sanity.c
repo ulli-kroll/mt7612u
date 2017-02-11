@@ -1490,7 +1490,6 @@ BOOLEAN PeerBeaconAndProbeRspSanity(
 			}
 			break;
 
-#ifdef DOT11_VHT_AC
 		case IE_VHT_CAP:
 			if (pEid->Len == sizeof(VHT_CAP_IE)) {
 				memmove(&ie_list->vht_cap_ie, &pEid->Octet[0], sizeof(VHT_CAP_IE));
@@ -1524,7 +1523,6 @@ BOOLEAN PeerBeaconAndProbeRspSanity(
 				DBGPRINT(RT_DEBUG_INFO, ("%s() - IE_OPERATING_MODE_NOTIFY(=%d)\n", __FUNCTION__, pEid->Eid));
 			}
 			break;
-#endif /* DOT11_VHT_AC */
 
 		default:
 			break;
@@ -1542,9 +1540,7 @@ BOOLEAN PeerBeaconAndProbeRspSanity(
 			ie_list->Channel = CtrlChannel;
 		else {
 			if ((pAd->CommonCfg.RegTransmitSetting.field.BW == BW_40)
-#ifdef DOT11_VHT_AC
 				|| (pAd->CommonCfg.RegTransmitSetting.field.BW == BW_80)
-#endif /* DOT11_VHT_AC */
 			) {
 				if (pAd->MlmeAux.Channel)
 					ie_list->Channel = pAd->MlmeAux.Channel;
@@ -1988,11 +1984,9 @@ NDIS_802_11_NETWORK_TYPE NetworkTypeInUseSanity(BSS_ENTRY *pBss)
 	if (pBss->HtCapabilityLen != 0)
 	{
 		if (NetWorkType == Ndis802_11OFDM5) {
-#ifdef DOT11_VHT_AC
 			if (pBss->vht_cap_len != 0)
 				NetWorkType = Ndis802_11OFDM5_AC;
 			else
-#endif /* DOT11_VHT_AC */
 				NetWorkType = Ndis802_11OFDM5_N;
 		} else
 			NetWorkType = Ndis802_11OFDM24_N;

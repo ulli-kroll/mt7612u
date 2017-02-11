@@ -667,7 +667,6 @@ static VOID ApCliEnqueueProbeRequest(
 			FrameLen += tmp;
 		}
 
-#ifdef DOT11_VHT_AC
 		if (WMODE_CAP_AC(pAd->CommonCfg.PhyMode) &&
 			(pAd->CommonCfg.Channel > 14))
 		{
@@ -675,7 +674,6 @@ static VOID ApCliEnqueueProbeRequest(
 			pApCliEntry->MlmeAux.vht_cap_len = sizeof(VHT_CAP_IE);
 			FrameLen += build_vht_ies(pAd, (UCHAR *)(pOutBuffer + FrameLen), SUBTYPE_PROBE_REQ);
 		}
-#endif /* DOT11_VHT_AC */
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
 		if ((pAd->StaCfg.wpa_supplicant_info.WpaSupplicantUP != WPA_SUPPLICANT_DISABLE) &&
 			(pAd->cfg80211_ctrl.ExtraIeLen != 0))

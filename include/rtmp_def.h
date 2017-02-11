@@ -354,12 +354,10 @@ enum WIFI_MODE{
 #define fCLIENT_STATUS_USE_SHA256				0x00008000
 #endif /* DOT11W_PMF_SUPPORT */
 
-#ifdef DOT11_VHT_AC
 #define fCLIENT_STATUS_SGI80_CAPABLE			0x00010000
 #define fCLIENT_STATUS_SGI160_CAPABLE			0x00020000
 #define fCLIENT_STATUS_VHT_TXSTBC_CAPABLE	0x00040000
 #define fCLIENT_STATUS_VHT_RXSTBC_CAPABLE	0x00080000
-#endif /* DOT11_VHT_AC */
 
 #define fCLIENT_STATUS_RALINK_CHIPSET			0x00100000
 
@@ -539,9 +537,7 @@ enum WIFI_MODE{
 #define MAX_LEN_OF_CCK_RATES	4
 #define MAX_LEN_OF_OFDM_RATES	8
 #define MAX_LEN_OF_HT_RATES		24
-#ifdef DOT11_VHT_AC
 #define MAX_LEN_OF_VHT_RATES		20
-#endif /* DOT11_VHT_AC */
 #define SUPPORT_CCK_MODE	1
 #define SUPPORT_OFDM_MODE	2
 #define SUPPORT_HT_MODE		4
@@ -963,13 +959,11 @@ enum WIFI_MODE{
 #define CATEGORY_VENDOR_SPECIFIC_WFD	0x7F
 
 
-#ifdef DOT11_VHT_AC
 #define CATEGORY_VHT		21
 
 #define ACT_VHT_COMPRESS_BF		0	/* VHT Compressed Beamforming */
 #define ACT_VHT_GRP_ID_MGMT		1	/* Group ID Management */
 #define ACT_VHT_OPMODE_NOTIFY		2	/* Operating Mode Notification */
-#endif /* DOT11_VHT_AC */
 
 #ifdef DOT11W_PMF_SUPPORT
 /* SA Query Action frame definition */
@@ -1334,7 +1328,6 @@ enum WIFI_MODE{
 #define MCS_32		32
 #define MCS_AUTO		33
 
-#ifdef DOT11_VHT_AC
 #define MCS_VHT_2SS_MCS9	0x29
 #define MCS_VHT_2SS_MCS8	0x28
 #define MCS_VHT_2SS_MCS7	0x27
@@ -1378,7 +1371,6 @@ enum WIFI_MODE{
 #define VHT_RATE_IDX_2SS_MCS7	17
 #define VHT_RATE_IDX_2SS_MCS8	18
 #define VHT_RATE_IDX_2SS_MCS9	19
-#endif /* DOT11_VHT_AC */
 
 /* OID_HTPHYMODE */
 /* MODE */
@@ -1410,12 +1402,10 @@ enum WIFI_MODE{
 #define HT_BW_20		0
 #define HT_BW_40		1
 
-#ifdef DOT11_VHT_AC
 #define VHT_BW_2040	0
 #define VHT_BW_80		1
 #define VHT_BW_160		2
 #define VHT_BW_8080	3
-#endif /* DOT11_VHT_AC */
 
 /* SHORTGI */
 #define GI_400		GAP_INTERVAL_400	/* only support in HT mode */

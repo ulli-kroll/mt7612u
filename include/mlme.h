@@ -400,15 +400,12 @@ typedef struct _RT_PHY_INFO{
 	BOOLEAN		bPreNHt;	 /* If we should use ht rate. */
 	/*Substract from HT Capability IE */
 	UCHAR		MCSSet[16];
-#ifdef DOT11_VHT_AC
 	BOOLEAN 	bVhtEnable;
 	UCHAR 		vht_bw;
 	VHT_MCS_SET vht_mcs_set;
-#endif /* DOT11_VHT_AC */
 } RT_PHY_INFO;
 
 
-#ifdef DOT11_VHT_AC
 typedef struct _RT_VHT_CAP{
 	uint32_t vht_bw:2;
 	uint32_t vht_txstbc:1;
@@ -423,7 +420,6 @@ typedef struct _RT_VHT_CAP{
 
 	uint32_t rsv:16;
 }RT_VHT_CAP;
-#endif /* DOT11_VHT_AC */
 
 
 /*
@@ -911,12 +907,10 @@ typedef struct _BSS_ENTRY{
 	CHAR	AvgRssi;
 #endif /* CFG80211_SCAN_SIGNAL_AVG */
 
-#ifdef DOT11_VHT_AC
 	UCHAR vht_cap_len;
 	UCHAR vht_op_len;
 	VHT_CAP_IE vht_cap_ie;
 	VHT_OP_IE vht_op_ie;
-#endif /* DOT11_VHT_AC */
 
 
 	CHAR MinSNR;
@@ -1077,13 +1071,11 @@ typedef struct _MLME_AUX {
 	UCHAR			NewExtChannelOffset;
 	/*RT_HT_CAPABILITY	SupportedHtPhy; */
 
-#ifdef DOT11_VHT_AC
 	UCHAR vht_cap_len;
 	UCHAR vht_op_len;
 	VHT_CAP_IE vht_cap;
 	VHT_OP_IE vht_op;
 	UCHAR vht_cent_ch;
-#endif /* DOT11_VHT_AC */
 
     /* new for QOS */
     QOS_CAPABILITY_PARM APQosCapability;    /* QOS capability of the current associated AP */
@@ -1235,14 +1227,12 @@ typedef struct _IE_lists {
 	EXT_CAP_INFO_ELEMENT ExtCapInfo;
 	UCHAR ht_cap_len;
 	HT_CAPABILITY_IE HTCapability;
-#ifdef DOT11_VHT_AC
 	VHT_CAP_IE vht_cap;
 	VHT_OP_IE vht_op;
 	UCHAR vht_cap_len;
 	UCHAR vht_op_len;
 	UCHAR operating_mode_len;
 	OPERATING_MODE operating_mode;
-#endif /* DOT11_VHT_AC */
 }IE_LISTS;
 
 
@@ -1286,14 +1276,12 @@ typedef struct _bcn_ie_list {
 	UCHAR selReg;
 #endif /* NATIVE_WPA_SUPPLICANT_SUPPORT */
 #endif /* CONFIG_STA_SUPPORT */
-#ifdef DOT11_VHT_AC
 	VHT_CAP_IE vht_cap_ie;
 	VHT_OP_IE vht_op_ie;
 	UCHAR vht_cap_len;
 	UCHAR vht_op_len;
 	OPERATING_MODE operating_mode;
 	UCHAR vht_op_mode_len;
-#endif /* DOT11_VHT_AC */
 }BCN_IE_LIST;
 
 #endif	/* MLME_H__ */

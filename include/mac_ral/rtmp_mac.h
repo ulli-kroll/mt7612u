@@ -1411,13 +1411,9 @@ typedef	union _LG_FBK_CFG1_STRUC {
 #ifdef RT_BIG_ENDIAN
 typedef	union _PROT_CFG_STRUC {
 	struct {
-#ifdef DOT11_VHT_AC
 		uint32_t 	 ProtectTxop:3; /* TXOP allowance */
 		uint32_t       DynCbw:1;  /* RTS use dynamic channel bandwidth when TX signaling mode is turned on */
 		uint32_t       RtsTaSignal:1; /* RTS TA signaling mode */
-#else
-	    uint32_t       rsv:5;
-#endif
 	    uint32_t       RTSThEn:1;	/*RTS threshold enable on CCK TX */
 	    uint32_t       TxopAllowGF40:1;	/*CCK TXOP allowance.0:disallow. */
 	    uint32_t       TxopAllowGF20:1;	/*CCK TXOP allowance.0:disallow. */
@@ -1444,13 +1440,9 @@ typedef	union _PROT_CFG_STRUC {
 	    uint32_t       TxopAllowGF20:1;
 	    uint32_t       TxopAllowGF40:1;
 	    uint32_t       RTSThEn:1;
-#ifdef DOT11_VHT_AC
 		uint32_t       RtsTaSignal:1; /* RTS TA signaling mode */
 		uint32_t       DynCbw:1;  /* RTS use dynamic channel bandwidth when TX signaling mode is turned on */
 		uint32_t 	 ProtectTxop:3; /* TXOP allowance */
-#else
-	    uint32_t       rsv:5;
-#endif /* !DOT11_VHT_AC */
 	} field;
 	uint32_t word;
 } PROT_CFG_STRUC;

@@ -237,7 +237,6 @@ BOOLEAN StaUpdateMacTableEntry(
 		memmove(&pEntry->HTCapability, ht_cap, htcap_len);
 
 		assoc_ht_info_debugshow(pAd, pEntry, htcap_len, ht_cap);
-#ifdef DOT11_VHT_AC
 		if (WMODE_CAP_AC(pAd->CommonCfg.PhyMode) &&
 			(ie_list != NULL) && (ie_list->vht_cap_len) && (ie_list->vht_op_len))
 		{
@@ -245,7 +244,6 @@ BOOLEAN StaUpdateMacTableEntry(
 			assoc_vht_info_debugshow(pAd, pEntry, &ie_list->vht_cap, &ie_list->vht_op);
 			memmove(&pEntry->vht_cap_ie, &ie_list->vht_cap, sizeof(VHT_CAP_IE));
 		}
-#endif /* DOT11_VHT_AC */
 	} else {
 		pAd->MacTab.fAnyStationIsLegacy = TRUE;
 	}

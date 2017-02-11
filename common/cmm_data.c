@@ -696,9 +696,7 @@ int MlmeHardTransmitMgmtRing(
 		// TODO: shiang-6590, why we need this condition check here?
 		if (WMODE_EQUAL(pAd->CommonCfg.PhyMode, WMODE_A | WMODE_B | WMODE_G)
 			|| WMODE_EQUAL(pAd->CommonCfg.PhyMode, WMODE_A | WMODE_B | WMODE_G | WMODE_AN | WMODE_GN)
-#ifdef DOT11_VHT_AC
 			|| WMODE_CAP(pAd->CommonCfg.PhyMode, WMODE_AC)
-#endif /* DOT11_VHT_AC*/
 		)
 		{
 			if (pAd->LatchRfRegs.Channel > 14)

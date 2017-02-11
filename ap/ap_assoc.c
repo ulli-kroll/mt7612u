@@ -54,20 +54,17 @@ static void ap_assoc_info_debugshow(
 					pAd->MacTab.fAnyStation20Only,
 					pAd->MacTab.fAnyStationNonGF));
 
-#ifdef DOT11_VHT_AC
 		if ((ie_list->vht_cap_len) &&
 			WMODE_CAP_N(pAd->CommonCfg.PhyMode) &&
 			(pAd->CommonCfg.Channel > 14))
 		{
 			assoc_vht_info_debugshow(pAd, pEntry, &ie_list->vht_cap, NULL);
 		}
-#endif /* DOT11_VHT_AC */
 
 
 		DBGPRINT(RT_DEBUG_TRACE, ("\tExt Cap Info: \n"));
 		DBGPRINT(RT_DEBUG_TRACE, ("\t\tBss2040CoexistMgmt=%d\n",
 				pEntry->BSS2040CoexistenceMgmtSupport));
-#ifdef DOT11_VHT_AC
 		DBGPRINT(RT_DEBUG_TRACE, ("\t\tOperatinModeNotification(%d)\n",
 				pEntry->ext_cap.operating_mode_notification));
 		if (pEntry->ext_cap.operating_mode_notification) {
@@ -77,7 +74,6 @@ static void ap_assoc_info_debugshow(
 					pEntry->operating_mode.rx_nss_type,
 					pEntry->force_op_mode));
 		}
-#endif /* DOT11_VHT_AC */
 	}
 	else
 	{
@@ -161,13 +157,11 @@ static USHORT update_associated_mac_entry(
 		DBGPRINT(RT_DEBUG_TRACE, ("ASSOC -PiggyBack= 1\n"));
 	}
 #endif /* PIGGYBACK_SUPPORT */
-#ifdef DOT11_VHT_AC
 	if ((pAd->CommonCfg.b256QAM_2G) && (ie_list->RalinkIe & 0x00000008))
 	{
 		CLIENT_STATUS_SET_FLAG(pEntry, fCLIENT_STATUS_2G_256QAM_CAPABLE);
 		DBGPRINT(RT_DEBUG_TRACE, ("ASSOC -2.4G_256QAM= 1\n"));
 	}
-#endif /* DOT11_VHT_AC */
 
 	/* In WPA or 802.1x mode, the port is not secured, otherwise is secued. */
 	if ((pEntry->AuthMode >= Ndis802_11AuthModeWPA)
@@ -204,9 +198,7 @@ static USHORT update_associated_mac_entry(
 	{
 		/* Force to None-HT mode due to WiFi 11n policy */
 		ie_list->ht_cap_len = 0;
-#ifdef DOT11_VHT_AC
 		ie_list->vht_cap_len = 0;
-#endif /* DOT11_VHT_AC */
 		DBGPRINT(RT_DEBUG_TRACE, ("%s : Force the STA as Non-HT mode\n", __FUNCTION__));
 	}
 
@@ -302,7 +294,6 @@ static USHORT update_associated_mac_entry(
 		/* Record the received capability from association request */
 		memmove(&pEntry->HTCapability, &ie_list->HTCapability, sizeof(HT_CAPABILITY_IE));
 
-#ifdef DOT11_VHT_AC
 		if (WMODE_CAP_AC(pAd->CommonCfg.PhyMode) &&
 			(pAd->CommonCfg.Channel > 14) &&
 			ie_list->vht_cap_len)
@@ -375,18 +366,15 @@ static USHORT update_associated_mac_entry(
 		}
 		else
 			pEntry->force_op_mode = FALSE;
-#endif /* DOT11_VHT_AC */
 	}
 	else
 	{
 		pAd->MacTab.fAnyStationIsLegacy = TRUE;
 		memset(&pEntry->HTCapability, 0, sizeof(HT_CAPABILITY_IE));
-#ifdef DOT11_VHT_AC
 		// TODO: shiang-usw, it's ugly and need to revise it
 		memset(&pEntry->vht_cap_ie, 0, sizeof(VHT_CAP_IE));
 		memset(&pEntry->SupportVHTMCS, 0, sizeof(pEntry->SupportVHTMCS));
 		pEntry->SupportRateMode &= (~SUPPORT_VHT_MODE);
-#endif /* DOT11_VHT_AC */
 	}
 
 	pEntry->HTPhyMode.word = pEntry->MaxHTPhyMode.word;
@@ -515,13 +503,11 @@ static USHORT APBuildAssociation(
 	if (WMODE_HT_ONLY(pAd->CommonCfg.PhyMode)&& (ie_list->ht_cap_len == 0))
 		return MLME_ASSOC_REJ_DATA_RATE;
 
-#ifdef DOT11_VHT_AC
 	if (WMODE_CAP_AC(pAd->CommonCfg.PhyMode) &&
 		(pAd->CommonCfg.Channel > 14) &&
 		(ie_list->vht_cap_len == 0) &&
 		(pAd->CommonCfg.bNonVhtDisallow))
 		return MLME_ASSOC_REJ_DATA_RATE;
-#endif /* DOT11_VHT_AC */
 
 	if (!pEntry)
 		return MLME_UNSPECIFY_FAIL;
@@ -761,10 +747,8 @@ VOID ap_cmm_peer_assoc_req_action(
 					ie_list->SupportedRatesLen,
 					NULL,
 					0,
-#ifdef DOT11_VHT_AC
 					ie_list->vht_cap_len,
 					&ie_list->vht_cap,
-#endif /* DOT11_VHT_AC */
 					&ie_list->HTCapability,
 					ie_list->ht_cap_len);
 
@@ -773,7 +757,6 @@ VOID ap_cmm_peer_assoc_req_action(
 
 
 
-#ifdef DOT11_VHT_AC
 	if (ie_list->vht_cap_len)
 	{
 //+++Add by shiang for debug
@@ -787,7 +770,6 @@ VOID ap_cmm_peer_assoc_req_action(
 		}
 //---Add by shiang for debug
 	}
-#endif /* DOT11_VHT_AC */
 
 	if (StatusCode == MLME_ASSOC_REJ_DATA_RATE)
 		RTMPSendWirelessEvent(pAd, IW_STA_MODE_EVENT_FLAG, pEntry->Addr, pEntry->apidx, 0);
@@ -1060,14 +1042,12 @@ SendAssocResponse:
 			FrameLen += TmpLen;
 	 	}
 
-#ifdef DOT11_VHT_AC
 		if (WMODE_CAP_AC(pAd->CommonCfg.PhyMode) &&
 			(pAd->CommonCfg.Channel > 14) &&
 			(ie_list->vht_cap_len))
 		{
 			FrameLen += build_vht_ies(pAd, pOutBuffer + FrameLen, SUBTYPE_ASSOC_RSP);
 		}
-#endif /* DOT11_VHT_AC */
 	}
 
 
@@ -1093,11 +1073,9 @@ SendAssocResponse:
 		}
 
 
-#ifdef DOT11_VHT_AC
 		if (WMODE_CAP_AC(pAd->CommonCfg.PhyMode) &&
 			(pAd->CommonCfg.Channel > 14))
 			extCapInfo.operating_mode_notification = 1;
-#endif /* DOT11_VHT_AC */
 
 		pInfo = (UCHAR *)(&extCapInfo);
 		for (infoPos = 0; infoPos < extInfoLen; infoPos++)
@@ -1132,10 +1110,8 @@ SendAssocResponse:
 	if (pAd->CommonCfg.bRdg)
 		RalinkSpecificIe[5] |= 0x4;
 
-#ifdef DOT11_VHT_AC
 	if (pAd->CommonCfg.b256QAM_2G && WMODE_2G_ONLY(pAd->CommonCfg.PhyMode))
 		RalinkSpecificIe[5] |= 0x8;
-#endif /* DOT11_VHT_AC */
 
 	MakeOutgoingFrame(pOutBuffer+FrameLen, &TmpLen,
 						9, RalinkSpecificIe,

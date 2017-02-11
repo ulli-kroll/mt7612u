@@ -220,11 +220,7 @@ struct iw_statistics *rt28xx_get_wireless_stats(
 #define NDIS_PACKET_TYPE_PROMISCUOUS	4
 #endif /* CONFIG_STA_SUPPORT */
 
-#ifdef DOT11_VHT_AC
 #define MAX_PACKETS_IN_QUEUE				1024 /*(512)*/
-#else
-#define MAX_PACKETS_IN_QUEUE				(512)
-#endif /* DOT11_VHT_AC */
 
 
 /***********************************************************************************

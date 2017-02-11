@@ -855,14 +855,12 @@ VOID MlmeStartReqAction(
 			pAd->MlmeAux.HtCapabilityLen = sizeof(HT_CAPABILITY_IE);
 			/* Not turn pAd->StaActive.SupportedHtPhy.bHtEnable = TRUE here. */
 			DBGPRINT(RT_DEBUG_TRACE, ("SYNC -pAd->StaActive.SupportedHtPhy.bHtEnable = TRUE\n"));
-#ifdef DOT11_VHT_AC
 			if (WMODE_CAP_AC(pAd->CommonCfg.PhyMode) &&
 				(pAd->MlmeAux.Channel > 14))
 			{
 				build_vht_cap_ie(pAd, (UCHAR *)&pAd->MlmeAux.vht_cap);
 				pAd->MlmeAux.vht_cap_len = sizeof(VHT_CAP_IE);
 			}
-#endif /* DOT11_VHT_AC */
 		}
 		else {
 			pAd->MlmeAux.HtCapabilityLen = 0;
@@ -1556,10 +1554,8 @@ VOID PeerBeaconAtJoinAction(
 			/*  Get the ext capability info element */
 			memmove(&pAd->MlmeAux.ExtCapInfo, &ie_list->ExtCapInfo,sizeof(ie_list->ExtCapInfo));
 
-#ifdef DOT11_VHT_AC
 			pAd->StaActive.SupportedPhyInfo.bVhtEnable = FALSE;
 			pAd->StaActive.SupportedPhyInfo.vht_bw = VHT_BW_2040;
-#endif /* DOT11_VHT_AC */
 
 			DBGPRINT(RT_DEBUG_TRACE, ("MlmeAux.ExtCapInfo=%d\n", pAd->MlmeAux.ExtCapInfo.BssCoexistMgmtSupport));
 			if (pAd->CommonCfg.bBssCoexEnable == TRUE)
@@ -1611,7 +1607,6 @@ VOID PeerBeaconAtJoinAction(
 		 						__FUNCTION__, ie_list->AddHtInfo.ControlChan, CentralChannel));
 				}
 
-#ifdef DOT11_VHT_AC
 				if (WMODE_CAP_AC(pAd->CommonCfg.PhyMode) &&
 					(pAd->MlmeAux.Channel > 14) &&
 					(ie_list->vht_cap_len) && (ie_list->vht_op_len))
@@ -1638,7 +1633,6 @@ VOID PeerBeaconAtJoinAction(
 					DBGPRINT(RT_DEBUG_OFF, ("%s(): CentralChannel=>%d\n",
 												__FUNCTION__, CentralChannel));
 				}
-#endif /* DOT11_VHT_AC */
 			}
 			else {
    				/* To prevent error, let legacy AP must have same CentralChannel and Channel. */
@@ -1646,10 +1640,8 @@ VOID PeerBeaconAtJoinAction(
 					pAd->MlmeAux.CentralChannel = pAd->MlmeAux.Channel;
 
 				pAd->StaActive.SupportedPhyInfo.bHtEnable = FALSE;
-#ifdef DOT11_VHT_AC
 				pAd->StaActive.SupportedPhyInfo.bVhtEnable = FALSE;
 				pAd->StaActive.SupportedPhyInfo.vht_bw = VHT_BW_2040;
-#endif /* DOT11_VHT_AC */
 				pAd->MlmeAux.NewExtChannelOffset = 0xff;
 				RTMPZeroMemory(&pAd->MlmeAux.HtCapability, SIZE_HT_CAP_IE);
 				pAd->MlmeAux.HtCapabilityLen = 0;
@@ -2074,7 +2066,6 @@ VOID PeerBeacon(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 						goto LabelOK;
 
 
-#ifdef DOT11_VHT_AC
 {
 					BOOLEAN result;
 					IE_LISTS *ielist;
@@ -2108,21 +2099,6 @@ VOID PeerBeacon(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 						goto LabelOK;
 					}
 }
-#else
-					if (StaUpdateMacTableEntry(pAd,
-											pEntry,
-											MaxSupportedRateIn500Kbps,
-											&bcn_ie_list->HtCapability,
-											bcn_ie_list->HtCapabilityLen,
-											&bcn_ie_list->AddHtInfo,
-											bcn_ie_list->AddHtInfoLen,
-											NULL,
-											bcn_ie_list->CapabilityInfo) == FALSE)
-					{
-						DBGPRINT(RT_DEBUG_TRACE, ("ADHOC - Add Entry failed.\n"));
-						goto LabelOK;
-					}
-#endif /* DOT11_VHT_AC */
 
 					if (ADHOC_ON(pAd) && pEntry)
 					{
@@ -2133,10 +2109,8 @@ VOID PeerBeacon(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 										bcn_ie_list->SupRateLen,
 										bcn_ie_list->ExtRate,
 										bcn_ie_list->ExtRateLen,
-#ifdef DOT11_VHT_AC
 										bcn_ie_list->vht_cap_len,
 										&bcn_ie_list->vht_cap_ie,
-#endif /* DOT11_VHT_AC */
 										&bcn_ie_list->HtCapability,
 										bcn_ie_list->HtCapabilityLen);
 					}

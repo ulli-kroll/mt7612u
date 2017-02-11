@@ -617,7 +617,6 @@ static UCHAR GetExtCh(
 	return ExtCh;
 }
 
-#ifdef DOT11_VHT_AC
 INT get_vht_neighbor_index(IN UCHAR channel)
 {
 	if ((channel == 36) || (channel == 52)
@@ -671,7 +670,6 @@ BOOLEAN AC_ChannelGroupCheck(
 
 	return RetVal;
 }
-#endif /* DOT11_VHT_AC */
 
 BOOLEAN N_ChannelGroupCheck(
 	IN struct rtmp_adapter *pAd,
@@ -758,10 +756,8 @@ VOID N_ChannelCheck(struct rtmp_adapter *pAd)
 
 			if (wfa_ht_ch_ext[idx] == 0) {
 				pAd->CommonCfg.RegTransmitSetting.field.BW = BW_20;
-#ifdef DOT11_VHT_AC
 				if (WMODE_CAP_AC(pAd->CommonCfg.PhyMode) && (pAd->CommonCfg.vht_bw > VHT_BW_2040))
 					pAd->CommonCfg.vht_bw = VHT_BW_2040;
-#endif /* DOT11_VHT_AC */
 			}
 		}
 		else

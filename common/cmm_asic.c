@@ -273,12 +273,10 @@ VOID AsicUpdateProtect(
 	USHORT offset;
 	UCHAR i;
 	uint32_t MacReg = 0;
-#ifdef DOT11_VHT_AC
 #ifdef RT65xx
 	PROT_CFG_STRUC vht_port_cfg = {.word = 0};
 	uint16_t protect_rate = 0;
 #endif /* RT65xx */
-#endif /* DOT11_VHT_AC */
 
 	if (!(pAd->CommonCfg.bHTProtect) && (OperationMode != 8))
 		return;
@@ -321,13 +319,11 @@ VOID AsicUpdateProtect(
 	ProtCfg.field.RTSThEn = 1;
 	ProtCfg.field.ProtectNav = ASIC_SHORTNAV;
 
-#ifdef DOT11_VHT_AC
 #ifdef RT65xx
 	// TODO: shiang, is that a correct way to set 0x2000 here??
 	if (IS_RT65XX(pAd))
 		PhyMode = 0x2000; /* Bit 15:13, 0:Legacy CCK, 1: Legacy OFDM, 2: HT mix mode, 3: HT green field, 4: VHT mode, 5-7: Reserved */
 #endif /* RT65xx */
-#endif /* DOT11_VHT_AC */
 
 	/* update PHY mode and rate*/
 	if (pAd->OpMode == OPMODE_AP)
@@ -352,12 +348,10 @@ VOID AsicUpdateProtect(
 		}
 	}
 
-#ifdef DOT11_VHT_AC
 #ifdef RT65xx
 	if (IS_RT65XX(pAd))
 		protect_rate = ProtCfg.field.ProtectRate;
 #endif /* RT65xx */
-#endif /* DOT11_VHT_AC */
 
 
 	/* Handle legacy(B/G) protection*/
@@ -439,7 +433,6 @@ VOID AsicUpdateProtect(
 				}
 				pAd->CommonCfg.IOTestParm.bRTSLongProtOn = FALSE;
 
-#ifdef DOT11_VHT_AC
 #ifdef RT65xx
 				// TODO: shiang-6590, fix me for this protection mechanism
 				if (IS_RT65XX(pAd))
@@ -461,7 +454,6 @@ VOID AsicUpdateProtect(
 					RTMP_IO_WRITE32(pAd, TX_PROT_CFG8, vht_port_cfg.word);
 				}
 #endif /* RT65xx */
-#endif /* DOT11_VHT_AC */
 				break;
 
  			case 1:
@@ -485,7 +477,6 @@ VOID AsicUpdateProtect(
 				Protect[REG_IDX_GF40] = ProtCfg4.word;
 				pAd->CommonCfg.IOTestParm.bRTSLongProtOn = TRUE;
 
-#ifdef DOT11_VHT_AC
 #ifdef RT65xx
 				// TODO: shiang-6590, fix me for this protection mechanism
 				if (IS_RT65XX(pAd))
@@ -512,7 +503,6 @@ VOID AsicUpdateProtect(
 					RTMP_IO_WRITE32(pAd, TX_PROT_CFG8, vht_port_cfg.word);
 				}
 #endif /* RT65xx */
-#endif /* DOT11_VHT_AC */
 
 				break;
 
@@ -540,7 +530,6 @@ VOID AsicUpdateProtect(
 
 				pAd->CommonCfg.IOTestParm.bRTSLongProtOn = FALSE;
 
-#ifdef DOT11_VHT_AC
 #ifdef RT65xx
 				// TODO: shiang-6590, fix me for this protection mechanism
 				if (IS_RT65XX(pAd))
@@ -562,7 +551,6 @@ VOID AsicUpdateProtect(
 					RTMP_IO_WRITE32(pAd, TX_PROT_CFG8, vht_port_cfg.word);
 				}
 #endif /* RT65xx */
-#endif /* DOT11_VHT_AC */
 				break;
 
 			case 3:
@@ -587,7 +575,6 @@ VOID AsicUpdateProtect(
 				Protect[REG_IDX_GF40] = ProtCfg4.word;
 				pAd->CommonCfg.IOTestParm.bRTSLongProtOn = TRUE;
 
-#ifdef DOT11_VHT_AC
 #ifdef RT65xx
 				// TODO: shiang-6590, fix me for this protection mechanism
 				if (IS_RT65XX(pAd))
@@ -612,7 +599,6 @@ VOID AsicUpdateProtect(
 					RTMP_IO_WRITE32(pAd, TX_PROT_CFG8, vht_port_cfg.word);
 				}
 #endif /* RT65xx */
-#endif /* DOT11_VHT_AC */
 				break;
 
 			case 8:
@@ -626,7 +612,6 @@ VOID AsicUpdateProtect(
 				}
 
 
-#ifdef DOT11_VHT_AC
 #ifdef RT65xx
                                if (IS_RT65XX(pAd))
                                {
@@ -652,7 +637,6 @@ VOID AsicUpdateProtect(
                                        RTMP_IO_WRITE32(pAd, TX_PROT_CFG8, vht_port_cfg.word);
                                }
 #endif /* RT65xx */
-#endif /* DOT11_VHT_AC */
 
 				Protect[REG_IDX_MM20] = ProtCfg.word; 	/*0x01754004;*/
 				Protect[REG_IDX_MM40] = ProtCfg4.word; /*0x03f54084;*/
@@ -678,7 +662,6 @@ VOID AsicUpdateProtect(
 		RTMP_IO_WRITE32(pAd, offset + i*4, Protect[i]);
 	}
 
-#ifdef DOT11_VHT_AC
 #ifdef RT65xx
 	if (IS_RT65XX(pAd))
 	{
@@ -698,7 +681,6 @@ VOID AsicUpdateProtect(
 		}
 	}
 #endif /* RT65xx */
-#endif /* DOT11_VHT_AC */
 }
 
 

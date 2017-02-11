@@ -414,7 +414,6 @@ VOID APPeerProbeReqAction(
 						END_OF_ARGS);
 						FrameLen += TmpLen;
 
-#ifdef DOT11_VHT_AC
 				if (WMODE_CAP_AC(PhyMode)) {
 					ULONG TmpLen;
 					UINT8 vht_txpwr_env_ie = IE_VHT_TXPWR_ENV;
@@ -429,7 +428,6 @@ VOID APPeerProbeReqAction(
 								END_OF_ARGS);
 					FrameLen += TmpLen;
 				}
-#endif /* DOT11_VHT_AC */
 			}
 
 			memset(TmpFrame, 0, sizeof(TmpFrame));
@@ -571,12 +569,10 @@ VOID APPeerProbeReqAction(
 				FrameLen += TmpLen;
 			}
 
-#ifdef DOT11_VHT_AC
 			if (WMODE_CAP_AC(PhyMode) &&
 				(pAd->CommonCfg.Channel > 14)) {
 				FrameLen += build_vht_ies(pAd, (UCHAR *)(pOutBuffer+FrameLen), SUBTYPE_PROBE_RSP);
 			}
-#endif /* DOT11_VHT_AC */
 
 		}
 
@@ -600,10 +596,8 @@ VOID APPeerProbeReqAction(
 		if (pAd->CommonCfg.bRdg)
 			RalinkSpecificIe[5] |= 0x4;
 
-#ifdef DOT11_VHT_AC
 	if (pAd->CommonCfg.b256QAM_2G && WMODE_2G_ONLY(pAd->CommonCfg.PhyMode))
 		RalinkSpecificIe[5] |= 0x8;
-#endif /* DOT11_VHT_AC */
 
 #ifdef RSSI_FEEDBACK
 		if (ProbeReqParam.bRequestRssi == TRUE)

@@ -74,11 +74,9 @@ VOID PeerHTAction(
 	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
-#ifdef DOT11_VHT_AC
 VOID PeerVHTAction(
 	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem) ;
-#endif /* DOT11_VHT_AC */
 
 VOID PeerPublicAction(
 	IN struct rtmp_adapter *pAd,

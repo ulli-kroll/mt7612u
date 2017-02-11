@@ -185,11 +185,9 @@ INT Set_TxRate_Proc(
     IN  char *         arg);
 
 
-#ifdef DOT11_VHT_AC
 INT Set_2G_256QAM_Proc(
 	IN  struct rtmp_adapter *  pAdapter,
     IN  char *         arg);
-#endif /* DOT11_VHT_AC */
 
 INT	Set_OLBCDetection_Proc(
 	IN	struct rtmp_adapter *pAd,
@@ -631,11 +629,9 @@ VOID RTMPAPGetAssoMacTable(
 
 			sprintf(msg+strlen(msg),"%-10s", get_phymode_str(pEntry->HTPhyMode.field.MODE));
 			sprintf(msg+strlen(msg),"%-6s", get_bw_str(pEntry->HTPhyMode.field.BW));
-#ifdef DOT11_VHT_AC
 			if (pEntry->HTPhyMode.field.MODE == MODE_VHT)
 				sprintf(msg+strlen(msg),"%dS-M%d", ((pEntry->HTPhyMode.field.MCS>>4) + 1), (pEntry->HTPhyMode.field.MCS & 0xf));
 			else
-#endif /* DOT11_VHT_AC */
 			sprintf(msg+strlen(msg),"%-6d", pEntry->HTPhyMode.field.MCS);
 			sprintf(msg+strlen(msg),"%-6d", pEntry->HTPhyMode.field.ShortGI);
 			sprintf(msg+strlen(msg),"%-6d", pEntry->HTPhyMode.field.STBC);
@@ -807,7 +803,6 @@ INT Set_CountryString_Proc(
 	return success;
 }
 
-#ifdef DOT11_VHT_AC
 INT Set_2G_256QAM_Proc(
 	IN  struct rtmp_adapter *  pAdapter,
     IN  char *         arg)
@@ -817,7 +812,6 @@ INT Set_2G_256QAM_Proc(
 	return success;
 
 }
-#endif /* DOT11_VHT_AC */
 
 
 /*

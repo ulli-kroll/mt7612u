@@ -585,9 +585,7 @@ struct _RTMP_CHIP_CAP_ {
 	UINT8 max_nss;			/* maximum Nss, 3 for 3883 or 3593 */
 	UINT8 max_vht_mcs;		/* Maximum Vht MCS */
 
-#ifdef DOT11_VHT_AC
 	UINT8 ac_off_mode;		/* 11AC off mode */
-#endif /* DOT11_VHT_AC */
 
 	BOOLEAN bTempCompTxALC;
 	BOOLEAN rx_temp_comp;
@@ -606,9 +604,7 @@ struct _RTMP_CHIP_CAP_ {
 	INT16	PAModeCCK[4];
 	INT16	PAModeOFDM[8];
 	INT16	PAModeHT[16];
-#ifdef DOT11_VHT_AC
 	INT16	PAModeVHT[10];
-#endif /* DOT11_VHT_AC */
 #endif /* defined(RTMP_INTERNAL_TX_ALC) */
 
 	/* ---------------------------- packet ---------------------------------- */

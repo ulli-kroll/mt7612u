@@ -32,7 +32,6 @@
 */
 VOID MlmeSetMcsGroup(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 {
-#ifdef DOT11_VHT_AC
 	// TODO: shiang-6590, fix me!!
 	if (pEntry->SupportRateMode & SUPPORT_VHT_MODE)
 	{
@@ -42,7 +41,6 @@ VOID MlmeSetMcsGroup(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 			pEntry->mcsGroup = 1;
 	}
 	else
-#endif /* DOT11_VHT_AC */
 #ifdef DOT11N_SS3_SUPPORT
 	if ((pEntry->HTCapability.MCSSet[2] == 0xff) && (pAd->CommonCfg.TxStream == 3))
 		pEntry->mcsGroup = 3;
@@ -70,7 +68,6 @@ UCHAR MlmeSelectUpRate(
 	UCHAR UpRateIdx = 0;
 	UCHAR grp_cnt;
 
-#ifdef DOT11_VHT_AC
 	if ((pEntry->pTable == RateTableVht2S) || (pEntry->pTable == RateTableVht2S_BW20)
 					|| (pEntry->pTable == RateTableVht2S_BW40) || (pEntry->pTable == RateTableVht2S_MCS7)
 					|| (pEntry->pTable == RateTableVht2S_2G_BW20) || (pEntry->pTable == RateTableVht2S_2G_BW40))
@@ -79,7 +76,6 @@ UCHAR MlmeSelectUpRate(
 					|| (pEntry->pTable == RateTableVht1S_2G_BW20) || (pEntry->pTable == RateTableVht1S_2G_BW40))
 		grp_cnt = 1;
 	else
-#endif /* DOT11_VHT_AC */
 	if ((pEntry->HTCapability.MCSSet[2] == 0xff) && (pAd->CommonCfg.TxStream == 3))
 		grp_cnt =3;
 	else if ((pEntry->HTCapability.MCSSet[0] == 0xff) &&
@@ -259,9 +255,7 @@ UCHAR MlmeSelectDownRate(
 			BOOLEAN valid_mcs32 = FALSE;
 
 			if ((pEntry->MaxHTPhyMode.field.BW == BW_40 && pAd->CommonCfg.BBPCurrentBW == BW_40)
-#ifdef DOT11_VHT_AC
 				|| (pEntry->MaxHTPhyMode.field.BW == BW_80 && pAd->CommonCfg.BBPCurrentBW == BW_80)
-#endif /* DOT11_VHT_AC */
 			)
 				valid_mcs32 = TRUE;
 
@@ -316,7 +310,6 @@ VOID MlmeGetSupportedMcsAdapt(
 	for (idx=0; idx<24; idx++)
 		mcs[idx] = -1;
 
-#ifdef DOT11_VHT_AC
 	if ((pEntry->pTable == RateTableVht1S) || (pEntry->pTable == RateTableVht2S)
 				|| (pEntry->pTable == RateTableVht2S_BW20)
 				|| (pEntry->pTable == RateTableVht2S_BW40)
@@ -402,7 +395,6 @@ VOID MlmeGetSupportedMcsAdapt(
 
 		return;
 	}
-#endif /* DOT11_VHT_AC */
 
 	/*  check the existence and index of each needed MCS */
 	for (idx = 0; idx < RATE_TABLE_SIZE(pTable); idx++)
@@ -497,7 +489,6 @@ VOID TriggerQuickInitMCSRate(
    	pTable = pEntry->pTable;
     memset(pEntry->DownTxMCSRate, 0, sizeof(pEntry->DownTxMCSRate));
 
-#ifdef DOT11_VHT_AC
 #ifdef NEW_RATE_ADAPT_SUPPORT
 	if (pTable == RateTableVht1S || pTable == RateTableVht2S || pTable == RateTableVht1S_MCS9
 					|| pTable == RateTableVht2S_BW20
@@ -532,7 +523,6 @@ VOID TriggerQuickInitMCSRate(
 #endif /*  CONFIG_STA_SUPPORT */
 	}
 #endif /* NEW_RATE_ADAPT_SUPPORT */
-#endif /* DOT11_VHT_AC */
 }
 
 BOOLEAN QuickInitMCSRate(
@@ -637,7 +627,6 @@ UCHAR MlmeSelectTxRateAdapt(
 		RssiOffset += 6;
 #endif /* DBG_CTRL_SUPPORT */
 
-#ifdef DOT11_VHT_AC
 	if (pTable == RateTableVht1S || pTable == RateTableVht2S || pTable == RateTableVht1S_MCS9
 					|| pTable == RateTableVht2S_BW20
 					|| pTable == RateTableVht2S_BW40
@@ -842,7 +831,6 @@ UCHAR MlmeSelectTxRateAdapt(
 		}
 	}
 	else
-#endif /* DOT11_VHT_AC */
 	 if (ADAPT_RATE_TABLE(pTable) ||
 		 (pTable == RateSwitchTable11BGN3S) ||
 		 (pTable == RateSwitchTable11BGN3SForABand))
@@ -2405,7 +2393,6 @@ VOID MlmeDynamicTxRateSwitchingAdapt(
 	/* Select rate based on PER */
 	MlmeNewRateAdapt(pAd, pEntry, UpRateIdx, DownRateIdx, TrainUp, TrainDown, TxErrorRatio);
 
-#ifdef DOT11_VHT_AC
     {
         RTMP_RA_GRP_TB *pAGSCurrTxRate;
 
@@ -2450,7 +2437,6 @@ VOID MlmeDynamicTxRateSwitchingAdapt(
             RTMP_IO_WRITE32(pAd, HT_FBK_CFG1, 0xEDCBA980);
         }
     }
-#endif
 
 
 #ifdef DOT11N_SS3_SUPPORT
