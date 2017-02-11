@@ -344,15 +344,13 @@ typedef struct _CMD_RSP_CONTEXT
 #define FIRMWARE_IMAGE_BASE			0x3000
 #define MAX_FIRMWARE_IMAGE_SIZE		0x1000    /* 4kbyte */
 
-#define RTMP_WRITE_FIRMWARE(_pAd, _pFwImage, _FwLen)		\
-	RTUSBFirmwareWrite(_pAd, _pFwImage, _FwLen)
 
 
 
 /******************************************************************************
 
   	USB TX Related MACRO
-  
+
 ******************************************************************************/
 #define RTMP_START_DEQUEUE(pAd, QueIdx, irqFlags)				\
 			{													\

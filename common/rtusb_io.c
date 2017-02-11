@@ -148,51 +148,6 @@ NTSTATUS RTUSBFirmwareOpmode(struct rtmp_adapter *pAd, uint32_t *pValue)
 	return Status;
 }
 
-
-/*
-	========================================================================
-
-	Routine Description: Write Firmware to NIC.
-
-	Arguments:
-
-	Return Value:
-
-	IRQL =
-
-	Note:
-
-	========================================================================
-*/
-NTSTATUS RTUSBFirmwareWrite(struct rtmp_adapter *pAd, UCHAR *pFwImage, ULONG FwLen)
-{
-	uint32_t MacReg;
-	NTSTATUS Status;
-	USHORT writeLen;
-
-	Status = RTUSBReadMACRegister(pAd, MAC_CSR0, &MacReg);
-
-
-	/* write firmware */
-	writeLen = FwLen;
-#ifdef USB_FIRMWARE_MULTIBYTE_WRITE
-	DBGPRINT(RT_DEBUG_TRACE, ("USB_FIRMWARE_MULTIBYTE_WRITE defined! Write_Bytes = %d\n", MULTIWRITE_BYTES));
-	RTUSBMultiWrite_nBytes(pAd, FIRMWARE_IMAGE_BASE, pFwImage, writeLen, MULTIWRITE_BYTES);
-#else
-	DBGPRINT(RT_DEBUG_TRACE, ("USB_FIRMWARE_MULTIBYTE_WRITE not defined!\n"));
-	RTUSBMultiWrite(pAd, FIRMWARE_IMAGE_BASE, pFwImage, writeLen, FALSE);
-#endif
-	Status = RTUSBWriteMACRegister(pAd, 0x7014, 0xffffffff, FALSE);
-	Status = RTUSBWriteMACRegister(pAd, 0x701c, 0xffffffff, FALSE);
-
-	/* change 8051 from ROM to RAM */
-	Status = RTUSBFirmwareRun(pAd);
-
-
-	return Status;
-}
-
-
 NTSTATUS RTUSBVenderReset(struct rtmp_adapter *pAd)
 {
 	NTSTATUS Status;
