@@ -98,23 +98,6 @@ void usb_cfg_write_v3(struct rtmp_adapter *ad, u32 value)
 #endif /* MT76x2 */
 #endif /* RLT_MAC */
 
-static NTSTATUS RTUSBFirmwareRun(struct rtmp_adapter *pAd)
-{
-	NTSTATUS Status;
-
-	Status = RTUSB_VendorRequest(
-		pAd,
-		DEVICE_VENDOR_REQUEST_OUT,
-		0x01,
-		0x8,
-		0,
-		NULL,
-		0);
-
-	return Status;
-}
-
-
 
 /*
 	========================================================================
