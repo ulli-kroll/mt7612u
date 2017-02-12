@@ -1196,15 +1196,6 @@ BOOLEAN PeerBeaconAndProbeRspSanity(
 		case IE_TIM:
 			if(SubType == SUBTYPE_BEACON)
 			{
-#if defined(P2P_SUPPORT) || defined(RT_CFG80211_P2P_SUPPORT)
-
-                    && NdisEqualMemory(&ie_list->Bssid[0], pAd->ApCfg.ApCliTab[0].MlmeAux.Bssid, MAC_ADDR_LEN))
-                {
-                    GetTimBit((PCHAR)pEid, pAd->ApCfg.ApCliTab[0].MlmeAux.Aid, &TimLen,
-                    &ie_list->BcastFlag, &ie_list->DtimCount,
-                    &ie_list->DtimPeriod, &ie_list->MessageToMe);
-                }
-#endif /*defined(P2P_SUPPORT) || defined(RT_CFG80211_P2P_SUPPORT)*/
 
 				if (INFRA_ON(pAd) && NdisEqualMemory(&ie_list->Bssid[0], pAd->CommonCfg.Bssid, MAC_ADDR_LEN))
 				{

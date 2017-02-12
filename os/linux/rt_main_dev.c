@@ -301,19 +301,12 @@ int rt28xx_open(struct net_device *net_dev)
 	   is changed as register_netdevice().
 		Or in some PC, kernel will panic (Fedora 4)
 	*/
-#if defined(P2P_APCLI_SUPPORT) || defined(RT_CFG80211_P2P_SUPPORT)
-
-#else
 	RT28xx_MBSS_Init(pAd, net_dev);
-#endif /* P2P_APCLI_SUPPORT */
 #endif /* MBSS_SUPPORT */
 
 
 #ifdef APCLI_SUPPORT
-#if defined(P2P_APCLI_SUPPORT) || defined(RT_CFG80211_P2P_CONCURRENT_DEVICE)
-#else
 	RT28xx_ApCli_Init(pAd, net_dev);
-#endif /* P2P_APCLI_SUPPORT || RT_CFG80211_P2P_CONCURRENT_DEVICE */
 #endif /* APCLI_SUPPORT */
 
 
@@ -652,16 +645,16 @@ BOOLEAN RtmpPhyNetDevExit(struct rtmp_adapter *pAd, struct net_device *net_dev)
 
 #ifdef CONFIG_AP_SUPPORT
 #ifdef APCLI_SUPPORT
-#if defined(P2P_APCLI_SUPPORT) || defined(RT_CFG80211_P2P_CONCURRENT_DEVICE)
+#if defined(P2P_APCLI_SUPPORT)
 #else
 	/* remove all AP-client virtual interfaces. */
 	RT28xx_ApCli_Remove(pAd);
-#endif /* P2P_APCLI_SUPPORT  || RT_CFG80211_P2P_CONCURRENT_DEVICE */
+#endif /* P2P_APCLI_SUPPORT*/
 #endif /* APCLI_SUPPORT */
 
 
 #ifdef MBSS_SUPPORT
-#if defined(P2P_APCLI_SUPPORT) || defined(RT_CFG80211_P2P_SUPPORT)
+#if defined(P2P_APCLI_SUPPORT)
 
 #else
 	RT28xx_MBSS_Remove(pAd);

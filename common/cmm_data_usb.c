@@ -512,11 +512,7 @@ USHORT	RtmpUSB_WriteFragTxResource(
 
 #ifdef UAPSD_SUPPORT
 #if defined(CONFIG_AP_SUPPORT) || defined(DOT11Z_TDLS_SUPPORT) || defined(CFG_TDLS_SUPPORT)
-#ifdef RT_CFG80211_P2P_SUPPORT
-                if (RTMP_CFG80211_VIF_P2P_GO_ON(pAd))
-#else
                 IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-#endif /* RT_CFG80211_P2P_SUPPORT */
 		{
 			UAPSD_TagFrame(pAd, pTxBlk->pPacket, pTxBlk->Wcid, pHTTXContext->CurWritePosition);
 		}
@@ -670,11 +666,7 @@ USHORT RtmpUSB_WriteSingleTxResource(
 		pHTTXContext->CurWritePosition += pTxBlk->Priv;
 #ifdef UAPSD_SUPPORT
 #ifdef CONFIG_AP_SUPPORT
-#ifdef RT_CFG80211_P2P_SUPPORT
-                if (RTMP_CFG80211_VIF_P2P_GO_ON(pAd))
-#else
                 IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-#endif /* RT_CFG80211_P2P_SUPPORT */
 		{
 			UAPSD_TagFrame(pAd, pTxBlk->pPacket, pTxBlk->Wcid, pHTTXContext->CurWritePosition);
 		}
@@ -929,11 +921,7 @@ VOID RtmpUSB_FinalWriteTxResource(
 
 #ifdef UAPSD_SUPPORT
 #ifdef CONFIG_AP_SUPPORT
-#ifdef RT_CFG80211_P2P_SUPPORT
-                if (RTMP_CFG80211_VIF_P2P_GO_ON(pAd))
-#else
                 IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-#endif /* RT_CFG80211_P2P_SUPPORT */
 		{
 			UAPSD_TagFrame(pAd, pTxBlk->pPacket, pTxBlk->Wcid, pHTTXContext->CurWritePosition);
 		}
@@ -1053,11 +1041,7 @@ int RtmpUSBMgmtKickOut(
 			pEntry->bAPSDFlagSPStart() so do not worry about it.
 		*/
 #ifdef CONFIG_AP_SUPPORT
-#ifdef RT_CFG80211_P2P_SUPPORT
-       if (RTMP_CFG80211_VIF_P2P_GO_ON(pAd))
-#else
        IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-#endif /* RT_CFG80211_P2P_SUPPORT */
 
 	{
 		if (RTMP_GET_PACKET_QOS_NULL(pPacket) != 0x00)

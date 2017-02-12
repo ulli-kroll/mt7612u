@@ -2580,10 +2580,7 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 		part III. AP configurations
 	*/
 #ifdef CONFIG_AP_SUPPORT
-#if defined(P2P_APCLI_SUPPORT) || defined(RT_CFG80211_P2P_SUPPORT)
-#else
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-#endif /* P2P_APCLI_SUPPORT || RT_CFG80211_P2P_SUPPORT */
 	{
 		/* Set MBSS Default Configurations*/
 		pAd->ApCfg.BssidNum = MAX_MBSSID_NUM(pAd);
@@ -3400,9 +3397,6 @@ INT RtmpRaDevCtrlInit(struct rtmp_adapter *pAd, RTMP_INF_TYPE infType)
 
 	DBGPRINT(RT_DEBUG_TRACE, ("pAd->infType=%d\n", pAd->infType));
 
-#if defined(P2P_SUPPORT) || defined(RT_CFG80211_P2P_SUPPORT)
-	pAd->OpMode = OPMODE_STA;
-#endif /* P2P_SUPPORT */
 
 #ifdef RTMP_MAC_USB
 	RTMP_SEM_EVENT_INIT(&(pAd->UsbVendorReq_semaphore), &pAd->RscSemMemList);

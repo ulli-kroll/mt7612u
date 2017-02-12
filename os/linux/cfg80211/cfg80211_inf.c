@@ -164,14 +164,6 @@ BOOLEAN CFG80211DRV_OpsChgVirtualInf(struct rtmp_adapter *pAd, VOID *pData)
 	}
 	else
 	{
-#ifdef RT_CFG80211_P2P_SUPPORT
-                pCfg80211_ctrl->bP2pCliPmEnable = FALSE;
-                pCfg80211_ctrl->bPreKeepSlient = FALSE;
-                pCfg80211_ctrl->bKeepSlient = FALSE;
-                pCfg80211_ctrl->NoAIndex = MAX_LEN_OF_MAC_TABLE;
-                pCfg80211_ctrl->MyGOwcid = MAX_LEN_OF_MAC_TABLE;
-                pCfg80211_ctrl->CTWindows= 0;   /* CTWindows and OppPS parameter field */
-#endif /* RT_CFG80211_P2P_SUPPORT */
 	}
 
 	return TRUE;
@@ -198,31 +190,6 @@ BOOLEAN RTMP_CFG80211_VIF_P2P_GO_ON(struct rtmp_adapter *pAd)
 
 	return FALSE;
 }
-
-#ifdef RT_CFG80211_P2P_SUPPORT
-BOOLEAN RTMP_CFG80211_VIF_P2P_CLI_ON(struct rtmp_adapter *pAd)
-{
-#ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
-        struct net_device *pNetDev = NULL;
-
-    if ((pAd->cfg80211_ctrl.Cfg80211VifDevSet.vifDevList.size > 0) &&
-        ((pNetDev = RTMP_CFG80211_FindVifEntry_ByType(pAd, RT_CMD_80211_IFTYPE_P2P_CLIENT)) != NULL))
-    	return TRUE;
-    else
-    	return FALSE;
-#endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
-
-#ifdef RT_CFG80211_P2P_SINGLE_DEVICE
-	if(CFG80211_P2P_TEST_BIT(pAd->cfg80211_ctrl.P2POpStatusFlags, CFG_P2P_CLI_UP))
-		return TRUE;
-	else
-		return FALSE;
-#endif /* RT_CFG80211_P2P_SINGLE_DEVICE */
-
-	return FALSE;
-}
-#endif /* RT_CFG80211_P2P_SUPPORT */
-
 
 BOOLEAN CFG80211DRV_OpsVifAdd(struct rtmp_adapter *pAd, VOID *pData)
 {
@@ -356,37 +323,6 @@ struct net_device *RTMP_CFG80211_VirtualIF_Get(
 	return NULL;
 }
 
-#ifdef RT_CFG80211_P2P_SUPPORT
-VOID RTMP_CFG80211_VirtualIF_CancelP2pClient(struct rtmp_adapter *pAd)
-{
-    PLIST_HEADER  pCacheList = &pAd->cfg80211_ctrl.Cfg80211VifDevSet.vifDevList;
-    PCFG80211_VIF_DEV               pDevEntry = NULL;
-    PLIST_ENTRY                     pListEntry = NULL;
-
-	DBGPRINT(RT_DEBUG_TRACE, ("==> %s\n", __FUNCTION__));
-
-    pListEntry = pCacheList->pHead;
-    pDevEntry = (PCFG80211_VIF_DEV)pListEntry;
-    while (pDevEntry != NULL)
-    {
-        if (pDevEntry->devType == RT_CMD_80211_IFTYPE_P2P_CLIENT)
-        {
-        	DBGPRINT(RT_DEBUG_ERROR, ("==> RTMP_CFG80211_VirtualIF_CancelP2pClient HIT.\n"));
-			pDevEntry->devType = RT_CMD_80211_IFTYPE_P2P_GO;
-			break;
-        }
-
-        pListEntry = pListEntry->pNext;
-        pDevEntry = (PCFG80211_VIF_DEV)pListEntry;
-    }
-
-	pAd->flg_apcli_init = FALSE;
-	pAd->ApCfg.ApCliTab[MAIN_MBSSID].wdev.if_dev = NULL;
-
-	DBGPRINT(RT_DEBUG_TRACE, ("<== %s\n", __FUNCTION__));
-}
-#endif /* RT_CFG80211_P2P_SUPPORT */
-
 static INT CFG80211_VirtualIF_Open(struct net_device *dev_p)
 {
 	struct rtmp_adapter *pAd;
@@ -403,16 +339,6 @@ static INT CFG80211_VirtualIF_Open(struct net_device *dev_p)
 	/* increase MODULE use count */
 	RT_MOD_INC_USE_COUNT();
 
-#ifdef RT_CFG80211_P2P_SUPPORT
-	if (dev_p->ieee80211_ptr->iftype == RT_CMD_80211_IFTYPE_P2P_CLIENT)
-	{
-		DBGPRINT(RT_DEBUG_TRACE, ("CFG80211_VirtualIF_Open\n"));
-		pAd->flg_apcli_init = TRUE;
-		ApCli_Open(pAd, dev_p);
-		return 0;
-	}
-#endif /* RT_CFG80211_P2P_SUPPORT */
-
 	RTMP_OS_NETDEV_START_QUEUE(dev_p);
 	DBGPRINT(RT_DEBUG_TRACE, ("%s: <=== %s\n", __FUNCTION__, RTMP_OS_NETDEV_GET_DEVNAME(dev_p)));
 
@@ -426,15 +352,6 @@ static INT CFG80211_VirtualIF_Close(struct net_device *dev_p)
 	pAd = RTMP_OS_NETDEV_GET_PRIV(dev_p);
 	ASSERT(pAd);
 
-#ifdef RT_CFG80211_P2P_SUPPORT
-	if (dev_p->ieee80211_ptr->iftype == RT_CMD_80211_IFTYPE_P2P_CLIENT)
-	{
-		DBGPRINT(RT_DEBUG_TRACE, ("CFG80211_VirtualIF_Close\n"));
-		CFG80211OS_ScanEnd(pAd->pCfg80211_CB, TRUE);
-		RT_MOD_DEC_USE_COUNT();
-		return ApCli_Close(pAd, dev_p);
-	}
-#endif /* RT_CFG80211_P2P_SUPPORT */
 	DBGPRINT(RT_DEBUG_TRACE, ("%s: ===> %s\n", __FUNCTION__, RTMP_OS_NETDEV_GET_DEVNAME(dev_p)));
 
 	RTMP_OS_NETDEV_STOP_QUEUE(dev_p);
@@ -552,9 +469,6 @@ VOID RTMP_CFG80211_VirtualIF_Init(
 {
 	RTMP_OS_NETDEV_OP_HOOK	netDevHook, *pNetDevOps;
 	struct net_device *new_dev_p;
-#ifdef RT_CFG80211_P2P_SUPPORT
-	APCLI_STRUCT	*pApCliEntry;
-#endif /* RT_CFG80211_P2P_SUPPORT */
 	struct rtmp_wifi_dev *wdev;
 
 	CHAR preIfName[12];
@@ -626,38 +540,6 @@ VOID RTMP_CFG80211_VirtualIF_Init(
 
 			//RTMP_OS_NETDEV_SET_TYPE_MONITOR(new_dev_p);
 			break;
-#ifdef RT_CFG80211_P2P_SUPPORT
-		case RT_CMD_80211_IFTYPE_P2P_CLIENT:
-			pApCliEntry = &pAd->ApCfg.ApCliTab[MAIN_MBSSID];
-			wdev = &pApCliEntry->wdev;
-			wdev->wdev_type = WDEV_TYPE_STA;
-			wdev->func_dev = pApCliEntry;
-			wdev->sys_handle = pAd;
-			wdev->if_dev = new_dev_p;
-			wdev->tx_pkt_allowed = ApCliAllowToSendPacket;
-			RTMP_OS_NETDEV_SET_PRIV(new_dev_p, pAd);
-			RTMP_OS_NETDEV_SET_WDEV(new_dev_p, wdev);
-			if (rtmp_wdev_idx_reg(pAd, wdev) < 0)
-			{
-				DBGPRINT(RT_DEBUG_ERROR, ("%s: Assign wdev idx for %s failed, free net device!\n",
-								__FUNCTION__,RTMP_OS_NETDEV_GET_DEVNAME(new_dev_p)));
-				RtmpOSNetDevFree(new_dev_p);
-				break;
-			}
-
-			/* init MAC address of virtual network interface */
-			COPY_MAC_ADDR(wdev->if_addr, pNetDevOps->devAddr);
-			break;
-		case RT_CMD_80211_IFTYPE_P2P_GO:
-			pNetDevOps->priv_flags = INT_P2P;
-			pAd->ApCfg.MBSSID[MAIN_MBSSID].MSSIDDev = NULL;
-			/* The Behivaor in SetBeacon Ops	*/
-			//pAd->ApCfg.MBSSID[MAIN_MBSSID].MSSIDDev = new_dev_p;
-			pAd->cfg80211_ctrl.isCfgInApMode = RT_CMD_80211_IFTYPE_AP;
-			COPY_MAC_ADDR(pAd->ApCfg.MBSSID[MAIN_MBSSID].wdev.if_addr, pNetDevOps->devAddr);
-			COPY_MAC_ADDR(pAd->ApCfg.MBSSID[MAIN_MBSSID].wdev.bssid, pNetDevOps->devAddr);
-			break;
-#endif /* RT_CFG80211_P2P_SUPPORT */
 		default:
 			DBGPRINT(RT_DEBUG_ERROR, ("Unknown CFG80211 I/F Type (%d)\n", DevType));
 	}
@@ -699,30 +581,6 @@ VOID RTMP_CFG80211_VirtualIF_Remove(
 	{
 		RTMP_CFG80211_RemoveVifEntry(pAd, dev_p);
                 RTMP_OS_NETDEV_STOP_QUEUE(dev_p);
-#ifdef RT_CFG80211_P2P_SUPPORT
-		pAd->cfg80211_ctrl.Cfg80211VifDevSet.isGoingOn = FALSE;
-		isGoOn = RTMP_CFG80211_VIF_P2P_GO_ON(pAd);
-
-		if (isGoOn)
-		{
-			RtmpOSNetDevDetach(dev_p);
-			pAd->ApCfg.MBSSID[MAIN_MBSSID].MSSIDDev = NULL;
-		}
-		else if (pAd->flg_apcli_init)
-		{
-			wdev = &pAd->ApCfg.ApCliTab[MAIN_MBSSID].wdev;
-
-			OPSTATUS_CLEAR_FLAG(pAd, fOP_AP_STATUS_MEDIA_STATE_CONNECTED);
-			cfg80211_disconnected(dev_p, 0, NULL, 0, GFP_KERNEL);
-
-			memset(pAd->ApCfg.ApCliTab[MAIN_MBSSID].CfgApCliBssid, 0, MAC_ADDR_LEN);
-			RtmpOSNetDevDetach(dev_p);
-			rtmp_wdev_idx_unreg(pAd, wdev);
-			pAd->flg_apcli_init = FALSE;
-			wdev->if_dev = NULL;
-		}
-		else
-#endif /* RT_CFG80211_P2P_SUPPORT */
 		{
 			/* Never Opened When New Netdevice on */
 			RtmpOSNetDevDetach(dev_p);
@@ -854,14 +712,6 @@ VOID RTMP_CFG80211_DummyP2pIf_Init(
 	if (cfg80211_ctrl->flg_cfg_dummy_p2p_init != FALSE)
 		return;
 
-#if RT_CFG80211_P2P_SUPPORT
-	cfg80211_ctrl->bP2pCliPmEnable = FALSE;
-	cfg80211_ctrl->bPreKeepSlient = FALSE;
-	cfg80211_ctrl->bKeepSlient = FALSE;
-	cfg80211_ctrl->NoAIndex = MAX_LEN_OF_MAC_TABLE;
-	cfg80211_ctrl->MyGOwcid = MAX_LEN_OF_MAC_TABLE;
-	cfg80211_ctrl->CTWindows=0;	/* CTWindows and OppPS parameter field */
-#endif /* RT_CFG80211_P2P_SUPPORT */
 
 	pNetDevOps=&netDevHook;
 

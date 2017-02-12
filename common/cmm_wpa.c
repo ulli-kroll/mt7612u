@@ -1936,9 +1936,6 @@ VOID MlmeDeAuthAction(
 				("Send DEAUTH frame with ReasonCode(%d) to %02x:%02x:%02x:%02x:%02x:%02x \n",
 				Reason, PRINT_MAC(pEntry->Addr)));
 
-#if defined(P2P_SUPPORT) || defined(RT_CFG80211_P2P_SUPPORT)
-	MgtMacHeaderInit(pAd, &DeAuthHdr, SUBTYPE_DEAUTH, 0, pEntry->Addr, pEntry->wdev->if_addr, pEntry->bssid);
-#else
 #ifdef CONFIG_STA_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
 	{
@@ -1953,7 +1950,6 @@ VOID MlmeDeAuthAction(
 							pAd->ApCfg.MBSSID[pEntry->apidx].wdev.bssid);
 	}
 #endif /* CONFIG_AP_SUPPORT */
-#endif /* P2P_SUPPORT */
         MakeOutgoingFrame(pOutBuffer, &FrameLen,
                           sizeof(HEADER_802_11), &DeAuthHdr,
                           2,  &Reason,

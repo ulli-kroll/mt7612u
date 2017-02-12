@@ -553,7 +553,7 @@ static USHORT APBuildAssociation(
 			StatusCode = MLME_SUCCESS;
 #else
 			StatusCode = MLME_ASSOC_DENY_OUT_SCOPE;
-#endif /* RT_CFG80211_P2P_SUPPORT */
+#endif
 
 #ifdef HOSTAPD_SUPPORT
 			if(wdev->Hostapd == Hostapd_EXT
@@ -1299,10 +1299,6 @@ SendAssocResponse:
 
 
 LabelOK:
-#ifdef RT_CFG80211_P2P_SUPPORT
-	if (StatusCode != MLME_SUCCESS)
-		CFG80211_ApStaDelSendEvent(pAd, pEntry->Addr);
-#endif /* RT_CFG80211_P2P_SUPPORT */
 	if (ie_list != NULL)
 		kfree(ie_list);
 

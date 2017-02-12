@@ -1042,18 +1042,6 @@ int MlmeInit(struct rtmp_adapter *pAd)
 #endif /* CONFIG_AP_SUPPORT */
 
 
-#ifdef RT_CFG80211_P2P_SUPPORT
-	/*CFG_TODO*/
-	ApMlmeInit(pAd);
-
-#ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
-	ApCliMlmeInit(pAd);
-#endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
-
-	RTMPInitTimer(pAd, &pAd->cfg80211_ctrl.P2pCTWindowTimer, GET_TIMER_FUNCTION(CFG80211_P2PCTWindowTimer), pAd, FALSE);
-	RTMPInitTimer(pAd, &pAd->cfg80211_ctrl.P2pSwNoATimer, GET_TIMER_FUNCTION(CFG80211_P2pSwNoATimeOut), pAd, FALSE);
-	RTMPInitTimer(pAd, &pAd->cfg80211_ctrl.P2pPreAbsenTimer, GET_TIMER_FUNCTION(CFG80211_P2pPreAbsenTimeOut), pAd, FALSE);
-#endif /* RT_CFG80211_P2P_SUPPORT */
 
 	} while (FALSE);
 
@@ -1815,33 +1803,6 @@ VOID STAMlmePeriodicExec(struct rtmp_adapter *pAd)
 	pAd->RalinkCounters.LastOneSecTotalTxCount = TxTotalCnt;
 
 
-#if defined(P2P_SUPPORT) || defined(RT_CFG80211_P2P_SUPPORT)
-    /* MAC table maintenance */
-	if ((pAd->Mlme.PeriodicRound % MLME_TASK_EXEC_MULTIPLE == 0) &&
-#ifdef RT_CFG80211_P2P_SUPPORT
-	    (pAd->cfg80211_ctrl.isCfgInApMode == RT_CMD_80211_IFTYPE_AP)
-#else
-	    P2P_GO_ON(pAd)
-#endif /* RT_CFG80211_P2P_SUPPORT */
-	   )
-	{
-		/* one second timer */
-#ifdef RT_CFG80211_P2P_SUPPORT
-			MacTableMaintenance(pAd);
-#else
-	    	P2PMacTableMaintenance(pAd);
-#endif /* RT_CFG80211_P2P_SUPPORT */
-
-		if (pAd->CommonCfg.bHTProtect)
-		{
-			APUpdateOperationMode(pAd);
-			if (pAd->CommonCfg.IOTestParm.bRTSLongProtOn == FALSE)
-			{
-				AsicUpdateProtect(pAd, (USHORT)pAd->CommonCfg.AddHTInfo.AddHtInfo2.OperaionMode, ALLN_SETPROTECT, FALSE, pAd->MacTab.fAnyStationNonGF);
-			}
-		}
-	}
-#endif /* P2P_SUPPORT || RT_CFG80211_P2P_SUPPORT */
 
 		/* resume Improved Scanning*/
 		if ((pAd->StaCfg.bImprovedScan) &&
@@ -2162,18 +2123,6 @@ SKIP_AUTO_SCAN_CONN:
 
 
 //YF_TODO
-#if defined(P2P_SUPPORT) || defined(RT_CFG80211_P2P_CONCURRENT_DEVICE)
-	if (RTMP_CFG80211_VIF_P2P_CLI_ON(pAd))
-	{
-		if (pAd->Mlme.OneSecPeriodicRound % 2 == 0)
-			ApCliIfMonitor(pAd);
-
-		if (pAd->Mlme.OneSecPeriodicRound % 2 == 1)
-			ApCliIfUp(pAd);
-
-		ApCliSimulateRecvBeacon(pAd);
-	}
-#endif /* P2P_SUPPORT || RT_CFG80211_P2P_CONCURRENT_DEVICE */
 
 	/* Perform 20/40 BSS COEX scan every Dot11BssWidthTriggerScanInt	*/
 	if ((OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_SCAN_2040)) &&
@@ -2763,13 +2712,6 @@ VOID MlmeUpdateTxRates(struct rtmp_adapter *pAd, BOOLEAN bLinkUp, UCHAR apidx)
 	do
 	{
 #ifdef CONFIG_AP_SUPPORT
-#ifdef RT_CFG80211_P2P_SUPPORT
-		if (apidx >= MIN_NET_DEVICE_FOR_CFG80211_VIF_P2P_GO)
-		{
-			wdev = &pAd->ApCfg.MBSSID[MAIN_MBSSID].wdev;
-			break;
-		}
-#endif /* RT_CFG80211_P2P_SUPPORT */
 #ifdef APCLI_SUPPORT
 		if (apidx >= MIN_NET_DEVICE_FOR_APCLI)
 		{
@@ -4621,9 +4563,6 @@ VOID MgtMacHeaderInit(
 	pHdr80211->FC.SubType = SubType;
 	pHdr80211->FC.ToDs = ToDs;
 	COPY_MAC_ADDR(pHdr80211->Addr1, pDA);
-#if defined(P2P_SUPPORT) || defined(RT_CFG80211_P2P_SUPPORT)
-		COPY_MAC_ADDR(pHdr80211->Addr2, pSA);
-#else
 #ifdef CONFIG_AP_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 		COPY_MAC_ADDR(pHdr80211->Addr2, pBssid);
@@ -4632,7 +4571,6 @@ VOID MgtMacHeaderInit(
 	IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
 		COPY_MAC_ADDR(pHdr80211->Addr2, pAd->CurrentAddress);
 #endif /* CONFIG_STA_SUPPORT */
-#endif /* P2P_SUPPORT */
 	COPY_MAC_ADDR(pHdr80211->Addr3, pBssid);
 }
 
@@ -4853,11 +4791,7 @@ BOOLEAN MlmeEnqueueForRecv(
 	}
 
 #ifdef CONFIG_AP_SUPPORT
-#if defined(P2P_SUPPORT) || defined(RT_CFG80211_P2P_SUPPORT)
-	if (OpMode == OPMODE_AP)
-#else
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-#endif /* P2P_SUPPORT || RT_CFG80211_P2P_SUPPORT */
 	{
 
 #ifdef APCLI_SUPPORT
@@ -4919,11 +4853,7 @@ BOOLEAN MlmeEnqueueForRecv(
 	}
 #endif /* CONFIG_AP_SUPPORT */
 #ifdef CONFIG_STA_SUPPORT
-#if defined(P2P_SUPPORT) || defined(RT_CFG80211_P2P_SUPPORT)
-	if (OpMode == OPMODE_STA)
-#else
 	IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
-#endif /* P2P_SUPPORT */
 	{
 		if (!MsgTypeSubst(pAd, pFrame, &Machine, &MsgType))
 		{

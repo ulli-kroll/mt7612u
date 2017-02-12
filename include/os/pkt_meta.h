@@ -225,10 +225,8 @@
 
 
 /* [CB_OFF + 12]  */
-//#if defined(P2P_SUPPORT) || defined(RT_CFG80211_P2P_SUPPORT)
 #define RTMP_SET_PACKET_OPMODE(_p, _flg)   (PACKET_CB(_p, 12) = _flg)
 #define RTMP_GET_PACKET_OPMODE(_p)         (PACKET_CB(_p, 12))
-//#endif /* P2P_SUPPORT */
 
 
 /* [CB_OFF + 13]  */

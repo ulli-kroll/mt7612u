@@ -363,34 +363,6 @@ VOID STAHandleRxDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 			pEntry = &pAd->MacTab.Content[pRxBlk->wcid];
 
 		if (pRxInfo->MyBss == 0) {
-#if defined(P2P_SUPPORT) || defined(RT_CFG80211_P2P_SUPPORT)
-			/* When the p2p-IF up, the STA own address would be set as my_bssid address.
-			   If receiving an "encrypted" broadcast packet(its WEP bit as 1) and doesn't match my BSSID,
-			   Asic pass to driver with "Decrypted" marked as 0 in pRxInfo.
-			   The condition is below,
-			   1. p2p IF is ON,
-			   2. the addr2 of the received packet is STA's BSSID,
-			   3. broadcast packet,
-			   4. from DS packet,
-			   5. Asic pass this packet to driver with "pRxInfo->Decrypted=0"
-			 */
-			if (
-#ifdef RT_CFG80211_P2P_SUPPORT
-			       TRUE /* The dummy device always present for CFG80211 application*/
-#else
-                    (P2P_INF_ON(pAd))
-#endif /* RT_CFG80211_P2P_SUPPORT */
-                     && (MAC_ADDR_EQUAL(pAd->CommonCfg.Bssid, pHeader->Addr2))
-			   		 && (pRxInfo->Bcast || pRxInfo->Mcast)
-                     && (pHeader->FC.FrDs == 1)
-                     && (pHeader->FC.ToDs == 0)
-			         && (pRxInfo->Decrypted == 0))
-			{
-				/* set this m-cast frame is my-bss. */
-				pRxInfo->MyBss = 1;
-			}
-			else
-#endif /* P2P_SUPPORT || RT_CFG80211_P2P_SUPPORT*/
 			{
 				RELEASE_NDIS_PACKET(pAd, pRxPacket, NDIS_STATUS_FAILURE);
 				return;

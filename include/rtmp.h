@@ -2273,9 +2273,6 @@ typedef struct _MAC_TABLE_ENTRY {
 	SST Sst;
 	AUTH_STATE AuthState;	/* for SHARED KEY authentication state machine used only */
 
-#ifdef RT_CFG80211_P2P_SUPPORT
-	CFG_P2P_ENTRY_PARM CFGP2pInfo;
-#endif /* RT_CFG80211_SUPPORT */
 
 #ifdef VENDOR_FEATURE1_SUPPORT
 	/* total 128B, use uint32_t to avoid alignment problem */
@@ -3360,38 +3357,6 @@ typedef struct _CFG80211_CONTROL
 	/* For add_virtual_intf */
 	CFG80211_VIF_DEV_SET Cfg80211VifDevSet;
 
-#ifdef RT_CFG80211_P2P_SUPPORT
-	BOOLEAN bP2pCliPmEnable;
-
-	BOOLEAN bPreKeepSlient;
-	BOOLEAN	bKeepSlient;
-
-	UCHAR MyGOwcid;
-	UCHAR NoAIndex;
-	UCHAR CTWindows; /* CTWindows and OppPS parameter field */
-
-	P2PCLIENT_NOA_SCHEDULE GONoASchedule;
-	RALINK_TIMER_STRUCT P2pCTWindowTimer;
-	RALINK_TIMER_STRUCT P2pSwNoATimer;
-	RALINK_TIMER_STRUCT P2pPreAbsenTimer;
-
-	UCHAR P2pSupRate[MAX_LEN_OF_SUPPORTED_RATES];
-    UCHAR P2pSupRateLen;
-    UCHAR P2pExtRate[MAX_LEN_OF_SUPPORTED_RATES];
-    UCHAR P2pExtRateLen;
-
-
-
-#ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
-	/* Dummy P2P Device for ANDROID JB */
-	struct net_device *dummy_p2p_net_dev;
-	BOOLEAN flg_cfg_dummy_p2p_init;
-#endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
-
-#ifdef RT_CFG80211_P2P_SINGLE_DEVICE
-	ULONG P2POpStatusFlags; /* P2P_CLI_UP / P2P_GO_UP*/
-#endif /* RT_CFG80211_P2P_SINGLE_DEVICE */
-#endif /* RT_CFG80211_P2P_SUPPORT */
 
 	/* In AP Mode */
 	UINT8 isCfgInApMode;    /* Is any one Device in AP Mode */

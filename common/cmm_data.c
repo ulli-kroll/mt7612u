@@ -266,9 +266,6 @@ int MiniportMMRequest(
 								fRTMP_ADAPTER_NIC_NOT_EXIST |
 								fRTMP_ADAPTER_RADIO_OFF)) ||
 			 !RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_START_UP)
-#ifdef RT_CFG80211_P2P_SUPPORT
-			|| IS_CFG80211_P2P_ABSENCE(pAd)
-#endif /* RT_CFG80211_P2P_SUPPORT */
 			)
 		{
 			Status = NDIS_STATUS_FAILURE;
@@ -313,11 +310,7 @@ int MiniportMMRequest(
 
 #ifdef CONFIG_AP_SUPPORT
 #ifdef UAPSD_SUPPORT
-#ifdef RT_CFG80211_P2P_SUPPORT
-      		if (RTMP_CFG80211_VIF_P2P_GO_ON(pAd))
-#else
             IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-#endif /* RT_CFG80211_P2P_SUPPORT */
 			{
 				UAPSD_MR_QOS_NULL_HANDLE(pAd, pData, pPacket);
 			}
@@ -597,13 +590,6 @@ int MlmeHardTransmit(
 		RTMP_SET_PACKET_MGMT_PKT_DATA_QUE(pPacket, 0); /* default to management queue */
 
 
-#ifdef RT_CFG80211_P2P_SUPPORT
-		if(pEntry->wdev->wdev_type == WDEV_TYPE_AP)
-		{
-			RTMP_SET_PACKET_NET_DEVICE_MBSSID(pPacket, MAIN_MBSSID);
-			RTMP_SET_PACKET_OPMODE(pPacket, OPMODE_AP);
-		}
-#endif /* RT_CFG80211_P2P_SUPPORT */
 
 		if (FlgDataQForce == TRUE)
 			RTMP_SET_PACKET_MGMT_PKT_DATA_QUE(pPacket, 1); /* force to data queue */
@@ -904,15 +890,10 @@ int MlmeHardTransmitMgmtRing(
 	}
 	else
 	{
-//#if defined(P2P_SUPPORT) || defined(RT_CFG80211_P2P_SUPPORT)
-		/* P2P Test Case 6.1.12, only OFDM rate can be captured by sniffer */
 		if(
 #ifdef APCLI_SUPPORT
 		   (!IS_ENTRY_APCLI(pMacEntry)) &&
 #endif /* APCLI_SUPPORT */
-#ifdef RT_CFG80211_P2P_SUPPORT
-		   (CLIENT_STATUS_TEST_FLAG(pMacEntry, fCLIENT_STATUS_APSD_CAPABLE)) &&
-#endif /* RT_CFG80211_P2P_SUPPORT */
 		   ((pHeader_802_11->FC.Type == FC_TYPE_DATA) &&
 		   (pHeader_802_11->FC.SubType == SUBTYPE_QOS_NULL)))
 		{
@@ -935,7 +916,6 @@ int MlmeHardTransmitMgmtRing(
 			transmit = &pMacEntry->HTPhyMode;
 		}
 		else
-//#endif /* P2P_SUPPORT || RT_CFG80211_SUPPORT */
 		{
 			/* dont use low rate to send QoS Null data frame */
 			wcid = pMacEntry->Aid;
@@ -1070,12 +1050,7 @@ static UCHAR TxPktClassification(struct rtmp_adapter *pAd, struct sk_buff * pPac
 	if (Wcid == MCAST_WCID)
 	{	/* Handle for RA is Broadcast/Multicast Address.*/
 #ifdef CONFIG_AP_SUPPORT
-#ifdef RT_CFG80211_P2P_SUPPORT
-	//CFG_TODO: sigh...
-		if (pTxBlk->OpMode == OPMODE_AP)
-#else
 		IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-#endif /* RT_CFG80211_P2P_SUPPORT */
 		{
 			// TODO: shiang-6590, fix me!
 			UCHAR apidx = RTMP_GET_PACKET_NET_DEVICE_MBSSID(pPacket);
@@ -1228,11 +1203,7 @@ BOOLEAN RTMP_FillTxBlkInfo(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 
 		{
 #ifdef CONFIG_AP_SUPPORT
-#if defined(P2P_SUPPORT) || defined(RT_CFG80211_P2P_SUPPORT)
-			if (pTxBlk->OpMode == OPMODE_AP)
-#else
 			IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-#endif /* P2P_SUPPORT || RT_CFG80211_P2P_SUPPORT*/
 			{
 #ifdef APCLI_SUPPORT
 				if(IS_ENTRY_APCLI(pMacEntry))
@@ -1255,11 +1226,7 @@ BOOLEAN RTMP_FillTxBlkInfo(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 #endif /* CONFIG_AP_SUPPORT */
 
 #ifdef CONFIG_STA_SUPPORT
-#if defined(P2P_SUPPORT) || defined(RT_CFG80211_P2P_SUPPORT)
-			if (pTxBlk->OpMode == OPMODE_STA)
-#else
 			IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
-#endif /* P2P_SUPPORT || RT_CFG80211_P2P_SUPPORT */
 			{
 
 
@@ -1454,9 +1421,6 @@ VOID RTMPDeQueuePacket(
 										fRTMP_ADAPTER_HALT_IN_PROGRESS |
 										fRTMP_ADAPTER_NIC_NOT_EXIST |
 										fRTMP_ADAPTER_DISABLE_DEQUEUEPACKET)))
-#ifdef RT_CFG80211_P2P_SUPPORT
-				|| IS_CFG80211_P2P_ABSENCE(pAd)
-#endif /* RT_CFG80211_P2P_SUPPORT */
 
 				)
 			{
@@ -1501,10 +1465,6 @@ VOID RTMPDeQueuePacket(
 			pPacket = QUEUE_ENTRY_TO_PACKET(pEntry);
 
 #ifdef CONFIG_AP_SUPPORT
-#if defined(P2P_SUPPORT) || defined(RT_CFG80211_P2P_SUPPORT)
-			if (RTMP_GET_PACKET_OPMODE(pPacket))
-			{
-#endif /* P2P_SUPPORT || RT_CFG80211_P2P_SUPPORT */
 			if (RTMP_GET_PACKET_MGMT_PKT(pPacket) == 1)
 			{
 				/* this is a management frame */
@@ -1568,9 +1528,6 @@ VOID RTMPDeQueuePacket(
 					    NdisGetSystemUpTime(&pMacEntry->TimeStamp_toTxRing);
 				}
 			}
-#if defined(P2P_SUPPORT) || defined(RT_CFG80211_P2P_SUPPORT)
-			}
-#endif /* P2P_SUPPORT || RT_CFG80211_P2P_SUPPORT*/
 #endif /* CONFIG_AP_SUPPORT */
 
 			/* Early check to make sure we have enoguh Tx Resource.*/
@@ -1584,9 +1541,6 @@ VOID RTMPDeQueuePacket(
 				break;
 			}
 
-#if defined(P2P_SUPPORT) || defined(RT_CFG80211_P2P_SUPPORT)
-			pTxBlk->OpMode = RTMP_GET_PACKET_OPMODE(pPacket);
-#endif /* P2P_SUPPORT || RT_CFG80211_P2P_SUPPORT */
 			pTxBlk->TxFrameType = TxPktClassification(pAd, pPacket, pTxBlk);
 			pEntry = RemoveHeadQueue(pQueue);
 			pTxBlk->TotalFrameNum++;
@@ -1659,12 +1613,6 @@ VOID RTMPDeQueuePacket(
 #ifdef CONFIG_STA_SUPPORT
 			IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
 			{
-#if defined(P2P_SUPPORT) || defined(RT_CFG80211_P2P_SUPPORT)
-			//if (FromWhichBSSID >= MIN_NET_DEVICE_FOR_APCLI)
-			if (RTMP_GET_PACKET_OPMODE(pPacket))
-				Status = APHardTransmit(pAd, pTxBlk, QueIdx);
-			else
-#endif /* P2P_SUPPORT || RT_CFG80211_P2P_SUPPORT */
 				Status = STAHardTransmit(pAd, pTxBlk, QueIdx);
 			}
 #endif /* CONFIG_STA_SUPPORT */
@@ -3065,14 +3013,6 @@ VOID Indicate_EAPOL_Packet(
 #ifdef CONFIG_STA_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
 	{
-#if defined(P2P_APCLI_SUPPORT) || defined(RT_CFG80211_P2P_SUPPORT)
-		if (IS_PKT_OPMODE_AP(pRxBlk))
-		{
-			APRxEAPOLFrameIndicate(pAd, pEntry, pRxBlk, FromWhichBSSID);
-			return;
-		}
-		else
-#endif /* P2P_SUPPORT */
 		{
 			ASSERT((pRxBlk->wcid == BSSID_WCID));
 			STARxEAPOLFrameIndicate(pAd, pEntry, pRxBlk, FromWhichBSSID);
@@ -3500,10 +3440,6 @@ VOID dev_rx_mgmt_frm(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 	{
 		op_mode = OPMODE_STA;
 
-#ifdef RT_CFG80211_P2P_SUPPORT
-		/* CFG_TODO */
-		op_mode = pRxBlk->OpMode;
-#endif /* RT_CFG80211_P2P_SUPPORT */
 
 		/* check if need to resend PS Poll when received packet with MoreData = 1 */
 		if ((RtmpPktPmBitCheck(pAd) == TRUE) && (pHeader->FC.MoreData == 1)) {
@@ -3632,15 +3568,7 @@ VOID dev_rx_ctrl_frm(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 
 #ifdef CONFIG_AP_SUPPORT
 		case SUBTYPE_PS_POLL:
-#ifdef RT_CFG80211_P2P_SUPPORT
-#ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
-			if (IS_PKT_OPMODE_AP(pRxBlk))
-#else
-			/* SINGLE Device: TBD */
-#endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
-#else
 			IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-#endif /* RT_CFG80211_P2P_SUPPORT */
 			{
 				USHORT Aid = pHeader->Duration & 0x3fff;
 				u8 *pAddr = pHeader->Addr2;
@@ -3829,38 +3757,6 @@ BOOLEAN rtmp_rx_done_handle(struct rtmp_adapter *pAd)
 		}
 #endif /* CONFIG_STA_SUPPORT */
 
-#ifdef RT_CFG80211_P2P_SUPPORT
-#ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
-
-	if (RTMP_CFG80211_VIF_P2P_GO_ON(pAd) &&
-		(NdisEqualMemory(pAd->cfg80211_ctrl.P2PCurrentAddress, pHeader->Addr1, MAC_ADDR_LEN) ||
-		(pHeader->FC.SubType == SUBTYPE_PROBE_REQ)))
-	{
-		SET_PKT_OPMODE_AP(&rxblk);
-	}
-	else if (RTMP_CFG80211_VIF_P2P_CLI_ON(pAd) &&
-			(((pHeader->FC.SubType == SUBTYPE_BEACON || pHeader->FC.SubType == SUBTYPE_PROBE_RSP) &&
-                 	NdisEqualMemory(pAd->ApCfg.ApCliTab[MAIN_MBSSID].CfgApCliBssid, pHeader->Addr2, MAC_ADDR_LEN)) ||
-			(pHeader->FC.SubType == SUBTYPE_PROBE_REQ) ||
-			NdisEqualMemory(pAd->ApCfg.ApCliTab[MAIN_MBSSID].MlmeAux.Bssid, pHeader->Addr2, MAC_ADDR_LEN)))
-	{
-
-		SET_PKT_OPMODE_AP(&rxblk);
-	}
-	else
-	{
-	if (pAd->cfg80211_ctrl.isCfgInApMode == RT_CMD_80211_IFTYPE_AP)
-		SET_PKT_OPMODE_AP(&rxblk);
-	else
-		SET_PKT_OPMODE_STA(&rxblk);
-	}
-#else
-	if (pAd->cfg80211_ctrl.isCfgInApMode == RT_CMD_80211_IFTYPE_AP)
-		SET_PKT_OPMODE_AP(&rxblk);
-	else
-		SET_PKT_OPMODE_STA(&rxblk);
-#endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
-#endif /* RT_CFG80211_P2P_SUPPORT */
 
 #ifdef HDR_TRANS_SUPPORT
 		rxblk.bHdrRxTrans = pRxInfo->ip_sum_err;			/* RXINFO bit 31 */
@@ -3915,10 +3811,6 @@ BOOLEAN rtmp_rx_done_handle(struct rtmp_adapter *pAd)
 #ifdef CONFIG_STA_SUPPORT
 		IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
 		{
-#ifdef RT_CFG80211_P2P_SUPPORT
-			//CFG_TOOD : NO GOOD
-			if (IS_PKT_OPMODE_STA(pRxBlk))
-#endif /* RT_CFG80211_P2P_SUPPORT */
 			/* Check for all RxD errors */
 			if (RTMPCheckRxError(pAd, pHeader, &rxblk, pRxInfo) != NDIS_STATUS_SUCCESS)
 			{
@@ -3992,13 +3884,6 @@ BOOLEAN rtmp_rx_done_handle(struct rtmp_adapter *pAd)
 					else
 #endif	/* HDR_TRANS_SUPPORT */
 					{
-#ifdef RT_CFG80211_P2P_SUPPORT
-						if (IS_PKT_OPMODE_AP(pRxBlk))
-						{
-							APHandleRxDataFrame(pAd, &rxblk);
-							break;
-						}
-#endif /* RT_CFG80211_P2P_SUPPORT */
 
 #ifdef CONFIG_STA_SUPPORT
 						IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
@@ -4033,11 +3918,7 @@ BOOLEAN rtmp_rx_done_handle(struct rtmp_adapter *pAd)
 
 #ifdef UAPSD_SUPPORT
 #ifdef CONFIG_AP_SUPPORT
-#ifdef RT_CFG80211_P2P_SUPPORT
-    if (IS_PKT_OPMODE_AP(pRxBlk))
-#else
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-#endif /* RT_CFG80211_P2P_SUPPORT */
 	{
 		/* dont remove the function or UAPSD will fail */
 		UAPSD_MR_SP_RESUME(pAd);

@@ -2052,10 +2052,6 @@ VOID LinkDown(
 	}
 
 	AsicSetSlotTime(pAd, TRUE);	/*FALSE); */
-#ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
-	if ((!RTMP_CFG80211_VIF_P2P_GO_ON(pAd)) && (!RTMP_CFG80211_VIF_P2P_CLI_ON(pAd)))
-#else
-#endif /* RT_CFG80211_P2P_SUPPORT */
 	AsicSetEdcaParm(pAd, NULL);
 
 

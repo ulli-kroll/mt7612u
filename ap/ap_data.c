@@ -730,17 +730,6 @@ static inline VOID APBuildCommon802_11Header(struct rtmp_adapter *pAd, TX_BLK *p
 		COPY_MAC_ADDR(wifi_hdr->Addr3, pTxBlk->pSrcBufHeader + MAC_ADDR_LEN);			/* SA */
 	}
 
-
-#ifdef RT_CFG80211_P2P_SUPPORT
-            /* To not disturb the Opps test, set psm bit if I use power save mode.  */
-            /* P2P Test case 7.1.3 */
-            if (CFG_P2PCLI_ON(pAd) && pAd->cfg80211_ctrl.bP2pCliPmEnable &&
-                CFG80211_P2P_TEST_BIT(pAd->cfg80211_ctrl.CTWindows, P2P_OPPS_BIT))
-            {
-                wifi_hdr->FC.PwrMgmt = PWR_SAVE;
-            }
-#endif /*RT_CFG80211_P2P_SUPPORT*/
-
 	if (pTxBlk->CipherAlg != CIPHER_NONE)
 		wifi_hdr->FC.Wep = 1;
 }

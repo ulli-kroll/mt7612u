@@ -199,23 +199,6 @@ BOOLEAN RTMP_CFG80211_VIF_P2P_GO_ON(
 
 #endif
 
-#ifdef RT_CFG80211_P2P_SUPPORT
-#define CFG_P2PGO_ON(__pAd)  RTMP_CFG80211_VIF_P2P_GO_ON(__pAd)
-#define CFG_P2PCLI_ON(__pAd) RTMP_CFG80211_VIF_P2P_CLI_ON(__pAd)
-
-BOOLEAN RTMP_CFG80211_VIF_P2P_GO_ON(
-	IN      struct rtmp_adapter     *pAdSrc);
-
-BOOLEAN RTMP_CFG80211_VIF_P2P_CLI_ON(
-    IN      struct rtmp_adapter     *pAdSrc);
-
-#ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
-VOID RTMP_CFG80211_DummyP2pIf_Init(struct rtmp_adapter *pAdSrc);
-VOID RTMP_CFG80211_DummyP2pIf_Remove(struct rtmp_adapter *pAdSrc);
-
-BOOLEAN RTMP_CFG80211_VIF_P2P_CLI_ON(struct rtmp_adapter *pAdSrc);
-#endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
-#endif /* RT_CFG80211_P2P_SUPPORT */
 
 struct net_device *RTMP_CFG80211_FindVifEntry_ByType(struct rtmp_adapter *pAdSrc, uint32_t devType);
 PWIRELESS_DEV RTMP_CFG80211_FindVifEntryWdev_ByType(struct rtmp_adapter *pAdSrc, uint32_t devType);

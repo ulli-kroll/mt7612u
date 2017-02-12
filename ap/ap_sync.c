@@ -730,19 +730,6 @@ VOID APPeerBeaconAction(
 		{
 			if (pAd->CommonCfg.Channel<=14)
 			{
-#if defined(P2P_SUPPORT) || defined(RT_CFG80211_P2P_CONCURRENT_DEVICE)
-				if(OPSTATUS_TEST_FLAG(pAd, fOP_AP_STATUS_MEDIA_STATE_CONNECTED) &&
-					RTMP_CFG80211_VIF_P2P_CLI_ON(pAd)
-				  )
-				{
-					if (ie_list->Channel != pAd->CommonCfg.Channel)
-					{
-						DBGPRINT(RT_DEBUG_INFO, ("Channel=%d is not equal as CommonCfg.Channel = %d.\n", ie_list->Channel, pAd->CommonCfg.Channel));
-//						goto __End_Of_APPeerBeaconAction;
-					}
-				}
-				else
-#endif /* P2P_SUPPORT || RT_CFG80211_P2P_CONCURRENT_DEVICE */
 				if (((pAd->CommonCfg.CentralChannel+2) != ie_list->Channel) &&
 					((pAd->CommonCfg.CentralChannel-2) != ie_list->Channel))
 				{
@@ -1456,9 +1443,6 @@ VOID APSyncStateMachineInit(
 
 	StateMachineSetAction(Sm, AP_SYNC_IDLE, APMT2_PEER_PROBE_REQ, (STATE_MACHINE_FUNC)APPeerProbeReqAction);
 	StateMachineSetAction(Sm, AP_SYNC_IDLE, APMT2_PEER_BEACON, (STATE_MACHINE_FUNC)APPeerBeaconAction);
-#if defined(P2P_SUPPORT) || defined(RT_CFG80211_SUPPORT)
-	StateMachineSetAction(Sm, AP_SYNC_IDLE, APMT2_PEER_PROBE_RSP, (STATE_MACHINE_FUNC)APPeerBeaconAtScanAction);
-	#endif /* P2P_SUPPORT || RT_CFG80211_SUPPORT */
 #ifdef AP_SCAN_SUPPORT
 	StateMachineSetAction(Sm, AP_SYNC_IDLE, APMT2_MLME_SCAN_REQ, (STATE_MACHINE_FUNC)APMlmeScanReqAction);
 #ifdef CON_WPS

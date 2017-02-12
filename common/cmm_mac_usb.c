@@ -1653,11 +1653,7 @@ VOID BeaconUpdateExec(
 		ReSyncBeaconTime(pAd);
 
 #ifdef CONFIG_AP_SUPPORT
-#ifdef RT_CFG80211_P2P_SUPPORT
-		if (pAd->cfg80211_ctrl.isCfgInApMode == RT_CMD_80211_IFTYPE_AP)
-#else
 		IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-#endif /* RT_CFG80211_P2P_SUPPORT */
 		{
 			BEACON_SYNC_STRUCT *pBeaconSync = pAd->CommonCfg.pBeaconSync;
 			ULONG UpTime;

@@ -440,9 +440,6 @@ BOOLEAN CFG80211DRV_OpsBeaconAdd(struct rtmp_adapter *pAd, VOID *pData)
 #endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
 
 	/*AP */
-#ifdef RT_CFG80211_P2P_SUPPORT
-	if (!RTMP_CFG80211_VIF_P2P_GO_ON(pAd))
-#endif
 		MlmeUpdateTxRates(pAd, FALSE, MIN_NET_DEVICE_FOR_MBSSID);
 
 	if (WMODE_CAP_N(pAd->CommonCfg.PhyMode))
@@ -489,9 +486,6 @@ BOOLEAN CFG80211DRV_OpsBeaconAdd(struct rtmp_adapter *pAd, VOID *pData)
 	OPSTATUS_SET_FLAG(pAd, fOP_AP_STATUS_MEDIA_STATE_CONNECTED);
 	RTMP_IndicateMediaState(pAd, NdisMediaStateConnected);
 #ifdef RT_CFG80211_SUPPORT
-#ifdef RT_CFG80211_P2P_SUPPORT
-	if (!RTMP_CFG80211_VIF_P2P_GO_ON(pAd))
-#endif 	/*RT_CFG80211_P2P_SUPPORT*/
 		wdev->Hostapd=Hostapd_CFG;
 #endif /*RT_CFG80211_SUPPORT*/
 	return TRUE;
@@ -587,7 +581,7 @@ BOOLEAN CFG80211DRV_ApKeyAdd(
 	UINT8 Wcid;
 #ifdef RT_CFG80211_SUPPORT
 	UINT apidx = MAIN_MBSSID;
-#endif /*RT_CFG80211_P2P_SUPPORT*/
+#endif
 
     DBGPRINT(RT_DEBUG_TRACE,("%s =====> \n", __FUNCTION__));
     pKeyInfo = (CMD_RTPRIV_IOCTL_80211_KEY *)pData;

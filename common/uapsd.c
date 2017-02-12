@@ -876,9 +876,6 @@ VOID UAPSD_SP_CloseInRVDone(struct rtmp_adapter *pAd)
 	if (pAd->MacTab.fAnyStationInPsm == FALSE)
 		return; /* no any station is in power save mode */
 
-#if defined(P2P_SUPPORT) || defined(RT_CFG80211_P2P_SUPPORT)
-	FirstWcid = 2;
-#endif /* P2P_SUPPORT || RT_CFG80211_P2P_SUPPORT */
 
 	/* check for all CLIENT's UAPSD Service Period */
 	for(IdEntry = FirstWcid; IdEntry < MAX_LEN_OF_MAC_TABLE; IdEntry++)
@@ -1858,9 +1855,6 @@ VOID UAPSD_UnTagFrame(
 	int		FirstWcid = 1;
 
 
-#if defined(P2P_SUPPORT) || defined(RT_CFG80211_SUPPORT)
-	FirstWcid = 2;
-#endif /* P2P_SUPPORT || RT_CFG80211_SUPPORT */
 	RTMP_SEM_LOCK(&pAd->UAPSDEOSPLock);
 
 	/* loop for all entries to check whether we need to close their SP */

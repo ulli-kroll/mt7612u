@@ -301,30 +301,6 @@ BOOLEAN CFG80211_SyncPacketWmmIe(struct rtmp_adapter *pAd, VOID *pData, ULONG da
 BOOLEAN CFG80211_HandleP2pMgmtFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk, UCHAR OpMode);
 INT CFG80211_SendMgmtFrame(struct rtmp_adapter *pAd, VOID *pData, ULONG Data);
 
-#ifdef RT_CFG80211_P2P_SUPPORT
-VOID CFG80211_PeerP2pBeacon(
-	IN struct rtmp_adapter *pAd,
-	IN u8 *pAddr2,
-	IN MLME_QUEUE_ELEM *Elem,
-	IN LARGE_INTEGER   TimeStamp);
-
-
-VOID CFG80211_P2pStopNoA(
-	IN struct rtmp_adapter *pAd,
-	IN PMAC_TABLE_ENTRY	pMacClient);
-
-
-BOOLEAN CFG80211_P2pResetNoATimer(
-	IN struct rtmp_adapter *pAd,
-	IN	ULONG	DiffTimeInus);
-
-
-BOOLEAN CFG80211_P2pHandleNoAAttri(
-	IN struct rtmp_adapter *pAd,
-	IN PMAC_TABLE_ENTRY	pMacClient,
-	IN u8 *pData);
-
-#endif /* RT_CFG80211_P2P_SUPPORT */
 
 #ifdef CONFIG_AP_SUPPORT
 

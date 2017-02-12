@@ -189,11 +189,7 @@ static void rtusb_dataout_complete(unsigned long data)
 
 #ifdef UAPSD_SUPPORT
 #ifdef CONFIG_AP_SUPPORT
-#ifdef RT_CFG80211_P2P_SUPPORT
-		if (RTMP_CFG80211_VIF_P2P_GO_ON(pAd))
-#else
 		IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-#endif /* RT_CFG80211_P2P_SUPPORT */
 		{
 			UAPSD_UnTagFrame(pAd, BulkOutPipeId, pHTTXContext->NextBulkOutPosition, pHTTXContext->ENextBulkOutPosition);
 		}
@@ -468,11 +464,7 @@ static void rtusb_mgmt_dma_done_tasklet(unsigned long data)
 	/* Qos Null frame with EOSP shall have valid Wcid value. reference RtmpUSBMgmtKickOut() API. */
 	/* otherwise will be value of MCAST_WCID. */
 #ifdef CONFIG_AP_SUPPORT
-#ifdef RT_CFG80211_P2P_SUPPORT
-        if (RTMP_CFG80211_VIF_P2P_GO_ON(pAd))
-#else
         IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-#endif /* RT_CFG80211_P2P_SUPPORT */
 	{
 		/* Qos Null frame with EOSP shall have valid Wcid value. reference RtmpUSBMgmtKickOut() API. */
 		/* otherwise will be value of MCAST_WCID. */

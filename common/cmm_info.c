@@ -1434,28 +1434,6 @@ VOID RTMPSetPhyMode(struct rtmp_adapter *pAd, ULONG phymode)
 
 
 //CFG_TODO
-#ifdef RT_CFG80211_P2P_SUPPORT
-	memset(pAd->cfg80211_ctrl.P2pSupRate, 0, MAX_LEN_OF_SUPPORTED_RATES);
-	memset(pAd->cfg80211_ctrl.P2pExtRate, 0, MAX_LEN_OF_SUPPORTED_RATES);
-
-	pAd->cfg80211_ctrl.P2pSupRate[0]  = 0x8C;        /* 6 mbps, in units of 0.5 Mbps, basic rate*/
-	pAd->cfg80211_ctrl.P2pSupRate[1]  = 0x12;        /* 9 mbps, in units of 0.5 Mbps*/
-	pAd->cfg80211_ctrl.P2pSupRate[2]  = 0x98;        /* 12 mbps, in units of 0.5 Mbps, basic rate*/
-	pAd->cfg80211_ctrl.P2pSupRate[3]  = 0x24;        /* 18 mbps, in units of 0.5 Mbps*/
-	pAd->cfg80211_ctrl.P2pSupRate[4]  = 0xb0;        /* 24 mbps, in units of 0.5 Mbps, basic rate*/
-	pAd->cfg80211_ctrl.P2pSupRate[5]  = 0x48;        /* 36 mbps, in units of 0.5 Mbps*/
-	pAd->cfg80211_ctrl.P2pSupRate[6]  = 0x60;        /* 48 mbps, in units of 0.5 Mbps*/
-	pAd->cfg80211_ctrl.P2pSupRate[7]  = 0x6c;        /* 54 mbps, in units of 0.5 Mbps*/
-	pAd->cfg80211_ctrl.P2pSupRateLen  = 8;
-
-	pAd->cfg80211_ctrl.P2pExtRateLen  = 0;
-
-#ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
-    MlmeUpdateTxRates(pAd, FALSE, MAIN_MBSSID + MIN_NET_DEVICE_FOR_CFG80211_VIF_P2P_GO);
-
-    MlmeUpdateTxRates(pAd, FALSE, MAIN_MBSSID + MIN_NET_DEVICE_FOR_APCLI);
-#endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
-#endif /* RT_CFG80211_P2P_SUPPORT */
 
 	SetCommonHT(pAd);
 

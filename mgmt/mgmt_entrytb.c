@@ -310,11 +310,6 @@ BOOLEAN StaUpdateMacTableEntry(
 		pEntry->Aid = BSSID_WCID;
 		pEntry->wcid = BSSID_WCID;
 
-#ifdef RT_CFG80211_P2P_SUPPORT
-		{
-			pAd->cfg80211_ctrl.MyGOwcid = BSSID_WCID;
-		}
-#endif /* RT_CFG80211_P2P_SUPPORT */
 
 		pEntry->pAd = pAd;
 		SET_ENTRY_CLIENT(pEntry);
@@ -424,11 +419,7 @@ MAC_TABLE_ENTRY *MacTableInsertEntry(
 #endif /* CONFIG_AP_SUPPORT */
 
 #ifdef CONFIG_AP_SUPPORT
-#if defined(P2P_SUPPORT) || defined(RT_CFG80211_P2P_SUPPORT)
-					if (OpMode == OPMODE_AP)
-#else
 					IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-#endif /* P2P_SUPPORT || RT_CFG80211_P2P_SUPPORT */
 					{	/* be a regular-entry*/
 						if ((apidx < pAd->ApCfg.BssidNum) &&
 							(apidx < MAX_MBSSID_NUM(pAd)) &&
@@ -533,15 +524,7 @@ MAC_TABLE_ENTRY *MacTableInsertEntry(
 						break;
 					}
 #endif /* APCLI_SUPPORT */
-#if defined(P2P_SUPPORT) || defined(RT_CFG80211_P2P_SUPPORT)
-#ifdef RT_CFG80211_P2P_SUPPORT
-					if (pEntry->wdev->wdev_type == WDEV_TYPE_AP)
-#else
-					if (OpMode == OPMODE_AP)
-#endif /* RT_CFG80211_P2P_SUPPORT */
-#else
 					IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-#endif /* P2P_SUPPORT || RT_CFG80211_P2P_SUPPORT */
 					{
 						MBSS_MR_APIDX_SANITY_CHECK(pAd, apidx);
 						pEntry->AuthMode = pAd->ApCfg.MBSSID[apidx].wdev.AuthMode;
@@ -563,11 +546,7 @@ MAC_TABLE_ENTRY *MacTableInsertEntry(
 #endif /* CONFIG_AP_SUPPORT */
 
 #ifdef CONFIG_STA_SUPPORT
-#if defined(P2P_SUPPORT) || defined(RT_CFG80211_P2P_SUPPORT)
-					if (OpMode == OPMODE_STA)
-#else
 				IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
-#endif /* P2P_SUPPORT || RT_CFG80211_P2P_SUPPORT */
 				{
 					pEntry->AuthMode = pAd->StaCfg.wdev.AuthMode;
 					pEntry->WepStatus = pAd->StaCfg.wdev.WepStatus;
@@ -638,11 +617,7 @@ MAC_TABLE_ENTRY *MacTableInsertEntry(
 #endif /* STREAM_MODE_SUPPORT */
 
 #ifdef CONFIG_AP_SUPPORT
-#if defined(P2P_SUPPORT) || defined(RT_CFG80211_P2P_SUPPORT)
-			if (OpMode == OPMODE_AP)
-#else
 			IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-#endif /* P2P_SUPPORT || RT_CFG80211_P2P_SUPPORT */
 			{
 #ifdef UAPSD_SUPPORT
 				if (IS_ENTRY_CLIENT(pEntry)) /* Ralink WDS doesn't support any power saving.*/
@@ -841,12 +816,7 @@ BOOLEAN MacTableDeleteEntry(struct rtmp_adapter *pAd, USHORT wcid, UCHAR *pAddr)
 				}
 #endif /* HOSTAPD_SUPPORT */
 #ifdef RT_CFG80211_SUPPORT
-#ifdef RT_CFG80211_P2P_SUPPORT
-				if (CFG_P2PGO_ON(pAd) || (pAd->cfg80211_ctrl.isCfgInApMode == RT_CMD_80211_IFTYPE_AP))
-					CFG80211_ApStaDelSendEvent(pAd, pEntry->Addr);
-#else
 				CFG80211_ApStaDelSendEvent(pAd, pEntry->Addr);
-#endif /* RT_CFG80211_P2P_SUPPORT */
 #endif /*RT_CFG80211_SUPPORT*/
 			}
 #ifdef APCLI_SUPPORT

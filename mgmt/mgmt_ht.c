@@ -427,15 +427,6 @@ VOID RTMPSetHT(
 	IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
 	{
 
-#ifdef RT_CFG80211_P2P_SUPPORT
-		for (apidx = 0; apidx < pAd->ApCfg.BssidNum; apidx++)
-			RTMPSetIndividualHT(pAd, apidx + MIN_NET_DEVICE_FOR_CFG80211_VIF_P2P_GO);
-
-#ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
-                for (apidx = 0; apidx < MAX_APCLI_NUM; apidx++)
-                        RTMPSetIndividualHT(pAd, apidx + MIN_NET_DEVICE_FOR_APCLI);
-#endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
-#endif /* RT_CFG80211_P2P_SUPPORT */
 
 		RTMPSetIndividualHT(pAd, 0);
 	}
@@ -466,19 +457,6 @@ VOID RTMPSetIndividualHT(struct rtmp_adapter *pAd, UCHAR apidx)
 	do
 	{
 
-#ifdef RT_CFG80211_P2P_SUPPORT
-        if (apidx >= MIN_NET_DEVICE_FOR_CFG80211_VIF_P2P_GO)
-        {
-            UCHAR idx = apidx - MIN_NET_DEVICE_FOR_CFG80211_VIF_P2P_GO;
-
-            pDesired_ht_phy = &pAd->ApCfg.MBSSID[idx].wdev.DesiredHtPhyInfo;
-            DesiredMcs = pAd->ApCfg.MBSSID[idx].wdev.DesiredTransmitSetting.field.MCS;
-            encrypt_mode = pAd->ApCfg.MBSSID[idx].wdev.WepStatus;
-            pAd->ApCfg.MBSSID[idx].wdev.bWmmCapable = TRUE;
-            pAd->ApCfg.MBSSID[idx].wdev.bAutoTxRateSwitch = (DesiredMcs == MCS_AUTO) ? TRUE : FALSE;
-            break;
-        }
-#endif /* RT_CFG80211_P2P_SUPPORT */
 
 
 #ifdef CONFIG_AP_SUPPORT

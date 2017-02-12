@@ -119,19 +119,8 @@ void Announce_Reordering_Packet(struct rtmp_adapter *pAd, struct reordering_mpdu
 #endif /* CONFIG_AP_SUPPORT */
 
 #ifdef CONFIG_STA_SUPPORT
-#if defined(P2P_SUPPORT) || defined(RT_CFG80211_P2P_SUPPORT)
-		if (IS_OPMODE_AP(mpdu))
-		{
-			AP_ANNOUNCE_OR_FORWARD_802_3_PACKET(pAd, pPacket, RTMP_GET_PACKET_IF(pPacket));
-		}
-		else
-		{
-			ANNOUNCE_OR_FORWARD_802_3_PACKET(pAd, pPacket, RTMP_GET_PACKET_IF(pPacket));
-		}
-#else
 		IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
 			ANNOUNCE_OR_FORWARD_802_3_PACKET(pAd, pPacket, RTMP_GET_PACKET_IF(pPacket));
-#endif /* P2P_SUPPORT */
 #endif /* CONFIG_STA_SUPPORT */
 	}
 }
@@ -1209,22 +1198,6 @@ VOID PeerAddBAReqAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 
 	memset(&ADDframe, 0, sizeof(FRAME_ADDBA_RSP));
 	/* 2-1. Prepare ADDBA Response frame.*/
-#if defined(P2P_SUPPORT) || defined(RT_CFG80211_P2P_SUPPORT)
-	if (pMacEntry)
-	{
-#ifdef CONFIG_STA_SUPPORT
-		if (ADHOC_ON(pAd)
-		)
-		{
-			ActHeaderInit(pAd, &ADDframe.Hdr, pAddr, pAd->StaCfg.wdev.if_addr, pAd->CommonCfg.Bssid);
-		}
-		else
-#endif /* CONFIG_STA_SUPPORT */
-		{
-			ActHeaderInit(pAd, &ADDframe.Hdr, pAddr, pMacEntry->wdev->if_addr, pMacEntry->wdev->bssid);
-		}
-	}
-#else
 #ifdef CONFIG_AP_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 	{
@@ -1252,7 +1225,6 @@ VOID PeerAddBAReqAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 			ActHeaderInit(pAd, &ADDframe.Hdr, pAd->CommonCfg.Bssid, pAd->StaCfg.wdev.if_addr, pAddr);
 	}
 #endif /* CONFIG_STA_SUPPORT */
-#endif /* P2P_SUPPORT */
 	ADDframe.Category = CATEGORY_BA;
 	ADDframe.Action = ADDBA_RESP;
 	ADDframe.Token = pAddreqFrame->Token;
@@ -1605,19 +1577,8 @@ void convert_reordering_packet_to_preAMSDU_or_802_3_packet(
 #endif /* CONFIG_AP_SUPPORT */
 
 #ifdef CONFIG_STA_SUPPORT
-#if defined(P2P_SUPPORT) || defined(RT_CFG80211_P2P_SUPPORT)
-	if (IS_PKT_OPMODE_AP(pRxBlk))
-	{
-		RTMP_AP_802_11_REMOVE_LLC_AND_CONVERT_TO_802_3(pRxBlk, Header802_3);
-	}
-	else
-	{
-		RTMP_802_11_REMOVE_LLC_AND_CONVERT_TO_802_3(pRxBlk, Header802_3);
-	}
-#else
 	IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
 		RTMP_802_11_REMOVE_LLC_AND_CONVERT_TO_802_3(pRxBlk, Header802_3);
-#endif /* P2P_SUPPORT */
 #endif /* CONFIG_STA_SUPPORT */
 
 	ASSERT(pRxBlk->pRxPacket);

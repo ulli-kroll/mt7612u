@@ -300,11 +300,7 @@ void tbtt_tasklet(unsigned long data)
 #endif /* WORKQUEUE_BH */
 
 
-#ifdef RT_CFG80211_P2P_SUPPORT
-		if (pAd->cfg80211_ctrl.isCfgInApMode == RT_CMD_80211_IFTYPE_AP)
-#else
 	if (pAd->OpMode == OPMODE_AP)
-#endif /* RT_CFG80211_P2P_SUPPORT */
 	{
 		/* step 7 - if DTIM, then move backlogged bcast/mcast frames from PSQ to TXQ whenever DtimCount==0 */
 #ifdef RTMP_MAC_USB
