@@ -36,14 +36,8 @@ static RTMP_REG_PAIR mt76x2_mac_cr_table[] = {
 	{0x150C, 0x00000002}, /* Enable TX length > 4095 bytes */
 	{0x1608, 0x00000002},
 	{0xa44,	0x0},
-#ifdef HDR_TRANS_SUPPORT
-	{HEADER_TRANS_CTRL_REG, 0x2}, /* 0x1: TX, 0x2: RX */
-	{TSO_CTRL, 0x7050},
-	{0x148, 0x15000001},
-#else
 	{HEADER_TRANS_CTRL_REG, 0x0},
 	{TSO_CTRL, 0x0},
-#endif /* HDR_TRANS_SUPPORT */
 	{AUX_CLK_CFG, 0x0},
 	{DACCLK_EN_DLY_CFG, 0x0}, /* MAC dynamic control TX 960MHZ */
 	{TX_ALC_CFG_4, 0x00000000},
@@ -3296,16 +3290,6 @@ VOID mt76x2_init(struct rtmp_adapter *pAd)
 
 	rlt_bcn_buf_init(pAd);
 
-#ifdef HDR_TRANS_SUPPORT
-	UINT8 cnt = HT_RX_WCID_SIZE/HT_RX_WCID_OFFSET;
-	uint32_t RegVal;
-
-	/* enable TX/RX Header Translation */
-	RTMP_IO_WRITE32(pAd, HT_RX_WCID_EN_BASE , 0xFF);	/* all RX WCID enable */
-
-	/* black list - skip EAP-888e/DLS-890d */
-	RTMP_IO_WRITE32(pAd, HT_RX_BL_BASE, 0x888e890d);
-#endif /* HDR_TRANS_SUPPORT */
 
 	pChipCap->tssi_stage = TSSI_INIT_STAGE;
 }

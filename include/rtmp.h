@@ -4290,12 +4290,6 @@ typedef struct _RX_BLK
 	CHAR freq_offset;
 	CHAR ldpc_ex_sym;
 	HTTRANSMIT_SETTING rx_rate;
-#ifdef HDR_TRANS_SUPPORT
-	BOOLEAN	bHdrRxTrans;	/* this packet's header is translated to 802.3 by HW  */
-	BOOLEAN bHdrVlanTaged;	/* VLAN tag is added to this header */
-	UCHAR *pTransData;
-	USHORT TransDataSize;
-#endif /* HDR_TRANS_SUPPORT */
 } RX_BLK;
 
 
@@ -4412,9 +4406,6 @@ typedef struct _TX_BLK {
 	PACKET_INFO pkt_info;
 #endif /* TX_PKT_SG */
 
-#ifdef HDR_TRANS_SUPPORT
-	BOOLEAN				NeedTrans;	/* indicate the packet needs to do hw header translate */
-#endif /* HDR_TRANS_SUPPORT */
 
 	struct rtmp_wifi_dev *wdev;
 } TX_BLK;
@@ -7109,12 +7100,6 @@ VOID Indicate_AMPDU_Packet(
 	IN	RX_BLK			*pRxBlk,
 	IN	UCHAR			FromWhichBSSID);
 
-#ifdef HDR_TRANS_SUPPORT
-VOID Indicate_AMPDU_Packet_Hdr_Trns(
-	IN	struct rtmp_adapter *pAd,
-	IN	RX_BLK			*pRxBlk,
-	IN	UCHAR			FromWhichBSSID);
-#endif /* HDR_TRANS_SUPPORT */
 
 /* AMSDU packet indication */
 VOID Indicate_AMSDU_Packet(
@@ -7131,12 +7116,6 @@ VOID Indicate_Legacy_Packet(
 	IN	RX_BLK			*pRxBlk,
 	IN	UCHAR			FromWhichBSSID);
 
-#ifdef HDR_TRANS_SUPPORT
-VOID Indicate_Legacy_Packet_Hdr_Trns(
-	IN	struct rtmp_adapter *pAd,
-	IN	RX_BLK			*pRxBlk,
-	IN	UCHAR			FromWhichBSSID);
-#endif /* HDR_TRANS_SUPPORT */
 
 VOID Indicate_EAPOL_Packet(
 	IN	struct rtmp_adapter *pAd,
@@ -7280,12 +7259,6 @@ VOID CmmRxnonRalinkFrameIndicate(
 	IN RX_BLK *pRxBlk,
 	IN UCHAR FromWhichBSSID);
 
-#ifdef HDR_TRANS_SUPPORT
-VOID CmmRxnonRalinkFrameIndicate_Hdr_Trns(
-	IN struct rtmp_adapter *pAd,
-	IN RX_BLK *pRxBlk,
-	IN UCHAR FromWhichBSSID);
-#endif /* HDR_TRANS_SUPPORT */
 
 VOID CmmRxRalinkFrameIndicate(
 	IN struct rtmp_adapter *pAd,

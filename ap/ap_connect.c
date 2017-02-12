@@ -1033,16 +1033,6 @@ VOID APMakeAllBssBeacon(struct rtmp_adapter *pAd)
 
 	RTMP_IO_WRITE32(pAd, MAC_BSSID_DW1, regValue);
 
-#ifdef HDR_TRANS_SUPPORT
-	/*
-		point WCID MAC table to 0x1800
-		This is for debug.
-		But HDR_TRANS doesn't work if you remove it.
-		Check after IC formal release.
-	*/
-	regValue |= 0x18000000;
-	RTMP_IO_WRITE32(pAd, HT_MAC_BSSID_DW1, regValue);
-#endif /* HDR_TRANS_SUPPORT */
 
 #ifdef RTMP_MAC_USB
 #ifndef RT_CFG80211_SUPPORT

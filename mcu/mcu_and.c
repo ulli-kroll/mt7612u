@@ -2510,13 +2510,8 @@ void andes_usb_fw_init(struct rtmp_adapter *ad)
 {
 	DBGPRINT(RT_DEBUG_OFF, ("%s\n", __FUNCTION__));
 
-#ifdef HDR_TRANS_SUPPORT
-	RTMP_IO_WRITE32(ad, HEADER_TRANS_CTRL_REG, 0X2);
-	RTMP_IO_WRITE32(ad, TSO_CTRL, 0x7050);
-#else
 	RTMP_IO_WRITE32(ad, HEADER_TRANS_CTRL_REG, 0x0);
 	RTMP_IO_WRITE32(ad, TSO_CTRL, 0x0);
-#endif
 
 	RT28XXDMAEnable(ad);
 	RTMP_SET_FLAG(ad, fRTMP_ADAPTER_MCU_SEND_IN_BAND_CMD);

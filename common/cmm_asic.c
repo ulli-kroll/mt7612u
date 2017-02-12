@@ -906,9 +906,6 @@ VOID AsicSetBssid(struct rtmp_adapter *pAd, UCHAR *pBssid)
 			(uint32_t)(pBssid[3] << 24);
 	RTMP_IO_WRITE32(pAd, MAC_BSSID_DW0, Addr4);
 
-#ifdef HDR_TRANS_SUPPORT
-	RTMP_IO_WRITE32(pAd, HT_MAC_BSSID_DW0, Addr4);
-#endif /* HDR_TRANS_SUPPORT */
 
 	Addr4 = 0;
 	/* always one BSSID in STA mode*/
@@ -917,10 +914,6 @@ VOID AsicSetBssid(struct rtmp_adapter *pAd, UCHAR *pBssid)
 
 	RTMP_IO_WRITE32(pAd, MAC_BSSID_DW1, Addr4);
 
-#ifdef HDR_TRANS_SUPPORT
-	Addr4 |= 0x18000000;
-	RTMP_IO_WRITE32(pAd, HT_MAC_BSSID_DW1, Addr4);
-#endif /* HDR_TRANS_SUPPORT */
 
 }
 
@@ -947,12 +940,6 @@ INT AsicSetDevMac(struct rtmp_adapter *pAd, UCHAR *addr)
 	DBGPRINT_RAW(RT_DEBUG_TRACE, ("SetDevMAC=%02x:%02x:%02x:%02x:%02x:%02x\n",
 			PRINT_MAC(addr)));
 
-#ifdef HDR_TRANS_SUPPORT
-	RTMP_IO_WRITE32(pAd, HT_MAC_ADDR_DW0, csr2.word);
-	csr3.word &= 0xff00ffff;
-	csr3.word |= 0x00410000;				// HW test code
-	RTMP_IO_WRITE32(pAd, HT_MAC_ADDR_DW1, csr3.word);
-#endif /* HDR_TRANS_SUPPORT */
 
 	return TRUE;
 }
@@ -1042,16 +1029,6 @@ VOID AsicSetMbssMode(struct rtmp_adapter *pAd, UCHAR NumOfBcns)
 
 	RTMP_IO_WRITE32(pAd, MAC_BSSID_DW1, regValue);
 
-#ifdef HDR_TRANS_SUPPORT
-	/*
-		point WCID MAC table to 0x1800
-		This is for debug.
-		But HDR_TRANS doesn't work if you remove it.
-		Check after IC formal release.
-	*/
-	regValue |= 0x18000000;
-	RTMP_IO_WRITE32(pAd, HT_MAC_BSSID_DW1, regValue);
-#endif /* HDR_TRANS_SUPPORT */
 }
 #endif /* CONFIG_AP_SUPPORT */
 

@@ -2570,124 +2570,6 @@ if (0) {
 }
 
 
-#ifdef HDR_TRANS_SUPPORT
-/* Normal legacy Rx packet indication*/
-VOID Indicate_Legacy_Packet_Hdr_Trns(
-	IN struct rtmp_adapter *pAd,
-	IN RX_BLK *pRxBlk,
-	IN UCHAR FromWhichBSSID)
-{
-	struct sk_buff *pRxPacket = pRxBlk->pRxPacket;
-	UCHAR Header802_3[LENGTH_802_3];
-	USHORT VLAN_VID = 0, VLAN_Priority = 0;
-
-	struct sk_buff *pOSPkt;
-
-//+++Add by shiang for debug
-if (0) {
-	hex_dump("Indicate_Legacy_Packet", pRxBlk->pTransData, pRxBlk->TransDataSize);
-	hex_dump("802_11_hdr", pRxBlk->pHeader, LENGTH_802_11);
-}
-//---Add by shiang for debug
-
-	/*
-		1. get 802.3 Header
-		2. remove LLC
-			a. pointer pRxBlk->pData to payload
-			b. modify pRxBlk->DataSize
-	*/
-
-	if (pRxBlk->TransDataSize > 1514 )
-	{
-
-		/* release packet*/
-		RELEASE_NDIS_PACKET(pAd, pRxPacket, NDIS_STATUS_FAILURE);
-		return;
-	}
-
-	STATS_INC_RX_PACKETS(pAd, FromWhichBSSID);
-
-#ifdef RTMP_MAC_USB
-	if (pAd->CommonCfg.bDisableReordering == 0)
-	{
-		PBA_REC_ENTRY		pBAEntry;
-		ULONG				Now32;
-		UCHAR				Wcid = pRxBlk->wcid;
-		UCHAR				TID = pRxBlk->TID;
-		USHORT				Idx;
-
-#define REORDERING_PACKET_TIMEOUT		((100 * OS_HZ)/1000)	/* system ticks -- 100 ms*/
-
-		if (Wcid < MAX_LEN_OF_MAC_TABLE)
-		{
-			Idx = pAd->MacTab.Content[Wcid].BARecWcidArray[TID];
-			if (Idx != 0)
-			{
-				pBAEntry = &pAd->BATable.BARecEntry[Idx];
-				/* update last rx time*/
-				NdisGetSystemUpTime(&Now32);
-				if ((pBAEntry->list.qlen > 0) &&
-					 RTMP_TIME_AFTER((unsigned long)Now32, (unsigned long)(pBAEntry->LastIndSeqAtTimer+(REORDERING_PACKET_TIMEOUT)))
-	   				)
-				{
-					DBGPRINT(RT_DEBUG_OFF, ("Indicate_Legacy_Packet():flush reordering_timeout_mpdus! RxWI->Flags=%d, pRxWI.TID=%d, RxD->AMPDU=%d!\n",
-												pRxBlk->Flags, pRxBlk->TID, pRxBlk->pRxInfo->AMPDU));
-					hex_dump("Dump the legacy Packet:", GET_OS_PKT_DATAPTR(pRxBlk->pRxPacket), 64);
-					ba_flush_reordering_timeout_mpdus(pAd, pBAEntry, Now32);
-				}
-			}
-		}
-	}
-#endif /* RTMP_MAC_USB */
-
-#ifdef CONFIG_AP_SUPPORT
-	MBSS_VLAN_INFO_GET(pAd, VLAN_VID, VLAN_Priority, FromWhichBSSID);
-
-#ifdef WDS_VLAN_SUPPORT
-	if (VLAN_VID == 0) /* maybe WDS packet */
-		WDS_VLAN_INFO_GET(pAd, VLAN_VID, VLAN_Priority, FromWhichBSSID);
-#endif /* WDS_VLAN_SUPPORT */
-#endif /* CONFIG_AP_SUPPORT */
-
-//+++Add by shiang for debug
-if (0) {
-	hex_dump("Before80211_2_8023", pRxBlk->pData, pRxBlk->TransDataSize);
-	hex_dump("header802_3", &Header802_3[0], LENGTH_802_3);
-}
-//---Add by shiang for debug
-
-
-	{
-		pOSPkt = RTPKT_TO_OSPKT(pRxPacket);
-
-		/*get_netdev_from_bssid(pAd, FromWhichBSSID); */
-		pOSPkt->dev = get_netdev_from_bssid(pAd, FromWhichBSSID);
-		pOSPkt->data = pRxBlk->pTransData;
-		pOSPkt->len = pRxBlk->TransDataSize;
-		pOSPkt->tail = pOSPkt->data + pOSPkt->len;
-		//printk("\x1b[31m%s: rx trans ...%d\x1b[m\n", __FUNCTION__, __LINE__);
-	}
-
-//+++Add by shiang for debug
-if (0) {
-	hex_dump("After80211_2_8023", GET_OS_PKT_DATAPTR(pRxBlk->pRxPacket), GET_OS_PKT_LEN(pRxBlk->pRxPacket));
-}
-//---Add by shiang for debug
-
-
-	/* pass this 802.3 packet to upper layer or forward this packet to WM directly*/
-
-#ifdef CONFIG_AP_SUPPORT
-	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-		AP_ANNOUNCE_OR_FORWARD_802_3_PACKET(pAd, pRxPacket, FromWhichBSSID);
-#endif /* CONFIG_AP_SUPPORT */
-#ifdef CONFIG_STA_SUPPORT
-	IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
-		ANNOUNCE_OR_FORWARD_802_3_PACKET(pAd, pRxPacket, FromWhichBSSID);
-#endif /* CONFIG_STA_SUPPORT */
-
-}
-#endif /* HDR_TRANS_SUPPORT */
 
 
 /* Normal, AMPDU or AMSDU*/
@@ -2713,27 +2595,6 @@ VOID CmmRxnonRalinkFrameIndicate(
 
 
 /* Normal, AMPDU or AMSDU*/
-#ifdef HDR_TRANS_SUPPORT
-VOID CmmRxnonRalinkFrameIndicate_Hdr_Trns(
-	IN	struct rtmp_adapter *pAd,
-	IN	RX_BLK			*pRxBlk,
-	IN	UCHAR			FromWhichBSSID)
-{
-	if (RX_BLK_TEST_FLAG(pRxBlk, fRX_AMPDU) && (pAd->CommonCfg.bDisableReordering == 0))
-	{
-		Indicate_AMPDU_Packet_Hdr_Trns(pAd, pRxBlk, FromWhichBSSID);
-	}
-	else
-	{
-		if (RX_BLK_TEST_FLAG(pRxBlk, fRX_AMSDU))
-			Indicate_AMSDU_Packet(pAd, pRxBlk, FromWhichBSSID);
-		else
-		{
-			Indicate_Legacy_Packet_Hdr_Trns(pAd, pRxBlk, FromWhichBSSID);
-		}
-	}
-}
-#endif /* HDR_TRANS_SUPPORT */
 
 
 VOID CmmRxRalinkFrameIndicate(
@@ -3703,24 +3564,6 @@ BOOLEAN rtmp_rx_done_handle(struct rtmp_adapter *pAd)
 		pHeader = rxblk.pHeader;// (PHEADER_802_11)(pData + RXWISize);
 
 
-#ifndef HDR_TRANS_SUPPORT
-		{
-			RXFCE_INFO *pFceInfo = rxblk.pRxFceInfo;
-			if ((pFceInfo->info_type != 0) || (pFceInfo->pkt_80211 != 1))
-			{
-				DBGPRINT(RT_DEBUG_OFF, ("==>%s(): GetFrameFromOtherPorts!\n", __FUNCTION__));
-				hex_dump("hw_rx_info", &rxblk.hw_rx_info[0], sizeof(rxblk.hw_rx_info));
-				DBGPRINT(RT_DEBUG_TRACE, ("Dump the RxD, RxFCEInfo and RxInfo:\n"));
-				hex_dump("RxD", (UCHAR *)pRxD, sizeof(RXD_STRUC));
-				dumpRxFCEInfo(pAd, pFceInfo);
-				dump_rxinfo(pAd, pRxInfo);
-				hex_dump("RxFrame", (UCHAR *)pData, (pFceInfo->pkt_len));
-				DBGPRINT(RT_DEBUG_OFF, ("<==\n"));
-				RELEASE_NDIS_PACKET(pAd, pRxPacket, NDIS_STATUS_SUCCESS);
-				continue;
-			}
-		}
-#endif /* HDR_TRANS_SUPPORT */
 
 #ifdef RT_BIG_ENDIAN
 		RTMPFrameEndianChange(pAd, (u8 *)pHeader, DIR_READ, TRUE);
@@ -3758,12 +3601,6 @@ BOOLEAN rtmp_rx_done_handle(struct rtmp_adapter *pAd)
 #endif /* CONFIG_STA_SUPPORT */
 
 
-#ifdef HDR_TRANS_SUPPORT
-		rxblk.bHdrRxTrans = pRxInfo->ip_sum_err;			/* RXINFO bit 31 */
-		rxblk.bHdrVlanTaged = pRxInfo->tcp_sum_err;			/* RXINFO bit 30 */
-		rxblk.pTransData = (UCHAR *) pHeader +  36; /* 36 byte - 802.11 MAC header (RX Wifi Info */
-		rxblk.TransDataSize = pRxBlk->MPDUtotalByteCnt;
-#endif	/* HDR_TRANS_SUPPORT */
 
 		/* Increase Total receive byte counter after real data received no mater any error or not */
 		pAd->RalinkCounters.ReceivedByteCount += rxblk.DataSize;
@@ -3858,31 +3695,6 @@ BOOLEAN rtmp_rx_done_handle(struct rtmp_adapter *pAd)
 				}
 #endif /* CONFIG_STA_SUPPORT */
 
-#ifdef HDR_TRANS_SUPPORT
-					rxblk.bHdrRxTrans = pRxInfo->ip_sum_err; /* RXINFO bit 31 */
-					//printk("sn - rxblk.bHdrRxTrans = %d\n", rxblk.bHdrRxTrans);
-					if ( rxblk.bHdrRxTrans)
-					{
-						rxblk.bHdrVlanTaged = pRxInfo->tcp_sum_err;	/* RXINFO bit 30 */
-						rxblk.pTransData = (UCHAR *) pHeader +  36; /* 36 byte - RX WIFI Size ( 802.11 Header ) */
-						rxblk.TransDataSize = pRxBlk->MPDUtotalByteCnt;
-						rxblk.DataSize += 36;
-
-#ifdef CONFIG_STA_SUPPORT
-						IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
-						{
-							STAHandleRxDataFrame_Hdr_Trns(pAd, &rxblk);
-						}
-#endif /* CONFIG_STA_SUPPORT */
-#ifdef CONFIG_AP_SUPPORT
-						IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-						{
-							APHandleRxDataFrame_Hdr_Trns(pAd, &rxblk);
-						}
-#endif /* CONFIG_AP_SUPPORT */
-					}
-					else
-#endif	/* HDR_TRANS_SUPPORT */
 					{
 
 #ifdef CONFIG_STA_SUPPORT

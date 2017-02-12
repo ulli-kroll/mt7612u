@@ -331,15 +331,9 @@ typedef	struct GNU_PACKED _TXWI_XMAC {
 
 
 
-#ifdef HDR_TRANS_SUPPORT
-#define TX_WIFI_INFO_SIZE		4
-#define RX_WIFI_INFO_SIZE		36
-#define RX_WIFI_INFO_PAD		2
-#else
 #define TX_WIFI_INFO_SIZE		0
 #define RX_WIFI_INFO_SIZE		0
 #define RX_WIFI_INFO_PAD		0
-#endif
 #ifdef RT_BIG_ENDIAN
 typedef union GNU_PACKED _TX_WIFI_INFO {
 	struct {

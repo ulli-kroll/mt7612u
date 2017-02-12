@@ -2073,11 +2073,6 @@ BOOLEAN  ApCliHandleRxBroadcastFrame(
 	}
 	pRxInfo->MyBss = 1;
 
-#ifdef HDR_TRANS_SUPPORT
-	if (pRxBlk->bHdrRxTrans)
-		Indicate_Legacy_Packet_Hdr_Trns(pAd, pRxBlk, FromWhichBSSID);
-	else
-#endif /* HDR_TRANS_SUPPORT */
 	Indicate_Legacy_Packet(pAd, pRxBlk, FromWhichBSSID);
 
 	return TRUE;
