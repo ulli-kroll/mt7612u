@@ -203,8 +203,7 @@ NTSTATUS RTUSBSingleWrite(
 	BOOLEAN WriteHigh = FALSE;
 
 	return RTUSB_VendorRequest(pAd, DEVICE_VENDOR_REQUEST_OUT,
-								(WriteHigh == TRUE) ? 0x10 : 0x2,
-								Value, Offset, NULL, 0);
+				   0x2,	Value, Offset, NULL, 0);
 }
 
 
