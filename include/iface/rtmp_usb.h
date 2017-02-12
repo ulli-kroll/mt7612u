@@ -90,7 +90,6 @@ NTSTATUS RTUSB_VendorRequest(
 
 NTSTATUS RTUSBMultiWrite(struct rtmp_adapter *pAd, USHORT Offset, UCHAR *buf, USHORT len, BOOLEAN bWriteHigh);
 NTSTATUS RTUSBMultiWrite_nBytes(struct rtmp_adapter *pAd, USHORT Offset, UCHAR *buf, USHORT len, USHORT batchLen);
-NTSTATUS RTUSBMultiWrite_OneByte(struct rtmp_adapter *pAd, USHORT Offset, UCHAR *pData);
 NTSTATUS RTUSBSingleWrite(struct rtmp_adapter *pAd, USHORT Offset, USHORT val, BOOLEAN bWriteHigh);
 
 NTSTATUS RTUSBReadBBPRegister(struct rtmp_adapter *pAd, UCHAR Id, UCHAR *pValue);

@@ -169,29 +169,6 @@ NTSTATUS RTUSBMultiWrite_nBytes(
 	return Status;
 }
 
-
-/*
-	========================================================================
-
-	Routine Description: Write various length data to RT2573
-
-	Arguments:
-
-	Return Value:
-
-	IRQL =
-
-	Note:
-
-	========================================================================
-*/
-NTSTATUS RTUSBMultiWrite_OneByte(struct rtmp_adapter *pAd, USHORT Offset, UCHAR *pData)
-{
-	/* TODO: In 2870, use this funciton carefully cause it's not stable.*/
-	return RTUSB_VendorRequest(pAd, DEVICE_VENDOR_REQUEST_OUT,
-								0x6, 0, Offset, pData, 1);
-}
-
 NTSTATUS RTUSBMultiWrite(
 	IN struct rtmp_adapter *pAd,
 	IN USHORT Offset,

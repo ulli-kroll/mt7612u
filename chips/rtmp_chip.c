@@ -33,52 +33,6 @@
 /*
 ========================================================================
 Routine Description:
-	write high memory.
-	if firmware do not support auto high/low memory switching, we should switch to high memory by ourself.
-
-Arguments:
-	pAd				- WLAN control block pointer
-	Offset			- Memory offsets
-	Value			- Written value
-	Unit				- Unit in "Byte"
-
-Return Value:
-	None
-
-Note:
-========================================================================
-*/
-VOID RtmpChipWriteHighMemory(
-	IN struct rtmp_adapter *pAd,
-	IN USHORT Offset,
-	IN uint32_t Value,
-	IN UINT8 Unit)
-{
-#ifdef RTMP_MAC_USB
-	switch(Unit)
-	{
-		/* ULLI : strange I can remember about u32 contraints */
-		case 1:
-			RTUSBSingleWrite(pAd, Offset, Value, TRUE);
-			break;
-		case 2:
-		{
-		/* ULLI : strange I can remember about u32 contraints */
-			uint16_t ShortVal = (uint16_t)Value;
-			RTUSBMultiWrite(pAd, Offset, (UCHAR *) &ShortVal, 2, TRUE);
-			break;
-		}
-		case 4:
-			RTUSBWriteMACRegister(pAd, Offset, Value, TRUE);
-		default:
-			break;
-	}
-#endif /* RTMP_MAC_USB */
-}
-
-/*
-========================================================================
-Routine Description:
 	Initialize specific beacon frame architecture.
 
 Arguments:
