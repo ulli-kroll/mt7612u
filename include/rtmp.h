@@ -6527,13 +6527,6 @@ VOID RTMPUpdateHTIE(
 	OUT		HT_CAPABILITY_IE *pHtCapability,
 	OUT		ADD_HT_INFO_IE		*pAddHtInfo);
 
-VOID RTMPAddWcidAttributeEntry(
-	IN	struct rtmp_adapter *pAd,
-	IN	UCHAR			BssIdx,
-	IN 	UCHAR		 	KeyIdx,
-	IN 	UCHAR		 	CipherAlg,
-	IN 	MAC_TABLE_ENTRY *pEntry);
-
 char *GetEncryptType(CHAR enc);
 char *GetAuthMode(CHAR auth);
 
