@@ -698,27 +698,11 @@ void linux_pci_unmap_single(void *handle, ra_dma_addr_t dma_addr, size_t size, i
 			RTUSBWriteMACRegister((_A), (_R), (uint32_t) (_V));		\
 	}while(0)
 
-#define RTMP_IO_READ8(_A, _R, _pV)								\
-{																\
-}
-
 #define RTMP_IO_READ32(_A, _R, _pV)								\
 	RTUSBReadMACRegister((_A), (_R), (uint32_t *) (_pV))
 
 #define RTMP_IO_WRITE32(_A, _R, _V)								\
 	RTUSBWriteMACRegister((_A), (_R), (uint32_t) (_V))
-
-#define RTMP_IO_WRITE8(_A, _R, _V)								\
-{																\
-	USHORT	_Val = _V;											\
-	RTUSBSingleWrite((_A), (_R), (USHORT) (_Val), FALSE);		\
-}
-
-
-#define RTMP_IO_WRITE16(_A, _R, _V)								\
-{																\
-	RTUSBSingleWrite((_A), (_R), (USHORT) (_V), FALSE);			\
-}
 
 #define RTMP_SYS_IO_READ32
 #define RTMP_SYS_IO_WRITE32
