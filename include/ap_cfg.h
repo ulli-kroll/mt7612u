@@ -120,10 +120,6 @@ INT	ApCfg_Set_IdleTimeout_Proc(
 
 #ifdef APCLI_SUPPORT
 #ifdef APCLI_WPA_SUPPLICANT_SUPPORT
-VOID RTMPApCliAddKey(
-	IN	struct rtmp_adapter *    pAd,
-	IN 	INT				apidx,
-	IN	PNDIS_APCLI_802_11_KEY    pApcliKey);
 #endif /* APCLI_WPA_SUPPLICANT_SUPPORT */
 #endif /* APCLI_SUPPORT */
 #endif /* __AP_CFG_H__ */
