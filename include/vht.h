@@ -44,9 +44,7 @@ INT vht_mode_adjust(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry, VHT_CAP_I
 INT SetCommonVHT(struct rtmp_adapter *pAd);
 VOID rtmp_set_vht(struct rtmp_adapter *pAd, struct _RT_PHY_INFO *phy_info);
 
-#ifdef VHT_TXBF_SUPPORT
 VOID trigger_vht_ndpa(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *entry);
-#endif /* VHT_TXBF_SUPPORT */
 
 void assoc_vht_info_debugshow(
 	IN struct rtmp_adapter *pAd,

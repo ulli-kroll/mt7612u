@@ -188,7 +188,6 @@ BOOLEAN StaUpdateMacTableEntry(
 		ht_mode_adjust(pAd, pEntry, ht_cap, &pAd->CommonCfg.DesiredHtPhy);
 
 #ifdef TXBF_SUPPORT
-#ifdef VHT_TXBF_SUPPORT
 		if (WMODE_CAP_AC(pAd->CommonCfg.PhyMode) &&
 				(pAd->CommonCfg.Channel > 14) &&
 				(ie_list->vht_cap_len))
@@ -199,7 +198,6 @@ BOOLEAN StaUpdateMacTableEntry(
 							ie_list->vht_cap.vht_cap.bfee_cap_su , ie_list->vht_cap.vht_cap.bfer_cap_su));
 		}
 		else
-#endif /* VHT_TXBF_SUPPORT */
 			supportsETxBf = clientSupportsETxBF(pAd, &ht_cap->TxBFCap);
 #endif /* TXBF_SUPPORT */
 

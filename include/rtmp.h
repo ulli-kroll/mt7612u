@@ -2485,13 +2485,11 @@ typedef struct _MAC_TABLE_ENTRY {
 	UINT LastTxCount;
 #endif /* TXBF_SUPPORT */
 
-#ifdef VHT_TXBF_SUPPORT
 	UINT8 snd_dialog_token;
 #ifdef SOFT_SOUNDING
 	BOOLEAN snd_reqired;
 	HTTRANSMIT_SETTING snd_rate;
 #endif /* SOFT_SOUNDING */
-#endif /* VHT_TXBF_SUPPORT */
 
 	uint32_t OneSecTxNoRetryOkCount;
 	uint32_t OneSecTxRetryOkCount;
@@ -4083,10 +4081,8 @@ struct rtmp_adapter {
 #endif
 
 
-#ifdef VHT_TXBF_SUPPORT
 	BOOLEAN NDPA_Request;
     BOOLEAN BeaconSndDimensionFlag;    // Peer sounding dimension flag
-#endif
 };
 
 #ifdef ED_MONITOR
@@ -6939,9 +6935,7 @@ INT Set_TxBfProfileTag_Flg(
 
 #endif /* TXBF_SUPPORT */
 
-#ifdef VHT_TXBF_SUPPORT
 INT Set_VhtNDPA_Sounding_Proc(struct rtmp_adapter *pAd, char *arg);
-#endif /* VHT_TXBF_SUPPORT */
 
 
 INT Set_RateAdaptInterval(struct rtmp_adapter *pAd, char *arg);
@@ -7126,10 +7120,8 @@ UINT deaggregate_AMSDU_announce(
 #ifdef TXBF_SUPPORT
 BOOLEAN clientSupportsETxBF(struct rtmp_adapter *pAd, HT_BF_CAP *pTxBFCap);
 void setETxBFCap(struct rtmp_adapter *pAd, HT_BF_CAP *pTxBFCap);
-#ifdef VHT_TXBF_SUPPORT
 BOOLEAN clientSupportsVHTETxBF(struct rtmp_adapter *pAd, VHT_CAP_INFO *pTxBFCapInfo);
 void setVHTETxBFCap(struct rtmp_adapter *pAd, VHT_CAP_INFO *pTxBFCap);
-#endif /* VHT_TXBF_SUPPORT */
 
 #ifdef ETXBF_EN_COND3_SUPPORT
 VOID txSndgSameMcs(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY * pEnt, UCHAR smoothMfb);

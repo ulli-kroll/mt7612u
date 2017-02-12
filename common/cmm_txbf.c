@@ -254,7 +254,6 @@ BOOLEAN clientSupportsETxBF(
 }
 
 
-#ifdef VHT_TXBF_SUPPORT
 /*
 	clientSupportsETxBF - returns true if client supports compatible Sounding
 */
@@ -264,7 +263,6 @@ BOOLEAN clientSupportsVHTETxBF(
 {
 	return pTxBFCap->bfee_cap_su;
 }
-#endif
 
 
 /*
@@ -297,7 +295,6 @@ void setETxBFCap(struct rtmp_adapter *pAd, HT_BF_CAP *pTxBFCap)
 	}
 }
 
-#ifdef VHT_TXBF_SUPPORT
 void setVHTETxBFCap(struct rtmp_adapter *pAd, VHT_CAP_INFO *pTxBFCap)
 {
 	if (pAd->CommonCfg.ETxBfIncapable) {
@@ -316,7 +313,6 @@ void setVHTETxBFCap(struct rtmp_adapter *pAd, VHT_CAP_INFO *pTxBFCap)
 		pTxBFCap->cmp_st_num_bfer = 1;
 	}
 }
-#endif
 
 
 #ifdef ETXBF_EN_COND3_SUPPORT

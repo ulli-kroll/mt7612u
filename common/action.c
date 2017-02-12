@@ -1112,14 +1112,12 @@ VOID PeerVHTAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 				}
 			}
 			break;
-#ifdef VHT_TXBF_SUPPORT
 		case ACT_VHT_COMPRESS_BF:
 			{
 				//DBGPRINT(RT_DEBUG_OFF,("ACTION - VHT Compressed Beamforming action---->\n"));
 				//hex_dump("VHT Compressed BF", &Elem->Msg[0], Elem->MsgLen);
 				break;
 			}
-#endif /* VHT_TXBF_SUPPORT */
 		default:
 			break;
 	}

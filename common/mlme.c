@@ -5578,7 +5578,6 @@ BOOLEAN RTMPCheckVht(
 	pAd->MlmeAux.vht_cap.mcs_set.tx_high_rate = pAd->CommonCfg.TxStream * 325;
 
 	//pAd->MlmeAux.vht_cap.vht_cap.ch_width = vht_cap_info->ch_width;
-#ifdef VHT_TXBF_SUPPORT
 	if (pAd->chipCap.FlgHwTxBfCap)
 	    setVHTETxBFCap(pAd, &pAd->MlmeAux.vht_cap.vht_cap);
 
@@ -5596,7 +5595,6 @@ BOOLEAN RTMPCheckVht(
              pAd->MlmeAux.vht_cap.vht_cap.cmp_st_num_bfer = 0;
            }
          }
-#endif /* TXBF_SUPPORT */
 
 	return TRUE;
 }

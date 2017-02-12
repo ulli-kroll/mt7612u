@@ -2457,7 +2457,6 @@ VOID STA_Fragment_Frame_Tx(
 		}
 
 
-#ifdef VHT_TXBF_SUPPORT
 VOID STA_NDPA_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 {
 	UCHAR *buf;
@@ -2523,7 +2522,6 @@ VOID STA_NDPA_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 
 	pMacEntry->TxSndgType = SNDG_TYPE_DISABLE;
 }
-#endif /* VHT_TXBF_SUPPORT */
 
 
 /*
@@ -2604,7 +2602,6 @@ int STAHardTransmit(struct rtmp_adapter *pAd, TX_BLK *pTxBlk, UCHAR QueIdx)
 	}
 
 
-#ifdef VHT_TXBF_SUPPORT
 	if ((pTxBlk->TxFrameType & TX_NDPA_FRAME) > 0)
 	{
 		UCHAR mlmeMCS, mlmeBW, mlmeMode;
@@ -2625,7 +2622,6 @@ int STAHardTransmit(struct rtmp_adapter *pAd, TX_BLK *pTxBlk, UCHAR QueIdx)
 		pAd->CommonCfg.MlmeTransmit.field.BW   = mlmeBW;
 		pAd->CommonCfg.MlmeTransmit.field.MODE = mlmeMode;
 	}
-#endif
 
 	switch (pTxBlk->TxFrameType) {
 	case TX_AMPDU_FRAME:

@@ -103,7 +103,6 @@ VOID dump_vht_op(struct rtmp_adapter *pAd, VHT_OP_IE *vht_ie)
 }
 
 
-#ifdef VHT_TXBF_SUPPORT
 VOID trigger_vht_ndpa(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *entry)
 {
 	UCHAR *buf;
@@ -188,7 +187,6 @@ VOID trigger_vht_ndpa(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *entry)
 #endif /* SOFT_SOUNDING */
 
 }
-#endif /* VHT_TXBF_SUPPORT */
 
 
 /*
@@ -578,7 +576,6 @@ INT build_vht_cap_ie(struct rtmp_adapter *pAd, UCHAR *buf)
 	//SWAP32((uint32_t)vht_cap_ie.mcs_set);
 #endif /* RT_BIG_ENDIAN */
 
-#ifdef VHT_TXBF_SUPPORT
 
 	if ((pAd->chipCap.FlgHwTxBfCap) && (pAd->BeaconSndDimensionFlag ==0))
 	{
@@ -588,7 +585,6 @@ INT build_vht_cap_ie(struct rtmp_adapter *pAd, UCHAR *buf)
 		vht_cap_ie.vht_cap.bfer_cap_su=pAd->CommonCfg.vht_cap_ie.vht_cap.bfer_cap_su;
 	}
         pAd->BeaconSndDimensionFlag =0;
-#endif
 
 	memmove(buf, (UCHAR *)&vht_cap_ie, sizeof(VHT_CAP_IE));
 

@@ -769,7 +769,6 @@ int MlmeHardTransmitMgmtRing(
 #endif /* CONFIG_STA_SUPPORT */
 		bAckRequired = FALSE;
 
-#ifdef VHT_TXBF_SUPPORT
 		if (pHeader_802_11->FC.SubType == SUBTYPE_VHT_NDPA)
 		{
 			pHeader_802_11->Duration = 100;
@@ -778,7 +777,6 @@ int MlmeHardTransmitMgmtRing(
 			//hex_dump("VHT_NDPA after update Duration", (UCHAR *)pHeader_802_11, SrcBufLen);
 
 		}
-#endif /* VHT_TXBF_SUPPORT */
 	}
 	else /* FC_TYPE_MGMT or FC_TYPE_DATA(must be NULL frame)*/
 	{
@@ -880,13 +878,11 @@ int MlmeHardTransmitMgmtRing(
 		wcid = RESERVED_WCID;
 		tx_rate = (UCHAR)pAd->CommonCfg.MlmeTransmit.field.MCS;
 		transmit = &pAd->CommonCfg.MlmeTransmit;
-#ifdef VHT_TXBF_SUPPORT
 		if (pAd->NDPA_Request)
 		{
 			transmit->field.MODE = MODE_VHT;
 			transmit->field.MCS = MCS_RATE_6;
 		}
-#endif
 	}
 	else
 	{
@@ -1079,12 +1075,10 @@ static UCHAR TxPktClassification(struct rtmp_adapter *pAd, struct sk_buff * pPac
 		bHTRate = TRUE;
 		TxFrameType = TX_UNKOWN_FRAME;
 
-#ifdef VHT_TXBF_SUPPORT
 		if (pMacEntry->TxSndgType == SNDG_TYPE_NDP && IS_VHT_RATE(pMacEntry))
 		{
 			TxFrameType = TX_NDPA_FRAME;
 		}
-#endif
 
 		if (RTMP_GET_PACKET_MOREDATA(pPacket) || (pMacEntry->PsMode == PWR_SAVE))
 			TxFrameType |= TX_LEGACY_FRAME;
@@ -1126,9 +1120,7 @@ static UCHAR TxPktClassification(struct rtmp_adapter *pAd, struct sk_buff * pPac
 
 	if ((RTMP_GET_PACKET_FRAGMENTS(pPacket) > 1)
 		 && (TxFrameType == TX_LEGACY_FRAME)
-#ifdef VHT_TXBF_SUPPORT
 		 || (TxFrameType == TX_LEGACY_FRAME | TX_NDPA_FRAME)
-#endif
 		&& ((pMacEntry->TXBAbitmap & (1<<(RTMP_GET_PACKET_UP(pPacket)))) == 0)
 		)
 		TxFrameType = TX_FRAG_FRAME;

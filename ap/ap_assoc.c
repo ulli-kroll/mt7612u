@@ -235,13 +235,11 @@ static USHORT update_associated_mac_entry(
 		}
 
 #ifdef TXBF_SUPPORT
-#ifdef VHT_TXBF_SUPPORT
 		if (WMODE_CAP_AC(pAd->CommonCfg.PhyMode) &&
 				(pAd->CommonCfg.Channel > 14) &&
 				(ie_list->vht_cap_len))
 			supportsETxBF = clientSupportsVHTETxBF(pAd, &ie_list->vht_cap.vht_cap);
 		else
-#endif /* VHT_TXBF_SUPPORT */
 			supportsETxBF = clientSupportsETxBF(pAd, &ie_list->HTCapability.TxBFCap);
 #endif /* TXBF_SUPPORT */
 

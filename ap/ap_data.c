@@ -2739,7 +2739,6 @@ VOID AP_ARalink_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 }
 
 
-#ifdef VHT_TXBF_SUPPORT
 VOID AP_NDPA_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 {
 	UCHAR *buf;
@@ -2807,7 +2806,6 @@ VOID AP_NDPA_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 
 	pMacEntry->TxSndgType = SNDG_TYPE_DISABLE;
 }
-#endif /* VHT_TXBF_SUPPORT */
 
 
 /*
@@ -2864,7 +2862,6 @@ int APHardTransmit(struct rtmp_adapter *pAd, TX_BLK *pTxBlk, UCHAR QueIdx)
 	}
 #endif /* HDR_TRANS_TX_SUPPORT */
 
-#ifdef VHT_TXBF_SUPPORT
 	if ((pTxBlk->TxFrameType & TX_NDPA_FRAME) > 0)
 	{
 		UCHAR mlmeMCS, mlmeBW, mlmeMode;
@@ -2885,7 +2882,6 @@ int APHardTransmit(struct rtmp_adapter *pAd, TX_BLK *pTxBlk, UCHAR QueIdx)
 		pAd->CommonCfg.MlmeTransmit.field.BW   = mlmeBW;
 		pAd->CommonCfg.MlmeTransmit.field.MODE = mlmeMode;
 	}
-#endif
 
 	switch (pTxBlk->TxFrameType)
 	{

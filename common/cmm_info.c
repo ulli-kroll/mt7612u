@@ -4714,9 +4714,7 @@ INT	Set_ETxBfEnCond_Proc(
 	pAd->CommonCfg.RegTransmitSetting.field.TxBF = enableETxBf==0? 0: 1;
 
 	setETxBFCap(pAd, &pAd->CommonCfg.HtCapability.TxBFCap);
-#ifdef VHT_TXBF_SUPPORT
 	setVHTETxBFCap(pAd, &pAd->CommonCfg.vht_cap_ie.vht_cap);
-#endif
 	rtmp_asic_set_bf(pAd);
 
 	if (enableETxBf)
@@ -4734,12 +4732,10 @@ INT	Set_ETxBfEnCond_Proc(
 		pEntry = &pAd->MacTab.Content[i];
 		if (!IS_ENTRY_NONE(pEntry))
 		{
-#ifdef VHT_TXBF_SUPPORT
 			if (WMODE_CAP_AC(pAd->CommonCfg.PhyMode) &&
 				(pAd->CommonCfg.Channel > 14))
 				pEntry->eTxBfEnCond = clientSupportsVHTETxBF(pAd, &pEntry->vht_cap_ie.vht_cap) ? enableETxBf: 0;
 			else
-#endif
 				pEntry->eTxBfEnCond = clientSupportsETxBF(pAd, &pEntry->HTCapability.TxBFCap)? enableETxBf: 0;
 			pEntry->bfState = READY_FOR_SNDG0;
 			pEntry->HTPhyMode.field.eTxBF = pEntry->eTxBfEnCond;
@@ -4809,9 +4805,7 @@ INT	Set_StaETxBfEnCond_Proc(
 	pAd->CommonCfg.RegTransmitSetting.field.TxBF = enableETxBf==0? 0: 1;
 
 	setETxBFCap(pAd, &pAd->CommonCfg.HtCapability.TxBFCap);
-#ifdef VHT_TXBF_SUPPORT
 	setVHTETxBFCap(pAd, &pAd->CommonCfg.vht_cap_ie.vht_cap);
-#endif
 	rtmp_asic_set_bf(pAd);
 
 	if (enableETxBf)
@@ -4823,7 +4817,6 @@ INT	Set_StaETxBfEnCond_Proc(
 		RTMP_IO_WRITE32(pAd,PFMU_R54, 0x100);
 	}
 
-#ifdef VHT_TXBF_SUPPORT
 
 	DBGPRINT(RT_DEBUG_TRACE, ("802.11 mode =%d, Channel =%d!\n",
 						pAd->CommonCfg.PhyMode , pAd->CommonCfg.Channel));
@@ -4845,10 +4838,6 @@ INT	Set_StaETxBfEnCond_Proc(
 			DBGPRINT(RT_DEBUG_TRACE, ("HT mode!\n"));
 		}
 	}
-#else
-	pEntry->eTxBfEnCond = clientSupportsETxBF(pAd, &pEntry->HTCapability.TxBFCap)? enableETxBf: 0;
-	DBGPRINT(RT_DEBUG_TRACE, ("HT mode!\n"));
-#endif
 	pEntry->bfState = READY_FOR_SNDG0;
 	pEntry->HTPhyMode.field.eTxBF = pEntry->eTxBfEnCond;
 	pEntry->phyETxBf = pEntry->eTxBfEnCond;
@@ -5079,7 +5068,6 @@ INT	Set_ITxBfEn_Proc(
 #endif /* TXBF_SUPPORT */
 
 
-#ifdef VHT_TXBF_SUPPORT
 /*
 	The VhtNDPA sounding inupt string format should be xx:xx:xx:xx:xx:xx-d,
 		=>The six 2 digit hex-decimal number previous are the Mac address,
@@ -5140,7 +5128,6 @@ INT Set_VhtNDPA_Sounding_Proc(struct rtmp_adapter *pAd, char *arg)
 
 	return FALSE;
 }
-#endif /* VHT_TXBF_SUPPORT */
 
 #ifdef MT76x2
 #ifdef TXBF_SUPPORT
@@ -6121,10 +6108,8 @@ VOID assoc_vht_info_debugshow(
 		DBGPRINT(RT_DEBUG_TRACE, ("\t\tTxMcsSet: HighRate(%d), TxMcsMap(%d,%d,%d,%d,%d,%d,%d)\n",
 			mcs_set->tx_high_rate, mcs_map->mcs_ss1, mcs_map->mcs_ss2, mcs_map->mcs_ss3,
 			mcs_map->mcs_ss4, mcs_map->mcs_ss5, mcs_map->mcs_ss6, mcs_map->mcs_ss7));
-#ifdef VHT_TXBF_SUPPORT
 		DBGPRINT(RT_DEBUG_TRACE, ("\t\tETxBfCap: Bfer(%d), Bfee(%d), SndDim(%d)\n",
 			cap_info->bfer_cap_su, cap_info->bfee_cap_su, cap_info->num_snd_dimension));
-#endif
 	}
 
 	if (vht_op)

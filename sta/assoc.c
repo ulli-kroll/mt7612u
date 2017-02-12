@@ -320,7 +320,6 @@ VOID MlmeAssocReqAction(
 				(pAd->MlmeAux.vht_cap_len)
 			)
 			{
-#ifdef VHT_TXBF_SUPPORT
                 //Disable beamform capability in Associate Request with 3x3 AP to avoid throughput drop issue
                 // MT76x2 only supports up to 2x2 sounding feedback
                 Idx = BssTableSearch(&pAd->ScanTab, pAd->MlmeAux.Bssid, pAd->MlmeAux.Channel);
@@ -332,7 +331,6 @@ VOID MlmeAssocReqAction(
                         pAd->BeaconSndDimensionFlag = 1;
                     }
                  }
-#endif /* VHT_TXBF_SUPPORT */
 				FrameLen += build_vht_ies(pAd, (UCHAR *)(pOutBuffer + FrameLen), SUBTYPE_ASSOC_REQ);
 			}
 		}
@@ -720,7 +718,6 @@ VOID MlmeReassocReqAction(
 				(pAd->MlmeAux.vht_cap_len)
 			)
 			{
-#ifdef VHT_TXBF_SUPPORT
                  //Disable beamform capability in Associate Request with 3x3 AP to avoid throughput drop issue
                  // MT76x2 only supports up to 2x2 sounding feedback
                  Idx = BssTableSearch(&pAd->ScanTab, pAd->MlmeAux.Bssid, pAd->MlmeAux.Channel);
@@ -732,7 +729,6 @@ VOID MlmeReassocReqAction(
                          pAd->BeaconSndDimensionFlag = 1;
                       }
                   }
-#endif /* VHT_TXBF_SUPPORT */
 				FrameLen += build_vht_ies(pAd, (UCHAR *)(pOutBuffer + FrameLen), SUBTYPE_ASSOC_REQ);
 			}
 		}
