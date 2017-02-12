@@ -179,14 +179,13 @@ NTSTATUS RTUSBMultiWrite(
 	USHORT index = 0,Value;
 	UCHAR *pSrc = pData;
 	USHORT resude = 0;
-	BOOLEAN bWriteHigh = FALSE;
 
 	resude = length % 2;
 	length  += resude;
 	do
 	{
 		Value =(USHORT)( *pSrc  | (*(pSrc + 1) << 8));
-		Status = RTUSBSingleWrite(pAd,Offset + index, Value, bWriteHigh);
+		Status = RTUSBSingleWrite(pAd,Offset + index, Value);
 		index +=2;
 		length -= 2;
 		pSrc = pSrc + 2;
@@ -199,9 +198,10 @@ NTSTATUS RTUSBMultiWrite(
 NTSTATUS RTUSBSingleWrite(
 	IN 	struct rtmp_adapter *pAd,
 	IN	USHORT Offset,
-	IN	USHORT Value,
-	IN	BOOLEAN WriteHigh)
+	IN	USHORT Value)
 {
+	BOOLEAN WriteHigh = FALSE;
+
 	return RTUSB_VendorRequest(pAd, DEVICE_VENDOR_REQUEST_OUT,
 								(WriteHigh == TRUE) ? 0x10 : 0x2,
 								Value, Offset, NULL, 0);
