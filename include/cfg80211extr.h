@@ -185,7 +185,6 @@ BOOLEAN CFG80211DRV_ApKeyDel(struct rtmp_adapter *pAdOrg, void *pData);
 VOID CFG80211DRV_RtsThresholdAdd(struct rtmp_adapter *pAdOrg, UINT  threshold);
 VOID CFG80211DRV_FragThresholdAdd(struct rtmp_adapter *pAdOrg, UINT threshold);
 INT CFG80211_setApDefaultKey(struct rtmp_adapter *pAdCB, UINT Data);
-INT CFG80211_setPowerMgmt(struct rtmp_adapter *pAdCB, UINT Enable);
 
 #ifdef CONFIG_STA_SUPPORT
 INT CFG80211_setStaDefaultKey(struct rtmp_adapter *pAdCB, UINT Data);

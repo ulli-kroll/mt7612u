@@ -201,13 +201,5 @@ BOOLEAN CFG80211DRV_OpsCancelRemainOnChannel(struct rtmp_adapter *pAd, uint32_t 
 	}
 }
 
-INT CFG80211_setPowerMgmt(struct rtmp_adapter *pAd, UINT Enable)
-{
-	DBGPRINT(RT_DEBUG_TRACE, ("@@@ %s: %d\n", __FUNCTION__, Enable));
-
-
-	return 0;
-}
-
 #endif /* RT_CFG80211_SUPPORT */
 

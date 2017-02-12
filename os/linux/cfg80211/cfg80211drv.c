@@ -102,10 +102,6 @@ INT CFG80211DRV_IoctlHandle(
 			break;
 #endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
 
-		case CMD_RTPRIV_IOCTL_80211_POWER_MGMT_SET:
-			CFG80211_setPowerMgmt(pAd, Data);
-			break;
-
 #ifdef CONFIG_STA_SUPPORT
 		case CMD_RTPRIV_IOCTL_80211_STA_KEY_DEFAULT_SET:
 			CFG80211_setStaDefaultKey(pAd, Data);
