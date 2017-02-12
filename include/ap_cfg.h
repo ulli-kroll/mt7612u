@@ -87,9 +87,6 @@ VOID RTMPIoctlSetIdleTimeout(
 	IN	struct rtmp_adapter *pAd,
 	IN	RTMP_IOCTL_INPUT_STRUCT	*wrq);
 
-VOID RTMPIoctlQueryStaAid(
-        IN      struct rtmp_adapter *  pAd,
-        IN      RTMP_IOCTL_INPUT_STRUCT *wrq);
 #endif /* DOT1X_SUPPORT */
 
 INT Set_AP_Daemon_Status(
