@@ -695,7 +695,7 @@ void linux_pci_unmap_single(void *handle, ra_dma_addr_t dma_addr, size_t size, i
 #define RTMP_IO_FORCE_WRITE32(_A, _R, _V)	\
 	do{\
 		/*if ((_R) != 0x404)*/ /* TODO:shiang-6590, depends on sw porting guide, don't acccess it now */\
-			RTUSBWriteMACRegister((_A), (_R), (uint32_t) (_V), FALSE);		\
+			RTUSBWriteMACRegister((_A), (_R), (uint32_t) (_V));		\
 	}while(0)
 
 #define RTMP_IO_READ8(_A, _R, _pV)								\
@@ -706,7 +706,7 @@ void linux_pci_unmap_single(void *handle, ra_dma_addr_t dma_addr, size_t size, i
 	RTUSBReadMACRegister((_A), (_R), (uint32_t *) (_pV))
 
 #define RTMP_IO_WRITE32(_A, _R, _V)								\
-	RTUSBWriteMACRegister((_A), (_R), (uint32_t) (_V), FALSE)
+	RTUSBWriteMACRegister((_A), (_R), (uint32_t) (_V))
 
 #define RTMP_IO_WRITE8(_A, _R, _V)								\
 {																\

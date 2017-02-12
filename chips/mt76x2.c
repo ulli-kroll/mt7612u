@@ -1119,7 +1119,7 @@ VOID init_fce(struct rtmp_adapter *ad)
 #ifdef RTMP_USB_SUPPORT
 	RTUSBReadMACRegister(ad, FCE_L2_STUFF, &reg.word);
 	reg.field.FS_WR_MPDU_LEN_EN = 0;
-	RTUSBWriteMACRegister(ad, FCE_L2_STUFF, reg.word, FALSE);
+	RTUSBWriteMACRegister(ad, FCE_L2_STUFF, reg.word);
 #endif
 }
 

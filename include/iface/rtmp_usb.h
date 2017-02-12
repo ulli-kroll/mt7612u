@@ -95,7 +95,7 @@ NTSTATUS RTUSBSingleWrite(struct rtmp_adapter *pAd, USHORT Offset, USHORT val, B
 NTSTATUS RTUSBReadBBPRegister(struct rtmp_adapter *pAd, UCHAR Id, UCHAR *pValue);
 NTSTATUS RTUSBWriteBBPRegister(struct rtmp_adapter *pAd, UCHAR Id, UCHAR Value);
 NTSTATUS RTUSBWriteRFRegister(struct rtmp_adapter *pAd, uint32_t Value);
-NTSTATUS RTUSBWriteMACRegister(struct rtmp_adapter *pAd, USHORT Offset, uint32_t val, BOOLEAN bWriteHigh);
+NTSTATUS RTUSBWriteMACRegister(struct rtmp_adapter *pAd, USHORT Offset, uint32_t val);
 NTSTATUS RTUSBReadMACRegister(struct rtmp_adapter *pAd, USHORT Offset, uint32_t *val);
 
 NTSTATUS RTUSBReadEEPROM(struct rtmp_adapter *pAd, USHORT Offset, UCHAR *buf, USHORT len);

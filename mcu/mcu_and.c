@@ -283,19 +283,19 @@ load_patch_protect:
 	DBGPRINT(RT_DEBUG_OFF, ("\n"));
 
 	/* Enable FCE */
-	RTUSBWriteMACRegister(ad, FCE_PSE_CTRL, 0x01, FALSE);
+	RTUSBWriteMACRegister(ad, FCE_PSE_CTRL, 0x01);
 
 	/* FCE tx_fs_base_ptr */
-	RTUSBWriteMACRegister(ad, TX_CPU_PORT_FROM_FCE_BASE_PTR, 0x400230, FALSE);
+	RTUSBWriteMACRegister(ad, TX_CPU_PORT_FROM_FCE_BASE_PTR, 0x400230);
 
 	/* FCE tx_fs_max_cnt */
-	RTUSBWriteMACRegister(ad, TX_CPU_PORT_FROM_FCE_MAX_COUNT, 0x01, FALSE);
+	RTUSBWriteMACRegister(ad, TX_CPU_PORT_FROM_FCE_MAX_COUNT, 0x01);
 
 	/* FCE pdma enable */
-	RTUSBWriteMACRegister(ad, FCE_PDMA_GLOBAL_CONF, 0x44, FALSE);
+	RTUSBWriteMACRegister(ad, FCE_PDMA_GLOBAL_CONF, 0x44);
 
 	/* FCE skip_fs_en */
-	RTUSBWriteMACRegister(ad, FCE_SKIP_FS, 0x03, FALSE);
+	RTUSBWriteMACRegister(ad, FCE_SKIP_FS, 0x03);
 
 	/* Allocate URB */
 	urb = RTUSB_ALLOC_URB(0);
@@ -453,7 +453,7 @@ load_patch_protect:
 
 			RTUSBReadMACRegister(ad, TX_CPU_PORT_FROM_FCE_CPU_DESC_INDEX, &mac_value);
 			mac_value++;
-			RTUSBWriteMACRegister(ad, TX_CPU_PORT_FROM_FCE_CPU_DESC_INDEX, mac_value, FALSE);
+			RTUSBWriteMACRegister(ad, TX_CPU_PORT_FROM_FCE_CPU_DESC_INDEX, mac_value);
 
 			RtmpOsMsDelay(5);
 		}
@@ -531,7 +531,7 @@ error1:
 
 error0:
 	if (cap->rom_code_protect)
-		RTUSBWriteMACRegister(ad, SEMAPHORE_03, 0x1, FALSE);
+		RTUSBWriteMACRegister(ad, SEMAPHORE_03, 0x1);
 
 	return ret;
 }
@@ -681,19 +681,19 @@ loadfw_protect:
 	DBGPRINT(RT_DEBUG_OFF, ("dlm length = %d(bytes)\n", dlm_len));
 
 	/* Enable FCE to send in-band cmd */
-	RTUSBWriteMACRegister(ad, FCE_PSE_CTRL, 0x01, FALSE);
+	RTUSBWriteMACRegister(ad, FCE_PSE_CTRL, 0x01);
 
 	/* FCE tx_fs_base_ptr */
-	RTUSBWriteMACRegister(ad, TX_CPU_PORT_FROM_FCE_BASE_PTR, 0x400230, FALSE);
+	RTUSBWriteMACRegister(ad, TX_CPU_PORT_FROM_FCE_BASE_PTR, 0x400230);
 
 	/* FCE tx_fs_max_cnt */
-	RTUSBWriteMACRegister(ad, TX_CPU_PORT_FROM_FCE_MAX_COUNT, 0x01, FALSE);
+	RTUSBWriteMACRegister(ad, TX_CPU_PORT_FROM_FCE_MAX_COUNT, 0x01);
 
 	/* FCE pdma enable */
-	RTUSBWriteMACRegister(ad, FCE_PDMA_GLOBAL_CONF, 0x44, FALSE);
+	RTUSBWriteMACRegister(ad, FCE_PDMA_GLOBAL_CONF, 0x44);
 
 	/* FCE skip_fs_en */
-	RTUSBWriteMACRegister(ad, FCE_SKIP_FS, 0x03, FALSE);
+	RTUSBWriteMACRegister(ad, FCE_SKIP_FS, 0x03);
 
 
 	/* Allocate URB */
@@ -844,7 +844,7 @@ loadfw_protect:
 
 			RTUSBReadMACRegister(ad, TX_CPU_PORT_FROM_FCE_CPU_DESC_INDEX, &mac_value);
 			mac_value++;
-			RTUSBWriteMACRegister(ad, TX_CPU_PORT_FROM_FCE_CPU_DESC_INDEX, mac_value, FALSE);
+			RTUSBWriteMACRegister(ad, TX_CPU_PORT_FROM_FCE_CPU_DESC_INDEX, mac_value);
 
 			RtmpOsMsDelay(5);
 		} else {
@@ -985,7 +985,7 @@ loadfw_protect:
 
 			RTUSBReadMACRegister(ad, TX_CPU_PORT_FROM_FCE_CPU_DESC_INDEX, &mac_value);
 			mac_value++;
-			RTUSBWriteMACRegister(ad, TX_CPU_PORT_FROM_FCE_CPU_DESC_INDEX, mac_value, FALSE);
+			RTUSBWriteMACRegister(ad, TX_CPU_PORT_FROM_FCE_CPU_DESC_INDEX, mac_value);
 			RtmpOsMsDelay(5);
 		} else {
 			break;
@@ -1028,10 +1028,10 @@ error1:
 
 error0:
 	if (cap->ram_code_protect)
-		RTUSBWriteMACRegister(ad, SEMAPHORE_00, 0x1, FALSE);
+		RTUSBWriteMACRegister(ad, SEMAPHORE_00, 0x1);
 
 	/* Enable FCE to send in-band cmd */
-	RTUSBWriteMACRegister(ad, FCE_PSE_CTRL, 0x01, FALSE);
+	RTUSBWriteMACRegister(ad, FCE_PSE_CTRL, 0x01);
 
 	return ret;
 }

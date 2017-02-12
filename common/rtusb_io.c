@@ -265,9 +265,9 @@ NTSTATUS RTUSBReadMACRegister(struct rtmp_adapter *pAd, USHORT Offset, uint32_t 
 NTSTATUS RTUSBWriteMACRegister(
 	IN struct rtmp_adapter *pAd,
 	IN USHORT Offset,
-	IN uint32_t Value,
-	IN BOOLEAN bWriteHigh)
+	IN uint32_t Value)
 {
+	BOOLEAN bWriteHigh = FALSE;
 	NTSTATUS Status;
 	uint32_t localVal;
 
@@ -435,8 +435,8 @@ VOID RTUSBPutToSleep(struct rtmp_adapter *pAd)
 
 	/* Timeout 0x40 x 50us*/
 	value = (SLEEPCID<<16)+(OWNERMCU<<24)+ (0x40<<8)+1;
-	RTUSBWriteMACRegister(pAd, 0x7010, value, FALSE);
-	RTUSBWriteMACRegister(pAd, 0x404, 0x30, FALSE);
+	RTUSBWriteMACRegister(pAd, 0x7010, value);
+	RTUSBWriteMACRegister(pAd, 0x404, 0x30);
 	DBGPRINT_RAW(RT_DEBUG_ERROR, ("Sleep Mailbox testvalue %x\n", value));
 }
 
@@ -1034,7 +1034,7 @@ static NTSTATUS SetAsicWcidHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQel
 	MACValue = (pAd->MacTab.Content[SetAsicWcid.WCID].Addr[3]<<24)+(pAd->MacTab.Content[SetAsicWcid.WCID].Addr[2]<<16)+(pAd->MacTab.Content[SetAsicWcid.WCID].Addr[1]<<8)+(pAd->MacTab.Content[SetAsicWcid.WCID].Addr[0]);
 
 	DBGPRINT_RAW(RT_DEBUG_TRACE, ("1-MACValue= %x,\n", MACValue));
-	RTUSBWriteMACRegister(pAd, offset, MACValue, FALSE);
+	RTUSBWriteMACRegister(pAd, offset, MACValue);
 	/* Read bitmask*/
 	RTUSBReadMACRegister(pAd, offset+4, &MACRValue);
 	if ( SetAsicWcid.DeleteTid != 0xffffffff)
@@ -1045,7 +1045,7 @@ static NTSTATUS SetAsicWcidHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQel
 	MACRValue &= 0xffff0000;
 	MACValue = (pAd->MacTab.Content[SetAsicWcid.WCID].Addr[5]<<8)+pAd->MacTab.Content[SetAsicWcid.WCID].Addr[4];
 	MACValue |= MACRValue;
-	RTUSBWriteMACRegister(pAd, offset+4, MACValue, FALSE);
+	RTUSBWriteMACRegister(pAd, offset+4, MACValue);
 
 	DBGPRINT_RAW(RT_DEBUG_TRACE, ("2-MACValue= %x,\n", MACValue));
 
@@ -1263,7 +1263,7 @@ static NTSTATUS APEnableTXBurstHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CM
 
 		RTUSBReadMACRegister(pAd, EDCA_AC0_CFG, &Ac0Cfg.word);
 		Ac0Cfg.field.AcTxop = 0x20;
-		RTUSBWriteMACRegister(pAd, EDCA_AC0_CFG, Ac0Cfg.word, FALSE);
+		RTUSBWriteMACRegister(pAd, EDCA_AC0_CFG, Ac0Cfg.word);
 	}
 
 	return NDIS_STATUS_SUCCESS;
@@ -1279,7 +1279,7 @@ static NTSTATUS APDisableTXBurstHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt C
 
 		RTUSBReadMACRegister(pAd, EDCA_AC0_CFG, &Ac0Cfg.word);
 		Ac0Cfg.field.AcTxop = 0x0;
-		RTUSBWriteMACRegister(pAd, EDCA_AC0_CFG, Ac0Cfg.word, FALSE);
+		RTUSBWriteMACRegister(pAd, EDCA_AC0_CFG, Ac0Cfg.word);
 	}
 
 	return NDIS_STATUS_SUCCESS;
@@ -1291,7 +1291,7 @@ static NTSTATUS APAdjustEXPAckTimeHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 	{
 		DBGPRINT(RT_DEBUG_TRACE, ("CmdThread::CMDTHREAD_AP_ADJUST_EXP_ACK_TIME  \n"));
-		RTUSBWriteMACRegister(pAd, EXP_ACK_TIME, 0x005400ca, FALSE);
+		RTUSBWriteMACRegister(pAd, EXP_ACK_TIME, 0x005400ca);
 	}
 
 	return NDIS_STATUS_SUCCESS;
@@ -1303,7 +1303,7 @@ static NTSTATUS APRecoverEXPAckTimeHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElm
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 	{
 		DBGPRINT(RT_DEBUG_TRACE, ("CmdThread::CMDTHREAD_AP_RECOVER_EXP_ACK_TIME  \n"));
-		RTUSBWriteMACRegister(pAd, EXP_ACK_TIME, 0x002400ca, FALSE);
+		RTUSBWriteMACRegister(pAd, EXP_ACK_TIME, 0x002400ca);
 	}
 
 	return NDIS_STATUS_SUCCESS;
