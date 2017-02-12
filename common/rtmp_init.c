@@ -1176,7 +1176,7 @@ int NICInitializeAsic(struct rtmp_adapter *pAd, BOOLEAN bHardReset)
 		/*Initialize WCID table*/
 		for(Index =0 ;Index < 254;Index++)
 		{
-			RTUSBMultiWrite(pAd, (USHORT)(MAC_WCID_BASE + Index * 8), MAC_Value, 8, FALSE);
+			RTUSBMultiWrite(pAd, (USHORT)(MAC_WCID_BASE + Index * 8), MAC_Value, 8);
 		}
 	}
 #endif /* RTMP_MAC_USB */

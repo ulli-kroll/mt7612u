@@ -88,7 +88,7 @@ NTSTATUS RTUSB_VendorRequest(
 	IN	PVOID txbuf,
 	IN	uint32_t txbuf_len);
 
-NTSTATUS RTUSBMultiWrite(struct rtmp_adapter *pAd, USHORT Offset, UCHAR *buf, USHORT len, BOOLEAN bWriteHigh);
+NTSTATUS RTUSBMultiWrite(struct rtmp_adapter *pAd, USHORT Offset, UCHAR *buf, USHORT len);
 NTSTATUS RTUSBMultiWrite_nBytes(struct rtmp_adapter *pAd, USHORT Offset, UCHAR *buf, USHORT len, USHORT batchLen);
 NTSTATUS RTUSBSingleWrite(struct rtmp_adapter *pAd, USHORT Offset, USHORT val, BOOLEAN bWriteHigh);
 

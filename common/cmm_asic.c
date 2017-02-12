@@ -1920,18 +1920,18 @@ VOID AsicAddSharedKeyEntry(
 
 #ifdef RTMP_MAC_USB
 		{
-			RTUSBMultiWrite(pAd, offset, pKey, MAX_LEN_OF_SHARE_KEY, FALSE);
+			RTUSBMultiWrite(pAd, offset, pKey, MAX_LEN_OF_SHARE_KEY);
 
 			offset += MAX_LEN_OF_SHARE_KEY;
 			if (pTxMic)
 			{
-				RTUSBMultiWrite(pAd, offset, pTxMic, 8, FALSE);
+				RTUSBMultiWrite(pAd, offset, pTxMic, 8);
 			}
 
 			offset += 8;
 			if (pRxMic)
 			{
-				RTUSBMultiWrite(pAd, offset, pRxMic, 8, FALSE);
+				RTUSBMultiWrite(pAd, offset, pRxMic, 8);
 			}
 		}
 #endif /* RTMP_MAC_USB */
@@ -2200,7 +2200,7 @@ VOID AsicAddPairwiseKeyEntry(
 	/* EKEY */
 	offset = pairwise_key_base + (WCID * pairwise_key_len);
 #ifdef RTMP_MAC_USB
-	RTUSBMultiWrite(pAd, offset, &pCipherKey->Key[0], MAX_LEN_OF_PEER_KEY, FALSE);
+	RTUSBMultiWrite(pAd, offset, &pCipherKey->Key[0], MAX_LEN_OF_PEER_KEY);
 #endif /* RTMP_MAC_USB */
 	for (i=0; i<MAX_LEN_OF_PEER_KEY; i+=4)
 	{
@@ -2213,7 +2213,7 @@ VOID AsicAddPairwiseKeyEntry(
 	if (pTxMic)
 	{
 #ifdef RTMP_MAC_USB
-		RTUSBMultiWrite(pAd, offset, &pCipherKey->TxMic[0], 8, FALSE);
+		RTUSBMultiWrite(pAd, offset, &pCipherKey->TxMic[0], 8);
 #endif /* RTMP_MAC_USB */
 	}
 	offset += 8;
@@ -2221,7 +2221,7 @@ VOID AsicAddPairwiseKeyEntry(
 	if (pRxMic)
 	{
 #ifdef RTMP_MAC_USB
-		RTUSBMultiWrite(pAd, offset, &pCipherKey->RxMic[0], 8, FALSE);
+		RTUSBMultiWrite(pAd, offset, &pCipherKey->RxMic[0], 8);
 #endif /* RTMP_MAC_USB */
 	}
 	DBGPRINT(RT_DEBUG_TRACE,("AsicAddPairwiseKeyEntry: WCID #%d Alg=%s\n",WCID, CipherName[CipherAlg]));

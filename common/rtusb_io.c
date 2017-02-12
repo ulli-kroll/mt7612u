@@ -173,13 +173,13 @@ NTSTATUS RTUSBMultiWrite(
 	IN struct rtmp_adapter *pAd,
 	IN USHORT Offset,
 	IN UCHAR *pData,
-	IN USHORT length,
-	IN BOOLEAN bWriteHigh)
+	IN USHORT length)
 {
 	NTSTATUS Status;
 	USHORT index = 0,Value;
 	UCHAR *pSrc = pData;
 	USHORT resude = 0;
+	BOOLEAN bWriteHigh = FALSE;
 
 	resude = length % 2;
 	length  += resude;
