@@ -115,11 +115,7 @@ typedef struct _UAPSD_INFO {
 
 #define	MAXSEQ		(0xFFF)
 
-#ifdef DOT11N_SS3_SUPPORT
-#define MAX_MCS_SET 24		/* From MCS 0 ~ MCS 23 */
-#else
 #define MAX_MCS_SET 16		/* From MCS 0 ~ MCS 15 */
-#endif /* DOT11N_SS3_SUPPORT */
 #define MAX_VHT_MCS_SET 	20 /* for 1ss~ 2ss with MCS0~9 */
 
 
@@ -890,9 +886,6 @@ typedef struct _CHANNEL_TX_POWER {
 	BOOLEAN bEffectedChannel;	/* For BW 40 operating in 2.4GHz , the "effected channel" is the channel that is covered in 40Mhz. */
 	CHAR Power;
 	CHAR Power2;
-#ifdef DOT11N_SS3_SUPPORT
-	CHAR Power3;
-#endif /* DOT11N_SS3_SUPPORT */
 	UCHAR MaxTxPwr;
 	UCHAR DfsReq;
 	UCHAR RegulatoryDomain;
@@ -1364,10 +1357,6 @@ struct rtmp_wifi_dev{
 	/* last received packet's SNR for each antenna */
 	UCHAR LastSNR0;
 	UCHAR LastSNR1;
-#ifdef DOT11N_SS3_SUPPORT
-	UCHAR LastSNR2;
-	int32_t BF_SNR[3];	/* Last RXWI BF SNR. Units=0.25 dB */
-#endif /* DOT11N_SS3_SUPPORT */
 	RSSI_SAMPLE RssiSample;
 	ULONG NumOfAvgRssiSample;
 #if defined(RT_CFG80211_SUPPORT) || defined(HOSTAPD_SUPPORT)
@@ -2040,10 +2029,6 @@ typedef struct _STA_ADMIN_CONFIG {
 
 	UCHAR LastSNR0;		/* last received BEACON's SNR */
 	UCHAR LastSNR1;		/* last received BEACON's SNR for 2nd  antenna */
-#ifdef DOT11N_SS3_SUPPORT
-	UCHAR LastSNR2;		/* last received BEACON's SNR for 3nd  antenna */
-	int32_t BF_SNR[3];	/* Last RXWI BF SNR. Units=0.25 dB */
-#endif /* DOT11N_SS3_SUPPORT */
 	RSSI_SAMPLE RssiSample;
 	ULONG NumOfAvgRssiSample;
 
@@ -2835,9 +2820,6 @@ typedef struct _AP_ADMIN_CONFIG {
 
 	UCHAR LastSNR0;		/* last received BEACON's SNR */
 	UCHAR LastSNR1;		/* last received BEACON's SNR for 2nd  antenna */
-#ifdef DOT11N_SS3_SUPPORT
-	UCHAR LastSNR2;		/* last received BEACON's SNR for 2nd  antenna */
-#endif /* DOT11N_SS3_SUPPORT */
 
 #ifdef DOT1X_SUPPORT
 	/* dot1x related parameter */

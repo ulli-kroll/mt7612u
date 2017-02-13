@@ -2891,10 +2891,6 @@ INT	Show_Sat_Proc(
 	int i, j, k, maxMcs = MAX_MCS_SET -1;
 	PMAC_TABLE_ENTRY pEntry;
 
-#ifdef DOT11N_SS3_SUPPORT
-	if (IS_RT2883(pAd) || IS_RT3883(pAd))
-		maxMcs = 23;
-#endif /* DOT11N_SS3_SUPPORT */
 
 	for (i=0; i<MAX_LEN_OF_MAC_TABLE; i++)
 	{
@@ -2988,10 +2984,6 @@ INT	Show_Sat_Reset_Proc(
 		int i, j, k, maxMcs = 15;
 		PMAC_TABLE_ENTRY pEntry;
 
-#ifdef DOT11N_SS3_SUPPORT
-		if (IS_RT2883(pAd) || IS_RT3883(pAd))
-			maxMcs = 23;
-#endif /* DOT11N_SS3_SUPPORT */
 
 		for (i=0; i<MAX_LEN_OF_MAC_TABLE; i++)
 		{

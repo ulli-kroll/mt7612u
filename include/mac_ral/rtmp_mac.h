@@ -1456,69 +1456,6 @@ typedef	union _PROT_CFG_STRUC {
 
 #define TX_FBK_LIMIT		0x1398
 
-#ifdef DOT11N_SS3_SUPPORT
-#define TX_FBK_CFG_3S_0	0x13c4
-#ifdef RT_BIG_ENDIAN
-typedef	union _TX_FBK_CFG_3S_0_STRUC {
-	struct {
-		uint32_t       rsv0:3;
-		uint32_t       HTMCS19FBK:5;
-		uint32_t       rsv1:3;
-		uint32_t       HTMCS18FBK:5;
-		uint32_t       rsv2:3;
-		uint32_t       HTMCS17FBK:5;
-		uint32_t       rsv3:3;
-		uint32_t       HTMCS16FBK:5;
-	} field;
-	uint32_t word;
-} TX_FBK_CFG_3S_0_STRUC;
-#else
-typedef	union _TX_FBK_CFG_3S_0_STRUC {
-	struct {
-		uint32_t       HTMCS16FBK:5;
-		uint32_t       rsv3:3;
-		uint32_t       HTMCS17FBK:5;
-		uint32_t       rsv2:3;
-		uint32_t       HTMCS18FBK:5;
-		uint32_t       rsv1:3;
-		uint32_t       HTMCS19FBK:5;
-		uint32_t       rsv0:4;
-	} field;
-	uint32_t word;
-} TX_FBK_CFG_3S_0_STRUC;
-#endif
-
-#define TX_FBK_CFG_3S_1	0x13c8
-#ifdef RT_BIG_ENDIAN
-typedef	union _TX_FBK_CFG_3S_1_STRUC {
-	struct {
-		uint32_t       rsv0:3;
-		uint32_t       HTMCS23FBK:5;
-		uint32_t       rsv1:3;
-		uint32_t       HTMCS22FBK:5;
-		uint32_t       rsv2:3;
-		uint32_t       HTMCS21FBK:5;
-		uint32_t       rsv3:3;
-		uint32_t       HTMCS20FBK:5;
-	} field;
-	uint32_t word;
-} TX_FBK_CFG_3S_1_STRUC;
-#else
-typedef	union _TX_FBK_CFG_3S_1_STRUC {
-	struct {
-		uint32_t       HTMCS20FBK:5;
-		uint32_t       rsv3:3;
-		uint32_t       HTMCS21FBK:5;
-		uint32_t       rsv2:3;
-		uint32_t       HTMCS22FBK:5;
-		uint32_t       rsv1:3;
-		uint32_t       HTMCS23FBK:5;
-		uint32_t       rsv0:3;
-	} field;
-	uint32_t word;
-} TX_FBK_CFG_3S_1_STRUC;
-#endif
-#endif /* DOT11N_SS3_SUPPORT */
 
 #define TX_AC_RTY_LIMIT		0x13cc
 #define TX_AC_FBK_SPEED	0x13d0

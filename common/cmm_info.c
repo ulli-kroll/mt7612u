@@ -2198,10 +2198,6 @@ INT	Set_HtMcs_Proc(struct rtmp_adapter *pAd, char *arg)
 	}
 	else
 	{
-#ifdef DOT11N_SS3_SUPPORT
-		if (pAd->CommonCfg.TxStream >= 3)
-			ValidMcs = 23;
-#endif /* DOT11N_SS3_SUPPORT */
 
 		Mcs_tmp = simple_strtol(arg, 0, 10);
 		if (Mcs_tmp <= ValidMcs || Mcs_tmp == 32)
@@ -6648,10 +6644,6 @@ INT Show_Diag_Proc(struct rtmp_adapter *pAd, char *arg)
 	memmove(pDiag, &pAd->DiagStruct, sizeof(RtmpDiagStruct));
 
 
-#ifdef DOT11N_SS3_SUPPORT
-	if (IS_RT2883(pAd) || IS_RT3883(pAd))
-		McsMaxIdx = 24;
-#endif /* DOT11N_SS3_SUPPORT */
 
 	if (pDiag->inited == FALSE)
 		goto done;

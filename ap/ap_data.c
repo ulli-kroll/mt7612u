@@ -3923,9 +3923,6 @@ VOID APHandleRxDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 
 	pAd->ApCfg.LastSNR0 = (UCHAR)(pRxBlk->snr[0]);
 	pAd->ApCfg.LastSNR1 = (UCHAR)(pRxBlk->snr[1]);
-#ifdef DOT11N_SS3_SUPPORT
-	pAd->ApCfg.LastSNR2 = (UCHAR)(pRxBlk->snr[2]);
-#endif /* DOT11N_SS3_SUPPORT */
 	pEntry->freqOffset = (CHAR)(pRxBlk->freq_offset);
 	pEntry->freqOffsetValid = TRUE;
 

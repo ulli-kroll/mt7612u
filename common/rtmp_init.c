@@ -1388,10 +1388,6 @@ VOID NICUpdateFifoStaCounters(struct rtmp_adapter *pAd)
 
 			if (succMCS==32)
 				origMCS = 32;
-#ifdef DOT11N_SS3_SUPPORT
-			if (succMCS>origMCS && pEntry->HTCapability.MCSSet[2]==0xff)
-				origMCS += 16;
-#endif /* DOT11N_SS3_SUPPORT */
 
 			if (succMCS>origMCS)
 				origMCS = succMCS+1;
@@ -1508,13 +1504,6 @@ VOID NICUpdateFifoStaCounters(struct rtmp_adapter *pAd)
 		{
   	    		succMCS = StaFifo.field.SuccessRate & 0xF;
 
-#ifdef DOT11N_SS3_SUPPORT
-			if (pEntry->HTCapability.MCSSet[2] == 0xff)
-			{
-				if (succMCS > pid)
-					pid = pid + 16;
-			}
-#endif /* DOT11N_SS3_SUPPORT */
 
 			if (StaFifo.field.TxSuccess)
 			{
@@ -1529,10 +1518,6 @@ VOID NICUpdateFifoStaCounters(struct rtmp_adapter *pAd)
 				pEntry->TXMCSFailed[pid]++;
 			}
 
-#ifdef DOT11N_SS3_SUPPORT
-			if (pid >= 16 && succMCS <= 8)
-				succMCS += (2 - (succMCS >> 3)) * 7;
-#endif /* DOT11N_SS3_SUPPORT */
 
 			reTry = pid - succMCS;
 
@@ -1597,13 +1582,6 @@ VOID NICUpdateFifoStaCounters(struct rtmp_adapter *pAd)
 		{
 			succMCS = StaFifo.field.SuccessRate & 0x7F;
 
-#ifdef DOT11N_SS3_SUPPORT
-			if (pEntry->HTCapability.MCSSet[2] == 0xff)
-			{
-				if (succMCS > pid)
-					pid = pid + 16;
-			}
-#endif /* DOT11N_SS3_SUPPORT */
 
 			if (StaFifo.field.TxSuccess)
 			{
@@ -1622,10 +1600,6 @@ VOID NICUpdateFifoStaCounters(struct rtmp_adapter *pAd)
 				pEntry->TXMCSFailed[pid]++;
 			}
 
-#ifdef DOT11N_SS3_SUPPORT
-			if (pid >= 16 && succMCS <= 8)
-				succMCS += (2 - (succMCS >> 3)) * 7;
-#endif /* DOT11N_SS3_SUPPORT */
 
 			reTry = pid - succMCS;
 

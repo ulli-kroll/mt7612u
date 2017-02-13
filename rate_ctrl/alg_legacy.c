@@ -385,10 +385,6 @@ VOID APMlmeDynamicTxRateSwitching(struct rtmp_adapter *pAd)
 		/* Select rate based on PER */
 		MlmeOldRateAdapt(pAd, pEntry, CurrRateIdx, UpRateIdx, DownRateIdx, TrainUp, TrainDown, TxErrorRatio);
 
-#ifdef DOT11N_SS3_SUPPORT
-		/* Turn off RDG when 3s and rx count > tx count*5 */
-		MlmeCheckRDG(pAd, pEntry);
-#endif /* DOT11N_SS3_SUPPORT */
 
 		/* reset all OneSecTx counters */
 		RESET_ONE_SEC_TX_CNT(pEntry);
@@ -1128,10 +1124,6 @@ VOID MlmeDynamicTxRateSwitching(
 		/* Select rate based on PER */
 		MlmeOldRateAdapt(pAd, pEntry, CurrRateIdx, UpRateIdx, DownRateIdx, TrainUp, TrainDown, TxErrorRatio);
 
-#ifdef DOT11N_SS3_SUPPORT
-		/* Turn off RDG when 3s and rx count > tx count*5 */
-		MlmeCheckRDG(pAd, pEntry);
-#endif /* DOT11N_SS3_SUPPORT */
 
 		/* reset all OneSecTx counters */
 		RESET_ONE_SEC_TX_CNT(pEntry);

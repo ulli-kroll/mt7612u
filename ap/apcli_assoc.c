@@ -279,9 +279,6 @@ static VOID ApCliMlmeAssocReqAction(
 
 			memset(&HtCapabilityTmp, sizeof(HT_CAPABILITY_IE));
 			memmove(&HtCapabilityTmp, &apcli_entry->MlmeAux.HtCapability, apcli_entry->MlmeAux.HtCapabilityLen);
-#ifdef DOT11N_SS3_SUPPORT
-			HtCapabilityTmp.MCSSet[2] = (apcli_entry->MlmeAux.HtCapability.MCSSet[2] & apcli_entry->RxMcsSet[2]);
-#endif /* DOT11N_SS3_SUPPORT */
 
 #ifdef RT_BIG_ENDIAN
         		*(USHORT *)(&HtCapabilityTmp.HtCapInfo) = SWAP16(*(USHORT *)(&HtCapabilityTmp.HtCapInfo));

@@ -442,13 +442,6 @@ int rt28xx_init(struct rtmp_adapter *pAd)
 #endif /* CONFIG_STA_SUPPORT */
 
 	/* auto-fall back settings */
-#ifdef DOT11N_SS3_SUPPORT
-	if (pAd->CommonCfg.TxStream >= 3)
-	{
-		RTMP_IO_WRITE32(pAd, TX_FBK_CFG_3S_0, 0x12111008);
-		RTMP_IO_WRITE32(pAd, TX_FBK_CFG_3S_1, 0x16151413);
-	}
-#endif /* DOT11N_SS3_SUPPORT */
 
 
 

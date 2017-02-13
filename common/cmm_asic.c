@@ -39,19 +39,8 @@ VOID AsicUpdateAutoFallBackTable(
 	HT_FBK_CFG1_STRUC		HtCfg1;
 	LG_FBK_CFG0_STRUC		LgCfg0;
 	LG_FBK_CFG1_STRUC		LgCfg1;
-#ifdef DOT11N_SS3_SUPPORT
-	TX_FBK_CFG_3S_0_STRUC	Ht3SSCfg0;
-	TX_FBK_CFG_3S_1_STRUC	Ht3SSCfg1;
-#endif /* DOT11N_SS3_SUPPORT */
 	RTMP_RA_LEGACY_TB *pCurrTxRate, *pNextTxRate;
 
-#ifdef DOT11N_SS3_SUPPORT
-	if (IS_RT3883(pAd))
-	{
-		Ht3SSCfg0.word = 0x12111008;
-		Ht3SSCfg1.word = 0x16151413;
-	}
-#endif /* DOT11N_SS3_SUPPORT */
 
 	/* set to initial value*/
 	HtCfg0.word = 0x65432100;
@@ -191,16 +180,6 @@ skipUpdate:
 	RTMP_IO_WRITE32(pAd, LG_FBK_CFG0, LgCfg0.word);
 	RTMP_IO_WRITE32(pAd, LG_FBK_CFG1, LgCfg1.word);
 
-#ifdef DOT11N_SS3_SUPPORT
-	if (IS_RT2883(pAd) || IS_RT3883(pAd)
-	)
-	{
-		RTMP_IO_WRITE32(pAd, TX_FBK_CFG_3S_0, Ht3SSCfg0.word);
-		RTMP_IO_WRITE32(pAd, TX_FBK_CFG_3S_1, Ht3SSCfg1.word);
-		DBGPRINT(RT_DEBUG_TRACE, ("AsicUpdateAutoFallBackTable: Ht3SSCfg0=0x%x, Ht3SSCfg1=0x%x\n", Ht3SSCfg0.word, Ht3SSCfg1.word));
-	}
-#endif /* DOT11N_SS3_SUPPORT */
-
 }
 #endif /* CONFIG_STA_SUPPORT */
 
@@ -222,13 +201,6 @@ INT AsicAutoFallbackInit(struct rtmp_adapter *pAd)
 #ifdef RANGE_EXTEND
 	RTMP_IO_WRITE32(pAd, HT_FBK_CFG1, 0xedcba980);
 #endif // RANGE_EXTEND //
-#ifdef DOT11N_SS3_SUPPORT
-	if (pAd->CommonCfg.TxStream >= 3)
-	{
-		RTMP_IO_WRITE32(pAd, TX_FBK_CFG_3S_0, 0x12111008);
-		RTMP_IO_WRITE32(pAd, TX_FBK_CFG_3S_1, 0x16151413);
-	}
-#endif /* DOT11N_SS3_SUPPORT */
 
 	return TRUE;
 }

@@ -41,11 +41,6 @@ VOID MlmeSetMcsGroup(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 			pEntry->mcsGroup = 1;
 	}
 	else
-#ifdef DOT11N_SS3_SUPPORT
-	if ((pEntry->HTCapability.MCSSet[2] == 0xff) && (pAd->CommonCfg.TxStream == 3))
-		pEntry->mcsGroup = 3;
-	 else
-#endif /* DOT11N_SS3_SUPPORT */
 	 if ((pEntry->HTCapability.MCSSet[0] == 0xff) &&
 		(pEntry->HTCapability.MCSSet[1] == 0xff) &&
 		(pAd->CommonCfg.TxStream > 1) &&
@@ -1887,10 +1882,6 @@ VOID APMlmeDynamicTxRateSwitchingAdapt(struct rtmp_adapter *pAd, UINT i)
 	/* Select rate based on PER */
 	MlmeNewRateAdapt(pAd, pEntry, UpRateIdx, DownRateIdx, TrainUp, TrainDown, TxErrorRatio);
 
-#ifdef DOT11N_SS3_SUPPORT
-	/* Turn off RDG when 3s and rx count > tx count*5 */
-	MlmeCheckRDG(pAd, pEntry);
-#endif /* DOT11N_SS3_SUPPORT */
 
 	/* reset all OneSecTx counters */
 	RESET_ONE_SEC_TX_CNT(pEntry);
@@ -2439,10 +2430,6 @@ VOID MlmeDynamicTxRateSwitchingAdapt(
     }
 
 
-#ifdef DOT11N_SS3_SUPPORT
-	/* Turn off RDG when 3SS and rx count > tx count*5 */
-	MlmeCheckRDG(pAd, pEntry);
-#endif /* DOT11N_SS3_SUPPORT */
 
 	/* reset all OneSecTx counters */
 	RESET_ONE_SEC_TX_CNT(pEntry);

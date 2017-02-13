@@ -589,10 +589,6 @@ VOID STAHandleRxDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 
 		pAd->StaCfg.LastSNR0 = (UCHAR) (pRxBlk->snr[0]);
 		pAd->StaCfg.LastSNR1 = (UCHAR) (pRxBlk->snr[1]);
-#ifdef DOT11N_SS3_SUPPORT
-		if (pAd->CommonCfg.RxStream == 3)
-			pAd->StaCfg.LastSNR2 = (UCHAR) (pRxBlk->snr[2]);
-#endif /* DOT11N_SS3_SUPPORT */
 
 		pAd->RalinkCounters.OneSecRxOkDataCnt++;
 
