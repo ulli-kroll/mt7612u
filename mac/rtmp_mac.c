@@ -942,10 +942,6 @@ RTMP_REG_PAIR APMACRegTable[] = {
 	{WMM_TXOP0_CFG,		0x00100020},
 	{WMM_TXOP1_CFG,		0x002F0038},
 	{TBTT_SYNC_CFG,		0x00012000},
-#ifdef STREAM_MODE_SUPPORT
-	{TX_CHAIN_ADDR0_L,	0xFFFFFFFF},	/* Broadcast frames are in stream mode*/
-	{TX_CHAIN_ADDR0_H,	0x3FFFF},
-#endif /* STREAM_MODE_SUPPORT */
 };
 #endif /* CONFIG_AP_SUPPORT */
 

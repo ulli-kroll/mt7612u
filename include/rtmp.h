@@ -750,13 +750,6 @@ typedef struct _COUNTER_TXBF{
 #endif /* TXBF_SUPPORT */
 
 
-#ifdef STREAM_MODE_SUPPORT
-typedef struct _STREAM_MODE_ENTRY_{
-#define STREAM_MODE_STATIC		1
-	USHORT flag;
-	UCHAR macAddr[MAC_ADDR_LEN];
-}STREAM_MODE_ENTRY;
-#endif /* STREAM_MODE_SUPPORT */
 
 /* TODO: need to integrate with MICROWAVE_OVEN_SUPPORT */
 #ifdef DYNAMIC_VGA_SUPPORT
@@ -1854,13 +1847,6 @@ typedef struct _COMMON_CONFIG {
 	BOOLEAN	TrainUpRule;		/* QuickDRS train up criterion: 0=>Throughput, 1=>PER, 2=> Throughput & PER */
 #endif /* NEW_RATE_ADAPT_SUPPORT */
 
-#ifdef STREAM_MODE_SUPPORT
-#define		STREAM_MODE_STA_NUM		4
-
-	UCHAR	StreamMode; /* 0=disabled, 1=enable for 1SS, 2=enable for 2SS, 3=enable for 1,2SS */
-	UCHAR	StreamModeMac[STREAM_MODE_STA_NUM][MAC_ADDR_LEN];
-	uint16_t StreamModeMCS;	/* Bit map for enabling Stream Mode based on MCS */
-#endif /* STREAM_MODE_SUPPORT */
 
 #ifdef TXBF_SUPPORT
 	ULONG ITxBfTimeout;
@@ -2402,9 +2388,6 @@ typedef struct _MAC_TABLE_ENTRY {
 #endif /* RTMP_MAC_USB */
 #endif /* UAPSD_SUPPORT */
 
-#ifdef STREAM_MODE_SUPPORT
-	uint32_t StreamModeMACReg;	/* MAC reg used to control stream mode for this client. 0=>No stream mode */
-#endif /* STREAM_MODE_SUPPORT */
 
 	UINT FIFOCount;
 	UINT DebugFIFOCount;
@@ -5338,44 +5321,6 @@ VOID asic_mcs_lut_update(
         IN MAC_TABLE_ENTRY *pEntry);
 #endif /* MCS_LUT_SUPPORT */
 
-#ifdef STREAM_MODE_SUPPORT
-uint32_t StreamModeRegVal(
-	IN struct rtmp_adapter *pAd);
-
-VOID AsicSetStreamMode(
-	IN struct rtmp_adapter *pAd,
-	IN u8 *pMacAddr,
-	IN INT chainIdx,
-	IN BOOLEAN bEnabled);
-
-VOID RtmpStreamModeInit(
-	IN struct rtmp_adapter *pAd);
-
-/*
-	Update the Tx chain address
-	Parameters
-		pAd: The adapter data structure
-		pMacAddress: The MAC address of the peer STA
-
-	Return Value:
-		None
-*/
-VOID AsicUpdateTxChainAddress(
-	IN struct rtmp_adapter *pAd,
-	IN u8 *pMacAddress);
-
-INT Set_StreamMode_Proc(
-    IN  struct rtmp_adapter *pAd,
-    IN  char *        arg);
-
-INT Set_StreamModeMac_Proc(
-    IN  struct rtmp_adapter *pAd,
-    IN  char *         arg);
-
-INT Set_StreamModeMCS_Proc(
-    IN  struct rtmp_adapter *pAd,
-    IN  char *        arg);
-#endif /* STREAM_MODE_SUPPORT */
 
 #ifdef WOW_SUPPORT
 #ifdef RTMP_MAC_USB

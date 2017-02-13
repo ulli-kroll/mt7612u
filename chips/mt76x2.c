@@ -3111,9 +3111,6 @@ static const RTMP_CHIP_CAP MT76x2_ChipCap = {
 	.FlgIsVcoReCalMode = VCO_CAL_DISABLE,
 	.FlgIsHwAntennaDiversitySup = FALSE,
 	.Flg7662ChipCap = TRUE,
-#ifdef STREAM_MODE_SUPPORT
-	.FlgHwStreamMode = FALSE,
-#endif /* STREAM_MODE_SUPPORT */
 #ifdef TXBF_SUPPORT
 	.FlgHwTxBfCap = TRUE,
 #endif /* TXBF_SUPPORT */

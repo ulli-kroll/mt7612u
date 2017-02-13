@@ -1374,11 +1374,6 @@ VOID LinkUp(struct rtmp_adapter *pAd, UCHAR BssType)
 	*/
 		AsicSetBssid(pAd, pAd->CommonCfg.Bssid);
 
-#ifdef STREAM_MODE_SUPPORT
-	/*  Enable stream mode for BSSID MAC Address */
-	pEntry->StreamModeMACReg = TX_CHAIN_ADDR1_L;
-	AsicSetStreamMode(pAd, &pAd->CommonCfg.Bssid[0], 1, TRUE);
-#endif /* STREAM_MODE_SUPPORT */
 
 	AsicSetSlotTime(pAd, TRUE);
 	AsicSetEdcaParm(pAd, &pAd->CommonCfg.APEdcaParm);

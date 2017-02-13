@@ -3397,70 +3397,6 @@ INT Set_DebugQueue_Proc(
 #endif /* INCLUDE_DEBUG_QUEUE */
 #endif /* DBG_CTRL_SUPPORT */
 
-#ifdef STREAM_MODE_SUPPORT
-/*
-	========================================================================
-	Routine Description:
-		Set the enable/disable the stream mode
-
-	Arguments:
-		1:	enable for 1SS
-		2:	enable for 2SS
-		3:	enable for 1SS and 2SS
-		0:	disable
-
-	Notes:
-		Currently only support 1SS
-	========================================================================
-*/
-INT Set_StreamMode_Proc(
-    IN  struct rtmp_adapter *  pAd,
-    IN  char *        arg)
-{
-	uint32_t streamWord, reg, regAddr;
-
-	if (pAd->chipCap.FlgHwStreamMode == FALSE)
-	{
-		DBGPRINT(RT_DEBUG_ERROR, ("chip not supported feature\n"));
-		return FALSE;
-	}
-
-	pAd->CommonCfg.StreamMode = (simple_strtol(arg, 0, 10) & 0x3);
-	DBGPRINT(RT_DEBUG_TRACE, ("%s():StreamMode=%d\n", __FUNCTION__, pAd->CommonCfg.StreamMode));
-
-	streamWord = StreamModeRegVal(pAd);
-	for (regAddr = TX_CHAIN_ADDR0_H; regAddr <= TX_CHAIN_ADDR3_H; regAddr += 8)
-	{
-		RTMP_IO_READ32(pAd, regAddr, &reg);
-		reg &= (~0x000F0000);
-		RTMP_IO_WRITE32(pAd, regAddr, streamWord | reg);
-	}
-
-	return TRUE;
-}
-
-
-INT Set_StreamModeMac_Proc(
-    IN  struct rtmp_adapter *  pAd,
-    IN  char *        arg)
-{
-	return FALSE;
-}
-
-
-INT Set_StreamModeMCS_Proc(
-	IN  struct rtmp_adapter *  pAd,
-	IN  char *        arg)
-{
-	pAd->CommonCfg.StreamModeMCS = simple_strtol(arg, 0, 16);
-	DBGPRINT(RT_DEBUG_TRACE, ("%s():StreamModeMCS=%02X\n",
-				__FUNCTION__, pAd->CommonCfg.StreamModeMCS));
-
-	return TRUE;
-}
-#endif /* STREAM_MODE_SUPPORT */
-
-
 #ifdef PRE_ANT_SWITCH
 /*
 	Set_PreAntSwitch_Proc - enable/disable Preamble Antenna Switch
@@ -4281,10 +4217,6 @@ INT	Show_STA_RAInfo_Proc(
 	sprintf(pBuf+strlen(pBuf), "TrainUpHighThrd: %d\n", pAd->CommonCfg.TrainUpHighThrd);
 #endif // NEW_RATE_ADAPT_SUPPORT //
 
-#ifdef STREAM_MODE_SUPPORT
-	sprintf(pBuf+strlen(pBuf), "StreamMode: %d\n", pAd->CommonCfg.StreamMode);
-	sprintf(pBuf+strlen(pBuf), "StreamModeMCS: 0x%04x\n", pAd->CommonCfg.StreamModeMCS);
-#endif // STREAM_MODE_SUPPORT //
 #ifdef TXBF_SUPPORT
 	sprintf(pBuf+strlen(pBuf), "ITxBfEn: %d\n", pAd->CommonCfg.RegTransmitSetting.field.ITxBfEn);
 	sprintf(pBuf+strlen(pBuf), "ITxBfTimeout: %ld\n", pAd->CommonCfg.ITxBfTimeout);

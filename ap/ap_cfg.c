@@ -2809,10 +2809,6 @@ INT Show_RAInfo_Proc(struct rtmp_adapter *pAd, char *arg)
 	DBGPRINT(RT_DEBUG_OFF, ("TrainUpHighThrd: %d\n", pAd->CommonCfg.TrainUpHighThrd));
 #endif /* NEW_RATE_ADAPT_SUPPORT */
 
-#ifdef STREAM_MODE_SUPPORT
-	DBGPRINT(RT_DEBUG_OFF, ("StreamMode: %d\n", pAd->CommonCfg.StreamMode));
-	DBGPRINT(RT_DEBUG_OFF, ("StreamModeMCS: 0x%04x\n", pAd->CommonCfg.StreamModeMCS));
-#endif /* STREAM_MODE_SUPPORT */
 #ifdef TXBF_SUPPORT
 	DBGPRINT(RT_DEBUG_OFF, ("ITxBfEn: %d\n", pAd->CommonCfg.RegTransmitSetting.field.ITxBfEn));
 	DBGPRINT(RT_DEBUG_OFF, ("ITxBfTimeout: %ld\n", pAd->CommonCfg.ITxBfTimeout));

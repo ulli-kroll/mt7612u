@@ -450,9 +450,6 @@ int rt28xx_init(struct rtmp_adapter *pAd)
 	}
 #endif /* DOT11N_SS3_SUPPORT */
 
-#ifdef STREAM_MODE_SUPPORT
-	RtmpStreamModeInit(pAd);
-#endif /* STREAM_MODE_SUPPORT */
 
 
 #ifdef TXBF_SUPPORT

@@ -2397,15 +2397,6 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 	pAd->CommonCfg.BeaconPeriod = 100;     /* in mSec*/
 
 
-#ifdef STREAM_MODE_SUPPORT
-	if (pAd->chipCap.FlgHwStreamMode)
-	{
-		pAd->CommonCfg.StreamMode = 3;
-		pAd->CommonCfg.StreamModeMCS = 0x0B0B;
-		memmove(&pAd->CommonCfg.StreamModeMac[0][0],
-				BROADCAST_ADDR, MAC_ADDR_LEN);
-	}
-#endif /* STREAM_MODE_SUPPORT */
 
 #ifdef TXBF_SUPPORT
 	pAd->CommonCfg.ETxBfNoncompress = 0;

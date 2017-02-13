@@ -2444,18 +2444,6 @@ VOID MlmeRALog(
 		/*  Get STBC and StreamMode state */
 		stbc = (pEntry->HTPhyMode.field.STBC && pEntry->HTPhyMode.field.MCS<8);
 
-#ifdef STREAM_MODE_SUPPORT
-		if (pEntry->StreamModeMACReg != 0)
-		{
-			ULONG streamWord;
-
-			RTMP_IO_READ32(pAd, pEntry->StreamModeMACReg+4, &streamWord);
-			if (pEntry->HTPhyMode.field.MCS < 8)
-				csd = (streamWord & 0x30000)==0x30000;
-			else if (pEntry->HTPhyMode.field.MCS < 16)
-				csd = (streamWord & 0xC0000)==0xC0000;
-		}
-#endif /* STREAM_MODE_SUPPORT */
 
 		/*  Normalized throughput - packets per RA Interval */
 		if (raLogType==RAL_QUICK_DRS)
@@ -2764,25 +2752,6 @@ VOID MlmeNewTxRate(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 
 	pAd->LastTxRate = (USHORT)(pEntry->HTPhyMode.word);
 
-#ifdef STREAM_MODE_SUPPORT
-	/*  Enable/disable stream mode based on MCS */
-	if (pAd->CommonCfg.StreamMode!=0 &&
-		pEntry->StreamModeMACReg!=0)
-	{
-		UINT streamWord;
-		BOOLEAN mcsDisable;
-
-		/* OFDM: depends on StreamModeMCS, CCK: always applies stream-mode */
-		mcsDisable = (pEntry->HTPhyMode.field.MCS < 16) &&
-				(pAd->CommonCfg.StreamModeMCS & (1<<pEntry->HTPhyMode.field.MCS))==0 &&
-				(pEntry->HTPhyMode.field.MODE != MODE_CCK);
-
-		streamWord = mcsDisable ? 0 : StreamModeRegVal(pAd);
-
-		/*  Update Stream Mode control reg */
-		RTMP_IO_WRITE32(pAd, pEntry->StreamModeMACReg+4, streamWord | (ULONG)(pEntry->Addr[4]) | (ULONG)(pEntry->Addr[5] << 8));
-	}
-#endif /* STREAM_MODE_SUPPORT */
 }
 
 

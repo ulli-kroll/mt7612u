@@ -609,10 +609,6 @@ MAC_TABLE_ENTRY *MacTableInsertEntry(
 			pEntry->TimeStamp_toTxRing = 0;
 			InitializeQueueHeader(&pEntry->PsQueue);
 
-#ifdef STREAM_MODE_SUPPORT
-			/* Enable Stream mode for first three entries in MAC table */
-
-#endif /* STREAM_MODE_SUPPORT */
 
 #ifdef CONFIG_AP_SUPPORT
 			IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
@@ -763,11 +759,6 @@ BOOLEAN MacTableDeleteEntry(struct rtmp_adapter *pAd, USHORT wcid, UCHAR *pAddr)
 				RTMPReleaseTimer(&pEntry->eTxBfProbeTimer, &Cancelled);
 #endif /* TXBF_SUPPORT */
 
-#ifdef STREAM_MODE_SUPPORT
-			/* Clear Stream Mode register for this client */
-			if (pEntry->StreamModeMACReg != 0)
-				RTMP_IO_WRITE32(pAd, pEntry->StreamModeMACReg+4, 0);
-#endif // STREAM_MODE_SUPPORT //
 
 #ifdef DOT11W_PMF_SUPPORT
 			RTMPReleaseTimer(&pEntry->SAQueryTimer, &Cancelled);

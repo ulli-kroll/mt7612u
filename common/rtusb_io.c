@@ -1159,13 +1159,6 @@ static int RT_Mac80211_ConnResultInfom(struct rtmp_adapter *pAd, IN PCmdQElmt CM
 
 
 
-#ifdef STREAM_MODE_SUPPORT
-static int UpdateTXChainAddress(struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
-{
-	AsicUpdateTxChainAddress(pAd, CMDQelmt->buffer);
-	return NDIS_STATUS_SUCCESS;
-}
-#endif /* STREAM_MODE_SUPPORT */
 
 
 
@@ -1258,11 +1251,7 @@ static CMDHdlr CMDHdlrTable[] = {
 
 	NULL,
 
-#ifdef STREAM_MODE_SUPPORT
-	UpdateTXChainAddress, /* CMDTHREAD_UPDATE_TX_CHAIN_ADDRESS */
-#else
 	NULL,
-#endif
 
 	NULL,
 };

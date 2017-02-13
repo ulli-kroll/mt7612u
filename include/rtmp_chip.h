@@ -524,9 +524,6 @@ struct _RTMP_CHIP_CAP_ {
 
 	BOOLEAN FlgIsHwAntennaDiversitySup;
 	BOOLEAN Flg7662ChipCap;
-#ifdef STREAM_MODE_SUPPORT
-	BOOLEAN FlgHwStreamMode;
-#endif /* STREAM_MODE_SUPPORT */
 #ifdef TXBF_SUPPORT
 	BOOLEAN FlgHwTxBfCap;
 #endif /* TXBF_SUPPORT */
