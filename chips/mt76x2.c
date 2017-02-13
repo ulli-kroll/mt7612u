@@ -1482,7 +1482,7 @@ int mt76x2_reinit_hi_lna_gain(struct rtmp_adapter *ad, u8 channel)
 	return 0;
 }
 
-int mt76x2_get_rx_high_gain(struct rtmp_adapter *ad)
+void mt76x2_get_rx_high_gain(struct rtmp_adapter *ad)
 {
 	uint16_t value;
 	RTMP_CHIP_CAP *cap = &ad->chipCap;
@@ -1598,7 +1598,7 @@ int mt76x2_get_rx_high_gain(struct rtmp_adapter *ad)
 	}
 }
 
-static int mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
+static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 {
 	u16 value;
 	RTMP_CHIP_CAP *cap = &ad->chipCap;
