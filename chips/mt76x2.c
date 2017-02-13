@@ -2380,13 +2380,6 @@ int mt76x2_read_chl_pwr(struct rtmp_adapter *ad)
 	return TRUE;
 }
 
-static INT rf_tr_agc_config(struct rtmp_adapter *pAd, INT rf_bw)
-{
-	signed char rx_agc_fc_offset[3] = {2,2,2}; /* array idx 0: 20M, 1:40M, 2:80m */
-	UINT8 tx_agc_fc_offset[3] = {0,0,0}; /* array idx 0: 20M, 1:40M, 2:80m */
-	CHAR rf32_val, rf31_val, rf_diff;
-}
-
 void mt76x2_get_tx_pwr_per_rate(struct rtmp_adapter *ad)
 {
 	u16 value;
