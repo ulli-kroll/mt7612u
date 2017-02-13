@@ -582,29 +582,6 @@ NTSTATUS RTUSB_VendorRequest(
 
 }
 
-
-/*
-	========================================================================
-
-	Routine Description:
-	  Creates an IRP to submite an IOCTL_INTERNAL_USB_RESET_PORT
-	  synchronously. Callers of this function must be running at
-	  PASSIVE LEVEL.
-
-	Arguments:
-
-	Return Value:
-
-	Note:
-
-	========================================================================
-*/
-NTSTATUS RTUSB_ResetDevice(struct rtmp_adapter *pAd)
-{
-	return NDIS_STATUS_SUCCESS;
-}
-
-
 NTSTATUS CheckGPIOHdlr(struct rtmp_adapter *pAd, PCmdQElmt CMDQelmt)
 {
 #ifdef CONFIG_STA_SUPPORT
