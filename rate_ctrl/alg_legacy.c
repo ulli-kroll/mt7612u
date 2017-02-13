@@ -353,13 +353,11 @@ VOID APMlmeDynamicTxRateSwitching(struct rtmp_adapter *pAd)
 			RESET_ONE_SEC_TX_CNT(pEntry);
 
 
-#ifdef TXBF_SUPPORT
 #ifdef DBG_CTRL_SUPPORT
 			/* In Unaware mode always try to send sounding */
 			if (pAd->CommonCfg.DebugFlags & DBF_NO_BF_AWARE_RA)
 				eTxBFProbing(pAd, pEntry);
 #endif /* DBG_CTRL_SUPPORT */
-#endif /* TXBF_SUPPORT */
 			continue;
         }
 
@@ -372,10 +370,8 @@ VOID APMlmeDynamicTxRateSwitching(struct rtmp_adapter *pAd)
 			/* reset all OneSecTx counters */
 			RESET_ONE_SEC_TX_CNT(pEntry);
 
-#ifdef TXBF_SUPPORT
 			if (pAd->chipCap.FlgHwTxBfCap)
 			eTxBFProbing(pAd, pEntry);
-#endif /* TXBF_SUPPORT */
 
 			continue;
 		}
@@ -389,10 +385,8 @@ VOID APMlmeDynamicTxRateSwitching(struct rtmp_adapter *pAd)
 		/* reset all OneSecTx counters */
 		RESET_ONE_SEC_TX_CNT(pEntry);
 
-#ifdef TXBF_SUPPORT
 		if (pAd->chipCap.FlgHwTxBfCap)
-		eTxBFProbing(pAd, pEntry);
-#endif /* TXBF_SUPPORT */
+			eTxBFProbing(pAd, pEntry);
 
     }
 }
@@ -432,9 +426,7 @@ VOID APQuickResponeForRateUpExec(
 	UCHAR					InitTxRateIdx, TrainUp, TrainDown;
 	CHAR					Rssi, ratio;
 	ULONG					TxSuccess, TxRetransmit, TxFailCount;
-#ifdef TXBF_SUPPORT
 	BOOLEAN					CurrPhyETxBf, CurrPhyITxBf;
-#endif /* TXBF_SUPPORT */
 
 	pAd->ApCfg.ApQuickResponeForRateUpTimerRunning = FALSE;
 
@@ -554,10 +546,8 @@ VOID APQuickResponeForRateUpExec(
 #endif /* THERMAL_PROTECT_SUPPORT */
 
 		CurrRateIdx = pEntry->CurrTxRateIndex;
-#ifdef TXBF_SUPPORT
 		CurrPhyETxBf = pEntry->phyETxBf;
 		CurrPhyITxBf = pEntry->phyITxBf;
-#endif /* TXBF_SUPPORT */
 		pCurrTxRate = PTX_RA_LEGACY_ENTRY(pTable, CurrRateIdx);
 
 		if ((Rssi > -65) && (pCurrTxRate->Mode >= MODE_HTMIX))
@@ -642,12 +632,10 @@ VOID APQuickResponeForRateUpExec(
 				/*if ((pEntry->LastTxOkCount + 2) >= OneSecTxNoRetryOKRationCount) */
 				if (TxErrorRatio >= TrainDown)
 				{
-#ifdef TXBF_SUPPORT
 					/* If PER>50% or TP<lastTP/2 then double the TxQuality delay */
 					if ((TxErrorRatio > 50) || (OneSecTxNoRetryOKRationCount < pEntry->LastTxOkCount/2))
 						MlmeSetTxQuality(pEntry, CurrRateIdx, DRS_TX_QUALITY_WORST_BOUND*2);
 					else
-#endif /* TXBF_SUPPORT */
 						MlmeSetTxQuality(pEntry, CurrRateIdx, DRS_TX_QUALITY_WORST_BOUND);
 
 					MlmeRestoreLastRate(pEntry);
@@ -673,17 +661,13 @@ VOID APQuickResponeForRateUpExec(
 			}
 		}while (FALSE);
 
-#ifdef TXBF_SUPPORT
 		/* Remember last good non-BF rate */
 		if (!pEntry->phyETxBf && !pEntry->phyITxBf)
 			pEntry->lastNonBfRate = pEntry->CurrTxRateIndex;
-#endif /* TXBF_SUPPORT */
 
 		/* If rate changed then update the history and set the new tx rate */
 		if ((pEntry->CurrTxRateIndex != CurrRateIdx)
-#ifdef TXBF_SUPPORT
 			|| (pEntry->phyETxBf!=CurrPhyETxBf) || (pEntry->phyITxBf!=CurrPhyITxBf)
-#endif /* TXBF_SUPPORT */
 		)
 		{
 			/* if rate-up happen, clear all bad history of all TX rates */
@@ -1093,13 +1077,11 @@ VOID MlmeDynamicTxRateSwitching(
 			/* reset all OneSecTx counters */
 			RESET_ONE_SEC_TX_CNT(pEntry);
 
-#ifdef TXBF_SUPPORT
 #ifdef DBG_CTRL_SUPPORT
 			/* In Unaware mode always try to send sounding */
 			if (pAd->CommonCfg.DebugFlags & DBF_NO_BF_AWARE_RA)
 				eTxBFProbing(pAd, pEntry);
 #endif /* DBG_CTRL_SUPPORT */
-#endif /* TXBF_SUPPORT */
 
 			continue;
 		}
@@ -1111,10 +1093,8 @@ VOID MlmeDynamicTxRateSwitching(
 			/* reset all OneSecTx counters */
 			RESET_ONE_SEC_TX_CNT(pEntry);
 
-#ifdef TXBF_SUPPORT
 			if (pAd->chipCap.FlgHwTxBfCap)
 			eTxBFProbing(pAd, pEntry);
-#endif /* TXBF_SUPPORT */
 
 			continue;
 		}
@@ -1128,10 +1108,8 @@ VOID MlmeDynamicTxRateSwitching(
 		/* reset all OneSecTx counters */
 		RESET_ONE_SEC_TX_CNT(pEntry);
 
-#ifdef TXBF_SUPPORT
 		if (pAd->chipCap.FlgHwTxBfCap)
 		eTxBFProbing(pAd, pEntry);
-#endif /* TXBF_SUPPORT */
 		}
 }
 
@@ -1170,9 +1148,7 @@ VOID StaQuickResponeForRateUpExec(
 	CHAR					Rssi, ratio;
 	ULONG					TxSuccess, TxRetransmit, TxFailCount;
 	MAC_TABLE_ENTRY			*pEntry;
-#ifdef TXBF_SUPPORT
 	BOOLEAN					CurrPhyETxBf, CurrPhyITxBf;
-#endif /* TXBF_SUPPORT */
 
 	pAd->StaCfg.StaQuickResponeForRateUpTimerRunning = FALSE;
 
@@ -1213,10 +1189,8 @@ VOID StaQuickResponeForRateUpExec(
 #endif /* NEW_RATE_ADAPT_SUPPORT */
 
 		CurrRateIdx = pEntry->CurrTxRateIndex;
-#ifdef TXBF_SUPPORT
 		CurrPhyETxBf = pEntry->phyETxBf;
 		CurrPhyITxBf = pEntry->phyITxBf;
-#endif /* TXBF_SUPPORT */
 		pCurrTxRate = PTX_RA_LEGACY_ENTRY(pTable, CurrRateIdx);
 
 		if ((Rssi > -65) && (pCurrTxRate->Mode >= MODE_HTMIX))
@@ -1362,12 +1336,10 @@ VOID StaQuickResponeForRateUpExec(
 			{
 				if (TxErrorRatio >= TrainDown)
 				{
-#ifdef TXBF_SUPPORT
 					/* If PER>50% or TP<lastTP/2 then double the TxQuality delay */
 					if ((TxErrorRatio > 50) || (OneSecTxNoRetryOKRationCount < pEntry->LastTxOkCount/2))
 						MlmeSetTxQuality(pEntry, CurrRateIdx, DRS_TX_QUALITY_WORST_BOUND*2);
 					else
-#endif /* TXBF_SUPPORT */
 						MlmeSetTxQuality(pEntry, CurrRateIdx, DRS_TX_QUALITY_WORST_BOUND);
 
 					MlmeRestoreLastRate(pEntry);
@@ -1395,17 +1367,13 @@ VOID StaQuickResponeForRateUpExec(
 			}
 		}while (FALSE);
 
-#ifdef TXBF_SUPPORT
 		/* Remember last good non-BF rate */
 		if (!pEntry->phyETxBf && !pEntry->phyITxBf)
 			pEntry->lastNonBfRate = pEntry->CurrTxRateIndex;
-#endif /* TXBF_SUPPORT */
 
 		/* If rate changed then update the history and set the new tx rate */
 		if ((pEntry->CurrTxRateIndex != CurrRateIdx)
-#ifdef TXBF_SUPPORT
 			|| (pEntry->phyETxBf!=CurrPhyETxBf) || (pEntry->phyITxBf!=CurrPhyITxBf)
-#endif /* TXBF_SUPPORT */
 		)
 		{
 			/* if rate-up happen, clear all bad history of all TX rates */
@@ -1461,10 +1429,8 @@ VOID MlmeOldRateAdapt(
 	IN ULONG			TxErrorRatio)
 {
 	BOOLEAN	bTrainUp = FALSE;
-#ifdef TXBF_SUPPORT
 	UCHAR *pTable = pEntry->pTable;
 	BOOLEAN invertTxBf = FALSE;
-#endif /* TXBF_SUPPORT */
 
 	pEntry->LastSecTxRateChangeAction = RATE_NO_CHANGE;
 
@@ -1474,7 +1440,6 @@ VOID MlmeOldRateAdapt(
 	if (TxErrorRatio >= TrainDown)
 	{
 		MlmeSetTxQuality(pEntry, CurrRateIdx, DRS_TX_QUALITY_WORST_BOUND);
-#ifdef TXBF_SUPPORT
 		/*
 			Need to train down. If BF and last Non-BF isn't too much lower then
 			go to last Non-BF rate. Otherwise just go to the down rate
@@ -1494,7 +1459,6 @@ VOID MlmeOldRateAdapt(
 			return;
 		}
 		else
-#endif /* TXBF_SUPPORT */
 		if (CurrRateIdx != DownRateIdx)
 		{
 			pEntry->CurrTxRateIndex = DownRateIdx;
@@ -1523,7 +1487,6 @@ VOID MlmeOldRateAdapt(
 				pEntry->CurrTxRateIndex = UpRateIdx;
 				pEntry->LastSecTxRateChangeAction = RATE_UP;
 			}
-#ifdef TXBF_SUPPORT
 			else if (((CurrRateIdx != UpRateIdx) || (TxErrorRatio > TrainUp))
 #ifdef DBG_CTRL_SUPPORT
 					&& ((pAd->CommonCfg.DebugFlags & DBF_NO_BF_AWARE_RA)==0)
@@ -1579,7 +1542,6 @@ VOID MlmeOldRateAdapt(
 					}
 				}
 			}
-#endif /* TXBF_SUPPORT */
 		}
 	}
 
@@ -1591,7 +1553,6 @@ VOID MlmeOldRateAdapt(
 
 		/* Save last rate information */
 		pEntry->lastRateIdx = CurrRateIdx;
-#ifdef TXBF_SUPPORT
 		if (pEntry->eTxBfEnCond>0)
 		{
 			pEntry->lastRatePhyTxBf = pEntry->phyETxBf;
@@ -1602,7 +1563,6 @@ VOID MlmeOldRateAdapt(
 			pEntry->lastRatePhyTxBf = pEntry->phyITxBf;
 			pEntry->phyITxBf ^= invertTxBf;
 		}
-#endif /* TXBF_SUPPORT */
 
 		/* Update TxQuality */
 		if (pEntry->LastSecTxRateChangeAction == RATE_UP)

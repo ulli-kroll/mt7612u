@@ -3370,7 +3370,6 @@ VOID dev_rx_mgmt_frm(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 					min((CHAR)pRxBlk->snr[0], (CHAR)pRxBlk->snr[1]),
 					op_mode);
 
-#ifdef TXBF_SUPPORT
 	if (pAd->chipCap.FlgHwTxBfCap)
 	{
 		pRxBlk->pData += LENGTH_802_11;
@@ -3391,7 +3390,6 @@ VOID dev_rx_mgmt_frm(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 			handleBfFb(pAd, pRxBlk);
 		}
 	}
-#endif /* TXBF_SUPPORT */
 
 done:
 	RELEASE_NDIS_PACKET(pAd, pRxPacket, NDIS_STATUS_SUCCESS);

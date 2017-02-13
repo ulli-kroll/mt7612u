@@ -3170,7 +3170,6 @@ int RTMPSetProfileParameters(
 			DBGPRINT(RT_DEBUG_TRACE, ("ShortSlot=%d\n", pAd->CommonCfg.bUseShortSlotTime));
 		}
 
-#ifdef TXBF_SUPPORT
 		if (pAd->chipCap.FlgHwTxBfCap)
 		{
 #if defined(CONFIG_AP_SUPPORT) || defined(STA_ITXBF_SUPPORT)
@@ -3229,7 +3228,6 @@ int RTMPSetProfileParameters(
 				DBGPRINT(RT_DEBUG_TRACE, ("ETxBfIncapable = %d\n", pAd->CommonCfg.ETxBfIncapable));
 			}
 		}
-#endif /* TXBF_SUPPORT */
 
 
 #ifdef PRE_ANT_SWITCH

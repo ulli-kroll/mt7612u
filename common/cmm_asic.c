@@ -731,7 +731,6 @@ VOID AsicSwitchChannel(struct rtmp_adapter *pAd, UCHAR Channel, BOOLEAN bScan)
 	}
 	RTMPSetAGCInitValue(pAd, bw);
 
-#ifdef TXBF_SUPPORT
 	rtmp_asic_set_bf(pAd); // FW will initialize TxBf HW status. Re-calling this AP could recover previous status
 
 #ifdef MT76x2
@@ -749,7 +748,6 @@ VOID AsicSwitchChannel(struct rtmp_adapter *pAd, UCHAR Channel, BOOLEAN bScan)
 		RTMP_IO_WRITE32(pAd, RXO_R13, value32);
 	}
 #endif /* MT76x2 */
-#endif /* TXBF_SUPPORT */
 }
 
 

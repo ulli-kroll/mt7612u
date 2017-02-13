@@ -103,9 +103,7 @@ static USHORT update_associated_mac_entry(
 	IN UCHAR MaxSupportedRate)
 {
 	struct rtmp_wifi_dev *wdev;
-#ifdef TXBF_SUPPORT
 	BOOLEAN	 supportsETxBF = FALSE;
-#endif // TXBF_SUPPORT //
 
 	ASSERT((pEntry->apidx < pAd->ApCfg.BssidNum));
 	wdev = &pAd->ApCfg.MBSSID[pEntry->apidx].wdev;
@@ -234,14 +232,12 @@ static USHORT update_associated_mac_entry(
 			Handle_BSS_Width_Trigger_Events(pAd);
 		}
 
-#ifdef TXBF_SUPPORT
 		if (WMODE_CAP_AC(pAd->CommonCfg.PhyMode) &&
 				(pAd->CommonCfg.Channel > 14) &&
 				(ie_list->vht_cap_len))
 			supportsETxBF = clientSupportsVHTETxBF(pAd, &ie_list->vht_cap.vht_cap);
 		else
 			supportsETxBF = clientSupportsETxBF(pAd, &ie_list->HTCapability.TxBFCap);
-#endif /* TXBF_SUPPORT */
 
 		/* find max fixed rate */
 		pEntry->MaxHTPhyMode.field.MCS = get_ht_max_mcs(pAd, &wdev->DesiredHtPhyInfo.MCSSet[0],
@@ -381,7 +377,6 @@ static USHORT update_associated_mac_entry(
 
 	pEntry->freqOffsetValid = FALSE;
 
-#ifdef TXBF_SUPPORT
 	if (pAd->chipCap.FlgHwTxBfCap) {
 		TxBFInit(pAd, pEntry, supportsETxBF);
 		if (supportsETxBF) {
@@ -402,7 +397,6 @@ static USHORT update_associated_mac_entry(
 			pEntry->ndpSndgStreams = ndpSndgStreams;
 		}
 	}
-#endif // TXBF_SUPPORT //
 
 	// Initialize Rate Adaptation
 	MlmeRAInit(pAd, pEntry);

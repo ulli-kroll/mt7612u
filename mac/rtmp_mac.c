@@ -133,7 +133,6 @@ VOID RTMPWriteTxWI(
 	}
 
 
-#ifdef TXBF_SUPPORT
 	eTxBf = pTransmit->field.eTxBF;
 	iTxBf = pTransmit->field.iTxBF;
 
@@ -160,7 +159,6 @@ VOID RTMPWriteTxWI(
 
 	if (iTxBf || eTxBf) stbc = 0; // Force STBC = 0 when TxBf is enabled
 
-#endif /* TXBF_SUPPORT */
 
 
 	{
@@ -196,14 +194,12 @@ VOID RTMPWriteTxWI(
 #endif /*CONFIG_STA_SUPPORT*/
 
 		txwi_n->TxStreamMode = tx_stream_mode;
-#ifdef TXBF_SUPPORT
 		txwi_n->Sounding = sounding;
 		txwi_n->eTxBF = eTxBf;
 		txwi_n->iTxBF = iTxBf;
 		txwi_n->NDPSndRate = ndp_rate;
 		txwi_n->NDPSndBW = bw;
 		txwi_n->TXBF_PT_SCA = (eTxBf | iTxBf) ? TRUE : FALSE;
-#endif /* TXBF_SUPPORT */
 
 	}
 
@@ -225,9 +221,7 @@ VOID RTMPWriteTxWI_Data(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pTx
 	UCHAR wcid, pkt_id;
 	UCHAR sgi, mcs, bw, stbc, phy_mode, ldpc;
 	UCHAR basize, ampdu, mimops = 0, mpdu_density = 0;
-#ifdef TXBF_SUPPORT
 	UCHAR iTxBf, eTxBf, sounding, ndp_rate, ndp_bw;
-#endif /* TXBF_SUPPORT */
 #ifdef MCS_LUT_SUPPORT
 	BOOLEAN lut_enable = 0;
 	UCHAR mbc_wcid;
@@ -290,7 +284,6 @@ VOID RTMPWriteTxWI_Data(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pTx
 		}
 	}
 
-#ifdef TXBF_SUPPORT
 	if(pTxBlk->TxSndgPkt > SNDG_TYPE_DISABLE)
 		ampdu = FALSE;
 
@@ -329,16 +322,13 @@ VOID RTMPWriteTxWI_Data(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pTx
 
 	if (iTxBf || eTxBf) stbc = FALSE; // Force STBC = FALSE when TxBf is enabled
 
-#endif /* TXBF_SUPPORT */
 
 
-#ifdef TXBF_SUPPORT
 	if (pTxBlk->TxSndgPkt > SNDG_TYPE_DISABLE)
 	{
 		mcs = 0;
 		ampdu = FALSE;
 	}
-#endif /* TXBF_SUPPORT */
 
 	if (pMacEntry)
 	{
@@ -381,10 +371,8 @@ VOID RTMPWriteTxWI_Data(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pTx
 		HTTRANSMIT_SETTING rate_ctrl;
 
 		rate_ctrl.field.MODE = phy_mode;
-#ifdef TXBF_SUPPORT
 		rate_ctrl.field.iTxBF = iTxBf;
 		rate_ctrl.field.eTxBF = eTxBf;
-#endif /* TXBF_SUPPORT */
 		rate_ctrl.field.STBC = stbc;
 		rate_ctrl.field.ShortGI = sgi;
 		rate_ctrl.field.BW = bw;
@@ -403,7 +391,6 @@ VOID RTMPWriteTxWI_Data(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pTx
 #endif /* PEER_DELBA_TX_ADAPT */
 #endif /* MCS_LUT_SUPPORT */
 
-#ifdef TXBF_SUPPORT
 #ifdef MCS_LUT_SUPPORT
 	if (pMacEntry && pAd->chipCap.FlgHwTxBfCap)
 	{
@@ -411,7 +398,6 @@ VOID RTMPWriteTxWI_Data(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pTx
 			lut_enable = FALSE;
 	}
 #endif /* MCS_LUT_SUPPORT */
-#endif /* TXBF_SUPPORT */
 
 	{
 		struct _TXWI_NMAC *txwi_n = (struct _TXWI_NMAC *)pTxWI;
@@ -433,12 +419,11 @@ VOID RTMPWriteTxWI_Data(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pTx
 			txwi_n->ACK = 0;
 #endif /* WFA_VHT_PF */
 
-#ifdef TXBF_SUPPORT
 		if (pTxBlk->TxSndgPkt > SNDG_TYPE_DISABLE)
 			txwi_n->txop = IFS_BACKOFF; // Reserve larger TXOP to prevent sounding packet from collision
 		else
-#endif /* WFA_VHT_PF */
 			txwi_n->txop = pTxBlk->FrameGap;
+
 		txwi_n->wcid = wcid;
 		txwi_n->MPDUtotalByteCnt = pTxBlk->MpduHeaderLen + pTxBlk->SrcBufLen;
 		txwi_n->CFACK = TX_BLK_TEST_FLAG(pTxBlk, fTX_bPiggyBack);
@@ -456,14 +441,12 @@ VOID RTMPWriteTxWI_Data(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pTx
 		txwi_n->MIMOps = mimops;
 		txwi_n->MpduDensity = mpdu_density;
 
-#ifdef TXBF_SUPPORT
 		txwi_n->Sounding = sounding;
 		txwi_n->iTxBF = iTxBf;
 		txwi_n->eTxBF = eTxBf;
 		txwi_n->NDPSndRate = ndp_rate;
 		txwi_n->NDPSndBW = ndp_bw;
 		txwi_n->TXBF_PT_SCA = (eTxBf | iTxBf) ? TRUE : FALSE;
-#endif /* TXBF_SUPPORT */
 
 #ifdef MCS_LUT_SUPPORT
 		txwi_n->lut_en = lut_enable;
@@ -481,9 +464,7 @@ VOID RTMPWriteTxWI_Cache(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pT
 	UCHAR pkt_id;
 	UCHAR bw, mcs, stbc, phy_mode, sgi, ldpc;
 	UCHAR ampdu, basize = 0, mimops, mpdu_density = 0;
-#ifdef TXBF_SUPPORT
 	UCHAR sounding, iTxBf, eTxBf, ndp_rate, ndp_bw;
-#endif /* TXBF_SUPPORT */
 #ifdef MCS_LUT_SUPPORT
 	BOOLEAN lut_enable;
 #endif /* MCS_LUT_SUPPORT */
@@ -507,10 +488,8 @@ VOID RTMPWriteTxWI_Cache(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pT
 #endif /* MT76x2 */
 
 	ampdu = ((pMacEntry->NoBADataCountDown == 0) ? TRUE: FALSE);
-#ifdef TXBF_SUPPORT
 	if(pTxBlk->TxSndgPkt > SNDG_TYPE_DISABLE)
 		ampdu = FALSE;
-#endif /* TXBF_SUPPORT */
 
 	if (bw)
 		bw = (pAd->CommonCfg.AddHTInfo.AddHtInfo.RecomWidth == 0) ? (BW_20) : (pTransmit->field.BW);
@@ -560,7 +539,6 @@ VOID RTMPWriteTxWI_Cache(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pT
 	}
 #endif /* DBG_DIAGNOSE */
 
-#ifdef TXBF_SUPPORT
 	sounding = eTxBf = iTxBf = ndp_bw = ndp_rate = 0;
 	if (pTxBlk->TxSndgPkt == SNDG_TYPE_SOUNDING)
 	{
@@ -597,7 +575,6 @@ VOID RTMPWriteTxWI_Cache(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pT
 		mcs = 0;
 		ampdu = FALSE;
 	}
-#endif /* TXBF_SUPPORT */
 
 
 
@@ -610,10 +587,8 @@ VOID RTMPWriteTxWI_Cache(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pT
 		HTTRANSMIT_SETTING rate_ctrl;
 
 		rate_ctrl.field.MODE = phy_mode;
-#ifdef TXBF_SUPPORT
 		rate_ctrl.field.iTxBF = iTxBf;
 		rate_ctrl.field.eTxBF = eTxBf;
-#endif /* TXBF_SUPPORT */
 		rate_ctrl.field.STBC = stbc;
 		rate_ctrl.field.ShortGI = sgi;
 		rate_ctrl.field.BW = bw;
@@ -630,11 +605,9 @@ VOID RTMPWriteTxWI_Cache(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pT
 	{
 		struct _TXWI_NMAC *txwi_n = (struct _TXWI_NMAC *)pTxWI;
 
-#ifdef TXBF_SUPPORT
 		if (pTxBlk->TxSndgPkt > SNDG_TYPE_DISABLE)
 			txwi_n->txop = IFS_BACKOFF; // Reserve larger TXOP to prevent sounding packet from collision
 		else
-#endif
 		txwi_n->txop = IFS_HTTXOP;
 		txwi_n->BW = bw;
 		txwi_n->ShortGI = sgi;
@@ -658,14 +631,12 @@ VOID RTMPWriteTxWI_Cache(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pT
 		if (mpdu_density)
 			txwi_n->MpduDensity = mpdu_density;
 
-#ifdef TXBF_SUPPORT
 		txwi_n->Sounding = sounding;
 		txwi_n->eTxBF = eTxBf;
 		txwi_n->iTxBF = iTxBf;
 		txwi_n->NDPSndRate = ndp_rate;
 		txwi_n->NDPSndBW = ndp_bw;
 		txwi_n->TXBF_PT_SCA = (eTxBf | iTxBf) ? TRUE : FALSE;
-#endif /* TXBF_SUPPORT */
 
 #ifdef MCS_LUT_SUPPORT
 		txwi_n->lut_en = lut_enable;

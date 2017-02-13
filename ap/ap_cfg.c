@@ -2809,14 +2809,12 @@ INT Show_RAInfo_Proc(struct rtmp_adapter *pAd, char *arg)
 	DBGPRINT(RT_DEBUG_OFF, ("TrainUpHighThrd: %d\n", pAd->CommonCfg.TrainUpHighThrd));
 #endif /* NEW_RATE_ADAPT_SUPPORT */
 
-#ifdef TXBF_SUPPORT
 	DBGPRINT(RT_DEBUG_OFF, ("ITxBfEn: %d\n", pAd->CommonCfg.RegTransmitSetting.field.ITxBfEn));
 	DBGPRINT(RT_DEBUG_OFF, ("ITxBfTimeout: %ld\n", pAd->CommonCfg.ITxBfTimeout));
 	DBGPRINT(RT_DEBUG_OFF, ("ETxBfTimeout: %ld\n", pAd->CommonCfg.ETxBfTimeout));
 	DBGPRINT(RT_DEBUG_OFF, ("ETxBfEnCond: %ld\n", pAd->CommonCfg.ETxBfEnCond));
 	DBGPRINT(RT_DEBUG_OFF, ("ETxBfNoncompress: %d\n", pAd->CommonCfg.ETxBfNoncompress));
 	DBGPRINT(RT_DEBUG_OFF, ("ETxBfIncapable: %d\n", pAd->CommonCfg.ETxBfIncapable));
-#endif /* TXBF_SUPPORT */
 
 #ifdef DBG_CTRL_SUPPORT
 	DBGPRINT(RT_DEBUG_OFF, ("DebugFlags: 0x%lx\n", pAd->CommonCfg.DebugFlags));
@@ -4011,7 +4009,6 @@ VOID RTMPIoctlStatistics(struct rtmp_adapter *pAd, RTMP_IOCTL_INPUT_STRUCT *wrq)
 	kfree(msg);
 /*	kfree(msg); */
 
-#if defined(TXBF_SUPPORT)
 #ifdef DBG_CTRL_SUPPORT
 	/* Debug code to display BF statistics */
 	if (pAd->CommonCfg.DebugFlags & DBF_SHOW_BF_STATS)
@@ -4068,7 +4065,6 @@ VOID RTMPIoctlStatistics(struct rtmp_adapter *pAd, RTMP_IOCTL_INPUT_STRUCT *wrq)
 		}
 	}
 #endif /* DBG_CTRL_SUPPORT */
-#endif /* defined(TXBF_SUPPORT) */
 
     DBGPRINT(RT_DEBUG_TRACE, ("<==RTMPIoctlStatistics\n"));
 }

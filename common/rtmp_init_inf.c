@@ -445,7 +445,6 @@ int rt28xx_init(struct rtmp_adapter *pAd)
 
 
 
-#ifdef TXBF_SUPPORT
 #ifndef MT76x2
 	if (pAd->CommonCfg.ITxBfTimeout)
 	{
@@ -461,7 +460,6 @@ int rt28xx_init(struct rtmp_adapter *pAd)
 	{
 		RTMP_IO_WRITE32(pAd, TX_TXBF_CFG_3, pAd->CommonCfg.ETxBfTimeout);
 	}
-#endif /* TXBF_SUPPORT */
 
 
 

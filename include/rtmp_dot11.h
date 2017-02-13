@@ -13,13 +13,11 @@
 
 #include "dot11ac_vht.h"
 
-#ifdef TXBF_SUPPORT
 /* CSI/Steering values */
 #define DOT11N_BF_FB_NONE		0
 #define DOT11N_BF_FB_CSI		1
 #define DOT11N_BF_FB_NOCOMP	2
 #define DOT11N_BF_FB_COMP		3
-#endif /* TXBF_SUPPORT */
 
 /* 4-byte HTC field.  maybe included in any frame except non-QOS data frame.  The Order bit must set 1. */
 typedef struct GNU_PACKED _HT_CONTROL{

@@ -166,9 +166,7 @@ DECLARE_TIMER_FUNCTION(RtmpUsbStaAsicForceWakeupTimeout);
 
 #endif /* CONFIG_STA_SUPPORT */
 
-#ifdef TXBF_SUPPORT
 DECLARE_TIMER_FUNCTION(eTxBfProbeTimerExec);
-#endif // TXBF_SUPPORT //
 
 
 

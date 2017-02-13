@@ -143,9 +143,7 @@
 #include "frq_cal.h"
 #endif /* RTMP_FREQ_CALIBRATION_SUPPORT */
 
-#ifdef TXBF_SUPPORT
 #include "rt_txbf.h"
-#endif /* TXBF_SUPPORT */
 
 
 #ifdef RLT_MAC

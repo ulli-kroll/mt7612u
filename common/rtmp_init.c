@@ -1379,7 +1379,6 @@ VOID NICUpdateFifoStaCounters(struct rtmp_adapter *pAd)
 		pEntry->DebugFIFOCount++;
 
 
-#ifdef TXBF_SUPPORT
 		/* Update BF statistics*/
 		if (pAd->chipCap.FlgHwTxBfCap)
 		{
@@ -1424,7 +1423,6 @@ VOID NICUpdateFifoStaCounters(struct rtmp_adapter *pAd)
 			pEntry->TxBFCounters.TxRetryCount += reTry;
 		}
 	}
-#endif /* TXBF_SUPPORT */
 
 #ifdef UAPSD_SUPPORT
 	UAPSD_SP_AUE_Handle(pAd, pEntry, StaFifo.field.TxSuccess);
@@ -2372,10 +2370,8 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 
 
 
-#ifdef TXBF_SUPPORT
 	pAd->CommonCfg.ETxBfNoncompress = 0;
 	pAd->CommonCfg.ETxBfIncapable = 0;
-#endif /* TXBF_SUPPORT */
 
 #ifdef NEW_RATE_ADAPT_SUPPORT
 	pAd->CommonCfg.lowTrafficThrd = 2;

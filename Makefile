@@ -93,8 +93,6 @@ HAS_MT76XX_BT_COEXISTENCE_SUPPORT=n
 
 HAS_TEMPERATURE_TX_ALC=n
 
-HAS_TXBF_SUPPORT=y
-
 HAS_NEW_RATE_ADAPT_SUPPORT=n
 
 #MT7601
@@ -160,10 +158,6 @@ ifeq ($(HAS_ED_MONITOR_SUPPORT),y)
 WFLAGS += -DED_MONITOR
 endif
 
-ifeq ($(HAS_TXBF_SUPPORT),y)
-WFLAGS += -DTXBF_SUPPORT
-endif
-
 ifeq ($(HAS_NEW_RATE_ADAPT_SUPPORT),y)
 WFLAGS += -DNEW_RATE_ADAPT_SUPPORT
 endif
@@ -219,10 +213,6 @@ WFLAGS += -DWPA_SUPPLICANT_SUPPORT
 ifeq ($(HAS_NATIVE_WPA_SUPPLICANT_SUPPORT),y)
 WFLAGS += -DNATIVE_WPA_SUPPLICANT_SUPPORT
 endif
-endif
-
-ifeq ($(HAS_TXBF_SUPPORT),y)
-WFLAGS += -DTXBF_SUPPORT
 endif
 
 ifeq ($(HAS_NEW_RATE_ADAPT_SUPPORT),y)
@@ -302,10 +292,6 @@ WFLAGS += -DNATIVE_WPA_SUPPLICANT_SUPPORT
 endif
 endif
 
-
-ifeq ($(HAS_TXBF_SUPPORT),y)
-WFLAGS += -DTXBF_SUPPORT
-endif
 
 ifeq ($(HAS_NEW_RATE_ADAPT_SUPPORT),y)
 WFLAGS += -DNEW_RATE_ADAPT_SUPPORT
@@ -467,13 +453,8 @@ obj_cmm += \
         common/ba_action.o\
         mgmt/mgmt_ht.o
 
-#ifdef TXBF_SUPPORT
-ifeq ($(HAS_TXBF_SUPPORT),y)
-obj_cmm += \
-        common/cmm_txbf.o\
-        common/cmm_txbf_cal.o
-endif
-#endif // TXBF_SUPPORT //
+obj_cmm += 	common/cmm_txbf.o\
+		common/cmm_txbf_cal.o
 
 obj_vht += mgmt/mgmt_vht.o\
 	common/vht.o

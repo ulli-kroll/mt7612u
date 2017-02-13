@@ -53,12 +53,10 @@ static RTMP_REG_PAIR mt76x2_mac_cr_table[] = {
 	{MT7662_EFUSE_CTRL, 0xD000},
 	{PER_PORT_PAUSE_ENABLE_CONTROL1, 0xA},
 	{0x824, 0x60401c18}, //change the FCE threshold from 0x60402c28 to 0x60401c18
-#ifdef TXBF_SUPPORT
 	{TX_TXBF_CFG_0,		0x4002FC21},	/* Force MCS2 for sounding response*/
 	{TX_TXBF_CFG_1,		0xFE23727F},
 	{TX_TXBF_CFG_2,		0xFFFFFFFF},	/* The explicit TxBF feedback is applied only when the value of (local TSF timer) -
 	                                                               (TSF timestamp of the feedback frame) is greater then or equal to 0xFFFFFFFF */
-#endif
 	{0x210, 0x94ff0000},
 	{0x1478, 0x00000004},
 	{0x1384, 0x00001818},
@@ -3111,9 +3109,7 @@ static const RTMP_CHIP_CAP MT76x2_ChipCap = {
 	.FlgIsVcoReCalMode = VCO_CAL_DISABLE,
 	.FlgIsHwAntennaDiversitySup = FALSE,
 	.Flg7662ChipCap = TRUE,
-#ifdef TXBF_SUPPORT
 	.FlgHwTxBfCap = TRUE,
-#endif /* TXBF_SUPPORT */
 #ifdef FIFO_EXT_SUPPORT
 	.FlgHwFifoExtCap = TRUE,
 #endif /* FIFO_EXT_SUPPORT */
@@ -3211,11 +3207,9 @@ static const RTMP_CHIP_OP MT76x2_ChipOp = {
 	.AsicRfInit = mt76x2_init_rf_cr,
 
 	// ITxBf phase calibration
-#ifdef TXBF_SUPPORT
 	.fITxBfDividerCalibration = ITxBFDividerCalibrationStartUp,
 	.fITxBfLNAPhaseCompensate = mt76x2_ITxBFLoadLNAComp,
 	.fITxBfLNACalibration = ITxBFLNACalibrationStartUp,
-#endif
 
 	.ChipAGCInit = NULL,
 #ifdef CONFIG_STA_SUPPORT

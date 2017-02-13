@@ -2450,7 +2450,6 @@ INT ITxBFPhaseCalibration(
 
 
 #ifdef MT76x2
-#ifdef TXBF_SUPPORT
 static SC_TABLE_ENTRY impSubCarrierTable[3] = { {224, 255, 1, 31}, {198, 254, 2, 58}, {134, 254, 2, 122} };
 static SC_TABLE_ENTRY expSubCarrierTable[3] = { {224, 255, 1, 31}, {198, 254, 2, 58}, {134, 254, 2, 122} };
 
@@ -2850,7 +2849,6 @@ INT TxBfProfileTagValid(
 
 	return TRUE;
 }
-#endif /* TXBF_SUPPORT */
 #endif /* MT76x2 */
 
 

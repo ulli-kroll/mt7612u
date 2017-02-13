@@ -731,7 +731,6 @@ typedef struct _COUNTER_DRS {
 } COUNTER_DRS, *PCOUNTER_DRS;
 
 
-#ifdef TXBF_SUPPORT
 typedef struct _COUNTER_TXBF{
 	ULONG TxSuccessCount;
 	ULONG TxRetryCount;
@@ -743,7 +742,6 @@ typedef struct _COUNTER_TXBF{
 	ULONG ITxRetryCount;
 	ULONG ITxFailCount;
 } COUNTER_TXBF;
-#endif /* TXBF_SUPPORT */
 
 
 
@@ -1837,13 +1835,11 @@ typedef struct _COMMON_CONFIG {
 #endif /* NEW_RATE_ADAPT_SUPPORT */
 
 
-#ifdef TXBF_SUPPORT
 	ULONG ITxBfTimeout;
 	ULONG ETxBfTimeout;
 	ULONG	ETxBfEnCond;		/* Enable sending of sounding and beamforming */
 	BOOLEAN	ETxBfNoncompress;	/* Force non-compressed Sounding Response */
 	BOOLEAN	ETxBfIncapable;		/* Report Incapable of BF in TX BF Capabilities */
-#endif /* TXBF_SUPPORT */
 
 #ifdef DBG_CTRL_SUPPORT
 	ULONG DebugFlags;	/* Temporary debug flags */
@@ -2417,7 +2413,6 @@ typedef struct _MAC_TABLE_ENTRY {
 	RALINK_TIMER_STRUCT DelBA_tx_AdaptTimer;
 #endif /* PEER_DELBA_TX_ADAPT */
 
-#ifdef TXBF_SUPPORT
 	UCHAR			TxSndgType;
 	NDIS_SPIN_LOCK	TxSndgLock;
 
@@ -2451,7 +2446,6 @@ typedef struct _MAC_TABLE_ENTRY {
 	UINT LastETxCount;		/* Used to compute %BF statistics */
 	UINT LastITxCount;
 	UINT LastTxCount;
-#endif /* TXBF_SUPPORT */
 
 	UINT8 snd_dialog_token;
 #ifdef SOFT_SOUNDING
@@ -4357,11 +4351,9 @@ typedef struct _TX_BLK {
 	/*YOU SHOULD NOT TOUCH IT! Following parameters are used for hardware-depended layer. */
 	ULONG				Priv;						/* Hardware specific value saved in here. */
 
-#ifdef TXBF_SUPPORT
 	UCHAR				TxSndgPkt; /* 1: sounding 2: NDP sounding */
 	UCHAR				TxNDPSndgBW;
 	UCHAR				TxNDPSndgMcs;
-#endif /* TXBF_SUPPORT */
 
 #ifdef TX_PKT_SG
 	PACKET_INFO pkt_info;
@@ -6161,12 +6153,10 @@ VOID MlmeCheckForRoaming(
 BOOLEAN MlmeCheckForFastRoaming(
 	IN  struct rtmp_adapter *pAd);
 
-#ifdef TXBF_SUPPORT
 BOOLEAN MlmeTxBfAllowed(
 	IN struct rtmp_adapter *		pAd,
 	IN PMAC_TABLE_ENTRY		pEntry,
 	IN struct _RTMP_RA_LEGACY_TB *pTxRate);
-#endif /* TXBF_SUPPORT */
 
 VOID MlmeCalculateChannelQuality(
 	IN struct rtmp_adapter *pAd,
@@ -6579,13 +6569,11 @@ VOID WPARetryExec(
 	IN PVOID SystemSpecific2,
 	IN PVOID SystemSpecific3);
 
-#ifdef TXBF_SUPPORT
 VOID eTxBfProbeTimerExec(
 	IN PVOID SystemSpecific1,
 	IN PVOID FunctionContext,
 	IN PVOID SystemSpecific2,
 	IN PVOID SystemSpecific3);
-#endif /* TXBF_SUPPORT */
 
 VOID EnqueueStartForPSKExec(
     IN PVOID SystemSpecific1,
@@ -6777,7 +6765,6 @@ INT	Set_Debug_Proc(struct rtmp_adapter *pAd, char *arg);
 INT	Set_DebugFunc_Proc(struct rtmp_adapter *pAd, char *arg);
 #endif
 
-#ifdef TXBF_SUPPORT
 INT	Set_ReadITxBf_Proc(struct rtmp_adapter *pAd, char *arg);
 INT	Set_ReadETxBf_Proc(struct rtmp_adapter *pAd, char *arg);
 INT	Set_WriteITxBf_Proc(struct rtmp_adapter *pAd, char *arg);
@@ -6860,7 +6847,6 @@ INT Set_TxBfProfileTag_Flg(
 	IN char *        arg);
 #endif
 
-#endif /* TXBF_SUPPORT */
 
 INT Set_VhtNDPA_Sounding_Proc(struct rtmp_adapter *pAd, char *arg);
 
@@ -7044,7 +7030,6 @@ UINT deaggregate_AMSDU_announce(
 	IN	ULONG			DataSize,
 	IN	UCHAR			OpMode);
 
-#ifdef TXBF_SUPPORT
 BOOLEAN clientSupportsETxBF(struct rtmp_adapter *pAd, HT_BF_CAP *pTxBFCap);
 void setETxBFCap(struct rtmp_adapter *pAd, HT_BF_CAP *pTxBFCap);
 BOOLEAN clientSupportsVHTETxBF(struct rtmp_adapter *pAd, VHT_CAP_INFO *pTxBFCapInfo);
@@ -7074,7 +7059,6 @@ VOID Trigger_Sounding_Packet(
 VOID rtmp_asic_set_bf(struct rtmp_adapter *pAd);
 BOOLEAN rtmp_chk_itxbf_calibration(struct rtmp_adapter *pAd);
 
-#endif /* TXBF_SUPPORT */
 
 #ifdef CONFIG_AP_SUPPORT
 /* remove LLC and get 802_3 Header */
@@ -7371,9 +7355,7 @@ BOOLEAN	AUTH_ReqSend(
 VOID ReSyncBeaconTime(struct rtmp_adapter *pAd);
 VOID RTMPSetAGCInitValue(struct rtmp_adapter *pAd, UCHAR BandWidth);
 
-#ifdef TXBF_SUPPORT
 VOID handleHtcField(struct rtmp_adapter *pAd, RX_BLK *pRxBlk);
-#endif /* TXBF_SUPPORT */
 
 
 #define VIRTUAL_IF_INC(__pAd) ((__pAd)->VirtualIfCnt++)

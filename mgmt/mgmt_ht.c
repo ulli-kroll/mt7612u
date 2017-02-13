@@ -397,7 +397,6 @@ VOID RTMPSetHT(
 		set_default_ap_edca_param(pAd);
 	AsicSetEdcaParm(pAd, &pAd->CommonCfg.APEdcaParm);
 
-#ifdef TXBF_SUPPORT
 	if (pAd->chipCap.FlgHwTxBfCap)
 	{
 		/* Set ETxBF */
@@ -409,7 +408,6 @@ VOID RTMPSetHT(
 		/* Apply to ASIC */
 		rtmp_asic_set_bf(pAd);
 	}
-#endif /* TXBF_SUPPORT */
 
 #ifdef CONFIG_AP_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)

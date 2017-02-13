@@ -862,7 +862,6 @@ static inline u8 *AP_Build_AMSDU_Frame_Header(
 	pHeaderBufPtr +=2;
 	pTxBlk->MpduHeaderLen += 2;
 
-#ifdef TXBF_SUPPORT
 	if (pTxBlk->pMacEntry && pAd->chipCap.FlgHwTxBfCap)
 	{
 		MAC_TABLE_ENTRY *pMacEntry = pTxBlk->pMacEntry;
@@ -921,7 +920,6 @@ static inline u8 *AP_Build_AMSDU_Frame_Header(
 			pTxBlk->MpduHeaderLen += 4;
 		}
 	}
-#endif /* TXBF_SUPPORT */
 
 	/*
 		padding at front of LLC header
@@ -969,9 +967,7 @@ VOID AP_AMPDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 	hdr_offset = TXINFO_SIZE + TXWISize + TSO_SIZE;
 	pMacEntry = pTxBlk->pMacEntry;
 	if ((pMacEntry->isCached)
-#ifdef TXBF_SUPPORT
 		&& (pMacEntry->TxSndgType == SNDG_TYPE_DISABLE)
-#endif /* TXBF_SUPPORT */
 	)
 	{
 #ifndef VENDOR_FEATURE1_SUPPORT
@@ -1011,9 +1007,7 @@ VOID AP_AMPDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 #ifdef SOFT_ENCRYPT
 		&& !TX_BLK_TEST_FLAG(pTxBlk, fTX_bSwEncrypt)
 #endif /* SOFT_ENCRYPT */
-#ifdef TXBF_SUPPORT
 		&& (pMacEntry->TxSndgType == SNDG_TYPE_DISABLE)
-#endif /* TXBF_SUPPORT */
 	)
 	{
 		pHeader_802_11 = (HEADER_802_11 *) pHeaderBufPtr;
@@ -1081,9 +1075,7 @@ VOID AP_AMPDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 		/* build HTC control filed after QoS field */
 		if ((pAd->CommonCfg.bRdg == TRUE)
 			&& (CLIENT_STATUS_TEST_FLAG(pTxBlk->pMacEntry, fCLIENT_STATUS_RDG_CAPABLE))
-#ifdef TXBF_SUPPORT
 			&& (pMacEntry->TxSndgType != SNDG_TYPE_NDP)
-#endif /* TXBF_SUPPORT */
 		)
 		{
 			memset(pHeaderBufPtr, 0, sizeof(HT_CONTROL));
@@ -1091,7 +1083,6 @@ VOID AP_AMPDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 			bHTCPlus = TRUE;
 		}
 
-#ifdef TXBF_SUPPORT
 		if (pAd->chipCap.FlgHwTxBfCap)
 		{
 			pTxBlk->TxSndgPkt = SNDG_TYPE_DISABLE;
@@ -1143,7 +1134,6 @@ VOID AP_AMPDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 			NdisReleaseSpinLock(&pMacEntry->TxSndgLock);
 
 		}
-#endif /* TXBF_SUPPORT */
 
 		if (bHTCPlus == TRUE)
 		{
@@ -1246,9 +1236,7 @@ VOID AP_AMPDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 	}
 
 	if ((pMacEntry->isCached)
-#ifdef TXBF_SUPPORT
 		&& (pTxBlk->TxSndgPkt == SNDG_TYPE_DISABLE)
-#endif /* TXBF_SUPPORT */
 	)
 	{
 		RTMPWriteTxWI_Cache(pAd, (TXWI_STRUC *)(&pTxBlk->HeaderBuf[TXINFO_SIZE]), pTxBlk);
@@ -1276,10 +1264,8 @@ VOID AP_AMPDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 			pMacEntry->isCached = FALSE;
 	}
 
-#ifdef TXBF_SUPPORT
 	if (pTxBlk->TxSndgPkt != SNDG_TYPE_DISABLE)
 		pMacEntry->isCached = FALSE;
-#endif /* TXBF_SUPPORT */
 
 #ifdef STATS_COUNT_SUPPORT
 	/* calculate Transmitted AMPDU count and ByteCount */
@@ -1829,7 +1815,6 @@ VOID AP_Legacy_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 		pHeaderBufPtr +=2;
 		pTxBlk->MpduHeaderLen += 2;
 
-#ifdef TXBF_SUPPORT
 		if (pAd->chipCap.FlgHwTxBfCap &&
 			(pTxBlk->pMacEntry) &&
 			(pTxBlk->pTransmit->field.MODE >= MODE_HTMIX))
@@ -1890,7 +1875,6 @@ VOID AP_Legacy_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 				pTxBlk->MpduHeaderLen += 4;
 			}
 		}
-#endif /* TXBF_SUPPORT */
 	}
 
 	/* The remaining content of MPDU header should locate at 4-octets aligment	*/
@@ -2856,9 +2840,7 @@ int APHardTransmit(struct rtmp_adapter *pAd, TX_BLK *pTxBlk, UCHAR QueIdx)
 #endif /* SOFT_ENCRYPT */
 	{
 		pTxBlk->NeedTrans = TRUE;
-#ifdef TXBF_SUPPORT
 		pTxBlk->NeedTrans = FALSE;
-#endif // TXBF_SUPPORT //
 	}
 #endif /* HDR_TRANS_TX_SUPPORT */
 
@@ -3913,12 +3895,10 @@ VOID APHandleRxDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 	{
 		pEntry->LastRxRate = (ULONG)(pRxBlk->rx_rate.word);
 
-#ifdef TXBF_SUPPORT
 		if (pRxBlk->rx_rate.field.ShortGI)
 			pEntry->OneSecRxSGICount++;
 		else
 			pEntry->OneSecRxLGICount++;
-#endif // TXBF_SUPPORT //
 	}
 
 	pAd->ApCfg.LastSNR0 = (UCHAR)(pRxBlk->snr[0]);
@@ -4019,13 +3999,11 @@ VOID APHandleRxDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 	}
 	pRxBlk->UserPriority = UserPriority;
 
-#ifdef TXBF_SUPPORT
 	if (pAd->chipCap.FlgHwTxBfCap &&
 		(pHeader->FC.SubType & 0x08) && pHeader->FC.Order)
 	{
 		handleHtcField(pAd, pRxBlk);
 	}
-#endif /* TXBF_SUPPORT */
 
 	/* 3. Order bit: A-Ralink or HTC+ */
 	if (pFmeCtrl->Order)

@@ -29,7 +29,6 @@
 
 #include	"rt_config.h"
 
-#ifdef TXBF_SUPPORT
 
 #define ETXBF_PROBE_TIME (RA_INTERVAL-100)	/* Wait for Sounding Response will time out 100msec before end of RA interval */
 
@@ -888,5 +887,4 @@ BOOLEAN MlmeTxBfAllowed(
 
 	return FALSE;
 }
-#endif /* TXBF_SUPPORT */
 

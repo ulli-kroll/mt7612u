@@ -923,14 +923,12 @@ INT	Set_ResetStatCounter_Proc(
 #ifdef CONFIG_AP_SUPPORT
 #endif /* CONFIG_AP_SUPPORT */
 
-#ifdef TXBF_SUPPORT
 	if (pAd->chipCap.FlgHwTxBfCap)
 	{
 		int i;
 		for (i=0; i<MAX_LEN_OF_MAC_TABLE; i++)
 			memset(&pAd->MacTab.Content[i].TxBFCounters, 0, sizeof(pAd->MacTab.Content[i].TxBFCounters));
 	}
-#endif /* TXBF_SUPPORT */
 
 	return TRUE;
 }
@@ -4213,14 +4211,12 @@ INT	Show_STA_RAInfo_Proc(
 	sprintf(pBuf+strlen(pBuf), "TrainUpHighThrd: %d\n", pAd->CommonCfg.TrainUpHighThrd);
 #endif // NEW_RATE_ADAPT_SUPPORT //
 
-#ifdef TXBF_SUPPORT
 	sprintf(pBuf+strlen(pBuf), "ITxBfEn: %d\n", pAd->CommonCfg.RegTransmitSetting.field.ITxBfEn);
 	sprintf(pBuf+strlen(pBuf), "ITxBfTimeout: %ld\n", pAd->CommonCfg.ITxBfTimeout);
 	sprintf(pBuf+strlen(pBuf), "ETxBfTimeout: %ld\n", pAd->CommonCfg.ETxBfTimeout);
 	sprintf(pBuf+strlen(pBuf), "ETxBfEnCond: %ld\n", pAd->CommonCfg.ETxBfEnCond);
 	sprintf(pBuf+strlen(pBuf), "ETxBfNoncompress: %d\n", pAd->CommonCfg.ETxBfNoncompress);
 	sprintf(pBuf+strlen(pBuf), "ETxBfIncapable: %d\n", pAd->CommonCfg.ETxBfIncapable);
-#endif // TXBF_SUPPORT //
 
 #ifdef DBG_CTRL_SUPPORT
 	sprintf(pBuf+strlen(pBuf), "DebugFlags: 0x%lx\n", pAd->CommonCfg.DebugFlags);
@@ -4577,7 +4573,6 @@ void  getRate(HTTRANSMIT_SETTING HTSetting, uint32_t *fLastTxRxRate)
 }
 
 
-#ifdef TXBF_SUPPORT
 
 /*
 	Set_ETxBfNoncompress_Proc - Set ETxBf Noncompress option
@@ -4993,7 +4988,6 @@ INT	Set_ITxBfEn_Proc(
 }
 
 #endif
-#endif /* TXBF_SUPPORT */
 
 
 /*
@@ -5058,7 +5052,6 @@ INT Set_VhtNDPA_Sounding_Proc(struct rtmp_adapter *pAd, char *arg)
 }
 
 #ifdef MT76x2
-#ifdef TXBF_SUPPORT
 USHORT  PFMU_TimeOut;
 UCHAR	MatrixForm[5];
 UCHAR	StsSnr[2];
@@ -5903,7 +5896,6 @@ INT Set_TxBfProfileTag_Flg(
 
 	return TRUE;
 }
-#endif  //TXBF_SUPPORT
 #endif  //MT76x2
 
 
@@ -5916,9 +5908,7 @@ void assoc_ht_info_debugshow(
 	HT_CAP_INFO			*pHTCap;
 	HT_CAP_PARM		*pHTCapParm;
 	EXT_HT_CAP_INFO		*pExtHT;
-#ifdef TXBF_SUPPORT
 	HT_BF_CAP			*pBFCap;
-#endif /* TXBF_SUPPORT */
 
 
 	if (pHTCapability && (ht_cap_len > 0))
@@ -5926,9 +5916,7 @@ void assoc_ht_info_debugshow(
 		pHTCap = &pHTCapability->HtCapInfo;
 		pHTCapParm = &pHTCapability->HtCapParm;
 		pExtHT = &pHTCapability->ExtHtCapInfo;
-#ifdef TXBF_SUPPORT
 		pBFCap = &pHTCapability->TxBFCap;
-#endif /* TXBF_SUPPORT */
 
 		DBGPRINT(RT_DEBUG_TRACE, ("Peer - 11n HT Info\n"));
 		DBGPRINT(RT_DEBUG_TRACE, ("\tHT Cap Info: \n"));
@@ -5955,7 +5943,6 @@ void assoc_ht_info_debugshow(
 		DBGPRINT(RT_DEBUG_TRACE, ("\t\t PCO(%d), TransTime(%d), MCSFeedback(%d), +HTC(%d), RDG(%d)\n",
 			pExtHT->Pco, pExtHT->TranTime, pExtHT->MCSFeedback, pExtHT->PlusHTC, pExtHT->RDGSupport));
 
-#ifdef TXBF_SUPPORT
         	DBGPRINT(RT_DEBUG_TRACE, ("\tTX BF Cap: \n"));
 		DBGPRINT(RT_DEBUG_TRACE, ("\t\t ImpRxCap(%d), RXStagSnd(%d), TXStagSnd(%d), RxNDP(%d), TxNDP(%d) ImpTxCap(%d)\n",
 			pBFCap->TxBFRecCapable, pBFCap->RxSoundCapable, pBFCap->TxSoundCapable,
@@ -5966,7 +5953,6 @@ void assoc_ht_info_debugshow(
 		DBGPRINT(RT_DEBUG_TRACE, ("\t\t MinGrouping(%d), CSIBFAntSup(%d), NoComSteerBFAntSup(%d), ComSteerBFAntSup(%d), CSIRowBFSup(%d) ChanEstimation(%d)\n",
 			pBFCap->MinGrouping, pBFCap->CSIBFAntSup, pBFCap->NoComSteerBFAntSup,
 			pBFCap->ComSteerBFAntSup, pBFCap->CSIRowBFSup, pBFCap->ChanEstimation));
-#endif /* TXBF_SUPPORT */
 
 		DBGPRINT(RT_DEBUG_TRACE, ("\nPeer - MODE=%d, BW=%d, MCS=%d, ShortGI=%d, MaxRxFactor=%d, MpduDensity=%d, MIMOPS=%d, AMSDU=%d\n",
 			pEntry->HTPhyMode.field.MODE, pEntry->HTPhyMode.field.BW,

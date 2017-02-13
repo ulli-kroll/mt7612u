@@ -31,7 +31,6 @@
 #ifndef _RT_TXBF_H_
 #define _RT_TXBF_H_
 
-#ifdef TXBF_SUPPORT
 
 #ifdef MT76x2
 // Divider phase calibration closed loop definition
@@ -334,6 +333,5 @@ void ITxBFSetEEPROM(
 	IN ITXBF_LNA_PARAMS *lnaParams,
 	IN ITXBF_DIV_PARAMS *divParams);
 
-#endif // TXBF_SUPPORT //
 
 #endif // _RT_TXBF_H_

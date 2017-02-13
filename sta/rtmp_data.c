@@ -595,13 +595,11 @@ VOID STAHandleRxDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 		if (pEntry != NULL)
 		{
 			pEntry->LastRxRate = pAd->LastRxRate;
-#ifdef TXBF_SUPPORT
 			//if (pRxWI->ShortGI)
 			if (pRxBlk->rx_rate.field.ShortGI)
 				pEntry->OneSecRxSGICount++;
 			else
 				pEntry->OneSecRxLGICount++;
-#endif /* TXBF_SUPPORT */
 
 			pEntry->freqOffset = (CHAR)(pRxBlk->freq_offset);
 			pEntry->freqOffsetValid = TRUE;
@@ -1346,9 +1344,7 @@ VOID STA_AMPDU_Frame_Tx(
 
 		pMacEntry = pTxBlk->pMacEntry;
 		if ((pMacEntry->isCached)
-#ifdef TXBF_SUPPORT
 			&& (pMacEntry->TxSndgType == SNDG_TYPE_DISABLE)
-#endif // TXBF_SUPPORT //
 		)
 		{
 			/* NOTE: Please make sure the size of pMacEntry->CachedBuf[] is smaller than pTxBlk->HeaderBuf[]!!!! */
@@ -1393,9 +1389,7 @@ VOID STA_AMPDU_Frame_Tx(
 #ifdef SOFT_ENCRYPT
 		    && !TX_BLK_TEST_FLAG(pTxBlk, fTX_bSwEncrypt)
 #endif /* SOFT_ENCRYPT */
-#ifdef TXBF_SUPPORT
 			&& (pMacEntry->TxSndgType == SNDG_TYPE_DISABLE)
-#endif // TXBF_SUPPORT //
 			)
 		{
 			pHeader_802_11 = (HEADER_802_11 *) pHeaderBufPtr;
@@ -1445,9 +1439,7 @@ VOID STA_AMPDU_Frame_Tx(
 
 			if ((pAd->CommonCfg.bRdg == TRUE)
 			    && CLIENT_STATUS_TEST_FLAG(pTxBlk->pMacEntry, fCLIENT_STATUS_RDG_CAPABLE)
-#ifdef TXBF_SUPPORT
 				&& (pMacEntry->TxSndgType != SNDG_TYPE_NDP)
-#endif /* TXBF_SUPPORT */
 			)
 			{
 				if (pMacEntry->isCached == FALSE)
@@ -1462,7 +1454,6 @@ VOID STA_AMPDU_Frame_Tx(
 				bHTCPlus = TRUE;
 			}
 
-#ifdef TXBF_SUPPORT
 			pTxBlk->TxSndgPkt = SNDG_TYPE_DISABLE;
 
 			NdisAcquireSpinLock(&pMacEntry->TxSndgLock);
@@ -1513,7 +1504,6 @@ VOID STA_AMPDU_Frame_Tx(
 
 			NdisReleaseSpinLock(&pMacEntry->TxSndgLock);
 
-#endif // TXBF_SUPPORT //
 
 			if (bHTCPlus)
 			{
@@ -1623,9 +1613,7 @@ VOID STA_AMPDU_Frame_Tx(
 		}
 
 		if ((pMacEntry->isCached)
-#ifdef TXBF_SUPPORT
 			&& (pTxBlk->TxSndgPkt == SNDG_TYPE_DISABLE)
-#endif // TXBF_SUPPORT //
 		)
 		{
 			RTMPWriteTxWI_Cache(pAd, (TXWI_STRUC *) (&pTxBlk->HeaderBuf[TXINFO_SIZE]), pTxBlk);
@@ -1646,10 +1634,8 @@ VOID STA_AMPDU_Frame_Tx(
 			pMacEntry->isCached = TRUE;
 		}
 
-#ifdef TXBF_SUPPORT
 		if (pTxBlk->TxSndgPkt != SNDG_TYPE_DISABLE)
 			pMacEntry->isCached = FALSE;
-#endif // TXBF_SUPPORT //
 
 #ifdef STATS_COUNT_SUPPORT
 		/* calculate Transmitted AMPDU count and ByteCount  */

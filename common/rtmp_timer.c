@@ -95,9 +95,7 @@ BUILD_TIMER_FUNCTION(RtmpUsbStaAsicForceWakeupTimeout);
 
 
 
-#ifdef TXBF_SUPPORT
 BUILD_TIMER_FUNCTION(eTxBfProbeTimerExec);
-#endif /* TXBF_SUPPORT */
 
 
 

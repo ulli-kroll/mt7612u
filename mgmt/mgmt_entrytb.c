@@ -117,9 +117,7 @@ BOOLEAN StaUpdateMacTableEntry(
 {
 	UCHAR MaxSupportedRate = RATE_11;
 	BOOLEAN bSupportN = FALSE;
-#ifdef TXBF_SUPPORT
 	BOOLEAN supportsETxBf = FALSE;
-#endif
 	struct rtmp_wifi_dev *wdev;
 
 	if (!pEntry)
@@ -187,7 +185,6 @@ BOOLEAN StaUpdateMacTableEntry(
 
 		ht_mode_adjust(pAd, pEntry, ht_cap, &pAd->CommonCfg.DesiredHtPhy);
 
-#ifdef TXBF_SUPPORT
 		if (WMODE_CAP_AC(pAd->CommonCfg.PhyMode) &&
 				(pAd->CommonCfg.Channel > 14) &&
 				(ie_list->vht_cap_len))
@@ -199,7 +196,6 @@ BOOLEAN StaUpdateMacTableEntry(
 		}
 		else
 			supportsETxBf = clientSupportsETxBF(pAd, &ht_cap->TxBFCap);
-#endif /* TXBF_SUPPORT */
 
 		/* find max fixed rate */
 		pEntry->MaxHTPhyMode.field.MCS = get_ht_max_mcs(pAd, &wdev->DesiredHtPhyInfo.MCSSet[0], &ht_cap->MCSSet[0]);
@@ -252,12 +248,10 @@ BOOLEAN StaUpdateMacTableEntry(
 
 	pEntry->freqOffsetValid = FALSE;
 
-#ifdef TXBF_SUPPORT
 	TxBFInit(pAd, pEntry, supportsETxBf);
 
 	RTMPInitTimer(pAd, &pEntry->eTxBfProbeTimer, GET_TIMER_FUNCTION(eTxBfProbeTimerExec), pEntry, FALSE);
 	NdisAllocateSpinLock(pAd, &pEntry->TxSndgLock);
-#endif /* TXBF_SUPPORT */
 
 	MlmeRAInit(pAd, pEntry);
 
@@ -465,10 +459,8 @@ MAC_TABLE_ENTRY *MacTableInsertEntry(
 			}
 #endif /* CONFIG_AP_SUPPORT */
 
-#ifdef TXBF_SUPPORT
 			if (pAd->chipCap.FlgHwTxBfCap)
 				RTMPInitTimer(pAd, &pEntry->eTxBfProbeTimer, GET_TIMER_FUNCTION(eTxBfProbeTimerExec), pEntry, FALSE);
-#endif /* TXBF_SUPPORT */
 
 			pEntry->pAd = pAd;
 			pEntry->CMTimerRunning = FALSE;
@@ -645,10 +637,8 @@ MAC_TABLE_ENTRY *MacTableInsertEntry(
 			}
 #endif /* CONFIG_AP_SUPPORT */
 
-#ifdef TXBF_SUPPORT
 			if (pAd->chipCap.FlgHwTxBfCap)
 				NdisAllocateSpinLock(pAd, &pEntry->TxSndgLock);
-#endif /* TXBF_SUPPORT */
 
 			DBGPRINT(RT_DEBUG_TRACE, ("%s(): alloc entry #%d, Total= %d\n",
 						__FUNCTION__, i, pAd->MacTab.Size));
@@ -754,10 +744,8 @@ BOOLEAN MacTableDeleteEntry(struct rtmp_adapter *pAd, USHORT wcid, UCHAR *pAddr)
 			/* Delete this entry from ASIC on-chip WCID Table*/
 			RTMP_STA_ENTRY_MAC_RESET(pAd, wcid);
 
-#ifdef TXBF_SUPPORT
 			if (pAd->chipCap.FlgHwTxBfCap)
 				RTMPReleaseTimer(&pEntry->eTxBfProbeTimer, &Cancelled);
-#endif /* TXBF_SUPPORT */
 
 
 #ifdef DOT11W_PMF_SUPPORT
@@ -876,10 +864,8 @@ BOOLEAN MacTableDeleteEntry(struct rtmp_adapter *pAd, USHORT wcid, UCHAR *pAddr)
 
 			pAd->MacTab.Size--;
 
-#ifdef TXBF_SUPPORT
 			if (pAd->chipCap.FlgHwTxBfCap)
 				NdisFreeSpinLock(&pEntry->TxSndgLock);
-#endif /* TXBF_SUPPORT */
 			DBGPRINT(RT_DEBUG_TRACE, ("MacTableDeleteEntry1 - Total= %d\n", pAd->MacTab.Size));
 		}
 		else
