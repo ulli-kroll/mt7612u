@@ -3803,7 +3803,6 @@ VOID RTMPAPIoctlRF(
 #endif /* RTMP_RF_RW_SUPPORT */
 #endif /*#ifdef DBG */
 
-//#define ENHANCED_STAT_DISPLAY	// Display PER and PLR statistics
 
 
 /*
@@ -3828,10 +3827,8 @@ VOID RTMPIoctlStatistics(struct rtmp_adapter *pAd, RTMP_IOCTL_INPUT_STRUCT *wrq)
 	char *msg;
 	ULONG txCount = 0;
 	uint32_t rxCount = 0;
-#ifdef ENHANCED_STAT_DISPLAY
 	ULONG per, plr;
 	INT i;
-#endif
 #ifdef RTMP_EFUSE_SUPPORT
 	UINT efusefreenum=0;
 #endif /* RTMP_EFUSE_SUPPORT */
@@ -3860,7 +3857,6 @@ VOID RTMPIoctlStatistics(struct rtmp_adapter *pAd, RTMP_IOCTL_INPUT_STRUCT *wrq)
 
 	sprintf(msg+strlen(msg), "Current temperature = %d¢J\n", pChipCap->current_temp);
     sprintf(msg+strlen(msg), "Tx success                      = %ld\n", txCount);
-#ifdef ENHANCED_STAT_DISPLAY
 	per = txCount==0? 0: 1000*(pAd->WlanCounters.RetryCount.u.LowPart+pAd->WlanCounters.FailedCount.u.LowPart)/(pAd->WlanCounters.RetryCount.u.LowPart+pAd->WlanCounters.FailedCount.u.LowPart+txCount);
     sprintf(msg+strlen(msg), "Tx retry count                  = %ld, PER=%ld.%1ld%%\n",
 									(ULONG)pAd->WlanCounters.RetryCount.u.LowPart,
@@ -3880,22 +3876,8 @@ VOID RTMPIoctlStatistics(struct rtmp_adapter *pAd, RTMP_IOCTL_INPUT_STRUCT *wrq)
 	sprintf(msg+strlen(msg), "Rx duplicate frame              = %ld\n", (ULONG)pAd->WlanCounters.FrameDuplicateCount.u.LowPart);
 
 	sprintf(msg+strlen(msg), "False CCA                       = %ld\n", (ULONG)pAd->RalinkCounters.FalseCCACnt);
-#else
-    sprintf(msg+strlen(msg), "Tx retry count                  = %ld\n", (ULONG)pAd->WlanCounters.RetryCount.u.LowPart);
-    sprintf(msg+strlen(msg), "Tx fail to Rcv ACK after retry  = %ld\n", (ULONG)pAd->WlanCounters.FailedCount.u.LowPart);
-    sprintf(msg+strlen(msg), "RTS Success Rcv CTS             = %ld\n", (ULONG)pAd->WlanCounters.RTSSuccessCount.u.LowPart);
-    sprintf(msg+strlen(msg), "RTS Fail Rcv CTS                = %ld\n", (ULONG)pAd->WlanCounters.RTSFailureCount.u.LowPart);
-
-    sprintf(msg+strlen(msg), "Rx success                      = %ld\n", (ULONG)pAd->WlanCounters.ReceivedFragmentCount.QuadPart);
-    sprintf(msg+strlen(msg), "Rx with CRC                     = %ld\n", (ULONG)pAd->WlanCounters.FCSErrorCount.u.LowPart);
-    sprintf(msg+strlen(msg), "Rx drop due to out of resource  = %ld\n", (ULONG)pAd->Counters8023.RxNoBuffer);
-    sprintf(msg+strlen(msg), "Rx duplicate frame              = %ld\n", (ULONG)pAd->WlanCounters.FrameDuplicateCount.u.LowPart);
-
-    sprintf(msg+strlen(msg), "False CCA (one second)          = %ld\n", (ULONG)pAd->RalinkCounters.OneSecFalseCCACnt);
-#endif /* ENHANCED_STAT_DISPLAY */
 
 	{
-#ifdef ENHANCED_STAT_DISPLAY
 	sprintf(msg+strlen(msg), "RSSI                            = %ld %ld %ld\n",
     			(LONG)(pAd->ApCfg.RssiSample.LastRssi0 - pAd->BbpRssiToDbmDelta),
     			(LONG)(pAd->ApCfg.RssiSample.LastRssi1 - pAd->BbpRssiToDbmDelta),
@@ -3994,11 +3976,6 @@ VOID RTMPIoctlStatistics(struct rtmp_adapter *pAd, RTMP_IOCTL_INPUT_STRUCT *wrq)
 				}
 			}
     	}
-#else
-    	sprintf(msg+strlen(msg), "RSSI-A                          = %ld\n", (LONG)(pAd->ApCfg.RssiSample.LastRssi0 - pAd->BbpRssiToDbmDelta));
-		sprintf(msg+strlen(msg), "RSSI-B (if available)           = %ld\n", (LONG)(pAd->ApCfg.RssiSample.LastRssi1 - pAd->BbpRssiToDbmDelta));
-		sprintf(msg+strlen(msg), "RSSI-C (if available)           = %ld\n\n", (LONG)(pAd->ApCfg.RssiSample.LastRssi2 - pAd->BbpRssiToDbmDelta));
-#endif /* ENHANCED_STAT_DISPLAY */
 	}
 
 
@@ -4034,7 +4011,7 @@ VOID RTMPIoctlStatistics(struct rtmp_adapter *pAd, RTMP_IOCTL_INPUT_STRUCT *wrq)
 	kfree(msg);
 /*	kfree(msg); */
 
-#if defined(TXBF_SUPPORT) && defined(ENHANCED_STAT_DISPLAY)
+#if defined(TXBF_SUPPORT)
 #ifdef DBG_CTRL_SUPPORT
 	/* Debug code to display BF statistics */
 	if (pAd->CommonCfg.DebugFlags & DBF_SHOW_BF_STATS)
@@ -4091,7 +4068,7 @@ VOID RTMPIoctlStatistics(struct rtmp_adapter *pAd, RTMP_IOCTL_INPUT_STRUCT *wrq)
 		}
 	}
 #endif /* DBG_CTRL_SUPPORT */
-#endif /* defined(TXBF_SUPPORT) && defined(ENHANCED_STAT_DISPLAY) */
+#endif /* defined(TXBF_SUPPORT) */
 
     DBGPRINT(RT_DEBUG_TRACE, ("<==RTMPIoctlStatistics\n"));
 }
