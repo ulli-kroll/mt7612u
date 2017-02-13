@@ -75,7 +75,7 @@ typedef	union	_EFUSE_CTRL_STRUC {
 }	EFUSE_CTRL_STRUC, *PEFUSE_CTRL_STRUC;
 #endif /* RT_BIG_ENDIAN */
 
-static NTSTATUS eFuseWriteRegistersFromBin(
+static int eFuseWriteRegistersFromBin(
 	IN	struct rtmp_adapter *pAd,
 	IN	USHORT Offset,
 	IN	USHORT Length,

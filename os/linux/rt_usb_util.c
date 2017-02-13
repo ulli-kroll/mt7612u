@@ -226,7 +226,7 @@ VOID *RtmpOsUsbContextGet(
 }
 
 
-NTSTATUS RtmpOsUsbStatusGet(
+int RtmpOsUsbStatusGet(
 	IN	VOID			*pUrb)
 {
 	return ((purbb_t)pUrb)->rtusb_urb_status;
@@ -275,7 +275,7 @@ Return Value:
 Note:
 ========================================================================
 */
-NTSTATUS RtmpOsUsbUrbStatusGet(
+int RtmpOsUsbUrbStatusGet(
 	IN	VOID					*pUrb)
 {
 	return RTMP_USB_URB_STATUS_GET(pUrb);

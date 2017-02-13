@@ -681,7 +681,7 @@ Note:
 
 ========================================================================
 */
-NTSTATUS PMF_RsnCapableValidation(
+int PMF_RsnCapableValidation(
         IN struct rtmp_adapter *pAd,
         IN uint8_t * pRsnie,
         IN UINT rsnie_len,

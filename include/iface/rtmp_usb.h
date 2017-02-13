@@ -79,7 +79,7 @@ extern UCHAR EpToQueue[6];
 struct _MGMT_STRUC;
 struct _TX_BLK;
 
-NTSTATUS RTUSB_VendorRequest(
+int RTUSB_VendorRequest(
 	IN	struct rtmp_adapter *pAd,
 	IN	UCHAR ReservedBits,
 	IN	UCHAR Request,
@@ -88,20 +88,20 @@ NTSTATUS RTUSB_VendorRequest(
 	IN	PVOID txbuf,
 	IN	uint32_t txbuf_len);
 
-NTSTATUS RTUSBMultiWrite(struct rtmp_adapter *pAd, USHORT Offset, UCHAR *buf, USHORT len);
-NTSTATUS RTUSBMultiWrite_nBytes(struct rtmp_adapter *pAd, USHORT Offset, UCHAR *buf, USHORT len, USHORT batchLen);
-NTSTATUS RTUSBSingleWrite(struct rtmp_adapter *pAd, USHORT Offset, USHORT val);
+int RTUSBMultiWrite(struct rtmp_adapter *pAd, USHORT Offset, UCHAR *buf, USHORT len);
+int RTUSBMultiWrite_nBytes(struct rtmp_adapter *pAd, USHORT Offset, UCHAR *buf, USHORT len, USHORT batchLen);
+int RTUSBSingleWrite(struct rtmp_adapter *pAd, USHORT Offset, USHORT val);
 
-NTSTATUS RTUSBReadBBPRegister(struct rtmp_adapter *pAd, UCHAR Id, UCHAR *pValue);
-NTSTATUS RTUSBWriteBBPRegister(struct rtmp_adapter *pAd, UCHAR Id, UCHAR Value);
-NTSTATUS RTUSBWriteRFRegister(struct rtmp_adapter *pAd, uint32_t Value);
-NTSTATUS RTUSBWriteMACRegister(struct rtmp_adapter *pAd, USHORT Offset, uint32_t val);
-NTSTATUS RTUSBReadMACRegister(struct rtmp_adapter *pAd, USHORT Offset, uint32_t *val);
+int RTUSBReadBBPRegister(struct rtmp_adapter *pAd, UCHAR Id, UCHAR *pValue);
+int RTUSBWriteBBPRegister(struct rtmp_adapter *pAd, UCHAR Id, UCHAR Value);
+int RTUSBWriteRFRegister(struct rtmp_adapter *pAd, uint32_t Value);
+int RTUSBWriteMACRegister(struct rtmp_adapter *pAd, USHORT Offset, uint32_t val);
+int RTUSBReadMACRegister(struct rtmp_adapter *pAd, USHORT Offset, uint32_t *val);
 
-NTSTATUS RTUSBReadEEPROM(struct rtmp_adapter *pAd, USHORT Offset, UCHAR *buf, USHORT len);
-NTSTATUS RTUSBWriteEEPROM(struct rtmp_adapter *pAd, USHORT Offset, UCHAR *buf, USHORT len);
+int RTUSBReadEEPROM(struct rtmp_adapter *pAd, USHORT Offset, UCHAR *buf, USHORT len);
+int RTUSBWriteEEPROM(struct rtmp_adapter *pAd, USHORT Offset, UCHAR *buf, USHORT len);
 
-NTSTATUS RTUSBVenderReset(struct rtmp_adapter *pAd);
+int RTUSBVenderReset(struct rtmp_adapter *pAd);
 
 BOOLEAN AsicCheckCommandOk(struct rtmp_adapter *pAd, UCHAR cmd);
 
@@ -138,7 +138,7 @@ VOID RtmpUSBNullFrameKickOut(struct rtmp_adapter *pAd, UCHAR QIdx, UCHAR *pNullF
 VOID RTUSBWatchDog(struct rtmp_adapter *pAd);
 
 VOID RTUSBPutToSleep(struct rtmp_adapter *pAd);
-NTSTATUS RTUSBWakeUp(struct rtmp_adapter *pAd);
+int RTUSBWakeUp(struct rtmp_adapter *pAd);
 
 VOID RtmpUsbStaAsicForceWakeupTimeout(PVOID arg1, PVOID FuncContext, PVOID arg2, PVOID arg3);
 

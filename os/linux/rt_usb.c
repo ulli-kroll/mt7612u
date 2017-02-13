@@ -152,7 +152,7 @@ static void rtusb_dataout_complete(unsigned long data)
 	struct os_cookie *		pObj;
 	PHT_TX_CONTEXT		pHTTXContext;
 	UCHAR				BulkOutPipeId;
-	NTSTATUS			Status;
+	int 		Status;
 	unsigned long		IrqFlags;
 
 
@@ -252,7 +252,7 @@ static void rtusb_null_frame_done_tasklet(unsigned long data)
 	struct rtmp_adapter *pAd;
 	PTX_CONTEXT		pNullContext;
 	purbb_t			pUrb;
-	NTSTATUS		Status;
+	int 	Status;
 	unsigned long	irqFlag;
 
 
@@ -306,7 +306,7 @@ static void rtusb_pspoll_frame_done_tasklet(unsigned long data)
 	struct rtmp_adapter *pAd;
 	PTX_CONTEXT		pPsPollContext;
 	purbb_t			pUrb;
-	NTSTATUS		Status;
+	int 	Status;
 
 
 
@@ -370,7 +370,7 @@ static void rx_done_tasklet(unsigned long data)
 	purbb_t 			pUrb;
 	PRX_CONTEXT			pRxContext;
 	struct rtmp_adapter *	pAd;
-	NTSTATUS			Status;
+	int 		Status;
 	unsigned int		IrqFlags;
 
 	pUrb		= (purbb_t)data;
@@ -442,7 +442,7 @@ static void rtusb_mgmt_dma_done_tasklet(unsigned long data)
 	int				index;
 	struct sk_buff *pPacket;
 	purbb_t			pUrb;
-	NTSTATUS		Status;
+	int 	Status;
 	unsigned long	IrqFlags;
 	HEADER_802_11  *pHeader;
 

@@ -69,7 +69,7 @@ VOID PMF_MakeRsnIeGMgmtCipher(
 	OUT u8 *pRsnIe,
 	OUT UCHAR *rsn_len);
 
-NTSTATUS PMF_RsnCapableValidation(
+int PMF_RsnCapableValidation(
         IN Pstruct rtmp_adapter pAd,
         IN uint8_t * pRsnie,
         IN UINT rsnie_len,

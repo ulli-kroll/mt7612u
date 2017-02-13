@@ -772,13 +772,13 @@ struct rtmp_adapter;
 /*************************************************************************
   *	Public function declarations for usb-based prom chipset
   ************************************************************************/
-NTSTATUS RTUSBReadEEPROM16(
+int RTUSBReadEEPROM16(
 	IN struct rtmp_adapter *pAd,
 	IN	USHORT			offset,
 	OUT	PUSHORT			pData);
 
 
-NTSTATUS RTUSBWriteEEPROM16(
+int RTUSBWriteEEPROM16(
 	IN struct rtmp_adapter *pAd,
 	IN USHORT 			offset,
 	IN USHORT 			value);
