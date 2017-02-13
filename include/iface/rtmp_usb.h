@@ -106,7 +106,6 @@ NTSTATUS RTUSBVenderReset(struct rtmp_adapter *pAd);
 BOOLEAN AsicCheckCommandOk(struct rtmp_adapter *pAd, UCHAR cmd);
 
 
-int RTUSBEnqueueCmdFromNdis(struct rtmp_adapter *pAd, NDIS_OID Oid, BOOLEAN SetInfo, PVOID pInfoBuf, uint32_t BufLen);
 VOID RTUSBDequeueCmd(PCmdQ cmdq, PCmdQElmt *pcmdqelmt);
 INT RTUSBCmdThread(ULONG Context);
 
