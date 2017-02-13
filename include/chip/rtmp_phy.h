@@ -125,40 +125,18 @@
 #define RF_R127			127
 
 /* value domain of pAd->RfIcType */
-#define RFIC_2820                   1       /* 2.4G 2T3R */
-#define RFIC_2850                   2       /* 2.4G/5G 2T3R */
-#define RFIC_2720                   3       /* 2.4G 1T2R */
-#define RFIC_2750                   4       /* 2.4G/5G 1T2R */
-#define RFIC_3020                   5       /* 2.4G 1T1R */
-#define RFIC_2020                   6       /* 2.4G B/G */
-#define RFIC_3021                   7       /* 2.4G 1T2R */
-#define RFIC_3022                   8       /* 2.4G 2T2R */
-#define RFIC_3052                   9       /* 2.4G/5G 2T2R */
-#define RFIC_2853					10		/* 2.4G.5G 3T3R */
-#define RFIC_3320                   11      /* 2.4G 1T1R with PA (RT3350/RT3370/RT3390) */
-#define RFIC_3322                   12      /* 2.4G 2T2R with PA (RT3352/RT3371/RT3372/RT3391/RT3392) */
-#define RFIC_3053                   13      /* 2.4G/5G 3T3R (RT3883/RT3563/RT3573/RT3593/RT3662) */
-#define RFIC_3853                   13      /* 2.4G/5G 3T3R (RT3883/RT3563/RT3573/RT3593/RT3662) */
-#define RFIC_5592			14	 /* 2.4G/5G */
-#define RFIC_6352			15	 	/* 2.4G 2T2R */
-#define RFIC_7650					15		/* 2.4G/5G 1x1 VHT with BT*/
-#define RFIC_7610E					16		/* 5G 1x1 VHT */
-#define RFIC_7610U					17
-#define RFIC_7630					18		/* 2.4G 1x1 HT with BT */
-#define RFIC_7662					19		/* 2.4G/5G 2T2R VHT with BT */
-#define RFIC_7612					20		/* 2.4G/5G 2T2R VHT */
-#define RFIC_7602					21		/* 2.4G 2T2R VHT */
-#define RFIC_UNKNOWN				0xff
+#define RFIC_6352			1	 	/* 2.4G 2T2R */
+#define RFIC_7650			1		/* 2.4G/5G 1x1 VHT with BT*/
+#define RFIC_7610E			2		/* 5G 1x1 VHT */
+#define RFIC_7610U			3
+#define RFIC_7630			4		/* 2.4G 1x1 HT with BT */
+#define RFIC_7662			5		/* 2.4G/5G 2T2R VHT with BT */
+#define RFIC_7612			6		/* 2.4G/5G 2T2R VHT */
+#define RFIC_7602			7		/* 2.4G 2T2R VHT */
+#define RFIC_UNKNOWN			0xff
 
 #define RFIC_IS_5G_BAND(__pAd)			\
-	((__pAd->RfIcType == RFIC_2850) ||	\
-	(__pAd->RfIcType == RFIC_2750) ||	\
-	(__pAd->RfIcType == RFIC_3052) ||	\
-	(__pAd->RfIcType == RFIC_2853) ||	\
-	(__pAd->RfIcType == RFIC_3053) ||	\
-	(__pAd->RfIcType == RFIC_3853) ||	\
-	(__pAd->RfIcType == RFIC_5592) ||	\
-	(__pAd->RfIcType == RFIC_7650) ||	\
+	((__pAd->RfIcType == RFIC_7650) ||	\
 	(__pAd->RfIcType == RFIC_7610E) ||	\
 	(__pAd->RfIcType == RFIC_7610U) ||	\
 	(__pAd->RfIcType == RFIC_7662) ||	\

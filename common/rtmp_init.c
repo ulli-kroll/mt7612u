@@ -2242,7 +2242,7 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 	pAd->thermal_pro_criteria = 80;
 #endif /* THERMAL_PROTECT_SUPPORT */
 
-	pAd->RfIcType = RFIC_2820;
+	pAd->RfIcType = RFIC_6352;	/* ULLI : lowest possible */
 
 	/* Init timer for reset complete event*/
 	pAd->CommonCfg.CentralChannel = 1;
