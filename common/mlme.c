@@ -1873,8 +1873,8 @@ VOID STAMlmePeriodicExec(struct rtmp_adapter *pAd)
 		{
 			EDCA_AC_CFG_STRUC	Ac0Cfg;
 			EDCA_AC_CFG_STRUC	Ac2Cfg;
-			RTUSBReadMACRegister(pAd, EDCA_AC2_CFG, &Ac2Cfg.word);
-			RTUSBReadMACRegister(pAd, EDCA_AC0_CFG, &Ac0Cfg.word);
+			mt7612u_read32(pAd, EDCA_AC2_CFG, &Ac2Cfg.word);
+			mt7612u_read32(pAd, EDCA_AC0_CFG, &Ac0Cfg.word);
 
 			if ((pAd->RalinkCounters.OneSecOsTxCount[QID_AC_VO] == 0) &&
 			(pAd->RalinkCounters.OneSecOsTxCount[QID_AC_BK] == 0) &&

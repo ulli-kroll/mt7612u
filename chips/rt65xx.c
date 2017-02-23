@@ -110,7 +110,7 @@ VOID RT65xxUsbAsicRadioOn(struct rtmp_adapter *pAd, UCHAR Stage)
 		rlt_wlan_chip_onoff(pAd, TRUE, FALSE);
 
 	/* make some traffic to invoke EvtDeviceD0Entry callback function*/
-	RTUSBReadMACRegister(pAd,0x1000, &MACValue);
+	mt7612u_read32(pAd,0x1000, &MACValue);
 	DBGPRINT(RT_DEBUG_TRACE,("A MAC query to invoke EvtDeviceD0Entry, MACValue = 0x%x\n",MACValue));
 
 	/* enable RX of MAC block*/

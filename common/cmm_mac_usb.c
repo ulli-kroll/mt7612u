@@ -1926,7 +1926,7 @@ VOID RT28xxUsbAsicRadioOn(struct rtmp_adapter *pAd)
 	/* make some traffic to invoke EvtDeviceD0Entry callback function*/
 
 
-	RTUSBReadMACRegister(pAd,0x1000,&MACValue);
+	mt7612u_read32(pAd,0x1000,&MACValue);
 	DBGPRINT(RT_DEBUG_TRACE,("A MAC query to invoke EvtDeviceD0Entry, MACValue = 0x%x\n",MACValue));
 
 	/* 1. Send wake up command.*/
@@ -2024,7 +2024,7 @@ BOOLEAN AsicCheckCommandOk(
 	i = 0;
 	do
 	{
-		RTUSBReadMACRegister(pAd, H2M_MAILBOX_CID, &CID);
+		mt7612u_read32(pAd, H2M_MAILBOX_CID, &CID);
 		if ((CID & CID0MASK) == Command)
 		{
 			ThisCIDMask = CID0MASK;
@@ -2051,7 +2051,7 @@ BOOLEAN AsicCheckCommandOk(
 	}while (i < 200);
 
 	ret = FALSE;
-	RTUSBReadMACRegister(pAd, H2M_MAILBOX_STATUS, &CmdStatus);
+	mt7612u_read32(pAd, H2M_MAILBOX_STATUS, &CmdStatus);
 	if (i < 200)
 	{
 		if (((CmdStatus & ThisCIDMask) == 0x1) || ((CmdStatus & ThisCIDMask) == 0x100)

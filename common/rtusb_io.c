@@ -199,7 +199,7 @@ int RTUSBSingleWrite(
 
 	========================================================================
 */
-int RTUSBReadMACRegister(struct rtmp_adapter *pAd, USHORT Offset, uint32_t *pValue)
+int mt7612u_read32(struct rtmp_adapter *pAd, USHORT Offset, uint32_t *pValue)
 {
 	int Status = 0;
 	uint32_t localVal;
@@ -540,7 +540,7 @@ int CheckGPIOHdlr(struct rtmp_adapter *pAd, PCmdQElmt CMDQelmt)
 		uint32_t data;
 
 		/* Read GPIO pin2 as Hardware controlled radio state*/
-		RTUSBReadMACRegister( pAd, GPIO_CTRL_CFG, &data);
+		mt7612u_read32( pAd, GPIO_CTRL_CFG, &data);
 		pAd->StaCfg.bHwRadio = (data & 0x04) ? TRUE : FALSE;
 
 		if (pAd->StaCfg.bRadio != (pAd->StaCfg.bHwRadio && pAd->StaCfg.bSwRadio)) {
@@ -579,7 +579,7 @@ static int ResetBulkOutHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 		if(RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST))
 			break;
 
-		RTUSBReadMACRegister(pAd, TXRXQ_PCNT, &MACValue);
+		mt7612u_read32(pAd, TXRXQ_PCNT, &MACValue);
 		if ((MACValue & 0xf00000/*0x800000*/) == 0)
 			break;
 
@@ -735,7 +735,7 @@ static int ResetBulkInHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 
 	/* Wait 10ms before reading register.*/
 	RtmpusecDelay(10000);
-	ntStatus = RTUSBReadMACRegister(pAd, MAC_CSR0, &MACValue);
+	ntStatus = mt7612u_read32(pAd, MAC_CSR0, &MACValue);
 
 	/* It must be removed. Or ATE will have no RX success. */
 	if ((NT_SUCCESS(ntStatus) == TRUE) &&
@@ -839,7 +839,7 @@ static int SetAsicWcidHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 	DBGPRINT_RAW(RT_DEBUG_TRACE, ("1-MACValue= %x,\n", MACValue));
 	RTUSBWriteMACRegister(pAd, offset, MACValue);
 	/* Read bitmask*/
-	RTUSBReadMACRegister(pAd, offset+4, &MACRValue);
+	mt7612u_read32(pAd, offset+4, &MACRValue);
 	if (SetAsicWcid.DeleteTid != 0xffffffff)
 		MACRValue &= (~SetAsicWcid.DeleteTid);
 	if (SetAsicWcid.SetTid != 0xffffffff)
@@ -1052,7 +1052,7 @@ static int APEnableTXBurstHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelm
 		EDCA_AC_CFG_STRUC Ac0Cfg;
 		DBGPRINT(RT_DEBUG_TRACE, ("CmdThread::CMDTHREAD_AP_ENABLE_TX_BURST  \n"));
 
-		RTUSBReadMACRegister(pAd, EDCA_AC0_CFG, &Ac0Cfg.word);
+		mt7612u_read32(pAd, EDCA_AC0_CFG, &Ac0Cfg.word);
 		Ac0Cfg.field.AcTxop = 0x20;
 		RTUSBWriteMACRegister(pAd, EDCA_AC0_CFG, Ac0Cfg.word);
 	}
@@ -1067,7 +1067,7 @@ static int APDisableTXBurstHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQel
 		EDCA_AC_CFG_STRUC Ac0Cfg;
 		DBGPRINT(RT_DEBUG_TRACE, ("CmdThread::CMDTHREAD_AP_DISABLE_TX_BURST  \n"));
 
-		RTUSBReadMACRegister(pAd, EDCA_AC0_CFG, &Ac0Cfg.word);
+		mt7612u_read32(pAd, EDCA_AC0_CFG, &Ac0Cfg.word);
 		Ac0Cfg.field.AcTxop = 0x0;
 		RTUSBWriteMACRegister(pAd, EDCA_AC0_CFG, Ac0Cfg.word);
 	}
