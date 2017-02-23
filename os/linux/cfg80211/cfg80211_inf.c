@@ -113,7 +113,7 @@ BOOLEAN CFG80211DRV_OpsChgVirtualInf(struct rtmp_adapter *pAd, VOID *pData)
 		{
 			uint32_t Filter;
 
-			RTMP_IO_READ32(pAd, RX_FILTR_CFG, &Filter);
+			mt7612u_read32(pAd, RX_FILTR_CFG, &Filter);
 
 			if ((pVifParm->MonFilterFlag & RT_CMD_80211_FILTER_FCSFAIL) == RT_CMD_80211_FILTER_FCSFAIL)
 			{

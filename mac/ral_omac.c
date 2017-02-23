@@ -206,7 +206,7 @@ VOID rtmp_asic_init_txrx_ring(struct rtmp_adapter *pAd)
 
 	/* Set DMA global configuration except TX_DMA_EN and RX_DMA_EN bits */
 	AsicWaitPDMAIdle(pAd, 100, 1000);
-	RTMP_IO_READ32(pAd, WPDMA_GLO_CFG, &GloCfg.word);
+	mt7612u_read32(pAd, WPDMA_GLO_CFG, &GloCfg.word);
 	GloCfg.word &= 0xff0;
 	GloCfg.field.EnTXWriteBackDDONE = 1;
 	RTMP_IO_WRITE32(pAd, WPDMA_GLO_CFG, GloCfg.word);

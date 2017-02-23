@@ -1644,7 +1644,7 @@ VOID RtmpDrvAllMacPrint(
 			macAddr = AddrStart;
 
 			while (macAddr <= AddrEnd) {
-/*				RTMP_IO_READ32(pAd, macAddr, &macValue); // sample */
+/*				mt7612u_read32(pAd, macAddr, &macValue); // sample */
 				macValue = *pBufMac++;
 				sprintf(msg, "%04x = %08x\n", macAddr, macValue);
 

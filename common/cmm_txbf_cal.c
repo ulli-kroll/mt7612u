@@ -434,11 +434,11 @@ static VOID CalcDividerPhase(
 	if (channel <= 14) gBandFlg = TRUE;
 
 	/* DPD and TSSI HW off */
-	RTMP_IO_READ32(pAd,TXBE_R8, &value32);
+	mt7612u_read32(pAd,TXBE_R8, &value32);
 	value32 &= ~0x08000;
 	RTMP_IO_WRITE32(pAd,TXBE_R8, value32); // DPD off
 
-	RTMP_IO_READ32(pAd,CORE_R34, &value32);
+	mt7612u_read32(pAd,CORE_R34, &value32);
 	value32 &= ~0x60;
 	value32 |= 0x40;
 	RTMP_IO_WRITE32(pAd,CORE_R34, value32); // TSSI off
@@ -539,7 +539,7 @@ static VOID CalcDividerPhase(
 
 			// Enable Divider phase calibration
 			RTMP_IO_WRITE32(pAd,CAL_R1, 0x00000086);
-			RTMP_IO_READ32(pAd,CAL_R1, &phaseCaliStatus);
+			mt7612u_read32(pAd,CAL_R1, &phaseCaliStatus);
 			timeOutCount = 0;
 			while (phaseCaliStatus & 0x80)
 			{
@@ -554,14 +554,14 @@ static VOID CalcDividerPhase(
 
 				RtmpOsMsDelay(1); // waiting 1ms
 
-				RTMP_IO_READ32(pAd,CAL_R1, &phaseCaliStatus);
+				mt7612u_read32(pAd,CAL_R1, &phaseCaliStatus);
 			}
 
 			// 0x2C2C
 			// Bit 23:16	Correlator Phase
 			// Bit 15:8 	 Correlator Q value
 			// Bit 7:0		  Correlator I value
-			RTMP_IO_READ32(pAd,CAL_R11, &phaseCaliResult);
+			mt7612u_read32(pAd,CAL_R11, &phaseCaliResult);
 			mPhase0[i] = (INT)((INT)((phaseCaliResult << 8) & 0xFF000000) >> 24);
 			avgQData = (INT)((INT)((phaseCaliResult << 16) & 0xFF000000) >> 24);
 			avgIData = (INT)((INT)((phaseCaliResult << 24) & 0xFF000000) >> 24);
@@ -662,7 +662,7 @@ static uint32_t *ITxBFSaveData(struct rtmp_adapter *pAd)
 	maxAddr = 0x10000;
 
 	for (sdPtr=saveData, macAddr=0x4000; macAddr<maxAddr; macAddr += 4, sdPtr++) {
-		RTMP_IO_READ32(pAd, macAddr, sdPtr);
+		mt7612u_read32(pAd, macAddr, sdPtr);
 	}
 	return saveData;
 }
@@ -1172,7 +1172,7 @@ VOID mt76x2_ITxBFLoadLNAComp(
 
 	mt76x2_ITxBFLnaParams(lnaValues, channel, &lnaParams);
 
-	RTMP_IO_READ32(pAd, CAL_R0, &value32);
+	mt7612u_read32(pAd, CAL_R0, &value32);
 	for (i=0; i < NUM_CHAIN; i++)
 	{
 		RTMP_IO_WRITE32(pAd, CAL_R0, value32 | (i<<5));
@@ -1188,7 +1188,7 @@ VOID mt76x2_ITxBFLoadLNAComp(
 		   (360 * lnaValues[0]) >> 8, (360 * lnaValues[1]) >> 8, (360 * lnaValues[2]) >> 8));
 
 	/* Enable RX Phase Compensation */
-	RTMP_IO_READ32(pAd, TXBE_R12, &value32);
+	mt7612u_read32(pAd, TXBE_R12, &value32);
 	RTMP_IO_WRITE32(pAd, TXBE_R12, value32 | 0x20);
 }
 
@@ -1228,19 +1228,19 @@ INT ITxBFDividerCalibrationStartUp(
 	mt_rf_read(pAd, RF_Path0, RFDIGI_ABB_TO_AFE5,&CR_BK[19]);
 	mt_rf_read(pAd, RF_Path1, RFDIGI_ABB_TO_AFE5,&CR_BK[20]);
 
-	RTMP_IO_READ32(pAd,CORE_R1,   &CR_BK[22]);
-	RTMP_IO_READ32(pAd,CORE_R33,  &CR_BK[23]);
-	RTMP_IO_READ32(pAd,DACCLK_EN_DLY_CFG, &CR_BK[24]);
-	RTMP_IO_READ32(pAd,TXBE_R6,   &CR_BK[25]);
-	RTMP_IO_READ32(pAd,CORE_R4,   &CR_BK[26]);
-	RTMP_IO_READ32(pAd,TXBE_R1,   &CR_BK[27]);
-	RTMP_IO_READ32(pAd,AGC1_R0,   &CR_BK[28]);
-	RTMP_IO_READ32(pAd,TXBE_R4,   &CR_BK[29]);
-	RTMP_IO_READ32(pAd,CAL_R2,	  &CR_BK[30]);
-	RTMP_IO_READ32(pAd,CAL_R5,	  &CR_BK[31]);
-	RTMP_IO_READ32(pAd,CAL_R1,	  &CR_BK[32]);
-	RTMP_IO_READ32(pAd,TXBE_R5,   &CR_BK[33]);
-	RTMP_IO_READ32(pAd,PWR_PIN_CFG,&CR_BK[34]);
+	mt7612u_read32(pAd,CORE_R1,   &CR_BK[22]);
+	mt7612u_read32(pAd,CORE_R33,  &CR_BK[23]);
+	mt7612u_read32(pAd,DACCLK_EN_DLY_CFG, &CR_BK[24]);
+	mt7612u_read32(pAd,TXBE_R6,   &CR_BK[25]);
+	mt7612u_read32(pAd,CORE_R4,   &CR_BK[26]);
+	mt7612u_read32(pAd,TXBE_R1,   &CR_BK[27]);
+	mt7612u_read32(pAd,AGC1_R0,   &CR_BK[28]);
+	mt7612u_read32(pAd,TXBE_R4,   &CR_BK[29]);
+	mt7612u_read32(pAd,CAL_R2,	  &CR_BK[30]);
+	mt7612u_read32(pAd,CAL_R5,	  &CR_BK[31]);
+	mt7612u_read32(pAd,CAL_R1,	  &CR_BK[32]);
+	mt7612u_read32(pAd,TXBE_R5,   &CR_BK[33]);
+	mt7612u_read32(pAd,PWR_PIN_CFG,&CR_BK[34]);
 	NdisGetSystemUpTime(&stTimeChk1);
 	DBGPRINT(RT_DEBUG_INFO, ("%s : Divider calibration duration1 = %ld ms\n",
 		     __FUNCTION__, (stTimeChk1 - stTimeChk0)*1000/OS_HZ));
@@ -1443,7 +1443,7 @@ INT mt76x2_ITxBFDividerCalibration(
 		       divPhase[0], phaseValues[0], phaseValues[0] + divPhase[0]));
 
 		/* Enable TX Phase Compensation */
-		RTMP_IO_READ32(pAd, TXBE_R12, &value32);
+		mt7612u_read32(pAd, TXBE_R12, &value32);
 		RTMP_IO_WRITE32(pAd, TXBE_R12, value32 | 0x08);
 		break;
 
@@ -1567,18 +1567,18 @@ INT ITxBFLNACalibrationStartUp(
 	mt_rf_read(pAd, RF_Path1, 0x2A4,         &pCR_BK[52]);
 	mt_rf_read(pAd, RF_Path1, 0x03C,         &pCR_BK[53]);
 
-	RTMP_IO_READ32(pAd,CORE_R1,              &pCR_BK[54]);
-	RTMP_IO_READ32(pAd,CORE_R4,   			 &pCR_BK[55]);
-	RTMP_IO_READ32(pAd,CORE_R33,             &pCR_BK[56]);
-	RTMP_IO_READ32(pAd,DACCLK_EN_DLY_CFG,	 &pCR_BK[57]);
-	RTMP_IO_READ32(pAd,TXBE_R1,   			 &pCR_BK[58]);
-	RTMP_IO_READ32(pAd,TXBE_R5,              &pCR_BK[59]);
-	RTMP_IO_READ32(pAd,TXBE_R6, 			 &pCR_BK[60]);
-	RTMP_IO_READ32(pAd,AGC1_R0, 			 &pCR_BK[61]);
-	RTMP_IO_READ32(pAd,CAL_R1, 			     &pCR_BK[62]);
-	RTMP_IO_READ32(pAd,CAL_R2,  			 &pCR_BK[63]);
-	RTMP_IO_READ32(pAd,CAL_R5,  			 &pCR_BK[64]);
-	RTMP_IO_READ32(pAd,PWR_PIN_CFG,          &pCR_BK[65]);
+	mt7612u_read32(pAd,CORE_R1,              &pCR_BK[54]);
+	mt7612u_read32(pAd,CORE_R4,   			 &pCR_BK[55]);
+	mt7612u_read32(pAd,CORE_R33,             &pCR_BK[56]);
+	mt7612u_read32(pAd,DACCLK_EN_DLY_CFG,	 &pCR_BK[57]);
+	mt7612u_read32(pAd,TXBE_R1,   			 &pCR_BK[58]);
+	mt7612u_read32(pAd,TXBE_R5,              &pCR_BK[59]);
+	mt7612u_read32(pAd,TXBE_R6, 			 &pCR_BK[60]);
+	mt7612u_read32(pAd,AGC1_R0, 			 &pCR_BK[61]);
+	mt7612u_read32(pAd,CAL_R1, 			     &pCR_BK[62]);
+	mt7612u_read32(pAd,CAL_R2,  			 &pCR_BK[63]);
+	mt7612u_read32(pAd,CAL_R5,  			 &pCR_BK[64]);
+	mt7612u_read32(pAd,PWR_PIN_CFG,          &pCR_BK[65]);
 
 	// Do the LNA calibration
 	cal_StatusFlg = mt76x2_ITxBFLNACalibration(pAd, calFunction, calMethod, gBand);
@@ -1806,7 +1806,7 @@ INT mt76x2_ITxBFLNACalibration(
 
 				// Enable LNA phase calibration and polling if HW is ready to read phase result
 				RTMP_IO_WRITE32(pAd,CAL_R1, 0x00000086);
-				RTMP_IO_READ32(pAd,CAL_R1, &phaseCaliStatus);
+				mt7612u_read32(pAd,CAL_R1, &phaseCaliStatus);
 				timeOutCount = 0;
 				while (phaseCaliStatus & 0x80)
 				{
@@ -1822,14 +1822,14 @@ INT mt76x2_ITxBFLNACalibration(
 
 					RtmpOsMsDelay(10); // waiting 10ms
 
-					RTMP_IO_READ32(pAd,CAL_R1, &phaseCaliStatus);
+					mt7612u_read32(pAd,CAL_R1, &phaseCaliStatus);
 				}
 
 				// 0x2C2C
 				// Bit 23:16    Correlator Phase
 				// Bit 15:8      Correlator Q value
 				// Bit 7:0        Correlator I value
-				RTMP_IO_READ32(pAd,CAL_R11, &phaseCaliResult);
+				mt7612u_read32(pAd,CAL_R11, &phaseCaliResult);
 				mPhase0[ii] = (INT)((INT)((phaseCaliResult << 8) & 0xFF000000) >> 24);
 				avgQData = (INT)((INT)((phaseCaliResult << 16) & 0xFF000000) >> 24);
 				avgIData = (INT)((INT)((phaseCaliResult << 24) & 0xFF000000) >> 24);
@@ -1872,7 +1872,7 @@ INT mt76x2_ITxBFLNACalibration(
 
 			// Enable LNA phase calibration and polling if HW is ready to read phase result
 			RTMP_IO_WRITE32(pAd,CAL_R1, 0x00000086);
-			RTMP_IO_READ32(pAd,CAL_R1, &phaseCaliStatus);
+			mt7612u_read32(pAd,CAL_R1, &phaseCaliStatus);
 			timeOutCount = 0;
 			while (phaseCaliStatus & 0x80)
 			{
@@ -1888,14 +1888,14 @@ INT mt76x2_ITxBFLNACalibration(
 
 				RtmpOsMsDelay(10); // waiting 10ms
 
-				RTMP_IO_READ32(pAd,CAL_R1, &phaseCaliStatus);
+				mt7612u_read32(pAd,CAL_R1, &phaseCaliStatus);
 			}
 
 			// 0x2C2C
 			// Bit 23:16	Correlator Phase
 			// Bit 15:8 	 Correlator Q value
 			// Bit 7:0		  Correlator I value
-			RTMP_IO_READ32(pAd,CAL_R11, &phaseCaliResult);
+			mt7612u_read32(pAd,CAL_R11, &phaseCaliResult);
 			mPhase1[ii] = (INT)((INT)((phaseCaliResult << 8) & 0xFF000000) >> 24);
 			avgQData = (INT)((INT)((phaseCaliResult << 16) & 0xFF000000) >> 24);
 			avgIData = (INT)((INT)((phaseCaliResult << 24) & 0xFF000000) >> 24);
@@ -2006,7 +2006,7 @@ INT mt76x2_ITxBFLNACalibration(
 		/* FALL THROUGH to update BBP */
 	case 2:
 		/* Update LNA phase difference into RXFE_R3 registers */
-		RTMP_IO_READ32(pAd, CAL_R0, &value32);
+		mt7612u_read32(pAd, CAL_R0, &value32);
 		for (i=0; i<2; i++)
 		{
 			RTMP_IO_WRITE32(pAd, CAL_R0, value32 | (i<<5));
@@ -2065,19 +2065,19 @@ INT ITxBFPhaseCalibrationStartUp(
 	mt_rf_read(pAd, RF_Path1, RFDIGI_TOP1,  &CR_BK[20]);
 	mt_rf_read(pAd, RF_Path1, RG_WF0_RXG_TOP,  &CR_BK[10]);
 
-	RTMP_IO_READ32(pAd, CORE_R1,            &CR_BK[22]);
-	RTMP_IO_READ32(pAd, DACCLK_EN_DLY_CFG,  &CR_BK[23]);
-	RTMP_IO_READ32(pAd, PWR_PIN_CFG,        &CR_BK[24]);
-	RTMP_IO_READ32(pAd, CORE_R33,           &CR_BK[25]);
-	RTMP_IO_READ32(pAd, AGC1_R0,            &CR_BK[26]);
-	RTMP_IO_READ32(pAd, TXBE_R4,            &CR_BK[27]);
-	RTMP_IO_READ32(pAd, CORE_R4,            &CR_BK[28]);
-	RTMP_IO_READ32(pAd, TXBE_R1,            &CR_BK[29]);
-	RTMP_IO_READ32(pAd, CAL_R2,  		    &CR_BK[30]);
-	RTMP_IO_READ32(pAd, TXBE_R5, 		    &CR_BK[31]);
-	RTMP_IO_READ32(pAd, TXBE_R6, 		    &CR_BK[32]);
-	RTMP_IO_READ32(pAd, CAL_R5,  		    &CR_BK[33]);
-	RTMP_IO_READ32(pAd, CAL_R1, 		    &CR_BK[34]);
+	mt7612u_read32(pAd, CORE_R1,            &CR_BK[22]);
+	mt7612u_read32(pAd, DACCLK_EN_DLY_CFG,  &CR_BK[23]);
+	mt7612u_read32(pAd, PWR_PIN_CFG,        &CR_BK[24]);
+	mt7612u_read32(pAd, CORE_R33,           &CR_BK[25]);
+	mt7612u_read32(pAd, AGC1_R0,            &CR_BK[26]);
+	mt7612u_read32(pAd, TXBE_R4,            &CR_BK[27]);
+	mt7612u_read32(pAd, CORE_R4,            &CR_BK[28]);
+	mt7612u_read32(pAd, TXBE_R1,            &CR_BK[29]);
+	mt7612u_read32(pAd, CAL_R2,  		    &CR_BK[30]);
+	mt7612u_read32(pAd, TXBE_R5, 		    &CR_BK[31]);
+	mt7612u_read32(pAd, TXBE_R6, 		    &CR_BK[32]);
+	mt7612u_read32(pAd, CAL_R5,  		    &CR_BK[33]);
+	mt7612u_read32(pAd, CAL_R1, 		    &CR_BK[34]);
 
 	// Do the residual phase calibration
 	ITxBFPhaseCalibration(pAd, calFunction, ch);
@@ -2143,11 +2143,11 @@ INT ITxBFPhaseCalibration(
 	if (ch <= 14) gBandFlg = TRUE;
 
 	/* DPD and TSSI HW off */
-	RTMP_IO_READ32(pAd,TXBE_R8, &value32[0]);
+	mt7612u_read32(pAd,TXBE_R8, &value32[0]);
 	value32[0] &= ~0x08000;
 	RTMP_IO_WRITE32(pAd,TXBE_R8, value32[0]); // DPD off
 
-	RTMP_IO_READ32(pAd,CORE_R34, &value32[0]);
+	mt7612u_read32(pAd,CORE_R34, &value32[0]);
 	value32[0] &= ~0x60;
 	value32[0] |= 0x40;
 	RTMP_IO_WRITE32(pAd,CORE_R34, value32[0]); // TSSI off
@@ -2236,7 +2236,7 @@ INT ITxBFPhaseCalibration(
 
 		// Enable phase calibration
 		RTMP_IO_WRITE32(pAd,CAL_R1, 0x00000086);
-		RTMP_IO_READ32(pAd,CAL_R1, &phaseCaliStatus);
+		mt7612u_read32(pAd,CAL_R1, &phaseCaliStatus);
 		timeOutCount = 0;
 		while (phaseCaliStatus & 0x80)
 		{
@@ -2253,14 +2253,14 @@ INT ITxBFPhaseCalibration(
 
 			RtmpOsMsDelay(10); // waiting 10ms
 
-			RTMP_IO_READ32(pAd,CAL_R1, &phaseCaliStatus);
+			mt7612u_read32(pAd,CAL_R1, &phaseCaliStatus);
 		}
 
 		// 0x2C2C
 		// Bit 23:16	Correlator Phase
 		// Bit 15:8 	 Correlator Q value
 		// Bit 7:0		  Correlator I value
-		RTMP_IO_READ32(pAd,CAL_R11, &phaseCaliResult);
+		mt7612u_read32(pAd,CAL_R11, &phaseCaliResult);
 		mPhase0 = (INT)((INT)((phaseCaliResult << 8) & 0xFF000000) >> 24);
 		avgQData = (INT)((INT)((phaseCaliResult << 16) & 0xFF000000) >> 24);
 		avgIData = (INT)((INT)((phaseCaliResult << 24) & 0xFF000000) >> 24);
@@ -2321,7 +2321,7 @@ INT ITxBFPhaseCalibration(
 
 		// Enable phase calibration
 		RTMP_IO_WRITE32(pAd,CAL_R1, 0x00000086);
-		RTMP_IO_READ32(pAd,CAL_R1, &phaseCaliStatus);
+		mt7612u_read32(pAd,CAL_R1, &phaseCaliStatus);
 		timeOutCount = 0;
 
 		while (phaseCaliStatus & 0x80)
@@ -2339,14 +2339,14 @@ INT ITxBFPhaseCalibration(
 
 			RtmpOsMsDelay(10); // waiting 10ms
 
-			RTMP_IO_READ32(pAd,CAL_R1, &phaseCaliStatus);
+			mt7612u_read32(pAd,CAL_R1, &phaseCaliStatus);
 		}
 
 		// 0x2C2C
 		// Bit 23:16	Correlator Phase
 		// Bit 15:8 	 Correlator Q value
 		// Bit 7:0		  Correlator I value
-		RTMP_IO_READ32(pAd,CAL_R11, &phaseCaliResult);
+		mt7612u_read32(pAd,CAL_R11, &phaseCaliResult);
 		mPhase1 = (INT)((INT)((phaseCaliResult << 8) & 0xFF000000) >> 24);
 		avgQData = (INT)((INT)((phaseCaliResult << 16) & 0xFF000000) >> 24);
 		avgIData = (INT)((INT)((phaseCaliResult << 24) & 0xFF000000) >> 24);
@@ -2464,16 +2464,16 @@ INT TxBfProfileTagRead(
 	INT 	i;
 
 	// Read PFMU_R10 (0x2f28) first
-	RTMP_IO_READ32(pAd, PFMU_R10, &value32);
+	mt7612u_read32(pAd, PFMU_R10, &value32);
 	value32 &= (~0x3C00);
 	// Wite PFMU_R10 to trigger read command
 	RTMP_IO_WRITE32(pAd, PFMU_R10, ((profileIdx << 10)|value32));
 	// Read PFMU_R19 ~ R23
-	RTMP_IO_READ32(pAd, PFMU_R11, &readValue32[0]);
-	RTMP_IO_READ32(pAd, PFMU_R12, &readValue32[1]);
-	RTMP_IO_READ32(pAd, PFMU_R13, &readValue32[2]);
-	RTMP_IO_READ32(pAd, PFMU_R14, &readValue32[3]);
-	RTMP_IO_READ32(pAd, PFMU_R15, &readValue32[4]);
+	mt7612u_read32(pAd, PFMU_R11, &readValue32[0]);
+	mt7612u_read32(pAd, PFMU_R12, &readValue32[1]);
+	mt7612u_read32(pAd, PFMU_R13, &readValue32[2]);
+	mt7612u_read32(pAd, PFMU_R14, &readValue32[3]);
+	mt7612u_read32(pAd, PFMU_R15, &readValue32[4]);
 
 	/*
 	    Bit 63:62       ng[1:0]
@@ -2571,16 +2571,16 @@ INT TxBfProfileTagWrite(
 
 
 	// Read PFMU_R10 (0x2f28) first
-	RTMP_IO_READ32(pAd, PFMU_R10, &value32);
+	mt7612u_read32(pAd, PFMU_R10, &value32);
 	value32 &= (~0x3C00);
 	// Wite PFMU_R10 to trigger read command
 	RTMP_IO_WRITE32(pAd, PFMU_R10, ((profileIdx << 10)|value32));
 	// Read PFMU_R19 ~ R23
-	RTMP_IO_READ32(pAd, PFMU_R11, &readValue32[0]);
-	RTMP_IO_READ32(pAd, PFMU_R12, &readValue32[1]);
-	RTMP_IO_READ32(pAd, PFMU_R13, &readValue32[2]);
-	RTMP_IO_READ32(pAd, PFMU_R14, &readValue32[3]);
-	RTMP_IO_READ32(pAd, PFMU_R15, &readValue32[4]);
+	mt7612u_read32(pAd, PFMU_R11, &readValue32[0]);
+	mt7612u_read32(pAd, PFMU_R12, &readValue32[1]);
+	mt7612u_read32(pAd, PFMU_R13, &readValue32[2]);
+	mt7612u_read32(pAd, PFMU_R14, &readValue32[3]);
+	mt7612u_read32(pAd, PFMU_R15, &readValue32[4]);
 
 	printk("============================= TxBf profile Tage Write ==============================\n"
 		   "Profile index = %d\n\n",
@@ -2694,7 +2694,7 @@ INT TxBfProfileTagWrite(
 
 
 	// Read PFMU_R10 (0x2f28) first
-	RTMP_IO_READ32(pAd, PFMU_R10, &value32);
+	mt7612u_read32(pAd, PFMU_R10, &value32);
 	value32 &= (~0x3C00);
 	// Wite PFMU_R10 to trigger read command
 	RTMP_IO_WRITE32(pAd, PFMU_R10, ((profileIdx << 10)|value32));
@@ -2724,15 +2724,15 @@ INT TxBfProfileDataRead(
 
 
 	// Read PFMU_R10 (0x2f28) first
-	RTMP_IO_READ32(pAd, PFMU_R10, &value32);
+	mt7612u_read32(pAd, PFMU_R10, &value32);
 	// Wite PFMU_R10 to trigger read command
 	RTMP_IO_WRITE32(pAd, PFMU_R10, ((profileIdx << 10)|subcarrierIdx));
 	// Read PFMU_R19 ~ R23
-	RTMP_IO_READ32(pAd, PFMU_R19, &readValue32[0]);
-	RTMP_IO_READ32(pAd, PFMU_R20, &readValue32[1]);
-	RTMP_IO_READ32(pAd, PFMU_R21, &readValue32[2]);
-	RTMP_IO_READ32(pAd, PFMU_R22, &readValue32[3]);
-	RTMP_IO_READ32(pAd, PFMU_R23, &readValue32[4]);
+	mt7612u_read32(pAd, PFMU_R19, &readValue32[0]);
+	mt7612u_read32(pAd, PFMU_R20, &readValue32[1]);
+	mt7612u_read32(pAd, PFMU_R21, &readValue32[2]);
+	mt7612u_read32(pAd, PFMU_R22, &readValue32[3]);
+	mt7612u_read32(pAd, PFMU_R23, &readValue32[4]);
 
 	pData->psi21 = (readValue32[0] >> 16) & 0x00FF;
 	pData->phill = (readValue32[0] >> 0)  & 0x00FF;
@@ -2753,15 +2753,15 @@ INT TxBfProfileDataWrite(
 
 
 	// Read PFMU_R10 (0x2f28) first
-	RTMP_IO_READ32(pAd, PFMU_R10, &value32);
+	mt7612u_read32(pAd, PFMU_R10, &value32);
 	// Wite PFMU_R10 to trigger read command
 	RTMP_IO_WRITE32(pAd, PFMU_R10, ((profileIdx << 10)|subcarrierIdx));
 	// Read PFMU_R19 ~ R23
-	RTMP_IO_READ32(pAd, PFMU_R19, &readValue32[0]);
-	RTMP_IO_READ32(pAd, PFMU_R20, &readValue32[1]);
-	RTMP_IO_READ32(pAd, PFMU_R21, &readValue32[2]);
-	RTMP_IO_READ32(pAd, PFMU_R22, &readValue32[3]);
-	RTMP_IO_READ32(pAd, PFMU_R23, &readValue32[4]);
+	mt7612u_read32(pAd, PFMU_R19, &readValue32[0]);
+	mt7612u_read32(pAd, PFMU_R20, &readValue32[1]);
+	mt7612u_read32(pAd, PFMU_R21, &readValue32[2]);
+	mt7612u_read32(pAd, PFMU_R22, &readValue32[3]);
+	mt7612u_read32(pAd, PFMU_R23, &readValue32[4]);
 
 	pData->psi21 = (readValue32[0] >> 16) & 0x00FF;
 	pData->phill = (readValue32[0] >> 0)  & 0x00FF;
@@ -2791,7 +2791,7 @@ INT TxBfProfileDataWrite(
 		   readValue32[0], readValue32[1], readValue32[2], readValue32[3]);
 
 	// Read PFMU_R10 (0x2f28) first
-	RTMP_IO_READ32(pAd, PFMU_R10, &value32);
+	mt7612u_read32(pAd, PFMU_R10, &value32);
 	// Wite PFMU_R10 to trigger read command
 	RTMP_IO_WRITE32(pAd, PFMU_R10, ((profileIdx << 10)|subcarrierIdx));
 	// Wite PFMU_R19 ~ R23
@@ -2817,16 +2817,16 @@ INT TxBfProfileTagValid(
 	INT 	i;
 
 	// Read PFMU_R10 (0x2f28) first
-	RTMP_IO_READ32(pAd, PFMU_R10, &value32);
+	mt7612u_read32(pAd, PFMU_R10, &value32);
 	value32 &= (~0x3C00);
 	// Wite PFMU_R10 to trigger read command
 	RTMP_IO_WRITE32(pAd, PFMU_R10, ((profileIdx << 10)|value32));
 	// Read PFMU_R11 ~ R15
-	RTMP_IO_READ32(pAd, PFMU_R11, &readValue32[0]);
-	RTMP_IO_READ32(pAd, PFMU_R12, &readValue32[1]);
-	RTMP_IO_READ32(pAd, PFMU_R13, &readValue32[2]);
-	RTMP_IO_READ32(pAd, PFMU_R14, &readValue32[3]);
-	RTMP_IO_READ32(pAd, PFMU_R15, &readValue32[4]);
+	mt7612u_read32(pAd, PFMU_R11, &readValue32[0]);
+	mt7612u_read32(pAd, PFMU_R12, &readValue32[1]);
+	mt7612u_read32(pAd, PFMU_R13, &readValue32[2]);
+	mt7612u_read32(pAd, PFMU_R14, &readValue32[3]);
+	mt7612u_read32(pAd, PFMU_R15, &readValue32[4]);
 
 
 	/*
@@ -2836,7 +2836,7 @@ INT TxBfProfileTagValid(
 	readValue32[0] |= prof->validFlg << 7;
 
 	// Read PFMU_R10 (0x2f28) first
-	RTMP_IO_READ32(pAd, PFMU_R10, &value32);
+	mt7612u_read32(pAd, PFMU_R10, &value32);
 	value32 &= (~0x3C00);
 	// Wite PFMU_R10 to trigger read command
 	RTMP_IO_WRITE32(pAd, PFMU_R10, ((profileIdx << 10)|value32));
@@ -2874,7 +2874,7 @@ UCHAR Read_PFMUTxBfProfile(
 #endif
 
 	/* Disable Profile Updates during access */
-	RTMP_IO_READ32(pAd,  PFMU_R1, &value32);
+	mt7612u_read32(pAd,  PFMU_R1, &value32);
 	RTMP_IO_WRITE32(pAd, PFMU_R1,  value32 & ~0x330);
 
 	for (profileNum = 0; profileNum < 8; profileNum++)

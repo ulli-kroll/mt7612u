@@ -131,10 +131,10 @@ VOID R_Calibration(
 	RTMP_BBP_IO_READ8_BY_REG_ID(pAd, BBP_R49, &saveBBPR49);
 
 	/* Save MAC registers */
-	RTMP_IO_READ32(pAd, MAC_SYS_CTRL, &saveMacSysCtrl);
-	RTMP_IO_READ32(pAd, RTMP_RF_BYPASS0, &MAC_RF_BYPASS0);
-	RTMP_IO_READ32(pAd, RF_CONTROL0, &MAC_RF_CONTROL0);
-	RTMP_IO_READ32(pAd, PWR_PIN_CFG, &MAC_PWR_PIN_CFG);
+	mt7612u_read32(pAd, MAC_SYS_CTRL, &saveMacSysCtrl);
+	mt7612u_read32(pAd, RTMP_RF_BYPASS0, &MAC_RF_BYPASS0);
+	mt7612u_read32(pAd, RF_CONTROL0, &MAC_RF_CONTROL0);
+	mt7612u_read32(pAd, PWR_PIN_CFG, &MAC_PWR_PIN_CFG);
 
 	{
 		uint32_t macCfg, macStatus;
@@ -144,12 +144,12 @@ VOID R_Calibration(
 		/* Disable MAC Tx and MAC Rx and wait MAC Tx/Rx status in idle state */
 		/* MAC Tx */
 		NdisGetSystemUpTime(&stTime);
-		RTMP_IO_READ32(pAd, MAC_SYS_CTRL, &macCfg);
+		mt7612u_read32(pAd, MAC_SYS_CTRL, &macCfg);
 		macCfg &= (~0x04);
 		RTMP_IO_WRITE32(pAd, MAC_SYS_CTRL, macCfg);
 		for (MTxCycle = 0; MTxCycle < 10000; MTxCycle++)
 		{
-			RTMP_IO_READ32(pAd, MAC_STATUS_CFG, &macStatus);
+			mt7612u_read32(pAd, MAC_STATUS_CFG, &macStatus);
 			if (macStatus & 0x1)
                 RtmpusecDelay(50);
 			else
@@ -165,12 +165,12 @@ VOID R_Calibration(
 
 		/* MAC Rx */
 		NdisGetSystemUpTime(&stTime);
-		RTMP_IO_READ32(pAd, MAC_SYS_CTRL, &macCfg);
+		mt7612u_read32(pAd, MAC_SYS_CTRL, &macCfg);
 		macCfg &= (~0x08);
 		RTMP_IO_WRITE32(pAd, MAC_SYS_CTRL, macCfg);
 		for (MRxCycle = 0; MRxCycle < 10000; MRxCycle++)
 		{
-			RTMP_IO_READ32(pAd, MAC_STATUS_CFG, &macStatus);
+			mt7612u_read32(pAd, MAC_STATUS_CFG, &macStatus);
 			if (macStatus & 0x2)
 				RtmpusecDelay(50);
 			else
@@ -409,7 +409,7 @@ VOID RtmpKickOutHwNullFrame(
 		/* Check MAC Tx/Rx idle */
 		for (k_count = 0; k_count < 200; k_count++)
 		{
-			RTMP_IO_READ32(pAd, PBF_CTRL, &macStatus);
+			mt7612u_read32(pAd, PBF_CTRL, &macStatus);
 			if (macStatus & 0x80)
 			{
 				RtmpusecDelay(100);
@@ -587,56 +587,56 @@ UCHAR DPD_Calibration(
 			/* Compute the corresponding signal values
 			    Do exactly what TXALC does:
 			*/
-			RTMP_IO_READ32(pAd, TX_ALG_CFG_0, &macValue);
+			mt7612u_read32(pAd, TX_ALG_CFG_0, &macValue);
 			txALC_init = (macValue & 0x0000003F);
 			txALC_limit = (macValue & 0x003F0000) >> 16;
 
-			RTMP_IO_READ32(pAd, TX_ALG_CFG_1, &macValue);
+			mt7612u_read32(pAd, TX_ALG_CFG_1, &macValue);
 			temp_comp = (macValue & 0x0000003F);
 			if ((temp_comp & 0x20) == 0x20)
 				temp_comp -= 64;
 
 			tx_alc_txwi = 0;
 
-			RTMP_IO_READ32(pAd, TX_ALC_VGA3, &macValue);
+			mt7612u_read32(pAd, TX_ALC_VGA3, &macValue);
 			txvga2 = (macValue & 0x001F0000) >> 16;
 			txvga3 = (macValue & 0x0000001F);
 
-			RTMP_IO_READ32(pAd, TX_ALG_CFG_1, &macValue);
+			mt7612u_read32(pAd, TX_ALG_CFG_1, &macValue);
 			mac_gain_atten = (macValue & 0x00300000) >> 20;
 
 			if(mac_gain_atten == 1)
 			{
-				RTMP_IO_READ32(pAd, TX0_BB_GAIN_ATTEN, &macValue);
+				mt7612u_read32(pAd, TX0_BB_GAIN_ATTEN, &macValue);
 				gain_atten_bb = (macValue & 0x00001F00) >> 8;
 				if ((gain_atten_bb & 0x10) == 0x10)
 					gain_atten_bb -= 32;
 
-				RTMP_IO_READ32(pAd, TX0_RF_GAIN_ATTEN, &macValue);
+				mt7612u_read32(pAd, TX0_RF_GAIN_ATTEN, &macValue);
 				gain_atten_rf = (macValue & 0x00007F00) >> 8;
 				if ((gain_atten_rf & 0x40) == 0x40)
 					gain_atten_rf -= 128;
 			}
 			else if(mac_gain_atten == 2)
 			{
-				RTMP_IO_READ32(pAd, TX0_BB_GAIN_ATTEN, &macValue);
+				mt7612u_read32(pAd, TX0_BB_GAIN_ATTEN, &macValue);
 				gain_atten_bb = (macValue & 0x001F0000) >> 16;
 				if ((gain_atten_bb & 0x10) == 0x10)
 					gain_atten_bb -= 32;
 
-				RTMP_IO_READ32(pAd, TX0_RF_GAIN_ATTEN, &macValue);
+				mt7612u_read32(pAd, TX0_RF_GAIN_ATTEN, &macValue);
 				gain_atten_rf = (macValue & 0x007F0000) >> 16;
 				if ((gain_atten_rf & 0x40) == 0x40)
 					gain_atten_rf -= 128;
 			}
 			else if(mac_gain_atten == 3)
 			{
-				RTMP_IO_READ32(pAd, TX0_BB_GAIN_ATTEN, &macValue);
+				mt7612u_read32(pAd, TX0_BB_GAIN_ATTEN, &macValue);
 				gain_atten_bb = (macValue & 0x1F000000) >> 24;
 				if ((gain_atten_bb & 0x10) == 0x10)
 					gain_atten_bb -= 32;
 
-				RTMP_IO_READ32(pAd, TX0_RF_GAIN_ATTEN, &macValue);
+				mt7612u_read32(pAd, TX0_RF_GAIN_ATTEN, &macValue);
 				gain_atten_rf = (macValue & 0x7F000000) >> 24;
 				if ((gain_atten_rf & 0x40) == 0x40)
 					gain_atten_rf -= 128;
@@ -682,7 +682,7 @@ UCHAR DPD_Calibration(
 #ifdef RTMP_INTERNAL_TX_ALC
 			if(bInternalTxALC == TRUE)
 			{
-				RTMP_IO_READ32(pAd, TX_ALG_CFG_0, &macValue);
+				mt7612u_read32(pAd, TX_ALG_CFG_0, &macValue);
 				target_power = (macValue & 0x3F);
 
 #ifdef ADJUST_POWER_CONSUMPTION_SUPPORT
@@ -699,7 +699,7 @@ UCHAR DPD_Calibration(
 #endif /* RTMP_INTERNAL_TX_ALC */
 			{
 				{
-					RTMP_IO_READ32(pAd, TX_ALG_CFG_1, &macValue);
+					mt7612u_read32(pAd, TX_ALG_CFG_1, &macValue);
 					delta_power = (macValue & 0x3F);
 					delta_power = (delta_power & 0x20) ? delta_power - 0x40 : delta_power;
 
@@ -722,56 +722,56 @@ UCHAR DPD_Calibration(
 			/* Compute the corresponding signal values
 			    Do exactly what TXALC does:
 			*/
-			RTMP_IO_READ32(pAd, TX_ALG_CFG_0, &macValue);
+			mt7612u_read32(pAd, TX_ALG_CFG_0, &macValue);
 			txALC_init = (macValue & 0x00003F00) >> 8;
 			txALC_limit = (macValue & 0x3F000000) >> 24;
 
-			RTMP_IO_READ32(pAd, TX_ALG_CFG_1, &macValue);
+			mt7612u_read32(pAd, TX_ALG_CFG_1, &macValue);
 			temp_comp = (macValue & 0x0000003F);
 			if ((temp_comp & 0x20) == 0x20)
 				temp_comp -= 64;
 
 			tx_alc_txwi = 0;
 
-			RTMP_IO_READ32(pAd, TX_ALC_VGA3, &macValue);
+			mt7612u_read32(pAd, TX_ALC_VGA3, &macValue);
 			txvga2 = (macValue & 0x1F000000) >> 24;
 			txvga3 = (macValue & 0x00001F00) >> 8;
 
-			RTMP_IO_READ32(pAd, TX_ALG_CFG_1, &macValue);
+			mt7612u_read32(pAd, TX_ALG_CFG_1, &macValue);
 			mac_gain_atten = (macValue & 0x00C00000) >> 22;
 
 			if(mac_gain_atten == 1)
 			{
-				RTMP_IO_READ32(pAd, TX1_BB_GAIN_ATTEN, &macValue);
+				mt7612u_read32(pAd, TX1_BB_GAIN_ATTEN, &macValue);
 				gain_atten_bb = (macValue & 0x00001F00) >> 8;
 				if ((gain_atten_bb & 0x10) == 0x10)
 					gain_atten_bb -= 32;
 
-				RTMP_IO_READ32(pAd, TX1_RF_GAIN_ATTEN, &macValue);
+				mt7612u_read32(pAd, TX1_RF_GAIN_ATTEN, &macValue);
 				gain_atten_rf = (macValue & 0x00007F00) >> 8;
 				if ((gain_atten_rf & 0x40) == 0x40)
 					gain_atten_rf -= 128;
 			}
 			else if(mac_gain_atten == 2)
 			{
-				RTMP_IO_READ32(pAd, TX1_BB_GAIN_ATTEN, &macValue);
+				mt7612u_read32(pAd, TX1_BB_GAIN_ATTEN, &macValue);
 				gain_atten_bb = (macValue & 0x001F0000) >> 16;
 				if ((gain_atten_bb & 0x10) == 0x10)
 					gain_atten_bb -= 32;
 
-				RTMP_IO_READ32(pAd, TX1_RF_GAIN_ATTEN, &macValue);
+				mt7612u_read32(pAd, TX1_RF_GAIN_ATTEN, &macValue);
 				gain_atten_rf = (macValue & 0x007F0000) >> 16;
 				if ((gain_atten_rf & 0x40) == 0x40)
 					gain_atten_rf -= 128;
 			}
 			else if(mac_gain_atten == 3)
 			{
-				RTMP_IO_READ32(pAd, TX1_BB_GAIN_ATTEN, &macValue);
+				mt7612u_read32(pAd, TX1_BB_GAIN_ATTEN, &macValue);
 				gain_atten_bb = (macValue & 0x1F000000) >> 24;
 				if ((gain_atten_bb & 0x10) == 0x10)
 					gain_atten_bb -= 32;
 
-				RTMP_IO_READ32(pAd, TX1_RF_GAIN_ATTEN, &macValue);
+				mt7612u_read32(pAd, TX1_RF_GAIN_ATTEN, &macValue);
 				gain_atten_rf = (macValue & 0x7F000000) >> 24;
 				if ((gain_atten_rf & 0x40) == 0x40)
 					gain_atten_rf -= 128;
@@ -816,7 +816,7 @@ UCHAR DPD_Calibration(
 #ifdef RTMP_INTERNAL_TX_ALC
 			if(bInternalTxALC == TRUE)
 			{
-				RTMP_IO_READ32(pAd, TX_ALG_CFG_0, &macValue);
+				mt7612u_read32(pAd, TX_ALG_CFG_0, &macValue);
 				target_power = (macValue & 0x3F);
 
 #ifdef ADJUST_POWER_CONSUMPTION_SUPPORT
@@ -834,7 +834,7 @@ UCHAR DPD_Calibration(
 			{
 				{
 					/* for single sku */
-					RTMP_IO_READ32(pAd, TX_ALG_CFG_1, &macValue);
+					mt7612u_read32(pAd, TX_ALG_CFG_1, &macValue);
 					delta_power = (macValue & 0x3F);
 					delta_power = (delta_power & 0x20) ? delta_power - 0x40 : delta_power;
 
@@ -888,13 +888,13 @@ UCHAR DPD_Calibration(
 	}
 
 	/* Save MAC SYS CTRL registers */
-	RTMP_IO_READ32(pAd, MAC_SYS_CTRL, &saveMacSysCtrl);
+	mt7612u_read32(pAd, MAC_SYS_CTRL, &saveMacSysCtrl);
 
 	/* Save TX PIN CFG registers */
-	RTMP_IO_READ32(pAd, TX_PIN_CFG, &saveTxPinCfg);
+	mt7612u_read32(pAd, TX_PIN_CFG, &saveTxPinCfg);
 
 	/* Save TX_ALG_CFG_0 registers */
-	RTMP_IO_READ32(pAd, TX_ALG_CFG_0, &saveTxAlgCfg0);
+	mt7612u_read32(pAd, TX_ALG_CFG_0, &saveTxAlgCfg0);
 
 	/* Save BBP registers */
 	RTMP_BBP_IO_READ8_BY_REG_ID(pAd, BBP_R27, &saveBbpR27);
@@ -981,7 +981,7 @@ UCHAR DPD_Calibration(
 	RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R187, 0x00);
 	RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R188, 0x00);
 
-	RTMP_IO_READ32(pAd, TX_ALG_CFG_0, &macValue_Tx_Cfg0);
+	mt7612u_read32(pAd, TX_ALG_CFG_0, &macValue_Tx_Cfg0);
 	if(AntIdx == 0)
 	{
 		macValue_2nd = macValue_Tx_Cfg0 & 0x3f;
@@ -1042,7 +1042,7 @@ UCHAR DPD_Calibration(
 		/* Check MAC Tx/Rx idle */
 		for (k_count = 0; k_count < 1000; k_count++)
 		{
-			RTMP_IO_READ32(pAd, MAC_STATUS_CFG, &macStatus);
+			mt7612u_read32(pAd, MAC_STATUS_CFG, &macStatus);
 			if (macStatus & 0x3)
 				RtmpusecDelay(50);
 			else
@@ -1065,7 +1065,7 @@ UCHAR DPD_Calibration(
 		/* Check MAC Tx/Rx idle */
 		for (k_count = 0; k_count < 500; k_count++)
 		{
-			RTMP_IO_READ32(pAd, MAC_STATUS_CFG, &macStatus);
+			mt7612u_read32(pAd, MAC_STATUS_CFG, &macStatus);
 			if (macStatus & 0x3)
 			{
 				RtmpusecDelay(100);
@@ -1156,7 +1156,7 @@ UCHAR DPD_Calibration(
 				/* Check MAC Tx/Rx idle */
 				for (k_count = 0; k_count < 10000; k_count++)
 				{
-					RTMP_IO_READ32(pAd, MAC_STATUS_CFG, &macStatus);
+					mt7612u_read32(pAd, MAC_STATUS_CFG, &macStatus);
 					if (macStatus & 0x3)
 						RtmpusecDelay(50);
 					else
@@ -1958,8 +1958,8 @@ BOOLEAN BW_Filter_Calibration(
 	DBGPRINT(RT_DEBUG_ERROR, (" %s BW Filter Calibration !!!\n", (bTxCal == TRUE ? "TX" : "RX")));
 
 	/* Save MAC registers */
-	RTMP_IO_READ32(pAd, RF_CONTROL0, &MAC_RF_CONTROL0);
-	RTMP_IO_READ32(pAd, RTMP_RF_BYPASS0 , &MAC_RF_BYPASS0);
+	mt7612u_read32(pAd, RF_CONTROL0, &MAC_RF_CONTROL0);
+	mt7612u_read32(pAd, RTMP_RF_BYPASS0 , &MAC_RF_BYPASS0);
 
 	/* save BBP registers */
 	RTMP_BBP_IO_READ8_BY_REG_ID(pAd, BBP_R23, &saveBBPR23);
@@ -2243,12 +2243,12 @@ VOID RxDCOC_Calibration(
 	BbpReg |= 0x10;
 	RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R159, BbpReg);
 
-	RTMP_IO_READ32(pAd, MAC_SYS_CTRL, &MacValue);
+	mt7612u_read32(pAd, MAC_SYS_CTRL, &MacValue);
 	RTMP_IO_WRITE32(pAd, MAC_SYS_CTRL, 0x8);
 
 	for (k_count = 0; k_count < 10000; k_count++)
 	{
-		RTMP_IO_READ32(pAd, MAC_STATUS_CFG, &MacValue1);
+		mt7612u_read32(pAd, MAC_STATUS_CFG, &MacValue1);
 		if (MacValue1 & 0x1)
 			RtmpusecDelay(50);
 		else
@@ -2351,13 +2351,13 @@ VOID RXIQ_Calibration(
 
 	DBGPRINT(RT_DEBUG_INFO, (" RxIQ Calibration !!!\n"));
 
-	RTMP_IO_READ32(pAd, MAC_SYS_CTRL, &saveMacSysCtrl);
-	RTMP_IO_READ32(pAd, RF_CONTROL0 , &orig_RF_CONTROL0);
-	RTMP_IO_READ32(pAd, RTMP_RF_BYPASS0	, &orig_RF_BYPASS0 );
-	RTMP_IO_READ32(pAd, RF_CONTROL1 , &orig_RF_CONTROL1);
-	RTMP_IO_READ32(pAd, RF_BYPASS1	, &orig_RF_BYPASS1 );
-	RTMP_IO_READ32(pAd, RF_CONTROL3 , &orig_RF_CONTROL3);
-	RTMP_IO_READ32(pAd, RF_BYPASS3	, &orig_RF_BYPASS3 );
+	mt7612u_read32(pAd, MAC_SYS_CTRL, &saveMacSysCtrl);
+	mt7612u_read32(pAd, RF_CONTROL0 , &orig_RF_CONTROL0);
+	mt7612u_read32(pAd, RTMP_RF_BYPASS0	, &orig_RF_BYPASS0 );
+	mt7612u_read32(pAd, RF_CONTROL1 , &orig_RF_CONTROL1);
+	mt7612u_read32(pAd, RF_BYPASS1	, &orig_RF_BYPASS1 );
+	mt7612u_read32(pAd, RF_CONTROL3 , &orig_RF_CONTROL3);
+	mt7612u_read32(pAd, RF_BYPASS3	, &orig_RF_BYPASS3 );
 
 	// BBP store
     RTMP_BBP_IO_READ8_BY_REG_ID(pAd, BBP_R1, &BBP1);
@@ -2367,7 +2367,7 @@ VOID RXIQ_Calibration(
 	/* Check MAC Tx/Rx idle */
 	for (k_count = 0; k_count < 10000; k_count++)
 	{
-		RTMP_IO_READ32(pAd, MAC_STATUS_CFG, &macStatus);
+		mt7612u_read32(pAd, MAC_STATUS_CFG, &macStatus);
 		if (macStatus & 0x3)
 			RtmpusecDelay(50);
 		else
@@ -2769,10 +2769,10 @@ VOID RF_SELF_TXDC_CAL(
 	CHAR  i;
 
 	DBGPRINT(RT_DEBUG_INFO, ("RF Tx_0 self calibration start\n"));
-	RTMP_IO_READ32(pAd, RF_CONTROL0, &mac0518);
-	RTMP_IO_READ32(pAd, RTMP_RF_BYPASS0 , &mac051c);
-	RTMP_IO_READ32(pAd, RF_CONTROL2, &mac0528);
-	RTMP_IO_READ32(pAd, RF_BYPASS2 , &mac052c);
+	mt7612u_read32(pAd, RF_CONTROL0, &mac0518);
+	mt7612u_read32(pAd, RTMP_RF_BYPASS0 , &mac051c);
+	mt7612u_read32(pAd, RF_CONTROL2, &mac0528);
+	mt7612u_read32(pAd, RF_BYPASS2 , &mac052c);
 
 	RTMP_IO_WRITE32(pAd, RTMP_RF_BYPASS0 , 0x0);
 	RTMP_IO_WRITE32(pAd, RF_BYPASS2 , 0x0);

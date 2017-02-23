@@ -41,7 +41,7 @@ static inline BOOLEAN rf_csr_poll_idle(struct rtmp_adapter *pAd, uint32_t *rfcsr
 		if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST))
 			break;
 
-		RTMP_IO_READ32(pAd, RF_CSR_CFG, rfcsr);
+		mt7612u_read32(pAd, RF_CSR_CFG, rfcsr);
 
 		csr_val = (RF_CSR_CFG_STRUC *)rfcsr;
 #ifdef RT65xx

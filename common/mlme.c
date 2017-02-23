@@ -1573,7 +1573,7 @@ VOID MlmePeriodicExec(
 				while (count < 10)
 				{
 					RtmpusecDelay(1000); /* 1 ms*/
-					RTMP_IO_READ32(pAd, MAC_STATUS_CFG, &MacCsr12);
+					mt7612u_read32(pAd, MAC_STATUS_CFG, &MacCsr12);
 
 					/* if MAC is idle*/
 					if ((MacCsr12 & 0x03) == 0)
@@ -1628,7 +1628,7 @@ VOID MlmePeriodicExec(
 
 			uint32_t MacReg = 0;
 
-			RTMP_IO_READ32(pAd, 0x10F4, &MacReg);
+			mt7612u_read32(pAd, 0x10F4, &MacReg);
 			if (((MacReg & 0x20000000) && (MacReg & 0x80)) || ((MacReg & 0x20000000) && (MacReg & 0x20)))
 			{
 				RTMP_IO_WRITE32(pAd, MAC_SYS_CTRL, 0x1);
@@ -5307,9 +5307,9 @@ UCHAR RandomByte2(struct rtmp_adapter *pAd)
 	UCHAR value, seed = 0;
 
 	/*MAC statistic related*/
-	RTMP_IO_READ32(pAd, RX_STA_CNT1, &a);
+	mt7612u_read32(pAd, RX_STA_CNT1, &a);
 	a &= 0x0000ffff;
-	RTMP_IO_READ32(pAd, RX_STA_CNT0, &b);
+	mt7612u_read32(pAd, RX_STA_CNT0, &b);
 	b &= 0x0000ffff;
 	value = (a<<16)|b;
 

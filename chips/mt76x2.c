@@ -262,7 +262,7 @@ void mt76x2_adjust_per_rate_pwr_delta(struct rtmp_adapter *ad, u8 channel, char 
 	else
 		band = _G_BAND;
 
-	RTMP_IO_READ32(ad, TX_PWR_CFG_0, &value);
+	mt7612u_read32(ad, TX_PWR_CFG_0, &value);
 	value &= ~TX_PWR_CCK_1_2_MASK;
 
 	value |= TX_PWR_CCK_1_2(cap->tx_pwr_cck_1_2 + delta_pwr);
@@ -283,7 +283,7 @@ void mt76x2_adjust_per_rate_pwr_delta(struct rtmp_adapter *ad, u8 channel, char 
 		value |= TX_PWR_OFDM_12_18(cap->tx_pwr_a_band_ofdm_12_18 + delta_pwr);
 	RTMP_IO_WRITE32(ad, TX_PWR_CFG_0, value);
 
-	RTMP_IO_READ32(ad, TX_PWR_CFG_1, &value);
+	mt7612u_read32(ad, TX_PWR_CFG_1, &value);
 	value &= ~TX_PWR_OFDM_24_36_MASK;
 	if (band == _G_BAND)
 		value |= TX_PWR_OFDM_24_36(cap->tx_pwr_g_band_ofdm_24_36 + delta_pwr);
@@ -303,7 +303,7 @@ void mt76x2_adjust_per_rate_pwr_delta(struct rtmp_adapter *ad, u8 channel, char 
 	value |= TX_PWR_HT_VHT_1SS_MCS_2_3(cap->tx_pwr_ht_mcs_2_3 + delta_pwr);
 	RTMP_IO_WRITE32(ad, TX_PWR_CFG_1, value);
 
-	RTMP_IO_READ32(ad, TX_PWR_CFG_2, &value);
+	mt7612u_read32(ad, TX_PWR_CFG_2, &value);
 	value &= ~TX_PWR_HT_VHT_1SS_MCS_4_5_MASK;
 	value |= TX_PWR_HT_VHT_1SS_MCS_4_5(cap->tx_pwr_ht_mcs_4_5 + delta_pwr);
 
@@ -317,7 +317,7 @@ void mt76x2_adjust_per_rate_pwr_delta(struct rtmp_adapter *ad, u8 channel, char 
 	value |= TX_PWR_HT_MCS_10_11_VHT_2SS_MCS_2_3(cap->tx_pwr_ht_mcs_10_11 + delta_pwr);
 	RTMP_IO_WRITE32(ad, TX_PWR_CFG_2, value);
 
-	RTMP_IO_READ32(ad, TX_PWR_CFG_3, &value);
+	mt7612u_read32(ad, TX_PWR_CFG_3, &value);
 	value &= ~TX_PWR_HT_MCS_12_13_VHT_2SS_MCS_4_5_MASK;
 	value |= TX_PWR_HT_MCS_12_13_VHT_2SS_MCS_4_5(cap->tx_pwr_ht_mcs_12_13 + delta_pwr);
 
@@ -331,7 +331,7 @@ void mt76x2_adjust_per_rate_pwr_delta(struct rtmp_adapter *ad, u8 channel, char 
 	value |= TX_PWR_HT_VHT_STBC_MCS_2_3(cap->tx_pwr_ht_mcs_2_3 + delta_pwr);
 	RTMP_IO_WRITE32(ad, TX_PWR_CFG_3, value);
 
-	RTMP_IO_READ32(ad, TX_PWR_CFG_4, &value);
+	mt7612u_read32(ad, TX_PWR_CFG_4, &value);
 	value &= ~TX_PWR_HT_VHT_STBC_MCS_4_5_MASK;
 	value |= TX_PWR_HT_VHT_STBC_MCS_4_5(cap->tx_pwr_ht_mcs_4_5 + delta_pwr);
 
@@ -339,7 +339,7 @@ void mt76x2_adjust_per_rate_pwr_delta(struct rtmp_adapter *ad, u8 channel, char 
 	value |= TX_PWR_HT_VHT_STBC_MCS_6(cap->tx_pwr_ht_mcs_6_7 + delta_pwr);
 	RTMP_IO_WRITE32(ad, TX_PWR_CFG_4, value);
 
-	RTMP_IO_READ32(ad, TX_PWR_CFG_7, &value);
+	mt7612u_read32(ad, TX_PWR_CFG_7, &value);
 	value &= ~TX_PWR_OFDM_54_MASK;
 	if (band == _G_BAND)
 		value |= TX_PWR_OFDM_54(cap->tx_pwr_g_band_ofdm_48_54 + delta_pwr);
@@ -363,7 +363,7 @@ void mt76x2_adjust_per_rate_pwr_delta(struct rtmp_adapter *ad, u8 channel, char 
 
 	RTMP_IO_WRITE32(ad, TX_PWR_CFG_7, value);
 
-	RTMP_IO_READ32(ad, TX_PWR_CFG_8, &value);
+	mt7612u_read32(ad, TX_PWR_CFG_8, &value);
 	value &= ~TX_PWR_HT_MCS_15_VHT_2SS_MCS7_MASK;
 	value |= TX_PWR_HT_MCS_15_VHT_2SS_MCS7(cap->tx_pwr_ht_mcs_14_15 + delta_pwr);
 
@@ -381,7 +381,7 @@ void mt76x2_adjust_per_rate_pwr_delta(struct rtmp_adapter *ad, u8 channel, char 
 
 	RTMP_IO_WRITE32(ad, TX_PWR_CFG_8, value);
 
-	RTMP_IO_READ32(ad, TX_PWR_CFG_9, &value);
+	mt7612u_read32(ad, TX_PWR_CFG_9, &value);
 	value &= ~TX_PWR_HT_VHT_STBC_MCS_7_MASK;
 	value |= TX_PWR_HT_VHT_STBC_MCS_7(cap->tx_pwr_ht_mcs_6_7 + delta_pwr);
 
@@ -450,7 +450,7 @@ static void mt76x2_tx_pwr_gain(struct rtmp_adapter *ad, u8 channel, u8 bw)
 		tx_1_pwr = 0;
 
 	/* TX0 channel initial transmission gain setting */
-	RTMP_IO_READ32(ad, TX_ALC_CFG_0, &value);
+	mt7612u_read32(ad, TX_ALC_CFG_0, &value);
 	value = value & (~TX_ALC_CFG_0_CH_INT_0_MASK);
 	value |= TX_ALC_CFG_0_CH_INT_0(tx_0_pwr);
 	//value |= TX_ALC_CFG_0_CH_INT_0(0x7);
@@ -458,7 +458,7 @@ static void mt76x2_tx_pwr_gain(struct rtmp_adapter *ad, u8 channel, u8 bw)
 	RTMP_IO_WRITE32(ad, TX_ALC_CFG_0, value);
 
 	/* TX1 channel initial transmission gain setting */
-	RTMP_IO_READ32(ad, TX_ALC_CFG_0, &value);
+	mt7612u_read32(ad, TX_ALC_CFG_0, &value);
 	value = value & (~TX_ALC_CFG_0_CH_INT_1_MASK);
 	value |= TX_ALC_CFG_0_CH_INT_1(tx_1_pwr);
 	//value |= TX_ALC_CFG_0_CH_INT_1(0x7);
@@ -503,7 +503,7 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, BOOLEAN s
 		bbp_ch_idx = EXT_CH_NONE;
 	}
 
-	RTMP_IO_READ32(ad, EXT_CCA_CFG, &RegValue);
+	mt7612u_read32(ad, EXT_CCA_CFG, &RegValue);
 	RegValue &= ~(0xFFF);
 	if (ad->CommonCfg.BBPCurrentBW == BW_80) {
 		if (bbp_ch_idx == 0)
@@ -555,7 +555,7 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, BOOLEAN s
 		bw = 0;
 
 	/* Change MAC OFDM SIFS according to BW */
-	RTMP_IO_READ32(ad, XIFS_TIME_CFG, &RegValue);
+	mt7612u_read32(ad, XIFS_TIME_CFG, &RegValue);
 	RegValue = RegValue & (~XIFS_TIME_OFDM_SIFS_MASK);
 	if (bw == 0)
 		RegValue |= XIFS_TIME_OFDM_SIFS(0x0D);
@@ -667,23 +667,23 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, BOOLEAN s
 
 
 #ifdef RTMP_USB_SUPPORT
-	RTMP_IO_READ32(ad, TXOP_CTRL_CFG, &mac_val);
+	mt7612u_read32(ad, TXOP_CTRL_CFG, &mac_val);
 	if ((mac_val & 0x100000) == 0x100000) {
 		ad->chipCap.ed_cca_enable = TRUE;
 		mac_val &= ~(1<<20);
 		RTMP_IO_WRITE32(ad, TXOP_CTRL_CFG, mac_val);
 
-		RTMP_IO_READ32(ad, TXOP_HLDR_ET, &mac_val);
+		mt7612u_read32(ad, TXOP_HLDR_ET, &mac_val);
 		mac_val &= ~2;
 		RTMP_IO_WRITE32(ad, TXOP_HLDR_ET, mac_val);
 	}
 #endif /* RTMP_USB_SUPPORT */
 
 	/* backup mac 1004 value */
-	RTMP_IO_READ32(ad, 0x1004, &restore_value);
+	mt7612u_read32(ad, 0x1004, &restore_value);
 
 	/* Backup the original RTS retry count and then set to 0 */
-	RTMP_IO_READ32(ad, 0x1344, &ad->rts_tx_retry_num);
+	mt7612u_read32(ad, 0x1344, &ad->rts_tx_retry_num);
 
 	/* disable mac tx/rx */
 	value = restore_value;
@@ -695,7 +695,7 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, BOOLEAN s
 
 	/* wait mac 0x1200, bbp 0x2130 idle */
 	do {
-		RTMP_IO_READ32(ad, 0x1200, &value);
+		mt7612u_read32(ad, 0x1200, &value);
 		value &= 0x1;
 		RTMP_BBP_IO_READ32(ad, 0x2130, &value1);
 		DBGPRINT(RT_DEBUG_INFO,("%s:: Wait until MAC 0x1200 bit0 and BBP 0x2130 become 0\n", __FUNCTION__));
@@ -766,11 +766,11 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, BOOLEAN s
         if (ad->chipCap.ed_cca_enable) {
 		mac_val = 0;
 
-		RTMP_IO_READ32(ad, TXOP_CTRL_CFG, &mac_val);
+		mt7612u_read32(ad, TXOP_CTRL_CFG, &mac_val);
                 mac_val |= (1<<20);
                 RTMP_IO_WRITE32(ad, TXOP_CTRL_CFG, mac_val);
 
-                RTMP_IO_READ32(ad, TXOP_HLDR_ET, &mac_val);
+                mt7612u_read32(ad, TXOP_HLDR_ET, &mac_val);
                 mac_val |= 2;
                 RTMP_IO_WRITE32(ad, TXOP_HLDR_ET, mac_val);
         }
@@ -780,12 +780,12 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, BOOLEAN s
 	RTMP_IO_WRITE32(ad, 0x1344, ad->rts_tx_retry_num);
 
 	if (!ad->MCUCtrl.power_on && ad->chipCap.tssi_enable && !ad->chipCap.temp_tx_alc_enable) {
-		RTMP_IO_READ32(ad, TX_ALC_CFG_1, &value);
+		mt7612u_read32(ad, TX_ALC_CFG_1, &value);
 		value = value & (~TX_ALC_CFG_1_TX0_TEMP_COMP_MASK);
 		value |= TX_ALC_CFG_1_TX0_TEMP_COMP(0x38);
 		RTMP_IO_WRITE32(ad, TX_ALC_CFG_1, value);
 		DBGPRINT(RT_DEBUG_OFF, ("TX0 power compensation = 0x%x\n", value & 0x3f));
-		RTMP_IO_READ32(ad, TX_ALC_CFG_2, &value);
+		mt7612u_read32(ad, TX_ALC_CFG_2, &value);
 		value = value & (~TX_ALC_CFG_2_TX1_TEMP_COMP_MASK);
 		value |= TX_ALC_CFG_2_TX1_TEMP_COMP(0x38);
 		RTMP_IO_WRITE32(ad, TX_ALC_CFG_2, value);
@@ -1004,13 +1004,13 @@ void mt76x2_calibration(struct rtmp_adapter *ad, u8 channel)
 	}
 
 #ifdef RTMP_USB_SUPPORT
-        RTMP_IO_READ32(ad, TXOP_CTRL_CFG, &mac_val);
+        mt7612u_read32(ad, TXOP_CTRL_CFG, &mac_val);
         if ((mac_val & 0x100000) == 0x100000) {
                 ad->chipCap.ed_cca_enable = TRUE;
                 mac_val &= ~(1<<20);
                 RTMP_IO_WRITE32(ad, TXOP_CTRL_CFG, mac_val);
 
-                RTMP_IO_READ32(ad, TXOP_HLDR_ET, &mac_val);
+                mt7612u_read32(ad, TXOP_HLDR_ET, &mac_val);
                 mac_val &= ~2;
                 RTMP_IO_WRITE32(ad, TXOP_HLDR_ET, mac_val);
         }
@@ -1019,10 +1019,10 @@ void mt76x2_calibration(struct rtmp_adapter *ad, u8 channel)
 	DBGPRINT(RT_DEBUG_OFF, ("%s(channel = %d)\n", __FUNCTION__, channel));
 
 	/* backup mac 1004 value */
-	RTMP_IO_READ32(ad, 0x1004, &restore_value);
+	mt7612u_read32(ad, 0x1004, &restore_value);
 
 	/* Backup the original RTS retry count and then set to 0 */
-	RTMP_IO_READ32(ad, 0x1344, &ad->rts_tx_retry_num);
+	mt7612u_read32(ad, 0x1344, &ad->rts_tx_retry_num);
 
 	/* disable mac tx/rx */
 	value = restore_value;
@@ -1034,7 +1034,7 @@ void mt76x2_calibration(struct rtmp_adapter *ad, u8 channel)
 
 	/* wait mac 0x1200, bbp 0x2130 idle */
 	do {
-		RTMP_IO_READ32(ad, 0x1200, &value);
+		mt7612u_read32(ad, 0x1200, &value);
 		value &= 0x1;
 		RTMP_BBP_IO_READ32(ad, 0x2130, &value1);
 		DBGPRINT(RT_DEBUG_INFO, ("%s:: Wait until MAC 0x1200 bit0 and BBP 0x2130 become 0\n", __FUNCTION__));
@@ -1127,7 +1127,7 @@ static void mt76x2_init_mac_cr(struct rtmp_adapter *ad)
 	/*
  	 * Enable Header Translation TX
  	 */
-	RTMP_IO_READ32(ad, HEADER_TRANS_CTRL_REG, &value);
+	mt7612u_read32(ad, HEADER_TRANS_CTRL_REG, &value);
 	value |= 0x1; /* 0x1: TX, 0x2: RX */
 	RTMP_IO_WRITE32(ad, HEADER_TRANS_CTRL_REG, value);
 #endif /* HDR_TRANS_TX_SUPPORT */
@@ -1136,7 +1136,7 @@ static void mt76x2_init_mac_cr(struct rtmp_adapter *ad)
  	 * Release BBP and MAC reset
  	 * MAC_SYS_CTRL[1:0] = 0x0
  	 */
-	RTMP_IO_READ32(ad, MAC_SYS_CTRL, &value);
+	mt7612u_read32(ad, MAC_SYS_CTRL, &value);
 	value &= ~(0x3);
 	RTMP_IO_WRITE32(ad, MAC_SYS_CTRL, value);
 
@@ -1144,7 +1144,7 @@ static void mt76x2_init_mac_cr(struct rtmp_adapter *ad)
 		/*
  		 * Disable COEX_EN
  		 */
-		RTMP_IO_READ32(ad, COEXCFG0, &value);
+		mt7612u_read32(ad, COEXCFG0, &value);
 		value &= 0xFFFFFFFE;
 		RTMP_IO_WRITE32(ad, COEXCFG0, value);
 	}
@@ -1152,7 +1152,7 @@ static void mt76x2_init_mac_cr(struct rtmp_adapter *ad)
 	/*
 		Set 0x141C[15:12]=0xF
 	*/
-	RTMP_IO_READ32(ad, EXT_CCA_CFG, &value);
+	mt7612u_read32(ad, EXT_CCA_CFG, &value);
 	value |= (0x0000F000);
 	RTMP_IO_WRITE32(ad, EXT_CCA_CFG, value);
 
@@ -1160,7 +1160,7 @@ static void mt76x2_init_mac_cr(struct rtmp_adapter *ad)
 	/*
  	 * Set 0x13C0[31] = 0x0
  	 */
-	RTMP_IO_READ32(ad, TX_ALC_CFG_4, &value);
+	mt7612u_read32(ad, TX_ALC_CFG_4, &value);
 	value &= ~WL_LOWGAIN_CH_EN;
 	RTMP_IO_WRITE32(ad, TX_ALC_CFG_4, value);
 
@@ -1224,12 +1224,12 @@ static void mt76x2_init_mac_cr(struct rtmp_adapter *ad)
 	}
 
 	/* Decrease MAC OFDM SIFS from 16 to 13us */
-	RTMP_IO_READ32(ad, XIFS_TIME_CFG, &value);
+	mt7612u_read32(ad, XIFS_TIME_CFG, &value);
 	value = value & (~XIFS_TIME_OFDM_SIFS_MASK);
 	value |= XIFS_TIME_OFDM_SIFS(0x0D);
 	RTMP_IO_WRITE32(ad, XIFS_TIME_CFG, value);
 
-	RTMP_IO_READ32(ad, BKOFF_SLOT_CFG, &value);
+	mt7612u_read32(ad, BKOFF_SLOT_CFG, &value);
 	value &= ~(BKOFF_SLOT_CFG_CC_DELAY_TIME_MASK);
 	value |= BKOFF_SLOT_CFG_CC_DELAY_TIME(0x01);
 	RTMP_IO_WRITE32(ad, BKOFF_SLOT_CFG, value);
@@ -1237,7 +1237,7 @@ static void mt76x2_init_mac_cr(struct rtmp_adapter *ad)
 	init_fce(ad);
 
 #ifdef MCS_LUT_SUPPORT
-	RTMP_IO_READ32(ad, TX_FBK_LIMIT, &value);
+	mt7612u_read32(ad, TX_FBK_LIMIT, &value);
 	if (RTMP_TEST_MORE_FLAG(ad, fASIC_CAP_MCS_LUT))
 		value |= 0x40000;
 	else
@@ -1251,7 +1251,7 @@ static void mt76x2_init_mac_cr(struct rtmp_adapter *ad)
 		01 : One crystal, enable co-clock out
 		10 : Two crystal (Default)
 	*/
-	RTMP_IO_READ32(ad, 0x11C, &value);
+	mt7612u_read32(ad, 0x11C, &value);
 	if (ad->NicConfig3.field.XtalOption == 0x0)
 		value = 0x5C1FEE80;
 	else if (ad->NicConfig3.field.XtalOption == 0x1)
@@ -2951,7 +2951,7 @@ void percentage_delta_pwr(struct rtmp_adapter *ad)
 		mac_drop_pwr -= 12;
 	}
 
-	RTMP_IO_READ32(ad, TX_ALC_CFG_0, &mac_val);
+	mt7612u_read32(ad, TX_ALC_CFG_0, &mac_val);
 	tx_alc_ch_init_0 = (mac_val & 0x3F) + mac_drop_pwr*2;
 	if (tx_alc_ch_init_0 <= 0)
 		tx_alc_ch_init_0 = 0;
@@ -3126,14 +3126,14 @@ void mt76x2_temp_tx_alc(struct rtmp_adapter *ad)
 		DBGPRINT(RT_DEBUG_TRACE, ("%s::temp_diff=%d (0x%x), dB_diff=%d (0x%x)\n",
 			__FUNCTION__, temp_diff, temp_diff, dB_diff, dB_diff));
 
-		RTMP_IO_READ32(ad, TX_ALC_CFG_1, &tx0_temp_comp);
+		mt7612u_read32(ad, TX_ALC_CFG_1, &tx0_temp_comp);
 		tx0_temp_comp &= ~TX_ALC_CFG_1_TX0_TEMP_COMP_MASK;
 		tx0_temp_comp |= ((tc_init_val + dB_diff*2) & TX_ALC_CFG_1_TX0_TEMP_COMP_MASK);
 		RTMP_IO_WRITE32(ad, TX_ALC_CFG_1, tx0_temp_comp);
 		DBGPRINT(RT_DEBUG_TRACE, ("%s::Tx0 power compensation = 0x%x\n",
 			__FUNCTION__, tx0_temp_comp & 0x3f));
 
-		RTMP_IO_READ32(ad, TX_ALC_CFG_2, &tx1_temp_comp);
+		mt7612u_read32(ad, TX_ALC_CFG_2, &tx1_temp_comp);
 		tx1_temp_comp &= ~TX_ALC_CFG_2_TX1_TEMP_COMP_MASK;
 		tx1_temp_comp |= ((tc_init_val + dB_diff*2) & TX_ALC_CFG_2_TX1_TEMP_COMP_MASK);
 		RTMP_IO_WRITE32(ad, TX_ALC_CFG_2, tx1_temp_comp);
@@ -3280,15 +3280,15 @@ void mt7612_set_ed_cca(struct rtmp_adapter *ad, BOOLEAN enable)
 	uint32_t mac_val = 0;
 
 	if (enable) {
-		RTMP_IO_READ32(ad, CH_TIME_CFG, &mac_val);
+		mt7612u_read32(ad, CH_TIME_CFG, &mac_val);
 		mac_val |= 0x40;
 		RTMP_IO_WRITE32(ad, CH_TIME_CFG, mac_val);
 
-		RTMP_IO_READ32(ad, TXOP_CTRL_CFG, &mac_val);
+		mt7612u_read32(ad, TXOP_CTRL_CFG, &mac_val);
 		mac_val |= (1 << 20);
 		RTMP_IO_WRITE32(ad, TXOP_CTRL_CFG, mac_val);
 	} else {
-		RTMP_IO_READ32(ad, TXOP_CTRL_CFG, &mac_val);
+		mt7612u_read32(ad, TXOP_CTRL_CFG, &mac_val);
 		mac_val &= ~(1 << 20);
 		RTMP_IO_WRITE32(ad, TXOP_CTRL_CFG, mac_val);
 	}
@@ -3467,7 +3467,7 @@ VOID mt76x2_init(struct rtmp_adapter *pAd)
 	if (IS_MT7632(pAd))
 		pChipCap->phy_caps = (fPHY_CAP_24G | fPHY_CAP_5G | fPHY_CAP_HT | fPHY_CAP_LDPC);
 
-	RTMP_IO_READ32(pAd, 0x38, &mac_val);
+	mt7612u_read32(pAd, 0x38, &mac_val);
 
 	if ((mac_val & 0x80000) == 0x80000)
 		pChipCap->ac_off_mode = 1;
@@ -3562,7 +3562,7 @@ static VOID WF_CTRL(struct rtmp_adapter *pAd, UINT8 wfID, UINT8 isON)
 
 		patch_BBPL_on(pAd);
 
-		RTMP_IO_READ32(pAd, 0x530, &value);
+		mt7612u_read32(pAd, 0x530, &value);
 		value  |= 0xF;
 		RTMP_IO_WRITE32(pAd, 0x530, value);
 		}
@@ -3588,7 +3588,7 @@ static VOID WF_CTRL(struct rtmp_adapter *pAd, UINT8 wfID, UINT8 isON)
 
 			patch_BBPL_on(pAd);
 
-			RTMP_IO_READ32(pAd, 0x530, &value);
+			mt7612u_read32(pAd, 0x530, &value);
 			value  |= 0xF;
 			RTMP_IO_WRITE32(pAd, 0x530, value);
 		}
@@ -3665,7 +3665,7 @@ int mt76x2_set_ed_cca(struct rtmp_adapter *ad, u8 enable)
         uint32_t bbp_val;
 
         if (enable) {
-                RTMP_IO_READ32(ad, CH_TIME_CFG, &mac_val);
+                mt7612u_read32(ad, CH_TIME_CFG, &mac_val);
                 mac_val |= 0x05; // enable channel status check
                 RTMP_IO_WRITE32(ad, CH_TIME_CFG, mac_val);
 
@@ -3676,29 +3676,29 @@ int mt76x2_set_ed_cca(struct rtmp_adapter *ad, u8 enable)
                 RTMP_BBP_IO_WRITE32(ad, AGC1_R2, bbp_val);
 
                 // MAC: enable ED_CCA/ED_2nd_CCA
-                RTMP_IO_READ32(ad, TXOP_CTRL_CFG, &mac_val);
+                mt7612u_read32(ad, TXOP_CTRL_CFG, &mac_val);
                 mac_val |= ((1<<20) | (1<<7));
                 RTMP_IO_WRITE32(ad, TXOP_CTRL_CFG, mac_val);
 
-                RTMP_IO_READ32(ad, TXOP_HLDR_ET, &mac_val);
+                mt7612u_read32(ad, TXOP_HLDR_ET, &mac_val);
                 mac_val |= 2;
                 RTMP_IO_WRITE32(ad, TXOP_HLDR_ET, mac_val);
         } else {
                 // MAC: disable ED_CCA/ED_2nd_CCA
-                RTMP_IO_READ32(ad, TXOP_CTRL_CFG, &mac_val);
+                mt7612u_read32(ad, TXOP_CTRL_CFG, &mac_val);
                 mac_val &= (~((1<<20) | (1<<7)));
                 RTMP_IO_WRITE32(ad, TXOP_CTRL_CFG, mac_val);
 
-                RTMP_IO_READ32(ad, TXOP_HLDR_ET, &mac_val);
+                mt7612u_read32(ad, TXOP_HLDR_ET, &mac_val);
                 mac_val &= ~2;
                 RTMP_IO_WRITE32(ad, TXOP_HLDR_ET, mac_val);
         }
 
         /* Clear previous status */
-        RTMP_IO_READ32(ad, CH_IDLE_STA, &mac_val);
-        RTMP_IO_READ32(ad, CH_BUSY_STA, &mac_val);
-        RTMP_IO_READ32(ad, CH_BUSY_STA_SEC, &mac_val);
-        RTMP_IO_READ32(ad, 0x1140, &mac_val);
+        mt7612u_read32(ad, CH_IDLE_STA, &mac_val);
+        mt7612u_read32(ad, CH_BUSY_STA, &mac_val);
+        mt7612u_read32(ad, CH_BUSY_STA_SEC, &mac_val);
+        mt7612u_read32(ad, 0x1140, &mac_val);
 
         return TRUE;
 }

@@ -205,8 +205,8 @@ VOID APMlmePeriodicExec(
 					{
 						EDCA_AC_CFG_STRUC   Ac2Cfg, Ac1Cfg;
 
-						RTMP_IO_READ32(pAd, EDCA_AC2_CFG, &Ac2Cfg.word);
-						RTMP_IO_READ32(pAd, EDCA_AC1_CFG, &Ac1Cfg.word);
+						mt7612u_read32(pAd, EDCA_AC2_CFG, &Ac2Cfg.word);
+						mt7612u_read32(pAd, EDCA_AC1_CFG, &Ac1Cfg.word);
 
 						if ((pAd->RalinkCounters.OneSecOsTxCount[QID_AC_VO] == 0) &&
 							(pAd->RalinkCounters.OneSecOsTxCount[QID_AC_BK] >= 1000) &&

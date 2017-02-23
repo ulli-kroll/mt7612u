@@ -593,7 +593,7 @@ VOID QBSS_LoadUpdate(
 		(pAd->CommonCfg.AddHTInfo.AddHtInfo.RecomWidth != 0))
 	{
 		/* in 20MHz, no need to check busy time of secondary channel */
-		RTMP_IO_READ32(pAd, CH_BUSY_STA_SEC, &BusyTime);
+		mt7612u_read32(pAd, CH_BUSY_STA_SEC, &BusyTime);
 		pAd->QloadLatestChannelBusyTimeSec = BusyTime;
 
 #ifdef QLOAD_FUNC_BUSY_TIME_STATS
@@ -624,7 +624,7 @@ VOID QBSS_LoadUpdate(
 	}
 
 	/* do busy time statistics for primary channel */
-	RTMP_IO_READ32(pAd, CH_BUSY_STA, &BusyTime);
+	mt7612u_read32(pAd, CH_BUSY_STA, &BusyTime);
 	pAd->QloadLatestChannelBusyTimePri = BusyTime;
 
 #ifdef QLOAD_FUNC_BUSY_TIME_STATS

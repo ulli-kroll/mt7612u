@@ -1928,7 +1928,7 @@ static VOID Peer_DelBA_Tx_Adapt_Enable(
 		RTMPCancelTimer(&pEntry->DelBA_tx_AdaptTimer, &Cancelled);
 
 		/* Enable Tx Mac look up table */
-		RTMP_IO_READ32(pAd, TX_FBK_LIMIT, &MacReg);
+		mt7612u_read32(pAd, TX_FBK_LIMIT, &MacReg);
 		if ((MacReg & (1 << 18)) == 0) {
 			MacReg |= (1 << 18);
 			RTMP_IO_WRITE32(pAd, TX_FBK_LIMIT, MacReg);
@@ -1964,7 +1964,7 @@ static VOID Peer_DelBA_Tx_Adapt_Disable(
 		{
 			uint32_t MacReg = 0;
 			/* Disable Tx Mac look up table (Ressume original setting) */
-			RTMP_IO_READ32(pAd, TX_FBK_LIMIT, &MacReg);
+			mt7612u_read32(pAd, TX_FBK_LIMIT, &MacReg);
 			MacReg &= ~(1 << 18);
 			RTMP_IO_WRITE32(pAd, TX_FBK_LIMIT, MacReg);
 			DBGPRINT(RT_DEBUG_TRACE,

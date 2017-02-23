@@ -2158,7 +2158,7 @@ VOID MlmeDynamicTxRateSwitchingAdapt(
 			ULONG HwTxCnt, HwErrRatio = 0;
 
 			regAddr = WCID_TX_CNT_0 + (pEntry->wcid - 1) * 4;
-			RTMP_IO_READ32(pAd, regAddr, &wcidTxCnt.word);
+			mt7612u_read32(pAd, regAddr, &wcidTxCnt.word);
 
 			HwTxCnt = wcidTxCnt.field.succCnt + wcidTxCnt.field.reTryCnt;
 			if (HwTxCnt)

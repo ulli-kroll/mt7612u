@@ -3478,7 +3478,7 @@ INT Set_LongRetryLimit_Proc(struct rtmp_adapter *pAd, char *arg)
 	TX_RTY_CFG_STRUC	tx_rty_cfg;
 	UCHAR LongRetryLimit = (UCHAR)simple_strtol(arg, 0, 10);
 
-	RTMP_IO_READ32(pAd, TX_RTY_CFG, &tx_rty_cfg.word);
+	mt7612u_read32(pAd, TX_RTY_CFG, &tx_rty_cfg.word);
 	tx_rty_cfg.field.LongRtyLimit = LongRetryLimit;
 	RTMP_IO_WRITE32(pAd, TX_RTY_CFG, tx_rty_cfg.word);
 	DBGPRINT(RT_DEBUG_TRACE, ("IF Set_LongRetryLimit_Proc::(tx_rty_cfg=0x%x)\n", tx_rty_cfg.word));
@@ -3490,7 +3490,7 @@ INT Set_ShortRetryLimit_Proc(struct rtmp_adapter *pAd, char *arg)
 	TX_RTY_CFG_STRUC	tx_rty_cfg;
 	UCHAR ShortRetryLimit = (UCHAR)simple_strtol(arg, 0, 10);
 
-	RTMP_IO_READ32(pAd, TX_RTY_CFG, &tx_rty_cfg.word);
+	mt7612u_read32(pAd, TX_RTY_CFG, &tx_rty_cfg.word);
 	tx_rty_cfg.field.ShortRtyLimit = ShortRetryLimit;
 	RTMP_IO_WRITE32(pAd, TX_RTY_CFG, tx_rty_cfg.word);
 	DBGPRINT(RT_DEBUG_TRACE, ("IF Set_ShortRetryLimit_Proc::(tx_rty_cfg=0x%x)\n", tx_rty_cfg.word));
@@ -4232,7 +4232,7 @@ INT Show_MacTable_Proc(struct rtmp_adapter *pAd, char *arg)
 
 
 	printk("\n");
-	RTMP_IO_READ32(pAd, BKOFF_SLOT_CFG, &RegValue);
+	mt7612u_read32(pAd, BKOFF_SLOT_CFG, &RegValue);
 	printk("BackOff Slot      : %s slot time, BKOFF_SLOT_CFG(0x1104) = 0x%08x\n",
 			OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_SHORT_SLOT_INUSED) ? "short" : "long",
  			RegValue);
@@ -4972,7 +4972,7 @@ INT	Set_ITxBfEn_Proc(
 		pAd->chipOps.fITxBfLNAPhaseCompensate(pAd);
 
 		/* Enable TX Phase Compensation */
-		RTMP_IO_READ32(pAd, TXBE_R12, &value32);
+		mt7612u_read32(pAd, TXBE_R12, &value32);
 		RTMP_IO_WRITE32(pAd, TXBE_R12, value32 | 0x08);
 
 		RtmpOsMsDelay(10); // waiting 10ms
@@ -4980,7 +4980,7 @@ INT	Set_ITxBfEn_Proc(
 	else
 	{
 		/* Disable Tx/Rx Phase Compensation */
-		RTMP_IO_READ32(pAd, TXBE_R12, &value32);
+		mt7612u_read32(pAd, TXBE_R12, &value32);
 		RTMP_IO_WRITE32(pAd, TXBE_R12, value32 & (~0x0FF));
 	}
 
@@ -5128,16 +5128,16 @@ INT Set_TxBfProfileTagValid(
 	profileIdx = Input[1];
 
 	// Read PFMU_R10 (0x2f28) first
-	RTMP_IO_READ32(pAd, PFMU_R10, &value32);
+	mt7612u_read32(pAd, PFMU_R10, &value32);
 	value32 &= (~0x3C00);
 	// Wite PFMU_R10 to trigger read command
 	RTMP_IO_WRITE32(pAd, PFMU_R10, ((profileIdx << 10)|value32));
 	// Read PFMU_R11 ~ R15
-	RTMP_IO_READ32(pAd, PFMU_R11, &readValue32[0]);
-	RTMP_IO_READ32(pAd, PFMU_R12, &readValue32[1]);
-	RTMP_IO_READ32(pAd, PFMU_R13, &readValue32[2]);
-	RTMP_IO_READ32(pAd, PFMU_R14, &readValue32[3]);
-	RTMP_IO_READ32(pAd, PFMU_R15, &readValue32[4]);
+	mt7612u_read32(pAd, PFMU_R11, &readValue32[0]);
+	mt7612u_read32(pAd, PFMU_R12, &readValue32[1]);
+	mt7612u_read32(pAd, PFMU_R13, &readValue32[2]);
+	mt7612u_read32(pAd, PFMU_R14, &readValue32[3]);
+	mt7612u_read32(pAd, PFMU_R15, &readValue32[4]);
 
 
 	/*
@@ -5147,7 +5147,7 @@ INT Set_TxBfProfileTagValid(
 	readValue32[0] |= validFlg << 7;
 
 	// Read PFMU_R10 (0x2f28) first
-	RTMP_IO_READ32(pAd, PFMU_R10, &value32);
+	mt7612u_read32(pAd, PFMU_R10, &value32);
 	value32 &= (~0x3C00);
 	// Wite PFMU_R10 to trigger read command
 	RTMP_IO_WRITE32(pAd, PFMU_R10, ((profileIdx << 10)|value32));
@@ -5177,16 +5177,16 @@ INT Set_TxBfProfileTagRead(
 	profileIdx = simple_strtol(arg, 0, 10);
 
 	// Read PFMU_R10 (0x2f28) first
-	RTMP_IO_READ32(pAd, PFMU_R10, &value32);
+	mt7612u_read32(pAd, PFMU_R10, &value32);
 	value32 &= (~0x3C00);
 	// Wite PFMU_R10 to trigger read command
 	RTMP_IO_WRITE32(pAd, PFMU_R10, ((profileIdx << 10)|value32));
 	// Read PFMU_R19 ~ R23
-	RTMP_IO_READ32(pAd, PFMU_R11, &readValue32[0]);
-	RTMP_IO_READ32(pAd, PFMU_R12, &readValue32[1]);
-	RTMP_IO_READ32(pAd, PFMU_R13, &readValue32[2]);
-	RTMP_IO_READ32(pAd, PFMU_R14, &readValue32[3]);
-	RTMP_IO_READ32(pAd, PFMU_R15, &readValue32[4]);
+	mt7612u_read32(pAd, PFMU_R11, &readValue32[0]);
+	mt7612u_read32(pAd, PFMU_R12, &readValue32[1]);
+	mt7612u_read32(pAd, PFMU_R13, &readValue32[2]);
+	mt7612u_read32(pAd, PFMU_R14, &readValue32[3]);
+	mt7612u_read32(pAd, PFMU_R15, &readValue32[4]);
 
 	/*
 	    Bit 63:62       ng[1:0]
@@ -5285,16 +5285,16 @@ INT Set_TxBfProfileTagWrite(
 	profileIdx = simple_strtol(arg, 0, 10);
 
 	// Read PFMU_R10 (0x2f28) first
-	RTMP_IO_READ32(pAd, PFMU_R10, &value32);
+	mt7612u_read32(pAd, PFMU_R10, &value32);
 	value32 &= (~0x3C00);
 	// Wite PFMU_R10 to trigger read command
 	RTMP_IO_WRITE32(pAd, PFMU_R10, ((profileIdx << 10)|value32));
 	// Read PFMU_R19 ~ R23
-	RTMP_IO_READ32(pAd, PFMU_R11, &readValue32[0]);
-	RTMP_IO_READ32(pAd, PFMU_R12, &readValue32[1]);
-	RTMP_IO_READ32(pAd, PFMU_R13, &readValue32[2]);
-	RTMP_IO_READ32(pAd, PFMU_R14, &readValue32[3]);
-	RTMP_IO_READ32(pAd, PFMU_R15, &readValue32[4]);
+	mt7612u_read32(pAd, PFMU_R11, &readValue32[0]);
+	mt7612u_read32(pAd, PFMU_R12, &readValue32[1]);
+	mt7612u_read32(pAd, PFMU_R13, &readValue32[2]);
+	mt7612u_read32(pAd, PFMU_R14, &readValue32[3]);
+	mt7612u_read32(pAd, PFMU_R15, &readValue32[4]);
 
 	DBGPRINT(RT_DEBUG_TRACE, ("============================= TxBf profile Tage Write ==============================\n"
 		   					  "Profile index = %d\n\n",
@@ -5408,7 +5408,7 @@ INT Set_TxBfProfileTagWrite(
 
 
 	// Read PFMU_R10 (0x2f28) first
-	RTMP_IO_READ32(pAd, PFMU_R10, &value32);
+	mt7612u_read32(pAd, PFMU_R10, &value32);
 	value32 &= (~0x3C00);
 	// Wite PFMU_R10 to trigger read command
 	RTMP_IO_WRITE32(pAd, PFMU_R10, ((profileIdx << 10)|value32));
@@ -5454,15 +5454,15 @@ INT Set_TxBfProfileDataRead(
 	subcarrierIdx = Input[1];
 
 	// Read PFMU_R10 (0x2f28) first
-	RTMP_IO_READ32(pAd, PFMU_R10, &value32);
+	mt7612u_read32(pAd, PFMU_R10, &value32);
 	// Wite PFMU_R10 to trigger read command
 	RTMP_IO_WRITE32(pAd, PFMU_R10, ((profileIdx << 10)|subcarrierIdx));
 	// Read PFMU_R19 ~ R23
-	RTMP_IO_READ32(pAd, PFMU_R19, &readValue32[0]);
-	RTMP_IO_READ32(pAd, PFMU_R20, &readValue32[1]);
-	RTMP_IO_READ32(pAd, PFMU_R21, &readValue32[2]);
-	RTMP_IO_READ32(pAd, PFMU_R22, &readValue32[3]);
-	RTMP_IO_READ32(pAd, PFMU_R23, &readValue32[4]);
+	mt7612u_read32(pAd, PFMU_R19, &readValue32[0]);
+	mt7612u_read32(pAd, PFMU_R20, &readValue32[1]);
+	mt7612u_read32(pAd, PFMU_R21, &readValue32[2]);
+	mt7612u_read32(pAd, PFMU_R22, &readValue32[3]);
+	mt7612u_read32(pAd, PFMU_R23, &readValue32[4]);
 
 	psi21 = (readValue32[0] >> 16) & 0x00FF;
 	phill = (readValue32[0] >> 0)  & 0x00FF;
@@ -5511,20 +5511,20 @@ INT Set_TxBfProfileDataWrite(
 	phill = Input[3];
 
 	// Read PFMU_R10 (0x2f28) first
-	RTMP_IO_READ32(pAd, PFMU_R10, &value32);
+	mt7612u_read32(pAd, PFMU_R10, &value32);
 	// Wite PFMU_R10 to trigger read command
 	RTMP_IO_WRITE32(pAd, PFMU_R10, ((profileIdx << 10)|subcarrierIdx));
 	// Read PFMU_R19 ~ R23
-	RTMP_IO_READ32(pAd, PFMU_R19, &readValue32[0]);
-	RTMP_IO_READ32(pAd, PFMU_R20, &readValue32[1]);
-	RTMP_IO_READ32(pAd, PFMU_R21, &readValue32[2]);
-	RTMP_IO_READ32(pAd, PFMU_R22, &readValue32[3]);
-	RTMP_IO_READ32(pAd, PFMU_R23, &readValue32[4]);
+	mt7612u_read32(pAd, PFMU_R19, &readValue32[0]);
+	mt7612u_read32(pAd, PFMU_R20, &readValue32[1]);
+	mt7612u_read32(pAd, PFMU_R21, &readValue32[2]);
+	mt7612u_read32(pAd, PFMU_R22, &readValue32[3]);
+	mt7612u_read32(pAd, PFMU_R23, &readValue32[4]);
 
 	readValue32[0] = (psi21 << 16) | phill;
 
 	// Read PFMU_R10 (0x2f28) first
-	RTMP_IO_READ32(pAd, PFMU_R10, &value32);
+	mt7612u_read32(pAd, PFMU_R10, &value32);
 	// Wite PFMU_R10 to trigger read command
 	RTMP_IO_WRITE32(pAd, PFMU_R10, ((profileIdx << 10)|subcarrierIdx));
 	// Wite PFMU_R19 ~ R23
@@ -5587,20 +5587,20 @@ INT Set_TxBfProfileDataWriteAll(
 	for (scIndex = pTab->lwb1; scIndex <= pTab->upb1; scIndex++)
 	{
 		// Read PFMU_R10 (0x2f28) first
-		RTMP_IO_READ32(pAd, PFMU_R10, &value32);
+		mt7612u_read32(pAd, PFMU_R10, &value32);
 		// Wite PFMU_R10 to trigger read command
 		RTMP_IO_WRITE32(pAd, PFMU_R10, ((profileIdx << 10)|scIndex));
 		// Read PFMU_R19 ~ R23
-		RTMP_IO_READ32(pAd, PFMU_R19, &readValue32[0]);
-		RTMP_IO_READ32(pAd, PFMU_R20, &readValue32[1]);
-		RTMP_IO_READ32(pAd, PFMU_R21, &readValue32[2]);
-		RTMP_IO_READ32(pAd, PFMU_R22, &readValue32[3]);
-		RTMP_IO_READ32(pAd, PFMU_R23, &readValue32[4]);
+		mt7612u_read32(pAd, PFMU_R19, &readValue32[0]);
+		mt7612u_read32(pAd, PFMU_R20, &readValue32[1]);
+		mt7612u_read32(pAd, PFMU_R21, &readValue32[2]);
+		mt7612u_read32(pAd, PFMU_R22, &readValue32[3]);
+		mt7612u_read32(pAd, PFMU_R23, &readValue32[4]);
 
 		readValue32[0] = (psi21_I << 16) | phill_I;
 
 		// Read PFMU_R10 (0x2f28) first
-		RTMP_IO_READ32(pAd, PFMU_R10, &value32);
+		mt7612u_read32(pAd, PFMU_R10, &value32);
 		// Wite PFMU_R10 to trigger read command
 		RTMP_IO_WRITE32(pAd, PFMU_R10, ((profileIdx << 10)|scIndex));
 		// Wite PFMU_R19 ~ R23
@@ -5616,20 +5616,20 @@ INT Set_TxBfProfileDataWriteAll(
 	for (scIndex = pTab->lwb2; scIndex <= pTab->upb2; scIndex++)
 	{
 		// Read PFMU_R10 (0x2f28) first
-		RTMP_IO_READ32(pAd, PFMU_R10, &value32);
+		mt7612u_read32(pAd, PFMU_R10, &value32);
 		// Wite PFMU_R10 to trigger read command
 		RTMP_IO_WRITE32(pAd, PFMU_R10, ((profileIdx << 10)|scIndex));
 		// Read PFMU_R19 ~ R23
-		RTMP_IO_READ32(pAd, PFMU_R19, &readValue32[0]);
-		RTMP_IO_READ32(pAd, PFMU_R20, &readValue32[1]);
-		RTMP_IO_READ32(pAd, PFMU_R21, &readValue32[2]);
-		RTMP_IO_READ32(pAd, PFMU_R22, &readValue32[3]);
-		RTMP_IO_READ32(pAd, PFMU_R23, &readValue32[4]);
+		mt7612u_read32(pAd, PFMU_R19, &readValue32[0]);
+		mt7612u_read32(pAd, PFMU_R20, &readValue32[1]);
+		mt7612u_read32(pAd, PFMU_R21, &readValue32[2]);
+		mt7612u_read32(pAd, PFMU_R22, &readValue32[3]);
+		mt7612u_read32(pAd, PFMU_R23, &readValue32[4]);
 
 		readValue32[0] = (psi21_I << 16) | phill_I;
 
 		// Read PFMU_R10 (0x2f28) first
-		RTMP_IO_READ32(pAd, PFMU_R10, &value32);
+		mt7612u_read32(pAd, PFMU_R10, &value32);
 		// Wite PFMU_R10 to trigger read command
 		RTMP_IO_WRITE32(pAd, PFMU_R10, ((profileIdx << 10)|scIndex));
 		// Wite PFMU_R19 ~ R23
@@ -5685,15 +5685,15 @@ INT Set_TxBfProfileDataReadAll(
 	for (scIndex = pTab->lwb1; scIndex <= pTab->upb1; scIndex++)
 	{
 		// Read PFMU_R10 (0x2f28) first
-		RTMP_IO_READ32(pAd, PFMU_R10, &value32);
+		mt7612u_read32(pAd, PFMU_R10, &value32);
 		// Wite PFMU_R10 to trigger read command
 		RTMP_IO_WRITE32(pAd, PFMU_R10, ((profileIdx << 10)|scIndex));
 		// Read PFMU_R19 ~ R23
-		RTMP_IO_READ32(pAd, PFMU_R19, &readValue32[0]);
-		RTMP_IO_READ32(pAd, PFMU_R20, &readValue32[1]);
-		RTMP_IO_READ32(pAd, PFMU_R21, &readValue32[2]);
-		RTMP_IO_READ32(pAd, PFMU_R22, &readValue32[3]);
-		RTMP_IO_READ32(pAd, PFMU_R23, &readValue32[4]);
+		mt7612u_read32(pAd, PFMU_R19, &readValue32[0]);
+		mt7612u_read32(pAd, PFMU_R20, &readValue32[1]);
+		mt7612u_read32(pAd, PFMU_R21, &readValue32[2]);
+		mt7612u_read32(pAd, PFMU_R22, &readValue32[3]);
+		mt7612u_read32(pAd, PFMU_R23, &readValue32[4]);
 
 		phill_I = readValue32[0] & 0x0FF;
 		psi21_I = (readValue32[0] >> 16) & 0x0FF;
@@ -5716,15 +5716,15 @@ INT Set_TxBfProfileDataReadAll(
 	for (scIndex = pTab->lwb2; scIndex <= pTab->upb2; scIndex++)
 	{
 		// Read PFMU_R10 (0x2f28) first
-		RTMP_IO_READ32(pAd, PFMU_R10, &value32);
+		mt7612u_read32(pAd, PFMU_R10, &value32);
 		// Wite PFMU_R10 to trigger read command
 		RTMP_IO_WRITE32(pAd, PFMU_R10, ((profileIdx << 10)|scIndex));
 		// Read PFMU_R19 ~ R23
-		RTMP_IO_READ32(pAd, PFMU_R19, &readValue32[0]);
-		RTMP_IO_READ32(pAd, PFMU_R20, &readValue32[1]);
-		RTMP_IO_READ32(pAd, PFMU_R21, &readValue32[2]);
-		RTMP_IO_READ32(pAd, PFMU_R22, &readValue32[3]);
-		RTMP_IO_READ32(pAd, PFMU_R23, &readValue32[4]);
+		mt7612u_read32(pAd, PFMU_R19, &readValue32[0]);
+		mt7612u_read32(pAd, PFMU_R20, &readValue32[1]);
+		mt7612u_read32(pAd, PFMU_R21, &readValue32[2]);
+		mt7612u_read32(pAd, PFMU_R22, &readValue32[3]);
+		mt7612u_read32(pAd, PFMU_R23, &readValue32[4]);
 
 		phill_I = readValue32[0] & 0x0FF;
 		psi21_I = (readValue32[0] >> 16) & 0x0FF;
@@ -6339,7 +6339,7 @@ INT set_rx_rts_cts(struct rtmp_adapter *pAd, char *arg)
 	if (i >= 4)
 		i = 0;
 
-	RTMP_IO_READ32(pAd, RX_FILTR_CFG, &mac_val);
+	mt7612u_read32(pAd, RX_FILTR_CFG, &mac_val);
 	switch (i)
 	{
 		case 1: // receive rts
@@ -6358,7 +6358,7 @@ INT set_rx_rts_cts(struct rtmp_adapter *pAd, char *arg)
 	}
 	RTMP_IO_WRITE32(pAd, RX_FILTR_CFG, mac_val);
 
-	RTMP_IO_READ32(pAd, RX_FILTR_CFG, &mac_val);
+	mt7612u_read32(pAd, RX_FILTR_CFG, &mac_val);
 	DBGPRINT(RT_DEBUG_TRACE, ("%s():Configure the RTS/CTS filter as receive %s(0x%x)\n",
 				__FUNCTION__, cmds[i], mac_val));
 

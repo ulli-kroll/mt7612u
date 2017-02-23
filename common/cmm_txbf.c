@@ -58,7 +58,7 @@ VOID rtmp_asic_set_bf(
 
 
 #ifdef MT76x2
-	RTMP_IO_READ32(pAd, PFMU_R1, &Value32);
+	mt7612u_read32(pAd, PFMU_R1, &Value32);
 	Value32 &= ~0x330;
 
 	if (pAd->CommonCfg.RegTransmitSetting.field.ITxBfEn)
@@ -73,7 +73,7 @@ VOID rtmp_asic_set_bf(
 
 	RTMP_IO_WRITE32(pAd, PFMU_R1, Value32);
 
-	RTMP_IO_READ32(pAd, PFMU_R0, &Value32);
+	mt7612u_read32(pAd, PFMU_R0, &Value32);
 	Value32 &= ~((0x1 << 6) | 0x3);
 
 	if (pAd->CommonCfg.RegTransmitSetting.field.ITxBfEn)

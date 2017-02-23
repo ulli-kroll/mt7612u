@@ -279,7 +279,7 @@ INT CFG80211DRV_IoctlHandle(
 					BOOLEAN active;
 
 					/* Read GPIO pin2 as Hardware controlled radio state */
-					RTMP_IO_READ32(pAd, GPIO_CTRL_CFG, &data);
+					mt7612u_read32(pAd, GPIO_CTRL_CFG, &data);
 					active = !!(data & 0x04);
 
 					if (!active)

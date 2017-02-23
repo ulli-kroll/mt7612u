@@ -677,21 +677,21 @@ VOID AsicExtraPowerOverMAC(struct rtmp_adapter *pAd)
 	uint32_t txpwr7 = 0, txpwr8 = 0, txpwr9 = 0;
 
 	/* For OFDM_54 and HT_MCS_7, extra fill the corresponding register value into MAC 0x13D4 */
-	RTMP_IO_READ32(pAd, 0x1318, &txpwr);
+	mt7612u_read32(pAd, 0x1318, &txpwr);
 	txpwr7 |= (txpwr & 0x0000FF00) >> 8; /* Get Tx power for OFDM 54 */
-	RTMP_IO_READ32(pAd, 0x131C, &txpwr);
+	mt7612u_read32(pAd, 0x131C, &txpwr);
 	txpwr7 |= (txpwr & 0x0000FF00) << 8; /* Get Tx power for HT MCS 7 */
 	RTMP_IO_WRITE32(pAd, TX_PWR_CFG_7, txpwr7);
 
 	/* For STBC_MCS_7, extra fill the corresponding register value into MAC 0x13DC */
-	RTMP_IO_READ32(pAd, 0x1324, &txpwr);
+	mt7612u_read32(pAd, 0x1324, &txpwr);
 	txpwr9 |= (txpwr & 0x0000FF00) >> 8; /* Get Tx power for STBC MCS 7 */
 	RTMP_IO_WRITE32(pAd, TX_PWR_CFG_9, txpwr9);
 
 	if (pAd->CommonCfg.TxStream == 2)
 	{
 		/* For HT_MCS_15, extra fill the corresponding register value into MAC 0x13DC */
-		RTMP_IO_READ32(pAd, 0x1320, &txpwr);
+		mt7612u_read32(pAd, 0x1320, &txpwr);
 		txpwr8 |= (txpwr & 0x0000FF00) >> 8; /* Get Tx power for HT MCS 15 */
 		RTMP_IO_WRITE32(pAd, TX_PWR_CFG_8, txpwr8);
 	}

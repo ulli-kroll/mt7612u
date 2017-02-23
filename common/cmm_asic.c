@@ -188,7 +188,7 @@ INT AsicSetAutoFallBack(struct rtmp_adapter *pAd, BOOLEAN enable)
 {
 	TX_RTY_CFG_STRUC tx_rty_cfg = {.word = 0};
 
-	RTMP_IO_READ32(pAd, TX_RTY_CFG, &tx_rty_cfg.word);
+	mt7612u_read32(pAd, TX_RTY_CFG, &tx_rty_cfg.word);
 	tx_rty_cfg.field.TxautoFBEnable = ((enable == TRUE) ? 1 : 0);
 	RTMP_IO_WRITE32(pAd, TX_RTY_CFG, tx_rty_cfg.word);
 
@@ -261,7 +261,7 @@ VOID AsicUpdateProtect(
 	}
 
 	/* Config ASIC RTS threshold register*/
-	RTMP_IO_READ32(pAd, TX_RTS_CFG, &MacReg);
+	mt7612u_read32(pAd, TX_RTS_CFG, &MacReg);
 	MacReg &= 0xFF0000FF;
 	/* If the user want disable RtsThreshold and enbale Amsdu/Ralink-Aggregation, set the RtsThreshold as 4096*/
         if ((
@@ -409,17 +409,17 @@ VOID AsicUpdateProtect(
 				// TODO: shiang-6590, fix me for this protection mechanism
 				if (IS_RT65XX(pAd))
 				{
-					RTMP_IO_READ32(pAd, TX_PROT_CFG6, &vht_port_cfg.word);
+					mt7612u_read32(pAd, TX_PROT_CFG6, &vht_port_cfg.word);
 					vht_port_cfg.field.ProtectCtrl = 0;
 					RTMP_IO_WRITE32(pAd, TX_PROT_CFG6, vht_port_cfg.word);
 
-					RTMP_IO_READ32(pAd, TX_PROT_CFG7, &vht_port_cfg.word);
+					mt7612u_read32(pAd, TX_PROT_CFG7, &vht_port_cfg.word);
 					vht_port_cfg.field.ProtectCtrl = 0;
 					vht_port_cfg.field.ProtectNav = ASIC_SHORTNAV;
 					vht_port_cfg.field.ProtectRate = protect_rate;
 					RTMP_IO_WRITE32(pAd, TX_PROT_CFG7, vht_port_cfg.word);
 
-					RTMP_IO_READ32(pAd, TX_PROT_CFG8, &vht_port_cfg.word);
+					mt7612u_read32(pAd, TX_PROT_CFG8, &vht_port_cfg.word);
 					vht_port_cfg.field.ProtectCtrl = 0;
 					vht_port_cfg.field.ProtectNav = ASIC_SHORTNAV;
 					vht_port_cfg.field.ProtectRate = protect_rate;
@@ -456,19 +456,19 @@ VOID AsicUpdateProtect(
 					// Temporary tuen on RTS in VHT, MAC: TX_PROT_CFG6, TX_PROT_CFG7, TX_PROT_CFG8
 					PROT_CFG_STRUC vht_port_cfg;
 
-					RTMP_IO_READ32(pAd, TX_PROT_CFG6, &vht_port_cfg.word);
+					mt7612u_read32(pAd, TX_PROT_CFG6, &vht_port_cfg.word);
 					vht_port_cfg.field.ProtectCtrl = ASIC_RTS;
 					vht_port_cfg.field.ProtectNav = ASIC_SHORTNAV;
 					vht_port_cfg.field.ProtectRate = protect_rate;
 					RTMP_IO_WRITE32(pAd, TX_PROT_CFG6, vht_port_cfg.word);
 
-					RTMP_IO_READ32(pAd, TX_PROT_CFG7, &vht_port_cfg.word);
+					mt7612u_read32(pAd, TX_PROT_CFG7, &vht_port_cfg.word);
 					vht_port_cfg.field.ProtectCtrl = ASIC_RTS;
 					vht_port_cfg.field.ProtectNav = ASIC_SHORTNAV;
 					vht_port_cfg.field.ProtectRate = protect_rate;
 					RTMP_IO_WRITE32(pAd, TX_PROT_CFG7, vht_port_cfg.word);
 
-					RTMP_IO_READ32(pAd, TX_PROT_CFG8, &vht_port_cfg.word);
+					mt7612u_read32(pAd, TX_PROT_CFG8, &vht_port_cfg.word);
 					vht_port_cfg.field.ProtectCtrl = ASIC_RTS;
 					vht_port_cfg.field.ProtectNav = ASIC_SHORTNAV;
 					vht_port_cfg.field.ProtectRate = protect_rate;
@@ -506,17 +506,17 @@ VOID AsicUpdateProtect(
 				// TODO: shiang-6590, fix me for this protection mechanism
 				if (IS_RT65XX(pAd))
 				{
-					RTMP_IO_READ32(pAd, TX_PROT_CFG6, &vht_port_cfg.word);
+					mt7612u_read32(pAd, TX_PROT_CFG6, &vht_port_cfg.word);
 					vht_port_cfg.field.ProtectCtrl = 0;
 					RTMP_IO_WRITE32(pAd, TX_PROT_CFG6, vht_port_cfg.word);
 
-					RTMP_IO_READ32(pAd, TX_PROT_CFG7, &vht_port_cfg.word);
+					mt7612u_read32(pAd, TX_PROT_CFG7, &vht_port_cfg.word);
 					vht_port_cfg.field.ProtectCtrl = ASIC_RTS;
 					vht_port_cfg.field.ProtectNav = ASIC_SHORTNAV;
 					vht_port_cfg.field.ProtectRate = protect_rate;
 					RTMP_IO_WRITE32(pAd, TX_PROT_CFG7, vht_port_cfg.word);
 
-					RTMP_IO_READ32(pAd, TX_PROT_CFG8, &vht_port_cfg.word);
+					mt7612u_read32(pAd, TX_PROT_CFG8, &vht_port_cfg.word);
 					vht_port_cfg.field.ProtectCtrl = ASIC_RTS;
 					vht_port_cfg.field.ProtectNav = ASIC_SHORTNAV;
 					vht_port_cfg.field.ProtectRate = protect_rate;
@@ -552,19 +552,19 @@ VOID AsicUpdateProtect(
 				if (IS_RT65XX(pAd))
 				{
 					// Temporary turn on RTS in VHT, MAC: TX_PROT_CFG6, TX_PROT_CFG7, TX_PROT_CFG8
-					RTMP_IO_READ32(pAd, TX_PROT_CFG6, &vht_port_cfg.word);
+					mt7612u_read32(pAd, TX_PROT_CFG6, &vht_port_cfg.word);
 					vht_port_cfg.field.ProtectCtrl = ASIC_RTS;
 					vht_port_cfg.field.ProtectNav = ASIC_SHORTNAV;
 					vht_port_cfg.field.ProtectRate = protect_rate;
 					RTMP_IO_WRITE32(pAd, TX_PROT_CFG6, vht_port_cfg.word);
 
-					RTMP_IO_READ32(pAd, TX_PROT_CFG7, &vht_port_cfg.word);
+					mt7612u_read32(pAd, TX_PROT_CFG7, &vht_port_cfg.word);
 					vht_port_cfg.field.ProtectCtrl = ASIC_RTS;
 					vht_port_cfg.field.ProtectNav = ASIC_SHORTNAV;
 					vht_port_cfg.field.ProtectRate = protect_rate;
 					RTMP_IO_WRITE32(pAd, TX_PROT_CFG7, vht_port_cfg.word);
 
-					RTMP_IO_READ32(pAd, TX_PROT_CFG8, &vht_port_cfg.word);
+					mt7612u_read32(pAd, TX_PROT_CFG8, &vht_port_cfg.word);
 					vht_port_cfg.field.ProtectCtrl = ASIC_RTS;
 					vht_port_cfg.field.ProtectNav = ASIC_SHORTNAV;
 					vht_port_cfg.field.ProtectRate = protect_rate;
@@ -590,19 +590,19 @@ VOID AsicUpdateProtect(
                                        // Temporary tuen on RTS in VHT, MAC: TX_PROT_CFG6, TX_PROT_CFG7, TX_PROT_CFG8
                                        PROT_CFG_STRUC vht_port_cfg;
 
-                                       RTMP_IO_READ32(pAd, TX_PROT_CFG6, &vht_port_cfg.word);
+                                       mt7612u_read32(pAd, TX_PROT_CFG6, &vht_port_cfg.word);
                                        vht_port_cfg.field.ProtectCtrl = ASIC_RTS;
                                        vht_port_cfg.field.ProtectNav = ASIC_SHORTNAV;
                                        vht_port_cfg.field.ProtectRate = protect_rate;
                                        RTMP_IO_WRITE32(pAd, TX_PROT_CFG6, vht_port_cfg.word);
 
-                                       RTMP_IO_READ32(pAd, TX_PROT_CFG7, &vht_port_cfg.word);
+                                       mt7612u_read32(pAd, TX_PROT_CFG7, &vht_port_cfg.word);
                                        vht_port_cfg.field.ProtectCtrl = ASIC_RTS;
                                        vht_port_cfg.field.ProtectNav = ASIC_SHORTNAV;
                                        vht_port_cfg.field.ProtectRate = protect_rate;
                                        RTMP_IO_WRITE32(pAd, TX_PROT_CFG7, vht_port_cfg.word);
 
-                                       RTMP_IO_READ32(pAd, TX_PROT_CFG8, &vht_port_cfg.word);
+                                       mt7612u_read32(pAd, TX_PROT_CFG8, &vht_port_cfg.word);
                                        vht_port_cfg.field.ProtectCtrl = ASIC_RTS;
                                        vht_port_cfg.field.ProtectNav = ASIC_SHORTNAV;
                                        vht_port_cfg.field.ProtectRate = protect_rate;
@@ -640,7 +640,7 @@ VOID AsicUpdateProtect(
 		uint32_t cfg_reg;
 		for (cfg_reg = TX_PROT_CFG6; cfg_reg <= TX_PROT_CFG8; cfg_reg += 4)
 		{
-			RTMP_IO_READ32(pAd, cfg_reg, &MacReg);
+			mt7612u_read32(pAd, cfg_reg, &MacReg);
 			MacReg &= (~0x18000000);
 			if (pAd->CommonCfg.vht_bw_signal)
 			{
@@ -738,12 +738,12 @@ VOID AsicSwitchChannel(struct rtmp_adapter *pAd, UCHAR Channel, BOOLEAN bScan)
 	{
 		// Disable BF HW to apply profile to packets when nSS == 2.
 		// Maybe it can be initialized at chip init but removing the same CR initialization from FW will be better
-		RTMP_IO_READ32(pAd, TXO_R4, &value32);
+		mt7612u_read32(pAd, TXO_R4, &value32);
 		value32 |= 0x2000000;
 		RTMP_IO_WRITE32(pAd, TXO_R4, value32);
 
 		// Enable SIG-B CRC check
-		RTMP_IO_READ32(pAd, RXO_R13, &value32);
+		mt7612u_read32(pAd, RXO_R13, &value32);
 		value32 |= 0x100;
 		RTMP_IO_WRITE32(pAd, RXO_R13, value32);
 	}
@@ -792,7 +792,7 @@ VOID AsicResetBBPAgent(struct rtmp_adapter *pAd)
 	else if (pAd->chipCap.MCUType != ANDES)
 	{
 		DBGPRINT(RT_DEBUG_INFO, ("Reset BBP Agent busy bit.!! \n"));
-		RTMP_IO_READ32(pAd, H2M_BBP_AGENT, &BbpCsr.word);
+		mt7612u_read32(pAd, H2M_BBP_AGENT, &BbpCsr.word);
 		BbpCsr.field.Busy = 0;
 		RTMP_IO_WRITE32(pAd, H2M_BBP_AGENT, BbpCsr.word);
 	}
@@ -920,7 +920,7 @@ VOID AsicSetMbssMode(struct rtmp_adapter *pAd, UCHAR NumOfBcns)
 	UCHAR NumOfMacs;
 	uint32_t regValue;
 
-	RTMP_IO_READ32(pAd, MAC_BSSID_DW1, &regValue);
+	mt7612u_read32(pAd, MAC_BSSID_DW1, &regValue);
 	regValue &= 0x0000FFFF;
 
 	/*
@@ -1033,11 +1033,11 @@ INT AsicSetRDG(struct rtmp_adapter *pAd, BOOLEAN bEnable)
 	TX_LINK_CFG_STRUC TxLinkCfg;
 	uint32_t Data = 0;
 
-	RTMP_IO_READ32(pAd, TX_LINK_CFG, &TxLinkCfg.word);
+	mt7612u_read32(pAd, TX_LINK_CFG, &TxLinkCfg.word);
 	TxLinkCfg.field.TxRDGEn =  (bEnable ? 1 : 0);
 	RTMP_IO_WRITE32(pAd, TX_LINK_CFG, TxLinkCfg.word);
 
-	RTMP_IO_READ32(pAd, EDCA_AC0_CFG, &Data);
+	mt7612u_read32(pAd, EDCA_AC0_CFG, &Data);
 	Data &= 0xFFFFFF00;
 	if (bEnable) {
 		Data |= 0x80;
@@ -1079,7 +1079,7 @@ VOID RTMPSetPiggyBack(struct rtmp_adapter *pAd, BOOLEAN bPiggyBack)
 {
 	TX_LINK_CFG_STRUC  TxLinkCfg;
 
-	RTMP_IO_READ32(pAd, TX_LINK_CFG, &TxLinkCfg.word);
+	mt7612u_read32(pAd, TX_LINK_CFG, &TxLinkCfg.word);
 
 	TxLinkCfg.field.TxCFAckEn = bPiggyBack;
 	RTMP_IO_WRITE32(pAd, TX_LINK_CFG, TxLinkCfg.word);
@@ -1089,7 +1089,7 @@ VOID AsicCtrlBcnMask(struct rtmp_adapter *pAd, INT mask)
 {
 	BCN_BYPASS_MASK_STRUC bms;
 
-	RTMP_IO_READ32(pAd, TX_BCN_BYPASS_MASK, &bms.word);
+	mt7612u_read32(pAd, TX_BCN_BYPASS_MASK, &bms.word);
 	bms.field.BeaconDropMask = mask;
 	RTMP_IO_WRITE32(pAd, TX_BCN_BYPASS_MASK, bms.word);
 }
@@ -1111,7 +1111,7 @@ static INT AsicSetIntTimerEn(struct rtmp_adapter *pAd, BOOLEAN enable, uint32_t 
 	else
 		mask = 0x3;
 
-	RTMP_IO_READ32(pAd, INT_TIMER_EN, &val);
+	mt7612u_read32(pAd, INT_TIMER_EN, &val);
 	if (enable == FALSE)
 		val &= (~mask);
 	else
@@ -1119,7 +1119,7 @@ static INT AsicSetIntTimerEn(struct rtmp_adapter *pAd, BOOLEAN enable, uint32_t 
 	RTMP_IO_WRITE32(pAd, INT_TIMER_EN, val);
 
 	if (enable) {
-		RTMP_IO_READ32(pAd, INT_TIMER_CFG, &val);
+		mt7612u_read32(pAd, INT_TIMER_CFG, &val);
 		val = (val & (~time_mask)) | timeout;
 		RTMP_IO_WRITE32(pAd, INT_TIMER_CFG, val);
 	}
@@ -1162,7 +1162,7 @@ VOID AsicDisableSync(
 	DBGPRINT(RT_DEBUG_TRACE, ("--->Disable TSF synchronization\n"));
 
 	pAd->TbttTickCount = 0;
-	RTMP_IO_READ32(pAd, BCN_TIME_CFG, &csr.word);
+	mt7612u_read32(pAd, BCN_TIME_CFG, &csr.word);
 	csr.field.bBeaconGen = 0;
 	csr.field.bTBTTEnable = 0;
 	csr.field.TsfSyncMode = 0;
@@ -1186,7 +1186,7 @@ VOID AsicEnableBssSync(
 
 	DBGPRINT(RT_DEBUG_TRACE, ("--->AsicEnableBssSync(INFRA mode)\n"));
 
-	RTMP_IO_READ32(pAd, BCN_TIME_CFG, &csr.word);
+	mt7612u_read32(pAd, BCN_TIME_CFG, &csr.word);
 /*	RTMP_IO_WRITE32(pAd, BCN_TIME_CFG, 0x00000000);*/
 #ifdef CONFIG_AP_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
@@ -1219,7 +1219,7 @@ VOID AsicEnableApBssSync(
 
 	DBGPRINT(RT_DEBUG_TRACE, ("--->AsicEnableBssSync(INFRA mode)\n"));
 
-	RTMP_IO_READ32(pAd, BCN_TIME_CFG, &csr.word);
+	mt7612u_read32(pAd, BCN_TIME_CFG, &csr.word);
 
 	csr.field.BeaconInterval = pAd->CommonCfg.BeaconPeriod << 4; /* ASIC register in units of 1/16 TU*/
 	csr.field.bTsfTicking = 1;
@@ -1270,7 +1270,7 @@ VOID AsicEnableIbssSync(struct rtmp_adapter *pAd)
 	DBGPRINT(RT_DEBUG_TRACE, ("--->AsicEnableIbssSync(ADHOC mode, beaconLen=%d)\n",
 				beaconLen));
 
-	RTMP_IO_READ32(pAd, BCN_TIME_CFG, &csr9.word);
+	mt7612u_read32(pAd, BCN_TIME_CFG, &csr9.word);
 	csr9.field.bBeaconGen = 0;
 	csr9.field.bTBTTEnable = 0;
 	csr9.field.bTsfTicking = 0;
@@ -1648,7 +1648,7 @@ INT AsicSetRetryLimit(struct rtmp_adapter *pAd, uint32_t type, uint32_t limit)
 {
 	TX_RTY_CFG_STRUC tx_rty_cfg;
 
-	RTMP_IO_READ32(pAd, TX_RTY_CFG, &tx_rty_cfg.word);
+	mt7612u_read32(pAd, TX_RTY_CFG, &tx_rty_cfg.word);
 	if (type == TX_RTY_CFG_RTY_LIMIT_SHORT)
 		tx_rty_cfg.field.ShortRtyLimit = limit;
 	else if (type == TX_RTY_CFG_RTY_LIMIT_LONG)
@@ -1663,7 +1663,7 @@ uint32_t AsicGetRetryLimit(struct rtmp_adapter *pAd, uint32_t type)
 {
 	TX_RTY_CFG_STRUC tx_rty_cfg = {.word = 0};
 
-	RTMP_IO_READ32(pAd, TX_RTY_CFG, &tx_rty_cfg.word);
+	mt7612u_read32(pAd, TX_RTY_CFG, &tx_rty_cfg.word);
 	if (type == TX_RTY_CFG_RTY_LIMIT_SHORT)
 		return tx_rty_cfg.field.ShortRtyLimit;
 	else if (type == TX_RTY_CFG_RTY_LIMIT_LONG)
@@ -1739,7 +1739,7 @@ VOID AsicSetSlotTime(
 	}
 #endif /* CONFIG_STA_SUPPORT */
 
-	RTMP_IO_READ32(pAd, BKOFF_SLOT_CFG, &RegValue);
+	mt7612u_read32(pAd, BKOFF_SLOT_CFG, &RegValue);
 	RegValue = RegValue & 0xFFFFFF00;
 
 	RegValue |= SlotTime;
@@ -1794,8 +1794,8 @@ VOID RTMPGetTxTscFromAsic(struct rtmp_adapter *pAd, UCHAR apidx, UCHAR *pTxTsc)
 		offset = iveiv_tb_base + (Wcid * iveiv_tb_size);
 
 		/* Use Read32 to avoid endian problem */
-		RTMP_IO_READ32(pAd, offset, &temp1);
-		RTMP_IO_READ32(pAd, offset+4, &temp2);
+		mt7612u_read32(pAd, offset, &temp1);
+		mt7612u_read32(pAd, offset+4, &temp2);
 		for ( i=0; i<4; i++)
 		{
 			IvEiv[i] = (UCHAR)(temp1 >> (i*8));
@@ -1916,7 +1916,7 @@ VOID AsicAddSharedKeyEntry(
 		share_key_mode_base= RLT_SHARED_KEY_MODE_BASE;
 
 		/* Update cipher algorithm. WSTA always use BSS0*/
-		RTMP_IO_READ32(pAd, share_key_mode_base + 4 * (BssIndex/2), &csr1.word);
+		mt7612u_read32(pAd, share_key_mode_base + 4 * (BssIndex/2), &csr1.word);
 		DBGPRINT(RT_DEBUG_TRACE,("Read: SHARED_KEY_MODE_BASE at this Bss[%d] KeyIdx[%d]= 0x%x \n", BssIndex,KeyIdx, csr1.word));
 		if ((BssIndex%2) == 0)
 		{
@@ -1962,7 +1962,7 @@ VOID AsicRemoveSharedKeyEntry(
 
 		share_key_mode_base= RLT_SHARED_KEY_MODE_BASE;
 
-		RTMP_IO_READ32(pAd, share_key_mode_base+4*(BssIndex/2), &csr1.word);
+		mt7612u_read32(pAd, share_key_mode_base+4*(BssIndex/2), &csr1.word);
 		if ((BssIndex%2) == 0)
 		{
 			if (KeyIdx == 0)
@@ -2175,7 +2175,7 @@ VOID AsicAddPairwiseKeyEntry(
 	for (i=0; i<MAX_LEN_OF_PEER_KEY; i+=4)
 	{
 		uint32_t Value;
-		RTMP_IO_READ32(pAd, offset + i, &Value);
+		mt7612u_read32(pAd, offset + i, &Value);
 	}
 	offset += MAX_LEN_OF_PEER_KEY;
 
@@ -2389,7 +2389,7 @@ VOID AsicSetTxPreamble(struct rtmp_adapter *pAd, USHORT TxPreamble)
 {
 	AUTO_RSP_CFG_STRUC csr4;
 
-	RTMP_IO_READ32(pAd, AUTO_RSP_CFG, &csr4.word);
+	mt7612u_read32(pAd, AUTO_RSP_CFG, &csr4.word);
 	if (TxPreamble == Rt802_11PreambleLong)
 		csr4.field.AutoResponderPreamble = 0;
 	else
@@ -2402,7 +2402,7 @@ INT AsicSetRalinkBurstMode(struct rtmp_adapter *pAd, BOOLEAN enable)
 {
 	uint32_t 			Data = 0;
 
-	RTMP_IO_READ32(pAd, EDCA_AC0_CFG, &Data);
+	mt7612u_read32(pAd, EDCA_AC0_CFG, &Data);
 	if (enable)
 	{
 	pAd->CommonCfg.RestoreBurstMode = Data;
@@ -2508,7 +2508,7 @@ VOID AsicWOWSendNullFrame(
 			share_key_mode_base= RLT_SHARED_KEY_MODE_BASE;
 #endif /* RLT_MAC */
 
-		RTMP_IO_READ32(pAd, share_key_mode_base, &Value);
+		mt7612u_read32(pAd, share_key_mode_base, &Value);
 		switch (cipher) /* don't care WEP, because it dosen't have re-key issue */
 		{
 			case Ndis802_11TKIPEnable: /* TKIP */
@@ -2530,12 +2530,12 @@ INT AsicSetPreTbttInt(struct rtmp_adapter *pAd, BOOLEAN enable)
 {
 	uint32_t val;
 
-	RTMP_IO_READ32(pAd, INT_TIMER_CFG, &val);
+	mt7612u_read32(pAd, INT_TIMER_CFG, &val);
 	val &= 0xffff0000;
 	val |= 6 << 4; /* Pre-TBTT is 6ms before TBTT interrupt. 1~10 ms is reasonable. */
 	RTMP_IO_WRITE32(pAd, INT_TIMER_CFG, val);
 	/* Enable pre-tbtt interrupt */
-	RTMP_IO_READ32(pAd, INT_TIMER_EN, &val);
+	mt7612u_read32(pAd, INT_TIMER_EN, &val);
 	val |=0x1;
 	RTMP_IO_WRITE32(pAd, INT_TIMER_EN, val);
 
@@ -2550,7 +2550,7 @@ BOOLEAN AsicWaitPDMAIdle(struct rtmp_adapter *pAd, INT round, INT wait_us)
 
 
 	do {
-		RTMP_IO_READ32(pAd, WPDMA_GLO_CFG, &GloCfg.word);
+		mt7612u_read32(pAd, WPDMA_GLO_CFG, &GloCfg.word);
 		if ((GloCfg.field.TxDMABusy == 0)  && (GloCfg.field.RxDMABusy == 0)) {
 			DBGPRINT(RT_DEBUG_TRACE, ("==>  DMAIdle, GloCfg=0x%x\n", GloCfg.word));
 			return TRUE;
@@ -2574,7 +2574,7 @@ INT rtmp_asic_top_init(struct rtmp_adapter *pAd)
 #ifdef MT76x2
 	if (IS_MT76x2(pAd)) {
 		uint32_t MacValue;
-		RTMP_IO_READ32(pAd, MAC_CSR0, &MacValue);
+		mt7612u_read32(pAd, MAC_CSR0, &MacValue);
 		pAd->MACVersion = MacValue;
 
 		if ((pAd->MACVersion == 0xffffffff) || (pAd->MACVersion == 0))
@@ -2751,7 +2751,7 @@ INT AsicReadAggCnt(struct rtmp_adapter *pAd, ULONG *aggCnt, int cnt_len)
 	{
 		for (reg_addr = aggReg[i] ; reg_addr <= aggReg[i+1] ; reg_addr += 4)
 		{
-			RTMP_IO_READ32(pAd, reg_addr, &reg_val.word);
+			mt7612u_read32(pAd, reg_addr, &reg_val.word);
 			if (cnt < (cnt_len -1)) {
 				aggCnt[cnt] = reg_val.field.AggCnt_x;
 				aggCnt[cnt+1] = reg_val.field.AggCnt_y;
@@ -2972,7 +2972,7 @@ VOID RT28xxAndesWOWEnable(
 
 		wow_param.Value = WOW_WAKEUP_BY_GPIO;
 
-		RTMP_IO_READ32(pAd, WLAN_FUN_CTRL, &Value);
+		mt7612u_read32(pAd, WLAN_FUN_CTRL, &Value);
 		printk("\x1b[31m%s: 0x80 = %x\x1b[m\n", __FUNCTION__, Value);
 		Value &= ~0x01010000; /* GPIO0(ouput) --> 0(data) */
 		RTMP_IO_WRITE32(pAd, WLAN_FUN_CTRL, Value);
@@ -3076,7 +3076,7 @@ VOID RT28xxAndesWOWDisable(
 
 
     /* Restore MAC TX/RX */
-    RTMP_IO_READ32(pAd, MAC_SYS_CTRL, &Value);
+    mt7612u_read32(pAd, MAC_SYS_CTRL, &Value);
     Value |= 0xC;
     RTMP_IO_WRITE32(pAd, MAC_SYS_CTRL, Value);
 
@@ -3088,7 +3088,7 @@ VOID RT28xxAndesWOWDisable(
     //printk("\x1b[31m%s: BulkInReq %d\x1b[m\n", __FUNCTION__, pAd->BulkInReq);
 
     /* restore hardware remote wakeup flag */
-    RTMP_IO_READ32(pAd, WLAN_FUN_CTRL, &Value);
+    mt7612u_read32(pAd, WLAN_FUN_CTRL, &Value);
     printk("\x1b[31m%s: 0x80 %08x\x1b[m\n", __FUNCTION__, Value);
     Value &= ~0x80;
     RTMP_IO_WRITE32(pAd, WLAN_FUN_CTRL, Value);
@@ -3097,7 +3097,7 @@ VOID RT28xxAndesWOWDisable(
 	{
 		int32_t Value;
 
-		RTMP_IO_READ32(pAd, WLAN_FUN_CTRL, &Value);
+		mt7612u_read32(pAd, WLAN_FUN_CTRL, &Value);
 		printk("\x1b[31m%s: 0x80 = %x\x1b[m\n", __FUNCTION__, Value);
 		Value &= ~0x01010000; /* GPIO0(ouput) --> 0(data) */
 		RTMP_IO_WRITE32(pAd, WLAN_FUN_CTRL, Value);
@@ -3154,7 +3154,7 @@ VOID asic_set_drop_mask(
 	group_index = (wcid - (wcid % 32)) >> 5 /* divided by 32 */;
 	reg_id = (TX_WCID_DROP_MASK0 + 4*group_index);
 
-	RTMP_IO_READ32(ad, reg_id, &mac_reg);
+	mt7612u_read32(ad, reg_id, &mac_reg);
 
 	mac_reg = (enable ? \
 				(mac_reg | drop_mask):(mac_reg & ~drop_mask));
@@ -3196,12 +3196,12 @@ VOID asic_change_tx_retry(
 	if (num < 3)
 	{
 		/* Tx date retry default 15 */
-		RTMP_IO_READ32(pAd, TX_RTY_CFG, &TxRtyCfg);
+		mt7612u_read32(pAd, TX_RTY_CFG, &TxRtyCfg);
 		TxRtyCfg = ((TxRtyCfg & 0xffff0000) | (pAd->CommonCfg.txRetryCfg & 0x0000ffff));
 		RTMP_IO_WRITE32(pAd, TX_RTY_CFG, TxRtyCfg);
 
 		/* Tx RTS retry default 32 */
-		RTMP_IO_READ32(pAd, TX_RTS_CFG, &MacReg);
+		mt7612u_read32(pAd, TX_RTS_CFG, &MacReg);
 		MacReg &= 0xFEFFFF00;
 		MacReg |= 0x20;
 		RTMP_IO_WRITE32(pAd, TX_RTS_CFG, MacReg);
@@ -3213,7 +3213,7 @@ VOID asic_change_tx_retry(
 		RTMP_IO_WRITE32(pAd, TX_RTY_CFG, TxRtyCfg);
 
 		/* Tx RTS retry 3 */
-		RTMP_IO_READ32(pAd, TX_RTS_CFG, &MacReg);
+		mt7612u_read32(pAd, TX_RTS_CFG, &MacReg);
 		MacReg &= 0xFEFFFF00;
 		MacReg |= 0x01000003;
 		RTMP_IO_WRITE32(pAd, TX_RTS_CFG, MacReg);

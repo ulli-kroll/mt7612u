@@ -146,7 +146,7 @@ VOID UpdateChannelInfo(
 		if ( Alg == ChannelAlgCCA )
 		{
 			RX_STA_CNT1_STRUC RxStaCnt1;
-			RTMP_IO_READ32(pAd, RX_STA_CNT1, &RxStaCnt1.word);
+			mt7612u_read32(pAd, RX_STA_CNT1, &RxStaCnt1.word);
 			pAd->RalinkCounters.OneSecFalseCCACnt += RxStaCnt1.field.FalseCca;
 			pAd->pChannelInfo->FalseCCA[ch_index] = RxStaCnt1.field.FalseCca;
 		}
@@ -157,7 +157,7 @@ VOID UpdateChannelInfo(
 			scan time 400ms, beacon interval 100 ms
 		*/
 
-		RTMP_IO_READ32(pAd, CH_BUSY_STA, &BusyTime);
+		mt7612u_read32(pAd, CH_BUSY_STA, &BusyTime);
 #ifdef AP_QLOAD_SUPPORT
 		pAd->pChannelInfo->chanbusytime[ch_index] = (BusyTime * 100) / AUTO_CHANNEL_SEL_TIMEOUT;
 #endif /* AP_QLOAD_SUPPORT */
@@ -1120,7 +1120,7 @@ VOID APAutoChannelInit(struct rtmp_adapter *pAd)
 	pAd->ApCfg.current_channel_index = 0;
 
 	/* read clear for primary channel */
-	RTMP_IO_READ32(pAd, CH_BUSY_STA, &BusyTime);
+	mt7612u_read32(pAd, CH_BUSY_STA, &BusyTime);
 }
 
 /*

@@ -1683,8 +1683,8 @@ VOID BeaconUpdateExec(
 
 	}
 
-	RTMP_IO_READ32(pAd, TSF_TIMER_DW0, &tsfTime_a.u.LowPart);
-	RTMP_IO_READ32(pAd, TSF_TIMER_DW1, &tsfTime_a.u.HighPart);
+	mt7612u_read32(pAd, TSF_TIMER_DW0, &tsfTime_a.u.LowPart);
+	mt7612u_read32(pAd, TSF_TIMER_DW1, &tsfTime_a.u.HighPart);
 
 
 	/*
@@ -1961,7 +1961,7 @@ VOID RT28xxUsbAsicRadioOn(struct rtmp_adapter *pAd)
 	AsicWaitPDMAIdle(pAd, 200, 1000);
 
 	RtmpusecDelay(50);
-	RTMP_IO_READ32(pAd, WPDMA_GLO_CFG, &GloCfg.word);
+	mt7612u_read32(pAd, WPDMA_GLO_CFG, &GloCfg.word);
 	GloCfg.field.EnTXWriteBackDDONE = 1;
 	GloCfg.field.WPDMABurstSIZE = pAd->chipCap.WPDMABurstSIZE;
 	GloCfg.field.EnableRxDMA = 1;

@@ -252,7 +252,7 @@ load_patch_protect:
 			DBGPRINT(RT_DEBUG_OFF, ("rom patch for E2 IC\n"));
 		} else {
 			DBGPRINT(RT_DEBUG_OFF, ("rom patch do not match IC version\n"));
-			RTMP_IO_READ32(ad, 0x0, &mac_value);
+			mt7612u_read32(ad, 0x0, &mac_value);
 			DBGPRINT(RT_DEBUG_OFF, ("IC version(%x)\n", mac_value));
 			ret = NDIS_STATUS_FAILURE;
 			goto error0;
@@ -670,7 +670,7 @@ loadfw_protect:
 			DBGPRINT(RT_DEBUG_OFF, ("fw for E2 IC\n"));
 		} else {
 			DBGPRINT(RT_DEBUG_OFF, ("fw do not match IC version\n"));
-			RTMP_IO_READ32(ad, 0x0, &mac_value);
+			mt7612u_read32(ad, 0x0, &mac_value);
 			DBGPRINT(RT_DEBUG_OFF, ("IC version(%x)\n", mac_value));
 			ret = NDIS_STATUS_FAILURE;
 			goto error0;
@@ -1011,7 +1011,7 @@ loadfw_protect:
 
 	DBGPRINT(RT_DEBUG_TRACE, ("%s: COM_REG0(0x%x) = 0x%x\n", __FUNCTION__, COM_REG0, mac_value));
 
-	RTMP_IO_READ32(ad, COM_REG0, &mac_value);
+	mt7612u_read32(ad, COM_REG0, &mac_value);
 	mac_value |= (1 << 1);
 	RTMP_IO_WRITE32(ad, COM_REG0, mac_value);
 

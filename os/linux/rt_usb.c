@@ -945,7 +945,7 @@ void InitUSBDevice(RT_CMD_USB_INIT *config, VOID *ad_src)
 		return;
 	}
 
-	RTMP_IO_READ32(ad, 0x00, &value);
+	mt7612u_read32(ad, 0x00, &value);
 	ad->ChipID = value;
 #ifdef RT65xx
 	if (IS_RT65XX(ad))

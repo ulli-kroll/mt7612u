@@ -104,7 +104,7 @@
 	(__pBandInfo)->RtsThreshold = pAd->CommonCfg.RtsThreshold;				\
 	(__pBandInfo)->FragmentThreshold = pAd->CommonCfg.FragmentThreshold;	\
 	(__pBandInfo)->RetryMaxCnt = 0;											\
-	RTMP_IO_READ32(__pAd, TX_RTY_CFG, &((__pBandInfo)->RetryMaxCnt));		\
+	mt7612u_read32(__pAd, TX_RTY_CFG, &((__pBandInfo)->RetryMaxCnt));		\
 }
 
 /* Scan Releated */
