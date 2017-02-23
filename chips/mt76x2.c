@@ -150,21 +150,20 @@ static VOID mt76x2_bbp_adjust(struct rtmp_adapter *pAd)
 	static char *ext_str[]={"extNone", "extAbove", "", "extBelow"};
 	UCHAR rf_bw, ext_ch;
 
-	if (get_ht_cent_ch(pAd, &rf_bw, &ext_ch) == FALSE)
-	{
+	if (get_ht_cent_ch(pAd, &rf_bw, &ext_ch) == FALSE) {
 		rf_bw = BW_20;
 		ext_ch = EXTCHA_NONE;
 		pAd->CommonCfg.CentralChannel = pAd->CommonCfg.Channel;
 	}
 
 	if (WMODE_CAP(pAd->CommonCfg.PhyMode, WMODE_AC) &&
-		(pAd->CommonCfg.Channel > 14) &&
-		(rf_bw == BW_40) &&
-		(pAd->CommonCfg.vht_bw == VHT_BW_80) &&
-		(pAd->CommonCfg.vht_cent_ch != pAd->CommonCfg.CentralChannel))
-	{
+	    (pAd->CommonCfg.Channel > 14) &&
+	    (rf_bw == BW_40) &&
+	    (pAd->CommonCfg.vht_bw == VHT_BW_80) &&
+	    (pAd->CommonCfg.vht_cent_ch != pAd->CommonCfg.CentralChannel)) {
 		rf_bw = BW_80;
-		pAd->CommonCfg.vht_cent_ch = vht_cent_ch_freq(pAd, pAd->CommonCfg.Channel);
+		pAd->CommonCfg.vht_cent_ch =
+			vht_cent_ch_freq(pAd, pAd->CommonCfg.Channel);
 	}
 
 	DBGPRINT(RT_DEBUG_OFF, ("%s():rf_bw=%d, ext_ch=%d, PrimCh=%d, HT-CentCh=%d, VHT-CentCh=%d\n",
@@ -495,8 +494,7 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, BOOLEAN s
 
 	if (ad->CommonCfg.BBPCurrentBW == BW_80) {
 		bbp_ch_idx = vht_prim_ch_idx(channel, ad->CommonCfg.Channel);
-	} else
-	if (ad->CommonCfg.BBPCurrentBW == BW_40) {
+	} else if (ad->CommonCfg.BBPCurrentBW == BW_40) {
 		if (ad->CommonCfg.CentralChannel > ad->CommonCfg.Channel)
 			bbp_ch_idx = EXT_CH_ABOVE;
 		else
@@ -507,36 +505,26 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, BOOLEAN s
 
 	RTMP_IO_READ32(ad, EXT_CCA_CFG, &RegValue);
 	RegValue &= ~(0xFFF);
-	if (ad->CommonCfg.BBPCurrentBW == BW_80)
-	{
+	if (ad->CommonCfg.BBPCurrentBW == BW_80) {
 		if (bbp_ch_idx == 0)
-		{
 			RegValue |= 0x1e4;
-		}
 		else if (bbp_ch_idx == 1)
-		{
 			RegValue |= 0x2e1;
-		}
 		else if (bbp_ch_idx == 2)
-		{
 			RegValue |= 0x41e;
-		}
 		else if (bbp_ch_idx == 3)
-		{
 			RegValue |= 0x81b;
-		}
-	} else
-	if (ad->CommonCfg.BBPCurrentBW == BW_40)
-	{
-		if (ad->CommonCfg.CentralChannel > ad->CommonCfg.Channel)
+	} else {
+		if (ad->CommonCfg.BBPCurrentBW == BW_40) {
+			if (ad->CommonCfg.CentralChannel > ad->CommonCfg.Channel)
+				RegValue |= 0x1e4;
+			else
+				RegValue |= 0x2e1;
+		} else {
 			RegValue |= 0x1e4;
-		else
-			RegValue |= 0x2e1;
+		}
 	}
-	else
-	{
-		RegValue |= 0x1e4;
-	}
+
 	RTMP_IO_WRITE32(ad, EXT_CCA_CFG, RegValue);
 
 	/* determine channel flags */
@@ -594,19 +582,32 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, BOOLEAN s
 	if (IS_USB_INF(ad)) {
 		if (band_change) {
 			if (band == _G_BAND) {
-				RANDOM_WRITE(ad, mt76x2_mac_g_band_cr_table, mt76x2_mac_g_band_cr_nums);
-				if ( ad->chipCap.PAType & INT_PA_2G ) {
-					RANDOM_WRITE(ad, mt76x2_mac_g_band_internal_pa_cr_table, mt76x2_mac_g_band_internal_pa_cr_nums);
-				} else {
-					RANDOM_WRITE(ad, mt76x2_mac_g_band_external_pa_cr_table, mt76x2_mac_g_band_external_pa_cr_nums);
-				}
+				RANDOM_WRITE(ad,
+					     mt76x2_mac_g_band_cr_table,
+					     mt76x2_mac_g_band_cr_nums);
+
+				if (ad->chipCap.PAType & INT_PA_2G)
+					RANDOM_WRITE(ad,
+						     mt76x2_mac_g_band_internal_pa_cr_table,
+						     mt76x2_mac_g_band_internal_pa_cr_nums);
+				else
+					RANDOM_WRITE(ad,
+						     mt76x2_mac_g_band_external_pa_cr_table,
+						     mt76x2_mac_g_band_external_pa_cr_nums);
+
 			} else {
-				RANDOM_WRITE(ad, mt76x2_mac_a_band_cr_table, mt76x2_mac_a_band_cr_nums);
-				if ( ad->chipCap.PAType & INT_PA_5G ) {
-					RANDOM_WRITE(ad, mt76x2_mac_a_band_internal_pa_cr_table, mt76x2_mac_a_band_internal_pa_cr_nums);
-				} else {
-					RANDOM_WRITE(ad, mt76x2_mac_a_band_external_pa_cr_table, mt76x2_mac_a_band_external_pa_cr_nums);
-				}
+				RANDOM_WRITE(ad,
+					     mt76x2_mac_a_band_cr_table,
+					     mt76x2_mac_a_band_cr_nums);
+				if (ad->chipCap.PAType & INT_PA_5G)
+					RANDOM_WRITE(ad,
+						     mt76x2_mac_a_band_internal_pa_cr_table,
+						     mt76x2_mac_a_band_internal_pa_cr_nums);
+				else
+					RANDOM_WRITE(ad,
+						     mt76x2_mac_a_band_external_pa_cr_table,
+						     mt76x2_mac_a_band_external_pa_cr_nums);
+
 			}
 		}
 	}
@@ -618,17 +619,14 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, BOOLEAN s
 	}
 
 	/* Fine tune tx power ramp on time based on BBP Tx delay */
-	if (isExternalPAMode(ad, channel))
-	{
-       if (bw == 0)
-       		RTMP_IO_WRITE32(ad, TX_SW_CFG0, 0x00101101);
-       else
-            RTMP_IO_WRITE32(ad, TX_SW_CFG0, 0x000B0C01);
+	if (isExternalPAMode(ad, channel)) {
+		if (bw == 0)
+			RTMP_IO_WRITE32(ad, TX_SW_CFG0, 0x00101101);
+		else
+			RTMP_IO_WRITE32(ad, TX_SW_CFG0, 0x000B0C01);
 
 		RTMP_IO_WRITE32(ad, TX_SW_CFG1, 0x00010200);
-	}
-	else
-	{
+	} else {
 		if (bw == 0)
 			RTMP_IO_WRITE32(ad, TX_SW_CFG0, 0x00101001);
 		else
@@ -645,7 +643,10 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, BOOLEAN s
 
 	andes_switch_channel(ad, channel, scan, bw, tx_rx_setting, bbp_ch_idx);
 
-	eLNA_gain_from_e2p = ((ad->ALNAGain2 & 0xFF) << 24) | ((ad->ALNAGain1 & 0xFF) << 16) | ((ad->ALNAGain0 & 0xFF) << 8) | (ad->BLNAGain & 0xFF);
+	eLNA_gain_from_e2p = ((ad->ALNAGain2 & 0xFF) << 24) |
+			     ((ad->ALNAGain1 & 0xFF) << 16) |
+			     ((ad->ALNAGain0 & 0xFF) << 8) |
+			      (ad->BLNAGain & 0xFF);
 	andes_init_gain(ad, channel, TRUE, eLNA_gain_from_e2p);
 
 	RTMP_BBP_IO_READ32(ad, AGC1_R8, &value);
@@ -667,8 +668,7 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, BOOLEAN s
 
 #ifdef RTMP_USB_SUPPORT
 	RTMP_IO_READ32(ad, TXOP_CTRL_CFG, &mac_val);
-	if ((mac_val & 0x100000) == 0x100000)
-	{
+	if ((mac_val & 0x100000) == 0x100000) {
 		ad->chipCap.ed_cca_enable = TRUE;
 		mac_val &= ~(1<<20);
 		RTMP_IO_WRITE32(ad, TXOP_CTRL_CFG, mac_val);
@@ -763,8 +763,7 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, BOOLEAN s
 	RTMP_IO_WRITE32(ad, 0x1004, 0xc);
 
 #ifdef RTMP_USB_SUPPORT
-        if (ad->chipCap.ed_cca_enable)
-        {
+        if (ad->chipCap.ed_cca_enable) {
 		mac_val = 0;
 
 		RTMP_IO_READ32(ad, TXOP_CTRL_CFG, &mac_val);
@@ -795,9 +794,8 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, BOOLEAN s
 
 
 #ifdef RTMP_MAC_USB
-	if (IS_USB_INF(ad)) {
+	if (IS_USB_INF(ad))
 		RTMP_SEM_EVENT_UP(&ad->tssi_lock);
-	}
 #endif
 
 
@@ -808,9 +806,8 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, BOOLEAN s
 		ad->MCUCtrl.power_on = TRUE;
 
 #ifdef RTMP_MAC_USB
-	if (IS_USB_INF(ad)) {
+	if (IS_USB_INF(ad))
 		RTMP_SEM_EVENT_UP(&ad->hw_atomic);
-	}
 #endif
 
 	//mt76x2_set_ed_cca(ad, TRUE);
@@ -990,9 +987,8 @@ done:
 ;
 
 #ifdef RTMP_MAC_USB
-	if (IS_USB_INF(ad)) {
+	if (IS_USB_INF(ad))
 		RTMP_SEM_EVENT_UP(&ad->tssi_lock);
-	}
 #endif
 }
 
@@ -1001,8 +997,7 @@ void mt76x2_calibration(struct rtmp_adapter *ad, u8 channel)
 	uint32_t value, value1, restore_value, loop = 0;
         uint32_t mac_val = 0;
 
-	if ( IS_DOT11_H_RADAR_STATE(ad, RD_SILENCE_MODE))
-	{
+	if (IS_DOT11_H_RADAR_STATE(ad, RD_SILENCE_MODE)) {
 		DBGPRINT(RT_DEBUG_OFF,
 			("%s():RDMode  is in Silent State, do not calibration.\n", __FUNCTION__));
 		return;
@@ -1010,8 +1005,7 @@ void mt76x2_calibration(struct rtmp_adapter *ad, u8 channel)
 
 #ifdef RTMP_USB_SUPPORT
         RTMP_IO_READ32(ad, TXOP_CTRL_CFG, &mac_val);
-        if ((mac_val & 0x100000) == 0x100000)
-        {
+        if ((mac_val & 0x100000) == 0x100000) {
                 ad->chipCap.ed_cca_enable = TRUE;
                 mac_val &= ~(1<<20);
                 RTMP_IO_WRITE32(ad, TXOP_CTRL_CFG, mac_val);
@@ -1048,42 +1042,33 @@ void mt76x2_calibration(struct rtmp_adapter *ad, u8 channel)
 		loop++;
 	} while (((value != 0) || (value1 != 0)) && (loop < 300));
 
-	if (loop >= 300) {
+	if (loop >= 300)
 		DBGPRINT(RT_DEBUG_OFF, ("%s:: Wait until MAC 0x1200 bit0 and BBP 0x2130 become 0 > 300 times\n", __FUNCTION__));
-	}
 
 	/* LC Calibration */
-	if (channel > 14) {
+	if (channel > 14)
 		CHIP_CALIBRATION(ad, LC_CALIBRATION_7662, 0x00);
-	}
 
 	/* TX LOFT */
-	if (channel > 14) {
+	if (channel > 14)
 		CHIP_CALIBRATION(ad, TX_LOFT_CALIBRATION_7662, 0x1);
-	} else {
+	else
 		CHIP_CALIBRATION(ad, TX_LOFT_CALIBRATION_7662, 0x0);
-	}
 
 	/* TXIQ Clibration */
-	if (channel > 14) {
+	if (channel > 14)
 		CHIP_CALIBRATION(ad, TXIQ_CALIBRATION_7662, 0x1);
-	} else {
+	else
 		CHIP_CALIBRATION(ad, TXIQ_CALIBRATION_7662, 0x0);
-	}
-
 
 	/* RXIQC-FI */
-	if (channel > 14) {
+	if (channel > 14)
 		CHIP_CALIBRATION(ad, RXIQC_FI_CALIBRATION_7662, 0x1);
-	} else {
+	else
 		CHIP_CALIBRATION(ad, RXIQC_FI_CALIBRATION_7662, 0x0);
-	}
-
 
 	/* TEMP SENSOR */
 	CHIP_CALIBRATION(ad, TEMP_SENSOR_CALIBRATION_7662, 0x00);
-
-
 
 	/* enable TX/RX */
 	RTMP_IO_WRITE32(ad, 0x1004, restore_value);
@@ -1134,9 +1119,8 @@ static void mt76x2_init_mac_cr(struct rtmp_adapter *ad)
 	*/
 
 #ifdef RTMP_USB_SUPPORT
-	if (IS_USB_INF(ad)) {
+	if (IS_USB_INF(ad))
 		RANDOM_WRITE(ad, mt76x2_mac_cr_table, mt76x2_mac_cr_nums);
-	}
 #endif
 
 #ifdef HDR_TRANS_TX_SUPPORT
@@ -1156,8 +1140,7 @@ static void mt76x2_init_mac_cr(struct rtmp_adapter *ad)
 	value &= ~(0x3);
 	RTMP_IO_WRITE32(ad, MAC_SYS_CTRL, value);
 
-	if (IS_MT7612(ad))
-	{
+	if (IS_MT7612(ad)) {
 		/*
  		 * Disable COEX_EN
  		 */
@@ -1193,8 +1176,8 @@ static void mt76x2_init_mac_cr(struct rtmp_adapter *ad)
 	else if ((e2p_value & 0x80) == 0x00)
 		xtal_freq_offset = (e2p_value & 0x7f);
 
-	if ((((e2p_value >> 8) & 0xff) == 0x00) || (((e2p_value >> 8) & 0xff) == 0xff))
-	{
+	if ((((e2p_value >> 8) & 0xff) == 0x00) ||
+	    (((e2p_value >> 8) & 0xff) == 0xff)) {
 		/*
  		 * Compesate crystal trim1
  		 */
@@ -1327,9 +1310,11 @@ void mt76x2_get_agc_gain(struct rtmp_adapter *ad, BOOLEAN init_phase)
 	ad->CommonCfg.lna_vga_ctl.agc_vga_init_0 = val;
 	ad->CommonCfg.lna_vga_ctl.agc1_r8_backup = bbp_val;
 	if (init_phase == TRUE) {
-		ad->CommonCfg.lna_vga_ctl.agc_vga_ori_0 = ad->CommonCfg.lna_vga_ctl.agc_vga_init_0;
+		ad->CommonCfg.lna_vga_ctl.agc_vga_ori_0 =
+			ad->CommonCfg.lna_vga_ctl.agc_vga_init_0;
 		DBGPRINT(RT_DEBUG_OFF, ("original vga value(chain0) = %x\n",  ad->CommonCfg.lna_vga_ctl.agc_vga_ori_0));
 	}
+
 	val16 = ((bbp_val & (0xffff0000)) >> 16) & (0xffff);
 	ad->CommonCfg.lna_vga_ctl.agc_0_vga_set1_2 = val16;
 	DBGPRINT(RT_DEBUG_TRACE, ("initial vga value(chain0) = %x\n",  ad->CommonCfg.lna_vga_ctl.agc_vga_init_0));
@@ -1340,9 +1325,11 @@ void mt76x2_get_agc_gain(struct rtmp_adapter *ad, BOOLEAN init_phase)
 		ad->CommonCfg.lna_vga_ctl.agc_vga_init_1 = val;
 		ad->CommonCfg.lna_vga_ctl.agc1_r9_backup = bbp_val;
 		if (init_phase == TRUE) {
-			ad->CommonCfg.lna_vga_ctl.agc_vga_ori_1= ad->CommonCfg.lna_vga_ctl.agc_vga_init_1;
+			ad->CommonCfg.lna_vga_ctl.agc_vga_ori_1 =
+				ad->CommonCfg.lna_vga_ctl.agc_vga_init_1;
 			DBGPRINT(RT_DEBUG_OFF, ("original vga value(chain1) = %x\n",  ad->CommonCfg.lna_vga_ctl.agc_vga_ori_1));
 		}
+
 		val16 = ((bbp_val & (0xffff0000)) >> 16) & (0xffff);
 		ad->CommonCfg.lna_vga_ctl.agc_1_vga_set1_2 = val16;
 
@@ -1493,14 +1480,18 @@ void mt76x2_get_rx_high_gain(struct rtmp_adapter *ad)
 		cap->rf1_2g_rx_high_gain = 0;
 	} else {
 		if (value & RF0_2G_RX_HIGH_GAIN_SIGN)
-			cap->rf0_2g_rx_high_gain = ((value & RF0_2G_RX_HIGH_GAIN_MASK) >> 8);
+			cap->rf0_2g_rx_high_gain =
+				((value & RF0_2G_RX_HIGH_GAIN_MASK) >> 8);
 		else
-			cap->rf0_2g_rx_high_gain = -((value & RF0_2G_RX_HIGH_GAIN_MASK) >> 8);
+			cap->rf0_2g_rx_high_gain =
+				-((value & RF0_2G_RX_HIGH_GAIN_MASK) >> 8);
 
 		if (value & RF1_2G_RX_HIGH_GAIN_SIGN)
-			cap->rf1_2g_rx_high_gain = ((value & RF1_2G_RX_HIGH_GAIN_MASK) >> 12);
+			cap->rf1_2g_rx_high_gain =
+				((value & RF1_2G_RX_HIGH_GAIN_MASK) >> 12);
 		else
-			cap->rf1_2g_rx_high_gain = -((value & RF1_2G_RX_HIGH_GAIN_MASK) >> 12);
+			cap->rf1_2g_rx_high_gain =
+				-((value & RF1_2G_RX_HIGH_GAIN_MASK) >> 12);
 	}
 
 	RT28xx_EEPROM_READ16(ad, RF_5G_GRP0_1_RX_HIGH_GAIN, value);
@@ -1509,14 +1500,18 @@ void mt76x2_get_rx_high_gain(struct rtmp_adapter *ad)
 		cap->rf1_5g_grp0_rx_high_gain = 0;
 	} else {
 		if (value & RF0_5G_GRP0_RX_HIGH_GAIN_SIGN)
-			cap->rf0_5g_grp0_rx_high_gain = (value & RF0_5G_GRP0_RX_HIGH_GAIN_MASK);
+			cap->rf0_5g_grp0_rx_high_gain =
+				(value & RF0_5G_GRP0_RX_HIGH_GAIN_MASK);
 		else
-			cap->rf0_5g_grp0_rx_high_gain = -(value & RF0_5G_GRP0_RX_HIGH_GAIN_MASK);
+			cap->rf0_5g_grp0_rx_high_gain =
+				-(value & RF0_5G_GRP0_RX_HIGH_GAIN_MASK);
 
 		if (value & RF1_5G_GRP0_RX_HIGH_GAIN_SIGN)
-			cap->rf1_5g_grp0_rx_high_gain = ((value & RF1_5G_GRP0_RX_HIGH_GAIN_MASK) >> 4);
+			cap->rf1_5g_grp0_rx_high_gain =
+				((value & RF1_5G_GRP0_RX_HIGH_GAIN_MASK) >> 4);
 		else
-			cap->rf1_5g_grp0_rx_high_gain = -((value & RF1_5G_GRP0_RX_HIGH_GAIN_MASK) >> 4);
+			cap->rf1_5g_grp0_rx_high_gain =
+				-((value & RF1_5G_GRP0_RX_HIGH_GAIN_MASK) >> 4);
 	}
 
 	if ((value & 0xff00) == 0x0000 || ((value & 0xff00) == 0xff00)) {
@@ -1524,14 +1519,18 @@ void mt76x2_get_rx_high_gain(struct rtmp_adapter *ad)
 		cap->rf1_5g_grp1_rx_high_gain = 0;
 	} else {
 		if (value & RF0_5G_GRP1_RX_HIGH_GAIN_SIGN)
-			cap->rf0_5g_grp1_rx_high_gain = ((value & RF0_5G_GRP1_RX_HIGH_GAIN_MASK) >> 8);
+			cap->rf0_5g_grp1_rx_high_gain =
+				((value & RF0_5G_GRP1_RX_HIGH_GAIN_MASK) >> 8);
 		else
-			cap->rf0_5g_grp1_rx_high_gain = -((value & RF0_5G_GRP1_RX_HIGH_GAIN_MASK) >> 8);
+			cap->rf0_5g_grp1_rx_high_gain =
+				-((value & RF0_5G_GRP1_RX_HIGH_GAIN_MASK) >> 8);
 
 		if (value & RF1_5G_GRP1_RX_HIGH_GAIN_SIGN)
-			cap->rf1_5g_grp1_rx_high_gain = ((value & RF1_5G_GRP1_RX_HIGH_GAIN_MASK) >> 12);
+			cap->rf1_5g_grp1_rx_high_gain =
+				((value & RF1_5G_GRP1_RX_HIGH_GAIN_MASK) >> 12);
 		else
-			cap->rf1_5g_grp1_rx_high_gain = -((value & RF1_5G_GRP1_RX_HIGH_GAIN_MASK) >> 12);
+			cap->rf1_5g_grp1_rx_high_gain =
+				-((value & RF1_5G_GRP1_RX_HIGH_GAIN_MASK) >> 12);
 
 	}
 
@@ -1541,14 +1540,18 @@ void mt76x2_get_rx_high_gain(struct rtmp_adapter *ad)
 		cap->rf1_5g_grp2_rx_high_gain = 0;
 	} else {
 		if (value & RF0_5G_GRP2_RX_HIGH_GAIN_SIGN)
-			cap->rf0_5g_grp2_rx_high_gain = (value & RF0_5G_GRP2_RX_HIGH_GAIN_MASK);
+			cap->rf0_5g_grp2_rx_high_gain =
+				(value & RF0_5G_GRP2_RX_HIGH_GAIN_MASK);
 		else
-			cap->rf0_5g_grp2_rx_high_gain = -(value & RF0_5G_GRP2_RX_HIGH_GAIN_MASK);
+			cap->rf0_5g_grp2_rx_high_gain =
+				-(value & RF0_5G_GRP2_RX_HIGH_GAIN_MASK);
 
 		if (value & RF1_5G_GRP2_RX_HIGH_GAIN_SIGN)
-			cap->rf1_5g_grp2_rx_high_gain = ((value & RF1_5G_GRP2_RX_HIGH_GAIN_MASK) >> 4);
+			cap->rf1_5g_grp2_rx_high_gain =
+				((value & RF1_5G_GRP2_RX_HIGH_GAIN_MASK) >> 4);
 		else
-			cap->rf1_5g_grp2_rx_high_gain = -((value & RF1_5G_GRP2_RX_HIGH_GAIN_MASK) >> 4);
+			cap->rf1_5g_grp2_rx_high_gain =
+				-((value & RF1_5G_GRP2_RX_HIGH_GAIN_MASK) >> 4);
 	}
 
 	if ((value & 0xff00) == 0x0000 || ((value & 0xff00) == 0xff00)) {
@@ -1556,14 +1559,18 @@ void mt76x2_get_rx_high_gain(struct rtmp_adapter *ad)
 		cap->rf1_5g_grp3_rx_high_gain = 0;
 	} else {
 		if (value & RF0_5G_GRP3_RX_HIGH_GAIN_SIGN)
-			cap->rf0_5g_grp3_rx_high_gain = ((value & RF0_5G_GRP3_RX_HIGH_GAIN_MASK) >> 8);
+			cap->rf0_5g_grp3_rx_high_gain =
+				((value & RF0_5G_GRP3_RX_HIGH_GAIN_MASK) >> 8);
 		else
-			cap->rf0_5g_grp3_rx_high_gain = -((value & RF0_5G_GRP3_RX_HIGH_GAIN_MASK) >> 8);
+			cap->rf0_5g_grp3_rx_high_gain =
+				-((value & RF0_5G_GRP3_RX_HIGH_GAIN_MASK) >> 8);
 
 		if (value & RF1_5G_GRP3_RX_HIGH_GAIN_SIGN)
-			cap->rf1_5g_grp3_rx_high_gain = ((value & RF1_5G_GRP3_RX_HIGH_GAIN_MASK) >> 12);
+			cap->rf1_5g_grp3_rx_high_gain =
+				((value & RF1_5G_GRP3_RX_HIGH_GAIN_MASK) >> 12);
 		else
-			cap->rf1_5g_grp3_rx_high_gain = -((value & RF1_5G_GRP3_RX_HIGH_GAIN_MASK) >> 12);
+			cap->rf1_5g_grp3_rx_high_gain =
+				-((value & RF1_5G_GRP3_RX_HIGH_GAIN_MASK) >> 12);
 	}
 
 	RT28xx_EEPROM_READ16(ad, RF_5G_GRP4_5_RX_HIGH_GAIN, value);
@@ -1572,14 +1579,18 @@ void mt76x2_get_rx_high_gain(struct rtmp_adapter *ad)
 		cap->rf1_5g_grp4_rx_high_gain = 0;
 	} else {
 		if (value & RF0_5G_GRP4_RX_HIGH_GAIN_SIGN)
-			cap->rf0_5g_grp4_rx_high_gain = (value & RF0_5G_GRP4_RX_HIGH_GAIN_MASK);
+			cap->rf0_5g_grp4_rx_high_gain =
+				value & RF0_5G_GRP4_RX_HIGH_GAIN_MASK;
 		else
-			cap->rf0_5g_grp4_rx_high_gain = -(value & RF0_5G_GRP4_RX_HIGH_GAIN_MASK);
+			cap->rf0_5g_grp4_rx_high_gain =
+				-(value & RF0_5G_GRP4_RX_HIGH_GAIN_MASK);
 
 		if (value & RF1_5G_GRP4_RX_HIGH_GAIN_SIGN)
-			cap->rf1_5g_grp4_rx_high_gain = ((value & RF1_5G_GRP4_RX_HIGH_GAIN_MASK) >> 4);
+			cap->rf1_5g_grp4_rx_high_gain =
+				((value & RF1_5G_GRP4_RX_HIGH_GAIN_MASK) >> 4);
 		else
-			cap->rf1_5g_grp4_rx_high_gain = -((value & RF1_5G_GRP4_RX_HIGH_GAIN_MASK) >> 4);
+			cap->rf1_5g_grp4_rx_high_gain =
+				-((value & RF1_5G_GRP4_RX_HIGH_GAIN_MASK) >> 4);
 	}
 
 	if ((value & 0xff00) == 0x0000 || ((value & 0xff00) == 0xff00)) {
@@ -1587,14 +1598,18 @@ void mt76x2_get_rx_high_gain(struct rtmp_adapter *ad)
 		cap->rf1_5g_grp5_rx_high_gain = 0;
 	} else {
 		if (value & RF0_5G_GRP5_RX_HIGH_GAIN_SIGN)
-			cap->rf0_5g_grp5_rx_high_gain = ((value & RF0_5G_GRP5_RX_HIGH_GAIN_MASK) >> 8);
+			cap->rf0_5g_grp5_rx_high_gain =
+				((value & RF0_5G_GRP5_RX_HIGH_GAIN_MASK) >> 8);
 		else
-			cap->rf0_5g_grp5_rx_high_gain = -((value & RF0_5G_GRP5_RX_HIGH_GAIN_MASK) >> 8);
+			cap->rf0_5g_grp5_rx_high_gain =
+				-((value & RF0_5G_GRP5_RX_HIGH_GAIN_MASK) >> 8);
 
 		if (value & RF1_5G_GRP5_RX_HIGH_GAIN_SIGN)
-			cap->rf1_5g_grp5_rx_high_gain = ((value & RF1_5G_GRP5_RX_HIGH_GAIN_MASK) >> 12);
+			cap->rf1_5g_grp5_rx_high_gain =
+				((value & RF1_5G_GRP5_RX_HIGH_GAIN_MASK) >> 12);
 		else
-			cap->rf1_5g_grp5_rx_high_gain = -((value & RF1_5G_GRP5_RX_HIGH_GAIN_MASK) >> 12);
+			cap->rf1_5g_grp5_rx_high_gain =
+				-((value & RF1_5G_GRP5_RX_HIGH_GAIN_MASK) >> 12);
 	}
 }
 
@@ -1609,9 +1624,11 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 	} else {
 		if (value & G_BAND_20_40_BW_PWR_DELTA_EN) {
 			if (value & G_BAND_20_40_BW_PWR_DELTA_SIGN)
-				cap->delta_tx_pwr_bw40_g_band = (value & G_BAND_20_40_BW_PWR_DELTA_MASK);
+				cap->delta_tx_pwr_bw40_g_band =
+					value & G_BAND_20_40_BW_PWR_DELTA_MASK;
 			else
-				cap->delta_tx_pwr_bw40_g_band = -(value & G_BAND_20_40_BW_PWR_DELTA_MASK);
+				cap->delta_tx_pwr_bw40_g_band =
+					-(value & G_BAND_20_40_BW_PWR_DELTA_MASK);
 		} else {
 			cap->delta_tx_pwr_bw40_g_band = 0;
 		}
@@ -1622,9 +1639,11 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 	} else {
 		if (value & A_BAND_20_40_BW_PWR_DELTA_EN) {
 			if (value & A_BAND_20_40_BW_PWR_DELTA_SIGN)
-				cap->delta_tx_pwr_bw40_a_band = ((value & A_BAND_20_40_BW_PWR_DELTA_MASK) >> 8);
+				cap->delta_tx_pwr_bw40_a_band =
+					(value & A_BAND_20_40_BW_PWR_DELTA_MASK) >> 8;
 			else
-				cap->delta_tx_pwr_bw40_a_band = -((value & A_BAND_20_40_BW_PWR_DELTA_MASK) >> 8);
+				cap->delta_tx_pwr_bw40_a_band =
+					-((value & A_BAND_20_40_BW_PWR_DELTA_MASK) >> 8);
 		} else {
 			cap->delta_tx_pwr_bw40_a_band = 0;
 		}
@@ -1636,9 +1655,11 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 	} else {
 		if (value & A_BAND_20_80_BW_PWR_DELTA_EN) {
 			if (value & A_BAND_20_80_BW_PWR_DELTA_SIGN)
-				cap->delta_tx_pwr_bw80 = (value & A_BAND_20_80_BW_PWR_DELTA_MASK);
+				cap->delta_tx_pwr_bw80 =
+					value & A_BAND_20_80_BW_PWR_DELTA_MASK;
 			else
-				cap->delta_tx_pwr_bw80 = -(value & A_BAND_20_80_BW_PWR_DELTA_MASK);
+				cap->delta_tx_pwr_bw80 =
+					-(value & A_BAND_20_80_BW_PWR_DELTA_MASK);
 		} else {
 			cap->delta_tx_pwr_bw80 = 0;
 		}
@@ -1646,22 +1667,28 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 
 	RT28xx_EEPROM_READ16(ad, TX0_G_BAND_TSSI_SLOPE, value);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {
-		cap->tssi_0_slope_g_band = TSSI_0_SLOPE_G_BAND_DEFAULT_VALUE;
+		cap->tssi_0_slope_g_band =
+			TSSI_0_SLOPE_G_BAND_DEFAULT_VALUE;
 	} else {
-		cap->tssi_0_slope_g_band = (value & TX0_G_BAND_TSSI_SLOPE_MASK);
+		cap->tssi_0_slope_g_band =
+			value & TX0_G_BAND_TSSI_SLOPE_MASK;
 	}
 
 	if (((value & 0xff00) == 0x00) || ((value & 0xff00) == 0xff00)) {
-		cap->tssi_0_offset_g_band = TSSI_0_OFFSET_G_BAND_DEFAULT_VALUE;
+		cap->tssi_0_offset_g_band =
+			TSSI_0_OFFSET_G_BAND_DEFAULT_VALUE;
 	} else {
-		cap->tssi_0_offset_g_band = ((value & TX0_G_BAND_TSSI_OFFSET_MASK) >> 8);
+		cap->tssi_0_offset_g_band =
+			(value & TX0_G_BAND_TSSI_OFFSET_MASK) >> 8;
 	}
 
 	RT28xx_EEPROM_READ16(ad, TX0_G_BAND_TARGET_PWR, value);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {
-		cap->tx_0_target_pwr_g_band = TX_TARGET_PWR_DEFAULT_VALUE;
+		cap->tx_0_target_pwr_g_band =
+			TX_TARGET_PWR_DEFAULT_VALUE;
 	} else {
-		cap->tx_0_target_pwr_g_band = (value & TX0_G_BAND_TARGET_PWR_MASK);
+		cap->tx_0_target_pwr_g_band =
+			value & TX0_G_BAND_TARGET_PWR_MASK;
 	}
 
 	if (((value & 0xff00) == 0x00) || ((value & 0xff00) == 0xff00)) {
@@ -1669,9 +1696,11 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 	} else {
 		if (value & TX0_G_BAND_CHL_PWR_DELTA_LOW_EN) {
 			if (value & TX0_G_BAND_CHL_PWR_DELTA_LOW_SIGN)
-				cap->tx_0_chl_pwr_delta_g_band[G_BAND_LOW] = ((value & TX0_G_BAND_CHL_PWR_DELTA_LOW_MASK) >> 8);
+				cap->tx_0_chl_pwr_delta_g_band[G_BAND_LOW] =
+					(value & TX0_G_BAND_CHL_PWR_DELTA_LOW_MASK) >> 8;
 			else
-				cap->tx_0_chl_pwr_delta_g_band[G_BAND_LOW] = -((value & TX0_G_BAND_CHL_PWR_DELTA_LOW_MASK) >> 8);
+				cap->tx_0_chl_pwr_delta_g_band[G_BAND_LOW] =
+					-((value & TX0_G_BAND_CHL_PWR_DELTA_LOW_MASK) >> 8);
 		} else {
 			cap->tx_0_chl_pwr_delta_g_band[G_BAND_LOW] = 0;
 		}
@@ -1684,9 +1713,11 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 	} else {
 		if (value & TX0_G_BAND_CHL_PWR_DELTA_MID_EN) {
 			if (value & TX0_G_BAND_CHL_PWR_DELTA_MID_SIGN)
-				cap->tx_0_chl_pwr_delta_g_band[G_BAND_MID] = (value & TX0_G_BAND_CHL_PWR_DELTA_MID_MASK);
+				cap->tx_0_chl_pwr_delta_g_band[G_BAND_MID] =
+					value & TX0_G_BAND_CHL_PWR_DELTA_MID_MASK;
 			else
-				cap->tx_0_chl_pwr_delta_g_band[G_BAND_MID] = -(value & TX0_G_BAND_CHL_PWR_DELTA_MID_MASK);
+				cap->tx_0_chl_pwr_delta_g_band[G_BAND_MID] =
+					-(value & TX0_G_BAND_CHL_PWR_DELTA_MID_MASK);
 		} else {
 			cap->tx_0_chl_pwr_delta_g_band[G_BAND_MID] = 0;
 		}
@@ -1697,9 +1728,11 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 	} else {
 		if (value & TX0_G_BAND_CHL_PWR_DELTA_HI_EN) {
 			if (value & TX0_G_BAND_CHL_PWR_DELTA_HI_SIGN)
-				cap->tx_0_chl_pwr_delta_g_band[G_BAND_HI] = ((value & TX0_G_BAND_CHL_PWR_DELTA_HI_MASK) >> 8);
+				cap->tx_0_chl_pwr_delta_g_band[G_BAND_HI] =
+					(value & TX0_G_BAND_CHL_PWR_DELTA_HI_MASK) >> 8;
 			else
-				cap->tx_0_chl_pwr_delta_g_band[G_BAND_HI] = -((value & TX0_G_BAND_CHL_PWR_DELTA_HI_MASK) >> 8);
+				cap->tx_0_chl_pwr_delta_g_band[G_BAND_HI] =
+					-((value & TX0_G_BAND_CHL_PWR_DELTA_HI_MASK) >> 8);
 		} else {
 			cap->tx_0_chl_pwr_delta_g_band[G_BAND_HI] = 0;
 		}
@@ -1708,30 +1741,38 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 	RT28xx_EEPROM_READ16(ad, TX1_G_BAND_TSSI_SLOPE, value);
 
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff))
-		cap->tssi_1_slope_g_band = TSSI_1_SLOPE_G_BAND_DEFAULT_VALUE;
+		cap->tssi_1_slope_g_band =
+			TSSI_1_SLOPE_G_BAND_DEFAULT_VALUE;
 	else
-		cap->tssi_1_slope_g_band = (value & TX1_G_BAND_TSSI_SLOPE_MASK);
+		cap->tssi_1_slope_g_band =
+			(value & TX1_G_BAND_TSSI_SLOPE_MASK);
 
 	if (((value & 0xff00) == 0x00) || ((value & 0xff00) == 0xff00))
-		cap->tssi_1_offset_g_band = TSSI_1_OFFSET_G_BAND_DEFAULT_VALUE;
+		cap->tssi_1_offset_g_band =
+			TSSI_1_OFFSET_G_BAND_DEFAULT_VALUE;
 	else
-		cap->tssi_1_offset_g_band = ((value & TX1_G_BAND_TSSI_OFFSET_MASK) >> 8);
+		cap->tssi_1_offset_g_band =
+			(value & TX1_G_BAND_TSSI_OFFSET_MASK) >> 8;
 
 	RT28xx_EEPROM_READ16(ad, TX1_G_BAND_TARGET_PWR, value);
 
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff))
-		cap->tx_1_target_pwr_g_band = TX_TARGET_PWR_DEFAULT_VALUE;
+		cap->tx_1_target_pwr_g_band =
+			TX_TARGET_PWR_DEFAULT_VALUE;
 	else
-		cap->tx_1_target_pwr_g_band = (value & TX1_G_BAND_TARGET_PWR_MASK);
+		cap->tx_1_target_pwr_g_band =
+			(value & TX1_G_BAND_TARGET_PWR_MASK);
 
 	if (((value & 0xff00) == 0x00) || ((value & 0xff00) == 0xff00)) {
 		cap->tx_1_chl_pwr_delta_g_band[G_BAND_LOW] =  0;
 	} else {
 		if (value & TX1_G_BAND_CHL_PWR_DELTA_LOW_EN) {
 			if (value & TX1_G_BAND_CHL_PWR_DELTA_LOW_SIGN)
-				cap->tx_1_chl_pwr_delta_g_band[G_BAND_LOW] = ((value & TX1_G_BAND_CHL_PWR_DELTA_LOW_MASK) >> 8);
+				cap->tx_1_chl_pwr_delta_g_band[G_BAND_LOW] =
+					(value & TX1_G_BAND_CHL_PWR_DELTA_LOW_MASK) >> 8;
 			else
-				cap->tx_1_chl_pwr_delta_g_band[G_BAND_LOW] = -((value & TX1_G_BAND_CHL_PWR_DELTA_LOW_MASK) >> 8);
+				cap->tx_1_chl_pwr_delta_g_band[G_BAND_LOW] =
+					-((value & TX1_G_BAND_CHL_PWR_DELTA_LOW_MASK) >> 8);
 		} else {
 			cap->tx_1_chl_pwr_delta_g_band[G_BAND_LOW] = 0;
 		}
@@ -1743,9 +1784,11 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 	} else {
 		if (value & TX1_G_BAND_CHL_PWR_DELTA_MID_EN) {
 			if (value & TX1_G_BAND_CHL_PWR_DELTA_MID_SIGN)
-				cap->tx_1_chl_pwr_delta_g_band[G_BAND_MID] = (value & TX1_G_BAND_CHL_PWR_DELTA_MID_MASK);
+				cap->tx_1_chl_pwr_delta_g_band[G_BAND_MID] =
+					value & TX1_G_BAND_CHL_PWR_DELTA_MID_MASK;
 			else
-				cap->tx_1_chl_pwr_delta_g_band[G_BAND_MID] = -(value & TX1_G_BAND_CHL_PWR_DELTA_MID_MASK);
+				cap->tx_1_chl_pwr_delta_g_band[G_BAND_MID] =
+					-(value & TX1_G_BAND_CHL_PWR_DELTA_MID_MASK);
 		} else {
 			cap->tx_1_chl_pwr_delta_g_band[G_BAND_MID] = 0;
 		}
@@ -1756,9 +1799,11 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 	} else {
 		if (value & TX1_G_BAND_CHL_PWR_DELTA_HI_EN) {
 			if (value & TX1_G_BAND_CHL_PWR_DELTA_HI_SIGN)
-				cap->tx_1_chl_pwr_delta_g_band[G_BAND_HI] = ((value & TX1_G_BAND_CHL_PWR_DELTA_HI_MASK) >> 8);
+				cap->tx_1_chl_pwr_delta_g_band[G_BAND_HI] =
+					(value & TX1_G_BAND_CHL_PWR_DELTA_HI_MASK) >> 8;
 			else
-				cap->tx_1_chl_pwr_delta_g_band[G_BAND_HI] = -((value & TX1_G_BAND_CHL_PWR_DELTA_HI_MASK) >> 8);
+				cap->tx_1_chl_pwr_delta_g_band[G_BAND_HI] =
+					-((value & TX1_G_BAND_CHL_PWR_DELTA_HI_MASK) >> 8);
 		} else {
 			cap->tx_1_chl_pwr_delta_g_band[G_BAND_HI] = 0;
 		}
@@ -1766,29 +1811,37 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 
 	RT28xx_EEPROM_READ16(ad, GRP0_TX0_A_BAND_TSSI_SLOPE, value);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff))
-		cap->tssi_0_slope_a_band[A_BAND_GRP0_CHL] = TSSI_0_SLOPE_A_BAND_GRP0_DEFAULT_VALUE;
+		cap->tssi_0_slope_a_band[A_BAND_GRP0_CHL] =
+			TSSI_0_SLOPE_A_BAND_GRP0_DEFAULT_VALUE;
 	else
-		cap->tssi_0_slope_a_band[A_BAND_GRP0_CHL] = (value & GRP0_TX0_A_BAND_TSSI_SLOPE_MASK);
+		cap->tssi_0_slope_a_band[A_BAND_GRP0_CHL] =
+			value & GRP0_TX0_A_BAND_TSSI_SLOPE_MASK;
 
 	if (((value & 0xff00) == 0x00) || ((value & 0xff00) == 0xff00))
-		cap->tssi_0_offset_a_band[A_BAND_GRP0_CHL] = TSSI_0_OFFSET_A_BAND_GRP0_DEFAULT_VALUE;
+		cap->tssi_0_offset_a_band[A_BAND_GRP0_CHL] =
+			TSSI_0_OFFSET_A_BAND_GRP0_DEFAULT_VALUE;
 	else
-		cap->tssi_0_offset_a_band[A_BAND_GRP0_CHL] = ((value & GRP0_TX0_A_BAND_TSSI_OFFSET_MASK) >> 8);
+		cap->tssi_0_offset_a_band[A_BAND_GRP0_CHL] =
+			(value & GRP0_TX0_A_BAND_TSSI_OFFSET_MASK) >> 8;
 
 	RT28xx_EEPROM_READ16(ad, GRP0_TX0_A_BAND_TARGET_PWR, value);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff))
-		cap->tx_0_target_pwr_a_band[A_BAND_GRP0_CHL] = TX_TARGET_PWR_DEFAULT_VALUE;
+		cap->tx_0_target_pwr_a_band[A_BAND_GRP0_CHL] =
+			TX_TARGET_PWR_DEFAULT_VALUE;
 	else
-		cap->tx_0_target_pwr_a_band[A_BAND_GRP0_CHL] = (value & GRP0_TX0_A_BAND_TARGET_PWR_MASK);
+		cap->tx_0_target_pwr_a_band[A_BAND_GRP0_CHL] =
+			value & GRP0_TX0_A_BAND_TARGET_PWR_MASK;
 
 	if (((value & 0xff00) == 0x00) || ((value & 0xff00) == 0xff00)) {
 		cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP0_CHL][A_BAND_LOW] = 0;
 	} else {
 		if (value & GRP0_TX0_A_BAND_CHL_PWR_DELTA_LOW_EN) {
 			if (value & GRP0_TX0_A_BAND_CHL_PWR_DELTA_LOW_SIGN)
-				cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP0_CHL][A_BAND_LOW] = ((value & GRP0_TX0_A_BAND_CHL_PWR_DELTA_LOW_MASK) >> 8);
+				cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP0_CHL][A_BAND_LOW] =
+					(value & GRP0_TX0_A_BAND_CHL_PWR_DELTA_LOW_MASK) >> 8;
 			else
-				cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP0_CHL][A_BAND_LOW] = -((value & GRP0_TX0_A_BAND_CHL_PWR_DELTA_LOW_MASK) >> 8);
+				cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP0_CHL][A_BAND_LOW] =
+					-((value & GRP0_TX0_A_BAND_CHL_PWR_DELTA_LOW_MASK) >> 8);
 		} else {
 			cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP0_CHL][A_BAND_LOW] = 0;
 		}
@@ -1800,41 +1853,50 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 	} else {
 		if (value & GRP0_TX0_A_BAND_CHL_PWR_DELTA_HI_EN) {
 			if (value & GRP0_TX0_A_BAND_CHL_PWR_DELTA_HI_SIGN)
-				cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP0_CHL][A_BAND_HI] = (value & GRP0_TX0_A_BAND_CHL_PWR_DELTA_HI_MASK);
+				cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP0_CHL][A_BAND_HI] =
+					value & GRP0_TX0_A_BAND_CHL_PWR_DELTA_HI_MASK;
 			else
-				cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP0_CHL][A_BAND_HI] = -(value & GRP0_TX0_A_BAND_CHL_PWR_DELTA_HI_MASK);
+				cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP0_CHL][A_BAND_HI] =
+					-(value & GRP0_TX0_A_BAND_CHL_PWR_DELTA_HI_MASK);
 		} else {
 			cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP0_CHL][A_BAND_HI] = 0;
 		}
 	}
 
 	if (((value & 0xff00) == 0x00) || ((value & 0xff00) == 0xff00))
-		cap->tssi_0_slope_a_band[A_BAND_GRP1_CHL] = TSSI_0_SLOPE_A_BAND_GRP1_DEFAULT_VALUE;
+		cap->tssi_0_slope_a_band[A_BAND_GRP1_CHL] =
+			TSSI_0_SLOPE_A_BAND_GRP1_DEFAULT_VALUE;
 	else
-		cap->tssi_0_slope_a_band[A_BAND_GRP1_CHL] = ((value & GRP1_TX0_A_BAND_TSSI_SLOPE_MASK) >> 8);
+		cap->tssi_0_slope_a_band[A_BAND_GRP1_CHL] =
+			(value & GRP1_TX0_A_BAND_TSSI_SLOPE_MASK) >> 8;
 
 
 	RT28xx_EEPROM_READ16(ad, GRP1_TX0_A_BAND_TSSI_OFFSET, value);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff))
-		cap->tssi_0_offset_a_band[A_BAND_GRP1_CHL] = TSSI_0_OFFSET_A_BAND_GRP1_DEFAULT_VALUE;
+		cap->tssi_0_offset_a_band[A_BAND_GRP1_CHL] =
+			TSSI_0_OFFSET_A_BAND_GRP1_DEFAULT_VALUE;
 	else
-		cap->tssi_0_offset_a_band[A_BAND_GRP1_CHL] = (value & GRP1_TX0_A_BAND_TSSI_OFFSET_MASK);
+		cap->tssi_0_offset_a_band[A_BAND_GRP1_CHL] =
+			value & GRP1_TX0_A_BAND_TSSI_OFFSET_MASK;
 
 	if (((value & 0xff00) == 0x00) || ((value & 0xff00) == 0xff00))
-		cap->tx_0_target_pwr_a_band[A_BAND_GRP1_CHL] = TX_TARGET_PWR_DEFAULT_VALUE;
+		cap->tx_0_target_pwr_a_band[A_BAND_GRP1_CHL] =
+			TX_TARGET_PWR_DEFAULT_VALUE;
 	else
-		cap->tx_0_target_pwr_a_band[A_BAND_GRP1_CHL] = ((value & GRP1_TX0_A_BAND_TARGET_PWR_MASK) >> 8);
+		cap->tx_0_target_pwr_a_band[A_BAND_GRP1_CHL] =
+			(value & GRP1_TX0_A_BAND_TARGET_PWR_MASK) >> 8;
 
 	RT28xx_EEPROM_READ16(ad, GRP1_TX0_A_BAND_CHL_PWR_DELTA_LOW, value);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {
 		cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP1_CHL][A_BAND_LOW] = 0;
 	} else {
 		if (value & GRP1_TX0_A_BAND_CHL_PWR_DELTA_LOW_EN) {
-			if (value & GRP1_TX0_A_BAND_CHL_PWR_DELTA_LOW_SIGN) {
-				cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP1_CHL][A_BAND_LOW] = (value & GRP1_TX0_A_BAND_CHL_PWR_DELTA_LOW_MASK);
-			} else {
-				cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP1_CHL][A_BAND_LOW] = -(value & GRP1_TX0_A_BAND_CHL_PWR_DELTA_LOW_MASK);
-			}
+			if (value & GRP1_TX0_A_BAND_CHL_PWR_DELTA_LOW_SIGN)
+				cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP1_CHL][A_BAND_LOW] =
+					value & GRP1_TX0_A_BAND_CHL_PWR_DELTA_LOW_MASK;
+			else
+				cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP1_CHL][A_BAND_LOW] =
+					-(value & GRP1_TX0_A_BAND_CHL_PWR_DELTA_LOW_MASK);
 		} else {
 			cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP1_CHL][A_BAND_LOW] = 0;
 		}
@@ -1845,9 +1907,11 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 	} else {
 		if (value & GRP1_TX0_A_BAND_CHL_PWR_DELTA_HI_EN) {
 			if (value & GRP1_TX0_A_BAND_CHL_PWR_DELTA_HI_SIGN)
-				cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP1_CHL][A_BAND_HI] = ((value & GRP1_TX0_A_BAND_CHL_PWR_DELTA_HI_MASK) >> 8);
+				cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP1_CHL][A_BAND_HI] =
+					(value & GRP1_TX0_A_BAND_CHL_PWR_DELTA_HI_MASK) >> 8;
 			else
-				cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP1_CHL][A_BAND_HI] = -((value & GRP1_TX0_A_BAND_CHL_PWR_DELTA_HI_MASK) >> 8);
+				cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP1_CHL][A_BAND_HI] =
+					-((value & GRP1_TX0_A_BAND_CHL_PWR_DELTA_HI_MASK) >> 8);
 		} else {
 			cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP1_CHL][A_BAND_HI] = 0;
 		}
@@ -1855,29 +1919,37 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 
 	RT28xx_EEPROM_READ16(ad, GRP0_TX0_A_BAND_TSSI_SLOPE, value);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff))
-		cap->tssi_0_slope_a_band[A_BAND_GRP2_CHL] = TSSI_0_SLOPE_A_BAND_GRP2_DEFAULT_VALUE;
+		cap->tssi_0_slope_a_band[A_BAND_GRP2_CHL] =
+			TSSI_0_SLOPE_A_BAND_GRP2_DEFAULT_VALUE;
 	else
-		cap->tssi_0_slope_a_band[A_BAND_GRP2_CHL] = (value & GRP2_TX0_A_BAND_TSSI_SLOPE_MASK);
+		cap->tssi_0_slope_a_band[A_BAND_GRP2_CHL] =
+			value & GRP2_TX0_A_BAND_TSSI_SLOPE_MASK;
 
 	if (((value & 0xff00) == 0x00) || ((value & 0xff00) == 0xff00))
-		cap->tssi_0_offset_a_band[A_BAND_GRP2_CHL] = TSSI_0_OFFSET_A_BAND_GRP2_DEFAULT_VALUE;
+		cap->tssi_0_offset_a_band[A_BAND_GRP2_CHL] =
+			TSSI_0_OFFSET_A_BAND_GRP2_DEFAULT_VALUE;
 	else
-		cap->tssi_0_offset_a_band[A_BAND_GRP2_CHL] = ((value & GRP2_TX0_A_BAND_TSSI_OFFSET_MASK) >> 8);
+		cap->tssi_0_offset_a_band[A_BAND_GRP2_CHL] =
+			(value & GRP2_TX0_A_BAND_TSSI_OFFSET_MASK) >> 8;
 
 	RT28xx_EEPROM_READ16(ad, GRP2_TX0_A_BAND_TARGET_PWR, value);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff))
-		cap->tx_0_target_pwr_a_band[A_BAND_GRP2_CHL] = TX_TARGET_PWR_DEFAULT_VALUE;
+		cap->tx_0_target_pwr_a_band[A_BAND_GRP2_CHL] =
+			TX_TARGET_PWR_DEFAULT_VALUE;
 	else
-		cap->tx_0_target_pwr_a_band[A_BAND_GRP2_CHL] = (value & GRP2_TX0_A_BAND_TARGET_PWR_MASK);
+		cap->tx_0_target_pwr_a_band[A_BAND_GRP2_CHL] =
+			value & GRP2_TX0_A_BAND_TARGET_PWR_MASK;
 
 	if (((value & 0xff00) == 0x00) || ((value & 0xff00) == 0xff00)) {
 		cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP2_CHL][A_BAND_LOW] = 0;
 	} else {
 		if (value & GRP2_TX0_A_BAND_CHL_PWR_DELTA_LOW_EN) {
 			if (value & GRP2_TX0_A_BAND_CHL_PWR_DELTA_LOW_SIGN)
-				cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP2_CHL][A_BAND_LOW] = ((value & GRP2_TX0_A_BAND_CHL_PWR_DELTA_LOW_MASK) >> 8);
+				cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP2_CHL][A_BAND_LOW] =
+					(value & GRP2_TX0_A_BAND_CHL_PWR_DELTA_LOW_MASK) >> 8;
 			else
-				cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP2_CHL][A_BAND_LOW] = -((value & GRP2_TX0_A_BAND_CHL_PWR_DELTA_LOW_MASK) >> 8);
+				cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP2_CHL][A_BAND_LOW] =
+					-((value & GRP2_TX0_A_BAND_CHL_PWR_DELTA_LOW_MASK) >> 8);
 		} else {
 			cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP2_CHL][A_BAND_LOW] = 0;
 		}
@@ -1889,18 +1961,22 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 	} else {
 		if (value & GRP2_TX0_A_BAND_CHL_PWR_DELTA_HI_EN) {
 			if (value & GRP2_TX0_A_BAND_CHL_PWR_DELTA_HI_SIGN)
-				cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP2_CHL][A_BAND_HI] = (value & GRP2_TX0_A_BAND_CHL_PWR_DELTA_HI_MASK);
+				cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP2_CHL][A_BAND_HI] =
+					value & GRP2_TX0_A_BAND_CHL_PWR_DELTA_HI_MASK;
 			else
-				cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP2_CHL][A_BAND_HI] = -(value & GRP2_TX0_A_BAND_CHL_PWR_DELTA_HI_MASK);
+				cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP2_CHL][A_BAND_HI] =
+					-(value & GRP2_TX0_A_BAND_CHL_PWR_DELTA_HI_MASK);
 		} else {
 			cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP2_CHL][A_BAND_HI] = 0;
 		}
 	}
 
 	if (((value & 0xff00) == 0x00) || ((value & 0xff00) == 0xff00))
-		cap->tssi_0_slope_a_band[A_BAND_GRP3_CHL] = TSSI_0_SLOPE_A_BAND_GRP3_DEFAULT_VALUE;
+		cap->tssi_0_slope_a_band[A_BAND_GRP3_CHL] =
+			TSSI_0_SLOPE_A_BAND_GRP3_DEFAULT_VALUE;
 	else
-		cap->tssi_0_slope_a_band[A_BAND_GRP3_CHL] = ((value & GRP3_TX0_A_BAND_TSSI_SLOPE_MASK) >> 8);
+		cap->tssi_0_slope_a_band[A_BAND_GRP3_CHL] =
+			(value & GRP3_TX0_A_BAND_TSSI_SLOPE_MASK) >> 8;
 
 	RT28xx_EEPROM_READ16(ad, GRP3_TX0_A_BAND_TSSI_OFFSET, value);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff))
@@ -1919,9 +1995,11 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 	} else {
 		if (value & GRP3_TX0_A_BAND_CHL_PWR_DELTA_LOW_EN) {
 			if (value & GRP3_TX0_A_BAND_CHL_PWR_DELTA_LOW_SIGN)
-				cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP3_CHL][A_BAND_LOW] = (value & GRP3_TX0_A_BAND_CHL_PWR_DELTA_LOW_MASK);
+				cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP3_CHL][A_BAND_LOW] =
+					value & GRP3_TX0_A_BAND_CHL_PWR_DELTA_LOW_MASK;
 			else
-				cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP3_CHL][A_BAND_LOW] = -(value & GRP3_TX0_A_BAND_CHL_PWR_DELTA_LOW_MASK);
+				cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP3_CHL][A_BAND_LOW] =
+					-(value & GRP3_TX0_A_BAND_CHL_PWR_DELTA_LOW_MASK);
 		} else {
 			cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP3_CHL][A_BAND_LOW] = 0;
 		}
@@ -1932,9 +2010,11 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 	} else {
 		if (value & GRP3_TX0_A_BAND_CHL_PWR_DELTA_HI_EN) {
 			if (value & GRP3_TX0_A_BAND_CHL_PWR_DELTA_HI_SIGN)
-				cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP3_CHL][A_BAND_HI] = ((value & GRP3_TX0_A_BAND_CHL_PWR_DELTA_HI_MASK) >> 8);
+				cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP3_CHL][A_BAND_HI] =
+					(value & GRP3_TX0_A_BAND_CHL_PWR_DELTA_HI_MASK) >> 8;
 			else
-				cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP3_CHL][A_BAND_HI] = -((value & GRP3_TX0_A_BAND_CHL_PWR_DELTA_HI_MASK) >> 8);
+				cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP3_CHL][A_BAND_HI] =
+					-((value & GRP3_TX0_A_BAND_CHL_PWR_DELTA_HI_MASK) >> 8);
 		} else {
 			cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP3_CHL][A_BAND_HI] = 0;
 		}
@@ -1942,29 +2022,37 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 
 	RT28xx_EEPROM_READ16(ad, GRP4_TX0_A_BAND_TSSI_SLOPE, value);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff))
-		cap->tssi_0_slope_a_band[A_BAND_GRP4_CHL] = TSSI_0_SLOPE_A_BAND_GRP4_DEFAULT_VALUE;
+		cap->tssi_0_slope_a_band[A_BAND_GRP4_CHL] =
+			TSSI_0_SLOPE_A_BAND_GRP4_DEFAULT_VALUE;
 	else
-		cap->tssi_0_slope_a_band[A_BAND_GRP4_CHL] = (value & GRP4_TX0_A_BAND_TSSI_SLOPE_MASK);
+		cap->tssi_0_slope_a_band[A_BAND_GRP4_CHL] =
+			value & GRP4_TX0_A_BAND_TSSI_SLOPE_MASK;
 
 	if (((value & 0xff00) == 0x00) || ((value & 0xff00) == 0xff00))
-		cap->tssi_0_offset_a_band[A_BAND_GRP4_CHL] = TSSI_0_OFFSET_A_BAND_GRP4_DEFAULT_VALUE;
+		cap->tssi_0_offset_a_band[A_BAND_GRP4_CHL] =
+			TSSI_0_OFFSET_A_BAND_GRP4_DEFAULT_VALUE;
 	else
-		cap->tssi_0_offset_a_band[A_BAND_GRP4_CHL] = ((value & GRP4_TX0_A_BAND_TSSI_OFFSET_MASK) >> 8);
+		cap->tssi_0_offset_a_band[A_BAND_GRP4_CHL] =
+			(value & GRP4_TX0_A_BAND_TSSI_OFFSET_MASK) >> 8;
 
 	RT28xx_EEPROM_READ16(ad, GRP4_TX0_A_BAND_TARGET_PWR, value);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff))
-		cap->tx_0_target_pwr_a_band[A_BAND_GRP4_CHL] = TX_TARGET_PWR_DEFAULT_VALUE;
+		cap->tx_0_target_pwr_a_band[A_BAND_GRP4_CHL] =
+			TX_TARGET_PWR_DEFAULT_VALUE;
 	else
-		cap->tx_0_target_pwr_a_band[A_BAND_GRP4_CHL] = (value & GRP4_TX0_A_BAND_TARGET_PWR_MASK);
+		cap->tx_0_target_pwr_a_band[A_BAND_GRP4_CHL] =
+			value & GRP4_TX0_A_BAND_TARGET_PWR_MASK;
 
 	if (((value & 0xff00) == 0x00) || ((value & 0xff00) == 0xff00)) {
 		cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP4_CHL][A_BAND_LOW] = 0;
 	} else {
 		if (value & GRP4_TX0_A_BAND_CHL_PWR_DELTA_LOW_EN) {
 			if (value & GRP4_TX0_A_BAND_CHL_PWR_DELTA_LOW_SIGN)
-				cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP4_CHL][A_BAND_LOW] = ((value & GRP4_TX0_A_BAND_CHL_PWR_DELTA_LOW_MASK) >> 8);
+				cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP4_CHL][A_BAND_LOW] =
+					(value & GRP4_TX0_A_BAND_CHL_PWR_DELTA_LOW_MASK) >> 8;
 			else
-				cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP4_CHL][A_BAND_LOW] = -((value & GRP4_TX0_A_BAND_CHL_PWR_DELTA_LOW_MASK) >> 8);
+				cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP4_CHL][A_BAND_LOW] =
+					-((value & GRP4_TX0_A_BAND_CHL_PWR_DELTA_LOW_MASK) >> 8);
 		} else {
 			cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP4_CHL][A_BAND_LOW] = 0;
 		}
@@ -1976,30 +2064,38 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 	} else {
 		if (value & GRP4_TX0_A_BAND_CHL_PWR_DELTA_HI_EN) {
 			if (value & GRP4_TX0_A_BAND_CHL_PWR_DELTA_HI_SIGN)
-				cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP4_CHL][A_BAND_HI] = (value & GRP4_TX0_A_BAND_CHL_PWR_DELTA_HI_MASK);
+				cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP4_CHL][A_BAND_HI] =
+					value & GRP4_TX0_A_BAND_CHL_PWR_DELTA_HI_MASK;
 			else
-				cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP4_CHL][A_BAND_HI] = -(value & GRP4_TX0_A_BAND_CHL_PWR_DELTA_HI_MASK);
+				cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP4_CHL][A_BAND_HI] =
+					-(value & GRP4_TX0_A_BAND_CHL_PWR_DELTA_HI_MASK);
 		} else {
 			cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP4_CHL][A_BAND_HI] = 0;
 		}
 	}
 
 	if (((value & 0xff00) == 0x00) || ((value & 0xff00) == 0xff00))
-		cap->tssi_0_slope_a_band[A_BAND_GRP5_CHL] = TSSI_0_SLOPE_A_BAND_GRP5_DEFAULT_VALUE;
+		cap->tssi_0_slope_a_band[A_BAND_GRP5_CHL] =
+			TSSI_0_SLOPE_A_BAND_GRP5_DEFAULT_VALUE;
 	else
-		cap->tssi_0_slope_a_band[A_BAND_GRP5_CHL] = ((value & GRP5_TX0_A_BAND_TSSI_SLOPE_MASK) >> 8);
+		cap->tssi_0_slope_a_band[A_BAND_GRP5_CHL] =
+			(value & GRP5_TX0_A_BAND_TSSI_SLOPE_MASK) >> 8;
 
 	RT28xx_EEPROM_READ16(ad, GRP5_TX0_A_BAND_TSSI_OFFSET, value);
 
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff))
-		cap->tssi_0_offset_a_band[A_BAND_GRP5_CHL] = TSSI_0_OFFSET_A_BAND_GRP5_DEFAULT_VALUE;
+		cap->tssi_0_offset_a_band[A_BAND_GRP5_CHL] =
+			TSSI_0_OFFSET_A_BAND_GRP5_DEFAULT_VALUE;
 	else
-		cap->tssi_0_offset_a_band[A_BAND_GRP5_CHL] = (value & GRP5_TX0_A_BAND_TSSI_OFFSET_MASK);
+		cap->tssi_0_offset_a_band[A_BAND_GRP5_CHL] =
+			value & GRP5_TX0_A_BAND_TSSI_OFFSET_MASK;
 
 	if (((value & 0xff00) == 0x00) || ((value & 0xff00) == 0xff00))
-		cap->tx_0_target_pwr_a_band[A_BAND_GRP5_CHL] = TX_TARGET_PWR_DEFAULT_VALUE;
+		cap->tx_0_target_pwr_a_band[A_BAND_GRP5_CHL] =
+			TX_TARGET_PWR_DEFAULT_VALUE;
 	else
-		cap->tx_0_target_pwr_a_band[A_BAND_GRP5_CHL] = ((value & GRP5_TX0_A_BAND_TARGET_PWR_MASK) >> 8);
+		cap->tx_0_target_pwr_a_band[A_BAND_GRP5_CHL] =
+			(value & GRP5_TX0_A_BAND_TARGET_PWR_MASK) >> 8;
 
 	RT28xx_EEPROM_READ16(ad, GRP5_TX0_A_BAND_CHL_PWR_DELTA_LOW, value);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {
@@ -2007,9 +2103,11 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 	} else {
 		if (value & GRP5_TX0_A_BAND_CHL_PWR_DELTA_LOW_EN) {
 			if (value & GRP5_TX0_A_BAND_CHL_PWR_DELTA_LOW_SIGN)
-				cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP5_CHL][A_BAND_LOW] = (value & GRP5_TX0_A_BAND_CHL_PWR_DELTA_LOW_MASK);
+				cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP5_CHL][A_BAND_LOW] =
+					value & GRP5_TX0_A_BAND_CHL_PWR_DELTA_LOW_MASK;
 			else
-				cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP5_CHL][A_BAND_LOW] = -(value & GRP5_TX0_A_BAND_CHL_PWR_DELTA_LOW_MASK);
+				cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP5_CHL][A_BAND_LOW] =
+					-(value & GRP5_TX0_A_BAND_CHL_PWR_DELTA_LOW_MASK);
 		} else {
 			cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP5_CHL][A_BAND_LOW] = 0;
 		}
@@ -2020,9 +2118,11 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 	} else {
 		if (value & GRP5_TX0_A_BAND_CHL_PWR_DELTA_HI_EN) {
 			if (value & GRP5_TX0_A_BAND_CHL_PWR_DELTA_HI_SIGN)
-				cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP5_CHL][A_BAND_HI] = ((value & GRP5_TX0_A_BAND_CHL_PWR_DELTA_HI_MASK) >> 8);
+				cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP5_CHL][A_BAND_HI] =
+					(value & GRP5_TX0_A_BAND_CHL_PWR_DELTA_HI_MASK) >> 8;
 			else
-				cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP5_CHL][A_BAND_HI] = -((value & GRP5_TX0_A_BAND_CHL_PWR_DELTA_HI_MASK) >> 8);
+				cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP5_CHL][A_BAND_HI] =
+					-((value & GRP5_TX0_A_BAND_CHL_PWR_DELTA_HI_MASK) >> 8);
 		} else {
 			cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP5_CHL][A_BAND_HI] = 0;
 		}
@@ -2031,29 +2131,37 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 	/* 5G TX1 chl pwr */
 	RT28xx_EEPROM_READ16(ad, GRP0_TX1_A_BAND_TSSI_SLOPE, value);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff))
-		cap->tssi_1_slope_a_band[A_BAND_GRP0_CHL] = TSSI_1_SLOPE_A_BAND_GRP0_DEFAULT_VALUE;
+		cap->tssi_1_slope_a_band[A_BAND_GRP0_CHL] =
+			TSSI_1_SLOPE_A_BAND_GRP0_DEFAULT_VALUE;
 	else
-		cap->tssi_1_slope_a_band[A_BAND_GRP0_CHL] = (value & GRP0_TX1_A_BAND_TSSI_SLOPE_MASK);
+		cap->tssi_1_slope_a_band[A_BAND_GRP0_CHL] =
+			value & GRP0_TX1_A_BAND_TSSI_SLOPE_MASK;
 
 	if (((value & 0xff00) == 0x00) || ((value & 0xff00) == 0xff00))
-		cap->tssi_1_offset_a_band[A_BAND_GRP0_CHL] = TSSI_1_OFFSET_A_BAND_GRP0_DEFAULT_VALUE;
+		cap->tssi_1_offset_a_band[A_BAND_GRP0_CHL] =
+			TSSI_1_OFFSET_A_BAND_GRP0_DEFAULT_VALUE;
 	else
-		cap->tssi_1_offset_a_band[A_BAND_GRP0_CHL] = ((value & GRP0_TX1_A_BAND_TSSI_OFFSET_MASK) >> 8);
+		cap->tssi_1_offset_a_band[A_BAND_GRP0_CHL] =
+			(value & GRP0_TX1_A_BAND_TSSI_OFFSET_MASK) >> 8;
 
 	RT28xx_EEPROM_READ16(ad, GRP0_TX1_A_BAND_TARGET_PWR, value);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff))
-		cap->tx_1_target_pwr_a_band[A_BAND_GRP0_CHL] = TX_TARGET_PWR_DEFAULT_VALUE;
+		cap->tx_1_target_pwr_a_band[A_BAND_GRP0_CHL] =
+			TX_TARGET_PWR_DEFAULT_VALUE;
 	else
-		cap->tx_1_target_pwr_a_band[A_BAND_GRP0_CHL] = (value & GRP0_TX1_A_BAND_TARGET_PWR_MASK);
+		cap->tx_1_target_pwr_a_band[A_BAND_GRP0_CHL] =
+			value & GRP0_TX1_A_BAND_TARGET_PWR_MASK;
 
 	if (((value & 0xff00) == 0x00) || ((value & 0xff00) == 0xff00)) {
 		cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP0_CHL][A_BAND_LOW] = 0;
 	} else {
 		if (value & GRP0_TX1_A_BAND_CHL_PWR_DELTA_LOW_EN) {
 			if (value & GRP0_TX1_A_BAND_CHL_PWR_DELTA_LOW_SIGN)
-				cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP0_CHL][A_BAND_LOW] = ((value & GRP0_TX1_A_BAND_CHL_PWR_DELTA_LOW_MASK) >> 8);
+				cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP0_CHL][A_BAND_LOW] =
+					(value & GRP0_TX1_A_BAND_CHL_PWR_DELTA_LOW_MASK) >> 8;
 			else
-				cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP0_CHL][A_BAND_LOW] = -((value & GRP0_TX1_A_BAND_CHL_PWR_DELTA_LOW_MASK) >> 8);
+				cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP0_CHL][A_BAND_LOW] =
+					-((value & GRP0_TX1_A_BAND_CHL_PWR_DELTA_LOW_MASK) >> 8);
 		} else {
 			cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP0_CHL][A_BAND_LOW] = 0;
 		}
@@ -2065,40 +2173,48 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 	} else {
 		if (value & GRP0_TX1_A_BAND_CHL_PWR_DELTA_HI_EN) {
 			if (value & GRP0_TX1_A_BAND_CHL_PWR_DELTA_HI_SIGN)
-				cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP0_CHL][A_BAND_HI] = (value & GRP0_TX1_A_BAND_CHL_PWR_DELTA_HI_MASK);
+				cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP0_CHL][A_BAND_HI] =
+					value & GRP0_TX1_A_BAND_CHL_PWR_DELTA_HI_MASK;
 			else
-				cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP0_CHL][A_BAND_HI] = -(value & GRP0_TX1_A_BAND_CHL_PWR_DELTA_HI_MASK);
+				cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP0_CHL][A_BAND_HI] =
+					-(value & GRP0_TX1_A_BAND_CHL_PWR_DELTA_HI_MASK);
 		} else {
 			cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP0_CHL][A_BAND_HI] = 0;
 		}
 	}
 
 	if (((value & 0xff00) == 0x00) || ((value & 0xff00) == 0xff00))
-		cap->tssi_1_slope_a_band[A_BAND_GRP1_CHL] = TSSI_1_SLOPE_A_BAND_GRP1_DEFAULT_VALUE;
+		cap->tssi_1_slope_a_band[A_BAND_GRP1_CHL] =
+			TSSI_1_SLOPE_A_BAND_GRP1_DEFAULT_VALUE;
 	else
-		cap->tssi_1_slope_a_band[A_BAND_GRP1_CHL] = ((value & GRP1_TX1_A_BAND_TSSI_SLOPE_MASK) >> 8);
+		cap->tssi_1_slope_a_band[A_BAND_GRP1_CHL] =
+			(value & GRP1_TX1_A_BAND_TSSI_SLOPE_MASK) >> 8;
 
 	RT28xx_EEPROM_READ16(ad, GRP1_TX1_A_BAND_TSSI_OFFSET, value);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff))
-		cap->tssi_1_offset_a_band[A_BAND_GRP1_CHL] = TSSI_1_OFFSET_A_BAND_GRP1_DEFAULT_VALUE;
+		cap->tssi_1_offset_a_band[A_BAND_GRP1_CHL] =
+			TSSI_1_OFFSET_A_BAND_GRP1_DEFAULT_VALUE;
 	else
-		cap->tssi_1_offset_a_band[A_BAND_GRP1_CHL] = (value & GRP1_TX1_A_BAND_TSSI_OFFSET_MASK);
+		cap->tssi_1_offset_a_band[A_BAND_GRP1_CHL] =
+			value & GRP1_TX1_A_BAND_TSSI_OFFSET_MASK;
 
 	if (((value & 0xff00) == 0x00) || ((value & 0xff00) == 0xff00))
 		cap->tx_1_target_pwr_a_band[A_BAND_GRP1_CHL] = TX_TARGET_PWR_DEFAULT_VALUE;
 	else
-		cap->tx_1_target_pwr_a_band[A_BAND_GRP1_CHL] = ((value & GRP1_TX1_A_BAND_TARGET_PWR_MASK) >> 8);
+		cap->tx_1_target_pwr_a_band[A_BAND_GRP1_CHL] =
+			(value & GRP1_TX1_A_BAND_TARGET_PWR_MASK) >> 8;
 
 	RT28xx_EEPROM_READ16(ad, GRP1_TX1_A_BAND_CHL_PWR_DELTA_LOW, value);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {
 		cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP1_CHL][A_BAND_LOW] = 0;
 	} else {
 		if (value & GRP1_TX1_A_BAND_CHL_PWR_DELTA_LOW_EN) {
-			if (value & GRP1_TX1_A_BAND_CHL_PWR_DELTA_LOW_SIGN) {
-				cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP1_CHL][A_BAND_LOW] = (value & GRP1_TX1_A_BAND_CHL_PWR_DELTA_LOW_MASK);
-			} else {
-				cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP1_CHL][A_BAND_LOW] = -(value & GRP1_TX1_A_BAND_CHL_PWR_DELTA_LOW_MASK);
-			}
+			if (value & GRP1_TX1_A_BAND_CHL_PWR_DELTA_LOW_SIGN)
+				cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP1_CHL][A_BAND_LOW] =
+					value & GRP1_TX1_A_BAND_CHL_PWR_DELTA_LOW_MASK;
+			else
+				cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP1_CHL][A_BAND_LOW] =
+					-(value & GRP1_TX1_A_BAND_CHL_PWR_DELTA_LOW_MASK);
 		} else {
 			cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP1_CHL][A_BAND_LOW] = 0;
 		}
@@ -2109,9 +2225,11 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 	} else {
 		if (value & GRP1_TX1_A_BAND_CHL_PWR_DELTA_HI_EN) {
 			if (value & GRP1_TX1_A_BAND_CHL_PWR_DELTA_HI_SIGN)
-				cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP1_CHL][A_BAND_HI] = ((value & GRP1_TX1_A_BAND_CHL_PWR_DELTA_HI_MASK) >> 8);
+				cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP1_CHL][A_BAND_HI] =
+					(value & GRP1_TX1_A_BAND_CHL_PWR_DELTA_HI_MASK) >> 8;
 			else
-				cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP1_CHL][A_BAND_HI] = -((value & GRP1_TX1_A_BAND_CHL_PWR_DELTA_HI_MASK) >> 8);
+				cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP1_CHL][A_BAND_HI] =
+					-((value & GRP1_TX1_A_BAND_CHL_PWR_DELTA_HI_MASK) >> 8);
 		} else {
 			cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP1_CHL][A_BAND_HI] = 0;
 		}
@@ -2119,29 +2237,37 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 
 	RT28xx_EEPROM_READ16(ad, GRP0_TX1_A_BAND_TSSI_SLOPE, value);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff))
-		cap->tssi_1_slope_a_band[A_BAND_GRP2_CHL] = TSSI_1_SLOPE_A_BAND_GRP2_DEFAULT_VALUE;
+		cap->tssi_1_slope_a_band[A_BAND_GRP2_CHL] =
+			TSSI_1_SLOPE_A_BAND_GRP2_DEFAULT_VALUE;
 	else
-		cap->tssi_1_slope_a_band[A_BAND_GRP2_CHL] = (value & GRP2_TX1_A_BAND_TSSI_SLOPE_MASK);
+		cap->tssi_1_slope_a_band[A_BAND_GRP2_CHL] =
+			value & GRP2_TX1_A_BAND_TSSI_SLOPE_MASK;
 
 	if (((value & 0xff00) == 0x00) || ((value & 0xff00) == 0xff00))
-		cap->tssi_1_offset_a_band[A_BAND_GRP2_CHL] = TSSI_1_OFFSET_A_BAND_GRP2_DEFAULT_VALUE;
+		cap->tssi_1_offset_a_band[A_BAND_GRP2_CHL] =
+			TSSI_1_OFFSET_A_BAND_GRP2_DEFAULT_VALUE;
 	else
-		cap->tssi_1_offset_a_band[A_BAND_GRP2_CHL] = ((value & GRP2_TX1_A_BAND_TSSI_OFFSET_MASK) >> 8);
+		cap->tssi_1_offset_a_band[A_BAND_GRP2_CHL] =
+			(value & GRP2_TX1_A_BAND_TSSI_OFFSET_MASK) >> 8;
 
 	RT28xx_EEPROM_READ16(ad, GRP2_TX1_A_BAND_TARGET_PWR, value);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff))
-		cap->tx_1_target_pwr_a_band[A_BAND_GRP2_CHL] = TX_TARGET_PWR_DEFAULT_VALUE;
+		cap->tx_1_target_pwr_a_band[A_BAND_GRP2_CHL] =
+			TX_TARGET_PWR_DEFAULT_VALUE;
 	else
-		cap->tx_1_target_pwr_a_band[A_BAND_GRP2_CHL] = (value & GRP2_TX1_A_BAND_TARGET_PWR_MASK);
+		cap->tx_1_target_pwr_a_band[A_BAND_GRP2_CHL] =
+			value & GRP2_TX1_A_BAND_TARGET_PWR_MASK;
 
 	if (((value & 0xff00) == 0x00) || ((value & 0xff00) == 0xff00)) {
 			cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP2_CHL][A_BAND_LOW] = 0;
 	} else {
 		if (value & GRP2_TX1_A_BAND_CHL_PWR_DELTA_LOW_EN) {
 			if (value & GRP2_TX1_A_BAND_CHL_PWR_DELTA_LOW_SIGN)
-				cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP2_CHL][A_BAND_LOW] = ((value & GRP2_TX1_A_BAND_CHL_PWR_DELTA_LOW_MASK) >> 8);
+				cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP2_CHL][A_BAND_LOW] =
+					(value & GRP2_TX1_A_BAND_CHL_PWR_DELTA_LOW_MASK) >> 8;
 			else
-				cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP2_CHL][A_BAND_LOW] = -((value & GRP2_TX1_A_BAND_CHL_PWR_DELTA_LOW_MASK) >> 8);
+				cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP2_CHL][A_BAND_LOW] =
+					-((value & GRP2_TX1_A_BAND_CHL_PWR_DELTA_LOW_MASK) >> 8);
 		} else {
 			cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP2_CHL][A_BAND_LOW] = 0;
 		}
@@ -2153,29 +2279,37 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 	} else {
 		if (value & GRP2_TX1_A_BAND_CHL_PWR_DELTA_HI_EN) {
 			if (value & GRP2_TX1_A_BAND_CHL_PWR_DELTA_HI_SIGN)
-				cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP2_CHL][A_BAND_HI] = (value & GRP2_TX1_A_BAND_CHL_PWR_DELTA_HI_MASK);
+				cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP2_CHL][A_BAND_HI] =
+					value & GRP2_TX1_A_BAND_CHL_PWR_DELTA_HI_MASK;
 			else
-				cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP2_CHL][A_BAND_HI] = -(value & GRP2_TX1_A_BAND_CHL_PWR_DELTA_HI_MASK);
+				cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP2_CHL][A_BAND_HI] =
+					-(value & GRP2_TX1_A_BAND_CHL_PWR_DELTA_HI_MASK);
 		} else {
 			cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP2_CHL][A_BAND_HI] = 0;
 		}
 	}
 
 	if (((value & 0xff00) == 0x00) || ((value & 0xff00) == 0xff00))
-		cap->tssi_1_slope_a_band[A_BAND_GRP3_CHL] = TSSI_1_SLOPE_A_BAND_GRP3_DEFAULT_VALUE;
+		cap->tssi_1_slope_a_band[A_BAND_GRP3_CHL] =
+			TSSI_1_SLOPE_A_BAND_GRP3_DEFAULT_VALUE;
 	else
-		cap->tssi_1_slope_a_band[A_BAND_GRP3_CHL] = ((value & GRP3_TX1_A_BAND_TSSI_SLOPE_MASK) >> 8);
+		cap->tssi_1_slope_a_band[A_BAND_GRP3_CHL] =
+			(value & GRP3_TX1_A_BAND_TSSI_SLOPE_MASK) >> 8;
 
 	RT28xx_EEPROM_READ16(ad, GRP3_TX1_A_BAND_TSSI_OFFSET, value);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff))
-		cap->tssi_1_offset_a_band[A_BAND_GRP3_CHL] = TSSI_1_OFFSET_A_BAND_GRP3_DEFAULT_VALUE;
+		cap->tssi_1_offset_a_band[A_BAND_GRP3_CHL] =
+			TSSI_1_OFFSET_A_BAND_GRP3_DEFAULT_VALUE;
 	else
-		cap->tssi_1_offset_a_band[A_BAND_GRP3_CHL] = (value & GRP3_TX1_A_BAND_TSSI_OFFSET_MASK);
+		cap->tssi_1_offset_a_band[A_BAND_GRP3_CHL] =
+			value & GRP3_TX1_A_BAND_TSSI_OFFSET_MASK;
 
 	if (((value & 0xff00) == 0x00) || ((value & 0xff00) == 0xff00))
-		cap->tx_1_target_pwr_a_band[A_BAND_GRP3_CHL] = TX_TARGET_PWR_DEFAULT_VALUE;
+		cap->tx_1_target_pwr_a_band[A_BAND_GRP3_CHL] =
+			TX_TARGET_PWR_DEFAULT_VALUE;
 	else
-		cap->tx_1_target_pwr_a_band[A_BAND_GRP3_CHL] = ((value & GRP3_TX1_A_BAND_TARGET_PWR_MASK) >> 8);
+		cap->tx_1_target_pwr_a_band[A_BAND_GRP3_CHL] =
+			(value & GRP3_TX1_A_BAND_TARGET_PWR_MASK) >> 8;
 
 	RT28xx_EEPROM_READ16(ad, GRP3_TX1_A_BAND_CHL_PWR_DELTA_LOW, value);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {
@@ -2183,9 +2317,11 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 	} else {
 		if (value & GRP3_TX1_A_BAND_CHL_PWR_DELTA_LOW_EN) {
 			if (value & GRP3_TX1_A_BAND_CHL_PWR_DELTA_LOW_SIGN)
-				cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP3_CHL][A_BAND_LOW] = (value & GRP3_TX1_A_BAND_CHL_PWR_DELTA_LOW_MASK);
+				cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP3_CHL][A_BAND_LOW] =
+					value & GRP3_TX1_A_BAND_CHL_PWR_DELTA_LOW_MASK;
 			else
-				cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP3_CHL][A_BAND_LOW] = -(value & GRP3_TX1_A_BAND_CHL_PWR_DELTA_LOW_MASK);
+				cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP3_CHL][A_BAND_LOW] =
+					-(value & GRP3_TX1_A_BAND_CHL_PWR_DELTA_LOW_MASK);
 		} else {
 			cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP3_CHL][A_BAND_LOW] = 0;
 		}
@@ -2196,9 +2332,11 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 	} else {
 		if (value & GRP3_TX1_A_BAND_CHL_PWR_DELTA_HI_EN) {
 			if (value & GRP3_TX0_A_BAND_CHL_PWR_DELTA_HI_SIGN)
-				cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP3_CHL][A_BAND_HI] = ((value & GRP3_TX1_A_BAND_CHL_PWR_DELTA_HI_MASK) >> 8);
+				cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP3_CHL][A_BAND_HI] =
+					(value & GRP3_TX1_A_BAND_CHL_PWR_DELTA_HI_MASK) >> 8;
 			else
-				cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP3_CHL][A_BAND_HI] = -((value & GRP3_TX1_A_BAND_CHL_PWR_DELTA_HI_MASK) >> 8);
+				cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP3_CHL][A_BAND_HI] =
+					-((value & GRP3_TX1_A_BAND_CHL_PWR_DELTA_HI_MASK) >> 8);
 		} else {
 			cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP3_CHL][A_BAND_HI] = 0;
 		}
@@ -2207,29 +2345,37 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 
 	RT28xx_EEPROM_READ16(ad, GRP4_TX1_A_BAND_TSSI_SLOPE, value);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff))
-		cap->tssi_1_slope_a_band[A_BAND_GRP4_CHL] = TSSI_1_SLOPE_A_BAND_GRP4_DEFAULT_VALUE;
+		cap->tssi_1_slope_a_band[A_BAND_GRP4_CHL] =
+			TSSI_1_SLOPE_A_BAND_GRP4_DEFAULT_VALUE;
 	else
-		cap->tssi_1_slope_a_band[A_BAND_GRP4_CHL] = (value & GRP4_TX1_A_BAND_TSSI_SLOPE_MASK);
+		cap->tssi_1_slope_a_band[A_BAND_GRP4_CHL] =
+			value & GRP4_TX1_A_BAND_TSSI_SLOPE_MASK;
 
 	if (((value & 0xff00) == 0x00) || ((value & 0xff00) == 0xff00))
-		cap->tssi_1_offset_a_band[A_BAND_GRP4_CHL] = TSSI_1_OFFSET_A_BAND_GRP4_DEFAULT_VALUE;
+		cap->tssi_1_offset_a_band[A_BAND_GRP4_CHL] =
+			TSSI_1_OFFSET_A_BAND_GRP4_DEFAULT_VALUE;
 	else
-		cap->tssi_1_offset_a_band[A_BAND_GRP4_CHL] = ((value & GRP4_TX1_A_BAND_TSSI_OFFSET_MASK) >> 8);
+		cap->tssi_1_offset_a_band[A_BAND_GRP4_CHL] =
+			(value & GRP4_TX1_A_BAND_TSSI_OFFSET_MASK) >> 8;
 
 	RT28xx_EEPROM_READ16(ad, GRP4_TX1_A_BAND_TARGET_PWR, value);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff))
-		cap->tx_1_target_pwr_a_band[A_BAND_GRP4_CHL] = TX_TARGET_PWR_DEFAULT_VALUE;
+		cap->tx_1_target_pwr_a_band[A_BAND_GRP4_CHL] =
+			TX_TARGET_PWR_DEFAULT_VALUE;
 	else
-		cap->tx_1_target_pwr_a_band[A_BAND_GRP4_CHL] = (value & GRP4_TX1_A_BAND_TARGET_PWR_MASK);
+		cap->tx_1_target_pwr_a_band[A_BAND_GRP4_CHL] =
+			value & GRP4_TX1_A_BAND_TARGET_PWR_MASK;
 
 	if (((value & 0xff00) == 0x00) || ((value & 0xff00) == 0xff00)) {
 		cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP4_CHL][A_BAND_LOW] = 0;
 	} else {
 		if (value & GRP4_TX1_A_BAND_CHL_PWR_DELTA_LOW_EN) {
 			if (value & GRP4_TX1_A_BAND_CHL_PWR_DELTA_LOW_SIGN)
-				cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP4_CHL][A_BAND_LOW] = ((value & GRP4_TX1_A_BAND_CHL_PWR_DELTA_LOW_MASK) >> 8);
+				cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP4_CHL][A_BAND_LOW] =
+					(value & GRP4_TX1_A_BAND_CHL_PWR_DELTA_LOW_MASK) >> 8;
 			else
-				cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP4_CHL][A_BAND_LOW] = -((value & GRP4_TX1_A_BAND_CHL_PWR_DELTA_LOW_MASK) >> 8);
+				cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP4_CHL][A_BAND_LOW] =
+					-((value & GRP4_TX1_A_BAND_CHL_PWR_DELTA_LOW_MASK) >> 8);
 		} else {
 			cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP4_CHL][A_BAND_LOW] = 0;
 		}
@@ -2241,29 +2387,37 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 	} else {
 		if (value & GRP4_TX1_A_BAND_CHL_PWR_DELTA_HI_EN) {
 			if (value & GRP4_TX1_A_BAND_CHL_PWR_DELTA_HI_SIGN)
-				cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP4_CHL][A_BAND_HI] = (value & GRP4_TX1_A_BAND_CHL_PWR_DELTA_HI_MASK);
+				cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP4_CHL][A_BAND_HI] =
+					value & GRP4_TX1_A_BAND_CHL_PWR_DELTA_HI_MASK;
 			else
-				cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP4_CHL][A_BAND_HI] = -(value & GRP4_TX1_A_BAND_CHL_PWR_DELTA_HI_MASK);
+				cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP4_CHL][A_BAND_HI] =
+					-(value & GRP4_TX1_A_BAND_CHL_PWR_DELTA_HI_MASK);
 		} else {
 			cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP4_CHL][A_BAND_HI] = 0;
 		}
 	}
 
 	if (((value & 0xff00) == 0x00) || ((value & 0xff00) == 0xff00))
-		cap->tssi_1_slope_a_band[A_BAND_GRP5_CHL] = TSSI_1_SLOPE_A_BAND_GRP5_DEFAULT_VALUE;
+		cap->tssi_1_slope_a_band[A_BAND_GRP5_CHL] =
+			TSSI_1_SLOPE_A_BAND_GRP5_DEFAULT_VALUE;
 	else
-		cap->tssi_1_slope_a_band[A_BAND_GRP5_CHL] = ((value & GRP5_TX0_A_BAND_TSSI_SLOPE_MASK) >> 8);
+		cap->tssi_1_slope_a_band[A_BAND_GRP5_CHL] =
+			(value & GRP5_TX0_A_BAND_TSSI_SLOPE_MASK) >> 8;
 
 	RT28xx_EEPROM_READ16(ad, GRP5_TX1_A_BAND_TSSI_OFFSET, value);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff))
-		cap->tssi_1_offset_a_band[A_BAND_GRP5_CHL] = TSSI_1_OFFSET_A_BAND_GRP5_DEFAULT_VALUE;
+		cap->tssi_1_offset_a_band[A_BAND_GRP5_CHL] =
+			TSSI_1_OFFSET_A_BAND_GRP5_DEFAULT_VALUE;
 	else
-		cap->tssi_1_offset_a_band[A_BAND_GRP5_CHL] = (value & GRP5_TX1_A_BAND_TSSI_OFFSET_MASK);
+		cap->tssi_1_offset_a_band[A_BAND_GRP5_CHL] =
+			value & GRP5_TX1_A_BAND_TSSI_OFFSET_MASK;
 
 	if (((value & 0xff00) == 0x00) || ((value & 0xff00) == 0xff00))
-		cap->tx_1_target_pwr_a_band[A_BAND_GRP5_CHL] = TX_TARGET_PWR_DEFAULT_VALUE;
+		cap->tx_1_target_pwr_a_band[A_BAND_GRP5_CHL] =
+			TX_TARGET_PWR_DEFAULT_VALUE;
 	else
-		cap->tx_1_target_pwr_a_band[A_BAND_GRP5_CHL] = ((value & GRP5_TX1_A_BAND_TARGET_PWR_MASK) >> 8);
+		cap->tx_1_target_pwr_a_band[A_BAND_GRP5_CHL] =
+			(value & GRP5_TX1_A_BAND_TARGET_PWR_MASK) >> 8;
 
 	RT28xx_EEPROM_READ16(ad, GRP5_TX1_A_BAND_CHL_PWR_DELTA_LOW, value);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {
@@ -2271,9 +2425,11 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 	} else {
 		if (value & GRP5_TX1_A_BAND_CHL_PWR_DELTA_LOW_EN) {
 			if (value & GRP5_TX1_A_BAND_CHL_PWR_DELTA_LOW_SIGN)
-				cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP5_CHL][A_BAND_LOW] = (value & GRP5_TX1_A_BAND_CHL_PWR_DELTA_LOW_MASK);
+				cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP5_CHL][A_BAND_LOW] =
+					value & GRP5_TX1_A_BAND_CHL_PWR_DELTA_LOW_MASK;
 			else
-				cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP5_CHL][A_BAND_LOW] = -(value & GRP5_TX1_A_BAND_CHL_PWR_DELTA_LOW_MASK);
+				cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP5_CHL][A_BAND_LOW] =
+					-(value & GRP5_TX1_A_BAND_CHL_PWR_DELTA_LOW_MASK);
 		} else {
 			cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP5_CHL][A_BAND_LOW] = 0;
 		}
@@ -2284,9 +2440,11 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 	} else {
 		if (value & GRP5_TX1_A_BAND_CHL_PWR_DELTA_HI_EN) {
 			if (value & GRP5_TX1_A_BAND_CHL_PWR_DELTA_HI_SIGN)
-				cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP5_CHL][A_BAND_HI] = ((value & GRP5_TX1_A_BAND_CHL_PWR_DELTA_HI_MASK) >> 8);
+				cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP5_CHL][A_BAND_HI] =
+					(value & GRP5_TX1_A_BAND_CHL_PWR_DELTA_HI_MASK) >> 8;
 			else
-				cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP5_CHL][A_BAND_HI] = -((value & GRP5_TX1_A_BAND_CHL_PWR_DELTA_HI_MASK) >> 8);
+				cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP5_CHL][A_BAND_HI] =
+					-((value & GRP5_TX1_A_BAND_CHL_PWR_DELTA_HI_MASK) >> 8);
 		} else {
 			cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP5_CHL][A_BAND_HI] = 0;
 		}
@@ -2306,7 +2464,7 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 
 static u8 mt76x2_txpwr_chlist[] = {
 	1, 2,3,4,5,6,7,8,9,10,11,12,13,14,
-	36,38,40,44,46,48,52,54,56,60,62,64,
+	36, 38,40,44,46,48,52,54,56,60,62,64,
 	100,102,104,108,110,112,116,118,120,124,126,128,132,134,136,140,
 	149,151,153,157,159,161,165,167,169,171,173,
 	42, 58, 106, 122, 155,
@@ -2343,8 +2501,10 @@ int mt76x2_read_chl_pwr(struct rtmp_adapter *ad)
 	ASSERT((ad->TxPower[choffset].Channel == 36));
 
 	for (i = 0; i < 39; i++) {
-		ad->TxPower[i + choffset].Power = cap->tx_0_target_pwr_a_band[get_chl_grp(ad->TxPower[i+choffset].Channel)];
-		ad->TxPower[i + choffset].Power2 = cap->tx_1_target_pwr_a_band[get_chl_grp(ad->TxPower[i+choffset].Channel)];
+		ad->TxPower[i + choffset].Power =
+			cap->tx_0_target_pwr_a_band[get_chl_grp(ad->TxPower[i+choffset].Channel)];
+		ad->TxPower[i + choffset].Power2 =
+			cap->tx_1_target_pwr_a_band[get_chl_grp(ad->TxPower[i+choffset].Channel)];
 	}
 
 	choffset = 14 + 12 + 16 + 11;
@@ -2371,8 +2531,7 @@ int mt76x2_read_chl_pwr(struct rtmp_adapter *ad)
 	choffset = (MAX_NUM_OF_CHANNELS - 1);
 
 	/* 4. Print and Debug*/
-	for (i = 0; i < choffset; i++)
-	{
+	for (i = 0; i < choffset; i++) {
 		DBGPRINT(RT_DEBUG_TRACE, ("E2PROM: TxPower[%03d], Channel=%d, Power[Tx0:%d, Tx1:%d]\n",
 					i, ad->TxPower[i].Channel, ad->TxPower[i].Power, ad->TxPower[i].Power2 ));
 	}
@@ -2391,9 +2550,11 @@ void mt76x2_get_tx_pwr_per_rate(struct rtmp_adapter *ad)
 	} else {
 		if (value & TX_PWR_CCK_1_2M_EN) {
 			if (value & TX_PWR_CCK_1_2M_SIGN)
-				cap->tx_pwr_cck_1_2 = (value & TX_PWR_CCK_1_2M_MASK);
+				cap->tx_pwr_cck_1_2 =
+					value & TX_PWR_CCK_1_2M_MASK;
 			else
-				cap->tx_pwr_cck_1_2 = -(value & TX_PWR_CCK_1_2M_MASK);
+				cap->tx_pwr_cck_1_2 =
+					-(value & TX_PWR_CCK_1_2M_MASK);
 		} else {
 			cap->tx_pwr_cck_1_2 = 0;
 		}
@@ -2404,9 +2565,11 @@ void mt76x2_get_tx_pwr_per_rate(struct rtmp_adapter *ad)
 	} else {
 		if (value & TX_PWR_CCK_5_11M_EN) {
 			if (value & TX_PWR_CCK_5_11M_SIGN)
-				cap->tx_pwr_cck_5_11 = ((value & TX_PWR_CCK_5_11M_MASK) >> 8);
+				cap->tx_pwr_cck_5_11 =
+					(value & TX_PWR_CCK_5_11M_MASK) >> 8;
 			else
-				cap->tx_pwr_cck_5_11 = -((value & TX_PWR_CCK_5_11M_MASK) >> 8);
+				cap->tx_pwr_cck_5_11 =
+					-((value & TX_PWR_CCK_5_11M_MASK) >> 8);
 		} else {
 			cap->tx_pwr_cck_5_11 = 0;
 		}
@@ -2420,9 +2583,11 @@ void mt76x2_get_tx_pwr_per_rate(struct rtmp_adapter *ad)
 	} else {
 		if (value & TX_PWR_G_BAND_OFDM_6_9M_EN) {
 			if (value & TX_PWR_G_BAND_OFDM_6_9M_SIGN)
-				cap->tx_pwr_g_band_ofdm_6_9 = (value & TX_PWR_G_BAND_OFDM_6_9M_MASK);
+				cap->tx_pwr_g_band_ofdm_6_9 =
+					value & TX_PWR_G_BAND_OFDM_6_9M_MASK;
 			else
-				cap->tx_pwr_g_band_ofdm_6_9 = -(value & TX_PWR_G_BAND_OFDM_6_9M_MASK);
+				cap->tx_pwr_g_band_ofdm_6_9 =
+					-(value & TX_PWR_G_BAND_OFDM_6_9M_MASK);
 		} else {
 			cap->tx_pwr_g_band_ofdm_6_9 = 0;
 		}
@@ -2433,9 +2598,11 @@ void mt76x2_get_tx_pwr_per_rate(struct rtmp_adapter *ad)
 	} else {
 		if (value & TX_PWR_G_BAND_OFDM_12_18M_EN) {
 			if (value & TX_PWR_G_BAND_OFDM_12_18M_SIGN)
-				cap->tx_pwr_g_band_ofdm_12_18 = ((value & TX_PWR_G_BAND_OFDM_12_18M_MASK) >> 8);
+				cap->tx_pwr_g_band_ofdm_12_18 =
+					(value & TX_PWR_G_BAND_OFDM_12_18M_MASK) >> 8;
 			else
-				cap->tx_pwr_g_band_ofdm_12_18 = -((value & TX_PWR_G_BAND_OFDM_12_18M_MASK) >> 8);
+				cap->tx_pwr_g_band_ofdm_12_18 =
+					-((value & TX_PWR_G_BAND_OFDM_12_18M_MASK) >> 8);
 		} else {
 			cap->tx_pwr_g_band_ofdm_12_18 = 0;
 		}
@@ -2447,9 +2614,11 @@ void mt76x2_get_tx_pwr_per_rate(struct rtmp_adapter *ad)
 	} else {
 		if (value & TX_PWR_G_BAND_OFDM_24_36M_EN) {
 			if (value & TX_PWR_G_BAND_OFDM_24_36M_SIGN)
-				cap->tx_pwr_g_band_ofdm_24_36 = (value & TX_PWR_G_BAND_OFDM_24_36M_MASK);
+				cap->tx_pwr_g_band_ofdm_24_36 =
+					value & TX_PWR_G_BAND_OFDM_24_36M_MASK;
 			else
-				cap->tx_pwr_g_band_ofdm_24_36 = -(value & TX_PWR_G_BAND_OFDM_24_36M_MASK);
+				cap->tx_pwr_g_band_ofdm_24_36 =
+					-(value & TX_PWR_G_BAND_OFDM_24_36M_MASK);
 		} else {
 			cap->tx_pwr_g_band_ofdm_24_36 = 0;
 		}
@@ -2460,9 +2629,11 @@ void mt76x2_get_tx_pwr_per_rate(struct rtmp_adapter *ad)
 	} else {
 		if (value & TX_PWR_G_BAND_OFDM_48_54M_EN) {
 			if (value & TX_PWR_G_BAND_OFDM_48_54M_SIGN)
-				cap->tx_pwr_g_band_ofdm_48_54 = ((value & TX_PWR_G_BAND_OFDM_48_54M_MASK) >> 8);
+				cap->tx_pwr_g_band_ofdm_48_54 =
+					(value & TX_PWR_G_BAND_OFDM_48_54M_MASK) >> 8;
 			else
-				cap->tx_pwr_g_band_ofdm_48_54 = -((value & TX_PWR_G_BAND_OFDM_48_54M_MASK) >> 8);
+				cap->tx_pwr_g_band_ofdm_48_54 =
+					-((value & TX_PWR_G_BAND_OFDM_48_54M_MASK) >> 8);
 		} else {
 			cap->tx_pwr_g_band_ofdm_48_54 = 0;
 		}
@@ -2474,9 +2645,11 @@ void mt76x2_get_tx_pwr_per_rate(struct rtmp_adapter *ad)
 	} else {
 		if (value & TX_PWR_HT_MCS_0_1_EN) {
 			if (value & TX_PWR_HT_MCS_0_1_SIGN)
-				cap->tx_pwr_ht_mcs_0_1 = (value & TX_PWR_HT_MCS_0_1_MASK);
+				cap->tx_pwr_ht_mcs_0_1 =
+					value & TX_PWR_HT_MCS_0_1_MASK;
 			else
-				cap->tx_pwr_ht_mcs_0_1 = -(value & TX_PWR_HT_MCS_0_1_MASK);
+				cap->tx_pwr_ht_mcs_0_1 =
+					-(value & TX_PWR_HT_MCS_0_1_MASK);
 		} else {
 			cap->tx_pwr_ht_mcs_0_1 = 0;
 		}
@@ -2487,9 +2660,11 @@ void mt76x2_get_tx_pwr_per_rate(struct rtmp_adapter *ad)
 	} else {
 		if (value & TX_PWR_HT_MCS_2_3_EN) {
 			if (value & TX_PWR_HT_MCS_2_3_SIGN)
-				cap->tx_pwr_ht_mcs_2_3 = ((value & TX_PWR_HT_MCS_2_3_MASK) >> 8);
+				cap->tx_pwr_ht_mcs_2_3 =
+					(value & TX_PWR_HT_MCS_2_3_MASK) >> 8;
 			else
-				cap->tx_pwr_ht_mcs_2_3 = -((value & TX_PWR_HT_MCS_2_3_MASK) >> 8);
+				cap->tx_pwr_ht_mcs_2_3 =
+					-((value & TX_PWR_HT_MCS_2_3_MASK) >> 8);
 		} else {
 			cap->tx_pwr_ht_mcs_2_3 = 0;
 		}
@@ -2501,9 +2676,11 @@ void mt76x2_get_tx_pwr_per_rate(struct rtmp_adapter *ad)
 	} else {
 		if (value & TX_PWR_HT_MCS_4_5_EN) {
 			if (value & TX_PWR_HT_MCS_4_5_SIGN)
-				cap->tx_pwr_ht_mcs_4_5 = (value & TX_PWR_HT_MCS_4_5_MASK);
+				cap->tx_pwr_ht_mcs_4_5 =
+					value & TX_PWR_HT_MCS_4_5_MASK;
 			else
-				cap->tx_pwr_ht_mcs_4_5 = -(value & TX_PWR_HT_MCS_4_5_MASK);
+				cap->tx_pwr_ht_mcs_4_5 =
+					-(value & TX_PWR_HT_MCS_4_5_MASK);
 		} else {
 			cap->tx_pwr_ht_mcs_4_5 = 0;
 		}
@@ -2514,9 +2691,11 @@ void mt76x2_get_tx_pwr_per_rate(struct rtmp_adapter *ad)
 	} else {
 		if (value & TX_PWR_HT_MCS_6_7_EN) {
 			if (value & TX_PWR_HT_MCS_6_7_SIGN)
-				cap->tx_pwr_ht_mcs_6_7 = ((value & TX_PWR_HT_MCS_6_7_MASK) >> 8);
+				cap->tx_pwr_ht_mcs_6_7 =
+					(value & TX_PWR_HT_MCS_6_7_MASK) >> 8;
 			else
-				cap->tx_pwr_ht_mcs_6_7 = -((value & TX_PWR_HT_MCS_6_7_MASK) >> 8);
+				cap->tx_pwr_ht_mcs_6_7 =
+					-((value & TX_PWR_HT_MCS_6_7_MASK) >> 8);
 		} else {
 			cap->tx_pwr_ht_mcs_6_7 = 0;
 		}
@@ -2528,9 +2707,11 @@ void mt76x2_get_tx_pwr_per_rate(struct rtmp_adapter *ad)
 	} else {
 		if (value & TX_PWR_HT_MCS_8_9_EN) {
 			if (value & TX_PWR_HT_MCS_8_9_SIGN)
-				cap->tx_pwr_ht_mcs_8_9 = (value & TX_PWR_HT_MCS_8_9_MASK);
+				cap->tx_pwr_ht_mcs_8_9 =
+					value & TX_PWR_HT_MCS_8_9_MASK;
 			else
-				cap->tx_pwr_ht_mcs_8_9 = -(value & TX_PWR_HT_MCS_8_9_MASK);
+				cap->tx_pwr_ht_mcs_8_9 =
+					-(value & TX_PWR_HT_MCS_8_9_MASK);
 		} else {
 			cap->tx_pwr_ht_mcs_8_9 = 0;
 		}
@@ -2541,9 +2722,11 @@ void mt76x2_get_tx_pwr_per_rate(struct rtmp_adapter *ad)
 	} else {
 		if (value & TX_PWR_HT_MCS_10_11_EN) {
 			if (value & TX_PWR_HT_MCS_10_11_SIGN)
-				cap->tx_pwr_ht_mcs_10_11 = ((value & TX_PWR_HT_MCS_10_11_MASK) >> 8);
+				cap->tx_pwr_ht_mcs_10_11 =
+					(value & TX_PWR_HT_MCS_10_11_MASK) >> 8;
 			else
-				cap->tx_pwr_ht_mcs_10_11 = -((value & TX_PWR_HT_MCS_10_11_MASK) >> 8);
+				cap->tx_pwr_ht_mcs_10_11 =
+					-((value & TX_PWR_HT_MCS_10_11_MASK) >> 8);
 		} else {
 			cap->tx_pwr_ht_mcs_10_11 = 0;
 		}
@@ -2555,9 +2738,11 @@ void mt76x2_get_tx_pwr_per_rate(struct rtmp_adapter *ad)
 	} else {
 		if (value & TX_PWR_HT_MCS_12_13_EN) {
 			if (value & TX_PWR_HT_MCS_12_13_SIGN)
-				cap->tx_pwr_ht_mcs_12_13 = (value & TX_PWR_HT_MCS_12_13_MASK);
+				cap->tx_pwr_ht_mcs_12_13 =
+					value & TX_PWR_HT_MCS_12_13_MASK;
 			else
-				cap->tx_pwr_ht_mcs_12_13 = -(value & TX_PWR_HT_MCS_12_13_MASK);
+				cap->tx_pwr_ht_mcs_12_13 =
+					-(value & TX_PWR_HT_MCS_12_13_MASK);
 		} else {
 			cap->tx_pwr_ht_mcs_12_13 = 0;
 		}
@@ -2568,9 +2753,11 @@ void mt76x2_get_tx_pwr_per_rate(struct rtmp_adapter *ad)
 	} else {
 		if (value & TX_PWR_HT_MCS_14_15_EN) {
 			if (value & TX_PWR_HT_MCS_14_15_SIGN)
-				cap->tx_pwr_ht_mcs_14_15 = ((value & TX_PWR_HT_MCS_14_15_MASK) >> 8);
+				cap->tx_pwr_ht_mcs_14_15 =
+					(value & TX_PWR_HT_MCS_14_15_MASK) >> 8;
 			else
-				cap->tx_pwr_ht_mcs_14_15 = -((value & TX_PWR_HT_MCS_14_15_MASK) >> 8);
+				cap->tx_pwr_ht_mcs_14_15 =
+					-((value & TX_PWR_HT_MCS_14_15_MASK) >> 8);
 		} else {
 			cap->tx_pwr_ht_mcs_14_15 = 0;
 		}
@@ -2582,9 +2769,11 @@ void mt76x2_get_tx_pwr_per_rate(struct rtmp_adapter *ad)
 	} else {
 		if (value & TX_PWR_A_BAND_OFDM_6_9M_EN) {
 			if (value & TX_PWR_A_BAND_OFDM_6_9M_SIGN)
-				cap->tx_pwr_a_band_ofdm_6_9 = (value & TX_PWR_A_BAND_OFDM_6_9M_MASK);
+				cap->tx_pwr_a_band_ofdm_6_9 =
+					value & TX_PWR_A_BAND_OFDM_6_9M_MASK;
 			else
-				cap->tx_pwr_a_band_ofdm_6_9 = -(value & TX_PWR_A_BAND_OFDM_6_9M_MASK);
+				cap->tx_pwr_a_band_ofdm_6_9 =
+					-(value & TX_PWR_A_BAND_OFDM_6_9M_MASK);
 		} else {
 			cap->tx_pwr_a_band_ofdm_6_9 = 0;
 		}
@@ -2595,9 +2784,11 @@ void mt76x2_get_tx_pwr_per_rate(struct rtmp_adapter *ad)
 	} else {
 		if (value & TX_PWR_A_BAND_OFDM_12_18M_EN) {
 			if (value & TX_PWR_A_BAND_OFDM_12_18M_SIGN)
-				cap->tx_pwr_a_band_ofdm_12_18 = ((value & TX_PWR_A_BAND_OFDM_12_18M_MASK) >> 8);
+				cap->tx_pwr_a_band_ofdm_12_18 =
+					(value & TX_PWR_A_BAND_OFDM_12_18M_MASK) >> 8;
 			else
-				cap->tx_pwr_a_band_ofdm_12_18 = -((value & TX_PWR_A_BAND_OFDM_12_18M_MASK) >> 8);
+				cap->tx_pwr_a_band_ofdm_12_18 =
+					-((value & TX_PWR_A_BAND_OFDM_12_18M_MASK) >> 8);
 		} else {
 			cap->tx_pwr_a_band_ofdm_12_18 = 0;
 		}
@@ -2609,9 +2800,11 @@ void mt76x2_get_tx_pwr_per_rate(struct rtmp_adapter *ad)
 	} else {
 		if (value & TX_PWR_A_BAND_OFDM_24_36M_EN) {
 			if (value & TX_PWR_A_BAND_OFDM_24_36M_SIGN)
-				cap->tx_pwr_a_band_ofdm_24_36 = (value & TX_PWR_A_BAND_OFDM_24_36M_MASK);
+				cap->tx_pwr_a_band_ofdm_24_36 =
+					value & TX_PWR_A_BAND_OFDM_24_36M_MASK;
 			else
-				cap->tx_pwr_a_band_ofdm_24_36 = -(value & TX_PWR_A_BAND_OFDM_24_36M_MASK);
+				cap->tx_pwr_a_band_ofdm_24_36 =
+					-(value & TX_PWR_A_BAND_OFDM_24_36M_MASK);
 		} else {
 			cap->tx_pwr_a_band_ofdm_24_36 = 0;
 		}
@@ -2622,9 +2815,11 @@ void mt76x2_get_tx_pwr_per_rate(struct rtmp_adapter *ad)
 	} else {
 		if (value & TX_PWR_A_BAND_OFDM_48_54M_EN) {
 			if (value & TX_PWR_A_BAND_OFDM_48_54M_SIGN)
-				cap->tx_pwr_a_band_ofdm_48_54 = ((value & TX_PWR_A_BAND_OFDM_48_54M_MASK) >> 8);
+				cap->tx_pwr_a_band_ofdm_48_54 =
+					(value & TX_PWR_A_BAND_OFDM_48_54M_MASK) >> 8;
 			else
-				cap->tx_pwr_a_band_ofdm_48_54 = -((value & TX_PWR_A_BAND_OFDM_48_54M_MASK) >> 8);
+				cap->tx_pwr_a_band_ofdm_48_54 =
+					-((value & TX_PWR_A_BAND_OFDM_48_54M_MASK) >> 8);
 		} else {
 			cap->tx_pwr_a_band_ofdm_48_54 = 0;
 		}
@@ -2637,9 +2832,11 @@ void mt76x2_get_tx_pwr_per_rate(struct rtmp_adapter *ad)
 	} else {
 		if (value & TX_PWR_VHT_MCS_0_1_EN) {
 			if (value & TX_PWR_VHT_MCS_0_1_SIGN)
-				cap->tx_pwr_vht_mcs_0_1 = (value & TX_PWR_VHT_MCS_0_1_MASK);
+				cap->tx_pwr_vht_mcs_0_1 =
+					value & TX_PWR_VHT_MCS_0_1_MASK;
 			else
-				cap->tx_pwr_vht_mcs_0_1 = -(value & TX_PWR_VHT_MCS_0_1_MASK);
+				cap->tx_pwr_vht_mcs_0_1 =
+					-(value & TX_PWR_VHT_MCS_0_1_MASK);
 		} else {
 			cap->tx_pwr_vht_mcs_0_1 = 0;
 		}
@@ -2650,9 +2847,11 @@ void mt76x2_get_tx_pwr_per_rate(struct rtmp_adapter *ad)
 	} else {
 		if (value & TX_PWR_VHT_MCS_2_3_EN) {
 			if (value & TX_PWR_VHT_MCS_2_3_SIGN)
-				cap->tx_pwr_vht_mcs_2_3 = ((value & TX_PWR_VHT_MCS_2_3_MASK) >> 8);
+				cap->tx_pwr_vht_mcs_2_3 =
+					(value & TX_PWR_VHT_MCS_2_3_MASK) >> 8;
 			else
-				cap->tx_pwr_vht_mcs_2_3 = -((value & TX_PWR_VHT_MCS_2_3_MASK) >> 8);
+				cap->tx_pwr_vht_mcs_2_3 =
+					-((value & TX_PWR_VHT_MCS_2_3_MASK) >> 8);
 		} else {
 			cap->tx_pwr_vht_mcs_2_3 = 0;
 		}
@@ -2664,9 +2863,11 @@ void mt76x2_get_tx_pwr_per_rate(struct rtmp_adapter *ad)
 	} else {
 		if (value & TX_PWR_VHT_MCS_4_5_EN) {
 			if (value & TX_PWR_VHT_MCS_4_5_SIGN)
-				cap->tx_pwr_vht_mcs_4_5 = (value & TX_PWR_VHT_MCS_4_5_MASK);
+				cap->tx_pwr_vht_mcs_4_5 =
+					value & TX_PWR_VHT_MCS_4_5_MASK;
 			else
-				cap->tx_pwr_vht_mcs_4_5 = -(value & TX_PWR_VHT_MCS_4_5_MASK);
+				cap->tx_pwr_vht_mcs_4_5 =
+					-(value & TX_PWR_VHT_MCS_4_5_MASK);
 		} else {
 			cap->tx_pwr_vht_mcs_4_5 = 0;
 		}
@@ -2677,9 +2878,11 @@ void mt76x2_get_tx_pwr_per_rate(struct rtmp_adapter *ad)
 	} else {
 		if (value & TX_PWR_VHT_MCS_6_7_EN) {
 			if (value & TX_PWR_VHT_MCS_6_7_SIGN)
-				cap->tx_pwr_vht_mcs_6_7 = ((value & TX_PWR_VHT_MCS_6_7_MASK) >> 8);
+				cap->tx_pwr_vht_mcs_6_7 =
+					(value & TX_PWR_VHT_MCS_6_7_MASK) >> 8;
 			else
-				cap->tx_pwr_vht_mcs_6_7 = -((value & TX_PWR_VHT_MCS_6_7_MASK) >> 8);
+				cap->tx_pwr_vht_mcs_6_7 =
+					-((value & TX_PWR_VHT_MCS_6_7_MASK) >> 8);
 		} else {
 			cap->tx_pwr_vht_mcs_6_7 = 0;
 		}
@@ -2691,9 +2894,11 @@ void mt76x2_get_tx_pwr_per_rate(struct rtmp_adapter *ad)
 	} else {
 		if (value & TX_PWR_5G_VHT_MCS_8_9_EN) {
 			if (value & TX_PWR_5G_VHT_MCS_8_9_SIGN)
-				cap->tx_pwr_5g_vht_mcs_8_9 = (value & TX_PWR_5G_VHT_MCS_8_9_MASK);
+				cap->tx_pwr_5g_vht_mcs_8_9 =
+					value & TX_PWR_5G_VHT_MCS_8_9_MASK;
 			else
-				cap->tx_pwr_5g_vht_mcs_8_9 = -(value & TX_PWR_5G_VHT_MCS_8_9_MASK);
+				cap->tx_pwr_5g_vht_mcs_8_9 =
+					-(value & TX_PWR_5G_VHT_MCS_8_9_MASK);
 		} else {
 			cap->tx_pwr_5g_vht_mcs_8_9 = 0;
 		}
@@ -2704,9 +2909,11 @@ void mt76x2_get_tx_pwr_per_rate(struct rtmp_adapter *ad)
 	} else {
 		if (value & TX_PWR_2G_VHT_MCS_8_9_EN) {
 			if (value & TX_PWR_2G_VHT_MCS_8_9_SIGN)
-				cap->tx_pwr_2g_vht_mcs_8_9 = ((value & TX_PWR_2G_VHT_MCS_8_9_MASK) >> 8);
+				cap->tx_pwr_2g_vht_mcs_8_9 =
+					(value & TX_PWR_2G_VHT_MCS_8_9_MASK) >> 8;
 			else
-				cap->tx_pwr_2g_vht_mcs_8_9 = -((value & TX_PWR_2G_VHT_MCS_8_9_MASK) >> 8);
+				cap->tx_pwr_2g_vht_mcs_8_9 =
+					-((value & TX_PWR_2G_VHT_MCS_8_9_MASK) >> 8);
 		} else {
 			cap->tx_pwr_2g_vht_mcs_8_9 = 0;
 		}
@@ -2772,16 +2979,16 @@ void mt76x2_get_current_temp(struct rtmp_adapter *ad)
 	read_reg(ad, 0x40, 0xD000, &temp_val);
 	temp_val &= 0x7F;
 
-	if ( pChipCap->temp_25_ref == 0 )
+	if ( pChipCap->temp_25_ref == 0 ) {
 		pChipCap->current_temp = 25;
-	else
-	if (temp_val > pChipCap->temp_25_ref) {
-	        pChipCap->current_temp = ((temp_val -pChipCap->temp_25_ref)*18/10) + 25; /* 1.789 */
-	} else if (temp_val < pChipCap->temp_25_ref) {
-	        pChipCap->current_temp = 25 - ((pChipCap->temp_25_ref - temp_val)*18/10);
+	} else {
+		if (temp_val > pChipCap->temp_25_ref)
+		        pChipCap->current_temp = ((temp_val -pChipCap->temp_25_ref)*18/10) + 25; /* 1.789 */
+		else if (temp_val < pChipCap->temp_25_ref)
+			pChipCap->current_temp = 25 - ((pChipCap->temp_25_ref - temp_val)*18/10);
+		else
+		        pChipCap->current_temp = 25;
 	}
-	else
-	        pChipCap->current_temp = 25;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("%s::read_temp=%d (0x%x), current_temp=%d (0x%x)\n",
 		__FUNCTION__, temp_val, temp_val, pChipCap->current_temp, pChipCap->current_temp));
@@ -3283,176 +3490,172 @@ static void patch_BBPL_on(struct rtmp_adapter *pAd)
 	uint32_t value = 0;
 
 	read_reg(pAd, 0x40, 0x130, &value);
-    value |= ((1<<16) | (1<<0));
-    write_reg(pAd, 0x40, 0x130, value);
+	value |= ((1<<16) | (1<<0));
+	write_reg(pAd, 0x40, 0x130, value);
 
-    RtmpusecDelay(1);
+	RtmpusecDelay(1);
 
-    read_reg(pAd, 0x40, 0x64, &value);
-    if ((value >> 29) & 0x1)
-    {
-        read_reg(pAd, 0x40, 0x1c, &value);
-    	value &= 0xFFFFFF00;
-    	write_reg(pAd, 0x40, 0x1c, value);
+	read_reg(pAd, 0x40, 0x64, &value);
+	if ((value >> 29) & 0x1) {
+		read_reg(pAd, 0x40, 0x1c, &value);
+		value &= 0xFFFFFF00;
+		write_reg(pAd, 0x40, 0x1c, value);
 
-        read_reg(pAd, 0x40, 0x1c, &value);
-    	value |= 0x30;
-    	write_reg(pAd, 0x40, 0x1c, value);
-    }
-    else
-    {
-        read_reg(pAd, 0x40, 0x1c, &value);
-    	value &= 0xFFFFFF00;
-    	write_reg(pAd, 0x40, 0x1c, value);
+		read_reg(pAd, 0x40, 0x1c, &value);
+		value |= 0x30;
+		write_reg(pAd, 0x40, 0x1c, value);
+	} else {
+		read_reg(pAd, 0x40, 0x1c, &value);
+		value &= 0xFFFFFF00;
+		write_reg(pAd, 0x40, 0x1c, value);
 
-        read_reg(pAd, 0x40, 0x1c, &value);
-    	value |= 0x30;
-    	write_reg(pAd, 0x40, 0x1c, value);
-    }
-    value = 0x0000484F;
-    write_reg(pAd, 0x40, 0x14, value);
+		read_reg(pAd, 0x40, 0x1c, &value);
+		value |= 0x30;
+		write_reg(pAd, 0x40, 0x1c, value);
+	}
 
-    RtmpusecDelay(1);
+	value = 0x0000484F;
+	write_reg(pAd, 0x40, 0x14, value);
 
-    read_reg(pAd, 0x40, 0x130, &value);
-    value |= (1<<17);
-    write_reg(pAd, 0x40, 0x130, value);
+	RtmpusecDelay(1);
 
-    RtmpusecDelay(125);
+	read_reg(pAd, 0x40, 0x130, &value);
+	value |= (1<<17);
+	write_reg(pAd, 0x40, 0x130, value);
 
-    read_reg(pAd, 0x40, 0x130, &value);
-    value  &= ~(1<<16);
-    write_reg(pAd, 0x40, 0x130, value);
+	RtmpusecDelay(125);
 
-    RtmpusecDelay(50);
+	read_reg(pAd, 0x40, 0x130, &value);
+	value  &= ~(1<<16);
+	write_reg(pAd, 0x40, 0x130, value);
 
-    read_reg(pAd, 0x40, 0x14C, &value);
-    value  |= ((1<<20) | (1<<19));
-    write_reg(pAd, 0x40, 0x14C, value);
+	RtmpusecDelay(50);
+
+	read_reg(pAd, 0x40, 0x14C, &value);
+	value  |= ((1<<20) | (1<<19));
+	write_reg(pAd, 0x40, 0x14C, value);
 }
 
 static VOID WF_CTRL(struct rtmp_adapter *pAd, UINT8 wfID, UINT8 isON)
 {
 	uint32_t value = 0;
-    if(wfID == 0)
-    {
-        if(isON == 1) /* WIFI ON mode */
-        {
-            /* Enable WF0 BG */
-    		read_reg(pAd, 0x40, 0x130, &value);
-    		value |= (1<<0);
-    		write_reg(pAd, 0x40, 0x130, value);
+	if(wfID == 0) {
+		if(isON == 1) {	/* WIFI ON mode */
+		/* Enable WF0 BG */
+		read_reg(pAd, 0x40, 0x130, &value);
+		value |= (1<<0);
+		write_reg(pAd, 0x40, 0x130, value);
 
-            RtmpusecDelay(10);
+		RtmpusecDelay(10);
 
-            /* Enable RFDIG LDO/AFE/ABB/ADDA */
-            read_reg(pAd, 0x40, 0x130, &value);
-    		value |= ((1<<1)|(1<<3)|(1<<4)|(1<<5));
-    		write_reg(pAd, 0x40, 0x130, value);
+		/* Enable RFDIG LDO/AFE/ABB/ADDA */
+		read_reg(pAd, 0x40, 0x130, &value);
+		value |= ((1<<1)|(1<<3)|(1<<4)|(1<<5));
+		write_reg(pAd, 0x40, 0x130, value);
 
-            RtmpusecDelay(10);
+		RtmpusecDelay(10);
 
-            /* Switch WF0 RFDIG power to internal LDO */
-            read_reg(pAd, 0x40, 0x130, &value);
-    		value &= ~(1<<2);
-    		write_reg(pAd, 0x40, 0x130, value);
+		/* Switch WF0 RFDIG power to internal LDO */
+		read_reg(pAd, 0x40, 0x130, &value);
+		value &= ~(1<<2);
+		write_reg(pAd, 0x40, 0x130, value);
 
-            patch_BBPL_on(pAd);
+		patch_BBPL_on(pAd);
 
-            RTMP_IO_READ32(pAd, 0x530, &value);
-    		value  |= 0xF;
-    		RTMP_IO_WRITE32(pAd, 0x530, value);
-        }
-    }
-    else
-    {
-        if(isON == 1) /* WIFI ON mode */
-        {
-            /* Enable WF1 BG */
-            read_reg(pAd, 0x40, 0x130, &value);
-    		value |= (1<<8);
-    		write_reg(pAd, 0x40, 0x130, value);
+		RTMP_IO_READ32(pAd, 0x530, &value);
+		value  |= 0xF;
+		RTMP_IO_WRITE32(pAd, 0x530, value);
+		}
+	} else {
+		if(isON == 1) {	/* WIFI ON mode */
+			/* Enable WF1 BG */
+			read_reg(pAd, 0x40, 0x130, &value);
+			value |= (1<<8);
+			write_reg(pAd, 0x40, 0x130, value);
 
-            RtmpusecDelay(10);
+			RtmpusecDelay(10);
 
-            /* Enable RFDIG LDO/AFE/ABB/ADDA */
-            read_reg(pAd, 0x40, 0x130, &value);
-    		value |= ((1<<9)|(1<<11)|(1<<12)|(1<<13));
-    		write_reg(pAd, 0x40, 0x130, value);
+			/* Enable RFDIG LDO/AFE/ABB/ADDA */
+			read_reg(pAd, 0x40, 0x130, &value);
+			value |= ((1<<9)|(1<<11)|(1<<12)|(1<<13));
+			write_reg(pAd, 0x40, 0x130, value);
 
-            RtmpusecDelay(10);
-            /* Switch WF1 RFDIG power to internal LDO */
-            read_reg(pAd, 0x40, 0x130, &value);
-    		value &= ~(1<<10);
-    		write_reg(pAd, 0x40, 0x130, value);
+			RtmpusecDelay(10);
+			/* Switch WF1 RFDIG power to internal LDO */
+			read_reg(pAd, 0x40, 0x130, &value);
+			value &= ~(1<<10);
+			write_reg(pAd, 0x40, 0x130, value);
 
-            patch_BBPL_on(pAd);
+			patch_BBPL_on(pAd);
 
-            RTMP_IO_READ32(pAd, 0x530, &value);
-    		value  |= 0xF;
-    		RTMP_IO_WRITE32(pAd, 0x530, value);
-        }
-    }
+			RTMP_IO_READ32(pAd, 0x530, &value);
+			value  |= 0xF;
+			RTMP_IO_WRITE32(pAd, 0x530, value);
+		}
+	}
 }
 
 static void WL_POWER_ON(struct rtmp_adapter *pAd)
 {
-    uint32_t cnt = 0;
-    uint32_t regval = 0;
-    uint32_t value = 0;
+	uint32_t cnt = 0;
+	uint32_t regval = 0;
+	uint32_t value = 0;
 
-    read_reg(pAd, 0x40, 0x148, &value);
-    value |= 0x1;
-    write_reg(pAd, 0x40, 0x148, value); // turn on WL MTCMOS
-    do{
-        read_reg(pAd, 0x40, 0x148, &regval);
-        if((((regval>>28) & 0x1) == 0x1) && (((regval>>12) & 0x3) == 0x3))
-            break;
-        RtmpusecDelay(10);
-        cnt++;
-    }while(cnt < 100);
+	read_reg(pAd, 0x40, 0x148, &value);
+	value |= 0x1;
+	write_reg(pAd, 0x40, 0x148, value); // turn on WL MTCMOS
+	do {
+		read_reg(pAd, 0x40, 0x148, &regval);
 
-    read_reg(pAd, 0x40, 0x148, &value);
-    value &= ~(0x7F<<16);
-    write_reg(pAd, 0x40, 0x148, value);
+		if((((regval>>28) & 0x1) == 0x1) &&
+		   (((regval>>12) & 0x3) == 0x3))
+			break;
 
-    RtmpusecDelay(10);
-    read_reg(pAd, 0x40, 0x148, &value);
-    value &= ~(0xF<<24);
-    write_reg(pAd, 0x40, 0x148, value);
-    RtmpusecDelay(10);
+		RtmpusecDelay(10);
+		cnt++;
+	} while (cnt < 100);
 
-    read_reg(pAd, 0x40, 0x148, &value);
-    value |= (0xF<<24);
-    write_reg(pAd, 0x40, 0x148, value);
+	read_reg(pAd, 0x40, 0x148, &value);
+	value &= ~(0x7F<<16);
+	write_reg(pAd, 0x40, 0x148, value);
 
-    read_reg(pAd, 0x40, 0x148, &value);
-    value &= ~(0xFFF);
-    write_reg(pAd, 0x40, 0x148, value);
+	RtmpusecDelay(10);
+	read_reg(pAd, 0x40, 0x148, &value);
+	value &= ~(0xF<<24);
+	write_reg(pAd, 0x40, 0x148, value);
+	RtmpusecDelay(10);
 
-    /* Set 1'b0 to turn on AD/DA power down */
-    read_reg(pAd, 0x40, 0x1204, &value);
-    value &= ~(0x1<<3);
-    write_reg(pAd, 0x40, 0x1204, value);
+	read_reg(pAd, 0x40, 0x148, &value);
+	value |= (0xF<<24);
+	write_reg(pAd, 0x40, 0x148, value);
 
-    /* WLAN function enable */
-    read_reg(pAd, 0x40, 0x80, &value);
-    value |= (0x1<<0);
-    write_reg(pAd, 0x40, 0x80, value);
+	read_reg(pAd, 0x40, 0x148, &value);
+	value &= ~(0xFFF);
+	write_reg(pAd, 0x40, 0x148, value);
 
-    /* release "BBP software reset */
-    read_reg(pAd, 0x40, 0x64, &value);
-    value &= ~(0x1<<18);
-    write_reg(pAd, 0x40, 0x64, value);
+	/* Set 1'b0 to turn on AD/DA power down */
+	read_reg(pAd, 0x40, 0x1204, &value);
+	value &= ~(0x1<<3);
+	write_reg(pAd, 0x40, 0x1204, value);
+
+	/* WLAN function enable */
+	read_reg(pAd, 0x40, 0x80, &value);
+	value |= (0x1<<0);
+	write_reg(pAd, 0x40, 0x80, value);
+
+	/* release "BBP software reset */
+	read_reg(pAd, 0x40, 0x64, &value);
+	value &= ~(0x1<<18);
+	write_reg(pAd, 0x40, 0x64, value);
 }
 
 void mt76x2_pwrOn(struct rtmp_adapter *pAd)
 {
-    /* Radio On */
-    DBGPRINT(RT_DEBUG_TRACE, ("%s\n", __FUNCTION__));
-    WL_POWER_ON(pAd);
-    WF_CTRL(pAd, 0, 1);
-    WF_CTRL(pAd, 1, 1);
+	    /* Radio On */
+	    DBGPRINT(RT_DEBUG_TRACE, ("%s\n", __FUNCTION__));
+	    WL_POWER_ON(pAd);
+	    WF_CTRL(pAd, 0, 1);
+	    WF_CTRL(pAd, 1, 1);
 }
 
 
@@ -3480,9 +3683,7 @@ int mt76x2_set_ed_cca(struct rtmp_adapter *ad, u8 enable)
                 RTMP_IO_READ32(ad, TXOP_HLDR_ET, &mac_val);
                 mac_val |= 2;
                 RTMP_IO_WRITE32(ad, TXOP_HLDR_ET, mac_val);
-        }
-        else
-        {
+        } else {
                 // MAC: disable ED_CCA/ED_2nd_CCA
                 RTMP_IO_READ32(ad, TXOP_CTRL_CFG, &mac_val);
                 mac_val &= (~((1<<20) | (1<<7)));
