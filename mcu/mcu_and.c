@@ -198,7 +198,7 @@ int andes_usb_load_rom_patch(struct rtmp_adapter *ad)
 
 	if (cap->rom_code_protect) {
 load_patch_protect:
-		mt7612u_read32(ad, SEMAPHORE_03, &mac_value);
+		mac_value = mt7612u_read32(ad, SEMAPHORE_03);
 		loop++;
 
 		if (((mac_value & 0x01) == 0x00) && (loop < GET_SEMAPHORE_RETRY_MAX)) {
@@ -214,13 +214,13 @@ load_patch_protect:
 
 	/* Check rom patch if ready */
 	if (MT_REV_GTE(ad, MT76x2, REV_MT76x2E3)) {
-		mt7612u_read32(ad, CLOCK_CTL, &mac_value);
+		mac_value = mt7612u_read32(ad, CLOCK_CTL);
 
 		if (((mac_value & 0x01) == 0x01) && (cap->rom_code_protect)) {
 			goto error0;
 		}
 	} else {
-		mt7612u_read32(ad, COM_REG0, &mac_value);
+		mac_value = mt7612u_read32(ad, COM_REG0);
 
 		if (((mac_value & 0x02) == 0x02) && (cap->rom_code_protect)) {
 			goto error0;
@@ -252,7 +252,7 @@ load_patch_protect:
 			DBGPRINT(RT_DEBUG_OFF, ("rom patch for E2 IC\n"));
 		} else {
 			DBGPRINT(RT_DEBUG_OFF, ("rom patch do not match IC version\n"));
-			mt7612u_read32(ad, 0x0, &mac_value);
+			mac_value = mt7612u_read32(ad, 0x0);
 			DBGPRINT(RT_DEBUG_OFF, ("IC version(%x)\n", mac_value));
 			ret = NDIS_STATUS_FAILURE;
 			goto error0;
@@ -451,7 +451,7 @@ load_patch_protect:
 			}
 			DBGPRINT(RT_DEBUG_OFF, ("."));
 
-			mt7612u_read32(ad, TX_CPU_PORT_FROM_FCE_CPU_DESC_INDEX, &mac_value);
+			mac_value = mt7612u_read32(ad, TX_CPU_PORT_FROM_FCE_CPU_DESC_INDEX);
 			mac_value++;
 			RTUSBWriteMACRegister(ad, TX_CPU_PORT_FROM_FCE_CPU_DESC_INDEX, mac_value);
 
@@ -496,11 +496,11 @@ load_patch_protect:
 
 	do {
 		if (MT_REV_GTE(ad, MT76x2, REV_MT76x2E3)) {
-			mt7612u_read32(ad, CLOCK_CTL, &mac_value);
+			mac_value = mt7612u_read32(ad, CLOCK_CTL);
 			if ((mac_value & 0x01) == 0x1)
 				break;
 		} else {
-			mt7612u_read32(ad, COM_REG0, &mac_value);
+			mac_value = mt7612u_read32(ad, COM_REG0);
 			if ((mac_value & 0x02) == 0x2)
 				break;
 		}
@@ -611,7 +611,7 @@ int andes_usb_loadfw(struct rtmp_adapter *ad)
 
 	if (cap->ram_code_protect) {
 loadfw_protect:
-		mt7612u_read32(ad, SEMAPHORE_00, &mac_value);
+		mac_value = mt7612u_read32(ad, SEMAPHORE_00);
 		loop++;
 
 		if (((mac_value & 0x01) == 0x00) && (loop < GET_SEMAPHORE_RETRY_MAX)) {
@@ -626,7 +626,7 @@ loadfw_protect:
 	}
 
 	/* Check MCU if ready */
-	mt7612u_read32(ad, COM_REG0, &mac_value);
+	mac_value = mt7612u_read32(ad, COM_REG0);
 
 	if (((mac_value & 0x01) == 0x01) && (cap->ram_code_protect)) {
 		goto error0;
@@ -670,7 +670,7 @@ loadfw_protect:
 			DBGPRINT(RT_DEBUG_OFF, ("fw for E2 IC\n"));
 		} else {
 			DBGPRINT(RT_DEBUG_OFF, ("fw do not match IC version\n"));
-			mt7612u_read32(ad, 0x0, &mac_value);
+			mac_value = mt7612u_read32(ad, 0x0);
 			DBGPRINT(RT_DEBUG_OFF, ("IC version(%x)\n", mac_value));
 			ret = NDIS_STATUS_FAILURE;
 			goto error0;
@@ -842,7 +842,7 @@ loadfw_protect:
 			}
 			DBGPRINT(RT_DEBUG_OFF, ("."));
 
-			mt7612u_read32(ad, TX_CPU_PORT_FROM_FCE_CPU_DESC_INDEX, &mac_value);
+			mac_value = mt7612u_read32(ad, TX_CPU_PORT_FROM_FCE_CPU_DESC_INDEX);
 			mac_value++;
 			RTUSBWriteMACRegister(ad, TX_CPU_PORT_FROM_FCE_CPU_DESC_INDEX, mac_value);
 
@@ -983,7 +983,7 @@ loadfw_protect:
 			}
 			DBGPRINT(RT_DEBUG_OFF, ("."));
 
-			mt7612u_read32(ad, TX_CPU_PORT_FROM_FCE_CPU_DESC_INDEX, &mac_value);
+			mac_value = mt7612u_read32(ad, TX_CPU_PORT_FROM_FCE_CPU_DESC_INDEX);
 			mac_value++;
 			RTUSBWriteMACRegister(ad, TX_CPU_PORT_FROM_FCE_CPU_DESC_INDEX, mac_value);
 			RtmpOsMsDelay(5);
@@ -1002,7 +1002,7 @@ loadfw_protect:
 	/* Check MCU if ready */
 	loop = 0;
 	do {
-		mt7612u_read32(ad, COM_REG0, &mac_value);
+		mac_value = mt7612u_read32(ad, COM_REG0);
 		if ((mac_value & 0x01) == 0x01)
 			break;
 		RtmpOsMsDelay(10);
@@ -1011,7 +1011,7 @@ loadfw_protect:
 
 	DBGPRINT(RT_DEBUG_TRACE, ("%s: COM_REG0(0x%x) = 0x%x\n", __FUNCTION__, COM_REG0, mac_value));
 
-	mt7612u_read32(ad, COM_REG0, &mac_value);
+	mac_value = mt7612u_read32(ad, COM_REG0);
 	mac_value |= (1 << 1);
 	RTMP_IO_WRITE32(ad, COM_REG0, mac_value);
 

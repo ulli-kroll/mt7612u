@@ -58,7 +58,7 @@ static inline USHORT ShiftInBits(
 	uint32_t 	x,i;
 	USHORT      data=0;
 
-	mt7612u_read32(pAd, E2PROM_CSR, &x);
+	x = mt7612u_read32(pAd, E2PROM_CSR);
 
 	x &= ~( EEDO | EEDI);
 
@@ -67,7 +67,7 @@ static inline USHORT ShiftInBits(
 		data = data << 1;
 		RaiseClock(pAd, &x);
 
-		mt7612u_read32(pAd, E2PROM_CSR, &x);
+		x = mt7612u_read32(pAd, E2PROM_CSR);
 		LowerClock(pAd, &x); /*prevent read failed*/
 
 		x &= ~(EEDI);
@@ -88,7 +88,7 @@ static inline VOID ShiftOutBits(
 	uint32_t       x,mask;
 
 	mask = 0x01 << (count - 1);
-	mt7612u_read32(pAd, E2PROM_CSR, &x);
+	x = mt7612u_read32(pAd, E2PROM_CSR);
 
 	x &= ~(EEDO | EEDI);
 
@@ -116,7 +116,7 @@ static inline VOID EEpromCleanup(
 {
 	uint32_t x;
 
-	mt7612u_read32(pAd, E2PROM_CSR, &x);
+	x = mt7612u_read32(pAd, E2PROM_CSR);
 
 	x &= ~(EECS | EEDI);
 	RTMP_IO_WRITE32(pAd, E2PROM_CSR, x);
@@ -132,7 +132,7 @@ static inline VOID EWEN(
 	uint32_t x;
 
 	/* reset bits and set EECS*/
-	mt7612u_read32(pAd, E2PROM_CSR, &x);
+	x = mt7612u_read32(pAd, E2PROM_CSR);
 	x &= ~(EEDI | EEDO | EESK);
 	x |= EECS;
 	RTMP_IO_WRITE32(pAd, E2PROM_CSR, x);
@@ -155,7 +155,7 @@ static inline VOID EWDS(
 	uint32_t x;
 
 	/* reset bits and set EECS*/
-	mt7612u_read32(pAd, E2PROM_CSR, &x);
+	x = mt7612u_read32(pAd, E2PROM_CSR);
 	x &= ~(EEDI | EEDO | EESK);
 	x |= EECS;
 	RTMP_IO_WRITE32(pAd, E2PROM_CSR, x);
@@ -185,7 +185,7 @@ int rtmp_ee_prom_read16(
 
 	Offset /= 2;
 	/* reset bits and set EECS*/
-	mt7612u_read32(pAd, E2PROM_CSR, &x);
+	x = mt7612u_read32(pAd, E2PROM_CSR);
 	x &= ~(EEDI | EEDO | EESK);
 	x |= EECS;
 	RTMP_IO_WRITE32(pAd, E2PROM_CSR, x);
@@ -222,7 +222,7 @@ int rtmp_ee_prom_write16(
 	EWEN(pAd);
 
 	/* reset bits and set EECS*/
-	mt7612u_read32(pAd, E2PROM_CSR, &x);
+	x = mt7612u_read32(pAd, E2PROM_CSR);
 	x &= ~(EEDI | EEDO | EESK);
 	x |= EECS;
 	RTMP_IO_WRITE32(pAd, E2PROM_CSR, x);
@@ -235,7 +235,7 @@ int rtmp_ee_prom_write16(
 	ShiftOutBits(pAd, Data, 16);		/* 16-bit access*/
 
 	/* read DO status*/
-	mt7612u_read32(pAd, E2PROM_CSR, &x);
+	x= mt7612u_read32(pAd, E2PROM_CSR);
 
 	EEpromCleanup(pAd);
 

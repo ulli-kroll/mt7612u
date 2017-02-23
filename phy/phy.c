@@ -44,7 +44,7 @@ int NICInitBBP(struct rtmp_adapter *pAd)
 		if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST))
 			return NDIS_STATUS_FAILURE;
 
-		mt7612u_read32(pAd, MAC_STATUS_CFG, &val);
+		val = mt7612u_read32(pAd, MAC_STATUS_CFG);
 		if ((val & 0x03) == 0)	/* if BB.RF is stable*/
 			break;
 

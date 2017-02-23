@@ -112,7 +112,7 @@ UCHAR eFuseReadRegisters(
 		efuse_ctrl_reg = EFUSE_CTRL_3290;
 #endif /* defined(RT3290) || defined(RT65xx) || defined(MT7601) */
 
-	mt7612u_read32(pAd, efuse_ctrl_reg, &eFuseCtrlStruc.word);
+	eFuseCtrlStruc.word = mt7612u_read32(pAd, efuse_ctrl_reg);
 
 	/*Step0. Write 10-bit of address to EFSROM_AIN (0x580, bit25:bit16). The address must be 16-byte alignment.*/
 	/*Use the eeprom logical address and covert to address to block number*/
@@ -135,7 +135,7 @@ UCHAR eFuseReadRegisters(
 			return 0;
 
 		/*rtmp.HwMemoryReadDword(EFUSE_CTRL, (DWORD *) &eFuseCtrlStruc, 4);*/
-		mt7612u_read32(pAd, efuse_ctrl_reg, &eFuseCtrlStruc.word);
+		eFuseCtrlStruc.word = mt7612u_read32(pAd, efuse_ctrl_reg);
 		if(eFuseCtrlStruc.field.EFSROM_KICK == 0)
 		{
 			RtmpusecDelay(2);
@@ -162,7 +162,7 @@ UCHAR eFuseReadRegisters(
 		efuseDataOffset =  EFUSE_DATA3 - (Offset & 0xC);
 		/*data hold 4 bytes data.*/
 		/*In mt7612u_read32 will automatically execute 32-bytes swapping*/
-		mt7612u_read32(pAd, efuseDataOffset, &data);
+		data = mt7612u_read32(pAd, efuseDataOffset);
 		/*Decide the upper 2 bytes or the bottom 2 bytes.*/
 		/* Little-endian		S	|	S	Big-endian*/
 		/* addr	3	2	1	0	|	0	1	2	3*/
@@ -215,7 +215,7 @@ VOID eFusePhysicalReadRegisters(
 		efuse_ctrl_reg = EFUSE_CTRL_3290;
 #endif /* defined(RT3290) || defined(RT65xx) || defined(MT7601) */
 
-	mt7612u_read32(pAd, efuse_ctrl_reg, &eFuseCtrlStruc.word);
+	eFuseCtrlStruc.word = mt7612u_read32(pAd, efuse_ctrl_reg);
 
 	/*Step0. Write 10-bit of address to EFSROM_AIN (0x580, bit25:bit16). The address must be 16-byte alignment.*/
 	eFuseCtrlStruc.field.EFSROM_AIN = Offset & 0xfff0;
@@ -237,7 +237,7 @@ VOID eFusePhysicalReadRegisters(
 		if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST))
 			return;
 
-		mt7612u_read32(pAd, EFUSE_CTRL, &eFuseCtrlStruc.word);
+		eFuseCtrlStruc.word = mt7612u_read32(pAd, EFUSE_CTRL);
 		if(eFuseCtrlStruc.field.EFSROM_KICK == 0)
 		{
 			RtmpusecDelay(2);
@@ -263,7 +263,7 @@ VOID eFusePhysicalReadRegisters(
 #endif /* defined(RT3290) || defined(RT65xx) || defined(MT7601) */
 	efuseDataOffset =  EFUSE_DATA3 - (Offset & 0xC)  ;
 
-	mt7612u_read32(pAd, efuseDataOffset, &data);
+	data = mt7612u_read32(pAd, efuseDataOffset);
 
 #ifdef RT_BIG_ENDIAN
 		data = data << (8*((Offset & 0x3)^0x2));

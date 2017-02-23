@@ -329,7 +329,7 @@
 #define PFMU_R57    (BBP_PFMU + 0xE4)
 
 
-#define RTMP_BBP_IO_READ32(_p, _i, _pV)	mt7612u_read32(_p, _i, _pV)
+#define RTMP_BBP_IO_READ32(_p, _i)	mt7612u_read32(_p, _i)
 #define RTMP_BBP_IO_WRITE32(_p, _i, _v)	RTMP_IO_WRITE32(_p, _i, _v)
 
 

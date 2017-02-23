@@ -171,7 +171,7 @@ static uint32_t asic_set_wlan_func(struct rtmp_adapter *pAd, BOOLEAN enable)
 {
 	uint32_t reg;
 
-	mt7612u_read32(pAd, WLAN_FUN_CTRL, &reg);
+	reg = mt7612u_read32(pAd, WLAN_FUN_CTRL);
 
 	if (enable == TRUE)
 	{
@@ -218,7 +218,7 @@ INT rlt_wlan_chip_onoff(struct rtmp_adapter *pAd, BOOLEAN bOn, BOOLEAN bResetWLA
 	}
 #endif /* RTMP_MAC_USB */
 
-	mt7612u_read32(pAd, WLAN_FUN_CTRL, &reg);
+	reg = mt7612u_read32(pAd, WLAN_FUN_CTRL);
 	DBGPRINT(RT_DEBUG_OFF, ("==>%s(): OnOff:%d, Reset= %d, pAd->WlanFunCtrl:0x%x, Reg-WlanFunCtrl=0x%x\n",
 				__FUNCTION__, bOn, bResetWLAN, pAd->WlanFunCtrl.word, reg));
 
@@ -264,7 +264,7 @@ INT rlt_wlan_chip_onoff(struct rtmp_adapter *pAd, BOOLEAN bOn, BOOLEAN bResetWLA
 
 	if (bOn)
 	{
-		mt7612u_read32(pAd, MAC_CSR0, &pAd->MACVersion);
+		pAd->MACVersion = mt7612u_read32(pAd, MAC_CSR0);
 		DBGPRINT(RT_DEBUG_TRACE, ("MACVersion = 0x%08x\n", pAd->MACVersion));
 	}
 
@@ -281,7 +281,7 @@ INT rlt_wlan_chip_onoff(struct rtmp_adapter *pAd, BOOLEAN bOn, BOOLEAN bResetWLA
 		{
 			do
 			{
-				mt7612u_read32(pAd, CMB_CTRL, &value);
+				value = mt7612u_read32(pAd, CMB_CTRL);
 
 				/*
 					Check status of PLL_LD & XTAL_RDY.
@@ -315,7 +315,7 @@ INT rlt_wlan_chip_onoff(struct rtmp_adapter *pAd, BOOLEAN bOn, BOOLEAN bResetWLA
 	}
 
 	pAd->WlanFunCtrl.word = reg;
-	mt7612u_read32(pAd, WLAN_FUN_CTRL, &reg);
+	reg = mt7612u_read32(pAd, WLAN_FUN_CTRL);
 	DBGPRINT(RT_DEBUG_TRACE,
 		("<== %s():pAd->WlanFunCtrl.word = 0x%x, Reg->WlanFunCtrl=0x%x!\n",
 		__FUNCTION__, pAd->WlanFunCtrl.word, reg));

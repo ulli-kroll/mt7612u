@@ -40,7 +40,7 @@ int mt_rf_write(
 	RTMP_IO_WRITE32(ad, W_RFDATA, data);
 
 	/* rf control */
-	mt7612u_read32(ad, RF_CTRL, &value);
+	value = mt7612u_read32(ad, RF_CTRL);
 
 	/* rf address */
 	value &= ~RF_ADDR_MASK;
@@ -56,7 +56,7 @@ int mt_rf_write(
 	RTMP_IO_WRITE32(ad, RF_CTRL, value);
 
 	do {
-		mt7612u_read32(ad, RF_CTRL, &value);
+		value = mt7612u_read32(ad, RF_CTRL);
 
 		if (RF_READY(value))
 			break;
@@ -101,7 +101,7 @@ int mt_rf_read(
 #endif /* RTMP_MAC_USB */
 
 	/* rf control */
-	mt7612u_read32(ad, RF_CTRL, &value);
+	value = mt7612u_read32(ad, RF_CTRL);
 
 	/* rf address */
 	value &= ~RF_ADDR_MASK;
@@ -117,7 +117,7 @@ int mt_rf_read(
 	RTMP_IO_WRITE32(ad, RF_CTRL, value);
 
 	do {
-		mt7612u_read32(ad, RF_CTRL, &value);
+		value = mt7612u_read32(ad, RF_CTRL);
 
 		if (RF_READY(value))
 			break;
@@ -135,7 +135,7 @@ int mt_rf_read(
 	}
 
 	/* rf data */
-	mt7612u_read32(ad, R_RFDATA, data);
+	data = mt7612u_read32(ad, R_RFDATA);
 
 done:
 #ifdef RTMP_MAC_USB

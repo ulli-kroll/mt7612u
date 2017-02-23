@@ -1683,8 +1683,8 @@ VOID BeaconUpdateExec(
 
 	}
 
-	mt7612u_read32(pAd, TSF_TIMER_DW0, &tsfTime_a.u.LowPart);
-	mt7612u_read32(pAd, TSF_TIMER_DW1, &tsfTime_a.u.HighPart);
+	tsfTime_a.u.LowPart = mt7612u_read32(pAd, TSF_TIMER_DW0);
+	tsfTime_a.u.HighPart = mt7612u_read32(pAd, TSF_TIMER_DW1);
 
 
 	/*
@@ -1926,7 +1926,7 @@ VOID RT28xxUsbAsicRadioOn(struct rtmp_adapter *pAd)
 	/* make some traffic to invoke EvtDeviceD0Entry callback function*/
 
 
-	mt7612u_read32(pAd,0x1000,&MACValue);
+	MACValue = mt7612u_read32(pAd,0x1000);
 	DBGPRINT(RT_DEBUG_TRACE,("A MAC query to invoke EvtDeviceD0Entry, MACValue = 0x%x\n",MACValue));
 
 	/* 1. Send wake up command.*/
@@ -1961,7 +1961,7 @@ VOID RT28xxUsbAsicRadioOn(struct rtmp_adapter *pAd)
 	AsicWaitPDMAIdle(pAd, 200, 1000);
 
 	RtmpusecDelay(50);
-	mt7612u_read32(pAd, WPDMA_GLO_CFG, &GloCfg.word);
+	GloCfg.word = mt7612u_read32(pAd, WPDMA_GLO_CFG);
 	GloCfg.field.EnTXWriteBackDDONE = 1;
 	GloCfg.field.WPDMABurstSIZE = pAd->chipCap.WPDMABurstSIZE;
 	GloCfg.field.EnableRxDMA = 1;
@@ -2024,7 +2024,7 @@ BOOLEAN AsicCheckCommandOk(
 	i = 0;
 	do
 	{
-		mt7612u_read32(pAd, H2M_MAILBOX_CID, &CID);
+		CID = mt7612u_read32(pAd, H2M_MAILBOX_CID);
 		if ((CID & CID0MASK) == Command)
 		{
 			ThisCIDMask = CID0MASK;
@@ -2051,7 +2051,7 @@ BOOLEAN AsicCheckCommandOk(
 	}while (i < 200);
 
 	ret = FALSE;
-	mt7612u_read32(pAd, H2M_MAILBOX_STATUS, &CmdStatus);
+	CmdStatus = mt7612u_read32(pAd, H2M_MAILBOX_STATUS);
 	if (i < 200)
 	{
 		if (((CmdStatus & ThisCIDMask) == 0x1) || ((CmdStatus & ThisCIDMask) == 0x100)

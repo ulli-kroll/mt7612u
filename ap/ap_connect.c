@@ -953,7 +953,7 @@ VOID APMakeAllBssBeacon(struct rtmp_adapter *pAd)
 		APMakeBssBeacon(pAd, i);
 	}
 
-	mt7612u_read32(pAd, MAC_BSSID_DW1, &regValue);
+	regValue = mt7612u_read32(pAd, MAC_BSSID_DW1);
 	regValue &= 0x0000FFFF;
 
 

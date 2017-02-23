@@ -96,7 +96,7 @@ int RTUSBReadBBPRegister(struct rtmp_adapter *pAd, UCHAR Id, UCHAR *pValue);
 int RTUSBWriteBBPRegister(struct rtmp_adapter *pAd, UCHAR Id, UCHAR Value);
 int RTUSBWriteRFRegister(struct rtmp_adapter *pAd, uint32_t Value);
 int RTUSBWriteMACRegister(struct rtmp_adapter *pAd, USHORT Offset, uint32_t val);
-int mt7612u_read32(struct rtmp_adapter *pAd, USHORT Offset, uint32_t *val);
+u32 mt7612u_read32(struct rtmp_adapter *pAd, USHORT Offset);
 
 int RTUSBReadEEPROM(struct rtmp_adapter *pAd, USHORT Offset, UCHAR *buf, USHORT len);
 int RTUSBWriteEEPROM(struct rtmp_adapter *pAd, USHORT Offset, UCHAR *buf, USHORT len);

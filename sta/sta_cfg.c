@@ -203,7 +203,7 @@ INT Set_NetworkType_Proc(
             if (MONITOR_ON(pAd))
             {
                 RTMP_IO_WRITE32(pAd, RX_FILTR_CFG, STANORMAL);
-                mt7612u_read32(pAd, MAC_SYS_CTRL, &Value);
+                Value = mt7612u_read32(pAd, MAC_SYS_CTRL);
 				Value &= (~0x80);
 				RTMP_IO_WRITE32(pAd, MAC_SYS_CTRL, Value);
                 OPSTATUS_CLEAR_FLAG(pAd, fOP_STATUS_MEDIA_STATE_CONNECTED);
@@ -238,7 +238,7 @@ INT Set_NetworkType_Proc(
             if (MONITOR_ON(pAd))
             {
                 RTMP_IO_WRITE32(pAd, RX_FILTR_CFG, STANORMAL);
-                mt7612u_read32(pAd, MAC_SYS_CTRL, &Value);
+                Value = mt7612u_read32(pAd, MAC_SYS_CTRL);
 				Value &= (~0x80);
 				RTMP_IO_WRITE32(pAd, MAC_SYS_CTRL, Value);
                 OPSTATUS_CLEAR_FLAG(pAd, fOP_STATUS_MEDIA_STATE_CONNECTED);
@@ -337,12 +337,12 @@ INT Set_NetworkType_Proc(
 		/* Enable Rx with promiscuous reception */
 		RTMP_IO_WRITE32(pAd, RX_FILTR_CFG, 0x3);
 		/* ASIC supporsts sniffer function with replacing RSSI with timestamp. */
-		/*mt7612u_read32(pAdapter, MAC_SYS_CTRL, &Value); */
+		/* Value = mt7612u_read32(pAdapter, MAC_SYS_CTRL); */
 		/*Value |= (0x80); */
 		/*RTMP_IO_WRITE32(pAdapter, MAC_SYS_CTRL, Value); */
 
 		/* disable sync */
-		mt7612u_read32(pAd, BCN_TIME_CFG, &csr.word);
+		csr.word = mt7612u_read32(pAd, BCN_TIME_CFG);
 		csr.field.bBeaconGen = 0;
 		csr.field.bTBTTEnable = 0;
 		csr.field.TsfSyncMode = 0;
@@ -1062,12 +1062,12 @@ INT Set_DyncVgaEnable_Proc(
 
 	if (pAd->CommonCfg.lna_vga_ctl.bDyncVgaEnable == FALSE)
 	{
-		RTMP_BBP_IO_READ32(pAd, AGC1_R8, &bbp_val);
+		bbp_val = RTMP_BBP_IO_READ32(pAd, AGC1_R8);
 		bbp_val = (bbp_val & 0xffff80ff) | (pAd->CommonCfg.lna_vga_ctl.agc_vga_init_0 << 8);
 		RTMP_BBP_IO_WRITE32(pAd, AGC1_R8, bbp_val);
 
 		if (pAd->CommonCfg.RxStream >= 2) {
-			RTMP_BBP_IO_READ32(pAd, AGC1_R9, &bbp_val);
+			bbp_val = RTMP_BBP_IO_READ32(pAd, AGC1_R9);
 			bbp_val = (bbp_val & 0xffff80ff) | (pAd->CommonCfg.lna_vga_ctl.agc_vga_init_1 << 8);
 			RTMP_BBP_IO_WRITE32(pAd, AGC1_R9, bbp_val);
 		}
@@ -1467,7 +1467,7 @@ INT Set_WOW_Enable(
 	pAd->WOW_Cfg.bEnable = (BOOLEAN)Value;
 
 	/* pull GPIO high */
-	mt7612u_read32(pAd, GPIO_CTRL_CFG, &Val);
+	Val = mt7612u_read32(pAd, GPIO_CTRL_CFG);
 	if (Pin <= 7)
 	{
 		Val &= ~(1UL << (Pin+8));	/* direction: 0 out, 1 in */

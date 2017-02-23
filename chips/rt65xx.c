@@ -110,7 +110,7 @@ VOID RT65xxUsbAsicRadioOn(struct rtmp_adapter *pAd, UCHAR Stage)
 		rlt_wlan_chip_onoff(pAd, TRUE, FALSE);
 
 	/* make some traffic to invoke EvtDeviceD0Entry callback function*/
-	mt7612u_read32(pAd,0x1000, &MACValue);
+	MACValue = mt7612u_read32(pAd,0x1000);
 	DBGPRINT(RT_DEBUG_TRACE,("A MAC query to invoke EvtDeviceD0Entry, MACValue = 0x%x\n",MACValue));
 
 	/* enable RX of MAC block*/
@@ -192,13 +192,13 @@ VOID RT65xxDisableTxRx(
 	for (MTxCycle = 0; MTxCycle < 2000; MTxCycle++)
 	{
 		BOOLEAN bFree = TRUE;
-		mt7612u_read32(pAd, 0x438, &MacReg);
+		MacReg = mt7612u_read32(pAd, 0x438);
 		if (MacReg != 0)
 			bFree = FALSE;
-		mt7612u_read32(pAd, 0xa30, &MacReg);
+		MacReg = mt7612u_read32(pAd, 0xa30);
 		if (MacReg & 0x000000FF)
 			bFree = FALSE;
-		mt7612u_read32(pAd, 0xa34, &MacReg);
+		MacReg = mt7612u_read32(pAd, 0xa34);
 		if (MacReg & 0xFF00FF00)
 			bFree = FALSE;
 		if (bFree)
@@ -213,13 +213,13 @@ VOID RT65xxDisableTxRx(
 	if (MTxCycle >= 2000)
 	{
 		DBGPRINT(RT_DEBUG_ERROR, ("Check TxQ page count max\n"));
-		mt7612u_read32(pAd, 0x0a30, &MacReg);
+		MacReg = mt7612u_read32(pAd, 0x0a30);
 		DBGPRINT(RT_DEBUG_TRACE, ("0x0a30 = 0x%08x\n", MacReg));
 
-		mt7612u_read32(pAd, 0x0a34, &MacReg);
+		MacReg = mt7612u_read32(pAd, 0x0a34);
 		DBGPRINT(RT_DEBUG_TRACE, ("0x0a34 = 0x%08x\n", MacReg));
 
-		mt7612u_read32(pAd, 0x438, &MacReg);
+		MacReg = mt7612u_read32(pAd, 0x438);
 		DBGPRINT(RT_DEBUG_TRACE, ("0x438 = 0x%08x\n", MacReg));
 		bResetWLAN = TRUE;
 	}
@@ -229,7 +229,7 @@ VOID RT65xxDisableTxRx(
 	*/
 	for (MTxCycle = 0; MTxCycle < 2000; MTxCycle++)
 	{
-		mt7612u_read32(pAd, MAC_STATUS_CFG, &MacReg);
+		MacReg = mt7612u_read32(pAd, MAC_STATUS_CFG);
 		if (MacReg & 0x1)
 			RtmpusecDelay(50);
 		else
@@ -255,7 +255,7 @@ VOID RT65xxDisableTxRx(
 			/*
 				Disable MAC TX/RX
 			*/
-			mt7612u_read32(pAd, MAC_SYS_CTRL, &MacReg);
+			MacReg = mt7612u_read32(pAd, MAC_SYS_CTRL);
 			MacReg &= ~(0x0000000c);
 			RTMP_IO_WRITE32(pAd, MAC_SYS_CTRL, MacReg);
 		}
@@ -264,7 +264,7 @@ VOID RT65xxDisableTxRx(
 			/*
 				Disable MAC RX
 			*/
-			mt7612u_read32(pAd, MAC_SYS_CTRL, &MacReg);
+			MacReg = mt7612u_read32(pAd, MAC_SYS_CTRL);
 			MacReg &= ~(0x00000008);
 			RTMP_IO_WRITE32(pAd, MAC_SYS_CTRL, MacReg);
 		}
@@ -276,17 +276,17 @@ VOID RT65xxDisableTxRx(
 	for (MTxCycle = 0; MTxCycle < 2000; MTxCycle++)
 	{
 		bFree = TRUE;
-		mt7612u_read32(pAd, 0x430, &MacReg);
+		MacReg = mt7612u_read32(pAd, 0x430);
 
 		if (MacReg & (0x00FF0000))
 			bFree = FALSE;
 
-		mt7612u_read32(pAd, 0xa30, &MacReg);
+		MacReg = mt7612u_read32(pAd, 0xa30);
 
 		if (MacReg != 0)
 			bFree = FALSE;
 
-		mt7612u_read32(pAd, 0xa34, &MacReg);
+		MacReg = mt7612u_read32(pAd, 0xa34);
 
 		if (MacReg != 0)
 			bFree = FALSE;
@@ -315,13 +315,13 @@ VOID RT65xxDisableTxRx(
 	{
 		DBGPRINT(RT_DEBUG_ERROR, ("Check RxQ page count max\n"));
 
-		mt7612u_read32(pAd, 0x0a30, &MacReg);
+		MacReg = mt7612u_read32(pAd, 0x0a30);
 		DBGPRINT(RT_DEBUG_TRACE, ("0x0a30 = 0x%08x\n", MacReg));
 
-		mt7612u_read32(pAd, 0x0a34, &MacReg);
+		MacReg = mt7612u_read32(pAd, 0x0a34);
 		DBGPRINT(RT_DEBUG_TRACE, ("0x0a34 = 0x%08x\n", MacReg));
 
-		mt7612u_read32(pAd, 0x0430, &MacReg);
+		MacReg = mt7612u_read32(pAd, 0x0430);
 		DBGPRINT(RT_DEBUG_TRACE, ("0x0430 = 0x%08x\n", MacReg));
 		bResetWLAN = TRUE;
 	}
@@ -331,7 +331,7 @@ VOID RT65xxDisableTxRx(
 	*/
 	for (MTxCycle = 0; MTxCycle < 2000; MTxCycle++)
 	{
-		mt7612u_read32(pAd, MAC_STATUS_CFG, &MacReg);
+		MacReg = mt7612u_read32(pAd, MAC_STATUS_CFG);
 		if (MacReg & 0x2)
 			RtmpusecDelay(50);
 		else
@@ -384,10 +384,10 @@ VOID dump_bw_info(struct rtmp_adapter *pAd)
 		UCHAR tx_prim;
 
 
-		RTMP_BBP_IO_READ32(pAd, CORE_R1, &core_r1);
-		RTMP_BBP_IO_READ32(pAd, AGC1_R0, &agc_r0);
-		RTMP_BBP_IO_READ32(pAd, TXBE_R0, &be_r0);
-		mt7612u_read32(pAd, TX_BAND_CFG, &band_cfg);
+		core_r1 = RTMP_BBP_IO_READ32(pAd, CORE_R1);
+		agc_r0 = RTMP_BBP_IO_READ32(pAd, AGC1_R0);
+		be_r0 = RTMP_BBP_IO_READ32(pAd, TXBE_R0);
+		band_cfg = mt7612u_read32(pAd, TX_BAND_CFG);
 
 		/*  Tx/RX : control channel setting */
 		DBGPRINT(RT_DEBUG_OFF, ("\n%s():RegisterSetting: TX_BAND_CFG=0x%x, CORE_R1=0x%x, AGC1_R0=0x%x, TXBE_R0=0x%x\n",

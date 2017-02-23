@@ -133,7 +133,7 @@ int RT30xxWriteRFRegister(
 	ret = STATUS_UNSUCCESSFUL;
 	do
 	{
-		mt7612u_read32(pAd, RF_CSR_CFG, &rfcsr.word);
+		rfcsr.word = mt7612u_read32(pAd, RF_CSR_CFG);
 
 		if (!rfcsr.non_bank.RF_CSR_KICK)
 			break;
@@ -233,7 +233,7 @@ int RT30xxReadRFRegister(
 		if(RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST))
 			goto done;
 
-		mt7612u_read32(pAd, RF_CSR_CFG, &rfcsr.word);
+		rfcsr.word = mt7612u_read32(pAd, RF_CSR_CFG);
 
 		if (rfcsr.non_bank.RF_CSR_KICK == BUSY)
 				continue;
@@ -249,7 +249,7 @@ int RT30xxReadRFRegister(
 			if(RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST))
 				goto done;
 
-			mt7612u_read32(pAd, RF_CSR_CFG, &rfcsr.word);
+			rfcsr.word = mt7612u_read32(pAd, RF_CSR_CFG);
 
 			if (rfcsr.non_bank.RF_CSR_KICK == IDLE)
 				break;

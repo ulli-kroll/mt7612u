@@ -109,15 +109,15 @@ void dynamic_ed_cca_threshold_adjust(struct rtmp_adapter * pAd)
 	CHAR high_gain = 0, mid_gain = 0, low_gain = 0, ulow_gain = 0, lna_gain_mode = 0;
 	UCHAR lna_gain = 0, vga_gain = 0, y = 0, z = 0;
 
-	RTMP_BBP_IO_READ32(pAd, AGC1_R4, &reg_val);
+	reg_val = RTMP_BBP_IO_READ32(pAd, AGC1_R4);
 	high_gain = ((reg_val & (0x3F0000)) >> 16) & 0x3F;
 	mid_gain = ((reg_val & (0x3F00)) >> 8) & 0x3F;
 	low_gain = reg_val & 0x3F;
 
-	RTMP_BBP_IO_READ32(pAd, AGC1_R6, &reg_val);
+	reg_val = RTMP_BBP_IO_READ32(pAd, AGC1_R6);
 	ulow_gain = reg_val & 0x3F;
 
-	RTMP_BBP_IO_READ32(pAd, AGC1_R8, &reg_val);
+	reg_val = RTMP_BBP_IO_READ32(pAd, AGC1_R8);
 	lna_gain_mode = ((reg_val & 0xC0) >> 6) & 0x3;
 	vga_gain = ((reg_val & 0x7E00) >> 9) & 0x3F;
 
@@ -140,7 +140,7 @@ void dynamic_ed_cca_threshold_adjust(struct rtmp_adapter * pAd)
 	else
 		z = 1;
 
-	RTMP_BBP_IO_READ32(pAd, AGC1_R2, &reg_val);
+	reg_val = RTMP_BBP_IO_READ32(pAd, AGC1_R2);
 	reg_val = (reg_val & 0xFFFF0000) | (z << 8) | z;
 	RTMP_BBP_IO_WRITE32(pAd, AGC1_R2, reg_val);
 
@@ -189,11 +189,11 @@ void dynamic_cck_mrc(struct rtmp_adapter * pAd)
 	/* CCK MRC PER bump at larger power ~-30dBm */
 	if (pAd->CommonCfg.RxStream >= 2) {
 		if (pAd->chipCap.avg_rssi_all > -70) {
-			RTMP_BBP_IO_READ32(pAd, AGC1_R30, &bbp_val);
+			bbp_val = RTMP_BBP_IO_READ32(pAd, AGC1_R30);
 			bbp_val &= 0xfffffffb; /* disable CCK MRC */
 			RTMP_BBP_IO_WRITE32(pAd, AGC1_R30, bbp_val);
 		} else if (pAd->chipCap.avg_rssi_all < -80) {
-			RTMP_BBP_IO_READ32(pAd, AGC1_R30, &bbp_val);
+			bbp_val = RTMP_BBP_IO_READ32(pAd, AGC1_R30);
 			bbp_val = (bbp_val & 0xfffffffb) | (1 << 2); /* enable CCK MRC */
 			RTMP_BBP_IO_WRITE32(pAd, AGC1_R30, bbp_val);
 		}
@@ -227,7 +227,7 @@ BOOLEAN dynamic_channel_model_adjust(struct rtmp_adapter *pAd)
 			else
 				mode = 0xA1; /* BW80::iLNA lower VGA/PD */
 
-			RTMP_BBP_IO_READ32(pAd, AGC1_R26, &value);
+			value = RTMP_BBP_IO_READ32(pAd, AGC1_R26);
 			value = (value & ~0xF) | 0x3;
 			RTMP_BBP_IO_WRITE32(pAd, AGC1_R26, value);
 		} else if (pAd->CommonCfg.BBPCurrentBW == BW_40) {
@@ -249,7 +249,7 @@ BOOLEAN dynamic_channel_model_adjust(struct rtmp_adapter *pAd)
 			else
 				mode = 0x21; /* BW80::iLNA default */
 
-			RTMP_BBP_IO_READ32(pAd, AGC1_R26, &value);
+			value = RTMP_BBP_IO_READ32(pAd, AGC1_R26);
 			value = (value & ~0xF) | 0x5;
 			RTMP_BBP_IO_WRITE32(pAd, AGC1_R26, value);
 		} else if (pAd->CommonCfg.BBPCurrentBW == BW_40) {
@@ -435,9 +435,9 @@ void periodic_monitor_false_cca_adjust_vga(struct rtmp_adapter *pAd)
 			bbp_val2 = (bbp_val2 & 0xffff80ff) | (val2 << 8);
 			RTMP_BBP_IO_WRITE32(pAd, AGC1_R9, bbp_val2);
 		} else {
-			RTMP_BBP_IO_READ32(pAd, AGC1_R8, &bbp_val1);
+			bbp_val1 = RTMP_BBP_IO_READ32(pAd, AGC1_R8);
 			val1 = ((bbp_val1 & (0x00007f00)) >> 8) & 0x7f;
-			RTMP_BBP_IO_READ32(pAd, AGC1_R9, &bbp_val2);
+			bbp_val2 = RTMP_BBP_IO_READ32(pAd, AGC1_R9);
 			val2 = ((bbp_val2 & (0x00007f00)) >> 8) & 0x7f;
 		}
 
@@ -499,8 +499,8 @@ void periodic_monitor_rssi_adjust_vga(struct rtmp_adapter *pAd)
 		andes_dynamic_vga(pAd, pAd->CommonCfg.Channel, FALSE, FALSE,
 			pAd->chipCap.avg_rssi_all, pAd->RalinkCounters.OneSecFalseCCACnt);
 
-		RTMP_BBP_IO_READ32(pAd, AGC1_R8, &bbp_val1);
-		RTMP_BBP_IO_READ32(pAd, AGC1_R9, &bbp_val2);
+		bbp_val1 = RTMP_BBP_IO_READ32(pAd, AGC1_R8);
+		bbp_val2 = RTMP_BBP_IO_READ32(pAd, AGC1_R9);
 
 		DBGPRINT(RT_DEBUG_INFO, ("%s::0x2320=0x%08x, 0x2324=0x%08x\n",
 			__FUNCTION__, bbp_val1, bbp_val2));
@@ -519,12 +519,12 @@ void periodic_check_channel_smoothing(struct rtmp_adapter *ad)
 
 	if (Rssi < -50) {
 		if (!ad->chipCap.chl_smth_enable) {
-			RTMP_BBP_IO_READ32(ad, 0x2948, &bbp_value);
+			bbp_value = RTMP_BBP_IO_READ32(ad, 0x2948);
 			bbp_value &= ~(0x1);
 			bbp_value |= (0x1);
 			RTMP_BBP_IO_WRITE32(ad, 0x2948, bbp_value);
 
-			RTMP_BBP_IO_READ32(ad, 0x2944, &bbp_value);
+			bbp_value = RTMP_BBP_IO_READ32(ad, 0x2944);
 			bbp_value &= ~(0x1);
 			RTMP_BBP_IO_WRITE32(ad, 0x2944, bbp_value);
 
@@ -532,11 +532,11 @@ void periodic_check_channel_smoothing(struct rtmp_adapter *ad)
 		}
 	} else {
 		if (ad->chipCap.chl_smth_enable) {
-			RTMP_BBP_IO_READ32(ad, 0x2948, &bbp_value);
+			bbp_value = RTMP_BBP_IO_READ32(ad, 0x2948);
 			bbp_value &= ~(0x1);
 			RTMP_BBP_IO_WRITE32(ad, 0x2948, bbp_value);
 
-			RTMP_BBP_IO_READ32(ad, 0x2944, &bbp_value);
+			bbp_value = RTMP_BBP_IO_READ32(ad, 0x2944);
 			bbp_value &= ~(0x1);
 			bbp_value |= (0x1);
 			RTMP_BBP_IO_WRITE32(ad, 0x2944, bbp_value);
@@ -1573,7 +1573,7 @@ VOID MlmePeriodicExec(
 				while (count < 10)
 				{
 					RtmpusecDelay(1000); /* 1 ms*/
-					mt7612u_read32(pAd, MAC_STATUS_CFG, &MacCsr12);
+					MacCsr12 = mt7612u_read32(pAd, MAC_STATUS_CFG);
 
 					/* if MAC is idle*/
 					if ((MacCsr12 & 0x03) == 0)
@@ -1628,7 +1628,7 @@ VOID MlmePeriodicExec(
 
 			uint32_t MacReg = 0;
 
-			mt7612u_read32(pAd, 0x10F4, &MacReg);
+			MacReg = mt7612u_read32(pAd, 0x10F4);
 			if (((MacReg & 0x20000000) && (MacReg & 0x80)) || ((MacReg & 0x20000000) && (MacReg & 0x20)))
 			{
 				RTMP_IO_WRITE32(pAd, MAC_SYS_CTRL, 0x1);
@@ -1873,8 +1873,8 @@ VOID STAMlmePeriodicExec(struct rtmp_adapter *pAd)
 		{
 			EDCA_AC_CFG_STRUC	Ac0Cfg;
 			EDCA_AC_CFG_STRUC	Ac2Cfg;
-			mt7612u_read32(pAd, EDCA_AC2_CFG, &Ac2Cfg.word);
-			mt7612u_read32(pAd, EDCA_AC0_CFG, &Ac0Cfg.word);
+			Ac2Cfg.word = mt7612u_read32(pAd, EDCA_AC2_CFG);
+			Ac0Cfg.word = mt7612u_read32(pAd, EDCA_AC0_CFG);
 
 			if ((pAd->RalinkCounters.OneSecOsTxCount[QID_AC_VO] == 0) &&
 			(pAd->RalinkCounters.OneSecOsTxCount[QID_AC_BK] == 0) &&
@@ -5307,9 +5307,9 @@ UCHAR RandomByte2(struct rtmp_adapter *pAd)
 	UCHAR value, seed = 0;
 
 	/*MAC statistic related*/
-	mt7612u_read32(pAd, RX_STA_CNT1, &a);
+	a = mt7612u_read32(pAd, RX_STA_CNT1);
 	a &= 0x0000ffff;
-	mt7612u_read32(pAd, RX_STA_CNT0, &b);
+	b = mt7612u_read32(pAd, RX_STA_CNT0);
 	b &= 0x0000ffff;
 	value = (a<<16)|b;
 

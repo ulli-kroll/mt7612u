@@ -2654,7 +2654,7 @@ INT	Show_StaCount_Proc(struct rtmp_adapter *pAd, char *arg)
     	uint32_t RegValue;
 
 	printk("\n");
-	mt7612u_read32(pAd, BKOFF_SLOT_CFG, &RegValue);
+	RegValue = mt7612u_read32(pAd, BKOFF_SLOT_CFG);
 	printk("BackOff Slot      : %s slot time, BKOFF_SLOT_CFG(0x1104) = 0x%08x\n",
 			OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_SHORT_SLOT_INUSED) ? "short" : "long",
  			RegValue);
@@ -5843,12 +5843,12 @@ INT Set_AP_DyncVgaEnable_Proc(
 	{
 #ifdef MT76x2
 		if (IS_MT76x2(pAd)) {
-			RTMP_BBP_IO_READ32(pAd, AGC1_R8, &bbp_val);
+			bbp_val = RTMP_BBP_IO_READ32(pAd, AGC1_R8);
 			bbp_val = (bbp_val & 0xffff80ff) | (pAd->CommonCfg.lna_vga_ctl.agc_vga_init_0 << 8);
 			RTMP_BBP_IO_WRITE32(pAd, AGC1_R8, bbp_val);
 
 			if (pAd->CommonCfg.RxStream >= 2) {
-				RTMP_BBP_IO_READ32(pAd, AGC1_R9, &bbp_val);
+				bbp_val = RTMP_BBP_IO_READ32(pAd, AGC1_R9);
 				bbp_val = (bbp_val & 0xffff80ff) | (pAd->CommonCfg.lna_vga_ctl.agc_vga_init_1 << 8);
 				RTMP_BBP_IO_WRITE32(pAd, AGC1_R9, bbp_val);
 			}
@@ -5927,7 +5927,7 @@ INT edcca_tx_stop_start(struct rtmp_adapter *pAd, BOOLEAN stop)
 
 	/* Disable MAC Tx and wait MAC Tx/Rx status in idle state or direcyl enable tx */
 	NdisGetSystemUpTime(&stTime);
-	mt7612u_read32(pAd, MAC_SYS_CTRL, &macCfg);
+	macCfg = mt7612u_read32(pAd, MAC_SYS_CTRL);
 
 
 	if (stop == TRUE) {
@@ -5941,7 +5941,7 @@ INT edcca_tx_stop_start(struct rtmp_adapter *pAd, BOOLEAN stop)
 	if (stop == TRUE) {
 		for (MTxCycle = 0; MTxCycle < 10000; MTxCycle++)
 		{
-			mt7612u_read32(pAd, MAC_STATUS_CFG, &macStatus);
+			macStatus = mt7612u_read32(pAd, MAC_STATUS_CFG);
 			if (macStatus & 0x1)
 				RtmpusecDelay(50);
 			else
@@ -5972,9 +5972,9 @@ INT ed_status_read(struct rtmp_adapter *pAd)
 	RX_STA_CNT1_STRUC RxStaCnt1;
 	uint32_t ch_idle_stat=0, ch_busy_stat=0, ed_2nd_stat=0, ed_stat=0;
 
-	mt7612u_read32(pAd, CH_IDLE_STA, &ch_idle_stat);
-	mt7612u_read32(pAd, 0x1140, &ed_stat);
-	mt7612u_read32(pAd, RX_STA_CNT1, &RxStaCnt1.word);
+	ch_idle_stat = mt7612u_read32(pAd, CH_IDLE_STA);
+	ed_stat = mt7612u_read32(pAd, 0x1140);
+	RxStaCnt1.word = mt7612u_read32(pAd, RX_STA_CNT1);
 
 	RTMP_IRQ_LOCK(&pAd->irq_lock, irqflag);
 

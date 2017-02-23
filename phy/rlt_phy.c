@@ -37,7 +37,7 @@ static INT rlt_bbp_is_ready(struct rtmp_adapter *pAd)
 
 	do
 	{
-		RTMP_BBP_IO_READ32(pAd, CORE_R0, &val);
+		val = RTMP_BBP_IO_READ32(pAd, CORE_R0);
 		if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST))
 			return FALSE;
 	} while ((++idx < 20) && ((val == 0xffffffff) || (val == 0x0)));
@@ -104,7 +104,7 @@ static INT rlt_bbp_tx_comp_init(struct rtmp_adapter *pAd, INT adc_insel, INT tss
 	UCHAR rf_val;
 
 #if defined(RTMP_INTERNAL_TX_ALC) || defined(RTMP_TEMPERATURE_COMPENSATION)
-	RTMP_BBP_IO_READ32(pAd, CORE_R34, &bbp_val);
+	bbp_val = RTMP_BBP_IO_READ32(pAd, CORE_R34);
 	bbp_val = (bbp_val & 0xe7);
 	bbp_val = (bbp_val | 0x80);
 	RTMP_BBP_IO_WRITE32(pAd, CORE_R34, bbp_val);
@@ -123,7 +123,7 @@ static INT rlt_bbp_set_txdac(struct rtmp_adapter *pAd, INT tx_dac)
 {
 	uint32_t txbe, txbe_r5 = 0;
 
-	RTMP_BBP_IO_READ32(pAd, TXBE_R5, &txbe_r5);
+	txbe_r5 = RTMP_BBP_IO_READ32(pAd, TXBE_R5);
 	txbe = txbe_r5 & (~0x3);
 	switch (tx_dac)
 	{
@@ -148,7 +148,7 @@ static INT rlt_bbp_set_rxpath(struct rtmp_adapter *pAd, INT rxpath)
 {
 	uint32_t agc, agc_r0 = 0;
 
-	RTMP_BBP_IO_READ32(pAd, AGC1_R0, &agc_r0);
+	agc_r0 = RTMP_BBP_IO_READ32(pAd, AGC1_R0);
 	agc = agc_r0 & (~0x18);
 	if(rxpath == 2)
 		agc |= (0x8);
@@ -204,9 +204,9 @@ static INT rlt_bbp_set_ctrlch(struct rtmp_adapter *pAd, UINT8 ext_ch)
 	uint32_t agc, agc_r0 = 0;
 	uint32_t be, be_r0 = 0;
 
-	RTMP_BBP_IO_READ32(pAd, AGC1_R0, &agc_r0);
+	agc_r0 = RTMP_BBP_IO_READ32(pAd, AGC1_R0);
 	agc = agc_r0 & (~0x300);
-	RTMP_BBP_IO_READ32(pAd, TXBE_R0, &be_r0);
+	be_r0 = RTMP_BBP_IO_READ32(pAd, TXBE_R0);
 	be = (be_r0 & (~0x03));
 	if (pAd->CommonCfg.BBPCurrentBW == BW_80 &&
 		pAd->CommonCfg.Channel >= 36 &&
@@ -322,9 +322,9 @@ static INT rlt_bbp_set_bw(struct rtmp_adapter *pAd, UINT8 bw)
 	}
 #endif /* RTMP_USB_SUPPORT */
 
-	RTMP_BBP_IO_READ32(pAd, CORE_R1, &core_r1);
+	core_r1 = RTMP_BBP_IO_READ32(pAd, CORE_R1);
 		core = (core_r1 & (~0x18));
-	RTMP_BBP_IO_READ32(pAd, AGC1_R0, &agc_r0);
+	agc_r0 = RTMP_BBP_IO_READ32(pAd, AGC1_R0);
 	agc = agc_r0 & (~0x7000);
 	switch (bw)
 	{
@@ -378,7 +378,7 @@ static INT rlt_bbp_set_mmps(struct rtmp_adapter *pAd, BOOLEAN ReduceCorePower)
 {
 	uint32_t bbp_val, org_val;
 
-	RTMP_BBP_IO_READ32(pAd, AGC1_R0, &org_val);
+	org_val = RTMP_BBP_IO_READ32(pAd, AGC1_R0);
 	bbp_val = org_val;
 	if (ReduceCorePower)
 		bbp_val |= 0x04;
@@ -412,7 +412,7 @@ static INT rlt_bbp_get_agc(struct rtmp_adapter *pAd, CHAR *agc, RX_CHAIN_IDX cha
 
 		if (chain & 0x01)
 		{
-			RTMP_BBP_IO_READ32(pAd, bbp_reg, &bbp_val);
+			bbp_val = RTMP_BBP_IO_READ32(pAd, bbp_reg);
 			val = ((bbp_val & (0x0000ff00)) >> 8) & 0xff;
 			break;
 		}
@@ -445,7 +445,7 @@ static INT rlt_bbp_set_agc(struct rtmp_adapter *pAd, UCHAR agc, RX_CHAIN_IDX cha
 
 		if (idx & 0x01)
 		{
-			RTMP_BBP_IO_READ32(pAd, bbp_reg, &bbp_val);
+			bbp_val = RTMP_BBP_IO_READ32(pAd, bbp_reg);
 			bbp_val = (bbp_val & 0xffff00ff) | (agc << 8);
 			RTMP_BBP_IO_WRITE32(pAd, bbp_reg, bbp_val);
 
@@ -469,7 +469,7 @@ static INT rlt_bbp_set_filter_coefficient_ctrl(struct rtmp_adapter *pAd, UCHAR C
 	if (Channel == 14)
 	{
 		/* when Channel==14 && Mode==CCK && BandWidth==20M, BBP R4 bit5=1 */
-		RTMP_BBP_IO_READ32(pAd, CORE_R1, &org_val);
+		bbp_val = RTMP_BBP_IO_READ32(pAd, CORE_R1);
 		bbp_val = org_val;
 		if (WMODE_EQUAL(pAd->CommonCfg.PhyMode, WMODE_B))
 			bbp_val |= 0x20;
@@ -489,10 +489,10 @@ static UCHAR rlt_bbp_get_random_seed(struct rtmp_adapter *pAd)
 	uint32_t value, value2;
 	UCHAR seed;
 
-	RTMP_BBP_IO_READ32(pAd, AGC1_R16, &value);
+	value = RTMP_BBP_IO_READ32(pAd, AGC1_R16);
 	seed = (UCHAR)((value & 0xff) ^ ((value & 0xff00) >> 8)^
 					((value & 0xff0000) >> 16));
-	RTMP_BBP_IO_READ32(pAd, RXO_R9, &value2);
+	value2 = RTMP_BBP_IO_READ32(pAd, RXO_R9);
 
 	return (UCHAR)(seed ^ (value2 & 0xff)^ ((value2 & 0xff00) >> 8));
 }

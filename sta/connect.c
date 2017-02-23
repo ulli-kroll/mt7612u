@@ -1803,7 +1803,7 @@ VOID LinkUp(struct rtmp_adapter *pAd, UCHAR BssType)
 
 	pbf_reg = RLT_PBF_MAX_PCNT;
 
-	mt7612u_read32(pAd, EDCA_AC0_CFG, &Data);
+	Data = mt7612u_read32(pAd, EDCA_AC0_CFG);
 	Data &= 0xFFFFFF00;
 	Data |= burst_txop;
 	RTMP_IO_WRITE32(pAd, EDCA_AC0_CFG, Data);
@@ -1814,7 +1814,7 @@ VOID LinkUp(struct rtmp_adapter *pAd, UCHAR BssType)
 		if (pAd->CommonCfg.bEnableTxBurst) {
 			uint32_t MACValue = 0;
 			/* Force disable TXOP value in this case. The same action in MLMEUpdateProtect too */
-			mt7612u_read32(pAd, EDCA_AC0_CFG, &MACValue);
+			MACValue = mt7612u_read32(pAd, EDCA_AC0_CFG);
 			MACValue &= 0xFFFFFF00;
 			RTMP_IO_WRITE32(pAd, EDCA_AC0_CFG, MACValue);
 		}
