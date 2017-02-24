@@ -263,7 +263,7 @@ VOID APMakeBssBeacon(struct rtmp_adapter *pAd, INT apidx)
 			(*(ptr + 2) << 16);
 			(*(ptr + 3) << 24);
 
-		RTMP_IO_WRITE32(pAd, reg_base + i, dword);
+		mt7612u_write32(pAd, reg_base + i, dword);
 		ptr += 4;
 	}
 
@@ -282,7 +282,7 @@ VOID APMakeBssBeacon(struct rtmp_adapter *pAd, INT apidx)
 			(*(ptr + 2) << 16);
 			(*(ptr + 3) << 24);
 
-		RTMP_IO_WRITE32(pAd, reg_base + i, dword);
+		mt7612u_write32(pAd, reg_base + i, dword);
 		ptr += 4;
 	}
 
@@ -940,7 +940,7 @@ VOID APMakeAllBssBeacon(struct rtmp_adapter *pAd)
 	{
 		for (j=0; j < TXWISize; j+=4)
 	    {
-			RTMP_IO_WRITE32(pAd, pAd->BeaconOffset[i] + j, 0);
+			mt7612u_write32(pAd, pAd->BeaconOffset[i] + j, 0);
 	    }
 	}
 
@@ -1031,7 +1031,7 @@ VOID APMakeAllBssBeacon(struct rtmp_adapter *pAd)
 #endif /* ENHANCE_NEW_MBSSID_MODE */
 	}
 
-	RTMP_IO_WRITE32(pAd, MAC_BSSID_DW1, regValue);
+	mt7612u_write32(pAd, MAC_BSSID_DW1, regValue);
 
 
 #ifdef RTMP_MAC_USB

@@ -42,7 +42,7 @@ INT MCURandomWrite(struct rtmp_adapter *pAd, RTMP_REG_PAIR *RegPair, uint32_t Nu
 	uint32_t Index;
 
 	for (Index = 0; Index < Num; Index++)
-		RTMP_IO_WRITE32(pAd, RegPair->Register, RegPair->Value);
+		mt7612u_write32(pAd, RegPair->Register, RegPair->Value);
 
 	return 0;
 }

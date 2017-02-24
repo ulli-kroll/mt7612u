@@ -96,7 +96,7 @@ VOID VideoTurbineDynamicTune(
 			mt7612u_read32(pAd, TX_RTY_CFG, &MacReg);
 			MacReg &= 0xFFFF0000;
 			MacReg |= GetAsicVideoRetry(pAd);
-			RTMP_IO_WRITE32(pAd, TX_RTY_CFG, MacReg);
+			mt7612u_write32(pAd, TX_RTY_CFG, MacReg);
 		}
 
 		pAd->VideoTurbine.TxBASize = GetAsicVideoTxBA(pAd);
@@ -114,7 +114,7 @@ VOID VideoTurbineDynamicTune(
 		mt7612u_read32(pAd, TX_RTY_CFG, &MacReg);
 		MacReg &= 0xFFFF0000;
 			MacReg |= GetAsicDefaultRetry(pAd);
-		RTMP_IO_WRITE32(pAd, TX_RTY_CFG, MacReg);
+		mt7612u_write32(pAd, TX_RTY_CFG, MacReg);
 
 		pAd->VideoTurbine.TxBASize = GetAsicDefaultTxBA(pAd);
 

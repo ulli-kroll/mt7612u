@@ -666,7 +666,7 @@ VOID APStop(
 	/* Disable pre-tbtt interrupt */
 	Value = mt7612u_read32(pAd, INT_TIMER_EN);
 	Value &=0xe;
-	RTMP_IO_WRITE32(pAd, INT_TIMER_EN, Value);
+	mt7612u_write32(pAd, INT_TIMER_EN, Value);
 	/* Disable piggyback */
 	RTMPSetPiggyBack(pAd, FALSE);
 

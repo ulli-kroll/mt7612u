@@ -2358,13 +2358,13 @@ VOID MlmeDynamicTxRateSwitchingAdapt(
         {
             if(pAGSCurrTxRate->dataRate == 2)
             {
-                RTMP_IO_WRITE32(pAd, HT_FBK_CFG0, 0xBBA98800);
-                RTMP_IO_WRITE32(pAd, HT_FBK_CFG1, 0xEDCBA980);
+                mt7612u_write32(pAd, HT_FBK_CFG0, 0xBBA98800);
+                mt7612u_write32(pAd, HT_FBK_CFG1, 0xEDCBA980);
             }
             else
             {
-                RTMP_IO_WRITE32(pAd, HT_FBK_CFG0, 0x65432100);
-                RTMP_IO_WRITE32(pAd, HT_FBK_CFG1, 0xEDC74320);
+                mt7612u_write32(pAd, HT_FBK_CFG0, 0x65432100);
+                mt7612u_write32(pAd, HT_FBK_CFG1, 0xEDC74320);
             }
 
         }
@@ -2372,19 +2372,19 @@ VOID MlmeDynamicTxRateSwitchingAdapt(
         {
             if(pAGSCurrTxRate->CurrMCS > 7)
             {
-                RTMP_IO_WRITE32(pAd, HT_FBK_CFG0, 0xBBA98800);
-                RTMP_IO_WRITE32(pAd, HT_FBK_CFG1, 0xEDCBA980);
+                mt7612u_write32(pAd, HT_FBK_CFG0, 0xBBA98800);
+                mt7612u_write32(pAd, HT_FBK_CFG1, 0xEDCBA980);
             }
             else
             {
-                RTMP_IO_WRITE32(pAd, HT_FBK_CFG0, 0x65432100);
-                RTMP_IO_WRITE32(pAd, HT_FBK_CFG1, 0xEDC74320);
+                mt7612u_write32(pAd, HT_FBK_CFG0, 0x65432100);
+                mt7612u_write32(pAd, HT_FBK_CFG1, 0xEDC74320);
             }
         }
         else
         {
-            RTMP_IO_WRITE32(pAd, HT_FBK_CFG0, 0x65432100);
-            RTMP_IO_WRITE32(pAd, HT_FBK_CFG1, 0xEDCBA980);
+            mt7612u_write32(pAd, HT_FBK_CFG0, 0x65432100);
+            mt7612u_write32(pAd, HT_FBK_CFG1, 0xEDCBA980);
         }
     }
 

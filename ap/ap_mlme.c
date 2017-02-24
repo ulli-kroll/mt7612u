@@ -216,7 +216,7 @@ VOID APMlmePeriodicExec(
 							if (Ac1Cfg.field.Aifsn!=0x1)
 							{
 									Ac1Cfg.field.Aifsn = 0x1;
-									RTMP_IO_WRITE32(pAd, EDCA_AC1_CFG, Ac1Cfg.word);
+									mt7612u_write32(pAd, EDCA_AC1_CFG, Ac1Cfg.word);
 									printk("Change EDCA_AC1_CFG to %x \n", Ac1Cfg.word);
 							}
 						}
@@ -229,7 +229,7 @@ VOID APMlmePeriodicExec(
 							if (Ac1Cfg.field.Aifsn!=0x7)
 							{
 								Ac1Cfg.field.Aifsn = 0x7;
-								RTMP_IO_WRITE32(pAd, EDCA_AC1_CFG, Ac1Cfg.word);
+								mt7612u_write32(pAd, EDCA_AC1_CFG, Ac1Cfg.word);
 								printk("Restore EDCA_AC1_CFG to %x \n", Ac1Cfg.word);
 							}
 						}

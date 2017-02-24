@@ -151,7 +151,7 @@ BOOLEAN CFG80211DRV_OpsChgVirtualInf(struct rtmp_adapter *pAd, VOID *pData)
 				Filter = Filter | 0x08;
 			}
 
-			RTMP_IO_WRITE32(pAd, RX_FILTR_CFG, Filter);
+			mt7612u_write32(pAd, RX_FILTR_CFG, Filter);
 			pVifParm->MonFilterFlag = Filter;
 		}
 	}

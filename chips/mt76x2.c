@@ -281,7 +281,7 @@ void mt76x2_adjust_per_rate_pwr_delta(struct rtmp_adapter *ad, u8 channel, char 
 		value |= TX_PWR_OFDM_12_18(cap->tx_pwr_g_band_ofdm_12_18 + delta_pwr);
 	else
 		value |= TX_PWR_OFDM_12_18(cap->tx_pwr_a_band_ofdm_12_18 + delta_pwr);
-	RTMP_IO_WRITE32(ad, TX_PWR_CFG_0, value);
+	mt7612u_write32(ad, TX_PWR_CFG_0, value);
 
 	value = mt7612u_read32(ad, TX_PWR_CFG_1);
 	value &= ~TX_PWR_OFDM_24_36_MASK;
@@ -301,7 +301,7 @@ void mt76x2_adjust_per_rate_pwr_delta(struct rtmp_adapter *ad, u8 channel, char 
 
 	value &= ~TX_PWR_HT_VHT_1SS_MCS_2_3_MASK;
 	value |= TX_PWR_HT_VHT_1SS_MCS_2_3(cap->tx_pwr_ht_mcs_2_3 + delta_pwr);
-	RTMP_IO_WRITE32(ad, TX_PWR_CFG_1, value);
+	mt7612u_write32(ad, TX_PWR_CFG_1, value);
 
 	value = mt7612u_read32(ad, TX_PWR_CFG_2);
 	value &= ~TX_PWR_HT_VHT_1SS_MCS_4_5_MASK;
@@ -315,7 +315,7 @@ void mt76x2_adjust_per_rate_pwr_delta(struct rtmp_adapter *ad, u8 channel, char 
 
 	value &= ~TX_PWR_HT_MCS_10_11_VHT_2SS_MCS_2_3_MASK;
 	value |= TX_PWR_HT_MCS_10_11_VHT_2SS_MCS_2_3(cap->tx_pwr_ht_mcs_10_11 + delta_pwr);
-	RTMP_IO_WRITE32(ad, TX_PWR_CFG_2, value);
+	mt7612u_write32(ad, TX_PWR_CFG_2, value);
 
 	value = mt7612u_read32(ad, TX_PWR_CFG_3);
 	value &= ~TX_PWR_HT_MCS_12_13_VHT_2SS_MCS_4_5_MASK;
@@ -329,7 +329,7 @@ void mt76x2_adjust_per_rate_pwr_delta(struct rtmp_adapter *ad, u8 channel, char 
 
 	value &= ~TX_PWR_HT_VHT_STBC_MCS_2_3_MASK;
 	value |= TX_PWR_HT_VHT_STBC_MCS_2_3(cap->tx_pwr_ht_mcs_2_3 + delta_pwr);
-	RTMP_IO_WRITE32(ad, TX_PWR_CFG_3, value);
+	mt7612u_write32(ad, TX_PWR_CFG_3, value);
 
 	value = mt7612u_read32(ad, TX_PWR_CFG_4);
 	value &= ~TX_PWR_HT_VHT_STBC_MCS_4_5_MASK;
@@ -337,7 +337,7 @@ void mt76x2_adjust_per_rate_pwr_delta(struct rtmp_adapter *ad, u8 channel, char 
 
 	value &= ~TX_PWR_HT_VHT_STBC_MCS_6_MASK;
 	value |= TX_PWR_HT_VHT_STBC_MCS_6(cap->tx_pwr_ht_mcs_6_7 + delta_pwr);
-	RTMP_IO_WRITE32(ad, TX_PWR_CFG_4, value);
+	mt7612u_write32(ad, TX_PWR_CFG_4, value);
 
 	value = mt7612u_read32(ad, TX_PWR_CFG_7);
 	value &= ~TX_PWR_OFDM_54_MASK;
@@ -361,7 +361,7 @@ void mt76x2_adjust_per_rate_pwr_delta(struct rtmp_adapter *ad, u8 channel, char 
 	else
 		value |= TX_PWR_VHT_2SS_MCS_9(cap->tx_pwr_5g_vht_mcs_8_9 + delta_pwr);
 
-	RTMP_IO_WRITE32(ad, TX_PWR_CFG_7, value);
+	mt7612u_write32(ad, TX_PWR_CFG_7, value);
 
 	value = mt7612u_read32(ad, TX_PWR_CFG_8);
 	value &= ~TX_PWR_HT_MCS_15_VHT_2SS_MCS7_MASK;
@@ -379,7 +379,7 @@ void mt76x2_adjust_per_rate_pwr_delta(struct rtmp_adapter *ad, u8 channel, char 
 	else
 		value |= TX_PWR_VHT_1SS_MCS_9(cap->tx_pwr_5g_vht_mcs_8_9 + delta_pwr);
 
-	RTMP_IO_WRITE32(ad, TX_PWR_CFG_8, value);
+	mt7612u_write32(ad, TX_PWR_CFG_8, value);
 
 	value = mt7612u_read32(ad, TX_PWR_CFG_9);
 	value &= ~TX_PWR_HT_VHT_STBC_MCS_7_MASK;
@@ -397,7 +397,7 @@ void mt76x2_adjust_per_rate_pwr_delta(struct rtmp_adapter *ad, u8 channel, char 
 	else
 		value |= TX_PWR_VHT_STBC_MCS_9(cap->tx_pwr_5g_vht_mcs_8_9 + delta_pwr);
 
-	RTMP_IO_WRITE32(ad, TX_PWR_CFG_9, value);
+	mt7612u_write32(ad, TX_PWR_CFG_9, value);
 }
 
 static void mt76x2_tx_pwr_gain(struct rtmp_adapter *ad, u8 channel, u8 bw)
@@ -455,7 +455,7 @@ static void mt76x2_tx_pwr_gain(struct rtmp_adapter *ad, u8 channel, u8 bw)
 	value |= TX_ALC_CFG_0_CH_INT_0(tx_0_pwr);
 	//value |= TX_ALC_CFG_0_CH_INT_0(0x7);
 	DBGPRINT(RT_DEBUG_INFO, ("tx_0_pwr = %d\n", tx_0_pwr));
-	RTMP_IO_WRITE32(ad, TX_ALC_CFG_0, value);
+	mt7612u_write32(ad, TX_ALC_CFG_0, value);
 
 	/* TX1 channel initial transmission gain setting */
 	value = mt7612u_read32(ad, TX_ALC_CFG_0);
@@ -463,7 +463,7 @@ static void mt76x2_tx_pwr_gain(struct rtmp_adapter *ad, u8 channel, u8 bw)
 	value |= TX_ALC_CFG_0_CH_INT_1(tx_1_pwr);
 	//value |= TX_ALC_CFG_0_CH_INT_1(0x7);
 	DBGPRINT(RT_DEBUG_INFO, ("tx_1_pwr = %d\n", tx_1_pwr));
-	RTMP_IO_WRITE32(ad, TX_ALC_CFG_0, value);
+	mt7612u_write32(ad, TX_ALC_CFG_0, value);
 }
 
 #define EXT_CH_NONE  0x00
@@ -525,7 +525,7 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, BOOLEAN s
 		}
 	}
 
-	RTMP_IO_WRITE32(ad, EXT_CCA_CFG, RegValue);
+	mt7612u_write32(ad, EXT_CCA_CFG, RegValue);
 
 	/* determine channel flags */
 	if (channel > 14)
@@ -562,7 +562,7 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, BOOLEAN s
 	else /* 40/80Mhz */
 		RegValue |= XIFS_TIME_OFDM_SIFS(0x0E);
 
-	RTMP_IO_WRITE32(ad, XIFS_TIME_CFG, RegValue);
+	mt7612u_write32(ad, XIFS_TIME_CFG, RegValue);
 
 
 	if ((ad->CommonCfg.TxStream == 1) && (ad->CommonCfg.RxStream == 1))
@@ -615,24 +615,24 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, BOOLEAN s
 
 	if (IS_MT7602(ad)) {
 		/* default use 2 stream to Tx HW auto gened packets */
-		RTMP_IO_WRITE32(ad, 0x1648, 0x00830083);
+		mt7612u_write32(ad, 0x1648, 0x00830083);
 	}
 
 	/* Fine tune tx power ramp on time based on BBP Tx delay */
 	if (isExternalPAMode(ad, channel)) {
 		if (bw == 0)
-			RTMP_IO_WRITE32(ad, TX_SW_CFG0, 0x00101101);
+			mt7612u_write32(ad, TX_SW_CFG0, 0x00101101);
 		else
-			RTMP_IO_WRITE32(ad, TX_SW_CFG0, 0x000B0C01);
+			mt7612u_write32(ad, TX_SW_CFG0, 0x000B0C01);
 
-		RTMP_IO_WRITE32(ad, TX_SW_CFG1, 0x00010200);
+		mt7612u_write32(ad, TX_SW_CFG1, 0x00010200);
 	} else {
 		if (bw == 0)
-			RTMP_IO_WRITE32(ad, TX_SW_CFG0, 0x00101001);
+			mt7612u_write32(ad, TX_SW_CFG0, 0x00101001);
 		else
-			RTMP_IO_WRITE32(ad, TX_SW_CFG0, 0x000B0B01);
+			mt7612u_write32(ad, TX_SW_CFG0, 0x000B0B01);
 
-		RTMP_IO_WRITE32(ad, TX_SW_CFG1, 0x00020000);
+		mt7612u_write32(ad, TX_SW_CFG1, 0x00020000);
 	}
 
 	/* tx pwr gain setting */
@@ -671,11 +671,11 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, BOOLEAN s
 	if ((mac_val & 0x100000) == 0x100000) {
 		ad->chipCap.ed_cca_enable = TRUE;
 		mac_val &= ~(1<<20);
-		RTMP_IO_WRITE32(ad, TXOP_CTRL_CFG, mac_val);
+		mt7612u_write32(ad, TXOP_CTRL_CFG, mac_val);
 
 		mac_val = mt7612u_read32(ad, TXOP_HLDR_ET);
 		mac_val &= ~2;
-		RTMP_IO_WRITE32(ad, TXOP_HLDR_ET, mac_val);
+		mt7612u_write32(ad, TXOP_HLDR_ET, mac_val);
 	}
 #endif /* RTMP_USB_SUPPORT */
 
@@ -688,10 +688,10 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, BOOLEAN s
 	/* disable mac tx/rx */
 	value = restore_value;
 	value &= ~0xC;
-	RTMP_IO_WRITE32(ad, 0x1004, value);
+	mt7612u_write32(ad, 0x1004, value);
 
 	/* set RTS retry count = 0 */
-	RTMP_IO_WRITE32(ad, 0x1344, 0x00092B00);
+	mt7612u_write32(ad, 0x1344, 0x00092B00);
 
 	/* wait mac 0x1200, bbp 0x2130 idle */
 	do {
@@ -760,7 +760,7 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, BOOLEAN s
 		mt76x2_tssi_calibration(ad, channel);
 
 	/* enable TX/RX */
-	RTMP_IO_WRITE32(ad, 0x1004, 0xc);
+	mt7612u_write32(ad, 0x1004, 0xc);
 
 #ifdef RTMP_USB_SUPPORT
         if (ad->chipCap.ed_cca_enable) {
@@ -768,27 +768,27 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, BOOLEAN s
 
 		mac_val = mt7612u_read32(ad, TXOP_CTRL_CFG);
                 mac_val |= (1<<20);
-                RTMP_IO_WRITE32(ad, TXOP_CTRL_CFG, mac_val);
+                mt7612u_write32(ad, TXOP_CTRL_CFG, mac_val);
 
                 mac_val = mt7612u_read32(ad, TXOP_HLDR_ET);
                 mac_val |= 2;
-                RTMP_IO_WRITE32(ad, TXOP_HLDR_ET, mac_val);
+                mt7612u_write32(ad, TXOP_HLDR_ET, mac_val);
         }
 #endif /* RTMP_USB_SUPPORT */
 
 	/* Restore RTS retry count */
-	RTMP_IO_WRITE32(ad, 0x1344, ad->rts_tx_retry_num);
+	mt7612u_write32(ad, 0x1344, ad->rts_tx_retry_num);
 
 	if (!ad->MCUCtrl.power_on && ad->chipCap.tssi_enable && !ad->chipCap.temp_tx_alc_enable) {
 		value = mt7612u_read32(ad, TX_ALC_CFG_1);
 		value = value & (~TX_ALC_CFG_1_TX0_TEMP_COMP_MASK);
 		value |= TX_ALC_CFG_1_TX0_TEMP_COMP(0x38);
-		RTMP_IO_WRITE32(ad, TX_ALC_CFG_1, value);
+		mt7612u_write32(ad, TX_ALC_CFG_1, value);
 		DBGPRINT(RT_DEBUG_OFF, ("TX0 power compensation = 0x%x\n", value & 0x3f));
 		value = mt7612u_read32(ad, TX_ALC_CFG_2);
 		value = value & (~TX_ALC_CFG_2_TX1_TEMP_COMP_MASK);
 		value |= TX_ALC_CFG_2_TX1_TEMP_COMP(0x38);
-		RTMP_IO_WRITE32(ad, TX_ALC_CFG_2, value);
+		mt7612u_write32(ad, TX_ALC_CFG_2, value);
 		DBGPRINT(RT_DEBUG_OFF, ("TX1 power compensation = 0x%x\n", value & 0x3f));
 	}
 
@@ -825,7 +825,7 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, BOOLEAN s
 	RTMP_BBP_IO_WRITE32(ad, AGC1_R7, 0x08081010); /* microwave's ED CCA threshold */
 	RTMP_BBP_IO_WRITE32(ad, AGC1_R11, 0x00000404); /* microwave's ED CCA threshold */
 	RTMP_BBP_IO_WRITE32(ad, AGC1_R2, 0x00007070); /* initial ED CCA threshold */
-	RTMP_IO_WRITE32(ad, TXOP_CTRL_CFG, 0x04101B3F);
+	mt7612u_write32(ad, TXOP_CTRL_CFG, 0x04101B3F);
 #endif /* DYNAMIC_VGA_SUPPORT */
 
 	DBGPRINT(RT_DEBUG_TRACE,
@@ -1008,11 +1008,11 @@ void mt76x2_calibration(struct rtmp_adapter *ad, u8 channel)
         if ((mac_val & 0x100000) == 0x100000) {
                 ad->chipCap.ed_cca_enable = TRUE;
                 mac_val &= ~(1<<20);
-                RTMP_IO_WRITE32(ad, TXOP_CTRL_CFG, mac_val);
+                mt7612u_write32(ad, TXOP_CTRL_CFG, mac_val);
 
                 mac_val = mt7612u_read32(ad, TXOP_HLDR_ET);
                 mac_val &= ~2;
-                RTMP_IO_WRITE32(ad, TXOP_HLDR_ET, mac_val);
+                mt7612u_write32(ad, TXOP_HLDR_ET, mac_val);
         }
 #endif /* RTMP_USB_SUPPORT */
 
@@ -1027,10 +1027,10 @@ void mt76x2_calibration(struct rtmp_adapter *ad, u8 channel)
 	/* disable mac tx/rx */
 	value = restore_value;
 	value &= ~0xC;
-	RTMP_IO_WRITE32(ad, 0x1004, value);
+	mt7612u_write32(ad, 0x1004, value);
 
 	/* set RTS retry count = 0 */
-	RTMP_IO_WRITE32(ad, 0x1344, 0x00092B00);
+	mt7612u_write32(ad, 0x1344, 0x00092B00);
 
 	/* wait mac 0x1200, bbp 0x2130 idle */
 	do {
@@ -1071,10 +1071,10 @@ void mt76x2_calibration(struct rtmp_adapter *ad, u8 channel)
 	CHIP_CALIBRATION(ad, TEMP_SENSOR_CALIBRATION_7662, 0x00);
 
 	/* enable TX/RX */
-	RTMP_IO_WRITE32(ad, 0x1004, restore_value);
+	mt7612u_write32(ad, 0x1004, restore_value);
 
 	/* Restore RTS retry count */
-	RTMP_IO_WRITE32(ad, 0x1344, ad->rts_tx_retry_num);
+	mt7612u_write32(ad, 0x1344, ad->rts_tx_retry_num);
 
 }
 
@@ -1129,7 +1129,7 @@ static void mt76x2_init_mac_cr(struct rtmp_adapter *ad)
  	 */
 	value = mt7612u_read32(ad, HEADER_TRANS_CTRL_REG);
 	value |= 0x1; /* 0x1: TX, 0x2: RX */
-	RTMP_IO_WRITE32(ad, HEADER_TRANS_CTRL_REG, value);
+	mt7612u_write32(ad, HEADER_TRANS_CTRL_REG, value);
 #endif /* HDR_TRANS_TX_SUPPORT */
 
 	/*
@@ -1138,7 +1138,7 @@ static void mt76x2_init_mac_cr(struct rtmp_adapter *ad)
  	 */
 	value = mt7612u_read32(ad, MAC_SYS_CTRL);
 	value &= ~(0x3);
-	RTMP_IO_WRITE32(ad, MAC_SYS_CTRL, value);
+	mt7612u_write32(ad, MAC_SYS_CTRL, value);
 
 	if (IS_MT7612(ad)) {
 		/*
@@ -1146,7 +1146,7 @@ static void mt76x2_init_mac_cr(struct rtmp_adapter *ad)
  		 */
 		value = mt7612u_read32(ad, COEXCFG0);
 		value &= 0xFFFFFFFE;
-		RTMP_IO_WRITE32(ad, COEXCFG0, value);
+		mt7612u_write32(ad, COEXCFG0, value);
 	}
 
 	/*
@@ -1154,7 +1154,7 @@ static void mt76x2_init_mac_cr(struct rtmp_adapter *ad)
 	*/
 	value = mt7612u_read32(ad, EXT_CCA_CFG);
 	value |= (0x0000F000);
-	RTMP_IO_WRITE32(ad, EXT_CCA_CFG, value);
+	mt7612u_write32(ad, EXT_CCA_CFG, value);
 
 
 	/*
@@ -1162,7 +1162,7 @@ static void mt76x2_init_mac_cr(struct rtmp_adapter *ad)
  	 */
 	value = mt7612u_read32(ad, TX_ALC_CFG_4);
 	value &= ~WL_LOWGAIN_CH_EN;
-	RTMP_IO_WRITE32(ad, TX_ALC_CFG_4, value);
+	mt7612u_write32(ad, TX_ALC_CFG_4, value);
 
 	/*
  	 * Check crystal trim2 first
@@ -1217,22 +1217,22 @@ static void mt76x2_init_mac_cr(struct rtmp_adapter *ad)
      * only mt7662u do not this setting
 	 */
 	if (IS_MT76x2U(ad)) {
-		RTMP_IO_WRITE32(ad, 0x504, 0x06000000);
-		RTMP_IO_WRITE32(ad, 0x50c, 0x08800000);
+		mt7612u_write32(ad, 0x504, 0x06000000);
+		mt7612u_write32(ad, 0x50c, 0x08800000);
 		RtmpOsMsDelay(5);
-		RTMP_IO_WRITE32(ad, 0x504, 0x0);
+		mt7612u_write32(ad, 0x504, 0x0);
 	}
 
 	/* Decrease MAC OFDM SIFS from 16 to 13us */
 	value = mt7612u_read32(ad, XIFS_TIME_CFG);
 	value = value & (~XIFS_TIME_OFDM_SIFS_MASK);
 	value |= XIFS_TIME_OFDM_SIFS(0x0D);
-	RTMP_IO_WRITE32(ad, XIFS_TIME_CFG, value);
+	mt7612u_write32(ad, XIFS_TIME_CFG, value);
 
 	value = mt7612u_read32(ad, BKOFF_SLOT_CFG);
 	value &= ~(BKOFF_SLOT_CFG_CC_DELAY_TIME_MASK);
 	value |= BKOFF_SLOT_CFG_CC_DELAY_TIME(0x01);
-	RTMP_IO_WRITE32(ad, BKOFF_SLOT_CFG, value);
+	mt7612u_write32(ad, BKOFF_SLOT_CFG, value);
 
 	init_fce(ad);
 
@@ -1242,7 +1242,7 @@ static void mt76x2_init_mac_cr(struct rtmp_adapter *ad)
 		value |= 0x40000;
 	else
 		value &= (~0x40000);
-	RTMP_IO_WRITE32(ad, TX_FBK_LIMIT, value);
+	mt7612u_write32(ad, TX_FBK_LIMIT, value);
 #endif /* MCS_LUT_SUPPORT */
 
 	/*
@@ -1256,7 +1256,7 @@ static void mt76x2_init_mac_cr(struct rtmp_adapter *ad)
 		value = 0x5C1FEE80;
 	else if (ad->NicConfig3.field.XtalOption == 0x1)
 		value = 0x5C1FEED0;
-	RTMP_IO_WRITE32(ad, 0x11C, value);
+	mt7612u_write32(ad, 0x11C, value);
 
 
 }
@@ -2965,7 +2965,7 @@ void percentage_delta_pwr(struct rtmp_adapter *ad)
 	mac_val |= TX_ALC_CFG_0_CH_INT_0(tx_alc_ch_init_0);
 	mac_val = mac_val & (~TX_ALC_CFG_0_CH_INT_1_MASK);
 	mac_val |= TX_ALC_CFG_0_CH_INT_1(tx_alc_ch_init_1);
-	RTMP_IO_WRITE32(ad, TX_ALC_CFG_0, mac_val);
+	mt7612u_write32(ad, TX_ALC_CFG_0, mac_val);
 
 	DBGPRINT(RT_DEBUG_INFO, ("%s::<After> TX_ALC_CFG_0=0x%0x\n",
 		__FUNCTION__, mac_val));
@@ -3129,14 +3129,14 @@ void mt76x2_temp_tx_alc(struct rtmp_adapter *ad)
 		mt7612u_read32(ad, TX_ALC_CFG_1, &tx0_temp_comp);
 		tx0_temp_comp &= ~TX_ALC_CFG_1_TX0_TEMP_COMP_MASK;
 		tx0_temp_comp |= ((tc_init_val + dB_diff*2) & TX_ALC_CFG_1_TX0_TEMP_COMP_MASK);
-		RTMP_IO_WRITE32(ad, TX_ALC_CFG_1, tx0_temp_comp);
+		mt7612u_write32(ad, TX_ALC_CFG_1, tx0_temp_comp);
 		DBGPRINT(RT_DEBUG_TRACE, ("%s::Tx0 power compensation = 0x%x\n",
 			__FUNCTION__, tx0_temp_comp & 0x3f));
 
 		mt7612u_read32(ad, TX_ALC_CFG_2, &tx1_temp_comp);
 		tx1_temp_comp &= ~TX_ALC_CFG_2_TX1_TEMP_COMP_MASK;
 		tx1_temp_comp |= ((tc_init_val + dB_diff*2) & TX_ALC_CFG_2_TX1_TEMP_COMP_MASK);
-		RTMP_IO_WRITE32(ad, TX_ALC_CFG_2, tx1_temp_comp);
+		mt7612u_write32(ad, TX_ALC_CFG_2, tx1_temp_comp);
 		DBGPRINT(RT_DEBUG_TRACE, ("%s::Tx1 power compensation = 0x%x\n",
 			__FUNCTION__, tx1_temp_comp & 0x3f));
 	}
@@ -3282,15 +3282,15 @@ void mt7612_set_ed_cca(struct rtmp_adapter *ad, BOOLEAN enable)
 	if (enable) {
 		mt7612u_read32(ad, CH_TIME_CFG, &mac_val);
 		mac_val |= 0x40;
-		RTMP_IO_WRITE32(ad, CH_TIME_CFG, mac_val);
+		mt7612u_write32(ad, CH_TIME_CFG, mac_val);
 
 		mt7612u_read32(ad, TXOP_CTRL_CFG, &mac_val);
 		mac_val |= (1 << 20);
-		RTMP_IO_WRITE32(ad, TXOP_CTRL_CFG, mac_val);
+		mt7612u_write32(ad, TXOP_CTRL_CFG, mac_val);
 	} else {
 		mt7612u_read32(ad, TXOP_CTRL_CFG, &mac_val);
 		mac_val &= ~(1 << 20);
-		RTMP_IO_WRITE32(ad, TXOP_CTRL_CFG, mac_val);
+		mt7612u_write32(ad, TXOP_CTRL_CFG, mac_val);
 	}
 
 	DBGPRINT(RT_DEBUG_TRACE, ("%s::0x%x: 0x%08X\n", __FUNCTION__, TXOP_CTRL_CFG, mac_val));
@@ -3564,7 +3564,7 @@ static VOID WF_CTRL(struct rtmp_adapter *pAd, UINT8 wfID, UINT8 isON)
 
 		value = mt7612u_read32(pAd, 0x530);
 		value  |= 0xF;
-		RTMP_IO_WRITE32(pAd, 0x530, value);
+		mt7612u_write32(pAd, 0x530, value);
 		}
 	} else {
 		if(isON == 1) {	/* WIFI ON mode */
@@ -3590,7 +3590,7 @@ static VOID WF_CTRL(struct rtmp_adapter *pAd, UINT8 wfID, UINT8 isON)
 
 			value = mt7612u_read32(pAd, 0x530);
 			value  |= 0xF;
-			RTMP_IO_WRITE32(pAd, 0x530, value);
+			mt7612u_write32(pAd, 0x530, value);
 		}
 	}
 }
@@ -3667,7 +3667,7 @@ int mt76x2_set_ed_cca(struct rtmp_adapter *ad, u8 enable)
         if (enable) {
                 mac_val = mt7612u_read32(ad, CH_TIME_CFG);
                 mac_val |= 0x05; // enable channel status check
-                RTMP_IO_WRITE32(ad, CH_TIME_CFG, mac_val);
+                mt7612u_write32(ad, CH_TIME_CFG, mac_val);
 
                 // BBP: latched ED_CCA and high/low threshold
                 mac_val = RTMP_BBP_IO_READ32(ad, AGC1_R2);
@@ -3678,20 +3678,20 @@ int mt76x2_set_ed_cca(struct rtmp_adapter *ad, u8 enable)
                 // MAC: enable ED_CCA/ED_2nd_CCA
                 mac_val = mt7612u_read32(ad, TXOP_CTRL_CFG);
                 mac_val |= ((1<<20) | (1<<7));
-                RTMP_IO_WRITE32(ad, TXOP_CTRL_CFG, mac_val);
+                mt7612u_write32(ad, TXOP_CTRL_CFG, mac_val);
 
                 mac_val = mt7612u_read32(ad, TXOP_HLDR_ET);
                 mac_val |= 2;
-                RTMP_IO_WRITE32(ad, TXOP_HLDR_ET, mac_val);
+                mt7612u_write32(ad, TXOP_HLDR_ET, mac_val);
         } else {
                 // MAC: disable ED_CCA/ED_2nd_CCA
                 mac_val = mt7612u_read32(ad, TXOP_CTRL_CFG);
                 mac_val &= (~((1<<20) | (1<<7)));
-                RTMP_IO_WRITE32(ad, TXOP_CTRL_CFG, mac_val);
+                mt7612u_write32(ad, TXOP_CTRL_CFG, mac_val);
 
                 mac_val = mt7612u_read32(ad, TXOP_HLDR_ET);
                 mac_val &= ~2;
-                RTMP_IO_WRITE32(ad, TXOP_HLDR_ET, mac_val);
+                mt7612u_write32(ad, TXOP_HLDR_ET, mac_val);
         }
 
         /* Clear previous status */

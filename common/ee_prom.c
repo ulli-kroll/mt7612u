@@ -37,7 +37,7 @@ static inline VOID RaiseClock(
     IN  uint32_t *x)
 {
 	*x = *x | EESK;
-	RTMP_IO_WRITE32(pAd, E2PROM_CSR, *x);
+	mt7612u_write32(pAd, E2PROM_CSR, *x);
 	RtmpusecDelay(1);				/* Max frequency = 1MHz in Spec. definition */
 }
 
@@ -47,7 +47,7 @@ static inline VOID LowerClock(
     IN  uint32_t *x)
 {
 	*x = *x & ~EESK;
-	RTMP_IO_WRITE32(pAd, E2PROM_CSR, *x);
+	mt7612u_write32(pAd, E2PROM_CSR, *x);
 	RtmpusecDelay(1);
 }
 
@@ -97,7 +97,7 @@ static inline VOID ShiftOutBits(
 	    x &= ~EEDI;
 	    if(data & mask)		x |= EEDI;
 
-	    RTMP_IO_WRITE32(pAd, E2PROM_CSR, x);
+	    mt7612u_write32(pAd, E2PROM_CSR, x);
 
 	    RaiseClock(pAd, &x);
 	    LowerClock(pAd, &x);
@@ -106,7 +106,7 @@ static inline VOID ShiftOutBits(
 	} while(mask);
 
 	x &= ~EEDI;
-	RTMP_IO_WRITE32(pAd, E2PROM_CSR, x);
+	mt7612u_write32(pAd, E2PROM_CSR, x);
 }
 
 
@@ -119,7 +119,7 @@ static inline VOID EEpromCleanup(
 	x = mt7612u_read32(pAd, E2PROM_CSR);
 
 	x &= ~(EECS | EEDI);
-	RTMP_IO_WRITE32(pAd, E2PROM_CSR, x);
+	mt7612u_write32(pAd, E2PROM_CSR, x);
 
 	RaiseClock(pAd, &x);
 	LowerClock(pAd, &x);
@@ -135,7 +135,7 @@ static inline VOID EWEN(
 	x = mt7612u_read32(pAd, E2PROM_CSR);
 	x &= ~(EEDI | EEDO | EESK);
 	x |= EECS;
-	RTMP_IO_WRITE32(pAd, E2PROM_CSR, x);
+	mt7612u_write32(pAd, E2PROM_CSR, x);
 
 	/* kick a pulse*/
 	RaiseClock(pAd, &x);
@@ -158,7 +158,7 @@ static inline VOID EWDS(
 	x = mt7612u_read32(pAd, E2PROM_CSR);
 	x &= ~(EEDI | EEDO | EESK);
 	x |= EECS;
-	RTMP_IO_WRITE32(pAd, E2PROM_CSR, x);
+	mt7612u_write32(pAd, E2PROM_CSR, x);
 
 	/* kick a pulse*/
 	RaiseClock(pAd, &x);
@@ -188,7 +188,7 @@ int rtmp_ee_prom_read16(
 	x = mt7612u_read32(pAd, E2PROM_CSR);
 	x &= ~(EEDI | EEDO | EESK);
 	x |= EECS;
-	RTMP_IO_WRITE32(pAd, E2PROM_CSR, x);
+	mt7612u_write32(pAd, E2PROM_CSR, x);
 
 	/* patch can not access e-Fuse issue*/
 
@@ -225,7 +225,7 @@ int rtmp_ee_prom_write16(
 	x = mt7612u_read32(pAd, E2PROM_CSR);
 	x &= ~(EEDI | EEDO | EESK);
 	x |= EECS;
-	RTMP_IO_WRITE32(pAd, E2PROM_CSR, x);
+	mt7612u_write32(pAd, E2PROM_CSR, x);
 
 	/* patch can not access e-Fuse issue*/
 

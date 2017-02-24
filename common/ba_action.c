@@ -1931,7 +1931,7 @@ static VOID Peer_DelBA_Tx_Adapt_Enable(
 		mt7612u_read32(pAd, TX_FBK_LIMIT, &MacReg);
 		if ((MacReg & (1 << 18)) == 0) {
 			MacReg |= (1 << 18);
-			RTMP_IO_WRITE32(pAd, TX_FBK_LIMIT, MacReg);
+			mt7612u_write32(pAd, TX_FBK_LIMIT, MacReg);
 		}
 
 		/* OFDM54 / BW20 / LGI / no STBC/ Legacy OFDM */
@@ -1966,7 +1966,7 @@ static VOID Peer_DelBA_Tx_Adapt_Disable(
 			/* Disable Tx Mac look up table (Ressume original setting) */
 			mt7612u_read32(pAd, TX_FBK_LIMIT, &MacReg);
 			MacReg &= ~(1 << 18);
-			RTMP_IO_WRITE32(pAd, TX_FBK_LIMIT, MacReg);
+			mt7612u_write32(pAd, TX_FBK_LIMIT, MacReg);
 			DBGPRINT(RT_DEBUG_TRACE,
 					("%s():TX_FBK_LIMIT = 0x%08x\n",
 					__FUNCTION__, MacReg));

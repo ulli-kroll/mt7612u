@@ -169,13 +169,13 @@ int RT30xxWriteRFRegister(
 				IdRf--;
 
 				rfcsr.non_bank.RF_CSR_DATA = IdRf;
-				RTMP_IO_WRITE32(pAd, RF_CSR_CFG, rfcsr.word);
+				mt7612u_write32(pAd, RF_CSR_CFG, rfcsr.word);
 				RtmpOsMsDelay(1);
 		}
 	}
 
 	rfcsr.non_bank.RF_CSR_DATA = value;
-	RTMP_IO_WRITE32(pAd, RF_CSR_CFG, rfcsr.word);
+	mt7612u_write32(pAd, RF_CSR_CFG, rfcsr.word);
 
 	ret = NDIS_STATUS_SUCCESS;
 
@@ -242,7 +242,7 @@ int RT30xxReadRFRegister(
 		rfcsr.non_bank.RF_CSR_WR = 0;
 		rfcsr.non_bank.RF_CSR_KICK = 1;
 		rfcsr.non_bank.TESTCSR_RFACC_REGNUM = regID;
-		RTMP_IO_WRITE32(pAd, RF_CSR_CFG, rfcsr.word);
+		mt7612u_write32(pAd, RF_CSR_CFG, rfcsr.word);
 
 		for (k=0; k<MAX_BUSY_COUNT; k++)
 		{

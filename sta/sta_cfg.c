@@ -202,10 +202,10 @@ INT Set_NetworkType_Proc(
 			pAd->bConfigChanged = TRUE;
             if (MONITOR_ON(pAd))
             {
-                RTMP_IO_WRITE32(pAd, RX_FILTR_CFG, STANORMAL);
+                mt7612u_write32(pAd, RX_FILTR_CFG, STANORMAL);
                 Value = mt7612u_read32(pAd, MAC_SYS_CTRL);
 				Value &= (~0x80);
-				RTMP_IO_WRITE32(pAd, MAC_SYS_CTRL, Value);
+				mt7612u_write32(pAd, MAC_SYS_CTRL, Value);
                 OPSTATUS_CLEAR_FLAG(pAd, fOP_STATUS_MEDIA_STATE_CONNECTED);
                 pAd->StaCfg.bAutoReconnect = TRUE;
                 LinkDown(pAd, FALSE);
@@ -237,10 +237,10 @@ INT Set_NetworkType_Proc(
 			pAd->bConfigChanged = TRUE;
             if (MONITOR_ON(pAd))
             {
-                RTMP_IO_WRITE32(pAd, RX_FILTR_CFG, STANORMAL);
+                mt7612u_write32(pAd, RX_FILTR_CFG, STANORMAL);
                 Value = mt7612u_read32(pAd, MAC_SYS_CTRL);
 				Value &= (~0x80);
-				RTMP_IO_WRITE32(pAd, MAC_SYS_CTRL, Value);
+				mt7612u_write32(pAd, MAC_SYS_CTRL, Value);
                 OPSTATUS_CLEAR_FLAG(pAd, fOP_STATUS_MEDIA_STATE_CONNECTED);
                 pAd->StaCfg.bAutoReconnect = TRUE;
                 LinkDown(pAd, FALSE);
@@ -335,18 +335,18 @@ INT Set_NetworkType_Proc(
 
 
 		/* Enable Rx with promiscuous reception */
-		RTMP_IO_WRITE32(pAd, RX_FILTR_CFG, 0x3);
+		mt7612u_write32(pAd, RX_FILTR_CFG, 0x3);
 		/* ASIC supporsts sniffer function with replacing RSSI with timestamp. */
 		/* Value = mt7612u_read32(pAdapter, MAC_SYS_CTRL); */
 		/*Value |= (0x80); */
-		/*RTMP_IO_WRITE32(pAdapter, MAC_SYS_CTRL, Value); */
+		/*mt7612u_write32(pAdapter, MAC_SYS_CTRL, Value); */
 
 		/* disable sync */
 		csr.word = mt7612u_read32(pAd, BCN_TIME_CFG);
 		csr.field.bBeaconGen = 0;
 		csr.field.bTBTTEnable = 0;
 		csr.field.TsfSyncMode = 0;
-		RTMP_IO_WRITE32(pAd, BCN_TIME_CFG, csr.word);
+		mt7612u_write32(pAd, BCN_TIME_CFG, csr.word);
 
 		pAd->StaCfg.BssType = BSS_MONITOR;
 		RTMP_OS_NETDEV_SET_TYPE_MONITOR(pAd->net_dev);
@@ -1478,7 +1478,7 @@ INT Set_WOW_Enable(
 		Val &= ~(1UL << (Pin+16)); 	/* direction: 0 out, 1 in */
 		Val |= 1UL << (Pin+8);		/* data */
 	}
-	RTMP_IO_WRITE32(pAd, GPIO_CTRL_CFG, Val);
+	mt7612u_write32(pAd, GPIO_CTRL_CFG, Val);
 
 	DBGPRINT(RT_DEBUG_ERROR, ("WOW_Enable = %d, GPIO = %x\n", pAd->WOW_Cfg.bEnable, Val));
 

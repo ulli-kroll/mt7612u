@@ -329,7 +329,7 @@ BOOLEAN CFG80211DRV_OpsBeaconAdd(struct rtmp_adapter *pAd, VOID *pData)
 	CFG80211DRV_UpdateApSettingFromBeacon(pAd, MAIN_MBSSID, pBeacon);
 
 	rx_filter_flag = APNORMAL;
-	RTMP_IO_WRITE32(pAd, RX_FILTR_CFG, rx_filter_flag);     /* enable RX of DMA block */
+	mt7612u_write32(pAd, RX_FILTR_CFG, rx_filter_flag);     /* enable RX of DMA block */
 
 	pAd->ApCfg.BssidNum = 1;
 	pAd->MacTab.MsduLifeTime = 20; /* default 5 seconds */

@@ -71,7 +71,7 @@ VOID rtmp_asic_set_bf(
 	else
 		Value32 &= ~0x210;
 
-	RTMP_IO_WRITE32(pAd, PFMU_R1, Value32);
+	mt7612u_write32(pAd, PFMU_R1, Value32);
 
 	Value32 = mt7612u_read32(pAd, PFMU_R0);
 	Value32 &= ~((0x1 << 6) | 0x3);
@@ -84,12 +84,12 @@ VOID rtmp_asic_set_bf(
 	if (pAd->CommonCfg.ETxBfEnCond > 0)
 	{
 		Value32 |= (0x1 << 6) | 0x2;
-		RTMP_IO_WRITE32(pAd, TX_TXBF_CFG_2, 0xFFFFFFFF);
+		mt7612u_write32(pAd, TX_TXBF_CFG_2, 0xFFFFFFFF);
 	}
 	else
 		Value32 &= ~((0x1 << 6) | 0x2);
 
-	RTMP_IO_WRITE32(pAd, PFMU_R0, Value32);
+	mt7612u_write32(pAd, PFMU_R0, Value32);
 #endif
 }
 

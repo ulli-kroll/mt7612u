@@ -125,7 +125,7 @@ UCHAR eFuseReadRegisters(
 	eFuseCtrlStruc.field.EFSROM_KICK = 1;
 
 	memmove(&data, &eFuseCtrlStruc, 4);
-	RTMP_IO_WRITE32(pAd, efuse_ctrl_reg, data);
+	mt7612u_write32(pAd, efuse_ctrl_reg, data);
 
 	/*Step3. Polling EFSROM_KICK(0x580, bit30) until it become 0 again.*/
 	i = 0;
@@ -228,7 +228,7 @@ VOID eFusePhysicalReadRegisters(
 	eFuseCtrlStruc.field.EFSROM_KICK = 1;
 
 	memmove(&data, &eFuseCtrlStruc, 4);
-	RTMP_IO_WRITE32(pAd, efuse_ctrl_reg, data);
+	mt7612u_write32(pAd, efuse_ctrl_reg, data);
 
 	/*Step3. Polling EFSROM_KICK(0x580, bit30) until it become 0 again.*/
 	i = 0;

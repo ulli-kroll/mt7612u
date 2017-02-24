@@ -436,12 +436,12 @@ static VOID CalcDividerPhase(
 	/* DPD and TSSI HW off */
 	value32 = mt7612u_read32(pAd,TXBE_R8);
 	value32 &= ~0x08000;
-	RTMP_IO_WRITE32(pAd,TXBE_R8, value32); // DPD off
+	mt7612u_write32(pAd,TXBE_R8, value32); // DPD off
 
 	value32 = mt7612u_read32(pAd,CORE_R34);
 	value32 &= ~0x60;
 	value32 |= 0x40;
-	RTMP_IO_WRITE32(pAd,CORE_R34, value32); // TSSI off
+	mt7612u_write32(pAd,CORE_R34, value32); // TSSI off
 
 	/* Do Calibration */
 	/* Divider closeloop settng */
@@ -462,12 +462,12 @@ static VOID CalcDividerPhase(
 	}
 
 	// DCOC for RXA IQ Cal
-	RTMP_IO_WRITE32(pAd,CORE_R1,   0x00000000); // BW=20MHz ADC=40MHz
-	RTMP_IO_WRITE32(pAd,CORE_R33,  0x00021E00);
+	mt7612u_write32(pAd,CORE_R1,   0x00000000); // BW=20MHz ADC=40MHz
+	mt7612u_write32(pAd,CORE_R33,  0x00021E00);
 
 	// Send single tone
-	RTMP_IO_WRITE32(pAd,DACCLK_EN_DLY_CFG, 0x80008000); // DAC Clock on
-	RTMP_IO_WRITE32(pAd,TXBE_R6,           0x00000000); // Test format contol : Tx single tone setting
+	mt7612u_write32(pAd,DACCLK_EN_DLY_CFG, 0x80008000); // DAC Clock on
+	mt7612u_write32(pAd,TXBE_R6,           0x00000000); // Test format contol : Tx single tone setting
 
 	/* Divider phase calibration process */
 	for (i = 0; i < 2; i++) // ANT0, ANT1
@@ -476,9 +476,9 @@ static VOID CalcDividerPhase(
 		AGCtimeOutCount = 0;
 		while (AGCtimeOutCount < 20) // SW AGC update to make sure I peak value can prevent peak value from satuation or too low
 		{
-			RTMP_IO_WRITE32(pAd,CORE_R4, 0x00000001);	//core soft reset enable
-			RTMP_IO_WRITE32(pAd,CORE_R4, 0x00000000);	//core soft reset disable
-			RTMP_IO_WRITE32(pAd,TXBE_R1, 0x00001010); 	//no attenuation, full DAC swing
+			mt7612u_write32(pAd,CORE_R4, 0x00000001);	//core soft reset enable
+			mt7612u_write32(pAd,CORE_R4, 0x00000000);	//core soft reset disable
+			mt7612u_write32(pAd,TXBE_R1, 0x00001010); 	//no attenuation, full DAC swing
 
 			switch (i)
 			{
@@ -487,7 +487,7 @@ static VOID CalcDividerPhase(
 					mt_rf_write(pAd, RF_Path0, RFDIGI_TRX4, ((1<<19)|(2<<16)|(1<<15)|((0 + VGAGainIdx[0])<<8)|(1<<7)|(0 + VGAGainIdx[0])));
 
 					// Internal loopback
-					RTMP_IO_WRITE32(pAd, TXBE_R4, 0x00000008); // a default setting, 2T
+					mt7612u_write32(pAd, TXBE_R4, 0x00000008); // a default setting, 2T
 
 					mt_rf_write(pAd, RF_Path0, RFDIGI_TOP4,    0x30D71047); 	// tx block mode
 
@@ -498,9 +498,9 @@ static VOID CalcDividerPhase(
 
 					mt_rf_write(pAd, RF_Path0, RFDIGI_ABB_TO_AFE5,0x00C211F1); 	// set ABB config switch
 
-					RTMP_IO_WRITE32(pAd,       RF_BSI_CKDIV,   0x00000008);		// Adjust SPI clock
+					mt7612u_write32(pAd,       RF_BSI_CKDIV,   0x00000008);		// Adjust SPI clock
 					mt_rf_write(pAd, RF_Path0, RFDIGI_TRX0,    0x0500010F);	    // start rxiq dcoc
-					RTMP_IO_WRITE32(pAd,       RF_BSI_CKDIV,   0x00000002);		// Adjust SPI clock
+					mt7612u_write32(pAd,       RF_BSI_CKDIV,   0x00000002);		// Adjust SPI clock
 
 					DBGPRINT(RT_DEBUG_TRACE,("Loop0\n"));
 					break;
@@ -508,7 +508,7 @@ static VOID CalcDividerPhase(
 					// Set LNA to M
 					mt_rf_write(pAd, RF_Path1, RFDIGI_TRX4, ((1<<19)|(2<<16)|(1<<15)|((0 + VGAGainIdx[1])<<8)|(1<<7)|(0 + VGAGainIdx[1])));
 
-					RTMP_IO_WRITE32(pAd, TXBE_R4, 0x00000008); // a default setting, 2T
+					mt7612u_write32(pAd, TXBE_R4, 0x00000008); // a default setting, 2T
 
 					mt_rf_write(pAd, RF_Path1, RFDIGI_TOP4,    0x30D71047); 	// tx block mode
 
@@ -519,9 +519,9 @@ static VOID CalcDividerPhase(
 
 					mt_rf_write(pAd, RF_Path1, RFDIGI_ABB_TO_AFE5,0x00C211F1); 	// set ABB config switch
 
-					RTMP_IO_WRITE32(pAd,       RF_BSI_CKDIV,   0x00000008); 	// Adjust SPI clock
+					mt7612u_write32(pAd,       RF_BSI_CKDIV,   0x00000008); 	// Adjust SPI clock
 					mt_rf_write(pAd, RF_Path1, RFDIGI_TRX0,    0x0500010F);		// start rxiq dcoc
-					RTMP_IO_WRITE32(pAd,       RF_BSI_CKDIV,   0x00000002); 	// Adjust SPI clock
+					mt7612u_write32(pAd,       RF_BSI_CKDIV,   0x00000002); 	// Adjust SPI clock
 					DBGPRINT(RT_DEBUG_TRACE,("Loop1\n"));
 					break;
 				default:
@@ -530,15 +530,15 @@ static VOID CalcDividerPhase(
 
 
 			// Set Tx/Rx index
-			RTMP_IO_WRITE32(pAd,CAL_R2,  divPhCalPath[i]); 	// Tx0
-			RTMP_IO_WRITE32(pAd,TXBE_R6, 0xC0002101); 		//Test format contol : Tx single tone setting
-			RTMP_IO_WRITE32(pAd,CAL_R5,  0x0000140F); 		//set accumulation length
-			//RTMP_IO_WRITE32(pAd,CAL_R5,  0x000040C);
+			mt7612u_write32(pAd,CAL_R2,  divPhCalPath[i]); 	// Tx0
+			mt7612u_write32(pAd,TXBE_R6, 0xC0002101); 		//Test format contol : Tx single tone setting
+			mt7612u_write32(pAd,CAL_R5,  0x0000140F); 		//set accumulation length
+			//mt7612u_write32(pAd,CAL_R5,  0x000040C);
 
 			//RtmpOsMsDelay(1); // waiting 1ms
 
 			// Enable Divider phase calibration
-			RTMP_IO_WRITE32(pAd,CAL_R1, 0x00000086);
+			mt7612u_write32(pAd,CAL_R1, 0x00000086);
 			phaseCaliStatus = mt7612u_read32(pAd,CAL_R1);
 			timeOutCount = 0;
 			while (phaseCaliStatus & 0x80)
@@ -577,7 +577,7 @@ static VOID CalcDividerPhase(
 					peakI[i],
 					avgIData, avgQData));
 
-			RTMP_IO_WRITE32(pAd,CAL_R1, 0x00000006); // Disable Calibration
+			mt7612u_write32(pAd,CAL_R1, 0x00000006); // Disable Calibration
 			// SW AGC calculation
 			//if (SwAgc1stflg == TRUE && VGAGainIdx[i] < 128)
 			if (VGAGainIdx[i] < 128)
@@ -680,7 +680,7 @@ static void ITxBFRestoreData(struct rtmp_adapter *pAd, uint32_t *saveData)
 
 	for (sdPtr=saveData, macAddr=0x4000; macAddr<maxAddr; macAddr += 4, sdPtr++)
 	{
-		RTMP_IO_WRITE32(pAd, macAddr, *sdPtr);
+		mt7612u_write32(pAd, macAddr, *sdPtr);
 	}
 }
 
@@ -1175,8 +1175,8 @@ VOID mt76x2_ITxBFLoadLNAComp(
 	value32 = mt7612u_read32(pAd, CAL_R0);
 	for (i=0; i < NUM_CHAIN; i++)
 	{
-		RTMP_IO_WRITE32(pAd, CAL_R0, value32 | (i<<5));
-		RTMP_IO_WRITE32(pAd, RXFE_R3, lnaValues[i]);
+		mt7612u_write32(pAd, CAL_R0, value32 | (i<<5));
+		mt7612u_write32(pAd, RXFE_R3, lnaValues[i]);
 	}
 
 	DBGPRINT(RT_DEBUG_TRACE,
@@ -1189,7 +1189,7 @@ VOID mt76x2_ITxBFLoadLNAComp(
 
 	/* Enable RX Phase Compensation */
 	value32 = mt7612u_read32(pAd, TXBE_R12);
-	RTMP_IO_WRITE32(pAd, TXBE_R12, value32 | 0x20);
+	mt7612u_write32(pAd, TXBE_R12, value32 | 0x20);
 }
 
 
@@ -1247,7 +1247,7 @@ INT ITxBFDividerCalibrationStartUp(
 
 	// Do the divider calibration
 	NdisGetSystemUpTime(&stTimeChk0);
-	RTMP_IO_WRITE32(pAd, AGC1_R0, 0x7408);
+	mt7612u_write32(pAd, AGC1_R0, 0x7408);
 	calStatusReport = mt76x2_ITxBFDividerCalibration(pAd, calFunction, calMethod, divPhase);
 	NdisGetSystemUpTime(&stTimeChk1);
 	DBGPRINT(RT_DEBUG_INFO, ("%s : Divider calibration duration2 = %ld ms\n",
@@ -1272,19 +1272,19 @@ INT ITxBFDividerCalibrationStartUp(
 	mt_rf_write(pAd, RF_Path0, RFDIGI_ABB_TO_AFE5,CR_BK[19]);
 	mt_rf_write(pAd, RF_Path1, RFDIGI_ABB_TO_AFE5,CR_BK[20]);
 
-	RTMP_IO_WRITE32(pAd,CORE_R1,   CR_BK[22]);
-	RTMP_IO_WRITE32(pAd,CORE_R33,  CR_BK[23]);
-	RTMP_IO_WRITE32(pAd,DACCLK_EN_DLY_CFG, CR_BK[24]);
-	RTMP_IO_WRITE32(pAd,TXBE_R6,   CR_BK[25]);
-	//RTMP_IO_WRITE32(pAd,CORE_R4,   CR_BK[26]);
-	RTMP_IO_WRITE32(pAd,TXBE_R1,   CR_BK[27]);
-	RTMP_IO_WRITE32(pAd,AGC1_R0,   CR_BK[28]);
-	RTMP_IO_WRITE32(pAd,TXBE_R4,   CR_BK[29]);
-	RTMP_IO_WRITE32(pAd,CAL_R2,    CR_BK[30]);
-	RTMP_IO_WRITE32(pAd,CAL_R5,    CR_BK[31]);
-	RTMP_IO_WRITE32(pAd,CAL_R1,    CR_BK[32]);
-	RTMP_IO_WRITE32(pAd,TXBE_R5,   CR_BK[33]);
-	RTMP_IO_WRITE32(pAd,PWR_PIN_CFG,CR_BK[34]);
+	mt7612u_write32(pAd,CORE_R1,   CR_BK[22]);
+	mt7612u_write32(pAd,CORE_R33,  CR_BK[23]);
+	mt7612u_write32(pAd,DACCLK_EN_DLY_CFG, CR_BK[24]);
+	mt7612u_write32(pAd,TXBE_R6,   CR_BK[25]);
+	//mt7612u_write32(pAd,CORE_R4,   CR_BK[26]);
+	mt7612u_write32(pAd,TXBE_R1,   CR_BK[27]);
+	mt7612u_write32(pAd,AGC1_R0,   CR_BK[28]);
+	mt7612u_write32(pAd,TXBE_R4,   CR_BK[29]);
+	mt7612u_write32(pAd,CAL_R2,    CR_BK[30]);
+	mt7612u_write32(pAd,CAL_R5,    CR_BK[31]);
+	mt7612u_write32(pAd,CAL_R1,    CR_BK[32]);
+	mt7612u_write32(pAd,TXBE_R5,   CR_BK[33]);
+	mt7612u_write32(pAd,PWR_PIN_CFG,CR_BK[34]);
 
 	return calStatusReport;
 }
@@ -1430,9 +1430,9 @@ INT mt76x2_ITxBFDividerCalibration(
 		mt76x2_ITxBFPhaseParams(phaseValues, channel, &phaseParams);
 
 		/* Ant0 */
-		RTMP_IO_WRITE32(pAd, CAL_R0, 0);
-		RTMP_IO_WRITE32(pAd, TXBE_R13, phaseValues[0] + divPhase[0]);  // for method1
-		//RTMP_IO_WRITE32(pAd, TXBE_R13, 0xC4);
+		mt7612u_write32(pAd, CAL_R0, 0);
+		mt7612u_write32(pAd, TXBE_R13, phaseValues[0] + divPhase[0]);  // for method1
+		//mt7612u_write32(pAd, TXBE_R13, 0xC4);
 
 		DBGPRINT(RT_DEBUG_TRACE, (
 			   " ============================================================ \n"
@@ -1444,7 +1444,7 @@ INT mt76x2_ITxBFDividerCalibration(
 
 		/* Enable TX Phase Compensation */
 		value32 = mt7612u_read32(pAd, TXBE_R12);
-		RTMP_IO_WRITE32(pAd, TXBE_R12, value32 | 0x08);
+		mt7612u_write32(pAd, TXBE_R12, value32 | 0x08);
 		break;
 
 	case 3:
@@ -1456,8 +1456,8 @@ INT mt76x2_ITxBFDividerCalibration(
 		mt76x2_ITxBFPhaseParams(phaseValues, channel, &phaseParams);
 
 		/* Ant0 */
-		RTMP_IO_WRITE32(pAd, CAL_R0, 0);
-		RTMP_IO_WRITE32(pAd, TXBE_R13, phaseValues[0] + divPhase[0]);  // for method1
+		mt7612u_write32(pAd, CAL_R0, 0);
+		mt7612u_write32(pAd, TXBE_R13, phaseValues[0] + divPhase[0]);  // for method1
 
 		DBGPRINT(RT_DEBUG_TRACE, (
 				" ============================================================ \n"
@@ -1639,18 +1639,18 @@ INT ITxBFLNACalibrationStartUp(
 	mt_rf_write(pAd, RF_Path1, 0x2A4,        pCR_BK[52]);
 	mt_rf_write(pAd, RF_Path1, 0x03C,        pCR_BK[53]);
 
-	RTMP_IO_WRITE32(pAd,CORE_R1,             pCR_BK[54]);
-	RTMP_IO_WRITE32(pAd,CORE_R4,   			 pCR_BK[55]);
-	RTMP_IO_WRITE32(pAd,CORE_R33,            pCR_BK[56]);
-	RTMP_IO_WRITE32(pAd,DACCLK_EN_DLY_CFG,	 pCR_BK[57]);
-	RTMP_IO_WRITE32(pAd,TXBE_R1,   			 pCR_BK[58]);
-	RTMP_IO_WRITE32(pAd,TXBE_R5,             pCR_BK[59]);
-	RTMP_IO_WRITE32(pAd,TXBE_R6, 			 pCR_BK[60]);
-	RTMP_IO_WRITE32(pAd,AGC1_R0, 			 pCR_BK[61]);
-	RTMP_IO_WRITE32(pAd,CAL_R1, 			 pCR_BK[62]);
-	RTMP_IO_WRITE32(pAd,CAL_R2,  			 pCR_BK[63]);
-	RTMP_IO_WRITE32(pAd,CAL_R5,  			 pCR_BK[64]);
-	RTMP_IO_WRITE32(pAd,PWR_PIN_CFG,         pCR_BK[65]);
+	mt7612u_write32(pAd,CORE_R1,             pCR_BK[54]);
+	mt7612u_write32(pAd,CORE_R4,   			 pCR_BK[55]);
+	mt7612u_write32(pAd,CORE_R33,            pCR_BK[56]);
+	mt7612u_write32(pAd,DACCLK_EN_DLY_CFG,	 pCR_BK[57]);
+	mt7612u_write32(pAd,TXBE_R1,   			 pCR_BK[58]);
+	mt7612u_write32(pAd,TXBE_R5,             pCR_BK[59]);
+	mt7612u_write32(pAd,TXBE_R6, 			 pCR_BK[60]);
+	mt7612u_write32(pAd,AGC1_R0, 			 pCR_BK[61]);
+	mt7612u_write32(pAd,CAL_R1, 			 pCR_BK[62]);
+	mt7612u_write32(pAd,CAL_R2,  			 pCR_BK[63]);
+	mt7612u_write32(pAd,CAL_R5,  			 pCR_BK[64]);
+	mt7612u_write32(pAd,PWR_PIN_CFG,         pCR_BK[65]);
 
 	kfree(pCR_BK);
 
@@ -1762,7 +1762,7 @@ INT mt76x2_ITxBFLNACalibration(
 			}
 
 			mt_rf_write(pAd, pathIdx[ii], 0x029C, 0x2E1F1F10);
-    		RTMP_IO_WRITE32(pAd,          0x2704, 0x00000000);
+    		mt7612u_write32(pAd,          0x2704, 0x00000000);
 
 			if (gBand)
 			{
@@ -1781,31 +1781,31 @@ INT mt76x2_ITxBFLNACalibration(
 			}
 
 			//********* cal setting ********
-    		RTMP_IO_WRITE32(pAd,          0x2004, 0x00000000); // BW=20MHz ADC=40MHz
+    		mt7612u_write32(pAd,          0x2004, 0x00000000); // BW=20MHz ADC=40MHz
 			mt_rf_write(pAd, pathIdx[ii], 0x0200, 0x0500010F); // start rxiq dcoc
-    		RTMP_IO_WRITE32(pAd,          0x1264, 0x80008000); // DAC Clock on
-    		RTMP_IO_WRITE32(pAd,          0x1204, 0x00000000); // [3] to turn off "adda power down"
-    		RTMP_IO_WRITE32(pAd,          0x2084, 0x00021E00); // RF/BBP clk control
-    		RTMP_IO_WRITE32(pAd,          0x2010, 0x00000001); // core soft reset enable
-    		RTMP_IO_WRITE32(pAd,          0x2010, 0x00000000); // core soft reset disable
-    		RTMP_IO_WRITE32(pAd,          0x2704, 0x00000000); // Tx power control
+    		mt7612u_write32(pAd,          0x1264, 0x80008000); // DAC Clock on
+    		mt7612u_write32(pAd,          0x1204, 0x00000000); // [3] to turn off "adda power down"
+    		mt7612u_write32(pAd,          0x2084, 0x00021E00); // RF/BBP clk control
+    		mt7612u_write32(pAd,          0x2010, 0x00000001); // core soft reset enable
+    		mt7612u_write32(pAd,          0x2010, 0x00000000); // core soft reset disable
+    		mt7612u_write32(pAd,          0x2704, 0x00000000); // Tx power control
 
 			//********* HG LNA Phase cal  *********
 			mt_rf_write(pAd, pathIdx[ii], 0x0210, RXGainSel[2*i]); // Use 2cf4 force RXGAIN, HG(B)/MG(A)/8484 LG(9)/8585
 
 			//********* start iBF cal
 			mt_rf_write(pAd, pathIdx[ii], 0x0114, 0x00C211F1); // connecting TxLPF out and RxLPF in, and closing the TIA
-    		RTMP_IO_WRITE32(pAd,          0x2300, ADCSel[ii]); // 01:1R ADC1, 00 : 1R ADC0
-    		RTMP_IO_WRITE32(pAd,          0x2710, 0x00000008); // a default setting, 2T
-    		RTMP_IO_WRITE32(pAd,          0x2c08, TRLoopSel[ii]); // TR loop setting(0:T0R0,1:T1R0,5:T1R1,4:T0R1)
-    		RTMP_IO_WRITE32(pAd,          0x2714, DACSel[ii]); // 1 : DAC1, 0 : DAC0
-    		RTMP_IO_WRITE32(pAd,          0x2718, 0xC0002101); // Test format contol : Tx single tone setting
-    		RTMP_IO_WRITE32(pAd,          0x2c14, 0x0000040c); // set accumulation length
+    		mt7612u_write32(pAd,          0x2300, ADCSel[ii]); // 01:1R ADC1, 00 : 1R ADC0
+    		mt7612u_write32(pAd,          0x2710, 0x00000008); // a default setting, 2T
+    		mt7612u_write32(pAd,          0x2c08, TRLoopSel[ii]); // TR loop setting(0:T0R0,1:T1R0,5:T1R1,4:T0R1)
+    		mt7612u_write32(pAd,          0x2714, DACSel[ii]); // 1 : DAC1, 0 : DAC0
+    		mt7612u_write32(pAd,          0x2718, 0xC0002101); // Test format contol : Tx single tone setting
+    		mt7612u_write32(pAd,          0x2c14, 0x0000040c); // set accumulation length
 
 			RtmpOsMsDelay(10); // waiting 10ms
 
 				// Enable LNA phase calibration and polling if HW is ready to read phase result
-				RTMP_IO_WRITE32(pAd,CAL_R1, 0x00000086);
+				mt7612u_write32(pAd,CAL_R1, 0x00000086);
 				phaseCaliStatus = mt7612u_read32(pAd,CAL_R1);
 				timeOutCount = 0;
 				while (phaseCaliStatus & 0x80)
@@ -1848,8 +1848,8 @@ INT mt76x2_ITxBFLNACalibration(
 					avgIData, avgQData));
 
 			//********* BBP Soft Reset  *********
-			RTMP_IO_WRITE32(pAd,       0x2010, 0x00000001); // core soft reset enable
-			RTMP_IO_WRITE32(pAd,       0x2010, 0x00000000); // core soft reset disable
+			mt7612u_write32(pAd,       0x2010, 0x00000001); // core soft reset enable
+			mt7612u_write32(pAd,       0x2010, 0x00000000); // core soft reset disable
 
 			//********* MG LNA Phase cal  *********
 			if (gBand)
@@ -1861,17 +1861,17 @@ INT mt76x2_ITxBFLNACalibration(
 
 			//********* start iBF cal
 			mt_rf_write(pAd, RF_Path1, 0x0114, 0x00C211F1); // connecting TxLPF out and RxLPF in, and closing the TIA
-			RTMP_IO_WRITE32(pAd,       0x2300, ADCSel[ii]); // 01:1R ADC1, 00 : 1R ADC0
-			RTMP_IO_WRITE32(pAd,       0x2710, 0x00000008); // a default setting, 2T
-			RTMP_IO_WRITE32(pAd,       0x2c08, TRLoopSel[ii]); // TR loop setting(0:T0R0,1:T1R0,5:T1R1,4:T0R1)
-			RTMP_IO_WRITE32(pAd,       0x2714, DACSel[ii]); // 1 : DAC1, 0 : DAC0
-			RTMP_IO_WRITE32(pAd,       0x2718, 0xC0002101); // Test format contol : Tx single tone setting
-			RTMP_IO_WRITE32(pAd,       0x2c14, 0x0000040c); // set accumulation length
+			mt7612u_write32(pAd,       0x2300, ADCSel[ii]); // 01:1R ADC1, 00 : 1R ADC0
+			mt7612u_write32(pAd,       0x2710, 0x00000008); // a default setting, 2T
+			mt7612u_write32(pAd,       0x2c08, TRLoopSel[ii]); // TR loop setting(0:T0R0,1:T1R0,5:T1R1,4:T0R1)
+			mt7612u_write32(pAd,       0x2714, DACSel[ii]); // 1 : DAC1, 0 : DAC0
+			mt7612u_write32(pAd,       0x2718, 0xC0002101); // Test format contol : Tx single tone setting
+			mt7612u_write32(pAd,       0x2c14, 0x0000040c); // set accumulation length
 
 			RtmpOsMsDelay(10); // waiting 10ms
 
 			// Enable LNA phase calibration and polling if HW is ready to read phase result
-			RTMP_IO_WRITE32(pAd,CAL_R1, 0x00000086);
+			mt7612u_write32(pAd,CAL_R1, 0x00000086);
 			phaseCaliStatus = mt7612u_read32(pAd,CAL_R1);
 			timeOutCount = 0;
 			while (phaseCaliStatus & 0x80)
@@ -2009,8 +2009,8 @@ INT mt76x2_ITxBFLNACalibration(
 		value32 = mt7612u_read32(pAd, CAL_R0);
 		for (i=0; i<2; i++)
 		{
-			RTMP_IO_WRITE32(pAd, CAL_R0, value32 | (i<<5));
-			RTMP_IO_WRITE32(pAd, RXFE_R3, avgPhase32[i]);
+			mt7612u_write32(pAd, CAL_R0, value32 | (i<<5));
+			mt7612u_write32(pAd, RXFE_R3, avgPhase32[i]);
 		}
 
 		break;
@@ -2104,19 +2104,19 @@ INT ITxBFPhaseCalibrationStartUp(
 	mt_rf_write(pAd, RF_Path1, RFDIGI_TOP1,  CR_BK[20]);
 	mt_rf_write(pAd, RF_Path1, RG_WF0_RXG_TOP,CR_BK[10]);
 
-	RTMP_IO_WRITE32(pAd, CORE_R1,            CR_BK[22]);
-	RTMP_IO_WRITE32(pAd, DACCLK_EN_DLY_CFG,	 CR_BK[23]);
-	RTMP_IO_WRITE32(pAd, PWR_PIN_CFG,        CR_BK[24]);
-	RTMP_IO_WRITE32(pAd, CORE_R33,           CR_BK[25]);
-	RTMP_IO_WRITE32(pAd, AGC1_R0,            CR_BK[26]);
-	RTMP_IO_WRITE32(pAd, TXBE_R4,            CR_BK[27]);
-	RTMP_IO_WRITE32(pAd, CORE_R4,            CR_BK[28]);
-	RTMP_IO_WRITE32(pAd, TXBE_R1,            CR_BK[29]);
-	RTMP_IO_WRITE32(pAd, CAL_R2,  			 CR_BK[30]);
-	RTMP_IO_WRITE32(pAd, TXBE_R5, 			 CR_BK[31]);
-	RTMP_IO_WRITE32(pAd, TXBE_R6, 			 CR_BK[32]);
-	RTMP_IO_WRITE32(pAd, CAL_R5,  			 CR_BK[33]);
-	RTMP_IO_WRITE32(pAd, CAL_R1, 			 CR_BK[34]);
+	mt7612u_write32(pAd, CORE_R1,            CR_BK[22]);
+	mt7612u_write32(pAd, DACCLK_EN_DLY_CFG,	 CR_BK[23]);
+	mt7612u_write32(pAd, PWR_PIN_CFG,        CR_BK[24]);
+	mt7612u_write32(pAd, CORE_R33,           CR_BK[25]);
+	mt7612u_write32(pAd, AGC1_R0,            CR_BK[26]);
+	mt7612u_write32(pAd, TXBE_R4,            CR_BK[27]);
+	mt7612u_write32(pAd, CORE_R4,            CR_BK[28]);
+	mt7612u_write32(pAd, TXBE_R1,            CR_BK[29]);
+	mt7612u_write32(pAd, CAL_R2,  			 CR_BK[30]);
+	mt7612u_write32(pAd, TXBE_R5, 			 CR_BK[31]);
+	mt7612u_write32(pAd, TXBE_R6, 			 CR_BK[32]);
+	mt7612u_write32(pAd, CAL_R5,  			 CR_BK[33]);
+	mt7612u_write32(pAd, CAL_R1, 			 CR_BK[34]);
 
 	return TRUE;
 }
@@ -2145,12 +2145,12 @@ INT ITxBFPhaseCalibration(
 	/* DPD and TSSI HW off */
 	value32[0] = mt7612u_read32(pAd,TXBE_R8);
 	value32[0] &= ~0x08000;
-	RTMP_IO_WRITE32(pAd,TXBE_R8, value32[0]); // DPD off
+	mt7612u_write32(pAd,TXBE_R8, value32[0]); // DPD off
 
 	value32[0] = mt7612u_read32(pAd,CORE_R34);
 	value32[0] &= ~0x60;
 	value32[0] |= 0x40;
-	RTMP_IO_WRITE32(pAd,CORE_R34, value32[0]); // TSSI off
+	mt7612u_write32(pAd,CORE_R34, value32[0]); // TSSI off
 
 	/* Divider closeloop settng */
 	// RXA IQ CalSetting
@@ -2180,14 +2180,14 @@ INT ITxBFPhaseCalibration(
 	}
 
 	// DCOC for RXA IQ Cal
-	RTMP_IO_WRITE32(pAd,CORE_R1,   0x00000000); // BW=20MHz ADC=40MHz
+	mt7612u_write32(pAd,CORE_R1,   0x00000000); // BW=20MHz ADC=40MHz
 	mt_rf_write(pAd, RF_Path0,	   RFDIGI_TRX0, 0x0500010F); // start rxiq dcoc
 	mt_rf_write(pAd, RF_Path1,	   RFDIGI_TRX0, 0x0500010F); // start rxiq dcoc
-	RTMP_IO_WRITE32(pAd,DACCLK_EN_DLY_CFG,	   0x80008000);  //DAC Clock on
+	mt7612u_write32(pAd,DACCLK_EN_DLY_CFG,	   0x80008000);  //DAC Clock on
 
 	// send single tone
-	RTMP_IO_WRITE32(pAd,PWR_PIN_CFG,           0x00000000);  //[3] to turn off "adda power down"
-	RTMP_IO_WRITE32(pAd,CORE_R33,              0x00021E00);  //RF/BBP clk control
+	mt7612u_write32(pAd,PWR_PIN_CFG,           0x00000000);  //[3] to turn off "adda power down"
+	mt7612u_write32(pAd,CORE_R33,              0x00021E00);  //RF/BBP clk control
 
 	// LNA : MG
 	//mt_rf_write(pAd, RF_Path0,	   RFDIGI_TRX4, ((1<<19)|(2<<16)|(1<<15)|(MidVGA[0]<<8)|(1<<7)|MidVGA[0]));
@@ -2195,18 +2195,18 @@ INT ITxBFPhaseCalibration(
 	mt_rf_write(pAd, RF_Path0,	   RFDIGI_TRX4, ((1<<19)|(2<<16)|(1<<15)|(4<<8)|(1<<7)|4));
 	mt_rf_write(pAd, RF_Path1,	   RFDIGI_TRX4, ((1<<19)|(2<<16)|(1<<15)|(4<<8)|(1<<7)|4));
 
-	RTMP_IO_WRITE32(pAd, AGC1_R0,  0x7408); // a default setting, 2R
-	RTMP_IO_WRITE32(pAd, TXBE_R4,  0x0008); // a default setting, 2T
+	mt7612u_write32(pAd, AGC1_R0,  0x7408); // a default setting, 2R
+	mt7612u_write32(pAd, TXBE_R4,  0x0008); // a default setting, 2T
 
 
 	/* The residual of phase calibration process */
 	for (i = 0; i < 1; i++)
 	{
 		/******** Tx1RX0 ********/
-		RTMP_IO_WRITE32(pAd,CORE_R4,   0x00000001); // core soft reset enable
-		RTMP_IO_WRITE32(pAd,CORE_R4,   0x00000000); // core soft reset disable
+		mt7612u_write32(pAd,CORE_R4,   0x00000001); // core soft reset enable
+		mt7612u_write32(pAd,CORE_R4,   0x00000000); // core soft reset disable
 
-		RTMP_IO_WRITE32(pAd,TXBE_R1,   0x00000606); // Tx power control
+		mt7612u_write32(pAd,TXBE_R1,   0x00000606); // Tx power control
 
 		if (gBandFlg)
 		{
@@ -2229,13 +2229,13 @@ INT ITxBFPhaseCalibration(
 
 		mt_rf_write(pAd, RF_Path0, RFDIGI_TRX0, 0x0500010F); // start rxiq doc
 
-		RTMP_IO_WRITE32(pAd,CAL_R2,  0x00000001); // TR loop setting(0:T0R0,1:T1R0,5:T1R1,4:T0R1)
-		RTMP_IO_WRITE32(pAd,TXBE_R5, 0x00000081); // 1 : DAC1, 0 : DAC0
-		RTMP_IO_WRITE32(pAd,TXBE_R6, 0xC0002101); // Test format contol : Tx single tone setting
-		RTMP_IO_WRITE32(pAd,CAL_R5,  0x0000040c); // set accumulation length
+		mt7612u_write32(pAd,CAL_R2,  0x00000001); // TR loop setting(0:T0R0,1:T1R0,5:T1R1,4:T0R1)
+		mt7612u_write32(pAd,TXBE_R5, 0x00000081); // 1 : DAC1, 0 : DAC0
+		mt7612u_write32(pAd,TXBE_R6, 0xC0002101); // Test format contol : Tx single tone setting
+		mt7612u_write32(pAd,CAL_R5,  0x0000040c); // set accumulation length
 
 		// Enable phase calibration
-		RTMP_IO_WRITE32(pAd,CAL_R1, 0x00000086);
+		mt7612u_write32(pAd,CAL_R1, 0x00000086);
 		phaseCaliStatus = mt7612u_read32(pAd,CAL_R1);
 		timeOutCount = 0;
 		while (phaseCaliStatus & 0x80)
@@ -2280,7 +2280,7 @@ INT ITxBFPhaseCalibration(
 				avgIData, avgQData,
 				MidVGA[0]));
 
-		RTMP_IO_WRITE32(pAd,CAL_R1, 0x00000006); 	// Disable Calibration
+		mt7612u_write32(pAd,CAL_R1, 0x00000006); 	// Disable Calibration
 
 		mt_rf_write(pAd, RF_Path0, RFDIGI_TOP0, 0x00056737); // enable SX/RX/for WF0,
 		mt_rf_write(pAd, RF_Path1, RFDIGI_TOP0, 0x00056F27); // enable SX/RX/for WF1
@@ -2290,8 +2290,8 @@ INT ITxBFPhaseCalibration(
 		mt_rf_write(pAd, RF_Path1, RFDIGI_TOP0, 0x80056F24); // enable SX/RX/for WF1
 
 		/******** Tx0RX1 ********/
-		RTMP_IO_WRITE32(pAd,CORE_R4,   0x00000001); // core soft reset enable
-		RTMP_IO_WRITE32(pAd,CORE_R4,   0x00000000); // core soft reset disable
+		mt7612u_write32(pAd,CORE_R4,   0x00000001); // core soft reset enable
+		mt7612u_write32(pAd,CORE_R4,   0x00000000); // core soft reset disable
 
 		if (gBandFlg)
 		{
@@ -2314,13 +2314,13 @@ INT ITxBFPhaseCalibration(
 
 		mt_rf_write(pAd, RF_Path1, RFDIGI_TRX0, 0x0500010F); // start rxiq doc
 
-		RTMP_IO_WRITE32(pAd,CAL_R2, 0x00000004); 	// TR loop setting(0:T0R0,1:T1R0,5:T1R1,4:T0R1)
-		RTMP_IO_WRITE32(pAd,TXBE_R5, 0x00000080);	// 1 : DAC1, 0 : DAC0
-		RTMP_IO_WRITE32(pAd,TXBE_R6, 0xC0002101); 	// Test format contol : Tx single tone setting
-		RTMP_IO_WRITE32(pAd,CAL_R5,  0x0000040c); 	// set accumulation length
+		mt7612u_write32(pAd,CAL_R2, 0x00000004); 	// TR loop setting(0:T0R0,1:T1R0,5:T1R1,4:T0R1)
+		mt7612u_write32(pAd,TXBE_R5, 0x00000080);	// 1 : DAC1, 0 : DAC0
+		mt7612u_write32(pAd,TXBE_R6, 0xC0002101); 	// Test format contol : Tx single tone setting
+		mt7612u_write32(pAd,CAL_R5,  0x0000040c); 	// set accumulation length
 
 		// Enable phase calibration
-		RTMP_IO_WRITE32(pAd,CAL_R1, 0x00000086);
+		mt7612u_write32(pAd,CAL_R1, 0x00000086);
 		phaseCaliStatus = mt7612u_read32(pAd,CAL_R1);
 		timeOutCount = 0;
 
@@ -2365,7 +2365,7 @@ INT ITxBFPhaseCalibration(
 				avgIData, avgQData,
 				MidVGA[1]));
 
-		RTMP_IO_WRITE32(pAd,CAL_R1, 0x00000006); 	// Disable Calibration
+		mt7612u_write32(pAd,CAL_R1, 0x00000006); 	// Disable Calibration
 
 		phaseValues[0] = mPhase1 - mPhase0;
 
@@ -2399,8 +2399,8 @@ INT ITxBFPhaseCalibration(
 		//DBGPRINT(RT_DEBUG_WARN, (
 		//	"Divider phase  : 0x%x\n"
 		//	"Residual phase : 0x%x\n", divPhase[0], phaseValues[0]));
-		//RTMP_IO_WRITE32(pAd, CAL_R0, 0);
-		//RTMP_IO_WRITE32(pAd, TXBE_R13, phaseValues[0]);  // for method1
+		//mt7612u_write32(pAd, CAL_R0, 0);
+		//mt7612u_write32(pAd, TXBE_R13, phaseValues[0]);  // for method1
 		break;
 
 	case 1:
@@ -2467,7 +2467,7 @@ INT TxBfProfileTagRead(
 	value32 = mt7612u_read32(pAd, PFMU_R10);
 	value32 &= (~0x3C00);
 	// Wite PFMU_R10 to trigger read command
-	RTMP_IO_WRITE32(pAd, PFMU_R10, ((profileIdx << 10)|value32));
+	mt7612u_write32(pAd, PFMU_R10, ((profileIdx << 10)|value32));
 	// Read PFMU_R19 ~ R23
 	readValue32[0] = mt7612u_read32(pAd, PFMU_R11);
 	readValue32[1] = mt7612u_read32(pAd, PFMU_R12);
@@ -2574,7 +2574,7 @@ INT TxBfProfileTagWrite(
 	value32 = mt7612u_read32(pAd, PFMU_R10);
 	value32 &= (~0x3C00);
 	// Wite PFMU_R10 to trigger read command
-	RTMP_IO_WRITE32(pAd, PFMU_R10, ((profileIdx << 10)|value32));
+	mt7612u_write32(pAd, PFMU_R10, ((profileIdx << 10)|value32));
 	// Read PFMU_R19 ~ R23
 	readValue32[0] = mt7612u_read32(pAd, PFMU_R11);
 	readValue32[1] = mt7612u_read32(pAd, PFMU_R12);
@@ -2697,13 +2697,13 @@ INT TxBfProfileTagWrite(
 	value32 = mt7612u_read32(pAd, PFMU_R10);
 	value32 &= (~0x3C00);
 	// Wite PFMU_R10 to trigger read command
-	RTMP_IO_WRITE32(pAd, PFMU_R10, ((profileIdx << 10)|value32));
+	mt7612u_write32(pAd, PFMU_R10, ((profileIdx << 10)|value32));
 	// Write PFMU_R11 ~ R15
-	RTMP_IO_WRITE32(pAd, PFMU_R15, readValue32[4]);
-	RTMP_IO_WRITE32(pAd, PFMU_R14, readValue32[3]);
-	RTMP_IO_WRITE32(pAd, PFMU_R13, readValue32[2]);
-	RTMP_IO_WRITE32(pAd, PFMU_R12, readValue32[1]);
-	RTMP_IO_WRITE32(pAd, PFMU_R11, readValue32[0]);
+	mt7612u_write32(pAd, PFMU_R15, readValue32[4]);
+	mt7612u_write32(pAd, PFMU_R14, readValue32[3]);
+	mt7612u_write32(pAd, PFMU_R13, readValue32[2]);
+	mt7612u_write32(pAd, PFMU_R12, readValue32[1]);
+	mt7612u_write32(pAd, PFMU_R11, readValue32[0]);
 
 	prof->CMDInIdx = 0; // clear tag indicator
 
@@ -2726,7 +2726,7 @@ INT TxBfProfileDataRead(
 	// Read PFMU_R10 (0x2f28) first
 	value32 = mt7612u_read32(pAd, PFMU_R10);
 	// Wite PFMU_R10 to trigger read command
-	RTMP_IO_WRITE32(pAd, PFMU_R10, ((profileIdx << 10)|subcarrierIdx));
+	mt7612u_write32(pAd, PFMU_R10, ((profileIdx << 10)|subcarrierIdx));
 	// Read PFMU_R19 ~ R23
 	readValue32[0] = mt7612u_read32(pAd, PFMU_R19);
 	readValue32[1] = mt7612u_read32(pAd, PFMU_R20);
@@ -2755,7 +2755,7 @@ INT TxBfProfileDataWrite(
 	// Read PFMU_R10 (0x2f28) first
 	value32 = mt7612u_read32(pAd, PFMU_R10);
 	// Wite PFMU_R10 to trigger read command
-	RTMP_IO_WRITE32(pAd, PFMU_R10, ((profileIdx << 10)|subcarrierIdx));
+	mt7612u_write32(pAd, PFMU_R10, ((profileIdx << 10)|subcarrierIdx));
 	// Read PFMU_R19 ~ R23
 	readValue32[0] = mt7612u_read32(pAd, PFMU_R19);
 	readValue32[1] = mt7612u_read32(pAd, PFMU_R20);
@@ -2793,13 +2793,13 @@ INT TxBfProfileDataWrite(
 	// Read PFMU_R10 (0x2f28) first
 	value32 = mt7612u_read32(pAd, PFMU_R10);
 	// Wite PFMU_R10 to trigger read command
-	RTMP_IO_WRITE32(pAd, PFMU_R10, ((profileIdx << 10)|subcarrierIdx));
+	mt7612u_write32(pAd, PFMU_R10, ((profileIdx << 10)|subcarrierIdx));
 	// Wite PFMU_R19 ~ R23
-	RTMP_IO_WRITE32(pAd, PFMU_R23, readValue32[4]);
-	RTMP_IO_WRITE32(pAd, PFMU_R22, readValue32[3]);
-	RTMP_IO_WRITE32(pAd, PFMU_R21, readValue32[2]);
-	RTMP_IO_WRITE32(pAd, PFMU_R20, readValue32[1]);
-	RTMP_IO_WRITE32(pAd, PFMU_R19, readValue32[0]);
+	mt7612u_write32(pAd, PFMU_R23, readValue32[4]);
+	mt7612u_write32(pAd, PFMU_R22, readValue32[3]);
+	mt7612u_write32(pAd, PFMU_R21, readValue32[2]);
+	mt7612u_write32(pAd, PFMU_R20, readValue32[1]);
+	mt7612u_write32(pAd, PFMU_R19, readValue32[0]);
 
 	pData->dCMDInIdx = 0; // clear profile data write indicator
 
@@ -2820,7 +2820,7 @@ INT TxBfProfileTagValid(
 	value32 = mt7612u_read32(pAd, PFMU_R10);
 	value32 &= (~0x3C00);
 	// Wite PFMU_R10 to trigger read command
-	RTMP_IO_WRITE32(pAd, PFMU_R10, ((profileIdx << 10)|value32));
+	mt7612u_write32(pAd, PFMU_R10, ((profileIdx << 10)|value32));
 	// Read PFMU_R11 ~ R15
 	readValue32[0] = mt7612u_read32(pAd, PFMU_R11);
 	readValue32[1] = mt7612u_read32(pAd, PFMU_R12);
@@ -2839,13 +2839,13 @@ INT TxBfProfileTagValid(
 	value32 = mt7612u_read32(pAd, PFMU_R10);
 	value32 &= (~0x3C00);
 	// Wite PFMU_R10 to trigger read command
-	RTMP_IO_WRITE32(pAd, PFMU_R10, ((profileIdx << 10)|value32));
+	mt7612u_write32(pAd, PFMU_R10, ((profileIdx << 10)|value32));
 	// Write PFMU_R11 ~ R15
-	RTMP_IO_WRITE32(pAd, PFMU_R15, readValue32[4]);
-	RTMP_IO_WRITE32(pAd, PFMU_R14, readValue32[3]);
-	RTMP_IO_WRITE32(pAd, PFMU_R13, readValue32[2]);
-	RTMP_IO_WRITE32(pAd, PFMU_R12, readValue32[1]);
-	RTMP_IO_WRITE32(pAd, PFMU_R11, readValue32[0]);
+	mt7612u_write32(pAd, PFMU_R15, readValue32[4]);
+	mt7612u_write32(pAd, PFMU_R14, readValue32[3]);
+	mt7612u_write32(pAd, PFMU_R13, readValue32[2]);
+	mt7612u_write32(pAd, PFMU_R12, readValue32[1]);
+	mt7612u_write32(pAd, PFMU_R11, readValue32[0]);
 
 	return TRUE;
 }
@@ -2875,7 +2875,7 @@ UCHAR Read_PFMUTxBfProfile(
 
 	/* Disable Profile Updates during access */
 	value32 = mt7612u_read32(pAd,  PFMU_R1);
-	RTMP_IO_WRITE32(pAd, PFMU_R1,  value32 & ~0x330);
+	mt7612u_write32(pAd, PFMU_R1,  value32 & ~0x330);
 
 	for (profileNum = 0; profileNum < 8; profileNum++)
 	{
@@ -2924,7 +2924,7 @@ UCHAR Read_PFMUTxBfProfile(
 	}
 
 	/* Restore Profile Updates */
-	RTMP_IO_WRITE32(pAd,  PFMU_R1, value32);
+	mt7612u_write32(pAd,  PFMU_R1, value32);
 
 #ifdef TIMESTAMP_BF_PROFILE
 	do_gettimeofday(&tval2);

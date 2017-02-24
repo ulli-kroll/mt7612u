@@ -281,7 +281,7 @@ VOID QBSS_LoadInit(
 			enable Channel statistic timer (bit 0) */
 
 		/* Note: if bit 0 == 0, the function will be disabled */
-		RTMP_IO_WRITE32(pAd, CH_TIME_CFG, 0x0000001F);
+		mt7612u_write32(pAd, CH_TIME_CFG, 0x0000001F);
 
 		/* default value is 50, please reference to IEEE802.11e 2005 Annex D */
 		pAd->QloadChanUtilBeaconInt = 50;
@@ -289,7 +289,7 @@ VOID QBSS_LoadInit(
 	else
 	{
 		/* no any WMM is enabled */
-		RTMP_IO_WRITE32(pAd, CH_TIME_CFG, 0x00000000);
+		mt7612u_write32(pAd, CH_TIME_CFG, 0x00000000);
 	}
 
 	pAd->QloadChanUtilTotal = 0;

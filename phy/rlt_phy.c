@@ -274,7 +274,7 @@ static INT rlt_bbp_set_ctrlch(struct rtmp_adapter *pAd, UINT8 ext_ch)
 		uint32_t mac_val[4] = {0xf1e4, 0xf2e1, 0xf41e, 0xf81b}; /* primary 0~3 */
 
 		RTMP_BBP_IO_READ32(pAd, AGC1_R0, &agc);
-		RTMP_IO_WRITE32(pAd, EXT_CCA_CFG, mac_val[agc & 0x3]); /* IC default value = 0xffe4 */
+		mt7612u_write32(pAd, EXT_CCA_CFG, mac_val[agc & 0x3]); /* IC default value = 0xffe4 */
 	}
 #endif /* RT8592 */
 

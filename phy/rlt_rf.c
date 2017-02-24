@@ -118,7 +118,7 @@ int rlt_rf_write(
 		DBGPRINT_ERR(("%s():RF write with wrong handler!\n", __FUNCTION__));
 		goto done;
 	}
-	RTMP_IO_WRITE32(pAd, RF_CSR_CFG, rfcsr.word);
+	mt7612u_write32(pAd, RF_CSR_CFG, rfcsr.word);
 
 	ret = NDIS_STATUS_SUCCESS;
 
@@ -199,7 +199,7 @@ int rlt_rf_read(
 			break;
 		}
 
-		RTMP_IO_WRITE32(pAd, RF_CSR_CFG, rfcsr.word);
+		mt7612u_write32(pAd, RF_CSR_CFG, rfcsr.word);
 
 		rf_status = rf_csr_poll_idle(pAd, &rfcsr.word);
 		if (rf_status == IDLE)

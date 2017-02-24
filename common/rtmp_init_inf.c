@@ -458,7 +458,7 @@ int rt28xx_init(struct rtmp_adapter *pAd)
 
 	if (pAd->CommonCfg.ETxBfTimeout)
 	{
-		RTMP_IO_WRITE32(pAd, TX_TXBF_CFG_3, pAd->CommonCfg.ETxBfTimeout);
+		mt7612u_write32(pAd, TX_TXBF_CFG_3, pAd->CommonCfg.ETxBfTimeout);
 	}
 
 

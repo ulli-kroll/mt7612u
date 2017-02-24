@@ -7445,7 +7445,7 @@ const CHAR* ether_sprintf(const UINT8 *mac);
 
 
 #ifdef VENDOR_FEATURE3_SUPPORT
-VOID RTMP_IO_WRITE32(struct rtmp_adapter *pAd, uint32_t Offset, uint32_t Value);
+VOID mt7612u_write32(struct rtmp_adapter *pAd, uint32_t Offset, uint32_t Value);
 #endif /* VENDOR_FEATURE3_SUPPORT */
 
 INT WaitForAsicReady(struct rtmp_adapter *pAd);

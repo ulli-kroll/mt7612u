@@ -1355,7 +1355,7 @@ VOID RT28xx_UpdateBeaconToAsic(
 		/* when the ra interface is down, do not send its beacon frame */
 		/* clear all zero */
 		for(i=0; i < TXWISize; i+=4) {
-			RTMP_IO_WRITE32(pAd,
+			mt7612u_write32(pAd,
 				        pAd->BeaconOffset[bcn_idx] + i,
 				        0x00);
 		}
@@ -1384,7 +1384,7 @@ VOID RT28xx_UpdateBeaconToAsic(
 					(*(ptr + 2) << 16);
 					(*(ptr + 3) << 24);
 
-				RTMP_IO_WRITE32(pAd,
+				mt7612u_write32(pAd,
 						pAd->BeaconOffset[bcn_idx] + i,
 						dword);
 				ptr += 4;
@@ -1409,7 +1409,7 @@ VOID RT28xx_UpdateBeaconToAsic(
 					(*(ptr + 2) << 16);
 					(*(ptr + 3) << 24);
 
-				RTMP_IO_WRITE32(pAd,
+				mt7612u_write32(pAd,
 					        pAd->BeaconOffset[bcn_idx] + TXWISize + i,
 					        dword);
 			}
@@ -1469,7 +1469,7 @@ VOID RTUSBBssBeaconStop(
 			memset(pBeaconSync->BeaconTxWI[i], 0, TXWISize);
 
 			for (offset=0; offset<HW_BEACON_OFFSET; offset += 4)
-				RTMP_IO_WRITE32(pAd,
+				mt7612u_write32(pAd,
 					        pAd->BeaconOffset[i] + offset,
 					        0x00);
 
@@ -1957,7 +1957,7 @@ VOID RT28xxUsbAsicRadioOn(struct rtmp_adapter *pAd)
 
 
 	/* 2. Enable Tx/Rx DMA.*/
-	RTMP_IO_WRITE32(pAd, MAC_SYS_CTRL, 0x4);
+	mt7612u_write32(pAd, MAC_SYS_CTRL, 0x4);
 	AsicWaitPDMAIdle(pAd, 200, 1000);
 
 	RtmpusecDelay(50);
@@ -1966,13 +1966,13 @@ VOID RT28xxUsbAsicRadioOn(struct rtmp_adapter *pAd)
 	GloCfg.field.WPDMABurstSIZE = pAd->chipCap.WPDMABurstSIZE;
 	GloCfg.field.EnableRxDMA = 1;
 	GloCfg.field.EnableTxDMA = 1;
-	RTMP_IO_WRITE32(pAd, WPDMA_GLO_CFG, GloCfg.word);
+	mt7612u_write32(pAd, WPDMA_GLO_CFG, GloCfg.word);
 	DBGPRINT(RT_DEBUG_TRACE, ("<== WRITE DMA offset 0x208 = 0x%x\n", GloCfg.word));
 
 	/* enable RX of MAC block*/
 	AsicSetRxFilter(pAd);
 
-	RTMP_IO_WRITE32(pAd, MAC_SYS_CTRL, 0xc);
+	mt7612u_write32(pAd, MAC_SYS_CTRL, 0xc);
 
 	/* 3. Turn on RF*/
 /*	RT28xxUsbAsicRFOn(pAd);*/

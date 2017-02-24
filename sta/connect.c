@@ -1777,7 +1777,7 @@ VOID LinkUp(struct rtmp_adapter *pAd, UCHAR BssType)
 				break;
 		}
 		if (factor)
-			RTMP_IO_WRITE32(pAd, MAX_LEN_CFG, factor);
+			mt7612u_write32(pAd, MAX_LEN_CFG, factor);
 		DBGPRINT(RT_DEBUG_TRACE, ("MaxRAmpduFactor=%d\n", pEntry->MaxRAmpduFactor));
 	}
 
@@ -1806,7 +1806,7 @@ VOID LinkUp(struct rtmp_adapter *pAd, UCHAR BssType)
 	Data = mt7612u_read32(pAd, EDCA_AC0_CFG);
 	Data &= 0xFFFFFF00;
 	Data |= burst_txop;
-	RTMP_IO_WRITE32(pAd, EDCA_AC0_CFG, Data);
+	mt7612u_write32(pAd, EDCA_AC0_CFG, Data);
 
 	/* Re-check to turn on TX burst or not. */
 	if ((pAd->CommonCfg.IOTestParm.bLastAtheros == TRUE)
@@ -1816,7 +1816,7 @@ VOID LinkUp(struct rtmp_adapter *pAd, UCHAR BssType)
 			/* Force disable TXOP value in this case. The same action in MLMEUpdateProtect too */
 			MACValue = mt7612u_read32(pAd, EDCA_AC0_CFG);
 			MACValue &= 0xFFFFFF00;
-			RTMP_IO_WRITE32(pAd, EDCA_AC0_CFG, MACValue);
+			mt7612u_write32(pAd, EDCA_AC0_CFG, MACValue);
 		}
 	}
 
@@ -1854,9 +1854,9 @@ VOID LinkUp(struct rtmp_adapter *pAd, UCHAR BssType)
 	/* */
 	if (INFRA_ON(pAd) && OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_WMM_INUSED)
 	    && STA_TKIP_ON(pAd)) {
-		RTMP_IO_WRITE32(pAd, RX_PARSER_CFG, 0x01);
+		mt7612u_write32(pAd, RX_PARSER_CFG, 0x01);
 	} else {
-		RTMP_IO_WRITE32(pAd, RX_PARSER_CFG, 0x00);
+		mt7612u_write32(pAd, RX_PARSER_CFG, 0x00);
 	}
 
 	RTMP_CLEAR_FLAG(pAd, fRTMP_ADAPTER_BSS_SCAN_IN_PROGRESS);
@@ -1974,7 +1974,7 @@ VOID LinkDown(
 		AUTO_WAKEUP_STRUC AutoWakeupCfg;
 		AsicForceWakeup(pAd, TRUE);
 		AutoWakeupCfg.word = 0;
-		RTMP_IO_WRITE32(pAd, AUTO_WAKEUP_CFG, AutoWakeupCfg.word);
+		mt7612u_write32(pAd, AUTO_WAKEUP_CFG, AutoWakeupCfg.word);
 		OPSTATUS_CLEAR_FLAG(pAd, fOP_STATUS_DOZE);
 	}
 
@@ -2167,7 +2167,7 @@ VOID LinkDown(
 		pAd->ChannelList[i].bEffectedChannel = FALSE;
 	}
 
-	RTMP_IO_WRITE32(pAd, MAX_LEN_CFG, 0x1fff);
+	mt7612u_write32(pAd, MAX_LEN_CFG, 0x1fff);
 	RTMP_CLEAR_FLAG(pAd, fRTMP_ADAPTER_BSS_SCAN_IN_PROGRESS);
 /* Allow go to sleep after linkdown steps. */
 

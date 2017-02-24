@@ -146,7 +146,7 @@ VOID R_Calibration(
 		NdisGetSystemUpTime(&stTime);
 		mt7612u_read32(pAd, MAC_SYS_CTRL, &macCfg);
 		macCfg &= (~0x04);
-		RTMP_IO_WRITE32(pAd, MAC_SYS_CTRL, macCfg);
+		mt7612u_write32(pAd, MAC_SYS_CTRL, macCfg);
 		for (MTxCycle = 0; MTxCycle < 10000; MTxCycle++)
 		{
 			mt7612u_read32(pAd, MAC_STATUS_CFG, &macStatus);
@@ -167,7 +167,7 @@ VOID R_Calibration(
 		NdisGetSystemUpTime(&stTime);
 		mt7612u_read32(pAd, MAC_SYS_CTRL, &macCfg);
 		macCfg &= (~0x08);
-		RTMP_IO_WRITE32(pAd, MAC_SYS_CTRL, macCfg);
+		mt7612u_write32(pAd, MAC_SYS_CTRL, macCfg);
 		for (MRxCycle = 0; MRxCycle < 10000; MRxCycle++)
 		{
 			mt7612u_read32(pAd, MAC_STATUS_CFG, &macStatus);
@@ -187,9 +187,9 @@ VOID R_Calibration(
 
 	/* RF bypass MAC */
 	RFValue = (MAC_RF_BYPASS0 | 0x3004);
-	RTMP_IO_WRITE32(pAd, RTMP_RF_BYPASS0, RFValue);
+	mt7612u_write32(pAd, RTMP_RF_BYPASS0, RFValue);
 	RFValue = (MAC_RF_CONTROL0 & (~0x3002));
-	RTMP_IO_WRITE32(pAd, RF_CONTROL0, RFValue);
+	mt7612u_write32(pAd, RF_CONTROL0, RFValue);
 
 	RT635xWriteRFRegister(pAd, RF_BANK5, RF_R04, 0x27);
 	RT635xWriteRFRegister(pAd, RF_BANK5, RF_R17, 0x80);
@@ -201,7 +201,7 @@ VOID R_Calibration(
 	RT635xWriteRFRegister(pAd, RF_BANK0, RF_R34, 0x13);
 	RT635xWriteRFRegister(pAd, RF_BANK0, RF_R35, 0x00);
 
-	RTMP_IO_WRITE32(pAd, PWR_PIN_CFG, 0x1);
+	mt7612u_write32(pAd, PWR_PIN_CFG, 0x1);
 
 	RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R47, 0x04);
 	RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R22, 0x80);
@@ -259,12 +259,12 @@ VOID R_Calibration(
 	RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R49, saveBBPR49);
 
 	/* Restore registers */
-	RTMP_IO_WRITE32(pAd, RTMP_RF_BYPASS0, MAC_RF_BYPASS0);
-	RTMP_IO_WRITE32(pAd, RF_CONTROL0, MAC_RF_CONTROL0);
+	mt7612u_write32(pAd, RTMP_RF_BYPASS0, MAC_RF_BYPASS0);
+	mt7612u_write32(pAd, RF_CONTROL0, MAC_RF_CONTROL0);
 
 	/*	Return to normal mode */
-	RTMP_IO_WRITE32(pAd, MAC_SYS_CTRL, saveMacSysCtrl);
-	RTMP_IO_WRITE32(pAd, PWR_PIN_CFG, MAC_PWR_PIN_CFG);
+	mt7612u_write32(pAd, MAC_SYS_CTRL, saveMacSysCtrl);
+	mt7612u_write32(pAd, PWR_PIN_CFG, MAC_PWR_PIN_CFG);
 }
 
 INT Set_TestRxIQCalibration_Proc(
@@ -377,7 +377,7 @@ VOID RtmpKickOutHwNullFrame(
 			{
 				longValue =  *ptr + (*(ptr + 1) << 8) + (*(ptr + 2) << 16) + (*(ptr + 3) << 24);
 
-				RTMP_IO_WRITE32(pAd, HW_CS_CTS_BASE + i, longValue);
+				mt7612u_write32(pAd, HW_CS_CTS_BASE + i, longValue);
 
 				ptr += 4;
 			}
@@ -391,7 +391,7 @@ VOID RtmpKickOutHwNullFrame(
 			{
 				longValue =  *ptr + (*(ptr + 1) << 8) + (*(ptr + 2) << 16) + (*(ptr + 3) << 24);
 
-				RTMP_IO_WRITE32(pAd, HW_CS_CTS_BASE + TXWISize+ i, longValue);
+				mt7612u_write32(pAd, HW_CS_CTS_BASE + TXWISize+ i, longValue);
 
 				ptr += 4;
 			}
@@ -404,7 +404,7 @@ VOID RtmpKickOutHwNullFrame(
 	if (bTransmit)
 	{
 		/* kick NULL frame #0 */
-		RTMP_IO_WRITE32(pAd, PBF_CTRL, 0x80);
+		mt7612u_write32(pAd, PBF_CTRL, 0x80);
 
 		/* Check MAC Tx/Rx idle */
 		for (k_count = 0; k_count < 200; k_count++)
@@ -945,7 +945,7 @@ UCHAR DPD_Calibration(
 	if (AntIdx == 0)
 	{
 		/* Setup the MAC to Transmit-Idle Mode through MAC registers */
-		RTMP_IO_WRITE32(pAd, TX_PIN_CFG, 0x001C0020);
+		mt7612u_write32(pAd, TX_PIN_CFG, 0x001C0020);
 
 		/* Connect RF loopback through MAC registers  */
 		RT635xWriteRFRegister(pAd, RF_BANK0, RF_R01, 0x41);
@@ -962,7 +962,7 @@ UCHAR DPD_Calibration(
 	else
 	{
 		/* Setup the MAC to Transmit-Idle Mode through MAC registers */
-		RTMP_IO_WRITE32(pAd, TX_PIN_CFG, 0x001C0080);
+		mt7612u_write32(pAd, TX_PIN_CFG, 0x001C0080);
 
 		/* Connect RF loopback through MAC registers  */
 		RT635xWriteRFRegister(pAd, RF_BANK0, RF_R01, 0x42);
@@ -1030,14 +1030,14 @@ UCHAR DPD_Calibration(
 	{
    		if(check_loop == 0)
    		{
-	 	  RTMP_IO_WRITE32(pAd, TX_ALG_CFG_0, macValue_Tx_Cfg0);
+	 	  mt7612u_write32(pAd, TX_ALG_CFG_0, macValue_Tx_Cfg0);
    		}
    		else
    		{
-	 	  RTMP_IO_WRITE32(pAd, TX_ALG_CFG_0, macValue_2nd);
+	 	  mt7612u_write32(pAd, TX_ALG_CFG_0, macValue_2nd);
    		}
 		/* Disable Tx/Rx */
-		RTMP_IO_WRITE32(pAd, MAC_SYS_CTRL, 0x00);
+		mt7612u_write32(pAd, MAC_SYS_CTRL, 0x00);
 
 		/* Check MAC Tx/Rx idle */
 		for (k_count = 0; k_count < 1000; k_count++)
@@ -1056,11 +1056,11 @@ UCHAR DPD_Calibration(
 
 		/* Transmit packet */
 		/* ====================================== */
-		RTMP_IO_WRITE32(pAd, MAC_SYS_CTRL, 0x04);
+		mt7612u_write32(pAd, MAC_SYS_CTRL, 0x04);
 		RtmpKickOutHwNullFrame(pAd, FALSE, TRUE);
 
 		/* Disable Tx/Rx */
-		RTMP_IO_WRITE32(pAd, MAC_SYS_CTRL, 0x00);
+		mt7612u_write32(pAd, MAC_SYS_CTRL, 0x00);
 
 		/* Check MAC Tx/Rx idle */
 		for (k_count = 0; k_count < 500; k_count++)
@@ -1150,8 +1150,8 @@ UCHAR DPD_Calibration(
 					RT635xWriteRFRegister(pAd, RF_BANK7, RF_R04, (0x20 | VGA_code));
 				}
 
-				RTMP_IO_WRITE32(pAd, MAC_SYS_CTRL, 0x08);
-				RTMP_IO_WRITE32(pAd, MAC_SYS_CTRL, 0x00);
+				mt7612u_write32(pAd, MAC_SYS_CTRL, 0x08);
+				mt7612u_write32(pAd, MAC_SYS_CTRL, 0x00);
 
 				/* Check MAC Tx/Rx idle */
 				for (k_count = 0; k_count < 10000; k_count++)
@@ -1383,8 +1383,8 @@ UCHAR DPD_Calibration(
 	RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R244, saveBbpR244);
 
 	/* Restore MAC registers */
-	RTMP_IO_WRITE32(pAd, TX_ALG_CFG_0, saveTxAlgCfg0);
-	RTMP_IO_WRITE32(pAd, TX_PIN_CFG, saveTxPinCfg);
+	mt7612u_write32(pAd, TX_ALG_CFG_0, saveTxAlgCfg0);
+	mt7612u_write32(pAd, TX_PIN_CFG, saveTxPinCfg);
 #ifdef ED_MONITOR
 	if (pAd->ed_tx_stoped == TRUE) {
 		saveMacSysCtrl &= (~0x04);
@@ -1393,7 +1393,7 @@ UCHAR DPD_Calibration(
 	}
 #endif /* ED_MONITOR */
 
-	RTMP_IO_WRITE32(pAd, MAC_SYS_CTRL, saveMacSysCtrl);
+	mt7612u_write32(pAd, MAC_SYS_CTRL, saveMacSysCtrl);
 
 	return 2;
 }
@@ -1858,13 +1858,13 @@ static INT RF_lp_Config(
 
 	if (bTxCal)
 	{
-		RTMP_IO_WRITE32(pAd, RF_CONTROL0, 0x04);
-		RTMP_IO_WRITE32(pAd, RTMP_RF_BYPASS0, 0x06);
+		mt7612u_write32(pAd, RF_CONTROL0, 0x04);
+		mt7612u_write32(pAd, RTMP_RF_BYPASS0, 0x06);
 	}
 	else
 	{
-		RTMP_IO_WRITE32(pAd, RF_CONTROL0, 0x02);
-		RTMP_IO_WRITE32(pAd, RTMP_RF_BYPASS0, 0x06);
+		mt7612u_write32(pAd, RF_CONTROL0, 0x02);
+		mt7612u_write32(pAd, RTMP_RF_BYPASS0, 0x06);
 
 	}
 
@@ -2215,8 +2215,8 @@ do_cal:
 		bbp_val |= 0x10;
 	RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R4, bbp_val);
 
-	RTMP_IO_WRITE32(pAd, RF_CONTROL0, MAC_RF_CONTROL0);
-	RTMP_IO_WRITE32(pAd, RTMP_RF_BYPASS0, MAC_RF_BYPASS0);
+	mt7612u_write32(pAd, RF_CONTROL0, MAC_RF_CONTROL0);
+	mt7612u_write32(pAd, RTMP_RF_BYPASS0, MAC_RF_BYPASS0);
 
 	return TRUE;
 }
@@ -2244,7 +2244,7 @@ VOID RxDCOC_Calibration(
 	RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R159, BbpReg);
 
 	mt7612u_read32(pAd, MAC_SYS_CTRL, &MacValue);
-	RTMP_IO_WRITE32(pAd, MAC_SYS_CTRL, 0x8);
+	mt7612u_write32(pAd, MAC_SYS_CTRL, 0x8);
 
 	for (k_count = 0; k_count < 10000; k_count++)
 	{
@@ -2284,7 +2284,7 @@ VOID RxDCOC_Calibration(
 	BbpReg = BbpReg & (~0x40);
 	RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R159, BbpReg);
 
-	RTMP_IO_WRITE32(pAd, MAC_SYS_CTRL, MacValue);
+	mt7612u_write32(pAd, MAC_SYS_CTRL, MacValue);
 
 	/* Write CAL R141 bit[4] = 0 (Disable calibrate MID-GAIN) */
 	RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R158, BBP_R141);
@@ -2363,7 +2363,7 @@ VOID RXIQ_Calibration(
     RTMP_BBP_IO_READ8_BY_REG_ID(pAd, BBP_R1, &BBP1);
 	RTMP_BBP_IO_READ8_BY_REG_ID(pAd, BBP_R4, &BBP4);
 
-	RTMP_IO_WRITE32(pAd, MAC_SYS_CTRL, 0x0);
+	mt7612u_write32(pAd, MAC_SYS_CTRL, 0x0);
 	/* Check MAC Tx/Rx idle */
 	for (k_count = 0; k_count < 10000; k_count++)
 	{
@@ -2390,14 +2390,14 @@ VOID RXIQ_Calibration(
 	RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R21, bbpval);
 
 
-	RTMP_IO_WRITE32(pAd, RF_CONTROL1, 0x00000202); // 0x0520
-	RTMP_IO_WRITE32(pAd, RF_BYPASS1 , 0x00000303); // 0x0524
+	mt7612u_write32(pAd, RF_CONTROL1, 0x00000202); // 0x0520
+	mt7612u_write32(pAd, RF_BYPASS1 , 0x00000303); // 0x0524
 #ifdef RT6352_EP_SUPPORT
-	RTMP_IO_WRITE32(pAd, RF_CONTROL3, 0x0101); // 0x0530
+	mt7612u_write32(pAd, RF_CONTROL3, 0x0101); // 0x0530
 #else
-	RTMP_IO_WRITE32(pAd, RF_CONTROL3, 0x0000); // 0x0530
+	mt7612u_write32(pAd, RF_CONTROL3, 0x0000); // 0x0530
 #endif /* RT6352_EP_SUPPORT */
-	RTMP_IO_WRITE32(pAd, RF_BYPASS3 , 0xF1F1); // 0x0534
+	mt7612u_write32(pAd, RF_BYPASS3 , 0xF1F1); // 0x0534
 
 	/* B)   Store RF Original Setting */
 	RT635xReadRFRegister(pAd, RF_BANK0, RF_R01, &RFB0R1);
@@ -2472,12 +2472,12 @@ VOID RXIQ_Calibration(
 	bbpval = bbpval & (~0x7);
 	RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R159, bbpval );
 
-  	RTMP_IO_WRITE32(pAd, RF_CONTROL0, 0x00000004); // 0x0518
+  	mt7612u_write32(pAd, RF_CONTROL0, 0x00000004); // 0x0518
   	RtmpusecDelay(1);
-  	RTMP_IO_WRITE32(pAd, RF_CONTROL0, 0x00000006); // 0x0518
+  	mt7612u_write32(pAd, RF_CONTROL0, 0x00000006); // 0x0518
   	RtmpusecDelay(1);
-	RTMP_IO_WRITE32(pAd, RTMP_RF_BYPASS0 , 0x00003376); // 0x051c
-	RTMP_IO_WRITE32(pAd, RF_CONTROL0, 0x00001006); // 0x0518
+	mt7612u_write32(pAd, RTMP_RF_BYPASS0 , 0x00003376); // 0x051c
+	mt7612u_write32(pAd, RF_CONTROL0, 0x00001006); // 0x0518
 	RtmpusecDelay(1);
 #ifdef RT6352_EP_SUPPORT
 	RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R23, 0x06);
@@ -2503,7 +2503,7 @@ VOID RXIQ_Calibration(
 			rfval = RFB0R42 | 0x10;
 			RT635xWriteRFRegister(pAd, RF_BANK0, RF_R42, rfval);
 
-			RTMP_IO_WRITE32(pAd, RF_CONTROL0, 0x00001006); // 0x0518
+			mt7612u_write32(pAd, RF_CONTROL0, 0x00001006); // 0x0518
 			RtmpusecDelay(1);
 
 			// BBP only Tx0
@@ -2528,7 +2528,7 @@ VOID RXIQ_Calibration(
 			rfval = RFB0R42 | 0x40;
 			RT635xWriteRFRegister(pAd, RF_BANK0, RF_R42, rfval);
 
-			RTMP_IO_WRITE32(pAd, RF_CONTROL0, 0x00002006); // 0x0518
+			mt7612u_write32(pAd, RF_CONTROL0, 0x00002006); // 0x0518
 			RtmpusecDelay(1);
 
 			// BBP only Tx1
@@ -2743,18 +2743,18 @@ Restore_Value:
 	RT635xWriteRFRegister(pAd, RF_BANK7, RF_R19, RFB7R19);
 	RT635xWriteRFRegister(pAd, RF_BANK7, RF_R20, RFB7R20);
 
-  	RTMP_IO_WRITE32(pAd, RF_CONTROL0, 0x00000006); // 0x0518
+  	mt7612u_write32(pAd, RF_CONTROL0, 0x00000006); // 0x0518
   	RtmpusecDelay(1);
-  	RTMP_IO_WRITE32(pAd, RF_CONTROL0, 0x00000004); // 0x0518
+  	mt7612u_write32(pAd, RF_CONTROL0, 0x00000004); // 0x0518
   	RtmpusecDelay(1);
-	RTMP_IO_WRITE32(pAd, RF_CONTROL0 , orig_RF_CONTROL0);
+	mt7612u_write32(pAd, RF_CONTROL0 , orig_RF_CONTROL0);
 	RtmpusecDelay(1);
-	RTMP_IO_WRITE32(pAd, RTMP_RF_BYPASS0  , orig_RF_BYPASS0);
-	RTMP_IO_WRITE32(pAd, RF_CONTROL1 , orig_RF_CONTROL1);
-	RTMP_IO_WRITE32(pAd, RF_BYPASS1  , orig_RF_BYPASS1);
-	RTMP_IO_WRITE32(pAd, RF_CONTROL3 , orig_RF_CONTROL3);
-	RTMP_IO_WRITE32(pAd, RF_BYPASS3  , orig_RF_BYPASS3);
-	RTMP_IO_WRITE32(pAd, MAC_SYS_CTRL  , saveMacSysCtrl);
+	mt7612u_write32(pAd, RTMP_RF_BYPASS0  , orig_RF_BYPASS0);
+	mt7612u_write32(pAd, RF_CONTROL1 , orig_RF_CONTROL1);
+	mt7612u_write32(pAd, RF_BYPASS1  , orig_RF_BYPASS1);
+	mt7612u_write32(pAd, RF_CONTROL3 , orig_RF_CONTROL3);
+	mt7612u_write32(pAd, RF_BYPASS3  , orig_RF_BYPASS3);
+	mt7612u_write32(pAd, MAC_SYS_CTRL  , saveMacSysCtrl);
 }
 
 VOID RF_SELF_TXDC_CAL(
@@ -2774,13 +2774,13 @@ VOID RF_SELF_TXDC_CAL(
 	mt7612u_read32(pAd, RF_CONTROL2, &mac0528);
 	mt7612u_read32(pAd, RF_BYPASS2 , &mac052c);
 
-	RTMP_IO_WRITE32(pAd, RTMP_RF_BYPASS0 , 0x0);
-	RTMP_IO_WRITE32(pAd, RF_BYPASS2 , 0x0);
+	mt7612u_write32(pAd, RTMP_RF_BYPASS0 , 0x0);
+	mt7612u_write32(pAd, RF_BYPASS2 , 0x0);
 
-	RTMP_IO_WRITE32(pAd, RF_CONTROL0, 0xC);
-	RTMP_IO_WRITE32(pAd, RTMP_RF_BYPASS0 , 0x3306);
-	RTMP_IO_WRITE32(pAd, RF_CONTROL2, 0x3330);
-	RTMP_IO_WRITE32(pAd, RF_BYPASS2 , 0xfffff);
+	mt7612u_write32(pAd, RF_CONTROL0, 0xC);
+	mt7612u_write32(pAd, RTMP_RF_BYPASS0 , 0x3306);
+	mt7612u_write32(pAd, RF_CONTROL2, 0x3330);
+	mt7612u_write32(pAd, RF_BYPASS2 , 0xfffff);
 	RT635xReadRFRegister(pAd, RF_BANK5, RF_R01, &RfB5R1_Org);
 	RT635xReadRFRegister(pAd, RF_BANK7, RF_R01, &RfB7R1_Org);
 
@@ -2802,12 +2802,12 @@ VOID RF_SELF_TXDC_CAL(
 	}
 	RT635xWriteRFRegister(pAd, RF_BANK7, RF_R01, RfB7R1_Org);
 
-	RTMP_IO_WRITE32(pAd, RTMP_RF_BYPASS0 , 0x0);
-	RTMP_IO_WRITE32(pAd, RF_BYPASS2 , 0x0);
-	RTMP_IO_WRITE32(pAd, RF_CONTROL0, mac0518);
-	RTMP_IO_WRITE32(pAd, RTMP_RF_BYPASS0 , mac051c);
-	RTMP_IO_WRITE32(pAd, RF_CONTROL2, mac0528);
-	RTMP_IO_WRITE32(pAd, RF_BYPASS2 , mac052c);
+	mt7612u_write32(pAd, RTMP_RF_BYPASS0 , 0x0);
+	mt7612u_write32(pAd, RF_BYPASS2 , 0x0);
+	mt7612u_write32(pAd, RF_CONTROL0, mac0518);
+	mt7612u_write32(pAd, RTMP_RF_BYPASS0 , mac051c);
+	mt7612u_write32(pAd, RF_CONTROL2, mac0528);
+	mt7612u_write32(pAd, RF_BYPASS2 , mac052c);
 
 	DBGPRINT(RT_DEBUG_INFO, ("RF Tx self calibration end\n"));
 

@@ -681,19 +681,19 @@ VOID AsicExtraPowerOverMAC(struct rtmp_adapter *pAd)
 	txpwr7 |= (txpwr & 0x0000FF00) >> 8; /* Get Tx power for OFDM 54 */
 	txpwr = mt7612u_read32(pAd, 0x131C);
 	txpwr7 |= (txpwr & 0x0000FF00) << 8; /* Get Tx power for HT MCS 7 */
-	RTMP_IO_WRITE32(pAd, TX_PWR_CFG_7, txpwr7);
+	mt7612u_write32(pAd, TX_PWR_CFG_7, txpwr7);
 
 	/* For STBC_MCS_7, extra fill the corresponding register value into MAC 0x13DC */
 	txpwr = mt7612u_read32(pAd, 0x1324);
 	txpwr9 |= (txpwr & 0x0000FF00) >> 8; /* Get Tx power for STBC MCS 7 */
-	RTMP_IO_WRITE32(pAd, TX_PWR_CFG_9, txpwr9);
+	mt7612u_write32(pAd, TX_PWR_CFG_9, txpwr9);
 
 	if (pAd->CommonCfg.TxStream == 2)
 	{
 		/* For HT_MCS_15, extra fill the corresponding register value into MAC 0x13DC */
 		txpwr = mt7612u_read32(pAd, 0x1320);
 		txpwr8 |= (txpwr & 0x0000FF00) >> 8; /* Get Tx power for HT MCS 15 */
-		RTMP_IO_WRITE32(pAd, TX_PWR_CFG_8, txpwr8);
+		mt7612u_write32(pAd, TX_PWR_CFG_8, txpwr8);
 	}
 
 }
@@ -879,7 +879,7 @@ VOID AsicAdjustTxPower(struct rtmp_adapter *pAd)
 #ifndef E3_DBG_FALLBACK
 				pTxPwrEntry->RegisterValue = reg_val;
 #endif /* E3_DBG_FALLBACK */
-				RTMP_IO_WRITE32(pAd, pTxPwrEntry->MACRegisterOffset, pTxPwrEntry->RegisterValue);
+				mt7612u_write32(pAd, pTxPwrEntry->MACRegisterOffset, pTxPwrEntry->RegisterValue);
 
 			}
 		}
@@ -1249,7 +1249,7 @@ VOID RTMPReadTxPwrPerRate(struct rtmp_adapter *pAd)
 			pAd->Tx40MPwrCfgGBand[i] = Gdata;
 
 			if (data != 0xffffffff)
-				RTMP_IO_WRITE32(pAd, TX_PWR_CFG_0 + i*4, data);
+				mt7612u_write32(pAd, TX_PWR_CFG_0 + i*4, data);
 			DBGPRINT_RAW(RT_DEBUG_TRACE, ("20MHz BW, 2.4G band-%lx,  Adata = %lx,  Gdata = %lx \n", data, Adata, Gdata));
 		}
 	}

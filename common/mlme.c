@@ -1311,7 +1311,7 @@ VOID MlmePeriodicExec(
 				txop_cfg = 0x243f;
 				pAd->CommonCfg.IOTestParm.bToggle = FALSE;
 			}
-			RTMP_IO_WRITE32(pAd, TXOP_CTRL_CFG, txop_cfg);
+			mt7612u_write32(pAd, TXOP_CTRL_CFG, txop_cfg);
 		}
 	}
 #endif /* CONFIG_STA_SUPPORT */
@@ -1567,7 +1567,7 @@ VOID MlmePeriodicExec(
 				uint32_t MacCsr12 = 0;
 
 				/* Disable MAC*/
-				RTMP_IO_WRITE32(pAd, MAC_SYS_CTRL, 0x0);
+				mt7612u_write32(pAd, MAC_SYS_CTRL, 0x0);
 
 				/* polling MAC status*/
 				while (count < 10)
@@ -1586,7 +1586,7 @@ VOID MlmePeriodicExec(
 
 				if (MAC_ready)
 				{
-					RTMP_IO_WRITE32(pAd, MAC_SYS_CTRL, 0x1);
+					mt7612u_write32(pAd, MAC_SYS_CTRL, 0x1);
 					RtmpusecDelay(1);
 				}
 				else
@@ -1595,7 +1595,7 @@ VOID MlmePeriodicExec(
 				}
 
 				{
-					RTMP_IO_WRITE32(pAd, MAC_SYS_CTRL, 0xC);
+					mt7612u_write32(pAd, MAC_SYS_CTRL, 0xC);
 				}
 
 				DBGPRINT(RT_DEBUG_WARN, ("MAC specific condition \n"));
@@ -1631,7 +1631,7 @@ VOID MlmePeriodicExec(
 			MacReg = mt7612u_read32(pAd, 0x10F4);
 			if (((MacReg & 0x20000000) && (MacReg & 0x80)) || ((MacReg & 0x20000000) && (MacReg & 0x20)))
 			{
-				RTMP_IO_WRITE32(pAd, MAC_SYS_CTRL, 0x1);
+				mt7612u_write32(pAd, MAC_SYS_CTRL, 0x1);
 				RtmpusecDelay(1);
 				MacReg = 0;
 				{
@@ -1639,7 +1639,7 @@ VOID MlmePeriodicExec(
 				}
 
 				if (MacReg)
-					RTMP_IO_WRITE32(pAd, MAC_SYS_CTRL, MacReg);
+					mt7612u_write32(pAd, MAC_SYS_CTRL, MacReg);
 
 				DBGPRINT(RT_DEBUG_WARN,("Warning, MAC specific condition occurs \n"));
 			}
@@ -2864,7 +2864,7 @@ VOID MlmeUpdateTxRates(struct rtmp_adapter *pAd, BOOLEAN bLinkUp, UCHAR apidx)
 			MinSupport = Rate;
 	}
 
-	RTMP_IO_WRITE32(pAd, LEGACY_BASIC_RATE, BasicRateBitmap);
+	mt7612u_write32(pAd, LEGACY_BASIC_RATE, BasicRateBitmap);
 
 	for (i=0; i<MAX_LEN_OF_SUPPORTED_RATES; i++)
 	{

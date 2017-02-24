@@ -117,8 +117,8 @@ VOID RT65xxUsbAsicRadioOn(struct rtmp_adapter *pAd, UCHAR Stage)
 		rx_filter_flag = STANORMAL;     /* Staion not drop control frame will fail WiFi Certification.*/
 
 
-	RTMP_IO_WRITE32(pAd, RX_FILTR_CFG, rx_filter_flag);
-	RTMP_IO_WRITE32(pAd, MAC_SYS_CTRL, 0x0c);
+	mt7612u_write32(pAd, RX_FILTR_CFG, rx_filter_flag);
+	mt7612u_write32(pAd, MAC_SYS_CTRL, 0x0c);
 
 	/* 4. Clear idle flag*/
 	RTMP_CLEAR_FLAG(pAd, fRTMP_ADAPTER_IDLE_RADIO_OFF);
@@ -143,7 +143,7 @@ VOID RT65xxUsbAsicRadioOn(struct rtmp_adapter *pAd, UCHAR Stage)
 		}
 	}
 
-	RTMP_IO_WRITE32(pAd, MAC_SYS_CTRL, 0x0c);
+	mt7612u_write32(pAd, MAC_SYS_CTRL, 0x0c);
 
 	if (IS_USB_INF(pAd)) {
 		RTMP_SEM_EVENT_UP(&pAd->hw_atomic);
@@ -257,7 +257,7 @@ VOID RT65xxDisableTxRx(
 			*/
 			MacReg = mt7612u_read32(pAd, MAC_SYS_CTRL);
 			MacReg &= ~(0x0000000c);
-			RTMP_IO_WRITE32(pAd, MAC_SYS_CTRL, MacReg);
+			mt7612u_write32(pAd, MAC_SYS_CTRL, MacReg);
 		}
 		else
 		{
@@ -266,7 +266,7 @@ VOID RT65xxDisableTxRx(
 			*/
 			MacReg = mt7612u_read32(pAd, MAC_SYS_CTRL);
 			MacReg &= ~(0x00000008);
-			RTMP_IO_WRITE32(pAd, MAC_SYS_CTRL, MacReg);
+			mt7612u_write32(pAd, MAC_SYS_CTRL, MacReg);
 		}
 	}
 

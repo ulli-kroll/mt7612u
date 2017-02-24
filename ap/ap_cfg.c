@@ -5935,7 +5935,7 @@ INT edcca_tx_stop_start(struct rtmp_adapter *pAd, BOOLEAN stop)
 	} else {
 		macCfg |= 0x04;
 	}
-	RTMP_IO_WRITE32(pAd, MAC_SYS_CTRL, macCfg);
+	mt7612u_write32(pAd, MAC_SYS_CTRL, macCfg);
 
 
 	if (stop == TRUE) {

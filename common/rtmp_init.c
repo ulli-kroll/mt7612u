@@ -337,14 +337,14 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 	csr2.field.Byte1 = pAd->CurrentAddress[1];
 	csr2.field.Byte2 = pAd->CurrentAddress[2];
 	csr2.field.Byte3 = pAd->CurrentAddress[3];
-	RTMP_IO_WRITE32(pAd, MAC_ADDR_DW0, csr2.word);
+	mt7612u_write32(pAd, MAC_ADDR_DW0, csr2.word);
 	csr3.word = 0;
 	csr3.field.Byte4 = pAd->CurrentAddress[4];
 	{
 		csr3.field.Byte5 = pAd->CurrentAddress[5];
 		csr3.field.U2MeMask = 0xff;
 	}
-	RTMP_IO_WRITE32(pAd, MAC_ADDR_DW1, csr3.word);
+	mt7612u_write32(pAd, MAC_ADDR_DW1, csr3.word);
 
 
 	DBGPRINT_RAW(RT_DEBUG_TRACE,("Current MAC: =%02x:%02x:%02x:%02x:%02x:%02x\n",
@@ -922,7 +922,7 @@ VOID NICInitAsicFromEEPROM(struct rtmp_adapter *pAd)
 			{
 				pAd->StaCfg.bHwRadio = FALSE;
 				pAd->StaCfg.bRadio = FALSE;
-				/* RTMP_IO_WRITE32(pAd, PWR_PIN_CFG, 0x00001818); */
+				/* mt7612u_write32(pAd, PWR_PIN_CFG, 0x00001818); */
 				RTMP_SET_FLAG(pAd, fRTMP_ADAPTER_RADIO_OFF);
 			}
 		}
@@ -1137,7 +1137,7 @@ int NICInitializeAsic(struct rtmp_adapter *pAd, BOOLEAN bHardReset)
 		/* turn on bit13 (set to zero) after rt2860D. This is to solve high-current issue.*/
 		mac_val = mt7612u_read32(pAd, PBF_SYS_CTRL);
 		mac_val &= (~0x2000);
-		RTMP_IO_WRITE32(pAd, PBF_SYS_CTRL, mac_val);
+		mt7612u_write32(pAd, PBF_SYS_CTRL, mac_val);
 	}
 
 #endif /* RTMP_MAC_USB */
@@ -1166,7 +1166,7 @@ int NICInitializeAsic(struct rtmp_adapter *pAd, BOOLEAN bHardReset)
 			csr &= 0xFFF;
 			csr |= 0x2000;
 		}
-		RTMP_IO_WRITE32(pAd, MAX_LEN_CFG, csr);
+		mt7612u_write32(pAd, MAX_LEN_CFG, csr);
 	}
 
 #ifdef RTMP_MAC_USB
@@ -1187,7 +1187,7 @@ int NICInitializeAsic(struct rtmp_adapter *pAd, BOOLEAN bHardReset)
 		/* Add radio off control*/
 		if (pAd->StaCfg.bRadio == FALSE)
 		{
-			/* RTMP_IO_WRITE32(pAd, PWR_PIN_CFG, 0x00001818);*/
+			/* mt7612u_write32(pAd, PWR_PIN_CFG, 0x00001818);*/
 			RTMP_SET_FLAG(pAd, fRTMP_ADAPTER_RADIO_OFF);
 			DBGPRINT(RT_DEBUG_TRACE, ("Set Radio Off\n"));
 		}
@@ -1212,13 +1212,13 @@ int NICInitializeAsic(struct rtmp_adapter *pAd, BOOLEAN bHardReset)
 
 		for (KeyIdx = 0; KeyIdx < 4; KeyIdx++)
 		{
-			RTMP_IO_WRITE32(pAd, share_key_mode_base + 4*KeyIdx, 0);
+			mt7612u_write32(pAd, share_key_mode_base + 4*KeyIdx, 0);
 		}
 
 		/* Clear all pairwise key table when initial*/
 		for (KeyIdx = 0; KeyIdx < 256; KeyIdx++)
 		{
-			RTMP_IO_WRITE32(pAd, wcid_attr_base + (KeyIdx * wcid_attr_size), 1);
+			mt7612u_write32(pAd, wcid_attr_base + (KeyIdx * wcid_attr_size), 1);
 		}
 	}
 
@@ -1233,7 +1233,7 @@ int NICInitializeAsic(struct rtmp_adapter *pAd, BOOLEAN bHardReset)
 			if (pAd->BeaconOffset[apidx] > 0) {
 				// TODO: shiang-6590, if we didn't define MBSS_SUPPORT, the pAd->BeaconOffset[x] may set as 0 when chipCap.BcnMaxHwNum != HW_BEACON_MAX_COUNT
 				for (i = 0; i < HW_BEACON_OFFSET; i+=4)
-					RTMP_IO_WRITE32(pAd, pAd->BeaconOffset[apidx] + i, 0x00);
+					mt7612u_write32(pAd, pAd->BeaconOffset[apidx] + i, 0x00);
 
 #ifdef RTMP_MAC_USB
 				IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
@@ -1257,7 +1257,7 @@ int NICInitializeAsic(struct rtmp_adapter *pAd, BOOLEAN bHardReset)
 	Counter = mt7612u_read32(pAd, USB_CYC_CFG);
 	Counter&=0xffffff00;
 	Counter|=0x000001e;
-	RTMP_IO_WRITE32(pAd, USB_CYC_CFG, Counter);
+	mt7612u_write32(pAd, USB_CYC_CFG, Counter);
 #endif /* RTMP_MAC_USB */
 
 #ifdef CONFIG_STA_SUPPORT
@@ -1270,7 +1270,7 @@ int NICInitializeAsic(struct rtmp_adapter *pAd, BOOLEAN bHardReset)
 #endif /* RT8592 */
 		/* for rt2860E and after, init TXOP_CTRL_CFG with 0x583f. This is for extension channel overlapping IOT.*/
 		if ((pAd->MACVersion & 0xffff) != 0x0101)
-			RTMP_IO_WRITE32(pAd, TXOP_CTRL_CFG, 0x583f);
+			mt7612u_write32(pAd, TXOP_CTRL_CFG, 0x583f);
 	}
 #endif /* CONFIG_STA_SUPPORT */
 
@@ -1644,8 +1644,8 @@ VOID AsicFifoExtSet(IN struct rtmp_adapter *pAd)
 {
 	if (pAd->chipCap.FlgHwFifoExtCap)
 	{
-		RTMP_IO_WRITE32(pAd, WCID_MAPPING_0, 0x04030201);
-		RTMP_IO_WRITE32(pAd, WCID_MAPPING_1, 0x08070605);
+		mt7612u_write32(pAd, WCID_MAPPING_0, 0x04030201);
+		mt7612u_write32(pAd, WCID_MAPPING_1, 0x08070605);
 	}
 }
 
@@ -3239,9 +3239,9 @@ VOID RTMPEnableRxTx(struct rtmp_adapter *pAd)
 	AsicSetRxFilter(pAd);
 
 	{
-		RTMP_IO_WRITE32(pAd, MAC_SYS_CTRL, 0xc);
+		mt7612u_write32(pAd, MAC_SYS_CTRL, 0xc);
 //+++Add by shiang for debug for pbf_loopback
-//			RTMP_IO_WRITE32(pAd, MAC_SYS_CTRL, 0x2c);
+//			mt7612u_write32(pAd, MAC_SYS_CTRL, 0x2c);
 //---Add by shiang for debug
 //+++Add by shiang for debug invalid RxWI->WCID
 #ifdef RT8592
@@ -3457,12 +3457,12 @@ VOID RTMP_11N_D3_TimerInit(struct rtmp_adapter *pAd)
 
 
 #ifdef VENDOR_FEATURE3_SUPPORT
-VOID RTMP_IO_WRITE32(
+VOID mt7612u_write32(
 	struct rtmp_adapter *pAd,
 	uint32_t Offset,
 	uint32_t Value)
 {
-	_RTMP_IO_WRITE32(pAd, Offset, Value);
+	_mt7612u_write32(pAd, Offset, Value);
 }
 #endif /* VENDOR_FEATURE3_SUPPORT */
 

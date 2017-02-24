@@ -1054,8 +1054,8 @@ VOID asic_mcs_lut_update(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 
 		wcid_offset = MAC_MCS_LUT_BASE + (pEntry->wcid * 8);
 
-		RTMP_IO_WRITE32(pAd, wcid_offset, rate_ctrl.word);
-		RTMP_IO_WRITE32(pAd, wcid_offset + 4, 0x00);
+		mt7612u_write32(pAd, wcid_offset, rate_ctrl.word);
+		mt7612u_write32(pAd, wcid_offset + 4, 0x00);
 
 		DBGPRINT(RT_DEBUG_INFO, ("%s():MCS_LUT update, write to MAC=0x%08x, Value=0x%04x, WCID=%d\n",
 					__FUNCTION__, wcid_offset, pEntry->HTPhyMode.word, pEntry->wcid));
