@@ -193,7 +193,7 @@ static uint32_t asic_set_wlan_func(struct rtmp_adapter *pAd, BOOLEAN enable)
 	}
 
 	DBGPRINT(RT_DEBUG_TRACE, ("WlanFunCtrl= 0x%x\n", reg));
-	RTMP_IO_FORCE_WRITE32(pAd, WLAN_FUN_CTRL, reg);
+	mt7612u_write32(pAd, WLAN_FUN_CTRL, reg);
 	RtmpusecDelay(20);
 
 	return reg;
@@ -243,7 +243,7 @@ INT rlt_wlan_chip_onoff(struct rtmp_adapter *pAd, BOOLEAN bOn, BOOLEAN bResetWLA
 
 			reg |= WLAN_FUN_CTRL_WLAN_RESET_RF;
 			DBGPRINT(RT_DEBUG_TRACE, ("Reset(1) WlanFunCtrl.word = 0x%x\n", reg));
-			RTMP_IO_FORCE_WRITE32(pAd, WLAN_FUN_CTRL, reg);
+			mt7612u_write32(pAd, WLAN_FUN_CTRL, reg);
 			RtmpusecDelay(20);
 
 #ifdef MT76x2
@@ -254,10 +254,10 @@ INT rlt_wlan_chip_onoff(struct rtmp_adapter *pAd, BOOLEAN bOn, BOOLEAN bResetWLA
 			reg &= ~WLAN_FUN_CTRL_WLAN_RESET_RF;
 
 			DBGPRINT(RT_DEBUG_TRACE, ("Reset(2) WlanFunCtrl.word = 0x%x\n", reg));
-			RTMP_IO_FORCE_WRITE32(pAd, WLAN_FUN_CTRL, reg);
+			mt7612u_write32(pAd, WLAN_FUN_CTRL, reg);
 			RtmpusecDelay(20);
 		} else
-			RTMP_IO_FORCE_WRITE32(pAd, WLAN_FUN_CTRL, reg);
+			mt7612u_write32(pAd, WLAN_FUN_CTRL, reg);
 	}
 
 	reg = asic_set_wlan_func(pAd, bOn);
