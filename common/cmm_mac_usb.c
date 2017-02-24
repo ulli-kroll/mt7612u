@@ -2058,8 +2058,8 @@ BOOLEAN AsicCheckCommandOk(
 			|| ((CmdStatus & ThisCIDMask) == 0x10000) || ((CmdStatus & ThisCIDMask) == 0x1000000))
 			ret = TRUE;
 	}
-	RTUSBWriteMACRegister(pAd, H2M_MAILBOX_STATUS, 0xffffffff);
-	RTUSBWriteMACRegister(pAd, H2M_MAILBOX_CID, 0xffffffff);
+	mt7612u_write32(pAd, H2M_MAILBOX_STATUS, 0xffffffff);
+	mt7612u_write32(pAd, H2M_MAILBOX_CID, 0xffffffff);
 
 #ifdef RTMP_MAC_USB
 	if (IS_USB_INF(pAd))

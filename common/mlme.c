@@ -1885,7 +1885,7 @@ VOID STAMlmePeriodicExec(struct rtmp_adapter *pAd)
 				if (Ac2Cfg.field.Aifsn!=0xc)
 				{
 					Ac2Cfg.field.Aifsn = 0xc;
-					RTUSBWriteMACRegister(pAd, EDCA_AC2_CFG, Ac2Cfg.word);
+					mt7612u_write32(pAd, EDCA_AC2_CFG, Ac2Cfg.word);
 				}
 			}
 			else if ((pAd->RalinkCounters.OneSecOsTxCount[QID_AC_VO] == 0) &&
@@ -1900,14 +1900,14 @@ VOID STAMlmePeriodicExec(struct rtmp_adapter *pAd)
 						Ac0Cfg.field.Aifsn = 3;
 					if(Ac0Cfg.field.AcTxop!=0)
 						Ac0Cfg.field.AcTxop = 0;
-					RTUSBWriteMACRegister(pAd, EDCA_AC0_CFG, Ac0Cfg.word);
+					mt7612u_write32(pAd, EDCA_AC0_CFG, Ac0Cfg.word);
 				}
 
 			/* restore default parameter of VI*/
 				if (Ac2Cfg.field.Aifsn!=0x3)
 				{
 					Ac2Cfg.field.Aifsn = 0x3;
-					RTUSBWriteMACRegister(pAd, EDCA_AC2_CFG, Ac2Cfg.word);
+					mt7612u_write32(pAd, EDCA_AC2_CFG, Ac2Cfg.word);
 				}
 
 			}
