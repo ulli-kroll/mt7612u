@@ -285,12 +285,6 @@ INT TxBfProfileDataRead(
 	IN UCHAR             profileIdx,
 	IN UCHAR             subcarrierIdx);
 
-INT TxBfProfileDataWrite(
-    IN struct rtmp_adapter *    pAd,
-	IN PFMU_DATA         *pData,
-	IN UCHAR             profileIdx,
-	IN UCHAR             subcarrierIdx);
-
 #endif
 
 // displayTagfield - display one tagfield
