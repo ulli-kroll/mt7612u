@@ -206,25 +206,3 @@ int rtmp_ee_prom_read16(
 
 	return NDIS_STATUS_SUCCESS;
 }
-
-INT rtmp_ee_write_to_prom(
-	IN struct rtmp_adapter *	pAd)
-{
-	USHORT value, offset = 0;
-
-#ifdef RTMP_USB_SUPPORT
-	if (pAd->infType == RTMP_DEV_INF_USB)
-		RTUSBWriteEEPROM(pAd, offset, (u8 *)pAd->EEPROMImage, EEPROM_SIZE);
-	else
-#endif /* RTMP_USB_SUPPORT */
-	{
-		for (offset = 0; offset < (EEPROM_SIZE >> 1);)
-		{
-			value = ((PUSHORT)pAd->EEPROMImage)[offset];
-			RT28xx_EEPROM_WRITE16(pAd, (offset << 1), value);
-			offset++;
-		}
-	}
-
-	return TRUE;
-}
