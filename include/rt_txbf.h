@@ -233,10 +233,6 @@ INT mt76x2_ITxBFDividerCalibration(
 	IN int calMethod,
 	OUT UCHAR *divPhase);
 
-INT ITxBFPhaseCalibration(
-	IN struct rtmp_adapter *pAd,
-	IN INT calFunction,
-	IN USHORT ch);
 #endif
 
 void Read_TxBfProfile(
