@@ -246,11 +246,6 @@ int Unpack_IBFValue(
 	IN UCHAR *row,
 	IN int elemNum);
 
-void ITxBFSetEEPROM(
-	IN struct rtmp_adapter *pAd,
-	IN ITXBF_PHASE_PARAMS *phaseParams,
-	IN ITXBF_LNA_PARAMS *lnaParams,
-	IN ITXBF_DIV_PARAMS *divParams);
 
 
 #endif // _RT_TXBF_H_
