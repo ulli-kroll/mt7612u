@@ -219,15 +219,6 @@ int ITxBFLNACalibration(
 	IN int calMethod,
 	IN BOOLEAN gBand);
 
-#ifdef MT76x2
-INT mt76x2_ITxBFDividerCalibration(
-	IN struct rtmp_adapter *pAd,
-	IN int calFunction,
-	IN int calMethod,
-	OUT UCHAR *divPhase);
-
-#endif
-
 void Read_TxBfProfile(
 	IN	struct rtmp_adapter *pAd,
 	IN	PROFILE_DATA	*prof,
