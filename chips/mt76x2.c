@@ -3408,7 +3408,6 @@ static const RTMP_CHIP_OP MT76x2_ChipOp = {
 
 	// ITxBf phase calibration
 	.fITxBfLNAPhaseCompensate = mt76x2_ITxBFLoadLNAComp,
-	.fITxBfLNACalibration = ITxBFLNACalibrationStartUp,
 
 	.ChipAGCInit = NULL,
 #ifdef CONFIG_STA_SUPPORT

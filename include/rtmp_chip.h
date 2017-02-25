@@ -830,7 +830,6 @@ struct _RTMP_CHIP_OP_ {
 
 	/* ITxBf calibration */
 	void (*fITxBfLNAPhaseCompensate)(struct rtmp_adapter *pAd);
-	int (*fITxBfLNACalibration)(struct rtmp_adapter *pAd, int calFunction, int calMethod, BOOLEAN gBand);
 
 	/* MCU related callback functions */
 	int (*load_rom_patch)(struct rtmp_adapter *ad);
