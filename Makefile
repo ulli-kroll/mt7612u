@@ -678,7 +678,6 @@ $(MOD_NAME)-objs += \
 	common/rtusb_data.o\
 	common/rtusb_bulk.o\
 	os/linux/rt_usb.o\
-	common/ee_prom.o\
 	common/ee_efuse.o\
 	chips/rt65xx.o\
 	chips/mt76x2.o\
