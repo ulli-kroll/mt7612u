@@ -243,12 +243,6 @@ int mt76x2_ITxBFLNACalibration(
 	IN BOOLEAN gBand);
 
 
-INT ITxBFLNACalibrationStartUp(
-	IN struct rtmp_adapter *pAd,
-	IN INT calFunction,
-	IN INT calMethod,
-	IN BOOLEAN gBand);
-
 INT ITxBFPhaseCalibrationStartUp(
 	IN struct rtmp_adapter *pAd,
 	IN INT calFunction,
