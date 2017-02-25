@@ -940,8 +940,6 @@ INT RTMP_COM_IoctlHandle(
 			break;
 
 		case CMD_RTPRIV_IOCTL_ADAPTER_RT28XX_USB_ASICRADIO_OFF:
-		/* RT28xxUsbAsicRadioOff */
-			//RT28xxUsbAsicRadioOff(pAd);
 			ASIC_RADIO_OFF(pAd, SUSPEND_RADIO_OFF);
 			break;
 

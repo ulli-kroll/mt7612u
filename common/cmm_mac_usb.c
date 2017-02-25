@@ -1858,33 +1858,6 @@ VOID RT28xxUsbMlmeRadioOFF(
 	ASIC_RADIO_OFF(pAd, MLME_RADIO_OFF);
 }
 
-
-VOID RT28xxUsbAsicRadioOff(struct rtmp_adapter *pAd)
-{
-	DBGPRINT(RT_DEBUG_TRACE, ("--> %s\n", __FUNCTION__));
-
-	RTMP_SET_FLAG(pAd, fRTMP_ADAPTER_IDLE_RADIO_OFF);
-
-	if (pAd->CommonCfg.CentralChannel)
-		AsicTurnOffRFClk(pAd, pAd->CommonCfg.CentralChannel);
-	else
-		AsicTurnOffRFClk(pAd, pAd->CommonCfg.Channel);
-
-
-
-#ifdef CONFIG_STA_SUPPORT
-	AsicSendCommandToMcu(pAd, 0x30, 0xff, 0xff, 0x02, FALSE);   /* send POWER-SAVE command to MCU. Timeout 40us.*/
-	/* Stop bulkin pipe*/
-	if((pAd->PendingRx > 0) && (!RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST)))
-	{
-		RTUSBCancelPendingBulkInIRP(pAd);
-		pAd->PendingRx = 0;
-	}
-#endif /* CONFIG_STA_SUPPORT */
-	DBGPRINT(RT_DEBUG_TRACE, ("<== %s\n", __FUNCTION__));
-
-}
-
 BOOLEAN AsicCheckCommandOk(
 	IN struct rtmp_adapter *pAd,
 	IN UCHAR		 Command)

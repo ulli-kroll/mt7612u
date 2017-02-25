@@ -287,7 +287,6 @@ static int rtusb_suspend(struct usb_interface *intf, pm_message_t state)
 		RTMP_DRIVER_ADAPTER_IDLE_RADIO_OFF_TEST(pAd, &Flag);
 		if(!Flag)
 		{
-			/*RT28xxUsbAsicRadioOff(pAd); */
 			RTMP_DRIVER_ADAPTER_RT28XX_USB_ASICRADIO_OFF(pAd);
 		}
 	}
