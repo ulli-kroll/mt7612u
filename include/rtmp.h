@@ -6793,10 +6793,6 @@ INT Set_TxBfProfileDataWriteAll(
     IN struct rtmp_adapter *   pAd,
 	IN char *         arg);
 
-INT Set_TxBfProfileDataReadAll(
-    IN struct rtmp_adapter *   pAd,
-	IN char *         arg);
-
 INT Set_TxBfProfileTag_TimeOut(
     IN struct rtmp_adapter *   pAd,
 	IN char *         arg);
