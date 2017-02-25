@@ -4902,62 +4902,6 @@ USHORT  CMDInIdx = 0, dCMDInIdx = 0;
 UCHAR   psi21;
 UCHAR   phill;
 
-INT Set_TxBfProfileDataWrite(
-    IN struct rtmp_adapter *pAd,
-	IN char *arg)
-{
-	UCHAR   profileIdx, subcarrierIdx;
-	UCHAR   Input[4];
-	CHAR	*value;
-	UINT    value32, readValue32[5];
-	INT 	i;
-
-	/* Profile Select : Subcarrier Select */
-	if(strlen(arg) != 11)
-		return FALSE;
-
-	for (i=0, value = rstrtok(arg,":"); value; value = rstrtok(NULL,":"))
-	{
-		if((!isxdigit(*value)) || (!isxdigit(*(value+1))) )
-			return FALSE;  /*Invalid*/
-
-		AtoH(value, &Input[i++], 1);
-	}
-
-	profileIdx    = Input[0];
-	subcarrierIdx = Input[1];
-
-	psi21 = Input[2];
-	phill = Input[3];
-
-	// Read PFMU_R10 (0x2f28) first
-	value32 = mt7612u_read32(pAd, PFMU_R10);
-	// Wite PFMU_R10 to trigger read command
-	mt7612u_write32(pAd, PFMU_R10, ((profileIdx << 10)|subcarrierIdx));
-	// Read PFMU_R19 ~ R23
-	readValue32[0] = mt7612u_read32(pAd, PFMU_R19);
-	readValue32[1] = mt7612u_read32(pAd, PFMU_R20);
-	readValue32[2] = mt7612u_read32(pAd, PFMU_R21);
-	readValue32[3] = mt7612u_read32(pAd, PFMU_R22);
-	readValue32[4] = mt7612u_read32(pAd, PFMU_R23);
-
-	readValue32[0] = (psi21 << 16) | phill;
-
-	// Read PFMU_R10 (0x2f28) first
-	value32 = mt7612u_read32(pAd, PFMU_R10);
-	// Wite PFMU_R10 to trigger read command
-	mt7612u_write32(pAd, PFMU_R10, ((profileIdx << 10)|subcarrierIdx));
-	// Wite PFMU_R19 ~ R23
-	mt7612u_write32(pAd, PFMU_R23, readValue32[4]);
-	mt7612u_write32(pAd, PFMU_R22, readValue32[3]);
-	mt7612u_write32(pAd, PFMU_R21, readValue32[2]);
-	mt7612u_write32(pAd, PFMU_R20, readValue32[1]);
-	mt7612u_write32(pAd, PFMU_R19, readValue32[0]);
-
-	dCMDInIdx = 0; // clear profile data write indicator
-
-	return TRUE;
-}
 
 
 static SC_TABLE_ENTRY impSCTable[3] = { {224, 255, 1, 31}, {198, 254, 2, 58}, {134, 254, 2, 122} };
