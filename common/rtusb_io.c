@@ -357,34 +357,6 @@ int RTUSBWriteEEPROM16(struct rtmp_adapter *pAd, USHORT offset, USHORT value)
 	return RTUSBWriteEEPROM(pAd, offset, (u8 *)&(tmpVal), 2);
 }
 
-
-/*
-	========================================================================
-
-	Routine Description:
-
-	Arguments:
-
-	Return Value:
-
-	IRQL =
-
-	Note:
-
-	========================================================================
-*/
-VOID RTUSBPutToSleep(struct rtmp_adapter *pAd)
-{
-	uint32_t value;
-
-	/* Timeout 0x40 x 50us*/
-	value = (SLEEPCID<<16)+(OWNERMCU<<24)+ (0x40<<8)+1;
-	mt7612u_write32(pAd, 0x7010, value);
-	mt7612u_write32(pAd, 0x404, 0x30);
-	DBGPRINT_RAW(RT_DEBUG_ERROR, ("Sleep Mailbox testvalue %x\n", value));
-}
-
-
 /*
 	========================================================================
 

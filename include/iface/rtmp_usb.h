@@ -137,7 +137,6 @@ VOID RtmpUSBNullFrameKickOut(struct rtmp_adapter *pAd, UCHAR QIdx, UCHAR *pNullF
 
 VOID RTUSBWatchDog(struct rtmp_adapter *pAd);
 
-VOID RTUSBPutToSleep(struct rtmp_adapter *pAd);
 int RTUSBWakeUp(struct rtmp_adapter *pAd);
 
 VOID RtmpUsbStaAsicForceWakeupTimeout(PVOID arg1, PVOID FuncContext, PVOID arg2, PVOID arg3);
