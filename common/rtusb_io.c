@@ -257,11 +257,6 @@ int read_reg(struct rtmp_adapter *ad, uint32_t base, uint16_t offset, uint32_t *
 
 	========================================================================
 */
-int RTUSBReadEEPROM(struct rtmp_adapter *pAd, USHORT adr, UCHAR *buf, USHORT len)
-{
-	return RTUSB_VendorRequest(pAd, DEVICE_VENDOR_REQUEST_IN,
-				   0x9, 0, adr, buf, len);
-}
 
 /*
 	========================================================================
@@ -282,9 +277,11 @@ int RTUSBReadEEPROM(struct rtmp_adapter *pAd, USHORT adr, UCHAR *buf, USHORT len
 int RTUSBReadEEPROM16(struct rtmp_adapter *pAd, USHORT offset, USHORT *pData)
 {
 	int status;
-	USHORT  localData;
+	USHORT localData;
 
-	status = RTUSBReadEEPROM(pAd, offset, (u8 *)(&localData), 2);
+	status =  RTUSB_VendorRequest(pAd, DEVICE_VENDOR_REQUEST_IN,
+				   0x9, 0, offset, &localData, 2);
+
 	if (status == STATUS_SUCCESS)
 		*pData = le2cpu16(localData);
 
