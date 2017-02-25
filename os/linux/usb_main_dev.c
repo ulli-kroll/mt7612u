@@ -333,7 +333,6 @@ static int rtusb_resume(struct usb_interface *intf)
 		RTMP_DRIVER_ADAPTER_RT28XX_USB_WOW_DISABLE(pAd);
 	else
 #endif /* WOW_SUPPORT */
-		/*RT28xxUsbAsicRadioOn(pAd); */
 		RTMP_DRIVER_ADAPTER_RT28XX_USB_ASICRADIO_ON(pAd);
 
 	DBGPRINT(RT_DEBUG_ERROR, ("%s(): <=autosuspend\n", __FUNCTION__));

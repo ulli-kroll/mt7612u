@@ -146,7 +146,6 @@ VOID RT28xxUsbStaAsicSleepThenAutoWakeup(struct rtmp_adapter *pAd, USHORT TbttNu
 
 VOID RT28xxUsbMlmeRadioOn(struct rtmp_adapter *pAd);
 VOID RT28xxUsbMlmeRadioOFF(struct rtmp_adapter *pAd);
-VOID RT28xxUsbAsicRadioOn(struct rtmp_adapter *pAd);
 VOID RT28xxUsbAsicRadioOff(struct rtmp_adapter *pAd);
 
 VOID RT28xxUsbAsicWOWEnable(struct rtmp_adapter *pAd);
