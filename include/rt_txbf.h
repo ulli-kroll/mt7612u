@@ -308,11 +308,6 @@ int Unpack_IBFValue(
 	IN UCHAR *row,
 	IN int elemNum);
 
-int iCalcCalibration(
-	IN struct rtmp_adapter *pAd,
-	IN int calParams[2],
-	IN int profileNum);
-
 void ITxBFSetEEPROM(
 	IN struct rtmp_adapter *pAd,
 	IN ITXBF_PHASE_PARAMS *phaseParams,
