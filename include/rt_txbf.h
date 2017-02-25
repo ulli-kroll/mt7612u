@@ -197,13 +197,6 @@ struct {
 #endif
 } ITXBF_DIV_PARAMS;				// ITxBF Divider Calibration parameters
 
-void ITxBFGetEEPROM(
-	IN struct rtmp_adapter *pAd,
-	IN ITXBF_PHASE_PARAMS *phaseParams,
-	IN ITXBF_LNA_PARAMS *lnaParams,
-	IN ITXBF_DIV_PARAMS *divParams);
-
-
 INT ITxBFDividerCalibration(
 	IN struct rtmp_adapter *pAd,
 	IN int calFunction,
