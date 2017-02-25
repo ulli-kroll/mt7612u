@@ -291,10 +291,6 @@ INT TxBfProfileDataWrite(
 	IN UCHAR             profileIdx,
 	IN UCHAR             subcarrierIdx);
 
-INT TxBfProfileTagValid(
-    IN struct rtmp_adapter *    pAd,
-	IN PFMU_PROFILE      *prof,
-	IN UCHAR             profileIdx);
 #endif
 
 // displayTagfield - display one tagfield
