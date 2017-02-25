@@ -98,7 +98,6 @@ void mt7612u_write32(struct rtmp_adapter *pAd, USHORT Offset, uint32_t val);
 u32 mt7612u_read32(struct rtmp_adapter *pAd, USHORT Offset);
 
 int RTUSBReadEEPROM(struct rtmp_adapter *pAd, USHORT Offset, UCHAR *buf, USHORT len);
-int RTUSBWriteEEPROM(struct rtmp_adapter *pAd, USHORT Offset, UCHAR *buf, USHORT len);
 
 int RTUSBVenderReset(struct rtmp_adapter *pAd);
 

@@ -278,12 +278,6 @@ int RTUSBReadEEPROM(struct rtmp_adapter *pAd, USHORT adr, UCHAR *buf, USHORT len
 
 	========================================================================
 */
-int RTUSBWriteEEPROM(struct rtmp_adapter *pAd, USHORT adr, UCHAR *buf, USHORT len)
-{
-	return RTUSB_VendorRequest(pAd, DEVICE_VENDOR_REQUEST_OUT,
-				   0x8, 0, adr, buf, len);
-}
-
 
 int RTUSBReadEEPROM16(struct rtmp_adapter *pAd, USHORT offset, USHORT *pData)
 {
