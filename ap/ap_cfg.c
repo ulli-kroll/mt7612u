@@ -3517,11 +3517,11 @@ VOID RTMPAPIoctlRF_mt(
 		{
 			for (offset = 0; offset <= 0x3ff; offset+=4)
 			{
-				mt_rf_read(pAd, rfidx, offset, &regRF);
+				regRF = mt_rf_read(pAd, rfidx, offset);
 				sprintf(msg+strlen(msg), "%d %03x = %08X\n", rfidx, offset, regRF);
 			}
 			offset = 0xfff;
-			mt_rf_read(pAd, rfidx, offset, &regRF);
+			regRF = mt_rf_read(pAd, rfidx, offset);
 			sprintf(msg+strlen(msg), "%d %03x = %08X\n", rfidx, offset, regRF);
 		}
 		RtmpDrvAllRFPrint(NULL, msg, strlen(msg));

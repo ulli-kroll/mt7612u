@@ -129,10 +129,6 @@ int mt_rf_write(
 	u16 offset,
 	u32 data);
 
-int mt_rf_read(
-	struct rtmp_adapter *ad,
-	u8 rf_idx,
-	u16 offset,
-	u32 *data);
+u32 mt_rf_read(struct rtmp_adapter *ad, u8 rf_idx, u16 offset);
 
 #endif /* __MT_RF_H__ */

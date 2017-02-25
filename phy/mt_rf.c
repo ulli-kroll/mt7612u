@@ -80,13 +80,10 @@ int mt_rf_write(
 	return ret;
 }
 
-int mt_rf_read(
-	struct rtmp_adapter *ad,
-	u8 rf_idx,
-	u16 offset,
-	u32 *data)
+u32 mt_rf_read(struct rtmp_adapter *ad, u8 rf_idx, u16 offset)
 {
 	u32 i = 0;
+	u32 data = 0;	/* ULLI : return value for this function */
 	u32 value;
 	int ret;
 
@@ -95,7 +92,7 @@ int mt_rf_read(
 		RTMP_SEM_EVENT_WAIT(&ad->reg_atomic, ret);
 		if (ret != 0) {
 			DBGPRINT(RT_DEBUG_ERROR, ("reg_atomic get failed(ret=%d)\n", ret));
-			return STATUS_UNSUCCESSFUL;
+			return -1;
 		}
 	}
 #endif /* RTMP_MAC_USB */
@@ -143,5 +140,5 @@ done:
 		RTMP_SEM_EVENT_UP(&ad->reg_atomic);
 #endif /* RTMP_MAC_USB */
 
-	return ret;
+	return data;
 }

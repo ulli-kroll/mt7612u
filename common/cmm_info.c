@@ -5644,13 +5644,13 @@ static INT set_mt_rf(struct rtmp_adapter *ad, char *arg)
 		{
 			mt_rf_write(ad, (u8)rf_idx, (u16)offset, (u32)rf_val);
 			rf_val = 0;
-			mt_rf_read(ad, (u8)rf_idx, (u16)offset, (u32*)&rf_val);
+			rf_val = mt_rf_read(ad, (u8)rf_idx, (u16)offset);
 
 			DBGPRINT(RT_DEBUG_TRACE, ("%s():%d 0x%04x 0x%04x\n", __FUNCTION__, rf_idx, offset, rf_val));
 		}
 		else if (rv == 2)
 		{
-			mt_rf_read(ad, (u8)rf_idx, (u16)offset, (u32*)&rf_val);
+			rf_val = mt_rf_read(ad, (u8)rf_idx, (u16)offset);
 			DBGPRINT(RT_DEBUG_TRACE, ("%s():%d 0x%04x 0x%08x\n", __FUNCTION__, rf_idx, offset, rf_val));
 		}
 		else if (rv == 1)
@@ -5658,12 +5658,12 @@ static INT set_mt_rf(struct rtmp_adapter *ad, char *arg)
 			//read all offset in the same rf index
 			for (offset = 0; offset <= 0x33c; offset = offset+4)
 			{
-				mt_rf_read(ad, (u8)rf_idx, (u16)offset, (u32*)&rf_val);
+				rf_val = mt_rf_read(ad, (u8)rf_idx, (u16)offset);
 				DBGPRINT(RT_DEBUG_TRACE, ("%s():%d 0x%04x 0x%08x\n", __FUNCTION__, rf_idx, offset, rf_val));
 				rf_val = 0;
 			}
 			offset = 0xfff;
-			mt_rf_read(ad, (u8)rf_idx, (u16)offset, (u32*)&rf_val);
+			rf_val = mt_rf_read(ad, (u8)rf_idx, (u16)offset);
 			DBGPRINT(RT_DEBUG_TRACE, ("%s():%d 0x%04x 0x%08x\n", __FUNCTION__, rf_idx, offset, rf_val));
 		}
 	}
