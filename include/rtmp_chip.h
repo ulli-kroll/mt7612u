@@ -828,9 +828,6 @@ struct _RTMP_CHIP_OP_ {
 	int (*eeread)(struct rtmp_adapter *pAd, USHORT offset, PUSHORT pValue);
 	int (*eewrite)(struct rtmp_adapter *pAd, USHORT offset, USHORT value);
 
-	/* ITxBf calibration */
-	void (*fITxBfLNAPhaseCompensate)(struct rtmp_adapter *pAd);
-
 	/* MCU related callback functions */
 	int (*load_rom_patch)(struct rtmp_adapter *ad);
 	int (*loadFirmware)(struct rtmp_adapter *pAd);
