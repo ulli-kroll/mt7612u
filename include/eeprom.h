@@ -772,7 +772,7 @@ struct rtmp_adapter;
 /*************************************************************************
   *	Public function declarations for usb-based prom chipset
   ************************************************************************/
-u16 RTUSBReadEEPROM16(struct rtmp_adapter *pAd, USHORT offset);
+u16 mt7612u_read_eeprom16(struct rtmp_adapter *pAd, USHORT offset);
 
 #endif /* RTMP_USB_SUPPORT */
 

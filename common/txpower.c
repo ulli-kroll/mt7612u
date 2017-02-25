@@ -70,35 +70,35 @@ VOID InitLookupTable(
 
 	/* Read from EEPROM, as parameters for lookup table for G band */
 	DBGPRINT(RT_DEBUG_TRACE, ("[temp. compensation 2.4G] EEPROM\n"));
-	RTUSBReadEEPROM16(pAd, 0x6e, WordStruct.word);
+	mt7612u_read_eeprom16(pAd, 0x6e, WordStruct.word);
 	DBGPRINT(RT_DEBUG_TRACE, ("\t6e = 0x%x\n", WordStruct.word));
 	PlusStepNum[IEEE80211_BAND_2G][0] = (WordStruct.field.Byte0 & 0x0F);
 	PlusStepNum[IEEE80211_BAND_2G][1] = (((WordStruct.field.Byte0 & 0xF0) >> 4) & 0x0F);
 	PlusStepNum[IEEE80211_BAND_2G][2] = (WordStruct.field.Byte1 & 0x0F);
 	PlusStepNum[IEEE80211_BAND_2G][3] = (((WordStruct.field.Byte1 & 0xF0) >> 4) & 0x0F);
 
-	RTUSBReadEEPROM16(pAd, 0x70, WordStruct.word);
+	mt7612u_read_eeprom16(pAd, 0x70, WordStruct.word);
 	DBGPRINT(RT_DEBUG_TRACE, ("\t70 = 0x%x\n", WordStruct.word));
 	PlusStepNum[IEEE80211_BAND_2G][4] = (WordStruct.field.Byte0 & 0x0F);
 	PlusStepNum[IEEE80211_BAND_2G][5] = (((WordStruct.field.Byte0 & 0xF0) >> 4) & 0x0F);
 	PlusStepNum[IEEE80211_BAND_2G][6] = (WordStruct.field.Byte1 & 0x0F);
 	PlusStepNum[IEEE80211_BAND_2G][7] = (((WordStruct.field.Byte1 & 0xF0) >> 4) & 0x0F);
 
-	RTUSBReadEEPROM16(pAd, 0x72, WordStruct.word);
+	mt7612u_read_eeprom16(pAd, 0x72, WordStruct.word);
 	DBGPRINT(RT_DEBUG_TRACE, ("\t72 = 0x%x\n", WordStruct.word));
 	MinusStepNum[IEEE80211_BAND_2G][0] = (WordStruct.field.Byte0 & 0x0F);
 	MinusStepNum[IEEE80211_BAND_2G][1] = (((WordStruct.field.Byte0 & 0xF0) >> 4) & 0x0F);
 	MinusStepNum[IEEE80211_BAND_2G][2] = (WordStruct.field.Byte1 & 0x0F);
 	MinusStepNum[IEEE80211_BAND_2G][3] = (((WordStruct.field.Byte1 & 0xF0) >> 4) & 0x0F);
 
-	RTUSBReadEEPROM16(pAd, 0x74, WordStruct.word);
+	mt7612u_read_eeprom16(pAd, 0x74, WordStruct.word);
 	DBGPRINT(RT_DEBUG_TRACE, ("\t74 = 0x%x\n", WordStruct.word));
 	MinusStepNum[IEEE80211_BAND_2G][4] = (WordStruct.field.Byte0 & 0x0F);
 	MinusStepNum[IEEE80211_BAND_2G][5] = (((WordStruct.field.Byte0 & 0xF0) >> 4) & 0x0F);
 	MinusStepNum[IEEE80211_BAND_2G][6] = (WordStruct.field.Byte1 & 0x0F);
 	MinusStepNum[IEEE80211_BAND_2G][7] = (((WordStruct.field.Byte1 & 0xF0) >> 4) & 0x0F);
 
-	RTUSBReadEEPROM16(pAd, 0x76, WordStruct.word);
+	mt7612u_read_eeprom16(pAd, 0x76, WordStruct.word);
 	DBGPRINT(RT_DEBUG_TRACE, ("\t76 = 0x%x\n", WordStruct.word));
 	pAd->TxPowerCtrl.TssiGain[IEEE80211_BAND_2G] = (WordStruct.field.Byte0 & 0x0F);
 	Step[IEEE80211_BAND_2G] = (WordStruct.field.Byte0 >> 4);
@@ -132,35 +132,35 @@ VOID InitLookupTable(
 	{
 		DBGPRINT(RT_DEBUG_TRACE, ("[temp. compensation 5G] EEPROM\n"));
 		/* Read from EEPROM, as parameters for lookup table for A band */
-		RTUSBReadEEPROM16(pAd, 0xd4, WordStruct.word);
+		mt7612u_read_eeprom16(pAd, 0xd4, WordStruct.word);
 		DBGPRINT(RT_DEBUG_TRACE, ("\td4 = 0x%x\n", WordStruct.word));
 		PlusStepNum[IEEE80211_BAND_5G][0] = (WordStruct.field.Byte0 & 0x0F);
 		PlusStepNum[IEEE80211_BAND_5G][1] = (((WordStruct.field.Byte0 & 0xF0) >> 4) & 0x0F);
 		PlusStepNum[IEEE80211_BAND_5G][2] = (WordStruct.field.Byte1 & 0x0F);
 		PlusStepNum[IEEE80211_BAND_5G][3] = (((WordStruct.field.Byte1 & 0xF0) >> 4) & 0x0F);
 
-		RTUSBReadEEPROM16(pAd, 0xd6, WordStruct.word);
+		mt7612u_read_eeprom16(pAd, 0xd6, WordStruct.word);
 		DBGPRINT(RT_DEBUG_TRACE, ("\td6 = 0x%x\n", WordStruct.word));
 		PlusStepNum[IEEE80211_BAND_5G][4] = (WordStruct.field.Byte0 & 0x0F);
 		PlusStepNum[IEEE80211_BAND_5G][5] = (((WordStruct.field.Byte0 & 0xF0) >> 4) & 0x0F);
 		PlusStepNum[IEEE80211_BAND_5G][6] = (WordStruct.field.Byte1 & 0x0F);
 		PlusStepNum[IEEE80211_BAND_5G][7] = (((WordStruct.field.Byte1 & 0xF0) >> 4) & 0x0F);
 
-		RTUSBReadEEPROM16(pAd, 0xd8, WordStruct.word);
+		mt7612u_read_eeprom16(pAd, 0xd8, WordStruct.word);
 		DBGPRINT(RT_DEBUG_TRACE, ("\td8 = 0x%x\n", WordStruct.word));
 		MinusStepNum[IEEE80211_BAND_5G][0] = (WordStruct.field.Byte0 & 0x0F);
 		MinusStepNum[IEEE80211_BAND_5G][1] = (((WordStruct.field.Byte0 & 0xF0) >> 4) & 0x0F);
 		MinusStepNum[IEEE80211_BAND_5G][2] = (WordStruct.field.Byte1 & 0x0F);
 		MinusStepNum[IEEE80211_BAND_5G][3] = (((WordStruct.field.Byte1 & 0xF0) >> 4) & 0x0F);
 
-		RTUSBReadEEPROM16(pAd, 0xda, WordStruct.word);
+		mt7612u_read_eeprom16(pAd, 0xda, WordStruct.word);
 		DBGPRINT(RT_DEBUG_TRACE, ("\tda = 0x%x\n", WordStruct.word));
 		MinusStepNum[IEEE80211_BAND_5G][4] = (WordStruct.field.Byte0 & 0x0F);
 		MinusStepNum[IEEE80211_BAND_5G][5] = (((WordStruct.field.Byte0 & 0xF0) >> 4) & 0x0F);
 		MinusStepNum[IEEE80211_BAND_5G][6] = (WordStruct.field.Byte1 & 0x0F);
 		MinusStepNum[IEEE80211_BAND_5G][7] = (((WordStruct.field.Byte1 & 0xF0) >> 4) & 0x0F);
 
-		RTUSBReadEEPROM16(pAd, 0xdc, WordStruct.word);
+		mt7612u_read_eeprom16(pAd, 0xdc, WordStruct.word);
 		DBGPRINT(RT_DEBUG_TRACE, ("\tdc = 0x%x\n", WordStruct.word));
 		pAd->TxPowerCtrl.TssiGain[IEEE80211_BAND_5G] = (WordStruct.field.Byte0 & 0x0F);
 		Step[IEEE80211_BAND_5G] = (WordStruct.field.Byte0 >> 4);
@@ -1051,7 +1051,7 @@ VOID RTMPReadTxPwrPerRate(struct rtmp_adapter *pAd)
 
 		/* Get power delta for 20MHz and 40MHz.*/
 		DBGPRINT(RT_DEBUG_TRACE, ("Txpower per Rate\n"));
-		value2 = RTUSBReadEEPROM16(pAd, EEPROM_TXPOWER_DELTA);
+		value2 = mt7612u_read_eeprom16(pAd, EEPROM_TXPOWER_DELTA);
 		Apwrdelta = 0;
 		Gpwrdelta = 0;
 
@@ -1082,7 +1082,7 @@ VOID RTMPReadTxPwrPerRate(struct rtmp_adapter *pAd)
 
 		for (i=0; i<5; i++)
 		{
-			value = RTUSBReadEEPROM16(pAd, EEPROM_TXPOWER_BYRATE_20MHZ_2_4G + i*4);
+			value = mt7612u_read_eeprom16(pAd, EEPROM_TXPOWER_BYRATE_20MHZ_2_4G + i*4);
 			data = value;
 
 			/* use value_1 ~ value_4 for code size reduce */
@@ -1162,7 +1162,7 @@ VOID RTMPReadTxPwrPerRate(struct rtmp_adapter *pAd)
 			}
 			Gdata = t1 + (t2<<4) + (t3<<8) + (t4<<12);
 
-			value = RTUSBReadEEPROM16(pAd, EEPROM_TXPOWER_BYRATE_20MHZ_2_4G + i*4 + 2);
+			value = mt7612u_read_eeprom16(pAd, EEPROM_TXPOWER_BYRATE_20MHZ_2_4G + i*4 + 2);
 
 			/* use value_1 ~ value_4 for code size reduce */
 			value_1 = value&0xf;
@@ -1291,7 +1291,7 @@ VOID RTMPReadChannelPwr(struct rtmp_adapter *pAd)
 #if defined(RT5370) || defined(RT5372) || defined(RT5390) || defined(RT5392) || defined(RT5592) || defined(RT3290) || defined(RT65xx)
 		if (IS_RT65XX(pAd))
 		{
-			Power.word = RTUSBReadEEPROM16(pAd, EEPROM_G_TX_PWR_OFFSET + i * 2);
+			Power.word = mt7612u_read_eeprom16(pAd, EEPROM_G_TX_PWR_OFFSET + i * 2);
 			pAd->TxPower[i * 2].Channel = i * 2 + 1;
 			pAd->TxPower[i * 2 + 1].Channel = i * 2 + 2;
 
@@ -1324,8 +1324,8 @@ VOID RTMPReadChannelPwr(struct rtmp_adapter *pAd)
 		else
 #endif /* defined(RT5370) || defined(RT5372) || defined(RT5390) || defined(RT5392) || defined(RT5592) || defined(RT65xx) */
 		{ /* Default routine. RT3070 and RT3370 run here. */
-			Power.word = RTUSBReadEEPROM16(pAd, EEPROM_G_TX_PWR_OFFSET + i * 2);
-			Power2.word = RTUSBReadEEPROM16(pAd, EEPROM_G_TX2_PWR_OFFSET + i * 2);
+			Power.word = mt7612u_read_eeprom16(pAd, EEPROM_G_TX_PWR_OFFSET + i * 2);
+			Power2.word = mt7612u_read_eeprom16(pAd, EEPROM_G_TX2_PWR_OFFSET + i * 2);
 			pAd->TxPower[i * 2].Channel = i * 2 + 1;
 			pAd->TxPower[i * 2 + 1].Channel = i * 2 + 2;
 
@@ -1378,8 +1378,8 @@ VOID RTMPReadChannelPwr(struct rtmp_adapter *pAd)
 		/* 1.2 Fill up power*/
 		for (i = 0; i < 6; i++)
 		{
-			Power.word = RTUSBReadEEPROM16(pAd, EEPROM_A_TX_PWR_OFFSET + i * 2);
-			Power2.word = RTUSBReadEEPROM16(pAd, EEPROM_A_TX2_PWR_OFFSET + i * 2);
+			Power.word = mt7612u_read_eeprom16(pAd, EEPROM_A_TX_PWR_OFFSET + i * 2);
+			Power2.word = mt7612u_read_eeprom16(pAd, EEPROM_A_TX2_PWR_OFFSET + i * 2);
 
 			if ((Power.field.Byte0 < 16) && (Power.field.Byte0 >= -7))
 				pAd->TxPower[i * 2 + choffset + 0].Power = Power.field.Byte0;
@@ -1418,8 +1418,8 @@ VOID RTMPReadChannelPwr(struct rtmp_adapter *pAd)
 		/* 2.2 Fill up power*/
 		for (i = 0; i < 8; i++)
 		{
-			Power.word = RTUSBReadEEPROM16(pAd, EEPROM_A_TX_PWR_OFFSET + (choffset - 14) + i * 2);
-			Power2.word = RTUSBReadEEPROM16(pAd, EEPROM_A_TX2_PWR_OFFSET + (choffset - 14) + i * 2);
+			Power.word = mt7612u_read_eeprom16(pAd, EEPROM_A_TX_PWR_OFFSET + (choffset - 14) + i * 2);
+			Power2.word = mt7612u_read_eeprom16(pAd, EEPROM_A_TX2_PWR_OFFSET + (choffset - 14) + i * 2);
 
 			if ((Power.field.Byte0 < 16) && (Power.field.Byte0 >= -7))
 				pAd->TxPower[i * 2 + choffset + 0].Power = Power.field.Byte0;
@@ -1464,8 +1464,8 @@ VOID RTMPReadChannelPwr(struct rtmp_adapter *pAd)
 		/*for (i = 0; i < 4; i++)*/
 		for (i = 0; i < 6; i++)
 		{
-			Power.word = RTUSBReadEEPROM16(pAd, EEPROM_A_TX_PWR_OFFSET + (choffset - 14) + i * 2);
-			Power2.word = RTUSBReadEEPROM16(pAd, EEPROM_A_TX2_PWR_OFFSET + (choffset - 14) + i * 2);
+			Power.word = mt7612u_read_eeprom16(pAd, EEPROM_A_TX_PWR_OFFSET + (choffset - 14) + i * 2);
+			Power2.word = mt7612u_read_eeprom16(pAd, EEPROM_A_TX2_PWR_OFFSET + (choffset - 14) + i * 2);
 
 			if ((Power.field.Byte0 < 16) && (Power.field.Byte0 >= -7))
 				pAd->TxPower[i * 2 + choffset + 0].Power = Power.field.Byte0;

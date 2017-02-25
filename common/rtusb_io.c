@@ -274,7 +274,7 @@ int read_reg(struct rtmp_adapter *ad, uint32_t base, uint16_t offset, uint32_t *
 	========================================================================
 */
 
-u16 RTUSBReadEEPROM16(struct rtmp_adapter *pAd, USHORT offset)
+u16 mt7612u_read_eeprom16(struct rtmp_adapter *pAd, USHORT offset)
 {
 	u16 val = 0;
 
