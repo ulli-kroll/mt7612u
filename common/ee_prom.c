@@ -170,39 +170,3 @@ static inline VOID EWDS(
 
 	EEpromCleanup(pAd);
 }
-
-
-/* IRQL = PASSIVE_LEVEL*/
-int rtmp_ee_prom_read16(
-	IN struct rtmp_adapter *pAd,
-	IN USHORT Offset,
-	OUT USHORT *pValue)
-{
-	uint32_t x;
-	USHORT data;
-
-
-
-	Offset /= 2;
-	/* reset bits and set EECS*/
-	x = mt7612u_read32(pAd, E2PROM_CSR);
-	x &= ~(EEDI | EEDO | EESK);
-	x |= EECS;
-	mt7612u_write32(pAd, E2PROM_CSR, x);
-
-	/* patch can not access e-Fuse issue*/
-
-	/* output the read_opcode and register number in that order    */
-	ShiftOutBits(pAd, EEPROM_READ_OPCODE, 3);
-	ShiftOutBits(pAd, Offset, pAd->EEPROMAddressNum);
-
-	/* Now read the data (16 bits) in from the selected EEPROM word*/
-	data = ShiftInBits(pAd);
-
-	EEpromCleanup(pAd);
-
-
-	*pValue = data;
-
-	return NDIS_STATUS_SUCCESS;
-}
