@@ -425,8 +425,6 @@ typedef union _EEPROM_ANTENNA_STRUC {
 /*
   *   EEPROM operation related marcos
   */
-#define RT28xx_EEPROM_READ16(_pAd, _offset, _value)			\
-	(_pAd)->chipOps.eeread((struct rtmp_adapter *)(_pAd), (USHORT)(_offset), (PUSHORT)&(_value))
 
 #if defined(RTMP_INTERNAL_TX_ALC) || defined(RTMP_TEMPERATURE_COMPENSATION)
 /* The Tx power tuning entry */
@@ -819,9 +817,6 @@ typedef enum _CHIP_SPEC_ID
 
 struct _RTMP_CHIP_OP_ {
 	int (*sys_onoff)(struct rtmp_adapter *pAd, BOOLEAN on, BOOLEAN reser);
-
-	/*  Calibration access related callback functions */
-	int (*eeread)(struct rtmp_adapter *pAd, USHORT offset, PUSHORT pValue);
 
 	/* MCU related callback functions */
 	int (*load_rom_patch)(struct rtmp_adapter *ad);

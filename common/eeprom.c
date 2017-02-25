@@ -43,8 +43,6 @@ INT RtmpChipOpsEepromHook(struct rtmp_adapter *pAd)
 	uint32_t val;
 
 
-	/* Hook functions based on interface types for EEPROM */
-	pChipOps->eeread = RTUSBReadEEPROM16;
 
 	return 0;
 }

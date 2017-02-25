@@ -162,7 +162,7 @@ BOOLEAN rtmp_chk_itxbf_calibration(
 	for (calIdx = 0; calIdx < calCnt; calIdx++)
 	{
 		offset = *(calptr + calIdx);
-		RT28xx_EEPROM_READ16(pAd, offset, eeVal);
+		RTUSBReadEEPROM16(pAd, offset, eeVal);
 		ee_sum += eeVal;
 		DBGPRINT(RT_DEBUG_INFO, ("Check EEPROM(offset=0x%x, eeVal=0x%x, ee_sum=0x%x)!\n",
 					offset, eeVal, ee_sum));

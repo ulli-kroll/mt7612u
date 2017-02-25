@@ -298,9 +298,9 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 	/* Read MAC setting from EEPROM and record as permanent MAC address */
 	DBGPRINT(RT_DEBUG_TRACE, ("Initialize MAC Address from E2PROM \n"));
 
-	RT28xx_EEPROM_READ16(pAd, 0x04, Addr01);
-	RT28xx_EEPROM_READ16(pAd, 0x06, Addr23);
-	RT28xx_EEPROM_READ16(pAd, 0x08, Addr45);
+	RTUSBReadEEPROM16(pAd, 0x04, Addr01);
+	RTUSBReadEEPROM16(pAd, 0x06, Addr23);
+	RTUSBReadEEPROM16(pAd, 0x08, Addr45);
 
 	pAd->PermanentAddress[0] = (UCHAR)(Addr01 & 0xff);
 	pAd->PermanentAddress[1] = (UCHAR)(Addr01 >> 8);
@@ -366,21 +366,21 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 
 	/* if E2PROM version mismatch with driver's expectation, then skip*/
 	/* all subsequent E2RPOM retieval and set a system error bit to notify GUI*/
-	RT28xx_EEPROM_READ16(pAd, EEPROM_VERSION_OFFSET, Version.word);
+	RTUSBReadEEPROM16(pAd, EEPROM_VERSION_OFFSET, Version.word);
 	pAd->EepromVersion = Version.field.Version + Version.field.FaeReleaseNumber * 256;
 	DBGPRINT(RT_DEBUG_TRACE, ("E2PROM: Version = %d, FAE release #%d\n", Version.field.Version, Version.field.FaeReleaseNumber));
 
 	/* Read BBP default value from EEPROM and store to array(EEPROMDefaultValue) in pAd */
-	RT28xx_EEPROM_READ16(pAd, EEPROM_NIC1_OFFSET, value);
+	RTUSBReadEEPROM16(pAd, EEPROM_NIC1_OFFSET, value);
 	pAd->EEPROMDefaultValue[EEPROM_NIC_CFG1_OFFSET] = value;
 
 	/* EEPROM offset 0x36 - NIC Configuration 1 */
-	RT28xx_EEPROM_READ16(pAd, EEPROM_NIC2_OFFSET, value);
+	RTUSBReadEEPROM16(pAd, EEPROM_NIC2_OFFSET, value);
 	pAd->EEPROMDefaultValue[EEPROM_NIC_CFG2_OFFSET] = value;
 	NicConfig2.word = pAd->EEPROMDefaultValue[EEPROM_NIC_CFG2_OFFSET];
 
 #if defined(BT_COEXISTENCE_SUPPORT) || defined(RT3290) || defined(RT8592) || defined(MT76x2)
-	RT28xx_EEPROM_READ16(pAd, EEPROM_NIC3_OFFSET, value);
+	RTUSBReadEEPROM16(pAd, EEPROM_NIC3_OFFSET, value);
 #ifdef RT8592
 	if (value == 0xffff)
 		value = 0;
@@ -391,7 +391,7 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 #endif /* defined(BT_COEXISTENCE_SUPPORT) || defined(RT3290) || defined(RT8592) || defined(MT76x2) */
 
 	{
-		RT28xx_EEPROM_READ16(pAd, EEPROM_COUNTRY_REGION, value);	/* Country Region*/
+		RTUSBReadEEPROM16(pAd, EEPROM_COUNTRY_REGION, value);	/* Country Region*/
 		pAd->EEPROMDefaultValue[EEPROM_COUNTRY_REG_OFFSET] = value;
 		DBGPRINT(RT_DEBUG_OFF, ("Country Region from e2p = %x\n", value));
 	}
@@ -403,7 +403,7 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 			break;
 #endif /* defined(RT65xx) || defined(MT7601)*/
 
-		RT28xx_EEPROM_READ16(pAd, EEPROM_BBP_BASE_OFFSET + i*2, value);
+		RTUSBReadEEPROM16(pAd, EEPROM_BBP_BASE_OFFSET + i*2, value);
 		pAd->EEPROMDefaultValue[i+EEPROM_BBP_ARRAY_OFFSET] = value;
 	}
 
@@ -572,19 +572,19 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 		   TssiPlusBoundaryG [4] [3] [2] [1] [0] (smaller) +
 		   TssiMinusBoundaryG[0] [1] [2] [3] [4] (larger) */
 		{
-			RT28xx_EEPROM_READ16(pAd, EEPROM_G_TSSI_BOUND1, Power.word);
+			RTUSBReadEEPROM16(pAd, EEPROM_G_TSSI_BOUND1, Power.word);
 			pAd->TssiMinusBoundaryG[4] = Power.field.Byte0;
 			pAd->TssiMinusBoundaryG[3] = Power.field.Byte1;
-			RT28xx_EEPROM_READ16(pAd, EEPROM_G_TSSI_BOUND2, Power.word);
+			RTUSBReadEEPROM16(pAd, EEPROM_G_TSSI_BOUND2, Power.word);
 			pAd->TssiMinusBoundaryG[2] = Power.field.Byte0;
 			pAd->TssiMinusBoundaryG[1] = Power.field.Byte1;
-			RT28xx_EEPROM_READ16(pAd, EEPROM_G_TSSI_BOUND3, Power.word);
+			RTUSBReadEEPROM16(pAd, EEPROM_G_TSSI_BOUND3, Power.word);
 			pAd->TssiRefG   = Power.field.Byte0; /* reference value [0] */
 			pAd->TssiPlusBoundaryG[1] = Power.field.Byte1;
-			RT28xx_EEPROM_READ16(pAd, EEPROM_G_TSSI_BOUND4, Power.word);
+			RTUSBReadEEPROM16(pAd, EEPROM_G_TSSI_BOUND4, Power.word);
 			pAd->TssiPlusBoundaryG[2] = Power.field.Byte0;
 			pAd->TssiPlusBoundaryG[3] = Power.field.Byte1;
-			RT28xx_EEPROM_READ16(pAd, EEPROM_G_TSSI_BOUND5, Power.word);
+			RTUSBReadEEPROM16(pAd, EEPROM_G_TSSI_BOUND5, Power.word);
 			pAd->TssiPlusBoundaryG[4] = Power.field.Byte0;
 			pAd->TxAgcStepG = Power.field.Byte1;
 			pAd->TxAgcCompensateG = 0;
@@ -613,19 +613,19 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 #endif /* RT65xx */
 	{
 		{
-			RT28xx_EEPROM_READ16(pAd, EEPROM_A_TSSI_BOUND1, Power.word);
+			RTUSBReadEEPROM16(pAd, EEPROM_A_TSSI_BOUND1, Power.word);
 			pAd->TssiMinusBoundaryA[4] = Power.field.Byte0;
 			pAd->TssiMinusBoundaryA[3] = Power.field.Byte1;
-			RT28xx_EEPROM_READ16(pAd, EEPROM_A_TSSI_BOUND2, Power.word);
+			RTUSBReadEEPROM16(pAd, EEPROM_A_TSSI_BOUND2, Power.word);
 			pAd->TssiMinusBoundaryA[2] = Power.field.Byte0;
 			pAd->TssiMinusBoundaryA[1] = Power.field.Byte1;
-			RT28xx_EEPROM_READ16(pAd, EEPROM_A_TSSI_BOUND3, Power.word);
+			RTUSBReadEEPROM16(pAd, EEPROM_A_TSSI_BOUND3, Power.word);
 			pAd->TssiRefA = Power.field.Byte0;
 			pAd->TssiPlusBoundaryA[1] = Power.field.Byte1;
-			RT28xx_EEPROM_READ16(pAd, EEPROM_A_TSSI_BOUND4, Power.word);
+			RTUSBReadEEPROM16(pAd, EEPROM_A_TSSI_BOUND4, Power.word);
 			pAd->TssiPlusBoundaryA[2] = Power.field.Byte0;
 			pAd->TssiPlusBoundaryA[3] = Power.field.Byte1;
-			RT28xx_EEPROM_READ16(pAd, EEPROM_A_TSSI_BOUND5, Power.word);
+			RTUSBReadEEPROM16(pAd, EEPROM_A_TSSI_BOUND5, Power.word);
 			pAd->TssiPlusBoundaryA[4] = Power.field.Byte0;
 			pAd->TxAgcStepA = Power.field.Byte1;
 			pAd->TxAgcCompensateA = 0;
@@ -646,7 +646,7 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 	pAd->BbpRssiToDbmDelta = 0x0;
 
 	/* Read frequency offset setting for RF*/
-		RT28xx_EEPROM_READ16(pAd, EEPROM_FREQ_OFFSET, value);
+		RTUSBReadEEPROM16(pAd, EEPROM_FREQ_OFFSET, value);
 
 	{
 		if ((value & 0x00FF) != 0x00FF)
@@ -675,7 +675,7 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 	/* */
 #ifdef MT76x2
 	if (IS_MT76x2(pAd)) {
-		RT28xx_EEPROM_READ16(pAd, EEPROM_RSSI_BG_OFFSET, value);
+		RTUSBReadEEPROM16(pAd, EEPROM_RSSI_BG_OFFSET, value);
 
 		if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {
 			pAd->BGRssiOffset[0] = 0;
@@ -706,13 +706,13 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 	else
 #endif /* MT76x2 */
 	{
-		RT28xx_EEPROM_READ16(pAd, EEPROM_RSSI_BG_OFFSET, value);
+		RTUSBReadEEPROM16(pAd, EEPROM_RSSI_BG_OFFSET, value);
 		pAd->BGRssiOffset[0] = value & 0x00ff;
 		pAd->BGRssiOffset[1] = (value >> 8);
 	}
 
 	{
-		RT28xx_EEPROM_READ16(pAd, EEPROM_RSSI_BG_OFFSET+2, value);
+		RTUSBReadEEPROM16(pAd, EEPROM_RSSI_BG_OFFSET+2, value);
 		{
 /*			if (IS_RT2860(pAd))  RT2860 supports 3 Rx and the 2.4 GHz RSSI #2 offset is in the EEPROM 0x48*/
 				pAd->BGRssiOffset[2] = value & 0x00ff;
@@ -721,7 +721,7 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 	}
 
 	{
-		RT28xx_EEPROM_READ16(pAd, EEPROM_LNA_OFFSET, value);
+		RTUSBReadEEPROM16(pAd, EEPROM_LNA_OFFSET, value);
 		pAd->BLNAGain = value & 0x00ff;
 		/* External LNA gain for 5GHz Band(CH36~CH64) */
 		pAd->ALNAGain0 = (value >> 8);
@@ -730,7 +730,7 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 
 #ifdef MT76x2
 	if (IS_MT76x2(pAd)) {
-		RT28xx_EEPROM_READ16(pAd, EEPROM_RSSI_A_OFFSET, value);
+		RTUSBReadEEPROM16(pAd, EEPROM_RSSI_A_OFFSET, value);
 
 		if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {
 			pAd->ARssiOffset[0] = 0;
@@ -761,13 +761,13 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 	else
 #endif /* MT76x2 */
 	{
-		RT28xx_EEPROM_READ16(pAd, EEPROM_RSSI_A_OFFSET, value);
+		RTUSBReadEEPROM16(pAd, EEPROM_RSSI_A_OFFSET, value);
 		pAd->ARssiOffset[0] = value & 0x00ff;
 		pAd->ARssiOffset[1] = (value >> 8);
 	}
 
 	{
-		RT28xx_EEPROM_READ16(pAd, (EEPROM_RSSI_A_OFFSET+2), value);
+		RTUSBReadEEPROM16(pAd, (EEPROM_RSSI_A_OFFSET+2), value);
 		{
 			pAd->ARssiOffset[2] = value & 0x00ff;
 			pAd->ALNAGain2 = (value >> 8);
@@ -803,7 +803,7 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 	*/
 	if (IS_RT65XX(pAd) || IS_MT7601(pAd))
 	{
-		RT28xx_EEPROM_READ16(pAd, EEPROM_TXMIXER_GAIN_2_4G, value);
+		RTUSBReadEEPROM16(pAd, EEPROM_TXMIXER_GAIN_2_4G, value);
 		pAd->TxMixerGain24G = 0;
 		value &= 0x00ff;
 		if (value != 0xff)

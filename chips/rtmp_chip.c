@@ -126,7 +126,7 @@ uint32_t SetHWAntennaDivsersity(
 		USHORT value;
 
 		// RF_R29 bit7:6
-		RT28xx_EEPROM_READ16(pAd, EEPROM_RSSI_GAIN, value);
+		RTUSBReadEEPROM16(pAd, EEPROM_RSSI_GAIN, value);
 
 		RT30xxReadRFRegister(pAd, RF_R29, &RFValue);
 		RFValue &= 0x3f; // clear bit7:6
