@@ -428,10 +428,6 @@ typedef union _EEPROM_ANTENNA_STRUC {
 #define RT28xx_EEPROM_READ16(_pAd, _offset, _value)			\
 	(_pAd)->chipOps.eeread((struct rtmp_adapter *)(_pAd), (USHORT)(_offset), (PUSHORT)&(_value))
 
-#define RT28xx_EEPROM_WRITE16(_pAd, _offset, _value)		\
-	(_pAd)->chipOps.eewrite((struct rtmp_adapter *)(_pAd), (USHORT)(_offset), (USHORT)(_value))
-
-
 #if defined(RTMP_INTERNAL_TX_ALC) || defined(RTMP_TEMPERATURE_COMPENSATION)
 /* The Tx power tuning entry */
 typedef struct _TX_POWER_TUNING_ENTRY_STRUCT {
@@ -826,7 +822,6 @@ struct _RTMP_CHIP_OP_ {
 
 	/*  Calibration access related callback functions */
 	int (*eeread)(struct rtmp_adapter *pAd, USHORT offset, PUSHORT pValue);
-	int (*eewrite)(struct rtmp_adapter *pAd, USHORT offset, USHORT value);
 
 	/* MCU related callback functions */
 	int (*load_rom_patch)(struct rtmp_adapter *ad);
