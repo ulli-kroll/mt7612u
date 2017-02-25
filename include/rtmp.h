@@ -6785,10 +6785,6 @@ INT	Set_NdpSndgStreams_Proc(struct rtmp_adapter *pAd, char *arg);
 INT	Set_Trigger_Sounding_Proc(struct rtmp_adapter *pAd, char *arg);
 
 #ifdef MT76x2
-INT Set_TxBfProfileTag_Help(
-    IN  struct rtmp_adapter *  pAd,
-	IN  char *        arg);
-
 INT Set_TxBfProfileTagValid(
 	IN  struct rtmp_adapter *  pAd,
 	IN  char *        arg);

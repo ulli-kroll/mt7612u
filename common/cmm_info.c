@@ -4902,46 +4902,6 @@ USHORT  CMDInIdx = 0, dCMDInIdx = 0;
 UCHAR   psi21;
 UCHAR   phill;
 
-
-
-INT Set_TxBfProfileTag_Help(
-    IN struct rtmp_adapter *pAd,
-	IN char *arg)
-{
-	printk("========================================================================================================================\n"
-		   "TxBfProfile Tag setting example :\n"
-	       "iwpriv ra0 set TxBfProfileTagMatrix=ng:cw:nrow:nol:LM\n"
-	       "iwpriv ra0 set TxBfProfileTagMac=xx:xx:xx:xx:xx:xx\n"
-	       "iwpriv ra0 set TxBfProfileTagTxScale=Tx1_scale_2ss[7:0]:Tx0_scale_2ss[7:0]:Tx1_scale_1ss[7:0]:Tx0_scale_1ss[7:0]\n"
-	       "iwpriv ra0 set TxBfProfileTagSNR=STS1_SNR[7:0]:STS0_SNR[7:0]\n"
-	       "iwpriv ra0 set TxBfProfileTagTimeOut=timeout[15:0]\n"
-	       "iwpriv ra0 set TxBfProfileTagFlg=LD:EO:IO:I/E\n"
-	       "\n\n"
-	       "iwpriv ra0 set ATETXBF=xx (0:no BF; 1:ETxBF, 2:ITxBF, 3:Enable TXBF support, 4:Disable TXBF support)\n"
-		   "iwpriv ra0 set TxBfProfileTagValid=0/1:profile index\n"
-		   "\n"
-	       "Read TxBf profile Tag :\n"
-	       "iwpriv ra0 set TxBfProfileTagRead=xx (select a profile only)\n"
-	       "\n"
-	       "Write TxBf profile Tag :\n"
-	       "iwpriv ra0 set TxBfProfileTagWrite=xx (select a profile only)\n"
-		   "\n\n"
-		   "Read TxBf profile Data	:\n"
-	       "iwpriv ra0 set TxBfProfileDataRead=xx:xx (select a profile and subcarrier to load seting)\n"
-	       "iwpriv ra0 set TxBfProfileDataReadAll=TxBfType:subcarrier:BW  (TxBfType : 0x00 (IxBf), 0x01 (ETxBf)\n"
-	       "                                                              (BW       : 0x00 (20M) , 0x01 (40M), 0x02 (80M)\n"
-	       "\n"
-	       "Write TxBf profile Data :\n"
-	       "iwpriv ra0 set TxBfProfileDataWrite=profile:subcarrier:psi21:pill\n"
-	       "iwpriv ra0 set TxBfProfileDataWriteAll=TxBfType:subcarrier:BW  (TxBfType : 0x00 (IxBf), 0x01 (ETxBf)\n"
-	       "                                                               (BW       : 0x00 (20M) , 0x01 (40M), 0x02 (80M)\n"
-		   "========================================================================================================================\n");
-
-	CMDInIdx = 0; // Clear index
-	return TRUE;
-}
-
-
 INT Set_TxBfProfileTagValid(
     IN struct rtmp_adapter *pAd,
 	IN char *arg)
