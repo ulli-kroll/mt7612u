@@ -3407,7 +3407,6 @@ static const RTMP_CHIP_OP MT76x2_ChipOp = {
 	.AsicRfInit = mt76x2_init_rf_cr,
 
 	// ITxBf phase calibration
-	.fITxBfDividerCalibration = ITxBFDividerCalibrationStartUp,
 	.fITxBfLNAPhaseCompensate = mt76x2_ITxBFLoadLNAComp,
 	.fITxBfLNACalibration = ITxBFLNACalibrationStartUp,
 
