@@ -273,14 +273,6 @@ void Write_TagField(
 	IN  UCHAR	*row,
 	IN  int		profileNum);
 
-#ifdef MT76x2
-INT TxBfProfileTagRead(
-    IN struct rtmp_adapter *    pAd,
-	IN PFMU_PROFILE      *prof,
-	IN UCHAR             profileIdx);
-
-
-#endif
 
 // displayTagfield - display one tagfield
 void displayTagfield(
