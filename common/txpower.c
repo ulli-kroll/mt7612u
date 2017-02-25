@@ -1051,7 +1051,7 @@ VOID RTMPReadTxPwrPerRate(struct rtmp_adapter *pAd)
 
 		/* Get power delta for 20MHz and 40MHz.*/
 		DBGPRINT(RT_DEBUG_TRACE, ("Txpower per Rate\n"));
-		RTUSBReadEEPROM16(pAd, EEPROM_TXPOWER_DELTA, value2);
+		value2 = RTUSBReadEEPROM16(pAd, EEPROM_TXPOWER_DELTA);
 		Apwrdelta = 0;
 		Gpwrdelta = 0;
 
@@ -1082,7 +1082,7 @@ VOID RTMPReadTxPwrPerRate(struct rtmp_adapter *pAd)
 
 		for (i=0; i<5; i++)
 		{
-			RTUSBReadEEPROM16(pAd, EEPROM_TXPOWER_BYRATE_20MHZ_2_4G + i*4, value);
+			value = RTUSBReadEEPROM16(pAd, EEPROM_TXPOWER_BYRATE_20MHZ_2_4G + i*4);
 			data = value;
 
 			/* use value_1 ~ value_4 for code size reduce */
@@ -1162,7 +1162,7 @@ VOID RTMPReadTxPwrPerRate(struct rtmp_adapter *pAd)
 			}
 			Gdata = t1 + (t2<<4) + (t3<<8) + (t4<<12);
 
-			RTUSBReadEEPROM16(pAd, EEPROM_TXPOWER_BYRATE_20MHZ_2_4G + i*4 + 2, value);
+			value = RTUSBReadEEPROM16(pAd, EEPROM_TXPOWER_BYRATE_20MHZ_2_4G + i*4 + 2);
 
 			/* use value_1 ~ value_4 for code size reduce */
 			value_1 = value&0xf;
@@ -1291,7 +1291,7 @@ VOID RTMPReadChannelPwr(struct rtmp_adapter *pAd)
 #if defined(RT5370) || defined(RT5372) || defined(RT5390) || defined(RT5392) || defined(RT5592) || defined(RT3290) || defined(RT65xx)
 		if (IS_RT65XX(pAd))
 		{
-			 RTUSBReadEEPROM16(pAd, EEPROM_G_TX_PWR_OFFSET + i * 2,Power.word);
+			Power.word = RTUSBReadEEPROM16(pAd, EEPROM_G_TX_PWR_OFFSET + i * 2);
 			pAd->TxPower[i * 2].Channel = i * 2 + 1;
 			pAd->TxPower[i * 2 + 1].Channel = i * 2 + 2;
 
@@ -1324,8 +1324,8 @@ VOID RTMPReadChannelPwr(struct rtmp_adapter *pAd)
 		else
 #endif /* defined(RT5370) || defined(RT5372) || defined(RT5390) || defined(RT5392) || defined(RT5592) || defined(RT65xx) */
 		{ /* Default routine. RT3070 and RT3370 run here. */
-			RTUSBReadEEPROM16(pAd, EEPROM_G_TX_PWR_OFFSET + i * 2, Power.word);
-			RTUSBReadEEPROM16(pAd, EEPROM_G_TX2_PWR_OFFSET + i * 2, Power2.word);
+			Power.word = RTUSBReadEEPROM16(pAd, EEPROM_G_TX_PWR_OFFSET + i * 2);
+			Power2.word = RTUSBReadEEPROM16(pAd, EEPROM_G_TX2_PWR_OFFSET + i * 2);
 			pAd->TxPower[i * 2].Channel = i * 2 + 1;
 			pAd->TxPower[i * 2 + 1].Channel = i * 2 + 2;
 
@@ -1378,8 +1378,8 @@ VOID RTMPReadChannelPwr(struct rtmp_adapter *pAd)
 		/* 1.2 Fill up power*/
 		for (i = 0; i < 6; i++)
 		{
-			RTUSBReadEEPROM16(pAd, EEPROM_A_TX_PWR_OFFSET + i * 2, Power.word);
-			RTUSBReadEEPROM16(pAd, EEPROM_A_TX2_PWR_OFFSET + i * 2, Power2.word);
+			Power.word = RTUSBReadEEPROM16(pAd, EEPROM_A_TX_PWR_OFFSET + i * 2);
+			Power2.word = RTUSBReadEEPROM16(pAd, EEPROM_A_TX2_PWR_OFFSET + i * 2);
 
 			if ((Power.field.Byte0 < 16) && (Power.field.Byte0 >= -7))
 				pAd->TxPower[i * 2 + choffset + 0].Power = Power.field.Byte0;
@@ -1418,8 +1418,8 @@ VOID RTMPReadChannelPwr(struct rtmp_adapter *pAd)
 		/* 2.2 Fill up power*/
 		for (i = 0; i < 8; i++)
 		{
-			RTUSBReadEEPROM16(pAd, EEPROM_A_TX_PWR_OFFSET + (choffset - 14) + i * 2, Power.word);
-			RTUSBReadEEPROM16(pAd, EEPROM_A_TX2_PWR_OFFSET + (choffset - 14) + i * 2, Power2.word);
+			Power.word = RTUSBReadEEPROM16(pAd, EEPROM_A_TX_PWR_OFFSET + (choffset - 14) + i * 2);
+			Power2.word = RTUSBReadEEPROM16(pAd, EEPROM_A_TX2_PWR_OFFSET + (choffset - 14) + i * 2);
 
 			if ((Power.field.Byte0 < 16) && (Power.field.Byte0 >= -7))
 				pAd->TxPower[i * 2 + choffset + 0].Power = Power.field.Byte0;
@@ -1464,8 +1464,8 @@ VOID RTMPReadChannelPwr(struct rtmp_adapter *pAd)
 		/*for (i = 0; i < 4; i++)*/
 		for (i = 0; i < 6; i++)
 		{
-			RTUSBReadEEPROM16(pAd, EEPROM_A_TX_PWR_OFFSET + (choffset - 14) + i * 2, Power.word);
-			RTUSBReadEEPROM16(pAd, EEPROM_A_TX2_PWR_OFFSET + (choffset - 14) + i * 2, Power2.word);
+			Power.word = RTUSBReadEEPROM16(pAd, EEPROM_A_TX_PWR_OFFSET + (choffset - 14) + i * 2);
+			Power2.word = RTUSBReadEEPROM16(pAd, EEPROM_A_TX2_PWR_OFFSET + (choffset - 14) + i * 2);
 
 			if ((Power.field.Byte0 < 16) && (Power.field.Byte0 >= -7))
 				pAd->TxPower[i * 2 + choffset + 0].Power = Power.field.Byte0;

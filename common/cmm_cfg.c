@@ -1352,9 +1352,9 @@ INT RTMP_COM_IoctlHandle(
 				UCHAR mac_addr[MAC_ADDR_LEN];
 				USHORT Addr01, Addr23, Addr45;
 
-				RTUSBReadEEPROM16(pAd, 0x04, Addr01);
-				RTUSBReadEEPROM16(pAd, 0x06, Addr23);
-				RTUSBReadEEPROM16(pAd, 0x08, Addr45);
+				Addr01 = RTUSBReadEEPROM16(pAd, 0x04);
+				Addr23 = RTUSBReadEEPROM16(pAd, 0x06);
+				Addr45 = RTUSBReadEEPROM16(pAd, 0x08);
 
 				mac_addr[0] = (UCHAR)(Addr01 & 0xff);
 				mac_addr[1] = (UCHAR)(Addr01 >> 8);
