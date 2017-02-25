@@ -207,50 +207,6 @@ int rtmp_ee_prom_read16(
 	return NDIS_STATUS_SUCCESS;
 }
 
-
-int rtmp_ee_prom_write16(
-    IN struct rtmp_adapter *pAd,
-    IN USHORT Offset,
-    IN USHORT Data)
-{
-	uint32_t x;
-
-
-
-	Offset /= 2;
-
-	EWEN(pAd);
-
-	/* reset bits and set EECS*/
-	x = mt7612u_read32(pAd, E2PROM_CSR);
-	x &= ~(EEDI | EEDO | EESK);
-	x |= EECS;
-	mt7612u_write32(pAd, E2PROM_CSR, x);
-
-	/* patch can not access e-Fuse issue*/
-
-	/* output the read_opcode ,register number and data in that order */
-	ShiftOutBits(pAd, EEPROM_WRITE_OPCODE, 3);
-	ShiftOutBits(pAd, Offset, pAd->EEPROMAddressNum);
-	ShiftOutBits(pAd, Data, 16);		/* 16-bit access*/
-
-	/* read DO status*/
-	x= mt7612u_read32(pAd, E2PROM_CSR);
-
-	EEpromCleanup(pAd);
-
-	RtmpusecDelay(10000);	/*delay for twp(MAX)=10ms*/
-
-	EWDS(pAd);
-
-	EEpromCleanup(pAd);
-
-
-	return NDIS_STATUS_SUCCESS;
-
-}
-
-
 INT rtmp_ee_write_to_prom(
 	IN struct rtmp_adapter *	pAd)
 {
