@@ -279,11 +279,6 @@ INT TxBfProfileTagRead(
 	IN PFMU_PROFILE      *prof,
 	IN UCHAR             profileIdx);
 
-INT TxBfProfileDataRead(
-    IN struct rtmp_adapter *    pAd,
-	IN PFMU_DATA        *pData,
-	IN UCHAR             profileIdx,
-	IN UCHAR             subcarrierIdx);
 
 #endif
 

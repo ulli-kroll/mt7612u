@@ -2361,32 +2361,6 @@ INT TxBfProfileTagRead(
 }
 
 
-INT TxBfProfileDataRead(
-    IN struct rtmp_adapter *    pAd,
-	IN PFMU_DATA        *pData,
-	IN UCHAR             profileIdx,
-	IN UCHAR             subcarrierIdx)
-{
-	CHAR	*value;
-	UINT    value32, readValue32[5];
-	INT 	i;
-
-
-	// Read PFMU_R10 (0x2f28) first
-	value32 = mt7612u_read32(pAd, PFMU_R10);
-	// Wite PFMU_R10 to trigger read command
-	mt7612u_write32(pAd, PFMU_R10, ((profileIdx << 10)|subcarrierIdx));
-	// Read PFMU_R19 ~ R23
-	readValue32[0] = mt7612u_read32(pAd, PFMU_R19);
-	readValue32[1] = mt7612u_read32(pAd, PFMU_R20);
-	readValue32[2] = mt7612u_read32(pAd, PFMU_R21);
-	readValue32[3] = mt7612u_read32(pAd, PFMU_R22);
-	readValue32[4] = mt7612u_read32(pAd, PFMU_R23);
-
-	pData->psi21 = (readValue32[0] >> 16) & 0x00FF;
-	pData->phill = (readValue32[0] >> 0)  & 0x00FF;
-	return TRUE;
-}
 
 #endif /* MT76x2 */
 
