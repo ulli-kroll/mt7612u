@@ -233,13 +233,6 @@ INT mt76x2_ITxBFDividerCalibration(
 	IN int calMethod,
 	OUT UCHAR *divPhase);
 
-int mt76x2_ITxBFLNACalibration(
-	IN struct rtmp_adapter *pAd,
-	IN int calFunction,
-	IN int calMethod,
-	IN BOOLEAN gBand);
-
-
 INT ITxBFPhaseCalibrationStartUp(
 	IN struct rtmp_adapter *pAd,
 	IN INT calFunction,
