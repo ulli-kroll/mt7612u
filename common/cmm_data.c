@@ -3027,7 +3027,6 @@ VOID RtmpPrepareHwNullFrame(
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
 	TXWI_STRUC *pTxWI = &pAd->NullTxWI;
 	u8 *pNullFrame;
-	int NState;
 	HEADER_802_11 *pNullFr;
 	ULONG Length;
 	UCHAR *ptr;
@@ -3039,127 +3038,94 @@ VOID RtmpPrepareHwNullFrame(
 	memset(pNullFrame, 0, 48);
 	memset(pTxWI, 0, TXWISize);
 
-	if (NState == NDIS_STATUS_SUCCESS)
-	{
-		pNullFr = (PHEADER_802_11) pNullFrame;
-		Length = sizeof(HEADER_802_11);
+	pNullFr = (PHEADER_802_11) pNullFrame;
+	Length = sizeof(HEADER_802_11);
 
-		pNullFr->FC.Type = FC_TYPE_DATA;
-		pNullFr->FC.SubType = SUBTYPE_DATA_NULL;
-		if (Index == 1)
-			pNullFr->FC.ToDs = 0;
-		else
-		pNullFr->FC.ToDs = 1;
-		pNullFr->FC.FrDs = 0;
+	pNullFr->FC.Type = FC_TYPE_DATA;
+	pNullFr->FC.SubType = SUBTYPE_DATA_NULL;
+	if (Index == 1)
+		pNullFr->FC.ToDs = 0;
+	else
+	pNullFr->FC.ToDs = 1;
+	pNullFr->FC.FrDs = 0;
 
-		COPY_MAC_ADDR(pNullFr->Addr1, pEntry->Addr);
-		{
-			COPY_MAC_ADDR(pNullFr->Addr2, pAd->CurrentAddress);
-			COPY_MAC_ADDR(pNullFr->Addr3, pAd->CommonCfg.Bssid);
-		}
+	COPY_MAC_ADDR(pNullFr->Addr1, pEntry->Addr);
+	COPY_MAC_ADDR(pNullFr->Addr2, pAd->CurrentAddress);
+	COPY_MAC_ADDR(pNullFr->Addr3, pAd->CommonCfg.Bssid);
 
-		pNullFr->FC.PwrMgmt = PwrMgmt;
+	pNullFr->FC.PwrMgmt = PwrMgmt;
 
-		pNullFr->Duration = pAd->CommonCfg.Dsifs + RTMPCalcDuration(pAd, pAd->CommonCfg.TxRate, 14);
+	pNullFr->Duration = pAd->CommonCfg.Dsifs + RTMPCalcDuration(pAd, pAd->CommonCfg.TxRate, 14);
 
-		/* sequence is increased in MlmeHardTx */
-		pNullFr->Sequence = pAd->Sequence;
-		pAd->Sequence = (pAd->Sequence+1) & MAXSEQ; /* next sequence  */
+	/* sequence is increased in MlmeHardTx */
+	pNullFr->Sequence = pAd->Sequence;
+	pAd->Sequence = (pAd->Sequence+1) & MAXSEQ; /* next sequence  */
 
-		if (bQosNull)
-		{
-			UCHAR *qos_p = ((UCHAR *)pNullFr) + Length;
+	if (bQosNull) {
+		UCHAR *qos_p = ((UCHAR *)pNullFr) + Length;
 
-			pNullFr->FC.SubType = SUBTYPE_QOS_NULL;
+		pNullFr->FC.SubType = SUBTYPE_QOS_NULL;
 
-			/* copy QOS control bytes */
-			qos_p[0] = ((bEOSP) ? (1 << 4) : 0) | OldUP;
-			qos_p[1] = 0;
-			Length += 2;
-		}
+		/* copy QOS control bytes */
+		qos_p[0] = ((bEOSP) ? (1 << 4) : 0) | OldUP;
+		qos_p[1] = 0;
+		Length += 2;
+	}
 
-		if (Index == 1)
-		{
-			HTTRANSMIT_SETTING Transmit;
+	if (Index == 1) {
+		HTTRANSMIT_SETTING Transmit;
 
-			Transmit.word = pEntry->MaxHTPhyMode.word;
-			Transmit.field.BW = 0;
-			if (Transmit.field.MCS > 7)
-				Transmit.field.MCS = 7;
+		Transmit.word = pEntry->MaxHTPhyMode.word;
+		Transmit.field.BW = 0;
+		if (Transmit.field.MCS > 7)
+			Transmit.field.MCS = 7;
 
-			RTMPWriteTxWI(pAd,
-						pTxWI,
-						FALSE,
-						FALSE,
-						FALSE,
-						FALSE,
-						TRUE,
-						TRUE,
-						0,
-						pEntry->Aid,
-						Length,
-						(UCHAR)Transmit.field.MCS,
-						0,
-						(UCHAR)Transmit.field.MCS,
-						IFS_HTTXOP,
-						&Transmit);
-		}
-		else
-		{
-			RTMPWriteTxWI(pAd,
-						pTxWI,
-						FALSE,
-						FALSE,
-						FALSE,
-						FALSE,
-						TRUE,
-						0,
-						0,
-						pEntry->Aid,
-						Length,
-						(UCHAR)pAd->CommonCfg.MlmeTransmit.field.MCS,
-						0,
-						(UCHAR)pAd->CommonCfg.MlmeTransmit.field.MCS,
-						IFS_HTTXOP,
-						&pAd->CommonCfg.MlmeTransmit);
-		}
+		RTMPWriteTxWI(pAd, pTxWI, FALSE, FALSE, FALSE,
+			      FALSE, TRUE, TRUE, 0, pEntry->Aid,
+			      Length, (UCHAR)Transmit.field.MCS,
+			      0, (UCHAR)Transmit.field.MCS,
+			      IFS_HTTXOP, &Transmit);
+	} else {
+		RTMPWriteTxWI(pAd, pTxWI, FALSE, FALSE, FALSE,
+			      FALSE, TRUE, 0, 0, pEntry->Aid,
+			      Length, (UCHAR)pAd->CommonCfg.MlmeTransmit.field.MCS,
+			      0, (UCHAR)pAd->CommonCfg.MlmeTransmit.field.MCS,
+			      IFS_HTTXOP, &pAd->CommonCfg.MlmeTransmit);
+	}
 
-		if (bWaitACK) {
+	if (bWaitACK) {
 #ifdef RLT_MAC
-			// TODO: shiang, how about RT65xx series??
+		// TODO: shiang, how about RT65xx series??
 #endif /* RLT_MAC */
 
-		}
+	}
 
-		ptr = (u8 *)&pAd->NullTxWI;
+	ptr = (u8 *)&pAd->NullTxWI;
 #ifdef RT_BIG_ENDIAN
-		RTMPWIEndianChange(pAd, ptr, TYPE_TXWI);
+	RTMPWIEndianChange(pAd, ptr, TYPE_TXWI);
 #endif /* RT_BIG_ENDIAN */
-		for (i=0; i < TXWISize; i+=4)
-		{
-			longValue =  *ptr + (*(ptr + 1) << 8) + (*(ptr + 2) << 16) + (*(ptr + 3) << 24);
-			if (Index == 0)
-				mt7612u_write32(pAd, pAd->chipCap.BcnBase[14] + i, longValue);
-			else if (Index == 1)
-				mt7612u_write32(pAd, pAd->chipCap.BcnBase[15] + i, longValue);
+	for (i=0; i < TXWISize; i+=4) 	{
+		longValue =  *ptr + (*(ptr + 1) << 8) + (*(ptr + 2) << 16) + (*(ptr + 3) << 24);
+		if (Index == 0)
+			mt7612u_write32(pAd, pAd->chipCap.BcnBase[14] + i, longValue);
+		else if (Index == 1)
+			mt7612u_write32(pAd, pAd->chipCap.BcnBase[15] + i, longValue);
 
-			ptr += 4;
-		}
+		ptr += 4;
+	}
 
-		ptr = pNullFrame;
+	ptr = pNullFrame;
 #ifdef RT_BIG_ENDIAN
-		RTMPFrameEndianChange(pAd, ptr, DIR_WRITE, FALSE);
+	RTMPFrameEndianChange(pAd, ptr, DIR_WRITE, FALSE);
 #endif /* RT_BIG_ENDIAN */
-		for (i= 0; i< Length; i+=4)
-		{
-			longValue =  *ptr + (*(ptr + 1) << 8) + (*(ptr + 2) << 16) + (*(ptr + 3) << 24);
-			if (Index == 0) //for ra0
-				mt7612u_write32(pAd, pAd->chipCap.BcnBase[14] + TXWISize+ i, longValue);
-			else if (Index == 1) //for p2p0
-				mt7612u_write32(pAd, pAd->chipCap.BcnBase[15] + TXWISize+ i, longValue);
+	for (i= 0; i< Length; i+=4) {
+		longValue =  *ptr + (*(ptr + 1) << 8) + (*(ptr + 2) << 16) + (*(ptr + 3) << 24);
+		if (Index == 0) //for ra0
+			mt7612u_write32(pAd, pAd->chipCap.BcnBase[14] + TXWISize+ i, longValue);
+		else if (Index == 1) //for p2p0
+			mt7612u_write32(pAd, pAd->chipCap.BcnBase[15] + TXWISize+ i, longValue);
 
-			ptr += 4;
-		}
+		ptr += 4;
 	}
 
 	if (pNullFrame)
