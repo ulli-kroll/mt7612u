@@ -203,13 +203,6 @@ void ITxBFGetEEPROM(
 	IN ITXBF_LNA_PARAMS *lnaParams,
 	IN ITXBF_DIV_PARAMS *divParams);
 
-#ifdef MT76x2
-INT ITxBFDividerCalibrationStartUp(
-	IN struct rtmp_adapter *pAd,
-	IN int calFunction,
-	IN int calMethod,
-	OUT UCHAR *divPhase);
-#endif
 
 INT ITxBFDividerCalibration(
 	IN struct rtmp_adapter *pAd,
