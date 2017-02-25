@@ -210,7 +210,7 @@ u32 mt7612u_read32(struct rtmp_adapter *pAd, USHORT Offset)
 
 	if (Status != 0)
 		val =0xffffffff;
-	
+
 	return le2cpu32(val);
 }
 
@@ -230,19 +230,17 @@ u32 mt7612u_read32(struct rtmp_adapter *pAd, USHORT Offset)
 
 	========================================================================
 */
-int mt7612u_write32(struct rtmp_adapter *pAd, USHORT Offset,
-			       uint32_t Value)
+void mt7612u_write32(struct rtmp_adapter *pAd, USHORT Offset,
+			       u32 Value)
 {
-	int Status;
 	uint32_t localVal;
 
 	localVal = Value;
 
 	/* MT76xx HW has 4 byte alignment constrained */
-	Status = RTUSBMultiWrite_nBytes(pAd, Offset,
+	RTUSBMultiWrite_nBytes(pAd, Offset,
 					&Value, 4, 4);
 
-	return Status;
 }
 
 
