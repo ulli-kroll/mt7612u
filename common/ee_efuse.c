@@ -403,7 +403,6 @@ INT eFuse_init(struct rtmp_adapter *pAd)
 		DBGPRINT(RT_DEBUG_OFF, ("Load EEPROM buffer from BIN, and force to use BIN buffer mode\n"));
 
 		/* Forse to use BIN eeprom buffer mode */
-		RtmpChipOpsEepromHook(pAd);
 
 #ifdef CAL_FREE_IC_SUPPORT
 		//pAd->bFroceEEPROMBuffer = TRUE;

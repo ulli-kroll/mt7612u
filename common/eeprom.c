@@ -26,23 +26,3 @@
 	Name		Date			Modification logs
 */
 #include "rt_config.h"
-
-struct chip_map{
-	uint32_t ChipVersion;
-	char *name;
-};
-
-struct chip_map chip_card_id_map[] ={
-	{7620, ""},
-};
-
-
-INT RtmpChipOpsEepromHook(struct rtmp_adapter *pAd)
-{
-	RTMP_CHIP_OP *pChipOps = &pAd->chipOps;
-	uint32_t val;
-
-
-
-	return 0;
-}

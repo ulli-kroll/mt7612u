@@ -785,5 +785,4 @@ int RTUSBReadEEPROM16(
 /*************************************************************************
   *	Public function declarations for prom operation callback functions setting
   ************************************************************************/
-INT RtmpChipOpsEepromHook(struct rtmp_adapter *pAd);
 #endif /* __EEPROM_H__ */
