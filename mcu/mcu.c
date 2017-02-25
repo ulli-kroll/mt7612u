@@ -28,15 +28,6 @@
 
 #include	"rt_config.h"
 
-INT MCUBurstWrite(struct rtmp_adapter *pAd, uint32_t Offset, uint32_t *Data, uint32_t Cnt)
-{
-#ifdef RTMP_USB_SUPPORT
-	RTUSBMultiWrite_nBytes(pAd, Offset, (UCHAR *)Data, Cnt * 4, 64);
-#endif /* RTMP_USB_SUPPORT */
-	return 0;
-}
-
-
 INT MCURandomWrite(struct rtmp_adapter *pAd, RTMP_REG_PAIR *RegPair, uint32_t Num)
 {
 	uint32_t Index;
