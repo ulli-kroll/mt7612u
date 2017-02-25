@@ -41,6 +41,7 @@ USB_DEVICE_ID rtusb_dev_id[] = {
 	{ USB_DEVICE(0x7392, 0xb711) },	/*  Edimax EW 7722 UAC */
 	{ USB_DEVICE(0x0846, 0x9053) },	/*  Netgear A6210 */
 	{ USB_DEVICE(0x057c, 0x8503) },	/*  AVM FRITZ!WLAN USB Stick AC 860 */
+	{ USB_DEVICE(0x045e, 0x02e6) },	/*  Microsoft XBox One Wireless Adapter */
 #endif
 	{ }/* Terminating entry */
 };
