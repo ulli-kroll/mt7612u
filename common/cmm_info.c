@@ -4902,66 +4902,6 @@ USHORT  CMDInIdx = 0, dCMDInIdx = 0;
 UCHAR   psi21;
 UCHAR   phill;
 
-INT Set_TxBfProfileTagValid(
-    IN struct rtmp_adapter *pAd,
-	IN char *arg)
-{
-	UCHAR   profileIdx, validFlg;
-	UCHAR   Input[2];
-	CHAR	*value;
-	UINT    value32, readValue32[5];
-	INT 	i;
-
-	/* Profile Select : Subcarrier Select */
-	if(strlen(arg) != 5)
-		return FALSE;
-
-	for (i=0, value = rstrtok(arg,":"); value; value = rstrtok(NULL,":"))
-	{
-		if((!isxdigit(*value)) || (!isxdigit(*(value+1))) )
-			return FALSE;  /*Invalid*/
-
-		AtoH(value, &Input[i++], 1);
-	}
-
-	validFlg    = Input[0];
-	profileIdx = Input[1];
-
-	// Read PFMU_R10 (0x2f28) first
-	value32 = mt7612u_read32(pAd, PFMU_R10);
-	value32 &= (~0x3C00);
-	// Wite PFMU_R10 to trigger read command
-	mt7612u_write32(pAd, PFMU_R10, ((profileIdx << 10)|value32));
-	// Read PFMU_R11 ~ R15
-	readValue32[0] = mt7612u_read32(pAd, PFMU_R11);
-	readValue32[1] = mt7612u_read32(pAd, PFMU_R12);
-	readValue32[2] = mt7612u_read32(pAd, PFMU_R13);
-	readValue32[3] = mt7612u_read32(pAd, PFMU_R14);
-	readValue32[4] = mt7612u_read32(pAd, PFMU_R15);
-
-
-	/*
-	    Update the valid bit
-	*/
-	readValue32[0] &= ~(1 << 7);
-	readValue32[0] |= validFlg << 7;
-
-	// Read PFMU_R10 (0x2f28) first
-	value32 = mt7612u_read32(pAd, PFMU_R10);
-	value32 &= (~0x3C00);
-	// Wite PFMU_R10 to trigger read command
-	mt7612u_write32(pAd, PFMU_R10, ((profileIdx << 10)|value32));
-	// Write PFMU_R11 ~ R15
-	mt7612u_write32(pAd, PFMU_R15, readValue32[4]);
-	mt7612u_write32(pAd, PFMU_R14, readValue32[3]);
-	mt7612u_write32(pAd, PFMU_R13, readValue32[2]);
-	mt7612u_write32(pAd, PFMU_R12, readValue32[1]);
-	mt7612u_write32(pAd, PFMU_R11, readValue32[0]);
-
-	return TRUE;
-}
-
-
 INT Set_TxBfProfileTagRead(
     IN struct rtmp_adapter *pAd,
 	IN char *arg)
