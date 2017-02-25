@@ -580,28 +580,6 @@ static void mt76x2_ITxBFLnaParams(UCHAR lnaValues[3], int channel, ITXBF_LNA_PAR
 		phaseParams - the Phase Calibration parameters from EEPROM
 */
 
-#ifdef MT76x2
-static void mt76x2_ITxBFPhaseParams(UCHAR phaseValues[2], int channel, ITXBF_PHASE_PARAMS *phaseParams)
-{
-	if (channel <= 14) {
-		phaseValues[0] = InterpParam(channel, 1, 14, phaseParams->E1gBeg, phaseParams->E1gEnd);
-	}
-	else if (channel <= 64) {
-		phaseValues[0] = InterpParam(channel, 36, 64, phaseParams->E1aLowBeg, phaseParams->E1aLowEnd);
-	}
-	else if (channel <= 120) {
-		phaseValues[0] = InterpParam(channel, 100, 120, phaseParams->E1aMidBeg, phaseParams->E1aMidMid);
-	}
-	else if (channel <= 140) {
-		phaseValues[0] = InterpParam(channel, 120, 140, phaseParams->E1aMidMid, phaseParams->E1aMidEnd);
-	}
-	else {
-		phaseValues[0] = InterpParam(channel, 149, 173, phaseParams->E1aHighBeg, phaseParams->E1aHighEnd);
-	}
-}
-#endif
-
-
 #define ITXBF_EEPROM_WORDS		19	/* 38 bytes of ITxBF parameters */
 
 
