@@ -532,54 +532,6 @@ static void mt76x2_ITxBFDivParams(UCHAR divValues[2], int channel, ITXBF_DIV_PAR
 }
 #endif
 
-/*
-	ITxBFLnaParams - interpolate LNA compensation parameter based on channel and EEPROM.
-		lnaValues - returns the quantized LNA compensation values for M-L, H-L and H-M
-		channel - the channel to interpolate for
-		lnaParams - the LNA Calibration parameters from EEPROM
-*/
-
-#ifdef MT76x2
-static void mt76x2_ITxBFLnaParams(UCHAR lnaValues[3], int channel, ITXBF_LNA_PARAMS *lnaParams)
-{
-	int i;
-
-	if (channel <= 14) {
-		lnaValues[0] = InterpParam(channel, 1, 14, lnaParams->E1gBeg[0], lnaParams->E1gEnd[0]);
-		lnaValues[1] = InterpParam(channel, 1, 14, lnaParams->E1gBeg[1], lnaParams->E1gEnd[1]);
-		lnaValues[2] = InterpParam(channel, 1, 14, lnaParams->E1gBeg[2], lnaParams->E1gEnd[2]);
-	}
-	else if (channel <= 64) {
-		lnaValues[0] = InterpParam_check(channel, 36, 64, lnaParams->E1aLowBeg[0], lnaParams->E1aLowEnd[0]);
-		lnaValues[1] = InterpParam_check(channel, 36, 64, lnaParams->E1aLowBeg[1], lnaParams->E1aLowEnd[1]);
-		lnaValues[2] = InterpParam_check(channel, 36, 64, lnaParams->E1aLowBeg[2], lnaParams->E1aLowEnd[2]);
-	}
-	else if (channel <= 120) {
-		lnaValues[0] = InterpParam(channel, 100, 120, lnaParams->E1aMidBeg[0], lnaParams->E1aMidMid[0]);
-		lnaValues[1] = InterpParam(channel, 100, 120, lnaParams->E1aMidBeg[1], lnaParams->E1aMidMid[1]);
-		lnaValues[2] = InterpParam(channel, 100, 120, lnaParams->E1aMidBeg[2], lnaParams->E1aMidMid[2]);
-	}
-		else if (channel <= 140) {
-		lnaValues[0] = InterpParam(channel, 120, 140, lnaParams->E1aMidMid[0], lnaParams->E1aMidEnd[0]);
-		lnaValues[1] = InterpParam(channel, 120, 140, lnaParams->E1aMidMid[1], lnaParams->E1aMidEnd[1]);
-		lnaValues[2] = InterpParam(channel, 120, 140, lnaParams->E1aMidMid[2], lnaParams->E1aMidEnd[2]);
-	}
-	else {
-		lnaValues[0] = InterpParam(channel, 149, 173, lnaParams->E1aHighBeg[0], lnaParams->E1aHighEnd[0]);
-		lnaValues[1] = InterpParam(channel, 149, 173, lnaParams->E1aHighBeg[1], lnaParams->E1aHighEnd[1]);
-		lnaValues[2] = InterpParam(channel, 149, 173, lnaParams->E1aHighBeg[2], lnaParams->E1aHighEnd[2]);
-	}
-}
-#endif
-
-
-/*
-	ITxBFPhaseParams - interpolate Phase compensation parameters based on channel and EEPROM
-		phaseValues - returns the Phase compensation values for this channel
-		channel - the channel to interpolate for
-		phaseParams - the Phase Calibration parameters from EEPROM
-*/
-
 #define ITXBF_EEPROM_WORDS		19	/* 38 bytes of ITxBF parameters */
 
 
