@@ -506,32 +506,6 @@ static UCHAR InterpParam(int ch, int chBeg, int chEnd, UCHAR yBeg, UCHAR yEnd)
 	return yBeg + yDelta*(x-xBeg)/(xEnd-xBeg);
 }
 
-
-/*
-	ITxBFDivParams - interpolate Divider calibration parameter based on channel and EEPROM
-		divValues - returns the Divider Calibration values for this channel
-		channel - the channel to interpolate for
-		divParams - the Divider Calibration parameters from EEPROM
-*/
-
-#ifdef MT76x2
-static void mt76x2_ITxBFDivParams(UCHAR divValues[2], int channel, ITXBF_DIV_PARAMS *divParams)
-{
-	if (channel <= 14)
-		divValues[0] = InterpParam(channel, 1, 14, divParams->E1gBeg, divParams->E1gEnd);
-	else if (channel <= 60)
-		divValues[0] = InterpParam(channel, 36, 64, divParams->E1aLowBeg, divParams->E1aLowEnd);
-	//else if (channel <= 60)
-	//	divValues[0] = InterpParam(channel, 44, 60, divParams->aLowBeg, divParams->aLowEnd);
-	else if (channel <= 120)
-		divValues[0] = InterpParam(channel, 100, 120, divParams->E1aMidBeg, divParams->E1aMidMid);
-	else if (channel <= 140)
-		divValues[0] = InterpParam(channel, 120, 140, divParams->E1aMidMid, divParams->E1aMidEnd);
-	else
-		divValues[0] = InterpParam(channel, 149, 173, divParams->E1aHighBeg, divParams->E1aHighEnd);
-}
-#endif
-
 #define ITXBF_EEPROM_WORDS		19	/* 38 bytes of ITxBF parameters */
 
 
