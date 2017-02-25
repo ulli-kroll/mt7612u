@@ -233,9 +233,6 @@ INT mt76x2_ITxBFDividerCalibration(
 	IN int calMethod,
 	OUT UCHAR *divPhase);
 
-VOID mt76x2_ITxBFLoadLNAComp(
-	IN struct rtmp_adapter *pAd);
-
 int mt76x2_ITxBFLNACalibration(
 	IN struct rtmp_adapter *pAd,
 	IN int calFunction,

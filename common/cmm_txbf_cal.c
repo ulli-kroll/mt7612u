@@ -1157,42 +1157,6 @@ void ITxBFSetEEPROM(
 */
 
 #ifdef MT76x2
-VOID mt76x2_ITxBFLoadLNAComp(
-	IN struct rtmp_adapter *pAd)
-{
-	ITXBF_LNA_PARAMS lnaParams;
-	UCHAR lnaValues[3];
-	UCHAR bbpValue = 0;
-	int i;
-	UCHAR channel = pAd->CommonCfg.Channel;
-	UINT  value32;
-
-	/* Get values */
-	ITxBFGetEEPROM(pAd, 0, &lnaParams, 0);
-
-	mt76x2_ITxBFLnaParams(lnaValues, channel, &lnaParams);
-
-	value32 = mt7612u_read32(pAd, CAL_R0);
-	for (i=0; i < NUM_CHAIN; i++)
-	{
-		mt7612u_write32(pAd, CAL_R0, value32 | (i<<5));
-		mt7612u_write32(pAd, RXFE_R3, lnaValues[i]);
-	}
-
-	DBGPRINT(RT_DEBUG_TRACE,
-		  ("============== Interpolate LNA phase ===============\n"
-		   "lnaValues[0] = %d\n"
-		   "lnaValues[1] = %d\n"
-		   "lnaValues[2] = %d\n"
-		   "====================================================\n",
-		   (360 * lnaValues[0]) >> 8, (360 * lnaValues[1]) >> 8, (360 * lnaValues[2]) >> 8));
-
-	/* Enable RX Phase Compensation */
-	value32 = mt7612u_read32(pAd, TXBE_R12);
-	mt7612u_write32(pAd, TXBE_R12, value32 | 0x20);
-}
-
-
 INT ITxBFDividerCalibrationStartUp(
 	IN struct rtmp_adapter *pAd,
 	IN int calFunction,
