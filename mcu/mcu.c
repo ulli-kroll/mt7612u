@@ -28,17 +28,6 @@
 
 #include	"rt_config.h"
 
-INT MCURandomWrite(struct rtmp_adapter *pAd, RTMP_REG_PAIR *RegPair, uint32_t Num)
-{
-	uint32_t Index;
-
-	for (Index = 0; Index < Num; Index++)
-		mt7612u_write32(pAd, RegPair->Register, RegPair->Value);
-
-	return 0;
-}
-
-
 INT mcu_sys_init(struct rtmp_adapter *pAd)
 {
 	int Status;
