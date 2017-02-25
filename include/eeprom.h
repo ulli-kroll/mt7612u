@@ -777,12 +777,6 @@ int RTUSBReadEEPROM16(
 	IN	USHORT			offset,
 	OUT	PUSHORT			pData);
 
-
-int RTUSBWriteEEPROM16(
-	IN struct rtmp_adapter *pAd,
-	IN USHORT 			offset,
-	IN USHORT 			value);
-
 #endif /* RTMP_USB_SUPPORT */
 
 

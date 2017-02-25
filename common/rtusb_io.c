@@ -298,15 +298,6 @@ int RTUSBReadEEPROM16(struct rtmp_adapter *pAd, USHORT offset, USHORT *pData)
 
 }
 
-
-int RTUSBWriteEEPROM16(struct rtmp_adapter *pAd, USHORT offset, USHORT value)
-{
-	USHORT tmpVal;
-
-	tmpVal = cpu2le16(value);
-	return RTUSBWriteEEPROM(pAd, offset, (u8 *)&(tmpVal), 2);
-}
-
 /*
 	========================================================================
 
