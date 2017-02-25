@@ -101,52 +101,6 @@ int RTUSBVenderReset(struct rtmp_adapter *pAd)
 	return Status;
 }
 
-/*
-	========================================================================
-
-	Routine Description: Write various length data to RT USB Wifi device, the maxima length should not large than 65535 bytes.
-
-	Arguments:
-
-	Return Value:
-
-	IRQL =
-
-	Note:
-		Use this funciton carefully cause it may not stable in some special USB host controllers.
-
-	========================================================================
-*/
-int RTUSBMultiWrite_nBytes(
-	IN struct rtmp_adapter *pAd,
-	IN USHORT Offset,
-	IN UCHAR *buf,
-	IN USHORT len,
-	IN USHORT batchLen)
-{
-	int Status = STATUS_SUCCESS;
-	USHORT index = Offset, actLen = batchLen, leftLen = len;
-	UCHAR *pSrc = buf;
-
-	do {
-		actLen = (actLen > batchLen ? batchLen : actLen);
-		Status = RTUSB_VendorRequest(pAd, DEVICE_VENDOR_REQUEST_OUT,
-					     0x6, 0, index,
-					     pSrc, actLen);
-
-		if (Status != STATUS_SUCCESS) {
-			DBGPRINT(RT_DEBUG_ERROR, ("VendrCmdMultiWrite_nBytes failed!\n"));
-			break;
-		}
-
-		index += actLen;
-		leftLen -= actLen;
-		pSrc = pSrc + actLen;
-	} while(leftLen > 0);
-
-	return Status;
-}
-
 int RTUSBMultiWrite(
 	IN struct rtmp_adapter *pAd,
 	IN USHORT Offset,
@@ -231,16 +185,14 @@ u32 mt7612u_read32(struct rtmp_adapter *pAd, USHORT Offset)
 	========================================================================
 */
 void mt7612u_write32(struct rtmp_adapter *pAd, USHORT Offset,
-			       u32 Value)
+			       u32 _val)
 {
-	uint32_t localVal;
+	u32 val = cpu2le32(_val);
 
-	localVal = Value;
 
-	/* MT76xx HW has 4 byte alignment constrained */
-	RTUSBMultiWrite_nBytes(pAd, Offset,
-					&Value, 4, 4);
-
+	RTUSB_VendorRequest(pAd, DEVICE_VENDOR_REQUEST_OUT,
+			     0x6, 0, Offset,
+			     &val, 4);
 }
 
 

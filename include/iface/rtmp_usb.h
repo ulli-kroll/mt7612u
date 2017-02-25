@@ -89,7 +89,6 @@ int RTUSB_VendorRequest(
 	IN	uint32_t txbuf_len);
 
 int RTUSBMultiWrite(struct rtmp_adapter *pAd, USHORT Offset, UCHAR *buf, USHORT len);
-int RTUSBMultiWrite_nBytes(struct rtmp_adapter *pAd, USHORT Offset, UCHAR *buf, USHORT len, USHORT batchLen);
 int RTUSBSingleWrite(struct rtmp_adapter *pAd, USHORT Offset, USHORT val);
 
 int RTUSBReadBBPRegister(struct rtmp_adapter *pAd, UCHAR Id, UCHAR *pValue);
