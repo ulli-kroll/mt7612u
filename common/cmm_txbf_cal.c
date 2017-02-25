@@ -421,24 +421,6 @@ static void CalcRFCalPhase(
 #endif /* DBG */
 
 
-
-/*
-	ITxBFSaveData - restore MAC data
-		saveData - buffer containing data to restore
-*/
-static void ITxBFRestoreData(struct rtmp_adapter *pAd, uint32_t *saveData)
-{
-	uint32_t *sdPtr, macAddr, maxAddr;
-
-	maxAddr = 0x10000;
-
-	for (sdPtr=saveData, macAddr=0x4000; macAddr<maxAddr; macAddr += 4, sdPtr++)
-	{
-		mt7612u_write32(pAd, macAddr, *sdPtr);
-	}
-}
-
-
 /*
 	mapChannelKHz - map channel number to KHz
 */
