@@ -423,30 +423,6 @@ static void CalcRFCalPhase(
 
 
 /*
-	ITxBFSaveData - save MAC data
-		Returns pointer to allocated buffer containing saved data
-*/
-static uint32_t *ITxBFSaveData(struct rtmp_adapter *pAd)
-{
-	uint32_t *saveData, *sdPtr, macAddr, maxAddr;
-
-	/* Save 48KB MAC data. */
-	saveData = kmalloc(0xC000, GFP_ATOMIC);
-	if (saveData == NULL) {
-		DBGPRINT(RT_DEBUG_ERROR, ("%s():Alloc memory failed\n", __FUNCTION__));
-		return NULL;
-	}
-
-	maxAddr = 0x10000;
-
-	for (sdPtr=saveData, macAddr=0x4000; macAddr<maxAddr; macAddr += 4, sdPtr++) {
-		sdPtr = mt7612u_read32(pAd, macAddr);
-	}
-	return saveData;
-}
-
-
-/*
 	ITxBFSaveData - restore MAC data
 		saveData - buffer containing data to restore
 */
