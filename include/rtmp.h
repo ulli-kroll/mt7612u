@@ -6245,9 +6245,6 @@ VOID eFuseGetFreeBlockCount(
 	IN struct rtmp_adapter *	pAd,
 	INOUT PUINT 			EfuseFreeBlock);
 
-INT eFuse_init(
-	IN struct rtmp_adapter *	pAd);
-
 #endif /* RTMP_EFUSE_SUPPORT */
 
 

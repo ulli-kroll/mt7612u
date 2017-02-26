@@ -379,58 +379,5 @@ VOID eFuseGetFreeBlockCount(IN struct rtmp_adapter *pAd,
 	DBGPRINT(RT_DEBUG_TRACE,("eFuseGetFreeBlockCount is %d\n",*EfuseFreeBlock));
 }
 
-
-INT eFuse_init(struct rtmp_adapter *pAd)
-{
-	UINT EfuseFreeBlock=0;
-	INT result;
-	BOOLEAN bCalFree;
-
-	/*RT3572 means 3062/3562/3572*/
-	/*3593 means 3593*/
-	DBGPRINT(RT_DEBUG_ERROR, ("NVM is Efuse and its size =%x[%x-%x] \n",pAd->chipCap.EFUSE_USAGE_MAP_SIZE,pAd->chipCap.EFUSE_USAGE_MAP_START,pAd->chipCap.EFUSE_USAGE_MAP_END));
-	eFuseGetFreeBlockCount(pAd, &EfuseFreeBlock);
-	/*If the used block of efuse is less than 5. We assume the default value*/
-	/* of this efuse is empty and change to the buffer mode in odrder to */
-	/*bring up interfaces successfully.*/
-
-
-	if ( EfuseFreeBlock >= pAd->chipCap.EFUSE_RESERVED_SIZE )
-	{
-
-
-		DBGPRINT(RT_DEBUG_OFF, ("NVM is efuse and the information is too less to bring up the interface\n"));
-		DBGPRINT(RT_DEBUG_OFF, ("Load EEPROM buffer from BIN, and force to use BIN buffer mode\n"));
-
-		/* Forse to use BIN eeprom buffer mode */
-
-#ifdef CAL_FREE_IC_SUPPORT
-		//pAd->bFroceEEPROMBuffer = TRUE;
-		RTMP_CAL_FREE_IC_CHECK(pAd, bCalFree);
-#endif /* CAL_FREE_IC_SUPPORT */
-
-		if ( result == FALSE )
-		{
-			if ( pAd->chipCap.EEPROM_DEFAULT_BIN != NULL )
-			{
-				memmove(pAd->EEPROMImage, pAd->chipCap.EEPROM_DEFAULT_BIN,
-					pAd->chipCap.EEPROM_DEFAULT_BIN_SIZE > MAX_EEPROM_BUFFER_SIZE?MAX_EEPROM_BUFFER_SIZE:pAd->chipCap.EEPROM_DEFAULT_BIN_SIZE);
-				DBGPRINT(RT_DEBUG_TRACE, ("Load EEPROM Buffer from default BIN.\n"));
-			}
-
-#ifdef CAL_FREE_IC_SUPPORT
-			if ( bCalFree )
-			{
-				RTMP_CAL_FREE_DATA_GET(pAd);
-			}
-#endif /* CAL_FREE_IC_SUPPORT */
-		}
-
-	}
-
-	return 0;
-}
-
-
 #endif /* RTMP_EFUSE_SUPPORT */
 
