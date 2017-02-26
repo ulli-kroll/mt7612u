@@ -694,82 +694,6 @@ VOID SendSignalToDaemon(
 }
 #endif /* CONFIG_AP_SUPPORT */
 
-
-/*******************************************************************************
-
-	File open/close related functions.
-
- *******************************************************************************/
-RTMP_OS_FD RtmpOSFileOpen(char *pPath, int flag, int mode)
-{
-	struct file *filePtr;
-
-	if (flag == RTMP_FILE_RDONLY)
-		flag = O_RDONLY;
-	else if (flag == RTMP_FILE_WRONLY)
-		flag = O_WRONLY;
-	else if (flag == RTMP_FILE_CREAT)
-		flag = O_CREAT;
-	else if (flag == RTMP_FILE_TRUNC)
-		flag = O_TRUNC;
-
-	filePtr = filp_open(pPath, flag, 0);
-	if (IS_ERR(filePtr)) {
-		DBGPRINT(RT_DEBUG_ERROR,
-			 ("%s(): Error %ld opening %s\n", __FUNCTION__,
-			  -PTR_ERR(filePtr), pPath));
-	}
-
-	return (RTMP_OS_FD) filePtr;
-}
-
-
-int RtmpOSFileClose(RTMP_OS_FD osfd)
-{
-	filp_close(osfd, NULL);
-	return 0;
-}
-
-
-void RtmpOSFileSeek(RTMP_OS_FD osfd, int offset)
-{
-	osfd->f_pos = offset;
-}
-
-
-int RtmpOSFileRead(RTMP_OS_FD osfd, char *pDataPtr, int readLen)
-{
-	/* The object must have a read method */
-	if (osfd->f_op && osfd->f_op->read) {
-		return osfd->f_op->read(osfd, pDataPtr, readLen, &osfd->f_pos);
-	} else {
-		DBGPRINT(RT_DEBUG_ERROR, ("no file read method\n"));
-		return -1;
-	}
-}
-
-
-int RtmpOSFileWrite(RTMP_OS_FD osfd, char *pDataPtr, int writeLen)
-{
-	return osfd->f_op->write(osfd, pDataPtr, (size_t) writeLen, &osfd->f_pos);
-}
-
-
-static inline void __RtmpOSFSInfoChange(OS_FS_INFO * pOSFSInfo, BOOLEAN bSet)
-{
-	if (bSet) {
-		/* Save uid and gid used for filesystem access. */
-		/* Set user and group to 0 (root) */
-		pOSFSInfo->fsuid = current_fsuid();
-		pOSFSInfo->fsgid = current_fsgid();
-		pOSFSInfo->fs = get_fs();
-		set_fs(KERNEL_DS);
-	} else {
-		set_fs(pOSFSInfo->fs);
-	}
-}
-
-
 /*******************************************************************************
 
 	Task create/management/kill related functions.
@@ -2124,35 +2048,6 @@ void OS_CLEAR_BIT(int bit, unsigned long *flags)
 	clear_bit(bit, flags);
 }
 
-#ifndef BB_SOC
-void OS_LOAD_CODE_FROM_BIN(unsigned char **image, char *bin_name, void *inf_dev, uint32_t *code_len)
-{
-	struct device *dev;
-	const struct firmware *fw_entry;
-
-
-#ifdef RTMP_USB_SUPPORT
-	dev = (struct device *)(&(((struct usb_device *)(inf_dev))->dev));
-#endif
-
-	if (request_firmware(&fw_entry, bin_name, dev) != 0) {
-		DBGPRINT(RT_DEBUG_ERROR, ("%s:fw not available(/lib/firmware/%s)\n", __FUNCTION__, bin_name));
-		*image = NULL;
-		return;
-	}
-
-	*image = kmalloc(fw_entry->size, GFP_KERNEL);
-	memcpy(*image, fw_entry->data, fw_entry->size);
-	*code_len = fw_entry->size;
-
-	release_firmware(fw_entry);
-}
-#endif /* !BB_SOC */
-
-void RtmpOSFSInfoChange(RTMP_OS_FS_INFO *pOSFSInfoOrg, BOOLEAN bSet)
-{
-	__RtmpOSFSInfoChange(pOSFSInfoOrg, bSet);
-}
 
 
 /* timeout -- ms */
