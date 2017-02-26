@@ -6229,12 +6229,6 @@ VOID AsicSetRxAnt(
 
 #ifdef RTMP_EFUSE_SUPPORT
 
-UCHAR eFuseReadRegisters(
-	IN	struct rtmp_adapter *pAd,
-	IN	USHORT			Offset,
-	IN	USHORT			Length,
-	OUT	USHORT*			pData);
-
 VOID eFusePhysicalReadRegisters(
 	IN struct rtmp_adapter *pAd,
 	IN USHORT 			Offset,
