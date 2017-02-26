@@ -90,7 +90,6 @@ typedef	union _RF_CSR_CFG_STRUC {
 		uint32_t RF_CSR_DATA:8;			/* DATA */
 	} non_bank;
 #ifdef RLT_RF
-#ifdef RT65xx
 	struct {
 		uint32_t RF_CSR_KICK:1;
 		uint32_t RF_CSR_WR:1;
@@ -99,7 +98,6 @@ typedef	union _RF_CSR_CFG_STRUC {
 		uint32_t RF_CSR_REG_ID:7;
 		uint32_t RF_CSR_DATA:8;
 	} bank_65xx;
-#endif /* RT65xx */
 #endif /* RLT_RF */
 #else
 	struct {
@@ -110,7 +108,6 @@ typedef	union _RF_CSR_CFG_STRUC {
 		uint32_t Rsvd18:14;
 	} non_bank;
 #ifdef RLT_RF
-#ifdef RT65xx
 	struct {
 		uint32_t RF_CSR_DATA:8;
 		uint32_t RF_CSR_REG_ID:7;
@@ -119,7 +116,6 @@ typedef	union _RF_CSR_CFG_STRUC {
 		uint32_t RF_CSR_WR:1;
 		uint32_t RF_CSR_KICK:1;
 	} bank_65xx;
-#endif /* RT65xx */
 #endif /* RLT_RF */
 #endif /* RT_BIG_ENDIAN */
 	uint32_t word;

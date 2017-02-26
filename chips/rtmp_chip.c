@@ -259,13 +259,11 @@ int RtmpChipOpsHook(VOID *pCB)
 	if (pAd->MACVersion == 0xffffffff)
 		return -1;
 
-#ifdef RT65xx
 	MacValue = mt7612u_read32(pAd, ASIC_VERSION);
 	pAd->ChipID = MacValue;
 
 	if (pAd->ChipID == 0xffffffff)
 		return -1;
-#endif /* RT65xx */
 
 	/* EDCCA */
 	pChipOps->ChipSetEDCCA= NULL;
@@ -308,7 +306,6 @@ done:
 	return ret;
 }
 
-#ifdef RT65xx
 BOOLEAN isExternalPAMode(struct rtmp_adapter *ad, INT channel)
 {
 	BOOLEAN pa_mode = FALSE;
@@ -352,5 +349,4 @@ BOOLEAN is_external_lna_mode(struct rtmp_adapter *ad, INT channel)
 
 	return lna_mode;
 }
-#endif /* RT65xx */
 

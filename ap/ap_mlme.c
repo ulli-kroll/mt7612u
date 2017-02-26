@@ -473,10 +473,8 @@ VOID APAsicEvaluateRxAnt(
 		return;
 #endif /* RT8592 */
 
-#ifdef RT65xx
 	if (IS_RT65XX(pAd))
 		return;
-#endif /* RT76x0 */
 
 #ifdef GREENAP_SUPPORT
 	if (pAd->ApCfg.bGreenAPActive == TRUE)

@@ -63,7 +63,6 @@ VOID BA_MaxWinSizeReasign(
 	else
 		MaxPeerRxSize = (((1 << (pEntryPeer->MaxRAmpduFactor + 3)) * 10) / 16) -1;
 
-#ifdef RT65xx
 	if (IS_RT65XX(pAd)) {
 
 		if (IS_MT76x2(pAd))
@@ -78,7 +77,6 @@ VOID BA_MaxWinSizeReasign(
 		}
 	}
 	else
-#endif /* RT65xx */
 	if (pAd->Antenna.field.TxPath == 3 &&
 		(pEntryPeer->HTCapability.MCSSet[2] != 0))
 		MaxSize = 31; 		/* for 3x3, MaxSize use ((48KB/1.5KB) -1) = 31 */

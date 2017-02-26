@@ -44,11 +44,9 @@ static inline BOOLEAN rf_csr_poll_idle(struct rtmp_adapter *pAd, uint32_t *rfcsr
 		mt7612u_read32(pAd, RF_CSR_CFG, rfcsr);
 
 		csr_val = (RF_CSR_CFG_STRUC *)rfcsr;
-#ifdef RT65xx
 		if (IS_RT65XX(pAd))
 			idle = csr_val->bank_65xx.RF_CSR_KICK;
 		else
-#endif /* RT65xx */
 			idle = csr_val->non_bank.RF_CSR_KICK;
 
 		if (idle == IDLE)
@@ -104,7 +102,6 @@ int rlt_rf_write(
 	if (rf_csr_poll_idle(pAd, &rfcsr.word) != IDLE)
 		goto done;
 
-#ifdef RT65xx
 	if (IS_RT65XX(pAd)) {
 		rfcsr.bank_65xx.RF_CSR_WR = 1;
 		rfcsr.bank_65xx.RF_CSR_KICK = 1;
@@ -113,7 +110,6 @@ int rlt_rf_write(
 		rfcsr.bank_65xx.RF_CSR_DATA = value;
 	}
 	else
-#endif /* RT65xx */
 	{
 		DBGPRINT_ERR(("%s():RF write with wrong handler!\n", __FUNCTION__));
 		goto done;
@@ -185,7 +181,6 @@ int rlt_rf_read(
 			break;
 
 		rfcsr.word = 0;
-#ifdef RT65xx
 		if (IS_RT65XX(pAd)) {
 			rfcsr.bank_65xx.RF_CSR_WR = 0;
 			rfcsr.bank_65xx.RF_CSR_KICK = 1;
@@ -193,7 +188,6 @@ int rlt_rf_read(
 			rfcsr.bank_65xx.RF_CSR_REG_BANK = bank;
 		}
 		else
-#endif /* RT65xx */
 		{
 			DBGPRINT_ERR(("RF[%d] read function for non-supported chip[0x%x]\n", regID, pAd->MACVersion));
 			break;
@@ -204,14 +198,12 @@ int rlt_rf_read(
 		rf_status = rf_csr_poll_idle(pAd, &rfcsr.word);
 		if (rf_status == IDLE)
 		{
-#ifdef RT65xx
 			if (IS_RT65XX(pAd) && (rfcsr.bank_65xx.RF_CSR_REG_ID == regID) &&
 				(rfcsr.bank_65xx.RF_CSR_REG_BANK == bank))
 			{
 				*pValue = (UCHAR)(rfcsr.bank_65xx.RF_CSR_DATA);
 				break;
 			}
-#endif /* RT65xx */
 		}
 	}
 

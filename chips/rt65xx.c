@@ -26,7 +26,6 @@
 	--------    ----------    ----------------------------------------------
 */
 
-#ifdef RT65xx
 
 #include	"rt_config.h"
 
@@ -408,6 +407,4 @@ VOID dump_bw_info(struct rtmp_adapter *pAd)
 		tx_prim = (be_r0 & 0x3);
 		DBGPRINT(RT_DEBUG_OFF, ("\tTxPrimary(TXBE_R0[1:0])=%d\n", tx_prim));
 }
-
-#endif /* RT65xx */
 

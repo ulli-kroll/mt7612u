@@ -427,7 +427,6 @@ CHAR ConvertToRssi(struct rtmp_adapter *pAd, CHAR Rssi, UCHAR rssi_idx)
 
 	BaseVal = -12;
 
-#ifdef RT65xx
 	/*
 		Recommended by CSD team about MT76x0:
 		SW/QA owners should read the "external-LNA gain" and "RSSI OFFSET" content in EEPROM as "SIGNED".
@@ -449,7 +448,6 @@ CHAR ConvertToRssi(struct rtmp_adapter *pAd, CHAR Rssi, UCHAR rssi_idx)
 
 	if (IS_RT8592(pAd))
 		return (Rssi - LNAGain - RssiOffset);
-#endif /* RT65xx */
 
 		return (BaseVal - RssiOffset - LNAGain - Rssi);
 }

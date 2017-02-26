@@ -4442,7 +4442,6 @@ INT show_devinfo_proc(struct rtmp_adapter *pAd, char *arg)
 		DBGPRINT(RT_DEBUG_OFF, ("\tVHT-BW: %s\n", pstr));
 	}
 
-#ifdef RT65xx
 	if (IS_RT65XX(pAd))
 	{
 		dump_bw_info(pAd);
@@ -4451,7 +4450,6 @@ INT show_devinfo_proc(struct rtmp_adapter *pAd, char *arg)
 			dump_pwr_info(pAd);
 #endif /* RT8592 */
 	}
-#endif /* RT65xx */
 
 	DBGPRINT(RT_DEBUG_OFF, ("Security\n"));
 
@@ -5549,7 +5547,7 @@ INT set_cal_test(struct rtmp_adapter *pAd, char *arg)
 
 #ifdef MT76x2
 #define MAX_AGG_CNT	48
-#elif defined(RT65xx) || defined(MT7601)
+#elif defined(MT7601)
 #define MAX_AGG_CNT	32
 #elif defined(RT2883) || defined(RT3883)
 #define MAX_AGG_CNT	16

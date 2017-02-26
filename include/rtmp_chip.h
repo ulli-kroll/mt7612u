@@ -64,7 +64,6 @@ struct _RSSI_SAMPLE;
 
 
 
-#ifdef RT65xx
 #include "chip/rt65xx.h"
 
 
@@ -75,7 +74,6 @@ struct _RSSI_SAMPLE;
 #ifdef RT8592
 #include "chip/rt8592.h"
 #endif /* RT8592 */
-#endif /* RT65xx */
 
 
 #include "mcu/mcu.h"
@@ -647,10 +645,8 @@ struct _RTMP_CHIP_CAP_ {
 	uint32_t Priv; /* Flag for RT5592 EP */
 #endif /* RT5592EP_SUPPORT */
 
-#ifdef RT65xx
 	UINT8 PAType; /* b'00: 2.4G+5G external PA, b'01: 5G external PA, b'10: 2.4G external PA, b'11: Internal PA */
 	UINT8 LNA_type; /* b'00: 2.4G+5G external LNA, b'01: 5G external LNA, b'10: 2.4G external LNA, b'11: Internal LNA */
-#endif /* RT65xx */
 
 #ifdef CONFIG_ANDES_SUPPORT
 	uint32_t WlanMemmapOffset;
@@ -1240,9 +1236,7 @@ INT rtmp_asic_top_init(struct rtmp_adapter *pAd);
 INT StopDmaTx(struct rtmp_adapter *pAd, UCHAR Level);
 INT StopDmaRx(struct rtmp_adapter *pAd, UCHAR Level);
 
-#ifdef RT65xx
 BOOLEAN isExternalPAMode(struct rtmp_adapter *ad, INT channel);
 BOOLEAN is_external_lna_mode(struct rtmp_adapter *ad, INT channel);
-#endif /* RT65xx */
 #endif /* __RTMP_CHIP_H__ */
 

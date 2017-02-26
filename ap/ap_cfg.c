@@ -3885,10 +3885,8 @@ VOID RTMPIoctlStatistics(struct rtmp_adapter *pAd, RTMP_IOCTL_INPUT_STRUCT *wrq)
     	if (pAd->MacTab.Size > 0)
     	{
     		static char *phyMode[5] = {"CCK", "OFDM", "MM", "GF", "VHT"};
-#ifdef RT65xx
 			static char *bw[3] = {"20M", "40M", "80M"};
 			static char *fec_coding[2] = {"bcc", "ldpc"};
-#endif /* RT65xx */
 
     		for (i=1; i<MAX_LEN_OF_MAC_TABLE; i++)
 			{
@@ -3898,7 +3896,6 @@ VOID RTMPIoctlStatistics(struct rtmp_adapter *pAd, RTMP_IOCTL_INPUT_STRUCT *wrq)
 					//sprintf(msg+strlen(msg), "sta mac: %02x:%02x:%02x:%02x:%02x:%02x\n", pEntry->wdev->if_addr[0], pEntry->wdev->if_addr[1],  pEntry->wdev->if_addr[2],  pEntry->wdev->if_addr[3],  pEntry->wdev->if_addr[4],  pEntry->wdev->if_addr[5]);
 					uint32_t lastRxRate = pEntry->LastRxRate;
 					uint32_t lastTxRate = pEntry->LastTxRate;
-#ifdef RT65xx
 					if (IS_RT65XX(pAd)) {
 						ULONG TxTotalCnt, TxSuccess, TxRetransmit, TxFailCount, TxErrorRatio = 0;
 						TX_STA_CNT1_STRUC StaTx1;
@@ -3956,7 +3953,6 @@ VOID RTMPIoctlStatistics(struct rtmp_adapter *pAd, RTMP_IOCTL_INPUT_STRUCT *wrq)
 						}
 					}
 					else
-#endif /* RT65xx */
 					{
 						sprintf(msg+strlen(msg), "Last TX Rate                    = MCS%d, %2dM, %cGI, %s%s\n",
 							lastTxRate & 0x3F,  ((lastTxRate>>7) & 0x3)? 40: 20,

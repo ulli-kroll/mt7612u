@@ -398,10 +398,10 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 
 	for(i = 0; i < 8; i++)
 	{
-#if defined(RT65xx) || defined(MT7601) /* MT7650 EEPROM doesn't have those BBP setting @20121001 */
+#if defined(MT7601) /* MT7650 EEPROM doesn't have those BBP setting @20121001 */
 		if (IS_RT65XX(pAd) || IS_MT7601(pAd))
 			break;
-#endif /* defined(RT65xx) || defined(MT7601)*/
+#endif /* defined(MT7601)*/
 
 		value = mt7612u_read_eeprom16(pAd, EEPROM_BBP_BASE_OFFSET + i*2);
 		pAd->EEPROMDefaultValue[i+EEPROM_BBP_ARRAY_OFFSET] = value;
@@ -559,13 +559,11 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 
 	/* Read TSSI reference and TSSI boundary for temperature compensation. This is ugly */
 	/* 0. 11b/g*/
-#ifdef RT65xx
 	if (IS_MT76x0(pAd) || IS_MT76x2(pAd))
 	{
 		;
 	}
 	else
-#endif /* RT65xx */
 	{
 		/* these are tempature reference value (0x00 ~ 0xFE)
 		   ex: 0x00 0x15 0x25 0x45 0x88 0xA0 0xB5 0xD0 0xF0
@@ -604,13 +602,11 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 	}
 
 	/* 1. 11a*/
-#ifdef RT65xx
 	if (IS_MT76x0(pAd) || IS_MT76x2(pAd))
 	{
 		;
 	}
 	else
-#endif /* RT65xx */
 	{
 		{
 			Power.word = mt7612u_read_eeprom16(pAd, EEPROM_A_TSSI_BOUND1);
@@ -824,13 +820,11 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 #endif /* MT76x2 */
 
 #ifdef RTMP_INTERNAL_TX_ALC
-#ifdef RT65xx
 	if (IS_MT76x0(pAd) || IS_MT76x2(pAd))
 	{
 		; // TODO: wait TC6008 EEPROM format
 	}
 	else
-#endif /* RT65xx */
 	{
 		/*
 		    Internal Tx ALC support is starting from RT3370 / RT3390, which combine PA / LNA in single chip.
@@ -1157,11 +1151,11 @@ int NICInitializeAsic(struct rtmp_adapter *pAd, BOOLEAN bHardReset)
 	{
 		uint32_t csr;
 		csr = mt7612u_read32(pAd, MAX_LEN_CFG);
-#if defined(RT2883) || defined(RT3883) || defined(RT3593) || defined(RT65xx) || defined(MT7601)
+#if defined(RT2883) || defined(RT3883) || defined(RT3593) || defined(MT7601)
 		if (IS_RT65XX(pAd) || IS_MT7601(pAd))
 			csr |= 0x3fff;
 		else
-#endif /* defined(RT2883) || defined(RT3883) || defined(RT3593) || defined(RT65xx) || defined(MT7601) */
+#endif /* defined(RT2883) || defined(RT3883) || defined(RT3593) || defined(MT7601) */
 		{
 			csr &= 0xFFF;
 			csr |= 0x2000;
@@ -1306,13 +1300,11 @@ VOID NICUpdateFifoStaCounters(struct rtmp_adapter *pAd)
 #endif /* RTMP_MAC_USB */
 
 #ifdef CONFIG_AP_SUPPORT
-#ifdef RT65xx
 	if (pAd->MacTab.Size <= 8)
 	{
 		if (IS_RT65XX(pAd))
 			return;
 	}
-#endif /* RT65xx */
 #endif /* CONFIG_AP_SUPPORT */
 
 
@@ -1344,7 +1336,6 @@ VOID NICUpdateFifoStaCounters(struct rtmp_adapter *pAd)
 		}
 
 		/* PID store Tx MCS Rate */
-#ifdef RT65xx
 		if (IS_MT76x2(pAd))
 		{
 			PhyMode = StaFifo.field.PhyMode;
@@ -1359,7 +1350,6 @@ VOID NICUpdateFifoStaCounters(struct rtmp_adapter *pAd)
 			}
 		}
 		else
-#endif /* RT65xx */
 		pid = (UCHAR)StaFifo.field.PidType;
 
 		pEntry = &pAd->MacTab.Content[wcid];
@@ -1368,13 +1358,11 @@ VOID NICUpdateFifoStaCounters(struct rtmp_adapter *pAd)
 #ifdef CONFIG_STA_SUPPORT
 #endif /* CONFIG_STA_SUPPORT */
 
-#ifdef RT65xx
 		if (IS_MT76x2(pAd))
 		{
 			if(pEntry->LowPacket == FALSE)
  			continue;
 		}
-#endif /* RT65xx */
 
 		pEntry->DebugFIFOCount++;
 
@@ -1494,7 +1482,6 @@ VOID NICUpdateFifoStaCounters(struct rtmp_adapter *pAd)
 #endif /* CONFIG_STA_SUPPORT */
 	}
 
-#ifdef RT65xx
 	if (IS_MT76x2(pAd))
 	{
 		PhyMode = StaFifo.field.PhyMode;
@@ -1576,7 +1563,6 @@ VOID NICUpdateFifoStaCounters(struct rtmp_adapter *pAd)
 			}
 		}
 		else
-#endif /* RT65xx */
 		{
 			succMCS = StaFifo.field.SuccessRate & 0x7F;
 

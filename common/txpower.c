@@ -982,7 +982,6 @@ VOID AsicCompensatePowerViaBBP(struct rtmp_adapter *pAd, CHAR *pTotalDeltaPower)
 				(mdsm_drop_pwr == MDSM_DROP_TX_POWER_BY_12dBm ? 12 : \
 				(mdsm_drop_pwr == MDSM_DROP_TX_POWER_BY_6dBm ? 6 : 0))));
 
-#ifdef RT65xx
 	if (IS_RT65XX(pAd))
 	{
 		uint32_t bbp_val = 0;
@@ -993,7 +992,6 @@ VOID AsicCompensatePowerViaBBP(struct rtmp_adapter *pAd, CHAR *pTotalDeltaPower)
 		RTMP_BBP_IO_WRITE32(pAd, TXBE_R4, bbp_val);
 		DBGPRINT(RT_DEBUG_INFO, ("%s: <After> TotalDeltaPower = %d dBm, TXBE_R4 = 0x%0x\n", __FUNCTION__, *pTotalDeltaPower, bbp_val));
 	}
-#endif /* RT65xx */
 
 }
 
@@ -1288,7 +1286,7 @@ VOID RTMPReadChannelPwr(struct rtmp_adapter *pAd)
 	/* 0. 11b/g, ch1 - ch 14*/
 	for (i = 0; i < 7; i++)
 	{
-#if defined(RT5370) || defined(RT5372) || defined(RT5390) || defined(RT5392) || defined(RT5592) || defined(RT3290) || defined(RT65xx)
+#if defined(RT5370) || defined(RT5372) || defined(RT5390) || defined(RT5392) || defined(RT5592) || defined(RT3290)
 		if (IS_RT65XX(pAd))
 		{
 			Power.word = mt7612u_read_eeprom16(pAd, EEPROM_G_TX_PWR_OFFSET + i * 2);
@@ -1322,7 +1320,7 @@ VOID RTMPReadChannelPwr(struct rtmp_adapter *pAd)
 
 		}
 		else
-#endif /* defined(RT5370) || defined(RT5372) || defined(RT5390) || defined(RT5392) || defined(RT5592) || defined(RT65xx) */
+#endif /* defined(RT5370) || defined(RT5372) || defined(RT5390) || defined(RT5392) || defined(RT5592) */
 		{ /* Default routine. RT3070 and RT3370 run here. */
 			Power.word = mt7612u_read_eeprom16(pAd, EEPROM_G_TX_PWR_OFFSET + i * 2);
 			Power2.word = mt7612u_read_eeprom16(pAd, EEPROM_G_TX2_PWR_OFFSET + i * 2);

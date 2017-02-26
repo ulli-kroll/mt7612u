@@ -3662,7 +3662,6 @@ RtmpIoctl_rt_private_get_statistics(
 					uint32_t lastRxRate = pEntry->LastRxRate;
 					uint32_t lastTxRate = pEntry->LastTxRate;
 
-#ifdef RT65xx
 					if (IS_RT65XX(pAd)) {
 						if (((lastTxRate >> 13) & 0x7) == 0x04) {
 							sprintf(extra+strlen(extra), "Last TX Rate                    = MCS%d, %dSS, %s, %s, %cGI, %s%s\n",
@@ -3705,7 +3704,6 @@ RtmpIoctl_rt_private_get_statistics(
 					}
 
 					else
-#endif
 					{
 						sprintf(extra+strlen(extra), "Last RX Rate                    = MCS %d, %2dM, %cGI, %s%s\n",
 						lastRxRate & 0x7F,  ((lastRxRate>>7) & 0x1)? 40: 20,
