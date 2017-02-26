@@ -3144,44 +3144,6 @@ void mt76x2_temp_tx_alc(struct rtmp_adapter *ad)
 #endif /* RTMP_TEMPERATURE_TX_ALC */
 
 #ifdef CAL_FREE_IC_SUPPORT
-static BOOLEAN mt76x2_is_cal_free_ic(struct rtmp_adapter *ad)
-{
-	uint16_t NicConfig, FrequencyOffset;
-	uint16_t PowerDelta, TssiSlope, TxPower;
-	uint16_t EfuseValue;
-	UINT	EfuseFreeBlock=0;
-
-	eFuseGetFreeBlockCount(ad, &EfuseFreeBlock);
-
-	if ( EfuseFreeBlock < ad->chipCap.EFUSE_RESERVED_SIZE )
-		return FALSE;
-
-	eFuseReadRegisters(ad, XTAL_TRIM1, 2, &FrequencyOffset);
-	eFuseReadRegisters(ad, NIC_CONFIGURE_0, 2, &NicConfig);
-
-	if ( !((NicConfig == 0x0) && ( FrequencyOffset != 0xFFFF ))) {
-		return FALSE;
-	}
-
-	eFuseReadRegisters(ad, G_BAND_20_40_BW_PWR_DELTA, 2, &PowerDelta);
-	eFuseReadRegisters(ad, TX0_G_BAND_TSSI_SLOPE, 2, &TssiSlope);
-
-	if ( !((PowerDelta == 0x0) && ( TssiSlope != 0xFFFF ))) {
-		return FALSE;
-	}
-
-	eFuseReadRegisters(ad, GRP3_TX0_A_BAND_CHL_PWR_DELTA_LOW, 2, &TxPower);
-	eFuseReadRegisters(ad, GRP4_TX0_A_BAND_TSSI_SLOPE, 2, &TssiSlope);
-
-	if ( !((TxPower == 0x0) && ( TssiSlope != 0xFFFF ))) {
-		return FALSE;
-	}
-
-	return TRUE;
-
-}
-
-
 static VOID mt76x2_cal_free_data_get(struct rtmp_adapter *ad)
 {
 	uint16_t value;
