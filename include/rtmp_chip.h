@@ -1067,14 +1067,6 @@ do {	\
 			__pAd->chipOps.HighPowerTuning(__pAd, __pRssi);	\
 } while (0)
 
-#ifdef CAL_FREE_IC_SUPPORT
-#define RTMP_CAL_FREE_DATA_GET(__pAd)	\
-do {	\
-		if (__pAd->chipOps.cal_free_data_get != NULL)	\
-			__pAd->chipOps.cal_free_data_get(__pAd);	\
-} while (0)
-#endif /* CAL_FREE_IC_SUPPORT */
-
 #define RTMP_EEPROM_ASIC_INIT(__pAd)	\
 do {	\
 		if (__pAd->chipOps.NICInitAsicFromEEPROM != NULL)	\
