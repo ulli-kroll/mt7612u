@@ -384,7 +384,6 @@ obj_cmm := \
 	common/cmm_tkip.o\
 	common/cmm_aes.o\
 	common/cmm_sync.o\
-	common/eeprom.o\
 	common/cmm_sanity.o\
 	common/cmm_info.o\
 	common/cmm_cfg.o\
@@ -678,7 +677,6 @@ $(MOD_NAME)-objs += \
 	common/rtusb_data.o\
 	common/rtusb_bulk.o\
 	os/linux/rt_usb.o\
-	common/ee_efuse.o\
 	chips/rt65xx.o\
 	chips/mt76x2.o\
 	mac/ral_nmac.o\
