@@ -6235,10 +6235,6 @@ VOID eFusePhysicalReadRegisters(
 	IN USHORT 			Length,
 	OUT	USHORT			*pData);
 
-VOID eFuseGetFreeBlockCount(
-	IN struct rtmp_adapter *	pAd,
-	INOUT PUINT 			EfuseFreeBlock);
-
 #endif /* RTMP_EFUSE_SUPPORT */
 
 
