@@ -3430,7 +3430,6 @@ static const RTMP_CHIP_OP MT76x2_ChipOp = {
 	.usb_cfg_write = usb_cfg_write_v3,
 #endif
 #ifdef CAL_FREE_IC_SUPPORT
-	.is_cal_free_ic = mt76x2_is_cal_free_ic,
 	.cal_free_data_get = mt76x2_cal_free_data_get,
 #endif /* CAL_FREE_IC_SUPPORT */
 	.cal_test = mt76x2_cal_test,

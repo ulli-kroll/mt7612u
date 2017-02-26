@@ -902,7 +902,6 @@ struct _RTMP_CHIP_OP_ {
 	VOID (*HighPowerTuning)(struct rtmp_adapter *pAd, struct _RSSI_SAMPLE *pRssi);
 
 #ifdef CAL_FREE_IC_SUPPORT
-	BOOLEAN (*is_cal_free_ic)(IN struct rtmp_adapter *pAd);
 	VOID (*cal_free_data_get)(IN struct rtmp_adapter *pAd);
 #endif /* CAL_FREE_IC_SUPPORT */
 
