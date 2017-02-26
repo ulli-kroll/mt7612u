@@ -6227,19 +6227,6 @@ VOID AsicSetRxAnt(
 	IN struct rtmp_adapter *pAd,
 	IN UCHAR			Ant);
 
-#ifdef RTMP_EFUSE_SUPPORT
-
-VOID eFusePhysicalReadRegisters(
-	IN struct rtmp_adapter *pAd,
-	IN USHORT 			Offset,
-	IN USHORT 			Length,
-	OUT	USHORT			*pData);
-
-#endif /* RTMP_EFUSE_SUPPORT */
-
-
-
-
 VOID AsicEvaluateRxAnt(
 	IN struct rtmp_adapter *pAd);
 
