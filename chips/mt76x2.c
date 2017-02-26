@@ -3391,9 +3391,6 @@ static const RTMP_CHIP_OP MT76x2_ChipOp = {
 	.usb_cfg_read = usb_cfg_read_v3,
 	.usb_cfg_write = usb_cfg_write_v3,
 #endif
-#ifdef CAL_FREE_IC_SUPPORT
-	.cal_free_data_get = mt76x2_cal_free_data_get,
-#endif /* CAL_FREE_IC_SUPPORT */
 	.cal_test = mt76x2_cal_test,
 #ifdef RTMP_TEMPERATURE_TX_ALC
 	.TemperCompensation = mt76x2_temp_tx_alc,

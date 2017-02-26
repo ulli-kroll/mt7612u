@@ -901,10 +901,6 @@ struct _RTMP_CHIP_OP_ {
 	/* high power tuning */
 	VOID (*HighPowerTuning)(struct rtmp_adapter *pAd, struct _RSSI_SAMPLE *pRssi);
 
-#ifdef CAL_FREE_IC_SUPPORT
-	VOID (*cal_free_data_get)(IN struct rtmp_adapter *pAd);
-#endif /* CAL_FREE_IC_SUPPORT */
-
 	/* The chip specific function list */
 	CHIP_SPEC_FUNC ChipSpecFunc[CHIP_SPEC_ID_NUM];
 
