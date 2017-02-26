@@ -1069,14 +1069,6 @@ do {	\
 } while (0)
 
 #ifdef CAL_FREE_IC_SUPPORT
-#define RTMP_CAL_FREE_IC_CHECK(__pAd, __is_cal_free)	\
-do {	\
-		if (__pAd->chipOps.is_cal_free_ic != NULL)	\
-			__is_cal_free = __pAd->chipOps.is_cal_free_ic(__pAd);	\
-		else		\
-			__is_cal_free = FALSE;	\
-} while (0)
-
 #define RTMP_CAL_FREE_DATA_GET(__pAd)	\
 do {	\
 		if (__pAd->chipOps.cal_free_data_get != NULL)	\
