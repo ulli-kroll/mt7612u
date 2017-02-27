@@ -1578,17 +1578,3 @@ INT set_tssi_enable(struct rtmp_adapter *pAd, char *arg)
     }
 	return TRUE;
 }
-
-
-#ifdef CONFIG_ANDES_SUPPORT
-INT set_fw_debug(struct rtmp_adapter *ad, char *arg)
-{
-	UINT8 fw_debug_param;
-
-	fw_debug_param = simple_strtol(arg, 0, 10);
-
-	andes_fun_set(ad, LOG_FW_DEBUG_MSG, fw_debug_param);
-
-	return TRUE;
-}
-#endif /* CONFIG_ANDES_SUPPORT */

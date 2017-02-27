@@ -6335,10 +6335,6 @@ INT	Set_MultiMacAddrExt_Proc(
 INT set_tssi_enable(struct rtmp_adapter *pAd, char *arg);
 
 
-#ifdef CONFIG_ANDES_SUPPORT
-INT set_fw_debug(struct rtmp_adapter *pAd, char *arg);
-#endif /* CONFIG_ANDES_SUPPORT */
-
 int RTMPWPARemoveKeyProc(
 	IN  struct rtmp_adapter *pAd,
 	IN  PVOID           pBuf);
