@@ -5109,15 +5109,6 @@ VOID AsicGetTxPowerOffset(
 
 VOID AsicExtraPowerOverMAC(struct rtmp_adapter *pAd);
 
-#ifdef RTMP_TEMPERATURE_COMPENSATION
-VOID AsicGetAutoAgcOffsetForTemperatureSensor(
-	IN struct rtmp_adapter *		pAd,
-	IN PCHAR				pDeltaPwr,
-	IN PCHAR				pTotalDeltaPwr,
-	IN PCHAR				pAgcCompensate,
-	IN PCHAR 				pDeltaPowerByBbpR1);
-#endif /* RTMP_TEMPERATURE_COMPENSATION */
-
 VOID AsicPercentageDeltaPower(
 	IN 		struct rtmp_adapter *		pAd,
 	IN		CHAR				Rssi,
