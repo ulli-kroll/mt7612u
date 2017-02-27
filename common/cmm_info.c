@@ -5568,48 +5568,6 @@ void DisplayTxAgg (struct rtmp_adapter *pAd)
 
 }
 
-#ifdef MT_RF
-static INT set_mt_rf(struct rtmp_adapter *ad, char *arg)
-{
-	INT rf_idx = 0, offset = 0, rv = 0;
-	UINT rf_val = 0;
-
-	if (arg)
-	{
-		rv = sscanf(arg, "%d-%x-%x", &(rf_idx), &(offset), &(rf_val));
-		DBGPRINT(RT_DEBUG_TRACE, ("%s():rv = %d, rf_idx = %d, offset = 0x%04x, rf_val = 0x%08x\n", __FUNCTION__, rv, rf_idx, offset, rf_val));
-		if (rv == 3)
-		{
-			mt_rf_write(ad, (u8)rf_idx, (u16)offset, (u32)rf_val);
-			rf_val = 0;
-			rf_val = mt_rf_read(ad, (u8)rf_idx, (u16)offset);
-
-			DBGPRINT(RT_DEBUG_TRACE, ("%s():%d 0x%04x 0x%04x\n", __FUNCTION__, rf_idx, offset, rf_val));
-		}
-		else if (rv == 2)
-		{
-			rf_val = mt_rf_read(ad, (u8)rf_idx, (u16)offset);
-			DBGPRINT(RT_DEBUG_TRACE, ("%s():%d 0x%04x 0x%08x\n", __FUNCTION__, rf_idx, offset, rf_val));
-		}
-		else if (rv == 1)
-		{
-			//read all offset in the same rf index
-			for (offset = 0; offset <= 0x33c; offset = offset+4)
-			{
-				rf_val = mt_rf_read(ad, (u8)rf_idx, (u16)offset);
-				DBGPRINT(RT_DEBUG_TRACE, ("%s():%d 0x%04x 0x%08x\n", __FUNCTION__, rf_idx, offset, rf_val));
-				rf_val = 0;
-			}
-			offset = 0xfff;
-			rf_val = mt_rf_read(ad, (u8)rf_idx, (u16)offset);
-			DBGPRINT(RT_DEBUG_TRACE, ("%s():%d 0x%04x 0x%08x\n", __FUNCTION__, rf_idx, offset, rf_val));
-		}
-	}
-
-	return TRUE;
-}
-#endif /* MT_RF */
-
 static struct {
 	char *name;
 	INT (*show_proc)(struct rtmp_adapter *pAd, char *arg, ULONG BufLen);
