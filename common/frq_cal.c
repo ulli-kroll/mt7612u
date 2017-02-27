@@ -34,15 +34,6 @@
 	Sometimes frequency will be shift we need to adjust it when
 	the frequencey shift.
 */
-VOID InitFrequencyCalibrationMode(
-	struct rtmp_adapter *pAd,
-	UINT8 Mode)
-{
-	{
-		DBGPRINT(RT_DEBUG_ERROR, ("%s:Unknow mode = %d\n", __FUNCTION__, Mode));
-	}
-}
-
 
 /* Initialize the frequency calibration*/
 VOID InitFrequencyCalibration(
@@ -51,8 +42,6 @@ VOID InitFrequencyCalibration(
 	if (pAd->FreqCalibrationCtrl.bEnableFrequencyCalibration == TRUE)
 	{
 		DBGPRINT(RT_DEBUG_ERROR, ("---> %s\n", __FUNCTION__));
-
-		InitFrequencyCalibrationMode(pAd, pAd->chipCap.FreqCalInitMode);
 
 		StopFrequencyCalibration(pAd);
 
