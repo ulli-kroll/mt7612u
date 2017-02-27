@@ -5568,33 +5568,6 @@ void DisplayTxAgg (struct rtmp_adapter *pAd)
 
 }
 
-static INT set_rtmp_rf(struct rtmp_adapter *pAd, char *arg)
-{
-	INT bank_id = 0, rf_id = 0, rv = 0, rf_v;
-	UCHAR rf_val = 0;
-
-	if (arg)
-	{
-		rv = sscanf(arg, "%d-%d-%x", &(bank_id), &(rf_id), &(rf_v));
-		DBGPRINT(RT_DEBUG_TRACE, ("%s():rv = %d, bank_id = %d, rf_id = %d, rf_val = 0x%02x\n", __FUNCTION__, rv, bank_id, rf_id, rf_v));
-		rf_val = (UCHAR )rf_v;
-		if (rv == 3)
-		{
-			rtmp_rf_write(pAd, (UCHAR)bank_id, (UCHAR)rf_id, (UCHAR)rf_val);
-
-			rtmp_rf_read(pAd, bank_id, rf_id, &rf_val);
-			DBGPRINT(RT_DEBUG_TRACE, ("%s():%d %03d 0x%02X\n", __FUNCTION__, bank_id, rf_id, rf_val));
-		}
-		else if (rv == 2)
-		{
-			rtmp_rf_read(pAd, bank_id, rf_id, &rf_val);
-			DBGPRINT(RT_DEBUG_TRACE, ("%s():%d %03d 0x%02X\n", __FUNCTION__, bank_id, rf_id, rf_val));
-		}
-	}
-
-	return TRUE;
-}
-
 #ifdef MT_RF
 static INT set_mt_rf(struct rtmp_adapter *ad, char *arg)
 {
