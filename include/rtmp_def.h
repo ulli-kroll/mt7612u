@@ -239,8 +239,6 @@ enum MAC_TYPE{
 };
 
 enum RF_TYPE {
-	RF_RT,
-	RF_RLT,
 	RF_MT,
 };
 

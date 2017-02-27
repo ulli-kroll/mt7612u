@@ -3490,9 +3490,6 @@ VOID RTMPIoctlSetIdleTimeout(
 #ifdef MT_RF
 #endif /* MT_RF */
 
-#ifdef RLT_RF
-#endif /* RLT_RF */
-
 #ifdef RTMP_RF_RW_SUPPORT
 #endif /* RTMP_RF_RW_SUPPORT */
 #endif /*#ifdef DBG */

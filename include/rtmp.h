@@ -4752,20 +4752,6 @@ BOOLEAN RTMPCheckPhyMode(
 	IN UINT8 BandSupported,
 	INOUT UCHAR *pPhyMode);
 
-#ifdef RLT_RF
-int rlt_rf_write(
-	IN struct rtmp_adapter *pAd,
-	IN UCHAR bank,
-	IN UCHAR regID,
-	IN UCHAR value);
-
-int rlt_rf_read(
-	IN struct rtmp_adapter *pAd,
-	IN UCHAR bank,
-	IN UCHAR regID,
-	IN UCHAR *pValue);
-#endif /* RLT_RF */
-
 int rtmp_rf_write(
 	IN struct rtmp_adapter *pAd,
 	IN UCHAR bank,

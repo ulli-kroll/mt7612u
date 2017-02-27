@@ -413,10 +413,6 @@ ifeq ($(HAS_RLT_BBP),y)
 obj_phy += phy/rlt_phy.o
 endif
 
-ifeq ($(HAS_RLT_RF),y)
-obj_phy += phy/rlt_rf.o
-endif
-
 ifeq ($(HAS_MT76XX_BT_COEXISTENCE_SUPPORT),y)
 obj_cmm += mcu/bt_coex.o
 endif

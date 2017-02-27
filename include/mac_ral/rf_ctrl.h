@@ -35,51 +35,6 @@
 
 #define	RF_CSR_CFG	0x500
 
-#ifdef RLT_RF
-
-#define RF_BANK0	0
-#define RF_BANK1	1
-#define RF_BANK2	2
-#define RF_BANK3	3
-#define RF_BANK4	4
-#define RF_BANK5	5
-#define RF_BANK6	6
-#define RF_BANK7	7
-#define RF_BANK8	8
-#define RF_BANK9	9
-#define RF_BANK10	10
-#define RF_BANK11	11
-#define RF_BANK12	12
-#define RF_BANK13	13
-#define RF_BANK14	14
-#define RF_BANK15	15
-
-#define MAX_RF_ID	127
-#define MAC_RF_BANK 7
-
-
-/* @!Release
-	RF_CSR_KICK:1
-			Write - kick RF register read/write
-				0: do nothing
-				1: kick read/write process
-			Read - Polling RF register read/write
-				0: idle
-				1: busy
-	RF_CSR_RW:1
-			0: read  1: write
-	rsv:12
-	RF_CSR_REG_ID:10
-			RF register ID, 0 for R0, 1 for R1 and so on
-				Bits [17:15] 3 bits, indicates the bank number
-				Bits [14:08] 7 bits, indicates the register number
-
-	RF_CSR_DATA:8
-			DATA written to/read from RF
-*/
-#endif /* RLT_RF */
-
-
 typedef	union _RF_CSR_CFG_STRUC {
 #ifdef RT_BIG_ENDIAN
 	struct {
@@ -89,16 +44,6 @@ typedef	union _RF_CSR_CFG_STRUC {
 		uint32_t TESTCSR_RFACC_REGNUM:8;	/* RF register ID */
 		uint32_t RF_CSR_DATA:8;			/* DATA */
 	} non_bank;
-#ifdef RLT_RF
-	struct {
-		uint32_t RF_CSR_KICK:1;
-		uint32_t RF_CSR_WR:1;
-		uint32_t rsv18:12;
-		uint32_t RF_CSR_REG_BANK:3;
-		uint32_t RF_CSR_REG_ID:7;
-		uint32_t RF_CSR_DATA:8;
-	} bank_65xx;
-#endif /* RLT_RF */
 #else
 	struct {
 		uint32_t RF_CSR_DATA:8;
@@ -107,16 +52,6 @@ typedef	union _RF_CSR_CFG_STRUC {
 		uint32_t RF_CSR_KICK:1;
 		uint32_t Rsvd18:14;
 	} non_bank;
-#ifdef RLT_RF
-	struct {
-		uint32_t RF_CSR_DATA:8;
-		uint32_t RF_CSR_REG_ID:7;
-		uint32_t RF_CSR_REG_BANK:3;
-		uint32_t rsv18:12;
-		uint32_t RF_CSR_WR:1;
-		uint32_t RF_CSR_KICK:1;
-	} bank_65xx;
-#endif /* RLT_RF */
 #endif /* RT_BIG_ENDIAN */
 	uint32_t word;
 }RF_CSR_CFG_STRUC;
