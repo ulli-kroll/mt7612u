@@ -3543,64 +3543,6 @@ VOID RTMPAPIoctlRF_mt(
 #endif /* MT_RF */
 
 #ifdef RLT_RF
-VOID RTMPAPIoctlRF_rlt(struct rtmp_adapter *pAdapter, RTMP_IOCTL_INPUT_STRUCT *wrq)
-{
-	UCHAR				regRF = 0;
-	char *			mpool, *msg;
-	char *			arg;
-	INT					rfId, maxRFIdx, bank_Id;
-	BOOLEAN				bIsPrintAllRF = TRUE, bFromUI;
-	INT					memLen = sizeof(CHAR) * (2048+256+12);
-	INT					argLen;
-
-	maxRFIdx = pAdapter->chipCap.MaxNumOfRfId;
-
-	DBGPRINT(RT_DEBUG_TRACE, ("==>RTMPIoctlRF (maxRFIdx = %d)\n", maxRFIdx));
-
-	memLen = 12*(maxRFIdx+1)*MAC_RF_BANK;
-	mpool = kmalloc(memLen, GFP_ATOMIC);
-	if (mpool == NULL) {
-		return;
-	}
-
-	bFromUI = ((wrq->u.data.flags & RTPRIV_IOCTL_FLAG_UI) == RTPRIV_IOCTL_FLAG_UI) ? TRUE : FALSE;
-
-	memset(mpool, memLen);
-	msg = (char *)((ULONG)(mpool+3) & (ULONG)~0x03);
-	arg = (char *)((ULONG)(msg+2048+3) & (ULONG)~0x03);
-	argLen = strlen((char *)(wrq->u.data.pointer));
-	if (bIsPrintAllRF)
-	{
-		RTMPZeroMemory(msg, memLen);
-		sprintf(msg, "\n");
-		for (bank_Id = 0; bank_Id <= MAC_RF_BANK; bank_Id++)
-		{
-			if (IS_MT76x0(pAdapter))
-			{
-				if ((bank_Id <=4) && (bank_Id >=1))
-					continue;
-			}
-			for (rfId = 0; rfId <= maxRFIdx; rfId++)
-			{
-				rlt_rf_read(pAdapter, bank_Id, rfId, &regRF);
-				sprintf(msg+strlen(msg), "%d %03d = %02X\n", bank_Id, rfId, regRF);
-			}
-		}
-		RtmpDrvAllRFPrint(NULL, msg, strlen(msg));
-		/* Copy the information into the user buffer */
-
-#ifdef LINUX
-		wrq->u.data.length = strlen("Dump to RFDump.txt");
-		if (copy_to_user(wrq->u.data.pointer, "Dump to RFDump.txt", wrq->u.data.length))
-		{
-			DBGPRINT(RT_DEBUG_TRACE, ("%s: copy_to_user() fail\n", __FUNCTION__));
-		}
-#endif /* LINUX */
-	}
-
-	kfree(mpool);
-	DBGPRINT(RT_DEBUG_TRACE, ("<==RTMPIoctlRF\n"));
-}
 #endif /* RLT_RF */
 
 #ifdef RTMP_RF_RW_SUPPORT
