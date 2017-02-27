@@ -408,7 +408,9 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 	 * ULLI : because we have fix TX/RX streams
 	 */
 
+#if 0	/* ULLI : disabled */
 	Antenna.word = pAd->EEPROMDefaultValue[EEPROM_NIC_CFG1_OFFSET];
+#endif
 
 #ifdef RTMP_MAC_USB
 	/* must be put here, because RTMP_CHIP_ANTENNA_INFO_DEFAULT_RESET() will clear *
@@ -421,25 +423,12 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 	Antenna.field.RxPath = 2;
 
 	/* Choose the desired Tx&Rx stream.*/
-	if ((pAd->CommonCfg.TxStream == 0) || (pAd->CommonCfg.TxStream > Antenna.field.TxPath))
-		pAd->CommonCfg.TxStream = Antenna.field.TxPath;
-
-	if ((pAd->CommonCfg.RxStream == 0) || (pAd->CommonCfg.RxStream > Antenna.field.RxPath))
-	{
-		pAd->CommonCfg.RxStream = Antenna.field.RxPath;
-
-		if ((pAd->MACVersion != RALINK_3883_VERSION) &&
-			(pAd->MACVersion != RALINK_2883_VERSION) &&
-			(pAd->CommonCfg.RxStream > 2))
-		{
-			/* only 2 Rx streams for RT2860 series*/
-			pAd->CommonCfg.RxStream = 2;
-		}
-	}
+	/* ULLI : fixed TX/RX streams */
+	pAd->CommonCfg.TxStream = Antenna.field.TxPath;
+	pAd->CommonCfg.RxStream = Antenna.field.RxPath;
 
 	DBGPRINT_RAW(RT_DEBUG_TRACE, ("%s(): AfterAdjust, RxPath = %d, TxPath = %d\n",
 					__FUNCTION__, Antenna.field.RxPath, Antenna.field.TxPath));
-
 
 #ifdef CONFIG_AP_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
@@ -469,8 +458,6 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 	/* Save value for future using */
 	pAd->NicConfig2.word = NicConfig2.word;
 
-	DBGPRINT_RAW(RT_DEBUG_TRACE, ("NICReadEEPROMParameters: RxPath = %d, TxPath = %d, RfIcType = %d\n",
-		Antenna.field.RxPath, Antenna.field.TxPath, Antenna.field.RfIcType));
 
 	/* Save the antenna for future use*/
 	pAd->Antenna.word = Antenna.word;
