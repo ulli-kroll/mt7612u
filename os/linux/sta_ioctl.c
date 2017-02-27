@@ -2244,13 +2244,6 @@ INT rt28xx_sta_ioctl(struct net_device *net_dev, struct ifreq *rq, INT cmd)
 			Status = -EOPNOTSUPP;
 			break;
 
-		case RT_PRIV_IOCTL:
-#ifdef RT_CFG80211_ANDROID_PRIV_LIB_SUPPORT
-			//YF: Android Private Lib Entry
-			rt_android_private_command_entry(pAd, net_dev, rq, cmd);
-			break;
-#endif /* RT_CFG80211_ANDROID_PRIV_LIB_SUPPORT */
-
         case RT_PRIV_IOCTL_EXT:
 			subcmd = wrqin->u.data.flags;
 

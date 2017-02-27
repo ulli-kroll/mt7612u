@@ -259,13 +259,6 @@ INT CFG80211DRV_IoctlHandle(
 			RTMP_CFG80211_VirtualIF_Remove(pAd, pData, Data);
             		break;
 
-
-#ifdef RT_CFG80211_ANDROID_PRIV_LIB_SUPPORT
-		case CMD_RTPRIV_IOCTL_80211_ANDROID_PRIV_CMD:
-			//rt_android_private_command_entry(pAd, );
-			break;
-#endif /* RT_CFG80211_ANDROID_PRIV_LIB_SUPPORT */
-
 #ifdef RT_P2P_SPECIFIC_WIRELESS_EVENT
 		case CMD_RTPRIV_IOCTL_80211_SEND_WIRELESS_EVENT:
 			CFG80211_SendWirelessEvent(pAd, pData);

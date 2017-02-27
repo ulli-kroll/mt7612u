@@ -1680,7 +1680,7 @@ enum WIFI_MODE{
 #define IS_OPMODE_AP(_x)		((_x)->OpMode == OPMODE_AP)
 #define IS_OPMODE_STA(_x)		((_x)->OpMode == OPMODE_STA)
 
-#if defined(ANDROID_SUPPORT) || defined(RT_CFG80211_SUPPORT)
+#if defined(RT_CFG80211_SUPPORT)
 #define INF_MAIN_DEV_NAME		"wlan"
 #define INF_MBSSID_DEV_NAME		"wlan"
 #else
@@ -1691,7 +1691,7 @@ enum WIFI_MODE{
 #define INF_MAIN_DEV_NAME		"ra"
 #define INF_MBSSID_DEV_NAME		"ra"
 #endif
-#endif /* ANDROID_SUPPORT */
+#endif
 
 #if CONFIG_RTPCI_AP_RF_OFFSET == 0x48000
 #define INF_WDS_DEV_NAME		"wdsi"

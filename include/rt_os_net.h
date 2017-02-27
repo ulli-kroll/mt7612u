@@ -212,12 +212,6 @@ VOID RTMP_CFG80211_VirtualIF_Remove(struct rtmp_adapter *pAd,struct net_device *
 VOID RTMP_CFG80211_AllVirtualIF_Remove(struct rtmp_adapter *pAdSrc);
 
 
-#ifdef RT_CFG80211_ANDROID_PRIV_LIB_SUPPORT
-INT rt_android_private_command_entry(
-	VOID *pAdSrc, struct net_device *net_dev, struct ifreq *ifr, int cmd);
-#endif /* RT_CFG80211_ANDROID_PRIV_LIB_SUPPORT */
-
-
 /* FOR communication with RALINK DRIVER module in NET module */
 /* general */
 #define RTMP_DRIVER_NET_DEV_GET(__pAd, __pNetDev)							\
