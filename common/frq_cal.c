@@ -83,27 +83,7 @@ VOID FrequencyCalibrationMode(
 	UCHAR RFValue = 0;
 	UCHAR PreRFValue = 0;
 
-	if (Mode == FREQ_CAL_MODE0)
-	{
-		RT30xxReadRFRegister(pAd, RF_R23, (UCHAR *)(&RFValue));
-		RFValue = ((RFValue & ~0x7F) | (pAd->FreqCalibrationCtrl.AdaptiveFreqOffset & 0x7F));
-		RFValue = min(RFValue, 0x5F);
-		pAd->FreqCalibrationCtrl.AdaptiveFreqOffset = RFValue; /* Keep modified RF R23 value */
-		RT30xxWriteRFRegister(pAd, RF_R23, RFValue);
-		RT30xxReadRFRegister(pAd, RF_R07, (UCHAR *)(&RFValue));
-		RFValue = ((RFValue & ~0x01) | 0x01); /* Tune_en (initiate VCO calibration (reset after completion)) */
-		RT30xxWriteRFRegister(pAd, RF_R07, RFValue);
-	}
-	else if (Mode == FREQ_CAL_MODE1)
-	{
-		/* Adjust the frequency offset and keep the modified value in AdaptiveFreqOffset */
-		RTMPAdjustFrequencyOffset(pAd, &pAd->FreqCalibrationCtrl.AdaptiveFreqOffset);
-
-		/* vcocal_en (initiate VCO calibration (reset after completion)) - It should be at the end of RF configuration. */
-		RTMP_WriteRF(pAd, RF_R03, 0x80, 0x80);
-	}
-	else
-		DBGPRINT(RT_DEBUG_ERROR, ("Unknown FrqCalibration Mode\n"));
+	DBGPRINT(RT_DEBUG_ERROR, ("Unknown FrqCalibration Mode\n"));
 }
 
 
