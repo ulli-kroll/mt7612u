@@ -238,15 +238,6 @@ INT rt28xx_ap_ioctl(struct net_device *net_dev, struct ifreq *rq, int cmd)
 		    }
 		    break;
 
-		case RT_PRIV_IOCTL:
-		case RT_PRIV_IOCTL_EXT:
-		{
-			subcmd = wrqin->u.data.flags;
-
-			Status = RTMP_AP_IoctlHandle(pAd, wrq, CMD_RT_PRIV_IOCTL, subcmd, wrqin->u.data.pointer, 0);
-		}
-			break;
-
 #ifdef HOSTAPD_SUPPORT
 		case SIOCSIWGENIE:
 			DBGPRINT(RT_DEBUG_TRACE,("ioctl SIOCSIWGENIE apidx=%d\n",apidx));

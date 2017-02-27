@@ -2244,12 +2244,6 @@ INT rt28xx_sta_ioctl(struct net_device *net_dev, struct ifreq *rq, INT cmd)
 			Status = -EOPNOTSUPP;
 			break;
 
-        case RT_PRIV_IOCTL_EXT:
-			subcmd = wrqin->u.data.flags;
-
-			Status = RTMP_STA_IoctlHandle(pAd, wrq, CMD_RT_PRIV_IOCTL, subcmd,
-										NULL, 0, RT_DEV_PRIV_FLAGS_GET(net_dev));
-			break;
 		case RTPRIV_IOCTL_GSITESURVEY:
 			RTMP_STA_IoctlHandle(pAd, wrq, CMD_RTPRIV_IOCTL_SITESURVEY_GET, 0,
 								NULL, 0, RT_DEV_PRIV_FLAGS_GET(net_dev));
