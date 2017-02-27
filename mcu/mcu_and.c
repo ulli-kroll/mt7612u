@@ -2210,11 +2210,10 @@ error:
 }
 
 
-int andes_calibration(struct rtmp_adapter *ad, u32 cal_id, ANDES_CALIBRATION_PARAM *param)
+void andes_calibration(struct rtmp_adapter *ad, u32 cal_id, ANDES_CALIBRATION_PARAM *param)
 {
 	struct cmd_msg *msg;
 	u32 value;
-	int ret = 0;
 
 	DBGPRINT(RT_DEBUG_INFO, ("%s:cal_id(%d)\n ", __FUNCTION__, cal_id));
 
@@ -2230,8 +2229,7 @@ int andes_calibration(struct rtmp_adapter *ad, u32 cal_id, ANDES_CALIBRATION_PAR
 		msg = andes_alloc_cmd_msg(ad, 8);
 
 	if (!msg) {
-		ret = NDIS_STATUS_RESOURCES;
-		goto error;
+		return;
 	}
 
 	andes_init_cmd_msg(msg, CMD_CALIBRATION_OP, TRUE, 0, TRUE, TRUE);
@@ -2255,13 +2253,10 @@ int andes_calibration(struct rtmp_adapter *ad, u32 cal_id, ANDES_CALIBRATION_PAR
 		andes_append_cmd_msg(msg, (char *)&value, 4);
 	}
 
-	ret = andes_send_cmd_msg(ad, msg);
+	andes_send_cmd_msg(ad, msg);
 
 #ifdef MT76x2
 #endif /* MT76x2 */
-
-error:
-	return ret;
 }
 
 int andes_load_cr(struct rtmp_adapter *ad, u32 cr_type, UINT8 temp_level, UINT8 channel)
