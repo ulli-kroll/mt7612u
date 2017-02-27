@@ -4445,10 +4445,6 @@ INT show_devinfo_proc(struct rtmp_adapter *pAd, char *arg)
 	if (IS_RT65XX(pAd))
 	{
 		dump_bw_info(pAd);
-#ifdef RT8592
-		if (IS_RT8592(pAd))
-			dump_pwr_info(pAd);
-#endif /* RT8592 */
 	}
 
 	DBGPRINT(RT_DEBUG_OFF, ("Security\n"));

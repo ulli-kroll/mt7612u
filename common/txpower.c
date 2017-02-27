@@ -193,14 +193,6 @@ VOID InitLookupTable(
 		band_nums = IEEE80211_BAND_NUMS;
 	}
 
-#ifdef RT8592
-	if (IS_RT8592(pAd)) {
-		pos_bound = 32;
-		neg_bound = 12;
-		Offset = 12;
-	}
-	else
-#endif /* RT8592 */
 	{
 		pos_bound = 26;
 		neg_bound = 8;
@@ -299,11 +291,6 @@ VOID AsicGetAutoAgcOffsetForTemperatureSensor(
 
 	DBGPRINT(RT_DEBUG_INFO, ("-->%s\n", __FUNCTION__));
 
-#ifdef RT8592
-	if (IS_RT8592(pAd))
-		lut_base = 12;
-	else
-#endif /* RT8592 */
 		lut_base = TEMPERATURE_COMPENSATION_LOOKUP_TABLE_OFFSET;
 	LookupTableIndex = pAd->TxPowerCtrl.LookupTableIndex + lut_base;
 
@@ -636,12 +623,6 @@ VOID AsicAdjustTxPower(struct rtmp_adapter *pAd)
 			TxAgcCompensate,
 			DeltaPowerByBbpR1));
 
-#ifdef RT8592
-	// TODO: shiang-6590, fix me for move this ugly function to other place!!!
-	if (IS_RT8592(pAd) && (pAd->chipCap.rx_temp_comp == TRUE)) {
-		rx_temp_compensation(pAd);
-	}
-#endif /* RT8592 */
 
 
 	/* Get delta power based on the percentage specified from UI */
@@ -691,20 +672,10 @@ VOID AsicAdjustTxPower(struct rtmp_adapter *pAd)
 						switch (0x1314 + (i * 4))
 						{
 							case 0x1314:
-#ifdef RT8592
-								if (IS_RT8592(pAd))
-									_upbound = 0xf;
-								else
-#endif /* RT8592 */
 									_upbound = 0xe;
 								break;
 
 							case 0x1318:
-#ifdef RT8592
-								if (IS_RT8592(pAd))
-									_upbound = 0xf;
-								else
-#endif /* RT8592 */
 									_upbound = (j <= 3) ? 0xc : 0xe;
 								break;
 
@@ -902,12 +873,6 @@ VOID RTMPReadTxPwrPerRate(struct rtmp_adapter *pAd)
 
 
 
-#ifdef RT8592
-	if (IS_RT8592(pAd)) {
-		RT85592ReadTxPwrPerRate(pAd);
-		return;
-	}
-#endif /* RT8592 */
 
 
 #ifdef MT76x2

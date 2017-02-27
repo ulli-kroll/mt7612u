@@ -201,7 +201,7 @@ typedef union _EEPROM_NIC_CINFIG2_STRUC {
 #endif /* RT_BIG_ENDIAN */
 
 
-#if defined(BT_COEXISTENCE_SUPPORT) || defined(RT3290) || defined(RT8592) || defined(MT76x2)
+#if defined(BT_COEXISTENCE_SUPPORT) || defined(RT3290) || defined(MT76x2)
 #ifdef RTMP_USB_SUPPORT
 #ifdef RT_BIG_ENDIAN
 typedef union _EEPROM_NIC_CINFIG3_STRUC {
@@ -242,7 +242,7 @@ typedef union _EEPROM_NIC_CINFIG3_STRUC {
 #endif /* RT_BIG_ENDIAN */
 #endif /* RTMP_USB_SUPPORT */
 
-#endif /* defined(BT_COEXISTENCE_SUPPORT) || defined(RT3290) || defined(RT8592) || defined(MT76x2) */
+#endif /* defined(BT_COEXISTENCE_SUPPORT) || defined(RT3290) || defined(MT76x2) */
 
 
 

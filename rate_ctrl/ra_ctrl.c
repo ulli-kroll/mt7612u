@@ -1146,11 +1146,6 @@ VOID APMlmeSetTxRate(
 				tx_bw = bw_cap;
 		}
 
-#ifdef RT8592
-		if (IS_RT8592(pAd))
-			tx_mode = ((tx_bw == BW_40) ? MODE_HTMIX : pAdaptTbEntry->Mode);
-#endif
-
 #ifdef WFA_VHT_PF
 		if (pAd->CommonCfg.vht_bw_signal && tx_bw == BW_40 &&
 			pAdaptTbEntry->Mode == MODE_VHT &&
@@ -1377,11 +1372,6 @@ VOID MlmeSetTxRate(
 	MaxMode = MODE_HTGREENFIELD;
 
 	MaxMode = MODE_VHT;
-
-#ifdef RT8592
-	if (IS_RT8592(pAd) && (tx_mode == MODE_VHT) && (tx_bw == BW_40))
-		tx_mode = MODE_HTMIX;
-#endif /* RT8592 */
 
 	if (pTxRate->STBC &&
 		(((pAd->StaCfg.wdev.MaxHTPhyMode.field.STBC) && (tx_mode == MODE_HTMIX || tx_mode == MODE_HTGREENFIELD))

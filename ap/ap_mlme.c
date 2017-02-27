@@ -467,12 +467,6 @@ VOID APAsicEvaluateRxAnt(
 {
 	ULONG	TxTotalCnt;
 
-#ifdef RT8592
-	// TODO: shiang-6590, for 8592, this EvaaluateRxAnt still need??
-	if (IS_RT8592(pAd))
-		return;
-#endif /* RT8592 */
-
 	if (IS_RT65XX(pAd))
 		return;
 

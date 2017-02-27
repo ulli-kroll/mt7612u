@@ -71,10 +71,6 @@ struct _RSSI_SAMPLE;
 #include "chip/mt76x2.h"
 #endif /* MT76x2 */
 
-#ifdef RT8592
-#include "chip/rt8592.h"
-#endif /* RT8592 */
-
 
 #include "mcu/mcu.h"
 
@@ -213,9 +209,9 @@ struct _RSSI_SAMPLE;
 #define EEPROM_LEDAG_CONF_OFFSET	0x3c
 #define EEPROM_LEDACT_CONF_OFFSET	0x3e
 #define EEPROM_LED_POLARITY_OFFSET	0x40
-#if defined(BT_COEXISTENCE_SUPPORT) || defined(RT3290) || defined(RT8592) || defined(RT6352) || defined(MT76x2)
+#if defined(BT_COEXISTENCE_SUPPORT) || defined(RT3290) || defined(RT6352) || defined(MT76x2)
 #define	EEPROM_NIC3_OFFSET			0x42
-#endif /* defined(BT_COEXISTENCE_SUPPORT) || defined(RT3290) || defined(RT8592) || defined(RT6352) || defined(MT76x2) */
+#endif /* defined(BT_COEXISTENCE_SUPPORT) || defined(RT3290) || defined(RT6352) || defined(MT76x2) */
 
 #define EEPROM_LNA_OFFSET			0x44
 #define LNA_GAIN_G_BAND_MASK (0x7f)

@@ -352,11 +352,6 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 
 	/* if not return early. cause fail at emulation.*/
 	/* Init the channel number for TX channel power*/
-#ifdef RT8592
-	if (IS_RT8592(pAd))
-		RT85592_ReadChannelPwr(pAd);
-	else
-#endif /* RT8592 */
 #ifdef MT76x2
 	if (IS_MT76x2(pAd))
 		mt76x2_read_chl_pwr(pAd);
@@ -379,16 +374,12 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 	pAd->EEPROMDefaultValue[EEPROM_NIC_CFG2_OFFSET] = value;
 	NicConfig2.word = pAd->EEPROMDefaultValue[EEPROM_NIC_CFG2_OFFSET];
 
-#if defined(BT_COEXISTENCE_SUPPORT) || defined(RT3290) || defined(RT8592) || defined(MT76x2)
+#if defined(BT_COEXISTENCE_SUPPORT) || defined(RT3290) || defined(MT76x2)
 	value = mt7612u_read_eeprom16(pAd, EEPROM_NIC3_OFFSET);
-#ifdef RT8592
-	if (value == 0xffff)
-		value = 0;
-#endif /* RT8592 */
 
 	pAd->EEPROMDefaultValue[EEPROM_NIC_CFG3_OFFSET] = value;
 	pAd->NicConfig3.word = pAd->EEPROMDefaultValue[EEPROM_NIC_CFG3_OFFSET];
-#endif /* defined(BT_COEXISTENCE_SUPPORT) || defined(RT3290) || defined(RT8592) || defined(MT76x2) */
+#endif /* defined(BT_COEXISTENCE_SUPPORT) || defined(RT3290) || defined(MT76x2) */
 
 	{
 		value = mt7612u_read_eeprom16(pAd, EEPROM_COUNTRY_REGION);	/* Country Region*/
@@ -413,18 +404,6 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 	/* Read Tx AGC control bit*/
 		Antenna.word = pAd->EEPROMDefaultValue[EEPROM_NIC_CFG1_OFFSET];
 
-#ifdef RT8592
-	if (IS_RT8592(pAd)) {
-		DBGPRINT(RT_DEBUG_OFF, ("RT85592: EEPROM(NicConfig1=0x%04x) - Antenna.RfIcType=%d, TxPath=%d, RxPath=%d\n",
-					Antenna.word, Antenna.field.RfIcType, Antenna.field.TxPath, Antenna.field.RxPath));
-		// TODO: fix me!!
-		Antenna.word = 0;
-		Antenna.field.BoardType = 0;
-		Antenna.field.RfIcType = 0xf;
-		Antenna.field.TxPath = 2;
-		Antenna.field.RxPath = 2;
-	}
-#endif /* RT8592 */
 
 #ifdef RTMP_MAC_USB
 	/* must be put here, because RTMP_CHIP_ANTENNA_INFO_DEFAULT_RESET() will clear *
@@ -482,13 +461,6 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 
 	if (NicConfig2.field.DynamicTxAgcControl == 1) {
 		pAd->bAutoTxAgcA = pAd->bAutoTxAgcG = TRUE;
-#ifdef RT8592
-		if (IS_RT8592(pAd))
-		{
-			pAd->chipCap.bTempCompTxALC = TRUE;
-			pAd->chipCap.rx_temp_comp = pAd->NicConfig3.field.rx_temp_comp;
-		}
-#endif /* RT8592 */
 	}
 	else
 		pAd->bAutoTxAgcA = pAd->bAutoTxAgcG = FALSE;
@@ -506,13 +478,6 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 	pAd->Mlme.RealRxPath = (UCHAR) Antenna.field.RxPath;
 	pAd->RfIcType = (UCHAR) Antenna.field.RfIcType;
 
-#ifdef RT8592
-	// TODO: shiang-6590, currently we don't have eeprom value, so directly force to set it as 0xff
-	if (IS_RT8592(pAd)) {
-		pAd->Mlme.RealRxPath = 2;
-		pAd->RfIcType = RFIC_UNKNOWN;
-	}
-#endif /* RT8592 */
 
 
 #ifdef MT76x2
@@ -1176,11 +1141,6 @@ int NICInitializeAsic(struct rtmp_adapter *pAd, BOOLEAN bHardReset)
 #ifdef CONFIG_STA_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
 	{
-#ifdef RT8592
-		if (IS_RT8592(pAd))
-			;
-		else
-#endif /* RT8592 */
 		/* for rt2860E and after, init TXOP_CTRL_CFG with 0x583f. This is for extension channel overlapping IOT.*/
 		if ((pAd->MACVersion & 0xffff) != 0x0101)
 			mt7612u_write32(pAd, TXOP_CTRL_CFG, 0x583f);
@@ -3149,8 +3109,6 @@ VOID RTMPEnableRxTx(struct rtmp_adapter *pAd)
 //			mt7612u_write32(pAd, MAC_SYS_CTRL, 0x2c);
 //---Add by shiang for debug
 //+++Add by shiang for debug invalid RxWI->WCID
-#ifdef RT8592
-#endif /* RT8592 */
 //---Add by shiang for  debug invalid RxWI->WCID
 	}
 

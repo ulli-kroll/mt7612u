@@ -1289,11 +1289,6 @@ VOID MlmePeriodicExec(
 		if (MONITOR_ON(pAd))
 			return;
 
-#ifdef RT8592
-		if (IS_RT8592(pAd))
-			;
-		else
-#endif /* RT8592 */
 		if ((pAd->Mlme.PeriodicRound & 0x1) &&
 			(STA_TGN_WIFI_ON(pAd)) &&
 			((pAd->MACVersion & 0xffff) == 0x0101))
@@ -1323,10 +1318,6 @@ VOID MlmePeriodicExec(
 	pAd->Mlme.GPIORound++;
 
 #ifndef WFA_VHT_PF
-#ifdef RT8592
-	if (IS_RT8592(pAd))
-		rt85592_cca_adjust(pAd);
-#endif /* RT8592 */
 #endif /* WFA_VHT_PF */
 
 #ifdef DYNAMIC_VGA_SUPPORT

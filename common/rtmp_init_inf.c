@@ -229,12 +229,6 @@ int rt28xx_init(struct rtmp_adapter *pAd)
 #endif /* RTMP_INTERNAL_TX_ALC */
 
 
-#ifdef RT8592
-	// TODO: shiang-6590, actually, this operation shall be move to bbp_init
-	if (IS_RT8592(pAd))
-		bw_filter_cal(pAd);
-#endif /* RT8592 */
-
 #ifdef RTMP_TEMPERATURE_COMPENSATION
 	/* Temperature compensation, initialize the lookup table */
 	DBGPRINT(RT_DEBUG_OFF, ("bAutoTxAgcG = %d\n", pAd->bAutoTxAgcG));

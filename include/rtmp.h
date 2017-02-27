@@ -2937,12 +2937,7 @@ typedef struct _RtmpDiagStrcut_ {	/* Diagnosis Related element */
 #define NUM_OF_CH_FOR_PER_CH_TX_PWR_OFFSET	14
 
 /* The Tx power control using the internal ALC */
-#ifdef RT8592
-// TODO: shiang-6590, fix me for this ugly definition!
-#define LOOKUP_TB_SIZE		45
-#else
 #define LOOKUP_TB_SIZE		33
-#endif /* RT8592 */
 
 typedef struct _TX_POWER_CONTROL {
 	BOOLEAN bInternalTxALC; /* Internal Tx ALC */
@@ -3557,9 +3552,9 @@ struct rtmp_adapter {
 
 	EEPROM_ANTENNA_STRUC Antenna;	/* Since ANtenna definition is different for a & g. We need to save it for future reference. */
 	EEPROM_NIC_CONFIG2_STRUC NicConfig2;
-#if defined(BT_COEXISTENCE_SUPPORT) || defined(RT3290) || defined(RT8592) || defined(MT76x2)
+#if defined(BT_COEXISTENCE_SUPPORT) || defined(RT3290) || defined(MT76x2)
 	EEPROM_NIC_CONFIG3_STRUC NicConfig3;
-#endif /* defined(BT_COEXISTENCE_SUPPORT) || defined(RT3290) || defined(RT8592) */
+#endif /* defined(BT_COEXISTENCE_SUPPORT) || defined(RT3290) */
 
 	/* --------------------------- */
 	/* BBP Control                               */
@@ -3649,15 +3644,6 @@ struct rtmp_adapter {
 
 	UCHAR wmm_cw_min; /* CW_MIN_IN_BITS, actual CwMin = 2^CW_MIN_IN_BITS - 1 */
 	UCHAR wmm_cw_max; /* CW_MAX_IN_BITS, actual CwMax = 2^CW_MAX_IN_BITS - 1 */
-
-#ifdef RT8592
-	CHAR bw_cal[3];	// bw cal value for RF_R32, 0:20M, 1:40M, 2:80M
-// TODO: shiang-6590, temporary get from windows and need to revise it!!
-	/* IQ Calibration */
-	UCHAR IQGainTx[3][4];
-	UCHAR IQPhaseTx[3][4];
-	USHORT IQControl;
-#endif /* RT8592 */
 
 #if defined(RT3290) || defined(RLT_MAC)
 

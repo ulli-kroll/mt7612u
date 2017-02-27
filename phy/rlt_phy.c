@@ -155,11 +155,6 @@ static INT rlt_bbp_set_rxpath(struct rtmp_adapter *pAd, INT rxpath)
 	else if(rxpath == 1)
 		agc |= (0x0);
 
-#ifdef RT8592
-	if (IS_RT8592(pAd))
-		agc |= (0x8);
-#endif /* RT8592 */
-
 	if (agc != agc_r0)
 		RTMP_BBP_IO_WRITE32(pAd, AGC1_R0, agc);
 
@@ -267,17 +262,6 @@ static INT rlt_bbp_set_ctrlch(struct rtmp_adapter *pAd, UINT8 ext_ch)
 	if (be != be_r0)
 		RTMP_BBP_IO_WRITE32(pAd, TXBE_R0, be);
 
-#ifdef RT8592
-	//+++ BBP update:0921e3
-	// TODO: shiang, move this code segment to other place!
-	if (IS_RT8592(pAd)) {
-		uint32_t mac_val[4] = {0xf1e4, 0xf2e1, 0xf41e, 0xf81b}; /* primary 0~3 */
-
-		RTMP_BBP_IO_READ32(pAd, AGC1_R0, &agc);
-		mt7612u_write32(pAd, EXT_CCA_CFG, mac_val[agc & 0x3]); /* IC default value = 0xffe4 */
-	}
-#endif /* RT8592 */
-
 //DBGPRINT(RT_DEBUG_OFF, ("%s(): ext_ch=%d, Set AGC1_R0=0x%x, agc_r0=0x%x\n", __FUNCTION__, ext_ch, agc, agc_r0));
 //		RTMP_BBP_IO_READ32(pAd, AGC1_R0, &agc);
 //DBGPRINT(RT_DEBUG_OFF, ("%s(): ext_ch=%d, After write, Get AGC1_R0=0x%x,\n", __FUNCTION__, ext_ch, agc));
@@ -345,11 +329,6 @@ static INT rlt_bbp_set_bw(struct rtmp_adapter *pAd, UINT8 bw)
 			agc |= 0x1000;
 			break;
 	}
-
-#ifdef RT8592
-	if (IS_RT8592(pAd))
-		core |= 0x2; // BBP update:0921e3
-#endif /* RT8592 */
 
 	if (core != core_r1) {
 		RTMP_BBP_IO_WRITE32(pAd, CORE_R1, core);

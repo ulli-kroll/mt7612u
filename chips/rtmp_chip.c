@@ -270,12 +270,6 @@ int RtmpChipOpsHook(VOID *pCB)
 
 
 
-#ifdef RT8592
-	if (IS_RT8592(pAd)) {
-		RT85592_Init(pAd);
-		goto done;
-	}
-#endif /* RT8592 */
 
 
 #ifdef MT76x2
