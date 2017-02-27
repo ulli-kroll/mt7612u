@@ -2267,7 +2267,7 @@ int andes_load_cr(struct rtmp_adapter *ad, u32 cr_type, UINT8 temp_level, UINT8 
 	u32 value = 0;
 	int ret = 0;
 
-	DBGPRINT(RT_DEBUG_OFF, ("%s:cr_type(%d)\n", __FUNCTION__, cr_type, temp_level, channel));
+	DBGPRINT(RT_DEBUG_OFF, ("%s:cr_type(%d) temp_level(%d) channel(%d)\n", __FUNCTION__, cr_type, temp_level, channel));
 
 	msg = andes_alloc_cmd_msg(ad, 8);
 
