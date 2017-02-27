@@ -402,23 +402,24 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 	/* If TSSI did not have preloaded value, it should reset the TxAutoAgc to false*/
 	/* Therefore, we have to read TxAutoAgc control beforehand.*/
 	/* Read Tx AGC control bit*/
-		Antenna.word = pAd->EEPROMDefaultValue[EEPROM_NIC_CFG1_OFFSET];
 
+	/*
+	 * ULLI : we read here the antenna control word, but hat no value
+	 * ULLI : because we have fix TX/RX streams
+	 */
+
+	Antenna.word = pAd->EEPROMDefaultValue[EEPROM_NIC_CFG1_OFFSET];
 
 #ifdef RTMP_MAC_USB
 	/* must be put here, because RTMP_CHIP_ANTENNA_INFO_DEFAULT_RESET() will clear *
 	 * EPROM 0x34~3 */
 #endif /* RTMP_MAC_USB */
 
+	Antenna.word = 0;
+	Antenna.field.RfIcType = RFIC_7662;
+	Antenna.field.TxPath = 2;
+	Antenna.field.RxPath = 2;
 
-	// TODO: shiang, why we only check oxff00??
-	if (((Antenna.word & 0xFF00) == 0xFF00) || IS_MT76x2(pAd)) {
-/*	if (Antenna.word == 0xFFFF)*/
-		Antenna.word = 0;
-		Antenna.field.RfIcType = RFIC_7662;
-		Antenna.field.TxPath = 2;
-		Antenna.field.RxPath = 2;
-	}
 	/* Choose the desired Tx&Rx stream.*/
 	if ((pAd->CommonCfg.TxStream == 0) || (pAd->CommonCfg.TxStream > Antenna.field.TxPath))
 		pAd->CommonCfg.TxStream = Antenna.field.TxPath;
