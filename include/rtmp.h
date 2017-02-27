@@ -6339,8 +6339,6 @@ INT set_tssi_enable(struct rtmp_adapter *pAd, char *arg);
 INT set_fw_debug(struct rtmp_adapter *pAd, char *arg);
 #endif /* CONFIG_ANDES_SUPPORT */
 
-INT set_cal_test(struct rtmp_adapter *pAd, char *arg);
-
 int RTMPWPARemoveKeyProc(
 	IN  struct rtmp_adapter *pAd,
 	IN  PVOID           pBuf);

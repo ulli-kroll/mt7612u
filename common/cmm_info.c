@@ -5524,23 +5524,6 @@ INT set_rx_rts_cts(struct rtmp_adapter *pAd, char *arg)
 }
 #endif /* WFA_VHT_PF */
 
-INT set_cal_test(struct rtmp_adapter *pAd, char *arg)
-{
-	UCHAR cal_test_type;
-
-	cal_test_type = simple_strtol(arg, 0, 10);
-
-	if (pAd->chipOps.cal_test) {
-		pAd->chipOps.cal_test(pAd, cal_test_type);
-	}
-
-	return 0;
-
-
-}
-
-
-
 #ifdef MT76x2
 #define MAX_AGG_CNT	48
 #elif defined(MT7601)
