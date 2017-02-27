@@ -5123,13 +5123,6 @@ VOID AsicGetTxPowerOffset(
 	IN struct rtmp_adapter *			pAd,
 	IN PULONG					TxPwr);
 
-VOID AsicGetAutoAgcOffsetForExternalTxAlc(
-	IN struct rtmp_adapter *		pAd,
-	IN PCHAR 				pDeltaPwr,
-	IN PCHAR 				pTotalDeltaPwr,
-	IN PCHAR 				pAgcCompensate,
-	IN PCHAR 				pDeltaPowerByBbpR1);
-
 VOID AsicExtraPowerOverMAC(struct rtmp_adapter *pAd);
 
 #ifdef RTMP_TEMPERATURE_COMPENSATION
