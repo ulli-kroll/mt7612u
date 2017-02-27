@@ -3488,58 +3488,6 @@ VOID RTMPIoctlSetIdleTimeout(
 #if defined(DBG)
 
 #ifdef MT_RF
-VOID RTMPAPIoctlRF_mt(
-	IN	struct rtmp_adapter *pAd,
-	IN	RTMP_IOCTL_INPUT_STRUCT	*wrq)
-{
-	CHAR				*value;
-	UINT				regRF = 0;
-	CHAR				*mpool, *msg; /*msg[2048]; */
-	BOOLEAN				bIsPrintAllRF = TRUE;
-	UINT				rfidx =0, offset = 0;
-	INT					memLen = sizeof(CHAR) * 9000; //(2048+256+12);
-
-	DBGPRINT(RT_DEBUG_TRACE, ("==>RTMPIoctlRF\n"));
-
-	mpool = kmalloc(memLen, GFP_ATOMIC);
-	if (mpool == NULL) {
-		return;
-	}
-
-	memset(mpool, 0, memLen);
-	msg = (char *)((ULONG)(mpool+3) & (ULONG)~0x03);
-
-	if (bIsPrintAllRF)
-	{
-		RTMPZeroMemory(msg, memLen);
-		sprintf(msg, "\n");
-		for (rfidx = 0; rfidx <= 1; rfidx++)
-		{
-			for (offset = 0; offset <= 0x3ff; offset+=4)
-			{
-				regRF = mt_rf_read(pAd, rfidx, offset);
-				sprintf(msg+strlen(msg), "%d %03x = %08X\n", rfidx, offset, regRF);
-			}
-			offset = 0xfff;
-			regRF = mt_rf_read(pAd, rfidx, offset);
-			sprintf(msg+strlen(msg), "%d %03x = %08X\n", rfidx, offset, regRF);
-		}
-		RtmpDrvAllRFPrint(NULL, msg, strlen(msg));
-
-		DBGPRINT(RT_DEBUG_TRACE, ("strlen(msg)=%d\n", (uint32_t)strlen(msg)));
-		/* Copy the information into the user buffer */
-#ifdef LINUX
-		wrq->u.data.length = strlen("Dump to RFDump.txt");
-		if (copy_to_user(wrq->u.data.pointer, "Dump to RFDump.txt", wrq->u.data.length))
-		{
-			DBGPRINT(RT_DEBUG_TRACE, ("%s: copy_to_user() fail\n", __FUNCTION__));
-		}
-#endif /* LINUX */
-	}
-
-	kfree(mpool);
-	DBGPRINT(RT_DEBUG_TRACE, ("<==RTMPIoctlRF\n\n"));
-}
 #endif /* MT_RF */
 
 #ifdef RLT_RF
