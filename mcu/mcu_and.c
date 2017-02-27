@@ -1870,7 +1870,7 @@ static int andes_dequeue_and_kick_out_cmd_msgs(struct rtmp_adapter *ad)
 	int ret = NDIS_STATUS_SUCCESS;
 	TXINFO_NMAC_CMD *tx_info;
 
-	while (msg = andes_dequeue_cmd_msg(ctl, &ctl->txq)) {
+	while ((msg = andes_dequeue_cmd_msg(ctl, &ctl->txq)) != NULL) {
 		if (!RTMP_TEST_FLAG(ad, fRTMP_ADAPTER_MCU_SEND_IN_BAND_CMD)
 				|| RTMP_TEST_FLAG(ad, fRTMP_ADAPTER_NIC_NOT_EXIST)
 				|| RTMP_TEST_FLAG(ad, fRTMP_ADAPTER_SUSPEND)) {
