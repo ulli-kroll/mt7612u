@@ -4758,12 +4758,6 @@ int rtmp_rf_write(
 	IN UCHAR regID,
 	IN UCHAR value);
 
-int rtmp_rf_read(
-	IN struct rtmp_adapter *pAd,
-	IN UCHAR bank,
-	IN UCHAR regID,
-	IN UCHAR *pValue);
-
 VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd);
 VOID NICInitAsicFromEEPROM(struct rtmp_adapter *pAd);
 
