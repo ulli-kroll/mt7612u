@@ -5633,9 +5633,6 @@ INT RTMP_AP_IoctlHandle(
 
 #ifdef DBG
 #ifdef RTMP_RF_RW_SUPPORT
-		case CMD_RTPRIV_IOCTL_RF:
-			RTMPAPIoctlRF(pAd, wrq);
-			break;
 #endif /* RTMP_RF_RW_SUPPORT */
 #endif /* defined(DBG) || defined(BB_SOC) */
 

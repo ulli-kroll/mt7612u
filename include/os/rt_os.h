@@ -52,7 +52,6 @@
 #define RTPRIV_IOCTL_MAC                            (SIOCIWFIRSTPRIV + 0x05)
 
 #ifdef RTMP_RF_RW_SUPPORT
-#define RTPRIV_IOCTL_RF                             (SIOCIWFIRSTPRIV + 0x13)  /* edit by johnli, fix read rf register problem */
 #endif /* RTMP_RF_RW_SUPPORT */
 #define RTPRIV_IOCTL_E2P                            (SIOCIWFIRSTPRIV + 0x07)
 #endif /* DBG */
@@ -79,7 +78,6 @@
 #define RTPRIV_IOCTL_MAC                            (SIOCIWFIRSTPRIV + 0x05)
 
 #ifdef RTMP_RF_RW_SUPPORT
-#define RTPRIV_IOCTL_RF                             (SIOCIWFIRSTPRIV + 0x13)
 #endif /* RTMP_RF_RW_SUPPORT */
 
 #endif /* DBG */
