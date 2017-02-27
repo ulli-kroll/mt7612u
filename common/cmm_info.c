@@ -5610,19 +5610,6 @@ static INT set_mt_rf(struct rtmp_adapter *ad, char *arg)
 }
 #endif /* MT_RF */
 
-INT set_rf(struct rtmp_adapter *pAd, char *arg)
-{
-	INT ret;
-
-#ifdef MT_RF
-	if (pAd->chipCap.rf_type == RF_MT)
-		ret = set_mt_rf(pAd, arg);
-#endif /* MT_RF */
-
-
-	return ret;
-}
-
 static struct {
 	char *name;
 	INT (*show_proc)(struct rtmp_adapter *pAd, char *arg, ULONG BufLen);
