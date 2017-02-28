@@ -279,7 +279,7 @@ VOID CFG80211_UpdateBeacon(
 	BeaconTransmit.field.MCS = MCS_RATE_6;
 
 	//YF
-	RTMPWriteTxWI(pAd, (UCHAR *)pTxWI, FALSE, FALSE, TRUE, FALSE, FALSE, TRUE, 0, BSS0Mcast_WCID,
+	RTMPWriteTxWI(pAd, pTxWI, FALSE, FALSE, TRUE, FALSE, FALSE, TRUE, 0, BSS0Mcast_WCID,
                 	beacon_len, PID_MGMT, 0, 0, IFS_HTTXOP, &BeaconTransmit);
 
 	/* CFG_TODO */
