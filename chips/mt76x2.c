@@ -1191,25 +1191,25 @@ static void mt76x2_init_mac_cr(struct rtmp_adapter *ad)
 		mt7612u_read_reg(ad, 0x40, XO_CTRL5, &value);
 		value &= 0xffff80ff;
 		value |= ((((e2p_value & XTAL_TRIM1_MASK) + xtal_freq_offset) & XTAL_TRIM1_MASK) << 8);
-		mt7612u_write_reg(ad, 0x40, XO_CTRL5, value);
+		mt7612u_write_reg(ad, XO_CTRL5, value);
 
 		/* Enable */
 		mt7612u_read_reg(ad, 0x40, XO_CTRL6, &value);
 		value &= 0xffff80ff;
 		value |= (0x7f << 8);
-		mt7612u_write_reg(ad, 0x40, XO_CTRL6, value);
+		mt7612u_write_reg(ad, XO_CTRL6, value);
 	} else {
 		/* Set crystal trim2 */
 		mt7612u_read_reg(ad, 0x40, XO_CTRL5, &value);
 		value &= 0xffff80ff;
 		value |= (((e2p_value & XTAL_TRIM2_MASK) + (xtal_freq_offset << 8)) & XTAL_TRIM2_MASK);
-		mt7612u_write_reg(ad, 0x40, XO_CTRL5, value);
+		mt7612u_write_reg(ad, XO_CTRL5, value);
 
 		/* Enable */
 		mt7612u_read_reg(ad, 0x40, XO_CTRL6, &value);
 		value &= 0xffff80ff;
 		value |= (0x7f << 8);
-		mt7612u_write_reg(ad, 0x40, XO_CTRL6, value);
+		mt7612u_write_reg(ad, XO_CTRL6, value);
 	}
 
 	/*
@@ -3351,7 +3351,7 @@ static void patch_BBPL_on(struct rtmp_adapter *pAd)
 
 	mt7612u_read_reg(pAd, 0x40, 0x130, &value);
 	value |= ((1<<16) | (1<<0));
-	mt7612u_write_reg(pAd, 0x40, 0x130, value);
+	mt7612u_write_reg(pAd, 0x130, value);
 
 	RtmpusecDelay(1);
 
@@ -3359,41 +3359,41 @@ static void patch_BBPL_on(struct rtmp_adapter *pAd)
 	if ((value >> 29) & 0x1) {
 		mt7612u_read_reg(pAd, 0x40, 0x1c, &value);
 		value &= 0xFFFFFF00;
-		mt7612u_write_reg(pAd, 0x40, 0x1c, value);
+		mt7612u_write_reg(pAd, 0x1c, value);
 
 		mt7612u_read_reg(pAd, 0x40, 0x1c, &value);
 		value |= 0x30;
-		mt7612u_write_reg(pAd, 0x40, 0x1c, value);
+		mt7612u_write_reg(pAd, 0x1c, value);
 	} else {
 		mt7612u_read_reg(pAd, 0x40, 0x1c, &value);
 		value &= 0xFFFFFF00;
-		mt7612u_write_reg(pAd, 0x40, 0x1c, value);
+		mt7612u_write_reg(pAd, 0x1c, value);
 
 		mt7612u_read_reg(pAd, 0x40, 0x1c, &value);
 		value |= 0x30;
-		mt7612u_write_reg(pAd, 0x40, 0x1c, value);
+		mt7612u_write_reg(pAd, 0x1c, value);
 	}
 
 	value = 0x0000484F;
-	mt7612u_write_reg(pAd, 0x40, 0x14, value);
+	mt7612u_write_reg(pAd, 0x14, value);
 
 	RtmpusecDelay(1);
 
 	mt7612u_read_reg(pAd, 0x40, 0x130, &value);
 	value |= (1<<17);
-	mt7612u_write_reg(pAd, 0x40, 0x130, value);
+	mt7612u_write_reg(pAd, 0x130, value);
 
 	RtmpusecDelay(125);
 
 	mt7612u_read_reg(pAd, 0x40, 0x130, &value);
 	value  &= ~(1<<16);
-	mt7612u_write_reg(pAd, 0x40, 0x130, value);
+	mt7612u_write_reg(pAd, 0x130, value);
 
 	RtmpusecDelay(50);
 
 	mt7612u_read_reg(pAd, 0x40, 0x14C, &value);
 	value  |= ((1<<20) | (1<<19));
-	mt7612u_write_reg(pAd, 0x40, 0x14C, value);
+	mt7612u_write_reg(pAd, 0x14C, value);
 }
 
 static VOID WF_CTRL(struct rtmp_adapter *pAd, UINT8 wfID, UINT8 isON)
@@ -3404,21 +3404,21 @@ static VOID WF_CTRL(struct rtmp_adapter *pAd, UINT8 wfID, UINT8 isON)
 		/* Enable WF0 BG */
 		mt7612u_read_reg(pAd, 0x40, 0x130, &value);
 		value |= (1<<0);
-		mt7612u_write_reg(pAd, 0x40, 0x130, value);
+		mt7612u_write_reg(pAd, 0x130, value);
 
 		RtmpusecDelay(10);
 
 		/* Enable RFDIG LDO/AFE/ABB/ADDA */
 		mt7612u_read_reg(pAd, 0x40, 0x130, &value);
 		value |= ((1<<1)|(1<<3)|(1<<4)|(1<<5));
-		mt7612u_write_reg(pAd, 0x40, 0x130, value);
+		mt7612u_write_reg(pAd, 0x130, value);
 
 		RtmpusecDelay(10);
 
 		/* Switch WF0 RFDIG power to internal LDO */
 		mt7612u_read_reg(pAd, 0x40, 0x130, &value);
 		value &= ~(1<<2);
-		mt7612u_write_reg(pAd, 0x40, 0x130, value);
+		mt7612u_write_reg(pAd, 0x130, value);
 
 		patch_BBPL_on(pAd);
 
@@ -3431,20 +3431,20 @@ static VOID WF_CTRL(struct rtmp_adapter *pAd, UINT8 wfID, UINT8 isON)
 			/* Enable WF1 BG */
 			mt7612u_read_reg(pAd, 0x40, 0x130, &value);
 			value |= (1<<8);
-			mt7612u_write_reg(pAd, 0x40, 0x130, value);
+			mt7612u_write_reg(pAd, 0x130, value);
 
 			RtmpusecDelay(10);
 
 			/* Enable RFDIG LDO/AFE/ABB/ADDA */
 			mt7612u_read_reg(pAd, 0x40, 0x130, &value);
 			value |= ((1<<9)|(1<<11)|(1<<12)|(1<<13));
-			mt7612u_write_reg(pAd, 0x40, 0x130, value);
+			mt7612u_write_reg(pAd, 0x130, value);
 
 			RtmpusecDelay(10);
 			/* Switch WF1 RFDIG power to internal LDO */
 			mt7612u_read_reg(pAd, 0x40, 0x130, &value);
 			value &= ~(1<<10);
-			mt7612u_write_reg(pAd, 0x40, 0x130, value);
+			mt7612u_write_reg(pAd, 0x130, value);
 
 			patch_BBPL_on(pAd);
 
@@ -3463,7 +3463,7 @@ static void WL_POWER_ON(struct rtmp_adapter *pAd)
 
 	mt7612u_read_reg(pAd, 0x40, 0x148, &value);
 	value |= 0x1;
-	mt7612u_write_reg(pAd, 0x40, 0x148, value); // turn on WL MTCMOS
+	mt7612u_write_reg(pAd, 0x148, value); // turn on WL MTCMOS
 	do {
 		mt7612u_read_reg(pAd, 0x40, 0x148, &regval);
 
@@ -3477,36 +3477,36 @@ static void WL_POWER_ON(struct rtmp_adapter *pAd)
 
 	mt7612u_read_reg(pAd, 0x40, 0x148, &value);
 	value &= ~(0x7F<<16);
-	mt7612u_write_reg(pAd, 0x40, 0x148, value);
+	mt7612u_write_reg(pAd, 0x148, value);
 
 	RtmpusecDelay(10);
 	mt7612u_read_reg(pAd, 0x40, 0x148, &value);
 	value &= ~(0xF<<24);
-	mt7612u_write_reg(pAd, 0x40, 0x148, value);
+	mt7612u_write_reg(pAd, 0x148, value);
 	RtmpusecDelay(10);
 
 	mt7612u_read_reg(pAd, 0x40, 0x148, &value);
 	value |= (0xF<<24);
-	mt7612u_write_reg(pAd, 0x40, 0x148, value);
+	mt7612u_write_reg(pAd, 0x148, value);
 
 	mt7612u_read_reg(pAd, 0x40, 0x148, &value);
 	value &= ~(0xFFF);
-	mt7612u_write_reg(pAd, 0x40, 0x148, value);
+	mt7612u_write_reg(pAd, 0x148, value);
 
 	/* Set 1'b0 to turn on AD/DA power down */
 	mt7612u_read_reg(pAd, 0x40, 0x1204, &value);
 	value &= ~(0x1<<3);
-	mt7612u_write_reg(pAd, 0x40, 0x1204, value);
+	mt7612u_write_reg(pAd, 0x1204, value);
 
 	/* WLAN function enable */
 	mt7612u_read_reg(pAd, 0x40, 0x80, &value);
 	value |= (0x1<<0);
-	mt7612u_write_reg(pAd, 0x40, 0x80, value);
+	mt7612u_write_reg(pAd, 0x80, value);
 
 	/* release "BBP software reset */
 	mt7612u_read_reg(pAd, 0x40, 0x64, &value);
 	value &= ~(0x1<<18);
-	mt7612u_write_reg(pAd, 0x40, 0x64, value);
+	mt7612u_write_reg(pAd, 0x64, value);
 }
 
 void mt76x2_pwrOn(struct rtmp_adapter *pAd)

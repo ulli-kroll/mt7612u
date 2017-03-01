@@ -207,14 +207,18 @@ void mt7612u_write32(struct rtmp_adapter *pAd, USHORT Offset,
 }
 
 
-int mt7612u_write_reg(struct rtmp_adapter *ad, uint32_t base, uint16_t offset, uint32_t val)
+int mt7612u_write_reg(struct rtmp_adapter *ad, uint16_t offset, uint32_t val)
 {
 	int ret;
 	UINT8 req;
 	uint32_t io_value;
 
+#if 0	/* ULLI : this remains currently here as remark */
 	if (base == 0x40)
 		req = 0x46;
+#endif
+
+	req = 0x46;
 
 	io_value = cpu2le32(val);
 

@@ -147,7 +147,7 @@ VOID FrequencyCalibration(
 
 			value = (value & 0xffff80ff) | (pFrqCal->AdaptiveFreqOffset << 8);
 			DBGPRINT(RT_DEBUG_TRACE, ("FRQ:  After just Value => %08x\n", value ));
-			mt7612u_write_reg(pAd, 0x40, XO_CTRL5, value);
+			mt7612u_write_reg(pAd, XO_CTRL5, value);
 		}
 
 		return;
