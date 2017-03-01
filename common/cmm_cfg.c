@@ -1347,26 +1347,6 @@ INT RTMP_COM_IoctlHandle(
 				return NDIS_STATUS_FAILURE;
 			break;
 
-		case CMD_RTPRIV_IOCTL_MAC_ADDR_GET:
-			{
-				UCHAR mac_addr[MAC_ADDR_LEN];
-				USHORT Addr01, Addr23, Addr45;
-
-				Addr01 = mt7612u_read_eeprom16(pAd, 0x04);
-				Addr23 = mt7612u_read_eeprom16(pAd, 0x06);
-				Addr45 = mt7612u_read_eeprom16(pAd, 0x08);
-
-				mac_addr[0] = (UCHAR)(Addr01 & 0xff);
-				mac_addr[1] = (UCHAR)(Addr01 >> 8);
-				mac_addr[2] = (UCHAR)(Addr23 & 0xff);
-				mac_addr[3] = (UCHAR)(Addr23 >> 8);
-				mac_addr[4] = (UCHAR)(Addr45 & 0xff);
-				mac_addr[5] = (UCHAR)(Addr45 >> 8);
-
-				for(i=0; i<6; i++)
-					*(UCHAR *)(pData+i) = mac_addr[i];
-				break;
-			}
 #ifdef CONFIG_AP_SUPPORT
 		case CMD_RTPRIV_IOCTL_AP_SIOCGIWRATEQ:
 		/* handle for SIOCGIWRATEQ */
