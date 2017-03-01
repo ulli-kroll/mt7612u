@@ -201,6 +201,6 @@ void usb_cfg_write_v1(struct rtmp_adapter *ad, u32 value);
 void usb_cfg_read_v3(struct rtmp_adapter *ad, u32 *value);
 void usb_cfg_write_v3(struct rtmp_adapter *ad, u32 value);
 int mt7612u_write_reg(struct rtmp_adapter *ad, uint32_t base, uint16_t offset, uint32_t val);
-int read_reg(struct rtmp_adapter *ad, uint32_t base, uint16_t offset, uint32_t *value);
+int mt7612u_read_reg(struct rtmp_adapter *ad, uint32_t base, uint16_t offset, uint32_t *value);
 
 #endif /* __RTUSB_IO_H__ */

@@ -230,7 +230,7 @@ int mt7612u_write_reg(struct rtmp_adapter *ad, uint32_t base, uint16_t offset, u
 }
 
 
-int read_reg(struct rtmp_adapter *ad, uint32_t base, uint16_t offset, uint32_t *value)
+int mt7612u_read_reg(struct rtmp_adapter *ad, uint32_t base, uint16_t offset, uint32_t *value)
 {
 	int ret;
 	UINT8 req;
