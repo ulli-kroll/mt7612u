@@ -234,16 +234,20 @@ int mt7612u_write_reg(struct rtmp_adapter *ad, uint16_t offset, uint32_t val)
 }
 
 
-int mt7612u_read_reg(struct rtmp_adapter *ad, uint32_t base, uint16_t offset, uint32_t *value)
+int mt7612u_read_reg(struct rtmp_adapter *ad, uint16_t offset, uint32_t *value)
 {
 	int ret;
 	UINT8 req;
 	uint32_t io_value;
 
+#if 0	/* ULLI : this remains currently here as remark */
 	if (base == 0x40)
 		req = 0x47;
 	else if (base == 0x41)
 		req = 0x7;
+#endif
+
+	req = 0x47;
 
 	ret = RTUSB_VendorRequest(ad, DEVICE_VENDOR_REQUEST_IN,
 				  req, 0, offset,
