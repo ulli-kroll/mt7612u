@@ -51,6 +51,17 @@
 */
 #ifdef RLT_MAC
 
+/* Known USB Vendor Commands */
+#define MT7612U_VENDOR_RESET		0x01	/* need better name */
+#define MT7612U_VENDOR_SINGLE_WRITE	0x02
+#define MT7612U_VENDOR_WRITE_MAC	0x06
+#define MT7612U_VENDOR_READ_MAC		0x07
+#define MT7612U_VENDOR_WRITE_EEPROM	0x08	/* Not used */
+#define MT7612U_VENDOR_READ_EEPROM	0x09
+
+#define MT7612U_VENDOR_USB_CFG_READ	0x47
+#define MT7612U_VENDOR_USB_CFG_WRITE	0x46
+
 #ifdef MT76x2
 // For MT7662 and newer
 void usb_cfg_read_v3(struct rtmp_adapter *ad, u32 *value)
@@ -59,7 +70,7 @@ void usb_cfg_read_v3(struct rtmp_adapter *ad, u32 *value)
 	u32 io_value;
 
 	ret = RTUSB_VendorRequest(ad, DEVICE_VENDOR_REQUEST_IN,
-				  0x47, 0, U3DMA_WLCFG,
+				  MT7612U_VENDOR_USB_CFG_READ, 0, U3DMA_WLCFG,
 				  &io_value, 4);
 
 	*value = le2cpu32(io_value);
@@ -77,7 +88,7 @@ void usb_cfg_write_v3(struct rtmp_adapter *ad, u32 value)
 	io_value = cpu2le32(value);
 
 	ret = RTUSB_VendorRequest(ad, DEVICE_VENDOR_REQUEST_OUT,
-				  0x46, 0, U3DMA_WLCFG,
+				  MT7612U_VENDOR_USB_CFG_WRITE, 0, U3DMA_WLCFG,
 				  &io_value, 4);
 
 
@@ -94,7 +105,7 @@ int RTUSBVenderReset(struct rtmp_adapter *pAd)
 	int Status;
 	DBGPRINT_RAW(RT_DEBUG_ERROR, ("-->RTUSBVenderReset\n"));
 	Status = RTUSB_VendorRequest(pAd, DEVICE_VENDOR_REQUEST_OUT,
-				     0x01, 0x1, 0,
+				     MT7612U_VENDOR_RESET, 0x1, 0,
 				     NULL, 0);
 
 	DBGPRINT_RAW(RT_DEBUG_ERROR, ("<--RTUSBVenderReset\n"));
@@ -134,7 +145,7 @@ int RTUSBSingleWrite(
 	BOOLEAN WriteHigh = FALSE;
 
 	return RTUSB_VendorRequest(pAd, DEVICE_VENDOR_REQUEST_OUT,
-				   0x2,	Value, Offset, NULL, 0);
+				   MT7612U_VENDOR_SINGLE_WRITE,	Value, Offset, NULL, 0);
 }
 
 
@@ -159,7 +170,7 @@ u32 mt7612u_read32(struct rtmp_adapter *pAd, USHORT Offset)
 	u32 val;
 
 	Status = RTUSB_VendorRequest(pAd, DEVICE_VENDOR_REQUEST_IN,
-				     0x7, 0, Offset,
+				     MT7612U_VENDOR_READ_MAC, 0, Offset,
 				     &val, 4);
 
 	if (Status != 0)
@@ -191,7 +202,7 @@ void mt7612u_write32(struct rtmp_adapter *pAd, USHORT Offset,
 
 
 	RTUSB_VendorRequest(pAd, DEVICE_VENDOR_REQUEST_OUT,
-			     0x6, 0, Offset,
+			     MT7612U_VENDOR_WRITE_MAC, 0, Offset,
 			     &val, 4);
 }
 
@@ -279,7 +290,7 @@ u16 mt7612u_read_eeprom16(struct rtmp_adapter *pAd, USHORT offset)
 	u16 val = 0;
 
 	RTUSB_VendorRequest(pAd, DEVICE_VENDOR_REQUEST_IN,
-				   0x9, 0, offset, &val, 2);
+				   MT7612U_VENDOR_READ_EEPROM, 0, offset, &val, 2);
 
 	return le2cpu16(val);
 }
