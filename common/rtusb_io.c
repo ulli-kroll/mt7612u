@@ -207,7 +207,7 @@ void mt7612u_write32(struct rtmp_adapter *pAd, USHORT Offset,
 }
 
 
-int write_reg(struct rtmp_adapter *ad, uint32_t base, uint16_t offset, uint32_t val)
+int mt7612u_write_reg(struct rtmp_adapter *ad, uint32_t base, uint16_t offset, uint32_t val)
 {
 	int ret;
 	UINT8 req;
