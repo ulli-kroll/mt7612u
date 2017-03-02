@@ -206,7 +206,7 @@ static int get_chl_grp(u8 channel)
 	return chl_grp;
 }
 
-static char get_low_mid_hi_index(u8 channel)
+static int get_low_mid_hi_index(u8 channel)
 {
 	char index = G_BAND_LOW;
 
