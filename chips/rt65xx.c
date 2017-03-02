@@ -43,7 +43,7 @@ VOID RT65xxUsbAsicRadioOff(struct rtmp_adapter *pAd, UCHAR Stage)
 		RTMP_SEM_EVENT_WAIT(&pAd->hw_atomic, ret);
 		if (ret != 0) {
 			DBGPRINT(RT_DEBUG_ERROR, ("reg_atomic get failed(ret=%d)\n", ret));
-			return STATUS_UNSUCCESSFUL;
+			return;
 		}
 	}
 
@@ -138,7 +138,7 @@ VOID RT65xxUsbAsicRadioOn(struct rtmp_adapter *pAd, UCHAR Stage)
 		RTMP_SEM_EVENT_WAIT(&pAd->hw_atomic, ret);
 		if (ret != 0) {
 			DBGPRINT(RT_DEBUG_ERROR, ("reg_atomic get failed(ret=%d)\n", ret));
-			return STATUS_UNSUCCESSFUL;
+			return;
 		}
 	}
 
