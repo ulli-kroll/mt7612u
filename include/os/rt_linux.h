@@ -752,8 +752,6 @@ void linux_pci_unmap_single(void *handle, ra_dma_addr_t dma_addr, size_t size, i
 
 #define GET_OS_PKT_LEN(_pkt) \
 		(RTPKT_TO_OSPKT(_pkt)->len)
-#define SET_OS_PKT_LEN(_pkt, _len)	\
-		(RTPKT_TO_OSPKT(_pkt)->len) = (_len)
 
 #define GET_OS_PKT_DATATAIL(_pkt) \
 		(RTPKT_TO_OSPKT(_pkt)->tail)
@@ -798,7 +796,7 @@ void linux_pci_unmap_single(void *handle, ra_dma_addr_t dma_addr, size_t size, i
 	__pRxPkt = RTPKT_TO_OSPKT(__pRxPacket);									\
 	__pRxPkt->dev = __pNetDev;									\
 	__pRxPkt->data = __pData;									\
-	SET_OS_PKT_LEN(__pRxPkt, __DataSize);									\
+	__pRxPkt->len = __DataSize;									\
 	SET_OS_PKT_DATATAIL(__pRxPkt, __pData, __DataSize);						\
 }
 
