@@ -569,13 +569,10 @@ VOID CFG80211DRV_FragThresholdAdd(
 }
 
 
-BOOLEAN CFG80211DRV_ApKeyAdd(
-	struct rtmp_adapter                             *pAd,
-	VOID                                            *pData)
+BOOLEAN CFG80211DRV_ApKeyAdd(struct rtmp_adapter *pAd, void *pData)
 {
 #ifdef CONFIG_AP_SUPPORT
-    CMD_RTPRIV_IOCTL_80211_KEY *pKeyInfo;
-	MAC_TABLE_ENTRY *pEntry;
+	CMD_RTPRIV_IOCTL_80211_KEY *pKeyInfo;
 	PMULTISSID_STRUCT pMbss = &pAd->ApCfg.MBSSID[MAIN_MBSSID];
 	struct rtmp_wifi_dev *pWdev = &pMbss->wdev;
 	UINT8 Wcid;
@@ -583,126 +580,115 @@ BOOLEAN CFG80211DRV_ApKeyAdd(
 	UINT apidx = MAIN_MBSSID;
 #endif
 
-    DBGPRINT(RT_DEBUG_TRACE,("%s =====> \n", __FUNCTION__));
-    pKeyInfo = (CMD_RTPRIV_IOCTL_80211_KEY *)pData;
+	DBGPRINT(RT_DEBUG_TRACE,("%s =====> \n", __FUNCTION__));
+	pKeyInfo = (CMD_RTPRIV_IOCTL_80211_KEY *)pData;
 
-	if (pKeyInfo->KeyType == RT_CMD_80211_KEY_WEP40 || pKeyInfo->KeyType == RT_CMD_80211_KEY_WEP104)
-	{
+	if (pKeyInfo->KeyType == RT_CMD_80211_KEY_WEP40 ||
+	    pKeyInfo->KeyType == RT_CMD_80211_KEY_WEP104) {
 		pWdev->WepStatus = Ndis802_11WEPEnabled;
 		{
-				UCHAR CipherAlg;
-				CIPHER_KEY	*pSharedKey;
-				struct os_cookie *pObj;
+			UCHAR CipherAlg;
+			CIPHER_KEY	*pSharedKey;
+			struct os_cookie *pObj;
 
-				pObj = pAd->OS_Cookie;
+			pObj = pAd->OS_Cookie;
 
-				pSharedKey = &pAd->SharedKey[apidx][pKeyInfo->KeyId];
-				memmove(pSharedKey->Key, pKeyInfo->KeyBuf, pKeyInfo->KeyLen);
+			pSharedKey = &pAd->SharedKey[apidx][pKeyInfo->KeyId];
+			memmove(pSharedKey->Key, pKeyInfo->KeyBuf, pKeyInfo->KeyLen);
 
 
-				if (pKeyInfo->KeyType == RT_CMD_80211_KEY_WEP40)
-					pAd->SharedKey[apidx][pKeyInfo->KeyId].CipherAlg = CIPHER_WEP64;
-				else
-					pAd->SharedKey[apidx][pKeyInfo->KeyId].CipherAlg = CIPHER_WEP128;
+			if (pKeyInfo->KeyType == RT_CMD_80211_KEY_WEP40)
+				pAd->SharedKey[apidx][pKeyInfo->KeyId].CipherAlg = CIPHER_WEP64;
+			else
+				pAd->SharedKey[apidx][pKeyInfo->KeyId].CipherAlg = CIPHER_WEP128;
 
-				AsicAddSharedKeyEntry(pAd, apidx, pKeyInfo->KeyId, pSharedKey);
+			AsicAddSharedKeyEntry(pAd, apidx, pKeyInfo->KeyId, pSharedKey);
 		}
-	}
-	else if(pKeyInfo->KeyType == RT_CMD_80211_KEY_WPA)
-	{
-		if (pKeyInfo->cipher == Ndis802_11AESEnable)
-		{
+	} else if(pKeyInfo->KeyType == RT_CMD_80211_KEY_WPA) {
+		if (pKeyInfo->cipher == Ndis802_11AESEnable) {
 		/* AES */
 				//pWdev->WepStatus = Ndis802_11Encryption3Enabled;
 				//pWdev->GroupKeyWepStatus = Ndis802_11Encryption3Enabled;
-		        if (pKeyInfo->bPairwise == FALSE )
-				{
-					if (pWdev->GroupKeyWepStatus == Ndis802_11Encryption3Enabled)
-					{
-						DBGPRINT(RT_DEBUG_TRACE, ("CFG: Set AES Security Set. (GROUP) %d\n", pKeyInfo->KeyLen));
-						pAd->SharedKey[MAIN_MBSSID][pKeyInfo->KeyId].KeyLen= LEN_TK;
-						memmove(pAd->SharedKey[MAIN_MBSSID][pKeyInfo->KeyId].Key, pKeyInfo->KeyBuf, pKeyInfo->KeyLen);
+		        if (pKeyInfo->bPairwise == FALSE ) {
+				if (pWdev->GroupKeyWepStatus == Ndis802_11Encryption3Enabled) {
+					DBGPRINT(RT_DEBUG_TRACE, ("CFG: Set AES Security Set. (GROUP) %d\n", pKeyInfo->KeyLen));
+					pAd->SharedKey[MAIN_MBSSID][pKeyInfo->KeyId].KeyLen= LEN_TK;
+					memmove(pAd->SharedKey[MAIN_MBSSID][pKeyInfo->KeyId].Key, pKeyInfo->KeyBuf, pKeyInfo->KeyLen);
 
-						pAd->SharedKey[MAIN_MBSSID][pKeyInfo->KeyId].CipherAlg = CIPHER_AES;
+					pAd->SharedKey[MAIN_MBSSID][pKeyInfo->KeyId].CipherAlg = CIPHER_AES;
 
-						AsicAddSharedKeyEntry(pAd, MAIN_MBSSID, pKeyInfo->KeyId,
-								&pAd->SharedKey[MAIN_MBSSID][pKeyInfo->KeyId]);
+					AsicAddSharedKeyEntry(pAd, MAIN_MBSSID, pKeyInfo->KeyId,
+							&pAd->SharedKey[MAIN_MBSSID][pKeyInfo->KeyId]);
 
-						GET_GroupKey_WCID(pAd, Wcid, MAIN_MBSSID);
-						RTMPSetWcidSecurityInfo(pAd, MAIN_MBSSID, (UINT8)(pKeyInfo->KeyId),
-								pAd->SharedKey[MAIN_MBSSID][pKeyInfo->KeyId].CipherAlg, Wcid, SHAREDKEYTABLE);
-
-					}
-				}
-				else
-				{
-					if (pKeyInfo->MAC)
-						pEntry = MacTableLookup(pAd, pKeyInfo->MAC);
-
-					if(pEntry)
-					{
-						DBGPRINT(RT_DEBUG_TRACE, ("CFG: Set AES Security Set. (PAIRWISE) %d\n", pKeyInfo->KeyLen));
-						pEntry->PairwiseKey.KeyLen = LEN_TK;
-						memcpy(&pEntry->PTK[OFFSET_OF_PTK_TK], pKeyInfo->KeyBuf, OFFSET_OF_PTK_TK);
-						memmove(pEntry->PairwiseKey.Key, &pEntry->PTK[OFFSET_OF_PTK_TK], pKeyInfo->KeyLen);
-						pEntry->PairwiseKey.CipherAlg = CIPHER_AES;
-
-						AsicAddPairwiseKeyEntry(pAd, (UCHAR)pEntry->Aid, &pEntry->PairwiseKey);
-						RTMPSetWcidSecurityInfo(pAd, pEntry->apidx, (UINT8)(pKeyInfo->KeyId & 0x0fff),
-							pEntry->PairwiseKey.CipherAlg, pEntry->Aid, PAIRWISEKEYTABLE);
-					}
-					else
-					{
-						DBGPRINT(RT_DEBUG_ERROR,("CFG: Set AES Security Set. (PAIRWISE) But pEntry NULL\n"));
-					}
+					GET_GroupKey_WCID(pAd, Wcid, MAIN_MBSSID);
+					RTMPSetWcidSecurityInfo(pAd, MAIN_MBSSID, (UINT8)(pKeyInfo->KeyId),
+							pAd->SharedKey[MAIN_MBSSID][pKeyInfo->KeyId].CipherAlg, Wcid, SHAREDKEYTABLE);
 
 				}
-		}else if (pKeyInfo->cipher == Ndis802_11TKIPEnable) {
+			} else {
+				MAC_TABLE_ENTRY *pEntry = NULL;
+
+				if (pKeyInfo->MAC)
+					pEntry = MacTableLookup(pAd, pKeyInfo->MAC);
+
+				if (pEntry) {
+					DBGPRINT(RT_DEBUG_TRACE, ("CFG: Set AES Security Set. (PAIRWISE) %d\n", pKeyInfo->KeyLen));
+					pEntry->PairwiseKey.KeyLen = LEN_TK;
+					memcpy(&pEntry->PTK[OFFSET_OF_PTK_TK], pKeyInfo->KeyBuf, OFFSET_OF_PTK_TK);
+					memmove(pEntry->PairwiseKey.Key, &pEntry->PTK[OFFSET_OF_PTK_TK], pKeyInfo->KeyLen);
+					pEntry->PairwiseKey.CipherAlg = CIPHER_AES;
+
+					AsicAddPairwiseKeyEntry(pAd, (UCHAR)pEntry->Aid, &pEntry->PairwiseKey);
+					RTMPSetWcidSecurityInfo(pAd, pEntry->apidx, (UINT8)(pKeyInfo->KeyId & 0x0fff),
+						pEntry->PairwiseKey.CipherAlg, pEntry->Aid, PAIRWISEKEYTABLE);
+
+				} else {
+					DBGPRINT(RT_DEBUG_ERROR,("CFG: Set AES Security Set. (PAIRWISE) But pEntry NULL\n"));
+				}
+
+			}
+		} else if (pKeyInfo->cipher == Ndis802_11TKIPEnable) {
 		/* TKIP */
 				//pWdev->WepStatus = Ndis802_11Encryption2Enabled;
 				//pWdev->GroupKeyWepStatus = Ndis802_11Encryption2Enabled;
-		        if (pKeyInfo->bPairwise == FALSE )
-				{
-					if (pWdev->GroupKeyWepStatus == Ndis802_11Encryption2Enabled)
-					{
-						DBGPRINT(RT_DEBUG_TRACE, ("CFG: Set TKIP Security Set. (GROUP) %d\n", pKeyInfo->KeyLen));
-						pAd->SharedKey[MAIN_MBSSID][pKeyInfo->KeyId].KeyLen= LEN_TK;
-						memmove(pAd->SharedKey[MAIN_MBSSID][pKeyInfo->KeyId].Key, pKeyInfo->KeyBuf, pKeyInfo->KeyLen);
+		        if (pKeyInfo->bPairwise == FALSE ) {
+				if (pWdev->GroupKeyWepStatus == Ndis802_11Encryption2Enabled) {
+					DBGPRINT(RT_DEBUG_TRACE, ("CFG: Set TKIP Security Set. (GROUP) %d\n", pKeyInfo->KeyLen));
+					pAd->SharedKey[MAIN_MBSSID][pKeyInfo->KeyId].KeyLen= LEN_TK;
+					memmove(pAd->SharedKey[MAIN_MBSSID][pKeyInfo->KeyId].Key, pKeyInfo->KeyBuf, pKeyInfo->KeyLen);
 
-						pAd->SharedKey[MAIN_MBSSID][pKeyInfo->KeyId].CipherAlg = CIPHER_TKIP;
+					pAd->SharedKey[MAIN_MBSSID][pKeyInfo->KeyId].CipherAlg = CIPHER_TKIP;
 
-						AsicAddSharedKeyEntry(pAd, MAIN_MBSSID, pKeyInfo->KeyId,
-								&pAd->SharedKey[MAIN_MBSSID][pKeyInfo->KeyId]);
+					AsicAddSharedKeyEntry(pAd, MAIN_MBSSID, pKeyInfo->KeyId,
+							&pAd->SharedKey[MAIN_MBSSID][pKeyInfo->KeyId]);
 
-						GET_GroupKey_WCID(pAd, Wcid, MAIN_MBSSID);
-						RTMPSetWcidSecurityInfo(pAd, MAIN_MBSSID, (UINT8)(pKeyInfo->KeyId),
-								pAd->SharedKey[MAIN_MBSSID][pKeyInfo->KeyId].CipherAlg, Wcid, SHAREDKEYTABLE);
-
-					}
-				}
-				else
-				{
-					if (pKeyInfo->MAC)
-						pEntry = MacTableLookup(pAd, pKeyInfo->MAC);
-
-					if(pEntry)
-					{
-						DBGPRINT(RT_DEBUG_TRACE, ("CFG: Set TKIP Security Set. (PAIRWISE) %d\n", pKeyInfo->KeyLen));
-						pEntry->PairwiseKey.KeyLen = LEN_TK;
-						memcpy(&pEntry->PTK[OFFSET_OF_PTK_TK], pKeyInfo->KeyBuf, OFFSET_OF_PTK_TK);
-						memmove(pEntry->PairwiseKey.Key, &pEntry->PTK[OFFSET_OF_PTK_TK], pKeyInfo->KeyLen);
-						pEntry->PairwiseKey.CipherAlg = CIPHER_TKIP;
-
-						AsicAddPairwiseKeyEntry(pAd, (UCHAR)pEntry->Aid, &pEntry->PairwiseKey);
-						RTMPSetWcidSecurityInfo(pAd, pEntry->apidx, (UINT8)(pKeyInfo->KeyId & 0x0fff),
-							pEntry->PairwiseKey.CipherAlg, pEntry->Aid, PAIRWISEKEYTABLE);
-					}
-					else
-					{
-						DBGPRINT(RT_DEBUG_ERROR,("CFG: Set TKIP Security Set. (PAIRWISE) But pEntry NULL\n"));
-					}
+					GET_GroupKey_WCID(pAd, Wcid, MAIN_MBSSID);
+					RTMPSetWcidSecurityInfo(pAd, MAIN_MBSSID, (UINT8)(pKeyInfo->KeyId),
+							pAd->SharedKey[MAIN_MBSSID][pKeyInfo->KeyId].CipherAlg, Wcid, SHAREDKEYTABLE);
 
 				}
+			} else {
+				MAC_TABLE_ENTRY *pEntry = NULL;
+
+				if (pKeyInfo->MAC)
+					pEntry = MacTableLookup(pAd, pKeyInfo->MAC);
+
+				if (pEntry) {
+					DBGPRINT(RT_DEBUG_TRACE, ("CFG: Set TKIP Security Set. (PAIRWISE) %d\n", pKeyInfo->KeyLen));
+					pEntry->PairwiseKey.KeyLen = LEN_TK;
+					memcpy(&pEntry->PTK[OFFSET_OF_PTK_TK], pKeyInfo->KeyBuf, OFFSET_OF_PTK_TK);
+					memmove(pEntry->PairwiseKey.Key, &pEntry->PTK[OFFSET_OF_PTK_TK], pKeyInfo->KeyLen);
+					pEntry->PairwiseKey.CipherAlg = CIPHER_TKIP;
+
+					AsicAddPairwiseKeyEntry(pAd, (UCHAR)pEntry->Aid, &pEntry->PairwiseKey);
+					RTMPSetWcidSecurityInfo(pAd, pEntry->apidx, (UINT8)(pKeyInfo->KeyId & 0x0fff),
+						pEntry->PairwiseKey.CipherAlg, pEntry->Aid, PAIRWISEKEYTABLE);
+
+				} else {
+					DBGPRINT(RT_DEBUG_ERROR,("CFG: Set TKIP Security Set. (PAIRWISE) But pEntry NULL\n"));
+				}
+
+			}
 		}
 
 	}
