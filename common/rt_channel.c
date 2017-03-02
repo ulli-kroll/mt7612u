@@ -619,6 +619,12 @@ static UCHAR GetExtCh(
 
 INT get_vht_neighbor_index(IN UCHAR channel)
 {
+	/*
+	 * ULLI : stupid  thing here, we should never 4 * 6 channles used
+	 * ULLI : and only 24 channels available, this make if () else wrong
+	 * ULLI : so we do simple fix return value to -3 if we fall through
+	 */
+
 	if ((channel == 36) || (channel == 52)
 		|| (channel == 100) || (channel == 116)
 		|| (channel == 132) || (channel == 149)) {
@@ -639,6 +645,8 @@ INT get_vht_neighbor_index(IN UCHAR channel)
 		|| (channel == 144) || (channel == 161)) {
 		return -3;
 	}
+
+	return -3;
 }
 
 BOOLEAN AC_ChannelGroupCheck(
