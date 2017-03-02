@@ -59,9 +59,6 @@ ULONG RTDebugFunc = 0;
 #ifdef VENDOR_FEATURE4_SUPPORT
 ULONG OS_NumOfMemAlloc = 0, OS_NumOfMemFree = 0;
 #endif /* VENDOR_FEATURE4_SUPPORT */
-#ifdef VENDOR_FEATURE2_SUPPORT
-ULONG OS_NumOfPktAlloc = 0, OS_NumOfPktFree = 0;
-#endif /* VENDOR_FEATURE2_SUPPORT */
 
 /*
  * the lock will not be used in TX/RX
@@ -197,8 +194,6 @@ struct sk_buff *RtmpOSNetPktAlloc(VOID *dummy, int size)
 	struct sk_buff *skb;
 	/* Add 2 more bytes for ip header alignment */
 	skb = dev_alloc_skb(size + 2);
-	if (skb != NULL)
-		MEM_DBG_PKT_ALLOC_INC(skb);
 
 	return skb;
 }
@@ -212,10 +207,6 @@ struct sk_buff *RTMP_AllocateFragPacketBuffer(VOID *dummy, ULONG len)
 	if (pkt == NULL) {
 		DBGPRINT(RT_DEBUG_ERROR,
 			 ("can't allocate frag rx %ld size packet\n", len));
-	}
-
-	if (pkt) {
-		MEM_DBG_PKT_ALLOC_INC(pkt);
 	}
 
 	return pkt;
@@ -250,7 +241,6 @@ int RTMPAllocateNdisPacket(
 #endif
 		return NDIS_STATUS_FAILURE;
 	}
-	MEM_DBG_PKT_ALLOC_INC(pPacket);
 
 	/* Clone the frame content and update the length of packet */
 	if (HeaderLen > 0)
@@ -276,7 +266,6 @@ int RTMPAllocateNdisPacket(
 VOID RTMPFreeNdisPacket(VOID *pReserved, struct sk_buff *pPacket)
 {
 	dev_kfree_skb_any(RTPKT_TO_OSPKT(pPacket));
-	MEM_DBG_PKT_FREE_INC(pPacket);
 }
 
 
@@ -332,7 +321,6 @@ struct sk_buff *DuplicatePacket(
 
 	skb = skb_clone(RTPKT_TO_OSPKT(pPacket), MEM_ALLOC_FLAG);
 	if (skb) {
-		MEM_DBG_PKT_ALLOC_INC(skb);
 		skb->dev = pNetDev;
 		pRetPacket = skb;
 	}
@@ -355,7 +343,6 @@ struct sk_buff *duplicate_pkt(
 
 	if ((skb =
 	     __dev_alloc_skb(HdrLen + DataSize + 2, MEM_ALLOC_FLAG)) != NULL) {
-		MEM_DBG_PKT_ALLOC_INC(skb);
 
 		skb_reserve(skb, 2);
 		memmove(skb->tail, pHeader802_3, HdrLen);
@@ -381,14 +368,12 @@ struct sk_buff *duplicate_pkt_with_TKIP_MIC(VOID *pReserved, struct sk_buff *pPa
 		newskb = skb_copy_expand(skb, skb_headroom(skb), TKIP_TX_MIC_SIZE, GFP_ATOMIC);
 
 		dev_kfree_skb_any(skb);
-		MEM_DBG_PKT_FREE_INC(skb);
 
 		if (newskb == NULL) {
 			DBGPRINT(RT_DEBUG_ERROR, ("Extend Tx.MIC for packet failed!, dropping packet!\n"));
 			return NULL;
 		}
 		skb = newskb;
-		MEM_DBG_PKT_ALLOC_INC(skb);
 	}
 
 	return skb;
@@ -414,7 +399,6 @@ struct sk_buff *duplicate_pkt_with_VLAN(
 
 	if ((skb = __dev_alloc_skb(HdrLen + DataSize + LENGTH_802_1Q + 2,
 				   MEM_ALLOC_FLAG)) != NULL) {
-		MEM_DBG_PKT_ALLOC_INC(skb);
 
 		skb_reserve(skb, 2);
 
@@ -468,7 +452,6 @@ BOOLEAN RTMPL2FrameTxAction(
 		return FALSE;
 	}
 
-	MEM_DBG_PKT_ALLOC_INC(skb);
 	skb->dev = pNetDev;
 
 	/* 16 byte align the IP header */
@@ -511,7 +494,6 @@ struct sk_buff *ExpandPacket(
 		newskb = skb_copy_expand(skb, head_len, tail_len, GFP_ATOMIC);
 
 		dev_kfree_skb_any(skb);
-		MEM_DBG_PKT_FREE_INC(skb);
 
 		if (newskb == NULL) {
 			DBGPRINT(RT_DEBUG_ERROR,
@@ -519,7 +501,6 @@ struct sk_buff *ExpandPacket(
 			return NULL;
 		}
 		skb = newskb;
-		MEM_DBG_PKT_ALLOC_INC(skb);
 	}
 
 	return skb;
@@ -537,7 +518,6 @@ struct sk_buff *ClonePacket(struct sk_buff *skb, u8 *pData,
 
 	if (clone) {
 		/* set the correct dataptr and data len */
-		MEM_DBG_PKT_ALLOC_INC(clone);
 		clone->dev = skb->dev;
 		clone->data = pData;
 		clone->len = DataSize;
@@ -1209,10 +1189,6 @@ void RtmpOSNetDevFree(struct net_device *pNetDev)
 	printk("OS_NumOfMemAlloc = %ld, OS_NumOfMemFree = %ld\n",
 			OS_NumOfMemAlloc, OS_NumOfMemFree);
 #endif /* VENDOR_FEATURE4_SUPPORT */
-#ifdef VENDOR_FEATURE2_SUPPORT
-	printk("OS_NumOfPktAlloc = %ld, OS_NumOfPktFree = %ld\n",
-			OS_NumOfPktAlloc, OS_NumOfPktFree);
-#endif /* VENDOR_FEATURE2_SUPPORT */
 }
 
 INT RtmpOSNetDevAlloc(

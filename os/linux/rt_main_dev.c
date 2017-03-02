@@ -327,11 +327,6 @@ int rt28xx_open(struct net_device *net_dev)
 
 	RTMPDrvOpen(pAd);
 
-#ifdef VENDOR_FEATURE2_SUPPORT
-	printk("Number of Packet Allocated in open = %lu\n", OS_NumOfPktAlloc);
-	printk("Number of Packet Freed in open = %lu\n", OS_NumOfPktFree);
-#endif /* VENDOR_FEATURE2_SUPPORT */
-
 	return (retval);
 
 err:
@@ -484,7 +479,6 @@ int rt28xx_send_packets(struct sk_buff *skb, struct net_device *ndev)
 	}
 
 	memset((u8 *)&skb->cb[CB_OFF], 0, 26);
-	MEM_DBG_PKT_ALLOC_INC(skb);
 
 	return rt28xx_packet_xmit(skb);
 }

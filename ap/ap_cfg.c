@@ -5071,23 +5071,6 @@ INT	ApCfg_Set_IdleTimeout_Proc(
 }
 
 
-
-
-
-
-INT	Set_MemDebug_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg)
-{
-#ifdef VENDOR_FEATURE2_SUPPORT
-	printk("Number of Packet Allocated = %lu\n", OS_NumOfPktAlloc);
-	printk("Number of Packet Freed = %lu\n", OS_NumOfPktFree);
-	printk("Offset of Packet Allocated/Freed = %lu\n", OS_NumOfPktAlloc - OS_NumOfPktFree);
-#endif /* VENDOR_FEATURE2_SUPPORT */
-	return TRUE;
-}
-
-
 #ifdef APCLI_SUPPORT
 #ifdef APCLI_WPA_SUPPLICANT_SUPPORT
 #endif/*APCLI_WPA_SUPPLICANT_SUPPORT*/

@@ -412,7 +412,6 @@ void announce_802_3_packet(
 
 
 	ASSERT(pPacket);
-	MEM_DBG_PKT_FREE_INC(pPacket);
 
 #ifdef CONFIG_AP_SUPPORT
 #ifdef APCLI_SUPPORT
@@ -456,7 +455,6 @@ void announce_802_3_packet(
 			else
 			{
 				dev_kfree_skb_any(pRxPkt);
-				MEM_DBG_PKT_FREE_INC(pAd);
 			}
 		}
 		else
