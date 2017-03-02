@@ -1354,7 +1354,7 @@ static int CFG80211_OpsConnect(
 #endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
 	{
 		if (pSme->ie_len > 0)
-			RTMP_DRIVER_80211_GEN_IE_SET(pAd, pSme->ie, pSme->ie_len);
+			RTMP_DRIVER_80211_GEN_IE_SET(pAd, (u8 *) pSme->ie, pSme->ie_len);
 		else
 			RTMP_DRIVER_80211_GEN_IE_SET(pAd, NULL, 0);
 	}
@@ -1969,11 +1969,11 @@ static int CFG80211_OpsStaChg(struct wiphy *pWiphy, struct net_device *dev,
 	if (params->sta_flags_set & BIT(NL80211_STA_FLAG_AUTHORIZED)) {
 		CFG80211DBG(RT_DEBUG_TRACE, ("80211> STA(%02X:%02X:%02X:%02X:%02X:%02X) ==> PortSecured\n",
 			PRINT_MAC(pMacAddr)));
-		RTMP_DRIVER_80211_AP_MLME_PORT_SECURED(pAd, pMacAddr, 1);
+		RTMP_DRIVER_80211_AP_MLME_PORT_SECURED(pAd, (u8 *) pMacAddr, 1);
 	} else {
 		CFG80211DBG(RT_DEBUG_TRACE, ("80211> STA(%02X:%02X:%02X:%02X:%02X:%02X) ==> PortNotSecured\n",
                         PRINT_MAC(pMacAddr)));
-		RTMP_DRIVER_80211_AP_MLME_PORT_SECURED(pAd, pMacAddr, 0);
+		RTMP_DRIVER_80211_AP_MLME_PORT_SECURED(pAd, (u8 *) pMacAddr, 0);
 	}
 
 	return 0;
