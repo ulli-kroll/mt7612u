@@ -4329,7 +4329,7 @@ INT show_stainfo_proc(struct rtmp_adapter *pAd, char *arg)
 	for (i = 0, token = rstrtok(arg, &sep[0]); token; token = rstrtok(NULL, &sep[0]), i++)
 	{
 		DBGPRINT(RT_DEBUG_OFF, ("%s(): token(len=%d) =%s\n",
-					__FUNCTION__, strlen(token), token));
+					__FUNCTION__, (int) strlen(token), token));
 		if((strlen(token) != 2) || (!isxdigit(*token)) || (!isxdigit(*(token+1))))
 			return FALSE;
 		AtoH(token, (&mac_addr[i]), 1);

@@ -1993,7 +1993,7 @@ static struct wireless_dev* CFG80211_OpsVirtualInfAdd(
 	if (pAd == NULL)
 		return NULL;
 
-	CFG80211DBG(RT_DEBUG_OFF, ("80211> %s [%s,%d, %d] ==>\n", __FUNCTION__, name, Type, strlen(name)));
+	CFG80211DBG(RT_DEBUG_OFF, ("80211> %s [%s,%d, %d] ==>\n", __FUNCTION__, name, Type, (int) strlen(name)));
 
 	vifInfo.vifType = Type;
 	vifInfo.vifNameLen = strlen(name);
