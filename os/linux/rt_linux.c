@@ -1917,10 +1917,6 @@ Return Value:
 Note:
 ========================================================================
 */
-struct net_device *RtmpOsPktNetDevGet(VOID *pPkt)
-{
-	return GET_OS_PKT_NETDEV(pPkt);
-}
 
 VOID RtmpOsPktNatMagicTag(IN struct sk_buff *pNetPkt)
 {

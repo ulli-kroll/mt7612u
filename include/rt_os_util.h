@@ -242,7 +242,6 @@ VOID RtmpOsNetQueueStop(struct net_device *pDev);
 VOID RtmpOsNetQueueWake(struct net_device *pDev);
 
 VOID RtmpOsSetPktNetDev(VOID *pPkt, struct net_device *pDev);
-struct net_device *RtmpOsPktNetDevGet(VOID *pPkt);
 
 char *RtmpOsGetNetDevName(struct net_device *pDev);
 
