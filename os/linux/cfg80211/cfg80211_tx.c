@@ -50,11 +50,11 @@ BOOLEAN CFG80211_SyncPacketWmmIe(struct rtmp_adapter *pAd, VOID *pData, ULONG da
 {
 	const UINT WFA_OUI = 0x0050F2;
 	const UCHAR WMM_OUI_TYPE = 0x2;
-	UCHAR *wmm_ie = NULL;
+	u8 *wmm_ie = NULL;
 
 	return;//????
 	//hex_dump("probe_rsp_in:", pData, dataLen);
-	wmm_ie = cfg80211_find_vendor_ie(WFA_OUI, WMM_OUI_TYPE, pData, dataLen);
+	wmm_ie = (u8 *) cfg80211_find_vendor_ie(WFA_OUI, WMM_OUI_TYPE, pData, dataLen);
 
 	if (wmm_ie != NULL)
         {
