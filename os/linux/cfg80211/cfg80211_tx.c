@@ -59,7 +59,7 @@ BOOLEAN CFG80211_SyncPacketWmmIe(struct rtmp_adapter *pAd, VOID *pData, ULONG da
 	if (wmm_ie != NULL)
         {
                 UINT i = QID_AC_BE;
-		
+
 #ifdef UAPSD_SUPPORT
                 if (pAd->ApCfg.MBSSID[0].UapsdInfo.bAPSDCapable == TRUE)
                 {
@@ -114,8 +114,8 @@ void CFG80211_ParseBeaconIE(struct rtmp_adapter *pAd, MULTISSID_STRUCT *pMbss, s
 
 	 if ((wpa_ie != NULL)) //wpapsk/tkipaes case
 	{
-		pEid = wpa_ie;
-		pTmp = pEid;
+		pEid = (PEID_STRUCT) wpa_ie;
+		pTmp = (u8 *) pEid;
 		if (NdisEqualMemory(pEid->Octet, WPA_OUI, 4))
 		{
 			wdev->AuthMode = Ndis802_11AuthModeOpen;
@@ -225,8 +225,8 @@ void CFG80211_ParseBeaconIE(struct rtmp_adapter *pAd, MULTISSID_STRUCT *pMbss, s
 		PRSN_IE_HEADER_STRUCT			pRsnHeader;
 		PCIPHER_SUITE_STRUCT			pCipher;
 
-		pEid = rsn_ie;
-		pTmp = pEid;
+		pEid = (PEID_STRUCT) rsn_ie;
+		pTmp = (u8 *) pEid;
 		pRsnHeader = (PRSN_IE_HEADER_STRUCT) pTmp;
 
 				/* 0. Version must be 1*/
