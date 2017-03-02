@@ -184,7 +184,7 @@ static VOID mt76x2_bbp_adjust(struct rtmp_adapter *pAd)
 					pAd->CommonCfg.AddHTInfo.AddHtInfo.ExtChanOffset));
 }
 
-char get_chl_grp(u8 channel)
+static int get_chl_grp(u8 channel)
 {
 	char chl_grp = A_BAND_GRP0_CHL;
 
