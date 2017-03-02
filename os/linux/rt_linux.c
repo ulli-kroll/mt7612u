@@ -564,7 +564,7 @@ VOID RtmpOsPktInit(
 	pRxPkt = RTPKT_TO_OSPKT(pNetPkt);
 
 	pRxPkt->dev =  pNetDev;
-	SET_OS_PKT_DATAPTR(pRxPkt, pData);
+	pRxPkt->data = pData;
 	SET_OS_PKT_LEN(pRxPkt, DataSize);
 	SET_OS_PKT_DATATAIL(pRxPkt, pData, DataSize);
 }
