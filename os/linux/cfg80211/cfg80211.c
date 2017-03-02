@@ -1666,12 +1666,13 @@ static int CFG80211_OpsRemainOnChannel(
 	INT ChannelType = RT_CMD_80211_CHANTYPE_HT20;
 	dev = pWdev->netdev;
 
-	rndCookie = ((RandomByte2(pAd) * 256 * 256* 256) + (RandomByte2(pAd) * 256 * 256) + (RandomByte2(pAd) * 256) + RandomByte2(pAd)) |1;
 	CFG80211DBG(RT_DEBUG_TRACE, ("80211> %s ==>\n", __FUNCTION__));
 
 	pAd = MAC80211_PAD_GET(pWiphy);
 	if (pAd == NULL)
 		return -EINVAL;
+
+	rndCookie = ((RandomByte2(pAd) * 256 * 256* 256) + (RandomByte2(pAd) * 256 * 256) + (RandomByte2(pAd) * 256) + RandomByte2(pAd)) |1;
 
 	/*CFG_TODO: Shall check channel type*/
 
