@@ -553,20 +553,13 @@ struct sk_buff *ClonePacket(
 	return pClonedPkt;
 }
 
-VOID RtmpOsPktInit(
-	IN struct sk_buff *pNetPkt,
-	IN struct net_device *pNetDev,
-	IN UCHAR *pData,
-	IN USHORT DataSize)
+VOID RtmpOsPktInit(struct sk_buff *skb, struct net_device *pNetDev,
+		   UCHAR *pData, USHORT DataSize)
 {
-	struct sk_buff *pRxPkt;
-
-	pRxPkt = RTPKT_TO_OSPKT(pNetPkt);
-
-	pRxPkt->dev =  pNetDev;
-	pRxPkt->data = pData;
-	pRxPkt->len = DataSize;
-	SET_OS_PKT_DATATAIL(pRxPkt, pData, DataSize);
+	skb->dev =  pNetDev;
+	skb->data = pData;
+	skb->len = DataSize;
+	SET_OS_PKT_DATATAIL(skb, pData, DataSize);
 }
 
 
