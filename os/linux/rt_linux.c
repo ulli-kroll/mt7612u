@@ -469,7 +469,7 @@ BOOLEAN RTMPL2FrameTxAction(
 	}
 
 	MEM_DBG_PKT_ALLOC_INC(skb);
-	SET_OS_PKT_NETDEV(skb, pNetDev);
+	skb->dev = pNetDev;
 
 	/* 16 byte align the IP header */
 	skb_reserve(skb, 2);
@@ -563,7 +563,7 @@ VOID RtmpOsPktInit(
 
 	pRxPkt = RTPKT_TO_OSPKT(pNetPkt);
 
-	SET_OS_PKT_NETDEV(pRxPkt, pNetDev);
+	pRxPkt->dev =  pNetDev;
 	SET_OS_PKT_DATAPTR(pRxPkt, pData);
 	SET_OS_PKT_LEN(pRxPkt, DataSize);
 	SET_OS_PKT_DATATAIL(pRxPkt, pData, DataSize);

@@ -40,7 +40,7 @@ int ifx_ra_start_xmit(struct net_device *rx_dev, struct net_device *tx_dev, stru
 {
 	if(tx_dev != NULL)
 	{
-		SET_OS_PKT_NETDEV(skb, tx_dev);
+		skb->dev = tx_dev;
 		rt28xx_send_packets(skb, tx_dev);
 	}
 	else if(rx_dev != NULL)
