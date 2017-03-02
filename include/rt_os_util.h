@@ -119,11 +119,7 @@ struct sk_buff *ExpandPacket(
 	IN	uint32_t 				ext_head_len,
 	IN	uint32_t 				ext_tail_len);
 
-struct sk_buff *ClonePacket(
-	IN	VOID					*pReserved,
-	IN	struct sk_buff *		pPacket,
-	IN	u8 *				pData,
-	IN	ULONG					DataSize);
+struct sk_buff *ClonePacket(struct sk_buff *pPacket, u8 *pData,ULONG DataSize);
 
 void wlan_802_11_to_802_3_packet(
 	IN	struct net_device *			pNetDev,

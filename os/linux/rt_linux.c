@@ -526,31 +526,25 @@ struct sk_buff *ExpandPacket(
 
 }
 
-struct sk_buff *ClonePacket(
-	IN VOID *pReserved,
-	IN struct sk_buff *pPacket,
-	IN u8 *pData,
-	IN ULONG DataSize)
+struct sk_buff *ClonePacket(struct sk_buff *skb, u8 *pData,
+			    ULONG DataSize)
 {
-	struct sk_buff *pRxPkt;
-	struct sk_buff *pClonedPkt;
+	struct sk_buff *clone;
 
-	ASSERT(pPacket);
-	pRxPkt = RTPKT_TO_OSPKT(pPacket);
 
 	/* clone the packet */
-	pClonedPkt = skb_clone(pRxPkt, MEM_ALLOC_FLAG);
+	clone = skb_clone(skb, MEM_ALLOC_FLAG);
 
-	if (pClonedPkt) {
+	if (clone) {
 		/* set the correct dataptr and data len */
-		MEM_DBG_PKT_ALLOC_INC(pClonedPkt);
-		pClonedPkt->dev = pRxPkt->dev;
-		pClonedPkt->data = pData;
-		pClonedPkt->len = DataSize;
-		pClonedPkt->tail = pClonedPkt->data + pClonedPkt->len;
+		MEM_DBG_PKT_ALLOC_INC(clone);
+		clone->dev = skb->dev;
+		clone->data = pData;
+		clone->len = DataSize;
+		clone->tail = clone->data + clone->len;
 		ASSERT(DataSize < 1530);
 	}
-	return pClonedPkt;
+	return clone;
 }
 
 VOID RtmpOsPktInit(struct sk_buff *skb, struct net_device *pNetDev,

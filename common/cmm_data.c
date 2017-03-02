@@ -1931,7 +1931,7 @@ UINT deaggregate_AMSDU_announce(
 		}
 #endif /* CONFIG_STA_SUPPORT */
 
-		pClonePacket = ClonePacket(pAd, pPacket, pPayload, PayloadSize);
+		pClonePacket = ClonePacket(pPacket, pPayload, PayloadSize);
 		if (pClonePacket)
 		{
 #ifdef CONFIG_AP_SUPPORT
