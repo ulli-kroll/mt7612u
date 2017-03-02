@@ -417,7 +417,7 @@ PCFG80211_TX_PACKET CFG80211_TxMgmtFrameSearch(struct rtmp_adapter *pAd, USHORT 
 
 }
 
-INT CFG80211_SendMgmtFrame(struct rtmp_adapter *pAd, VOID *pData, ULONG Data)
+void CFG80211_SendMgmtFrame(struct rtmp_adapter *pAd, VOID *pData, ULONG Data)
 {
 	if (pData != NULL)
 	{
@@ -445,7 +445,7 @@ INT CFG80211_SendMgmtFrame(struct rtmp_adapter *pAd, VOID *pData, ULONG Data)
 			{
 				pCfg80211_ctrl->TxStatusBufLen = 0;
 				DBGPRINT(RT_DEBUG_ERROR, ("CFG_TX_STATUS: MEM ALLOC ERROR\n"));
-				return NDIS_STATUS_FAILURE;
+				return;
 			}
 			CFG80211_CheckActionFrameType(pAd, "TX", pData, Data);
 
