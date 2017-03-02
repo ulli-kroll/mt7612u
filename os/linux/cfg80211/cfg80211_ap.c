@@ -80,7 +80,7 @@ static INT CFG80211DRV_UpdateTimIE(struct rtmp_adapter *pAd, UINT mbss_idx, u8 *
 	return New_Tim_Len;
 }
 
-static INT CFG80211DRV_UpdateApSettingFromBeacon(struct rtmp_adapter *pAd, UINT mbss_idx, CMD_RTPRIV_IOCTL_80211_BEACON *pBeacon)
+static void CFG80211DRV_UpdateApSettingFromBeacon(struct rtmp_adapter *pAd, UINT mbss_idx, CMD_RTPRIV_IOCTL_80211_BEACON *pBeacon)
 {
 	PMULTISSID_STRUCT pMbss = &pAd->ApCfg.MBSSID[mbss_idx];
 	struct rtmp_wifi_dev *wdev = &pMbss->wdev;
