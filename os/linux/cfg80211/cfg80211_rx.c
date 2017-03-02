@@ -208,7 +208,7 @@ BOOLEAN CFG80211_HandleP2pMgmtFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk, UC
 
 	if ((pHeader->FC.SubType == SUBTYPE_PROBE_REQ) ||
 	 	 ((pHeader->FC.SubType == SUBTYPE_ACTION) &&
-	 	   CFG80211_CheckActionFrameType(pAd, "RX", pHeader, pRxWI->RXWI_N.MPDUtotalByteCnt)))
+	 	   CFG80211_CheckActionFrameType(pAd, "RX", (u8 *) pHeader, pRxWI->RXWI_N.MPDUtotalByteCnt)))
 		{
 			MAP_CHANNEL_ID_TO_KHZ(pAd->LatchRfRegs.Channel, freq);
 			freq /= 1000;
