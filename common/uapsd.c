@@ -495,7 +495,7 @@ VOID UAPSD_PacketEnqueue(
     	{
 	        /* too much queued pkts, free (discard) the tx packet */
 	        DBGPRINT(RT_DEBUG_TRACE,
-                 ("uapsd> many(%ld) WCID(%d) AC(%d)\n",
+                 ("uapsd> many(%d) WCID(%d) AC(%d)\n",
 				pQueUapsd->Number,
 				RTMP_GET_PACKET_WCID(pPacket),
 				IdAc));
