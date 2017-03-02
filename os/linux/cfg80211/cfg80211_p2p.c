@@ -188,7 +188,7 @@ BOOLEAN CFG80211DRV_OpsRemainOnChannel(struct rtmp_adapter *pAd, VOID *pData, ui
 	return TRUE;
 }
 
-BOOLEAN CFG80211DRV_OpsCancelRemainOnChannel(struct rtmp_adapter *pAd, uint32_t cookie)
+void CFG80211DRV_OpsCancelRemainOnChannel(struct rtmp_adapter *pAd, uint32_t cookie)
 {
 	BOOLEAN Cancelled;
 	CFG80211DBG(RT_DEBUG_TRACE, ("%s\n", __FUNCTION__));

@@ -274,7 +274,7 @@ BOOLEAN CFG80211DRV_OpsRemainOnChannel(
 	VOID						*pData,
 	uint32_t 						duration);
 
-BOOLEAN CFG80211DRV_OpsCancelRemainOnChannel(
+void CFG80211DRV_OpsCancelRemainOnChannel(
         struct rtmp_adapter                             *pAdOrg,
         uint32_t                                          cookie);
 
