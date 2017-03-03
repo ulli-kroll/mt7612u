@@ -213,10 +213,8 @@ void RtmpOSNetDeviceRefPut(struct net_device *pNetDev);
 
 INT RtmpOSNetDevDestory(VOID *pReserved, struct net_device *pNetDev);
 void RtmpOSNetDevDetach(struct net_device *pNetDev);
-int RtmpOSNetDevAttach(
-	IN	UCHAR					OpMode,
-	IN	struct net_device *			pNetDev,
-	IN	RTMP_OS_NETDEV_OP_HOOK	*pDevOpHook);
+int RtmpOSNetDevAttach(UCHAR OpMode, struct net_device *pNetDev,
+		       struct RTMP_OS_NETDEV_OP_HOOK *pDevOpHook);
 
 void RtmpOSNetDevProtect(
 	IN BOOLEAN lock_it);

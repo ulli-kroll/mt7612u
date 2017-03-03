@@ -146,9 +146,8 @@ INT rt28xx_sta_ioctl(
 	IN	INT			cmd);
 #endif /* CONFIG_STA_SUPPORT */
 
-struct net_device *RtmpPhyNetDevInit(
-	IN struct rtmp_adapter		*pAd,
-	IN RTMP_OS_NETDEV_OP_HOOK	*pNetHook);
+struct net_device *RtmpPhyNetDevInit(struct rtmp_adapter *pAd,
+				     struct RTMP_OS_NETDEV_OP_HOOK *pNetHook);
 
 BOOLEAN RtmpPhyNetDevExit(
 	IN struct rtmp_adapter				*pAd,

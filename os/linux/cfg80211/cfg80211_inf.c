@@ -467,7 +467,7 @@ VOID RTMP_CFG80211_VirtualIF_Init(
 	IN CHAR			*pDevName,
 	IN uint32_t                DevType)
 {
-	RTMP_OS_NETDEV_OP_HOOK	netDevHook, *pNetDevOps;
+	struct RTMP_OS_NETDEV_OP_HOOK netDevHook, *pNetDevOps;
 	struct net_device *new_dev_p;
 	struct rtmp_wifi_dev *wdev;
 
@@ -702,7 +702,7 @@ VOID RTMP_CFG80211_DummyP2pIf_Init(
 #define INF_CFG80211_DUMMY_P2P_NAME "p2p"
 	CFG80211_CB *p80211CB = pAd->pCfg80211_CB;
 	PCFG80211_CTRL cfg80211_ctrl = &pAd->cfg80211_ctrl;
-	RTMP_OS_NETDEV_OP_HOOK	netDevHook, *pNetDevOps;
+	struct RTMP_OS_NETDEV_OP_HOOK netDevHook, *pNetDevOps;
 	struct net_device *new_dev_p;
 	uint32_t MC_RowID = 0, IoctlIF = 0, Inf = INT_P2P;
 	UINT preIfIndex = 0;

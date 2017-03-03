@@ -336,7 +336,8 @@ err:
 }
 
 
-struct net_device *RtmpPhyNetDevInit(struct rtmp_adapter *pAd, RTMP_OS_NETDEV_OP_HOOK *pNetDevHook)
+struct net_device *RtmpPhyNetDevInit(struct rtmp_adapter *pAd,
+				     struct RTMP_OS_NETDEV_OP_HOOK *pNetDevHook)
 {
 	struct net_device *net_dev = NULL;
 	ULONG InfId, OpMode;
@@ -352,7 +353,7 @@ struct net_device *RtmpPhyNetDevInit(struct rtmp_adapter *pAd, RTMP_OS_NETDEV_OP
 		return NULL;
 	}
 
-	memset((unsigned char *)pNetDevHook, 0, sizeof(RTMP_OS_NETDEV_OP_HOOK));
+	memset(pNetDevHook, 0, sizeof(struct RTMP_OS_NETDEV_OP_HOOK));
 	pNetDevHook->open = MainVirtualIF_open;
 	pNetDevHook->stop = MainVirtualIF_close;
 	pNetDevHook->xmit = rt28xx_send_packets;

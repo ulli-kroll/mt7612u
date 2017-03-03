@@ -2305,7 +2305,7 @@ VOID ApCliUpdateMlmeRate(struct rtmp_adapter *pAd, USHORT ifIndex)
 }
 
 
-VOID APCli_Init(struct rtmp_adapter *pAd, RTMP_OS_NETDEV_OP_HOOK *pNetDevOps)
+VOID APCli_Init(struct rtmp_adapter *pAd, struct RTMP_OS_NETDEV_OP_HOOK *pNetDevOps)
 {
 #define APCLI_MAX_DEV_NUM	32
 	struct net_device *new_dev_p;

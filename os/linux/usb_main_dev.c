@@ -57,7 +57,7 @@ static int rt2870_probe(
 	struct rtmp_adapter *pAd = NULL;
 	INT status, rv;
 	PVOID handle;
-	RTMP_OS_NETDEV_OP_HOOK netDevHook;
+	struct RTMP_OS_NETDEV_OP_HOOK netDevHook;
 	ULONG OpMode;
 #ifdef CONFIG_PM
 #ifdef USB_SUPPORT_SELECTIVE_SUSPEND

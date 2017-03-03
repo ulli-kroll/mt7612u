@@ -46,21 +46,20 @@ typedef int (*RTMP_SNPRINTF)(char *, ULONG, const char *ftm, ...);
 	The definition of this data structure may various depends on different
 	OS. Use it carefully.
 */
-typedef struct _RTMP_OS_NETDEV_OP_HOOK_ {
-	void *open;
-	void *stop;
-	void *xmit;
-	void *ioctl;
-	void *get_stats;
-	void *priv;
+struct RTMP_OS_NETDEV_OP_HOOK {
+	int (*open)(struct net_device *dev);
+	int (*stop)(struct net_device *dev);
+	int (*xmit)(struct sk_buff *skb, struct net_device *dev);
+	int (*ioctl)(struct net_device *dev, struct ifreq *ifr, int cmd);
+	struct net_device_stats* (*get_stats)(struct net_device *dev);
 	void *get_wstats;
-	void *iw_handler;
-	void *wdev;
+	const struct iw_handler_def *iw_handler;
+	struct rtmp_wifi_dev *wdev;
 	int priv_flags;
 	unsigned char devAddr[6];
 	unsigned char devName[16];
 	unsigned char needProtcted;
-} RTMP_OS_NETDEV_OP_HOOK, *PRTMP_OS_NETDEV_OP_HOOK;
+};
 
 
 typedef enum _RTMP_TASK_STATUS_ {

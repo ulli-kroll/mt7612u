@@ -67,7 +67,7 @@
 
 /* Public function list */
 INT	Show_MbssInfo_Display_Proc(struct rtmp_adapter *pAd, char *arg);
-VOID MBSS_Init(struct rtmp_adapter *pAd, RTMP_OS_NETDEV_OP_HOOK *pNetDevOps);
+VOID MBSS_Init(struct rtmp_adapter *pAd, struct RTMP_OS_NETDEV_OP_HOOK *pNetDevOps);
 
 VOID MBSS_Remove(struct rtmp_adapter *pAd);
 

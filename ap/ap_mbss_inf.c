@@ -75,7 +75,7 @@ Note:
 */
 VOID RT28xx_MBSS_Init(struct rtmp_adapter *pAd, struct net_device *pDevMain)
 {
-	RTMP_OS_NETDEV_OP_HOOK netDevHook;
+	struct RTMP_OS_NETDEV_OP_HOOK netDevHook;
 
 	memset(&netDevHook, 0, sizeof(netDevHook));
 	netDevHook.open = MBSS_VirtualIF_Open;	/* device opem hook point */

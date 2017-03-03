@@ -234,9 +234,7 @@ BOOLEAN APCliInstallSharedKey(
 
 VOID ApCliUpdateMlmeRate(struct rtmp_adapter *pAd, USHORT ifIndex);
 
-VOID APCli_Init(
-	IN struct rtmp_adapter *pAd,
-	IN	RTMP_OS_NETDEV_OP_HOOK		*pNetDevOps);
+VOID APCli_Init(struct rtmp_adapter *pAd,struct RTMP_OS_NETDEV_OP_HOOK *pNetDevOps);
 
 BOOLEAN ApCli_Open(struct rtmp_adapter *pAd, struct net_device *dev_p);
 BOOLEAN ApCli_Close(struct rtmp_adapter *pAd, struct net_device *dev_p);

@@ -67,13 +67,13 @@ Note:
 		it will not work! You must rmmod rt2860ap.ko and lsmod rt2860ap.ko again.
 ========================================================================
 */
-VOID MBSS_Init(struct rtmp_adapter *pAd, RTMP_OS_NETDEV_OP_HOOK *pNetDevOps)
+VOID MBSS_Init(struct rtmp_adapter *pAd, struct RTMP_OS_NETDEV_OP_HOOK *pNetDevOps)
 {
 #define MBSS_MAX_DEV_NUM	32
 	struct net_device *pDevNew;
 	int32_t IdBss, MaxNumBss;
 	INT status;
-	RTMP_OS_NETDEV_OP_HOOK netDevHook;
+	struct RTMP_OS_NETDEV_OP_HOOK netDevHook;
 
 
 	/* sanity check to avoid redundant virtual interfaces are created */

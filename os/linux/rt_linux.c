@@ -1285,10 +1285,8 @@ static struct ethtool_ops RALINK_Ethtool_Ops = {
 	.get_drvinfo = RALINK_ET_DrvInfoGet,
 };
 
-int RtmpOSNetDevAttach(
-	IN UCHAR OpMode,
-	IN struct net_device *pNetDev,
-	IN RTMP_OS_NETDEV_OP_HOOK *pDevOpHook)
+int RtmpOSNetDevAttach(UCHAR OpMode, struct net_device *pNetDev,
+		       struct RTMP_OS_NETDEV_OP_HOOK *pDevOpHook)
 {
 	int ret,
 	 rtnl_locked = FALSE;

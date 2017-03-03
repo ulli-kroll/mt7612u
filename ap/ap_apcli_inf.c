@@ -75,10 +75,10 @@ Note:
 */
 VOID RT28xx_ApCli_Init(VOID *pAd, struct net_device *main_dev_p)
 {
-	RTMP_OS_NETDEV_OP_HOOK netDevOpHook;
+	struct RTMP_OS_NETDEV_OP_HOOK netDevOpHook;
 
 	/* init operation functions */
-	memset(&netDevOpHook, 0, sizeof(RTMP_OS_NETDEV_OP_HOOK));
+	memset(&netDevOpHook, 0, sizeof(struct RTMP_OS_NETDEV_OP_HOOK));
 	netDevOpHook.open = ApCli_VirtualIF_Open;
 	netDevOpHook.stop = ApCli_VirtualIF_Close;
 	netDevOpHook.xmit = rt28xx_send_packets;
