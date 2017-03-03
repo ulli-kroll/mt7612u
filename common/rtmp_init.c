@@ -374,12 +374,10 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 	pAd->EEPROMDefaultValue[EEPROM_NIC_CFG2_OFFSET] = value;
 	NicConfig2.word = pAd->EEPROMDefaultValue[EEPROM_NIC_CFG2_OFFSET];
 
-#if defined(BT_COEXISTENCE_SUPPORT) || defined(RT3290) || defined(MT76x2)
 	value = mt7612u_read_eeprom16(pAd, EEPROM_NIC3_OFFSET);
 
 	pAd->EEPROMDefaultValue[EEPROM_NIC_CFG3_OFFSET] = value;
 	pAd->NicConfig3.word = pAd->EEPROMDefaultValue[EEPROM_NIC_CFG3_OFFSET];
-#endif /* defined(BT_COEXISTENCE_SUPPORT) || defined(RT3290) || defined(MT76x2) */
 
 	{
 		value = mt7612u_read_eeprom16(pAd, EEPROM_COUNTRY_REGION);	/* Country Region*/

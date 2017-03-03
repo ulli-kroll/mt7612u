@@ -84,10 +84,6 @@ HAS_CFG80211_TDLS_SUPPORT=n
 #Support RFKILL hardware block/unblock LINUX-only function
 HAS_RFKILL_HW_SUPPORT=n
 
-
-
-HAS_MT76XX_BT_COEXISTENCE_SUPPORT=n
-
 HAS_TEMPERATURE_TX_ALC=n
 
 HAS_NEW_RATE_ADAPT_SUPPORT=n
@@ -195,12 +191,6 @@ endif #// endif of RT2860_MODE == AP //
 
 ifeq ($(RT28xx_MODE),STA)
 WFLAGS += -DCONFIG_STA_SUPPORT -DSCAN_SUPPORT -DDBG
-
-ifeq ($(HAS_MT76XX_BT_COEXISTENCE_SUPPORT),y)
-WFLAGS += -DMT76XX_BTCOEX_SUPPORT
-endif
-
-
 
 ifeq ($(HAS_WPA_SUPPLICANT),y)
 WFLAGS += -DWPA_SUPPLICANT_SUPPORT
@@ -411,10 +401,6 @@ endif
 
 ifeq ($(HAS_RLT_BBP),y)
 obj_phy += phy/rlt_phy.o
-endif
-
-ifeq ($(HAS_MT76XX_BT_COEXISTENCE_SUPPORT),y)
-obj_cmm += mcu/bt_coex.o
 endif
 
 ifeq ($(HAS_RLT_MAC),y)

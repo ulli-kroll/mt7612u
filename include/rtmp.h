@@ -3552,9 +3552,7 @@ struct rtmp_adapter {
 
 	EEPROM_ANTENNA_STRUC Antenna;	/* Since ANtenna definition is different for a & g. We need to save it for future reference. */
 	EEPROM_NIC_CONFIG2_STRUC NicConfig2;
-#if defined(BT_COEXISTENCE_SUPPORT) || defined(RT3290) || defined(MT76x2)
 	EEPROM_NIC_CONFIG3_STRUC NicConfig3;
-#endif /* defined(BT_COEXISTENCE_SUPPORT) || defined(RT3290) */
 
 	/* --------------------------- */
 	/* BBP Control                               */
