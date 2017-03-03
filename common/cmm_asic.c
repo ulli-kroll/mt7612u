@@ -1076,7 +1076,10 @@ VOID AsicCtrlBcnMask(struct rtmp_adapter *pAd, INT mask)
 
 static INT AsicSetIntTimerEn(struct rtmp_adapter *pAd, BOOLEAN enable, uint32_t type, uint32_t timeout)
 {
-	uint32_t val, mask, time_mask;
+	uint32_t val, mask;
+	uint32_t time_mask = 0xffff;	/* ULLI : to fix warning */
+
+	/* ULLI : only two valid types are used */
 
 	if (type == INT_TIMER_EN_PRE_TBTT) {
 		mask = 0x1;
