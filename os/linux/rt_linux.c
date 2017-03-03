@@ -345,9 +345,9 @@ struct sk_buff *duplicate_pkt(
 	     __dev_alloc_skb(HdrLen + DataSize + 2, MEM_ALLOC_FLAG)) != NULL) {
 
 		skb_reserve(skb, 2);
-		memmove(skb->tail, pHeader802_3, HdrLen);
+		memmove(skb_tail_pointer(skb), pHeader802_3, HdrLen);
 		skb_put(skb, HdrLen);
-		memmove(skb->tail, pData, DataSize);
+		memmove(skb_tail_pointer(skb), pData, DataSize);
 		skb_put(skb, DataSize);
 		skb->dev = pNetDev;
 		pPacket = skb;
@@ -405,12 +405,12 @@ struct sk_buff *duplicate_pkt_with_VLAN(
 		/* copy header (maybe +VLAN tag) */
 		VLAN_Size = VLAN_8023_Header_Copy(VLAN_VID, VLAN_Priority,
 						  pHeader802_3, HdrLen,
-						  skb->tail, FromWhichBSSID,
+						  skb_tail_pointer(skb), FromWhichBSSID,
 						  TPID);
 		skb_put(skb, HdrLen + VLAN_Size);
 
 		/* copy data body */
-		memmove(skb->tail, pData, DataSize);
+		memmove(skb_tail_pointer(skb), pData, DataSize);
 		skb_put(skb, DataSize);
 		skb->dev = pNetDev;	/*get_netdev_from_bssid(pAd, FromWhichBSSID); */
 		pPacket = skb;
