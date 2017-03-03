@@ -442,10 +442,8 @@ static INT CFG80211_VirtualIF_PacketSend(
 	return CFG80211_PacketSend(skb, dev_p, rt28xx_packet_xmit);
 }
 
-static INT CFG80211_VirtualIF_Ioctl(
-	IN struct net_device *			dev_p,
-	IN OUT VOID 			*rq_p,
-	IN INT 					cmd)
+static INT CFG80211_VirtualIF_Ioctl(struct net_device *dev_p,
+				    struct ifreq *ifr, int cmd)
 {
 
 	struct rtmp_adapter *pAd;
@@ -458,7 +456,7 @@ static INT CFG80211_VirtualIF_Ioctl(
 
 	DBGPRINT(RT_DEBUG_TRACE, ("%s --->\n", __FUNCTION__));
 
-	return rt28xx_ioctl(dev_p, rq_p, cmd);
+	return rt28xx_ioctl(dev_p, ifr, cmd);
 
 }
 
