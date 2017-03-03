@@ -745,8 +745,6 @@ void linux_pci_unmap_single(void *handle, ra_dma_addr_t dma_addr, size_t size, i
 
 #define GET_OS_PKT_DATATAIL(_pkt) \
 		(RTPKT_TO_OSPKT(_pkt)->tail)
-#define SET_OS_PKT_DATATAIL(_pkt, _start, _len)	\
-		((RTPKT_TO_OSPKT(_pkt))->tail) = (u8 *)((_start) + (_len))
 
 #define GET_OS_PKT_HEAD(_pkt) \
 		(RTPKT_TO_OSPKT(_pkt)->head)
@@ -787,7 +785,7 @@ void linux_pci_unmap_single(void *handle, ra_dma_addr_t dma_addr, size_t size, i
 	__pRxPkt->dev = __pNetDev;									\
 	__pRxPkt->data = __pData;									\
 	__pRxPkt->len = __DataSize;									\
-	SET_OS_PKT_DATATAIL(__pRxPkt, __pData, __DataSize);						\
+	skb_set_tail_pointer(__pRxPkt, __DataSize);						\
 }
 
 #define get_unaligned32							get_unaligned

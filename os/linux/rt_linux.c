@@ -521,7 +521,7 @@ struct sk_buff *ClonePacket(struct sk_buff *skb, u8 *pData,
 		clone->dev = skb->dev;
 		clone->data = pData;
 		clone->len = DataSize;
-		clone->tail = clone->data + clone->len;
+		skb_set_tail_pointer(clone, DataSize);
 		ASSERT(DataSize < 1530);
 	}
 	return clone;
@@ -533,7 +533,7 @@ VOID RtmpOsPktInit(struct sk_buff *skb, struct net_device *pNetDev,
 	skb->dev =  pNetDev;
 	skb->data = pData;
 	skb->len = DataSize;
-	SET_OS_PKT_DATATAIL(skb, pData, DataSize);
+	skb_set_tail_pointer(skb, DataSize);
 }
 
 
@@ -558,7 +558,7 @@ void wlan_802_11_to_802_3_packet(
 	pOSPkt->dev = pNetDev;
 	pOSPkt->data = pData;
 	pOSPkt->len = DataSize;
-	pOSPkt->tail = pOSPkt->data + pOSPkt->len;
+	skb_set_tail_pointer(pOSPkt, DataSize);
 
 	/* copy 802.3 header */
 #ifdef CONFIG_AP_SUPPORT
