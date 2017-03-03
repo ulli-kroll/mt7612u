@@ -46,11 +46,13 @@ VOID CFG80211_SwitchTxChannel(struct rtmp_adapter *pAd, ULONG Data)
 }
 
 #ifdef CONFIG_AP_SUPPORT
-BOOLEAN CFG80211_SyncPacketWmmIe(struct rtmp_adapter *pAd, VOID *pData, ULONG dataLen)
+void CFG80211_SyncPacketWmmIe(struct rtmp_adapter *pAd, VOID *pData, ULONG dataLen)
 {
 	const UINT WFA_OUI = 0x0050F2;
 	const UCHAR WMM_OUI_TYPE = 0x2;
 	u8 *wmm_ie = NULL;
+
+	/* ULLI : short cut also in vanilla driver */
 
 	return;//????
 	//hex_dump("probe_rsp_in:", pData, dataLen);
@@ -81,10 +83,10 @@ BOOLEAN CFG80211_SyncPacketWmmIe(struct rtmp_adapter *pAd, VOID *pData, ULONG da
                         wmm_ie[13+ (i*4)] = (UCHAR)(pAd->ApCfg.BssEdcaParm.Txop[i] >> 8);  /* high byte of TXOP */
                 }
 
-		return TRUE;
+		return;
         }
 
-	return FALSE;
+	return;
 }
 void CFG80211_ParseBeaconIE(struct rtmp_adapter *pAd, MULTISSID_STRUCT *pMbss, struct rtmp_wifi_dev *wdev, const u8 *wpa_ie, const u8 *rsn_ie)
 {

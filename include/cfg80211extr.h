@@ -296,7 +296,7 @@ BOOLEAN CFG80211_CheckActionFrameType(
 		IN	uint32_t                              		 length);
 
 
-BOOLEAN CFG80211_SyncPacketWmmIe(struct rtmp_adapter *pAd, VOID *pData, ULONG dataLen);
+void CFG80211_SyncPacketWmmIe(struct rtmp_adapter *pAd, VOID *pData, ULONG dataLen);
 BOOLEAN CFG80211_HandleP2pMgmtFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk, UCHAR OpMode);
 void CFG80211_SendMgmtFrame(struct rtmp_adapter *pAd, VOID *pData, ULONG Data);
 
