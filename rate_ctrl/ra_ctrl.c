@@ -1112,9 +1112,11 @@ VOID APMlmeSetTxRate(
 					else
 						bw_cap = pAdaptTbEntry->BW;
 					break;
+#if 0	/* ULLI : BW_10 is 4 in a 2 bit bitfield */
 				case BW_10:
 					bw_cap = BW_10;
 					break;
+#endif
 				case BW_20:
 				default:
 					if (pAdaptTbEntry->BW == BW_80 || pAdaptTbEntry->BW == BW_40)
