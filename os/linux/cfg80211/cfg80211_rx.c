@@ -92,7 +92,7 @@ BOOLEAN CFG80211_CheckActionFrameType(
 		}
 		else if (ieee80211_is_deauth(mgmt->frame_control))
 		{
-			DBGPRINT(RT_DEBUG_ERROR, ("CFG80211_PKT: %s Deauth Frame\n", preStr, pAd->LatchRfRegs.Channel));
+			DBGPRINT(RT_DEBUG_ERROR, ("CFG80211_PKT: %s Deauth Frame %d\n", preStr, pAd->LatchRfRegs.Channel));
 		}
 		else if (ieee80211_is_action(mgmt->frame_control))
 		{
