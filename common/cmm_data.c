@@ -1120,7 +1120,7 @@ static UCHAR TxPktClassification(struct rtmp_adapter *pAd, struct sk_buff * pPac
 
 	if ((RTMP_GET_PACKET_FRAGMENTS(pPacket) > 1)
 		 && (TxFrameType == TX_LEGACY_FRAME)
-		 || (TxFrameType == TX_LEGACY_FRAME | TX_NDPA_FRAME)
+		 || (TxFrameType == (TX_LEGACY_FRAME | TX_NDPA_FRAME))
 		&& ((pMacEntry->TXBAbitmap & (1<<(RTMP_GET_PACKET_UP(pPacket)))) == 0)
 		)
 		TxFrameType = TX_FRAG_FRAME;
