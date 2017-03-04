@@ -387,11 +387,6 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 
 	for(i = 0; i < 8; i++)
 	{
-#if defined(MT7601) /* MT7650 EEPROM doesn't have those BBP setting @20121001 */
-		if (IS_RT65XX(pAd) || IS_MT7601(pAd))
-			break;
-#endif /* defined(MT7601)*/
-
 		value = mt7612u_read_eeprom16(pAd, EEPROM_BBP_BASE_OFFSET + i*2);
 		pAd->EEPROMDefaultValue[i+EEPROM_BBP_ARRAY_OFFSET] = value;
 	}
@@ -957,11 +952,11 @@ int NICInitializeAsic(struct rtmp_adapter *pAd, BOOLEAN bHardReset)
 	{
 		uint32_t csr;
 		csr = mt7612u_read32(pAd, MAX_LEN_CFG);
-#if defined(RT2883) || defined(RT3883) || defined(RT3593) || defined(MT7601)
+#if defined(RT2883) || defined(RT3883) || defined(RT3593)
 		if (IS_RT65XX(pAd) || IS_MT7601(pAd))
 			csr |= 0x3fff;
 		else
-#endif /* defined(RT2883) || defined(RT3883) || defined(RT3593) || defined(MT7601) */
+#endif /* defined(RT2883) || defined(RT3883) || defined(RT3593) */
 		{
 			csr &= 0xFFF;
 			csr |= 0x2000;

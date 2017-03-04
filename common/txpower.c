@@ -229,10 +229,10 @@ VOID AsicAdjustTxPower(struct rtmp_adapter *pAd)
 		AsicCompensatePowerViaBBP(pAd, &TotalDeltaPower);
 	}
 
-#if defined(MT7601) || defined(MT76x2)
+#if defined(MT76x2)
 	if (IS_MT7601(pAd) || IS_MT76x2(pAd))
 		return;
-#endif /* MT7601 */
+#endif /* MT76x2 */
 
 	/* Power will be updated each 4 sec. */
 	if (pAd->Mlme.OneSecPeriodicRound % 4 == 0)
@@ -354,12 +354,12 @@ VOID AsicCompensatePowerViaBBP(struct rtmp_adapter *pAd, CHAR *pTotalDeltaPower)
 {
 	UCHAR mdsm_drop_pwr;
 
-#if defined(MT7601) || defined(MT76x2)
+#if defined(MT76x2)
 	if (IS_MT7601(pAd) || IS_MT76x2(pAd))
 	{
 		return;
 	}
-#endif /* MT7601 */
+#endif /* MT76x2 */
 
 	DBGPRINT(RT_DEBUG_INFO, ("%s: <Before> TotalDeltaPower = %d dBm\n", __FUNCTION__, *pTotalDeltaPower));
 

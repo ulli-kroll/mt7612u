@@ -5526,8 +5526,6 @@ INT set_rx_rts_cts(struct rtmp_adapter *pAd, char *arg)
 
 #ifdef MT76x2
 #define MAX_AGG_CNT	48
-#elif defined(MT7601)
-#define MAX_AGG_CNT	32
 #elif defined(RT2883) || defined(RT3883)
 #define MAX_AGG_CNT	16
 #else

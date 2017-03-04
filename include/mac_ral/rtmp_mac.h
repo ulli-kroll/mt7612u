@@ -892,7 +892,7 @@ typedef	union _AUTO_WAKEUP_STRUC {
 #define AUX_CLK_CFG			0x120C
 #define MIMO_PS_CFG		0x1210
 
-#if defined(RT6352) || defined(MT76x0) || defined(MT76x2) || defined (MT7601)
+#if defined(RT6352) || defined(MT76x0) || defined(MT76x2)
 #define BB_PA_MODE_CFG0			0x1214
 #define BB_PA_MODE_CFG1			0x1218
 #define RF_PA_MODE_CFG0			0x121C
@@ -925,7 +925,7 @@ typedef	union _AUTO_WAKEUP_STRUC {
 #define TX1_RF_GAIN_CORR			0x13A4
 #define TX1_RF_GAIN_ATTEN			0x13AC
 #define WL_LOWGAIN_CH_EN 			(1 << 31)
-#endif /* defined(RT6352) || defined(MT76x0) || defined(MT76x2) || defined (MT7601) */
+#endif /* defined(RT6352) || defined(MT76x0) || defined(MT76x2) */
 
 
 /*  4.3 MAC TX  configuration registers (offset:0x1300) */
