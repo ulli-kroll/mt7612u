@@ -352,11 +352,9 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 
 	/* if not return early. cause fail at emulation.*/
 	/* Init the channel number for TX channel power*/
-#ifdef MT76x2
 	if (IS_MT76x2(pAd))
 		mt76x2_read_chl_pwr(pAd);
 	else
-#endif
 		RTMPReadChannelPwr(pAd);
 
 	/* if E2PROM version mismatch with driver's expectation, then skip*/
@@ -461,7 +459,6 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 
 
 
-#ifdef MT76x2
 	if (IS_MT7662(pAd))
 		pAd->RfIcType = RFIC_7662;
 
@@ -470,7 +467,6 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 
 	if (IS_MT7602(pAd))
 		pAd->RfIcType = RFIC_7602;
-#endif
 
 	pAd->phy_ctrl.rf_band_cap = NICGetBandSupported(pAd);
 
@@ -493,7 +489,6 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 			pAd->phy_ctrl.rf_band_cap = RFIC_24GHZ;
 	}
 
-#ifdef MT76x2
 	if (IS_MT76x2(pAd))
 	{
 		mt76x2_read_temp_info_from_eeprom(pAd);
@@ -501,7 +496,6 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 		mt76x2_read_tx_alc_info_from_eeprom(pAd);
 #endif /* RTMP_TEMPERATURE_TX_ALC */
 	}
-#endif /* MT76x2 */
 
 
 	pAd->BbpRssiToDbmDelta = 0x0;
@@ -534,7 +528,6 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 	/* Get RSSI Offset on EEPROM 0x9Ah & 0x9Ch.*/
 	/* The valid value are (-10 ~ 10) */
 	/* */
-#ifdef MT76x2
 	if (IS_MT76x2(pAd)) {
 		value = mt7612u_read_eeprom16(pAd, EEPROM_RSSI_BG_OFFSET);
 
@@ -565,7 +558,6 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 		}
 	}
 	else
-#endif /* MT76x2 */
 	{
 		value = mt7612u_read_eeprom16(pAd, EEPROM_RSSI_BG_OFFSET);
 		pAd->BGRssiOffset[0] = value & 0x00ff;
@@ -589,7 +581,6 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 	}
 
 
-#ifdef MT76x2
 	if (IS_MT76x2(pAd)) {
 		value = mt7612u_read_eeprom16(pAd, EEPROM_RSSI_A_OFFSET);
 
@@ -620,7 +611,6 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 		}
 	}
 	else
-#endif /* MT76x2 */
 	{
 		value = mt7612u_read_eeprom16(pAd, EEPROM_RSSI_A_OFFSET);
 		pAd->ARssiOffset[0] = value & 0x00ff;
@@ -679,10 +669,8 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 
 	RTMPReadTxPwrPerRate(pAd);
 
-#ifdef MT76x2
 	if (IS_MT76x2(pAd))
 		mt76x2_get_external_lna_gain(pAd);
-#endif /* MT76x2 */
 
 	DBGPRINT(RT_DEBUG_TRACE, ("%s: pAd->Antenna.field.BoardType = %d\n",
 		__FUNCTION__,

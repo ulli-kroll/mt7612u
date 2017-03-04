@@ -224,9 +224,7 @@ INT rlt_wlan_chip_onoff(struct rtmp_adapter *pAd, BOOLEAN bOn, BOOLEAN bResetWLA
 
 	if (bResetWLAN == TRUE)
 	{
-#ifdef MT76x2
 		if (!IS_MT76x2(pAd))
-#endif /* MT76x2 */
 			reg &= ~WLAN_FUN_CTRL_GPIO0_OUT_OE_N_MASK;
 
 		reg &= ~WLAN_FUN_CTRL_FRC_WL_ANT_SEL;
@@ -236,9 +234,7 @@ INT rlt_wlan_chip_onoff(struct rtmp_adapter *pAd, BOOLEAN bOn, BOOLEAN bResetWLA
 			/*
 				Restore all HW default value and reset RF.
 			*/
-#ifdef MT76x2
 			if (!IS_MT76x2(pAd))
-#endif /* MT76x2 */
 				reg |= WLAN_FUN_CTRL_WLAN_RESET;
 
 			reg |= WLAN_FUN_CTRL_WLAN_RESET_RF;
@@ -246,9 +242,7 @@ INT rlt_wlan_chip_onoff(struct rtmp_adapter *pAd, BOOLEAN bOn, BOOLEAN bResetWLA
 			mt7612u_write32(pAd, WLAN_FUN_CTRL, reg);
 			RtmpusecDelay(20);
 
-#ifdef MT76x2
 			if (!IS_MT76x2(pAd))
-#endif /* MT76x2 */
 				reg &= ~WLAN_FUN_CTRL_WLAN_RESET;
 
 			reg &= ~WLAN_FUN_CTRL_WLAN_RESET_RF;
@@ -269,9 +263,7 @@ INT rlt_wlan_chip_onoff(struct rtmp_adapter *pAd, BOOLEAN bOn, BOOLEAN bResetWLA
 	}
 
 	if (bOn == TRUE
-#ifdef MT76x2
 		&& (!IS_MT76x2(pAd))
-#endif /* MT76x2 */
 	)
 	{
 		UINT index = 0;

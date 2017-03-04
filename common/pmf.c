@@ -1341,12 +1341,10 @@ BOOLEAN	PMF_PerformRxFrameAction(
 			if (pAd->chipCap.hif_type == HIF_RLT)
 			{
 
-#ifdef MT76x2
 				if (IS_MT76x2(pAd))
 				{
 					pRxWI->RXWI_N.MPDUtotalByteCnt -= (LEN_CCMP_HDR + LEN_CCMP_MIC);
 				}
-#endif
 
 
 			}
@@ -1366,12 +1364,10 @@ BOOLEAN	PMF_PerformRxFrameAction(
 			if (pAd->chipCap.hif_type == HIF_RLT)
 			{
 
-#ifdef MT76x2
 				if (IS_MT76x2(pAd))
 				{
 					pRxWI->RXWI_N.MPDUtotalByteCnt -= (2 + LEN_PMF_MMIE);
 				}
-#endif
 
 
 			}

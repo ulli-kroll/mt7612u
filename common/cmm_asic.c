@@ -49,10 +49,8 @@ VOID AsicUpdateAutoFallBackTable(
 	LgCfg1.word = 0x00002100;
 
 
-#ifdef MT76x2
 	if (IS_MT76x2(pAd))
 		LgCfg1.word = 0x87872100;
-#endif
 
 #ifdef NEW_RATE_ADAPT_SUPPORT
 	/* Use standard fallback if using new rate table */
@@ -713,7 +711,6 @@ VOID AsicSwitchChannel(struct rtmp_adapter *pAd, UCHAR Channel, BOOLEAN bScan)
 
 	rtmp_asic_set_bf(pAd); // FW will initialize TxBf HW status. Re-calling this AP could recover previous status
 
-#ifdef MT76x2
 	if (IS_MT76x2(pAd))
 	{
 		// Disable BF HW to apply profile to packets when nSS == 2.
@@ -727,7 +724,6 @@ VOID AsicSwitchChannel(struct rtmp_adapter *pAd, UCHAR Channel, BOOLEAN bScan)
 		value32 |= 0x100;
 		mt7612u_write32(pAd, RXO_R13, value32);
 	}
-#endif /* MT76x2 */
 }
 
 
@@ -2550,7 +2546,6 @@ INT rtmp_asic_top_init(struct rtmp_adapter *pAd)
 	uint32_t mac_val;
 
 #ifdef RLT_MAC
-#ifdef MT76x2
 	if (IS_MT76x2(pAd)) {
 		uint32_t MacValue;
 		MacValue = mt7612u_read32(pAd, MAC_CSR0);
@@ -2559,7 +2554,6 @@ INT rtmp_asic_top_init(struct rtmp_adapter *pAd)
 		if ((pAd->MACVersion == 0xffffffff) || (pAd->MACVersion == 0))
 			mt76x2_pwrOn(pAd);
 	}
-#endif
 
 	if (IS_MT76x0(pAd) || IS_MT76x2(pAd) || IS_MT7601(pAd)) {
 		if (pAd->WlanFunCtrl.field.WLAN_EN == 0)
@@ -2694,13 +2688,8 @@ INT StopDmaTx(struct rtmp_adapter *pAd, UCHAR Level)
 }
 
 
-#ifdef MT76x2
 #define MAX_AGG_CNT	48
-#elif defined(RT2883) || defined(RT3883)
-#define MAX_AGG_CNT	16
-#else
-#define MAX_AGG_CNT	8
-#endif
+
 INT AsicReadAggCnt(struct rtmp_adapter *pAd, ULONG *aggCnt, int cnt_len)
 {
 	uint32_t reg_addr;

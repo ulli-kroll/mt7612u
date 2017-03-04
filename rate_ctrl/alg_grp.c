@@ -1251,7 +1251,6 @@ VOID MlmeNewRateAdapt(
 			pEntry->phyITxBf ^= invertTxBf;
 		}
 #else
-#ifdef MT76x2
     pCurrTxRate = PTX_RA_GRP_ENTRY(pTable, CurrRateIdx);
     //For VHT Mode
     if((pCurrTxRate->Mode == 4) && (pCurrTxRate->dataRate == 1))
@@ -1296,7 +1295,6 @@ VOID MlmeNewRateAdapt(
 	          pEntry->lastRatePhyTxBf = pEntry->phyITxBf;
 			  }
     }
-#endif	/* MT76x2 */
 #endif /* TXBF_AWARE */
 
 		/*  Update TxQuality */

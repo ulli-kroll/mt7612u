@@ -67,9 +67,7 @@ struct _RSSI_SAMPLE;
 #include "chip/rt65xx.h"
 
 
-#ifdef MT76x2
 #include "chip/mt76x2.h"
-#endif /* MT76x2 */
 
 
 #include "mcu/mcu.h"
@@ -289,10 +287,8 @@ enum RXWI_FRQ_OFFSET_FIELD {
 #define EEPROM_A_TSSI_BOUND5		0xdc
 
 
-#ifdef MT76x2
 /* ITxBF calibration values EEPROM locations 0xC0 to 0xF1 */
 #define EEPROM1_ITXBF_CAL				0xc0
-#endif
 
 #define EEPROM_TXPOWER_BYRATE 			0xde	/* 20MHZ power. */
 #define EEPROM_TXPOWER_BYRATE_20MHZ_2_4G	0xde	/* 20MHZ 2.4G tx power. */
@@ -598,7 +594,6 @@ struct _RTMP_CHIP_CAP_ {
 	BOOLEAN tssi_enable;
 	BOOLEAN ed_cca_enable;
 
-#ifdef MT76x2
 #define TSSI_INIT_STAGE 0
 #define TSSI_CAL_STAGE 1
 #define TSSI_TRIGGER_STAGE 2
@@ -708,7 +703,6 @@ struct _RTMP_CHIP_CAP_ {
 
 	MT76x2_RATE_PWR_Table rate_pwr_table;
 
-#endif
 
 };
 

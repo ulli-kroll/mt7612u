@@ -338,12 +338,10 @@ INT RT_CfgSetWirelessMode(struct rtmp_adapter *pAd, char *arg)
 		return FALSE;
 	}
 
-#ifdef MT76x2
 	if (pChipCap->ac_off_mode && WMODE_CAP_AC(wmode)) {
 		DBGPRINT(RT_DEBUG_ERROR, ("it doesn't support VHT AC!\n"));
 		wmode &= ~(WMODE_AC);
 	}
-#endif /* MT76x2 */
 
 	if (wmode_band_equal(pAd->CommonCfg.PhyMode, wmode) == TRUE)
 		DBGPRINT(RT_DEBUG_OFF, ("wmode_band_equal(): Band Equal!\n"));
@@ -429,12 +427,10 @@ INT RT_CfgSetMbssWirelessMode(struct rtmp_adapter *pAd, char *arg)
 	}
 
 
-#ifdef MT76x2
 	if (pChipCap->ac_off_mode && WMODE_CAP_AC(wmode)) {
 		DBGPRINT(RT_DEBUG_ERROR, ("it doesn't support VHT AC!\n"));
 		wmode &= ~(WMODE_AC);
 	}
-#endif /* MT76x2 */
 
 	if (pAd->ApCfg.BssidNum > 1)
 	{

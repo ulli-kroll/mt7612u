@@ -101,7 +101,6 @@ UCHAR ZeroSsid[32] = {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x0
 	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
 
 
-#ifdef MT76x2
 #ifdef DYNAMIC_VGA_SUPPORT
 void dynamic_ed_cca_threshold_adjust(struct rtmp_adapter * pAd)
 {
@@ -508,9 +507,7 @@ void periodic_monitor_rssi_adjust_vga(struct rtmp_adapter *pAd)
 }
 #endif /* CONFIG_STA_SUPPORT */
 #endif /* DYNAMIC_VGA_SUPPORT */
-#endif /* MT76x2 */
 
-#ifdef MT76x2
 #ifdef CONFIG_STA_SUPPORT
 void periodic_check_channel_smoothing(struct rtmp_adapter *ad)
 {
@@ -545,7 +542,6 @@ void periodic_check_channel_smoothing(struct rtmp_adapter *ad)
 		}
 	}
 }
-#endif
 #endif
 
 VOID set_default_ap_edca_param(struct rtmp_adapter *pAd)
@@ -1321,18 +1317,14 @@ VOID MlmePeriodicExec(
 #endif /* WFA_VHT_PF */
 
 #ifdef DYNAMIC_VGA_SUPPORT
-#ifdef MT76x2
 	if (IS_MT76x2(pAd)) {
 		update_rssi_for_channel_model(pAd);
 		/* dynamic_cck_mrc(pAd); */
 	}
-#endif /* MT76x2 */
 #endif /* DYNAMIC_VGA_SUPPORT */
 
-#ifdef MT76x2
 	if ((pAd->Mlme.OneSecPeriodicRound % 1 == 0) && IS_MT76x2(pAd))
 		mt76x2_get_current_temp(pAd);
-#endif /* MT76x2 */
 
 #ifdef RTMP_MAC_USB
 	/* execute every 100ms, update the Tx FIFO Cnt for update Tx Rate.*/
@@ -1431,18 +1423,15 @@ VOID MlmePeriodicExec(
 
 #ifdef DYNAMIC_VGA_SUPPORT
 #ifdef CONFIG_AP_SUPPORT
-#ifdef MT76x2
 		if (IS_MT76x2(pAd)) {
 			IF_DEV_CONFIG_OPMODE_ON_AP(pAd) {
 				if (pAd->Mlme.OneSecPeriodicRound % 1 == 0)
 					periodic_monitor_false_cca_adjust_vga(pAd);
 			}
 		}
-#endif /* MT76x2 */
 #endif /* CONFIG_AP_SUPPORT */
 
 #ifdef CONFIG_STA_SUPPORT
-#ifdef MT76x2
 		if (IS_MT76x2(pAd)) {
 			if (pAd->Mlme.OneSecPeriodicRound % 1 == 0)
 				periodic_monitor_rssi_adjust_vga(pAd);
@@ -1451,7 +1440,6 @@ VOID MlmePeriodicExec(
 			//if (pAd->CommonCfg.Channel <= 14)
 				//periodic_check_channel_smoothing(pAd);
 		}
-#endif /* MT76x2 */
 #endif /* CONFIG_STA_SUPPORT */
 
 #endif /* DYNAMIC_VGA_SUPPORT */
@@ -1505,7 +1493,6 @@ VOID MlmePeriodicExec(
 		}
 #endif /* MT76x0_TSSI_CAL_COMPENSATION */
 
-#ifdef MT76x2
 		if (IS_MT76x2(pAd) &&
 			(pAd->chipCap.tssi_enable) && (!pAd->chipCap.temp_tx_alc_enable) &&
 			(RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_RADIO_OFF |
@@ -1521,7 +1508,6 @@ VOID MlmePeriodicExec(
 #endif
 			}
 		}
-#endif /* MT76x2 */
 
 		if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_RADIO_OFF | fRTMP_ADAPTER_DISABLE_DEQUEUEPACKET) == FALSE)
 		{

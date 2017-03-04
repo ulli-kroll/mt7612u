@@ -369,12 +369,10 @@ struct mcu_skb_data {
 
 typedef	union _ANDES_CALIBRATION_PARAM {
 	uint32_t generic;
-#ifdef MT76x2
 	struct {
 		uint32_t pa_mode;
 		uint32_t tssi_slope_offset;
 	} mt76x2_tssi_comp_param;
-#endif
 } ANDES_CALIBRATION_PARAM;
 
 enum CALIBRATION_TEST_TYPE {

@@ -355,13 +355,11 @@ int rt28xx_init(struct rtmp_adapter *pAd)
 			DBGPRINT(RT_DEBUG_OFF, ("Main bssid = %02x:%02x:%02x:%02x:%02x:%02x\n",
 						PRINT_MAC(pAd->ApCfg.MBSSID[BSS0].wdev.bssid)));
 
-#ifdef MT76x2
 			if (IS_MT76x2(pAd)) {
 				mt76x2_reinit_agc_gain(pAd, pAd->hw_cfg.cent_ch);
 				mt76x2_reinit_hi_lna_gain(pAd, pAd->hw_cfg.cent_ch);
 				mt76x2_get_agc_gain(pAd, TRUE);
 			}
-#endif
 		}
 #endif /* CONFIG_AP_SUPPORT */
 
@@ -421,17 +419,6 @@ int rt28xx_init(struct rtmp_adapter *pAd)
 	/* auto-fall back settings */
 
 
-
-#ifndef MT76x2
-	if (pAd->CommonCfg.ITxBfTimeout)
-	{
-		RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R179, 0x02);
-		RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R180, 0);
-		RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R182, pAd->CommonCfg.ITxBfTimeout & 0xFF);
-		RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R180, 1);
-		RTMP_BBP_IO_WRITE8_BY_REG_ID(pAd, BBP_R182, (pAd->CommonCfg.ITxBfTimeout>>8) & 0xFF);
-	}
-#endif
 
 	if (pAd->CommonCfg.ETxBfTimeout)
 	{

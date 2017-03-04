@@ -68,14 +68,12 @@ VOID rlt_bcn_buf_init(struct rtmp_adapter *pAd)
 	RTMP_CHIP_CAP *pChipCap = &pAd->chipCap;
 
 	pChipCap->FlgIsSupSpecBcnBuf = FALSE;
-#if defined(MT76x2)
 	if (IS_MT7601(pAd) || IS_MT76x2(pAd))
 	{
 		pChipCap->BcnMaxHwNum = 8;
 		pChipCap->WcidHwRsvNum = 127;
 	}
 	else
-#endif /* MT76x2 */
 	{
 		pChipCap->BcnMaxHwNum = 16;
 		pChipCap->WcidHwRsvNum = 255;
@@ -184,12 +182,10 @@ int RtmpChipOpsHook(VOID *pCB)
 
 
 
-#ifdef MT76x2
 	if (IS_MT76x2(pAd)) {
 		mt76x2_init(pAd);
 		goto done;
 	}
-#endif
 
 
 

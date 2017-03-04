@@ -2219,15 +2219,11 @@ void andes_calibration(struct rtmp_adapter *ad, u32 cal_id, ANDES_CALIBRATION_PA
 
 	DBGPRINT(RT_DEBUG_INFO, ("%s:cal_id(%d)\n ", __FUNCTION__, cal_id));
 
-#ifdef MT76x2
-#endif /* MT76x2 */
 
-#ifdef MT76x2
 	/* Calibration ID and Parameter */
 	if (cal_id == TSSI_COMPENSATION_7662 && IS_MT76x2(ad))
 		msg = andes_alloc_cmd_msg(ad, 12);
 	else
-#endif /* MT76x2 */
 		msg = andes_alloc_cmd_msg(ad, 8);
 
 	if (!msg) {
@@ -2241,7 +2237,6 @@ void andes_calibration(struct rtmp_adapter *ad, u32 cal_id, ANDES_CALIBRATION_PA
 	andes_append_cmd_msg(msg, (char *)&value, 4);
 
 	/* Parameter */
-#ifdef MT76x2
 	if (cal_id == TSSI_COMPENSATION_7662 && IS_MT76x2(ad)) {
 		value = cpu2le32(param->mt76x2_tssi_comp_param.pa_mode);
 		andes_append_cmd_msg(msg, (char *)&value, 4);
@@ -2249,7 +2244,6 @@ void andes_calibration(struct rtmp_adapter *ad, u32 cal_id, ANDES_CALIBRATION_PA
 		value = cpu2le32(param->mt76x2_tssi_comp_param.tssi_slope_offset);
 		andes_append_cmd_msg(msg, (char *)&value, 4);
 	} else
-#endif /* MT76x2 */
 	{
 		value = cpu2le32(param->generic);
 		andes_append_cmd_msg(msg, (char *)&value, 4);
@@ -2257,8 +2251,6 @@ void andes_calibration(struct rtmp_adapter *ad, u32 cal_id, ANDES_CALIBRATION_PA
 
 	andes_send_cmd_msg(ad, msg);
 
-#ifdef MT76x2
-#endif /* MT76x2 */
 }
 
 int andes_load_cr(struct rtmp_adapter *ad, u32 cr_type, UINT8 temp_level, UINT8 channel)

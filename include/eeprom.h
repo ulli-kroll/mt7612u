@@ -154,11 +154,7 @@ typedef union _EEPROM_NIC_CINFIG2_STRUC {
 		USHORT bInternalTxALC:1;	/* Internal Tx ALC */
 		USHORT AntOpt:1;	/* Fix Antenna Option: 0:Main; 1: Aux */
 		USHORT AntDiversity:1;	/* Antenna diversity */
-#ifdef MT76x2
 		USHORT ExternalLNA:1;
-#else
-		USHORT Rsv1:1;	/* must be 0 */
-#endif /* MT76x2 */
 		USHORT BW40MAvailForA:1;	/* 0:enable, 1:disable */
 		USHORT BW40MAvailForG:1;	/* 0:enable, 1:disable */
 		USHORT EnableWPSPBC:1;	/* WPS PBC Control bit */
@@ -185,11 +181,7 @@ typedef union _EEPROM_NIC_CINFIG2_STRUC {
 		USHORT EnableWPSPBC:1;	/* WPS PBC Control bit */
 		USHORT BW40MAvailForG:1;	/* 0:enable, 1:disable */
 		USHORT BW40MAvailForA:1;	/* 0:enable, 1:disable */
-#ifdef MT76x2
 		USHORT ExternalLNA:1;
-#else
-		USHORT Rsv1:1;	/* must be 0 */
-#endif /* MT76x2 */
 		USHORT AntDiversity:1;	/* Antenna diversity */
 		USHORT AntOpt:1;	/* Fix Antenna Option: 0:Main; 1: Aux */
 		USHORT bInternalTxALC:1;	/* Internal Tx ALC */
@@ -205,16 +197,11 @@ typedef union _EEPROM_NIC_CINFIG2_STRUC {
 #ifdef RT_BIG_ENDIAN
 typedef union _EEPROM_NIC_CINFIG3_STRUC {
 	struct {
-#ifdef MT76x2
 		USHORT CoexMethod:3;
 		USHORT Rsv1:1;
 		USHORT TemperatureDisable:1;	/* 0:enable, 1:disable */
 		USHORT XtalOption:2;
 		USHORT HWAntDiv:1;
-#else
-		USHORT Rsv1:7;	/* must be 0 */
-		USHORT CoexMethod:1;
-#endif /* MT76x2 */
 		USHORT TxStream:4;	/* Number of Tx stream */
 		USHORT RxStream:4;	/* Number of rx stream */
 	} field;
@@ -225,16 +212,11 @@ typedef union _EEPROM_NIC_CINFIG3_STRUC {
 	struct {
 		USHORT RxStream:4;	/* Number of rx stream */
 		USHORT TxStream:4;	/* Number of Tx stream */
-#ifdef MT76x2
 		USHORT HWAntDiv:1;
 		USHORT XtalOption:2;
 		USHORT TemperatureDisable:1;	/* 0:enable, 1:disable */
 		USHORT Rsv1:1;
 		USHORT CoexMethod:3;
-#else
-		USHORT CoexMethod:1;
-		USHORT Rsv1:7;	/* must be 0 */
-#endif /* MT76x2 */
 	} field;
 	USHORT word;
 } EEPROM_NIC_CONFIG3_STRUC, *PEEPROM_NIC_CONFIG3_STRUC;

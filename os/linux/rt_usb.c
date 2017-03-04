@@ -949,10 +949,8 @@ void InitUSBDevice(RT_CMD_USB_INIT *config, VOID *ad_src)
 	ad->ChipID = value;
 	if (IS_RT65XX(ad))
 		rlt_wlan_chip_onoff(ad, TRUE, TRUE);
-#ifdef MT76x2
 	if (IS_MT76x2(ad))
 		mt76x2_pwrOn(ad);
-#endif
 
 	RtmpRaDevCtrlInit(ad, ad->infType);
 }

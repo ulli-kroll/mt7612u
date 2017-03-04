@@ -1267,7 +1267,6 @@ VOID RT28XXDMAEnable(struct rtmp_adapter *pAd)
 {
 	USB_DMA_CFG_STRUC	UsbCfg;
 
-#if defined(MT76x0) || defined(MT76x2)
 	if (IS_MT76x0(pAd) || IS_MT76x2(pAd)) {
 		USB_CFG_READ(pAd, &UsbCfg.word);
 
@@ -1289,7 +1288,6 @@ VOID RT28XXDMAEnable(struct rtmp_adapter *pAd)
 		if (IS_MT76x2(pAd))
 			UsbCfg.field_76xx.RX_DROP_OR_PADDING = 1;
 	}
-#endif /* defined(MT76x0) || defined(MT76x2) */
 
 	USB_CFG_WRITE(pAd, UsbCfg.word);
 }

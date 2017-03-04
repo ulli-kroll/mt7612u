@@ -21,9 +21,7 @@
 #define __MT65XX_H__
 
 
-#ifdef MT76x2
 #include "mt76x2.h"
-#endif /* MT76x2 */
 
 struct rtmp_adapter;
 
@@ -50,12 +48,8 @@ VOID RT65xxUsbAsicRadioOff(struct rtmp_adapter *pAd, UCHAR Stage);
 #ifdef RT_BIG_ENDIAN
 typedef union _EEPROM_NIC_CINFIG0_STRUC {
 	struct {
-#ifdef MT76x2
 		USHORT Rsv:5;
 		USHORT PACurrent:1;
-#else
-		USHORT Rsv:6;
-#endif
 		USHORT PAType:2;			/* 00: 2.4G+5G external PA, 01: 5G external PA, 10: 2.4G external PA, 11: Internal PA */
 		USHORT TxPath:4;			/* 1: 1T, 2: 2T, 3: 3T */
 		USHORT RxPath:4;			/* 1: 1R, 2: 2R, 3: 3R */
@@ -68,12 +62,8 @@ typedef union _EEPROM_NIC_CINFIG0_STRUC {
 		USHORT RxPath:4;			/* 1: 1R, 2: 2R, 3: 3R */
 		USHORT TxPath:4;			/* 1: 1T, 2: 2T, 3: 3T */
 		USHORT PAType:2;			/* 00: 2.4G+5G external PA, 01: 5G external PA, 10: 2.4G external PA, 11: Internal PA */
-#ifdef MT76x2
 		USHORT PACurrent:1;
 		USHORT Rsv:5;
-#else
-		USHORT Rsv:6;
-#endif
 	} field;
 	USHORT word;
 } EEPROM_NIC_CONFIG0_STRUC, *PEEPROM_NIC_CONFIG0_STRUC;

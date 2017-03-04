@@ -57,7 +57,6 @@ VOID rtmp_asic_set_bf(
 
 
 
-#ifdef MT76x2
 	Value32 = mt7612u_read32(pAd, PFMU_R1);
 	Value32 &= ~0x330;
 
@@ -90,7 +89,6 @@ VOID rtmp_asic_set_bf(
 		Value32 &= ~((0x1 << 6) | 0x2);
 
 	mt7612u_write32(pAd, PFMU_R0, Value32);
-#endif
 }
 
 /*
@@ -136,13 +134,8 @@ BOOLEAN rtmp_chk_itxbf_calibration(
 {
 	INT calIdx, calCnt;
 	USHORT offset, eeVal, *calptr;
-#ifndef MT76x2
-	USHORT g_caladdr[] = {0x1a0, 0x1a2, 0x1b0, 0x1b2, 0x1b6, 0x1b8};
-	USHORT a_caladdr[] = {0x1a4, 0x1a6, 0x1a8, 0x1aa, 0x1ac, 0x1ae, 0x1b4, 0x1ba, 0x1bc, 0x1be, 0x1c0, 0x1c2, 0x1c4, 0x1c6, 0x1c8};
-#else
 	USHORT g_caladdr[] = {0xc0, 0xc2, 0xd4, 0xd6, 0xd8};
 	USHORT a_caladdr[] = {0xc4, 0xc6, 0xc8, 0xca, 0xcc, 0xce, 0xd0, 0xd2, 0xda, 0xdc, 0xde, 0xe0, 0xe2, 0xe4, 0xe6, 0xe8, 0xea, 0xec, 0xee, 0xf0};
-#endif
 	uint32_t ee_sum;
 	BOOLEAN bCalibrated = TRUE;
 
@@ -281,15 +274,10 @@ void setETxBFCap(struct rtmp_adapter *pAd, HT_BF_CAP *pTxBFCap)
 		pTxBFCap->ExpNoComBF = HT_ExBF_FB_CAP_IMMEDIATE;
 		pTxBFCap->ExpComBF = pAd->CommonCfg.ETxBfNoncompress? HT_ExBF_FB_CAP_NONE: HT_ExBF_FB_CAP_IMMEDIATE;
 		pTxBFCap->MinGrouping = 3;
-#ifndef MT76x2
-		pTxBFCap->NoComSteerBFAntSup = 2;
-		pTxBFCap->ComSteerBFAntSup = 2;
-#else
 		pTxBFCap->NoComSteerBFAntSup = 1; // 2 Tx antenna sounding
 		pTxBFCap->ComSteerBFAntSup = 1;   // 2 Tx antenna sounding
 
 		pTxBFCap->TxSoundCapable = TRUE;  // Support staggered sounding frames
-#endif
 		pTxBFCap->ChanEstimation = pAd->Antenna.field.RxPath-1;
 	}
 }

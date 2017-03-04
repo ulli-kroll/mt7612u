@@ -102,12 +102,10 @@ VOID RTMPWriteTxWI(
 	phy_mode = pTransmit->field.MODE;
 	sgi = pTransmit->field.ShortGI;
 
-#ifdef MT76x2
 	if (MT_REV_GTE(pAd, MT76x2, REV_MT76x2E4))
 		tx_stream_mode = 0x13;
 	else if (MT_REV_ET(pAd, MT76x2, REV_MT76x2E3))
 		tx_stream_mode = (pTransmit->field.MODE <= MODE_OFDM) ? 0x93 : 0x0;
-#endif /* MT76x2 */
 
 	if (pMac)
 	{
@@ -253,12 +251,10 @@ VOID RTMPWriteTxWI_Data(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pTx
 	/* If CCK or OFDM, BW must be 20 */
 	bw = (pTransmit->field.MODE <= MODE_OFDM) ? (BW_20) : (pTransmit->field.BW);
 
-#ifdef MT76x2
 	if (MT_REV_GTE(pAd, MT76x2, REV_MT76x2E4))
 		tx_stream_mode = 0x13;
 	else if (MT_REV_ET(pAd, MT76x2, REV_MT76x2E3))
 		tx_stream_mode = (pTransmit->field.MODE <= MODE_OFDM) ? 0x93 : 0x0;
-#endif /* MT76x2 */
 
 	if (bw)
 		bw = (pAd->CommonCfg.AddHTInfo.AddHtInfo.RecomWidth == 0) ? (BW_20) : (pTransmit->field.BW);
@@ -480,12 +476,10 @@ VOID RTMPWriteTxWI_Cache(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pT
 	phy_mode = pTransmit->field.MODE;
 	pMacEntry->LastTxRate = pTransmit->word;
 
-#ifdef MT76x2
 	if (MT_REV_GTE(pAd, MT76x2, REV_MT76x2E4))
 		tx_stream_mode = 0x13;
 	else if (MT_REV_ET(pAd, MT76x2, REV_MT76x2E3))
 		tx_stream_mode = (pTransmit->field.MODE <= MODE_OFDM) ? 0x93 : 0x0;
-#endif /* MT76x2 */
 
 	ampdu = ((pMacEntry->NoBADataCountDown == 0) ? TRUE: FALSE);
 	if(pTxBlk->TxSndgPkt > SNDG_TYPE_DISABLE)

@@ -4667,33 +4667,6 @@ INT	Set_ETxBfEnCond_Proc(
 	}
 
 
-#ifndef MT76x2
-	if (pAd->CommonCfg.RegTransmitSetting.field.ITxBfEn || enableETxBf)
-	{
-		RT30xxReadRFRegister(pAd, RF_R39, (u8 *)&byteValue);
-		byteValue |= 0x40;
-		RT30xxWriteRFRegister(pAd, RF_R39, (UCHAR)byteValue);
-
-		RT30xxReadRFRegister(pAd, RF_R49, (u8 *)&byteValue);
-		byteValue |= 0x20;
-		RT30xxWriteRFRegister(pAd, RF_R49, (UCHAR)byteValue);
-	}
-	else
-	{
-		/* depends on Gary Tsao's comments. we shall disable it */
-		if (pAd->CommonCfg.RegTransmitSetting.field.ITxBfEn == 0)
-		{
-			RT30xxReadRFRegister(pAd, RF_R39, (u8 *)&byteValue);
-			byteValue &= (~0x40);
-			RT30xxWriteRFRegister(pAd, RF_R39, (UCHAR)byteValue);
-
-			RT30xxReadRFRegister(pAd, RF_R49, (u8 *)&byteValue);
-			byteValue &= (~0x20);
-			RT30xxWriteRFRegister(pAd, RF_R49, (UCHAR)byteValue);
-		}
-	}
-#endif
-
 	return TRUE;
 }
 
@@ -4885,7 +4858,6 @@ INT Set_VhtNDPA_Sounding_Proc(struct rtmp_adapter *pAd, char *arg)
 	return FALSE;
 }
 
-#ifdef MT76x2
 USHORT  PFMU_TimeOut;
 UCHAR	MatrixForm[5];
 UCHAR	StsSnr[2];
@@ -5054,7 +5026,6 @@ INT Set_TxBfProfileTag_Flg(
 
 	return TRUE;
 }
-#endif  //MT76x2
 
 
 void assoc_ht_info_debugshow(
@@ -5524,13 +5495,7 @@ INT set_rx_rts_cts(struct rtmp_adapter *pAd, char *arg)
 }
 #endif /* WFA_VHT_PF */
 
-#ifdef MT76x2
 #define MAX_AGG_CNT	48
-#elif defined(RT2883) || defined(RT3883)
-#define MAX_AGG_CNT	16
-#else
-#define MAX_AGG_CNT	8
-#endif
 
 /* DisplayTxAgg - display Aggregation statistics from MAC */
 void DisplayTxAgg (struct rtmp_adapter *pAd)

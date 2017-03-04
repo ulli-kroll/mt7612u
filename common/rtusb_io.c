@@ -62,7 +62,6 @@
 #define MT7612U_VENDOR_USB_CFG_READ	0x47
 #define MT7612U_VENDOR_USB_CFG_WRITE	0x46
 
-#ifdef MT76x2
 // For MT7662 and newer
 void usb_cfg_read_v3(struct rtmp_adapter *ad, u32 *value)
 {
@@ -97,7 +96,6 @@ void usb_cfg_write_v3(struct rtmp_adapter *ad, u32 value)
 		return;
 	}
 }
-#endif /* MT76x2 */
 #endif /* RLT_MAC */
 
 int RTUSBVenderReset(struct rtmp_adapter *pAd)

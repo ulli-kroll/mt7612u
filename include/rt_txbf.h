@@ -32,14 +32,12 @@
 #define _RT_TXBF_H_
 
 
-#ifdef MT76x2
 // Divider phase calibration closed loop definition
 #define RX0TX0     0
 #define RX1TX1     5
 
 #define ADC0_RX0_2R   8
 #define ADC1_RX1_2R   8
-#endif
 
 //#define MRQ_FORCE_TX		//Force MRQ regardless the capability of the station
 
@@ -95,21 +93,15 @@
 #define IMP_MAX_BYTES		14		// Implicit: 14 bytes per subcarrier
 #define IMP_MAX_BYTES_ONE_COL	7	// Implicit: 7 bytes per subcarrier, when reading first column
 #define EXP_MAX_BYTES		18		// Explicit: 18 bytes per subcarrier
-#ifdef MT76x2
 #define MAX_BYTES            2      // 2 bytes per subcarrier for implicit and explicit TxBf
-#endif
 #define IMP_COEFF_SIZE		 9		// 9 bits/coeff
 #define IMP_COEFF_MASK		0x1FF
 
 #define PROFILE_MAX_CARRIERS_20		56		// Number of subcarriers in 20 MHz mode
 #define PROFILE_MAX_CARRIERS_40		114		// Number of subcarriers in 40 MHz mode
-#ifdef MT76x2
 #define PROFILE_MAX_CARRIERS_80		242		// Number of subcarriers in 80 MHz mode
-#endif
 
-#ifdef MT76x2
 #define NUM_CHAIN			 3
-#endif
 
 // Indices of valid rows in Implicit and Explicit profiles for 20 and 40 MHz
 typedef struct {
@@ -129,7 +121,6 @@ typedef struct {
 
 extern PROFILE_DATA profData;
 
-#ifdef MT76x2
 typedef struct {
 	UCHAR  ng, cw, nrow, ncol, LM;
 	UCHAR  LD, EO, IO, I_E;
@@ -146,13 +137,10 @@ typedef struct {
 	UCHAR  psi21, phill;
 	UCHAR  data[PROFILE_MAX_CARRIERS_80][MAX_BYTES];
 } PFMU_DATA;
-#endif
 
 
 typedef
 struct {
-
-#ifdef MT76x2
 	UCHAR E1gBeg;
 	UCHAR E1gEnd;
 	UCHAR E1aHighBeg;
@@ -162,13 +150,10 @@ struct {
 	UCHAR E1aMidBeg;
 	UCHAR E1aMidMid;
 	UCHAR E1aMidEnd;
-#endif
 } ITXBF_PHASE_PARAMS;			// ITxBF BBP reg phase calibration parameters
 
 typedef
 struct {
-
-#ifdef MT76x2
 	UCHAR E1gBeg[3];
 	UCHAR E1gEnd[3];
 	UCHAR E1aHighBeg[3];
@@ -178,13 +163,10 @@ struct {
 	UCHAR E1aMidBeg[3];
 	UCHAR E1aMidMid[3];
 	UCHAR E1aMidEnd[3];
-#endif
 } ITXBF_LNA_PARAMS;			// ITxBF BBP reg LNA calibration parameters
 
 typedef
 struct {
-
-#ifdef MT76x2
 	UCHAR E1gBeg;
 	UCHAR E1gEnd;
 	UCHAR E1aHighBeg;
@@ -194,7 +176,6 @@ struct {
 	UCHAR E1aMidBeg;
 	UCHAR E1aMidMid;
 	UCHAR E1aMidEnd;
-#endif
 } ITXBF_DIV_PARAMS;				// ITxBF Divider Calibration parameters
 
 INT ITxBFDividerCalibration(

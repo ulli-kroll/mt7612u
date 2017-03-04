@@ -95,7 +95,6 @@ VOID FrequencyCalibration(
 	CHAR HighFreqTriggerPoint = 0, LowFreqTriggerPoint = 0;
 	CHAR DecreaseFreqOffset = 0, IncreaseFreqOffset = 0;
 
-#ifdef MT76x2
 	if (IS_MT76x2(pAd))
 	{
 		PFREQUENCY_CALIBRATION_CONTROL pFrqCal = &pAd->FreqCalibrationCtrl;
@@ -152,7 +151,6 @@ VOID FrequencyCalibration(
 
 		return;
 	}
-#endif /* MT76x2 */
 
 	/* Frequency calibration period: */
 	/* a) 10 seconds: Check the reported frequency offset*/
@@ -266,10 +264,8 @@ CHAR GetFrequencyOffset(
 
 		FreqOffset = GetFrequencyOffsetField(pAd, pRxWI, pAd->chipCap.RxWIFrqOffset);
 
-#ifdef MT76x2
 		if (IS_MT76x2(pAd))
 			goto ret;
-#endif /* MT76x2 */
 
 		if ((FreqOffset < LOWERBOUND_OF_FREQUENCY_OFFSET) ||
 		     (FreqOffset > UPPERBOUND_OF_FREQUENCY_OFFSET))

@@ -438,7 +438,6 @@ static LONG mapChannelKHz(int ch)
 		chBeg, chEnd - begining and ending channel
 		yBeg, yEnd - the hex phase values corresponding to chBeg and chEnd
 */
-#ifdef MT76x2
 static UCHAR InterpParam_check(int ch, int chBeg, int chEnd, UCHAR yBeg, UCHAR yEnd)
 {
 	long x, xBeg, xEnd, yDelta;
@@ -476,7 +475,6 @@ static UCHAR InterpParam_check(int ch, int chBeg, int chEnd, UCHAR yBeg, UCHAR y
 
 	return output;
 }
-#endif
 
 
 /*
@@ -531,18 +529,14 @@ static UCHAR InterpParam(int ch, int chBeg, int chEnd, UCHAR yBeg, UCHAR yEnd)
 
 
 
-#ifdef MT76x2
 
 INT    avgPhase32[3];
 UCHAR  MidVGA[2];
 
-#endif // MT76x2
 
-#ifdef MT76x2
 static SC_TABLE_ENTRY impSubCarrierTable[3] = { {224, 255, 1, 31}, {198, 254, 2, 58}, {134, 254, 2, 122} };
 static SC_TABLE_ENTRY expSubCarrierTable[3] = { {224, 255, 1, 31}, {198, 254, 2, 58}, {134, 254, 2, 122} };
 
-#endif /* MT76x2 */
 
 #ifdef DBG
 #ifdef LINUX

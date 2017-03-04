@@ -566,10 +566,8 @@ DBGPRINT(RT_DEBUG_OFF, ("%s(): AP Set CentralFreq at %d(Prim=%d, HT-CentCh=%d, V
 
 
 
-#ifdef MT76x2
 	if (IS_MT76x2(pAd))
 		mt76x2_calibration(pAd, pAd->hw_cfg.cent_ch);
-#endif
 
 #ifdef RTMP_MAC_USB
 	RTUSBBssBeaconInit(pAd);

@@ -65,12 +65,10 @@ VOID RadarDetectPeriodic(
 					("Not found radar signal, start send beacon and radar detection in service monitor\n\n"));
 		pAd->Dot11_H.RDMode = RD_NORMAL_MODE;
 		AsicEnableBssSync(pAd);
-#ifdef MT76x2
 			if (IS_MT76x2(pAd)) {
 				mt76x2_calibration(pAd, pAd->hw_cfg.cent_ch);
 				mt76x2_tssi_calibration(pAd, pAd->hw_cfg.cent_ch);
 			}
-#endif /* MT76x2 */
 			pAd->Dot11_H.RDCount = 0;
 		}
 	}

@@ -681,10 +681,8 @@ INT Set_CountryCode_Proc(
 		pAd->CommonCfg.bCountryFlag = FALSE;
 	}
 
-#ifdef MT76x2
 	if (IS_MT76x2(pAd))
 		AsicSwitchChannel(pAd, pAd->hw_cfg.cent_ch, FALSE);
-#endif /* MT76x2 */
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_CountryCode_Proc::(bCountryFlag=%d, CountryCode=%s)\n", pAd->CommonCfg.bCountryFlag, pAd->CommonCfg.CountryCode));
 
@@ -5510,7 +5508,6 @@ INT Set_AP_DyncVgaEnable_Proc(
 
 	if (pAd->CommonCfg.lna_vga_ctl.bDyncVgaEnable == FALSE)
 	{
-#ifdef MT76x2
 		if (IS_MT76x2(pAd)) {
 			bbp_val = RTMP_BBP_IO_READ32(pAd, AGC1_R8);
 			bbp_val = (bbp_val & 0xffff80ff) | (pAd->CommonCfg.lna_vga_ctl.agc_vga_init_0 << 8);
@@ -5522,7 +5519,6 @@ INT Set_AP_DyncVgaEnable_Proc(
 				RTMP_BBP_IO_WRITE32(pAd, AGC1_R9, bbp_val);
 			}
 		}
-#endif /* MT76x2 */
 
 	}
 	else {

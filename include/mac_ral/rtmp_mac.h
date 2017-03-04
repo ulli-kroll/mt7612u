@@ -892,7 +892,6 @@ typedef	union _AUTO_WAKEUP_STRUC {
 #define AUX_CLK_CFG			0x120C
 #define MIMO_PS_CFG		0x1210
 
-#if defined(RT6352) || defined(MT76x0) || defined(MT76x2)
 #define BB_PA_MODE_CFG0			0x1214
 #define BB_PA_MODE_CFG1			0x1218
 #define RF_PA_MODE_CFG0			0x121C
@@ -925,7 +924,6 @@ typedef	union _AUTO_WAKEUP_STRUC {
 #define TX1_RF_GAIN_CORR			0x13A4
 #define TX1_RF_GAIN_ATTEN			0x13AC
 #define WL_LOWGAIN_CH_EN 			(1 << 31)
-#endif /* defined(RT6352) || defined(MT76x0) || defined(MT76x2) */
 
 
 /*  4.3 MAC TX  configuration registers (offset:0x1300) */
@@ -1134,17 +1132,10 @@ typedef	union _TX_RTS_CFG_STRUC	 {
 
 
 
-#ifndef MT76x2
-#define TX_TXBF_CFG_0 			0x138c
-#define TX_TXBF_CFG_1 			0x13A4
-#define TX_TXBF_CFG_2 			0x13A8
-#define TX_TXBF_CFG_3 			0x13AC
-#else
 #define TX_TXBF_CFG_0 			0x1624
 #define TX_TXBF_CFG_1 			0x1628
 #define TX_TXBF_CFG_2 			0x162C
 #define TX_TXBF_CFG_3 			0x1630
-#endif
 typedef	union _TX_TXBF_CFG_0_STRUC {
 	struct {
 #ifdef RT_BIG_ENDIAN
@@ -1715,7 +1706,6 @@ typedef	union _TX_STA_CNT2_STRUC {
 #define TX_STA_FIFO		0x1718
 
 
-#ifdef MT76x2
 #ifdef RT_BIG_ENDIAN
 typedef	union _TX_STA_FIFO_STRUC {
 	struct {
@@ -1749,44 +1739,6 @@ typedef	union _TX_STA_FIFO_STRUC {
 	uint32_t word;
 } TX_STA_FIFO_STRUC;
 #endif /* RT_BIG_ENDIAN */
-#else
-
-#ifdef RT_BIG_ENDIAN
-typedef	union _TX_STA_FIFO_STRUC {
-	struct {
-		uint32_t 	Reserve:2;
-		uint32_t 	iTxBF:1; /* iTxBF enable */
-		uint32_t 	Sounding:1; /* Sounding enable */
-		uint32_t 	eTxBF:1; /* eTxBF enable */
-		uint32_t 	SuccessRate:11;	/*include MCS, mode ,shortGI, BW settingSame format as TXWI Word 0 Bit 31-16. */
-		uint32_t 	wcid:8;		/*wireless client index */
-		uint32_t       	TxAckRequired:1;    /* ack required */
-		uint32_t       	TxAggre:1;    /* Tx is aggregated */
-		uint32_t       	TxSuccess:1;   /* Tx success. whether success or not */
-		uint32_t       	PidType:4;
-		uint32_t       	bValid:1;   /* 1:This register contains a valid TX result */
-	} field;
-	uint32_t word;
-} TX_STA_FIFO_STRUC;
-#else
-typedef	union _TX_STA_FIFO_STRUC {
-	struct {
-		uint32_t       	bValid:1;
-		uint32_t       	PidType:4;
-		uint32_t       	TxSuccess:1;
-		uint32_t       	TxAggre:1;
-		uint32_t       	TxAckRequired:1;
-		uint32_t 	wcid:8;
-		uint32_t 	SuccessRate:11;
-		uint32_t 	eTxBF:1;
-		uint32_t 	Sounding:1;
-		uint32_t 	iTxBF:1;
-		uint32_t 	Reserve:2;
-	} field;
-	uint32_t word;
-} TX_STA_FIFO_STRUC;
-#endif
-#endif /* MT76x2 */
 
 
 /*

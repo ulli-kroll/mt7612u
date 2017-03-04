@@ -41,7 +41,6 @@
 
 #ifdef RT_BIG_ENDIAN
 typedef	union _USB_DMA_CFG_STRUC {
-#if defined(MT76x0) || defined(MT76x2)
 	struct {
 		uint32_t TxBusy:1;   	/*USB DMA TX FSM busy. debug only */
 		uint32_t RxBusy:1;        /*USB DMA RX FSM busy. debug only */
@@ -57,7 +56,6 @@ typedef	union _USB_DMA_CFG_STRUC {
 		uint32_t RxBulkAggLmt:8;        /*Rx Bulk Aggregation Limit  in unit of 1024 bytes */
 		uint32_t RxBulkAggTOut:8;        /*Rx Bulk Aggregation TimeOut  in unit of 33ns */
 	} field_76xx;
-#endif /* defined(MT76x0) || defined(MT76x2) */
 	struct {
 		uint32_t TxBusy:1;   	/*USB DMA TX FSM busy. debug only */
 		uint32_t RxBusy:1;        /*USB DMA RX FSM busy. debug only */
@@ -76,7 +74,6 @@ typedef	union _USB_DMA_CFG_STRUC {
 } USB_DMA_CFG_STRUC;
 #else
 typedef	union _USB_DMA_CFG_STRUC {
-#if defined(MT76x0) || defined(MT76x2)
 	struct {
 		uint32_t RxBulkAggTOut:8;        /*Rx Bulk Aggregation TimeOut  in unit of 33ns */
 		uint32_t RxBulkAggLmt:8;        /*Rx Bulk Aggregation Limit  in unit of 256 bytes */
@@ -92,7 +89,6 @@ typedef	union _USB_DMA_CFG_STRUC {
 		uint32_t RxBusy:1;        /*USB DMA RX FSM busy */
 		uint32_t TxBusy:1;   	/*USB DMA TX FSM busy */
 	} field_76xx;
-#endif /* defined(MT76x0) || defined(MT76x2) */
 	struct {
 		uint32_t RxBulkAggTOut:8;        /*Rx Bulk Aggregation TimeOut  in unit of 33ns */
 		uint32_t RxBulkAggLmt:8;        /*Rx Bulk Aggregation Limit  in unit of 256 bytes */

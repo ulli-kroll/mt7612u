@@ -1905,14 +1905,12 @@ VOID LinkUp(struct rtmp_adapter *pAd, UCHAR BssType)
 
 
 
-#ifdef MT76x2
 	if (IS_MT76x2(pAd)) {
 		mt76x2_reinit_agc_gain(pAd, pAd->hw_cfg.cent_ch);
 		mt76x2_reinit_hi_lna_gain(pAd, pAd->hw_cfg.cent_ch);
 		mt76x2_get_agc_gain(pAd, TRUE);
 		mt76x2_calibration(pAd, pAd->hw_cfg.cent_ch);
 	}
-#endif /* MT76x2 */
 
 	pAd->MacTab.MsduLifeTime = 5; /* default 5 seconds */
 
