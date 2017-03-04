@@ -2930,7 +2930,7 @@ typedef struct _RtmpDiagStrcut_ {	/* Diagnosis Related element */
 } RtmpDiagStruct;
 #endif /* DBG_DIAGNOSE */
 
-#if defined(RTMP_INTERNAL_TX_ALC) || defined(RTMP_TEMPERATURE_COMPENSATION)
+#if defined(RTMP_INTERNAL_TX_ALC)
 /*
 	The number of channels for per-channel Tx power offset
 */
@@ -2949,16 +2949,9 @@ typedef struct _TX_POWER_CONTROL {
 	CHAR MAC_PowerDelta; /* Tx power control over MAC 0x1314~0x1324 */
 	CHAR MAC_PowerDelta2; /* Tx power control for Tx1 */
 	CHAR TotalDeltaPower2; /* Tx power control for Tx1 */
-#ifdef RTMP_TEMPERATURE_COMPENSATION
-	INT LookupTable[IEEE80211_BAND_NUMS][LOOKUP_TB_SIZE];
-	INT RefTemp[IEEE80211_BAND_NUMS];
-	UCHAR TssiGain[IEEE80211_BAND_NUMS];
-	/* Index offset, -7....25. */
-	INT LookupTableIndex;
-#endif /* RTMP_TEMPERATURE_COMPENSATION */
 
 } TX_POWER_CONTROL, *PTX_POWER_CONTROL;
-#endif /* RTMP_INTERNAL_TX_ALC || RTMP_TEMPERATURE_COMPENSATION */
+#endif /* RTMP_INTERNAL_TX_ALC */
 
 /* */
 /* The entry of transmit power control over MAC */
@@ -3606,11 +3599,11 @@ struct rtmp_adapter {
 	UCHAR TssiRefG;		/* Store Tssi reference value as 25 temperature. */
 	UCHAR TxAgcStepG;	/* Store Tx TSSI delta increment / decrement value */
 	CHAR TxAgcCompensateG;	/* Store the compensation (TxAgcStep * (idx-1)) */
-#if defined(RTMP_INTERNAL_TX_ALC) || defined(RTMP_TEMPERATURE_COMPENSATION)
+#if defined(RTMP_INTERNAL_TX_ALC)
 	TX_POWER_CONTROL TxPowerCtrl;	/* The Tx power control using the internal ALC */
 	CHAR curr_temp;
 	CHAR rx_temp_base[2];	/* initial VGA value for chain 0/1,  used for base of rx temp compensation power base */
-#endif /* RTMP_INTERNAL_TX_ALC || RTMP_TEMPERATURE_COMPENSATION */
+#endif /* RTMP_INTERNAL_TX_ALC */
 
 
 #ifdef THERMAL_PROTECT_SUPPORT
@@ -4032,7 +4025,7 @@ INT ed_monitor_init(struct rtmp_adapter *pAd);
 INT ed_monitor_exit(struct rtmp_adapter *pAd);
 #endif /* ED_MONITOR */
 
-#if defined(RTMP_INTERNAL_TX_ALC) || defined(RTMP_TEMPERATURE_COMPENSATION)
+#if defined(RTMP_INTERNAL_TX_ALC)
 /* The offset of the Tx power tuning entry (zero-based array) */
 #define TX_POWER_TUNING_ENTRY_OFFSET			30
 
@@ -4167,7 +4160,7 @@ typedef struct _TSSI_INFO_{
 	HT_TSSI_INFO ht_tssi_info_2;
 }TSSI_INFO;
 
-#endif /* RTMP_INTERNAL_TX_ALC || RTMP_TEMPERATURE_COMPENSATION */
+#endif /* RTMP_INTERNAL_TX_ALC  */
 
 
 typedef struct _PEER_PROBE_REQ_PARAM {
@@ -6216,10 +6209,6 @@ VOID FrequencyCalibration(struct rtmp_adapter *pAd);
 CHAR GetFrequencyOffset(struct rtmp_adapter *pAd, RXWI_STRUC *pRxWI);
 #endif /* RTMP_FREQ_CALIBRATION_SUPPORT */
 #endif /* CONFIG_STA_SUPPORT */
-
-#ifdef RTMP_TEMPERATURE_COMPENSATION
-VOID InitLookupTable(struct rtmp_adapter *pAd);
-#endif /* RTMP_TEMPERATURE_COMPENSATION */
 
 VOID MlmeHalt(struct rtmp_adapter *pAd);
 int MlmeInit(struct rtmp_adapter *pAd);

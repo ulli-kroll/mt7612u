@@ -228,15 +228,6 @@ int rt28xx_init(struct rtmp_adapter *pAd)
 	RTMP_CHIP_ASIC_TSSI_TABLE_INIT(pAd);
 #endif /* RTMP_INTERNAL_TX_ALC */
 
-
-#ifdef RTMP_TEMPERATURE_COMPENSATION
-	/* Temperature compensation, initialize the lookup table */
-	DBGPRINT(RT_DEBUG_OFF, ("bAutoTxAgcG = %d\n", pAd->bAutoTxAgcG));
-
-	if (pAd->chipCap.bTempCompTxALC && pAd->bAutoTxAgcG)
-		InitLookupTable(pAd);
-#endif /* RTMP_TEMPERATURE_COMPENSATION */
-
 #ifdef RTMP_FREQ_CALIBRATION_SUPPORT
 #ifdef CONFIG_STA_SUPPORT
 	if (pAd->chipCap.FreqCalibrationSupport)

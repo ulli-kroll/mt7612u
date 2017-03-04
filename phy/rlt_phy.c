@@ -86,7 +86,7 @@ static INT rlt_bbp_init(struct rtmp_adapter *pAd)
 
 static INT rlt_bbp_get_temp(struct rtmp_adapter *pAd, CHAR *temp_val)
 {
-#if defined(RTMP_INTERNAL_TX_ALC) || defined(RTMP_TEMPERATURE_COMPENSATION)
+#if defined(RTMP_INTERNAL_TX_ALC)
 	uint32_t bbp_val;
 
 	RTMP_BBP_IO_READ32(pAd, CORE_R35, &bbp_val);
@@ -103,7 +103,7 @@ static INT rlt_bbp_tx_comp_init(struct rtmp_adapter *pAd, INT adc_insel, INT tss
 	uint32_t bbp_val;
 	UCHAR rf_val;
 
-#if defined(RTMP_INTERNAL_TX_ALC) || defined(RTMP_TEMPERATURE_COMPENSATION)
+#if defined(RTMP_INTERNAL_TX_ALC)
 	bbp_val = RTMP_BBP_IO_READ32(pAd, CORE_R34);
 	bbp_val = (bbp_val & 0xe7);
 	bbp_val = (bbp_val | 0x80);

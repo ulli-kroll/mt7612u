@@ -327,7 +327,7 @@ enum RXWI_FRQ_OFFSET_FIELD {
 #define EEPROM_COUNTRY_REG_OFFSET	3
 #define EEPROM_BBP_ARRAY_OFFSET		4
 
-#if defined(RTMP_INTERNAL_TX_ALC) || defined(RTMP_TEMPERATURE_COMPENSATION)
+#if defined(RTMP_INTERNAL_TX_ALC)
 /* */
 /* The TSSI over OFDM 54Mbps */
 /* */
@@ -379,7 +379,7 @@ enum RXWI_FRQ_OFFSET_FIELD {
 
 #define DEFAULT_BBP_TX_FINE_POWER_CTRL 	0
 
-#endif /* RTMP_INTERNAL_TX_ALC || RTMP_TEMPERATURE_COMPENSATION */
+#endif /* RTMP_INTERNAL_TX_ALC */
 
 
 #ifdef RT_BIG_ENDIAN
@@ -413,13 +413,13 @@ typedef union _EEPROM_ANTENNA_STRUC {
   *   EEPROM operation related marcos
   */
 
-#if defined(RTMP_INTERNAL_TX_ALC) || defined(RTMP_TEMPERATURE_COMPENSATION)
+#if defined(RTMP_INTERNAL_TX_ALC)
 /* The Tx power tuning entry */
 typedef struct _TX_POWER_TUNING_ENTRY_STRUCT {
 	CHAR	RF_TX_ALC; 		/* 3390: RF R12[4:0]: Tx0 ALC, 5390: RF R49[5:0]: Tx0 ALC */
 	CHAR 	MAC_PowerDelta;	/* Tx power control over MAC 0x1314~0x1324 */
 } TX_POWER_TUNING_ENTRY_STRUCT, *PTX_POWER_TUNING_ENTRY_STRUCT;
-#endif /* defined(RTMP_INTERNAL_TX_ALC) || defined(RTMP_TEMPERATURE_COMPENSATION) */
+#endif /* defined(RTMP_INTERNAL_TX_ALC) */
 
 struct RF_BANK_OFFSET {
 	UINT8 RFBankIndex;
@@ -568,13 +568,13 @@ struct _RTMP_CHIP_CAP_ {
 
 	BOOLEAN bLimitPowerRange; /* TSSI compensation range limit */
 
-#if defined(RTMP_INTERNAL_TX_ALC) || defined(RTMP_TEMPERATURE_COMPENSATION)
+#if defined(RTMP_INTERNAL_TX_ALC)
 	UINT8 TxAlcTxPowerUpperBound_2G;
 	const TX_POWER_TUNING_ENTRY_STRUCT *TxPowerTuningTable_2G;
 	UINT8 TxAlcTxPowerUpperBound_5G;
 	const TX_POWER_TUNING_ENTRY_STRUCT *TxPowerTuningTable_5G;
 
-#endif /* defined(RTMP_INTERNAL_TX_ALC) || defined(RTMP_TEMPERATURE_COMPENSATION) */
+#endif /* defined(RTMP_INTERNAL_TX_ALC) */
 
 #if defined(RTMP_INTERNAL_TX_ALC)
 	INT16	PAModeCCK[4];

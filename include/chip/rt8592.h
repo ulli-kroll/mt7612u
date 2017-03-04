@@ -51,11 +51,6 @@ INT RT85592_DisableTxRx(struct rtmp_adapter *pAd, UCHAR Level);
 VOID RT85592ReadTxPwrPerRate(struct rtmp_adapter *pAd);
 INT RT85592_ReadChannelPwr(struct rtmp_adapter *pAd);
 
-
-#ifdef RTMP_TEMPERATURE_COMPENSATION
-INT rx_temp_compensation(struct rtmp_adapter *pAd);
-#endif /* RTMP_TEMPERATURE_COMPENSATION */
-
 INT bw_filter_cal(struct rtmp_adapter *pAd);
 
 INT rt85592_lna_gain_adjust(struct rtmp_adapter *pAd, CHAR gain);
