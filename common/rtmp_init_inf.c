@@ -223,11 +223,6 @@ int rt28xx_init(struct rtmp_adapter *pAd)
 #endif /* CONFIG_STA_SUPPORT */
 #endif /* RTMP_FREQ_CALIBRATION_SUPPORT */
 
-#ifdef RTMP_INTERNAL_TX_ALC
-	/* Initialize the desired TSSI table*/
-	RTMP_CHIP_ASIC_TSSI_TABLE_INIT(pAd);
-#endif /* RTMP_INTERNAL_TX_ALC */
-
 #ifdef RTMP_FREQ_CALIBRATION_SUPPORT
 #ifdef CONFIG_STA_SUPPORT
 	if (pAd->chipCap.FreqCalibrationSupport)
@@ -270,9 +265,6 @@ int rt28xx_init(struct rtmp_adapter *pAd)
 		RtmpusecDelay(10000);
 	}
 #endif /* RTMP_MAC_USB */
-
-#ifdef RTMP_INTERNAL_TX_ALC
-#endif /* RTMP_INTERNAL_TX_ALC */
 
 	/*
 		Some modules init must be called before APStartUp().

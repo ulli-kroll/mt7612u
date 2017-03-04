@@ -327,61 +327,6 @@ enum RXWI_FRQ_OFFSET_FIELD {
 #define EEPROM_COUNTRY_REG_OFFSET	3
 #define EEPROM_BBP_ARRAY_OFFSET		4
 
-#if defined(RTMP_INTERNAL_TX_ALC)
-/* */
-/* The TSSI over OFDM 54Mbps */
-/* */
-#define EEPROM_TSSI_OVER_OFDM_54		0x6E
-
-/* */
-/* The TSSI value/step (0.5 dB/unit) */
-/* */
-#define EEPROM_TSSI_STEP_OVER_2DOT4G	0x77
-#define EEPROM_TSSI_STEP_OVER_5DOT5G	0xDD
-#define TSSI_READ_SAMPLE_NUM			3
-
-/* */
-/* Per-channel Tx power offset (for the extended TSSI mode) */
-/* */
-#define EEPROM_TX_POWER_OFFSET_OVER_CH_1	0x6F
-#define EEPROM_TX_POWER_OFFSET_OVER_CH_3	0x70
-#define EEPROM_TX_POWER_OFFSET_OVER_CH_5	0x71
-#define EEPROM_TX_POWER_OFFSET_OVER_CH_7	0x72
-#define EEPROM_TX_POWER_OFFSET_OVER_CH_9	0x73
-#define EEPROM_TX_POWER_OFFSET_OVER_CH_11	0x74
-#define EEPROM_TX_POWER_OFFSET_OVER_CH_13	0x75
-
-/* */
-/* Tx power configuration (bit3:0 for Tx0 power setting and bit7:4 for Tx1 power setting) */
-/* */
-#define EEPROM_CCK_MCS0_MCS1				0xDE
-#define EEPROM_CCK_MCS2_MCS3				0xDF
-#define EEPROM_OFDM_MCS0_MCS1			0xE0
-#define EEPROM_OFDM_MCS2_MCS3			0xE1
-#define EEPROM_OFDM_MCS4_MCS5			0xE2
-#define EEPROM_OFDM_MCS6_MCS7			0xE3
-#define EEPROM_HT_MCS0_MCS1				0xE4
-#define EEPROM_HT_MCS2_MCS3				0xE5
-#define EEPROM_HT_MCS4_MCS5				0xE6
-#define EEPROM_HT_MCS6_MCS7				0xE7
-#define EEPROM_HT_MCS8_MCS9                     	0xE8
-#define EEPROM_HT_MCS10_MCS11                   	0xE9
-#define EEPROM_HT_MCS12_MCS13                   	0xEA
-#define EEPROM_HT_MCS14_MCS15                   	0xEB
-#define EEPROM_HT_USING_STBC_MCS0_MCS1	0xEC
-#define EEPROM_HT_USING_STBC_MCS2_MCS3	0xED
-#define EEPROM_HT_USING_STBC_MCS4_MCS5	0xEE
-#define EEPROM_HT_USING_STBC_MCS6_MCS7	0xEF
-
-/* */
-/* Bit mask for the Tx ALC and the Tx fine power control */
-/* */
-
-#define DEFAULT_BBP_TX_FINE_POWER_CTRL 	0
-
-#endif /* RTMP_INTERNAL_TX_ALC */
-
-
 #ifdef RT_BIG_ENDIAN
 typedef union _EEPROM_ANTENNA_STRUC {
 	struct {
@@ -413,13 +358,6 @@ typedef union _EEPROM_ANTENNA_STRUC {
   *   EEPROM operation related marcos
   */
 
-#if defined(RTMP_INTERNAL_TX_ALC)
-/* The Tx power tuning entry */
-typedef struct _TX_POWER_TUNING_ENTRY_STRUCT {
-	CHAR	RF_TX_ALC; 		/* 3390: RF R12[4:0]: Tx0 ALC, 5390: RF R49[5:0]: Tx0 ALC */
-	CHAR 	MAC_PowerDelta;	/* Tx power control over MAC 0x1314~0x1324 */
-} TX_POWER_TUNING_ENTRY_STRUCT, *PTX_POWER_TUNING_ENTRY_STRUCT;
-#endif /* defined(RTMP_INTERNAL_TX_ALC) */
 
 struct RF_BANK_OFFSET {
 	UINT8 RFBankIndex;
@@ -567,21 +505,6 @@ struct _RTMP_CHIP_CAP_ {
 	BOOLEAN rx_temp_comp;
 
 	BOOLEAN bLimitPowerRange; /* TSSI compensation range limit */
-
-#if defined(RTMP_INTERNAL_TX_ALC)
-	UINT8 TxAlcTxPowerUpperBound_2G;
-	const TX_POWER_TUNING_ENTRY_STRUCT *TxPowerTuningTable_2G;
-	UINT8 TxAlcTxPowerUpperBound_5G;
-	const TX_POWER_TUNING_ENTRY_STRUCT *TxPowerTuningTable_5G;
-
-#endif /* defined(RTMP_INTERNAL_TX_ALC) */
-
-#if defined(RTMP_INTERNAL_TX_ALC)
-	INT16	PAModeCCK[4];
-	INT16	PAModeOFDM[8];
-	INT16	PAModeHT[16];
-	INT16	PAModeVHT[10];
-#endif /* defined(RTMP_INTERNAL_TX_ALC) */
 
 	/* ---------------------------- packet ---------------------------------- */
 	UINT8 TXWISize;

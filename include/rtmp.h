@@ -2930,29 +2930,6 @@ typedef struct _RtmpDiagStrcut_ {	/* Diagnosis Related element */
 } RtmpDiagStruct;
 #endif /* DBG_DIAGNOSE */
 
-#if defined(RTMP_INTERNAL_TX_ALC)
-/*
-	The number of channels for per-channel Tx power offset
-*/
-#define NUM_OF_CH_FOR_PER_CH_TX_PWR_OFFSET	14
-
-/* The Tx power control using the internal ALC */
-#define LOOKUP_TB_SIZE		33
-
-typedef struct _TX_POWER_CONTROL {
-	BOOLEAN bInternalTxALC; /* Internal Tx ALC */
-	BOOLEAN bExtendedTssiMode; /* The extended TSSI mode (each channel has different Tx power if needed) */
-	CHAR PerChTxPwrOffset[NUM_OF_CH_FOR_PER_CH_TX_PWR_OFFSET + 1]; /* Per-channel Tx power offset */
-	CHAR idxTxPowerTable; /* The index of the Tx power table for ant0 */
-	CHAR idxTxPowerTable2; /* The index of the Tx power table for ant1 */
-	CHAR RF_TX_ALC; /* 3390: RF R12[4:0]: Tx0 ALC, 3352: RF R47[4:0]: Tx0 ALC, 5390: RF R49[5:0]: Tx0 ALC */
-	CHAR MAC_PowerDelta; /* Tx power control over MAC 0x1314~0x1324 */
-	CHAR MAC_PowerDelta2; /* Tx power control for Tx1 */
-	CHAR TotalDeltaPower2; /* Tx power control for Tx1 */
-
-} TX_POWER_CONTROL, *PTX_POWER_CONTROL;
-#endif /* RTMP_INTERNAL_TX_ALC */
-
 /* */
 /* The entry of transmit power control over MAC */
 /* */
@@ -3599,11 +3576,6 @@ struct rtmp_adapter {
 	UCHAR TssiRefG;		/* Store Tssi reference value as 25 temperature. */
 	UCHAR TxAgcStepG;	/* Store Tx TSSI delta increment / decrement value */
 	CHAR TxAgcCompensateG;	/* Store the compensation (TxAgcStep * (idx-1)) */
-#if defined(RTMP_INTERNAL_TX_ALC)
-	TX_POWER_CONTROL TxPowerCtrl;	/* The Tx power control using the internal ALC */
-	CHAR curr_temp;
-	CHAR rx_temp_base[2];	/* initial VGA value for chain 0/1,  used for base of rx temp compensation power base */
-#endif /* RTMP_INTERNAL_TX_ALC */
 
 
 #ifdef THERMAL_PROTECT_SUPPORT
@@ -4024,144 +3996,6 @@ INT ed_status_read(struct rtmp_adapter *pAd);
 INT ed_monitor_init(struct rtmp_adapter *pAd);
 INT ed_monitor_exit(struct rtmp_adapter *pAd);
 #endif /* ED_MONITOR */
-
-#if defined(RTMP_INTERNAL_TX_ALC)
-/* The offset of the Tx power tuning entry (zero-based array) */
-#define TX_POWER_TUNING_ENTRY_OFFSET			30
-
-/* The lower-bound of the Tx power tuning entry */
-#define LOWERBOUND_TX_POWER_TUNING_ENTRY		-30
-
-/* The upper-bound of the Tx power tuning entry in G band */
-#define UPPERBOUND_TX_POWER_TUNING_ENTRY(__pAd)		((__pAd)->chipCap.TxAlcTxPowerUpperBound_2G)
-
-/* The upper-bound of the Tx power tuning entry in A band */
-#define UPPERBOUND_TX_POWER_TUNING_ENTRY_5G(__pAd)		((__pAd)->chipCap.TxAlcTxPowerUpperBound_5G)
-
-/* Temperature compensation lookup table */
-
-#define TEMPERATURE_COMPENSATION_LOOKUP_TABLE_OFFSET	7
-
-/* The lower/upper power delta index for the TSSI rate table */
-
-#define LOWER_POWER_DELTA_INDEX		0
-#define UPPER_POWER_DELTA_INDEX		24
-
-/* The offset of the TSSI rate table */
-
-#define TSSI_RATIO_TABLE_OFFSET	12
-
-
-/* Get the power delta bound */
-
-#define GET_TSSI_RATE_TABLE_INDEX(x) (((x) > UPPER_POWER_DELTA_INDEX) ? (UPPER_POWER_DELTA_INDEX) : (((x) < LOWER_POWER_DELTA_INDEX) ? (LOWER_POWER_DELTA_INDEX) : ((x))))
-
-/* 802.11b CCK TSSI information */
-
-typedef union _CCK_TSSI_INFO
-{
-#ifdef RT_BIG_ENDIAN
-	struct
-	{
-		UCHAR	Reserved:1;
-		UCHAR	ShortPreamble:1;
-		UCHAR	Rate:2;
-		UCHAR	Tx40MSel:2;
-		UCHAR	TxType:2;
-	} field;
-#else
-	struct
-	{
-		UCHAR	TxType:2;
-		UCHAR	Tx40MSel:2;
-		UCHAR	Rate:2;
-		UCHAR	ShortPreamble:1;
-		UCHAR	Reserved:1;
-	} field;
-#endif /* RT_BIG_ENDIAN */
-
-	UCHAR	value;
-} CCK_TSSI_INFO, *PCCK_TSSI_INFO;
-
-
-/* 802.11a/g OFDM TSSI information */
-
-typedef union _OFDM_TSSI_INFO
-{
-#ifdef RT_BIG_ENDIAN
-	struct
-	{
-		UCHAR	Rate:4;
-		UCHAR	Tx40MSel:2;
-		UCHAR	TxType:2;
-	} field;
-#else
-	struct
-	{
-		UCHAR	TxType:2;
-		UCHAR	Tx40MSel:2;
-		UCHAR	Rate:4;
-	} field;
-#endif /* RT_BIG_ENDIAN */
-
-	UCHAR	value;
-} OFDM_TSSI_INFO, *POFDM_TSSI_INFO;
-
-
-/* 802.11n HT TSSI information */
-
-typedef struct _HT_TSSI_INFO {
-	union {
-#ifdef RT_BIG_ENDIAN
-		struct {
-			UCHAR SGI:1;
-			UCHAR STBC:2;
-			UCHAR Aggregation:1;
-			UCHAR Tx40MSel:2;
-			UCHAR TxType:2;
-		} field;
-#else
-		struct {
-			UCHAR TxType:2;
-			UCHAR Tx40MSel:2;
-			UCHAR Aggregation:1;
-			UCHAR STBC:2;
-			UCHAR SGI:1;
-		} field;
-#endif /* RT_BIG_ENDIAN */
-
-		UCHAR value;
-	} PartA;
-
-	union {
-#ifdef RT_BIG_ENDIAN
-		struct {
-			UCHAR BW:1;
-			UCHAR MCS:7;
-		} field;
-#else
-		struct {
-			UCHAR MCS:7;
-			UCHAR BW:1;
-		} field;
-#endif /* RT_BIG_ENDIAN */
-		UCHAR	value;
-	} PartB;
-} HT_TSSI_INFO, *PHT_TSSI_INFO;
-
-typedef struct _TSSI_INFO_{
-	UCHAR tssi_info_0;
-	union {
-		CCK_TSSI_INFO cck_tssi_info;
-		OFDM_TSSI_INFO ofdm_tssi_info;
-		HT_TSSI_INFO ht_tssi_info_1;
-		UCHAR byte;
-	}tssi_info_1;
-	HT_TSSI_INFO ht_tssi_info_2;
-}TSSI_INFO;
-
-#endif /* RTMP_INTERNAL_TX_ALC  */
-
 
 typedef struct _PEER_PROBE_REQ_PARAM {
 	UCHAR Addr2[MAC_ADDR_LEN];

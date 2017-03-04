@@ -86,14 +86,6 @@ static INT rlt_bbp_init(struct rtmp_adapter *pAd)
 
 static INT rlt_bbp_get_temp(struct rtmp_adapter *pAd, CHAR *temp_val)
 {
-#if defined(RTMP_INTERNAL_TX_ALC)
-	uint32_t bbp_val;
-
-	RTMP_BBP_IO_READ32(pAd, CORE_R35, &bbp_val);
-	*temp_val = (CHAR)(bbp_val & 0xff);
-
-	pAd->curr_temp = (bbp_val & 0xff);
-#endif
 	return TRUE;
 }
 

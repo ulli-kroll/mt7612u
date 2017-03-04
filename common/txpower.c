@@ -257,43 +257,6 @@ VOID AsicAdjustTxPower(struct rtmp_adapter *pAd)
 
 					Value = (CHAR)((reg_val >> j*4) & 0x0F);
 
-#if defined(RTMP_INTERNAL_TX_ALC)
-					/* The upper bounds of MAC 0x1314 ~ 0x1324 are variable */
-					if ((pAd->TxPowerCtrl.bInternalTxALC == TRUE)^(pAd->chipCap.bTempCompTxALC == TRUE))
-					{
-						switch (0x1314 + (i * 4))
-						{
-							case 0x1314:
-									_upbound = 0xe;
-								break;
-
-							case 0x1318:
-									_upbound = (j <= 3) ? 0xc : 0xe;
-								break;
-
-							case 0x131C:
-								_upbound = ((j == 0) || (j == 2) || (j == 3)) ? 0xc : 0xe;
-								break;
-
-							case 0x1320:
-								_upbound = (j == 1) ? 0xe : 0xc;
-								break;
-
-							case 0x1324:
-								_upbound = 0xc;
-								break;
-
-							default:
-							{
-								/* do nothing */
-								_bValid = FALSE;
-								DBGPRINT(RT_DEBUG_ERROR, ("%s: Unknown register = 0x%x\n", __FUNCTION__, (0x1314 + (i * 4))));
-							}
-							break;
-						}
-					}
-					else
-#endif /* RTMP_INTERNAL_TX_ALC */
 						_upbound = 0xc;
 
 					if (_bValid)
