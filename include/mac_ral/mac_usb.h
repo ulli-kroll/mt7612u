@@ -56,20 +56,6 @@ typedef	union _USB_DMA_CFG_STRUC {
 		uint32_t RxBulkAggLmt:8;        /*Rx Bulk Aggregation Limit  in unit of 1024 bytes */
 		uint32_t RxBulkAggTOut:8;        /*Rx Bulk Aggregation TimeOut  in unit of 33ns */
 	} field_76xx;
-	struct {
-		uint32_t TxBusy:1;   	/*USB DMA TX FSM busy. debug only */
-		uint32_t RxBusy:1;        /*USB DMA RX FSM busy. debug only */
-		uint32_t EpoutValid:6;        /*OUT endpoint data valid. debug only */
-		uint32_t TxBulkEn:1;        /*Enable USB DMA Tx */
-		uint32_t RxBulkEn:1;        /*Enable USB DMA Rx */
-		uint32_t RxBulkAggEn:1;        /*Enable Rx Bulk Aggregation */
-		uint32_t TxopHalt:1;        /*Halt TXOP count down when TX buffer is full. */
-		uint32_t TxClear:1;        /*Clear USB DMA TX path */
-		uint32_t rsv:2;
-		uint32_t phyclear:1;        		/*phy watch dog enable. write 1 */
-		uint32_t RxBulkAggLmt:8;        /*Rx Bulk Aggregation Limit  in unit of 1024 bytes */
-		uint32_t RxBulkAggTOut:8;        /*Rx Bulk Aggregation TimeOut  in unit of 33ns */
-	} field;
 	uint32_t word;
 } USB_DMA_CFG_STRUC;
 #else
@@ -89,20 +75,6 @@ typedef	union _USB_DMA_CFG_STRUC {
 		uint32_t RxBusy:1;        /*USB DMA RX FSM busy */
 		uint32_t TxBusy:1;   	/*USB DMA TX FSM busy */
 	} field_76xx;
-	struct {
-		uint32_t RxBulkAggTOut:8;        /*Rx Bulk Aggregation TimeOut  in unit of 33ns */
-		uint32_t RxBulkAggLmt:8;        /*Rx Bulk Aggregation Limit  in unit of 256 bytes */
-		uint32_t phyclear:1;        		/*phy watch dog enable. write 1 */
-		uint32_t rsv:2;
-		uint32_t TxClear:1;        /*Clear USB DMA TX path */
-		uint32_t TxopHalt:1;        /*Halt TXOP count down when TX buffer is full. */
-		uint32_t RxBulkAggEn:1;        /*Enable Rx Bulk Aggregation */
-		uint32_t RxBulkEn:1;        /*Enable USB DMA Rx */
-		uint32_t TxBulkEn:1;        /*Enable USB DMA Tx */
-		uint32_t EpoutValid:6;        /*OUT endpoint data valid */
-		uint32_t RxBusy:1;        /*USB DMA RX FSM busy */
-		uint32_t TxBusy:1;   	/*USB DMA TX FSM busy */
-	} field;
 	uint32_t word;
 } USB_DMA_CFG_STRUC;
 #endif
