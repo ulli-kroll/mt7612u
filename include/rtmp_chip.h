@@ -779,7 +779,6 @@ struct _RTMP_CHIP_OP_ {
 
 	/* TX ALC */
 	uint32_t (*TSSIRatio)(int32_t delta_power);
-	VOID (*InitDesiredTSSITable)(IN struct rtmp_adapter *pAd);
 	int (*ATETssiCalibration)(struct rtmp_adapter *pAd, char *arg);
 	int (*ATETssiCalibrationExtend)(struct rtmp_adapter *pAd, char *arg);
 	int (*ATEReadExternalTSSI)(struct rtmp_adapter *pAd, char *arg);
@@ -875,12 +874,6 @@ do {	\
 do {	\
 		if (__pAd->chipOps.ChipAGCAdjust != NULL)	\
 			__R66 = __pAd->chipOps.ChipAGCAdjust(__pAd, __Rssi, __R66);	\
-} while (0)
-
-#define RTMP_CHIP_ASIC_TSSI_TABLE_INIT(__pAd)	\
-do {	\
-		if (__pAd->chipOps.InitDesiredTSSITable != NULL)	\
-			__pAd->chipOps.InitDesiredTSSITable(__pAd);	\
 } while (0)
 
 #define RTMP_CHIP_ATE_TSSI_CALIBRATION(__pAd, __pData)	\
