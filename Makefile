@@ -129,10 +129,6 @@ ifeq ($(HAS_CAL_FREE_IC_SUPPORT),y)
 WFLAGS += -DCAL_FREE_IC_SUPPORT
 endif
 
-ifeq ($(HAS_TEMPERATURE_TX_ALC),y)
-WFLAGS += -DRTMP_TEMPERATURE_TX_ALC
-endif
-
 ###############################################################################
 #
 # config for AP mode

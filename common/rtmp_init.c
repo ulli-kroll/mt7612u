@@ -492,9 +492,6 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 	if (IS_MT76x2(pAd))
 	{
 		mt76x2_read_temp_info_from_eeprom(pAd);
-#ifdef RTMP_TEMPERATURE_TX_ALC
-		mt76x2_read_tx_alc_info_from_eeprom(pAd);
-#endif /* RTMP_TEMPERATURE_TX_ALC */
 	}
 
 

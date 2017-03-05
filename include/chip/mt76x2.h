@@ -27,10 +27,6 @@ void percentage_delta_pwr(struct rtmp_adapter *ad);
 
 void mt76x2_get_current_temp(struct rtmp_adapter *ad);
 void mt76x2_read_temp_info_from_eeprom(struct rtmp_adapter *ad);
-#ifdef RTMP_TEMPERATURE_TX_ALC
-void mt76x2_read_tx_alc_info_from_eeprom(struct rtmp_adapter *ad);
-void mt76x2_temp_tx_alc(struct rtmp_adapter *ad);
-#endif /* RTMP_TEMPERATURE_TX_ALC */
 
 #ifdef ED_MONITOR
 void mt7612_set_ed_cca(struct rtmp_adapter *ad, BOOLEAN enable);

@@ -458,16 +458,6 @@ struct _RTMP_CHIP_CAP_ {
 	BOOLEAN temp_tx_alc_enable;
 	int32_t temp_25_ref; /* a quantification value of temperature, but not ¢J */
 	int32_t current_temp; /* unit ¢J */
-#ifdef RTMP_TEMPERATURE_TX_ALC
-	uint32_t high_temp_slope_a_band; /* slope with unit (¢J /dB) */
-	uint32_t low_temp_slope_a_band; /* slope with unit (¢J /dB) */
-	uint32_t high_temp_slope_g_band; /* slope with unit (¢J /dB) */
-	uint32_t low_temp_slope_g_band; /* slope with unit (¢J /dB) */
-	int32_t tc_upper_bound_a_band; /* unit dB */
-	int32_t tc_lower_bound_a_band; /* unit dB */
-	int32_t tc_upper_bound_g_band; /* unit dB */
-	int32_t tc_lower_bound_g_band; /* unit dB */
-#endif /* RTMP_TEMPERATURE_TX_ALC */
 
 #ifdef DYNAMIC_VGA_SUPPORT
 	BOOLEAN dynamic_vga_support;
