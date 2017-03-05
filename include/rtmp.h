@@ -3596,8 +3596,6 @@ struct rtmp_adapter {
 	CHAR ALNAGain0;		/* Store A external LNA#0 value for ch36~64 */
 	CHAR ALNAGain1;		/* Store A external LNA#1 value for ch100~128 */
 	CHAR ALNAGain2;		/* Store A external LNA#2 value for ch132~165 */
-	UCHAR TxMixerGain24G;	/* Tx mixer gain value from EEPROM to improve Tx EVM / Tx DAC, 2.4G */
-	UCHAR TxMixerGain5G;
 
 
 

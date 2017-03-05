@@ -652,20 +652,6 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 				only when this value is not zero
 			RT359x default value is 0x02
 	*/
-	if (IS_RT65XX(pAd) || IS_MT7601(pAd))
-	{
-		value = mt7612u_read_eeprom16(pAd, EEPROM_TXMIXER_GAIN_2_4G);
-		pAd->TxMixerGain24G = 0;
-		value &= 0x00ff;
-		if (value != 0xff)
-		{
-			value &= 0x07;
-			pAd->TxMixerGain24G = (UCHAR)value;
-		}
-
-	}
-
-
 
 	RTMPReadTxPwrPerRate(pAd);
 
