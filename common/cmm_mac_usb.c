@@ -1267,27 +1267,25 @@ VOID RT28XXDMAEnable(struct rtmp_adapter *pAd)
 {
 	USB_DMA_CFG_STRUC	UsbCfg;
 
-	if (IS_MT76x0(pAd) || IS_MT76x2(pAd)) {
-		USB_CFG_READ(pAd, &UsbCfg.word);
+	USB_CFG_READ(pAd, &UsbCfg.word);
 
-		/* USB1.1 do not use bulk in aggregation */
-		if ((pAd->BulkInMaxPacketSize >= 512) && (pAd->usb_ctl.usb_aggregation))
-			UsbCfg.field_76xx.RxBulkAggEn = 1;
-		else {
-			DBGPRINT(RT_DEBUG_OFF, ("disable usb rx aggregagion\n"));
-			UsbCfg.field_76xx.RxBulkAggEn = 0;
-		}
-
-		/* for last packet, PBF might use more than limited, so minus 2 to prevent from error */
-		UsbCfg.field_76xx.RxBulkAggLmt = (MAX_RXBULK_SIZE /1024) - 3;
-		UsbCfg.field_76xx.RxBulkAggTOut = 0x80;
-
-		UsbCfg.field_76xx.RxBulkEn = 1;
-		UsbCfg.field_76xx.TxBulkEn = 1;
-
-		if (IS_MT76x2(pAd))
-			UsbCfg.field_76xx.RX_DROP_OR_PADDING = 1;
+	/* USB1.1 do not use bulk in aggregation */
+	if ((pAd->BulkInMaxPacketSize >= 512) && (pAd->usb_ctl.usb_aggregation))
+		UsbCfg.field_76xx.RxBulkAggEn = 1;
+	else {
+		DBGPRINT(RT_DEBUG_OFF, ("disable usb rx aggregagion\n"));
+		UsbCfg.field_76xx.RxBulkAggEn = 0;
 	}
+
+	/* for last packet, PBF might use more than limited, so minus 2 to prevent from error */
+	UsbCfg.field_76xx.RxBulkAggLmt = (MAX_RXBULK_SIZE /1024) - 3;
+	UsbCfg.field_76xx.RxBulkAggTOut = 0x80;
+
+	UsbCfg.field_76xx.RxBulkEn = 1;
+	UsbCfg.field_76xx.TxBulkEn = 1;
+
+	if (IS_MT76x2(pAd))
+		UsbCfg.field_76xx.RX_DROP_OR_PADDING = 1;
 
 	USB_CFG_WRITE(pAd, UsbCfg.word);
 }
