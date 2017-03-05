@@ -68,16 +68,15 @@ VOID rlt_bcn_buf_init(struct rtmp_adapter *pAd)
 	RTMP_CHIP_CAP *pChipCap = &pAd->chipCap;
 
 	pChipCap->FlgIsSupSpecBcnBuf = FALSE;
-	if (IS_MT7601(pAd) || IS_MT76x2(pAd))
-	{
-		pChipCap->BcnMaxHwNum = 8;
-		pChipCap->WcidHwRsvNum = 127;
-	}
-	else
-	{
-		pChipCap->BcnMaxHwNum = 16;
-		pChipCap->WcidHwRsvNum = 255;
-	}
+
+/*
+ * ULLI : strange in mt7610u this is
+*	pChipCap->BcnMaxHwNum = 16;
+*	pChipCap->WcidHwRsvNum = 255;
+*/
+
+	pChipCap->BcnMaxHwNum = 8;
+	pChipCap->WcidHwRsvNum = 127;
 
 /*
 	In 16-MBSS support mode, if AP-Client is enabled,
