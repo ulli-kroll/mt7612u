@@ -105,11 +105,6 @@ VOID BBUPollingModeStart(IN struct rtmp_adapter *pAd){
 
 }
 
-VOID BBU_PCIE_Init(){
-	pcieReset();
-	pcieRegInitConfig();
-}
-
 VOID BBUPrepareMAC(IN struct rtmp_adapter *pAd, u8 *macaddr ){
 	UCHAR FourByteOffset = 0;
 	UCHAR NWlanExt = 0;
