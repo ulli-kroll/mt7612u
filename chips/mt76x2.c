@@ -2530,12 +2530,6 @@ int mt76x2_read_chl_pwr(struct rtmp_adapter *ad)
 	choffset += 5;		/* the central channel of VHT80 */
 	choffset = (MAX_NUM_OF_CHANNELS - 1);
 
-	/* 4. Print and Debug*/
-	for (i = 0; i < choffset; i++) {
-		DBGPRINT(RT_DEBUG_TRACE, ("E2PROM: TxPower[%03d], Channel=%d, Power[Tx0:%d, Tx1:%d]\n",
-					i, ad->TxPower[i].Channel, ad->TxPower[i].Power, ad->TxPower[i].Power2 ));
-	}
-
 	return TRUE;
 }
 
