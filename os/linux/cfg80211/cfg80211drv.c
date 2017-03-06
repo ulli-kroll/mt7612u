@@ -1309,7 +1309,7 @@ VOID CFG80211_RegRuleApply(
 
 	/* zero first */
 	memset(pAd->ChannelList, 0,
-					MAX_NUM_OF_CHANNELS * sizeof(CHANNEL_TX_POWER));
+					MAX_NUM_OF_CHANNELS * sizeof(struct CHANNEL_TX_POWER));
 
 	/* 2.4GHZ & 5GHz */
 	RecId = 0;
@@ -1374,7 +1374,7 @@ VOID CFG80211_RegRuleApply(
 					/* init the channel info. */
 					memmove(&pAd->ChannelList[RecId],
 									&pAd->TxPower[IdPwr],
-									sizeof(CHANNEL_TX_POWER));
+									sizeof(struct CHANNEL_TX_POWER));
 
 					/* keep channel number */
 					pAd->ChannelList[RecId].Channel = ChanId;

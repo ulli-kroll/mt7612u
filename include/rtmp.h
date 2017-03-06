@@ -878,7 +878,7 @@ typedef struct _BBP_R66_TUNING {
 #define EFFECTED_CH_LEGACY		0x4
 
 /* structure to store channel TX power */
-typedef struct _CHANNEL_TX_POWER {
+struct CHANNEL_TX_POWER {
 	USHORT RemainingTimeForUse;	/*unit: sec */
 	UCHAR Channel;
 	BOOLEAN bEffectedChannel;	/* For BW 40 operating in 2.4GHz , the "effected channel" is the channel that is covered in 40Mhz. */
@@ -912,7 +912,7 @@ typedef struct _CHANNEL_TX_POWER {
 
 	UCHAR Flags;
 
-} CHANNEL_TX_POWER, *PCHANNEL_TX_POWER;
+};
 
 /* Channel list subset */
 typedef struct _CHANNEL_LIST_SUB {
@@ -3549,8 +3549,8 @@ struct rtmp_adapter {
 	/* ---------------------------- */
 	/* TxPower control                           */
 	/* ---------------------------- */
-	CHANNEL_TX_POWER TxPower[MAX_NUM_OF_CHANNELS];	/* Store Tx power value for all channels. */
-	CHANNEL_TX_POWER ChannelList[MAX_NUM_OF_CHANNELS];	/* list all supported channels for site survey */
+	struct CHANNEL_TX_POWER TxPower[MAX_NUM_OF_CHANNELS];	/* Store Tx power value for all channels. */
+	struct CHANNEL_TX_POWER ChannelList[MAX_NUM_OF_CHANNELS];	/* list all supported channels for site survey */
 
 
 
