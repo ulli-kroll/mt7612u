@@ -376,6 +376,7 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 
 	pAd->EEPROMDefaultValue[EEPROM_NIC_CFG3_OFFSET] = value;
 	pAd->NicConfig3.word = pAd->EEPROMDefaultValue[EEPROM_NIC_CFG3_OFFSET];
+	DBGPRINT(RT_DEBUG_OFF, ("Bluetooth Support word %04x\n", pAd->NicConfig3.word));
 
 	{
 		value = mt7612u_read_eeprom16(pAd, EEPROM_COUNTRY_REGION);	/* Country Region*/
