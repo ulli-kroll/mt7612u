@@ -717,29 +717,29 @@ VOID RTMPReadChannelPwr(struct rtmp_adapter *pAd)
 			pAd->TxPower[i * 2].Channel = i * 2 + 1;
 			pAd->TxPower[i * 2 + 1].Channel = i * 2 + 2;
 
-			pAd->TxPower[i * 2].Power = Power.field.Byte0;
+			pAd->TxPower[i * 2]._Power = Power.field.Byte0;
 			if(!IS_RT3390(pAd))  // 3370 has different Tx power range
 			{
 			if ((Power.field.Byte0 > 31) || (Power.field.Byte0 < 0))
-				pAd->TxPower[i * 2].Power = DEFAULT_RF_TX_POWER;
+				pAd->TxPower[i * 2]._Power = DEFAULT_RF_TX_POWER;
 			}
 
-			pAd->TxPower[i * 2 + 1].Power = Power.field.Byte1;
+			pAd->TxPower[i * 2 + 1]._Power = Power.field.Byte1;
 			if(!IS_RT3390(pAd)) // 3370 has different Tx power range
 			{
 			if ((Power.field.Byte1 > 31) || (Power.field.Byte1 < 0))
-				pAd->TxPower[i * 2 + 1].Power = DEFAULT_RF_TX_POWER;
+				pAd->TxPower[i * 2 + 1]._Power = DEFAULT_RF_TX_POWER;
 			}
 
 			if ((Power2.field.Byte0 > 31) || (Power2.field.Byte0 < 0))
-				pAd->TxPower[i * 2].Power2 = DEFAULT_RF_TX_POWER;
+				pAd->TxPower[i * 2]._Power2 = DEFAULT_RF_TX_POWER;
 			else
-				pAd->TxPower[i * 2].Power2 = Power2.field.Byte0;
+				pAd->TxPower[i * 2]._Power2 = Power2.field.Byte0;
 
 			if ((Power2.field.Byte1 > 31) || (Power2.field.Byte1 < 0))
-				pAd->TxPower[i * 2 + 1].Power2 = DEFAULT_RF_TX_POWER;
+				pAd->TxPower[i * 2 + 1]._Power2 = DEFAULT_RF_TX_POWER;
 			else
-				pAd->TxPower[i * 2 + 1].Power2 = Power2.field.Byte1;
+				pAd->TxPower[i * 2 + 1]._Power2 = Power2.field.Byte1;
 		}
 	}
 
@@ -751,16 +751,16 @@ VOID RTMPReadChannelPwr(struct rtmp_adapter *pAd)
 		for (i = 0; i < 4; i++)
 		{
 			pAd->TxPower[3 * i + choffset + 0].Channel	= 36 + i * 8 + 0;
-			pAd->TxPower[3 * i + choffset + 0].Power	= DEFAULT_RF_TX_POWER;
-			pAd->TxPower[3 * i + choffset + 0].Power2	= DEFAULT_RF_TX_POWER;
+			pAd->TxPower[3 * i + choffset + 0]._Power	= DEFAULT_RF_TX_POWER;
+			pAd->TxPower[3 * i + choffset + 0]._Power2	= DEFAULT_RF_TX_POWER;
 
 			pAd->TxPower[3 * i + choffset + 1].Channel	= 36 + i * 8 + 2;
-			pAd->TxPower[3 * i + choffset + 1].Power	= DEFAULT_RF_TX_POWER;
-			pAd->TxPower[3 * i + choffset + 1].Power2	= DEFAULT_RF_TX_POWER;
+			pAd->TxPower[3 * i + choffset + 1]._Power	= DEFAULT_RF_TX_POWER;
+			pAd->TxPower[3 * i + choffset + 1]._Power2	= DEFAULT_RF_TX_POWER;
 
 			pAd->TxPower[3 * i + choffset + 2].Channel	= 36 + i * 8 + 4;
-			pAd->TxPower[3 * i + choffset + 2].Power	= DEFAULT_RF_TX_POWER;
-			pAd->TxPower[3 * i + choffset + 2].Power2	= DEFAULT_RF_TX_POWER;
+			pAd->TxPower[3 * i + choffset + 2]._Power	= DEFAULT_RF_TX_POWER;
+			pAd->TxPower[3 * i + choffset + 2]._Power2	= DEFAULT_RF_TX_POWER;
 		}
 
 		/* 1.2 Fill up power*/
@@ -770,16 +770,16 @@ VOID RTMPReadChannelPwr(struct rtmp_adapter *pAd)
 			Power2.word = mt7612u_read_eeprom16(pAd, EEPROM_A_TX2_PWR_OFFSET + i * 2);
 
 			if ((Power.field.Byte0 < 16) && (Power.field.Byte0 >= -7))
-				pAd->TxPower[i * 2 + choffset + 0].Power = Power.field.Byte0;
+				pAd->TxPower[i * 2 + choffset + 0]._Power = Power.field.Byte0;
 
 			if ((Power.field.Byte1 < 16) && (Power.field.Byte1 >= -7))
-				pAd->TxPower[i * 2 + choffset + 1].Power = Power.field.Byte1;
+				pAd->TxPower[i * 2 + choffset + 1]._Power = Power.field.Byte1;
 
 			if ((Power2.field.Byte0 < 16) && (Power2.field.Byte0 >= -7))
-				pAd->TxPower[i * 2 + choffset + 0].Power2 = Power2.field.Byte0;
+				pAd->TxPower[i * 2 + choffset + 0]._Power2 = Power2.field.Byte0;
 
 			if ((Power2.field.Byte1 < 16) && (Power2.field.Byte1 >= -7))
-				pAd->TxPower[i * 2 + choffset + 1].Power2 = Power2.field.Byte1;
+				pAd->TxPower[i * 2 + choffset + 1]._Power2 = Power2.field.Byte1;
 		}
 
 		/* 2. HipperLAN 2 100, 102 ,104; 108, 110, 112; 116, 118, 120; 124, 126, 128; 132, 134, 136; 140 (including central frequency in BW 40MHz)*/
@@ -788,20 +788,20 @@ VOID RTMPReadChannelPwr(struct rtmp_adapter *pAd)
 		for (i = 0; i < 5; i++)
 		{
 			pAd->TxPower[3 * i + choffset + 0].Channel	= 100 + i * 8 + 0;
-			pAd->TxPower[3 * i + choffset + 0].Power	= DEFAULT_RF_TX_POWER;
-			pAd->TxPower[3 * i + choffset + 0].Power2	= DEFAULT_RF_TX_POWER;
+			pAd->TxPower[3 * i + choffset + 0]._Power	= DEFAULT_RF_TX_POWER;
+			pAd->TxPower[3 * i + choffset + 0]._Power2	= DEFAULT_RF_TX_POWER;
 
 			pAd->TxPower[3 * i + choffset + 1].Channel	= 100 + i * 8 + 2;
-			pAd->TxPower[3 * i + choffset + 1].Power	= DEFAULT_RF_TX_POWER;
-			pAd->TxPower[3 * i + choffset + 1].Power2	= DEFAULT_RF_TX_POWER;
+			pAd->TxPower[3 * i + choffset + 1]._Power	= DEFAULT_RF_TX_POWER;
+			pAd->TxPower[3 * i + choffset + 1]._Power2	= DEFAULT_RF_TX_POWER;
 
 			pAd->TxPower[3 * i + choffset + 2].Channel	= 100 + i * 8 + 4;
-			pAd->TxPower[3 * i + choffset + 2].Power	= DEFAULT_RF_TX_POWER;
-			pAd->TxPower[3 * i + choffset + 2].Power2	= DEFAULT_RF_TX_POWER;
+			pAd->TxPower[3 * i + choffset + 2]._Power	= DEFAULT_RF_TX_POWER;
+			pAd->TxPower[3 * i + choffset + 2]._Power2	= DEFAULT_RF_TX_POWER;
 		}
 		pAd->TxPower[3 * 5 + choffset + 0].Channel		= 140;
-		pAd->TxPower[3 * 5 + choffset + 0].Power		= DEFAULT_RF_TX_POWER;
-		pAd->TxPower[3 * 5 + choffset + 0].Power2		= DEFAULT_RF_TX_POWER;
+		pAd->TxPower[3 * 5 + choffset + 0]._Power		= DEFAULT_RF_TX_POWER;
+		pAd->TxPower[3 * 5 + choffset + 0]._Power2		= DEFAULT_RF_TX_POWER;
 
 		/* 2.2 Fill up power*/
 		for (i = 0; i < 8; i++)
@@ -810,16 +810,16 @@ VOID RTMPReadChannelPwr(struct rtmp_adapter *pAd)
 			Power2.word = mt7612u_read_eeprom16(pAd, EEPROM_A_TX2_PWR_OFFSET + (choffset - 14) + i * 2);
 
 			if ((Power.field.Byte0 < 16) && (Power.field.Byte0 >= -7))
-				pAd->TxPower[i * 2 + choffset + 0].Power = Power.field.Byte0;
+				pAd->TxPower[i * 2 + choffset + 0]._Power = Power.field.Byte0;
 
 			if ((Power.field.Byte1 < 16) && (Power.field.Byte1 >= -7))
-				pAd->TxPower[i * 2 + choffset + 1].Power = Power.field.Byte1;
+				pAd->TxPower[i * 2 + choffset + 1]._Power = Power.field.Byte1;
 
 			if ((Power2.field.Byte0 < 16) && (Power2.field.Byte0 >= -7))
-				pAd->TxPower[i * 2 + choffset + 0].Power2 = Power2.field.Byte0;
+				pAd->TxPower[i * 2 + choffset + 0]._Power2 = Power2.field.Byte0;
 
 			if ((Power2.field.Byte1 < 16) && (Power2.field.Byte1 >= -7))
-				pAd->TxPower[i * 2 + choffset + 1].Power2 = Power2.field.Byte1;
+				pAd->TxPower[i * 2 + choffset + 1]._Power2 = Power2.field.Byte1;
 		}
 
 		/* 3. U-NII upper band: 149, 151, 153; 157, 159, 161; 165, 167, 169; 171, 173 (including central frequency in BW 40MHz)*/
@@ -829,24 +829,24 @@ VOID RTMPReadChannelPwr(struct rtmp_adapter *pAd)
 		for (i = 0; i < 3; i++)
 		{
 			pAd->TxPower[3 * i + choffset + 0].Channel	= 149 + i * 8 + 0;
-			pAd->TxPower[3 * i + choffset + 0].Power	= DEFAULT_RF_TX_POWER;
-			pAd->TxPower[3 * i + choffset + 0].Power2	= DEFAULT_RF_TX_POWER;
+			pAd->TxPower[3 * i + choffset + 0]._Power	= DEFAULT_RF_TX_POWER;
+			pAd->TxPower[3 * i + choffset + 0]._Power2	= DEFAULT_RF_TX_POWER;
 
 			pAd->TxPower[3 * i + choffset + 1].Channel	= 149 + i * 8 + 2;
-			pAd->TxPower[3 * i + choffset + 1].Power	= DEFAULT_RF_TX_POWER;
-			pAd->TxPower[3 * i + choffset + 1].Power2	= DEFAULT_RF_TX_POWER;
+			pAd->TxPower[3 * i + choffset + 1]._Power	= DEFAULT_RF_TX_POWER;
+			pAd->TxPower[3 * i + choffset + 1]._Power2	= DEFAULT_RF_TX_POWER;
 
 			pAd->TxPower[3 * i + choffset + 2].Channel	= 149 + i * 8 + 4;
-			pAd->TxPower[3 * i + choffset + 2].Power	= DEFAULT_RF_TX_POWER;
-			pAd->TxPower[3 * i + choffset + 2].Power2	= DEFAULT_RF_TX_POWER;
+			pAd->TxPower[3 * i + choffset + 2]._Power	= DEFAULT_RF_TX_POWER;
+			pAd->TxPower[3 * i + choffset + 2]._Power2	= DEFAULT_RF_TX_POWER;
 		}
 		pAd->TxPower[3 * 3 + choffset + 0].Channel		= 171;
-		pAd->TxPower[3 * 3 + choffset + 0].Power		= DEFAULT_RF_TX_POWER;
-		pAd->TxPower[3 * 3 + choffset + 0].Power2		= DEFAULT_RF_TX_POWER;
+		pAd->TxPower[3 * 3 + choffset + 0]._Power		= DEFAULT_RF_TX_POWER;
+		pAd->TxPower[3 * 3 + choffset + 0]._Power2		= DEFAULT_RF_TX_POWER;
 
 		pAd->TxPower[3 * 3 + choffset + 1].Channel		= 173;
-		pAd->TxPower[3 * 3 + choffset + 1].Power		= DEFAULT_RF_TX_POWER;
-		pAd->TxPower[3 * 3 + choffset + 1].Power2		= DEFAULT_RF_TX_POWER;
+		pAd->TxPower[3 * 3 + choffset + 1]._Power		= DEFAULT_RF_TX_POWER;
+		pAd->TxPower[3 * 3 + choffset + 1]._Power2		= DEFAULT_RF_TX_POWER;
 
 		/* 3.2 Fill up power*/
 		/*for (i = 0; i < 4; i++)*/
@@ -856,16 +856,16 @@ VOID RTMPReadChannelPwr(struct rtmp_adapter *pAd)
 			Power2.word = mt7612u_read_eeprom16(pAd, EEPROM_A_TX2_PWR_OFFSET + (choffset - 14) + i * 2);
 
 			if ((Power.field.Byte0 < 16) && (Power.field.Byte0 >= -7))
-				pAd->TxPower[i * 2 + choffset + 0].Power = Power.field.Byte0;
+				pAd->TxPower[i * 2 + choffset + 0]._Power = Power.field.Byte0;
 
 			if ((Power.field.Byte1 < 16) && (Power.field.Byte1 >= -7))
-				pAd->TxPower[i * 2 + choffset + 1].Power = Power.field.Byte1;
+				pAd->TxPower[i * 2 + choffset + 1]._Power = Power.field.Byte1;
 
 			if ((Power2.field.Byte0 < 16) && (Power2.field.Byte0 >= -7))
-				pAd->TxPower[i * 2 + choffset + 0].Power2 = Power2.field.Byte0;
+				pAd->TxPower[i * 2 + choffset + 0]._Power2 = Power2.field.Byte0;
 
 			if ((Power2.field.Byte1 < 16) && (Power2.field.Byte1 >= -7))
-				pAd->TxPower[i * 2 + choffset + 1].Power2 = Power2.field.Byte1;
+				pAd->TxPower[i * 2 + choffset + 1]._Power2 = Power2.field.Byte1;
 		}
 	}
 
