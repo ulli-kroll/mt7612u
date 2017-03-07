@@ -882,8 +882,6 @@ struct CHANNEL_TX_POWER {
 	USHORT RemainingTimeForUse;	/*unit: sec */
 	UCHAR Channel;
 	BOOLEAN bEffectedChannel;	/* For BW 40 operating in 2.4GHz , the "effected channel" is the channel that is covered in 40Mhz. */
-	CHAR _Power;
-	CHAR _Power2;
 	UCHAR MaxTxPwr;
 	UCHAR DfsReq;
 	UCHAR RegulatoryDomain;

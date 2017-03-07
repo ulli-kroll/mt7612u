@@ -2486,26 +2486,13 @@ int mt76x2_read_chl_pwr(struct rtmp_adapter *ad)
 
 	for (i = 0; i < sizeof(mt76x2_txpwr_chlist); i++) {
 		ad->TxPower[i].Channel = mt76x2_txpwr_chlist[i];
-		ad->TxPower[i]._Power = TX_TARGET_PWR_DEFAULT_VALUE;
-		ad->TxPower[i]._Power2 = TX_TARGET_PWR_DEFAULT_VALUE;
 	}
 
 	/* 0. 11b/g, ch1 - ch 14, 2SS */
-	for (i = 0; i < 14; i++) {
-		ad->TxPower[i]._Power = cap->tx_0_target_pwr_g_band;
-		ad->TxPower[i]._Power2 = cap->tx_1_target_pwr_g_band;
-	}
 
 	/* 1. U-NII lower/middle band: 36, 38, 40; 44, 46, 48; 52, 54, 56; 60, 62, 64 (including central frequency in BW 40MHz)*/
 	choffset = 14;
 	ASSERT((ad->TxPower[choffset].Channel == 36));
-
-	for (i = 0; i < 39; i++) {
-		ad->TxPower[i + choffset]._Power =
-			cap->tx_0_target_pwr_a_band[get_chl_grp(ad->TxPower[i+choffset].Channel)];
-		ad->TxPower[i + choffset]._Power2 =
-			cap->tx_1_target_pwr_a_band[get_chl_grp(ad->TxPower[i+choffset].Channel)];
-	}
 
 	choffset = 14 + 12 + 16 + 11;
 
