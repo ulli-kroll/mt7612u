@@ -665,8 +665,6 @@ VOID RTMPReadTxPwrPerRate(struct rtmp_adapter *pAd)
 VOID RTMPReadChannelPwr(struct rtmp_adapter *pAd)
 {
 	uint32_t 				i, choffset;
-	EEPROM_TX_PWR_STRUC	    Power;
-	EEPROM_TX_PWR_STRUC	    Power2;
 
 	/* Read Tx power value for all channels*/
 	/* Value from 1 - 0x7f. Default value is 24.*/
@@ -679,7 +677,6 @@ VOID RTMPReadChannelPwr(struct rtmp_adapter *pAd)
 #if defined(RT5370) || defined(RT5372) || defined(RT5390) || defined(RT5392) || defined(RT5592) || defined(RT3290)
 		if (IS_RT65XX(pAd))
 		{
-			Power.word = mt7612u_read_eeprom16(pAd, EEPROM_G_TX_PWR_OFFSET + i * 2);
 			pAd->TxPower[i * 2].Channel = i * 2 + 1;
 			pAd->TxPower[i * 2 + 1].Channel = i * 2 + 2;
 
@@ -712,8 +709,6 @@ VOID RTMPReadChannelPwr(struct rtmp_adapter *pAd)
 		else
 #endif /* defined(RT5370) || defined(RT5372) || defined(RT5390) || defined(RT5392) || defined(RT5592) */
 		{ /* Default routine. RT3070 and RT3370 run here. */
-			Power.word = mt7612u_read_eeprom16(pAd, EEPROM_G_TX_PWR_OFFSET + i * 2);
-			Power2.word = mt7612u_read_eeprom16(pAd, EEPROM_G_TX2_PWR_OFFSET + i * 2);
 			pAd->TxPower[i * 2].Channel = i * 2 + 1;
 			pAd->TxPower[i * 2 + 1].Channel = i * 2 + 2;
 		}
@@ -734,12 +729,6 @@ VOID RTMPReadChannelPwr(struct rtmp_adapter *pAd)
 		}
 
 		/* 1.2 Fill up power*/
-		for (i = 0; i < 6; i++)
-		{
-			Power.word = mt7612u_read_eeprom16(pAd, EEPROM_A_TX_PWR_OFFSET + i * 2);
-			Power2.word = mt7612u_read_eeprom16(pAd, EEPROM_A_TX2_PWR_OFFSET + i * 2);
-
-		}
 
 		/* 2. HipperLAN 2 100, 102 ,104; 108, 110, 112; 116, 118, 120; 124, 126, 128; 132, 134, 136; 140 (including central frequency in BW 40MHz)*/
 		/* 2.1 Fill up channel*/
@@ -754,13 +743,6 @@ VOID RTMPReadChannelPwr(struct rtmp_adapter *pAd)
 		}
 		pAd->TxPower[3 * 5 + choffset + 0].Channel		= 140;
 
-		/* 2.2 Fill up power*/
-		for (i = 0; i < 8; i++)
-		{
-			Power.word = mt7612u_read_eeprom16(pAd, EEPROM_A_TX_PWR_OFFSET + (choffset - 14) + i * 2);
-			Power2.word = mt7612u_read_eeprom16(pAd, EEPROM_A_TX2_PWR_OFFSET + (choffset - 14) + i * 2);
-
-		}
 
 		/* 3. U-NII upper band: 149, 151, 153; 157, 159, 161; 165, 167, 169; 171, 173 (including central frequency in BW 40MHz)*/
 		/* 3.1 Fill up channel*/
@@ -780,11 +762,6 @@ VOID RTMPReadChannelPwr(struct rtmp_adapter *pAd)
 
 		/* 3.2 Fill up power*/
 		/*for (i = 0; i < 4; i++)*/
-		for (i = 0; i < 6; i++)
-		{
-			Power.word = mt7612u_read_eeprom16(pAd, EEPROM_A_TX_PWR_OFFSET + (choffset - 14) + i * 2);
-			Power2.word = mt7612u_read_eeprom16(pAd, EEPROM_A_TX2_PWR_OFFSET + (choffset - 14) + i * 2);
-		}
 	}
 
 
