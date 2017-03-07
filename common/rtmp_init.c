@@ -284,7 +284,6 @@ BOOLEAN RTMPCheckPhyMode(struct rtmp_adapter *pAd, UINT8 band_cap, UCHAR *pPhyMo
 VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 {
 	USHORT i, value, value2;
-	EEPROM_TX_PWR_STRUC Power;
 	EEPROM_VERSION_STRUC Version;
 	EEPROM_ANTENNA_STRUC Antenna;
 	EEPROM_NIC_CONFIG2_STRUC NicConfig2;
