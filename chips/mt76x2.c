@@ -1295,7 +1295,7 @@ void mt76x2_get_external_lna_gain(struct rtmp_adapter *ad)
 	e2p_val = mt7612u_read_eeprom16(ad, 0x4C);
 	ad->ALNAGain2 = (e2p_val & 0xFF00) >> 8; /* store external LNA gain for 5G ch#132 ~ ch#165 on EEPROM 0x4Dh */
 
-	DBGPRINT(RT_DEBUG_ERROR, ("%s::LNA type=0x%x, BLNAGain=0x%x, ALNAGain0=0x%x, ALNAGain1=0x%x, ALNAGain2=0x%x\n",
+	DBGPRINT(RT_DEBUG_OFF, ("%s::LNA type=0x%x, BLNAGain=0x%x, ALNAGain0=0x%x, ALNAGain1=0x%x, ALNAGain2=0x%x\n",
 		__FUNCTION__, ad->chipCap.LNA_type, ad->BLNAGain, ad->ALNAGain0, ad->ALNAGain1, ad->ALNAGain2));
 }
 
@@ -2460,6 +2460,7 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 	/* check PA type combination */
 	value = mt7612u_read_eeprom16(ad, EEPROM_NIC1_OFFSET);
 	cap->PAType= GET_PA_TYPE(value);
+	DBGPRINT(RT_DEBUG_OFF, ("PA Type %x\n", cap->PAType));
 }
 
 static u8 mt76x2_txpwr_chlist[] = {
