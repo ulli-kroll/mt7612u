@@ -722,8 +722,6 @@ struct _RTMP_CHIP_OP_ {
 	void (*AsicBbpInit)(struct rtmp_adapter *pAd);
 	void (*AsicMacInit)(struct rtmp_adapter *pAd);
 
-	void (*AsicRfTurnOn)(struct rtmp_adapter *pAd);
-	void (*AsicRfTurnOff)(struct rtmp_adapter *pAd);
 	void (*AsicReverseRfFromSleepMode)(struct rtmp_adapter *pAd, BOOLEAN FlgIsInitState);
 	void (*AsicHaltAction)(struct rtmp_adapter *pAd);
 
