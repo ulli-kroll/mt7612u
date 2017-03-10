@@ -6964,10 +6964,6 @@ int StoreConnectInfo(struct rtmp_adapter *pAd);
 #endif /* CREDENTIAL_STORE */
 #endif /* CONFIG_STA_SUPPORT */
 
-VOID AsicTurnOffRFClk(struct rtmp_adapter *pAd, UCHAR Channel);
-
-
-
 #ifdef RTMP_TIMER_TASK_SUPPORT
 INT RtmpTimerQThread(ULONG Context);
 
