@@ -754,13 +754,6 @@ struct _RTMP_CHIP_OP_ {
 	/* TX ALC */
 	uint32_t (*TSSIRatio)(int32_t delta_power);
 
-	VOID (*AsicTxAlcGetAutoAgcOffset)(
-				IN struct rtmp_adapter	*pAd,
-				IN PCHAR				pDeltaPwr,
-				IN PCHAR				pTotalDeltaPwr,
-				IN PCHAR				pAgcCompensate,
-				IN PCHAR 				pDeltaPowerByBbpR1);
-
 	VOID (*AsicGetTxPowerOffset)(struct rtmp_adapter *pAd, ULONG *TxPwr);
 	VOID (*AsicExtraPowerOverMAC)(struct rtmp_adapter *pAd);
 
@@ -843,14 +836,6 @@ do {	\
 do {	\
 		if (__pAd->chipOps.AsicGetTxPowerOffset != NULL)	\
 			__pAd->chipOps.AsicGetTxPowerOffset(__pAd, __pCfgOfTxPwrCtrlOverMAC);	\
-} while (0)
-
-#define RTMP_CHIP_ASIC_AUTO_AGC_OFFSET_GET(	\
-		__pAd, __pDeltaPwr, __pTotalDeltaPwr, __pAgcCompensate, __pDeltaPowerByBbpR1)	\
-do {	\
-		if (__pAd->chipOps.AsicTxAlcGetAutoAgcOffset != NULL)	\
-			__pAd->chipOps.AsicTxAlcGetAutoAgcOffset(	\
-		__pAd, __pDeltaPwr, __pTotalDeltaPwr, __pAgcCompensate, __pDeltaPowerByBbpR1);	\
 } while (0)
 
 #define RTMP_CHIP_ASIC_EXTRA_POWER_OVER_MAC(__pAd)	\
