@@ -641,13 +641,13 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, BOOLEAN s
 	/* per-rate power delta */
 	mt76x2_adjust_per_rate_pwr_delta(ad, channel, 0);
 
-	andes_switch_channel(ad, channel, scan, bw, tx_rx_setting, bbp_ch_idx);
+	mt7612u_mcu_switch_channel(ad, channel, scan, bw, tx_rx_setting, bbp_ch_idx);
 
 	eLNA_gain_from_e2p = ((ad->ALNAGain2 & 0xFF) << 24) |
 			     ((ad->ALNAGain1 & 0xFF) << 16) |
 			     ((ad->ALNAGain0 & 0xFF) << 8) |
 			      (ad->BLNAGain & 0xFF);
-	andes_init_gain(ad, channel, TRUE, eLNA_gain_from_e2p);
+	mt7612u_mcu_init_gain(ad, channel, TRUE, eLNA_gain_from_e2p);
 
 	value = RTMP_BBP_IO_READ32(ad, AGC1_R8);
 	DBGPRINT(RT_DEBUG_INFO, ("%s::BBP 0x2320=0x%08x\n", __FUNCTION__, value));
@@ -1265,7 +1265,7 @@ static void mt76x2_init_rf_cr(struct rtmp_adapter *ad)
 {
 	uint16_t value;
 
-	andes_load_cr(ad, RF_BBP_CR, 0, 0);
+	mt7612u_mcu_load_cr(ad, RF_BBP_CR, 0, 0);
 }
 
 void mt76x2_get_external_lna_gain(struct rtmp_adapter *ad)

@@ -495,7 +495,7 @@ void periodic_monitor_rssi_adjust_vga(struct rtmp_adapter *pAd)
 		(pAd->chipCap.dynamic_vga_support) && INFRA_ON(pAd)) {
 		uint32_t bbp_val1 = 0, bbp_val2 = 0;
 
-		andes_dynamic_vga(pAd, pAd->CommonCfg.Channel, FALSE, FALSE,
+		mt7612u_mcu_dynamic_vga(pAd, pAd->CommonCfg.Channel, FALSE, FALSE,
 			pAd->chipCap.avg_rssi_all, pAd->RalinkCounters.OneSecFalseCCACnt);
 
 		bbp_val1 = RTMP_BBP_IO_READ32(pAd, AGC1_R8);

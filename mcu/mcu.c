@@ -68,24 +68,24 @@ VOID ChipOpsMCUHook(struct rtmp_adapter *pAd, enum MCU_TYPE MCUType)
 
 #ifdef RTMP_USB_SUPPORT
 		if (pChipCap->need_load_rom_patch) {
-			pChipOps->load_rom_patch = andes_usb_load_rom_patch;
+			pChipOps->load_rom_patch = mt7612u_mcu_usb_load_rom_patch;
 		}
 
 		if (pChipCap->need_load_fw) {
-			pChipOps->loadFirmware = andes_usb_loadfw;
+			pChipOps->loadFirmware = mt7612u_mcu_usb_loadfw;
 		}
 
-		pChipOps->fw_init = andes_usb_fw_init;
+		pChipOps->fw_init = mt7612u_mcu_usb_fw_init;
 #endif /* RTMP_USB_SUPPORT */
 
 		if (pChipCap->need_load_fw)
 		{
-			//pChipOps->sendCommandToMcu = andes_send_cmd_msg;
-			pChipOps->MCUCtrlInit = andes_ctrl_init;
-			pChipOps->MCUCtrlExit = andes_ctrl_exit;
-			pChipOps->Calibration = andes_calibration;
-			pChipOps->RandomWrite = andes_random_write;
-			pChipOps->PwrSavingOP = andes_pwr_saving;
+			//pChipOps->sendCommandToMcu = mt7612u_mcu_send_cmd_msg;
+			pChipOps->MCUCtrlInit = mt7612u_mcu_ctrl_init;
+			pChipOps->MCUCtrlExit = mt7612u_mcu_ctrl_exit;
+			pChipOps->Calibration = mt7612u_mcu_calibration;
+			pChipOps->RandomWrite = mt7612u_mcu_random_write;
+			pChipOps->PwrSavingOP = mt7612u_mcu_pwr_saving;
 		}
 	}
 #endif /* CONFIG_ANDES_SUPPORT */
