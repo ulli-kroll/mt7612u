@@ -6995,7 +6995,6 @@ BOOLEAN	AUTH_ReqSend(
 
 
 VOID ReSyncBeaconTime(struct rtmp_adapter *pAd);
-VOID RTMPSetAGCInitValue(struct rtmp_adapter *pAd, UCHAR BandWidth);
 
 VOID handleHtcField(struct rtmp_adapter *pAd, RX_BLK *pRxBlk);
 

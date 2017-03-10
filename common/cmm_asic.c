@@ -707,7 +707,6 @@ VOID AsicSwitchChannel(struct rtmp_adapter *pAd, UCHAR Channel, BOOLEAN bScan)
 	else {
 		bw = pAd->CommonCfg.BBPCurrentBW;
 	}
-	RTMPSetAGCInitValue(pAd, bw);
 
 	rtmp_asic_set_bf(pAd); // FW will initialize TxBf HW status. Re-calling this AP could recover previous status
 

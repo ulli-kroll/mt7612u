@@ -1821,7 +1821,6 @@ VOID STAMlmePeriodicExec(struct rtmp_adapter *pAd)
 			(pAd->StaCfg.bImprovedScan == FALSE) &&
 			((TxTotalCnt + pAd->RalinkCounters.OneSecRxOkCnt) < 600))
 		{
-			RTMPSetAGCInitValue(pAd, BW_20);
 			DBGPRINT(RT_DEBUG_TRACE, ("MMCHK - No BEACON. restore R66 to the low bound(%d) \n", (0x2E + GET_LNA_GAIN(pAd))));
 		}
 
@@ -6215,11 +6214,6 @@ VOID AsicStaBbpTuning(struct rtmp_adapter *pAd)
 	}
 }
 #endif /* CONFIG_STA_SUPPORT */
-
-
-VOID RTMPSetAGCInitValue(struct rtmp_adapter *pAd, UCHAR BandWidth)
-{
-}
 
 
 /*

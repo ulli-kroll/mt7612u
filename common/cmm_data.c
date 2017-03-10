@@ -1711,8 +1711,6 @@ VOID RTMPSuspendMsduTransmission(
 
 	pAd->hw_cfg.bbp_bw = pAd->CommonCfg.BBPCurrentBW;
 
-	RTMPSetAGCInitValue(pAd, BW_20);
-
 	RTMP_SET_FLAG(pAd, fRTMP_ADAPTER_BSS_SCAN_IN_PROGRESS);
 	/* abort all TX rings */
 	/*mt7612u_write32(pAd, TX_CNTL_CSR, 0x000f0000);	*/
