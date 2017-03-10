@@ -4490,12 +4490,6 @@ VOID RTMP_ReadRF(
 	OUT u8 *		pValue2,
 	IN	UCHAR			BitMask);
 
-VOID RTMP_WriteRF(
-	IN	struct rtmp_adapter *pAd,
-	IN	UCHAR			RegID,
-	IN	UCHAR			Value,
-	IN	UCHAR			BitMask);
-
 int RT30xxWriteRFRegister(
 	IN	struct rtmp_adapter *pAd,
 	IN	UCHAR			regID,

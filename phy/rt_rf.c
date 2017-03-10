@@ -67,35 +67,6 @@ VOID RTMP_ReadRF(
 /*
 	========================================================================
 
-	Routine Description: Write RF register through MAC with specified bit mask
-
-	Arguments:
-		pAd		- pointer to the adapter structure
-		regID	- RF register ID
-		Value	- only write the part of (Value & BitMask) to RF register
-		BitMask	- bit wise mask
-
-	Return Value:
-
-	Note:
-
-	========================================================================
-*/
-VOID RTMP_WriteRF(
-	IN	struct rtmp_adapter *pAd,
-	IN	UCHAR			RegID,
-	IN	UCHAR			Value,
-	IN	UCHAR			BitMask)
-{
-	UCHAR RfReg = 0;
-	RTMP_ReadRF(pAd, RegID, NULL, &RfReg, BitMask);
-	RfReg |= ((Value) & BitMask);
-	RT30xxWriteRFRegister(pAd, RegID, RfReg);
-}
-
-/*
-	========================================================================
-
 	Routine Description: Write RF register through MAC
 
 	Arguments:
