@@ -4483,13 +4483,6 @@ INT RTMPGetKeyParameter(
 VOID NICInitRFRegisters(
 	IN struct rtmp_adapter *pAd);
 
-VOID RTMP_ReadRF(
-	IN	struct rtmp_adapter *pAd,
-	IN	UCHAR			RegID,
-	OUT	u8 *		pValue1,
-	OUT u8 *		pValue2,
-	IN	UCHAR			BitMask);
-
 int RT30xxWriteRFRegister(
 	IN	struct rtmp_adapter *pAd,
 	IN	UCHAR			regID,

@@ -31,38 +31,6 @@
 
 
 #ifdef RTMP_RF_RW_SUPPORT
-/*
-	========================================================================
-
-	Routine Description: Read RF register through MAC with specified bit mask
-
-	Arguments:
-		pAd		- pointer to the adapter structure
-		regID	- RF register ID
-		pValue1	- (RF value & BitMask)
-		pValue2	- (RF value & (~BitMask))
-		BitMask	- bit wise mask
-
-	Return Value:
-
-	Note:
-
-	========================================================================
-*/
-VOID RTMP_ReadRF(
-	IN	struct rtmp_adapter *pAd,
-	IN	UCHAR			RegID,
-	OUT	u8 *		pValue1,
-	OUT u8 *		pValue2,
-	IN	UCHAR			BitMask)
-{
-	UCHAR RfReg = 0;
-	RT30xxReadRFRegister(pAd, RegID, &RfReg);
-	if (pValue1 != NULL)
-		*pValue1 = RfReg & BitMask;
-	if (pValue2 != NULL)
-		*pValue2 = RfReg & (~BitMask);
-}
 
 /*
 	========================================================================
