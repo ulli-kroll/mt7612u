@@ -723,7 +723,6 @@ struct _RTMP_CHIP_OP_ {
 	void (*AsicMacInit)(struct rtmp_adapter *pAd);
 
 	void (*AsicReverseRfFromSleepMode)(struct rtmp_adapter *pAd, BOOLEAN FlgIsInitState);
-	void (*AsicHaltAction)(struct rtmp_adapter *pAd);
 
 	/* Power save */
 	void (*EnableAPMIMOPS)(struct rtmp_adapter *pAd, IN BOOLEAN ReduceCorePower);

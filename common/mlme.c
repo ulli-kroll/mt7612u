@@ -1166,8 +1166,6 @@ VOID MlmeHalt(struct rtmp_adapter *pAd)
 #if (defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT)
 		if (pAd->WOW_Cfg.bEnable == FALSE)
 #endif /* (defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT) */
-			if (pChipOps->AsicHaltAction)
-				pChipOps->AsicHaltAction(pAd);
 	}
 
 	RtmpusecDelay(5000);    /*  5 msec to gurantee Ant Diversity timer canceled*/
