@@ -3104,9 +3104,6 @@ static const RTMP_CHIP_OP MT76x2_ChipOp = {
 	.AsicMacInit = mt76x2_init_mac_cr,
 	.AsicRfInit = mt76x2_init_rf_cr,
 
-#ifdef CONFIG_STA_SUPPORT
-	.ChipAGCAdjust = NULL,
-#endif
 	.AsicTxAlcGetAutoAgcOffset = NULL,
 	.TSSIRatio = NULL,
 	.RxSensitivityTuning = NULL,

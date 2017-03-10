@@ -6207,8 +6207,6 @@ VOID AsicStaBbpTuning(struct rtmp_adapter *pAd)
 		else
 			Rssi = pAd->StaCfg.RssiSample.AvgRssi0;
 
-		RTMP_CHIP_ASIC_AGC_ADJUST(pAd, Rssi, R66);
-
 		// TODO: shiang,I didn't find AsicAGCAdjust for RT30xx, so I move following code from upper #if case.
 
 	}

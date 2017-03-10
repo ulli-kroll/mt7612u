@@ -735,9 +735,6 @@ struct _RTMP_CHIP_OP_ {
 	/* BBP adjust */
 	VOID (*ChipBBPAdjust)(IN struct rtmp_adapter *pAd);
 
-	/* AGC */
-	UCHAR (*ChipAGCAdjust)(struct rtmp_adapter *pAd, CHAR Rssi, UCHAR OrigR66Value);
-
 	/* Channel */
 	VOID (*ChipSwitchChannel)(struct rtmp_adapter *pAd, UCHAR ch, BOOLEAN bScan);
 
@@ -840,12 +837,6 @@ do {	\
 do {	\
 		if (__pAd->chipOps.RxSensitivityTuning != NULL)	\
 			__pAd->chipOps.RxSensitivityTuning(__pAd);	\
-} while (0)
-
-#define RTMP_CHIP_ASIC_AGC_ADJUST(__pAd, __Rssi, __R66)	\
-do {	\
-		if (__pAd->chipOps.ChipAGCAdjust != NULL)	\
-			__R66 = __pAd->chipOps.ChipAGCAdjust(__pAd, __Rssi, __R66);	\
 } while (0)
 
 #define RTMP_CHIP_ASIC_TX_POWER_OFFSET_GET(__pAd, __pCfgOfTxPwrCtrlOverMAC)	\
