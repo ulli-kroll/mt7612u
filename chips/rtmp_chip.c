@@ -174,13 +174,6 @@ int RtmpChipOpsHook(VOID *pCB)
 	if (pAd->ChipID == 0xffffffff)
 		return -1;
 
-	/* EDCCA */
-	pChipOps->ChipSetEDCCA= NULL;
-
-
-
-
-
 	if (IS_MT76x2(pAd)) {
 		mt76x2_init(pAd);
 		goto done;

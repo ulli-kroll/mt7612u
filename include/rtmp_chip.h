@@ -735,8 +735,6 @@ struct _RTMP_CHIP_OP_ {
 	/* Channel */
 	VOID (*ChipSwitchChannel)(struct rtmp_adapter *pAd, UCHAR ch, BOOLEAN bScan);
 
-	/* EDCCA */
-	VOID (*ChipSetEDCCA)(struct rtmp_adapter *pAd, BOOLEAN bOn);
 
 	/* IQ Calibration */
 	VOID (*ChipIQCalibration)(struct rtmp_adapter *pAd, UCHAR Channel);
@@ -895,12 +893,6 @@ do {	\
 do {	\
 		if (__pAd->chipOps.InitTemperCompensation != NULL)					\
 			__pAd->chipOps.InitTemperCompensation(__pAd);	\
-} while (0)
-
-#define RTMP_CHIP_ASIC_SET_EDCCA(__pAd, __bOn)			\
-do {	\
-		if (__pAd->chipOps.ChipSetEDCCA != NULL)						\
-			__pAd->chipOps.ChipSetEDCCA(__pAd, __bOn);	\
 } while (0)
 
 #define RTMP_CHIP_ASIC_TEMPERATURE_COMPENSATION(__pAd)						\
