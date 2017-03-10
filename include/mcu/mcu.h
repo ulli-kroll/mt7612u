@@ -56,7 +56,7 @@ enum LOAD_CODE_METHOD {
 
 struct rtmp_adapter;
 
-VOID ChipOpsMCUHook(struct rtmp_adapter *pAd, enum MCU_TYPE MCUType);
+VOID ChipOpsMCUHook(struct rtmp_adapter *pAd);
 VOID MCUCtrlInit(struct rtmp_adapter *pAd);
 VOID MCUCtrlExit(struct rtmp_adapter *pAd);
 

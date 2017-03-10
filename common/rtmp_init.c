@@ -3017,7 +3017,7 @@ static INT RtmpChipOpsRegister(struct rtmp_adapter *pAd, INT infType)
 	}
 
 	/* MCU related */
-	ChipOpsMCUHook(pAd, pAd->chipCap.MCUType);
+	ChipOpsMCUHook(pAd);
 
 	get_dev_config_idx(pAd);
 
