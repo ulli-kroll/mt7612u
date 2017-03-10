@@ -729,9 +729,6 @@ struct _RTMP_CHIP_OP_ {
 							uint32_t ListenInterval, uint32_t PreTBTTLeadTime,
 							UINT8 TIMByteOffset, UINT8 TIMBytePattern);
 
-	/* Chip tuning */
-	VOID (*RxSensitivityTuning)(IN struct rtmp_adapter *pAd);
-
 	/* BBP adjust */
 	VOID (*ChipBBPAdjust)(IN struct rtmp_adapter *pAd);
 
@@ -824,12 +821,6 @@ do {	\
 			__pAd->chipOps.PwrSavingOP(__pAd, __PwrOP, __PwrLevel,	\
 										__ListenInterval,__PreTBTTLeadTime, \
 										__TIMByteOffset, __TIMBytePattern);	\
-} while (0)
-
-#define RTMP_CHIP_RX_SENSITIVITY_TUNING(__pAd)	\
-do {	\
-		if (__pAd->chipOps.RxSensitivityTuning != NULL)	\
-			__pAd->chipOps.RxSensitivityTuning(__pAd);	\
 } while (0)
 
 #define RTMP_CHIP_ASIC_TX_POWER_OFFSET_GET(__pAd, __pCfgOfTxPwrCtrlOverMAC)	\
