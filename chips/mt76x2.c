@@ -3138,7 +3138,6 @@ static const RTMP_CHIP_OP MT76x2_ChipOp = {
 	.AsicHaltAction = NULL,
 	.AsicRfTurnOff = NULL,
 	.AsicReverseRfFromSleepMode = NULL,
-	.AsicResetBbpAgent = NULL,
  	.ATETssiCalibration = NULL,
 	.ATETssiCalibrationExtend = NULL,
 	.AsicTxAlcGetAutoAgcOffset = NULL,

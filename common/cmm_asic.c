@@ -757,16 +757,6 @@ VOID AsicLockChannel(
  */
 
 
-VOID AsicResetBBPAgent(struct rtmp_adapter *pAd)
-{
-	BBP_CSR_CFG_STRUC	BbpCsr;
-
-	/* Still need to find why BBP agent keeps busy, but in fact, hardware still function ok. Now clear busy first.	*/
-	/* IF chipOps.AsicResetBbpAgent == NULL, run "else" part */
-	if (pAd->chipOps.AsicResetBbpAgent != NULL)
-		pAd->chipOps.AsicResetBbpAgent(pAd);
-}
-
 
 #ifdef CONFIG_STA_SUPPORT
 /*

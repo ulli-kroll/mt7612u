@@ -794,8 +794,6 @@ struct _RTMP_CHIP_OP_ {
 	/* The chip specific function list */
 	CHIP_SPEC_FUNC ChipSpecFunc[CHIP_SPEC_ID_NUM];
 
-	VOID (*AsicResetBbpAgent)(IN struct rtmp_adapter *pAd);
-
 	VOID (*CckMrcStatusCtrl)(struct rtmp_adapter *pAd);
 	VOID (*RadarGLRTCompensate)(struct rtmp_adapter *pAd);
 	VOID (*SecondCCADetection)(struct rtmp_adapter *pAd);

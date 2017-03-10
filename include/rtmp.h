@@ -4952,8 +4952,6 @@ VOID thermal_protection(
 VOID AsicLockChannel(struct rtmp_adapter *pAd, UCHAR Channel);
 VOID AsicAntennaSelect(struct rtmp_adapter *pAd, UCHAR Channel);
 
-VOID AsicResetBBPAgent(struct rtmp_adapter *pAd);
-
 #ifdef CONFIG_STA_SUPPORT
 VOID AsicSleepThenAutoWakeup(struct rtmp_adapter *pAd, USHORT TbttNumToNextWakeUp);
 VOID AsicForceSleep(struct rtmp_adapter *pAd);
