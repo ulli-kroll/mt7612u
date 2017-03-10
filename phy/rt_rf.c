@@ -253,50 +253,5 @@ done:
 }
 
 
-
-/*
-    ========================================================================
-    Routine Description:
-        Adjust frequency offset when do channel switching or frequency calabration.
-
-    Arguments:
-        pAd         		- Adapter pointer
-        pRefFreqOffset	in: referenced Frequency offset   out: adjusted frequency offset
-
-    Return Value:
-        None
-
-    ========================================================================
-*/
-BOOLEAN RTMPAdjustFrequencyOffset(struct rtmp_adapter *pAd,UCHAR *pRefFreqOffset)
-{
-	BOOLEAN RetVal = TRUE;
-	UCHAR RFValue = 0;
-	UCHAR PreRFValue = 0;
-	UCHAR FreqOffset = 0;
-	UCHAR HighCurrentBit = 0;
-
-	RTMP_ReadRF(pAd, RF_R17, &FreqOffset, &HighCurrentBit, 0x7F);
-	PreRFValue =  HighCurrentBit | FreqOffset;
-	FreqOffset = min((*pRefFreqOffset & 0x7F), 0x5F);
-	RFValue = HighCurrentBit | FreqOffset;
-	if (PreRFValue != RFValue)
-	{
-#ifdef RTMP_MAC_USB
-		RetVal = AsicSendCommandToMcu(pAd, 0x74, 0xff, FreqOffset, PreRFValue, FALSE);
-#else
-		RetVal = (RT30xxWriteRFRegister(pAd, RF_R17, RFValue) == STATUS_SUCCESS ? TRUE:FALSE);
-#endif /* !RTMP_MAC_USB */
-	}
-
-	if (RetVal == FALSE)
-		DBGPRINT(RT_DEBUG_TRACE, ("%s(): Error in tuning frequency offset !!\n", __FUNCTION__));
-	else
-		*pRefFreqOffset = FreqOffset;
-
-	return RetVal;
-
-}
-
 #endif /* RTMP_RF_RW_SUPPORT */
 

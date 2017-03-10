@@ -4512,9 +4512,6 @@ int RT635xReadRFRegister(
 	IN	UCHAR			regID,
 	IN	u8 *		pValue);
 
-BOOLEAN RTMPAdjustFrequencyOffset(
-	IN struct rtmp_adapter *pAd,
-	INOUT u8 *pRefFreqOffset);
 #endif /* RTMP_RF_RW_SUPPORT */
 
 BOOLEAN RTMPCheckPhyMode(
