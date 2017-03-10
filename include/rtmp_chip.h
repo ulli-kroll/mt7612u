@@ -746,9 +746,6 @@ struct _RTMP_CHIP_OP_ {
 	VOID (*ThermalPro2ndCond)(struct rtmp_adapter *pAd);
 #endif /* THERMAL_PROTECT_SUPPORT */
 
-	/* TX ALC */
-	uint32_t (*TSSIRatio)(int32_t delta_power);
-
 	VOID (*AsicGetTxPowerOffset)(struct rtmp_adapter *pAd, ULONG *TxPwr);
 	VOID (*AsicExtraPowerOverMAC)(struct rtmp_adapter *pAd);
 
@@ -831,12 +828,6 @@ do {	\
 do {	\
 		if (__pAd->chipOps.AsicExtraPowerOverMAC != NULL)	\
 			__pAd->chipOps.AsicExtraPowerOverMAC(__pAd);	\
-} while (0)
-
-#define RTMP_CHIP_ASIC_GET_TSSI_RATIO(__pAd, __DeltaPwr)	\
-do {	\
-		if (__pAd->chipOps.AsicFreqCalStop != NULL)	\
-			__pAd->chipOps.TSSIRatio(__DeltaPwr);	\
 } while (0)
 
 #define RTMP_CHIP_GET_CURRENT_TEMP(__pAd, __pCurrentTemp) \
