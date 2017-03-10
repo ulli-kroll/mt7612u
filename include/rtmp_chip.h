@@ -532,7 +532,6 @@ struct _RTMP_CHIP_CAP_ {
 #ifdef CONFIG_STA_SUPPORT
 #ifdef RTMP_FREQ_CALIBRATION_SUPPORT
 	UINT8 FreqCalibrationSupport;
-	UINT8 FreqCalInitMode;
 	UINT8 FreqCalMode;
 	UINT8 RxWIFrqOffset;
 #endif /* RTMP_FREQ_CALIBRATION_SUPPORT */
