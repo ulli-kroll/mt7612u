@@ -969,9 +969,6 @@ void mt76x2_tssi_compensation(struct rtmp_adapter *ad, u8 channel)
 		cap->tssi_stage = TSSI_TRIGGER_STAGE;
 
 		if (!ad->MCUCtrl.dpd_on
-#ifdef ED_MONITOR
-			&& (ad->ed_tx_stoped == FALSE)
-#endif /* ED_MONITOR */
 		) {
 			/* DPD Calibration */
 			if ( (ad->chipCap.PAType== INT_PA_2G_5G)
@@ -2999,29 +2996,6 @@ void mt76x2_read_temp_info_from_eeprom(struct rtmp_adapter *ad)
 		__FUNCTION__, is_temp_tx_alc, pChipCap->temp_tx_alc_enable));
 }
 
-#ifdef ED_MONITOR
-void mt7612_set_ed_cca(struct rtmp_adapter *ad, BOOLEAN enable)
-{
-	uint32_t mac_val = 0;
-
-	if (enable) {
-		mt7612u_read32(ad, CH_TIME_CFG, &mac_val);
-		mac_val |= 0x40;
-		mt7612u_write32(ad, CH_TIME_CFG, mac_val);
-
-		mt7612u_read32(ad, TXOP_CTRL_CFG, &mac_val);
-		mac_val |= (1 << 20);
-		mt7612u_write32(ad, TXOP_CTRL_CFG, mac_val);
-	} else {
-		mt7612u_read32(ad, TXOP_CTRL_CFG, &mac_val);
-		mac_val &= ~(1 << 20);
-		mt7612u_write32(ad, TXOP_CTRL_CFG, mac_val);
-	}
-
-	DBGPRINT(RT_DEBUG_TRACE, ("%s::0x%x: 0x%08X\n", __FUNCTION__, TXOP_CTRL_CFG, mac_val));
-}
-#endif /* ED_MONITOR */
-
 static const RTMP_CHIP_CAP MT76x2_ChipCap = {
 	.max_nss = 2,
 	.max_vht_mcs = VHT_MCS_CAP_9,
@@ -3148,11 +3122,7 @@ static const RTMP_CHIP_OP MT76x2_ChipOp = {
 #ifdef RTMP_TEMPERATURE_TX_ALC
 	.TemperCompensation = mt76x2_temp_tx_alc,
 #endif /* RTMP_TEMPERATURE_TX_ALC */
-#ifdef ED_MONITOR
-	.ChipSetEDCCA = mt7612_set_ed_cca,
-#else
 	.ChipSetEDCCA = NULL,
-#endif /* ED_MONITOR */
 };
 
 VOID mt76x2_init(struct rtmp_adapter *pAd)

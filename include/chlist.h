@@ -43,14 +43,6 @@ typedef struct _COUNTRY_REGION_CH_DESC {
 	PCH_DESC pChDesc;
 }COUNTRY_REGION_CH_DESC, *PCOUNTRY_REGION_CH_DESC;
 
-#ifdef ED_MONITOR
-typedef struct _COUNTRY_PROP {
-	char CountReg[3];
-	UCHAR DfsType;			/* 0: CE, 1: FCC, 2: JAP, 3:JAP_W53, JAP_W56 */
-	BOOLEAN edcca_on;
-} COUNTRY_PROP, *PCOUNTRY_PROP;
-#endif /* ED_MONITOR */
-
 typedef struct _CH_FREQ_MAP_{
 	uint16_t 	channel;
 	uint16_t 	freqKHz;
@@ -67,11 +59,6 @@ extern int CH_HZ_ID_MAP_NUM;
 
 /* Check if it is Japan W53(ch52,56,60,64) channel. */
 #define JapanChannelCheck(_ch)  ((_ch == 52) || (_ch == 56) || (_ch == 60) || (_ch == 64))
-
-#ifdef ED_MONITOR
-BOOLEAN GetEDCCASupport(
-	IN struct rtmp_adapter *pAd);
-#endif /* ED_MONITOR */
 
 VOID N_ChannelCheck(struct rtmp_adapter *pAd);
 UCHAR N_SetCenCh(struct rtmp_adapter *pAd, UCHAR channel);

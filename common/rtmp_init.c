@@ -1554,10 +1554,6 @@ VOID NICUpdateRawCounters(struct rtmp_adapter *pAd)
 		pAd->RalinkCounters.PlcpErrCnt += RxStaCnt1.field.PlcpErr;
 		/* Update False CCA counter*/
 		pAd->RalinkCounters.OneSecFalseCCACnt += RxStaCnt1.field.FalseCca;
-#ifdef ED_MONITOR
-		if (pAd->ed_chk /*&& pAd->ed_timer_inited == TRUE*/) //no timer now, and the data may not correct before.
-			pAd->false_cca_stat[pAd->ed_stat_lidx] += RxStaCnt1.field.FalseCca;
-#endif /* ED_MONITOR */
 		pAd->RalinkCounters.FalseCCACnt += RxStaCnt1.field.FalseCca;
 	}
 
@@ -2521,25 +2517,6 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 	pAd->usb_ctl.usb_aggregation = TRUE;
 #endif
 
-#ifdef ED_MONITOR
-	pAd->ed_chk = FALSE; //let country region to turn on
-
-#ifdef CONFIG_AP_SUPPORT
-	pAd->ed_sta_threshold = 1;
-	pAd->ed_ap_threshold = 1;
-#endif /* CONFIG_AP_SUPPORT */
-
-#ifdef CONFIG_STA_SUPPORT
-	pAd->ed_ap_scaned = 5;
-	pAd->ed_current_ch_aps = 1;
-	pAd->ed_rssi_threshold = -80; //tmp set
-#endif /* CONFIG_STA_SUPPORT */
-
-	pAd->ed_chk_period = 100;
-	pAd->ed_threshold = 90;
-	pAd->false_cca_threshold = 10000;
-	pAd->ed_block_tx_threshold = 2;
-#endif /* ED_MONITOR */
 
 	DBGPRINT(RT_DEBUG_TRACE, ("<-- UserCfgInit\n"));
 }

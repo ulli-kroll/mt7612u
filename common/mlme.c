@@ -1527,9 +1527,6 @@ VOID MlmePeriodicExec(
 				&& (OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_MEDIA_STATE_CONNECTED))
 				&& ((pAd->CommonCfg.bIEEE80211H != 1)
 					|| (pAd->Dot11_H.RDMode != RD_SILENCE_MODE))
-#ifdef ED_MONITOR
-				&& (pAd->ed_chk == FALSE)
-#endif /* ED_MONITOR */
 				)
 				pAd->macwd ++;
 			else
@@ -1642,12 +1639,6 @@ VOID MlmePeriodicExec(
 
 
 
-#ifdef ED_MONITOR
-	if (pAd->ed_chk)
-	{
-		ed_status_read(pAd);
-	}
-#endif /* ED_MONITOR */
 
 	pAd->bUpdateBcnCntDone = FALSE;
 }
@@ -3322,24 +3313,6 @@ ULONG BssTableSearch(BSS_TABLE *Tab, UCHAR *pBssid, UCHAR Channel)
 
 //edcca same channel ap count
 /* get ap counts from some channel*/
-#ifdef ED_MONITOR
-ULONG BssChannelAPCount(
-	IN BSS_TABLE *Tab,
-	IN UCHAR	 Channel)
-{
-	UCHAR i;
-	ULONG ap_count = 0;
-
-	for (i = 0; i < Tab->BssNr; i++)
-	{
-		if (Tab->BssEntry[i].Channel == Channel)
-		{
-			ap_count ++;
-		}
-	}
-	return ap_count;
-}
-#endif /* ED_MONITOR */
 
 ULONG BssSsidTableSearch(
 	IN BSS_TABLE *Tab,

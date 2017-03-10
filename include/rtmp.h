@@ -3920,46 +3920,6 @@ struct rtmp_adapter {
 #endif /* WLAN_SKB_RECYCLE */
 
 
-#ifdef ED_MONITOR
-	BOOLEAN ed_chk;
-
-//for AP Mode's threshold
-#ifdef CONFIG_AP_SUPPORT
-	UCHAR ed_sta_threshold;
-	UCHAR ed_ap_threshold;
-#endif /* CONFIG_AP_SUPPORT */
-
-//for STA Mode's threshold
-#ifdef CONFIG_STA_SUPPORT
-	UCHAR ed_ap_scaned;
-	UCHAR ed_current_ch_aps;
-	CHAR ed_rssi_threshold;
-#endif /* CONFIG_STA_SUPPORT */
-
-	UCHAR ed_threshold;
-	UINT false_cca_threshold;
-	UINT ed_block_tx_threshold;
-	INT ed_chk_period;  // in unit of ms
-
-	UCHAR ed_stat_sidx;
-	UCHAR ed_stat_lidx;
-	BOOLEAN ed_tx_stoped;
-	UINT ed_trigger_cnt;
-	UINT ed_silent_cnt;
-	UINT ed_false_cca_cnt;
-
-#define ED_STAT_CNT 20
-	uint32_t ed_stat[ED_STAT_CNT];
-	uint32_t ed_trigger_stat[ED_STAT_CNT];
-	uint32_t ed_silent_stat[ED_STAT_CNT];
-	uint32_t ed_2nd_stat[ED_STAT_CNT];
-	uint32_t ch_idle_stat[ED_STAT_CNT];
-	uint32_t ch_busy_stat[ED_STAT_CNT];
-	uint32_t false_cca_stat[ED_STAT_CNT];
-	ULONG chk_time[ED_STAT_CNT];
-	RALINK_TIMER_STRUCT ed_timer;
-	BOOLEAN ed_timer_inited;
-#endif /* ED_MONITOR */
 
 #ifdef WFA_VHT_PF
 	BOOLEAN force_amsdu;
@@ -3987,11 +3947,6 @@ struct rtmp_adapter {
     BOOLEAN BeaconSndDimensionFlag;    // Peer sounding dimension flag
 };
 
-#ifdef ED_MONITOR
-INT ed_status_read(struct rtmp_adapter *pAd);
-INT ed_monitor_init(struct rtmp_adapter *pAd);
-INT ed_monitor_exit(struct rtmp_adapter *pAd);
-#endif /* ED_MONITOR */
 
 typedef struct _PEER_PROBE_REQ_PARAM {
 	UCHAR Addr2[MAC_ADDR_LEN];
@@ -5116,11 +5071,6 @@ VOID BATableInit(
 VOID BATableExit(
 	IN struct rtmp_adapter *pAd);
 
-#ifdef ED_MONITOR
-ULONG BssChannelAPCount(
-	IN BSS_TABLE *Tab,
-	IN UCHAR Channel);
-#endif /* ED_MONITOR */
 
 ULONG BssTableSearch(
 	IN BSS_TABLE *Tab,
