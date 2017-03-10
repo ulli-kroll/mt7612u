@@ -736,7 +736,6 @@ struct _RTMP_CHIP_OP_ {
 	VOID (*ChipBBPAdjust)(IN struct rtmp_adapter *pAd);
 
 	/* AGC */
-	VOID (*ChipAGCInit)(struct rtmp_adapter *pAd, UCHAR bw);
 	UCHAR (*ChipAGCAdjust)(struct rtmp_adapter *pAd, CHAR Rssi, UCHAR OrigR66Value);
 
 	/* Channel */

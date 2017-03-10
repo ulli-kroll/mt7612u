@@ -6219,8 +6219,6 @@ VOID AsicStaBbpTuning(struct rtmp_adapter *pAd)
 
 VOID RTMPSetAGCInitValue(struct rtmp_adapter *pAd, UCHAR BandWidth)
 {
-	if (pAd->chipOps.ChipAGCInit != NULL)
-		pAd->chipOps.ChipAGCInit(pAd, BandWidth);
 }
 
 
