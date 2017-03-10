@@ -757,9 +757,6 @@ struct _RTMP_CHIP_OP_ {
 
 	/* TX ALC */
 	uint32_t (*TSSIRatio)(int32_t delta_power);
-	int (*ATETssiCalibration)(struct rtmp_adapter *pAd, char *arg);
-	int (*ATETssiCalibrationExtend)(struct rtmp_adapter *pAd, char *arg);
-	int (*ATEReadExternalTSSI)(struct rtmp_adapter *pAd, char *arg);
 
 	VOID (*AsicTxAlcGetAutoAgcOffset)(
 				IN struct rtmp_adapter	*pAd,
@@ -850,24 +847,6 @@ do {	\
 do {	\
 		if (__pAd->chipOps.ChipAGCAdjust != NULL)	\
 			__R66 = __pAd->chipOps.ChipAGCAdjust(__pAd, __Rssi, __R66);	\
-} while (0)
-
-#define RTMP_CHIP_ATE_TSSI_CALIBRATION(__pAd, __pData)	\
-do {	\
-		if (__pAd->chipOps.ATETssiCalibration != NULL)	\
-			__pAd->chipOps.ATETssiCalibration(__pAd, __pData);	\
-} while (0)
-
-#define RTMP_CHIP_ATE_TSSI_CALIBRATION_EXTEND(__pAd, __pData)	\
-do {	\
-		if (__pAd->chipOps.ATETssiCalibrationExtend != NULL)	\
-			__pAd->chipOps.ATETssiCalibrationExtend(__pAd, __pData);	\
-} while (0)
-
-#define RTMP_CHIP_ATE_READ_EXTERNAL_TSSI(__pAd, __pData)	\
-do {	\
-		if (__pAd->chipOps.ATEReadExternalTSSI != NULL)	\
-			__pAd->chipOps.ATEReadExternalTSSI(__pAd, __pData);	\
 } while (0)
 
 #define RTMP_CHIP_ASIC_TX_POWER_OFFSET_GET(__pAd, __pCfgOfTxPwrCtrlOverMAC)	\

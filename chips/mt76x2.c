@@ -3134,10 +3134,7 @@ static const RTMP_CHIP_OP MT76x2_ChipOp = {
 #ifdef CONFIG_STA_SUPPORT
 	.ChipAGCAdjust = NULL,
 #endif
- 	.ATETssiCalibration = NULL,
-	.ATETssiCalibrationExtend = NULL,
 	.AsicTxAlcGetAutoAgcOffset = NULL,
-	.ATEReadExternalTSSI = NULL,
 	.TSSIRatio = NULL,
 	.RxSensitivityTuning = NULL,
 	.DisableTxRx = RT65xxDisableTxRx,
