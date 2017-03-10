@@ -3076,7 +3076,6 @@ static const RTMP_CHIP_CAP MT76x2_ChipCap = {
 	.dlm_offset = 0x110000,
 	.rom_patch_offset = 0x90000,
 #endif /* CONFIG_ANDES_SUPPORT */
-	.MCUType = ANDES,
 	.cmd_header_len = 4,
 #ifdef RTMP_USB_SUPPORT
 	.cmd_padding_len = 4,

@@ -451,7 +451,6 @@ struct _RTMP_CHIP_CAP_ {
 	enum PHY_CAP phy_caps;
 	enum MAC_TYPE mac_type;
 	enum BBP_TYPE bbp_type;
-	enum MCU_TYPE MCUType;
 	enum RF_TYPE rf_type;
 
 

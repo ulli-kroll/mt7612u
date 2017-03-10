@@ -765,13 +765,6 @@ VOID AsicResetBBPAgent(struct rtmp_adapter *pAd)
 	/* IF chipOps.AsicResetBbpAgent == NULL, run "else" part */
 	if (pAd->chipOps.AsicResetBbpAgent != NULL)
 		pAd->chipOps.AsicResetBbpAgent(pAd);
-	else if (pAd->chipCap.MCUType != ANDES)
-	{
-		DBGPRINT(RT_DEBUG_INFO, ("Reset BBP Agent busy bit.!! \n"));
-		BbpCsr.word = mt7612u_read32(pAd, H2M_BBP_AGENT);
-		BbpCsr.field.Busy = 0;
-		mt7612u_write32(pAd, H2M_BBP_AGENT, BbpCsr.word);
-	}
 }
 
 

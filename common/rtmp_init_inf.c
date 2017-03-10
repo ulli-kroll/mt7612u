@@ -259,13 +259,6 @@ int rt28xx_init(struct rtmp_adapter *pAd)
 
 	/* APInitialize(pAd);*/
 
-#ifdef RTMP_MAC_USB
-	if (pAd->chipCap.MCUType == M8051) {
-		AsicSendCommandToMcu(pAd, 0x31, 0xff, 0x00, 0x02, FALSE);
-		RtmpusecDelay(10000);
-	}
-#endif /* RTMP_MAC_USB */
-
 	/*
 		Some modules init must be called before APStartUp().
 		Or APStartUp() will make up beacon content and call

@@ -29,12 +29,6 @@
 #ifndef __MCU_H__
 #define __MCU_H__
 
-enum MCU_TYPE {
-	SWMCU,
-	M8051,
-	ANDES,
-};
-
 /*
  * Power opration
  */
