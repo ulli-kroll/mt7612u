@@ -413,8 +413,8 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 
 	Antenna.word = 0;
 	Antenna.field.RfIcType = RFIC_7662;
-	Antenna.field.TxPath = 2;
-	Antenna.field.RxPath = 2;
+	Antenna.field.TxPath = NicCfg0.field.TxPath;
+	Antenna.field.RxPath = NicCfg0.field.RxPath;
 
 	/* Choose the desired Tx&Rx stream.*/
 	/* ULLI : fixed TX/RX streams */
