@@ -286,6 +286,7 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 	USHORT i, value, value2;
 	EEPROM_VERSION_STRUC Version;
 	EEPROM_ANTENNA_STRUC Antenna;
+	EEPROM_NIC_CONFIG0_STRUC NicCfg0;
 	EEPROM_NIC_CONFIG2_STRUC NicConfig2;
 	USHORT  Addr01,Addr23,Addr45 ;
 	MAC_DW0_STRUC csr2;
@@ -365,6 +366,8 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 	/* Read BBP default value from EEPROM and store to array(EEPROMDefaultValue) in pAd */
 	value = mt7612u_read_eeprom16(pAd, EEPROM_NIC1_OFFSET);
 	pAd->EEPROMDefaultValue[EEPROM_NIC_CFG1_OFFSET] = value;
+	NicCfg0.word = pAd->EEPROMDefaultValue[EEPROM_NIC_CFG1_OFFSET];
+	DBGPRINT(RT_DEBUG_OFF, ("EEPROM_NIC_CFG1_OFFSET = 0x%04x\n", NicCfg0.word));
 
 	/* EEPROM offset 0x36 - NIC Configuration 1 */
 	value = mt7612u_read_eeprom16(pAd, EEPROM_NIC2_OFFSET);
