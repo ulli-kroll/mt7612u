@@ -627,8 +627,6 @@ static int ResetBulkOutHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 /* All transfers must be aborted or cancelled before attempting to reset the pipe.*/
 static int ResetBulkInHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 {
-	uint32_t MACValue;
-
 	DBGPRINT_RAW(RT_DEBUG_TRACE, ("CmdThread : CMDTHREAD_RESET_BULK_IN === >\n"));
 
 #ifdef CONFIG_STA_SUPPORT
@@ -648,7 +646,6 @@ static int ResetBulkInHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 
 	/* Wait 10ms before reading register.*/
 	RtmpusecDelay(10000);
-	MACValue = mt7612u_read32(pAd, MAC_CSR0);
 
 	/* It must be removed. Or ATE will have no RX success. */
 	if ((!(RTMP_TEST_FLAG(pAd, (fRTMP_ADAPTER_RESET_IN_PROGRESS | fRTMP_ADAPTER_RADIO_OFF |
