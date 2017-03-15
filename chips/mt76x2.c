@@ -484,7 +484,7 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, BOOLEAN s
 
 #ifdef RTMP_MAC_USB
 	if (IS_USB_INF(ad)) {
-		RTMP_SEM_EVENT_WAIT(&ad->hw_atomic, ret);
+		ret = down_interruptible(&ad->hw_atomic);
 		if (ret != 0) {
 			DBGPRINT(RT_DEBUG_ERROR, ("reg_atomic get failed(ret=%d)\n", ret));
 			return;
@@ -746,7 +746,7 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, BOOLEAN s
 
 #ifdef RTMP_MAC_USB
 	if (IS_USB_INF(ad)) {
-		RTMP_SEM_EVENT_WAIT(&ad->tssi_lock, ret);
+		ret = down_interruptible(&ad->tssi_lock);
 		if (ret != 0) {
 			DBGPRINT(RT_DEBUG_ERROR, ("tssi_lock get failed(ret=%d)\n", ret));
 			return;
@@ -887,7 +887,7 @@ void mt76x2_tssi_compensation(struct rtmp_adapter *ad, u8 channel)
 
 #ifdef RTMP_USB_SUPPORT
 	if (IS_USB_INF(ad)) {
-		RTMP_SEM_EVENT_WAIT(&ad->tssi_lock, ret);
+		ret = down_interruptible(&ad->tssi_lock);
 		if (ret != 0) {
 			DBGPRINT(RT_DEBUG_ERROR, ("tssi_lock get failed(ret=%d)\n", ret));
 			return;

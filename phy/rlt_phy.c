@@ -290,7 +290,7 @@ static INT rlt_bbp_set_bw(struct rtmp_adapter *pAd, UINT8 bw)
 	if (IS_USB_INF(pAd)) {
 		uint32_t ret;
 
-		RTMP_SEM_EVENT_WAIT(&pAd->hw_atomic, ret);
+		ret = down_interruptible(&pAd->hw_atomic);
 		if (ret != 0) {
 			DBGPRINT(RT_DEBUG_ERROR, ("reg_atomic get failed(ret=%d)\n", ret));
 			return STATUS_UNSUCCESSFUL;

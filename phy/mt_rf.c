@@ -28,7 +28,7 @@ int mt_rf_write(
 
 #ifdef RTMP_MAC_USB
 	if (IS_USB_INF(ad)) {
-		RTMP_SEM_EVENT_WAIT(&ad->reg_atomic, ret);
+		ret = down_interruptible(&ad->reg_atomic);
 		if (ret != 0) {
 			DBGPRINT(RT_DEBUG_ERROR, ("reg_atomic get failed(ret=%d)\n", ret));
 			return STATUS_UNSUCCESSFUL;

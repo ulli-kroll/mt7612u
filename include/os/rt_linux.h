@@ -332,7 +332,7 @@ typedef spinlock_t			OS_NDIS_SPIN_LOCK;
 	do{								\
 		if (_pAd->infType == RTMP_DEV_INF_USB)	\
 		{\
-			RTMP_SEM_EVENT_WAIT(&_pAd->McuCmdSem, _irqflags);\
+			down_interruptible(&_pAd->McuCmdSem, _irqflags);\
 		}\
 		else\
 		{\
@@ -388,7 +388,6 @@ do { \
 #define OS_SEM_EVENT_INIT_LOCKED(_pSema) 	sema_init((_pSema), 0)
 #define OS_SEM_EVENT_INIT(_pSema)			sema_init((_pSema), 1)
 #define OS_SEM_EVENT_DESTORY(_pSema)		do{}while(0)
-#define OS_SEM_EVENT_WAIT(_pSema, _status)	((_status) = down_interruptible((_pSema)))
 #define OS_SEM_EVENT_UP(_pSema)				up(_pSema)
 
 #define RTCMDUp					OS_RTCMDUp

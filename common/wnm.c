@@ -414,7 +414,7 @@ uint32_t IPv4ProxyARPTableLen(IN struct rtmp_adapter *pAd,
 
 	DBGPRINT(RT_DEBUG_OFF, ("%s\n", __FUNCTION__));
 
-	RTMP_SEM_EVENT_WAIT(&pWNMCtrl->ProxyARPListLock, Ret);
+	down_interruptible(&pWNMCtrl->ProxyARPListLock, Ret);
 	DlListForEach(ProxyARPEntry, &pWNMCtrl->IPv4ProxyARPList, PROXY_ARP_IPV4_ENTRY, List)
 	{
 		TableLen += sizeof(PROXY_ARP_IPV4_UNIT);
@@ -432,7 +432,7 @@ uint32_t IPv6ProxyARPTableLen(IN struct rtmp_adapter *pAd,
 	uint32_t TableLen = 0;
 	int32_t Ret;
 
-	RTMP_SEM_EVENT_WAIT(&pWNMCtrl->ProxyARPIPv6ListLock, Ret);
+	down_interruptible(&pWNMCtrl->ProxyARPIPv6ListLock, Ret);
 	DlListForEach(ProxyARPEntry, &pWNMCtrl->IPv6ProxyARPList, PROXY_ARP_IPV6_ENTRY, List)
 	{
 		TableLen += sizeof(PROXY_ARP_IPV6_UNIT);
@@ -454,7 +454,7 @@ BOOLEAN GetIPv4ProxyARPTable(IN struct rtmp_adapter *pAd,
 
 	DBGPRINT(RT_DEBUG_OFF, ("%s\n", __FUNCTION__));
 
-	RTMP_SEM_EVENT_WAIT(&pWNMCtrl->ProxyARPListLock, Ret);
+	down_interruptible(&pWNMCtrl->ProxyARPListLock, Ret);
 	DlListForEach(ProxyARPEntry, &pWNMCtrl->IPv4ProxyARPList, PROXY_ARP_IPV4_ENTRY, List)
 	{
 			memmove(ProxyARPUnit->TargetMACAddr, ProxyARPEntry->TargetMACAddr, MAC_ADDR_LEN);
@@ -478,7 +478,7 @@ BOOLEAN GetIPv6ProxyARPTable(IN struct rtmp_adapter *pAd,
 
 	DBGPRINT(RT_DEBUG_OFF, ("%s\n", __FUNCTION__));
 
-	RTMP_SEM_EVENT_WAIT(&pWNMCtrl->ProxyARPIPv6ListLock, Ret);
+	down_interruptible(&pWNMCtrl->ProxyARPIPv6ListLock, Ret);
 	DlListForEach(ProxyARPEntry, &pWNMCtrl->IPv6ProxyARPList, PROXY_ARP_IPV6_ENTRY, List)
 	{
 			memmove(ProxyARPUnit->TargetMACAddr, ProxyARPEntry->TargetMACAddr, MAC_ADDR_LEN);
@@ -504,7 +504,7 @@ uint32_t AddIPv4ProxyARPEntry(IN struct rtmp_adapter *pAd,
 
 	DBGPRINT(RT_DEBUG_OFF, ("%s\n", __FUNCTION__));
 
-	RTMP_SEM_EVENT_WAIT(&pWNMCtrl->ProxyARPListLock, Ret);
+	down_interruptible(&pWNMCtrl->ProxyARPListLock, Ret);
 	DlListForEach(ProxyARPEntry, &pWNMCtrl->IPv4ProxyARPList, PROXY_ARP_IPV4_ENTRY, List)
 	{
 		if (MAC_ADDR_EQUAL(ProxyARPEntry->TargetMACAddr, pTargetMACAddr))
@@ -528,7 +528,7 @@ uint32_t AddIPv4ProxyARPEntry(IN struct rtmp_adapter *pAd,
 		printk("pTargetIPv4Addr[%i] = %x\n", i, pTargetIPAddr[i]);
 
 	/* Add ProxyARP Entry to list */
-	RTMP_SEM_EVENT_WAIT(&pWNMCtrl->ProxyARPListLock, Ret);
+	down_interruptible(&pWNMCtrl->ProxyARPListLock, Ret);
 	DlListAddTail(&pWNMCtrl->IPv4ProxyARPList, &ProxyARPEntry->List);
 	RTMP_SEM_EVENT_UP(&pWNMCtrl->ProxyARPListLock);
 
@@ -545,7 +545,7 @@ VOID RemoveIPv4ProxyARPEntry(IN struct rtmp_adapter *pAd,
 
 	DBGPRINT(RT_DEBUG_OFF, ("%s\n", __FUNCTION__));
 
-	RTMP_SEM_EVENT_WAIT(&pWNMCtrl->ProxyARPListLock, Ret);
+	down_interruptible(&pWNMCtrl->ProxyARPListLock, Ret);
 
 	DlListForEachSafe(ProxyARPEntry, ProxyARPEntryTmp, &pWNMCtrl->IPv4ProxyARPList, PROXY_ARP_IPV4_ENTRY, List)
 	{
@@ -575,7 +575,7 @@ uint32_t AddIPv6ProxyARPEntry(IN struct rtmp_adapter *pAd,
 	UINT8 i;
 	DBGPRINT(RT_DEBUG_OFF, ("%s\n", __FUNCTION__));
 
-	RTMP_SEM_EVENT_WAIT(&pWNMCtrl->ProxyARPIPv6ListLock, Ret);
+	down_interruptible(&pWNMCtrl->ProxyARPIPv6ListLock, Ret);
 	DlListForEach(ProxyARPEntry, &pWNMCtrl->IPv6ProxyARPList, PROXY_ARP_IPV6_ENTRY, List)
 	{
 		if (MAC_ADDR_EQUAL(ProxyARPEntry->TargetMACAddr, pTargetMACAddr) &&
@@ -610,7 +610,7 @@ uint32_t AddIPv6ProxyARPEntry(IN struct rtmp_adapter *pAd,
 		printk("pTargetIPv6Addr[%i] = %x\n", i, pTargetIPAddr[i]);
 
 	/* Add ProxyARP Entry to list */
-	RTMP_SEM_EVENT_WAIT(&pWNMCtrl->ProxyARPIPv6ListLock, Ret);
+	down_interruptible(&pWNMCtrl->ProxyARPIPv6ListLock, Ret);
 	DlListAddTail(&pWNMCtrl->IPv6ProxyARPList, &ProxyARPEntry->List);
 	RTMP_SEM_EVENT_UP(&pWNMCtrl->ProxyARPIPv6ListLock);
 
@@ -627,7 +627,7 @@ VOID RemoveIPv6ProxyARPEntry(IN struct rtmp_adapter *pAd,
 
 	DBGPRINT(RT_DEBUG_OFF, ("%s\n", __FUNCTION__));
 
-	RTMP_SEM_EVENT_WAIT(&pWNMCtrl->ProxyARPIPv6ListLock, Ret);
+	down_interruptible(&pWNMCtrl->ProxyARPIPv6ListLock, Ret);
 
 	DlListForEachSafe(ProxyARPEntry, ProxyARPEntryTmp, &pWNMCtrl->IPv6ProxyARPList, PROXY_ARP_IPV6_ENTRY, List)
 	{
@@ -658,7 +658,7 @@ BOOLEAN IPv4ProxyARP(IN struct rtmp_adapter *pAd,
 	int32_t Ret;
 	DBGPRINT(RT_DEBUG_TRACE, ("%s\n", __FUNCTION__));
 
-	RTMP_SEM_EVENT_WAIT(&pWNMCtrl->ProxyARPListLock, Ret);
+	down_interruptible(&pWNMCtrl->ProxyARPListLock, Ret);
 	DlListForEach(ProxyARPEntry, &pWNMCtrl->IPv4ProxyARPList, PROXY_ARP_IPV4_ENTRY, List)
 	{
 		if (IPV4_ADDR_EQUAL(ProxyARPEntry->TargetIPAddr, TargetIPAddr))
@@ -700,7 +700,7 @@ BOOLEAN IPv6ProxyARP(IN struct rtmp_adapter *pAd,
 
 	DBGPRINT(RT_DEBUG_OFF, ("%s\n", __FUNCTION__));
 
-	RTMP_SEM_EVENT_WAIT(&pWNMCtrl->ProxyARPListLock, Ret);
+	down_interruptible(&pWNMCtrl->ProxyARPListLock, Ret);
 	DlListForEach(ProxyARPEntry, &pWNMCtrl->IPv6ProxyARPList, PROXY_ARP_IPV6_ENTRY, List)
 	{
 		if (IPV6_ADDR_EQUAL(ProxyARPEntry->TargetIPAddr, TargetIPAddr))
@@ -795,7 +795,7 @@ VOID WNMIPv6ProxyARPCheck(
 					/* Copy global address prefix */
 					memmove(TargetIPAddr, Prefix, 8);
 
-					RTMP_SEM_EVENT_WAIT(&pWNMCtrl->ProxyARPListLock, Ret);
+					down_interruptible(&pWNMCtrl->ProxyARPListLock, Ret);
 					DlListForEach(ProxyARPEntry, &pWNMCtrl->IPv6ProxyARPList,
 										PROXY_ARP_IPV6_ENTRY, List)
 					{
@@ -890,13 +890,13 @@ VOID WNMCtrlExit(IN struct rtmp_adapter *pAd)
 	{
 		pWNMCtrl = &pAd->ApCfg.MBSSID[APIndex].WNMCtrl;
 
-		RTMP_SEM_EVENT_WAIT(&pWNMCtrl->BTMPeerListLock, Ret);
+		down_interruptible(&pWNMCtrl->BTMPeerListLock, Ret);
 
 		DlListInit(&pWNMCtrl->BTMPeerList);
 		RTMP_SEM_EVENT_UP(&pWNMCtrl->BTMPeerListLock);
 		RTMP_SEM_EVENT_DESTORY(&pWNMCtrl->BTMPeerListLock);
 
-		RTMP_SEM_EVENT_WAIT(&pWNMCtrl->ProxyARPListLock, Ret);
+		down_interruptible(&pWNMCtrl->ProxyARPListLock, Ret);
 		/* Remove all proxy arp entry */
 		DlListForEachSafe(ProxyARPIPv4Entry, ProxyARPIPv4EntryTmp,
 							&pWNMCtrl->IPv4ProxyARPList, PROXY_ARP_IPV4_ENTRY, List)
@@ -907,7 +907,7 @@ VOID WNMCtrlExit(IN struct rtmp_adapter *pAd)
 		DlListInit(&pWNMCtrl->IPv4ProxyARPList);
 		RTMP_SEM_EVENT_UP(&pWNMCtrl->ProxyARPListLock);
 
-		RTMP_SEM_EVENT_WAIT(&pWNMCtrl->ProxyARPIPv6ListLock, Ret);
+		down_interruptible(&pWNMCtrl->ProxyARPIPv6ListLock, Ret);
 		DlListForEachSafe(ProxyARPIPv6Entry, ProxyARPIPv6EntryTmp,
 							&pWNMCtrl->IPv6ProxyARPList, PROXY_ARP_IPV6_ENTRY, List)
 		{
@@ -940,7 +940,7 @@ VOID Clear_All_PROXY_TABLE(IN struct rtmp_adapter *pAd)
 
 	pWNMCtrl = &pAd->ApCfg.MBSSID[APIndex].WNMCtrl;
 
-	RTMP_SEM_EVENT_WAIT(&pWNMCtrl->ProxyARPListLock, Ret);
+	down_interruptible(&pWNMCtrl->ProxyARPListLock, Ret);
 	/* Remove all proxy arp entry */
 	DlListForEachSafe(ProxyARPIPv4Entry, ProxyARPIPv4EntryTmp,
 						&pWNMCtrl->IPv4ProxyARPList, PROXY_ARP_IPV4_ENTRY, List)
@@ -951,7 +951,7 @@ VOID Clear_All_PROXY_TABLE(IN struct rtmp_adapter *pAd)
 	DlListInit(&pWNMCtrl->IPv4ProxyARPList);
 	RTMP_SEM_EVENT_UP(&pWNMCtrl->ProxyARPListLock);
 
-	RTMP_SEM_EVENT_WAIT(&pWNMCtrl->ProxyARPIPv6ListLock, Ret);
+	down_interruptible(&pWNMCtrl->ProxyARPIPv6ListLock, Ret);
 	DlListForEachSafe(ProxyARPIPv6Entry, ProxyARPIPv6EntryTmp,
 						&pWNMCtrl->IPv6ProxyARPList, PROXY_ARP_IPV6_ENTRY, List)
 	{

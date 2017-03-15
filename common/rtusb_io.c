@@ -393,7 +393,7 @@ int RTUSB_VendorRequest(
 		int RetryCount = 0; /* RTUSB_CONTROL_MSG retry counts*/
 		ASSERT(TransferBufferLength <MAX_PARAM_BUFFER_SIZE);
 
-		RTMP_SEM_EVENT_WAIT(&(pAd->UsbVendorReq_semaphore), RET);
+		RET = down_interruptible(&(pAd->UsbVendorReq_semaphore));
 		if (RET != 0) {
 			DBGPRINT(RT_DEBUG_ERROR, ("UsbVendorReq_semaphore get failed\n"));
 			return NDIS_STATUS_FAILURE;

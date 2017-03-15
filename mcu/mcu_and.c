@@ -1768,7 +1768,7 @@ static void mt7612u_mcu_ctrl_usb_init(struct rtmp_adapter *ad)
 	struct MCU_CTRL *ctl = &ad->MCUCtrl;
 	int ret = 0;
 
-	RTMP_SEM_EVENT_WAIT(&(ad->mcu_atomic), ret);
+	ret = down_interruptible(&(ad->mcu_atomic));
 	RTMP_CLEAR_FLAG(ad, fRTMP_ADAPTER_MCU_SEND_IN_BAND_CMD);
 	ctl->cmd_seq = 0;
 	RTMP_OS_TASKLET_INIT(ad, &ctl->cmd_msg_task, mt7612u_mcu_cmd_msg_bh, (unsigned long)ad);
@@ -1817,7 +1817,7 @@ static void mt7612u_mcu_ctrl_usb_exit(struct rtmp_adapter *ad)
 	struct MCU_CTRL *ctl = &ad->MCUCtrl;
 	int ret = 0;
 
-	RTMP_SEM_EVENT_WAIT(&(ad->mcu_atomic), ret);
+	ret = down_interruptible(&(ad->mcu_atomic));
 	RTMP_CLEAR_FLAG(ad, fRTMP_ADAPTER_MCU_SEND_IN_BAND_CMD);
 	OS_CLEAR_BIT(MCU_INIT, &ctl->flags);
 	mt7612u_mcu_usb_unlink_urb(ad, &ctl->txq);
@@ -1947,7 +1947,7 @@ int mt7612u_mcu_send_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *msg)
 
 
 #ifdef RTMP_USB_SUPPORT
-	RTMP_SEM_EVENT_WAIT(&(ad->mcu_atomic), ret);
+	ret = down_interruptible(&(ad->mcu_atomic));
 #endif
 
 	if (!RTMP_TEST_FLAG(ad, fRTMP_ADAPTER_MCU_SEND_IN_BAND_CMD)
