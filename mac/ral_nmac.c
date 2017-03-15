@@ -315,7 +315,7 @@ INT rlt_wlan_chip_onoff(struct rtmp_adapter *pAd, BOOLEAN bOn, BOOLEAN bResetWLA
 
 #ifdef RTMP_MAC_USB
 	if (IS_USB_INF(pAd))
-		RTMP_SEM_EVENT_UP(&pAd->hw_atomic);
+		up(&pAd->hw_atomic);
 #endif /* RTMP_MAC_USB */
 
 	return 0;

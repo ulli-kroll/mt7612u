@@ -419,7 +419,7 @@ uint32_t IPv4ProxyARPTableLen(IN struct rtmp_adapter *pAd,
 	{
 		TableLen += sizeof(PROXY_ARP_IPV4_UNIT);
 	}
-	RTMP_SEM_EVENT_UP(&pWNMCtrl->ProxyARPListLock);
+	up(&pWNMCtrl->ProxyARPListLock);
 
 	return TableLen;
 }
@@ -437,7 +437,7 @@ uint32_t IPv6ProxyARPTableLen(IN struct rtmp_adapter *pAd,
 	{
 		TableLen += sizeof(PROXY_ARP_IPV6_UNIT);
 	}
-	RTMP_SEM_EVENT_UP(&pWNMCtrl->ProxyARPIPv6ListLock);
+	up(&pWNMCtrl->ProxyARPIPv6ListLock);
 
 	return TableLen;
 }
@@ -461,7 +461,7 @@ BOOLEAN GetIPv4ProxyARPTable(IN struct rtmp_adapter *pAd,
 			memmove(ProxyARPUnit->TargetIPAddr, ProxyARPEntry->TargetIPAddr, 4);
 			ProxyARPUnit++;
 	}
-	RTMP_SEM_EVENT_UP(&pWNMCtrl->ProxyARPListLock);
+	up(&pWNMCtrl->ProxyARPListLock);
 
 	return TRUE;
 }
@@ -486,7 +486,7 @@ BOOLEAN GetIPv6ProxyARPTable(IN struct rtmp_adapter *pAd,
 			memmove(ProxyARPUnit->TargetIPAddr, ProxyARPEntry->TargetIPAddr, 16);
 			ProxyARPUnit++;
 	}
-	RTMP_SEM_EVENT_UP(&pWNMCtrl->ProxyARPIPv6ListLock);
+	up(&pWNMCtrl->ProxyARPIPv6ListLock);
 
 	return TRUE;
 }
@@ -509,11 +509,11 @@ uint32_t AddIPv4ProxyARPEntry(IN struct rtmp_adapter *pAd,
 	{
 		if (MAC_ADDR_EQUAL(ProxyARPEntry->TargetMACAddr, pTargetMACAddr))
 		{
-			RTMP_SEM_EVENT_UP(&pWNMCtrl->ProxyARPListLock);
+			up(&pWNMCtrl->ProxyARPListLock);
 			return FALSE;
 		}
 	}
-	RTMP_SEM_EVENT_UP(&pWNMCtrl->ProxyARPListLock);
+	up(&pWNMCtrl->ProxyARPListLock);
 
 	ProxyARPEntry = kmalloc(sizeof(*ProxyARPEntry), GFP_ATOMIC);
 	if (!ProxyARPEntry) {
@@ -530,7 +530,7 @@ uint32_t AddIPv4ProxyARPEntry(IN struct rtmp_adapter *pAd,
 	/* Add ProxyARP Entry to list */
 	down_interruptible(&pWNMCtrl->ProxyARPListLock, Ret);
 	DlListAddTail(&pWNMCtrl->IPv4ProxyARPList, &ProxyARPEntry->List);
-	RTMP_SEM_EVENT_UP(&pWNMCtrl->ProxyARPListLock);
+	up(&pWNMCtrl->ProxyARPListLock);
 
 	return TRUE;
 }
@@ -554,14 +554,14 @@ VOID RemoveIPv4ProxyARPEntry(IN struct rtmp_adapter *pAd,
 
 		if (MAC_ADDR_EQUAL(ProxyARPEntry->TargetMACAddr, pTargetMACAddr))
 		{
-			//RTMP_SEM_EVENT_UP(&pWNMCtrl->ProxyARPListLock);
+			//up(&pWNMCtrl->ProxyARPListLock);
 			//return FALSE;
 			DlListDel(&ProxyARPEntry->List);
 			kfree(ProxyARPEntry);
 			break;
 		}
 	}
-	RTMP_SEM_EVENT_UP(&pWNMCtrl->ProxyARPListLock);
+	up(&pWNMCtrl->ProxyARPListLock);
 }
 
 uint32_t AddIPv6ProxyARPEntry(IN struct rtmp_adapter *pAd,
@@ -581,11 +581,11 @@ uint32_t AddIPv6ProxyARPEntry(IN struct rtmp_adapter *pAd,
 		if (MAC_ADDR_EQUAL(ProxyARPEntry->TargetMACAddr, pTargetMACAddr) &&
 			IPV6_ADDR_EQUAL(ProxyARPEntry->TargetIPAddr, pTargetIPAddr))
 		{
-			RTMP_SEM_EVENT_UP(&pWNMCtrl->ProxyARPIPv6ListLock);
+			up(&pWNMCtrl->ProxyARPIPv6ListLock);
 			return FALSE;
 		}
 	}
-	RTMP_SEM_EVENT_UP(&pWNMCtrl->ProxyARPIPv6ListLock);
+	up(&pWNMCtrl->ProxyARPIPv6ListLock);
 
 	ProxyARPEntry = kmalloc(sizeof(*ProxyARPEntry), GFP_ATOMIC);
 
@@ -612,7 +612,7 @@ uint32_t AddIPv6ProxyARPEntry(IN struct rtmp_adapter *pAd,
 	/* Add ProxyARP Entry to list */
 	down_interruptible(&pWNMCtrl->ProxyARPIPv6ListLock, Ret);
 	DlListAddTail(&pWNMCtrl->IPv6ProxyARPList, &ProxyARPEntry->List);
-	RTMP_SEM_EVENT_UP(&pWNMCtrl->ProxyARPIPv6ListLock);
+	up(&pWNMCtrl->ProxyARPIPv6ListLock);
 
 	return TRUE;
 }
@@ -640,7 +640,7 @@ VOID RemoveIPv6ProxyARPEntry(IN struct rtmp_adapter *pAd,
 			kfree(ProxyARPEntry);
 		}
 	}
-	RTMP_SEM_EVENT_UP(&pWNMCtrl->ProxyARPIPv6ListLock);
+	up(&pWNMCtrl->ProxyARPIPv6ListLock);
 }
 
 BOOLEAN IPv4ProxyARP(IN struct rtmp_adapter *pAd,
@@ -667,7 +667,7 @@ BOOLEAN IPv4ProxyARP(IN struct rtmp_adapter *pAd,
 			break;
 		}
 	}
-	RTMP_SEM_EVENT_UP(&pWNMCtrl->ProxyARPListLock);
+	up(&pWNMCtrl->ProxyARPListLock);
 
 	if (IsFound)
 	{
@@ -709,7 +709,7 @@ BOOLEAN IPv6ProxyARP(IN struct rtmp_adapter *pAd,
 			break;
 		}
 	}
-	RTMP_SEM_EVENT_UP(&pWNMCtrl->ProxyARPListLock);
+	up(&pWNMCtrl->ProxyARPListLock);
 
 	if (IsFound)
 	{
@@ -811,7 +811,7 @@ VOID WNMIPv6ProxyARPCheck(
 														TargetIPAddr);
 						}
 					}
-					RTMP_SEM_EVENT_UP(&pWNMCtrl->ProxyARPListLock);
+					up(&pWNMCtrl->ProxyARPListLock);
 				}
 
 				Pos += OptionsLen;
@@ -893,7 +893,7 @@ VOID WNMCtrlExit(IN struct rtmp_adapter *pAd)
 		down_interruptible(&pWNMCtrl->BTMPeerListLock, Ret);
 
 		DlListInit(&pWNMCtrl->BTMPeerList);
-		RTMP_SEM_EVENT_UP(&pWNMCtrl->BTMPeerListLock);
+		up(&pWNMCtrl->BTMPeerListLock);
 		RTMP_SEM_EVENT_DESTORY(&pWNMCtrl->BTMPeerListLock);
 
 		down_interruptible(&pWNMCtrl->ProxyARPListLock, Ret);
@@ -905,7 +905,7 @@ VOID WNMCtrlExit(IN struct rtmp_adapter *pAd)
 			kfree(ProxyARPIPv4Entry);
 		}
 		DlListInit(&pWNMCtrl->IPv4ProxyARPList);
-		RTMP_SEM_EVENT_UP(&pWNMCtrl->ProxyARPListLock);
+		up(&pWNMCtrl->ProxyARPListLock);
 
 		down_interruptible(&pWNMCtrl->ProxyARPIPv6ListLock, Ret);
 		DlListForEachSafe(ProxyARPIPv6Entry, ProxyARPIPv6EntryTmp,
@@ -915,7 +915,7 @@ VOID WNMCtrlExit(IN struct rtmp_adapter *pAd)
 			kfree(ProxyARPIPv6Entry);
 		}
 		DlListInit(&pWNMCtrl->IPv6ProxyARPList);
-		RTMP_SEM_EVENT_UP(&pWNMCtrl->ProxyARPIPv6ListLock);
+		up(&pWNMCtrl->ProxyARPIPv6ListLock);
 
 		RTMP_SEM_EVENT_DESTORY(&pWNMCtrl->ProxyARPListLock);
 		RTMP_SEM_EVENT_DESTORY(&pWNMCtrl->ProxyARPIPv6ListLock);
@@ -949,7 +949,7 @@ VOID Clear_All_PROXY_TABLE(IN struct rtmp_adapter *pAd)
 		kfree(ProxyARPIPv4Entry);
 	}
 	DlListInit(&pWNMCtrl->IPv4ProxyARPList);
-	RTMP_SEM_EVENT_UP(&pWNMCtrl->ProxyARPListLock);
+	up(&pWNMCtrl->ProxyARPListLock);
 
 	down_interruptible(&pWNMCtrl->ProxyARPIPv6ListLock, Ret);
 	DlListForEachSafe(ProxyARPIPv6Entry, ProxyARPIPv6EntryTmp,
@@ -959,6 +959,6 @@ VOID Clear_All_PROXY_TABLE(IN struct rtmp_adapter *pAd)
 		kfree(ProxyARPIPv6Entry);
 	}
 	DlListInit(&pWNMCtrl->IPv6ProxyARPList);
-	RTMP_SEM_EVENT_UP(&pWNMCtrl->ProxyARPIPv6ListLock);
+	up(&pWNMCtrl->ProxyARPIPv6ListLock);
 }
 #endif

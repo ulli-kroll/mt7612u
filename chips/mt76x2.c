@@ -795,7 +795,7 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, BOOLEAN s
 
 #ifdef RTMP_MAC_USB
 	if (IS_USB_INF(ad))
-		RTMP_SEM_EVENT_UP(&ad->tssi_lock);
+		up(&ad->tssi_lock);
 #endif
 
 
@@ -807,7 +807,7 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, BOOLEAN s
 
 #ifdef RTMP_MAC_USB
 	if (IS_USB_INF(ad))
-		RTMP_SEM_EVENT_UP(&ad->hw_atomic);
+		up(&ad->hw_atomic);
 #endif
 
 	//mt76x2_set_ed_cca(ad, TRUE);
@@ -978,7 +978,7 @@ done:
 
 #ifdef RTMP_MAC_USB
 	if (IS_USB_INF(ad))
-		RTMP_SEM_EVENT_UP(&ad->tssi_lock);
+		up(&ad->tssi_lock);
 #endif
 }
 

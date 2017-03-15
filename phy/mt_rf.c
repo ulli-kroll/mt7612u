@@ -74,7 +74,7 @@ int mt_rf_write(
 
 #ifdef RTMP_MAC_USB
 	if (IS_USB_INF(ad))
-		RTMP_SEM_EVENT_UP(&ad->reg_atomic);
+		up(&ad->reg_atomic);
 #endif /* RTMP_MAC_USB */
 
 	return ret;

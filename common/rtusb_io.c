@@ -422,7 +422,7 @@ int RTUSB_VendorRequest(
 	  	if ( (!(RET < 0)) && (TransferBufferLength > 0) && (RequestType == DEVICE_VENDOR_REQUEST_IN))
 			memmove(TransferBuffer, pAd->UsbVendorReqBuf, TransferBufferLength);
 
-	  	RTMP_SEM_EVENT_UP(&(pAd->UsbVendorReq_semaphore));
+		up(&(pAd->UsbVendorReq_semaphore));
 
         	if (RET < 0) {
 			DBGPRINT(RT_DEBUG_ERROR, ("RTUSB_VendorRequest failed(%d), ReqType=%s, Req=0x%x, Idx=0x%x,pAd->Flags=0x%lx\n",

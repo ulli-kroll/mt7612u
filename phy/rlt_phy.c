@@ -337,7 +337,7 @@ static INT rlt_bbp_set_bw(struct rtmp_adapter *pAd, UINT8 bw)
 
 #ifdef RTMP_MAC_USB
 	if (IS_USB_INF(pAd)) {
-		RTMP_SEM_EVENT_UP(&pAd->hw_atomic);
+		up(&pAd->hw_atomic);
 	}
 #endif /* RTMP_MAC_USB */
 

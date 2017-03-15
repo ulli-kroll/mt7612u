@@ -1792,7 +1792,7 @@ static void mt7612u_mcu_ctrl_usb_init(struct rtmp_adapter *ad)
 	ctl->ad = ad;
 	OS_SET_BIT(MCU_INIT, &ctl->flags);
 	usb_rx_cmd_msgs_receive(ad);
-	RTMP_SEM_EVENT_UP(&(ad->mcu_atomic));
+	up(&(ad->mcu_atomic));
 }
 #endif
 
@@ -1842,7 +1842,7 @@ static void mt7612u_mcu_ctrl_usb_exit(struct rtmp_adapter *ad)
 	DBGPRINT(RT_DEBUG_OFF, ("rx_receive_fail_count = %ld\n", ctl->rx_receive_fail_count));
 	DBGPRINT(RT_DEBUG_OFF, ("alloc_cmd_msg = %ld\n", ctl->alloc_cmd_msg));
 	DBGPRINT(RT_DEBUG_OFF, ("free_cmd_msg = %ld\n", ctl->free_cmd_msg));
-	RTMP_SEM_EVENT_UP(&(ad->mcu_atomic));
+	up(&(ad->mcu_atomic));
 }
 #endif
 
@@ -1956,7 +1956,7 @@ int mt7612u_mcu_send_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *msg)
 		mt7612u_mcu_free_cmd_msg(msg);
 
 #ifdef RTMP_USB_SUPPORT
-		RTMP_SEM_EVENT_UP(&(ad->mcu_atomic));
+		up(&(ad->mcu_atomic));
 #endif
 		return NDIS_STATUS_FAILURE;
 	}
@@ -2022,7 +2022,7 @@ retransmit:
 	}
 
 #ifdef RTMP_USB_SUPPORT
-	RTMP_SEM_EVENT_UP(&(ad->mcu_atomic));
+	up(&(ad->mcu_atomic));
 #endif
 
 

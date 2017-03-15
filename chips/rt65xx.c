@@ -66,7 +66,7 @@ VOID RT65xxUsbAsicRadioOff(struct rtmp_adapter *pAd, UCHAR Stage)
 	}
 
 	if (IS_USB_INF(pAd)) {
-		RTMP_SEM_EVENT_UP(&pAd->hw_atomic);
+		up(&pAd->hw_atomic);
 	}
 
 	DBGPRINT(RT_DEBUG_TRACE, ("<== %s\n", __FUNCTION__));
@@ -145,7 +145,7 @@ VOID RT65xxUsbAsicRadioOn(struct rtmp_adapter *pAd, UCHAR Stage)
 	mt7612u_write32(pAd, MAC_SYS_CTRL, 0x0c);
 
 	if (IS_USB_INF(pAd)) {
-		RTMP_SEM_EVENT_UP(&pAd->hw_atomic);
+		up(&pAd->hw_atomic);
 	}
 
 	RTMP_SET_FLAG(pAd, fRTMP_ADAPTER_MCU_SEND_IN_BAND_CMD);

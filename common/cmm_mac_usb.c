@@ -1917,7 +1917,7 @@ BOOLEAN AsicCheckCommandOk(
 #ifdef RTMP_MAC_USB
 	if (IS_USB_INF(pAd))
 	{
-		RTMP_SEM_EVENT_UP(&pAd->reg_atomic);
+		up(&pAd->reg_atomic);
 	}
 #endif /* RTMP_MAC_USB */
 
