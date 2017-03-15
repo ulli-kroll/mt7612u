@@ -2511,6 +2511,30 @@ int mt76x2_read_chl_pwr(struct rtmp_adapter *ad)
 	return TRUE;
 }
 
+static int mt7612u_parse_power_byte(u8 val)
+{
+	/* ULLI :
+	 * eeprom power format
+	 * power  size is 8 bit
+	 * if power is 0x00 or 0xff value is zero (default)
+	 * bit 7 of power is enabled, if not set to default
+	 * bit 6 of power is sign, 1 = positive, 0 = negative
+	 * bit 0-6 of power is value
+	 */
+
+	if (val == 0x00 || val == 0xff)
+		return 0;
+
+	if ((val & 0x80) != 0) {	/* Enabled ? */
+		if ((val & 0x40) != 0)	/* sign 1 is positive */
+			return val & 0x3f;
+		else
+			return -(val & 0x3f);
+	}
+
+	return 0;
+}
+
 void mt76x2_get_tx_pwr_per_rate(struct rtmp_adapter *ad)
 {
 	u16 value;
