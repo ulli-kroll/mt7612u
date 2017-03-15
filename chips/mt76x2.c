@@ -882,7 +882,7 @@ void mt76x2_tssi_compensation(struct rtmp_adapter *ad, u8 channel)
 {
 	RTMP_CHIP_CAP *cap = &ad->chipCap;
 	ANDES_CALIBRATION_PARAM param;
-	uint32_t pa_mode = 0, tssi_slope_offset = 0, value = 0;
+	uint32_t value = 0;
 	uint32_t ret = 0;
 
 #ifdef RTMP_USB_SUPPORT
@@ -919,6 +919,7 @@ void mt76x2_tssi_compensation(struct rtmp_adapter *ad, u8 channel)
 	value = RTMP_BBP_IO_READ32(ad, CORE_R34);
 
 	if ((value & (1 << 4)) == 0) {
+		uint32_t pa_mode = 0, tssi_slope_offset = 0;
 
 		DBGPRINT(RT_DEBUG_INFO, ("%s:TSSI_COMP(channel = %d)\n", __FUNCTION__, channel));
 
@@ -940,23 +941,15 @@ void mt76x2_tssi_compensation(struct rtmp_adapter *ad, u8 channel)
 		}
 
 		if (channel <= 14) {
-			tssi_slope_offset &= ~TSSI_PARAM2_SLOPE0_MASK;
-			tssi_slope_offset |= TSSI_PARAM2_SLOPE0(cap->tssi_0_slope_g_band);
-			tssi_slope_offset &= ~TSSI_PARAM2_SLOPE1_MASK;
-			tssi_slope_offset |= TSSI_PARAM2_SLOPE1(cap->tssi_1_slope_g_band);
-			tssi_slope_offset &= ~TSSI_PARAM2_OFFSET0_MASK;
-			tssi_slope_offset |= TSSI_PARAM2_OFFSET0(cap->tssi_0_offset_g_band);
-			tssi_slope_offset &= ~TSSI_PARAM2_OFFSET1_MASK;
-			tssi_slope_offset |= TSSI_PARAM2_OFFSET1(cap->tssi_1_offset_g_band);
+			tssi_slope_offset = TSSI_PARAM2_SLOPE0(cap->tssi_0_slope_g_band)
+					| TSSI_PARAM2_SLOPE1(cap->tssi_1_slope_g_band)
+					| TSSI_PARAM2_OFFSET0(cap->tssi_0_offset_g_band)
+					| TSSI_PARAM2_OFFSET1(cap->tssi_1_offset_g_band);
 		} else {
-			tssi_slope_offset &= ~TSSI_PARAM2_SLOPE0_MASK;
-			tssi_slope_offset |= TSSI_PARAM2_SLOPE0(cap->tssi_0_slope_a_band[get_chl_grp(channel)]);
-			tssi_slope_offset &= ~TSSI_PARAM2_SLOPE1_MASK;
-			tssi_slope_offset |= TSSI_PARAM2_SLOPE1(cap->tssi_1_slope_a_band[get_chl_grp(channel)]);
-			tssi_slope_offset &= ~TSSI_PARAM2_OFFSET0_MASK;
-			tssi_slope_offset |= TSSI_PARAM2_OFFSET0(cap->tssi_0_offset_a_band[get_chl_grp(channel)]);
-			tssi_slope_offset &= ~TSSI_PARAM2_OFFSET1_MASK;
-			tssi_slope_offset |= TSSI_PARAM2_OFFSET1(cap->tssi_1_offset_a_band[get_chl_grp(channel)]);
+			tssi_slope_offset = TSSI_PARAM2_SLOPE0(cap->tssi_0_slope_a_band[get_chl_grp(channel)])
+					| TSSI_PARAM2_SLOPE1(cap->tssi_1_slope_a_band[get_chl_grp(channel)])
+					| TSSI_PARAM2_OFFSET0(cap->tssi_0_offset_a_band[get_chl_grp(channel)])
+					| TSSI_PARAM2_OFFSET1(cap->tssi_1_offset_a_band[get_chl_grp(channel)]);
 		}
 
 		param.mt76x2_tssi_comp_param.pa_mode = (pa_mode | ((0x1) << 9));
