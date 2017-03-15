@@ -383,8 +383,6 @@ do { \
 })
 #endif
 
-#define OS_SEM_EVENT_INIT(_pSema)			sema_init((_pSema), 1)
-
 #define RTCMDUp					OS_RTCMDUp
 
 #ifdef KTHREAD_SUPPORT

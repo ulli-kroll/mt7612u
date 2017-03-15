@@ -3073,14 +3073,14 @@ INT RtmpRaDevCtrlInit(struct rtmp_adapter *pAd, RTMP_INF_TYPE infType)
 
 
 #ifdef RTMP_MAC_USB
-	RTMP_SEM_EVENT_INIT(&(pAd->UsbVendorReq_semaphore), &pAd->RscSemMemList);
+	sema_init(&(pAd->UsbVendorReq_semaphore), 1);
 #ifdef RLT_MAC
-	RTMP_SEM_EVENT_INIT(&(pAd->WlanEnLock), &pAd->RscSemMemList);
+	sema_init(&(pAd->WlanEnLock),1 );
 #endif /* RLT_MAC */
-	RTMP_SEM_EVENT_INIT(&(pAd->reg_atomic), &pAd->RscSemMemList);
-	RTMP_SEM_EVENT_INIT(&(pAd->hw_atomic), &pAd->RscSemMemList);
-	RTMP_SEM_EVENT_INIT(&(pAd->mcu_atomic), &pAd->RscSemMemList);
-	RTMP_SEM_EVENT_INIT(&(pAd->tssi_lock), &pAd->RscSemMemList);
+	sema_init(&(pAd->reg_atomic), 1);
+	sema_init(&(pAd->hw_atomic), 1);
+	sema_init(&(pAd->mcu_atomic), 1);
+	sema_init(&(pAd->tssi_lock), 1);
 
 	pAd->UsbVendorReqBuf = kmalloc(MAX_PARAM_BUFFER_SIZE - 1, GFP_ATOMIC);
 	if (pAd->UsbVendorReqBuf == NULL) {

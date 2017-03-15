@@ -934,10 +934,10 @@ void InitUSBDevice(RT_CMD_USB_INIT *config, VOID *ad_src)
 	uint32_t value;
 	ad->infType = RTMP_DEV_INF_USB;
 
-	RTMP_SEM_EVENT_INIT(&(ad->UsbVendorReq_semaphore), &ad->RscSemMemList);
-	RTMP_SEM_EVENT_INIT(&(ad->reg_atomic), &ad->RscSemMemList);
-	RTMP_SEM_EVENT_INIT(&(ad->hw_atomic), &ad->RscSemMemList);
-	RTMP_SEM_EVENT_INIT(&(ad->mcu_atomic), &ad->RscSemMemList);
+	sema_init(&(ad->UsbVendorReq_semaphore), 1);
+	sema_init(&(ad->reg_atomic), 1);
+	sema_init(&(ad->hw_atomic), 1);
+	sema_init(&(ad->mcu_atomic), 1);
 	ad->UsbVendorReqBuf = kmalloc(MAX_PARAM_BUFFER_SIZE - 1, GFP_ATOMIC);
 
 	if (ad->UsbVendorReqBuf == NULL) {

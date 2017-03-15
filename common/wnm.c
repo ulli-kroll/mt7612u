@@ -847,9 +847,9 @@ VOID WNMCtrlInit(IN struct rtmp_adapter *pAd)
 	{
 		pWNMCtrl = &pAd->ApCfg.MBSSID[APIndex].WNMCtrl;
 		memset(pWNMCtrl, sizeof(*pWNMCtrl));
-		RTMP_SEM_EVENT_INIT(&pWNMCtrl->BTMPeerListLock, &pAd->RscSemMemList);
-		RTMP_SEM_EVENT_INIT(&pWNMCtrl->ProxyARPListLock, &pAd->RscSemMemList);
-		RTMP_SEM_EVENT_INIT(&pWNMCtrl->ProxyARPIPv6ListLock, &pAd->RscSemMemList);
+		sema_init(&pWNMCtrl->BTMPeerListLock, 1);
+		sema_init(&pWNMCtrl->ProxyARPListLock, 1);
+		sema_init(&pWNMCtrl->ProxyARPIPv6ListLock, 1);
 		DlListInit(&pWNMCtrl->BTMPeerList);
 		DlListInit(&pWNMCtrl->IPv4ProxyARPList);
 		DlListInit(&pWNMCtrl->IPv6ProxyARPList);

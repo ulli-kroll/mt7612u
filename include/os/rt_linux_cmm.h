@@ -126,8 +126,6 @@ typedef struct _OS_RSTRUC  {
 #define NdisAcquireSpinLock						RTMP_SEM_LOCK
 #define NdisReleaseSpinLock						RTMP_SEM_UNLOCK
 
-#define RTMP_SEM_EVENT_INIT(__pSema, __pSemaList)			OS_SEM_EVENT_INIT(__pSema)
-
 #define RtmpMLMEUp								OS_RTMP_MlmeUp
 
 #define RTMP_OS_ATMOIC_INIT(__pAtomic, __pAtomicList)
