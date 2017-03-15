@@ -2516,6 +2516,15 @@ void mt76x2_get_tx_pwr_per_rate(struct rtmp_adapter *ad)
 	u16 value;
 	RTMP_CHIP_CAP *cap = &ad->chipCap;
 
+	/* ULLI :
+	 * eeprom power format
+	 * power  size is 8 bit
+	 * if power is 0x00 or 0xff value is zero (default)
+	 * bit 7 of power is enabled, if not set to default
+	 * bit 6 of power is sign, 1 = positive, 0 = negative
+	 * bit 0-6 of power is value
+	 */
+
 	value = mt7612u_read_eeprom16(ad, TX_PWR_CCK_1_2M);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {
 		cap->tx_pwr_cck_1_2 = 0;
