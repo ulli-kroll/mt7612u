@@ -653,7 +653,7 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 			RT359x default value is 0x02
 	*/
 
-	RTMPReadTxPwrPerRate(pAd);
+	mt76x2_get_tx_pwr_per_rate(pAd);
 
 	if (IS_MT76x2(pAd))
 		mt76x2_get_external_lna_gain(pAd);

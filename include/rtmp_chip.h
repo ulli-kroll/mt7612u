@@ -1018,7 +1018,6 @@ VOID rlt_bcn_buf_init(struct rtmp_adapter *pAd);
 #endif /* RLT_MAC */
 
 VOID RTMPReadChannelPwr(struct rtmp_adapter *pAd);
-VOID RTMPReadTxPwrPerRate(struct rtmp_adapter *pAd);
 
 #ifdef GREENAP_SUPPORT
 VOID EnableAPMIMOPSv2(struct rtmp_adapter *pAd, BOOLEAN ReduceCorePower);

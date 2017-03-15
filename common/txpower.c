@@ -391,31 +391,6 @@ VOID AsicCompensatePowerViaBBP(struct rtmp_adapter *pAd, CHAR *pTotalDeltaPower)
 
 }
 
-
-/*
-	========================================================================
-
-	Routine Description:
-		Read initial Tx power per MCS and BW from EEPROM
-
-	Arguments:
-		Adapter						Pointer to our adapter
-
-	Return Value:
-		None
-
-	IRQL = PASSIVE_LEVEL
-
-	Note:
-
-	========================================================================
-*/
-VOID RTMPReadTxPwrPerRate(struct rtmp_adapter *pAd)
-{
-	mt76x2_get_tx_pwr_per_rate(pAd);
-}
-
-
 /*
 	========================================================================
 
