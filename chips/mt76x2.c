@@ -2550,379 +2550,52 @@ void mt76x2_get_tx_pwr_per_rate(struct rtmp_adapter *ad)
 	 */
 
 	value = mt7612u_read_eeprom16(ad, TX_PWR_CCK_1_2M);
-	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {
-		cap->tx_pwr_cck_1_2 = 0;
-	} else {
-		if (value & TX_PWR_CCK_1_2M_EN) {
-			if (value & TX_PWR_CCK_1_2M_SIGN)
-				cap->tx_pwr_cck_1_2 =
-					value & TX_PWR_CCK_1_2M_MASK;
-			else
-				cap->tx_pwr_cck_1_2 =
-					-(value & TX_PWR_CCK_1_2M_MASK);
-		} else {
-			cap->tx_pwr_cck_1_2 = 0;
-		}
-	}
-
-	if (((value & 0xff00) == 0x00) || ((value & 0xff00) == 0xff00)) {
-		cap->tx_pwr_cck_5_11 = 0;
-	} else {
-		if (value & TX_PWR_CCK_5_11M_EN) {
-			if (value & TX_PWR_CCK_5_11M_SIGN)
-				cap->tx_pwr_cck_5_11 =
-					(value & TX_PWR_CCK_5_11M_MASK) >> 8;
-			else
-				cap->tx_pwr_cck_5_11 =
-					-((value & TX_PWR_CCK_5_11M_MASK) >> 8);
-		} else {
-			cap->tx_pwr_cck_5_11 = 0;
-		}
-
-
-	}
+	cap->tx_pwr_cck_1_2 = mt7612u_parse_power_byte(value & 0xff);
+	cap->tx_pwr_cck_5_11 = mt7612u_parse_power_byte(value >> 8);
 
 	value = mt7612u_read_eeprom16(ad, TX_PWR_G_BAND_OFDM_6_9M);
-	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {
-		cap->tx_pwr_g_band_ofdm_6_9 = 0;
-	} else {
-		if (value & TX_PWR_G_BAND_OFDM_6_9M_EN) {
-			if (value & TX_PWR_G_BAND_OFDM_6_9M_SIGN)
-				cap->tx_pwr_g_band_ofdm_6_9 =
-					value & TX_PWR_G_BAND_OFDM_6_9M_MASK;
-			else
-				cap->tx_pwr_g_band_ofdm_6_9 =
-					-(value & TX_PWR_G_BAND_OFDM_6_9M_MASK);
-		} else {
-			cap->tx_pwr_g_band_ofdm_6_9 = 0;
-		}
-	}
-
-	if (((value & 0xff00) == 0x00) || ((value & 0xff00) == 0xff00)) {
-		cap->tx_pwr_g_band_ofdm_12_18 = 0;
-	} else {
-		if (value & TX_PWR_G_BAND_OFDM_12_18M_EN) {
-			if (value & TX_PWR_G_BAND_OFDM_12_18M_SIGN)
-				cap->tx_pwr_g_band_ofdm_12_18 =
-					(value & TX_PWR_G_BAND_OFDM_12_18M_MASK) >> 8;
-			else
-				cap->tx_pwr_g_band_ofdm_12_18 =
-					-((value & TX_PWR_G_BAND_OFDM_12_18M_MASK) >> 8);
-		} else {
-			cap->tx_pwr_g_band_ofdm_12_18 = 0;
-		}
-	}
+	cap->tx_pwr_g_band_ofdm_6_9 = mt7612u_parse_power_byte(value & 0xff);
+	cap->tx_pwr_g_band_ofdm_12_18 = mt7612u_parse_power_byte(value >> 8);
 
 	value = mt7612u_read_eeprom16(ad, TX_PWR_G_BAND_OFDM_24_36M);
-	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {
-		cap->tx_pwr_g_band_ofdm_24_36 = 0;
-	} else {
-		if (value & TX_PWR_G_BAND_OFDM_24_36M_EN) {
-			if (value & TX_PWR_G_BAND_OFDM_24_36M_SIGN)
-				cap->tx_pwr_g_band_ofdm_24_36 =
-					value & TX_PWR_G_BAND_OFDM_24_36M_MASK;
-			else
-				cap->tx_pwr_g_band_ofdm_24_36 =
-					-(value & TX_PWR_G_BAND_OFDM_24_36M_MASK);
-		} else {
-			cap->tx_pwr_g_band_ofdm_24_36 = 0;
-		}
-	}
-
-	if (((value & 0xff00) == 0x00) || ((value & 0xff00) == 0xff00)) {
-		cap->tx_pwr_g_band_ofdm_48_54 = 0;
-	} else {
-		if (value & TX_PWR_G_BAND_OFDM_48_54M_EN) {
-			if (value & TX_PWR_G_BAND_OFDM_48_54M_SIGN)
-				cap->tx_pwr_g_band_ofdm_48_54 =
-					(value & TX_PWR_G_BAND_OFDM_48_54M_MASK) >> 8;
-			else
-				cap->tx_pwr_g_band_ofdm_48_54 =
-					-((value & TX_PWR_G_BAND_OFDM_48_54M_MASK) >> 8);
-		} else {
-			cap->tx_pwr_g_band_ofdm_48_54 = 0;
-		}
-	}
+	cap->tx_pwr_g_band_ofdm_24_36 = mt7612u_parse_power_byte(value & 0xff);
+	cap->tx_pwr_g_band_ofdm_48_54 = mt7612u_parse_power_byte(value >> 8);
 
 	value = mt7612u_read_eeprom16(ad, TX_PWR_HT_MCS_0_1);
-	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {
-		cap->tx_pwr_ht_mcs_0_1 = (value & TX_PWR_HT_MCS_0_1_MASK);
-	} else {
-		if (value & TX_PWR_HT_MCS_0_1_EN) {
-			if (value & TX_PWR_HT_MCS_0_1_SIGN)
-				cap->tx_pwr_ht_mcs_0_1 =
-					value & TX_PWR_HT_MCS_0_1_MASK;
-			else
-				cap->tx_pwr_ht_mcs_0_1 =
-					-(value & TX_PWR_HT_MCS_0_1_MASK);
-		} else {
-			cap->tx_pwr_ht_mcs_0_1 = 0;
-		}
-	}
-
-	if (((value & 0xff00) == 0x00) || ((value & 0xff00) == 0xff00)) {
-		cap->tx_pwr_ht_mcs_2_3 = ((value & TX_PWR_HT_MCS_2_3_MASK) >> 8);
-	} else {
-		if (value & TX_PWR_HT_MCS_2_3_EN) {
-			if (value & TX_PWR_HT_MCS_2_3_SIGN)
-				cap->tx_pwr_ht_mcs_2_3 =
-					(value & TX_PWR_HT_MCS_2_3_MASK) >> 8;
-			else
-				cap->tx_pwr_ht_mcs_2_3 =
-					-((value & TX_PWR_HT_MCS_2_3_MASK) >> 8);
-		} else {
-			cap->tx_pwr_ht_mcs_2_3 = 0;
-		}
-	}
+	cap->tx_pwr_ht_mcs_0_1 = mt7612u_parse_power_byte(value & 0xff);
+	cap->tx_pwr_ht_mcs_2_3 = mt7612u_parse_power_byte(value >> 8);
 
 	value = mt7612u_read_eeprom16(ad, TX_PWR_HT_MCS_4_5);
-	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {
-		cap->tx_pwr_ht_mcs_4_5 = 0;
-	} else {
-		if (value & TX_PWR_HT_MCS_4_5_EN) {
-			if (value & TX_PWR_HT_MCS_4_5_SIGN)
-				cap->tx_pwr_ht_mcs_4_5 =
-					value & TX_PWR_HT_MCS_4_5_MASK;
-			else
-				cap->tx_pwr_ht_mcs_4_5 =
-					-(value & TX_PWR_HT_MCS_4_5_MASK);
-		} else {
-			cap->tx_pwr_ht_mcs_4_5 = 0;
-		}
-	}
-
-	if (((value & 0xff00) == 0x00) || ((value & 0xff00) == 0xff00)) {
-		cap->tx_pwr_ht_mcs_6_7 = 0;
-	} else {
-		if (value & TX_PWR_HT_MCS_6_7_EN) {
-			if (value & TX_PWR_HT_MCS_6_7_SIGN)
-				cap->tx_pwr_ht_mcs_6_7 =
-					(value & TX_PWR_HT_MCS_6_7_MASK) >> 8;
-			else
-				cap->tx_pwr_ht_mcs_6_7 =
-					-((value & TX_PWR_HT_MCS_6_7_MASK) >> 8);
-		} else {
-			cap->tx_pwr_ht_mcs_6_7 = 0;
-		}
-	}
+	cap->tx_pwr_ht_mcs_4_5 = mt7612u_parse_power_byte(value & 0xff);
+	cap->tx_pwr_ht_mcs_6_7 = mt7612u_parse_power_byte(value >> 8);
 
 	value = mt7612u_read_eeprom16(ad, TX_PWR_HT_MCS_8_9);
-	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {
-		cap->tx_pwr_ht_mcs_8_9 = 0;
-	} else {
-		if (value & TX_PWR_HT_MCS_8_9_EN) {
-			if (value & TX_PWR_HT_MCS_8_9_SIGN)
-				cap->tx_pwr_ht_mcs_8_9 =
-					value & TX_PWR_HT_MCS_8_9_MASK;
-			else
-				cap->tx_pwr_ht_mcs_8_9 =
-					-(value & TX_PWR_HT_MCS_8_9_MASK);
-		} else {
-			cap->tx_pwr_ht_mcs_8_9 = 0;
-		}
-	}
-
-	if (((value & 0xff00) == 0x00) || ((value & 0xff00) == 0xff00)) {
-		cap->tx_pwr_ht_mcs_10_11 = 0;
-	} else {
-		if (value & TX_PWR_HT_MCS_10_11_EN) {
-			if (value & TX_PWR_HT_MCS_10_11_SIGN)
-				cap->tx_pwr_ht_mcs_10_11 =
-					(value & TX_PWR_HT_MCS_10_11_MASK) >> 8;
-			else
-				cap->tx_pwr_ht_mcs_10_11 =
-					-((value & TX_PWR_HT_MCS_10_11_MASK) >> 8);
-		} else {
-			cap->tx_pwr_ht_mcs_10_11 = 0;
-		}
-	}
+	cap->tx_pwr_ht_mcs_8_9 = mt7612u_parse_power_byte(value & 0xff);
+	cap->tx_pwr_ht_mcs_10_11 = mt7612u_parse_power_byte(value >> 8);
 
 	value = mt7612u_read_eeprom16(ad, TX_PWR_HT_MCS_12_13);
-	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {
-		cap->tx_pwr_ht_mcs_12_13 = 0;
-	} else {
-		if (value & TX_PWR_HT_MCS_12_13_EN) {
-			if (value & TX_PWR_HT_MCS_12_13_SIGN)
-				cap->tx_pwr_ht_mcs_12_13 =
-					value & TX_PWR_HT_MCS_12_13_MASK;
-			else
-				cap->tx_pwr_ht_mcs_12_13 =
-					-(value & TX_PWR_HT_MCS_12_13_MASK);
-		} else {
-			cap->tx_pwr_ht_mcs_12_13 = 0;
-		}
-	}
-
-	if (((value & 0xff00) == 0x00) || ((value & 0xff00) == 0xff00)) {
-		cap->tx_pwr_ht_mcs_14_15 = 0;
-	} else {
-		if (value & TX_PWR_HT_MCS_14_15_EN) {
-			if (value & TX_PWR_HT_MCS_14_15_SIGN)
-				cap->tx_pwr_ht_mcs_14_15 =
-					(value & TX_PWR_HT_MCS_14_15_MASK) >> 8;
-			else
-				cap->tx_pwr_ht_mcs_14_15 =
-					-((value & TX_PWR_HT_MCS_14_15_MASK) >> 8);
-		} else {
-			cap->tx_pwr_ht_mcs_14_15 = 0;
-		}
-	}
+	cap->tx_pwr_ht_mcs_12_13 = mt7612u_parse_power_byte(value & 0xff);
+	cap->tx_pwr_ht_mcs_14_15 = mt7612u_parse_power_byte(value >> 8);
 
 	value = mt7612u_read_eeprom16(ad, TX_PWR_A_BAND_OFDM_6_9M);
-	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {
-		cap->tx_pwr_a_band_ofdm_6_9 = 0;
-	} else {
-		if (value & TX_PWR_A_BAND_OFDM_6_9M_EN) {
-			if (value & TX_PWR_A_BAND_OFDM_6_9M_SIGN)
-				cap->tx_pwr_a_band_ofdm_6_9 =
-					value & TX_PWR_A_BAND_OFDM_6_9M_MASK;
-			else
-				cap->tx_pwr_a_band_ofdm_6_9 =
-					-(value & TX_PWR_A_BAND_OFDM_6_9M_MASK);
-		} else {
-			cap->tx_pwr_a_band_ofdm_6_9 = 0;
-		}
-	}
-
-	if (((value & 0xff00) == 0x00) || ((value & 0xff00) == 0xff00)) {
-		cap->tx_pwr_a_band_ofdm_12_18 = 0;
-	} else {
-		if (value & TX_PWR_A_BAND_OFDM_12_18M_EN) {
-			if (value & TX_PWR_A_BAND_OFDM_12_18M_SIGN)
-				cap->tx_pwr_a_band_ofdm_12_18 =
-					(value & TX_PWR_A_BAND_OFDM_12_18M_MASK) >> 8;
-			else
-				cap->tx_pwr_a_band_ofdm_12_18 =
-					-((value & TX_PWR_A_BAND_OFDM_12_18M_MASK) >> 8);
-		} else {
-			cap->tx_pwr_a_band_ofdm_12_18 = 0;
-		}
-	}
+	cap->tx_pwr_a_band_ofdm_6_9 = mt7612u_parse_power_byte(value & 0xff);
+	cap->tx_pwr_a_band_ofdm_12_18 = mt7612u_parse_power_byte(value >> 8);
 
 	value = mt7612u_read_eeprom16(ad, TX_PWR_A_BAND_OFDM_24_36M);
-	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {
-		cap->tx_pwr_a_band_ofdm_24_36 = 0;
-	} else {
-		if (value & TX_PWR_A_BAND_OFDM_24_36M_EN) {
-			if (value & TX_PWR_A_BAND_OFDM_24_36M_SIGN)
-				cap->tx_pwr_a_band_ofdm_24_36 =
-					value & TX_PWR_A_BAND_OFDM_24_36M_MASK;
-			else
-				cap->tx_pwr_a_band_ofdm_24_36 =
-					-(value & TX_PWR_A_BAND_OFDM_24_36M_MASK);
-		} else {
-			cap->tx_pwr_a_band_ofdm_24_36 = 0;
-		}
-	}
-
-	if (((value & 0xff00) == 0x00) || ((value & 0xff00) == 0xff00)) {
-		cap->tx_pwr_a_band_ofdm_48_54 = 0;
-	} else {
-		if (value & TX_PWR_A_BAND_OFDM_48_54M_EN) {
-			if (value & TX_PWR_A_BAND_OFDM_48_54M_SIGN)
-				cap->tx_pwr_a_band_ofdm_48_54 =
-					(value & TX_PWR_A_BAND_OFDM_48_54M_MASK) >> 8;
-			else
-				cap->tx_pwr_a_band_ofdm_48_54 =
-					-((value & TX_PWR_A_BAND_OFDM_48_54M_MASK) >> 8);
-		} else {
-			cap->tx_pwr_a_band_ofdm_48_54 = 0;
-		}
-	}
-
+	cap->tx_pwr_a_band_ofdm_24_36 = mt7612u_parse_power_byte(value & 0xff);
+	cap->tx_pwr_a_band_ofdm_48_54 = mt7612u_parse_power_byte(value >> 8);
 
 	value = mt7612u_read_eeprom16(ad, TX_PWR_VHT_MCS_0_1);
-	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {
-		cap->tx_pwr_vht_mcs_0_1 = 0;
-	} else {
-		if (value & TX_PWR_VHT_MCS_0_1_EN) {
-			if (value & TX_PWR_VHT_MCS_0_1_SIGN)
-				cap->tx_pwr_vht_mcs_0_1 =
-					value & TX_PWR_VHT_MCS_0_1_MASK;
-			else
-				cap->tx_pwr_vht_mcs_0_1 =
-					-(value & TX_PWR_VHT_MCS_0_1_MASK);
-		} else {
-			cap->tx_pwr_vht_mcs_0_1 = 0;
-		}
-	}
-
-	if (((value & 0xff00) == 0x00) || ((value & 0xff00) == 0xff00)) {
-		cap->tx_pwr_vht_mcs_2_3 = 0;
-	} else {
-		if (value & TX_PWR_VHT_MCS_2_3_EN) {
-			if (value & TX_PWR_VHT_MCS_2_3_SIGN)
-				cap->tx_pwr_vht_mcs_2_3 =
-					(value & TX_PWR_VHT_MCS_2_3_MASK) >> 8;
-			else
-				cap->tx_pwr_vht_mcs_2_3 =
-					-((value & TX_PWR_VHT_MCS_2_3_MASK) >> 8);
-		} else {
-			cap->tx_pwr_vht_mcs_2_3 = 0;
-		}
-	}
+	cap->tx_pwr_vht_mcs_0_1 = mt7612u_parse_power_byte(value & 0xff);
+	cap->tx_pwr_vht_mcs_2_3 = mt7612u_parse_power_byte(value >> 8);
 
 	value = mt7612u_read_eeprom16(ad, TX_PWR_VHT_MCS_4_5);
-	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {
-		cap->tx_pwr_vht_mcs_4_5 = 0;
-	} else {
-		if (value & TX_PWR_VHT_MCS_4_5_EN) {
-			if (value & TX_PWR_VHT_MCS_4_5_SIGN)
-				cap->tx_pwr_vht_mcs_4_5 =
-					value & TX_PWR_VHT_MCS_4_5_MASK;
-			else
-				cap->tx_pwr_vht_mcs_4_5 =
-					-(value & TX_PWR_VHT_MCS_4_5_MASK);
-		} else {
-			cap->tx_pwr_vht_mcs_4_5 = 0;
-		}
-	}
-
-	if (((value & 0xff00) == 0x00) || ((value & 0xff00) == 0xff00)) {
-		cap->tx_pwr_vht_mcs_6_7 = 0;
-	} else {
-		if (value & TX_PWR_VHT_MCS_6_7_EN) {
-			if (value & TX_PWR_VHT_MCS_6_7_SIGN)
-				cap->tx_pwr_vht_mcs_6_7 =
-					(value & TX_PWR_VHT_MCS_6_7_MASK) >> 8;
-			else
-				cap->tx_pwr_vht_mcs_6_7 =
-					-((value & TX_PWR_VHT_MCS_6_7_MASK) >> 8);
-		} else {
-			cap->tx_pwr_vht_mcs_6_7 = 0;
-		}
-	}
+	cap->tx_pwr_vht_mcs_4_5 = mt7612u_parse_power_byte(value & 0xff);
+	cap->tx_pwr_vht_mcs_6_7 = mt7612u_parse_power_byte(value >> 8);
 
 	value = mt7612u_read_eeprom16(ad, TX_PWR_5G_VHT_MCS_8_9);
-	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {
-		cap->tx_pwr_5g_vht_mcs_8_9 = 0;
-	} else {
-		if (value & TX_PWR_5G_VHT_MCS_8_9_EN) {
-			if (value & TX_PWR_5G_VHT_MCS_8_9_SIGN)
-				cap->tx_pwr_5g_vht_mcs_8_9 =
-					value & TX_PWR_5G_VHT_MCS_8_9_MASK;
-			else
-				cap->tx_pwr_5g_vht_mcs_8_9 =
-					-(value & TX_PWR_5G_VHT_MCS_8_9_MASK);
-		} else {
-			cap->tx_pwr_5g_vht_mcs_8_9 = 0;
-		}
-	}
-
-	if (((value & 0xff00) == 0x00) || ((value & 0xff00) == 0xff00)) {
-		cap->tx_pwr_2g_vht_mcs_8_9 = 0;
-	} else {
-		if (value & TX_PWR_2G_VHT_MCS_8_9_EN) {
-			if (value & TX_PWR_2G_VHT_MCS_8_9_SIGN)
-				cap->tx_pwr_2g_vht_mcs_8_9 =
-					(value & TX_PWR_2G_VHT_MCS_8_9_MASK) >> 8;
-			else
-				cap->tx_pwr_2g_vht_mcs_8_9 =
-					-((value & TX_PWR_2G_VHT_MCS_8_9_MASK) >> 8);
-		} else {
-			cap->tx_pwr_2g_vht_mcs_8_9 = 0;
-		}
-	}
+	cap->tx_pwr_5g_vht_mcs_8_9 = mt7612u_parse_power_byte(value & 0xff);
+	cap->tx_pwr_2g_vht_mcs_8_9 = mt7612u_parse_power_byte(value >> 8);
 }
 
 void percentage_delta_pwr(struct rtmp_adapter *ad)
