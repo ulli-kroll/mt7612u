@@ -290,44 +290,6 @@ VOID AsicCompensatePowerViaBBP(struct rtmp_adapter *pAd, CHAR *pTotalDeltaPower)
 {
 	UCHAR mdsm_drop_pwr;
 
-	if (IS_MT7601(pAd) || IS_MT76x2(pAd))
-	{
-		return;
-	}
-
-	DBGPRINT(RT_DEBUG_INFO, ("%s: <Before> TotalDeltaPower = %d dBm\n", __FUNCTION__, *pTotalDeltaPower));
-
-	if (*pTotalDeltaPower <= -12)
-	{
-		*pTotalDeltaPower += 12;
-		mdsm_drop_pwr = MDSM_DROP_TX_POWER_BY_12dBm;
-	}
-	else if ((*pTotalDeltaPower <= -6) && (*pTotalDeltaPower > -12))
-	{
-		*pTotalDeltaPower += 6;
-		mdsm_drop_pwr = MDSM_DROP_TX_POWER_BY_6dBm;
-	}
-	else
-	{
-		/* Control the the transmit power by using the MAC only */
-		mdsm_drop_pwr = MDSM_NORMAL_TX_POWER;
-	}
-
-	DBGPRINT(RT_DEBUG_INFO, ("%s: Drop the BBP transmit power by %d dBm!\n",
-				__FUNCTION__,
-				(mdsm_drop_pwr == MDSM_DROP_TX_POWER_BY_12dBm ? 12 : \
-				(mdsm_drop_pwr == MDSM_DROP_TX_POWER_BY_6dBm ? 6 : 0))));
-
-	if (IS_RT65XX(pAd))
-	{
-		uint32_t bbp_val = 0;
-
-		bbp_val = RTMP_BBP_IO_READ32(pAd, TXBE_R4);
-		bbp_val &= (~0x3);
-		bbp_val |= mdsm_drop_pwr;
-		RTMP_BBP_IO_WRITE32(pAd, TXBE_R4, bbp_val);
-		DBGPRINT(RT_DEBUG_INFO, ("%s: <After> TotalDeltaPower = %d dBm, TXBE_R4 = 0x%0x\n", __FUNCTION__, *pTotalDeltaPower, bbp_val));
-	}
 
 }
 
