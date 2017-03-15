@@ -385,7 +385,6 @@ do { \
 
 #define OS_SEM_EVENT_INIT_LOCKED(_pSema) 	sema_init((_pSema), 0)
 #define OS_SEM_EVENT_INIT(_pSema)			sema_init((_pSema), 1)
-#define OS_SEM_EVENT_DESTORY(_pSema)		do{}while(0)
 
 #define RTCMDUp					OS_RTCMDUp
 

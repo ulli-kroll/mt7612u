@@ -693,7 +693,6 @@ static inline int __RtmpOSTaskKill(OS_TASK *pTask)
 			wait_for_completion(&pTask->taskComplete);
 			pTask->taskPID = THREAD_PID_INIT_VALUE;
 			pTask->task_killed = 0;
-			RTMP_SEM_EVENT_DESTORY(&pTask->taskSema);
 			ret = NDIS_STATUS_SUCCESS;
 		}
 	}

@@ -128,7 +128,6 @@ typedef struct _OS_RSTRUC  {
 
 #define RTMP_SEM_EVENT_INIT_LOCKED(__pSema, __pSemaList)	OS_SEM_EVENT_INIT_LOCKED(__pSema)
 #define RTMP_SEM_EVENT_INIT(__pSema, __pSemaList)			OS_SEM_EVENT_INIT(__pSema)
-#define RTMP_SEM_EVENT_DESTORY					OS_SEM_EVENT_DESTORY
 
 #define RtmpMLMEUp								OS_RTMP_MlmeUp
 

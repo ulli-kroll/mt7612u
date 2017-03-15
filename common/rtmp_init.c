@@ -3138,11 +3138,6 @@ BOOLEAN RtmpRaDevCtrlExit(IN struct rtmp_adapter *pAd)
 #endif /* RLT_MAC */
 
 #ifdef RTMP_MAC_USB
-	RTMP_SEM_EVENT_DESTORY(&(pAd->UsbVendorReq_semaphore));
-	RTMP_SEM_EVENT_DESTORY(&(pAd->reg_atomic));
-	RTMP_SEM_EVENT_DESTORY(&(pAd->hw_atomic));
-	RTMP_SEM_EVENT_DESTORY(&(pAd->mcu_atomic));
-	RTMP_SEM_EVENT_DESTORY(&(pAd->tssi_lock));
 
 	if (pAd->UsbVendorReqBuf)
 		kfree(pAd->UsbVendorReqBuf);

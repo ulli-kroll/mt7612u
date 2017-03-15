@@ -894,7 +894,6 @@ VOID WNMCtrlExit(IN struct rtmp_adapter *pAd)
 
 		DlListInit(&pWNMCtrl->BTMPeerList);
 		up(&pWNMCtrl->BTMPeerListLock);
-		RTMP_SEM_EVENT_DESTORY(&pWNMCtrl->BTMPeerListLock);
 
 		down_interruptible(&pWNMCtrl->ProxyARPListLock, Ret);
 		/* Remove all proxy arp entry */
@@ -916,9 +915,6 @@ VOID WNMCtrlExit(IN struct rtmp_adapter *pAd)
 		}
 		DlListInit(&pWNMCtrl->IPv6ProxyARPList);
 		up(&pWNMCtrl->ProxyARPIPv6ListLock);
-
-		RTMP_SEM_EVENT_DESTORY(&pWNMCtrl->ProxyARPListLock);
-		RTMP_SEM_EVENT_DESTORY(&pWNMCtrl->ProxyARPIPv6ListLock);
 
 		/* Remove all WNM IEs */
 		WNMCtrlRemoveAllIE(pWNMCtrl);
