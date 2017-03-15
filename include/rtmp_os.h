@@ -80,7 +80,7 @@ typedef struct _RTMP_OS_TASK_ {
 	/*unsigned long                 taskFlags; */
 	RTMP_TASK_STATUS taskStatus;
 #ifndef KTHREAD_SUPPORT
-	RTMP_OS_SEM taskSema;
+	struct semaphore taskSema;
 	RTMP_OS_PID taskPID;
 	struct completion taskComplete;
 #endif

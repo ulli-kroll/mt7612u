@@ -147,10 +147,10 @@ typedef struct _WNM_CTRL {
 	uint32_t TimezoneIELen;
 	u8 *TimeadvertisementIE;
 	u8 *TimezoneIE;
-	RTMP_OS_SEM BTMPeerListLock;
+	struct semaphore BTMPeerListLock;
 	BOOLEAN ProxyARPEnable;
-	RTMP_OS_SEM ProxyARPListLock;
-	RTMP_OS_SEM ProxyARPIPv6ListLock;
+	struct semaphore ProxyARPListLock;
+	struct semaphore ProxyARPIPv6ListLock;
 	DL_LIST IPv4ProxyARPList;
 	DL_LIST IPv6ProxyARPList;
 	DL_LIST BTMPeerList;

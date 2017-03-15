@@ -121,7 +121,6 @@ typedef struct _OS_RSTRUC  {
 #define RTMP_IRQ_UNLOCK							OS_IRQ_UNLOCK
 #define RTMP_INT_LOCK							OS_INT_LOCK
 #define RTMP_INT_UNLOCK							OS_INT_UNLOCK
-#define RTMP_OS_SEM								OS_SEM
 #define RTMP_OS_ATOMIC							atomic_t
 
 #define NdisAcquireSpinLock						RTMP_SEM_LOCK

@@ -151,8 +151,6 @@ typedef struct ifreq		* PNET_IOCTL;
 
 typedef	struct pid *	RTMP_OS_PID;
 
-typedef struct semaphore	OS_SEM;
-
 typedef int (*HARD_START_XMIT_FUNC)(struct sk_buff *skb, struct net_device *net_dev);
 
 

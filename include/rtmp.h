@@ -3388,11 +3388,11 @@ struct rtmp_adapter {
 	BOOLEAN bUsbTxBulkAggre;	/* Flags for bulk out data priority */
 
 	/*======Semaphores (event) */
-	RTMP_OS_SEM UsbVendorReq_semaphore;
-	RTMP_OS_SEM reg_atomic;
-	RTMP_OS_SEM hw_atomic;
-	RTMP_OS_SEM mcu_atomic;
-	RTMP_OS_SEM tssi_lock;
+	struct semaphore UsbVendorReq_semaphore;
+	struct semaphore reg_atomic;
+	struct semaphore hw_atomic;
+	struct semaphore mcu_atomic;
+	struct semaphore tssi_lock;
 	PVOID UsbVendorReqBuf;
 /*	wait_queue_head_t	 *wait; */
 	VOID *wait;
@@ -3607,7 +3607,7 @@ struct rtmp_adapter {
 #if defined(RT3290) || defined(RLT_MAC)
 
 #ifdef RTMP_MAC_USB
-	RTMP_OS_SEM WlanEnLock;
+	struct semaphore WlanEnLock;
 #endif
 
 	WLAN_FUN_CTRL_STRUC WlanFunCtrl;

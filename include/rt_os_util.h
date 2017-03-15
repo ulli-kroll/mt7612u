@@ -257,11 +257,11 @@ VOID set_sniffer_mode(struct net_device *pDev, UCHAR mode);
 
 /* OS Semaphore */
 VOID RtmpOsCmdUp(RTMP_OS_TASK *pCmdQTask);
-BOOLEAN RtmpOsSemaInitLocked(RTMP_OS_SEM *pSemOrg, LIST_HEADER *pSemList);
-BOOLEAN RtmpOsSemaInit(RTMP_OS_SEM *pSemOrg, LIST_HEADER *pSemList);
-BOOLEAN RtmpOsSemaDestory(RTMP_OS_SEM *pSemOrg);
-INT RtmpOsSemaWaitInterruptible(RTMP_OS_SEM *pSemOrg);
-VOID RtmpOsSemaWakeUp(RTMP_OS_SEM *pSemOrg);
+BOOLEAN RtmpOsSemaInitLocked(struct semaphore *pSemOrg, LIST_HEADER *pSemList);
+BOOLEAN RtmpOsSemaInit(struct semaphore *pSemOrg, LIST_HEADER *pSemList);
+BOOLEAN RtmpOsSemaDestory(struct semaphore *pSemOrg);
+INT RtmpOsSemaWaitInterruptible(struct semaphore *pSemOrg);
+VOID RtmpOsSemaWakeUp(struct semaphore *pSemOrg);
 VOID RtmpOsMlmeUp(RTMP_OS_TASK *pMlmeQTask);
 
 VOID RtmpOsInitCompletion(RTMP_OS_COMPLETION *pCompletion);
