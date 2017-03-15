@@ -226,66 +226,6 @@ VOID AsicAdjustTxPower(struct rtmp_adapter *pAd)
 	{
 		AsicCompensatePowerViaBBP(pAd, &TotalDeltaPower);
 	}
-
-	if (IS_MT7601(pAd) || IS_MT76x2(pAd))
-		return;
-
-	/* Power will be updated each 4 sec. */
-	if (pAd->Mlme.OneSecPeriodicRound % 4 == 0)
-	{
-		/* Set new Tx power for different Tx rates */
-		for (i=0; i < CfgOfTxPwrCtrlOverMAC.NumOfEntries; i++)
-		{
-			TX_POWER_CONTROL_OVER_MAC_ENTRY *pTxPwrEntry;
-			ULONG reg_val;
-
-			pTxPwrEntry = &CfgOfTxPwrCtrlOverMAC.TxPwrCtrlOverMAC[i];
-			reg_val = pTxPwrEntry->RegisterValue;
-			if (reg_val != 0xffffffff)
-			{
-				for (j=0; j<8; j++)
-				{
-					CHAR _upbound, _lowbound, t_pwr;
-					BOOLEAN _bValid;
-
-					_lowbound = 0;
-					_bValid = TRUE;
-
-					Value = (CHAR)((reg_val >> j*4) & 0x0F);
-
-						_upbound = 0xc;
-
-					if (_bValid)
-					{
-						t_pwr = Value + TotalDeltaPower;
-						if (t_pwr < _lowbound)
-							Value = _lowbound;
-						else if (t_pwr > _upbound)
-							Value = _upbound;
-						else
-							Value = t_pwr;
-					}
-
-					/* Fill new value into the corresponding MAC offset */
-#ifdef E3_DBG_FALLBACK
-				pTxPwrEntry->RegisterValue = (reg_val & ~(0x0000000F << j*4)) | (Value << j*4);
-#else
-					reg_val = (reg_val & ~(0x0000000F << j*4)) | (Value << j*4);
-#endif /* E3_DBG_FALLBACK */
-				}
-
-#ifndef E3_DBG_FALLBACK
-				pTxPwrEntry->RegisterValue = reg_val;
-#endif /* E3_DBG_FALLBACK */
-				mt7612u_write32(pAd, pTxPwrEntry->MACRegisterOffset, pTxPwrEntry->RegisterValue);
-
-			}
-		}
-
-		/* Extra set MAC registers to compensate Tx power if any */
-		RTMP_CHIP_ASIC_EXTRA_POWER_OVER_MAC(pAd);
-	}
-
 }
 
 VOID AsicPercentageDeltaPower(
