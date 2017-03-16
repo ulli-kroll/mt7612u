@@ -123,10 +123,6 @@ INT CFG80211DRV_IoctlHandle(
 				CFG80211DRV_Connect(pAd, pData);
 			break;
 
-		case CMD_RTPRIV_IOCTL_80211_REG_NOTIFY_TO:
-			CFG80211DRV_RegNotify(pAd, pData);
-			break;
-
 		case CMD_RTPRIV_IOCTL_80211_UNREGISTER:
 			CFG80211_UnRegister(pAd, pData);
 			break;
@@ -1015,32 +1011,6 @@ BOOLEAN CFG80211DRV_Connect(
 
 	return TRUE;
 }
-
-
-VOID CFG80211DRV_RegNotify(
-	struct rtmp_adapter				*pAd,
-	VOID						*pData)
-{
-	CMD_RTPRIV_IOCTL_80211_REG_NOTIFY *pRegInfo;
-
-	pRegInfo = (CMD_RTPRIV_IOCTL_80211_REG_NOTIFY *)pData;
-
-	/* keep Alpha2 and we can re-call the function when interface is up */
-	pAd->cfg80211_ctrl.Cfg80211_Alpha2[0] = pRegInfo->Alpha2[0];
-	pAd->cfg80211_ctrl.Cfg80211_Alpha2[1] = pRegInfo->Alpha2[1];
-
-	/* apply the new regulatory rule */
-	if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_START_UP))
-	{
-		/* interface is up */
-		CFG80211_RegRuleApply(pAd, pRegInfo->pWiphy, (UCHAR *)pRegInfo->Alpha2);
-	}
-	else
-	{
-		CFG80211DBG(RT_DEBUG_ERROR, ("crda> interface is down!\n"));
-	}
-}
-
 
 VOID CFG80211DRV_SurveyGet(
 	struct rtmp_adapter				*pAd,

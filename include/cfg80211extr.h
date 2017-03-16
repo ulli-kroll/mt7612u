@@ -214,10 +214,6 @@ INT CFG80211DRV_IoctlHandle(
 UCHAR CFG80211_getCenCh(struct rtmp_adapter *pAd, UCHAR prim_ch);
 
 /* CRDA Releatd */
-VOID CFG80211DRV_RegNotify(
-	struct rtmp_adapter				*pAdOrg,
-	VOID						*pData);
-
 VOID CFG80211_RegHint(
 	struct rtmp_adapter				*pAdCB,
 	UCHAR						*pCountryIe,
