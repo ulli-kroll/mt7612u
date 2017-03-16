@@ -317,17 +317,14 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 								PRINT_MAC(pAd->PermanentAddress)));
 
 	/* Assign the actually working MAC Address */
-	if (pAd->bLocalAdminMAC)
-	{
+	if (pAd->bLocalAdminMAC) {
 		DBGPRINT(RT_DEBUG_TRACE, ("Use the MAC address what is assigned from Configuration file(.dat). \n"));
 #if defined(BB_SOC)&&!defined(NEW_MBSSID_MODE)
 		BBUPrepareMAC(pAd, pAd->CurrentAddress);
 		COPY_MAC_ADDR(pAd->PermanentAddress, pAd->CurrentAddress);
 		printk("now bb MainSsid mac %02x:%02x:%02x:%02x:%02x:%02x\n",PRINT_MAC(pAd->CurrentAddress));
 #endif
-	}
-	else
-	{
+	} else {
 		COPY_MAC_ADDR(pAd->CurrentAddress, pAd->PermanentAddress);
 		DBGPRINT(RT_DEBUG_TRACE, ("Use the MAC address what is assigned from EEPROM. \n"));
 	}
@@ -340,10 +337,8 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 	mt7612u_write32(pAd, MAC_ADDR_DW0, csr2.word);
 	csr3.word = 0;
 	csr3.field.Byte4 = pAd->CurrentAddress[4];
-	{
-		csr3.field.Byte5 = pAd->CurrentAddress[5];
-		csr3.field.U2MeMask = 0xff;
-	}
+	csr3.field.Byte5 = pAd->CurrentAddress[5];
+	csr3.field.U2MeMask = 0xff;
 	mt7612u_write32(pAd, MAC_ADDR_DW1, csr3.word);
 
 
@@ -380,14 +375,11 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 	pAd->NicConfig3.word = pAd->EEPROMDefaultValue[EEPROM_NIC_CFG3_OFFSET];
 	DBGPRINT(RT_DEBUG_OFF, ("Bluetooth Support word %04x\n", pAd->NicConfig3.word));
 
-	{
-		value = mt7612u_read_eeprom16(pAd, EEPROM_COUNTRY_REGION);	/* Country Region*/
-		pAd->EEPROMDefaultValue[EEPROM_COUNTRY_REG_OFFSET] = value;
-		DBGPRINT(RT_DEBUG_OFF, ("Country Region from e2p = %x\n", value));
-	}
+	value = mt7612u_read_eeprom16(pAd, EEPROM_COUNTRY_REGION);	/* Country Region*/
+	pAd->EEPROMDefaultValue[EEPROM_COUNTRY_REG_OFFSET] = value;
+	DBGPRINT(RT_DEBUG_OFF, ("Country Region from e2p = %x\n", value));
 
-	for(i = 0; i < 8; i++)
-	{
+	for(i = 0; i < 8; i++) 	{
 		value = mt7612u_read_eeprom16(pAd, EEPROM_BBP_BASE_OFFSET + i*2);
 		pAd->EEPROMDefaultValue[i+EEPROM_BBP_ARRAY_OFFSET] = value;
 	}
@@ -425,16 +417,14 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 					__FUNCTION__, Antenna.field.RxPath, Antenna.field.TxPath));
 
 #ifdef CONFIG_AP_SUPPORT
-	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-	{
+	IF_DEV_CONFIG_OPMODE_ON_AP(pAd) {
 		if (NicConfig2.word == 0xffff)
 			NicConfig2.word = 0;
 	}
 #endif /* CONFIG_AP_SUPPORT */
 
 #ifdef CONFIG_STA_SUPPORT
-	IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
-	{
+	IF_DEV_CONFIG_OPMODE_ON_STA(pAd) {
 		if ((NicConfig2.word & 0x00ff) == 0xff)
 			NicConfig2.word &= 0xff00;
 
@@ -443,15 +433,13 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 	}
 #endif /* CONFIG_STA_SUPPORT */
 
-	if (NicConfig2.field.DynamicTxAgcControl == 1) {
+	if (NicConfig2.field.DynamicTxAgcControl == 1)
 		pAd->bAutoTxAgcA = pAd->bAutoTxAgcG = TRUE;
-	}
 	else
 		pAd->bAutoTxAgcA = pAd->bAutoTxAgcG = FALSE;
 
 	/* Save value for future using */
 	pAd->NicConfig2.word = NicConfig2.word;
-
 
 	/* Save the antenna for future use*/
 	pAd->Antenna.word = Antenna.word;
@@ -459,8 +447,6 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 	/* Set the RfICType here, then we can initialize RFIC related operation callbacks*/
 	pAd->Mlme.RealRxPath = (UCHAR) Antenna.field.RxPath;
 	pAd->RfIcType = (UCHAR) Antenna.field.RfIcType;
-
-
 
 	if (IS_MT7662(pAd))
 		pAd->RfIcType = RFIC_7662;
@@ -474,10 +460,8 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 	pAd->phy_ctrl.rf_band_cap = NICGetBandSupported(pAd);
 
 	/* check if the chip supports 5G band */
-	if (WMODE_CAP_5G(pAd->CommonCfg.PhyMode))
-	{
-		if (!RFIC_IS_5G_BAND(pAd))
-		{
+	if (WMODE_CAP_5G(pAd->CommonCfg.PhyMode)) {
+		if (!RFIC_IS_5G_BAND(pAd)) {
 			DBGPRINT_RAW(RT_DEBUG_ERROR,
 						("%s():Err! chip not support 5G band %d!\n",
 						__FUNCTION__, pAd->RfIcType));
@@ -486,38 +470,31 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 			pAd->phy_ctrl.rf_band_cap = RFIC_24GHZ;
 		}
 		pAd->phy_ctrl.rf_band_cap = RFIC_24GHZ | RFIC_5GHZ;
-	}
-	else
-	{
+	} else {
 			pAd->phy_ctrl.rf_band_cap = RFIC_24GHZ;
 	}
 
-	if (IS_MT76x2(pAd))
-	{
+	if (IS_MT76x2(pAd)) {
 		mt76x2_read_temp_info_from_eeprom(pAd);
 	}
-
 
 	pAd->BbpRssiToDbmDelta = 0x0;
 
 	/* Read frequency offset setting for RF*/
-		value = mt7612u_read_eeprom16(pAd, EEPROM_FREQ_OFFSET);
+	value = mt7612u_read_eeprom16(pAd, EEPROM_FREQ_OFFSET);
 
-	{
-		if ((value & 0x00FF) != 0x00FF)
-			pAd->RfFreqOffset = (ULONG) (value & 0x00FF);
-		else
-			pAd->RfFreqOffset = 0;
-	}
+	if ((value & 0x00FF) != 0x00FF)
+		pAd->RfFreqOffset = (ULONG) (value & 0x00FF);
+	else
+		pAd->RfFreqOffset = 0;
 
 
 	DBGPRINT(RT_DEBUG_TRACE, ("E2PROM: RF FreqOffset=0x%x \n", pAd->RfFreqOffset));
 
 	/*CountryRegion byte offset (38h)*/
-	{
-		value = pAd->EEPROMDefaultValue[EEPROM_COUNTRY_REG_OFFSET] >> 8;		/* 2.4G band*/
-		value2 = pAd->EEPROMDefaultValue[EEPROM_COUNTRY_REG_OFFSET] & 0x00FF;	/* 5G band*/
-	}
+
+	value = pAd->EEPROMDefaultValue[EEPROM_COUNTRY_REG_OFFSET] >> 8;		/* 2.4G band*/
+	value2 = pAd->EEPROMDefaultValue[EEPROM_COUNTRY_REG_OFFSET] & 0x00FF;	/* 5G band*/
 
 	if ((value <= REGION_MAXIMUM_BG_BAND) || (value == REGION_31_BG_BAND) || (value == REGION_32_BG_BAND) || (value == REGION_33_BG_BAND) )
 		pAd->CommonCfg.CountryRegion = ((UCHAR) value) | EEPROM_IS_PROGRAMMED;
@@ -556,29 +533,21 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 				pAd->BGRssiOffset[1] = 0;
 			}
 		}
-	}
-	else
-	{
+	} else 	{
 		value = mt7612u_read_eeprom16(pAd, EEPROM_RSSI_BG_OFFSET);
 		pAd->BGRssiOffset[0] = value & 0x00ff;
 		pAd->BGRssiOffset[1] = (value >> 8);
 	}
 
-	{
-		value = mt7612u_read_eeprom16(pAd, EEPROM_RSSI_BG_OFFSET+2);
-		{
+	value = mt7612u_read_eeprom16(pAd, EEPROM_RSSI_BG_OFFSET+2);
 /*			if (IS_RT2860(pAd))  RT2860 supports 3 Rx and the 2.4 GHz RSSI #2 offset is in the EEPROM 0x48*/
-				pAd->BGRssiOffset[2] = value & 0x00ff;
-			pAd->ALNAGain1 = (value >> 8);
-		}
-	}
+	pAd->BGRssiOffset[2] = value & 0x00ff;
+	pAd->ALNAGain1 = (value >> 8);
 
-	{
-		value = mt7612u_read_eeprom16(pAd, EEPROM_LNA_OFFSET);
-		pAd->BLNAGain = value & 0x00ff;
-		/* External LNA gain for 5GHz Band(CH36~CH64) */
-		pAd->ALNAGain0 = (value >> 8);
-	}
+	value = mt7612u_read_eeprom16(pAd, EEPROM_LNA_OFFSET);
+	pAd->BLNAGain = value & 0x00ff;
+	/* External LNA gain for 5GHz Band(CH36~CH64) */
+	pAd->ALNAGain0 = (value >> 8);
 
 
 	if (IS_MT76x2(pAd)) {
@@ -609,21 +578,15 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 				pAd->ARssiOffset[1] = 0;
 			}
 		}
-	}
-	else
-	{
+	} else {
 		value = mt7612u_read_eeprom16(pAd, EEPROM_RSSI_A_OFFSET);
 		pAd->ARssiOffset[0] = value & 0x00ff;
 		pAd->ARssiOffset[1] = (value >> 8);
 	}
 
-	{
-		value = mt7612u_read_eeprom16(pAd, (EEPROM_RSSI_A_OFFSET+2));
-		{
-			pAd->ARssiOffset[2] = value & 0x00ff;
-			pAd->ALNAGain2 = (value >> 8);
-		}
-	}
+	value = mt7612u_read_eeprom16(pAd, (EEPROM_RSSI_A_OFFSET+2));
+	pAd->ARssiOffset[2] = value & 0x00ff;
+	pAd->ALNAGain2 = (value >> 8);
 
 
 	if (((UCHAR)pAd->ALNAGain1 == 0xFF) || (pAd->ALNAGain1 == 0x00))
@@ -635,8 +598,7 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 					pAd->ALNAGain0, pAd->ALNAGain1, pAd->ALNAGain2));
 
 	/* Validate 11a/b/g RSSI 0/1/2 offset.*/
-	for (i =0 ; i < 3; i++)
-	{
+	for (i =0 ; i < 3; i++) {
 		if ((pAd->BGRssiOffset[i] < -10) || (pAd->BGRssiOffset[i] > 10))
 			pAd->BGRssiOffset[i] = 0;
 
