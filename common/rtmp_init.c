@@ -664,8 +664,6 @@ VOID NICInitAsicFromEEPROM(struct rtmp_adapter *pAd)
 	/* finally set primary ant */
 	AntCfgInit(pAd);
 
-	RTMP_CHIP_ASIC_INIT_TEMPERATURE_COMPENSATION(pAd);
-
 #ifdef RTMP_RF_RW_SUPPORT
 	/*Init RFRegisters after read RFIC type from EEPROM*/
 	InitRFRegisters(pAd);

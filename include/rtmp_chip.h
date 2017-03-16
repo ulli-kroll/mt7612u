@@ -879,12 +879,6 @@ do {	\
 			__pAd->chipOps.NICInitAsicFromEEPROM(__pAd);	\
 } while (0)
 
-#define RTMP_CHIP_ASIC_INIT_TEMPERATURE_COMPENSATION(__pAd)								\
-do {	\
-		if (__pAd->chipOps.InitTemperCompensation != NULL)					\
-			__pAd->chipOps.InitTemperCompensation(__pAd);	\
-} while (0)
-
 #define RTMP_CHIP_ASIC_TEMPERATURE_COMPENSATION(__pAd)						\
 do {	\
 		if (__pAd->chipOps.TemperCompensation != NULL)					\
