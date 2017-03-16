@@ -171,9 +171,6 @@ static const uint32_t CipherSuites[] = {
 /*
 	The driver's regulatory notification callback.
 */
-static int32_t CFG80211_RegNotifier(
-	IN struct wiphy					*pWiphy,
-	IN struct regulatory_request	*pRequest);
 
 /* get RALINK pAd control block in 80211 Ops */
 struct rtmp_adapter *MAC80211_PAD_GET(struct wiphy *pWiphy)
@@ -2318,8 +2315,6 @@ static struct wireless_dev *CFG80211_WdevAlloc(
 #endif /* RT_CFG80211_P2P_SINGLE_DEVICE */
 #endif /* CONFIG_STA_SUPPORT */
 
-	//pWdev->wiphy->reg_notifier = CFG80211_RegNotifier;
-
 	/* init channel information */
 	CFG80211_SupBandInit(pCfg80211_CB, pBandInfo, pWdev->wiphy, NULL, NULL);
 
@@ -2448,125 +2443,6 @@ BOOLEAN CFG80211_Register(
 
 
 /* =========================== Local Function =============================== */
-
-/*
-========================================================================
-Routine Description:
-	The driver's regulatory notification callback.
-
-Arguments:
-	pWiphy			- Wireless hardware description
-	pRequest		- Regulatory request
-
-Return Value:
-	0
-
-Note:
-========================================================================
-*/
-static int32_t CFG80211_RegNotifier(
-	struct wiphy			*pWiphy,
-	struct regulatory_request	*pRequest)
-{
-	struct rtmp_adapter *pAd;
-	ULONG *pPriv;
-
-
-	/* sanity check */
-	pPriv = (ULONG *)(wiphy_priv(pWiphy));
-	pAd = (VOID *)(*pPriv);
-
-	if (pAd == NULL) {
-		DBGPRINT(RT_DEBUG_ERROR, ("crda> reg notify but pAd = NULL!"));
-		return 0;
-	} /* End of if */
-
-	/*
-		Change the band settings (PASS scan, IBSS allow, or DFS) in mac80211
-		based on EEPROM.
-
-		IEEE80211_CHAN_DISABLED: This channel is disabled.
-		IEEE80211_CHAN_PASSIVE_SCAN: Only passive scanning is permitted
-					on this channel.
-		IEEE80211_CHAN_NO_IBSS: IBSS is not allowed on this channel.
-		IEEE80211_CHAN_RADAR: Radar detection is required on this channel.
-		IEEE80211_CHAN_NO_FAT_ABOVE: extension channel above this channel
-					is not permitted.
-		IEEE80211_CHAN_NO_FAT_BELOW: extension channel below this channel
-					is not permitted.
-	*/
-
-	/*
-		Change regulatory rule here.
-
-		struct ieee80211_channel {
-			enum ieee80211_band band;
-			u16 center_freq;
-			u8 max_bandwidth;
-			u16 hw_value;
-			u32 flags;
-			int max_antenna_gain;
-			int max_power;
-			bool beacon_found;
-			u32 orig_flags;
-			int orig_mag, orig_mpwr;
-		};
-
-		In mac80211 layer, it will change flags, max_antenna_gain,
-		max_bandwidth, max_power.
-	*/
-
-	switch(pRequest->initiator) {
-	case NL80211_REGDOM_SET_BY_CORE:
-		/*
-			Core queried CRDA for a dynamic world regulatory domain.
-		*/
-		CFG80211DBG(RT_DEBUG_ERROR, ("crda> requlation requestion by core: "));
-		break;
-
-	case NL80211_REGDOM_SET_BY_USER:
-		/*
-			User asked the wireless core to set the regulatory domain.
-			(when iw, network manager, wpa supplicant, etc.)
-		*/
-		CFG80211DBG(RT_DEBUG_ERROR, ("crda> requlation requestion by user: "));
-		break;
-
-	case NL80211_REGDOM_SET_BY_DRIVER:
-		/*
-			A wireless drivers has hinted to the wireless core it thinks
-			its knows the regulatory domain we should be in.
-			(when driver initialization, calling regulatory_hint)
-		*/
-		CFG80211DBG(RT_DEBUG_ERROR, ("crda> requlation requestion by driver: "));
-		break;
-
-	case NL80211_REGDOM_SET_BY_COUNTRY_IE:
-		/*
-			The wireless core has received an 802.11 country information
-			element with regulatory information it thinks we should consider.
-			(when beacon receive, calling regulatory_hint_11d)
-		*/
-		CFG80211DBG(RT_DEBUG_ERROR, ("crda> requlation requestion by country IE: "));
-		break;
-	}
-
-	CFG80211DBG(RT_DEBUG_OFF, ("%c%c\n", pRequest->alpha2[0], pRequest->alpha2[1]));
-
-	/* only follow rules from user */
-	if (pRequest->initiator == NL80211_REGDOM_SET_BY_USER) {
-		/* keep Alpha2 and we can re-call the function when interface is up */
-		CMD_RTPRIV_IOCTL_80211_REG_NOTIFY RegInfo;
-
-		RegInfo.Alpha2[0] = pRequest->alpha2[0];
-		RegInfo.Alpha2[1] = pRequest->alpha2[1];
-		RegInfo.pWiphy = pWiphy;
-
-		RTMP_DRIVER_80211_REG_NOTIFY(pAd, &RegInfo);
-	} /* End of if */
-
-	return 0;
-} /* End of CFG80211_RegNotifier */
 
 #endif /* RT_CFG80211_SUPPORT */
 #endif /* LINUX_VERSION_CODE */
