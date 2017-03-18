@@ -98,18 +98,6 @@ void usb_cfg_write_v3(struct rtmp_adapter *ad, u32 value)
 }
 #endif /* RLT_MAC */
 
-int RTUSBVenderReset(struct rtmp_adapter *pAd)
-{
-	int Status;
-	DBGPRINT_RAW(RT_DEBUG_ERROR, ("-->RTUSBVenderReset\n"));
-	Status = RTUSB_VendorRequest(pAd, DEVICE_VENDOR_REQUEST_OUT,
-				     MT7612U_VENDOR_RESET, 0x1, 0,
-				     NULL, 0);
-
-	DBGPRINT_RAW(RT_DEBUG_ERROR, ("<--RTUSBVenderReset\n"));
-	return Status;
-}
-
 int RTUSBMultiWrite(
 	IN struct rtmp_adapter *pAd,
 	IN USHORT Offset,
