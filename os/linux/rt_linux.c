@@ -87,7 +87,7 @@ Note:
 VOID RtmpUtilInit(VOID)
 {
 	if (FlgIsUtilInit == FALSE) {
-		OS_NdisAllocateSpinLock(&UtilSemLock);
+		spin_lock_init(&UtilSemLock);
 		FlgIsUtilInit = TRUE;
 	}
 }

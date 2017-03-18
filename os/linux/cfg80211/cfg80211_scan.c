@@ -389,7 +389,7 @@ VOID CFG80211_ScanStatusLockInit(
 
 	if (init)
 	{
-		NdisAllocateSpinLock(pAd, &pCfg80211_CB->scan_notify_lock);
+		spin_lock_init(&pCfg80211_CB->scan_notify_lock);
 	}
 	else
 	{

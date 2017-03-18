@@ -3705,7 +3705,7 @@ VOID drop_mask_init_per_client(
 			RTMPCancelTimer(&entry->dropmask_timer, &cancelled);
 	RTMPInitTimer(ad, &entry->dropmask_timer, GET_TIMER_FUNCTION(drop_mask_timer_action), entry, FALSE);
 
-	NdisAllocateSpinLock(ad, &entry->drop_mask_lock);
+	spin_lock_init(ad, &entry->drop_mask_lock);
 
 	entry->tx_fail_drop_mask_enabled = 0;
 	entry->ps_drop_mask_enabled = 0;

@@ -87,7 +87,7 @@ BUILD_TIMER_FUNCTION(PeriodicPollingModeDetect);
 
 VOID BBUPollingModeInit(IN struct rtmp_adapter *pAd){
 
-	NdisAllocateSpinLock(&pAd->Pollingmode.PollingModeLock);//for polling mode
+	spin_lock_init(&pAd->Pollingmode.PollingModeLock);//for polling mode
 
 	RTMPInitTimer(pAd, &pAd->Pollingmode.PollingModeDetect, GET_TIMER_FUNCTION(PeriodicPollingModeDetect), pAd, FALSE);
 	pAd->Pollingmode.PollingModeDetectRunning = FALSE;

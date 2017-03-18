@@ -98,7 +98,7 @@ Note:
 VOID UAPSD_Init(struct rtmp_adapter *pAd)
 {
     /* allocate a lock resource for SMP environment */
-	NdisAllocateSpinLock(pAd, &pAd->UAPSDEOSPLock);
+	spin_lock_init(&pAd->UAPSDEOSPLock);
 
 #ifdef UAPSD_DEBUG
 	DBGPRINT(RT_DEBUG_TRACE, ("uapsd> allocate a spinlock!\n"));

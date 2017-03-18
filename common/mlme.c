@@ -960,7 +960,7 @@ int MlmeInit(struct rtmp_adapter *pAd)
 			break;
 
 		pAd->Mlme.bRunning = FALSE;
-		NdisAllocateSpinLock(pAd, &pAd->Mlme.TaskLock);
+		spin_lock_init(&pAd->Mlme.TaskLock);
 
 #ifdef CONFIG_STA_SUPPORT
 		IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
@@ -3207,11 +3207,11 @@ VOID BATableInit(struct rtmp_adapter *pAd, BA_TABLE *Tab)
 	Tab->numAsOriginator = 0;
 	Tab->numAsRecipient = 0;
 	Tab->numDoneOriginator = 0;
-	NdisAllocateSpinLock(pAd, &pAd->BATabLock);
+	spin_lock_init(&pAd->BATabLock);
 	for (i = 0; i < MAX_LEN_OF_BA_REC_TABLE; i++)
 	{
 		Tab->BARecEntry[i].REC_BA_Status = Recipient_NONE;
-		NdisAllocateSpinLock(pAd, &(Tab->BARecEntry[i].RxReRingLock));
+		spin_lock_init(&(Tab->BARecEntry[i].RxReRingLock));
 	}
 	for (i = 0; i < MAX_LEN_OF_BA_ORI_TABLE; i++)
 	{
@@ -4594,7 +4594,7 @@ int MlmeQueueInit(struct rtmp_adapter *pAd, MLME_QUEUE *Queue)
 {
 	INT i;
 
-	NdisAllocateSpinLock(pAd, &Queue->Lock);
+	spin_lock_init(&Queue->Lock);
 
 	Queue->Num	= 0;
 	Queue->Head = 0;

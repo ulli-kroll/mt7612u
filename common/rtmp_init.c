@@ -120,12 +120,12 @@ int RTMPAllocAdapterBlock(struct os_cookie *handle, struct rtmp_adapter **ppAdap
 		}
 
 		/* Init spin locks*/
-		NdisAllocateSpinLock(pAd, &pAd->MgmtRingLock);
+		spin_lock_init(&pAd->MgmtRingLock);
 
 		for (index =0 ; index < NUM_OF_TX_RING; index++)
 		{
-			NdisAllocateSpinLock(pAd, &pAd->TxSwQueueLock[index]);
-			NdisAllocateSpinLock(pAd, &pAd->DeQueueLock[index]);
+			spin_lock_init(&pAd->TxSwQueueLock[index]);
+			spin_lock_init(&pAd->DeQueueLock[index]);
 			pAd->DeQueueRunning[index] = FALSE;
 		}
 
@@ -142,10 +142,10 @@ int RTMPAllocAdapterBlock(struct os_cookie *handle, struct rtmp_adapter **ppAdap
 		}
 #endif /* RESOURCE_PRE_ALLOC */
 
-		NdisAllocateSpinLock(pAd, &pAd->irq_lock);
+		spin_lock_init(&pAd->irq_lock);
 
 
-		NdisAllocateSpinLock(pAd, &TimerSemLock);
+		spin_lock_init(&TimerSemLock);
 
 		*ppAdapter = (VOID *)pAd;
 	} while (FALSE);
@@ -2353,7 +2353,7 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 	/* initialize MAC table and allocate spin lock*/
 	memset(&pAd->MacTab, 0, sizeof(MAC_TABLE));
 	InitializeQueueHeader(&pAd->MacTab.McastPsQueue);
-	NdisAllocateSpinLock(pAd, &pAd->MacTabLock);
+	spin_lock_init(&pAd->MacTabLock);
 
 	/*RTMPInitTimer(pAd, &pAd->RECBATimer, RECBATimerTimeout, pAd, TRUE);*/
 	/*RTMPSetTimer(&pAd->RECBATimer, REORDER_EXEC_INTV);*/

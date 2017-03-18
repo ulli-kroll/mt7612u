@@ -251,7 +251,7 @@ BOOLEAN StaUpdateMacTableEntry(
 	TxBFInit(pAd, pEntry, supportsETxBf);
 
 	RTMPInitTimer(pAd, &pEntry->eTxBfProbeTimer, GET_TIMER_FUNCTION(eTxBfProbeTimerExec), pEntry, FALSE);
-	NdisAllocateSpinLock(pAd, &pEntry->TxSndgLock);
+	spin_lock_init(&pEntry->TxSndgLock);
 
 	MlmeRAInit(pAd, pEntry);
 
@@ -638,7 +638,7 @@ MAC_TABLE_ENTRY *MacTableInsertEntry(
 #endif /* CONFIG_AP_SUPPORT */
 
 			if (pAd->chipCap.FlgHwTxBfCap)
-				NdisAllocateSpinLock(pAd, &pEntry->TxSndgLock);
+				spin_lock_init(&pEntry->TxSndgLock);
 
 			DBGPRINT(RT_DEBUG_TRACE, ("%s(): alloc entry #%d, Total= %d\n",
 						__FUNCTION__, i, pAd->MacTab.Size));

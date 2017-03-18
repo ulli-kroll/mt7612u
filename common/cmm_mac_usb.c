@@ -654,24 +654,24 @@ int RTMPInitTxRxRingMemory
 	int 	Status;
 
 	/* Init the CmdQ and CmdQLock*/
-	NdisAllocateSpinLock(pAd, &pAd->CmdQLock);
+	spin_lock_init(&pAd->CmdQLock);
 	NdisAcquireSpinLock(&pAd->CmdQLock);
 	RTInitializeCmdQ(&pAd->CmdQ);
 	NdisReleaseSpinLock(&pAd->CmdQLock);
 
 
-	NdisAllocateSpinLock(pAd, &pAd->MLMEBulkOutLock);
-	NdisAllocateSpinLock(pAd, &pAd->BulkInLock);
-	NdisAllocateSpinLock(pAd, &pAd->CmdRspLock);
+	spin_lock_init(&pAd->MLMEBulkOutLock);
+	spin_lock_init(&pAd->BulkInLock);
+	spin_lock_init(&pAd->CmdRspLock);
 	for(num =0 ; num < 6; num++)
 	{
-		NdisAllocateSpinLock(pAd, &pAd->BulkOutLock[num]);
+		spin_lock_init(&pAd->BulkOutLock[num]);
 	}
 
 
 	for (num = 0; num < NUM_OF_TX_RING; num++)
 	{
-		NdisAllocateSpinLock(pAd, &pAd->TxContextQueueLock[num]);
+		spin_lock_init(&pAd->TxContextQueueLock[num]);
 	}
 
 	NICInitRecv(pAd);
@@ -1050,23 +1050,23 @@ int RTMPAllocTxRxRingMemory(
 	do
 	{
 		/* Init the CmdQ and CmdQLock*/
-		NdisAllocateSpinLock(pAd, &pAd->CmdQLock);
+		spin_lock_init(&pAd->CmdQLock);
 		NdisAcquireSpinLock(&pAd->CmdQLock);
 		RTInitializeCmdQ(&pAd->CmdQ);
 		NdisReleaseSpinLock(&pAd->CmdQLock);
 
 
-		NdisAllocateSpinLock(pAd, &pAd->MLMEBulkOutLock);
-		NdisAllocateSpinLock(pAd, &pAd->BulkInLock);
-		NdisAllocateSpinLock(pAd, &pAd->CmdRspLock);
+		spin_lock_init(&pAd->MLMEBulkOutLock);
+		spin_lock_init(&pAd->BulkInLock);
+		spin_lock_init(&pAd->CmdRspLock);
 		for(num =0 ; num < 6; num++)
 		{
-			NdisAllocateSpinLock(pAd, &pAd->BulkOutLock[num]);
+			spin_lock_init(pAd, &pAd->BulkOutLock[num]);
 		}
 
 		for (num = 0; num < NUM_OF_TX_RING; num++)
 		{
-			NdisAllocateSpinLock(pAd, &pAd->TxContextQueueLock[num]);
+			spin_lock_init(&pAd->TxContextQueueLock[num]);
 		}
 
 		/* Init send data structures and related parameters*/

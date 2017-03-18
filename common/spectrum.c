@@ -322,7 +322,7 @@ int MeasureReqTabInit(
 {
 	int     Status = NDIS_STATUS_SUCCESS;
 
-	NdisAllocateSpinLock(pAd, &pAd->CommonCfg.MeasureReqTabLock);
+	spin_lock_init(&pAd->CommonCfg.MeasureReqTabLock);
 
 /*	pAd->CommonCfg.pMeasureReqTab = kmalloc(sizeof(MEASURE_REQ_TAB), GFP_ATOMIC);*/
 	pAd->CommonCfg.pMeasureReqTab =
@@ -546,7 +546,7 @@ int TpcReqTabInit(
 {
 	int     Status = NDIS_STATUS_SUCCESS;
 
-	NdisAllocateSpinLock(pAd, &pAd->CommonCfg.TpcReqTabLock);
+	spin_lock_init(&pAd->CommonCfg.TpcReqTabLock);
 
 /*	pAd->CommonCfg.pTpcReqTab = kmalloc(sizeof(TPC_REQ_TAB), GFP_ATOMIC);*/
 	pAd->CommonCfg.pTpcReqTab =

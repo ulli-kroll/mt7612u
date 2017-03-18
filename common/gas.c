@@ -1158,7 +1158,7 @@ static VOID GASCtrlInit(IN struct rtmp_adapter *pAd)
 #ifdef CONFIG_STA_SUPPORT
 	pGASCtrl = &pAd->StaCfg.GASCtrl;
 	memset(pGASCtrl, sizeof(*pGASCtrl));
-	NdisAllocateSpinLock(pAd, &pGASCtrl->GASPeerListLock);
+	spin_lock_init(pAd, &pGASCtrl->GASPeerListLock);
 	DlListInit(&pGASCtrl->GASPeerList);
 #endif
 
@@ -1167,7 +1167,7 @@ static VOID GASCtrlInit(IN struct rtmp_adapter *pAd)
 	{
 		pGASCtrl = &pAd->ApCfg.MBSSID[APIndex].GASCtrl;
 		memset(pGASCtrl, sizeof(*pGASCtrl));
-		NdisAllocateSpinLock(pAd, &pGASCtrl->GASPeerListLock);
+		spin_lock_init(pAd, &pGASCtrl->GASPeerListLock);
 		DlListInit(&pGASCtrl->GASPeerList);
 	}
 #endif
