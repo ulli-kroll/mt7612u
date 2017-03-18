@@ -1958,17 +1958,6 @@ INT RtmpOSNotifyRawData(
 
 #endif /* CONFIG_STA_SUPPORT */
 
-
-void OS_SPIN_LOCK_IRQSAVE(spinlock_t *lock, unsigned long *flags)
-{
-	spin_lock_irqsave((spinlock_t *)(lock), *flags);
-}
-
-void OS_SPIN_UNLOCK_IRQRESTORE(spinlock_t *lock, unsigned long *flags)
-{
-	spin_unlock_irqrestore((spinlock_t *)(lock), *flags);
-}
-
 int OS_TEST_BIT(int bit, unsigned long *flags)
 {
 	return test_bit(bit, flags);

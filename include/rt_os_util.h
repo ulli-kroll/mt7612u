@@ -821,8 +821,6 @@ extern UINT8 newRateGetAntenna(UINT8 MCS);
 
 int32_t  RtPrivIoctlSetVal(VOID);
 
-void OS_SPIN_LOCK_IRQSAVE(spinlock_t *lock, unsigned long *flags);
-void OS_SPIN_UNLOCK_IRQRESTORE(spinlock_t *lock, unsigned long *flags);
 void RtmpOsSpinLockIrqSave(spinlock_t *lock, unsigned long *flags);
 void RtmpOsSpinUnlockIrqRestore(spinlock_t *lock, unsigned long *flags);
 void RtmpOsSpinLockIrq(spinlock_t *lock);

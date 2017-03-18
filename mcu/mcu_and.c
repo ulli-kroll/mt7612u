@@ -1258,7 +1258,7 @@ static inline UCHAR mt7612u_mcu_get_cmd_msg_seq(struct rtmp_adapter *ad)
 	struct cmd_msg *msg;
 	unsigned long flags;
 
-	RTMP_SPIN_LOCK_IRQSAVE(&ctl->ackq_lock, &flags);
+	spin_lock_irqsave(&ctl->ackq_lock, flags);
 get_seq:
 	ctl->cmd_seq >= 0xf ? ctl->cmd_seq = 1 : ctl->cmd_seq++;
 	DlListForEach(msg, &ctl->ackq, struct cmd_msg, list) {
@@ -1268,7 +1268,7 @@ get_seq:
 			goto get_seq;
 		}
 	}
-	RTMP_SPIN_UNLOCK_IRQRESTORE(&ctl->ackq_lock, &flags);
+	spin_unlock_irqrestore(&ctl->ackq_lock, flags);
 
 	return ctl->cmd_seq;
 }
@@ -1290,9 +1290,9 @@ static void mt7612u_mcu_queue_tail_cmd_msg(DL_LIST *list, struct cmd_msg *msg,
 
 	lock = mt7612u_mcu_get_spin_lock(ctl, list);
 
-	RTMP_SPIN_LOCK_IRQSAVE(lock, &flags);
+	spin_lock_irqsave(lock, flags);
 	_mt7612u_mcu_queue_tail_cmd_msg(list, msg, state);
-	RTMP_SPIN_UNLOCK_IRQRESTORE(lock, &flags);
+	spin_unlock_irqrestore(lock, flags);
 }
 
 static void _mt7612u_mcu_queue_head_cmd_msg(DL_LIST *list, struct cmd_msg *msg,
@@ -1312,9 +1312,9 @@ static void mt7612u_mcu_queue_head_cmd_msg(DL_LIST *list, struct cmd_msg *msg,
 
 	lock = mt7612u_mcu_get_spin_lock(ctl, list);
 
-	RTMP_SPIN_LOCK_IRQSAVE(lock, &flags);
+	spin_lock_irqsave(lock, flags);
 	_mt7612u_mcu_queue_head_cmd_msg(list, msg, state);
-	RTMP_SPIN_UNLOCK_IRQRESTORE(lock, &flags);
+	spin_unlock_irqrestore(lock, flags);
 }
 
 static u32 mt7612u_mcu_queue_len(struct MCU_CTRL *ctl, DL_LIST *list)
@@ -1325,9 +1325,9 @@ static u32 mt7612u_mcu_queue_len(struct MCU_CTRL *ctl, DL_LIST *list)
 
 	lock = mt7612u_mcu_get_spin_lock(ctl, list);
 
-	RTMP_SPIN_LOCK_IRQSAVE(lock, &flags);
+	spin_lock_irqsave(lock, flags);
 	qlen = DlListLen(list);
-	RTMP_SPIN_UNLOCK_IRQRESTORE(lock, &flags);
+	spin_unlock_irqrestore(lock, flags);
 
 	return qlen;
 }
@@ -1340,9 +1340,9 @@ static int mt7612u_mcu_queue_empty(struct MCU_CTRL *ctl, DL_LIST *list)
 
 	lock = mt7612u_mcu_get_spin_lock(ctl, list);
 
-	RTMP_SPIN_LOCK_IRQSAVE(lock, &flags);
+	spin_lock_irqsave(lock, flags);
 	is_empty = DlListEmpty(list);
-	RTMP_SPIN_UNLOCK_IRQRESTORE(lock, &flags);
+	spin_unlock_irqrestore(lock, flags);
 
 	return is_empty;
 }
@@ -1355,9 +1355,9 @@ static void mt7612u_mcu_queue_init(struct MCU_CTRL *ctl, DL_LIST *list)
 
 	lock = mt7612u_mcu_get_spin_lock(ctl, list);
 
-	RTMP_SPIN_LOCK_IRQSAVE(lock, &flags);
+	spin_lock_irqsave(lock, flags);
 	DlListInit(list);
-	RTMP_SPIN_UNLOCK_IRQRESTORE(lock, &flags);
+	spin_unlock_irqrestore(lock, flags);
 }
 
 static void _mt7612u_mcu_unlink_cmd_msg(struct cmd_msg *msg, DL_LIST *list)
@@ -1377,9 +1377,9 @@ static void mt7612u_mcu_unlink_cmd_msg(struct cmd_msg *msg, DL_LIST *list)
 
 	lock = mt7612u_mcu_get_spin_lock(ctl, list);
 
-	RTMP_SPIN_LOCK_IRQSAVE(lock, &flags);
+	spin_lock_irqsave(lock, flags);
 	_mt7612u_mcu_unlink_cmd_msg(msg, list);
-	RTMP_SPIN_UNLOCK_IRQRESTORE(lock, &flags);
+	spin_unlock_irqrestore(lock, flags);
 }
 
 static struct cmd_msg *_mt7612u_mcu_dequeue_cmd_msg(DL_LIST *list)
@@ -1401,9 +1401,9 @@ static struct cmd_msg *mt7612u_mcu_dequeue_cmd_msg(struct MCU_CTRL *ctl, DL_LIST
 
 	lock = mt7612u_mcu_get_spin_lock(ctl, list);
 
-	RTMP_SPIN_LOCK_IRQSAVE(lock, &flags);
+	spin_lock_irqsave(lock, flags);
 	msg = _mt7612u_mcu_dequeue_cmd_msg(list);
-	RTMP_SPIN_UNLOCK_IRQRESTORE(lock, &flags);
+	spin_unlock_irqrestore(lock, flags);
 
 	return msg;
 }
@@ -1512,9 +1512,9 @@ static void usb_rx_cmd_msg_complete(PURB urb)
 		DBGPRINT(RT_DEBUG_ERROR, ("receive cmd msg fail(%d)\n", RTMP_USB_URB_STATUS_GET(urb)));
 	}
 
-	RTMP_SPIN_LOCK_IRQSAVE(&ctl->rx_doneq_lock, &flags);
+	spin_lock_irqsave(&ctl->rx_doneq_lock, flags);
 	_mt7612u_mcu_queue_tail_cmd_msg(&ctl->rx_doneq, msg, state);
-	RTMP_SPIN_UNLOCK_IRQRESTORE(&ctl->rx_doneq_lock, &flags);
+	spin_unlock_irqrestore(&ctl->rx_doneq_lock, flags);
 
 	if (OS_TEST_BIT(MCU_INIT, &ctl->flags)) {
 		msg = mt7612u_mcu_alloc_cmd_msg(ad, 512);
@@ -1753,16 +1753,16 @@ void mt7612u_mcu_usb_unlink_urb(struct rtmp_adapter *ad, DL_LIST *list)
 
 	lock = mt7612u_mcu_get_spin_lock(ctl, list);
 
-	RTMP_SPIN_LOCK_IRQSAVE(lock, &flags);
+	spin_lock_irqsave(lock, flags);
 	DlListForEachSafe(msg, msg_tmp, list, struct cmd_msg, list) {
-		RTMP_SPIN_UNLOCK_IRQRESTORE(lock, &flags);
+		spin_unlock_irqrestore(lock, flags);
 		if ((msg->state == wait_cmd_out_and_ack) || (msg->state == wait_cmd_out) ||
 						(msg->state == tx_start) || (msg->state == rx_start) ||
 						(msg->state == tx_retransmit))
 			RTUSB_UNLINK_URB(msg->urb);
-		RTMP_SPIN_LOCK_IRQSAVE(lock, &flags);
+		spin_lock_irqsave(lock, flags);
 	}
-	RTMP_SPIN_UNLOCK_IRQRESTORE(lock, &flags);
+	spin_unlock_irqrestore(lock, flags);
 }
 
 #endif
@@ -1776,13 +1776,13 @@ void mt7612u_mcu_cleanup_cmd_msg(struct rtmp_adapter *ad, DL_LIST *list)
 
 	lock = mt7612u_mcu_get_spin_lock(ctl, list);
 
-	RTMP_SPIN_LOCK_IRQSAVE(lock, &flags);
+	spin_lock_irqsave(lock, flags);
 	DlListForEachSafe(msg, msg_tmp, list, struct cmd_msg, list) {
 		_mt7612u_mcu_unlink_cmd_msg(msg, list);
 		mt7612u_mcu_free_cmd_msg(msg);
 	}
 	DlListInit(list);
-	RTMP_SPIN_UNLOCK_IRQRESTORE(lock, &flags);
+	spin_unlock_irqrestore(lock, flags);
 }
 
 
