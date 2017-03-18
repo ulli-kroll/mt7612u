@@ -122,10 +122,6 @@ int RTMPAllocAdapterBlock(struct os_cookie *handle, struct rtmp_adapter **ppAdap
 		/* Init spin locks*/
 		NdisAllocateSpinLock(pAd, &pAd->MgmtRingLock);
 
-#if defined(RT3290) || defined(RLT_MAC)
-		NdisAllocateSpinLock(pAd, &pAd->WlanEnLock);
-#endif /* defined(RT3290) || defined(RLT_MAC) */
-
 		for (index =0 ; index < NUM_OF_TX_RING; index++)
 		{
 			NdisAllocateSpinLock(pAd, &pAd->TxSwQueueLock[index]);
@@ -3000,9 +2996,6 @@ INT RtmpRaDevCtrlInit(struct rtmp_adapter *pAd, RTMP_INF_TYPE infType)
 
 #ifdef RTMP_MAC_USB
 	sema_init(&(pAd->UsbVendorReq_semaphore), 1);
-#ifdef RLT_MAC
-	sema_init(&(pAd->WlanEnLock),1 );
-#endif /* RLT_MAC */
 	sema_init(&(pAd->reg_atomic), 1);
 	sema_init(&(pAd->hw_atomic), 1);
 	sema_init(&(pAd->mcu_atomic), 1);

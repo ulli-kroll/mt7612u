@@ -3606,10 +3606,6 @@ struct rtmp_adapter {
 
 #if defined(RT3290) || defined(RLT_MAC)
 
-#ifdef RTMP_MAC_USB
-	struct semaphore WlanEnLock;
-#endif
-
 	WLAN_FUN_CTRL_STRUC WlanFunCtrl;
 #endif /* defined(RT3290) || defined(RLT_MAC) */
 
