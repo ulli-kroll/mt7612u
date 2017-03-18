@@ -28,6 +28,22 @@
 
 #include	"rt_config.h"
 
+static int load_patch(struct rtmp_adapter *ad)
+{
+	int ret = NDIS_STATUS_SUCCESS;
+	ULONG Old, New, Diff;
+
+	if (ad->chipOps.load_rom_patch) {
+		RTMP_GetCurrentSystemTick(&Old);
+		ret = ad->chipOps.load_rom_patch(ad);
+		RTMP_GetCurrentSystemTick(&New);
+		Diff = (New - Old) * 1000 / OS_HZ;
+		DBGPRINT(RT_DEBUG_TRACE, ("load rom patch spent %ldms\n", Diff));
+	}
+
+	return ret;
+}
+
 INT mcu_sys_init(struct rtmp_adapter *pAd)
 {
 	int Status;
