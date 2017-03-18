@@ -1969,16 +1969,6 @@ void OS_SPIN_UNLOCK_IRQRESTORE(spinlock_t *lock, unsigned long *flags)
 	spin_unlock_irqrestore((spinlock_t *)(lock), *flags);
 }
 
-void OS_SPIN_LOCK_IRQ(spinlock_t *lock)
-{
-	spin_lock_irq((spinlock_t *)(lock));
-}
-
-void OS_SPIN_UNLOCK_IRQ(spinlock_t *lock)
-{
-	spin_unlock_irq((spinlock_t *)(lock));
-}
-
 int OS_TEST_BIT(int bit, unsigned long *flags)
 {
 	return test_bit(bit, flags);

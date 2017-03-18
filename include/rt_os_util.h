@@ -823,8 +823,6 @@ int32_t  RtPrivIoctlSetVal(VOID);
 
 void OS_SPIN_LOCK_IRQSAVE(spinlock_t *lock, unsigned long *flags);
 void OS_SPIN_UNLOCK_IRQRESTORE(spinlock_t *lock, unsigned long *flags);
-void OS_SPIN_LOCK_IRQ(spinlock_t *lock);
-void OS_SPIN_UNLOCK_IRQ(spinlock_t *lock);
 void RtmpOsSpinLockIrqSave(spinlock_t *lock, unsigned long *flags);
 void RtmpOsSpinUnlockIrqRestore(spinlock_t *lock, unsigned long *flags);
 void RtmpOsSpinLockIrq(spinlock_t *lock);

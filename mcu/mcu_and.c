@@ -1437,7 +1437,7 @@ void mt7612u_mcu_rx_process_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *rx_
 								GET_OS_PKT_DATAPTR(net_pkt) + sizeof(*rx_info), rx_info->pkt_len);
 	} else {
 #ifdef RTMP_USB_SUPPORT
-		RTMP_SPIN_LOCK_IRQ(&ctl->ackq_lock);
+		spin_lock_irq(&ctl->ackq_lock);
 #endif
 
 		DlListForEachSafe(msg, msg_tmp, &ctl->ackq, struct cmd_msg, list) {
@@ -1445,7 +1445,7 @@ void mt7612u_mcu_rx_process_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *rx_
 			{
 				_mt7612u_mcu_unlink_cmd_msg(msg, &ctl->ackq);
 #ifdef RTMP_USB_SUPPORT
-				RTMP_SPIN_UNLOCK_IRQ(&ctl->ackq_lock);
+				spin_unlock_irq(&ctl->ackq_lock);
 #endif
 
 
@@ -1472,7 +1472,7 @@ void mt7612u_mcu_rx_process_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *rx_
 					mt7612u_mcu_free_cmd_msg(msg);
 				}
 #ifdef RTMP_USB_SUPPORT
-				RTMP_SPIN_LOCK_IRQ(&ctl->ackq_lock);
+				spin_lock_irq(&ctl->ackq_lock);
 #endif
 
 				break;
@@ -1480,7 +1480,7 @@ void mt7612u_mcu_rx_process_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *rx_
 		}
 
 #ifdef RTMP_USB_SUPPORT
-		RTMP_SPIN_UNLOCK_IRQ(&ctl->ackq_lock);
+		spin_unlock_irq(&ctl->ackq_lock);
 #endif
 
 	}
