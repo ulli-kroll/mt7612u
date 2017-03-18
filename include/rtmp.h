@@ -6061,7 +6061,6 @@ INT RT_CfgSetWPAPSKKey(
 	OUT u8 *	pPMKBuf);
 
 INT	RT_CfgSetFixedTxPhyMode(char *arg);
-INT	RT_CfgSetMacAddress(struct rtmp_adapter *pAd, char *arg);
 INT	RT_CfgSetTxMCSProc(char *arg, BOOLEAN *pAutoRate);
 INT	RT_CfgSetAutoFallBack(struct rtmp_adapter *pAd, char *arg);
 

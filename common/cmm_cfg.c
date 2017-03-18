@@ -633,35 +633,6 @@ INT	RT_CfgSetFixedTxPhyMode(char *arg)
 
 }
 
-INT	RT_CfgSetMacAddress(
-	IN 	struct rtmp_adapter *	pAd,
-	IN	char *		arg)
-{
-	INT	i, mac_len;
-
-	/* Mac address acceptable format 01:02:03:04:05:06 length 17 */
-	mac_len = strlen(arg);
-	if(mac_len != 17)
-	{
-		DBGPRINT(RT_DEBUG_ERROR, ("%s : invalid length (%d)\n", __FUNCTION__, mac_len));
-		return FALSE;
-	}
-
-	if(strcmp(arg, "00:00:00:00:00:00") == 0)
-	{
-		DBGPRINT(RT_DEBUG_ERROR, ("%s : invalid mac setting \n", __FUNCTION__));
-		return FALSE;
-	}
-
-	for (i = 0; i < MAC_ADDR_LEN; i++)
-	{
-		AtoH(arg, &pAd->CurrentAddress[i], 1);
-		arg = arg + 3;
-	}
-
-	return TRUE;
-}
-
 INT	RT_CfgSetTxMCSProc(char *arg, BOOLEAN *pAutoRate)
 {
 	INT	Value = simple_strtol(arg, 0, 10);
