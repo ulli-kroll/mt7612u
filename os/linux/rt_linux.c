@@ -1969,16 +1969,6 @@ void OS_SPIN_UNLOCK_IRQRESTORE(spinlock_t *lock, unsigned long *flags)
 	spin_unlock_irqrestore((spinlock_t *)(lock), *flags);
 }
 
-void OS_SPIN_LOCK(spinlock_t *lock)
-{
-	spin_lock((spinlock_t *)(lock));
-}
-
-void OS_SPIN_UNLOCK(spinlock_t *lock)
-{
-	spin_unlock((spinlock_t *)(lock));
-}
-
 void OS_SPIN_LOCK_IRQ(spinlock_t *lock)
 {
 	spin_lock_irq((spinlock_t *)(lock));

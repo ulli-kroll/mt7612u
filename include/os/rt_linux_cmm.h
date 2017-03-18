@@ -109,8 +109,6 @@ typedef struct _OS_RSTRUC  {
 #define NdisAllocateSpinLock(__pReserved, __pLock)	OS_NdisAllocateSpinLock(__pLock)
 #define RTMP_SEM_LOCK							OS_SEM_LOCK
 #define RTMP_SEM_UNLOCK							OS_SEM_UNLOCK
-#define RTMP_SPIN_LOCK							OS_SPIN_LOCK
-#define RTMP_SPIN_UNLOCK						OS_SPIN_UNLOCK
 #define RTMP_SPIN_LOCK_IRQ						OS_SPIN_LOCK_IRQ
 #define RTMP_SPIN_UNLOCK_IRQ					OS_SPIN_UNLOCK_IRQ
 #define RTMP_SPIN_LOCK_IRQSAVE					OS_SPIN_LOCK_IRQSAVE
