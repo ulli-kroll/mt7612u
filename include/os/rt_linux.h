@@ -562,7 +562,7 @@ do{                                   \
 
 #define DBGPRINT_ERR(Fmt)           \
 {                                   \
-    printk("ERROR!!! ");          \
+    printk("ERROR!!! %s %d", __FUNCTION__, __LINE__);          \
     printk Fmt;                  \
 }
 

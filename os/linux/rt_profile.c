@@ -32,7 +32,6 @@ static char *RT2870STA_dat =
 "CountryRegionABand=7\n"
 "CountryCode=\n"
 "ChannelGeography=1\n"
-"\nSSID=dummy-dummy"
 "NetworkType=Infra\n"
 "WirelessMode=13\n"
 "EfuseBufferMode=0\n"
