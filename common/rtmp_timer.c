@@ -309,7 +309,6 @@ void RtmpTimerQExit(struct rtmp_adapter *pAd)
 	pAd->TimerQ.status = RTMP_TASK_STAT_STOPED;
 /*#endif*/
 	RTMP_INT_UNLOCK(&pAd->TimerQLock, irqFlags);
-/*	NdisFreeSpinLock(&pAd->TimerQLock); */
 }
 
 

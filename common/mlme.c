@@ -1171,7 +1171,6 @@ VOID MlmeHalt(struct rtmp_adapter *pAd)
 	RtmpusecDelay(5000);    /*  5 msec to gurantee Ant Diversity timer canceled*/
 
 	MlmeQueueDestroy(&pAd->Mlme.Queue);
-	NdisFreeSpinLock(&pAd->Mlme.TaskLock);
 
 	DBGPRINT(RT_DEBUG_TRACE, ("<== MlmeHalt\n"));
 }
@@ -3223,13 +3222,6 @@ VOID BATableInit(struct rtmp_adapter *pAd, BA_TABLE *Tab)
 
 VOID BATableExit(struct rtmp_adapter *pAd)
 {
-	int i;
-
-	for(i=0; i<MAX_LEN_OF_BA_REC_TABLE; i++)
-	{
-		NdisFreeSpinLock(&pAd->BATable.BARecEntry[i].RxReRingLock);
-	}
-	NdisFreeSpinLock(&pAd->BATabLock);
 }
 
 
@@ -4985,7 +4977,6 @@ VOID MlmeQueueDestroy(MLME_QUEUE *pQueue)
 	pQueue->Head = 0;
 	pQueue->Tail = 0;
 	NdisReleaseSpinLock(&(pQueue->Lock));
-	NdisFreeSpinLock(&(pQueue->Lock));
 }
 
 

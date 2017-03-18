@@ -438,9 +438,6 @@ err4:
 	RTMP_AllTimerListRelease(pAd);
 err3:
 	RtmpMgmtTaskExit(pAd);
-#ifdef RTMP_TIMER_TASK_SUPPORT
-	NdisFreeSpinLock(&pAd->TimerQLock);
-#endif /* RTMP_TIMER_TASK_SUPPORT */
 err2:
 #ifdef RESOURCE_PRE_ALLOC
 	RTMPResetTxRxRingMemory(pAd);
@@ -742,9 +739,6 @@ VOID RTMPDrvClose(struct rtmp_adapter *pAd, struct net_device *net_dev)
 	RtmpusecDelay(2000);
 	RTMP_AllTimerListRelease(pAd);
 
-#ifdef RTMP_TIMER_TASK_SUPPORT
-	NdisFreeSpinLock(&pAd->TimerQLock);
-#endif /* RTMP_TIMER_TASK_SUPPORT */
 
 
 }

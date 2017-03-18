@@ -257,10 +257,6 @@ struct os_lock  {
     spin_lock_init((spinlock_t *)(__lock));		\
 }
 
-#define OS_NdisFreeSpinLock(lock)				\
-	do{}while(0)
-
-
 #define OS_SEM_LOCK(__lock)						\
 {												\
 	spin_lock_bh((spinlock_t *)(__lock));		\

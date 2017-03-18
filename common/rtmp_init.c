@@ -1820,10 +1820,6 @@ VOID UserCfgExit(struct rtmp_adapter *pAd)
 #endif /* RT_CFG80211_SUPPORT */
 
 	BATableExit(pAd);
-
-
-	NdisFreeSpinLock(&pAd->MacTabLock);
-
 }
 
 
@@ -3053,12 +3049,6 @@ INT RtmpRaDevCtrlInit(struct rtmp_adapter *pAd, RTMP_INF_TYPE infType)
 BOOLEAN RtmpRaDevCtrlExit(IN struct rtmp_adapter *pAd)
 {
 	INT index;
-
-#ifdef CONFIG_STA_SUPPORT
-#ifdef CREDENTIAL_STORE
-		NdisFreeSpinLock(&pAd->StaCtIf.Lock);
-#endif /* CREDENTIAL_STORE */
-#endif /* CONFIG_STA_SUPPORT */
 
 #ifdef RLT_MAC
 	if ((IS_MT76x0(pAd) || IS_MT76x2(pAd))&& (pAd->WlanFunCtrl.field.WLAN_EN == 1))

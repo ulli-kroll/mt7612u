@@ -864,8 +864,6 @@ BOOLEAN MacTableDeleteEntry(struct rtmp_adapter *pAd, USHORT wcid, UCHAR *pAddr)
 
 			pAd->MacTab.Size--;
 
-			if (pAd->chipCap.FlgHwTxBfCap)
-				NdisFreeSpinLock(&pEntry->TxSndgLock);
 			DBGPRINT(RT_DEBUG_TRACE, ("MacTableDeleteEntry1 - Total= %d\n", pAd->MacTab.Size));
 		}
 		else

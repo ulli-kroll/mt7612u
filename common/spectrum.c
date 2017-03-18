@@ -341,8 +341,6 @@ int MeasureReqTabInit(
 VOID MeasureReqTabExit(
 	IN struct rtmp_adapter *pAd)
 {
-	NdisFreeSpinLock(&pAd->CommonCfg.MeasureReqTabLock);
-
 	if (pAd->CommonCfg.pMeasureReqTab)
 /*		kfree(pAd->CommonCfg.pMeasureReqTab);*/
 		kfree(pAd->CommonCfg.pMeasureReqTab);
@@ -567,7 +565,6 @@ int TpcReqTabInit(
 VOID TpcReqTabExit(
 	IN struct rtmp_adapter *pAd)
 {
-	NdisFreeSpinLock(&pAd->CommonCfg.TpcReqTabLock);
 
 	if (pAd->CommonCfg.pTpcReqTab)
 /*		kfree(pAd->CommonCfg.pTpcReqTab);*/

@@ -393,7 +393,6 @@ VOID CFG80211_ScanStatusLockInit(
 	}
 	else
 	{
-		NdisFreeSpinLock(&pCfg80211_CB->scan_notify_lock);
 	}
 }
 

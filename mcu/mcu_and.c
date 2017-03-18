@@ -1850,17 +1850,11 @@ static void mt7612u_mcu_ctrl_usb_exit(struct rtmp_adapter *ad)
 	mt7612u_mcu_usb_unlink_urb(ad, &ctl->rxq);
 	RTMP_OS_TASKLET_KILL(&ctl->cmd_msg_task);
 	mt7612u_mcu_cleanup_cmd_msg(ad, &ctl->txq);
-	NdisFreeSpinLock(&ctl->txq_lock);
 	mt7612u_mcu_cleanup_cmd_msg(ad, &ctl->ackq);
-	NdisFreeSpinLock(&ctl->ackq_lock);
 	mt7612u_mcu_cleanup_cmd_msg(ad, &ctl->rxq);
-	NdisFreeSpinLock(&ctl->rxq_lock);
 	mt7612u_mcu_cleanup_cmd_msg(ad, &ctl->kickq);
-	NdisFreeSpinLock(&ctl->kickq_lock);
 	mt7612u_mcu_cleanup_cmd_msg(ad, &ctl->tx_doneq);
-	NdisFreeSpinLock(&ctl->tx_doneq_lock);
 	mt7612u_mcu_cleanup_cmd_msg(ad, &ctl->rx_doneq);
-	NdisFreeSpinLock(&ctl->rx_doneq_lock);
 	DBGPRINT(RT_DEBUG_OFF, ("tx_kickout_fail_count = %ld\n", ctl->tx_kickout_fail_count));
 	DBGPRINT(RT_DEBUG_OFF, ("tx_timeout_fail_count = %ld\n", ctl->tx_timeout_fail_count));
 	DBGPRINT(RT_DEBUG_OFF, ("rx_receive_fail_count = %ld\n", ctl->rx_receive_fail_count));

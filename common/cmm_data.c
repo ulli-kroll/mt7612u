@@ -3723,7 +3723,6 @@ VOID drop_mask_release_per_client(
 
 	RTMPCancelTimer(&entry->dropmask_timer, &cancelled);
 	RTMPReleaseTimer(&entry->dropmask_timer, &cancelled);
-	NdisFreeSpinLock(&entry->drop_mask_lock);
 
 	entry->tx_fail_drop_mask_enabled = 0;
 	entry->ps_drop_mask_enabled = 0;

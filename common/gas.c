@@ -1224,7 +1224,6 @@ VOID GASCtrlExit(IN struct rtmp_adapter *pAd)
 
 	DlListInit(&pGASCtrl->GASPeerList);
 	RTMP_SEM_UNLOCK(&pGASCtrl->GASPeerListLock);
-	NdisFreeSpinLock(&pGASCtrl->GASPeerListLock);
 #endif
 
 #ifdef CONFIG_AP_SUPPORT
@@ -1269,7 +1268,6 @@ VOID GASCtrlExit(IN struct rtmp_adapter *pAd)
 
 		DlListInit(&pGASCtrl->GASPeerList);
 		RTMP_SEM_UNLOCK(&pGASCtrl->GASPeerListLock);
-		NdisFreeSpinLock(&pGASCtrl->GASPeerListLock);
 	}
 #endif /* CONFIG_AP_SUPPORT */
 }

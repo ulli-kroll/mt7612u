@@ -138,8 +138,6 @@ Note:
 VOID UAPSD_Release(struct rtmp_adapter *pAd)
 {
     /* free the lock resource for SMP environment */
-    NdisFreeSpinLock(&pAd->UAPSDEOSPLock);
-
 #ifdef UAPSD_DEBUG
 	DBGPRINT(RT_DEBUG_TRACE, ("uapsd> release a spinlock!\n"));
 #endif /* UAPSD_DEBUG */

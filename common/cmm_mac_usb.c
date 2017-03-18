@@ -152,31 +152,10 @@ VOID RTMPResetTxRxRingMemory(
 			RTUSB_UNLINK_URB(pHTTXContext->pUrb);
 	}
 
-	for(i=0; i<6; i++)
-	{
-		NdisFreeSpinLock(&pAd->BulkOutLock[i]);
-	}
-
-	NdisFreeSpinLock(&pAd->BulkInLock);
-	NdisFreeSpinLock(&pAd->CmdRspLock);
-	NdisFreeSpinLock(&pAd->MLMEBulkOutLock);
-
-	NdisFreeSpinLock(&pAd->CmdQLock);
 	/* Clear all pending bulk-out request flags.*/
 	RTUSB_CLEAR_BULK_FLAG(pAd, 0xffffffff);
 
-	for (i = 0; i < NUM_OF_TX_RING; i++)
-	{
-		NdisFreeSpinLock(&pAd->TxContextQueueLock[i]);
-	}
 
-/*
-	NdisFreeSpinLock(&pAd->MacTabLock);
-	for(i=0; i<MAX_LEN_OF_BA_REC_TABLE; i++)
-	{
-		NdisFreeSpinLock(&pAd->BATable.BARecEntry[i].RxReRingLock);
-	}
-*/
 }
 
 
@@ -1223,26 +1202,8 @@ VOID	RTMPFreeTxRxRingMemory(
 	if (pAd->FragFrame.pFragPacket)
 		RELEASE_NDIS_PACKET(pAd, pAd->FragFrame.pFragPacket, NDIS_STATUS_SUCCESS);
 
-
-	/* Free spinlocks*/
-	for(i=0; i<6; i++)
-	{
-		NdisFreeSpinLock(&pAd->BulkOutLock[i]);
-	}
-
-	NdisFreeSpinLock(&pAd->BulkInLock);
-	NdisFreeSpinLock(&pAd->CmdRspLock);
-	NdisFreeSpinLock(&pAd->MLMEBulkOutLock);
-
-	NdisFreeSpinLock(&pAd->CmdQLock);
-
 	/* Clear all pending bulk-out request flags.*/
 	RTUSB_CLEAR_BULK_FLAG(pAd, 0xffffffff);
-
-	for (i = 0; i < NUM_OF_TX_RING; i++)
-	{
-		NdisFreeSpinLock(&pAd->TxContextQueueLock[i]);
-	}
 
 	DBGPRINT(RT_DEBUG_ERROR, ("<--- RTMPFreeTxRxRingMemory\n"));
 }

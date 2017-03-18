@@ -99,11 +99,6 @@ VOID APShutdown(struct rtmp_adapter *pAd)
 
 	MlmeRadioOff(pAd);
 
-
-
-	NdisFreeSpinLock(&pAd->MacTabLock);
-
-
 	DBGPRINT(RT_DEBUG_TRACE, ("<--- APShutdown\n"));
 }
 

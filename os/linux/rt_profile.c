@@ -552,29 +552,10 @@ VOID RTMPFreeAdapter(struct rtmp_adapter *pAd)
 	if (pAd->BeaconBuf)
 		kfree(pAd->BeaconBuf);
 
-	NdisFreeSpinLock(&pAd->MgmtRingLock);
-
-
-#if defined(RT3290) || defined(RLT_MAC)
-	NdisFreeSpinLock(&pAd->WlanEnLock);
-#endif /* defined(RT3290) || defined(RLT_MAC) */
-
 	for (index =0 ; index < NUM_OF_TX_RING; index++)
 	{
-		NdisFreeSpinLock(&pAd->TxSwQueueLock[index]);
-		NdisFreeSpinLock(&pAd->DeQueueLock[index]);
 		pAd->DeQueueRunning[index] = FALSE;
 	}
-
-	NdisFreeSpinLock(&pAd->irq_lock);
-
-
-
-#ifdef UAPSD_SUPPORT
-	NdisFreeSpinLock(&pAd->UAPSDEOSPLock); /* OS_ABL_SUPPORT */
-#endif /* UAPSD_SUPPORT */
-
-	NdisFreeSpinLock(&pAd->mpdu_blk_pool.lock);
 
 	if (pAd->iw_stats)
 	{
@@ -586,8 +567,6 @@ VOID RTMPFreeAdapter(struct rtmp_adapter *pAd)
 		kfree(pAd->stats);
 		pAd->stats = NULL;
 	}
-
-	NdisFreeSpinLock(&TimerSemLock);
 
 	RTMP_OS_FREE_TIMER(pAd);
 	RTMP_OS_FREE_LOCK(pAd);
