@@ -65,7 +65,7 @@ ULONG OS_NumOfMemAlloc = 0, OS_NumOfMemFree = 0;
  * path so throughput should not be impacted
  */
 BOOLEAN FlgIsUtilInit = FALSE;
-OS_NDIS_SPIN_LOCK UtilSemLock;
+spinlock_t UtilSemLock;
 
 BOOLEAN RTMP_OS_Alloc_RscOnly(VOID *pRscSrc, uint32_t RscLen);
 BOOLEAN RTMP_OS_Remove_Rsc(LIST_HEADER *pRscList, VOID *pRscSrc);
@@ -1959,32 +1959,32 @@ INT RtmpOSNotifyRawData(
 #endif /* CONFIG_STA_SUPPORT */
 
 
-void OS_SPIN_LOCK_IRQSAVE(NDIS_SPIN_LOCK *lock, unsigned long *flags)
+void OS_SPIN_LOCK_IRQSAVE(spinlock_t *lock, unsigned long *flags)
 {
 	spin_lock_irqsave((spinlock_t *)(lock), *flags);
 }
 
-void OS_SPIN_UNLOCK_IRQRESTORE(NDIS_SPIN_LOCK *lock, unsigned long *flags)
+void OS_SPIN_UNLOCK_IRQRESTORE(spinlock_t *lock, unsigned long *flags)
 {
 	spin_unlock_irqrestore((spinlock_t *)(lock), *flags);
 }
 
-void OS_SPIN_LOCK(NDIS_SPIN_LOCK *lock)
+void OS_SPIN_LOCK(spinlock_t *lock)
 {
 	spin_lock((spinlock_t *)(lock));
 }
 
-void OS_SPIN_UNLOCK(NDIS_SPIN_LOCK *lock)
+void OS_SPIN_UNLOCK(spinlock_t *lock)
 {
 	spin_unlock((spinlock_t *)(lock));
 }
 
-void OS_SPIN_LOCK_IRQ(NDIS_SPIN_LOCK *lock)
+void OS_SPIN_LOCK_IRQ(spinlock_t *lock)
 {
 	spin_lock_irq((spinlock_t *)(lock));
 }
 
-void OS_SPIN_UNLOCK_IRQ(NDIS_SPIN_LOCK *lock)
+void OS_SPIN_UNLOCK_IRQ(spinlock_t *lock)
 {
 	spin_unlock_irq((spinlock_t *)(lock));
 }

@@ -249,8 +249,6 @@ struct os_lock  {
 	unsigned long  	flags;
 };
 
-typedef spinlock_t			OS_NDIS_SPIN_LOCK;
-
 /* */
 /*  spin_lock enhanced for Nested spin lock */
 /* */

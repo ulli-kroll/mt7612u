@@ -1230,9 +1230,9 @@ static inline void mt7612u_mcu_inc_error_count(struct MCU_CTRL *ctl, enum cmd_ms
 	}
 }
 
-static NDIS_SPIN_LOCK *mt7612u_mcu_get_spin_lock(struct MCU_CTRL *ctl, DL_LIST *list)
+static spinlock_t *mt7612u_mcu_get_spin_lock(struct MCU_CTRL *ctl, DL_LIST *list)
 {
-	NDIS_SPIN_LOCK *lock = NULL;
+	spinlock_t *lock = NULL;
 
 	if (list == &ctl->txq)
 		lock = &ctl->txq_lock;
@@ -1284,7 +1284,7 @@ static void mt7612u_mcu_queue_tail_cmd_msg(DL_LIST *list, struct cmd_msg *msg,
 										enum cmd_msg_state state)
 {
 	unsigned long flags;
-	NDIS_SPIN_LOCK *lock;
+	spinlock_t *lock;
 	struct rtmp_adapter *ad = (struct rtmp_adapter *)msg->priv;
 	struct MCU_CTRL *ctl = &ad->MCUCtrl;
 
@@ -1306,7 +1306,7 @@ static void mt7612u_mcu_queue_head_cmd_msg(DL_LIST *list, struct cmd_msg *msg,
 										enum cmd_msg_state state)
 {
 	unsigned long flags;
-	NDIS_SPIN_LOCK *lock;
+	spinlock_t *lock;
 	struct rtmp_adapter *ad = (struct rtmp_adapter *)msg->priv;
 	struct MCU_CTRL *ctl = &ad->MCUCtrl;
 
@@ -1321,7 +1321,7 @@ static u32 mt7612u_mcu_queue_len(struct MCU_CTRL *ctl, DL_LIST *list)
 {
 	u32 qlen;
 	unsigned long flags;
-	NDIS_SPIN_LOCK *lock;
+	spinlock_t *lock;
 
 	lock = mt7612u_mcu_get_spin_lock(ctl, list);
 
@@ -1336,7 +1336,7 @@ static int mt7612u_mcu_queue_empty(struct MCU_CTRL *ctl, DL_LIST *list)
 {
 	unsigned long flags;
 	int is_empty;
-	NDIS_SPIN_LOCK *lock;
+	spinlock_t *lock;
 
 	lock = mt7612u_mcu_get_spin_lock(ctl, list);
 
@@ -1351,7 +1351,7 @@ static void mt7612u_mcu_queue_init(struct MCU_CTRL *ctl, DL_LIST *list)
 {
 
 	unsigned long flags;
-	NDIS_SPIN_LOCK *lock;
+	spinlock_t *lock;
 
 	lock = mt7612u_mcu_get_spin_lock(ctl, list);
 
@@ -1371,7 +1371,7 @@ static void _mt7612u_mcu_unlink_cmd_msg(struct cmd_msg *msg, DL_LIST *list)
 static void mt7612u_mcu_unlink_cmd_msg(struct cmd_msg *msg, DL_LIST *list)
 {
 	unsigned long flags;
-	NDIS_SPIN_LOCK *lock;
+	spinlock_t *lock;
 	struct rtmp_adapter *ad = (struct rtmp_adapter *)msg->priv;
 	struct MCU_CTRL *ctl = &ad->MCUCtrl;
 
@@ -1397,7 +1397,7 @@ static struct cmd_msg *mt7612u_mcu_dequeue_cmd_msg(struct MCU_CTRL *ctl, DL_LIST
 {
 	unsigned long flags;
 	struct cmd_msg *msg;
-	NDIS_SPIN_LOCK *lock;
+	spinlock_t *lock;
 
 	lock = mt7612u_mcu_get_spin_lock(ctl, list);
 
@@ -1748,7 +1748,7 @@ void mt7612u_mcu_usb_unlink_urb(struct rtmp_adapter *ad, DL_LIST *list)
 {
 	unsigned long flags;
 	struct cmd_msg *msg, *msg_tmp;
-	NDIS_SPIN_LOCK *lock;
+	spinlock_t *lock;
 	struct MCU_CTRL *ctl = &ad->MCUCtrl;
 
 	lock = mt7612u_mcu_get_spin_lock(ctl, list);
@@ -1771,7 +1771,7 @@ void mt7612u_mcu_cleanup_cmd_msg(struct rtmp_adapter *ad, DL_LIST *list)
 {
 	unsigned long flags;
 	struct cmd_msg *msg, *msg_tmp;
-	NDIS_SPIN_LOCK *lock;
+	spinlock_t *lock;
 	struct MCU_CTRL *ctl = &ad->MCUCtrl;
 
 	lock = mt7612u_mcu_get_spin_lock(ctl, list);

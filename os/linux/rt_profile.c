@@ -540,7 +540,7 @@ void announce_802_3_packet(
 
 
 
-extern NDIS_SPIN_LOCK TimerSemLock;
+extern spinlock_t TimerSemLock;
 
 VOID RTMPFreeAdapter(struct rtmp_adapter *pAd)
 {

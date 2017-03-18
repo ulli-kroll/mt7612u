@@ -40,7 +40,7 @@ char *CipherName[] = {"none","wep64","wep128","TKIP","AES","CKIP64","CKIP128","C
 	Or when the structure is cleared, we maybe get NULL for pAd and can not lock.
 	Maybe we can put pAd in RTMPSetTimer/ RTMPModTimer/ RTMPCancelTimer.
 */
-NDIS_SPIN_LOCK TimerSemLock;
+spinlock_t TimerSemLock;
 
 
 /*
