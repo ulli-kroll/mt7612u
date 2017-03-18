@@ -3706,7 +3706,6 @@ struct rtmp_adapter {
 	uint32_t ra_fast_interval;
 
 	/* configuration: read from Registry & E2PROM */
-	BOOLEAN bLocalAdminMAC;	/* Use user changed MAC */
 	UCHAR PermanentAddress[MAC_ADDR_LEN];	/* Factory default MAC address */
 	UCHAR CurrentAddress[MAC_ADDR_LEN];	/* User changed MAC address */
 

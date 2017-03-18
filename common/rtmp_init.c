@@ -316,18 +316,8 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 	DBGPRINT(RT_DEBUG_TRACE, ("E2PROM MAC: =%02x:%02x:%02x:%02x:%02x:%02x\n",
 								PRINT_MAC(pAd->PermanentAddress)));
 
-	/* Assign the actually working MAC Address */
-	if (pAd->bLocalAdminMAC) {
-		DBGPRINT(RT_DEBUG_TRACE, ("Use the MAC address what is assigned from Configuration file(.dat). \n"));
-#if defined(BB_SOC)&&!defined(NEW_MBSSID_MODE)
-		BBUPrepareMAC(pAd, pAd->CurrentAddress);
-		COPY_MAC_ADDR(pAd->PermanentAddress, pAd->CurrentAddress);
-		printk("now bb MainSsid mac %02x:%02x:%02x:%02x:%02x:%02x\n",PRINT_MAC(pAd->CurrentAddress));
-#endif
-	} else {
-		COPY_MAC_ADDR(pAd->CurrentAddress, pAd->PermanentAddress);
-		DBGPRINT(RT_DEBUG_TRACE, ("Use the MAC address what is assigned from EEPROM. \n"));
-	}
+	COPY_MAC_ADDR(pAd->CurrentAddress, pAd->PermanentAddress);
+	DBGPRINT(RT_DEBUG_OFF, ("Use the MAC address what is assigned from EEPROM. \n"));
 
 	/* Set the current MAC to ASIC */
 	csr2.field.Byte0 = pAd->CurrentAddress[0];
@@ -1926,7 +1916,6 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 		}
 	}
 
-	pAd->bLocalAdminMAC = FALSE;
 	pAd->EepromAccess = FALSE;
 
 	pAd->Antenna.word = 0;
