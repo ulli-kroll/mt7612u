@@ -1,9 +1,5 @@
 #include "rt_config.h"
 
-#ifdef RTMP_EFUSE_SUPPORT
-#include "eeprom/mt76x2_e2p.h"
-#endif /* RTMP_EFUSE_SUPPORT */
-
 #define MT7662_EFUSE_CTRL	0x0024
 static RTMP_REG_PAIR mt76x2_mac_cr_table[] = {
 	{PBF_SYS_CTRL, 0x80c00},
@@ -2727,14 +2723,6 @@ static const RTMP_CHIP_CAP MT76x2_ChipCap = {
 #else
 	.MBSSIDMode = MBSSID_MODE0,
 #endif /* NEW_MBSSID_MODE */
-#ifdef RTMP_EFUSE_SUPPORT
-	.EFUSE_USAGE_MAP_START = 0x1e0,
-	.EFUSE_USAGE_MAP_END = 0x1fc,
-	.EFUSE_USAGE_MAP_SIZE = 29,
-	.EFUSE_RESERVED_SIZE = 21,	// Cal-Free is 22 free block
-#endif /* RTMP_EFUSE_SUPPORT */
-	.EEPROM_DEFAULT_BIN = MT76x2_E2PImage,
-	.EEPROM_DEFAULT_BIN_SIZE = sizeof(MT76x2_E2PImage),
 #ifdef CONFIG_ANDES_SUPPORT
 	.WlanMemmapOffset = 0x410000,
 	.InbandPacketMaxLen = 192,

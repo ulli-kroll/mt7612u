@@ -492,12 +492,6 @@ struct _RTMP_CHIP_CAP_ {
 	UINT8 RXWISize;
 
 	/* ---------------------------- others ---------------------------------- */
-#ifdef RTMP_EFUSE_SUPPORT
-	uint16_t EFUSE_USAGE_MAP_START;
-	uint16_t EFUSE_USAGE_MAP_END;
-	UINT8 EFUSE_USAGE_MAP_SIZE;
-	UINT8 EFUSE_RESERVED_SIZE;
-#endif /* RTMP_EFUSE_SUPPORT */
 
 	UCHAR *EEPROM_DEFAULT_BIN;
 	uint16_t EEPROM_DEFAULT_BIN_SIZE;

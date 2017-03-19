@@ -3491,9 +3491,6 @@ VOID RTMPIoctlStatistics(struct rtmp_adapter *pAd, RTMP_IOCTL_INPUT_STRUCT *wrq)
 	uint32_t rxCount = 0;
 	ULONG per, plr;
 	INT i;
-#ifdef RTMP_EFUSE_SUPPORT
-	UINT efusefreenum=0;
-#endif /* RTMP_EFUSE_SUPPORT */
 
 #ifdef BB_SOC
 	ULONG txPackets=0, rxPackets=0, txBytes=0, rxBytes=0;
