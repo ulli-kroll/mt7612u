@@ -4565,8 +4565,6 @@ VOID RTMPReleaseTimer(RALINK_TIMER_STRUCT *pTimer, BOOLEAN *pCancelled);
 
 VOID RTMPEnableRxTx(struct rtmp_adapter *pAd);
 
-VOID AntCfgInit(struct rtmp_adapter *pAd);
-
 /* */
 /* prototype in action.c */
 /* */
