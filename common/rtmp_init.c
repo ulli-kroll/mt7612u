@@ -1901,12 +1901,6 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 	pAd->bAutoTxAgcA = FALSE;			/* Default is OFF*/
 	pAd->bAutoTxAgcG = FALSE;			/* Default is OFF*/
 
-#ifdef THERMAL_PROTECT_SUPPORT
-	pAd->force_one_tx_stream = FALSE;
-	pAd->last_thermal_pro_temp = 0;
-	pAd->thermal_pro_criteria = 80;
-#endif /* THERMAL_PROTECT_SUPPORT */
-
 	pAd->RfIcType = RFIC_6352;	/* ULLI : lowest possible */
 
 	/* Init timer for reset complete event*/

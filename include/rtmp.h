@@ -3575,14 +3575,6 @@ struct rtmp_adapter {
 	UCHAR TxAgcStepG;	/* Store Tx TSSI delta increment / decrement value */
 	CHAR TxAgcCompensateG;	/* Store the compensation (TxAgcStep * (idx-1)) */
 
-
-#ifdef THERMAL_PROTECT_SUPPORT
-	BOOLEAN force_one_tx_stream;
-	int32_t last_thermal_pro_temp;
-	int32_t thermal_pro_criteria;
-#endif /* THERMAL_PROTECT_SUPPORT */
-
-
 #ifdef RTMP_FREQ_CALIBRATION_SUPPORT
 	FREQUENCY_CALIBRATION_CONTROL FreqCalibrationCtrl;	/* The frequency calibration control */
 #endif /* RTMP_FREQ_CALIBRATION_SUPPORT */
@@ -4876,11 +4868,6 @@ INT AsicSetChannel(
 	IN UINT8 bw,
 	IN UINT8 ext_ch,
 	IN BOOLEAN bScan);
-
-#ifdef THERMAL_PROTECT_SUPPORT
-VOID thermal_protection(
-	IN  struct rtmp_adapter *  pAd);
-#endif /* THERMAL_PROTECT_SUPPORT */
 
 VOID AsicLockChannel(struct rtmp_adapter *pAd, UCHAR Channel);
 VOID AsicAntennaSelect(struct rtmp_adapter *pAd, UCHAR Channel);

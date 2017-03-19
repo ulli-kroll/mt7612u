@@ -537,12 +537,6 @@ INT set_false_cca_hi_th(struct rtmp_adapter *pAd, char *arg);
 INT set_false_cca_low_th(struct rtmp_adapter *pAd, char *arg);
 #endif /* DYNAMIC_VGA_SUPPORT */
 
-#ifdef THERMAL_PROTECT_SUPPORT
-INT set_thermal_protection_criteria_proc(
-	IN struct rtmp_adapter *pAd,
-	IN char *arg);
-#endif /* THERMAL_PROTECT_SUPPORT */
-
 #define	ASSO_MAC_LINE_LEN	(1+19+4+4+4+4+8+7+7+7+10+6+6+6+6+7+7+7+1)
 VOID RTMPAPGetAssoMacTable(
 	IN struct rtmp_adapter *pAd,
@@ -5547,20 +5541,6 @@ INT set_false_cca_low_th(struct rtmp_adapter *pAd, char *arg)
 	return TRUE;
 }
 #endif /* DYNAMIC_VGA_SUPPORT */
-
-#ifdef THERMAL_PROTECT_SUPPORT
-INT set_thermal_protection_criteria_proc(
-	IN struct rtmp_adapter *pAd,
-	IN char *arg)
-{
-	int32_t criteria = simple_strtol(arg, 0, 10);
-
-	pAd->thermal_pro_criteria = (criteria <= 0) ? 80 : criteria;
-
-	DBGPRINT(RT_DEBUG_ERROR, ("%s::criteria=%d\n", __FUNCTION__, pAd->thermal_pro_criteria));
-	return TRUE;
-}
-#endif /* THERMAL_PROTECT_SUPPORT */
 
 static INT Set_AP_VENDOR_SPECIFIC_IE(
 	IN struct rtmp_adapter *pAd,

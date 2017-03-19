@@ -2990,41 +2990,6 @@ VOID RT28xxAndesWOWDisable(
 
 #endif /* NEW_WOW_SUPPORT */
 
-#ifdef THERMAL_PROTECT_SUPPORT
-VOID thermal_protection(
-	IN struct rtmp_adapter 	*pAd)
-{
-	RTMP_CHIP_OP *pChipOps = &pAd->chipOps;
-	int32_t temp_diff = 0, current_temp = 0;
-
-	if (pAd->chipCap.ThermalProtectSup == FALSE)
-		return;
-
-	RTMP_CHIP_GET_CURRENT_TEMP(pAd, current_temp);
-	temp_diff = current_temp - pAd->last_thermal_pro_temp;
-	pAd->last_thermal_pro_temp = current_temp;
-
-	DBGPRINT(RT_DEBUG_INFO, ("%s - current temp=%d, temp diff=%d\n",
-					__FUNCTION__, current_temp, temp_diff));
-
-	if (temp_diff > 0) {
-		if (current_temp > (pAd->thermal_pro_criteria + 10) /* 90 */)
-			RTMP_CHIP_THERMAL_PRO_2nd_COND(pAd);
-		else if (current_temp > pAd->thermal_pro_criteria /* 80 */)
-			RTMP_CHIP_THERMAL_PRO_1st_COND(pAd);
-		else
-			RTMP_CHIP_THERMAL_PRO_DEFAULT_COND(pAd);
-	} else if (temp_diff < 0) {
-		if (current_temp < (pAd->thermal_pro_criteria - 5) /* 75 */)
-			RTMP_CHIP_THERMAL_PRO_DEFAULT_COND(pAd);
-		else if (current_temp < (pAd->thermal_pro_criteria + 5) /* 85 */)
-			RTMP_CHIP_THERMAL_PRO_1st_COND(pAd);
-		else
-			RTMP_CHIP_THERMAL_PRO_2nd_COND(pAd);
-	}
-}
-#endif /* THERMAL_PROTECT_SUPPORT */
-
 #ifdef DROP_MASK_SUPPORT
 VOID asic_set_drop_mask(
 	struct rtmp_adapter *ad,

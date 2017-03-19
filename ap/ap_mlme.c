@@ -130,10 +130,6 @@ VOID APMlmePeriodicExec(
 	AsicAdjustTxPower(pAd);
 /*#endif // WIFI_TEST */
 
-#ifdef THERMAL_PROTECT_SUPPORT
-	thermal_protection(pAd);
-#endif /* THERMAL_PROTECT_SUPPORT */
-
 	RTMP_CHIP_ASIC_TEMPERATURE_COMPENSATION(pAd);
 
     /* walk through MAC table, see if switching TX rate is required */

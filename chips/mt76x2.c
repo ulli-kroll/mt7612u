@@ -2791,9 +2791,6 @@ static const RTMP_CHIP_CAP MT76x2_ChipCap = {
     .RxWIFrqOffset = RXWI_FRQ_OFFSET_FIELD0,
 #endif /* RTMP_FREQ_CALIBRATION_SUPPORT */
 #endif /* CONFIG_STA_SUPPORT */
-#ifdef THERMAL_PROTECT_SUPPORT
-	.ThermalProtectSup = FALSE;
-#endif /* THERMAL_PROTECT_SUPPORT */
 };
 
 static const RTMP_CHIP_OP MT76x2_ChipOp = {

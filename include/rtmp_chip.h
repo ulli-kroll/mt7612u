@@ -425,10 +425,6 @@ struct _RTMP_CHIP_CAP_ {
 	/* use UINT8, not bit-or to speed up driver */
 	BOOLEAN FlgIsHwWapiSup;
 
-#ifdef THERMAL_PROTECT_SUPPORT
-	BOOLEAN ThermalProtectSup;
-#endif /* THERMAL_PROTECT_SUPPORT */
-
 	/* VCO calibration mode */
 	UINT8 VcoPeriod; /* default 10s */
 #define VCO_CAL_DISABLE		0	/* not support */
@@ -739,11 +735,6 @@ struct _RTMP_CHIP_OP_ {
 	VOID (*ChipIQCalibration)(struct rtmp_adapter *pAd, UCHAR Channel);
 
 	uint32_t (*ChipGetCurrentTemp)(struct rtmp_adapter *pAd);
-#ifdef THERMAL_PROTECT_SUPPORT
-	VOID (*ThermalProDefaultCond)(struct rtmp_adapter *pAd);
-	VOID (*ThermalPro1stCond)(struct rtmp_adapter *pAd);
-	VOID (*ThermalPro2ndCond)(struct rtmp_adapter *pAd);
-#endif /* THERMAL_PROTECT_SUPPORT */
 
 	VOID (*AsicGetTxPowerOffset)(struct rtmp_adapter *pAd, ULONG *TxPwr);
 	VOID (*AsicExtraPowerOverMAC)(struct rtmp_adapter *pAd);
@@ -834,26 +825,6 @@ do {	\
 		if (__pAd->chipOps.ChipGetCurrentTemp != NULL) \
 			__pCurrentTemp = __pAd->chipOps.ChipGetCurrentTemp(__pAd); \
 } while (0)
-
-#ifdef THERMAL_PROTECT_SUPPORT
-#define RTMP_CHIP_THERMAL_PRO_DEFAULT_COND(__pAd)	\
-do {	\
-		if (__pAd->chipOps.ThermalProDefaultCond != NULL) \
-			__pAd->chipOps.ThermalProDefaultCond(__pAd); \
-} while (0)
-
-#define RTMP_CHIP_THERMAL_PRO_1st_COND(__pAd)	\
-do {	\
-		if (__pAd->chipOps.ThermalPro1stCond != NULL)	\
-			__pAd->chipOps.ThermalPro1stCond(__pAd);	\
-} while (0)
-
-#define RTMP_CHIP_THERMAL_PRO_2nd_COND(__pAd)	\
-do {	\
-		if (__pAd->chipOps.ThermalPro2ndCond != NULL)	\
-			__pAd->chipOps.ThermalPro2ndCond(__pAd);	\
-} while (0)
-#endif /* THERMAL_PROTECT_SUPPORT */
 
 #define RTMP_CHIP_ASIC_FREQ_CAL_STOP(__pAd)	\
 do {	\

@@ -1786,9 +1786,6 @@ VOID MlmeSelectTxRateTable(
 		if ((pEntry->SupportRateMode & (SUPPORT_OFDM_MODE)) &&
 			(pEntry->HTCapability.MCSSet[0] != 0x00) &&
 			(pEntry->HTCapability.MCSSet[1] != 0x00) &&
-#ifdef THERMAL_PROTECT_SUPPORT
-			(pAd->force_one_tx_stream == FALSE) &&
-#endif /* THERMAL_PROTECT_SUPPORT */
 			(((pAd->Antenna.field.TxPath == 3) && (pEntry->HTCapability.MCSSet[2] == 0x00)) || (pAd->CommonCfg.TxStream == 2)))
 		{/* 11BGN 2S AP*/
 			if (CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_2G_256QAM_CAPABLE)
@@ -1820,9 +1817,6 @@ VOID MlmeSelectTxRateTable(
 		/*else if ((pAd->StaActive.SupportedPhyInfo.MCSSet[0] == 0xff) && ((pAd->StaActive.SupportedPhyInfo.MCSSet[1] == 0x00) || (pAd->Antenna.field.TxPath == 1)))*/
 		if ((pEntry->HTCapability.MCSSet[0] != 0x00) &&
 			((pEntry->HTCapability.MCSSet[1] == 0x00) || (pAd->CommonCfg.TxStream == 1)
-#ifdef THERMAL_PROTECT_SUPPORT
-			|| (pAd->force_one_tx_stream == TRUE)
-#endif /* THERMAL_PROTECT_SUPPORT */
 			))
 		{/* 11N 1S AP*/
 			{
@@ -1843,9 +1837,6 @@ VOID MlmeSelectTxRateTable(
 		if ((pEntry->HTCapability.MCSSet[0] != 0x00) &&
 			(pEntry->HTCapability.MCSSet[1] != 0x00) &&
 			(pAd->CommonCfg.TxStream == 2)
-#ifdef THERMAL_PROTECT_SUPPORT
-			&& (pAd->force_one_tx_stream == FALSE)
-#endif /* THERMAL_PROTECT_SUPPORT */
 			)
 		{/* 11N 2S AP*/
 			{
