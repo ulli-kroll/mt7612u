@@ -391,9 +391,17 @@ int RTUSB_VendorRequest(
 			memmove(pAd->UsbVendorReqBuf, TransferBuffer, TransferBufferLength);
 
 		do {
-			RTUSB_CONTROL_MSG(pObj->pUsb_Dev, 0, Request, RequestType, Value,
-								Index, pAd->UsbVendorReqBuf, TransferBufferLength,
-								CONTROL_TIMEOUT_JIFFIES, RET);
+			int pipe;
+
+			if ((RequestType == DEVICE_VENDOR_REQUEST_OUT) || (RequestType == DEVICE_CLASS_REQUEST_OUT))
+				pipe = usb_sndctrlpipe(pObj->pUsb_Dev, 0);
+			else
+				pipe = usb_rcvctrlpipe(pObj->pUsb_Dev, 0);
+
+			RET = USB_CONTROL_MSG(pObj->pUsb_Dev, pipe, Request,
+					      RequestType, Value, Index,
+					      pAd->UsbVendorReqBuf,
+					      TransferBufferLength, CONTROL_TIMEOUT_JIFFIES);
 
 			if (RET < 0) {
 				DBGPRINT(RT_DEBUG_OFF, ("#\n"));
