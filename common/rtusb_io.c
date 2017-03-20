@@ -344,17 +344,13 @@ int RTUSBWakeUp(struct rtmp_adapter *pAd)
 
 	========================================================================
 */
-int RTUSB_VendorRequest(
-	IN	struct rtmp_adapter *pAd,
-	IN	UCHAR			RequestType,
-	IN	UCHAR			Request,
-	IN	USHORT			Value,
-	IN	USHORT			Index,
-	IN	PVOID			TransferBuffer,
-	IN	uint32_t 		TransferBufferLength)
+int RTUSB_VendorRequest(struct rtmp_adapter *pAd,
+	UCHAR	RequestType, UCHAR Request,
+	USHORT  Value, USHORT Index,
+	PVOID   TransferBuffer, uint32_t TransferBufferLength)
 {
-	int				RET = 0;
-	struct os_cookie *	pObj = pAd->OS_Cookie;
+	int ret = 0;
+	struct usb_device *udev = pAd->OS_Cookie->pUsb_Dev;
 
 	if(in_interrupt()) {
 		DBGPRINT(RT_DEBUG_ERROR, ("BUG: RTUSB_VendorRequest is called from invalid context\n"));
@@ -381,8 +377,8 @@ int RTUSB_VendorRequest(
 		int RetryCount = 0; /* RTUSB_CONTROL_MSG retry counts*/
 		ASSERT(TransferBufferLength <MAX_PARAM_BUFFER_SIZE);
 
-		RET = down_interruptible(&(pAd->UsbVendorReq_semaphore));
-		if (RET != 0) {
+		ret = down_interruptible(&(pAd->UsbVendorReq_semaphore));
+		if (ret != 0) {
 			DBGPRINT(RT_DEBUG_ERROR, ("UsbVendorReq_semaphore get failed\n"));
 			return NDIS_STATUS_FAILURE;
 		}
@@ -394,49 +390,49 @@ int RTUSB_VendorRequest(
 			int pipe;
 
 			if ((RequestType == DEVICE_VENDOR_REQUEST_OUT) || (RequestType == DEVICE_CLASS_REQUEST_OUT))
-				pipe = usb_sndctrlpipe(pObj->pUsb_Dev, 0);
+				pipe = usb_sndctrlpipe(udev, 0);
 			else
-				pipe = usb_rcvctrlpipe(pObj->pUsb_Dev, 0);
+				pipe = usb_rcvctrlpipe(udev, 0);
 
-			RET = usb_control_msg(pObj->pUsb_Dev, pipe, Request,
+			ret = usb_control_msg(udev, pipe, Request,
 					      RequestType, Value, Index,
 					      pAd->UsbVendorReqBuf,
 					      TransferBufferLength, CONTROL_TIMEOUT_JIFFIES);
 
-			if (RET < 0) {
+			if (ret < 0) {
 				DBGPRINT(RT_DEBUG_OFF, ("#\n"));
-				if (RET == RTMP_USB_CONTROL_MSG_ENODEV)
-				{
+				if (ret == RTMP_USB_CONTROL_MSG_ENODEV) {
 					RTMP_SET_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST);
 					break;
 				}
 				RetryCount++;
 				RtmpusecDelay(5000); /* wait for 5ms*/
 			}
-		} while((RET < 0) && (RetryCount < MAX_VENDOR_REQ_RETRY_COUNT));
+		} while((ret < 0) && (RetryCount < MAX_VENDOR_REQ_RETRY_COUNT));
 
-	  	if ( (!(RET < 0)) && (TransferBufferLength > 0) && (RequestType == DEVICE_VENDOR_REQUEST_IN))
+		if ((!(ret < 0)) && (TransferBufferLength > 0) &&
+		    (RequestType == DEVICE_VENDOR_REQUEST_IN))
 			memmove(TransferBuffer, pAd->UsbVendorReqBuf, TransferBufferLength);
 
 		up(&(pAd->UsbVendorReq_semaphore));
 
-        	if (RET < 0) {
+		if (ret < 0) {
 			DBGPRINT(RT_DEBUG_ERROR, ("RTUSB_VendorRequest failed(%d), ReqType=%s, Req=0x%x, Idx=0x%x,pAd->Flags=0x%lx\n",
-						RET, (RequestType == DEVICE_VENDOR_REQUEST_OUT ? "OUT" : "IN"), Request, Index, pAd->Flags));
+						ret, (RequestType == DEVICE_VENDOR_REQUEST_OUT ? "OUT" : "IN"), Request, Index, pAd->Flags));
 			if (Request == 0x2)
 				DBGPRINT(RT_DEBUG_ERROR, ("\tRequest Value=0x%04x!\n", Value));
 
 			if ((!TransferBuffer) && (TransferBufferLength > 0))
 				hex_dump("Failed TransferBuffer value", TransferBuffer, TransferBufferLength);
 
-			if (RET == RTMP_USB_CONTROL_MSG_ENODEV)
+			if (ret == RTMP_USB_CONTROL_MSG_ENODEV)
 					RTMP_SET_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST);
 
 		}
 
 	}
 
-	if (RET < 0)
+	if (ret < 0)
 		return NDIS_STATUS_FAILURE;
 	else
 		return NDIS_STATUS_SUCCESS;

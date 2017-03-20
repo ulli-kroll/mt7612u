@@ -79,14 +79,10 @@ extern UCHAR EpToQueue[6];
 struct _MGMT_STRUC;
 struct _TX_BLK;
 
-int RTUSB_VendorRequest(
-	IN	struct rtmp_adapter *pAd,
-	IN	UCHAR ReservedBits,
-	IN	UCHAR Request,
-	IN	USHORT val,
-	IN	USHORT idx,
-	IN	PVOID txbuf,
-	IN	uint32_t txbuf_len);
+int RTUSB_VendorRequest(struct rtmp_adapter *pAd,
+	UCHAR	RequestType, UCHAR Request,
+	USHORT  Value, USHORT ndex,
+	PVOID   TransferBuffer, uint32_t TransferBufferLength);
 
 int RTUSBMultiWrite(struct rtmp_adapter *pAd, USHORT Offset, UCHAR *buf, USHORT len);
 int RTUSBSingleWrite(struct rtmp_adapter *pAd, USHORT Offset, USHORT val);
