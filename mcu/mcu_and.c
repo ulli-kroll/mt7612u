@@ -1193,13 +1193,6 @@ void mt7612u_mcu_free_cmd_msg(struct cmd_msg *msg)
 	ctl->free_cmd_msg++;
 }
 
-BOOLEAN is_inband_cmd_processing(struct rtmp_adapter *ad)
-{
-	BOOLEAN ret = 0;
-
-	return ret;
-}
-
 static inline void mt7612u_mcu_inc_error_count(struct MCU_CTRL *ctl, enum cmd_msg_error_type type)
 {
 	if (OS_TEST_BIT(MCU_INIT, &ctl->flags)) {

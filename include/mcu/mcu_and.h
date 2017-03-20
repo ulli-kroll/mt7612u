@@ -397,7 +397,6 @@ int mt7612u_mcu_pwr_saving(struct rtmp_adapter *ad, u32 op, u32 level,
 					 u32 listen_interval, u32 pre_tbtt_lead_time,
 					 u8 tim_byte_offset, u8 tim_byte_pattern);
 void mt7612u_mcu_calibration(struct rtmp_adapter *ad, u32 cal_id, ANDES_CALIBRATION_PARAM *param);
-BOOLEAN is_inband_cmd_processing(struct rtmp_adapter *ad);
 void mt7612u_mcu_cmd_msg_bh(unsigned long param);
 int usb_rx_cmd_msg_submit(struct rtmp_adapter *ad);
 int usb_rx_cmd_msgs_receive(struct rtmp_adapter *ad);

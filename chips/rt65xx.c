@@ -290,7 +290,7 @@ VOID RT65xxDisableTxRx(
 		if (MacReg != 0)
 			bFree = FALSE;
 
-		if (bFree && (CheckFreeTimes > 20) && (!is_inband_cmd_processing(pAd)))
+		if (bFree && (CheckFreeTimes > 20) && (!0))
 			break;
 
 		if (bFree)
