@@ -646,7 +646,7 @@ VOID NICInitAsicFromEEPROM(struct rtmp_adapter *pAd)
 
 #ifdef RTMP_RF_RW_SUPPORT
 	/*Init RFRegisters after read RFIC type from EEPROM*/
-	InitRFRegisters(pAd);
+	mt76x2_init_rf_cr(pAd);
 #endif /* RTMP_RF_RW_SUPPORT */
 
 

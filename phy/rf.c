@@ -16,11 +16,4 @@
 
 #include "rt_config.h"
 
-VOID InitRFRegisters(
-	IN struct rtmp_adapter *pAd)
-{
-	DBGPRINT(RT_DEBUG_TRACE, ("%s(): Init RF Registers\n", __FUNCTION__));
-	if (pAd->chipOps.AsicRfInit)
-		pAd->chipOps.AsicRfInit(pAd);
-}
 

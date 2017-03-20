@@ -707,7 +707,6 @@ struct _RTMP_CHIP_OP_ {
 	int (*sendCommandToAndesMcu)(struct rtmp_adapter *pAd, UCHAR QueIdx, UCHAR cmd, UCHAR *pData, USHORT DataLen, BOOLEAN FlgIsNeedLocked);
 #endif
 
-	void (*AsicRfInit)(struct rtmp_adapter *pAd);
 	void (*AsicBbpInit)(struct rtmp_adapter *pAd);
 	void (*AsicMacInit)(struct rtmp_adapter *pAd);
 

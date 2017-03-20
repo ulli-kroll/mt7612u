@@ -4467,9 +4467,6 @@ INT RTMPGetKeyParameter(
 
 
 #ifdef RTMP_RF_RW_SUPPORT
-VOID NICInitRFRegisters(
-	IN struct rtmp_adapter *pAd);
-
 int RT30xxWriteRFRegister(
 	IN	struct rtmp_adapter *pAd,
 	IN	UCHAR			regID,

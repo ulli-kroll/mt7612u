@@ -257,7 +257,6 @@ INT filter_coefficient_ctrl(struct rtmp_adapter *pAd, UCHAR Channel);
 UCHAR get_random_seed_by_phy(struct rtmp_adapter *pAd);
 
 int NICInitBBP(struct rtmp_adapter *pAd);
-VOID InitRFRegisters(struct rtmp_adapter *pAd);
 
 typedef struct phy_ops{
 	INT (*bbp_is_ready)(struct rtmp_adapter *pAd);
