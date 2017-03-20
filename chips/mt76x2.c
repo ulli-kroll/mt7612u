@@ -2792,7 +2792,6 @@ static const RTMP_CHIP_OP MT76x2_ChipOp = {
 	.AsicRadioOn = RT65xxUsbAsicRadioOn,
 	.AsicRadioOff = RT65xxUsbAsicRadioOff,
 	.usb_cfg_read = mt7612u_usb_cfg_read_v3,
-	.usb_cfg_write = mt7612u_usb_cfg_write_v3,
 #endif
 	.cal_test = mt76x2_cal_test,
 #ifdef RTMP_TEMPERATURE_TX_ALC

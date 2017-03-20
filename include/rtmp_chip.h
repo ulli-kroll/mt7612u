@@ -777,7 +777,6 @@ struct _RTMP_CHIP_OP_ {
 #endif /* (defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT) */
 
 	void (*usb_cfg_read)(struct rtmp_adapter *ad, u32 *value);
-	void (*usb_cfg_write)(struct rtmp_adapter *ad, u32 value);
 	void (*cal_test)(struct rtmp_adapter *ad, uint32_t type);
 };
 
@@ -950,15 +949,6 @@ do {	\
 		_ad->chipOps.usb_cfg_read(_ad, _pvalue);	\
 	else {\
 		DBGPRINT(RT_DEBUG_ERROR, ("%s(): usb_cfg_read not inited!\n", __FUNCTION__));\
-	}\
-} while (0)
-
-#define USB_CFG_WRITE(_ad, _value)	\
-do {	\
-	if (_ad->chipOps.usb_cfg_write != NULL)	\
-		_ad->chipOps.usb_cfg_write(_ad, _value);	\
-	else {\
-		DBGPRINT(RT_DEBUG_ERROR, ("%s(): usb_cfg_write not inited!\n", __FUNCTION__));\
 	}\
 } while (0)
 

@@ -1248,7 +1248,7 @@ VOID RT28XXDMAEnable(struct rtmp_adapter *pAd)
 	if (IS_MT76x2(pAd))
 		UsbCfg.field_76xx.RX_DROP_OR_PADDING = 1;
 
-	USB_CFG_WRITE(pAd, UsbCfg.word);
+	mt7612u_usb_cfg_write_v3(pAd, UsbCfg.word);
 }
 
 /********************************************************************

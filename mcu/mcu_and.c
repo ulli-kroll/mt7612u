@@ -255,7 +255,7 @@ load_patch_protect:
 	/* Enable USB_DMA_CFG */
 	USB_CFG_READ(ad, &cfg.word);
 	cfg.word |= 0x00c00020;
-	USB_CFG_WRITE(ad, cfg.word);
+	mt7612u_usb_cfg_write_v3(ad, cfg.word);
 
 	fw_patch_image = (u8 *) fw->data;
 
@@ -664,7 +664,7 @@ loadfw_protect:
 	/* Enable USB_DMA_CFG */
 	USB_CFG_READ(ad, &cfg.word);
 	cfg.word |= 0x00c00020;
-	USB_CFG_WRITE(ad, cfg.word);
+	mt7612u_usb_cfg_write_v3(ad, cfg.word);
 
 	/* Get FW information */
 	ilm_len = (*(fw_image + 3) << 24) | (*(fw_image + 2) << 16) |

@@ -504,13 +504,13 @@ static int ResetBulkOutHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 		USB_CFG_READ(pAd, &MACValue);
 
 	MACValue |= 0x80000;
-	USB_CFG_WRITE(pAd, MACValue);
+	mt7612u_usb_cfg_write_v3(pAd, MACValue);
 
 	/* Wait 1ms to prevent next URB to bulkout before HW reset. by MAXLEE 12-25-2007*/
 	RtmpusecDelay(1000);
 
 	MACValue &= (~0x80000);
-	USB_CFG_WRITE(pAd, MACValue);
+	mt7612u_usb_cfg_write_v3(pAd, MACValue);
 	DBGPRINT(RT_DEBUG_TRACE, ("\tSet 0x2a0 bit19. Clear USB DMA TX path\n"));
 
 	/* Wait 5ms to prevent next URB to bulkout before HW reset. by MAXLEE 12-25-2007*/
