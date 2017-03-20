@@ -158,9 +158,7 @@ VOID RT65xxUsbAsicRadioOn(struct rtmp_adapter *pAd, UCHAR Stage)
 #endif
 
 
-VOID RT65xxDisableTxRx(
-	struct rtmp_adapter *pAd,
-	UCHAR Level)
+VOID RT65xxDisableTxRx(struct rtmp_adapter *pAd, UCHAR Level)
 {
 	uint32_t MacReg = 0;
 	uint32_t MTxCycle;
@@ -174,9 +172,7 @@ VOID RT65xxDisableTxRx(
 	DBGPRINT(RT_DEBUG_TRACE, ("----> %s\n", __FUNCTION__));
 
 	if (Level == RTMP_HALT)
-	{
 		RTMP_CLEAR_FLAG(pAd, fRTMP_ADAPTER_INTERRUPT_ACTIVE);
-	}
 
 	DBGPRINT(RT_DEBUG_TRACE, ("%s Tx success = %ld\n",
 		__FUNCTION__, (ULONG)pAd->WlanCounters.TransmittedFragmentCount.u.LowPart));
@@ -188,8 +184,7 @@ VOID RT65xxDisableTxRx(
 	/*
 		Check page count in TxQ,
 	*/
-	for (MTxCycle = 0; MTxCycle < 2000; MTxCycle++)
-	{
+	for (MTxCycle = 0; MTxCycle < 2000; MTxCycle++) {
 		BOOLEAN bFree = TRUE;
 		MacReg = mt7612u_read32(pAd, 0x438);
 		if (MacReg != 0)
@@ -202,15 +197,13 @@ VOID RT65xxDisableTxRx(
 			bFree = FALSE;
 		if (bFree)
 			break;
-		if (MacReg == 0xFFFFFFFF)
-		{
+		if (MacReg == 0xFFFFFFFF) {
 			RTMP_SET_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST);
 			return;
 		}
 	}
 
-	if (MTxCycle >= 2000)
-	{
+	if (MTxCycle >= 2000) {
 		DBGPRINT(RT_DEBUG_ERROR, ("Check TxQ page count max\n"));
 		MacReg = mt7612u_read32(pAd, 0x0a30);
 		DBGPRINT(RT_DEBUG_TRACE, ("0x0a30 = 0x%08x\n", MacReg));
@@ -226,40 +219,33 @@ VOID RT65xxDisableTxRx(
 	/*
 		Check MAC Tx idle
 	*/
-	for (MTxCycle = 0; MTxCycle < 2000; MTxCycle++)
-	{
+	for (MTxCycle = 0; MTxCycle < 2000; MTxCycle++) {
 		MacReg = mt7612u_read32(pAd, MAC_STATUS_CFG);
 		if (MacReg & 0x1)
 			RtmpusecDelay(50);
 		else
 			break;
 
-		if (MacReg == 0xFFFFFFFF)
-		{
+		if (MacReg == 0xFFFFFFFF) {
 			RTMP_SET_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST);
 			return;
 		}
 	}
 
-	if (MTxCycle >= 2000)
-	{
+	if (MTxCycle >= 2000) {
 		DBGPRINT(RT_DEBUG_ERROR, ("Check MAC Tx idle max(0x%08x)\n", MacReg));
 		bResetWLAN = TRUE;
 	}
 
-	if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST) == FALSE)
-	{
-		if (Level == RTMP_HALT)
-		{
+	if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST) == FALSE) {
+		if (Level == RTMP_HALT) {
 			/*
 				Disable MAC TX/RX
 			*/
 			MacReg = mt7612u_read32(pAd, MAC_SYS_CTRL);
 			MacReg &= ~(0x0000000c);
 			mt7612u_write32(pAd, MAC_SYS_CTRL, MacReg);
-		}
-		else
-		{
+		} else {
 			/*
 				Disable MAC RX
 			*/
@@ -272,8 +258,7 @@ VOID RT65xxDisableTxRx(
 	/*
 		Check page count in RxQ,
 	*/
-	for (MTxCycle = 0; MTxCycle < 2000; MTxCycle++)
-	{
+	for (MTxCycle = 0; MTxCycle < 2000; MTxCycle++) {
 		bFree = TRUE;
 		MacReg = mt7612u_read32(pAd, 0x430);
 
@@ -290,14 +275,13 @@ VOID RT65xxDisableTxRx(
 		if (MacReg != 0)
 			bFree = FALSE;
 
-		if (bFree && (CheckFreeTimes > 20) && (!0))
+		if (bFree && (CheckFreeTimes > 20))
 			break;
 
 		if (bFree)
 			CheckFreeTimes++;
 
-		if (MacReg == 0xFFFFFFFF)
-		{
+		if (MacReg == 0xFFFFFFFF) {
 			RTMP_SET_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST);
 			return;
 		}
@@ -310,8 +294,7 @@ VOID RT65xxDisableTxRx(
 
 	RTMP_CLEAR_FLAG(pAd, fRTMP_ADAPTER_POLL_IDLE);
 
-	if (MTxCycle >= 2000)
-	{
+	if (MTxCycle >= 2000) {
 		DBGPRINT(RT_DEBUG_ERROR, ("Check RxQ page count max\n"));
 
 		MacReg = mt7612u_read32(pAd, 0x0a30);
@@ -328,22 +311,19 @@ VOID RT65xxDisableTxRx(
 	/*
 		Check MAC Rx idle
 	*/
-	for (MTxCycle = 0; MTxCycle < 2000; MTxCycle++)
-	{
+	for (MTxCycle = 0; MTxCycle < 2000; MTxCycle++) {
 		MacReg = mt7612u_read32(pAd, MAC_STATUS_CFG);
 		if (MacReg & 0x2)
 			RtmpusecDelay(50);
 		else
 			break;
-		if (MacReg == 0xFFFFFFFF)
-		{
+		if (MacReg == 0xFFFFFFFF) {
 			RTMP_SET_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST);
 			return;
 		}
 	}
 
-	if (MTxCycle >= 2000)
-	{
+	if (MTxCycle >= 2000) {
 		DBGPRINT(RT_DEBUG_ERROR, ("Check MAC Rx idle max(0x%08x)\n", MacReg));
 		bResetWLAN = TRUE;
 	}
@@ -351,8 +331,7 @@ VOID RT65xxDisableTxRx(
 	StopDmaRx(pAd, Level);
 
 	if ((Level == RTMP_HALT) &&
-		(RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST) == FALSE))
-	{
+	    (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST) == FALSE)) {
 
 		/*
  		 * Disable RF/MAC and do not do reset WLAN under below cases
@@ -360,8 +339,9 @@ VOID RT65xxDisableTxRx(
  		 * 2. suspend including wow application
  		 * 3. radion off command
  		 */
-		if ((pAd->chipCap.IsComboChip) || RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_SUSPEND)
-				|| RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_CMD_RADIO_OFF))
+		if ((pAd->chipCap.IsComboChip) ||
+		     RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_SUSPEND)	||
+		     RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_CMD_RADIO_OFF))
 			bResetWLAN = 0;
 
 		rlt_wlan_chip_onoff(pAd, FALSE, bResetWLAN);
