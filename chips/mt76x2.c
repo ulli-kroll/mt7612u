@@ -1092,7 +1092,7 @@ VOID init_fce(struct rtmp_adapter *ad)
 #endif
 }
 
-static void mt76x2_init_mac_cr(struct rtmp_adapter *ad)
+void mt76x2_init_mac_cr(struct rtmp_adapter *ad)
 {
 	u32 i;
 	u32 value = 0;
@@ -2784,7 +2784,6 @@ static const RTMP_CHIP_CAP MT76x2_ChipCap = {
 static const RTMP_CHIP_OP MT76x2_ChipOp = {
 	.ChipBBPAdjust = mt76x2_bbp_adjust,
 	.ChipSwitchChannel = mt76x2_switch_channel,
-	.AsicMacInit = mt76x2_init_mac_cr,
 
 	.DisableTxRx = RT65xxDisableTxRx,
 #ifdef RTMP_USB_SUPPORT

@@ -708,7 +708,6 @@ struct _RTMP_CHIP_OP_ {
 #endif
 
 	void (*AsicBbpInit)(struct rtmp_adapter *pAd);
-	void (*AsicMacInit)(struct rtmp_adapter *pAd);
 
 	/* Power save */
 	void (*EnableAPMIMOPS)(struct rtmp_adapter *pAd, IN BOOLEAN ReduceCorePower);

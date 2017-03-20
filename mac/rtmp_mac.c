@@ -962,9 +962,7 @@ INT rtmp_mac_init(struct rtmp_adapter *pAd)
 
 	rtmp_mac_pbf_init(pAd);
 
-	/* re-set specific MAC registers for individual chip */
-	if (pAd->chipOps.AsicMacInit != NULL)
-		pAd->chipOps.AsicMacInit(pAd);
+	mt76x2_init_mac_cr(pAd);
 
 	return TRUE;
 }
