@@ -63,7 +63,7 @@
 #define MT7612U_VENDOR_USB_CFG_WRITE	0x46
 
 // For MT7662 and newer
-void usb_cfg_read_v3(struct rtmp_adapter *ad, u32 *value)
+void mt7612u_usb_cfg_read_v3(struct rtmp_adapter *ad, u32 *value)
 {
 	int ret;
 	u32 io_value;
@@ -79,7 +79,7 @@ void usb_cfg_read_v3(struct rtmp_adapter *ad, u32 *value)
 }
 
 // For MT7662 and newer
-void usb_cfg_write_v3(struct rtmp_adapter *ad, u32 value)
+void mt7612u_usb_cfg_write_v3(struct rtmp_adapter *ad, u32 value)
 {
 	int ret;
 	u32 io_value;

@@ -196,10 +196,8 @@ typedef struct _RT_ASIC_PROTECT_INFO {
 			RTEnqueueInternalCmd((_pAd), CMDTHREAD_UPDATE_PROTECT, &AsicProtectInfo, sizeof(RT_ASIC_PROTECT_INFO));\
 		} while(0)
 
-void usb_cfg_read_v1(struct rtmp_adapter *ad, u32 *value);
-void usb_cfg_write_v1(struct rtmp_adapter *ad, u32 value);
-void usb_cfg_read_v3(struct rtmp_adapter *ad, u32 *value);
-void usb_cfg_write_v3(struct rtmp_adapter *ad, u32 value);
+void mt7612u_usb_cfg_read_v3(struct rtmp_adapter *ad, u32 *value);
+void mt7612u_usb_cfg_write_v3(struct rtmp_adapter *ad, u32 value);
 int mt7612u_write_reg(struct rtmp_adapter *ad, uint16_t offset, uint32_t val);
 int mt7612u_read_reg(struct rtmp_adapter *ad, uint16_t offset, uint32_t *value);
 
