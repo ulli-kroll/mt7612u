@@ -776,7 +776,6 @@ struct _RTMP_CHIP_OP_ {
 	VOID (*AsicWOWDisable)(struct rtmp_adapter *ad);
 #endif /* (defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT) */
 
-	void (*usb_cfg_read)(struct rtmp_adapter *ad, u32 *value);
 	void (*cal_test)(struct rtmp_adapter *ad, uint32_t type);
 };
 
@@ -943,14 +942,6 @@ do {	\
 		_pAd->chipOps.MCUCtrlExit(_pAd);	\
 } while (0)
 
-#define USB_CFG_READ(_ad, _pvalue)	\
-do {	\
-	if (_ad->chipOps.usb_cfg_read != NULL)	\
-		_ad->chipOps.usb_cfg_read(_ad, _pvalue);	\
-	else {\
-		DBGPRINT(RT_DEBUG_ERROR, ("%s(): usb_cfg_read not inited!\n", __FUNCTION__));\
-	}\
-} while (0)
 
 #ifdef DYNAMIC_VGA_SUPPORT
 #define RTMP_ASIC_DYNAMIC_VGA_GAIN_CONTROL(_pAd)	\

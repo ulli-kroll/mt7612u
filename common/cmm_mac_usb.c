@@ -1228,7 +1228,7 @@ VOID RT28XXDMAEnable(struct rtmp_adapter *pAd)
 {
 	USB_DMA_CFG_STRUC	UsbCfg;
 
-	USB_CFG_READ(pAd, &UsbCfg.word);
+	mt7612u_usb_cfg_read_v3(pAd, &UsbCfg.word);
 
 	/* USB1.1 do not use bulk in aggregation */
 	if ((pAd->BulkInMaxPacketSize >= 512) && (pAd->usb_ctl.usb_aggregation))

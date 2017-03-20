@@ -253,7 +253,7 @@ load_patch_protect:
 	}
 
 	/* Enable USB_DMA_CFG */
-	USB_CFG_READ(ad, &cfg.word);
+	mt7612u_usb_cfg_read_v3(ad, &cfg.word);
 	cfg.word |= 0x00c00020;
 	mt7612u_usb_cfg_write_v3(ad, cfg.word);
 
@@ -662,7 +662,7 @@ loadfw_protect:
 	RtmpOsMsDelay(5);
 
 	/* Enable USB_DMA_CFG */
-	USB_CFG_READ(ad, &cfg.word);
+	mt7612u_usb_cfg_read_v3(ad, &cfg.word);
 	cfg.word |= 0x00c00020;
 	mt7612u_usb_cfg_write_v3(ad, cfg.word);
 

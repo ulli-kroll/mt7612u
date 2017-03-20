@@ -2523,7 +2523,7 @@ INT StopDmaRx(struct rtmp_adapter *pAd, UCHAR Level)
 	{
 
 #ifdef RTMP_MAC_USB
-		USB_CFG_READ(pAd, &MacReg);
+		mt7612u_usb_cfg_read_v3(pAd, &MacReg);
 		if ((MacReg & 0x40000000) && (IdleNums < 10))
 		{
 			IdleNums++;
@@ -2571,7 +2571,7 @@ INT StopDmaTx(struct rtmp_adapter *pAd, UCHAR Level)
 	{
 
 #ifdef RTMP_MAC_USB
-		USB_CFG_READ(pAd, &MacReg);
+		mt7612u_usb_cfg_read_v3(pAd, &MacReg);
 		if (((MacReg & 0x80000000) == 0) && IdleNums > 10)
 		{
 			break;

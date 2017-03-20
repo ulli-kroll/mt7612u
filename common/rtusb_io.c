@@ -493,15 +493,15 @@ static int ResetBulkOutHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 		RtmpusecDelay(10000);
 	} while(Index < 100);
 
-	USB_CFG_READ(pAd, &MACValue);
+	mt7612u_usb_cfg_read_v3(pAd, &MACValue);
 
 	/* 2nd, to prevent Read Register error, we check the validity.*/
 	if ((MACValue & 0xc00000) == 0)
-		USB_CFG_READ(pAd, &MACValue);
+		mt7612u_usb_cfg_read_v3(pAd, &MACValue);
 
 	/* 3rd, to prevent Read Register error, we check the validity.*/
 	if ((MACValue & 0xc00000) == 0)
-		USB_CFG_READ(pAd, &MACValue);
+		mt7612u_usb_cfg_read_v3(pAd, &MACValue);
 
 	MACValue |= 0x80000;
 	mt7612u_usb_cfg_write_v3(pAd, MACValue);
