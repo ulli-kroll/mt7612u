@@ -2766,29 +2766,6 @@ INT	Set_HtRxStream_Proc(
 	return TRUE;
 }
 
-#ifdef GREENAP_SUPPORT
-INT	Set_GreenAP_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg)
-{
-	ULONG Value;
-
-	Value = simple_strtol(arg, 0, 10);
-	if (Value == 0)
-	{
-		pAd->ApCfg.bGreenAPActive=FALSE;
-		pAd->ApCfg.bGreenAPEnable = FALSE;
-	}
-	else if (Value == 1)
-		pAd->ApCfg.bGreenAPEnable = TRUE;
-	else
-		return FALSE; /*Invalid argument*/
-
-	DBGPRINT(RT_DEBUG_TRACE, ("Set_GreenAP_Proc::(bGreenAPEnable=%d)\n",pAd->ApCfg.bGreenAPEnable));
-
-	return TRUE;
-}
-#endif /* GREENAP_SUPPORT */
 #endif /* CONFIG_AP_SUPPORT */
 
 INT	Set_ForceShortGI_Proc(

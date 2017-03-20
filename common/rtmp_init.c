@@ -2001,11 +2001,6 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 	pAd->CommonCfg.bExtChannelSwitchAnnouncement = 1;
 	pAd->CommonCfg.bHTProtect = 1;
 	pAd->CommonCfg.bMIMOPSEnable = TRUE;
-#ifdef GREENAP_SUPPORT
-	pAd->ApCfg.bGreenAPEnable=FALSE;
-	pAd->ApCfg.bGreenAPActive = FALSE;
-	pAd->ApCfg.GreenAPLevel= GREENAP_WITHOUT_ANY_STAS_CONNECT;
-#endif /* GREENAP_SUPPORT */
 	pAd->CommonCfg.bBADecline = FALSE;
 	pAd->CommonCfg.bDisableReordering = FALSE;
 

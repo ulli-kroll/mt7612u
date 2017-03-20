@@ -749,14 +749,6 @@ VOID ChannelSwitchAction(
 	)
 	{
 		rf_bw = BW_40;
-#ifdef GREENAP_SUPPORT
-		if (pAd->ApCfg.bGreenAPActive == 1)
-		{
-			rf_bw = BW_20;
-			pAd->CommonCfg.CentralChannel = pAd->CommonCfg.Channel;
-		}
-		else
-#endif /* GREENAP_SUPPORT */
 		if (Secondary == EXTCHA_ABOVE)
 			pAd->CommonCfg.CentralChannel = pAd->CommonCfg.Channel + 2;
 		else

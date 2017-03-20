@@ -59,9 +59,6 @@ HAS_DOT11W_PMF_SUPPORT=n
 # Support HOSTAPD function
 HAS_HOSTAPD_SUPPORT=n
 
-#Support GreenAP function
-HAS_GREENAP_SUPPORT=n
-
 #Support cfg80211 function with Linux Only.
 #Please make sure insmod the cfg80211.ko before our driver,
 #our driver references to its symbol.
@@ -142,10 +139,6 @@ endif
 
 ifeq ($(HAS_NEW_RATE_ADAPT_SUPPORT),y)
 WFLAGS += -DNEW_RATE_ADAPT_SUPPORT
-endif
-
-ifeq ($(HAS_GREENAP_SUPPORT),y)
-WFLAGS += -DGREENAP_SUPPORT
 endif
 
 ifeq ($(HAS_STATS_COUNT),y)

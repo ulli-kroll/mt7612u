@@ -310,11 +310,6 @@ VOID RTMPSetHT(
 		)
 		{
 			bbp_set_ctrlch(pAd, pHTPhyMode->ExtOffset);
-#ifdef GREENAP_SUPPORT
-			if (pAd->ApCfg.bGreenAPActive == 1)
-				bw = BW_20;
-			else
-#endif /* GREENAP_SUPPORT */
 				bw = BW_40;
 		}
 	}

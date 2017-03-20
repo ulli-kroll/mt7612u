@@ -413,14 +413,6 @@ DBGPRINT(RT_DEBUG_OFF, ("%s(): AP Set CentralFreq at %d(Prim=%d, HT-CentCh=%d, V
 						pAd->CommonCfg.BBPCurrentBW));
 //---Add by shiang for debug
 
-#ifdef GREENAP_SUPPORT
-	if (pAd->ApCfg.bGreenAPEnable == TRUE)
-	{
-		RTMP_CHIP_ENABLE_AP_MIMOPS(pAd,TRUE);
-		pAd->ApCfg.GreenAPLevel=GREENAP_WITHOUT_ANY_STAS_CONNECT;
-	}
-#endif /* GREENAP_SUPPORT */
-
 	MlmeSetTxPreamble(pAd, (USHORT)pAd->CommonCfg.TxPreamble);
 	for (idx = 0; idx < pAd->ApCfg.BssidNum; idx++)
 	{
@@ -757,10 +749,6 @@ VOID MacTableMaintenance(struct rtmp_adapter *pAd)
 	pMacTable->fAnyStation20Only = FALSE;
 	pMacTable->fAnyStationIsLegacy = FALSE;
 	pMacTable->fAnyStationMIMOPSDynamic = FALSE;
-#ifdef GREENAP_SUPPORT
-	/*Support Green AP */
-	pMacTable->fAnyStationIsHT=FALSE;
-#endif /* GREENAP_SUPPORT */
 
 	pMacTable->fAnyStaFortyIntolerant = FALSE;
 	pMacTable->fAllStationGainGoodMCS = TRUE;
@@ -833,10 +821,6 @@ VOID MacTableMaintenance(struct rtmp_adapter *pAd)
 
 		if ((pEntry->MaxHTPhyMode.field.MODE == MODE_OFDM) || (pEntry->MaxHTPhyMode.field.MODE == MODE_CCK))
 			pMacTable->fAnyStationIsLegacy = TRUE;
-#ifdef GREENAP_SUPPORT
-		else
-			pMacTable->fAnyStationIsHT=TRUE;
-#endif /* GREENAP_SUPPORT */
 
 		if (pEntry->bForty_Mhz_Intolerant)
 			pMacTable->fAnyStaFortyIntolerant = TRUE;
@@ -1138,29 +1122,6 @@ VOID MacTableMaintenance(struct rtmp_adapter *pAd)
 		bRalinkBurstMode = TRUE;
 	else
 		bRalinkBurstMode = FALSE;
-
-#ifdef GREENAP_SUPPORT
-	if (WMODE_CAP_N(pAd->CommonCfg.PhyMode))
-	{
-		if(pAd->MacTab.fAnyStationIsHT == FALSE
-			&& pAd->ApCfg.bGreenAPEnable == TRUE)
-		{
-			if (pAd->ApCfg.GreenAPLevel!=GREENAP_ONLY_11BG_STAS)
-			{
-				RTMP_CHIP_ENABLE_AP_MIMOPS(pAd,FALSE);
-				pAd->ApCfg.GreenAPLevel=GREENAP_ONLY_11BG_STAS;
-			}
-		}
-		else
-		{
-			if (pAd->ApCfg.GreenAPLevel!=GREENAP_11BGN_STAS)
-			{
-				RTMP_CHIP_DISABLE_AP_MIMOPS(pAd);
-				pAd->ApCfg.GreenAPLevel=GREENAP_11BGN_STAS;
-			}
-		}
-	}
-#endif /* GREENAP_SUPPORT */
 
 	if (bRdgActive != RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_RDG_ACTIVE))
 		AsicSetRDG(pAd, bRdgActive);

@@ -466,11 +466,6 @@ VOID APAsicEvaluateRxAnt(
 	if (IS_RT65XX(pAd))
 		return;
 
-#ifdef GREENAP_SUPPORT
-	if (pAd->ApCfg.bGreenAPActive == TRUE)
-		bbp_set_rxpath(pAd, 1);
-	else
-#endif /* GREENAP_SUPPORT */
 		bbp_set_rxpath(pAd, pAd->Antenna.field.RxPath);
 
 	TxTotalCnt = pAd->RalinkCounters.OneSecTxNoRetryOkCount +
@@ -523,11 +518,6 @@ VOID APAsicRxAntEvalTimeout(struct rtmp_adapter *pAd)
 
 	/* Disable the below to fix 1T/2R issue. It's suggested by Rory at 2007/7/11. */
 
-#ifdef GREENAP_SUPPORT
-	if (pAd->ApCfg.bGreenAPActive == TRUE)
-		bbp_set_rxpath(pAd, 1);
-	else
-#endif /* GREENAP_SUPPORT */
 		bbp_set_rxpath(pAd, pAd->Mlme.RealRxPath);
 
 

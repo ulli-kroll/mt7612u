@@ -2201,22 +2201,6 @@ static void HTParametersHook(
 		}
 		DBGPRINT(RT_DEBUG_TRACE, ("HT: Rx Stream = %d\n", pAd->CommonCfg.RxStream));
 	}
-#ifdef GREENAP_SUPPORT
-	/*Green AP*/
-	if(RTMPGetKeyParameter("GreenAP", pValueStr, 10, pInput, TRUE))
-	{
-		Value = simple_strtol(pValueStr, 0, 10);
-		if (Value == 0)
-		{
-			pAd->ApCfg.bGreenAPEnable = FALSE;
-		}
-		else
-		{
-			pAd->ApCfg.bGreenAPEnable = TRUE;
-		}
-		DBGPRINT(RT_DEBUG_TRACE, ("HT: Green AP= %d\n", pAd->ApCfg.bGreenAPEnable));
-	}
-#endif /* GREENAP_SUPPORT */
 	/* HT_DisallowTKIP*/
 	if (RTMPGetKeyParameter("HT_DisallowTKIP", pValueStr, 25, pInput, TRUE))
 	{

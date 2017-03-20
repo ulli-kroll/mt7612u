@@ -179,13 +179,6 @@ int RtmpChipOpsHook(VOID *pCB)
 		goto done;
 	}
 
-
-
-#ifdef GREENAP_SUPPORT
-	pChipOps->EnableAPMIMOPS = EnableAPMIMOPSv1;
-	pChipOps->DisableAPMIMOPS = DisableAPMIMOPSv1;
-#endif /* GREENAP_SUPPORT */
-
 	/* We depends on RfICType and MACVersion to assign the corresponding operation callbacks. */
 
 

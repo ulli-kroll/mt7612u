@@ -2840,11 +2840,6 @@ typedef struct _AP_ADMIN_CONFIG {
 
 
 
-#ifdef GREENAP_SUPPORT
-	UCHAR GreenAPLevel;
-	BOOLEAN bGreenAPEnable;
-	BOOLEAN bGreenAPActive;
-#endif /* GREENAP_SUPPORT */
 
 
 	UCHAR EntryClientCount;
@@ -2854,13 +2849,6 @@ typedef struct _AP_ADMIN_CONFIG {
 
 
 
-#ifdef GREENAP_SUPPORT
-typedef enum _RT_GREEN_AP_LEVEL {
-	GREENAP_11BGN_STAS = 0,
-	GREENAP_ONLY_11BG_STAS,
-	GREENAP_WITHOUT_ANY_STAS_CONNECT
-} RT_GREEN_AP_LEVEL;
-#endif /* GREENAP_SUPPORT */
 
 /* ----------- end of AP ---------------------------- */
 #endif /* CONFIG_AP_SUPPORT */
@@ -6526,9 +6514,6 @@ INT Set_HT_BssCoexApCntThr_Proc(struct rtmp_adapter *pAd, char *arg);
 #ifdef CONFIG_AP_SUPPORT
 INT	Set_HtTxStream_Proc(struct rtmp_adapter *pAd, char *arg);
 INT	Set_HtRxStream_Proc(struct rtmp_adapter *pAd, char *arg);
-#ifdef GREENAP_SUPPORT
-INT	Set_GreenAP_Proc(struct rtmp_adapter *pAd, char *arg);
-#endif /* GREENAP_SUPPORT */
 #endif /* CONFIG_AP_SUPPORT */
 
 INT	SetCommonHT(struct rtmp_adapter *pAd);

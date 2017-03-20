@@ -950,13 +950,6 @@ VOID RtmpChipBcnSpecInit(struct rtmp_adapter *pAd);
 VOID rlt_bcn_buf_init(struct rtmp_adapter *pAd);
 #endif /* RLT_MAC */
 
-#ifdef GREENAP_SUPPORT
-VOID EnableAPMIMOPSv2(struct rtmp_adapter *pAd, BOOLEAN ReduceCorePower);
-VOID DisableAPMIMOPSv2(struct rtmp_adapter *pAd);
-VOID EnableAPMIMOPSv1(struct rtmp_adapter *pAd, BOOLEAN ReduceCorePower);
-VOID DisableAPMIMOPSv1(struct rtmp_adapter *pAd);
-#endif /* GREENAP_SUPPORT */
-
 /* global variable */
 extern FREQUENCY_ITEM RtmpFreqItems3020[];
 extern FREQUENCY_ITEM FreqItems3020_Xtal20M[];
