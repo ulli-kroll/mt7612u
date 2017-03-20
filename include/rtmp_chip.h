@@ -403,8 +403,6 @@ struct RF_INDEX_OFFSET {
 struct _RTMP_CHIP_CAP_ {
 	/* register */
 	REG_PAIR *pRFRegTable;
-	REG_PAIR *pBBPRegTable;
-	UCHAR bbpRegTbSize;
 
 	uint32_t MaxNumOfRfId;
 	uint32_t MaxNumOfBbpId;

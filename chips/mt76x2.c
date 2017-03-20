@@ -2712,8 +2712,6 @@ static const RTMP_CHIP_CAP MT76x2_ChipCap = {
 	.MaxNumOfRfId = MAX_RF_ID,
 	.pRFRegTable = NULL,
 	.MaxNumOfBbpId = 200,
-	.pBBPRegTable = NULL,
-	.bbpRegTbSize = 0,
 #ifdef NEW_MBSSID_MODE
 #ifdef ENHANCE_NEW_MBSSID_MODE
 	.MBSSIDMode = MBSSID_MODE4,

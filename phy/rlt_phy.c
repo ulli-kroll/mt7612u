@@ -61,19 +61,6 @@ static INT rlt_bbp_init(struct rtmp_adapter *pAd)
 
 	DBGPRINT(RT_DEBUG_TRACE, ("%s(): Init BBP Registers\n", __FUNCTION__));
 
-	/* re-config specific BBP registers for individual chip */
-	if (pAd->chipCap.pBBPRegTable)
-	{
-		RTMP_REG_PAIR *reg = (RTMP_REG_PAIR *)pAd->chipCap.pBBPRegTable;
-
-		for (idx = 0; idx < pAd->chipCap.bbpRegTbSize; idx++)
-		{
-			RTMP_BBP_IO_WRITE32(pAd, reg[idx].Register, reg[idx].Value);
-			DBGPRINT(RT_DEBUG_INFO, ("BBP[%x]=0x%x\n",
-					reg[idx].Register, reg[idx].Value));
-		}
-	}
-
 	// TODO: shiang-6590, check these bbp registers if need to remap to new BBP_Registers
 
 	return NDIS_STATUS_SUCCESS;
