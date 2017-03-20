@@ -706,9 +706,6 @@ struct _RTMP_CHIP_OP_ {
 #ifdef CONFIG_ANDES_SUPPORT
 	int (*sendCommandToAndesMcu)(struct rtmp_adapter *pAd, UCHAR QueIdx, UCHAR cmd, UCHAR *pData, USHORT DataLen, BOOLEAN FlgIsNeedLocked);
 #endif
-
-	void (*AsicBbpInit)(struct rtmp_adapter *pAd);
-
 	/* Power save */
 	void (*EnableAPMIMOPS)(struct rtmp_adapter *pAd, IN BOOLEAN ReduceCorePower);
 	void (*DisableAPMIMOPS)(struct rtmp_adapter *pAd);

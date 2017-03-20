@@ -74,9 +74,6 @@ static INT rlt_bbp_init(struct rtmp_adapter *pAd)
 		}
 	}
 
-	if (pAd->chipOps.AsicBbpInit != NULL)
-		pAd->chipOps.AsicBbpInit(pAd);
-
 	// TODO: shiang-6590, check these bbp registers if need to remap to new BBP_Registers
 
 	return NDIS_STATUS_SUCCESS;
