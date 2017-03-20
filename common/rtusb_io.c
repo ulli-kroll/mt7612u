@@ -63,19 +63,21 @@
 #define MT7612U_VENDOR_USB_CFG_WRITE	0x46
 
 // For MT7662 and newer
-void mt7612u_usb_cfg_read_v3(struct rtmp_adapter *ad, u32 *value)
+u32 mt7612u_usb_cfg_read_v3(struct rtmp_adapter *ad)
 {
 	int ret;
-	u32 io_value;
+	u32 io_value, value;
 
 	ret = RTUSB_VendorRequest(ad, DEVICE_VENDOR_REQUEST_IN,
 				  MT7612U_VENDOR_USB_CFG_READ, 0, U3DMA_WLCFG,
 				  &io_value, 4);
 
-	*value = le2cpu32(io_value);
+	value = le2cpu32(io_value);
 
 	if (ret)
-		*value = 0xffffffff;
+		value = 0xffffffff;
+
+	return value;
 }
 
 // For MT7662 and newer
@@ -493,15 +495,15 @@ static int ResetBulkOutHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 		RtmpusecDelay(10000);
 	} while(Index < 100);
 
-	mt7612u_usb_cfg_read_v3(pAd, &MACValue);
+	MACValue = mt7612u_usb_cfg_read_v3(pAd);
 
 	/* 2nd, to prevent Read Register error, we check the validity.*/
 	if ((MACValue & 0xc00000) == 0)
-		mt7612u_usb_cfg_read_v3(pAd, &MACValue);
+		MACValue = mt7612u_usb_cfg_read_v3(pAd);
 
 	/* 3rd, to prevent Read Register error, we check the validity.*/
 	if ((MACValue & 0xc00000) == 0)
-		mt7612u_usb_cfg_read_v3(pAd, &MACValue);
+		MACValue = mt7612u_usb_cfg_read_v3(pAd);
 
 	MACValue |= 0x80000;
 	mt7612u_usb_cfg_write_v3(pAd, MACValue);
