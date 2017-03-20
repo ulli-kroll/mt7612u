@@ -950,8 +950,6 @@ USBHST_STATUS RTUSBBulkCmdRspEventComplete(URBCompleteStatus Status, purbb_t pUR
 #define RTMP_OS_USB_CONTEXT_GET(__pURB)		__pURB->rtusb_urb_context
 #define RTMP_OS_USB_STATUS_GET(__pURB)		__pURB->rtusb_urb_status
 
-#define USB_CONTROL_MSG		usb_control_msg
-
 /*extern int rausb_register(struct usb_driver * new_driver); */
 /*extern void rausb_deregister(struct usb_driver * driver); */
 

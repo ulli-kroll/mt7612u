@@ -398,7 +398,7 @@ int RTUSB_VendorRequest(
 			else
 				pipe = usb_rcvctrlpipe(pObj->pUsb_Dev, 0);
 
-			RET = USB_CONTROL_MSG(pObj->pUsb_Dev, pipe, Request,
+			RET = usb_control_msg(pObj->pUsb_Dev, pipe, Request,
 					      RequestType, Value, Index,
 					      pAd->UsbVendorReqBuf,
 					      TransferBufferLength, CONTROL_TIMEOUT_JIFFIES);
