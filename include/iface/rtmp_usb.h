@@ -95,8 +95,6 @@ u32 mt7612u_read32(struct rtmp_adapter *pAd, USHORT Offset);
 
 int RTUSBReadEEPROM(struct rtmp_adapter *pAd, USHORT Offset, UCHAR *buf, USHORT len);
 
-int RTUSBVenderReset(struct rtmp_adapter *pAd);
-
 BOOLEAN AsicCheckCommandOk(struct rtmp_adapter *pAd, UCHAR cmd);
 
 

@@ -42,16 +42,12 @@
 #define MT7612U_VENDOR_USB_CFG_READ	0x47
 #define MT7612U_VENDOR_USB_CFG_WRITE	0x46
 
-int RTUSBVenderReset(struct rtmp_adapter *pAd)
+static void mt76102_vendor_reset(struct rtmp_adapter *pAd)
 {
-	int Status;
-	DBGPRINT_RAW(RT_DEBUG_ERROR, ("-->RTUSBVenderReset\n"));
-	Status = RTUSB_VendorRequest(pAd, DEVICE_VENDOR_REQUEST_OUT,
-				     MT7612U_VENDOR_RESET, 0x1, 0,
-				     NULL, 0);
+	RTUSB_VendorRequest(pAd, DEVICE_VENDOR_REQUEST_OUT,
+			    MT7612U_VENDOR_RESET, 0x1, 0,
+			    NULL, 0);
 
-	DBGPRINT_RAW(RT_DEBUG_ERROR, ("<--RTUSBVenderReset\n"));
-	return Status;
 }
 
 int mt7612u_mcu_usb_enable_patch(struct rtmp_adapter *ad)
@@ -259,7 +255,7 @@ load_patch_protect:
 
 	fw_patch_image = (u8 *) fw->data;
 
-	RTUSBVenderReset(ad);
+	mt76102_vendor_reset(ad);
 	RtmpOsMsDelay(5);
 
 	/* get rom patch information */
@@ -658,7 +654,7 @@ loadfw_protect:
 		goto error0;
 	}
 
-	RTUSBVenderReset(ad);
+	mt76102_vendor_reset(ad);
 	RtmpOsMsDelay(5);
 
 	/* Enable USB_DMA_CFG */
