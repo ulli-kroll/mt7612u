@@ -450,23 +450,6 @@ typedef struct timer_list	OS_TIMER;
 
 typedef void (*TIMER_FUNCTION)(unsigned long);
 
-
-#define OS_WAIT(_time) \
-{	\
-	if (in_interrupt()) \
-	{\
-		RtmpusecDelay(_time * 1000);\
-	}else	\
-	{\
-		int _i; \
-		long _loop = ((_time)/(1000/OS_HZ)) > 0 ? ((_time)/(1000/OS_HZ)) : 1;\
-		wait_queue_head_t _wait; \
-		init_waitqueue_head(&_wait); \
-		for (_i=0; _i<(_loop); _i++) \
-			wait_event_interruptible_timeout(_wait, 0, ONE_TICK); \
-	}\
-}
-
 #define RTMP_TIME_AFTER(a,b)		\
 	(typecheck(unsigned long, (unsigned long)a) && \
 	 typecheck(unsigned long, (unsigned long)b) && \

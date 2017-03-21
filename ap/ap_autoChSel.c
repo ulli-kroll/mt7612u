@@ -1178,7 +1178,7 @@ UCHAR APAutoSelectChannel(struct rtmp_adapter *pAd, ChannelSel_Alg Alg)
 			if (QLOAD_DOES_ALARM_OCCUR(pAd))
 				wait_time = 400;
 #endif /* AP_QLOAD_SUPPORT */
-			OS_WAIT(wait_time);
+			msleep_interruptible(wait_time);
 
 			UpdateChannelInfo(pAd, i,Alg);
 		}

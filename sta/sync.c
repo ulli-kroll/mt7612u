@@ -384,7 +384,7 @@ VOID MlmeForceScanReqAction(
 
 			DBGPRINT(RT_DEBUG_TRACE, ("MlmeForceScanReqAction -- Send PSM Data frame for off channel RM, SCAN_IN_PROGRESS=%d!\n",
 											RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_BSS_SCAN_IN_PROGRESS)));
-				OS_WAIT(20);
+			msleep_interruptible(20);
 		}
 
 		/*
@@ -510,7 +510,7 @@ VOID MlmeScanReqAction(
 							  PWR_SAVE);
 			DBGPRINT(RT_DEBUG_TRACE, ("MlmeScanReqAction -- Send PSM Data frame for off channel RM, SCAN_IN_PROGRESS=%d!\n",
 											RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_BSS_SCAN_IN_PROGRESS)));
-			OS_WAIT(20);
+			msleep_interruptible(20);
 		}
 
 		/*

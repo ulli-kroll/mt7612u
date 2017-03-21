@@ -1751,7 +1751,7 @@ VOID RTMPIoctlGetSiteSurvey(
 #endif /* CONFIG_STA_SUPPORT */
 
 	while ((ScanRunning(pAdapter) == TRUE) && (WaitCnt++ < 200))
-		OS_WAIT(500);
+		msleep_interruptible(500);
 
 	for(i=0; i<pAdapter->ScanTab.BssNr ;i++)
 	{

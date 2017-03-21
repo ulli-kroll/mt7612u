@@ -1925,7 +1925,7 @@ VOID APOverlappingBSSScan(struct rtmp_adapter *pAd)
 
 		DBGPRINT(RT_DEBUG_ERROR, ("SYNC - BBP R4 to 20MHz.l\n"));
 		/*DBGPRINT(RT_DEBUG_TRACE, ("Passive scanning for Channel %d.....\n", Channel)); */
-		OS_WAIT(300); /* wait for 200 ms at each channel. */
+		msleep_interruptible(300); /* wait for 200 ms at each channel. */
 	}
 	pAd->CommonCfg.bOverlapScanning = FALSE;
 
