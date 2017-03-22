@@ -154,13 +154,9 @@ VOID	RTUSBInitRxDesc(
 	========================================================================
 */
 
-#define BULK_OUT_LOCK(pLock, IrqFlags)	\
-		if(1 /*!(in_interrupt() & 0xffff0000)*/)	\
-			RTMP_IRQ_LOCK((pLock), IrqFlags);
+#define BULK_OUT_LOCK(pLock, IrqFlags)		RTMP_IRQ_LOCK((pLock), IrqFlags)
 
-#define BULK_OUT_UNLOCK(pLock, IrqFlags)	\
-		if(1 /*!(in_interrupt() & 0xffff0000)*/)	\
-			RTMP_IRQ_UNLOCK((pLock), IrqFlags);
+#define BULK_OUT_UNLOCK(pLock, IrqFlags)	RTMP_IRQ_UNLOCK((pLock), IrqFlags)
 
 
 VOID RTUSBBulkOutDataPacket(struct rtmp_adapter *pAd, UCHAR BulkOutPipeId, UCHAR Index)
