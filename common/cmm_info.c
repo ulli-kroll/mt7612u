@@ -4543,27 +4543,6 @@ void  getRate(HTTRANSMIT_SETTING HTSetting, uint32_t *fLastTxRxRate)
 	return;
 }
 
-
-
-/*
-	Set_ETxBfNoncompress_Proc - Set ETxBf Noncompress option
-		usage: iwpriv ra0 set ETxBfNoncompress=0 or 1
-*/
-INT Set_ETxBfNoncompress_Proc(
-    IN  struct rtmp_adapter *  pAd,
-    IN  char *        arg)
-{
-	ULONG t = simple_strtol(arg, 0, 10);
-
-	if (t > 1) {
-		DBGPRINT(RT_DEBUG_ERROR, ("Set_ETxBfNoncompress_Proc: value > 1!\n"));
-		return FALSE;
-	}
-
-	pAd->CommonCfg.ETxBfNoncompress = t;
-	return TRUE;
-}
-
 INT	Set_NoSndgCntThrd_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg)
