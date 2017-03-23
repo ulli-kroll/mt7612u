@@ -4715,35 +4715,6 @@ INT Set_TxBfProfileTag_Matrix(
 	return TRUE;
 }
 
-
-INT Set_TxBfProfileTag_SNR(
-    IN struct rtmp_adapter *pAd,
-	IN char *arg)
-{
-	CHAR	*value;
-	INT 	i;
-
-	/* STS1_SNR: STS0_SNR */
-	if(strlen(arg) != 5)
-		return FALSE;
-
-	for (i=0, value = rstrtok(arg,":"); value; value = rstrtok(NULL,":"))
-	{
-		if((strlen(value) != 2) || (!isxdigit(*value)) || (!isxdigit(*(value+1))) )
-			return FALSE;  /*Invalid*/
-
-		AtoH(value, &StsSnr[i++], 1);
-	}
-
-	CMDInIdx |= 8;
-
-	DBGPRINT(RT_DEBUG_TRACE, ("STS1_SNR=0x%x\n" "STS1_SNR=0x%x\n",
-		   					  StsSnr[0], StsSnr[1]));
-
-	return TRUE;
-}
-
-
 void assoc_ht_info_debugshow(
 	IN struct rtmp_adapter *pAd,
 	IN MAC_TABLE_ENTRY *pEntry,

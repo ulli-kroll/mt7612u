@@ -6417,11 +6417,6 @@ INT Set_TxBfProfileTag_Matrix(
     IN struct rtmp_adapter *   pAd,
 	IN char *         arg);
 
-
-INT Set_TxBfProfileTag_SNR(
-    IN struct rtmp_adapter *  pAd,
-	IN char *        arg);
-
 INT Set_VhtNDPA_Sounding_Proc(struct rtmp_adapter *pAd, char *arg);
 
 
