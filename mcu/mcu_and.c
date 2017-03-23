@@ -329,7 +329,7 @@ load_patch_protect:
 	}
 
 	/* Allocate TransferBuffer */
-	rom_patch_data = RTUSB_URB_ALLOC_BUFFER(udev, UPLOAD_PATCH_UNIT, &rom_patch_dma);
+	rom_patch_data = usb_alloc_coherent(udev, UPLOAD_PATCH_UNIT, GFP_ATOMIC, &rom_patch_dma);
 
 	if (!rom_patch_data)
 	{
@@ -728,7 +728,7 @@ loadfw_protect:
 	}
 
 	/* Allocate TransferBuffer */
-	fw_data = RTUSB_URB_ALLOC_BUFFER(udev, UPLOAD_FW_UNIT, &fw_dma);
+	fw_data = usb_alloc_coherent(udev, UPLOAD_FW_UNIT, GFP_ATOMIC, &fw_dma);
 
 	if (!fw_data) {
 		ret = NDIS_STATUS_RESOURCES;
