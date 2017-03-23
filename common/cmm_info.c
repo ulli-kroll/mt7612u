@@ -4687,34 +4687,6 @@ INT Set_TxBfProfileTag_TimeOut(
 	return TRUE;
 }
 
-
-INT Set_TxBfProfileTag_Matrix(
-    IN struct rtmp_adapter *pAd,
-	IN char *arg)
-{
-	CHAR	*value;
-	INT 	i;
-
-    /* ng[1:0], cw[1:0], nrow[1:0], ncol[1:0] */
-	if(strlen(arg) != 14)
-		return FALSE;
-
-	for (i=0, value = rstrtok(arg,":"); value; value = rstrtok(NULL,":"))
-	{
-		if((strlen(value) != 2) || (!isxdigit(*value)) || (!isxdigit(*(value+1))) )
-			return FALSE;  /*Invalid*/
-
-		AtoH(value, &MatrixForm[i++], 1);
-	}
-
-	CMDInIdx |= 1;
-
-	DBGPRINT(RT_DEBUG_TRACE, ("ng[1:0]=%x\n" "cw[1:0]=%x\n" "nrow[1:0]=%x\n" "nol[1:0]=%x\n" "LM[1:0]=%x\n",
-		   					   MatrixForm[0], MatrixForm[1], MatrixForm[2], MatrixForm[3], MatrixForm[4]));
-
-	return TRUE;
-}
-
 void assoc_ht_info_debugshow(
 	IN struct rtmp_adapter *pAd,
 	IN MAC_TABLE_ENTRY *pEntry,
