@@ -58,7 +58,7 @@ static int RTMPFreeUsbBulkBufStruct(
 
 	if (NULL != *ppUrb) {
 		usb_kill_urb(*ppUrb);
-		RTUSB_FREE_URB(*ppUrb);
+		usb_free_urb(*ppUrb);
 		*ppUrb = NULL;
 	}
 
@@ -128,7 +128,7 @@ VOID RTMPResetTxRxRingMemory(
 			if (NULL != pMLMEContext->pUrb)
 			{
 				usb_kill_urb(pMLMEContext->pUrb);
-				RTUSB_FREE_URB(pMLMEContext->pUrb);
+				usb_free_urb(pMLMEContext->pUrb);
 				pMLMEContext->pUrb = NULL;
 			}
 		}
@@ -229,7 +229,7 @@ VOID	RTMPFreeTxRxRingMemory(
 			if (NULL != pMLMEContext->pUrb)
 			{
 				usb_kill_urb(pMLMEContext->pUrb);
-				RTUSB_FREE_URB(pMLMEContext->pUrb);
+				usb_free_urb(pMLMEContext->pUrb);
 				pMLMEContext->pUrb = NULL;
 			}
 		}
@@ -777,7 +777,7 @@ out1:
 		if (NULL != pRxContext->pUrb)
 		{
 			usb_kill_urb(pRxContext->pUrb);
-			RTUSB_FREE_URB(pRxContext->pUrb);
+			usb_free_urb(pRxContext->pUrb);
 			pRxContext->pUrb = NULL;
 		}
 	}
@@ -1168,7 +1168,7 @@ VOID	RTMPFreeTxRxRingMemory(
 			if (NULL != pMLMEContext->pUrb)
 			{
 				usb_kill_urb(pMLMEContext->pUrb);
-				RTUSB_FREE_URB(pMLMEContext->pUrb);
+				usb_free_urb(pMLMEContext->pUrb);
 				pMLMEContext->pUrb = NULL;
 			}
 		}

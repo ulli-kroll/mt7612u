@@ -825,9 +825,6 @@ typedef struct usb_device_id USB_DEVICE_ID;
 
 #define RTUSB_FILL_BULK_URB(_urb, _dev, _pipe, _buffer, _buffer_len, _complete_fn, _context) usb_fill_bulk_urb(_urb, _dev, _pipe, _buffer, _buffer_len, _complete_fn, _context)
 
-#define RTUSB_FREE_URB(pUrb)	usb_free_urb(pUrb)
-
-
 /* Prototypes of completion funuc. */
 #define RtmpUsbBulkOutDataPacketComplete		RTUSBBulkOutDataPacketComplete
 #define RtmpUsbBulkOutMLMEPacketComplete		RTUSBBulkOutMLMEPacketComplete
