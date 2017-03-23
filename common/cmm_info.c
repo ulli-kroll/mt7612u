@@ -4772,35 +4772,6 @@ INT Set_TxBfProfileTag_TxScale(
 }
 
 
-
-INT Set_TxBfProfileTag_MAC(
-    IN struct rtmp_adapter *pAd,
-	IN char *arg)
-{
-	CHAR	*value;
-	INT		i;
-
-	/* Mac address acceptable format 01:02:03:04:05:06 length 17 */
-	if(strlen(arg) != 17)
-		return FALSE;
-
-	for (i=0, value = rstrtok(arg,":"); value; value = rstrtok(NULL,":"))
-	{
-		if((strlen(value) != 2) || (!isxdigit(*value)) || (!isxdigit(*(value+1))) )
-			return FALSE;  /*Invalid*/
-
-		AtoH(value, &macAddr[i++], 1);
-	}
-
-	CMDInIdx |= 2;
-
-	DBGPRINT(RT_DEBUG_TRACE, ("Set_TxBfProfileTage_MAC\n" "DS MAC=0x%x:0x%x:0x%x:0x%x:0x%x:0x%x \n",
-		   					   macAddr[0],macAddr[1],macAddr[2],macAddr[3],macAddr[4],macAddr[5]));
-
-    return TRUE;
-}
-
-
 void assoc_ht_info_debugshow(
 	IN struct rtmp_adapter *pAd,
 	IN MAC_TABLE_ENTRY *pEntry,
