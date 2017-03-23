@@ -4598,67 +4598,6 @@ INT	Set_Trigger_Sounding_Proc(
 	return TRUE;
 }
 
-/*
-	The VhtNDPA sounding inupt string format should be xx:xx:xx:xx:xx:xx-d,
-		=>The six 2 digit hex-decimal number previous are the Mac address,
-		=>The seventh decimal number is the MCS value.
-*/
-INT Set_VhtNDPA_Sounding_Proc(struct rtmp_adapter *pAd, char *arg)
-{
-	UCHAR mac[6];
-	UINT mcs;
-	char *token;
-	STRING sepValue[] = ":", DASH = '-';
-	INT i;
-	MAC_TABLE_ENTRY *pEntry = NULL;
-
-	DBGPRINT(RT_DEBUG_TRACE,("\n%s\n", arg));
-
-	/*Mac address acceptable format 01:02:03:04:05:06 length 17 plus the "-" and MCS value in decimal format.*/
-	if(strlen(arg) < 19)
-		return FALSE;
-
-	token = strchr(arg, DASH);
-	if ((token != NULL) && (strlen(token)>1))
-	{
-		mcs = (UINT)simple_strtol((token+1), 0, 10);
-
-		*token = '\0';
-		for (i = 0, token = rstrtok(arg, &sepValue[0]); token; token = rstrtok(NULL, &sepValue[0]), i++)
-		{
-			if((strlen(token) != 2) || (!isxdigit(*token)) || (!isxdigit(*(token+1))))
-				return FALSE;
-			AtoH(token, (&mac[i]), 1);
-		}
-		if (i != 6)
-			return FALSE;
-
-		DBGPRINT(RT_DEBUG_OFF, ("\n%02x:%02x:%02x:%02x:%02x:%02x-%02x\n",
-					PRINT_MAC(mac), mcs));
-
-		pEntry = MacTableLookup(pAd, (u8 *) mac);
-	    	if (pEntry) {
-#ifdef SOFT_SOUNDING
-			pEntry->snd_rate.field.MODE = MODE_VHT;
-			pEntry->snd_rate.field.BW = (mcs / 100) > BW_80 ? BW_80 : (mcs / 100);
-			mcs %= 100;
-			pEntry->snd_rate.field.MCS = ((mcs / 10) << 4 | (mcs % 10));
-
-			DBGPRINT(RT_DEBUG_OFF, ("%s():Trigger VHT NDPA Sounding=%02x:%02x:%02x:%02x:%02x:%02x, snding rate=VHT-%sHz, %dSS-MCS%d\n",
-					__FUNCTION__, PRINT_MAC(mac),
-					get_bw_str(pEntry->snd_rate.field.BW),
-					(pEntry->snd_rate.field.MCS >> 4) + 1,
-					pEntry->snd_rate.field.MCS & 0xf));
-#endif
-			trigger_vht_ndpa(pAd, pEntry);
-	    	}
-
-		return TRUE;
-	}
-
-	return FALSE;
-}
-
 USHORT  PFMU_TimeOut;
 UCHAR	MatrixForm[5];
 UCHAR	StsSnr[2];
