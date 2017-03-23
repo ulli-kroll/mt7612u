@@ -1506,7 +1506,7 @@ static void usb_rx_cmd_msg_complete(PURB urb)
 
 		net_pkt = msg->net_pkt;
 
-		RTUSB_FILL_BULK_URB(msg->urb, pObj->pUsb_Dev,
+		usb_fill_bulk_urb(msg->urb, pObj->pUsb_Dev,
 							usb_rcvbulkpipe(pObj->pUsb_Dev, pChipCap->CommandRspBulkInAddr),
 							GET_OS_PKT_DATAPTR(net_pkt), 512, usb_rx_cmd_msg_complete, net_pkt);
 
@@ -1547,7 +1547,7 @@ int usb_rx_cmd_msg_submit(struct rtmp_adapter *ad)
 
 	net_pkt = msg->net_pkt;
 
-	RTUSB_FILL_BULK_URB(msg->urb, pObj->pUsb_Dev,
+	usb_fill_bulk_urb(msg->urb, pObj->pUsb_Dev,
 						usb_rcvbulkpipe(pObj->pUsb_Dev, pChipCap->CommandRspBulkInAddr),
 						GET_OS_PKT_DATAPTR(net_pkt), 512, usb_rx_cmd_msg_complete, net_pkt);
 
@@ -1693,7 +1693,7 @@ int usb_kick_out_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *msg)
 		memset(OS_PKT_TAIL_BUF_EXTEND(net_pkt, USB_END_PADDING), 0x00, USB_END_PADDING);
 	}
 
-	RTUSB_FILL_BULK_URB(msg->urb, pObj->pUsb_Dev,
+	usb_fill_bulk_urb(msg->urb, pObj->pUsb_Dev,
 						usb_sndbulkpipe(pObj->pUsb_Dev, pChipCap->CommandBulkOutAddr),
 						GET_OS_PKT_DATAPTR(net_pkt), GET_OS_PKT_LEN(net_pkt), usb_kick_out_cmd_msg_complete, net_pkt);
 
