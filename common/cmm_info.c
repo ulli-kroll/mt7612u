@@ -4744,34 +4744,6 @@ INT Set_TxBfProfileTag_SNR(
 }
 
 
-INT Set_TxBfProfileTag_TxScale(
-    IN struct rtmp_adapter *pAd,
-	IN char *arg)
-{
-	CHAR	*value;
-	INT 	i;
-
-	/* Tx1_scale_2ss: Tx0_scale_2ss: Tx1_scale_1ss: Tx0_scale_1ss*/
-	if(strlen(arg) != 11)
-		return FALSE;
-
-	for (i=0, value = rstrtok(arg,":"); value; value = rstrtok(NULL,":"))
-	{
-		if((strlen(value) != 2) || (!isxdigit(*value)) || (!isxdigit(*(value+1))) )
-			return FALSE;  /*Invalid*/
-
-		AtoH(value, &TxScale[i++], 1);
-	}
-
-	CMDInIdx |= 4;
-
-	DBGPRINT(RT_DEBUG_TRACE, ("Tx1_scale_2ss=0x%x\n" "Tx0_scale_2ss=0x%x\n" "Tx1_scale_1ss=0x%x\n" "Tx0_scale_1ss=0x%x\n",
-		   					  TxScale[0], TxScale[1], TxScale[2], TxScale[3]));
-
-	return TRUE;
-}
-
-
 void assoc_ht_info_debugshow(
 	IN struct rtmp_adapter *pAd,
 	IN MAC_TABLE_ENTRY *pEntry,
