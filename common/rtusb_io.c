@@ -547,7 +547,7 @@ static int ResetBulkOutHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 					  pHTTXContext->BulkOutSize,
 					  RtmpUsbBulkOutDataPacketComplete);
 
-			if ((ret = RTUSB_SUBMIT_URB(pHTTXContext->pUrb)) != 0) {
+			if ((ret = usb_submit_urb(pHTTXContext->pUrb, GFP_ATOMIC)) != 0) {
 					RTMP_INT_LOCK(&pAd->BulkOutLock[pAd->bulkResetPipeid], IrqFlags);
 					pAd->BulkOutPending[pAd->bulkResetPipeid] = FALSE;
 					pHTTXContext->IRPPending = FALSE;
@@ -689,7 +689,7 @@ static int ResetBulkInHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 			/* Init Rx context descriptor*/
 			RTUSBInitRxDesc(pAd, pRxContext);
 			pUrb = pRxContext->pUrb;
-			if ((ret = RTUSB_SUBMIT_URB(pUrb))!=0)
+			if ((ret = usb_submit_urb(pUrb, GFP_ATOMIC))!=0)
 			{	/* fail*/
 				RTMP_IRQ_LOCK(&pAd->BulkInLock, IrqFlags);
 				pRxContext->InUse = FALSE;

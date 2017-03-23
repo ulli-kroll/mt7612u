@@ -823,7 +823,6 @@ typedef struct usb_device_id USB_DEVICE_ID;
 // TODO: shiang-usw, fine tune BULKAGGRE_SIZE, origianl is 60
 #define BULKAGGRE_SIZE				100 /* 100 */
 
-#define RTUSB_SUBMIT_URB(pUrb)		usb_submit_urb(pUrb, GFP_ATOMIC)
 #define RTUSB_URB_FREE_BUFFER(_dev, _size, _addr, _dma)	usb_free_coherent(_dev, _size, _addr, _dma)
 
 #define RTUSB_FILL_BULK_URB(_urb, _dev, _pipe, _buffer, _buffer_len, _complete_fn, _context) usb_fill_bulk_urb(_urb, _dev, _pipe, _buffer, _buffer_len, _complete_fn, _context)

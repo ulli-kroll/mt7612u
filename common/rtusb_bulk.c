@@ -528,7 +528,7 @@ VOID RTUSBBulkOutDataPacket(struct rtmp_adapter *pAd, UCHAR BulkOutPipeId, UCHAR
 	RTUSBInitHTTxDesc(pAd, pHTTXContext, BulkOutPipeId, ThisBulkSize, (usb_complete_t)RtmpUsbBulkOutDataPacketComplete);
 
 	pUrb = pHTTXContext->pUrb;
-	if((ret = RTUSB_SUBMIT_URB(pUrb))!=0)
+	if((ret = usb_submit_urb(pUrb, GFP_ATOMIC))!=0)
 	{
 		DBGPRINT(RT_DEBUG_ERROR, ("RTUSBBulkOutDataPacket: Submit Tx URB failed %d\n", ret));
 
@@ -639,7 +639,7 @@ VOID	RTUSBBulkOutNullFrame(
 	RTUSBInitTxDesc(pAd, pNullContext, 0, (usb_complete_t)RtmpUsbBulkOutNullFrameComplete);
 
 	pUrb = pNullContext->pUrb;
-	if((ret = RTUSB_SUBMIT_URB(pUrb))!=0)
+	if((ret = usb_submit_urb(pUrb, GFP_ATOMIC))!=0)
 	{
 		RTMP_IRQ_LOCK(&pAd->BulkOutLock[0], IrqFlags);
 		pAd->BulkOutPending[0] = FALSE;
@@ -740,7 +740,7 @@ VOID	RTUSBBulkOutMLMEPacket(
 	RTUSB_URB_DMA_MAPPING(pUrb);
 
 	pUrb = pMLMEContext->pUrb;
-	if((ret = RTUSB_SUBMIT_URB(pUrb))!=0)
+	if((ret = usb_submit_urb(pUrb, GFP_ATOMIC))!=0)
 	{
 		DBGPRINT(RT_DEBUG_ERROR, ("RTUSBBulkOutMLMEPacket: Submit MLME URB failed %d\n", ret));
 		RTMP_IRQ_LOCK(&pAd->BulkOutLock[MGMTPIPEIDX], IrqFlags);
@@ -818,7 +818,7 @@ VOID	RTUSBBulkOutPsPoll(
 	RTUSBInitTxDesc(pAd, pPsPollContext, MGMTPIPEIDX, (usb_complete_t)RtmpUsbBulkOutPsPollComplete);
 
 	pUrb = pPsPollContext->pUrb;
-	if((ret = RTUSB_SUBMIT_URB(pUrb))!=0)
+	if((ret = usb_submit_urb(pUrb, GFP_ATOMIC))!=0)
 	{
 		RTMP_IRQ_LOCK(&pAd->BulkOutLock[0], IrqFlags);
 		pAd->BulkOutPending[0] = FALSE;
@@ -877,7 +877,7 @@ VOID DoBulkIn(IN struct rtmp_adapter *pAd)
 	RTUSBInitRxDesc(pAd, pRxContext);
 
 	pUrb = pRxContext->pUrb;
-	if ((ret = RTUSB_SUBMIT_URB(pUrb))!=0)
+	if ((ret = usb_submit_urb(pUrb, GFP_ATOMIC))!=0)
 	{	/* fail*/
 
 		RTMP_IRQ_LOCK(&pAd->BulkInLock, IrqFlags);

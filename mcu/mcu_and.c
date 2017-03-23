@@ -453,7 +453,7 @@ load_patch_protect:
 									 &load_rom_patch_done,
 									 rom_patch_dma);
 
-			ret = RTUSB_SUBMIT_URB(urb);
+			ret = usb_submit_urb(urb, GFP_ATOMIC);
 
 			if (ret)
 			{
@@ -845,7 +845,7 @@ loadfw_protect:
 					 &load_fw_done,
 					 fw_dma);
 
-			ret = RTUSB_SUBMIT_URB(urb);
+			ret = usb_submit_urb(urb, GFP_ATOMIC);
 
 			if (ret) {
 				DBGPRINT(RT_DEBUG_ERROR, ("submit urb fail\n"));
@@ -986,7 +986,7 @@ loadfw_protect:
 					 &load_fw_done,
 					 fw_dma);
 
-			ret = RTUSB_SUBMIT_URB(urb);
+			ret = usb_submit_urb(urb, GFP_ATOMIC);
 
 			if (ret) {
 				DBGPRINT(RT_DEBUG_ERROR, ("submit urb fail\n"));
@@ -1512,7 +1512,7 @@ static void usb_rx_cmd_msg_complete(PURB urb)
 
 		mt7612u_mcu_queue_tail_cmd_msg(&ctl->rxq, msg, rx_start);
 
-		ret = RTUSB_SUBMIT_URB(msg->urb);
+		ret = usb_submit_urb(msg->urb, GFP_ATOMIC);
 
 		if (ret) {
 			mt7612u_mcu_unlink_cmd_msg(msg, &ctl->rxq);
@@ -1553,7 +1553,7 @@ int usb_rx_cmd_msg_submit(struct rtmp_adapter *ad)
 
 	mt7612u_mcu_queue_tail_cmd_msg(&ctl->rxq, msg, rx_start);
 
-	ret = RTUSB_SUBMIT_URB(msg->urb);
+	ret = usb_submit_urb(msg->urb, GFP_ATOMIC);
 
 	if (ret) {
 		mt7612u_mcu_unlink_cmd_msg(msg, &ctl->rxq);
@@ -1705,7 +1705,7 @@ int usb_kick_out_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *msg)
 	if (!OS_TEST_BIT(MCU_INIT, &ctl->flags))
 		return -1;
 
-	ret = RTUSB_SUBMIT_URB(msg->urb);
+	ret = usb_submit_urb(msg->urb, GFP_ATOMIC);
 
 	if (ret) {
 		if (!msg->need_rsp) {
