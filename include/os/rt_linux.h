@@ -827,9 +827,6 @@ typedef struct usb_device_id USB_DEVICE_ID;
 
 #define RTUSB_FREE_URB(pUrb)	usb_free_urb(pUrb)
 
-/* unlink urb */
-
-#define RTUSB_UNLINK_URB(pUrb)		usb_kill_urb(pUrb)
 
 /* Prototypes of completion funuc. */
 #define RtmpUsbBulkOutDataPacketComplete		RTUSBBulkOutDataPacketComplete
