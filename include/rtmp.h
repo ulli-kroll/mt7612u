@@ -6432,10 +6432,6 @@ INT Set_TxBfProfileTag_MAC(
     IN struct rtmp_adapter *  pAd,
 	IN char *        arg);
 
-INT Set_TxBfProfileTag_Flg(
-    IN struct rtmp_adapter *  pAd,
-	IN char *        arg);
-
 
 INT Set_VhtNDPA_Sounding_Proc(struct rtmp_adapter *pAd, char *arg);
 

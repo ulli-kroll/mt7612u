@@ -4801,34 +4801,6 @@ INT Set_TxBfProfileTag_MAC(
 }
 
 
-INT Set_TxBfProfileTag_Flg(
-    IN struct rtmp_adapter *pAd,
-	IN char *arg)
-{
-	CHAR	*value;
-	INT 	i;
-
-    /* LD, EO, IO, I/E */
-	if(strlen(arg) != 11)
-		return FALSE;
-
-	for (i=0, value = rstrtok(arg,":"); value; value = rstrtok(NULL,":"))
-	{
-		if((strlen(value) != 2) || (!isxdigit(*value)) || (!isxdigit(*(value+1))) )
-			return FALSE;  /*Invalid*/
-
-		AtoH(value, &FlgStatus[i++], 1);
-	}
-
-	CMDInIdx |= 32;
-
-	DBGPRINT(RT_DEBUG_TRACE, ("LD=%d\n" "EO=%d\n" "IO=%d\n" "I/E=%d\n",
-		   					  FlgStatus[0], FlgStatus[1], FlgStatus[2], FlgStatus[3]));
-
-	return TRUE;
-}
-
-
 void assoc_ht_info_debugshow(
 	IN struct rtmp_adapter *pAd,
 	IN MAC_TABLE_ENTRY *pEntry,
