@@ -4584,69 +4584,6 @@ INT Set_ETxBfIncapable_Proc(
 	return TRUE;
 }
 
-/*
-	Set_ETxBfEnCond_Proc - enable/disable ETxBF
-	usage: iwpriv ra0 set ETxBfEnCond=dd
-		0=>disable, 1=>enable
-	Note: After use this command, need to re-run apStartup()/LinkUp() operations to sync all status.
-		  If ETxBfIncapable!=0 then we don't need to reassociate.
-*/
-INT	Set_ETxBfEnCond_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg)
-{
-	UCHAR i, enableETxBf;
-	MAC_TABLE_ENTRY		*pEntry;
-	UINT8	byteValue;
-
-	enableETxBf = simple_strtol(arg, 0, 10);
-
-	if (enableETxBf > 1)
-		return FALSE;
-
-	pAd->CommonCfg.ETxBfEnCond = enableETxBf && (pAd->Antenna.field.TxPath > 1);
-	pAd->CommonCfg.RegTransmitSetting.field.TxBF = enableETxBf==0? 0: 1;
-
-	setETxBFCap(pAd, &pAd->CommonCfg.HtCapability.TxBFCap);
-	setVHTETxBFCap(pAd, &pAd->CommonCfg.vht_cap_ie.vht_cap);
-	rtmp_asic_set_bf(pAd);
-
-	if (enableETxBf)
-	{
-		mt7612u_write32(pAd,PFMU_R54, 0x150); // Solve the MCS8 and MCS9 TP degradation when PN on
-	}
-	else
-	{
-		mt7612u_write32(pAd,PFMU_R54, 0x100);
-	}
-
-
-	for (i=0; i<MAX_LEN_OF_MAC_TABLE; i++)
-	{
-		pEntry = &pAd->MacTab.Content[i];
-		if (!IS_ENTRY_NONE(pEntry))
-		{
-			if (WMODE_CAP_AC(pAd->CommonCfg.PhyMode) &&
-				(pAd->CommonCfg.Channel > 14))
-				pEntry->eTxBfEnCond = clientSupportsVHTETxBF(pAd, &pEntry->vht_cap_ie.vht_cap) ? enableETxBf: 0;
-			else
-				pEntry->eTxBfEnCond = clientSupportsETxBF(pAd, &pEntry->HTCapability.TxBFCap)? enableETxBf: 0;
-			pEntry->bfState = READY_FOR_SNDG0;
-			pEntry->HTPhyMode.field.eTxBF = pEntry->eTxBfEnCond;
-			pEntry->phyETxBf = pEntry->eTxBfEnCond;
-#ifdef MCS_LUT_SUPPORT
-			asic_mcs_lut_update(pAd, pEntry);
-#endif /* MCS_LUT_SUPPORT */
-		}
-
-		DBGPRINT(RT_DEBUG_TRACE, ("Set ETxBfEn=%d, Final ETxBF status =%d!\n",
-					enableETxBf , pEntry->eTxBfEnCond));
-	}
-
-
-	return TRUE;
-}
-
 INT	Set_NoSndgCntThrd_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg)
