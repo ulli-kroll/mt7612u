@@ -4564,26 +4564,6 @@ INT Set_ETxBfNoncompress_Proc(
 	return TRUE;
 }
 
-
-/*
-	Set_ETxBfIncapable_Proc - Set ETxBf Incapable option
-		usage: iwpriv ra0 set ETxBfIncapable=0 or 1
-*/
-INT Set_ETxBfIncapable_Proc(
-    IN  struct rtmp_adapter *  pAd,
-    IN  char *        arg)
-{
-	ULONG t = simple_strtol(arg, 0, 10);
-
-	if (t > 1)
-		return FALSE;
-
-	pAd->CommonCfg.ETxBfIncapable = t;
-	setETxBFCap(pAd, &pAd->CommonCfg.HtCapability.TxBFCap);
-
-	return TRUE;
-}
-
 INT	Set_NoSndgCntThrd_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg)
