@@ -4674,19 +4674,6 @@ UCHAR   phill;
 static SC_TABLE_ENTRY impSCTable[3] = { {224, 255, 1, 31}, {198, 254, 2, 58}, {134, 254, 2, 122} };
 static SC_TABLE_ENTRY expSCTable[3] = { {224, 255, 1, 31}, {198, 254, 2, 58}, {134, 254, 2, 122} };
 
-
-
-INT Set_TxBfProfileTag_TimeOut(
-    IN struct rtmp_adapter *pAd,
-	IN char *arg)
-{
-	PFMU_TimeOut = simple_strtol(arg, 0, 10);
-
-	CMDInIdx |= 16;
-
-	return TRUE;
-}
-
 void assoc_ht_info_debugshow(
 	IN struct rtmp_adapter *pAd,
 	IN MAC_TABLE_ENTRY *pEntry,
