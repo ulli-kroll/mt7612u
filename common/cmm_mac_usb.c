@@ -30,7 +30,7 @@ static int RTMPAllocUsbBulkBufStruct(
 	struct os_cookie *pObj = pAd->OS_Cookie;
 
 
-	*ppUrb = RTUSB_ALLOC_URB(0);
+	*ppUrb = usb_alloc_urb(0, GFP_ATOMIC);
 	if (*ppUrb == NULL)
 	{
 		DBGPRINT(RT_DEBUG_ERROR, ("<-- ERROR in Alloc urb struct for %s !\n", pBufName));
@@ -421,7 +421,7 @@ int NICInitTransmit(
 
 			/*Allocate URB for MLMEContext*/
 			pMLMEContext = (PTX_CONTEXT) pAd->MgmtRing.Cell[i].AllocVa;
-			pMLMEContext->pUrb = RTUSB_ALLOC_URB(0);
+			pMLMEContext->pUrb = usb_alloc_urb(0, GFP_ATOMIC);
 			if (pMLMEContext->pUrb == NULL)
 			{
 				DBGPRINT(RT_DEBUG_ERROR, ("<-- ERROR in Alloc TX MLMEContext[%d] urb!! \n", i));
@@ -727,7 +727,7 @@ int NICInitRecv(
 		PRX_CONTEXT  pRxContext = &(pAd->RxContext[i]);
 
 		/*Allocate URB*/
-		pRxContext->pUrb = RTUSB_ALLOC_URB(0);
+		pRxContext->pUrb = usb_alloc_urb(0, GFP_ATOMIC);
 		if (pRxContext->pUrb == NULL)
 		{
 			Status = NDIS_STATUS_RESOURCES;
@@ -892,7 +892,7 @@ int NICInitTransmit(
 
 			/*Allocate URB for MLMEContext*/
 			pMLMEContext = (PTX_CONTEXT) pAd->MgmtRing.Cell[i].AllocVa;
-			pMLMEContext->pUrb = RTUSB_ALLOC_URB(0);
+			pMLMEContext->pUrb = usb_alloc_urb(0, GFP_ATOMIC);
 			if (pMLMEContext->pUrb == NULL)
 			{
 				DBGPRINT(RT_DEBUG_ERROR, ("<-- ERROR in Alloc TX MLMEContext[%d] urb!! \n", i));

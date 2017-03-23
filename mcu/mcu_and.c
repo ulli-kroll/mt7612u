@@ -319,7 +319,7 @@ load_patch_protect:
 	mt7612u_write32(ad, FCE_SKIP_FS, 0x03);
 
 	/* Allocate URB */
-	urb = RTUSB_ALLOC_URB(0);
+	urb = usb_alloc_urb(0, GFP_ATOMIC);
 
 	if (!urb)
 	{
@@ -719,7 +719,7 @@ loadfw_protect:
 
 
 	/* Allocate URB */
-	urb = RTUSB_ALLOC_URB(0);
+	urb = usb_alloc_urb(0, GFP_ATOMIC);
 
 	if (!urb) {
 		DBGPRINT(RT_DEBUG_ERROR, ("can not allocate URB\n"));
@@ -1090,7 +1090,7 @@ struct cmd_msg *mt7612u_mcu_alloc_cmd_msg(struct rtmp_adapter *ad, unsigned int 
 	memset(msg, 0x00, sizeof(*msg));
 
 #ifdef RTMP_USB_SUPPORT
-	urb = RTUSB_ALLOC_URB(0);
+	urb = usb_alloc_urb(0, GFP_ATOMIC);
 
 	if (!urb) {
 		DBGPRINT(RT_DEBUG_ERROR, ("can not allocate urb\n"));
