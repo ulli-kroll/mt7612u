@@ -27,8 +27,7 @@ static int RTMPAllocUsbBulkBufStruct(
 	char *pBufName)
 {
 	*ppUrb = usb_alloc_urb(0, GFP_ATOMIC);
-	if (*ppUrb == NULL)
-	{
+	if (*ppUrb == NULL) {
 		DBGPRINT(RT_DEBUG_ERROR, ("<-- ERROR in Alloc urb struct for %s !\n", pBufName));
 		return NDIS_STATUS_RESOURCES;
 	}
@@ -43,22 +42,18 @@ static int RTMPAllocUsbBulkBufStruct(
 }
 
 
-static int RTMPFreeUsbBulkBufStruct(
-	IN struct rtmp_adapter *pAd,
-	IN PURB *ppUrb,
-	IN u8 **ppXBuffer,
-	IN INT bufLen,
-	IN ra_dma_addr_t data_dma)
+static int RTMPFreeUsbBulkBufStruct(struct rtmp_adapter *pAd,
+	PURB *ppUrb, u8 **ppXBuffer, INT bufLen, ra_dma_addr_t data_dma)
 {
 	struct os_cookie *pObj = pAd->OS_Cookie;
 
-	if (NULL != *ppUrb) {
+	if (*ppUrb != NULL) {
 		usb_kill_urb(*ppUrb);
 		usb_free_urb(*ppUrb);
 		*ppUrb = NULL;
 	}
 
-	if (NULL != *ppXBuffer) {
+	if (*ppXBuffer != NULL) {
 		usb_free_coherent(pObj->pUsb_Dev, bufLen,	*ppXBuffer, data_dma);
 		*ppXBuffer = NULL;
 	}
@@ -68,8 +63,7 @@ static int RTMPFreeUsbBulkBufStruct(
 
 
 #ifdef RESOURCE_PRE_ALLOC
-VOID RTMPResetTxRxRingMemory(
-	IN struct rtmp_adapter * pAd)
+VOID RTMPResetTxRxRingMemory(struct rtmp_adapter *pAd)
 {
 	UINT index, i, acidx;
 	PTX_CONTEXT pNullContext   = &pAd->NullContext;
@@ -78,16 +72,14 @@ VOID RTMPResetTxRxRingMemory(
 	unsigned int IrqFlags;
 
 	/* Free TxSwQueue Packet*/
-	for (index = 0; index < NUM_OF_TX_RING; index++)
-	{
+	for (index = 0; index < NUM_OF_TX_RING; index++) {
 		PQUEUE_ENTRY pEntry;
 		struct sk_buff *pPacket;
 		PQUEUE_HEADER pQueue;
 
 		RTMP_IRQ_LOCK(&pAd->irq_lock, IrqFlags);
 		pQueue = &pAd->TxSwQueue[index];
-		while (pQueue->Head)
-		{
+		while (pQueue->Head) {
 			pEntry = RemoveHeadQueue(pQueue);
 			pPacket = QUEUE_ENTRY_TO_PACKET(pEntry);
 			RELEASE_NDIS_PACKET(pAd, pPacket, NDIS_STATUS_FAILURE);
@@ -96,9 +88,9 @@ VOID RTMPResetTxRxRingMemory(
 	}
 
 	/* unlink all urbs for the RECEIVE buffer queue.*/
-	for(i=0; i<(RX_RING_SIZE); i++)
-	{
+	for (i = 0; i < RX_RING_SIZE; i++) {
 		PRX_CONTEXT  pRxContext = &(pAd->RxContext[i]);
+
 		if (pRxContext->pUrb)
 			usb_kill_urb(pRxContext->pUrb);
 	}
@@ -116,23 +108,21 @@ VOID RTMPResetTxRxRingMemory(
 
 
 	/* Free mgmt frame resource*/
-	for(i = 0; i < MGMT_RING_SIZE; i++)
-	{
+	for (i = 0; i < MGMT_RING_SIZE; i++) {
 		PTX_CONTEXT pMLMEContext = (PTX_CONTEXT)pAd->MgmtRing.Cell[i].AllocVa;
-		if (pMLMEContext)
-		{
-			if (NULL != pMLMEContext->pUrb)
-			{
+
+		if (pMLMEContext) {
+			if (pMLMEContext->pUrb != NULL) {
 				usb_kill_urb(pMLMEContext->pUrb);
 				usb_free_urb(pMLMEContext->pUrb);
 				pMLMEContext->pUrb = NULL;
 			}
 		}
 
-		if (NULL != pAd->MgmtRing.Cell[i].pNdisPacket)
-		{
+		if (pAd->MgmtRing.Cell[i].pNdisPacket != NULL) {
 			RELEASE_NDIS_PACKET(pAd, pAd->MgmtRing.Cell[i].pNdisPacket, NDIS_STATUS_FAILURE);
 			pAd->MgmtRing.Cell[i].pNdisPacket = NULL;
+
 			if (pMLMEContext)
 				pMLMEContext->TransferBuffer = NULL;
 		}
@@ -141,9 +131,9 @@ VOID RTMPResetTxRxRingMemory(
 
 
 	/* Free Tx frame resource*/
-	for (acidx = 0; acidx < 4; acidx++)
-	{
+	for (acidx = 0; acidx < 4; acidx++) {
 		PHT_TX_CONTEXT pHTTXContext = &(pAd->TxContext[acidx]);
+
 		if (pHTTXContext && pHTTXContext->pUrb)
 			usb_kill_urb(pHTTXContext->pUrb);
 	}
@@ -156,23 +146,23 @@ VOID RTMPResetTxRxRingMemory(
 
 
 /*
-========================================================================
-Routine Description:
-	Calls USB_InterfaceStop and frees memory allocated for the URBs
-    calls NdisMDeregisterDevice and frees the memory
-    allocated in VNetInitialize for the Adapter Object
+ * ========================================================================
+ * Routine Description:
+ *	Calls USB_InterfaceStop and frees memory allocated for the URBs
+ *	calls NdisMDeregisterDevice and frees the memory
+ *	allocated in VNetInitialize for the Adapter Object
+ *
+ * Arguments:
+ * 	*pAd				the raxx interface data pointer
+ *
+ * Return Value:
+ *	None
+ *
+ * Note:
+ * ========================================================================
+ */
 
-Arguments:
-	*pAd				the raxx interface data pointer
-
-Return Value:
-	None
-
-Note:
-========================================================================
-*/
-VOID	RTMPFreeTxRxRingMemory(
-	IN	struct rtmp_adapter *pAd)
+VOID	RTMPFreeTxRxRingMemory(struct rtmp_adapter *pAd)
 {
 	UINT                i, acidx;
 	PTX_CONTEXT			pNullContext   = &pAd->NullContext;
@@ -182,56 +172,53 @@ VOID	RTMPFreeTxRxRingMemory(
 	DBGPRINT(RT_DEBUG_ERROR, ("---> RTMPFreeTxRxRingMemory\n"));
 
 	/* Free all resources for the RECEIVE buffer queue.*/
-	for(i=0; i<(RX_RING_SIZE); i++)
-	{
+	for (i = 0; i < RX_RING_SIZE; i++) {
 		PRX_CONTEXT  pRxContext = &(pAd->RxContext[i]);
+
 		if (pRxContext)
 			RTMPFreeUsbBulkBufStruct(pAd,
-										&pRxContext->pUrb,
-										(u8 **)&pRxContext->TransferBuffer,
-										MAX_RXBULK_SIZE,
-										pRxContext->data_dma);
+					&pRxContext->pUrb,
+					(u8 **)&pRxContext->TransferBuffer,
+					MAX_RXBULK_SIZE,
+					pRxContext->data_dma);
 	}
 
 	/* Command Response */
 	RTMPFreeUsbBulkBufStruct(pAd,
-							 &pCmdRspEventContext->pUrb,
-							 (u8 **)&pCmdRspEventContext->CmdRspBuffer,
-							 CMD_RSP_BULK_SIZE,
-							 pCmdRspEventContext->data_dma);
+				&pCmdRspEventContext->pUrb,
+				(u8 **)&pCmdRspEventContext->CmdRspBuffer,
+				CMD_RSP_BULK_SIZE,
+				pCmdRspEventContext->data_dma);
 
 
 
 	/* Free PsPoll frame resource*/
 	RTMPFreeUsbBulkBufStruct(pAd,
-								&pPsPollContext->pUrb,
-								(u8 **)&pPsPollContext->TransferBuffer,
-								sizeof(TX_BUFFER),
-								pPsPollContext->data_dma);
+				&pPsPollContext->pUrb,
+				(u8 **)&pPsPollContext->TransferBuffer,
+				sizeof(TX_BUFFER),
+				pPsPollContext->data_dma);
 
 	/* Free NULL frame resource*/
 	RTMPFreeUsbBulkBufStruct(pAd,
-								&pNullContext->pUrb,
-								(u8 **)&pNullContext->TransferBuffer,
-								sizeof(TX_BUFFER),
-								pNullContext->data_dma);
+				&pNullContext->pUrb,
+				(u8 **)&pNullContext->TransferBuffer,
+				sizeof(TX_BUFFER),
+				pNullContext->data_dma);
 
 	/* Free mgmt frame resource*/
-	for(i = 0; i < MGMT_RING_SIZE; i++)
-	{
+	for (i = 0; i < MGMT_RING_SIZE; i++) {
 		PTX_CONTEXT pMLMEContext = (PTX_CONTEXT)pAd->MgmtRing.Cell[i].AllocVa;
-		if (pMLMEContext)
-		{
-			if (NULL != pMLMEContext->pUrb)
-			{
+
+		if (pMLMEContext) {
+			if (pMLMEContext->pUrb != NULL) {
 				usb_kill_urb(pMLMEContext->pUrb);
 				usb_free_urb(pMLMEContext->pUrb);
 				pMLMEContext->pUrb = NULL;
 			}
 		}
 
-		if (NULL != pAd->MgmtRing.Cell[i].pNdisPacket)
-		{
+		if (pAd->MgmtRing.Cell[i].pNdisPacket != NULL) {
 			RELEASE_NDIS_PACKET(pAd, pAd->MgmtRing.Cell[i].pNdisPacket, NDIS_STATUS_FAILURE);
 			pAd->MgmtRing.Cell[i].pNdisPacket = NULL;
 			if (pMLMEContext)
@@ -239,20 +226,18 @@ VOID	RTMPFreeTxRxRingMemory(
 		}
 	}
 
-	if (pAd->MgmtDescRing.AllocVa)
-		kfree(pAd->MgmtDescRing.AllocVa);
-
+	kfree(pAd->MgmtDescRing.AllocVa);
 
 	/* Free Tx frame resource*/
-	for (acidx = 0; acidx < 4; acidx++)
-	{
+	for (acidx = 0; acidx < 4; acidx++) {
 		PHT_TX_CONTEXT pHTTXContext = &(pAd->TxContext[acidx]);
+
 		if (pHTTXContext)
 			RTMPFreeUsbBulkBufStruct(pAd,
-										&pHTTXContext->pUrb,
-										(u8 **)&pHTTXContext->TransferBuffer,
-										sizeof(HTTX_BUFFER),
-										pHTTXContext->data_dma);
+					&pHTTXContext->pUrb,
+					(u8 **)&pHTTXContext->TransferBuffer,
+					sizeof(HTTX_BUFFER),
+					pHTTXContext->data_dma);
 	}
 
 	if (pAd->FragFrame.pFragPacket)
@@ -264,24 +249,25 @@ VOID	RTMPFreeTxRxRingMemory(
 
 
 /*
-========================================================================
-Routine Description:
-    Initialize receive data structures.
+ * ========================================================================
+ * Routine Description:
+ *     Initialize receive data structures.
+ *
+ * Arguments:
+ *     pAd					Pointer to our adapter
+ *
+ * Return Value:
+ *	NDIS_STATUS_SUCCESS
+ *	NDIS_STATUS_RESOURCES
+ *
+ * Note:
+ *	Initialize all receive releated private buffer, include those define
+ *	in struct rtmp_adapter structure and all private data structures. The major
+ *	work is to allocate buffer for each packet and chain buffer to
+ *	NDIS packet descriptor.
+ * ========================================================================
+ */
 
-Arguments:
-    pAd					Pointer to our adapter
-
-Return Value:
-	NDIS_STATUS_SUCCESS
-	NDIS_STATUS_RESOURCES
-
-Note:
-	Initialize all receive releated private buffer, include those define
-	in struct rtmp_adapter structure and all private data structures. The major
-	work is to allocate buffer for each packet and chain buffer to
-	NDIS packet descriptor.
-========================================================================
-*/
 int NICInitRecv(struct rtmp_adapter *pAd)
 {
 	UCHAR i;
@@ -292,11 +278,10 @@ int NICInitRecv(struct rtmp_adapter *pAd)
 
 	pAd->PendingRx = 0;
 	pAd->NextRxBulkInReadIndex 	= 0;	/* Next Rx Read index*/
-	pAd->NextRxBulkInIndex		= 0 ; /*RX_RING_SIZE -1;  Rx Bulk pointer*/
+	pAd->NextRxBulkInIndex		= 0;	/*RX_RING_SIZE -1;  Rx Bulk pointer*/
 	pAd->NextRxBulkInPosition 	= 0;
 
-	for (i = 0; i < (RX_RING_SIZE); i++)
-	{
+	for (i = 0; i < (RX_RING_SIZE); i++) {
 		PRX_CONTEXT  pRxContext = &(pAd->RxContext[i]);
 
 		ASSERT((pRxContext->TransferBuffer != NULL));
@@ -325,22 +310,22 @@ int NICInitRecv(struct rtmp_adapter *pAd)
 
 
 /*
-========================================================================
-Routine Description:
-    Initialize transmit data structures.
+ * ========================================================================
+ * Routine Description:
+ *    Initialize transmit data structures.
+ *
+ * Arguments:
+ *     pAd					Pointer to our adapter
+ *
+ * Return Value:
+ *	NDIS_STATUS_SUCCESS
+ *	NDIS_STATUS_RESOURCES
+ *
+ * Note:
+ * ========================================================================
+ */
 
-Arguments:
-    pAd					Pointer to our adapter
-
-Return Value:
-	NDIS_STATUS_SUCCESS
-	NDIS_STATUS_RESOURCES
-
-Note:
-========================================================================
-*/
-int NICInitTransmit(
-	IN	struct rtmp_adapter *pAd)
+int NICInitTransmit(struct rtmp_adapter *pAd)
 {
 	UCHAR			i, acidx;
 	int     Status = NDIS_STATUS_SUCCESS;
@@ -357,8 +342,7 @@ int NICInitTransmit(
 
 
 	/* Init 4 set of Tx parameters*/
-	for(acidx = 0; acidx < NUM_OF_TX_RING; acidx++)
-	{
+	for (acidx = 0; acidx < NUM_OF_TX_RING; acidx++) {
 		/* Initialize all Transmit releated queues*/
 		InitializeQueueHeader(&pAd->TxSwQueue[acidx]);
 
@@ -368,21 +352,19 @@ int NICInitTransmit(
 	}
 
 
-	do
-	{
+	do {
 
 		/* TX_RING_SIZE, 4 ACs*/
 
-		for(acidx=0; acidx<4; acidx++)
-		{
+		for (acidx =  0; acidx < 4; acidx++) {
 			PHT_TX_CONTEXT	pHTTXContext = &(pAd->TxContext[acidx]);
 
 			pTransferBuffer = pHTTXContext->TransferBuffer;
 			pUrb = pHTTXContext->pUrb;
 			data_dma = pHTTXContext->data_dma;
 
-			ASSERT( (pTransferBuffer != NULL));
-			ASSERT( (pUrb != NULL));
+			ASSERT((pTransferBuffer != NULL));
+			ASSERT((pUrb != NULL));
 
 			memset(pHTTXContext, 0, sizeof(HT_TX_CONTEXT));
 			pHTTXContext->TransferBuffer = pTransferBuffer;
@@ -407,8 +389,7 @@ int NICInitTransmit(
 
 		/* Initialize MGMT Ring and associated buffer memory*/
 		pMgmtRing = &pAd->MgmtRing;
-		for (i = 0; i < MGMT_RING_SIZE; i++)
-		{
+		for (i = 0; i < MGMT_RING_SIZE; i++) {
 			/* link the pre-allocated Mgmt buffer to MgmtRing.Cell*/
 			pMgmtRing->Cell[i].AllocSize = sizeof(TX_CONTEXT);
 			pMgmtRing->Cell[i].AllocVa = RingBaseVa;
@@ -418,9 +399,8 @@ int NICInitTransmit(
 			/*Allocate URB for MLMEContext*/
 			pMLMEContext = (PTX_CONTEXT) pAd->MgmtRing.Cell[i].AllocVa;
 			pMLMEContext->pUrb = usb_alloc_urb(0, GFP_ATOMIC);
-			if (pMLMEContext->pUrb == NULL)
-			{
-				DBGPRINT(RT_DEBUG_ERROR, ("<-- ERROR in Alloc TX MLMEContext[%d] urb!! \n", i));
+			if (pMLMEContext->pUrb == NULL) {
+				DBGPRINT(RT_DEBUG_ERROR, ("<-- ERROR in Alloc TX MLMEContext[%d] urb!!\n", i));
 				Status = NDIS_STATUS_RESOURCES;
 				goto err;
 			}
@@ -474,18 +454,16 @@ int NICInitTransmit(
 
 	/* --------------------------- ERROR HANDLE --------------------------- */
 err:
-	if (pAd->MgmtDescRing.AllocVa)
-	{
+	if (pAd->MgmtDescRing.AllocVa) {
 		pMgmtRing = &pAd->MgmtRing;
-		for(i = 0; i < MGMT_RING_SIZE; i++)
-		{
+		for (i = 0; i < MGMT_RING_SIZE; i++) {
 			pMLMEContext = (PTX_CONTEXT) pAd->MgmtRing.Cell[i].AllocVa;
 			if (pMLMEContext)
 				RTMPFreeUsbBulkBufStruct(pAd,
-											&pMLMEContext->pUrb,
-											(u8 **)&pMLMEContext->TransferBuffer,
-											sizeof(TX_BUFFER),
-											pMLMEContext->data_dma);
+						&pMLMEContext->pUrb,
+						(u8 **)&pMLMEContext->TransferBuffer,
+						sizeof(TX_BUFFER),
+						pMLMEContext->data_dma);
 		}
 		kfree(pAd->MgmtDescRing.AllocVa);
 		pAd->MgmtDescRing.AllocVa = NULL;
@@ -498,23 +476,22 @@ err:
 
 
 /*
-========================================================================
-Routine Description:
-    Allocate DMA memory blocks for send, receive.
-
-Arguments:
-    pAd					Pointer to our adapter
-
-Return Value:
-	NDIS_STATUS_SUCCESS
-	NDIS_STATUS_FAILURE
-	NDIS_STATUS_RESOURCES
-
-Note:
-========================================================================
-*/
-int RTMPAllocTxRxRingMemory(
-	IN	struct rtmp_adapter *pAd)
+ * ========================================================================
+ * Routine Description:
+ *    Allocate DMA memory blocks for send, receive.
+ *
+ * Arguments:
+ *    pAd					Pointer to our adapter
+ *
+ * Return Value:
+ *	NDIS_STATUS_SUCCESS
+ *	NDIS_STATUS_FAILURE
+ *	NDIS_STATUS_RESOURCES
+ *
+ * Note:
+ * ========================================================================
+ */
+int RTMPAllocTxRxRingMemory(struct rtmp_adapter *pAd)
 {
 	int Status = NDIS_STATUS_FAILURE;
 	PTX_CONTEXT pNullContext   = &(pAd->NullContext);
@@ -525,26 +502,24 @@ int RTMPAllocTxRxRingMemory(
 
 	DBGPRINT(RT_DEBUG_TRACE, ("--> RTMPAllocTxRxRingMemory\n"));
 
-	do
-	{
+	do {
 
 		/* Init send data structures and related parameters*/
 
 
 		/* TX_RING_SIZE, 4 ACs*/
 
-		for(acidx=0; acidx<4; acidx++)
-		{
+		for (acidx = 0; acidx < 4; acidx++) {
 			PHT_TX_CONTEXT	pHTTXContext = &(pAd->TxContext[acidx]);
 
 			memset(pHTTXContext, 0, sizeof(HT_TX_CONTEXT));
 			/*Allocate URB and bulk buffer*/
 			Status = RTMPAllocUsbBulkBufStruct(udev,
-												&pHTTXContext->pUrb,
-												(PVOID *)&pHTTXContext->TransferBuffer,
-												sizeof(HTTX_BUFFER),
-												&pHTTXContext->data_dma,
-												"HTTxContext");
+						&pHTTXContext->pUrb,
+						(PVOID *)&pHTTXContext->TransferBuffer,
+						sizeof(HTTX_BUFFER),
+						&pHTTXContext->data_dma,
+						"HTTxContext");
 			if (Status != NDIS_STATUS_SUCCESS)
 				goto err;
 		}
@@ -557,8 +532,7 @@ int RTMPAllocTxRxRingMemory(
 		pAd->MgmtDescRing.AllocSize = MGMT_RING_SIZE * sizeof(TX_CONTEXT);
 		pAd->MgmtDescRing.AllocVa =
 			kmalloc(pAd->MgmtDescRing.AllocSize, GFP_ATOMIC);
-		if (pAd->MgmtDescRing.AllocVa == NULL)
-		{
+		if (pAd->MgmtDescRing.AllocVa == NULL) {
 			DBGPRINT_ERR(("Failed to allocate a big buffer for MgmtDescRing!\n"));
 			Status = NDIS_STATUS_RESOURCES;
 			goto err;
@@ -571,11 +545,11 @@ int RTMPAllocTxRxRingMemory(
 		memset(pNullContext, 0, sizeof(TX_CONTEXT));
 		/*Allocate URB*/
 		Status = RTMPAllocUsbBulkBufStruct(udev,
-											&pNullContext->pUrb,
-											(PVOID *)&pNullContext->TransferBuffer,
-											sizeof(TX_BUFFER),
-											&pNullContext->data_dma,
-											"TxNullContext");
+					&pNullContext->pUrb,
+					(PVOID *)&pNullContext->TransferBuffer,
+					sizeof(TX_BUFFER),
+					&pNullContext->data_dma,
+					"TxNullContext");
 		if (Status != NDIS_STATUS_SUCCESS)
 			goto err;
 
@@ -585,28 +559,27 @@ int RTMPAllocTxRxRingMemory(
 		memset(pPsPollContext, 0, sizeof(TX_CONTEXT));
 		/*Allocate URB*/
 		Status = RTMPAllocUsbBulkBufStruct(udev,
-											&pPsPollContext->pUrb,
-											(PVOID *)&pPsPollContext->TransferBuffer,
-											sizeof(TX_BUFFER),
-											&pPsPollContext->data_dma,
-											"TxPsPollContext");
+					&pPsPollContext->pUrb,
+					(PVOID *)&pPsPollContext->TransferBuffer,
+					sizeof(TX_BUFFER),
+					&pPsPollContext->data_dma,
+					"TxPsPollContext");
 		if (Status != NDIS_STATUS_SUCCESS)
 			goto err;
 
 
 
 		/* Init receive data structures and related parameters*/
-		for (i = 0; i < (RX_RING_SIZE); i++)
-		{
+		for (i = 0; i < (RX_RING_SIZE); i++) {
 			PRX_CONTEXT  pRxContext = &(pAd->RxContext[i]);
 
 			/*Allocate URB*/
 			Status = RTMPAllocUsbBulkBufStruct(udev,
-												&pRxContext->pUrb,
-												(PVOID *)&pRxContext->TransferBuffer,
-												MAX_RXBULK_SIZE,
-												&pRxContext->data_dma,
-												"RxContext");
+					&pRxContext->pUrb,
+					(PVOID *)&pRxContext->TransferBuffer,
+					MAX_RXBULK_SIZE,
+					&pRxContext->data_dma,
+					"RxContext");
 			if (Status != NDIS_STATUS_SUCCESS)
 				goto err;
 
@@ -614,11 +587,11 @@ int RTMPAllocTxRxRingMemory(
 
 		/* Init command response event related parameters */
 		Status = RTMPAllocUsbBulkBufStruct(udev,
-										   &pCmdRspEventContext->pUrb,
-										   (PVOID *)&pCmdRspEventContext->CmdRspBuffer,
-										   CMD_RSP_BULK_SIZE,
-										   &pCmdRspEventContext->data_dma,
-										   "CmdRspEventContext");
+					&pCmdRspEventContext->pUrb,
+					(PVOID *)&pCmdRspEventContext->CmdRspBuffer,
+					CMD_RSP_BULK_SIZE,
+					&pCmdRspEventContext->data_dma,
+					"CmdRspEventContext");
 
 		if (Status != NDIS_STATUS_SUCCESS)
 			goto err;
@@ -628,9 +601,7 @@ int RTMPAllocTxRxRingMemory(
 		pAd->FragFrame.pFragPacket =  RTMP_AllocateFragPacketBuffer(pAd, RX_BUFFER_NORMSIZE);
 
 		if (pAd->FragFrame.pFragPacket == NULL)
-		{
 			Status = NDIS_STATUS_RESOURCES;
-		}
 	} while (FALSE);
 
 	DBGPRINT_S(Status, ("<-- RTMPAllocTxRxRingMemory, Status=%x\n", Status));
@@ -644,8 +615,7 @@ err:
 }
 
 
-int RTMPInitTxRxRingMemory
-	(IN struct rtmp_adapter *pAd)
+int RTMPInitTxRxRingMemory(struct rtmp_adapter *pAd)
 {
 	INT				num;
 	int 	Status;
@@ -660,16 +630,11 @@ int RTMPInitTxRxRingMemory
 	spin_lock_init(&pAd->MLMEBulkOutLock);
 	spin_lock_init(&pAd->BulkInLock);
 	spin_lock_init(&pAd->CmdRspLock);
-	for(num =0 ; num < 6; num++)
-	{
+	for (num = 0 ; num < 6; num++)
 		spin_lock_init(&pAd->BulkOutLock[num]);
-	}
-
 
 	for (num = 0; num < NUM_OF_TX_RING; num++)
-	{
 		spin_lock_init(&pAd->TxContextQueueLock[num]);
-	}
 
 	NICInitRecv(pAd);
 
@@ -684,30 +649,30 @@ int RTMPInitTxRxRingMemory
 #else
 
 /*
-========================================================================
-Routine Description:
-    Initialize receive data structures.
+ * ========================================================================
+ * Routine Description:
+ *     Initialize receive data structures.
+ *
+ * Arguments:
+ *     pAd					Pointer to our adapter
 
-Arguments:
-    pAd					Pointer to our adapter
+ * Return Value:
+ *	NDIS_STATUS_SUCCESS
+ *	NDIS_STATUS_RESOURCES
+ *
+ * Note:
+ *	Initialize all receive releated private buffer, include those define
+ *	in struct rtmp_adapter structure and all private data structures. The mahor
+ *	work is to allocate buffer for each packet and chain buffer to
+ *	NDIS packet descriptor.
+ *========================================================================
+ */
 
-Return Value:
-	NDIS_STATUS_SUCCESS
-	NDIS_STATUS_RESOURCES
-
-Note:
-	Initialize all receive releated private buffer, include those define
-	in struct rtmp_adapter structure and all private data structures. The mahor
-	work is to allocate buffer for each packet and chain buffer to
-	NDIS packet descriptor.
-========================================================================
-*/
-int NICInitRecv(
-	IN	struct rtmp_adapter *pAd)
+int NICInitRecv(struct rtmp_adapter *pAd)
 {
 	UCHAR				i;
 	int 		Status = NDIS_STATUS_SUCCESS;
-	struct os_cookie *		pObj = pAd->OS_Cookie;
+	struct os_cookie *pObj = pAd->OS_Cookie;
 	PCMD_RSP_CONTEXT pCmdRspEventContext = &pAd->CmdRspEventContext;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("--> NICInitRecv\n"));
@@ -715,26 +680,23 @@ int NICInitRecv(
 
 	/*InterlockedExchange(&pAd->PendingRx, 0);*/
 	pAd->PendingRx = 0;
-	pAd->NextRxBulkInReadIndex 	= 0;	/* Next Rx Read index*/
+	pAd->NextRxBulkInReadIndex	= 0;	/* Next Rx Read index*/
 	pAd->NextRxBulkInIndex		= 0 ; /*RX_RING_SIZE -1;  Rx Bulk pointer*/
-	pAd->NextRxBulkInPosition 	= 0;
+	pAd->NextRxBulkInPosition	= 0;
 
-	for (i = 0; i < (RX_RING_SIZE); i++)
-	{
+	for (i = 0; i < (RX_RING_SIZE); i++) {
 		PRX_CONTEXT  pRxContext = &(pAd->RxContext[i]);
 
 		/*Allocate URB*/
 		pRxContext->pUrb = usb_alloc_urb(0, GFP_ATOMIC);
-		if (pRxContext->pUrb == NULL)
-		{
+		if (pRxContext->pUrb == NULL) {
 			Status = NDIS_STATUS_RESOURCES;
 			goto out1;
 		}
 
 		/* Allocate transfer buffer*/
-		pRxContext->TransferBuffer = usb_alloc_coherent(pObj->pUsb_Dev, MAX_RXBULK_SIZE, GFP_ATOMIC , &pRxContext->data_dma);
-		if (pRxContext->TransferBuffer == NULL)
-		{
+		pRxContext->TransferBuffer = usb_alloc_coherent(pObj->pUsb_Dev, MAX_RXBULK_SIZE, GFP_ATOMIC, &pRxContext->data_dma);
+		if (pRxContext->TransferBuffer == NULL) {
 			Status = NDIS_STATUS_RESOURCES;
 			goto out1;
 		}
@@ -760,19 +722,16 @@ int NICInitRecv(
 	return Status;
 
 out1:
-	for (i = 0; i < (RX_RING_SIZE); i++)
-	{
+	for (i = 0; i < (RX_RING_SIZE); i++) {
 		PRX_CONTEXT  pRxContext = &(pAd->RxContext[i]);
 
-		if (NULL != pRxContext->TransferBuffer)
-		{
+		if (pRxContext->TransferBuffer != NULL) {
 			usb_free_coherent(pObj->pUsb_Dev, MAX_RXBULK_SIZE,
 								pRxContext->TransferBuffer, pRxContext->data_dma);
 			pRxContext->TransferBuffer = NULL;
 		}
 
-		if (NULL != pRxContext->pUrb)
-		{
+		if (pRxContext->pUrb != NULL) {
 			usb_kill_urb(pRxContext->pUrb);
 			usb_free_urb(pRxContext->pUrb);
 			pRxContext->pUrb = NULL;
@@ -784,29 +743,29 @@ out1:
 
 
 /*
-========================================================================
-Routine Description:
-    Initialize transmit data structures.
+ * ========================================================================
+ * Routine Description:
+ *    Initialize transmit data structures.
+ *
+ * Arguments:
+ *    pAd					Pointer to our adapter
+ *
+ * Return Value:
+ *	NDIS_STATUS_SUCCESS
+ *	NDIS_STATUS_RESOURCES
+ *
+ * Note:
+ * ========================================================================
+ */
 
-Arguments:
-    pAd					Pointer to our adapter
-
-Return Value:
-	NDIS_STATUS_SUCCESS
-	NDIS_STATUS_RESOURCES
-
-Note:
-========================================================================
-*/
-int NICInitTransmit(
-	IN	struct rtmp_adapter *pAd)
+int NICInitTransmit(struct rtmp_adapter *pAd)
 {
 	UCHAR			i, acidx;
 	int     Status = NDIS_STATUS_SUCCESS;
-	PTX_CONTEXT		pNullContext   = &(pAd->NullContext);
-	PTX_CONTEXT		pPsPollContext = &(pAd->PsPollContext);
-	PTX_CONTEXT		pMLMEContext = NULL;
-	struct os_cookie *	pObj = pAd->OS_Cookie;
+	PTX_CONTEXT pNullContext   = &(pAd->NullContext);
+	PTX_CONTEXT pPsPollContext = &(pAd->PsPollContext);
+	PTX_CONTEXT pMLMEContext = NULL;
+	struct os_cookie *pObj = pAd->OS_Cookie;
 	PVOID			RingBaseVa;
 	RTMP_MGMT_RING  *pMgmtRing;
 
@@ -814,8 +773,7 @@ int NICInitTransmit(
 	pObj = pObj;
 
 	/* Init 4 set of Tx parameters*/
-	for(acidx = 0; acidx < NUM_OF_TX_RING; acidx++)
-	{
+	for (acidx = 0; acidx < NUM_OF_TX_RING; acidx++) {
 		/* Initialize all Transmit releated queues*/
 		InitializeQueueHeader(&pAd->TxSwQueue[acidx]);
 
@@ -825,23 +783,21 @@ int NICInitTransmit(
 	}
 
 
-	do
-	{
+	do {
 
 		/* TX_RING_SIZE, 4 ACs*/
 
-		for(acidx=0; acidx<4; acidx++)
-		{
+		for (acidx = 0; acidx < 4; acidx++) {
 			PHT_TX_CONTEXT	pHTTXContext = &(pAd->TxContext[acidx]);
 
 			memset(pHTTXContext, 0, sizeof(HT_TX_CONTEXT));
 			/*Allocate URB*/
 			Status = RTMPAllocUsbBulkBufStruct(pAd,
-												&pHTTXContext->pUrb,
-												(PVOID *)&pHTTXContext->TransferBuffer,
-												sizeof(HTTX_BUFFER),
-												&pHTTXContext->data_dma,
-												"HTTxContext");
+						&pHTTXContext->pUrb,
+						(PVOID *)&pHTTXContext->TransferBuffer,
+						sizeof(HTTX_BUFFER),
+						&pHTTXContext->data_dma,
+						"HTTxContext");
 			if (Status != NDIS_STATUS_SUCCESS)
 				goto err;
 
@@ -879,8 +835,7 @@ int NICInitTransmit(
 
 		/* Initialize MGMT Ring and associated buffer memory*/
 		pMgmtRing = &pAd->MgmtRing;
-		for (i = 0; i < MGMT_RING_SIZE; i++)
-		{
+		for (i = 0; i < MGMT_RING_SIZE; i++) {
 			/* link the pre-allocated Mgmt buffer to MgmtRing.Cell*/
 			pMgmtRing->Cell[i].AllocSize = sizeof(TX_CONTEXT);
 			pMgmtRing->Cell[i].AllocVa = RingBaseVa;
@@ -890,8 +845,7 @@ int NICInitTransmit(
 			/*Allocate URB for MLMEContext*/
 			pMLMEContext = (PTX_CONTEXT) pAd->MgmtRing.Cell[i].AllocVa;
 			pMLMEContext->pUrb = usb_alloc_urb(0, GFP_ATOMIC);
-			if (pMLMEContext->pUrb == NULL)
-			{
+			if (pMLMEContext->pUrb == NULL) {
 				DBGPRINT(RT_DEBUG_ERROR, ("<-- ERROR in Alloc TX MLMEContext[%d] urb!! \n", i));
 				Status = NDIS_STATUS_RESOURCES;
 				goto err;
@@ -920,11 +874,11 @@ int NICInitTransmit(
 
 		memset(pNullContext, 0, sizeof(TX_CONTEXT));
 		Status = RTMPAllocUsbBulkBufStruct(pAd,
-											&pNullContext->pUrb,
-											(PVOID *)&pNullContext->TransferBuffer,
-											sizeof(TX_BUFFER),
-											&pNullContext->data_dma,
-											"TxNullContext");
+					&pNullContext->pUrb,
+					(PVOID *)&pNullContext->TransferBuffer,
+					sizeof(TX_BUFFER),
+					&pNullContext->data_dma,
+					"TxNullContext");
 		if (Status != NDIS_STATUS_SUCCESS)
 			goto err;
 
@@ -937,10 +891,10 @@ int NICInitTransmit(
 		/* PsPollContext URB and usb buffer*/
 
 		Status = RTMPAllocUsbBulkBufStruct(pAd,
-											&pPsPollContext->pUrb,
-											(PVOID *)&pPsPollContext->TransferBuffer,
-											sizeof(TX_BUFFER),
-											&pPsPollContext->data_dma,
+					&pPsPollContext->pUrb,
+					(PVOID *)&pPsPollContext->TransferBuffer,
+					sizeof(TX_BUFFER),
+					&pPsPollContext->data_dma,
 											"TxPsPollContext");
 		if (Status != NDIS_STATUS_SUCCESS)
 			goto err;
@@ -952,7 +906,7 @@ int NICInitTransmit(
 		pPsPollContext->bAggregatible = FALSE;
 		pPsPollContext->LastOne = TRUE;
 
-	}while (FALSE);
+	} while (FALSE);
 
 
 	DBGPRINT(RT_DEBUG_TRACE, ("<-- NICInitTransmit(Status=%d)\n", Status));
@@ -964,32 +918,29 @@ int NICInitTransmit(
 err:
 	/* Free PsPoll frame resource*/
 	RTMPFreeUsbBulkBufStruct(pAd,
-								&pPsPollContext->pUrb,
-								(u8 **)&pPsPollContext->TransferBuffer,
-								sizeof(TX_BUFFER),
-								pPsPollContext->data_dma);
+				&pPsPollContext->pUrb,
+				(u8 **)&pPsPollContext->TransferBuffer,
+				sizeof(TX_BUFFER),
+				pPsPollContext->data_dma);
 
 	/* Free NULL frame resource*/
 	RTMPFreeUsbBulkBufStruct(pAd,
-								&pNullContext->pUrb,
-								(u8 **)&pNullContext->TransferBuffer,
-								sizeof(TX_BUFFER),
-								pNullContext->data_dma);
+				&pNullContext->pUrb,
+				(u8 **)&pNullContext->TransferBuffer,
+				sizeof(TX_BUFFER),
+				pNullContext->data_dma);
 
 	/* MGMT Ring*/
-	if (pAd->MgmtDescRing.AllocVa)
-	{
+	if (pAd->MgmtDescRing.AllocVa) {
 		pMgmtRing = &pAd->MgmtRing;
-		for(i=0; i<MGMT_RING_SIZE; i++)
-		{
+		for (i = 0; i < MGMT_RING_SIZE; i++) {
 			pMLMEContext = (PTX_CONTEXT) pAd->MgmtRing.Cell[i].AllocVa;
-			if (pMLMEContext)
-			{
+			if (pMLMEContext) {
 				RTMPFreeUsbBulkBufStruct(pAd,
-											&pMLMEContext->pUrb,
-											(u8 **)&pMLMEContext->TransferBuffer,
-											sizeof(TX_BUFFER),
-											pMLMEContext->data_dma);
+					&pMLMEContext->pUrb,
+					(u8 **)&pMLMEContext->TransferBuffer,
+					sizeof(TX_BUFFER),
+					pMLMEContext->data_dma);
 			}
 		}
 		kfree(pAd->MgmtDescRing.AllocVa);
@@ -998,16 +949,15 @@ err:
 
 
 	/* Tx Ring*/
-	for (acidx = 0; acidx < 4; acidx++)
-	{
+	for (acidx = 0; acidx < 4; acidx++) {
 		PHT_TX_CONTEXT pHTTxContext = &(pAd->TxContext[acidx]);
-		if (pHTTxContext)
-		{
+
+		if (pHTTxContext) {
 			RTMPFreeUsbBulkBufStruct(pAd,
-										&pHTTxContext->pUrb,
-										(u8 **)&pHTTxContext->TransferBuffer,
-										sizeof(HTTX_BUFFER),
-										pHTTxContext->data_dma);
+					&pHTTxContext->pUrb,
+					(u8 **)&pHTTxContext->TransferBuffer,
+					sizeof(HTTX_BUFFER),
+					pHTTxContext->data_dma);
 		}
 	}
 
@@ -1018,23 +968,23 @@ err:
 
 
 /*
-========================================================================
-Routine Description:
-    Allocate DMA memory blocks for send, receive.
+ * ========================================================================
+ * Routine Description:
+ *    Allocate DMA memory blocks for send, receive.
+ *
+ * Arguments:
+ *    pAd					Pointer to our adapter
+ *
+ *Return Value:
+ *	NDIS_STATUS_SUCCESS
+ *	NDIS_STATUS_FAILURE
+ *	NDIS_STATUS_RESOURCES
+ *
+ * Note:
+ * ========================================================================
+ */
 
-Arguments:
-    pAd					Pointer to our adapter
-
-Return Value:
-	NDIS_STATUS_SUCCESS
-	NDIS_STATUS_FAILURE
-	NDIS_STATUS_RESOURCES
-
-Note:
-========================================================================
-*/
-int RTMPAllocTxRxRingMemory(
-	IN	struct rtmp_adapter *pAd)
+int RTMPAllocTxRxRingMemory(struct rtmp_adapter *pAd)
 {
 /*	COUNTER_802_11	pCounter = &pAd->WlanCounters;*/
 	int 	Status = NDIS_STATUS_SUCCESS;
@@ -1044,8 +994,7 @@ int RTMPAllocTxRxRingMemory(
 	DBGPRINT(RT_DEBUG_TRACE, ("--> RTMPAllocTxRxRingMemory\n"));
 
 
-	do
-	{
+	do {
 		/* Init the CmdQ and CmdQLock*/
 		spin_lock_init(&pAd->CmdQLock);
 		NdisAcquireSpinLock(&pAd->CmdQLock);
@@ -1056,15 +1005,11 @@ int RTMPAllocTxRxRingMemory(
 		spin_lock_init(&pAd->MLMEBulkOutLock);
 		spin_lock_init(&pAd->BulkInLock);
 		spin_lock_init(&pAd->CmdRspLock);
-		for(num =0 ; num < 6; num++)
-		{
+		for (num = 0 ; num < 6; num++)
 			spin_lock_init(pAd, &pAd->BulkOutLock[num]);
-		}
 
 		for (num = 0; num < NUM_OF_TX_RING; num++)
-		{
 			spin_lock_init(&pAd->TxContextQueueLock[num]);
-		}
 
 		/* Init send data structures and related parameters*/
 
@@ -1082,8 +1027,7 @@ int RTMPAllocTxRxRingMemory(
 		memset(&pAd->FragFrame, 0, sizeof(FRAGMENT_FRAME));
 		pAd->FragFrame.pFragPacket =  RTMP_AllocateFragPacketBuffer(pAd, RX_BUFFER_NORMSIZE);
 
-		if (pAd->FragFrame.pFragPacket == NULL)
-		{
+		if (pAd->FragFrame.pFragPacket == NULL) {
 			Status = NDIS_STATUS_RESOURCES;
 		}
 	} while (FALSE);
@@ -1094,21 +1038,22 @@ int RTMPAllocTxRxRingMemory(
 
 
 /*
-========================================================================
-Routine Description:
-	Calls USB_InterfaceStop and frees memory allocated for the URBs
-    calls NdisMDeregisterDevice and frees the memory
-    allocated in VNetInitialize for the Adapter Object
+ * ========================================================================
+ * Routine Description:
+ * 	Calls USB_InterfaceStop and frees memory allocated for the URBs
+ *     calls NdisMDeregisterDevice and frees the memory
+ *     allocated in VNetInitialize for the Adapter Object
+ *
+ * Arguments:
+ *	*pAd				the raxx interface data pointer
+ *
+ * Return Value:
+ *	None
+ *
+ * Note:
+ * ========================================================================
+ */
 
-Arguments:
-	*pAd				the raxx interface data pointer
-
-Return Value:
-	None
-
-Note:
-========================================================================
-*/
 VOID	RTMPFreeTxRxRingMemory(
 	IN	struct rtmp_adapter *pAd)
 {
@@ -1122,56 +1067,51 @@ VOID	RTMPFreeTxRxRingMemory(
 
 
 	/* Free all resources for the RxRing buffer queue.*/
-	for(i=0; i<(RX_RING_SIZE); i++)
-	{
+	for (i = 0; i < (RX_RING_SIZE); i++) {
 		PRX_CONTEXT  pRxContext = &(pAd->RxContext[i]);
+
 		if (pRxContext)
 			RTMPFreeUsbBulkBufStruct(pAd,
-										&pRxContext->pUrb,
-										(u8 **)&pRxContext->TransferBuffer,
-										MAX_RXBULK_SIZE,
-										pRxContext->data_dma);
+					&pRxContext->pUrb,
+					(u8 **)&pRxContext->TransferBuffer,
+					MAX_RXBULK_SIZE,
+					pRxContext->data_dma);
 	}
 
-	if (pCmdRspEventContext)
-	{
+	if (pCmdRspEventContext) {
 		RTMPFreeUsbBulkBufStruct(pAd,
-								 &pCmdRspEventContext->pUrb,
-								 (u8 **)&pCmdRspEventContext->TransferBuffer,
-								 CMD_RSP_BULK_SIZE,
-								 pCmdRspEventContext->data_dma);
+					 &pCmdRspEventContext->pUrb,
+					 (u8 **)&pCmdRspEventContext->TransferBuffer,
+					 CMD_RSP_BULK_SIZE,
+					 pCmdRspEventContext->data_dma);
 	}
 
 	/* Free PsPoll frame resource*/
 	RTMPFreeUsbBulkBufStruct(pAd,
-								&pPsPollContext->pUrb,
-								(u8 **)&pPsPollContext->TransferBuffer,
-								sizeof(TX_BUFFER),
-								pPsPollContext->data_dma);
+				&pPsPollContext->pUrb,
+				(u8 **)&pPsPollContext->TransferBuffer,
+				sizeof(TX_BUFFER),
+				pPsPollContext->data_dma);
 
 	/* Free NULL frame resource*/
 	RTMPFreeUsbBulkBufStruct(pAd,
-								&pNullContext->pUrb,
-								(u8 **)&pNullContext->TransferBuffer,
-								sizeof(TX_BUFFER),
-								pNullContext->data_dma);
+				&pNullContext->pUrb,
+				(u8 **)&pNullContext->TransferBuffer,
+				sizeof(TX_BUFFER),
+				pNullContext->data_dma);
 
 	/* Free mgmt frame resource*/
-	for(i = 0; i < MGMT_RING_SIZE; i++)
-	{
+	for (i = 0; i < MGMT_RING_SIZE; i++) {
 		PTX_CONTEXT pMLMEContext = (PTX_CONTEXT)pAd->MgmtRing.Cell[i].AllocVa;
-		if (pMLMEContext)
-		{
-			if (NULL != pMLMEContext->pUrb)
-			{
+		if (pMLMEContext) {
+			if (NULL != pMLMEContext->pUrb) {
 				usb_kill_urb(pMLMEContext->pUrb);
 				usb_free_urb(pMLMEContext->pUrb);
 				pMLMEContext->pUrb = NULL;
 			}
 		}
 
-		if (NULL != pAd->MgmtRing.Cell[i].pNdisPacket)
-		{
+		if (NULL != pAd->MgmtRing.Cell[i].pNdisPacket) {
 			RELEASE_NDIS_PACKET(pAd, pAd->MgmtRing.Cell[i].pNdisPacket, NDIS_STATUS_FAILURE);
 			pAd->MgmtRing.Cell[i].pNdisPacket = NULL;
 			if (pMLMEContext)
@@ -1184,15 +1124,14 @@ VOID	RTMPFreeTxRxRingMemory(
 
 
 	/* Free Tx frame resource*/
-	for (acidx = 0; acidx < 4; acidx++)
-		{
+	for (acidx = 0; acidx < 4; acidx++) {
 		PHT_TX_CONTEXT pHTTXContext = &(pAd->TxContext[acidx]);
 			if (pHTTXContext)
 			RTMPFreeUsbBulkBufStruct(pAd,
-										&pHTTXContext->pUrb,
-										(u8 **)&pHTTXContext->TransferBuffer,
-										sizeof(HTTX_BUFFER),
-										pHTTXContext->data_dma);
+					&pHTTXContext->pUrb,
+					(u8 **)&pHTTXContext->TransferBuffer,
+					sizeof(HTTX_BUFFER),
+					pHTTXContext->data_dma);
 		}
 
 	/* Free fragement frame buffer*/
@@ -1208,19 +1147,20 @@ VOID	RTMPFreeTxRxRingMemory(
 #endif /* RESOURCE_PRE_ALLOC */
 
 /*
-========================================================================
-Routine Description:
-    Enable DMA.
+ * ========================================================================
+ * Routine Description:
+ *    Enable DMA.
+ *
+ * Arguments:
+ *	*pAd				the raxx interface data pointer
+ *
+ * Return Value:
+ *	None
+ *
+ * Note:
+ * ========================================================================
+ */
 
-Arguments:
-	*pAd				the raxx interface data pointer
-
-Return Value:
-	None
-
-Note:
-========================================================================
-*/
 VOID RT28XXDMAEnable(struct rtmp_adapter *pAd)
 {
 	USB_DMA_CFG_STRUC	UsbCfg;
@@ -1236,7 +1176,7 @@ VOID RT28XXDMAEnable(struct rtmp_adapter *pAd)
 	}
 
 	/* for last packet, PBF might use more than limited, so minus 2 to prevent from error */
-	UsbCfg.field_76xx.RxBulkAggLmt = (MAX_RXBULK_SIZE /1024) - 3;
+	UsbCfg.field_76xx.RxBulkAggLmt = (MAX_RXBULK_SIZE / 1024) - 3;
 	UsbCfg.field_76xx.RxBulkAggTOut = 0x80;
 
 	UsbCfg.field_76xx.RxBulkEn = 1;
@@ -1255,82 +1195,73 @@ VOID RT28XXDMAEnable(struct rtmp_adapter *pAd)
   ********************************************************************/
 
 /*
-========================================================================
-Routine Description:
-    Write Beacon buffer to Asic.
+ * ========================================================================
+ * Routine Description:
+ *    Write Beacon buffer to Asic.
+ *
+ * Arguments:
+ *	*pAd				the raxx interface data pointer
+ *
+ * Return Value:
+ *	None
+ *
+ * Note:
+ * ========================================================================
+ */
 
-Arguments:
-	*pAd				the raxx interface data pointer
-
-Return Value:
-	None
-
-Note:
-========================================================================
-*/
-VOID RT28xx_UpdateBeaconToAsic(
-	IN struct rtmp_adapter 	*pAd,
-	IN INT				apidx,
-	IN ULONG			FrameLen,
-	IN ULONG			UpdatePos)
+VOID RT28xx_UpdateBeaconToAsic(struct rtmp_adapter *pAd,
+	INT apidx, ULONG FrameLen, ULONG UpdatePos)
 {
-	u8 *       	pBeaconFrame = NULL;
-	UCHAR  			*ptr;
-	UINT  			i, padding;
+	u8 *pBeaconFrame = NULL;
+	UCHAR *ptr;
+	UINT i, padding;
 	BEACON_SYNC_STRUCT *pBeaconSync = pAd->CommonCfg.pBeaconSync;
-/*	USHORT			shortValue;*/
-	BOOLEAN			bBcnReq = FALSE;
-	UCHAR			bcn_idx = 0;
+	BOOLEAN bBcnReq = FALSE;
+	UCHAR bcn_idx = 0;
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
 
 #ifdef CONFIG_AP_SUPPORT
-	if ((apidx < pAd->ApCfg.BssidNum) && (apidx < MAX_MBSSID_NUM(pAd)))
-	{
+	if ((apidx < pAd->ApCfg.BssidNum) &&
+	    (apidx < MAX_MBSSID_NUM(pAd))) {
 		bcn_idx = pAd->ApCfg.MBSSID[apidx].BcnBufIdx;
 		pBeaconFrame = (u8 *) pAd->ApCfg.MBSSID[apidx].BeaconBuf;
 		bBcnReq = BeaconTransmitRequired(pAd, apidx, &pAd->ApCfg.MBSSID[apidx]);
 	}
 #endif /* CONFIG_AP_SUPPORT */
 
-	if (pBeaconFrame == NULL)
-	{
-		DBGPRINT(RT_DEBUG_ERROR,("pBeaconFrame is NULL!\n"));
+	if (pBeaconFrame == NULL) {
+		DBGPRINT(RT_DEBUG_ERROR, ("pBeaconFrame is NULL!\n"));
 		return;
 	}
 
-	if (pBeaconSync == NULL)
-	{
-		DBGPRINT(RT_DEBUG_ERROR,("pBeaconSync is NULL!\n"));
+	if (pBeaconSync == NULL) {
+		DBGPRINT(RT_DEBUG_ERROR, ("pBeaconSync is NULL!\n"));
 		return;
 	}
 
-	if (bBcnReq == FALSE)
-	{
+	if (bBcnReq == FALSE) {
 		/* when the ra interface is down, do not send its beacon frame */
 		/* clear all zero */
-		for(i=0; i < TXWISize; i+=4) {
+		for (i = 0; i < TXWISize; i += 4)
 			mt7612u_write32(pAd,
-				        pAd->BeaconOffset[bcn_idx] + i,
-				        0x00);
-		}
+					pAd->BeaconOffset[bcn_idx] + i,
+					0x00);
 
 		pBeaconSync->BeaconBitMap &= (~(BEACON_BITMAP_MASK & (1 << bcn_idx)));
 		memset(pBeaconSync->BeaconTxWI[bcn_idx], 0, TXWISize);
-	}
-	else
-	{
+	} else {
 		ptr = (u8 *)&pAd->BeaconTxWI;
 #ifdef RT_BIG_ENDIAN
 		RTMPWIEndianChange(pAd, ptr, TYPE_TXWI);
 #endif
-		if (NdisEqualMemory(pBeaconSync->BeaconTxWI[bcn_idx], &pAd->BeaconTxWI, TXWISize) == FALSE)
-		{	/* If BeaconTxWI changed, we need to rewrite the TxWI for the Beacon frames.*/
+		if (NdisEqualMemory(pBeaconSync->BeaconTxWI[bcn_idx], &pAd->BeaconTxWI, TXWISize) == FALSE) {
+			/* If BeaconTxWI changed, we need to rewrite the TxWI for the Beacon frames.*/
 			pBeaconSync->BeaconBitMap &= (~(BEACON_BITMAP_MASK & (1 << bcn_idx)));
 			memmove(pBeaconSync->BeaconTxWI[bcn_idx], &pAd->BeaconTxWI, TXWISize);
 		}
 
 		if ((pBeaconSync->BeaconBitMap & (1 << bcn_idx)) != (1 << bcn_idx)) {
-			for (i=0; i < TXWISize; i+=4) {
+			for (i = 0; i < TXWISize; i += 4) {
 				u32 dword;
 
 				dword =  *ptr +
@@ -1364,10 +1295,10 @@ VOID RT28xx_UpdateBeaconToAsic(
 					(*(ptr + 3) << 24);
 
 				mt7612u_write32(pAd,
-					        pAd->BeaconOffset[bcn_idx] + TXWISize + i,
-					        dword);
+						pAd->BeaconOffset[bcn_idx] + TXWISize + i,
+						dword);
 			}
-			ptr +=4;
+			ptr += 4;
 			pBeaconFrame += 4;
 		}
 
@@ -1389,8 +1320,7 @@ VOID RT28xx_UpdateBeaconToAsic(
 }
 
 
-VOID RTUSBBssBeaconStop(
-	IN struct rtmp_adapter *pAd)
+VOID RTUSBBssBeaconStop(struct rtmp_adapter *pAd)
 {
 	BEACON_SYNC_STRUCT	*pBeaconSync;
 	int i, offset;
@@ -1398,34 +1328,29 @@ VOID RTUSBBssBeaconStop(
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
 
 	pBeaconSync = pAd->CommonCfg.pBeaconSync;
-	if (pBeaconSync && pBeaconSync->EnableBeacon)
-	{
+	if (pBeaconSync && pBeaconSync->EnableBeacon) {
 		INT NumOfBcn = 0;
 
 #ifdef CONFIG_AP_SUPPORT
 		IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-		{
 			NumOfBcn = pAd->ApCfg.BssidNum + MAX_MESH_NUM;
-		}
 #endif /* CONFIG_AP_SUPPORT */
 
 #ifdef CONFIG_STA_SUPPORT
 		IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
-		{
 			NumOfBcn = MAX_MESH_NUM;
-		}
 #endif /* CONFIG_STA_SUPPORT */
 
 		RTMPCancelTimer(&pAd->CommonCfg.BeaconUpdateTimer, &Cancelled);
 
-		for(i=0; i<NumOfBcn; i++) {
+		for (i = 0; i < NumOfBcn; i++) {
 			memset(pBeaconSync->BeaconBuf[i], 0, HW_BEACON_OFFSET);
 			memset(pBeaconSync->BeaconTxWI[i], 0, TXWISize);
 
-			for (offset=0; offset<HW_BEACON_OFFSET; offset += 4)
+			for (offset = 0; offset < HW_BEACON_OFFSET; offset += 4)
 				mt7612u_write32(pAd,
-					        pAd->BeaconOffset[i] + offset,
-					        0x00);
+						pAd->BeaconOffset[i] + offset,
+						0x00);
 
 			pBeaconSync->CapabilityInfoLocationInBeacon[i] = 0;
 			pBeaconSync->TimIELocationInBeacon[i] = 0;
@@ -1436,8 +1361,7 @@ VOID RTUSBBssBeaconStop(
 }
 
 
-VOID RTUSBBssBeaconStart(
-	IN struct rtmp_adapter *pAd)
+VOID RTUSBBssBeaconStart(struct rtmp_adapter *pAd)
 {
 	int apidx;
 	BEACON_SYNC_STRUCT	*pBeaconSync;
@@ -1445,35 +1369,26 @@ VOID RTUSBBssBeaconStart(
 /*	LARGE_INTEGER 	tsfTime, deltaTime;*/
 
 	pBeaconSync = pAd->CommonCfg.pBeaconSync;
-	if (pBeaconSync && pBeaconSync->EnableBeacon)
-	{
+	if (pBeaconSync && pBeaconSync->EnableBeacon) {
 		INT NumOfBcn = 0;
 
 #ifdef CONFIG_AP_SUPPORT
 		IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-		{
 			NumOfBcn = pAd->ApCfg.BssidNum + MAX_MESH_NUM;
-		}
 #endif /* CONFIG_AP_SUPPORT */
 
 #ifdef CONFIG_STA_SUPPORT
 		IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
-		{
 			NumOfBcn = MAX_MESH_NUM;
-		}
 #endif /* CONFIG_STA_SUPPORT */
 
-		for(apidx=0; apidx<NumOfBcn; apidx++)
-		{
+		for (apidx = 0; apidx < NumOfBcn; apidx++) {
 			UCHAR CapabilityInfoLocationInBeacon = 0;
 			UCHAR TimIELocationInBeacon = 0;
 #ifdef CONFIG_AP_SUPPORT
-			IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-			{
-				{
+			IF_DEV_CONFIG_OPMODE_ON_AP(pAd) {
 					CapabilityInfoLocationInBeacon = pAd->ApCfg.MBSSID[apidx].CapabilityInfoLocationInBeacon;
 					TimIELocationInBeacon = pAd->ApCfg.MBSSID[apidx].TimIELocationInBeacon;
-				}
 			}
 #endif /* CONFIG_AP_SUPPORT */
 
@@ -1500,8 +1415,7 @@ VOID RTUSBBssBeaconStart(
 }
 
 
-VOID RTUSBBssBeaconInit(
-	IN struct rtmp_adapter *pAd)
+VOID RTUSBBssBeaconInit(struct rtmp_adapter *pAd)
 {
 	BEACON_SYNC_STRUCT	*pBeaconSync;
 	int i, j;
@@ -1513,8 +1427,7 @@ VOID RTUSBBssBeaconInit(
 	if (pAd->CommonCfg.pBeaconSync) {
 		pBeaconSync = pAd->CommonCfg.pBeaconSync;
 		memset(pBeaconSync, 0, sizeof(BEACON_SYNC_STRUCT));
-		for(i=0; i < HW_BEACON_MAX_COUNT(pAd); i++)
-		{
+		for (i = 0; i < HW_BEACON_MAX_COUNT(pAd); i++) {
 			memset(pBeaconSync->BeaconBuf[i], 0, HW_BEACON_OFFSET);
 			pBeaconSync->CapabilityInfoLocationInBeacon[i] = 0;
 			pBeaconSync->TimIELocationInBeacon[i] = 0;
@@ -1529,7 +1442,7 @@ VOID RTUSBBssBeaconInit(
 
 		/*RTMPInitTimer(pAd, &pAd->CommonCfg.BeaconUpdateTimer, GET_TIMER_FUNCTION(BeaconUpdateExec), pAd, TRUE);*/
 		pBeaconSync->EnableBeacon = TRUE;
-	}else
+	} else
 		goto error1;
 
 	return;
@@ -1545,22 +1458,19 @@ error1:
 }
 
 
-VOID RTUSBBssBeaconExit(
-	IN struct rtmp_adapter *pAd)
+VOID RTUSBBssBeaconExit(struct rtmp_adapter *pAd)
 {
 	BEACON_SYNC_STRUCT	*pBeaconSync;
 	BOOLEAN	Cancelled = TRUE;
 	int i;
 
-	if (pAd->CommonCfg.pBeaconSync)
-	{
+	if (pAd->CommonCfg.pBeaconSync) {
 		pBeaconSync = pAd->CommonCfg.pBeaconSync;
 		pBeaconSync->EnableBeacon = FALSE;
 		RTMPCancelTimer(&pAd->CommonCfg.BeaconUpdateTimer, &Cancelled);
 		pBeaconSync->BeaconBitMap = 0;
 
-		for(i=0; i<HW_BEACON_MAX_COUNT(pAd); i++)
-		{
+		for (i = 0; i < HW_BEACON_MAX_COUNT(pAd); i++) {
 			memset(pBeaconSync->BeaconBuf[i], 0, HW_BEACON_OFFSET);
 			pBeaconSync->CapabilityInfoLocationInBeacon[i] = 0;
 			pBeaconSync->TimIELocationInBeacon[i] = 0;
@@ -1574,41 +1484,36 @@ VOID RTUSBBssBeaconExit(
 
 
 /*
-    ========================================================================
-    Routine Description:
-        For device work as AP mode but didn't have TBTT interrupt event, we need a mechanism
-        to update the beacon context in each Beacon interval. Here we use a periodical timer
-        to simulate the TBTT interrupt to handle the beacon context update.
-
-    Arguments:
-        SystemSpecific1         - Not used.
-        FunctionContext         - Pointer to our Adapter context.
-        SystemSpecific2         - Not used.
-        SystemSpecific3         - Not used.
-
-    Return Value:
-        None
-
-    ========================================================================
-*/
-VOID BeaconUpdateExec(
-    IN PVOID SystemSpecific1,
-    IN PVOID FunctionContext,
-    IN PVOID SystemSpecific2,
-    IN PVOID SystemSpecific3)
+ *   ========================================================================
+ *   Routine Description:
+ *       For device work as AP mode but didn't have TBTT interrupt event, we need a mechanism
+ *       to update the beacon context in each Beacon interval. Here we use a periodical timer
+ *       to simulate the TBTT interrupt to handle the beacon context update.
+ *
+ *   Arguments:
+ *       SystemSpecific1         - Not used.
+ *       FunctionContext         - Pointer to our Adapter context.
+ *       SystemSpecific2         - Not used.
+ *       SystemSpecific3         - Not used.
+ *
+ *   Return Value:
+ *       None
+ *
+ *   ========================================================================
+ */
+VOID BeaconUpdateExec(PVOID SystemSpecific1, PVOID FunctionContext,
+		PVOID SystemSpecific2, PVOID SystemSpecific3)
 {
 	struct rtmp_adapter *pAd = (struct rtmp_adapter *)FunctionContext;
-	LARGE_INTEGER	tsfTime_a;/*, tsfTime_b, deltaTime_exp, deltaTime_ab;*/
-	uint32_t 		delta, delta2MS, period2US, remain, remain_low, remain_high;
+	LARGE_INTEGER	tsfTime_a;		/*, tsfTime_b, deltaTime_exp, deltaTime_ab;*/
+	uint32_t	delta, delta2MS, period2US, remain, remain_low, remain_high;
 /*	BOOLEAN			positive;*/
 
-	if (pAd->CommonCfg.IsUpdateBeacon==TRUE)
-	{
+	if (pAd->CommonCfg.IsUpdateBeacon == TRUE) {
 		ReSyncBeaconTime(pAd);
 
 #ifdef CONFIG_AP_SUPPORT
-		IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-		{
+		IF_DEV_CONFIG_OPMODE_ON_AP(pAd) {
 			BEACON_SYNC_STRUCT *pBeaconSync = pAd->CommonCfg.pBeaconSync;
 			ULONG UpTime;
 
@@ -1620,8 +1525,7 @@ VOID BeaconUpdateExec(
 #endif /* AP_QLOAD_SUPPORT */
 
 
-			if (pAd->ApCfg.DtimCount == 0 && pBeaconSync->DtimBitOn)
-			{
+			if (pAd->ApCfg.DtimCount == 0 && pBeaconSync->DtimBitOn) {
 				struct os_cookie *pObj;
 
 				pObj = pAd->OS_Cookie;
@@ -1687,40 +1591,33 @@ VOID BeaconUpdateExec(
 	delta = (pAd->CommonCfg.BeaconPeriod << 10) - remain;
 
 	delta2MS = (delta>>10);
-	if (delta2MS > 150)
-	{
+	if (delta2MS > 150) {
 		pAd->CommonCfg.BeaconUpdateTimer.TimerValue = 100;
-		pAd->CommonCfg.IsUpdateBeacon=FALSE;
-	}
-	else
-	{
+		pAd->CommonCfg.IsUpdateBeacon = FALSE;
+	} else {
 		pAd->CommonCfg.BeaconUpdateTimer.TimerValue = delta2MS + 10;
-		pAd->CommonCfg.IsUpdateBeacon=TRUE;
+		pAd->CommonCfg.IsUpdateBeacon = TRUE;
 	}
 #ifdef CONFIG_AP_SUPPORT
-	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-	{
-		if ((pAd->CommonCfg.Channel > 14)
-			&& (pAd->CommonCfg.bIEEE80211H == 1)
-			&& (pAd->Dot11_H.RDMode == RD_SWITCHING_MODE))
-		{
+	IF_DEV_CONFIG_OPMODE_ON_AP(pAd) {
+		if ((pAd->CommonCfg.Channel > 14) &&
+		    (pAd->CommonCfg.bIEEE80211H == 1) &&
+		    (pAd->Dot11_H.RDMode == RD_SWITCHING_MODE))
 			ChannelSwitchingCountDownProc(pAd);
-		}
 	}
 #endif /* CONFIG_AP_SUPPORT */
 }
 
 
-/********************************************************************
-  *
-  *	2870 Radio on/off Related functions.
-  *
-  ********************************************************************/
-VOID RT28xxUsbMlmeRadioOn(
-	IN struct rtmp_adapter *pAd)
+/*
+ ******************************************************************
+ *
+ *	2870 Radio on/off Related functions.
+ ******************************************************************
+*/
+VOID RT28xxUsbMlmeRadioOn(struct rtmp_adapter *pAd)
 {
-
-    DBGPRINT(RT_DEBUG_TRACE,("RT28xxUsbMlmeRadioOn()\n"));
+	DBGPRINT(RT_DEBUG_TRACE, ("RT28xxUsbMlmeRadioOn()\n"));
 
 	if (!RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_RADIO_OFF))
 		return;
@@ -1740,11 +1637,9 @@ VOID RT28xxUsbMlmeRadioOn(
 }
 
 
-VOID RT28xxUsbMlmeRadioOFF(
-	IN struct rtmp_adapter *pAd)
+VOID RT28xxUsbMlmeRadioOFF(struct rtmp_adapter *pAd)
 {
-
-	DBGPRINT(RT_DEBUG_TRACE,("RT28xxUsbMlmeRadioOFF()\n"));
+	DBGPRINT(RT_DEBUG_TRACE, ("RT28xxUsbMlmeRadioOFF()\n"));
 
 	if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_RADIO_OFF))
 		return;
@@ -1758,10 +1653,8 @@ VOID RT28xxUsbMlmeRadioOFF(
 	RTMPZeroMemory(pAd->StaCfg.SavedPMK, (PMKID_NO * sizeof(BSSID_INFO)));
 
 	/* Link down first if any association exists*/
-	if (!RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST))
-	{
-		if (INFRA_ON(pAd) || ADHOC_ON(pAd))
-		{
+	if (!RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST)) {
+		if (INFRA_ON(pAd) || ADHOC_ON(pAd)) {
 			MLME_DISASSOC_REQ_STRUCT DisReq;
 			MLME_QUEUE_ELEM *pMsgElem;
 
@@ -1788,8 +1681,7 @@ VOID RT28xxUsbMlmeRadioOFF(
 	RTMP_SET_FLAG(pAd, fRTMP_ADAPTER_RADIO_OFF);
 
 #ifdef CONFIG_STA_SUPPORT
-	IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
-	{
+	IF_DEV_CONFIG_OPMODE_ON_STA(pAd) {
 		/* Link down first if any association exists*/
 		if (INFRA_ON(pAd) || ADHOC_ON(pAd))
 			LinkDown(pAd, FALSE);
@@ -1797,7 +1689,7 @@ VOID RT28xxUsbMlmeRadioOFF(
 
 		/*==========================================*/
 		/* Clean up old bss table*/
-/* because abdroid will get scan table when interface down, so we not clean scan table */
+		/* because abdroid will get scan table when interface down, so we not clean scan table */
 		BssTableInit(&pAd->ScanTab);
 
 	}
@@ -1822,8 +1714,7 @@ BOOLEAN AsicCheckCommandOk(
 
 
 #ifdef RTMP_MAC_USB
-	if (IS_USB_INF(pAd))
-	{
+	if (IS_USB_INF(pAd)) {
 		ret = down_interruptible(&pAd->reg_atomic);
 		if (ret != 0) {
 			DBGPRINT(RT_DEBUG_ERROR, ("reg_atomic get failed(ret=%d)\n", ret));
@@ -1833,40 +1724,33 @@ BOOLEAN AsicCheckCommandOk(
 #endif /* RTMP_MAC_USB */
 
 	i = 0;
-	do
-	{
+	do {
 		CID = mt7612u_read32(pAd, H2M_MAILBOX_CID);
-		if ((CID & CID0MASK) == Command)
-		{
+		if ((CID & CID0MASK) == Command) {
 			ThisCIDMask = CID0MASK;
 			break;
-		}
-		else if ((((CID & CID1MASK)>>8) & 0xff) == Command)
-		{
+		} else if ((((CID & CID1MASK)>>8) & 0xff) == Command) {
 			ThisCIDMask = CID1MASK;
 			break;
-		}
-		else if ((((CID & CID2MASK)>>16) & 0xff) == Command)
-		{
+		} else if ((((CID & CID2MASK)>>16) & 0xff) == Command) {
 			ThisCIDMask = CID2MASK;
 			break;
-		}
-		else if ((((CID & CID3MASK)>>24) & 0xff) == Command)
-		{
+		} else if ((((CID & CID3MASK)>>24) & 0xff) == Command) {
 			ThisCIDMask = CID3MASK;
 			break;
 		}
 
 		RtmpusecDelay(100);
 		i++;
-	}while (i < 200);
+	} while (i < 200);
 
 	ret = FALSE;
 	CmdStatus = mt7612u_read32(pAd, H2M_MAILBOX_STATUS);
-	if (i < 200)
-	{
-		if (((CmdStatus & ThisCIDMask) == 0x1) || ((CmdStatus & ThisCIDMask) == 0x100)
-			|| ((CmdStatus & ThisCIDMask) == 0x10000) || ((CmdStatus & ThisCIDMask) == 0x1000000))
+	if (i < 200) {
+		if (((CmdStatus & ThisCIDMask) == 0x1) ||
+		    ((CmdStatus & ThisCIDMask) == 0x100) ||
+		    ((CmdStatus & ThisCIDMask) == 0x10000) ||
+		    ((CmdStatus & ThisCIDMask) == 0x1000000))
 			ret = TRUE;
 	}
 	mt7612u_write32(pAd, H2M_MAILBOX_STATUS, 0xffffffff);
@@ -1874,9 +1758,7 @@ BOOLEAN AsicCheckCommandOk(
 
 #ifdef RTMP_MAC_USB
 	if (IS_USB_INF(pAd))
-	{
 		up(&pAd->reg_atomic);
-	}
 #endif /* RTMP_MAC_USB */
 
 
