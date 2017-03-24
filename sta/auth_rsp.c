@@ -114,7 +114,7 @@ VOID PeerDeauthAction(
 	UCHAR Addr2[MAC_ADDR_LEN];
 	UCHAR Addr3[MAC_ADDR_LEN];
 	USHORT Reason;
-	bool bDoIterate = FALSE;
+	bool bDoIterate = false;
 
 	if (PeerDeauthSanity(pAd, Elem->Msg, Elem->MsgLen, Addr1, Addr2, Addr3, &Reason)) {
 		if (INFRA_ON(pAd)

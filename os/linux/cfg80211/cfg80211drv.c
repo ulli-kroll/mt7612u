@@ -326,7 +326,7 @@ VOID CFG80211DRV_OpsMgmtFrameProbeRegister(
 		if (pDevEntry->Cfg80211ProbeReqCount > 0)
 			pDevEntry->Cfg80211RegisterProbeReqFrame = true;
 		else
-			pDevEntry->Cfg80211RegisterProbeReqFrame = FALSE;
+			pDevEntry->Cfg80211RegisterProbeReqFrame = false;
 
 		return;
 	}
@@ -342,7 +342,7 @@ VOID CFG80211DRV_OpsMgmtFrameProbeRegister(
 		pCfg80211_ctrl->cfg80211MainDev.Cfg80211RegisterProbeReqFrame = true;
 	else
 	{
-		pCfg80211_ctrl->cfg80211MainDev.Cfg80211RegisterProbeReqFrame = FALSE;
+		pCfg80211_ctrl->cfg80211MainDev.Cfg80211RegisterProbeReqFrame = false;
 		pCfg80211_ctrl->cfg80211MainDev.Cfg80211ProbeReqCount = 0;
 	}
 
@@ -388,7 +388,7 @@ VOID CFG80211DRV_OpsMgmtFrameActionRegister(
 		if (pDevEntry->Cfg80211ActionCount > 0)
 			pDevEntry->Cfg80211RegisterActionFrame = true;
 		else
-			pDevEntry->Cfg80211RegisterActionFrame = FALSE;
+			pDevEntry->Cfg80211RegisterActionFrame = false;
 
 		DBGPRINT(RT_DEBUG_INFO, ("[%d] TYPE pDevEntry->Cfg80211RegisterActionFrame=%d[%d]\n",
 				isReg, pDevEntry->Cfg80211RegisterActionFrame, pDevEntry->Cfg80211ActionCount));
@@ -407,7 +407,7 @@ VOID CFG80211DRV_OpsMgmtFrameActionRegister(
 		pCfg80211_ctrl->cfg80211MainDev.Cfg80211RegisterActionFrame = true;
 	else
 	{
-		pCfg80211_ctrl->cfg80211MainDev.Cfg80211RegisterActionFrame = FALSE;
+		pCfg80211_ctrl->cfg80211MainDev.Cfg80211RegisterActionFrame = false;
 		pCfg80211_ctrl->cfg80211MainDev.Cfg80211ActionCount = 0;
 	}
 
@@ -526,7 +526,7 @@ bool CFG80211DRV_OpsSetChannel(struct rtmp_adapter *pAd, VOID *pData)
 
 	//if (pAd->LatchRfRegs.Channel != pAd->CommonCfg.Channel)
 	//{
-	//	AsicSwitchChannel(pAd, pAd->CommonCfg.Channel, FALSE);
+	//	AsicSwitchChannel(pAd, pAd->CommonCfg.Channel, false);
 	//	AsicLockChannel(pAd, pAd->CommonCfg.Channel);
 	//}
 
@@ -538,7 +538,7 @@ bool CFG80211DRV_OpsSetChannel(struct rtmp_adapter *pAd, VOID *pData)
         	pAd->CommonCfg.CentralChannel = pAd->CommonCfg.Channel;
 
 	bbp_set_bw(pAd, pAd->CommonCfg.RegTransmitSetting.field.BW);
-        AsicSwitchChannel(pAd, pAd->CommonCfg.CentralChannel,FALSE);
+        AsicSwitchChannel(pAd, pAd->CommonCfg.CentralChannel,false);
         AsicLockChannel(pAd, pAd->CommonCfg.CentralChannel);
 
 	CFG80211DBG(RT_DEBUG_TRACE, ("80211> New CH = %d, New BW = %d with Ext[%d]\n",
@@ -567,7 +567,7 @@ bool CFG80211DRV_OpsSetChannel(struct rtmp_adapter *pAd, VOID *pData)
 	if (IfType == RT_CMD_80211_IFTYPE_ADHOC)
 	{
 		/* update IBSS beacon */
-		MlmeUpdateTxRates(pAd, FALSE, 0);
+		MlmeUpdateTxRates(pAd, false, 0);
 		MakeIbssBeacon(pAd);
 		AsicEnableIbssSync(pAd);
 
@@ -610,8 +610,8 @@ bool CFG80211DRV_OpsLeave(
     MLME_DEAUTH_REQ_STRUCT   DeAuthReq;
     MLME_QUEUE_ELEM *pMsgElem = NULL;
 
-	pAd->StaCfg.bAutoReconnect = FALSE;
-	pAd->cfg80211_ctrl.FlgCfg80211Connecting = FALSE;
+	pAd->StaCfg.bAutoReconnect = false;
+	pAd->cfg80211_ctrl.FlgCfg80211Connecting = false;
 
     pAd->MlmeAux.AutoReconnectSsidLen= 32;
     memset(pAd->MlmeAux.AutoReconnectSsid, 0, pAd->MlmeAux.AutoReconnectSsidLen);
@@ -637,7 +637,7 @@ bool CFG80211DRV_OpsLeave(
 		ApCliLinkDown(pAd, MAIN_MBSSID /*ifIndex*/);
 	else
 #endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
-		LinkDown(pAd, FALSE);
+		LinkDown(pAd, false);
 
 #endif /* CONFIG_STA_SUPPORT */
 	return true;
@@ -661,7 +661,7 @@ bool CFG80211DRV_StaGet(
 
 	pEntry = MacTableLookup(pAd, pIbssInfo->MAC);
 	if (pEntry == NULL)
-		return FALSE;
+		return false;
 
 	/* fill tx rate */
 	//getRate(pEntry->HTPhyMode, &DataRate);
@@ -805,7 +805,7 @@ bool CFG80211DRV_StaKeyAdd(
 		else if (pAd->StaCfg.wdev.WepStatus == Ndis802_11Encryption3Enabled)
 			IoctlSec.Alg = RT_CMD_STA_IOCTL_SECURITY_ALG_CCMP;
 		IoctlSec.flags = RT_CMD_STA_IOCTL_SECURITY_ENABLED;
-		if (pKeyInfo->bPairwise == FALSE )
+		if (pKeyInfo->bPairwise == false )
 		{
 			if (pAd->StaCfg.GroupCipher == Ndis802_11Encryption2Enabled)
 				IoctlSec.Alg = RT_CMD_STA_IOCTL_SECURITY_ALG_TKIP;
@@ -981,7 +981,7 @@ bool CFG80211DRV_Connect(
 
 		pAd->StaCfg.wdev.DefaultKeyId = pConnInfo->KeyIdx; /* base 0 */
 		if (pConnInfo->KeyLen >= sizeof(KeyBuf))
-			return FALSE;
+			return false;
 
 		memcpy(KeyBuf, pConnInfo->pKey, pConnInfo->KeyLen);
 		KeyBuf[pConnInfo->KeyLen] = 0x00;
@@ -1042,14 +1042,14 @@ VOID CFG80211_UnRegister(
 
 
 	CFG80211OS_UnRegister(pAd->pCfg80211_CB, pNetDev);
-	RTMP_DRIVER_80211_SCAN_STATUS_LOCK_INIT(pAd, FALSE);
+	RTMP_DRIVER_80211_SCAN_STATUS_LOCK_INIT(pAd, false);
 
 	/* Reset CFG80211 Global Setting Here */
 	DBGPRINT(RT_DEBUG_TRACE, ("==========> TYPE Reset CFG80211 Global Setting Here <==========\n"));
-	pCfg80211_ctrl->cfg80211MainDev.Cfg80211RegisterActionFrame = FALSE,
+	pCfg80211_ctrl->cfg80211MainDev.Cfg80211RegisterActionFrame = false,
 	pCfg80211_ctrl->cfg80211MainDev.Cfg80211ActionCount = 0;
 
-	pCfg80211_ctrl->cfg80211MainDev.Cfg80211RegisterProbeReqFrame = FALSE;
+	pCfg80211_ctrl->cfg80211MainDev.Cfg80211RegisterProbeReqFrame = false;
 	pCfg80211_ctrl->cfg80211MainDev.Cfg80211ProbeReqCount = 0;
 
 	pAd->pCfg80211_CB = NULL;
@@ -1168,7 +1168,7 @@ VOID CFG80211_LostApInform(
 
 	DBGPRINT(RT_DEBUG_TRACE, ("80211> CFG80211_LostApInform ==> %d\n",
 					p80211CB->sme_state));
-	pAd->StaCfg.bAutoReconnect = FALSE;
+	pAd->StaCfg.bAutoReconnect = false;
 
 	if (p80211CB->sme_state == SME_CONNECTING) {
 		   cfg80211_connect_result(pAd->net_dev, NULL, NULL, 0, NULL, 0,
@@ -1290,7 +1290,7 @@ VOID CFG80211_RegRuleApply(
 	pBand24G = NULL;
 	pBand5G = NULL;
 
-	if (CFG80211OS_BandInfoGet(CFG80211CB, pWiphy, &pBand24G, &pBand5G) == FALSE)
+	if (CFG80211OS_BandInfoGet(CFG80211CB, pWiphy, &pBand24G, &pBand5G) == false)
 		return;
 
 
@@ -1316,7 +1316,7 @@ VOID CFG80211_RegRuleApply(
 		for(IdChan=0; IdChan<ChanNum; IdChan++)
 		{
 			if (CFG80211OS_ChanInfoGet(CFG80211CB, pWiphy, IdBand, IdChan,
-									&ChanId, &Power, &FlgIsRadar) == FALSE)
+									&ChanId, &Power, &FlgIsRadar) == false)
 			{
 				/* the channel is not allowed in the regulatory domain */
 				/* get next channel information */
@@ -1356,7 +1356,7 @@ VOID CFG80211_RegRuleApply(
 					if (FlgIsRadar == true)
 						pAd->ChannelList[RecId].DfsReq = true;
 					else
-						pAd->ChannelList[RecId].DfsReq = FALSE;
+						pAd->ChannelList[RecId].DfsReq = false;
 
 					/* keep DFS type */
 					pAd->ChannelList[RecId].RegulatoryDomain = DfsType;
@@ -1424,7 +1424,7 @@ VOID CFG80211_ConnectResultInform(
 								RspIeLen,
 								FlgIsSuccess);
 
-	pAd->cfg80211_ctrl.FlgCfg80211Connecting = FALSE;
+	pAd->cfg80211_ctrl.FlgCfg80211Connecting = false;
 } /* End of CFG80211_ConnectResultInform */
 
 
@@ -1440,7 +1440,7 @@ Arguments:
 
 Return Value:
 	true			- re-init successfully
-	FALSE			- re-init fail
+	false			- re-init fail
 
 Note:
 	CFG80211_SupBandInit() is called in xx_probe().
@@ -1498,16 +1498,16 @@ INT CFG80211_reSetToDefault(
 	DBGPRINT(RT_DEBUG_TRACE, (" %s\n", __FUNCTION__));
 #ifdef CONFIG_STA_SUPPORT
 	/* Driver Internal Parm */
-	pAd->StaCfg.bAutoConnectByBssid = FALSE;
+	pAd->StaCfg.bAutoConnectByBssid = false;
 #endif /*CONFIG_STA_SUPPORT*/
-	pCfg80211_ctrl->cfg80211MainDev.Cfg80211RegisterProbeReqFrame = FALSE;
-	pCfg80211_ctrl->cfg80211MainDev.Cfg80211RegisterActionFrame = FALSE;
+	pCfg80211_ctrl->cfg80211MainDev.Cfg80211RegisterProbeReqFrame = false;
+	pCfg80211_ctrl->cfg80211MainDev.Cfg80211RegisterActionFrame = false;
 	pCfg80211_ctrl->cfg80211MainDev.Cfg80211ProbeReqCount = 0;
 	pCfg80211_ctrl->cfg80211MainDev.Cfg80211ActionCount = 0;
 
-	pCfg80211_ctrl->Cfg80211RocTimerInit = FALSE;
-	pCfg80211_ctrl->Cfg80211RocTimerRunning = FALSE;
-	pCfg80211_ctrl->FlgCfg80211Scanning = FALSE;
+	pCfg80211_ctrl->Cfg80211RocTimerInit = false;
+	pCfg80211_ctrl->Cfg80211RocTimerRunning = false;
+	pCfg80211_ctrl->FlgCfg80211Scanning = false;
 
 	return true;
 }
@@ -1536,7 +1536,7 @@ bool CFG80211_checkScanResInKernelCache(
                 return true;
         }
 
-	return FALSE;
+	return false;
 }
 
 bool CFG80211_checkScanTable(
@@ -1551,7 +1551,7 @@ bool CFG80211_checkScanTable(
 	uint64_t timestamp;
 	struct timeval tv;
 	UCHAR *ie, ieLen = 0;
-	bool isOk = FALSE;
+	bool isOk = false;
 	BSS_ENTRY *pBssEntry;
 
 	USHORT ifIndex = 0;
@@ -1563,7 +1563,7 @@ bool CFG80211_checkScanTable(
         {
 		CFG80211DBG(RT_DEBUG_ERROR, ("pAd->ApCliMlmeAux.Bssid ==> ZERO_MAC_ADDR\n"));
 		//ToDo: pAd->ApCfg.ApCliTab[0].CfgApCliBssid
-                return FALSE;
+                return false;
         }
 
 	/* Fake TSF */
@@ -1606,7 +1606,7 @@ bool CFG80211_checkScanTable(
 		ie = kmalloc(ieLen, GFP_ATOMIC);
 		if (!ie) {
 			CFG80211DBG(RT_DEBUG_ERROR, ("Memory Allocate Fail in CFG80211_checkScanTable\n"));
-			return FALSE;
+			return false;
 		}
 
 		ie[0] = WLAN_EID_SSID;
@@ -1644,7 +1644,7 @@ bool CFG80211_checkScanTable(
 	else
 		printk("%s Not In Driver Scan Table\n", pApCliEntry->MlmeAux.Ssid);
 
-	return FALSE;
+	return false;
 }
 #endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
 

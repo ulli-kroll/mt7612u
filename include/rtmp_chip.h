@@ -130,7 +130,7 @@ struct _RSSI_SAMPLE;
 
 /* Dual-band NIC (RF/BBP/MAC are in the same chip.) */
 
-#define IS_RT_NEW_DUAL_BAND_NIC(_pAd) ((FALSE))
+#define IS_RT_NEW_DUAL_BAND_NIC(_pAd) ((false))
 
 
 /* Is the NIC dual-band NIC? */
@@ -144,7 +144,7 @@ struct _RSSI_SAMPLE;
 #define RT3593OverPCIe(_pAd) (IS_RT3593(_pAd) && (_pAd->CommonCfg.bPCIeBus == true))
 
 /* RT3593 over PCI bus */
-#define RT3593OverPCI(_pAd) (IS_RT3593(_pAd) && (_pAd->CommonCfg.bPCIeBus == FALSE))
+#define RT3593OverPCI(_pAd) (IS_RT3593(_pAd) && (_pAd->CommonCfg.bPCIeBus == false))
 
 /*RT3390,RT3370 */
 #define IS_RT3390(_pAd)				(((_pAd)->MACVersion & 0xFFFF0000) == 0x33900000)

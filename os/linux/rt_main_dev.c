@@ -292,7 +292,7 @@ int rt28xx_open(struct net_device *net_dev)
 	RTMP_DRIVER_IRQ_INIT(pAd);
 
 	/* Chip & other init */
-	if (rt28xx_init(pAd) == FALSE)
+	if (rt28xx_init(pAd) == false)
 		goto err;
 
 #ifdef MBSS_SUPPORT
@@ -361,7 +361,7 @@ struct net_device *RtmpPhyNetDevInit(struct rtmp_adapter *pAd,
 	pNetDevHook->priv_flags = InfId; /*INT_MAIN; */
 	pNetDevHook->get_stats = RT28xx_get_ether_stats;
 
-	pNetDevHook->needProtcted = FALSE;
+	pNetDevHook->needProtcted = false;
 
 #if (WIRELESS_EXT < 21) && (WIRELESS_EXT >= 12)
 	pNetDevHook->get_wstats = rt28xx_get_wireless_stats;

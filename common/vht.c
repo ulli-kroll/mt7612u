@@ -619,7 +619,7 @@ bool vht80_channel_group( struct rtmp_adapter *pAd, UCHAR channel)
 	INT idx = 0;
 
 	if (channel <= 14)
-		return FALSE;
+		return false;
 
 	while (vht_ch_80M[idx].ch_up_bnd != 0)
 	{
@@ -640,6 +640,6 @@ bool vht80_channel_group( struct rtmp_adapter *pAd, UCHAR channel)
 		idx++;
 	}
 
-	return FALSE;
+	return false;
 }
 

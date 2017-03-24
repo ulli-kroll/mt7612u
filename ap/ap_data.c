@@ -87,7 +87,7 @@ INT ApAllowToSendPacket(
 
 	}
 
-	return FALSE;
+	return false;
 }
 
 
@@ -210,7 +210,7 @@ INT APSendPacket(struct rtmp_adapter *pAd, struct sk_buff *pPacket)
 	*/
 	UserPriority = 0;
 	QueIdx = QID_AC_BE;
-	if (RTMPCheckEtherType(pAd, pPacket, pMacEntry, wdev, &UserPriority, &QueIdx) == FALSE)
+	if (RTMPCheckEtherType(pAd, pPacket, pMacEntry, wdev, &UserPriority, &QueIdx) == false)
 	{
 		RELEASE_NDIS_PACKET(pAd, pPacket, NDIS_STATUS_FAILURE);
 		return NDIS_STATUS_FAILURE;
@@ -239,7 +239,7 @@ INT APSendPacket(struct rtmp_adapter *pAd, struct sk_buff *pPacket)
 			|| (wdev->IEEE8021X == true)
 #endif /* DOT1X_SUPPORT */
 			) &&
-			(RTMP_GET_PACKET_EAPOL(pPacket) == FALSE)
+			(RTMP_GET_PACKET_EAPOL(pPacket) == false)
 		)
 		{
 			/* Process for multicast or broadcast frame */
@@ -314,7 +314,7 @@ INT APSendPacket(struct rtmp_adapter *pAd, struct sk_buff *pPacket)
 	/* detect AC Category of tx packets to tune AC0(BE) TX_OP (MAC reg 0x1300) */
 	// TODO: shiang-usw, check this for REG access
 #ifdef APCLI_CERT_SUPPORT
-	if (pApCliEntry->wdev.bWmmCapable == FALSE)
+	if (pApCliEntry->wdev.bWmmCapable == false)
 #endif /* APCLI_CERT_SUPPORT */
 	detect_wmm_traffic(pAd, UserPriority, 1);
 
@@ -814,7 +814,7 @@ static inline bool BuildHtcField(
 	IN  MAC_TABLE_ENTRY *pMacEntry,
 	IN u8 *pHeaderBufPtr)
 {
-	bool bHTCPlus = FALSE;
+	bool bHTCPlus = false;
 
 
 	return bHTCPlus;
@@ -865,7 +865,7 @@ static inline u8 *AP_Build_AMSDU_Frame_Header(
 	if (pTxBlk->pMacEntry && pAd->chipCap.FlgHwTxBfCap)
 	{
 		MAC_TABLE_ENTRY *pMacEntry = pTxBlk->pMacEntry;
-		bool bHTCPlus = FALSE;
+		bool bHTCPlus = false;
 
 		pTxBlk->TxSndgPkt = SNDG_TYPE_DISABLE;
 
@@ -942,7 +942,7 @@ VOID AP_AMPDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 	USHORT freeCnt = 1;
 	MAC_TABLE_ENTRY *pMacEntry;
 	PQUEUE_ENTRY pQEntry;
-	bool	 bHTCPlus = FALSE;
+	bool	 bHTCPlus = false;
 	UINT hdr_offset;
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
 
@@ -989,7 +989,7 @@ VOID AP_AMPDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 #ifdef SOFT_ENCRYPT
 	if (TX_BLK_TEST_FLAG(pTxBlk, fTX_bSwEncrypt))
 	{
-		if (RTMPExpandPacketForSwEncrypt(pAd, pTxBlk) == FALSE)
+		if (RTMPExpandPacketForSwEncrypt(pAd, pTxBlk) == false)
 		{
 			RELEASE_NDIS_PACKET(pAd, pTxBlk->pPacket, NDIS_STATUS_FAILURE);
 			return;
@@ -1084,7 +1084,7 @@ VOID AP_AMPDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 			NdisAcquireSpinLock(&pMacEntry->TxSndgLock);
 			if (pMacEntry->TxSndgType >= SNDG_TYPE_SOUNDING)
 			{
-				if (bHTCPlus == FALSE)
+				if (bHTCPlus == false)
 				{
 				memset(pHeaderBufPtr, 0, sizeof(HT_CONTROL));
 					bHTCPlus = true;
@@ -1249,11 +1249,11 @@ VOID AP_AMPDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 		pMacEntry->isCached = true;
 
 		if (RTMP_GET_PACKET_LOWRATE(pTxBlk->pPacket))
-			pMacEntry->isCached = FALSE;
+			pMacEntry->isCached = false;
 	}
 
 	if (pTxBlk->TxSndgPkt != SNDG_TYPE_DISABLE)
-		pMacEntry->isCached = FALSE;
+		pMacEntry->isCached = false;
 
 #ifdef STATS_COUNT_SUPPORT
 	/* calculate Transmitted AMPDU count and ByteCount */
@@ -1570,7 +1570,7 @@ VOID AP_AMSDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 
 			if (RTMP_GET_PACKET_LOWRATE(pTxBlk->pPacket))
 				if (pMacEntry)
-					pMacEntry->isCached = FALSE;
+					pMacEntry->isCached = false;
 		}
 		else
 		{
@@ -1736,7 +1736,7 @@ VOID AP_Legacy_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 #ifdef SOFT_ENCRYPT
 	if (TX_BLK_TEST_FLAG(pTxBlk, fTX_bSwEncrypt))
 	{
-		if (RTMPExpandPacketForSwEncrypt(pAd, pTxBlk) == FALSE)
+		if (RTMPExpandPacketForSwEncrypt(pAd, pTxBlk) == false)
 		{
 			RELEASE_NDIS_PACKET(pAd, pTxBlk->pPacket, NDIS_STATUS_FAILURE);
 			return;
@@ -1749,7 +1749,7 @@ VOID AP_Legacy_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 	pTxBlk->SrcBufLen -= LENGTH_802_3;
 
 	/* skip vlan tag */
-	bVLANPkt = (RTMP_GET_PACKET_VLAN(pTxBlk->pPacket) ? true : FALSE);
+	bVLANPkt = (RTMP_GET_PACKET_VLAN(pTxBlk->pPacket) ? true : false);
 	if (bVLANPkt)
 	{
 		pTxBlk->pSrcBufData += LENGTH_802_1Q;
@@ -1808,7 +1808,7 @@ VOID AP_Legacy_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 			(pTxBlk->pTransmit->field.MODE >= MODE_HTMIX))
 		{
 			MAC_TABLE_ENTRY *pMacEntry = pTxBlk->pMacEntry;
-			bool bHTCPlus = FALSE;
+			bool bHTCPlus = false;
 
 			pTxBlk->TxSndgPkt = SNDG_TYPE_DISABLE;
 
@@ -1983,7 +1983,7 @@ VOID AP_Legacy_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 	RTMPWriteTxWI_Data(pAd, (TXWI_STRUC *)(&pTxBlk->HeaderBuf[TXINFO_SIZE]), pTxBlk);
 	if (RTMP_GET_PACKET_LOWRATE(pTxBlk->pPacket))
 		if (pTxBlk->pMacEntry)
-			pTxBlk->pMacEntry->isCached = FALSE;
+			pTxBlk->pMacEntry->isCached = false;
 
 	HAL_WriteTxResource(pAd, pTxBlk, true, &freeCnt);
 
@@ -2042,7 +2042,7 @@ VOID AP_Legacy_Frame_Tx_Hdr_Trns(
 	}
 #endif /* STATS_COUNT_SUPPORT */
 
-	bVLANPkt = (RTMP_GET_PACKET_VLAN(pTxBlk->pPacket) ? true : FALSE);
+	bVLANPkt = (RTMP_GET_PACKET_VLAN(pTxBlk->pPacket) ? true : false);
 
 	APFindCipherAlgorithm(pAd, pTxBlk);
 
@@ -2207,7 +2207,7 @@ VOID AP_Fragment_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 
 	ASSERT(TX_BLK_TEST_FLAG(pTxBlk, fTX_bAllowFrag));
 
-	bVLANPkt = (RTMP_GET_PACKET_VLAN(pTxBlk->pPacket) ? true : FALSE);
+	bVLANPkt = (RTMP_GET_PACKET_VLAN(pTxBlk->pPacket) ? true : false);
 
 	APFindCipherAlgorithm(pAd, pTxBlk);
 	APBuildCommon802_11Header(pAd, pTxBlk);
@@ -2219,7 +2219,7 @@ VOID AP_Fragment_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 	*/
 	if (TX_BLK_TEST_FLAG(pTxBlk, fTX_bSwEncrypt))
 	{
-		if (RTMPExpandPacketForSwEncrypt(pAd, pTxBlk) == FALSE)
+		if (RTMPExpandPacketForSwEncrypt(pAd, pTxBlk) == false)
 		{
 			RELEASE_NDIS_PACKET(pAd, pTxBlk->pPacket, NDIS_STATUS_FAILURE);
 			return;
@@ -2591,7 +2591,7 @@ VOID AP_ARalink_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 		pTxBlk->SrcBufLen  -= LENGTH_802_3;
 
 		/* skip vlan tag */
-		bVLANPkt = (RTMP_GET_PACKET_VLAN(pTxBlk->pPacket) ? true : FALSE);
+		bVLANPkt = (RTMP_GET_PACKET_VLAN(pTxBlk->pPacket) ? true : false);
 		if (bVLANPkt)
 		{
 			pTxBlk->pSrcBufData	+= LENGTH_802_1Q;
@@ -2770,7 +2770,7 @@ VOID AP_NDPA_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 		// NDPA's BW needs to sync with Tx BW
 		pAd->CommonCfg.MlmeTransmit.field.BW = pMacEntry->HTPhyMode.field.BW;
 
-		pTxBlk->Flags = FALSE; // No Acq Request
+		pTxBlk->Flags = false; // No Acq Request
 
 		MiniportMMRequest(pAd, 0, buf, frm_len);
 		kfree(buf);
@@ -2816,19 +2816,19 @@ int APHardTransmit(struct rtmp_adapter *pAd, TX_BLK *pTxBlk, UCHAR QueIdx)
 
 	if (pTxBlk->wdev->bVLAN_Tag == true)
 	{
-		RTMP_SET_PACKET_VLAN(pTxBlk->pPacket, FALSE);
+		RTMP_SET_PACKET_VLAN(pTxBlk->pPacket, false);
 	}
 
 
 #ifdef HDR_TRANS_TX_SUPPORT
 #ifdef SOFT_ENCRYPT
 	if ( TX_BLK_TEST_FLAG(pTxBlk, fTX_bSwEncrypt)) /* need LLC, not yet generated */
-		pTxBlk->NeedTrans = FALSE;
+		pTxBlk->NeedTrans = false;
 	else
 #endif /* SOFT_ENCRYPT */
 	{
 		pTxBlk->NeedTrans = true;
-		pTxBlk->NeedTrans = FALSE;
+		pTxBlk->NeedTrans = false;
 	}
 #endif /* HDR_TRANS_TX_SUPPORT */
 
@@ -2844,7 +2844,7 @@ int APHardTransmit(struct rtmp_adapter *pAd, TX_BLK *pTxBlk, UCHAR QueIdx)
 
 		AP_NDPA_Frame_Tx(pAd, pTxBlk);
 
-		pAd->NDPA_Request = FALSE;
+		pAd->NDPA_Request = false;
 		pTxBlk->TxFrameType &= ~TX_NDPA_FRAME;
 
 		// Finish NDPA and then recover to mlme's own setting
@@ -2873,7 +2873,7 @@ int APHardTransmit(struct rtmp_adapter *pAd, TX_BLK *pTxBlk, UCHAR QueIdx)
 			break;
 		case TX_MCAST_FRAME:
 #ifdef HDR_TRANS_TX_SUPPORT
-			pTxBlk->NeedTrans = FALSE;
+			pTxBlk->NeedTrans = false;
 #endif /* HDR_TRANS_TX_SUPPORT */
 			AP_Legacy_Frame_Tx(pAd, pTxBlk);
 			break;
@@ -2989,7 +2989,7 @@ bool APChkCls2Cls3Err(struct rtmp_adapter *pAd, UCHAR wcid, HEADER_802_11 *hdr)
 			if ((pEntry->Sst == SST_ASSOC) && IS_ENTRY_CLIENT(pEntry))
 			{
 			}
-			return FALSE;
+			return false;
 		}
 //---Add by shiang for debug
 
@@ -3009,7 +3009,7 @@ bool APChkCls2Cls3Err(struct rtmp_adapter *pAd, UCHAR wcid, HEADER_802_11 *hdr)
 		APCls2errAction(pAd, wcid, hdr);
 		return true;
 	}
-	return FALSE;
+	return false;
 }
 
 
@@ -3027,9 +3027,9 @@ VOID detect_wmm_traffic(
 		return;
 
 	/* For BE & BK case and TxBurst function is disabled */
-	if ((pAd->CommonCfg.bEnableTxBurst == FALSE)
-		&& (pAd->CommonCfg.bRdg == FALSE)
-		&& (pAd->CommonCfg.bRalinkBurstMode == FALSE)
+	if ((pAd->CommonCfg.bEnableTxBurst == false)
+		&& (pAd->CommonCfg.bRdg == false)
+		&& (pAd->CommonCfg.bRalinkBurstMode == false)
 		&& (FlgIsOutput == 1)
 	)
 	{
@@ -3273,7 +3273,7 @@ VOID APRxErrorHandle(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 					if (pAd->ApCfg.ApCliTab[pEntry->wdev_idx].wpa_supplicant_info.WpaSupplicantUP)
 					{
 						WpaSendMicFailureToWpaSupplicant(pAd->net_dev, pHeader->Addr2,
-											 (pWpaKey->Type == PAIRWISEKEY) ? true : FALSE,
+											 (pWpaKey->Type == PAIRWISEKEY) ? true : false,
 											 (INT)pRxBlk->key_idx, NULL);
 					}
 					if (((pRxInfo->CipherErr & 2) == 2) && INFRA_ON(pAd))
@@ -3327,7 +3327,7 @@ static int dump_next_valid = 0;
 bool APCheckVaildDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 {
 	HEADER_802_11 *pHeader = pRxBlk->pHeader;
-	bool isVaild = FALSE;
+	bool isVaild = false;
 
 	do
 	{
@@ -3420,7 +3420,7 @@ bool APCheckTkipMICValue(
 								pSA,
 								pWpaKey->RxMic,
 								UserPriority,
-								DataSize) == FALSE)
+								DataSize) == false)
 	{
 		DBGPRINT_RAW(RT_DEBUG_ERROR,("Rx MIC Value error 2\n"));
 
@@ -3429,7 +3429,7 @@ bool APCheckTkipMICValue(
 		if (IS_ENTRY_APCLI(pEntry) && pAd->ApCfg.ApCliTab[pEntry->wdev_idx].wpa_supplicant_info.WpaSupplicantUP)
 		{
 			WpaSendMicFailureToWpaSupplicant(pAd->net_dev, pHeader->Addr2,
-							 (pWpaKey->Type == PAIRWISEKEY) ? true : FALSE,
+							 (pWpaKey->Type == PAIRWISEKEY) ? true : false,
 							 (INT)pRxBlk->key_idx, NULL);
 		}
 		else
@@ -3441,7 +3441,7 @@ bool APCheckTkipMICValue(
 
 		/* release packet */
 		RELEASE_NDIS_PACKET(pAd, pRxBlk->pRxPacket, NDIS_STATUS_FAILURE);
-		return FALSE;
+		return false;
 	}
 
 	return true;
@@ -3463,31 +3463,31 @@ VOID APRxEAPOLFrameIndicate(
 #endif /* APCLI_SUPPORT */
 	do
 	{
-	} while (FALSE);
+	} while (false);
 
 	/* Sanity Check */
 	if(pRxBlk->DataSize < (LENGTH_802_1_H + LENGTH_EAPOL_H))
 	{
-		CheckPktSanity = FALSE;
+		CheckPktSanity = false;
 		DBGPRINT(RT_DEBUG_ERROR, ("Total pkts size is too small.\n"));
 	}
 	else if (!RTMPEqualMemory(SNAP_802_1H, pRxBlk->pData, 6))
 	{
-		CheckPktSanity = FALSE;
+		CheckPktSanity = false;
 		DBGPRINT(RT_DEBUG_ERROR, ("Can't find SNAP_802_1H parameter.\n"));
 	}
 	else if (!RTMPEqualMemory(EAPOL, pRxBlk->pData+6, 2))
 	{
-		CheckPktSanity = FALSE;
+		CheckPktSanity = false;
 		DBGPRINT(RT_DEBUG_ERROR, ("Can't find EAPOL parameter.\n"));
 	}
 	else if(*(pRxBlk->pData+9) > EAPOLASFAlert)
 	{
-		CheckPktSanity = FALSE;
+		CheckPktSanity = false;
 		DBGPRINT(RT_DEBUG_ERROR, ("Unknown EAP type(%d).\n", *(pRxBlk->pData+9)));
 	}
 
-	if(CheckPktSanity == FALSE)
+	if(CheckPktSanity == false)
 	{
 		goto done;
 	}
@@ -3536,7 +3536,7 @@ VOID APRxEAPOLFrameIndicate(
 			/* STA_PORT_SECURED(pAd); */
 			pEntry->PortSecured=WPA_802_1X_PORT_SECURED;
 			pEntry->PrivacyFilter=Ndis802_11PrivFilterAcceptAll;
-			if (sup_info->IEEE8021x_required_keys == FALSE)
+			if (sup_info->IEEE8021x_required_keys == false)
 			{
 				idx = sup_info->DesireSharedKeyId;
 				CipherAlg = sup_info->DesireSharedKey[idx].CipherAlg;
@@ -3649,7 +3649,7 @@ VOID APRxDataFrameAnnounce(
 				pEntry->StaConnectTime > 5 && pEntry->WpaState < AS_AUTHENTICATION2)
 			{
 				DBGPRINT(RT_DEBUG_WARN, ("==> De-Auth this STA(%02x:%02x:%02x:%02x:%02x:%02x)\n", PRINT_MAC(pEntry->Addr)));
-				MlmeDeAuthAction(pAd, pEntry, REASON_NO_LONGER_VALID, FALSE);
+				MlmeDeAuthAction(pAd, pEntry, REASON_NO_LONGER_VALID, false);
 			}
 
 			/* release packet */
@@ -3726,7 +3726,7 @@ VOID APHandleRxDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 	RXWI_STRUC *pRxWI = pRxBlk->pRxWI;
 	HEADER_802_11 *pHeader = pRxBlk->pHeader;
 	struct sk_buff *pRxPacket = pRxBlk->pRxPacket;
-	bool bFragment = FALSE;
+	bool bFragment = false;
 	MAC_TABLE_ENTRY *pEntry = NULL;
 	UCHAR FromWhichBSSID = BSS0;
 	UCHAR OldPwrMgmt = PWR_ACTIVE;	/* UAPSD AP SUPPORT */
@@ -3780,7 +3780,7 @@ VOID APHandleRxDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 		{
 
 
-		} while(FALSE);
+		} while(false);
 
 		/* have no WDS or MESH support, drop it */
 		if (pEntry == NULL)
@@ -3967,8 +3967,8 @@ VOID APHandleRxDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 
 		/* count packets priroity more than BE */
 #ifdef APCLI_CERT_SUPPORT
-		//if (pAd->bApCliCertTest == FALSE)
-		if (pApCliEntry->wdev.bWmmCapable == FALSE)
+		//if (pAd->bApCliCertTest == false)
+		if (pApCliEntry->wdev.bWmmCapable == false)
 #endif /* APCLI_CERT_SUPPORT */
 		detect_wmm_traffic(pAd, UserPriority, 0);
 		/* bit 7 in QoS Control field signals the HT A-MSDU format */
@@ -4070,7 +4070,7 @@ VOID APHandleRxDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 			pRxBlk->DataSize -= 8; /* Minus MIC length */
 
 			/* For TKIP frame, calculate the MIC value */
-			if (APCheckTkipMICValue(pAd, pEntry, pRxBlk) == FALSE)
+			if (APCheckTkipMICValue(pAd, pEntry, pRxBlk) == false)
 				return;
 		}
 
@@ -4131,7 +4131,7 @@ bool APFowardWirelessStaToWirelessSta(
 
 	pEntry = NULL;
 	bAnnounce = true;
-	bDirectForward = FALSE;
+	bDirectForward = false;
 
 	pHeader802_3 = GET_OS_PKT_DATAPTR(pPacket);
 
@@ -4162,15 +4162,15 @@ bool APFowardWirelessStaToWirelessSta(
 		if (pEntry && (pEntry->Sst == SST_ASSOC) && IS_ENTRY_CLIENT(pEntry))
 		{
 			bDirectForward = true;
-			bAnnounce = FALSE;
+			bAnnounce = false;
 
 			if (FromWhichBSSID == pEntry->apidx)
 			{/* STAs in same SSID */
 				if ((pAd->ApCfg.MBSSID[pEntry->apidx].IsolateInterStaTraffic == 1))
 				{
 					/* release the packet */
-					bDirectForward = FALSE;
-					bAnnounce = FALSE;
+					bDirectForward = false;
+					bAnnounce = false;
 				}
 			}
 			else
@@ -4185,15 +4185,15 @@ bool APFowardWirelessStaToWirelessSta(
 						Do not need to care WDS mode because packets from a
 						WDS interface will be passed to upper layer for bridging.
 					*/
-					bDirectForward = FALSE;
-					bAnnounce = FALSE;
+					bDirectForward = false;
+					bAnnounce = false;
 				}
 			}
 		}
 		else
 		{
 			/* announce this packet to upper layer (bridge) */
-			bDirectForward = FALSE;
+			bDirectForward = false;
 			bAnnounce = true;
 		}
 	}
@@ -4237,13 +4237,13 @@ bool APFowardWirelessStaToWirelessSta(
 			}
 
 			RTMP_SET_PACKET_WCID(pForwardPacket, pEntry ? pEntry->wcid : MCAST_WCID);
-			RTMP_SET_PACKET_MOREDATA(pForwardPacket, FALSE);
+			RTMP_SET_PACKET_MOREDATA(pForwardPacket, false);
 
 			APSendPacket(pAd, pForwardPacket);
 		}
 
 		/* Dequeue outgoing frames from TxSwQueue0..3 queue and process it */
-		RTMPDeQueuePacket(pAd, FALSE, NUM_OF_TX_RING, MAX_TX_PROCESS);
+		RTMPDeQueuePacket(pAd, false, NUM_OF_TX_RING, MAX_TX_PROCESS);
 	}
 
 	return bAnnounce;

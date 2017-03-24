@@ -288,16 +288,16 @@ int NICInitRecv(struct rtmp_adapter *pAd)
 
 		pRxContext->pAd	= pAd;
 		pRxContext->pIrp = NULL;
-		pRxContext->InUse = FALSE;
-		pRxContext->IRPPending = FALSE;
-		pRxContext->Readable	= FALSE;
-		pRxContext->bRxHandling = FALSE;
+		pRxContext->InUse = false;
+		pRxContext->IRPPending = false;
+		pRxContext->Readable	= false;
+		pRxContext->bRxHandling = false;
 		pRxContext->BulkInOffset = 0;
 	}
 
 	pCmdRspEventContext->pAd = pAd;
-	pCmdRspEventContext->InUse = FALSE;
-	pCmdRspEventContext->Readable = FALSE;
+	pCmdRspEventContext->InUse = false;
+	pCmdRspEventContext->Readable = false;
 	memset(pCmdRspEventContext->CmdRspBuffer, 0, CMD_RSP_BULK_SIZE);
 
 	DBGPRINT(RT_DEBUG_TRACE, ("<-- NICInitRecv()\n"));
@@ -346,7 +346,7 @@ int NICInitTransmit(struct rtmp_adapter *pAd)
 
 		/* Next Local tx ring pointer waiting for buck out*/
 		pAd->NextBulkOutIndex[acidx] = acidx;
-		pAd->BulkOutPending[acidx] = FALSE; /* Buck Out control flag	*/
+		pAd->BulkOutPending[acidx] = false; /* Buck Out control flag	*/
 	}
 
 
@@ -372,9 +372,9 @@ int NICInitTransmit(struct rtmp_adapter *pAd)
 		pHTTXContext->pAd = pAd;
 		pHTTXContext->BulkOutPipeId = acidx;
 		pHTTXContext->bRingEmpty = true;
-		pHTTXContext->bCopySavePad = FALSE;
+		pHTTXContext->bCopySavePad = false;
 
-		pAd->BulkOutPending[acidx] = FALSE;
+		pAd->BulkOutPending[acidx] = false;
 	}
 
 
@@ -703,7 +703,7 @@ VOID RT28xx_UpdateBeaconToAsic(struct rtmp_adapter *pAd,
 	UCHAR *ptr;
 	UINT i, padding;
 	BEACON_SYNC_STRUCT *pBeaconSync = pAd->CommonCfg.pBeaconSync;
-	bool bBcnReq = FALSE;
+	bool bBcnReq = false;
 	UCHAR bcn_idx = 0;
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
 
@@ -726,7 +726,7 @@ VOID RT28xx_UpdateBeaconToAsic(struct rtmp_adapter *pAd,
 		return;
 	}
 
-	if (bBcnReq == FALSE) {
+	if (bBcnReq == false) {
 		/* when the ra interface is down, do not send its beacon frame */
 		/* clear all zero */
 		for (i = 0; i < TXWISize; i += 4)
@@ -741,7 +741,7 @@ VOID RT28xx_UpdateBeaconToAsic(struct rtmp_adapter *pAd,
 #ifdef RT_BIG_ENDIAN
 		RTMPWIEndianChange(pAd, ptr, TYPE_TXWI);
 #endif
-		if (NdisEqualMemory(pBeaconSync->BeaconTxWI[bcn_idx], &pAd->BeaconTxWI, TXWISize) == FALSE) {
+		if (NdisEqualMemory(pBeaconSync->BeaconTxWI[bcn_idx], &pAd->BeaconTxWI, TXWISize) == false) {
 			/* If BeaconTxWI changed, we need to rewrite the TxWI for the Beacon frames.*/
 			pBeaconSync->BeaconBitMap &= (~(BEACON_BITMAP_MASK & (1 << bcn_idx)));
 			memmove(pBeaconSync->BeaconTxWI[bcn_idx], &pAd->BeaconTxWI, TXWISize);
@@ -771,7 +771,7 @@ VOID RT28xx_UpdateBeaconToAsic(struct rtmp_adapter *pAd,
 		/* ULLI : WTH ???, are programmers lazy of pointers ?? */
 
 		for (i = 0 ; i < FrameLen /*HW_BEACON_OFFSET*/; i += 4) {
-			if (NdisEqualMemory(ptr, pBeaconFrame, 4) == FALSE) {
+			if (NdisEqualMemory(ptr, pBeaconFrame, 4) == false) {
 				u32 dword;
 
 				memmove(ptr, pBeaconFrame, 4);
@@ -953,7 +953,7 @@ VOID RTUSBBssBeaconExit(struct rtmp_adapter *pAd)
 
 	if (pAd->CommonCfg.pBeaconSync) {
 		pBeaconSync = pAd->CommonCfg.pBeaconSync;
-		pBeaconSync->EnableBeacon = FALSE;
+		pBeaconSync->EnableBeacon = false;
 		RTMPCancelTimer(&pAd->CommonCfg.BeaconUpdateTimer, &Cancelled);
 		pBeaconSync->BeaconBitMap = 0;
 
@@ -1080,7 +1080,7 @@ VOID BeaconUpdateExec(PVOID SystemSpecific1, PVOID FunctionContext,
 	delta2MS = (delta>>10);
 	if (delta2MS > 150) {
 		pAd->CommonCfg.BeaconUpdateTimer.TimerValue = 100;
-		pAd->CommonCfg.IsUpdateBeacon = FALSE;
+		pAd->CommonCfg.IsUpdateBeacon = false;
 	} else {
 		pAd->CommonCfg.BeaconUpdateTimer.TimerValue = delta2MS + 10;
 		pAd->CommonCfg.IsUpdateBeacon = true;
@@ -1171,7 +1171,7 @@ VOID RT28xxUsbMlmeRadioOFF(struct rtmp_adapter *pAd)
 	IF_DEV_CONFIG_OPMODE_ON_STA(pAd) {
 		/* Link down first if any association exists*/
 		if (INFRA_ON(pAd) || ADHOC_ON(pAd))
-			LinkDown(pAd, FALSE);
+			LinkDown(pAd, false);
 		RtmpusecDelay(10000);
 
 		/*==========================================*/
@@ -1205,7 +1205,7 @@ bool AsicCheckCommandOk(
 		ret = down_interruptible(&pAd->reg_atomic);
 		if (ret != 0) {
 			DBGPRINT(RT_DEBUG_ERROR, ("reg_atomic get failed(ret=%d)\n", ret));
-			return FALSE;
+			return false;
 		}
 	}
 #endif /* RTMP_MAC_USB */
@@ -1231,7 +1231,7 @@ bool AsicCheckCommandOk(
 		i++;
 	} while (i < 200);
 
-	ret = FALSE;
+	ret = false;
 	CmdStatus = mt7612u_read32(pAd, H2M_MAILBOX_STATUS);
 	if (i < 200) {
 		if (((CmdStatus & ThisCIDMask) == 0x1) ||

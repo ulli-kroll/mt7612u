@@ -54,10 +54,10 @@
 bool ApCliWaitProbRsp(struct rtmp_adapter *pAd, USHORT ifIndex)
 {
         if (ifIndex >= MAX_APCLI_NUM)
-                return FALSE;
+                return false;
 
         return (pAd->ApCfg.ApCliTab[ifIndex].SyncCurrState == APCLI_JOIN_WAIT_PROBE_RSP) ?
-                true : FALSE;
+                true : false;
 }
 
 VOID ApCliSimulateRecvBeacon(struct rtmp_adapter *pAd)
@@ -147,7 +147,7 @@ INT ApCliIfLookUp(struct rtmp_adapter *pAd, UCHAR *pAddr)
 
 bool isValidApCliIf(SHORT if_idx)
 {
-	return (((if_idx >= 0) && (if_idx < MAX_APCLI_NUM)) ? true : FALSE);
+	return (((if_idx >= 0) && (if_idx < MAX_APCLI_NUM)) ? true : false);
 }
 
 
@@ -191,7 +191,7 @@ VOID ApCliMgtMacHeaderInit(
 		pAd 				Pointer to our adapter
 
 	Return Value:
-		FALSE if pAd->CommonCfg.SupportedHtPhy doesn't accept the pHtCapability.  (AP Mode)
+		false if pAd->CommonCfg.SupportedHtPhy doesn't accept the pHtCapability.  (AP Mode)
 
 	IRQL = PASSIVE_LEVEL
 
@@ -209,7 +209,7 @@ bool ApCliCheckHt(
 
 
 	if (IfIndex >= MAX_APCLI_NUM)
-		return FALSE;
+		return false;
 
 	pApCliEntry = &pAd->ApCfg.ApCliTab[IfIndex];
 
@@ -278,7 +278,7 @@ bool ApCliCheckVht(
 	// TODO: shiang-6590, not finish yet!!!!
 
 	if (Wcid >= MAX_LEN_OF_MAC_TABLE)
-		return FALSE;
+		return false;
 	printk("============>ApCliCheckVht\n");
 	/* Save Peer Capability*/
 	if (vht_cap_info->sgi_80M)
@@ -350,7 +350,7 @@ VOID ComposeP2PNullFrame(
 		pAd				- Pointer to our adapter
 		ApCliIdx		- Which ApCli interface
 	Return Value:
-		FALSE: fail to alloc Mac entry.
+		false: fail to alloc Mac entry.
 
 	Note:
 
@@ -358,7 +358,7 @@ VOID ComposeP2PNullFrame(
 */
 bool ApCliLinkUp(struct rtmp_adapter *pAd, UCHAR ifIndex)
 {
-	bool result = FALSE;
+	bool result = false;
 	PAPCLI_STRUCT pApCliEntry = NULL;
 	PMAC_TABLE_ENTRY pMacEntry = NULL;
 	struct rtmp_wifi_dev *wdev;
@@ -379,7 +379,7 @@ bool ApCliLinkUp(struct rtmp_adapter *pAd, UCHAR ifIndex)
 		else
 		{
 			DBGPRINT(RT_DEBUG_ERROR, ("!!! ERROR : APCLI LINK UP - IF(apcli%d)!!!\n", ifIndex));
-			result = FALSE;
+			result = false;
 			break;
 		}
 
@@ -391,7 +391,7 @@ bool ApCliLinkUp(struct rtmp_adapter *pAd, UCHAR ifIndex)
 			)
 		{
 			DBGPRINT(RT_DEBUG_ERROR, ("!!! ERROR : This link had existed - IF(apcli%d)!!!\n", ifIndex));
-			result = FALSE;
+			result = false;
 			break;
 		}
 #endif /* APCLI_CONNECTION_TRIAL */
@@ -437,10 +437,10 @@ bool ApCliLinkUp(struct rtmp_adapter *pAd, UCHAR ifIndex)
 			If ApCli connects to different AP, ApCli couldn't send EAPOL_Start for WpaSupplicant.
 		*/
 		if ((wdev->AuthMode == Ndis802_11AuthModeWPA2) &&
-			(NdisEqualMemory(pAd->MlmeAux.Bssid, pApCliEntry->LastBssid, MAC_ADDR_LEN) == FALSE) &&
+			(NdisEqualMemory(pAd->MlmeAux.Bssid, pApCliEntry->LastBssid, MAC_ADDR_LEN) == false) &&
 			(pApCliEntry->wpa_supplicant_info.bLostAp == true))
 		{
-			pApCliEntry->wpa_supplicant_info.bLostAp = FALSE;
+			pApCliEntry->wpa_supplicant_info.bLostAp = false;
 		}
 
 		COPY_MAC_ADDR(pApCliEntry->LastBssid, pAd->MlmeAux.Bssid);
@@ -466,7 +466,7 @@ bool ApCliLinkUp(struct rtmp_adapter *pAd, UCHAR ifIndex)
 				(pMacEntry->PortSecured == WPA_802_1X_PORT_SECURED))
 			{
 				DBGPRINT(RT_DEBUG_TRACE, ("ApCli auto connected: ApCliLinkUp()\n"));
-				pAd->ApCfg.ApCliAutoConnectRunning = FALSE;
+				pAd->ApCfg.ApCliAutoConnectRunning = false;
 			}
 #endif /* APCLI_AUTO_CONNECT_SUPPORT */
 
@@ -605,7 +605,7 @@ bool ApCliLinkUp(struct rtmp_adapter *pAd, UCHAR ifIndex)
 				pMacEntry->MmpsMode = (UCHAR)pHtCapability->HtCapInfo.MimoPs;
 				pMacEntry->AMsduSize = (UCHAR)pHtCapability->HtCapInfo.AMsduSize;
 				pMacEntry->HTPhyMode.word = pMacEntry->MaxHTPhyMode.word;
-				if (pAd->CommonCfg.DesiredHtPhy.AmsduEnable && (pAd->CommonCfg.REGBACapability.field.AutoBA == FALSE))
+				if (pAd->CommonCfg.DesiredHtPhy.AmsduEnable && (pAd->CommonCfg.REGBACapability.field.AutoBA == false))
 					CLIENT_STATUS_SET_FLAG(pMacEntry, fCLIENT_STATUS_AMSDU_INUSED);
 				if (pHtCapability->HtCapInfo.ShortGIfor20)
 					CLIENT_STATUS_SET_FLAG(pMacEntry, fCLIENT_STATUS_SGI20_CAPABLE);
@@ -653,9 +653,9 @@ bool ApCliLinkUp(struct rtmp_adapter *pAd, UCHAR ifIndex)
 							&pApCliEntry->MlmeAux.HtCapability,
 							pApCliEntry->MlmeAux.HtCapabilityLen);
 
-			if (wdev->bAutoTxRateSwitch == FALSE)
+			if (wdev->bAutoTxRateSwitch == false)
 			{
-				pMacEntry->bAutoTxRateSwitch = FALSE;
+				pMacEntry->bAutoTxRateSwitch = false;
 				/* If the legacy mode is set, overwrite the transmit setting of this entry. */
 				RTMPUpdateLegacyTxSetting((UCHAR)wdev->DesiredTransmitSetting.field.FixedTxMode, pMacEntry);
 			}
@@ -732,11 +732,11 @@ bool ApCliLinkUp(struct rtmp_adapter *pAd, UCHAR ifIndex)
 
 			break;
 		}
-		result = FALSE;
-	} while(FALSE);
+		result = false;
+	} while(false);
 
 
-	if (result == FALSE)
+	if (result == false)
 	{
 	 	DBGPRINT(RT_DEBUG_ERROR, (" (%s) alloc mac entry fail!!!\n", __FUNCTION__));
 		return result;
@@ -753,7 +753,7 @@ bool ApCliLinkUp(struct rtmp_adapter *pAd, UCHAR ifIndex)
 	    (pAd->ApCfg.ApCliTab[ifIndex].wpa_supplicant_info.bLostAp == true))
 	{
 		ApcliWpaSendEapolStart(pAd, pAd->MlmeAux.Bssid,pMacEntry,&pAd->ApCfg.ApCliTab[ifIndex]);
-		pAd->ApCfg.ApCliTab[ifIndex].wpa_supplicant_info.bLostAp = FALSE;
+		pAd->ApCfg.ApCliTab[ifIndex].wpa_supplicant_info.bLostAp = false;
 	}
 #endif /*WPA_SUPPLICANT_SUPPORT */
 
@@ -845,7 +845,7 @@ VOID ApCliLinkDown(struct rtmp_adapter *pAd, UCHAR ifIndex)
 	}
 
 	pApCliEntry = &pAd->ApCfg.ApCliTab[ifIndex];
-	if ((pApCliEntry->Valid == FALSE)
+	if ((pApCliEntry->Valid == false)
 		)
 		return;
 
@@ -863,8 +863,8 @@ VOID ApCliLinkDown(struct rtmp_adapter *pAd, UCHAR ifIndex)
 	MacTableDeleteEntry(pAd, MacTabWCID, APCLI_ROOT_BSSID_GET(pAd, pApCliEntry->MacTabWCID));
 
 	{
-		pApCliEntry->Valid = FALSE;	/* This link doesn't associated with any remote-AP */
-		pApCliEntry->wdev.allow_data_tx = FALSE;
+		pApCliEntry->Valid = false;	/* This link doesn't associated with any remote-AP */
+		pApCliEntry->wdev.allow_data_tx = false;
 		pApCliEntry->wdev.PortSecured = WPA_802_1X_PORT_NOT_SECURED;
 	}
 
@@ -926,7 +926,7 @@ VOID ApCliIfUp(struct rtmp_adapter *pAd)
 
 		if (APCLI_IF_UP_CHECK(pAd, ifIndex)
 			&& (pApCliEntry->Enable == true)
-			&& (pApCliEntry->Valid == FALSE)
+			&& (pApCliEntry->Valid == false)
 #ifdef APCLI_CONNECTION_TRIAL
 			&& (ifIndex == 0)
 #endif /* APCLI_CONNECTION_TRIAL */
@@ -1011,7 +1011,7 @@ VOID ApCliIfMonitor(struct rtmp_adapter *pAd)
 #endif /* APCLI_CONNECTION_TRIAL */
 		UCHAR Wcid;
 		PMAC_TABLE_ENTRY pMacEntry;
-		bool bForceBrocken = FALSE;
+		bool bForceBrocken = false;
 
 		pApCliEntry = &pAd->ApCfg.ApCliTab[index];
 
@@ -1055,7 +1055,7 @@ VOID ApCliIfMonitor(struct rtmp_adapter *pAd)
  *  \param  pFrame         The frame received
  *  \param  *Machine       The state machine
  *  \param  *MsgType       the message type for the state machine
- *  \return true if the substitution is successful, FALSE otherwise
+ *  \return true if the substitution is successful, false otherwise
  *  \pre
  *  \post
  */
@@ -1067,7 +1067,7 @@ bool ApCliMsgTypeSubst(
 {
 	USHORT Seq;
 	UCHAR EAPType;
-	bool Return = FALSE;
+	bool Return = false;
 
 
 	/* only PROBE_REQ can be broadcast, all others must be unicast-to-me && is_mybssid; otherwise, */
@@ -1112,7 +1112,7 @@ bool ApCliMsgTypeSubst(
 				}
 				else
 				{
-					return FALSE;
+					return false;
 				}
 				break;
 
@@ -1126,13 +1126,13 @@ bool ApCliMsgTypeSubst(
 				break;
 
 			default:
-				return FALSE;
+				return false;
 		}
 
 		return true;
 	}
 
-	return FALSE;
+	return false;
 }
 
 
@@ -1159,11 +1159,11 @@ bool preCheckMsgTypeSubset(
 				break;
 
 			default:
-				return FALSE;
+				return false;
 		}
 		return true;
 	}
-	return FALSE;
+	return false;
 }
 
 
@@ -1172,7 +1172,7 @@ bool preCheckMsgTypeSubset(
     Description:
         MLME message sanity check
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
 
     IRQL = DISPATCH_LEVEL
 
@@ -1217,7 +1217,7 @@ bool ApCliPeerAssocRspSanity(
 	Length += 2;
 	*pCkipFlag = 0;
 	*pExtRateLen = 0;
-	pEdcaParm->bValid = FALSE;
+	pEdcaParm->bValid = false;
 
 	if (*pStatus != MLME_SUCCESS)
 		return true;
@@ -1234,7 +1234,7 @@ bool ApCliPeerAssocRspSanity(
 	if ((IeType != IE_SUPP_RATES) || (*pSupRateLen > MAX_LEN_OF_SUPPORTED_RATES))
 	{
 		DBGPRINT(RT_DEBUG_TRACE, ("%s(): fail - wrong SupportedRates IE\n", __FUNCTION__));
-		return FALSE;
+		return false;
 	}
 	else
 		memmove(SupRate, &pFrame->Octet[8], *pSupRateLen);
@@ -1323,10 +1323,10 @@ bool ApCliPeerAssocRspSanity(
 
 					/* parsing EDCA parameters */
 					pEdcaParm->bValid          = true;
-					pEdcaParm->bQAck           = FALSE; /* pEid->Octet[0] & 0x10; */
-					pEdcaParm->bQueueRequest   = FALSE; /* pEid->Octet[0] & 0x20; */
-					pEdcaParm->bTxopRequest    = FALSE; /* pEid->Octet[0] & 0x40; */
-					/*pEdcaParm->bMoreDataAck    = FALSE; // pEid->Octet[0] & 0x80; */
+					pEdcaParm->bQAck           = false; /* pEid->Octet[0] & 0x10; */
+					pEdcaParm->bQueueRequest   = false; /* pEid->Octet[0] & 0x20; */
+					pEdcaParm->bTxopRequest    = false; /* pEid->Octet[0] & 0x40; */
+					/*pEdcaParm->bMoreDataAck    = false; // pEid->Octet[0] & 0x80; */
 					pEdcaParm->EdcaUpdateCount = pEid->Octet[6] & 0x0f;
 					pEdcaParm->bAPSDCapable    = (pEid->Octet[6] & 0x80) ? 1 : 0;
 					ptr = (u8 *) &pEid->Octet[8];
@@ -1387,7 +1387,7 @@ MAC_TABLE_ENTRY *ApCliTableLookUpByWcid(struct rtmp_adapter *pAd, UCHAR wcid, UC
 			pEntry = pCurEntry;
 			break;
 		}
-	} while(FALSE);
+	} while(false);
 
 	NdisReleaseSpinLock(&pAd->MacTabLock);
 
@@ -1411,33 +1411,33 @@ static inline bool ValidApCliEntry(struct rtmp_adapter *pAd, INT apCliIdx)
 	{
 		if ((apCliIdx < 0) || (apCliIdx >= MAX_APCLI_NUM))
 		{
-			result = FALSE;
+			result = false;
 			break;
 		}
 
 		pApCliEntry = (APCLI_STRUCT *)&pAd->ApCfg.ApCliTab[apCliIdx];
 		if (pApCliEntry->Valid != true)
 		{
-			result = FALSE;
+			result = false;
 			break;
 		}
 
 		if ((pApCliEntry->MacTabWCID <= 0)
 			|| (pApCliEntry->MacTabWCID >= MAX_LEN_OF_MAC_TABLE))
 		{
-			result = FALSE;
+			result = false;
 			break;
 		}
 
 		pMacEntry = &pAd->MacTab.Content[pApCliEntry->MacTabWCID];
 		if (!IS_ENTRY_APCLI(pMacEntry))
 		{
-			result = FALSE;
+			result = false;
 			break;
 		}
 
 		result = true;
-	} while(FALSE);
+	} while(false);
 
 	return result;
 }
@@ -1450,7 +1450,7 @@ INT ApCliAllowToSendPacket(
 	OUT UCHAR *pWcid)
 {
 	UCHAR idx;
-	bool	allowed = FALSE;
+	bool	allowed = false;
 	APCLI_STRUCT *apcli_entry;
 
 
@@ -1459,7 +1459,7 @@ INT ApCliAllowToSendPacket(
 		apcli_entry = &pAd->ApCfg.ApCliTab[idx];
 		if (&apcli_entry->wdev == wdev)
 		{
-			if (ValidApCliEntry(pAd, idx) == FALSE)
+			if (ValidApCliEntry(pAd, idx) == false)
 				break;
 
 			{
@@ -1489,7 +1489,7 @@ INT ApCliAllowToSendPacket(
 
 	Return Value:
 		true 	for configuration match
-		FALSE	for otherwise
+		false	for otherwise
 
 	Note:
 
@@ -1522,14 +1522,14 @@ bool ApCliValidateRSNIE(
 	len	 = eid_len;
 
 	/*if (len >= MAX_LEN_OF_RSNIE || len <= MIN_LEN_OF_RSNIE) */
-	/*	return FALSE; */
+	/*	return false; */
 
 	/* Init WPA setting */
 	WPA.PairCipher    	= Ndis802_11WEPDisabled;
 	WPA.PairCipherAux 	= Ndis802_11WEPDisabled;
 	WPA.GroupCipher   	= Ndis802_11WEPDisabled;
 	WPA.RsnCapability 	= 0;
-	WPA.bMixMode      	= FALSE;
+	WPA.bMixMode      	= false;
 	WPA_AuthMode	  	= Ndis802_11AuthModeOpen;
 	WPA_AuthModeAux		= Ndis802_11AuthModeOpen;
 
@@ -1538,7 +1538,7 @@ bool ApCliValidateRSNIE(
 	WPA2.PairCipherAux 	= Ndis802_11WEPDisabled;
 	WPA2.GroupCipher   	= Ndis802_11WEPDisabled;
 	WPA2.RsnCapability 	= 0;
-	WPA2.bMixMode      	= FALSE;
+	WPA2.bMixMode      	= false;
 	WPA2_AuthMode	  	= Ndis802_11AuthModeOpen;
 	WPA2_AuthModeAux	= Ndis802_11AuthModeOpen;
 
@@ -1843,7 +1843,7 @@ bool ApCliValidateRSNIE(
 		if (wdev->AuthMode >= Ndis802_11AuthModeWPA)
 		{
 			DBGPRINT(RT_DEBUG_ERROR, ("%s - The authentication mode doesn't match \n", __FUNCTION__));
-			return FALSE;
+			return false;
 		}
 		else
 		{
@@ -1855,14 +1855,14 @@ bool ApCliValidateRSNIE(
 	{
 		/* Peer AP has RSN capability, but our AP-Client is pre-RSNA. Discard this */
 		DBGPRINT(RT_DEBUG_ERROR, ("%s - The authentication mode doesn't match. AP is WPA security but APCLI is not. \n", __FUNCTION__));
-		return FALSE;
+		return false;
 	}
 
 
 	/* Recovery user-defined cipher suite */
 	pApCliEntry->PairCipher  = wdev->WepStatus;
 	pApCliEntry->GroupCipher = wdev->WepStatus;
-	pApCliEntry->bMixCipher  = FALSE;
+	pApCliEntry->bMixCipher  = false;
 
 	if (wdev->bWpaAutoMode == true)
 	{
@@ -1887,7 +1887,7 @@ bool ApCliValidateRSNIE(
 		else
 		{
 			DBGPRINT(RT_DEBUG_TRACE, ("WPA_AUTO Mode ==> peerAp: no Rsn/WPA IE\n"));
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -1899,12 +1899,12 @@ bool ApCliValidateRSNIE(
 		((WPA_AuthModeAux != Ndis802_11AuthModeOpen) && (WPA_AuthModeAux == wdev->AuthMode)))
 	{
 		/* Check cipher suite, AP must have more secured cipher than station setting */
-		if (WPA.bMixMode == FALSE)
+		if (WPA.bMixMode == false)
 		{
 			if (wdev->WepStatus != WPA.GroupCipher)
 			{
 				DBGPRINT(RT_DEBUG_ERROR, ("ApCliValidateRSNIE - WPA validate cipher suite error \n"));
-				return FALSE;
+				return false;
 			}
 		}
 
@@ -1912,7 +1912,7 @@ bool ApCliValidateRSNIE(
 		if (wdev->WepStatus < WPA.GroupCipher)
 		{
 			DBGPRINT(RT_DEBUG_ERROR, ("ApCliValidateRSNIE - WPA validate group cipher error \n"));
-			return FALSE;
+			return false;
 		}
 
 		/*
@@ -1925,7 +1925,7 @@ bool ApCliValidateRSNIE(
 			(wdev->WepStatus != WPA.PairCipherAux))
 		{
 			DBGPRINT(RT_DEBUG_ERROR, ("ApCliValidateRSNIE - WPA validate pairwise cipher error \n"));
-			return FALSE;
+			return false;
 		}
 
 		Sanity |= 0x1;
@@ -1935,12 +1935,12 @@ bool ApCliValidateRSNIE(
 			 ((WPA2_AuthModeAux != Ndis802_11AuthModeOpen) && (WPA2_AuthModeAux == wdev->AuthMode)))
 	{
 		/* Check cipher suite, AP must have more secured cipher than station setting */
-		if (WPA2.bMixMode == FALSE)
+		if (WPA2.bMixMode == false)
 		{
 			if (wdev->WepStatus != WPA2.GroupCipher)
 			{
 				DBGPRINT(RT_DEBUG_ERROR, ("ApCliValidateRSNIE - WPA2 validate cipher suite error \n"));
-				return FALSE;
+				return false;
 			}
 		}
 
@@ -1948,7 +1948,7 @@ bool ApCliValidateRSNIE(
 		if (wdev->WepStatus < WPA2.GroupCipher)
 		{
 			DBGPRINT(RT_DEBUG_ERROR, ("ApCliValidateRSNIE - WPA2 validate group cipher error \n"));
-			return FALSE;
+			return false;
 		}
 
 		/*
@@ -1961,7 +1961,7 @@ bool ApCliValidateRSNIE(
 			(wdev->WepStatus != WPA2.PairCipherAux))
 		{
 			DBGPRINT(RT_DEBUG_ERROR, ("ApCliValidateRSNIE - WPA2 validate pairwise cipher error \n"));
-			return FALSE;
+			return false;
 		}
 
 		Sanity |= 0x2;
@@ -1970,7 +1970,7 @@ bool ApCliValidateRSNIE(
 	if (Sanity == 0)
 	{
 		DBGPRINT(RT_DEBUG_ERROR, ("ApCliValidateRSNIE - Validate RSIE Failure \n"));
-		return FALSE;
+		return false;
 	}
 
 	/*Re-assign pairwise-cipher and group-cipher. Re-build RSNIE. */
@@ -2033,10 +2033,10 @@ bool  ApCliHandleRxBroadcastFrame(
 	/* Filter out Bcast frame which AP relayed for us */
 	/* Multicast packet send from AP1 , received by AP2 and send back to AP1, drop this frame */
 	if (MAC_ADDR_EQUAL(pHeader->Addr3, pApCliEntry->wdev.if_addr))
-		return FALSE;
+		return false;
 
 	if (pEntry->PrivacyFilter != Ndis802_11PrivFilterAcceptAll)
-		return FALSE;
+		return false;
 
 
 
@@ -2066,7 +2066,7 @@ bool  ApCliHandleRxBroadcastFrame(
 			if (NStatus == NDIS_STATUS_MICERROR && pApCliEntry->GroupCipher == Ndis802_11TKIPEnable)
 			ApCliRTMPReportMicError( pAd,&pApCliEntry->SharedKey[pRxBlk->key_idx],pEntry->wdev_idx);
 #endif /* APCLI_CERT_SUPPORT */
-			return FALSE;  /* give up this frame */
+			return false;  /* give up this frame */
 		}
 	}
 	pRxInfo->MyBss = 1;
@@ -2091,7 +2091,7 @@ VOID APCliInstallPairwiseKey(
 #endif /* MAC_APCLI_SUPPORT */
 	memmove(pAd->ApCfg.ApCliTab[IfIdx].PTK, pEntry->PTK, LEN_PTK);
 
-	WPAInstallPairwiseKey(pAd, BssIdx, pEntry, FALSE);
+	WPAInstallPairwiseKey(pAd, BssIdx, pEntry, false);
 }
 
 
@@ -2110,7 +2110,7 @@ bool APCliInstallSharedKey(
 	if (!pEntry || !IS_ENTRY_APCLI(pEntry))
 	{
 		DBGPRINT(RT_DEBUG_ERROR, ("%s : This Entry doesn't exist!!! \n", __FUNCTION__));
-		return FALSE;
+		return false;
 	}
 
 	IfIdx = pEntry->wdev_idx;
@@ -2125,7 +2125,7 @@ bool APCliInstallSharedKey(
 	{
 		DBGPRINT(RT_DEBUG_ERROR, ("%s : GTK is invalid (GroupCipher=%d, DataLen=%d) !!! \n",
 								__FUNCTION__, apcli_entry->GroupCipher, KeyLen));
-		return FALSE;
+		return false;
 	}
 
 	/* Update GTK */
@@ -2183,7 +2183,7 @@ VOID ApCliUpdateMlmeRate(struct rtmp_adapter *pAd, USHORT ifIndex)
 	UCHAR	MinimumRate;
 	UCHAR	ProperMlmeRate; /*= RATE_54; */
 	UCHAR	i, j, RateIdx = 12; /* 1, 2, 5.5, 11, 6, 9, 12, 18, 24, 36, 48, 54 */
-	bool	bMatch = FALSE;
+	bool	bMatch = false;
 
 	PAPCLI_STRUCT pApCliEntry = NULL;
 
@@ -2256,7 +2256,7 @@ VOID ApCliUpdateMlmeRate(struct rtmp_adapter *pAd, USHORT ifIndex)
 			break;
 	}
 
-	if (bMatch == FALSE)
+	if (bMatch == false)
 	{
 		for (i = 0; i < pApCliEntry->MlmeAux.ExtRateLen; i++)
 		{
@@ -2277,7 +2277,7 @@ VOID ApCliUpdateMlmeRate(struct rtmp_adapter *pAd, USHORT ifIndex)
 		}
 	}
 
-	if (bMatch == FALSE)
+	if (bMatch == false)
 		ProperMlmeRate = MinimumRate;
 
 	if(!OPSTATUS_TEST_FLAG(pAd, fOP_AP_STATUS_MEDIA_STATE_CONNECTED))
@@ -2314,7 +2314,7 @@ VOID APCli_Init(struct rtmp_adapter *pAd, struct RTMP_OS_NETDEV_OP_HOOK *pNetDev
 	struct rtmp_wifi_dev *wdev;
 
 	/* sanity check to avoid redundant virtual interfaces are created */
-	if (pAd->flg_apcli_init != FALSE)
+	if (pAd->flg_apcli_init != false)
 		return;
 
 
@@ -2446,7 +2446,7 @@ VOID ApCli_Remove(struct rtmp_adapter *pAd)
 			RtmpOSNetDevFree(wdev->if_dev);
 
 			/* Clear it as NULL to prevent latter access error. */
-			pAd->flg_apcli_init = FALSE;
+			pAd->flg_apcli_init = false;
 			wdev->if_dev = NULL;
 		}
 	}
@@ -2462,7 +2462,7 @@ bool ApCli_Open(struct rtmp_adapter *pAd, struct net_device *dev_p)
 		if (pAd->ApCfg.ApCliTab[ifIndex].wdev.if_dev == dev_p)
 		{
 			RTMP_OS_NETDEV_START_QUEUE(dev_p);
-			pAd->ApCfg.ApCliTab[ifIndex].Valid = FALSE;
+			pAd->ApCfg.ApCliTab[ifIndex].Valid = false;
 			ApCliIfUp(pAd);
 #ifdef WPA_SUPPLICANT_SUPPORT
 			RtmpOSWrielessEventSend(pAd->net_dev, RT_WLAN_EVENT_CUSTOM, RT_INTERFACE_UP, NULL, NULL, 0);
@@ -2471,7 +2471,7 @@ bool ApCli_Open(struct rtmp_adapter *pAd, struct net_device *dev_p)
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
 
@@ -2512,7 +2512,7 @@ bool ApCli_Close(struct rtmp_adapter *pAd, struct net_device *dev_p)
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
 #ifdef APCLI_AUTO_CONNECT_SUPPORT
@@ -2528,7 +2528,7 @@ bool ApCli_Close(struct rtmp_adapter *pAd, struct net_device *dev_p)
 
 	Return Value:
 		true: no error occured
-		FALSE: otherwise
+		false: otherwise
 
 	Note:
 	===================================================
@@ -2603,7 +2603,7 @@ bool ApCliAutoConnectExec(
 	if ((pSsidBssTab->BssNr == 0))
 	{
 		DBGPRINT(RT_DEBUG_TRACE, ("No match entry.\n"));
-		pAd->ApCfg.ApCliAutoConnectRunning = FALSE;
+		pAd->ApCfg.ApCliAutoConnectRunning = false;
 	}
 	else if (pSsidBssTab->BssNr > 0 &&
 			pSsidBssTab->BssNr <=MAX_LEN_OF_BSS_TABLE)
@@ -2631,9 +2631,9 @@ bool ApCliAutoConnectExec(
 	{
 		DBGPRINT(RT_DEBUG_ERROR, ("Error! Out of table range: (BssNr=%d).\n", pSsidBssTab->BssNr) );
 		Set_ApCli_Enable_Proc(pAd, "1");
-		pAd->ApCfg.ApCliAutoConnectRunning = FALSE;
+		pAd->ApCfg.ApCliAutoConnectRunning = false;
 		DBGPRINT(RT_DEBUG_TRACE, ("<--- ApCliAutoConnectExec()\n"));
-		return FALSE;
+		return false;
 	}
 
 	Set_ApCli_Enable_Proc(pAd, "1");
@@ -2705,7 +2705,7 @@ VOID ApCliSwitchCandidateAP(
 	else
 	{
 		DBGPRINT(RT_DEBUG_TRACE, ("No candidate AP, the process is about to stop.\n"));
-		pAd->ApCfg.ApCliAutoConnectRunning = FALSE;
+		pAd->ApCfg.ApCliAutoConnectRunning = false;
 	}
 
 	Set_ApCli_Enable_Proc(pAd, "1");
@@ -2749,7 +2749,7 @@ bool ApcliCompareAuthEncryp(
 	else
 	{
 		/* not supported cases */
-		return FALSE;
+		return false;
 	}
 
 }
@@ -2762,7 +2762,7 @@ VOID RTMPApCliReconnectionCheck(
 	UCHAR	CfgSsidLen;
 	NDIS_802_11_SSID Ssid;
 
-	if (pAd->ApCfg.ApCliAutoConnectRunning == FALSE)
+	if (pAd->ApCfg.ApCliAutoConnectRunning == false)
 	{
 		for (i = 0; i < MAX_APCLI_NUM; i++)
 		{
@@ -2779,7 +2779,7 @@ VOID RTMPApCliReconnectionCheck(
 				pAd->ApCfg.ApCliAutoConnectRunning = true;
 				Ssid.SsidLength = CfgSsidLen;
 				memcpy(Ssid.Ssid, pApCliCfgSsid, CfgSsidLen);
-				ApSiteSurvey(pAd, &Ssid, SCAN_ACTIVE, FALSE);
+				ApSiteSurvey(pAd, &Ssid, SCAN_ACTIVE, false);
 
 			}
 		}

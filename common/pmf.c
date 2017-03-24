@@ -370,7 +370,7 @@ bool PMF_CalculateBIPMIC(
 	m_buf = kmalloc(MGMT_DMA_BUFFER_SIZE, GFP_ATOMIC);
         if (m_buf == NULL) {
                 DBGPRINT(RT_DEBUG_ERROR, ("%s : out of resource.\n", __FUNCTION__));
-                return FALSE;
+                return false;
         }
 
 	/* Initialize the buffer */
@@ -578,7 +578,7 @@ bool PMF_ExtractIGTKKDE(
 #endif /* CONFIG_STA_SUPPORT */
 
 	if (pPmfCfg == NULL)
-		return FALSE;
+		return false;
 
 	igtk_kde_ptr = (PPMF_IGTK_KDE) pBuf;
 	pPmfCfg->IGTK_KeyIdx = igtk_kde_ptr->KeyID[0];
@@ -597,7 +597,7 @@ bool PMF_ExtractIGTKKDE(
 	{
 		DBGPRINT(RT_DEBUG_ERROR, ("%s : the IGTK length(%d) is invalid\n",
 					 __FUNCTION__, (buf_len - offset)));
-		return FALSE;
+		return false;
 	}
 
 	DBGPRINT(RT_DEBUG_TRACE, ("%s : IGTK_Key_ID=%d\n",
@@ -632,7 +632,7 @@ VOID PMF_MakeRsnIeGMgmtCipher(
 	OUT UCHAR *rsn_len)
 {
 	uint8_t * pBuf;
-	bool MFP_Enabled = FALSE;
+	bool MFP_Enabled = false;
 
 	/* it could be ignored in WPA1 mode */
 	if (ElementID == WpaIe)
@@ -691,7 +691,7 @@ int PMF_RsnCapableValidation(
 {
 	UINT8 count;
 	uint8_t * pBuf = NULL;
-	bool	peer_MFPC = FALSE, peer_MFPR = FALSE;
+	bool	peer_MFPC = false, peer_MFPR = false;
 
 	/* Check the peer's MPFC and MPFR -
 	   Refer to Table 8-1a, IEEE 802.11W to check the PMF policy */
@@ -714,9 +714,9 @@ int PMF_RsnCapableValidation(
 		peer_MFPC = RsnCap.field.MFPC;
 		peer_MFPR = RsnCap.field.MFPR;
 
-                if ((self_MFPC == true) && (peer_MFPC == FALSE ))
+                if ((self_MFPC == true) && (peer_MFPC == false ))
 		{
-		        if ((self_MFPR == true) && (peer_MFPR == FALSE))
+		        if ((self_MFPR == true) && (peer_MFPR == false))
 			{
 				DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s : PMF policy violation for case 4\n", __FUNCTION__));
 				return PMF_POLICY_VIOLATION;
@@ -798,7 +798,7 @@ INT PMF_RobustFrameClassify(
 			break;
 		case SUBTYPE_ACTION:
                 {
-                        if  ((IsRx == FALSE)
+                        if  ((IsRx == false)
                                 || (IsRx && (pHdr->FC.Wep == 0)))
                         {
                                 UCHAR Category = (UCHAR) (pHdr->Octet[0]);
@@ -851,7 +851,7 @@ INT PMF_RobustFrameClassify(
 		return NORMAL_FRAME;
         else if (CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_PMF_CAPABLE) && (pHdr->FC.Wep == 0) && IsRx)
 		return NOT_ROBUST_UNICAST_FRAME;
-        else if (((IsRx == true) && (pHdr->FC.Wep == 1)) || (IsRx == FALSE))
+        else if (((IsRx == true) && (pHdr->FC.Wep == 1)) || (IsRx == false))
 		return UNICAST_ROBUST_FRAME;
 
         return ERROR_FRAME;
@@ -888,7 +888,7 @@ INT PMF_EncryptUniRobustFrameAction(
 	}
 
 	/* check the PMF capable for this entry */
-	if (CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_PMF_CAPABLE) == FALSE)
+	if (CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_PMF_CAPABLE) == false)
 	{
 		DBGPRINT(RT_DEBUG_ERROR,("%s : the entry no PMF capable !\n", __FUNCTION__));
 		return PMF_UNICAST_ENCRYPT_FAILURE;
@@ -957,7 +957,7 @@ INT PMF_DecryptUniRobustFrameAction(
 	}
 
 	/* check the PMF capable for this entry */
-	if (CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_PMF_CAPABLE) == FALSE)
+	if (CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_PMF_CAPABLE) == false)
 	{
 		DBGPRINT(RT_DEBUG_ERROR,("%s : the entry no PMF capable !\n", __FUNCTION__));
 		return PMF_UNICAST_DECRYPT_FAILURE;
@@ -967,7 +967,7 @@ INT PMF_DecryptUniRobustFrameAction(
 				pMgmtFrame,
 				&pEntry->PairwiseKey,
 				pDate,
-				&data_len) == FALSE)
+				&data_len) == false)
 	{
 		return PMF_UNICAST_DECRYPT_FAILURE;
 	}
@@ -1013,7 +1013,7 @@ INT PMF_EncapBIPAction(
 		return PMF_ENCAP_BIP_FAILURE;
 	}
 
-	if (pPmfCfg && pPmfCfg->MFPC == FALSE)
+	if (pPmfCfg && pPmfCfg->MFPC == false)
 	{
 		DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s : PMF is disabled \n", __FUNCTION__));
 		return PMF_ENCAP_BIP_FAILURE;
@@ -1092,7 +1092,7 @@ INT PMF_ExtractBIPAction(
 	}
 
 	/* check the PMF capable for this entry */
-	if (CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_PMF_CAPABLE) == FALSE)
+	if (CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_PMF_CAPABLE) == false)
 	{
 		DBGPRINT(RT_DEBUG_ERROR,("%s : the entry no PMF capable !\n", __FUNCTION__));
 		return PMF_EXTRACT_BIP_FAILURE;
@@ -1171,13 +1171,13 @@ bool	PMF_PerformTxFrameAction(
 				(u8 *)( ((u8 *) pHeader_802_11) + LENGTH_802_11),
 				(SrcBufLen - LENGTH_802_11 - TXINFO_SIZE - TXWISize),
 				(u8 *) pEntry,
-				FALSE);
+				false);
 
 	switch (FrameType)
 	{
 		case ERROR_FRAME:
                         DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s: ERROR FRAME\n", __FUNCTION__));
-			return FALSE;
+			return false;
 		case NORMAL_FRAME:
                 case NOT_ROBUST_GROUP_FRAME:
                 case NOT_ROBUST_UNICAST_FRAME:
@@ -1221,7 +1221,7 @@ bool	PMF_PerformTxFrameAction(
         if (ret == PMF_STATUS_SUCCESS)
                 return true;
         else
-                return FALSE;
+                return false;
 }
 
 
@@ -1272,19 +1272,19 @@ bool	PMF_PerformRxFrameAction(
 	{
 		case ERROR_FRAME:
                         DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s: ERROR FRAME\n", __FUNCTION__));
-			return FALSE;
+			return false;
 		case NORMAL_FRAME:
                 case NOT_ROBUST_GROUP_FRAME:
 			break;
                 case NOT_ROBUST_UNICAST_FRAME:
                         DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s: ERROR FRAME\n", __FUNCTION__));
-			return FALSE;
+			return false;
 			case UNICAST_ROBUST_FRAME:
 			{
 				if (PMF_DecryptUniRobustFrameAction(pAd,
 								pMgmtFrame,
 								mgmt_len) != PMF_STATUS_SUCCESS)
-	        			return FALSE;
+	        			return false;
 
 			/* update the total length */
 			pRxBlk->MPDUtotalByteCnt -= (LEN_CCMP_HDR + LEN_CCMP_MIC);
@@ -1295,7 +1295,7 @@ bool	PMF_PerformRxFrameAction(
 			if (PMF_ExtractBIPAction(pAd,
 				pMgmtFrame,
 				mgmt_len) != PMF_STATUS_SUCCESS)
-				return FALSE;
+				return false;
 
 			/* update the total length */
 			pRxBlk->MPDUtotalByteCnt -= (2 + LEN_PMF_MMIE);
@@ -1312,7 +1312,7 @@ bool	PMF_PerformRxFrameAction(
 		{
 			case ERROR_FRAME:
 	                        DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s: ERROR FRAME\n", __FUNCTION__));
-				return FALSE;
+				return false;
 		case NORMAL_FRAME:
 			break;
                 case NOT_ROBUST_UNICAST_FRAME:
@@ -1320,13 +1320,13 @@ bool	PMF_PerformRxFrameAction(
                                 && CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_PMF_CAPABLE))
                         {
                                 PMF_MlmeSAQueryReq(pAd, pEntry);
-                                return FALSE;
+                                return false;
                         }
                         DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s: ERROR FRAME\n", __FUNCTION__));
-			return FALSE;
+			return false;
                 case NOT_ROBUST_GROUP_FRAME:
                         if ((pEntry) && CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_PMF_CAPABLE))
-                                return FALSE;
+                                return false;
                         else
                                 break;
 		case UNICAST_ROBUST_FRAME:
@@ -1334,7 +1334,7 @@ bool	PMF_PerformRxFrameAction(
 			if (PMF_DecryptUniRobustFrameAction(pAd,
 							pMgmtFrame,
 							mgmt_len) != PMF_STATUS_SUCCESS)
-        			return FALSE;
+        			return false;
 
 			/* update the total length */
 #ifdef RLT_MAC
@@ -1357,7 +1357,7 @@ bool	PMF_PerformRxFrameAction(
 			if (PMF_ExtractBIPAction(pAd,
 						pMgmtFrame,
 						mgmt_len) != PMF_STATUS_SUCCESS)
-				return FALSE;
+				return false;
 
 			/* update the total length */
 #ifdef RLT_MAC
@@ -1414,9 +1414,9 @@ void rtmp_read_pmf_parameters_from_file(
                 pObj = pAd->OS_Cookie;
                 for (apidx = 0; apidx < pAd->ApCfg.BssidNum; apidx++)
                 {
-                        pAd->ApCfg.MBSSID[apidx].PmfCfg.Desired_MFPC = FALSE;
-                        pAd->ApCfg.MBSSID[apidx].PmfCfg.Desired_MFPR = FALSE;
-                        pAd->ApCfg.MBSSID[apidx].PmfCfg.Desired_PMFSHA256 = FALSE;
+                        pAd->ApCfg.MBSSID[apidx].PmfCfg.Desired_MFPC = false;
+                        pAd->ApCfg.MBSSID[apidx].PmfCfg.Desired_MFPR = false;
+                        pAd->ApCfg.MBSSID[apidx].PmfCfg.Desired_PMFSHA256 = false;
                 }
 
                 /* Protection Management Frame Capable */
@@ -1453,9 +1453,9 @@ void rtmp_read_pmf_parameters_from_file(
 #ifdef CONFIG_STA_SUPPORT
         IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
         {
-                pAd->StaCfg.PmfCfg.Desired_MFPC = FALSE;
-                pAd->StaCfg.PmfCfg.Desired_MFPR = FALSE;
-                pAd->StaCfg.PmfCfg.Desired_PMFSHA256 = FALSE;
+                pAd->StaCfg.PmfCfg.Desired_MFPC = false;
+                pAd->StaCfg.PmfCfg.Desired_MFPR = false;
+                pAd->StaCfg.PmfCfg.Desired_PMFSHA256 = false;
 
                 /* Protection Management Frame Capable */
                 if (RTMPGetKeyParameter("PMFMFPC", tmpbuf, 32, pBuffer, true))
@@ -1491,7 +1491,7 @@ INT Set_PMFMFPC_Proc (
 	IN PCHAR arg)
 {
  	if(strlen(arg) == 0)
-		return FALSE;
+		return false;
 
 #ifdef CONFIG_AP_SUPPORT
         IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
@@ -1502,7 +1502,7 @@ INT Set_PMFMFPC_Proc (
                 if (simple_strtol(arg, 0, 10))
                         pAd->ApCfg.MBSSID[pObj->ioctl_if].PmfCfg.Desired_MFPC = true;
                 else
-                        pAd->ApCfg.MBSSID[pObj->ioctl_if].PmfCfg.Desired_MFPC = FALSE;
+                        pAd->ApCfg.MBSSID[pObj->ioctl_if].PmfCfg.Desired_MFPC = false;
 
     		DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s:: apidx=%d, Desired MFPC=%d\n", __FUNCTION__
                 , pObj->ioctl_if, pAd->ApCfg.MBSSID[pObj->ioctl_if].PmfCfg.Desired_MFPC));
@@ -1516,9 +1516,9 @@ INT Set_PMFMFPC_Proc (
 			pAd->StaCfg.PmfCfg.Desired_MFPC = true;
 		else
 		{
-			pAd->StaCfg.PmfCfg.Desired_MFPC = FALSE;
-			pAd->StaCfg.PmfCfg.MFPC = FALSE;
-			pAd->StaCfg.PmfCfg.MFPR = FALSE;
+			pAd->StaCfg.PmfCfg.Desired_MFPC = false;
+			pAd->StaCfg.PmfCfg.MFPC = false;
+			pAd->StaCfg.PmfCfg.MFPR = false;
 			//dont need to clear the SHA256
 		}
 
@@ -1574,7 +1574,7 @@ INT Set_PMFMFPR_Proc (
 	IN PCHAR arg)
 {
  	if(strlen(arg) == 0)
-		return FALSE;
+		return false;
 
 #ifdef CONFIG_AP_SUPPORT
         IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
@@ -1585,7 +1585,7 @@ INT Set_PMFMFPR_Proc (
                 if (simple_strtol(arg, 0, 10))
                         pAd->ApCfg.MBSSID[pObj->ioctl_if].PmfCfg.Desired_MFPR = true;
                 else
-                        pAd->ApCfg.MBSSID[pObj->ioctl_if].PmfCfg.Desired_MFPR = FALSE;
+                        pAd->ApCfg.MBSSID[pObj->ioctl_if].PmfCfg.Desired_MFPR = false;
 
                 DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s:: apidx=%d, Desired MFPR=%d\n", __FUNCTION__
                 , pObj->ioctl_if, pAd->ApCfg.MBSSID[pObj->ioctl_if].PmfCfg.Desired_MFPR));
@@ -1599,9 +1599,9 @@ INT Set_PMFMFPR_Proc (
                         pAd->StaCfg.PmfCfg.Desired_MFPR = true;
                 else
                 {
-                        pAd->StaCfg.PmfCfg.Desired_MFPR = FALSE;
+                        pAd->StaCfg.PmfCfg.Desired_MFPR = false;
                         //only close the MFPR
-                        pAd->StaCfg.PmfCfg.MFPR = FALSE;
+                        pAd->StaCfg.PmfCfg.MFPR = false;
                 }
 
                 DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s:: Desired MFPR=%d\n", __FUNCTION__
@@ -1641,7 +1641,7 @@ INT Set_PMFSHA256_Proc (
 	IN PCHAR arg)
 {
  	if(strlen(arg) == 0)
-		return FALSE;
+		return false;
 
 #ifdef CONFIG_AP_SUPPORT
         IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
@@ -1652,7 +1652,7 @@ INT Set_PMFSHA256_Proc (
                 if (simple_strtol(arg, 0, 10))
                         pAd->ApCfg.MBSSID[pObj->ioctl_if].PmfCfg.Desired_PMFSHA256 = true;
                 else
-                        pAd->ApCfg.MBSSID[pObj->ioctl_if].PmfCfg.Desired_PMFSHA256 = FALSE;
+                        pAd->ApCfg.MBSSID[pObj->ioctl_if].PmfCfg.Desired_PMFSHA256 = false;
 
                 DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s:: apidx=%d, Desired PMFSHA256=%d\n", __FUNCTION__
                 , pObj->ioctl_if, pAd->ApCfg.MBSSID[pObj->ioctl_if].PmfCfg.Desired_PMFSHA256));
@@ -1665,7 +1665,7 @@ INT Set_PMFSHA256_Proc (
                 if (simple_strtol(arg, 0, 10))
                         pAd->StaCfg.PmfCfg.Desired_PMFSHA256 = true;
                 else
-                        pAd->StaCfg.PmfCfg.Desired_PMFSHA256 = FALSE;
+                        pAd->StaCfg.PmfCfg.Desired_PMFSHA256 = false;
 
                 DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s:: Desired PMFSHA256=%d\n", __FUNCTION__
                 , pAd->StaCfg.PmfCfg.Desired_PMFSHA256));

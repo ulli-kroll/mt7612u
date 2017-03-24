@@ -1117,7 +1117,7 @@ void mt7612u_mcu_init_cmd_msg(struct cmd_msg *msg, u8 type, bool need_wait, u16 
 #ifdef RTMP_USB_SUPPORT
 	msg->need_wait= need_wait;
 #else
-	msg->need_wait= FALSE;
+	msg->need_wait= false;
 #endif
 	msg->timeout = timeout;
 
@@ -1144,7 +1144,7 @@ void mt7612u_mcu_init_cmd_msg(struct cmd_msg *msg, u8 type, bool need_wait, u16 
 #ifdef RTMP_USB_SUPPORT
 	msg->need_rsp = need_rsp;
 #else
-	msg->need_rsp = FALSE;
+	msg->need_rsp = false;
 #endif
 	msg->rsp_payload_len = rsp_payload_len;
 	msg->rsp_payload = rsp_payload;
@@ -1801,8 +1801,8 @@ void mt7612u_mcu_ctrl_init(struct rtmp_adapter *ad)
 #endif
 	}
 
-	ctl->power_on = FALSE;
-	ctl->dpd_on = FALSE;
+	ctl->power_on = false;
+	ctl->dpd_on = false;
 }
 
 #ifdef RTMP_USB_SUPPORT
@@ -1846,8 +1846,8 @@ void mt7612u_mcu_ctrl_exit(struct rtmp_adapter *ad)
 #endif
 	}
 
-	ctl->power_on = FALSE;
-	ctl->dpd_on = FALSE;
+	ctl->power_on = false;
+	ctl->dpd_on = false;
 }
 
 static int mt7612u_mcu_dequeue_and_kick_out_cmd_msgs(struct rtmp_adapter *ad)
@@ -2059,7 +2059,7 @@ int mt7612u_mcu_random_write(struct rtmp_adapter *ad, RTMP_REG_PAIR *reg_pair, u
 	u32 value, i, cur_index = 0;
 	RTMP_CHIP_CAP *cap = &ad->chipCap;
 	int ret = 0;
-	bool last_packet = FALSE;
+	bool last_packet = false;
 
 	if (!reg_pair)
 		return -1;
@@ -2082,7 +2082,7 @@ int mt7612u_mcu_random_write(struct rtmp_adapter *ad, RTMP_REG_PAIR *reg_pair, u
 		if (last_packet)
 			mt7612u_mcu_init_cmd_msg(msg, CMD_RANDOM_WRITE, true, 0, true, true);
 		else
-			mt7612u_mcu_init_cmd_msg(msg, CMD_RANDOM_WRITE, FALSE, 0, FALSE, FALSE);
+			mt7612u_mcu_init_cmd_msg(msg, CMD_RANDOM_WRITE, false, 0, false, false);
 
 		for (i = 0; i < (sent_len / 8); i++)
 		{
@@ -2131,7 +2131,7 @@ int mt7612u_mcu_pwr_saving(struct rtmp_adapter *ad, u32 op, u32 level,
 		goto error;
 	}
 
-	mt7612u_mcu_init_cmd_msg(msg, CMD_POWER_SAVING_OP, FALSE, 0, FALSE, FALSE);
+	mt7612u_mcu_init_cmd_msg(msg, CMD_POWER_SAVING_OP, false, 0, false, false);
 
 	/* Power operation */
 	value = cpu2le32(op);
@@ -2183,7 +2183,7 @@ int mt7612u_mcu_fun_set(struct rtmp_adapter *ad, u32 fun_id, u32 param)
 	if (fun_id != Q_SELECT)
 		mt7612u_mcu_init_cmd_msg(msg, CMD_FUN_SET_OP, true, 0, true, true);
 	else
-		mt7612u_mcu_init_cmd_msg(msg, CMD_FUN_SET_OP, FALSE, 0, FALSE, FALSE);
+		mt7612u_mcu_init_cmd_msg(msg, CMD_FUN_SET_OP, false, 0, false, false);
 
 	/* Function ID */
 	value = cpu2le32(fun_id);
@@ -2423,7 +2423,7 @@ int mt7612u_mcu_dynamic_vga(struct rtmp_adapter *ad, UINT8 channel, bool mode, b
 
 	mt7612u_mcu_init_cmd_msg(msg, CMD_DYNC_VGA_OP, true, 0, true, true);
 
-	/* dynamic VGA parameter#1: true = AP mode ; FALSE = STA mode */
+	/* dynamic VGA parameter#1: true = AP mode ; false = STA mode */
 	if (mode == true)
 		value |= 0x80000000;
 
@@ -2464,7 +2464,7 @@ int mt7612u_mcu_led_op(struct rtmp_adapter *ad, u32 led_idx, u32 link_status)
 		goto error;
 	}
 
-	mt7612u_mcu_init_cmd_msg(msg, CMD_LED_MODE_OP, FALSE, 0, FALSE, FALSE);
+	mt7612u_mcu_init_cmd_msg(msg, CMD_LED_MODE_OP, false, 0, false, false);
 
 	/* Led index */
 	value = cpu2le32(led_idx);

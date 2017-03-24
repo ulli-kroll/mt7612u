@@ -177,7 +177,7 @@ bool IsGratuitousARP(UCHAR *pData)
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
 
@@ -216,7 +216,7 @@ bool IsUnsolicitedNeighborAdver(struct rtmp_adapter *pAd,
 
 	}
 
-	return FALSE;
+	return false;
 }
 
 
@@ -254,7 +254,7 @@ bool IsIPv4ProxyARPCandidate(IN struct rtmp_adapter *pAd,
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
 
@@ -291,7 +291,7 @@ bool IsIpv6DuplicateAddrDetect(struct rtmp_adapter *pAd,
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
 bool IsIPv6ProxyARPCandidate(IN struct rtmp_adapter *pAd,
@@ -327,7 +327,7 @@ bool IsIPv6ProxyARPCandidate(IN struct rtmp_adapter *pAd,
 		//}
 	}
 
-	return FALSE;
+	return false;
 }
 
 
@@ -353,7 +353,7 @@ bool IsIPv6RouterSolicitation(IN struct rtmp_adapter *pAd,
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
 
@@ -379,7 +379,7 @@ bool IsIPv6RouterAdvertisement(IN struct rtmp_adapter *pAd,
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
 
@@ -399,7 +399,7 @@ bool IsTDLSPacket(IN struct rtmp_adapter *pAd,
 		return true;
 	}
 
-	return FALSE;
+	return false;
 }
 
 
@@ -510,7 +510,7 @@ uint32_t AddIPv4ProxyARPEntry(IN struct rtmp_adapter *pAd,
 		if (MAC_ADDR_EQUAL(ProxyARPEntry->TargetMACAddr, pTargetMACAddr))
 		{
 			up(&pWNMCtrl->ProxyARPListLock);
-			return FALSE;
+			return false;
 		}
 	}
 	up(&pWNMCtrl->ProxyARPListLock);
@@ -518,7 +518,7 @@ uint32_t AddIPv4ProxyARPEntry(IN struct rtmp_adapter *pAd,
 	ProxyARPEntry = kmalloc(sizeof(*ProxyARPEntry), GFP_ATOMIC);
 	if (!ProxyARPEntry) {
 		DBGPRINT(RT_DEBUG_ERROR, ("%s Not available memory\n", __FUNCTION__));
-		return FALSE;
+		return false;
 	}
 
 	memmove(ProxyARPEntry->TargetMACAddr, pTargetMACAddr, 6);
@@ -555,7 +555,7 @@ VOID RemoveIPv4ProxyARPEntry(IN struct rtmp_adapter *pAd,
 		if (MAC_ADDR_EQUAL(ProxyARPEntry->TargetMACAddr, pTargetMACAddr))
 		{
 			//up(&pWNMCtrl->ProxyARPListLock);
-			//return FALSE;
+			//return false;
 			DlListDel(&ProxyARPEntry->List);
 			kfree(ProxyARPEntry);
 			break;
@@ -582,7 +582,7 @@ uint32_t AddIPv6ProxyARPEntry(IN struct rtmp_adapter *pAd,
 			IPV6_ADDR_EQUAL(ProxyARPEntry->TargetIPAddr, pTargetIPAddr))
 		{
 			up(&pWNMCtrl->ProxyARPIPv6ListLock);
-			return FALSE;
+			return false;
 		}
 	}
 	up(&pWNMCtrl->ProxyARPIPv6ListLock);
@@ -591,7 +591,7 @@ uint32_t AddIPv6ProxyARPEntry(IN struct rtmp_adapter *pAd,
 
 	if (!ProxyARPEntry) {
 		DBGPRINT(RT_DEBUG_ERROR, ("%s Not available memory\n", __FUNCTION__));
-		return FALSE;
+		return false;
 	}
 
 	memmove(ProxyARPEntry->TargetMACAddr, pTargetMACAddr, 6);
@@ -650,7 +650,7 @@ bool IPv4ProxyARP(IN struct rtmp_adapter *pAd,
 {
 	PWNM_CTRL pWNMCtrl = &pMbss->WNMCtrl;
 	struct net_device *NetDev = pMbss->wdev.if_dev;
-	bool IsFound = FALSE;
+	bool IsFound = false;
 	PROXY_ARP_IPV4_ENTRY *ProxyARPEntry;
 	u8 *SourceMACAddr = pData + 10;
 	u8 *SourceIPAddr = pData + 16;
@@ -691,7 +691,7 @@ bool IPv6ProxyARP(IN struct rtmp_adapter *pAd,
 {
 	PWNM_CTRL pWNMCtrl = &pMbss->WNMCtrl;
 	struct net_device *NetDev = pMbss->wdev.if_dev;
-	bool IsFound = FALSE;
+	bool IsFound = false;
 	PROXY_ARP_IPV6_ENTRY *ProxyARPEntry;
 	u8 *SourceMACAddr = pData + 68;
 	u8 *SourceIPAddr = pData + 10;

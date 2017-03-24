@@ -431,7 +431,7 @@ VOID WpaEAPOLKeyAction(
 #endif /* CONFIG_AP_SUPPORT */
 			}
 		}
-	}while(FALSE);
+	}while(false);
 }
 
 /*
@@ -498,7 +498,7 @@ VOID RTMPToWirelessSta(
 			RTMP_SET_PACKET_NET_DEVICE_MBSSID(pPacket, pEntry->apidx);
 
 		RTMP_SET_PACKET_WCID(pPacket, (UCHAR)pEntry->wcid);
-		RTMP_SET_PACKET_MOREDATA(pPacket, FALSE);
+		RTMP_SET_PACKET_MOREDATA(pPacket, false);
 
 #ifdef CONFIG_AP_SUPPORT
 		IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
@@ -507,7 +507,7 @@ VOID RTMPToWirelessSta(
 			APSendPacket(pAd, pPacket);
 
 			/* Dequeue outgoing frames from TxSwQueue0..3 queue and process it*/
-			RTMPDeQueuePacket(pAd, FALSE, NUM_OF_TX_RING, MAX_TX_PROCESS);
+			RTMPDeQueuePacket(pAd, false, NUM_OF_TX_RING, MAX_TX_PROCESS);
 		}
 #endif /* CONFIG_AP_SUPPORT */
 #ifdef CONFIG_STA_SUPPORT
@@ -527,13 +527,13 @@ VOID RTMPToWirelessSta(
 				if((!RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_BSS_SCAN_IN_PROGRESS)) &&
 					(!RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_RESET_IN_PROGRESS)))
 				{
-					RTMPDeQueuePacket(pAd, FALSE, NUM_OF_TX_RING, MAX_TX_PROCESS);
+					RTMPDeQueuePacket(pAd, false, NUM_OF_TX_RING, MAX_TX_PROCESS);
 				}
 			}
 		}
 #endif /* CONFIG_STA_SUPPORT */
 
-    } while (FALSE);
+    } while (false);
 }
 
 /*
@@ -542,7 +542,7 @@ VOID RTMPToWirelessSta(
         Check the validity of the received EAPoL frame
     Return:
         true if all parameters are OK,
-        FALSE otherwise
+        false otherwise
     ==========================================================================
  */
 bool PeerWpaMessageSanity(
@@ -554,8 +554,8 @@ bool PeerWpaMessageSanity(
 {
 	UCHAR			mic[LEN_KEY_DESC_MIC], digest[80]; /*, KEYDATA[MAX_LEN_OF_RSNIE];*/
 	UCHAR			*KEYDATA = NULL;
-	bool			bReplayDiff = FALSE;
-	bool			bWPA2 = FALSE;
+	bool			bReplayDiff = false;
+	bool			bWPA2 = false;
 	KEY_INFO		EapolKeyInfo;
 	UCHAR			GroupKeyIndex = 0;
 
@@ -564,7 +564,7 @@ bool PeerWpaMessageSanity(
 	KEYDATA = kmalloc(MAX_LEN_OF_RSNIE, GFP_ATOMIC);
 	if (KEYDATA == NULL) {
 		DBGPRINT(RT_DEBUG_ERROR, ("%s: Allocate memory fail!!!\n", __FUNCTION__));
-		return FALSE;
+		return false;
 	}
 
 	memset(mic, 0, sizeof(mic));
@@ -740,7 +740,7 @@ LabelOK:
 LabelErr:
 	if (KEYDATA != NULL)
 		kfree(KEYDATA);
-	return FALSE;
+	return false;
 }
 
 
@@ -902,7 +902,7 @@ VOID WPAStart4WayHS(
     RTMPToWirelessSta(pAd, pEntry, Header802_3,
 					  LENGTH_802_3, (u8 *)pEapolFrame,
 					  CONV_ARRARY_TO_UINT16(pEapolFrame->Body_Len) + 4,
-					  (pEntry->PortSecured == WPA_802_1X_PORT_SECURED) ? FALSE : true);
+					  (pEntry->PortSecured == WPA_802_1X_PORT_SECURED) ? false : true);
 
 	/* Trigger Retry Timer*/
     RTMPModTimer(&pEntry->RetryTimer, TimeInterval);
@@ -1001,7 +1001,7 @@ VOID PeerPairMsg1Action(
 	MsgLen = Elem->MsgLen - LENGTH_802_11 - LENGTH_802_1_H;
 
 	/* Sanity Check peer Pairwise message 1 - Replay Counter*/
-	if (PeerWpaMessageSanity(pAd, pMsg1, MsgLen, EAPOL_PAIR_MSG_1, pEntry) == FALSE)
+	if (PeerWpaMessageSanity(pAd, pMsg1, MsgLen, EAPOL_PAIR_MSG_1, pEntry) == false)
 		return;
 
 	/* Store Replay counter, it will use to verify message 3 and construct message 2*/
@@ -1219,7 +1219,7 @@ VOID PeerPairMsg2Action(
 	}
 
 	/* Sanity Check peer Pairwise message 2 - Replay Counter, MIC, RSNIE*/
-	if (PeerWpaMessageSanity(pAd, pMsg2, MsgLen, EAPOL_PAIR_MSG_2, pEntry) == FALSE)
+	if (PeerWpaMessageSanity(pAd, pMsg2, MsgLen, EAPOL_PAIR_MSG_2, pEntry) == false)
 		return;
 
     do
@@ -1276,7 +1276,7 @@ VOID PeerPairMsg2Action(
         RTMPToWirelessSta(pAd, pEntry, Header802_3, LENGTH_802_3,
 						  (u8 *)pEapolFrame,
 						  CONV_ARRARY_TO_UINT16(pEapolFrame->Body_Len) + 4,
-						  (pEntry->PortSecured == WPA_802_1X_PORT_SECURED) ? FALSE : true);
+						  (pEntry->PortSecured == WPA_802_1X_PORT_SECURED) ? false : true);
 
         pEntry->ReTryCounter = PEER_MSG3_RETRY_TIMER_CTR;
 		RTMPSetTimer(&pEntry->RetryTimer, PEER_MSG3_RETRY_EXEC_INTV);
@@ -1286,7 +1286,7 @@ VOID PeerPairMsg2Action(
 
 		kfree(mpool);
 
-    }while(FALSE);
+    }while(false);
 
 	DBGPRINT(RT_DEBUG_TRACE, ("<=== PeerPairMsg2Action: send Msg3 of 4-way \n"));
 }
@@ -1370,7 +1370,7 @@ VOID PeerPairMsg3Action(
 	MsgLen = Elem->MsgLen - LENGTH_802_11 - LENGTH_802_1_H;
 
 	/* Sanity Check peer Pairwise message 3 - Replay Counter, MIC, RSNIE*/
-	if (PeerWpaMessageSanity(pAd, pMsg3, MsgLen, EAPOL_PAIR_MSG_3, pEntry) == FALSE)
+	if (PeerWpaMessageSanity(pAd, pMsg3, MsgLen, EAPOL_PAIR_MSG_3, pEntry) == false)
 		return;
 
 	/* Save Replay counter, it will use construct message 4*/
@@ -1424,7 +1424,7 @@ VOID PeerPairMsg3Action(
 		WPAInstallPairwiseKey(pAd,
 							  BSS0,
 							  pEntry,
-							  FALSE);
+							  false);
 			}
 	}
 #endif /* CONFIG_STA_SUPPORT */
@@ -1445,7 +1445,7 @@ VOID PeerPairMsg3Action(
 				)
 			{
 				DBGPRINT(RT_DEBUG_TRACE, ("Apcli auto connected:PeerPairMsg3Action() \n"));
-				pAd->ApCfg.ApCliAutoConnectRunning = FALSE;
+				pAd->ApCfg.ApCliAutoConnectRunning = false;
 			}
 #endif /* APCLI_AUTO_CONNECT_SUPPORT */
 #endif /* APLCI_SUPPORT */
@@ -1545,7 +1545,7 @@ VOID PeerPairMsg4Action(
 		MsgLen = Elem->MsgLen - LENGTH_802_11 - LENGTH_802_1_H;
 
         /* Sanity Check peer Pairwise message 4 - Replay Counter, MIC*/
-		if (PeerWpaMessageSanity(pAd, pMsg4, MsgLen, EAPOL_PAIR_MSG_4, pEntry) == FALSE)
+		if (PeerWpaMessageSanity(pAd, pMsg4, MsgLen, EAPOL_PAIR_MSG_4, pEntry) == false)
 			break;
 
         /* 3. Install pairwise key */
@@ -1599,7 +1599,7 @@ VOID PeerPairMsg4Action(
         	pEntry->ReTryCounter = GROUP_MSG1_RETRY_TIMER_CTR;
 			RTMPModTimer(&pEntry->RetryTimer, PEER_MSG3_RETRY_EXEC_INTV);
 		}
-    }while(FALSE);
+    }while(false);
 
 }
 
@@ -1687,7 +1687,7 @@ VOID WPAStart2WayGroupHS(
     RTMPToWirelessSta(pAd, pEntry,
 					  Header802_3, LENGTH_802_3,
 					  (u8 *)pEapolFrame,
-					  CONV_ARRARY_TO_UINT16(pEapolFrame->Body_Len) + 4, FALSE);
+					  CONV_ARRARY_TO_UINT16(pEapolFrame->Body_Len) + 4, false);
 
 	kfree(mpool);
 
@@ -1773,7 +1773,7 @@ VOID	PeerGroupMsg1Action(
 	MsgLen = Elem->MsgLen - LENGTH_802_11 - LENGTH_802_1_H;
 
 	/* Sanity Check peer group message 1 - Replay Counter, MIC, RSNIE*/
-	if (PeerWpaMessageSanity(pAd, pGroup, MsgLen, EAPOL_GROUP_MSG_1, pEntry) == FALSE)
+	if (PeerWpaMessageSanity(pAd, pGroup, MsgLen, EAPOL_GROUP_MSG_1, pEntry) == false)
 		return;
 
 	/* delete retry timer*/
@@ -1831,7 +1831,7 @@ VOID	PeerGroupMsg1Action(
 			)
 			{
 				DBGPRINT(RT_DEBUG_TRACE, ("Apcli auto connected:PeerGroupMsg1Action() \n"));
-				pAd->ApCfg.ApCliAutoConnectRunning = FALSE;
+				pAd->ApCfg.ApCliAutoConnectRunning = false;
 			}
 #endif /* APCLI_AUTO_CONNECT_SUPPORT */
 #endif /* APLCI_SUPPORT */
@@ -1865,7 +1865,7 @@ VOID	PeerGroupMsg1Action(
 	RTMPToWirelessSta(pAd, pEntry,
 					  Header802_3, sizeof(Header802_3),
 					  (u8 *)pEapolFrame,
-					  CONV_ARRARY_TO_UINT16(pEapolFrame->Body_Len) + 4, FALSE);
+					  CONV_ARRARY_TO_UINT16(pEapolFrame->Body_Len) + 4, false);
 
 	kfree(mpool);
 
@@ -2039,7 +2039,7 @@ VOID PeerGroupMsg2Action(
         Len = MsgLen - LENGTH_802_1_H;
 
 		/* Sanity Check peer group message 2 - Replay Counter, MIC*/
-		if (PeerWpaMessageSanity(pAd, pMsg2, Len, EAPOL_GROUP_MSG_2, pEntry) == FALSE)
+		if (PeerWpaMessageSanity(pAd, pMsg2, Len, EAPOL_GROUP_MSG_2, pEntry) == false)
             break;
 
         /* 3.  upgrade state*/
@@ -2067,7 +2067,7 @@ VOID PeerGroupMsg2Action(
 										pEntry->WepStatus, GetEncryptType(pEntry->WepStatus),
 										group_cipher, GetEncryptType(group_cipher)));
 		}
-    }while(FALSE);
+    }while(false);
 }
 
 /*
@@ -2082,7 +2082,7 @@ VOID PeerGroupMsg2Action(
 
 	Return Value:
 		true		Found appropriate message type
-		FALSE		No appropriate message type
+		false		No appropriate message type
 
 	IRQL = DISPATCH_LEVEL
 
@@ -2114,7 +2114,7 @@ bool	WpaMsgTypeSubst(
 			*MsgType = MT2_EAPOLASFAlert;
 			break;
 		default:
-			return FALSE;
+			return false;
 	}
 	return true;
 }
@@ -3116,12 +3116,12 @@ VOID RTMPMakeRSNIE(struct rtmp_adapter *pAd, UINT AuthMode, UINT WepStatus, UCHA
 	UCHAR 		*rsnielen_cur_p = 0;	/* the length of the primary RSNIE 		*/
 #ifdef CONFIG_AP_SUPPORT
 	u8 *	pRsnIe_ex = NULL;		/* secondary RSNIE, it's ONLY used in WPA-mix mode */
-	bool               bMixRsnIe = FALSE;      /* indicate WPA-mix mode is on or off*/
+	bool               bMixRsnIe = false;      /* indicate WPA-mix mode is on or off*/
 	UCHAR		s_offset;
 #endif /* CONFIG_AP_SUPPORT */
 	UCHAR		*rsnielen_ex_cur_p = 0;	/* the length of the secondary RSNIE	  	*/
 	UCHAR		PrimaryRsnie;
-	bool		bMixCipher = FALSE;	/* indicate the pairwise and group cipher are different*/
+	bool		bMixCipher = false;	/* indicate the pairwise and group cipher are different*/
 	UCHAR		p_offset;
 	WPA_MIX_PAIR_CIPHER FlexibleCipher = MIX_CIPHER_NOTUSE;	/* it provide the more flexible cipher combination in WPA-WPA2 and TKIPAES mode*/
 
@@ -3263,7 +3263,7 @@ VOID RTMPMakeRSNIE(struct rtmp_adapter *pAd, UINT AuthMode, UINT WepStatus, UCHA
 			break;
 		}
 #endif /* CONFIG_STA_SUPPORT */
-	} while(FALSE);
+	} while(false);
 
 	/* indicate primary RSNIE as WPA or WPA2*/
 	if ((AuthMode == Ndis802_11AuthModeWPA) ||
@@ -3354,7 +3354,7 @@ VOID RTMPMakeRSNIE(struct rtmp_adapter *pAd, UINT AuthMode, UINT WepStatus, UCHA
 
     Return:
          true 			-	This frame is EAP frame
-         FALSE 			-	otherwise
+         false 			-	otherwise
     ==========================================================================
 */
 bool RTMPCheckWPAframe(
@@ -3369,10 +3369,10 @@ bool RTMPCheckWPAframe(
 
 	do
 	{
-	} while (FALSE);
+	} while (false);
 
     if(DataByteCount < (LENGTH_802_1_H + LENGTH_EAPOL_H))
-        return FALSE;
+        return false;
 
 
 	/* Skip LLC header	*/
@@ -3389,7 +3389,7 @@ bool RTMPCheckWPAframe(
         pData += 2;
     }
     else
-        return FALSE;
+        return false;
 
     switch (*(pData+1))
     {
@@ -3422,7 +3422,7 @@ bool RTMPCheckWPAframe(
             DBGPRINT(RT_DEBUG_TRACE, ("Receive EAPOLASFAlert frame, TYPE = 4 \n"));
             break;
         default:
-            return FALSE;
+            return false;
 
     }
     return true;
@@ -3491,7 +3491,7 @@ bool RTMPCheckRSNIE(
 	u8 *             pVIE;
 	UCHAR               len;
 	PEID_STRUCT         pEid;
-	bool				result = FALSE;
+	bool				result = false;
 
 	pVIE = pData;
 	len	 = DataLen;
@@ -3628,7 +3628,7 @@ bool RTMPParseEapolKeyData(
 								if (GTKLEN < LEN_WEP64)
 								{
 									DBGPRINT(RT_DEBUG_ERROR, ("ERROR: GTK Key length is too short (%d) \n", GTKLEN));
-        							return FALSE;
+        							return false;
 								}
 								memmove(GTK, pKdeGtk->GTK, GTKLEN);
 								DBGPRINT(RT_DEBUG_TRACE, ("GTK in KDE format ,DefaultKeyID=%d, KeyLen=%d \n", DefaultIdx, GTKLEN));
@@ -3637,8 +3637,8 @@ bool RTMPParseEapolKeyData(
 							else if (pKDE->DataType == KDE_IGTK
                                                                 && (CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_PMF_CAPABLE)))
     						{
-								if (PMF_ExtractIGTKKDE(pAd, &pKDE->octet[0], pKDE->Len - 4) == FALSE)
-	        						return FALSE;
+								if (PMF_ExtractIGTKKDE(pAd, &pKDE->octet[0], pKDE->Len - 4) == false)
+	        						return false;
     						}
 #endif /* DOT11W_PMF_SUPPORT */
 						}
@@ -3665,7 +3665,7 @@ bool RTMPParseEapolKeyData(
 	if (DefaultIdx > 3)
     {
      	DBGPRINT(RT_DEBUG_ERROR, ("ERROR: GTK Key index(%d) is invalid in %s %s \n", DefaultIdx, ((bWPA2) ? "WPA2" : "WPA"), GetEapolMsgType(MsgType)));
-        return FALSE;
+        return false;
     }
 
 #ifdef CONFIG_AP_SUPPORT
@@ -3675,7 +3675,7 @@ bool RTMPParseEapolKeyData(
 			/* Set Group key material, TxMic and RxMic for AP-Client*/
 			if (!APCliInstallSharedKey(pAd, GTK, GTKLEN, DefaultIdx, pEntry))
 			{
-				return FALSE;
+				return false;
 			}
 		}
 #endif /* APCLI_SUPPORT */
@@ -3695,7 +3695,7 @@ bool RTMPParseEapolKeyData(
     							BSS0,
     							pAd->StaCfg.wdev.DefaultKeyId,
     							MCAST_WCID,
-    							FALSE,
+    							false,
     							pAd->StaCfg.GTK,
     							GTKLEN);
 			}
@@ -3816,7 +3816,7 @@ VOID	ConstructEapolMsg(
 	IN	UCHAR				RSNIE_Len,
     OUT PEAPOL_PACKET       pMsg)
 {
-	bool	bWPA2 = FALSE;
+	bool	bWPA2 = false;
 	UCHAR	KeyDescVer;
 
 	/* Choose WPA2 or not*/
@@ -3995,8 +3995,8 @@ VOID	ConstructEapolKeyData(
 {
 	UCHAR		*mpool, *Key_Data, *eGTK;
 	ULONG		data_offset;
-	bool		bWPA2Capable = FALSE;
-	bool		GTK_Included = FALSE;
+	bool		bWPA2Capable = false;
+	bool		GTK_Included = false;
 
 	/* Choose WPA2 or not*/
 	if ((pEntry->AuthMode == Ndis802_11AuthModeWPA2) ||
@@ -4331,7 +4331,7 @@ int RTMPSoftDecryptionAction(
 		case CIPHER_WEP64:
 		case CIPHER_WEP128:
 			/* handle WEP decryption */
-			if (RTMPSoftDecryptWEP(pAd, pKey, pData, &(*DataByteCnt)) == FALSE)
+			if (RTMPSoftDecryptWEP(pAd, pKey, pData, &(*DataByteCnt)) == false)
 			{
 				DBGPRINT(RT_DEBUG_ERROR, ("ERROR : SW decrypt WEP data fails.\n"));
 				/* give up this frame*/
@@ -4358,7 +4358,7 @@ int RTMPSoftDecryptionAction(
 
 		case CIPHER_AES:
 			/* handle AES decryption */
-			if (RTMPSoftDecryptCCMP(pAd, pHdr, pKey, pData, &(*DataByteCnt)) == FALSE)
+			if (RTMPSoftDecryptCCMP(pAd, pHdr, pKey, pData, &(*DataByteCnt)) == false)
 			{
 				DBGPRINT(RT_DEBUG_ERROR, ("ERROR : SW decrypt AES data fails.\n"));
 				/* give up this frame*/

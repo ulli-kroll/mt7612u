@@ -96,11 +96,11 @@ static inline bool WscCheckWSCHeader(UCHAR *pData)
 
     /* Verify SMI first */
 	if (((pWsc->SMI[0] * 256 + pWsc->SMI[1]) * 256 + pWsc->SMI[2]) != WSC_SMI)
-		return  FALSE; /* Wrong WSC SMI Vendor ID, Update WSC status */
+		return  false; /* Wrong WSC SMI Vendor ID, Update WSC status */
 
     /* Verify Vendor Type */
 	if (cpu2be32(get_unaligned32(&pWsc->VendorType)) != WSC_VENDOR_TYPE)
-		return  FALSE; /* Wrong WSC Vendor Type, Update WSC status */
+		return  false; /* Wrong WSC Vendor Type, Update WSC status */
 
     return true;
 }

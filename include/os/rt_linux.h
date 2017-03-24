@@ -379,7 +379,7 @@ do { \
 do { \
 		wait_event_interruptible(_pTask->kthread_q, \
 								 _pTask->kthread_running || kthread_should_stop()); \
-		_pTask->kthread_running = FALSE; \
+		_pTask->kthread_running = false; \
 		if (kthread_should_stop()) \
 		{ \
 			(_Status) = -1; \

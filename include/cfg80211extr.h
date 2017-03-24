@@ -43,7 +43,7 @@
 	CFG80211_BeaconCountryRegionParse((VOID *)__pAd, __pVIE, __LenVIE);
 
 #define RT_CFG80211_BEACON_TIM_UPDATE(__pAd)                                \
-        CFG80211_UpdateBeacon((VOID *)__pAd, NULL, 0, NULL, 0, FALSE);
+        CFG80211_UpdateBeacon((VOID *)__pAd, NULL, 0, NULL, 0, false);
 
 #define RT_CFG80211_CRDA_REG_HINT(__pAd, __pCountryIe, __CountryIeLen)		\
 	CFG80211_RegHint((VOID *)__pAd, __pCountryIe, __CountryIeLen);
@@ -99,7 +99,7 @@
 	if (WMODE_EQUAL(__pAd->CommonCfg.PhyMode, WMODE_B))				\
 		(__pBandInfo)->FlgIsBMode = true;									\
 	else																	\
-		(__pBandInfo)->FlgIsBMode = FALSE;									\
+		(__pBandInfo)->FlgIsBMode = false;									\
 	(__pBandInfo)->MaxBssTable = MAX_LEN_OF_BSS_TABLE;						\
 	(__pBandInfo)->RtsThreshold = pAd->CommonCfg.RtsThreshold;				\
 	(__pBandInfo)->FragmentThreshold = pAd->CommonCfg.FragmentThreshold;	\

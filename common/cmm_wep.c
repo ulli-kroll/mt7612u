@@ -236,14 +236,14 @@ bool	RTMPSoftEncryptWEP(
 	ARC4_CTX = kmalloc(sizeof(ARC4_CTX_STRUC), GFP_ATOMIC);
 	if (ARC4_CTX == NULL) {
 		DBGPRINT(RT_DEBUG_ERROR, ("%s: ARC4_CTX Allocate memory fail!!!\n", __FUNCTION__));
-		return FALSE;
+		return false;
 	}
 
 	if (pKey->KeyLen == 0)
 	{
 		kfree(ARC4_CTX);
 		DBGPRINT(RT_DEBUG_ERROR, ("%s : The key is empty !\n", __FUNCTION__));
-		return FALSE;
+		return false;
 	}
 
 	/* Initialize WEP key stream */
@@ -283,7 +283,7 @@ bool	RTMPSoftEncryptWEP(
 
 	Return Value:
 		true        Decrypt WEP data success
-		FALSE       Decrypt WEP data failed
+		false       Decrypt WEP data failed
 
 	Note:
 
@@ -307,14 +307,14 @@ bool	RTMPSoftDecryptWEP(
 	ARC4_CTX = kmalloc(sizeof(ARC4_CTX_STRUC), GFP_ATOMIC);
 	if (ARC4_CTX == NULL) {
 		DBGPRINT(RT_DEBUG_ERROR, ("%s: ARC4_CTX Allocate memory fail!!!\n", __FUNCTION__));
-		return FALSE;
+		return false;
 	}
 
 	if (pKey->KeyLen == 0)
 	{
 		kfree(ARC4_CTX);
 		DBGPRINT(RT_DEBUG_ERROR, ("%s : The key is not available !\n", __FUNCTION__));
-		return FALSE;
+		return false;
 	}
 
 	/* Initialize WEP key stream */
@@ -330,7 +330,7 @@ bool	RTMPSoftDecryptWEP(
 	/*skip payload length is zero*/
 	if ((*DataByteCnt) <= LEN_WEP_IV_HDR) {
 		kfree(ARC4_CTX);
-		return FALSE;
+		return false;
 	}
 
 	/* Decrypt the WEP MPDU. It shall include plaintext and ICV.
@@ -356,7 +356,7 @@ bool	RTMPSoftDecryptWEP(
     {
 		kfree(ARC4_CTX);
 		DBGPRINT(RT_DEBUG_ERROR, ("! WEP Data CRC Error !\n"));	 /*CRC error.*/
-		return FALSE;
+		return false;
 	}
 
 	/* Update the total data length */

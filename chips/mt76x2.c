@@ -146,7 +146,7 @@ static VOID mt76x2_bbp_adjust(struct rtmp_adapter *pAd)
 	static char *ext_str[]={"extNone", "extAbove", "", "extBelow"};
 	UCHAR rf_bw, ext_ch;
 
-	if (get_ht_cent_ch(pAd, &rf_bw, &ext_ch) == FALSE) {
+	if (get_ht_cent_ch(pAd, &rf_bw, &ext_ch) == false) {
 		rf_bw = BW_20;
 		ext_ch = EXTCHA_NONE;
 		pAd->CommonCfg.CentralChannel = pAd->CommonCfg.Channel;
@@ -473,7 +473,7 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan
 	uint32_t ret, i, value, value1, restore_value, loop = 0;
 	uint16_t e2p_value;
 	UCHAR bbp_ch_idx;
-	bool band_change = FALSE;
+	bool band_change = false;
 	uint32_t RegValue = 0;
 	uint32_t eLNA_gain_from_e2p = 0;
 	uint32_t mac_val = 0;
@@ -540,7 +540,7 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan
 		if (band != latch_band)
 			band_change = true;
 		else
-			band_change = FALSE;
+			band_change = false;
 	}
 
 	if (ad->CommonCfg.BBPCurrentBW == BW_80)
@@ -2441,7 +2441,7 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 	if (value & INTERNAL_TX_ALC_EN)
 		cap->tssi_enable = true;
 	else
-		cap->tssi_enable = FALSE;
+		cap->tssi_enable = false;
 
 	/* check PA type combination */
 	value = mt7612u_read_eeprom16(ad, EEPROM_NIC1_OFFSET);
@@ -2671,21 +2671,21 @@ void mt76x2_get_current_temp(struct rtmp_adapter *ad)
 void mt76x2_read_temp_info_from_eeprom(struct rtmp_adapter *ad)
 {
 	RTMP_CHIP_CAP *pChipCap = &ad->chipCap;
-	bool is_temp_tx_alc= FALSE;
+	bool is_temp_tx_alc= false;
 	USHORT e2p_value = 0;
 
 	e2p_value = mt7612u_read_eeprom16(ad, 0x36);
 	if ((e2p_value & 0x2) == 0x2)
 		is_temp_tx_alc = true;
 	else
-		is_temp_tx_alc = FALSE;
+		is_temp_tx_alc = false;
 
 	e2p_value = mt7612u_read_eeprom16(ad, 0x54);
 	pChipCap->temp_25_ref = (e2p_value & 0x7F00) >> 8;
 	if (((e2p_value & 0x8000) == 0x8000) && is_temp_tx_alc)
 		pChipCap->temp_tx_alc_enable = true;
 	else
-		pChipCap->temp_tx_alc_enable = FALSE;
+		pChipCap->temp_tx_alc_enable = false;
 
 	DBGPRINT(RT_DEBUG_ERROR, ("%s:: is_temp_tx_alc=%d, temp_tx_alc_enable=%d\n",
 		__FUNCTION__, is_temp_tx_alc, pChipCap->temp_tx_alc_enable));
@@ -2701,7 +2701,7 @@ static const RTMP_CHIP_CAP MT76x2_ChipCap = {
 	.FlgIsHwWapiSup = true,
 	.VcoPeriod = 10,
 	.FlgIsVcoReCalMode = VCO_CAL_DISABLE,
-	.FlgIsHwAntennaDiversitySup = FALSE,
+	.FlgIsHwAntennaDiversitySup = false,
 	.Flg7662ChipCap = true,
 	.FlgHwTxBfCap = true,
 #ifdef FIFO_EXT_SUPPORT
@@ -2728,9 +2728,9 @@ static const RTMP_CHIP_CAP MT76x2_ChipCap = {
 	.IsComboChip = true,
 	.need_load_fw = true,
 	.need_load_rom_patch = true,
-	.ram_code_protect = FALSE,
+	.ram_code_protect = false,
 	.rom_code_protect = true,
-	.load_iv = FALSE,
+	.load_iv = false,
 	.ilm_offset = 0x80000,
 	.dlm_offset = 0x110000,
 	.rom_patch_offset = 0x90000,
@@ -2754,7 +2754,7 @@ static const RTMP_CHIP_CAP MT76x2_ChipCap = {
 	.dynamic_vga_support = true,
 	.compensate_level = 0,
 	.dynamic_chE_mode = 0xFF,
-	.dynamic_chE_trigger = FALSE,
+	.dynamic_chE_trigger = false,
 	.avg_rssi_all = -90,
 	.avg_rssi_0 = -90,
 	.avg_rssi_1 = -90,
@@ -2764,7 +2764,7 @@ static const RTMP_CHIP_CAP MT76x2_ChipCap = {
 #endif /* CONFIG_AP_SUPPORT */
 #endif /* DYNAMIC_VGA_SUPPORT */
 	.chl_smth_enable = true,
-	.ed_cca_enable = FALSE,
+	.ed_cca_enable = false,
 #ifdef DOT11W_PMF_SUPPORT
 	.FlgPMFEncrtptMode = PMF_ENCRYPT_MODE_1,
 #endif /* DOT11W_PMF_SUPPORT */
@@ -2805,8 +2805,8 @@ VOID mt76x2_init(struct rtmp_adapter *pAd)
 	rlt_phy_probe(pAd);
 
 	if (IS_MT7612(pAd)) {
-		pChipCap->IsComboChip = FALSE;
-		pChipCap->rom_code_protect = FALSE;
+		pChipCap->IsComboChip = false;
+		pChipCap->rom_code_protect = false;
 	}
 
 	if (IS_MT7632(pAd))

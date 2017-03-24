@@ -48,7 +48,7 @@ extern UCHAR EpToQueue[6];
 	/*NdisInterlockedDecrement(&(_p)->TxCount); */\
 }
 
-#define NT_SUCCESS(status)			(((status) >=0) ? (true):(FALSE))
+#define NT_SUCCESS(status)			(((status) >=0) ? (true):(false))
 
 
 

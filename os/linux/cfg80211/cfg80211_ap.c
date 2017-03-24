@@ -125,7 +125,7 @@ static void CFG80211DRV_UpdateApSettingFromBeacon(struct rtmp_adapter *pAd, UINT
 		pMbss->bHideSsid = true;
 	}
 	else
-		pMbss->bHideSsid = FALSE;
+		pMbss->bHideSsid = false;
 
 	if (pBeacon->hidden_ssid == 1)
 		pMbss->SsidLen = 0;
@@ -137,7 +137,7 @@ static void CFG80211DRV_UpdateApSettingFromBeacon(struct rtmp_adapter *pAd, UINT
 	CFG80211_ParseBeaconIE(pAd, pMbss, wdev, wpa_ie, rsn_ie);
 
 	pMbss->CapabilityInfo =	CAP_GENERATE(1, 0, (wdev->WepStatus != Ndis802_11EncryptionDisabled),
-			 (pAd->CommonCfg.TxPreamble == Rt802_11PreambleLong ? 0 : 1), pAd->CommonCfg.bUseShortSlotTime, /*SpectrumMgmt*/FALSE);
+			 (pAd->CommonCfg.TxPreamble == Rt802_11PreambleLong ? 0 : 1), pAd->CommonCfg.bUseShortSlotTime, /*SpectrumMgmt*/false);
 
 	/* Disable Driver-Internal Rekey */
 	pMbss->WPAREKEY.ReKeyInterval = 0;
@@ -163,7 +163,7 @@ VOID CFG80211DRV_DisableApInterface(struct rtmp_adapter *pAd)
 	MULTISSID_STRUCT *pMbss = &pAd->ApCfg.MBSSID[MAIN_MBSSID];
 	struct rtmp_wifi_dev *wdev = &pMbss->wdev;
 
-	pAd->ApCfg.MBSSID[MAIN_MBSSID].bBcnSntReq = FALSE;
+	pAd->ApCfg.MBSSID[MAIN_MBSSID].bBcnSntReq = false;
 	wdev->Hostapd = Hostapd_Diable;
 
   	/* For AP - STA switch */
@@ -174,13 +174,13 @@ VOID CFG80211DRV_DisableApInterface(struct rtmp_adapter *pAd)
    	}
 
     /* Disable pre-TBTT interrupt */
-    AsicSetPreTbtt(pAd, FALSE);
+    AsicSetPreTbtt(pAd, false);
 
     if (!INFRA_ON(pAd))
     {
 		/* Disable piggyback */
-		RTMPSetPiggyBack(pAd, FALSE);
-		AsicUpdateProtect(pAd, 0,  (ALLN_SETPROTECT|CCKSETPROTECT|OFDMSETPROTECT), true, FALSE);
+		RTMPSetPiggyBack(pAd, false);
+		AsicUpdateProtect(pAd, 0,  (ALLN_SETPROTECT|CCKSETPROTECT|OFDMSETPROTECT), true, false);
     }
 
     if (!RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST))
@@ -279,7 +279,7 @@ VOID CFG80211_UpdateBeacon(
 	BeaconTransmit.field.MCS = MCS_RATE_6;
 
 	//YF
-	RTMPWriteTxWI(pAd, pTxWI, FALSE, FALSE, true, FALSE, FALSE, true, 0, BSS0Mcast_WCID,
+	RTMPWriteTxWI(pAd, pTxWI, false, false, true, false, false, true, 0, BSS0Mcast_WCID,
                 	beacon_len, PID_MGMT, 0, 0, IFS_HTTXOP, &BeaconTransmit);
 
 	/* CFG_TODO */
@@ -403,11 +403,11 @@ bool CFG80211DRV_OpsBeaconAdd(struct rtmp_adapter *pAd, VOID *pData)
 		if (WMODE_CAP_N(pAd->CommonCfg.PhyMode) || wdev->bWmmCapable)
 		{
 			/* EDCA parameters used for AP's own transmission */
-			if (pAd->CommonCfg.APEdcaParm.bValid == FALSE)
+			if (pAd->CommonCfg.APEdcaParm.bValid == false)
 				set_default_ap_edca_param(pAd);
 
 			/* EDCA parameters to be annouced in outgoing BEACON, used by WMM STA */
-			if (pAd->ApCfg.BssEdcaParm.bValid == FALSE)
+			if (pAd->ApCfg.BssEdcaParm.bValid == false)
 				set_default_sta_edca_param(pAd);
 
 			AsicSetEdcaParm(pAd, &pAd->CommonCfg.APEdcaParm);
@@ -436,18 +436,18 @@ bool CFG80211DRV_OpsBeaconAdd(struct rtmp_adapter *pAd, VOID *pData)
 
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
 	/* P2P_GO */
-	MlmeUpdateTxRates(pAd, FALSE, MAIN_MBSSID + MIN_NET_DEVICE_FOR_CFG80211_VIF_P2P_GO);
+	MlmeUpdateTxRates(pAd, false, MAIN_MBSSID + MIN_NET_DEVICE_FOR_CFG80211_VIF_P2P_GO);
 #endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
 
 	/*AP */
-		MlmeUpdateTxRates(pAd, FALSE, MIN_NET_DEVICE_FOR_MBSSID);
+		MlmeUpdateTxRates(pAd, false, MIN_NET_DEVICE_FOR_MBSSID);
 
 	if (WMODE_CAP_N(pAd->CommonCfg.PhyMode))
 		MlmeUpdateHtTxRates(pAd, MIN_NET_DEVICE_FOR_MBSSID);
 
 	/* Disable Protection first. */
 	if (!INFRA_ON(pAd))
-		AsicUpdateProtect(pAd, 0, (ALLN_SETPROTECT|CCKSETPROTECT|OFDMSETPROTECT), true, FALSE);
+		AsicUpdateProtect(pAd, 0, (ALLN_SETPROTECT|CCKSETPROTECT|OFDMSETPROTECT), true, false);
 
 	APUpdateCapabilityAndErpIe(pAd);
 	APUpdateOperationMode(pAd);
@@ -500,7 +500,7 @@ bool CFG80211DRV_ApKeyDel(
 
 	pKeyInfo = (CMD_RTPRIV_IOCTL_80211_KEY *)pData;
 
-        if (pKeyInfo->bPairwise == FALSE )
+        if (pKeyInfo->bPairwise == false )
 	{
 		DBGPRINT(RT_DEBUG_TRACE,("CFG: AsicRemoveSharedKeyEntry %d\n", pKeyInfo->KeyId));
 		AsicRemoveSharedKeyEntry(pAd, MAIN_MBSSID, pKeyInfo->KeyId);
@@ -563,7 +563,7 @@ VOID CFG80211DRV_FragThresholdAdd(
 			if (pAd->CommonCfg.FragmentThreshold == MAX_FRAG_THRESHOLD)
 				pAd->CommonCfg.bUseZeroToDisableFragment = true;
 			else
-				pAd->CommonCfg.bUseZeroToDisableFragment = FALSE;
+				pAd->CommonCfg.bUseZeroToDisableFragment = false;
 		}
 #endif /* CONFIG_STA_SUPPORT */
 }
@@ -609,7 +609,7 @@ bool CFG80211DRV_ApKeyAdd(struct rtmp_adapter *pAd, void *pData)
 		/* AES */
 				//pWdev->WepStatus = Ndis802_11Encryption3Enabled;
 				//pWdev->GroupKeyWepStatus = Ndis802_11Encryption3Enabled;
-		        if (pKeyInfo->bPairwise == FALSE ) {
+		        if (pKeyInfo->bPairwise == false ) {
 				if (pWdev->GroupKeyWepStatus == Ndis802_11Encryption3Enabled) {
 					DBGPRINT(RT_DEBUG_TRACE, ("CFG: Set AES Security Set. (GROUP) %d\n", pKeyInfo->KeyLen));
 					pAd->SharedKey[MAIN_MBSSID][pKeyInfo->KeyId].KeyLen= LEN_TK;
@@ -651,7 +651,7 @@ bool CFG80211DRV_ApKeyAdd(struct rtmp_adapter *pAd, void *pData)
 		/* TKIP */
 				//pWdev->WepStatus = Ndis802_11Encryption2Enabled;
 				//pWdev->GroupKeyWepStatus = Ndis802_11Encryption2Enabled;
-		        if (pKeyInfo->bPairwise == FALSE ) {
+		        if (pKeyInfo->bPairwise == false ) {
 				if (pWdev->GroupKeyWepStatus == Ndis802_11Encryption2Enabled) {
 					DBGPRINT(RT_DEBUG_TRACE, ("CFG: Set TKIP Security Set. (GROUP) %d\n", pKeyInfo->KeyLen));
 					pAd->SharedKey[MAIN_MBSSID][pKeyInfo->KeyId].KeyLen= LEN_TK;
@@ -750,7 +750,7 @@ void CFG80211_ApStaDel(
 		pEntry = MacTableLookup(pAd, pMac);
 		if (pEntry)
 		{
-			MlmeDeAuthAction(pAd, pEntry, REASON_NO_LONGER_VALID, FALSE);
+			MlmeDeAuthAction(pAd, pEntry, REASON_NO_LONGER_VALID, false);
 		}
 		else
 			DBGPRINT(RT_DEBUG_ERROR, ("Can't find pEntry in ApStaDel\n"));

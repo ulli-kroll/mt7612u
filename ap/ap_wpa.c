@@ -54,7 +54,7 @@ MAC_TABLE_ENTRY *PACInquiry(struct rtmp_adapter *pAd, UCHAR Wcid)
        Check sanity of multicast cipher selector in RSN IE.
     Return:
          true if match
-         FALSE otherwise
+         false otherwise
     ==========================================================================
 */
 bool RTMPCheckMcast(
@@ -106,7 +106,7 @@ bool RTMPCheckMcast(
         }
     }
 
-    return FALSE;
+    return false;
 }
 
 /*
@@ -115,7 +115,7 @@ bool RTMPCheckMcast(
        Check sanity of unicast cipher selector in RSN IE.
     Return:
          true if match
-         FALSE otherwise
+         false otherwise
     ==========================================================================
 */
 bool RTMPCheckUcast(
@@ -139,7 +139,7 @@ bool RTMPCheckUcast(
 	if (eid_ptr->Len < 16)
 	{
 		DBGPRINT(RT_DEBUG_ERROR, ("[ERROR]RTMPCheckUcast : the length is too short(%d) \n", eid_ptr->Len));
-	    return FALSE;
+	    return false;
 	}
 
 	/* Store STA RSN_IE capability */
@@ -159,7 +159,7 @@ bool RTMPCheckUcast(
 	else
 	{
 		DBGPRINT(RT_DEBUG_ERROR, ("[ERROR]RTMPCheckUcast : invalid IE=%d\n", eid_ptr->Eid));
-	    return FALSE;
+	    return false;
 	}
 
 	/* Store unicast cipher count */
@@ -288,7 +288,7 @@ bool RTMPCheckUcast(
     	}
     }
 
-    return FALSE;
+    return false;
 }
 
 
@@ -298,7 +298,7 @@ bool RTMPCheckUcast(
        Check invalidity of authentication method selection in RSN IE.
     Return:
          true if match
-         FALSE otherwise
+         false otherwise
     ==========================================================================
 */
 bool RTMPCheckAKM(u8 *sta_akm, u8 *ap_rsn_ie, INT iswpa2)
@@ -343,7 +343,7 @@ bool RTMPCheckAKM(u8 *sta_akm, u8 *ap_rsn_ie, INT iswpa2)
 			Count--;
 		}
     }
-    return FALSE;/* do not match the AKM */
+    return false;/* do not match the AKM */
 
 }
 
@@ -354,7 +354,7 @@ bool RTMPCheckAKM(u8 *sta_akm, u8 *ap_rsn_ie, INT iswpa2)
        Check sanity of authentication method selector in RSN IE.
     Return:
          true if match
-         FALSE otherwise
+         false otherwise
     ==========================================================================
 */
 bool RTMPCheckAUTH(
@@ -374,7 +374,7 @@ bool RTMPCheckAUTH(
 	if (eid_ptr->Len < 16)
 	{
 		DBGPRINT(RT_DEBUG_ERROR, ("RTMPCheckAUTH ==> WPAIE len is too short(%d) \n", eid_ptr->Len));
-	    return FALSE;
+	    return false;
 	}
 
 	/* Store STA RSN_IE capability */
@@ -394,7 +394,7 @@ bool RTMPCheckAUTH(
 	else
 	{
 		DBGPRINT(RT_DEBUG_ERROR, ("RTMPCheckAUTH ==> Unknown WPAIE, WPAIE=%d\n", eid_ptr->Eid));
-	    return FALSE;
+	    return false;
 	}
 
 	/* Store unicast cipher count */
@@ -452,7 +452,7 @@ bool RTMPCheckAUTH(
     	}
     }
 
-    return FALSE;
+    return false;
 }
 
 /*
@@ -586,14 +586,14 @@ VOID HandleCounterMeasure(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 
 		/* Cancel CounterMeasure Timer */
 		RTMPCancelTimer(&pAd->ApCfg.CounterMeasureTimer, &Cancelled);
-		pAd->ApCfg.CMTimerRunning = FALSE;
+		pAd->ApCfg.CMTimerRunning = false;
 
         for (i = 0; i < MAX_LEN_OF_MAC_TABLE; i++)
         {
             /* happened twice within 60 sec,  AP SENDS disaccociate all associated STAs.  All STA's transition to State 2 */
             if (IS_ENTRY_CLIENT(&pAd->MacTab.Content[i]))
             {
-                MlmeDeAuthAction(pAd, &pAd->MacTab.Content[i], REASON_MIC_FAILURE, FALSE);
+                MlmeDeAuthAction(pAd, &pAd->MacTab.Content[i], REASON_MIC_FAILURE, false);
             }
         }
 
@@ -631,13 +631,13 @@ VOID CMTimerExec(
     UINT            i,j=0;
     struct rtmp_adapter *  pAd = (struct rtmp_adapter *)FunctionContext;
 
-    pAd->ApCfg.BANClass3Data = FALSE;
+    pAd->ApCfg.BANClass3Data = false;
     for (i = 0; i < MAX_LEN_OF_MAC_TABLE; i++)
     {
         if (IS_ENTRY_CLIENT(&pAd->MacTab.Content[i])
 			&& (pAd->MacTab.Content[i].CMTimerRunning == true))
         {
-            pAd->MacTab.Content[i].CMTimerRunning =FALSE;
+            pAd->MacTab.Content[i].CMTimerRunning =false;
             j++;
         }
     }
@@ -645,7 +645,7 @@ VOID CMTimerExec(
     if (j > 1)
         DBGPRINT(RT_DEBUG_ERROR, ("Find more than one entry which generated MIC Fail ..  \n"));
 
-    pAd->ApCfg.CMTimerRunning = FALSE;
+    pAd->ApCfg.CMTimerRunning = false;
 }
 
 
@@ -677,7 +677,7 @@ VOID WPARetryExec(
 					RTMPSendWirelessEvent(pAd, IW_GROUP_HS_TIMEOUT_EVENT_FLAG, pEntry->Addr, pEntry->apidx, 0);
 
                     DBGPRINT(RT_DEBUG_TRACE, ("WPARetryExec::Group Key HS exceed retry count, Disassociate client, pEntry->ReTryCounter %d\n", pEntry->ReTryCounter));
-                    MlmeDeAuthAction(pAd, pEntry, REASON_GROUP_KEY_HS_TIMEOUT, FALSE);
+                    MlmeDeAuthAction(pAd, pEntry, REASON_GROUP_KEY_HS_TIMEOUT, false);
                 }
 				/* 2. Retry GTK. */
                 else if (pEntry->ReTryCounter > GROUP_MSG1_RETRY_TIMER_CTR)
@@ -696,7 +696,7 @@ VOID WPARetryExec(
 					RTMPSendWirelessEvent(pAd, IW_PAIRWISE_HS_TIMEOUT_EVENT_FLAG, pEntry->Addr, pEntry->apidx, 0);
 
                     DBGPRINT(RT_DEBUG_TRACE, ("WPARetryExec::MSG1 timeout, pEntry->ReTryCounter = %d\n", pEntry->ReTryCounter));
-                    MlmeDeAuthAction(pAd, pEntry, REASON_4_WAY_TIMEOUT, FALSE);
+                    MlmeDeAuthAction(pAd, pEntry, REASON_4_WAY_TIMEOUT, false);
                 }
 				/* 4. Retry 4 way message 1, the last try, the timeout is 3 sec for EAPOL-Start */
                 else if (pEntry->ReTryCounter == (PEER_MSG1_RETRY_TIMER_CTR + 3))
@@ -903,7 +903,7 @@ VOID WpaSend(struct rtmp_adapter *pAdapter, UCHAR *pPacket, ULONG Len)
 						  LENGTH_802_3,
 						  pData,
 						  Len - LENGTH_802_3,
-						  (pEntry->PortSecured == WPA_802_1X_PORT_SECURED) ? FALSE : true);
+						  (pEntry->PortSecured == WPA_802_1X_PORT_SECURED) ? false : true);
 
 
     if (RTMPEqualMemory((pPacket+12), EAPOL, 2))
@@ -951,7 +951,7 @@ VOID WpaSend(struct rtmp_adapter *pAdapter, UCHAR *pPacket, ULONG Len)
     else
     {
         DBGPRINT(RT_DEBUG_TRACE, ("Send Deauth, Reason : REASON_NO_LONGER_VALID\n"));
-        MlmeDeAuthAction(pAdapter, pEntry, REASON_NO_LONGER_VALID, FALSE);
+        MlmeDeAuthAction(pAdapter, pEntry, REASON_NO_LONGER_VALID, false);
     }
 }
 
@@ -1056,7 +1056,7 @@ VOID RTMPDeletePMKIDCache(
 
 	if (pInfo->Valid)
 	{
-		pInfo->Valid = FALSE;
+		pInfo->Valid = false;
 		DBGPRINT(RT_DEBUG_TRACE, ("RTMPDeletePMKIDCache(IF(%d), del PMKID CacheIdx=%d\n", apidx, idx));
 	}
 }
@@ -1117,7 +1117,7 @@ VOID	WPA_APSetGroupRekeyAction(
 					pMbss->WPAREKEY.ReKeyMethod == PKT_REKEY)))
 			{
 				/* Regularly check the timer */
-				if (pMbss->REKEYTimerRunning == FALSE)
+				if (pMbss->REKEYTimerRunning == false)
 				{
 					RTMPSetTimer(&pMbss->REKEYTimer, GROUP_KEY_UPDATE_EXEC_INTV);
 
@@ -1129,7 +1129,7 @@ VOID	WPA_APSetGroupRekeyAction(
 											pMbss->WPAREKEY.ReKeyInterval));
 			}
 			else
-				pMbss->REKEYTimerRunning = FALSE;
+				pMbss->REKEYTimerRunning = false;
 		}
 	}
 }

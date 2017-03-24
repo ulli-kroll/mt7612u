@@ -1570,7 +1570,7 @@ enum WIFI_MODE{
 
 /* definition of Recipient or Originator */
 #define I_RECIPIENT                  true
-#define I_ORIGINATOR                   FALSE
+#define I_ORIGINATOR                   false
 
 #define DEFAULT_BBP_TX_POWER        0
 #define DEFAULT_RF_TX_POWER         5

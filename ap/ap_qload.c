@@ -134,7 +134,7 @@ static VOID QBSS_LoadAlarm(
 		for(StaId=1; StaId<MAX_LEN_OF_MAC_TABLE; StaId++)
 		{
 			MAC_TABLE_ENTRY *pEntry = &pMacTable->Content[StaId];
-			bool bDisconnectSta = FALSE;
+			bool bDisconnectSta = false;
 
 			if (!IS_ENTRY_CLIENT(pEntry))
 				continue;
@@ -329,11 +329,11 @@ VOID QBSS_LoadAlarmReset(
  	IN		struct rtmp_adapter *pAd)
 {
 #ifdef QLOAD_FUNC_BUSY_TIME_ALARM
-	pAd->FlgQloadAlarm = FALSE;
+	pAd->FlgQloadAlarm = false;
 	pAd->QloadAlarmDuration = 0;
 	pAd->QloadAlarmNumber = 0;
 
-	pAd->FlgQloadAlarmIsSuspended = FALSE;
+	pAd->FlgQloadAlarmIsSuspended = false;
 
 	QBSS_LoadAlarmBusyTimeThresholdReset(pAd, pAd->CommonCfg.BeaconPeriod);
 #endif /* QLOAD_FUNC_BUSY_TIME_ALARM */
@@ -358,7 +358,7 @@ VOID QBSS_LoadAlarmResume(
  	IN		struct rtmp_adapter *pAd)
 {
 #ifdef QLOAD_FUNC_BUSY_TIME_ALARM
-	pAd->FlgQloadAlarmIsSuspended = FALSE;
+	pAd->FlgQloadAlarmIsSuspended = false;
 #endif /* QLOAD_FUNC_BUSY_TIME_ALARM */
 }
 
@@ -420,7 +420,7 @@ Arguments:
 
 Return Value:
 	true				- alarm occurs
-	FALSE				- no alarm
+	false				- no alarm
 
 Note:
 	We will clear the alarm in the function.
@@ -432,11 +432,11 @@ bool QBSS_LoadIsAlarmIssued(
 #ifdef QLOAD_FUNC_BUSY_TIME_ALARM
 	bool FlgQloadAlarm = pAd->FlgQloadAlarm;
 
-	pAd->FlgQloadAlarm = FALSE;
+	pAd->FlgQloadAlarm = false;
 	return FlgQloadAlarm;
 #else
 
-	return FALSE;
+	return false;
 #endif /* QLOAD_FUNC_BUSY_TIME_ALARM */
 }
 
@@ -451,7 +451,7 @@ Arguments:
 
 Return Value:
 	TURE				- ok
-	FALSE				- fail
+	false				- fail
 
 Note:
 ========================================================================
@@ -465,7 +465,7 @@ bool QBSS_LoadIsBusyTimeAccepted(
 		return true; /* always ok */
 
 	if (BusyTime >= pAd->QloadBusyTimeThreshold)
-		return FALSE;
+		return false;
 #endif /* QLOAD_FUNC_BUSY_TIME_ALARM */
 
 	return true;
@@ -555,8 +555,8 @@ VOID QBSS_LoadUpdate(
 	uint32_t BusyTimeId;
 	uint32_t TimePeriod = pAd->CommonCfg.BeaconPeriod;
 #ifdef QLOAD_FUNC_BUSY_TIME_ALARM
-	bool FlgIsBusyOverThreshold = FALSE;
-	bool FlgIsAlarmNeeded = FALSE;
+	bool FlgIsBusyOverThreshold = false;
+	bool FlgIsAlarmNeeded = false;
 #endif /* QLOAD_FUNC_BUSY_TIME_ALARM */
 
 
@@ -609,7 +609,7 @@ VOID QBSS_LoadUpdate(
 #endif /* QLOAD_FUNC_BUSY_TIME_STATS */
 
 #ifdef QLOAD_FUNC_BUSY_TIME_ALARM
-		if ((pAd->FlgQloadAlarmIsSuspended == FALSE) &&
+		if ((pAd->FlgQloadAlarmIsSuspended == false) &&
 			(pAd->QloadAlarmBusyTimeThreshold > 0))
 		{
 			/* Alarm is not suspended and is enabled */
@@ -640,7 +640,7 @@ VOID QBSS_LoadUpdate(
 #endif /* QLOAD_FUNC_BUSY_TIME_STATS */
 
 #ifdef QLOAD_FUNC_BUSY_TIME_ALARM
-	if ((pAd->FlgQloadAlarmIsSuspended == FALSE) &&
+	if ((pAd->FlgQloadAlarmIsSuspended == false) &&
 		(pAd->QloadAlarmBusyTimeThreshold > 0))
 	{
 		/* Alarm is not suspended and is enabled */
@@ -681,7 +681,7 @@ VOID QBSS_LoadUpdate(
 
 #ifdef QLOAD_FUNC_BUSY_TIME_ALARM
 	/* check if alarm function is enabled */
-	if ((pAd->FlgQloadAlarmIsSuspended == FALSE) &&
+	if ((pAd->FlgQloadAlarmIsSuspended == false) &&
 		(pAd->QloadAlarmBusyTimeThreshold > 0))
 	{
 		/* Alarm is not suspended and is enabled */
@@ -731,7 +731,7 @@ VOID QBSS_LoadUpdate(
 		/* clear statistics counts */
 		pAd->QloadAlarmBusyNum = 0;
 		pAd->QloadAlarmDuration = 0;
-		pAd->FlgQloadAlarm = FALSE;
+		pAd->FlgQloadAlarm = false;
 	}
 #endif /* QLOAD_FUNC_BUSY_TIME_ALARM */
 }
@@ -763,7 +763,7 @@ VOID QBSS_LoadStatusClear(
 #ifdef QLOAD_FUNC_BUSY_TIME_ALARM
 	/* clear alarm function variables */
 	pAd->QloadChanUtilTotal = 0;
-	pAd->FlgQloadAlarm = FALSE;
+	pAd->FlgQloadAlarm = false;
 	pAd->QloadAlarmBusyNum = 0;
 #endif /* QLOAD_FUNC_BUSY_TIME_ALARM */
 }

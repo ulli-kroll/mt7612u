@@ -130,7 +130,7 @@ int RTUSBSingleWrite(
 	IN	USHORT Offset,
 	IN	USHORT Value)
 {
-	bool WriteHigh = FALSE;
+	bool WriteHigh = false;
 
 	return RTUSB_VendorRequest(pAd, DEVICE_VENDOR_REQUEST_OUT,
 				   MT7612U_VENDOR_SINGLE_WRITE,	Value, Offset, NULL, 0);
@@ -449,7 +449,7 @@ int CheckGPIOHdlr(struct rtmp_adapter *pAd, PCmdQElmt CMDQelmt)
 
 		/* Read GPIO pin2 as Hardware controlled radio state*/
 		data = mt7612u_read32( pAd, GPIO_CTRL_CFG);
-		pAd->StaCfg.bHwRadio = (data & 0x04) ? true : FALSE;
+		pAd->StaCfg.bHwRadio = (data & 0x04) ? true : false;
 
 		if (pAd->StaCfg.bRadio != (pAd->StaCfg.bHwRadio && pAd->StaCfg.bSwRadio)) {
 			pAd->StaCfg.bRadio = (pAd->StaCfg.bHwRadio && pAd->StaCfg.bSwRadio);
@@ -531,7 +531,7 @@ static int ResetBulkOutHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 
 		/*NdisAcquireSpinLock(&pAd->BulkOutLock[pAd->bulkResetPipeid]);*/
 		RTMP_INT_LOCK(&pAd->BulkOutLock[pAd->bulkResetPipeid], IrqFlags);
-		if ( pAd->BulkOutPending[pAd->bulkResetPipeid] == FALSE) {
+		if ( pAd->BulkOutPending[pAd->bulkResetPipeid] == false) {
 			pAd->BulkOutPending[pAd->bulkResetPipeid] = true;
 			pHTTXContext->IRPPending = true;
 			pAd->watchDogTxPendingCnt[pAd->bulkResetPipeid] = 1;
@@ -549,8 +549,8 @@ static int ResetBulkOutHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 
 			if ((ret = usb_submit_urb(pHTTXContext->pUrb, GFP_ATOMIC)) != 0) {
 					RTMP_INT_LOCK(&pAd->BulkOutLock[pAd->bulkResetPipeid], IrqFlags);
-					pAd->BulkOutPending[pAd->bulkResetPipeid] = FALSE;
-					pHTTXContext->IRPPending = FALSE;
+					pAd->BulkOutPending[pAd->bulkResetPipeid] = false;
+					pHTTXContext->IRPPending = false;
 					pAd->watchDogTxPendingCnt[pAd->bulkResetPipeid] = 0;
 					RTMP_INT_UNLOCK(&pAd->BulkOutLock[pAd->bulkResetPipeid], IrqFlags);
 
@@ -607,7 +607,7 @@ static int ResetBulkOutHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 			RTUSB_SET_BULK_FLAG(pAd, (fRTUSB_BULK_OUT_DATA_NORMAL << pAd->bulkResetPipeid));
 		}
 
-		RTMPDeQueuePacket(pAd, FALSE, NUM_OF_TX_RING, MAX_TX_PROCESS);
+		RTMPDeQueuePacket(pAd, false, NUM_OF_TX_RING, MAX_TX_PROCESS);
 		/*RTUSBKickBulkOut(pAd);*/
 	}
 
@@ -692,8 +692,8 @@ static int ResetBulkInHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 			if ((ret = usb_submit_urb(pUrb, GFP_ATOMIC))!=0)
 			{	/* fail*/
 				RTMP_IRQ_LOCK(&pAd->BulkInLock, IrqFlags);
-				pRxContext->InUse = FALSE;
-				pRxContext->IRPPending = FALSE;
+				pRxContext->InUse = false;
+				pRxContext->IRPPending = false;
 				pAd->PendingRx--;
 				pAd->BulkInReq--;
 				RTMP_IRQ_UNLOCK(&pAd->BulkInLock, IrqFlags);
@@ -1039,7 +1039,7 @@ static int RegHint11DHdlr(struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 
 static int RT_Mac80211_ScanEnd(struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 {
-	RT_CFG80211_SCAN_END(pAd, FALSE);
+	RT_CFG80211_SCAN_END(pAd, false);
 	return NDIS_STATUS_SUCCESS;
 }
 
@@ -1166,11 +1166,11 @@ static inline bool ValidCMD(IN PCmdQElmt CMDQelmt)
 			return true;
 		} else {
 			DBGPRINT(RT_DEBUG_ERROR, ("No corresponding CMDHdlr for this CMD(%x)\n",  CMDQelmt->command));
-			return FALSE;
+			return false;
 		}
 	} else {
 		DBGPRINT(RT_DEBUG_ERROR, ("CMD(%x) is out of boundary\n", CMDQelmt->command));
-		return FALSE;
+		return false;
 	}
 }
 
@@ -1219,7 +1219,7 @@ VOID RTUSBWatchDog(struct rtmp_adapter *pAd)
 	int idx;
 	ULONG irqFlags;
 	PURB pUrb;
-	bool needDumpSeq = FALSE;
+	bool needDumpSeq = false;
 	uint32_t MACValue;
 
 	if(RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST))

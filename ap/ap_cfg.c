@@ -51,15 +51,15 @@
 COUNTRY_CODE_TO_COUNTRY_REGION allCountry[] = {
 	/* {Country Number, ISO Name, Country Name, Support 11A, 11A Country Region, Support 11G, 11G Country Region} */
 	{0,		"DB",	"Debug",				true,	A_BAND_REGION_7,	true,	G_BAND_REGION_5},
-	{8,		"AL",	"ALBANIA",				FALSE,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
-	{12,	"DZ",	"ALGERIA",				FALSE,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
+	{8,		"AL",	"ALBANIA",				false,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
+	{12,	"DZ",	"ALGERIA",				false,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
 	{32,	"AR",	"ARGENTINA",			true,	A_BAND_REGION_3,	true,	G_BAND_REGION_1},
 	{51,	"AM",	"ARMENIA",				true,	A_BAND_REGION_2,	true,	G_BAND_REGION_1},
 	{36,	"AU",	"AUSTRALIA",			true,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
 	{40,	"AT",	"AUSTRIA",				true,	A_BAND_REGION_1,	true,	G_BAND_REGION_1},
 	{31,	"AZ",	"AZERBAIJAN",			true,	A_BAND_REGION_2,	true,	G_BAND_REGION_1},
 	{48,	"BH",	"BAHRAIN",				true,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
-	{112,	"BY",	"BELARUS",				FALSE,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
+	{112,	"BY",	"BELARUS",				false,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
 	{56,	"BE",	"BELGIUM",				true,	A_BAND_REGION_1,	true,	G_BAND_REGION_1},
 	{84,	"BZ",	"BELIZE",				true,	A_BAND_REGION_4,	true,	G_BAND_REGION_1},
 	{68,	"BO",	"BOLIVIA",				true,	A_BAND_REGION_4,	true,	G_BAND_REGION_1},
@@ -70,15 +70,15 @@ COUNTRY_CODE_TO_COUNTRY_REGION allCountry[] = {
 	{152,	"CL",	"CHILE",				true,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
 	{156,	"CN",	"CHINA",				true,	A_BAND_REGION_4,	true,	G_BAND_REGION_1},
 	{170,	"CO",	"COLOMBIA",				true,	A_BAND_REGION_0,	true,	G_BAND_REGION_0},
-	{188,	"CR",	"COSTA RICA",			FALSE,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
+	{188,	"CR",	"COSTA RICA",			false,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
 	{191,	"HR",	"CROATIA",				true,	A_BAND_REGION_2,	true,	G_BAND_REGION_1},
 	{196,	"CY",	"CYPRUS",				true,	A_BAND_REGION_1,	true,	G_BAND_REGION_1},
 	{203,	"CZ",	"CZECH REPUBLIC",		true,	A_BAND_REGION_2,	true,	G_BAND_REGION_1},
 	{208,	"DK",	"DENMARK",				true,	A_BAND_REGION_1,	true,	G_BAND_REGION_1},
 	{214,	"DO",	"DOMINICAN REPUBLIC",	true,	A_BAND_REGION_0,	true,	G_BAND_REGION_0},
-	{218,	"EC",	"ECUADOR",				FALSE,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
+	{218,	"EC",	"ECUADOR",				false,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
 	{818,	"EG",	"EGYPT",				true,	A_BAND_REGION_2,	true,	G_BAND_REGION_1},
-	{222,	"SV",	"EL SALVADOR",			FALSE,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
+	{222,	"SV",	"EL SALVADOR",			false,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
 	{233,	"EE",	"ESTONIA",				true,	A_BAND_REGION_1,	true,	G_BAND_REGION_1},
 	{246,	"FI",	"FINLAND",				true,	A_BAND_REGION_1,	true,	G_BAND_REGION_1},
 	{250,	"FR",	"FRANCE",				true,	A_BAND_REGION_2,	true,	G_BAND_REGION_1},
@@ -86,7 +86,7 @@ COUNTRY_CODE_TO_COUNTRY_REGION allCountry[] = {
 	{276,	"DE",	"GERMANY",				true,	A_BAND_REGION_1,	true,	G_BAND_REGION_1},
 	{300,	"GR",	"GREECE",				true,	A_BAND_REGION_1,	true,	G_BAND_REGION_1},
 	{320,	"GT",	"GUATEMALA",			true,	A_BAND_REGION_0,	true,	G_BAND_REGION_0},
-	{340,	"HN",	"HONDURAS",				FALSE,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
+	{340,	"HN",	"HONDURAS",				false,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
 	{344,	"HK",	"HONG KONG",			true,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
 	{348,	"HU",	"HUNGARY",				true,	A_BAND_REGION_1,	true,	G_BAND_REGION_1},
 	{352,	"IS",	"ICELAND",				true,	A_BAND_REGION_1,	true,	G_BAND_REGION_1},
@@ -94,40 +94,40 @@ COUNTRY_CODE_TO_COUNTRY_REGION allCountry[] = {
 	{360,	"ID",	"INDONESIA",			true,	A_BAND_REGION_4,	true,	G_BAND_REGION_1},
 	{364,	"IR",	"IRAN",					true,	A_BAND_REGION_4,	true,	G_BAND_REGION_1},
 	{372,	"IE",	"IRELAND",				true,	A_BAND_REGION_1,	true,	G_BAND_REGION_1},
-	{376,	"IL",	"ISRAEL",				FALSE,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
+	{376,	"IL",	"ISRAEL",				false,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
 	{380,	"IT",	"ITALY",				true,	A_BAND_REGION_1,	true,	G_BAND_REGION_1},
 	{392,	"JP",	"JAPAN",				true,	A_BAND_REGION_9,	true,	G_BAND_REGION_1},
 	{400,	"JO",	"JORDAN",				true,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
-	{398,	"KZ",	"KAZAKHSTAN",			FALSE,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
+	{398,	"KZ",	"KAZAKHSTAN",			false,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
 	{408,	"KP",	"KOREA DEMOCRATIC PEOPLE'S REPUBLIC OF",true,	A_BAND_REGION_5,	true,	G_BAND_REGION_1},
 	{410,	"KR",	"KOREA REPUBLIC OF",	true,	A_BAND_REGION_5,	true,	G_BAND_REGION_1},
-	{414,	"KW",	"KUWAIT",				FALSE,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
+	{414,	"KW",	"KUWAIT",				false,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
 	{428,	"LV",	"LATVIA",				true,	A_BAND_REGION_1,	true,	G_BAND_REGION_1},
-	{422,	"LB",	"LEBANON",				FALSE,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
+	{422,	"LB",	"LEBANON",				false,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
 	{438,	"LI",	"LIECHTENSTEIN",		true,	A_BAND_REGION_1,	true,	G_BAND_REGION_1},
 	{440,	"LT",	"LITHUANIA",			true,	A_BAND_REGION_1,	true,	G_BAND_REGION_1},
 	{442,	"LU",	"LUXEMBOURG",			true,	A_BAND_REGION_1,	true,	G_BAND_REGION_1},
 	{446,	"MO",	"MACAU",				true,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
-	{807,	"MK",	"MACEDONIA",			FALSE,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
+	{807,	"MK",	"MACEDONIA",			false,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
 	{458,	"MY",	"MALAYSIA",				true,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
 	{484,	"MX",	"MEXICO",				true,	A_BAND_REGION_0,	true,	G_BAND_REGION_0},
 	{492,	"MC",	"MONACO",				true,	A_BAND_REGION_2,	true,	G_BAND_REGION_1},
-	{504,	"MA",	"MOROCCO",				FALSE,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
+	{504,	"MA",	"MOROCCO",				false,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
 	{528,	"NL",	"NETHERLANDS",			true,	A_BAND_REGION_1,	true,	G_BAND_REGION_1},
 	{554,	"NZ",	"NEW ZEALAND",			true,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
 	{578,	"NO",	"NORWAY",				true,	A_BAND_REGION_0,	true,	G_BAND_REGION_0},
 	{512,	"OM",	"OMAN",					true,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
-	{586,	"PK",	"PAKISTAN",				FALSE,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
+	{586,	"PK",	"PAKISTAN",				false,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
 	{591,	"PA",	"PANAMA",				true,	A_BAND_REGION_0,	true,	G_BAND_REGION_0},
 	{604,	"PE",	"PERU",					true,	A_BAND_REGION_4,	true,	G_BAND_REGION_1},
 	{608,	"PH",	"PHILIPPINES",			true,	A_BAND_REGION_4,	true,	G_BAND_REGION_1},
 	{616,	"PL",	"POLAND",				true,	A_BAND_REGION_1,	true,	G_BAND_REGION_1},
 	{620,	"PT",	"PORTUGAL",				true,	A_BAND_REGION_1,	true,	G_BAND_REGION_1},
 	{630,	"PR",	"PUERTO RICO",			true,	A_BAND_REGION_0,	true,	G_BAND_REGION_0},
-	{634,	"QA",	"QATAR",				FALSE,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
-	{642,	"RO",	"ROMANIA",				FALSE,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
-	{643,	"RU",	"RUSSIA FEDERATION",	FALSE,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
-	{682,	"SA",	"SAUDI ARABIA",			FALSE,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
+	{634,	"QA",	"QATAR",				false,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
+	{642,	"RO",	"ROMANIA",				false,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
+	{643,	"RU",	"RUSSIA FEDERATION",	false,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
+	{682,	"SA",	"SAUDI ARABIA",			false,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
 	{702,	"SG",	"SINGAPORE",			true,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
 	{703,	"SK",	"SLOVAKIA",				true,	A_BAND_REGION_1,	true,	G_BAND_REGION_1},
 	{705,	"SI",	"SLOVENIA",				true,	A_BAND_REGION_1,	true,	G_BAND_REGION_1},
@@ -135,22 +135,22 @@ COUNTRY_CODE_TO_COUNTRY_REGION allCountry[] = {
 	{724,	"ES",	"SPAIN",				true,	A_BAND_REGION_1,	true,	G_BAND_REGION_1},
 	{752,	"SE",	"SWEDEN",				true,	A_BAND_REGION_1,	true,	G_BAND_REGION_1},
 	{756,	"CH",	"SWITZERLAND",			true,	A_BAND_REGION_1,	true,	G_BAND_REGION_1},
-	{760,	"SY",	"SYRIAN ARAB REPUBLIC",	FALSE,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
+	{760,	"SY",	"SYRIAN ARAB REPUBLIC",	false,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
 	{158,	"TW",	"TAIWAN",				true,	A_BAND_REGION_3,	true,	G_BAND_REGION_0},
-	{764,	"TH",	"THAILAND",				FALSE,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
+	{764,	"TH",	"THAILAND",				false,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
 	{780,	"TT",	"TRINIDAD AND TOBAGO",	true,	A_BAND_REGION_2,	true,	G_BAND_REGION_1},
 	{788,	"TN",	"TUNISIA",				true,	A_BAND_REGION_2,	true,	G_BAND_REGION_1},
 	{792,	"TR",	"TURKEY",				true,	A_BAND_REGION_2,	true,	G_BAND_REGION_1},
-	{804,	"UA",	"UKRAINE",				FALSE,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
-	{784,	"AE",	"UNITED ARAB EMIRATES",	FALSE,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
+	{804,	"UA",	"UKRAINE",				false,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
+	{784,	"AE",	"UNITED ARAB EMIRATES",	false,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
 	{826,	"GB",	"UNITED KINGDOM",		true,	A_BAND_REGION_1,	true,	G_BAND_REGION_1},
 	{840,	"US",	"UNITED STATES",		true,	A_BAND_REGION_0,	true,	G_BAND_REGION_0},
 	{858,	"UY",	"URUGUAY",				true,	A_BAND_REGION_5,	true,	G_BAND_REGION_1},
 	{860,	"UZ",	"UZBEKISTAN",			true,	A_BAND_REGION_1,	true,	G_BAND_REGION_0},
 	{862,	"VE",	"VENEZUELA",			true,	A_BAND_REGION_5,	true,	G_BAND_REGION_1},
-	{704,	"VN",	"VIET NAM",				FALSE,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
-	{887,	"YE",	"YEMEN",				FALSE,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
-	{716,	"ZW",	"ZIMBABWE",				FALSE,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
+	{704,	"VN",	"VIET NAM",				false,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
+	{887,	"YE",	"YEMEN",				false,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
+	{716,	"ZW",	"ZIMBABWE",				false,	A_BAND_REGION_0,	true,	G_BAND_REGION_1},
 	{999,	"",	"",	0,	0,	0,	0}
 };
 
@@ -635,7 +635,7 @@ VOID RTMPAPGetAssoMacTable(
     Description:
         Set Country Code.
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT Set_CountryCode_Proc(
@@ -651,11 +651,11 @@ INT Set_CountryCode_Proc(
 	else
 	{
 		memset(pAd->CommonCfg.CountryCode, 0, 3);
-		pAd->CommonCfg.bCountryFlag = FALSE;
+		pAd->CommonCfg.bCountryFlag = false;
 	}
 
 	if (IS_MT76x2(pAd))
-		AsicSwitchChannel(pAd, pAd->hw_cfg.cent_ch, FALSE);
+		AsicSwitchChannel(pAd, pAd->hw_cfg.cent_ch, false);
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_CountryCode_Proc::(bCountryFlag=%d, CountryCode=%s)\n", pAd->CommonCfg.bCountryFlag, pAd->CommonCfg.CountryCode));
 
@@ -669,7 +669,7 @@ INT Set_CountryCode_Proc(
         Set Country String.
         This command will not work, if the field of CountryRegion in eeprom is programmed.
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT Set_CountryString_Proc(
@@ -685,7 +685,7 @@ INT Set_CountryString_Proc(
 		if (strlen(arg) < 4)
 		{
 			DBGPRINT(RT_DEBUG_ERROR, ("Set_CountryString_Proc::Parameter of CountryString are too short !\n"));
-			return FALSE;
+			return false;
 		}
 
 		for (index = 0; index < strlen(arg); index++)
@@ -706,11 +706,11 @@ INT Set_CountryString_Proc(
 		}
 
 		if (index == NUM_OF_COUNTRIES)
-			success = FALSE;
+			success = false;
 	}
 	else
 	{
-		success = FALSE;
+		success = false;
 	}
 
 	if (success == true)
@@ -718,11 +718,11 @@ INT Set_CountryString_Proc(
 		if (pAd->CommonCfg.CountryRegion & 0x80)
 		{
 			DBGPRINT(RT_DEBUG_ERROR, ("Set_CountryString_Proc::parameter of CountryRegion in eeprom is programmed \n"));
-			success = FALSE;
+			success = false;
 		}
 		else
 		{
-			success = FALSE;
+			success = false;
 			if (WMODE_CAP_2G(pAd->CommonCfg.PhyMode))
 			{
 				if (allCountry[index].SupportGBand == true)
@@ -790,12 +790,12 @@ INT Set_2G_256QAM_Proc(
     Description:
         Set SSID
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT	Set_AP_SSID_Proc(struct rtmp_adapter *pAd, char *arg)
 {
-	INT success = FALSE;
+	INT success = false;
 	struct os_cookie *pObj = pAd->OS_Cookie;
 	MULTISSID_STRUCT *mbss;
 
@@ -810,7 +810,7 @@ INT	Set_AP_SSID_Proc(struct rtmp_adapter *pAd, char *arg)
 
 		{
 			/* If in detection mode, need to stop detect first. */
-			if (pAd->CommonCfg.bIEEE80211H == FALSE)
+			if (pAd->CommonCfg.bIEEE80211H == false)
 			{
 				APStop(pAd);
 				APStartUp(pAd);
@@ -838,7 +838,7 @@ INT	Set_AP_SSID_Proc(struct rtmp_adapter *pAd, char *arg)
 		}
 	}
 	else
-		success = FALSE;
+		success = false;
 
 	return success;
 }
@@ -849,7 +849,7 @@ INT	Set_AP_SSID_Proc(struct rtmp_adapter *pAd, char *arg)
     Description:
         Set TxRate
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT Set_TxRate_Proc(
@@ -874,7 +874,7 @@ INT Set_TxRate_Proc(
     Description:
         Set BasicRate
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT Set_BasicRate_Proc(struct rtmp_adapter *pAd, char *arg)
@@ -885,12 +885,12 @@ INT Set_BasicRate_Proc(struct rtmp_adapter *pAd, char *arg)
 	BasicRateBitmap = (ULONG) simple_strtol(arg, 0, 10);
 
 	if (BasicRateBitmap > 4095) /* (2 ^ MAX_LEN_OF_SUPPORTED_RATES) -1 */
-		return FALSE;
+		return false;
 
 	pAd->CommonCfg.BasicRateBitmap = BasicRateBitmap;
 	pAd->CommonCfg.BasicRateBitmapOld = BasicRateBitmap;
 
-	MlmeUpdateTxRates(pAd, FALSE, (UCHAR)pObj->ioctl_if);
+	MlmeUpdateTxRates(pAd, false, (UCHAR)pObj->ioctl_if);
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_BasicRate_Proc::(BasicRateBitmap=0x%08lx)\n", pAd->CommonCfg.BasicRateBitmap));
 
@@ -903,7 +903,7 @@ INT Set_BasicRate_Proc(struct rtmp_adapter *pAd, char *arg)
     Description:
         Set Beacon Period
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT	Set_BeaconPeriod_Proc(
@@ -911,7 +911,7 @@ INT	Set_BeaconPeriod_Proc(
 	IN	char *		arg)
 {
 	USHORT BeaconPeriod;
-	INT   success = FALSE;
+	INT   success = false;
 
 	BeaconPeriod = (USHORT) simple_strtol(arg, 0, 10);
 	if((BeaconPeriod >= 20) && (BeaconPeriod < 1024))
@@ -925,7 +925,7 @@ INT	Set_BeaconPeriod_Proc(
 #endif /* AP_QLOAD_SUPPORT */
 	}
 	else
-		success = FALSE;
+		success = false;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_BeaconPeriod_Proc::(BeaconPeriod=%d)\n", pAd->CommonCfg.BeaconPeriod));
 
@@ -937,7 +937,7 @@ INT	Set_BeaconPeriod_Proc(
     Description:
         Set Dtim Period
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT	Set_DtimPeriod_Proc(
@@ -945,7 +945,7 @@ INT	Set_DtimPeriod_Proc(
 	IN	char *		arg)
 {
 	USHORT DtimPeriod;
-	INT   success = FALSE;
+	INT   success = false;
 
 	DtimPeriod = (USHORT) simple_strtol(arg, 0, 10);
 	if((DtimPeriod >= 1) && (DtimPeriod <= 255))
@@ -954,7 +954,7 @@ INT	Set_DtimPeriod_Proc(
 		success = true;
 	}
 	else
-		success = FALSE;
+		success = false;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_DtimPeriod_Proc::(DtimPeriod=%d)\n", pAd->ApCfg.DtimPeriod));
 
@@ -968,7 +968,7 @@ INT	Set_DtimPeriod_Proc(
     Description:
         Disable/enable OLBC detection manually
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT	Set_OLBCDetection_Proc(
@@ -984,7 +984,7 @@ INT	Set_OLBCDetection_Proc(
 			pAd->CommonCfg.DisableOLBCDetect = 1;
 			break;
 		default:  /*Invalid argument */
-			return FALSE;
+			return false;
 	}
 
 	return true;
@@ -997,7 +997,7 @@ INT	Set_OLBCDetection_Proc(
     Description:
         Set WmmCapable Enable or Disable
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT	Set_AP_WmmCapable_Proc(
@@ -1012,9 +1012,9 @@ INT	Set_AP_WmmCapable_Proc(
 	if (bWmmCapable == 1)
 		pAd->ApCfg.MBSSID[pObj->ioctl_if].wdev.bWmmCapable = true;
 	else if (bWmmCapable == 0)
-		pAd->ApCfg.MBSSID[pObj->ioctl_if].wdev.bWmmCapable = FALSE;
+		pAd->ApCfg.MBSSID[pObj->ioctl_if].wdev.bWmmCapable = false;
 	else
-		return FALSE;  /*Invalid argument */
+		return false;  /*Invalid argument */
 
 	pAd->ApCfg.MBSSID[pObj->ioctl_if].bWmmCapableOrg = \
 								pAd->ApCfg.MBSSID[pObj->ioctl_if].wdev.bWmmCapable;
@@ -1052,7 +1052,7 @@ INT	Set_AP_MaxStaNum_Proc(
     Description:
         Set session idle timeout
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT	Set_AP_IdleTimeout_Proc(
@@ -1066,7 +1066,7 @@ INT	Set_AP_IdleTimeout_Proc(
     Description:
         Set No Forwarding Enable or Disable
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT	Set_NoForwarding_Proc(
@@ -1082,9 +1082,9 @@ INT	Set_NoForwarding_Proc(
 	if (NoForwarding == 1)
 		pAd->ApCfg.MBSSID[pObj->ioctl_if].IsolateInterStaTraffic = true;
 	else if (NoForwarding == 0)
-		pAd->ApCfg.MBSSID[pObj->ioctl_if].IsolateInterStaTraffic = FALSE;
+		pAd->ApCfg.MBSSID[pObj->ioctl_if].IsolateInterStaTraffic = false;
 	else
-		return FALSE;  /*Invalid argument */
+		return false;  /*Invalid argument */
 
 	DBGPRINT(RT_DEBUG_TRACE, ("IF(ra%d) Set_NoForwarding_Proc::(NoForwarding=%ld)\n",
 		pObj->ioctl_if, pAd->ApCfg.MBSSID[pObj->ioctl_if].IsolateInterStaTraffic));
@@ -1106,9 +1106,9 @@ INT	Set_NoForwardingMBCast_Proc(
 	if (NoForwardingMBCast == 1)
 		pAd->ApCfg.MBSSID[pObj->ioctl_if].IsolateInterStaMBCast = true;
 	else if (NoForwardingMBCast == 0)
-		pAd->ApCfg.MBSSID[pObj->ioctl_if].IsolateInterStaMBCast = FALSE;
+		pAd->ApCfg.MBSSID[pObj->ioctl_if].IsolateInterStaMBCast = false;
 	else
-		return FALSE;  //Invalid argument
+		return false;  //Invalid argument
 
 	DBGPRINT(RT_DEBUG_TRACE, ("IF(ra%d) Set_NoForwardingMBCast_Proc::(IsolateInterStaMBCast=%d)\n",
 		pObj->ioctl_if, pAd->ApCfg.MBSSID[pObj->ioctl_if].IsolateInterStaMBCast));
@@ -1121,7 +1121,7 @@ INT	Set_NoForwardingMBCast_Proc(
     Description:
         Set No Forwarding between each SSID
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT	Set_NoForwardingBTNSSID_Proc(
@@ -1135,9 +1135,9 @@ INT	Set_NoForwardingBTNSSID_Proc(
 	if (NoForwarding == 1)
 		pAd->ApCfg.IsolateInterStaTrafficBTNBSSID = true;
 	else if (NoForwarding == 0)
-		pAd->ApCfg.IsolateInterStaTrafficBTNBSSID = FALSE;
+		pAd->ApCfg.IsolateInterStaTrafficBTNBSSID = false;
 	else
-		return FALSE;  /*Invalid argument */
+		return false;  /*Invalid argument */
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_NoForwardingBTNSSID_Proc::(NoForwarding=%ld)\n", pAd->ApCfg.IsolateInterStaTrafficBTNBSSID));
 
@@ -1150,7 +1150,7 @@ INT	Set_NoForwardingBTNSSID_Proc(
     Description:
         Set Hide SSID Enable or Disable
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT	Set_HideSSID_Proc(
@@ -1165,9 +1165,9 @@ INT	Set_HideSSID_Proc(
 	if (bHideSsid == 1)
 		bHideSsid = true;
 	else if (bHideSsid == 0)
-		bHideSsid = FALSE;
+		bHideSsid = false;
 	else
-		return FALSE;  /*Invalid argument */
+		return false;  /*Invalid argument */
 
 	if (pAd->ApCfg.MBSSID[pObj->ioctl_if].bHideSsid != bHideSsid)
 	{
@@ -1185,7 +1185,7 @@ INT	Set_HideSSID_Proc(
     Description:
         Set VLAN's ID field
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT	Set_VLANID_Proc(
@@ -1211,7 +1211,7 @@ INT	Set_VLANID_Proc(
     Description:
         Set VLAN's priority field
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT	Set_VLANPriority_Proc(struct rtmp_adapter *pAd, char *arg)
@@ -1232,7 +1232,7 @@ INT	Set_VLANPriority_Proc(struct rtmp_adapter *pAd, char *arg)
     Description:
         Set enable or disable carry VLAN in the air
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT	Set_VLAN_TAG_Proc(struct rtmp_adapter *pAd, char *arg)
@@ -1247,9 +1247,9 @@ INT	Set_VLAN_TAG_Proc(struct rtmp_adapter *pAd, char *arg)
 	if (bVLAN_Tag == 1)
 		bVLAN_Tag = true;
 	else if (bVLAN_Tag == 0)
-		bVLAN_Tag = FALSE;
+		bVLAN_Tag = false;
 	else
-		return FALSE;  //Invalid argument
+		return false;  //Invalid argument
 
 	wdev = &pAd->ApCfg.MBSSID[pObj->ioctl_if].wdev;
 	wdev->bVLAN_Tag = bVLAN_Tag;
@@ -1266,7 +1266,7 @@ INT	Set_VLAN_TAG_Proc(struct rtmp_adapter *pAd, char *arg)
     Description:
         Set Authentication mode
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT	Set_AP_AuthMode_Proc(
@@ -1280,7 +1280,7 @@ INT	Set_AP_AuthMode_Proc(
 
 
 	if (apidx >= pAd->ApCfg.BssidNum)
-		return FALSE;
+		return false;
 
 	/* Set Authentication mode */
 	ApCfg_Set_AuthMode_Proc(pAd, apidx, arg);
@@ -1311,7 +1311,7 @@ INT	Set_AP_AuthMode_Proc(
     Description:
         Set Encryption Type
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT	Set_AP_EncrypType_Proc(
@@ -1334,7 +1334,7 @@ INT	Set_AP_EncrypType_Proc(
 	else if ((strcmp(arg, "TKIPAES") == 0) || (strcmp(arg, "tkipaes") == 0))
 		wdev->WepStatus = Ndis802_11Encryption4Enabled;
 	else
-		return FALSE;
+		return false;
 
 	if (wdev->WepStatus >= Ndis802_11Encryption2Enabled)
 		wdev->DefaultKeyId = 1;
@@ -1358,7 +1358,7 @@ INT	Set_AP_EncrypType_Proc(
     Description:
         Set WPA pairwise mix-cipher combination
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT	Set_AP_WpaMixPairCipher_Proc(
@@ -1395,7 +1395,7 @@ INT	Set_AP_WpaMixPairCipher_Proc(
 	else if ((strncmp(arg, "WPA_TKIPAES_WPA2_TKIP", 21) == 0) || (strncmp(arg, "wpa_tkipaes_wpa2_tkip", 21) == 0))
 		wdev->WpaMixPairCipher = WPA_TKIPAES_WPA2_TKIP;
 	else
-		return FALSE;
+		return false;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("I/F(ra%d) Set_AP_WpaMixPairCipher_Proc=0x%02x\n", apidx, wdev->WpaMixPairCipher));
 
@@ -1407,7 +1407,7 @@ INT	Set_AP_WpaMixPairCipher_Proc(
     Description:
         Set WPA rekey interval value
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT	Set_AP_RekeyInterval_Proc(
@@ -1485,7 +1485,7 @@ INT Set_AP_PKT_PWR(
     Description:
         Set WPA rekey method
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT	Set_AP_RekeyMethod_Proc(
@@ -1516,7 +1516,7 @@ INT	Set_AP_RekeyMethod_Proc(
     Description:
         Set PMK-cache period
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT	Set_AP_PMKCachePeriod_Proc(
@@ -1552,7 +1552,7 @@ INT     Set_AP_PACKET_FILTER_Proc(
         else if (val >= FILTER_TOTAL || val < FILTER_NONE)
         {
                 DBGPRINT(RT_DEBUG_TRACE, ("Set_AP_PACKET_FILTER Value Error.\n"));
-                return FALSE;
+                return false;
         }
 
 		pAd->ApCfg.MBSSID[apidx].FilterUnusedPacket = val;
@@ -1577,7 +1577,7 @@ INT     Set_AP_PROBE_RSSI_THRESHOLD(
         else if (rssi > 0 || rssi < -100)
         {
                 DBGPRINT(RT_DEBUG_TRACE, ("Set_AP_PROBE_RSSI_THRESHOLD Value Error.\n"));
-                return FALSE;
+                return false;
         }
 
         pAd->ApCfg.MBSSID[apidx].ProbeRspRssiThreshold = rssi;
@@ -1610,7 +1610,7 @@ INT     Set_AP_AUTH_FAIL_RSSI_THRESHOLD(
         else if (rssi > 0 || rssi < -100)
         {
                 DBGPRINT(RT_DEBUG_TRACE, ("Set_AP_AUTH_FAIL_RSSI_THRESHOLD Value Error.\n"));
-                return FALSE;
+                return false;
         }
 
         pAd->ApCfg.MBSSID[apidx].AuthFailRssiThreshold = rssi;
@@ -1643,7 +1643,7 @@ INT     Set_AP_AUTH_NO_RSP_RSSI_THRESHOLD(
         else if (rssi > 0 || rssi < -100)
         {
                 DBGPRINT(RT_DEBUG_TRACE, ("Set_AP_AUTH_NO_RSP_RSSI_THRESHOLD Value Error.\n"));
-                return FALSE;
+                return false;
         }
 
         pAd->ApCfg.MBSSID[apidx].AuthNoRspRssiThreshold = rssi;
@@ -1665,7 +1665,7 @@ INT     Set_AP_AUTH_NO_RSP_RSSI_THRESHOLD(
     Description:
         Set AssocReq RSSI Threshold to reject STA with weak signal.
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT Set_AP_ASSOC_REQ_FAIL_RSSI_THRESHOLD(
@@ -1685,7 +1685,7 @@ INT Set_AP_ASSOC_REQ_FAIL_RSSI_THRESHOLD(
         else if (rssi > 0 || rssi < -100)
         {
                 DBGPRINT(RT_DEBUG_TRACE, ("Set_AP_ASSOC_REQ_FAIL_RSSI_THRESHOLD Value Error.\n"));
-                return FALSE;
+                return false;
         }
 
         pAd->ApCfg.MBSSID[apidx].AssocReqFailRssiThreshold = rssi;
@@ -1719,7 +1719,7 @@ INT Set_AP_ASSOC_REQ_NO_RSP_RSSI_THRESHOLD(
         else if (rssi > 0 || rssi < -100)
         {
                 DBGPRINT(RT_DEBUG_TRACE, ("Set_AP_ASSOC_REQ_NO_RSP_RSSI_THRESHOLD Value Error.\n"));
-                return FALSE;
+                return false;
         }
 
 
@@ -1741,7 +1741,7 @@ INT Set_AP_ASSOC_REQ_NO_RSP_RSSI_THRESHOLD(
     Description:
         Set lower limit for AP kicking out a STA.
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT Set_AP_KickStaRssiLow_Proc(
@@ -1761,7 +1761,7 @@ INT Set_AP_KickStaRssiLow_Proc(
         else if (rssi > 0 || rssi < -100)
         {
                 DBGPRINT(RT_DEBUG_TRACE, ("RssiLowForStaKickOut Value Error.\n"));
-                return FALSE;
+                return false;
         }
 
 
@@ -1785,7 +1785,7 @@ INT Set_AP_KickStaRssiLow_Proc(
     Description:
         Set Default Key ID
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT	Set_AP_DefaultKeyID_Proc(
@@ -1801,7 +1801,7 @@ INT	Set_AP_DefaultKeyID_Proc(
 	if((KeyIdx >= 1 ) && (KeyIdx <= 4))
 		pAd->ApCfg.MBSSID[apidx].wdev.DefaultKeyId = (UCHAR) (KeyIdx - 1 );
 	else
-		return FALSE;  /* Invalid argument */
+		return false;  /* Invalid argument */
 
 	DBGPRINT(RT_DEBUG_TRACE, ("IF(ra%d) Set_DefaultKeyID_Proc::(DefaultKeyID(0~3)=%d)\n", apidx, pAd->ApCfg.MBSSID[apidx].wdev.DefaultKeyId));
 
@@ -1814,7 +1814,7 @@ INT	Set_AP_DefaultKeyID_Proc(
     Description:
         Set WEP KEY1
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT	Set_AP_Key1_Proc(
@@ -1851,7 +1851,7 @@ INT	Set_AP_Key1_Proc(
     Description:
         Set WEP KEY2
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT	Set_AP_Key2_Proc(
@@ -1888,7 +1888,7 @@ INT	Set_AP_Key2_Proc(
     Description:
         Set WEP KEY3
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT	Set_AP_Key3_Proc(
@@ -1925,7 +1925,7 @@ INT	Set_AP_Key3_Proc(
     Description:
         Set WEP KEY4
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT	Set_AP_Key4_Proc(
@@ -1963,7 +1963,7 @@ INT	Set_AP_Key4_Proc(
     Description:
         Set Access ctrol policy
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT	Set_AccessPolicy_Proc(
@@ -1985,7 +1985,7 @@ INT	Set_AccessPolicy_Proc(
 			break;
 		default: /*Invalid argument */
 			DBGPRINT(RT_DEBUG_ERROR, ("Set_AccessPolicy_Proc::Invalid argument (=%s)\n", arg));
-			return FALSE;
+			return false;
 	}
 
 	/* check if the change in ACL affects any existent association */
@@ -2004,7 +2004,7 @@ INT	Set_AccessPolicy_Proc(
         Add one entry or several entries(if allowed to)
         	into Access control mac table list
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT	Set_ACLAddEntry_Proc(
@@ -2017,20 +2017,20 @@ INT	Set_ACLAddEntry_Proc(
 	char *				this_char;
 	char *				value;
 	INT						i, j;
-	bool					isDuplicate=FALSE;
+	bool					isDuplicate=false;
 	struct os_cookie *pObj = pAd->OS_Cookie;
 
 	if (pAd->ApCfg.MBSSID[pObj->ioctl_if].AccessControlList.Num >= (MAX_NUM_OF_ACL_LIST - 1))
     {
 		DBGPRINT(RT_DEBUG_WARN, ("The AccessControlList is full, and no more entry can join the list!\n"));
-		return FALSE;
+		return false;
 	}
 
 	/* allocate memory */
 	pacl = kmalloc(sizeof(RT_802_11_ACL), GFP_ATOMIC);
 	if (pacl == NULL) {
 		DBGPRINT(RT_DEBUG_ERROR, ("%s: Allocate memory fail!!!\n", __FUNCTION__));
-		return FALSE;
+		return false;
 	}
 
 	memset(pacl, 0, sizeof(RT_802_11_ACL));
@@ -2065,7 +2065,7 @@ INT	Set_ACLAddEntry_Proc(
 		}
 
 		/* Check if this entry is duplicate. */
-		isDuplicate = FALSE;
+		isDuplicate = false;
 		for (j=0; j<pacl->Num; j++)
 		{
 			if (memcmp(pacl->Entry[j].Addr, &macAddr, 6) == 0)
@@ -2125,7 +2125,7 @@ INT	Set_ACLAddEntry_Proc(
         Delete one entry or several entries(if allowed to)
         	from Access control mac table list
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT	Set_ACLDelEntry_Proc(
@@ -2138,7 +2138,7 @@ INT	Set_ACLDelEntry_Proc(
 	char *				this_char;
 	char *				value;
 	INT						i, j;
-	bool					isFound=FALSE;
+	bool					isFound=false;
 	struct os_cookie *pObj = pAd->OS_Cookie;
 
 	memset(&acl, 0, sizeof(RT_802_11_ACL));
@@ -2175,7 +2175,7 @@ INT	Set_ACLDelEntry_Proc(
 		}
 
 		/* Check if this entry existed. */
-		isFound = FALSE;
+		isFound = false;
 		for (j=0; j<acl.Num; j++)
 		{
 			if (memcmp(acl.Entry[j].Addr, &macAddr, MAC_ADDR_LEN) == 0)
@@ -2248,7 +2248,7 @@ char const *pACL_PolicyMessage[ACL_POLICY_TYPE_NUM] = {
         Dump all the entries in the Access control
         	mac table list of a specified BSS
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT	Set_ACLShowAll_Proc(
@@ -2256,7 +2256,7 @@ INT	Set_ACLShowAll_Proc(
 	IN	char *		arg)
 {
 	RT_802_11_ACL			acl;
-	bool					bDumpAll=FALSE;
+	bool					bDumpAll=false;
 	struct os_cookie *pObj = pAd->OS_Cookie;
 	INT						i, j;
 
@@ -2268,14 +2268,14 @@ INT	Set_ACLShowAll_Proc(
 	}
 	else if (bDumpAll == 0)
 	{
-		bDumpAll = FALSE;
+		bDumpAll = false;
 		DBGPRINT(RT_DEBUG_WARN, ("Your input is 0!\n"));
 		DBGPRINT(RT_DEBUG_WARN, ("The Access Control List will not be dumped!\n"));
 		return true;
 	}
 	else
 	{
-		return FALSE;  /* Invalid argument */
+		return false;  /* Invalid argument */
 	}
 
 	memset(&acl, 0, sizeof(RT_802_11_ACL));
@@ -2315,7 +2315,7 @@ INT	Set_ACLShowAll_Proc(
         Clear all the entries in the Access control
         	mac table list of a specified BSS
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT	Set_ACLClearAll_Proc(
@@ -2324,7 +2324,7 @@ INT	Set_ACLClearAll_Proc(
 {
 /*	RT_802_11_ACL			acl; */
 	RT_802_11_ACL			*pacl = NULL;
-	bool					bClearAll=FALSE;
+	bool					bClearAll=false;
 	struct os_cookie *pObj = pAd->OS_Cookie;
 
 	bClearAll = simple_strtol(arg, 0, 10);
@@ -2335,21 +2335,21 @@ INT	Set_ACLClearAll_Proc(
 	}
 	else if (bClearAll == 0)
 	{
-		bClearAll = FALSE;
+		bClearAll = false;
 		DBGPRINT(RT_DEBUG_WARN, ("Your input is 0!\n"));
 		DBGPRINT(RT_DEBUG_WARN, ("The Access Control List will be kept unchanged!\n"));
 		return true;
 	}
 	else
 	{
-		return FALSE;  /* Invalid argument */
+		return false;  /* Invalid argument */
 	}
 
 	/* allocate memory */
 	pacl = kmalloc(sizeof(RT_802_11_ACL), GFP_ATOMIC);
 	if (pacl == NULL) {
 		DBGPRINT(RT_DEBUG_ERROR, ("%s: Allocate memory fail!!!\n", __FUNCTION__));
-		return FALSE;
+		return false;
 	}
 
 	memset(pacl, 0, sizeof(RT_802_11_ACL));
@@ -2429,7 +2429,7 @@ void rtmp_hexdump(int level, const char *title, const UINT8 *buf, size_t len)
         arg                 WPA pre-shared key string
 
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT	Set_AP_WPAPSK_Proc(
@@ -2445,8 +2445,8 @@ INT	Set_AP_WPAPSK_Proc(
 
 	pMBSSStruct = &pAd->ApCfg.MBSSID[apidx];
 	retval = RT_CfgSetWPAPSKKey(pAd, arg, strlen(arg), (u8 *)pMBSSStruct->Ssid, pMBSSStruct->SsidLen, pMBSSStruct->PMK);
-	if (retval == FALSE)
-		return FALSE;
+	if (retval == false)
+		return false;
 
 	/* Keep this key string */
 	strcpy(pAd->ApCfg.MBSSID[apidx].WPAKeyString, arg);
@@ -2465,7 +2465,7 @@ INT	Set_AP_WPAPSK_Proc(
         arg
 
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 
@@ -2556,7 +2556,7 @@ INT Set_AutoChannelSel_Proc(
 	else
 	{
 		DBGPRINT(RT_DEBUG_ERROR, ("Set_AutoChannelSel_Proc Alg isn't defined\n"));
-		return FALSE;
+		return false;
 	}
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_AutoChannelSel_Proc Alg=%d \n", pAd->ApCfg.AutoChannelAlg));
 	if (Ssid.SsidLength == 0)
@@ -2574,7 +2574,7 @@ INT Set_PartialScan_Proc(
 	IN	char *	arg)
 {
 	UINT8 bPartialScanning = simple_strtol(arg, 0, 10);
-	pAd->ApCfg.bPartialScanning = bPartialScanning ? true:FALSE;
+	pAd->ApCfg.bPartialScanning = bPartialScanning ? true:false;
 	DBGPRINT(RT_DEBUG_TRACE, ("%s(): bPartialScanning = %u \n", __FUNCTION__, pAd->ApCfg.bPartialScanning));
 	return true;
 }
@@ -2588,7 +2588,7 @@ INT Set_PartialScan_Proc(
        pAdapter                    Pointer to our adapter
 
     Return Value:
-        true if success, FALSE otherwise
+        true if success, false otherwise
 
     Note:
         Usage:
@@ -2665,7 +2665,7 @@ INT	Show_StaSecurityInfo_Proc(struct rtmp_adapter *pAd, char *arg)
 	struct rtmp_wifi_dev *wdev;
 
 	if (pAd == NULL)
-		return FALSE;
+		return false;
 
 	printk("\n");
 	for (apidx = 0; apidx < pAd->ApCfg.BssidNum; apidx++)
@@ -3829,13 +3829,13 @@ INT Set_ApCli_Enable_Proc(
 
 	pObj = pAd->OS_Cookie;
 	if (pObj->ioctl_if_type != INT_APCLI)
-		return FALSE;
+		return false;
 
 	ifIndex = pObj->ioctl_if;
 
 	Enable = simple_strtol(arg, 0, 16);
 
-	pAd->ApCfg.ApCliTab[ifIndex].Enable = (Enable > 0) ? true : FALSE;
+	pAd->ApCfg.ApCliTab[ifIndex].Enable = (Enable > 0) ? true : false;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("I/F(apcli%d) Set_ApCli_Enable_Proc::(enable = %d)\n", ifIndex, pAd->ApCfg.ApCliTab[ifIndex].Enable));
 #ifdef APCLI_CONNECTION_TRIAL
@@ -3852,7 +3852,7 @@ INT Set_ApCli_Ssid_Proc(struct rtmp_adapter *pAd, char *arg)
 	struct os_cookie *pObj;
 	UCHAR ifIndex;
 	bool apcliEn;
-	INT success = FALSE;
+	INT success = false;
 	/*UCHAR keyMaterial[40]; */
 	UCHAR PskKey[100];
 	APCLI_STRUCT *apcli_entry;
@@ -3860,7 +3860,7 @@ INT Set_ApCli_Ssid_Proc(struct rtmp_adapter *pAd, char *arg)
 
 	pObj = pAd->OS_Cookie;
 	if (pObj->ioctl_if_type != INT_APCLI)
-		return FALSE;
+		return false;
 
 	ifIndex = pObj->ioctl_if;
 
@@ -3877,7 +3877,7 @@ INT Set_ApCli_Ssid_Proc(struct rtmp_adapter *pAd, char *arg)
 #endif /* APCLI_CONNECTION_TRIAL */
 		if(apcliEn == true )
 		{
-			apcli_entry->Enable = FALSE;
+			apcli_entry->Enable = false;
 			ApCliIfDown(pAd);
 		}
 #ifdef APCLI_CONNECTION_TRIAL
@@ -3910,7 +3910,7 @@ INT Set_ApCli_Ssid_Proc(struct rtmp_adapter *pAd, char *arg)
 		apcli_entry->Enable = apcliEn;
 	}
 	else
-		success = FALSE;
+		success = false;
 
 	return success;
 }
@@ -3928,7 +3928,7 @@ INT Set_ApCli_Bssid_Proc(
 
 	pObj = pAd->OS_Cookie;
 	if (pObj->ioctl_if_type != INT_APCLI)
-		return FALSE;
+		return false;
 
 	ifIndex = pObj->ioctl_if;
 
@@ -3937,7 +3937,7 @@ INT Set_ApCli_Bssid_Proc(
 	/* bring apcli interface down first */
 	if(apcliEn == true )
 	{
-		pAd->ApCfg.ApCliTab[ifIndex].Enable = FALSE;
+		pAd->ApCfg.ApCliTab[ifIndex].Enable = false;
 #ifdef APCLI_CONNECTION_TRIAL
 		if (pAd->ApCfg.ApCliTab[ifIndex].TrialCh == 0)
 #endif /* APCLI_CONNECTION_TRIAL */
@@ -3951,13 +3951,13 @@ INT Set_ApCli_Bssid_Proc(
 		for (i=0, value = rstrtok(arg,":"); value; value = rstrtok(NULL,":"), i++)
 		{
 			if((strlen(value) != 2) || (!isxdigit(*value)) || (!isxdigit(*(value+1))) )
-				return FALSE;  /* Invalid */
+				return false;  /* Invalid */
 
 			AtoH(value, &pAd->ApCfg.ApCliTab[ifIndex].CfgApCliBssid[i], 1);
 		}
 
 		if(i != 6)
-			return FALSE;  /* Invalid */
+			return false;  /* Invalid */
 	}
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_ApCli_Bssid_Proc (%2X:%2X:%2X:%2X:%2X:%2X)\n",
@@ -3979,7 +3979,7 @@ INT Set_ApCli_Bssid_Proc(
     Description:
         Set ApCli-IF Authentication mode
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT	Set_ApCli_AuthMode_Proc(struct rtmp_adapter *pAd, char *arg)
@@ -3990,7 +3990,7 @@ INT	Set_ApCli_AuthMode_Proc(struct rtmp_adapter *pAd, char *arg)
 	struct rtmp_wifi_dev *wdev;
 
 	if (pObj->ioctl_if_type != INT_APCLI)
-		return FALSE;
+		return false;
 
 	ifIndex = pObj->ioctl_if;
 	wdev = &pAd->ApCfg.ApCliTab[ifIndex].wdev;
@@ -4043,7 +4043,7 @@ INT	Set_ApCli_AuthMode_Proc(struct rtmp_adapter *pAd, char *arg)
     Description:
         Set ApCli-IF Encryption Type
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT	Set_ApCli_EncrypType_Proc(
@@ -4057,7 +4057,7 @@ INT	Set_ApCli_EncrypType_Proc(
 
 
 	if (pObj->ioctl_if_type != INT_APCLI)
-		return FALSE;
+		return false;
 
 	ifIndex = pObj->ioctl_if;
 
@@ -4087,7 +4087,7 @@ INT	Set_ApCli_EncrypType_Proc(
 
 	pApCliEntry->PairCipher = wdev->WepStatus;
 	pApCliEntry->GroupCipher = wdev->WepStatus;
-	pApCliEntry->bMixCipher = FALSE;
+	pApCliEntry->bMixCipher = false;
 
 	if (wdev->WepStatus >= Ndis802_11Encryption2Enabled)
 		wdev->DefaultKeyId = 1;
@@ -4105,7 +4105,7 @@ INT	Set_ApCli_EncrypType_Proc(
     Description:
         Set Default Key ID
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT	Set_ApCli_DefaultKeyID_Proc(
@@ -4118,7 +4118,7 @@ INT	Set_ApCli_DefaultKeyID_Proc(
 
 
 	if (pObj->ioctl_if_type != INT_APCLI)
-		return FALSE;
+		return false;
 
 	wdev = &pAd->ApCfg.ApCliTab[pObj->ioctl_if].wdev;
 
@@ -4126,7 +4126,7 @@ INT	Set_ApCli_DefaultKeyID_Proc(
 	if((KeyIdx >= 1 ) && (KeyIdx <= 4))
 		wdev->DefaultKeyId = (UCHAR) (KeyIdx - 1 );
 	else
-		return FALSE;  /* Invalid argument */
+		return false;  /* Invalid argument */
 
 	DBGPRINT(RT_DEBUG_TRACE, ("IF(apcli%d) Set_DefaultKeyID_Proc::(DefaultKeyID(0~3)=%d)\n", pObj->ioctl_if, wdev->DefaultKeyId));
 
@@ -4143,7 +4143,7 @@ INT	Set_ApCli_DefaultKeyID_Proc(
         arg                 WPA pre-shared key string
 
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT	Set_ApCli_WPAPSK_Proc(
@@ -4157,7 +4157,7 @@ INT	Set_ApCli_WPAPSK_Proc(
 
 	pObj = pAd->OS_Cookie;
 	if (pObj->ioctl_if_type != INT_APCLI)
-		return FALSE;
+		return false;
 
 	ifIndex = pObj->ioctl_if;
 	pApCliEntry = &pAd->ApCfg.ApCliTab[ifIndex];
@@ -4165,8 +4165,8 @@ INT	Set_ApCli_WPAPSK_Proc(
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_ApCli_WPAPSK_Proc::(WPAPSK=%s)\n", arg));
 
 	retval = RT_CfgSetWPAPSKKey(pAd, arg, strlen(arg), (u8 *)pApCliEntry->CfgSsid, pApCliEntry->CfgSsidLen, pApCliEntry->PMK);
-	if (retval == FALSE)
-		return FALSE;
+	if (retval == false)
+		return false;
 
 	memmove(pApCliEntry->PSK, arg, strlen(arg));
 	pApCliEntry->PSKLen = strlen(arg);
@@ -4180,7 +4180,7 @@ INT	Set_ApCli_WPAPSK_Proc(
     Description:
         Set WEP KEY1 for ApCli-IF
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT	Set_ApCli_Key1_Proc(
@@ -4193,7 +4193,7 @@ INT	Set_ApCli_Key1_Proc(
 	INT				retVal;
 
 	if (pObj->ioctl_if_type != INT_APCLI)
-		return FALSE;
+		return false;
 
 	ifIndex = pObj->ioctl_if;
 	pApCliEntry = &pAd->ApCfg.ApCliTab[ifIndex];
@@ -4212,7 +4212,7 @@ INT	Set_ApCli_Key1_Proc(
     Description:
         Set WEP KEY2 for ApCli-IF
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT	Set_ApCli_Key2_Proc(
@@ -4226,7 +4226,7 @@ INT	Set_ApCli_Key2_Proc(
 
 	pObj = pAd->OS_Cookie;
 	if (pObj->ioctl_if_type != INT_APCLI)
-		return FALSE;
+		return false;
 
 	ifIndex = pObj->ioctl_if;
 	pApCliEntry = &pAd->ApCfg.ApCliTab[ifIndex];
@@ -4244,7 +4244,7 @@ INT	Set_ApCli_Key2_Proc(
     Description:
         Set WEP KEY3 for ApCli-IF
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT	Set_ApCli_Key3_Proc(
@@ -4258,7 +4258,7 @@ INT	Set_ApCli_Key3_Proc(
 
 	pObj = pAd->OS_Cookie;
 	if (pObj->ioctl_if_type != INT_APCLI)
-		return FALSE;
+		return false;
 
 	ifIndex = pObj->ioctl_if;
 	pApCliEntry = &pAd->ApCfg.ApCliTab[ifIndex];
@@ -4276,7 +4276,7 @@ INT	Set_ApCli_Key3_Proc(
     Description:
         Set WEP KEY4 for ApCli-IF
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT	Set_ApCli_Key4_Proc(
@@ -4290,7 +4290,7 @@ INT	Set_ApCli_Key4_Proc(
 
 	pObj = pAd->OS_Cookie;
 	if (pObj->ioctl_if_type != INT_APCLI)
-		return FALSE;
+		return false;
 
 	ifIndex = pObj->ioctl_if;
 	pApCliEntry = &pAd->ApCfg.ApCliTab[ifIndex];
@@ -4311,7 +4311,7 @@ INT Set_ApCli_TxMode_Proc(
 
 
 	if (pObj->ioctl_if_type != INT_APCLI)
-		return FALSE;
+		return false;
 
 	wdev = &pAd->ApCfg.ApCliTab[pObj->ioctl_if].wdev;
 
@@ -4331,7 +4331,7 @@ INT Set_ApCli_TxMcs_Proc(
 
 
 	if (pObj->ioctl_if_type != INT_APCLI)
-		return FALSE;
+		return false;
 
 	wdev = &pAd->ApCfg.ApCliTab[pObj->ioctl_if].wdev;
 
@@ -4362,7 +4362,7 @@ INT Set_ApCli_Trial_Ch_Proc(
 
 	pObj = pAd->OS_Cookie;
 	if (pObj->ioctl_if_type != INT_APCLI)
-		return FALSE;
+		return false;
 
 	ifIndex = pObj->ioctl_if;
 	pApCliEntry = &pAd->ApCfg.ApCliTab[ifIndex];
@@ -4393,7 +4393,7 @@ INT Set_ApCli_Wpa_Support(
 
 	pObj = pAd->OS_Cookie;
 	if (pObj->ioctl_if_type != INT_APCLI)
-		return FALSE;
+		return false;
 
 	ifIndex = pObj->ioctl_if;
 	pApCliEntry = &pAd->ApCfg.ApCliTab[ifIndex];
@@ -4424,7 +4424,7 @@ INT	Set_ApCli_IEEE8021X_Proc(
 
 	pObj = pAd->OS_Cookie;
 	if (pObj->ioctl_if_type != INT_APCLI)
-		return FALSE;
+		return false;
 
 	ifIndex = pObj->ioctl_if;
 	pApCliEntry = &pAd->ApCfg.ApCliTab[ifIndex];
@@ -4434,9 +4434,9 @@ INT	Set_ApCli_IEEE8021X_Proc(
 	if (ieee8021x == 1)
         pApCliEntry->wdev.IEEE8021X = true;
 	else if (ieee8021x == 0)
-		pApCliEntry->wdev.IEEE8021X = FALSE;
+		pApCliEntry->wdev.IEEE8021X = false;
 	else
-		return FALSE;
+		return false;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("IF(ra%d) Set_ApCli_IEEE8021X_Proc::(IEEE8021X=%d)\n", pObj->ioctl_if, pApCliEntry->wdev.IEEE8021X));
 
@@ -4451,7 +4451,7 @@ INT	Set_ApCli_IEEE8021X_Proc(
     Description:
         Trigger Apcli Auto connect to find the missed AP.
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT Set_ApCli_AutoConnect_Proc(
@@ -4464,11 +4464,11 @@ INT Set_ApCli_AutoConnect_Proc(
 	long scan_mode = simple_strtol(arg, 0, 10);
 
 	if (pObj->ioctl_if_type != INT_APCLI)
-		return FALSE;
+		return false;
 	pApCfg = &pAd->ApCfg;
 	ifIndex = pObj->ioctl_if;
 
-	if (pApCfg->ApCliAutoConnectRunning == FALSE)
+	if (pApCfg->ApCliAutoConnectRunning == false)
 	{
 		Set_ApCli_Enable_Proc(pAd, "0");
 		pApCfg->ApCliAutoConnectRunning = true;
@@ -4515,13 +4515,13 @@ INT Set_ApCli_Cert_Enable_Proc(
 
 	pObj = pAd->OS_Cookie;
 	if (pObj->ioctl_if_type != INT_APCLI)
-		return FALSE;
+		return false;
 
 	ifIndex = pObj->ioctl_if;
 
 	Enable = simple_strtol(arg, 0, 16);
 
-	pAd->bApCliCertTest = (Enable > 0) ? true : FALSE;
+	pAd->bApCliCertTest = (Enable > 0) ? true : false;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("I/F(apcli%d) Set_ApCli_Cert_Enable_Proc::(enable = %d)\n", ifIndex, pAd->bApCliCertTest));
 
@@ -4540,13 +4540,13 @@ INT Set_ApCli_WMM_Enable_Proc(
 
 	pObj = pAd->OS_Cookie;
 	if (pObj->ioctl_if_type != INT_APCLI)
-		return FALSE;
+		return false;
 
 	ifIndex = pObj->ioctl_if;
 
 	Enable = simple_strtol(arg, 0, 16);
 	pApCliEntry = &pAd->ApCfg.ApCliTab[ifIndex];
-	pApCliEntry->wdev.bWmmCapable = (Enable > 0) ? true : FALSE;
+	pApCliEntry->wdev.bWmmCapable = (Enable > 0) ? true : false;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("I/F(apcli%d) Set_ApCli_WMM_Enable_Proc::(enable = %d)\n", ifIndex, pApCliEntry->wdev.bWmmCapable));
 
@@ -4565,12 +4565,12 @@ INT	Set_DisConnectSta_Proc(
 	MAC_TABLE_ENTRY *pEntry = NULL;
 
 	if(strlen(arg) != 17)  /*Mac address acceptable format 01:02:03:04:05:06 length 17 */
-		return FALSE;
+		return false;
 
 	for (i=0, value = rstrtok(arg,":"); value; value = rstrtok(NULL,":"))
 	{
 		if((strlen(value) != 2) || (!isxdigit(*value)) || (!isxdigit(*(value+1))) )
-			return FALSE;  /*Invalid */
+			return false;  /*Invalid */
 
 		AtoH(value, (UCHAR *)&macAddr[i++], 1);
 	}
@@ -4578,7 +4578,7 @@ INT	Set_DisConnectSta_Proc(
 	pEntry = MacTableLookup(pAd, macAddr);
 	if (pEntry)
 	{
-		MlmeDeAuthAction(pAd, pEntry, REASON_DISASSOC_STA_LEAVING, FALSE);
+		MlmeDeAuthAction(pAd, pEntry, REASON_DISASSOC_STA_LEAVING, false);
 /*		MacTableDeleteEntry(pAd, pEntry->wcid, Addr); */
 	}
 
@@ -4625,7 +4625,7 @@ INT Set_DisConnectAllSta_Proc(
         Set IEEE8021X.
         This parameter is 1 when 802.1x-wep turn on, otherwise 0
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT	Set_IEEE8021X_Proc(
@@ -4642,9 +4642,9 @@ INT	Set_IEEE8021X_Proc(
 	if (ieee8021x == 1)
 		wdev->IEEE8021X = true;
 	else if (ieee8021x == 0)
-		wdev->IEEE8021X = FALSE;
+		wdev->IEEE8021X = false;
 	else
-		return FALSE;  /*Invalid argument */
+		return false;  /*Invalid argument */
 
 	DBGPRINT(RT_DEBUG_TRACE, ("IF(ra%d) Set_IEEE8021X_Proc::(IEEE8021X=%d)\n", pObj->ioctl_if, wdev->IEEE8021X));
 
@@ -4656,7 +4656,7 @@ INT	Set_IEEE8021X_Proc(
     Description:
         Set pre-authentication enable or disable when WPA/WPA2 turn on
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT	Set_PreAuth_Proc(
@@ -4671,9 +4671,9 @@ INT	Set_PreAuth_Proc(
 	if (PreAuth == 1)
 		pAd->ApCfg.MBSSID[pObj->ioctl_if].PreAuth = true;
 	else if (PreAuth == 0)
-		pAd->ApCfg.MBSSID[pObj->ioctl_if].PreAuth = FALSE;
+		pAd->ApCfg.MBSSID[pObj->ioctl_if].PreAuth = false;
 	else
-		return FALSE;  /*Invalid argument */
+		return false;  /*Invalid argument */
 
 	DBGPRINT(RT_DEBUG_TRACE, ("IF(ra%d) Set_PreAuth_Proc::(PreAuth=%d)\n", pObj->ioctl_if, pAd->ApCfg.MBSSID[pObj->ioctl_if].PreAuth));
 
@@ -4834,7 +4834,7 @@ INT Set_UAPSD_Proc(
 	if (simple_strtol(arg, 0, 10) != 0)
 		pAd->ApCfg.MBSSID[IdMbss].UapsdInfo.bAPSDCapable = true;
 	else
-		pAd->ApCfg.MBSSID[IdMbss].UapsdInfo.bAPSDCapable = FALSE;
+		pAd->ApCfg.MBSSID[IdMbss].UapsdInfo.bAPSDCapable = false;
 
 	return true;
 } /* End of Set_UAPSD_Proc */
@@ -4942,7 +4942,7 @@ INT	Set_AP2040ReScan_Proc(
 	/* apply setting */
 	SetCommonHT(pAd);
 	AsicBBPAdjust(pAd);
-	AsicSwitchChannel(pAd, pAd->CommonCfg.CentralChannel, FALSE);
+	AsicSwitchChannel(pAd, pAd->CommonCfg.CentralChannel, false);
 	AsicLockChannel(pAd, pAd->CommonCfg.CentralChannel);
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_AP2040ReScan_Proc() Trigger AP ReScan !!!\n"));
@@ -4970,7 +4970,7 @@ INT Set_EntryLifeCheck_Proc(
     Description:
         Set Authentication mode
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT	ApCfg_Set_AuthMode_Proc(
@@ -5474,9 +5474,9 @@ INT Set_AP_DyncVgaEnable_Proc(
 
 	Enable = simple_strtol(arg, 0, 10);
 
-	pAd->CommonCfg.lna_vga_ctl.bDyncVgaEnable = (Enable > 0) ? true : FALSE;
+	pAd->CommonCfg.lna_vga_ctl.bDyncVgaEnable = (Enable > 0) ? true : false;
 
-	if (pAd->CommonCfg.lna_vga_ctl.bDyncVgaEnable == FALSE)
+	if (pAd->CommonCfg.lna_vga_ctl.bDyncVgaEnable == false)
 	{
 		if (IS_MT76x2(pAd)) {
 			bbp_val = RTMP_BBP_IO_READ32(pAd, AGC1_R8);

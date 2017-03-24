@@ -1027,7 +1027,7 @@ VOID asic_mcs_lut_update(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 				       pEntry->HTPhyMode.field.eTxBF, pEntry->HTPhyMode.field.iTxBF));
 
 			if (pEntry->HTPhyMode.field.eTxBF || pEntry->HTPhyMode.field.iTxBF)
-				rate_ctrl.RATE_CTRL_N.STBC = FALSE;
+				rate_ctrl.RATE_CTRL_N.STBC = false;
 		}
 		else
 #endif /* RLT_MAC */
@@ -1043,7 +1043,7 @@ VOID asic_mcs_lut_update(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 			rate_ctrl.RATE_CTRL_O.iTxBF = pEntry->HTPhyMode.field.iTxBF;
 
 			if (pEntry->HTPhyMode.field.eTxBF || pEntry->HTPhyMode.field.iTxBF)
-				rate_ctrl.RATE_CTRL_O.STBC = FALSE;
+				rate_ctrl.RATE_CTRL_O.STBC = false;
 		}
 		else
 #endif /* RTMP_MAC */
@@ -1151,7 +1151,7 @@ VOID APMlmeSetTxRate(
 #ifdef WFA_VHT_PF
 		if (pAd->CommonCfg.vht_bw_signal && tx_bw == BW_40 &&
 			pAdaptTbEntry->Mode == MODE_VHT &&
-			(pAd->MacTab.fAnyStation20Only == FALSE))
+			(pAd->MacTab.fAnyStation20Only == false))
 		{
 			// try to use BW_40 for VHT mode!
 			tx_mode = pAdaptTbEntry->Mode;
@@ -1178,7 +1178,7 @@ DBGPRINT(RT_DEBUG_INFO, ("%s(): txbw=%d, txmode=%d\n", __FUNCTION__, tx_bw, tx_m
 		CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_HT_RX_LDPC_CAPABLE)) {
 		pEntry->HTPhyMode.field.ldpc = true;
 	} else {
-		pEntry->HTPhyMode.field.ldpc = FALSE;
+		pEntry->HTPhyMode.field.ldpc = false;
 	}
 
 	if (tx_mode == MODE_VHT)
@@ -1394,7 +1394,7 @@ VOID MlmeSetTxRate(
 		CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_HT_RX_LDPC_CAPABLE)) {
 		wdev->HTPhyMode.field.ldpc = true;
 	} else {
-		wdev->HTPhyMode.field.ldpc = FALSE;
+		wdev->HTPhyMode.field.ldpc = false;
 	}
 
 #ifdef NEW_RATE_ADAPT_SUPPORT
@@ -1663,7 +1663,7 @@ VOID MlmeSelectTxRateTable(
 			// TODO: add at 11/15!
 			if ((pAd->CommonCfg.vht_bw_signal == BW_SIGNALING_DYNAMIC) &&
 				(bw == BW_40) &&
-				(pAd->MacTab.fAnyStation20Only == FALSE))
+				(pAd->MacTab.fAnyStation20Only == false))
 				break;
 #endif /* WFA_VHT_PF */
 		}
@@ -1964,7 +1964,7 @@ VOID MlmeSelectTxRateTable(
 						pAd->StaActive.SupportedPhyInfo.MCSSet[1]));
 		}
 #endif /* CONFIG_STA_SUPPORT */
-	} while(FALSE);
+	} while(false);
 
 	*pTableSize = RATE_TABLE_SIZE(*ppTable);
 	*pInitTxRateIdx = RATE_TABLE_INIT_INDEX(*ppTable);
@@ -2164,16 +2164,16 @@ VOID MlmeRAInit(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 #endif /* NEW_RATE_ADAPT_SUPPORT */
 	pEntry->lowTrafficCount = 0;
 
-	pEntry->phyETxBf = pEntry->phyITxBf = FALSE;
-	pEntry->lastRatePhyTxBf = FALSE;
+	pEntry->phyETxBf = pEntry->phyITxBf = false;
+	pEntry->lastRatePhyTxBf = false;
 	pEntry->lastNonBfRate = 0;
 
-	pEntry->fLastSecAccordingRSSI = FALSE;
+	pEntry->fLastSecAccordingRSSI = false;
 	pEntry->LastSecTxRateChangeAction = RATE_NO_CHANGE;
 	pEntry->CurrTxRateIndex = 0;
 	pEntry->CurrTxRateStableTime = 0;
 	pEntry->TxRateUpPenalty = 0;
-	pEntry->LowPacket = FALSE;
+	pEntry->LowPacket = false;
     pEntry->LastSaveRateIdx = 0;
     memset(pEntry->DownTxMCSRate, 0, sizeof(pEntry->DownTxMCSRate));
 
@@ -2213,7 +2213,7 @@ VOID MlmeRALog(
 #endif /* DBG_CTRL_SUPPORT */
 	)
 	{
-		bool stbc, csd=FALSE;
+		bool stbc, csd=false;
 		ULONG tp;
 
 		/*  Get STBC and StreamMode state */
@@ -2329,8 +2329,8 @@ VOID txbf_rate_adjust(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 		pNextTxRate = PTX_RA_LEGACY_ENTRY(pTable, pEntry->CurrTxRateIndex);
 
 	/*  If BF has been disabled then force a non-BF rate */
-	pEntry->phyETxBf = (pEntry->eTxBfEnCond > 0) ? true : FALSE;
-	pEntry->iTxBfEn  = (pEntry->iTxBfEn > 0) ? true : FALSE;
+	pEntry->phyETxBf = (pEntry->eTxBfEnCond > 0) ? true : false;
+	pEntry->iTxBfEn  = (pEntry->iTxBfEn > 0) ? true : false;
 
 
    	/*  Set BF options */

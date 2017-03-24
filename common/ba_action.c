@@ -139,7 +139,7 @@ bool ba_reordering_mpdu_insertsorted(struct reordering_list *list, struct reorde
 		else if ((*ppScan)->Sequence == mpdu->Sequence)
 		{
 			/* give up this duplicated frame */
-			return(FALSE);
+			return(false);
 		}
 		else
 		{
@@ -261,7 +261,7 @@ bool ba_reordering_resource_init(struct rtmp_adapter *pAd, int num)
 
 	if (mem == NULL) {
 		DBGPRINT(RT_DEBUG_ERROR, ("Can't Allocate Memory for BA Reordering\n"));
-		return(FALSE);
+		return(false);
 	}
 
 	/* build mpdu_blk free list */
@@ -472,14 +472,14 @@ VOID BAOriSessionSetUp(
 		return;
 	}
 
-	if ((pAd->CommonCfg.BACapability.field.AutoBA != true)  &&  (isForced == FALSE))
+	if ((pAd->CommonCfg.BACapability.field.AutoBA != true)  &&  (isForced == false))
 		return;
 
 	/* if this entry is limited to use legacy tx mode, it doesn't generate BA.  */
 	if (RTMPStaFixedTxMode(pAd, pEntry) != FIXED_TXMODE_HT)
 		return;
 
-	if ((pEntry->BADeclineBitmap & (1<<TID)) && (isForced == FALSE))
+	if ((pEntry->BADeclineBitmap & (1<<TID)) && (isForced == false))
 	{
 		DelayTime = 3000; /* try again after 3 secs*/
 /*		DBGPRINT(RT_DEBUG_TRACE, ("DeCline BA from Peer\n"));*/
@@ -523,7 +523,7 @@ VOID BAOriSessionSetUp(
 
 	if (!(pEntry->TXBAbitmap & (1<<TID)))
 	{
-		RTMPInitTimer(pAd, &pBAEntry->ORIBATimer, GET_TIMER_FUNCTION(BAOriSessionSetupTimeout), pBAEntry, FALSE);
+		RTMPInitTimer(pAd, &pBAEntry->ORIBATimer, GET_TIMER_FUNCTION(BAOriSessionSetupTimeout), pBAEntry, false);
 	}
 	else
 		RTMPCancelTimer(&pBAEntry->ORIBATimer, &Cancelled);
@@ -696,7 +696,7 @@ bool BARecSessionAdd(
 	}
 	else
 	{
-		Status = FALSE;
+		Status = false;
 		DBGPRINT(RT_DEBUG_TRACE,("Can't Accept ADDBA for %02x:%02x:%02x:%02x:%02x:%02x TID = %d\n",
 				PRINT_MAC(pEntry->Addr), TID));
 	}
@@ -886,7 +886,7 @@ VOID BAOriSessionTearDown(
 	DBGPRINT(RT_DEBUG_TRACE,("\t===>Idx = %d, Wcid=%d.TID=%d, ORI_BA_Status = %d \n", Idx, Wcid, TID, pBAEntry->ORI_BA_Status));
 
 	/* Prepare DelBA action frame and send to the peer.*/
-	if ((bPassive == FALSE) && (TID == pBAEntry->TID) && (pBAEntry->ORI_BA_Status == Originator_Done))
+	if ((bPassive == false) && (TID == pBAEntry->TID) && (pBAEntry->ORI_BA_Status == Originator_Done))
 	{
 		MLME_DELBA_REQ_STRUCT   DelbaReq;
 		MLME_QUEUE_ELEM *Elem;
@@ -952,7 +952,7 @@ VOID BARecSessionTearDown(
 
 
 		/* 1. Send DELBA Action Frame*/
-		if (bPassive == FALSE)
+		if (bPassive == false)
 		{
 			MLME_QUEUE_ELEM *Elem;
 			Elem = kmalloc(sizeof(MLME_QUEUE_ELEM), GFP_ATOMIC);
@@ -1007,8 +1007,8 @@ VOID BASessionTearDownALL(struct rtmp_adapter *pAd, UCHAR Wcid)
 
 	for (i=0; i<NUM_OF_TID; i++)
 	{
-		BAOriSessionTearDown(pAd, Wcid, i, FALSE, FALSE);
-		BARecSessionTearDown(pAd, Wcid, i, FALSE);
+		BAOriSessionTearDown(pAd, Wcid, i, false, false);
+		BARecSessionTearDown(pAd, Wcid, i, false);
 	}
 }
 
@@ -1024,7 +1024,7 @@ VOID BASessionTearDownALL(struct rtmp_adapter *pAd, UCHAR Wcid)
 	p8023Header: if this is already 802.3 format, p8023Header is NULL
 
 	Return	: true if put into rx reordering buffer, shouldn't indicaterxhere.
-				FALSE , then continue indicaterx at this moment.
+				false , then continue indicaterx at this moment.
 	==========================================================================
  */
 VOID BAOriSessionSetupTimeout(
@@ -1103,7 +1103,7 @@ VOID BAOriSessionSetupTimeout(
 	p8023Header: if this is already 802.3 format, p8023Header is NULL
 
 	Return	: true if put into rx reordering buffer, shouldn't indicaterxhere.
-				FALSE , then continue indicaterx at this moment.
+				false , then continue indicaterx at this moment.
 	==========================================================================
  */
 VOID BARecSessionIdleTimeout(
@@ -1163,7 +1163,7 @@ VOID PeerAddBAReqAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 	if (PeerAddBAReqActionSanity(pAd, Elem->Msg, Elem->MsgLen, pAddr))
 	{
 
-		if ((pAd->CommonCfg.bBADecline == FALSE) && IS_HT_STA(pMacEntry))
+		if ((pAd->CommonCfg.bBADecline == false) && IS_HT_STA(pMacEntry))
 		{
 			pAddreqFrame = (PFRAME_ADDBA_REQ)(&Elem->Msg[0]);
 			DBGPRINT(RT_DEBUG_OFF, ("Rcv Wcid(%d) AddBAReq\n", Elem->Wcid));
@@ -1298,7 +1298,7 @@ VOID PeerAddBARspAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 				break;
 			default:
 				/* check status == USED ??? */
-				BAOriSessionTearDown(pAd, Elem->Wcid, pFrame->BaParm.TID, true, FALSE);
+				BAOriSessionTearDown(pAd, Elem->Wcid, pFrame->BaParm.TID, true, false);
 				break;
 		}
 		/* Rcv Decline StatusCode*/
@@ -1340,7 +1340,7 @@ VOID PeerDelBAAction(
 		{
 			DBGPRINT(RT_DEBUG_TRACE,("BA - PeerDelBAAction----> RECIPIENT, Reason = %d\n",  pDelFrame->ReasonCode));
 			/*hex_dump("DelBA Frame", pDelFrame, Elem->MsgLen);*/
-			BAOriSessionTearDown(pAd, Elem->Wcid, pDelFrame->DelbaParm.TID, true, FALSE);
+			BAOriSessionTearDown(pAd, Elem->Wcid, pDelFrame->DelbaParm.TID, true, false);
 		}
 	}
 }
@@ -1364,23 +1364,23 @@ bool CntlEnqueueForRecv(
 	/* Do nothing if the driver is starting halt state.*/
 	/* This might happen when timer already been fired before cancel timer with mlmehalt*/
 	if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_HALT_IN_PROGRESS | fRTMP_ADAPTER_NIC_NOT_EXIST))
-		return FALSE;
+		return false;
 
 	/* First check the size, it MUST not exceed the mlme queue size*/
 	if (MsgLen > MGMT_DMA_BUFFER_SIZE) /* 1600B */
 	{
 		DBGPRINT_ERR(("CntlEnqueueForRecv: frame too large, size = %ld \n", MsgLen));
-		return FALSE;
+		return false;
 	}
 	else if (MsgLen != sizeof(FRAME_BA_REQ))
 	{
 		DBGPRINT_ERR(("CntlEnqueueForRecv: BlockAck Request frame length size = %ld incorrect\n", MsgLen));
-		return FALSE;
+		return false;
 	}
 	else if (MsgLen != sizeof(FRAME_BA_REQ))
 	{
 		DBGPRINT_ERR(("CntlEnqueueForRecv: BlockAck Request frame length size = %ld incorrect\n", MsgLen));
-		return FALSE;
+		return false;
 	}
 
 	if ((Wcid < MAX_LEN_OF_MAC_TABLE) && (TID < 8))
@@ -1391,7 +1391,7 @@ bool CntlEnqueueForRecv(
 	}
 	else
 	{
-		return FALSE;
+		return false;
 	}
 
 	DBGPRINT(RT_DEBUG_TRACE, ("BAR(%ld) : Tid (%d) - %04x:%04x\n", Wcid, TID, pFrame->BAStartingSeq.field.StartSeq, pBAEntry->LastIndSeq ));
@@ -1683,7 +1683,7 @@ static VOID ba_enqueue_reordering_packet(
 
 		mpdu_blk->pPacket = pRxBlk->pRxPacket;
 
-		if (ba_reordering_mpdu_insertsorted(&pBAEntry->list, mpdu_blk) == FALSE)
+		if (ba_reordering_mpdu_insertsorted(&pBAEntry->list, mpdu_blk) == false)
 		{
 			/* had been already within reordering list don't indicate */
 			RELEASE_NDIS_PACKET(pAd, pRxBlk->pRxPacket, NDIS_STATUS_SUCCESS);
@@ -1894,7 +1894,7 @@ VOID Peer_DelBA_Tx_Adapt_Init(
 	IN PMAC_TABLE_ENTRY pEntry)
 {
 	pEntry->bPeerDelBaTxAdaptEn = 0;
-	RTMPInitTimer(pAd, &pEntry->DelBA_tx_AdaptTimer, GET_TIMER_FUNCTION(PeerDelBATxAdaptTimeOut), pEntry, FALSE);
+	RTMPInitTimer(pAd, &pEntry->DelBA_tx_AdaptTimer, GET_TIMER_FUNCTION(PeerDelBATxAdaptTimeOut), pEntry, false);
 }
 
 static VOID Peer_DelBA_Tx_Adapt_Enable(

@@ -41,7 +41,7 @@ UCHAR PowerConstraintIE[3] = {IE_POWER_CONSTRAINT, 1, 3};
 */
 bool BeaconTransmitRequired(struct rtmp_adapter *pAd, INT apidx, MULTISSID_STRUCT *pMbss)
 {
-	bool result = FALSE;
+	bool result = false;
 
 	do
 	{
@@ -67,7 +67,7 @@ bool BeaconTransmitRequired(struct rtmp_adapter *pAd, INT apidx, MULTISSID_STRUC
 				result = true;
 		}
 	}
-	while (FALSE);
+	while (false);
 
 	return result;
 }
@@ -235,7 +235,7 @@ VOID APMakeBssBeacon(struct rtmp_adapter *pAd, INT apidx)
 	}
 #endif /* SPECIFIC_TX_POWER_SUPPORT */
 
-	RTMPWriteTxWI(pAd, &pAd->BeaconTxWI, FALSE, FALSE, true, FALSE, FALSE, true, 0, BSS0Mcast_WCID,
+	RTMPWriteTxWI(pAd, &pAd->BeaconTxWI, false, false, true, false, false, true, 0, BSS0Mcast_WCID,
 					FrameLen, PID_MGMT, 0, 0,IFS_HTTXOP, &BeaconTransmit);
 
 #ifdef SPECIFIC_TX_POWER_SUPPORT
@@ -270,7 +270,7 @@ VOID APMakeBssBeacon(struct rtmp_adapter *pAd, INT apidx)
 	/* update BEACON frame content. start right after the TXWI field. */
 	ptr = (u8 *)pMbss->BeaconBuf;
 #ifdef RT_BIG_ENDIAN
-	RTMPFrameEndianChange(pAd, ptr, DIR_WRITE, FALSE);
+	RTMPFrameEndianChange(pAd, ptr, DIR_WRITE, false);
 #endif
 
 	reg_base = pAd->BeaconOffset[pMbss->BcnBufIdx] + TXWISize;
@@ -313,7 +313,7 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 	MULTISSID_STRUCT *pMbss;
 	COMMON_CONFIG *pComCfg;
 	UCHAR PhyMode;
-	bool bHasWpsIE = FALSE;
+	bool bHasWpsIE = false;
 	UINT  i;
 	HTTRANSMIT_SETTING	BeaconTransmit = {.word = 0};   /* MGMT frame PHY rate setting when operatin at Ht rate. */
 	struct rtmp_wifi_dev *wdev;
@@ -620,7 +620,7 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 		ULONG TmpLen, infoPos;
 		u8 *pInfo;
 		UCHAR extInfoLen;
-		bool	bNeedAppendExtIE = FALSE;
+		bool	bNeedAppendExtIE = false;
 		EXT_CAP_INFO_ELEMENT	extCapInfo;
 
 
@@ -875,7 +875,7 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
         }
 #endif /* SPECIFIC_TX_POWER_SUPPORT */
 
-	RTMPWriteTxWI(pAd, &pAd->BeaconTxWI, FALSE, FALSE, true, FALSE, FALSE, true, 0, RESERVED_WCID,
+	RTMPWriteTxWI(pAd, &pAd->BeaconTxWI, false, false, true, false, false, true, 0, RESERVED_WCID,
 					FrameLen, PID_MGMT, 0 /*QID_MGMT*/, 0, IFS_HTTXOP, &BeaconTransmit);
 
 #ifdef SPECIFIC_TX_POWER_SUPPORT
@@ -1052,7 +1052,7 @@ VOID APMakeAllBssBeacon(struct rtmp_adapter *pAd)
 VOID APUpdateAllBeaconFrame(struct rtmp_adapter *pAd)
 {
 	INT		i;
-	bool FlgQloadIsAlarmIssued = FALSE;
+	bool FlgQloadIsAlarmIssued = false;
 
 	if (pAd->ApCfg.DtimCount == 0)
 		pAd->ApCfg.DtimCount = pAd->ApCfg.DtimPeriod - 1;
@@ -1065,7 +1065,7 @@ VOID APUpdateAllBeaconFrame(struct rtmp_adapter *pAd)
 
 	if ((pAd->ApCfg.DtimCount == 0) &&
 		(((pAd->CommonCfg.Bss2040CoexistFlag & BSS_2040_COEXIST_INFO_SYNC) &&
-		  (pAd->CommonCfg.bForty_Mhz_Intolerant == FALSE)) ||
+		  (pAd->CommonCfg.bForty_Mhz_Intolerant == false)) ||
 		(FlgQloadIsAlarmIssued == true)))
 	{
 		UCHAR	prevBW, prevExtChOffset;

@@ -693,7 +693,7 @@ int rt_ioctl_giwscan(struct net_device *dev,
 
 	{
 		RT_CMD_STA_IOCTL_BSS_TABLE *pBssEntry=&pIoctlScan->pBssTable[i];
-		bool isGonly=FALSE;
+		bool isGonly=false;
 		int rateCnt=0;
 
 		if (pBssEntry->Channel>14)
@@ -1049,7 +1049,7 @@ int rt_ioctl_giwscan(struct net_device *dev,
 	}
 
 	data->length = current_ev - extra;
-/*    pAd->StaCfg.bScanReqIsFromWebUI = FALSE; */
+/*    pAd->StaCfg.bScanReqIsFromWebUI = false; */
 /*	DBGPRINT(RT_DEBUG_ERROR ,("===>rt_ioctl_giwscan. %d(%d) BSS returned, data->length = %d\n",i , pAd->ScanTab.BssNr, data->length)); */
 
 	RTMP_STA_IoctlHandle(pAd, NULL, CMD_RTPRIV_IOCTL_STA_SCAN_END, 0,
@@ -2053,7 +2053,7 @@ INT rt28xx_sta_ioctl(struct net_device *net_dev, struct ifreq *rq, INT cmd)
 	VOID        		*pAd = NULL;
 	struct iwreq        *wrqin = (struct iwreq *) rq;
 	RTMP_IOCTL_INPUT_STRUCT rt_wrq, *wrq = &rt_wrq;
-/*	bool				StateMachineTouched = FALSE; */
+/*	bool				StateMachineTouched = false; */
 	INT					Status = NDIS_STATUS_SUCCESS;
 	USHORT				subcmd;
 	uint32_t 			org_len;

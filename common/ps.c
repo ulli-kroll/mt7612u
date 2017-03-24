@@ -184,7 +184,7 @@ VOID RtmpHandleRxPsPoll(struct rtmp_adapter *pAd, UCHAR *pAddr, USHORT wcid, boo
 #endif /* UAPSD_SUPPORT */
 
 		RTMP_IRQ_LOCK(&pAd->irq_lock, IrqFlags);
-		if (isActive == FALSE)
+		if (isActive == false)
 		{
 			if (pMacEntry->PsQueue.Head)
 			{
@@ -228,7 +228,7 @@ VOID RtmpHandleRxPsPoll(struct rtmp_adapter *pAd, UCHAR *pAddr, USHORT wcid, boo
 					In addtion, in Station Keep Alive mechanism, we need to
 					send a QoS Null frame to detect the station live status.
 				*/
-				bool bQosNull = FALSE;
+				bool bQosNull = false;
 
 				if (CLIENT_STATUS_TEST_FLAG(pMacEntry, fCLIENT_STATUS_WMM_CAPABLE))
 					bQosNull = true;
@@ -278,7 +278,7 @@ VOID RtmpHandleRxPsPoll(struct rtmp_adapter *pAd, UCHAR *pAddr, USHORT wcid, boo
 				in-used. We should consider "HardTransmt" this MPDU using MGMT
 				queue or things like that.
 		*/
-		RTMPDeQueuePacket(pAd, FALSE, NUM_OF_TX_RING, MAX_TX_PROCESS);
+		RTMPDeQueuePacket(pAd, false, NUM_OF_TX_RING, MAX_TX_PROCESS);
 	}
 	else
 	{
@@ -357,7 +357,7 @@ Arguments:
 
 Return Value:
     true	can set
-	FALSE	can not set
+	false	can not set
 
 Note:
 ========================================================================
@@ -370,7 +370,7 @@ bool RtmpPktPmBitCheck(struct rtmp_adapter *pAd)
 	if (FlgCanPmBitSet == true)
 		return (pAd->StaCfg.Psm == PWR_SAVE);
 
-	return FALSE;
+	return false;
 }
 
 
@@ -391,7 +391,7 @@ VOID RtmpPsModeChange(struct rtmp_adapter *pAd, uint32_t PsMode)
 			// to exclude certain situations.
 			//	   MlmeSetPsm(pAd, PWR_SAVE);
 			OPSTATUS_SET_FLAG(pAd, fOP_STATUS_RECEIVE_DTIM);
-			if (pAd->StaCfg.bWindowsACCAMEnable == FALSE)
+			if (pAd->StaCfg.bWindowsACCAMEnable == false)
 				pAd->StaCfg.WindowsPowerMode = Ndis802_11PowerModeMAX_PSP;
 			pAd->StaCfg.WindowsBatteryPowerMode = Ndis802_11PowerModeMAX_PSP;
 			pAd->StaCfg.DefaultListenCount = 5;
@@ -401,7 +401,7 @@ VOID RtmpPsModeChange(struct rtmp_adapter *pAd, uint32_t PsMode)
 			// do NOT turn on PSM bit here, wait until MlmeCheckForPsmChange()
 			// to exclude certain situations.
 			OPSTATUS_SET_FLAG(pAd, fOP_STATUS_RECEIVE_DTIM);
-			if (pAd->StaCfg.bWindowsACCAMEnable == FALSE)
+			if (pAd->StaCfg.bWindowsACCAMEnable == false)
 				pAd->StaCfg.WindowsPowerMode = Ndis802_11PowerModeFast_PSP;
 			pAd->StaCfg.WindowsBatteryPowerMode = Ndis802_11PowerModeFast_PSP;
 			pAd->StaCfg.DefaultListenCount = 3;
@@ -411,7 +411,7 @@ VOID RtmpPsModeChange(struct rtmp_adapter *pAd, uint32_t PsMode)
 			// do NOT turn on PSM bit here, wait until MlmeCheckForPsmChange()
 			// to exclude certain situations.
 			OPSTATUS_SET_FLAG(pAd, fOP_STATUS_RECEIVE_DTIM);
-			if (pAd->StaCfg.bWindowsACCAMEnable == FALSE)
+			if (pAd->StaCfg.bWindowsACCAMEnable == false)
 				pAd->StaCfg.WindowsPowerMode = Ndis802_11PowerModeLegacy_PSP;
 			pAd->StaCfg.WindowsBatteryPowerMode = Ndis802_11PowerModeLegacy_PSP;
 			pAd->StaCfg.DefaultListenCount = 3;
@@ -421,13 +421,13 @@ VOID RtmpPsModeChange(struct rtmp_adapter *pAd, uint32_t PsMode)
 			// clear PSM bit immediately
 			RTMP_SET_PSM_BIT(pAd, PWR_ACTIVE);
 			OPSTATUS_SET_FLAG(pAd, fOP_STATUS_RECEIVE_DTIM);
-			if (pAd->StaCfg.bWindowsACCAMEnable == FALSE)
+			if (pAd->StaCfg.bWindowsACCAMEnable == false)
 				pAd->StaCfg.WindowsPowerMode = Ndis802_11PowerModeCAM;
 			pAd->StaCfg.WindowsBatteryPowerMode = Ndis802_11PowerModeCAM;
 		}
 
 		/* change ps mode */
-		RTMPSendNullFrame(pAd, pAd->CommonCfg.TxRate, true, FALSE);
+		RTMPSendNullFrame(pAd, pAd->CommonCfg.TxRate, true, false);
 
 		DBGPRINT(RT_DEBUG_TRACE, ("PSMode=%ld\n", pAd->StaCfg.WindowsPowerMode));
 	}

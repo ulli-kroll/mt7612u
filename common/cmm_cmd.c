@@ -139,7 +139,7 @@ int RTEnqueueInternalCmd(
 	}
 
 	cmdqelmt->command = Oid;
-	cmdqelmt->CmdFromNdis = FALSE;
+	cmdqelmt->CmdFromNdis = false;
 
 	if (cmdqelmt != NULL)
 	{

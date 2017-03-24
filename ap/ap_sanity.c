@@ -44,7 +44,7 @@ extern UCHAR    WPS_OUI[];
     Description:
         MLME message sanity check
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
  */
 
@@ -67,7 +67,7 @@ bool PeerAssocReqCmmSanity(
 
 	pEntry = MacTableLookup(pAd, &Fr->Hdr.Addr2[0]);
 	if (pEntry == NULL)
-		return FALSE;
+		return false;
 
 	COPY_MAC_ADDR(&ie_lists->Addr2[0], &Fr->Hdr.Addr2[0]);
 
@@ -106,7 +106,7 @@ bool PeerAssocReqCmmSanity(
                 else
                 {
                     DBGPRINT(RT_DEBUG_TRACE, ("PeerAssocReqSanity - wrong IE_SSID\n"));
-                    return FALSE;
+                    return false;
                 }
                 break;
 
@@ -295,7 +295,7 @@ bool PeerAssocReqCmmSanity(
                 {
                     ie_lists->RSNIE_Len = 0;
                     DBGPRINT(RT_DEBUG_TRACE, ("PeerAssocReqSanity - missing IE_WPA(%d)\n",eid_ptr->Len));
-                    return FALSE;
+                    return false;
                 }
                 break;
 
@@ -341,7 +341,7 @@ bool PeerAssocReqCmmSanity(
 	if ((Sanity&0x3) != 0x03)
 	{
 		DBGPRINT(RT_DEBUG_WARN, ("%s(): - missing mandatory field\n", __FUNCTION__));
-		return FALSE;
+		return false;
 	}
 	else
 	{
@@ -356,7 +356,7 @@ bool PeerAssocReqCmmSanity(
     Description:
         MLME message sanity check
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
  */
 bool PeerDisassocReqSanity(
@@ -382,7 +382,7 @@ bool PeerDisassocReqSanity(
     Description:
         MLME message sanity check
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
  */
 bool PeerDeauthReqSanity(
@@ -408,7 +408,7 @@ bool PeerDeauthReqSanity(
     Description:
         MLME message sanity check
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
  */
 bool APPeerAuthSanity(
@@ -440,7 +440,7 @@ bool APPeerAuthSanity(
         else
         {
             DBGPRINT(RT_DEBUG_TRACE, ("APPeerAuthSanity fail - wrong Seg# (=%d)\n", *Seq));
-            return FALSE;
+            return false;
         }
     }
     else if (*Alg == AUTH_MODE_KEY)
@@ -457,13 +457,13 @@ bool APPeerAuthSanity(
         else
         {
             DBGPRINT(RT_DEBUG_TRACE, ("APPeerAuthSanity fail - wrong Seg# (=%d)\n", *Seq));
-            return FALSE;
+            return false;
         }
     }
     else
     {
         DBGPRINT(RT_DEBUG_TRACE, ("APPeerAuthSanity fail - wrong algorithm (=%d)\n", *Alg));
-        return FALSE;
+        return false;
     }
 
 	return true;

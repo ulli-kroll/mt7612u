@@ -253,7 +253,7 @@ int RTMPReadParametersHook(struct rtmp_adapter *pAd)
 
 		}
 
-//		RtmpOSFSInfoChange(&osFSInfo, FALSE);
+//		RtmpOSFSInfoChange(&osFSInfo, false);
 
 #ifdef HOSTAPD_SUPPORT
 		for (i = 0; i < pAd->ApCfg.BssidNum; i++)
@@ -307,7 +307,7 @@ void tbtt_tasklet(unsigned long data)
 #endif /* RTMP_MAC_USB */
 		{
 			QUEUE_ENTRY *pEntry;
-			bool bPS = FALSE;
+			bool bPS = false;
 			UINT count = 0;
 			unsigned long IrqFlags;
 
@@ -346,7 +346,7 @@ void tbtt_tasklet(unsigned long data)
 
 			if (bPS == true)
 			{
-				RTMPDeQueuePacket(pAd, FALSE, NUM_OF_TX_RING, /*MAX_TX_IN_TBTT*/MAX_PACKETS_IN_MCAST_PS_QUEUE);
+				RTMPDeQueuePacket(pAd, false, NUM_OF_TX_RING, /*MAX_TX_IN_TBTT*/MAX_PACKETS_IN_MCAST_PS_QUEUE);
 			}
 		}
 	}
@@ -553,7 +553,7 @@ VOID RTMPFreeAdapter(struct rtmp_adapter *pAd)
 
 	for (index =0 ; index < NUM_OF_TX_RING; index++)
 	{
-		pAd->DeQueueRunning[index] = FALSE;
+		pAd->DeQueueRunning[index] = false;
 	}
 
 	if (pAd->iw_stats)
@@ -695,7 +695,7 @@ struct net_device *get_netdev_from_bssid(struct rtmp_adapter *pAd, UCHAR FromWhi
 			dev_p = pAd->net_dev;
 		}
 
-	} while (FALSE);
+	} while (false);
 
 	ASSERT(dev_p);
 	return dev_p;

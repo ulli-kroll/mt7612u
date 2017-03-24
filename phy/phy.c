@@ -64,7 +64,7 @@ INT bbp_get_temp(struct rtmp_adapter *pAd, CHAR *temp_val)
 	if (pAd->phy_op && pAd->phy_op->bbp_get_temp)
 		return pAd->phy_op->bbp_get_temp(pAd, temp_val);
 	else
-		return FALSE;
+		return false;
 }
 
 
@@ -73,7 +73,7 @@ INT bbp_tx_comp_init(struct rtmp_adapter *pAd, INT adc_insel, INT tssi_mode)
 	if (pAd->phy_op && pAd->phy_op->bbp_tx_comp_init)
 		return pAd->phy_op->bbp_tx_comp_init(pAd, adc_insel, tssi_mode);
 	else
-		return FALSE;
+		return false;
 }
 
 
@@ -82,7 +82,7 @@ INT bbp_set_txdac(struct rtmp_adapter *pAd, INT tx_dac)
 	if (pAd->phy_op && pAd->phy_op->bbp_set_txdac)
 		return pAd->phy_op->bbp_set_txdac(pAd, tx_dac);
 	else
-		return FALSE;
+		return false;
 }
 
 
@@ -96,7 +96,7 @@ INT bbp_set_rxpath(struct rtmp_adapter *pAd, INT rxpath)
 	if (pAd->phy_op && pAd->phy_op->bbp_set_rxpath)
 		return pAd->phy_op->bbp_set_rxpath(pAd, rxpath);
 	else
-		return FALSE;
+		return false;
 }
 
 
@@ -105,13 +105,13 @@ INT bbp_set_ctrlch(struct rtmp_adapter *pAd, UINT8 ext_ch)
 	if (pAd->phy_op && pAd->phy_op->bbp_set_ctrlch)
 		return pAd->phy_op->bbp_set_ctrlch(pAd, ext_ch);
 	else
-		return FALSE;
+		return false;
 }
 
 
 INT bbp_set_bw(struct rtmp_adapter *pAd, UINT8 bw)
 {
-	INT result = FALSE;
+	INT result = false;
 
 	if (pAd->phy_op && pAd->phy_op->bbp_set_bw)
 		result = pAd->phy_op->bbp_set_bw(pAd, bw);
@@ -131,7 +131,7 @@ INT bbp_set_mmps(struct rtmp_adapter *pAd, bool ReduceCorePower)
 	if (pAd->phy_op && pAd->phy_op->bbp_set_mmps)
 		return pAd->phy_op->bbp_set_mmps(pAd, ReduceCorePower);
 	else
-		return FALSE;
+		return false;
 }
 
 
@@ -140,7 +140,7 @@ INT bbp_get_agc(struct rtmp_adapter *pAd, CHAR *agc, RX_CHAIN_IDX chain)
 	if (pAd->phy_op && pAd->phy_op->bbp_get_agc)
 		return pAd->phy_op->bbp_get_agc(pAd, agc, chain);
 	else
-		return FALSE;
+		return false;
 }
 
 
@@ -149,7 +149,7 @@ INT bbp_set_agc(struct rtmp_adapter *pAd, UCHAR agc, RX_CHAIN_IDX chain)
 	if (pAd->phy_op && pAd->phy_op->bbp_set_agc)
 		return pAd->phy_op->bbp_set_agc(pAd, agc, chain);
 	else
-		return FALSE;
+		return false;
 }
 
 
@@ -158,7 +158,7 @@ INT filter_coefficient_ctrl(struct rtmp_adapter *pAd, UCHAR Channel)
 	if (pAd->phy_op && pAd->phy_op->filter_coefficient_ctrl)
 		return pAd->phy_op->filter_coefficient_ctrl(pAd, Channel);
 	else
-		return FALSE;
+		return false;
 }
 
 
@@ -176,6 +176,6 @@ INT bbp_is_ready(struct rtmp_adapter *pAd)
 	if (pAd->phy_op && pAd->phy_op->bbp_is_ready)
 		return pAd->phy_op->bbp_is_ready(pAd);
 	else
-		return FALSE;
+		return false;
 }
 

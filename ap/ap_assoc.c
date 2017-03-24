@@ -103,7 +103,7 @@ static USHORT update_associated_mac_entry(
 	IN UCHAR MaxSupportedRate)
 {
 	struct rtmp_wifi_dev *wdev;
-	bool	 supportsETxBF = FALSE;
+	bool	 supportsETxBF = false;
 
 	ASSERT((pEntry->apidx < pAd->ApCfg.BssidNum));
 	wdev = &pAd->ApCfg.MBSSID[pEntry->apidx].wdev;
@@ -262,7 +262,7 @@ static USHORT update_associated_mac_entry(
 		pEntry->MmpsMode = (UCHAR)ie_list->HTCapability.HtCapInfo.MimoPs;
 		pEntry->AMsduSize = (UCHAR)ie_list->HTCapability.HtCapInfo.AMsduSize;
 
-		if (pAd->CommonCfg.DesiredHtPhy.AmsduEnable && (pAd->CommonCfg.REGBACapability.field.AutoBA == FALSE))
+		if (pAd->CommonCfg.DesiredHtPhy.AmsduEnable && (pAd->CommonCfg.REGBACapability.field.AutoBA == false))
 			CLIENT_STATUS_SET_FLAG(pEntry, fCLIENT_STATUS_AMSDU_INUSED);
 
 		if (pAd->CommonCfg.ht_ldpc && (pAd->chipCap.phy_caps & fPHY_CAP_LDPC)) {
@@ -359,7 +359,7 @@ static USHORT update_associated_mac_entry(
 				pEntry->operating_mode.ch_width));
 		}
 		else
-			pEntry->force_op_mode = FALSE;
+			pEntry->force_op_mode = false;
 	}
 	else
 	{
@@ -375,7 +375,7 @@ static USHORT update_associated_mac_entry(
 
 	pEntry->CurrTxRate = pEntry->MaxSupportedRate;
 
-	pEntry->freqOffsetValid = FALSE;
+	pEntry->freqOffsetValid = false;
 
 	if (pAd->chipCap.FlgHwTxBfCap) {
 		TxBFInit(pAd, pEntry, supportsETxBF);
@@ -419,7 +419,7 @@ static USHORT update_associated_mac_entry(
 	else
 	{
 		pEntry->HTPhyMode.field.MCS = wdev->HTPhyMode.field.MCS;
-		pEntry->bAutoTxRateSwitch = FALSE;
+		pEntry->bAutoTxRateSwitch = false;
 #ifdef WFA_VHT_PF
 		if (WMODE_CAP_AC(pAd->CommonCfg.PhyMode)) {
 			pEntry->HTPhyMode.field.MCS = wdev->DesiredTransmitSetting.field.MCS +
@@ -602,15 +602,15 @@ VOID ap_cmm_peer_assoc_req_action(
 	UCHAR *sAssoc = isReassoc ? (u8 *)"ReASSOC" : (u8 *)"ASSOC";
 #endif /* DBG */
 	UCHAR SubType;
-	bool bACLReject = FALSE;
+	bool bACLReject = false;
 #ifdef DOT1X_SUPPORT
 	uint8_t * pPmkid = NULL;
 	UINT8 pmkid_count = 0;
 #endif /* DOT1X_SUPPORT */
 	struct rtmp_wifi_dev *wdev;
 	MULTISSID_STRUCT *pMbss;
-    bool bAssocSkip = FALSE;
-	bool bAssocNoRsp = FALSE;
+    bool bAssocSkip = false;
+	bool bAssocNoRsp = false;
 	CHAR rssi;
 #ifdef RT_BIG_ENDIAN
 	uint32_t tmp_1;
@@ -1048,7 +1048,7 @@ SendAssocResponse:
 		ULONG TmpLen, infoPos;
 		u8 *pInfo;
 		UCHAR extInfoLen;
-		bool bNeedAppendExtIE = FALSE;
+		bool bNeedAppendExtIE = false;
 		EXT_CAP_INFO_ELEMENT extCapInfo;
 
 
@@ -1149,7 +1149,7 @@ SendAssocResponse:
 			{
 				SendBeaconRequest(pAd, pEntry->wcid);
 			}
-			/*BAOriSessionSetUp(pAd, pEntry, 0, 0, 3000, FALSE); */
+			/*BAOriSessionSetUp(pAd, pEntry, 0, 0, 3000, false); */
 		}
 
 

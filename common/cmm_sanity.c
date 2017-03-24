@@ -51,7 +51,7 @@ typedef struct wsc_ie_probreq_data
     Description:
         MLME message sanity check
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
 
 	IRQL = DISPATCH_LEVEL
 
@@ -70,27 +70,27 @@ bool MlmeAddBAReqSanity(
     if ((MsgLen != sizeof(MLME_ADDBA_REQ_STRUCT)))
     {
         DBGPRINT(RT_DEBUG_TRACE, ("MlmeAddBAReqSanity fail - message lenght not correct.\n"));
-        return FALSE;
+        return false;
     }
 
     if ((pInfo->Wcid >= MAX_LEN_OF_MAC_TABLE))
     {
         DBGPRINT(RT_DEBUG_TRACE, ("MlmeAddBAReqSanity fail - The peer Mac is not associated yet.\n"));
-        return FALSE;
+        return false;
     }
 
 	/*
     if ((pInfo->BaBufSize > MAX_RX_REORDERBUF) || (pInfo->BaBufSize < 2))
     {
         DBGPRINT(RT_DEBUG_TRACE, ("MlmeAddBAReqSanity fail - Rx Reordering buffer too big or too small\n"));
-        return FALSE;
+        return false;
     }
 	*/
 
     if ((pInfo->pAddr[0]&0x01) == 0x01)
     {
         DBGPRINT(RT_DEBUG_TRACE, ("MlmeAddBAReqSanity fail - broadcast address not support BA\n"));
-        return FALSE;
+        return false;
     }
 
     return true;
@@ -101,7 +101,7 @@ bool MlmeAddBAReqSanity(
     Description:
         MLME message sanity check
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
 
 	IRQL = DISPATCH_LEVEL
 
@@ -118,25 +118,25 @@ bool MlmeDelBAReqSanity(
     if ((MsgLen != sizeof(MLME_DELBA_REQ_STRUCT)))
     {
         DBGPRINT(RT_DEBUG_ERROR, ("MlmeDelBAReqSanity fail - message lenght not correct.\n"));
-        return FALSE;
+        return false;
     }
 
     if ((pInfo->Wcid >= MAX_LEN_OF_MAC_TABLE))
     {
         DBGPRINT(RT_DEBUG_ERROR, ("MlmeDelBAReqSanity fail - The peer Mac is not associated yet.\n"));
-        return FALSE;
+        return false;
     }
 
     if ((pInfo->TID & 0xf0))
     {
         DBGPRINT(RT_DEBUG_ERROR, ("MlmeDelBAReqSanity fail - The peer TID is incorrect.\n"));
-        return FALSE;
+        return false;
     }
 
 	if (NdisEqualMemory(pAd->MacTab.Content[pInfo->Wcid].Addr, pInfo->Addr, MAC_ADDR_LEN) == 0)
     {
         DBGPRINT(RT_DEBUG_ERROR, ("MlmeDelBAReqSanity fail - the peer addr dosen't exist.\n"));
-        return FALSE;
+        return false;
     }
 
     return true;
@@ -155,7 +155,7 @@ bool PeerAddBAReqActionSanity(
 	if (MsgLen < (sizeof(FRAME_ADDBA_REQ)))
 	{
 		DBGPRINT(RT_DEBUG_ERROR,("PeerAddBAReqActionSanity: ADDBA Request frame length size = %ld incorrect\n", MsgLen));
-		return FALSE;
+		return false;
 	}
 	/* we support immediate BA.*/
 #ifdef UNALIGNMENT_SUPPORT
@@ -178,7 +178,7 @@ bool PeerAddBAReqActionSanity(
 	{
 		DBGPRINT(RT_DEBUG_ERROR,("PeerAddBAReqActionSanity: ADDBA Request Ba Policy[%d] not support\n", pAddFrame->BaParm.BAPolicy));
 		DBGPRINT(RT_DEBUG_ERROR,("ADDBA Request. tid=%x, Bufsize=%x, AMSDUSupported=%x \n", pAddFrame->BaParm.TID, pAddFrame->BaParm.BufSize, pAddFrame->BaParm.AMSDUSupported));
-		return FALSE;
+		return false;
 	}
 
 	return true;
@@ -195,7 +195,7 @@ bool PeerAddBARspActionSanity(
 	if (MsgLen < (sizeof(FRAME_ADDBA_RSP)))
 	{
 		DBGPRINT(RT_DEBUG_ERROR,("%s(): ADDBA Resp frame length incorrect(len=%ld)\n", __FUNCTION__, MsgLen));
-		return FALSE;
+		return false;
 	}
 	/* we support immediate BA.*/
 #ifdef UNALIGNMENT_SUPPORT
@@ -215,7 +215,7 @@ bool PeerAddBARspActionSanity(
 	if (pAddFrame->BaParm.BAPolicy != IMMED_BA)
 	{
 		DBGPRINT(RT_DEBUG_ERROR,("%s(): ADDBA Resp Ba Policy[%d] not support\n", __FUNCTION__, pAddFrame->BaParm.BAPolicy));
-		return FALSE;
+		return false;
 	}
 
 	return true;
@@ -231,10 +231,10 @@ bool PeerDelBAActionSanity(
 	PFRAME_DELBA_REQ  pDelFrame;
 
 	if (MsgLen != (sizeof(FRAME_DELBA_REQ)))
-		return FALSE;
+		return false;
 
 	if (Wcid >= MAX_LEN_OF_MAC_TABLE)
-		return FALSE;
+		return false;
 
 	pDelFrame = (PFRAME_DELBA_REQ)(pMsg);
 
@@ -345,10 +345,10 @@ bool PeerBeaconAndProbeRspSanity_Old(
     *pRalinkIe = 0;
     *pNewChannel = 0;
     *NewExtChannelOffset = 0xff;	/*Default 0xff means no such IE*/
-    pCfParm->bValid = FALSE;        /* default: no IE_CF found*/
-    pQbssLoad->bValid = FALSE;      /* default: no IE_QBSS_LOAD found*/
-    pEdcaParm->bValid = FALSE;      /* default: no IE_EDCA_PARAMETER found*/
-    pQosCapability->bValid = FALSE; /* default: no IE_QOS_CAPABILITY found*/
+    pCfParm->bValid = false;        /* default: no IE_CF found*/
+    pQbssLoad->bValid = false;      /* default: no IE_QBSS_LOAD found*/
+    pEdcaParm->bValid = false;      /* default: no IE_EDCA_PARAMETER found*/
+    pQosCapability->bValid = false; /* default: no IE_QOS_CAPABILITY found*/
 
     pFrame = (PFRAME_802_11)Msg;
 
@@ -560,7 +560,7 @@ bool PeerBeaconAndProbeRspSanity_Old(
                     DBGPRINT(RT_DEBUG_TRACE, ("%s() - wrong IE_CF_PARM\n", __FUNCTION__));
 					if (pPeerWscIe)
 						kfree(pPeerWscIe);
-                    return FALSE;
+                    return false;
                 }
                 break;
 
@@ -574,7 +574,7 @@ bool PeerBeaconAndProbeRspSanity_Old(
                     DBGPRINT(RT_DEBUG_TRACE, ("%s() - wrong IE_IBSS_PARM\n", __FUNCTION__));
 					if (pPeerWscIe)
 						kfree(pPeerWscIe);
-                    return FALSE;
+                    return false;
                 }
                 break;
 
@@ -646,9 +646,9 @@ bool PeerBeaconAndProbeRspSanity_Old(
 
                     /* parsing EDCA parameters*/
                     pEdcaParm->bValid          = true;
-                    pEdcaParm->bQAck           = FALSE; /* pEid->Octet[0] & 0x10;*/
-                    pEdcaParm->bQueueRequest   = FALSE; /* pEid->Octet[0] & 0x20;*/
-                    pEdcaParm->bTxopRequest    = FALSE; /* pEid->Octet[0] & 0x40;*/
+                    pEdcaParm->bQAck           = false; /* pEid->Octet[0] & 0x10;*/
+                    pEdcaParm->bQueueRequest   = false; /* pEid->Octet[0] & 0x20;*/
+                    pEdcaParm->bTxopRequest    = false; /* pEid->Octet[0] & 0x40;*/
                     pEdcaParm->EdcaUpdateCount = pEid->Octet[6] & 0x0f;
                     pEdcaParm->bAPSDCapable    = (pEid->Octet[6] & 0x80) ? 1 : 0;
                     ptr = &pEid->Octet[8];
@@ -667,9 +667,9 @@ bool PeerBeaconAndProbeRspSanity_Old(
                 {
                     /* parsing EDCA parameters*/
                     pEdcaParm->bValid          = true;
-                    pEdcaParm->bQAck           = FALSE; /* pEid->Octet[0] & 0x10;*/
-                    pEdcaParm->bQueueRequest   = FALSE; /* pEid->Octet[0] & 0x20;*/
-                    pEdcaParm->bTxopRequest    = FALSE; /* pEid->Octet[0] & 0x40;*/
+                    pEdcaParm->bQAck           = false; /* pEid->Octet[0] & 0x10;*/
+                    pEdcaParm->bQueueRequest   = false; /* pEid->Octet[0] & 0x20;*/
+                    pEdcaParm->bTxopRequest    = false; /* pEid->Octet[0] & 0x40;*/
                     pEdcaParm->EdcaUpdateCount = pEid->Octet[6] & 0x0f;
                     pEdcaParm->bAPSDCapable    = (pEid->Octet[6] & 0x80) ? 1 : 0;
 
@@ -718,14 +718,14 @@ bool PeerBeaconAndProbeRspSanity_Old(
 							}
 							else /* ((PeerWscIeLen +(pEid->Len - 4)) > 512) */
 							{
-								bWscCheck = FALSE;
+								bWscCheck = false;
 								DBGPRINT(RT_DEBUG_ERROR, ("%s: Error!!! Sum of All PeerWscIeLen = %d (> 512)\n", __FUNCTION__, (PeerWscIeLen +(pEid->Len - 4))));
 							}
 						}
 					}
 					else
 					{
-						bWscCheck = FALSE;
+						bWscCheck = false;
 						DBGPRINT(RT_DEBUG_ERROR, ("%s: Error!!! pPeerWscIe is empty!\n", __FUNCTION__));
 					}
 
@@ -905,10 +905,10 @@ SanityCheck:
 	if (pPeerWscIe)
 		kfree(pPeerWscIe);
 
-	if ((Sanity != 0x7) || ( bWscCheck == FALSE))
+	if ((Sanity != 0x7) || ( bWscCheck == false))
 	{
 		DBGPRINT(RT_DEBUG_LOUD, ("%s() - missing field, Sanity=0x%02x\n", __FUNCTION__, Sanity));
-		return FALSE;
+		return false;
 	}
 	else
 	{
@@ -923,7 +923,7 @@ SanityCheck:
     Description:
         MLME message sanity check
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
 
 	IRQL = DISPATCH_LEVEL
 
@@ -1174,7 +1174,7 @@ bool PeerBeaconAndProbeRspSanity(
 				DBGPRINT(RT_DEBUG_TRACE, ("%s() - wrong IE_CF_PARM\n", __FUNCTION__));
 				if (pPeerWscIe)
 					kfree(pPeerWscIe);
-				return FALSE;
+				return false;
 			}
 			break;
 
@@ -1188,7 +1188,7 @@ bool PeerBeaconAndProbeRspSanity(
 				DBGPRINT(RT_DEBUG_TRACE, ("%s() - wrong IE_IBSS_PARM\n", __FUNCTION__));
 				if (pPeerWscIe)
 					kfree(pPeerWscIe);
-				return FALSE;
+				return false;
 			}
 			break;
 
@@ -1259,9 +1259,9 @@ bool PeerBeaconAndProbeRspSanity(
 
 				/* parsing EDCA parameters*/
 				ie_list->EdcaParm.bValid          = true;
-				ie_list->EdcaParm.bQAck           = FALSE; /* pEid->Octet[0] & 0x10;*/
-				ie_list->EdcaParm.bQueueRequest   = FALSE; /* pEid->Octet[0] & 0x20;*/
-				ie_list->EdcaParm.bTxopRequest    = FALSE; /* pEid->Octet[0] & 0x40;*/
+				ie_list->EdcaParm.bQAck           = false; /* pEid->Octet[0] & 0x10;*/
+				ie_list->EdcaParm.bQueueRequest   = false; /* pEid->Octet[0] & 0x20;*/
+				ie_list->EdcaParm.bTxopRequest    = false; /* pEid->Octet[0] & 0x40;*/
 				ie_list->EdcaParm.EdcaUpdateCount = pEid->Octet[6] & 0x0f;
 				ie_list->EdcaParm.bAPSDCapable    = (pEid->Octet[6] & 0x80) ? 1 : 0;
 				ptr = &pEid->Octet[8];
@@ -1280,9 +1280,9 @@ bool PeerBeaconAndProbeRspSanity(
 			{
 				/* parsing EDCA parameters*/
 				ie_list->EdcaParm.bValid          = true;
-				ie_list->EdcaParm.bQAck           = FALSE; /* pEid->Octet[0] & 0x10;*/
-				ie_list->EdcaParm.bQueueRequest   = FALSE; /* pEid->Octet[0] & 0x20;*/
-				ie_list->EdcaParm.bTxopRequest    = FALSE; /* pEid->Octet[0] & 0x40;*/
+				ie_list->EdcaParm.bQAck           = false; /* pEid->Octet[0] & 0x10;*/
+				ie_list->EdcaParm.bQueueRequest   = false; /* pEid->Octet[0] & 0x20;*/
+				ie_list->EdcaParm.bTxopRequest    = false; /* pEid->Octet[0] & 0x40;*/
 				ie_list->EdcaParm.EdcaUpdateCount = pEid->Octet[6] & 0x0f;
 				ie_list->EdcaParm.bAPSDCapable    = (pEid->Octet[6] & 0x80) ? 1 : 0;
 
@@ -1331,14 +1331,14 @@ bool PeerBeaconAndProbeRspSanity(
 						}
 						else /* ((PeerWscIeLen +(pEid->Len - 4)) > 512) */
 						{
-							bWscCheck = FALSE;
+							bWscCheck = false;
 							DBGPRINT(RT_DEBUG_ERROR, ("%s: Error!!! Sum of All PeerWscIeLen = %d (> 512)\n", __FUNCTION__, (PeerWscIeLen +(pEid->Len - 4))));
 						}
 					}
 				}
 				else
 				{
-					bWscCheck = FALSE;
+					bWscCheck = false;
 					DBGPRINT(RT_DEBUG_ERROR, ("%s: Error!!! pPeerWscIe is empty!\n", __FUNCTION__));
 				}
 
@@ -1559,10 +1559,10 @@ SanityCheck:
 	if (pPeerWscIe)
 		kfree(pPeerWscIe);
 
-	if ((Sanity != 0x7) || ( bWscCheck == FALSE))
+	if ((Sanity != 0x7) || ( bWscCheck == false))
 	{
 		DBGPRINT(RT_DEBUG_LOUD, ("%s() - missing field, Sanity=0x%02x\n", __FUNCTION__, Sanity));
-		return FALSE;
+		return false;
 	}
 	else
 	{
@@ -1576,7 +1576,7 @@ SanityCheck:
 	Description:
 		MLME message sanity check for some IE addressed  in 802.11n d3.03.
 	Return:
-		true if all parameters are OK, FALSE otherwise
+		true if all parameters are OK, false otherwise
 
 	IRQL = DISPATCH_LEVEL
 
@@ -1614,7 +1614,7 @@ bool PeerBeaconAndProbeRspSanity2(
 	Length += 2;
 
 	pEid = (PEID_STRUCT) Ptr;
-	brc = FALSE;
+	brc = false;
 
 	RTMPZeroMemory(BssScan, sizeof(OVERLAP_BSS_SCAN_IE));
 	/* get variable fields from payload and advance the pointer*/
@@ -1664,7 +1664,7 @@ bool PeerBeaconAndProbeRspSanity2(
     Description:
         MLME message sanity check
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
  */
 bool MlmeScanReqSanity(
@@ -1693,7 +1693,7 @@ bool MlmeScanReqSanity(
 	else
 	{
 		DBGPRINT(RT_DEBUG_TRACE, ("MlmeScanReqSanity fail - wrong BssType or ScanType\n"));
-		return FALSE;
+		return false;
 	}
 }
 #endif
@@ -1718,7 +1718,7 @@ UCHAR ChannelSanity(
     Description:
         MLME message sanity check
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
 
 	IRQL = DISPATCH_LEVEL
 
@@ -1748,7 +1748,7 @@ bool PeerDeauthSanity(
     Description:
         MLME message sanity check
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
 
 	IRQL = DISPATCH_LEVEL
 
@@ -1780,7 +1780,7 @@ bool PeerAuthSanity(
         else
         {
             DBGPRINT(RT_DEBUG_TRACE, ("PeerAuthSanity fail - wrong Seg#\n"));
-            return FALSE;
+            return false;
         }
     }
     else if (*pAlg == AUTH_MODE_KEY)
@@ -1797,13 +1797,13 @@ bool PeerAuthSanity(
         else
         {
             DBGPRINT(RT_DEBUG_TRACE, ("PeerAuthSanity fail - wrong Seg#\n"));
-            return FALSE;
+            return false;
         }
     }
     else
     {
         DBGPRINT(RT_DEBUG_TRACE, ("PeerAuthSanity fail - wrong algorithm\n"));
-        return FALSE;
+        return false;
     }
 }
 
@@ -1812,7 +1812,7 @@ bool PeerAuthSanity(
     Description:
         MLME message sanity check
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
  */
 bool MlmeAuthReqSanity(
@@ -1841,7 +1841,7 @@ bool MlmeAuthReqSanity(
     else
     {
         DBGPRINT(RT_DEBUG_TRACE, ("MlmeAuthReqSanity fail - wrong algorithm\n"));
-        return FALSE;
+        return false;
     }
 }
 
@@ -1850,7 +1850,7 @@ bool MlmeAuthReqSanity(
     Description:
         MLME message sanity check
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
 
 	IRQL = DISPATCH_LEVEL
 
@@ -1881,7 +1881,7 @@ bool MlmeAssocReqSanity(
     Description:
         MLME message sanity check
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
 
 	IRQL = DISPATCH_LEVEL
 
@@ -1996,7 +1996,7 @@ NDIS_802_11_NETWORK_TYPE NetworkTypeInUseSanity(BSS_ENTRY *pBss)
     Description:
         MLME message sanity check
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
  */
 bool PeerProbeReqSanity(
@@ -2026,7 +2026,7 @@ bool PeerProbeReqSanity(
     if (Fr->Octet[0] != IE_SSID || Fr->Octet[1] > MAX_LEN_OF_SSID)
     {
         DBGPRINT(RT_DEBUG_TRACE, ("%s(): sanity fail - wrong SSID IE\n", __FUNCTION__));
-        return FALSE;
+        return false;
     }
 
     ProbeReqParam->SsidLen = Fr->Octet[1];

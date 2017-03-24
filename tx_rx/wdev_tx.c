@@ -151,7 +151,7 @@ VOID wdev_tx_pkts(NDIS_HANDLE dev_hnd, struct sk_buff **pkt_list, UINT pkt_cnt, 
 		if ((wdev->allow_data_tx == true) && (wdev->tx_pkt_allowed))
 			allowToSend = wdev->tx_pkt_allowed(pAd, wdev, pPacket, &wcid);
 		else
-			allowToSend = FALSE;
+			allowToSend = false;
 
 		if (allowToSend == true)
 		{
@@ -179,6 +179,6 @@ VOID wdev_tx_pkts(NDIS_HANDLE dev_hnd, struct sk_buff **pkt_list, UINT pkt_cnt, 
 	}
 
 	/* Dequeue outgoing frames from TxSwQueue[] and process it */
-	RTMPDeQueuePacket(pAd, FALSE, NUM_OF_TX_RING, MAX_TX_PROCESS);
+	RTMPDeQueuePacket(pAd, false, NUM_OF_TX_RING, MAX_TX_PROCESS);
 }
 

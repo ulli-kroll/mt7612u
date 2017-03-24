@@ -77,7 +77,7 @@ VOID MBSS_Init(struct rtmp_adapter *pAd, struct RTMP_OS_NETDEV_OP_HOOK *pNetDevO
 
 
 	/* sanity check to avoid redundant virtual interfaces are created */
-	if (pAd->FlgMbssInit != FALSE)
+	if (pAd->FlgMbssInit != false)
 		return;
 
 
@@ -284,7 +284,7 @@ INT MBSS_Close(struct net_device *pDev)
 	/* kick out all stas behind the Bss */
 	MbssKickOutStas(pAd, BssId, REASON_DISASSOC_INACTIVE);
 
-	pAd->ApCfg.MBSSID[BssId].bBcnSntReq = FALSE;
+	pAd->ApCfg.MBSSID[BssId].bBcnSntReq = false;
 
 	APMakeAllBssBeacon(pAd);
 	APUpdateAllBeaconFrame(pAd);

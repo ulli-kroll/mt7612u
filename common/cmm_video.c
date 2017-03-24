@@ -32,7 +32,7 @@
 
 
 
-bool UpdateFromGlobal = FALSE;
+bool UpdateFromGlobal = false;
 
 void VideoTurbineUpdate(
 	IN struct rtmp_adapter *pAd)
@@ -158,7 +158,7 @@ UCHAR GetAsicVideoTxBA(
 VOID VideoConfigInit(
 	IN struct rtmp_adapter *pAd)
 {
-	pAd->VideoTurbine.Enable = FALSE;
+	pAd->VideoTurbine.Enable = false;
 	pAd->VideoTurbine.TxRetryLimit = 0x2F1F;
 	pAd->VideoTurbine.TxBASize = pAd->CommonCfg.TxBASize;
 }

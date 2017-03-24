@@ -187,7 +187,7 @@ VOID PeerAuthRspAtSeq2Action(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM * Elem)
 					if (RTMPSoftEncryptWEP(pAd,
 							       iv_hdr,
 							       &pAd->SharedKey[BSS0][wdev->DefaultKeyId],
-							       CyperChlgText, c_len) == FALSE) {
+							       CyperChlgText, c_len) == false) {
 						kfree(pOutBuffer);
 						pAd->Mlme.AuthMachine.CurrState = AUTH_REQ_IDLE;
 						Status2 = MLME_FAIL_NO_RESOURCE;
@@ -470,7 +470,7 @@ bool AUTH_ReqSend(
 			Status = MLME_FAIL_NO_RESOURCE;
 			MlmeEnqueue(pAd, MLME_CNTL_STATE_MACHINE, MT2_AUTH_CONF,
 				    2, &Status, 0);
-			return FALSE;
+			return false;
 		}
 
 		DBGPRINT(RT_DEBUG_TRACE,
@@ -498,7 +498,7 @@ bool AUTH_ReqSend(
 	else
 	{
 		DBGPRINT_ERR(("%s(): %s sanity check fail\n", __FUNCTION__, pSMName));
-		return FALSE;
+		return false;
 	}
 
 	return true;
@@ -553,5 +553,5 @@ void AuthStateMachineInit(
 			      (STATE_MACHINE_FUNC) AuthTimeoutAction);
 
 	RTMPInitTimer(pAd, &pAd->MlmeAux.AuthTimer,
-		      GET_TIMER_FUNCTION(AuthTimeout), pAd, FALSE);
+		      GET_TIMER_FUNCTION(AuthTimeout), pAd, false);
 }

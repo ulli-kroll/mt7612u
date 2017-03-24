@@ -395,7 +395,7 @@ VOID AsicUpdateProtect(
 					Protect[REG_IDX_GF20] = 0x01754004;
 					Protect[REG_IDX_GF40] = 0x03f54084;
 				}
-				pAd->CommonCfg.IOTestParm.bRTSLongProtOn = FALSE;
+				pAd->CommonCfg.IOTestParm.bRTSLongProtOn = false;
 
 				// TODO: shiang-6590, fix me for this protection mechanism
 				if (IS_RT65XX(pAd))
@@ -488,7 +488,7 @@ VOID AsicUpdateProtect(
 				Protect[REG_IDX_GF20] = ProtCfg.word;
 				Protect[REG_IDX_GF40] = ProtCfg4.word;
 
-				pAd->CommonCfg.IOTestParm.bRTSLongProtOn = FALSE;
+				pAd->CommonCfg.IOTestParm.bRTSLongProtOn = false;
 
 				// TODO: shiang-6590, fix me for this protection mechanism
 				if (IS_RT65XX(pAd))
@@ -1003,7 +1003,7 @@ INT AsicSetRDG(struct rtmp_adapter *pAd, bool bEnable)
 		/* For CWC test, change txop from 0x30 to 0x20 in TxBurst mode*/
 		if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_DYNAMIC_BE_TXOP_ACTIVE)
 			&& (pAd->CommonCfg.bEnableTxBurst == true)
-			&& (pAd->MacTab.fAnyStationMIMOPSDynamic == FALSE)
+			&& (pAd->MacTab.fAnyStationMIMOPSDynamic == false)
 		)
 			Data |= 0x20;
 	}
@@ -1073,7 +1073,7 @@ static INT AsicSetIntTimerEn(struct rtmp_adapter *pAd, bool enable, uint32_t typ
 		mask = 0x3;
 
 	val = mt7612u_read32(pAd, INT_TIMER_EN);
-	if (enable == FALSE)
+	if (enable == false)
 		val &= (~mask);
 	else
 		val |= mask;
@@ -1315,7 +1315,7 @@ VOID AsicSetEdcaParm(struct rtmp_adapter *pAd, PEDCA_PARM pEdcaParm)
 	Ac1Cfg.word = 0;
 	Ac2Cfg.word = 0;
 	Ac3Cfg.word = 0;
-	if ((pEdcaParm == NULL) || (pEdcaParm->bValid == FALSE))
+	if ((pEdcaParm == NULL) || (pEdcaParm->bValid == false))
 	{
 		DBGPRINT(RT_DEBUG_TRACE,("AsicSetEdcaParm\n"));
 		OPSTATUS_CLEAR_FLAG(pAd, fOP_STATUS_WMM_INUSED);
@@ -1671,7 +1671,7 @@ VOID AsicSetSlotTime(
 	IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
 	{
 		/* force using short SLOT time for FAE to demo performance when TxBurst is ON*/
-		if (((pAd->StaActive.SupportedPhyInfo.bHtEnable == FALSE) && (OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_WMM_INUSED)))
+		if (((pAd->StaActive.SupportedPhyInfo.bHtEnable == false) && (OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_WMM_INUSED)))
 			|| ((pAd->StaActive.SupportedPhyInfo.bHtEnable == true) && (pAd->CommonCfg.BACapability.field.Policy == BA_NOTUSE))
 			)
 		{
@@ -2209,7 +2209,7 @@ bool AsicSendCommandToMcu(
 	if (pAd->chipOps.sendCommandToMcu)
 		return pAd->chipOps.sendCommandToMcu(pAd, Command, Token, Arg0, Arg1, in_atomic);
 	else
-		return FALSE;
+		return false;
 }
 
 
@@ -2246,7 +2246,7 @@ bool AsicSendCommandToMcuBBP(
 	if (pAd->chipOps.sendCommandToMcu)
 		return pAd->chipOps.sendCommandToMcu(pAd, Command, Token, Arg0, Arg1, FlgIsNeedLocked);
 	else
-		return FALSE;
+		return false;
 }
 
 /*
@@ -2306,7 +2306,7 @@ INT AsicSetRalinkBurstMode(struct rtmp_adapter *pAd, bool enable)
 	Data &= 0xFFFFFF00;
 
 	if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_DYNAMIC_BE_TXOP_ACTIVE)
-		&& (pAd->MacTab.fAnyStationMIMOPSDynamic == FALSE)
+		&& (pAd->MacTab.fAnyStationMIMOPSDynamic == false)
 	)
 	{
 		if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_RDG_ACTIVE))
@@ -2340,7 +2340,7 @@ VOID AsicLoadWOWFirmware(
 	if (WOW)
 		pAd->WOW_Cfg.bWOWFirmware = true;
 	else
-		pAd->WOW_Cfg.bWOWFirmware = FALSE;
+		pAd->WOW_Cfg.bWOWFirmware = false;
 
 	RtmpAsicLoadFirmware(pAd);
 }
@@ -2449,13 +2449,13 @@ bool AsicWaitPDMAIdle(struct rtmp_adapter *pAd, INT round, INT wait_us)
 			return true;
 		}
 		if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST))
-			return FALSE;
+			return false;
 		RtmpusecDelay(wait_us);
 	}while ((i++) < round);
 
 	DBGPRINT(RT_DEBUG_TRACE, ("==>  DMABusy, GloCfg=0x%x\n", GloCfg.word));
 
-	return FALSE;
+	return false;
 }
 
 
@@ -2475,13 +2475,13 @@ INT rtmp_asic_top_init(struct rtmp_adapter *pAd)
 
 	if (IS_MT76x0(pAd) || IS_MT76x2(pAd) || IS_MT7601(pAd)) {
 		if (pAd->WlanFunCtrl.field.WLAN_EN == 0)
-			rlt_wlan_chip_onoff(pAd, true, FALSE);
+			rlt_wlan_chip_onoff(pAd, true, false);
 	}
 #endif /* RLT_MAC */
 
 	/* Make sure MAC gets ready.*/
 	if (WaitForAsicReady(pAd) != true)
-		return FALSE;
+		return false;
 
 
 	return true;
@@ -2493,8 +2493,8 @@ INT StopDmaRx(struct rtmp_adapter *pAd, UCHAR Level)
 	struct sk_buff *pRxPacket;
 	RX_BLK RxBlk, *pRxBlk;
 	uint32_t RxPending = 0, MacReg = 0, MTxCycle = 0;
-	bool bReschedule = FALSE;
-	bool bCmdRspPacket = FALSE;
+	bool bReschedule = false;
+	bool bCmdRspPacket = false;
 #ifdef RTMP_MAC_USB
 	UINT8 IdleNums = 0;
 #endif /* RTMP_MAC_USB */
@@ -2510,7 +2510,7 @@ INT StopDmaRx(struct rtmp_adapter *pAd, UCHAR Level)
 			return 0;
 		pRxBlk = &RxBlk;
 		pRxPacket = GetPacketFromRxRing(pAd, pRxBlk, &bReschedule, &RxPending, &bCmdRspPacket, 0);
-		if ((RxPending == 0) && (bReschedule == FALSE))
+		if ((RxPending == 0) && (bReschedule == false))
 			break;
 		else
 			RELEASE_NDIS_PACKET(pAd, pRxPacket, NDIS_STATUS_SUCCESS);
@@ -2826,7 +2826,7 @@ VOID RT28xxAndesWOWEnable(
 	if (OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_MEDIA_STATE_CONNECTED))
 		infra_cfg.AP_Status = true;
 	else
-		infra_cfg.AP_Status = FALSE;
+		infra_cfg.AP_Status = false;
 
 	Ret = AsicSendCmdToAndes(pAd, &CmdUnit);
 
@@ -2922,7 +2922,7 @@ VOID RT28xxAndesWOWDisable(
     /* WOW disable */
     memset(&param, sizeof(param));
     param.Parameter = WOW_ENABLE;
-    param.Value = FALSE;
+    param.Value = false;
 
     CmdUnit.u.ANDES.Type = CMD_WOW_FEATURE; /* WOW enable */
     CmdUnit.u.ANDES.CmdPayloadLen = sizeof(NEW_WOW_PARAM_STRUCT);
@@ -2977,7 +2977,7 @@ VOID RT28xxAndesWOWDisable(
     Value &= ~0x80;
     mt7612u_write32(pAd, WLAN_FUN_CTRL, Value);
 
-	if (pAd->WOW_Cfg.bInBand == FALSE)
+	if (pAd->WOW_Cfg.bInBand == false)
 	{
 		int32_t Value;
 

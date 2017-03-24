@@ -74,7 +74,7 @@ INT SetCommonVHT(struct rtmp_adapter *pAd)
 	if (!WMODE_CAP_AC(pAd->CommonCfg.PhyMode))
 	{
 		/* Clear previous VHT information */
-		return FALSE;
+		return false;
 	}
 
 	RTMPSetVHT(pAd);

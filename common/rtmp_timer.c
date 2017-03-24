@@ -121,7 +121,7 @@ static void RtmpTimerQHandle(struct rtmp_adapter *pAd)
 	{
 		pTimer = NULL;
 
-		if (RtmpOSTaskWait(pAd, pTask, &status) == FALSE)
+		if (RtmpOSTaskWait(pAd, pTask, &status) == false)
 		{
 			RTMP_SET_FLAG(pAd, fRTMP_ADAPTER_HALT_IN_PROGRESS);
 			break;
@@ -154,7 +154,7 @@ static void RtmpTimerQHandle(struct rtmp_adapter *pAd)
 			{
 				if ((pTimer->handle != NULL) && (!pAd->PM_FlgSuspend))
 					pTimer->handle(NULL, (PVOID) pTimer->cookie, NULL, pTimer);
-				if ((pTimer->Repeat) && (pTimer->State == FALSE))
+				if ((pTimer->Repeat) && (pTimer->State == false))
 					RTMP_OS_Add_Timer(&pTimer->TimerObj, pTimer->TimerValue);
 			}
 		}

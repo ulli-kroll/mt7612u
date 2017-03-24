@@ -440,7 +440,7 @@ VOID MlmeAssocReqAction(
 			}
 
 #ifdef WPA_SUPPLICANT_SUPPORT
-			if (pAd->StaCfg.wpa_supplicant_info.bRSN_IE_FromWpaSupplicant == FALSE)
+			if (pAd->StaCfg.wpa_supplicant_info.bRSN_IE_FromWpaSupplicant == false)
 #endif /* WPA_SUPPLICANT_SUPPORT */
 			{
 				RTMPMakeRSNIE(pAd, wdev->AuthMode, wdev->WepStatus, BSS0);
@@ -448,7 +448,7 @@ VOID MlmeAssocReqAction(
 				/* Check for WPA PMK cache list */
 				if (wdev->AuthMode == Ndis802_11AuthModeWPA2) {
 					INT idx;
-					bool FoundPMK = FALSE;
+					bool FoundPMK = false;
 					/* Search chched PMKID, append it if existed */
 					for (idx = 0; idx < PMKID_NO; idx++) {
 						if (NdisEqualMemory(ApAddr, &pAd->StaCfg.SavedPMK[idx].BSSID, 6)) {
@@ -465,7 +465,7 @@ VOID MlmeAssocReqAction(
 					 */
 					if ((wdev->AuthMode == Ndis802_11AuthModeWPA2)
 					    && (NdisEqualMemory(pAd->MlmeAux.Bssid, pAd->CommonCfg.LastBssid, MAC_ADDR_LEN))) {
-						FoundPMK = FALSE;
+						FoundPMK = false;
 					}
 #endif /* WPA_SUPPLICANT_SUPPORT */
 
@@ -510,7 +510,7 @@ VOID MlmeAssocReqAction(
 /* #ifdef SIOCSIWGENIE */
 			if (((pAd->StaCfg.wpa_supplicant_info.WpaSupplicantUP & 0x7F) !=
 			     WPA_SUPPLICANT_ENABLE)
-			    || (pAd->StaCfg.wpa_supplicant_info.bRSN_IE_FromWpaSupplicant == FALSE))
+			    || (pAd->StaCfg.wpa_supplicant_info.bRSN_IE_FromWpaSupplicant == false))
 /* #endif */
 #endif /* WPA_SUPPLICANT_SUPPORT */
 			{
@@ -734,7 +734,7 @@ VOID MlmeReassocReqAction(
 		}
 		} // end of pAd->MlmeAux.APEdcaParm.bValid
 
-		if (FALSE
+		if (false
 		 )
 		{
 			ULONG TmpLen;
@@ -1217,7 +1217,7 @@ VOID AssocPostProc(
 	pAd->MlmeAux.CapabilityInfo = CapabilityInfo & SUPPORTED_CAPABILITY_INFO;
 
 	/* Some HT AP might lost WMM IE. We add WMM ourselves. beacuase HT requires QoS on. */
-	if ((HtCapabilityLen > 0) && (pEdcaParm->bValid == FALSE)) {
+	if ((HtCapabilityLen > 0) && (pEdcaParm->bValid == false)) {
 		pEdcaParm->bValid = true;
 		pEdcaParm->Aifsn[0] = 3;
 		pEdcaParm->Aifsn[1] = 7;
@@ -1625,9 +1625,9 @@ VOID AssocStateMachineInit(
 
 	/* initialize the timer */
 	RTMPInitTimer(pAd, &pAd->MlmeAux.AssocTimer,
-		      GET_TIMER_FUNCTION(AssocTimeout), pAd, FALSE);
+		      GET_TIMER_FUNCTION(AssocTimeout), pAd, false);
 	RTMPInitTimer(pAd, &pAd->MlmeAux.ReassocTimer,
-		      GET_TIMER_FUNCTION(ReassocTimeout), pAd, FALSE);
+		      GET_TIMER_FUNCTION(ReassocTimeout), pAd, false);
 	RTMPInitTimer(pAd, &pAd->MlmeAux.DisassocTimer,
-		      GET_TIMER_FUNCTION(DisassocTimeout), pAd, FALSE);
+		      GET_TIMER_FUNCTION(DisassocTimeout), pAd, false);
 }

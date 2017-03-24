@@ -113,7 +113,7 @@ int RTMPAllocAdapterBlock(struct os_cookie *handle, struct rtmp_adapter **ppAdap
 		pAd->BeaconBuf = pBeaconBuf;
 		DBGPRINT(RT_DEBUG_OFF, ("\n\n=== pAd = %p, size = %d ===\n\n", pAd, (int) sizeof(struct rtmp_adapter)));
 
-		if (RtmpOsStatsAlloc(&pAd->stats, &pAd->iw_stats) == FALSE)
+		if (RtmpOsStatsAlloc(&pAd->stats, &pAd->iw_stats) == false)
 		{
 			Status = NDIS_STATUS_FAILURE;
 			break;
@@ -126,7 +126,7 @@ int RTMPAllocAdapterBlock(struct os_cookie *handle, struct rtmp_adapter **ppAdap
 		{
 			spin_lock_init(&pAd->TxSwQueueLock[index]);
 			spin_lock_init(&pAd->DeQueueLock[index]);
-			pAd->DeQueueRunning[index] = FALSE;
+			pAd->DeQueueRunning[index] = false;
 		}
 
 		/*
@@ -146,7 +146,7 @@ int RTMPAllocAdapterBlock(struct os_cookie *handle, struct rtmp_adapter **ppAdap
 		spin_lock_init(&TimerSemLock);
 
 		*ppAdapter = (VOID *)pAd;
-	} while (FALSE);
+	} while (false);
 
 	if (Status != NDIS_STATUS_SUCCESS)
 	{
@@ -214,7 +214,7 @@ bool RTMPCheckPhyMode(struct rtmp_adapter *pAd, UINT8 band_cap, UCHAR *pPhyMode)
 			DBGPRINT(RT_DEBUG_TRACE,
 					("%s(): Warning! The board type is 2.4G only!\n",
 					__FUNCTION__));
-			RetVal =  FALSE;
+			RetVal =  false;
 		}
 	}
 	else if (band_cap == RFIC_5GHZ)
@@ -224,7 +224,7 @@ bool RTMPCheckPhyMode(struct rtmp_adapter *pAd, UINT8 band_cap, UCHAR *pPhyMode)
 			DBGPRINT(RT_DEBUG_TRACE,
 					("%s(): Warning! The board type is 5G only!\n",
 					__FUNCTION__));
-			RetVal =  FALSE;
+			RetVal =  false;
 		}
 	}
 	else if (band_cap == RFIC_DUAL_BAND)
@@ -240,7 +240,7 @@ bool RTMPCheckPhyMode(struct rtmp_adapter *pAd, UINT8 band_cap, UCHAR *pPhyMode)
 		RetVal = true;
 	}
 
-	if (RetVal == FALSE)
+	if (RetVal == false)
 	{
 		if (band_cap == RFIC_5GHZ) /*5G ony: change to A/N mode */
 			*pPhyMode = PHY_11AN_MIXED;
@@ -417,7 +417,7 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 	if (NicConfig2.field.DynamicTxAgcControl == 1)
 		pAd->bAutoTxAgcA = pAd->bAutoTxAgcG = true;
 	else
-		pAd->bAutoTxAgcA = pAd->bAutoTxAgcG = FALSE;
+		pAd->bAutoTxAgcA = pAd->bAutoTxAgcG = false;
 
 	/* Save value for future using */
 	pAd->NicConfig2.word = NicConfig2.word;
@@ -654,7 +654,7 @@ VOID NICInitAsicFromEEPROM(struct rtmp_adapter *pAd)
 		/* Read Hardware controlled Radio state enable bit*/
 		if (NicConfig2.field.HardwareRadioControl == 1)
 		{
-			bool radioOff = FALSE;
+			bool radioOff = false;
 			pAd->StaCfg.bHardwareRadio = true;
 
 			{
@@ -666,14 +666,14 @@ VOID NICInitAsicFromEEPROM(struct rtmp_adapter *pAd)
 
 			if (radioOff)
 			{
-				pAd->StaCfg.bHwRadio = FALSE;
-				pAd->StaCfg.bRadio = FALSE;
+				pAd->StaCfg.bHwRadio = false;
+				pAd->StaCfg.bRadio = false;
 				/* mt7612u_write32(pAd, PWR_PIN_CFG, 0x00001818); */
 				RTMP_SET_FLAG(pAd, fRTMP_ADAPTER_RADIO_OFF);
 			}
 		}
 		else
-			pAd->StaCfg.bHardwareRadio = FALSE;
+			pAd->StaCfg.bHardwareRadio = false;
 
 
 	}
@@ -690,7 +690,7 @@ VOID NICInitAsicFromEEPROM(struct rtmp_adapter *pAd)
 	if (NicConfig2.field.DynamicTxAgcControl == 1)
 		pAd->bAutoTxAgcA = pAd->bAutoTxAgcG = true;
 	else
-		pAd->bAutoTxAgcA = pAd->bAutoTxAgcG = FALSE;
+		pAd->bAutoTxAgcA = pAd->bAutoTxAgcG = false;
 
 	bbp_set_rxpath(pAd, pAd->Antenna.field.RxPath);
 
@@ -892,7 +892,7 @@ int NICInitializeAsic(struct rtmp_adapter *pAd, bool bHardReset)
 	IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
 	{
 		/* Add radio off control*/
-		if (pAd->StaCfg.bRadio == FALSE)
+		if (pAd->StaCfg.bRadio == false)
 		{
 			/* mt7612u_write32(pAd, PWR_PIN_CFG, 0x00001818);*/
 			RTMP_SET_FLAG(pAd, fRTMP_ADAPTER_RADIO_OFF);
@@ -1068,7 +1068,7 @@ VOID NICUpdateFifoStaCounters(struct rtmp_adapter *pAd)
 
 		if (IS_MT76x2(pAd))
 		{
-			if(pEntry->LowPacket == FALSE)
+			if(pEntry->LowPacket == false)
  			continue;
 		}
 
@@ -1161,7 +1161,7 @@ VOID NICUpdateFifoStaCounters(struct rtmp_adapter *pAd)
 #endif /* CONFIG_AP_SUPPORT */
 
 				for (tid=0; tid<NUM_OF_TID; tid++)
-					BAOriSessionTearDown(pAd, pEntry->wcid,  tid, FALSE, FALSE);
+					BAOriSessionTearDown(pAd, pEntry->wcid,  tid, false, false);
 
 			}
 		}
@@ -1873,7 +1873,7 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 	memset(&pAd->CommonCfg.IOTestParm, 0, sizeof(pAd->CommonCfg.IOTestParm));
 #ifdef CONFIG_STA_SUPPORT
 	pAd->CountDowntoPsm = 0;
-	pAd->StaCfg.Connectinfoflag = FALSE;
+	pAd->StaCfg.Connectinfoflag = false;
 #endif /* CONFIG_STA_SUPPORT */
 
 #endif /* RTMP_MAC_USB */
@@ -1887,31 +1887,31 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 		}
 	}
 
-	pAd->EepromAccess = FALSE;
+	pAd->EepromAccess = false;
 
 	pAd->Antenna.word = 0;
 	pAd->CommonCfg.BBPCurrentBW = BW_20;
 
 
-	pAd->bAutoTxAgcA = FALSE;			/* Default is OFF*/
-	pAd->bAutoTxAgcG = FALSE;			/* Default is OFF*/
+	pAd->bAutoTxAgcA = false;			/* Default is OFF*/
+	pAd->bAutoTxAgcG = false;			/* Default is OFF*/
 
 	pAd->RfIcType = RFIC_6352;	/* ULLI : lowest possible */
 
 	/* Init timer for reset complete event*/
 	pAd->CommonCfg.CentralChannel = 1;
-	pAd->bForcePrintTX = FALSE;
-	pAd->bForcePrintRX = FALSE;
-	pAd->bStaFifoTest = FALSE;
-	pAd->bProtectionTest = FALSE;
-	pAd->bHCCATest = FALSE;
-	pAd->bGenOneHCCA = FALSE;
+	pAd->bForcePrintTX = false;
+	pAd->bForcePrintRX = false;
+	pAd->bStaFifoTest = false;
+	pAd->bProtectionTest = false;
+	pAd->bHCCATest = false;
+	pAd->bGenOneHCCA = false;
 	pAd->CommonCfg.Dsifs = 10;      /* in units of usec */
 	pAd->CommonCfg.TxPower = 100; /* mW*/
 	pAd->CommonCfg.TxPowerPercentage = 0xffffffff; /* AUTO*/
 	pAd->CommonCfg.TxPowerDefault = 0xffffffff; /* AUTO*/
 	pAd->CommonCfg.TxPreamble = Rt802_11PreambleAuto; /* use Long preamble on TX by defaut*/
-	pAd->CommonCfg.bUseZeroToDisableFragment = FALSE;
+	pAd->CommonCfg.bUseZeroToDisableFragment = false;
 	pAd->CommonCfg.RtsThreshold = 2347;
 	pAd->CommonCfg.FragmentThreshold = 2346;
 	pAd->CommonCfg.UseBGProtection = 0;    /* 0: AUTO*/
@@ -1948,13 +1948,13 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 }
 #endif /* CONFIG_AP_SUPPORT */
 #ifdef CONFIG_STA_SUPPORT
-	pAd->StaCfg.UapsdInfo.bAPSDCapable = FALSE;
+	pAd->StaCfg.UapsdInfo.bAPSDCapable = false;
 #endif /* CONFIG_STA_SUPPORT */
 #endif /* UAPSD_SUPPORT */
-	pAd->CommonCfg.bNeedSendTriggerFrame = FALSE;
+	pAd->CommonCfg.bNeedSendTriggerFrame = false;
 	pAd->CommonCfg.TriggerTimerCount = 0;
-	pAd->CommonCfg.bAPSDForcePowerSave = FALSE;
-	/*pAd->CommonCfg.bCountryFlag = FALSE;*/
+	pAd->CommonCfg.bAPSDForcePowerSave = false;
+	/*pAd->CommonCfg.bCountryFlag = false;*/
 	pAd->CommonCfg.TxStream = 0;
 	pAd->CommonCfg.RxStream = 0;
 
@@ -1963,12 +1963,12 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 	if (IS_MT76x2(pAd))
 		pAd->CommonCfg.b256QAM_2G = true;
 	else
-		pAd->CommonCfg.b256QAM_2G = FALSE;
+		pAd->CommonCfg.b256QAM_2G = false;
 
 	memset(&pAd->CommonCfg.HtCapability, 0, sizeof(pAd->CommonCfg.HtCapability));
-	pAd->HTCEnable = FALSE;
-	pAd->bBroadComHT = FALSE;
-	pAd->CommonCfg.bRdg = FALSE;
+	pAd->HTCEnable = false;
+	pAd->bBroadComHT = false;
+	pAd->CommonCfg.bRdg = false;
 
 	pAd->CommonCfg.Dot11OBssScanPassiveDwell = dot11OBSSScanPassiveDwell;	/* Unit : TU. 5~1000*/
 	pAd->CommonCfg.Dot11OBssScanActiveDwell = dot11OBSSScanActiveDwell;	/* Unit : TU. 10~1000*/
@@ -1983,7 +1983,7 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 	pAd->CommonCfg.BssCoexApCntThr = 0;
 	pAd->CommonCfg.Bss2040NeedFallBack = 0;
 
-	pAd->CommonCfg.bRcvBSSWidthTriggerEvents = FALSE;
+	pAd->CommonCfg.bRcvBSSWidthTriggerEvents = false;
 
 	memset(&pAd->CommonCfg.AddHTInfo, 0, sizeof(pAd->CommonCfg.AddHTInfo));
 	pAd->CommonCfg.BACapability.field.MMPSmode = MMPS_DISABLE;
@@ -1993,14 +1993,14 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 	pAd->CommonCfg.BACapability.field.TxBAWinLimit = 64; /*32;*/
 	DBGPRINT(RT_DEBUG_TRACE, ("--> UserCfgInit. BACapability = 0x%x\n", pAd->CommonCfg.BACapability.word));
 
-	pAd->CommonCfg.BACapability.field.AutoBA = FALSE;
+	pAd->CommonCfg.BACapability.field.AutoBA = false;
 	BATableInit(pAd, &pAd->BATable);
 
 	pAd->CommonCfg.bExtChannelSwitchAnnouncement = 1;
 	pAd->CommonCfg.bHTProtect = 1;
 	pAd->CommonCfg.bMIMOPSEnable = true;
-	pAd->CommonCfg.bBADecline = FALSE;
-	pAd->CommonCfg.bDisableReordering = FALSE;
+	pAd->CommonCfg.bBADecline = false;
+	pAd->CommonCfg.bDisableReordering = false;
 
 	if (pAd->MACVersion == 0x28720200)
 		pAd->CommonCfg.TxBASize = 13; /*by Jerry recommend*/
@@ -2049,7 +2049,7 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 	/* Tx Sw queue length setting */
 	pAd->TxSwQMaxLen = MAX_PACKETS_IN_QUEUE;
 
-	pAd->CommonCfg.bRalinkBurstMode = FALSE;
+	pAd->CommonCfg.bRalinkBurstMode = false;
 
 #ifdef CONFIG_STA_SUPPORT
 	/* part II. intialize STA specific configuration*/
@@ -2064,7 +2064,7 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 
 		pAd->StaCfg.PairCipher = Ndis802_11EncryptionDisabled;
 		pAd->StaCfg.GroupCipher = Ndis802_11EncryptionDisabled;
-		pAd->StaCfg.bMixCipher = FALSE;
+		pAd->StaCfg.bMixCipher = false;
 		pAd->StaCfg.wdev.DefaultKeyId = 0;
 
 		/* 802.1x port control*/
@@ -2072,10 +2072,10 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 		pAd->StaCfg.wdev.PortSecured = WPA_802_1X_PORT_NOT_SECURED;
 		pAd->StaCfg.LastMicErrorTime = 0;
 		pAd->StaCfg.MicErrCnt        = 0;
-		pAd->StaCfg.bBlockAssoc      = FALSE;
+		pAd->StaCfg.bBlockAssoc      = false;
 		pAd->StaCfg.WpaState         = SS_NOTUSE;
 
-		pAd->CommonCfg.NdisRadioStateOff = FALSE;		/* New to support microsoft disable radio with OID command*/
+		pAd->CommonCfg.NdisRadioStateOff = false;		/* New to support microsoft disable radio with OID command*/
 
 		pAd->StaCfg.RssiTrigger = 0;
 		memset(&pAd->StaCfg.RssiSample, 0, sizeof(RSSI_SAMPLE));
@@ -2083,13 +2083,13 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 		pAd->StaCfg.AtimWin = 0;
 		pAd->StaCfg.DefaultListenCount = 3;/*default listen count;*/
 		pAd->StaCfg.BssType = BSS_INFRA;  /* BSS_INFRA or BSS_ADHOC or BSS_MONITOR*/
-		pAd->StaCfg.bSkipAutoScanConn = FALSE;
+		pAd->StaCfg.bSkipAutoScanConn = false;
 		OPSTATUS_CLEAR_FLAG(pAd, fOP_STATUS_DOZE);
 		OPSTATUS_CLEAR_FLAG(pAd, fOP_STATUS_WAKEUP_NOW);
 
 		pAd->StaCfg.wdev.bAutoTxRateSwitch = true;
 		pAd->StaCfg.wdev.DesiredTransmitSetting.field.MCS = MCS_AUTO;
-		pAd->StaCfg.bAutoConnectIfNoSSID = FALSE;
+		pAd->StaCfg.bAutoConnectIfNoSSID = false;
 #ifdef RTMP_FREQ_CALIBRATION_SUPPORT
 		pAd->StaCfg.AdaptiveFreq = true; /* Todo: iwpriv and profile support. */
 #endif /* RTMP_FREQ_CALIBRATION_SUPPORT */
@@ -2112,17 +2112,17 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 		/* user desired power mode*/
 		pAd->StaCfg.WindowsPowerMode = Ndis802_11PowerModeCAM;
 		pAd->StaCfg.WindowsBatteryPowerMode = Ndis802_11PowerModeCAM;
-		pAd->StaCfg.bWindowsACCAMEnable = FALSE;
+		pAd->StaCfg.bWindowsACCAMEnable = false;
 
 		pAd->StaCfg.bHwRadio = true; /* Default Hardware Radio status is On*/
 		pAd->StaCfg.bSwRadio = true; /* Default Software Radio status is On*/
 		pAd->StaCfg.bRadio = true; /* bHwRadio && bSwRadio*/
-		pAd->StaCfg.bHardwareRadio = FALSE;		/* Default is OFF*/
-		pAd->StaCfg.bShowHiddenSSID = FALSE;		/* Default no show*/
+		pAd->StaCfg.bHardwareRadio = false;		/* Default is OFF*/
+		pAd->StaCfg.bShowHiddenSSID = false;		/* Default no show*/
 
 		/* Nitro mode control*/
 #if defined(NATIVE_WPA_SUPPLICANT_SUPPORT) || defined(RT_CFG80211_SUPPORT)
-		pAd->StaCfg.bAutoReconnect = FALSE;
+		pAd->StaCfg.bAutoReconnect = false;
 #else
 		pAd->StaCfg.bAutoReconnect = true;
 #endif /* NATIVE_WPA_SUPPLICANT_SUPPORT || RT_CFG80211_SUPPORT*/
@@ -2134,13 +2134,13 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 			pAd->StaCfg.LastScanTime -= (10 * OS_HZ);
 
 #ifdef PROFILE_STORE
-		pAd->bWriteDat = FALSE;
+		pAd->bWriteDat = false;
 #endif /* PROFILE_STORE */
 #ifdef WPA_SUPPLICANT_SUPPORT
-		pAd->StaCfg.wdev.IEEE8021X = FALSE;
-		pAd->StaCfg.wpa_supplicant_info.IEEE8021x_required_keys = FALSE;
+		pAd->StaCfg.wdev.IEEE8021X = false;
+		pAd->StaCfg.wpa_supplicant_info.IEEE8021x_required_keys = false;
 		pAd->StaCfg.wpa_supplicant_info.WpaSupplicantUP = WPA_SUPPLICANT_DISABLE;
-		pAd->StaCfg.wpa_supplicant_info.bRSN_IE_FromWpaSupplicant = FALSE;
+		pAd->StaCfg.wpa_supplicant_info.bRSN_IE_FromWpaSupplicant = false;
 
 #if defined(NATIVE_WPA_SUPPLICANT_SUPPORT) || defined(RT_CFG80211_SUPPORT)
 		pAd->StaCfg.wpa_supplicant_info.WpaSupplicantUP = WPA_SUPPLICANT_ENABLE;
@@ -2149,7 +2149,7 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 #endif /* PROFILE_STORE */
 #endif /* NATIVE_WPA_SUPPLICANT_SUPPORT || RT_CFG80211_SUPPORT */
 
-		pAd->StaCfg.wpa_supplicant_info.bLostAp = FALSE;
+		pAd->StaCfg.wpa_supplicant_info.bLostAp = false;
 		pAd->StaCfg.wpa_supplicant_info.pWpsProbeReqIe = NULL;
 		pAd->StaCfg.wpa_supplicant_info.WpsProbeReqIeLen = 0;
 		pAd->StaCfg.wpa_supplicant_info.pWpaAssocIe = NULL;
@@ -2160,17 +2160,17 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 		memset(pAd->StaCfg.ReplayCounter, 0, 8);
 
 
-		pAd->StaCfg.bAutoConnectByBssid = FALSE;
+		pAd->StaCfg.bAutoConnectByBssid = false;
 		pAd->StaCfg.BeaconLostTime = BEACON_LOST_TIME;
 		memset(pAd->StaCfg.WpaPassPhrase, 0, 64);
 		pAd->StaCfg.WpaPassPhraseLen = 0;
-		pAd->StaCfg.bAutoRoaming = FALSE;
-		pAd->StaCfg.bForceTxBurst = FALSE;
-		pAd->StaCfg.bNotFirstScan = FALSE;
-		pAd->StaCfg.bImprovedScan = FALSE;
+		pAd->StaCfg.bAutoRoaming = false;
+		pAd->StaCfg.bForceTxBurst = false;
+		pAd->StaCfg.bNotFirstScan = false;
+		pAd->StaCfg.bImprovedScan = false;
 		pAd->StaCfg.bAdhocN = true;
-		pAd->StaCfg.bFastConnect = FALSE;
-		pAd->StaCfg.bAdhocCreator = FALSE;
+		pAd->StaCfg.bFastConnect = false;
+		pAd->StaCfg.bAdhocCreator = false;
 	}
 #endif /* CONFIG_STA_SUPPORT */
 
@@ -2178,7 +2178,7 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 	pAd->ExtraInfo = EXTRA_INFO_CLEAR;
 
 	/* Default Config change flag*/
-	pAd->bConfigChanged = FALSE;
+	pAd->bConfigChanged = false;
 
 	/*
 		part III. AP configurations
@@ -2216,8 +2216,8 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 #endif /* SPECIFIC_TX_POWER_SUPPORT */
 
 #ifdef DOT1X_SUPPORT
-			mbss->wdev.IEEE8021X = FALSE;
-			mbss->PreAuth = FALSE;
+			mbss->wdev.IEEE8021X = false;
+			mbss->PreAuth = false;
 
 			/* PMK cache setting*/
 			mbss->PMKCachePeriod = (10 * 60 * OS_HZ); /* unit : tick(default: 10 minute)*/
@@ -2255,10 +2255,10 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 
 
 #ifdef APCLI_SUPPORT
-		pAd->ApCfg.FlgApCliIsUapsdInfoUpdated = FALSE;
+		pAd->ApCfg.FlgApCliIsUapsdInfoUpdated = false;
 		pAd->ApCfg.ApCliNum = MAX_APCLI_NUM;
 #ifdef APCLI_CERT_SUPPORT
-		pAd->bApCliCertTest = FALSE;
+		pAd->bApCliCertTest = false;
 #endif /* APCLI_CERT_SUPPORT */
 		for(j = 0; j < MAX_APCLI_NUM; j++)
 		{
@@ -2269,18 +2269,18 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 			wdev->WepStatus = Ndis802_11WEPDisabled;
 			wdev->bAutoTxRateSwitch = true;
 			wdev->DesiredTransmitSetting.field.MCS = MCS_AUTO;
-			apcli_entry->UapsdInfo.bAPSDCapable = FALSE;
+			apcli_entry->UapsdInfo.bAPSDCapable = false;
 #ifdef APCLI_CONNECTION_TRIAL
 			apcli_entry->TrialCh = 0;//if the channel is 0, AP will connect the rootap is in the same channel with ra0.
 #endif /* APCLI_CONNECTION_TRIAL */
 
 #ifdef WPA_SUPPLICANT_SUPPORT
-			apcli_entry->wdev.IEEE8021X=FALSE;
-			apcli_entry->wpa_supplicant_info.IEEE8021x_required_keys=FALSE;
-			apcli_entry->wpa_supplicant_info.bRSN_IE_FromWpaSupplicant=FALSE;
-			apcli_entry->wpa_supplicant_info.bLostAp=FALSE;
-			apcli_entry->bScanReqIsFromWebUI=FALSE;
-			apcli_entry->bConfigChanged=FALSE;
+			apcli_entry->wdev.IEEE8021X=false;
+			apcli_entry->wpa_supplicant_info.IEEE8021x_required_keys=false;
+			apcli_entry->wpa_supplicant_info.bRSN_IE_FromWpaSupplicant=false;
+			apcli_entry->wpa_supplicant_info.bLostAp=false;
+			apcli_entry->bScanReqIsFromWebUI=false;
+			apcli_entry->bConfigChanged=false;
 			apcli_entry->wpa_supplicant_info.DesireSharedKeyId=0;
 			apcli_entry->wpa_supplicant_info.WpaSupplicantUP=WPA_SUPPLICANT_DISABLE;
 			apcli_entry->wpa_supplicant_info.WpaSupplicantScanCount=0;
@@ -2291,7 +2291,7 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 			apcli_entry->SavedPMKNum=0;
 			RTMPZeroMemory(apcli_entry->SavedPMK, (PMKID_NO * sizeof(BSSID_INFO)));
 #endif/*WPA_SUPPLICANT_SUPPORT*/
-			apcli_entry->bBlockAssoc=FALSE;
+			apcli_entry->bBlockAssoc=false;
 			apcli_entry->MicErrCnt=0;
 		}
 #endif /* APCLI_SUPPORT */
@@ -2301,7 +2301,7 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 
 #ifdef DYNAMIC_VGA_SUPPORT
 	if (IS_MT76x2(pAd)) {
-		pAd->CommonCfg.lna_vga_ctl.bDyncVgaEnable = FALSE;
+		pAd->CommonCfg.lna_vga_ctl.bDyncVgaEnable = false;
 		pAd->CommonCfg.lna_vga_ctl.nFalseCCATh = 800;
 		pAd->CommonCfg.lna_vga_ctl.nLowFalseCCATh = 10;
 	}
@@ -2332,7 +2332,7 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 	/* if not initial this value, the default value will be 0.*/
 	pAd->BbpTuning.R66CurrentValue = 0x38;
 
-	pAd->BbpForCCK = FALSE;
+	pAd->BbpForCCK = false;
 
 	/* initialize MAC table and allocate spin lock*/
 	memset(&pAd->MacTab, 0, sizeof(MAC_TABLE));
@@ -2343,7 +2343,7 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 	/*RTMPSetTimer(&pAd->RECBATimer, REORDER_EXEC_INTV);*/
 
 
-	pAd->CommonCfg.bWiFiTest = FALSE;
+	pAd->CommonCfg.bWiFiTest = false;
 
 #ifdef CONFIG_AP_SUPPORT
 	pAd->ApCfg.EntryLifeCheck = MAC_ENTRY_LIFE_CHECK_CNT;
@@ -2376,8 +2376,8 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 #endif /* defined(AP_SCAN_SUPPORT) || defined(CONFIG_STA_SUPPORT) */
 
 #if (defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT)
-	pAd->WOW_Cfg.bEnable = FALSE;
-	pAd->WOW_Cfg.bWOWFirmware = FALSE;	/* load normal firmware */
+	pAd->WOW_Cfg.bEnable = false;
+	pAd->WOW_Cfg.bWOWFirmware = false;	/* load normal firmware */
 	pAd->WOW_Cfg.bInBand = true;		/* use in-band signal */
 	pAd->WOW_Cfg.nSelectedGPIO = 1;
 	pAd->WOW_Cfg.nDelay = 3; /* (3+1)*3 = 12 sec */
@@ -2405,7 +2405,7 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 
 
 #ifdef AP_PARTIAL_SCAN_SUPPORT
-	pAd->ApCfg.bPartialScanning = FALSE;
+	pAd->ApCfg.bPartialScanning = false;
 	pAd->ApCfg.PartialScanChannelNum = DEFLAUT_PARTIAL_SCAN_CH_NUM;
 	pAd->ApCfg.LastPartialScanChannel = 0;
 	pAd->ApCfg.PartialScanBreakTime = 0;
@@ -2414,13 +2414,13 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 
 #ifdef APCLI_SUPPORT
 #ifdef APCLI_AUTO_CONNECT_SUPPORT
-	pAd->ApCfg.ApCliAutoConnectRunning= FALSE;
-	pAd->ApCfg.ApCliAutoConnectChannelSwitching = FALSE;
+	pAd->ApCfg.ApCliAutoConnectRunning= false;
+	pAd->ApCfg.ApCliAutoConnectChannelSwitching = false;
 #endif /* APCLI_AUTO_CONNECT_SUPPORT */
 #endif /* APCLI_SUPPORT */
 
 
-	pAd->CommonCfg.bNonVhtDisallow = FALSE;
+	pAd->CommonCfg.bNonVhtDisallow = false;
 
 #ifdef RTMP_USB_SUPPORT
 	pAd->usb_ctl.usb_aggregation = true;
@@ -2631,7 +2631,7 @@ VOID RTMPInitTimer(
 	pTimer->Valid      = true;
 
 	pTimer->PeriodicType = Repeat;
-	pTimer->State      = FALSE;
+	pTimer->State      = false;
 	pTimer->cookie = (ULONG) pData;
 	pTimer->pAd = pAd;
 
@@ -2677,7 +2677,7 @@ VOID RTMPSetTimer(RALINK_TIMER_STRUCT *pTimer, ULONG Value)
 		}
 
 		pTimer->TimerValue = Value;
-		pTimer->State      = FALSE;
+		pTimer->State      = false;
 		if (pTimer->PeriodicType == true)
 		{
 			pTimer->Repeat = true;
@@ -2685,7 +2685,7 @@ VOID RTMPSetTimer(RALINK_TIMER_STRUCT *pTimer, ULONG Value)
 		}
 		else
 		{
-			pTimer->Repeat = FALSE;
+			pTimer->Repeat = false;
 			RTMP_OS_Add_Timer(&pTimer->TimerObj, Value);
 		}
 
@@ -2727,7 +2727,7 @@ VOID RTMPModTimer(RALINK_TIMER_STRUCT *pTimer, ULONG Value)
 	if (pTimer->Valid)
 	{
 		pTimer->TimerValue = Value;
-		pTimer->State      = FALSE;
+		pTimer->State      = false;
 		if (pTimer->PeriodicType == true)
 		{
 			RTMP_SEM_UNLOCK(&TimerSemLock);
@@ -2777,8 +2777,8 @@ VOID RTMPCancelTimer(RALINK_TIMER_STRUCT *pTimer, bool *pCancelled)
 
 	if (pTimer->Valid)
 	{
-		if (pTimer->State == FALSE)
-			pTimer->Repeat = FALSE;
+		if (pTimer->State == false)
+			pTimer->Repeat = false;
 
 		RTMP_SEM_UNLOCK(&TimerSemLock);
 		RTMP_OS_Del_Timer(&pTimer->TimerObj, pCancelled);
@@ -2810,8 +2810,8 @@ VOID RTMPReleaseTimer(RALINK_TIMER_STRUCT *pTimer, bool *pCancelled)
 
 	if (pTimer->Valid)
 	{
-		if (pTimer->State == FALSE)
-			pTimer->Repeat = FALSE;
+		if (pTimer->State == false)
+			pTimer->Repeat = false;
 
 		RTMP_OS_Del_Timer(&pTimer->TimerObj, pCancelled);
 
@@ -2827,7 +2827,7 @@ VOID RTMPReleaseTimer(RALINK_TIMER_STRUCT *pTimer, bool *pCancelled)
 		/* release timer */
 		RTMP_OS_Release_Timer(&pTimer->TimerObj);
 
-		pTimer->Valid = FALSE;
+		pTimer->Valid = false;
 
 		RTMP_TimerListRelease(pTimer->pAd, pTimer);
 
@@ -2947,7 +2947,7 @@ bool PairEP(struct rtmp_adapter *pAd, UINT8 EP)
 
 	if (!found) {
 		DBGPRINT(RT_DEBUG_OFF, ("Endpoint(%x) do not pair\n", EP));
-		return FALSE;
+		return false;
 	} else {
 		return true;
 	}
@@ -2988,12 +2988,12 @@ INT RtmpRaDevCtrlInit(struct rtmp_adapter *pAd, RTMP_INF_TYPE infType)
 	pAd->UsbVendorReqBuf = kmalloc(MAX_PARAM_BUFFER_SIZE - 1, GFP_ATOMIC);
 	if (pAd->UsbVendorReqBuf == NULL) {
 		DBGPRINT(RT_DEBUG_ERROR, ("Allocate vendor request temp buffer failed!\n"));
-		return FALSE;
+		return false;
 	}
 #endif /* RTMP_MAC_USB */
 
 	if (RtmpChipOpsRegister(pAd, infType))
-		return FALSE;
+		return false;
 
 #ifdef RTMP_MAC_USB
 	for (i = 0; i < 6; i++)
@@ -3030,7 +3030,7 @@ bool RtmpRaDevCtrlExit(IN struct rtmp_adapter *pAd)
 #ifdef RLT_MAC
 	if ((IS_MT76x0(pAd) || IS_MT76x2(pAd))&& (pAd->WlanFunCtrl.field.WLAN_EN == 1))
 	{
-		rlt_wlan_chip_onoff(pAd, FALSE, FALSE);
+		rlt_wlan_chip_onoff(pAd, false, false);
 	}
 #endif /* RLT_MAC */
 
@@ -3060,6 +3060,6 @@ bool RtmpRaDevCtrlExit(IN struct rtmp_adapter *pAd)
 #ifdef CONFIG_AP_SUPPORT
 VOID RTMP_11N_D3_TimerInit(struct rtmp_adapter *pAd)
 {
-	RTMPInitTimer(pAd, &pAd->CommonCfg.Bss2040CoexistTimer, GET_TIMER_FUNCTION(Bss2040CoexistTimeOut), pAd, FALSE);
+	RTMPInitTimer(pAd, &pAd->CommonCfg.Bss2040CoexistTimer, GET_TIMER_FUNCTION(Bss2040CoexistTimeOut), pAd, false);
 }
 #endif /* CONFIG_AP_SUPPORT */

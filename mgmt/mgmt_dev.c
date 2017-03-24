@@ -64,7 +64,7 @@ struct rtmp_wifi_dev *get_wdev_by_idx(struct rtmp_adapter *pAd, INT idx)
 			break;
 		}
 #endif /* CONFIG_STA_SUPPORT */
-	} while (FALSE);
+	} while (false);
 
 	if (wdev == NULL)
 	{

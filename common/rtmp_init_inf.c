@@ -43,7 +43,7 @@ int rt28xx_init(struct rtmp_adapter *pAd)
 #endif /* RTMP_MAC_USB */
 
 	if (!pAd)
-		return FALSE;
+		return false;
 
 	if (rtmp_asic_top_init(pAd) != true)
 		goto err1;
@@ -85,7 +85,7 @@ int rt28xx_init(struct rtmp_adapter *pAd)
 	}
 
 #ifdef RTMP_MAC_USB
-	pAd->CommonCfg.bMultipleIRP = FALSE;
+	pAd->CommonCfg.bMultipleIRP = false;
 	if (pAd->CommonCfg.bMultipleIRP)
 		pAd->CommonCfg.NumOfBulkInIRP = RX_RING_SIZE;
 	else
@@ -240,7 +240,7 @@ int rt28xx_init(struct rtmp_adapter *pAd)
 
 #ifdef WIN_NDIS
 	/* Patch cardbus controller if EEPROM said so. */
-	if (pAd->bTest1 == FALSE)
+	if (pAd->bTest1 == false)
 		RTMPPatchCardBus(pAd);
 #endif /* WIN_NDIS */
 
@@ -312,7 +312,7 @@ int rt28xx_init(struct rtmp_adapter *pAd)
 				/* Now we can receive the beacon and do the listen beacon*/
 				/* use default BW to select channel*/
 				pAd->CommonCfg.Channel = AP_AUTO_CH_SEL(pAd, pAd->ApCfg.AutoChannelAlg);
-				pAd->ApCfg.bAutoChannelAtBootup = FALSE;
+				pAd->ApCfg.bAutoChannelAtBootup = false;
 			}
 
 			/* If WMODE_CAP_N(phymode) and BW=40 check extension channel, after select channel  */
@@ -337,7 +337,7 @@ int rt28xx_init(struct rtmp_adapter *pAd)
 			}
 
 			RTMP_11N_D3_TimerInit(pAd);
-/*			RTMPInitTimer(pAd, &pAd->CommonCfg.Bss2040CoexistTimer, GET_TIMER_FUNCTION(Bss2040CoexistTimeOut), pAd, FALSE);*/
+/*			RTMPInitTimer(pAd, &pAd->CommonCfg.Bss2040CoexistTimer, GET_TIMER_FUNCTION(Bss2040CoexistTimeOut), pAd, false);*/
 
 
 			APStartUp(pAd);
@@ -458,7 +458,7 @@ err0:
 #endif /* ST */
 
 	DBGPRINT(RT_DEBUG_ERROR, ("!!! rt28xx init fail !!!\n"));
-	return FALSE;
+	return false;
 }
 
 
@@ -494,9 +494,9 @@ VOID RTMPDrvOpen(struct rtmp_adapter *pAdSrc)
 #ifdef DOT11W_PMF_SUPPORT
 	if (pAd->OpMode == OPMODE_STA)
 	{
-		pAd->StaCfg.PmfCfg.MFPC = FALSE;
-		pAd->StaCfg.PmfCfg.MFPR = FALSE;
-		pAd->StaCfg.PmfCfg.PMFSHA256 = FALSE;
+		pAd->StaCfg.PmfCfg.MFPC = false;
+		pAd->StaCfg.PmfCfg.MFPR = false;
+		pAd->StaCfg.PmfCfg.PMFSHA256 = false;
 		if ((pAd->StaCfg.wdev.AuthMode == Ndis802_11AuthModeWPA2 || pAd->StaCfg.wdev.AuthMode == Ndis802_11AuthModeWPA2PSK)
 			&& (pAd->StaCfg.wdev.WepStatus == Ndis802_11AESEnable))
 		{
@@ -567,7 +567,7 @@ VOID RTMPDrvClose(struct rtmp_adapter *pAd, struct net_device *net_dev)
 		else
 		{
 			RTMP_SEM_LOCK(&pAd->StaCtIf.Lock);
-			pAd->StaCtIf.Changeable = FALSE;
+			pAd->StaCtIf.Changeable = false;
 			RTMP_SEM_UNLOCK(&pAd->StaCtIf.Lock);
 		}
 #endif /* CREDENTIAL_STORE */
@@ -592,14 +592,14 @@ VOID RTMPDrvClose(struct rtmp_adapter *pAd, struct net_device *net_dev)
 #endif /* CONFIG_STA_SUPPORT */
 
 #if ((defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT)) && defined(WOW_IFDOWN_SUPPORT)
-	if (pAd->WOW_Cfg.bEnable == FALSE)
+	if (pAd->WOW_Cfg.bEnable == false)
 #endif /* ((defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT)) && defined(WOW_IFDOWN_SUPPORT) */
 	{
 		RTMP_CLEAR_FLAG(pAd, fRTMP_ADAPTER_MCU_SEND_IN_BAND_CMD);
 		RTMP_SET_FLAG(pAd, fRTMP_ADAPTER_HALT_IN_PROGRESS);
 	}
 
-	pAd->CommonCfg.bCountryFlag = FALSE;
+	pAd->CommonCfg.bCountryFlag = false;
 
 
 
@@ -616,7 +616,7 @@ VOID RTMPDrvClose(struct rtmp_adapter *pAd, struct net_device *net_dev)
 #ifdef CONFIG_AP_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 	{
-		bool Cancelled = FALSE;
+		bool Cancelled = false;
 #ifdef RTMP_MAC_USB
 		RTMPCancelTimer(&pAd->CommonCfg.BeaconUpdateTimer, &Cancelled);
 #endif /* RTMP_MAC_USB */
@@ -734,7 +734,7 @@ VOID RTMPDrvClose(struct rtmp_adapter *pAd, struct net_device *net_dev)
 VOID RTMPInfClose(struct rtmp_adapter *pAd)
 {
 #ifdef CONFIG_AP_SUPPORT
-	pAd->ApCfg.MBSSID[MAIN_MBSSID].bBcnSntReq = FALSE;
+	pAd->ApCfg.MBSSID[MAIN_MBSSID].bBcnSntReq = false;
 
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 	{
@@ -759,7 +759,7 @@ VOID RTMPInfClose(struct rtmp_adapter *pAd)
 		if (INFRA_ON(pAd) &&
 #if ((defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT)) && defined(WOW_IFDOWN_SUPPORT)
 	/* In WOW state, can't issue disassociation reqeust */
-			pAd->WOW_Cfg.bEnable == FALSE &&
+			pAd->WOW_Cfg.bEnable == false &&
 #endif /* ((defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT)) && defined(WOW_IFDOWN_SUPPORT) */
 			(!RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST)))
 		{
@@ -975,7 +975,7 @@ WriteFileOpenErr:
 	if (cfgData)
 		kfree(cfgData);
 out:
-	RtmpOSFSInfoChange(&osFSInfo, FALSE);
+	RtmpOSFSInfoChange(&osFSInfo, false);
 
 
 	DBGPRINT(RT_DEBUG_TRACE, ("<----- WriteConfToDatFile\n"));
@@ -1022,7 +1022,7 @@ int WriteDatThread(
 	int status = NDIS_STATUS_FAILURE;
 	RTMP_OS_TASK *pTask;
 
-	if (pAd->bWriteDat == FALSE)
+	if (pAd->bWriteDat == false)
 		return 0;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("-->WriteDatThreadInit()\n"));

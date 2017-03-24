@@ -123,10 +123,10 @@ VOID ApCliAssocStateMachineInit(
 
 		/* timer init */
 		RTMPInitTimer(pAd, &pAd->ApCfg.ApCliTab[i].MlmeAux.ApCliAssocTimer,
-						GET_TIMER_FUNCTION(ApCliAssocTimeout), pAd, FALSE);
+						GET_TIMER_FUNCTION(ApCliAssocTimeout), pAd, false);
 
 		RTMPInitTimer(pAd, &pAd->ApCfg.ApCliTab[i].MlmeAux.WpaDisassocAndBlockAssocTimer,
-							GET_TIMER_FUNCTION(ApCliWpaDisassocApAndBlockAssoc), pAd, FALSE);
+							GET_TIMER_FUNCTION(ApCliWpaDisassocApAndBlockAssoc), pAd, false);
 
 	}
 
@@ -449,7 +449,7 @@ static VOID ApCliMlmeAssocReqAction(
 			if (wdev->AuthMode == Ndis802_11AuthModeWPA2)
 			{
 			INT idx;
-                bool FoundPMK = FALSE;
+                bool FoundPMK = false;
 			/* Search chched PMKID, append it if existed */
 				for (idx = 0; idx < PMKID_NO; idx++)
 				{
@@ -468,7 +468,7 @@ static VOID ApCliMlmeAssocReqAction(
 				if ((wdev->AuthMode == Ndis802_11AuthModeWPA2) &&
 					(NdisEqualMemory(pAd->MlmeAux.Bssid, pAd->CommonCfg.LastBssid, MAC_ADDR_LEN)))
 				{
-					FoundPMK = FALSE;
+					FoundPMK = false;
 				}
 
 				if (FoundPMK)

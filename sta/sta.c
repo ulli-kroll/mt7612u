@@ -129,7 +129,7 @@ INT RTMPCheckRxError(
 #ifdef WPA_SUPPLICANT_SUPPORT
 				if (pAd->StaCfg.wpa_supplicant_info.WpaSupplicantUP)
 					WpaSendMicFailureToWpaSupplicant(pAd->net_dev,pHeader->Addr2,
-									(pWpaKey->Type == PAIRWISEKEY) ? true:FALSE,
+									(pWpaKey->Type == PAIRWISEKEY) ? true:false,
 									(INT) pRxBlk->key_idx, NULL);
 				else
 #endif /* WPA_SUPPLICANT_SUPPORT */
@@ -170,7 +170,7 @@ INT StaAllowToSendPacket(
 
 	if (!INFRA_ON(pAd) && !ADHOC_ON(pAd))
 	{
-		return FALSE;
+		return false;
 	}
 	else
 	{
@@ -227,7 +227,7 @@ INT StaAllowToSendPacket_new(
 		return true;
 	}
 
-	return FALSE;
+	return false;
 }
 
 

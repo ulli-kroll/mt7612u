@@ -68,7 +68,7 @@ VOID APMlmeDynamicTxRateSwitching(struct rtmp_adapter *pAd)
 
 
 		/* check if this entry need to switch rate automatically */
-		if (RTMPCheckEntryEnableAutoRateSwitch(pAd, pEntry) == FALSE)
+		if (RTMPCheckEntryEnableAutoRateSwitch(pAd, pEntry) == false)
 			continue;
 
 
@@ -358,7 +358,7 @@ VOID APMlmeDynamicTxRateSwitching(struct rtmp_adapter *pAd)
 
 		if (pEntry->fLastSecAccordingRSSI == true)
 		{
-			pEntry->fLastSecAccordingRSSI = FALSE;
+			pEntry->fLastSecAccordingRSSI = false;
 			pEntry->LastSecTxRateChangeAction = RATE_NO_CHANGE;
 			/* reset all OneSecTx counters */
 			RESET_ONE_SEC_TX_CNT(pEntry);
@@ -421,7 +421,7 @@ VOID APQuickResponeForRateUpExec(
 	ULONG					TxSuccess, TxRetransmit, TxFailCount;
 	bool					CurrPhyETxBf, CurrPhyITxBf;
 
-	pAd->ApCfg.ApQuickResponeForRateUpTimerRunning = FALSE;
+	pAd->ApCfg.ApQuickResponeForRateUpTimerRunning = false;
 
     /* walk through MAC table, see if need to change AP's TX rate toward each entry */
    	for (i = 1; i < MAX_LEN_OF_MAC_TABLE; i++)
@@ -645,7 +645,7 @@ VOID APQuickResponeForRateUpExec(
 					DBGPRINT(RT_DEBUG_INFO | DBG_FUNC_RA,("QuickDRS: (Down) keep rate-down (L:%ld, C:%ld)\n", pEntry->LastTxOkCount, OneSecTxNoRetryOKRationCount));
 				}
 			}
-		}while (FALSE);
+		}while (false);
 
 		/* Remember last good non-BF rate */
 		if (!pEntry->phyETxBf && !pEntry->phyITxBf)
@@ -733,7 +733,7 @@ VOID MlmeDynamicTxRateSwitching(
 			continue;
 
 		/* check if this entry need to switch rate automatically */
-		if (RTMPCheckEntryEnableAutoRateSwitch(pAd, pEntry) == FALSE)
+		if (RTMPCheckEntryEnableAutoRateSwitch(pAd, pEntry) == false)
 			continue;
 
 		MlmeSelectTxRateTable(pAd, pEntry, &pTable, &TableSize, &InitTxRateIdx);
@@ -1074,7 +1074,7 @@ VOID MlmeDynamicTxRateSwitching(
 
 		if (pEntry->fLastSecAccordingRSSI == true)
 		{
-			pEntry->fLastSecAccordingRSSI = FALSE;
+			pEntry->fLastSecAccordingRSSI = false;
 			pEntry->LastSecTxRateChangeAction = RATE_NO_CHANGE;
 			/* reset all OneSecTx counters */
 			RESET_ONE_SEC_TX_CNT(pEntry);
@@ -1136,7 +1136,7 @@ VOID StaQuickResponeForRateUpExec(
 	MAC_TABLE_ENTRY			*pEntry;
 	bool					CurrPhyETxBf, CurrPhyITxBf;
 
-	pAd->StaCfg.StaQuickResponeForRateUpTimerRunning = FALSE;
+	pAd->StaCfg.StaQuickResponeForRateUpTimerRunning = false;
 
     /* walk through MAC table, see if need to change AP's TX rate toward each entry */
 	for (i = 1; i < MAX_LEN_OF_MAC_TABLE; i++)
@@ -1147,7 +1147,7 @@ VOID StaQuickResponeForRateUpExec(
 			continue;
 
 		/* check if this entry need to switch rate automatically */
-		if (RTMPCheckEntryEnableAutoRateSwitch(pAd, pEntry) == FALSE)
+		if (RTMPCheckEntryEnableAutoRateSwitch(pAd, pEntry) == false)
 			continue;
 
 		/* Do nothing if this entry didn't change */
@@ -1351,7 +1351,7 @@ VOID StaQuickResponeForRateUpExec(
 				else
 					DBGPRINT(RT_DEBUG_INFO | DBG_FUNC_RA,("   QuickDRS: (Down) keep rate-down (L:%ld, C:%ld)\n", pEntry->LastTxOkCount, OneSecTxNoRetryOKRationCount));
 			}
-		}while (FALSE);
+		}while (false);
 
 		/* Remember last good non-BF rate */
 		if (!pEntry->phyETxBf && !pEntry->phyITxBf)
@@ -1414,9 +1414,9 @@ VOID MlmeOldRateAdapt(
 	IN ULONG			TrainDown,
 	IN ULONG			TxErrorRatio)
 {
-	bool	bTrainUp = FALSE;
+	bool	bTrainUp = false;
 	UCHAR *pTable = pEntry->pTable;
-	bool invertTxBf = FALSE;
+	bool invertTxBf = false;
 
 	pEntry->LastSecTxRateChangeAction = RATE_NO_CHANGE;
 
@@ -1439,7 +1439,7 @@ VOID MlmeOldRateAdapt(
 		{
 			/* Go directly to last non-BF rate without 100 msec check */
 			pEntry->CurrTxRateIndex = pEntry->lastNonBfRate;
-			pEntry->phyETxBf = pEntry->phyITxBf = FALSE;
+			pEntry->phyETxBf = pEntry->phyITxBf = false;
 			MlmeNewTxRate(pAd, pEntry);
 			DBGPRINT_RAW(RT_DEBUG_INFO | DBG_FUNC_RA,("DRS: --TX rate from %d to %d \n", CurrRateIdx, pEntry->CurrTxRateIndex));
 			return;

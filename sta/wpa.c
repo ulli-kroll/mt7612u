@@ -125,7 +125,7 @@ VOID	WpaMicFailureReportFrame(
 
 	DBGPRINT(RT_DEBUG_TRACE, ("WpaMicFailureReportFrame ----->\n"));
 
-    bUnicast = (Elem->Msg[0] == 1 ? true:FALSE);
+    bUnicast = (Elem->Msg[0] == 1 ? true:false);
 	pAd->Sequence = ((pAd->Sequence) + 1) & (MAX_SEQ_NUMBER);
 
 	/* init 802.3 header and Fill Packet */
@@ -205,7 +205,7 @@ VOID	WpaMicFailureReportFrame(
 	RTMPToWirelessSta(pAd, &pAd->MacTab.Content[BSSID_WCID],
 					  Header802_3, LENGTH_802_3,
 					  (u8 *)pPacket,
-					  CONV_ARRARY_TO_UINT16(pPacket->Body_Len) + 4, FALSE);
+					  CONV_ARRARY_TO_UINT16(pPacket->Body_Len) + 4, false);
 
 	kfree((u8 *)pOutBuffer);
 

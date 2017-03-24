@@ -64,7 +64,7 @@ ULONG OS_NumOfMemAlloc = 0, OS_NumOfMemFree = 0;
  * the lock will not be used in TX/RX
  * path so throughput should not be impacted
  */
-bool FlgIsUtilInit = FALSE;
+bool FlgIsUtilInit = false;
 spinlock_t UtilSemLock;
 
 bool RTMP_OS_Alloc_RscOnly(VOID *pRscSrc, uint32_t RscLen);
@@ -86,7 +86,7 @@ Note:
 */
 VOID RtmpUtilInit(VOID)
 {
-	if (FlgIsUtilInit == FALSE) {
+	if (FlgIsUtilInit == false) {
 		spin_lock_init(&UtilSemLock);
 		FlgIsUtilInit = true;
 	}
@@ -449,7 +449,7 @@ bool RTMPL2FrameTxAction(
 	if (!skb) {
 		DBGPRINT(RT_DEBUG_ERROR,
 			 ("%s : Error! Can't allocate a skb.\n", __FUNCTION__));
-		return FALSE;
+		return false;
 	}
 
 	skb->dev = pNetDev;
@@ -809,7 +809,7 @@ bool __RtmpOSTaskWait(
 	RTMP_WAIT_EVENT_INTERRUPTIBLE((*pStatus), pTask);
 
 	if ((pTask->task_killed == 1) || ((*pStatus) != 0))
-		return FALSE;
+		return false;
 #else
 
 	RTMP_SEM_EVENT_WAIT(&(pTask->taskSema), (*pStatus));
@@ -817,7 +817,7 @@ bool __RtmpOSTaskWait(
 	/* unlock the device pointers */
 	if ((*pStatus) != 0) {
 /*		RTMP_SET_FLAG_(*pFlags, fRTMP_ADAPTER_HALT_IN_PROGRESS); */
-		return FALSE;
+		return false;
 	}
 #endif /* KTHREAD_SUPPORT */
 
@@ -941,7 +941,7 @@ Note:
 bool RtmpOSNetDevIsUp(struct net_device *pNetDev)
 {
 	if ((pNetDev == NULL) || !(pNetDev->flags & IFF_UP))
-		return FALSE;
+		return false;
 
 	return true;
 }
@@ -1288,7 +1288,7 @@ int RtmpOSNetDevAttach(UCHAR OpMode, struct net_device *pNetDev,
 		       struct RTMP_OS_NETDEV_OP_HOOK *pDevOpHook)
 {
 	int ret,
-	 rtnl_locked = FALSE;
+	 rtnl_locked = false;
 
 	struct net_device_ops *pNetDevOps = (struct net_device_ops *)pNetDev->netdev_ops;
 
@@ -1731,7 +1731,7 @@ Routine Description:
 
 Arguments:
 	pReserved		- Reserved
-	FlgIsWEntSup	- true or FALSE
+	FlgIsWEntSup	- true or false
 
 Return Value:
 	None
@@ -1819,14 +1819,14 @@ bool RtmpOsStatsAlloc(
 {
 	*ppStats = kmalloc(sizeof (struct net_device_stats), GFP_ATOMIC);
 	if ((*ppStats) == NULL)
-		return FALSE;
+		return false;
 	memset((UCHAR *) *ppStats, 0, sizeof (struct net_device_stats));
 
 #if WIRELESS_EXT >= 12
 	*ppIwStats = kmalloc(sizeof (struct iw_statistics), GFP_ATOMIC);
 	if ((*ppIwStats) == NULL) {
 		kfree(*ppStats);
-		return FALSE;
+		return false;
 	}
 	memset((UCHAR *)* ppIwStats, 0, sizeof (struct iw_statistics));
 #endif

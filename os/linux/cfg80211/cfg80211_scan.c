@@ -39,7 +39,7 @@ VOID CFG80211DRV_OpsScanInLinkDownAction(struct rtmp_adapter *pAd)
 	RTMPCancelTimer(&pAd->MlmeAux.ScanTimer, &Cancelled);
 	pAd->MlmeAux.Channel = 0;
 
-	pAd->cfg80211_ctrl.FlgCfg80211Scanning = FALSE;
+	pAd->cfg80211_ctrl.FlgCfg80211Scanning = false;
 	CFG80211OS_ScanEnd(pAd->pCfg80211_CB, true);
 
 	ScanNextChannel(pAd, OPMODE_STA);
@@ -118,20 +118,20 @@ bool CFG80211DRV_OpsScanCheckStatus(struct rtmp_adapter *pAd,
 	if (CFG80211DRV_OpsScanRunning(pAd))
 	{
 		CFG80211DBG(RT_DEBUG_ERROR, ("SCAN_FAIL: CFG80211 Internal SCAN Flag On\n"));
-		return FALSE;
+		return false;
 	}
 
 	if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_BSS_SCAN_IN_PROGRESS))
 	{
 		CFG80211DBG(RT_DEBUG_ERROR, ("SCAN_FAIL: BSS_SCAN_IN_PROGRESS\n"));
-		return FALSE;
+		return false;
 	}
 
 	/* To avoid the scan cmd come-in during driver init */
 	if (!RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_START_UP))
 	{
 		DBGPRINT(RT_DEBUG_TRACE, ("SCAN_FAIL: Scan cmd before Startup finish\n"));
-		return FALSE;
+		return false;
 	}
 
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
@@ -140,7 +140,7 @@ bool CFG80211DRV_OpsScanCheckStatus(struct rtmp_adapter *pAd,
         (IfType == RT_CMD_80211_IFTYPE_STATION))
 	{
 		DBGPRINT(RT_DEBUG_ERROR,("SCAN_FAIL: P2P_CLIENT In Connecting & Canncel Scan with Infra Side\n"));
-		return FALSE;
+		return false;
 	}
 #endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
 
@@ -149,7 +149,7 @@ bool CFG80211DRV_OpsScanCheckStatus(struct rtmp_adapter *pAd,
         (IfType == RT_CMD_80211_IFTYPE_AP))
 	{
 		DBGPRINT(RT_DEBUG_ERROR,("Disable 20/40 scan!!\n"));
-		return FALSE;
+		return false;
 	}
 #endif /* RT_CFG80211_SUPPORT */
 
@@ -174,7 +174,7 @@ bool CFG80211DRV_OpsScanExtraIesSet(struct rtmp_adapter *pAd)
 									pAd->StaCfg.wpa_supplicant_info.WpaSupplicantUP));
 #endif /*CONFIG_STA_SUPPORT*/
 	if (ie_len == 0)
-		return FALSE;
+		return false;
 
 	/* Reset the ExtraIe and Len */
 	if (cfg80211_ctrl->pExtraIe)
@@ -194,7 +194,7 @@ bool CFG80211DRV_OpsScanExtraIesSet(struct rtmp_adapter *pAd)
 	else
 	{
 		CFG80211DBG(RT_DEBUG_ERROR, ("80211> CFG80211DRV_OpsExtraIesSet ==> allocate fail. \n"));
-		return FALSE;
+		return false;
 	}
 
 	return true;
@@ -204,7 +204,7 @@ bool CFG80211DRV_OpsScanExtraIesSet(struct rtmp_adapter *pAd)
 static void CFG80211_CalBssAvgRssi(
 	IN      BSS_ENTRY 				*pBssEntry)
 {
-        bool bInitial = FALSE;
+        bool bInitial = false;
 
         if (!(pBssEntry->AvgRssiX8 | pBssEntry->AvgRssi))
         {
@@ -305,7 +305,7 @@ VOID CFG80211_Scaning(
 		Not only scan function.
 	*/
 	if ((!CFG80211DRV_OpsScanRunning(pAd)) &&
-		(pAd->cfg80211_ctrl.FlgCfg80211Connecting == FALSE))
+		(pAd->cfg80211_ctrl.FlgCfg80211Connecting == false))
 	{
 		return; /* no scan is running from wpa_supplicant */
 	}
@@ -316,7 +316,7 @@ VOID CFG80211_Scaning(
 	if (WMODE_CAP_N(pAd->CommonCfg.PhyMode))
 		FlgIsNMode = true;
 	else
-		FlgIsNMode = FALSE;
+		FlgIsNMode = false;
 
 	if (pAd->CommonCfg.RegTransmitSetting.field.BW == BW_20)
 		BW = 0;
@@ -377,7 +377,7 @@ VOID CFG80211_ScanEnd(
 	}
 
 	CFG80211OS_ScanEnd(CFG80211CB, FlgIsAborted);
-	pAd->cfg80211_ctrl.FlgCfg80211Scanning = FALSE;
+	pAd->cfg80211_ctrl.FlgCfg80211Scanning = false;
 #endif /* CONFIG_STA_SUPPORT */
 }
 

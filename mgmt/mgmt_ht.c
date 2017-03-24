@@ -123,7 +123,7 @@ INT get_ht_cent_ch(struct rtmp_adapter *pAd, UINT8 *rf_bw, UINT8 *ext_ch)
 		else
 			pAd->CommonCfg.CentralChannel = pAd->CommonCfg.Channel - 2;
 	} else {
-		return FALSE;
+		return false;
 	}
 
 	return true;
@@ -388,7 +388,7 @@ VOID RTMPSetHT(
 	/* 1, the extension channel above the control channel. */
 
 	/* EDCA parameters used for AP's own transmission*/
-	if (pAd->CommonCfg.APEdcaParm.bValid == FALSE)
+	if (pAd->CommonCfg.APEdcaParm.bValid == false)
 		set_default_ap_edca_param(pAd);
 	AsicSetEdcaParm(pAd, &pAd->CommonCfg.APEdcaParm);
 
@@ -463,7 +463,7 @@ VOID RTMPSetIndividualHT(struct rtmp_adapter *pAd, UCHAR apidx)
 					pDesired_ht_phy = &pAd->ApCfg.ApCliTab[idx].wdev.DesiredHtPhyInfo;
 					DesiredMcs = pAd->ApCfg.ApCliTab[idx].wdev.DesiredTransmitSetting.field.MCS;
 					encrypt_mode = pAd->ApCfg.ApCliTab[idx].wdev.WepStatus;
-					pAd->ApCfg.ApCliTab[idx].wdev.bAutoTxRateSwitch = (DesiredMcs == MCS_AUTO) ? true : FALSE;
+					pAd->ApCfg.ApCliTab[idx].wdev.bAutoTxRateSwitch = (DesiredMcs == MCS_AUTO) ? true : false;
 					break;
 				}
 				else
@@ -494,7 +494,7 @@ VOID RTMPSetIndividualHT(struct rtmp_adapter *pAd, UCHAR apidx)
 #endif /* WFA_VHT_PF */
 				encrypt_mode = wdev->WepStatus;
 				pAd->ApCfg.MBSSID[apidx].wdev.bWmmCapable = true;
-				wdev->bAutoTxRateSwitch = (DesiredMcs == MCS_AUTO) ? true : FALSE;
+				wdev->bAutoTxRateSwitch = (DesiredMcs == MCS_AUTO) ? true : false;
 				break;
 			}
 
@@ -514,7 +514,7 @@ VOID RTMPSetIndividualHT(struct rtmp_adapter *pAd, UCHAR apidx)
 			break;
 		}
 #endif /* CONFIG_STA_SUPPORT */
-	} while (FALSE);
+	} while (false);
 
 	if (pDesired_ht_phy == NULL)
 	{
@@ -549,7 +549,7 @@ VOID RTMPSetIndividualHT(struct rtmp_adapter *pAd, UCHAR apidx)
 	if (pAd->CommonCfg.HT_DisallowTKIP && IS_INVALID_HT_SECURITY(encrypt_mode))
 	{
 #ifdef CONFIG_STA_SUPPORT
-		pAd->StaCfg.bAdhocN = FALSE;
+		pAd->StaCfg.bAdhocN = false;
 #endif /* CONFIG_STA_SUPPORT */
 		DBGPRINT(RT_DEBUG_WARN, ("%s : Use legacy rate in WEP/TKIP encryption mode (apidx=%d)\n",
 									__FUNCTION__, apidx));
@@ -559,7 +559,7 @@ VOID RTMPSetIndividualHT(struct rtmp_adapter *pAd, UCHAR apidx)
 	if (pAd->CommonCfg.HT_Disable)
 	{
 #ifdef CONFIG_STA_SUPPORT
-		pAd->StaCfg.bAdhocN = FALSE;
+		pAd->StaCfg.bAdhocN = false;
 #endif /* CONFIG_STA_SUPPORT */
 		DBGPRINT(RT_DEBUG_TRACE, ("%s : HT is disabled\n", __FUNCTION__));
 		return;
@@ -682,7 +682,7 @@ INT	SetCommonHT(struct rtmp_adapter *pAd)
 	{
 		/* Clear previous HT information */
 		RTMPDisableDesiredHtInfo(pAd);
-		return FALSE;
+		return false;
 	}
 
 	SetCommonVHT(pAd);

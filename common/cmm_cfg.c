@@ -117,7 +117,7 @@ char* get_bw_str(int bandwidth)
         This command will not work, if the field of CountryRegion in eeprom is programmed.
 
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT RT_CfgSetCountryRegion(
@@ -142,7 +142,7 @@ INT RT_CfgSetCountryRegion(
     if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_INTERRUPT_IN_USE) && (*pCountryRegion & EEPROM_IS_PROGRAMMED))
 	{
 		DBGPRINT(RT_DEBUG_ERROR, ("CfgSetCountryRegion():CountryRegion in eeprom was programmed\n"));
-		return FALSE;
+		return false;
 	}
 
 	if((region >= 0) &&
@@ -156,7 +156,7 @@ INT RT_CfgSetCountryRegion(
 	else
 	{
 		DBGPRINT(RT_DEBUG_ERROR, ("CfgSetCountryRegion():region(%ld) out of range!\n", region));
-		return FALSE;
+		return false;
 	}
 
 	return true;
@@ -254,7 +254,7 @@ static bool wmode_valid(struct rtmp_adapter *pAd, enum WIFI_MODE wmode)
 		(WMODE_CAP_2G(wmode) && (!PHY_CAP_2G(pAd->chipCap.phy_caps))) ||
 		(WMODE_CAP_N(wmode) && RTMP_TEST_MORE_FLAG(pAd, fRTMP_ADAPTER_DISABLE_DOT_11N))
 	)
-		return FALSE;
+		return false;
 	else
 		return true;
 }
@@ -279,7 +279,7 @@ static bool wmode_valid_and_correct(struct rtmp_adapter *pAd, UCHAR* wmode)
 	}
 
 	if ( *wmode == 0 )
-		ret = FALSE;
+		ret = false;
 
 	return ret;
 }
@@ -287,7 +287,7 @@ static bool wmode_valid_and_correct(struct rtmp_adapter *pAd, UCHAR* wmode)
 
 bool wmode_band_equal(UCHAR smode, UCHAR tmode)
 {
-	bool eq = FALSE;
+	bool eq = false;
 	UCHAR *str1, *str2;
 
 	if ((WMODE_CAP_5G(smode) == WMODE_CAP_5G(tmode)) &&
@@ -317,7 +317,7 @@ bool wmode_band_equal(UCHAR smode, UCHAR tmode)
     Description:
         Set Wireless Mode
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT RT_CfgSetWirelessMode(struct rtmp_adapter *pAd, char *arg)
@@ -335,7 +335,7 @@ INT RT_CfgSetWirelessMode(struct rtmp_adapter *pAd, char *arg)
 				("%s(): Invalid wireless mode(%ld, wmode=0x%x), ChipCap(%s)\n",
 				__FUNCTION__, cfg_mode, wmode,
 				BAND_STR[pAd->chipCap.phy_caps & 0x3]));
-		return FALSE;
+		return false;
 	}
 
 	if (pChipCap->ac_off_mode && WMODE_CAP_AC(wmode)) {
@@ -400,7 +400,7 @@ static UCHAR RT_CfgMbssWirelessModeMaxGet(struct rtmp_adapter *pAd)
     Description:
         Set Wireless Mode for MBSS
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT RT_CfgSetMbssWirelessMode(struct rtmp_adapter *pAd, char *arg)
@@ -417,13 +417,13 @@ INT RT_CfgSetMbssWirelessMode(struct rtmp_adapter *pAd, char *arg)
 				("%s(): Invalid wireless mode(%d, wmode=0x%x), ChipCap(%s)\n",
 				__FUNCTION__, cfg_mode, wmode,
 				BAND_STR[pAd->chipCap.phy_caps & 0x3]));
-		return FALSE;
+		return false;
 	}
 
 	if (WMODE_CAP_5G(wmode) && WMODE_CAP_2G(wmode))
 	{
 		DBGPRINT(RT_DEBUG_ERROR, ("AP cannot support 2.4G/5G band mxied mode!\n"));
-		return FALSE;
+		return false;
 	}
 
 
@@ -473,7 +473,7 @@ static bool RT_isLegalCmdBeforeInfUp(
 #ifdef CONFIG_APSTA_MIXED_SUPPORT
 					!strcmp(SetCmd, "OpMode") ||
 #endif /* CONFIG_APSTA_MIXED_SUPPORT */
-					FALSE; /* default */
+					false; /* default */
        return TestFlag;
 }
 
@@ -489,9 +489,9 @@ INT RT_CfgSetShortSlot(
 	if (ShortSlot == 1)
 		pAd->CommonCfg.bUseShortSlotTime = true;
 	else if (ShortSlot == 0)
-		pAd->CommonCfg.bUseShortSlotTime = FALSE;
+		pAd->CommonCfg.bUseShortSlotTime = false;
 	else
-		return FALSE;  /*Invalid argument */
+		return false;  /*Invalid argument */
 
 	return true;
 }
@@ -502,7 +502,7 @@ INT RT_CfgSetShortSlot(
     Description:
         Set WEP KEY base on KeyIdx
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT	RT_CfgSetWepKey(
@@ -514,7 +514,7 @@ INT	RT_CfgSetWepKey(
 	INT				KeyLen;
 	INT				i;
 	/*UCHAR			CipherAlg = CIPHER_NONE;*/
-	bool			bKeyIsHex = FALSE;
+	bool			bKeyIsHex = false;
 
 	/* TODO: Shall we do memset for the original key info??*/
 	memset(pSharedKey, 0, sizeof(CIPHER_KEY));
@@ -523,7 +523,7 @@ INT	RT_CfgSetWepKey(
 	{
 		case 5: /*wep 40 Ascii type*/
 		case 13: /*wep 104 Ascii type*/
-			bKeyIsHex = FALSE;
+			bKeyIsHex = false;
 			pSharedKey->KeyLen = KeyLen;
 			memmove(pSharedKey->Key, keyString, KeyLen);
 			break;
@@ -533,7 +533,7 @@ INT	RT_CfgSetWepKey(
 			for(i=0; i < KeyLen; i++)
 			{
 				if( !isxdigit(*(keyString+i)) )
-					return FALSE;  /*Not Hex value;*/
+					return false;  /*Not Hex value;*/
 			}
 			bKeyIsHex = true;
 			pSharedKey->KeyLen = KeyLen/2 ;
@@ -542,12 +542,12 @@ INT	RT_CfgSetWepKey(
 
 		default: /*Invalid argument */
 			DBGPRINT(RT_DEBUG_TRACE, ("RT_CfgSetWepKey(keyIdx=%d):Invalid argument (arg=%s)\n", keyIdx, keyString));
-			return FALSE;
+			return false;
 	}
 
 	pSharedKey->CipherAlg = ((KeyLen % 5) ? CIPHER_WEP128 : CIPHER_WEP64);
 	DBGPRINT(RT_DEBUG_TRACE, ("RT_CfgSetWepKey:(KeyIdx=%d,type=%s, Alg=%s)\n",
-						keyIdx, (bKeyIsHex == FALSE ? "Ascii" : "Hex"), CipherName[pSharedKey->CipherAlg]));
+						keyIdx, (bKeyIsHex == false ? "Ascii" : "Hex"), CipherName[pSharedKey->CipherAlg]));
 
 	return true;
 }
@@ -566,7 +566,7 @@ INT	RT_CfgSetWepKey(
         pPMKBuf		Output buffer of WPAPSK key
 
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT RT_CfgSetWPAPSKKey(
@@ -583,7 +583,7 @@ INT RT_CfgSetWPAPSKKey(
 	{
 		DBGPRINT(RT_DEBUG_TRACE, ("WPAPSK Key length(%d) error, required 8 ~ 64 characters!(keyStr=%s)\n",
 									keyStringLen, keyString));
-		return FALSE;
+		return false;
 	}
 
 	memset(pPMKBuf, 0, 32);
@@ -641,7 +641,7 @@ INT	RT_CfgSetTxMCSProc(char *arg, bool *pAutoRate)
 	if ((Value >= 0 && Value <= 23) || (Value == 32)) /* 3*3*/
 	{
 		TxMcs = Value;
-		*pAutoRate = FALSE;
+		*pAutoRate = false;
 	}
 	else
 	{
@@ -663,9 +663,9 @@ INT	RT_CfgSetAutoFallBack(
 	if (AutoFallBack)
 		AutoFallBack = true;
 	else
-		AutoFallBack = FALSE;
+		AutoFallBack = false;
 
-	AsicSetAutoFallBack(pAd, (AutoFallBack) ? true : FALSE);
+	AsicSetAutoFallBack(pAd, (AutoFallBack) ? true : false);
 	DBGPRINT(RT_DEBUG_TRACE, ("RT_CfgSetAutoFallBack::(AutoFallBack=%d)\n", AutoFallBack));
 	return true;
 }
@@ -919,7 +919,7 @@ INT RTMP_COM_IoctlHandle(
 			if ((!RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_INTERRUPT_IN_USE))
 			)
 			{
-				if(pData == NULL ||	RT_isLegalCmdBeforeInfUp((char *) pData) == FALSE)
+				if(pData == NULL ||	RT_isLegalCmdBeforeInfUp((char *) pData) == false)
 				return NDIS_STATUS_FAILURE;
 			}
 			break;
@@ -1429,13 +1429,13 @@ INT Set_SiteSurvey_Proc(
 
 #ifndef APCLI_CONNECTION_TRIAL
 		if (Ssid.SsidLength == 0)
-			ApSiteSurvey(pAd, &Ssid, SCAN_PASSIVE, FALSE);
+			ApSiteSurvey(pAd, &Ssid, SCAN_PASSIVE, false);
 		else
-			ApSiteSurvey(pAd, &Ssid, SCAN_ACTIVE, FALSE);
+			ApSiteSurvey(pAd, &Ssid, SCAN_ACTIVE, false);
 #else
 		/*for shorter scan time. use active scan and send probe req.*/
 		DBGPRINT(RT_DEBUG_TRACE, ("!!! Fast Scan for connection trial !!!\n"));
-		ApSiteSurvey(pAd, &Ssid, FAST_SCAN_ACTIVE, FALSE);
+		ApSiteSurvey(pAd, &Ssid, FAST_SCAN_ACTIVE, false);
 #endif /* APCLI_CONNECTION_TRIAL */
 
 		return true;
@@ -1516,11 +1516,11 @@ INT set_tssi_enable(struct rtmp_adapter *pAd, char *arg)
 		pAd->chipCap.tssi_enable = true;
 		DBGPRINT(RT_DEBUG_OFF, ("turn on TSSI mechanism\n"));
 	} else if (tssi_enable == 0) {
-		pAd->chipCap.tssi_enable = FALSE;
+		pAd->chipCap.tssi_enable = false;
 		DBGPRINT(RT_DEBUG_OFF, ("turn off TSS mechanism\n"));
 	} else {
 		DBGPRINT(RT_DEBUG_OFF, ("illegal param(%u)\n", tssi_enable));
-		return FALSE;
+		return false;
     }
 	return true;
 }

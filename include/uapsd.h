@@ -80,7 +80,7 @@
 /* uapsd initialization */
 #define UAPSD_INFO_INIT(__pInfo)						\
 {														\
-	(__pInfo)->bAPSDCapable = FALSE;					\
+	(__pInfo)->bAPSDCapable = false;					\
 }
 
 #define UAPSD_SP_START(__pAd, __pEntry)					\
@@ -102,7 +102,7 @@
 /* ASIC power save behavior */
 /* TODO: maybe need to do protection */
 #define ASIC_PS_CAN_SLEEP(__pAd)											\
-	__pAd->StaCfg.FlgPsmCanNotSleep = FALSE;
+	__pAd->StaCfg.FlgPsmCanNotSleep = false;
 
 #define ASIC_PS_CAN_NOT_SLEEP(__pAd)										\
 	__pAd->StaCfg.FlgPsmCanNotSleep = true;
@@ -130,7 +130,7 @@
 /* recover the peer power save mode virtually */
 #define RTMP_PS_VIRTUAL_SLEEP(__pMacEntry)									\
 {																			\
-	__pMacEntry->FlgPsModeIsWakeForAWhile = FALSE;							\
+	__pMacEntry->FlgPsModeIsWakeForAWhile = false;							\
 	__pMacEntry->VirtualTimeout = 0;										\
 	DBGPRINT(RT_DEBUG_TRACE,												\
 		("%02x:%02x:%02x:%02x:%02x:%02x can sleep (ps mode = %d)!\n",		\
@@ -264,7 +264,7 @@
 
 /* check if all AC are UAPSD delivery-enabled AC */
 #define UAPSD_MR_IS_ALL_AC_UAPSD(__FlgIsActive, __pMacEntry)				\
-		(((__FlgIsActive) == FALSE) && ((__pMacEntry)->bAPSDAllAC == 1))
+		(((__FlgIsActive) == false) && ((__pMacEntry)->bAPSDAllAC == 1))
 
 /* suspend SP */
 #define UAPSD_MR_SP_SUSPEND(__pAd)											\

@@ -247,7 +247,7 @@ UCHAR MlmeSelectDownRate(
 		}
 		else if (pDownRate->CurrMCS == MCS_32)
 		{
-			bool valid_mcs32 = FALSE;
+			bool valid_mcs32 = false;
 
 			if ((pEntry->MaxHTPhyMode.field.BW == BW_40 && pAd->CommonCfg.BBPCurrentBW == BW_40)
 				|| (pEntry->MaxHTPhyMode.field.BW == BW_80 && pAd->CommonCfg.BBPCurrentBW == BW_80)
@@ -588,13 +588,13 @@ bool QuickInitMCSRate(
 
 		MlmeNewTxRate(pAd, pEntry);
 
-        pEntry->LowPacket = FALSE;
+        pEntry->LowPacket = false;
 
         return true;
     }
     else
     {
-        return FALSE;
+        return false;
     }
 }
 
@@ -1029,7 +1029,7 @@ bool MlmeRAHybridRule(
     DBGPRINT(RT_DEBUG_TRACE, ("RAA : Tx OK Counter %ld %ld\n", NewTxOkCount , pEntry->LastTxOkCount));
 
 	if (100*NewTxOkCount > pAd->CommonCfg.TrainUpHighThrd*pEntry->LastTxOkCount)
-		return FALSE;
+		return false;
 
     return true;
 }
@@ -1056,8 +1056,8 @@ VOID MlmeNewRateAdapt(
 	IN ULONG			TxErrorRatio)
 {
 	USHORT		phyRateLimit20 = 0;
-	bool		bTrainUp = FALSE;
-	bool 	invertTxBf = FALSE;
+	bool		bTrainUp = false;
+	bool 	invertTxBf = false;
 	UCHAR *pTable = pEntry->pTable;
 	UCHAR CurrRateIdx = pEntry->CurrTxRateIndex;
 	RTMP_RA_GRP_TB *pCurrTxRate = PTX_RA_GRP_ENTRY(pTable, CurrRateIdx);
@@ -1286,12 +1286,12 @@ VOID MlmeNewRateAdapt(
     {
 		    if (pEntry->eTxBfEnCond > 0)
 		    {
-		        pEntry->phyETxBf = FALSE;
+		        pEntry->phyETxBf = false;
 		        pEntry->lastRatePhyTxBf = pEntry->phyETxBf;
 	      }
 		    else
 		    {
-			      pEntry->phyITxBf = FALSE;
+			      pEntry->phyITxBf = false;
 	          pEntry->lastRatePhyTxBf = pEntry->phyITxBf;
 			  }
     }
@@ -1837,7 +1837,7 @@ VOID APMlmeDynamicTxRateSwitchingAdapt(struct rtmp_adapter *pAd, UINT i)
 	*/
 	if (pEntry->fLastSecAccordingRSSI == true)
 	{
-		pEntry->fLastSecAccordingRSSI = FALSE;
+		pEntry->fLastSecAccordingRSSI = false;
 		pEntry->LastSecTxRateChangeAction = RATE_NO_CHANGE;
 		/* DBGPRINT(RT_DEBUG_INFO,("DRS: MCS is according to RSSI, and ignore tuning this sec \n")); */
 
@@ -2284,7 +2284,7 @@ VOID MlmeDynamicTxRateSwitchingAdapt(
 				MlmeSetMcsGroup(pAd, pEntry);
 
 				pEntry->CurrTxRateIndex = TxRateIdx;
-				//pEntry->phyETxBf = pEntry->phyITxBf = FALSE;
+				//pEntry->phyETxBf = pEntry->phyITxBf = false;
 				MlmeNewTxRate(pAd, pEntry);
 				if (!pEntry->fLastSecAccordingRSSI)
 				{
@@ -2320,7 +2320,7 @@ VOID MlmeDynamicTxRateSwitchingAdapt(
 
 	if (pEntry->fLastSecAccordingRSSI == true)
 	{
-		pEntry->fLastSecAccordingRSSI = FALSE;
+		pEntry->fLastSecAccordingRSSI = false;
 		pEntry->LastSecTxRateChangeAction = RATE_NO_CHANGE;
 		/* DBGPRINT_RAW(RT_DEBUG_TRACE,("DRS: MCS is according to RSSI, and ignore tuning this sec \n")); */
 
@@ -2420,7 +2420,7 @@ INT Set_RateTable_Proc(struct rtmp_adapter *pAd, char *arg)
 	if (i==MAX_LEN_OF_MAC_TABLE)
 	{
 	    DBGPRINT(RT_DEBUG_ERROR, ("Set_RateTable_Proc: Empty MAC Table\n"));
-		return FALSE;
+		return false;
 	}
 
 	/* Get peer's rate table */
@@ -2429,7 +2429,7 @@ INT Set_RateTable_Proc(struct rtmp_adapter *pAd, char *arg)
 	/* Get rate index */
 	itemNo = simple_strtol(arg, &arg, 10);
 	if (itemNo<0 || itemNo>=RATE_TABLE_SIZE(pTable))
-		return FALSE;
+		return false;
 
 #ifdef NEW_RATE_ADAPT_SUPPORT
 	if (ADAPT_RATE_TABLE(pTable))
@@ -2448,10 +2448,10 @@ INT Set_RateTable_Proc(struct rtmp_adapter *pAd, char *arg)
 			arg++;
 		rtIndex = simple_strtol(arg, &arg, 10);
 		if (rtIndex<0 || rtIndex>9)
-			return FALSE;
+			return false;
 
 		if (*arg!=':')
-			return FALSE;
+			return false;
 		while (*arg<'0' || *arg>'9')
 			arg++;
 		value = simple_strtol(arg, &arg, 10);

@@ -203,7 +203,7 @@ static inline bool AutoChannelSkipListCheck(
 	IN UCHAR			Ch)
 {
 	UCHAR i;
-	bool result = FALSE;
+	bool result = false;
 
 	for (i=0; i < pAd->ApCfg.AutoChannelSkipListNum ; i++)
 	{
@@ -228,7 +228,7 @@ static inline bool BW40_ChannelCheck(
 	{
 		if (ch == NorBW40_CH[i])
 		{
-			result = FALSE;
+			result = false;
 			break;
 		}
 	}
@@ -241,7 +241,7 @@ static inline UCHAR SelectClearChannelRandom(
 	)
 {
 	UCHAR cnt, ch = 0, i, RadomIdx;
-	/*bool bFindIt = FALSE;*/
+	/*bool bFindIt = false;*/
 	UINT8 TempChList[MAX_NUM_OF_CHANNELS] = {0};
 
 	if (pAd->CommonCfg.bIEEE80211H)
@@ -428,7 +428,7 @@ static inline UCHAR SelectClearChannelCCA(
 #else
 					0,
 #endif /* AP_QLOAD_SUPPORT */
-					(pChannelInfo->SkipList[channel_idx] == true) ? "true" : "FALSE"));
+					(pChannelInfo->SkipList[channel_idx] == true) ? "true" : "false"));
 	}
 	DBGPRINT(RT_DEBUG_TRACE, ("=====================================================\n"));
 
@@ -455,7 +455,7 @@ static inline UCHAR SelectClearChannelCCA(
 			/* when busy time of a channel > threshold, skip it */
 			/* TODO: Use weight for different references to do channel selection */
 			if (QBSS_LoadIsBusyTimeAccepted(pAd,
-				pChannelInfo->chanbusytime[channel_idx]) == FALSE)
+				pChannelInfo->chanbusytime[channel_idx]) == false)
 			{
 				/* check next one */
 				continue;
@@ -622,7 +622,7 @@ static inline UCHAR SelectClearChannelCCA(
 			/* when busy time of a channel > threshold, skip it */
 			/* TODO: Use weight for different references to do channel selection */
 			if (QBSS_LoadIsBusyTimeAccepted(pAd,
-				pChannelInfo->chanbusytime[channel_idx]) == FALSE)
+				pChannelInfo->chanbusytime[channel_idx]) == false)
 			{
 				/* check next one */
 				continue;
@@ -811,7 +811,7 @@ static inline UCHAR SelectClearChannelApCnt(
 #else
 				0,
 #endif /* AP_QLOAD_SUPPORT */
-				(pChannelInfo->SkipList[channel_index] == true) ? "true" : "FALSE"));
+				(pChannelInfo->SkipList[channel_index] == true) ? "true" : "false"));
    DBGPRINT(RT_DEBUG_TRACE, ("=====================================================\n"));
 
    pAd->ApCfg.AutoChannel_Channel = 0;
@@ -831,7 +831,7 @@ static inline UCHAR SelectClearChannelApCnt(
 #ifdef AP_QLOAD_SUPPORT
 		/* QLOAD ALARM */
 		if (QBSS_LoadIsBusyTimeAccepted(pAd,
-			pChannelInfo->chanbusytime[channel_index]) == FALSE)
+			pChannelInfo->chanbusytime[channel_index]) == false)
 			continue;
 #endif /* AP_QLOAD_SUPPORT */
 
@@ -892,7 +892,7 @@ static inline UCHAR SelectClearChannelApCnt(
 				/* when busy time of a channel > threshold, skip it */
 				/* TODO: Use weight for different references to do channel selection */
 				if (QBSS_LoadIsBusyTimeAccepted(pAd,
-					pChannelInfo->chanbusytime[channel_index]) == FALSE)
+					pChannelInfo->chanbusytime[channel_index]) == false)
 				{
 					/* check next one */
 					continue;
@@ -904,7 +904,7 @@ static inline UCHAR SelectClearChannelApCnt(
 
 					if(((pAd->CommonCfg.RegTransmitSetting.field.BW == BW_40) &&
 						(pAd->CommonCfg.vht_bw == VHT_BW_2040))
-						&& (BW40_ChannelCheck(pAd->ChannelList[channel_index].Channel) == FALSE)) {
+						&& (BW40_ChannelCheck(pAd->ChannelList[channel_index].Channel) == false)) {
 						continue;
 					}
 					else if (pAd->CommonCfg.vht_bw == VHT_BW_80) {
@@ -1071,7 +1071,7 @@ void ChannelInfoDestroy(
  */
 void CheckPhyModeIsABand(struct rtmp_adapter *pAd)
 {
-	pAd->pChannelInfo->IsABand = (WMODE_CAP_5G(pAd->CommonCfg.PhyMode)) ? true : FALSE;
+	pAd->pChannelInfo->IsABand = (WMODE_CAP_5G(pAd->CommonCfg.PhyMode)) ? true : false;
 
 	return;
 }

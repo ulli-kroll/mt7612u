@@ -71,7 +71,7 @@ bool CFG80211_CheckActionFrameType(
 		IN	u8 *									 pData,
 		IN	uint32_t                              		 length)
 {
-	bool isP2pFrame = FALSE;
+	bool isP2pFrame = false;
 	struct ieee80211_mgmt *mgmt;
 	mgmt = (struct ieee80211_mgmt *)pData;
 	if (ieee80211_is_mgmt(mgmt->frame_control))
@@ -242,7 +242,7 @@ bool CFG80211_HandleP2pMgmtFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk, UCHAR
 			}
 		}
 
-	return FALSE;
+	return false;
 }
 
 

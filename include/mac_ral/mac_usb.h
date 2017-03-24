@@ -339,7 +339,7 @@ typedef struct _CMD_RSP_CONTEXT
 #define RTMP_STOP_DEQUEUE(pAd, QueIdx, irqFlags)						\
 			do{															\
 				RTMP_IRQ_LOCK(&pAd->DeQueueLock[QueIdx], irqFlags);		\
-				pAd->DeQueueRunning[QueIdx] = FALSE;					\
+				pAd->DeQueueRunning[QueIdx] = false;					\
 				RTMP_IRQ_UNLOCK(&pAd->DeQueueLock[QueIdx], irqFlags);	\
 			}while(0)
 

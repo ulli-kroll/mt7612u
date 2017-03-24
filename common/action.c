@@ -552,7 +552,7 @@ ULONG BuildIntolerantChannelRep(struct rtmp_adapter *pAd, UCHAR *pDest)
 						ChannelList[idx] = (UCHAR)pAd->CommonCfg.TriggerEventTab.EventA[i].Channel;
 						idx++;
 					}
-					pAd->CommonCfg.TriggerEventTab.EventA[i].bValid = FALSE;
+					pAd->CommonCfg.TriggerEventTab.EventA[i].bValid = false;
 				}
 				DBGPRINT(RT_DEBUG_ERROR,("ACT - BuildIntolerantChannelRep , Total Channel number = %d \n", idx));
 			}
@@ -694,13 +694,13 @@ bool ChannelSwitchSanityCheck(
 	UCHAR		i;
 
 	if (Wcid >= MAX_LEN_OF_MAC_TABLE)
-		return FALSE;
+		return false;
 
 	if ((NewChannel > 7) && (Secondary == 1))
-		return FALSE;
+		return false;
 
 	if ((NewChannel < 5) && (Secondary == 3))
-		return FALSE;
+		return false;
 
 	/* 0. Check if new channel is in the channellist.*/
 	for (i = 0;i < pAd->ChannelListNum;i++)
@@ -712,7 +712,7 @@ bool ChannelSwitchSanityCheck(
 	}
 
 	if (i == pAd->ChannelListNum)
-		return FALSE;
+		return false;
 
 	return true;
 }
@@ -729,7 +729,7 @@ VOID ChannelSwitchAction(
 	DBGPRINT(RT_DEBUG_TRACE,("%s(): NewChannel=%d, Secondary=%d\n",
 				__FUNCTION__, NewChannel, Secondary));
 
-	if (ChannelSwitchSanityCheck(pAd, Wcid, NewChannel, Secondary) == FALSE)
+	if (ChannelSwitchSanityCheck(pAd, Wcid, NewChannel, Secondary) == false)
 		return;
 
 	pAd->CommonCfg.Channel = NewChannel;
@@ -759,7 +759,7 @@ VOID ChannelSwitchAction(
 	}
 
 	if (rf_channel != 0) {
-		AsicSetChannel(pAd, rf_channel, rf_bw, Secondary, FALSE);
+		AsicSetChannel(pAd, rf_channel, rf_bw, Secondary, false);
 
 		DBGPRINT(RT_DEBUG_TRACE, ("%s(): %dMHz LINK UP, CtrlChannel=%d,  CentralChannel= %d \n",
 					__FUNCTION__, (rf_bw == BW_40 ? 40 : 20),
@@ -807,7 +807,7 @@ VOID PeerPublicAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 				}
 				/*hex_dump("IntolerantReport ", (u8 *)pIntolerantReport, sizeof(BSS_2040_INTOLERANT_CH_REPORT));*/
 
-				if(pAd->CommonCfg.bBssCoexEnable == FALSE || (pAd->CommonCfg.bForty_Mhz_Intolerant == true))
+				if(pAd->CommonCfg.bBssCoexEnable == false || (pAd->CommonCfg.bForty_Mhz_Intolerant == true))
 				{
 					DBGPRINT(RT_DEBUG_TRACE, ("20/40 BSS CoexMgmt=%d, bForty_Mhz_Intolerant=%d, ignore this action!!\n",
 												pAd->CommonCfg.bBssCoexEnable,
@@ -825,7 +825,7 @@ VOID PeerPublicAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 					{
 #endif /* APCLI_CERT_SUPPORT */
 #endif /* APCLI_SUPPORT */
-					bool		bNeedFallBack = FALSE;
+					bool		bNeedFallBack = false;
 
 					/*ApPublicAction(pAd, Elem);*/
 					if ((pBssCoexistIe->field.BSS20WidthReq ==1) || (pBssCoexistIe->field.Intolerant40 == 1))
@@ -856,7 +856,7 @@ VOID PeerPublicAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 						if (retVal == true)
 						{
 							ptr = pIntolerantReport->ChList;
-							bNeedFallBack = FALSE;
+							bNeedFallBack = false;
 							DBGPRINT(RT_DEBUG_TRACE, ("Check IntolerantReport Channel List in our effectedChList(%d~%d)\n",
 													pAd->ChannelList[coexChRange.effectChStart].Channel,
 													pAd->ChannelList[coexChRange.effectChEnd].Channel));
@@ -1032,7 +1032,7 @@ VOID PeerHTAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 		case NOTIFY_BW_ACTION:
 			DBGPRINT(RT_DEBUG_TRACE,("ACTION - HT Notify Channel bandwidth action----> \n"));
 #ifdef CONFIG_STA_SUPPORT
-			if(pAd->StaActive.SupportedPhyInfo.bHtEnable == FALSE)
+			if(pAd->StaActive.SupportedPhyInfo.bHtEnable == false)
 			{
 				/* Note, this is to patch DIR-1353 AP. When the AP set to Wep, it will use legacy mode. But AP still keeps */
 				/* sending BW_Notify Action frame, and cause us to linkup and linkdown. */
@@ -1127,7 +1127,7 @@ VOID PeerVHTAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 	p8023Header: if this is already 802.3 format, p8023Header is NULL
 
 	Return	: true if put into rx reordering buffer, shouldn't indicaterxhere.
-				FALSE , then continue indicaterx at this moment.
+				false , then continue indicaterx at this moment.
 	==========================================================================
  */
 VOID ORIBATimerTimeout(struct rtmp_adapter *pAd)

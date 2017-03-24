@@ -98,7 +98,7 @@ int RT30xxWriteRFRegister(
 		bool beAdd;
 
 		RT30xxReadRFRegister(pAd, RF_R17, &RfValue);
-		beAdd =  (RfValue < value) ? true : FALSE;
+		beAdd =  (RfValue < value) ? true : false;
 		IdRf = RfValue;
 		while(IdRf != value)
 		{

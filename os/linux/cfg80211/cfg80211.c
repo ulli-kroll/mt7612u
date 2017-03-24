@@ -502,7 +502,7 @@ static int CFG80211_OpsScan(
 
 		if (pChanList == NULL) {
 			DBGPRINT(RT_DEBUG_ERROR, ("%s::Alloc memory fail\n", __FUNCTION__));
-			return FALSE;
+			return false;
 		}
 
 		for (idx = 0; idx < pRequest->n_channels; idx++) {
@@ -945,7 +945,7 @@ static int CFG80211_OpsKeyAdd(
 	else if (pParams->cipher == WLAN_CIPHER_SUITE_AES_CMAC) {
 			KeyInfo.KeyType = RT_CMD_80211_KEY_AES_CMAC;
 			KeyInfo.KeyId = KeyIdx;
-			KeyInfo.bPairwise = FALSE;
+			KeyInfo.bPairwise = false;
 			KeyInfo.KeyLen = pParams->key_len;
 	}
 #endif /* DOT11W_PMF_SUPPORT */
@@ -1294,7 +1294,7 @@ static int CFG80211_OpsConnect(
 	if (Keymgmt ==  WLAN_AKM_SUITE_8021X)
 		ConnInfo.FlgIs8021x = true;
 	else
-		ConnInfo.FlgIs8021x = FALSE;
+		ConnInfo.FlgIs8021x = false;
 
 	CFG80211DBG(RT_DEBUG_TRACE, ("Auth_type %x\n", pSme->auth_type));
 	if (pSme->auth_type == NL80211_AUTHTYPE_SHARED_KEY)
@@ -1336,7 +1336,7 @@ static int CFG80211_OpsConnect(
 	ConnInfo.SsidLen = pSme->ssid_len;
 	ConnInfo.KeyIdx = pSme->key_idx;
 	/* YF@20120328: Reset to default */
-	ConnInfo.bWpsConnection= FALSE;
+	ConnInfo.bWpsConnection= false;
 
 	//hex_dump("AssocInfo:", pSme->ie, pSme->ie_len);
 
@@ -1361,7 +1361,7 @@ static int CFG80211_OpsConnect(
 	if (pSme->mfp) {
 		ConnInfo.mfp = true;
 	} else {
-		ConnInfo.mfp = FALSE;
+		ConnInfo.mfp = false;
 	}
 #endif /* DOT11W_PMF_SUPPORT */
 
@@ -2397,7 +2397,7 @@ bool CFG80211_Register(
 	pCfg80211_CB = kmalloc(sizeof(CFG80211_CB), GFP_ATOMIC);
 	if (pCfg80211_CB == NULL) {
 		DBGPRINT(RT_DEBUG_ERROR, ("80211> Allocate MAC80211 CB fail!\n"));
-		return FALSE;
+		return false;
 	}
 
 	/* allocate wireless device */
@@ -2408,7 +2408,7 @@ bool CFG80211_Register(
 	if (pCfg80211_CB->pCfg80211_Wdev == NULL) {
 		DBGPRINT(RT_DEBUG_ERROR, ("80211> Allocate Wdev fail!\n"));
 		kfree(pCfg80211_CB);
-		return FALSE;
+		return false;
 	}
 
 	/* bind wireless device with net device */

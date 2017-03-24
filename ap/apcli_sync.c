@@ -104,9 +104,9 @@ VOID ApCliSyncStateMachineInit(
 #endif /*APCLI_CONNECTION_TRIAL*/
 
 #ifdef APCLI_CONNECTION_TRIAL
-		RTMPInitTimer(pAd, &pAd->ApCfg.ApCliTab[i].MlmeAux.ProbeTimer, GET_TIMER_FUNCTION(ApCliProbeTimeout), (PVOID)pApCliEntry, FALSE);
+		RTMPInitTimer(pAd, &pAd->ApCfg.ApCliTab[i].MlmeAux.ProbeTimer, GET_TIMER_FUNCTION(ApCliProbeTimeout), (PVOID)pApCliEntry, false);
 #else
-		RTMPInitTimer(pAd, &pAd->ApCfg.ApCliTab[i].MlmeAux.ProbeTimer, GET_TIMER_FUNCTION(ApCliProbeTimeout), pAd, FALSE);
+		RTMPInitTimer(pAd, &pAd->ApCfg.ApCliTab[i].MlmeAux.ProbeTimer, GET_TIMER_FUNCTION(ApCliProbeTimeout), pAd, false);
 #endif /* APCLI_CONNECTION_TRIAL */
 		pAd->ApCfg.ApCliTab[i].SyncCurrState = APCLI_SYNC_IDLE;
 	}
@@ -291,11 +291,11 @@ static VOID ApCliPeerProbeRspAtJoinAction(
 			A. Should be not. There's no back-door recover to previous AP. It still need
 				a new JOIN-AUTH-ASSOC sequence.
 		*/
-		INT ssidEqualFlag = FALSE;
-		INT ssidEmptyFlag = FALSE;
-		INT bssidEqualFlag = FALSE;
-		INT bssidEmptyFlag = FALSE;
-		INT matchFlag = FALSE;
+		INT ssidEqualFlag = false;
+		INT ssidEmptyFlag = false;
+		INT bssidEqualFlag = false;
+		INT bssidEmptyFlag = false;
+		INT matchFlag = false;
 
 		ULONG   Bssidx;
 		CHAR RealRssi = -127;
@@ -404,7 +404,7 @@ static VOID ApCliPeerProbeRspAtJoinAction(
 							ie_list->Channel));
 
 			/* if the Bssid doesn't be indicated then you need to decide which AP to connect by most strong Rssi signal strength. */
-			if (bssidEqualFlag == FALSE)
+			if (bssidEqualFlag == false)
 			{
 				/* caculate real rssi value. */
 				CHAR Rssi0 = ConvertToRssi(pAd, Elem->Rssi0, RSSI_0);
@@ -616,7 +616,7 @@ static VOID ApCliEnqueueProbeRequest(
 	UCHAR ssidLen;
 	CHAR ssid[MAX_LEN_OF_SSID];
 	APCLI_STRUCT *pApCliEntry = NULL;
-	bool bHasWscIe = FALSE;
+	bool bHasWscIe = false;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("force out a ProbeRequest ...\n"));
 

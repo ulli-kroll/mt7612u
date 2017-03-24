@@ -708,7 +708,7 @@ VOID APPeerBeaconAction(
 
 		/* ignore BEACON not in this channel */
 		if (ie_list->Channel != pAd->CommonCfg.Channel
-			&& (pAd->CommonCfg.bOverlapScanning == FALSE)
+			&& (pAd->CommonCfg.bOverlapScanning == false)
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
 			&& (!RTMP_CFG80211_VIF_P2P_CLI_ON(pAd))
 #endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
@@ -725,7 +725,7 @@ VOID APPeerBeaconAction(
 		}
 
 		if ((pAd->CommonCfg.HtCapability.HtCapInfo.ChannelWidth == BW_40)
-			&& (pAd->CommonCfg.bOverlapScanning == FALSE)
+			&& (pAd->CommonCfg.bOverlapScanning == false)
 		   )
 		{
 			if (pAd->CommonCfg.Channel<=14)
@@ -752,7 +752,7 @@ VOID APPeerBeaconAction(
                 if ((ie_list->Erp & 0x01) || (RatesLen <= 4))
 			LegacyBssExist = true;
 		else
-			LegacyBssExist = FALSE;
+			LegacyBssExist = false;
 
 		if (LegacyBssExist && pAd->CommonCfg.DisableOLBCDetect == 0)
 		{
@@ -854,7 +854,7 @@ VOID APPeerBeaconAction(
 		if (pAd->CommonCfg.bOverlapScanning == true)
 		{
 			INT		index,secChIdx;
-			bool		found = FALSE;
+			bool		found = false;
 			ADD_HTINFO *pAdd_HtInfo;
 
 			for (index = 0; index < pAd->ChannelListNum; index++)
@@ -1020,12 +1020,12 @@ VOID APMlmeScanCompleteAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 		    (pApCliWscControl->WscPBCBssCount > 0))
 		{
 			DBGPRINT(RT_DEBUG_TRACE, ("CON_WPS[%d]: Stop the AP Wsc Machine\n", apidx));
-			WscBuildBeaconIE(pAd, IsAPConfigured, FALSE, 0, 0, apidx, NULL, 0, AP_MODE);
-			WscBuildProbeRespIE(pAd, WSC_MSGTYPE_AP_WLAN_MGR, IsAPConfigured, FALSE, 0, 0, apidx, NULL, 0, AP_MODE);
+			WscBuildBeaconIE(pAd, IsAPConfigured, false, 0, 0, apidx, NULL, 0, AP_MODE);
+			WscBuildProbeRespIE(pAd, WSC_MSGTYPE_AP_WLAN_MGR, IsAPConfigured, false, 0, 0, apidx, NULL, 0, AP_MODE);
 			APUpdateBeaconFrame(pAd, apidx);
-			WscStop(pAd, FALSE, pWscControl);
+			WscStop(pAd, false, pWscControl);
 			/* AP: For stop the other side of the band with WSC SM */
-			WscConWpsStop(pAd, FALSE, pWscControl);
+			WscConWpsStop(pAd, false, pWscControl);
 			continue;
 		}
 	}
@@ -1146,7 +1146,7 @@ VOID APPeerBeaconAtScanAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 
 		/* ignore BEACON not in this channel */
 		if (ie_list->Channel != pAd->MlmeAux.Channel
-			&& (pAd->CommonCfg.bOverlapScanning == FALSE)
+			&& (pAd->CommonCfg.bOverlapScanning == false)
 		   )
 		{
 			//CFG_TODO
@@ -1306,7 +1306,7 @@ VOID ApSiteSurvey(
 
 #ifdef AP_PARTIAL_SCAN_SUPPORT
 	if (((pAd->ApCfg.bPartialScanning == true) && (pAd->ApCfg.LastPartialScanChannel == 0)) ||
-		(pAd->ApCfg.bPartialScanning == FALSE))
+		(pAd->ApCfg.bPartialScanning == false))
 #endif /* AP_PARTIAL_SCAN_SUPPORT */
 	{
 		BssTableInit(&pAd->ScanTab);
@@ -1331,7 +1331,7 @@ VOID ApSiteSurvey(
 
 bool ApScanRunning(struct rtmp_adapter *pAd)
 {
-	return (pAd->Mlme.ApSyncMachine.CurrState == AP_SCAN_LISTEN) ? true : FALSE;
+	return (pAd->Mlme.ApSyncMachine.CurrState == AP_SCAN_LISTEN) ? true : false;
 }
 
 #ifdef AP_PARTIAL_SCAN_SUPPORT
@@ -1362,7 +1362,7 @@ UCHAR FindPartialScanChannel(
 		pAd->ApCfg.LastPartialScanChannel = scan_channel;
 		if (scan_channel == 0)
 		{
-			pAd->ApCfg.bPartialScanning = FALSE;
+			pAd->ApCfg.bPartialScanning = false;
 			pAd->ApCfg.PartialScanChannelNum = DEFLAUT_PARTIAL_SCAN_CH_NUM;
 		}
 	}
@@ -1419,7 +1419,7 @@ VOID APSyncStateMachineInit(
 	StateMachineSetAction(Sm, AP_SCAN_LISTEN, APMT2_SCAN_TIMEOUT, (STATE_MACHINE_FUNC)APScanTimeoutAction);
 	StateMachineSetAction(Sm, AP_SCAN_LISTEN, APMT2_MLME_SCAN_CNCL, (STATE_MACHINE_FUNC)APScanCnclAction);
 
-	RTMPInitTimer(pAd, &pAd->MlmeAux.APScanTimer, GET_TIMER_FUNCTION(APScanTimeout), pAd, FALSE);
+	RTMPInitTimer(pAd, &pAd->MlmeAux.APScanTimer, GET_TIMER_FUNCTION(APScanTimeout), pAd, false);
 #endif /* AP_SCAN_SUPPORT */
 }
 

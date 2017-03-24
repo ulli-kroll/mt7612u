@@ -55,7 +55,7 @@ static INT scan_ch_restore(struct rtmp_adapter *pAd, UCHAR OpMode)
 	if (pAd->CommonCfg.BBPCurrentBW != pAd->hw_cfg.bbp_bw)
 		bbp_set_bw(pAd, pAd->hw_cfg.bbp_bw);
 
-	AsicSwitchChannel(pAd, pAd->hw_cfg.cent_ch, FALSE);
+	AsicSwitchChannel(pAd, pAd->hw_cfg.cent_ch, false);
 	AsicLockChannel(pAd, pAd->hw_cfg.cent_ch);
 
 	ch = pAd->hw_cfg.cent_ch;
@@ -103,7 +103,7 @@ static INT scan_ch_restore(struct rtmp_adapter *pAd, UCHAR OpMode)
 		{
 			RTMPSendNullFrame(pAd,
 								pAd->CommonCfg.TxRate,
-								(OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_WMM_INUSED) ? true:FALSE),
+								(OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_WMM_INUSED) ? true:false),
 								pAd->CommonCfg.bAPSDForcePowerSave ? PWR_SAVE : pAd->StaCfg.Psm);
 			DBGPRINT(RT_DEBUG_TRACE, ("%s -- Send null frame\n", __FUNCTION__));
 		}
@@ -134,7 +134,7 @@ static INT scan_ch_restore(struct rtmp_adapter *pAd, UCHAR OpMode)
 		else
 		{
 			pAd->StaCfg.BssNr = pAd->ScanTab.BssNr;
-			pAd->StaCfg.bImprovedScan = FALSE;
+			pAd->StaCfg.bImprovedScan = false;
 
 			pAd->Mlme.SyncMachine.CurrState = SYNC_IDLE;
 			Status = MLME_SUCCESS;
@@ -152,7 +152,7 @@ static INT scan_ch_restore(struct rtmp_adapter *pAd, UCHAR OpMode)
 #ifdef APCLI_AUTO_CONNECT_SUPPORT
 			if ((pAd->ApCfg.ApCliAutoConnectRunning == true)
 #ifdef AP_PARTIAL_SCAN_SUPPORT
-				&& (pAd->ApCfg.bPartialScanning == FALSE)
+				&& (pAd->ApCfg.bPartialScanning == false)
 #endif /* AP_PARTIAL_SCAN_SUPPORT */
 				)
 			{
@@ -179,7 +179,7 @@ static INT scan_ch_restore(struct rtmp_adapter *pAd, UCHAR OpMode)
 		if (pAd->ApCfg.bAutoChannelAtBootup==true)
 		{
 			pAd->CommonCfg.Channel = SelectBestChannel(pAd, pAd->ApCfg.AutoChannelAlg);
-			pAd->ApCfg.bAutoChannelAtBootup = FALSE;
+			pAd->ApCfg.bAutoChannelAtBootup = false;
 			N_ChannelCheck(pAd);
 			APStop(pAd);
 			APStartUp(pAd);
@@ -250,7 +250,7 @@ static INT scan_active(struct rtmp_adapter *pAd, UCHAR OpMode, UCHAR ScanType)
 		if (OpMode == OPMODE_AP)
 			pAd->Mlme.ApSyncMachine.CurrState = AP_SYNC_IDLE;
 #endif /* CONFIG_AP_SUPPORT */
-		return FALSE;
+		return false;
 	}
 
 	if (ScanType == SCAN_2040_BSS_COEXIST)
@@ -455,7 +455,7 @@ static INT scan_active(struct rtmp_adapter *pAd, UCHAR OpMode, UCHAR ScanType)
 		{
 			RTMPSendNullFrame(pAd,
 						  pAd->CommonCfg.TxRate,
-						  (OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_WMM_INUSED) ? true:FALSE),
+						  (OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_WMM_INUSED) ? true:false),
 						  PWR_SAVE);
 			DBGPRINT(RT_DEBUG_TRACE, ("ScanNextChannel():Send PWA NullData frame to notify the associated AP!\n"));
 		}
@@ -478,7 +478,7 @@ VOID ScanNextChannel(struct rtmp_adapter *pAd, UCHAR OpMode)
 {
 	UCHAR ScanType = pAd->MlmeAux.ScanType;
 	UINT ScanTimeIn5gChannel = SHORT_CHANNEL_TIME;
-	bool ScanPending = FALSE;
+	bool ScanPending = false;
 	RALINK_TIMER_STRUCT *sc_timer = NULL;
 	UINT stay_time = 0;
 
@@ -533,7 +533,7 @@ VOID ScanNextChannel(struct rtmp_adapter *pAd, UCHAR OpMode)
 #ifdef CONFIG_STA_SUPPORT
 		if (OpMode == OPMODE_STA)
 		{
-			bool bScanPassive = FALSE;
+			bool bScanPassive = false;
 			if (pAd->MlmeAux.Channel > 14)
 			{
 				if ((pAd->CommonCfg.bIEEE80211H == 1)
@@ -591,7 +591,7 @@ VOID ScanNextChannel(struct rtmp_adapter *pAd, UCHAR OpMode)
 
 		if (SCAN_MODE_ACT(ScanType))
 		{
-			if (scan_active(pAd, OpMode, ScanType) == FALSE)
+			if (scan_active(pAd, OpMode, ScanType) == false)
 				return;
 
 #ifdef CONFIG_AP_SUPPORT
@@ -645,7 +645,7 @@ VOID ScanNextChannel(struct rtmp_adapter *pAd, UCHAR OpMode)
 
 bool ScanRunning(struct rtmp_adapter *pAd)
 {
-	bool	rv = FALSE;
+	bool	rv = false;
 
 #ifdef CONFIG_STA_SUPPORT
 		IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
@@ -657,7 +657,7 @@ bool ScanRunning(struct rtmp_adapter *pAd)
 #ifdef CONFIG_AP_SUPPORT
 #ifdef AP_SCAN_SUPPORT
 		IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-			rv = ((pAd->Mlme.ApSyncMachine.CurrState == AP_SCAN_LISTEN) ? true : FALSE);
+			rv = ((pAd->Mlme.ApSyncMachine.CurrState == AP_SCAN_LISTEN) ? true : false);
 #endif /* AP_SCAN_SUPPORT */
 #endif /* CONFIG_AP_SUPPORT */
 
@@ -776,7 +776,7 @@ VOID DeleteEffectedChannelList(
 	/*Clear all bEffectedChannel in ChannelList array. */
  	for (i = 0; i < pAd->ChannelListNum; i++)
 	{
-		pAd->ChannelList[i].bEffectedChannel = FALSE;
+		pAd->ChannelList[i].bEffectedChannel = false;
 	}
 }
 

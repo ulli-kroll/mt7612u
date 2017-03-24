@@ -181,14 +181,14 @@ static VOID SendGASRsp(
 		if (GASPeerEntry->PostReplyTimerRunning)
 		{
 			RTMPCancelTimer(&GASPeerEntry->PostReplyTimer, &Cancelled);
-			GASPeerEntry->PostReplyTimerRunning = FALSE;
+			GASPeerEntry->PostReplyTimerRunning = false;
 		}
 		RTMPReleaseTimer(&GASPeerEntry->PostReplyTimer, &Cancelled);
 
 		if (GASPeerEntry->GASRspBufferingTimerRunning)
 		{
 			RTMPCancelTimer(&GASPeerEntry->GASRspBufferingTimer, &Cancelled);
-			GASPeerEntry->GASRspBufferingTimerRunning = FALSE;
+			GASPeerEntry->GASRspBufferingTimerRunning = false;
 		}
 		RTMPReleaseTimer(&GASPeerEntry->GASRspBufferingTimer, &Cancelled);
 		kfree(GASPeerEntry);
@@ -247,7 +247,7 @@ static VOID SendGASRsp(
 		if (GASPeerEntry->PostReplyTimerRunning)
 		{
 			RTMPCancelTimer(&GASPeerEntry->PostReplyTimer, &Cancelled);
-			GASPeerEntry->PostReplyTimerRunning = FALSE;
+			GASPeerEntry->PostReplyTimerRunning = false;
 		}
 		RTMPReleaseTimer(&GASPeerEntry->PostReplyTimer, &Cancelled);
 		GASPeerEntry->FreeResource++;
@@ -255,7 +255,7 @@ static VOID SendGASRsp(
 		if (GASPeerEntry->GASRspBufferingTimerRunning)
 		{
 			RTMPCancelTimer(&GASPeerEntry->GASRspBufferingTimer, &Cancelled);
-			GASPeerEntry->GASRspBufferingTimerRunning = FALSE;
+			GASPeerEntry->GASRspBufferingTimerRunning = false;
 		}
 		RTMPReleaseTimer(&GASPeerEntry->GASRspBufferingTimer, &Cancelled);
 		GASPeerEntry->FreeResource++;
@@ -321,7 +321,7 @@ VOID ReceiveGASInitReq(
 	UCHAR APIndex, *Pos, *Buf;
 	uint16_t VarLen;
 	uint32_t Len = 0;
-	bool IsFound = FALSE, Cancelled;;
+	bool IsFound = false, Cancelled;;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("%s\n", __FUNCTION__));
 
@@ -371,14 +371,14 @@ VOID ReceiveGASInitReq(
 					if (GASPeerEntry->PostReplyTimerRunning)
 					{
 						RTMPCancelTimer(&GASPeerEntry->PostReplyTimer, &Cancelled);
-						GASPeerEntry->PostReplyTimerRunning = FALSE;
+						GASPeerEntry->PostReplyTimerRunning = false;
 					}
 					RTMPReleaseTimer(&GASPeerEntry->PostReplyTimer, &Cancelled);
 
 					if (GASPeerEntry->GASRspBufferingTimerRunning)
 					{
 						RTMPCancelTimer(&GASPeerEntry->GASRspBufferingTimer, &Cancelled);
-						GASPeerEntry->GASRspBufferingTimerRunning = FALSE;
+						GASPeerEntry->GASRspBufferingTimerRunning = false;
 					}
 					RTMPReleaseTimer(&GASPeerEntry->GASRspBufferingTimer, &Cancelled);
 					GASPeerEntry->FreeResource++;
@@ -408,10 +408,10 @@ VOID ReceiveGASInitReq(
 	GASPeerEntry->DialogToken = GASFrame->u.GAS_INIT_REQ.DialogToken;
 	GASPeerEntry->Priv = pAd;
 	RTMPInitTimer(pAd, &GASPeerEntry->PostReplyTimer,
-					GET_TIMER_FUNCTION(PostReplyTimeout), GASPeerEntry, FALSE);
+					GET_TIMER_FUNCTION(PostReplyTimeout), GASPeerEntry, false);
 	GASPeerEntry->AllocResource++;
 	RTMPInitTimer(pAd, &GASPeerEntry->GASRspBufferingTimer,
-					GET_TIMER_FUNCTION(GASRspBufferingTimeout), GASPeerEntry, FALSE);
+					GET_TIMER_FUNCTION(GASRspBufferingTimeout), GASPeerEntry, false);
 	GASPeerEntry->AllocResource++;
 
 	DlListInit(&GASPeerEntry->GASQueryRspFragList);
@@ -484,7 +484,7 @@ static VOID SendGASCBRsp(
 	GAS_PEER_ENTRY *GASPeerEntry;
 	GAS_QUERY_RSP_FRAGMENT *GASQueryRspFrag = NULL, *GASQueryRspFragTmp;
 	PGAS_CTRL pGASCtrl = &pAd->ApCfg.MBSSID[Event->ControlIndex].GASCtrl;
-	bool bGASQueryRspFragFound = FALSE;
+	bool bGASQueryRspFragFound = false;
 	bool Cancelled;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("%s\n", __FUNCTION__));
@@ -606,13 +606,13 @@ static VOID SendGASCBRsp(
 		if (GASPeerEntry->PostReplyTimerRunning)
 		{
 			RTMPCancelTimer(&GASPeerEntry->PostReplyTimer, &Cancelled);
-			GASPeerEntry->PostReplyTimerRunning = FALSE;
+			GASPeerEntry->PostReplyTimerRunning = false;
 		}
 
 		if (GASPeerEntry->GASRspBufferingTimerRunning)
 		{
 			RTMPCancelTimer(&GASPeerEntry->GASRspBufferingTimer, &Cancelled);
-			GASPeerEntry->GASRspBufferingTimerRunning = FALSE;
+			GASPeerEntry->GASRspBufferingTimerRunning = false;
 		}
 		RTMPReleaseTimer(&GASPeerEntry->PostReplyTimer, &Cancelled);
 		RTMPReleaseTimer(&GASPeerEntry->GASRspBufferingTimer, & Cancelled);
@@ -672,8 +672,8 @@ VOID ReceiveGASCBReq(
 	PGAS_CTRL pGASCtrl = NULL;
 	UCHAR APIndex, *Buf;
 	uint32_t Len = 0;
-	bool IsGASCBReqMore = FALSE;
-	bool IsFound = FALSE;
+	bool IsGASCBReqMore = false;
+	bool IsFound = false;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("%s\n", __FUNCTION__));
 
@@ -821,7 +821,7 @@ static bool IsAdvertisementProIDValid(
 			return true;
 	}
 
-	return FALSE;
+	return false;
 }
 
 
@@ -854,7 +854,7 @@ void PostReplyTimeout(
 
 	pGASCtrl = &pAd->ApCfg.MBSSID[GASPeerEntry->ControlIndex].GASCtrl;
 
-	GASPeerEntry->PostReplyTimerRunning = FALSE;
+	GASPeerEntry->PostReplyTimerRunning = false;
 
 	RTMP_SEM_LOCK(&pGASCtrl->GASPeerListLock);
 	DlListDel(&GASPeerEntry->List);
@@ -910,7 +910,7 @@ VOID GASRspBufferingTimeout(
 
 	if (GASPeerEntry->GASRspBufferingTimerRunning)
 	{
-		GASPeerEntry->GASRspBufferingTimerRunning = FALSE;
+		GASPeerEntry->GASRspBufferingTimerRunning = false;
 
 		RTMP_SEM_LOCK(&pGASCtrl->GASPeerListLock);
 		DlListDel(&GASPeerEntry->List);
@@ -1207,13 +1207,13 @@ VOID GASCtrlExit(IN struct rtmp_adapter *pAd)
 		if (GASPeerEntry->GASResponseTimerRunning)
 		{
 			RTMPCancelTimer(&GASPeerEntry->GASResponseTimer, &Cancelled);
-			GASPeerEntry->GASResponseTimerRunning = FALSE;
+			GASPeerEntry->GASResponseTimerRunning = false;
 		}
 
 		if (GASPeerEntry->GASCBDelayTimerRunning)
 		{
 			RTMPCancelTimer(&GASPeerEntry->GASCBDelayTimer, &Cancelled);
-			GASPeerEntry->GASCBDelayTimerRunning = FALSE;
+			GASPeerEntry->GASCBDelayTimerRunning = false;
 		}
 
 		RTMPReleaseTimer(&GASPeerEntry->GASResponseTimer, &Cancelled);
@@ -1252,13 +1252,13 @@ VOID GASCtrlExit(IN struct rtmp_adapter *pAd)
 			if (GASPeerEntry->PostReplyTimerRunning)
 			{
 				RTMPCancelTimer(&GASPeerEntry->PostReplyTimer, &Cancelled);
-				GASPeerEntry->PostReplyTimerRunning = FALSE;
+				GASPeerEntry->PostReplyTimerRunning = false;
 			}
 
 			if (GASPeerEntry->GASRspBufferingTimerRunning)
 			{
 				RTMPCancelTimer(&GASPeerEntry->GASRspBufferingTimer, &Cancelled);
-				GASPeerEntry->GASRspBufferingTimerRunning = FALSE;
+				GASPeerEntry->GASRspBufferingTimerRunning = false;
 			}
 
 			RTMPReleaseTimer(&GASPeerEntry->PostReplyTimer, &Cancelled);

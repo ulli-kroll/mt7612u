@@ -165,7 +165,7 @@ bool rtmp_chk_itxbf_calibration(
 
 	if ((ee_sum == (0xffff * calCnt)) || (ee_sum == 0x0))
 	{
-		bCalibrated = FALSE;
+		bCalibrated = false;
 		DBGPRINT(RT_DEBUG_TRACE, ("EEPROM all 0xffff(cnt =%d, sum=0x%x), not valid calibration value!\n",
 					calCnt, ee_sum));
 	}
@@ -286,10 +286,10 @@ void setVHTETxBFCap(struct rtmp_adapter *pAd, VHT_CAP_INFO *pTxBFCap)
 {
 	if (pAd->CommonCfg.ETxBfIncapable) {
 		pTxBFCap->num_snd_dimension = 0;
-		pTxBFCap->bfee_cap_mu = FALSE;
-		pTxBFCap->bfee_cap_su = FALSE;
-		pTxBFCap->bfer_cap_mu = FALSE;
-		pTxBFCap->bfer_cap_su = FALSE;
+		pTxBFCap->bfee_cap_mu = false;
+		pTxBFCap->bfee_cap_su = false;
+		pTxBFCap->bfer_cap_mu = false;
+		pTxBFCap->bfer_cap_su = false;
 		pTxBFCap->cmp_st_num_bfer = 0;
 	}
 	else
@@ -398,7 +398,7 @@ VOID txSndgSameMcs(
 	}
 	else
 	{
-		bWriteEnable = FALSE;
+		bWriteEnable = false;
 	}
 	rtmp_asic_etxbf_write_change(pAd, bWriteEnable);
 
@@ -461,7 +461,7 @@ VOID txSndgOtherGroup(
 	}
 	/*---copied from txSndgSameMcs() end */
 	/* disable BF matrix writing */
-	rtmp_asic_etxbf_write_change(pAd, FALSE);
+	rtmp_asic_etxbf_write_change(pAd, false);
 	Trigger_Sounding_Packet(pAd, SndgType, 0, pEntry->sndgMcs, pEntry);
 
 	DBGPRINT(RT_DEBUG_TRACE,("ETxBF in txSndgOtherGroup(): tx the second SNDG, enter state WAIT_SNDG_FB1\n" ));
@@ -518,7 +518,7 @@ UINT convertSnrToThroughput(
 	tableSize = RATE_TABLE_SIZE(pTable);
 	for (i=0; i<24; i++)
 	{
-		isMcsValid[i] = FALSE;
+		isMcsValid[i] = false;
 		rateIdx[i] = 0;
 	}
 	for (i=1; i<=tableSize; i++)
@@ -873,6 +873,6 @@ bool MlmeTxBfAllowed(
 	if (pEntry->iTxBfEn && pTxRate->CurrMCS<16 && pTxRate->Mode!=MODE_CCK)
 		return true;
 
-	return FALSE;
+	return false;
 }
 

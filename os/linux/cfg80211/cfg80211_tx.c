@@ -34,7 +34,7 @@ VOID CFG80211_SwitchTxChannel(struct rtmp_adapter *pAd, ULONG Data)
 	UCHAR lock_channel = Data;
 	if (pAd->LatchRfRegs.Channel != lock_channel)
 	{
-		AsicSwitchChannel(pAd, lock_channel, FALSE);
+		AsicSwitchChannel(pAd, lock_channel, false);
 		AsicLockChannel(pAd, lock_channel);
 
 		DBGPRINT(RT_DEBUG_INFO, ("Off-Channel Send Packet: From(%d)-To(%d)\n",
@@ -98,9 +98,9 @@ void CFG80211_ParseBeaconIE(struct rtmp_adapter *pAd, MULTISSID_STRUCT *pMbss, s
 	NDIS_802_11_ENCRYPTION_STATUS	GroupCipher;	/* Group cipher */
 	PAKM_SUITE_STRUCT				pAKM;
 	USHORT							Count;
-	bool bWPA = FALSE;
-	bool bWPA2 = FALSE;
-	bool bMix = FALSE;
+	bool bWPA = false;
+	bool bWPA2 = false;
+	bool bMix = false;
 
 		/* Security */
 	PairCipher	 = Ndis802_11WEPDisabled;
@@ -482,7 +482,7 @@ VOID CFG80211_SendMgmtFrameDone(struct rtmp_adapter *pAd, USHORT Sequence)
 							pCfg80211_ctrl->pTxStatusBuf, pCfg80211_ctrl->TxStatusBufLen,
 							true);
 		pCfg80211_ctrl->TxStatusSeq = 0;
-		pCfg80211_ctrl->TxStatusInUsed = FALSE;
+		pCfg80211_ctrl->TxStatusInUsed = false;
 	}
 
 

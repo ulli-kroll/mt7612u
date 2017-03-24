@@ -39,7 +39,7 @@ static INT rlt_bbp_is_ready(struct rtmp_adapter *pAd)
 	{
 		val = RTMP_BBP_IO_READ32(pAd, CORE_R0);
 		if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST))
-			return FALSE;
+			return false;
 	} while ((++idx < 20) && ((val == 0xffffffff) || (val == 0x0)));
 
 	if (!((val == 0xffffffff) || (val == 0x0)))
@@ -47,7 +47,7 @@ static INT rlt_bbp_is_ready(struct rtmp_adapter *pAd)
 		DBGPRINT(RT_DEBUG_TRACE, ("BBP version = %x\n", val));
 	}
 
-	return (((val == 0xffffffff) || (val == 0x0)) ? FALSE : true);
+	return (((val == 0xffffffff) || (val == 0x0)) ? false : true);
 }
 
 
@@ -56,7 +56,7 @@ static INT rlt_bbp_init(struct rtmp_adapter *pAd)
 	INT idx;
 
 	/* Read BBP register, make sure BBP is up and running before write new data*/
-	if (rlt_bbp_is_ready(pAd) == FALSE)
+	if (rlt_bbp_is_ready(pAd) == false)
 		return NDIS_STATUS_FAILURE;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("%s(): Init BBP Registers\n", __FUNCTION__));

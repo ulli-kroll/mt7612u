@@ -258,7 +258,7 @@ static VOID ApCliPeerAuthRspAtSeq2Action(struct rtmp_adapter *pAd, MLME_QUEUE_EL
 										   iv_hdr,
 										   pKey,
 										   CyperChlgText,
-										   c_len) == FALSE)
+										   c_len) == false)
 					{
 						DBGPRINT(RT_DEBUG_TRACE, ("AUTH - ApCliPeerAuthRspAtSeq2Action allocate memory fail\n"));
 						*pCurrState = APCLI_AUTH_REQ_IDLE;
@@ -564,7 +564,7 @@ VOID ApCliAuthStateMachineInit(
 		pAd->ApCfg.ApCliTab[i].AuthCurrState = APCLI_AUTH_REQ_IDLE;
 
 		/* timer init */
-		RTMPInitTimer(pAd, &pAd->ApCfg.ApCliTab[i].MlmeAux.ApCliAuthTimer, GET_TIMER_FUNCTION(ApCliAuthTimeout), pAd, FALSE);
+		RTMPInitTimer(pAd, &pAd->ApCfg.ApCliTab[i].MlmeAux.ApCliAuthTimer, GET_TIMER_FUNCTION(ApCliAuthTimeout), pAd, false);
 
 
 	}

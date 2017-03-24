@@ -56,14 +56,14 @@ INT mcu_sys_init(struct rtmp_adapter *pAd)
 	if (Status != NDIS_STATUS_SUCCESS)
 	{
 		DBGPRINT_ERR(("load patch failed, Status[=0x%08x]\n", Status));
-		return FALSE;
+		return false;
 	}
 
 	Status = NICLoadFirmware(pAd);
 	if (Status != NDIS_STATUS_SUCCESS)
 	{
 		DBGPRINT_ERR(("NICLoadFirmware failed, Status[=0x%08x]\n", Status));
-		return FALSE;
+		return false;
 	}
 
 	return true;

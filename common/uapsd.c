@@ -136,7 +136,7 @@ VOID RtmpAsicSleepHandle(struct rtmp_adapter *pAd)
 	/* finally, check if we can sleep */
 	if (FlgCanAsicSleep == true)
 	{
-		/* just mark the flag to FALSE and wait PeerBeacon() to sleep */
+		/* just mark the flag to false and wait PeerBeacon() to sleep */
 		ASIC_PS_CAN_SLEEP(pAd);
 	}
 #endif // CONFIG_STA_SUPPORT //
@@ -235,7 +235,7 @@ bool UAPSD_SP_IsClosed(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 		(pEntry->PsMode == PWR_SAVE) &&
 		(pEntry->bAPSDFlagSPStart != 0)
 	)
-		FlgIsSpClosed = FALSE;
+		FlgIsSpClosed = false;
 
 	RTMP_SEM_UNLOCK(&pAd->UAPSDEOSPLock);
 
@@ -688,7 +688,7 @@ VOID UAPSD_SP_AUE_Handle(
 		DBGPRINT(RT_DEBUG_TRACE, ("uapsd> aux: Tx Num = %d\n", pEntry->UAPSDTxNum));
 #endif /* UAPSD_DEBUG */
 
-		FlgEosp = FALSE;
+		FlgEosp = false;
 
 		if (pEntry->bAPSDFlagSPStart == 0)
 		{
@@ -840,7 +840,7 @@ VOID UAPSD_SP_CloseInRVDone(struct rtmp_adapter *pAd)
 	int FirstWcid = 0;
 
 
-	if (pAd->MacTab.fAnyStationInPsm == FALSE)
+	if (pAd->MacTab.fAnyStationInPsm == false)
 		return; /* no any station is in power save mode */
 
 
@@ -1054,7 +1054,7 @@ Arguments:
 
 Return Value:
     true			Handle OK
-	FALSE			Handle FAIL
+	false			Handle FAIL
 
 Note:
 ========================================================================
@@ -1080,7 +1080,7 @@ bool UAPSD_PsPollHandle(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 
 
 	if (pEntry == NULL)
-		return FALSE;
+		return false;
 
 	FlgQueEmpty = true;
 	pAcSwQue = NULL;
@@ -1091,13 +1091,13 @@ bool UAPSD_PsPollHandle(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 	if (pEntry->bAPSDAllAC == 0)
 	{
 		RTMP_SEM_UNLOCK(&pAd->UAPSDEOSPLock);
-		return FALSE; /* not all AC are delivery-enabled */
+		return false; /* not all AC are delivery-enabled */
 	}
 
 	if (pEntry->bAPSDFlagSPStart != 0)
 	{
 		RTMP_SEM_UNLOCK(&pAd->UAPSDEOSPLock);
-		return FALSE; /* its service period is not yet ended */
+		return false; /* its service period is not yet ended */
 	}
 
 	/* from highest priority AC3 --> AC2 --> AC0 --> lowest priority AC1 */
@@ -1148,7 +1148,7 @@ bool UAPSD_PsPollHandle(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 		if (pAcPsQue->Head != NULL)
 		{
 			/* still have packets in queue */
-			FlgQueEmpty = FALSE;
+			FlgQueEmpty = false;
 			break;
 		}
 	}
@@ -1161,7 +1161,7 @@ bool UAPSD_PsPollHandle(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 				No any more queued U-APSD packet so clear More Data bit of
 				the last frame.
 			*/
-			RTMP_SET_PACKET_MOREDATA(pQuedPkt, FALSE);
+			RTMP_SET_PACKET_MOREDATA(pQuedPkt, false);
 		}
 
 		UAPSD_INSERT_QUEUE_AC(pAd, pEntry, pAcSwQue, pQuedPkt);
@@ -1188,7 +1188,7 @@ bool UAPSD_PsPollHandle(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 	RTMP_SEM_UNLOCK(&pAd->UAPSDEOSPLock);
 
 	/* Dequeue outgoing frames from TxSwQueue0..3 queue and process it */
-	RTMPDeQueuePacket(pAd, FALSE, NUM_OF_TX_RING, MAX_TX_PROCESS);
+	RTMPDeQueuePacket(pAd, false, NUM_OF_TX_RING, MAX_TX_PROCESS);
 	return true;
 }
 
@@ -1220,10 +1220,10 @@ VOID UAPSD_QueueStatusGet(
 	OUT bool				*pFlgIsAnyPktForVI,
 	OUT bool				*pFlgIsAnyPktForVO)
 {
-	*pFlgIsAnyPktForBK = FALSE;
-	*pFlgIsAnyPktForBE = FALSE;
-	*pFlgIsAnyPktForVI = FALSE;
-	*pFlgIsAnyPktForVO = FALSE;
+	*pFlgIsAnyPktForBK = false;
+	*pFlgIsAnyPktForBE = false;
+	*pFlgIsAnyPktForVI = false;
+	*pFlgIsAnyPktForVO = false;
 
 	if (pEntry == NULL)
 		return;
@@ -1490,7 +1490,7 @@ VOID UAPSD_TriggerFrameHandle(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry,
 						Some queued U-APSD packets still exists so we will
 						not clear MoreData bit of the packet.
 					*/
-					FlgQueEmpty = FALSE;
+					FlgQueEmpty = false;
 					break;
 				}
 			}
@@ -1536,9 +1536,9 @@ VOID UAPSD_TriggerFrameHandle(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry,
 			pLastAcSwQue = pAcSwQue;
 		}
 
-		if (FlgQueEmpty == FALSE)
+		if (FlgQueEmpty == false)
 		{
-			/* FlgQueEmpty will be FALSE only when TxPktNum >= SpMaxLen */
+			/* FlgQueEmpty will be false only when TxPktNum >= SpMaxLen */
 			break;
 		}
 	}
@@ -1554,7 +1554,7 @@ VOID UAPSD_TriggerFrameHandle(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry,
 		No need to protect EOSP handle code because we will be here
 		only when last SP is ended.
 	*/
-	FlgNullSnd = FALSE;
+	FlgNullSnd = false;
 
 	if (TxPktNum >= 1)
 	{
@@ -1564,7 +1564,7 @@ VOID UAPSD_TriggerFrameHandle(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry,
 				No any more queued U-APSD packet so clear More Data bit of
 				the last frame.
 			*/
-			RTMP_SET_PACKET_MOREDATA(pQuedPkt, FALSE);
+			RTMP_SET_PACKET_MOREDATA(pQuedPkt, false);
 		}
 	}
 
@@ -1733,7 +1733,7 @@ VOID UAPSD_TriggerFrameHandle(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry,
 #endif /* UAPSD_TIMING_RECORD_FUNC */
 
 	/* Dequeue outgoing frames from TxSwQueue0..3 queue and process it */
-	RTMPDeQueuePacket(pAd, FALSE, NUM_OF_TX_RING, MAX_TX_PROCESS);
+	RTMPDeQueuePacket(pAd, false, NUM_OF_TX_RING, MAX_TX_PROCESS);
 }
 
 
@@ -1920,7 +1920,7 @@ VOID UAPSD_UnTagFrame(
 
 						/* de-queue packet here to speed up EOSP frame response */
 						printk("%s:: ----> RTMPDeQueuePacket\n", __FUNCTION__);
-						RTMPDeQueuePacket(pAd, FALSE, NUM_OF_TX_RING, MAX_TX_PROCESS);
+						RTMPDeQueuePacket(pAd, false, NUM_OF_TX_RING, MAX_TX_PROCESS);
 					}
 					else
 					{

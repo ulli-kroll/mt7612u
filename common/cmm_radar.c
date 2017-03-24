@@ -34,7 +34,7 @@
 VOID RadarDetectPeriodic(
 	IN struct rtmp_adapter *pAd)
 {
-	INT i, ChIdx = 0, bAnyUnavailableChannel = FALSE;
+	INT i, ChIdx = 0, bAnyUnavailableChannel = false;
 
 	/*
 		1. APStart(), CalBufTime = 0;
@@ -85,7 +85,7 @@ VOID RadarDetectPeriodic(
 
 	Return Value:
 		true	need to do radar detect
-		FALSE	need not to do radar detect
+		false	need not to do radar detect
 
 	========================================================================
 */
@@ -94,7 +94,7 @@ bool RadarChannelCheck(
 	IN UCHAR			Ch)
 {
 	INT 	i;
-	bool result = FALSE;
+	bool result = false;
 
 	for (i=0; i<pAd->ChannelListNum; i++)
 	{
@@ -247,7 +247,7 @@ VOID ChannelSwitchingCountDownProc(
     Description:
         Set channel switch Period
     Return:
-        true if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, false otherwise
     ==========================================================================
 */
 INT	Set_CSPeriod_Proc(

@@ -209,19 +209,19 @@ VOID ApCliCtrlStateMachineInit(
 			&pApCliEntry->TrialConnectTimer,
 			GET_TIMER_FUNCTION(ApCliTrialConnectTimeout),
 			(PVOID)pApCliEntry,
-			FALSE);
+			false);
 
 		RTMPInitTimer(pAd,
 			&pApCliEntry->TrialConnectPhase2Timer,
 			GET_TIMER_FUNCTION(ApCliTrialConnectPhase2Timeout),
 			(PVOID)pApCliEntry,
-			FALSE);
+			false);
 
 		RTMPInitTimer(pAd,
 			&pApCliEntry->TrialConnectRetryTimer,
 			GET_TIMER_FUNCTION(ApCliTrialConnectRetryTimeout),
 			pApCliEntry,
-			FALSE);
+			false);
 #endif /* APCLI_CONNECTION_TRIAL */
 	}
 
@@ -270,7 +270,7 @@ static VOID ApCliTrialConnectTimeout(
 			memset(pAd->ApCfg.ApCliTab[ifIndex].CfgSsid, 0, MAX_LEN_OF_SSID);//cleanup CfgSsid.
 			pApCliEntry->CfgSsidLen = 0;
 			pApCliEntry->NewRootApRetryCnt = 0;//cleanup retry count
-			pApCliEntry->Enable = FALSE;
+			pApCliEntry->Enable = false;
 		}
 		else
 			*pCurrState = APCLI_CTRL_DISCONNECTED;//Disconnected State will bring the next probe req, auth req.
@@ -353,7 +353,7 @@ static VOID ApCliTrialConnectRetryTimeout(
 			memset(pAd->ApCfg.ApCliTab[ifIndex].CfgSsid, 0, MAX_LEN_OF_SSID);//cleanup CfgSsid.
 			pApCliEntry->CfgSsidLen = 0;
 			pApCliEntry->NewRootApRetryCnt = 0;//cleanup retry count
-			pApCliEntry->Enable = FALSE;
+			pApCliEntry->Enable = false;
 		}
 
 		AsicSwitchChannel(pAd, pAd->CommonCfg.CentralChannel, true);
@@ -375,7 +375,7 @@ static VOID ApCliTrialConnectRetryTimeout(
 		memset(pAd->ApCfg.ApCliTab[ifIndex].CfgSsid, 0, MAX_LEN_OF_SSID);//cleanup CfgSsid.
 		pApCliEntry->CfgSsidLen = 0;
 		pApCliEntry->NewRootApRetryCnt = 0;//cleanup retry count
-		pApCliEntry->Enable = FALSE;
+		pApCliEntry->Enable = false;
 
 	//	sprintf(tempBuf, "%d", pApCliEntry->TrialCh);
 	//	DBGPRINT(RT_DEBUG_TRACE, ("Follow new rootAP Switch to channel :%s\n", tempBuf));
@@ -401,7 +401,7 @@ static VOID ApCliTrialConnectRetryTimeout(
 			memset(pAd->ApCfg.ApCliTab[ifIndex].CfgSsid, 0, MAX_LEN_OF_SSID);//cleanup CfgSsid.
 			pApCliEntry->CfgSsidLen = 0;
 			pApCliEntry->NewRootApRetryCnt = 0;//cleanup retry count
-			pApCliEntry->Enable = FALSE;
+			pApCliEntry->Enable = false;
 			ApCliLinkDown(pAd, ifIndex);
 		}
 
@@ -471,7 +471,7 @@ static VOID ApCliCtrlJoinReqAction(
 		if (pAd->CommonCfg.Channel != pAd->ScanTab.BssEntry[bss_idx].Channel)
 		{
 			pAd->CommonCfg.Channel = pAd->ScanTab.BssEntry[bss_idx].Channel;
-			AsicSwitchChannel(pAd, pAd->CommonCfg.Channel, FALSE);
+			AsicSwitchChannel(pAd, pAd->CommonCfg.Channel, false);
 			AsicLockChannel(pAd, pAd->CommonCfg.Channel);
 		}
 #endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
@@ -908,7 +908,7 @@ static VOID ApCliCtrlAssocRspAction(
 			DBGPRINT(RT_DEBUG_TRACE, ("(%s) apCliIf = %d, Insert Remote AP to MacTable failed.\n", __FUNCTION__,  ifIndex));
 			/* Reset the apcli interface as disconnected and Invalid. */
 			*pCurrState = APCLI_CTRL_DISCONNECTED;
-			pApCliEntry->Valid = FALSE;
+			pApCliEntry->Valid = false;
 
 #ifdef APCLI_AUTO_CONNECT_SUPPORT
 			if ((pAd->ApCfg.ApCliAutoConnectRunning == true)
@@ -931,7 +931,7 @@ static VOID ApCliCtrlAssocRspAction(
 		*pCurrState = APCLI_CTRL_DISCONNECTED;
 
 		/* set the apcli interface be valid. */
-		pApCliEntry->Valid = FALSE;
+		pApCliEntry->Valid = false;
 
 #ifdef APCLI_AUTO_CONNECT_SUPPORT
 		if ((pAd->ApCfg.ApCliAutoConnectRunning == true)
@@ -965,7 +965,7 @@ static VOID ApCliCtrlDeAssocRspAction(
 	USHORT Status = Info->Status;
 	USHORT ifIndex = (USHORT)(Elem->Priv);
 	PULONG pCurrState = NULL;
-	bool bValid = FALSE;
+	bool bValid = false;
 
 	if ((ifIndex >= MAX_APCLI_NUM)
 		)
@@ -1065,7 +1065,7 @@ static VOID ApCliCtrlDisconnectReqAction(
 	PAPCLI_STRUCT pApCliEntry;
 	USHORT ifIndex = (USHORT)(Elem->Priv);
 	PULONG pCurrState = NULL;
-	bool bValid = FALSE;
+	bool bValid = false;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("(%s) MLME Request disconnect.\n", __FUNCTION__));
 
@@ -1086,7 +1086,7 @@ static VOID ApCliCtrlDisconnectReqAction(
 
 	/* set the apcli interface be invalid. */
 	{
-	pApCliEntry->Valid = FALSE;
+	pApCliEntry->Valid = false;
 
 	/* clear MlmeAux.Ssid and Bssid. */
 		memset(pAd->ApCfg.ApCliTab[ifIndex].MlmeAux.Bssid, 0, MAC_ADDR_LEN);
@@ -1113,7 +1113,7 @@ static VOID ApCliCtrlPeerDeAssocReqAction(
 	PAPCLI_STRUCT pApCliEntry;
 	USHORT ifIndex = (USHORT)(Elem->Priv);
 	PULONG pCurrState = NULL;
-	bool bValid = FALSE;
+	bool bValid = false;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("(%s) Peer DeAssoc Req.\n", __FUNCTION__));
 
@@ -1145,7 +1145,7 @@ static VOID ApCliCtrlPeerDeAssocReqAction(
 
 	/* set the apcli interface be invalid. */
 	{
-	pApCliEntry->Valid = FALSE;
+	pApCliEntry->Valid = false;
 
 	/* clear MlmeAux.Ssid and Bssid. */
 		memset(pAd->ApCfg.ApCliTab[ifIndex].MlmeAux.Bssid, 0, MAC_ADDR_LEN);
@@ -1173,7 +1173,7 @@ static VOID ApCliCtrlDeAssocAction(
 	MLME_DISASSOC_REQ_STRUCT DisassocReq;
 	USHORT ifIndex = (USHORT)(Elem->Priv);
 	PULONG pCurrState = NULL;
-	bool bValid = FALSE;
+	bool bValid = false;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("(%s) MLME Request Disconnect.\n", __FUNCTION__));
 
@@ -1198,7 +1198,7 @@ static VOID ApCliCtrlDeAssocAction(
 
 	/* set the apcli interface be invalid. */
 	{
-	pApCliEntry->Valid = FALSE;
+	pApCliEntry->Valid = false;
 
 	/* clear MlmeAux.Ssid and Bssid. */
 		memset(pAd->ApCfg.ApCliTab[ifIndex].MlmeAux.Bssid, 0, MAC_ADDR_LEN);
@@ -1227,7 +1227,7 @@ static VOID ApCliCtrlDeAuthAction(
 	MLME_DEAUTH_REQ_STRUCT	DeAuthFrame;
 	USHORT ifIndex = (USHORT)(Elem->Priv);
 	PULONG pCurrState = NULL;
-	bool bValid = FALSE;
+	bool bValid = false;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("(%s) MLME Request Disconnect.\n", __FUNCTION__));
 
@@ -1258,7 +1258,7 @@ static VOID ApCliCtrlDeAuthAction(
 
 	/* set the apcli interface be invalid. */
 	{
-		pApCliEntry->Valid = FALSE;
+		pApCliEntry->Valid = false;
 
 		/* clear MlmeAux.Ssid and Bssid. */
 		memset(pAd->ApCfg.ApCliTab[ifIndex].MlmeAux.Bssid, 0, MAC_ADDR_LEN);
@@ -1298,7 +1298,7 @@ VOID ApCliWpaMicFailureReportFrame(
 	if (ifIndex >= MAX_APCLI_NUM)
 		return;
 
-	bUnicast = (Elem->Msg[0] == 1 ? true:FALSE);
+	bUnicast = (Elem->Msg[0] == 1 ? true:false);
 	pAd->Sequence = ((pAd->Sequence) + 1) & (MAX_SEQ_NUMBER);
 
 
@@ -1391,7 +1391,7 @@ VOID ApCliWpaMicFailureReportFrame(
 	RTMPToWirelessSta(pAd, &pAd->MacTab.Content[Wcid],
 					  Header802_3, LENGTH_802_3,
 					  (u8 *)pPacket,
-					  CONV_ARRARY_TO_UINT16(pPacket->Body_Len) + 4, FALSE);
+					  CONV_ARRARY_TO_UINT16(pPacket->Body_Len) + 4, false);
 
 	kfree((u8 *)pOutBuffer);
 

@@ -150,7 +150,7 @@ static bool IsRadarChannel(UCHAR ch)
 			return true;
 	}
 
-	return FALSE;
+	return false;
 }
 
 /*
@@ -223,7 +223,7 @@ Arguments:
 
 Return Value:
 	true			- init successfully
-	FALSE			- init fail
+	false			- init fail
 
 Note:
 	TX Power related:
@@ -283,7 +283,7 @@ bool CFG80211_SupBandInit(
 		if (!pChannels)
 		{
 			DBGPRINT(RT_DEBUG_ERROR, ("80211> ieee80211_channel allocation fail!\n"));
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -295,7 +295,7 @@ bool CFG80211_SupBandInit(
 		{
 			kfree(pChannels);
 			DBGPRINT(RT_DEBUG_ERROR, ("80211> ieee80211_rate allocation fail!\n"));
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -492,7 +492,7 @@ Arguments:
 
 Return Value:
 	true			- re-init successfully
-	FALSE			- re-init fail
+	false			- re-init fail
 
 Note:
 	CFG80211_SupBandInit() is called in xx_probe().
@@ -509,7 +509,7 @@ bool CFG80211OS_SupBandReInit(
 
 
 	if ((pCfg80211_CB == NULL) || (pCfg80211_CB->pCfg80211_Wdev == NULL))
-		return FALSE;
+		return false;
 
 	pWiphy = pCfg80211_CB->pCfg80211_Wdev->wiphy;
 
@@ -531,7 +531,7 @@ bool CFG80211OS_SupBandReInit(
 		return true;
 	}
 
-	return FALSE;
+	return false;
 }
 
 
@@ -618,7 +618,7 @@ bool CFG80211OS_BandInfoGet(
 	}
 
 	if (pWiphy == NULL)
-		return FALSE;
+		return false;
 
 	*ppBand24 = pWiphy->bands[NL80211_BAND_2GHZ];
 	*ppBand5 = pWiphy->bands[NL80211_BAND_5GHZ];
@@ -672,7 +672,7 @@ bool CFG80211OS_ChanInfoGet(
 	}
 
 	if (pWiphy == NULL)
-		return FALSE;
+		return false;
 
 	pSband = pWiphy->bands[IdBand];
 	pChan = &pSband->channels[IdChan];
@@ -683,7 +683,7 @@ bool CFG80211OS_ChanInfoGet(
 	{
 		CFG80211DBG(RT_DEBUG_ERROR, ("Chan %03d (frq %d):\tnot allowed!\n",
 					(*pChanId), pChan->center_freq));
-		return FALSE;
+		return false;
 	}
 
 	*pPower = pChan->max_power;
@@ -691,7 +691,7 @@ bool CFG80211OS_ChanInfoGet(
 	if (pChan->flags & IEEE80211_CHAN_RADAR)
 		*pFlgIsRadar = true;
 	else
-		*pFlgIsRadar = FALSE;
+		*pFlgIsRadar = false;
 
 	return true;
 }
@@ -706,7 +706,7 @@ Arguments:
 
 Return Value:
 	true		- Successful
-	FALSE		- Fail
+	false		- Fail
 
 Note:
 ========================================================================
@@ -724,7 +724,7 @@ bool CFG80211OS_ChanInfoInit(
 
 
 	if (InfoIndex >= MAX_NUM_OF_CHANNELS)
-		return FALSE;
+		return false;
 
 	pChan = (struct ieee80211_channel *)&(pCfg80211_CB->ChanInfo[InfoIndex]);
 	memset(pChan, 0, sizeof(*pChan));

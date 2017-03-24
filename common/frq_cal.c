@@ -91,7 +91,7 @@ VOID FrequencyCalibrationMode(
 VOID FrequencyCalibration(
 	IN struct rtmp_adapter *pAd)
 {
-	/*bool bUpdateRFR = FALSE;*/
+	/*bool bUpdateRFR = false;*/
 	CHAR HighFreqTriggerPoint = 0, LowFreqTriggerPoint = 0;
 	CHAR DecreaseFreqOffset = 0, IncreaseFreqOffset = 0;
 
@@ -123,7 +123,7 @@ VOID FrequencyCalibration(
 		}
 		else
 		{
-			pFrqCal->bApproachFrequency = FALSE;
+			pFrqCal->bApproachFrequency = false;
 		}
 
 		if (pFrqCal->bApproachFrequency == true)
@@ -156,14 +156,14 @@ VOID FrequencyCalibration(
 	/* a) 10 seconds: Check the reported frequency offset*/
 	/* b) 500 ms: Update the RF frequency if possible*/
 	if ((pAd->FreqCalibrationCtrl.bEnableFrequencyCalibration == true) &&
-	     (((pAd->FreqCalibrationCtrl.bApproachFrequency == FALSE) && ((pAd->Mlme.PeriodicRound % FREQUENCY_CALIBRATION_PERIOD) == 0)) ||
+	     (((pAd->FreqCalibrationCtrl.bApproachFrequency == false) && ((pAd->Mlme.PeriodicRound % FREQUENCY_CALIBRATION_PERIOD) == 0)) ||
 	       ((pAd->FreqCalibrationCtrl.bApproachFrequency == true) && ((pAd->Mlme.PeriodicRound % (FREQUENCY_CALIBRATION_PERIOD / 20)) == 0))))
 	{
 		DBGPRINT(RT_DEBUG_INFO, ("---> %s\n", __FUNCTION__));
 
 		if (pAd->FreqCalibrationCtrl.bSkipFirstFrequencyCalibration == true)
 		{
-			pAd->FreqCalibrationCtrl.bSkipFirstFrequencyCalibration = FALSE;
+			pAd->FreqCalibrationCtrl.bSkipFirstFrequencyCalibration = false;
 
 			DBGPRINT(RT_DEBUG_INFO, ("%s: Skip cuurent frequency calibration (avoid calibrating frequency at the time the STA is just link-up)\n", __FUNCTION__));
 		}
@@ -203,7 +203,7 @@ VOID FrequencyCalibration(
 					if ((pAd->FreqCalibrationCtrl.LatestFreqOffsetOverBeacon <= DecreaseFreqOffset) &&
 					      (pAd->FreqCalibrationCtrl.LatestFreqOffsetOverBeacon >= IncreaseFreqOffset))
 					{
-						pAd->FreqCalibrationCtrl.bApproachFrequency = FALSE; /* Stop approaching frquency if -10 < reported frequency offset < 10*/
+						pAd->FreqCalibrationCtrl.bApproachFrequency = false; /* Stop approaching frquency if -10 < reported frequency offset < 10*/
 					}
 					else if (pAd->FreqCalibrationCtrl.LatestFreqOffsetOverBeacon > DecreaseFreqOffset)
 					{

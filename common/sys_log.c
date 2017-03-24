@@ -77,7 +77,7 @@ VOID RtmpDrvSendWirelessEvent(
 	USHORT	event, type, BufLen;
 	UCHAR	event_table_len = 0;
 
-	if (pAd->CommonCfg.bWirelessEvent == FALSE)
+	if (pAd->CommonCfg.bWirelessEvent == false)
 		return;
 
 	type = Event_flag & 0xFF00;

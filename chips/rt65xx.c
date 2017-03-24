@@ -106,7 +106,7 @@ VOID RT65xxUsbAsicRadioOn(struct rtmp_adapter *pAd, UCHAR Stage)
 #endif /* CONFIG_PM */
 
 	if (pAd->WlanFunCtrl.field.WLAN_EN == 0)
-		rlt_wlan_chip_onoff(pAd, true, FALSE);
+		rlt_wlan_chip_onoff(pAd, true, false);
 
 	/* make some traffic to invoke EvtDeviceD0Entry callback function*/
 	MACValue = mt7612u_read32(pAd,0x1000);
@@ -162,7 +162,7 @@ VOID RT65xxDisableTxRx(struct rtmp_adapter *pAd, UCHAR Level)
 {
 	uint32_t MacReg = 0;
 	uint32_t MTxCycle;
-	bool bResetWLAN = FALSE;
+	bool bResetWLAN = false;
 	bool bFree = true;
 	UINT8 CheckFreeTimes = 0;
 
@@ -188,13 +188,13 @@ VOID RT65xxDisableTxRx(struct rtmp_adapter *pAd, UCHAR Level)
 		bool bFree = true;
 		MacReg = mt7612u_read32(pAd, 0x438);
 		if (MacReg != 0)
-			bFree = FALSE;
+			bFree = false;
 		MacReg = mt7612u_read32(pAd, 0xa30);
 		if (MacReg & 0x000000FF)
-			bFree = FALSE;
+			bFree = false;
 		MacReg = mt7612u_read32(pAd, 0xa34);
 		if (MacReg & 0xFF00FF00)
-			bFree = FALSE;
+			bFree = false;
 		if (bFree)
 			break;
 		if (MacReg == 0xFFFFFFFF) {
@@ -237,7 +237,7 @@ VOID RT65xxDisableTxRx(struct rtmp_adapter *pAd, UCHAR Level)
 		bResetWLAN = true;
 	}
 
-	if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST) == FALSE) {
+	if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST) == false) {
 		if (Level == RTMP_HALT) {
 			/*
 				Disable MAC TX/RX
@@ -263,17 +263,17 @@ VOID RT65xxDisableTxRx(struct rtmp_adapter *pAd, UCHAR Level)
 		MacReg = mt7612u_read32(pAd, 0x430);
 
 		if (MacReg & (0x00FF0000))
-			bFree = FALSE;
+			bFree = false;
 
 		MacReg = mt7612u_read32(pAd, 0xa30);
 
 		if (MacReg != 0)
-			bFree = FALSE;
+			bFree = false;
 
 		MacReg = mt7612u_read32(pAd, 0xa34);
 
 		if (MacReg != 0)
-			bFree = FALSE;
+			bFree = false;
 
 		if (bFree && (CheckFreeTimes > 20))
 			break;
@@ -331,7 +331,7 @@ VOID RT65xxDisableTxRx(struct rtmp_adapter *pAd, UCHAR Level)
 	StopDmaRx(pAd, Level);
 
 	if ((Level == RTMP_HALT) &&
-	    (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST) == FALSE)) {
+	    (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST) == false)) {
 
 		/*
  		 * Disable RF/MAC and do not do reset WLAN under below cases
@@ -344,7 +344,7 @@ VOID RT65xxDisableTxRx(struct rtmp_adapter *pAd, UCHAR Level)
 		     RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_CMD_RADIO_OFF))
 			bResetWLAN = 0;
 
-		rlt_wlan_chip_onoff(pAd, FALSE, bResetWLAN);
+		rlt_wlan_chip_onoff(pAd, false, bResetWLAN);
 	}
 
 	DBGPRINT(RT_DEBUG_TRACE, ("<---- %s\n", __FUNCTION__));

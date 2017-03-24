@@ -108,7 +108,7 @@ static int rt2870_probe(
 		goto err_out;
 	}
 
-	if (USBDevConfigInit(usb_dev, intf, pAd) == FALSE)
+	if (USBDevConfigInit(usb_dev, intf, pAd) == false)
 		goto err_out_free_radev;
 
 	RTMP_DRIVER_USB_INIT(pAd, usb_dev, dev_id->driver_info);
@@ -404,7 +404,7 @@ static bool USBDevConfigInit(struct usb_device *dev, struct usb_interface *intf,
 	if (!(pConfig->BulkInEpAddr && pConfig->BulkOutEpAddr[0]))
 	{
 		printk("%s: Could not find both bulk-in and bulk-out endpoints\n", __FUNCTION__);
-		return FALSE;
+		return false;
 	}
 
 	pConfig->pConfig = &dev->config->desc;

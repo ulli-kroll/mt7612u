@@ -116,12 +116,12 @@ bool StaUpdateMacTableEntry(
 	IN USHORT cap_info)
 {
 	UCHAR MaxSupportedRate = RATE_11;
-	bool bSupportN = FALSE;
-	bool supportsETxBf = FALSE;
+	bool bSupportN = false;
+	bool supportsETxBf = false;
 	struct rtmp_wifi_dev *wdev;
 
 	if (!pEntry)
-		return FALSE;
+		return false;
 
 	if (ADHOC_ON(pAd))
 		CLIENT_STATUS_CLEAR_FLAG(pEntry, fCLIENT_STATUS_WMM_CAPABLE);
@@ -130,12 +130,12 @@ bool StaUpdateMacTableEntry(
 
 	if (WMODE_EQUAL(pAd->CommonCfg.PhyMode, WMODE_G)
 	    && (MaxSupportedRate < RATE_FIRST_OFDM_RATE))
-		return FALSE;
+		return false;
 
 	/* 11n only */
 	if (WMODE_HT_ONLY(pAd->CommonCfg.PhyMode)
 	    && (htcap_len == 0))
-		return FALSE;
+		return false;
 
 	NdisAcquireSpinLock(&pAd->MacTabLock);
 	if (pEntry) {
@@ -157,7 +157,7 @@ bool StaUpdateMacTableEntry(
 		set_entry_phy_cfg(pAd, pEntry);
 
 		pEntry->CapabilityInfo = cap_info;
-		pEntry->isCached = FALSE;
+		pEntry->isCached = false;
 		CLIENT_STATUS_CLEAR_FLAG(pEntry, fCLIENT_STATUS_AGGREGATION_CAPABLE);
 		CLIENT_STATUS_CLEAR_FLAG(pEntry, fCLIENT_STATUS_PIGGYBACK_CAPABLE);
 	}
@@ -167,7 +167,7 @@ bool StaUpdateMacTableEntry(
 	/* If this Entry supports 802.11n, upgrade to HT rate. */
 	if (((wdev->WepStatus != Ndis802_11WEPEnabled)
 	     && (wdev->WepStatus != Ndis802_11TKIPEnable))
-	    || (pAd->CommonCfg.HT_DisallowTKIP == FALSE)) {
+	    || (pAd->CommonCfg.HT_DisallowTKIP == false)) {
 		if ((pAd->StaCfg.BssType == BSS_INFRA) &&
 		    (htcap_len != 0) &&
 		    WMODE_CAP_N(pAd->CommonCfg.PhyMode))
@@ -211,7 +211,7 @@ bool StaUpdateMacTableEntry(
 		pEntry->HTPhyMode.word = pEntry->MaxHTPhyMode.word;
 
 		if (pAd->CommonCfg.DesiredHtPhy.AmsduEnable
-		    && (pAd->CommonCfg.REGBACapability.field.AutoBA == FALSE))
+		    && (pAd->CommonCfg.REGBACapability.field.AutoBA == false))
 			CLIENT_STATUS_SET_FLAG(pEntry, fCLIENT_STATUS_AMSDU_INUSED);
 		if (ht_cap->HtCapInfo.ShortGIfor20)
 			CLIENT_STATUS_SET_FLAG(pEntry, fCLIENT_STATUS_SGI20_CAPABLE);
@@ -246,11 +246,11 @@ bool StaUpdateMacTableEntry(
 	pEntry->CurrTxRate = pEntry->MaxSupportedRate;
 
 
-	pEntry->freqOffsetValid = FALSE;
+	pEntry->freqOffsetValid = false;
 
 	TxBFInit(pAd, pEntry, supportsETxBf);
 
-	RTMPInitTimer(pAd, &pEntry->eTxBfProbeTimer, GET_TIMER_FUNCTION(eTxBfProbeTimerExec), pEntry, FALSE);
+	RTMPInitTimer(pAd, &pEntry->eTxBfProbeTimer, GET_TIMER_FUNCTION(eTxBfProbeTimerExec), pEntry, false);
 	spin_lock_init(&pEntry->TxSndgLock);
 
 	MlmeRAInit(pAd, pEntry);
@@ -264,7 +264,7 @@ bool StaUpdateMacTableEntry(
 	} else {
 		pEntry->HTPhyMode.field.MODE = wdev->HTPhyMode.field.MODE;
 		pEntry->HTPhyMode.field.MCS = wdev->HTPhyMode.field.MCS;
-		pEntry->bAutoTxRateSwitch = FALSE;
+		pEntry->bAutoTxRateSwitch = false;
 
 		/* If the legacy mode is set, overwrite the transmit setting of this entry. */
 		RTMPUpdateLegacyTxSetting((UCHAR)wdev->DesiredTransmitSetting.field.FixedTxMode, pEntry);
@@ -309,8 +309,8 @@ bool StaUpdateMacTableEntry(
 	}
 
 #ifdef DOT11W_PMF_SUPPORT
-        RTMPInitTimer(pAd, &pEntry->SAQueryTimer, GET_TIMER_FUNCTION(PMF_SAQueryTimeOut), pEntry, FALSE);
-        RTMPInitTimer(pAd, &pEntry->SAQueryConfirmTimer, GET_TIMER_FUNCTION(PMF_SAQueryConfirmTimeOut), pEntry, FALSE);
+        RTMPInitTimer(pAd, &pEntry->SAQueryTimer, GET_TIMER_FUNCTION(PMF_SAQueryTimeOut), pEntry, false);
+        RTMPInitTimer(pAd, &pEntry->SAQueryConfirmTimer, GET_TIMER_FUNCTION(PMF_SAQueryConfirmTimeOut), pEntry, false);
 #endif /* DOT11W_PMF_SUPPORT */
 	NdisReleaseSpinLock(&pAd->MacTabLock);
 
@@ -427,14 +427,14 @@ MAC_TABLE_ENTRY *MacTableInsertEntry(
 #endif /* CONFIG_AP_SUPPORT */
 					SET_ENTRY_CLIENT(pEntry);
 
-		} while (FALSE);
+		} while (false);
 
 			pEntry->wdev = wdev;
 			pEntry->wcid = i;
-			pEntry->isCached = FALSE;
-			pEntry->bIAmBadAtheros = FALSE;
+			pEntry->isCached = false;
+			pEntry->bIAmBadAtheros = false;
 
-			RTMPInitTimer(pAd, &pEntry->EnqueueStartForPSKTimer, GET_TIMER_FUNCTION(EnqueueStartForPSKExec), pEntry, FALSE);
+			RTMPInitTimer(pAd, &pEntry->EnqueueStartForPSKTimer, GET_TIMER_FUNCTION(EnqueueStartForPSKExec), pEntry, false);
 
 #ifdef CONFIG_STA_SUPPORT
 #endif /* CONFIG_STA_SUPPORT */
@@ -444,26 +444,26 @@ MAC_TABLE_ENTRY *MacTableInsertEntry(
 			{
 				if (IS_ENTRY_CLIENT(pEntry)) /* Only Client entry need the retry timer.*/
 				{
-					RTMPInitTimer(pAd, &pEntry->RetryTimer, GET_TIMER_FUNCTION(WPARetryExec), pEntry, FALSE);
+					RTMPInitTimer(pAd, &pEntry->RetryTimer, GET_TIMER_FUNCTION(WPARetryExec), pEntry, false);
 #ifdef DOT11W_PMF_SUPPORT
-					RTMPInitTimer(pAd, &pEntry->SAQueryTimer, GET_TIMER_FUNCTION(PMF_SAQueryTimeOut), pEntry, FALSE);
-					RTMPInitTimer(pAd, &pEntry->SAQueryConfirmTimer, GET_TIMER_FUNCTION(PMF_SAQueryConfirmTimeOut), pEntry, FALSE);
+					RTMPInitTimer(pAd, &pEntry->SAQueryTimer, GET_TIMER_FUNCTION(PMF_SAQueryTimeOut), pEntry, false);
+					RTMPInitTimer(pAd, &pEntry->SAQueryConfirmTimer, GET_TIMER_FUNCTION(PMF_SAQueryConfirmTimeOut), pEntry, false);
 #endif /* DOT11W_PMF_SUPPORT */
 
 	/*				RTMP_OS_Init_Timer(pAd, &pEntry->RetryTimer, GET_TIMER_FUNCTION(WPARetryExec), pAd);*/
 				}
 #ifdef APCLI_SUPPORT
 				else if (IS_ENTRY_APCLI(pEntry))
-					RTMPInitTimer(pAd, &pEntry->RetryTimer, GET_TIMER_FUNCTION(WPARetryExec), pEntry, FALSE);
+					RTMPInitTimer(pAd, &pEntry->RetryTimer, GET_TIMER_FUNCTION(WPARetryExec), pEntry, false);
 #endif /* APCLI_SUPPORT */
 			}
 #endif /* CONFIG_AP_SUPPORT */
 
 			if (pAd->chipCap.FlgHwTxBfCap)
-				RTMPInitTimer(pAd, &pEntry->eTxBfProbeTimer, GET_TIMER_FUNCTION(eTxBfProbeTimerExec), pEntry, FALSE);
+				RTMPInitTimer(pAd, &pEntry->eTxBfProbeTimer, GET_TIMER_FUNCTION(eTxBfProbeTimerExec), pEntry, false);
 
 			pEntry->pAd = pAd;
-			pEntry->CMTimerRunning = FALSE;
+			pEntry->CMTimerRunning = false;
 			pEntry->EnqueueEapolStartTimerRunning = EAPOL_START_DISABLE;
 			pEntry->RSNIE_Len = 0;
 			memset(pEntry->R_Counter, 0, sizeof(pEntry->R_Counter));
@@ -543,7 +543,7 @@ MAC_TABLE_ENTRY *MacTableInsertEntry(
 					pEntry->PrivacyFilter = Ndis802_11PrivFilterAcceptAll;
 				}
 #endif /* CONFIG_STA_SUPPORT */
-			} while (FALSE);
+			} while (false);
 
 			pEntry->GTKState = REKEY_NEGOTIATING;
 			pEntry->PairwiseKey.KeyLen = 0;
@@ -585,7 +585,7 @@ MAC_TABLE_ENTRY *MacTableInsertEntry(
 					break;
 				}
 #endif // CONFIG_STA_SUPPORT //
-			} while (FALSE);
+			} while (false);
 
 			pEntry->Sst = SST_NOT_AUTH;
 			pEntry->AuthState = AS_NOT_AUTH;
@@ -709,7 +709,7 @@ bool MacTableDeleteEntry(struct rtmp_adapter *pAd, USHORT wcid, UCHAR *pAddr)
 	bool Cancelled;
 
 	if (wcid >= MAX_LEN_OF_MAC_TABLE)
-		return FALSE;
+		return false;
 
 	NdisAcquireSpinLock(&pAd->MacTabLock);
 

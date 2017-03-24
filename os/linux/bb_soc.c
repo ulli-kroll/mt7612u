@@ -78,7 +78,7 @@ VOID PollingModeIsr(struct work_struct *work)
 VOID BBUPollingModeClose(IN struct rtmp_adapter *pAd){
 	bool 		Cancelled;
 
-	pAd->Pollingmode.PollingModeDetectRunning = FALSE;
+	pAd->Pollingmode.PollingModeDetectRunning = false;
 	RTMPCancelTimer(&pAd->Pollingmode.PollingModeDetect, &Cancelled);
 }
 
@@ -89,13 +89,13 @@ VOID BBUPollingModeInit(IN struct rtmp_adapter *pAd){
 
 	spin_lock_init(&pAd->Pollingmode.PollingModeLock);//for polling mode
 
-	RTMPInitTimer(pAd, &pAd->Pollingmode.PollingModeDetect, GET_TIMER_FUNCTION(PeriodicPollingModeDetect), pAd, FALSE);
-	pAd->Pollingmode.PollingModeDetectRunning = FALSE;
+	RTMPInitTimer(pAd, &pAd->Pollingmode.PollingModeDetect, GET_TIMER_FUNCTION(PeriodicPollingModeDetect), pAd, false);
+	pAd->Pollingmode.PollingModeDetectRunning = false;
 }
 
 VOID BBUPollingModeStart(IN struct rtmp_adapter *pAd){
 
-	if (pAd->Pollingmode.PollingModeDetectRunning == FALSE)
+	if (pAd->Pollingmode.PollingModeDetectRunning == false)
 	{
 	    printk("jiffies=%08lx, POLLING_MODE_DETECT_INTV=%d\r\n", jiffies, POLLING_MODE_DETECT_INTV);
 	    RTMPSetTimer(&pAd->Pollingmode.PollingModeDetect, POLLING_MODE_DETECT_INTV);

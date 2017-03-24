@@ -67,7 +67,7 @@ VOID rlt_bcn_buf_init(struct rtmp_adapter *pAd)
 {
 	RTMP_CHIP_CAP *pChipCap = &pAd->chipCap;
 
-	pChipCap->FlgIsSupSpecBcnBuf = FALSE;
+	pChipCap->FlgIsSupSpecBcnBuf = false;
 
 /*
  * ULLI : strange in mt7610u this is
@@ -117,7 +117,7 @@ INT WaitForAsicReady(struct rtmp_adapter *pAd)
 	do
 	{
 		if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST))
-			return FALSE;
+			return false;
 
 		mac_val = mt7612u_read32(pAd, reg);
 		if ((mac_val != 0x00) && (mac_val != 0xFFFFFFFF))
@@ -130,7 +130,7 @@ INT WaitForAsicReady(struct rtmp_adapter *pAd)
 				("%s(0x%x):AsicNotReady!\n",
 				__FUNCTION__, mac_val));
 
-	return FALSE;
+	return false;
 }
 
 
@@ -159,7 +159,7 @@ int RtmpChipOpsHook(VOID *pCB)
 	RTMP_CHIP_OP *pChipOps = &pAd->chipOps;
 
 	/* sanity check */
-	if (WaitForAsicReady(pAd) == FALSE)
+	if (WaitForAsicReady(pAd) == false)
 		return -1;
 
 	MacValue = mt7612u_read32(pAd, MAC_CSR0);
@@ -194,7 +194,7 @@ done:
 
 bool isExternalPAMode(struct rtmp_adapter *ad, INT channel)
 {
-	bool pa_mode = FALSE;
+	bool pa_mode = false;
 
         if (channel > 14) {
 	        if (ad->chipCap.PAType == EXT_PA_2G_5G)
@@ -202,13 +202,13 @@ bool isExternalPAMode(struct rtmp_adapter *ad, INT channel)
                 else if (ad->chipCap.PAType == EXT_PA_5G_ONLY)
                         pa_mode = true;
                 else
-        	        pa_mode = FALSE;
+        	        pa_mode = false;
         } else {
                 if (ad->chipCap.PAType == EXT_PA_2G_5G)
                         pa_mode = true;
                 else if ((ad->chipCap.PAType == EXT_PA_5G_ONLY) ||
                          (ad->chipCap.PAType == INT_PA_2G_5G))
-                        pa_mode = FALSE;
+                        pa_mode = false;
                 else if (ad->chipCap.PAType == EXT_PA_2G_ONLY)
                         pa_mode = true;
         }
@@ -218,19 +218,19 @@ bool isExternalPAMode(struct rtmp_adapter *ad, INT channel)
 
 bool is_external_lna_mode(struct rtmp_adapter *ad, INT channel)
 {
-	bool lna_mode = FALSE;
+	bool lna_mode = false;
 
 	/* b'00: 2.4G+5G external LNA, b'01: 5G external LNA, b'10: 2.4G external LNA, b'11: Internal LNA */
 	if (channel > 14) {
 		if ((ad->chipCap.LNA_type == 0x0) || (ad->chipCap.LNA_type == 0x1))
 	            	lna_mode = true;
 	    	else
-	        	lna_mode = FALSE;
+	        	lna_mode = false;
 	} else {
 	    	if ((ad->chipCap.LNA_type == 0x0) || (ad->chipCap.LNA_type == 0x10))
 	            	lna_mode = true;
 	    	else
-	            	lna_mode = FALSE;
+	            	lna_mode = false;
 	}
 
 	return lna_mode;

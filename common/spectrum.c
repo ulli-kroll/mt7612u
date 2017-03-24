@@ -443,7 +443,7 @@ PMEASURE_REQ_ENTRY MeasureReqInsert(
 				break;
 			}
 
-			if (pEntry->Valid == FALSE)
+			if (pEntry->Valid == false)
 				break;
 		}
 
@@ -669,7 +669,7 @@ static PTPC_REQ_ENTRY TpcReqInsert(
 				break;
 			}
 
-			if (pEntry->Valid == FALSE)
+			if (pEntry->Valid == false)
 				break;
 		}
 
@@ -1288,7 +1288,7 @@ static bool DfsRequirementCheck(
 	IN struct rtmp_adapter *pAd,
 	IN UINT8 Channel)
 {
-	bool Result = FALSE;
+	bool Result = false;
 	INT i;
 
 	do
@@ -1297,7 +1297,7 @@ static bool DfsRequirementCheck(
 		/* make sure DFS procedure won't start twice.*/
 		if (pAd->Dot11_H.RDMode != RD_NORMAL_MODE)
 		{
-			Result = FALSE;
+			Result = false;
 			break;
 		}
 
@@ -1313,7 +1313,7 @@ static bool DfsRequirementCheck(
 				break;
 			}
 		}
-	} while(FALSE);
+	} while(false);
 
 	return Result;
 }
@@ -1369,7 +1369,7 @@ static bool PeerChSwAnnSanity(
 {
 	PFRAME_802_11 Fr = (PFRAME_802_11)pMsg;
 	u8 *pFramePtr = Fr->Octet;
-	bool result = FALSE;
+	bool result = false;
 	PEID_STRUCT eid_ptr;
 
 	/* skip 802.11 header.*/
@@ -1427,7 +1427,7 @@ static bool PeerMeasureReqSanity(
 {
 	PFRAME_802_11 Fr = (PFRAME_802_11)pMsg;
 	u8 *pFramePtr = Fr->Octet;
-	bool result = FALSE;
+	bool result = false;
 	PEID_STRUCT eid_ptr;
 	u8 *ptr;
 	uint64_t MeasureStartTime;
@@ -1519,7 +1519,7 @@ static bool PeerMeasureReportSanity(
 {
 	PFRAME_802_11 Fr = (PFRAME_802_11)pMsg;
 	u8 *pFramePtr = Fr->Octet;
-	bool result = FALSE;
+	bool result = false;
 	PEID_STRUCT eid_ptr;
 	u8 *ptr;
 
@@ -1608,7 +1608,7 @@ static bool PeerTpcReqSanity(
 {
 	PFRAME_802_11 Fr = (PFRAME_802_11)pMsg;
 	u8 *pFramePtr = Fr->Octet;
-	bool result = FALSE;
+	bool result = false;
 	PEID_STRUCT eid_ptr;
 
 	MsgLen -= sizeof(HEADER_802_11);
@@ -1665,7 +1665,7 @@ static bool PeerTpcRepSanity(
 {
 	PFRAME_802_11 Fr = (PFRAME_802_11)pMsg;
 	u8 *pFramePtr = Fr->Octet;
-	bool result = FALSE;
+	bool result = false;
 	PEID_STRUCT eid_ptr;
 
 	MsgLen -= sizeof(HEADER_802_11);
@@ -1760,9 +1760,9 @@ static VOID PeerChSwAnnAction(
 		{
 			/* Switching to channel 1 can prevent from rescanning the current channel immediately (by auto reconnection).*/
 			/* In addition, clear the MLME queue and the scan table to discard the RX packets and previous scanning results.*/
-			AsicSwitchChannel(pAd, 1, FALSE);
+			AsicSwitchChannel(pAd, 1, false);
 			AsicLockChannel(pAd, 1);
-			LinkDown(pAd, FALSE);
+			LinkDown(pAd, false);
 			MlmeQueueInit(pAd, &pAd->Mlme.Queue);
 		    RtmpusecDelay(1000000);		/* use delay to prevent STA do reassoc*/
 
@@ -1773,7 +1773,7 @@ static VOID PeerChSwAnnAction(
 				{
 					pAd->ScanTab.BssEntry[Bssidx].Channel = NewChannel;
 					pAd->CommonCfg.Channel = NewChannel;
-					AsicSwitchChannel(pAd, pAd->CommonCfg.Channel, FALSE);
+					AsicSwitchChannel(pAd, pAd->CommonCfg.Channel, false);
 					AsicLockChannel(pAd, pAd->CommonCfg.Channel);
 					DBGPRINT(RT_DEBUG_TRACE, ("&&&&&&&&&&&&&&&&PeerChSwAnnAction - STA receive channel switch announcement IE (New Channel =%d)\n", NewChannel));
 					break;
@@ -1879,7 +1879,7 @@ static VOID PeerMeasureReportAction(
 					StartDFSProcedure(pAd, pBasicReport->ChNum, 1);
 				}
 			}
-		} while (FALSE);
+		} while (false);
 	}
 	else
 		DBGPRINT(RT_DEBUG_TRACE, ("Invalid Measurement Report Frame.\n"));
@@ -2270,7 +2270,7 @@ static PDOT11_REGULATORY_INFORMATION GetRugClassRegion(
 			pRugClass = &JapanRegulatoryInfo[RugClass];
 
 		}
-	} while (FALSE);
+	} while (false);
 
 	return pRugClass;
 }

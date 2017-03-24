@@ -266,9 +266,9 @@ static VOID APPeerAuthReqAtIdleAction(
 		{
 			if (pEntry->bIAmBadAtheros == true)
 			{
-				AsicUpdateProtect(pAd, 8, ALLN_SETPROTECT, FALSE, FALSE);
+				AsicUpdateProtect(pAd, 8, ALLN_SETPROTECT, false, false);
 				DBGPRINT(RT_DEBUG_TRACE, ("Atheros Problem. Turn on RTS/CTS!!!\n"));
-				pEntry->bIAmBadAtheros = FALSE;
+				pEntry->bIAmBadAtheros = false;
 			}
 
 			BASessionTearDownALL(pAd, pEntry->wcid);
@@ -463,9 +463,9 @@ static VOID APPeerAuthConfirmAction(
 		{
 			if (pEntry->bIAmBadAtheros == true)
 			{
-				AsicUpdateProtect(pAd, 8, ALLN_SETPROTECT, FALSE, FALSE);
+				AsicUpdateProtect(pAd, 8, ALLN_SETPROTECT, false, false);
 				DBGPRINT(RT_DEBUG_TRACE, ("Atheros Problem. Turn on RTS/CTS!!!\n"));
-				pEntry->bIAmBadAtheros = FALSE;
+				pEntry->bIAmBadAtheros = false;
 			}
 
 			ASSERT(pEntry->Aid == Elem->Wcid);

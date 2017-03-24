@@ -178,17 +178,17 @@ bool RTMP_CFG80211_VIF_P2P_GO_ON(struct rtmp_adapter *pAd)
 		((pNetDev = RTMP_CFG80211_FindVifEntry_ByType(pAd, RT_CMD_80211_IFTYPE_P2P_GO)) != NULL))
     	return true;
 	else
-		return FALSE;
+		return false;
 #endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
 
 #ifdef RT_CFG80211_P2P_SINGLE_DEVICE
 	if(CFG80211_P2P_TEST_BIT(pAd->cfg80211_ctrl.P2POpStatusFlags, CFG_P2P_GO_UP))
 		return true;
 	else
-		return FALSE;
+		return false;
 #endif /* RT_CFG80211_P2P_SINGLE_DEVICE */
 
-	return FALSE;
+	return false;
 }
 
 bool CFG80211DRV_OpsVifAdd(struct rtmp_adapter *pAd, VOID *pData)
@@ -198,7 +198,7 @@ bool CFG80211DRV_OpsVifAdd(struct rtmp_adapter *pAd, VOID *pData)
 
 	/* Already one VIF in list */
 	if (pAd->cfg80211_ctrl.Cfg80211VifDevSet.isGoingOn)
-		return FALSE;
+		return false;
 
 	pAd->cfg80211_ctrl.Cfg80211VifDevSet.isGoingOn = true;
 	RTMP_CFG80211_VirtualIF_Init(pAd, pVifInfo->vifName, pVifInfo->vifType);
@@ -572,7 +572,7 @@ VOID RTMP_CFG80211_VirtualIF_Remove(
 	IN	struct net_device *		  dev_p,
 	IN  uint32_t                DevType)
 {
-	bool isGoOn = FALSE;
+	bool isGoOn = false;
 	struct rtmp_wifi_dev *wdev;
 
 	if (dev_p)
@@ -688,7 +688,7 @@ VOID RTMP_CFG80211_DummyP2pIf_Remove(
 		RtmpOSNetDevFree(dummy_p2p_net_dev);
 		RtmpOSNetDevProtect(1);
 
-		cfg80211_ctrl->flg_cfg_dummy_p2p_init = FALSE;
+		cfg80211_ctrl->flg_cfg_dummy_p2p_init = false;
 	}
 	RtmpOSNetDevProtect(0);
 	DBGPRINT(RT_DEBUG_TRACE, (" %s <=====\n", __FUNCTION__));
@@ -707,7 +707,7 @@ VOID RTMP_CFG80211_DummyP2pIf_Init(
 	struct wireless_dev *pWdev;
 
 	DBGPRINT(RT_DEBUG_TRACE, (" %s =====> \n", __FUNCTION__));
-	if (cfg80211_ctrl->flg_cfg_dummy_p2p_init != FALSE)
+	if (cfg80211_ctrl->flg_cfg_dummy_p2p_init != false)
 		return;
 
 

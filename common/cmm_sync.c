@@ -50,7 +50,7 @@ VOID BuildChannelList(struct rtmp_adapter *pAd)
 {
 	UCHAR i, j, index=0, num=0;
 	PCH_DESC pChDesc = NULL;
-	bool bRegionFound = FALSE;
+	bool bRegionFound = false;
 	u8 *pChannelList;
 	u8 *pChannelListFlag;
 
@@ -122,7 +122,7 @@ VOID BuildChannelList(struct rtmp_adapter *pAd)
 			kfree(pChannelList);
 			kfree(pChannelListFlag);
 		}
-		bRegionFound = FALSE;
+		bRegionFound = false;
 		num = 0;
 	}
 
@@ -463,7 +463,7 @@ VOID Handle_BSS_Width_Trigger_Events(struct rtmp_adapter *pAd)
 {
 	ULONG Now32;
 
-	if (pAd->CommonCfg.bBssCoexEnable == FALSE)
+	if (pAd->CommonCfg.bBssCoexEnable == false)
 		return;
 
 	if ((pAd->CommonCfg.HtCapability.HtCapInfo.ChannelWidth == BW_40) &&

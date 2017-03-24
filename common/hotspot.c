@@ -118,7 +118,7 @@ bool HSIPv4Check(
 					DBGPRINT(RT_DEBUG_OFF, ("Convert broadcast dhcp to unicat frame when dgaf disable\n"));
 
 					if (!ApAllowToSendPacket(pAd, &pAd->ApCfg.MBSSID[apidx].wdev, pPacket, pWcid))
-						return FALSE;
+						return false;
 
 					RTMP_SET_PACKET_WCID(pPacket, *pWcid);
 			}
@@ -159,7 +159,7 @@ static bool IsICMPv4EchoPacket(
 
 	}
 
-	return FALSE;
+	return false;
 }
 
 bool L2FilterInspection(
@@ -172,10 +172,10 @@ bool L2FilterInspection(
 		if (pHSCtrl->ICMPv4Deny)
 			return true;
 		else
-			return FALSE;
+			return false;
 	}
 
-	return FALSE;
+	return false;
 }
 
 bool ProbeReqforHSAP(
@@ -195,14 +195,14 @@ bool ProbeReqforHSAP(
 		   	  NdisEqualMemory(ProbeReqParam->Hessid, BROADCAST_ADDR, MAC_ADDR_LEN))
 				;
 			else
-				return FALSE;
+				return false;
 		}
 
 		if ((ProbeReqParam->AccessNetWorkType == pHSCtrl->AccessNetWorkType) ||
 			(ProbeReqParam->AccessNetWorkType == 0x0f))
 			return true;
 		else
-			return FALSE;
+			return false;
 	}
 	else
 		return true;
@@ -340,7 +340,7 @@ INT Set_HotSpot_OnOff(
 	buf = kmalloc(sizeof(*Event), GFP_ATOMIC);
 	if (!Buf) {
 		DBGPRINT(RT_DEBUG_ERROR, ("%s Not available memory\n", __FUNCTION__));
-		return FALSE;
+		return false;
 	}
 
 	memset(Buf, sizeof(*Event));
@@ -623,7 +623,7 @@ bool HotSpotEnable(
 		if (!pHSCtrl)
 		{
 			DBGPRINT(RT_DEBUG_ERROR, ("%s Can not find Peer Control\n", __FUNCTION__));
-				return FALSE;
+				return false;
 		}
 	}
 #endif /* CONFIG_AP_SUPPORT */

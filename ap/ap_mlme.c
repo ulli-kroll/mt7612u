@@ -49,10 +49,10 @@ VOID Bss2040CoexistTimeOut(
 	memset(&pAd->CommonCfg.LastBSSCoexist2040, 0, sizeof(BSS_2040_COEXIST_IE));
 	pAd->CommonCfg.Bss2040CoexistFlag |= BSS_2040_COEXIST_INFO_SYNC;
 
-	if (pAd->CommonCfg.bBssCoexEnable == FALSE)
+	if (pAd->CommonCfg.bBssCoexEnable == false)
 	{
 		/* TODO: Find a better way to handle this when the timer is fired and we disable the bBssCoexEable support!! */
-		DBGPRINT(RT_DEBUG_TRACE, ("Bss2040CoexistTimeOut(): bBssCoexEnable is FALSE, return directly!\n"));
+		DBGPRINT(RT_DEBUG_TRACE, ("Bss2040CoexistTimeOut(): bBssCoexEnable is false, return directly!\n"));
 		return;
 	}
 
@@ -123,7 +123,7 @@ VOID APMlmePeriodicExec(
 	/* Disable Adjust Tx Power for WPA WiFi-test. */
 	/* Because high TX power results in the abnormal disconnection of Intel BG-STA. */
 /*#ifndef WIFI_TEST */
-/*	if (pAd->CommonCfg.bWiFiTest == FALSE) */
+/*	if (pAd->CommonCfg.bWiFiTest == false) */
 	/* for SmartBit 64-byte stream test */
 	/* removed based on the decision of Ralink congress at 2011/7/06 */
 /*	if (pAd->MacTab.Size > 0) */
@@ -159,7 +159,7 @@ VOID APMlmePeriodicExec(
 
 	if (pAd->Mlme.OneSecPeriodicRound % 2 == 1)
 #ifdef APCLI_AUTO_CONNECT_SUPPORT
-		if (pAd->ApCfg.ApCliAutoConnectChannelSwitching == FALSE)
+		if (pAd->ApCfg.ApCliAutoConnectChannelSwitching == false)
 #endif /* APCLI_AUTO_CONNECT_SUPPORT */
 		ApCliIfUp(pAd);
 
@@ -176,7 +176,7 @@ VOID APMlmePeriodicExec(
 			PAPCLI_STRUCT pApCliEntry = &pAd->ApCfg.ApCliTab[loop];
 			if (pAd->ApCfg.ApCliTab[loop].bBlockAssoc ==true && pAd->ApCfg.ApCliTab[loop].bBlockAssoc &&
 				RTMP_TIME_AFTER(Now32, pAd->ApCfg.ApCliTab[loop].LastMicErrorTime + (60*OS_HZ)))
-		    		pAd->ApCfg.ApCliTab[loop].bBlockAssoc = FALSE;
+		    		pAd->ApCfg.ApCliTab[loop].bBlockAssoc = false;
 
 
 			if ((pApCliEntry->Valid == true)
@@ -194,10 +194,10 @@ VOID APMlmePeriodicExec(
 					wdev = &pApCliEntry->wdev;
 
 					if (pEntry->RXBAbitmap == 0 && pEntry->TXBAbitmap == 0)
-						IsUseBA = FALSE;
+						IsUseBA = false;
 
 					if( wdev->DesiredHtPhyInfo.bHtEnable &&
-						IsUseBA == FALSE   )
+						IsUseBA == false   )
 					{
 						EDCA_AC_CFG_STRUC   Ac2Cfg, Ac1Cfg;
 
@@ -247,9 +247,9 @@ VOID APMlmePeriodicExec(
     {
     	/*APUpdateCapabilityAndErpIe(pAd); */
     	APUpdateOperationMode(pAd);
-		if (pAd->CommonCfg.IOTestParm.bRTSLongProtOn == FALSE)
+		if (pAd->CommonCfg.IOTestParm.bRTSLongProtOn == false)
 		{
-        	AsicUpdateProtect(pAd, (USHORT)pAd->CommonCfg.AddHTInfo.AddHtInfo2.OperaionMode, ALLN_SETPROTECT, FALSE, pAd->MacTab.fAnyStationNonGF);
+        	AsicUpdateProtect(pAd, (USHORT)pAd->CommonCfg.AddHTInfo.AddHtInfo2.OperaionMode, ALLN_SETPROTECT, false, pAd->MacTab.fAnyStationNonGF);
     	}
     }
 
@@ -317,7 +317,7 @@ VOID APMlmePeriodicExec(
  *  \param  *Fr            The frame received
  *  \param  *Machine       The state machine
  *  \param  *MsgType       the message type for the state machine
- *  \return true if the substitution is successful, FALSE otherwise
+ *  \return true if the substitution is successful, false otherwise
  *  \pre
  *  \post
  */
@@ -329,7 +329,7 @@ bool APMsgTypeSubst(
 {
     USHORT Seq;
     UCHAR  EAPType;
-    bool     Return = FALSE;
+    bool     Return = false;
 
 /*
 	TODO:
@@ -350,7 +350,7 @@ bool APMsgTypeSubst(
     }
 
     if (pFrame->Hdr.FC.Type != FC_TYPE_MGMT)
-        return FALSE;
+        return false;
 
     switch (pFrame->Hdr.FC.SubType)
     {
@@ -413,7 +413,7 @@ bool APMsgTypeSubst(
                 DBGPRINT(RT_DEBUG_TRACE,("wrong AUTH seq=%d Octet=%02x %02x %02x %02x %02x %02x %02x %02x\n", Seq,
                     pFrame->Octet[0], pFrame->Octet[1], pFrame->Octet[2], pFrame->Octet[3],
                     pFrame->Octet[4], pFrame->Octet[5], pFrame->Octet[6], pFrame->Octet[7]));
-                return FALSE;
+                return false;
             }
             break;
 
@@ -437,7 +437,7 @@ bool APMsgTypeSubst(
 		break;
 
         default:
-            return FALSE;
+            return false;
             break;
     }
 
@@ -475,7 +475,7 @@ VOID APAsicEvaluateRxAnt(
 	if (TxTotalCnt > 50)
 	{
 		RTMPSetTimer(&pAd->Mlme.RxAntEvalTimer, 20);
-		pAd->Mlme.bLowThroughput = FALSE;
+		pAd->Mlme.bLowThroughput = false;
 	}
 	else
 	{

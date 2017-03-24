@@ -464,7 +464,7 @@ bool RTMPSoftDecryptAES(
 	UCHAR			TrailMIC[8];
 
 #ifdef RT_BIG_ENDIAN
-	RTMPFrameEndianChange(pAd, (u8 *)pData, DIR_READ, FALSE);
+	RTMPFrameEndianChange(pAd, (u8 *)pData, DIR_READ, false);
 #endif
 
 	fc0 = *pData;
@@ -496,7 +496,7 @@ bool RTMPSoftDecryptAES(
 	if (pWpaKey->KeyLen == 0)
 	{
 		DBGPRINT(RT_DEBUG_TRACE, ("RTMPSoftDecryptAES failed!(the Length can not be 0)\n"));
-		return FALSE;
+		return false;
 	}
 
 	PN[0] = *(pData+ HeaderLen);
@@ -633,11 +633,11 @@ bool RTMPSoftDecryptAES(
 	if (!NdisEqualMemory(MIC, TrailMIC, 8))
 	{
 		DBGPRINT(RT_DEBUG_ERROR, ("RTMPSoftDecryptAES, MIC Error !\n"));	 /* MIC error. */
-		return FALSE;
+		return false;
 	}
 
 #ifdef RT_BIG_ENDIAN
-	RTMPFrameEndianChange(pAd, (u8 *)pData, DIR_READ, FALSE);
+	RTMPFrameEndianChange(pAd, (u8 *)pData, DIR_READ, false);
 #endif
 
 	return true;
@@ -849,7 +849,7 @@ bool RTMPSoftEncryptCCMP(
 	uint32_t out_len = DataLen + 8;
 
 #ifdef RT_BIG_ENDIAN
-	RTMPFrameEndianChange(pAd, (u8 *)pHdr, DIR_READ, FALSE);
+	RTMPFrameEndianChange(pAd, (u8 *)pHdr, DIR_READ, false);
 #endif
 
 	/* Initial variable */
@@ -900,10 +900,10 @@ bool RTMPSoftEncryptCCMP(
 					nonce_hdr, nonce_hdr_len,
 					aad_hdr, aad_len, LEN_CCMP_MIC,
 					pData, &out_len))
-		return FALSE;
+		return false;
 
 #ifdef RT_BIG_ENDIAN
-	RTMPFrameEndianChange(pAd, (u8 *)pHdr, DIR_READ, FALSE);
+	RTMPFrameEndianChange(pAd, (u8 *)pHdr, DIR_READ, false);
 #endif
 
 	return true;
@@ -943,14 +943,14 @@ bool RTMPSoftDecryptCCMP(
 	uint32_t out_len = *DataLen;
 
 #ifdef RT_BIG_ENDIAN
-	RTMPFrameEndianChange(pAd, (u8 *)pHdr, DIR_READ, FALSE);
+	RTMPFrameEndianChange(pAd, (u8 *)pHdr, DIR_READ, false);
 #endif
 
 	/* Check the key is valid */
 	if (pKey->KeyLen == 0)
 	{
 		DBGPRINT(RT_DEBUG_ERROR, ("%s : The key is not available !\n", __FUNCTION__));
-		return FALSE;
+		return false;
 	}
 
 	/* Initial variable */
@@ -990,7 +990,7 @@ bool RTMPSoftDecryptCCMP(
 
 	/*skip payload length is zero*/
 	if ((*DataLen ) <= LEN_CCMP_HDR)
-		return FALSE;
+		return false;
 
 	/* Construct AAD header */
 	RTMPConstructCCMPAAD(pHdr,
@@ -1017,12 +1017,12 @@ bool RTMPSoftDecryptCCMP(
 					nonce_hdr, nonce_hdr_len,
 					aad_hdr, aad_len, LEN_CCMP_MIC,
 					pData, &out_len))
-		return FALSE;
+		return false;
 
 	*DataLen = out_len;
 
 #ifdef RT_BIG_ENDIAN
-	RTMPFrameEndianChange(pAd, (u8 *)pHdr, DIR_READ, FALSE);
+	RTMPFrameEndianChange(pAd, (u8 *)pHdr, DIR_READ, false);
 #endif
 
 	return true;
@@ -1088,7 +1088,7 @@ VOID CCMP_test_vector(
 	/* Check NONCE */
 	memset(res_buf, 0, 100);
 	res_len = 0;
-	RTMPConstructCCMPNonce(HDR, 0, 0, FALSE, PN, res_buf, &res_len);
+	RTMPConstructCCMPNonce(HDR, 0, 0, false, PN, res_buf, &res_len);
 	if (res_len == 13 && NdisEqualMemory(res_buf, CCM_NONCE, res_len))
 		printk("Construct NONCE is OK!!!\n");
 	else

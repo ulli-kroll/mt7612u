@@ -105,7 +105,7 @@ bool RtmpOsCmdDisplayLenCheck(
 	IN uint32_t Offset)
 {
 	if (LenSrc > (IW_PRIV_SIZE_MASK - Offset))
-		return FALSE;
+		return false;
 
 	return true;
 }

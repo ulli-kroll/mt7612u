@@ -429,7 +429,7 @@ static bool IsValidChannel(
 	}
 
 	if (i == pAd->ChannelListNum)
-		return FALSE;
+		return false;
 	else
 		return true;
 }
@@ -484,7 +484,7 @@ bool AC_ChannelGroupCheck(
 	IN struct rtmp_adapter *pAd,
 	IN UCHAR Channel)
 {
-	bool	RetVal = FALSE;
+	bool	RetVal = false;
 	UCHAR	vht_ch_group[] = {
 		36, 40, 44, 48,
 		52, 56, 60, 64,
@@ -514,7 +514,7 @@ bool N_ChannelGroupCheck(
 	IN struct rtmp_adapter *pAd,
 	IN UCHAR Channel)
 {
-	bool	RetVal = FALSE;
+	bool	RetVal = false;
 
 	if (Channel > 14)
 	{
@@ -541,7 +541,7 @@ bool N_ChannelGroupCheck(
 
 			if (Channel == 14)
 			{
-				RetVal = FALSE;
+				RetVal = false;
 				break;
 			}
 
@@ -554,7 +554,7 @@ bool N_ChannelGroupCheck(
 				if (IsValidChannel(pAd, ExtCh))
 				RetVal = true;
 			}
-		} while(FALSE);
+		} while(false);
 	}
 
 	return RetVal;
@@ -617,7 +617,7 @@ VOID N_ChannelCheck(struct rtmp_adapter *pAd)
 					break;
 				}
 				pAd->CommonCfg.RegTransmitSetting.field.BW  = BW_20;
-			} while(FALSE);
+			} while(false);
 
 			if (Channel == 14)
 			{

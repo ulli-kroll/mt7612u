@@ -410,7 +410,7 @@ VOID	RTMPInitMICEngine(
 
 	Return Value:
 		true        MIC value matched
-		FALSE       MIC value mismatched
+		false       MIC value mismatched
 
 	IRQL = DISPATCH_LEVEL
 
@@ -455,7 +455,7 @@ bool	RTMPTkipCompareMICValue(
 		DBGPRINT_RAW(RT_DEBUG_ERROR, ("RTMPTkipCompareMICValue(): TKIP MIC Error !\n"));  /*MIC error.*/
 
 
-		return (FALSE);
+		return (false);
 	}
 	return (true);
 }
@@ -699,7 +699,7 @@ VOID RTMPTkipMixKey(
 
 /*
 	true: Success!
-	FALSE: Decrypt Error!
+	false: Decrypt Error!
 */
 bool RTMPSoftDecryptTKIP(
 	IN 		struct rtmp_adapter *	pAd,
@@ -734,7 +734,7 @@ bool RTMPSoftDecryptTKIP(
 	UCHAR			TrailMIC[8];
 
 #ifdef RT_BIG_ENDIAN
-	RTMPFrameEndianChange(pAd, pHdr, DIR_READ, FALSE);
+	RTMPFrameEndianChange(pAd, pHdr, DIR_READ, false);
 #endif
 
 	if (pKey->KeyLen == 0)
@@ -843,7 +843,7 @@ bool RTMPSoftDecryptTKIP(
 #ifdef WPA_SUPPLICANT_SUPPORT
         if (pAd->StaCfg.wpa_supplicant_info.WpaSupplicantUP) {
                 WpaSendMicFailureToWpaSupplicant(pAd->net_dev, pFrame->Addr2,
-                                                (pKey->Type == PAIRWISEKEY) ? true : FALSE,
+                                                (pKey->Type == PAIRWISEKEY) ? true : false,
                                                 0 /*key id need be retrived by IV, actually supplicant didn't need it!*/,
                                                 NULL);
         } else
@@ -857,7 +857,7 @@ bool RTMPSoftDecryptTKIP(
 	*DataByteCnt = plaintext_len;
 
 #ifdef RT_BIG_ENDIAN
-	RTMPFrameEndianChange(pAd, pHdr, DIR_READ, FALSE);
+	RTMPFrameEndianChange(pAd, pHdr, DIR_READ, false);
 #endif
 	return true;
 }
