@@ -129,7 +129,6 @@ int RTMPAllocAdapterBlock(struct os_cookie *handle, struct rtmp_adapter **ppAdap
 			pAd->DeQueueRunning[index] = FALSE;
 		}
 
-#ifdef RESOURCE_PRE_ALLOC
 		/*
 			move this function from rt28xx_init() to here. now this function only allocate memory and
 			leave the initialization job to RTMPInitTxRxRingMemory() which called in rt28xx_init().
@@ -140,7 +139,6 @@ int RTMPAllocAdapterBlock(struct os_cookie *handle, struct rtmp_adapter **ppAdap
 			DBGPRINT_ERR(("Failed to allocate memory - TxRxRing\n"));
 			break;
 		}
-#endif /* RESOURCE_PRE_ALLOC */
 
 		spin_lock_init(&pAd->irq_lock);
 
@@ -3051,9 +3049,7 @@ BOOLEAN RtmpRaDevCtrlExit(IN struct rtmp_adapter *pAd)
 			kfree(pAd->ProbeRespIE[index].pIe);
 	}
 
-#ifdef RESOURCE_PRE_ALLOC
 	RTMPFreeTxRxRingMemory(pAd);
-#endif /* RESOURCE_PRE_ALLOC */
 
 	RTMPFreeAdapter(pAd);
 

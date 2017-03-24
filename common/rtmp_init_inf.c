@@ -77,11 +77,7 @@ int rt28xx_init(struct rtmp_adapter *pAd)
 	if (ba_reordering_resource_init(pAd, MAX_REORDERING_MPDU_NUM) != TRUE)
 		goto err1;
 
-#ifdef RESOURCE_PRE_ALLOC
 	Status = RTMPInitTxRxRingMemory(pAd);
-#else
-	Status = RTMPAllocTxRxRingMemory(pAd);
-#endif /* RESOURCE_PRE_ALLOC */
 	if (Status != NDIS_STATUS_SUCCESS)
 	{
 		DBGPRINT_ERR(("RTMPAllocTxRxMemory failed, Status[=0x%08x]\n", Status));
@@ -439,11 +435,7 @@ err4:
 err3:
 	RtmpMgmtTaskExit(pAd);
 err2:
-#ifdef RESOURCE_PRE_ALLOC
 	RTMPResetTxRxRingMemory(pAd);
-#else
-	RTMPFreeTxRxRingMemory(pAd);
-#endif /* RESOURCE_PRE_ALLOC */
 
 err1:
 
@@ -701,12 +693,7 @@ VOID RTMPDrvClose(struct rtmp_adapter *pAd, struct net_device *net_dev)
 	}
 
 	/* Free Ring or USB buffers*/
-#ifdef RESOURCE_PRE_ALLOC
 	RTMPResetTxRxRingMemory(pAd);
-#else
-	/* Free Ring or USB buffers*/
-	RTMPFreeTxRxRingMemory(pAd);
-#endif /* RESOURCE_PRE_ALLOC */
 
 	RTMP_CLEAR_FLAG(pAd, fRTMP_ADAPTER_HALT_IN_PROGRESS);
 

@@ -4436,9 +4436,7 @@ BOOLEAN RTMPCheckForHang(
 
 int RTMPAllocTxRxRingMemory(struct rtmp_adapter *pAd);
 
-#ifdef RESOURCE_PRE_ALLOC
 int RTMPInitTxRxRingMemory(struct rtmp_adapter *pAd);
-#endif /* RESOURCE_PRE_ALLOC */
 
 VOID get_dev_config_idx(struct rtmp_adapter *pAd);
 UCHAR *get_dev_name_prefix(struct rtmp_adapter *pAd, INT dev_type);
@@ -6275,10 +6273,7 @@ VOID RTMPMaintainPMKIDCache(
 #define RTMPMaintainPMKIDCache(_pAd)
 #endif /* DOT1X_SUPPORT */
 
-#ifdef RESOURCE_PRE_ALLOC
-VOID RTMPResetTxRxRingMemory(
-	IN  struct rtmp_adapter   *pAd);
-#endif /* RESOURCE_PRE_ALLOC */
+VOID RTMPResetTxRxRingMemory(struct rtmp_adapter   *pAd);
 
 VOID RTMPFreeTxRxRingMemory(
     IN  struct rtmp_adapter *pAd);
