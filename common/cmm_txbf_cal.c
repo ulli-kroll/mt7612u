@@ -342,7 +342,7 @@ static void CalcRFCalPhase(
 	OUT int avgQ[3],
 	OUT int peak[3],
 	IN COMPLEX_VALUE (*iqData)[3],
-	IN BOOLEAN relPhase,
+	IN bool relPhase,
 	IN int actTx)
 {
 	int i, j;

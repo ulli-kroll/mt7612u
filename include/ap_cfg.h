@@ -89,7 +89,7 @@ VOID RTMPIoctlSetIdleTimeout(
 INT Set_AP_Daemon_Status(
 	IN struct rtmp_adapter *pAd,
 	IN UINT8 WorkSpaceID,
-	IN BOOLEAN Status);
+	IN bool Status);
 
 INT Set_AP_IE(
 	IN struct rtmp_adapter *pAd,

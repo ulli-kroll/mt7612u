@@ -223,7 +223,7 @@ VOID RTMPConstructWEPIVHdr(
 
 	========================================================================
 */
-BOOLEAN	RTMPSoftEncryptWEP(
+bool	RTMPSoftEncryptWEP(
 	IN 		struct rtmp_adapter *	pAd,
 	IN 		u8 *		pIvHdr,
 	IN 		PCIPHER_KEY		pKey,
@@ -289,7 +289,7 @@ BOOLEAN	RTMPSoftEncryptWEP(
 
 	========================================================================
 */
-BOOLEAN	RTMPSoftDecryptWEP(
+bool	RTMPSoftDecryptWEP(
 	IN 		struct rtmp_adapter *	pAd,
 	IN 		PCIPHER_KEY		pKey,
 	INOUT 	u8 *		pData,

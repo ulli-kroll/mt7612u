@@ -57,7 +57,7 @@ MAC_TABLE_ENTRY *PACInquiry(struct rtmp_adapter *pAd, UCHAR Wcid)
          FALSE otherwise
     ==========================================================================
 */
-BOOLEAN RTMPCheckMcast(
+bool RTMPCheckMcast(
     IN struct rtmp_adapter *   pAd,
     IN PEID_STRUCT      eid_ptr,
     IN MAC_TABLE_ENTRY  *pEntry)
@@ -118,7 +118,7 @@ BOOLEAN RTMPCheckMcast(
          FALSE otherwise
     ==========================================================================
 */
-BOOLEAN RTMPCheckUcast(
+bool RTMPCheckUcast(
     IN struct rtmp_adapter *   pAd,
     IN PEID_STRUCT      eid_ptr,
     IN MAC_TABLE_ENTRY	*pEntry)
@@ -301,7 +301,7 @@ BOOLEAN RTMPCheckUcast(
          FALSE otherwise
     ==========================================================================
 */
-BOOLEAN RTMPCheckAKM(u8 *sta_akm, u8 *ap_rsn_ie, INT iswpa2)
+bool RTMPCheckAKM(u8 *sta_akm, u8 *ap_rsn_ie, INT iswpa2)
 {
 	u8 *pTmp;
 	USHORT Count;
@@ -357,7 +357,7 @@ BOOLEAN RTMPCheckAKM(u8 *sta_akm, u8 *ap_rsn_ie, INT iswpa2)
          FALSE otherwise
     ==========================================================================
 */
-BOOLEAN RTMPCheckAUTH(
+bool RTMPCheckAUTH(
     IN struct rtmp_adapter *   pAd,
     IN PEID_STRUCT      eid_ptr,
     IN MAC_TABLE_ENTRY	*pEntry)
@@ -551,7 +551,7 @@ UINT	APValidateRSNIE(
 VOID HandleCounterMeasure(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 {
     INT         i;
-    BOOLEAN     Cancelled;
+    bool     Cancelled;
 
     if (!pEntry)
         return;

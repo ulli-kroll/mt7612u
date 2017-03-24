@@ -130,7 +130,7 @@ int RTUSBSingleWrite(
 	IN	USHORT Offset,
 	IN	USHORT Value)
 {
-	BOOLEAN WriteHigh = FALSE;
+	bool WriteHigh = FALSE;
 
 	return RTUSB_VendorRequest(pAd, DEVICE_VENDOR_REQUEST_OUT,
 				   MT7612U_VENDOR_SINGLE_WRITE,	Value, Offset, NULL, 0);
@@ -1156,7 +1156,7 @@ static CMDHdlr CMDHdlrTable[] = {
 };
 
 
-static inline BOOLEAN ValidCMD(IN PCmdQElmt CMDQelmt)
+static inline bool ValidCMD(IN PCmdQElmt CMDQelmt)
 {
 	SHORT CMDIndex = CMDQelmt->command - CMDTHREAD_FIRST_CMD_ID;
 	USHORT CMDHdlrTableLength= sizeof(CMDHdlrTable) / sizeof(CMDHdlr);
@@ -1219,7 +1219,7 @@ VOID RTUSBWatchDog(struct rtmp_adapter *pAd)
 	int idx;
 	ULONG irqFlags;
 	PURB pUrb;
-	BOOLEAN needDumpSeq = FALSE;
+	bool needDumpSeq = FALSE;
 	uint32_t MACValue;
 
 	if(RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST))

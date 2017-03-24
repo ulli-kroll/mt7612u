@@ -121,7 +121,7 @@ VOID	WpaMicFailureReportFrame(
 	UCHAR				*mpool;
 	PEAPOL_PACKET       pPacket;
 	UCHAR               Mic[16];
-    BOOLEAN             bUnicast;
+    bool             bUnicast;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("WpaMicFailureReportFrame ----->\n"));
 

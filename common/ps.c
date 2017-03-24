@@ -131,7 +131,7 @@ VOID RtmpCleanupPsQueue(struct rtmp_adapter *pAd, QUEUE_HEADER *pQueue)
 	is received from a WSTA which has MAC address FF:FF:FF:FF:FF:FF
   ========================================================================
 */
-VOID RtmpHandleRxPsPoll(struct rtmp_adapter *pAd, UCHAR *pAddr, USHORT wcid, BOOLEAN isActive)
+VOID RtmpHandleRxPsPoll(struct rtmp_adapter *pAd, UCHAR *pAddr, USHORT wcid, bool isActive)
 {
 	QUEUE_ENTRY *pQEntry;
 	MAC_TABLE_ENTRY *pMacEntry;
@@ -228,7 +228,7 @@ VOID RtmpHandleRxPsPoll(struct rtmp_adapter *pAd, UCHAR *pAddr, USHORT wcid, BOO
 					In addtion, in Station Keep Alive mechanism, we need to
 					send a QoS Null frame to detect the station live status.
 				*/
-				BOOLEAN bQosNull = FALSE;
+				bool bQosNull = FALSE;
 
 				if (CLIENT_STATUS_TEST_FLAG(pMacEntry, fCLIENT_STATUS_WMM_CAPABLE))
 					bQosNull = TRUE;
@@ -297,7 +297,7 @@ VOID RtmpHandleRxPsPoll(struct rtmp_adapter *pAd, UCHAR *pAddr, USHORT wcid, BOO
 		this client once IdleCount exceeds a threshold.
 	==========================================================================
  */
-BOOLEAN RtmpPsIndicate(struct rtmp_adapter *pAd, UCHAR *pAddr, UCHAR wcid, UCHAR Psm)
+bool RtmpPsIndicate(struct rtmp_adapter *pAd, UCHAR *pAddr, UCHAR wcid, UCHAR Psm)
 {
 	MAC_TABLE_ENTRY *pEntry;
 	UCHAR old_psmode;
@@ -362,9 +362,9 @@ Return Value:
 Note:
 ========================================================================
 */
-BOOLEAN RtmpPktPmBitCheck(struct rtmp_adapter *pAd)
+bool RtmpPktPmBitCheck(struct rtmp_adapter *pAd)
 {
-	BOOLEAN FlgCanPmBitSet = TRUE;
+	bool FlgCanPmBitSet = TRUE;
 
 
 	if (FlgCanPmBitSet == TRUE)

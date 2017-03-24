@@ -249,7 +249,7 @@ INT bbp_set_rxpath(struct rtmp_adapter *pAd, INT rxpath);
 INT bbp_get_temp(struct rtmp_adapter *pAd, CHAR *temp_val);
 INT bbp_tx_comp_init(struct rtmp_adapter *pAd, INT adc_insel, INT tssi_mode);
 INT bbp_set_txdac(struct rtmp_adapter *pAd, INT tx_dac);
-INT bbp_set_mmps(struct rtmp_adapter *pAd, BOOLEAN ReduceCorePower);
+INT bbp_set_mmps(struct rtmp_adapter *pAd, bool ReduceCorePower);
 INT bbp_is_ready(struct rtmp_adapter *pAd);
 INT bbp_set_agc(struct rtmp_adapter *pAd, UCHAR agc, RX_CHAIN_IDX idx);
 INT bbp_get_agc(struct rtmp_adapter *pAd, CHAR *agc, RX_CHAIN_IDX idx);
@@ -264,7 +264,7 @@ typedef struct phy_ops{
 	INT (*filter_coefficient_ctrl)(struct rtmp_adapter *pAd, UCHAR Channel);
 	INT (*bbp_set_agc)(struct rtmp_adapter *pAd, UCHAR agc, RX_CHAIN_IDX chain);
 	INT (*bbp_get_agc)(struct rtmp_adapter *pAd, CHAR *agc, RX_CHAIN_IDX chain);
-	INT (*bbp_set_mmps)(struct rtmp_adapter *pAd, BOOLEAN ReduceCorePower);
+	INT (*bbp_set_mmps)(struct rtmp_adapter *pAd, bool ReduceCorePower);
 	INT (*bbp_set_bw)(struct rtmp_adapter *pAd, UINT8 bw);
 	INT (*bbp_set_ctrlch)(struct rtmp_adapter *pAd, UINT8 ext_ch);
 	INT (*bbp_set_rxpath)(struct rtmp_adapter *pAd, INT rxpath);

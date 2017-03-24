@@ -102,7 +102,7 @@ VOID CFG80211RemainOnChannelTimeout(
 #endif /*RT_CFG80211_P2P_CONCURRENT_DEVICE */
 	{
 		struct net_device *ndev = CFG80211_GetEventDevice(pAd);
-		
+
 		DBGPRINT(RT_DEBUG_TRACE, ("CFG80211_ROC: RemainOnChannelTimeout -- FINISH\n"));
 
         	cfg80211_remain_on_channel_expired( ndev->ieee80211_ptr,
@@ -115,10 +115,10 @@ VOID CFG80211RemainOnChannelTimeout(
 }
 
 /* Set a given time on specific channel to listen action Frame */
-BOOLEAN CFG80211DRV_OpsRemainOnChannel(struct rtmp_adapter *pAd, VOID *pData, uint32_t duration)
+bool CFG80211DRV_OpsRemainOnChannel(struct rtmp_adapter *pAd, VOID *pData, uint32_t duration)
 {
 	CMD_RTPRIV_IOCTL_80211_CHAN *pChanInfo = (CMD_RTPRIV_IOCTL_80211_CHAN *) pData;
-	BOOLEAN Cancelled;
+	bool Cancelled;
 	PCFG80211_CTRL pCfg80211_ctrl = &pAd->cfg80211_ctrl;
 	UCHAR lock_channel;
         PWIRELESS_DEV pwdev = NULL;
@@ -192,7 +192,7 @@ BOOLEAN CFG80211DRV_OpsRemainOnChannel(struct rtmp_adapter *pAd, VOID *pData, ui
 
 void CFG80211DRV_OpsCancelRemainOnChannel(struct rtmp_adapter *pAd, uint32_t cookie)
 {
-	BOOLEAN Cancelled;
+	bool Cancelled;
 	CFG80211DBG(RT_DEBUG_TRACE, ("%s\n", __FUNCTION__));
 
 	if (pAd->cfg80211_ctrl.Cfg80211RocTimerRunning == TRUE)

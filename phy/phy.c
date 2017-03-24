@@ -126,7 +126,7 @@ INT bbp_set_bw(struct rtmp_adapter *pAd, UINT8 bw)
 }
 
 
-INT bbp_set_mmps(struct rtmp_adapter *pAd, BOOLEAN ReduceCorePower)
+INT bbp_set_mmps(struct rtmp_adapter *pAd, bool ReduceCorePower)
 {
 	if (pAd->phy_op && pAd->phy_op->bbp_set_mmps)
 		return pAd->phy_op->bbp_set_mmps(pAd, ReduceCorePower);

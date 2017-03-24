@@ -98,7 +98,7 @@ VOID rtmp_asic_set_bf(
 VOID TxBFInit(
 	IN struct rtmp_adapter *	pAd,
 	IN MAC_TABLE_ENTRY	*pEntry,
-	IN BOOLEAN			supportsETxBF)
+	IN bool			supportsETxBF)
 {
 	pEntry->bfState = READY_FOR_SNDG0;
 	pEntry->sndgMcs = 0;
@@ -129,7 +129,7 @@ VOID TxBFInit(
 
 }
 
-BOOLEAN rtmp_chk_itxbf_calibration(
+bool rtmp_chk_itxbf_calibration(
 	IN struct rtmp_adapter *pAd)
 {
 	INT calIdx, calCnt;
@@ -137,7 +137,7 @@ BOOLEAN rtmp_chk_itxbf_calibration(
 	USHORT g_caladdr[] = {0xc0, 0xc2, 0xd4, 0xd6, 0xd8};
 	USHORT a_caladdr[] = {0xc4, 0xc6, 0xc8, 0xca, 0xcc, 0xce, 0xd0, 0xd2, 0xda, 0xdc, 0xde, 0xe0, 0xe2, 0xe4, 0xe6, 0xe8, 0xea, 0xec, 0xee, 0xf0};
 	uint32_t ee_sum;
-	BOOLEAN bCalibrated = TRUE;
+	bool bCalibrated = TRUE;
 
 
 	if (pAd->CommonCfg.Channel <= 14)
@@ -229,11 +229,11 @@ VOID eTxBFProbing(
 /*
 	clientSupportsETxBF - returns true if client supports compatible Sounding
 */
-BOOLEAN clientSupportsETxBF(
+bool clientSupportsETxBF(
 	IN	struct rtmp_adapter * pAd,
 	IN	HT_BF_CAP *pTxBFCap)
 {
-	BOOLEAN compCompat, noncompCompat;
+	bool compCompat, noncompCompat;
 
 	compCompat = (pTxBFCap->ExpComBF > 0) &&
 			 /*(pTxBFCap->ComSteerBFAntSup+1 >= pAd->Antenna.field.TxPath) && */
@@ -249,7 +249,7 @@ BOOLEAN clientSupportsETxBF(
 /*
 	clientSupportsETxBF - returns true if client supports compatible Sounding
 */
-BOOLEAN clientSupportsVHTETxBF(
+bool clientSupportsVHTETxBF(
 	IN	struct rtmp_adapter * pAd,
 	IN	VHT_CAP_INFO    *pTxBFCap)
 {
@@ -316,7 +316,7 @@ VOID txSndgSameMcs(
 	u8 *	pTable;
 	UCHAR 		TableSize = 0;
 	UCHAR		InitTxRateIdx, i, step;
-	BOOLEAN		bWriteEnable;
+	bool		bWriteEnable;
 	UCHAR		SndgType = SNDG_TYPE_SOUNDING;
 
 	if (pEntry->eTxBfEnCond == 0)
@@ -505,7 +505,7 @@ UINT convertSnrToThroughput(
 	INT snr[] = {snr0, snr1, snr2};
 	INT snrSum, tpTemp, bestTp=0;
 	SHORT thrdTemp;
-	BOOLEAN isMcsValid[24];
+	bool isMcsValid[24];
 	UCHAR	rateIdx[24], step, tableSize;
 	UCHAR mcs;
 
@@ -855,7 +855,7 @@ void eTxBfProbeTimerExec(
 }
 
 /* MlmeTxBfAllowed - returns true if ETxBF or ITxBF is supported and pTxRate is a valid BF mode */
-BOOLEAN MlmeTxBfAllowed(
+bool MlmeTxBfAllowed(
 	IN struct rtmp_adapter *pAd,
 	IN MAC_TABLE_ENTRY *pEntry,
 	IN RTMP_RA_LEGACY_TB *pTxRate)

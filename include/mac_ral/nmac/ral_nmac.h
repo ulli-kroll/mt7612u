@@ -815,9 +815,9 @@ typedef	union _BT_FUN_INFO_STRUC	{
 // TODO: shiang, this data structure is not defined for register. may can move to other place
 typedef struct _WLAN_BT_COEX_SETTING
 {
-	BOOLEAN					ampduOff;
-	BOOLEAN					coexSettingRunning;
-	BOOLEAN					RateSelectionForceToUseRSSI;
+	bool					ampduOff;
+	bool					coexSettingRunning;
+	bool					RateSelectionForceToUseRSSI;
 	UCHAR					TxQualityFlag;
 	ULONG					alc;
 	ULONG					slna;
@@ -1120,14 +1120,14 @@ INT rlt_get_rxwi_rssi(union _RXWI_STRUC *rxwi, INT size, CHAR *rssi);
 INT rlt_get_rxwi_snr(struct rtmp_adapter *pAd, union _RXWI_STRUC *rxwi, INT size, UCHAR *snr);
 VOID rlt_asic_init_txrx_ring(struct rtmp_adapter *pAd);
 
-INT rlt_wlan_chip_onoff(struct rtmp_adapter *pAd, BOOLEAN bOn, BOOLEAN bResetWLAN);
+INT rlt_wlan_chip_onoff(struct rtmp_adapter *pAd, bool bOn, bool bResetWLAN);
 
 #ifdef RTMP_MAC_USB
 VOID rlt_usb_write_txinfo(
 	IN struct rtmp_adapter *pAd,
 	IN union _TXINFO_STRUC *pTxInfo,
 	IN USHORT USBDMApktLen,
-	IN BOOLEAN bWiv,
+	IN bool bWiv,
 	IN UCHAR QueueSel,
 	IN UCHAR NextValid,
 	IN UCHAR TxBurst);

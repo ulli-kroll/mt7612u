@@ -1305,7 +1305,7 @@ VOID LinkUp(struct rtmp_adapter *pAd, UCHAR BssType)
 {
 	ULONG Now;
 	uint32_t Data;
-	BOOLEAN Cancelled;
+	bool Cancelled;
 	UCHAR idx = 0;
 	MAC_TABLE_ENTRY *pEntry = NULL;
 	uint32_t pbf_reg = 0, pbf_val, burst_txop;
@@ -1944,7 +1944,7 @@ VOID LinkUp(struct rtmp_adapter *pAd, UCHAR BssType)
 */
 VOID LinkDown(
 	IN struct rtmp_adapter *pAd,
-	IN BOOLEAN IsReqFromAP)
+	IN bool IsReqFromAP)
 {
 	UCHAR i;
 	struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
@@ -2479,7 +2479,7 @@ ULONG MakeIbssBeacon(
 	ULONG FrameLen = 0;
 	TXWI_STRUC *pTxWI = &pAd->BeaconTxWI;
 	UCHAR *pBeaconFrame = pAd->BeaconBuf;
-	BOOLEAN Privacy;
+	bool Privacy;
 	UCHAR SupRate[MAX_LEN_OF_SUPPORTED_RATES];
 	UCHAR SupRateLen = 0;
 	UCHAR ExtRate[MAX_LEN_OF_SUPPORTED_RATES];
@@ -2722,7 +2722,7 @@ VOID MaintainBssTable(
 {
 	UCHAR	i, j;
 	UCHAR	total_bssNr = Tab->BssNr;
-	BOOLEAN	bDelEntry = FALSE;
+	bool	bDelEntry = FALSE;
 	ULONG	now_time = 0;
 
 	for (i = 0; i < total_bssNr; i++)
@@ -2783,7 +2783,7 @@ VOID AdjustChannelRelatedValue(
 	IN struct rtmp_adapter *pAd,
 	OUT UCHAR *pBwFallBack,
 	IN USHORT ifIndex,
-	IN BOOLEAN BandWidth,
+	IN bool BandWidth,
 	IN UCHAR PriCh,
 	IN UCHAR ExtraCh)
 {

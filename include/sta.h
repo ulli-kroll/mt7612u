@@ -30,7 +30,7 @@
 #define __STA_H__
 
 
-BOOLEAN RTMPCheckChannel(
+bool RTMPCheckChannel(
 	IN struct rtmp_adapter *pAd,
 	IN UCHAR		CentralChannel,
 	IN UCHAR		Channel);
@@ -42,7 +42,7 @@ VOID AdjustChannelRelatedValue(
 	IN struct rtmp_adapter *pAd,
 	OUT UCHAR *pBwFallBack,
 	IN USHORT ifIndex,
-	IN BOOLEAN BandWidth,
+	IN bool BandWidth,
 	IN UCHAR PriCh,
 	IN UCHAR ExtraCh);
 

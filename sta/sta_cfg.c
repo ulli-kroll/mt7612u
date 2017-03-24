@@ -59,7 +59,7 @@ INT	Set_DyncVgaEnable_Proc(
 INT Set_SSID_Proc(struct rtmp_adapter *pAd, char *arg)
 {
     NDIS_802_11_SSID Ssid, *pSsid=NULL;
-    BOOLEAN StateMachineTouched = FALSE;
+    bool StateMachineTouched = FALSE;
     int success = TRUE;
 
 
@@ -158,7 +158,7 @@ INT	Set_WmmCapable_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg)
 {
-	BOOLEAN	bWmmCapable;
+	bool	bWmmCapable;
 
 	bWmmCapable = simple_strtol(arg, 0, 10);
 
@@ -212,7 +212,7 @@ INT Set_NetworkType_Proc(
             }
 			if (INFRA_ON(pAd))
 			{
-				/*BOOLEAN Cancelled; */
+				/*bool Cancelled; */
 				/* Set the AutoReconnectSsid to prevent it reconnect to old SSID */
 				/* Since calling this indicate user don't want to connect to that SSID anymore. */
 				pAd->MlmeAux.AutoReconnectSsidLen= 32;
@@ -1464,7 +1464,7 @@ INT Set_WOW_Enable(
 	if (Value != 1)
 		Value = 0;  /* default is disable */
 
-	pAd->WOW_Cfg.bEnable = (BOOLEAN)Value;
+	pAd->WOW_Cfg.bEnable = (bool)Value;
 
 	/* pull GPIO high */
 	Val = mt7612u_read32(pAd, GPIO_CTRL_CFG);
@@ -2846,7 +2846,7 @@ void fnSetCipherKey(
     IN  struct rtmp_adapter *  pAd,
     IN  INT             keyIdx,
     IN  UCHAR           CipherAlg,
-    IN  BOOLEAN         bGTK,
+    IN  bool         bGTK,
     IN  UCHAR			*pKey)
 {
     memset(&pAd->SharedKey[BSS0][keyIdx], 0, sizeof(CIPHER_KEY));

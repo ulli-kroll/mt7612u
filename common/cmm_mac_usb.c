@@ -703,7 +703,7 @@ VOID RT28xx_UpdateBeaconToAsic(struct rtmp_adapter *pAd,
 	UCHAR *ptr;
 	UINT i, padding;
 	BEACON_SYNC_STRUCT *pBeaconSync = pAd->CommonCfg.pBeaconSync;
-	BOOLEAN bBcnReq = FALSE;
+	bool bBcnReq = FALSE;
 	UCHAR bcn_idx = 0;
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
 
@@ -811,7 +811,7 @@ VOID RTUSBBssBeaconStop(struct rtmp_adapter *pAd)
 {
 	BEACON_SYNC_STRUCT	*pBeaconSync;
 	int i, offset;
-	BOOLEAN	Cancelled = TRUE;
+	bool	Cancelled = TRUE;
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
 
 	pBeaconSync = pAd->CommonCfg.pBeaconSync;
@@ -948,7 +948,7 @@ error1:
 VOID RTUSBBssBeaconExit(struct rtmp_adapter *pAd)
 {
 	BEACON_SYNC_STRUCT	*pBeaconSync;
-	BOOLEAN	Cancelled = TRUE;
+	bool	Cancelled = TRUE;
 	int i;
 
 	if (pAd->CommonCfg.pBeaconSync) {
@@ -994,7 +994,7 @@ VOID BeaconUpdateExec(PVOID SystemSpecific1, PVOID FunctionContext,
 	struct rtmp_adapter *pAd = (struct rtmp_adapter *)FunctionContext;
 	LARGE_INTEGER	tsfTime_a;		/*, tsfTime_b, deltaTime_exp, deltaTime_ab;*/
 	uint32_t	delta, delta2MS, period2US, remain, remain_low, remain_high;
-/*	BOOLEAN			positive;*/
+/*	bool			positive;*/
 
 	if (pAd->CommonCfg.IsUpdateBeacon == TRUE) {
 		ReSyncBeaconTime(pAd);
@@ -1191,7 +1191,7 @@ VOID RT28xxUsbMlmeRadioOFF(struct rtmp_adapter *pAd)
 	ASIC_RADIO_OFF(pAd, MLME_RADIO_OFF);
 }
 
-BOOLEAN AsicCheckCommandOk(
+bool AsicCheckCommandOk(
 	IN struct rtmp_adapter *pAd,
 	IN UCHAR		 Command)
 {

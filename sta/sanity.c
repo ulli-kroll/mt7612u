@@ -44,7 +44,7 @@ extern UCHAR BROADCOM_OUI[];
         TRUE if all parameters are OK, FALSE otherwise
     ==========================================================================
  */
-BOOLEAN MlmeStartReqSanity(
+bool MlmeStartReqSanity(
 	IN struct rtmp_adapter *pAd,
 	IN VOID *Msg,
 	IN ULONG MsgLen,
@@ -78,7 +78,7 @@ BOOLEAN MlmeStartReqSanity(
 
     ==========================================================================
  */
-BOOLEAN PeerAssocRspSanity(
+bool PeerAssocRspSanity(
 	IN struct rtmp_adapter *pAd,
 	IN VOID *pMsg,
 	IN ULONG MsgLen,
@@ -280,7 +280,7 @@ BOOLEAN PeerAssocRspSanity(
 
     ==========================================================================
  */
-BOOLEAN GetTimBit(
+bool GetTimBit(
 	IN CHAR *Ptr,
 	IN USHORT Aid,
 	OUT UCHAR *TimLen,

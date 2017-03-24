@@ -48,9 +48,9 @@ extern UCHAR    WPS_OUI[];
     ==========================================================================
  */
 
-BOOLEAN PeerAssocReqCmmSanity(
+bool PeerAssocReqCmmSanity(
 	struct rtmp_adapter *pAd,
-	BOOLEAN isReassoc,
+	bool isReassoc,
 	VOID *Msg,
 	INT MsgLen,
 	IE_LISTS *ie_lists)
@@ -359,7 +359,7 @@ BOOLEAN PeerAssocReqCmmSanity(
         TRUE if all parameters are OK, FALSE otherwise
     ==========================================================================
  */
-BOOLEAN PeerDisassocReqSanity(
+bool PeerDisassocReqSanity(
     IN struct rtmp_adapter *pAd,
     IN VOID *Msg,
     IN ULONG MsgLen,
@@ -385,7 +385,7 @@ BOOLEAN PeerDisassocReqSanity(
         TRUE if all parameters are OK, FALSE otherwise
     ==========================================================================
  */
-BOOLEAN PeerDeauthReqSanity(
+bool PeerDeauthReqSanity(
     IN struct rtmp_adapter *pAd,
     IN VOID *Msg,
     IN ULONG MsgLen,
@@ -411,7 +411,7 @@ BOOLEAN PeerDeauthReqSanity(
         TRUE if all parameters are OK, FALSE otherwise
     ==========================================================================
  */
-BOOLEAN APPeerAuthSanity(
+bool APPeerAuthSanity(
     IN struct rtmp_adapter *pAd,
     IN VOID *Msg,
     IN ULONG MsgLen,

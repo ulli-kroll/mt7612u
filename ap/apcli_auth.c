@@ -73,7 +73,7 @@ static VOID ApCliMlmeAuthReqAction(
 	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
-	BOOLEAN             Cancelled;
+	bool             Cancelled;
 	int         NState;
 	UCHAR               Addr[MAC_ADDR_LEN];
 	USHORT              Alg, Seq, Status;
@@ -153,7 +153,7 @@ static VOID ApCliMlmeAuthReqAction(
  */
 static VOID ApCliPeerAuthRspAtSeq2Action(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM * Elem)
 {
-	BOOLEAN         Cancelled;
+	bool         Cancelled;
 	UCHAR           Addr2[MAC_ADDR_LEN];
 	USHORT          Seq, Status, Alg;
 	USHORT          RemoteStatus;
@@ -314,7 +314,7 @@ LabelOK:
  */
 static VOID ApCliPeerAuthRspAtSeq4Action(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
-	BOOLEAN     Cancelled;
+	bool     Cancelled;
 	UCHAR       Addr2[MAC_ADDR_LEN];
 	USHORT      Alg, Seq, Status;
 	CHAR        ChlgText[CIPHER_TEXT_LEN];

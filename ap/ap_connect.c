@@ -39,9 +39,9 @@ UCHAR PowerConstraintIE[3] = {IE_POWER_CONSTRAINT, 1, 3};
 		0: mean need to send Beacon for the service.
 	==========================================================================
 */
-BOOLEAN BeaconTransmitRequired(struct rtmp_adapter *pAd, INT apidx, MULTISSID_STRUCT *pMbss)
+bool BeaconTransmitRequired(struct rtmp_adapter *pAd, INT apidx, MULTISSID_STRUCT *pMbss)
 {
-	BOOLEAN result = FALSE;
+	bool result = FALSE;
 
 	do
 	{
@@ -313,7 +313,7 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 	MULTISSID_STRUCT *pMbss;
 	COMMON_CONFIG *pComCfg;
 	UCHAR PhyMode;
-	BOOLEAN bHasWpsIE = FALSE;
+	bool bHasWpsIE = FALSE;
 	UINT  i;
 	HTTRANSMIT_SETTING	BeaconTransmit = {.word = 0};   /* MGMT frame PHY rate setting when operatin at Ht rate. */
 	struct rtmp_wifi_dev *wdev;
@@ -620,7 +620,7 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 		ULONG TmpLen, infoPos;
 		u8 *pInfo;
 		UCHAR extInfoLen;
-		BOOLEAN	bNeedAppendExtIE = FALSE;
+		bool	bNeedAppendExtIE = FALSE;
 		EXT_CAP_INFO_ELEMENT	extCapInfo;
 
 
@@ -1052,7 +1052,7 @@ VOID APMakeAllBssBeacon(struct rtmp_adapter *pAd)
 VOID APUpdateAllBeaconFrame(struct rtmp_adapter *pAd)
 {
 	INT		i;
-	BOOLEAN FlgQloadIsAlarmIssued = FALSE;
+	bool FlgQloadIsAlarmIssued = FALSE;
 
 	if (pAd->ApCfg.DtimCount == 0)
 		pAd->ApCfg.DtimCount = pAd->ApCfg.DtimPeriod - 1;

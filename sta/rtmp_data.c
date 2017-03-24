@@ -205,7 +205,7 @@ VOID STARxDataFrameAnnounce(
 
 
 /* For TKIP frame, calculate the MIC value	*/
-BOOLEAN STACheckTkipMICValue(
+bool STACheckTkipMICValue(
 	IN struct rtmp_adapter *pAd,
 	IN MAC_TABLE_ENTRY *pEntry,
 	IN RX_BLK * pRxBlk)
@@ -269,7 +269,7 @@ VOID STAHandleRxDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 	RXWI_STRUC *pRxWI = pRxBlk->pRxWI;
 	HEADER_802_11 *pHeader = pRxBlk->pHeader;
 	struct sk_buff *pRxPacket = pRxBlk->pRxPacket;
-	BOOLEAN bFragment = FALSE;
+	bool bFragment = FALSE;
 	MAC_TABLE_ENTRY *pEntry = NULL;
 	UCHAR FromWhichBSSID = BSS0;
 	UCHAR UserPriority = 0;
@@ -823,7 +823,7 @@ INT STASendPacket(struct rtmp_adapter *pAd, struct sk_buff *pPacket)
 	RTMP_SET_PACKET_FRAGMENTS(pPacket, NumberOfFrag);
 
 {
-	BOOLEAN RTSRequired;
+	bool RTSRequired;
 
 	/*
 		STEP 2. Check the requirement of RTS; decide packet TX rate
@@ -945,7 +945,7 @@ int RTMPFreeTXDRequest(
 VOID RTMPSendNullFrame(
 	IN struct rtmp_adapter *pAd,
 	IN UCHAR TxRate,
-	IN BOOLEAN bQosNull,
+	IN bool bQosNull,
 	IN USHORT PwrMgmt)
 {
 	UCHAR NullFrame[48];
@@ -980,7 +980,7 @@ VOID RTMPSendNullFrame(
 	if (pAd->CommonCfg.bAPSDForcePowerSave) {
 		pHeader_802_11->FC.PwrMgmt = PWR_SAVE;
 	} else {
-		BOOLEAN FlgCanPmBitSet = TRUE;
+		bool FlgCanPmBitSet = TRUE;
 
 
 		if (FlgCanPmBitSet == TRUE)
@@ -1323,9 +1323,9 @@ VOID STA_AMPDU_Frame_Tx(
 	u8 *pHeaderBufPtr;
 	USHORT FreeNumber = 0;
 	MAC_TABLE_ENTRY *pMacEntry;
-	BOOLEAN bVLANPkt;
+	bool bVLANPkt;
 	PQUEUE_ENTRY pQEntry;
-	BOOLEAN			bHTCPlus;
+	bool			bHTCPlus;
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
 
 
@@ -1661,7 +1661,7 @@ VOID STA_AMSDU_Frame_Tx(
 	UCHAR *subFrameHeader;
 	UCHAR padding = 0;
 	USHORT FirstTx = 0, LastTxIdx = 0;
-	BOOLEAN bVLANPkt;
+	bool bVLANPkt;
 	int frameNum = 0;
 	PQUEUE_ENTRY pQEntry;
 
@@ -1785,7 +1785,7 @@ VOID STA_Legacy_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 	HEADER_802_11 *wifi_hdr;
 	UCHAR *pHeaderBufPtr;
 	USHORT FreeNumber = 0;
-	BOOLEAN bVLANPkt;
+	bool bVLANPkt;
 	PQUEUE_ENTRY pQEntry;
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
 
@@ -1957,7 +1957,7 @@ VOID STA_ARalink_Frame_Tx(
 	USHORT totalMPDUSize = 0;
 	USHORT FirstTx, LastTxIdx;
 	int frameNum = 0;
-	BOOLEAN bVLANPkt;
+	bool bVLANPkt;
 	PQUEUE_ENTRY pQEntry;
 
 	ASSERT(pTxBlk);
@@ -2084,7 +2084,7 @@ VOID STA_Fragment_Frame_Tx(
 	uint32_t FreeMpduSize, SrcRemainingBytes;
 	USHORT AckDuration;
 	UINT NextMpduSize;
-	BOOLEAN bVLANPkt;
+	bool bVLANPkt;
 	PQUEUE_ENTRY pQEntry;
 	HTTRANSMIT_SETTING *pTransmit;
 #ifdef SOFT_ENCRYPT

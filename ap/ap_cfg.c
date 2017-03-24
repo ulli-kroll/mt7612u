@@ -1004,7 +1004,7 @@ INT	Set_AP_WmmCapable_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg)
 {
-	BOOLEAN	bWmmCapable;
+	bool	bWmmCapable;
 	struct os_cookie *pObj= pAd->OS_Cookie;
 
 	bWmmCapable = simple_strtol(arg, 0, 10);
@@ -1157,7 +1157,7 @@ INT	Set_HideSSID_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg)
 {
-	BOOLEAN bHideSsid;
+	bool bHideSsid;
 	struct os_cookie *pObj = pAd->OS_Cookie;
 
 	bHideSsid = simple_strtol(arg, 0, 10);
@@ -1237,7 +1237,7 @@ INT	Set_VLANPriority_Proc(struct rtmp_adapter *pAd, char *arg)
 */
 INT	Set_VLAN_TAG_Proc(struct rtmp_adapter *pAd, char *arg)
 {
-	BOOLEAN	bVLAN_Tag;
+	bool	bVLAN_Tag;
 	struct os_cookie *pObj = pAd->OS_Cookie;
 	struct rtmp_wifi_dev *wdev;
 
@@ -2017,7 +2017,7 @@ INT	Set_ACLAddEntry_Proc(
 	char *				this_char;
 	char *				value;
 	INT						i, j;
-	BOOLEAN					isDuplicate=FALSE;
+	bool					isDuplicate=FALSE;
 	struct os_cookie *pObj = pAd->OS_Cookie;
 
 	if (pAd->ApCfg.MBSSID[pObj->ioctl_if].AccessControlList.Num >= (MAX_NUM_OF_ACL_LIST - 1))
@@ -2138,7 +2138,7 @@ INT	Set_ACLDelEntry_Proc(
 	char *				this_char;
 	char *				value;
 	INT						i, j;
-	BOOLEAN					isFound=FALSE;
+	bool					isFound=FALSE;
 	struct os_cookie *pObj = pAd->OS_Cookie;
 
 	memset(&acl, 0, sizeof(RT_802_11_ACL));
@@ -2256,7 +2256,7 @@ INT	Set_ACLShowAll_Proc(
 	IN	char *		arg)
 {
 	RT_802_11_ACL			acl;
-	BOOLEAN					bDumpAll=FALSE;
+	bool					bDumpAll=FALSE;
 	struct os_cookie *pObj = pAd->OS_Cookie;
 	INT						i, j;
 
@@ -2324,7 +2324,7 @@ INT	Set_ACLClearAll_Proc(
 {
 /*	RT_802_11_ACL			acl; */
 	RT_802_11_ACL			*pacl = NULL;
-	BOOLEAN					bClearAll=FALSE;
+	bool					bClearAll=FALSE;
 	struct os_cookie *pObj = pAd->OS_Cookie;
 
 	bClearAll = simple_strtol(arg, 0, 10);
@@ -3851,7 +3851,7 @@ INT Set_ApCli_Ssid_Proc(struct rtmp_adapter *pAd, char *arg)
 {
 	struct os_cookie *pObj;
 	UCHAR ifIndex;
-	BOOLEAN apcliEn;
+	bool apcliEn;
 	INT success = FALSE;
 	/*UCHAR keyMaterial[40]; */
 	UCHAR PskKey[100];
@@ -3923,7 +3923,7 @@ INT Set_ApCli_Bssid_Proc(
 	INT i;
 	char *value;
 	UCHAR ifIndex;
-	BOOLEAN apcliEn;
+	bool apcliEn;
 	struct os_cookie *pObj;
 
 	pObj = pAd->OS_Cookie;

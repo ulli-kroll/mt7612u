@@ -226,7 +226,7 @@ VOID TriggerQuickInitMCSRate(
     IN struct _MAC_TABLE_ENTRY	*pEntry,
     IN uint32_t CheckInterval);
 
-BOOLEAN QuickInitMCSRate(
+bool QuickInitMCSRate(
     IN struct rtmp_adapter *pAd,
     IN struct _MAC_TABLE_ENTRY	*pEntry);
 
@@ -255,7 +255,7 @@ UCHAR MlmeSelectTxRateAdapt(
 	IN CHAR		Rssi,
 	IN CHAR		RssiOffset);
 
-BOOLEAN MlmeRAHybridRule(
+bool MlmeRAHybridRule(
 	IN struct rtmp_adapter *pAd,
 	IN struct _MAC_TABLE_ENTRY *pEntry,
 	IN RTMP_RA_GRP_TB *pCurrTxRate,

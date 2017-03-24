@@ -592,7 +592,7 @@ ULONG BuildIntolerantChannelRep(struct rtmp_adapter *pAd, UCHAR *pDest)
 VOID Update2040CoexistFrameAndNotify(
 	IN	struct rtmp_adapter *pAd,
 	IN    UCHAR  Wcid,
-	IN	BOOLEAN	bAddIntolerantCha)
+	IN	bool	bAddIntolerantCha)
 {
 	BSS_2040_COEXIST_IE		OldValue;
 
@@ -623,7 +623,7 @@ Description : Send 20/40 BSS Coexistence Action frame If one trigger event is tr
 VOID Send2040CoexistAction(
 	IN struct rtmp_adapter *pAd,
 	IN UCHAR Wcid,
-	IN BOOLEAN bAddIntolerantCha)
+	IN bool bAddIntolerantCha)
 {
 	UCHAR *pOutBuffer = NULL;
 	int NStatus;
@@ -685,7 +685,7 @@ VOID Send2040CoexistAction(
 #endif /* defined(CONFIG_STA_SUPPORT) || defined(APCLI_SUPPORT) */
 
 
-BOOLEAN ChannelSwitchSanityCheck(
+bool ChannelSwitchSanityCheck(
 	IN	struct rtmp_adapter *pAd,
 	IN    UCHAR  Wcid,
 	IN    UCHAR  NewChannel,
@@ -825,7 +825,7 @@ VOID PeerPublicAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 					{
 #endif /* APCLI_CERT_SUPPORT */
 #endif /* APCLI_SUPPORT */
-					BOOLEAN		bNeedFallBack = FALSE;
+					bool		bNeedFallBack = FALSE;
 
 					/*ApPublicAction(pAd, Elem);*/
 					if ((pBssCoexistIe->field.BSS20WidthReq ==1) || (pBssCoexistIe->field.Intolerant40 == 1))

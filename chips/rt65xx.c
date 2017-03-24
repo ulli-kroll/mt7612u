@@ -162,8 +162,8 @@ VOID RT65xxDisableTxRx(struct rtmp_adapter *pAd, UCHAR Level)
 {
 	uint32_t MacReg = 0;
 	uint32_t MTxCycle;
-	BOOLEAN bResetWLAN = FALSE;
-	BOOLEAN bFree = TRUE;
+	bool bResetWLAN = FALSE;
+	bool bFree = TRUE;
 	UINT8 CheckFreeTimes = 0;
 
 	if (!IS_RT65XX(pAd))
@@ -185,7 +185,7 @@ VOID RT65xxDisableTxRx(struct rtmp_adapter *pAd, UCHAR Level)
 		Check page count in TxQ,
 	*/
 	for (MTxCycle = 0; MTxCycle < 2000; MTxCycle++) {
-		BOOLEAN bFree = TRUE;
+		bool bFree = TRUE;
 		MacReg = mt7612u_read32(pAd, 0x438);
 		if (MacReg != 0)
 			bFree = FALSE;

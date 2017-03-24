@@ -265,7 +265,7 @@ INT CFG80211DRV_IoctlHandle(
 				case CMD_RTPRIV_IOCTL_80211_RFKILL:
 				{
 					uint32_t data = 0;
-					BOOLEAN active;
+					bool active;
 
 					/* Read GPIO pin2 as Hardware controlled radio state */
 					mt7612u_read32(pAd, GPIO_CTRL_CFG, &data);
@@ -292,7 +292,7 @@ INT CFG80211DRV_IoctlHandle(
 VOID CFG80211DRV_OpsMgmtFrameProbeRegister(
         struct rtmp_adapter                             *pAd,
         VOID                                            *pData,
-		BOOLEAN                                          isReg)
+		bool                                          isReg)
 {
 	PCFG80211_CTRL pCfg80211_ctrl = &pAd->cfg80211_ctrl;
 
@@ -354,7 +354,7 @@ VOID CFG80211DRV_OpsMgmtFrameProbeRegister(
 VOID CFG80211DRV_OpsMgmtFrameActionRegister(
         struct rtmp_adapter                              *pAd,
         VOID                                            *pData,
-		BOOLEAN                                          isReg)
+		bool                                          isReg)
 {
 	PCFG80211_CTRL pCfg80211_ctrl = &pAd->cfg80211_ctrl;
 
@@ -421,7 +421,7 @@ VOID CFG80211DRV_OpsChangeBssParm(
         VOID                                            *pData)
 {
 	CMD_RTPRIV_IOCTL_80211_BSS_PARM *pBssInfo;
-	BOOLEAN TxPreamble;
+	bool TxPreamble;
 
 	CFG80211DBG(RT_DEBUG_TRACE, ("%s\n", __FUNCTION__));
 
@@ -449,12 +449,12 @@ VOID CFG80211DRV_OpsChangeBssParm(
 	}
 }
 
-BOOLEAN CFG80211DRV_OpsSetChannel(struct rtmp_adapter *pAd, VOID *pData)
+bool CFG80211DRV_OpsSetChannel(struct rtmp_adapter *pAd, VOID *pData)
 {
 	CMD_RTPRIV_IOCTL_80211_CHAN *pChan;
 	UINT8 ChanId, IfType, ChannelType;
 	UCHAR lock_channel;
-	BOOLEAN FlgIsChanged;
+	bool FlgIsChanged;
 
 /*
  *  enum nl80211_channel_type {
@@ -584,7 +584,7 @@ BOOLEAN CFG80211DRV_OpsSetChannel(struct rtmp_adapter *pAd, VOID *pData)
 	return TRUE;
 }
 
-BOOLEAN CFG80211DRV_OpsJoinIbss(
+bool CFG80211DRV_OpsJoinIbss(
 	struct rtmp_adapter				*pAd,
 	VOID						*pData)
 {
@@ -601,7 +601,7 @@ BOOLEAN CFG80211DRV_OpsJoinIbss(
 	return TRUE;
 }
 
-BOOLEAN CFG80211DRV_OpsLeave(
+bool CFG80211DRV_OpsLeave(
 	struct rtmp_adapter				*pAd,
 	UINT8						IfType)
 {
@@ -644,7 +644,7 @@ BOOLEAN CFG80211DRV_OpsLeave(
 }
 
 
-BOOLEAN CFG80211DRV_StaGet(
+bool CFG80211DRV_StaGet(
 	struct rtmp_adapter				*pAd,
 	VOID						*pData)
 {
@@ -753,7 +753,7 @@ BOOLEAN CFG80211DRV_StaGet(
 	return TRUE;
 }
 
-BOOLEAN CFG80211DRV_StaKeyAdd(
+bool CFG80211DRV_StaKeyAdd(
 	struct rtmp_adapter				*pAd,
 	VOID						*pData)
 {
@@ -835,7 +835,7 @@ BOOLEAN CFG80211DRV_StaKeyAdd(
 	return TRUE;
 }
 
-BOOLEAN CFG80211DRV_Connect(
+bool CFG80211DRV_Connect(
 	struct rtmp_adapter				*pAd,
 	VOID						*pData)
 {
@@ -1262,7 +1262,7 @@ VOID CFG80211_RegRuleApply(
 	VOID *pBand24G, *pBand5G;
 	uint32_t IdBand, IdChan, IdPwr;
 	uint32_t ChanNum, ChanId, Power, RecId, DfsType;
-	BOOLEAN FlgIsRadar;
+	bool FlgIsRadar;
 	ULONG IrqFlags;
 
 
@@ -1448,7 +1448,7 @@ Note:
 	need to re-init bands in xx_open().
 ========================================================================
 */
-BOOLEAN CFG80211_SupBandReInit(
+bool CFG80211_SupBandReInit(
 	IN struct rtmp_adapter				*pAd)
 {
 	CFG80211_BAND BandInfo;
@@ -1517,7 +1517,7 @@ initList(&pAd->Cfg80211VifDevSet.vifDevList);
 initList(&pAd->cfg80211_ctrl.cfg80211TxPacketList);
 */
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
-BOOLEAN CFG80211_checkScanResInKernelCache(
+bool CFG80211_checkScanResInKernelCache(
     IN struct rtmp_adapter                                       *pAd,
     IN UCHAR                                        *pBSSID,
 	IN UCHAR					*pSsid,
@@ -1539,7 +1539,7 @@ BOOLEAN CFG80211_checkScanResInKernelCache(
 	return FALSE;
 }
 
-BOOLEAN CFG80211_checkScanTable(
+bool CFG80211_checkScanTable(
         IN struct rtmp_adapter                               *pAd)
 {
 	CFG80211_CB *pCfg80211_CB  = (CFG80211_CB *)pAd->pCfg80211_CB;
@@ -1551,7 +1551,7 @@ BOOLEAN CFG80211_checkScanTable(
 	uint64_t timestamp;
 	struct timeval tv;
 	UCHAR *ie, ieLen = 0;
-	BOOLEAN isOk = FALSE;
+	bool isOk = FALSE;
 	BSS_ENTRY *pBssEntry;
 
 	USHORT ifIndex = 0;

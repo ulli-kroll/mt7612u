@@ -418,7 +418,7 @@ VOID	RTMPInitMICEngine(
 
 	========================================================================
 */
-BOOLEAN	RTMPTkipCompareMICValue(
+bool	RTMPTkipCompareMICValue(
 	IN	struct rtmp_adapter *pAd,
 	IN	u8 *		pSrc,
 	IN	u8 *		pDA,
@@ -701,7 +701,7 @@ VOID RTMPTkipMixKey(
 	TRUE: Success!
 	FALSE: Decrypt Error!
 */
-BOOLEAN RTMPSoftDecryptTKIP(
+bool RTMPSoftDecryptTKIP(
 	IN 		struct rtmp_adapter *	pAd,
 	IN 		u8 *		pHdr,
 	IN 		UCHAR    		UserPriority,

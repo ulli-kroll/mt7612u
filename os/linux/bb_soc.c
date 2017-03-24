@@ -76,7 +76,7 @@ VOID PollingModeIsr(struct work_struct *work)
 
 
 VOID BBUPollingModeClose(IN struct rtmp_adapter *pAd){
-	BOOLEAN 		Cancelled;
+	bool 		Cancelled;
 
 	pAd->Pollingmode.PollingModeDetectRunning = FALSE;
 	RTMPCancelTimer(&pAd->Pollingmode.PollingModeDetect, &Cancelled);

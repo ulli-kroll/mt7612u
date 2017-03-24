@@ -104,7 +104,7 @@ MAC_TABLE_ENTRY *MacTableLookup(struct rtmp_adapter *pAd, UCHAR *pAddr)
 
 
 #ifdef CONFIG_STA_SUPPORT
-BOOLEAN StaUpdateMacTableEntry(
+bool StaUpdateMacTableEntry(
 	IN struct rtmp_adapter *pAd,
 	IN MAC_TABLE_ENTRY *pEntry,
 	IN UCHAR MaxSupportedRateIn500Kbps,
@@ -116,8 +116,8 @@ BOOLEAN StaUpdateMacTableEntry(
 	IN USHORT cap_info)
 {
 	UCHAR MaxSupportedRate = RATE_11;
-	BOOLEAN bSupportN = FALSE;
-	BOOLEAN supportsETxBf = FALSE;
+	bool bSupportN = FALSE;
+	bool supportsETxBf = FALSE;
 	struct rtmp_wifi_dev *wdev;
 
 	if (!pEntry)
@@ -348,12 +348,12 @@ MAC_TABLE_ENTRY *MacTableInsertEntry(
 	IN struct rtmp_wifi_dev *wdev,
 	IN UCHAR apidx,
 	IN UCHAR OpMode,
-	IN BOOLEAN CleanAll)
+	IN bool CleanAll)
 {
 	UCHAR HashIdx;
 	int i, FirstWcid;
 	MAC_TABLE_ENTRY *pEntry = NULL, *pCurrEntry;
-	BOOLEAN Cancelled;
+	bool Cancelled;
 
 	if (pAd->MacTab.Size >= MAX_LEN_OF_MAC_TABLE)
 		return NULL;
@@ -702,11 +702,11 @@ MAC_TABLE_ENTRY *MacTableInsertEntry(
 		Delete a specified client from MAC table
 	==========================================================================
  */
-BOOLEAN MacTableDeleteEntry(struct rtmp_adapter *pAd, USHORT wcid, UCHAR *pAddr)
+bool MacTableDeleteEntry(struct rtmp_adapter *pAd, USHORT wcid, UCHAR *pAddr)
 {
 	USHORT HashIdx;
 	MAC_TABLE_ENTRY *pEntry, *pPrevEntry, *pProbeEntry;
-	BOOLEAN Cancelled;
+	bool Cancelled;
 
 	if (wcid >= MAX_LEN_OF_MAC_TABLE)
 		return FALSE;
@@ -900,7 +900,7 @@ BOOLEAN MacTableDeleteEntry(struct rtmp_adapter *pAd, USHORT wcid, UCHAR *pAddr)
 VOID MacTableReset(struct rtmp_adapter *pAd)
 {
 	int i;
-	BOOLEAN Cancelled;
+	bool Cancelled;
 #ifdef CONFIG_AP_SUPPORT
 	UCHAR *pOutBuffer = NULL;
 	int NStatus;

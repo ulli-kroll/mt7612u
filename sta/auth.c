@@ -96,7 +96,7 @@ VOID PeerAuthRspAtSeq2Action(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM * Elem)
 	UCHAR *CyperChlgText = NULL;
 	ULONG c_len = 0;
 	HEADER_802_11 AuthHdr;
-	BOOLEAN TimerCancelled;
+	bool TimerCancelled;
 	u8 *pOutBuffer = NULL;
 	int NStatus;
 	ULONG FrameLen = 0;
@@ -253,7 +253,7 @@ VOID PeerAuthRspAtSeq4Action(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 	USHORT Alg, Seq, Status;
 /*    CHAR          ChlgText[CIPHER_TEXT_LEN]; */
 	CHAR *ChlgText = NULL;
-	BOOLEAN TimerCancelled;
+	bool TimerCancelled;
 
 	/* allocate memory */
 	ChlgText = kmalloc(CIPHER_TEXT_LEN, GFP_ATOMIC);
@@ -423,7 +423,7 @@ VOID Cls2errAction(struct rtmp_adapter *pAd, UCHAR *pAddr)
 }
 
 
-BOOLEAN AUTH_ReqSend(
+bool AUTH_ReqSend(
 	IN struct rtmp_adapter *pAd,
 	IN PMLME_QUEUE_ELEM pElem,
 	IN PRALINK_TIMER_STRUCT pAuthTimer,
@@ -436,7 +436,7 @@ BOOLEAN AUTH_ReqSend(
 	UCHAR Addr[6];
 	ULONG Timeout;
 	HEADER_802_11 AuthHdr;
-	BOOLEAN TimerCancelled;
+	bool TimerCancelled;
 	int NStatus;
 	u8 *pOutBuffer = NULL;
 	ULONG FrameLen = 0, tmp = 0;

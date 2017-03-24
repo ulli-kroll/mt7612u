@@ -466,14 +466,14 @@ static void mt76x2_tx_pwr_gain(struct rtmp_adapter *ad, u8 channel, u8 bw)
 #define EXT_CH_ABOVE 0X01
 #define EXT_CH_BELOW 0x03
 
-static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, BOOLEAN scan)
+static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan)
 {
 	RTMP_CHIP_CAP *cap = &ad->chipCap;
 	unsigned int latch_band, band, bw, tx_rx_setting;
 	uint32_t ret, i, value, value1, restore_value, loop = 0;
 	uint16_t e2p_value;
 	UCHAR bbp_ch_idx;
-	BOOLEAN band_change = FALSE;
+	bool band_change = FALSE;
 	uint32_t RegValue = 0;
 	uint32_t eLNA_gain_from_e2p = 0;
 	uint32_t mac_val = 0;
@@ -1285,7 +1285,7 @@ void mt76x2_get_external_lna_gain(struct rtmp_adapter *ad)
 		__FUNCTION__, ad->chipCap.LNA_type, ad->BLNAGain, ad->ALNAGain0, ad->ALNAGain1, ad->ALNAGain2));
 }
 
-void mt76x2_get_agc_gain(struct rtmp_adapter *ad, BOOLEAN init_phase)
+void mt76x2_get_agc_gain(struct rtmp_adapter *ad, bool init_phase)
 {
 	UCHAR val;
 	USHORT val16;
@@ -2671,7 +2671,7 @@ void mt76x2_get_current_temp(struct rtmp_adapter *ad)
 void mt76x2_read_temp_info_from_eeprom(struct rtmp_adapter *ad)
 {
 	RTMP_CHIP_CAP *pChipCap = &ad->chipCap;
-	BOOLEAN is_temp_tx_alc= FALSE;
+	bool is_temp_tx_alc= FALSE;
 	USHORT e2p_value = 0;
 
 	e2p_value = mt7612u_read_eeprom16(ad, 0x36);

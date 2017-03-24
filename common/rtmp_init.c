@@ -203,9 +203,9 @@ static UINT8 NICGetBandSupported(struct rtmp_adapter *pAd)
 }
 
 
-BOOLEAN RTMPCheckPhyMode(struct rtmp_adapter *pAd, UINT8 band_cap, UCHAR *pPhyMode)
+bool RTMPCheckPhyMode(struct rtmp_adapter *pAd, UINT8 band_cap, UCHAR *pPhyMode)
 {
-	BOOLEAN RetVal = TRUE;
+	bool RetVal = TRUE;
 
 	if (band_cap == RFIC_24GHZ)
 	{
@@ -654,7 +654,7 @@ VOID NICInitAsicFromEEPROM(struct rtmp_adapter *pAd)
 		/* Read Hardware controlled Radio state enable bit*/
 		if (NicConfig2.field.HardwareRadioControl == 1)
 		{
-			BOOLEAN radioOff = FALSE;
+			bool radioOff = FALSE;
 			pAd->StaCfg.bHardwareRadio = TRUE;
 
 			{
@@ -753,7 +753,7 @@ VOID NICInitAsicFromEEPROM(struct rtmp_adapter *pAd)
 
 	========================================================================
 */
-int NICInitializeAdapter(struct rtmp_adapter *pAd, BOOLEAN bHardReset)
+int NICInitializeAdapter(struct rtmp_adapter *pAd, bool bHardReset)
 {
 	int Status = NDIS_STATUS_SUCCESS;
 	UINT rty_cnt = 0;
@@ -810,7 +810,7 @@ retry:
 
 	========================================================================
 */
-int NICInitializeAsic(struct rtmp_adapter *pAd, BOOLEAN bHardReset)
+int NICInitializeAsic(struct rtmp_adapter *pAd, bool bHardReset)
 {
 	ULONG Index = 0;
 	uint32_t mac_val = 0;
@@ -1316,7 +1316,7 @@ VOID NICUpdateFifoStaCounters(struct rtmp_adapter *pAd)
 
 
 #ifdef FIFO_EXT_SUPPORT
-BOOLEAN NicGetMacFifoTxCnt(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
+bool NicGetMacFifoTxCnt(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 {
 	if (pEntry->wcid >= 1 && pEntry->wcid <= 8)
 	{
@@ -2571,7 +2571,7 @@ VOID RTMP_AllTimerListRelease(struct rtmp_adapter *pAd)
 {
 	LIST_HEADER *pRscList = &pAd->RscTimerCreateList;
 	LIST_RESOURCE_OBJ_ENTRY *pObj, *pObjOld;
-	BOOLEAN Cancel;
+	bool Cancel;
 
 	/* try to find old entry */
 	pObj = (LIST_RESOURCE_OBJ_ENTRY *)(pRscList->pHead);
@@ -2617,7 +2617,7 @@ VOID RTMPInitTimer(
 	IN	RALINK_TIMER_STRUCT *pTimer,
 	IN	VOID *pTimerFunc,
 	IN	VOID *pData,
-	IN	BOOLEAN	 Repeat)
+	IN	bool	 Repeat)
 {
 	RTMP_SEM_LOCK(&TimerSemLock);
 
@@ -2719,7 +2719,7 @@ VOID RTMPSetTimer(RALINK_TIMER_STRUCT *pTimer, ULONG Value)
 */
 VOID RTMPModTimer(RALINK_TIMER_STRUCT *pTimer, ULONG Value)
 {
-	BOOLEAN	Cancel;
+	bool	Cancel;
 
 
 	RTMP_SEM_LOCK(&TimerSemLock);
@@ -2770,7 +2770,7 @@ VOID RTMPModTimer(RALINK_TIMER_STRUCT *pTimer, ULONG Value)
 
 	========================================================================
 */
-VOID RTMPCancelTimer(RALINK_TIMER_STRUCT *pTimer, BOOLEAN *pCancelled)
+VOID RTMPCancelTimer(RALINK_TIMER_STRUCT *pTimer, bool *pCancelled)
 {
 	// TODO: shiang-usw, check the purpose of this SemLock!
 	RTMP_SEM_LOCK(&TimerSemLock);
@@ -2804,7 +2804,7 @@ VOID RTMPCancelTimer(RALINK_TIMER_STRUCT *pTimer, BOOLEAN *pCancelled)
 }
 
 
-VOID RTMPReleaseTimer(RALINK_TIMER_STRUCT *pTimer, BOOLEAN *pCancelled)
+VOID RTMPReleaseTimer(RALINK_TIMER_STRUCT *pTimer, bool *pCancelled)
 {
 	RTMP_SEM_LOCK(&TimerSemLock);
 
@@ -2912,7 +2912,7 @@ static INT RtmpChipOpsRegister(struct rtmp_adapter *pAd, INT infType)
 
 
 #ifdef RTMP_USB_SUPPORT
-BOOLEAN PairEP(struct rtmp_adapter *pAd, UINT8 EP)
+bool PairEP(struct rtmp_adapter *pAd, UINT8 EP)
 {
 	RTMP_CHIP_CAP *pChipCap = &pAd->chipCap;
 	int i;
@@ -3023,7 +3023,7 @@ INT RtmpRaDevCtrlInit(struct rtmp_adapter *pAd, RTMP_INF_TYPE infType)
 }
 
 
-BOOLEAN RtmpRaDevCtrlExit(IN struct rtmp_adapter *pAd)
+bool RtmpRaDevCtrlExit(IN struct rtmp_adapter *pAd)
 {
 	INT index;
 

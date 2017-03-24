@@ -65,13 +65,13 @@ VOID CFG80211_Announce802_3Packet(struct rtmp_adapter *pAd, RX_BLK *pRxBlk, UCHA
 
 }
 
-BOOLEAN CFG80211_CheckActionFrameType(
+bool CFG80211_CheckActionFrameType(
         IN  struct rtmp_adapter 								 *pAd,
 		IN	u8 *									 preStr,
 		IN	u8 *									 pData,
 		IN	uint32_t                              		 length)
 {
-	BOOLEAN isP2pFrame = FALSE;
+	bool isP2pFrame = FALSE;
 	struct ieee80211_mgmt *mgmt;
 	mgmt = (struct ieee80211_mgmt *)pData;
 	if (ieee80211_is_mgmt(mgmt->frame_control))
@@ -198,7 +198,7 @@ BOOLEAN CFG80211_CheckActionFrameType(
 
 	return isP2pFrame;
 }
-BOOLEAN CFG80211_HandleP2pMgmtFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk, UCHAR OpMode)
+bool CFG80211_HandleP2pMgmtFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk, UCHAR OpMode)
 {
 	RXWI_STRUC *pRxWI = pRxBlk->pRxWI;
 	PHEADER_802_11 pHeader = pRxBlk->pHeader;

@@ -92,15 +92,15 @@ char *rtstrchr(const char * s, int c)
 
 VOID RtmpMeshDown(
 	IN VOID *pDrvCtrlBK,
-	IN BOOLEAN WaitFlag,
-	IN BOOLEAN (*RtmpMeshLinkCheck)(IN VOID *pAd))
+	IN bool WaitFlag,
+	IN bool (*RtmpMeshLinkCheck)(IN VOID *pAd))
 {
 }
 
 
 
 
-BOOLEAN RtmpOsCmdDisplayLenCheck(
+bool RtmpOsCmdDisplayLenCheck(
 	IN uint32_t LenSrc,
 	IN uint32_t Offset)
 {
@@ -115,7 +115,7 @@ BOOLEAN RtmpOsCmdDisplayLenCheck(
 VOID WpaSendMicFailureToWpaSupplicant(
 	IN struct net_device *pNetDev,
 	IN const u8 *src_addr,
-	IN BOOLEAN bUnicast,
+	IN bool bUnicast,
 	IN INT key_id,
 	IN const u8 *tsc)
 {

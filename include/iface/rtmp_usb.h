@@ -95,7 +95,7 @@ u32 mt7612u_read32(struct rtmp_adapter *pAd, USHORT Offset);
 
 int RTUSBReadEEPROM(struct rtmp_adapter *pAd, USHORT Offset, UCHAR *buf, USHORT len);
 
-BOOLEAN AsicCheckCommandOk(struct rtmp_adapter *pAd, UCHAR cmd);
+bool AsicCheckCommandOk(struct rtmp_adapter *pAd, UCHAR cmd);
 
 
 VOID RTUSBDequeueCmd(PCmdQ cmdq, PCmdQElmt *pcmdqelmt);
@@ -114,10 +114,10 @@ int RTUSBQueryHardWareRegister(struct rtmp_adapter *pAd, PVOID pBuf);
 VOID RTUSBMlmeHardTransmit(struct rtmp_adapter *pAd, struct _MGMT_STRUC *pMgmt);
 
 int RTUSBFreeDescRequest(struct rtmp_adapter *pAd, UCHAR BulkOutPipeId, uint32_t req_cnt);
-BOOLEAN	RTUSBNeedQueueBackForAgg(struct rtmp_adapter *pAd, UCHAR BulkOutPipeId);
+bool	RTUSBNeedQueueBackForAgg(struct rtmp_adapter *pAd, UCHAR BulkOutPipeId);
 
-USHORT RtmpUSB_WriteSubTxResource(struct rtmp_adapter *pAd, struct _TX_BLK *pTxBlk, BOOLEAN bIsLast, USHORT *freeCnt);
-USHORT RtmpUSB_WriteSingleTxResource(struct rtmp_adapter *pAd, struct _TX_BLK *pTxBlk, BOOLEAN bIsLast, USHORT *freeCnt);
+USHORT RtmpUSB_WriteSubTxResource(struct rtmp_adapter *pAd, struct _TX_BLK *pTxBlk, bool bIsLast, USHORT *freeCnt);
+USHORT RtmpUSB_WriteSingleTxResource(struct rtmp_adapter *pAd, struct _TX_BLK *pTxBlk, bool bIsLast, USHORT *freeCnt);
 USHORT RtmpUSB_WriteFragTxResource(struct rtmp_adapter *pAd, struct _TX_BLK *pTxBlk, UCHAR fragNum, USHORT *freeCnt);
 USHORT RtmpUSB_WriteMultiTxResource(struct rtmp_adapter *pAd, struct _TX_BLK *pTxBlk, UCHAR frmNum, USHORT *freeCnt);
 VOID RtmpUSB_FinalWriteTxResource(struct rtmp_adapter *pAd, struct _TX_BLK *pTxBlk, USHORT mpdu_len, USHORT TxIdx);
@@ -133,7 +133,7 @@ int RTUSBWakeUp(struct rtmp_adapter *pAd);
 
 VOID RtmpUsbStaAsicForceWakeupTimeout(PVOID arg1, PVOID FuncContext, PVOID arg2, PVOID arg3);
 
-VOID RT28xxUsbStaAsicForceWakeup(struct rtmp_adapter *pAd, BOOLEAN bFromTx);
+VOID RT28xxUsbStaAsicForceWakeup(struct rtmp_adapter *pAd, bool bFromTx);
 
 VOID RT28xxUsbStaAsicSleepThenAutoWakeup(struct rtmp_adapter *pAd, USHORT TbttNumToNextWakeUp);
 
@@ -144,7 +144,7 @@ VOID RT28xxUsbAsicWOWEnable(struct rtmp_adapter *pAd);
 VOID RT28xxUsbAsicWOWDisable(struct rtmp_adapter *pAd);
 
 struct usb_control {
-	BOOLEAN usb_aggregation;
+	bool usb_aggregation;
 };
 
 #endif /* __RTMP_USB_H__ */

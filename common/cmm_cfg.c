@@ -28,7 +28,7 @@
 
 #include "rt_config.h"
 
-static BOOLEAN RT_isLegalCmdBeforeInfUp(
+static bool RT_isLegalCmdBeforeInfUp(
        IN char *SetCmd);
 
 
@@ -53,7 +53,7 @@ INT ComputeChecksum(
 
 UINT GenerateWpsPinCode(
 	IN	struct rtmp_adapter *pAd,
-    IN  BOOLEAN         bFromApcli,
+    IN  bool         bFromApcli,
 	IN	UCHAR			apidx)
 {
 	UCHAR	macAddr[MAC_ADDR_LEN];
@@ -248,7 +248,7 @@ UCHAR cfgmode_2_wmode(UCHAR cfg_mode)
 }
 
 
-static BOOLEAN wmode_valid(struct rtmp_adapter *pAd, enum WIFI_MODE wmode)
+static bool wmode_valid(struct rtmp_adapter *pAd, enum WIFI_MODE wmode)
 {
 	if ((WMODE_CAP_5G(wmode) && (!PHY_CAP_5G(pAd->chipCap.phy_caps))) ||
 		(WMODE_CAP_2G(wmode) && (!PHY_CAP_2G(pAd->chipCap.phy_caps))) ||
@@ -260,9 +260,9 @@ static BOOLEAN wmode_valid(struct rtmp_adapter *pAd, enum WIFI_MODE wmode)
 }
 
 
-static BOOLEAN wmode_valid_and_correct(struct rtmp_adapter *pAd, UCHAR* wmode)
+static bool wmode_valid_and_correct(struct rtmp_adapter *pAd, UCHAR* wmode)
 {
-	BOOLEAN ret = TRUE;
+	bool ret = TRUE;
 	UCHAR mode = *wmode;
 
 	if (WMODE_CAP_5G(*wmode) && (!PHY_CAP_5G(pAd->chipCap.phy_caps)))
@@ -285,9 +285,9 @@ static BOOLEAN wmode_valid_and_correct(struct rtmp_adapter *pAd, UCHAR* wmode)
 }
 
 
-BOOLEAN wmode_band_equal(UCHAR smode, UCHAR tmode)
+bool wmode_band_equal(UCHAR smode, UCHAR tmode)
 {
-	BOOLEAN eq = FALSE;
+	bool eq = FALSE;
 	UCHAR *str1, *str2;
 
 	if ((WMODE_CAP_5G(smode) == WMODE_CAP_5G(tmode)) &&
@@ -465,10 +465,10 @@ INT RT_CfgSetMbssWirelessMode(struct rtmp_adapter *pAd, char *arg)
 #endif /* CONFIG_AP_SUPPORT */
 
 
-static BOOLEAN RT_isLegalCmdBeforeInfUp(
+static bool RT_isLegalCmdBeforeInfUp(
        IN char *SetCmd)
 {
-		BOOLEAN TestFlag;
+		bool TestFlag;
 		TestFlag =	!strcmp(SetCmd, "Debug") ||
 #ifdef CONFIG_APSTA_MIXED_SUPPORT
 					!strcmp(SetCmd, "OpMode") ||
@@ -514,7 +514,7 @@ INT	RT_CfgSetWepKey(
 	INT				KeyLen;
 	INT				i;
 	/*UCHAR			CipherAlg = CIPHER_NONE;*/
-	BOOLEAN			bKeyIsHex = FALSE;
+	bool			bKeyIsHex = FALSE;
 
 	/* TODO: Shall we do memset for the original key info??*/
 	memset(pSharedKey, 0, sizeof(CIPHER_KEY));
@@ -633,7 +633,7 @@ INT	RT_CfgSetFixedTxPhyMode(char *arg)
 
 }
 
-INT	RT_CfgSetTxMCSProc(char *arg, BOOLEAN *pAutoRate)
+INT	RT_CfgSetTxMCSProc(char *arg, bool *pAutoRate)
 {
 	INT	Value = simple_strtol(arg, 0, 10);
 	INT	TxMcs;

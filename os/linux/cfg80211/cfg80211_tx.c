@@ -98,9 +98,9 @@ void CFG80211_ParseBeaconIE(struct rtmp_adapter *pAd, MULTISSID_STRUCT *pMbss, s
 	NDIS_802_11_ENCRYPTION_STATUS	GroupCipher;	/* Group cipher */
 	PAKM_SUITE_STRUCT				pAKM;
 	USHORT							Count;
-	BOOLEAN bWPA = FALSE;
-	BOOLEAN bWPA2 = FALSE;
-	BOOLEAN bMix = FALSE;
+	bool bWPA = FALSE;
+	bool bWPA2 = FALSE;
+	bool bMix = FALSE;
 
 		/* Security */
 	PairCipher	 = Ndis802_11WEPDisabled;
@@ -455,7 +455,7 @@ void CFG80211_SendMgmtFrame(struct rtmp_adapter *pAd, VOID *pData, ULONG Data)
         		mgmt = (struct ieee80211_mgmt *)pData;
         		if (ieee80211_is_probe_resp(mgmt->frame_control))
 			{
-				//BOOLEAN res;
+				//bool res;
 				INT offset = sizeof(HEADER_802_11) + 12;
 				CFG80211_SyncPacketWmmIe(pAd, pData + offset , Data - offset);
 				//hex_dump("probe_rsp:", pData, Data);

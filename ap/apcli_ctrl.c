@@ -965,7 +965,7 @@ static VOID ApCliCtrlDeAssocRspAction(
 	USHORT Status = Info->Status;
 	USHORT ifIndex = (USHORT)(Elem->Priv);
 	PULONG pCurrState = NULL;
-	BOOLEAN bValid = FALSE;
+	bool bValid = FALSE;
 
 	if ((ifIndex >= MAX_APCLI_NUM)
 		)
@@ -1065,7 +1065,7 @@ static VOID ApCliCtrlDisconnectReqAction(
 	PAPCLI_STRUCT pApCliEntry;
 	USHORT ifIndex = (USHORT)(Elem->Priv);
 	PULONG pCurrState = NULL;
-	BOOLEAN bValid = FALSE;
+	bool bValid = FALSE;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("(%s) MLME Request disconnect.\n", __FUNCTION__));
 
@@ -1113,7 +1113,7 @@ static VOID ApCliCtrlPeerDeAssocReqAction(
 	PAPCLI_STRUCT pApCliEntry;
 	USHORT ifIndex = (USHORT)(Elem->Priv);
 	PULONG pCurrState = NULL;
-	BOOLEAN bValid = FALSE;
+	bool bValid = FALSE;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("(%s) Peer DeAssoc Req.\n", __FUNCTION__));
 
@@ -1173,7 +1173,7 @@ static VOID ApCliCtrlDeAssocAction(
 	MLME_DISASSOC_REQ_STRUCT DisassocReq;
 	USHORT ifIndex = (USHORT)(Elem->Priv);
 	PULONG pCurrState = NULL;
-	BOOLEAN bValid = FALSE;
+	bool bValid = FALSE;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("(%s) MLME Request Disconnect.\n", __FUNCTION__));
 
@@ -1227,7 +1227,7 @@ static VOID ApCliCtrlDeAuthAction(
 	MLME_DEAUTH_REQ_STRUCT	DeAuthFrame;
 	USHORT ifIndex = (USHORT)(Elem->Priv);
 	PULONG pCurrState = NULL;
-	BOOLEAN bValid = FALSE;
+	bool bValid = FALSE;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("(%s) MLME Request Disconnect.\n", __FUNCTION__));
 
@@ -1283,7 +1283,7 @@ VOID ApCliWpaMicFailureReportFrame(
 	UCHAR				*mpool;
 	PEAPOL_PACKET       pPacket;
 	UCHAR               Mic[16];
-	BOOLEAN             bUnicast;
+	bool             bUnicast;
 	UCHAR			Wcid, i;
 	PMAC_TABLE_ENTRY pMacEntry = NULL;
 	USHORT ifIndex = (USHORT)(Elem->Priv);
@@ -1439,7 +1439,7 @@ static VOID ApCliCtrlTrialConnectAction(
 	PAPCLI_STRUCT pApCliEntry;
 	USHORT ifIndex = (USHORT)(Elem->Priv);
 	PULONG pCurrState = &pAd->ApCfg.ApCliTab[ifIndex].CtrlCurrState;
-	BOOLEAN	Cancelled;
+	bool	Cancelled;
 	PMAC_TABLE_ENTRY pMacEntry;
 
 	UCHAR BBPValue;

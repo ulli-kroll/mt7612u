@@ -167,7 +167,7 @@ VOID APMlmePeriodicExec(
 		INT loop;
 		ULONG Now32;
 #ifdef APCLI_CERT_SUPPORT
-		BOOLEAN IsUseBA = TRUE;
+		bool IsUseBA = TRUE;
 #endif /* APCLI_CERT_SUPPORT */
 
 		NdisGetSystemUpTime(&Now32);
@@ -321,7 +321,7 @@ VOID APMlmePeriodicExec(
  *  \pre
  *  \post
  */
-BOOLEAN APMsgTypeSubst(
+bool APMsgTypeSubst(
     IN struct rtmp_adapter *pAd,
     IN PFRAME_802_11 pFrame,
     OUT INT *Machine,
@@ -329,7 +329,7 @@ BOOLEAN APMsgTypeSubst(
 {
     USHORT Seq;
     UCHAR  EAPType;
-    BOOLEAN     Return = FALSE;
+    bool     Return = FALSE;
 
 /*
 	TODO:

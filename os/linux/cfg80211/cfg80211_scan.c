@@ -31,7 +31,7 @@
 #ifdef CONFIG_STA_SUPPORT
 VOID CFG80211DRV_OpsScanInLinkDownAction(struct rtmp_adapter *pAd)
 {
-	BOOLEAN Cancelled;
+	bool Cancelled;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("---> CFG80211_MLME Disconnect in Scaning, ORI ==> %d\n",
 	  								(int) pAd->Mlme.CntlMachine.CurrState));
@@ -47,7 +47,7 @@ VOID CFG80211DRV_OpsScanInLinkDownAction(struct rtmp_adapter *pAd)
 									(int) pAd->Mlme.CntlMachine.CurrState));
 }
 
-BOOLEAN CFG80211DRV_OpsScanRunning(struct rtmp_adapter *pAd)
+bool CFG80211DRV_OpsScanRunning(struct rtmp_adapter *pAd)
 {
 	return pAd->cfg80211_ctrl.FlgCfg80211Scanning;
 }
@@ -80,7 +80,7 @@ INT CFG80211DRV_OpsScanGetNextChannel(
 	return 0;
 }
 
-BOOLEAN CFG80211DRV_OpsScanSetSpecifyChannel(
+bool CFG80211DRV_OpsScanSetSpecifyChannel(
 	struct rtmp_adapter				*pAd,
 	VOID						*pData,
 	UINT8						 dataLen)
@@ -110,7 +110,7 @@ BOOLEAN CFG80211DRV_OpsScanSetSpecifyChannel(
 	return NDIS_STATUS_FAILURE;
 }
 
-BOOLEAN CFG80211DRV_OpsScanCheckStatus(struct rtmp_adapter *pAd,
+bool CFG80211DRV_OpsScanCheckStatus(struct rtmp_adapter *pAd,
 	UINT8						 IfType)
 {
 #ifdef CONFIG_STA_SUPPORT
@@ -159,7 +159,7 @@ BOOLEAN CFG80211DRV_OpsScanCheckStatus(struct rtmp_adapter *pAd,
 	return TRUE;
 }
 
-BOOLEAN CFG80211DRV_OpsScanExtraIesSet(struct rtmp_adapter *pAd)
+bool CFG80211DRV_OpsScanExtraIesSet(struct rtmp_adapter *pAd)
 {
 	CFG80211_CB *pCfg80211_CB = pAd->pCfg80211_CB;
 	UINT ie_len = 0;
@@ -204,7 +204,7 @@ BOOLEAN CFG80211DRV_OpsScanExtraIesSet(struct rtmp_adapter *pAd)
 static void CFG80211_CalBssAvgRssi(
 	IN      BSS_ENTRY 				*pBssEntry)
 {
-        BOOLEAN bInitial = FALSE;
+        bool bInitial = FALSE;
 
         if (!(pBssEntry->AvgRssiX8 | pBssEntry->AvgRssi))
         {
@@ -291,7 +291,7 @@ VOID CFG80211_Scaning(
 {
 #ifdef CONFIG_STA_SUPPORT
 	VOID *pCfg80211_CB = pAd->pCfg80211_CB;
-	BOOLEAN FlgIsNMode;
+	bool FlgIsNMode;
 	UINT8 BW;
 
 	if (!RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_INTERRUPT_IN_USE))
@@ -351,7 +351,7 @@ Note:
 */
 VOID CFG80211_ScanEnd(
 	IN struct rtmp_adapter				*pAd,
-	IN BOOLEAN					FlgIsAborted)
+	IN bool					FlgIsAborted)
 {
 #ifdef CONFIG_STA_SUPPORT
 	if (!RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_INTERRUPT_IN_USE))

@@ -56,12 +56,12 @@
 VOID RTMPWriteTxWI(
 	IN struct rtmp_adapter *pAd,
 	IN TXWI_STRUC *pOutTxWI,
-	IN BOOLEAN FRAG,
-	IN BOOLEAN CFACK,
-	IN BOOLEAN InsTimestamp,
-	IN BOOLEAN AMPDU,
-	IN BOOLEAN Ack,
-	IN BOOLEAN NSeq,		/* HW new a sequence.*/
+	IN bool FRAG,
+	IN bool CFACK,
+	IN bool InsTimestamp,
+	IN bool AMPDU,
+	IN bool Ack,
+	IN bool NSeq,		/* HW new a sequence.*/
 	IN UCHAR BASize,
 	IN UCHAR WCID,
 	IN ULONG Length,
@@ -221,7 +221,7 @@ VOID RTMPWriteTxWI_Data(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pTx
 	UCHAR basize, ampdu, mimops = 0, mpdu_density = 0;
 	UCHAR iTxBf, eTxBf, sounding, ndp_rate, ndp_bw;
 #ifdef MCS_LUT_SUPPORT
-	BOOLEAN lut_enable = 0;
+	bool lut_enable = 0;
 	UCHAR mbc_wcid;
 #endif /* MCS_LUT_SUPPORT */
 	UCHAR tx_stream_mode = 0;
@@ -462,7 +462,7 @@ VOID RTMPWriteTxWI_Cache(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pT
 	UCHAR ampdu, basize = 0, mimops, mpdu_density = 0;
 	UCHAR sounding, iTxBf, eTxBf, ndp_rate, ndp_bw;
 #ifdef MCS_LUT_SUPPORT
-	BOOLEAN lut_enable;
+	bool lut_enable;
 #endif /* MCS_LUT_SUPPORT */
 	UCHAR tx_stream_mode = 0;
 

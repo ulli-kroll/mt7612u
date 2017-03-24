@@ -1432,7 +1432,7 @@ static int CFG80211_OpsRFKill(
 	struct wiphy		*pWiphy)
 {
 	struct rtmp_adapter		*pAd;
-	BOOLEAN		active;
+	bool		active;
 
 	CFG80211DBG(RT_DEBUG_TRACE, ("80211> %s ==>\n", __FUNCTION__));
 	pAd = MAC80211_PAD_GET(pWiphy);
@@ -1447,7 +1447,7 @@ static int CFG80211_OpsRFKill(
 
 VOID CFG80211_RFKillStatusUpdate(
 	PVOID			pAd,
-	BOOLEAN			active)
+	bool			active)
 {
 	struct wiphy *pWiphy;
 	CFG80211_CB *pCfg80211_CB;
@@ -2384,7 +2384,7 @@ Note:
 	Can not use pNetDev to replace pDev; Or kernel panic.
 ========================================================================
 */
-BOOLEAN CFG80211_Register(
+bool CFG80211_Register(
 	struct rtmp_adapter	*pAd,
 	struct device		*pDev,
 	struct net_device	*pNetDev)

@@ -472,8 +472,8 @@ struct _RMTP_ADAPTER;
 
 INT rtmp_phy_probe(struct rtmp_adapter *pAd);
 
-VOID RTMP_BBP_IO_READ8(struct rtmp_adapter *pAd, UCHAR Offset, UINT8 *pVal, BOOLEAN FlgValidMCR);
-VOID RTMP_BBP_IO_WRITE8(struct rtmp_adapter *pAd, UCHAR Offset, UINT8 Val, BOOLEAN FlgValidMCR);
+VOID RTMP_BBP_IO_READ8(struct rtmp_adapter *pAd, UCHAR Offset, UINT8 *pVal, bool FlgValidMCR);
+VOID RTMP_BBP_IO_WRITE8(struct rtmp_adapter *pAd, UCHAR Offset, UINT8 Val, bool FlgValidMCR);
 
 NTSTATUS RTMP_BBP_IO_READ8_BY_REG_ID(struct rtmp_adapter *pAd, uint32_t Offset, UINT8 *pVal);
 NTSTATUS RTMP_BBP_IO_WRITE8_BY_REG_ID(struct rtmp_adapter *pAd, uint32_t Offset, UINT8 Val);

@@ -172,7 +172,7 @@ VOID MlmeAssocReqAction(
 	USHORT ListenIntv;
 	ULONG Timeout;
 	USHORT CapabilityInfo;
-	BOOLEAN TimerCancelled;
+	bool TimerCancelled;
 	u8 *pOutBuffer = NULL;
 	int NStatus;
 	ULONG FrameLen = 0;
@@ -448,7 +448,7 @@ VOID MlmeAssocReqAction(
 				/* Check for WPA PMK cache list */
 				if (wdev->AuthMode == Ndis802_11AuthModeWPA2) {
 					INT idx;
-					BOOLEAN FoundPMK = FALSE;
+					bool FoundPMK = FALSE;
 					/* Search chched PMKID, append it if existed */
 					for (idx = 0; idx < PMKID_NO; idx++) {
 						if (NdisEqualMemory(ApAddr, &pAd->StaCfg.SavedPMK[idx].BSSID, 6)) {
@@ -600,7 +600,7 @@ VOID MlmeReassocReqAction(
 	USHORT CapabilityInfo, ListenIntv;
 	ULONG Timeout;
 	ULONG FrameLen = 0;
-	BOOLEAN TimerCancelled;
+	bool TimerCancelled;
 	int NStatus;
 	ULONG tmp;
 	u8 *pOutBuffer = NULL;
@@ -823,7 +823,7 @@ VOID MlmeDisassocReqAction(
 	u8 *pOutBuffer = NULL;
 	ULONG FrameLen = 0;
 	int NStatus;
-	BOOLEAN TimerCancelled;
+	bool TimerCancelled;
 	ULONG Timeout = 500;
 	USHORT Status;
 
@@ -909,7 +909,7 @@ VOID PeerAssocRspAction(
 	UCHAR SupRate[MAX_LEN_OF_SUPPORTED_RATES], SupRateLen;
 	UCHAR ExtRate[MAX_LEN_OF_SUPPORTED_RATES], ExtRateLen;
 	UCHAR Addr2[MAC_ADDR_LEN];
-	BOOLEAN TimerCancelled;
+	bool TimerCancelled;
 	UCHAR CkipFlag;
 	EDCA_PARM EdcaParm;
 	HT_CAPABILITY_IE HtCapability;
@@ -1060,7 +1060,7 @@ VOID PeerReassocRspAction(
 	UCHAR ExtRate[MAX_LEN_OF_SUPPORTED_RATES], ExtRateLen;
 	UCHAR Addr2[MAC_ADDR_LEN];
 	UCHAR CkipFlag;
-	BOOLEAN TimerCancelled;
+	bool TimerCancelled;
 	EDCA_PARM EdcaParm;
 	HT_CAPABILITY_IE HtCapability;
 	ADD_HT_INFO_IE AddHtInfo;	/* AP might use this additional ht info IE */

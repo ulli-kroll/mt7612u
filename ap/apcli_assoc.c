@@ -182,7 +182,7 @@ static VOID ApCliMlmeAssocReqAction(
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	int 	 NStatus;
-	BOOLEAN          Cancelled;
+	bool          Cancelled;
 	UCHAR            ApAddr[6];
 	HEADER_802_11    AssocHdr;
 	UCHAR            WmeIe[9] = {IE_VENDOR_SPECIFIC, 0x07, 0x00, 0x50, 0xf2, 0x02, 0x00, 0x01, 0x00};
@@ -449,7 +449,7 @@ static VOID ApCliMlmeAssocReqAction(
 			if (wdev->AuthMode == Ndis802_11AuthModeWPA2)
 			{
 			INT idx;
-                BOOLEAN FoundPMK = FALSE;
+                bool FoundPMK = FALSE;
 			/* Search chched PMKID, append it if existed */
 				for (idx = 0; idx < PMKID_NO; idx++)
 				{
@@ -610,7 +610,7 @@ static VOID ApCliPeerAssocRspAction(
 	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
-	BOOLEAN				Cancelled;
+	bool				Cancelled;
 	USHORT				CapabilityInfo, Status, Aid;
 	UCHAR				SupRate[MAX_LEN_OF_SUPPORTED_RATES], SupRateLen;
 	UCHAR				ExtRate[MAX_LEN_OF_SUPPORTED_RATES], ExtRateLen;

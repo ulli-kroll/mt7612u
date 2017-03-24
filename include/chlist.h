@@ -62,9 +62,9 @@ extern int CH_HZ_ID_MAP_NUM;
 
 VOID N_ChannelCheck(struct rtmp_adapter *pAd);
 UCHAR N_SetCenCh(struct rtmp_adapter *pAd, UCHAR channel);
-BOOLEAN N_ChannelGroupCheck(struct rtmp_adapter *pAd, UCHAR channel);
+bool N_ChannelGroupCheck(struct rtmp_adapter *pAd, UCHAR channel);
 INT get_vht_neighbor_index(UCHAR channel);
-BOOLEAN AC_ChannelGroupCheck(struct rtmp_adapter *pAd, UCHAR channel);
+bool AC_ChannelGroupCheck(struct rtmp_adapter *pAd, UCHAR channel);
 UINT8 GetCuntryMaxTxPwr(
 	IN struct rtmp_adapter *pAd,
 	IN UINT8 channel);

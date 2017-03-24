@@ -112,7 +112,7 @@ INT Set_CountryRegionABand_Proc(
 INT	Set_Cmm_WirelessMode_Proc(
 	IN struct rtmp_adapter *pAd,
 	IN char *arg,
-	IN BOOLEAN FlgIsDiffMbssModeUsed)
+	IN bool FlgIsDiffMbssModeUsed)
 {
 	INT	success = TRUE;
 #ifdef CONFIG_AP_SUPPORT
@@ -934,7 +934,7 @@ INT	Set_ResetStatCounter_Proc(
 }
 
 
-BOOLEAN RTMPCheckStrPrintAble(
+bool RTMPCheckStrPrintAble(
     IN  CHAR *pInPutStr,
     IN  UCHAR strLen)
 {
@@ -1128,16 +1128,16 @@ int RTMPWPARemoveKeyProc(
 	PNDIS_802_11_REMOVE_KEY pKey;
 	ULONG					KeyIdx;
 	int 			Status = NDIS_STATUS_FAILURE;
-	BOOLEAN 	bTxKey; 		/* Set the key as transmit key*/
-	BOOLEAN 	bPairwise;		/* Indicate the key is pairwise key*/
-	BOOLEAN 	bKeyRSC;		/* indicate the receive  SC set by KeyRSC value.*/
+	bool 	bTxKey; 		/* Set the key as transmit key*/
+	bool 	bPairwise;		/* Indicate the key is pairwise key*/
+	bool 	bKeyRSC;		/* indicate the receive  SC set by KeyRSC value.*/
 								/* Otherwise, it will set by the NIC.*/
-	BOOLEAN 	bAuthenticator; /* indicate key is set by authenticator.*/
+	bool 	bAuthenticator; /* indicate key is set by authenticator.*/
 	INT 		i;
 #ifdef APCLI_SUPPORT
 #ifdef WPA_SUPPLICANT_SUPPORT
 	UCHAR ifIndex;
-	BOOLEAN apcliEn=FALSE;
+	bool apcliEn=FALSE;
 	INT idx, BssIdx;
 	struct os_cookie *pObj = pAd->OS_Cookie;
 #endif/*WPA_SUPPLICANT_SUPPORT*/
@@ -2162,7 +2162,7 @@ INT	Set_HtMcs_Proc(struct rtmp_adapter *pAd, char *arg)
 	struct os_cookie *pObj = pAd->OS_Cookie;
 #endif /* CONFIG_AP_SUPPORT */
 #ifdef CONFIG_STA_SUPPORT
-	BOOLEAN bAutoRate = FALSE;
+	bool bAutoRate = FALSE;
 #endif /* CONFIG_STA_SUPPORT */
 	UCHAR HtMcs = MCS_AUTO, Mcs_tmp, ValidMcs = 15;
 	char *mcs_str, *ss_str;
@@ -3167,12 +3167,12 @@ static void dbQueueDisplayPHY(USHORT phyRate)
 /* dbQueueDump - dump contents of debug queue*/
 static void dbQueueDump(
 	IN  struct rtmp_adapter *  pAd,
-	BOOLEAN decode)
+	bool decode)
 {
 	DBQUEUE_ENTRY *oldTail;
 	int i, origMCS, succMCS;
 	ULONG lastTimestamp=0;
-	BOOLEAN showTimestamp;
+	bool showTimestamp;
 	USHORT phyRate;
 
 	if (dbqInit!=DBQ_INIT_SIG || dbqTail>=DBQ_LENGTH)
@@ -4490,7 +4490,7 @@ INT show_trinfo_proc(struct rtmp_adapter *pAd, char *arg)
  	INT i=0;
  	struct os_cookie *pObj;
  	UCHAR ifIndex;
-	BOOLEAN bConnect=FALSE;
+	bool bConnect=FALSE;
 
  	pObj = pAd->OS_Cookie;
 
@@ -4792,7 +4792,7 @@ INT Set_RateAdaptInterval(
 #ifdef CONFIG_AP_SUPPORT
 			if (pAd->ApCfg.ApQuickResponeForRateUpTimerRunning == TRUE)
 			{
-				BOOLEAN Cancelled;
+				bool Cancelled;
 
 				RTMPCancelTimer(&pAd->ApCfg.ApQuickResponeForRateUpTimer, &Cancelled);
 				pAd->ApCfg.ApQuickResponeForRateUpTimerRunning = FALSE;
@@ -4913,7 +4913,7 @@ INT set_vht_opmode_notify_ie(struct rtmp_adapter *pAd, char *arg)
 {
 	CHAR *token;
 	UINT ss, bw;
-	BOOLEAN status = FALSE;
+	bool status = FALSE;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("%s():intput string=%s\n", __FUNCTION__, arg));
 	token = rtstrchr(arg, ':');

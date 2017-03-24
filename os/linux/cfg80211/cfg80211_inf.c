@@ -39,7 +39,7 @@ extern INT ApCliAllowToSendPacket(
 	struct rtmp_adapter *pAd, struct rtmp_wifi_dev *wdev,
 	struct sk_buff *pPacket, UCHAR *pWcid);
 
-BOOLEAN CFG80211DRV_OpsChgVirtualInf(struct rtmp_adapter *pAd, VOID *pData)
+bool CFG80211DRV_OpsChgVirtualInf(struct rtmp_adapter *pAd, VOID *pData)
 {
 	PCFG80211_CTRL pCfg80211_ctrl = &pAd->cfg80211_ctrl;
     CFG80211_CB *p80211CB = pAd->pCfg80211_CB;
@@ -169,7 +169,7 @@ BOOLEAN CFG80211DRV_OpsChgVirtualInf(struct rtmp_adapter *pAd, VOID *pData)
 	return TRUE;
 }
 
-BOOLEAN RTMP_CFG80211_VIF_P2P_GO_ON(struct rtmp_adapter *pAd)
+bool RTMP_CFG80211_VIF_P2P_GO_ON(struct rtmp_adapter *pAd)
 {
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
 	struct net_device *pNetDev = NULL;
@@ -191,7 +191,7 @@ BOOLEAN RTMP_CFG80211_VIF_P2P_GO_ON(struct rtmp_adapter *pAd)
 	return FALSE;
 }
 
-BOOLEAN CFG80211DRV_OpsVifAdd(struct rtmp_adapter *pAd, VOID *pData)
+bool CFG80211DRV_OpsVifAdd(struct rtmp_adapter *pAd, VOID *pData)
 {
 	CMD_RTPRIV_IOCTL_80211_VIF_SET *pVifInfo;
 	pVifInfo = (CMD_RTPRIV_IOCTL_80211_VIF_SET *)pData;
@@ -205,7 +205,7 @@ BOOLEAN CFG80211DRV_OpsVifAdd(struct rtmp_adapter *pAd, VOID *pData)
 	return TRUE;
 }
 
-BOOLEAN RTMP_CFG80211_VIF_ON(struct rtmp_adapter *pAd)
+bool RTMP_CFG80211_VIF_ON(struct rtmp_adapter *pAd)
 {
 	return pAd->cfg80211_ctrl.Cfg80211VifDevSet.isGoingOn;
 }
@@ -572,7 +572,7 @@ VOID RTMP_CFG80211_VirtualIF_Remove(
 	IN	struct net_device *		  dev_p,
 	IN  uint32_t                DevType)
 {
-	BOOLEAN isGoOn = FALSE;
+	bool isGoOn = FALSE;
 	struct rtmp_wifi_dev *wdev;
 
 	if (dev_p)

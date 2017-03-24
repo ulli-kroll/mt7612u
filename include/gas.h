@@ -78,16 +78,16 @@ typedef struct _GAS_PEER_ENTRY {
 	void *Priv;
 #ifdef CONFIG_AP_SUPPORT
 	RALINK_TIMER_STRUCT PostReplyTimer;
-	BOOLEAN PostReplyTimerRunning;
+	bool PostReplyTimerRunning;
 	RALINK_TIMER_STRUCT GASRspBufferingTimer;
-	BOOLEAN GASRspBufferingTimerRunning;
+	bool GASRspBufferingTimerRunning;
 #endif /* CONFIG_AP_SUPPORT */
 
 #ifdef CONFIG_STA_SUPPORT
 	RALINK_TIMER_STRUCT GASResponseTimer;
-	BOOLEAN GASResponseTimerRunning;
+	bool GASResponseTimerRunning;
 	RALINK_TIMER_STRUCT GASCBDelayTimer;
-	BOOLEAN GASCBDelayTimerRunning;
+	bool GASCBDelayTimerRunning;
 #endif /* CONFIG_STA_SUPPORT */
 	UCHAR GASRspFragNum;
 	UCHAR CurrentGASFragNum;

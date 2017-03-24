@@ -7,8 +7,8 @@ typedef struct _CmdQElmt {
 	UINT command;
 	PVOID buffer;
 	ULONG bufferlength;
-	BOOLEAN CmdFromNdis;
-	BOOLEAN SetOperation;
+	bool CmdFromNdis;
+	bool SetOperation;
 	struct _CmdQElmt *next;
 } CmdQElmt, *PCmdQElmt;
 
@@ -360,7 +360,7 @@ typedef struct __CMD_RTPRIV_IOCTL_80211_BEACON {
 	ULONG ssid_len;
 	UCHAR hidden_ssid;
 	struct cfg80211_crypto_settings crypto;
-	BOOLEAN privacy;
+	bool privacy;
 	UCHAR auth_type;
 	int32_t inactivity_timeout;
 } CMD_RTPRIV_IOCTL_80211_BEACON;
@@ -438,7 +438,7 @@ typedef struct __CMD_RTPRIV_IOCTL_80211_KEY {
 	UINT8 KeyType;
 	UINT8 KeyBuf[50];
 	UINT8 KeyId;
-	BOOLEAN bPairwise;
+	bool bPairwise;
 	UINT8 KeyLen;
 	uint32_t cipher;
 	UINT8 MAC[MAC_ADDR_LEN];
@@ -451,7 +451,7 @@ typedef struct __CMD_RTPRIV_IOCTL_80211_KEY {
 
 typedef struct __CMD_RTPRIV_IOCTL_80211_CONNECT {
 	UINT8 WpaVer;
-	BOOLEAN FlgIs8021x;
+	bool FlgIs8021x;
 	UINT8 AuthType;
 
 	UINT8 PairwiseEncrypType;
@@ -466,9 +466,9 @@ typedef struct __CMD_RTPRIV_IOCTL_80211_CONNECT {
 
 	UINT8 *pBssid;
 
-	BOOLEAN bWpsConnection;
+	bool bWpsConnection;
 #ifdef DOT11W_PMF_SUPPORT
-	BOOLEAN mfp;
+	bool mfp;
 #endif /* DOT11W_PMF_SUPPORT */
 
 } CMD_RTPRIV_IOCTL_80211_CONNECT;
@@ -567,7 +567,7 @@ typedef struct __RT_CMD_PARAM_SET {
 
 typedef struct __RT_CMD_SHARED_KEY_ADD {
 	IN UCHAR KeyIdx;
-	IN BOOLEAN FlgHaveGTK;
+	IN bool FlgHaveGTK;
 } RT_CMD_SHARED_KEY_ADD;
 
 typedef struct __RT_CMD_MBSS_KICKOUT {

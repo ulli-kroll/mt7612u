@@ -207,7 +207,7 @@ VOID CFG80211_UpdateBeacon(
 	uint32_t 										beacon_head_len,
 	UCHAR 										    *beacon_tail_buf,
 	uint32_t 										beacon_tail_len,
-	BOOLEAN											isAllUpdate)
+	bool											isAllUpdate)
 {
 	PCFG80211_CTRL pCfg80211_ctrl = &pAd->cfg80211_ctrl;
 	HTTRANSMIT_SETTING BeaconTransmit;   /* MGMT frame PHY rate setting when operatin at Ht rate. */
@@ -299,11 +299,11 @@ void CFG80211DRV_OpsBeaconSet(struct rtmp_adapter *pAd, VOID *pData)
 							   TRUE);
 }
 
-BOOLEAN CFG80211DRV_OpsBeaconAdd(struct rtmp_adapter *pAd, VOID *pData)
+bool CFG80211DRV_OpsBeaconAdd(struct rtmp_adapter *pAd, VOID *pData)
 {
 	CMD_RTPRIV_IOCTL_80211_BEACON *pBeacon;
 	uint32_t rx_filter_flag;
-	BOOLEAN Cancelled;
+	bool Cancelled;
 	INT i;
 	PMULTISSID_STRUCT pMbss = &pAd->ApCfg.MBSSID[MAIN_MBSSID];
 	struct rtmp_wifi_dev *wdev = &pMbss->wdev;
@@ -491,7 +491,7 @@ BOOLEAN CFG80211DRV_OpsBeaconAdd(struct rtmp_adapter *pAd, VOID *pData)
 	return TRUE;
 }
 
-BOOLEAN CFG80211DRV_ApKeyDel(
+bool CFG80211DRV_ApKeyDel(
 	struct rtmp_adapter 				*pAd,
 	VOID                                            *pData)
 {
@@ -569,7 +569,7 @@ VOID CFG80211DRV_FragThresholdAdd(
 }
 
 
-BOOLEAN CFG80211DRV_ApKeyAdd(struct rtmp_adapter *pAd, void *pData)
+bool CFG80211DRV_ApKeyAdd(struct rtmp_adapter *pAd, void *pData)
 {
 #ifdef CONFIG_AP_SUPPORT
 	CMD_RTPRIV_IOCTL_80211_KEY *pKeyInfo;

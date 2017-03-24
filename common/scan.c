@@ -478,7 +478,7 @@ VOID ScanNextChannel(struct rtmp_adapter *pAd, UCHAR OpMode)
 {
 	UCHAR ScanType = pAd->MlmeAux.ScanType;
 	UINT ScanTimeIn5gChannel = SHORT_CHANNEL_TIME;
-	BOOLEAN ScanPending = FALSE;
+	bool ScanPending = FALSE;
 	RALINK_TIMER_STRUCT *sc_timer = NULL;
 	UINT stay_time = 0;
 
@@ -533,7 +533,7 @@ VOID ScanNextChannel(struct rtmp_adapter *pAd, UCHAR OpMode)
 #ifdef CONFIG_STA_SUPPORT
 		if (OpMode == OPMODE_STA)
 		{
-			BOOLEAN bScanPassive = FALSE;
+			bool bScanPassive = FALSE;
 			if (pAd->MlmeAux.Channel > 14)
 			{
 				if ((pAd->CommonCfg.bIEEE80211H == 1)
@@ -643,9 +643,9 @@ VOID ScanNextChannel(struct rtmp_adapter *pAd, UCHAR OpMode)
 }
 
 
-BOOLEAN ScanRunning(struct rtmp_adapter *pAd)
+bool ScanRunning(struct rtmp_adapter *pAd)
 {
-	BOOLEAN	rv = FALSE;
+	bool	rv = FALSE;
 
 #ifdef CONFIG_STA_SUPPORT
 		IF_DEV_CONFIG_OPMODE_ON_STA(pAd)

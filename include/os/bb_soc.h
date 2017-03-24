@@ -12,7 +12,7 @@ extern void os_TCIfQuery (unsigned short query_id, void* result, void* result2);
 
 typedef struct _BBUPollingMode{
 	RALINK_TIMER_STRUCT			PollingModeDetect;
-	BOOLEAN							PollingModeDetectRunning;
+	bool							PollingModeDetectRunning;
 	struct work_struct					PollingDataBH;
 	uint32_t   							pAd_va;
 	NDIS_SPIN_LOCK          			PollingModeLock;

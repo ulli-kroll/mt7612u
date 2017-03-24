@@ -130,7 +130,7 @@ Note:
 VOID RtmpAsicSleepHandle(struct rtmp_adapter *pAd)
 {
 #ifdef CONFIG_STA_SUPPORT
-	BOOLEAN FlgCanAsicSleep = TRUE;
+	bool FlgCanAsicSleep = TRUE;
 
 
 	/* finally, check if we can sleep */
@@ -225,9 +225,9 @@ Return Value:
 Note:
 ========================================================================
 */
-BOOLEAN UAPSD_SP_IsClosed(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
+bool UAPSD_SP_IsClosed(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 {
-	BOOLEAN FlgIsSpClosed = TRUE;
+	bool FlgIsSpClosed = TRUE;
 
 	RTMP_SEM_LOCK(&pAd->UAPSDEOSPLock);
 
@@ -340,7 +340,7 @@ VOID UAPSD_AssocParse(
 	IN struct rtmp_adapter *pAd,
 	IN MAC_TABLE_ENTRY *pEntry,
 	IN UCHAR *pElm,
-	IN BOOLEAN FlgApsdCapable)
+	IN bool FlgApsdCapable)
 {
 	PQBSS_STA_INFO_PARM  pQosInfo;
 	UCHAR UAPSD[4];
@@ -515,7 +515,7 @@ VOID UAPSD_QueueMaintenance(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 {
 	QUEUE_HEADER *pQue;
 	uint32_t IdAc;
-	BOOLEAN FlgUapsdPkt, FlgEospPkt;
+	bool FlgUapsdPkt, FlgEospPkt;
 #ifdef RTMP_MAC_USB
 	ULONG IrqFlags;
 #endif /* RTMP_MAC_USB */
@@ -674,7 +674,7 @@ VOID UAPSD_SP_AUE_Handle(
 
 	if (pEntry->PsMode == PWR_SAVE)
 	{
-		BOOLEAN FlgEosp;
+		bool FlgEosp;
 
 		RTMP_SEM_LOCK(&pAd->UAPSDEOSPLock);
 
@@ -1059,7 +1059,7 @@ Return Value:
 Note:
 ========================================================================
 */
-BOOLEAN UAPSD_PsPollHandle(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
+bool UAPSD_PsPollHandle(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 {
 	QUEUE_HEADER	*pAcPsQue;
 	QUEUE_HEADER	*pAcSwQue;
@@ -1074,7 +1074,7 @@ BOOLEAN UAPSD_PsPollHandle(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 	uint32_t AcPriority[WMM_NUM_OF_AC] = { 1, 0, 2, 3 };
 	UCHAR	QueIdList[WMM_NUM_OF_AC] = { QID_AC_BE, QID_AC_BK,
                                             QID_AC_VI, QID_AC_VO };
-	BOOLEAN	FlgQueEmpty;
+	bool	FlgQueEmpty;
 	int32_t IdAc; /* must be signed, can not use unsigned */
 	uint32_t Aid, QueId;
 
@@ -1215,10 +1215,10 @@ Note:
 VOID UAPSD_QueueStatusGet(
 	IN	struct rtmp_adapter *	pAd,
 	IN	MAC_TABLE_ENTRY		*pEntry,
-	OUT	BOOLEAN				*pFlgIsAnyPktForBK,
-	OUT BOOLEAN				*pFlgIsAnyPktForBE,
-	OUT BOOLEAN				*pFlgIsAnyPktForVI,
-	OUT BOOLEAN				*pFlgIsAnyPktForVO)
+	OUT	bool				*pFlgIsAnyPktForBK,
+	OUT bool				*pFlgIsAnyPktForBE,
+	OUT bool				*pFlgIsAnyPktForVI,
+	OUT bool				*pFlgIsAnyPktForVO)
 {
 	*pFlgIsAnyPktForBK = FALSE;
 	*pFlgIsAnyPktForBE = FALSE;
@@ -1277,9 +1277,9 @@ VOID UAPSD_TriggerFrameHandle(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry,
 	uint32_t SpLenMap[WMM_NUM_OF_AC] = { 0, 2, 4, 6 };
 	UCHAR	QueIdList[WMM_NUM_OF_AC] = { QID_AC_BE, QID_AC_BK,
                                             QID_AC_VI, QID_AC_VO };
-	BOOLEAN	FlgQueEmpty;
-	BOOLEAN	FlgNullSnd;
-	BOOLEAN	FlgMgmtFrame;
+	bool	FlgQueEmpty;
+	bool	FlgNullSnd;
+	bool	FlgMgmtFrame;
 	uint32_t Aid, QueId;
 	int32_t IdAc; /* must be signed, can not use unsigned */
 /*	ULONG    FlgIrq; */

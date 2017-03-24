@@ -166,7 +166,7 @@ INT StaAllowToSendPacket(
 	struct sk_buff *pPacket,
 	UCHAR *pWcid)
 {
-	BOOLEAN allowToSend;
+	bool allowToSend;
 
 	if (!INFRA_ON(pAd) && !ADHOC_ON(pAd))
 	{

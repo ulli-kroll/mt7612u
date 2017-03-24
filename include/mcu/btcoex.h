@@ -150,7 +150,7 @@ struct _MAC_TABLE_ENTRY;
 #define COEX_WIFI_LINK_DOWN         2
 
 typedef struct PROTECTION_FRAME_STRUCT {
-	BOOLEAN     Occupied;
+	bool     Occupied;
        ULONG         Triggernumber;
        ULONG         Valid;
        ULONG         NodeType;
@@ -159,16 +159,16 @@ typedef struct PROTECTION_FRAME_STRUCT {
 } PROTECTION_FRAME_STRUCT, *PPROTECTION_FRAME_STRUCT;
 
 typedef struct _COEX_RX_MANUAL_AGC_GAIN {
-	BOOLEAN     bEnable;
-       BOOLEAN     bStopAGC;
+	bool     bEnable;
+       bool     bStopAGC;
 	CHAR      LMthreshold;
 	CHAR      MHthreshold;
 } COEX_RX_MANUAL_AGC_GAIN, *PCOEX_RX_MANUAL_AGC_GAIN;
 
 typedef struct _COEX_MODE_STRUCTURE {
-	BOOLEAN     bForce;
-    BOOLEAN     FDDRequest;
-    BOOLEAN     TDDRequest;
+	bool     bForce;
+    bool     FDDRequest;
+    bool     TDDRequest;
     ULONG       TDD_Power;
     ULONG       FDD_Power;
 	ULONG       DefaultMode;
@@ -259,7 +259,7 @@ VOID BtAFHCtl(
 		IN UCHAR			BBPCurrentBW,
 		IN UCHAR			Channel,
 		IN UCHAR			CentralChannel,
-		IN BOOLEAN			Disable);
+		IN bool			Disable);
 
 VOID TDDFDDExclusiveRequest(IN struct rtmp_adapter *pAd, UCHAR CoexMode);
 
@@ -313,7 +313,7 @@ VOID SendAndesAFH(
 	IN UCHAR			BBPCurrentBW,
 	IN UCHAR			Channel,
 	IN UCHAR			CentralChannel,
-	IN BOOLEAN			Disable,
+	IN bool			Disable,
 	IN ULONG                     BssHashID);
 
 
@@ -335,7 +335,7 @@ VOID COEXLinkDown(
 ULONG QueryHashID(
 	IN struct rtmp_adapter *pAd,
 	PUCHAR pAddr,
-	BOOLEAN RemoveBSS);
+	bool RemoveBSS);
 
 VOID CoexParseBTStatus(
     IN struct rtmp_adapter *pAd

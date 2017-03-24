@@ -148,7 +148,7 @@ typedef struct _WNM_CTRL {
 	u8 *TimeadvertisementIE;
 	u8 *TimezoneIE;
 	struct semaphore BTMPeerListLock;
-	BOOLEAN ProxyARPEnable;
+	bool ProxyARPEnable;
 	struct semaphore ProxyARPListLock;
 	struct semaphore ProxyARPIPv6ListLock;
 	DL_LIST IPv4ProxyARPList;
@@ -161,40 +161,40 @@ enum IPTYPE {
 	IPV6
 };
 
-BOOLEAN IsGratuitousARP(IN u8 *pData);
+bool IsGratuitousARP(IN u8 *pData);
 
-BOOLEAN IsUnsolicitedNeighborAdver(Pstruct rtmp_adapter pAd,
+bool IsUnsolicitedNeighborAdver(Pstruct rtmp_adapter pAd,
 								   u8 *pData);
 
-BOOLEAN IsIPv4ProxyARPCandidate(IN Pstruct rtmp_adapter pAd,
+bool IsIPv4ProxyARPCandidate(IN Pstruct rtmp_adapter pAd,
 								IN u8 *pData);
 
-BOOLEAN IsIPv6ProxyARPCandidate(IN Pstruct rtmp_adapter pAd,
+bool IsIPv6ProxyARPCandidate(IN Pstruct rtmp_adapter pAd,
 								IN u8 *pData);
 
-BOOLEAN IsIPv6RouterSolicitation(IN Pstruct rtmp_adapter pAd,
+bool IsIPv6RouterSolicitation(IN Pstruct rtmp_adapter pAd,
 								 IN u8 *pData);
 
-BOOLEAN IsIPv6RouterAdvertisement(IN Pstruct rtmp_adapter pAd,
+bool IsIPv6RouterAdvertisement(IN Pstruct rtmp_adapter pAd,
 								  IN u8 *pData);
 
-BOOLEAN IsTDLSPacket(IN Pstruct rtmp_adapter pAd,
+bool IsTDLSPacket(IN Pstruct rtmp_adapter pAd,
 					 IN u8 *pData);
 
 struct _MULTISSID_STRUCT;
 
-BOOLEAN IPv4ProxyARP(IN Pstruct rtmp_adapter pAd,
+bool IPv4ProxyARP(IN Pstruct rtmp_adapter pAd,
 				 	 IN struct _MULTISSID_STRUCT *pMbss,
 				 	 IN u8 *pData,
-					 IN BOOLEAN FromDS);
+					 IN bool FromDS);
 
-BOOLEAN IsIpv6DuplicateAddrDetect(Pstruct rtmp_adapter pAd,
+bool IsIpv6DuplicateAddrDetect(Pstruct rtmp_adapter pAd,
 								  u8 *pData);
 
-BOOLEAN IPv6ProxyARP(IN Pstruct rtmp_adapter pAd,
+bool IPv6ProxyARP(IN Pstruct rtmp_adapter pAd,
 					 IN struct _MULTISSID_STRUCT *pMbss,
 					 IN u8 *pData,
-					 IN BOOLEAN FromDS);
+					 IN bool FromDS);
 
 uint32_t AddIPv4ProxyARPEntry(IN Pstruct rtmp_adapter pAd,
 					   		IN struct _MULTISSID_STRUCT *pMbss,
@@ -212,11 +212,11 @@ uint32_t IPv4ProxyARPTableLen(IN Pstruct rtmp_adapter pAd,
 uint32_t IPv6ProxyARPTableLen(IN Pstruct rtmp_adapter pAd,
 							IN struct _MULTISSID_STRUCT *pMbss);
 
-BOOLEAN GetIPv4ProxyARPTable(IN Pstruct rtmp_adapter pAd,
+bool GetIPv4ProxyARPTable(IN Pstruct rtmp_adapter pAd,
 							 IN struct _MULTISSID_STRUCT *pMbss,
 							 OUT	u8 **ProxyARPTable);
 
-BOOLEAN GetIPv6ProxyARPTable(IN Pstruct rtmp_adapter pAd,
+bool GetIPv6ProxyARPTable(IN Pstruct rtmp_adapter pAd,
 							 IN struct _MULTISSID_STRUCT *pMbss,
 							 OUT	u8 **ProxyARPTable);
 

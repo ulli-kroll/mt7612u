@@ -412,7 +412,7 @@ struct _RTMP_CHIP_CAP_ {
 	UCHAR RfReg17WtMethod;
 
 	/* beacon */
-	BOOLEAN FlgIsSupSpecBcnBuf;	/* SPECIFIC_BCN_BUF_SUPPORT */
+	bool FlgIsSupSpecBcnBuf;	/* SPECIFIC_BCN_BUF_SUPPORT */
 	UINT8 BcnMaxNum;	/* software use */
 	UINT8 BcnMaxHwNum;	/* hardware limitation */
 	UINT8 WcidHwRsvNum;	/* hardware available WCID number */
@@ -421,7 +421,7 @@ struct _RTMP_CHIP_CAP_ {
 
 	/* function */
 	/* use UINT8, not bit-or to speed up driver */
-	BOOLEAN FlgIsHwWapiSup;
+	bool FlgIsHwWapiSup;
 
 	/* VCO calibration mode */
 	UINT8 VcoPeriod; /* default 10s */
@@ -431,11 +431,11 @@ struct _RTMP_CHIP_CAP_ {
 #define VCO_CAL_MODE_3		3	/* toggle RF4[7] or RF5[7] */
 	UINT8	FlgIsVcoReCalMode;
 
-	BOOLEAN FlgIsHwAntennaDiversitySup;
-	BOOLEAN Flg7662ChipCap;
-	BOOLEAN FlgHwTxBfCap;
+	bool FlgIsHwAntennaDiversitySup;
+	bool Flg7662ChipCap;
+	bool FlgHwTxBfCap;
 #ifdef FIFO_EXT_SUPPORT
-	BOOLEAN FlgHwFifoExtCap;
+	bool FlgHwFifoExtCap;
 #endif /* FIFO_EXT_SUPPORT */
 
 	UCHAR ba_max_cnt;
@@ -448,21 +448,21 @@ struct _RTMP_CHIP_CAP_ {
 	enum RF_TYPE rf_type;
 
 
-	BOOLEAN temp_tx_alc_enable;
+	bool temp_tx_alc_enable;
 	int32_t temp_25_ref; /* a quantification value of temperature, but not ¢J */
 	int32_t current_temp; /* unit ¢J */
 
 #ifdef DYNAMIC_VGA_SUPPORT
-	BOOLEAN dynamic_vga_support;
+	bool dynamic_vga_support;
 	int32_t compensate_level;
 	int32_t avg_rssi_0;
 	int32_t avg_rssi_1;
 	int32_t avg_rssi_all;
 	UCHAR dynamic_chE_mode;
-	BOOLEAN dynamic_chE_trigger;
+	bool dynamic_chE_trigger;
 #ifdef CONFIG_AP_SUPPORT
 	int32_t dynamic_lna_trigger_timer;
-	BOOLEAN microwave_enable;
+	bool microwave_enable;
 	int32_t agc1_r35_backup;
 	int32_t agc1_r39_backup;
 	int32_t agc1_r41_backup;
@@ -480,10 +480,10 @@ struct _RTMP_CHIP_CAP_ {
 
 	UINT8 ac_off_mode;		/* 11AC off mode */
 
-	BOOLEAN bTempCompTxALC;
-	BOOLEAN rx_temp_comp;
+	bool bTempCompTxALC;
+	bool rx_temp_comp;
 
-	BOOLEAN bLimitPowerRange; /* TSSI compensation range limit */
+	bool bLimitPowerRange; /* TSSI compensation range limit */
 
 	/* ---------------------------- packet ---------------------------------- */
 	UINT8 TXWISize;
@@ -536,9 +536,9 @@ struct _RTMP_CHIP_CAP_ {
 	uint32_t WlanMemmapOffset;
 	uint32_t InbandPacketMaxLen; /* must be 48 multible */
 	UINT8 CmdRspRxRing;
-	BOOLEAN IsComboChip;
-	BOOLEAN need_load_fw;
-	BOOLEAN need_load_rom_patch;
+	bool IsComboChip;
+	bool need_load_fw;
+	bool need_load_rom_patch;
 	u8 ram_code_protect;
 	u8 rom_code_protect;
 	u8 load_iv;
@@ -567,8 +567,8 @@ struct _RTMP_CHIP_CAP_ {
 	u8 *fw_name;		/* ULLI : rename to catch compiler errors */
 	u8 *fw_patch_name;	/* ULLI : rename to catch compiler errors */
 
-	BOOLEAN tssi_enable;
-	BOOLEAN ed_cca_enable;
+	bool tssi_enable;
+	bool ed_cca_enable;
 
 #define TSSI_INIT_STAGE 0
 #define TSSI_CAL_STAGE 1
@@ -675,7 +675,7 @@ struct _RTMP_CHIP_CAP_ {
 	CHAR rf1_5g_grp4_rx_high_gain;
 	CHAR rf0_5g_grp5_rx_high_gain;
 	CHAR rf1_5g_grp5_rx_high_gain;
-	BOOLEAN chl_smth_enable;
+	bool chl_smth_enable;
 
 	MT76x2_RATE_PWR_Table rate_pwr_table;
 
@@ -694,18 +694,18 @@ typedef enum _CHIP_SPEC_ID
 
 
 struct _RTMP_CHIP_OP_ {
-	int (*sys_onoff)(struct rtmp_adapter *pAd, BOOLEAN on, BOOLEAN reser);
+	int (*sys_onoff)(struct rtmp_adapter *pAd, bool on, bool reser);
 
 	/* MCU related callback functions */
 	int (*load_rom_patch)(struct rtmp_adapter *ad);
 	int (*loadFirmware)(struct rtmp_adapter *pAd);
 	int (*eraseFirmware)(struct rtmp_adapter *pAd);
-	int (*sendCommandToMcu)(struct rtmp_adapter *pAd, UCHAR cmd, UCHAR token, UCHAR arg0, UCHAR arg1, BOOLEAN FlgIsNeedLocked);	/* int (*sendCommandToMcu)(struct rtmp_adapter *pAd, UCHAR cmd, UCHAR token, UCHAR arg0, UCHAR arg1); */
+	int (*sendCommandToMcu)(struct rtmp_adapter *pAd, UCHAR cmd, UCHAR token, UCHAR arg0, UCHAR arg1, bool FlgIsNeedLocked);	/* int (*sendCommandToMcu)(struct rtmp_adapter *pAd, UCHAR cmd, UCHAR token, UCHAR arg0, UCHAR arg1); */
 #ifdef CONFIG_ANDES_SUPPORT
-	int (*sendCommandToAndesMcu)(struct rtmp_adapter *pAd, UCHAR QueIdx, UCHAR cmd, UCHAR *pData, USHORT DataLen, BOOLEAN FlgIsNeedLocked);
+	int (*sendCommandToAndesMcu)(struct rtmp_adapter *pAd, UCHAR QueIdx, UCHAR cmd, UCHAR *pData, USHORT DataLen, bool FlgIsNeedLocked);
 #endif
 	/* Power save */
-	void (*EnableAPMIMOPS)(struct rtmp_adapter *pAd, IN BOOLEAN ReduceCorePower);
+	void (*EnableAPMIMOPS)(struct rtmp_adapter *pAd, IN bool ReduceCorePower);
 	void (*DisableAPMIMOPS)(struct rtmp_adapter *pAd);
 	INT (*PwrSavingOP)(struct rtmp_adapter *pAd, uint32_t PwrOP, uint32_t PwrLevel,
 							uint32_t ListenInterval, uint32_t PreTBTTLeadTime,
@@ -715,7 +715,7 @@ struct _RTMP_CHIP_OP_ {
 	VOID (*ChipBBPAdjust)(IN struct rtmp_adapter *pAd);
 
 	/* Channel */
-	VOID (*ChipSwitchChannel)(struct rtmp_adapter *pAd, UCHAR ch, BOOLEAN bScan);
+	VOID (*ChipSwitchChannel)(struct rtmp_adapter *pAd, UCHAR ch, bool bScan);
 
 
 	/* IQ Calibration */
@@ -958,8 +958,8 @@ extern FREQUENCY_ITEM *FreqItems3020;
 extern RTMP_RF_REGS RF2850RegTable[];
 extern UCHAR NUM_OF_2850_CHNL;
 
-BOOLEAN AsicWaitPDMAIdle(struct rtmp_adapter *pAd, INT round, INT wait_us);
-INT AsicSetPreTbttInt(struct rtmp_adapter *pAd, BOOLEAN enable);
+bool AsicWaitPDMAIdle(struct rtmp_adapter *pAd, INT round, INT wait_us);
+INT AsicSetPreTbttInt(struct rtmp_adapter *pAd, bool enable);
 INT AsicReadAggCnt(struct rtmp_adapter *pAd, ULONG *aggCnt, int cnt_len);
 
 INT rtmp_asic_top_init(struct rtmp_adapter *pAd);
@@ -967,7 +967,7 @@ INT rtmp_asic_top_init(struct rtmp_adapter *pAd);
 INT StopDmaTx(struct rtmp_adapter *pAd, UCHAR Level);
 INT StopDmaRx(struct rtmp_adapter *pAd, UCHAR Level);
 
-BOOLEAN isExternalPAMode(struct rtmp_adapter *ad, INT channel);
-BOOLEAN is_external_lna_mode(struct rtmp_adapter *ad, INT channel);
+bool isExternalPAMode(struct rtmp_adapter *ad, INT channel);
+bool is_external_lna_mode(struct rtmp_adapter *ad, INT channel);
 #endif /* __RTMP_CHIP_H__ */
 

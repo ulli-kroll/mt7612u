@@ -154,7 +154,7 @@ static VOID ApCliMlmeProbeReqAction(
 	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
-	BOOLEAN Cancelled;
+	bool Cancelled;
 	APCLI_MLME_JOIN_REQ_STRUCT *Info = (APCLI_MLME_JOIN_REQ_STRUCT *)(Elem->Msg);
 	USHORT ifIndex = (USHORT)(Elem->Priv);
 	PULONG pCurrState = &pAd->ApCfg.ApCliTab[ifIndex].SyncCurrState;
@@ -420,7 +420,7 @@ static VOID ApCliPeerProbeRspAtJoinAction(
 			}
 			else
 			{
-				BOOLEAN Cancelled;
+				bool Cancelled;
 				RTMPCancelTimer(&pApCliEntry->MlmeAux.ProbeTimer, &Cancelled);
 			}
 
@@ -616,7 +616,7 @@ static VOID ApCliEnqueueProbeRequest(
 	UCHAR ssidLen;
 	CHAR ssid[MAX_LEN_OF_SSID];
 	APCLI_STRUCT *pApCliEntry = NULL;
-	BOOLEAN bHasWscIe = FALSE;
+	bool bHasWscIe = FALSE;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("force out a ProbeRequest ...\n"));
 

@@ -125,7 +125,7 @@ void Announce_Reordering_Packet(struct rtmp_adapter *pAd, struct reordering_mpdu
 
 
 /* Insert a reordering mpdu into sorted linked list by sequence no. */
-BOOLEAN ba_reordering_mpdu_insertsorted(struct reordering_list *list, struct reordering_mpdu *mpdu)
+bool ba_reordering_mpdu_insertsorted(struct reordering_list *list, struct reordering_mpdu *mpdu)
 {
 
 	struct reordering_mpdu **ppScan = &list->next;
@@ -237,7 +237,7 @@ void ba_reordering_resource_release(struct rtmp_adapter *pAd)
 /*
  * Allocate all resource for reordering mechanism
  */
-BOOLEAN ba_reordering_resource_init(struct rtmp_adapter *pAd, int num)
+bool ba_reordering_resource_init(struct rtmp_adapter *pAd, int num)
 {
 	int     i;
 	u8 * mem;
@@ -458,11 +458,11 @@ VOID BAOriSessionSetUp(
 	IN UCHAR TID,
 	IN USHORT TimeOut,
 	IN ULONG DelayTime,
-	IN BOOLEAN isForced)
+	IN bool isForced)
 {
 	BA_ORI_ENTRY *pBAEntry = NULL;
 	USHORT Idx;
-	BOOLEAN Cancelled;
+	bool Cancelled;
     UCHAR BAWinSize = 0;
 
 	ASSERT(TID < NUM_OF_TID);
@@ -539,7 +539,7 @@ VOID BAOriSessionAdd(
 	IN FRAME_ADDBA_RSP *pFrame)
 {
 	BA_ORI_ENTRY  *pBAEntry = NULL;
-	BOOLEAN Cancelled;
+	bool Cancelled;
 	UCHAR TID;
 	USHORT Idx;
 	UCHAR *pOutBuffer2 = NULL;
@@ -620,13 +620,13 @@ VOID BAOriSessionAdd(
 }
 
 
-BOOLEAN BARecSessionAdd(
+bool BARecSessionAdd(
 	IN struct rtmp_adapter *pAd,
 	IN MAC_TABLE_ENTRY *pEntry,
 	IN FRAME_ADDBA_REQ *pFrame)
 {
 	BA_REC_ENTRY *pBAEntry = NULL;
-	BOOLEAN Status = TRUE, Cancelled;
+	bool Status = TRUE, Cancelled;
 	USHORT Idx;
 	UCHAR TID, BAWinSize;
 
@@ -838,12 +838,12 @@ VOID BAOriSessionTearDown(
 	INOUT struct rtmp_adapter *pAd,
 	IN UCHAR Wcid,
 	IN UCHAR TID,
-	IN BOOLEAN bPassive,
-	IN BOOLEAN bForceSend)
+	IN bool bPassive,
+	IN bool bForceSend)
 {
 	UINT Idx = 0;
 	BA_ORI_ENTRY *pBAEntry;
-	BOOLEAN Cancelled;
+	bool Cancelled;
 
 	if (Wcid >= MAX_LEN_OF_MAC_TABLE)
 		return;
@@ -923,7 +923,7 @@ VOID BARecSessionTearDown(
 						 IN OUT  struct rtmp_adapter *  pAd,
 						 IN      UCHAR           Wcid,
 						 IN      UCHAR           TID,
-						 IN      BOOLEAN         bPassive)
+						 IN      bool         bPassive)
 {
 	ULONG Idx = 0;
 	BA_REC_ENTRY *pBAEntry;
@@ -946,7 +946,7 @@ VOID BARecSessionTearDown(
 	if ((TID == pBAEntry->TID) && (pBAEntry->REC_BA_Status == Recipient_Accept))
 	{
 		MLME_DELBA_REQ_STRUCT DelbaReq;
-		BOOLEAN Cancelled;
+		bool Cancelled;
 
 		RTMPCancelTimer(&pBAEntry->RECBATimer, &Cancelled);
 
@@ -1346,7 +1346,7 @@ VOID PeerDelBAAction(
 }
 
 
-BOOLEAN CntlEnqueueForRecv(
+bool CntlEnqueueForRecv(
 						  IN struct rtmp_adapter *pAd,
 						  IN ULONG Wcid,
 						  IN ULONG MsgLen,
@@ -1920,7 +1920,7 @@ static VOID Peer_DelBA_Tx_Adapt_Enable(
 	if (pEntry)
 	{
 		uint32_t MacReg = 0;
-		BOOLEAN Cancelled;
+		bool Cancelled;
 
 		pEntry->bPeerDelBaTxAdaptEn = 1;
 		RTMPCancelTimer(&pEntry->DelBA_tx_AdaptTimer, &Cancelled);
@@ -1956,7 +1956,7 @@ static VOID Peer_DelBA_Tx_Adapt_Disable(
 	}
 
 	if (pEntry && pEntry->bPeerDelBaTxAdaptEn) {
-		BOOLEAN Cancelled;
+		bool Cancelled;
 
 		if (IS_RT6352(pAd))
 		{

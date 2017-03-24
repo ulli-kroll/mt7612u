@@ -164,7 +164,7 @@ typedef	struct GNU_PACKED _RXD_STRUC{
 	Management ring buffer format
 */
 typedef	struct _MGMT_STRUC {
-	BOOLEAN		Valid;
+	bool		Valid;
 	u8 *	pBuffer;
 	ULONG		Length;
 } MGMT_STRUC, *PMGMT_STRUC;
@@ -211,12 +211,12 @@ typedef struct _TX_CONTEXT
 	ULONG			BulkOutSize;
 	UCHAR			BulkOutPipeId;
 	UCHAR			SelfIdx;
-	BOOLEAN			InUse;
-	BOOLEAN			bWaitingBulkOut; /* at least one packet is in this TxContext, ready for making IRP anytime. */
-	BOOLEAN			bFullForBulkOut; /* all tx buffer are full , so waiting for tx bulkout. */
-	BOOLEAN			IRPPending;
-	BOOLEAN			LastOne;
-	BOOLEAN			bAggregatible;
+	bool			InUse;
+	bool			bWaitingBulkOut; /* at least one packet is in this TxContext, ready for making IRP anytime. */
+	bool			bFullForBulkOut; /* all tx buffer are full , so waiting for tx bulkout. */
+	bool			IRPPending;
+	bool			LastOne;
+	bool			bAggregatible;
 	UCHAR			Header_802_3[LENGTH_802_3];
 	UCHAR			Rsv[2];
 	ULONG			DataOffset;
@@ -239,11 +239,11 @@ typedef struct _HT_TX_CONTEXT
 	PHTTX_BUFFER	TransferBuffer;	/*Initialized in MiniportInitialize */
 	ULONG			BulkOutSize;	/* Indicate the total bulk-out size in bytes in one bulk-transmission */
 	UCHAR			BulkOutPipeId;
-	BOOLEAN			IRPPending;
-	BOOLEAN			LastOne;
-	BOOLEAN			bCurWriting;
-	BOOLEAN			bRingEmpty;
-	BOOLEAN			bCopySavePad;
+	bool			IRPPending;
+	bool			LastOne;
+	bool			bCurWriting;
+	bool			bRingEmpty;
+	bool			bCopySavePad;
 	UCHAR			SavedPad[8];
 	UCHAR			Header_802_3[LENGTH_802_3];
 	ULONG			CurWritePosition;		/* Indicate the buffer offset which packet will be inserted start from. */
@@ -266,7 +266,7 @@ typedef struct _CMD_CONTEXT
 	PURB pUrb;
 	ra_dma_addr_t data_dma;
 	u8 *TransferBuffer;
-	BOOLEAN IRPPending;
+	bool IRPPending;
 }  CMD_CONTEXT, *PCMD_CONTEXT, **PPCMD_CONTEXT;
 
 /*
@@ -281,11 +281,11 @@ typedef struct _RX_CONTEXT
 	PURB				pUrb;
 	/*These 2 Boolean shouldn't both be 1 at the same time. */
 	ULONG				BulkInOffset;	/* number of packets waiting for reordering . */
-/*	BOOLEAN				ReorderInUse;	// At least one packet in this buffer are in reordering buffer and wait for receive indication */
-	BOOLEAN				bRxHandling;	/* Notify this packet is being process now. */
-	BOOLEAN				InUse;			/* USB Hardware Occupied. Wait for USB HW to put packet. */
-	BOOLEAN				Readable;		/* Receive Complete back. OK for driver to indicate receiving packet. */
-	BOOLEAN				IRPPending;		/* TODO: To be removed */
+/*	bool				ReorderInUse;	// At least one packet in this buffer are in reordering buffer and wait for receive indication */
+	bool				bRxHandling;	/* Notify this packet is being process now. */
+	bool				InUse;			/* USB Hardware Occupied. Wait for USB HW to put packet. */
+	bool				Readable;		/* Receive Complete back. OK for driver to indicate receiving packet. */
+	bool				IRPPending;		/* TODO: To be removed */
 	/*atomic_t				IrpLock; */
 	spinlock_t		RxContextLock;
 	ra_dma_addr_t			data_dma;		/* urb dma on linux */
@@ -297,9 +297,9 @@ typedef struct _CMD_RSP_CONTEXT
 	u8 *CmdRspBuffer;
 	PVOID pAd;
 	PURB pUrb;
-	BOOLEAN IRPPending;
-	BOOLEAN InUse;
-	BOOLEAN Readable;
+	bool IRPPending;
+	bool InUse;
+	bool Readable;
 	ra_dma_addr_t data_dma;
 } CMD_RSP_CONTEXT, *PCMD_RSP_CONTEXT;
 

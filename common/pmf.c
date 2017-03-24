@@ -238,7 +238,7 @@ VOID PMF_PeerSAQueryRspAction(
                 PMAC_TABLE_ENTRY pEntry;
                 PFRAME_802_11 pHeader;
                 USHORT TransactionID;
-                BOOLEAN Cancelled;
+                bool Cancelled;
 
                 DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s : Receive SA Query Response\n", __FUNCTION__));
 
@@ -297,7 +297,7 @@ VOID PMF_SAQueryTimeOut(
 #ifdef CONFIG_STA_SUPPORT
 		IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
 		{
-			BOOLEAN Cancelled;
+			bool Cancelled;
 			MLME_DISASSOC_REQ_STRUCT DisassocReq;
 
 			RTMPCancelTimer(&pEntry->SAQueryTimer, &Cancelled);
@@ -353,7 +353,7 @@ VOID PMF_ConstructBIPAad(
 }
 
 
-BOOLEAN PMF_CalculateBIPMIC(
+bool PMF_CalculateBIPMIC(
 	IN struct rtmp_adapter *pAd,
 	IN u8 *pAadHdr,
 	IN u8 *pFrameBuf,
@@ -562,7 +562,7 @@ VOID PMF_InsertIGTKKDE(
 
 	========================================================================
 */
-BOOLEAN PMF_ExtractIGTKKDE(
+bool PMF_ExtractIGTKKDE(
 	IN struct rtmp_adapter *pAd,
 	IN u8 *pBuf,
 	IN INT buf_len)
@@ -632,7 +632,7 @@ VOID PMF_MakeRsnIeGMgmtCipher(
 	OUT UCHAR *rsn_len)
 {
 	uint8_t * pBuf;
-	BOOLEAN MFP_Enabled = FALSE;
+	bool MFP_Enabled = FALSE;
 
 	/* it could be ignored in WPA1 mode */
 	if (ElementID == WpaIe)
@@ -685,13 +685,13 @@ int PMF_RsnCapableValidation(
         IN struct rtmp_adapter *pAd,
         IN uint8_t * pRsnie,
         IN UINT rsnie_len,
-        IN BOOLEAN self_MFPC,
-	IN BOOLEAN self_MFPR,
+        IN bool self_MFPC,
+	IN bool self_MFPR,
         IN PMAC_TABLE_ENTRY pEntry)
 {
 	UINT8 count;
 	uint8_t * pBuf = NULL;
-	BOOLEAN	peer_MFPC = FALSE, peer_MFPR = FALSE;
+	bool	peer_MFPC = FALSE, peer_MFPR = FALSE;
 
 	/* Check the peer's MPFC and MPFR -
 	   Refer to Table 8-1a, IEEE 802.11W to check the PMF policy */
@@ -783,7 +783,7 @@ INT PMF_RobustFrameClassify(
 	IN u8 *pFrame,
 	IN UINT	frame_len,
 	IN u8 *pData,
-	IN BOOLEAN IsRx)
+	IN bool IsRx)
 {
 	PMAC_TABLE_ENTRY pEntry = pData;
 
@@ -1145,7 +1145,7 @@ INT PMF_ExtractBIPAction(
 }
 
 
-BOOLEAN	PMF_PerformTxFrameAction(
+bool	PMF_PerformTxFrameAction(
 	IN struct rtmp_adapter *pAd,
 	OUT struct sk_buff *pPacket)
 {
@@ -1237,7 +1237,7 @@ Note:
 
 ========================================================================
 */
-BOOLEAN	PMF_PerformRxFrameAction(
+bool	PMF_PerformRxFrameAction(
 	IN struct rtmp_adapter *pAd,
 	IN RX_BLK *pRxBlk)
 {

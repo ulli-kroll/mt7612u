@@ -51,7 +51,7 @@
 
 #include "rt_config.h"
 
-BOOLEAN ApCliWaitProbRsp(struct rtmp_adapter *pAd, USHORT ifIndex)
+bool ApCliWaitProbRsp(struct rtmp_adapter *pAd, USHORT ifIndex)
 {
         if (ifIndex >= MAX_APCLI_NUM)
                 return FALSE;
@@ -145,7 +145,7 @@ INT ApCliIfLookUp(struct rtmp_adapter *pAd, UCHAR *pAddr)
 }
 
 
-BOOLEAN isValidApCliIf(SHORT if_idx)
+bool isValidApCliIf(SHORT if_idx)
 {
 	return (((if_idx >= 0) && (if_idx < MAX_APCLI_NUM)) ? TRUE : FALSE);
 }
@@ -197,7 +197,7 @@ VOID ApCliMgtMacHeaderInit(
 
 	========================================================================
 */
-BOOLEAN ApCliCheckHt(
+bool ApCliCheckHt(
 	IN struct rtmp_adapter *pAd,
 	IN USHORT IfIndex,
 	INOUT HT_CAPABILITY_IE *pHtCapability,
@@ -264,7 +264,7 @@ BOOLEAN ApCliCheckHt(
 	return TRUE;
 }
 
-BOOLEAN ApCliCheckVht(
+bool ApCliCheckVht(
 	IN struct rtmp_adapter *pAd,
 	IN UCHAR Wcid,
 	IN MAC_TABLE_ENTRY  *pEntry,
@@ -356,9 +356,9 @@ VOID ComposeP2PNullFrame(
 
 	==========================================================================
 */
-BOOLEAN ApCliLinkUp(struct rtmp_adapter *pAd, UCHAR ifIndex)
+bool ApCliLinkUp(struct rtmp_adapter *pAd, UCHAR ifIndex)
 {
-	BOOLEAN result = FALSE;
+	bool result = FALSE;
 	PAPCLI_STRUCT pApCliEntry = NULL;
 	PMAC_TABLE_ENTRY pMacEntry = NULL;
 	struct rtmp_wifi_dev *wdev;
@@ -1011,7 +1011,7 @@ VOID ApCliIfMonitor(struct rtmp_adapter *pAd)
 #endif /* APCLI_CONNECTION_TRIAL */
 		UCHAR Wcid;
 		PMAC_TABLE_ENTRY pMacEntry;
-		BOOLEAN bForceBrocken = FALSE;
+		bool bForceBrocken = FALSE;
 
 		pApCliEntry = &pAd->ApCfg.ApCliTab[index];
 
@@ -1059,7 +1059,7 @@ VOID ApCliIfMonitor(struct rtmp_adapter *pAd)
  *  \pre
  *  \post
  */
-BOOLEAN ApCliMsgTypeSubst(
+bool ApCliMsgTypeSubst(
 	IN struct rtmp_adapter *pAd,
 	IN PFRAME_802_11 pFrame,
 	OUT INT *Machine,
@@ -1067,7 +1067,7 @@ BOOLEAN ApCliMsgTypeSubst(
 {
 	USHORT Seq;
 	UCHAR EAPType;
-	BOOLEAN Return = FALSE;
+	bool Return = FALSE;
 
 
 	/* only PROBE_REQ can be broadcast, all others must be unicast-to-me && is_mybssid; otherwise, */
@@ -1136,7 +1136,7 @@ BOOLEAN ApCliMsgTypeSubst(
 }
 
 
-BOOLEAN preCheckMsgTypeSubset(
+bool preCheckMsgTypeSubset(
 	IN struct rtmp_adapter * pAd,
 	IN PFRAME_802_11 pFrame,
 	OUT INT *Machine,
@@ -1178,7 +1178,7 @@ BOOLEAN preCheckMsgTypeSubset(
 
     ==========================================================================
  */
-BOOLEAN ApCliPeerAssocRspSanity(
+bool ApCliPeerAssocRspSanity(
     IN struct rtmp_adapter *pAd,
     IN VOID *pMsg,
     IN ULONG MsgLen,
@@ -1401,9 +1401,9 @@ MAC_TABLE_ENTRY *ApCliTableLookUpByWcid(struct rtmp_adapter *pAd, UCHAR wcid, UC
 		Check the Apcli Entry is valid or not.
 	==========================================================================
  */
-static inline BOOLEAN ValidApCliEntry(struct rtmp_adapter *pAd, INT apCliIdx)
+static inline bool ValidApCliEntry(struct rtmp_adapter *pAd, INT apCliIdx)
 {
-	BOOLEAN result;
+	bool result;
 	PMAC_TABLE_ENTRY pMacEntry;
 	APCLI_STRUCT *pApCliEntry;
 
@@ -1450,7 +1450,7 @@ INT ApCliAllowToSendPacket(
 	OUT UCHAR *pWcid)
 {
 	UCHAR idx;
-	BOOLEAN	allowed = FALSE;
+	bool	allowed = FALSE;
 	APCLI_STRUCT *apcli_entry;
 
 
@@ -1495,7 +1495,7 @@ INT ApCliAllowToSendPacket(
 
 	========================================================================
 */
-BOOLEAN ApCliValidateRSNIE(
+bool ApCliValidateRSNIE(
 	IN struct rtmp_adapter *pAd,
 	IN PEID_STRUCT pEid_ptr,
 	IN USHORT eid_len,
@@ -2013,7 +2013,7 @@ BOOLEAN ApCliValidateRSNIE(
 }
 
 
-BOOLEAN  ApCliHandleRxBroadcastFrame(
+bool  ApCliHandleRxBroadcastFrame(
 	IN struct rtmp_adapter *pAd,
 	IN RX_BLK *pRxBlk,
 	IN MAC_TABLE_ENTRY *pEntry,
@@ -2095,7 +2095,7 @@ VOID APCliInstallPairwiseKey(
 }
 
 
-BOOLEAN APCliInstallSharedKey(
+bool APCliInstallSharedKey(
 	IN  struct rtmp_adapter *  pAd,
 	IN  u8 *         pKey,
 	IN  UCHAR           KeyLen,
@@ -2183,7 +2183,7 @@ VOID ApCliUpdateMlmeRate(struct rtmp_adapter *pAd, USHORT ifIndex)
 	UCHAR	MinimumRate;
 	UCHAR	ProperMlmeRate; /*= RATE_54; */
 	UCHAR	i, j, RateIdx = 12; /* 1, 2, 5.5, 11, 6, 9, 12, 18, 24, 36, 48, 54 */
-	BOOLEAN	bMatch = FALSE;
+	bool	bMatch = FALSE;
 
 	PAPCLI_STRUCT pApCliEntry = NULL;
 
@@ -2453,7 +2453,7 @@ VOID ApCli_Remove(struct rtmp_adapter *pAd)
 }
 
 
-BOOLEAN ApCli_Open(struct rtmp_adapter *pAd, struct net_device *dev_p)
+bool ApCli_Open(struct rtmp_adapter *pAd, struct net_device *dev_p)
 {
 	UCHAR ifIndex;
 
@@ -2475,7 +2475,7 @@ BOOLEAN ApCli_Open(struct rtmp_adapter *pAd, struct net_device *dev_p)
 }
 
 
-BOOLEAN ApCli_Close(struct rtmp_adapter *pAd, struct net_device *dev_p)
+bool ApCli_Close(struct rtmp_adapter *pAd, struct net_device *dev_p)
 {
 	UCHAR ifIndex;
 	struct rtmp_wifi_dev *wdev;
@@ -2533,7 +2533,7 @@ BOOLEAN ApCli_Close(struct rtmp_adapter *pAd, struct net_device *dev_p)
 	Note:
 	===================================================
 */
-BOOLEAN ApCliAutoConnectExec(
+bool ApCliAutoConnectExec(
 	IN  struct rtmp_adapter *  pAd)
 {
 	struct os_cookie * 	pObj = pAd->OS_Cookie;
@@ -2713,7 +2713,7 @@ VOID ApCliSwitchCandidateAP(
 
 }
 
-BOOLEAN ApcliCompareAuthEncryp(
+bool ApcliCompareAuthEncryp(
 	IN PAPCLI_STRUCT pApCliEntry,
 	IN NDIS_802_11_AUTHENTICATION_MODE AuthMode,
 	IN NDIS_802_11_AUTHENTICATION_MODE AuthModeAux,

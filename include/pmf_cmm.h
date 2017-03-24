@@ -59,20 +59,20 @@ typedef struct GNU_PACKED _PMF_CFG
 	 * A STA sets this bit to 1 to advertise that protection of Robust
 	 * Management Frames is enabled.
 	 */
-	BOOLEAN	MFPC;           /* This is actual active */
-	BOOLEAN	Desired_MFPC;	/* This is user desired */
+	bool	MFPC;           /* This is actual active */
+	bool	Desired_MFPC;	/* This is user desired */
 
-	/* 
+	/*
 	 * A STA sets this bit to 1 to advertise that protection of
 	 * Robust Management Frames is mandatory.
 	 * If a STA sets this bit to 1, then that STA only allows RSNAs
 	 * from STAs which provide Management Frame Protection.
 	 */
-	BOOLEAN	MFPR;           /* This is actual active */
-	BOOLEAN	Desired_MFPR;	/* This is user desired */
+	bool	MFPR;           /* This is actual active */
+	bool	Desired_MFPR;	/* This is user desired */
 
-	BOOLEAN	PMFSHA256;         /* This is actual active */
-	BOOLEAN	Desired_PMFSHA256; /* This is user desired */
+	bool	PMFSHA256;         /* This is actual active */
+	bool	Desired_PMFSHA256; /* This is user desired */
 
 	UINT8	IGTK_KeyIdx;			/* It shall be 4 or 5 */
 	UCHAR	IGTK[2][LEN_AES_GTK];

@@ -207,7 +207,7 @@ void inc_iv_byte(
 	UINT len,
 	UINT cnt);
 
-BOOLEAN WpaMsgTypeSubst(
+bool WpaMsgTypeSubst(
 	IN UCHAR EAPType,
 	OUT INT *MsgType);
 
@@ -272,7 +272,7 @@ VOID RTMPToWirelessSta(
 	IN UINT HdrLen,
 	IN u8 *pData,
 	IN UINT DataLen,
-	IN BOOLEAN bClearFrame);
+	IN bool bClearFrame);
 
 VOID WpaDerivePTK(
 	IN struct rtmp_adapter *pAd,
@@ -296,7 +296,7 @@ VOID GenRandom(
 	IN UCHAR *macAddr,
 	OUT UCHAR *random);
 
-BOOLEAN RTMPCheckWPAframe(
+bool RTMPCheckWPAframe(
 	IN struct rtmp_adapter *pAd,
 	IN PMAC_TABLE_ENTRY pEntry,
 	IN u8 *pData,
@@ -304,13 +304,13 @@ BOOLEAN RTMPCheckWPAframe(
 	IN UCHAR FromWhichBSSID);
 
 
-BOOLEAN RTMPParseEapolKeyData(
+bool RTMPParseEapolKeyData(
 	IN struct rtmp_adapter *pAd,
 	IN u8 *pKeyData,
 	IN UCHAR KeyDataLen,
 	IN UCHAR GroupKeyIndex,
 	IN UCHAR MsgType,
-	IN BOOLEAN bWPA2,
+	IN bool bWPA2,
 	IN MAC_TABLE_ENTRY *pEntry);
 
 VOID WPA_ConstructKdeHdr(
@@ -371,7 +371,7 @@ VOID WPAInstallPairwiseKey(
 	struct rtmp_adapter *pAd,
 	UINT8 BssIdx,
 	PMAC_TABLE_ENTRY pEntry,
-	BOOLEAN bAE);
+	bool bAE);
 
 VOID WPAInstallSharedKey(
 	struct rtmp_adapter *pAd,
@@ -379,7 +379,7 @@ VOID WPAInstallSharedKey(
 	UINT8 BssIdx,
 	UINT8 KeyIdx,
 	UINT8 Wcid,
-	BOOLEAN bAE,
+	bool bAE,
 	uint8_t * pGtk,
 	UINT8 GtkLen);
 
@@ -396,7 +396,7 @@ VOID CalculateMIC(
 	IN UCHAR *PTK,
 	OUT PEAPOL_PACKET pMsg);
 
-BOOLEAN rtmp_chk_tkip_mic(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry, RX_BLK *pRxBlk);
+bool rtmp_chk_tkip_mic(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry, RX_BLK *pRxBlk);
 
 #ifdef WPA_SUPPLICANT_SUPPORT
 INT WpaCheckEapCode(
@@ -427,14 +427,14 @@ VOID RTMPConstructWEPIVHdr(
 	IN UCHAR *pn,
 	OUT UCHAR *iv_hdr);
 
-BOOLEAN RTMPSoftEncryptWEP(
+bool RTMPSoftEncryptWEP(
 	IN struct rtmp_adapter *pAd,
 	IN u8 *pIvHdr,
 	IN PCIPHER_KEY pKey,
 	INOUT u8 *pData,
 	IN ULONG DataByteCnt);
 
-BOOLEAN RTMPSoftDecryptWEP(
+bool RTMPSoftDecryptWEP(
 	IN struct rtmp_adapter *pAd,
 	IN PCIPHER_KEY pKey,
 	INOUT u8 *pData,
@@ -445,7 +445,7 @@ BOOLEAN RTMPSoftDecryptWEP(
  	function prototype in cmm_tkip.c
  =====================================
 */
-BOOLEAN RTMPSoftDecryptTKIP(
+bool RTMPSoftDecryptTKIP(
 	IN struct rtmp_adapter *pAd,
 	IN u8 *pHdr,
 	IN UCHAR UserPriority,
@@ -472,7 +472,7 @@ VOID TKIP_GTK_KEY_UNWRAP(
  	function prototype in cmm_aes.c
  =====================================
 */
-BOOLEAN RTMPSoftDecryptAES(
+bool RTMPSoftDecryptAES(
 	IN struct rtmp_adapter *pAd,
 	IN u8 *pData,
 	IN ULONG DataByteCnt,
@@ -483,7 +483,7 @@ VOID RTMPConstructCCMPHdr(
 	IN UCHAR *pn,
 	OUT UCHAR *ccmp_hdr);
 
-BOOLEAN RTMPSoftEncryptCCMP(
+bool RTMPSoftEncryptCCMP(
 	IN struct rtmp_adapter *pAd,
 	IN u8 *pHdr,
 	IN u8 *pIV,
@@ -491,7 +491,7 @@ BOOLEAN RTMPSoftEncryptCCMP(
 	INOUT u8 *pData,
 	IN uint32_t DataLen);
 
-BOOLEAN RTMPSoftDecryptCCMP(
+bool RTMPSoftDecryptCCMP(
 	IN struct rtmp_adapter *pAd,
 	IN u8 *pHdr,
 	IN PCIPHER_KEY pKey,

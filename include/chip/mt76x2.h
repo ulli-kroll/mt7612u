@@ -22,7 +22,7 @@ int mt76x2_set_ed_cca(struct rtmp_adapter *ad, u8 enable);
 int mt76x2_reinit_agc_gain(struct rtmp_adapter *ad, u8 channel);
 int mt76x2_reinit_hi_lna_gain(struct rtmp_adapter *ad, u8 channel);
 void mt76x2_get_external_lna_gain(struct rtmp_adapter *ad);
-void mt76x2_get_agc_gain(struct rtmp_adapter *ad, BOOLEAN init_phase);
+void mt76x2_get_agc_gain(struct rtmp_adapter *ad, bool init_phase);
 void percentage_delta_pwr(struct rtmp_adapter *ad);
 
 void mt76x2_get_current_temp(struct rtmp_adapter *ad);

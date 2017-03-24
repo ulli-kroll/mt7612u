@@ -57,7 +57,7 @@ typedef struct wsc_ie_probreq_data
 
     ==========================================================================
  */
-BOOLEAN MlmeAddBAReqSanity(
+bool MlmeAddBAReqSanity(
     IN struct rtmp_adapter *pAd,
     IN VOID *Msg,
     IN ULONG MsgLen,
@@ -107,7 +107,7 @@ BOOLEAN MlmeAddBAReqSanity(
 
     ==========================================================================
  */
-BOOLEAN MlmeDelBAReqSanity(
+bool MlmeDelBAReqSanity(
     IN struct rtmp_adapter *pAd,
     IN VOID *Msg,
     IN ULONG MsgLen)
@@ -143,7 +143,7 @@ BOOLEAN MlmeDelBAReqSanity(
 }
 
 
-BOOLEAN PeerAddBAReqActionSanity(
+bool PeerAddBAReqActionSanity(
     IN struct rtmp_adapter *pAd,
     IN VOID *pMsg,
     IN ULONG MsgLen,
@@ -184,7 +184,7 @@ BOOLEAN PeerAddBAReqActionSanity(
 	return TRUE;
 }
 
-BOOLEAN PeerAddBARspActionSanity(
+bool PeerAddBARspActionSanity(
     IN struct rtmp_adapter *pAd,
     IN VOID *pMsg,
     IN ULONG MsgLen)
@@ -222,7 +222,7 @@ BOOLEAN PeerAddBARspActionSanity(
 
 }
 
-BOOLEAN PeerDelBAActionSanity(
+bool PeerDelBAActionSanity(
     IN struct rtmp_adapter *pAd,
     IN UCHAR Wcid,
     IN VOID *pMsg,
@@ -245,7 +245,7 @@ BOOLEAN PeerDelBAActionSanity(
 }
 
 
-BOOLEAN PeerBeaconAndProbeRspSanity_Old(
+bool PeerBeaconAndProbeRspSanity_Old(
     IN struct rtmp_adapter *pAd,
     IN VOID *Msg,
     IN ULONG MsgLen,
@@ -305,7 +305,7 @@ BOOLEAN PeerBeaconAndProbeRspSanity_Old(
     ULONG				Length = 0;
 	UCHAR				*pPeerWscIe = NULL;
 	INT					PeerWscIeLen = 0;
-	BOOLEAN				bWscCheck = TRUE;
+	bool				bWscCheck = TRUE;
     UCHAR				LatchRfChannel = 0;
 
 
@@ -929,7 +929,7 @@ SanityCheck:
 
     ==========================================================================
  */
-BOOLEAN PeerBeaconAndProbeRspSanity(
+bool PeerBeaconAndProbeRspSanity(
 	IN struct rtmp_adapter *pAd,
 	IN VOID *Msg,
 	IN ULONG MsgLen,
@@ -949,7 +949,7 @@ BOOLEAN PeerBeaconAndProbeRspSanity(
 	ULONG Length = 0;
 	UCHAR *pPeerWscIe = NULL;
 	INT PeerWscIeLen = 0;
-	BOOLEAN bWscCheck = TRUE;
+	bool bWscCheck = TRUE;
 	UCHAR LatchRfChannel = 0;
 
 
@@ -1582,7 +1582,7 @@ SanityCheck:
 
 	==========================================================================
  */
-BOOLEAN PeerBeaconAndProbeRspSanity2(
+bool PeerBeaconAndProbeRspSanity2(
 	IN struct rtmp_adapter *pAd,
 	IN VOID *Msg,
 	IN ULONG MsgLen,
@@ -1593,7 +1593,7 @@ BOOLEAN PeerBeaconAndProbeRspSanity2(
 	PFRAME_802_11		pFrame;
 	PEID_STRUCT			pEid;
 	ULONG				Length = 0;
-	BOOLEAN				brc;
+	bool				brc;
 
 	pFrame = (PFRAME_802_11)Msg;
 
@@ -1667,7 +1667,7 @@ BOOLEAN PeerBeaconAndProbeRspSanity2(
         TRUE if all parameters are OK, FALSE otherwise
     ==========================================================================
  */
-BOOLEAN MlmeScanReqSanity(
+bool MlmeScanReqSanity(
 	IN struct rtmp_adapter *pAd,
 	IN VOID *Msg,
 	IN ULONG MsgLen,
@@ -1724,7 +1724,7 @@ UCHAR ChannelSanity(
 
     ==========================================================================
  */
-BOOLEAN PeerDeauthSanity(
+bool PeerDeauthSanity(
     IN struct rtmp_adapter *pAd,
     IN VOID *Msg,
     IN ULONG MsgLen,
@@ -1754,7 +1754,7 @@ BOOLEAN PeerDeauthSanity(
 
     ==========================================================================
  */
-BOOLEAN PeerAuthSanity(
+bool PeerAuthSanity(
     IN struct rtmp_adapter *pAd,
     IN VOID *Msg,
     IN ULONG MsgLen,
@@ -1815,7 +1815,7 @@ BOOLEAN PeerAuthSanity(
         TRUE if all parameters are OK, FALSE otherwise
     ==========================================================================
  */
-BOOLEAN MlmeAuthReqSanity(
+bool MlmeAuthReqSanity(
     IN struct rtmp_adapter *pAd,
     IN VOID *Msg,
     IN ULONG MsgLen,
@@ -1856,7 +1856,7 @@ BOOLEAN MlmeAuthReqSanity(
 
     ==========================================================================
  */
-BOOLEAN MlmeAssocReqSanity(
+bool MlmeAssocReqSanity(
     IN struct rtmp_adapter *pAd,
     IN VOID *Msg,
     IN ULONG MsgLen,
@@ -1887,7 +1887,7 @@ BOOLEAN MlmeAssocReqSanity(
 
     ==========================================================================
  */
-BOOLEAN PeerDisassocSanity(
+bool PeerDisassocSanity(
     IN struct rtmp_adapter *pAd,
     IN VOID *Msg,
     IN ULONG MsgLen,
@@ -1999,7 +1999,7 @@ NDIS_802_11_NETWORK_TYPE NetworkTypeInUseSanity(BSS_ENTRY *pBss)
         TRUE if all parameters are OK, FALSE otherwise
     ==========================================================================
  */
-BOOLEAN PeerProbeReqSanity(
+bool PeerProbeReqSanity(
 	IN struct rtmp_adapter *pAd,
 	IN VOID *Msg,
 	IN ULONG MsgLen,

@@ -145,7 +145,7 @@ static VOID SendGASRsp(
 	ULONG FrameLen = 0, VarLen = 0, tmpValue = 0;
 	PGAS_CTRL pGASCtrl = &pAd->ApCfg.MBSSID[Event->ControlIndex].GASCtrl;
 	GAS_PEER_ENTRY *GASPeerEntry;
-	BOOLEAN Cancelled;
+	bool Cancelled;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("%s\n", __FUNCTION__));
 
@@ -321,7 +321,7 @@ VOID ReceiveGASInitReq(
 	UCHAR APIndex, *Pos, *Buf;
 	uint16_t VarLen;
 	uint32_t Len = 0;
-	BOOLEAN IsFound = FALSE, Cancelled;;
+	bool IsFound = FALSE, Cancelled;;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("%s\n", __FUNCTION__));
 
@@ -484,8 +484,8 @@ static VOID SendGASCBRsp(
 	GAS_PEER_ENTRY *GASPeerEntry;
 	GAS_QUERY_RSP_FRAGMENT *GASQueryRspFrag = NULL, *GASQueryRspFragTmp;
 	PGAS_CTRL pGASCtrl = &pAd->ApCfg.MBSSID[Event->ControlIndex].GASCtrl;
-	BOOLEAN bGASQueryRspFragFound = FALSE;
-	BOOLEAN Cancelled;
+	bool bGASQueryRspFragFound = FALSE;
+	bool Cancelled;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("%s\n", __FUNCTION__));
 
@@ -672,8 +672,8 @@ VOID ReceiveGASCBReq(
 	PGAS_CTRL pGASCtrl = NULL;
 	UCHAR APIndex, *Buf;
 	uint32_t Len = 0;
-	BOOLEAN IsGASCBReqMore = FALSE;
-	BOOLEAN IsFound = FALSE;
+	bool IsGASCBReqMore = FALSE;
+	bool IsFound = FALSE;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("%s\n", __FUNCTION__));
 
@@ -808,7 +808,7 @@ error:
 }
 
 
-static BOOLEAN IsAdvertisementProIDValid(
+static bool IsAdvertisementProIDValid(
 	IN struct rtmp_adapter *pAd,
 	IN enum DOT11U_ADVERTISMENT_PROTOCOL_ID AdvertisementProtoID)
 {
@@ -834,7 +834,7 @@ void PostReplyTimeout(
 	GAS_PEER_ENTRY *GASPeerEntry = (GAS_PEER_ENTRY *)FunctionContext;
 	PGAS_CTRL pGASCtrl;
    	struct rtmp_adapter *pAd;
-	BOOLEAN Cancelled;
+	bool Cancelled;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("%s\n", __FUNCTION__));
 
@@ -886,7 +886,7 @@ VOID GASRspBufferingTimeout(
 	struct rtmp_adapter *pAd;
 	PGAS_CTRL pGASCtrl;
 	GAS_QUERY_RSP_FRAGMENT *GASQueryRspFrag = NULL, *GASQueryRspFragTmp;
-	BOOLEAN Cancelled;
+	bool Cancelled;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("%s\n", __FUNCTION__));
 
@@ -1178,7 +1178,7 @@ VOID GASCtrlExit(IN struct rtmp_adapter *pAd)
 	PGAS_CTRL pGASCtrl;
 	GAS_PEER_ENTRY *GASPeerEntry, *GASPeerEntryTmp;
 	GAS_QUERY_RSP_FRAGMENT *GASQueryRspFrag, *GASQueryRspFragTmp;
-	BOOLEAN Cancelled;
+	bool Cancelled;
 #ifdef CONFIG_AP_SUPPORT
 	UCHAR APIndex;
 #endif

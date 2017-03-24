@@ -635,7 +635,7 @@ struct net_device_stats *RT28xx_get_ether_stats(struct net_device *net_dev)
 }
 
 
-BOOLEAN RtmpPhyNetDevExit(struct rtmp_adapter *pAd, struct net_device *net_dev)
+bool RtmpPhyNetDevExit(struct rtmp_adapter *pAd, struct net_device *net_dev)
 {
 
 #ifdef CONFIG_AP_SUPPORT

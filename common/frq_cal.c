@@ -91,7 +91,7 @@ VOID FrequencyCalibrationMode(
 VOID FrequencyCalibration(
 	IN struct rtmp_adapter *pAd)
 {
-	/*BOOLEAN bUpdateRFR = FALSE;*/
+	/*bool bUpdateRFR = FALSE;*/
 	CHAR HighFreqTriggerPoint = 0, LowFreqTriggerPoint = 0;
 	CHAR DecreaseFreqOffset = 0, IncreaseFreqOffset = 0;
 

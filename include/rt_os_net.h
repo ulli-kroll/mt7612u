@@ -56,7 +56,7 @@ VOID RtmpNetOpsSet(VOID *pNetOpsOrg);
 
 int RTMPAllocAdapterBlock(struct os_cookie *handle, struct rtmp_adapter **ppAdapter);
 VOID RTMPFreeAdapter(struct rtmp_adapter *pAd);
-BOOLEAN RtmpRaDevCtrlExit(struct rtmp_adapter *pAd);
+bool RtmpRaDevCtrlExit(struct rtmp_adapter *pAd);
 INT RtmpRaDevCtrlInit(struct rtmp_adapter *pAd, RTMP_INF_TYPE infType);
 VOID RTMPHandleInterrupt(struct rtmp_adapter *pAd);
 
@@ -149,7 +149,7 @@ INT rt28xx_sta_ioctl(
 struct net_device *RtmpPhyNetDevInit(struct rtmp_adapter *pAd,
 				     struct RTMP_OS_NETDEV_OP_HOOK *pNetHook);
 
-BOOLEAN RtmpPhyNetDevExit(
+bool RtmpPhyNetDevExit(
 	IN struct rtmp_adapter				*pAd,
 	IN struct net_device *				net_dev);
 
@@ -193,7 +193,7 @@ VOID RTMP_P2P_Init(struct rtmp_adapter *pAd, struct net_device *main_dev_p);
 
 #ifdef CONFIG_AP_SUPPORT
 
-BOOLEAN RTMP_CFG80211_VIF_P2P_GO_ON(
+bool RTMP_CFG80211_VIF_P2P_GO_ON(
 	IN      struct rtmp_adapter     *pAdSrc);
 
 #endif

@@ -198,12 +198,12 @@ static inline VOID AutoChannelSkipListSetDirty(
 	}
 }
 
-static inline BOOLEAN AutoChannelSkipListCheck(
+static inline bool AutoChannelSkipListCheck(
 	IN struct rtmp_adapter *pAd,
 	IN UCHAR			Ch)
 {
 	UCHAR i;
-	BOOLEAN result = FALSE;
+	bool result = FALSE;
 
 	for (i=0; i < pAd->ApCfg.AutoChannelSkipListNum ; i++)
 	{
@@ -216,11 +216,11 @@ static inline BOOLEAN AutoChannelSkipListCheck(
 	return result;
 }
 
-static inline BOOLEAN BW40_ChannelCheck(
+static inline bool BW40_ChannelCheck(
 	IN UCHAR ch)
 {
 	INT i;
-	BOOLEAN result = TRUE;
+	bool result = TRUE;
 	UCHAR NorBW40_CH[] = {140, 165};
 	UCHAR NorBW40ChNum = sizeof(NorBW40_CH) / sizeof(UCHAR);
 
@@ -241,7 +241,7 @@ static inline UCHAR SelectClearChannelRandom(
 	)
 {
 	UCHAR cnt, ch = 0, i, RadomIdx;
-	/*BOOLEAN bFindIt = FALSE;*/
+	/*bool bFindIt = FALSE;*/
 	UINT8 TempChList[MAX_NUM_OF_CHANNELS] = {0};
 
 	if (pAd->CommonCfg.bIEEE80211H)
@@ -865,7 +865,7 @@ static inline UCHAR SelectClearChannelApCnt(
 	/* RULE 3. if not available, then co-use a channel that has minimum interference (dirtyness=31,32) */
 	for (dirty = 30; dirty <= 32; dirty++)
 	{
-		BOOLEAN candidate[MAX_NUM_OF_CHANNELS+1], candidate_num=0;
+		bool candidate[MAX_NUM_OF_CHANNELS+1], candidate_num=0;
 		UCHAR min_ApCnt = 255;
 		final_channel = 0;
 

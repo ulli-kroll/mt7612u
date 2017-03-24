@@ -65,7 +65,7 @@ typedef struct _APCLI_CTRL_MSG_STRUCT {
 	UCHAR SrcAddr[MAC_ADDR_LEN];
 } APCLI_CTRL_MSG_STRUCT, *PSTA_CTRL_MSG_STRUCT;
 
-BOOLEAN isValidApCliIf(
+bool isValidApCliIf(
 	SHORT ifIndex);
 
 VOID ApCliCtrlStateMachineInit(
@@ -93,7 +93,7 @@ MAC_TABLE_ENTRY *ApCliTableLookUpByWcid(
 	IN UCHAR wcid,
 	IN UCHAR *pAddrs);
 
-BOOLEAN 	ApCliValidateRSNIE(
+bool 	ApCliValidateRSNIE(
 	IN struct rtmp_adapter *pAd,
 	IN 		PEID_STRUCT    	pEid_ptr,
 	IN		USHORT			eid_len,
@@ -122,20 +122,20 @@ VOID ApCliMgtMacHeaderInit(
     IN u8 *pBssid,
     IN USHORT ifIndex);
 
-BOOLEAN ApCliCheckHt(
+bool ApCliCheckHt(
 	IN		Pstruct rtmp_adapter 		pAd,
 	IN		USHORT 				IfIndex,
 	IN OUT	HT_CAPABILITY_IE 	*pHtCapability,
 	IN OUT	ADD_HT_INFO_IE 		*pAddHtInfo);
 
-BOOLEAN ApCliCheckVht(
+bool ApCliCheckVht(
 	IN Pstruct rtmp_adapter pAd,
 	IN UCHAR Wcid,
 	IN MAC_TABLE_ENTRY  *pEntry,
 	IN VHT_CAP_IE *vht_cap,
 	IN VHT_OP_IE *vht_op);
 
-BOOLEAN ApCliLinkUp(
+bool ApCliLinkUp(
 	IN Pstruct rtmp_adapter pAd,
 	IN UCHAR ifIndex);
 
@@ -152,19 +152,19 @@ VOID ApCliIfDown(
 VOID ApCliIfMonitor(
 	IN Pstruct rtmp_adapter pAd);
 
-BOOLEAN ApCliMsgTypeSubst(
+bool ApCliMsgTypeSubst(
 	IN Pstruct rtmp_adapter  pAd,
 	IN PFRAME_802_11 pFrame,
 	OUT INT *Machine,
 	OUT INT *MsgType);
 
-BOOLEAN preCheckMsgTypeSubset(
+bool preCheckMsgTypeSubset(
 	IN Pstruct rtmp_adapter  pAd,
 	IN PFRAME_802_11 pFrame,
 	OUT INT *Machine,
 	OUT INT *MsgType);
 
-BOOLEAN ApCliPeerAssocRspSanity(
+bool ApCliPeerAssocRspSanity(
     IN Pstruct rtmp_adapter pAd,
     IN VOID *pMsg,
     IN ULONG MsgLen,
@@ -200,14 +200,14 @@ VOID	ApCliPeerGroupMsg1Action(
     IN MAC_TABLE_ENTRY  *pEntry,
     IN MLME_QUEUE_ELEM  *Elem);
 
-BOOLEAN ApCliCheckRSNIE(
+bool ApCliCheckRSNIE(
 	IN  Pstruct rtmp_adapter   pAd,
 	IN  u8 *         pData,
 	IN  UCHAR           DataLen,
 	IN  MAC_TABLE_ENTRY *pEntry,
 	OUT	UCHAR			*Offset);
 
-BOOLEAN ApCliParseKeyData(
+bool ApCliParseKeyData(
 	IN  Pstruct rtmp_adapter   pAd,
 	IN  u8 *         pKeyData,
 	IN  UCHAR           KeyDataLen,
@@ -215,7 +215,7 @@ BOOLEAN ApCliParseKeyData(
 	IN	UCHAR			IfIdx,
 	IN	UCHAR			bPairewise);
 
-BOOLEAN  ApCliHandleRxBroadcastFrame(
+bool  ApCliHandleRxBroadcastFrame(
 	IN  Pstruct rtmp_adapter   pAd,
 	IN	RX_BLK			*pRxBlk,
 	IN  MAC_TABLE_ENTRY *pEntry,
@@ -225,7 +225,7 @@ VOID APCliInstallPairwiseKey(
 	IN  Pstruct rtmp_adapter   pAd,
 	IN  MAC_TABLE_ENTRY *pEntry);
 
-BOOLEAN APCliInstallSharedKey(
+bool APCliInstallSharedKey(
 	IN  Pstruct rtmp_adapter   pAd,
 	IN  u8 *         pKey,
 	IN  UCHAR           KeyLen,
@@ -236,10 +236,10 @@ VOID ApCliUpdateMlmeRate(struct rtmp_adapter *pAd, USHORT ifIndex);
 
 VOID APCli_Init(struct rtmp_adapter *pAd,struct RTMP_OS_NETDEV_OP_HOOK *pNetDevOps);
 
-BOOLEAN ApCli_Open(struct rtmp_adapter *pAd, struct net_device *dev_p);
-BOOLEAN ApCli_Close(struct rtmp_adapter *pAd, struct net_device *dev_p);
+bool ApCli_Open(struct rtmp_adapter *pAd, struct net_device *dev_p);
+bool ApCli_Close(struct rtmp_adapter *pAd, struct net_device *dev_p);
 
-BOOLEAN ApCliWaitProbRsp(struct rtmp_adapter *pAd, USHORT ifIndex);
+bool ApCliWaitProbRsp(struct rtmp_adapter *pAd, USHORT ifIndex);
 VOID ApCliSimulateRecvBeacon(struct rtmp_adapter *pAd);
 
 #ifdef APCLI_AUTO_CONNECT_SUPPORT
@@ -251,10 +251,10 @@ extern INT Set_ApCli_Bssid_Proc(
     IN  Pstruct rtmp_adapter pAd,
     IN  char *arg);
 
-BOOLEAN ApCliAutoConnectExec(
+bool ApCliAutoConnectExec(
 	IN  Pstruct rtmp_adapter   pAd);
 
-BOOLEAN ApcliCompareAuthEncryp(
+bool ApcliCompareAuthEncryp(
 	IN PAPCLI_STRUCT					pApCliEntry,
 	IN NDIS_802_11_AUTHENTICATION_MODE	AuthMode,
 	IN NDIS_802_11_AUTHENTICATION_MODE	AuthModeAux,

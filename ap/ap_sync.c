@@ -661,7 +661,7 @@ VOID APPeerBeaconAction(
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	UCHAR Rates[MAX_LEN_OF_SUPPORTED_RATES], *pRates = NULL, RatesLen;
-	BOOLEAN LegacyBssExist;
+	bool LegacyBssExist;
 	CHAR RealRssi;
 	UCHAR *VarIE = NULL;
 	USHORT LenVIE;
@@ -817,7 +817,7 @@ VOID APPeerBeaconAction(
 				{
 					UCHAR RegClass;
 					OVERLAP_BSS_SCAN_IE	BssScan;
-					BOOLEAN					brc;
+					bool					brc;
 
 					brc = PeerBeaconAndProbeRspSanity2(pAd, Elem->Msg, Elem->MsgLen, &BssScan, &RegClass);
 					if (brc == TRUE)
@@ -854,7 +854,7 @@ VOID APPeerBeaconAction(
 		if (pAd->CommonCfg.bOverlapScanning == TRUE)
 		{
 			INT		index,secChIdx;
-			BOOLEAN		found = FALSE;
+			bool		found = FALSE;
 			ADD_HTINFO *pAdd_HtInfo;
 
 			for (index = 0; index < pAd->ChannelListNum; index++)
@@ -1041,7 +1041,7 @@ VOID APMlmeScanCompleteAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
  */
 VOID APMlmeScanReqAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
-	BOOLEAN Cancelled;
+	bool Cancelled;
 	UCHAR Ssid[MAX_LEN_OF_SSID], SsidLen, ScanType, BssType;
 
 
@@ -1265,7 +1265,7 @@ LabelErr:
  */
 VOID APScanCnclAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
-	BOOLEAN Cancelled;
+	bool Cancelled;
 
 	RTMPCancelTimer(&pAd->MlmeAux.APScanTimer, &Cancelled);
 	pAd->MlmeAux.Channel = 0;
@@ -1289,7 +1289,7 @@ VOID ApSiteSurvey(
 	IN	struct rtmp_adapter * 		pAd,
 	IN	PNDIS_802_11_SSID	pSsid,
 	IN	UCHAR				ScanType,
-	IN	BOOLEAN				ChannelSel)
+	IN	bool				ChannelSel)
 {
 	MLME_SCAN_REQ_STRUCT    ScanReq;
 
@@ -1329,7 +1329,7 @@ VOID ApSiteSurvey(
 }
 
 
-BOOLEAN ApScanRunning(struct rtmp_adapter *pAd)
+bool ApScanRunning(struct rtmp_adapter *pAd)
 {
 	return (pAd->Mlme.ApSyncMachine.CurrState == AP_SCAN_LISTEN) ? TRUE : FALSE;
 }

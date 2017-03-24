@@ -52,5 +52,5 @@ void assoc_vht_info_debugshow(
 	IN VHT_CAP_IE *vht_cap,
 	IN VHT_OP_IE *vht_op);
 
-BOOLEAN vht80_channel_group( struct rtmp_adapter *pAd, UCHAR channel);
+bool vht80_channel_group( struct rtmp_adapter *pAd, UCHAR channel);
 

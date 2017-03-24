@@ -173,9 +173,9 @@ VOID RTUSBBulkOutDataPacket(struct rtmp_adapter *pAd, UCHAR BulkOutPipeId, UCHAR
 	UCHAR *pWirelessPkt, *pAppendant;
 	uint32_t aggregation_num = 0;
 #ifdef USB_BULK_BUF_ALIGMENT
-	BOOLEAN bLasAlignmentsectiontRound = FALSE;
+	bool bLasAlignmentsectiontRound = FALSE;
 #else
-	BOOLEAN	 bTxQLastRound = FALSE;
+	bool	 bTxQLastRound = FALSE;
 	UCHAR allzero[4]= {0x0,0x0,0x0,0x0};
 #endif /* USB_BULK_BUF_ALIGMENT */
 
@@ -1241,7 +1241,7 @@ VOID	RTUSBCancelPendingBulkOutIRP(
 	UINT				i, Idx;
 /*	unsigned int 		IrqFlags;*/
 /*	NDIS_SPIN_LOCK		*pLock;*/
-/*	BOOLEAN				*pPending;*/
+/*	bool				*pPending;*/
 
 
 /*	pLock = &pAd->BulkOutLock[MGMTPIPEIDX];*/

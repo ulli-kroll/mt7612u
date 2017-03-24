@@ -53,12 +53,12 @@ typedef struct _DOT11_H {
 	UCHAR org_ch;
 	UCHAR new_channel;
 	USHORT ChMovingTime;
-	BOOLEAN bDFSIndoor;
+	bool bDFSIndoor;
 	ULONG InServiceMonitorCount;	/* unit: sec */
 	ULONG CalBufTime;	/* A Timing buffer for befroe calibrations which generates Tx signals */
 } DOT11_H, *PDOT11_H;
 
-BOOLEAN RadarChannelCheck(
+bool RadarChannelCheck(
 	IN struct rtmp_adapter *pAd,
 	IN UCHAR			Ch);
 

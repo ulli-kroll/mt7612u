@@ -134,7 +134,7 @@ static VOID QBSS_LoadAlarm(
 		for(StaId=1; StaId<MAX_LEN_OF_MAC_TABLE; StaId++)
 		{
 			MAC_TABLE_ENTRY *pEntry = &pMacTable->Content[StaId];
-			BOOLEAN bDisconnectSta = FALSE;
+			bool bDisconnectSta = FALSE;
 
 			if (!IS_ENTRY_CLIENT(pEntry))
 				continue;
@@ -426,11 +426,11 @@ Note:
 	We will clear the alarm in the function.
 ========================================================================
 */
-BOOLEAN QBSS_LoadIsAlarmIssued(
+bool QBSS_LoadIsAlarmIssued(
  	IN		struct rtmp_adapter *pAd)
 {
 #ifdef QLOAD_FUNC_BUSY_TIME_ALARM
-	BOOLEAN FlgQloadAlarm = pAd->FlgQloadAlarm;
+	bool FlgQloadAlarm = pAd->FlgQloadAlarm;
 
 	pAd->FlgQloadAlarm = FALSE;
 	return FlgQloadAlarm;
@@ -456,7 +456,7 @@ Return Value:
 Note:
 ========================================================================
 */
-BOOLEAN QBSS_LoadIsBusyTimeAccepted(
+bool QBSS_LoadIsBusyTimeAccepted(
  	IN		struct rtmp_adapter *pAd,
 	IN		uint32_t 		BusyTime)
 {
@@ -555,8 +555,8 @@ VOID QBSS_LoadUpdate(
 	uint32_t BusyTimeId;
 	uint32_t TimePeriod = pAd->CommonCfg.BeaconPeriod;
 #ifdef QLOAD_FUNC_BUSY_TIME_ALARM
-	BOOLEAN FlgIsBusyOverThreshold = FALSE;
-	BOOLEAN FlgIsAlarmNeeded = FALSE;
+	bool FlgIsBusyOverThreshold = FALSE;
+	bool FlgIsAlarmNeeded = FALSE;
 #endif /* QLOAD_FUNC_BUSY_TIME_ALARM */
 
 

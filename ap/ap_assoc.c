@@ -30,7 +30,7 @@
 
 static void ap_assoc_info_debugshow(
 	IN struct rtmp_adapter *pAd,
-	IN BOOLEAN isReassoc,
+	IN bool isReassoc,
 	IN MAC_TABLE_ENTRY *pEntry,
 	IN IE_LISTS *ie_list)
 {
@@ -103,7 +103,7 @@ static USHORT update_associated_mac_entry(
 	IN UCHAR MaxSupportedRate)
 {
 	struct rtmp_wifi_dev *wdev;
-	BOOLEAN	 supportsETxBF = FALSE;
+	bool	 supportsETxBF = FALSE;
 
 	ASSERT((pEntry->apidx < pAd->ApCfg.BssidNum));
 	wdev = &pAd->ApCfg.MBSSID[pEntry->apidx].wdev;
@@ -584,7 +584,7 @@ static USHORT APBuildAssociation(
 VOID ap_cmm_peer_assoc_req_action(
     IN struct rtmp_adapter *pAd,
     IN MLME_QUEUE_ELEM *Elem,
-	IN BOOLEAN isReassoc)
+	IN bool isReassoc)
 {
 	IE_LISTS *ie_list = NULL;
 	HEADER_802_11 AssocRspHdr;
@@ -602,15 +602,15 @@ VOID ap_cmm_peer_assoc_req_action(
 	UCHAR *sAssoc = isReassoc ? (u8 *)"ReASSOC" : (u8 *)"ASSOC";
 #endif /* DBG */
 	UCHAR SubType;
-	BOOLEAN bACLReject = FALSE;
+	bool bACLReject = FALSE;
 #ifdef DOT1X_SUPPORT
 	uint8_t * pPmkid = NULL;
 	UINT8 pmkid_count = 0;
 #endif /* DOT1X_SUPPORT */
 	struct rtmp_wifi_dev *wdev;
 	MULTISSID_STRUCT *pMbss;
-    BOOLEAN bAssocSkip = FALSE;
-	BOOLEAN bAssocNoRsp = FALSE;
+    bool bAssocSkip = FALSE;
+	bool bAssocNoRsp = FALSE;
 	CHAR rssi;
 #ifdef RT_BIG_ENDIAN
 	uint32_t tmp_1;
@@ -1048,7 +1048,7 @@ SendAssocResponse:
 		ULONG TmpLen, infoPos;
 		u8 *pInfo;
 		UCHAR extInfoLen;
-		BOOLEAN bNeedAppendExtIE = FALSE;
+		bool bNeedAppendExtIE = FALSE;
 		EXT_CAP_INFO_ELEMENT extCapInfo;
 
 

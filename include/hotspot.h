@@ -67,15 +67,15 @@ typedef struct _HOTSPOT_CTRL {
 	u8 *RoamingConsortiumIE;
 	u8 *HSIndicationIE;
 	u8 *P2PIE;
-	BOOLEAN  HSDaemonReady;
-	BOOLEAN HotSpotEnable;
+	bool  HSDaemonReady;
+	bool HotSpotEnable;
 	enum HSCTRL_STATE HSCtrlState;
-	BOOLEAN IsHessid;
+	bool IsHessid;
 	UCHAR Hessid[MAC_ADDR_LEN];
 	UINT8 AccessNetWorkType;
-	BOOLEAN DGAFDisable;
+	bool DGAFDisable;
 	UINT8 L2Filter;
-	BOOLEAN ICMPv4Deny;
+	bool ICMPv4Deny;
 	uint32_t MMPDUSize;
 } HOTSPOT_CTRL, *PHOTSPOT_CTRL;
 
@@ -94,7 +94,7 @@ enum {
 	PARAM_EXTERNAL_ANQP_SERVER_TEST,
 };
 
-BOOLEAN L2FilterInspection(
+bool L2FilterInspection(
 			IN Pstruct rtmp_adapter pAd,
 			IN PHOTSPOT_CTRL pHSCtrl,
 			IN u8 *pData);
@@ -112,7 +112,7 @@ enum HSCTRL_STATE HSCtrlCurrentState(
 	IN Pstruct rtmp_adapter pAd,
 	IN MLME_QUEUE_ELEM *Elem);
 
-BOOLEAN HotSpotEnable(
+bool HotSpotEnable(
 	IN Pstruct rtmp_adapter pAd,
 	IN MLME_QUEUE_ELEM *Elem,
 	IN INT Type);
@@ -131,7 +131,7 @@ INT Set_HotSpot_OnOff(
 
 struct _PEER_PROBE_REQ_PARAM;
 
-BOOLEAN ProbeReqforHSAP(
+bool ProbeReqforHSAP(
 	IN Pstruct rtmp_adapter pAd,
 	IN UCHAR APIndex,
 	IN struct _PEER_PROBE_REQ_PARAM *ProbeReqParam);
@@ -157,7 +157,7 @@ enum {
 };
 
 #ifdef CONFIG_AP_SUPPORT
-BOOLEAN HSIPv4Check(
+bool HSIPv4Check(
 			IN Pstruct rtmp_adapter pAd,
 			u8 *pWcid,
 			struct sk_buff *pPacket,

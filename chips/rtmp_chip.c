@@ -192,9 +192,9 @@ done:
 	return ret;
 }
 
-BOOLEAN isExternalPAMode(struct rtmp_adapter *ad, INT channel)
+bool isExternalPAMode(struct rtmp_adapter *ad, INT channel)
 {
-	BOOLEAN pa_mode = FALSE;
+	bool pa_mode = FALSE;
 
         if (channel > 14) {
 	        if (ad->chipCap.PAType == EXT_PA_2G_5G)
@@ -216,9 +216,9 @@ BOOLEAN isExternalPAMode(struct rtmp_adapter *ad, INT channel)
 	return pa_mode;
 }
 
-BOOLEAN is_external_lna_mode(struct rtmp_adapter *ad, INT channel)
+bool is_external_lna_mode(struct rtmp_adapter *ad, INT channel)
 {
-	BOOLEAN lna_mode = FALSE;
+	bool lna_mode = FALSE;
 
 	/* b'00: 2.4G+5G external LNA, b'01: 5G external LNA, b'10: 2.4G external LNA, b'11: Internal LNA */
 	if (channel > 14) {

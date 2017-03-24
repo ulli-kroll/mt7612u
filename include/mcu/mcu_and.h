@@ -141,8 +141,8 @@ struct MCU_CTRL {
 	unsigned long rx_receive_fail_count;
 	unsigned long alloc_cmd_msg;
 	unsigned long free_cmd_msg;
-	BOOLEAN power_on;
-	BOOLEAN dpd_on;
+	bool power_on;
+	bool dpd_on;
 	struct rtmp_adapter *ad;
 };
 
@@ -173,9 +173,9 @@ struct cmd_msg {
 	u8 seq;
 	u16 timeout;
 	u16 rsp_payload_len;
-	BOOLEAN need_wait;
-	BOOLEAN need_rsp;
-	BOOLEAN need_retransmit;
+	bool need_wait;
+	bool need_rsp;
+	bool need_retransmit;
 
 #ifdef RTMP_USB_SUPPORT
 	RTMP_OS_COMPLETION ack_done;
@@ -403,13 +403,13 @@ int usb_rx_cmd_msgs_receive(struct rtmp_adapter *ad);
 void mt7612u_mcu_bh_schedule(struct rtmp_adapter *ad);
 void pci_kick_out_cmd_msg_complete(struct sk_buff *net_pkt);
 int mt7612u_mcu_load_cr(struct rtmp_adapter *ad, u32 cr_type, UINT8 temp_level, UINT8 channel);
-int mt7612u_mcu_switch_channel(struct rtmp_adapter *ad, u8 channel, BOOLEAN scan, unsigned int bw, unsigned int tx_rx_setting, u8 bbp_ch_idx);
-int mt7612u_mcu_init_gain(struct rtmp_adapter *ad, UINT8 channel, BOOLEAN force_mode, unsigned int gain_from_e2p);
-int mt7612u_mcu_dynamic_vga(struct rtmp_adapter *ad, UINT8 channel, BOOLEAN mode, BOOLEAN ext, int rssi, unsigned int false_cca);
+int mt7612u_mcu_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan, unsigned int bw, unsigned int tx_rx_setting, u8 bbp_ch_idx);
+int mt7612u_mcu_init_gain(struct rtmp_adapter *ad, UINT8 channel, bool force_mode, unsigned int gain_from_e2p);
+int mt7612u_mcu_dynamic_vga(struct rtmp_adapter *ad, UINT8 channel, bool mode, bool ext, int rssi, unsigned int false_cca);
 int mt7612u_mcu_led_op(struct rtmp_adapter *ad, u32 led_idx, u32 link_status);
 struct cmd_msg *mt7612u_mcu_alloc_cmd_msg(struct rtmp_adapter *ad, unsigned int length);
-void mt7612u_mcu_init_cmd_msg(struct cmd_msg *msg, u8 type, BOOLEAN need_wait, u16 timeout,
-							   BOOLEAN need_retransmit, BOOLEAN need_rsp);
+void mt7612u_mcu_init_cmd_msg(struct cmd_msg *msg, u8 type, bool need_wait, u16 timeout,
+							   bool need_retransmit, bool need_rsp);
 void mt7612u_mcu_append_cmd_msg(struct cmd_msg *msg, char *data, unsigned int len);
 
 #define MAX_CALIBRATION_WAIT_TIME						100

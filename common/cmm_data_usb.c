@@ -95,10 +95,10 @@ int RTUSBFreeDescRequest(
 }
 
 
-BOOLEAN	RTUSBNeedQueueBackForAgg(struct rtmp_adapter *pAd, UCHAR BulkOutPipeId)
+bool	RTUSBNeedQueueBackForAgg(struct rtmp_adapter *pAd, UCHAR BulkOutPipeId)
 {
 	HT_TX_CONTEXT *pHTTXContext;
-	BOOLEAN needQueBack = FALSE;
+	bool needQueBack = FALSE;
 	unsigned long   IrqFlags;
 
 
@@ -156,7 +156,7 @@ VOID rlt_usb_write_txinfo(
 	IN struct rtmp_adapter *pAd,
 	IN TXINFO_STRUC *pTxInfo,
 	IN USHORT USBDMApktLen,
-	IN BOOLEAN bWiv,
+	IN bool bWiv,
 	IN UCHAR QueueSel,
 	IN UCHAR NextValid,
 	IN UCHAR TxBurst)
@@ -328,7 +328,7 @@ static inline int RtmpUSBCanDoWrite(
 USHORT RtmpUSB_WriteSubTxResource(
 	IN struct rtmp_adapter *pAd,
 	IN TX_BLK *pTxBlk,
-	IN BOOLEAN bIsLast,
+	IN bool bIsLast,
 	OUT	USHORT *freeCnt)
 {
 
@@ -354,9 +354,9 @@ USHORT	RtmpUSB_WriteFragTxResource(
 	unsigned long	IrqFlags;
 	uint32_t 		USBDMApktLen = 0, DMAHdrLen, padding;
 #ifdef USB_BULK_BUF_ALIGMENT
-	BOOLEAN			bLasAlignmentsectiontRound = FALSE;
+	bool			bLasAlignmentsectiontRound = FALSE;
 #else
-	BOOLEAN			TxQLastRound = FALSE;
+	bool			TxQLastRound = FALSE;
 #endif /* USB_BULK_BUF_ALIGMENT */
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
 
@@ -537,7 +537,7 @@ USHORT	RtmpUSB_WriteFragTxResource(
 USHORT RtmpUSB_WriteSingleTxResource(
 	IN struct rtmp_adapter *pAd,
 	IN TX_BLK *pTxBlk,
-	IN BOOLEAN bIsLast,
+	IN bool bIsLast,
 	OUT	USHORT *freeCnt)
 {
 	HT_TX_CONTEXT *pHTTXContext;
@@ -550,7 +550,7 @@ USHORT RtmpUSB_WriteSingleTxResource(
 	int Status;
 	uint32_t hdr_copy_len, hdr_len, dma_len = 0, padding;
 #ifndef USB_BULK_BUF_ALIGMENT
-	BOOLEAN bTxQLastRound = FALSE;
+	bool bTxQLastRound = FALSE;
 #endif /* USB_BULK_BUF_ALIGMENT */
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
 
@@ -1144,9 +1144,9 @@ Note:
 struct sk_buff *GetPacketFromRxRing(
 	IN struct rtmp_adapter *pAd,
 	OUT RX_BLK *pRxBlk,
-	OUT BOOLEAN *pbReschedule,
+	OUT bool *pbReschedule,
 	INOUT uint32_t *pRxPending,
-	OUT BOOLEAN *bCmdRspPacket,
+	OUT bool *bCmdRspPacket,
 	UCHAR RxRingNo)
 {
 	RX_CONTEXT *pRxContext;
@@ -1314,9 +1314,9 @@ VOID RtmpUsbStaAsicForceWakeupTimeout(
 }
 
 
-VOID RT28xxUsbStaAsicForceWakeup(struct rtmp_adapter *pAd, BOOLEAN bFromTx)
+VOID RT28xxUsbStaAsicForceWakeup(struct rtmp_adapter *pAd, bool bFromTx)
 {
-	BOOLEAN	Canceled;
+	bool	Canceled;
 
 	if (pAd->Mlme.AutoWakeupTimerRunning)
 	{

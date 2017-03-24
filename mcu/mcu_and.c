@@ -1106,8 +1106,8 @@ error0:
 	return NULL;
 }
 
-void mt7612u_mcu_init_cmd_msg(struct cmd_msg *msg, u8 type, BOOLEAN need_wait, u16 timeout,
-							   BOOLEAN need_retransmit, BOOLEAN need_rsp)
+void mt7612u_mcu_init_cmd_msg(struct cmd_msg *msg, u8 type, bool need_wait, u16 timeout,
+							   bool need_retransmit, bool need_rsp)
 {
 	u16 rsp_payload_len = 0;
 	char *rsp_payload = NULL;
@@ -1931,7 +1931,7 @@ int mt7612u_mcu_send_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *msg)
 {
 	struct MCU_CTRL *ctl = &ad->MCUCtrl;
 	int ret = 0;
-	BOOLEAN need_wait = msg->need_wait;
+	bool need_wait = msg->need_wait;
 
 
 #ifdef RTMP_USB_SUPPORT
@@ -2059,7 +2059,7 @@ int mt7612u_mcu_random_write(struct rtmp_adapter *ad, RTMP_REG_PAIR *reg_pair, u
 	u32 value, i, cur_index = 0;
 	RTMP_CHIP_CAP *cap = &ad->chipCap;
 	int ret = 0;
-	BOOLEAN last_packet = FALSE;
+	bool last_packet = FALSE;
 
 	if (!reg_pair)
 		return -1;
@@ -2285,7 +2285,7 @@ error:
 	return ret;
 }
 
-int mt7612u_mcu_switch_channel(struct rtmp_adapter *ad, u8 channel, BOOLEAN scan, unsigned int bw, unsigned int tx_rx_setting, u8 bbp_ch_idx)
+int mt7612u_mcu_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan, unsigned int bw, unsigned int tx_rx_setting, u8 bbp_ch_idx)
 {
 	struct cmd_msg *msg;
 	u32 value = 0;
@@ -2368,7 +2368,7 @@ error:
 	return ret;
 }
 
-int mt7612u_mcu_init_gain(struct rtmp_adapter *ad, UINT8 channel, BOOLEAN force_mode, unsigned int gain_from_e2p)
+int mt7612u_mcu_init_gain(struct rtmp_adapter *ad, UINT8 channel, bool force_mode, unsigned int gain_from_e2p)
 {
 	struct cmd_msg *msg;
 	u32 value = 0;
@@ -2405,7 +2405,7 @@ error:
 	return ret;
 }
 
-int mt7612u_mcu_dynamic_vga(struct rtmp_adapter *ad, UINT8 channel, BOOLEAN mode, BOOLEAN ext, int rssi, unsigned int false_cca)
+int mt7612u_mcu_dynamic_vga(struct rtmp_adapter *ad, UINT8 channel, bool mode, bool ext, int rssi, unsigned int false_cca)
 {
 	struct cmd_msg *msg;
 	u32 value = 0;

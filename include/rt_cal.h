@@ -44,8 +44,8 @@ VOID R_Calibration(
 
 VOID RtmpKickOutHwNullFrame(
 	IN Pstruct rtmp_adapter pAd,
-	IN BOOLEAN bPrepareContent,
-	IN BOOLEAN bTransmit);
+	IN bool bPrepareContent,
+	IN bool bTransmit);
 
 VOID DPD_IQ_Swap_AM_PM_Inversion(
 	IN Pstruct rtmp_adapter pAd,
@@ -81,9 +81,9 @@ INT Set_TestDPDCalibrationTX1_Proc(
 VOID LOFT_IQ_Calibration(
 	IN struct rtmp_adapter *pAd);
 
-BOOLEAN BW_Filter_Calibration(
+bool BW_Filter_Calibration(
 	IN Pstruct rtmp_adapter pAd,
-	IN BOOLEAN bTxCal);
+	IN bool bTxCal);
 
 VOID RxDCOC_Calibration(
 	IN Pstruct rtmp_adapter pAd);

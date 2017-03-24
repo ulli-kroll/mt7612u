@@ -229,7 +229,7 @@ if (((__pEntry)) != NULL) \
 
 
 typedef struct  _TRIGGER_EVENTA{
-	BOOLEAN			bValid;
+	bool			bValid;
 	UCHAR	BSSID[6];
 	UCHAR	RegClass;	/* Regulatory Class */
 	USHORT	Channel;
@@ -396,11 +396,11 @@ typedef struct GNU_PACKED _SEC_CHA_OFFSET_IE{
 
 /* This structure is extracted from struct RT_HT_CAPABILITY and RT_VHT_CAP */
 typedef struct _RT_PHY_INFO{
-	BOOLEAN		bHtEnable;	 /* If we should use ht rate. */
-	BOOLEAN		bPreNHt;	 /* If we should use ht rate. */
+	bool		bHtEnable;	 /* If we should use ht rate. */
+	bool		bPreNHt;	 /* If we should use ht rate. */
 	/*Substract from HT Capability IE */
 	UCHAR		MCSSet[16];
-	BOOLEAN 	bVhtEnable;
+	bool 	bVhtEnable;
 	UCHAR 		vht_bw;
 	VHT_MCS_SET vht_mcs_set;
 } RT_PHY_INFO;
@@ -774,7 +774,7 @@ typedef struct GNU_PACKED _HT_EXT_CHANNEL_SWITCH_ANNOUNCEMENT_IE{
 	Contention-free parameter (without ID and Length)
 */
 typedef struct GNU_PACKED _CF_PARM{
-    BOOLEAN     bValid;         /* 1: variable contains valid value */
+    bool     bValid;         /* 1: variable contains valid value */
     UCHAR       CfpCount;
     UCHAR       CfpPeriod;
     USHORT      CfpMaxDuration;
@@ -787,31 +787,31 @@ typedef	struct _CIPHER_SUITE {
 	NDIS_802_11_ENCRYPTION_STATUS	PairCipherAux;	/* Unicast cipher 2 if AP announce two unicast cipher suite */
 	NDIS_802_11_ENCRYPTION_STATUS	GroupCipher;	/* Group cipher */
 	USHORT							RsnCapability;	/* RSN capability from beacon */
-	BOOLEAN							bMixMode;		/* Indicate Pair & Group cipher might be different */
+	bool							bMixMode;		/* Indicate Pair & Group cipher might be different */
 }	CIPHER_SUITE, *PCIPHER_SUITE;
 
 
 /* EDCA configuration from AP's BEACON/ProbeRsp */
 typedef struct {
-    BOOLEAN     bValid;         /* 1: variable contains valid value */
-    BOOLEAN     bAdd;         /* 1: variable contains valid value */
-    BOOLEAN     bQAck;
-    BOOLEAN     bQueueRequest;
-    BOOLEAN     bTxopRequest;
-    BOOLEAN     bAPSDCapable;
-/*  BOOLEAN     bMoreDataAck; */
+    bool     bValid;         /* 1: variable contains valid value */
+    bool     bAdd;         /* 1: variable contains valid value */
+    bool     bQAck;
+    bool     bQueueRequest;
+    bool     bTxopRequest;
+    bool     bAPSDCapable;
+/*  bool     bMoreDataAck; */
     UCHAR       EdcaUpdateCount;
     UCHAR       Aifsn[4];       /* 0:AC_BK, 1:AC_BE, 2:AC_VI, 3:AC_VO */
     UCHAR       Cwmin[4];
     UCHAR       Cwmax[4];
     USHORT      Txop[4];      /* in unit of 32-us */
-    BOOLEAN     bACM[4];      /* 1: Admission Control of AC_BK is mandattory */
+    bool     bACM[4];      /* 1: Admission Control of AC_BK is mandattory */
 } EDCA_PARM, *PEDCA_PARM;
 
 
 /* QBSS LOAD information from QAP's BEACON/ProbeRsp */
 typedef struct {
-    BOOLEAN     bValid;                     /* 1: variable contains valid value */
+    bool     bValid;                     /* 1: variable contains valid value */
     USHORT      StaNum;
     UCHAR       ChannelUtilization;
     USHORT      RemainingAdmissionControl;  /* in unit of 32-us */
@@ -864,11 +864,11 @@ typedef struct GNU_PACKED _QBSS_AP_INFO_PARM{
 /* QOS Capability reported in QAP's BEACON/ProbeRsp */
 /* QOS Capability sent out in QSTA's AssociateReq/ReAssociateReq */
 typedef struct {
-    BOOLEAN     bValid;                     /* 1: variable contains valid value */
-    BOOLEAN     bQAck;
-    BOOLEAN     bQueueRequest;
-    BOOLEAN     bTxopRequest;
-/*  BOOLEAN     bMoreDataAck; */
+    bool     bValid;                     /* 1: variable contains valid value */
+    bool     bQAck;
+    bool     bQueueRequest;
+    bool     bTxopRequest;
+/*  bool     bMoreDataAck; */
     UCHAR       EdcaUpdateCount;
 } QOS_CAPABILITY_PARM, *PQOS_CAPABILITY_PARM;
 
@@ -931,7 +931,7 @@ typedef struct _BSS_ENTRY{
 	ULONG LastBeaconRxTimeA; /* OS's timestamp */
 	ULONG LastBeaconRxTime; /* OS's timestamp */
 
-	BOOLEAN bSES;
+	bool bSES;
 
 	/* New for WPA2 */
 	CIPHER_SUITE WPA;			/* AP announced WPA cipher suite */
@@ -947,7 +947,7 @@ typedef struct _BSS_ENTRY{
 	USHORT VarIeFromProbeRspLen;
 	UCHAR *pVarIeFromProbRsp;
 #ifdef DOT11W_PMF_SUPPORT
-    BOOLEAN IsSupportSHA256KeyDerivation;
+    bool IsSupportSHA256KeyDerivation;
 #endif /* DOT11W_PMF_SUPPORT */
 
 	/* CCX Ckip information */
@@ -997,7 +997,7 @@ typedef struct _MLME_QUEUE_ELEM {
 	UCHAR Signal;
 	UCHAR Channel;
 	UCHAR Wcid;
-	BOOLEAN Occupied;
+	bool Occupied;
 	UCHAR OpMode;
 	ULONG Priv;
 } MLME_QUEUE_ELEM, *PMLME_QUEUE_ELEM;
@@ -1089,7 +1089,7 @@ typedef struct _MLME_AUX {
     BSS_TABLE           RoamTab;        /* AP list eligible for roaming */
     ULONG               BssIdx;
     ULONG               RoamIdx;
-	BOOLEAN				CurrReqIsFromNdis;
+	bool				CurrReqIsFromNdis;
 
     RALINK_TIMER_STRUCT BeaconTimer, ScanTimer, APScanTimer;
     RALINK_TIMER_STRUCT AuthTimer;
@@ -1222,7 +1222,7 @@ typedef struct _IE_lists {
 	UCHAR SupportedRates[MAX_LEN_OF_SUPPORTED_RATES];
 	UCHAR RSN_IE[MAX_LEN_OF_RSNIE];
 	UCHAR RSNIE_Len;
-	BOOLEAN bWmmCapable;
+	bool bWmmCapable;
 	ULONG RalinkIe;
 	EXT_CAP_INFO_ELEMENT ExtCapInfo;
 	UCHAR ht_cap_len;

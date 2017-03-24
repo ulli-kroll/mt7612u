@@ -89,12 +89,12 @@ VOID RadarDetectPeriodic(
 
 	========================================================================
 */
-BOOLEAN RadarChannelCheck(
+bool RadarChannelCheck(
 	IN struct rtmp_adapter *pAd,
 	IN UCHAR			Ch)
 {
 	INT 	i;
-	BOOLEAN result = FALSE;
+	bool result = FALSE;
 
 	for (i=0; i<pAd->ChannelListNum; i++)
 	{

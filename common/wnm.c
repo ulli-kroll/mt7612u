@@ -152,7 +152,7 @@ void SendProxyARPEvent(struct net_device *net_dev,
 }
 
 
-BOOLEAN IsGratuitousARP(UCHAR *pData)
+bool IsGratuitousARP(UCHAR *pData)
 {
 	UCHAR *Pos = pData;
 	uint16_t ProtoType;
@@ -181,7 +181,7 @@ BOOLEAN IsGratuitousARP(UCHAR *pData)
 }
 
 
-BOOLEAN IsUnsolicitedNeighborAdver(struct rtmp_adapter *pAd,
+bool IsUnsolicitedNeighborAdver(struct rtmp_adapter *pAd,
 								   u8 *pData)
 {
 	UCHAR *Pos = pData;
@@ -220,7 +220,7 @@ BOOLEAN IsUnsolicitedNeighborAdver(struct rtmp_adapter *pAd,
 }
 
 
-BOOLEAN IsIPv4ProxyARPCandidate(IN struct rtmp_adapter *pAd,
+bool IsIPv4ProxyARPCandidate(IN struct rtmp_adapter *pAd,
 						   		IN u8 *pData)
 {
 	UCHAR *Pos = pData;
@@ -258,7 +258,7 @@ BOOLEAN IsIPv4ProxyARPCandidate(IN struct rtmp_adapter *pAd,
 }
 
 
-BOOLEAN IsIpv6DuplicateAddrDetect(struct rtmp_adapter *pAd,
+bool IsIpv6DuplicateAddrDetect(struct rtmp_adapter *pAd,
 								  u8 *pData)
 {
 	UCHAR *Pos = pData;
@@ -294,7 +294,7 @@ BOOLEAN IsIpv6DuplicateAddrDetect(struct rtmp_adapter *pAd,
 	return FALSE;
 }
 
-BOOLEAN IsIPv6ProxyARPCandidate(IN struct rtmp_adapter *pAd,
+bool IsIPv6ProxyARPCandidate(IN struct rtmp_adapter *pAd,
 								IN u8 *pData)
 {
 	UCHAR *Pos = pData;
@@ -331,7 +331,7 @@ BOOLEAN IsIPv6ProxyARPCandidate(IN struct rtmp_adapter *pAd,
 }
 
 
-BOOLEAN IsIPv6RouterSolicitation(IN struct rtmp_adapter *pAd,
+bool IsIPv6RouterSolicitation(IN struct rtmp_adapter *pAd,
 								 IN u8 *pData)
 {
 	UCHAR *Pos = pData;
@@ -357,7 +357,7 @@ BOOLEAN IsIPv6RouterSolicitation(IN struct rtmp_adapter *pAd,
 }
 
 
-BOOLEAN IsIPv6RouterAdvertisement(IN struct rtmp_adapter *pAd,
+bool IsIPv6RouterAdvertisement(IN struct rtmp_adapter *pAd,
 								  IN u8 *pData)
 {
 	UCHAR *Pos = pData;
@@ -383,7 +383,7 @@ BOOLEAN IsIPv6RouterAdvertisement(IN struct rtmp_adapter *pAd,
 }
 
 
-BOOLEAN IsTDLSPacket(IN struct rtmp_adapter *pAd,
+bool IsTDLSPacket(IN struct rtmp_adapter *pAd,
 					 IN u8 *pData)
 {
 	UCHAR *Pos = pData;
@@ -442,7 +442,7 @@ uint32_t IPv6ProxyARPTableLen(IN struct rtmp_adapter *pAd,
 	return TableLen;
 }
 
-BOOLEAN GetIPv4ProxyARPTable(IN struct rtmp_adapter *pAd,
+bool GetIPv4ProxyARPTable(IN struct rtmp_adapter *pAd,
 						 	 IN struct _MULTISSID_STRUCT *pMbss,
 						 	 u8 **ProxyARPTable)
 {
@@ -466,7 +466,7 @@ BOOLEAN GetIPv4ProxyARPTable(IN struct rtmp_adapter *pAd,
 	return TRUE;
 }
 
-BOOLEAN GetIPv6ProxyARPTable(IN struct rtmp_adapter *pAd,
+bool GetIPv6ProxyARPTable(IN struct rtmp_adapter *pAd,
 						 	 IN struct _MULTISSID_STRUCT *pMbss,
 						 	 u8 **ProxyARPTable)
 {
@@ -643,14 +643,14 @@ VOID RemoveIPv6ProxyARPEntry(IN struct rtmp_adapter *pAd,
 	up(&pWNMCtrl->ProxyARPIPv6ListLock);
 }
 
-BOOLEAN IPv4ProxyARP(IN struct rtmp_adapter *pAd,
+bool IPv4ProxyARP(IN struct rtmp_adapter *pAd,
 				 	 IN MULTISSID_STRUCT *pMbss,
 				 	 IN u8 *pData,
-					 IN BOOLEAN FromDS)
+					 IN bool FromDS)
 {
 	PWNM_CTRL pWNMCtrl = &pMbss->WNMCtrl;
 	struct net_device *NetDev = pMbss->wdev.if_dev;
-	BOOLEAN IsFound = FALSE;
+	bool IsFound = FALSE;
 	PROXY_ARP_IPV4_ENTRY *ProxyARPEntry;
 	u8 *SourceMACAddr = pData + 10;
 	u8 *SourceIPAddr = pData + 16;
@@ -684,14 +684,14 @@ BOOLEAN IPv4ProxyARP(IN struct rtmp_adapter *pAd,
 	return IsFound;
 }
 
-BOOLEAN IPv6ProxyARP(IN struct rtmp_adapter *pAd,
+bool IPv6ProxyARP(IN struct rtmp_adapter *pAd,
 					 IN MULTISSID_STRUCT *pMbss,
 					 IN u8 *pData,
-					 IN BOOLEAN FromDS)
+					 IN bool FromDS)
 {
 	PWNM_CTRL pWNMCtrl = &pMbss->WNMCtrl;
 	struct net_device *NetDev = pMbss->wdev.if_dev;
-	BOOLEAN IsFound = FALSE;
+	bool IsFound = FALSE;
 	PROXY_ARP_IPV6_ENTRY *ProxyARPEntry;
 	u8 *SourceMACAddr = pData + 68;
 	u8 *SourceIPAddr = pData + 10;

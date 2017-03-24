@@ -111,8 +111,8 @@ typedef struct {
 
 
 typedef struct {
-	BOOLEAN impProfile;
-	BOOLEAN fortyMHz;
+	bool impProfile;
+	bool fortyMHz;
 	int rows, columns;
 	int grouping;
 	UCHAR tag[EXP_MAX_BYTES];
@@ -191,13 +191,13 @@ int ITxBFLNACalibration(
 	IN struct rtmp_adapter *pAd,
 	IN int calFunction,
 	IN int calMethod,
-	IN BOOLEAN gBand);
+	IN bool gBand);
 
 void Read_TxBfProfile(
 	IN	struct rtmp_adapter *pAd,
 	IN	PROFILE_DATA	*prof,
 	IN	int				profileNum,
-	IN	BOOLEAN			implicitProfile);
+	IN	bool			implicitProfile);
 
 void Write_TxBfProfile(
 	IN	struct rtmp_adapter *pAd,
@@ -220,7 +220,7 @@ void Write_TagField(
 void displayTagfield(
 	IN	struct rtmp_adapter *pAd,
 	IN	int		profileNum,
-	IN	BOOLEAN implicitProfile);
+	IN	bool implicitProfile);
 
 // Unpack an ITxBF matrix element from a row of bytes
 int Unpack_IBFValue(

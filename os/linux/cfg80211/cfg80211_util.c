@@ -141,7 +141,7 @@ static const uint32_t CipherSuites[] = {
 #endif /* DOT11W_PMF_SUPPORT */
 };
 
-static BOOLEAN IsRadarChannel(UCHAR ch)
+static bool IsRadarChannel(UCHAR ch)
 {
 	UINT idx = 0;
 	for (idx = 0; idx<sizeof(Cfg80211_RadarChan); idx++)
@@ -240,7 +240,7 @@ Note:
 	2. Maximum TX power limitation in the regulatory domain.
 ========================================================================
 */
-BOOLEAN CFG80211_SupBandInit(
+bool CFG80211_SupBandInit(
 	IN VOID *pCB,
 	IN CFG80211_BAND *pDriverBandInfo,
 	IN VOID *pWiphyOrg,
@@ -500,7 +500,7 @@ Note:
 	need to re-init bands in xx_open().
 ========================================================================
 */
-BOOLEAN CFG80211OS_SupBandReInit(
+bool CFG80211OS_SupBandReInit(
 	IN VOID *pCB,
 	IN CFG80211_BAND *pBandInfo)
 {
@@ -601,7 +601,7 @@ VOID CFG80211OS_RegHint11D(
 }
 
 
-BOOLEAN CFG80211OS_BandInfoGet(
+bool CFG80211OS_BandInfoGet(
 	IN VOID *pCB,
 	IN VOID *pWiphyOrg,
 	OUT VOID **ppBand24,
@@ -651,14 +651,14 @@ uint32_t CFG80211OS_ChanNumGet(
 }
 
 
-BOOLEAN CFG80211OS_ChanInfoGet(
+bool CFG80211OS_ChanInfoGet(
 	IN VOID						*pCB,
 	IN VOID						*pWiphyOrg,
 	IN uint32_t 				IdBand,
 	IN uint32_t 				IdChan,
 	OUT uint32_t 				*pChanId,
 	OUT uint32_t 				*pPower,
-	OUT BOOLEAN					*pFlgIsRadar)
+	OUT bool					*pFlgIsRadar)
 {
 	CFG80211_CB *pCfg80211_CB = (CFG80211_CB *)pCB;
 	struct wiphy *pWiphy = (struct wiphy *)pWiphyOrg;
@@ -711,13 +711,13 @@ Return Value:
 Note:
 ========================================================================
 */
-BOOLEAN CFG80211OS_ChanInfoInit(
+bool CFG80211OS_ChanInfoInit(
 	IN VOID						*pCB,
 	IN uint32_t 				InfoIndex,
 	IN UCHAR					ChanId,
 	IN UCHAR					MaxTxPwr,
-	IN BOOLEAN					FlgIsNMode,
-	IN BOOLEAN					FlgIsBW20M)
+	IN bool					FlgIsNMode,
+	IN bool					FlgIsBW20M)
 {
 	CFG80211_CB *pCfg80211_CB = (CFG80211_CB *)pCB;
 	struct ieee80211_channel *pChan;
@@ -765,7 +765,7 @@ VOID CFG80211OS_Scaning(
 	IN UCHAR					*pFrame,
 	IN uint32_t 				FrameLen,
 	IN int32_t 				RSSI,
-	IN BOOLEAN					FlgIsNMode,
+	IN bool					FlgIsNMode,
 	IN UINT8					BW)
 {
 #ifdef CONFIG_STA_SUPPORT
@@ -857,7 +857,7 @@ Note:
 */
 VOID CFG80211OS_ScanEnd(
 	IN VOID *pCB,
-	IN BOOLEAN FlgIsAborted)
+	IN bool FlgIsAborted)
 {
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,8,0))
 	struct cfg80211_scan_info info = {
@@ -980,7 +980,7 @@ void CFG80211OS_P2pClientConnectResultInform(
 	}
 }
 
-BOOLEAN CFG80211OS_RxMgmt(IN struct net_device *pNetDev, IN int32_t freq, IN u8 *frame, IN uint32_t len)
+bool CFG80211OS_RxMgmt(IN struct net_device *pNetDev, IN int32_t freq, IN u8 *frame, IN uint32_t len)
 {
 	return cfg80211_rx_mgmt(pNetDev->ieee80211_ptr,
 				freq,
@@ -990,7 +990,7 @@ BOOLEAN CFG80211OS_RxMgmt(IN struct net_device *pNetDev, IN int32_t freq, IN u8 
 				GFP_ATOMIC);
 }
 
-VOID CFG80211OS_TxStatus(IN struct net_device *pNetDev, IN int32_t cookie, IN u8 *frame, IN uint32_t len, IN BOOLEAN ack)
+VOID CFG80211OS_TxStatus(IN struct net_device *pNetDev, IN int32_t cookie, IN u8 *frame, IN uint32_t len, IN bool ack)
 {
 	struct wireless_dev *pWdev;
 	pWdev = pNetDev->ieee80211_ptr ;
@@ -1019,7 +1019,7 @@ VOID CFG80211OS_DelSta(IN struct net_device *pNetDev, IN const u8 *mac_addr)
 	return cfg80211_del_sta(pNetDev, mac_addr, GFP_ATOMIC);
 }
 
-VOID CFG80211OS_MICFailReport(struct net_device *pNetDev, const u8 *src_addr, BOOLEAN unicast, INT key_id, const u8 *tsc)
+VOID CFG80211OS_MICFailReport(struct net_device *pNetDev, const u8 *src_addr, bool unicast, INT key_id, const u8 *tsc)
 {
 	cfg80211_michael_mic_failure(pNetDev, src_addr,
 		(unicast ? NL80211_KEYTYPE_PAIRWISE : NL80211_KEYTYPE_GROUP),

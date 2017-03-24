@@ -329,7 +329,7 @@ static INT rlt_bbp_set_bw(struct rtmp_adapter *pAd, UINT8 bw)
 }
 
 
-static INT rlt_bbp_set_mmps(struct rtmp_adapter *pAd, BOOLEAN ReduceCorePower)
+static INT rlt_bbp_set_mmps(struct rtmp_adapter *pAd, bool ReduceCorePower)
 {
 	uint32_t bbp_val, org_val;
 

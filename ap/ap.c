@@ -28,7 +28,7 @@
 
 #include "rt_config.h"
 
-BOOLEAN ApCheckLongPreambleSTA(
+bool ApCheckLongPreambleSTA(
     IN struct rtmp_adapter *pAd);
 
 char const *pEventText[EVENT_MAX_EVENT_TYPE] = {
@@ -122,12 +122,12 @@ VOID APShutdown(struct rtmp_adapter *pAd)
 VOID APStartUp(struct rtmp_adapter *pAd)
 {
 	uint32_t i;
-	BOOLEAN bWmmCapable = FALSE;
+	bool bWmmCapable = FALSE;
 	UCHAR idx;
-	BOOLEAN TxPreamble, SpectrumMgmt = FALSE;
+	bool TxPreamble, SpectrumMgmt = FALSE;
 	UCHAR phy_mode = pAd->CommonCfg.cfg_wmode;
 #ifdef DOT1X_SUPPORT
-	/* BOOLEAN bDot1xReload = FALSE; */
+	/* bool bDot1xReload = FALSE; */
 #endif /* DOT1X_SUPPORT */
 
 	DBGPRINT(RT_DEBUG_TRACE, ("===> APStartUp\n"));
@@ -608,7 +608,7 @@ DBGPRINT(RT_DEBUG_OFF, ("%s(): AP Set CentralFreq at %d(Prim=%d, HT-CentCh=%d, V
 VOID APStop(
 	IN struct rtmp_adapter *pAd)
 {
-	BOOLEAN Cancelled;
+	bool Cancelled;
 	uint32_t Value;
 	INT idx;
 	MULTISSID_STRUCT *pMbss;
@@ -720,8 +720,8 @@ VOID MacTableMaintenance(struct rtmp_adapter *pAd)
 {
 	int i, startWcid;
 	ULONG MinimumAMPDUSize = pAd->CommonCfg.DesiredHtPhy.MaxRAmpduFactor; /*Default set minimum AMPDU Size to 2, i.e. 32K */
-	BOOLEAN	bRdgActive;
-	BOOLEAN bRalinkBurstMode;
+	bool	bRdgActive;
+	bool bRalinkBurstMode;
 	UINT fAnyStationPortSecured[HW_BEACON_MAX_NUM];
  	UINT bss_index;
 	MAC_TABLE *pMacTable;
@@ -764,7 +764,7 @@ VOID MacTableMaintenance(struct rtmp_adapter *pAd)
 	for (i = startWcid; i < MAX_LEN_OF_MAC_TABLE; i++)
 	{
 		MAC_TABLE_ENTRY *pEntry = &pMacTable->Content[i];
-		BOOLEAN bDisconnectSta = FALSE;
+		bool bDisconnectSta = FALSE;
 #ifdef APCLI_SUPPORT
 		if(IS_ENTRY_APCLI(pEntry) && (pEntry->PortSecured == WPA_802_1X_PORT_SECURED))
 		{
@@ -772,7 +772,7 @@ VOID MacTableMaintenance(struct rtmp_adapter *pAd)
 			if ((pAd->Mlme.OneSecPeriodicRound % 10) == 8)
 			{
 				/* use Null or QoS Null to detect the ACTIVE station*/
-				BOOLEAN ApclibQosNull = FALSE;
+				bool ApclibQosNull = FALSE;
 
 				if (CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_WMM_CAPABLE))
 					ApclibQosNull = TRUE;
@@ -912,7 +912,7 @@ VOID MacTableMaintenance(struct rtmp_adapter *pAd)
 					else
 					{
 						/* use Null or QoS Null to detect the ACTIVE station */
-						BOOLEAN bQosNull = FALSE;
+						bool bQosNull = FALSE;
 
 						if (CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_WMM_CAPABLE))
 							bQosNull = TRUE;
@@ -1285,7 +1285,7 @@ VOID ApLogEvent(
 VOID APUpdateOperationMode(
 	IN struct rtmp_adapter *pAd)
 {
-	BOOLEAN bDisableBGProtect = FALSE, bNonGFExist = FALSE;
+	bool bDisableBGProtect = FALSE, bNonGFExist = FALSE;
 
 	pAd->CommonCfg.AddHTInfo.AddHtInfo2.OperaionMode = 0;
 	if ((pAd->ApCfg.LastNoneHTOLBCDetectTime + (5 * OS_HZ)) > pAd->Mlme.Now32) /* non HT BSS exist within 5 sec */
@@ -1335,10 +1335,10 @@ VOID APUpdateCapabilityAndErpIe(
 	IN struct rtmp_adapter *pAd)
 {
 	UCHAR  i, ErpIeContent = 0;
-	BOOLEAN ShortSlotCapable = pAd->CommonCfg.bUseShortSlotTime;
+	bool ShortSlotCapable = pAd->CommonCfg.bUseShortSlotTime;
 	UCHAR	apidx;
-	BOOLEAN	bUseBGProtection;
-	BOOLEAN	LegacyBssExist;
+	bool	bUseBGProtection;
+	bool	LegacyBssExist;
 
 
 	if (WMODE_EQUAL(pAd->CommonCfg.PhyMode, WMODE_B))
@@ -1397,7 +1397,7 @@ VOID APUpdateCapabilityAndErpIe(
 	if (bUseBGProtection != OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_BG_PROTECTION_INUSED))
 	{
 		USHORT OperationMode = 0;
-		BOOLEAN	bNonGFExist = 0;
+		bool	bNonGFExist = 0;
 
 		OperationMode = pAd->CommonCfg.AddHTInfo.AddHtInfo2.OperaionMode;
 		bNonGFExist = pAd->MacTab.fAnyStationNonGF;
@@ -1454,7 +1454,7 @@ VOID APUpdateCapabilityAndErpIe(
         Check to see the exist of long preamble STA in associated list
     ==========================================================================
  */
-BOOLEAN ApCheckLongPreambleSTA(
+bool ApCheckLongPreambleSTA(
     IN struct rtmp_adapter *pAd)
 {
     UCHAR   i;
@@ -1485,12 +1485,12 @@ BOOLEAN ApCheckLongPreambleSTA(
 
 	==========================================================================
 */
-BOOLEAN ApCheckAccessControlList(
+bool ApCheckAccessControlList(
 	IN struct rtmp_adapter *pAd,
 	IN u8 *       pAddr,
 	IN UCHAR         Apidx)
 {
-	BOOLEAN Result = TRUE;
+	bool Result = TRUE;
 
     if (pAd->ApCfg.MBSSID[Apidx].AccessControlList.Policy == 0)       /* ACL is disabled */
         Result = TRUE;
@@ -1531,7 +1531,7 @@ BOOLEAN ApCheckAccessControlList(
 VOID ApUpdateAccessControlList(struct rtmp_adapter *pAd, UCHAR Apidx)
 {
 	USHORT   AclIdx, MacIdx;
-	BOOLEAN  Matched;
+	bool  Matched;
 
 	u8 *     pOutBuffer = NULL;
 	int NStatus;
@@ -1540,7 +1540,7 @@ VOID ApUpdateAccessControlList(struct rtmp_adapter *pAd, UCHAR Apidx)
 	USHORT      Reason;
 	MAC_TABLE_ENTRY *pEntry;
 	MULTISSID_STRUCT *pMbss;
-	BOOLEAN drop;
+	bool drop;
 
 	ASSERT(Apidx < MAX_MBSSID_NUM(pAd));
 	if (Apidx >= MAX_MBSSID_NUM(pAd))
@@ -1788,7 +1788,7 @@ INT GetBssCoexEffectedChRange(
 
 VOID APOverlappingBSSScan(struct rtmp_adapter *pAd)
 {
-	BOOLEAN needFallBack = FALSE;
+	bool needFallBack = FALSE;
 	UCHAR Channel = pAd->CommonCfg.Channel;
 	INT chStartIdx, chEndIdx, index,curPriChIdx, curSecChIdx;
 
@@ -1977,7 +1977,7 @@ VOID APOverlappingBSSScan(struct rtmp_adapter *pAd)
  Note:
  ========================================================================
 */
-BOOLEAN DOT1X_InternalCmdAction(
+bool DOT1X_InternalCmdAction(
     IN  struct rtmp_adapter *pAd,
     IN  MAC_TABLE_ENTRY *pEntry,
     IN	UINT8			cmd)
@@ -2041,7 +2041,7 @@ BOOLEAN DOT1X_InternalCmdAction(
  Note:
  ========================================================================
 */
-BOOLEAN DOT1X_EapTriggerAction(
+bool DOT1X_EapTriggerAction(
     IN  struct rtmp_adapter *pAd,
     IN  MAC_TABLE_ENTRY *pEntry)
 {

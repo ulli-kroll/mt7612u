@@ -162,7 +162,7 @@ VOID RTMP_BASetup(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry, UINT8 UPrio
 	{
 		if (pEntry && (pEntry->NoBADataCountDown == 0) && IS_HT_STA(pEntry))
 		{
-			BOOLEAN isRalink = FALSE;
+			bool isRalink = FALSE;
 			/* Don't care the status of the portSecured status. */
 #ifdef APCLI_SUPPORT
 			if (IS_ENTRY_APCLI(pEntry))
@@ -245,7 +245,7 @@ int MiniportMMRequest(
 	struct sk_buff *pPacket;
 	int Status = NDIS_STATUS_SUCCESS;
 	ULONG FreeNum;
-	BOOLEAN bUseDataQ = FALSE, FlgDataQForce = FALSE, FlgIsLocked = FALSE;
+	bool bUseDataQ = FALSE, FlgDataQForce = FALSE, FlgIsLocked = FALSE;
 	int retryCnt = 0;
 
 	ASSERT(Length <= MGMT_DMA_BUFFER_SIZE);
@@ -368,8 +368,8 @@ void AP_QueuePsActionPacket(
 	IN	struct rtmp_adapter *pAd,
 	IN	MAC_TABLE_ENTRY	*pMacEntry,
 	IN	struct sk_buff *pPacket,
-	IN	BOOLEAN			FlgIsDeltsFrame,
-	IN	BOOLEAN			FlgIsLocked,
+	IN	bool			FlgIsDeltsFrame,
+	IN	bool			FlgIsLocked,
 	IN	UCHAR			MgmtQid)
 {
 #ifdef UAPSD_SUPPORT
@@ -503,8 +503,8 @@ int MlmeHardTransmit(
 	IN struct rtmp_adapter *pAd,
 	IN UCHAR QueIdx,
 	IN struct sk_buff *pPacket,
-	IN BOOLEAN FlgDataQForce,
-	IN BOOLEAN FlgIsLocked)
+	IN bool FlgDataQForce,
+	IN bool FlgIsLocked)
 {
 #ifdef CONFIG_AP_SUPPORT
 	MAC_TABLE_ENTRY *pEntry = NULL;
@@ -624,7 +624,7 @@ int MlmeHardTransmitMgmtRing(
 	UCHAR *pSrcBufVA;
 	UINT SrcBufLen;
 	HEADER_802_11 *pHeader_802_11;
-	BOOLEAN bAckRequired, bInsertTimestamp;
+	bool bAckRequired, bInsertTimestamp;
 	UCHAR MlmeRate;
 	TXWI_STRUC *pFirstTxWI;
 	MAC_TABLE_ENTRY *pMacEntry = NULL;
@@ -1040,7 +1040,7 @@ static UCHAR TxPktClassification(struct rtmp_adapter *pAd, struct sk_buff * pPac
 	UCHAR TxFrameType = TX_UNKOWN_FRAME;
 	UCHAR Wcid;
 	MAC_TABLE_ENTRY *pMacEntry = NULL;
-	BOOLEAN	 bHTRate = FALSE;
+	bool	 bHTRate = FALSE;
 
 	Wcid = RTMP_GET_PACKET_WCID(pPacket);
 	if (Wcid == MCAST_WCID)
@@ -1129,7 +1129,7 @@ static UCHAR TxPktClassification(struct rtmp_adapter *pAd, struct sk_buff * pPac
 }
 
 
-BOOLEAN RTMP_FillTxBlkInfo(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
+bool RTMP_FillTxBlkInfo(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 {
 	PACKET_INFO PacketInfo;
 	struct sk_buff *pPacket;
@@ -1285,7 +1285,7 @@ BOOLEAN RTMP_FillTxBlkInfo(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 }
 
 
-BOOLEAN CanDoAggregateTransmit(
+bool CanDoAggregateTransmit(
 	IN struct rtmp_adapter *pAd,
 	IN struct sk_buff *pPacket,
 	IN TX_BLK		*pTxBlk)
@@ -1364,7 +1364,7 @@ BOOLEAN CanDoAggregateTransmit(
 */
 VOID RTMPDeQueuePacket(
 	IN struct rtmp_adapter *pAd,
-	IN BOOLEAN bIntContext,
+	IN bool bIntContext,
 	IN UCHAR QIdx,
 	IN INT Max_Tx_Packets)
 {
@@ -1376,11 +1376,11 @@ VOID RTMPDeQueuePacket(
 	ULONG FreeNumber[NUM_OF_TX_RING];
 	CHAR QueIdx, sQIdx, eQIdx;
 	unsigned long	IrqFlags = 0;
-	BOOLEAN hasTxDesc = FALSE;
+	bool hasTxDesc = FALSE;
 	TX_BLK TxBlk, *pTxBlk;
 
 #ifdef DBG_DIAGNOSE
-	BOOLEAN firstRound;
+	bool firstRound;
 	RtmpDiagStruct *pDiagStruct = &pAd->DiagStruct;
 #endif
 
@@ -2070,7 +2070,7 @@ static inline VOID Sniff2BytesFromNdisBuffer(
 #define IP_HDR_LEN		20
 #define ETH_HDR_LEN		14
 
-BOOLEAN RTMPCheckEtherType(
+bool RTMPCheckEtherType(
 	IN struct rtmp_adapter *pAd,
 	IN struct sk_buff *pPacket,
 	IN MAC_TABLE_ENTRY *pMacEntry,
@@ -2080,7 +2080,7 @@ BOOLEAN RTMPCheckEtherType(
 {
 	uint16_t TypeLen;
 	UCHAR Byte0, Byte1, *pSrcBuf, up = 0;
-	BOOLEAN isMcast = FALSE;
+	bool isMcast = FALSE;
 
 	pSrcBuf = GET_OS_PKT_DATAPTR(pPacket);
 	ASSERT(pSrcBuf);
@@ -2331,7 +2331,7 @@ VOID Update_Rssi_Sample(
 {
 	CHAR rssi[3];
 	UCHAR snr[3];
-	BOOLEAN bInitial = FALSE;
+	bool bInitial = FALSE;
 	CHAR Phymode = get_pkt_phymode_by_rxwi(pAd, pRxWI);
 
 	if (!(pRssi->AvgRssi0 | pRssi->AvgRssi0X8 | pRssi->LastRssi0))
@@ -2715,7 +2715,7 @@ struct sk_buff *RTMPDeFragmentDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk
 	USHORT DataSize = pRxBlk->DataSize;
 	struct sk_buff *pRetPacket = NULL;
 	UCHAR *pFragBuffer = NULL;
-	BOOLEAN bReassDone = FALSE;
+	bool bReassDone = FALSE;
 	UCHAR HeaderRoom = 0;
 	RXWI_STRUC *pRxWI = pRxBlk->pRxWI;
 	UINT8 RXWISize = pAd->chipCap.RXWISize;
@@ -2872,7 +2872,7 @@ VOID Indicate_EAPOL_Packet(
 
 
 #ifdef SOFT_ENCRYPT
-BOOLEAN RTMPExpandPacketForSwEncrypt(
+bool RTMPExpandPacketForSwEncrypt(
 	IN struct rtmp_adapter *pAd,
 	IN TX_BLK *pTxBlk)
 {
@@ -2942,8 +2942,8 @@ VOID RtmpEnqueueNullFrame(
 	IN UCHAR TxRate,
 	IN UCHAR AID,
 	IN UCHAR apidx,
-	IN BOOLEAN bQosNull,
-	IN BOOLEAN bEOSP,
+	IN bool bQosNull,
+	IN bool bEOSP,
 	IN UCHAR OldUP)
 {
 	int NState;
@@ -3010,12 +3010,12 @@ body:
 VOID RtmpPrepareHwNullFrame(
 	IN struct rtmp_adapter *pAd,
 	IN PMAC_TABLE_ENTRY pEntry,
-	IN BOOLEAN bQosNull,
-	IN BOOLEAN bEOSP,
+	IN bool bQosNull,
+	IN bool bEOSP,
 	IN UCHAR OldUP,
 	IN UCHAR OpMode,
 	IN UCHAR PwrMgmt,
-	IN BOOLEAN bWaitACK,
+	IN bool bWaitACK,
 	IN CHAR Index)
 {
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
@@ -3134,7 +3134,7 @@ VOID dev_rx_mgmt_frm(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 	HEADER_802_11 *pHeader = pRxBlk->pHeader;
 	struct sk_buff *pRxPacket = pRxBlk->pRxPacket;
 	INT op_mode = pRxBlk->OpMode;
-	BOOLEAN 	bPassTheBcastPkt = FALSE;
+	bool 	bPassTheBcastPkt = FALSE;
 	INT			i;
 #ifdef APCLI_SUPPORT
 #ifdef APCLI_CERT_SUPPORT
@@ -3453,10 +3453,10 @@ VOID dev_rx_ctrl_frm(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 #undef MAX_RX_PROCESS_CNT
 #define MAX_RX_PROCESS_CNT	(256)
 
-BOOLEAN rtmp_rx_done_handle(struct rtmp_adapter *pAd)
+bool rtmp_rx_done_handle(struct rtmp_adapter *pAd)
 {
 	uint32_t RxProcessed, RxPending;
-	BOOLEAN bReschedule = FALSE;
+	bool bReschedule = FALSE;
 	RXD_STRUC *pRxD;
 	RXINFO_STRUC *pRxInfo;
 	UCHAR *pData;
@@ -3464,7 +3464,7 @@ BOOLEAN rtmp_rx_done_handle(struct rtmp_adapter *pAd)
 	struct sk_buff *pRxPacket;
 	HEADER_802_11 *pHeader;
 	RX_BLK rxblk, *pRxBlk;
-	BOOLEAN bCmdRspPacket = FALSE;
+	bool bCmdRspPacket = FALSE;
 
 #ifdef LINUX
 #endif /* LINUX */
@@ -3695,7 +3695,7 @@ VOID drop_mask_init_per_client(
 	struct rtmp_adapter *ad,
 	PMAC_TABLE_ENTRY entry)
 {
-	BOOLEAN cancelled = 0;
+	bool cancelled = 0;
 
 	if (entry->dropmask_timer.Valid)
 			RTMPCancelTimer(&entry->dropmask_timer, &cancelled);
@@ -3715,7 +3715,7 @@ VOID drop_mask_release_per_client(
 	struct rtmp_adapter *ad,
 	PMAC_TABLE_ENTRY entry)
 {
-	BOOLEAN cancelled = 0;
+	bool cancelled = 0;
 
 	RTMPCancelTimer(&entry->dropmask_timer, &cancelled);
 	RTMPReleaseTimer(&entry->dropmask_timer, &cancelled);
@@ -3760,10 +3760,10 @@ VOID set_drop_mask_per_client(
 	struct rtmp_adapter *	ad,
 	PMAC_TABLE_ENTRY 	entry,
 	UINT8				type,
-	BOOLEAN				enable)
+	bool				enable)
 {
-	BOOLEAN cancelled = 0;
-	BOOLEAN write_to_mac = 0;
+	bool cancelled = 0;
+	bool write_to_mac = 0;
 	uint32_t timeout = 0;
 
 	if (ad->ApCfg.EntryClientCount < 3)

@@ -57,7 +57,7 @@ VOID PMF_InsertIGTKKDE(
 	IN u8 *pFrameBuf,
 	OUT PULONG pFrameLen);
 
-BOOLEAN PMF_ExtractIGTKKDE(
+bool PMF_ExtractIGTKKDE(
 	IN Pstruct rtmp_adapter pAd,
 	IN u8 *pBuf,
 	IN INT buf_len);
@@ -73,15 +73,15 @@ int PMF_RsnCapableValidation(
         IN Pstruct rtmp_adapter pAd,
         IN uint8_t * pRsnie,
         IN UINT rsnie_len,
-        IN BOOLEAN self_MFPC,
-	IN BOOLEAN self_MFPR,
+        IN bool self_MFPC,
+	IN bool self_MFPR,
         IN PMAC_TABLE_ENTRY	pEntry);
 
-BOOLEAN	PMF_PerformTxFrameAction(
+bool	PMF_PerformTxFrameAction(
 	IN Pstruct rtmp_adapter pAd,
 	OUT struct sk_buff *pPacket);
 
-BOOLEAN	PMF_PerformRxFrameAction(
+bool	PMF_PerformRxFrameAction(
 	IN Pstruct rtmp_adapter pAd,
 	IN RX_BLK *pRxBlk);
 

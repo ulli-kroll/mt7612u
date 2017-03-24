@@ -664,7 +664,7 @@ typedef struct GNU_PACKED _NDIS_802_11_BSSID_LIST {
 } NDIS_802_11_BSSID_LIST, *PNDIS_802_11_BSSID_LIST;
 
 typedef struct {
-	BOOLEAN bValid;		/* 1: variable contains valid value */
+	bool bValid;		/* 1: variable contains valid value */
 	USHORT StaNum;
 	UCHAR ChannelUtilization;
 	USHORT RemainingAdmissionControl;	/* in unit of 32-us */
@@ -834,7 +834,7 @@ typedef struct _AP_BSSID_INFO {
 	NDIS_802_11_PMKID_VALUE PMKID;
 	UCHAR PMK[32];
 	ULONG RefreshTime;
-	BOOLEAN Valid;
+	bool Valid;
 } AP_BSSID_INFO, *PAP_BSSID_INFO;
 
 #define MAX_PMKID_COUNT		8
@@ -1134,7 +1134,7 @@ typedef struct _OID_BACAP_STRUC {
 	UCHAR AmsduEnable;	/*Enable AMSDU transmisstion */
 	UCHAR AmsduSize;	/* 0:3839, 1:7935 bytes. UINT  MSDUSizeToBytes[]        = { 3839, 7935}; */
 	UCHAR MMPSmode;		/* MIMO power save more, 0:static, 1:dynamic, 2:rsv, 3:mimo enable */
-	BOOLEAN AutoBA;		/* Auto BA will automatically */
+	bool AutoBA;		/* Auto BA will automatically */
 } OID_BACAP_STRUC, *POID_BACAP_STRUC;
 
 typedef struct _RT_802_11_ACL_ENTRY {

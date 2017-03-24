@@ -163,8 +163,8 @@ UCHAR MlmeSelectUpRate(
 		if (PTX_RA_GRP_ENTRY(pEntry->pTable, UpRateIdx)->CurrMCS == 32)
 		{
 			/*  If not allowed then skip over it */
-			BOOLEAN mcs32Supported = 0;
-			BOOLEAN mcs0Fallback = 0;
+			bool mcs32Supported = 0;
+			bool mcs0Fallback = 0;
 
 			if ((pEntry->HTCapability.MCSSet[4] & 0x1)
 #ifdef DBG_CTRL_SUPPORT
@@ -247,7 +247,7 @@ UCHAR MlmeSelectDownRate(
 		}
 		else if (pDownRate->CurrMCS == MCS_32)
 		{
-			BOOLEAN valid_mcs32 = FALSE;
+			bool valid_mcs32 = FALSE;
 
 			if ((pEntry->MaxHTPhyMode.field.BW == BW_40 && pAd->CommonCfg.BBPCurrentBW == BW_40)
 				|| (pEntry->MaxHTPhyMode.field.BW == BW_80 && pAd->CommonCfg.BBPCurrentBW == BW_80)
@@ -520,7 +520,7 @@ VOID TriggerQuickInitMCSRate(
 #endif /* NEW_RATE_ADAPT_SUPPORT */
 }
 
-BOOLEAN QuickInitMCSRate(
+bool QuickInitMCSRate(
 	    IN struct rtmp_adapter *	pAd,
 	    IN PMAC_TABLE_ENTRY	pEntry)
 {
@@ -1015,7 +1015,7 @@ static ULONG MlmeRAEstimateThroughput(
 	returns
 		TRUE if old rate should be used
 */
-BOOLEAN MlmeRAHybridRule(
+bool MlmeRAHybridRule(
 	IN struct rtmp_adapter *	pAd,
 	IN PMAC_TABLE_ENTRY	pEntry,
 	IN RTMP_RA_GRP_TB *pCurrTxRate,
@@ -1056,8 +1056,8 @@ VOID MlmeNewRateAdapt(
 	IN ULONG			TxErrorRatio)
 {
 	USHORT		phyRateLimit20 = 0;
-	BOOLEAN		bTrainUp = FALSE;
-	BOOLEAN 	invertTxBf = FALSE;
+	bool		bTrainUp = FALSE;
+	bool 	invertTxBf = FALSE;
 	UCHAR *pTable = pEntry->pTable;
 	UCHAR CurrRateIdx = pEntry->CurrTxRateIndex;
 	RTMP_RA_GRP_TB *pCurrTxRate = PTX_RA_GRP_ENTRY(pTable, CurrRateIdx);
@@ -1363,8 +1363,8 @@ VOID APQuickResponeForRateUpExecAdapt(/* actually for both up and down */
 	CHAR					Rssi, ratio;
 	ULONG					TxSuccess, TxRetransmit, TxFailCount;
 	ULONG					OneSecTxNoRetryOKRationCount;
-	BOOLEAN					rateChanged;
-	BOOLEAN					CurrPhyETxBf, CurrPhyITxBf;
+	bool					rateChanged;
+	bool					CurrPhyETxBf, CurrPhyITxBf;
 
 	pEntry = &pAd->MacTab.Content[idx];
 
@@ -1514,7 +1514,7 @@ VOID APQuickResponeForRateUpExecAdapt(/* actually for both up and down */
 	/*  Perform DRS - consider TxRate Down first, then rate up. */
 	if (pEntry->LastSecTxRateChangeAction == RATE_UP)
 	{
-		BOOLEAN useOldRate;
+		bool useOldRate;
 
 		// TODO: gaa - Finalize the decision criterion
 		/*
@@ -1881,8 +1881,8 @@ VOID StaQuickResponeForRateUpExecAdapt(
 	CHAR					ratio;
 	ULONG					TxSuccess, TxRetransmit, TxFailCount;
 	ULONG					OneSecTxNoRetryOKRationCount;
-	BOOLEAN					rateChanged;
-	BOOLEAN					CurrPhyETxBf, CurrPhyITxBf;
+	bool					rateChanged;
+	bool					CurrPhyETxBf, CurrPhyITxBf;
 
 
 	pEntry = &pAd->MacTab.Content[i];
@@ -1982,7 +1982,7 @@ VOID StaQuickResponeForRateUpExecAdapt(
 	/* Perform DRS - consider TxRate Down first, then rate up. */
 	if (pEntry->LastSecTxRateChangeAction == RATE_UP)
 	{
-		BOOLEAN useOldRate;
+		bool useOldRate;
 
 		// TODO: gaa - Finalize the decision criterion
 		/*

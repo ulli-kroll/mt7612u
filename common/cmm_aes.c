@@ -431,7 +431,7 @@ void construct_ctr_preload(
 
 }
 
-BOOLEAN RTMPSoftDecryptAES(
+bool RTMPSoftDecryptAES(
 	IN struct rtmp_adapter *pAd,
 	IN u8 *pData,
 	IN ULONG	DataByteCnt,
@@ -662,7 +662,7 @@ BOOLEAN RTMPSoftDecryptAES(
 */
 VOID RTMPConstructCCMPAAD(
 	IN u8 *pHdr,
-	IN BOOLEAN isDataFrame,
+	IN bool isDataFrame,
 	IN UINT8 a4_exists,
 	IN UINT8 qc_exists,
 	OUT UCHAR *aad_hdr,
@@ -743,7 +743,7 @@ VOID RTMPConstructCCMPNonce(
 	IN u8 *pHdr,
 	IN UINT8 a4_exists,
 	IN UINT8 qc_exists,
-	IN BOOLEAN isMgmtFrame,
+	IN bool isMgmtFrame,
 	IN UCHAR *pn,
 	OUT UCHAR *nonce_hdr,
 	OUT UINT *nonce_hdr_len)
@@ -831,7 +831,7 @@ VOID RTMPConstructCCMPHdr(
 
 	========================================================================
 */
-BOOLEAN RTMPSoftEncryptCCMP(
+bool RTMPSoftEncryptCCMP(
 	IN struct rtmp_adapter *pAd,
 	IN u8 *pHdr,
 	IN u8 *pIV,
@@ -923,7 +923,7 @@ BOOLEAN RTMPSoftEncryptCCMP(
 
 	========================================================================
 */
-BOOLEAN RTMPSoftDecryptCCMP(
+bool RTMPSoftDecryptCCMP(
 	IN struct rtmp_adapter *pAd,
 	IN u8 *pHdr,
 	IN PCIPHER_KEY pKey,

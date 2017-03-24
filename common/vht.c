@@ -614,7 +614,7 @@ INT build_vht_ies(struct rtmp_adapter *pAd, UCHAR *buf, UCHAR frm)
 	return len;
 }
 
-BOOLEAN vht80_channel_group( struct rtmp_adapter *pAd, UCHAR channel)
+bool vht80_channel_group( struct rtmp_adapter *pAd, UCHAR channel)
 {
 	INT idx = 0;
 

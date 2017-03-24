@@ -90,7 +90,7 @@ typedef	struct GNU_PACKED _EAP_FRAME	{
 	UCHAR	Type;						/* 1 = Identity, 0xfe = reserved, used by WSC */
 }	EAP_FRAME, *PEAP_FRAME;
 
-static inline BOOLEAN WscCheckWSCHeader(UCHAR *pData)
+static inline bool WscCheckWSCHeader(UCHAR *pData)
 {
 	WSC_FRAME *pWsc = (WSC_FRAME *)pData;
 

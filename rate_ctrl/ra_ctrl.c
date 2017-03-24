@@ -1557,7 +1557,7 @@ VOID MlmeSetTxRate(
 
 		if (OperationMode != 0xffff)
 			AsicUpdateProtect(pAd, OperationMode , ALLN_SETPROTECT, TRUE,
-							(BOOLEAN)pAd->MlmeAux.AddHtInfo.AddHtInfo2.NonGfPresent);
+							(bool)pAd->MlmeAux.AddHtInfo.AddHtInfo2.NonGfPresent);
 
 		pEntry->HTPhyMode.field.STBC	= wdev->HTPhyMode.field.STBC;
 		pEntry->HTPhyMode.field.ShortGI = wdev->HTPhyMode.field.ShortGI;
@@ -2213,7 +2213,7 @@ VOID MlmeRALog(
 #endif /* DBG_CTRL_SUPPORT */
 	)
 	{
-		BOOLEAN stbc, csd=FALSE;
+		bool stbc, csd=FALSE;
 		ULONG tp;
 
 		/*  Get STBC and StreamMode state */

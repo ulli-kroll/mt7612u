@@ -415,7 +415,7 @@ UCHAR GetChannelFlag(PCH_DESC pChDesc, UCHAR index)
 	return 0;
 }
 
-static BOOLEAN IsValidChannel(
+static bool IsValidChannel(
 	IN struct rtmp_adapter *pAd,
 	IN UCHAR channel)
 
@@ -480,11 +480,11 @@ INT get_vht_neighbor_index(IN UCHAR channel)
 	return -3;
 }
 
-BOOLEAN AC_ChannelGroupCheck(
+bool AC_ChannelGroupCheck(
 	IN struct rtmp_adapter *pAd,
 	IN UCHAR Channel)
 {
-	BOOLEAN	RetVal = FALSE;
+	bool	RetVal = FALSE;
 	UCHAR	vht_ch_group[] = {
 		36, 40, 44, 48,
 		52, 56, 60, 64,
@@ -510,11 +510,11 @@ BOOLEAN AC_ChannelGroupCheck(
 	return RetVal;
 }
 
-BOOLEAN N_ChannelGroupCheck(
+bool N_ChannelGroupCheck(
 	IN struct rtmp_adapter *pAd,
 	IN UCHAR Channel)
 {
-	BOOLEAN	RetVal = FALSE;
+	bool	RetVal = FALSE;
 
 	if (Channel > 14)
 	{

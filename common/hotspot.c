@@ -84,7 +84,7 @@ void HotspotAPReload(struct net_device *net_dev)
 
 
 #ifdef CONFIG_AP_SUPPORT
-BOOLEAN HSIPv4Check(
+bool HSIPv4Check(
 			IN struct rtmp_adapter *pAd,
 			u8 *pWcid,
 			struct sk_buff *pPacket,
@@ -128,7 +128,7 @@ BOOLEAN HSIPv4Check(
 }
 
 
-static BOOLEAN IsICMPv4EchoPacket(
+static bool IsICMPv4EchoPacket(
 			IN struct rtmp_adapter *pAd,
 			IN u8 *pData)
 {
@@ -162,7 +162,7 @@ static BOOLEAN IsICMPv4EchoPacket(
 	return FALSE;
 }
 
-BOOLEAN L2FilterInspection(
+bool L2FilterInspection(
 			IN struct rtmp_adapter *pAd,
 			IN PHOTSPOT_CTRL pHSCtrl,
 			IN u8 *pData)
@@ -178,7 +178,7 @@ BOOLEAN L2FilterInspection(
 	return FALSE;
 }
 
-BOOLEAN ProbeReqforHSAP(
+bool ProbeReqforHSAP(
 	IN struct rtmp_adapter *pAd,
 	IN UCHAR APIndex,
 	IN struct _PEER_PROBE_REQ_PARAM *ProbeReqParam)
@@ -588,7 +588,7 @@ static VOID HSCtrlOff(
 	}
 }
 
-BOOLEAN HotSpotEnable(
+bool HotSpotEnable(
 	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem,
 	IN INT Type)

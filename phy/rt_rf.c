@@ -95,7 +95,7 @@ int RT30xxWriteRFRegister(
 	{
 		UCHAR IdRf;
 		UCHAR RfValue;
-		BOOLEAN beAdd;
+		bool beAdd;
 
 		RT30xxReadRFRegister(pAd, RF_R17, &RfValue);
 		beAdd =  (RfValue < value) ? TRUE : FALSE;

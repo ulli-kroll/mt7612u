@@ -50,7 +50,7 @@
 /*      Function Prototypes */
 /* ============================================================= */
 
-BOOLEAN APBridgeToWirelessSta(
+bool APBridgeToWirelessSta(
     IN  struct rtmp_adapter *  pAd,
     IN  u8 *         pHeader,
     IN  UINT            HdrLen,
@@ -86,7 +86,7 @@ VOID APRxErrorHandle(struct rtmp_adapter *pAd, RX_BLK *pRxBlk);
 
 INT APCheckRxError(struct rtmp_adapter *pAd, RXINFO_STRUC *pRxInfo, RX_BLK *pRxBlk);
 
-BOOLEAN APChkCls2Cls3Err(
+bool APChkCls2Cls3Err(
 	IN struct rtmp_adapter *pAd,
 	IN UCHAR Wcid,
 	IN HEADER_802_11 *pHeader);
@@ -97,7 +97,7 @@ VOID RTMPFrameEndianChange(
     IN  struct rtmp_adapter *pAd,
     IN  UCHAR *pData,
     IN  ULONG Dir,
-    IN  BOOLEAN FromRxDoneInt);
+    IN  bool FromRxDoneInt);
 
 /* ap_assoc.c */
 
@@ -127,7 +127,7 @@ VOID APCls2errAction(struct rtmp_adapter *pAd, ULONG wcid, HEADER_802_11 *hdr);
 /* ap_connect.c */
 
 #ifdef CONFIG_AP_SUPPORT
-BOOLEAN BeaconTransmitRequired(struct rtmp_adapter *pAd, INT apidx, MULTISSID_STRUCT *mbss);
+bool BeaconTransmitRequired(struct rtmp_adapter *pAd, INT apidx, MULTISSID_STRUCT *mbss);
 #endif /* CONFIG_AP_SUPPORT */
 
 VOID APMakeBssBeacon(struct rtmp_adapter *pAd, INT apidx);
@@ -151,7 +151,7 @@ VOID ApSiteSurvey(
 	IN	struct rtmp_adapter * 		pAd,
 	IN	PNDIS_802_11_SSID	pSsid,
 	IN	UCHAR				ScanType,
-	IN	BOOLEAN				ChannelSel);
+	IN	bool				ChannelSel);
 
 VOID SupportRate(
 	IN u8 *SupRate,
@@ -163,7 +163,7 @@ VOID SupportRate(
 	OUT u8 *pMaxSupportRate);
 
 
-BOOLEAN ApScanRunning(struct rtmp_adapter *pAd);
+bool ApScanRunning(struct rtmp_adapter *pAd);
 
 #ifdef AP_PARTIAL_SCAN_SUPPORT
 UCHAR FindPartialScanChannel(
@@ -182,7 +182,7 @@ INT GetBssCoexEffectedChRange(
 /* ap_mlme.c */
 VOID APMlmePeriodicExec(struct rtmp_adapter *pAd);
 
-BOOLEAN APMsgTypeSubst(
+bool APMsgTypeSubst(
     IN struct rtmp_adapter *pAd,
     IN PFRAME_802_11 pFrame,
     OUT INT *Machine,
@@ -231,19 +231,19 @@ VOID ApLogEvent(
 
 VOID APUpdateCapabilityAndErpIe(struct rtmp_adapter *pAd);
 
-BOOLEAN ApCheckAccessControlList(struct rtmp_adapter *pAd, UCHAR *addr, UCHAR apidx);
+bool ApCheckAccessControlList(struct rtmp_adapter *pAd, UCHAR *addr, UCHAR apidx);
 VOID ApUpdateAccessControlList(struct rtmp_adapter *pAd, UCHAR apidx);
 
 
-BOOLEAN PeerAssocReqCmmSanity(
+bool PeerAssocReqCmmSanity(
     IN struct rtmp_adapter *pAd,
-	IN BOOLEAN isRessoc,
+	IN bool isRessoc,
     IN VOID *Msg,
     IN INT MsgLen,
     IN IE_LISTS *ie_lists);
 
 
-BOOLEAN PeerDisassocReqSanity(
+bool PeerDisassocReqSanity(
     IN struct rtmp_adapter *pAd,
     IN VOID *Msg,
     IN ULONG MsgLen,
@@ -251,7 +251,7 @@ BOOLEAN PeerDisassocReqSanity(
     OUT	uint16_t *SeqNum,
     OUT USHORT *Reason);
 
-BOOLEAN PeerDeauthReqSanity(
+bool PeerDeauthReqSanity(
     IN struct rtmp_adapter *pAd,
     IN VOID *Msg,
     IN ULONG MsgLen,
@@ -259,7 +259,7 @@ BOOLEAN PeerDeauthReqSanity(
    	OUT	uint16_t *SeqNum,
     OUT USHORT *Reason);
 
-BOOLEAN APPeerAuthSanity(
+bool APPeerAuthSanity(
     IN struct rtmp_adapter *pAd,
     IN VOID *Msg,
     IN ULONG MsgLen,
@@ -277,12 +277,12 @@ INT	Set_EAPIfName_Proc(struct rtmp_adapter *pAd, char *arg);
 INT	Set_PreAuthIfName_Proc(struct rtmp_adapter *pAd, char *arg);
 
 /* Define in ap.c */
-BOOLEAN DOT1X_InternalCmdAction(
+bool DOT1X_InternalCmdAction(
     IN struct rtmp_adapter *pAd,
     IN MAC_TABLE_ENTRY *pEntry,
     IN UINT8 cmd);
 
-BOOLEAN DOT1X_EapTriggerAction(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry);
+bool DOT1X_EapTriggerAction(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry);
 #endif /* DOT1X_SUPPORT */
 
 VOID AP_E2PROM_IOCTL_PostCtrl(RTMP_IOCTL_INPUT_STRUCT *wrq, char *msg);

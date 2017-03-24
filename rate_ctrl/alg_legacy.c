@@ -419,7 +419,7 @@ VOID APQuickResponeForRateUpExec(
 	UCHAR					InitTxRateIdx, TrainUp, TrainDown;
 	CHAR					Rssi, ratio;
 	ULONG					TxSuccess, TxRetransmit, TxFailCount;
-	BOOLEAN					CurrPhyETxBf, CurrPhyITxBf;
+	bool					CurrPhyETxBf, CurrPhyITxBf;
 
 	pAd->ApCfg.ApQuickResponeForRateUpTimerRunning = FALSE;
 
@@ -1134,7 +1134,7 @@ VOID StaQuickResponeForRateUpExec(
 	CHAR					Rssi, ratio;
 	ULONG					TxSuccess, TxRetransmit, TxFailCount;
 	MAC_TABLE_ENTRY			*pEntry;
-	BOOLEAN					CurrPhyETxBf, CurrPhyITxBf;
+	bool					CurrPhyETxBf, CurrPhyITxBf;
 
 	pAd->StaCfg.StaQuickResponeForRateUpTimerRunning = FALSE;
 
@@ -1414,9 +1414,9 @@ VOID MlmeOldRateAdapt(
 	IN ULONG			TrainDown,
 	IN ULONG			TxErrorRatio)
 {
-	BOOLEAN	bTrainUp = FALSE;
+	bool	bTrainUp = FALSE;
 	UCHAR *pTable = pEntry->pTable;
-	BOOLEAN invertTxBf = FALSE;
+	bool invertTxBf = FALSE;
 
 	pEntry->LastSecTxRateChangeAction = RATE_NO_CHANGE;
 

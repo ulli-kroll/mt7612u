@@ -64,11 +64,11 @@ ULONG OS_NumOfMemAlloc = 0, OS_NumOfMemFree = 0;
  * the lock will not be used in TX/RX
  * path so throughput should not be impacted
  */
-BOOLEAN FlgIsUtilInit = FALSE;
+bool FlgIsUtilInit = FALSE;
 spinlock_t UtilSemLock;
 
-BOOLEAN RTMP_OS_Alloc_RscOnly(VOID *pRscSrc, uint32_t RscLen);
-BOOLEAN RTMP_OS_Remove_Rsc(LIST_HEADER *pRscList, VOID *pRscSrc);
+bool RTMP_OS_Alloc_RscOnly(VOID *pRscSrc, uint32_t RscLen);
+bool RTMP_OS_Remove_Rsc(LIST_HEADER *pRscList, VOID *pRscSrc);
 
 /*
 ========================================================================
@@ -138,7 +138,7 @@ static inline VOID __RTMP_OS_Mod_Timer(
 
 static inline VOID __RTMP_OS_Del_Timer(
 	IN OS_NDIS_MINIPORT_TIMER * pTimer,
-	OUT BOOLEAN *pCancelled)
+	OUT bool *pCancelled)
 {
 	if (timer_pending(pTimer))
 		*pCancelled = del_timer_sync(pTimer);
@@ -435,7 +435,7 @@ struct sk_buff *duplicate_pkt_with_VLAN(
 
 	========================================================================
 */
-BOOLEAN RTMPL2FrameTxAction(
+bool RTMPL2FrameTxAction(
 	IN struct rtmp_adapter *pAd,
 	IN struct net_device *pNetDev,
 	IN RTMP_CB_8023_PACKET_ANNOUNCE _announce_802_3_packet,
@@ -800,7 +800,7 @@ static inline int __RtmpOSTaskInit(
 }
 
 
-BOOLEAN __RtmpOSTaskWait(
+bool __RtmpOSTaskWait(
 	IN VOID *pReserved,
 	IN OS_TASK *pTask,
 	IN int32_t *pStatus)
@@ -938,7 +938,7 @@ Return Value:
 Note:
 ========================================================================
 */
-BOOLEAN RtmpOSNetDevIsUp(struct net_device *pNetDev)
+bool RtmpOSNetDevIsUp(struct net_device *pNetDev)
 {
 	if ((pNetDev == NULL) || !(pNetDev->flags & IFF_UP))
 		return FALSE;
@@ -1261,7 +1261,7 @@ void RtmpOSNetDevDetach(struct net_device *pNetDev)
 }
 
 
-void RtmpOSNetDevProtect(BOOLEAN lock_it)
+void RtmpOSNetDevProtect(bool lock_it)
 {
 	if (lock_it)
 		rtnl_lock();
@@ -1714,7 +1714,7 @@ int RtmpOSIRQRelease(
 	IN struct net_device *pNetDev,
 	IN uint32_t infType,
 	IN PPCI_DEV pci_dev,
-	IN BOOLEAN *pHaveMsi)
+	IN bool *pHaveMsi)
 {
 	struct net_device *net_dev = (struct net_device *)pNetDev;
 
@@ -1741,8 +1741,8 @@ Note:
 */
 VOID RtmpOsWlanEventSet(
 	IN VOID *pReserved,
-	IN BOOLEAN *pCfgWEnt,
-	IN BOOLEAN FlgIsWEntSup)
+	IN bool *pCfgWEnt,
+	IN bool FlgIsWEntSup)
 {
 #if WIRELESS_EXT >= 15
 /*	pAd->CommonCfg.bWirelessEvent = FlgIsWEntSup; */
@@ -1813,7 +1813,7 @@ VOID RtmpOsPktProtocolAssign(struct sk_buff *pNetPkt)
 }
 
 
-BOOLEAN RtmpOsStatsAlloc(
+bool RtmpOsStatsAlloc(
 	IN VOID **ppStats,
 	IN VOID **ppIwStats)
 {
@@ -2006,7 +2006,7 @@ VOID RTMP_OS_Mod_Timer(NDIS_MINIPORT_TIMER *pTimerOrg, unsigned long timeout)
 }
 
 
-VOID RTMP_OS_Del_Timer(NDIS_MINIPORT_TIMER *pTimerOrg, BOOLEAN *pCancelled)
+VOID RTMP_OS_Del_Timer(NDIS_MINIPORT_TIMER *pTimerOrg, bool *pCancelled)
 {
 	__RTMP_OS_Del_Timer(pTimerOrg, pCancelled);
 }
@@ -2056,7 +2056,7 @@ int RtmpOSTaskInit(
 }
 
 
-BOOLEAN RtmpOSTaskWait(VOID *pReserved, RTMP_OS_TASK * pTask, int32_t *pStatus)
+bool RtmpOSTaskWait(VOID *pReserved, RTMP_OS_TASK * pTask, int32_t *pStatus)
 {
 	return __RtmpOSTaskWait(pReserved, pTask, pStatus);
 }

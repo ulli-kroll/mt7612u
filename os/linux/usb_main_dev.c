@@ -24,7 +24,7 @@
 extern USB_DEVICE_ID rtusb_dev_id[];
 extern INT const rtusb_usb_id_len;
 
-static BOOLEAN USBDevConfigInit(struct usb_device *dev, struct usb_interface *intf, VOID *pAd);
+static bool USBDevConfigInit(struct usb_device *dev, struct usb_interface *intf, VOID *pAd);
 
 #ifndef PF_NOFREEZE
 #define PF_NOFREEZE  0
@@ -344,7 +344,7 @@ static int rtusb_resume(struct usb_interface *intf)
 #endif /* CONFIG_PM */
 
 
-static BOOLEAN USBDevConfigInit(struct usb_device *dev, struct usb_interface *intf, VOID *pAd)
+static bool USBDevConfigInit(struct usb_device *dev, struct usb_interface *intf, VOID *pAd)
 {
 	struct usb_host_interface *iface_desc;
 	ULONG BulkOutIdx;

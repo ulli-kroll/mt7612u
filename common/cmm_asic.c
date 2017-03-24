@@ -182,7 +182,7 @@ skipUpdate:
 #endif /* CONFIG_STA_SUPPORT */
 
 
-INT AsicSetAutoFallBack(struct rtmp_adapter *pAd, BOOLEAN enable)
+INT AsicSetAutoFallBack(struct rtmp_adapter *pAd, bool enable)
 {
 	TX_RTY_CFG_STRUC tx_rty_cfg = {.word = 0};
 
@@ -235,8 +235,8 @@ VOID AsicUpdateProtect(
 	IN struct rtmp_adapter *pAd,
 	IN USHORT OperationMode,
 	IN UCHAR SetMask,
-	IN BOOLEAN bDisableBGProtect,
-	IN BOOLEAN bNonGFExist)
+	IN bool bDisableBGProtect,
+	IN bool bNonGFExist)
 {
 	PROT_CFG_STRUC	ProtCfg, ProtCfg4;
 	uint32_t Protect[6], PhyMode = 0x4000;
@@ -651,7 +651,7 @@ VOID AsicBBPAdjust(struct rtmp_adapter *pAd)
 
 	==========================================================================
  */
-VOID AsicSwitchChannel(struct rtmp_adapter *pAd, UCHAR Channel, BOOLEAN bScan)
+VOID AsicSwitchChannel(struct rtmp_adapter *pAd, UCHAR Channel, bool bScan)
 {
 	UCHAR bw;
 	uint32_t value32;
@@ -803,7 +803,7 @@ VOID AsicForceSleep(
  */
 VOID AsicForceWakeup(
 	IN struct rtmp_adapter *pAd,
-	IN BOOLEAN    bFromTx)
+	IN bool    bFromTx)
 {
     DBGPRINT(RT_DEBUG_INFO, ("--> AsicForceWakeup \n"));
     RTMP_STA_FORCE_WAKEUP(pAd, bFromTx);
@@ -986,7 +986,7 @@ INT AsicSetRxFilter(struct rtmp_adapter *pAd)
 }
 
 
-INT AsicSetRDG(struct rtmp_adapter *pAd, BOOLEAN bEnable)
+INT AsicSetRDG(struct rtmp_adapter *pAd, bool bEnable)
 {
 	TX_LINK_CFG_STRUC TxLinkCfg;
 	uint32_t Data = 0;
@@ -1033,7 +1033,7 @@ INT AsicSetRDG(struct rtmp_adapter *pAd, BOOLEAN bEnable)
 
     ========================================================================
 */
-VOID RTMPSetPiggyBack(struct rtmp_adapter *pAd, BOOLEAN bPiggyBack)
+VOID RTMPSetPiggyBack(struct rtmp_adapter *pAd, bool bPiggyBack)
 {
 	TX_LINK_CFG_STRUC  TxLinkCfg;
 
@@ -1052,7 +1052,7 @@ VOID AsicCtrlBcnMask(struct rtmp_adapter *pAd, INT mask)
 	mt7612u_write32(pAd, TX_BCN_BYPASS_MASK, bms.word);
 }
 
-static INT AsicSetIntTimerEn(struct rtmp_adapter *pAd, BOOLEAN enable, uint32_t type, uint32_t timeout)
+static INT AsicSetIntTimerEn(struct rtmp_adapter *pAd, bool enable, uint32_t type, uint32_t timeout)
 {
 	uint32_t val, mask;
 	uint32_t time_mask = 0xffff;	/* ULLI : to fix warning */
@@ -1089,7 +1089,7 @@ static INT AsicSetIntTimerEn(struct rtmp_adapter *pAd, BOOLEAN enable, uint32_t 
 }
 
 
-INT AsicSetPreTbtt(struct rtmp_adapter *pAd, BOOLEAN enable)
+INT AsicSetPreTbtt(struct rtmp_adapter *pAd, bool enable)
 {
 	uint32_t timeout = 0;
 
@@ -1100,7 +1100,7 @@ INT AsicSetPreTbtt(struct rtmp_adapter *pAd, BOOLEAN enable)
 }
 
 
-INT AsicSetGPTimer(struct rtmp_adapter *pAd, BOOLEAN enable, uint32_t timeout)
+INT AsicSetGPTimer(struct rtmp_adapter *pAd, bool enable, uint32_t timeout)
 {
 	return AsicSetIntTimerEn(pAd, enable, INT_TIMER_EN_GP_TIMER, timeout);
 }
@@ -1645,7 +1645,7 @@ uint32_t AsicGetRetryLimit(struct rtmp_adapter *pAd, uint32_t type)
  */
 VOID AsicSetSlotTime(
 	IN struct rtmp_adapter *pAd,
-	IN BOOLEAN bUseShortSlotTime)
+	IN bool bUseShortSlotTime)
 {
 	ULONG	SlotTime;
 	uint32_t RegValue = 0;
@@ -2193,13 +2193,13 @@ VOID AsicRemovePairwiseKeyEntry(
 }
 
 
-BOOLEAN AsicSendCommandToMcu(
+bool AsicSendCommandToMcu(
 	IN struct rtmp_adapter *pAd,
 	IN UCHAR Command,
 	IN UCHAR Token,
 	IN UCHAR Arg0,
 	IN UCHAR Arg1,
-	IN BOOLEAN in_atomic)
+	IN bool in_atomic)
 {
 	// TODO: shiang-6590, fix me, currently firmware is not ready yet, so ignore it!
 	if (IS_RT65XX(pAd))
@@ -2213,15 +2213,15 @@ BOOLEAN AsicSendCommandToMcu(
 }
 
 
-BOOLEAN AsicSendCmdToMcuAndWait(
+bool AsicSendCmdToMcuAndWait(
 	IN struct rtmp_adapter *pAd,
 	IN UCHAR Command,
 	IN UCHAR Token,
 	IN UCHAR Arg0,
 	IN UCHAR Arg1,
-	IN BOOLEAN in_atomic)
+	IN bool in_atomic)
 {
-	BOOLEAN cmd_done = TRUE;
+	bool cmd_done = TRUE;
 
 	AsicSendCommandToMcu(pAd, Command, Token, Arg0, Arg1, in_atomic);
 
@@ -2230,13 +2230,13 @@ BOOLEAN AsicSendCmdToMcuAndWait(
 }
 
 
-BOOLEAN AsicSendCommandToMcuBBP(
+bool AsicSendCommandToMcuBBP(
 	IN struct rtmp_adapter *pAd,
 	IN UCHAR		 Command,
 	IN UCHAR		 Token,
 	IN UCHAR		 Arg0,
 	IN UCHAR		 Arg1,
-	IN BOOLEAN		FlgIsNeedLocked)
+	IN bool		FlgIsNeedLocked)
 {
 	// TODO: shiang-6590, fix me, currently firmware is not ready yet, so ignore it!
 	if (IS_RT65XX(pAd))
@@ -2291,7 +2291,7 @@ VOID AsicSetTxPreamble(struct rtmp_adapter *pAd, USHORT TxPreamble)
 }
 
 
-INT AsicSetRalinkBurstMode(struct rtmp_adapter *pAd, BOOLEAN enable)
+INT AsicSetRalinkBurstMode(struct rtmp_adapter *pAd, bool enable)
 {
 	uint32_t 			Data = 0;
 
@@ -2335,7 +2335,7 @@ INT AsicSetRalinkBurstMode(struct rtmp_adapter *pAd, BOOLEAN enable)
 */
 VOID AsicLoadWOWFirmware(
 	IN struct rtmp_adapter *pAd,
-	IN BOOLEAN WOW)
+	IN bool WOW)
 {
 	if (WOW)
 		pAd->WOW_Cfg.bWOWFirmware = TRUE;
@@ -2350,7 +2350,7 @@ VOID AsicLoadWOWFirmware(
 VOID AsicWOWSendNullFrame(
 	IN struct rtmp_adapter *pAd,
 	IN UCHAR TxRate,
-	IN BOOLEAN bQosNull)
+	IN bool bQosNull)
 {
 
 	TXWI_STRUC *TxWI;
@@ -2419,7 +2419,7 @@ VOID AsicWOWSendNullFrame(
 #endif /* WOW_SUPPORT */
 
 
-INT AsicSetPreTbttInt(struct rtmp_adapter *pAd, BOOLEAN enable)
+INT AsicSetPreTbttInt(struct rtmp_adapter *pAd, bool enable)
 {
 	uint32_t val;
 
@@ -2436,7 +2436,7 @@ INT AsicSetPreTbttInt(struct rtmp_adapter *pAd, BOOLEAN enable)
 }
 
 
-BOOLEAN AsicWaitPDMAIdle(struct rtmp_adapter *pAd, INT round, INT wait_us)
+bool AsicWaitPDMAIdle(struct rtmp_adapter *pAd, INT round, INT wait_us)
 {
 	INT i = 0;
 	WPDMA_GLO_CFG_STRUC GloCfg;
@@ -2493,8 +2493,8 @@ INT StopDmaRx(struct rtmp_adapter *pAd, UCHAR Level)
 	struct sk_buff *pRxPacket;
 	RX_BLK RxBlk, *pRxBlk;
 	uint32_t RxPending = 0, MacReg = 0, MTxCycle = 0;
-	BOOLEAN bReschedule = FALSE;
-	BOOLEAN bCmdRspPacket = FALSE;
+	bool bReschedule = FALSE;
+	bool bCmdRspPacket = FALSE;
 #ifdef RTMP_MAC_USB
 	UINT8 IdleNums = 0;
 #endif /* RTMP_MAC_USB */
@@ -2654,7 +2654,7 @@ INT AsicReadAggCnt(struct rtmp_adapter *pAd, ULONG *aggCnt, int cnt_len)
 
 
 
-INT AsicSetChannel(struct rtmp_adapter *pAd, UCHAR ch, UINT8 bw, UINT8 ext_ch, BOOLEAN bScan)
+INT AsicSetChannel(struct rtmp_adapter *pAd, UCHAR ch, UINT8 bw, UINT8 ext_ch, bool bScan)
 {
 	bbp_set_bw(pAd, bw);
 
@@ -2994,7 +2994,7 @@ VOID RT28xxAndesWOWDisable(
 VOID asic_set_drop_mask(
 	struct rtmp_adapter *ad,
 	USHORT	wcid,
-	BOOLEAN enable)
+	bool enable)
 {
 	uint32_t mac_reg = 0, reg_id, group_index;
 	uint32_t drop_mask = (1 << (wcid % 32));

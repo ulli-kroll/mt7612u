@@ -808,13 +808,13 @@ static inline u8 *AP_Build_ARalink_Frame_Header(struct rtmp_adapter *pAd, TX_BLK
 }
 
 
-static inline BOOLEAN BuildHtcField(
+static inline bool BuildHtcField(
 	IN struct rtmp_adapter *pAd,
 	IN TX_BLK *pTxBlk,
 	IN  MAC_TABLE_ENTRY *pMacEntry,
 	IN u8 *pHeaderBufPtr)
 {
-	BOOLEAN bHTCPlus = FALSE;
+	bool bHTCPlus = FALSE;
 
 
 	return bHTCPlus;
@@ -865,7 +865,7 @@ static inline u8 *AP_Build_AMSDU_Frame_Header(
 	if (pTxBlk->pMacEntry && pAd->chipCap.FlgHwTxBfCap)
 	{
 		MAC_TABLE_ENTRY *pMacEntry = pTxBlk->pMacEntry;
-		BOOLEAN bHTCPlus = FALSE;
+		bool bHTCPlus = FALSE;
 
 		pTxBlk->TxSndgPkt = SNDG_TYPE_DISABLE;
 
@@ -942,7 +942,7 @@ VOID AP_AMPDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 	USHORT freeCnt = 1;
 	MAC_TABLE_ENTRY *pMacEntry;
 	PQUEUE_ENTRY pQEntry;
-	BOOLEAN	 bHTCPlus = FALSE;
+	bool	 bHTCPlus = FALSE;
 	UINT hdr_offset;
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
 
@@ -1701,7 +1701,7 @@ VOID AP_Legacy_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 	HEADER_802_11 *wifi_hdr;
 	UCHAR *pHeaderBufPtr;
 	USHORT freeCnt = 1;
-	BOOLEAN bVLANPkt;
+	bool bVLANPkt;
 	QUEUE_ENTRY *pQEntry;
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
 
@@ -1808,7 +1808,7 @@ VOID AP_Legacy_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 			(pTxBlk->pTransmit->field.MODE >= MODE_HTMIX))
 		{
 			MAC_TABLE_ENTRY *pMacEntry = pTxBlk->pMacEntry;
-			BOOLEAN bHTCPlus = FALSE;
+			bool bHTCPlus = FALSE;
 
 			pTxBlk->TxSndgPkt = SNDG_TYPE_DISABLE;
 
@@ -2012,7 +2012,7 @@ VOID AP_Legacy_Frame_Tx_Hdr_Trns(
 {
 /*	UCHAR			QueIdx = pTxBlk->QueIdx; */
 	USHORT			FreeNumber = 1; /* no use */
-	BOOLEAN			bVLANPkt;
+	bool			bVLANPkt;
 	PQUEUE_ENTRY	pQEntry;
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
 	PWIFI_INFO_STRUC pWI;
@@ -2178,7 +2178,7 @@ VOID AP_Fragment_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 	uint32_t FreeMpduSize, SrcRemainingBytes;
 	USHORT AckDuration;
 	UINT NextMpduSize;
-	BOOLEAN bVLANPkt;
+	bool bVLANPkt;
 	PQUEUE_ENTRY pQEntry;
 	PACKET_INFO PacketInfo;
 #ifdef SOFT_ENCRYPT
@@ -2561,7 +2561,7 @@ VOID AP_ARalink_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 	USHORT totalMPDUSize=0;
 	USHORT FirstTx, LastTxIdx;
 	int frameNum = 0;
-	BOOLEAN bVLANPkt;
+	bool bVLANPkt;
 	PQUEUE_ENTRY pQEntry;
 
 
@@ -2971,7 +2971,7 @@ INT APCheckRxError(struct rtmp_adapter *pAd, RXINFO_STRUC *pRxInfo, RX_BLK *pRxB
 	error, and perform error action (DEAUTH or DISASSOC) accordingly
   ========================================================================
 */
-BOOLEAN APChkCls2Cls3Err(struct rtmp_adapter *pAd, UCHAR wcid, HEADER_802_11 *hdr)
+bool APChkCls2Cls3Err(struct rtmp_adapter *pAd, UCHAR wcid, HEADER_802_11 *hdr)
 {
 	/* software MAC table might be smaller than ASIC on-chip total size. */
 	/* If no mathed wcid index in ASIC on chip, do we need more check???  need to check again. 06-06-2006 */
@@ -3324,10 +3324,10 @@ VOID APRxErrorHandle(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 
 
 static int dump_next_valid = 0;
-BOOLEAN APCheckVaildDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
+bool APCheckVaildDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 {
 	HEADER_802_11 *pHeader = pRxBlk->pHeader;
-	BOOLEAN isVaild = FALSE;
+	bool isVaild = FALSE;
 
 	do
 	{
@@ -3384,7 +3384,7 @@ BOOLEAN APCheckVaildDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 }
 
 /* For TKIP frame, calculate the MIC value */
-BOOLEAN APCheckTkipMICValue(
+bool APCheckTkipMICValue(
 	IN	struct rtmp_adapter *pAd,
 	IN	MAC_TABLE_ENTRY	*pEntry,
 	IN	RX_BLK			*pRxBlk)
@@ -3454,7 +3454,7 @@ VOID APRxEAPOLFrameIndicate(
 	IN	RX_BLK			*pRxBlk,
 	IN	UCHAR			FromWhichBSSID)
 {
-	BOOLEAN 		CheckPktSanity = TRUE;
+	bool 		CheckPktSanity = TRUE;
 	UCHAR			*pTmpBuf;
 #ifdef APCLI_SUPPORT
 #ifdef WPA_SUPPLICANT_SUPPORT
@@ -3726,7 +3726,7 @@ VOID APHandleRxDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 	RXWI_STRUC *pRxWI = pRxBlk->pRxWI;
 	HEADER_802_11 *pHeader = pRxBlk->pHeader;
 	struct sk_buff *pRxPacket = pRxBlk->pRxPacket;
-	BOOLEAN bFragment = FALSE;
+	bool bFragment = FALSE;
 	MAC_TABLE_ENTRY *pEntry = NULL;
 	UCHAR FromWhichBSSID = BSS0;
 	UCHAR OldPwrMgmt = PWR_ACTIVE;	/* UAPSD AP SUPPORT */
@@ -4110,13 +4110,13 @@ err:
 
 
 
-BOOLEAN APFowardWirelessStaToWirelessSta(
+bool APFowardWirelessStaToWirelessSta(
 	IN	struct rtmp_adapter *pAd,
 	IN	struct sk_buff *pPacket,
 	IN	ULONG FromWhichBSSID)
 {
 	MAC_TABLE_ENTRY *pEntry = NULL;
-	BOOLEAN bAnnounce, bDirectForward;
+	bool bAnnounce, bDirectForward;
 	UCHAR *pHeader802_3;
 	struct sk_buff *pForwardPacket;
 
@@ -4318,7 +4318,7 @@ int APInsertPsQueue(
 VOID ApCliRTMPSendNullFrame(
 	IN	struct rtmp_adapter *pAd,
 	IN	UCHAR			TxRate,
-	IN	BOOLEAN 		bQosNull,
+	IN	bool 		bQosNull,
 	IN 	PMAC_TABLE_ENTRY pMacEntry,
 	IN 	USHORT		PwrMgmt)
 {

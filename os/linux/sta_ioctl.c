@@ -693,7 +693,7 @@ int rt_ioctl_giwscan(struct net_device *dev,
 
 	{
 		RT_CMD_STA_IOCTL_BSS_TABLE *pBssEntry=&pIoctlScan->pBssTable[i];
-		BOOLEAN isGonly=FALSE;
+		bool isGonly=FALSE;
 		int rateCnt=0;
 
 		if (pBssEntry->Channel>14)
@@ -2053,7 +2053,7 @@ INT rt28xx_sta_ioctl(struct net_device *net_dev, struct ifreq *rq, INT cmd)
 	VOID        		*pAd = NULL;
 	struct iwreq        *wrqin = (struct iwreq *) rq;
 	RTMP_IOCTL_INPUT_STRUCT rt_wrq, *wrq = &rt_wrq;
-/*	BOOLEAN				StateMachineTouched = FALSE; */
+/*	bool				StateMachineTouched = FALSE; */
 	INT					Status = NDIS_STATUS_SUCCESS;
 	USHORT				subcmd;
 	uint32_t 			org_len;

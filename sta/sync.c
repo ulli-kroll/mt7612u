@@ -163,7 +163,7 @@ VOID MlmeForceJoinReqAction(
 	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
-	BOOLEAN        TimerCancelled;
+	bool        TimerCancelled;
 	HEADER_802_11 Hdr80211;
 	int   NStatus;
 	ULONG         FrameLen = 0;
@@ -333,7 +333,7 @@ VOID MlmeForceScanReqAction(
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	UCHAR          Ssid[MAX_LEN_OF_SSID], SsidLen, ScanType, BssType;
-	BOOLEAN        TimerCancelled;
+	bool        TimerCancelled;
 	ULONG		   Now;
 	USHORT         Status;
 
@@ -461,7 +461,7 @@ VOID MlmeScanReqAction(
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	UCHAR          Ssid[MAX_LEN_OF_SSID], SsidLen, ScanType, BssType;
-	BOOLEAN        TimerCancelled;
+	bool        TimerCancelled;
 	ULONG		   Now;
 	USHORT         Status;
 
@@ -586,7 +586,7 @@ VOID MlmeJoinReqAction(
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	BSS_ENTRY    *pBss;
-	BOOLEAN       TimerCancelled;
+	bool       TimerCancelled;
 	HEADER_802_11 Hdr80211;
 	int   NStatus;
 	ULONG         FrameLen = 0;
@@ -604,7 +604,7 @@ VOID MlmeJoinReqAction(
 	struct os_cookie * pObj = pAd->OS_Cookie;
 #endif /* USB_SUPPORT_SELECTIVE_SUSPEND */
 #endif /* CONFIG_PM */
-	BOOLEAN       bChangeInitBW = FALSE;
+	bool       bChangeInitBW = FALSE;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("SYNC - MlmeJoinReqAction(BSS #%ld)\n", pInfo->BssIdx));
 #ifdef CONFIG_PM
@@ -789,11 +789,11 @@ VOID MlmeStartReqAction(
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	UCHAR Ssid[MAX_LEN_OF_SSID], SsidLen;
-	BOOLEAN TimerCancelled;
+	bool TimerCancelled;
 	UCHAR *VarIE = NULL;		/* New for WPA security suites */
 	NDIS_802_11_VARIABLE_IEs *pVIE = NULL;
 	LARGE_INTEGER TimeStamp;
-	BOOLEAN Privacy;
+	bool Privacy;
 	USHORT Status;
 
 
@@ -926,7 +926,7 @@ VOID rtmp_dbg_sanity_diff(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 
 
 	BCN_IE_LIST *ie_list = NULL;
-	BOOLEAN sanity_new, sanity_old;
+	bool sanity_new, sanity_old;
 
 	/* allocate memory */
 	Ssid = kmalloc( MAX_LEN_OF_SSID, GFP_ATOMIC);
@@ -1377,7 +1377,7 @@ VOID PeerBeaconAtJoinAction(
 	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
-	BOOLEAN TimerCancelled;
+	bool TimerCancelled;
 	USHORT LenVIE;
 	USHORT Status;
 	UCHAR *VarIE = NULL;
@@ -1385,7 +1385,7 @@ VOID PeerBeaconAtJoinAction(
 	ULONG Idx = 0;
 	CHAR Rssi = 0;
 	UCHAR CentralChannel;
-	BOOLEAN bAllowNrate = FALSE;
+	bool bAllowNrate = FALSE;
 	BCN_IE_LIST *ie_list = NULL;
 
 
@@ -1686,7 +1686,7 @@ VOID PeerBeaconAtJoinAction(
 
 			if (pAd->StaCfg.BssType == BSS_INFRA)
 			{
-				BOOLEAN InfraAP_BW;
+				bool InfraAP_BW;
 				UCHAR BwFallBack = 0;
 
 				if (pAd->MlmeAux.HtCapability.HtCapInfo.ChannelWidth == BW_40)
@@ -1780,7 +1780,7 @@ VOID PeerBeacon(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 								&LenVIE,
 								pVIE))
 	{
-		BOOLEAN is_my_bssid, is_my_ssid;
+		bool is_my_bssid, is_my_ssid;
 		ULONG Bssidx, Now;
 		BSS_ENTRY *pBss;
 		CHAR RealRssi = RTMPMaxRssi(pAd, ConvertToRssi(pAd, Elem->Rssi0, RSSI_0),
@@ -1911,7 +1911,7 @@ VOID PeerBeacon(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 
 			OVERLAP_BSS_SCAN_IE	BssScan;
 			UCHAR					RegClass;
-			BOOLEAN					brc;
+			bool					brc;
 
 			/* Read Beacon's Reg Class IE if any. */
 			brc = PeerBeaconAndProbeRspSanity2(pAd, Elem->Msg, Elem->MsgLen, &BssScan, &RegClass);
@@ -2067,7 +2067,7 @@ VOID PeerBeacon(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 
 
 {
-					BOOLEAN result;
+					bool result;
 					IE_LISTS *ielist;
 
 					ielist = kmalloc(sizeof(IE_LISTS), GFP_ATOMIC);
@@ -2145,7 +2145,7 @@ VOID PeerBeacon(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 
 			if (INFRA_ON(pAd))
 			{
-				BOOLEAN bUseShortSlot, bUseBGProtection;
+				bool bUseShortSlot, bUseBGProtection;
 
 				/*
 				   decide to use/change to -
@@ -2233,7 +2233,7 @@ VOID PeerBeacon(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 				*/
 				if ((bcn_ie_list->AddHtInfoLen != 0) && INFRA_ON(pAd) && pAd->CommonCfg.Channel <= 14)
 				{
-					BOOLEAN bChangeBW = FALSE;
+					bool bChangeBW = FALSE;
 
 					/*
 					     1) HT Information
@@ -2431,7 +2431,7 @@ VOID PeerProbeReqAction(
 	LARGE_INTEGER FakeTimestamp;
 	UCHAR         DsLen = 1, IbssLen = 2;
 	UCHAR         LocalErpIe[3] = {IE_ERP, 1, 0};
-	BOOLEAN       Privacy;
+	bool       Privacy;
 	USHORT        CapabilityInfo;
 
 
@@ -2820,7 +2820,7 @@ VOID ScanCnclAction(
 	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
-	BOOLEAN Cancelled;
+	bool Cancelled;
 
 	RTMPCancelTimer(&pAd->MlmeAux.ScanTimer, &Cancelled);
 	pAd->MlmeAux.Channel = 0;
