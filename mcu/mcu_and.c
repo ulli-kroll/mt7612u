@@ -181,9 +181,9 @@ u16 mt7612u_mcu_usb_get_crc(struct rtmp_adapter *ad)
 
 static void usb_upload_rom_patch_complete(struct urb *urb)
 {
-	RTMP_OS_COMPLETION *load_rom_patch_done = (RTMP_OS_COMPLETION *)RTMP_OS_USB_CONTEXT_GET(urb);
+	struct completion *load_rom_patch_done = urb->context;
 
-	RTMP_OS_COMPLETE(load_rom_patch_done);
+	complete(load_rom_patch_done);
 }
 
 int mt7612u_mcu_usb_load_rom_patch(struct rtmp_adapter *ad)
@@ -548,9 +548,9 @@ error0:
 
 static void usb_uploadfw_complete(struct urb *urb)
 {
-	RTMP_OS_COMPLETION *load_fw_done = (RTMP_OS_COMPLETION *)RTMP_OS_USB_CONTEXT_GET(urb);
+	struct completion *load_fw_done = urb->context;
 
-	RTMP_OS_COMPLETE(load_fw_done);
+	complete(load_fw_done);
 }
 
 static int usb_load_ivb(struct rtmp_adapter *ad, u8 *fw_image)
@@ -1436,7 +1436,7 @@ void mt7612u_mcu_rx_process_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *rx_
 				if (msg->need_wait) {
 
 #ifdef RTMP_USB_SUPPORT
-					RTMP_OS_COMPLETE(&msg->ack_done);
+					complete(&msg->ack_done);
 #endif
 				} else {
 					mt7612u_mcu_free_cmd_msg(msg);
@@ -1460,7 +1460,7 @@ void mt7612u_mcu_rx_process_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *rx_
 #ifdef RTMP_USB_SUPPORT
 static void usb_rx_cmd_msg_complete(PURB urb)
 {
-	struct sk_buff *net_pkt = (struct sk_buff *)RTMP_OS_USB_CONTEXT_GET(urb);
+	struct sk_buff *net_pkt = urb->context;
 	struct cmd_msg *msg = CMD_MSG_CB(net_pkt)->msg;
 	struct rtmp_adapter *ad = (struct rtmp_adapter *)msg->priv;
 	struct os_cookie *pObj = ad->OS_Cookie;
@@ -1636,7 +1636,7 @@ void mt7612u_mcu_bh_schedule(struct rtmp_adapter *ad)
 #ifdef RTMP_USB_SUPPORT
 static void usb_kick_out_cmd_msg_complete(PURB urb)
 {
-	struct sk_buff *net_pkt = (struct sk_buff *)RTMP_OS_USB_CONTEXT_GET(urb);
+	struct sk_buff *net_pkt = urb->context;
 	struct cmd_msg *msg = CMD_MSG_CB(net_pkt)->msg;
 	struct rtmp_adapter *ad = (struct rtmp_adapter *)msg->priv;
 	struct MCU_CTRL *ctl = &ad->MCUCtrl;
@@ -1660,7 +1660,7 @@ static void usb_kick_out_cmd_msg_complete(PURB urb)
 			mt7612u_mcu_unlink_cmd_msg(msg, &ctl->ackq);
 			msg->state = tx_kickout_fail;
 			mt7612u_mcu_inc_error_count(ctl, error_tx_kickout_fail);
-			RTMP_OS_COMPLETE(&msg->ack_done);
+			complete(&msg->ack_done);
 		}
 
 		DBGPRINT(RT_DEBUG_ERROR, ("kick out cmd msg fail(%d)\n", RTMP_USB_URB_STATUS_GET(urb)));
@@ -1705,7 +1705,7 @@ int usb_kick_out_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *msg)
 			mt7612u_mcu_unlink_cmd_msg(msg, &ctl->ackq);
 			msg->state = tx_kickout_fail;
 			mt7612u_mcu_inc_error_count(ctl, error_tx_kickout_fail);
-			RTMP_OS_COMPLETE(&msg->ack_done);
+			complete(&msg->ack_done);
 		}
 
 		DBGPRINT(RT_DEBUG_ERROR, ("%s:submit urb fail(%d)\n", __FUNCTION__, ret));

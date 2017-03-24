@@ -914,12 +914,6 @@ USBHST_STATUS RTUSBBulkCmdRspEventComplete(URBCompleteStatus Status, purbb_t pUR
 		pUrb->transfer_flags &= (~URB_NO_TRANSFER_DMA_MAP);	\
 	}
 
-#define rtusb_urb_context  context
-#define rtusb_urb_status   status
-
-#define RTMP_OS_USB_CONTEXT_GET(__pURB)		__pURB->rtusb_urb_context
-#define RTMP_OS_USB_STATUS_GET(__pURB)		__pURB->rtusb_urb_status
-
 /*extern int rausb_register(struct usb_driver * new_driver); */
 /*extern void rausb_deregister(struct usb_driver * driver); */
 
