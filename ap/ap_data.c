@@ -970,11 +970,7 @@ VOID AP_AMPDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 		&& (pMacEntry->TxSndgType == SNDG_TYPE_DISABLE)
 	)
 	{
-#ifndef VENDOR_FEATURE1_SUPPORT
 		memmove(&pTxBlk->HeaderBuf[TXINFO_SIZE], &pMacEntry->CachedBuf[0], TXWISize + sizeof(HEADER_802_11));
-#else
-		pTxBlk->HeaderBuf = (UCHAR *)(pMacEntry->HeaderBuf);
-#endif /* VENDOR_FEATURE1_SUPPORT */
 		pHeaderBufPtr = (u8 *)(&pTxBlk->HeaderBuf[hdr_offset]);
 		APBuildCache802_11Header(pAd, pTxBlk, pHeaderBufPtr);
 
@@ -1001,7 +997,6 @@ VOID AP_AMPDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 	}
 #endif /* SOFT_ENCRYPT */
 
-#ifdef VENDOR_FEATURE1_SUPPORT
 	if(pMacEntry->isCached
 		&& (pMacEntry->Protocol == (RTMP_GET_PACKET_PROTOCOL(pTxBlk->pPacket)))
 #ifdef SOFT_ENCRYPT
@@ -1046,7 +1041,6 @@ VOID AP_AMPDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 		}
 	}
 	else
-#endif /* VENDOR_FEATURE1_SUPPORT */
 	{
 		pHeader_802_11 = (HEADER_802_11 *) pHeaderBufPtr;
 
@@ -1162,9 +1156,7 @@ VOID AP_AMPDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 		pHeaderBufPtr = (u8 *) ROUND_UP(pHeaderBufPtr, 4);
 		pTxBlk->HdrPadLen = (ULONG)(pHeaderBufPtr - pTxBlk->HdrPadLen);
 
-#ifdef VENDOR_FEATURE1_SUPPORT
 		pMacEntry->HdrPadLen = pTxBlk->HdrPadLen;
-#endif /* VENDOR_FEATURE1_SUPPORT */
 
 #ifdef SOFT_ENCRYPT
 		if (TX_BLK_TEST_FLAG(pTxBlk, fTX_bSwEncrypt))
@@ -1229,10 +1221,8 @@ VOID AP_AMPDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 			}
 		}
 
-#ifdef VENDOR_FEATURE1_SUPPORT
 		pMacEntry->Protocol = RTMP_GET_PACKET_PROTOCOL(pTxBlk->pPacket);
 		pMacEntry->MpduHeaderLen = pTxBlk->MpduHeaderLen;
-#endif /* VENDOR_FEATURE1_SUPPORT */
 	}
 
 	if ((pMacEntry->isCached)
@@ -1251,12 +1241,10 @@ VOID AP_AMPDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 		memmove(&pMacEntry->CachedBuf[0], &pTxBlk->HeaderBuf[TXINFO_SIZE],
 						(pHeaderBufPtr - (u8 *)(&pTxBlk->HeaderBuf[TXINFO_SIZE])));
 
-#ifdef VENDOR_FEATURE1_SUPPORT
 		/* use space to get performance enhancement */
 		memset((u8 *)(&pMacEntry->HeaderBuf[0]), 0, sizeof(pMacEntry->HeaderBuf));
 		memmove(&pMacEntry->HeaderBuf[0], &pTxBlk->HeaderBuf[0],
 						(pHeaderBufPtr - (u8 *)(&pTxBlk->HeaderBuf[0])));
-#endif /* VENDOR_FEATURE1_SUPPORT */
 
 		pMacEntry->isCached = TRUE;
 

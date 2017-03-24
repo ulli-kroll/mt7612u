@@ -15,18 +15,13 @@
 #ifndef __RT_COMM_H__
 #define __RT_COMM_H__
 
-#define VENDOR_FEATURE1_SUPPORT
 //#ifdef BB_SOC
 //#endif
 
 
 /*#define MONITOR_FLAG_11N_SNIFFER_SUPPORT */
 
-#ifdef VENDOR_FEATURE1_SUPPORT
 #define FIFO_STAT_READ_PERIOD		4
-#else
-#define FIFO_STAT_READ_PERIOD		0
-#endif /* VENDOR_FEATURE1_SUPPORT */
 
 /* ======================== Before include files ============================ */
 /*

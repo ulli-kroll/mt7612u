@@ -2239,14 +2239,12 @@ typedef struct _MAC_TABLE_ENTRY {
 	AUTH_STATE AuthState;	/* for SHARED KEY authentication state machine used only */
 
 
-#ifdef VENDOR_FEATURE1_SUPPORT
 	/* total 128B, use uint32_t to avoid alignment problem */
 	uint32_t HeaderBuf[32];	/* (total 128B) TempBuffer for TX_INFO + TX_WI + 802.11 Header + padding + AMSDU SubHeader + LLC/SNAP */
 
 	UCHAR HdrPadLen;	/* recording Header Padding Length; */
 	UCHAR MpduHeaderLen;
 	uint16_t Protocol;
-#endif /* VENDOR_FEATURE1_SUPPORT */
 
 	USHORT TxSeq[NUM_OF_TID];
 	USHORT NonQosDataSeq;
@@ -4041,20 +4039,8 @@ typedef struct _TX_BLK {
 	UINT				SrcBufLen;					/* Length of packet payload which not including Layer 2 header */
 
 	u8 *			pExtraLlcSnapEncap;			/* NULL means no extra LLC/SNAP is required */
-#ifndef VENDOR_FEATURE1_SUPPORT
-	/*
-		Note: Can not insert any other new parameters
-		between pExtraLlcSnapEncap & HeaderBuf; Or
-		the start address of HeaderBuf will not be aligned by 4.
-
-		But we can not change HeaderBuf[128] to HeaderBuf[32] because
-		many codes use HeaderBuf[index].
-	*/
-	UCHAR				HeaderBuf[128];				/* TempBuffer for TX_INFO + TX_WI + TSO_INFO + 802.11 Header + padding + AMSDU SubHeader + LLC/SNAP */
-#else
 	uint32_t 			HeaderBuffer[32];			/* total 128B, use uint32_t to avoid alignment problem */
 	UCHAR				*HeaderBuf;
-#endif /* VENDOR_FEATURE1_SUPPORT */
 	UCHAR				MpduHeaderLen;				/* 802.11 header length NOT including the padding */
 	UCHAR				HdrPadLen;					/* recording Header Padding Length; */
 	UCHAR				UserPriority;				/* priority class of packet */
