@@ -266,7 +266,7 @@ bool	RTMPSoftEncryptWEP(
 	if (ARC4_CTX != NULL)
 		kfree(ARC4_CTX);
 
-	return TRUE;
+	return true;
 }
 
 
@@ -282,7 +282,7 @@ bool	RTMPSoftEncryptWEP(
 		Len         the length of the received data
 
 	Return Value:
-		TRUE        Decrypt WEP data success
+		true        Decrypt WEP data success
 		FALSE       Decrypt WEP data failed
 
 	Note:
@@ -365,6 +365,6 @@ bool	RTMPSoftDecryptWEP(
 	if (ARC4_CTX != NULL)
 		kfree(ARC4_CTX);
 
-	return TRUE;
+	return true;
 }
 

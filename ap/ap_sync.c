@@ -260,7 +260,7 @@ VOID APPeerProbeReqAction(
 			/* P802.11n_D1.10, HT Information Exchange Support */
 			if ((pAd->CommonCfg.PhyMode >= PHY_11ABGN_MIXED) && (pAd->CommonCfg.Channel <= 14) &&
 				(pAd->ApCfg.MBSSID[apidx].wdev.DesiredHtPhyInfo.bHtEnable) &&
-				(pAd->CommonCfg.bBssCoexEnable == TRUE))
+				(pAd->CommonCfg.bBssCoexEnable == true))
 			{
 				extCapInfo.BssCoexistMgmtSupport = 1;
 			}
@@ -380,7 +380,7 @@ VOID APPeerProbeReqAction(
 			/* P802.11n_D1.10, HT Information Exchange Support */
 			if (WMODE_CAP_N(PhyMode) && (pAd->CommonCfg.Channel <= 14) &&
 				(pAd->ApCfg.MBSSID[apidx].wdev.DesiredHtPhyInfo.bHtEnable) &&
-				(pAd->CommonCfg.bBssCoexEnable == TRUE))
+				(pAd->CommonCfg.bBssCoexEnable == true))
 			{
 				extCapInfo.BssCoexistMgmtSupport = 1;
 
@@ -406,7 +406,7 @@ VOID APPeerProbeReqAction(
 			Only 802.11a APs that comply with 802.11h are required to include
 			a Power Constrint Element(IE=32) in beacons and probe response frames
 			*/
-			if (pAd->CommonCfg.Channel > 14 && pAd->CommonCfg.bIEEE80211H == TRUE)
+			if (pAd->CommonCfg.Channel > 14 && pAd->CommonCfg.bIEEE80211H == true)
 			{
 				/* prepare power constraint IE */
 				MakeOutgoingFrame(pOutBuffer+FrameLen,    &TmpLen,
@@ -505,7 +505,7 @@ VOID APPeerProbeReqAction(
 			HtLen = sizeof(pAd->CommonCfg.HtCapability);
 			AddHtLen = sizeof(pAd->CommonCfg.AddHTInfo);
 
-		if (pAd->bBroadComHT == TRUE)
+		if (pAd->bBroadComHT == true)
 		{
 			UCHAR epigram_ie_len;
 			UCHAR BROADCOM_HTC[4] = {0x0, 0x90, 0x4c, 0x33};
@@ -600,7 +600,7 @@ VOID APPeerProbeReqAction(
 		RalinkSpecificIe[5] |= 0x8;
 
 #ifdef RSSI_FEEDBACK
-		if (ProbeReqParam.bRequestRssi == TRUE)
+		if (ProbeReqParam.bRequestRssi == true)
 		{
 		    MAC_TABLE_ENTRY *pEntry=NULL;
 
@@ -750,7 +750,7 @@ VOID APPeerBeaconAction(
                 SupportRate(ie_list->SupRate, ie_list->SupRateLen, ie_list->ExtRate, ie_list->ExtRateLen, &pRates, &RatesLen, &MaxSupportedRate);
 
                 if ((ie_list->Erp & 0x01) || (RatesLen <= 4))
-			LegacyBssExist = TRUE;
+			LegacyBssExist = true;
 		else
 			LegacyBssExist = FALSE;
 
@@ -813,14 +813,14 @@ VOID APPeerBeaconAction(
 					}
 				}
 #ifdef APCLI_CERT_SUPPORT
-				if (pAd->bApCliCertTest == TRUE)
+				if (pAd->bApCliCertTest == true)
 				{
 					UCHAR RegClass;
 					OVERLAP_BSS_SCAN_IE	BssScan;
 					bool					brc;
 
 					brc = PeerBeaconAndProbeRspSanity2(pAd, Elem->Msg, Elem->MsgLen, &BssScan, &RegClass);
-					if (brc == TRUE)
+					if (brc == true)
 					{
 						pAd->CommonCfg.Dot11BssWidthTriggerScanInt = le2cpu16(BssScan.TriggerScanInt); /*APBssScan.TriggerScanInt[1] * 256 + APBssScan.TriggerScanInt[0];*/
 						/*DBGPRINT(RT_DEBUG_ERROR,("Update Dot11BssWidthTriggerScanInt=%d \n", pAd->CommonCfg.Dot11BssWidthTriggerScanInt)); */
@@ -833,7 +833,7 @@ VOID APPeerBeaconAction(
 					}
 
 					if (ie_list->operating_mode.rx_nss_type == 0) {
-						pEntry->force_op_mode = TRUE;
+						pEntry->force_op_mode = true;
 						memmove(&pEntry->operating_mode, &ie_list->operating_mode, 1);
 
 						//printk("recv notify\n");
@@ -841,7 +841,7 @@ VOID APPeerBeaconAction(
 
 				}
 #endif /* APCLI_CERT_SUPPORT */
-				if (/*(ApCliWaitProbRsp(pAd, ifIndex) == TRUE) &&*/
+				if (/*(ApCliWaitProbRsp(pAd, ifIndex) == true) &&*/
 			    	    (NdisEqualMemory(pAd->ApCfg.ApCliTab[ifIndex].CfgApCliBssid, ie_list->Bssid, MAC_ADDR_LEN)))
 				{
 					MlmeEnqueue(pAd, APCLI_SYNC_STATE_MACHINE, APCLI_MT2_PEER_BEACON, Elem->MsgLen, Elem->Msg, ifIndex);
@@ -851,7 +851,7 @@ VOID APPeerBeaconAction(
 #endif /* APCLI_SUPPORT */
 
 
-		if (pAd->CommonCfg.bOverlapScanning == TRUE)
+		if (pAd->CommonCfg.bOverlapScanning == true)
 		{
 			INT		index,secChIdx;
 			bool		found = FALSE;
@@ -897,7 +897,7 @@ VOID APPeerBeaconAction(
 						pAd->CommonCfg.BssCoexApCnt++;
 					}
 
-					found = TRUE;
+					found = true;
 				}
 			}
 		}
@@ -978,7 +978,7 @@ VOID APScanTimeoutAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 			iwpriv set auto channel selection
 			update the current index of the channel
 		*/
-		if (pAd->ApCfg.bAutoChannelAtBootup == TRUE)
+		if (pAd->ApCfg.bAutoChannelAtBootup == true)
 		{
 			/* update current channel info */
 			UpdateChannelInfo(pAd, pAd->ApCfg.current_channel_index, pAd->ApCfg.AutoChannelAlg);
@@ -1005,7 +1005,7 @@ VOID APMlmeScanCompleteAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 
 	DBGPRINT(RT_DEBUG_TRACE, ("AP SYNC - APMlmeScanCompleteAction\n"));
 
-	/* If We catch the SR=TRUE in last scan_res, stop the AP Wsc SM */
+	/* If We catch the SR=true in last scan_res, stop the AP Wsc SM */
 	pApCliWscControl = &pAd->ApCfg.ApCliTab[BSS0].WscControl;
 	WscPBCBssTableSort(pAd, pApCliWscControl);
 
@@ -1016,7 +1016,7 @@ VOID APMlmeScanCompleteAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 
 		DBGPRINT(RT_DEBUG_TRACE, ("CON_WPS[%d]: info %d, %d\n", apidx, pWscControl->WscState, pWscControl->bWscTrigger));
 		if ((pWscControl->WscConfMode != WSC_DISABLE) &&
-		    (pWscControl->bWscTrigger == TRUE) &&
+		    (pWscControl->bWscTrigger == true) &&
 		    (pApCliWscControl->WscPBCBssCount > 0))
 		{
 			DBGPRINT(RT_DEBUG_TRACE, ("CON_WPS[%d]: Stop the AP Wsc Machine\n", apidx));
@@ -1076,7 +1076,7 @@ VOID APMlmeScanReqAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 #ifdef CONFIG_AP_SUPPORT
 		IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 		{
-			if (pAd->ApCfg.bAutoChannelAtBootup == TRUE)/* iwpriv set auto channel selection */
+			if (pAd->ApCfg.bAutoChannelAtBootup == true)/* iwpriv set auto channel selection */
 			{
 				APAutoChannelInit(pAd);
 				pAd->ApCfg.AutoChannel_Channel = pAd->ChannelList[0].Channel;
@@ -1182,8 +1182,8 @@ VOID APPeerBeaconAtScanAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 #ifdef APCLI_SUPPORT
 #ifdef APCLI_CERT_SUPPORT
 		/* Check if this scan channel is the effeced channel */
-		if (APCLI_IF_UP_CHECK(pAd, 0) && pAd->bApCliCertTest == TRUE
-			&& (pAd->CommonCfg.bBssCoexEnable == TRUE)
+		if (APCLI_IF_UP_CHECK(pAd, 0) && pAd->bApCliCertTest == true
+			&& (pAd->CommonCfg.bBssCoexEnable == true)
 			&& ((ie_list->Channel > 0) && (ie_list->Channel <= 14)))
 		{
 			int chListIdx;
@@ -1202,7 +1202,7 @@ VOID APPeerBeaconAtScanAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 				/*
 					If this channel is effected channel for the 20/40 coex operation. Check the related IEs.
 				*/
-				if (pAd->ChannelList[chListIdx].bEffectedChannel == TRUE)
+				if (pAd->ChannelList[chListIdx].bEffectedChannel == true)
 				{
 					UCHAR RegClass;
 					OVERLAP_BSS_SCAN_IE	BssScan;
@@ -1305,7 +1305,7 @@ VOID ApSiteSurvey(
 	AsicDisableSync(pAd);
 
 #ifdef AP_PARTIAL_SCAN_SUPPORT
-	if (((pAd->ApCfg.bPartialScanning == TRUE) && (pAd->ApCfg.LastPartialScanChannel == 0)) ||
+	if (((pAd->ApCfg.bPartialScanning == true) && (pAd->ApCfg.LastPartialScanChannel == 0)) ||
 		(pAd->ApCfg.bPartialScanning == FALSE))
 #endif /* AP_PARTIAL_SCAN_SUPPORT */
 	{
@@ -1331,7 +1331,7 @@ VOID ApSiteSurvey(
 
 bool ApScanRunning(struct rtmp_adapter *pAd)
 {
-	return (pAd->Mlme.ApSyncMachine.CurrState == AP_SCAN_LISTEN) ? TRUE : FALSE;
+	return (pAd->Mlme.ApSyncMachine.CurrState == AP_SCAN_LISTEN) ? true : FALSE;
 }
 
 #ifdef AP_PARTIAL_SCAN_SUPPORT

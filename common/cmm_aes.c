@@ -640,7 +640,7 @@ bool RTMPSoftDecryptAES(
 	RTMPFrameEndianChange(pAd, (u8 *)pData, DIR_READ, FALSE);
 #endif
 
-	return TRUE;
+	return true;
 }
 
 
@@ -906,7 +906,7 @@ bool RTMPSoftEncryptCCMP(
 	RTMPFrameEndianChange(pAd, (u8 *)pHdr, DIR_READ, FALSE);
 #endif
 
-	return TRUE;
+	return true;
 }
 
 /*
@@ -1025,7 +1025,7 @@ bool RTMPSoftDecryptCCMP(
 	RTMPFrameEndianChange(pAd, (u8 *)pHdr, DIR_READ, FALSE);
 #endif
 
-	return TRUE;
+	return true;
 }
 
 /*
@@ -1077,7 +1077,7 @@ VOID CCMP_test_vector(
 	/* Check AAD */
 	memset(res_buf, 0, 100);
 	res_len = 0;
-	RTMPConstructCCMPAAD(HDR, TRUE, 0, 0, res_buf, &res_len);
+	RTMPConstructCCMPAAD(HDR, true, 0, 0, res_buf, &res_len);
 	if (res_len == 22 && NdisEqualMemory(res_buf, AAD, res_len))
 		printk("Construct AAD is OK!!!\n");
 	else

@@ -2070,7 +2070,7 @@ int mt7612u_mcu_random_write(struct rtmp_adapter *ad, RTMP_REG_PAIR *reg_pair, u
 									? cap->InbandPacketMaxLen : (var_len - cur_len);
 
 		if ((sent_len < cap->InbandPacketMaxLen) || (cur_len + cap->InbandPacketMaxLen) == var_len)
-			last_packet = TRUE;
+			last_packet = true;
 
 		msg = mt7612u_mcu_alloc_cmd_msg(ad, sent_len);
 
@@ -2080,7 +2080,7 @@ int mt7612u_mcu_random_write(struct rtmp_adapter *ad, RTMP_REG_PAIR *reg_pair, u
 		}
 
 		if (last_packet)
-			mt7612u_mcu_init_cmd_msg(msg, CMD_RANDOM_WRITE, TRUE, 0, TRUE, TRUE);
+			mt7612u_mcu_init_cmd_msg(msg, CMD_RANDOM_WRITE, true, 0, true, true);
 		else
 			mt7612u_mcu_init_cmd_msg(msg, CMD_RANDOM_WRITE, FALSE, 0, FALSE, FALSE);
 
@@ -2181,7 +2181,7 @@ int mt7612u_mcu_fun_set(struct rtmp_adapter *ad, u32 fun_id, u32 param)
 	}
 
 	if (fun_id != Q_SELECT)
-		mt7612u_mcu_init_cmd_msg(msg, CMD_FUN_SET_OP, TRUE, 0, TRUE, TRUE);
+		mt7612u_mcu_init_cmd_msg(msg, CMD_FUN_SET_OP, true, 0, true, true);
 	else
 		mt7612u_mcu_init_cmd_msg(msg, CMD_FUN_SET_OP, FALSE, 0, FALSE, FALSE);
 
@@ -2218,7 +2218,7 @@ void mt7612u_mcu_calibration(struct rtmp_adapter *ad, u32 cal_id, ANDES_CALIBRAT
 		return;
 	}
 
-	mt7612u_mcu_init_cmd_msg(msg, CMD_CALIBRATION_OP, TRUE, 0, TRUE, TRUE);
+	mt7612u_mcu_init_cmd_msg(msg, CMD_CALIBRATION_OP, true, 0, true, true);
 
 	/* Calibration ID */
 	value = cpu2le32(cal_id);
@@ -2256,7 +2256,7 @@ int mt7612u_mcu_load_cr(struct rtmp_adapter *ad, u32 cr_type, UINT8 temp_level, 
 		goto error;
 	}
 
-	mt7612u_mcu_init_cmd_msg(msg, CMD_LOAD_CR, TRUE, 0, TRUE, TRUE);
+	mt7612u_mcu_init_cmd_msg(msg, CMD_LOAD_CR, true, 0, true, true);
 
 	/* CR type */
 	value &= ~LOAD_CR_MODE_MASK;
@@ -2300,7 +2300,7 @@ int mt7612u_mcu_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan, u
 		goto error;
 	}
 
-	mt7612u_mcu_init_cmd_msg(msg, CMD_SWITCH_CHANNEL_OP, TRUE, 0, TRUE, TRUE);
+	mt7612u_mcu_init_cmd_msg(msg, CMD_SWITCH_CHANNEL_OP, true, 0, true, true);
 
 	/*
      * switch channel related param
@@ -2331,7 +2331,7 @@ int mt7612u_mcu_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan, u
 		goto error;
 	}
 
-	mt7612u_mcu_init_cmd_msg(msg, CMD_SWITCH_CHANNEL_OP, TRUE, 0, TRUE, TRUE);
+	mt7612u_mcu_init_cmd_msg(msg, CMD_SWITCH_CHANNEL_OP, true, 0, true, true);
 
 	/*
      * switch channel related param
@@ -2384,10 +2384,10 @@ int mt7612u_mcu_init_gain(struct rtmp_adapter *ad, UINT8 channel, bool force_mod
 		goto error;
 	}
 
-	mt7612u_mcu_init_cmd_msg(msg, CMD_INIT_GAIN_OP, TRUE, 0, TRUE, TRUE);
+	mt7612u_mcu_init_cmd_msg(msg, CMD_INIT_GAIN_OP, true, 0, true, true);
 
 	/* init gain parameter#1 */
-	if (force_mode == TRUE)
+	if (force_mode == true)
 		value = 0x80000000;
 
 	value |= channel;
@@ -2421,13 +2421,13 @@ int mt7612u_mcu_dynamic_vga(struct rtmp_adapter *ad, UINT8 channel, bool mode, b
 		goto error;
 	}
 
-	mt7612u_mcu_init_cmd_msg(msg, CMD_DYNC_VGA_OP, TRUE, 0, TRUE, TRUE);
+	mt7612u_mcu_init_cmd_msg(msg, CMD_DYNC_VGA_OP, true, 0, true, true);
 
-	/* dynamic VGA parameter#1: TRUE = AP mode ; FALSE = STA mode */
-	if (mode == TRUE)
+	/* dynamic VGA parameter#1: true = AP mode ; FALSE = STA mode */
+	if (mode == true)
 		value |= 0x80000000;
 
-	if (ext == TRUE)
+	if (ext == true)
 		value |= 0x40000000;
 
 	value |= channel;

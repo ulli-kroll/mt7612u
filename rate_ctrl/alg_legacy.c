@@ -163,7 +163,7 @@ VOID APMlmeDynamicTxRateSwitching(struct rtmp_adapter *pAd)
 				pTmpTxRate = PTX_RA_LEGACY_ENTRY(pTable, TmpIdx);
 				if (pTmpTxRate->Mode <= MODE_CCK)
 				{
-					if (pEntry->SupportCCKMCS[pTmpTxRate->CurrMCS] == TRUE)
+					if (pEntry->SupportCCKMCS[pTmpTxRate->CurrMCS] == true)
 					{
 						UpRateIdx = TmpIdx;
 						break;
@@ -171,7 +171,7 @@ VOID APMlmeDynamicTxRateSwitching(struct rtmp_adapter *pAd)
 				}
 				else if (pTmpTxRate->Mode <= MODE_OFDM)
 				{
-					if (pEntry->SupportOFDMMCS[pTmpTxRate->CurrMCS] == TRUE)
+					if (pEntry->SupportOFDMMCS[pTmpTxRate->CurrMCS] == true)
 					{
 						UpRateIdx = TmpIdx;
 						break;
@@ -179,7 +179,7 @@ VOID APMlmeDynamicTxRateSwitching(struct rtmp_adapter *pAd)
 				}
 				else
 				{
-					if (pEntry->SupportHTMCS[pTmpTxRate->CurrMCS] == TRUE)
+					if (pEntry->SupportHTMCS[pTmpTxRate->CurrMCS] == true)
 					{
 						UpRateIdx = TmpIdx;
 						break;
@@ -194,7 +194,7 @@ VOID APMlmeDynamicTxRateSwitching(struct rtmp_adapter *pAd)
 				pTmpTxRate = PTX_RA_LEGACY_ENTRY(pTable, TmpIdx);
 				if (pTmpTxRate->Mode <= MODE_CCK)
 				{
-					if (pEntry->SupportCCKMCS[pTmpTxRate->CurrMCS] == TRUE)
+					if (pEntry->SupportCCKMCS[pTmpTxRate->CurrMCS] == true)
 					{
 						DownRateIdx = TmpIdx;
 						break;
@@ -202,7 +202,7 @@ VOID APMlmeDynamicTxRateSwitching(struct rtmp_adapter *pAd)
 				}
 				else if (pTmpTxRate->Mode <= MODE_OFDM)
 				{
-					if (pEntry->SupportOFDMMCS[pTmpTxRate->CurrMCS] == TRUE)
+					if (pEntry->SupportOFDMMCS[pTmpTxRate->CurrMCS] == true)
 					{
 						DownRateIdx = TmpIdx;
 						break;
@@ -210,7 +210,7 @@ VOID APMlmeDynamicTxRateSwitching(struct rtmp_adapter *pAd)
 				}
 				else
 				{
-					if (pEntry->SupportHTMCS[pTmpTxRate->CurrMCS] == TRUE)
+					if (pEntry->SupportHTMCS[pTmpTxRate->CurrMCS] == true)
 					{
 						DownRateIdx = TmpIdx;
 						break;
@@ -227,7 +227,7 @@ VOID APMlmeDynamicTxRateSwitching(struct rtmp_adapter *pAd)
 				pTmpTxRate = PTX_RA_LEGACY_ENTRY(pTable, TmpIdx);
 				if (pTmpTxRate->Mode <= MODE_CCK)
 				{
-					if (pEntry->SupportCCKMCS[pTmpTxRate->CurrMCS] == TRUE)
+					if (pEntry->SupportCCKMCS[pTmpTxRate->CurrMCS] == true)
 					{
 						UpRateIdx = TmpIdx;
 						break;
@@ -235,7 +235,7 @@ VOID APMlmeDynamicTxRateSwitching(struct rtmp_adapter *pAd)
 				}
 				else if (pTmpTxRate->Mode <= MODE_OFDM)
 				{
-					if (pEntry->SupportOFDMMCS[pTmpTxRate->CurrMCS] == TRUE)
+					if (pEntry->SupportOFDMMCS[pTmpTxRate->CurrMCS] == true)
 					{
 						UpRateIdx = TmpIdx;
 						break;
@@ -243,7 +243,7 @@ VOID APMlmeDynamicTxRateSwitching(struct rtmp_adapter *pAd)
 				}
 				else
 				{
-					if (pEntry->SupportHTMCS[pTmpTxRate->CurrMCS] == TRUE)
+					if (pEntry->SupportHTMCS[pTmpTxRate->CurrMCS] == true)
 					{
 						UpRateIdx = TmpIdx;
 						break;
@@ -264,7 +264,7 @@ VOID APMlmeDynamicTxRateSwitching(struct rtmp_adapter *pAd)
 					pTmpTxRate = PTX_RA_LEGACY_ENTRY(pTable, TmpIdx);
 					if (pTmpTxRate->Mode <= MODE_CCK)
 					{
-						if (pEntry->SupportCCKMCS[pTmpTxRate->CurrMCS] == TRUE)
+						if (pEntry->SupportCCKMCS[pTmpTxRate->CurrMCS] == true)
 						{
 							DownRateIdx = TmpIdx;
 							break;
@@ -272,7 +272,7 @@ VOID APMlmeDynamicTxRateSwitching(struct rtmp_adapter *pAd)
 					}
 					else if (pTmpTxRate->Mode <= MODE_OFDM)
 					{
-						if (pEntry->SupportOFDMMCS[pTmpTxRate->CurrMCS] == TRUE)
+						if (pEntry->SupportOFDMMCS[pTmpTxRate->CurrMCS] == true)
 						{
 							DownRateIdx = TmpIdx;
 							break;
@@ -280,7 +280,7 @@ VOID APMlmeDynamicTxRateSwitching(struct rtmp_adapter *pAd)
 					}
 					else
 					{
-					if (pEntry->SupportHTMCS[pTmpTxRate->CurrMCS] == TRUE)
+					if (pEntry->SupportHTMCS[pTmpTxRate->CurrMCS] == true)
 					{
 						DownRateIdx = TmpIdx;
 						break;
@@ -340,7 +340,7 @@ VOID APMlmeDynamicTxRateSwitching(struct rtmp_adapter *pAd)
 			}
 
 			MlmeClearAllTxQuality(pEntry);
-			pEntry->fLastSecAccordingRSSI = TRUE;
+			pEntry->fLastSecAccordingRSSI = true;
 
 			/* reset all OneSecTx counters */
 			RESET_ONE_SEC_TX_CNT(pEntry);
@@ -356,7 +356,7 @@ VOID APMlmeDynamicTxRateSwitching(struct rtmp_adapter *pAd)
 
 		pEntry->lowTrafficCount = 0;
 
-		if (pEntry->fLastSecAccordingRSSI == TRUE)
+		if (pEntry->fLastSecAccordingRSSI == true)
 		{
 			pEntry->fLastSecAccordingRSSI = FALSE;
 			pEntry->LastSecTxRateChangeAction = RATE_NO_CHANGE;
@@ -887,7 +887,7 @@ VOID MlmeDynamicTxRateSwitching(
 			while(TmpIdx < TableSize)
 			{
 				pTmpTxRate = PTX_RA_LEGACY_ENTRY(pTable, TmpIdx);
-				if (pEntry->SupportCCKMCS[pTmpTxRate->CurrMCS] == TRUE)
+				if (pEntry->SupportCCKMCS[pTmpTxRate->CurrMCS] == true)
 				{
 					UpRateIdx = TmpIdx;
 					break;
@@ -899,7 +899,7 @@ VOID MlmeDynamicTxRateSwitching(
 			while(TmpIdx >= 0)
 			{
 				pTmpTxRate = PTX_RA_LEGACY_ENTRY(pTable, TmpIdx);
-				if (pEntry->SupportCCKMCS[pTmpTxRate->CurrMCS] == TRUE)
+				if (pEntry->SupportCCKMCS[pTmpTxRate->CurrMCS] == true)
 				{
 					DownRateIdx = TmpIdx;
 					break;
@@ -913,7 +913,7 @@ VOID MlmeDynamicTxRateSwitching(
 			while(TmpIdx < TableSize)
 			{
 				pTmpTxRate = PTX_RA_LEGACY_ENTRY(pTable, TmpIdx);
-				if (pEntry->SupportOFDMMCS[pTmpTxRate->CurrMCS] == TRUE)
+				if (pEntry->SupportOFDMMCS[pTmpTxRate->CurrMCS] == true)
 				{
 					UpRateIdx = TmpIdx;
 					break;
@@ -925,7 +925,7 @@ VOID MlmeDynamicTxRateSwitching(
 			while(TmpIdx >= 0)
 			{
 				pTmpTxRate = PTX_RA_LEGACY_ENTRY(pTable, TmpIdx);
-				if (pEntry->SupportOFDMMCS[pTmpTxRate->CurrMCS] == TRUE)
+				if (pEntry->SupportOFDMMCS[pTmpTxRate->CurrMCS] == true)
 				{
 					DownRateIdx = TmpIdx;
 					break;
@@ -942,7 +942,7 @@ VOID MlmeDynamicTxRateSwitching(
 				while(TmpIdx < TableSize)
 				{
 					pTmpTxRate = PTX_RA_LEGACY_ENTRY(pTable, TmpIdx);
-					if (pEntry->SupportHTMCS[pTmpTxRate->CurrMCS] == TRUE)
+					if (pEntry->SupportHTMCS[pTmpTxRate->CurrMCS] == true)
 					{
 						UpRateIdx = TmpIdx;
 						break;
@@ -954,7 +954,7 @@ VOID MlmeDynamicTxRateSwitching(
 				while(TmpIdx >= 0)
 				{
 					pTmpTxRate = PTX_RA_LEGACY_ENTRY(pTable, TmpIdx);
-					if (pEntry->SupportHTMCS[pTmpTxRate->CurrMCS] == TRUE)
+					if (pEntry->SupportHTMCS[pTmpTxRate->CurrMCS] == true)
 					{
 						DownRateIdx = TmpIdx;
 						break;
@@ -968,7 +968,7 @@ VOID MlmeDynamicTxRateSwitching(
 				while(TmpIdx < TableSize)
 				{
 					pTmpTxRate = PTX_RA_LEGACY_ENTRY(pTable, TmpIdx);
-					if (pEntry->SupportHTMCS[pTmpTxRate->CurrMCS] == TRUE)
+					if (pEntry->SupportHTMCS[pTmpTxRate->CurrMCS] == true)
 					{
 						UpRateIdx = TmpIdx;
 						break;
@@ -986,7 +986,7 @@ VOID MlmeDynamicTxRateSwitching(
 				while(TmpIdx >= 0)
 				{
 					pTmpTxRate = PTX_RA_LEGACY_ENTRY(pTable, TmpIdx);
-					if (pEntry->SupportHTMCS[pTmpTxRate->CurrMCS] == TRUE)
+					if (pEntry->SupportHTMCS[pTmpTxRate->CurrMCS] == true)
 					{
 						DownRateIdx = TmpIdx;
 						break;
@@ -1058,7 +1058,7 @@ VOID MlmeDynamicTxRateSwitching(
 			}
 
 			MlmeClearAllTxQuality(pEntry);
-			pEntry->fLastSecAccordingRSSI = TRUE;
+			pEntry->fLastSecAccordingRSSI = true;
 
 			/* reset all OneSecTx counters */
 			RESET_ONE_SEC_TX_CNT(pEntry);
@@ -1072,7 +1072,7 @@ VOID MlmeDynamicTxRateSwitching(
 			continue;
 		}
 
-		if (pEntry->fLastSecAccordingRSSI == TRUE)
+		if (pEntry->fLastSecAccordingRSSI == true)
 		{
 			pEntry->fLastSecAccordingRSSI = FALSE;
 			pEntry->LastSecTxRateChangeAction = RATE_NO_CHANGE;
@@ -1456,7 +1456,7 @@ VOID MlmeOldRateAdapt(
 		/* Upgrade TX quality if PER <= Rate-Up threshold */
 		if (TxErrorRatio <= TrainUp)
 		{
-			bTrainUp = TRUE;
+			bTrainUp = true;
 			MlmeDecTxQuality(pEntry, CurrRateIdx);  /* quality very good in CurrRate */
 
 			if (pEntry->TxRateUpPenalty)
@@ -1488,7 +1488,7 @@ VOID MlmeOldRateAdapt(
 
 					if (pEntry->TxQuality[CurrRateIdx]==0)
 					{
-						invertTxBf = TRUE;
+						invertTxBf = true;
 						pEntry->CurrTxRateIndex = CurrRateIdx;
 						pEntry->LastSecTxRateChangeAction = RATE_UP;
 					}
@@ -1506,7 +1506,7 @@ VOID MlmeOldRateAdapt(
 
 						if (pEntry->BfTxQuality[UpRateIdx]==0)
 						{
-							invertTxBf = TRUE;
+							invertTxBf = true;
 							pEntry->CurrTxRateIndex = UpRateIdx;
 							pEntry->LastSecTxRateChangeAction = RATE_UP;
 						}
@@ -1521,7 +1521,7 @@ VOID MlmeOldRateAdapt(
 
 						if (pEntry->BfTxQuality[CurrRateIdx]==0)
 						{
-							invertTxBf = TRUE;
+							invertTxBf = true;
 							pEntry->CurrTxRateIndex = CurrRateIdx;
 							pEntry->LastSecTxRateChangeAction = RATE_UP;
 						}
@@ -1571,7 +1571,7 @@ VOID MlmeOldRateAdapt(
 			if (!pAd->ApCfg.ApQuickResponeForRateUpTimerRunning)
 			{
 				RTMPSetTimer(&pAd->ApCfg.ApQuickResponeForRateUpTimer, pAd->ra_fast_interval);
-				pAd->ApCfg.ApQuickResponeForRateUpTimerRunning = TRUE;
+				pAd->ApCfg.ApQuickResponeForRateUpTimerRunning = true;
 			}
 		}
 #endif /* CONFIG_AP_SUPPORT */
@@ -1581,7 +1581,7 @@ VOID MlmeOldRateAdapt(
 			if (!pAd->StaCfg.StaQuickResponeForRateUpTimerRunning)
 			{
 				RTMPSetTimer(&pAd->StaCfg.StaQuickResponeForRateUpTimer, pAd->ra_fast_interval);
-				pAd->StaCfg.StaQuickResponeForRateUpTimerRunning = TRUE;
+				pAd->StaCfg.StaQuickResponeForRateUpTimerRunning = true;
 			}
 		}
 #endif /* CONFIG_STA_SUPPORT */

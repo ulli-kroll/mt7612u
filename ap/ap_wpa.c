@@ -53,7 +53,7 @@ MAC_TABLE_ENTRY *PACInquiry(struct rtmp_adapter *pAd, UCHAR Wcid)
     Description:
        Check sanity of multicast cipher selector in RSN IE.
     Return:
-         TRUE if match
+         true if match
          FALSE otherwise
     ==========================================================================
 */
@@ -85,7 +85,7 @@ bool RTMPCheckMcast(
                 pEntry->AuthMode = Ndis802_11AuthModeWPAPSK;
 
             if (NdisEqualMemory(&eid_ptr->Octet[6], &pAd->ApCfg.MBSSID[apidx].RSN_IE[0][6], 4))
-                return TRUE;
+                return true;
         }
         else if (eid_ptr->Eid == IE_WPA2)
         {
@@ -102,7 +102,7 @@ bool RTMPCheckMcast(
                 pEntry->AuthMode = Ndis802_11AuthModeWPA2PSK;
 
             if (NdisEqualMemory(&eid_ptr->Octet[2], &pAd->ApCfg.MBSSID[apidx].RSN_IE[IE_Idx][2], 4))
-                return TRUE;
+                return true;
         }
     }
 
@@ -114,7 +114,7 @@ bool RTMPCheckMcast(
     Description:
        Check sanity of unicast cipher selector in RSN IE.
     Return:
-         TRUE if match
+         true if match
          FALSE otherwise
     ==========================================================================
 */
@@ -186,7 +186,7 @@ bool RTMPCheckUcast(
 					if (RTMPEqualMemory(pStaTmp, &pAd->ApCfg.MBSSID[apidx].RSN_IE[0][12], 4))
 					{
 						pEntry->WepStatus = Ndis802_11TKIPEnable;
-						return TRUE;
+						return true;
 					}
 
 						/* Our AP uses the AES as the secondary cipher */
@@ -196,7 +196,7 @@ bool RTMPCheckUcast(
 							if (RTMPEqualMemory(pStaTmp, &pAd->ApCfg.MBSSID[apidx].RSN_IE[0][16], 4))
 							{
 								pEntry->WepStatus = Ndis802_11AESEnable;
-								return TRUE;
+								return true;
 							}
 						}
 					}
@@ -206,7 +206,7 @@ bool RTMPCheckUcast(
 						if (RTMPEqualMemory(pStaTmp, &pAd->ApCfg.MBSSID[apidx].RSN_IE[0][12], 4))
 					{
 						pEntry->WepStatus = Ndis802_11AESEnable;
-						return TRUE;
+						return true;
 					}
 					}
 
@@ -219,7 +219,7 @@ bool RTMPCheckUcast(
     			while (Count > 0)
     			{
     				if (RTMPEqualMemory(pStaTmp , &pAd->ApCfg.MBSSID[apidx].RSN_IE[0][12], 4))
-		            	return TRUE;
+		            	return true;
 
 					pStaTmp += 4;
 					Count--;
@@ -246,7 +246,7 @@ bool RTMPCheckUcast(
 					if (RTMPEqualMemory(pStaTmp, &pAd->ApCfg.MBSSID[apidx].RSN_IE[IE_Idx][8], 4))
 					{
 						pEntry->WepStatus = Ndis802_11TKIPEnable;
-						return TRUE;
+						return true;
 					}
 
 						/* Our AP uses the AES as the secondary cipher */
@@ -256,7 +256,7 @@ bool RTMPCheckUcast(
 							if (RTMPEqualMemory(pStaTmp, &pAd->ApCfg.MBSSID[apidx].RSN_IE[IE_Idx][12], 4))
 							{
 								pEntry->WepStatus = Ndis802_11AESEnable;
-								return TRUE;
+								return true;
 							}
 						}
 					}
@@ -266,7 +266,7 @@ bool RTMPCheckUcast(
 						if (RTMPEqualMemory(pStaTmp, &pAd->ApCfg.MBSSID[apidx].RSN_IE[IE_Idx][8], 4))
 					{
 						pEntry->WepStatus = Ndis802_11AESEnable;
-						return TRUE;
+						return true;
 					}
 					}
 
@@ -279,7 +279,7 @@ bool RTMPCheckUcast(
 				while (Count > 0)
     			{
 					if (RTMPEqualMemory(pStaTmp, &pAd->ApCfg.MBSSID[apidx].RSN_IE[IE_Idx][8], 4))
-						return TRUE;
+						return true;
 
 					pStaTmp += 4;
 					Count--;
@@ -297,7 +297,7 @@ bool RTMPCheckUcast(
     Description:
        Check invalidity of authentication method selection in RSN IE.
     Return:
-         TRUE if match
+         true if match
          FALSE otherwise
     ==========================================================================
 */
@@ -336,7 +336,7 @@ bool RTMPCheckAKM(u8 *sta_akm, u8 *ap_rsn_ie, INT iswpa2)
     {
 		/*rtmp_hexdump(RT_DEBUG_TRACE,"MBSS WPA_IE AKM ",pTmp,4); */
 		if(RTMPEqualMemory(sta_akm,pTmp,4))
-		   return TRUE;
+		   return true;
     	else
 		{
 			pTmp += 4;
@@ -353,7 +353,7 @@ bool RTMPCheckAKM(u8 *sta_akm, u8 *ap_rsn_ie, INT iswpa2)
     Description:
        Check sanity of authentication method selector in RSN IE.
     Return:
-         TRUE if match
+         true if match
          FALSE otherwise
     ==========================================================================
 */
@@ -426,7 +426,7 @@ bool RTMPCheckAUTH(
 			while (Count > 0)
 			{
 				if (RTMPCheckAKM(pStaTmp, &pAd->ApCfg.MBSSID[apidx].RSN_IE[0][0],0))
-					return TRUE;
+					return true;
 
 				pStaTmp += 4;
 				Count--;
@@ -444,7 +444,7 @@ bool RTMPCheckAUTH(
 			while (Count > 0)
 			{
 				if (RTMPCheckAKM(pStaTmp, &pAd->ApCfg.MBSSID[apidx].RSN_IE[IE_Idx][0],1))
-					return TRUE;
+					return true;
 
 				pStaTmp += 4;
 				Count--;
@@ -567,13 +567,13 @@ VOID HandleCounterMeasure(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 	DBGPRINT(RT_DEBUG_TRACE, ("HandleCounterMeasure ===> \n"));
 
     /* record which entry causes this MIC error, if this entry sends disauth/disassoc, AP doesn't need to log the CM */
-    pEntry->CMTimerRunning = TRUE;
+    pEntry->CMTimerRunning = true;
     pAd->ApCfg.MICFailureCounter++;
 
 	/* send wireless event - for MIC error */
 	RTMPSendWirelessEvent(pAd, IW_MIC_ERROR_EVENT_FLAG, pEntry->Addr, 0, 0);
 
-    if (pAd->ApCfg.CMTimerRunning == TRUE)
+    if (pAd->ApCfg.CMTimerRunning == true)
     {
         DBGPRINT(RT_DEBUG_ERROR, ("Receive CM Attack Twice within 60 seconds ====>>> \n"));
 
@@ -601,7 +601,7 @@ VOID HandleCounterMeasure(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 			Further,  ban all Class 3 DATA transportation for a period 0f 60 sec
 			disallow new association , too
 		*/
-        pAd->ApCfg.BANClass3Data = TRUE;
+        pAd->ApCfg.BANClass3Data = true;
 
         /* check how many entry left...  should be zero */
         /*pAd->ApCfg.MBSSID[pEntry->apidx].GKeyDoneStations = pAd->MacTab.Size; */
@@ -609,7 +609,7 @@ VOID HandleCounterMeasure(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
     }
 
 	RTMPSetTimer(&pAd->ApCfg.CounterMeasureTimer, 60 * MLME_TASK_EXEC_INTV * MLME_TASK_EXEC_MULTIPLE);
-    pAd->ApCfg.CMTimerRunning = TRUE;
+    pAd->ApCfg.CMTimerRunning = true;
     pAd->ApCfg.PrevaMICFailTime = pAd->ApCfg.aMICFailTime;
 	RTMP_GetCurrentSystemTime(&pAd->ApCfg.aMICFailTime);
 }
@@ -635,7 +635,7 @@ VOID CMTimerExec(
     for (i = 0; i < MAX_LEN_OF_MAC_TABLE; i++)
     {
         if (IS_ENTRY_CLIENT(&pAd->MacTab.Content[i])
-			&& (pAd->MacTab.Content[i].CMTimerRunning == TRUE))
+			&& (pAd->MacTab.Content[i].CMTimerRunning == true))
         {
             pAd->MacTab.Content[i].CMTimerRunning =FALSE;
             j++;
@@ -849,7 +849,7 @@ VOID GREKEYPeriodicExec(
 								apidx,
 								wdev->DefaultKeyId,
 								Wcid,
-								TRUE,
+								true,
 								pMbss->GTK,
 								LEN_TKIP_GTK);
 		}
@@ -896,14 +896,14 @@ VOID WpaSend(struct rtmp_adapter *pAdapter, UCHAR *pPacket, ULONG Len)
 
 	/* Send EAP frame to STA */
     if (((pEntry->AuthMode >= Ndis802_11AuthModeWPA) && (pEapHdr->ProType != EAPOLKey)) ||
-        (pAdapter->ApCfg.MBSSID[pEntry->apidx].wdev.IEEE8021X == TRUE))
+        (pAdapter->ApCfg.MBSSID[pEntry->apidx].wdev.IEEE8021X == true))
 		RTMPToWirelessSta(pAdapter,
 						  pEntry,
 						  Header802_3,
 						  LENGTH_802_3,
 						  pData,
 						  Len - LENGTH_802_3,
-						  (pEntry->PortSecured == WPA_802_1X_PORT_SECURED) ? FALSE : TRUE);
+						  (pEntry->PortSecured == WPA_802_1X_PORT_SECURED) ? FALSE : true);
 
 
     if (RTMPEqualMemory((pPacket+12), EAPOL, 2))
@@ -983,7 +983,7 @@ VOID RTMPAddPMKIDCache(
 	{
 		if (!pAd->ApCfg.MBSSID[apidx].PMKIDCache.BSSIDInfo[i].Valid)
 		{
-			pAd->ApCfg.MBSSID[apidx].PMKIDCache.BSSIDInfo[i].Valid = TRUE;
+			pAd->ApCfg.MBSSID[apidx].PMKIDCache.BSSIDInfo[i].Valid = true;
 			NdisGetSystemUpTime(&(pAd->ApCfg.MBSSID[apidx].PMKIDCache.BSSIDInfo[i].RefreshTime));
 			COPY_MAC_ADDR(&pAd->ApCfg.MBSSID[apidx].PMKIDCache.BSSIDInfo[i].MAC, pAddr);
 			memmove(&pAd->ApCfg.MBSSID[apidx].PMKIDCache.BSSIDInfo[i].PMKID, PMKID, LEN_PMKID);
@@ -1010,7 +1010,7 @@ VOID RTMPAddPMKIDCache(
 				}
 			}
 		}
-		pAd->ApCfg.MBSSID[apidx].PMKIDCache.BSSIDInfo[idx].Valid = TRUE;
+		pAd->ApCfg.MBSSID[apidx].PMKIDCache.BSSIDInfo[idx].Valid = true;
 		NdisGetSystemUpTime(&(pAd->ApCfg.MBSSID[apidx].PMKIDCache.BSSIDInfo[idx].RefreshTime));
 		COPY_MAC_ADDR(&pAd->ApCfg.MBSSID[apidx].PMKIDCache.BSSIDInfo[idx].MAC, pAddr);
 		memmove(&pAd->ApCfg.MBSSID[apidx].PMKIDCache.BSSIDInfo[idx].PMKID, PMKID, LEN_PMKID);
@@ -1121,7 +1121,7 @@ VOID	WPA_APSetGroupRekeyAction(
 				{
 					RTMPSetTimer(&pMbss->REKEYTimer, GROUP_KEY_UPDATE_EXEC_INTV);
 
-					pMbss->REKEYTimerRunning = TRUE;
+					pMbss->REKEYTimerRunning = true;
 					pMbss->REKEYCOUNTER = 0;
 				}
 				DBGPRINT(RT_DEBUG_TRACE, (" %s : Group rekey method= %ld , interval = 0x%lx\n",
@@ -1203,7 +1203,7 @@ VOID    ApcliWpaSendEapolStart(
 
 	// Copy frame to Tx ring
 	RTMPToWirelessSta((struct rtmp_adapter *)pAd, pMacEntry,
-					 Header802_3, LENGTH_802_3, (u8 *)&Packet, 4, TRUE);
+					 Header802_3, LENGTH_802_3, (u8 *)&Packet, 4, true);
 
 	DBGPRINT(RT_DEBUG_TRACE, ("<----- WpaSendEapolStart\n"));
 }
@@ -1283,7 +1283,7 @@ VOID ApCliWpaDisassocApAndBlockAssoc(
 	PAPCLI_STRUCT pApCliEntry;
 	PULONG pCurrState = &pAd->ApCfg.ApCliTab[0].CtrlCurrState;
 
-	pAd->ApCfg.ApCliTab[0].bBlockAssoc = TRUE;
+	pAd->ApCfg.ApCliTab[0].bBlockAssoc = true;
 	DBGPRINT(RT_DEBUG_TRACE, ("(%s) disassociate with current AP after sending second continuous EAPOL frame.\n", __FUNCTION__));
 
 

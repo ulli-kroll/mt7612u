@@ -182,7 +182,7 @@ VOID RTMPWriteTxWI(
 		txwi_n->TxPktId = mcs; // PID is not used now!
 
 #ifdef CONFIG_AP_SUPPORT
-		txwi_n->GroupID = TRUE;
+		txwi_n->GroupID = true;
 		txwi_n->TxEAPId = TxEAPId_Cal;
 #endif /*CONFIG_AP_SUPPORT*/
 
@@ -197,7 +197,7 @@ VOID RTMPWriteTxWI(
 		txwi_n->iTxBF = iTxBf;
 		txwi_n->NDPSndRate = ndp_rate;
 		txwi_n->NDPSndBW = bw;
-		txwi_n->TXBF_PT_SCA = (eTxBf | iTxBf) ? TRUE : FALSE;
+		txwi_n->TXBF_PT_SCA = (eTxBf | iTxBf) ? true : FALSE;
 
 	}
 
@@ -259,7 +259,7 @@ VOID RTMPWriteTxWI_Data(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pTx
 	if (bw)
 		bw = (pAd->CommonCfg.AddHTInfo.AddHtInfo.RecomWidth == 0) ? (BW_20) : (pTransmit->field.BW);
 
-	ampdu = ((pTxBlk->TxFrameType == TX_AMPDU_FRAME) ? TRUE : FALSE);
+	ampdu = ((pTxBlk->TxFrameType == TX_AMPDU_FRAME) ? true : FALSE);
 	basize = pAd->CommonCfg.TxBASize;
 	if(ampdu && pMacEntry)
 	{
@@ -362,7 +362,7 @@ VOID RTMPWriteTxWI_Data(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pTx
 #ifdef MCS_LUT_SUPPORT
 	if ((RTMP_TEST_MORE_FLAG(pAd, fASIC_CAP_MCS_LUT)) &&
 		(wcid < 128) &&
-		(pMacEntry && pMacEntry->bAutoTxRateSwitch == TRUE))
+		(pMacEntry && pMacEntry->bAutoTxRateSwitch == true))
 	{
 		HTTRANSMIT_SETTING rate_ctrl;
 
@@ -375,7 +375,7 @@ VOID RTMPWriteTxWI_Data(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pTx
 		rate_ctrl.field.ldpc = ldpc;
 		rate_ctrl.field.MCS = mcs;
 		if (rate_ctrl.word == pTransmit->word)
-			lut_enable = TRUE;
+			lut_enable = true;
 	}
 #ifdef PEER_DELBA_TX_ADAPT
 	GET_GroupKey_WCID(pAd, mbc_wcid, pTxBlk->apidx);
@@ -383,7 +383,7 @@ VOID RTMPWriteTxWI_Data(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pTx
 		(pMacEntry && (pMacEntry->MmpsMode == MMPS_STATIC)))
 		lut_enable = FALSE;
 	else
-		lut_enable = TRUE;
+		lut_enable = true;
 #endif /* PEER_DELBA_TX_ADAPT */
 #endif /* MCS_LUT_SUPPORT */
 
@@ -411,7 +411,7 @@ VOID RTMPWriteTxWI_Data(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pTx
 			DBGPRINT(RT_DEBUG_INFO,("PktID : [%x]\n",txwi_n->TxPktId));
 		}
 #ifdef WFA_VHT_PF
-		if (pAd->force_noack == TRUE)
+		if (pAd->force_noack == true)
 			txwi_n->ACK = 0;
 #endif /* WFA_VHT_PF */
 
@@ -442,7 +442,7 @@ VOID RTMPWriteTxWI_Data(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pTx
 		txwi_n->eTxBF = eTxBf;
 		txwi_n->NDPSndRate = ndp_rate;
 		txwi_n->NDPSndBW = ndp_bw;
-		txwi_n->TXBF_PT_SCA = (eTxBf | iTxBf) ? TRUE : FALSE;
+		txwi_n->TXBF_PT_SCA = (eTxBf | iTxBf) ? true : FALSE;
 
 #ifdef MCS_LUT_SUPPORT
 		txwi_n->lut_en = lut_enable;
@@ -481,7 +481,7 @@ VOID RTMPWriteTxWI_Cache(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pT
 	else if (MT_REV_ET(pAd, MT76x2, REV_MT76x2E3))
 		tx_stream_mode = (pTransmit->field.MODE <= MODE_OFDM) ? 0x93 : 0x0;
 
-	ampdu = ((pMacEntry->NoBADataCountDown == 0) ? TRUE: FALSE);
+	ampdu = ((pMacEntry->NoBADataCountDown == 0) ? true: FALSE);
 	if(pTxBlk->TxSndgPkt > SNDG_TYPE_DISABLE)
 		ampdu = FALSE;
 
@@ -576,7 +576,7 @@ VOID RTMPWriteTxWI_Cache(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pT
 	lut_enable = FALSE;
 	if (RTMP_TEST_MORE_FLAG(pAd, fASIC_CAP_MCS_LUT) &&
 		(pTxBlk->Wcid < 128) &&
-		(pMacEntry && pMacEntry->bAutoTxRateSwitch == TRUE))
+		(pMacEntry && pMacEntry->bAutoTxRateSwitch == true))
 	{
 		HTTRANSMIT_SETTING rate_ctrl;
 
@@ -589,7 +589,7 @@ VOID RTMPWriteTxWI_Cache(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pT
 		rate_ctrl.field.ldpc = ldpc;
 		rate_ctrl.field.MCS = mcs;
 		if (rate_ctrl.word == pTransmit->word)
-			lut_enable = TRUE;
+			lut_enable = true;
 	}
 #endif /* MCS_LUT_SUPPORT */
 
@@ -614,7 +614,7 @@ VOID RTMPWriteTxWI_Cache(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pT
 		txwi_n->MPDUtotalByteCnt = pTxBlk->MpduHeaderLen + pTxBlk->SrcBufLen;
 		txwi_n->ACK = TX_BLK_TEST_FLAG(pTxBlk, fTX_bAckRequired);
 #ifdef WFA_VHT_PF
-		if (pAd->force_noack == TRUE)
+		if (pAd->force_noack == true)
 			txwi_n->ACK = 0;
 #endif /* WFA_VHT_PF */
 
@@ -630,7 +630,7 @@ VOID RTMPWriteTxWI_Cache(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pT
 		txwi_n->iTxBF = iTxBf;
 		txwi_n->NDPSndRate = ndp_rate;
 		txwi_n->NDPSndBW = ndp_bw;
-		txwi_n->TXBF_PT_SCA = (eTxBf | iTxBf) ? TRUE : FALSE;
+		txwi_n->TXBF_PT_SCA = (eTxBf | iTxBf) ? true : FALSE;
 
 #ifdef MCS_LUT_SUPPORT
 		txwi_n->lut_en = lut_enable;
@@ -684,7 +684,7 @@ INT set_lut_phy_rate(
 	if (mac_reg)
 		mt7612u_write32(pAd, reg_id, mac_reg);
 
-	return TRUE;
+	return true;
 }
 #endif /* MCS_LUT_SUPPORT */
 
@@ -709,7 +709,7 @@ INT rtmp_mac_set_band(struct rtmp_adapter *pAd, int  band)
 	if (val != band_cfg)
 		mt7612u_write32(pAd, TX_BAND_CFG, val);
 
-	return TRUE;
+	return true;
 }
 
 
@@ -735,7 +735,7 @@ INT rtmp_mac_set_ctrlch(struct rtmp_adapter *pAd, UINT8 extch)
 	if (val != band_cfg)
 		mt7612u_write32(pAd, TX_BAND_CFG, val);
 
-	return TRUE;
+	return true;
 }
 
 
@@ -753,7 +753,7 @@ INT rtmp_mac_set_mmps(struct rtmp_adapter *pAd, INT ReduceCorePower)
 	if (mac_val != org_val)
 		mt7612u_write32(pAd, 0x1210, mac_val);
 
-	return TRUE;
+	return true;
 }
 
 
@@ -797,7 +797,7 @@ VOID rtmp_mac_bcn_buf_init(IN struct rtmp_adapter *pAd)
 		pAd->BeaconOffset[idx] = pChipCap->BcnBase[idx];
 
 	DBGPRINT(RT_DEBUG_TRACE, ("< Beacon Information: >\n"));
-	DBGPRINT(RT_DEBUG_TRACE, ("\tFlgIsSupSpecBcnBuf = %s\n", pChipCap->FlgIsSupSpecBcnBuf ? "TRUE" : "FALSE"));
+	DBGPRINT(RT_DEBUG_TRACE, ("\tFlgIsSupSpecBcnBuf = %s\n", pChipCap->FlgIsSupSpecBcnBuf ? "true" : "FALSE"));
 	DBGPRINT(RT_DEBUG_TRACE, ("\tBcnMaxHwNum = %d\n", pChipCap->BcnMaxHwNum));
 	DBGPRINT(RT_DEBUG_TRACE, ("\tBcnMaxNum = %d\n", pChipCap->BcnMaxNum));
 	DBGPRINT(RT_DEBUG_TRACE, ("\tBcnMaxHwSize = 0x%x\n", pChipCap->BcnMaxHwSize));
@@ -845,7 +845,7 @@ INT rtmp_mac_pbf_init(struct rtmp_adapter *pAd)
 			pbf_regs++;
 		}
 	}
-	return TRUE;
+	return true;
 }
 
 
@@ -964,6 +964,6 @@ INT rtmp_mac_init(struct rtmp_adapter *pAd)
 
 	mt76x2_init_mac_cr(pAd);
 
-	return TRUE;
+	return true;
 }
 

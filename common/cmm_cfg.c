@@ -117,7 +117,7 @@ char* get_bw_str(int bandwidth)
         This command will not work, if the field of CountryRegion in eeprom is programmed.
 
     Return:
-        TRUE if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
 INT RT_CfgSetCountryRegion(
@@ -159,7 +159,7 @@ INT RT_CfgSetCountryRegion(
 		return FALSE;
 	}
 
-	return TRUE;
+	return true;
 
 }
 
@@ -256,13 +256,13 @@ static bool wmode_valid(struct rtmp_adapter *pAd, enum WIFI_MODE wmode)
 	)
 		return FALSE;
 	else
-		return TRUE;
+		return true;
 }
 
 
 static bool wmode_valid_and_correct(struct rtmp_adapter *pAd, UCHAR* wmode)
 {
-	bool ret = TRUE;
+	bool ret = true;
 	UCHAR mode = *wmode;
 
 	if (WMODE_CAP_5G(*wmode) && (!PHY_CAP_5G(pAd->chipCap.phy_caps)))
@@ -292,7 +292,7 @@ bool wmode_band_equal(UCHAR smode, UCHAR tmode)
 
 	if ((WMODE_CAP_5G(smode) == WMODE_CAP_5G(tmode)) &&
 		(WMODE_CAP_2G(smode) == WMODE_CAP_2G(tmode)))
-		eq = TRUE;
+		eq = true;
 
 	str1 = wmode_2_str(smode);
 	str2 = wmode_2_str(tmode);
@@ -317,7 +317,7 @@ bool wmode_band_equal(UCHAR smode, UCHAR tmode)
     Description:
         Set Wireless Mode
     Return:
-        TRUE if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
 INT RT_CfgSetWirelessMode(struct rtmp_adapter *pAd, char *arg)
@@ -343,7 +343,7 @@ INT RT_CfgSetWirelessMode(struct rtmp_adapter *pAd, char *arg)
 		wmode &= ~(WMODE_AC);
 	}
 
-	if (wmode_band_equal(pAd->CommonCfg.PhyMode, wmode) == TRUE)
+	if (wmode_band_equal(pAd->CommonCfg.PhyMode, wmode) == true)
 		DBGPRINT(RT_DEBUG_OFF, ("wmode_band_equal(): Band Equal!\n"));
 	else
 		DBGPRINT(RT_DEBUG_OFF, ("wmode_band_equal(): Band Not Equal!\n"));
@@ -359,7 +359,7 @@ INT RT_CfgSetWirelessMode(struct rtmp_adapter *pAd, char *arg)
 		kfree(mode_str);
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -400,7 +400,7 @@ static UCHAR RT_CfgMbssWirelessModeMaxGet(struct rtmp_adapter *pAd)
     Description:
         Set Wireless Mode for MBSS
     Return:
-        TRUE if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
 INT RT_CfgSetMbssWirelessMode(struct rtmp_adapter *pAd, char *arg)
@@ -435,7 +435,7 @@ INT RT_CfgSetMbssWirelessMode(struct rtmp_adapter *pAd, char *arg)
 	if (pAd->ApCfg.BssidNum > 1)
 	{
 		/* pAd->CommonCfg.PhyMode = maximum capability of all MBSS */
-		if (wmode_band_equal(pAd->CommonCfg.PhyMode, wmode) == TRUE)
+		if (wmode_band_equal(pAd->CommonCfg.PhyMode, wmode) == true)
 		{
 			wmode = RT_CfgMbssWirelessModeMaxGet(pAd);
 
@@ -459,7 +459,7 @@ INT RT_CfgSetMbssWirelessMode(struct rtmp_adapter *pAd, char *arg)
 
 	pAd->CommonCfg.PhyMode = wmode;
 	pAd->CommonCfg.cfg_wmode = wmode;
-	return TRUE;
+	return true;
 }
 #endif /* MBSS_SUPPORT */
 #endif /* CONFIG_AP_SUPPORT */
@@ -487,13 +487,13 @@ INT RT_CfgSetShortSlot(
 	ShortSlot = simple_strtol(arg, 0, 10);
 
 	if (ShortSlot == 1)
-		pAd->CommonCfg.bUseShortSlotTime = TRUE;
+		pAd->CommonCfg.bUseShortSlotTime = true;
 	else if (ShortSlot == 0)
 		pAd->CommonCfg.bUseShortSlotTime = FALSE;
 	else
 		return FALSE;  /*Invalid argument */
 
-	return TRUE;
+	return true;
 }
 
 
@@ -502,7 +502,7 @@ INT RT_CfgSetShortSlot(
     Description:
         Set WEP KEY base on KeyIdx
     Return:
-        TRUE if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
 INT	RT_CfgSetWepKey(
@@ -535,7 +535,7 @@ INT	RT_CfgSetWepKey(
 				if( !isxdigit(*(keyString+i)) )
 					return FALSE;  /*Not Hex value;*/
 			}
-			bKeyIsHex = TRUE;
+			bKeyIsHex = true;
 			pSharedKey->KeyLen = KeyLen/2 ;
 			AtoH(keyString, pSharedKey->Key, pSharedKey->KeyLen);
 			break;
@@ -549,7 +549,7 @@ INT	RT_CfgSetWepKey(
 	DBGPRINT(RT_DEBUG_TRACE, ("RT_CfgSetWepKey:(KeyIdx=%d,type=%s, Alg=%s)\n",
 						keyIdx, (bKeyIsHex == FALSE ? "Ascii" : "Hex"), CipherName[pSharedKey->CipherAlg]));
 
-	return TRUE;
+	return true;
 }
 
 
@@ -566,7 +566,7 @@ INT	RT_CfgSetWepKey(
         pPMKBuf		Output buffer of WPAPSK key
 
     Return:
-        TRUE if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
 INT RT_CfgSetWPAPSKKey(
@@ -597,7 +597,7 @@ INT RT_CfgSetWPAPSKKey(
 	    memmove(pPMKBuf, keyMaterial, 32);
 	}
 
-	return TRUE;
+	return true;
 }
 
 INT	RT_CfgSetFixedTxPhyMode(char *arg)
@@ -606,13 +606,13 @@ INT	RT_CfgSetFixedTxPhyMode(char *arg)
 	ULONG value;
 
 
-	if (rtstrcasecmp(arg, "OFDM") == TRUE)
+	if (rtstrcasecmp(arg, "OFDM") == true)
 		fix_tx_mode = FIXED_TXMODE_OFDM;
-	else if (rtstrcasecmp(arg, "CCK") == TRUE)
+	else if (rtstrcasecmp(arg, "CCK") == true)
 	    fix_tx_mode = FIXED_TXMODE_CCK;
-	else if (rtstrcasecmp(arg, "HT") == TRUE)
+	else if (rtstrcasecmp(arg, "HT") == true)
 	    fix_tx_mode = FIXED_TXMODE_HT;
-	else if (rtstrcasecmp(arg, "VHT") == TRUE)
+	else if (rtstrcasecmp(arg, "VHT") == true)
 		fix_tx_mode = FIXED_TXMODE_VHT;
 	else
 	{
@@ -646,7 +646,7 @@ INT	RT_CfgSetTxMCSProc(char *arg, bool *pAutoRate)
 	else
 	{
 		TxMcs = MCS_AUTO;
-		*pAutoRate = TRUE;
+		*pAutoRate = true;
 	}
 
 	return TxMcs;
@@ -661,13 +661,13 @@ INT	RT_CfgSetAutoFallBack(
 	UCHAR AutoFallBack = (UCHAR)simple_strtol(arg, 0, 10);
 
 	if (AutoFallBack)
-		AutoFallBack = TRUE;
+		AutoFallBack = true;
 	else
 		AutoFallBack = FALSE;
 
-	AsicSetAutoFallBack(pAd, (AutoFallBack) ? TRUE : FALSE);
+	AsicSetAutoFallBack(pAd, (AutoFallBack) ? true : FALSE);
 	DBGPRINT(RT_DEBUG_TRACE, ("RT_CfgSetAutoFallBack::(AutoFallBack=%d)\n", AutoFallBack));
-	return TRUE;
+	return true;
 }
 
 
@@ -1067,7 +1067,7 @@ INT RTMP_COM_IoctlHandle(
 			break;
 
 		case CMD_RTPRIV_IOCTL_INF_PPA_EXIT:
-			if (ppa_hook_directpath_register_dev_fn && (pAd->PPAEnable == TRUE))
+			if (ppa_hook_directpath_register_dev_fn && (pAd->PPAEnable == true))
 			{
 				UINT status;
 				status = ppa_hook_directpath_register_dev_fn(&pAd->g_if_id, pAd->net_dev, NULL, 0);
@@ -1438,7 +1438,7 @@ INT Set_SiteSurvey_Proc(
 		ApSiteSurvey(pAd, &Ssid, FAST_SCAN_ACTIVE, FALSE);
 #endif /* APCLI_CONNECTION_TRIAL */
 
-		return TRUE;
+		return true;
 	}
 #endif /* AP_SCAN_SUPPORT */
 #endif // CONFIG_AP_SUPPORT //
@@ -1454,14 +1454,14 @@ INT Set_SiteSurvey_Proc(
 			Ssid.SsidLength = strlen(arg);
 		}
 
-		pAd->StaCfg.bSkipAutoScanConn = TRUE;
+		pAd->StaCfg.bSkipAutoScanConn = true;
 		StaSiteSurvey(pAd, &Ssid, SCAN_ACTIVE);
 	}
 #endif // CONFIG_STA_SUPPORT //
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_SiteSurvey_Proc\n"));
 
-    return TRUE;
+    return true;
 }
 
 INT	Set_Antenna_Proc(
@@ -1498,7 +1498,7 @@ INT	Set_Antenna_Proc(
 			break;
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -1513,7 +1513,7 @@ INT set_tssi_enable(struct rtmp_adapter *pAd, char *arg)
 	tssi_enable = simple_strtol(arg, 0, 10);
 
 	if (tssi_enable == 1) {
-		pAd->chipCap.tssi_enable = TRUE;
+		pAd->chipCap.tssi_enable = true;
 		DBGPRINT(RT_DEBUG_OFF, ("turn on TSSI mechanism\n"));
 	} else if (tssi_enable == 0) {
 		pAd->chipCap.tssi_enable = FALSE;
@@ -1522,5 +1522,5 @@ INT set_tssi_enable(struct rtmp_adapter *pAd, char *arg)
 		DBGPRINT(RT_DEBUG_OFF, ("illegal param(%u)\n", tssi_enable));
 		return FALSE;
     }
-	return TRUE;
+	return true;
 }

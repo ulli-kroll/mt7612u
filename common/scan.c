@@ -103,7 +103,7 @@ static INT scan_ch_restore(struct rtmp_adapter *pAd, UCHAR OpMode)
 		{
 			RTMPSendNullFrame(pAd,
 								pAd->CommonCfg.TxRate,
-								(OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_WMM_INUSED) ? TRUE:FALSE),
+								(OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_WMM_INUSED) ? true:FALSE),
 								pAd->CommonCfg.bAPSDForcePowerSave ? PWR_SAVE : pAd->StaCfg.Psm);
 			DBGPRINT(RT_DEBUG_TRACE, ("%s -- Send null frame\n", __FUNCTION__));
 		}
@@ -150,7 +150,7 @@ static INT scan_ch_restore(struct rtmp_adapter *pAd, UCHAR OpMode)
 	{
 #ifdef APCLI_SUPPORT
 #ifdef APCLI_AUTO_CONNECT_SUPPORT
-			if ((pAd->ApCfg.ApCliAutoConnectRunning == TRUE)
+			if ((pAd->ApCfg.ApCliAutoConnectRunning == true)
 #ifdef AP_PARTIAL_SCAN_SUPPORT
 				&& (pAd->ApCfg.bPartialScanning == FALSE)
 #endif /* AP_PARTIAL_SCAN_SUPPORT */
@@ -176,7 +176,7 @@ static INT scan_ch_restore(struct rtmp_adapter *pAd, UCHAR OpMode)
 
 		/* iwpriv set auto channel selection*/
 		/* scanned all channels*/
-		if (pAd->ApCfg.bAutoChannelAtBootup==TRUE)
+		if (pAd->ApCfg.bAutoChannelAtBootup==true)
 		{
 			pAd->CommonCfg.Channel = SelectBestChannel(pAd, pAd->ApCfg.AutoChannelAlg);
 			pAd->ApCfg.bAutoChannelAtBootup = FALSE;
@@ -186,7 +186,7 @@ static INT scan_ch_restore(struct rtmp_adapter *pAd, UCHAR OpMode)
 		}
 
 		if (((pAd->CommonCfg.Channel > 14) &&
-			(pAd->CommonCfg.bIEEE80211H == TRUE) &&
+			(pAd->CommonCfg.bIEEE80211H == true) &&
 			RadarChannelCheck(pAd, pAd->CommonCfg.Channel)))
 		{
 			if (pAd->Dot11_H.InServiceMonitorCount)
@@ -207,7 +207,7 @@ static INT scan_ch_restore(struct rtmp_adapter *pAd, UCHAR OpMode)
 
 #ifdef APCLI_SUPPORT
 #ifdef APCLI_CERT_SUPPORT
-		if (APCLI_IF_UP_CHECK(pAd, 0) && pAd->bApCliCertTest == TRUE && ScanType == SCAN_2040_BSS_COEXIST)
+		if (APCLI_IF_UP_CHECK(pAd, 0) && pAd->bApCliCertTest == true && ScanType == SCAN_2040_BSS_COEXIST)
 		{
 			UCHAR Status=1;
 			DBGPRINT(RT_DEBUG_TRACE, ("@(%s)  Scan Done ScanType=%d\n", __FUNCTION__, ScanType));
@@ -218,7 +218,7 @@ static INT scan_ch_restore(struct rtmp_adapter *pAd, UCHAR OpMode)
 #endif /* CONFIG_AP_SUPPORT */
 
 
-	return TRUE;
+	return true;
 }
 
 
@@ -317,7 +317,7 @@ static INT scan_active(struct rtmp_adapter *pAd, UCHAR OpMode, UCHAR ScanType)
 #ifdef RT_BIG_ENDIAN
 		HT_CAPABILITY_IE HtCapabilityTmp;
 #endif
-		if (pAd->bBroadComHT == TRUE)
+		if (pAd->bBroadComHT == true)
 		{
 			HtLen = pAd->MlmeAux.HtCapabilityLen + 4;
 #ifdef RT_BIG_ENDIAN
@@ -383,7 +383,7 @@ static INT scan_active(struct rtmp_adapter *pAd, UCHAR OpMode, UCHAR ScanType)
 		}
 		FrameLen += Tmp;
 
-		if ((pAd->MlmeAux.Channel <= 14) && (pAd->CommonCfg.bBssCoexEnable == TRUE))
+		if ((pAd->MlmeAux.Channel <= 14) && (pAd->CommonCfg.bBssCoexEnable == true))
 		{
 			ULONG Tmp;
 			HtLen = 1;
@@ -455,7 +455,7 @@ static INT scan_active(struct rtmp_adapter *pAd, UCHAR OpMode, UCHAR ScanType)
 		{
 			RTMPSendNullFrame(pAd,
 						  pAd->CommonCfg.TxRate,
-						  (OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_WMM_INUSED) ? TRUE:FALSE),
+						  (OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_WMM_INUSED) ? true:FALSE),
 						  PWR_SAVE);
 			DBGPRINT(RT_DEBUG_TRACE, ("ScanNextChannel():Send PWA NullData frame to notify the associated AP!\n"));
 		}
@@ -464,7 +464,7 @@ static INT scan_active(struct rtmp_adapter *pAd, UCHAR OpMode, UCHAR ScanType)
 
 	kfree(frm_buf);
 
-	return TRUE;
+	return true;
 }
 
 
@@ -519,7 +519,7 @@ VOID ScanNextChannel(struct rtmp_adapter *pAd, UCHAR OpMode)
 		{
 			/* BBP and RF are not accessible in PS mode, we has to wake them up first*/
 			if (OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_DOZE))
-				AsicForceWakeup(pAd, TRUE);
+				AsicForceWakeup(pAd, true);
 
 			/* leave PSM during scanning. otherwise we may lost ProbeRsp & BEACON*/
 			if (pAd->StaCfg.Psm == PWR_SAVE)
@@ -527,7 +527,7 @@ VOID ScanNextChannel(struct rtmp_adapter *pAd, UCHAR OpMode)
 		}
 #endif /* CONFIG_STA_SUPPORT */
 
-		AsicSwitchChannel(pAd, pAd->MlmeAux.Channel, TRUE);
+		AsicSwitchChannel(pAd, pAd->MlmeAux.Channel, true);
 		AsicLockChannel(pAd, pAd->MlmeAux.Channel);
 
 #ifdef CONFIG_STA_SUPPORT
@@ -538,7 +538,7 @@ VOID ScanNextChannel(struct rtmp_adapter *pAd, UCHAR OpMode)
 			{
 				if ((pAd->CommonCfg.bIEEE80211H == 1)
 					&& RadarChannelCheck(pAd, pAd->MlmeAux.Channel))
-					bScanPassive = TRUE;
+					bScanPassive = true;
 			}
 
 			if (bScanPassive)
@@ -551,7 +551,7 @@ VOID ScanNextChannel(struct rtmp_adapter *pAd, UCHAR OpMode)
 #endif /* CONFIG_STA_SUPPORT */
 
 		/* Check if channel if passive scan under current regulatory domain */
-		if (CHAN_PropertyCheck(pAd, pAd->MlmeAux.Channel, CHANNEL_PASSIVE_SCAN) == TRUE)
+		if (CHAN_PropertyCheck(pAd, pAd->MlmeAux.Channel, CHANNEL_PASSIVE_SCAN) == true)
 			ScanType = SCAN_PASSIVE;
 
 
@@ -597,7 +597,7 @@ VOID ScanNextChannel(struct rtmp_adapter *pAd, UCHAR OpMode)
 #ifdef CONFIG_AP_SUPPORT
 #ifdef APCLI_SUPPORT
 #ifdef AP_PARTIAL_SCAN_SUPPORT
-			if (pAd->ApCfg.bPartialScanning == TRUE)
+			if (pAd->ApCfg.bPartialScanning == true)
 			{
 				/* Enhance Connectivity & for Hidden Ssid Scanning*/
 				CHAR desiredSsid[MAX_LEN_OF_SSID], backSsid[MAX_LEN_OF_SSID];
@@ -651,13 +651,13 @@ bool ScanRunning(struct rtmp_adapter *pAd)
 		IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
 		{
 			if ((pAd->Mlme.SyncMachine.CurrState == SCAN_LISTEN) || (pAd->Mlme.SyncMachine.CurrState == SCAN_PENDING))
-				rv = TRUE;
+				rv = true;
 		}
 #endif /* CONFIG_STA_SUPPORT */
 #ifdef CONFIG_AP_SUPPORT
 #ifdef AP_SCAN_SUPPORT
 		IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-			rv = ((pAd->Mlme.ApSyncMachine.CurrState == AP_SCAN_LISTEN) ? TRUE : FALSE);
+			rv = ((pAd->Mlme.ApSyncMachine.CurrState == AP_SCAN_LISTEN) ? true : FALSE);
 #endif /* AP_SCAN_SUPPORT */
 #endif /* CONFIG_AP_SUPPORT */
 
@@ -684,7 +684,7 @@ VOID BuildEffectedChannelList(
 		for (k = 0;k < pAd->ChannelListNum;k++)
 		{
 			if (pAd->ChannelList[k].Channel <=14 )
-			pAd->ChannelList[k].bEffectedChannel = TRUE;
+			pAd->ChannelList[k].bEffectedChannel = true;
 		}
 		return;
 	}
@@ -752,7 +752,7 @@ VOID BuildEffectedChannelList(
 	}
 	/*
 	    Total i channels are effected channels.
-	    Now find corresponding channel in ChannelList array.  Then set its bEffectedChannel= TRUE
+	    Now find corresponding channel in ChannelList array.  Then set its bEffectedChannel= true
 	*/
 	for (j = 0;j < i;j++)
 	{
@@ -760,7 +760,7 @@ VOID BuildEffectedChannelList(
 		{
 			if (pAd->ChannelList[k].Channel == EChannel[j])
 			{
-				pAd->ChannelList[k].bEffectedChannel = TRUE;
+				pAd->ChannelList[k].bEffectedChannel = true;
 				DBGPRINT(RT_DEBUG_TRACE,(" EffectedChannel[%d]( =%d)\n", k, EChannel[j]));
 				break;
 			}

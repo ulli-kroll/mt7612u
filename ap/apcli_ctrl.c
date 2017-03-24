@@ -244,7 +244,7 @@ static VOID ApCliTrialConnectTimeout(
 
 	DBGPRINT(RT_DEBUG_TRACE, ("ApCli_SYNC - TrialConnectTimeout, Jump back to original Channel\n"));
 
-	AsicSwitchChannel(pAd, pAd->CommonCfg.CentralChannel, TRUE);
+	AsicSwitchChannel(pAd, pAd->CommonCfg.CentralChannel, true);
 	AsicEnableBssSync(pAd);//jump back to origin channel, regenerate beacon.
 	if (pAd->CommonCfg.BBPCurrentBW == BW_40)
 	{
@@ -301,7 +301,7 @@ static VOID ApCliTrialConnectPhase2Timeout(
 	if (pApCliEntry->TrialCh != pAd->CommonCfg.CentralChannel) {
 		/* Let BBP register at 20MHz */
 		AsicDisableSync(pAd);//disable beacon
-		AsicSwitchChannel(pAd, pApCliEntry->TrialCh, TRUE);
+		AsicSwitchChannel(pAd, pApCliEntry->TrialCh, true);
 		//andes_switch_channel(pAd, pApCliEntry->TrialCh, 0, 0, 0x202, 0);//woody
 	}
 	ApCliLinkDown(pAd, ifIndex);
@@ -356,7 +356,7 @@ static VOID ApCliTrialConnectRetryTimeout(
 			pApCliEntry->Enable = FALSE;
 		}
 
-		AsicSwitchChannel(pAd, pAd->CommonCfg.CentralChannel, TRUE);
+		AsicSwitchChannel(pAd, pAd->CommonCfg.CentralChannel, true);
 		AsicEnableBssSync(pAd);//jump back to origin channel, regenerate beacon.
 		return;
 	}
@@ -370,7 +370,7 @@ static VOID ApCliTrialConnectRetryTimeout(
 
 		//MacTableDeleteEntry(pAd, pApCliEntry->MacTabWCID, APCLI_ROOT_BSSID_GET(pAd, pApCliEntry->MacTabWCID));
 		DBGPRINT(RT_DEBUG_TRACE, ("ApCli_SYNC - %s, jump back to origin channel to wait for User's operation!\n", __func__));
-		AsicSwitchChannel(pAd, pAd->CommonCfg.CentralChannel, TRUE);
+		AsicSwitchChannel(pAd, pAd->CommonCfg.CentralChannel, true);
 		AsicEnableBssSync(pAd);//jump back to origin channel, regenerate beacon.
 		memset(pAd->ApCfg.ApCliTab[ifIndex].CfgSsid, 0, MAX_LEN_OF_SSID);//cleanup CfgSsid.
 		pApCliEntry->CfgSsidLen = 0;
@@ -405,7 +405,7 @@ static VOID ApCliTrialConnectRetryTimeout(
 			ApCliLinkDown(pAd, ifIndex);
 		}
 
-		AsicSwitchChannel(pAd, pAd->CommonCfg.CentralChannel, TRUE);
+		AsicSwitchChannel(pAd, pAd->CommonCfg.CentralChannel, true);
 		AsicEnableBssSync(pAd);//jump back to origin channel, regenerate beacon.
 	}
 	return;
@@ -431,7 +431,7 @@ static VOID ApCliCtrlJoinReqAction(
 	if (ifIndex >= MAX_APCLI_NUM)
 		return;
 
-	if (ApScanRunning(pAd) == TRUE)
+	if (ApScanRunning(pAd) == true)
 		return;
 
 	pApCliEntry = &pAd->ApCfg.ApCliTab[ifIndex];
@@ -512,7 +512,7 @@ static VOID ApCliCtrlJoinReqTimeoutAction(
 	if (ifIndex >= MAX_APCLI_NUM)
 		return;
 
-	if (ApScanRunning(pAd) == TRUE)
+	if (ApScanRunning(pAd) == true)
 	{
 		*pCurrState = APCLI_CTRL_DISCONNECTED;
 		return;
@@ -535,7 +535,7 @@ static VOID ApCliCtrlJoinReqTimeoutAction(
 		memset(pAd->MlmeAux.Ssid, 0, MAX_LEN_OF_SSID);
 		pApCliEntry->ProbeReqCnt = 0;
 
-		if (pAd->ApCfg.ApCliAutoConnectRunning == TRUE)
+		if (pAd->ApCfg.ApCliAutoConnectRunning == true)
 			ApCliSwitchCandidateAP(pAd);
 		return;
 	}
@@ -627,7 +627,7 @@ static VOID ApCliCtrlProbeRspAction(
 		DBGPRINT(RT_DEBUG_TRACE, ("(%s) Probe respond fail.\n", __FUNCTION__));
 		*pCurrState = APCLI_CTRL_DISCONNECTED;
 #ifdef APCLI_AUTO_CONNECT_SUPPORT
-		if ((pAd->ApCfg.ApCliAutoConnectRunning == TRUE)
+		if ((pAd->ApCfg.ApCliAutoConnectRunning == true)
 			)
 			ApCliSwitchCandidateAP(pAd);
 #endif /* APCLI_AUTO_CONNECT_SUPPORT */
@@ -719,7 +719,7 @@ static VOID ApCliCtrlAuthRspAction(
 			*pCurrState = APCLI_CTRL_DISCONNECTED;
 
 #ifdef APCLI_AUTO_CONNECT_SUPPORT
-			if ((pAd->ApCfg.ApCliAutoConnectRunning == TRUE)
+			if ((pAd->ApCfg.ApCliAutoConnectRunning == true)
 				)
 				ApCliSwitchCandidateAP(pAd);
 #endif /* APCLI_AUTO_CONNECT_SUPPORT */
@@ -773,7 +773,7 @@ static VOID ApCliCtrlAuth2RspAction(
 
 		*pCurrState = APCLI_CTRL_DISCONNECTED;
 #ifdef APCLI_AUTO_CONNECT_SUPPORT
-		if ((pAd->ApCfg.ApCliAutoConnectRunning == TRUE)
+		if ((pAd->ApCfg.ApCliAutoConnectRunning == true)
 			)
 			ApCliSwitchCandidateAP(pAd);
 #endif /* APCLI_AUTO_CONNECT_SUPPORT */
@@ -817,7 +817,7 @@ static VOID ApCliCtrlAuthReqTimeoutAction(
 			pApCliEntry->AuthReqCnt = 0;
 
 #ifdef APCLI_AUTO_CONNECT_SUPPORT
-		if ((pAd->ApCfg.ApCliAutoConnectRunning == TRUE)
+		if ((pAd->ApCfg.ApCliAutoConnectRunning == true)
 			)
 			ApCliSwitchCandidateAP(pAd);
 #endif /* APCLI_AUTO_CONNECT_SUPPORT */
@@ -899,7 +899,7 @@ static VOID ApCliCtrlAssocRspAction(
 			CFG80211_checkScanTable(pAd);
 			RT_CFG80211_P2P_CLI_CONN_RESULT_INFORM(pAd, pApCliEntry->MlmeAux.Bssid,
 				pApCliEntry->ReqVarIEs, pApCliEntry->ReqVarIELen,
-				pApCliEntry->ResVarIEs, pApCliEntry->ResVarIELen, TRUE);
+				pApCliEntry->ResVarIEs, pApCliEntry->ResVarIELen, true);
 #endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
 
 		}
@@ -911,7 +911,7 @@ static VOID ApCliCtrlAssocRspAction(
 			pApCliEntry->Valid = FALSE;
 
 #ifdef APCLI_AUTO_CONNECT_SUPPORT
-			if ((pAd->ApCfg.ApCliAutoConnectRunning == TRUE)
+			if ((pAd->ApCfg.ApCliAutoConnectRunning == true)
 				)
 				ApCliSwitchCandidateAP(pAd);
 #endif /* APCLI_AUTO_CONNECT_SUPPORT */
@@ -934,7 +934,7 @@ static VOID ApCliCtrlAssocRspAction(
 		pApCliEntry->Valid = FALSE;
 
 #ifdef APCLI_AUTO_CONNECT_SUPPORT
-		if ((pAd->ApCfg.ApCliAutoConnectRunning == TRUE)
+		if ((pAd->ApCfg.ApCliAutoConnectRunning == true)
 			)
 			ApCliSwitchCandidateAP(pAd);
 #endif /* APCLI_AUTO_CONNECT_SUPPORT */
@@ -1029,7 +1029,7 @@ static VOID ApCliCtrlAssocReqTimeoutAction(
 			pApCliEntry->AssocReqCnt = 0;
 
 #ifdef APCLI_AUTO_CONNECT_SUPPORT
-			if ((pAd->ApCfg.ApCliAutoConnectRunning == TRUE)
+			if ((pAd->ApCfg.ApCliAutoConnectRunning == true)
 				)
 				ApCliSwitchCandidateAP(pAd);
 #endif /* APCLI_AUTO_CONNECT_SUPPORT */
@@ -1133,7 +1133,7 @@ static VOID ApCliCtrlPeerDeAssocReqAction(
 		ApCliLinkDown(pAd, ifIndex);
 
 #ifdef APCLI_AUTO_CONNECT_SUPPORT
-	if ((pAd->ApCfg.ApCliAutoConnectRunning == TRUE)
+	if ((pAd->ApCfg.ApCliAutoConnectRunning == true)
 		)
 	{
 		PMAC_TABLE_ENTRY pMacEntry;
@@ -1298,7 +1298,7 @@ VOID ApCliWpaMicFailureReportFrame(
 	if (ifIndex >= MAX_APCLI_NUM)
 		return;
 
-	bUnicast = (Elem->Msg[0] == 1 ? TRUE:FALSE);
+	bUnicast = (Elem->Msg[0] == 1 ? true:FALSE);
 	pAd->Sequence = ((pAd->Sequence) + 1) & (MAX_SEQ_NUMBER);
 
 
@@ -1416,7 +1416,7 @@ static VOID ApCliCtrlScanDoneAction(
 		{
 			if (IS_ENTRY_APCLI(&pAd->MacTab.Content[i]) && (pAd->MacTab.Content[i].apidx == ifIndex))
 			{
-				Update2040CoexistFrameAndNotify(pAd, i, TRUE);
+				Update2040CoexistFrameAndNotify(pAd, i, true);
 			}
 		}
 	}
@@ -1450,7 +1450,7 @@ static VOID ApCliCtrlTrialConnectAction(
 		return;
 	}
 
-	if (ApScanRunning(pAd) == TRUE) {
+	if (ApScanRunning(pAd) == true) {
 		DBGPRINT(RT_DEBUG_ERROR, ("(%s) Ap Scanning.....\n", __func__));
 		return;
 	}
@@ -1469,7 +1469,7 @@ static VOID ApCliCtrlTrialConnectAction(
 			DBGPRINT(RT_DEBUG_TRACE, ("(%s) Jump to CH:%d\n", __func__, pApCliEntry->TrialCh));
 			/* Let BBP register at 20MHz*/
 			AsicDisableSync(pAd);//disable beacon
-			AsicSwitchChannel(pAd, pApCliEntry->TrialCh, TRUE);
+			AsicSwitchChannel(pAd, pApCliEntry->TrialCh, true);
 			DBGPRINT(RT_DEBUG_ERROR, ("(%s) set  TrialConnectTimer(%d ms)\n", __func__,TRIAL_TIMEOUT));
 			RTMPSetTimer(&(pApCliEntry->TrialConnectTimer), TRIAL_TIMEOUT);
 		}

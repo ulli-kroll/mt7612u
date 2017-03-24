@@ -50,7 +50,7 @@ INT Set_DriverVersion_Proc(
 #endif /* CONFIG_STA_SUPPORT */
 
 
-    return TRUE;
+    return true;
 }
 
 /*
@@ -59,7 +59,7 @@ INT Set_DriverVersion_Proc(
         Set Country Region.
         This command will not work, if the field of CountryRegion in eeprom is programmed.
     Return:
-        TRUE if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
 INT Set_CountryRegion_Proc(
@@ -77,7 +77,7 @@ INT Set_CountryRegion_Proc(
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_CountryRegion_Proc::(CountryRegion=%d)\n", pAd->CommonCfg.CountryRegion));
 
-	return TRUE;
+	return true;
 }
 
 
@@ -87,7 +87,7 @@ INT Set_CountryRegion_Proc(
         Set Country Region for A band.
         This command will not work, if the field of CountryRegion in eeprom is programmed.
     Return:
-        TRUE if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
 INT Set_CountryRegionABand_Proc(
@@ -105,7 +105,7 @@ INT Set_CountryRegionABand_Proc(
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_CountryRegionABand_Proc::(CountryRegion=%d)\n", pAd->CommonCfg.CountryRegionForABand));
 
-	return TRUE;
+	return true;
 }
 
 
@@ -114,7 +114,7 @@ INT	Set_Cmm_WirelessMode_Proc(
 	IN char *arg,
 	IN bool FlgIsDiffMbssModeUsed)
 {
-	INT	success = TRUE;
+	INT	success = true;
 #ifdef CONFIG_AP_SUPPORT
 	uint32_t i = 0;
 #ifdef MBSS_SUPPORT
@@ -171,8 +171,8 @@ INT	Set_Cmm_WirelessMode_Proc(
 			RTMPSetPhyMode(pAd, pAd->CommonCfg.PhyMode);
 			if (WMODE_CAP_N(pAd->CommonCfg.PhyMode))
 			{
-				pAd->CommonCfg.BACapability.field.AutoBA = TRUE;
-				pAd->CommonCfg.REGBACapability.field.AutoBA = TRUE;
+				pAd->CommonCfg.BACapability.field.AutoBA = true;
+				pAd->CommonCfg.REGBACapability.field.AutoBA = true;
 			}
 			else
 			{
@@ -226,7 +226,7 @@ INT	Set_Cmm_WirelessMode_Proc(
     Description:
         Set Wireless Mode for MBSS
     Return:
-        TRUE if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
 INT	Set_MBSS_WirelessMode_Proc(
@@ -243,7 +243,7 @@ INT	Set_MBSS_WirelessMode_Proc(
     Description:
         Set Wireless Mode
     Return:
-        TRUE if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
 INT	Set_WirelessMode_Proc(struct rtmp_adapter *pAd, char *arg)
@@ -256,7 +256,7 @@ INT Set_DisableCfg2040Scan_Proc(struct rtmp_adapter *pAd, char *arg)
 {
 	pAd->cfg80211_ctrl.FlgCfg8021Disable2040Scan = (UCHAR) simple_strtol(arg, 0, 10);
 	DBGPRINT(RT_DEBUG_TRACE, ("pAd->cfg80211_ctrl.FlgCfg8021Disable2040Scan  %d \n",pAd->cfg80211_ctrl.FlgCfg8021Disable2040Scan ));
-	return TRUE;
+	return true;
 }
 #endif
 
@@ -267,7 +267,7 @@ INT Set_DisableCfg2040Scan_Proc(struct rtmp_adapter *pAd, char *arg)
     Description:
         Set Channel
     Return:
-        TRUE if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
 INT	Set_Channel_Proc(
@@ -277,18 +277,18 @@ INT	Set_Channel_Proc(
 #ifdef CONFIG_AP_SUPPORT
 	INT		i;
 #endif /* CONFIG_AP_SUPPORT */
- 	INT		success = TRUE;
+ 	INT		success = true;
 	UCHAR	Channel;
 
 	Channel = (UCHAR) simple_strtol(arg, 0, 10);
 
 #ifdef APCLI_AUTO_CONNECT_SUPPORT
 	if (pAd->ApCfg.ApCliAutoConnectChannelSwitching == FALSE)
-		pAd->ApCfg.ApCliAutoConnectChannelSwitching = TRUE;
+		pAd->ApCfg.ApCliAutoConnectChannelSwitching = true;
 #endif /* APCLI_AUTO_CONNECT_SUPPORT */
 
 	/* check if this channel is valid*/
-	if (ChannelSanity(pAd, Channel) == TRUE)
+	if (ChannelSanity(pAd, Channel) == true)
 	{
 #ifdef CONFIG_STA_SUPPORT
 		IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
@@ -316,7 +316,7 @@ INT	Set_Channel_Proc(
 			}
 		}
 #endif /* CONFIG_STA_SUPPORT */
-		success = TRUE;
+		success = true;
 	}
 	else
 	{
@@ -339,7 +339,7 @@ INT	Set_Channel_Proc(
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 	{
 		if ((WMODE_CAP_5G(pAd->CommonCfg.PhyMode))
-			&& (pAd->CommonCfg.bIEEE80211H == TRUE))
+			&& (pAd->CommonCfg.bIEEE80211H == true))
 		{
 			for (i = 0; i < pAd->ChannelListNum; i++)
 			{
@@ -360,11 +360,11 @@ INT	Set_Channel_Proc(
 			}
 		}
 
-		if (success == TRUE)
+		if (success == true)
 		{
 
 			if ((pAd->CommonCfg.Channel > 14 )
-				&& (pAd->CommonCfg.bIEEE80211H == TRUE))
+				&& (pAd->CommonCfg.bIEEE80211H == true))
 			{
 				pAd->Dot11_H.org_ch = pAd->CommonCfg.Channel;
 			}
@@ -373,7 +373,7 @@ INT	Set_Channel_Proc(
 			N_ChannelCheck(pAd);
 
 			if ((pAd->CommonCfg.Channel > 14 )
-				&& (pAd->CommonCfg.bIEEE80211H == TRUE))
+				&& (pAd->CommonCfg.bIEEE80211H == true))
 			{
 				if (pAd->Dot11_H.RDMode == RD_SILENCE_MODE)
 				{
@@ -397,11 +397,11 @@ INT	Set_Channel_Proc(
 	}
 #endif /* CONFIG_AP_SUPPORT */
 
-	if (success == TRUE) {
+	if (success == true) {
 		DBGPRINT(RT_DEBUG_TRACE, ("Set_Channel_Proc::(Channel=%d)\n",
 					pAd->CommonCfg.Channel));
 #ifdef DFS_ATP_SUPPORT
-		pAd->CommonCfg.RadarDetect.atp_set_channel_ready = TRUE;
+		pAd->CommonCfg.RadarDetect.atp_set_channel_ready = true;
 		if ((pAd->CommonCfg.RadarDetect.atp_set_ht_bw
 				|| pAd->CommonCfg.RadarDetect.atp_set_vht_bw)
 				&& pAd->CommonCfg.RadarDetect.atp_set_channel_ready) {
@@ -422,7 +422,7 @@ INT	Set_Channel_Proc(
     Description:
         Set Short Slot Time Enable or Disable
     Return:
-        TRUE if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
 INT	Set_ShortSlot_Proc(
@@ -432,7 +432,7 @@ INT	Set_ShortSlot_Proc(
 	int retval;
 
 	retval = RT_CfgSetShortSlot(pAd, arg);
-	if (retval == TRUE)
+	if (retval == true)
 		DBGPRINT(RT_DEBUG_TRACE, ("Set_ShortSlot_Proc::(ShortSlot=%d)\n", pAd->CommonCfg.bUseShortSlotTime));
 
 	return retval;
@@ -444,7 +444,7 @@ INT	Set_ShortSlot_Proc(
     Description:
         Set Tx power
     Return:
-        TRUE if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
 INT	Set_TxPower_Proc(
@@ -469,7 +469,7 @@ INT	Set_TxPower_Proc(
 			pAd->CommonCfg.TxPowerPercentage = pAd->CommonCfg.TxPowerDefault;
 		}
 #endif /* CONFIG_STA_SUPPORT */
-		success = TRUE;
+		success = true;
 	}
 	else
 		success = FALSE;
@@ -484,7 +484,7 @@ INT	Set_TxPower_Proc(
     Description:
         Set 11B/11G Protection
     Return:
-        TRUE if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
 INT	Set_BGProtection_Proc(
@@ -513,7 +513,7 @@ INT	Set_BGProtection_Proc(
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_BGProtection_Proc::(BGProtection=%ld)\n", pAd->CommonCfg.UseBGProtection));
 
-	return TRUE;
+	return true;
 }
 
 /*
@@ -521,7 +521,7 @@ INT	Set_BGProtection_Proc(
     Description:
         Set TxPreamble
     Return:
-        TRUE if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
 INT	Set_TxPreamble_Proc(
@@ -567,7 +567,7 @@ INT	Set_TxPreamble_Proc(
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_TxPreamble_Proc::(TxPreamble=%ld)\n", pAd->CommonCfg.TxPreamble));
 
-	return TRUE;
+	return true;
 }
 
 /*
@@ -575,7 +575,7 @@ INT	Set_TxPreamble_Proc(
     Description:
         Set RTS Threshold
     Return:
-        TRUE if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
 INT	Set_RTSThreshold_Proc(
@@ -597,7 +597,7 @@ INT	Set_RTSThreshold_Proc(
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_RTSThreshold_Proc::(RTSThreshold=%d)\n", pAd->CommonCfg.RtsThreshold));
 
-	return TRUE;
+	return true;
 }
 
 /*
@@ -605,7 +605,7 @@ INT	Set_RTSThreshold_Proc(
     Description:
         Set Fragment Threshold
     Return:
-        TRUE if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
 INT	Set_FragThreshold_Proc(
@@ -639,7 +639,7 @@ INT	Set_FragThreshold_Proc(
 	IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
 	{
 		if (pAd->CommonCfg.FragmentThreshold == MAX_FRAG_THRESHOLD)
-			pAd->CommonCfg.bUseZeroToDisableFragment = TRUE;
+			pAd->CommonCfg.bUseZeroToDisableFragment = true;
 		else
 			pAd->CommonCfg.bUseZeroToDisableFragment = FALSE;
 	}
@@ -647,7 +647,7 @@ INT	Set_FragThreshold_Proc(
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_FragThreshold_Proc::(FragThreshold=%d)\n", pAd->CommonCfg.FragmentThreshold));
 
-	return TRUE;
+	return true;
 }
 
 /*
@@ -655,7 +655,7 @@ INT	Set_FragThreshold_Proc(
     Description:
         Set TxBurst
     Return:
-        TRUE if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
 INT	Set_TxBurst_Proc(
@@ -666,7 +666,7 @@ INT	Set_TxBurst_Proc(
 
 	TxBurst = simple_strtol(arg, 0, 10);
 	if (TxBurst == 1)
-		pAd->CommonCfg.bEnableTxBurst = TRUE;
+		pAd->CommonCfg.bEnableTxBurst = true;
 	else if (TxBurst == 0)
 		pAd->CommonCfg.bEnableTxBurst = FALSE;
 	else
@@ -674,7 +674,7 @@ INT	Set_TxBurst_Proc(
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_TxBurst_Proc::(TxBurst=%d)\n", pAd->CommonCfg.bEnableTxBurst));
 
-	return TRUE;
+	return true;
 }
 
 
@@ -686,7 +686,7 @@ INT	Set_TxBurst_Proc(
     Description:
         Set TxBurst
     Return:
-        TRUE if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
 INT	Set_PktAggregate_Proc(
@@ -698,7 +698,7 @@ INT	Set_PktAggregate_Proc(
 	aggre = simple_strtol(arg, 0, 10);
 
 	if (aggre == 1)
-		pAd->CommonCfg.bAggregationCapable = TRUE;
+		pAd->CommonCfg.bAggregationCapable = true;
 	else if (aggre == 0)
 		pAd->CommonCfg.bAggregationCapable = FALSE;
 	else
@@ -716,7 +716,7 @@ INT	Set_PktAggregate_Proc(
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_PktAggregate_Proc::(AGGRE=%d)\n", pAd->CommonCfg.bAggregationCapable));
 
-	return TRUE;
+	return true;
 }
 #endif
 
@@ -741,7 +741,7 @@ INT	Set_INF_AMAZON_SE_PPA_Proc(
 
 	if (aggre == 1)
 	{
-		if (pAd->PPAEnable == TRUE)
+		if (pAd->PPAEnable == true)
 		{
 			DBGPRINT(RT_DEBUG_TRACE, ("PPA already enabled\n"));
 		}
@@ -768,7 +768,7 @@ INT	Set_INF_AMAZON_SE_PPA_Proc(
 			if (status == IFX_SUCCESS)
 			{
 				pAd->g_if_id = g_if_id;
-				pAd->PPAEnable = TRUE;
+				pAd->PPAEnable = true;
 				DBGPRINT(RT_DEBUG_TRACE, ("Register PPA success::ret=%d, id=%d\n", status, pAd->g_if_id));
 			}
 			else
@@ -802,7 +802,7 @@ INT	Set_INF_AMAZON_SE_PPA_Proc(
 		return FALSE;
 	}
 
-	return TRUE;
+	return true;
 }
 #endif /* INF_PPA_SUPPORT */
 
@@ -813,7 +813,7 @@ INT	Set_INF_AMAZON_SE_PPA_Proc(
         Set IEEE80211H.
         This parameter is 1 when needs radar detection, otherwise 0
     Return:
-        TRUE if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
 INT	Set_IEEE80211H_Proc(
@@ -825,7 +825,7 @@ INT	Set_IEEE80211H_Proc(
 	ieee80211h = simple_strtol(arg, 0, 10);
 
 	if (ieee80211h == 1)
-		pAd->CommonCfg.bIEEE80211H = TRUE;
+		pAd->CommonCfg.bIEEE80211H = true;
 	else if (ieee80211h == 0)
 		pAd->CommonCfg.bIEEE80211H = FALSE;
 	else
@@ -833,7 +833,7 @@ INT	Set_IEEE80211H_Proc(
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_IEEE80211H_Proc::(IEEE80211H=%d)\n", pAd->CommonCfg.bIEEE80211H));
 
-	return TRUE;
+	return true;
 }
 
 
@@ -845,7 +845,7 @@ INT rx_temp_dbg = 0;
     Description:
         For Debug information
     Return:
-        TRUE if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
 INT	Set_Debug_Proc(struct rtmp_adapter *pAd, char *arg)
@@ -861,7 +861,7 @@ INT	Set_Debug_Proc(struct rtmp_adapter *pAd, char *arg)
 	DBGPRINT_S(RT_DEBUG_TRACE, ("<==%s(RTDebugLevel = %ld)\n",
 				__FUNCTION__, RTDebugLevel));
 
-	return TRUE;
+	return true;
 }
 
 
@@ -870,7 +870,7 @@ INT	Set_Debug_Proc(struct rtmp_adapter *pAd, char *arg)
     Description:
         For DebugFunc information
     Return:
-        TRUE if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
 INT	Set_DebugFunc_Proc(
@@ -881,7 +881,7 @@ INT	Set_DebugFunc_Proc(
 	RTDebugFunc = simple_strtol(arg, 0, 10);
 	DBGPRINT_S(RT_DEBUG_TRACE, ("Set RTDebugFunc = 0x%lx\n", RTDebugFunc));
 
-	return TRUE;
+	return true;
 }
 #endif
 
@@ -891,7 +891,7 @@ INT	Show_DescInfo_Proc(
 	IN	char *		arg)
 {
 
-	return TRUE;
+	return true;
 }
 
 /*
@@ -904,7 +904,7 @@ INT	Show_DescInfo_Proc(
         arg
 
     Return:
-        TRUE if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
 INT	Set_ResetStatCounter_Proc(
@@ -930,7 +930,7 @@ INT	Set_ResetStatCounter_Proc(
 			memset(&pAd->MacTab.Content[i].TxBFCounters, 0, sizeof(pAd->MacTab.Content[i].TxBFCounters));
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -946,7 +946,7 @@ bool RTMPCheckStrPrintAble(
             return FALSE;
     }
 
-    return TRUE;
+    return true;
 }
 
 
@@ -1147,16 +1147,16 @@ int RTMPWPARemoveKeyProc(
 	pKey = (PNDIS_802_11_REMOVE_KEY) pBuf;
 	KeyIdx = pKey->KeyIndex & 0xff;
 	/* Bit 31 of Add-key, Tx Key*/
-	bTxKey = (pKey->KeyIndex & 0x80000000) ? TRUE : FALSE;
+	bTxKey = (pKey->KeyIndex & 0x80000000) ? true : FALSE;
 	/* Bit 30 of Add-key PairwiseKey*/
-	bPairwise = (pKey->KeyIndex & 0x40000000) ? TRUE : FALSE;
+	bPairwise = (pKey->KeyIndex & 0x40000000) ? true : FALSE;
 	/* Bit 29 of Add-key KeyRSC*/
-	bKeyRSC = (pKey->KeyIndex & 0x20000000) ? TRUE : FALSE;
+	bKeyRSC = (pKey->KeyIndex & 0x20000000) ? true : FALSE;
 	/* Bit 28 of Add-key Authenticator*/
-	bAuthenticator = (pKey->KeyIndex & 0x10000000) ? TRUE : FALSE;
+	bAuthenticator = (pKey->KeyIndex & 0x10000000) ? true : FALSE;
 
-	/* 1. If bTx is TRUE, return failure information*/
-	if (bTxKey == TRUE)
+	/* 1. If bTx is true, return failure information*/
+	if (bTxKey == true)
 		return(NDIS_STATUS_INVALID_DATA);
 
 	/* 2. Check Pairwise Key*/
@@ -1747,10 +1747,10 @@ VOID RTMPIoctlGetSiteSurvey(
 
 	WaitCnt = 0;
 #ifdef CONFIG_STA_SUPPORT
-	pAdapter->StaCfg.bSkipAutoScanConn = TRUE;
+	pAdapter->StaCfg.bSkipAutoScanConn = true;
 #endif /* CONFIG_STA_SUPPORT */
 
-	while ((ScanRunning(pAdapter) == TRUE) && (WaitCnt++ < 200))
+	while ((ScanRunning(pAdapter) == true) && (WaitCnt++ < 200))
 		msleep_interruptible(500);
 
 	for(i=0; i<pAdapter->ScanTab.BssNr ;i++)
@@ -1982,10 +1982,10 @@ INT	Set_BASetup_Proc(
 
     	if (pEntry) {
         	DBGPRINT(RT_DEBUG_OFF, ("\nSetup BA Session: Tid = %d\n", tid));
-	        BAOriSessionSetUp(pAd, pEntry, tid, 0, 100, TRUE);
+	        BAOriSessionSetUp(pAd, pEntry, tid, 0, 100, true);
     	}
 
-		return TRUE;
+		return true;
 	}
 
 	return FALSE;
@@ -2006,7 +2006,7 @@ INT	Set_BADecline_Proc(
 	}
 	else if (bBADecline == 1)
 	{
-		pAd->CommonCfg.bBADecline = TRUE;
+		pAd->CommonCfg.bBADecline = true;
 	}
 	else
 	{
@@ -2015,7 +2015,7 @@ INT	Set_BADecline_Proc(
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_BADecline_Proc::(BADecline=%d)\n", pAd->CommonCfg.bBADecline));
 
-	return TRUE;
+	return true;
 }
 
 INT	Set_BAOriTearDown_Proc(
@@ -2062,10 +2062,10 @@ INT	Set_BAOriTearDown_Proc(
 
 	    if (pEntry) {
 	        DBGPRINT(RT_DEBUG_OFF, ("\nTear down Ori BA Session: Tid = %d\n", tid));
-	        BAOriSessionTearDown(pAd, pEntry->wcid, tid, FALSE, TRUE);
+	        BAOriSessionTearDown(pAd, pEntry->wcid, tid, FALSE, true);
 	    }
 
-		return TRUE;
+		return true;
 	}
 
 	return FALSE;
@@ -2119,7 +2119,7 @@ INT	Set_BARecTearDown_Proc(
 		    BARecSessionTearDown(pAd, pEntry->wcid, tid, FALSE);
 		}
 
-		return TRUE;
+		return true;
 	}
 
 	return FALSE;
@@ -2146,13 +2146,13 @@ INT	Set_HtBw_Proc(
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_HtBw_Proc::(HtBw=%d)\n", pAd->CommonCfg.RegTransmitSetting.field.BW));
 
 #ifdef DFS_ATP_SUPPORT
-	pAd->CommonCfg.RadarDetect.atp_set_ht_bw = TRUE;
+	pAd->CommonCfg.RadarDetect.atp_set_ht_bw = true;
 	if (pAd->CommonCfg.RadarDetect.atp_set_channel_ready) {
 		printk ("BW and Channel is ready\n");
 	}
 #endif /* DFS_ATP_SUPPORT */
 
-	return TRUE;
+	return true;
 }
 
 
@@ -2190,7 +2190,7 @@ INT	Set_HtMcs_Proc(struct rtmp_adapter *pAd, char *arg)
 			}
 			DBGPRINT(RT_DEBUG_TRACE, ("%s(): %dSS-MCS%d, Auto=%s\n",
 						__FUNCTION__, ss, mcs,
-						(HtMcs == MCS_AUTO && ss == 0) ? "TRUE" : "FALSE"));
+						(HtMcs == MCS_AUTO && ss == 0) ? "true" : "FALSE"));
 			Set_FixedTxMode_Proc(pAd, "VHT");
 		}
 	}
@@ -2220,7 +2220,7 @@ INT	Set_HtMcs_Proc(struct rtmp_adapter *pAd, char *arg)
 		wdev = &pAd->StaCfg.wdev;
 
 		wdev->DesiredTransmitSetting.field.MCS = HtMcs;
-		wdev->bAutoTxRateSwitch = (HtMcs == MCS_AUTO) ? TRUE:FALSE;
+		wdev->bAutoTxRateSwitch = (HtMcs == MCS_AUTO) ? true:FALSE;
 		DBGPRINT(RT_DEBUG_TRACE, ("Set_HtMcs_Proc::(HtMcs=%d, bAutoTxRateSwitch = %d)\n",
 					wdev->DesiredTransmitSetting.field.MCS, wdev->bAutoTxRateSwitch));
 
@@ -2240,7 +2240,7 @@ INT	Set_HtMcs_Proc(struct rtmp_adapter *pAd, char *arg)
 				RTMPSetDesiredRates(pAd, (LONG) (RateIdToMbps[HtMcs+4] * 1000000));
 			}
 			else
-				bAutoRate = TRUE;
+				bAutoRate = true;
 
 			if (bAutoRate)
 			{
@@ -2251,7 +2251,7 @@ INT	Set_HtMcs_Proc(struct rtmp_adapter *pAd, char *arg)
 					wdev->DesiredTransmitSetting.field.FixedTxMode));
 		}
         if (ADHOC_ON(pAd))
-            return TRUE;
+            return true;
 	}
 #endif /* CONFIG_STA_SUPPORT */
 
@@ -2275,7 +2275,7 @@ INT	Set_HtMcs_Proc(struct rtmp_adapter *pAd, char *arg)
 					MlmeSelectTxRateTable(pAd, pEntry, &pEntry->pTable, &TableSize, &pEntry->CurrTxRateIndex);
 					MlmeNewTxRate(pAd, pEntry);
 
-					pEntry->bAutoTxRateSwitch = TRUE;
+					pEntry->bAutoTxRateSwitch = true;
 
 #ifdef NEW_RATE_ADAPT_SUPPORT
 					if (! ADAPT_RATE_TABLE(pEntry->pTable))
@@ -2297,7 +2297,7 @@ INT	Set_HtMcs_Proc(struct rtmp_adapter *pAd, char *arg)
 #endif /* CONFIG_AP_SUPPORT */
 #endif /* WFA_VHT_PF */
 
-	return TRUE;
+	return true;
 }
 
 INT	Set_HtGi_Proc(
@@ -2319,7 +2319,7 @@ INT	Set_HtGi_Proc(
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_HtGi_Proc::(ShortGI=%d)\n",pAd->CommonCfg.RegTransmitSetting.field.ShortGI));
 
-	return TRUE;
+	return true;
 }
 
 
@@ -2338,7 +2338,7 @@ INT	Set_HtTxBASize_Proc(
 	pAd->CommonCfg.TxBASize = Size-1;
 	DBGPRINT(RT_DEBUG_ERROR, ("Set_HtTxBASize ::(TxBASize= %d)\n", Size));
 
-	return TRUE;
+	return true;
 }
 
 INT	Set_HtDisallowTKIP_Proc(
@@ -2351,7 +2351,7 @@ INT	Set_HtDisallowTKIP_Proc(
 
 	if (Value == 1)
 	{
-		pAd->CommonCfg.HT_DisallowTKIP = TRUE;
+		pAd->CommonCfg.HT_DisallowTKIP = true;
 	}
 	else
 	{
@@ -2359,9 +2359,9 @@ INT	Set_HtDisallowTKIP_Proc(
 	}
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_HtDisallowTKIP_Proc ::%s\n",
-				(pAd->CommonCfg.HT_DisallowTKIP == TRUE) ? "enabled" : "disabled"));
+				(pAd->CommonCfg.HT_DisallowTKIP == true) ? "enabled" : "disabled"));
 
-	return TRUE;
+	return true;
 }
 
 INT	Set_HtOpMode_Proc(
@@ -2384,7 +2384,7 @@ INT	Set_HtOpMode_Proc(
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_HtOpMode_Proc::(HtOpMode=%d)\n",pAd->CommonCfg.RegTransmitSetting.field.HTMODE));
 
-	return TRUE;
+	return true;
 
 }
 
@@ -2408,7 +2408,7 @@ INT	Set_HtStbc_Proc(
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_Stbc_Proc::(HtStbc=%d)\n",pAd->CommonCfg.RegTransmitSetting.field.STBC));
 
-	return TRUE;
+	return true;
 }
 
 INT	Set_HtHtc_Proc(
@@ -2422,13 +2422,13 @@ INT	Set_HtHtc_Proc(
 	if (Value == 0)
 		pAd->HTCEnable = FALSE;
 	else if ( Value ==1 )
-        pAd->HTCEnable = TRUE;
+        pAd->HTCEnable = true;
 	else
 		return FALSE; /*Invalid argument 	*/
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_HtHtc_Proc::(HtHtc=%d)\n",pAd->HTCEnable));
 
-	return TRUE;
+	return true;
 }
 
 INT	Set_HtExtcha_Proc(
@@ -2451,7 +2451,7 @@ INT	Set_HtExtcha_Proc(
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_HtExtcha_Proc::(HtExtcha=%d)\n",pAd->CommonCfg.RegTransmitSetting.field.EXTCHA));
 
-	return TRUE;
+	return true;
 }
 
 INT	Set_HtMpduDensity_Proc(
@@ -2471,7 +2471,7 @@ INT	Set_HtMpduDensity_Proc(
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_HtMpduDensity_Proc::(HtMpduDensity=%d)\n",pAd->CommonCfg.BACapability.field.MpduDensity));
 
-	return TRUE;
+	return true;
 }
 
 INT	Set_HtBaWinSize_Proc(
@@ -2503,7 +2503,7 @@ INT	Set_HtBaWinSize_Proc(
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_HtBaWinSize_Proc::(HtBaWinSize=%d)\n",pAd->CommonCfg.BACapability.field.RxBAWinLimit));
 
-	return TRUE;
+	return true;
 }
 
 INT	Set_HtRdg_Proc(
@@ -2518,8 +2518,8 @@ INT	Set_HtRdg_Proc(
 		pAd->CommonCfg.bRdg = FALSE;
 	else if ( Value ==1 )
 	{
-		pAd->HTCEnable = TRUE;
-        pAd->CommonCfg.bRdg = TRUE;
+		pAd->HTCEnable = true;
+        pAd->CommonCfg.bRdg = true;
 	}
 	else
 		return FALSE; /*Invalid argument*/
@@ -2528,7 +2528,7 @@ INT	Set_HtRdg_Proc(
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_HtRdg_Proc::(HtRdg=%d)\n",pAd->CommonCfg.bRdg));
 
-	return TRUE;
+	return true;
 }
 
 INT	Set_HtLinkAdapt_Proc(
@@ -2542,15 +2542,15 @@ INT	Set_HtLinkAdapt_Proc(
 		pAd->bLinkAdapt = FALSE;
 	else if ( Value ==1 )
 	{
-			pAd->HTCEnable = TRUE;
-			pAd->bLinkAdapt = TRUE;
+			pAd->HTCEnable = true;
+			pAd->bLinkAdapt = true;
 	}
 	else
 		return FALSE; /*Invalid argument*/
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_HtLinkAdapt_Proc::(HtLinkAdapt=%d)\n",pAd->bLinkAdapt));
 
-	return TRUE;
+	return true;
 }
 
 INT	Set_HtAmsdu_Proc(
@@ -2560,12 +2560,12 @@ INT	Set_HtAmsdu_Proc(
 	ULONG Value;
 
 	Value = simple_strtol(arg, 0, 10);
-	pAd->CommonCfg.BACapability.field.AmsduEnable = (Value == 0) ? FALSE : TRUE;
+	pAd->CommonCfg.BACapability.field.AmsduEnable = (Value == 0) ? FALSE : true;
 	SetCommonHT(pAd);
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_HtAmsdu_Proc::(HtAmsdu=%d)\n",pAd->CommonCfg.BACapability.field.AmsduEnable));
 
-	return TRUE;
+	return true;
 }
 
 INT	Set_HtAutoBa_Proc(
@@ -2582,7 +2582,7 @@ INT	Set_HtAutoBa_Proc(
 	}
     else if (Value == 1)
     {
-		pAd->CommonCfg.BACapability.field.AutoBA = TRUE;
+		pAd->CommonCfg.BACapability.field.AutoBA = true;
 		pAd->CommonCfg.BACapability.field.Policy = IMMED_BA;
     }
 	else
@@ -2594,7 +2594,7 @@ INT	Set_HtAutoBa_Proc(
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_HtAutoBa_Proc::(HtAutoBa=%d)\n",pAd->CommonCfg.BACapability.field.AutoBA));
 
-	return TRUE;
+	return true;
 
 }
 
@@ -2608,13 +2608,13 @@ INT	Set_HtProtect_Proc(
 	if (Value == 0)
 		pAd->CommonCfg.bHTProtect = FALSE;
     else if (Value == 1)
-		pAd->CommonCfg.bHTProtect = TRUE;
+		pAd->CommonCfg.bHTProtect = true;
 	else
 		return FALSE; /*Invalid argument*/
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_HtProtect_Proc::(HtProtect=%d)\n",pAd->CommonCfg.bHTProtect));
 
-	return TRUE;
+	return true;
 }
 
 INT	Set_SendSMPSAction_Proc(
@@ -2663,7 +2663,7 @@ INT	Set_SendSMPSAction_Proc(
 		    SendSMPSAction(pAd, pEntry->wcid, mode);
 		}
 
-		return TRUE;
+		return true;
 	}
 
 	return FALSE;
@@ -2688,7 +2688,7 @@ INT	Set_HtMIMOPSmode_Proc(
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_HtMIMOPSmode_Proc::(MIMOPS mode=%d)\n",pAd->CommonCfg.BACapability.field.MMPSmode));
 
-	return TRUE;
+	return true;
 }
 
 #ifdef CONFIG_AP_SUPPORT
@@ -2697,7 +2697,7 @@ INT	Set_HtMIMOPSmode_Proc(
     Description:
         Set Tx Stream number
     Return:
-        TRUE if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
 INT	Set_HtTxStream_Proc(
@@ -2726,7 +2726,7 @@ INT	Set_HtTxStream_Proc(
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_HtTxStream_Proc::(Tx Stream=%d)\n",pAd->CommonCfg.TxStream));
 
-	return TRUE;
+	return true;
 }
 
 /*
@@ -2734,7 +2734,7 @@ INT	Set_HtTxStream_Proc(
     Description:
         Set Rx Stream number
     Return:
-        TRUE if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
 INT	Set_HtRxStream_Proc(
@@ -2763,7 +2763,7 @@ INT	Set_HtRxStream_Proc(
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_HtRxStream_Proc::(Rx Stream=%d)\n",pAd->CommonCfg.RxStream));
 
-	return TRUE;
+	return true;
 }
 
 #endif /* CONFIG_AP_SUPPORT */
@@ -2778,7 +2778,7 @@ INT	Set_ForceShortGI_Proc(
 	if (Value == 0)
 		pAd->WIFItestbed.bShortGI = FALSE;
 	else if (Value == 1)
-		pAd->WIFItestbed.bShortGI = TRUE;
+		pAd->WIFItestbed.bShortGI = true;
 	else
 		return FALSE; /*Invalid argument*/
 
@@ -2786,7 +2786,7 @@ INT	Set_ForceShortGI_Proc(
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_ForceShortGI_Proc::(ForceShortGI=%d)\n", pAd->WIFItestbed.bShortGI));
 
-	return TRUE;
+	return true;
 }
 
 
@@ -2801,7 +2801,7 @@ INT	Set_ForceGF_Proc(
 	if (Value == 0)
 		pAd->WIFItestbed.bGreenField = FALSE;
 	else if (Value == 1)
-		pAd->WIFItestbed.bGreenField = TRUE;
+		pAd->WIFItestbed.bGreenField = true;
 	else
 		return FALSE; /*Invalid argument*/
 
@@ -2809,7 +2809,7 @@ INT	Set_ForceGF_Proc(
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_ForceGF_Proc::(ForceGF=%d)\n", pAd->WIFItestbed.bGreenField));
 
-	return TRUE;
+	return true;
 }
 
 INT	Set_HtMimoPs_Proc(
@@ -2822,13 +2822,13 @@ INT	Set_HtMimoPs_Proc(
 	if (Value == 0)
 		pAd->CommonCfg.bMIMOPSEnable = FALSE;
 	else if (Value == 1)
-		pAd->CommonCfg.bMIMOPSEnable = TRUE;
+		pAd->CommonCfg.bMIMOPSEnable = true;
 	else
 		return FALSE; /*Invalid argument*/
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_HtMimoPs_Proc::(HtMimoPs=%d)\n",pAd->CommonCfg.bMIMOPSEnable));
 
-	return TRUE;
+	return true;
 }
 
 
@@ -2838,7 +2838,7 @@ INT Set_HT_BssCoex_Proc(
 {
 	UCHAR bBssCoexEnable = simple_strtol(pParam, 0, 10);
 
-	pAd->CommonCfg.bBssCoexEnable = ((bBssCoexEnable == 1) ? TRUE: FALSE);
+	pAd->CommonCfg.bBssCoexEnable = ((bBssCoexEnable == 1) ? true: FALSE);
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set bBssCoexEnable=%d!\n", pAd->CommonCfg.bBssCoexEnable));
 
@@ -2854,7 +2854,7 @@ INT Set_HT_BssCoex_Proc(
 			pAd->CommonCfg.AddHTInfo.AddHtInfo.ExtChanOffset = pAd->CommonCfg.RegTransmitSetting.field.EXTCHA;
 		}
 	}
-	return TRUE;
+	return true;
 }
 
 
@@ -2866,7 +2866,7 @@ INT Set_HT_BssCoexApCntThr_Proc(
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set BssCoexApCntThr=%d!\n", pAd->CommonCfg.BssCoexApCntThr));
 
-	return TRUE;
+	return true;
 }
 
 
@@ -2908,13 +2908,13 @@ direct_done:
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_VhtBw_Proc::(VHT_BW=%d)\n", pAd->CommonCfg.vht_bw));
 
 #ifdef DFS_ATP_SUPPORT
-	pAd->CommonCfg.RadarDetect.atp_set_vht_bw = TRUE;
+	pAd->CommonCfg.RadarDetect.atp_set_vht_bw = true;
 	if (pAd->CommonCfg.RadarDetect.atp_set_channel_ready) {
 		printk ("BW and Channel is ready\n");
 	}
 #endif /* DFS_ATP_SUPPORT */
 
-	return TRUE;
+	return true;
 }
 
 
@@ -2931,7 +2931,7 @@ INT set_VhtBwSignal_Proc(struct rtmp_adapter *pAd, char *arg)
 				(pAd->CommonCfg.vht_bw_signal == BW_SIGNALING_DYNAMIC ? "Dynamic" :
 				(pAd->CommonCfg.vht_bw_signal == BW_SIGNALING_STATIC ? "Static" : "Disable"))));
 
-	return TRUE;
+	return true;
 }
 
 
@@ -2954,7 +2954,7 @@ INT	Set_VhtStbc_Proc(
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_VhtStbc_Proc::(VhtStbc=%d)\n", pAd->CommonCfg.vht_stbc));
 
-	return TRUE;
+	return true;
 }
 
 INT	Set_VhtDisallowNonVHT_Proc(
@@ -2968,11 +2968,11 @@ INT	Set_VhtDisallowNonVHT_Proc(
 	if (Value == 0)
 		pAd->CommonCfg.bNonVhtDisallow = FALSE;
 	else
-		pAd->CommonCfg.bNonVhtDisallow = TRUE;
+		pAd->CommonCfg.bNonVhtDisallow = true;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_VhtDisallowNonVHT_Proc::(bNonVhtDisallow=%d)\n", pAd->CommonCfg.bNonVhtDisallow));
 
-	return TRUE;
+	return true;
 }
 
 
@@ -3001,7 +3001,7 @@ INT	Set_FixedTxMode_Proc(struct rtmp_adapter *pAd, char *arg)
 	DBGPRINT(RT_DEBUG_TRACE, ("%s():(FixedTxMode=%d)\n",
 								__FUNCTION__, fix_tx_mode));
 
-	return TRUE;
+	return true;
 }
 
 #ifdef CONFIG_APSTA_MIXED_SUPPORT
@@ -3028,7 +3028,7 @@ INT	Set_OpMode_Proc(struct rtmp_adapter *pAd, char *arg)
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_OpMode_Proc::(OpMode=%s)\n", pAd->OpMode == 1 ? "AP Mode" : "STA Mode"));
 
-	return TRUE;
+	return true;
 }
 #endif /* CONFIG_APSTA_MIXED_SUPPORT */
 
@@ -3193,7 +3193,7 @@ static void dbQueueDump(
 		switch (oldTail->type) {
 		case 0x70:	/* TXWI - 2 longs, MSB to LSB */
 		case 0x78:	/* RXWI - 2 longs, MSB to LSB */
-			showTimestamp = TRUE;
+			showTimestamp = true;
 
 			if (decode && oldTail->type==0x70) {
 				DBGPRINT(RT_DEBUG_OFF, ("\nTxWI ") );
@@ -3280,7 +3280,7 @@ static void dbQueueDump(
 			break;
 
 		case 0x73:	/* TX STAT FIFO*/
-			showTimestamp = TRUE;
+			showTimestamp = true;
 
 			/* origMCS is limited to 4 bits. Check for case of MCS16 to 23*/
 			origMCS = (oldTail->data[0]>>1) & 0xF;
@@ -3357,13 +3357,13 @@ INT Set_DebugQueue_Proc(
 		dbQueueInit();
 		break;
 	case 4:
-		dbQueueDump(pAd, TRUE);
+		dbQueueDump(pAd, true);
 		break;
 	default:
 		return FALSE;
 	}
 
-	return TRUE;
+	return true;
 }
 #endif /* INCLUDE_DEBUG_QUEUE */
 #endif /* DBG_CTRL_SUPPORT */
@@ -3380,7 +3380,7 @@ INT Set_PreAntSwitch_Proc(
     pAd->CommonCfg.PreAntSwitch = simple_strtol(arg, 0, 10)!=0;
     DBGPRINT(RT_DEBUG_TRACE, ("%s():(PreAntSwitch=%d)\n",
 				__FUNCTION__, pAd->CommonCfg.PreAntSwitch));
-	return TRUE;
+	return true;
 }
 
 
@@ -3395,7 +3395,7 @@ INT Set_PreAntSwitchRSSI_Proc(
     pAd->CommonCfg.PreAntSwitchRSSI = simple_strtol(arg, 0, 10);
     DBGPRINT(RT_DEBUG_TRACE, ("%s():(PreAntSwitchRSSI=%d)\n",
 				__FUNCTION__, pAd->CommonCfg.PreAntSwitchRSSI));
-	return TRUE;
+	return true;
 }
 
 /*
@@ -3409,7 +3409,7 @@ INT Set_PreAntSwitchTimeout_Proc(
     pAd->CommonCfg.PreAntSwitchTimeout = simple_strtol(arg, 0, 10);
     DBGPRINT(RT_DEBUG_TRACE, ("%s():(PreAntSwitchTimeout=%d)\n",
 				__FUNCTION__, pAd->CommonCfg.PreAntSwitchTimeout));
-	return TRUE;
+	return true;
 }
 #endif /* PRE_ANT_SWITCH */
 
@@ -3428,7 +3428,7 @@ INT Set_CFOTrack_Proc(
     pAd->CommonCfg.CFOTrack = simple_strtol(arg, 0, 10);
     DBGPRINT(RT_DEBUG_TRACE, ("%s():(CFOTrack=%d)\n",
 				__FUNCTION__, pAd->CommonCfg.CFOTrack));
-	return TRUE;
+	return true;
 }
 #endif /* CFO_TRACK */
 
@@ -3441,7 +3441,7 @@ INT Set_DebugFlags_Proc(
     pAd->CommonCfg.DebugFlags = simple_strtol(arg, 0, 16);
 
     DBGPRINT(RT_DEBUG_TRACE, ("Set_DebugFlags_Proc::(DebugFlags=%02lX)\n", pAd->CommonCfg.DebugFlags));
-	return TRUE;
+	return true;
 }
 #endif /* DBG_CTRL_SUPPORT */
 
@@ -3459,7 +3459,7 @@ INT Set_LongRetryLimit_Proc(struct rtmp_adapter *pAd, char *arg)
 	tx_rty_cfg.field.LongRtyLimit = LongRetryLimit;
 	mt7612u_write32(pAd, TX_RTY_CFG, tx_rty_cfg.word);
 	DBGPRINT(RT_DEBUG_TRACE, ("IF Set_LongRetryLimit_Proc::(tx_rty_cfg=0x%x)\n", tx_rty_cfg.word));
-	return TRUE;
+	return true;
 }
 
 INT Set_ShortRetryLimit_Proc(struct rtmp_adapter *pAd, char *arg)
@@ -3471,7 +3471,7 @@ INT Set_ShortRetryLimit_Proc(struct rtmp_adapter *pAd, char *arg)
 	tx_rty_cfg.field.ShortRtyLimit = ShortRetryLimit;
 	mt7612u_write32(pAd, TX_RTY_CFG, tx_rty_cfg.word);
 	DBGPRINT(RT_DEBUG_TRACE, ("IF Set_ShortRetryLimit_Proc::(tx_rty_cfg=0x%x)\n", tx_rty_cfg.word));
-	return TRUE;
+	return true;
 }
 
 INT Set_AutoFallBack_Proc(
@@ -3624,7 +3624,7 @@ INT	Show_TxBurst_Proc(
 	OUT	char *		pBuf,
 	IN	ULONG			BufLen)
 {
-	snprintf(pBuf, BufLen, "\t%s", pAd->CommonCfg.bEnableTxBurst ? "TRUE":"FALSE");
+	snprintf(pBuf, BufLen, "\t%s", pAd->CommonCfg.bEnableTxBurst ? "true":"FALSE");
 	return 0;
 }
 
@@ -3833,7 +3833,7 @@ INT	Show_HtRdg_Proc(
 	OUT	char *		pBuf,
 	IN	ULONG			BufLen)
 {
-	snprintf(pBuf, BufLen, "\t%s", pAd->CommonCfg.bRdg ? "TRUE":"FALSE");
+	snprintf(pBuf, BufLen, "\t%s", pAd->CommonCfg.bRdg ? "true":"FALSE");
 	return 0;
 }
 
@@ -3842,7 +3842,7 @@ INT	Show_HtAmsdu_Proc(
 	OUT	char *		pBuf,
 	IN	ULONG			BufLen)
 {
-	snprintf(pBuf, BufLen, "\t%s", pAd->CommonCfg.BACapability.field.AmsduEnable ? "TRUE":"FALSE");
+	snprintf(pBuf, BufLen, "\t%s", pAd->CommonCfg.BACapability.field.AmsduEnable ? "true":"FALSE");
 	return 0;
 }
 
@@ -3851,7 +3851,7 @@ INT	Show_HtAutoBa_Proc(
 	OUT	char *		pBuf,
 	IN	ULONG			BufLen)
 {
-	snprintf(pBuf, BufLen, "\t%s", pAd->CommonCfg.BACapability.field.AutoBA ? "TRUE":"FALSE");
+	snprintf(pBuf, BufLen, "\t%s", pAd->CommonCfg.BACapability.field.AutoBA ? "true":"FALSE");
 	return 0;
 }
 
@@ -3888,7 +3888,7 @@ INT	Show_PktAggregate_Proc(
 	OUT	char *		pBuf,
 	IN	ULONG			BufLen)
 {
-	snprintf(pBuf, BufLen, "\t%s", pAd->CommonCfg.bAggregationCapable ? "TRUE":"FALSE");
+	snprintf(pBuf, BufLen, "\t%s", pAd->CommonCfg.bAggregationCapable ? "true":"FALSE");
 	return 0;
 }
 #endif /* AGGREGATION_SUPPORT */
@@ -3902,12 +3902,12 @@ INT	Show_WmmCapable_Proc(
     struct os_cookie *pObj = pAd->OS_Cookie;
 
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-		snprintf(pBuf, BufLen, "\t%s", pAd->ApCfg.MBSSID[pObj->ioctl_if].wdev.bWmmCapable ? "TRUE":"FALSE");
+		snprintf(pBuf, BufLen, "\t%s", pAd->ApCfg.MBSSID[pObj->ioctl_if].wdev.bWmmCapable ? "true":"FALSE");
 #endif /* CONFIG_AP_SUPPORT */
 
 #ifdef CONFIG_STA_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
-		snprintf(pBuf, BufLen, "\t%s", pAd->CommonCfg.bWmmCapable ? "TRUE":"FALSE");
+		snprintf(pBuf, BufLen, "\t%s", pAd->CommonCfg.bWmmCapable ? "true":"FALSE");
 #endif /* CONFIG_STA_SUPPORT */
 
 	return 0;
@@ -3919,7 +3919,7 @@ INT	Show_IEEE80211H_Proc(
 	OUT	char *		pBuf,
 	IN	ULONG			BufLen)
 {
-	snprintf(pBuf, BufLen, "\t%s", pAd->CommonCfg.bIEEE80211H ? "TRUE":"FALSE");
+	snprintf(pBuf, BufLen, "\t%s", pAd->CommonCfg.bIEEE80211H ? "true":"FALSE");
 	return 0;
 }
 
@@ -4287,7 +4287,7 @@ INT Show_MacTable_Proc(struct rtmp_adapter *pAd, char *arg)
 		}
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -4379,7 +4379,7 @@ INT show_stainfo_proc(struct rtmp_adapter *pAd, char *arg)
 
 	printk("\n");
 
-	return TRUE;
+	return true;
 }
 
 
@@ -4437,7 +4437,7 @@ INT show_devinfo_proc(struct rtmp_adapter *pAd, char *arg)
 		DBGPRINT(RT_DEBUG_OFF, ("%d GROUPKEY_WCID: %d\n", i, wcid));
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -4478,7 +4478,7 @@ INT show_trinfo_proc(struct rtmp_adapter *pAd, char *arg)
 #endif /* RTMP_USB_SUPPORT */
 
 
-	return TRUE;
+	return true;
 }
 
 #ifdef APCLI_SUPPORT
@@ -4515,7 +4515,7 @@ INT show_trinfo_proc(struct rtmp_adapter *pAd, char *arg)
  				{
 					DBGPRINT(RT_DEBUG_OFF, ("ApCli%d Connected AP : %02X:%02X:%02X:%02X:%02X:%02X   SSID:%s\n",
 							ifIndex, PRINT_MAC(pEntry->Addr), pAd->ApCfg.ApCliTab[ifIndex].Ssid));
-					bConnect=TRUE;
+					bConnect=true;
  				}
  		}
 
@@ -4528,7 +4528,7 @@ INT show_trinfo_proc(struct rtmp_adapter *pAd, char *arg)
  	}
  	DBGPRINT(RT_DEBUG_OFF, ("=============================================================\n"));
      	DBGPRINT(RT_DEBUG_TRACE, ("<==RTMPIoctlConnStatus\n"));
- 	return TRUE;
+ 	return true;
 }
 #endif/*APCLI_SUPPORT*/
 
@@ -4551,7 +4551,7 @@ INT	Set_NoSndgCntThrd_Proc(
 	for (i=0; i<MAX_LEN_OF_MAC_TABLE; i++){
 		pAd->MacTab.Content[i].noSndgCntThrd = simple_strtol(arg, 0, 10);
 	}
-	return TRUE;
+	return true;
 }
 
 INT	Set_NdpSndgStreams_Proc(
@@ -4562,7 +4562,7 @@ INT	Set_NdpSndgStreams_Proc(
 	for (i=0; i<MAX_LEN_OF_MAC_TABLE; i++){
 		pAd->MacTab.Content[i].ndpSndgStreams = simple_strtol(arg, 0, 10);
 	}
-	return TRUE;
+	return true;
 }
 
 
@@ -4595,7 +4595,7 @@ INT	Set_Trigger_Sounding_Proc(
 
 	Trigger_Sounding_Packet(pAd, SNDG_TYPE_SOUNDING, 0, pEntry->sndgMcs, pEntry);
 
-	return TRUE;
+	return true;
 }
 
 USHORT  PFMU_TimeOut;
@@ -4687,14 +4687,14 @@ INT	Set_BurstMode_Proc(
 	ULONG Value;
 
 	Value = simple_strtol(arg, 0, 10);
-	pAd->CommonCfg.bRalinkBurstMode = ((Value == 1) ? TRUE : FALSE);
+	pAd->CommonCfg.bRalinkBurstMode = ((Value == 1) ? true : FALSE);
 
 	AsicSetRalinkBurstMode(pAd, pAd->CommonCfg.bRalinkBurstMode);
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_BurstMode_Proc ::%s\n",
-				(pAd->CommonCfg.bRalinkBurstMode == TRUE) ? "enabled" : "disabled"));
+				(pAd->CommonCfg.bRalinkBurstMode == true) ? "enabled" : "disabled"));
 
-	return TRUE;
+	return true;
 }
 
 
@@ -4790,7 +4790,7 @@ INT Set_RateAdaptInterval(
 			pAd->ra_interval = ra_time;
 			pAd->ra_fast_interval = ra_qtime;
 #ifdef CONFIG_AP_SUPPORT
-			if (pAd->ApCfg.ApQuickResponeForRateUpTimerRunning == TRUE)
+			if (pAd->ApCfg.ApQuickResponeForRateUpTimerRunning == true)
 			{
 				bool Cancelled;
 
@@ -4799,7 +4799,7 @@ INT Set_RateAdaptInterval(
 			}
 #endif /* CONFIG_AP_SUPPORT  */
 			RTMP_IRQ_UNLOCK(&pAd->irq_lock, irqFlags);
-			return TRUE;
+			return true;
 		}
 	}
 
@@ -4816,7 +4816,7 @@ INT Set_VcoPeriod_Proc(
 
 	DBGPRINT(RT_DEBUG_TRACE,
 			("VCO Period = %d seconds\n", pAd->chipCap.VcoPeriod));
-	return TRUE;
+	return true;
 }
 
 #ifdef WFA_VHT_PF
@@ -4892,7 +4892,7 @@ INT set_vht_nss_mcs_cap(struct rtmp_adapter *pAd, char *arg)
 					__FUNCTION__, ss, mcs_cap,
 					pAd->CommonCfg.vht_nss_cap,
 					pAd->CommonCfg.vht_mcs_cap));
-		status = TRUE;
+		status = true;
 	}
 
 	return status;
@@ -4945,7 +4945,7 @@ INT set_vht_opmode_notify_ie(struct rtmp_adapter *pAd, char *arg)
 				pAd->vht_pf_op_bw = BAND_WIDTH_80;
 				break;
 		}
-		status = TRUE;
+		status = true;
 	}
 
 	pAd->force_vht_op_mode = status;
@@ -4959,57 +4959,57 @@ INT set_vht_opmode_notify_ie(struct rtmp_adapter *pAd, char *arg)
 
 INT set_force_operating_mode(struct rtmp_adapter *pAd, char *arg)
 {
-	pAd->force_vht_op_mode = (simple_strtol(arg, 0, 10) > 0 ? TRUE : FALSE);
+	pAd->force_vht_op_mode = (simple_strtol(arg, 0, 10) > 0 ? true : FALSE);
 
-	if (pAd->force_vht_op_mode == TRUE) {
+	if (pAd->force_vht_op_mode == true) {
 		pAd->vht_pf_op_ss = 1; // 1SS
 		pAd->vht_pf_op_bw = BAND_WIDTH_20; // 20M
 	}
 
 	DBGPRINT(RT_DEBUG_TRACE, ("%s(): force_operating_mode=%d\n",
 				__FUNCTION__, pAd->force_vht_op_mode));
-	if (pAd->force_vht_op_mode == TRUE)
+	if (pAd->force_vht_op_mode == true)
 	{
 		DBGPRINT(RT_DEBUG_TRACE, ("\tforce_operating_mode as %dSS in 20MHz BW\n",
 					pAd->vht_pf_op_ss));
 	}
 
-	return TRUE;
+	return true;
 }
 
 
 INT set_force_noack(struct rtmp_adapter *pAd, char *arg)
 {
-	pAd->force_noack = (simple_strtol(arg, 0, 10) > 0 ? TRUE : FALSE);
+	pAd->force_noack = (simple_strtol(arg, 0, 10) > 0 ? true : FALSE);
 	DBGPRINT(RT_DEBUG_TRACE, ("%s(): force_noack=%d\n",
 				__FUNCTION__, pAd->force_noack));
 
-	return TRUE;
+	return true;
 }
 
 
 INT set_force_amsdu(struct rtmp_adapter *pAd, char *arg)
 {
-	pAd->force_amsdu = (simple_strtol(arg, 0, 10) > 0 ? TRUE : FALSE);
+	pAd->force_amsdu = (simple_strtol(arg, 0, 10) > 0 ? true : FALSE);
 	DBGPRINT(RT_DEBUG_TRACE, ("%s(): force_amsdu=%d\n",
 				__FUNCTION__, pAd->force_amsdu));
-	return TRUE;
+	return true;
 }
 
 
 INT set_force_vht_sgi(struct rtmp_adapter *pAd, char *arg)
 {
-	pAd->vht_force_sgi = (simple_strtol(arg, 0, 10) > 0 ? TRUE : FALSE);
+	pAd->vht_force_sgi = (simple_strtol(arg, 0, 10) > 0 ? true : FALSE);
 	DBGPRINT(RT_DEBUG_TRACE, ("%s(): vht_force_sgi=%d\n",
 				__FUNCTION__, pAd->vht_force_sgi));
 
-	return TRUE;
+	return true;
 }
 
 
 INT set_force_vht_tx_stbc(struct rtmp_adapter *pAd, char *arg)
 {
-	pAd->vht_force_tx_stbc = (simple_strtol(arg, 0, 10) > 0 ? TRUE : FALSE);
+	pAd->vht_force_tx_stbc = (simple_strtol(arg, 0, 10) > 0 ? true : FALSE);
 	if (pAd->CommonCfg.TxStream < 2)
 	{
 		DBGPRINT(RT_DEBUG_TRACE, ("%s(): TxStream=%d is not enough for TxSTBC!\n",
@@ -5019,7 +5019,7 @@ INT set_force_vht_tx_stbc(struct rtmp_adapter *pAd, char *arg)
 	DBGPRINT(RT_DEBUG_TRACE, ("%s(): vht_force_tx_stbc=%d\n",
 				__FUNCTION__, pAd->vht_force_tx_stbc));
 
-	return TRUE;
+	return true;
 }
 
 
@@ -5028,14 +5028,14 @@ INT set_force_ext_cca(struct rtmp_adapter *pAd, char *arg)
 	ULONG cca_cfg;
 	uint32_t mac_val;
 
-	cca_cfg = (simple_strtol(arg, 0, 10) > 0 ? TRUE : FALSE);
+	cca_cfg = (simple_strtol(arg, 0, 10) > 0 ? true : FALSE);
 	if (cca_cfg)
 		mac_val = 0x04101b3f;
 	else
 		mac_val = 0x583f;
 	mt7612u_write32(pAd, TXOP_CTRL_CFG, mac_val);
 
-	return TRUE;
+	return true;
 }
 
 
@@ -5076,7 +5076,7 @@ INT set_rx_rts_cts(struct rtmp_adapter *pAd, char *arg)
 	DBGPRINT(RT_DEBUG_TRACE, ("%s():Configure the RTS/CTS filter as receive %s(0x%x)\n",
 				__FUNCTION__, cmds[i], mac_val));
 
-	return TRUE;
+	return true;
 }
 #endif /* WFA_VHT_PF */
 
@@ -5344,7 +5344,7 @@ INT Show_Diag_Proc(struct rtmp_adapter *pAd, char *arg)
 
 done:
 	kfree(pDiag);
-	return TRUE;
+	return true;
 }
 #endif /* DBG_DIAGNOSE */
 

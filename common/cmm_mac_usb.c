@@ -371,7 +371,7 @@ int NICInitTransmit(struct rtmp_adapter *pAd)
 
 		pHTTXContext->pAd = pAd;
 		pHTTXContext->BulkOutPipeId = acidx;
-		pHTTXContext->bRingEmpty = TRUE;
+		pHTTXContext->bRingEmpty = true;
 		pHTTXContext->bCopySavePad = FALSE;
 
 		pAd->BulkOutPending[acidx] = FALSE;
@@ -437,7 +437,7 @@ int NICInitTransmit(struct rtmp_adapter *pAd)
 	pPsPollContext->pUrb = pUrb;
 	pPsPollContext->data_dma = data_dma;
 	pPsPollContext->pAd = pAd;
-	pPsPollContext->LastOne = TRUE;
+	pPsPollContext->LastOne = true;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("<-- NICInitTransmit(Status=%d)\n", Status));
 
@@ -811,7 +811,7 @@ VOID RTUSBBssBeaconStop(struct rtmp_adapter *pAd)
 {
 	BEACON_SYNC_STRUCT	*pBeaconSync;
 	int i, offset;
-	bool	Cancelled = TRUE;
+	bool	Cancelled = true;
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
 
 	pBeaconSync = pAd->CommonCfg.pBeaconSync;
@@ -889,7 +889,7 @@ VOID RTUSBBssBeaconStart(struct rtmp_adapter *pAd)
 		}
 		pBeaconSync->BeaconBitMap = 0;
 		pBeaconSync->DtimBitOn = 0;
-		pAd->CommonCfg.BeaconUpdateTimer.Repeat = TRUE;
+		pAd->CommonCfg.BeaconUpdateTimer.Repeat = true;
 
 		pAd->CommonCfg.BeaconAdjust = 0;
 		pAd->CommonCfg.BeaconFactor = 0xffffffff / (pAd->CommonCfg.BeaconPeriod << 10);
@@ -927,8 +927,8 @@ VOID RTUSBBssBeaconInit(struct rtmp_adapter *pAd)
 		}
 		pBeaconSync->BeaconBitMap = 0;
 
-		/*RTMPInitTimer(pAd, &pAd->CommonCfg.BeaconUpdateTimer, GET_TIMER_FUNCTION(BeaconUpdateExec), pAd, TRUE);*/
-		pBeaconSync->EnableBeacon = TRUE;
+		/*RTMPInitTimer(pAd, &pAd->CommonCfg.BeaconUpdateTimer, GET_TIMER_FUNCTION(BeaconUpdateExec), pAd, true);*/
+		pBeaconSync->EnableBeacon = true;
 	} else
 		goto error1;
 
@@ -948,7 +948,7 @@ error1:
 VOID RTUSBBssBeaconExit(struct rtmp_adapter *pAd)
 {
 	BEACON_SYNC_STRUCT	*pBeaconSync;
-	bool	Cancelled = TRUE;
+	bool	Cancelled = true;
 	int i;
 
 	if (pAd->CommonCfg.pBeaconSync) {
@@ -996,7 +996,7 @@ VOID BeaconUpdateExec(PVOID SystemSpecific1, PVOID FunctionContext,
 	uint32_t	delta, delta2MS, period2US, remain, remain_low, remain_high;
 /*	bool			positive;*/
 
-	if (pAd->CommonCfg.IsUpdateBeacon == TRUE) {
+	if (pAd->CommonCfg.IsUpdateBeacon == true) {
 		ReSyncBeaconTime(pAd);
 
 #ifdef CONFIG_AP_SUPPORT
@@ -1083,7 +1083,7 @@ VOID BeaconUpdateExec(PVOID SystemSpecific1, PVOID FunctionContext,
 		pAd->CommonCfg.IsUpdateBeacon = FALSE;
 	} else {
 		pAd->CommonCfg.BeaconUpdateTimer.TimerValue = delta2MS + 10;
-		pAd->CommonCfg.IsUpdateBeacon = TRUE;
+		pAd->CommonCfg.IsUpdateBeacon = true;
 	}
 #ifdef CONFIG_AP_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd) {
@@ -1238,7 +1238,7 @@ bool AsicCheckCommandOk(
 		    ((CmdStatus & ThisCIDMask) == 0x100) ||
 		    ((CmdStatus & ThisCIDMask) == 0x10000) ||
 		    ((CmdStatus & ThisCIDMask) == 0x1000000))
-			ret = TRUE;
+			ret = true;
 	}
 	mt7612u_write32(pAd, H2M_MAILBOX_STATUS, 0xffffffff);
 	mt7612u_write32(pAd, H2M_MAILBOX_CID, 0xffffffff);

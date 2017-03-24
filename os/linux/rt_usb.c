@@ -224,8 +224,8 @@ static void rtusb_dataout_complete(unsigned long data)
 	}
 
 	/* */
-	/* bInUse = TRUE, means some process are filling TX data, after that must turn on bWaitingBulkOut */
-	/* bWaitingBulkOut = TRUE, means the TX data are waiting for bulk out. */
+	/* bInUse = true, means some process are filling TX data, after that must turn on bWaitingBulkOut */
+	/* bWaitingBulkOut = true, means the TX data are waiting for bulk out. */
 	/* */
 	/*RTMP_IRQ_LOCK(&pAd->TxContextQueueLock[BulkOutPipeId], IrqFlags); */
 	if (((pHTTXContext->ENextBulkOutPosition != pHTTXContext->CurWritePosition) &&
@@ -396,7 +396,7 @@ static void rx_done_tasklet(unsigned long data)
 		pAd->NextRxBulkInPosition = 0;
 		if (pRxContext->BulkInOffset)	/* As jan's comment, it may bulk-in success but size is zero. */
 		{
-			pRxContext->Readable = TRUE;
+			pRxContext->Readable = true;
 			INC_RING_INDEX(pAd->NextRxBulkInIndex, RX_RING_SIZE);
 		}
 		RTMP_IRQ_UNLOCK(&pAd->BulkInLock, IrqFlags);
@@ -541,7 +541,7 @@ static void rtusb_mgmt_dma_done_tasklet(unsigned long data)
 
 			/* Always call Bulk routine, even reset bulk. */
 			/* The protectioon of rest bulk should be in BulkOut routine */
-			if (pAd->MgmtRing.TxSwFreeIdx < MGMT_RING_SIZE /* pMLMEContext->bWaitingBulkOut == TRUE */)
+			if (pAd->MgmtRing.TxSwFreeIdx < MGMT_RING_SIZE /* pMLMEContext->bWaitingBulkOut == true */)
 			{
 				RTUSB_SET_BULK_FLAG(pAd, fRTUSB_BULK_OUT_MLME);
 			}
@@ -890,7 +890,7 @@ INT RTUSBCmdThread(
 			RTThreadDequeueCmd(&pAd->CmdQ, &pCmdQElmt);
 			if (pCmdQElmt)
 			{
-				if (pCmdQElmt->CmdFromNdis == TRUE)
+				if (pCmdQElmt->CmdFromNdis == true)
 				{
 					if (pCmdQElmt->buffer != NULL)
 						kfree(pCmdQElmt->buffer);
@@ -948,7 +948,7 @@ void InitUSBDevice(RT_CMD_USB_INIT *config, VOID *ad_src)
 	value = mt7612u_read32(ad, 0x00);
 	ad->ChipID = value;
 	if (IS_RT65XX(ad))
-		rlt_wlan_chip_onoff(ad, TRUE, TRUE);
+		rlt_wlan_chip_onoff(ad, true, true);
 	if (IS_MT76x2(ad))
 		mt76x2_pwrOn(ad);
 

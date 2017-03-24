@@ -176,7 +176,7 @@ VOID trigger_vht_ndpa(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *entry)
 		qos_p[1] = 0;
 		frm_len += 2;
 
-		entry->snd_reqired = TRUE;
+		entry->snd_reqired = true;
 		DBGPRINT(RT_DEBUG_OFF, ("Send sounding QoSNULL Frame to STA(%02x:%02x:%02x:%02x:%02x:%02x)\n",
 					PRINT_MAC(entry->Addr)));
 
@@ -258,7 +258,7 @@ INT vht_mode_adjust(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry, VHT_CAP_I
 {
 	pEntry->MaxHTPhyMode.field.MODE = MODE_VHT;
 	pAd->CommonCfg.AddHTInfo.AddHtInfo2.NonGfPresent = 1;
-	pAd->MacTab.fAnyStationNonGF = TRUE;
+	pAd->MacTab.fAnyStationNonGF = true;
 
 	if (op->vht_op_info.ch_width >= 1 && pEntry->MaxHTPhyMode.field.BW == BW_40)
 	{
@@ -267,14 +267,14 @@ INT vht_mode_adjust(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry, VHT_CAP_I
 		pEntry->MaxHTPhyMode.field.STBC = (cap->vht_cap.rx_stbc > 1 ? 1 : 0);
 	}
 
-	return TRUE;
+	return true;
 }
 
 
 INT get_vht_op_ch_width(struct rtmp_adapter *pAd)
 {
 
-	return TRUE;
+	return true;
 }
 
 
@@ -635,7 +635,7 @@ bool vht80_channel_group( struct rtmp_adapter *pAd, UCHAR channel)
 				continue;
 			}
 
-			return TRUE;
+			return true;
 		}
 		idx++;
 	}

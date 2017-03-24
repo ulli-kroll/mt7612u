@@ -156,7 +156,7 @@ VOID PeerDeauthAction(
 			if ((pAd->StaCfg.wpa_supplicant_info.WpaSupplicantUP != WPA_SUPPLICANT_DISABLE)
 			    && (wdev->AuthMode == Ndis802_11AuthModeWPA2)
 			    && (wdev->PortSecured == WPA_802_1X_PORT_SECURED))
-				pAd->StaCfg.wpa_supplicant_info.bLostAp = TRUE;
+				pAd->StaCfg.wpa_supplicant_info.bLostAp = true;
 #endif /* WPA_SUPPLICANT_SUPPORT */
 
 			/*
@@ -168,9 +168,9 @@ VOID PeerDeauthAction(
 			    ((wdev->AuthMode == Ndis802_11AuthModeWPAPSK)
 			     || (wdev->AuthMode == Ndis802_11AuthModeWPA2PSK))
 			    )
-				bDoIterate = TRUE;
+				bDoIterate = true;
 
-			LinkDown(pAd, TRUE);
+			LinkDown(pAd, true);
 
 			if (bDoIterate) {
 				pAd->MlmeAux.BssIdx++;

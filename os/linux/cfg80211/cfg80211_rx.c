@@ -101,7 +101,7 @@ bool CFG80211_CheckActionFrameType(
 			    (pFrame->Category == CATEGORY_PUBLIC) &&
 			    (pFrame->Action == ACTION_WIFI_DIRECT))
 			{
-				isP2pFrame = TRUE;
+				isP2pFrame = true;
 				switch (pFrame->Subtype)
 				{
 					case GO_NEGOCIATION_REQ:
@@ -155,12 +155,12 @@ bool CFG80211_CheckActionFrameType(
 						(pFrame->Action == ACTION_GAS_COMEBACK_REQ ) ||
 						(pFrame->Action == ACTION_GAS_COMEBACK_RSP)))
 			{
-											isP2pFrame = TRUE;
+											isP2pFrame = true;
 			}
 			else if	((pFrame->Category == CATEGORY_VENDOR_SPECIFIC_WFD) &&
 				  RTMPEqualMemory(&pFrame->Octet[1], CFG_P2POUIBYTE, 4))
 			{
-				isP2pFrame = TRUE;
+				isP2pFrame = true;
 				switch (pFrame->Subtype)
 				{
                     case P2PACT_NOA:
@@ -224,21 +224,21 @@ bool CFG80211_HandleP2pMgmtFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk, UCHAR
 					CFG80211OS_RxMgmt(pNetDev, freq, (u8 *)pHeader, pRxWI->RXWI_N.MPDUtotalByteCnt);
 
 					if (OpMode == OPMODE_AP)
-						return TRUE;
+						return true;
 				}
 			}
 #endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
 
 			if ( ((pHeader->FC.SubType == SUBTYPE_PROBE_REQ) &&
-                 (pCfg80211_ctrl->cfg80211MainDev.Cfg80211RegisterProbeReqFrame == TRUE) ) ||
-			     ((pHeader->FC.SubType == SUBTYPE_ACTION)  /*&& ( pAd->Cfg80211RegisterActionFrame == TRUE)*/ ))
+                 (pCfg80211_ctrl->cfg80211MainDev.Cfg80211RegisterProbeReqFrame == true) ) ||
+			     ((pHeader->FC.SubType == SUBTYPE_ACTION)  /*&& ( pAd->Cfg80211RegisterActionFrame == true)*/ ))
 			{
 				DBGPRINT(RT_DEBUG_INFO,("MAIN STA RtmpOsCFG80211RxMgmt OK!! TYPE = %d, freq = %d, %02x:%02x:%02x:%02x:%02x:%02x\n",
 										pHeader->FC.SubType, freq, PRINT_MAC(pHeader->Addr2)));
 				CFG80211OS_RxMgmt(CFG80211_GetEventDevice(pAd), freq, (u8 *)pHeader, pRxWI->RXWI_N.MPDUtotalByteCnt);
 
 				if (OpMode == OPMODE_AP)
-						return TRUE;
+						return true;
 			}
 		}
 

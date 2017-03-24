@@ -409,7 +409,7 @@ VOID	RTMPInitMICEngine(
 		Len         the length of the received plain text data exclude MIC value
 
 	Return Value:
-		TRUE        MIC value matched
+		true        MIC value matched
 		FALSE       MIC value mismatched
 
 	IRQL = DISPATCH_LEVEL
@@ -457,7 +457,7 @@ bool	RTMPTkipCompareMICValue(
 
 		return (FALSE);
 	}
-	return (TRUE);
+	return (true);
 }
 
 /*
@@ -552,7 +552,7 @@ VOID	RTMPCalculateMICValue(
 
 		break;	/* No need handle next packet	*/
 
-	} while (TRUE);
+	} while (true);
 
 	/* Compute the final MIC Value*/
 	RTMPTkipGetMIC(&pAd->PrivateInfo.Tx);
@@ -698,7 +698,7 @@ VOID RTMPTkipMixKey(
 
 
 /*
-	TRUE: Success!
+	true: Success!
 	FALSE: Decrypt Error!
 */
 bool RTMPSoftDecryptTKIP(
@@ -843,7 +843,7 @@ bool RTMPSoftDecryptTKIP(
 #ifdef WPA_SUPPLICANT_SUPPORT
         if (pAd->StaCfg.wpa_supplicant_info.WpaSupplicantUP) {
                 WpaSendMicFailureToWpaSupplicant(pAd->net_dev, pFrame->Addr2,
-                                                (pKey->Type == PAIRWISEKEY) ? TRUE : FALSE,
+                                                (pKey->Type == PAIRWISEKEY) ? true : FALSE,
                                                 0 /*key id need be retrived by IV, actually supplicant didn't need it!*/,
                                                 NULL);
         } else
@@ -859,7 +859,7 @@ bool RTMPSoftDecryptTKIP(
 #ifdef RT_BIG_ENDIAN
 	RTMPFrameEndianChange(pAd, pHdr, DIR_READ, FALSE);
 #endif
-	return TRUE;
+	return true;
 }
 
 /*

@@ -314,14 +314,14 @@ void tbtt_tasklet(unsigned long data)
 			RTMP_IRQ_LOCK(&pAd->irq_lock, IrqFlags);
 			while (pAd->MacTab.McastPsQueue.Head)
 			{
-				bPS = TRUE;
+				bPS = true;
 				if (pAd->TxSwQueue[QID_AC_BE].Number <= (pAd->TxSwQMaxLen + MAX_PACKETS_IN_MCAST_PS_QUEUE))
 				{
 					pEntry = RemoveHeadQueue(&pAd->MacTab.McastPsQueue);
 					/*if(pAd->MacTab.McastPsQueue.Number) */
 					if (count)
 					{
-						RTMP_SET_PACKET_MOREDATA(pEntry, TRUE);
+						RTMP_SET_PACKET_MOREDATA(pEntry, true);
 					}
 					InsertHeadQueue(&pAd->TxSwQueue[QID_AC_BE], pEntry);
 					count++;
@@ -344,7 +344,7 @@ void tbtt_tasklet(unsigned long data)
 			}
 			pAd->MacTab.PsQIdleCount = 0;
 
-			if (bPS == TRUE)
+			if (bPS == true)
 			{
 				RTMPDeQueuePacket(pAd, FALSE, NUM_OF_TX_RING, /*MAX_TX_IN_TBTT*/MAX_PACKETS_IN_MCAST_PS_QUEUE);
 			}
@@ -429,7 +429,7 @@ void announce_802_3_packet(
 
 #ifdef INF_PPA_SUPPORT
 	{
-		if (ppa_hook_directpath_send_fn && (pAd->PPAEnable == TRUE))
+		if (ppa_hook_directpath_send_fn && (pAd->PPAEnable == true))
 		{
 			INT retVal, ret = 0;
 			UINT ppa_flags = 0;
@@ -739,7 +739,7 @@ INT RTMP_AP_IoctlPrepare(struct rtmp_adapter *pAd, VOID *pCB)
 
 		if (RtPrivIoctlSetVal() == pConfig->CmdId_RTPRIV_IOCTL_SET)
 		{
-			if (TRUE
+			if (true
 #ifdef CONFIG_APSTA_MIXED_SUPPORT
 				&& (strstr(pConfig->pCmdData, "OpMode") == NULL)
 #endif /* CONFIG_APSTA_MIXED_SUPPORT */

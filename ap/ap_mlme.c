@@ -167,19 +167,19 @@ VOID APMlmePeriodicExec(
 		INT loop;
 		ULONG Now32;
 #ifdef APCLI_CERT_SUPPORT
-		bool IsUseBA = TRUE;
+		bool IsUseBA = true;
 #endif /* APCLI_CERT_SUPPORT */
 
 		NdisGetSystemUpTime(&Now32);
 		for (loop = 0; loop < MAX_APCLI_NUM; loop++)
 		{
 			PAPCLI_STRUCT pApCliEntry = &pAd->ApCfg.ApCliTab[loop];
-			if (pAd->ApCfg.ApCliTab[loop].bBlockAssoc ==TRUE && pAd->ApCfg.ApCliTab[loop].bBlockAssoc &&
+			if (pAd->ApCfg.ApCliTab[loop].bBlockAssoc ==true && pAd->ApCfg.ApCliTab[loop].bBlockAssoc &&
 				RTMP_TIME_AFTER(Now32, pAd->ApCfg.ApCliTab[loop].LastMicErrorTime + (60*OS_HZ)))
 		    		pAd->ApCfg.ApCliTab[loop].bBlockAssoc = FALSE;
 
 
-			if ((pApCliEntry->Valid == TRUE)
+			if ((pApCliEntry->Valid == true)
 				&& (pApCliEntry->MacTabWCID < MAX_LEN_OF_MAC_TABLE))
 			{
 				/* update channel quality for Roaming and UI LinkQuality display */
@@ -187,7 +187,7 @@ VOID APMlmePeriodicExec(
 					&pAd->MacTab.Content[pApCliEntry->MacTabWCID], Now32);
 				/* WPA MIC error should block association attempt for 60 seconds*/
 #ifdef APCLI_CERT_SUPPORT
-				if (pAd->bApCliCertTest == TRUE)
+				if (pAd->bApCliCertTest == true)
 				{
 					PMAC_TABLE_ENTRY pEntry = &pAd->MacTab.Content[pApCliEntry->MacTabWCID];
 					struct rtmp_wifi_dev *wdev = NULL;
@@ -271,7 +271,7 @@ VOID APMlmePeriodicExec(
 #ifdef APCLI_SUPPORT
 #ifdef APCLI_CERT_SUPPORT
 	/* Perform 20/40 BSS COEX scan every Dot11BssWidthTriggerScanInt	*/
-	if (APCLI_IF_UP_CHECK(pAd, 0) && (pAd->bApCliCertTest == TRUE))
+	if (APCLI_IF_UP_CHECK(pAd, 0) && (pAd->bApCliCertTest == true))
 	{
 		if ((OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_SCAN_2040)) &&
 			(pAd->CommonCfg.Dot11BssWidthTriggerScanInt != 0) &&
@@ -317,7 +317,7 @@ VOID APMlmePeriodicExec(
  *  \param  *Fr            The frame received
  *  \param  *Machine       The state machine
  *  \param  *MsgType       the message type for the state machine
- *  \return TRUE if the substitution is successful, FALSE otherwise
+ *  \return true if the substitution is successful, FALSE otherwise
  *  \pre
  *  \post
  */
@@ -441,7 +441,7 @@ bool APMsgTypeSubst(
             break;
     }
 
-    return TRUE;
+    return true;
 }
 
 
@@ -480,7 +480,7 @@ VOID APAsicEvaluateRxAnt(
 	else
 	{
 		RTMPSetTimer(&pAd->Mlme.RxAntEvalTimer, 300);
-		pAd->Mlme.bLowThroughput = TRUE;
+		pAd->Mlme.bLowThroughput = true;
 	}
 }
 
@@ -502,7 +502,7 @@ VOID APAsicRxAntEvalTimeout(struct rtmp_adapter *pAd)
 	CHAR rssi0, rssi1, rssi2;
 
 	/* if the traffic is low, use average rssi as the criteria */
-	if (pAd->Mlme.bLowThroughput == TRUE)
+	if (pAd->Mlme.bLowThroughput == true)
 	{
 		rssi0 = pAd->ApCfg.RssiSample.LastRssi0;
 		rssi1 = pAd->ApCfg.RssiSample.LastRssi1;

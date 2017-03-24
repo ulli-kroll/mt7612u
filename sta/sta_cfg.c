@@ -53,14 +53,14 @@ INT	Set_DyncVgaEnable_Proc(
     Description:
         Set SSID
     Return:
-        TRUE if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
 INT Set_SSID_Proc(struct rtmp_adapter *pAd, char *arg)
 {
     NDIS_802_11_SSID Ssid, *pSsid=NULL;
     bool StateMachineTouched = FALSE;
-    int success = TRUE;
+    int success = true;
 
 
 	/*
@@ -119,9 +119,9 @@ INT Set_SSID_Proc(struct rtmp_adapter *pAd, char *arg)
 		memmove(pAd->MlmeAux.AutoReconnectSsid, Ssid.Ssid, Ssid.SsidLength);
 		pAd->MlmeAux.AutoReconnectSsidLen = (UCHAR)Ssid.SsidLength;
 
-		pAd->MlmeAux.CurrReqIsFromNdis = TRUE;
+		pAd->MlmeAux.CurrReqIsFromNdis = true;
 		pAd->StaCfg.bSkipAutoScanConn = FALSE;
-		pAd->bConfigChanged = TRUE;
+		pAd->bConfigChanged = true;
 		pAd->StaCfg.bNotFirstScan = FALSE;
 
 		MlmeEnqueue(pAd,
@@ -130,7 +130,7 @@ INT Set_SSID_Proc(struct rtmp_adapter *pAd, char *arg)
 						sizeof(NDIS_802_11_SSID),
 						(VOID *)pSsid, 0);
 
-		StateMachineTouched = TRUE;
+		StateMachineTouched = true;
 		if (Ssid.SsidLength == MAX_LEN_OF_SSID)
 			hex_dump("Set_SSID_Proc::Ssid", Ssid.Ssid, Ssid.SsidLength);
 		else
@@ -151,7 +151,7 @@ INT Set_SSID_Proc(struct rtmp_adapter *pAd, char *arg)
     Description:
         Set WmmCapable Enable or Disable
     Return:
-        TRUE if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
 INT	Set_WmmCapable_Proc(
@@ -167,7 +167,7 @@ INT	Set_WmmCapable_Proc(
 		&& (pAd->NumberOfPipes >= 5)
 #endif /* RTMP_MAC_USB */
 		)
-		pAd->CommonCfg.bWmmCapable = TRUE;
+		pAd->CommonCfg.bWmmCapable = true;
 	else if (bWmmCapable == 0)
 		pAd->CommonCfg.bWmmCapable = FALSE;
 	else
@@ -176,7 +176,7 @@ INT	Set_WmmCapable_Proc(
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_WmmCapable_Proc::(bWmmCapable=%d)\n",
 		pAd->CommonCfg.bWmmCapable));
 
-	return TRUE;
+	return true;
 }
 
 
@@ -185,7 +185,7 @@ INT	Set_WmmCapable_Proc(
     Description:
         Set Network Type(Infrastructure/Adhoc mode)
     Return:
-        TRUE if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
 INT Set_NetworkType_Proc(
@@ -199,7 +199,7 @@ INT Set_NetworkType_Proc(
 		if (pAd->StaCfg.BssType != BSS_ADHOC)
 		{
 			/* Config has changed */
-			pAd->bConfigChanged = TRUE;
+			pAd->bConfigChanged = true;
             if (MONITOR_ON(pAd))
             {
                 mt7612u_write32(pAd, RX_FILTR_CFG, STANORMAL);
@@ -207,7 +207,7 @@ INT Set_NetworkType_Proc(
 				Value &= (~0x80);
 				mt7612u_write32(pAd, MAC_SYS_CTRL, Value);
                 OPSTATUS_CLEAR_FLAG(pAd, fOP_STATUS_MEDIA_STATE_CONNECTED);
-                pAd->StaCfg.bAutoReconnect = TRUE;
+                pAd->StaCfg.bAutoReconnect = true;
                 LinkDown(pAd, FALSE);
             }
 			if (INFRA_ON(pAd))
@@ -234,7 +234,7 @@ INT Set_NetworkType_Proc(
 		if (pAd->StaCfg.BssType != BSS_INFRA)
 		{
 			/* Config has changed */
-			pAd->bConfigChanged = TRUE;
+			pAd->bConfigChanged = true;
             if (MONITOR_ON(pAd))
             {
                 mt7612u_write32(pAd, RX_FILTR_CFG, STANORMAL);
@@ -242,7 +242,7 @@ INT Set_NetworkType_Proc(
 				Value &= (~0x80);
 				mt7612u_write32(pAd, MAC_SYS_CTRL, Value);
                 OPSTATUS_CLEAR_FLAG(pAd, fOP_STATUS_MEDIA_STATE_CONNECTED);
-                pAd->StaCfg.bAutoReconnect = TRUE;
+                pAd->StaCfg.bAutoReconnect = true;
                 LinkDown(pAd, FALSE);
             }
 			if (ADHOC_ON(pAd))
@@ -361,7 +361,7 @@ INT Set_NetworkType_Proc(
 
     DBGPRINT(RT_DEBUG_TRACE, ("Set_NetworkType_Proc::(NetworkType=%d)\n", pAd->StaCfg.BssType));
 
-    return TRUE;
+    return true;
 }
 
 /*
@@ -369,7 +369,7 @@ INT Set_NetworkType_Proc(
     Description:
         Set Authentication mode
     Return:
-        TRUE if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
 INT Set_AuthMode_Proc(
@@ -378,22 +378,22 @@ INT Set_AuthMode_Proc(
 {
 	struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
 
-    if (rtstrcasecmp(arg, "WEPAUTO") == TRUE)
+    if (rtstrcasecmp(arg, "WEPAUTO") == true)
         wdev->AuthMode = Ndis802_11AuthModeAutoSwitch;
-    else if (rtstrcasecmp(arg, "OPEN") == TRUE)
+    else if (rtstrcasecmp(arg, "OPEN") == true)
         wdev->AuthMode = Ndis802_11AuthModeOpen;
-    else if (rtstrcasecmp(arg, "SHARED") == TRUE)
+    else if (rtstrcasecmp(arg, "SHARED") == true)
         wdev->AuthMode = Ndis802_11AuthModeShared;
-    else if (rtstrcasecmp(arg, "WPAPSK") == TRUE)
+    else if (rtstrcasecmp(arg, "WPAPSK") == true)
         wdev->AuthMode = Ndis802_11AuthModeWPAPSK;
-    else if (rtstrcasecmp(arg, "WPANONE") == TRUE)
+    else if (rtstrcasecmp(arg, "WPANONE") == true)
         wdev->AuthMode = Ndis802_11AuthModeWPANone;
-    else if ((rtstrcasecmp(arg, "WPA2PSK") == TRUE) || (rtstrcasecmp(arg, "WPAPSKWPA2PSK") == TRUE))
+    else if ((rtstrcasecmp(arg, "WPA2PSK") == true) || (rtstrcasecmp(arg, "WPAPSKWPA2PSK") == true))
         wdev->AuthMode = Ndis802_11AuthModeWPA2PSK;
 #ifdef WPA_SUPPLICANT_SUPPORT
-    else if (rtstrcasecmp(arg, "WPA") == TRUE)
+    else if (rtstrcasecmp(arg, "WPA") == true)
         wdev->AuthMode = Ndis802_11AuthModeWPA;
-    else if (rtstrcasecmp(arg, "WPA2") == TRUE)
+    else if (rtstrcasecmp(arg, "WPA2") == true)
         wdev->AuthMode = Ndis802_11AuthModeWPA2;
 #endif /* WPA_SUPPLICANT_SUPPORT */
     else
@@ -403,7 +403,7 @@ INT Set_AuthMode_Proc(
 
     DBGPRINT(RT_DEBUG_TRACE, ("Set_AuthMode_Proc::(AuthMode=%d)\n", wdev->AuthMode));
 
-    return TRUE;
+    return true;
 }
 
 
@@ -412,44 +412,44 @@ INT Set_AuthMode_Proc(
     Description:
         Set Encryption Type
     Return:
-        TRUE if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
 INT Set_EncrypType_Proc(struct rtmp_adapter *pAd, char *arg)
 {
 	struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
 
-    if (rtstrcasecmp(arg, "NONE") == TRUE)
+    if (rtstrcasecmp(arg, "NONE") == true)
     {
         if (wdev->AuthMode >= Ndis802_11AuthModeWPA)
-            return TRUE;    /* do nothing */
+            return true;    /* do nothing */
 
         wdev->WepStatus     = Ndis802_11WEPDisabled;
         pAd->StaCfg.PairCipher    = Ndis802_11WEPDisabled;
 	    pAd->StaCfg.GroupCipher   = Ndis802_11WEPDisabled;
     }
-    else if (rtstrcasecmp(arg, "WEP") == TRUE)
+    else if (rtstrcasecmp(arg, "WEP") == true)
     {
         if (wdev->AuthMode >= Ndis802_11AuthModeWPA)
-            return TRUE;    /* do nothing */
+            return true;    /* do nothing */
 
         wdev->WepStatus     = Ndis802_11WEPEnabled;
         pAd->StaCfg.PairCipher    = Ndis802_11WEPEnabled;
 	    pAd->StaCfg.GroupCipher   = Ndis802_11WEPEnabled;
     }
-    else if (rtstrcasecmp(arg, "TKIP") == TRUE)
+    else if (rtstrcasecmp(arg, "TKIP") == true)
     {
         if (wdev->AuthMode < Ndis802_11AuthModeWPA)
-            return TRUE;    /* do nothing */
+            return true;    /* do nothing */
 
         wdev->WepStatus     = Ndis802_11TKIPEnable;
         pAd->StaCfg.PairCipher    = Ndis802_11TKIPEnable;
 	    pAd->StaCfg.GroupCipher   = Ndis802_11TKIPEnable;
     }
-    else if (rtstrcasecmp(arg, "AES") == TRUE)
+    else if (rtstrcasecmp(arg, "AES") == true)
     {
         if (wdev->AuthMode < Ndis802_11AuthModeWPA)
-            return TRUE;    /* do nothing */
+            return true;    /* do nothing */
 
         wdev->WepStatus     = Ndis802_11AESEnable;
         pAd->StaCfg.PairCipher    = Ndis802_11AESEnable;
@@ -466,7 +466,7 @@ INT Set_EncrypType_Proc(struct rtmp_adapter *pAd, char *arg)
 
     DBGPRINT(RT_DEBUG_TRACE, ("Set_EncrypType_Proc::(EncrypType=%d)\n", wdev->WepStatus));
 
-    return TRUE;
+    return true;
 }
 
 /*
@@ -474,7 +474,7 @@ INT Set_EncrypType_Proc(struct rtmp_adapter *pAd, char *arg)
     Description:
         Set Default Key ID
     Return:
-        TRUE if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
 INT Set_DefaultKeyID_Proc(
@@ -491,7 +491,7 @@ INT Set_DefaultKeyID_Proc(
 
     DBGPRINT(RT_DEBUG_TRACE, ("Set_DefaultKeyID_Proc::(DefaultKeyID=%d)\n", pAdapter->StaCfg.wdev.DefaultKeyId));
 
-    return TRUE;
+    return true;
 }
 
 INT Set_Wep_Key_Proc(
@@ -505,7 +505,7 @@ INT Set_Wep_Key_Proc(
 	struct rtmp_wifi_dev *wdev = &pAdapter->StaCfg.wdev;
 
     if (wdev->AuthMode >= Ndis802_11AuthModeWPA)
-        return TRUE;    /* do nothing */
+        return true;    /* do nothing */
 
     if ((KeyId < 0) || (KeyId > 3))
     {
@@ -567,7 +567,7 @@ INT Set_Wep_Key_Proc(
                               &pAdapter->SharedKey[BSS0][KeyId]);
     }
 
-    return TRUE;
+    return true;
 }
 
 /*
@@ -575,7 +575,7 @@ INT Set_Wep_Key_Proc(
     Description:
         Set WEP KEY1
     Return:
-        TRUE if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
 INT Set_Key1_Proc(
@@ -587,7 +587,7 @@ INT Set_Key1_Proc(
     UCHAR                               CipherAlg=CIPHER_WEP64;
 
     if (pAdapter->StaCfg.wdev.AuthMode >= Ndis802_11AuthModeWPA)
-        return TRUE;    /* do nothing */
+        return true;    /* do nothing */
 
     KeyLen = strlen(arg);
 
@@ -645,7 +645,7 @@ INT Set_Key1_Proc(
                               &pAdapter->SharedKey[BSS0][0]);
     }
 
-    return TRUE;
+    return true;
 }
 /*
     ==========================================================================
@@ -653,7 +653,7 @@ INT Set_Key1_Proc(
     Description:
         Set WEP KEY2
     Return:
-        TRUE if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
 INT Set_Key2_Proc(
@@ -665,7 +665,7 @@ INT Set_Key2_Proc(
     UCHAR                               CipherAlg=CIPHER_WEP64;
 
     if (pAdapter->StaCfg.wdev.AuthMode >= Ndis802_11AuthModeWPA)
-        return TRUE;    /* do nothing */
+        return true;    /* do nothing */
 
     KeyLen = strlen(arg);
 
@@ -722,14 +722,14 @@ INT Set_Key2_Proc(
                               &pAdapter->SharedKey[BSS0][1]);
     }
 
-    return TRUE;
+    return true;
 }
 /*
     ==========================================================================
     Description:
         Set WEP KEY3
     Return:
-        TRUE if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
 INT Set_Key3_Proc(
@@ -741,7 +741,7 @@ INT Set_Key3_Proc(
     UCHAR                               CipherAlg=CIPHER_WEP64;
 
     if (pAdapter->StaCfg.wdev.AuthMode >= Ndis802_11AuthModeWPA)
-        return TRUE;    /* do nothing */
+        return true;    /* do nothing */
 
     KeyLen = strlen(arg);
 
@@ -798,14 +798,14 @@ INT Set_Key3_Proc(
                               &pAdapter->SharedKey[BSS0][2]);
     }
 
-    return TRUE;
+    return true;
 }
 /*
     ==========================================================================
     Description:
         Set WEP KEY4
     Return:
-        TRUE if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
 INT Set_Key4_Proc(
@@ -817,7 +817,7 @@ INT Set_Key4_Proc(
     UCHAR                               CipherAlg=CIPHER_WEP64;
 
     if (pAdapter->StaCfg.wdev.AuthMode >= Ndis802_11AuthModeWPA)
-        return TRUE;    /* do nothing */
+        return true;    /* do nothing */
 
     KeyLen = strlen(arg);
 
@@ -874,7 +874,7 @@ INT Set_Key4_Proc(
                               &pAdapter->SharedKey[BSS0][3]);
     }
 
-    return TRUE;
+    return true;
 }
 
 /*
@@ -882,7 +882,7 @@ INT Set_Key4_Proc(
     Description:
         Set WPA PSK key
     Return:
-        TRUE if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
 INT Set_WPAPSK_Proc(struct rtmp_adapter *pAd, char *arg)
@@ -895,7 +895,7 @@ INT Set_WPAPSK_Proc(struct rtmp_adapter *pAd, char *arg)
         (wdev->AuthMode != Ndis802_11AuthModeWPA2PSK) &&
 	    (wdev->AuthMode != Ndis802_11AuthModeWPANone)
 		)
-        return TRUE;    /* do nothing */
+        return true;    /* do nothing */
 
     DBGPRINT(RT_DEBUG_TRACE, ("Set_WPAPSK_Proc::(WPAPSK=%s)\n", arg));
 
@@ -922,7 +922,7 @@ INT Set_WPAPSK_Proc(struct rtmp_adapter *pAd, char *arg)
         pAd->StaCfg.WpaState = SS_START;
     }
 
-    return TRUE;
+    return true;
 }
 
 
@@ -932,7 +932,7 @@ INT Set_WPAPSK_Proc(struct rtmp_adapter *pAd, char *arg)
     Description:
         Set Power Saving mode
     Return:
-        TRUE if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
 INT Set_PSMode_Proc(
@@ -996,7 +996,7 @@ INT Set_PSMode_Proc(
         return FALSE;
 
 
-    return TRUE;
+    return true;
 }
 
 #ifdef WPA_SUPPLICANT_SUPPORT
@@ -1009,7 +1009,7 @@ INT Set_PSMode_Proc(
         1: wpa_supplicant initiates scanning and AP selection.
         2: driver takes care of scanning, AP selection, and IEEE 802.11 association parameters.
     Return:
-        TRUE if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
 INT Set_Wpa_Support(
@@ -1029,7 +1029,7 @@ INT Set_Wpa_Support(
     DBGPRINT(RT_DEBUG_TRACE, ("Set_Wpa_Support::(WpaSupplicantUP=%d)\n",
 				pAd->StaCfg.wpa_supplicant_info.WpaSupplicantUP));
 
-    return TRUE;
+    return true;
 }
 #endif /* WPA_SUPPLICANT_SUPPORT */
 
@@ -1042,10 +1042,10 @@ INT Set_TGnWifiTest_Proc(
     if (simple_strtol(arg, 0, 10) == 0)
         pAd->StaCfg.bTGnWifiTest = FALSE;
     else
-        pAd->StaCfg.bTGnWifiTest = TRUE;
+        pAd->StaCfg.bTGnWifiTest = true;
 
     DBGPRINT(RT_DEBUG_TRACE, ("IF Set_TGnWifiTest_Proc::(bTGnWifiTest=%d)\n", pAd->StaCfg.bTGnWifiTest));
-	return TRUE;
+	return true;
 }
 
 #ifdef DYNAMIC_VGA_SUPPORT
@@ -1058,7 +1058,7 @@ INT Set_DyncVgaEnable_Proc(
 
 	Enable = simple_strtol(arg, 0, 10);
 
-	pAd->CommonCfg.lna_vga_ctl.bDyncVgaEnable = (Enable > 0) ? TRUE : FALSE;
+	pAd->CommonCfg.lna_vga_ctl.bDyncVgaEnable = (Enable > 0) ? true : FALSE;
 
 	if (pAd->CommonCfg.lna_vga_ctl.bDyncVgaEnable == FALSE)
 	{
@@ -1075,7 +1075,7 @@ INT Set_DyncVgaEnable_Proc(
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_DyncVgaEnable_Proc::(enable = %d)\n", pAd->CommonCfg.lna_vga_ctl.bDyncVgaEnable));
 
-	return TRUE;
+	return true;
 }
 #endif /* DYNAMIC_VGA_SUPPORT */
 
@@ -1120,7 +1120,7 @@ INT	Show_Adhoc_MacTable_Proc(
 		}
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -1134,7 +1134,7 @@ INT Set_BeaconLostTime_Proc(
 		pAd->StaCfg.BeaconLostTime = (ltmp * OS_HZ);
 
     DBGPRINT(RT_DEBUG_TRACE, ("IF Set_BeaconLostTime_Proc::(BeaconLostTime=%ld)\n", pAd->StaCfg.BeaconLostTime));
-	return TRUE;
+	return true;
 }
 
 INT Set_AutoRoaming_Proc(
@@ -1144,10 +1144,10 @@ INT Set_AutoRoaming_Proc(
     if (simple_strtol(arg, 0, 10) == 0)
         pAd->StaCfg.bAutoRoaming = FALSE;
     else
-        pAd->StaCfg.bAutoRoaming = TRUE;
+        pAd->StaCfg.bAutoRoaming = true;
 
     DBGPRINT(RT_DEBUG_TRACE, ("IF Set_AutoRoaming_Proc::(bAutoRoaming=%d)\n", pAd->StaCfg.bAutoRoaming));
-	return TRUE;
+	return true;
 }
 
 
@@ -1175,10 +1175,10 @@ INT Set_ForceTxBurst_Proc(
     if (simple_strtol(arg, 0, 10) == 0)
         pAd->StaCfg.bForceTxBurst = FALSE;
     else
-        pAd->StaCfg.bForceTxBurst = TRUE;
+        pAd->StaCfg.bForceTxBurst = true;
 
     DBGPRINT(RT_DEBUG_TRACE, ("IF Set_ForceTxBurst_Proc::(bForceTxBurst=%d)\n", pAd->StaCfg.bForceTxBurst));
-	return TRUE;
+	return true;
 }
 
 
@@ -1391,7 +1391,7 @@ VOID StaSiteSurvey(
 	}
 	if (INFRA_ON(pAd))
 	{
-		pAd->StaCfg.bImprovedScan = TRUE;
+		pAd->StaCfg.bImprovedScan = true;
 		pAd->StaCfg.ScanChannelCnt = 0;	/* reset channel counter to 0 */
 	}
 
@@ -1430,10 +1430,10 @@ INT Set_AutoReconnect_Proc(
 	if (simple_strtol(arg, 0, 10) == 0)
         pAd->StaCfg.bAutoReconnect = FALSE;
 	else
-		pAd->StaCfg.bAutoReconnect = TRUE;
+		pAd->StaCfg.bAutoReconnect = true;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("IF Set_AutoReconnect_Proc::(bAutoReconnect=%d)\n", pAd->StaCfg.bAutoReconnect));
-	return TRUE;
+	return true;
 }
 
 INT Set_AdhocN_Proc(
@@ -1443,10 +1443,10 @@ INT Set_AdhocN_Proc(
 	if (simple_strtol(arg, 0, 10) == 0)
         pAd->StaCfg.bAdhocN = FALSE;
 	else
-		pAd->StaCfg.bAdhocN = TRUE;
+		pAd->StaCfg.bAdhocN = true;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("IF Set_AdhocN_Proc::(bAdhocN=%d)\n", pAd->StaCfg.bAdhocN));
-	return TRUE;
+	return true;
 }
 
 
@@ -1482,7 +1482,7 @@ INT Set_WOW_Enable(
 
 	DBGPRINT(RT_DEBUG_ERROR, ("WOW_Enable = %d, GPIO = %x\n", pAd->WOW_Cfg.bEnable, Val));
 
-	return TRUE;
+	return true;
 }
 
 /* set GPIO pin for wake-up signal */
@@ -1498,7 +1498,7 @@ INT Set_WOW_GPIO(
 	pAd->WOW_Cfg.nSelectedGPIO = (UINT8)Value;
 	DBGPRINT(RT_DEBUG_ERROR, ("WOW_GPIO = %d\n", pAd->WOW_Cfg.nSelectedGPIO));
 
-	return TRUE;
+	return true;
 }
 
 /* set delay time for WOW really enable */
@@ -1514,7 +1514,7 @@ INT Set_WOW_Delay(
 	pAd->WOW_Cfg.nDelay = (UINT8)Value;
 	DBGPRINT(RT_DEBUG_ERROR, ("WOW_Delay = %d, equal to %d sec\n", pAd->WOW_Cfg.nDelay, (pAd->WOW_Cfg.nDelay+1)*3));
 
-	return TRUE;
+	return true;
 }
 
 /* set wake up hold time */
@@ -1530,7 +1530,7 @@ INT Set_WOW_Hold(
 	pAd->WOW_Cfg.nHoldTime = (UINT8)Value;
 	DBGPRINT(RT_DEBUG_ERROR, ("WOW_Hold = %d, equal to %d ms\n", pAd->WOW_Cfg.nHoldTime, (pAd->WOW_Cfg.nHoldTime)*10));
 
-	return TRUE;
+	return true;
 }
 
 /* set wake up signal type */
@@ -1546,7 +1546,7 @@ INT Set_WOW_InBand(
 	pAd->WOW_Cfg.bInBand = (UINT8)Value;
 	DBGPRINT(RT_DEBUG_ERROR, ("WOW_Inband = %d\n", pAd->WOW_Cfg.bInBand));
 
-	return TRUE;
+	return true;
 }
 #endif /* (defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT) */
 
@@ -1707,7 +1707,7 @@ RtmpIoctl_rt_ioctl_siwfreq(
 		MAP_KHZ_TO_CHANNEL_ID( freq , chan); /* Setting by frequency - search the table , like 2.412G, 2.422G, */
 	}
 
-    if (ChannelSanity(pAd, chan) == TRUE)
+    if (ChannelSanity(pAd, chan) == true)
     {
 	pAd->CommonCfg.Channel = chan;
 		/* Save the channel on MlmeAux for CntlOidRTBssidProc used. */
@@ -1972,7 +1972,7 @@ INT RtmpIoctl_rt_ioctl_siwscan(struct rtmp_adapter *pAd, VOID *pData, ULONG Data
 	}
 #endif /* WPA_SUPPLICANT_SUPPORT */
 
-    pAd->StaCfg.bSkipAutoScanConn = TRUE;
+    pAd->StaCfg.bSkipAutoScanConn = true;
 	do{
 
 		if ((OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_MEDIA_STATE_CONNECTED)) &&
@@ -2734,7 +2734,7 @@ RtmpIoctl_rt_ioctl_siwauth(
 #ifdef WPA_SUPPLICANT_SUPPORT
                 else
                     /* WEP 1x */
-                    wdev->IEEE8021X = TRUE;
+                    wdev->IEEE8021X = true;
 #endif /* WPA_SUPPLICANT_SUPPORT */
             }
 #ifdef NATIVE_WPA_SUPPLICANT_SUPPORT
@@ -2775,7 +2775,7 @@ RtmpIoctl_rt_ioctl_siwauth(
     		break;
 	case RT_CMD_STA_IOCTL_WPA_AUTH_COUNTERMEASURES:
 		if (pIoctlWpa->value == 1 )
-			pAd->StaCfg.bBlockAssoc = TRUE;
+			pAd->StaCfg.bBlockAssoc = true;
 		else
 			pAd->StaCfg.bBlockAssoc = FALSE;
 }
@@ -2993,7 +2993,7 @@ INT RtmpIoctl_rt_ioctl_siwencodeext(struct rtmp_adapter *pAd, VOID *pData, ULONG
 						}
 	                    else if (pIoctlSec->ext_flags & RT_CMD_STA_IOCTL_SECURTIY_EXT_GROUP_KEY)
 	                    {
-	                        fnSetCipherKey(pAd, keyIdx, CIPHER_TKIP, TRUE, pIoctlSec->pData);
+	                        fnSetCipherKey(pAd, keyIdx, CIPHER_TKIP, true, pIoctlSec->pData);
 
 	                        /* set 802.1x port control */
 	            	        STA_PORT_SECURED(pAd);
@@ -3021,7 +3021,7 @@ INT RtmpIoctl_rt_ioctl_siwencodeext(struct rtmp_adapter *pAd, VOID *pData, ULONG
 	                }
 	                else if (pIoctlSec->ext_flags & RT_CMD_STA_IOCTL_SECURTIY_EXT_GROUP_KEY)
 	                {
-	                    fnSetCipherKey(pAd, keyIdx, CIPHER_AES, TRUE, pIoctlSec->pData);
+	                    fnSetCipherKey(pAd, keyIdx, CIPHER_AES, true, pIoctlSec->pData);
 
 	                    /* set 802.1x port control */
 	        	        STA_PORT_SECURED(pAd);
@@ -3177,7 +3177,7 @@ RtmpIoctl_rt_ioctl_siwgenie(
 			if (pAd->StaCfg.wpa_supplicant_info.pWpaAssocIe) {
 				pAd->StaCfg.wpa_supplicant_info.WpaAssocIeLen = length;
 				memmove(pAd->StaCfg.wpa_supplicant_info.pWpaAssocIe, pData, pAd->StaCfg.wpa_supplicant_info.WpaAssocIeLen);
-				pAd->StaCfg.wpa_supplicant_info.bRSN_IE_FromWpaSupplicant = TRUE;
+				pAd->StaCfg.wpa_supplicant_info.bRSN_IE_FromWpaSupplicant = true;
 			}
 			else
 				pAd->StaCfg.wpa_supplicant_info.WpaAssocIeLen = 0;
@@ -3377,7 +3377,7 @@ INT RtmpIoctl_rt_ioctl_siwrate(struct rtmp_adapter *pAd, VOID *pData, ULONG Data
     {
         /*Auto Rate */
         wdev->DesiredTransmitSetting.field.MCS = MCS_AUTO;
-		wdev->bAutoTxRateSwitch = TRUE;
+		wdev->bAutoTxRateSwitch = true;
 		if ((!WMODE_CAP_N(pAd->CommonCfg.PhyMode)) ||
 			(pAd->MacTab.Content[BSSID_WCID].HTPhyMode.field.MODE <= MODE_OFDM))
 			RTMPSetDesiredRates(pAd, -1);
@@ -3803,7 +3803,7 @@ INT RTMP_STA_IoctlHandle(
 				/*
 				 * Still scanning, indicate the caller should try again.
 				 */
-				pAd->StaCfg.bSkipAutoScanConn = TRUE;
+				pAd->StaCfg.bSkipAutoScanConn = true;
 				return NDIS_STATUS_FAILURE;
 			}
 
@@ -3812,7 +3812,7 @@ INT RTMP_STA_IoctlHandle(
 				/*
 				 * Fast scanning doesn't complete yet.
 				 */
-				pAd->StaCfg.bSkipAutoScanConn = TRUE;
+				pAd->StaCfg.bSkipAutoScanConn = true;
 				return NDIS_STATUS_FAILURE;
 			}
 			break;

@@ -38,7 +38,7 @@ INT ht_mode_adjust(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry, HT_CAPABIL
 	{
 		pEntry->MaxHTPhyMode.field.MODE = MODE_HTMIX;
 		pAd->CommonCfg.AddHTInfo.AddHtInfo2.NonGfPresent = 1;
-		pAd->MacTab.fAnyStationNonGF = TRUE;
+		pAd->MacTab.fAnyStationNonGF = true;
 	}
 
 	if ((peer->HtCapInfo.ChannelWidth) && (my->ChannelWidth))
@@ -50,10 +50,10 @@ INT ht_mode_adjust(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry, HT_CAPABIL
 	{
 		pEntry->MaxHTPhyMode.field.BW = BW_20;
 		pEntry->MaxHTPhyMode.field.ShortGI = ((my->ShortGIfor20) & (peer->HtCapInfo.ShortGIfor20));
-		pAd->MacTab.fAnyStation20Only = TRUE;
+		pAd->MacTab.fAnyStation20Only = true;
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -74,7 +74,7 @@ INT set_ht_fixed_mcs(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry, UCHAR fi
 		pEntry->MaxHTPhyMode.field.MCS = mcs_bound;
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -126,7 +126,7 @@ INT get_ht_cent_ch(struct rtmp_adapter *pAd, UINT8 *rf_bw, UINT8 *ext_ch)
 		return FALSE;
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -178,7 +178,7 @@ VOID RTMPSetHT(
 #ifdef CONFIG_AP_SUPPORT
 	/* sanity check for extention channel */
 	if (CHAN_PropertyCheck(pAd, pAd->CommonCfg.Channel,
-						CHANNEL_NO_FAT_BELOW | CHANNEL_NO_FAT_ABOVE) == TRUE)
+						CHANNEL_NO_FAT_BELOW | CHANNEL_NO_FAT_ABOVE) == true)
 	{
 		/* only 20MHz is allowed */
 		pHTPhyMode->BW = 0;
@@ -187,7 +187,7 @@ VOID RTMPSetHT(
 	{
 		/* extension channel below this channel is not allowed */
 		if (CHAN_PropertyCheck(pAd, pAd->CommonCfg.Channel,
-						CHANNEL_NO_FAT_BELOW) == TRUE)
+						CHANNEL_NO_FAT_BELOW) == true)
 		{
 			pHTPhyMode->ExtOffset = EXTCHA_ABOVE;
 		}
@@ -196,7 +196,7 @@ VOID RTMPSetHT(
 	{
 		/* extension channel above this channel is not allowed */
 		if (CHAN_PropertyCheck(pAd, pAd->CommonCfg.Channel,
-						CHANNEL_NO_FAT_ABOVE) == TRUE)
+						CHANNEL_NO_FAT_ABOVE) == true)
 		{
 			pHTPhyMode->ExtOffset = EXTCHA_BELOW;
 		}
@@ -463,7 +463,7 @@ VOID RTMPSetIndividualHT(struct rtmp_adapter *pAd, UCHAR apidx)
 					pDesired_ht_phy = &pAd->ApCfg.ApCliTab[idx].wdev.DesiredHtPhyInfo;
 					DesiredMcs = pAd->ApCfg.ApCliTab[idx].wdev.DesiredTransmitSetting.field.MCS;
 					encrypt_mode = pAd->ApCfg.ApCliTab[idx].wdev.WepStatus;
-					pAd->ApCfg.ApCliTab[idx].wdev.bAutoTxRateSwitch = (DesiredMcs == MCS_AUTO) ? TRUE : FALSE;
+					pAd->ApCfg.ApCliTab[idx].wdev.bAutoTxRateSwitch = (DesiredMcs == MCS_AUTO) ? true : FALSE;
 					break;
 				}
 				else
@@ -493,8 +493,8 @@ VOID RTMPSetIndividualHT(struct rtmp_adapter *pAd, UCHAR apidx)
 				}
 #endif /* WFA_VHT_PF */
 				encrypt_mode = wdev->WepStatus;
-				pAd->ApCfg.MBSSID[apidx].wdev.bWmmCapable = TRUE;
-				wdev->bAutoTxRateSwitch = (DesiredMcs == MCS_AUTO) ? TRUE : FALSE;
+				pAd->ApCfg.MBSSID[apidx].wdev.bWmmCapable = true;
+				wdev->bAutoTxRateSwitch = (DesiredMcs == MCS_AUTO) ? true : FALSE;
 				break;
 			}
 
@@ -565,7 +565,7 @@ VOID RTMPSetIndividualHT(struct rtmp_adapter *pAd, UCHAR apidx)
 		return;
 	}
 
-	pDesired_ht_phy->bHtEnable = TRUE;
+	pDesired_ht_phy->bHtEnable = true;
 
 	/* Decide desired Tx MCS*/
 	switch (TxStream)
@@ -627,7 +627,7 @@ VOID RTMPSetIndividualHT(struct rtmp_adapter *pAd, UCHAR apidx)
 		MlmeUpdateHtTxRates(pAd, apidx);
 
 	if (WMODE_CAP_AC(pAd->CommonCfg.PhyMode)) {
-		pDesired_ht_phy->bVhtEnable = TRUE;
+		pDesired_ht_phy->bVhtEnable = true;
 		rtmp_set_vht(pAd, pDesired_ht_phy);
 	}
 }
@@ -707,7 +707,7 @@ INT	SetCommonHT(struct rtmp_adapter *pAd)
 		pAd->CommonCfg.Bss2040NeedFallBack = 1;
 	}
 
-	return TRUE;
+	return true;
 }
 
 /*

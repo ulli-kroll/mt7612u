@@ -48,7 +48,7 @@ VOID PeriodicPollingModeDetect(
   	//pAd->PollingModeDetect.expires = jiffies + POLLING_MODE_DETECT_INTV;
 
 	RTMPModTimer(&pAd->Pollingmode.PollingModeDetect, 10);
-  	pAd->Pollingmode.PollingModeDetectRunning = TRUE;
+  	pAd->Pollingmode.PollingModeDetectRunning = true;
 	return;
   }
   else{
@@ -60,7 +60,7 @@ VOID PeriodicPollingModeDetect(
 	}
   }
   RTMPModTimer(&pAd->Pollingmode.PollingModeDetect, POLLING_MODE_DETECT_INTV);
-  pAd->Pollingmode.PollingModeDetectRunning = TRUE;
+  pAd->Pollingmode.PollingModeDetectRunning = true;
   return;
 }
 

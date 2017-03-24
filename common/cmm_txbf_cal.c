@@ -521,7 +521,7 @@ static UCHAR InterpParam(int ch, int chBeg, int chEnd, UCHAR yBeg, UCHAR yEnd)
 			10=> Display params and dump capture data
 		calMethod - the calibration method to use. 0=>use default method for the band
 		divPhase - if not NULL, returns the quantized divider phase (0, +/-90, 180 for 2.4G, 0,180 for 5G)
-	returns TRUE if no errors
+	returns true if no errors
 */
 #define ITXBF_MAX_WAIT_CYCLE	10000
 

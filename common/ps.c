@@ -195,7 +195,7 @@ VOID RtmpHandleRxPsPoll(struct rtmp_adapter *pAd, UCHAR *pAddr, USHORT wcid, boo
 
 				pQEntry = RemoveHeadQueue(&pMacEntry->PsQueue);
 				if ( pMacEntry->PsQueue.Number >=1 )
-					RTMP_SET_PACKET_MOREDATA(RTPKT_TO_OSPKT(pQEntry), TRUE);
+					RTMP_SET_PACKET_MOREDATA(RTPKT_TO_OSPKT(pQEntry), true);
 				InsertTailQueueAc(pAd, pMacEntry, &pAd->TxSwQueue[QID_AC_BE], pQEntry);
 
 #ifdef UAPSD_SUPPORT
@@ -231,11 +231,11 @@ VOID RtmpHandleRxPsPoll(struct rtmp_adapter *pAd, UCHAR *pAddr, USHORT wcid, boo
 				bool bQosNull = FALSE;
 
 				if (CLIENT_STATUS_TEST_FLAG(pMacEntry, fCLIENT_STATUS_WMM_CAPABLE))
-					bQosNull = TRUE;
+					bQosNull = true;
 
 				RtmpEnqueueNullFrame(pAd, pMacEntry->Addr, pMacEntry->CurrTxRate,
 										pMacEntry->Aid, pMacEntry->apidx,
-										bQosNull, TRUE, 0);
+										bQosNull, true, 0);
 			}
 		}
 		else
@@ -333,7 +333,7 @@ bool RtmpPsIndicate(struct rtmp_adapter *pAd, UCHAR *pAddr, UCHAR wcid, UCHAR Ps
 
 
 			/* sleep station awakes, move all pending frames from PSQ to TXQ if any */
-			RtmpHandleRxPsPoll(pAd, pAddr, pEntry->wcid, TRUE);
+			RtmpHandleRxPsPoll(pAd, pAddr, pEntry->wcid, true);
 		}
 #ifdef DROP_MASK_SUPPORT
 		else if ((old_psmode == PWR_ACTIVE) && (Psm == PWR_SAVE)) {
@@ -356,7 +356,7 @@ Arguments:
 	pAd		Pointer to our adapter
 
 Return Value:
-    TRUE	can set
+    true	can set
 	FALSE	can not set
 
 Note:
@@ -364,10 +364,10 @@ Note:
 */
 bool RtmpPktPmBitCheck(struct rtmp_adapter *pAd)
 {
-	bool FlgCanPmBitSet = TRUE;
+	bool FlgCanPmBitSet = true;
 
 
-	if (FlgCanPmBitSet == TRUE)
+	if (FlgCanPmBitSet == true)
 		return (pAd->StaCfg.Psm == PWR_SAVE);
 
 	return FALSE;
@@ -427,7 +427,7 @@ VOID RtmpPsModeChange(struct rtmp_adapter *pAd, uint32_t PsMode)
 		}
 
 		/* change ps mode */
-		RTMPSendNullFrame(pAd, pAd->CommonCfg.TxRate, TRUE, FALSE);
+		RTMPSendNullFrame(pAd, pAd->CommonCfg.TxRate, true, FALSE);
 
 		DBGPRINT(RT_DEBUG_TRACE, ("PSMode=%ld\n", pAd->StaCfg.WindowsPowerMode));
 	}

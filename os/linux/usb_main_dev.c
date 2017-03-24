@@ -263,7 +263,7 @@ static int rtusb_suspend(struct usb_interface *intf, pm_message_t state)
 	DBGPRINT(RT_DEBUG_ERROR, ("%s():=>autosuspend\n", __FUNCTION__));
 #ifdef WOW_SUPPORT
 	RTMP_DRIVER_ADAPTER_RT28XX_USB_WOW_STATUS(pAd, &Flag);
-	if (Flag == TRUE)
+	if (Flag == true)
 		RTMP_DRIVER_ADAPTER_RT28XX_USB_WOW_ENABLE(pAd);
 	else
 #endif /* WOW_SUPPORT */
@@ -314,7 +314,7 @@ static int rtusb_resume(struct usb_interface *intf)
 
 #ifdef WOW_SUPPORT
 	RTMP_DRIVER_ADAPTER_RT28XX_USB_WOW_STATUS(pAd, &Flag);
-	if (Flag == TRUE)
+	if (Flag == true)
 		RTMP_DRIVER_ADAPTER_RT28XX_USB_WOW_DISABLE(pAd);
 	else
 #endif /* WOW_SUPPORT */
@@ -412,7 +412,7 @@ static bool USBDevConfigInit(struct usb_device *dev, struct usb_interface *intf,
 	RTMP_DRIVER_USB_CONFIG_INIT(pAd, pConfig);
 	rtusb_vendor_specific_check(dev, pAd);
 
-	return TRUE;
+	return true;
 
 }
 

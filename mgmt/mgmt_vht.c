@@ -83,6 +83,6 @@ INT SetCommonVHT(struct rtmp_adapter *pAd)
 
 	DBGPRINT(RT_DEBUG_TRACE, ("%s(): Config VHT parameters!cent_ch=%d!vht_cent_ch = %d, vht_cent_ch2 = %d\n",
 				__FUNCTION__, cent_ch, pAd->CommonCfg.vht_cent_ch, pAd->CommonCfg.vht_cent_ch2));
-	return TRUE;
+	return true;
 }
 

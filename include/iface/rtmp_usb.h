@@ -43,12 +43,12 @@ extern UCHAR EpToQueue[6];
 {										\
 	if ((_txContext)->ENextBulkOutPosition == (_txContext)->CurWritePosition)	\
 	{																	\
-		(_txContext)->bRingEmpty = TRUE;			\
+		(_txContext)->bRingEmpty = true;			\
 	}																	\
 	/*NdisInterlockedDecrement(&(_p)->TxCount); */\
 }
 
-#define NT_SUCCESS(status)			(((status) >=0) ? (TRUE):(FALSE))
+#define NT_SUCCESS(status)			(((status) >=0) ? (true):(FALSE))
 
 
 

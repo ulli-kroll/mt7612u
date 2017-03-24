@@ -173,7 +173,7 @@ static uint32_t asic_set_wlan_func(struct rtmp_adapter *pAd, bool enable)
 
 	reg = mt7612u_read32(pAd, WLAN_FUN_CTRL);
 
-	if (enable == TRUE)
+	if (enable == true)
 	{
 		/*
 			Enable WLAN function and clock
@@ -222,7 +222,7 @@ INT rlt_wlan_chip_onoff(struct rtmp_adapter *pAd, bool bOn, bool bResetWLAN)
 	DBGPRINT(RT_DEBUG_OFF, ("==>%s(): OnOff:%d, Reset= %d, pAd->WlanFunCtrl:0x%x, Reg-WlanFunCtrl=0x%x\n",
 				__FUNCTION__, bOn, bResetWLAN, pAd->WlanFunCtrl.word, reg));
 
-	if (bResetWLAN == TRUE)
+	if (bResetWLAN == true)
 	{
 		if (!IS_MT76x2(pAd))
 			reg &= ~WLAN_FUN_CTRL_GPIO0_OUT_OE_N_MASK;
@@ -262,7 +262,7 @@ INT rlt_wlan_chip_onoff(struct rtmp_adapter *pAd, bool bOn, bool bResetWLAN)
 		DBGPRINT(RT_DEBUG_TRACE, ("MACVersion = 0x%08x\n", pAd->MACVersion));
 	}
 
-	if (bOn == TRUE
+	if (bOn == true
 		&& (!IS_MT76x2(pAd))
 	)
 	{
@@ -303,7 +303,7 @@ INT rlt_wlan_chip_onoff(struct rtmp_adapter *pAd, bool bOn, bool bResetWLAN)
 			{
 				break;
 			}
-		} while (TRUE);
+		} while (true);
 	}
 
 	pAd->WlanFunCtrl.word = reg;

@@ -70,11 +70,11 @@ int APInitialize(struct rtmp_adapter *pAd)
 
 	/* Init Group key update timer, and countermeasures timer */
 	for (i = 0; i < MAX_MBSSID_NUM(pAd); i++)
-		RTMPInitTimer(pAd, &pAd->ApCfg.MBSSID[i].REKEYTimer, GET_TIMER_FUNCTION(GREKEYPeriodicExec), pAd,  TRUE);
+		RTMPInitTimer(pAd, &pAd->ApCfg.MBSSID[i].REKEYTimer, GET_TIMER_FUNCTION(GREKEYPeriodicExec), pAd,  true);
 
 	RTMPInitTimer(pAd, &pAd->ApCfg.CounterMeasureTimer, GET_TIMER_FUNCTION(CMTimerExec), pAd, FALSE);
 #ifdef RTMP_MAC_USB
-	RTMPInitTimer(pAd, &pAd->CommonCfg.BeaconUpdateTimer, GET_TIMER_FUNCTION(BeaconUpdateExec), pAd, TRUE);
+	RTMPInitTimer(pAd, &pAd->CommonCfg.BeaconUpdateTimer, GET_TIMER_FUNCTION(BeaconUpdateExec), pAd, true);
 #endif /* RTMP_MAC_USB */
 
 
@@ -138,8 +138,8 @@ VOID APStartUp(struct rtmp_adapter *pAd)
 
 	/* Decide the Capability information field */
 	/* In IEEE Std 802.1h-2003, the spectrum management bit is enabled in the 5 GHz band */
-	if ((pAd->CommonCfg.Channel > 14) && pAd->CommonCfg.bIEEE80211H == TRUE)
-		SpectrumMgmt = TRUE;
+	if ((pAd->CommonCfg.Channel > 14) && pAd->CommonCfg.bIEEE80211H == true)
+		SpectrumMgmt = true;
 
 	for (idx = 0; idx < pAd->ApCfg.BssidNum; idx++)
 	{
@@ -208,14 +208,14 @@ VOID APStartUp(struct rtmp_adapter *pAd)
 		wdev->tx_pkt_allowed = ApAllowToSendPacket;
 
 		if (pMbss->wdev.bWmmCapable)
-	        	bWmmCapable = TRUE;
+	        	bWmmCapable = true;
 
 		pMbss->CapabilityInfo = CAP_GENERATE(1, 0, (wdev->WepStatus != Ndis802_11EncryptionDisabled),
 											TxPreamble, pAd->CommonCfg.bUseShortSlotTime,
 											SpectrumMgmt);
 
 
-		if (bWmmCapable == TRUE)
+		if (bWmmCapable == true)
 		{
 			/*
 				In WMM spec v1.1, A WMM-only AP or STA does not set the "QoS"
@@ -226,7 +226,7 @@ VOID APStartUp(struct rtmp_adapter *pAd)
 		}
 
 #ifdef UAPSD_SUPPORT
-		if (pMbss->UapsdInfo.bAPSDCapable == TRUE)
+		if (pMbss->UapsdInfo.bAPSDCapable == true)
 		{
 			/*
 				QAPs set the APSD subfield to 1 within the Capability
@@ -257,7 +257,7 @@ VOID APStartUp(struct rtmp_adapter *pAd)
 			(wdev->WepStatus == Ndis802_11AESEnable) &&
 			(pMbss->PmfCfg.Desired_MFPC))
 		{
-			pMbss->PmfCfg.MFPC = TRUE;
+			pMbss->PmfCfg.MFPC = true;
 			pMbss->PmfCfg.MFPR = pMbss->PmfCfg.Desired_MFPR;
 
 			/* IGTK default key index as 4 */
@@ -267,7 +267,7 @@ VOID APStartUp(struct rtmp_adapter *pAd)
 			PMF_DeriveIGTK(pAd, &pMbss->PmfCfg.IGTK[0][0]);
 
                         if ((pMbss->PmfCfg.Desired_PMFSHA256) || (pMbss->PmfCfg.MFPR))
-                                pMbss->PmfCfg.PMFSHA256 = TRUE;
+                                pMbss->PmfCfg.PMFSHA256 = true;
 
 		} else if (pMbss->PmfCfg.Desired_MFPC) {
                         DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s:: Security is not WPA2/WPA2PSK AES\n", __FUNCTION__));
@@ -425,7 +425,7 @@ DBGPRINT(RT_DEBUG_OFF, ("%s(): AP Set CentralFreq at %d(Prim=%d, HT-CentCh=%d, V
 	RadarStateCheck(pAd);
 
 	/* Disable Protection first. */
-	AsicUpdateProtect(pAd, 0, (ALLN_SETPROTECT|CCKSETPROTECT|OFDMSETPROTECT), TRUE, FALSE);
+	AsicUpdateProtect(pAd, 0, (ALLN_SETPROTECT|CCKSETPROTECT|OFDMSETPROTECT), true, FALSE);
 
 	APUpdateCapabilityAndErpIe(pAd);
 	APUpdateOperationMode(pAd);
@@ -509,7 +509,7 @@ DBGPRINT(RT_DEBUG_OFF, ("%s(): AP Set CentralFreq at %d(Prim=%d, HT-CentCh=%d, V
 								idx,
 								wdev->DefaultKeyId,
 								Wcid,
-								TRUE,
+								true,
 								pMbss->GTK,
 								LEN_TKIP_GTK);
 
@@ -518,9 +518,9 @@ DBGPRINT(RT_DEBUG_OFF, ("%s(): AP Set CentralFreq at %d(Prim=%d, HT-CentCh=%d, V
 #ifdef DOT1X_SUPPORT
 		/* Send singal to daemon to indicate driver had restarted */
 		if ((wdev->AuthMode == Ndis802_11AuthModeWPA) || (wdev->AuthMode == Ndis802_11AuthModeWPA2)
-        		|| (wdev->AuthMode == Ndis802_11AuthModeWPA1WPA2) || (wdev->IEEE8021X == TRUE))
+        		|| (wdev->AuthMode == Ndis802_11AuthModeWPA1WPA2) || (wdev->IEEE8021X == true))
 		{
-			;/*bDot1xReload = TRUE; */
+			;/*bDot1xReload = true; */
     	}
 #endif /* DOT1X_SUPPORT */
 
@@ -567,7 +567,7 @@ DBGPRINT(RT_DEBUG_OFF, ("%s(): AP Set CentralFreq at %d(Prim=%d, HT-CentCh=%d, V
 		AsicEnableBssSync(pAd);
 
 	/* Pre-tbtt interrupt setting. */
-	AsicSetPreTbttInt(pAd, TRUE);
+	AsicSetPreTbttInt(pAd, true);
 
 
 	/*
@@ -636,7 +636,7 @@ VOID APStop(
 	/* Disable piggyback */
 	RTMPSetPiggyBack(pAd, FALSE);
 
-   	AsicUpdateProtect(pAd, 0,  (ALLN_SETPROTECT|CCKSETPROTECT|OFDMSETPROTECT), TRUE, FALSE);
+   	AsicUpdateProtect(pAd, 0,  (ALLN_SETPROTECT|CCKSETPROTECT|OFDMSETPROTECT), true, FALSE);
 
 	if (!RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST))
 	{
@@ -654,14 +654,14 @@ VOID APStop(
 	for (idx = 0; idx < MAX_MBSSID_NUM(pAd); idx++)
 	{
 		pMbss = &pAd->ApCfg.MBSSID[idx];
-		if (pMbss->REKEYTimerRunning == TRUE)
+		if (pMbss->REKEYTimerRunning == true)
 		{
 			RTMPCancelTimer(&pMbss->REKEYTimer, &Cancelled);
 			pMbss->REKEYTimerRunning = FALSE;
 		}
 	}
 
-	if (pAd->ApCfg.CMTimerRunning == TRUE)
+	if (pAd->ApCfg.CMTimerRunning == true)
 	{
 		RTMPCancelTimer(&pAd->ApCfg.CounterMeasureTimer, &Cancelled);
 		pAd->ApCfg.CMTimerRunning = FALSE;
@@ -744,14 +744,14 @@ VOID MacTableMaintenance(struct rtmp_adapter *pAd)
 	pMacTable->fAnyStationInPsm = FALSE;
 	pMacTable->fAnyStationBadAtheros = FALSE;
 	pMacTable->fAnyTxOPForceDisable = FALSE;
-	pMacTable->fAllStationAsRalink = TRUE;
+	pMacTable->fAllStationAsRalink = true;
 	pMacTable->fAnyStationNonGF = FALSE;
 	pMacTable->fAnyStation20Only = FALSE;
 	pMacTable->fAnyStationIsLegacy = FALSE;
 	pMacTable->fAnyStationMIMOPSDynamic = FALSE;
 
 	pMacTable->fAnyStaFortyIntolerant = FALSE;
-	pMacTable->fAllStationGainGoodMCS = TRUE;
+	pMacTable->fAllStationGainGoodMCS = true;
 
 
 	startWcid = 1;
@@ -775,7 +775,7 @@ VOID MacTableMaintenance(struct rtmp_adapter *pAd)
 				bool ApclibQosNull = FALSE;
 
 				if (CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_WMM_CAPABLE))
-					ApclibQosNull = TRUE;
+					ApclibQosNull = true;
 
 			       ApCliRTMPSendNullFrame(pAd,pEntry->CurrTxRate, ApclibQosNull, pEntry, PWR_ACTIVE);
 
@@ -808,22 +808,22 @@ VOID MacTableMaintenance(struct rtmp_adapter *pAd)
 		/* 1. check if there's any associated STA in power-save mode. this affects outgoing */
 		/*    MCAST/BCAST frames should be stored in PSQ till DtimCount=0 */
 		if (pEntry->PsMode == PWR_SAVE)
-			pMacTable->fAnyStationInPsm = TRUE;
+			pMacTable->fAnyStationInPsm = true;
 
 		if (pEntry->MmpsMode == MMPS_DYNAMIC)
-			pMacTable->fAnyStationMIMOPSDynamic = TRUE;
+			pMacTable->fAnyStationMIMOPSDynamic = true;
 
 		if (pEntry->MaxHTPhyMode.field.BW == BW_20)
-			pMacTable->fAnyStation20Only = TRUE;
+			pMacTable->fAnyStation20Only = true;
 
 		if (pEntry->MaxHTPhyMode.field.MODE != MODE_HTGREENFIELD)
-			pMacTable->fAnyStationNonGF = TRUE;
+			pMacTable->fAnyStationNonGF = true;
 
 		if ((pEntry->MaxHTPhyMode.field.MODE == MODE_OFDM) || (pEntry->MaxHTPhyMode.field.MODE == MODE_CCK))
-			pMacTable->fAnyStationIsLegacy = TRUE;
+			pMacTable->fAnyStationIsLegacy = true;
 
 		if (pEntry->bForty_Mhz_Intolerant)
-			pMacTable->fAnyStaFortyIntolerant = TRUE;
+			pMacTable->fAnyStaFortyIntolerant = true;
 
 		/* Get minimum AMPDU size from STA */
 		if (MinimumAMPDUSize > pEntry->MaxRAmpduFactor)
@@ -831,7 +831,7 @@ VOID MacTableMaintenance(struct rtmp_adapter *pAd)
 
 		if (pEntry->bIAmBadAtheros)
 		{
-			pMacTable->fAnyStationBadAtheros = TRUE;
+			pMacTable->fAnyStationBadAtheros = true;
 			if (pAd->CommonCfg.IOTestParm.bRTSLongProtOn == FALSE)
 				AsicUpdateProtect(pAd, 8, ALLN_SETPROTECT, FALSE, pMacTable->fAnyStationNonGF);
 		}
@@ -915,10 +915,10 @@ VOID MacTableMaintenance(struct rtmp_adapter *pAd)
 						bool bQosNull = FALSE;
 
 						if (CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_WMM_CAPABLE))
-							bQosNull = TRUE;
+							bQosNull = true;
 
 						RtmpEnqueueNullFrame(pAd, pEntry->Addr, pEntry->CurrTxRate,
-	    	                           						pEntry->Aid, pEntry->apidx, bQosNull, TRUE, 0);
+	    	                           						pEntry->Aid, pEntry->apidx, bQosNull, true, 0);
 					}
 			}
 			else
@@ -931,7 +931,7 @@ VOID MacTableMaintenance(struct rtmp_adapter *pAd)
 		/* 2. delete those MAC entry that has been idle for a long time */
 		if (pEntry->NoDataIdleCount >= pEntry->StaIdleTimeout)
 		{
-			bDisconnectSta = TRUE;
+			bDisconnectSta = true;
 			DBGPRINT(RT_DEBUG_WARN, ("ageout %02x:%02x:%02x:%02x:%02x:%02x after %d-sec silence\n",
 					PRINT_MAC(pEntry->Addr), pEntry->StaIdleTimeout));
 			ApLogEvent(pAd, pEntry->Addr, EVENT_AGED_OUT);
@@ -944,7 +944,7 @@ VOID MacTableMaintenance(struct rtmp_adapter *pAd)
 			*/
 			if (pEntry->PsMode != PWR_SAVE)
 			{
-				bDisconnectSta = TRUE;
+				bDisconnectSta = true;
 				DBGPRINT(RT_DEBUG_WARN, ("STA-%02x:%02x:%02x:%02x:%02x:%02x had left (%d %lu)\n",
 					PRINT_MAC(pEntry->Addr),
 					pEntry->ContinueTxFailCnt, pAd->ApCfg.EntryLifeCheck));
@@ -968,7 +968,7 @@ VOID MacTableMaintenance(struct rtmp_adapter *pAd)
 
 			if (overRssiThresCount >= CHECK_DATA_RSSI_UP_BOUND)
 			{
-				bDisconnectSta = TRUE;
+				bDisconnectSta = true;
 				DBGPRINT(RT_DEBUG_WARN, ("Dis STA %02x:%02x:%02x:%02x:%02x:%02x , RSSI Kickout Thres[%d]-[%d]Times\n",
 							PRINT_MAC(pEntry->Addr), pMbss->RssiLowForStaKickOut, overRssiThresCount));
 			}
@@ -1044,7 +1044,7 @@ VOID MacTableMaintenance(struct rtmp_adapter *pAd)
 			fAnyStationPortSecured[pEntry->apidx]++;
 		if ((pEntry->BSS2040CoexistenceMgmtSupport)
 			&& (pAd->CommonCfg.Bss2040CoexistFlag & BSS_2040_COEXIST_INFO_NOTIFY)
-			&& (pAd->CommonCfg.bBssCoexEnable == TRUE)
+			&& (pAd->CommonCfg.bBssCoexEnable == true)
 		)
 		{
 			SendNotifyBWActionFrame(pAd, pEntry->wcid, pEntry->apidx);
@@ -1114,12 +1114,12 @@ VOID MacTableMaintenance(struct rtmp_adapter *pAd)
 
 	/* If all associated STAs are Ralink-chipset, AP shall enable RDG. */
 	if (pAd->CommonCfg.bRdg && pMacTable->fAllStationAsRalink)
-		bRdgActive = TRUE;
+		bRdgActive = true;
 	else
 		bRdgActive = FALSE;
 
 	if (pAd->CommonCfg.bRalinkBurstMode && pMacTable->fAllStationGainGoodMCS)
-		bRalinkBurstMode = TRUE;
+		bRalinkBurstMode = true;
 	else
 		bRalinkBurstMode = FALSE;
 
@@ -1130,7 +1130,7 @@ VOID MacTableMaintenance(struct rtmp_adapter *pAd)
 		AsicSetRalinkBurstMode(pAd, bRalinkBurstMode);
 
 
-	if ((pMacTable->fAnyStationBadAtheros == FALSE) && (pAd->CommonCfg.IOTestParm.bRTSLongProtOn == TRUE))
+	if ((pMacTable->fAnyStationBadAtheros == FALSE) && (pAd->CommonCfg.IOTestParm.bRTSLongProtOn == true))
 	{
 		AsicUpdateProtect(pAd, pAd->CommonCfg.AddHTInfo.AddHtInfo2.OperaionMode, ALLN_SETPROTECT, FALSE, pMacTable->fAnyStationNonGF);
 	}
@@ -1292,7 +1292,7 @@ VOID APUpdateOperationMode(
 	{
 		pAd->CommonCfg.AddHTInfo.AddHtInfo2.OperaionMode = 1;
 		bDisableBGProtect = FALSE;
-		bNonGFExist = TRUE;
+		bNonGFExist = true;
 	}
 
    	/* If I am 40MHz BSS, and there exist HT-20MHz station. */
@@ -1302,13 +1302,13 @@ VOID APUpdateOperationMode(
 		(pAd->CommonCfg.DesiredHtPhy.ChannelWidth == 1))
 	{
 		pAd->CommonCfg.AddHTInfo.AddHtInfo2.OperaionMode = 2;
-		bDisableBGProtect = TRUE;
+		bDisableBGProtect = true;
 	}
 
 	if (pAd->MacTab.fAnyStationIsLegacy)
 	{
 		pAd->CommonCfg.AddHTInfo.AddHtInfo2.OperaionMode = 3;
-		bDisableBGProtect = TRUE;
+		bDisableBGProtect = true;
 	}
 
 	if (bNonGFExist == FALSE)
@@ -1365,7 +1365,7 @@ VOID APUpdateCapabilityAndErpIe(
 
 	/* legacy BSS exist within 5 sec */
 	if ((pAd->ApCfg.LastOLBCDetectTime + (5 * OS_HZ)) > pAd->Mlme.Now32)
-		LegacyBssExist = TRUE;
+		LegacyBssExist = true;
 	else
 		LegacyBssExist = FALSE;
 
@@ -1409,19 +1409,19 @@ VOID APUpdateCapabilityAndErpIe(
 		else
 		{
 			OPSTATUS_CLEAR_FLAG(pAd, fOP_STATUS_BG_PROTECTION_INUSED);
-			AsicUpdateProtect(pAd, OperationMode, (OFDMSETPROTECT), TRUE, bNonGFExist);
+			AsicUpdateProtect(pAd, OperationMode, (OFDMSETPROTECT), true, bNonGFExist);
 		}
 	}
 
 	/* Decide Barker Preamble bit of ERP IE */
-	if ((pAd->CommonCfg.TxPreamble == Rt802_11PreambleLong) || (ApCheckLongPreambleSTA(pAd) == TRUE))
+	if ((pAd->CommonCfg.TxPreamble == Rt802_11PreambleLong) || (ApCheckLongPreambleSTA(pAd) == true))
 		pAd->ApCfg.ErpIeContent = (ErpIeContent | 0x04);
 	else
 		pAd->ApCfg.ErpIeContent = ErpIeContent;
 
 	/* Force to use ShortSlotTime at A-band */
 	if (pAd->CommonCfg.Channel > 14)
-		ShortSlotCapable = TRUE;
+		ShortSlotCapable = true;
 
 	/* deicide CapabilityInfo.ShortSlotTime bit */
     for (apidx=0; apidx<pAd->ApCfg.BssidNum; apidx++)
@@ -1467,7 +1467,7 @@ bool ApCheckLongPreambleSTA(
 
         if (!CAP_IS_SHORT_PREAMBLE_ON(pEntry->CapabilityInfo))
         {
-            return TRUE;
+            return true;
         }
     }
 
@@ -1490,17 +1490,17 @@ bool ApCheckAccessControlList(
 	IN u8 *       pAddr,
 	IN UCHAR         Apidx)
 {
-	bool Result = TRUE;
+	bool Result = true;
 
     if (pAd->ApCfg.MBSSID[Apidx].AccessControlList.Policy == 0)       /* ACL is disabled */
-        Result = TRUE;
+        Result = true;
     else
     {
         ULONG i;
         if (pAd->ApCfg.MBSSID[Apidx].AccessControlList.Policy == 1)   /* ACL is a positive list */
             Result = FALSE;
         else                                              /* ACL is a negative list */
-            Result = TRUE;
+            Result = true;
         for (i=0; i<pAd->ApCfg.MBSSID[Apidx].AccessControlList.Num; i++)
         {
             if (MAC_ADDR_EQUAL(pAddr, pAd->ApCfg.MBSSID[Apidx].AccessControlList.Entry[i].Addr))
@@ -1568,23 +1568,23 @@ VOID ApUpdateAccessControlList(struct rtmp_adapter *pAd, UCHAR Apidx)
 		{
 			if (MAC_ADDR_EQUAL(&pEntry->Addr[0], pMbss->AccessControlList.Entry[AclIdx].Addr))
 			{
-				Matched = TRUE;
+				Matched = true;
 				break;
 			}
 		}
 
 		if ((Matched == FALSE) && (pMbss->AccessControlList.Policy == 1))
 		{
-			drop = TRUE;
+			drop = true;
 			DBGPRINT(RT_DEBUG_TRACE, ("STA not on positive ACL. remove it...\n"));
 		}
-	       else if ((Matched == TRUE) && (pMbss->AccessControlList.Policy == 2))
+	       else if ((Matched == true) && (pMbss->AccessControlList.Policy == 2))
 			{
-			drop = TRUE;
+			drop = true;
 			DBGPRINT(RT_DEBUG_TRACE, ("STA on negative ACL. remove it...\n"));
 				}
 
-		if (drop == TRUE) {
+		if (drop == true) {
 			DBGPRINT(RT_DEBUG_TRACE, ("Apidx = %d\n", Apidx));
 			DBGPRINT(RT_DEBUG_TRACE, ("pAd->ApCfg.MBSSID[%d].AccessControlList.Policy = %ld\n", Apidx,
 				pMbss->AccessControlList.Policy));
@@ -1671,11 +1671,11 @@ and secondary channel setting.
 			"==" means that the values on either side of the "==" are to be tested for equaliy with a resulting
 				 Boolean value.
 			        =>When the value of OPi is the empty set, then the expression (P == OPi for all values of i)
-			        	is defined to be TRUE
+			        	is defined to be true
 			        =>When the value of OTi is the empty set, then the expression (P == OTi for all values of i)
-			        	is defined to be TRUE
+			        	is defined to be true
 			        =>When the value of OSi is the empty set, then the expression (S == OSi for all values of i)
-			        	is defined to be TRUE
+			        	is defined to be true
 */
 
 
@@ -1722,7 +1722,7 @@ INT GetBssCoexEffectedChRange(
 										pCoexChRange->secondaryCh, pAd->ChannelList[pCoexChRange->secondaryCh].Channel,
 										pAd->ChannelList[pCoexChRange->effectChStart].Channel,
 										pAd->ChannelList[pCoexChRange->effectChEnd].Channel));
-			return TRUE;
+			return true;
 		}
 		else
 		{
@@ -1774,7 +1774,7 @@ INT GetBssCoexEffectedChRange(
 										pAd->ChannelList[pCoexChRange->effectChStart].Channel,
 										pAd->ChannelList[pCoexChRange->effectChEnd].Channel));
 			}
-			return TRUE;
+			return true;
 		}
 
 		/* It should not happened! */
@@ -1917,11 +1917,11 @@ VOID APOverlappingBSSScan(struct rtmp_adapter *pAd)
 			pAd->ChannelList[chStartIdx].Channel, pAd->ChannelList[chEndIdx].Channel));
 
 	/* Now start to do the passive scanning. */
-	pAd->CommonCfg.bOverlapScanning = TRUE;
+	pAd->CommonCfg.bOverlapScanning = true;
 	for (index = chStartIdx; index<=chEndIdx; index++)
 	{
 		Channel = pAd->ChannelList[index].Channel;
-		AsicSetChannel(pAd, Channel, BW_20,  EXTCHA_NONE, TRUE);
+		AsicSetChannel(pAd, Channel, BW_20,  EXTCHA_NONE, true);
 
 		DBGPRINT(RT_DEBUG_ERROR, ("SYNC - BBP R4 to 20MHz.l\n"));
 		/*DBGPRINT(RT_DEBUG_TRACE, ("Passive scanning for Channel %d.....\n", Channel)); */
@@ -1936,18 +1936,18 @@ VOID APOverlappingBSSScan(struct rtmp_adapter *pAd)
 					index, pAd->ChannelList[index].Channel, pAd->ChannelList[index].bEffectedChannel));
 		if ((pAd->ChannelList[index].bEffectedChannel & (EFFECTED_CH_PRIMARY | EFFECTED_CH_LEGACY))  && (index != curPriChIdx) )
 		{
-			needFallBack = TRUE;
-			DBGPRINT(RT_DEBUG_TRACE, ("needFallBack=TRUE due to OP/OT!\n"));
+			needFallBack = true;
+			DBGPRINT(RT_DEBUG_TRACE, ("needFallBack=true due to OP/OT!\n"));
 		}
 		if ((pAd->ChannelList[index].bEffectedChannel & EFFECTED_CH_SECONDARY)  && (index != curSecChIdx))
 		{
-			needFallBack = TRUE;
-			DBGPRINT(RT_DEBUG_TRACE, ("needFallBack=TRUE due to OS!\n"));
+			needFallBack = true;
+			DBGPRINT(RT_DEBUG_TRACE, ("needFallBack=true due to OS!\n"));
 		}
 	}
 
 	/* If need fallback, now do it. */
-	if ((needFallBack == TRUE)
+	if ((needFallBack == true)
 		&& (pAd->CommonCfg.BssCoexApCnt > pAd->CommonCfg.BssCoexApCntThr)
 	)
 	{
@@ -1971,7 +1971,7 @@ VOID APOverlappingBSSScan(struct rtmp_adapter *pAd)
  Arguments:
 
  Return Value:
-    TRUE - send successfully
+    true - send successfully
     FAIL - send fail
 
  Note:
@@ -2024,7 +2024,7 @@ bool DOT1X_InternalCmdAction(
 
 	DBGPRINT(RT_DEBUG_TRACE, ("%s done. (cmd=%d)\n", __FUNCTION__, cmd));
 
-	return TRUE;
+	return true;
 }
 
 /*
@@ -2035,7 +2035,7 @@ bool DOT1X_InternalCmdAction(
  Arguments:
 
  Return Value:
-    TRUE - send successfully
+    true - send successfully
     FAIL - send fail
 
  Note:
@@ -2051,7 +2051,7 @@ bool DOT1X_EapTriggerAction(
 	UCHAR			FrameBuf[frame_len];
 	UINT8			offset = 0;
 
-    if((pEntry->AuthMode == Ndis802_11AuthModeWPA) || (pEntry->AuthMode == Ndis802_11AuthModeWPA2) || (pAd->ApCfg.MBSSID[apidx].wdev.IEEE8021X == TRUE))
+    if((pEntry->AuthMode == Ndis802_11AuthModeWPA) || (pEntry->AuthMode == Ndis802_11AuthModeWPA2) || (pAd->ApCfg.MBSSID[apidx].wdev.IEEE8021X == true))
 	{
 		/* Init the frame buffer */
 		memset(FrameBuf, 0, frame_len);
@@ -2074,7 +2074,7 @@ bool DOT1X_EapTriggerAction(
 
 	}
 
-	return TRUE;
+	return true;
 }
 
 #endif /* DOT1X_SUPPORT */

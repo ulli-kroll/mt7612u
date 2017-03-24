@@ -134,7 +134,7 @@ VOID MBSS_Init(struct rtmp_adapter *pAd, struct RTMP_OS_NETDEV_OP_HOOK *pNetDevO
 		memcpy(&netDevHook, pNetDevOps, sizeof(netDevHook));
 
 		netDevHook.priv_flags = INT_MBSSID;
-		netDevHook.needProtcted = TRUE;
+		netDevHook.needProtcted = true;
 		netDevHook.wdev = wdev;
 
 		/* Init MAC address of virtual network interface */
@@ -144,7 +144,7 @@ VOID MBSS_Init(struct rtmp_adapter *pAd, struct RTMP_OS_NETDEV_OP_HOOK *pNetDevO
 		status = RtmpOSNetDevAttach(pAd->OpMode, pDevNew, &netDevHook);
 	}
 
-	pAd->FlgMbssInit = TRUE;
+	pAd->FlgMbssInit = true;
 
 }
 
@@ -248,7 +248,7 @@ INT MBSS_Open(struct net_device *pDev)
 	if (BssId < 0)
 		return -1;
 
-	pAd->ApCfg.MBSSID[BssId].bBcnSntReq = TRUE;
+	pAd->ApCfg.MBSSID[BssId].bBcnSntReq = true;
 		return 0;
 }
 

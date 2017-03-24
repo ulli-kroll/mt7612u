@@ -323,11 +323,11 @@ struct rx_signal_info{
 #define STA_TKIP_ON(_p)                 (_p->StaCfg.wdev.WepStatus == Ndis802_11TKIPEnable)
 #define STA_AES_ON(_p)                  (_p->StaCfg.wdev.WepStatus == Ndis802_11AESEnable)
 
-#define STA_TGN_WIFI_ON(_p)             (_p->StaCfg.bTGnWifiTest == TRUE)
+#define STA_TGN_WIFI_ON(_p)             (_p->StaCfg.bTGnWifiTest == true)
 #endif /* CONFIG_STA_SUPPORT */
 
-#define CKIP_KP_ON(_p)				((((_p)->StaCfg.CkipFlag) & 0x10) && ((_p)->StaCfg.bCkipCmicOn == TRUE))
-#define CKIP_CMIC_ON(_p)			((((_p)->StaCfg.CkipFlag) & 0x08) && ((_p)->StaCfg.bCkipCmicOn == TRUE))
+#define CKIP_KP_ON(_p)				((((_p)->StaCfg.CkipFlag) & 0x10) && ((_p)->StaCfg.bCkipCmicOn == true))
+#define CKIP_CMIC_ON(_p)			((((_p)->StaCfg.CkipFlag) & 0x08) && ((_p)->StaCfg.bCkipCmicOn == true))
 
 #define INC_RING_INDEX(_idx, _RingSize)    \
 {                                          \
@@ -415,7 +415,7 @@ typedef struct _RTMP_SCATTER_GATHER_LIST {
 
 /* Check LEAP & CCKM flags */
 #define LEAP_ON(_p)                 (((_p)->StaCfg.LeapAuthMode) == CISCO_AuthModeLEAP)
-#define LEAP_CCKM_ON(_p)            ((((_p)->StaCfg.LeapAuthMode) == CISCO_AuthModeLEAP) && ((_p)->StaCfg.LeapAuthInfo.CCKM == TRUE))
+#define LEAP_CCKM_ON(_p)            ((((_p)->StaCfg.LeapAuthMode) == CISCO_AuthModeLEAP) && ((_p)->StaCfg.LeapAuthInfo.CCKM == true))
 
 /* if orginal Ethernet frame contains no LLC/SNAP, then an extra LLC/SNAP encap is required */
 #define EXTRA_LLCSNAP_ENCAP_FROM_PKT_START(_pBufVA, _pExtraLlcSnapEncap)		\
@@ -1700,7 +1700,7 @@ typedef struct _COMMON_CONFIG {
 	/* see fOP_STATUS_xxx in RTMP_DEF.C for detail bit definition */
 	ULONG OpStatusFlags;
 
-	bool NdisRadioStateOff;	/*For HCT 12.0, set this flag to TRUE instead of called MlmeRadioOff. */
+	bool NdisRadioStateOff;	/*For HCT 12.0, set this flag to true instead of called MlmeRadioOff. */
 	ABGBAND_STATE BandState;        /* For setting BBP used on B/G or A mode. */
 
 	/* HT */
@@ -1785,7 +1785,7 @@ typedef struct _COMMON_CONFIG {
 
 #ifdef RTMP_MAC_USB
 	bool bMultipleIRP;	/* Multiple Bulk IN flag */
-	UCHAR NumOfBulkInIRP;	/* if bMultipleIRP == TRUE, NumOfBulkInIRP will be 4 otherwise be 1 */
+	UCHAR NumOfBulkInIRP;	/* if bMultipleIRP == true, NumOfBulkInIRP will be 4 otherwise be 1 */
 	RT_HT_CAPABILITY SupportedHtPhy;
 	ULONG MaxPktOneTxBulk;
 	UCHAR TxBulkFactor;
@@ -1972,13 +1972,13 @@ typedef struct _STA_ADMIN_CONFIG {
 	ULONG WindowsPowerMode;	/* Power mode for AC power */
 	ULONG WindowsBatteryPowerMode;	/* Power mode for battery if exists */
 	bool bWindowsACCAMEnable;	/* Enable CAM power mode when AC on */
-	bool bAutoReconnect;	/* Set to TRUE when setting OID_802_11_SSID with no matching BSSID */
+	bool bAutoReconnect;	/* Set to true when setting OID_802_11_SSID with no matching BSSID */
 	UCHAR RssiTrigger;
 	UCHAR RssiTriggerMode;	/* RSSI_TRIGGERED_UPON_BELOW_THRESHOLD or RSSI_TRIGGERED_UPON_EXCCEED_THRESHOLD */
 
 	ULONG WindowsPowerProfile;	/* Windows power profile, for NDIS5.1 PnP */
 
-	bool	 FlgPsmCanNotSleep; /* TRUE: can not switch ASIC to sleep */
+	bool	 FlgPsmCanNotSleep; /* true: can not switch ASIC to sleep */
 	/* MIB:ieee802dot11.dot11smt(1).dot11StationConfigTable(1) */
 	USHORT Psm;		/* power management mode   (PWR_ACTIVE|PWR_SAVE) */
 	USHORT DisassocReason;
@@ -2030,8 +2030,8 @@ typedef struct _STA_ADMIN_CONFIG {
 
 	ULONG LastScanTime;	/* Record last scan time for issue BSSID_SCAN_LIST */
 	bool bNotFirstScan;	/* Sam add for ADHOC flag to do first scan when do initialization */
-	bool bSwRadio;	/* Software controlled Radio On/Off, TRUE: On */
-	bool bHwRadio;	/* Hardware controlled Radio On/Off, TRUE: On */
+	bool bSwRadio;	/* Software controlled Radio On/Off, true: On */
+	bool bHwRadio;	/* Hardware controlled Radio On/Off, true: On */
 	bool bRadio;		/* Radio state, And of Sw & Hw radio state */
 	bool bHardwareRadio;	/* Hardware controlled Radio enabled */
 	bool bShowHiddenSSID;	/* Show all known SSID in SSID list get operation */
@@ -2095,7 +2095,7 @@ typedef struct _STA_ADMIN_CONFIG {
 	bool bAutoConnectIfNoSSID;
 	UCHAR RegClass;		/*IE_SUPP_REG_CLASS: 2009 PF#3: For 20/40 Intolerant Channel Report */
 	bool bAdhocN;
-	bool bAdhocCreator;	/*TRUE indicates divice is Creator. */
+	bool bAdhocCreator;	/*true indicates divice is Creator. */
 
 
 	/*
@@ -2139,7 +2139,7 @@ typedef struct _STA_ADMIN_CONFIG {
 	this STA had agreed upon joining the network. Which means these parameters
 	are usually decided by the BSS/IBSS creator instead of user configuration.
 	Data in this data structurre is valid only when either ADHOC_ON()/INFRA_ON()
-	is TRUE. Normally, after SCAN or failed roaming attempts, we need to
+	is true. Normally, after SCAN or failed roaming attempts, we need to
 	recover back to the current active settings
 */
 typedef struct _STA_ACTIVE_CONFIG {
@@ -3316,7 +3316,7 @@ typedef struct rtmp_phy_ctrl{
 #endif /* QLOAD_FUNC_BUSY_TIME_STATS */
 
 #ifdef QLOAD_FUNC_BUSY_TIME_ALARM
-#define QLOAD_DOES_ALARM_OCCUR(pAd)	(pAd->phy_ctrl.FlgQloadAlarmIsSuspended == TRUE)
+#define QLOAD_DOES_ALARM_OCCUR(pAd)	(pAd->phy_ctrl.FlgQloadAlarmIsSuspended == true)
 #define QLOAD_ALARM_EVER_OCCUR(pAd) (pAd->phy_ctrl.QloadAlarmNumber > 0)
 	bool FlgQloadAlarmIsSuspended;	/* 1: suspend */
 

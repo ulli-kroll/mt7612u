@@ -178,7 +178,7 @@ static VOID APPeerDeauthReqAction(
 		RTMPSendWirelessEvent(pAd, IW_DEAUTH_EVENT_FLAG, Addr2, 0, 0);
 		ApLogEvent(pAd, Addr2, EVENT_DISASSOCIATED);
 
-        if (pEntry->CMTimerRunning == TRUE)
+        if (pEntry->CMTimerRunning == true)
         {
 		/*
 			If one who initilized Counter Measure deauth itself,
@@ -264,7 +264,7 @@ static VOID APPeerAuthReqAtIdleAction(
 		}
 		else
 		{
-			if (pEntry->bIAmBadAtheros == TRUE)
+			if (pEntry->bIAmBadAtheros == true)
 			{
 				AsicUpdateProtect(pAd, 8, ALLN_SETPROTECT, FALSE, FALSE);
 				DBGPRINT(RT_DEBUG_TRACE, ("Atheros Problem. Turn on RTS/CTS!!!\n"));
@@ -332,7 +332,7 @@ SendAuth:
 		(pMbss->wdev.AuthMode != Ndis802_11AuthModeShared))
 	{
 		if (!pEntry)
-			pEntry = MacTableInsertEntry(pAd, Addr2, wdev, apidx, OPMODE_AP, TRUE);
+			pEntry = MacTableInsertEntry(pAd, Addr2, wdev, apidx, OPMODE_AP, true);
 
 		if (pEntry)
 		{
@@ -355,7 +355,7 @@ SendAuth:
 				|| (wdev->AuthMode == Ndis802_11AuthModeAutoSwitch)))
 	{
 		if (!pEntry)
-			pEntry = MacTableInsertEntry(pAd, Addr2, wdev, apidx, OPMODE_AP, TRUE);
+			pEntry = MacTableInsertEntry(pAd, Addr2, wdev, apidx, OPMODE_AP, true);
 
 		if (pEntry)
 		{
@@ -461,7 +461,7 @@ static VOID APPeerAuthConfirmAction(
 		}
 		else
 		{
-			if (pEntry->bIAmBadAtheros == TRUE)
+			if (pEntry->bIAmBadAtheros == true)
 			{
 				AsicUpdateProtect(pAd, 8, ALLN_SETPROTECT, FALSE, FALSE);
 				DBGPRINT(RT_DEBUG_TRACE, ("Atheros Problem. Turn on RTS/CTS!!!\n"));

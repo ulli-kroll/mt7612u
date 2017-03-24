@@ -410,7 +410,7 @@ PMEASURE_REQ_ENTRY MeasureReqInsert(
 			NdisGetSystemUpTime(&Now);
 			pEntry = &pTab->Content[i];
 
-			if ((pEntry->Valid == TRUE)
+			if ((pEntry->Valid == true)
 				&& RTMP_TIME_AFTER((unsigned long)Now, (unsigned long)(pEntry->lastTime + MQ_REQ_AGE_OUT)))
 			{
 				PMEASURE_REQ_ENTRY pPrevEntry = NULL;
@@ -451,7 +451,7 @@ PMEASURE_REQ_ENTRY MeasureReqInsert(
 		{
 			NdisGetSystemUpTime(&Now);
 			pEntry->lastTime = Now;
-			pEntry->Valid = TRUE;
+			pEntry->Valid = true;
 			pEntry->DialogToken = DialogToken;
 			pTab->Size++;
 		}
@@ -636,7 +636,7 @@ static PTPC_REQ_ENTRY TpcReqInsert(
 			NdisGetSystemUpTime(&Now);
 			pEntry = &pTab->Content[i];
 
-			if ((pEntry->Valid == TRUE)
+			if ((pEntry->Valid == true)
 				&& RTMP_TIME_AFTER((unsigned long)Now, (unsigned long)(pEntry->lastTime + TPC_REQ_AGE_OUT)))
 			{
 				PTPC_REQ_ENTRY pPrevEntry = NULL;
@@ -677,7 +677,7 @@ static PTPC_REQ_ENTRY TpcReqInsert(
 		{
 			NdisGetSystemUpTime(&Now);
 			pEntry->lastTime = Now;
-			pEntry->Valid = TRUE;
+			pEntry->Valid = true;
 			pEntry->DialogToken = DialogToken;
 			pTab->Size++;
 		}
@@ -1309,7 +1309,7 @@ static bool DfsRequirementCheck(
 			{
 				/* found radar signal in the channel. the channel can't use at least for 30 minutes.*/
 				pAd->ChannelList[i].RemainingTimeForUse = 1800;/*30 min = 1800 sec*/
-				Result = TRUE;
+				Result = true;
 				break;
 			}
 		}
@@ -1392,7 +1392,7 @@ static bool PeerChSwAnnSanity(
 				memmove(&pChSwAnnInfo->Channel, eid_ptr->Octet + 1, 1);
 				memmove(&pChSwAnnInfo->ChSwCnt, eid_ptr->Octet + 2, 1);
 
-				result = TRUE;
+				result = true;
                 break;
 
 			default:
@@ -1463,7 +1463,7 @@ static bool PeerMeasureReqSanity(
 				memmove(&MeasureDuration, ptr + 9, 2);
 				pMeasureReq->MeasureDuration = SWAP16(MeasureDuration);
 
-				result = TRUE;
+				result = true;
 				break;
 
 			default:
@@ -1575,7 +1575,7 @@ static bool PeerMeasureReportSanity(
 					memmove(&pReport->MeasureDuration, ptr + 9, 2);
 					memmove(&pReport->RPI_Density, ptr + 11, 8);
 				}
-				result = TRUE;
+				result = true;
                 break;
 
 			default:
@@ -1630,7 +1630,7 @@ static bool PeerTpcReqSanity(
 		switch(eid_ptr->Eid)
 		{
 			case IE_TPC_REQUEST:
-				result = TRUE;
+				result = true;
                 break;
 
 			default:
@@ -1689,7 +1689,7 @@ static bool PeerTpcRepSanity(
 			case IE_TPC_REPORT:
 				memmove(&pTpcRepInfo->TxPwr, eid_ptr->Octet, 1);
 				memmove(&pTpcRepInfo->LinkMargin, eid_ptr->Octet + 1, 1);
-				result = TRUE;
+				result = true;
                 break;
 
 			default:
@@ -1733,7 +1733,7 @@ static VOID PeerChSwAnnAction(
 #ifdef CONFIG_AP_SUPPORT
 	/* ChSwAnn need check.*/
 	if ((pAd->OpMode == OPMODE_AP) &&
-		(DfsRequirementCheck(pAd, ChSwAnnInfo.Channel) == TRUE))
+		(DfsRequirementCheck(pAd, ChSwAnnInfo.Channel) == true))
 	{
 		NotifyChSwAnnToPeerAPs(pAd, pFr->Hdr.Addr1, pFr->Hdr.Addr2, ChSwAnnInfo.ChSwMode, ChSwAnnInfo.Channel);
 		StartDFSProcedure(pAd, ChSwAnnInfo.Channel, ChSwAnnInfo.ChSwMode);
@@ -1843,7 +1843,7 @@ static VOID PeerMeasureReportAction(
 	UINT8 DialogToken;
 	uint8_t * pMeasureReportInfo;
 
-/*	if (pAd->CommonCfg.bIEEE80211H != TRUE)*/
+/*	if (pAd->CommonCfg.bIEEE80211H != true)*/
 /*		return;*/
 
 	pMeasureReportInfo = kmalloc(sizeof(MEASURE_RPI_REPORT), GFP_ATOMIC);
@@ -1873,7 +1873,7 @@ static VOID PeerMeasureReportAction(
 			{
 				PMEASURE_BASIC_REPORT pBasicReport = (PMEASURE_BASIC_REPORT)pMeasureReportInfo;
 				if ((pBasicReport->Map.field.Radar)
-					&& (DfsRequirementCheck(pAd, pBasicReport->ChNum) == TRUE))
+					&& (DfsRequirementCheck(pAd, pBasicReport->ChNum) == true))
 				{
 					NotifyChSwAnnToPeerAPs(pAd, pFr->Hdr.Addr1, pFr->Hdr.Addr2, 1, pBasicReport->ChNum);
 					StartDFSProcedure(pAd, pBasicReport->ChNum, 1);
@@ -1985,7 +1985,7 @@ VOID PeerSpectrumAction(
 
 	UCHAR	Action = Elem->Msg[LENGTH_802_11+1];
 
-	if (pAd->CommonCfg.bIEEE80211H != TRUE)
+	if (pAd->CommonCfg.bIEEE80211H != true)
 		return;
 
 	switch(Action)
@@ -2146,7 +2146,7 @@ INT Set_MeasureReq_Proc(
 END_OF_MEASURE_REQ:
 	kfree(pOutBuffer);
 
-	return TRUE;
+	return true;
 }
 
 INT Set_TpcReq_Proc(
@@ -2163,14 +2163,14 @@ INT Set_TpcReq_Proc(
 	if (!VALID_WCID(wcid))
 	{
 		DBGPRINT(RT_DEBUG_ERROR, ("%s: unknow sta of Aid(%d)\n", __FUNCTION__, wcid));
-		return TRUE;
+		return true;
 	}
 
 	TpcReqInsert(pAd, TpcReqToken);
 
 	EnqueueTPCReq(pAd, pAd->MacTab.Content[wcid].Addr, TpcReqToken);
 
-	return TRUE;
+	return true;
 }
 
 #ifdef CONFIG_AP_SUPPORT
@@ -2243,7 +2243,7 @@ typedef struct __PWR_CONSTRAIN_CFG
 	}
 
 
-	return TRUE;
+	return true;
 }
 
 

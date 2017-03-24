@@ -148,12 +148,12 @@ VOID wdev_tx_pkts(NDIS_HANDLE dev_hnd, struct sk_buff **pkt_list, UINT pkt_cnt, 
 		}
 #endif /*RT_CFG80211_SUPPORT*/
 
-		if ((wdev->allow_data_tx == TRUE) && (wdev->tx_pkt_allowed))
+		if ((wdev->allow_data_tx == true) && (wdev->tx_pkt_allowed))
 			allowToSend = wdev->tx_pkt_allowed(pAd, wdev, pPacket, &wcid);
 		else
 			allowToSend = FALSE;
 
-		if (allowToSend == TRUE)
+		if (allowToSend == true)
 		{
 			RTMP_SET_PACKET_WCID(pPacket, wcid);
 			RTMP_SET_PACKET_WDEV(pPacket, wdev->wdev_idx);

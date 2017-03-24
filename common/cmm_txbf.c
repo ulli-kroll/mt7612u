@@ -93,7 +93,7 @@ VOID rtmp_asic_set_bf(
 
 /*
 	TxBFInit - Intialize TxBF fields in pEntry
-		supportsETxBF - TRUE if client supports ETxBF
+		supportsETxBF - true if client supports ETxBF
 */
 VOID TxBFInit(
 	IN struct rtmp_adapter *	pAd,
@@ -137,7 +137,7 @@ bool rtmp_chk_itxbf_calibration(
 	USHORT g_caladdr[] = {0xc0, 0xc2, 0xd4, 0xd6, 0xd8};
 	USHORT a_caladdr[] = {0xc4, 0xc6, 0xc8, 0xca, 0xcc, 0xce, 0xd0, 0xd2, 0xda, 0xdc, 0xde, 0xe0, 0xe2, 0xe4, 0xe6, 0xe8, 0xea, 0xec, 0xee, 0xf0};
 	uint32_t ee_sum;
-	bool bCalibrated = TRUE;
+	bool bCalibrated = true;
 
 
 	if (pAd->CommonCfg.Channel <= 14)
@@ -160,7 +160,7 @@ bool rtmp_chk_itxbf_calibration(
 		DBGPRINT(RT_DEBUG_INFO, ("Check EEPROM(offset=0x%x, eeVal=0x%x, ee_sum=0x%x)!\n",
 					offset, eeVal, ee_sum));
 		if (eeVal!=0xffff && eeVal!=0)
-			return TRUE;
+			return true;
 	}
 
 	if ((ee_sum == (0xffff * calCnt)) || (ee_sum == 0x0))
@@ -267,9 +267,9 @@ void setETxBFCap(struct rtmp_adapter *pAd, HT_BF_CAP *pTxBFCap)
 	}
 	else
 	{
-		pTxBFCap->RxNDPCapable =  TRUE;
-		pTxBFCap->TxNDPCapable =  TRUE;
-		pTxBFCap->ExpNoComSteerCapable =  TRUE;
+		pTxBFCap->RxNDPCapable =  true;
+		pTxBFCap->TxNDPCapable =  true;
+		pTxBFCap->ExpNoComSteerCapable =  true;
 		pTxBFCap->ExpComSteerCapable = !pAd->CommonCfg.ETxBfNoncompress;
 		pTxBFCap->ExpNoComBF = HT_ExBF_FB_CAP_IMMEDIATE;
 		pTxBFCap->ExpComBF = pAd->CommonCfg.ETxBfNoncompress? HT_ExBF_FB_CAP_NONE: HT_ExBF_FB_CAP_IMMEDIATE;
@@ -277,7 +277,7 @@ void setETxBFCap(struct rtmp_adapter *pAd, HT_BF_CAP *pTxBFCap)
 		pTxBFCap->NoComSteerBFAntSup = 1; // 2 Tx antenna sounding
 		pTxBFCap->ComSteerBFAntSup = 1;   // 2 Tx antenna sounding
 
-		pTxBFCap->TxSoundCapable = TRUE;  // Support staggered sounding frames
+		pTxBFCap->TxSoundCapable = true;  // Support staggered sounding frames
 		pTxBFCap->ChanEstimation = pAd->Antenna.field.RxPath-1;
 	}
 }
@@ -294,8 +294,8 @@ void setVHTETxBFCap(struct rtmp_adapter *pAd, VHT_CAP_INFO *pTxBFCap)
 	}
 	else
 	{
-		pTxBFCap->bfee_cap_su = TRUE;
-		pTxBFCap->bfer_cap_su = TRUE;
+		pTxBFCap->bfee_cap_su = true;
+		pTxBFCap->bfer_cap_su = true;
 		pTxBFCap->num_snd_dimension = 1;
 		pTxBFCap->cmp_st_num_bfer = 1;
 	}
@@ -393,7 +393,7 @@ VOID txSndgSameMcs(
 	/* Enable/disable BF matrix writing */
 	if  (pEntry->eTxBfEnCond == 1 || pEntry->eTxBfEnCond == 2)
 	{
-		bWriteEnable = TRUE;
+		bWriteEnable = true;
 		pEntry->HTPhyMode.field.eTxBF = 1;
 	}
 	else
@@ -474,7 +474,7 @@ VOID txMrqInvTxBF(
 	IN	MAC_TABLE_ENTRY	*pEntry)
 
 {
-	pEntry->toTxMrq = TRUE;
+	pEntry->toTxMrq = true;
 	pEntry->msiToTx = MSI_TOGGLE_BF;
 
 /*	pEntry->HTPhyMode.field.TxBF = ~pEntry->HTPhyMode.field.TxBF;done in another function call*/
@@ -523,7 +523,7 @@ UINT convertSnrToThroughput(
 	}
 	for (i=1; i<=tableSize; i++)
 	{
-		isMcsValid[pTable[i*step+2]] = TRUE;
+		isMcsValid[pTable[i*step+2]] = true;
 		rateIdx[pTable[i*step+2]] = pTable[i*step];
 	}
 
@@ -585,7 +585,7 @@ UINT convertSnrToThroughput(
 			}
 			if (tpTemp > dataRate[mcs])
 				tpTemp = dataRate[mcs];
-			if (tpTemp > bestTp && isMcsValid[mcs] == TRUE)
+			if (tpTemp > bestTp && isMcsValid[mcs] == true)
 			{
 				bestTp = tpTemp;
 				(*bestMcsPtr) = mcs;
@@ -664,7 +664,7 @@ VOID chooseBestMethod(
 			pEntry->sndgMcs = pEntry->sndg0Mcs;
 			pEntry->sndgRateIdx = pEntry->sndg0RateIdx;
 			/* enable BF matrix writing */
-			rtmp_asic_etxbf_write_change(pAd, TRUE);
+			rtmp_asic_etxbf_write_change(pAd, true);
 			if (pEntry->sndgRateIdx == pEntry->CurrTxRateIndex)
 				Trigger_Sounding_Packet(pAd, SNDG_TYPE_SOUNDING, 0, pEntry->sndgMcs, pEntry);
 			else
@@ -677,7 +677,7 @@ VOID chooseBestMethod(
 			pEntry->sndgMcs = pEntry->sndg1Mcs;
 			pEntry->sndgRateIdx = pEntry->sndg1RateIdx;
 			/* enable BF matrix writing */
-			rtmp_asic_etxbf_write_change(pAd, TRUE);
+			rtmp_asic_etxbf_write_change(pAd, true);
 			if (pEntry->sndgRateIdx == pEntry->CurrTxRateIndex)
 				Trigger_Sounding_Packet(pAd, SNDG_TYPE_SOUNDING, 0, pEntry->sndgMcs, pEntry);
 			else
@@ -765,7 +765,7 @@ VOID handleBfFb(
 	else if (pEntry->bfState == WAIT_SNDG_FB1)
 	{
 		/* 3. mrq with inverted TxBF status, get mfb1*/
-		if (TRUE)
+		if (true)
 		{
 			int Nc = ((pRxBlk ->pData)[2] & 0x3) + 1;
 			/* record the snr comb */
@@ -867,11 +867,11 @@ bool MlmeTxBfAllowed(
 		&& (!((pAd->CommonCfg.DebugFlags & DBF_NO_TXBF_3SS) && pTxRate->CurrMCS>20))
 #endif /* DBG_CTRL_SUPPORT */
 	)
-		return TRUE;
+		return true;
 
 	/* ITxBF */
 	if (pEntry->iTxBfEn && pTxRate->CurrMCS<16 && pTxRate->Mode!=MODE_CCK)
-		return TRUE;
+		return true;
 
 	return FALSE;
 }

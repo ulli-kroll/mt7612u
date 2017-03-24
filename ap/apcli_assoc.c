@@ -215,7 +215,7 @@ static VOID ApCliMlmeAssocReqAction(
 	wdev = &apcli_entry->wdev;
 
 	/* Block all authentication request durning WPA block period */
-	if (apcli_entry->bBlockAssoc == TRUE)
+	if (apcli_entry->bBlockAssoc == true)
 	{
 		DBGPRINT(RT_DEBUG_TRACE, ("APCLI_ASSOC - Block Auth request durning WPA block period!\n"));
 		*pCurrState = APCLI_ASSOC_IDLE;
@@ -308,10 +308,10 @@ static VOID ApCliMlmeAssocReqAction(
 			memset(&extCapInfo, extInfoLen);
 
 #ifdef APCLI_CERT_SUPPORT
-			if ((pAd->CommonCfg.bBssCoexEnable == TRUE) &&
+			if ((pAd->CommonCfg.bBssCoexEnable == true) &&
 			    (pAd->CommonCfg.PhyMode >= PHY_11ABGN_MIXED)
 			    && (pAd->CommonCfg.Channel <= 14)
-			    && (pAd->bApCliCertTest == TRUE)
+			    && (pAd->bApCliCertTest == true)
 			    )
 			{
 				extCapInfo.BssCoexistMgmtSupport = 1;
@@ -455,7 +455,7 @@ static VOID ApCliMlmeAssocReqAction(
 				{
 					if (NdisEqualMemory(ApAddr, &apcli_entry->SavedPMK[idx].BSSID, 6))
 					{
-						FoundPMK = TRUE;
+						FoundPMK = true;
 						break;
 					}
 				}
@@ -482,7 +482,7 @@ static VOID ApCliMlmeAssocReqAction(
 
 #ifdef SIOCSIWGENIE
 			if ((apcli_entry->wpa_supplicant_info.WpaSupplicantUP & WPA_SUPPLICANT_ENABLE) &&
-				(apcli_entry->wpa_supplicant_info.bRSN_IE_FromWpaSupplicant == TRUE))
+				(apcli_entry->wpa_supplicant_info.bRSN_IE_FromWpaSupplicant == true))
 			{
 				;
 			}

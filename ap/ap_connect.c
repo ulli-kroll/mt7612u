@@ -55,16 +55,16 @@ bool BeaconTransmitRequired(struct rtmp_adapter *pAd, INT apidx, MULTISSID_STRUC
 
 		if (apidx == MAIN_MBSSID)
 		{
-			if (pMbss->bBcnSntReq == TRUE)
+			if (pMbss->bBcnSntReq == true)
 			{
-				result = TRUE;
+				result = true;
 				break;
 			}
 		}
 		else
 		{
-			if (pMbss->bBcnSntReq == TRUE)
-				result = TRUE;
+			if (pMbss->bBcnSntReq == true)
+				result = true;
 		}
 	}
 	while (FALSE);
@@ -235,7 +235,7 @@ VOID APMakeBssBeacon(struct rtmp_adapter *pAd, INT apidx)
 	}
 #endif /* SPECIFIC_TX_POWER_SUPPORT */
 
-	RTMPWriteTxWI(pAd, &pAd->BeaconTxWI, FALSE, FALSE, TRUE, FALSE, FALSE, TRUE, 0, BSS0Mcast_WCID,
+	RTMPWriteTxWI(pAd, &pAd->BeaconTxWI, FALSE, FALSE, true, FALSE, FALSE, true, 0, BSS0Mcast_WCID,
 					FrameLen, PID_MGMT, 0, 0,IFS_HTTXOP, &BeaconTransmit);
 
 #ifdef SPECIFIC_TX_POWER_SUPPORT
@@ -425,7 +425,7 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 
 #ifdef HOSTAPD_SUPPORT
 	if (pMbss->HostapdWPS && (pMbss->WscIEBeacon.ValueLen))
-		bHasWpsIE = TRUE;
+		bHasWpsIE = true;
 #endif
 
 
@@ -630,7 +630,7 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 		/* P802.11n_D1.10, HT Information Exchange Support */
 		if (WMODE_CAP_N(PhyMode) && (pComCfg->Channel <= 14) &&
 			(pMbss->wdev.DesiredHtPhyInfo.bHtEnable) &&
-			(pComCfg->bBssCoexEnable == TRUE)
+			(pComCfg->bBssCoexEnable == true)
 		)
 		{
 			extCapInfo.BssCoexistMgmtSupport = 1;
@@ -647,12 +647,12 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 		{
 			if (pInfo[infoPos] != 0)
 			{
-				bNeedAppendExtIE = TRUE;
+				bNeedAppendExtIE = true;
 				break;
 			}
 		}
 
-		if (bNeedAppendExtIE == TRUE)
+		if (bNeedAppendExtIE == true)
 		{
 			MakeOutgoingFrame(pBeaconFrame+FrameLen, &TmpLen,
 							1, &ExtCapIe,
@@ -664,7 +664,7 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 	}
 
 #ifdef WFA_VHT_PF
-	if (pAd->force_vht_op_mode == TRUE)
+	if (pAd->force_vht_op_mode == true)
 	{
 		ULONG TmpLen;
 		UCHAR operating_ie = IE_OPERATING_MODE_NOTIFY, operating_len = 1;
@@ -726,7 +726,7 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 		Only 802.11a APs that comply with 802.11h are required to include a
 		Power Constrint Element(IE=32) in beacons and probe response frames
 	*/
-	if (((pComCfg->Channel > 14) && pComCfg->bIEEE80211H == TRUE)
+	if (((pComCfg->Channel > 14) && pComCfg->bIEEE80211H == true)
 		)
 	{
 		ULONG TmpLen;
@@ -773,7 +773,7 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 		HtLen = sizeof(pComCfg->HtCapability);
 		HtLen1 = sizeof(pComCfg->AddHTInfo);
 
-		if (pAd->bBroadComHT == TRUE)
+		if (pAd->bBroadComHT == true)
 		{
 			UCHAR epigram_ie_len;
 			UCHAR BROADCOM_HTC[4] = {0x0, 0x90, 0x4c, 0x33};
@@ -875,7 +875,7 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
         }
 #endif /* SPECIFIC_TX_POWER_SUPPORT */
 
-	RTMPWriteTxWI(pAd, &pAd->BeaconTxWI, FALSE, FALSE, TRUE, FALSE, FALSE, TRUE, 0, RESERVED_WCID,
+	RTMPWriteTxWI(pAd, &pAd->BeaconTxWI, FALSE, FALSE, true, FALSE, FALSE, true, 0, RESERVED_WCID,
 					FrameLen, PID_MGMT, 0 /*QID_MGMT*/, 0, IFS_HTTXOP, &BeaconTransmit);
 
 #ifdef SPECIFIC_TX_POWER_SUPPORT
@@ -1066,7 +1066,7 @@ VOID APUpdateAllBeaconFrame(struct rtmp_adapter *pAd)
 	if ((pAd->ApCfg.DtimCount == 0) &&
 		(((pAd->CommonCfg.Bss2040CoexistFlag & BSS_2040_COEXIST_INFO_SYNC) &&
 		  (pAd->CommonCfg.bForty_Mhz_Intolerant == FALSE)) ||
-		(FlgQloadIsAlarmIssued == TRUE)))
+		(FlgQloadIsAlarmIssued == true)))
 	{
 		UCHAR	prevBW, prevExtChOffset;
 		DBGPRINT(RT_DEBUG_TRACE, ("DTIM Period reached, BSS20WidthReq=%d, Intolerant40=%d!\n",
@@ -1078,8 +1078,8 @@ VOID APUpdateAllBeaconFrame(struct rtmp_adapter *pAd)
 
 		if (pAd->CommonCfg.LastBSSCoexist2040.field.BSS20WidthReq ||
 			pAd->CommonCfg.LastBSSCoexist2040.field.Intolerant40 ||
-			(pAd->MacTab.fAnyStaFortyIntolerant == TRUE) ||
-			(FlgQloadIsAlarmIssued == TRUE))
+			(pAd->MacTab.fAnyStaFortyIntolerant == true) ||
+			(FlgQloadIsAlarmIssued == true))
 		{
 			pAd->CommonCfg.AddHTInfo.AddHtInfo.RecomWidth = 0;
 			pAd->CommonCfg.AddHTInfo.AddHtInfo.ExtChanOffset = 0;

@@ -449,13 +449,13 @@ int CheckGPIOHdlr(struct rtmp_adapter *pAd, PCmdQElmt CMDQelmt)
 
 		/* Read GPIO pin2 as Hardware controlled radio state*/
 		data = mt7612u_read32( pAd, GPIO_CTRL_CFG);
-		pAd->StaCfg.bHwRadio = (data & 0x04) ? TRUE : FALSE;
+		pAd->StaCfg.bHwRadio = (data & 0x04) ? true : FALSE;
 
 		if (pAd->StaCfg.bRadio != (pAd->StaCfg.bHwRadio && pAd->StaCfg.bSwRadio)) {
 			pAd->StaCfg.bRadio = (pAd->StaCfg.bHwRadio && pAd->StaCfg.bSwRadio);
 			DBGPRINT_RAW(RT_DEBUG_ERROR, ("!!! Radio %s !!!\n",
-							(pAd->StaCfg.bRadio == TRUE ? "On" : "Off")));
-			if (pAd->StaCfg.bRadio == TRUE) {
+							(pAd->StaCfg.bRadio == true ? "On" : "Off")));
+			if (pAd->StaCfg.bRadio == true) {
 				MlmeRadioOn(pAd);
 				pAd->ExtraInfo = EXTRA_INFO_CLEAR;
 			} else {
@@ -521,7 +521,7 @@ static int ResetBulkOutHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 	if ((pAd->bulkResetPipeid & BULKOUT_MGMT_RESET_FLAG) == BULKOUT_MGMT_RESET_FLAG) {
 		RTMP_CLEAR_FLAG(pAd, fRTMP_ADAPTER_BULKOUT_RESET);
 
-		if (pAd->MgmtRing.TxSwFreeIdx < MGMT_RING_SIZE /* pMLMEContext->bWaitingBulkOut == TRUE */)
+		if (pAd->MgmtRing.TxSwFreeIdx < MGMT_RING_SIZE /* pMLMEContext->bWaitingBulkOut == true */)
 			RTUSB_SET_BULK_FLAG(pAd, fRTUSB_BULK_OUT_MLME);
 
 		RTUSBKickBulkOut(pAd);
@@ -532,8 +532,8 @@ static int ResetBulkOutHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 		/*NdisAcquireSpinLock(&pAd->BulkOutLock[pAd->bulkResetPipeid]);*/
 		RTMP_INT_LOCK(&pAd->BulkOutLock[pAd->bulkResetPipeid], IrqFlags);
 		if ( pAd->BulkOutPending[pAd->bulkResetPipeid] == FALSE) {
-			pAd->BulkOutPending[pAd->bulkResetPipeid] = TRUE;
-			pHTTXContext->IRPPending = TRUE;
+			pAd->BulkOutPending[pAd->bulkResetPipeid] = true;
+			pHTTXContext->IRPPending = true;
 			pAd->watchDogTxPendingCnt[pAd->bulkResetPipeid] = 1;
 
 			/* no matter what, clean the flag*/
@@ -575,7 +575,7 @@ static int ResetBulkOutHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 			/*NdisReleaseSpinLock(&pAd->BulkOutLock[pAd->bulkResetPipeid]);*/
 			/*RTMP_INT_UNLOCK(&pAd->BulkOutLock[pAd->bulkResetPipeid], IrqFlags);*/
 
-			DBGPRINT(RT_DEBUG_ERROR, ("CmdThread : TX DATA RECOVER FAIL for BulkReq(0x%lx) because BulkOutPending[%d] is TRUE!\n",
+			DBGPRINT(RT_DEBUG_ERROR, ("CmdThread : TX DATA RECOVER FAIL for BulkReq(0x%lx) because BulkOutPending[%d] is true!\n",
 								pAd->bulkResetReq[pAd->bulkResetPipeid], pAd->bulkResetPipeid));
 
 			if (pAd->bulkResetPipeid == 0) 	{
@@ -674,14 +674,14 @@ static int ResetBulkInHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 			pRxContext = &(pAd->RxContext[pAd->NextRxBulkInIndex]);
 
 			if ((pAd->PendingRx > 0) ||
-			    (pRxContext->Readable == TRUE) ||
-			    (pRxContext->InUse == TRUE)) {
+			    (pRxContext->Readable == true) ||
+			    (pRxContext->InUse == true)) {
 				RTMP_IRQ_UNLOCK(&pAd->BulkInLock, IrqFlags);
 				return NDIS_STATUS_SUCCESS;
 			}
 
-			pRxContext->InUse = TRUE;
-			pRxContext->IRPPending = TRUE;
+			pRxContext->InUse = true;
+			pRxContext->IRPPending = true;
 			pAd->PendingRx++;
 			pAd->BulkInReq++;
 			RTMP_IRQ_UNLOCK(&pAd->BulkInLock, IrqFlags);
@@ -908,7 +908,7 @@ static int SetPSMBitHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 static int ForceWakeUpHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 {
 	IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
-		AsicForceWakeup(pAd, TRUE);
+		AsicForceWakeup(pAd, true);
 
 	return NDIS_STATUS_SUCCESS;
 }
@@ -1006,7 +1006,7 @@ static int ChannelRescanHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 {
 	DBGPRINT(RT_DEBUG_TRACE, ("cmd> Re-scan channel! \n"));
 
-	pAd->CommonCfg.Channel = AP_AUTO_CH_SEL(pAd, TRUE);
+	pAd->CommonCfg.Channel = AP_AUTO_CH_SEL(pAd, true);
 	/* If WMODE_CAP_N(phymode) and BW=40 check extension channel, after select channel  */
 	N_ChannelCheck(pAd);
 
@@ -1049,7 +1049,7 @@ static int RT_Mac80211_ConnResultInfom(struct rtmp_adapter *pAd, IN PCmdQElmt CM
 	RT_CFG80211_CONN_RESULT_INFORM(pAd, pAd->MlmeAux.Bssid,
 				       pAd->StaCfg.ReqVarIEs, pAd->StaCfg.ReqVarIELen,
 				       CMDQelmt->buffer, CMDQelmt->bufferlength,
-				       TRUE);
+				       true);
 #endif /*CONFIG_STA_SUPPORT*/
 	return NDIS_STATUS_SUCCESS;
 }
@@ -1163,7 +1163,7 @@ static inline bool ValidCMD(IN PCmdQElmt CMDQelmt)
 
 	if ( (CMDIndex >= 0) && (CMDIndex < CMDHdlrTableLength)) {
 		if (CMDHdlrTable[CMDIndex] > 0) {
-			return TRUE;
+			return true;
 		} else {
 			DBGPRINT(RT_DEBUG_ERROR, ("No corresponding CMDHdlr for this CMD(%x)\n",  CMDQelmt->command));
 			return FALSE;
@@ -1200,7 +1200,7 @@ VOID CMDHandler(struct rtmp_adapter *pAd)
 				ntStatus = (*CMDHdlrTable[cmdqelmt->command - CMDTHREAD_FIRST_CMD_ID])(pAd, cmdqelmt);
 		}
 
-		if (cmdqelmt->CmdFromNdis == TRUE) {
+		if (cmdqelmt->CmdFromNdis == true) {
 			if (cmdqelmt->buffer != NULL)
 				kfree(cmdqelmt->buffer);
 			kfree(cmdqelmt);

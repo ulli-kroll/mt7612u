@@ -714,26 +714,26 @@ int rt_ioctl_giwscan(struct net_device *dev,
 					6Mbps(140) 9Mbps(146) and >=12Mbps(152) are supported rate , it mean G only.
 				*/
 				if (pBssEntry->SupRate[rateCnt]==140 || pBssEntry->SupRate[rateCnt]==146 || pBssEntry->SupRate[rateCnt]>=152)
-					isGonly=TRUE;
+					isGonly=true;
 			}
 
 			for (rateCnt=0;rateCnt<pBssEntry->ExtRateLen;rateCnt++)
 			{
 				if (pBssEntry->ExtRate[rateCnt]==140 || pBssEntry->ExtRate[rateCnt]==146 || pBssEntry->ExtRate[rateCnt]>=152)
-					isGonly=TRUE;
+					isGonly=true;
 			}
 
 
 			if (pBssEntry->HtCapabilityLen!=0)
 			{
-				if (isGonly==TRUE)
+				if (isGonly==true)
 					strcpy(iwe.u.name,"802.11g/n");
 				else
 					strcpy(iwe.u.name,"802.11b/g/n");
 			}
 			else
 			{
-				if (isGonly==TRUE)
+				if (isGonly==true)
 					strcpy(iwe.u.name,"802.11g");
 				else
 				{

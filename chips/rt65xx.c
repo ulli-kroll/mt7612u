@@ -106,7 +106,7 @@ VOID RT65xxUsbAsicRadioOn(struct rtmp_adapter *pAd, UCHAR Stage)
 #endif /* CONFIG_PM */
 
 	if (pAd->WlanFunCtrl.field.WLAN_EN == 0)
-		rlt_wlan_chip_onoff(pAd, TRUE, FALSE);
+		rlt_wlan_chip_onoff(pAd, true, FALSE);
 
 	/* make some traffic to invoke EvtDeviceD0Entry callback function*/
 	MACValue = mt7612u_read32(pAd,0x1000);
@@ -163,7 +163,7 @@ VOID RT65xxDisableTxRx(struct rtmp_adapter *pAd, UCHAR Level)
 	uint32_t MacReg = 0;
 	uint32_t MTxCycle;
 	bool bResetWLAN = FALSE;
-	bool bFree = TRUE;
+	bool bFree = true;
 	UINT8 CheckFreeTimes = 0;
 
 	if (!IS_RT65XX(pAd))
@@ -185,7 +185,7 @@ VOID RT65xxDisableTxRx(struct rtmp_adapter *pAd, UCHAR Level)
 		Check page count in TxQ,
 	*/
 	for (MTxCycle = 0; MTxCycle < 2000; MTxCycle++) {
-		bool bFree = TRUE;
+		bool bFree = true;
 		MacReg = mt7612u_read32(pAd, 0x438);
 		if (MacReg != 0)
 			bFree = FALSE;
@@ -213,7 +213,7 @@ VOID RT65xxDisableTxRx(struct rtmp_adapter *pAd, UCHAR Level)
 
 		MacReg = mt7612u_read32(pAd, 0x438);
 		DBGPRINT(RT_DEBUG_TRACE, ("0x438 = 0x%08x\n", MacReg));
-		bResetWLAN = TRUE;
+		bResetWLAN = true;
 	}
 
 	/*
@@ -234,7 +234,7 @@ VOID RT65xxDisableTxRx(struct rtmp_adapter *pAd, UCHAR Level)
 
 	if (MTxCycle >= 2000) {
 		DBGPRINT(RT_DEBUG_ERROR, ("Check MAC Tx idle max(0x%08x)\n", MacReg));
-		bResetWLAN = TRUE;
+		bResetWLAN = true;
 	}
 
 	if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST) == FALSE) {
@@ -259,7 +259,7 @@ VOID RT65xxDisableTxRx(struct rtmp_adapter *pAd, UCHAR Level)
 		Check page count in RxQ,
 	*/
 	for (MTxCycle = 0; MTxCycle < 2000; MTxCycle++) {
-		bFree = TRUE;
+		bFree = true;
 		MacReg = mt7612u_read32(pAd, 0x430);
 
 		if (MacReg & (0x00FF0000))
@@ -305,7 +305,7 @@ VOID RT65xxDisableTxRx(struct rtmp_adapter *pAd, UCHAR Level)
 
 		MacReg = mt7612u_read32(pAd, 0x0430);
 		DBGPRINT(RT_DEBUG_TRACE, ("0x0430 = 0x%08x\n", MacReg));
-		bResetWLAN = TRUE;
+		bResetWLAN = true;
 	}
 
 	/*
@@ -325,7 +325,7 @@ VOID RT65xxDisableTxRx(struct rtmp_adapter *pAd, UCHAR Level)
 
 	if (MTxCycle >= 2000) {
 		DBGPRINT(RT_DEBUG_ERROR, ("Check MAC Rx idle max(0x%08x)\n", MacReg));
-		bResetWLAN = TRUE;
+		bResetWLAN = true;
 	}
 
 	StopDmaRx(pAd, Level);

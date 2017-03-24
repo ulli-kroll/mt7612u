@@ -102,7 +102,7 @@ static inline bool WscCheckWSCHeader(UCHAR *pData)
 	if (cpu2be32(get_unaligned32(&pWsc->VendorType)) != WSC_VENDOR_TYPE)
 		return  FALSE; /* Wrong WSC Vendor Type, Update WSC status */
 
-    return TRUE;
+    return true;
 }
 
 

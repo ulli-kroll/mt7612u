@@ -252,7 +252,7 @@ UCHAR MlmeSelectDownRate(
 			if ((pEntry->MaxHTPhyMode.field.BW == BW_40 && pAd->CommonCfg.BBPCurrentBW == BW_40)
 				|| (pEntry->MaxHTPhyMode.field.BW == BW_80 && pAd->CommonCfg.BBPCurrentBW == BW_80)
 			)
-				valid_mcs32 = TRUE;
+				valid_mcs32 = true;
 
 			/*  If 20MHz MCS0 fallback enabled and in 40MHz then MCS32 is valid and will be mapped to 20MHz MCS0 */
 			if (valid_mcs32
@@ -492,7 +492,7 @@ VOID TriggerQuickInitMCSRate(
 					|| pTable == RateSwitchTableAdapt11N1S
 					|| pTable == RateSwitchTableAdapt11N2S)
 	{
-    	pEntry->LowPacket = TRUE;
+    	pEntry->LowPacket = true;
     	pEntry->LastSecTxRateChangeAction = RATE_DOWN;
 
 #ifdef CONFIG_AP_SUPPORT
@@ -501,7 +501,7 @@ VOID TriggerQuickInitMCSRate(
 			if (!pAd->ApCfg.ApQuickResponeForRateUpTimerRunning)
 			{
 				RTMPSetTimer(&pAd->ApCfg.ApQuickResponeForRateUpTimer, CheckInterval);
-				pAd->ApCfg.ApQuickResponeForRateUpTimerRunning = TRUE;
+				pAd->ApCfg.ApQuickResponeForRateUpTimerRunning = true;
 			}
 		}
 #endif /*  CONFIG_AP_SUPPORT */
@@ -512,7 +512,7 @@ VOID TriggerQuickInitMCSRate(
 			if (!pAd->StaCfg.StaQuickResponeForRateUpTimerRunning)
 			{
 				RTMPSetTimer(&pAd->StaCfg.StaQuickResponeForRateUpTimer, CheckInterval);
-				pAd->StaCfg.StaQuickResponeForRateUpTimerRunning = TRUE;
+				pAd->StaCfg.StaQuickResponeForRateUpTimerRunning = true;
 			}
 	}
 #endif /*  CONFIG_STA_SUPPORT */
@@ -528,7 +528,7 @@ bool QuickInitMCSRate(
 	UCHAR					CurrRateIdx;
 	RTMP_RA_GRP_TB          *pCurrTxRate;
 
-    if(pEntry->LowPacket == TRUE)
+    if(pEntry->LowPacket == true)
     {
         CHAR DownIdx, DownIdx1, MaxIdx = 0;
         int32_t Sum, PER;
@@ -590,7 +590,7 @@ bool QuickInitMCSRate(
 
         pEntry->LowPacket = FALSE;
 
-        return TRUE;
+        return true;
     }
     else
     {
@@ -1013,7 +1013,7 @@ static ULONG MlmeRAEstimateThroughput(
 		NewTxOkCount - normalized count of Tx packets for new up rate
 		TxErrorRatio - the PER
 	returns
-		TRUE if old rate should be used
+		true if old rate should be used
 */
 bool MlmeRAHybridRule(
 	IN struct rtmp_adapter *	pAd,
@@ -1031,7 +1031,7 @@ bool MlmeRAHybridRule(
 	if (100*NewTxOkCount > pAd->CommonCfg.TrainUpHighThrd*pEntry->LastTxOkCount)
 		return FALSE;
 
-    return TRUE;
+    return true;
 }
 
 /*
@@ -1092,7 +1092,7 @@ VOID MlmeNewRateAdapt(
 #endif /* DBG_CTRL_SUPPORT */
 		)
 		{
-			invertTxBf = TRUE;
+			invertTxBf = true;
 			pEntry->CurrTxRateIndex = pEntry->lastNonBfRate;
 			pEntry->LastSecTxRateChangeAction = RATE_DOWN;
 		}
@@ -1111,7 +1111,7 @@ VOID MlmeNewRateAdapt(
 		/*  Upgrade TX quality if PER <= Rate-Up threshold */
 		if (TxErrorRatio <= TrainUp)
 		{
-			bTrainUp = TRUE;
+			bTrainUp = true;
 			MlmeDecTxQuality(pEntry, CurrRateIdx);  /*  quality very good in CurrRate */
 
 			if (pEntry->TxRateUpPenalty) /* always == 0, always go to else */
@@ -1144,7 +1144,7 @@ VOID MlmeNewRateAdapt(
 		else if (pEntry->mcsGroup > 0) /* even if TxErrorRatio > TrainUp */
 		{
 			/*  Moderate PER but some groups are not tried */
-			bTrainUp = TRUE;
+			bTrainUp = true;
 
 			/* TxQuality[CurrRateIdx] must be decremented so that mcs won't decrease wrongly */
 			MlmeDecTxQuality(pEntry, CurrRateIdx);  /*  quality very good in CurrRate */
@@ -1179,7 +1179,7 @@ VOID MlmeNewRateAdapt(
 
 					if (pEntry->TxQuality[CurrRateIdx]==0)
 					{
-						invertTxBf = TRUE;
+						invertTxBf = true;
 						pEntry->CurrTxRateIndex = CurrRateIdx;
 						pEntry->LastSecTxRateChangeAction = RATE_UP;
 					}
@@ -1196,7 +1196,7 @@ VOID MlmeNewRateAdapt(
 
 					if (pEntry->BfTxQuality[UpRateIdx]==0)
 					{
-						invertTxBf = TRUE;
+						invertTxBf = true;
 						pEntry->CurrTxRateIndex = UpRateIdx;
 						pEntry->LastSecTxRateChangeAction = RATE_UP;
 					}
@@ -1211,7 +1211,7 @@ VOID MlmeNewRateAdapt(
 
 					if (pEntry->BfTxQuality[CurrRateIdx]==0)
 					{
-						invertTxBf = TRUE;
+						invertTxBf = true;
 						pEntry->CurrTxRateIndex = CurrRateIdx;
 						pEntry->LastSecTxRateChangeAction = RATE_UP;
 					}
@@ -1257,12 +1257,12 @@ VOID MlmeNewRateAdapt(
     {
 		    if (pEntry->eTxBfEnCond > 0)
 		    {
-		        pEntry->phyETxBf = TRUE;
+		        pEntry->phyETxBf = true;
 		        pEntry->lastRatePhyTxBf = pEntry->phyETxBf;
 	      }
 		    else
 		    {
-			      pEntry->phyITxBf = TRUE;
+			      pEntry->phyITxBf = true;
 	          pEntry->lastRatePhyTxBf = pEntry->phyITxBf;
 			  }
     }
@@ -1272,12 +1272,12 @@ VOID MlmeNewRateAdapt(
     {
 		    if (pEntry->eTxBfEnCond > 0)
 		    {
-		        pEntry->phyETxBf = TRUE;
+		        pEntry->phyETxBf = true;
 		        pEntry->lastRatePhyTxBf = pEntry->phyETxBf;
 	      }
 		    else
 		    {
-			      pEntry->phyITxBf = TRUE;
+			      pEntry->phyITxBf = true;
 	          pEntry->lastRatePhyTxBf = pEntry->phyITxBf;
 			  }
     }
@@ -1311,7 +1311,7 @@ VOID MlmeNewRateAdapt(
 			if (!pAd->ApCfg.ApQuickResponeForRateUpTimerRunning)
 			{
 				RTMPSetTimer(&pAd->ApCfg.ApQuickResponeForRateUpTimer, pAd->ra_fast_interval);
-				pAd->ApCfg.ApQuickResponeForRateUpTimerRunning = TRUE;
+				pAd->ApCfg.ApQuickResponeForRateUpTimerRunning = true;
 			}
 		}
 #endif /*  CONFIG_AP_SUPPORT */
@@ -1321,7 +1321,7 @@ VOID MlmeNewRateAdapt(
 			if (!pAd->StaCfg.StaQuickResponeForRateUpTimerRunning)
 			{
 				RTMPSetTimer(&pAd->StaCfg.StaQuickResponeForRateUpTimer, pAd->ra_fast_interval);
-				pAd->StaCfg.StaQuickResponeForRateUpTimerRunning = TRUE;
+				pAd->StaCfg.StaQuickResponeForRateUpTimerRunning = true;
 			}
 		}
 #endif /*  CONFIG_STA_SUPPORT */
@@ -1368,7 +1368,7 @@ VOID APQuickResponeForRateUpExecAdapt(/* actually for both up and down */
 
 	pEntry = &pAd->MacTab.Content[idx];
 
-    //if(QuickInitMCSRate(pAd,pEntry) == TRUE)
+    //if(QuickInitMCSRate(pAd,pEntry) == true)
     //    return;
 
 
@@ -1808,7 +1808,7 @@ VOID APMlmeDynamicTxRateSwitchingAdapt(struct rtmp_adapter *pAd, UINT i)
 			}
 
 			MlmeClearAllTxQuality(pEntry);	/* clear all history */
-			pEntry->fLastSecAccordingRSSI = TRUE;
+			pEntry->fLastSecAccordingRSSI = true;
 		}
 
 		/* reset all OneSecTx counters */
@@ -1829,13 +1829,13 @@ VOID APMlmeDynamicTxRateSwitchingAdapt(struct rtmp_adapter *pAd, UINT i)
 	pEntry->lowTrafficCount = 0;
 
 	/*
-		After pEntry->fLastSecAccordingRSSI = TRUE; the for loop
+		After pEntry->fLastSecAccordingRSSI = true; the for loop
 		continue. this condition is true when RateSwitching() is run
 		next time.
 		so the next rate adaptation is skipped. This mechanism is
 		deliberately designed by rory.
 	*/
-	if (pEntry->fLastSecAccordingRSSI == TRUE)
+	if (pEntry->fLastSecAccordingRSSI == true)
 	{
 		pEntry->fLastSecAccordingRSSI = FALSE;
 		pEntry->LastSecTxRateChangeAction = RATE_NO_CHANGE;
@@ -1888,7 +1888,7 @@ VOID StaQuickResponeForRateUpExecAdapt(
 	pEntry = &pAd->MacTab.Content[i];
 	pTable = pEntry->pTable;
 
-    if (QuickInitMCSRate(pAd,pEntry) == TRUE)
+    if (QuickInitMCSRate(pAd,pEntry) == true)
         return;
 
 	if (pAd->MacTab.Size == 1)
@@ -2293,7 +2293,7 @@ VOID MlmeDynamicTxRateSwitchingAdapt(
 			}
 
 			MlmeClearAllTxQuality(pEntry);	/* clear all history */
-			pEntry->fLastSecAccordingRSSI = TRUE;
+			pEntry->fLastSecAccordingRSSI = true;
 		}
 
 		/* reset all OneSecTx counters */
@@ -2318,7 +2318,7 @@ VOID MlmeDynamicTxRateSwitchingAdapt(
 
 	pEntry->lowTrafficCount = 0;
 
-	if (pEntry->fLastSecAccordingRSSI == TRUE)
+	if (pEntry->fLastSecAccordingRSSI == true)
 	{
 		pEntry->fLastSecAccordingRSSI = FALSE;
 		pEntry->LastSecTxRateChangeAction = RATE_NO_CHANGE;
@@ -2463,7 +2463,7 @@ INT Set_RateTable_Proc(struct rtmp_adapter *pAd, char *arg)
 		pRateEntry[0], pRateEntry[1], pRateEntry[2], pRateEntry[3], pRateEntry[4],
 		pRateEntry[5], pRateEntry[6], pRateEntry[7], pRateEntry[8], pRateEntry[9]));
 
-	return TRUE;
+	return true;
 }
 
 
@@ -2475,7 +2475,7 @@ INT	Set_PerThrdAdj_Proc(
 	for (i=0; i<MAX_LEN_OF_MAC_TABLE; i++){
 		pAd->MacTab.Content[i].perThrdAdj = simple_strtol(arg, 0, 10);
 	}
-	return TRUE;
+	return true;
 }
 
 /* Set_LowTrafficThrd_Proc - set threshold for reverting to default MCS based on RSSI */
@@ -2485,7 +2485,7 @@ INT	Set_LowTrafficThrd_Proc(
 {
 	pAd->CommonCfg.lowTrafficThrd = simple_strtol(arg, 0, 10);
 
-	return TRUE;
+	return true;
 }
 
 /* Set_TrainUpRule_Proc - set rule for Quick DRS train up */
@@ -2495,7 +2495,7 @@ INT	Set_TrainUpRule_Proc(
 {
 	pAd->CommonCfg.TrainUpRule = simple_strtol(arg, 0, 10);
 
-	return TRUE;
+	return true;
 }
 
 /* Set_TrainUpRuleRSSI_Proc - set RSSI threshold for Quick DRS Hybrid train up */
@@ -2505,7 +2505,7 @@ INT	Set_TrainUpRuleRSSI_Proc(
 {
 	pAd->CommonCfg.TrainUpRuleRSSI = simple_strtol(arg, 0, 10);
 
-	return TRUE;
+	return true;
 }
 
 /* Set_TrainUpLowThrd_Proc - set low threshold for Quick DRS Hybrid train up */
@@ -2515,7 +2515,7 @@ INT	Set_TrainUpLowThrd_Proc(
 {
 	pAd->CommonCfg.TrainUpLowThrd = simple_strtol(arg, 0, 10);
 
-	return TRUE;
+	return true;
 }
 
 /* Set_TrainUpHighThrd_Proc - set high threshold for Quick DRS Hybrid train up */
@@ -2525,7 +2525,7 @@ INT	Set_TrainUpHighThrd_Proc(
 {
 	pAd->CommonCfg.TrainUpHighThrd = simple_strtol(arg, 0, 10);
 
-	return TRUE;
+	return true;
 }
 
 #endif /* NEW_RATE_ADAPT_SUPPORT */

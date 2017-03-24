@@ -285,7 +285,7 @@ bool RtmpTimerQRemove(
 	}
 	RTMP_INT_UNLOCK(&pAd->TimerQLock, irqFlags);
 
-	return TRUE;
+	return true;
 }
 
 

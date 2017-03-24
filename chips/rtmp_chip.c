@@ -121,7 +121,7 @@ INT WaitForAsicReady(struct rtmp_adapter *pAd)
 
 		mac_val = mt7612u_read32(pAd, reg);
 		if ((mac_val != 0x00) && (mac_val != 0xFFFFFFFF))
-			return TRUE;
+			return true;
 
 		RtmpOsMsDelay(5);
 	} while (idx++ < 500);
@@ -198,19 +198,19 @@ bool isExternalPAMode(struct rtmp_adapter *ad, INT channel)
 
         if (channel > 14) {
 	        if (ad->chipCap.PAType == EXT_PA_2G_5G)
-                	pa_mode = TRUE;
+                	pa_mode = true;
                 else if (ad->chipCap.PAType == EXT_PA_5G_ONLY)
-                        pa_mode = TRUE;
+                        pa_mode = true;
                 else
         	        pa_mode = FALSE;
         } else {
                 if (ad->chipCap.PAType == EXT_PA_2G_5G)
-                        pa_mode = TRUE;
+                        pa_mode = true;
                 else if ((ad->chipCap.PAType == EXT_PA_5G_ONLY) ||
                          (ad->chipCap.PAType == INT_PA_2G_5G))
                         pa_mode = FALSE;
                 else if (ad->chipCap.PAType == EXT_PA_2G_ONLY)
-                        pa_mode = TRUE;
+                        pa_mode = true;
         }
 
 	return pa_mode;
@@ -223,12 +223,12 @@ bool is_external_lna_mode(struct rtmp_adapter *ad, INT channel)
 	/* b'00: 2.4G+5G external LNA, b'01: 5G external LNA, b'10: 2.4G external LNA, b'11: Internal LNA */
 	if (channel > 14) {
 		if ((ad->chipCap.LNA_type == 0x0) || (ad->chipCap.LNA_type == 0x1))
-	            	lna_mode = TRUE;
+	            	lna_mode = true;
 	    	else
 	        	lna_mode = FALSE;
 	} else {
 	    	if ((ad->chipCap.LNA_type == 0x0) || (ad->chipCap.LNA_type == 0x10))
-	            	lna_mode = TRUE;
+	            	lna_mode = true;
 	    	else
 	            	lna_mode = FALSE;
 	}

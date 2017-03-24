@@ -193,7 +193,7 @@ static inline VOID AutoChannelSkipListSetDirty(
 			UCHAR channel_idx = GetChIdx(pAd, pAd->ApCfg.AutoChannelSkipList[i]);
 			if ( channel_idx != pAd->ChannelListNum )
 			{
-				pAd->pChannelInfo->SkipList[channel_idx] = TRUE;
+				pAd->pChannelInfo->SkipList[channel_idx] = true;
 			}
 	}
 }
@@ -209,7 +209,7 @@ static inline bool AutoChannelSkipListCheck(
 	{
 		if (Ch == pAd->ApCfg.AutoChannelSkipList[i])
 		{
-			result = TRUE;
+			result = true;
 			break;
 		}
 	}
@@ -220,7 +220,7 @@ static inline bool BW40_ChannelCheck(
 	IN UCHAR ch)
 {
 	INT i;
-	bool result = TRUE;
+	bool result = true;
 	UCHAR NorBW40_CH[] = {140, 165};
 	UCHAR NorBW40ChNum = sizeof(NorBW40_CH) / sizeof(UCHAR);
 
@@ -256,7 +256,7 @@ static inline UCHAR SelectClearChannelRandom(
 				continue;
 
 			/* Check skip channel list */
-			if (AutoChannelSkipListCheck(pAd, pAd->ChannelList[i].Channel) == TRUE)
+			if (AutoChannelSkipListCheck(pAd, pAd->ChannelList[i].Channel) == true)
 				continue;
 
 			/* Check N-group of BW40 */
@@ -428,7 +428,7 @@ static inline UCHAR SelectClearChannelCCA(
 #else
 					0,
 #endif /* AP_QLOAD_SUPPORT */
-					(pChannelInfo->SkipList[channel_idx] == TRUE) ? "TRUE" : "FALSE"));
+					(pChannelInfo->SkipList[channel_idx] == true) ? "true" : "FALSE"));
 	}
 	DBGPRINT(RT_DEBUG_TRACE, ("=====================================================\n"));
 
@@ -442,7 +442,7 @@ static inline UCHAR SelectClearChannelCCA(
 
 	for (channel_idx = 0; channel_idx < pAd->ChannelListNum; channel_idx++)
 	{
-		if (pChannelInfo->SkipList[channel_idx] == TRUE)
+		if (pChannelInfo->SkipList[channel_idx] == true)
 			continue;
 
 		if (pChannelInfo->FalseCCA[channel_idx] <= CCA_THRESHOLD)
@@ -571,7 +571,7 @@ static inline UCHAR SelectClearChannelCCA(
 	candidate_ch = -1;
 	for (channel_idx = 0; channel_idx < pAd->ChannelListNum; channel_idx++)
 	{
-		if (pChannelInfo->SkipList[channel_idx] == TRUE)
+		if (pChannelInfo->SkipList[channel_idx] == true)
 			continue;
 
 		if (pChannelInfo->FalseCCA[channel_idx] > CCA_THRESHOLD)
@@ -652,8 +652,8 @@ static inline UCHAR SelectClearChannelCCA(
 		if (AutoChannelSkipListCheck(pAd, ch))
 			continue;
 
-		if ((pAd->ApCfg.bAvoidDfsChannel == TRUE)
-			&& (pChannelInfo->IsABand == TRUE)
+		if ((pAd->ApCfg.bAvoidDfsChannel == true)
+			&& (pChannelInfo->IsABand == true)
 			&& RadarChannelCheck(pAd, ch))
 			continue;
 
@@ -811,7 +811,7 @@ static inline UCHAR SelectClearChannelApCnt(
 #else
 				0,
 #endif /* AP_QLOAD_SUPPORT */
-				(pChannelInfo->SkipList[channel_index] == TRUE) ? "TRUE" : "FALSE"));
+				(pChannelInfo->SkipList[channel_index] == true) ? "true" : "FALSE"));
    DBGPRINT(RT_DEBUG_TRACE, ("=====================================================\n"));
 
    pAd->ApCfg.AutoChannel_Channel = 0;
@@ -820,11 +820,11 @@ static inline UCHAR SelectClearChannelApCnt(
 
 	for (channel_index=0 ; channel_index < pAd->ChannelListNum ; channel_index++)
 	{
-		if (pChannelInfo->SkipList[channel_index] == TRUE)
+		if (pChannelInfo->SkipList[channel_index] == true)
 			continue;
 
-	     if ((pAd->ApCfg.bAvoidDfsChannel == TRUE)
-				&&(pChannelInfo->IsABand == TRUE)
+	     if ((pAd->ApCfg.bAvoidDfsChannel == true)
+				&&(pChannelInfo->IsABand == true)
 				&& RadarChannelCheck(pAd, pAd->ChannelList[channel_index].Channel))
 			continue;
 
@@ -872,12 +872,12 @@ static inline UCHAR SelectClearChannelApCnt(
 		memset(candidate, 0, MAX_NUM_OF_CHANNELS+1);
 		for (channel_index=0 ; channel_index < pAd->ChannelListNum ; channel_index++)
 		{
-			if (pChannelInfo->SkipList[channel_index] == TRUE)
+			if (pChannelInfo->SkipList[channel_index] == true)
 				continue;
 
 			if (pChannelInfo->dirtyness[channel_index] == dirty)
 			{
-				candidate[channel_index]=TRUE;
+				candidate[channel_index]=true;
 				candidate_num++;
 			}
 		}
@@ -914,8 +914,8 @@ static inline UCHAR SelectClearChannelApCnt(
 						}
 					}
 
-					if ((pAd->ApCfg.bAvoidDfsChannel == TRUE)
-							&&(pChannelInfo->IsABand == TRUE)
+					if ((pAd->ApCfg.bAvoidDfsChannel == true)
+							&&(pChannelInfo->IsABand == true)
 							&& RadarChannelCheck(pAd, pAd->ChannelList[channel_index].Channel))
 						continue;
 
@@ -956,8 +956,8 @@ static inline UCHAR SelectClearChannelApCnt(
 			}
 		}
 
-		if ((pAd->ApCfg.bAvoidDfsChannel == TRUE)
-			&&(pChannelInfo->IsABand == TRUE)
+		if ((pAd->ApCfg.bAvoidDfsChannel == true)
+			&&(pChannelInfo->IsABand == true)
 			&& RadarChannelCheck(pAd, final_channel))
 				continue;
 
@@ -1071,7 +1071,7 @@ void ChannelInfoDestroy(
  */
 void CheckPhyModeIsABand(struct rtmp_adapter *pAd)
 {
-	pAd->pChannelInfo->IsABand = (WMODE_CAP_5G(pAd->CommonCfg.PhyMode)) ? TRUE : FALSE;
+	pAd->pChannelInfo->IsABand = (WMODE_CAP_5G(pAd->CommonCfg.PhyMode)) ? true : FALSE;
 
 	return;
 }
@@ -1155,7 +1155,7 @@ UCHAR APAutoSelectChannel(struct rtmp_adapter *pAd, ChannelSel_Alg Alg)
 	/* Init some structures before doing AutoChannelSelect() */
 	APAutoChannelInit(pAd);
 
-	if (( Alg == ChannelAlgRandom ) && (pAd->pChannelInfo->IsABand == TRUE))
+	if (( Alg == ChannelAlgRandom ) && (pAd->pChannelInfo->IsABand == true))
 	{   /*for Dfs */
 		ch = SelectClearChannelRandom(pAd);
 	}
@@ -1167,7 +1167,7 @@ UCHAR APAutoSelectChannel(struct rtmp_adapter *pAd, ChannelSel_Alg Alg)
 		{
 			ULONG wait_time = 200; /* wait for 200 ms at each channel. */
 
-			AsicSwitchChannel(pAd, pAd->ChannelList[i].Channel, TRUE);
+			AsicSwitchChannel(pAd, pAd->ChannelList[i].Channel, true);
 			AsicLockChannel(pAd, pAd->ChannelList[i].Channel);/*do nothing */
 			pAd->ApCfg.current_channel_index = i;
 
@@ -1226,7 +1226,7 @@ VOID AutoChannelSelCheck(struct rtmp_adapter *pAd)
            /* Do Auto Channel Selection */
            DBGPRINT(RT_DEBUG_TRACE,
                    ("%s(): Scanning channels for channel selection.\n", __FUNCTION__));
-           ApSiteSurvey(pAd, NULL, SCAN_PASSIVE, TRUE);
+           ApSiteSurvey(pAd, NULL, SCAN_PASSIVE, true);
        }
    }
 

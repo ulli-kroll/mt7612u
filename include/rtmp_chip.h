@@ -141,7 +141,7 @@ struct _RSSI_SAMPLE;
 
 
 /* RT3593 over PCIe bus */
-#define RT3593OverPCIe(_pAd) (IS_RT3593(_pAd) && (_pAd->CommonCfg.bPCIeBus == TRUE))
+#define RT3593OverPCIe(_pAd) (IS_RT3593(_pAd) && (_pAd->CommonCfg.bPCIeBus == true))
 
 /* RT3593 over PCI bus */
 #define RT3593OverPCI(_pAd) (IS_RT3593(_pAd) && (_pAd->CommonCfg.bPCIeBus == FALSE))

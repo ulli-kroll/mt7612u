@@ -530,7 +530,7 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan
 		band = _G_BAND;
 
 	if (!ad->MCUCtrl.power_on) {
-		band_change = TRUE;
+		band_change = true;
 	} else {
 		if (ad->LatchRfRegs.Channel > 14)
 			latch_band = _A_BAND;
@@ -538,7 +538,7 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan
 			latch_band = _G_BAND;
 
 		if (band != latch_band)
-			band_change = TRUE;
+			band_change = true;
 		else
 			band_change = FALSE;
 	}
@@ -643,7 +643,7 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan
 			     ((ad->ALNAGain1 & 0xFF) << 16) |
 			     ((ad->ALNAGain0 & 0xFF) << 8) |
 			      (ad->BLNAGain & 0xFF);
-	mt7612u_mcu_init_gain(ad, channel, TRUE, eLNA_gain_from_e2p);
+	mt7612u_mcu_init_gain(ad, channel, true, eLNA_gain_from_e2p);
 
 	value = RTMP_BBP_IO_READ32(ad, AGC1_R8);
 	DBGPRINT(RT_DEBUG_INFO, ("%s::BBP 0x2320=0x%08x\n", __FUNCTION__, value));
@@ -665,7 +665,7 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan
 #ifdef RTMP_USB_SUPPORT
 	mac_val = mt7612u_read32(ad, TXOP_CTRL_CFG);
 	if ((mac_val & 0x100000) == 0x100000) {
-		ad->chipCap.ed_cca_enable = TRUE;
+		ad->chipCap.ed_cca_enable = true;
 		mac_val &= ~(1<<20);
 		mt7612u_write32(ad, TXOP_CTRL_CFG, mac_val);
 
@@ -799,14 +799,14 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan
 	ad->LatchRfRegs.Channel = channel;
 
 	if (!ad->MCUCtrl.power_on)
-		ad->MCUCtrl.power_on = TRUE;
+		ad->MCUCtrl.power_on = true;
 
 #ifdef RTMP_MAC_USB
 	if (IS_USB_INF(ad))
 		up(&ad->hw_atomic);
 #endif
 
-	//mt76x2_set_ed_cca(ad, TRUE);
+	//mt76x2_set_ed_cca(ad, true);
 
 	percentage_delta_pwr(ad);
 
@@ -965,7 +965,7 @@ void mt76x2_tssi_compensation(struct rtmp_adapter *ad, u8 channel)
 				|| ((ad->chipCap.PAType == INT_PA_2G) && ( channel <= 14 ) )
 			)
 				CHIP_CALIBRATION(ad, DPD_CALIBRATION_7662, channel);
-				ad->MCUCtrl.dpd_on = TRUE;
+				ad->MCUCtrl.dpd_on = true;
 		}
 	}
 
@@ -992,7 +992,7 @@ void mt76x2_calibration(struct rtmp_adapter *ad, u8 channel)
 #ifdef RTMP_USB_SUPPORT
         mac_val = mt7612u_read32(ad, TXOP_CTRL_CFG);
         if ((mac_val & 0x100000) == 0x100000) {
-                ad->chipCap.ed_cca_enable = TRUE;
+                ad->chipCap.ed_cca_enable = true;
                 mac_val &= ~(1<<20);
                 mt7612u_write32(ad, TXOP_CTRL_CFG, mac_val);
 
@@ -1295,7 +1295,7 @@ void mt76x2_get_agc_gain(struct rtmp_adapter *ad, bool init_phase)
 	val = ((bbp_val & (0x00007f00)) >> 8) & 0x7f;
 	ad->CommonCfg.lna_vga_ctl.agc_vga_init_0 = val;
 	ad->CommonCfg.lna_vga_ctl.agc1_r8_backup = bbp_val;
-	if (init_phase == TRUE) {
+	if (init_phase == true) {
 		ad->CommonCfg.lna_vga_ctl.agc_vga_ori_0 =
 			ad->CommonCfg.lna_vga_ctl.agc_vga_init_0;
 		DBGPRINT(RT_DEBUG_OFF, ("original vga value(chain0) = %x\n",  ad->CommonCfg.lna_vga_ctl.agc_vga_ori_0));
@@ -1310,7 +1310,7 @@ void mt76x2_get_agc_gain(struct rtmp_adapter *ad, bool init_phase)
 		val = ((bbp_val & (0x00007f00)) >> 8) & 0x7f;
 		ad->CommonCfg.lna_vga_ctl.agc_vga_init_1 = val;
 		ad->CommonCfg.lna_vga_ctl.agc1_r9_backup = bbp_val;
-		if (init_phase == TRUE) {
+		if (init_phase == true) {
 			ad->CommonCfg.lna_vga_ctl.agc_vga_ori_1 =
 				ad->CommonCfg.lna_vga_ctl.agc_vga_init_1;
 			DBGPRINT(RT_DEBUG_OFF, ("original vga value(chain1) = %x\n",  ad->CommonCfg.lna_vga_ctl.agc_vga_ori_1));
@@ -1322,7 +1322,7 @@ void mt76x2_get_agc_gain(struct rtmp_adapter *ad, bool init_phase)
 		DBGPRINT(RT_DEBUG_TRACE, ("initial vga value(chain1) = %x\n",  ad->CommonCfg.lna_vga_ctl.agc_vga_init_1));
 	}
 
-	ad->CommonCfg.lna_vga_ctl.bDyncVgaEnable = TRUE;
+	ad->CommonCfg.lna_vga_ctl.bDyncVgaEnable = true;
 }
 
 int mt76x2_reinit_agc_gain(struct rtmp_adapter *ad, u8 channel)
@@ -2439,7 +2439,7 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 	/* check tssi if enable */
 	value = mt7612u_read_eeprom16(ad, NIC_CONFIGURE_1);
 	if (value & INTERNAL_TX_ALC_EN)
-		cap->tssi_enable = TRUE;
+		cap->tssi_enable = true;
 	else
 		cap->tssi_enable = FALSE;
 
@@ -2504,7 +2504,7 @@ int mt76x2_read_chl_pwr(struct rtmp_adapter *ad)
 	choffset += 5;		/* the central channel of VHT80 */
 	choffset = (MAX_NUM_OF_CHANNELS - 1);
 
-	return TRUE;
+	return true;
 }
 
 static int mt7612u_parse_power_byte(u8 val)
@@ -2676,14 +2676,14 @@ void mt76x2_read_temp_info_from_eeprom(struct rtmp_adapter *ad)
 
 	e2p_value = mt7612u_read_eeprom16(ad, 0x36);
 	if ((e2p_value & 0x2) == 0x2)
-		is_temp_tx_alc = TRUE;
+		is_temp_tx_alc = true;
 	else
 		is_temp_tx_alc = FALSE;
 
 	e2p_value = mt7612u_read_eeprom16(ad, 0x54);
 	pChipCap->temp_25_ref = (e2p_value & 0x7F00) >> 8;
 	if (((e2p_value & 0x8000) == 0x8000) && is_temp_tx_alc)
-		pChipCap->temp_tx_alc_enable = TRUE;
+		pChipCap->temp_tx_alc_enable = true;
 	else
 		pChipCap->temp_tx_alc_enable = FALSE;
 
@@ -2698,14 +2698,14 @@ static const RTMP_CHIP_CAP MT76x2_ChipCap = {
 	.TXWISize = 20,
 	.RXWISize = 28,
 	.SnrFormula = SNR_FORMULA3,
-	.FlgIsHwWapiSup = TRUE,
+	.FlgIsHwWapiSup = true,
 	.VcoPeriod = 10,
 	.FlgIsVcoReCalMode = VCO_CAL_DISABLE,
 	.FlgIsHwAntennaDiversitySup = FALSE,
-	.Flg7662ChipCap = TRUE,
-	.FlgHwTxBfCap = TRUE,
+	.Flg7662ChipCap = true,
+	.FlgHwTxBfCap = true,
 #ifdef FIFO_EXT_SUPPORT
-	.FlgHwFifoExtCap = TRUE,
+	.FlgHwFifoExtCap = true,
 #endif /* FIFO_EXT_SUPPORT */
 	.asic_caps = (fASIC_CAP_PMF_ENC | fASIC_CAP_MCS_LUT),
 	.phy_caps = (fPHY_CAP_24G | fPHY_CAP_5G | fPHY_CAP_HT | fPHY_CAP_VHT | fPHY_CAP_LDPC),
@@ -2725,11 +2725,11 @@ static const RTMP_CHIP_CAP MT76x2_ChipCap = {
 	.WlanMemmapOffset = 0x410000,
 	.InbandPacketMaxLen = 192,
 	.CmdRspRxRing = RX_RING1,
-	.IsComboChip = TRUE,
-	.need_load_fw = TRUE,
-	.need_load_rom_patch = TRUE,
+	.IsComboChip = true,
+	.need_load_fw = true,
+	.need_load_rom_patch = true,
 	.ram_code_protect = FALSE,
-	.rom_code_protect = TRUE,
+	.rom_code_protect = true,
 	.load_iv = FALSE,
 	.ilm_offset = 0x80000,
 	.dlm_offset = 0x110000,
@@ -2751,7 +2751,7 @@ static const RTMP_CHIP_CAP MT76x2_ChipCap = {
 	.fw_patch_name = "mt7662u_rom_patch.bin",
 	.rf_type = RF_MT,
 #ifdef DYNAMIC_VGA_SUPPORT
-	.dynamic_vga_support = TRUE,
+	.dynamic_vga_support = true,
 	.compensate_level = 0,
 	.dynamic_chE_mode = 0xFF,
 	.dynamic_chE_trigger = FALSE,
@@ -2760,10 +2760,10 @@ static const RTMP_CHIP_CAP MT76x2_ChipCap = {
 	.avg_rssi_1 = -90,
 #ifdef CONFIG_AP_SUPPORT
 	.dynamic_lna_trigger_timer = 1,
-	.microwave_enable = TRUE,
+	.microwave_enable = true,
 #endif /* CONFIG_AP_SUPPORT */
 #endif /* DYNAMIC_VGA_SUPPORT */
-	.chl_smth_enable = TRUE,
+	.chl_smth_enable = true,
 	.ed_cca_enable = FALSE,
 #ifdef DOT11W_PMF_SUPPORT
 	.FlgPMFEncrtptMode = PMF_ENCRYPT_MODE_1,
@@ -2771,7 +2771,7 @@ static const RTMP_CHIP_CAP MT76x2_ChipCap = {
 #ifdef CONFIG_STA_SUPPORT
 #ifdef RTMP_FREQ_CALIBRATION_SUPPORT
     /* Frequence Calibration */
-    .FreqCalibrationSupport = TRUE,
+    .FreqCalibrationSupport = true,
     /* BBP CR for Rx OFDM/CCK frequency offset report is unnecessary */
     .FreqCalMode = FREQ_CAL_MODE2,
     .RxWIFrqOffset = RXWI_FRQ_OFFSET_FIELD0,
@@ -3045,7 +3045,7 @@ int mt76x2_set_ed_cca(struct rtmp_adapter *ad, u8 enable)
         mac_val = mt7612u_read32(ad, CH_BUSY_STA_SEC);
         mac_val = mt7612u_read32(ad, 0x1140);
 
-        return TRUE;
+        return true;
 }
 
 

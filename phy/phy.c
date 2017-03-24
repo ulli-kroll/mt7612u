@@ -30,7 +30,7 @@
 INT phy_probe(struct rtmp_adapter *pAd)
 {
 
-	return TRUE;
+	return true;
 }
 
 
@@ -116,7 +116,7 @@ INT bbp_set_bw(struct rtmp_adapter *pAd, UINT8 bw)
 	if (pAd->phy_op && pAd->phy_op->bbp_set_bw)
 		result = pAd->phy_op->bbp_set_bw(pAd, bw);
 
-	if (result == TRUE)
+	if (result == true)
 	{
 		DBGPRINT(RT_DEBUG_TRACE, ("%s(): Set PhyBW as %sHz.l\n",
 				__FUNCTION__, get_bw_str(bw)));

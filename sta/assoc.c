@@ -181,7 +181,7 @@ VOID MlmeAssocReqAction(
 	USHORT Status;
 
 	/* Block all authentication request durning WPA block period */
-	if (pAd->StaCfg.bBlockAssoc == TRUE) {
+	if (pAd->StaCfg.bBlockAssoc == true) {
 		DBGPRINT(RT_DEBUG_TRACE,
 			 ("ASSOC - Block Assoc request durning WPA block period!\n"));
 		pAd->Mlme.AssocMachine.CurrState = ASSOC_IDLE;
@@ -250,7 +250,7 @@ VOID MlmeAssocReqAction(
 		   But we need to clean Spectrum Management bit here, if we disable bIEEE80211H in infra sta
 		 */
 		if (!((pAd->CommonCfg.Channel > 14) &&
-		    (pAd->CommonCfg.bIEEE80211H == TRUE))) {
+		    (pAd->CommonCfg.bIEEE80211H == true))) {
 			CapabilityInfo &= (~0x0100);
 		}
 
@@ -299,7 +299,7 @@ VOID MlmeAssocReqAction(
 			pHtCapability = &pAd->MlmeAux.HtCapability;
 #endif
 
-			if (pAd->StaActive.SupportedPhyInfo.bPreNHt == TRUE) {
+			if (pAd->StaActive.SupportedPhyInfo.bPreNHt == true) {
 				HtLen = SIZE_HT_CAP_IE + 4;
 				MakeOutgoingFrame(pOutBuffer + FrameLen,
 						  &TmpLen, 1, &WpaIe, 1, &HtLen,
@@ -343,7 +343,7 @@ VOID MlmeAssocReqAction(
 			extInfoLen = sizeof (EXT_CAP_INFO_ELEMENT);
 			memset(&extCapInfo, 0, extInfoLen);
 
-			if ((pAd->CommonCfg.bBssCoexEnable == TRUE) &&
+			if ((pAd->CommonCfg.bBssCoexEnable == true) &&
 			    WMODE_CAP_N(pAd->CommonCfg.PhyMode)
 			    && (pAd->CommonCfg.Channel <= 14)
 			    ) {
@@ -452,7 +452,7 @@ VOID MlmeAssocReqAction(
 					/* Search chched PMKID, append it if existed */
 					for (idx = 0; idx < PMKID_NO; idx++) {
 						if (NdisEqualMemory(ApAddr, &pAd->StaCfg.SavedPMK[idx].BSSID, 6)) {
-							FoundPMK = TRUE;
+							FoundPMK = true;
 							break;
 						}
 					}
@@ -486,7 +486,7 @@ VOID MlmeAssocReqAction(
 			*/
 /* #ifdef SIOCSIWGENIE */
 			if ((pAd->StaCfg.wpa_supplicant_info.WpaSupplicantUP & WPA_SUPPLICANT_ENABLE)
-			    && (pAd->StaCfg.wpa_supplicant_info.bRSN_IE_FromWpaSupplicant == TRUE)) {
+			    && (pAd->StaCfg.wpa_supplicant_info.bRSN_IE_FromWpaSupplicant == true)) {
 				;
 			} else
 /* #endif */
@@ -535,7 +535,7 @@ VOID MlmeAssocReqAction(
 		*/
 /* #ifdef SIOCSIWGENIE */
 		if ((pAd->StaCfg.wpa_supplicant_info.WpaSupplicantUP & WPA_SUPPLICANT_ENABLE) &&
-		    (pAd->StaCfg.wpa_supplicant_info.bRSN_IE_FromWpaSupplicant == TRUE)) {
+		    (pAd->StaCfg.wpa_supplicant_info.bRSN_IE_FromWpaSupplicant == true)) {
 			ULONG TmpWpaAssocIeLen = 0;
 			MakeOutgoingFrame(pOutBuffer + FrameLen,
 					  &TmpWpaAssocIeLen,
@@ -607,7 +607,7 @@ VOID MlmeReassocReqAction(
 	USHORT Status;
 
 	/* Block all authentication request durning WPA block period */
-	if (pAd->StaCfg.bBlockAssoc == TRUE) {
+	if (pAd->StaCfg.bBlockAssoc == true) {
 		DBGPRINT(RT_DEBUG_TRACE,
 			 ("ASSOC - Block ReAssoc request durning WPA block period!\n"));
 		pAd->Mlme.AssocMachine.CurrState = ASSOC_IDLE;
@@ -697,7 +697,7 @@ VOID MlmeReassocReqAction(
 			pHtCapability = &pAd->MlmeAux.HtCapability;
 #endif
 
-			if (pAd->StaActive.SupportedPhyInfo.bPreNHt == TRUE) {
+			if (pAd->StaActive.SupportedPhyInfo.bPreNHt == true) {
 				HtLen = SIZE_HT_CAP_IE + 4;
 				MakeOutgoingFrame(pOutBuffer + FrameLen,
 						  &TmpLen, 1, &WpaIe, 1, &HtLen,
@@ -1022,7 +1022,7 @@ VOID PeerAssocRspAction(
                                 pAd->StaCfg.ReqVarIEs, pAd->StaCfg.ReqVarIELen,
 								&pFrame->Octet[6],
 								Elem->MsgLen - 6 - sizeof (HEADER_802_11),
-                                TRUE);
+                                true);
 			}
 #endif /* RT_CFG80211_SUPPORT */
 #endif /* LINUX */
@@ -1218,7 +1218,7 @@ VOID AssocPostProc(
 
 	/* Some HT AP might lost WMM IE. We add WMM ourselves. beacuase HT requires QoS on. */
 	if ((HtCapabilityLen > 0) && (pEdcaParm->bValid == FALSE)) {
-		pEdcaParm->bValid = TRUE;
+		pEdcaParm->bValid = true;
 		pEdcaParm->Aifsn[0] = 3;
 		pEdcaParm->Aifsn[1] = 7;
 		pEdcaParm->Aifsn[2] = 2;
@@ -1370,7 +1370,7 @@ VOID PeerDisassocAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 				MlmeEnqueue(pAd, MLME_CNTL_STATE_MACHINE,
 					    MT2_DISASSOC_CONF, 2, &Status, 0);
 			} else
-				LinkDown(pAd, TRUE);
+				LinkDown(pAd, true);
 
 			pAd->Mlme.AssocMachine.CurrState = ASSOC_IDLE;
 

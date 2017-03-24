@@ -340,26 +340,26 @@ static VOID ApCliPeerProbeRspAtJoinAction(
 		if(!MAC_ADDR_EQUAL(pApCliEntry->CfgApCliBssid, ZERO_MAC_ADDR))
 			bssidEqualFlag = MAC_ADDR_EQUAL(pApCliEntry->CfgApCliBssid, ie_list->Bssid);
 		else
-			bssidEmptyFlag = TRUE;
+			bssidEmptyFlag = true;
 
 		/* Check the Probe-Rsp's Ssid. */
 		if(pApCliEntry->CfgSsidLen != 0)
 			ssidEqualFlag = SSID_EQUAL(pApCliEntry->CfgSsid, pApCliEntry->CfgSsidLen, ie_list->Ssid, ie_list->SsidLen);
 		else
-			ssidEmptyFlag = TRUE;
+			ssidEmptyFlag = true;
 
 
 		/* bssid and ssid, Both match. */
 		if (bssidEqualFlag && ssidEqualFlag)
-			matchFlag = TRUE;
+			matchFlag = true;
 
 		/* ssid match but bssid doesn't be indicate. */
 		else if(ssidEqualFlag && bssidEmptyFlag)
-			matchFlag = TRUE;
+			matchFlag = true;
 
 		/* user doesn't indicate any bssid or ssid. AP-Clinet will auto pick a AP to join by most strong siganl strength. */
 		else if (bssidEmptyFlag && ssidEmptyFlag)
-			matchFlag = TRUE;
+			matchFlag = true;
 
 
 		DBGPRINT(RT_DEBUG_TRACE, ("SYNC - bssidEqualFlag=%d, ssidEqualFlag=%d, matchFlag=%d\n",
@@ -447,8 +447,8 @@ static VOID ApCliPeerProbeRspAtJoinAction(
 			RTMPCheckRates(pAd, pApCliEntry->MlmeAux.ExtRate, &pApCliEntry->MlmeAux.ExtRateLen);
 #ifdef APCLI_CERT_SUPPORT
 			/*  Get the ext capability info element */
-			if (pAd->bApCliCertTest == TRUE
-				&& pAd->CommonCfg.bBssCoexEnable == TRUE
+			if (pAd->bApCliCertTest == true
+				&& pAd->CommonCfg.bBssCoexEnable == true
 				)
 			{
 				memmove(&pApCliEntry->MlmeAux.ExtCapInfo, &ie_list->ExtCapInfo,sizeof(ie_list->ExtCapInfo));
@@ -512,7 +512,7 @@ static VOID ApCliPeerProbeRspAtJoinAction(
 			else  /* Used the default TX Power Percentage. */
 				pAd->CommonCfg.TxPowerPercentage = pAd->CommonCfg.TxPowerDefault;
 
-			if(bssidEqualFlag == TRUE)
+			if(bssidEqualFlag == true)
 			{
 				*pCurrState = APCLI_SYNC_IDLE;
 

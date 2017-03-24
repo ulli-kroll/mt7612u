@@ -125,7 +125,7 @@ static USHORT update_associated_mac_entry(
 #ifdef DOT1X_SUPPORT
 	else if ((pEntry->AuthMode == Ndis802_11AuthModeWPA) ||
 			(pEntry->AuthMode == Ndis802_11AuthModeWPA2) ||
-			(wdev->IEEE8021X == TRUE))
+			(wdev->IEEE8021X == true))
 	{
 		pEntry->PrivacyFilter = Ndis802_11PrivFilter8021xWEP;
 		pEntry->WpaState = AS_AUTHENTICATION;
@@ -164,7 +164,7 @@ static USHORT update_associated_mac_entry(
 	/* In WPA or 802.1x mode, the port is not secured, otherwise is secued. */
 	if ((pEntry->AuthMode >= Ndis802_11AuthModeWPA)
 #ifdef DOT1X_SUPPORT
-		|| (wdev->IEEE8021X == TRUE)
+		|| (wdev->IEEE8021X == true)
 #endif /* DOT1X_SUPPORT */
 	)
 		pEntry->PortSecured = WPA_802_1X_PORT_NOT_SECURED;
@@ -214,11 +214,11 @@ static USHORT update_associated_mac_entry(
 		/* 40Mhz BSS Width Trigger events */
 		if (ie_list->HTCapability.HtCapInfo.Forty_Mhz_Intolerant)
 		{
-			pEntry->bForty_Mhz_Intolerant = TRUE;
-			pAd->MacTab.fAnyStaFortyIntolerant = TRUE;
+			pEntry->bForty_Mhz_Intolerant = true;
+			pAd->MacTab.fAnyStaFortyIntolerant = true;
 			if(((pAd->CommonCfg.HtCapability.HtCapInfo.ChannelWidth == BW_40) &&
 				(pAd->CommonCfg.Channel <=14)) &&
-			    ((pAd->CommonCfg.bBssCoexEnable == TRUE) &&
+			    ((pAd->CommonCfg.bBssCoexEnable == true) &&
 				(pAd->CommonCfg.AddHTInfo.AddHtInfo.RecomWidth != 0) &&
 				(pAd->CommonCfg.AddHTInfo.AddHtInfo.ExtChanOffset != 0))
 			)
@@ -352,7 +352,7 @@ static USHORT update_associated_mac_entry(
 			ie_list->operating_mode.rx_nss_type == 0)
 		{
 			pEntry->operating_mode = ie_list->operating_mode;
-			pEntry->force_op_mode = TRUE;
+			pEntry->force_op_mode = true;
 			DBGPRINT(RT_DEBUG_OFF, ("%s(): Peer's OperatingMode=>RxNssType: %d, RxNss: %d, ChBW: %d\n",
 				__FUNCTION__, pEntry->operating_mode.rx_nss_type,
 				pEntry->operating_mode.rx_nss,
@@ -363,7 +363,7 @@ static USHORT update_associated_mac_entry(
 	}
 	else
 	{
-		pAd->MacTab.fAnyStationIsLegacy = TRUE;
+		pAd->MacTab.fAnyStationIsLegacy = true;
 		memset(&pEntry->HTCapability, 0, sizeof(HT_CAPABILITY_IE));
 		// TODO: shiang-usw, it's ugly and need to revise it
 		memset(&pEntry->vht_cap_ie, 0, sizeof(VHT_CAP_IE));
@@ -402,14 +402,14 @@ static USHORT update_associated_mac_entry(
 	MlmeRAInit(pAd, pEntry);
 
 	/* Set asic auto fall back */
-	if (wdev->bAutoTxRateSwitch == TRUE)
+	if (wdev->bAutoTxRateSwitch == true)
 	{
 		UCHAR TableSize = 0;
 
 		MlmeSelectTxRateTable(pAd, pEntry, &pEntry->pTable, &TableSize, &pEntry->CurrTxRateIndex);
 		MlmeNewTxRate(pAd, pEntry);
 
-		pEntry->bAutoTxRateSwitch = TRUE;
+		pEntry->bAutoTxRateSwitch = true;
 
 #ifdef NEW_RATE_ADAPT_SUPPORT
 		if (! ADAPT_RATE_TABLE(pEntry->pTable))
@@ -702,7 +702,7 @@ VOID ap_cmm_peer_assoc_req_action(
 
 	/* set a flag for sending Assoc-Fail response to unwanted STA later. */
 	if (!ApCheckAccessControlList(pAd, ie_list->Addr2, pEntry->apidx))
-		bACLReject = TRUE;
+		bACLReject = true;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("%s - MBSS(%d), receive %s request from %02x:%02x:%02x:%02x:%02x:%02x\n",
 				sAssoc, pEntry->apidx, sAssoc, PRINT_MAC(ie_list->Addr2)));
@@ -799,15 +799,15 @@ SendAssocResponse:
 	if ((pMbss->AssocReqFailRssiThreshold != 0) && (rssi < pMbss->AssocReqFailRssiThreshold))
 	{
 		DBGPRINT(RT_DEBUG_TRACE, ("Reject this ASSOC_FAIL_REQ due to Weak Signal.\n"));
-		bAssocSkip = TRUE;
+		bAssocSkip = true;
 	}
 	else if ((pMbss->AssocReqNoRspRssiThreshold != 0) && (rssi < pMbss->AssocReqNoRspRssiThreshold))
 	{
 		DBGPRINT(RT_DEBUG_TRACE, ("Reject this ASSOC_NO_RSP_REQ due to Weak Signal.\n"));
-		bAssocNoRsp = TRUE;
+		bAssocNoRsp = true;
 	}
 
-	if (bACLReject == TRUE || bAssocSkip || bAssocNoRsp)
+	if (bACLReject == true || bAssocSkip || bAssocNoRsp)
 	{
 		if (!bAssocNoRsp)
 		{
@@ -830,7 +830,7 @@ SendAssocResponse:
 		RTMPSendWirelessEvent(pAd, IW_MAC_FILTER_LIST_EVENT_FLAG, ie_list->Addr2, pEntry->apidx, 0);
 
 
-		if (bAssocSkip == TRUE)
+		if (bAssocSkip == true)
 		{
 			pEntry = MacTableLookup(pAd, ie_list->Addr2);
 			if (pEntry)
@@ -963,7 +963,7 @@ SendAssocResponse:
 #endif
 		FrameLen += TmpLen;
 
-		if ((ie_list->RalinkIe) == 0 || (pAd->bBroadComHT == TRUE))
+		if ((ie_list->RalinkIe) == 0 || (pAd->bBroadComHT == true))
 		{
 			UCHAR epigram_ie_len;
 			UCHAR BROADCOM_HTC[4] = {0x0, 0x90, 0x4c, 0x33};
@@ -1058,7 +1058,7 @@ SendAssocResponse:
 		/* P802.11n_D1.10, HT Information Exchange Support */
 		if (WMODE_CAP_N(pAd->CommonCfg.PhyMode)
 			&& (pAd->CommonCfg.Channel <= 14)
-			&& (pAd->CommonCfg.bBssCoexEnable == TRUE)
+			&& (pAd->CommonCfg.bBssCoexEnable == true)
 		)
 		{
 			extCapInfo.BssCoexistMgmtSupport = 1;
@@ -1074,12 +1074,12 @@ SendAssocResponse:
 		{
 			if (pInfo[infoPos] != 0)
 			{
-				bNeedAppendExtIE = TRUE;
+				bNeedAppendExtIE = true;
 				break;
 			}
 		}
 
-		if (bNeedAppendExtIE == TRUE)
+		if (bNeedAppendExtIE == true)
 		{
 			MakeOutgoingFrame(pOutBuffer+FrameLen, &TmpLen,
 							1,			&ExtCapIe,
@@ -1128,7 +1128,7 @@ SendAssocResponse:
 	{
 		pEntry->PsMode = PWR_ACTIVE;
 
-		wdev->allow_data_tx = TRUE;
+		wdev->allow_data_tx = true;
 
 		ap_assoc_info_debugshow(pAd, isReassoc, pEntry, ie_list);
 
@@ -1154,7 +1154,7 @@ SendAssocResponse:
 
 
 #ifdef RT_CFG80211_SUPPORT
-		if (TRUE) /*CFG_TODO*/
+		if (true) /*CFG_TODO*/
         {
 			hex_dump("ASSOC_REQ", Elem->Msg, Elem->MsgLen);
 
@@ -1507,7 +1507,7 @@ VOID APMlmeKickOutAllSta(struct rtmp_adapter *pAd, UCHAR apidx, USHORT Reason)
             2, &Reason,
             END_OF_ARGS);
 
-        if (pPmfCfg->MFPC == TRUE)
+        if (pPmfCfg->MFPC == true)
         {
             ULONG TmpLen;
             UCHAR res_buf[LEN_PMF_MMIE];

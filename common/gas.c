@@ -299,7 +299,7 @@ static VOID SendGASRsp(
 		{
 			RTMPSetTimer(&GASPeerEntry->GASRspBufferingTimer, dotGASResponseBufferingTime
 								+ GASFrame->u.GAS_INIT_RSP.GASComebackDelay);
-			GASPeerEntry->GASRspBufferingTimerRunning = TRUE;
+			GASPeerEntry->GASRspBufferingTimerRunning = true;
 		}
 
 	}
@@ -345,7 +345,7 @@ VOID ReceiveGASInitReq(
 	{
 		if (MAC_ADDR_EQUAL(GASPeerEntry->PeerMACAddr, GASFrame->Hdr.Addr2))
 		{
-			IsFound = TRUE;
+			IsFound = true;
 			GASPeerEntry->QueryNum++;
 			break;
 		}
@@ -508,7 +508,7 @@ static VOID SendGASCBRsp(
 				{
 					GASPeerEntry->CurrentGASFragNum++;
 					VarLen += GASQueryRspFrag->FragQueryRspLen;
-					bGASQueryRspFragFound = TRUE;
+					bGASQueryRspFragFound = true;
 					break;
 				}
 			}
@@ -715,9 +715,9 @@ VOID ReceiveGASCBReq(
 		{
 			if ((GASPeerEntry->CurrentGASFragNum + 1) <
 				GASPeerEntry->GASRspFragNum)
-				IsGASCBReqMore = TRUE;
+				IsGASCBReqMore = true;
 
-			IsFound = TRUE;
+			IsFound = true;
 			break;
 		}
 	}
@@ -818,7 +818,7 @@ static bool IsAdvertisementProIDValid(
 					/ sizeof(enum DOT11U_ADVERTISMENT_PROTOCOL_ID); i++)
 	{
 		if (AdvertisementProtoID == dot11GASAdvertisementID[i])
-			return TRUE;
+			return true;
 	}
 
 	return FALSE;
@@ -971,7 +971,7 @@ static VOID SendGASIndication(
 				if (!GASPeerEntry->PostReplyTimerRunning)
 				{
 					RTMPSetTimer(&GASPeerEntry->PostReplyTimer, dot11GASResponseTimeout);
-					GASPeerEntry->PostReplyTimerRunning = TRUE;
+					GASPeerEntry->PostReplyTimerRunning = true;
 				}
 
 				break;

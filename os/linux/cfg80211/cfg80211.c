@@ -435,7 +435,7 @@ static int CFG80211_OpsScan(
 	pCfg80211_CB->pCfg80211_ScanReq = pRequest; /* used in scan end */
 
 	if (pNdev->ieee80211_ptr->iftype == NL80211_IFTYPE_AP) {
-			CFG80211OS_ScanEnd(pCfg80211_CB, TRUE);
+			CFG80211OS_ScanEnd(pCfg80211_CB, true);
 			return 0;
 	}
 	/* sanity check */
@@ -444,20 +444,20 @@ static int CFG80211_OpsScan(
 	    (pNdev->ieee80211_ptr->iftype != NL80211_IFTYPE_ADHOC) &&
 	    (pNdev->ieee80211_ptr->iftype != NL80211_IFTYPE_P2P_CLIENT)) {
 		CFG80211DBG(RT_DEBUG_ERROR, ("80211> DeviceType Not Support Scan ==> %d\n", pNdev->ieee80211_ptr->iftype));
-		CFG80211OS_ScanEnd(pCfg80211_CB, TRUE);
+		CFG80211OS_ScanEnd(pCfg80211_CB, true);
 		return -EOPNOTSUPP;
 	}
 
 	/* Driver Internal SCAN SM Check */
 	if (RTMP_DRIVER_IOCTL_SANITY_CHECK(pAd, NULL) != NDIS_STATUS_SUCCESS) {
 		DBGPRINT(RT_DEBUG_ERROR, ("80211> Network is down!\n"));
-		CFG80211OS_ScanEnd(pCfg80211_CB, TRUE);
+		CFG80211OS_ScanEnd(pCfg80211_CB, true);
 		return -ENETDOWN;
 	}
 
 	if (RTMP_DRIVER_80211_SCAN(pAd, pNdev->ieee80211_ptr->iftype) != NDIS_STATUS_SUCCESS) {
 		CFG80211DBG(RT_DEBUG_ERROR, ("\n\n\n\n\n80211> BUSY - SCANING \n\n\n\n\n"));
-		CFG80211OS_ScanEnd(pCfg80211_CB, TRUE);
+		CFG80211OS_ScanEnd(pCfg80211_CB, true);
 		return 0;
 	}
 
@@ -488,7 +488,7 @@ static int CFG80211_OpsScan(
 		if (pRequest->ssids->ssid == NULL)
 		{
 			DBGPRINT(RT_DEBUG_TRACE, ("80211> Scanning failed!!!\n"));
-			CFG80211OS_ScanEnd(pCfg80211_CB, TRUE);
+			CFG80211OS_ScanEnd(pCfg80211_CB, true);
 			return -1;
 		}
 	}
@@ -1292,7 +1292,7 @@ static int CFG80211_OpsConnect(
 
 	CFG80211DBG(RT_DEBUG_TRACE, ("Keymgmt %x\n", Keymgmt));
 	if (Keymgmt ==  WLAN_AKM_SUITE_8021X)
-		ConnInfo.FlgIs8021x = TRUE;
+		ConnInfo.FlgIs8021x = true;
 	else
 		ConnInfo.FlgIs8021x = FALSE;
 
@@ -1359,7 +1359,7 @@ static int CFG80211_OpsConnect(
 #ifdef DOT11W_PMF_SUPPORT
 	CFG80211DBG(RT_DEBUG_OFF, ("80211> PMF Connect %d\n", pSme->mfp));
 	if (pSme->mfp) {
-		ConnInfo.mfp = TRUE;
+		ConnInfo.mfp = true;
 	} else {
 		ConnInfo.mfp = FALSE;
 	}
@@ -1370,7 +1370,7 @@ static int CFG80211_OpsConnect(
 	     pSme->ie[1] >= 4 &&
 	     pSme->ie[2] == 0x00 && pSme->ie[3] == 0x50 && pSme->ie[4] == 0xf2 &&
 	     pSme->ie[5] == 0x04)) {
-		ConnInfo.bWpsConnection= TRUE;
+		ConnInfo.bWpsConnection= true;
 	}
 
 	/* %NULL if not specified (auto-select based on scan)*/
@@ -2432,11 +2432,11 @@ bool CFG80211_Register(
 
 	RTMP_DRIVER_80211_CB_SET(pAd, pCfg80211_CB);
 	RTMP_DRIVER_80211_RESET(pAd);
-	RTMP_DRIVER_80211_SCAN_STATUS_LOCK_INIT(pAd, TRUE);
+	RTMP_DRIVER_80211_SCAN_STATUS_LOCK_INIT(pAd, true);
 
 
 	CFG80211DBG(RT_DEBUG_ERROR, ("80211> CFG80211_Register\n"));
-	return TRUE;
+	return true;
 } /* End of CFG80211_Register */
 
 

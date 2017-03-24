@@ -105,7 +105,7 @@
 	__pAd->StaCfg.FlgPsmCanNotSleep = FALSE;
 
 #define ASIC_PS_CAN_NOT_SLEEP(__pAd)										\
-	__pAd->StaCfg.FlgPsmCanNotSleep = TRUE;
+	__pAd->StaCfg.FlgPsmCanNotSleep = true;
 
 /* we will recover ps mode after 5 second if no packet is received. */
 #define RTMP_PS_VIRTUAL_MAX_TIME_OUT		5
@@ -118,7 +118,7 @@
 /* wake up the peer virtually */
 #define RTMP_PS_VIRTUAL_WAKEUP_PEER(__pMacEntry)							\
 {																			\
-	__pMacEntry->FlgPsModeIsWakeForAWhile = TRUE;							\
+	__pMacEntry->FlgPsModeIsWakeForAWhile = true;							\
 	__pMacEntry->VirtualTimeout = RTMP_PS_VIRTUAL_MAX_TIME_OUT;				\
 	DBGPRINT(RT_DEBUG_TRACE,												\
 		("%02x:%02x:%02x:%02x:%02x:%02x will not sleep for a while!\n",		\
@@ -417,7 +417,7 @@ Arguments:
 	pAd				Pointer to our adapter
 	*pEntry			STATION
 	*pElm			QoS information field
-	FlgApsdCapable	TRUE: Support UAPSD
+	FlgApsdCapable	true: Support UAPSD
 
 Return Value:
 	None
@@ -660,10 +660,10 @@ Routine Description:
 Arguments:
 	pAd					Pointer to our adapter
 	pEntry				the peer entry
-	pFlgIsAnyPktForBK	TRUE: At lease a BK packet is queued
-	pFlgIsAnyPktForBE	TRUE: At lease a BE packet is queued
-	pFlgIsAnyPktForVI	TRUE: At lease a VI packet is queued
-	pFlgIsAnyPktForVO	TRUE: At lease a VO packet is queued
+	pFlgIsAnyPktForBK	true: At lease a BK packet is queued
+	pFlgIsAnyPktForBE	true: At lease a BE packet is queued
+	pFlgIsAnyPktForVI	true: At lease a VI packet is queued
+	pFlgIsAnyPktForVO	true: At lease a VO packet is queued
 
 Return Value:
     None

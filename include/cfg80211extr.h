@@ -97,7 +97,7 @@
 	(__pBandInfo)->RxStream = __pAd->CommonCfg.RxStream;					\
 	(__pBandInfo)->MaxTxPwr = 0;											\
 	if (WMODE_EQUAL(__pAd->CommonCfg.PhyMode, WMODE_B))				\
-		(__pBandInfo)->FlgIsBMode = TRUE;									\
+		(__pBandInfo)->FlgIsBMode = true;									\
 	else																	\
 		(__pBandInfo)->FlgIsBMode = FALSE;									\
 	(__pBandInfo)->MaxBssTable = MAX_LEN_OF_BSS_TABLE;						\

@@ -66,7 +66,7 @@ INT mcu_sys_init(struct rtmp_adapter *pAd)
 		return FALSE;
 	}
 
-	return TRUE;
+	return true;
 }
 
 

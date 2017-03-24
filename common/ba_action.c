@@ -151,7 +151,7 @@ bool ba_reordering_mpdu_insertsorted(struct reordering_list *list, struct reorde
 	mpdu->next = *ppScan;
 	*ppScan = mpdu;
 	list->qlen++;
-	return TRUE;
+	return true;
 }
 
 
@@ -277,7 +277,7 @@ bool ba_reordering_resource_init(struct rtmp_adapter *pAd, int num)
 		ba_enqueue(freelist, mpdu_blk);
 	}
 
-	return(TRUE);
+	return(true);
 }
 
 /* static int blk_count=0;  sample take off, no use */
@@ -472,7 +472,7 @@ VOID BAOriSessionSetUp(
 		return;
 	}
 
-	if ((pAd->CommonCfg.BACapability.field.AutoBA != TRUE)  &&  (isForced == FALSE))
+	if ((pAd->CommonCfg.BACapability.field.AutoBA != true)  &&  (isForced == FALSE))
 		return;
 
 	/* if this entry is limited to use legacy tx mode, it doesn't generate BA.  */
@@ -626,7 +626,7 @@ bool BARecSessionAdd(
 	IN FRAME_ADDBA_REQ *pFrame)
 {
 	BA_REC_ENTRY *pBAEntry = NULL;
-	bool Status = TRUE, Cancelled;
+	bool Status = true, Cancelled;
 	USHORT Idx;
 	UCHAR TID, BAWinSize;
 
@@ -681,7 +681,7 @@ bool BARecSessionAdd(
 		if (pEntry->RXBAbitmap & (1<<TID))
 			RTMPCancelTimer(&pBAEntry->RECBATimer, &Cancelled);
 		else
-			RTMPInitTimer(pAd, &pBAEntry->RECBATimer, GET_TIMER_FUNCTION(BARecSessionIdleTimeout), pBAEntry, TRUE);
+			RTMPInitTimer(pAd, &pBAEntry->RECBATimer, GET_TIMER_FUNCTION(BARecSessionIdleTimeout), pBAEntry, true);
 
 		/* Set Bitmap flag.*/
 		pEntry->RXBAbitmap |= (1<<TID);
@@ -852,7 +852,7 @@ VOID BAOriSessionTearDown(
 	Idx = pAd->MacTab.Content[Wcid].BAOriWcidArray[TID];
 	if ((Idx == 0) || (Idx >= MAX_LEN_OF_BA_ORI_TABLE))
 	{
-		if (bForceSend == TRUE)
+		if (bForceSend == true)
 		{
 			/* force send specified TID DelBA*/
 			MLME_DELBA_REQ_STRUCT   DelbaReq;
@@ -915,7 +915,7 @@ VOID BAOriSessionTearDown(
 
 	if (bPassive)
 	{
-		/*BAOriSessionSetUp(pAd, &pAd->MacTab.Content[Wcid], TID, 0, 10000, TRUE);*/
+		/*BAOriSessionSetUp(pAd, &pAd->MacTab.Content[Wcid], TID, 0, 10000, true);*/
 	}
 }
 
@@ -1023,7 +1023,7 @@ VOID BASessionTearDownALL(struct rtmp_adapter *pAd, UCHAR Wcid)
 	Parametrs:
 	p8023Header: if this is already 802.3 format, p8023Header is NULL
 
-	Return	: TRUE if put into rx reordering buffer, shouldn't indicaterxhere.
+	Return	: true if put into rx reordering buffer, shouldn't indicaterxhere.
 				FALSE , then continue indicaterx at this moment.
 	==========================================================================
  */
@@ -1102,7 +1102,7 @@ VOID BAOriSessionSetupTimeout(
 	Parametrs:
 	p8023Header: if this is already 802.3 format, p8023Header is NULL
 
-	Return	: TRUE if put into rx reordering buffer, shouldn't indicaterxhere.
+	Return	: true if put into rx reordering buffer, shouldn't indicaterxhere.
 				FALSE , then continue indicaterx at this moment.
 	==========================================================================
  */
@@ -1298,7 +1298,7 @@ VOID PeerAddBARspAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 				break;
 			default:
 				/* check status == USED ??? */
-				BAOriSessionTearDown(pAd, Elem->Wcid, pFrame->BaParm.TID, TRUE, FALSE);
+				BAOriSessionTearDown(pAd, Elem->Wcid, pFrame->BaParm.TID, true, FALSE);
 				break;
 		}
 		/* Rcv Decline StatusCode*/
@@ -1334,13 +1334,13 @@ VOID PeerDelBAAction(
 		if (pDelFrame->DelbaParm.Initiator == ORIGINATOR)
 		{
 			DBGPRINT(RT_DEBUG_TRACE,("BA - PeerDelBAAction----> ORIGINATOR\n"));
-			BARecSessionTearDown(pAd, Elem->Wcid, pDelFrame->DelbaParm.TID, TRUE);
+			BARecSessionTearDown(pAd, Elem->Wcid, pDelFrame->DelbaParm.TID, true);
 		}
 		else
 		{
 			DBGPRINT(RT_DEBUG_TRACE,("BA - PeerDelBAAction----> RECIPIENT, Reason = %d\n",  pDelFrame->ReasonCode));
 			/*hex_dump("DelBA Frame", pDelFrame, Elem->MsgLen);*/
-			BAOriSessionTearDown(pAd, Elem->Wcid, pDelFrame->DelbaParm.TID, TRUE, FALSE);
+			BAOriSessionTearDown(pAd, Elem->Wcid, pDelFrame->DelbaParm.TID, true, FALSE);
 		}
 	}
 }
@@ -1403,7 +1403,7 @@ bool CntlEnqueueForRecv(
 		pBAEntry->LastIndSeq = (pFrame->BAStartingSeq.field.StartSeq == 0) ? MAXSEQ :(pFrame->BAStartingSeq.field.StartSeq -1);
 	}
 	/*ba_refresh_reordering_mpdus(pAd, pBAEntry);*/
-	return TRUE;
+	return true;
 }
 
 
@@ -1902,10 +1902,10 @@ static VOID Peer_DelBA_Tx_Adapt_Enable(
 	IN PMAC_TABLE_ENTRY pEntry)
 {
 #ifdef MCS_LUT_SUPPORT
-	if ((pAd->CommonCfg.bBADecline == TRUE) ||
+	if ((pAd->CommonCfg.bBADecline == true) ||
 		(CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_RALINK_CHIPSET)))
 	{
-		/* we should not do this if bBADecline is TRUE or RGD is ON */
+		/* we should not do this if bBADecline is true or RGD is ON */
 		return;
 	}
 

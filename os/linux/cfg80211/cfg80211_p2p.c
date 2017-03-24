@@ -41,7 +41,7 @@ VOID CFG80211_RemainOnChannelInit(struct rtmp_adapter  *pAd)
 		CFG80211DBG(RT_DEBUG_TRACE, ("CFG80211_ROC : INIT Cfg80211RocTimer\n"));
 		RTMPInitTimer(pAd, &pAd->cfg80211_ctrl.Cfg80211RocTimer,
 			GET_TIMER_FUNCTION(CFG80211RemainOnChannelTimeout), pAd, FALSE);
-		pAd->cfg80211_ctrl.Cfg80211RocTimerInit = TRUE;
+		pAd->cfg80211_ctrl.Cfg80211RocTimerInit = true;
 	}
 }
 
@@ -76,7 +76,7 @@ VOID CFG80211RemainOnChannelTimeout(
 		{
 			DBGPRINT(RT_DEBUG_TRACE, ("CFG80211_NULL: CONCURRENT STA PWR_ACTIVE ROC_END\n"));
 			RTMPSendNullFrame(pAd, pAd->CommonCfg.TxRate,
-					  (OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_WMM_INUSED) ? TRUE:FALSE),
+					  (OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_WMM_INUSED) ? true:FALSE),
 					  pAd->CommonCfg.bAPSDForcePowerSave ? PWR_SAVE : pAd->StaCfg.Psm);
 		}
 #endif /*CONFIG_STA_SUPPORT*/
@@ -93,7 +93,7 @@ VOID CFG80211RemainOnChannelTimeout(
 #ifdef CONFIG_STA_SUPPORT
 		DBGPRINT(RT_DEBUG_TRACE, ("CFG80211_NULL: INFRA_ON PWR_ACTIVE ROC_END\n"));
 		RTMPSendNullFrame(pAd, pAd->CommonCfg.TxRate,
-				  (OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_WMM_INUSED) ? TRUE:FALSE),
+				  (OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_WMM_INUSED) ? true:FALSE),
 				  pAd->CommonCfg.bAPSDForcePowerSave ? PWR_SAVE : pAd->StaCfg.Psm);
 #endif /*CONFIG_STA_SUPPORT*/
 		RTMPSetTimer(&pCfg80211_ctrl->Cfg80211RocTimer, RESTORE_COM_CH_TIME);
@@ -144,7 +144,7 @@ bool CFG80211DRV_OpsRemainOnChannel(struct rtmp_adapter *pAd, VOID *pData, uint3
 	{
     		DBGPRINT(RT_DEBUG_TRACE, ("CFG80211_NULL: STA PWR_SAVE ROC_START\n"));
 		RTMPSendNullFrame(pAd, pAd->CommonCfg.TxRate,
-				  (OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_WMM_INUSED) ? TRUE:FALSE),
+				  (OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_WMM_INUSED) ? true:FALSE),
 				  PWR_SAVE);
 	}
 #endif /*RT_CFG80211_P2P_CONCURRENT_DEVICE */
@@ -177,7 +177,7 @@ bool CFG80211DRV_OpsRemainOnChannel(struct rtmp_adapter *pAd, VOID *pData, uint3
 
 	CFG80211_RemainOnChannelInit(pAd);
 
-	if (pCfg80211_ctrl->Cfg80211RocTimerRunning == TRUE)
+	if (pCfg80211_ctrl->Cfg80211RocTimerRunning == true)
 	{
 		DBGPRINT(RT_DEBUG_TRACE, ("CFG80211_ROC : CANCEL Cfg80211RocTimer\n"));
 		RTMPCancelTimer(&pCfg80211_ctrl->Cfg80211RocTimer, &Cancelled);
@@ -185,9 +185,9 @@ bool CFG80211DRV_OpsRemainOnChannel(struct rtmp_adapter *pAd, VOID *pData, uint3
 	}
 
 	RTMPSetTimer(&pCfg80211_ctrl->Cfg80211RocTimer, duration + 20);
-	pCfg80211_ctrl->Cfg80211RocTimerRunning = TRUE;
+	pCfg80211_ctrl->Cfg80211RocTimerRunning = true;
 
-	return TRUE;
+	return true;
 }
 
 void CFG80211DRV_OpsCancelRemainOnChannel(struct rtmp_adapter *pAd, uint32_t cookie)
@@ -195,7 +195,7 @@ void CFG80211DRV_OpsCancelRemainOnChannel(struct rtmp_adapter *pAd, uint32_t coo
 	bool Cancelled;
 	CFG80211DBG(RT_DEBUG_TRACE, ("%s\n", __FUNCTION__));
 
-	if (pAd->cfg80211_ctrl.Cfg80211RocTimerRunning == TRUE)
+	if (pAd->cfg80211_ctrl.Cfg80211RocTimerRunning == true)
 	{
 		DBGPRINT(RT_DEBUG_TRACE, ("CFG_ROC : CANCEL Cfg80211RocTimer\n"));
 		RTMPCancelTimer(&pAd->cfg80211_ctrl.Cfg80211RocTimer, &Cancelled);

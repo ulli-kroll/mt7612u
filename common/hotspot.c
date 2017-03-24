@@ -124,7 +124,7 @@ bool HSIPv4Check(
 			}
 		}
 	}
-	return TRUE;
+	return true;
 }
 
 
@@ -152,7 +152,7 @@ static bool IsICMPv4EchoPacket(
 				if (*Pos == 0x00)
 				{
 					DBGPRINT(RT_DEBUG_OFF, ("ICMPv4Echp Packet\n"));
-					return TRUE;
+					return true;
 				}
 			}
 		}
@@ -170,7 +170,7 @@ bool L2FilterInspection(
 	if (IsICMPv4EchoPacket(pAd, pData))
 	{
 		if (pHSCtrl->ICMPv4Deny)
-			return TRUE;
+			return true;
 		else
 			return FALSE;
 	}
@@ -200,12 +200,12 @@ bool ProbeReqforHSAP(
 
 		if ((ProbeReqParam->AccessNetWorkType == pHSCtrl->AccessNetWorkType) ||
 			(ProbeReqParam->AccessNetWorkType == 0x0f))
-			return TRUE;
+			return true;
 		else
 			return FALSE;
 	}
 	else
-		return TRUE;
+		return true;
 }
 
 inline INT Set_HotSpot_DGAF(
@@ -367,7 +367,7 @@ INT Set_HotSpot_OnOff(
 
 	kfree(Buf);
 
-	return TRUE;
+	return true;
 }
 
 

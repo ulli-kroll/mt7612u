@@ -538,7 +538,7 @@ ULONG BuildIntolerantChannelRep(struct rtmp_adapter *pAd, UCHAR *pDest)
 		/* Find Channel report with the same regulatory class in 2.4GHz.*/
 		for ( i = 0;i < pAd->CommonCfg.TriggerEventTab.EventANo;i++)
 		{
-			if (pAd->CommonCfg.TriggerEventTab.EventA[i].bValid == TRUE)
+			if (pAd->CommonCfg.TriggerEventTab.EventA[i].bValid == true)
 			{
 				if (pAd->CommonCfg.TriggerEventTab.EventA[i].RegClass == TmpRegClass)
 				{
@@ -664,7 +664,7 @@ VOID Send2040CoexistAction(
 				  1,                                &pAd->CommonCfg.BSSCoexist2040.word,
 				  END_OF_ARGS);
 
-	if (bAddIntolerantCha == TRUE)
+	if (bAddIntolerantCha == true)
 		IntolerantChaRepLen = BuildIntolerantChannelRep(pAd, pOutBuffer + FrameLen);
 
 	/*2009 PF#3: IOT issue with Motorola AP. It will not check the field of BSSCoexist2040.*/
@@ -714,7 +714,7 @@ bool ChannelSwitchSanityCheck(
 	if (i == pAd->ChannelListNum)
 		return FALSE;
 
-	return TRUE;
+	return true;
 }
 
 
@@ -807,7 +807,7 @@ VOID PeerPublicAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 				}
 				/*hex_dump("IntolerantReport ", (u8 *)pIntolerantReport, sizeof(BSS_2040_INTOLERANT_CH_REPORT));*/
 
-				if(pAd->CommonCfg.bBssCoexEnable == FALSE || (pAd->CommonCfg.bForty_Mhz_Intolerant == TRUE))
+				if(pAd->CommonCfg.bBssCoexEnable == FALSE || (pAd->CommonCfg.bForty_Mhz_Intolerant == true))
 				{
 					DBGPRINT(RT_DEBUG_TRACE, ("20/40 BSS CoexMgmt=%d, bForty_Mhz_Intolerant=%d, ignore this action!!\n",
 												pAd->CommonCfg.bBssCoexEnable,
@@ -830,7 +830,7 @@ VOID PeerPublicAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 					/*ApPublicAction(pAd, Elem);*/
 					if ((pBssCoexistIe->field.BSS20WidthReq ==1) || (pBssCoexistIe->field.Intolerant40 == 1))
 					{
-						bNeedFallBack = TRUE;
+						bNeedFallBack = true;
 
 						DBGPRINT(RT_DEBUG_TRACE, ("BSS_2040_COEXIST: BSS20WidthReq=%d, Intolerant40=%d!\n", pBssCoexistIe->field.BSS20WidthReq, pBssCoexistIe->field.Intolerant40));
 					}
@@ -843,7 +843,7 @@ VOID PeerPublicAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 						BSS_COEX_CH_RANGE coexChRange;
 
 						ptr = pIntolerantReport->ChList;
-						bNeedFallBack = TRUE;
+						bNeedFallBack = true;
 
 						DBGPRINT(RT_DEBUG_TRACE, ("The pIntolerantReport len = %d, chlist=", pIntolerantReport->Len));
 						for(i =0 ; i < (pIntolerantReport->Len -1); i++, ptr++)
@@ -853,7 +853,7 @@ VOID PeerPublicAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 						DBGPRINT(RT_DEBUG_TRACE, ("\n"));
 
 						retVal = GetBssCoexEffectedChRange(pAd, &coexChRange);
-						if (retVal == TRUE)
+						if (retVal == true)
 						{
 							ptr = pIntolerantReport->ChList;
 							bNeedFallBack = FALSE;
@@ -869,7 +869,7 @@ VOID PeerPublicAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 									chEntry <= pAd->ChannelList[coexChRange.effectChEnd].Channel)
 								{
 									DBGPRINT(RT_DEBUG_TRACE, ("Found Intolerant channel in effect range=%d!\n", *ptr));
-									bNeedFallBack = TRUE;
+									bNeedFallBack = true;
 									break;
 								}
 							}
@@ -1099,7 +1099,7 @@ VOID PeerVHTAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 							op_mode->rx_nss_type, op_mode->rx_nss, op_mode->ch_width));
 
 				if (op_mode->rx_nss_type == 0) {
-					pEntry->force_op_mode = TRUE;
+					pEntry->force_op_mode = true;
 					memmove(&pEntry->operating_mode, op_mode, 1);
 				}
 			}
@@ -1126,7 +1126,7 @@ VOID PeerVHTAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 	Parametrs:
 	p8023Header: if this is already 802.3 format, p8023Header is NULL
 
-	Return	: TRUE if put into rx reordering buffer, shouldn't indicaterxhere.
+	Return	: true if put into rx reordering buffer, shouldn't indicaterxhere.
 				FALSE , then continue indicaterx at this moment.
 	==========================================================================
  */

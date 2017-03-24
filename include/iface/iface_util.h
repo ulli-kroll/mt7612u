@@ -35,12 +35,12 @@
 #ifdef PCI_MSI_SUPPORT
 #define RTMP_MSI_ENABLE(_pAd) \
 	{     struct os_cookie *_pObj = (_pAd->OS_Cookie); \
-		(_pAd)->HaveMsi = pci_enable_msi(_pObj->pci_dev) == 0 ? TRUE : FALSE; \
+		(_pAd)->HaveMsi = pci_enable_msi(_pObj->pci_dev) == 0 ? true : FALSE; \
 	}
 
 #define RTMP_MSI_DISABLE(_pci_dev, _pHaveMsi)	\
 	{											\
-		if (*(_pHaveMsi) == TRUE)				\
+		if (*(_pHaveMsi) == true)				\
 			pci_disable_msi(_pci_dev);			\
 		*(_pHaveMsi) = FALSE;					\
 	}

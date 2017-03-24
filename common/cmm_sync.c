@@ -66,7 +66,7 @@ VOID BuildChannelList(struct rtmp_adapter *pAd)
 			{
 				pChDesc = Country_Region_ChDesc_2GHZ[i].pChDesc;
 				num = TotalChNum(pChDesc);
-				bRegionFound = TRUE;
+				bRegionFound = true;
 				break;
 			}
 		}
@@ -135,7 +135,7 @@ VOID BuildChannelList(struct rtmp_adapter *pAd)
 			{
 				pChDesc = Country_Region_ChDesc_5GHZ[i].pChDesc;
 				num = TotalChNum(pChDesc);
-				bRegionFound = TRUE;
+				bRegionFound = true;
 				break;
 			}
 		}
@@ -227,7 +227,7 @@ VOID BuildChannelList(struct rtmp_adapter *pAd)
 				for (j=0; j<15; j++)
 				{
 					if (pChannelList[i] == RadarCh[j])
-						pAd->ChannelList[index+i].DfsReq = TRUE;
+						pAd->ChannelList[index+i].DfsReq = true;
 				}
 				pAd->ChannelList[index+i].MaxTxPwr = 20;
 			}
@@ -334,7 +334,7 @@ UCHAR RTMPFindScanChannel(
 #ifdef AP_PARTIAL_SCAN_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 	{
-		if (pAd->ApCfg.bPartialScanning == TRUE)
+		if (pAd->ApCfg.bPartialScanning == true)
 		{
 			scan_channel = FindPartialScanChannel(pAd);
 			return scan_channel;
@@ -427,7 +427,7 @@ CHAR ConvertToRssi(struct rtmp_adapter *pAd, CHAR Rssi, UCHAR rssi_idx)
 		return (Rssi + (CHAR)RssiOffset - (CHAR)LNAGain);
 
 	if (IS_MT76x2(pAd)) {
-		if (is_external_lna_mode(pAd, pAd->CommonCfg.Channel) == TRUE)
+		if (is_external_lna_mode(pAd, pAd->CommonCfg.Channel) == true)
 			LNAGain = 0;
 
 		if (pAd->LatchRfRegs.Channel > 14)
@@ -472,7 +472,7 @@ VOID Handle_BSS_Width_Trigger_Events(struct rtmp_adapter *pAd)
 		DBGPRINT(RT_DEBUG_TRACE, ("Rcv BSS Width Trigger Event: 40Mhz --> 20Mhz \n"));
         NdisGetSystemUpTime(&Now32);
 		pAd->CommonCfg.LastRcvBSSWidthTriggerEventsTime = Now32;
-		pAd->CommonCfg.bRcvBSSWidthTriggerEvents = TRUE;
+		pAd->CommonCfg.bRcvBSSWidthTriggerEvents = true;
 		pAd->CommonCfg.AddHTInfo.AddHtInfo.RecomWidth = 0;
 		pAd->CommonCfg.AddHTInfo.AddHtInfo.ExtChanOffset = 0;
         DetectOverlappingPeriodicRound = 31;

@@ -147,7 +147,7 @@ static bool IsRadarChannel(UCHAR ch)
 	for (idx = 0; idx<sizeof(Cfg80211_RadarChan); idx++)
 	{
 		if (Cfg80211_RadarChan[idx] == ch)
-			return TRUE;
+			return true;
 	}
 
 	return FALSE;
@@ -222,7 +222,7 @@ Arguments:
 	pRates			- Current rate info
 
 Return Value:
-	TRUE			- init successfully
+	true			- init successfully
 	FALSE			- init fail
 
 Note:
@@ -268,7 +268,7 @@ bool CFG80211_SupBandInit(
 		NumOfChan = CFG80211_NUM_OF_CHAN_2GHZ;
 
 	/* 2. Calcute the Rate Number */
-	if (pDriverBandInfo->FlgIsBMode == TRUE)
+	if (pDriverBandInfo->FlgIsBMode == true)
 		NumOfRate = 4;
 	else
 		NumOfRate = 4 + 8;
@@ -477,7 +477,7 @@ bool CFG80211_SupBandInit(
 	pCfg80211_CB->pCfg80211_Channels = pChannels;
 	pCfg80211_CB->pCfg80211_Rates = pRates;
 
-	return TRUE;
+	return true;
 }
 
 
@@ -491,7 +491,7 @@ Arguments:
 	pBandInfo		- Band information
 
 Return Value:
-	TRUE			- re-init successfully
+	true			- re-init successfully
 	FALSE			- re-init fail
 
 Note:
@@ -528,7 +528,7 @@ bool CFG80211OS_SupBandReInit(
 		pWiphy->retry_short = pBandInfo->RetryMaxCnt & 0xff;
 		pWiphy->retry_long = (pBandInfo->RetryMaxCnt & 0xff00)>>8;
 
-		return TRUE;
+		return true;
 	}
 
 	return FALSE;
@@ -622,7 +622,7 @@ bool CFG80211OS_BandInfoGet(
 
 	*ppBand24 = pWiphy->bands[NL80211_BAND_2GHZ];
 	*ppBand5 = pWiphy->bands[NL80211_BAND_5GHZ];
-	return TRUE;
+	return true;
 }
 
 
@@ -689,11 +689,11 @@ bool CFG80211OS_ChanInfoGet(
 	*pPower = pChan->max_power;
 
 	if (pChan->flags & IEEE80211_CHAN_RADAR)
-		*pFlgIsRadar = TRUE;
+		*pFlgIsRadar = true;
 	else
 		*pFlgIsRadar = FALSE;
 
-	return TRUE;
+	return true;
 }
 
 
@@ -705,7 +705,7 @@ Routine Description:
 Arguments:
 
 Return Value:
-	TRUE		- Successful
+	true		- Successful
 	FALSE		- Fail
 
 Note:
@@ -740,7 +740,7 @@ bool CFG80211OS_ChanInfoInit(
 /* no use currently in 2.6.30 */
 /*	if (ieee80211_is_beacon(((struct ieee80211_mgmt *)pFrame)->frame_control)) */
 /*		pChan->beacon_found = 1; */
-	return TRUE;
+	return true;
 }
 
 

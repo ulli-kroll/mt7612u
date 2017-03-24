@@ -136,7 +136,7 @@ int MainVirtualIF_open(struct net_device *net_dev)
 		return 0;
 
 #ifdef CONFIG_AP_SUPPORT
-	/* pAd->ApCfg.MBSSID[MAIN_MBSSID].bBcnSntReq = TRUE; */
+	/* pAd->ApCfg.MBSSID[MAIN_MBSSID].bBcnSntReq = true; */
 	RTMP_DRIVER_AP_MAIN_OPEN(pAd);
 #endif /* CONFIG_AP_SUPPORT */
 
@@ -679,7 +679,7 @@ bool RtmpPhyNetDevExit(struct rtmp_adapter *pAd, struct net_device *net_dev)
 		RtmpOSNetDevProtect(0);
 	}
 
-	return TRUE;
+	return true;
 
 }
 

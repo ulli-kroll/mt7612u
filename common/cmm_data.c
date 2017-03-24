@@ -169,7 +169,7 @@ VOID RTMP_BASetup(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry, UINT8 UPrio
 			{
 				if (pEntry->apidx < MAX_APCLI_NUM) {
 					if (pAd->ApCfg.ApCliTab[pEntry->apidx].MlmeAux.APRalinkIe != 0)
-					isRalink = TRUE;
+					isRalink = true;
 				}
 			}
 #endif /* APCLI_SUPPORT */
@@ -177,7 +177,7 @@ VOID RTMP_BASetup(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry, UINT8 UPrio
 			if (((pEntry->TXBAbitmap & (1<<UPriority)) == 0) /*&& (pMacEntry->PortSecured == WPA_802_1X_PORT_SECURED)*/
 				 && ((IS_ENTRY_CLIENT(pEntry) && CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_RALINK_CHIPSET)) ||
 					 IS_ENTRY_MESH(pEntry) || IS_ENTRY_WDS(pEntry) ||
-				 	 (IS_ENTRY_APCLI(pEntry) && (isRalink == TRUE) && (pEntry->PortSecured == WPA_802_1X_PORT_SECURED)) ||
+				 	 (IS_ENTRY_APCLI(pEntry) && (isRalink == true) && (pEntry->PortSecured == WPA_802_1X_PORT_SECURED)) ||
 				 	 (pEntry->WepStatus == Ndis802_11WEPDisabled ||
 						pEntry->WepStatus == Ndis802_11AESEnable
 						))
@@ -192,7 +192,7 @@ VOID RTMP_BASetup(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry, UINT8 UPrio
 #ifdef CONFIG_STA_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
 	{
-		if ((pAd->CommonCfg.BACapability.field.AutoBA == TRUE) && (pEntry->NoBADataCountDown == 0) && IS_HT_STA(pEntry))
+		if ((pAd->CommonCfg.BACapability.field.AutoBA == true) && (pEntry->NoBADataCountDown == 0) && IS_HT_STA(pEntry))
 		{
 			if (((pEntry->TXBAbitmap & (1 << UPriority)) == 0) &&
 			    ((pEntry->BADeclineBitmap & (1 << UPriority)) == 0) &&
@@ -252,7 +252,7 @@ int MiniportMMRequest(
 
 	if ((QueIdx & MGMT_USE_QUEUE_FLAG) == MGMT_USE_QUEUE_FLAG)
 	{
-		bUseDataQ = TRUE;
+		bUseDataQ = true;
 		QueIdx &= (~MGMT_USE_QUEUE_FLAG);
 	}
 
@@ -591,7 +591,7 @@ int MlmeHardTransmit(
 
 
 
-		if (FlgDataQForce == TRUE)
+		if (FlgDataQForce == true)
 			RTMP_SET_PACKET_MGMT_PKT_DATA_QUE(pPacket, 1); /* force to data queue */
 
 		if ((pHeader_802_11->FC.Type == FC_TYPE_MGMT) &&
@@ -653,7 +653,7 @@ int MlmeHardTransmitMgmtRing(
 	{
 		/* outgoing frame always wakeup PHY to prevent frame lost*/
 		if (OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_DOZE))
-			AsicForceWakeup(pAd, TRUE);
+			AsicForceWakeup(pAd, true);
 	}
 #endif /* CONFIG_STA_SUPPORT */
 
@@ -735,7 +735,7 @@ int MlmeHardTransmitMgmtRing(
 			((pHeader_802_11->FC.SubType == SUBTYPE_QOS_NULL) ||
 			(pHeader_802_11->FC.SubType == SUBTYPE_DATA_NULL))))
 		{
-			if (RtmpPktPmBitCheck(pAd) == TRUE)
+			if (RtmpPktPmBitCheck(pAd) == true)
 				pHeader_802_11->FC.PwrMgmt = PWR_SAVE;
 			else if (OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_MEDIA_STATE_CONNECTED) &&
 					INFRA_ON(pAd) &&
@@ -789,7 +789,7 @@ int MlmeHardTransmitMgmtRing(
 		{
 #ifdef SOFT_SOUNDING
 			if (((pHeader_802_11->FC.Type == FC_TYPE_DATA) && (pHeader_802_11->FC.SubType == SUBTYPE_QOS_NULL))
-				&& pMacEntry && (pMacEntry->snd_reqired == TRUE))
+				&& pMacEntry && (pMacEntry->snd_reqired == true))
 			{
 				bAckRequired = FALSE;
 				pHeader_802_11->Duration = 0;
@@ -797,11 +797,11 @@ int MlmeHardTransmitMgmtRing(
 			else
 #endif /* SOFT_SOUNDING */
 			{
-				bAckRequired = TRUE;
+				bAckRequired = true;
 				pHeader_802_11->Duration = RTMPCalcDuration(pAd, MlmeRate, 14);
 				if ((pHeader_802_11->FC.SubType == SUBTYPE_PROBE_RSP) && (pHeader_802_11->FC.Type == FC_TYPE_MGMT))
 				{
-					bInsertTimestamp = TRUE;
+					bInsertTimestamp = true;
 					bAckRequired = FALSE; /* Disable ACK to prevent retry 0x1f for Probe Response*/
 #ifdef CONFIG_AP_SUPPORT
 #ifdef SPECIFIC_TX_POWER_SUPPORT
@@ -922,7 +922,7 @@ int MlmeHardTransmitMgmtRing(
 
 #ifdef SOFT_SOUNDING
 	if (((pHeader_802_11->FC.Type == FC_TYPE_DATA) && (pHeader_802_11->FC.SubType == SUBTYPE_QOS_NULL))
-		&& pMacEntry && (pMacEntry->snd_reqired == TRUE))
+		&& pMacEntry && (pMacEntry->snd_reqired == true))
 	{
 		wcid = RESERVED_WCID;
 		tx_rate = (UCHAR)pMacEntry->snd_rate.field.MCS;
@@ -1015,18 +1015,18 @@ int MlmeHardTransmitMgmtRing(
 								No ACK, 		pTxBlk->bAckRequired = FALSE;
 								No WMM, 		pTxBlk->bWMM = FALSE;
 								No piggyback,   pTxBlk->bPiggyBack = FALSE;
-								Force LowRate,  pTxBlk->bForceLowRate = TRUE;
+								Force LowRate,  pTxBlk->bForceLowRate = true;
 					Specific :	Basically, for specific packet, we should handle it specifically, but now all specific packets are use
 									the same policy to handle it.
-								Force LowRate,  pTxBlk->bForceLowRate = TRUE;
+								Force LowRate,  pTxBlk->bForceLowRate = true;
 
 					11N Rate :
 								No piggyback,	pTxBlk->bPiggyBack = FALSE;
 
 								(1).AMSDU
-									pTxBlk->bWMM = TRUE;
+									pTxBlk->bWMM = true;
 								(2).AMPDU
-									pTxBlk->bWMM = TRUE;
+									pTxBlk->bWMM = true;
 								(3).Normal
 
 					B/G Rate :
@@ -1072,7 +1072,7 @@ static UCHAR TxPktClassification(struct rtmp_adapter *pAd, struct sk_buff * pPac
 
 		/* Depends on HTPhyMode to check if the peer support the HTRate transmission.*/
 		/* 	Currently didn't support A-MSDU embedded in A-MPDU*/
-		bHTRate = TRUE;
+		bHTRate = true;
 		TxFrameType = TX_UNKOWN_FRAME;
 
 		if (pMacEntry->TxSndgType == SNDG_TYPE_NDP && IS_VHT_RATE(pMacEntry))
@@ -1087,7 +1087,7 @@ static UCHAR TxPktClassification(struct rtmp_adapter *pAd, struct sk_buff * pPac
 			TxFrameType |= TX_LEGACY_FRAME;
 #endif /* UAPSD_SUPPORT */
 #ifdef WFA_VHT_PF
-		else if (pAd->force_amsdu == TRUE)
+		else if (pAd->force_amsdu == true)
 			return (TxFrameType | TX_AMSDU_FRAME);
 #endif /* WFA_VHT_PF */
 		else if ((pMacEntry->TXBAbitmap & (1<<(RTMP_GET_PACKET_UP(pPacket)))) != 0)
@@ -1246,7 +1246,7 @@ bool RTMP_FillTxBlkInfo(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 				/* Modify the WMM bit for ICV issue. If we have a packet with EOSP field need to set as 1, how to handle it? */
 				if (IS_HT_STA(pTxBlk->pMacEntry) &&
 					(CLIENT_STATUS_TEST_FLAG(pMacEntry, fCLIENT_STATUS_RALINK_CHIPSET)) &&
-					((pAd->CommonCfg.bRdg == TRUE) && CLIENT_STATUS_TEST_FLAG(pMacEntry, fCLIENT_STATUS_RDG_CAPABLE)))
+					((pAd->CommonCfg.bRdg == true) && CLIENT_STATUS_TEST_FLAG(pMacEntry, fCLIENT_STATUS_RDG_CAPABLE)))
 				{
 					TX_BLK_CLEAR_FLAG(pTxBlk, fTX_bWMM);
 					TX_BLK_SET_FLAG(pTxBlk, fTX_bForceNonQoS);
@@ -1281,7 +1281,7 @@ bool RTMP_FillTxBlkInfo(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 
 	pAd->LastTxRate = (USHORT)pTxBlk->pTransmit->word;
 
-	return TRUE;
+	return true;
 }
 
 
@@ -1325,14 +1325,14 @@ bool CanDoAggregateTransmit(
 
 #ifdef CONFIG_STA_SUPPORT
 	if ((INFRA_ON(pAd)) && (pAd->OpMode == OPMODE_STA)) /* must be unicast to AP*/
-		return TRUE;
+		return true;
 	else
 #endif /* CONFIG_STA_SUPPORT */
 #ifdef CONFIG_AP_SUPPORT
 	/* CFG_TODO */
 	if ((MAC_ADDR_EQUAL(GET_OS_PKT_DATAPTR(pTxBlk->pPacket), GET_OS_PKT_DATAPTR(pPacket)))
 	    && (pAd->OpMode == OPMODE_AP)) /* unicast to same STA*/
-		return TRUE;
+		return true;
 	else
 #endif /* CONFIG_AP_SUPPORT */
 		return FALSE;
@@ -1402,7 +1402,7 @@ VOID RTMPDeQueuePacket(
 		RTMP_START_DEQUEUE(pAd, QueIdx, IrqFlags);
 
 #ifdef DBG_DIAGNOSE
-		firstRound = ((QueIdx == sQIdx) ? TRUE : FALSE);
+		firstRound = ((QueIdx == sQIdx) ? true : FALSE);
 #endif /* DBG_DIAGNOSE */
 
 		while (1)
@@ -1428,7 +1428,7 @@ VOID RTMPDeQueuePacket(
 			{
 #ifdef DBG_DIAGNOSE
 #ifdef DBG_TXQ_DEPTH
-				if (firstRound == TRUE)
+				if (firstRound == true)
 					pDiagStruct->TxSWQueCnt[pDiagStruct->ArrayCurIdx][0]++;
 #endif /* DBG_TXQ_DEPTH */
 #endif /* DBG_DIAGNOSE */
@@ -1759,7 +1759,7 @@ VOID RTMPResumeMsduTransmission(
 /*
 	IrqState = pAd->irq_disabled;
 	if (IrqState)
-		RTMPDeQueuePacket(pAd, TRUE, NUM_OF_TX_RING, MAX_TX_PROCESS);
+		RTMPDeQueuePacket(pAd, true, NUM_OF_TX_RING, MAX_TX_PROCESS);
 	else
 */
 	RTMPDeQueuePacket(pAd, FALSE, NUM_OF_TX_RING, MAX_TX_PROCESS);
@@ -2089,7 +2089,7 @@ bool RTMPCheckEtherType(
 
 #ifdef CONFIG_AP_SUPPORT
 	if(IS_MULTICAST_MAC_ADDR(pSrcBuf))
-		isMcast = TRUE;
+		isMcast = true;
 #endif /* CONFIG_AP_SUPPORT */
 
 	/* get Ethernet protocol field and skip the Ethernet Header */
@@ -2306,7 +2306,7 @@ bool RTMPCheckEtherType(
 
 	/*
 		Set WMM when
-		1. wdev->bWmmCapable == TRUE
+		1. wdev->bWmmCapable == true
 		2. Receiver's capability
 			a). bc/mc packets
 				->Need to get UP for IGMP use
@@ -2314,13 +2314,13 @@ bool RTMPCheckEtherType(
 				-> CLIENT_STATUS_TEST_FLAG(pMacEntry, fCLIENT_STATUS_WMM_CAPABLE)
 		3. has VLAN tag or DSCP fields in IPv4/IPv6 hdr
 	*/
-	if ((wdev->bWmmCapable == TRUE) && (up <= 7))
+	if ((wdev->bWmmCapable == true) && (up <= 7))
 	{
 		*pUserPriority = up;
 		*pQueIdx = WMM_UP2AC_MAP[up];
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -2335,7 +2335,7 @@ VOID Update_Rssi_Sample(
 	CHAR Phymode = get_pkt_phymode_by_rxwi(pAd, pRxWI);
 
 	if (!(pRssi->AvgRssi0 | pRssi->AvgRssi0X8 | pRssi->LastRssi0))
-		bInitial = TRUE;
+		bInitial = true;
 
 	get_pkt_rssi_by_rxwi(pAd, pRxWI, 3, &rssi[0]);
 	get_pkt_snr_by_rxwi(pAd, pRxWI, 3, &snr[0]);
@@ -2786,7 +2786,7 @@ struct sk_buff *RTMPDeFragmentDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk
 
 		/* Last fragment*/
 		if (pHeader->FC.MoreFrag == FALSE)
-			bReassDone = TRUE;
+			bReassDone = true;
 	}
 
 done:
@@ -2893,7 +2893,7 @@ bool RTMPExpandPacketForSwEncrypt(
 	}
 	RTMP_QueryPacketInfo(pTxBlk->pPacket, &PacketInfo, &pTxBlk->pSrcBufHeader, &pTxBlk->SrcBufLen);
 
-	return TRUE;
+	return true;
 }
 
 
@@ -3075,13 +3075,13 @@ VOID RtmpPrepareHwNullFrame(
 			Transmit.field.MCS = 7;
 
 		RTMPWriteTxWI(pAd, pTxWI, FALSE, FALSE, FALSE,
-			      FALSE, TRUE, TRUE, 0, pEntry->Aid,
+			      FALSE, true, true, 0, pEntry->Aid,
 			      Length, (UCHAR)Transmit.field.MCS,
 			      0, (UCHAR)Transmit.field.MCS,
 			      IFS_HTTXOP, &Transmit);
 	} else {
 		RTMPWriteTxWI(pAd, pTxWI, FALSE, FALSE, FALSE,
-			      FALSE, TRUE, 0, 0, pEntry->Aid,
+			      FALSE, true, 0, 0, pEntry->Aid,
 			      Length, (UCHAR)pAd->CommonCfg.MlmeTransmit.field.MCS,
 			      0, (UCHAR)pAd->CommonCfg.MlmeTransmit.field.MCS,
 			      IFS_HTTXOP, &pAd->CommonCfg.MlmeTransmit);
@@ -3169,13 +3169,13 @@ VOID dev_rx_mgmt_frm(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 				{
 #ifdef APCLI_SUPPORT
 #ifdef APCLI_CERT_SUPPORT
-					if  (pAd->bApCliCertTest == TRUE)
+					if  (pAd->bApCliCertTest == true)
 					{
 						for (i = 0; i < MAX_APCLI_NUM; i++)
 						{
 							pApCliEntry = &pAd->ApCfg.ApCliTab[i];
 							if (MAC_ADDR_EQUAL(pApCliEntry->wdev.if_addr, pHeader->Addr1))
-								bPassTheBcastPkt = TRUE; /* Let this Action Frame pass */
+								bPassTheBcastPkt = true; /* Let this Action Frame pass */
 						}
 					}
 #endif /* APCLI_CERT_SUPPOR */
@@ -3189,7 +3189,7 @@ VOID dev_rx_mgmt_frm(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 			}
 		}
 
-		if (pAd->ApCfg.BANClass3Data == TRUE)
+		if (pAd->ApCfg.BANClass3Data == true)
 		{
 			/* disallow new association */
 			if ((pHeader->FC.SubType == SUBTYPE_ASSOC_REQ) || (pHeader->FC.SubType == SUBTYPE_AUTH))
@@ -3255,7 +3255,7 @@ VOID dev_rx_mgmt_frm(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 
 
 		/* check if need to resend PS Poll when received packet with MoreData = 1 */
-		if ((RtmpPktPmBitCheck(pAd) == TRUE) && (pHeader->FC.MoreData == 1)) {
+		if ((RtmpPktPmBitCheck(pAd) == true) && (pHeader->FC.MoreData == 1)) {
 			/* for UAPSD, all management frames will be VO priority */
 			if (pAd->CommonCfg.bAPSDAC_VO == 0) {
 				/* non-UAPSD delivery-enabled AC */
@@ -3513,7 +3513,7 @@ bool rtmp_rx_done_handle(struct rtmp_adapter *pAd)
 
 
 #ifdef RT_BIG_ENDIAN
-		RTMPFrameEndianChange(pAd, (u8 *)pHeader, DIR_READ, TRUE);
+		RTMPFrameEndianChange(pAd, (u8 *)pHeader, DIR_READ, true);
 		RTMPWIEndianChange(pAd , (u8 *)pRxWI, TYPE_RXWI);
 #endif
 
@@ -3607,7 +3607,7 @@ bool rtmp_rx_done_handle(struct rtmp_adapter *pAd)
 #ifdef RTMP_FREQ_CALIBRATION_SUPPORT
 			if (pAd->chipCap.FreqCalibrationSupport)
 			{
-				if ((pAd->FreqCalibrationCtrl.bEnableFrequencyCalibration == TRUE)
+				if ((pAd->FreqCalibrationCtrl.bEnableFrequencyCalibration == true)
 				    && (INFRA_ON(pAd)) && (pRxInfo->Crc == 0)
 			    	&& (pHeader->FC.Type == FC_TYPE_MGMT)
 			    	&& (pHeader->FC.SubType == SUBTYPE_BEACON)

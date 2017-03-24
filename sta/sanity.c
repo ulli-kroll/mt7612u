@@ -41,7 +41,7 @@ extern UCHAR BROADCOM_OUI[];
     Description:
         MLME message sanity check
     Return:
-        TRUE if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, FALSE otherwise
     ==========================================================================
  */
 bool MlmeStartReqSanity(
@@ -64,7 +64,7 @@ bool MlmeStartReqSanity(
 	*pSsidLen = Info->SsidLen;
 	memmove(Ssid, Info->Ssid, *pSsidLen);
 
-	return TRUE;
+	return true;
 }
 
 /*
@@ -72,7 +72,7 @@ bool MlmeStartReqSanity(
     Description:
         MLME message sanity check
     Return:
-        TRUE if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, FALSE otherwise
 
     IRQL = DISPATCH_LEVEL
 
@@ -121,7 +121,7 @@ bool PeerAssocRspSanity(
 	pEdcaParm->bValid = FALSE;
 
 	if (*pStatus != MLME_SUCCESS)
-		return TRUE;
+		return true;
 
 	memmove(pAid, &pFrame->Octet[4], 2);
 	Length += 2;
@@ -227,7 +227,7 @@ bool PeerAssocRspSanity(
 					int i;
 
 					/* parsing EDCA parameters */
-					pEdcaParm->bValid = TRUE;
+					pEdcaParm->bValid = true;
 					pEdcaParm->bQAck = FALSE;	/* pEid->Octet[0] & 0x10; */
 					pEdcaParm->bQueueRequest = FALSE;	/* pEid->Octet[0] & 0x20; */
 					pEdcaParm->bTxopRequest = FALSE;	/* pEid->Octet[0] & 0x40; */
@@ -268,7 +268,7 @@ bool PeerAssocRspSanity(
 	}
 
 
-	return TRUE;
+	return true;
 }
 
 
@@ -310,7 +310,7 @@ bool GetTimBit(
 	BitCntl = *IdxPtr;
 
 	if ((*DtimCount == 0) && (BitCntl & 0x01))
-		*BcastFlag = TRUE;
+		*BcastFlag = true;
 	else
 		*BcastFlag = FALSE;
 
@@ -327,10 +327,10 @@ bool GetTimBit(
 		IdxPtr += (MyByte + 1);
 
 		if (*IdxPtr & (0x01 << MyBit))
-			*MessageToMe = TRUE;
+			*MessageToMe = true;
 		else
 			*MessageToMe = FALSE;
 	}
 
-	return TRUE;
+	return true;
 }

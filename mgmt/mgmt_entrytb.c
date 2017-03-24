@@ -171,12 +171,12 @@ bool StaUpdateMacTableEntry(
 		if ((pAd->StaCfg.BssType == BSS_INFRA) &&
 		    (htcap_len != 0) &&
 		    WMODE_CAP_N(pAd->CommonCfg.PhyMode))
-			bSupportN = TRUE;
+			bSupportN = true;
 		if ((pAd->StaCfg.BssType == BSS_ADHOC) &&
-		    (pAd->StaCfg.bAdhocN == TRUE) &&
+		    (pAd->StaCfg.bAdhocN == true) &&
 		    (htcap_len != 0) &&
 		    WMODE_CAP_N(pAd->CommonCfg.PhyMode))
-			bSupportN = TRUE;
+			bSupportN = true;
 	}
 
 	if (bSupportN) {
@@ -239,7 +239,7 @@ bool StaUpdateMacTableEntry(
 			memmove(&pEntry->vht_cap_ie, &ie_list->vht_cap, sizeof(VHT_CAP_IE));
 		}
 	} else {
-		pAd->MacTab.fAnyStationIsLegacy = TRUE;
+		pAd->MacTab.fAnyStationIsLegacy = true;
 	}
 
 	pEntry->HTPhyMode.word = pEntry->MaxHTPhyMode.word;
@@ -256,11 +256,11 @@ bool StaUpdateMacTableEntry(
 	MlmeRAInit(pAd, pEntry);
 
 	/* Set asic auto fall back */
-	if (wdev->bAutoTxRateSwitch == TRUE) {
+	if (wdev->bAutoTxRateSwitch == true) {
 		UCHAR TableSize = 0;
 
 		MlmeSelectTxRateTable(pAd, pEntry, &pEntry->pTable, &TableSize, &pEntry->CurrTxRateIndex);
-		pEntry->bAutoTxRateSwitch = TRUE;
+		pEntry->bAutoTxRateSwitch = true;
 	} else {
 		pEntry->HTPhyMode.field.MODE = wdev->HTPhyMode.field.MODE;
 		pEntry->HTPhyMode.field.MCS = wdev->HTPhyMode.field.MCS;
@@ -337,7 +337,7 @@ bool StaUpdateMacTableEntry(
 #endif /* NATIVE_WPA_SUPPLICANT_SUPPORT */
 
 
-	return TRUE;
+	return true;
 }
 #endif /* CONFIG_STA_SUPPORT */
 
@@ -385,7 +385,7 @@ MAC_TABLE_ENTRY *MacTableInsertEntry(
 
 			memset(pEntry, 0, sizeof(MAC_TABLE_ENTRY));
 
-			if (CleanAll == TRUE)
+			if (CleanAll == true)
 			{
 				pEntry->MaxSupportedRate = RATE_11;
 				pEntry->CurrTxRate = RATE_11;
@@ -878,7 +878,7 @@ bool MacTableDeleteEntry(struct rtmp_adapter *pAd, USHORT wcid, UCHAR *pAddr)
 	if (pAd->MacTab.Size == 0)
 	{
 		pAd->CommonCfg.AddHTInfo.AddHtInfo2.OperaionMode = 0;
-		RTMP_UPDATE_PROTECT(pAd, 0, ALLN_SETPROTECT, TRUE, 0);
+		RTMP_UPDATE_PROTECT(pAd, 0, ALLN_SETPROTECT, true, 0);
 	}
 
 #ifdef CONFIG_AP_SUPPORT
@@ -886,7 +886,7 @@ bool MacTableDeleteEntry(struct rtmp_adapter *pAd, USHORT wcid, UCHAR *pAddr)
 	RTMP_AP_UPDATE_CAPABILITY_AND_ERPIE(pAd);  /* edit by johnli, fix "in_interrupt" error when call "MacTableDeleteEntry" in Rx tasklet*/
 #endif /* CONFIG_AP_SUPPORT */
 
-	return TRUE;
+	return true;
 }
 
 

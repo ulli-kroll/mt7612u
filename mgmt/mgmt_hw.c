@@ -52,6 +52,6 @@ INT dev_adjust_radio(struct rtmp_adapter *pAd)
 		rtmp_mac_set_ctrlch(pAd, ext_ch);
 	}
 
-	return TRUE;
+	return true;
 }
 

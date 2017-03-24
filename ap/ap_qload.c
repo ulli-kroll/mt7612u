@@ -19,7 +19,7 @@
     Provide information on the current STA population and traffic levels
 	in the QBSS.
 
-	This attribute is available only at a QAP. This attribute, when TRUE,
+	This attribute is available only at a QAP. This attribute, when true,
 	indicates that the QAP implementation is capable of generating and
 	transmitting the QBSS load element in the Beacon and Probe Response frames.
 
@@ -143,7 +143,7 @@ static VOID QBSS_LoadAlarm(
 				continue;
 
 			if (pEntry->BSS2040CoexistenceMgmtSupport)
-				bDisconnectSta = TRUE;
+				bDisconnectSta = true;
 
 			if (bDisconnectSta)
 			{
@@ -196,7 +196,7 @@ static VOID QBSS_LoadAlarm(
 		pAd->CommonCfg.RegTransmitSetting.field.BW = BW_20;
 
 		/* mark alarm flag */
-		pAd->FlgQloadAlarm = TRUE;
+		pAd->FlgQloadAlarm = true;
 
 		QBSS_LoadAlarmResume(pAd);
 	}
@@ -270,12 +270,12 @@ VOID QBSS_LoadInit(
 		if ((pAd->ApCfg.MBSSID[IdBss].wdev.bWmmCapable)
 			)
 		{
-			pAd->FlgQloadEnable = TRUE;
+			pAd->FlgQloadEnable = true;
 			break;
 		}
 	}
 
-	if (pAd->FlgQloadEnable == TRUE)
+	if (pAd->FlgQloadEnable == true)
 	{
 		/* Count EIFS, NAV, RX busy, TX busy as channel busy and
 			enable Channel statistic timer (bit 0) */
@@ -381,7 +381,7 @@ static VOID QBSS_LoadAlarmSuspend(
  	IN		struct rtmp_adapter *pAd)
 {
 #ifdef QLOAD_FUNC_BUSY_TIME_ALARM
-	pAd->FlgQloadAlarmIsSuspended = TRUE;
+	pAd->FlgQloadAlarmIsSuspended = true;
 #endif /* QLOAD_FUNC_BUSY_TIME_ALARM */
 }
 
@@ -419,7 +419,7 @@ Arguments:
 	pAd					- WLAN control block pointer
 
 Return Value:
-	TRUE				- alarm occurs
+	true				- alarm occurs
 	FALSE				- no alarm
 
 Note:
@@ -462,13 +462,13 @@ bool QBSS_LoadIsBusyTimeAccepted(
 {
 #ifdef QLOAD_FUNC_BUSY_TIME_ALARM
 	if (pAd->QloadAlarmBusyTimeThreshold == 0)
-		return TRUE; /* always ok */
+		return true; /* always ok */
 
 	if (BusyTime >= pAd->QloadBusyTimeThreshold)
 		return FALSE;
 #endif /* QLOAD_FUNC_BUSY_TIME_ALARM */
 
-	return TRUE;
+	return true;
 }
 
 
@@ -562,7 +562,7 @@ VOID QBSS_LoadUpdate(
 
 	/* check whether channel busy time calculation is enabled */
 	if ((pAd->FlgQloadEnable == 0) ||
-		(pAd->FlgQloadAlarmIsSuspended == TRUE))
+		(pAd->FlgQloadAlarmIsSuspended == true))
 		return;
 
 	/* calculate new time period if needed */
@@ -617,7 +617,7 @@ VOID QBSS_LoadUpdate(
 			if ((pAd->QloadBusyTimeThreshold != 0) &&
 				(BusyTime >= pAd->QloadBusyTimeThreshold))
 			{
-				FlgIsBusyOverThreshold = TRUE;
+				FlgIsBusyOverThreshold = true;
 			}
 		}
 #endif /* QLOAD_FUNC_BUSY_TIME_ALARM */
@@ -648,7 +648,7 @@ VOID QBSS_LoadUpdate(
 		if ((pAd->QloadBusyTimeThreshold != 0) &&
 			(BusyTime >= pAd->QloadBusyTimeThreshold))
 		{
-			FlgIsBusyOverThreshold = TRUE;
+			FlgIsBusyOverThreshold = true;
 		}
 	}
 #endif /* QLOAD_FUNC_BUSY_TIME_ALARM */
@@ -687,7 +687,7 @@ VOID QBSS_LoadUpdate(
 		/* Alarm is not suspended and is enabled */
 
 		/* check if we need to issue a alarm */
-		if (FlgIsBusyOverThreshold == TRUE)
+		if (FlgIsBusyOverThreshold == true)
 		{
 			if (pAd->QloadAlarmDuration == 0)
 			{
@@ -701,7 +701,7 @@ VOID QBSS_LoadUpdate(
 						The continued number of busy time >= threshold is larger
 						than number threshold so issuing a alarm.
 					*/
-					FlgIsAlarmNeeded = TRUE;
+					FlgIsAlarmNeeded = true;
 					pAd->QloadAlarmDuration ++;
 				}
 			}
@@ -723,7 +723,7 @@ VOID QBSS_LoadUpdate(
 			}
 		}
 
-		if (FlgIsAlarmNeeded == TRUE)
+		if (FlgIsAlarmNeeded == true)
 			QBSS_LoadAlarm(pAd);
 	}
 	else
@@ -820,7 +820,7 @@ INT	Show_QoSLoad_Proc(
 #endif /* QLOAD_FUNC_BUSY_TIME_STATS */
 
 	DBGPRINT(RT_DEBUG_OFF, ("\n"));
-	return TRUE;
+	return true;
 }
 
 
@@ -844,7 +844,7 @@ INT	Set_QloadClr_Proc(
 	IN	char *		Arg)
 {
 	QBSS_LoadStatusClear(pAd);
-	return TRUE;
+	return true;
 }
 
 
@@ -875,7 +875,7 @@ INT	Set_QloadAlarmTimeThreshold_Proc(
 	pAd->QloadTimePeriodLast = pAd->CommonCfg.BeaconPeriod;
 #endif /* QLOAD_FUNC_BUSY_TIME_ALARM */
 
-	return TRUE;
+	return true;
 }
 
 
@@ -902,7 +902,7 @@ INT	Set_QloadAlarmNumThreshold_Proc(
 	pAd->QloadAlarmBusyNumThreshold = (UCHAR)simple_strtol(Arg, 0, 10);
 #endif /* QLOAD_FUNC_BUSY_TIME_ALARM */
 
-	return TRUE;
+	return true;
 }
 
 #endif /* AP_QLOAD_SUPPORT */

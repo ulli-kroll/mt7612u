@@ -1569,7 +1569,7 @@ enum WIFI_MODE{
 #endif /* CONFIG_AP_SUPPORT */
 
 /* definition of Recipient or Originator */
-#define I_RECIPIENT                  TRUE
+#define I_RECIPIENT                  true
 #define I_ORIGINATOR                   FALSE
 
 #define DEFAULT_BBP_TX_POWER        0

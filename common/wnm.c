@@ -173,7 +173,7 @@ bool IsGratuitousARP(UCHAR *pData)
 		if (NdisCmpMemory(SenderIP, TargetIP, 4) == 0)
 		{
 			DBGPRINT(RT_DEBUG_TRACE, ("The Packet is GratuitousARP\n"));
-			return TRUE;
+			return true;
 		}
 	}
 
@@ -209,7 +209,7 @@ bool IsUnsolicitedNeighborAdver(struct rtmp_adapter *pAd,
 				{
 					DBGPRINT(RT_DEBUG_OFF, ("The Packet is UnsolicitedNeighborAdver\n"));
 					Pos += 4;
-					return TRUE;
+					return true;
 				}
 			}
 		}
@@ -249,7 +249,7 @@ bool IsIPv4ProxyARPCandidate(IN struct rtmp_adapter *pAd,
 			if (NdisCmpMemory(SenderIP, TargetIP, 4) != 0)
 			{
 				DBGPRINT(RT_DEBUG_TRACE, ("IPv4ProxyARPCandidate\n"));
-				return TRUE;
+				return true;
 			}
 		}
 	}
@@ -285,7 +285,7 @@ bool IsIpv6DuplicateAddrDetect(struct rtmp_adapter *pAd,
 				if (*Pos == 0x87)
 				{
 					DBGPRINT(RT_DEBUG_OFF, ("THe Packet is for Ipv6DuplicateAddrDetect\n"));
-					return TRUE;
+					return true;
 				}
 			}
 		}
@@ -321,7 +321,7 @@ bool IsIPv6ProxyARPCandidate(IN struct rtmp_adapter *pAd,
 				if (*Pos == 0x87)
 				{
 					DBGPRINT(RT_DEBUG_TRACE, ("The Packet is IPv6ProxyARPCandidate\n"));
-					return TRUE;
+					return true;
 				}
 			}
 		//}
@@ -349,7 +349,7 @@ bool IsIPv6RouterSolicitation(IN struct rtmp_adapter *pAd,
 		if (*Pos == 0x85)
 		{
 			DBGPRINT(RT_DEBUG_OFF, ("The Packet is IPv6 Router Solicitation\n"));
-			return TRUE;
+			return true;
 		}
 	}
 
@@ -375,7 +375,7 @@ bool IsIPv6RouterAdvertisement(IN struct rtmp_adapter *pAd,
 		if (*Pos == 0x86)
 		{
 			DBGPRINT(RT_DEBUG_TRACE, ("The Packet is IPv6 Router Advertisement\n"));
-			return TRUE;
+			return true;
 		}
 	}
 
@@ -396,7 +396,7 @@ bool IsTDLSPacket(IN struct rtmp_adapter *pAd,
 	if (ProtoType == 0x890d)
 	{
 		DBGPRINT(RT_DEBUG_TRACE, ("THe Packet is TDLS\n"));
-		return TRUE;
+		return true;
 	}
 
 	return FALSE;
@@ -463,7 +463,7 @@ bool GetIPv4ProxyARPTable(IN struct rtmp_adapter *pAd,
 	}
 	up(&pWNMCtrl->ProxyARPListLock);
 
-	return TRUE;
+	return true;
 }
 
 bool GetIPv6ProxyARPTable(IN struct rtmp_adapter *pAd,
@@ -488,7 +488,7 @@ bool GetIPv6ProxyARPTable(IN struct rtmp_adapter *pAd,
 	}
 	up(&pWNMCtrl->ProxyARPIPv6ListLock);
 
-	return TRUE;
+	return true;
 }
 
 uint32_t AddIPv4ProxyARPEntry(IN struct rtmp_adapter *pAd,
@@ -532,7 +532,7 @@ uint32_t AddIPv4ProxyARPEntry(IN struct rtmp_adapter *pAd,
 	DlListAddTail(&pWNMCtrl->IPv4ProxyARPList, &ProxyARPEntry->List);
 	up(&pWNMCtrl->ProxyARPListLock);
 
-	return TRUE;
+	return true;
 }
 
 VOID RemoveIPv4ProxyARPEntry(IN struct rtmp_adapter *pAd,
@@ -614,7 +614,7 @@ uint32_t AddIPv6ProxyARPEntry(IN struct rtmp_adapter *pAd,
 	DlListAddTail(&pWNMCtrl->IPv6ProxyARPList, &ProxyARPEntry->List);
 	up(&pWNMCtrl->ProxyARPIPv6ListLock);
 
-	return TRUE;
+	return true;
 }
 
 VOID RemoveIPv6ProxyARPEntry(IN struct rtmp_adapter *pAd,
@@ -663,7 +663,7 @@ bool IPv4ProxyARP(IN struct rtmp_adapter *pAd,
 	{
 		if (IPV4_ADDR_EQUAL(ProxyARPEntry->TargetIPAddr, TargetIPAddr))
 		{
-			IsFound = TRUE;
+			IsFound = true;
 			break;
 		}
 	}
@@ -705,7 +705,7 @@ bool IPv6ProxyARP(IN struct rtmp_adapter *pAd,
 	{
 		if (IPV6_ADDR_EQUAL(ProxyARPEntry->TargetIPAddr, TargetIPAddr))
 		{
-			IsFound = TRUE;
+			IsFound = true;
 			break;
 		}
 	}

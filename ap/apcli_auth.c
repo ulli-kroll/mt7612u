@@ -92,7 +92,7 @@ static VOID ApCliMlmeAuthReqAction(
 		pCurrState = &pAd->ApCfg.ApCliTab[ifIndex].AuthCurrState;
 
 	/* Block all authentication request durning WPA block period */
-	if (pAd->ApCfg.ApCliTab[ifIndex].bBlockAssoc == TRUE)
+	if (pAd->ApCfg.ApCliTab[ifIndex].bBlockAssoc == true)
 	{
 		DBGPRINT(RT_DEBUG_TRACE, ("APCLI AUTH - Block Auth request durning WPA block period!\n"));
 		*pCurrState = APCLI_AUTH_REQ_IDLE;
@@ -398,7 +398,7 @@ static VOID ApCliPeerDeauthAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Ele
 				(pAd->ApCfg.ApCliTab[ifIndex].wdev.AuthMode == Ndis802_11AuthModeWPA2)
 				&&(pMacEntry->PortSecured == WPA_802_1X_PORT_SECURED))
 				{
-					pAd->ApCfg.ApCliTab[ifIndex].wpa_supplicant_info.bLostAp = TRUE;
+					pAd->ApCfg.ApCliTab[ifIndex].wpa_supplicant_info.bLostAp = true;
 				}
 #endif /*WPA_SUPPLICANT_SUPPORT*/
 

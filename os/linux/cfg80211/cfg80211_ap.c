@@ -122,7 +122,7 @@ static void CFG80211DRV_UpdateApSettingFromBeacon(struct rtmp_adapter *pAd, UINT
 	}
 
 	if (pBeacon->hidden_ssid > 0 && pBeacon->hidden_ssid < 3) {
-		pMbss->bHideSsid = TRUE;
+		pMbss->bHideSsid = true;
 	}
 	else
 		pMbss->bHideSsid = FALSE;
@@ -180,7 +180,7 @@ VOID CFG80211DRV_DisableApInterface(struct rtmp_adapter *pAd)
     {
 		/* Disable piggyback */
 		RTMPSetPiggyBack(pAd, FALSE);
-		AsicUpdateProtect(pAd, 0,  (ALLN_SETPROTECT|CCKSETPROTECT|OFDMSETPROTECT), TRUE, FALSE);
+		AsicUpdateProtect(pAd, 0,  (ALLN_SETPROTECT|CCKSETPROTECT|OFDMSETPROTECT), true, FALSE);
     }
 
     if (!RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST))
@@ -279,7 +279,7 @@ VOID CFG80211_UpdateBeacon(
 	BeaconTransmit.field.MCS = MCS_RATE_6;
 
 	//YF
-	RTMPWriteTxWI(pAd, pTxWI, FALSE, FALSE, TRUE, FALSE, FALSE, TRUE, 0, BSS0Mcast_WCID,
+	RTMPWriteTxWI(pAd, pTxWI, FALSE, FALSE, true, FALSE, FALSE, true, 0, BSS0Mcast_WCID,
                 	beacon_len, PID_MGMT, 0, 0, IFS_HTTXOP, &BeaconTransmit);
 
 	/* CFG_TODO */
@@ -296,7 +296,7 @@ void CFG80211DRV_OpsBeaconSet(struct rtmp_adapter *pAd, VOID *pData)
 	CFG80211DRV_UpdateApSettingFromBeacon(pAd, MAIN_MBSSID, pBeacon);
 	CFG80211_UpdateBeacon(pAd, pBeacon->beacon_head, pBeacon->beacon_head_len,
 			  				   pBeacon->beacon_tail, pBeacon->beacon_tail_len,
-							   TRUE);
+							   true);
 }
 
 bool CFG80211DRV_OpsBeaconAdd(struct rtmp_adapter *pAd, VOID *pData)
@@ -320,8 +320,8 @@ bool CFG80211DRV_OpsBeaconAdd(struct rtmp_adapter *pAd, VOID *pData)
 
 #ifdef UAPSD_SUPPORT
 
-        pAd->ApCfg.MBSSID[0].UapsdInfo.bAPSDCapable = TRUE;
-        wdev->UapsdInfo.bAPSDCapable = TRUE;
+        pAd->ApCfg.MBSSID[0].UapsdInfo.bAPSDCapable = true;
+        wdev->UapsdInfo.bAPSDCapable = true;
 
         pMbss->CapabilityInfo |= 0x0800;
 #endif /* UAPSD_SUPPORT */
@@ -338,7 +338,7 @@ bool CFG80211DRV_OpsBeaconAdd(struct rtmp_adapter *pAd, VOID *pData)
 	for(i = 0; i < WLAN_MAX_NUM_OF_TIM; i++)
                 pAd->ApCfg.MBSSID[MAIN_MBSSID].TimBitmaps[i] = 0;
 
-	pMbss->bBcnSntReq = TRUE;
+	pMbss->bBcnSntReq = true;
 
 	/* For GO Timeout */
 	pAd->ApCfg.StaIdleTimeout = 300;
@@ -352,11 +352,11 @@ bool CFG80211DRV_OpsBeaconAdd(struct rtmp_adapter *pAd, VOID *pData)
 		pAd->CommonCfg.PhyMode = (WMODE_B | WMODE_G |WMODE_GN);
 
 	/* cfg_todo */
-	wdev->bWmmCapable = TRUE;
+	wdev->bWmmCapable = true;
 
 	wdev->wdev_type = WDEV_TYPE_AP;
 	wdev->tx_pkt_allowed = ApAllowToSendPacket;
-	wdev->allow_data_tx = TRUE;
+	wdev->allow_data_tx = true;
 	wdev->func_dev = (void *)&pAd->ApCfg.MBSSID[MAIN_MBSSID];
 	wdev->sys_handle = pAd;
 
@@ -447,13 +447,13 @@ bool CFG80211DRV_OpsBeaconAdd(struct rtmp_adapter *pAd, VOID *pData)
 
 	/* Disable Protection first. */
 	if (!INFRA_ON(pAd))
-		AsicUpdateProtect(pAd, 0, (ALLN_SETPROTECT|CCKSETPROTECT|OFDMSETPROTECT), TRUE, FALSE);
+		AsicUpdateProtect(pAd, 0, (ALLN_SETPROTECT|CCKSETPROTECT|OFDMSETPROTECT), true, FALSE);
 
 	APUpdateCapabilityAndErpIe(pAd);
 	APUpdateOperationMode(pAd);
 	CFG80211_UpdateBeacon(pAd, pBeacon->beacon_head, pBeacon->beacon_head_len,
                                    pBeacon->beacon_tail, pBeacon->beacon_tail_len,
-                                   TRUE);
+                                   true);
 
 #ifdef RTMP_MAC_USB
 	RTUSBBssBeaconInit(pAd);
@@ -461,16 +461,16 @@ bool CFG80211DRV_OpsBeaconAdd(struct rtmp_adapter *pAd, VOID *pData)
 
 #ifdef RTMP_MAC_USB
 #ifdef CONFIG_STA_SUPPORT
-    RTMPInitTimer(pAd, &pAd->CommonCfg.BeaconUpdateTimer, GET_TIMER_FUNCTION(BeaconUpdateExec), pAd, TRUE);
+    RTMPInitTimer(pAd, &pAd->CommonCfg.BeaconUpdateTimer, GET_TIMER_FUNCTION(BeaconUpdateExec), pAd, true);
 #endif /*CONFIG_STA_SUPPORT*/
 	RTUSBBssBeaconStart(pAd);
 #endif /* RTMP_MAC_USB */
 
 	/* Enable BSS Sync*/
 	AsicEnableApBssSync(pAd);
-	//pAd->P2pCfg.bSentProbeRSP = TRUE;
+	//pAd->P2pCfg.bSentProbeRSP = true;
 
-	AsicSetPreTbtt(pAd, TRUE);
+	AsicSetPreTbtt(pAd, true);
 
 #ifdef RTMP_MAC_USB
 	/*
@@ -488,7 +488,7 @@ bool CFG80211DRV_OpsBeaconAdd(struct rtmp_adapter *pAd, VOID *pData)
 #ifdef RT_CFG80211_SUPPORT
 		wdev->Hostapd=Hostapd_CFG;
 #endif /*RT_CFG80211_SUPPORT*/
-	return TRUE;
+	return true;
 }
 
 bool CFG80211DRV_ApKeyDel(
@@ -516,7 +516,7 @@ bool CFG80211DRV_ApKeyDel(
 		}
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -561,7 +561,7 @@ VOID CFG80211DRV_FragThresholdAdd(
 		IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
 		{
 			if (pAd->CommonCfg.FragmentThreshold == MAX_FRAG_THRESHOLD)
-				pAd->CommonCfg.bUseZeroToDisableFragment = TRUE;
+				pAd->CommonCfg.bUseZeroToDisableFragment = true;
 			else
 				pAd->CommonCfg.bUseZeroToDisableFragment = FALSE;
 		}
@@ -693,7 +693,7 @@ bool CFG80211DRV_ApKeyAdd(struct rtmp_adapter *pAd, void *pData)
 
 	}
 #endif /* CONFIG_AP_SUPPORT */
-	return TRUE;
+	return true;
 
 }
 

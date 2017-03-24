@@ -394,7 +394,7 @@ do { \
 	do{ \
 		if ((_pTask)->kthread_task) \
         { \
-			(_pTask)->kthread_running = TRUE; \
+			(_pTask)->kthread_running = true; \
 	        wake_up(&(_pTask)->kthread_q); \
 		} \
 	}while(0)

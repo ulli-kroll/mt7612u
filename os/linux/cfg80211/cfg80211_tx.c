@@ -63,7 +63,7 @@ void CFG80211_SyncPacketWmmIe(struct rtmp_adapter *pAd, VOID *pData, ULONG dataL
                 UINT i = QID_AC_BE;
 
 #ifdef UAPSD_SUPPORT
-                if (pAd->ApCfg.MBSSID[0].UapsdInfo.bAPSDCapable == TRUE)
+                if (pAd->ApCfg.MBSSID[0].UapsdInfo.bAPSDCapable == true)
                 {
                         wmm_ie[8] |= 0x80;
                 }
@@ -122,7 +122,7 @@ void CFG80211_ParseBeaconIE(struct rtmp_adapter *pAd, MULTISSID_STRUCT *pMbss, s
 		{
 			wdev->AuthMode = Ndis802_11AuthModeOpen;
 			DBGPRINT(RT_DEBUG_TRACE,("%s:: WPA case\n", __FUNCTION__));
-			bWPA = TRUE;
+			bWPA = true;
 			pTmp   += 11;
 				switch (*pTmp)
 				{
@@ -212,7 +212,7 @@ void CFG80211_ParseBeaconIE(struct rtmp_adapter *pAd, MULTISSID_STRUCT *pMbss, s
 					{
 						DBGPRINT(RT_DEBUG_TRACE,("WPA Mix TKIPAES\n"));
 
-						bMix = TRUE;
+						bMix = true;
 					}
 				pMbss->RSNIE_Len[0] = wpa_ie[1];
 				memmove(pMbss->RSN_IE[0], wpa_ie+2, wpa_ie[1]);//copy rsn ie
@@ -242,7 +242,7 @@ void CFG80211_ParseBeaconIE(struct rtmp_adapter *pAd, MULTISSID_STRUCT *pMbss, s
 			if (NdisEqualMemory(pTmp, RSN_OUI, 3))
 			{
 				DBGPRINT(RT_DEBUG_TRACE,("%s:: WPA2 case\n", __FUNCTION__));
-				bWPA2 = TRUE;
+				bWPA2 = true;
 				wdev->AuthMode = Ndis802_11AuthModeOpen;
 					switch (pCipher->Type)
 					{
@@ -354,7 +354,7 @@ void CFG80211_ParseBeaconIE(struct rtmp_adapter *pAd, MULTISSID_STRUCT *pMbss, s
 					else
 					{
 						DBGPRINT(RT_DEBUG_TRACE,("WPA2 Mix TKIPAES\n"));
-						bMix= TRUE;
+						bMix= true;
 					}
 					pMbss->RSNIE_Len[0] = rsn_ie[1];
 					memmove(pMbss->RSN_IE[0], rsn_ie+2, rsn_ie[1]);//copy rsn ie
@@ -427,7 +427,7 @@ void CFG80211_SendMgmtFrame(struct rtmp_adapter *pAd, VOID *pData, ULONG Data)
 			PCFG80211_CTRL pCfg80211_ctrl = &pAd->cfg80211_ctrl;
 			struct ieee80211_mgmt *mgmt;
 
-			pCfg80211_ctrl->TxStatusInUsed = TRUE;
+			pCfg80211_ctrl->TxStatusInUsed = true;
 			pCfg80211_ctrl->TxStatusSeq = pAd->Sequence;
 
 			if (pCfg80211_ctrl->pTxStatusBuf != NULL)
@@ -480,7 +480,7 @@ VOID CFG80211_SendMgmtFrameDone(struct rtmp_adapter *pAd, USHORT Sequence)
 
 		CFG80211OS_TxStatus(CFG80211_GetEventDevice(pAd), 5678,
 							pCfg80211_ctrl->pTxStatusBuf, pCfg80211_ctrl->TxStatusBufLen,
-							TRUE);
+							true);
 		pCfg80211_ctrl->TxStatusSeq = 0;
 		pCfg80211_ctrl->TxStatusInUsed = FALSE;
 	}

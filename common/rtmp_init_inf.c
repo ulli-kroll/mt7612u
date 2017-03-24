@@ -45,13 +45,13 @@ int rt28xx_init(struct rtmp_adapter *pAd)
 	if (!pAd)
 		return FALSE;
 
-	if (rtmp_asic_top_init(pAd) != TRUE)
+	if (rtmp_asic_top_init(pAd) != true)
 		goto err1;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("MAC[Ver:Rev=0x%08x : 0x%08x]\n",
 				pAd->MACVersion, pAd->ChipID));
 
-	if (mcu_sys_init(pAd) != TRUE)
+	if (mcu_sys_init(pAd) != true)
 		goto err1;
 
 
@@ -74,7 +74,7 @@ int rt28xx_init(struct rtmp_adapter *pAd)
 #endif /* CONFIG_AP_SUPPORT */
 
 	/* Allocate BA Reordering memory*/
-	if (ba_reordering_resource_init(pAd, MAX_REORDERING_MPDU_NUM) != TRUE)
+	if (ba_reordering_resource_init(pAd, MAX_REORDERING_MPDU_NUM) != true)
 		goto err1;
 
 	Status = RTMPInitTxRxRingMemory(pAd);
@@ -193,7 +193,7 @@ int rt28xx_init(struct rtmp_adapter *pAd)
 		All settle down, now it's time to init asic related parameters
 	*/
 	/* Init the hardware, we need to init asic before read registry, otherwise mac register will be reset */
-	Status = NICInitializeAdapter(pAd, TRUE);
+	Status = NICInitializeAdapter(pAd, true);
 	if (Status != NDIS_STATUS_SUCCESS)
 	{
 		DBGPRINT_ERR(("NICInitializeAdapter failed, Status[=0x%08x]\n", Status));
@@ -323,13 +323,13 @@ int rt28xx_init(struct rtmp_adapter *pAd)
 				other situation of channel changing, we depends on station's
 				report to adjust ourself.
 			*/
-			if (pAd->CommonCfg.bForty_Mhz_Intolerant == TRUE)
+			if (pAd->CommonCfg.bForty_Mhz_Intolerant == true)
 			{
 				DBGPRINT(RT_DEBUG_TRACE, ("Disable 20/40 BSSCoex Channel Scan(BssCoex=%d, 40MHzIntolerant=%d)\n",
 											pAd->CommonCfg.bBssCoexEnable,
 											pAd->CommonCfg.bForty_Mhz_Intolerant));
 			}
-			else if(pAd->CommonCfg.bBssCoexEnable == TRUE)
+			else if(pAd->CommonCfg.bBssCoexEnable == true)
 			{
 				DBGPRINT(RT_DEBUG_TRACE, ("Enable 20/40 BSSCoex Channel Scan(BssCoex=%d)\n",
 							pAd->CommonCfg.bBssCoexEnable));
@@ -347,7 +347,7 @@ int rt28xx_init(struct rtmp_adapter *pAd)
 			if (IS_MT76x2(pAd)) {
 				mt76x2_reinit_agc_gain(pAd, pAd->hw_cfg.cent_ch);
 				mt76x2_reinit_hi_lna_gain(pAd, pAd->hw_cfg.cent_ch);
-				mt76x2_get_agc_gain(pAd, TRUE);
+				mt76x2_get_agc_gain(pAd, true);
 			}
 		}
 #endif /* CONFIG_AP_SUPPORT */
@@ -419,7 +419,7 @@ int rt28xx_init(struct rtmp_adapter *pAd)
 
 	DBGPRINT_S(Status, ("<==== rt28xx_init, Status=%x\n", Status));
 
-	return TRUE;
+	return true;
 
 err6:
 
@@ -503,11 +503,11 @@ VOID RTMPDrvOpen(struct rtmp_adapter *pAdSrc)
 			pAd->StaCfg.PmfCfg.PMFSHA256 = pAd->StaCfg.PmfCfg.Desired_PMFSHA256;
 			if (pAd->StaCfg.PmfCfg.Desired_MFPC)
 			{
-				pAd->StaCfg.PmfCfg.MFPC = TRUE;
+				pAd->StaCfg.PmfCfg.MFPC = true;
 				pAd->StaCfg.PmfCfg.MFPR = pAd->StaCfg.PmfCfg.Desired_MFPR;
 
 				if (pAd->StaCfg.PmfCfg.MFPR)
-					pAd->StaCfg.PmfCfg.PMFSHA256 = TRUE;
+					pAd->StaCfg.PmfCfg.PMFSHA256 = true;
 			}
 		} else if (pAd->StaCfg.PmfCfg.Desired_MFPC) {
 			DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s:: Security is not WPA2/WPA2PSK AES\n", __FUNCTION__));
@@ -581,7 +581,7 @@ VOID RTMPDrvClose(struct rtmp_adapter *pAd, struct net_device *net_dev)
 		/* NICLoadFirmware will hang forever when interface is up again.*/
 		if (OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_DOZE))
         {
-		    AsicForceWakeup(pAd, TRUE);
+		    AsicForceWakeup(pAd, true);
         }
 
 #ifdef RTMP_MAC_USB
@@ -606,7 +606,7 @@ VOID RTMPDrvClose(struct rtmp_adapter *pAd, struct net_device *net_dev)
 
 	for (i = 0 ; i < NUM_OF_TX_RING; i++)
 	{
-		while (pAd->DeQueueRunning[i] == TRUE)
+		while (pAd->DeQueueRunning[i] == true)
 		{
 			DBGPRINT(RT_DEBUG_TRACE, ("Waiting for TxQueue[%d] done..........\n", i));
 			RtmpusecDelay(1000);
@@ -644,7 +644,7 @@ VOID RTMPDrvClose(struct rtmp_adapter *pAd, struct net_device *net_dev)
 	{
 		MacTableReset(pAd);
 #if ((defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT)) && defined(WOW_IFDOWN_SUPPORT)
-		if (pAd->WOW_Cfg.bEnable == TRUE)
+		if (pAd->WOW_Cfg.bEnable == true)
 			ASIC_WOW_ENABLE(pAd);
 		else
 #endif /* ((defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT)) && defined(WOW_IFDOWN_SUPPORT) */
@@ -854,7 +854,7 @@ static void WriteConfToDatFile(struct rtmp_adapter *pAd)
 
 		fileName = STA_PROFILE_PATH;
 
-	RtmpOSFSInfoChange(&osFSInfo, TRUE);
+	RtmpOSFSInfoChange(&osFSInfo, true);
 
 	file_r = RtmpOSFileOpen(fileName, O_RDONLY, 0);
 	if (IS_FILE_OPEN_ERR(file_r))

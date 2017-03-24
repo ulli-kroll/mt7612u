@@ -125,7 +125,7 @@ VOID	WpaMicFailureReportFrame(
 
 	DBGPRINT(RT_DEBUG_TRACE, ("WpaMicFailureReportFrame ----->\n"));
 
-    bUnicast = (Elem->Msg[0] == 1 ? TRUE:FALSE);
+    bUnicast = (Elem->Msg[0] == 1 ? true:FALSE);
 	pAd->Sequence = ((pAd->Sequence) + 1) & (MAX_SEQ_NUMBER);
 
 	/* init 802.3 header and Fill Packet */
@@ -230,7 +230,7 @@ VOID WpaDisassocApAndBlockAssoc(
 	MlmeEnqueue(pAd, ASSOC_STATE_MACHINE, MT2_MLME_DISASSOC_REQ, sizeof(MLME_DISASSOC_REQ_STRUCT), &DisassocReq, 0);
 
 	pAd->Mlme.CntlMachine.CurrState = CNTL_WAIT_DISASSOC;
-	pAd->StaCfg.bBlockAssoc = TRUE;
+	pAd->StaCfg.bBlockAssoc = true;
 }
 
 
@@ -362,7 +362,7 @@ VOID WpaSendEapolStart(struct rtmp_adapter *pAd, UCHAR *pBssid)
 
 	/* Copy frame to Tx ring */
 	RTMPToWirelessSta((struct rtmp_adapter *)pAd, &pAd->MacTab.Content[BSSID_WCID],
-					 Header802_3, LENGTH_802_3, (u8 *)&Packet, 4, TRUE);
+					 Header802_3, LENGTH_802_3, (u8 *)&Packet, 4, true);
 
 	DBGPRINT(RT_DEBUG_TRACE, ("<----- WpaSendEapolStart\n"));
 }

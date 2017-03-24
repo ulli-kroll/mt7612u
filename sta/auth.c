@@ -442,7 +442,7 @@ bool AUTH_ReqSend(
 	ULONG FrameLen = 0, tmp = 0;
 
 	/* Block all authentication request durning WPA block period */
-	if (pAd->StaCfg.bBlockAssoc == TRUE) {
+	if (pAd->StaCfg.bBlockAssoc == true) {
 		DBGPRINT(RT_DEBUG_TRACE,
 			 ("%s - Block Auth request durning WPA block period!\n",
 			  pSMName));
@@ -493,7 +493,7 @@ bool AUTH_ReqSend(
 		kfree(pOutBuffer);
 
 		RTMPSetTimer(pAuthTimer, Timeout);
-		return TRUE;
+		return true;
 	}
 	else
 	{
@@ -501,7 +501,7 @@ bool AUTH_ReqSend(
 		return FALSE;
 	}
 
-	return TRUE;
+	return true;
 }
 
 

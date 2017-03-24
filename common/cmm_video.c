@@ -37,7 +37,7 @@ bool UpdateFromGlobal = FALSE;
 void VideoTurbineUpdate(
 	IN struct rtmp_adapter *pAd)
 {
-	if (UpdateFromGlobal == TRUE)
+	if (UpdateFromGlobal == true)
 	{
 		pAd->VideoTurbine.Enable = GLOBAL_AP_VIDEO_CONFIG.Enable;
 		pAd->VideoTurbine.ClassifierEnable = GLOBAL_AP_VIDEO_CONFIG.ClassifierEnable;
@@ -87,7 +87,7 @@ VOID TxSwQDepthAdjust(IN struct rtmp_adapter *pAd, IN uint32_t qLen)
 VOID VideoTurbineDynamicTune(
 	IN struct rtmp_adapter *pAd)
 {
-	if (pAd->VideoTurbine.Enable == TRUE)
+	if (pAd->VideoTurbine.Enable == true)
 	{
 			uint32_t MacReg = 0;
 

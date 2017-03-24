@@ -44,7 +44,7 @@ extern UCHAR    WPS_OUI[];
     Description:
         MLME message sanity check
     Return:
-        TRUE if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, FALSE otherwise
     ==========================================================================
  */
 
@@ -256,7 +256,7 @@ bool PeerAssocReqCmmSanity(
                 /* WMM_IE */
                 if (NdisEqualMemory(eid_ptr->Octet, WME_INFO_ELEM, 6) && (eid_ptr->Len == 7))
                 {
-                    ie_lists->bWmmCapable = TRUE;
+                    ie_lists->bWmmCapable = true;
 
 #ifdef UAPSD_SUPPORT
 			if (pEntry)
@@ -346,7 +346,7 @@ bool PeerAssocReqCmmSanity(
 	else
 	{
 		DBGPRINT(RT_DEBUG_TRACE, ("%s() - success\n", __FUNCTION__));
-		return TRUE;
+		return true;
 	}
 }
 
@@ -356,7 +356,7 @@ bool PeerAssocReqCmmSanity(
     Description:
         MLME message sanity check
     Return:
-        TRUE if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, FALSE otherwise
     ==========================================================================
  */
 bool PeerDisassocReqSanity(
@@ -373,7 +373,7 @@ bool PeerDisassocReqSanity(
 	*SeqNum = Fr->Hdr.Sequence;
     memmove(Reason, &Fr->Octet[0], 2);
 
-    return TRUE;
+    return true;
 }
 
 
@@ -382,7 +382,7 @@ bool PeerDisassocReqSanity(
     Description:
         MLME message sanity check
     Return:
-        TRUE if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, FALSE otherwise
     ==========================================================================
  */
 bool PeerDeauthReqSanity(
@@ -399,7 +399,7 @@ bool PeerDeauthReqSanity(
 	*SeqNum = Fr->Hdr.Sequence;
     memmove(Reason, &Fr->Octet[0], 2);
 
-    return TRUE;
+    return true;
 }
 
 
@@ -408,7 +408,7 @@ bool PeerDeauthReqSanity(
     Description:
         MLME message sanity check
     Return:
-        TRUE if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, FALSE otherwise
     ==========================================================================
  */
 bool APPeerAuthSanity(
@@ -435,7 +435,7 @@ bool APPeerAuthSanity(
     {
         if (*Seq == 1 || *Seq == 2)
         {
-            return TRUE;
+            return true;
         }
         else
         {
@@ -447,12 +447,12 @@ bool APPeerAuthSanity(
     {
         if (*Seq == 1 || *Seq == 4)
         {
-            return TRUE;
+            return true;
         }
         else if (*Seq == 2 || *Seq == 3)
         {
             memmove(ChlgText, &Fr->Octet[8], CIPHER_TEXT_LEN);
-            return TRUE;
+            return true;
         }
         else
         {
@@ -466,6 +466,6 @@ bool APPeerAuthSanity(
         return FALSE;
     }
 
-	return TRUE;
+	return true;
 }
 

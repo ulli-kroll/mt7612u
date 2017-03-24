@@ -40,7 +40,7 @@ VOID CFG80211DRV_OpsScanInLinkDownAction(struct rtmp_adapter *pAd)
 	pAd->MlmeAux.Channel = 0;
 
 	pAd->cfg80211_ctrl.FlgCfg80211Scanning = FALSE;
-	CFG80211OS_ScanEnd(pAd->pCfg80211_CB, TRUE);
+	CFG80211OS_ScanEnd(pAd->pCfg80211_CB, true);
 
 	ScanNextChannel(pAd, OPMODE_STA);
 	DBGPRINT(RT_DEBUG_TRACE, ("<--- CFG80211_MLME Disconnect in Scan END, ORI ==> %d\n",
@@ -136,7 +136,7 @@ bool CFG80211DRV_OpsScanCheckStatus(struct rtmp_adapter *pAd,
 
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
 	if (RTMP_CFG80211_VIF_P2P_CLI_ON(pAd) &&
-	    (pAd->cfg80211_ctrl.FlgCfg80211Connecting == TRUE) &&
+	    (pAd->cfg80211_ctrl.FlgCfg80211Connecting == true) &&
         (IfType == RT_CMD_80211_IFTYPE_STATION))
 	{
 		DBGPRINT(RT_DEBUG_ERROR,("SCAN_FAIL: P2P_CLIENT In Connecting & Canncel Scan with Infra Side\n"));
@@ -145,7 +145,7 @@ bool CFG80211DRV_OpsScanCheckStatus(struct rtmp_adapter *pAd,
 #endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
 
 #ifdef RT_CFG80211_SUPPORT
-	if (pAd->cfg80211_ctrl.FlgCfg8021Disable2040Scan == TRUE &&
+	if (pAd->cfg80211_ctrl.FlgCfg8021Disable2040Scan == true &&
         (IfType == RT_CMD_80211_IFTYPE_AP))
 	{
 		DBGPRINT(RT_DEBUG_ERROR,("Disable 20/40 scan!!\n"));
@@ -154,9 +154,9 @@ bool CFG80211DRV_OpsScanCheckStatus(struct rtmp_adapter *pAd,
 #endif /* RT_CFG80211_SUPPORT */
 
 	/* do scan */
-	pAd->cfg80211_ctrl.FlgCfg80211Scanning = TRUE;
+	pAd->cfg80211_ctrl.FlgCfg80211Scanning = true;
 #endif /*CONFIG_STA_SUPPORT*/
-	return TRUE;
+	return true;
 }
 
 bool CFG80211DRV_OpsScanExtraIesSet(struct rtmp_adapter *pAd)
@@ -197,7 +197,7 @@ bool CFG80211DRV_OpsScanExtraIesSet(struct rtmp_adapter *pAd)
 		return FALSE;
 	}
 
-	return TRUE;
+	return true;
 }
 
 #ifdef CFG80211_SCAN_SIGNAL_AVG
@@ -208,7 +208,7 @@ static void CFG80211_CalBssAvgRssi(
 
         if (!(pBssEntry->AvgRssiX8 | pBssEntry->AvgRssi))
         {
-                bInitial = TRUE;
+                bInitial = true;
         }
 
         if (bInitial)
@@ -314,7 +314,7 @@ VOID CFG80211_Scaning(
 	/* init */
 	/* Note: Can not use local variable to do pChan */
 	if (WMODE_CAP_N(pAd->CommonCfg.PhyMode))
-		FlgIsNMode = TRUE;
+		FlgIsNMode = true;
 	else
 		FlgIsNMode = FALSE;
 
@@ -366,7 +366,7 @@ VOID CFG80211_ScanEnd(
 		return; /* no scan is running */
 	}
 
-	if (FlgIsAborted == TRUE)
+	if (FlgIsAborted == true)
 		FlgIsAborted = 1;
 	else
 	{

@@ -166,7 +166,7 @@ bool CFG80211DRV_OpsChgVirtualInf(struct rtmp_adapter *pAd, VOID *pData)
 	{
 	}
 
-	return TRUE;
+	return true;
 }
 
 bool RTMP_CFG80211_VIF_P2P_GO_ON(struct rtmp_adapter *pAd)
@@ -176,14 +176,14 @@ bool RTMP_CFG80211_VIF_P2P_GO_ON(struct rtmp_adapter *pAd)
 
 	if ((pAd->cfg80211_ctrl.Cfg80211VifDevSet.vifDevList.size > 0) &&
 		((pNetDev = RTMP_CFG80211_FindVifEntry_ByType(pAd, RT_CMD_80211_IFTYPE_P2P_GO)) != NULL))
-    	return TRUE;
+    	return true;
 	else
 		return FALSE;
 #endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
 
 #ifdef RT_CFG80211_P2P_SINGLE_DEVICE
 	if(CFG80211_P2P_TEST_BIT(pAd->cfg80211_ctrl.P2POpStatusFlags, CFG_P2P_GO_UP))
-		return TRUE;
+		return true;
 	else
 		return FALSE;
 #endif /* RT_CFG80211_P2P_SINGLE_DEVICE */
@@ -200,9 +200,9 @@ bool CFG80211DRV_OpsVifAdd(struct rtmp_adapter *pAd, VOID *pData)
 	if (pAd->cfg80211_ctrl.Cfg80211VifDevSet.isGoingOn)
 		return FALSE;
 
-	pAd->cfg80211_ctrl.Cfg80211VifDevSet.isGoingOn = TRUE;
+	pAd->cfg80211_ctrl.Cfg80211VifDevSet.isGoingOn = true;
 	RTMP_CFG80211_VirtualIF_Init(pAd, pVifInfo->vifName, pVifInfo->vifType);
-	return TRUE;
+	return true;
 }
 
 bool RTMP_CFG80211_VIF_ON(struct rtmp_adapter *pAd)
@@ -509,7 +509,7 @@ VOID RTMP_CFG80211_VirtualIF_Init(
 
 	new_dev_p->destructor =  free_netdev;
 	RTMP_OS_NETDEV_SET_PRIV(new_dev_p, pAd);
-	pNetDevOps->needProtcted = TRUE;
+	pNetDevOps->needProtcted = true;
 
 	memmove(&pNetDevOps->devAddr[0], &pAd->CurrentAddress[0], MAC_ADDR_LEN);
 
@@ -735,7 +735,7 @@ VOID RTMP_CFG80211_DummyP2pIf_Init(
 
 	RTMP_OS_NETDEV_SET_PRIV(new_dev_p, pAd);
 	memmove(&pNetDevOps->devAddr[0], &pAd->CurrentAddress[0], MAC_ADDR_LEN);
-	pNetDevOps->needProtcted = TRUE;
+	pNetDevOps->needProtcted = true;
 
 	pWdev = kzalloc(sizeof(*pWdev), GFP_KERNEL);
 	if (unlikely(!pWdev))
@@ -752,7 +752,7 @@ VOID RTMP_CFG80211_DummyP2pIf_Init(
 
 	RtmpOSNetDevAttach(pAd->OpMode, new_dev_p, pNetDevOps);
 	cfg80211_ctrl->dummy_p2p_net_dev = new_dev_p;
-	cfg80211_ctrl->flg_cfg_dummy_p2p_init = TRUE;
+	cfg80211_ctrl->flg_cfg_dummy_p2p_init = true;
 
 	DBGPRINT(RT_DEBUG_TRACE, (" %s <=====\n", __FUNCTION__));
 }

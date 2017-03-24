@@ -431,7 +431,7 @@ static bool IsValidChannel(
 	if (i == pAd->ChannelListNum)
 		return FALSE;
 	else
-		return TRUE;
+		return true;
 }
 
 static UCHAR GetExtCh(
@@ -501,7 +501,7 @@ bool AC_ChannelGroupCheck(
 		for (idx=0; idx<num_ch; idx++) {
 			if (Channel == vht_ch_group[idx]) {
 				/* in BW_80 channel group */
-				RetVal = TRUE;
+				RetVal = true;
 				break;
 			}
 		}
@@ -523,14 +523,14 @@ bool N_ChannelGroupCheck(
 				|| (Channel == 116) || (Channel == 124) || (Channel == 132)
 				|| (Channel == 149) || (Channel == 157))
 		{
-			RetVal = TRUE;
+			RetVal = true;
 		}
 		else if ((Channel == 40) || (Channel == 48) || (Channel == 56)
 				|| (Channel == 64) || (Channel == 104) || (Channel == 112)
 				|| (Channel == 120) || (Channel == 128) || (Channel == 136)
 				|| (Channel == 153) || (Channel == 161))
 		{
-			RetVal = TRUE;
+			RetVal = true;
 		}
 	}
 	else
@@ -547,12 +547,12 @@ bool N_ChannelGroupCheck(
 
 			ExtCh = GetExtCh(Channel, EXTCHA_ABOVE);
 			if (IsValidChannel(pAd, ExtCh))
-				RetVal = TRUE;
+				RetVal = true;
 			else
 			{
 				ExtCh = GetExtCh(Channel, EXTCHA_BELOW);
 				if (IsValidChannel(pAd, ExtCh))
-				RetVal = TRUE;
+				RetVal = true;
 			}
 		} while(FALSE);
 	}

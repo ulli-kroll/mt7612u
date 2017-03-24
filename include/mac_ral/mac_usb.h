@@ -326,12 +326,12 @@ typedef struct _CMD_RSP_CONTEXT
 				if (pAd->DeQueueRunning[QueIdx])						\
 				{														\
 					RTMP_IRQ_UNLOCK(&pAd->DeQueueLock[QueIdx], irqFlags);\
-					DBGPRINT(RT_DEBUG_INFO, ("DeQueueRunning[%d]= TRUE!\n", QueIdx));		\
+					DBGPRINT(RT_DEBUG_INFO, ("DeQueueRunning[%d]= true!\n", QueIdx));		\
 					continue;											\
 				}														\
 				else													\
 				{														\
-					pAd->DeQueueRunning[QueIdx] = TRUE;					\
+					pAd->DeQueueRunning[QueIdx] = true;					\
 					RTMP_IRQ_UNLOCK(&pAd->DeQueueLock[QueIdx], irqFlags);\
 				}														\
 			}
@@ -392,7 +392,7 @@ typedef struct _CMD_RSP_CONTEXT
 #define RTMP_MLME_HANDLER(pAd)			RtmpMLMEUp(&(pAd->mlmeTask))
 
 #define RTMP_MLME_PRE_SANITY_CHECK(pAd)								\
-	{	if ((pAd->StaCfg.bHardwareRadio == TRUE) && 					\
+	{	if ((pAd->StaCfg.bHardwareRadio == true) && 					\
 			(!RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST)) &&		\
 			(!RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_HALT_IN_PROGRESS))) {	\
 			RTEnqueueInternalCmd(pAd, CMDTHREAD_CHECK_GPIO, NULL, 0); } }

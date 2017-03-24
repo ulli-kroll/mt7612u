@@ -129,7 +129,7 @@ INT RTMPCheckRxError(
 #ifdef WPA_SUPPLICANT_SUPPORT
 				if (pAd->StaCfg.wpa_supplicant_info.WpaSupplicantUP)
 					WpaSendMicFailureToWpaSupplicant(pAd->net_dev,pHeader->Addr2,
-									(pWpaKey->Type == PAIRWISEKEY) ? TRUE:FALSE,
+									(pWpaKey->Type == PAIRWISEKEY) ? true:FALSE,
 									(INT) pRxBlk->key_idx, NULL);
 				else
 #endif /* WPA_SUPPLICANT_SUPPORT */
@@ -195,7 +195,7 @@ INT StaAllowToSendPacket(
 			*pWcid = 0;
 		}
 
-		allowToSend = TRUE;
+		allowToSend = true;
 	}
 
 	return allowToSend;
@@ -217,14 +217,14 @@ INT StaAllowToSendPacket_new(
 	if (MAC_ADDR_IS_GROUP(pSrcBufVA))
 	{
 		*pWcid = MCAST_WCID;
-		return TRUE;
+		return true;
 	}
 
 	pEntry = MacTableLookup(pAd, pSrcBufVA);
 	if (pEntry && (pEntry->Sst == SST_ASSOC))
 	{
 		*pWcid = (UCHAR)pEntry->wcid;
-		return TRUE;
+		return true;
 	}
 
 	return FALSE;
@@ -237,7 +237,7 @@ INT STAInitialize(struct rtmp_adapter *pAd)
 
 	wdev->wdev_type = WDEV_TYPE_STA;
 	wdev->tx_pkt_allowed = StaAllowToSendPacket;
-	wdev->allow_data_tx = TRUE;
+	wdev->allow_data_tx = true;
 
 	return 0;
 }

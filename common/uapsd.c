@@ -130,11 +130,11 @@ Note:
 VOID RtmpAsicSleepHandle(struct rtmp_adapter *pAd)
 {
 #ifdef CONFIG_STA_SUPPORT
-	bool FlgCanAsicSleep = TRUE;
+	bool FlgCanAsicSleep = true;
 
 
 	/* finally, check if we can sleep */
-	if (FlgCanAsicSleep == TRUE)
+	if (FlgCanAsicSleep == true)
 	{
 		/* just mark the flag to FALSE and wait PeerBeacon() to sleep */
 		ASIC_PS_CAN_SLEEP(pAd);
@@ -227,7 +227,7 @@ Note:
 */
 bool UAPSD_SP_IsClosed(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 {
-	bool FlgIsSpClosed = TRUE;
+	bool FlgIsSpClosed = true;
 
 	RTMP_SEM_LOCK(&pAd->UAPSDEOSPLock);
 
@@ -315,7 +315,7 @@ Arguments:
 	pAd				Pointer to our adapter
 	*pEntry			STATION
 	*pElm			QoS information field
-	FlgApsdCapable	TRUE: Support UAPSD
+	FlgApsdCapable	true: Support UAPSD
 
 Return Value:
     None
@@ -348,7 +348,7 @@ VOID UAPSD_AssocParse(
 
 
 	/* check if the station enables UAPSD function */
-	if ((pEntry) && (FlgApsdCapable == TRUE))
+	if ((pEntry) && (FlgApsdCapable == true))
 	{
 		/* backup its UAPSD parameters */
 		pQosInfo = (PQBSS_STA_INFO_PARM) pElm;
@@ -743,7 +743,7 @@ VOID UAPSD_SP_AUE_Handle(
 					pEntry->pUAPSDEOSPFrame);
 
 					pEntry->pUAPSDEOSPFrame = NULL;
-					FlgEosp = TRUE;
+					FlgEosp = true;
 				}
 			}
 
@@ -753,7 +753,7 @@ VOID UAPSD_SP_AUE_Handle(
 			RTMP_SEM_UNLOCK(&pAd->UAPSDEOSPLock);
 
 			/* maybe transmit the EOSP frame */
-			if (FlgEosp == TRUE)
+			if (FlgEosp == true)
 			{
 				struct os_cookie *pCookie = pAd->OS_Cookie;
 
@@ -1053,7 +1053,7 @@ Arguments:
 	*pEntry			the source STATION
 
 Return Value:
-    TRUE			Handle OK
+    true			Handle OK
 	FALSE			Handle FAIL
 
 Note:
@@ -1082,7 +1082,7 @@ bool UAPSD_PsPollHandle(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 	if (pEntry == NULL)
 		return FALSE;
 
-	FlgQueEmpty = TRUE;
+	FlgQueEmpty = true;
 	pAcSwQue = NULL;
 	pQuedPkt = NULL;
 
@@ -1138,10 +1138,10 @@ bool UAPSD_PsPollHandle(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
                        that WMM STA indicates that more frames are buffered for
 					the delivery-enabled ACs.
 				*/
-				RTMP_SET_PACKET_MOREDATA(pQuedPkt, TRUE);
+				RTMP_SET_PACKET_MOREDATA(pQuedPkt, true);
 
 				/* set U-APSD flag & its software queue ID */
-				RTMP_SET_PACKET_UAPSD(pQuedPkt, TRUE, QueId);
+				RTMP_SET_PACKET_UAPSD(pQuedPkt, true, QueId);
 			}
 		}
 
@@ -1155,7 +1155,7 @@ bool UAPSD_PsPollHandle(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 
 	if (pQuedPkt != NULL)
 	{
-		if (FlgQueEmpty == TRUE)
+		if (FlgQueEmpty == true)
 		{
 			/*
 				No any more queued U-APSD packet so clear More Data bit of
@@ -1170,7 +1170,7 @@ bool UAPSD_PsPollHandle(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 	/* clear corresponding TIM bit */
 	/* get its AID for the station */
 	Aid = pEntry->Aid;
-	if ((pEntry->bAPSDAllAC == 1) && (FlgQueEmpty == TRUE))
+	if ((pEntry->bAPSDAllAC == 1) && (FlgQueEmpty == true))
 	{
 		/* all AC are U-APSD and no any U-APSD packet is queued, set TIM */
 #ifdef CONFIG_AP_SUPPORT
@@ -1189,7 +1189,7 @@ bool UAPSD_PsPollHandle(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 
 	/* Dequeue outgoing frames from TxSwQueue0..3 queue and process it */
 	RTMPDeQueuePacket(pAd, FALSE, NUM_OF_TX_RING, MAX_TX_PROCESS);
-	return TRUE;
+	return true;
 }
 
 
@@ -1201,10 +1201,10 @@ Routine Description:
 Arguments:
 	pAd					Pointer to our adapter
 	pEntry				the peer entry
-	pFlgIsAnyPktForBK	TRUE: At lease a BK packet is queued
-	pFlgIsAnyPktForBE	TRUE: At lease a BE packet is queued
-	pFlgIsAnyPktForVI	TRUE: At lease a VI packet is queued
-	pFlgIsAnyPktForVO	TRUE: At lease a VO packet is queued
+	pFlgIsAnyPktForBK	true: At lease a BK packet is queued
+	pFlgIsAnyPktForBE	true: At lease a BE packet is queued
+	pFlgIsAnyPktForVI	true: At lease a VI packet is queued
+	pFlgIsAnyPktForVO	true: At lease a VO packet is queued
 
 Return Value:
     None
@@ -1231,13 +1231,13 @@ VOID UAPSD_QueueStatusGet(
 	/* get queue status */
 	RTMP_SEM_LOCK(&pAd->UAPSDEOSPLock);
 	if (pEntry->UAPSDQueue[QID_AC_BK].Head != NULL)
-		*pFlgIsAnyPktForBK = TRUE;
+		*pFlgIsAnyPktForBK = true;
 	if (pEntry->UAPSDQueue[QID_AC_BE].Head != NULL)
-		*pFlgIsAnyPktForBE = TRUE;
+		*pFlgIsAnyPktForBE = true;
 	if (pEntry->UAPSDQueue[QID_AC_VI].Head != NULL)
-		*pFlgIsAnyPktForVI = TRUE;
+		*pFlgIsAnyPktForVI = true;
 	if (pEntry->UAPSDQueue[QID_AC_VO].Head != NULL)
-		*pFlgIsAnyPktForVO = TRUE;
+		*pFlgIsAnyPktForVO = true;
 	RTMP_SEM_UNLOCK(&pAd->UAPSDEOSPLock);
 }
 
@@ -1436,7 +1436,7 @@ VOID UAPSD_TriggerFrameHandle(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry,
 /*	RTMP_IRQ_LOCK(FlgIrq); */
 
 	/* init */
-	FlgQueEmpty = TRUE;
+	FlgQueEmpty = true;
 	TxPktNum = 0;
 	SpMaxLen = SpLenMap[pEntry->MaxSPLength];
 	pAcSwQue = NULL;
@@ -1526,10 +1526,10 @@ VOID UAPSD_TriggerFrameHandle(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry,
                        that WMM STA indicates that more frames are buffered for
 					the delivery-enabled ACs.
 				*/
-				RTMP_SET_PACKET_MOREDATA(pQuedPkt, TRUE);
+				RTMP_SET_PACKET_MOREDATA(pQuedPkt, true);
 
 				/* set U-APSD flag & its software queue ID */
-				RTMP_SET_PACKET_UAPSD(pQuedPkt, TRUE, QueId);
+				RTMP_SET_PACKET_UAPSD(pQuedPkt, true, QueId);
 			}
 
 			/* backup its software queue pointer */
@@ -1558,7 +1558,7 @@ VOID UAPSD_TriggerFrameHandle(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry,
 
 	if (TxPktNum >= 1)
 	{
-		if (FlgQueEmpty == TRUE)
+		if (FlgQueEmpty == true)
 		{
 			/*
 				No any more queued U-APSD packet so clear More Data bit of
@@ -1593,7 +1593,7 @@ VOID UAPSD_TriggerFrameHandle(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry,
 
 		if (TxPktNum <= 0)
 		{
-			FlgNullSnd = TRUE;
+			FlgNullSnd = true;
 
 #ifdef UAPSD_DEBUG
 			DBGPRINT(RT_DEBUG_TRACE,
@@ -1604,7 +1604,7 @@ VOID UAPSD_TriggerFrameHandle(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry,
 		else
 		{
 			/* only one packet so send it directly */
-			RTMP_SET_PACKET_EOSP(pQuedPkt, TRUE);
+			RTMP_SET_PACKET_EOSP(pQuedPkt, true);
 			UAPSD_INSERT_QUEUE_AC(pAd, pEntry, pLastAcSwQue, pQuedPkt);
 
 #ifdef UAPSD_DEBUG
@@ -1632,7 +1632,7 @@ VOID UAPSD_TriggerFrameHandle(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry,
 			Backup the EOSP frame and
 			we will transmit the EOSP frame in RTMPFreeTXDUponTxDmaDone().
 		*/
-		RTMP_SET_PACKET_EOSP(pQuedPkt, TRUE);
+		RTMP_SET_PACKET_EOSP(pQuedPkt, true);
 
 		pEntry->pUAPSDEOSPFrame = (PQUEUE_ENTRY)pQuedPkt;
 		pEntry->UAPSDTxNum = TxPktNum-1; /* skip the EOSP frame */
@@ -1714,14 +1714,14 @@ VOID UAPSD_TriggerFrameHandle(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry,
 	/* it will be crashed, when spin locked in kernel 2.6 */
 	if (FlgNullSnd)
 	{
-		/* bQosNull = bEOSP = TRUE = 1 */
+		/* bQosNull = bEOSP = true = 1 */
 
 		/*
 			Use management queue to tx QoS Null frame to avoid delay so
 			us_of_frame is not used.
 		*/
 		RtmpEnqueueNullFrame(pAd, pEntry->Addr, pEntry->CurrTxRate,
-							Aid, pEntry->apidx, TRUE, TRUE, UpOfFrame);
+							Aid, pEntry->apidx, true, true, UpOfFrame);
 
 #ifdef UAPSD_DEBUG
 		DBGPRINT(RT_DEBUG_TRACE, ("uapsd> end a SP by a QoS Null frame!\n"));
@@ -1778,7 +1778,7 @@ VOID UAPSD_TagFrame(
 	DBGPRINT(RT_DEBUG_TRACE, ("uapsd> prepare to tag the frame...\n"));
 #endif /* UAPSD_DEBUG */
 
-	if (RTMP_GET_PACKET_UAPSD_Flag(pPkt) == TRUE)
+	if (RTMP_GET_PACKET_UAPSD_Flag(pPkt) == true)
 	{
 		/* mark the latest USB tx buffer offset for the priority */
 		AcQueId = RTMP_GET_PACKET_UAPSD_QUE_ID(pPkt);

@@ -392,7 +392,7 @@ bool PMF_CalculateBIPMIC(
 
 	kfree(m_buf);
 
-	return TRUE;
+	return true;
 
 }
 
@@ -602,7 +602,7 @@ bool PMF_ExtractIGTKKDE(
 
 	DBGPRINT(RT_DEBUG_TRACE, ("%s : IGTK_Key_ID=%d\n",
 				__FUNCTION__, pPmfCfg->IGTK_KeyIdx));
-	return TRUE;
+	return true;
 }
 
 
@@ -714,22 +714,22 @@ int PMF_RsnCapableValidation(
 		peer_MFPC = RsnCap.field.MFPC;
 		peer_MFPR = RsnCap.field.MFPR;
 
-                if ((self_MFPC == TRUE) && (peer_MFPC == FALSE ))
+                if ((self_MFPC == true) && (peer_MFPC == FALSE ))
 		{
-		        if ((self_MFPR == TRUE) && (peer_MFPR == FALSE))
+		        if ((self_MFPR == true) && (peer_MFPR == FALSE))
 			{
 				DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s : PMF policy violation for case 4\n", __FUNCTION__));
 				return PMF_POLICY_VIOLATION;
 			}
 
-		        if (peer_MFPR == TRUE)
+		        if (peer_MFPR == true)
 		        {
 				DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s : PMF policy violation for case 7\n", __FUNCTION__));
 			        return PMF_POLICY_VIOLATION;
 		        }
 	        }
 
-		if ((self_MFPC == TRUE) && (peer_MFPC == TRUE))
+		if ((self_MFPC == true) && (peer_MFPC == true))
 		{
 		        DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s: PMF Connection \n", __FUNCTION__));
 			CLIENT_STATUS_SET_FLAG(pEntry, fCLIENT_STATUS_PMF_CAPABLE);
@@ -737,7 +737,7 @@ int PMF_RsnCapableValidation(
 	}
 
         /* SHA1 or SHA256 */
-        if ((self_MFPC == TRUE)
+        if ((self_MFPC == true)
                 && (pBuf = WPA_ExtractSuiteFromRSNIE(pRsnie, rsnie_len, AKM_SUITE, &count)) != NULL)
         {
                 UCHAR OUI_WPA2_1X_SHA256[4] = {0x00, 0x0F, 0xAC, 0x05};
@@ -851,7 +851,7 @@ INT PMF_RobustFrameClassify(
 		return NORMAL_FRAME;
         else if (CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_PMF_CAPABLE) && (pHdr->FC.Wep == 0) && IsRx)
 		return NOT_ROBUST_UNICAST_FRAME;
-        else if (((IsRx == TRUE) && (pHdr->FC.Wep == 1)) || (IsRx == FALSE))
+        else if (((IsRx == true) && (pHdr->FC.Wep == 1)) || (IsRx == FALSE))
 		return UNICAST_ROBUST_FRAME;
 
         return ERROR_FRAME;
@@ -1219,7 +1219,7 @@ bool	PMF_PerformTxFrameAction(
 	}
 
         if (ret == PMF_STATUS_SUCCESS)
-                return TRUE;
+                return true;
         else
                 return FALSE;
 }
@@ -1254,16 +1254,16 @@ bool	PMF_PerformRxFrameAction(
 	pEntry = MacTableLookup(pAd, pHeader->Addr2);
 
 	if(pEntry == NULL)
-		return TRUE;
+		return true;
 
 	if (!CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_PMF_CAPABLE))
-		return TRUE;
+		return true;
 
 	FrameType = PMF_RobustFrameClassify(pHeader,
 					(u8 *)(pMgmtFrame + LENGTH_802_11),
                                         (mgmt_len - LENGTH_802_11),
                                         (u8 *) pEntry,
-                                        TRUE);
+                                        true);
 
 #ifdef CONFIG_AP_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
@@ -1378,7 +1378,7 @@ bool	PMF_PerformRxFrameAction(
 	}
 	}
 #endif /* CONFIG_STA_SUPPORT */
-	return TRUE;
+	return true;
 }
 
 
@@ -1420,7 +1420,7 @@ void rtmp_read_pmf_parameters_from_file(
                 }
 
                 /* Protection Management Frame Capable */
-                if (RTMPGetKeyParameter("PMFMFPC", tmpbuf, 32, pBuffer, TRUE))
+                if (RTMPGetKeyParameter("PMFMFPC", tmpbuf, 32, pBuffer, true))
                 {
                         for (apidx = 0, macptr = rstrtok(tmpbuf,";"); (macptr && apidx < pAd->ApCfg.BssidNum); macptr = rstrtok(NULL,";"), apidx++)
                         {
@@ -1430,7 +1430,7 @@ void rtmp_read_pmf_parameters_from_file(
 		}
 
         	/* Protection Management Frame Required */
-	        if (RTMPGetKeyParameter("PMFMFPR", tmpbuf, 32, pBuffer, TRUE))
+	        if (RTMPGetKeyParameter("PMFMFPR", tmpbuf, 32, pBuffer, true))
 	        {
                         for (apidx = 0, macptr = rstrtok(tmpbuf,";"); (macptr && apidx < pAd->ApCfg.BssidNum); macptr = rstrtok(NULL,";"), apidx++)
                         {
@@ -1439,7 +1439,7 @@ void rtmp_read_pmf_parameters_from_file(
                         }
                 }
 
-        	if (RTMPGetKeyParameter("PMFSHA256", tmpbuf, 32, pBuffer, TRUE))
+        	if (RTMPGetKeyParameter("PMFSHA256", tmpbuf, 32, pBuffer, true))
         	{
                         for (apidx = 0, macptr = rstrtok(tmpbuf,";"); (macptr && apidx < pAd->ApCfg.BssidNum); macptr = rstrtok(NULL,";"), apidx++)
                         {
@@ -1458,14 +1458,14 @@ void rtmp_read_pmf_parameters_from_file(
                 pAd->StaCfg.PmfCfg.Desired_PMFSHA256 = FALSE;
 
                 /* Protection Management Frame Capable */
-                if (RTMPGetKeyParameter("PMFMFPC", tmpbuf, 32, pBuffer, TRUE))
+                if (RTMPGetKeyParameter("PMFMFPC", tmpbuf, 32, pBuffer, true))
                         Set_PMFMFPC_Proc(pAd, tmpbuf);
 
         	/* Protection Management Frame Required */
-	        if (RTMPGetKeyParameter("PMFMFPR", tmpbuf, 32, pBuffer, TRUE))
+	        if (RTMPGetKeyParameter("PMFMFPR", tmpbuf, 32, pBuffer, true))
 	                Set_PMFMFPR_Proc(pAd, tmpbuf);
 
-        	if (RTMPGetKeyParameter("PMFSHA256", tmpbuf, 32, pBuffer, TRUE))
+        	if (RTMPGetKeyParameter("PMFSHA256", tmpbuf, 32, pBuffer, true))
         	        Set_PMFSHA256_Proc(pAd, tmpbuf);
         }
 #endif /* CONFIG_STA_SUPPORT */
@@ -1500,7 +1500,7 @@ INT Set_PMFMFPC_Proc (
 
                 pObj = pAd->OS_Cookie;
                 if (simple_strtol(arg, 0, 10))
-                        pAd->ApCfg.MBSSID[pObj->ioctl_if].PmfCfg.Desired_MFPC = TRUE;
+                        pAd->ApCfg.MBSSID[pObj->ioctl_if].PmfCfg.Desired_MFPC = true;
                 else
                         pAd->ApCfg.MBSSID[pObj->ioctl_if].PmfCfg.Desired_MFPC = FALSE;
 
@@ -1513,7 +1513,7 @@ INT Set_PMFMFPC_Proc (
 	IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
 	{
 		if (simple_strtol(arg, 0, 10))
-			pAd->StaCfg.PmfCfg.Desired_MFPC = TRUE;
+			pAd->StaCfg.PmfCfg.Desired_MFPC = true;
 		else
 		{
 			pAd->StaCfg.PmfCfg.Desired_MFPC = FALSE;
@@ -1533,11 +1533,11 @@ INT Set_PMFMFPC_Proc (
 				pAd->StaCfg.PmfCfg.PMFSHA256 = pAd->StaCfg.PmfCfg.Desired_PMFSHA256;
 				if (pAd->StaCfg.PmfCfg.Desired_MFPC)
 				{
-					pAd->StaCfg.PmfCfg.MFPC = TRUE;
+					pAd->StaCfg.PmfCfg.MFPC = true;
 					pAd->StaCfg.PmfCfg.MFPR = pAd->StaCfg.PmfCfg.Desired_MFPR;
 
 					if (pAd->StaCfg.PmfCfg.MFPR)
-						pAd->StaCfg.PmfCfg.PMFSHA256 = TRUE;
+						pAd->StaCfg.PmfCfg.PMFSHA256 = true;
 				}
 			} else if (pAd->StaCfg.PmfCfg.Desired_MFPC) {
 				DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s:: Security is not WPA2/WPA2PSK AES\n", __FUNCTION__));
@@ -1551,7 +1551,7 @@ INT Set_PMFMFPC_Proc (
 
 	}
 #endif /* CONFIG_STA_SUPPORT */
-    	return TRUE;
+    	return true;
 }
 
 
@@ -1583,7 +1583,7 @@ INT Set_PMFMFPR_Proc (
 
                 pObj = pAd->OS_Cookie;
                 if (simple_strtol(arg, 0, 10))
-                        pAd->ApCfg.MBSSID[pObj->ioctl_if].PmfCfg.Desired_MFPR = TRUE;
+                        pAd->ApCfg.MBSSID[pObj->ioctl_if].PmfCfg.Desired_MFPR = true;
                 else
                         pAd->ApCfg.MBSSID[pObj->ioctl_if].PmfCfg.Desired_MFPR = FALSE;
 
@@ -1596,7 +1596,7 @@ INT Set_PMFMFPR_Proc (
         IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
 	{
                 if (simple_strtol(arg, 0, 10))
-                        pAd->StaCfg.PmfCfg.Desired_MFPR = TRUE;
+                        pAd->StaCfg.PmfCfg.Desired_MFPR = true;
                 else
                 {
                         pAd->StaCfg.PmfCfg.Desired_MFPR = FALSE;
@@ -1614,11 +1614,11 @@ INT Set_PMFMFPR_Proc (
 				pAd->StaCfg.PmfCfg.PMFSHA256 = pAd->StaCfg.PmfCfg.Desired_PMFSHA256;
 				if (pAd->StaCfg.PmfCfg.Desired_MFPC)
 				{
-					pAd->StaCfg.PmfCfg.MFPC = TRUE;
+					pAd->StaCfg.PmfCfg.MFPC = true;
 					pAd->StaCfg.PmfCfg.MFPR = pAd->StaCfg.PmfCfg.Desired_MFPR;
 
 					if (pAd->StaCfg.PmfCfg.MFPR)
-						pAd->StaCfg.PmfCfg.PMFSHA256 = TRUE;
+						pAd->StaCfg.PmfCfg.PMFSHA256 = true;
 				}
 			} else if (pAd->StaCfg.PmfCfg.Desired_MFPC) {
 				DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s:: Security is not WPA2/WPA2PSK AES\n", __FUNCTION__));
@@ -1632,7 +1632,7 @@ INT Set_PMFMFPR_Proc (
 
         }
 #endif /* CONFIG_STA_SUPPORT */
-    	return TRUE;
+    	return true;
 }
 
 
@@ -1650,7 +1650,7 @@ INT Set_PMFSHA256_Proc (
 
                 pObj = pAd->OS_Cookie;
                 if (simple_strtol(arg, 0, 10))
-                        pAd->ApCfg.MBSSID[pObj->ioctl_if].PmfCfg.Desired_PMFSHA256 = TRUE;
+                        pAd->ApCfg.MBSSID[pObj->ioctl_if].PmfCfg.Desired_PMFSHA256 = true;
                 else
                         pAd->ApCfg.MBSSID[pObj->ioctl_if].PmfCfg.Desired_PMFSHA256 = FALSE;
 
@@ -1663,7 +1663,7 @@ INT Set_PMFSHA256_Proc (
         IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
 	{
                 if (simple_strtol(arg, 0, 10))
-                        pAd->StaCfg.PmfCfg.Desired_PMFSHA256 = TRUE;
+                        pAd->StaCfg.PmfCfg.Desired_PMFSHA256 = true;
                 else
                         pAd->StaCfg.PmfCfg.Desired_PMFSHA256 = FALSE;
 
@@ -1671,7 +1671,7 @@ INT Set_PMFSHA256_Proc (
                 , pAd->StaCfg.PmfCfg.Desired_PMFSHA256));
         }
 #endif /* CONFIG_STA_SUPPORT */
-    	return TRUE;
+    	return true;
 }
 
 #endif /* DOT11W_PMF_SUPPORT */

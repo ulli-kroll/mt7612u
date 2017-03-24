@@ -45,7 +45,7 @@ VOID RadarDetectPeriodic(
 	{
 		if (pAd->ChannelList[i].RemainingTimeForUse != 0)
 		{
-			bAnyUnavailableChannel = TRUE;
+			bAnyUnavailableChannel = true;
 		}
 
 		if (pAd->CommonCfg.Channel == pAd->ChannelList[i].Channel)
@@ -84,7 +84,7 @@ VOID RadarDetectPeriodic(
 		pAd 	Pointer to our adapter
 
 	Return Value:
-		TRUE	need to do radar detect
+		true	need to do radar detect
 		FALSE	need not to do radar detect
 
 	========================================================================
@@ -247,7 +247,7 @@ VOID ChannelSwitchingCountDownProc(
     Description:
         Set channel switch Period
     Return:
-        TRUE if all parameters are OK, FALSE otherwise
+        true if all parameters are OK, FALSE otherwise
     ==========================================================================
 */
 INT	Set_CSPeriod_Proc(
@@ -258,7 +258,7 @@ INT	Set_CSPeriod_Proc(
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_CSPeriod_Proc::(CSPeriod=%d)\n", pAd->Dot11_H.CSPeriod));
 
-	return TRUE;
+	return true;
 }
 
 /*
@@ -291,7 +291,7 @@ INT Set_ChMovingTime_Proc(
 	DBGPRINT(RT_DEBUG_TRACE, ("%s: %d\n", __FUNCTION__,
 		pAd->Dot11_H.ChMovingTime));
 
-	return TRUE;
+	return true;
 }
 
 
@@ -322,6 +322,6 @@ INT Set_BlockChReset_Proc(
 	for (i=0; i<pAd->ChannelListNum; i++)
 		pAd->ChannelList[i].RemainingTimeForUse = 0;
 
-	return TRUE;
+	return true;
 }
 

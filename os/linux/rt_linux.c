@@ -88,7 +88,7 @@ VOID RtmpUtilInit(VOID)
 {
 	if (FlgIsUtilInit == FALSE) {
 		spin_lock_init(&UtilSemLock);
-		FlgIsUtilInit = TRUE;
+		FlgIsUtilInit = true;
 	}
 }
 
@@ -143,7 +143,7 @@ static inline VOID __RTMP_OS_Del_Timer(
 	if (timer_pending(pTimer))
 		*pCancelled = del_timer_sync(pTimer);
 	else
-		*pCancelled = TRUE;
+		*pCancelled = true;
 }
 
 static inline VOID __RTMP_OS_Release_Timer(
@@ -467,7 +467,7 @@ bool RTMPL2FrameTxAction(
 
 	_announce_802_3_packet(pAd, skb, OpMode);
 
-	return TRUE;
+	return true;
 
 }
 
@@ -821,7 +821,7 @@ bool __RtmpOSTaskWait(
 	}
 #endif /* KTHREAD_SUPPORT */
 
-	return TRUE;
+	return true;
 }
 
 static uint32_t RtmpOSWirelessEventTranslate(IN uint32_t eventType)
@@ -943,7 +943,7 @@ bool RtmpOSNetDevIsUp(struct net_device *pNetDev)
 	if ((pNetDev == NULL) || !(pNetDev->flags & IFF_UP))
 		return FALSE;
 
-	return TRUE;
+	return true;
 }
 
 
@@ -1647,7 +1647,7 @@ VOID RtmpOsCmdUp(RTMP_OS_TASK *pCmdQTask)
 {
 	OS_TASK *pTask = RTMP_OS_TASK_GET(pCmdQTask);
 #ifdef KTHREAD_SUPPORT
-	pTask->kthread_running = TRUE;
+	pTask->kthread_running = true;
 	wake_up(&pTask->kthread_q);
 #else
 	CHECK_PID_LEGALITY(pTask->taskPID) {
@@ -1677,7 +1677,7 @@ VOID RtmpOsMlmeUp(IN RTMP_OS_TASK *pMlmeQTask)
 
 #ifdef KTHREAD_SUPPORT
 	if ((pTask != NULL) && (pTask->kthread_task)) {
-		pTask->kthread_running = TRUE;
+		pTask->kthread_running = true;
 		wake_up(&pTask->kthread_q);
 	}
 #else
@@ -1731,7 +1731,7 @@ Routine Description:
 
 Arguments:
 	pReserved		- Reserved
-	FlgIsWEntSup	- TRUE or FALSE
+	FlgIsWEntSup	- true or FALSE
 
 Return Value:
 	None
@@ -1831,7 +1831,7 @@ bool RtmpOsStatsAlloc(
 	memset((UCHAR *)* ppIwStats, 0, sizeof (struct iw_statistics));
 #endif
 
-	return TRUE;
+	return true;
 }
 
 

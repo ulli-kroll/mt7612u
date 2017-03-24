@@ -47,7 +47,7 @@ static INT rlt_bbp_is_ready(struct rtmp_adapter *pAd)
 		DBGPRINT(RT_DEBUG_TRACE, ("BBP version = %x\n", val));
 	}
 
-	return (((val == 0xffffffff) || (val == 0x0)) ? FALSE : TRUE);
+	return (((val == 0xffffffff) || (val == 0x0)) ? FALSE : true);
 }
 
 
@@ -70,7 +70,7 @@ static INT rlt_bbp_init(struct rtmp_adapter *pAd)
 
 static INT rlt_bbp_get_temp(struct rtmp_adapter *pAd, CHAR *temp_val)
 {
-	return TRUE;
+	return true;
 }
 
 
@@ -116,7 +116,7 @@ static INT rlt_bbp_set_txdac(struct rtmp_adapter *pAd, INT tx_dac)
 	if (txbe != txbe_r5)
 		RTMP_BBP_IO_WRITE32(pAd, TXBE_R5, txbe);
 
-	return TRUE;
+	return true;
 }
 
 
@@ -138,7 +138,7 @@ static INT rlt_bbp_set_rxpath(struct rtmp_adapter *pAd, INT rxpath)
 //		RTMP_BBP_IO_READ32(pAd, AGC1_R0, &agc);
 //DBGPRINT(RT_DEBUG_OFF, ("%s(): rxpath=%d, After write, Get AGC1_R0=0x%x,\n", __FUNCTION__, rxpath, agc));
 
-	return TRUE;
+	return true;
 }
 
 
@@ -242,7 +242,7 @@ static INT rlt_bbp_set_ctrlch(struct rtmp_adapter *pAd, UINT8 ext_ch)
 //		RTMP_BBP_IO_READ32(pAd, AGC1_R0, &agc);
 //DBGPRINT(RT_DEBUG_OFF, ("%s(): ext_ch=%d, After write, Get AGC1_R0=0x%x,\n", __FUNCTION__, ext_ch, agc));
 
-	return TRUE;
+	return true;
 }
 
 
@@ -325,7 +325,7 @@ static INT rlt_bbp_set_bw(struct rtmp_adapter *pAd, UINT8 bw)
 	}
 #endif /* RTMP_MAC_USB */
 
-	return TRUE;
+	return true;
 }
 
 
@@ -343,7 +343,7 @@ static INT rlt_bbp_set_mmps(struct rtmp_adapter *pAd, bool ReduceCorePower)
 	if (bbp_val != org_val)
 		RTMP_BBP_IO_WRITE32(pAd, AGC1_R0, bbp_val);
 
-	return TRUE;
+	return true;
 }
 
 
@@ -413,7 +413,7 @@ static INT rlt_bbp_set_agc(struct rtmp_adapter *pAd, UCHAR agc, RX_CHAIN_IDX cha
 		idx++;
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -435,7 +435,7 @@ static INT rlt_bbp_set_filter_coefficient_ctrl(struct rtmp_adapter *pAd, UCHAR C
 			RTMP_BBP_IO_WRITE32(pAd, CORE_R1, bbp_val);
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -474,7 +474,7 @@ INT rlt_phy_probe(struct rtmp_adapter *pAd)
 {
 	pAd->phy_op = &rlt_phy_ops;
 
-	return TRUE;
+	return true;
 }
 
 #endif /* RLT_BBP */
