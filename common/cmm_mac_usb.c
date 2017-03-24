@@ -350,101 +350,94 @@ int NICInitTransmit(struct rtmp_adapter *pAd)
 	}
 
 
-	do {
+	/* TX_RING_SIZE, 4 ACs*/
 
-		/* TX_RING_SIZE, 4 ACs*/
+	for (acidx =  0; acidx < 4; acidx++) {
+		PHT_TX_CONTEXT	pHTTXContext = &(pAd->TxContext[acidx]);
 
-		for (acidx =  0; acidx < 4; acidx++) {
-			PHT_TX_CONTEXT	pHTTXContext = &(pAd->TxContext[acidx]);
+		pTransferBuffer = pHTTXContext->TransferBuffer;
+		pUrb = pHTTXContext->pUrb;
+		data_dma = pHTTXContext->data_dma;
 
-			pTransferBuffer = pHTTXContext->TransferBuffer;
-			pUrb = pHTTXContext->pUrb;
-			data_dma = pHTTXContext->data_dma;
+		ASSERT((pTransferBuffer != NULL));
+		ASSERT((pUrb != NULL));
 
-			ASSERT((pTransferBuffer != NULL));
-			ASSERT((pUrb != NULL));
+		memset(pHTTXContext, 0, sizeof(HT_TX_CONTEXT));
+		pHTTXContext->TransferBuffer = pTransferBuffer;
+		pHTTXContext->pUrb = pUrb;
+		pHTTXContext->data_dma = data_dma;
 
-			memset(pHTTXContext, 0, sizeof(HT_TX_CONTEXT));
-			pHTTXContext->TransferBuffer = pTransferBuffer;
-			pHTTXContext->pUrb = pUrb;
-			pHTTXContext->data_dma = data_dma;
+		memset(pHTTXContext->TransferBuffer->Aggregation, 0, 4);
 
-			memset(pHTTXContext->TransferBuffer->Aggregation, 0, 4);
+		pHTTXContext->pAd = pAd;
+		pHTTXContext->BulkOutPipeId = acidx;
+		pHTTXContext->bRingEmpty = TRUE;
+		pHTTXContext->bCopySavePad = FALSE;
 
-			pHTTXContext->pAd = pAd;
-			pHTTXContext->BulkOutPipeId = acidx;
-			pHTTXContext->bRingEmpty = TRUE;
-			pHTTXContext->bCopySavePad = FALSE;
+		pAd->BulkOutPending[acidx] = FALSE;
+	}
 
-			pAd->BulkOutPending[acidx] = FALSE;
+
+
+	/* MGMT_RING_SIZE*/
+	memset(pAd->MgmtDescRing.AllocVa, 0, pAd->MgmtDescRing.AllocSize);
+	RingBaseVa = pAd->MgmtDescRing.AllocVa;
+
+	/* Initialize MGMT Ring and associated buffer memory*/
+	pMgmtRing = &pAd->MgmtRing;
+	for (i = 0; i < MGMT_RING_SIZE; i++) {
+		/* link the pre-allocated Mgmt buffer to MgmtRing.Cell*/
+		pMgmtRing->Cell[i].AllocSize = sizeof(TX_CONTEXT);
+		pMgmtRing->Cell[i].AllocVa = RingBaseVa;
+		pMgmtRing->Cell[i].pNdisPacket = NULL;
+		pMgmtRing->Cell[i].pNextNdisPacket = NULL;
+
+		/*Allocate URB for MLMEContext*/
+		pMLMEContext = (PTX_CONTEXT) pAd->MgmtRing.Cell[i].AllocVa;
+		pMLMEContext->pUrb = usb_alloc_urb(0, GFP_ATOMIC);
+		if (pMLMEContext->pUrb == NULL) {
+			DBGPRINT(RT_DEBUG_ERROR, ("<-- ERROR in Alloc TX MLMEContext[%d] urb!!\n", i));
+			Status = NDIS_STATUS_RESOURCES;
+			goto err;
 		}
+		pMLMEContext->pAd = pAd;
+		pMLMEContext->SelfIdx = i;
+
+		/* Offset to next ring descriptor address*/
+		RingBaseVa = (u8 *) RingBaseVa + sizeof(TX_CONTEXT);
+	}
+	DBGPRINT(RT_DEBUG_TRACE, ("MGMT Ring: total %d entry allocated\n", i));
+
+	/*pAd->MgmtRing.TxSwFreeIdx = (MGMT_RING_SIZE - 1);*/
+	pAd->MgmtRing.TxSwFreeIdx = MGMT_RING_SIZE;
+	pAd->MgmtRing.TxCpuIdx = 0;
+	pAd->MgmtRing.TxDmaIdx = 0;
 
 
 
-		/* MGMT_RING_SIZE*/
-		memset(pAd->MgmtDescRing.AllocVa, 0, pAd->MgmtDescRing.AllocSize);
-		RingBaseVa = pAd->MgmtDescRing.AllocVa;
+	/* NullContext*/
 
-		/* Initialize MGMT Ring and associated buffer memory*/
-		pMgmtRing = &pAd->MgmtRing;
-		for (i = 0; i < MGMT_RING_SIZE; i++) {
-			/* link the pre-allocated Mgmt buffer to MgmtRing.Cell*/
-			pMgmtRing->Cell[i].AllocSize = sizeof(TX_CONTEXT);
-			pMgmtRing->Cell[i].AllocVa = RingBaseVa;
-			pMgmtRing->Cell[i].pNdisPacket = NULL;
-			pMgmtRing->Cell[i].pNextNdisPacket = NULL;
+	pTransferBuffer = pNullContext->TransferBuffer;
+	pUrb = pNullContext->pUrb;
+	data_dma = pNullContext->data_dma;
 
-			/*Allocate URB for MLMEContext*/
-			pMLMEContext = (PTX_CONTEXT) pAd->MgmtRing.Cell[i].AllocVa;
-			pMLMEContext->pUrb = usb_alloc_urb(0, GFP_ATOMIC);
-			if (pMLMEContext->pUrb == NULL) {
-				DBGPRINT(RT_DEBUG_ERROR, ("<-- ERROR in Alloc TX MLMEContext[%d] urb!!\n", i));
-				Status = NDIS_STATUS_RESOURCES;
-				goto err;
-			}
-			pMLMEContext->pAd = pAd;
-			pMLMEContext->SelfIdx = i;
+	memset(pNullContext, 0, sizeof(TX_CONTEXT));
+	pNullContext->TransferBuffer = pTransferBuffer;
+	pNullContext->pUrb = pUrb;
+	pNullContext->data_dma = data_dma;
+	pNullContext->pAd = pAd;
 
-			/* Offset to next ring descriptor address*/
-			RingBaseVa = (u8 *) RingBaseVa + sizeof(TX_CONTEXT);
-		}
-		DBGPRINT(RT_DEBUG_TRACE, ("MGMT Ring: total %d entry allocated\n", i));
+	/* PsPollContext*/
 
-		/*pAd->MgmtRing.TxSwFreeIdx = (MGMT_RING_SIZE - 1);*/
-		pAd->MgmtRing.TxSwFreeIdx = MGMT_RING_SIZE;
-		pAd->MgmtRing.TxCpuIdx = 0;
-		pAd->MgmtRing.TxDmaIdx = 0;
-
-
-
-		/* NullContext*/
-
-		pTransferBuffer = pNullContext->TransferBuffer;
-		pUrb = pNullContext->pUrb;
-		data_dma = pNullContext->data_dma;
-
-		memset(pNullContext, 0, sizeof(TX_CONTEXT));
-		pNullContext->TransferBuffer = pTransferBuffer;
-		pNullContext->pUrb = pUrb;
-		pNullContext->data_dma = data_dma;
-		pNullContext->pAd = pAd;
-
-
-
-		/* PsPollContext*/
-
-		pTransferBuffer = pPsPollContext->TransferBuffer;
-		pUrb = pPsPollContext->pUrb;
-		data_dma = pPsPollContext->data_dma;
-		memset(pPsPollContext, 0, sizeof(TX_CONTEXT));
-		pPsPollContext->TransferBuffer = pTransferBuffer;
-		pPsPollContext->pUrb = pUrb;
-		pPsPollContext->data_dma = data_dma;
-		pPsPollContext->pAd = pAd;
-		pPsPollContext->LastOne = TRUE;
-
-	}   while (FALSE);
-
+	pTransferBuffer = pPsPollContext->TransferBuffer;
+	pUrb = pPsPollContext->pUrb;
+	data_dma = pPsPollContext->data_dma;
+	memset(pPsPollContext, 0, sizeof(TX_CONTEXT));
+	pPsPollContext->TransferBuffer = pTransferBuffer;
+	pPsPollContext->pUrb = pUrb;
+	pPsPollContext->data_dma = data_dma;
+	pPsPollContext->pAd = pAd;
+	pPsPollContext->LastOne = TRUE;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("<-- NICInitTransmit(Status=%d)\n", Status));
 
@@ -500,107 +493,104 @@ int RTMPAllocTxRxRingMemory(struct rtmp_adapter *pAd)
 
 	DBGPRINT(RT_DEBUG_TRACE, ("--> RTMPAllocTxRxRingMemory\n"));
 
-	do {
-
-		/* Init send data structures and related parameters*/
+	/* Init send data structures and related parameters*/
 
 
-		/* TX_RING_SIZE, 4 ACs*/
+	/* TX_RING_SIZE, 4 ACs*/
 
-		for (acidx = 0; acidx < 4; acidx++) {
-			PHT_TX_CONTEXT	pHTTXContext = &(pAd->TxContext[acidx]);
+	for (acidx = 0; acidx < 4; acidx++) {
+		PHT_TX_CONTEXT	pHTTXContext = &(pAd->TxContext[acidx]);
 
-			memset(pHTTXContext, 0, sizeof(HT_TX_CONTEXT));
-			/*Allocate URB and bulk buffer*/
-			Status = RTMPAllocUsbBulkBufStruct(udev,
-						&pHTTXContext->pUrb,
-						(PVOID *)&pHTTXContext->TransferBuffer,
-						sizeof(HTTX_BUFFER),
-						&pHTTXContext->data_dma,
-						"HTTxContext");
-			if (Status != NDIS_STATUS_SUCCESS)
-				goto err;
-		}
-
-
-
-		/* MGMT_RING_SIZE*/
-
-		/* Allocate MGMT ring descriptor's memory*/
-		pAd->MgmtDescRing.AllocSize = MGMT_RING_SIZE * sizeof(TX_CONTEXT);
-		pAd->MgmtDescRing.AllocVa =
-			kmalloc(pAd->MgmtDescRing.AllocSize, GFP_ATOMIC);
-		if (pAd->MgmtDescRing.AllocVa == NULL) {
-			DBGPRINT_ERR(("Failed to allocate a big buffer for MgmtDescRing!\n"));
-			Status = NDIS_STATUS_RESOURCES;
+		memset(pHTTXContext, 0, sizeof(HT_TX_CONTEXT));
+		/*Allocate URB and bulk buffer*/
+		Status = RTMPAllocUsbBulkBufStruct(udev,
+					&pHTTXContext->pUrb,
+					(PVOID *)&pHTTXContext->TransferBuffer,
+					sizeof(HTTX_BUFFER),
+					&pHTTXContext->data_dma,
+					"HTTxContext");
+		if (Status != NDIS_STATUS_SUCCESS)
 			goto err;
-		}
+	}
 
 
 
-		/* NullContext*/
+	/* MGMT_RING_SIZE*/
 
-		memset(pNullContext, 0, sizeof(TX_CONTEXT));
+	/* Allocate MGMT ring descriptor's memory*/
+	pAd->MgmtDescRing.AllocSize = MGMT_RING_SIZE * sizeof(TX_CONTEXT);
+	pAd->MgmtDescRing.AllocVa =
+		kmalloc(pAd->MgmtDescRing.AllocSize, GFP_ATOMIC);
+	if (pAd->MgmtDescRing.AllocVa == NULL) {
+		DBGPRINT_ERR(("Failed to allocate a big buffer for MgmtDescRing!\n"));
+		Status = NDIS_STATUS_RESOURCES;
+		goto err;
+	}
+
+
+
+	/* NullContext*/
+
+	memset(pNullContext, 0, sizeof(TX_CONTEXT));
+	/*Allocate URB*/
+	Status = RTMPAllocUsbBulkBufStruct(udev,
+				&pNullContext->pUrb,
+				(PVOID *)&pNullContext->TransferBuffer,
+				sizeof(TX_BUFFER),
+				&pNullContext->data_dma,
+				"TxNullContext");
+	if (Status != NDIS_STATUS_SUCCESS)
+		goto err;
+
+
+	/* PsPollContext*/
+
+	memset(pPsPollContext, 0, sizeof(TX_CONTEXT));
+	/*Allocate URB*/
+	Status = RTMPAllocUsbBulkBufStruct(udev,
+				&pPsPollContext->pUrb,
+				(PVOID *)&pPsPollContext->TransferBuffer,
+				sizeof(TX_BUFFER),
+				&pPsPollContext->data_dma,
+				"TxPsPollContext");
+	if (Status != NDIS_STATUS_SUCCESS)
+		goto err;
+
+
+
+	/* Init receive data structures and related parameters*/
+	for (i = 0; i < (RX_RING_SIZE); i++) {
+		PRX_CONTEXT  pRxContext = &(pAd->RxContext[i]);
+
 		/*Allocate URB*/
 		Status = RTMPAllocUsbBulkBufStruct(udev,
-					&pNullContext->pUrb,
-					(PVOID *)&pNullContext->TransferBuffer,
-					sizeof(TX_BUFFER),
-					&pNullContext->data_dma,
-					"TxNullContext");
+				&pRxContext->pUrb,
+				(PVOID *)&pRxContext->TransferBuffer,
+				MAX_RXBULK_SIZE,
+				&pRxContext->data_dma,
+				"RxContext");
 		if (Status != NDIS_STATUS_SUCCESS)
 			goto err;
 
+	}
 
-		/* PsPollContext*/
+	/* Init command response event related parameters */
+	Status = RTMPAllocUsbBulkBufStruct(udev,
+				&pCmdRspEventContext->pUrb,
+				(PVOID *)&pCmdRspEventContext->CmdRspBuffer,
+				CMD_RSP_BULK_SIZE,
+				&pCmdRspEventContext->data_dma,
+				"CmdRspEventContext");
 
-		memset(pPsPollContext, 0, sizeof(TX_CONTEXT));
-		/*Allocate URB*/
-		Status = RTMPAllocUsbBulkBufStruct(udev,
-					&pPsPollContext->pUrb,
-					(PVOID *)&pPsPollContext->TransferBuffer,
-					sizeof(TX_BUFFER),
-					&pPsPollContext->data_dma,
-					"TxPsPollContext");
-		if (Status != NDIS_STATUS_SUCCESS)
-			goto err;
-
+	if (Status != NDIS_STATUS_SUCCESS)
+		goto err;
 
 
-		/* Init receive data structures and related parameters*/
-		for (i = 0; i < (RX_RING_SIZE); i++) {
-			PRX_CONTEXT  pRxContext = &(pAd->RxContext[i]);
+	memset(&pAd->FragFrame, 0, sizeof(FRAGMENT_FRAME));
+	pAd->FragFrame.pFragPacket =  RTMP_AllocateFragPacketBuffer(pAd, RX_BUFFER_NORMSIZE);
 
-			/*Allocate URB*/
-			Status = RTMPAllocUsbBulkBufStruct(udev,
-					&pRxContext->pUrb,
-					(PVOID *)&pRxContext->TransferBuffer,
-					MAX_RXBULK_SIZE,
-					&pRxContext->data_dma,
-					"RxContext");
-			if (Status != NDIS_STATUS_SUCCESS)
-				goto err;
-
-		}
-
-		/* Init command response event related parameters */
-		Status = RTMPAllocUsbBulkBufStruct(udev,
-					&pCmdRspEventContext->pUrb,
-					(PVOID *)&pCmdRspEventContext->CmdRspBuffer,
-					CMD_RSP_BULK_SIZE,
-					&pCmdRspEventContext->data_dma,
-					"CmdRspEventContext");
-
-		if (Status != NDIS_STATUS_SUCCESS)
-			goto err;
-
-
-		memset(&pAd->FragFrame, 0, sizeof(FRAGMENT_FRAME));
-		pAd->FragFrame.pFragPacket =  RTMP_AllocateFragPacketBuffer(pAd, RX_BUFFER_NORMSIZE);
-
-		if (pAd->FragFrame.pFragPacket == NULL)
-			Status = NDIS_STATUS_RESOURCES;
-	} while (FALSE);
+	if (pAd->FragFrame.pFragPacket == NULL)
+		Status = NDIS_STATUS_RESOURCES;
 
 	DBGPRINT_S(Status, ("<-- RTMPAllocTxRxRingMemory, Status=%x\n", Status));
 	return Status;
