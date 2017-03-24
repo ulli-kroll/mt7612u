@@ -72,12 +72,12 @@ int mt7612u_mcu_usb_enable_patch(struct rtmp_adapter *ad)
 	DBGPRINT(RT_DEBUG_OFF, ("%s\n", __FUNCTION__));
 
 	ret = RTUSB_VendorRequest(ad,
-							  DEVICE_CLASS_REQUEST_OUT,
-							  0x01,
-							  0x12,
-							  0x00,
-							  cmd,
-							  11);
+			  DEVICE_CLASS_REQUEST_OUT,
+			  0x01,
+			  0x12,
+			  0x00,
+			  cmd,
+			  11);
 
 	return ret;
 }
@@ -93,12 +93,12 @@ int mt7612u_mcu_usb_reset_wmt(struct rtmp_adapter *ad)
 	DBGPRINT(RT_DEBUG_OFF, ("%s\n", __FUNCTION__));
 
 	RTUSB_VendorRequest(ad,
-						DEVICE_CLASS_REQUEST_OUT,
-						0x01,
-						0x12,
-						0x00,
-						cmd,
-						8);
+			DEVICE_CLASS_REQUEST_OUT,
+			0x01,
+			0x12,
+			0x00,
+			cmd,
+			8);
 
 	return ret;
 }
@@ -140,12 +140,12 @@ int mt7612u_mcu_usb_chk_crc(struct rtmp_adapter *ad, u32 checksum_len)
 	memmove(&cmd[4], &checksum_len, 4);
 
 	ret = RTUSB_VendorRequest(ad,
-							  DEVICE_VENDOR_REQUEST_OUT,
-							  0x01,
-							  0x20,
-							  0x00,
-							  cmd,
-							  8);
+			  DEVICE_VENDOR_REQUEST_OUT,
+			  0x01,
+			  0x20,
+			  0x00,
+			  cmd,
+			  8);
 
 	return ret;
 
@@ -157,14 +157,13 @@ u16 mt7612u_mcu_usb_get_crc(struct rtmp_adapter *ad)
 	u16 crc, count = 0;
 
 	while (1) {
-
 		ret = RTUSB_VendorRequest(ad,
-								 DEVICE_VENDOR_REQUEST_IN,
-								 0x01,
-								 0x21,
-								 0x00,
-								 &crc,
-								 2);
+				 DEVICE_VENDOR_REQUEST_IN,
+				 0x01,
+				 0x21,
+				 0x00,
+				 &crc,
+				 2);
 
 		if (crc != 0xFFFF)
 			break;
@@ -321,8 +320,7 @@ load_patch_protect:
 	/* Allocate URB */
 	urb = usb_alloc_urb(0, GFP_ATOMIC);
 
-	if (!urb)
-	{
+	if (!urb) {
 		DBGPRINT(RT_DEBUG_ERROR, ("can not allocate URB\n"));
 		ret = NDIS_STATUS_RESOURCES;
 		goto error0;
@@ -331,8 +329,7 @@ load_patch_protect:
 	/* Allocate TransferBuffer */
 	rom_patch_data = usb_alloc_coherent(udev, UPLOAD_PATCH_UNIT, GFP_ATOMIC, &rom_patch_dma);
 
-	if (!rom_patch_data)
-	{
+	if (!rom_patch_data) {
 		ret = NDIS_STATUS_RESOURCES;
 		goto error1;
 	}
@@ -373,16 +370,15 @@ load_patch_protect:
 
 			/* Set FCE DMA descriptor */
 			ret = RTUSB_VendorRequest(ad,
-										 DEVICE_VENDOR_REQUEST_OUT,
-										 0x42,
-										 value,
-										 0x230,
-										 NULL,
-										 0);
+					 DEVICE_VENDOR_REQUEST_OUT,
+					 0x42,
+					 value,
+					 0x230,
+					 NULL,
+					 0);
 
 
-			if (ret)
-			{
+			if (ret) {
 				DBGPRINT(RT_DEBUG_ERROR, ("set fce dma descriptor fail\n"));
 				goto error2;
 			}
@@ -391,15 +387,14 @@ load_patch_protect:
 
 			/* Set FCE DMA descriptor */
 			ret = RTUSB_VendorRequest(ad,
-										 DEVICE_VENDOR_REQUEST_OUT,
-										 0x42,
-										 value,
-										 0x232,
-										 NULL,
-										 0);
+					 DEVICE_VENDOR_REQUEST_OUT,
+					 0x42,
+					 value,
+					 0x232,
+					 NULL,
+					 0);
 
-			if (ret)
-			{
+			if (ret) {
 				DBGPRINT(RT_DEBUG_ERROR, ("set fce dma descriptor fail\n"));
 				goto error2;
 			}
@@ -413,15 +408,14 @@ load_patch_protect:
 
 			/* Set FCE DMA length */
 			ret = RTUSB_VendorRequest(ad,
-										 DEVICE_VENDOR_REQUEST_OUT,
-										 0x42,
-										 value,
-										 0x234,
-										 NULL,
-										 0);
+					 DEVICE_VENDOR_REQUEST_OUT,
+					 0x42,
+					 value,
+					 0x234,
+					 NULL,
+					 0);
 
-			if (ret)
-			{
+			if (ret) {
 				DBGPRINT(RT_DEBUG_ERROR, ("set fce dma length fail\n"));
 				goto error2;
 			}
@@ -430,41 +424,38 @@ load_patch_protect:
 
 			/* Set FCE DMA length */
 			ret = RTUSB_VendorRequest(ad,
-										 DEVICE_VENDOR_REQUEST_OUT,
-										 0x42,
-										 value,
-										 0x236,
-										 NULL,
-										 0);
+					 DEVICE_VENDOR_REQUEST_OUT,
+					 0x42,
+					 value,
+					 0x236,
+					 NULL,
+					 0);
 
-			if (ret)
-			{
+			if (ret) {
 				DBGPRINT(RT_DEBUG_ERROR, ("set fce dma length fail\n"));
 				goto error2;
 			}
 
 			/* Initialize URB descriptor */
 			RTUSB_FILL_HTTX_BULK_URB(urb,
-									 udev,
-									 cap->CommandBulkOutAddr,
-									 rom_patch_data,
-									 sent_len + sizeof(*tx_info) + 4,
-									 usb_upload_rom_patch_complete,
-									 &load_rom_patch_done,
-									 rom_patch_dma);
+					 udev,
+					 cap->CommandBulkOutAddr,
+					 rom_patch_data,
+					 sent_len + sizeof(*tx_info) + 4,
+					 usb_upload_rom_patch_complete,
+					 &load_rom_patch_done,
+					 rom_patch_dma);
 
 			ret = usb_submit_urb(urb, GFP_ATOMIC);
 
-			if (ret)
-			{
+			if (ret) {
 				DBGPRINT(RT_DEBUG_ERROR, ("submit urb fail\n"));
 				goto error2;
 			}
 
 			DBGPRINT(RT_DEBUG_INFO, ("%s: submit urb, sent_len = %d, patch_ilm = %d, cur_len = %d\n", __FUNCTION__, sent_len, patch_len, cur_len));
 
-			if (!RTMP_OS_WAIT_FOR_COMPLETION_TIMEOUT(&load_rom_patch_done, RTMPMsecsToJiffies(1000)))
-			{
+			if (!RTMP_OS_WAIT_FOR_COMPLETION_TIMEOUT(&load_rom_patch_done, RTMPMsecsToJiffies(1000))) {
 				usb_kill_urb(urb);
 				ret = NDIS_STATUS_FAILURE;
 				DBGPRINT(RT_DEBUG_ERROR, ("upload fw timeout\n"));
@@ -477,9 +468,7 @@ load_patch_protect:
 			mt7612u_write32(ad, TX_CPU_PORT_FROM_FCE_CPU_DESC_INDEX, mac_value);
 
 			RtmpOsMsDelay(5);
-		}
-		else
-		{
+		} else {
 			break;
 		}
 
