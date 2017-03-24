@@ -17,41 +17,16 @@
 
 #define VENDOR_FEATURE1_SUPPORT
 //#ifdef BB_SOC
-//#define VENDOR_FEATURE3_SUPPORT
 //#endif
 
 
 /*#define MONITOR_FLAG_11N_SNIFFER_SUPPORT */
-
-#ifdef VENDOR_FEATURE3_SUPPORT
-#ifndef BB_SOC
-#ifdef DOT1X_SUPPORT
-#undef DOT1X_SUPPORT
-#endif	/* DOT1X_SUPPORT */
-#ifdef SYSTEM_LOG_SUPPORT
-#undef SYSTEM_LOG_SUPPORT
-#endif	/* SYSTEM_LOG_SUPPORT */
-#endif /* !BB_SOC */
-#ifdef WSC_LED_SUPPORT
-#undef WSC_LED_SUPPORT
-#endif	/* WSC_LED_SUPPORT */
-#endif /* VENDOR_FEATURE3_SUPPORT */
-
 
 #ifdef VENDOR_FEATURE1_SUPPORT
 #define FIFO_STAT_READ_PERIOD		4
 #else
 #define FIFO_STAT_READ_PERIOD		0
 #endif /* VENDOR_FEATURE1_SUPPORT */
-
-#ifdef CONFIG_AP_SUPPORT
-
-#ifndef VENDOR_FEATURE3_SUPPORT
-//#define AP_QLOAD_SUPPORT
-#endif /* VENDOR_FEATURE3_SUPPORT */
-
-#endif	/* CONFIG_AP_SUPPORT */
-
 
 /* ======================== Before include files ============================ */
 /*

@@ -75,11 +75,7 @@
 	}
 
 /* uapsd packet */
-#ifdef VENDOR_FEATURE3_SUPPORT
-#define UAPSD_INSERT_QUEUE_AC	UAPSD_InsertTailQueueAc
-#else
 #define UAPSD_INSERT_QUEUE_AC	InsertTailQueueAc
-#endif /* VENDOR_FEATURE3_SUPPORT */
 
 /* uapsd initialization */
 #define UAPSD_INFO_INIT(__pInfo)						\

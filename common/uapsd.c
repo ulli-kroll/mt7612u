@@ -50,37 +50,6 @@ uint32_t gUAPSD_TimingSumTrig2Txqueue;
 uint32_t gUAPSD_TimingSumTxqueue2Air;
 #endif /* UAPSD_TIMING_RECORD_FUNC */
 
-
-#ifdef VENDOR_FEATURE3_SUPPORT
-/*
-========================================================================
-Routine Description:
-    Queue packet to a AC software queue.
-
-Arguments:
-	pAd				Pointer to our adapter
-	pEntry			The station
-	pQueueHeader	The software queue header of the AC
-	bulkEnPos		The packet entry
-
-Return Value:
-    None
-
-Note:
-	Only for code size reduce purpose.
-========================================================================
-*/
-static VOID UAPSD_InsertTailQueueAc(
-	IN	struct rtmp_adapter *pAd,
-	IN	MAC_TABLE_ENTRY	*pEntry,
-	IN	QUEUE_HEADER	*pQueueHeader,
-	IN	QUEUE_ENTRY		*pQueueEntry)
-{
-	InsertTailQueueAc(pAd, pEntry, pQueueHeader, pQueueEntry);
-}
-#endif /* VENDOR_FEATURE3_SUPPORT */
-
-
 /*
 ========================================================================
 Routine Description:

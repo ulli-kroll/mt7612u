@@ -6992,11 +6992,6 @@ VOID ieee80211_notify_michael_failure(
 const CHAR* ether_sprintf(const UINT8 *mac);
 #endif/*HOSTAPD_SUPPORT*/
 
-
-#ifdef VENDOR_FEATURE3_SUPPORT
-VOID mt7612u_write32(struct rtmp_adapter *pAd, uint32_t Offset, uint32_t Value);
-#endif /* VENDOR_FEATURE3_SUPPORT */
-
 INT WaitForAsicReady(struct rtmp_adapter *pAd);
 
 BOOLEAN CHAN_PropertyCheck(struct rtmp_adapter *pAd, uint32_t ChanNum, UCHAR Property);

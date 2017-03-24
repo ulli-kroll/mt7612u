@@ -3067,14 +3067,3 @@ VOID RTMP_11N_D3_TimerInit(struct rtmp_adapter *pAd)
 	RTMPInitTimer(pAd, &pAd->CommonCfg.Bss2040CoexistTimer, GET_TIMER_FUNCTION(Bss2040CoexistTimeOut), pAd, FALSE);
 }
 #endif /* CONFIG_AP_SUPPORT */
-
-
-#ifdef VENDOR_FEATURE3_SUPPORT
-VOID mt7612u_write32(
-	struct rtmp_adapter *pAd,
-	uint32_t Offset,
-	uint32_t Value)
-{
-	_mt7612u_write32(pAd, Offset, Value);
-}
-#endif /* VENDOR_FEATURE3_SUPPORT */
