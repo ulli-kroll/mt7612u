@@ -205,10 +205,6 @@ typedef union _BBP_R49_STRUC {
 	RF register Read/Write marco definition
  *****************************************************************************/
 
-#ifdef RTMP_MAC_USB
-#define RTMP_RF_IO_WRITE32(_A, _V)                 RTUSBWriteRFRegister(_A, _V)
-#endif /* RTMP_MAC_USB */
-
 
 /*****************************************************************************
 	BBP register Read/Write marco definitions.

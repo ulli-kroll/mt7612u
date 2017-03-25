@@ -449,10 +449,6 @@ typedef union _BBP_R182_STRUC {
 	RF register Read/Write marco definition
  *****************************************************************************/
 
-#ifdef RTMP_MAC_USB
-#define RTMP_RF_IO_WRITE32(_A, _V)                 RTUSBWriteRFRegister(_A, _V)
-#endif /* RTMP_MAC_USB */
-
 
 /*****************************************************************************
 	BBP register Read/Write marco definitions.
@@ -460,23 +456,6 @@ typedef union _BBP_R182_STRUC {
 	Generate PER to test BA
  *****************************************************************************/
 
-#ifdef RTMP_MAC_USB
-#define BBP_IO_WRITE8_BY_REG_ID(_A, _I, _V)			RTUSBWriteBBPRegister(_A, _I, _V)
-#define BBP_IO_READ8_BY_REG_ID(_A, _I, _pV)   		RTUSBReadBBPRegister(_A, _I, _pV)
-#endif /* RTMP_MAC_USB */
-
-
-
-
-struct _RMTP_ADAPTER;
-
-INT rtmp_phy_probe(struct rtmp_adapter *pAd);
-
-VOID RTMP_BBP_IO_READ8(struct rtmp_adapter *pAd, UCHAR Offset, UINT8 *pVal, bool FlgValidMCR);
-VOID RTMP_BBP_IO_WRITE8(struct rtmp_adapter *pAd, UCHAR Offset, UINT8 Val, bool FlgValidMCR);
-
-NTSTATUS RTMP_BBP_IO_READ8_BY_REG_ID(struct rtmp_adapter *pAd, uint32_t Offset, UINT8 *pVal);
-NTSTATUS RTMP_BBP_IO_WRITE8_BY_REG_ID(struct rtmp_adapter *pAd, uint32_t Offset, UINT8 Val);
 
 #endif /* __RTMP_BBP_H__ */
 
