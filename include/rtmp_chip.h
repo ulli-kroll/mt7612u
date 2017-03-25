@@ -730,9 +730,6 @@ struct _RTMP_CHIP_OP_ {
 	/* EEPROM */
 	VOID (*NICInitAsicFromEEPROM)(IN struct rtmp_adapter *pAd);
 
-	/* Temperature Compensation */
-	VOID (*InitTemperCompensation)(IN struct rtmp_adapter *pAd);
-
 	/* The chip specific function list */
 	CHIP_SPEC_FUNC ChipSpecFunc[CHIP_SPEC_ID_NUM];
 
