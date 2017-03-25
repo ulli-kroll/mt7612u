@@ -2794,7 +2794,7 @@ VOID CntlChannelWidth(
 		mt7612u_bbp_set_bw(pAd, rf_bw);
 
 		/* Tx/ RX : control channel setting */
-		bbp_set_ctrlch(pAd, ext_ch);
+		mt7612u_bbp_set_ctrlch(pAd, ext_ch);
 		rtmp_mac_set_ctrlch(pAd, ext_ch);
 
 		AsicSwitchChannel(pAd, rf_channel, false);

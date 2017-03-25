@@ -170,7 +170,7 @@ static UCHAR vht_prim_ch_val[] = {
 };
 
 
-static INT rlt_bbp_set_ctrlch(struct rtmp_adapter *pAd, UINT8 ext_ch)
+void mt7612u_bbp_set_ctrlch(struct rtmp_adapter *pAd, u8 ext_ch)
 {
 	uint32_t agc, agc_r0 = 0;
 	uint32_t be, be_r0 = 0;
@@ -241,8 +241,6 @@ static INT rlt_bbp_set_ctrlch(struct rtmp_adapter *pAd, UINT8 ext_ch)
 //DBGPRINT(RT_DEBUG_OFF, ("%s(): ext_ch=%d, Set AGC1_R0=0x%x, agc_r0=0x%x\n", __FUNCTION__, ext_ch, agc, agc_r0));
 //		RTMP_BBP_IO_READ32(pAd, AGC1_R0, &agc);
 //DBGPRINT(RT_DEBUG_OFF, ("%s(): ext_ch=%d, After write, Get AGC1_R0=0x%x,\n", __FUNCTION__, ext_ch, agc));
-
-	return true;
 }
 
 
@@ -460,7 +458,6 @@ static struct phy_ops rlt_phy_ops = {
 	.filter_coefficient_ctrl = rlt_bbp_set_filter_coefficient_ctrl,
 	.bbp_set_agc = rlt_bbp_set_agc,
 	.bbp_get_agc = rlt_bbp_get_agc,
-	.bbp_set_ctrlch = rlt_bbp_set_ctrlch,
 	.bbp_set_rxpath = rlt_bbp_set_rxpath,
 	.bbp_set_txdac = rlt_bbp_set_txdac,
 	.bbp_set_mmps = rlt_bbp_set_mmps,

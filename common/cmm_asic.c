@@ -2659,7 +2659,7 @@ INT AsicSetChannel(struct rtmp_adapter *pAd, UCHAR ch, UINT8 bw, UINT8 ext_ch, b
 	mt7612u_bbp_set_bw(pAd, bw);
 
 	/*  Tx/RX : control channel setting */
-	bbp_set_ctrlch(pAd, ext_ch);
+	mt7612u_bbp_set_ctrlch(pAd, ext_ch);
 	rtmp_mac_set_ctrlch(pAd, ext_ch);
 
 	/* Let BBP register at 20MHz to do scan */

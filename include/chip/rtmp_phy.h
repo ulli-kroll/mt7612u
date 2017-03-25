@@ -240,7 +240,7 @@ struct _RMTP_ADAPTER;
 #define _TEM_SETTING (0x1 << 6)
 
 void mt7612u_bbp_set_bw(struct rtmp_adapter *pAd, u8 bw);
-INT bbp_set_ctrlch(struct rtmp_adapter *pAd, UINT8 ext_ch);
+void mt7612u_bbp_set_ctrlch(struct rtmp_adapter *pAd, u8 ext_ch);
 INT bbp_set_rxpath(struct rtmp_adapter *pAd, INT rxpath);
 INT bbp_get_temp(struct rtmp_adapter *pAd, CHAR *temp_val);
 INT bbp_tx_comp_init(struct rtmp_adapter *pAd, INT adc_insel, INT tssi_mode);

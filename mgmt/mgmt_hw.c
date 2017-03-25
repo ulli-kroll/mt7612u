@@ -48,7 +48,7 @@ INT dev_adjust_radio(struct rtmp_adapter *pAd)
 	{
 		UINT8 ext_ch = EXTCHA_NONE;
 
-		bbp_set_ctrlch(pAd, ext_ch);
+		mt7612u_bbp_set_ctrlch(pAd, ext_ch);
 		rtmp_mac_set_ctrlch(pAd, ext_ch);
 	}
 

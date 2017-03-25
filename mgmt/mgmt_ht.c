@@ -309,7 +309,7 @@ VOID RTMPSetHT(
 		if ((pAd->OpMode == OPMODE_AP) || INFRA_ON(pAd) || ADHOC_ON(pAd)
 		)
 		{
-			bbp_set_ctrlch(pAd, pHTPhyMode->ExtOffset);
+			mt7612u_bbp_set_ctrlch(pAd, pHTPhyMode->ExtOffset);
 				bw = BW_40;
 		}
 	}

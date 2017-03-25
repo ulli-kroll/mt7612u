@@ -734,8 +734,6 @@ INT rtmp_mac_set_ctrlch(struct rtmp_adapter *pAd, UINT8 extch)
 
 	if (val != band_cfg)
 		mt7612u_write32(pAd, TX_BAND_CFG, val);
-
-	return true;
 }
 
 

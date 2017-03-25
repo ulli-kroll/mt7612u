@@ -99,15 +99,6 @@ INT bbp_set_rxpath(struct rtmp_adapter *pAd, INT rxpath)
 		return false;
 }
 
-
-INT bbp_set_ctrlch(struct rtmp_adapter *pAd, UINT8 ext_ch)
-{
-	if (pAd->phy_op && pAd->phy_op->bbp_set_ctrlch)
-		return pAd->phy_op->bbp_set_ctrlch(pAd, ext_ch);
-	else
-		return false;
-}
-
 INT bbp_set_mmps(struct rtmp_adapter *pAd, bool ReduceCorePower)
 {
 	if (pAd->phy_op && pAd->phy_op->bbp_set_mmps)
