@@ -27,31 +27,3 @@
 #include <rt_config.h>
 
 
-INT dev_adjust_radio(struct rtmp_adapter *pAd)
-{
-	struct hw_setting new_cfg, *hw_cfg = &pAd->hw_cfg;
-
-
-	memset(&new_cfg, 0, sizeof(struct hw_setting));
-
-
-	/* For all wdev, find the maximum inter-set */
-
-
-	if (hw_cfg->bbp_bw != new_cfg.bbp_bw)
-	{
-		mt7612u_bbp_set_bw(pAd, new_cfg.bbp_bw);
-		hw_cfg->bbp_bw = new_cfg.bbp_bw;
-	}
-
-	if (hw_cfg->cent_ch != new_cfg.cent_ch)
-	{
-		UINT8 ext_ch = EXTCHA_NONE;
-
-		mt7612u_bbp_set_ctrlch(pAd, ext_ch);
-		mt7612u_mac_set_ctrlch(pAd, ext_ch);
-	}
-
-	return true;
-}
-
