@@ -2120,12 +2120,6 @@ int mt7612u_mcu_pwr_saving(struct rtmp_adapter *ad, u32 op, u32 level)
 	/* Power operation and Power Level */
 	var_len = 8;
 
-	if (op == RADIO_OFF_ADVANCE)
-	{
-		/* Listen interval, Pre-TBTT, TIM info */
-		var_len += 12;
-	}
-
 	msg = mt7612u_mcu_alloc_cmd_msg(ad, var_len);
 
 	if (!msg) {
@@ -2143,24 +2137,6 @@ int mt7612u_mcu_pwr_saving(struct rtmp_adapter *ad, u32 op, u32 level)
 	value = cpu2le32(level);
 
 	mt7612u_mcu_append_cmd_msg(msg, (char *)&value, 4);
-
-	if (op == RADIO_OFF_ADVANCE)
-	{
-		/* Listen interval */
-		value = cpu2le32(listen_interval);
-		mt7612u_mcu_append_cmd_msg(msg, (char *)&value, 4);
-
-
-		/* Pre TBTT lead time */
-		value = cpu2le32(pre_tbtt_lead_time);
-		mt7612u_mcu_append_cmd_msg(msg, (char*)&value, 4);
-
-		/* TIM Info */
-		value = (value & ~0x000000ff) | tim_byte_pattern;
-		value = (value & ~0x0000ff00) | (tim_byte_offset << 8);
-		value = cpu2le32(value);
-		mt7612u_mcu_append_cmd_msg(msg, (char *)&value, 4);
-	}
 
 	ret = mt7612u_mcu_send_cmd_msg(ad, msg);
 
