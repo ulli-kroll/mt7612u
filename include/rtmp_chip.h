@@ -756,8 +756,6 @@ struct _RTMP_CHIP_OP_ {
 	VOID (*AsicWOWEnable)(struct rtmp_adapter *ad);
 	VOID (*AsicWOWDisable)(struct rtmp_adapter *ad);
 #endif /* (defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT) */
-
-	void (*cal_test)(struct rtmp_adapter *ad, uint32_t type);
 };
 
 #define RTMP_CHIP_ENABLE_AP_MIMOPS(__pAd, __ReduceCorePower)	\

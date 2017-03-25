@@ -1064,17 +1064,6 @@ void mt76x2_calibration(struct rtmp_adapter *ad, u8 channel)
 
 }
 
-static void mt76x2_cal_test(struct rtmp_adapter *ad, uint32_t type)
-{
-	UCHAR cent_ch;
-
-	if(ad->CommonCfg.BBPCurrentBW == BW_80)
-		cent_ch = ad->CommonCfg.vht_cent_ch;
-	else
-		cent_ch = ad->CommonCfg.CentralChannel;
-
-}
-
 /*
  * Initialize FCE
  */
@@ -2785,7 +2774,6 @@ static const RTMP_CHIP_OP MT76x2_ChipOp = {
 
 #ifdef RTMP_USB_SUPPORT
 #endif
-	.cal_test = mt76x2_cal_test,
 #ifdef RTMP_TEMPERATURE_TX_ALC
 	.TemperCompensation = mt76x2_temp_tx_alc,
 #endif /* RTMP_TEMPERATURE_TX_ALC */
