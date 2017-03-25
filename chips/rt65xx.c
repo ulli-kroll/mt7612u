@@ -37,7 +37,7 @@ VOID RT65xxUsbAsicRadioOff(struct rtmp_adapter *pAd, UCHAR Stage)
 
 	DBGPRINT(RT_DEBUG_TRACE, ("--> %s\n", __FUNCTION__));
 
-	DISABLE_TX_RX(pAd, RTMP_HALT);
+	RT65xxDisableTxRx(pAd, RTMP_HALT);
 
 	if (IS_USB_INF(pAd)) {
 		ret = down_interruptible(&pAd->hw_atomic);

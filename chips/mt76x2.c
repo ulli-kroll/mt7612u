@@ -2783,7 +2783,6 @@ static const RTMP_CHIP_OP MT76x2_ChipOp = {
 	.ChipBBPAdjust = mt76x2_bbp_adjust,
 	.ChipSwitchChannel = mt76x2_switch_channel,
 
-	.DisableTxRx = RT65xxDisableTxRx,
 #ifdef RTMP_USB_SUPPORT
 #endif
 	.cal_test = mt76x2_cal_test,
