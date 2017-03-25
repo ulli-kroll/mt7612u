@@ -705,7 +705,7 @@ VOID NICInitAsicFromEEPROM(struct rtmp_adapter *pAd)
 			else
 				dac = 2;
 		}
-		bbp_set_txdac(pAd, dac);
+		mt7612u_bbp_set_txdac(pAd, dac);
 		DBGPRINT(RT_DEBUG_TRACE, ("Use Hw Radio Control Pin=%d; if used Pin=%d;\n",
 					pAd->StaCfg.bHardwareRadio, pAd->StaCfg.bHardwareRadio));
 	}

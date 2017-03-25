@@ -67,14 +67,6 @@ INT bbp_tx_comp_init(struct rtmp_adapter *pAd, INT adc_insel, INT tssi_mode)
 }
 
 
-INT bbp_set_txdac(struct rtmp_adapter *pAd, INT tx_dac)
-{
-	if (pAd->phy_op && pAd->phy_op->bbp_set_txdac)
-		return pAd->phy_op->bbp_set_txdac(pAd, tx_dac);
-	else
-		return false;
-}
-
 INT bbp_set_mmps(struct rtmp_adapter *pAd, bool ReduceCorePower)
 {
 	if (pAd->phy_op && pAd->phy_op->bbp_set_mmps)

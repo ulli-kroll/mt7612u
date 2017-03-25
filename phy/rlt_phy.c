@@ -88,7 +88,7 @@ static INT rlt_bbp_tx_comp_init(struct rtmp_adapter *pAd, INT adc_insel, INT tss
 }
 
 
-static INT rlt_bbp_set_txdac(struct rtmp_adapter *pAd, INT tx_dac)
+void mt7612u_bbp_set_txdac(struct rtmp_adapter *pAd, int tx_dac)
 {
 	uint32_t txbe, txbe_r5 = 0;
 
@@ -108,8 +108,6 @@ static INT rlt_bbp_set_txdac(struct rtmp_adapter *pAd, INT tx_dac)
 
 	if (txbe != txbe_r5)
 		RTMP_BBP_IO_WRITE32(pAd, TXBE_R5, txbe);
-
-	return true;
 }
 
 
@@ -448,7 +446,6 @@ static struct phy_ops rlt_phy_ops = {
 	.filter_coefficient_ctrl = rlt_bbp_set_filter_coefficient_ctrl,
 	.bbp_set_agc = rlt_bbp_set_agc,
 	.bbp_get_agc = rlt_bbp_get_agc,
-	.bbp_set_txdac = rlt_bbp_set_txdac,
 	.bbp_set_mmps = rlt_bbp_set_mmps,
 	.bbp_tx_comp_init = rlt_bbp_tx_comp_init,
 };

@@ -339,9 +339,9 @@ VOID APStartUp(struct rtmp_adapter *pAd)
 	/* In legacy mode or one stream mode, DAC-0 is selected. */
 	{
 		if (WMODE_CAP_N(pAd->CommonCfg.PhyMode) && (pAd->Antenna.field.TxPath == 2))
-			bbp_set_txdac(pAd, 2);
+			mt7612u_bbp_set_txdac(pAd, 2);
 		else
-			bbp_set_txdac(pAd, 0);
+			mt7612u_bbp_set_txdac(pAd, 0);
 	}
 
 	/* Receiver Antenna selection */

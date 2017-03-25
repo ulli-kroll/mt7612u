@@ -1745,12 +1745,12 @@ VOID LinkUp(struct rtmp_adapter *pAd, UCHAR BssType)
 	{
 		{
 			if (pAd->Antenna.field.TxPath >= 2)
-				bbp_set_txdac(pAd, 2);
+				mt7612u_bbp_set_txdac(pAd, 2);
 			else
-				bbp_set_txdac(pAd, 0);
+				mt7612u_bbp_set_txdac(pAd, 0);
 		}
 	} else {
-		bbp_set_txdac(pAd, 0);
+		mt7612u_bbp_set_txdac(pAd, 0);
 	}
 
 	if ((pAd->StaActive.SupportedPhyInfo.bHtEnable == true)) {
@@ -2139,9 +2139,9 @@ VOID LinkDown(
 		/* Reset DAC */
 		{
 			if (pAd->Antenna.field.TxPath >= 2)
-				bbp_set_txdac(pAd, 2);
+				mt7612u_bbp_set_txdac(pAd, 2);
 			else
-				bbp_set_txdac(pAd, 0);
+				mt7612u_bbp_set_txdac(pAd, 0);
 		}
 	}
 

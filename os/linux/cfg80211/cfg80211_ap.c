@@ -391,9 +391,9 @@ bool CFG80211DRV_OpsBeaconAdd(struct rtmp_adapter *pAd, VOID *pData)
 	RTMPSetPhyMode(pAd, pAd->CommonCfg.PhyMode);
 
 	if (WMODE_CAP_N(pAd->CommonCfg.PhyMode) && (pAd->Antenna.field.TxPath == 2))
-		bbp_set_txdac(pAd, 2);
+		mt7612u_bbp_set_txdac(pAd, 2);
 	else
-		bbp_set_txdac(pAd, 0);
+		mt7612u_bbp_set_txdac(pAd, 0);
 
 	/* Receiver Antenna selection */
 	mt7612u_bbp_set_rxpath(pAd, pAd->Antenna.field.RxPath);
