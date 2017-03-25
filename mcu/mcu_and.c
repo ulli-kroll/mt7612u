@@ -2106,10 +2106,12 @@ error:
 	return ret;
 }
 
-int mt7612u_mcu_pwr_saving(struct rtmp_adapter *ad, u32 op, u32 level,
-					 u32 listen_interval, u32 pre_tbtt_lead_time,
-					 u8 tim_byte_offset, u8 tim_byte_pattern)
+int mt7612u_mcu_pwr_saving(struct rtmp_adapter *ad, u32 op, u32 level)
 {
+	u32 listen_interval = 0;
+	u32 pre_tbtt_lead_time = 0;
+	u8 tim_byte_offset = 0;
+	u8 tim_byte_pattern = 0;
 	struct cmd_msg *msg;
 	unsigned int var_len;
 	u32 value;
@@ -2494,7 +2496,7 @@ void mt7612u_mcu_usb_fw_init(struct rtmp_adapter *ad)
 	RTMP_SET_FLAG(ad, fRTMP_ADAPTER_MCU_SEND_IN_BAND_CMD);
 	mt7612u_mcu_fun_set(ad, Q_SELECT, ad->chipCap.CmdRspRxRing);
 	usb_rx_cmd_msgs_receive(ad);
-	mt7612u_mcu_pwr_saving(ad, RADIO_ON, 0, 0, 0, 0, 0);
+	mt7612u_mcu_pwr_saving(ad, RADIO_ON, 0);
 }
 #endif /* RTMP_USB_SUPPORT */
 

@@ -393,9 +393,7 @@ int mt7612u_mcu_send_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *msg);
 int mt7612u_mcu_read_modify_write(struct rtmp_adapter *ad, struct _R_M_W_REG *reg_pair, u32 num);
 int mt7612u_mcu_random_write(struct rtmp_adapter *ad, RTMP_REG_PAIR *reg_pair, u32 num);
 int mt7612u_mcu_fun_set(struct rtmp_adapter *ad, u32 fun_id, u32 param);
-int mt7612u_mcu_pwr_saving(struct rtmp_adapter *ad, u32 op, u32 level,
-					 u32 listen_interval, u32 pre_tbtt_lead_time,
-					 u8 tim_byte_offset, u8 tim_byte_pattern);
+int mt7612u_mcu_pwr_saving(struct rtmp_adapter *ad, u32 op, u32 level);
 void mt7612u_mcu_calibration(struct rtmp_adapter *ad, u32 cal_id, ANDES_CALIBRATION_PARAM *param);
 void mt7612u_mcu_cmd_msg_bh(unsigned long param);
 int usb_rx_cmd_msg_submit(struct rtmp_adapter *ad);

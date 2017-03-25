@@ -51,7 +51,7 @@ VOID RT65xxUsbAsicRadioOff(struct rtmp_adapter *pAd, UCHAR Stage)
 	RTMP_SET_FLAG(pAd, fRTMP_ADAPTER_MCU_SEND_IN_BAND_CMD);
 
 	if (Stage == MLME_RADIO_OFF)
-		mt7612u_mcu_pwr_saving(pAd, RADIO_OFF, 1, 0, 0, 0, 0);
+		mt7612u_mcu_pwr_saving(pAd, RADIO_OFF, 1);
 
 	mt7612u_mcu_ctrl_exit(pAd);
 	RTMP_SET_FLAG(pAd, fRTMP_ADAPTER_RADIO_OFF);
@@ -151,7 +151,7 @@ VOID RT65xxUsbAsicRadioOn(struct rtmp_adapter *pAd, UCHAR Stage)
 	RTMP_SET_FLAG(pAd, fRTMP_ADAPTER_MCU_SEND_IN_BAND_CMD);
 
 	if (Stage == MLME_RADIO_ON)
-		mt7612u_mcu_pwr_saving(pAd, RADIO_ON, 1, 0, 0, 0, 0);
+		mt7612u_mcu_pwr_saving(pAd, RADIO_ON, 1);
 
 	DBGPRINT(RT_DEBUG_TRACE, ("<== %s\n", __FUNCTION__));
 }
