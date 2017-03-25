@@ -302,7 +302,7 @@ VOID RTMPSetHT(
 		pAd->CommonCfg.AddHTInfo.AddHtInfo.RecomWidth = 1;
 		pAd->CommonCfg.AddHTInfo.AddHtInfo.ExtChanOffset = (pHTPhyMode->ExtOffset == EXTCHA_BELOW)? (EXTCHA_BELOW): EXTCHA_ABOVE;
 		/* Set Regsiter for extension channel position.*/
-		rtmp_mac_set_ctrlch(pAd, pHTPhyMode->ExtOffset);
+		mt7612u_mac_set_ctrlch(pAd, pHTPhyMode->ExtOffset);
 
 		/* Turn on BBP 40MHz mode now only as AP . */
 		/* Sta can turn on BBP 40MHz after connection with 40MHz AP. Sta only broadcast 40MHz capability before connection.*/

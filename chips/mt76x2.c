@@ -169,7 +169,7 @@ static VOID mt76x2_bbp_adjust(struct rtmp_adapter *pAd)
 	mt7612u_bbp_set_bw(pAd, rf_bw);
 
 	/* TX/Rx : control channel setting */
-	rtmp_mac_set_ctrlch(pAd, ext_ch);
+	mt7612u_mac_set_ctrlch(pAd, ext_ch);
 	mt7612u_bbp_set_ctrlch(pAd, ext_ch);
 
 	DBGPRINT(RT_DEBUG_TRACE, ("%s() : %s, ChannelWidth=%d, Channel=%d, ExtChanOffset=%d(%d) \n",

@@ -2472,7 +2472,7 @@ INT get_pkt_rssi_by_rxwi(struct rtmp_adapter *pAd, RXWI_STRUC *rxwi, INT size, C
 INT get_pkt_snr_by_rxwi(struct rtmp_adapter *pAd, RXWI_STRUC *rxwi, INT size, UCHAR *snr);
 
 INT rtmp_mac_set_band(struct rtmp_adapter *pAd, int  band);
-INT rtmp_mac_set_ctrlch(struct rtmp_adapter *pAd, UINT8 extch);
+void mt7612u_mac_set_ctrlch(struct rtmp_adapter *pAd, u8 extch);
 INT rtmp_mac_set_mmps(struct  rtmp_adapter *pAd, INT ReduceCorePower);
 
 VOID rtmp_mac_bcn_buf_init(struct rtmp_adapter *pAd);

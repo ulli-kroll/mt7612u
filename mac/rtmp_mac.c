@@ -713,7 +713,7 @@ INT rtmp_mac_set_band(struct rtmp_adapter *pAd, int  band)
 }
 
 
-INT rtmp_mac_set_ctrlch(struct rtmp_adapter *pAd, UINT8 extch)
+void mt7612u_mac_set_ctrlch(struct rtmp_adapter *pAd, u8 extch)
 {
 	uint32_t val, band_cfg;
 
