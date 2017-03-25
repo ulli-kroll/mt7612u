@@ -132,7 +132,7 @@ VOID RT65xxUsbAsicRadioOn(struct rtmp_adapter *pAd, UCHAR Stage)
 	}
 #endif /* CONFIG_STA_SUPPORT */
 
-	MCU_CTRL_INIT(pAd);
+	mt7612u_mcu_ctrl_init(pAd);
 
 	if (IS_USB_INF(pAd)) {
 		ret = down_interruptible(&pAd->hw_atomic);

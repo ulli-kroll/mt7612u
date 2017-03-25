@@ -749,7 +749,6 @@ struct _RTMP_CHIP_OP_ {
 	VOID (*SecondCCADetection)(struct rtmp_adapter *pAd);
 
 	/* MCU */
-	void (*MCUCtrlInit)(struct rtmp_adapter *ad);
 	void (*MCUCtrlExit)(struct rtmp_adapter *ad);
 #ifdef CONFIG_ANDES_SUPPORT
 	void (*fw_init)(struct rtmp_adapter *ad);
@@ -915,12 +914,6 @@ do {	\
 		_pAd->chipOps.AsicWOWDisable(_pAd);	\
 } while(0)
 #endif /* (defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT) */
-
-#define MCU_CTRL_INIT(_pAd)	\
-do {	\
-	if (_pAd->chipOps.MCUCtrlInit != NULL)	\
-		_pAd->chipOps.MCUCtrlInit(_pAd);	\
-} while (0)
 
 #define MCU_CTRL_EXIT(_pAd)	\
 do {	\

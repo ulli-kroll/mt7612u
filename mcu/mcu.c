@@ -49,7 +49,7 @@ INT mcu_sys_init(struct rtmp_adapter *pAd)
 	int Status;
 
 	/* Load MCU firmware*/
-	MCU_CTRL_INIT(pAd);
+	mt7612u_mcu_ctrl_init(pAd);
 
 	Status = load_patch(pAd);
 
@@ -84,7 +84,6 @@ VOID ChipOpsMCUHook(struct rtmp_adapter *pAd)
 
 
 	pChipOps->fw_init = mt7612u_mcu_usb_fw_init;
-	pChipOps->MCUCtrlInit = mt7612u_mcu_ctrl_init;
 	pChipOps->MCUCtrlExit = mt7612u_mcu_ctrl_exit;
 	pChipOps->Calibration = mt7612u_mcu_calibration;
 	pChipOps->PwrSavingOP = mt7612u_mcu_pwr_saving;
