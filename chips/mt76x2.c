@@ -578,29 +578,29 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan
 	if (IS_USB_INF(ad)) {
 		if (band_change) {
 			if (band == _G_BAND) {
-				RANDOM_WRITE(ad,
+				mt7612u_mcu_random_write(ad,
 					     mt76x2_mac_g_band_cr_table,
 					     mt76x2_mac_g_band_cr_nums);
 
 				if (ad->chipCap.PAType & INT_PA_2G)
-					RANDOM_WRITE(ad,
+					mt7612u_mcu_random_write(ad,
 						     mt76x2_mac_g_band_internal_pa_cr_table,
 						     mt76x2_mac_g_band_internal_pa_cr_nums);
 				else
-					RANDOM_WRITE(ad,
+					mt7612u_mcu_random_write(ad,
 						     mt76x2_mac_g_band_external_pa_cr_table,
 						     mt76x2_mac_g_band_external_pa_cr_nums);
 
 			} else {
-				RANDOM_WRITE(ad,
+				mt7612u_mcu_random_write(ad,
 					     mt76x2_mac_a_band_cr_table,
 					     mt76x2_mac_a_band_cr_nums);
 				if (ad->chipCap.PAType & INT_PA_5G)
-					RANDOM_WRITE(ad,
+					mt7612u_mcu_random_write(ad,
 						     mt76x2_mac_a_band_internal_pa_cr_table,
 						     mt76x2_mac_a_band_internal_pa_cr_nums);
 				else
-					RANDOM_WRITE(ad,
+					mt7612u_mcu_random_write(ad,
 						     mt76x2_mac_a_band_external_pa_cr_table,
 						     mt76x2_mac_a_band_external_pa_cr_nums);
 
@@ -1106,7 +1106,7 @@ void mt76x2_init_mac_cr(struct rtmp_adapter *ad)
 
 #ifdef RTMP_USB_SUPPORT
 	if (IS_USB_INF(ad))
-		RANDOM_WRITE(ad, mt76x2_mac_cr_table, mt76x2_mac_cr_nums);
+		mt7612u_mcu_random_write(ad, mt76x2_mac_cr_table, mt76x2_mac_cr_nums);
 #endif
 
 #ifdef HDR_TRANS_TX_SUPPORT

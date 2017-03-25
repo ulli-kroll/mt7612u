@@ -87,7 +87,6 @@ VOID ChipOpsMCUHook(struct rtmp_adapter *pAd)
 	pChipOps->MCUCtrlInit = mt7612u_mcu_ctrl_init;
 	pChipOps->MCUCtrlExit = mt7612u_mcu_ctrl_exit;
 	pChipOps->Calibration = mt7612u_mcu_calibration;
-	pChipOps->RandomWrite = mt7612u_mcu_random_write;
 	pChipOps->PwrSavingOP = mt7612u_mcu_pwr_saving;
 }
 
