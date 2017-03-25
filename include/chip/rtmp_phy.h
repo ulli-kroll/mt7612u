@@ -242,7 +242,6 @@ struct _RMTP_ADAPTER;
 void mt7612u_bbp_set_bw(struct rtmp_adapter *pAd, u8 bw);
 void mt7612u_bbp_set_ctrlch(struct rtmp_adapter *pAd, u8 ext_ch);
 INT bbp_set_rxpath(struct rtmp_adapter *pAd, INT rxpath);
-INT bbp_get_temp(struct rtmp_adapter *pAd, CHAR *temp_val);
 INT bbp_tx_comp_init(struct rtmp_adapter *pAd, INT adc_insel, INT tssi_mode);
 INT bbp_set_txdac(struct rtmp_adapter *pAd, INT tx_dac);
 INT bbp_set_mmps(struct rtmp_adapter *pAd, bool ReduceCorePower);
@@ -265,7 +264,6 @@ typedef struct phy_ops{
 	INT (*bbp_set_rxpath)(struct rtmp_adapter *pAd, INT rxpath);
 	INT (*bbp_set_txdac)(struct rtmp_adapter *pAd, INT tx_dac);
 	INT (*bbp_tx_comp_init)(struct rtmp_adapter *pAd, INT adc_insel, INT tssi_mode);
-	INT (*bbp_get_temp)(struct rtmp_adapter *pAd, CHAR *temp_val);
 	INT (*bbp_init)(struct rtmp_adapter *pAd);
 }PHY_OPS;
 

@@ -67,13 +67,6 @@ static INT rlt_bbp_init(struct rtmp_adapter *pAd)
 
 }
 
-
-static INT rlt_bbp_get_temp(struct rtmp_adapter *pAd, CHAR *temp_val)
-{
-	return true;
-}
-
-
 static INT rlt_bbp_tx_comp_init(struct rtmp_adapter *pAd, INT adc_insel, INT tssi_mode)
 {
 	uint32_t bbp_val;
@@ -462,7 +455,6 @@ static struct phy_ops rlt_phy_ops = {
 	.bbp_set_txdac = rlt_bbp_set_txdac,
 	.bbp_set_mmps = rlt_bbp_set_mmps,
 	.bbp_tx_comp_init = rlt_bbp_tx_comp_init,
-	.bbp_get_temp = rlt_bbp_get_temp,
 };
 
 

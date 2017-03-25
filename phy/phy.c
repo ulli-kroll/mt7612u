@@ -58,16 +58,6 @@ int NICInitBBP(struct rtmp_adapter *pAd)
 		return NDIS_STATUS_FAILURE;
 }
 
-
-INT bbp_get_temp(struct rtmp_adapter *pAd, CHAR *temp_val)
-{
-	if (pAd->phy_op && pAd->phy_op->bbp_get_temp)
-		return pAd->phy_op->bbp_get_temp(pAd, temp_val);
-	else
-		return false;
-}
-
-
 INT bbp_tx_comp_init(struct rtmp_adapter *pAd, INT adc_insel, INT tssi_mode)
 {
 	if (pAd->phy_op && pAd->phy_op->bbp_tx_comp_init)
