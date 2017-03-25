@@ -117,8 +117,6 @@ VOID APMlmePeriodicExec(
 		ToDo: need to verify compatibility issue with WiFi product.
 	*/
 
-	RTMP_CHIP_HIGH_POWER_TUNING(pAd, &pAd->ApCfg.RssiSample);
-
 
 	/* Disable Adjust Tx Power for WPA WiFi-test. */
 	/* Because high TX power results in the abnormal disconnection of Intel BG-STA. */

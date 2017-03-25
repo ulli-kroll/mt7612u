@@ -733,9 +733,6 @@ struct _RTMP_CHIP_OP_ {
 	/* Temperature Compensation */
 	VOID (*InitTemperCompensation)(IN struct rtmp_adapter *pAd);
 
-	/* high power tuning */
-	VOID (*HighPowerTuning)(struct rtmp_adapter *pAd, struct _RSSI_SAMPLE *pRssi);
-
 	/* The chip specific function list */
 	CHIP_SPEC_FUNC ChipSpecFunc[CHIP_SPEC_ID_NUM];
 
@@ -797,12 +794,6 @@ do {	\
 do {	\
 		if (__pAd->chipOps.ChipIQCalibration != NULL)	\
 			 __pAd->chipOps.ChipIQCalibration(__pAd, __pChannel);	\
-} while (0)
-
-#define RTMP_CHIP_HIGH_POWER_TUNING(__pAd, __pRssi)	\
-do {	\
-		if (__pAd->chipOps.HighPowerTuning != NULL)	\
-			__pAd->chipOps.HighPowerTuning(__pAd, __pRssi);	\
 } while (0)
 
 #define RTMP_EEPROM_ASIC_INIT(__pAd)	\

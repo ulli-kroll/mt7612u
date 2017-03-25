@@ -1682,8 +1682,6 @@ VOID STAMlmePeriodicExec(struct rtmp_adapter *pAd)
 #endif /* USB_SUPPORT_SELECTIVE_SUSPEND */
 #endif /* CONFIG_PM */
 
-	RTMP_CHIP_HIGH_POWER_TUNING(pAd, &pAd->StaCfg.RssiSample);
-
 #ifdef WPA_SUPPLICANT_SUPPORT
     if (pAd->StaCfg.wpa_supplicant_info.WpaSupplicantUP == WPA_SUPPLICANT_DISABLE)
 #endif /* WPA_SUPPLICANT_SUPPORT */
