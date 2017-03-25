@@ -1109,7 +1109,7 @@ VOID RT28xxUsbMlmeRadioOn(struct rtmp_adapter *pAd)
 	if (!RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_RADIO_OFF))
 		return;
 
-	ASIC_RADIO_ON(pAd, MLME_RADIO_ON);
+	RT65xxUsbAsicRadioOn(pAd, MLME_RADIO_ON);
 
 
 	/* Clear Radio off flag*/

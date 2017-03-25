@@ -2785,7 +2785,6 @@ static const RTMP_CHIP_OP MT76x2_ChipOp = {
 
 	.DisableTxRx = RT65xxDisableTxRx,
 #ifdef RTMP_USB_SUPPORT
-	.AsicRadioOn = RT65xxUsbAsicRadioOn,
 #endif
 	.cal_test = mt76x2_cal_test,
 #ifdef RTMP_TEMPERATURE_TX_ALC

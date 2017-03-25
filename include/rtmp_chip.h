@@ -749,8 +749,6 @@ struct _RTMP_CHIP_OP_ {
 	void (*Calibration)(struct rtmp_adapter *pAd, uint32_t CalibrationID, ANDES_CALIBRATION_PARAM *param);
 #endif /* CONFIG_ANDES_SUPPORT */
 	void (*DisableTxRx)(struct rtmp_adapter *ad, UCHAR Level);
-	void (*AsicRadioOn)(struct rtmp_adapter *ad, UCHAR Stage);
-
 #ifdef DYNAMIC_VGA_SUPPORT
 	VOID (*AsicDynamicVgaGainControl)(IN struct rtmp_adapter *pAd);
 #endif /* DYNAMIC_VGA_SUPPORT */
@@ -871,12 +869,6 @@ do {	\
 do {	\
 	if (_pAd->chipOps.DisableTxRx != NULL)	\
 		_pAd->chipOps.DisableTxRx(_pAd, _Level);	\
-} while (0)
-
-#define ASIC_RADIO_ON(_pAd, _Stage)	\
-do {	\
-	if (_pAd->chipOps.AsicRadioOn != NULL)	\
-		_pAd->chipOps.AsicRadioOn(_pAd, _Stage);	\
 } while (0)
 
 #if (defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT)
