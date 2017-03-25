@@ -707,10 +707,6 @@ struct _RTMP_CHIP_OP_ {
 	/* Power save */
 	void (*EnableAPMIMOPS)(struct rtmp_adapter *pAd, IN bool ReduceCorePower);
 	void (*DisableAPMIMOPS)(struct rtmp_adapter *pAd);
-	INT (*PwrSavingOP)(struct rtmp_adapter *pAd, uint32_t PwrOP, uint32_t PwrLevel,
-							uint32_t ListenInterval, uint32_t PreTBTTLeadTime,
-							UINT8 TIMByteOffset, UINT8 TIMBytePattern);
-
 	/* BBP adjust */
 	VOID (*ChipBBPAdjust)(IN struct rtmp_adapter *pAd);
 
@@ -778,15 +774,6 @@ do {	\
 do {	\
 		if (__pAd->chipOps.DisableAPMIMOPS != NULL)	\
 			__pAd->chipOps.DisableAPMIMOPS(__pAd);	\
-} while (0)
-
-#define PWR_SAVING_OP(__pAd, __PwrOP, __PwrLevel, __ListenInterval, \
-						__PreTBTTLeadTime, __TIMByteOffset, __TIMBytePattern)	\
-do {	\
-		if (__pAd->chipOps.PwrSavingOP != NULL)	\
-			__pAd->chipOps.PwrSavingOP(__pAd, __PwrOP, __PwrLevel,	\
-										__ListenInterval,__PreTBTTLeadTime, \
-										__TIMByteOffset, __TIMBytePattern);	\
 } while (0)
 
 #define RTMP_CHIP_ASIC_TX_POWER_OFFSET_GET(__pAd, __pCfgOfTxPwrCtrlOverMAC)	\

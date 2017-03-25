@@ -2494,7 +2494,7 @@ void mt7612u_mcu_usb_fw_init(struct rtmp_adapter *ad)
 	RTMP_SET_FLAG(ad, fRTMP_ADAPTER_MCU_SEND_IN_BAND_CMD);
 	mt7612u_mcu_fun_set(ad, Q_SELECT, ad->chipCap.CmdRspRxRing);
 	usb_rx_cmd_msgs_receive(ad);
-	PWR_SAVING_OP(ad, RADIO_ON, 0, 0, 0, 0, 0);
+	mt7612u_mcu_pwr_saving(ad, RADIO_ON, 0, 0, 0, 0, 0);
 }
 #endif /* RTMP_USB_SUPPORT */
 
