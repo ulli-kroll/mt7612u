@@ -4382,65 +4382,6 @@ INT show_stainfo_proc(struct rtmp_adapter *pAd, char *arg)
 	return true;
 }
 
-
-INT show_devinfo_proc(struct rtmp_adapter *pAd, char *arg)
-{
-	UCHAR *pstr;
-	int i, wcid;
-
-	DBGPRINT(RT_DEBUG_OFF, ("Device MAC\n"));
-	if (pAd->OpMode == OPMODE_AP)
-		pstr = "AP";
-	else if (pAd->OpMode == OPMODE_STA)
-		pstr = "STA";
-	else
-		pstr = "Unknown";
-	DBGPRINT(RT_DEBUG_OFF, ("Operation Mode: %s\n", pstr));
-
-	pstr = wmode_2_str(pAd->CommonCfg.PhyMode);
-	if (pstr) {
-		DBGPRINT(RT_DEBUG_OFF, ("WirelessMode: %s(%d)\n", pstr, pAd->CommonCfg.PhyMode));
-		kfree(pstr);
-	}
-
-	DBGPRINT(RT_DEBUG_OFF, ("Channel: %d\n", pAd->CommonCfg.Channel));
-	DBGPRINT(RT_DEBUG_OFF, ("\tCentralChannel: %d\n", pAd->CommonCfg.CentralChannel));
-	if (WMODE_CAP_AC(pAd->CommonCfg.PhyMode))
-		DBGPRINT(RT_DEBUG_OFF, ("\tVHT CentralChannel: %d\n", pAd->CommonCfg.vht_cent_ch));
-	DBGPRINT(RT_DEBUG_OFF, ("\tRF Channel: %d\n", pAd->LatchRfRegs.Channel));
-
-	DBGPRINT(RT_DEBUG_OFF, ("Bandwidth\n"));
-	pstr = (pAd->CommonCfg.RegTransmitSetting.field.BW) ? "20/40" : "20";
-	DBGPRINT(RT_DEBUG_OFF, ("\tHT-BW: %s\n", pstr));
-	if (WMODE_CAP_AC(pAd->CommonCfg.PhyMode))
-	{
-		if (pAd->CommonCfg.vht_bw)
-			pstr = "80";
-		DBGPRINT(RT_DEBUG_OFF, ("\tVHT-BW: %s\n", pstr));
-	}
-
-	if (IS_RT65XX(pAd))
-	{
-		dump_bw_info(pAd);
-	}
-
-	DBGPRINT(RT_DEBUG_OFF, ("Security\n"));
-
-	DBGPRINT(RT_DEBUG_OFF, ("MAX_LEN_OF_MAC_TABLE: %d\n", MAX_LEN_OF_MAC_TABLE));
-	DBGPRINT(RT_DEBUG_OFF, ("MAX_NUMBER_OF_MAC: %d\n", MAX_NUMBER_OF_MAC));
-	DBGPRINT(RT_DEBUG_OFF, ("HW_RESERVED_WCID: %d\n", HW_RESERVED_WCID(pAd)));
-	DBGPRINT(RT_DEBUG_OFF, ("LAST_SPECIFIC_WCID: %d\n", LAST_SPECIFIC_WCID(pAd)));
-	DBGPRINT(RT_DEBUG_OFF, ("MAX_AVAILABLE_CLIENT_WCID: %d\n", MAX_AVAILABLE_CLIENT_WCID(pAd)));
-	for (i=0;i<MAX_MBSSID_NUM(pAd);i++)
-	{
-		GET_GroupKey_WCID(pAd, wcid, i);
-		DBGPRINT(RT_DEBUG_OFF, ("%d GROUPKEY_WCID: %d\n", i, wcid));
-	}
-
-	return true;
-}
-
-
 CHAR *wdev_type_str[]={"AP", "STA", "ADHOC", "WDS", "MESH", "Unknown"};
 
 char *wdev_type2str(int type)

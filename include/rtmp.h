@@ -6427,7 +6427,6 @@ INT Show_DescInfo_Proc(struct rtmp_adapter *pAd, char *arg);
 INT Show_MacTable_Proc(struct rtmp_adapter *pAd, char *arg);
 INT Show_sta_tr_proc(struct rtmp_adapter *pAd, char *arg);
 INT show_stainfo_proc(struct rtmp_adapter *pAd, char *arg);
-INT show_devinfo_proc(struct rtmp_adapter *pAd, char *arg);
 INT show_trinfo_proc(struct rtmp_adapter *pAd, char *arg);
 
 INT	Set_ResetStatCounter_Proc(struct rtmp_adapter *pAd, char *arg);
