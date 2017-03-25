@@ -439,7 +439,7 @@ err2:
 
 err1:
 
-	MCU_CTRL_EXIT(pAd);
+	mt7612u_mcu_ctrl_exit(pAd);
 
 #ifdef CONFIG_AP_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd) {

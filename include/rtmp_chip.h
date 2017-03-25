@@ -748,8 +748,6 @@ struct _RTMP_CHIP_OP_ {
 	VOID (*RadarGLRTCompensate)(struct rtmp_adapter *pAd);
 	VOID (*SecondCCADetection)(struct rtmp_adapter *pAd);
 
-	/* MCU */
-	void (*MCUCtrlExit)(struct rtmp_adapter *ad);
 #ifdef CONFIG_ANDES_SUPPORT
 	void (*fw_init)(struct rtmp_adapter *ad);
 	void (*Calibration)(struct rtmp_adapter *pAd, uint32_t CalibrationID, ANDES_CALIBRATION_PARAM *param);
@@ -914,13 +912,6 @@ do {	\
 		_pAd->chipOps.AsicWOWDisable(_pAd);	\
 } while(0)
 #endif /* (defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT) */
-
-#define MCU_CTRL_EXIT(_pAd)	\
-do {	\
-	if (_pAd->chipOps.MCUCtrlExit != NULL)	\
-		_pAd->chipOps.MCUCtrlExit(_pAd);	\
-} while (0)
-
 
 #ifdef DYNAMIC_VGA_SUPPORT
 #define RTMP_ASIC_DYNAMIC_VGA_GAIN_CONTROL(_pAd)	\
