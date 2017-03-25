@@ -53,7 +53,7 @@ static INT scan_ch_restore(struct rtmp_adapter *pAd, UCHAR OpMode)
 		pAd->hw_cfg.cent_ch = pAd->CommonCfg.CentralChannel;
 
 	if (pAd->CommonCfg.BBPCurrentBW != pAd->hw_cfg.bbp_bw)
-		bbp_set_bw(pAd, pAd->hw_cfg.bbp_bw);
+		mt7612u_bbp_set_bw(pAd, pAd->hw_cfg.bbp_bw);
 
 	AsicSwitchChannel(pAd, pAd->hw_cfg.cent_ch, false);
 	AsicLockChannel(pAd, pAd->hw_cfg.cent_ch);

@@ -40,7 +40,7 @@ INT dev_adjust_radio(struct rtmp_adapter *pAd)
 
 	if (hw_cfg->bbp_bw != new_cfg.bbp_bw)
 	{
-		bbp_set_bw(pAd, new_cfg.bbp_bw);
+		mt7612u_bbp_set_bw(pAd, new_cfg.bbp_bw);
 		hw_cfg->bbp_bw = new_cfg.bbp_bw;
 	}
 

@@ -537,7 +537,7 @@ bool CFG80211DRV_OpsSetChannel(struct rtmp_adapter *pAd, VOID *pData)
         else
         	pAd->CommonCfg.CentralChannel = pAd->CommonCfg.Channel;
 
-	bbp_set_bw(pAd, pAd->CommonCfg.RegTransmitSetting.field.BW);
+	mt7612u_bbp_set_bw(pAd, pAd->CommonCfg.RegTransmitSetting.field.BW);
         AsicSwitchChannel(pAd, pAd->CommonCfg.CentralChannel,false);
         AsicLockChannel(pAd, pAd->CommonCfg.CentralChannel);
 

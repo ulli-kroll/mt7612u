@@ -108,24 +108,6 @@ INT bbp_set_ctrlch(struct rtmp_adapter *pAd, UINT8 ext_ch)
 		return false;
 }
 
-
-INT bbp_set_bw(struct rtmp_adapter *pAd, UINT8 bw)
-{
-	INT result = false;
-
-	if (pAd->phy_op && pAd->phy_op->bbp_set_bw)
-		result = pAd->phy_op->bbp_set_bw(pAd, bw);
-
-	if (result == true)
-	{
-		DBGPRINT(RT_DEBUG_TRACE, ("%s(): Set PhyBW as %sHz.l\n",
-				__FUNCTION__, get_bw_str(bw)));
-	}
-
-	return result;
-}
-
-
 INT bbp_set_mmps(struct rtmp_adapter *pAd, bool ReduceCorePower)
 {
 	if (pAd->phy_op && pAd->phy_op->bbp_set_mmps)

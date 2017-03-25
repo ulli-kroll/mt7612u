@@ -166,7 +166,7 @@ static VOID mt76x2_bbp_adjust(struct rtmp_adapter *pAd)
 				__FUNCTION__, rf_bw, ext_ch, pAd->CommonCfg.Channel,
 				pAd->CommonCfg.CentralChannel, pAd->CommonCfg.vht_cent_ch));
 
-	bbp_set_bw(pAd, rf_bw);
+	mt7612u_bbp_set_bw(pAd, rf_bw);
 
 	/* TX/Rx : control channel setting */
 	rtmp_mac_set_ctrlch(pAd, ext_ch);

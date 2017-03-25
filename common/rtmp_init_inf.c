@@ -307,7 +307,7 @@ int rt28xx_init(struct rtmp_adapter *pAd)
 					RTMP_SET_FLAG(pAd, fRTMP_ADAPTER_START_UP);
 
 				/* Let BBP register at 20MHz to do scan */
-				bbp_set_bw(pAd, BW_20);
+				mt7612u_bbp_set_bw(pAd, BW_20);
 
 				/* Now we can receive the beacon and do the listen beacon*/
 				/* use default BW to select channel*/

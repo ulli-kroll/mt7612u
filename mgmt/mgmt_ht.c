@@ -328,7 +328,7 @@ VOID RTMPSetHT(
 		pAd->CommonCfg.vht_bw == VHT_BW_80 &&
 		pAd->CommonCfg.vht_cent_ch)
 		bw = BW_80;
-	bbp_set_bw(pAd, bw);
+	mt7612u_bbp_set_bw(pAd, bw);
 
 
 	if(pHTPhyMode->STBC == STBC_USE)

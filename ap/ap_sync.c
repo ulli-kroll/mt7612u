@@ -1070,7 +1070,7 @@ VOID APMlmeScanReqAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 #endif /* AP_PARTIAL_SCAN_SUPPORT */
 
 		/* Let BBP register at 20MHz to do scan */
-		bbp_set_bw(pAd, BW_20);
+		mt7612u_bbp_set_bw(pAd, BW_20);
 		DBGPRINT(RT_DEBUG_TRACE, ("SYNC - BBP R4 to 20MHz.l\n"));
 
 #ifdef CONFIG_AP_SUPPORT

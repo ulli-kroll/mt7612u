@@ -170,7 +170,7 @@ VOID CFG80211DRV_DisableApInterface(struct rtmp_adapter *pAd)
 	if (pAd->CommonCfg.BBPCurrentBW != BW_40)
 	{
 		CFG80211DBG(RT_DEBUG_TRACE, ("80211> %s, switch to BW_20\n", __FUNCTION__));
-		bbp_set_bw(pAd, BW_20);
+		mt7612u_bbp_set_bw(pAd, BW_20);
    	}
 
     /* Disable pre-TBTT interrupt */

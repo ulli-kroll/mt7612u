@@ -260,7 +260,7 @@ static INT rlt_bbp_set_ctrlch(struct rtmp_adapter *pAd, UINT8 ext_ch)
 	4. Wait 0.5 us for BBP clocks to settle
 	5. Release BBP from reset by clearing CORE_R4[0]
 */
-static INT rlt_bbp_set_bw(struct rtmp_adapter *pAd, UINT8 bw)
+void mt7612u_bbp_set_bw(struct rtmp_adapter *pAd, u8 bw)
 {
 	uint32_t core, core_r1 = 0;
 	uint32_t agc, agc_r0 = 0;
@@ -277,7 +277,7 @@ static INT rlt_bbp_set_bw(struct rtmp_adapter *pAd, UINT8 bw)
 		ret = down_interruptible(&pAd->hw_atomic);
 		if (ret != 0) {
 			DBGPRINT(RT_DEBUG_ERROR, ("reg_atomic get failed(ret=%d)\n", ret));
-			return STATUS_UNSUCCESSFUL;
+			return;
 		}
 	}
 #endif /* RTMP_USB_SUPPORT */
@@ -325,7 +325,7 @@ static INT rlt_bbp_set_bw(struct rtmp_adapter *pAd, UINT8 bw)
 	}
 #endif /* RTMP_MAC_USB */
 
-	return true;
+	return;
 }
 
 
@@ -460,7 +460,6 @@ static struct phy_ops rlt_phy_ops = {
 	.filter_coefficient_ctrl = rlt_bbp_set_filter_coefficient_ctrl,
 	.bbp_set_agc = rlt_bbp_set_agc,
 	.bbp_get_agc = rlt_bbp_get_agc,
-	.bbp_set_bw = rlt_bbp_set_bw,
 	.bbp_set_ctrlch = rlt_bbp_set_ctrlch,
 	.bbp_set_rxpath = rlt_bbp_set_rxpath,
 	.bbp_set_txdac = rlt_bbp_set_txdac,

@@ -2656,7 +2656,7 @@ INT AsicReadAggCnt(struct rtmp_adapter *pAd, ULONG *aggCnt, int cnt_len)
 
 INT AsicSetChannel(struct rtmp_adapter *pAd, UCHAR ch, UINT8 bw, UINT8 ext_ch, bool bScan)
 {
-	bbp_set_bw(pAd, bw);
+	mt7612u_bbp_set_bw(pAd, bw);
 
 	/*  Tx/RX : control channel setting */
 	bbp_set_ctrlch(pAd, ext_ch);
