@@ -2774,9 +2774,6 @@ static const RTMP_CHIP_OP MT76x2_ChipOp = {
 
 #ifdef RTMP_USB_SUPPORT
 #endif
-#ifdef RTMP_TEMPERATURE_TX_ALC
-	.TemperCompensation = mt76x2_temp_tx_alc,
-#endif /* RTMP_TEMPERATURE_TX_ALC */
 };
 
 VOID mt76x2_init(struct rtmp_adapter *pAd)

@@ -732,7 +732,6 @@ struct _RTMP_CHIP_OP_ {
 
 	/* Temperature Compensation */
 	VOID (*InitTemperCompensation)(IN struct rtmp_adapter *pAd);
-	VOID (*TemperCompensation)(IN struct rtmp_adapter *pAd);
 
 	/* high power tuning */
 	VOID (*HighPowerTuning)(struct rtmp_adapter *pAd, struct _RSSI_SAMPLE *pRssi);
@@ -810,12 +809,6 @@ do {	\
 do {	\
 		if (__pAd->chipOps.NICInitAsicFromEEPROM != NULL)	\
 			__pAd->chipOps.NICInitAsicFromEEPROM(__pAd);	\
-} while (0)
-
-#define RTMP_CHIP_ASIC_TEMPERATURE_COMPENSATION(__pAd)						\
-do {	\
-		if (__pAd->chipOps.TemperCompensation != NULL)					\
-			__pAd->chipOps.TemperCompensation(__pAd);	\
 } while (0)
 
 #define RTMP_CHIP_SPECIFIC(__pAd, __FuncId, __pData, __Data)	\

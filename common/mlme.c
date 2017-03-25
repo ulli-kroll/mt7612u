@@ -1757,7 +1757,6 @@ VOID STAMlmePeriodicExec(struct rtmp_adapter *pAd)
 	if (!RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_BSS_SCAN_IN_PROGRESS))
 	{
 		AsicAdjustTxPower(pAd);
-		RTMP_CHIP_ASIC_TEMPERATURE_COMPENSATION(pAd);
 	}
 
 

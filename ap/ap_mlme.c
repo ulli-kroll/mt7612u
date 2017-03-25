@@ -130,8 +130,6 @@ VOID APMlmePeriodicExec(
 	AsicAdjustTxPower(pAd);
 /*#endif // WIFI_TEST */
 
-	RTMP_CHIP_ASIC_TEMPERATURE_COMPENSATION(pAd);
-
     /* walk through MAC table, see if switching TX rate is required */
 
     /* MAC table maintenance */
