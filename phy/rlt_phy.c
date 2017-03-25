@@ -30,7 +30,7 @@
 
 #ifdef RLT_BBP
 
-static INT rlt_bbp_is_ready(struct rtmp_adapter *pAd)
+static int mt7612u_bbp_is_ready(struct rtmp_adapter *pAd)
 {
 	INT idx = 0;
 	uint32_t val;
@@ -56,7 +56,7 @@ static INT rlt_bbp_init(struct rtmp_adapter *pAd)
 	INT idx;
 
 	/* Read BBP register, make sure BBP is up and running before write new data*/
-	if (rlt_bbp_is_ready(pAd) == false)
+	if (mt7612u_bbp_is_ready(pAd) == false)
 		return NDIS_STATUS_FAILURE;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("%s(): Init BBP Registers\n", __FUNCTION__));
@@ -113,7 +113,7 @@ static INT rlt_bbp_set_txdac(struct rtmp_adapter *pAd, INT tx_dac)
 }
 
 
-static INT rlt_bbp_set_rxpath(struct rtmp_adapter *pAd, INT rxpath)
+void mt7612u_bbp_set_rxpath(struct rtmp_adapter *pAd, int rxpath)
 {
 	uint32_t agc, agc_r0 = 0;
 
@@ -130,8 +130,6 @@ static INT rlt_bbp_set_rxpath(struct rtmp_adapter *pAd, INT rxpath)
 //DBGPRINT(RT_DEBUG_OFF, ("%s(): rxpath=%d, Set AGC1_R0=0x%x, agc_r0=0x%x\n", __FUNCTION__, rxpath, agc, agc_r0));
 //		RTMP_BBP_IO_READ32(pAd, AGC1_R0, &agc);
 //DBGPRINT(RT_DEBUG_OFF, ("%s(): rxpath=%d, After write, Get AGC1_R0=0x%x,\n", __FUNCTION__, rxpath, agc));
-
-	return true;
 }
 
 
@@ -446,12 +444,10 @@ static UCHAR rlt_bbp_get_random_seed(struct rtmp_adapter *pAd)
 
 static struct phy_ops rlt_phy_ops = {
 	.bbp_init = rlt_bbp_init,
-	.bbp_is_ready = rlt_bbp_is_ready,
 	.get_random_seed_by_phy = rlt_bbp_get_random_seed,
 	.filter_coefficient_ctrl = rlt_bbp_set_filter_coefficient_ctrl,
 	.bbp_set_agc = rlt_bbp_set_agc,
 	.bbp_get_agc = rlt_bbp_get_agc,
-	.bbp_set_rxpath = rlt_bbp_set_rxpath,
 	.bbp_set_txdac = rlt_bbp_set_txdac,
 	.bbp_set_mmps = rlt_bbp_set_mmps,
 	.bbp_tx_comp_init = rlt_bbp_tx_comp_init,

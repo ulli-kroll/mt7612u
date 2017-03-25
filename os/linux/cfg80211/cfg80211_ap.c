@@ -396,7 +396,7 @@ bool CFG80211DRV_OpsBeaconAdd(struct rtmp_adapter *pAd, VOID *pData)
 		bbp_set_txdac(pAd, 0);
 
 	/* Receiver Antenna selection */
-	bbp_set_rxpath(pAd, pAd->Antenna.field.RxPath);
+	mt7612u_bbp_set_rxpath(pAd, pAd->Antenna.field.RxPath);
 
 	if(!OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_MEDIA_STATE_CONNECTED))
 	{

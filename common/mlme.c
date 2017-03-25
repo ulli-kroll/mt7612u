@@ -5811,7 +5811,7 @@ VOID AsicEvaluateRxAnt(struct rtmp_adapter *pAd)
 			if (pAd->StaCfg.Psm == PWR_SAVE)
 				return;
 
-			bbp_set_rxpath(pAd, pAd->Antenna.field.RxPath);
+			mt7612u_bbp_set_rxpath(pAd, pAd->Antenna.field.RxPath);
 			if (OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_MEDIA_STATE_CONNECTED)
 			)
 			{
@@ -5918,7 +5918,7 @@ VOID AsicRxAntEvalTimeout(
 					pAd->Mlme.RealRxPath = 2;
 			}
 
-			bbp_set_rxpath(pAd, pAd->Mlme.RealRxPath);
+			mt7612u_bbp_set_rxpath(pAd, pAd->Mlme.RealRxPath);
 		}
 #endif /* CONFIG_STA_SUPPORT */
 	}

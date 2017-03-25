@@ -75,20 +75,6 @@ INT bbp_set_txdac(struct rtmp_adapter *pAd, INT tx_dac)
 		return false;
 }
 
-
-INT bbp_set_rxpath(struct rtmp_adapter *pAd, INT rxpath)
-{
-
-//DBGPRINT(RT_DEBUG_OFF, ("%s(): rxpath=%d, Set AGC1_R0=0x%x, agc_r0=0x%x\n", __FUNCTION__, rxpath, agc, agc_r0));
-//		RTMP_BBP_IO_READ32(pAd, AGC1_R0, &agc);
-//DBGPRINT(RT_DEBUG_OFF, ("%s(): rxpath=%d, After write, Get AGC1_R0=0x%x,\n", __FUNCTION__, rxpath, agc));
-
-	if (pAd->phy_op && pAd->phy_op->bbp_set_rxpath)
-		return pAd->phy_op->bbp_set_rxpath(pAd, rxpath);
-	else
-		return false;
-}
-
 INT bbp_set_mmps(struct rtmp_adapter *pAd, bool ReduceCorePower)
 {
 	if (pAd->phy_op && pAd->phy_op->bbp_set_mmps)
@@ -131,14 +117,5 @@ UCHAR get_random_seed_by_phy(struct rtmp_adapter *pAd)
 		return pAd->phy_op->get_random_seed_by_phy(pAd);
 	else
 		return 0;
-}
-
-
-INT bbp_is_ready(struct rtmp_adapter *pAd)
-{
-	if (pAd->phy_op && pAd->phy_op->bbp_is_ready)
-		return pAd->phy_op->bbp_is_ready(pAd);
-	else
-		return false;
 }
 

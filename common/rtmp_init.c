@@ -692,7 +692,7 @@ VOID NICInitAsicFromEEPROM(struct rtmp_adapter *pAd)
 	else
 		pAd->bAutoTxAgcA = pAd->bAutoTxAgcG = false;
 
-	bbp_set_rxpath(pAd, pAd->Antenna.field.RxPath);
+	mt7612u_bbp_set_rxpath(pAd, pAd->Antenna.field.RxPath);
 
 #ifdef CONFIG_STA_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_STA(pAd)

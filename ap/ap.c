@@ -345,7 +345,7 @@ VOID APStartUp(struct rtmp_adapter *pAd)
 	}
 
 	/* Receiver Antenna selection */
-	bbp_set_rxpath(pAd, pAd->Antenna.field.RxPath);
+	mt7612u_bbp_set_rxpath(pAd, pAd->Antenna.field.RxPath);
 
 	if (WMODE_CAP_N(pAd->CommonCfg.PhyMode) || bWmmCapable)
 	{

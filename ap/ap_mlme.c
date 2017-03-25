@@ -466,7 +466,7 @@ VOID APAsicEvaluateRxAnt(
 	if (IS_RT65XX(pAd))
 		return;
 
-		bbp_set_rxpath(pAd, pAd->Antenna.field.RxPath);
+	mt7612u_bbp_set_rxpath(pAd, pAd->Antenna.field.RxPath);
 
 	TxTotalCnt = pAd->RalinkCounters.OneSecTxNoRetryOkCount +
 					pAd->RalinkCounters.OneSecTxRetryOkCount +
@@ -518,7 +518,7 @@ VOID APAsicRxAntEvalTimeout(struct rtmp_adapter *pAd)
 
 	/* Disable the below to fix 1T/2R issue. It's suggested by Rory at 2007/7/11. */
 
-		bbp_set_rxpath(pAd, pAd->Mlme.RealRxPath);
+	mt7612u_bbp_set_rxpath(pAd, pAd->Mlme.RealRxPath);
 
 
 }
