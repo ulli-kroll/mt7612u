@@ -1705,7 +1705,7 @@ VOID STAMlmePeriodicExec(struct rtmp_adapter *pAd)
 		&& (!RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_IDLE_RADIO_OFF))
 		)
 	{
-			ASIC_RADIO_OFF(pAd, MLME_RADIO_OFF);
+			RT65xxUsbAsicRadioOff(pAd, MLME_RADIO_OFF);
 #ifdef CONFIG_PM
 #ifdef USB_SUPPORT_SELECTIVE_SUSPEND
 			if(!RTMP_Usb_AutoPM_Put_Interface(pObj->pUsb_Dev,pObj->intf))

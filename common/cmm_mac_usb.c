@@ -1188,7 +1188,7 @@ VOID RT28xxUsbMlmeRadioOFF(struct rtmp_adapter *pAd)
 #endif /* CONFIG_AP_SUPPORT */
 
 
-	ASIC_RADIO_OFF(pAd, MLME_RADIO_OFF);
+	RT65xxUsbAsicRadioOff(pAd, MLME_RADIO_OFF);
 }
 
 bool AsicCheckCommandOk(
