@@ -365,7 +365,6 @@ obj_cmm := \
 	rate_ctrl/ra_ctrl.o\
 	rate_ctrl/alg_legacy.o\
 	chips/rtmp_chip.o\
-	mgmt/mgmt_hw.o\
 	mgmt/mgmt_entrytb.o\
 	tx_rx/wdev_tx.o \
 	os/linux/rt_profile.o
