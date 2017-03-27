@@ -382,11 +382,6 @@ ULONG RtmpOsMaxScanDataGet(VOID);
 /* OS Interrutp */
 int32_t RtmpOsIsInInterrupt(VOID);
 
-/* OS USB */
-VOID *RtmpOsUsbUrbDataGet(VOID *pUrb);
-int RtmpOsUsbUrbStatusGet(VOID *pUrb);
-ULONG RtmpOsUsbUrbLenGet(VOID *pUrb);
-
 /* OS Atomic */
 bool RtmpOsAtomicInit(RTMP_OS_ATOMIC *pAtomic, LIST_HEADER *pAtomicList);
 VOID RtmpOsAtomicDestroy(RTMP_OS_ATOMIC *pAtomic);
@@ -591,94 +586,9 @@ void linux_pci_unmap_single(void *pPciDev, ra_dma_addr_t dma_addr, size_t size, 
 #ifdef RTMP_MAC_USB
 typedef VOID (*USB_COMPLETE_HANDLER)(VOID *);
 
-void dump_urb(VOID *purb);
-
-int rausb_register(VOID * new_driver);
-
-void rausb_deregister(VOID * driver);
-
 /*struct urb *rausb_alloc_urb(int iso_packets); */
 
-void rausb_free_urb(VOID *urb);
-
-void rausb_put_dev(VOID *dev);
-
-struct usb_device *rausb_get_dev(VOID *dev);
-
-int rausb_submit_urb(VOID *urb);
-
-void *rausb_buffer_alloc(VOID *dev,
-							size_t size,
-							ra_dma_addr_t *dma);
-
-void rausb_buffer_free(VOID *dev,
-							size_t size,
-							void *addr,
-							ra_dma_addr_t dma);
-
-int rausb_control_msg(VOID *dev,
-						unsigned int pipe,
-						__u8 request,
-						__u8 requesttype,
-						__u16 value,
-						__u16 index,
-						void *data,
-						__u16 size,
-						int timeout);
-
-void rausb_fill_bulk_urb(void *urb,
-						 void *dev,
-						 unsigned int pipe,
-						 void *transfer_buffer,
-						 int buffer_length,
-						 USB_COMPLETE_HANDLER complete_fn,
-						 void *context);
-
-unsigned int rausb_sndctrlpipe(VOID *dev, ULONG address);
-
-unsigned int rausb_rcvctrlpipe(VOID *dev, ULONG address);
-
-
-unsigned int rausb_sndbulkpipe(void *dev, ULONG address);
-unsigned int rausb_rcvbulkpipe(void *dev, ULONG address);
-
-void rausb_kill_urb(VOID *urb);
-
-VOID	RtmpOsUsbInitHTTxDesc(
-	IN	VOID			*pUrbSrc,
-	IN	VOID			*pUsb_Dev,
-	IN	UINT			BulkOutEpAddr,
-	IN	u8 *		pSrc,
-	IN	ULONG			BulkOutSize,
-	IN	USB_COMPLETE_HANDLER	Func,
-	IN	VOID			*pTxContext,
-	IN	ra_dma_addr_t		TransferDma);
-
-VOID	RtmpOsUsbInitRxDesc(
-	IN	VOID			*pUrbSrc,
-	IN	VOID			*pUsb_Dev,
-	IN	UINT			BulkInEpAddr,
-	IN	UCHAR			*pTransferBuffer,
-	IN	uint32_t 		BufSize,
-	IN	USB_COMPLETE_HANDLER	Func,
-	IN	VOID			*pRxContext,
-	IN	ra_dma_addr_t		TransferDma);
-
-VOID *RtmpOsUsbContextGet(
-	IN	VOID			*pUrb);
-
-int RtmpOsUsbStatusGet(
-	IN	VOID			*pUrb);
-
-VOID RtmpOsUsbDmaMapping(
-	IN	VOID			*pUrb);
 #endif /* RTMP_MAC_USB */
-
-uint32_t RtmpOsGetUsbDevVendorID(
-	IN VOID *pUsbDev);
-
-uint32_t RtmpOsGetUsbDevProductID(
-	IN VOID *pUsbDev);
 
 /* CFG80211 */
 #ifdef RT_CFG80211_SUPPORT

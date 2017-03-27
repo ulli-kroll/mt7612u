@@ -929,26 +929,6 @@ extern int rausb_submit_urb(VOID *urb);
 #define gfp_t		int32_t
 #endif /* gfp_t */
 
-extern void *rausb_buffer_alloc(VOID *dev,
-								size_t size,
-								ra_dma_addr_t *dma);
-extern void rausb_buffer_free(VOID *dev,
-								size_t size,
-								void *addr,
-								ra_dma_addr_t dma);
-
-extern void rausb_kill_urb(VOID *urb);
-
-extern int rausb_control_msg(VOID *dev,
-							unsigned int pipe,
-							__u8 request,
-							__u8 requesttype,
-							__u16 value,
-							__u16 index,
-							void *data,
-							__u16 size,
-							int timeout);
-
 /*#endif // RTMP_USB_SUPPORT */
 
 INT RtmpOSNetDevOpsAlloc(
