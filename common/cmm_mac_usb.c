@@ -42,23 +42,6 @@ static int RTMPAllocUsbBulkBufStruct(
 }
 
 
-static int RTMPFreeUsbBulkBufStruct(struct usb_device *udev,
-	PURB *ppUrb, u8 **ppXBuffer, INT bufLen, ra_dma_addr_t data_dma)
-{
-	if (*ppUrb != NULL) {
-		usb_kill_urb(*ppUrb);
-		usb_free_urb(*ppUrb);
-		*ppUrb = NULL;
-	}
-
-	if (*ppXBuffer != NULL) {
-		usb_free_coherent(udev, bufLen, *ppXBuffer, data_dma);
-		*ppXBuffer = NULL;
-	}
-
-	return NDIS_STATUS_SUCCESS;
-}
-
 VOID RTMPResetTxRxRingMemory(struct rtmp_adapter *pAd)
 {
 	UINT index, i, acidx;
@@ -172,36 +155,63 @@ VOID	RTMPFreeTxRxRingMemory(struct rtmp_adapter *pAd)
 	for (i = 0; i < RX_RING_SIZE; i++) {
 		PRX_CONTEXT  pRxContext = &(pAd->RxContext[i]);
 
-		if (pRxContext)
-			RTMPFreeUsbBulkBufStruct(udev,
-					&pRxContext->pUrb,
-					(u8 **)&pRxContext->TransferBuffer,
-					MAX_RXBULK_SIZE,
-					pRxContext->data_dma);
+		if (pRxContext) {
+			if (pRxContext->pUrb) {
+				usb_kill_urb(pRxContext->pUrb);
+				usb_free_urb(pRxContext->pUrb);
+				pRxContext->pUrb = NULL;
+			}
+
+			if (pRxContext->TransferBuffer) {
+				usb_free_coherent(udev ,MAX_RXBULK_SIZE,
+						  pRxContext->TransferBuffer,
+						  pRxContext->data_dma);
+				pRxContext->TransferBuffer = NULL;
+			}
+		}
 	}
 
 	/* Command Response */
-	RTMPFreeUsbBulkBufStruct(udev,
-				&pCmdRspEventContext->pUrb,
-				(u8 **)&pCmdRspEventContext->CmdRspBuffer,
-				CMD_RSP_BULK_SIZE,
-				pCmdRspEventContext->data_dma);
+	if (pCmdRspEventContext->pUrb) {
+		usb_kill_urb(pCmdRspEventContext->pUrb);
+		usb_free_urb(pCmdRspEventContext->pUrb);
+		pCmdRspEventContext->pUrb = NULL;
+	}
 
-
+	if (pCmdRspEventContext->CmdRspBuffer) {
+		usb_free_coherent(udev, CMD_RSP_BULK_SIZE,
+				  pCmdRspEventContext->CmdRspBuffer,
+				  pCmdRspEventContext->data_dma);
+		pCmdRspEventContext->CmdRspBuffer = NULL;
+	}
 
 	/* Free PsPoll frame resource*/
-	RTMPFreeUsbBulkBufStruct(udev,
-				&pPsPollContext->pUrb,
-				(u8 **)&pPsPollContext->TransferBuffer,
-				sizeof(TX_BUFFER),
-				pPsPollContext->data_dma);
+	if (pPsPollContext->pUrb) {
+		usb_kill_urb(pPsPollContext->pUrb);
+		usb_free_urb(pPsPollContext->pUrb);
+		pPsPollContext->pUrb = NULL;
+	}
+
+	if (pPsPollContext->TransferBuffer) {
+		usb_free_coherent(udev, sizeof(TX_BUFFER),
+				  pPsPollContext->TransferBuffer,
+				  pPsPollContext->data_dma);
+		pPsPollContext->TransferBuffer = NULL;
+	}
 
 	/* Free NULL frame resource*/
-	RTMPFreeUsbBulkBufStruct(udev,
-				&pNullContext->pUrb,
-				(u8 **)&pNullContext->TransferBuffer,
-				sizeof(TX_BUFFER),
-				pNullContext->data_dma);
+	if (pNullContext->pUrb) {
+		usb_kill_urb(pNullContext->pUrb);
+		usb_free_urb(pNullContext->pUrb);
+		pNullContext->pUrb = NULL;
+	}
+
+	if (pNullContext->TransferBuffer) {
+		usb_free_coherent(udev, sizeof(TX_BUFFER),
+				  pPsPollContext->TransferBuffer,
+				  pNullContext->data_dma);
+		pPsPollContext->TransferBuffer = NULL;
+	}
 
 	/* Free mgmt frame resource*/
 	for (i = 0; i < MGMT_RING_SIZE; i++) {
@@ -229,12 +239,20 @@ VOID	RTMPFreeTxRxRingMemory(struct rtmp_adapter *pAd)
 	for (acidx = 0; acidx < 4; acidx++) {
 		PHT_TX_CONTEXT pHTTXContext = &(pAd->TxContext[acidx]);
 
-		if (pHTTXContext)
-			RTMPFreeUsbBulkBufStruct(udev,
-					&pHTTXContext->pUrb,
-					(u8 **)&pHTTXContext->TransferBuffer,
-					sizeof(HTTX_BUFFER),
-					pHTTXContext->data_dma);
+		if (pHTTXContext) {
+			if (pHTTXContext->pUrb) {
+				usb_kill_urb(pHTTXContext->pUrb);
+				usb_free_urb(pHTTXContext->pUrb);
+				pHTTXContext->pUrb = NULL;
+			}
+
+			if (pCmdRspEventContext->CmdRspBuffer) {
+				usb_free_coherent(udev, sizeof(HTTX_BUFFER),
+						  pHTTXContext->TransferBuffer,
+						  pHTTXContext->data_dma);
+				pHTTXContext->TransferBuffer = NULL;
+			}
+		}
 	}
 
 	if (pAd->FragFrame.pFragPacket)
@@ -449,12 +467,21 @@ err:
 		pMgmtRing = &pAd->MgmtRing;
 		for (i = 0; i < MGMT_RING_SIZE; i++) {
 			pMLMEContext = (PTX_CONTEXT) pAd->MgmtRing.Cell[i].AllocVa;
-			if (pMLMEContext)
-				RTMPFreeUsbBulkBufStruct(udev,
-						&pMLMEContext->pUrb,
-						(u8 **)&pMLMEContext->TransferBuffer,
-						sizeof(TX_BUFFER),
-						pMLMEContext->data_dma);
+			if (pMLMEContext) {
+				if (pMLMEContext->pUrb) {
+					usb_kill_urb(pMLMEContext->pUrb);
+					usb_free_urb(pMLMEContext->pUrb);
+					pMLMEContext->pUrb = NULL;
+				}
+
+				if (pMLMEContext->TransferBuffer) {
+					usb_free_coherent(udev, sizeof(TX_BUFFER),
+							  pMLMEContext->TransferBuffer,
+							  pMLMEContext->data_dma);
+					pMLMEContext->TransferBuffer = NULL;
+				}
+
+			}
 		}
 		kfree(pAd->MgmtDescRing.AllocVa);
 		pAd->MgmtDescRing.AllocVa = NULL;
