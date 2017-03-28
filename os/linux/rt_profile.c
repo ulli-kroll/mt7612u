@@ -247,6 +247,7 @@ int RTMPReadParametersHook(struct rtmp_adapter *pAd)
 
 				strcpy(buffer, RT2870STA_dat);
 				RTMPSetProfileParameters(pAd, buffer);
+				kfree(buffer);
 				retval = NDIS_STATUS_SUCCESS;
 			} else
 				retval = NDIS_STATUS_FAILURE;
