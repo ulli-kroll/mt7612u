@@ -1829,7 +1829,7 @@ typedef struct _COMMON_CONFIG {
 	SHORT	TrainUpRuleRSSI;	/* If TrainUpRule=2 then use Hybrid rule when RSSI < TrainUpRuleRSSI */
 	USHORT	TrainUpLowThrd;		/* QuickDRS Hybrid train up low threshold */
 	USHORT	TrainUpHighThrd;	/* QuickDRS Hybrid train up high threshold */
-	bool	TrainUpRule;		/* QuickDRS train up criterion: 0=>Throughput, 1=>PER, 2=> Throughput & PER */
+	SHORT	TrainUpRule;		/* QuickDRS train up criterion: 0=>Throughput, 1=>PER, 2=> Throughput & PER */
 #endif /* NEW_RATE_ADAPT_SUPPORT */
 
 
