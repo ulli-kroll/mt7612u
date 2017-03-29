@@ -701,9 +701,6 @@ void linux_pci_unmap_single(void *handle, ra_dma_addr_t dma_addr, size_t size, i
  */
 #define RTPKT_TO_OSPKT(_p)		((struct sk_buff *)(_p))
 
-#define GET_OS_PKT_LEN(_pkt) \
-		(RTPKT_TO_OSPKT(_pkt)->len)
-
 #define GET_OS_PKT_DATATAIL(_pkt) \
 		(RTPKT_TO_OSPKT(_pkt)->tail)
 
@@ -725,7 +722,7 @@ void linux_pci_unmap_single(void *handle, ra_dma_addr_t dma_addr, size_t size, i
 
 #define OS_PKT_TAIL_ADJUST(_pkt, _removedTagLen)								\
 	SET_OS_PKT_DATATAIL(_pkt, GET_OS_PKT_DATATAIL(_pkt), (-_removedTagLen));	\
-	GET_OS_PKT_LEN(_pkt) -= _removedTagLen;
+	_pkt->len -= _removedTagLen;
 
 #define OS_PKT_HEAD_BUF_EXTEND(_pkt, _offset)								\
 	skb_push(RTPKT_TO_OSPKT(_pkt), _offset)

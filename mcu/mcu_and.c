@@ -1684,7 +1684,7 @@ int usb_kick_out_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *msg)
 
 	usb_fill_bulk_urb(msg->urb, pObj->pUsb_Dev,
 			  usb_sndbulkpipe(pObj->pUsb_Dev, pChipCap->CommandBulkOutAddr),
-			  net_pkt->data, GET_OS_PKT_LEN(net_pkt), usb_kick_out_cmd_msg_complete, net_pkt);
+			  net_pkt->data, net_pkt->len, usb_kick_out_cmd_msg_complete, net_pkt);
 
 	if (msg->need_rsp)
 		mt7612u_mcu_queue_tail_cmd_msg(&ctl->ackq, msg, wait_cmd_out_and_ack);
@@ -1886,7 +1886,7 @@ static int mt7612u_mcu_dequeue_and_kick_out_cmd_msgs(struct rtmp_adapter *ad)
 			tx_info->d_port = CPU_TX_PORT;
 			tx_info->cmd_type = msg->type;
 			tx_info->cmd_seq = msg->seq;
-			tx_info->pkt_len = GET_OS_PKT_LEN(net_pkt) - sizeof(*tx_info);
+			tx_info->pkt_len = net_pkt->len - sizeof(*tx_info);
 
 #ifdef RT_BIG_ENDIAN
 			*(uint32_t *)tx_info = le2cpu32(*(uint32_t *)tx_info);

@@ -1308,11 +1308,11 @@ bool CanDoAggregateTransmit(
 		minLen += LENGTH_802_1Q; /* VLAN tag */
 	else if (RTMP_GET_PACKET_LLCSNAP(pPacket))
 		minLen += 8; /* SNAP hdr Len*/
-	if (minLen >= GET_OS_PKT_LEN(pPacket))
+	if (minLen >= pPacket->len)
 		return false;
 
 	if ((pTxBlk->TxFrameType == TX_AMSDU_FRAME) &&
-		((pTxBlk->TotalFrameLen + GET_OS_PKT_LEN(pPacket))> (RX_BUFFER_AGGRESIZE - 100)))
+		((pTxBlk->TotalFrameLen + pPacket->len) > (RX_BUFFER_AGGRESIZE - 100)))
 	{	/* For AMSDU, allow the packets with total length < max-amsdu size*/
 		return false;
 	}
@@ -1535,7 +1535,7 @@ VOID RTMPDeQueuePacket(
 			pEntry = RemoveHeadQueue(pQueue);
 			pTxBlk->TotalFrameNum++;
 			pTxBlk->TotalFragNum += RTMP_GET_PACKET_FRAGMENTS(pPacket);	/* The real fragment number maybe vary*/
-			pTxBlk->TotalFrameLen += GET_OS_PKT_LEN(pPacket);
+			pTxBlk->TotalFrameLen += pPacket->len;
 			pTxBlk->pPacket = pPacket;
 
 			InsertTailQueue(&pTxBlk->TxPacketList, PACKET_TO_QUEUE_ENTRY(pPacket));
@@ -1581,7 +1581,7 @@ VOID RTMPDeQueuePacket(
 
 					pTxBlk->TotalFrameNum++;
 					pTxBlk->TotalFragNum += RTMP_GET_PACKET_FRAGMENTS(pPacket);	/* The real fragment number maybe vary*/
-					pTxBlk->TotalFrameLen += GET_OS_PKT_LEN(pPacket);
+					pTxBlk->TotalFrameLen += pPacket->len;
 					InsertTailQueue(&pTxBlk->TxPacketList, PACKET_TO_QUEUE_ENTRY(pPacket));
 				}while(1);
 
@@ -1978,7 +1978,7 @@ UINT BA_Reorder_AMSDU_Annnounce(
 	UINT			nMSDU = 0;
 
 	pData = pPacket->data;
-	DataSize = (USHORT) GET_OS_PKT_LEN(pPacket);
+	DataSize = pPacket->len;
 
 	nMSDU = deaggregate_AMSDU_announce(pAd, NULL, pPacket, pData, DataSize, OpMode);
 
@@ -2215,7 +2215,7 @@ bool RTMPCheckEtherType(
 	{
 		case ETH_TYPE_IPv4:
 			{
-				uint32_t pktLen = GET_OS_PKT_LEN(pPacket);
+				uint32_t pktLen = pPacket->len;
 
 				ASSERT((pktLen > (ETH_HDR_LEN + IP_HDR_LEN)));	/* 14 for ethernet header, 20 for IP header*/
 				RTMP_SET_PACKET_IPV4(pPacket, 1);
@@ -2532,7 +2532,7 @@ if (0) {
 							pRxBlk, Header802_3, FromWhichBSSID, TPID);
 //+++Add by shiang for debug
 if (0) {
-	hex_dump("After80211_2_8023", pRxBlk->pRxPacket->data, GET_OS_PKT_LEN(pRxBlk->pRxPacket));
+	hex_dump("After80211_2_8023", pRxBlk->pRxPacket->data, pRxBlk->pRxPacket->len);
 }
 //---Add by shiang for debug
 

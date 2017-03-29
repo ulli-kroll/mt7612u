@@ -793,7 +793,7 @@ static inline u8 *AP_Build_ARalink_Frame_Header(struct rtmp_adapter *pAd, TX_BLK
 	*/
 	pQEntry = pTxBlk->TxPacketList.Head;
 	pNextPacket = QUEUE_ENTRY_TO_PACKET(pQEntry);
-	nextBufLen = GET_OS_PKT_LEN(pNextPacket);
+	nextBufLen = pNextPacket->len;
 	if (RTMP_GET_PACKET_VLAN(pNextPacket))
 		nextBufLen -= LENGTH_802_1Q;
 

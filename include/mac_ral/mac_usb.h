@@ -344,7 +344,7 @@ typedef struct _CMD_RSP_CONTEXT
 			}while(0)
 
 #define	RTMP_HAS_ENOUGH_FREE_DESC(pAd, pTxBlk, freeNum, pPacket) \
-		(RTUSBFreeDescRequest(pAd, pTxBlk->QueIdx, (pTxBlk->TotalFrameLen + GET_OS_PKT_LEN(pPacket))) == NDIS_STATUS_SUCCESS)
+		(RTUSBFreeDescRequest(pAd, pTxBlk->QueIdx, (pTxBlk->TotalFrameLen + pPacket->len)) == NDIS_STATUS_SUCCESS)
 
 #define RTMP_RELEASE_DESC_RESOURCE(pAd, QueIdx)			\
 		do{}while(0)

@@ -1255,7 +1255,7 @@ static inline u8 *STA_Build_ARalink_Frame_Header(
 	/* put the 2nd MSDU length(extra 2-byte field) after QOS_CONTROL in little endian format */
 	pQEntry = pTxBlk->TxPacketList.Head;
 	pNextPacket = QUEUE_ENTRY_TO_PACKET(pQEntry);
-	nextBufLen = GET_OS_PKT_LEN(pNextPacket);
+	nextBufLen = pNextPacket->len;
 	if (RTMP_GET_PACKET_VLAN(pNextPacket))
 		nextBufLen -= LENGTH_802_1Q;
 
