@@ -6706,7 +6706,6 @@ struct sk_buff *GetPacketFromRxRing(
 	OUT RX_BLK *pRxBlk,
 	OUT bool	 *pbReschedule,
 	INOUT uint32_t *pRxPending,
-	bool *bCmdRspPacket,
 	UCHAR RxRingNo);
 
 struct sk_buff *RTMPDeFragmentDataFrame(

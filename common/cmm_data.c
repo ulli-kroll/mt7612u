@@ -3496,7 +3496,8 @@ bool rtmp_rx_done_handle(struct rtmp_adapter *pAd)
 		*/
 
 		pRxBlk = &rxblk;
-		pRxPacket = GetPacketFromRxRing(pAd, pRxBlk, &bReschedule, &RxPending, &bCmdRspPacket, 0);
+		pRxPacket = GetPacketFromRxRing(pAd, pRxBlk, &bReschedule, &RxPending, 0);
+		bCmdRspPacket = false;
 		if ((pRxPacket == NULL) && !bCmdRspPacket)
 			break;
 

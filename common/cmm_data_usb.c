@@ -1146,7 +1146,6 @@ struct sk_buff *GetPacketFromRxRing(
 	OUT RX_BLK *pRxBlk,
 	OUT bool *pbReschedule,
 	INOUT uint32_t *pRxPending,
-	OUT bool *bCmdRspPacket,
 	UCHAR RxRingNo)
 {
 	RX_CONTEXT *pRxContext;
@@ -1159,9 +1158,6 @@ struct sk_buff *GetPacketFromRxRing(
 #ifdef RLT_MAC
 	RXFCE_INFO *pRxFceInfo;
 #endif /* RLT_MAC */
-
-	*bCmdRspPacket = false;
-
 
 	pRxContext = &pAd->RxContext[pAd->NextRxBulkInReadIndex];
 	if ((pRxContext->Readable == false) || (pRxContext->InUse == true))

@@ -2509,7 +2509,8 @@ INT StopDmaRx(struct rtmp_adapter *pAd, UCHAR Level)
 		if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST))
 			return 0;
 		pRxBlk = &RxBlk;
-		pRxPacket = GetPacketFromRxRing(pAd, pRxBlk, &bReschedule, &RxPending, &bCmdRspPacket, 0);
+		pRxPacket = GetPacketFromRxRing(pAd, pRxBlk, &bReschedule, &RxPending, 0);
+		bCmdRspPacket = false;
 		if ((RxPending == 0) && (bReschedule == false))
 			break;
 		else
