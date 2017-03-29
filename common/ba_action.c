@@ -1610,7 +1610,7 @@ void convert_reordering_packet_to_preAMSDU_or_802_3_packet(
 			if (VLAN_VID != 0)
 				VLAN_Size = LENGTH_802_1Q;
 
-			data_p = OS_PKT_HEAD_BUF_EXTEND(pRxPkt, LENGTH_802_3+VLAN_Size);
+			data_p = skb_push(pRxPkt, LENGTH_802_3+VLAN_Size);
 			RT_VLAN_8023_HEADER_COPY(pAd, VLAN_VID, VLAN_Priority,
 									Header802_3, LENGTH_802_3,
 									data_p, FromWhichBSSID, TPID);
@@ -1622,7 +1622,7 @@ void convert_reordering_packet_to_preAMSDU_or_802_3_packet(
 		{
 #ifdef LINUX
 			UCHAR *data_p;
-			data_p = OS_PKT_HEAD_BUF_EXTEND(pRxPkt, LENGTH_802_3);
+			data_p = skb_push(pRxPkt, LENGTH_802_3);
 			memmove(data_p, Header802_3, LENGTH_802_3);
 #endif
 		}

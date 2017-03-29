@@ -1881,7 +1881,7 @@ static int mt7612u_mcu_dequeue_and_kick_out_cmd_msgs(struct rtmp_adapter *ad)
 			else
 				msg->seq = 0;
 
-			tx_info = (TXINFO_NMAC_CMD *)OS_PKT_HEAD_BUF_EXTEND(net_pkt, sizeof(*tx_info));
+			tx_info = (TXINFO_NMAC_CMD *)skb_push(net_pkt, sizeof(*tx_info));
 			tx_info->info_type = CMD_PACKET;
 			tx_info->d_port = CPU_TX_PORT;
 			tx_info->cmd_type = msg->type;
