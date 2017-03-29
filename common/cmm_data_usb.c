@@ -1149,7 +1149,7 @@ struct sk_buff *GetPacketFromRxRing(
 	UCHAR RxRingNo)
 {
 	RX_CONTEXT *pRxContext;
-	struct sk_buff *pNetPkt;
+	struct sk_buff *skb;
 	UCHAR *pData;
 	ULONG ThisFrameLen, RxBufferLength, valid_len;
 	RXWI_STRUC *pRxWI;
@@ -1169,9 +1169,7 @@ struct sk_buff *GetPacketFromRxRing(
 	valid_len += sizeof(RXFCE_INFO);
 
 	if (RxBufferLength < valid_len)
-	{
-		goto label_null;
-	}
+		return NULL;
 
 	pData = &pRxContext->TransferBuffer[pAd->ReadPosition];
 //+++Add by shiang for debug
@@ -1182,26 +1180,23 @@ if (0) {
 
 	/* The RXDMA field is 4 bytes, now just use the first 2 bytes. The Length including the (RXWI + MSDU + Padding) */
 	ThisFrameLen = *pData + (*(pData+1)<<8);
-	if (ThisFrameLen == 0)
-	{
+	if (ThisFrameLen == 0) {
 		DBGPRINT(RT_DEBUG_TRACE, ("BIRIdx(%d): RXDMALen is zero.[%ld], BulkInBufLen = %ld)\n",
 								pAd->NextRxBulkInReadIndex, ThisFrameLen, pRxContext->BulkInOffset));
-		goto label_null;
+		return NULL;
 	}
-	if ((ThisFrameLen & 0x3) != 0)
-	{
+	if ((ThisFrameLen & 0x3) != 0) 	{
 		DBGPRINT(RT_DEBUG_ERROR, ("BIRIdx(%d): RXDMALen not multiple of 4.[%ld], BulkInBufLen = %ld)\n",
 								pAd->NextRxBulkInReadIndex, ThisFrameLen, pRxContext->BulkInOffset));
-		goto label_null;
+		return NULL;
 	}
 
-	if ((ThisFrameLen + 8) > RxBufferLength)	/* 8 for (RXDMA_FIELD_SIZE + sizeof(RXINFO_STRUC))*/
-	{
+	if ((ThisFrameLen + 8) > RxBufferLength) {	/* 8 for (RXDMA_FIELD_SIZE + sizeof(RXINFO_STRUC))*/
 		DBGPRINT(RT_DEBUG_TRACE,("BIRIdx(%d):FrameLen(0x%lx) outranges. BulkInLen=0x%lx, remaining RxBufLen=0x%lx, ReadPos=0x%lx\n",
 						pAd->NextRxBulkInReadIndex, ThisFrameLen, pRxContext->BulkInOffset, RxBufferLength, pAd->ReadPosition));
 
 		/* error frame. finish this loop*/
-		goto label_null;
+		return NULL;
 	}
 
 	pData += RXDMA_FIELD_SIZE;
@@ -1239,26 +1234,25 @@ if (0) {
 #ifdef RT_BIG_ENDIAN
 	RTMPWIEndianChange(pAd, pData, TYPE_RXWI);
 #endif /* RT_BIG_ENDIAN */
-	if (pRxBlk->MPDUtotalByteCnt > ThisFrameLen)
-	{
+	if (pRxBlk->MPDUtotalByteCnt > ThisFrameLen) {
 		DBGPRINT(RT_DEBUG_ERROR, ("%s():pRxWIMPDUtotalByteCount(%d) large than RxDMALen(%ld)\n",
 									__FUNCTION__, pRxBlk->MPDUtotalByteCnt, ThisFrameLen));
-		goto label_null;
+		return NULL;
+
 	}
 #ifdef RT_BIG_ENDIAN
 	RTMPWIEndianChange(pAd, pData, TYPE_RXWI);
 #endif /* RT_BIG_ENDIAN */
 
 	/* allocate a rx packet*/
-	pNetPkt = RTMP_AllocateFragPacketBuffer(pAd, ThisFrameLen);
-	if (pNetPkt == NULL)
-	{
+	skb = RTMP_AllocateFragPacketBuffer(pAd, ThisFrameLen);
+	if (skb == NULL) {
 		DBGPRINT(RT_DEBUG_ERROR,("%s():Cannot Allocate sk buffer for this Bulk-In buffer!\n", __FUNCTION__));
-		goto label_null;
+		return NULL;
 	}
 
 	/* copy the rx packet*/
-	RTMP_USB_PKT_COPY(get_netdev_from_bssid(pAd, BSS0), pNetPkt, ThisFrameLen, pData);
+	RTMP_USB_PKT_COPY(get_netdev_from_bssid(pAd, BSS0), skb, ThisFrameLen, pData);
 
 #ifdef RT_BIG_ENDIAN
 	RTMPDescriptorEndianChange((u8 *)pRxInfo, TYPE_RXINFO);
@@ -1273,16 +1267,12 @@ if (0) {
 	/* update next packet read position.*/
 	pAd->ReadPosition += (ThisFrameLen + RXDMA_FIELD_SIZE + RXINFO_SIZE);	/* 8 for (RXDMA_FIELD_SIZE + sizeof(RXINFO_STRUC))*/
 
-	pRxBlk->pRxPacket = pNetPkt;
-	pRxBlk->pData = (UCHAR *)GET_OS_PKT_DATAPTR(pNetPkt);
+	pRxBlk->pRxPacket = skb;
+	pRxBlk->pData = (UCHAR *)GET_OS_PKT_DATAPTR(skb);
 	pRxBlk->pHeader = (HEADER_802_11 *)(pRxBlk->pData + RXWISize);
 	pRxBlk->Flags = 0;
 
-	return pNetPkt;
-
-label_null:
-
-	return NULL;
+	return skb;
 }
 
 
