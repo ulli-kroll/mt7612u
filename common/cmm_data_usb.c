@@ -1252,7 +1252,9 @@ if (0) {
 	}
 
 	/* copy the rx packet*/
-	RTMP_USB_PKT_COPY(get_netdev_from_bssid(pAd, BSS0), skb, ThisFrameLen, pData);
+	/* ULLI memcpy a whole packet very is fast or better slow  ... */
+	memcpy(skb_put(skb, ThisFrameLen), pData, ThisFrameLen);
+	skb->dev = get_netdev_from_bssid(pAd, BSS0);
 
 #ifdef RT_BIG_ENDIAN
 	RTMPDescriptorEndianChange((u8 *)pRxInfo, TYPE_RXINFO);

@@ -809,12 +809,6 @@ extern int ra_mtd_read(int num, loff_t from, size_t len, u_char *buf);
 
 ******************************************************************************/
 
-#define RTMP_USB_PKT_COPY(__pNetDev, __pNetPkt, __Len, __pData)			\
-{																		\
-	memcpy(skb_put(__pNetPkt, __Len), __pData, __Len);					\
-	__pNetPkt->dev = __pNetDev;							\
-}
-
 typedef struct usb_device_id USB_DEVICE_ID;
 
 // TODO: shiang-usw, fine tune BULKAGGRE_SIZE, origianl is 60
