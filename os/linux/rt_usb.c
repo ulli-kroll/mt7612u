@@ -515,7 +515,7 @@ static void rtusb_mgmt_dma_done_tasklet(unsigned long data)
 
 
 #if RT_CFG80211_SUPPORT
-	pHeader = (HEADER_802_11 *)(GET_OS_PKT_DATAPTR(pPacket)+ TXINFO_SIZE + pAd->chipCap.TXWISize);
+	pHeader = (HEADER_802_11 *) (pPacket->data + TXINFO_SIZE + pAd->chipCap.TXWISize);
 	CFG80211_SendMgmtFrameDone(pAd, pHeader->Sequence);
 #endif /* RT_CFG80211_SUPPORT */
 

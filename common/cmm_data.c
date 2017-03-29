@@ -1330,7 +1330,7 @@ bool CanDoAggregateTransmit(
 #endif /* CONFIG_STA_SUPPORT */
 #ifdef CONFIG_AP_SUPPORT
 	/* CFG_TODO */
-	if ((MAC_ADDR_EQUAL(GET_OS_PKT_DATAPTR(pTxBlk->pPacket), GET_OS_PKT_DATAPTR(pPacket)))
+	if ((MAC_ADDR_EQUAL(pTxBlk->pPacket->data, pPacket->data))
 	    && (pAd->OpMode == OPMODE_AP)) /* unicast to same STA*/
 		return true;
 	else
@@ -1977,7 +1977,7 @@ UINT BA_Reorder_AMSDU_Annnounce(
 	USHORT			DataSize;
 	UINT			nMSDU = 0;
 
-	pData = (u8 *) GET_OS_PKT_DATAPTR(pPacket);
+	pData = pPacket->data;
 	DataSize = (USHORT) GET_OS_PKT_LEN(pPacket);
 
 	nMSDU = deaggregate_AMSDU_announce(pAd, NULL, pPacket, pData, DataSize, OpMode);
@@ -2082,7 +2082,7 @@ bool RTMPCheckEtherType(
 	UCHAR Byte0, Byte1, *pSrcBuf, up = 0;
 	bool isMcast = false;
 
-	pSrcBuf = GET_OS_PKT_DATAPTR(pPacket);
+	pSrcBuf = pPacket->data;
 	ASSERT(pSrcBuf);
 
 	RTMP_SET_PACKET_SPECIFIC(pPacket, 0);
@@ -2505,7 +2505,7 @@ if (0) {
 				{
 					DBGPRINT(RT_DEBUG_OFF, ("Indicate_Legacy_Packet():flush reordering_timeout_mpdus! RxWI->Flags=%d, pRxWI.TID=%d, RxD->AMPDU=%d!\n",
 												pRxBlk->Flags, pRxBlk->TID, pRxBlk->pRxInfo->AMPDU));
-					hex_dump("Dump the legacy Packet:", GET_OS_PKT_DATAPTR(pRxBlk->pRxPacket), 64);
+					hex_dump("Dump the legacy Packet:", pRxBlk->pRxPacket->data, 64);
 					ba_flush_reordering_timeout_mpdus(pAd, pBAEntry, Now32);
 				}
 			}
@@ -2532,7 +2532,7 @@ if (0) {
 							pRxBlk, Header802_3, FromWhichBSSID, TPID);
 //+++Add by shiang for debug
 if (0) {
-	hex_dump("After80211_2_8023", GET_OS_PKT_DATAPTR(pRxBlk->pRxPacket), GET_OS_PKT_LEN(pRxBlk->pRxPacket));
+	hex_dump("After80211_2_8023", pRxBlk->pRxPacket->data, GET_OS_PKT_LEN(pRxBlk->pRxPacket));
 }
 //---Add by shiang for debug
 
@@ -2731,7 +2731,7 @@ struct sk_buff *RTMPDeFragmentDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk
 		if (pHeader->FC.MoreFrag)
 		{
 			ASSERT(pAd->FragFrame.pFragPacket);
-			pFragBuffer = GET_OS_PKT_DATAPTR(pAd->FragFrame.pFragPacket);
+			pFragBuffer = pAd->FragFrame.pFragPacket->data;
 			/* Fix MT5396 crash issue when Rx fragmentation frame for Wi-Fi TGn 5.2.4 & 5.2.13 test items.
 			    Copy RxWI content to pFragBuffer.
 			*/
@@ -2777,7 +2777,7 @@ struct sk_buff *RTMPDeFragmentDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk
 			goto done;
 		}
 
-		pFragBuffer = GET_OS_PKT_DATAPTR(pAd->FragFrame.pFragPacket);
+		pFragBuffer = pAd->FragFrame.pFragPacket->data;
 
 		/* concatenate this fragment into the re-assembly buffer*/
 		memmove((pFragBuffer + pAd->FragFrame.RxSize), pData, DataSize);
@@ -2807,11 +2807,11 @@ done:
 			pRetPacket = pAd->FragFrame.pFragPacket;
 			pAd->FragFrame.pFragPacket = pNewFragPacket;
 			/* Fix MT5396 crash issue when Rx fragmentation frame for Wi-Fi TGn 5.2.4 & 5.2.13 test items. */
-			//pRxBlk->pHeader = (PHEADER_802_11) GET_OS_PKT_DATAPTR(pRetPacket);
+			//pRxBlk->pHeader = (PHEADER_802_11) pRetPacket->data;
 			//pRxBlk->pData = (UCHAR *)pRxBlk->pHeader + HeaderRoom;
 			//pRxBlk->DataSize = pAd->FragFrame.RxSize - HeaderRoom;
 			//pRxBlk->pRxPacket = pRetPacket;
-			pRxBlk->pRxWI = (RXWI_STRUC *) GET_OS_PKT_DATAPTR(pRetPacket);
+			pRxBlk->pRxWI = (RXWI_STRUC *) pRetPacket->data;
 			pRxBlk->pHeader = (PHEADER_802_11) ((UCHAR *)pRxBlk->pRxWI + RXWISize);
 			pRxBlk->pData = (UCHAR *)pRxBlk->pHeader + HeaderRoom;
 			pRxBlk->DataSize = pAd->FragFrame.RxSize - HeaderRoom - RXWISize;
@@ -3507,7 +3507,7 @@ bool rtmp_rx_done_handle(struct rtmp_adapter *pAd)
 		/* get rx descriptor and data buffer */
 		pRxD = (RXD_STRUC *)&pRxBlk->hw_rx_info[0];
 		pRxInfo = rxblk.pRxInfo;
-		pData = GET_OS_PKT_DATAPTR(pRxPacket);
+		pData = pRxPacket->data;
 		pRxWI = (RXWI_STRUC *)pData;
 		pHeader = rxblk.pHeader;// (PHEADER_802_11)(pData + RXWISize);
 

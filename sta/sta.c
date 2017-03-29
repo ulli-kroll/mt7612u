@@ -181,7 +181,7 @@ INT StaAllowToSendPacket(
 		if (INFRA_ON(pAd) && (0
 		    )) {
 			MAC_TABLE_ENTRY *pEntry;
-			u8 *pSrcBufVA = GET_OS_PKT_DATAPTR(pPacket);
+			u8 *pSrcBufVA = pPacket->data;
 			pEntry = MacTableLookup(pAd, pSrcBufVA);
 
 			if (pEntry && (IS_ENTRY_DLS(pEntry)

@@ -107,7 +107,7 @@ bool HSIPv4Check(
 			if (*pWcid == MCAST_WCID && pMbss->HotSpotCtrl.DGAFDisable)
 			{
 					UCHAR Index;
-					u8 *pSrcBufOriginal = GET_OS_PKT_DATAPTR(pPacket);
+					u8 *pSrcBufOriginal = pPacket->data;
 					for (Index = 0; Index < MAC_ADDR_LEN; Index++)
 					{
 						DBGPRINT(RT_DEBUG_OFF, ("Original source address(%d) = %02x\n",Index, pSrcBufOriginal[Index]));

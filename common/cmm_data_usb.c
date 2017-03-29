@@ -1022,7 +1022,7 @@ int RtmpUSBMgmtKickOut(
 	RTMP_IRQ_LOCK(&pAd->MLMEBulkOutLock, IrqFlags);
 
 	pAd->MgmtRing.Cell[pAd->MgmtRing.TxCpuIdx].pNdisPacket = pPacket;
-	pMLMEContext->TransferBuffer = (PTX_BUFFER)(GET_OS_PKT_DATAPTR(pPacket));
+	pMLMEContext->TransferBuffer = (PTX_BUFFER) pPacket->data;
 
 	/* Length in TxInfo should be 8 less than bulkout size.*/
 	pMLMEContext->BulkOutSize = BulkOutSize;
@@ -1270,7 +1270,7 @@ if (0) {
 	pAd->ReadPosition += (ThisFrameLen + RXDMA_FIELD_SIZE + RXINFO_SIZE);	/* 8 for (RXDMA_FIELD_SIZE + sizeof(RXINFO_STRUC))*/
 
 	pRxBlk->pRxPacket = skb;
-	pRxBlk->pData = (UCHAR *)GET_OS_PKT_DATAPTR(skb);
+	pRxBlk->pData = skb->data;
 	pRxBlk->pHeader = (HEADER_802_11 *)(pRxBlk->pData + RXWISize);
 	pRxBlk->Flags = 0;
 

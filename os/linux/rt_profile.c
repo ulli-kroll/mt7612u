@@ -604,7 +604,7 @@ int RTMPSendPackets(
 
 	if (pkt_total_len < 14)
 	{
-		hex_dump("bad packet", GET_OS_PKT_DATAPTR(pPacket), pkt_total_len);
+		hex_dump("bad packet", pPacket->data, pkt_total_len);
 		RELEASE_NDIS_PACKET(pAd, pPacket, NDIS_STATUS_FAILURE);
 		return 0;
 	}

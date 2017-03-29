@@ -1031,7 +1031,7 @@ VOID STAFindCipherAlgorithm(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 	PMAC_TABLE_ENTRY pMacEntry;
 	struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
 
-	pSrcBufVA = GET_OS_PKT_DATAPTR(pTxBlk->pPacket);
+	pSrcBufVA = pTxBlk->pPacket->data;
 	pMacEntry = pTxBlk->pMacEntry;
 
 	{

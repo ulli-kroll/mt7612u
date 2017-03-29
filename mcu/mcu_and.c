@@ -1382,7 +1382,7 @@ void mt7612u_mcu_rx_process_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *rx_
 {
 	struct sk_buff *net_pkt = rx_msg->net_pkt;
 	struct cmd_msg *msg, *msg_tmp;
-	RXFCE_INFO_CMD *rx_info = (RXFCE_INFO_CMD *)GET_OS_PKT_DATAPTR(net_pkt);
+	RXFCE_INFO_CMD *rx_info = (RXFCE_INFO_CMD *)net_pkt->data;
 	struct MCU_CTRL *ctl = &ad->MCUCtrl;
 	unsigned long flags;
 #ifdef RT_BIG_ENDIAN
@@ -1404,7 +1404,7 @@ void mt7612u_mcu_rx_process_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *rx_
 	if (rx_info->self_gen) {
 		/* if have callback function */
 		RTEnqueueInternalCmd(ad, CMDTHREAD_RESPONSE_EVENT_CALLBACK,
-								GET_OS_PKT_DATAPTR(net_pkt) + sizeof(*rx_info), rx_info->pkt_len);
+				     net_pkt->data + sizeof(*rx_info), rx_info->pkt_len);
 	} else {
 #ifdef RTMP_USB_SUPPORT
 		spin_lock_irq(&ctl->ackq_lock);
@@ -1421,7 +1421,7 @@ void mt7612u_mcu_rx_process_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *rx_
 
 				if ((msg->rsp_payload_len == rx_info->pkt_len) && (msg->rsp_payload_len != 0))
 				{
-					msg->rsp_handler(msg, GET_OS_PKT_DATAPTR(net_pkt) + sizeof(*rx_info), rx_info->pkt_len);
+					msg->rsp_handler(msg, net_pkt->data + sizeof(*rx_info), rx_info->pkt_len);
 				}
 				else if ((msg->rsp_payload_len == 0) && (rx_info->pkt_len == 8))
 				{
@@ -1496,8 +1496,8 @@ static void usb_rx_cmd_msg_complete(PURB urb)
 		net_pkt = msg->net_pkt;
 
 		usb_fill_bulk_urb(msg->urb, pObj->pUsb_Dev,
-							usb_rcvbulkpipe(pObj->pUsb_Dev, pChipCap->CommandRspBulkInAddr),
-							GET_OS_PKT_DATAPTR(net_pkt), 512, usb_rx_cmd_msg_complete, net_pkt);
+				  usb_rcvbulkpipe(pObj->pUsb_Dev, pChipCap->CommandRspBulkInAddr),
+				  net_pkt->data, 512, usb_rx_cmd_msg_complete, net_pkt);
 
 		mt7612u_mcu_queue_tail_cmd_msg(&ctl->rxq, msg, rx_start);
 
@@ -1537,8 +1537,8 @@ int usb_rx_cmd_msg_submit(struct rtmp_adapter *ad)
 	net_pkt = msg->net_pkt;
 
 	usb_fill_bulk_urb(msg->urb, pObj->pUsb_Dev,
-						usb_rcvbulkpipe(pObj->pUsb_Dev, pChipCap->CommandRspBulkInAddr),
-						GET_OS_PKT_DATAPTR(net_pkt), 512, usb_rx_cmd_msg_complete, net_pkt);
+			  usb_rcvbulkpipe(pObj->pUsb_Dev, pChipCap->CommandRspBulkInAddr),
+			  net_pkt->data, 512, usb_rx_cmd_msg_complete, net_pkt);
 
 	mt7612u_mcu_queue_tail_cmd_msg(&ctl->rxq, msg, rx_start);
 
@@ -1683,8 +1683,8 @@ int usb_kick_out_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *msg)
 	}
 
 	usb_fill_bulk_urb(msg->urb, pObj->pUsb_Dev,
-						usb_sndbulkpipe(pObj->pUsb_Dev, pChipCap->CommandBulkOutAddr),
-						GET_OS_PKT_DATAPTR(net_pkt), GET_OS_PKT_LEN(net_pkt), usb_kick_out_cmd_msg_complete, net_pkt);
+			  usb_sndbulkpipe(pObj->pUsb_Dev, pChipCap->CommandBulkOutAddr),
+			  net_pkt->data, GET_OS_PKT_LEN(net_pkt), usb_kick_out_cmd_msg_complete, net_pkt);
 
 	if (msg->need_rsp)
 		mt7612u_mcu_queue_tail_cmd_msg(&ctl->ackq, msg, wait_cmd_out_and_ack);

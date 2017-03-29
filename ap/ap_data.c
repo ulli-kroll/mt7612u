@@ -4133,7 +4133,7 @@ bool APFowardWirelessStaToWirelessSta(
 	bAnnounce = true;
 	bDirectForward = false;
 
-	pHeader802_3 = GET_OS_PKT_DATAPTR(pPacket);
+	pHeader802_3 = pPacket->data;
 
 	if (pHeader802_3[0] & 0x01)
 	{

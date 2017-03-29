@@ -701,9 +701,6 @@ void linux_pci_unmap_single(void *handle, ra_dma_addr_t dma_addr, size_t size, i
  */
 #define RTPKT_TO_OSPKT(_p)		((struct sk_buff *)(_p))
 
-#define GET_OS_PKT_DATAPTR(_pkt) \
-		(RTPKT_TO_OSPKT(_pkt)->data)
-
 #define GET_OS_PKT_LEN(_pkt) \
 		(RTPKT_TO_OSPKT(_pkt)->len)
 
