@@ -417,7 +417,7 @@ static INT CFG80211_PacketSend(struct sk_buff *pPktSrc, struct net_device *pDev,
 
 	RTMP_SET_PACKET_NET_DEVICE_MBSSID(pPktSrc, MAIN_MBSSID);
 
-	return Func(RTPKT_TO_OSPKT(pPktSrc));
+	return Func(pPktSrc);
 }
 
 static INT CFG80211_VirtualIF_PacketSend(

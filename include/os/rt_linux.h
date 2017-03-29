@@ -699,36 +699,34 @@ void linux_pci_unmap_single(void *handle, ra_dma_addr_t dma_addr, size_t size, i
  * 	- convert internal rt packet to os packet or
  *             os packet to rt packet
  */
-#define RTPKT_TO_OSPKT(_p)		((struct sk_buff *)(_p))
-
 #define GET_OS_PKT_DATATAIL(_pkt) \
-		(RTPKT_TO_OSPKT(_pkt)->tail)
+		((_pkt)->tail)
 
 #define GET_OS_PKT_HEAD(_pkt) \
-		(RTPKT_TO_OSPKT(_pkt)->head)
+		((_pkt)->head)
 
 #define GET_OS_PKT_END(_pkt) \
-		(RTPKT_TO_OSPKT(_pkt)->end)
+		((_pkt)->end)
 
 #define GET_OS_PKT_TYPE(_pkt) \
-		(RTPKT_TO_OSPKT(_pkt))
+		((_pkt))
 
 #define GET_OS_PKT_NEXT(_pkt) \
-		(RTPKT_TO_OSPKT(_pkt)->next)
+		((_pkt)->next)
 
 
-#define OS_PKT_CLONED(_pkt)		skb_cloned(RTPKT_TO_OSPKT(_pkt))
-#define OS_PKT_COPY(_pkt)		skb_copy(RTPKT_TO_OSPKT(_pkt), GFP_ATOMIC)
+#define OS_PKT_CLONED(_pkt)		skb_cloned(_pkt)
+#define OS_PKT_COPY(_pkt)		skb_copy(_pkt, GFP_ATOMIC)
 
 #define OS_PKT_TAIL_ADJUST(_pkt, _removedTagLen)								\
 	SET_OS_PKT_DATATAIL(_pkt, GET_OS_PKT_DATATAIL(_pkt), (-_removedTagLen));	\
 	_pkt->len -= _removedTagLen;
 
 #define OS_PKT_TAIL_BUF_EXTEND(_pkt, _Len)									\
-	skb_put(RTPKT_TO_OSPKT(_pkt), _Len)
+	skb_put((_pkt), _Len)
 
 #define OS_PKT_COPY_EXPAND(_pkt, headroom, tailroom)									\
-	skb_copy_expand(RTPKT_TO_OSPKT(_pkt), headroom, tailroom, GFP_ATOMIC)
+	skb_copy_expand((_pkt), headroom, tailroom, GFP_ATOMIC)
 
 #define get_unaligned32							get_unaligned
 #define get_unalignedlong						get_unaligned
@@ -743,8 +741,8 @@ void linux_pci_unmap_single(void *handle, ra_dma_addr_t dma_addr, size_t size, i
 		(htonl((_Val)))
 
 #define CB_OFF  10
-#define GET_OS_PKT_CB(_p)		(RTPKT_TO_OSPKT(_p)->cb)
-#define PACKET_CB(_p, _offset)	((RTPKT_TO_OSPKT(_p)->cb[CB_OFF + (_offset)]))
+#define GET_OS_PKT_CB(_p)		((_p)->cb)
+#define PACKET_CB(_p, _offset)	(((_p)->cb[CB_OFF + (_offset)]))
 
 
 

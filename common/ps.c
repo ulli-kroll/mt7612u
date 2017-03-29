@@ -188,23 +188,27 @@ VOID RtmpHandleRxPsPoll(struct rtmp_adapter *pAd, UCHAR *pAddr, USHORT wcid, boo
 		{
 			if (pMacEntry->PsQueue.Head)
 			{
+				struct sk_buff *skb;
 #ifdef UAPSD_SUPPORT
 				uint32_t NumOfOldPsPkt;
 				NumOfOldPsPkt = pAd->TxSwQueue[QID_AC_BE].Number;
 #endif /* UAPSD_SUPPORT */
 
 				pQEntry = RemoveHeadQueue(&pMacEntry->PsQueue);
-				if ( pMacEntry->PsQueue.Number >=1 )
-					RTMP_SET_PACKET_MOREDATA(RTPKT_TO_OSPKT(pQEntry), true);
+				skb = QUEUE_ENTRY_TO_PACKET(pQEntry);
+
+				if ( pMacEntry->PsQueue.Number >=1 ) {
+					RTMP_SET_PACKET_MOREDATA(skb, true);
+				}
 				InsertTailQueueAc(pAd, pMacEntry, &pAd->TxSwQueue[QID_AC_BE], pQEntry);
 
 #ifdef UAPSD_SUPPORT
 				/* we need to call RTMPDeQueuePacket() immediately as below */
 				if (NumOfOldPsPkt != pAd->TxSwQueue[QID_AC_BE].Number)
 				{
-					if (RTMP_GET_PACKET_DHCP(RTPKT_TO_OSPKT(pQEntry)) ||
-						RTMP_GET_PACKET_EAPOL(RTPKT_TO_OSPKT(pQEntry)) ||
-						RTMP_GET_PACKET_WAI(RTPKT_TO_OSPKT(pQEntry)))
+					if (RTMP_GET_PACKET_DHCP(skb) ||
+						RTMP_GET_PACKET_EAPOL(skb) ||
+						RTMP_GET_PACKET_WAI(skb))
 					{
 						/*
 							These packets will use 1M/6M rate to send.

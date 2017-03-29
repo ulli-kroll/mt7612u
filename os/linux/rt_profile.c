@@ -318,11 +318,15 @@ void tbtt_tasklet(unsigned long data)
 				bPS = true;
 				if (pAd->TxSwQueue[QID_AC_BE].Number <= (pAd->TxSwQMaxLen + MAX_PACKETS_IN_MCAST_PS_QUEUE))
 				{
+					struct sk_buff *skb;
+
 					pEntry = RemoveHeadQueue(&pAd->MacTab.McastPsQueue);
+					skb = QUEUE_ENTRY_TO_PACKET(pEntry);
+
 					/*if(pAd->MacTab.McastPsQueue.Number) */
 					if (count)
 					{
-						RTMP_SET_PACKET_MOREDATA(pEntry, true);
+						RTMP_SET_PACKET_MOREDATA(skb, true);
 					}
 					InsertHeadQueue(&pAd->TxSwQueue[QID_AC_BE], pEntry);
 					count++;

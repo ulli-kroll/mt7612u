@@ -248,7 +248,7 @@ int RTMPAllocateNdisPacket(
 */
 VOID RTMPFreeNdisPacket(VOID *pReserved, struct sk_buff *pPacket)
 {
-	dev_kfree_skb_any(RTPKT_TO_OSPKT(pPacket));
+	dev_kfree_skb_any(pPacket);
 }
 
 
@@ -302,7 +302,7 @@ struct sk_buff *DuplicatePacket(
 	DataSize = pPacket->len;
 	pData = pPacket->data;
 
-	skb = skb_clone(RTPKT_TO_OSPKT(pPacket), MEM_ALLOC_FLAG);
+	skb = skb_clone(pPacket, MEM_ALLOC_FLAG);
 	if (skb) {
 		skb->dev = pNetDev;
 		pRetPacket = skb;
@@ -341,11 +341,10 @@ struct sk_buff *duplicate_pkt(
 
 
 #define TKIP_TX_MIC_SIZE		8
-struct sk_buff *duplicate_pkt_with_TKIP_MIC(VOID *pReserved, struct sk_buff *pPacket)
+struct sk_buff *duplicate_pkt_with_TKIP_MIC(VOID *pReserved, struct sk_buff *skb)
 {
-	struct sk_buff *skb, *newskb;
+	struct sk_buff *newskb;
 
-	skb = RTPKT_TO_OSPKT(pPacket);
 	if (skb_tailroom(skb) < TKIP_TX_MIC_SIZE) {
 		/* alloc a new skb and copy the packet */
 		newskb = skb_copy_expand(skb, skb_headroom(skb), TKIP_TX_MIC_SIZE, GFP_ATOMIC);
@@ -457,13 +456,12 @@ bool RTMPL2FrameTxAction(
 
 struct sk_buff *ExpandPacket(
 	IN VOID *pReserved,
-	IN struct sk_buff *pPacket,
+	IN struct sk_buff *skb,
 	IN uint32_t ext_head_len,
 	IN uint32_t ext_tail_len)
 {
-	struct sk_buff *skb, *newskb;
+	struct sk_buff *newskb;
 
-	skb = RTPKT_TO_OSPKT(pPacket);
 	if (skb_cloned(skb) || (skb_headroom(skb) < ext_head_len)
 	    || (skb_tailroom(skb) < ext_tail_len)) {
 		uint32_t head_len =
@@ -525,18 +523,14 @@ void wlan_802_11_to_802_3_packet(
 	IN UCHAR OpMode,
 	IN USHORT VLAN_VID,
 	IN USHORT VLAN_Priority,
-	IN struct sk_buff *pRxPacket,
+	IN struct sk_buff *pOSPkt,
 	IN UCHAR *pData,
 	IN ULONG DataSize,
 	IN u8 *pHeader802_3,
 	IN UCHAR FromWhichBSSID,
 	IN UCHAR *TPID)
 {
-	struct sk_buff *pOSPkt;
-
 	ASSERT(pHeader802_3);
-
-	pOSPkt = RTPKT_TO_OSPKT(pRxPacket);
 
 	pOSPkt->dev = pNetDev;
 	pOSPkt->data = pData;
@@ -1791,8 +1785,7 @@ Note:
 */
 VOID RtmpOsPktProtocolAssign(struct sk_buff *pNetPkt)
 {
-	struct sk_buff *pRxPkt = RTPKT_TO_OSPKT(pNetPkt);
-	pRxPkt->protocol = eth_type_trans(pRxPkt, pRxPkt->dev);
+	pNetPkt->protocol = eth_type_trans(pNetPkt, pNetPkt->dev);
 }
 
 
@@ -1834,10 +1827,7 @@ Note:
 */
 VOID RtmpOsPktRcvHandle(struct sk_buff *pNetPkt)
 {
-	struct sk_buff *pRxPkt = RTPKT_TO_OSPKT(pNetPkt);
-
-
-	netif_rx(pRxPkt);
+	netif_rx(pNetPkt);
 }
 
 
