@@ -730,16 +730,6 @@ void linux_pci_unmap_single(void *handle, ra_dma_addr_t dma_addr, size_t size, i
 #define OS_PKT_COPY_EXPAND(_pkt, headroom, tailroom)									\
 	skb_copy_expand(RTPKT_TO_OSPKT(_pkt), headroom, tailroom, GFP_ATOMIC)
 
-#define RTMP_OS_PKT_INIT(__pRxPacket, __pNetDev, __pData, __DataSize)		\
-{																			\
-	struct sk_buff *__pRxPkt;													\
-	__pRxPkt = RTPKT_TO_OSPKT(__pRxPacket);									\
-	__pRxPkt->dev = __pNetDev;									\
-	__pRxPkt->data = __pData;									\
-	__pRxPkt->len = __DataSize;									\
-	skb_set_tail_pointer(__pRxPkt, __DataSize);						\
-}
-
 #define get_unaligned32							get_unaligned
 #define get_unalignedlong						get_unaligned
 

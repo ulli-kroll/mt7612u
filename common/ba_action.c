@@ -1583,10 +1583,10 @@ void convert_reordering_packet_to_preAMSDU_or_802_3_packet(
 
 	pRxPkt = RTPKT_TO_OSPKT(pRxBlk->pRxPacket);
 
-	RTMP_OS_PKT_INIT(pRxBlk->pRxPacket,
-					get_netdev_from_bssid(pAd, FromWhichBSSID),
-					pRxBlk->pData, pRxBlk->DataSize);
-
+	pRxPkt->dev = get_netdev_from_bssid(pAd, FromWhichBSSID);
+	pRxPkt->data = pRxBlk->pData;
+	pRxPkt->len = pRxBlk->DataSize;
+	skb_set_tail_pointer(pRxPkt , pRxBlk->DataSize);
 
 	/* copy 802.3 header, if necessary*/
 	if (!RX_BLK_TEST_FLAG(pRxBlk, fRX_AMSDU))
