@@ -1058,14 +1058,14 @@ struct cmd_msg *mt7612u_mcu_alloc_cmd_msg(struct rtmp_adapter *ad, unsigned int 
 	PURB urb = NULL;
 #endif
 
-	net_pkt = RTMP_AllocateFragPacketBuffer(ad, cap->cmd_header_len + length + cap->cmd_padding_len);
+	net_pkt = dev_alloc_skb(cap->cmd_header_len + length + cap->cmd_padding_len);
 
 	if (!net_pkt) {
 		DBGPRINT(RT_DEBUG_ERROR, ("can not allocate net_pkt\n"));
 		goto error0;
 	}
 
-	OS_PKT_RESERVE(net_pkt, cap->cmd_header_len);
+	skb_reserve(net_pkt, cap->cmd_header_len);
 
 	msg = kmalloc(sizeof(*msg), GFP_ATOMIC);
 

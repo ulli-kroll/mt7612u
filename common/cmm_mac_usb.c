@@ -614,7 +614,7 @@ int RTMPAllocTxRxRingMemory(struct rtmp_adapter *pAd)
 
 
 	memset(&pAd->FragFrame, 0, sizeof(FRAGMENT_FRAME));
-	pAd->FragFrame.pFragPacket =  RTMP_AllocateFragPacketBuffer(pAd, RX_BUFFER_NORMSIZE);
+	pAd->FragFrame.pFragPacket =  dev_alloc_skb(RX_BUFFER_NORMSIZE);
 
 	if (pAd->FragFrame.pFragPacket == NULL)
 		Status = NDIS_STATUS_RESOURCES;

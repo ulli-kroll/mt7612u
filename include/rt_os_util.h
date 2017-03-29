@@ -53,8 +53,6 @@ bool RtmpOsStatsAlloc(VOID **ppStats, VOID **ppIwStats);
 /* OS Packet */
 struct sk_buff *RtmpOSNetPktAlloc(VOID *pReserved, int size);
 
-struct sk_buff *RTMP_AllocateFragPacketBuffer(VOID *pReserved, ULONG Length);
-
 int RTMPAllocateNdisPacket(
 	IN	VOID					*pReserved,
 	OUT struct sk_buff *		*ppPacket,

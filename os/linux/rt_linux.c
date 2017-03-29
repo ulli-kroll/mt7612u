@@ -198,23 +198,6 @@ struct sk_buff *RtmpOSNetPktAlloc(VOID *dummy, int size)
 	return skb;
 }
 
-struct sk_buff *RTMP_AllocateFragPacketBuffer(VOID *dummy, ULONG len)
-{
-	struct sk_buff *pkt;
-
-	pkt = dev_alloc_skb(len);
-
-	if (pkt == NULL) {
-		DBGPRINT(RT_DEBUG_ERROR,
-			 ("can't allocate frag rx %ld size packet\n", len));
-	}
-
-	return pkt;
-}
-
-
-
-
 /*
 	The allocated NDIS PACKET must be freed via RTMPFreeNdisPacket()
 */

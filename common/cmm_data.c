@@ -2800,7 +2800,7 @@ done:
 		struct sk_buff *pNewFragPacket;
 
 		/* allocate a new packet buffer for fragment*/
-		pNewFragPacket = RTMP_AllocateFragPacketBuffer(pAd, RX_BUFFER_NORMSIZE);
+		pNewFragPacket = dev_alloc_skb(RX_BUFFER_NORMSIZE);
 		if (pNewFragPacket)
 		{
 			/* update RxBlk*/

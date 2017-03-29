@@ -736,9 +736,6 @@ void linux_pci_unmap_single(void *handle, ra_dma_addr_t dma_addr, size_t size, i
 #define OS_PKT_TAIL_BUF_EXTEND(_pkt, _Len)									\
 	skb_put(RTPKT_TO_OSPKT(_pkt), _Len)
 
-#define OS_PKT_RESERVE(_pkt, _Len)											\
-	skb_reserve(RTPKT_TO_OSPKT(_pkt), _Len)
-
 #define OS_PKT_COPY_EXPAND(_pkt, headroom, tailroom)									\
 	skb_copy_expand(RTPKT_TO_OSPKT(_pkt), headroom, tailroom, GFP_ATOMIC)
 

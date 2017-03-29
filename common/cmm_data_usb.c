@@ -1245,7 +1245,7 @@ if (0) {
 #endif /* RT_BIG_ENDIAN */
 
 	/* allocate a rx packet*/
-	skb = RTMP_AllocateFragPacketBuffer(pAd, ThisFrameLen);
+	skb = dev_alloc_skb(ThisFrameLen);
 	if (skb == NULL) {
 		DBGPRINT(RT_DEBUG_ERROR,("%s():Cannot Allocate sk buffer for this Bulk-In buffer!\n", __FUNCTION__));
 		return NULL;
