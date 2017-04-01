@@ -136,8 +136,6 @@ typedef struct completion RTMP_OS_COMPLETION;
 #define RTMP_OS_INIT_COMPLETION(__pCompletion)	\
 		init_completion(__pCompletion)
 
-#define RTMP_OS_EXIT_COMPLETION(__pCompletion)
-
 #define RTMP_OS_WAIT_FOR_COMPLETION_TIMEOUT(__pCompletion, __Timeout)	\
 		wait_for_completion_timeout(__pCompletion, __Timeout)
 

@@ -474,8 +474,6 @@ load_patch_protect:
 
 	}
 
-	RTMP_OS_EXIT_COMPLETION(&load_rom_patch_done);
-
 	total_checksum = checksume16(fw_patch_image + PATCH_INFO_SIZE, patch_len);
 
 	mdelay(5);
@@ -864,8 +862,6 @@ loadfw_protect:
 
 	}
 
-	RTMP_OS_EXIT_COMPLETION(&load_fw_done);
-
 	/* Re-Initialize completion */
 	RTMP_OS_INIT_COMPLETION(&load_fw_done);
 
@@ -1003,8 +999,6 @@ loadfw_protect:
 		}
 
 	}
-
-	RTMP_OS_EXIT_COMPLETION(&load_fw_done);
 
 	/* Upload new 64 bytes interrupt vector or reset andes */
 	DBGPRINT(RT_DEBUG_OFF, ("\n"));
@@ -1162,13 +1156,6 @@ void mt7612u_mcu_free_cmd_msg(struct cmd_msg *msg)
 	struct sk_buff *net_pkt = msg->net_pkt;
 	struct rtmp_adapter *ad = (struct rtmp_adapter *)(msg->priv);
 	struct MCU_CTRL *ctl = &ad->MCUCtrl;
-
-	if (msg->need_wait) {
-
-#ifdef RTMP_USB_SUPPORT
-		RTMP_OS_EXIT_COMPLETION(&msg->ack_done);
-#endif
-	}
 
 #ifdef RTMP_USB_SUPPORT
 	usb_free_urb(msg->urb);
@@ -1988,7 +1975,6 @@ retransmit:
 			if (msg->need_retransmit && (msg->retransmit_times > 0)) {
 
 #ifdef RTMP_USB_SUPPORT
-				RTMP_OS_EXIT_COMPLETION(&msg->ack_done);
 				RTMP_OS_INIT_COMPLETION(&msg->ack_done);
 #endif
 				state = tx_retransmit;
