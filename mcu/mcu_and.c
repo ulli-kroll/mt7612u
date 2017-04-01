@@ -1149,7 +1149,7 @@ void mt7612u_mcu_append_cmd_msg(struct cmd_msg *msg, char *data, unsigned int le
 	struct sk_buff *net_pkt = msg->net_pkt;
 
 	if (data)
-		memcpy(OS_PKT_TAIL_BUF_EXTEND(net_pkt, len), data, len);
+		memcpy(skb_put(net_pkt, len), data, len);
 }
 
 void mt7612u_mcu_free_cmd_msg(struct cmd_msg *msg)
@@ -1457,7 +1457,7 @@ static void usb_rx_cmd_msg_complete(PURB urb)
 
 	mt7612u_mcu_unlink_cmd_msg(msg, &ctl->rxq);
 
-	OS_PKT_TAIL_BUF_EXTEND(net_pkt, urb->actual_length);
+	skb_put(net_pkt, urb->actual_length);
 
 	if (urb->status == 0) {
 		state = rx_done;
@@ -1664,7 +1664,7 @@ int usb_kick_out_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *msg)
 
 	if (msg->state != tx_retransmit) {
 		/* append four zero bytes padding when usb aggregate enable */
-		memset(OS_PKT_TAIL_BUF_EXTEND(net_pkt, USB_END_PADDING), 0x00, USB_END_PADDING);
+		memset(skb_put(net_pkt, USB_END_PADDING), 0x00, USB_END_PADDING);
 	}
 
 	usb_fill_bulk_urb(msg->urb, pObj->pUsb_Dev,

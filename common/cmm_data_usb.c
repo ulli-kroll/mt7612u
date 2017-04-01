@@ -1016,7 +1016,7 @@ int RtmpUSBMgmtKickOut(
 
 	/* Now memzero all extra padding bytes.*/
 	pDest = (u8 *)(pSrcBufVA + SrcBufLen);
-	OS_PKT_TAIL_BUF_EXTEND(pPacket, padLen);
+	skb_put(pPacket, padLen);
 	memset(pDest, 0, padLen);
 
 	RTMP_IRQ_LOCK(&pAd->MLMEBulkOutLock, IrqFlags);
