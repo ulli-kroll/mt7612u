@@ -236,7 +236,6 @@ static int CFG80211_OpsChannelSet(
 
 	p80211CB = NULL;
 	RTMP_DRIVER_80211_CB_GET(pAd, &p80211CB);
-
 	if (p80211CB == NULL) {
 		CFG80211DBG(RT_DEBUG_ERROR, ("80211> p80211CB == NULL!\n"));
 		return 0;
@@ -364,6 +363,11 @@ static int CFG80211_OpsVirtualInfChg(
 
 	/*CFG_TODO*/
 	RTMP_DRIVER_80211_CB_GET(pAd, &pCfg80211_CB);
+	if (pCfg80211_CB == NULL) {
+		CFG80211DBG(RT_DEBUG_ERROR, ("80211> p80211CB == NULL!\n"));
+		return 0;
+	}
+
 	pCfg80211_CB->MonFilterFlag = VifInfo.MonFilterFlag;
 	return 0;
 }
@@ -432,6 +436,10 @@ static int CFG80211_OpsScan(
 
 	/* YF_TODO: record the scan_req per netdevice */
 	RTMP_DRIVER_80211_CB_GET(pAd, &pCfg80211_CB);
+	if (pCfg80211_CB == NULL) {
+		CFG80211DBG(RT_DEBUG_ERROR, ("80211> p80211CB == NULL!\n"));
+		return 0;
+	}
 	pCfg80211_CB->pCfg80211_ScanReq = pRequest; /* used in scan end */
 
 	if (pNdev->ieee80211_ptr->iftype == NL80211_IFTYPE_AP) {
@@ -953,7 +961,12 @@ static int CFG80211_OpsKeyAdd(
 		return -ENOTSUPP;
 
 	/* add key */
-    RTMP_DRIVER_80211_CB_GET(pAd, &p80211CB);
+	RTMP_DRIVER_80211_CB_GET(pAd, &p80211CB);
+	if (p80211CB == NULL) {
+		CFG80211DBG(RT_DEBUG_ERROR, ("80211> p80211CB == NULL!\n"));
+		return 0;
+	}
+
 
 #ifdef CONFIG_AP_SUPPORT
 	if ((pNdev->ieee80211_ptr->iftype == RT_CMD_80211_IFTYPE_AP) ||
@@ -1081,6 +1094,11 @@ static int CFG80211_OpsKeyDel(
 		return -EINVAL;
 
 	RTMP_DRIVER_80211_CB_GET(pAd, &p80211CB);
+	if (p80211CB == NULL) {
+		CFG80211DBG(RT_DEBUG_ERROR, ("80211> p80211CB == NULL!\n"));
+		return 0;
+	}
+
 
 	memset(&KeyInfo, 0, sizeof(KeyInfo));
 	KeyInfo.KeyId = KeyIdx;
@@ -1454,6 +1472,10 @@ VOID CFG80211_RFKillStatusUpdate(
 
 	CFG80211DBG(RT_DEBUG_TRACE, ("80211> %s ==>\n", __FUNCTION__));
 	RTMP_DRIVER_80211_CB_GET(pAd, &pCfg80211_CB);
+	if (p80211CB == NULL) {
+		CFG80211DBG(RT_DEBUG_ERROR, ("80211> p80211CB == NULL!\n"));
+		return 0;
+	}
 	pWiphy = pCfg80211_CB->pCfg80211_Wdev->wiphy;
 	wiphy_rfkill_set_hw_state(pWiphy, !active);
 	return;
@@ -1954,6 +1976,10 @@ static int CFG80211_OpsStaChg(struct wiphy *pWiphy, struct net_device *dev,
 	p80211CB = NULL;
 
 	RTMP_DRIVER_80211_CB_GET(pAd, &p80211CB);
+	if (p80211CB == NULL) {
+		CFG80211DBG(RT_DEBUG_ERROR, ("80211> p80211CB == NULL!\n"));
+		return 0;
+	}
 
 	if ((dev->ieee80211_ptr->iftype != RT_CMD_80211_IFTYPE_AP) &&
 	    (dev->ieee80211_ptr->iftype != RT_CMD_80211_IFTYPE_P2P_GO))
