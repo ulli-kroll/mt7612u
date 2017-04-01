@@ -194,7 +194,7 @@ static uint32_t asic_set_wlan_func(struct rtmp_adapter *pAd, bool enable)
 
 	DBGPRINT(RT_DEBUG_TRACE, ("WlanFunCtrl= 0x%x\n", reg));
 	mt7612u_write32(pAd, WLAN_FUN_CTRL, reg);
-	RtmpusecDelay(20);
+	udelay(20);
 
 	return reg;
 }
@@ -240,7 +240,7 @@ INT rlt_wlan_chip_onoff(struct rtmp_adapter *pAd, bool bOn, bool bResetWLAN)
 			reg |= WLAN_FUN_CTRL_WLAN_RESET_RF;
 			DBGPRINT(RT_DEBUG_TRACE, ("Reset(1) WlanFunCtrl.word = 0x%x\n", reg));
 			mt7612u_write32(pAd, WLAN_FUN_CTRL, reg);
-			RtmpusecDelay(20);
+			udelay(20);
 
 			if (!IS_MT76x2(pAd))
 				reg &= ~WLAN_FUN_CTRL_WLAN_RESET;
@@ -249,7 +249,7 @@ INT rlt_wlan_chip_onoff(struct rtmp_adapter *pAd, bool bOn, bool bResetWLAN)
 
 			DBGPRINT(RT_DEBUG_TRACE, ("Reset(2) WlanFunCtrl.word = 0x%x\n", reg));
 			mt7612u_write32(pAd, WLAN_FUN_CTRL, reg);
-			RtmpusecDelay(20);
+			udelay(20);
 		} else
 			mt7612u_write32(pAd, WLAN_FUN_CTRL, reg);
 	}
@@ -283,7 +283,7 @@ INT rlt_wlan_chip_onoff(struct rtmp_adapter *pAd, bool bOn, bool bResetWLAN)
 						((value & CMB_CTRL_XTAL_RDY) == CMB_CTRL_XTAL_RDY))
 					break;
 
-				RtmpusecDelay(20);
+				udelay(20);
 			} while (index++ < MAX_CHECK_COUNT);
 
 			if (index >= MAX_CHECK_COUNT)

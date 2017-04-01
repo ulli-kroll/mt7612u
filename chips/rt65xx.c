@@ -222,7 +222,7 @@ VOID RT65xxDisableTxRx(struct rtmp_adapter *pAd, UCHAR Level)
 	for (MTxCycle = 0; MTxCycle < 2000; MTxCycle++) {
 		MacReg = mt7612u_read32(pAd, MAC_STATUS_CFG);
 		if (MacReg & 0x1)
-			RtmpusecDelay(50);
+			udelay(50);
 		else
 			break;
 
@@ -314,7 +314,7 @@ VOID RT65xxDisableTxRx(struct rtmp_adapter *pAd, UCHAR Level)
 	for (MTxCycle = 0; MTxCycle < 2000; MTxCycle++) {
 		MacReg = mt7612u_read32(pAd, MAC_STATUS_CFG);
 		if (MacReg & 0x2)
-			RtmpusecDelay(50);
+			udelay(50);
 		else
 			break;
 		if (MacReg == 0xFFFFFFFF) {

@@ -695,7 +695,7 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan
 		value &= 0x1;
 		value1 = RTMP_BBP_IO_READ32(ad, 0x2130);
 		DBGPRINT(RT_DEBUG_INFO,("%s:: Wait until MAC 0x1200 bit0 and BBP 0x2130 become 0\n", __FUNCTION__));
-		RtmpusecDelay(1);
+		udelay(1);
 		loop++;
 	} while (((value != 0) || (value1 != 0)) && (loop < 300));
 
@@ -1024,7 +1024,7 @@ void mt76x2_calibration(struct rtmp_adapter *ad, u8 channel)
 		value &= 0x1;
 		value1 = RTMP_BBP_IO_READ32(ad, 0x2130);
 		DBGPRINT(RT_DEBUG_INFO, ("%s:: Wait until MAC 0x1200 bit0 and BBP 0x2130 become 0\n", __FUNCTION__));
-		RtmpusecDelay(1);
+		udelay(1);
 		loop++;
 	} while (((value != 0) || (value1 != 0)) && (loop < 300));
 
@@ -2820,7 +2820,7 @@ static void patch_BBPL_on(struct rtmp_adapter *pAd)
 	value |= ((1<<16) | (1<<0));
 	mt7612u_write_reg(pAd, 0x130, value);
 
-	RtmpusecDelay(1);
+	udelay(1);
 
 	mt7612u_read_reg(pAd, 0x64, &value);
 	if ((value >> 29) & 0x1) {
@@ -2844,19 +2844,19 @@ static void patch_BBPL_on(struct rtmp_adapter *pAd)
 	value = 0x0000484F;
 	mt7612u_write_reg(pAd, 0x14, value);
 
-	RtmpusecDelay(1);
+	udelay(1);
 
 	mt7612u_read_reg(pAd, 0x130, &value);
 	value |= (1<<17);
 	mt7612u_write_reg(pAd, 0x130, value);
 
-	RtmpusecDelay(125);
+	udelay(125);
 
 	mt7612u_read_reg(pAd, 0x130, &value);
 	value  &= ~(1<<16);
 	mt7612u_write_reg(pAd, 0x130, value);
 
-	RtmpusecDelay(50);
+	udelay(50);
 
 	mt7612u_read_reg(pAd, 0x14C, &value);
 	value  |= ((1<<20) | (1<<19));
@@ -2873,14 +2873,14 @@ static VOID WF_CTRL(struct rtmp_adapter *pAd, UINT8 wfID, UINT8 isON)
 		value |= (1<<0);
 		mt7612u_write_reg(pAd, 0x130, value);
 
-		RtmpusecDelay(10);
+		udelay(10);
 
 		/* Enable RFDIG LDO/AFE/ABB/ADDA */
 		mt7612u_read_reg(pAd, 0x130, &value);
 		value |= ((1<<1)|(1<<3)|(1<<4)|(1<<5));
 		mt7612u_write_reg(pAd, 0x130, value);
 
-		RtmpusecDelay(10);
+		udelay(10);
 
 		/* Switch WF0 RFDIG power to internal LDO */
 		mt7612u_read_reg(pAd, 0x130, &value);
@@ -2900,14 +2900,14 @@ static VOID WF_CTRL(struct rtmp_adapter *pAd, UINT8 wfID, UINT8 isON)
 			value |= (1<<8);
 			mt7612u_write_reg(pAd, 0x130, value);
 
-			RtmpusecDelay(10);
+			udelay(10);
 
 			/* Enable RFDIG LDO/AFE/ABB/ADDA */
 			mt7612u_read_reg(pAd, 0x130, &value);
 			value |= ((1<<9)|(1<<11)|(1<<12)|(1<<13));
 			mt7612u_write_reg(pAd, 0x130, value);
 
-			RtmpusecDelay(10);
+			udelay(10);
 			/* Switch WF1 RFDIG power to internal LDO */
 			mt7612u_read_reg(pAd, 0x130, &value);
 			value &= ~(1<<10);
@@ -2938,7 +2938,7 @@ static void WL_POWER_ON(struct rtmp_adapter *pAd)
 		   (((regval>>12) & 0x3) == 0x3))
 			break;
 
-		RtmpusecDelay(10);
+		udelay(10);
 		cnt++;
 	} while (cnt < 100);
 
@@ -2946,11 +2946,11 @@ static void WL_POWER_ON(struct rtmp_adapter *pAd)
 	value &= ~(0x7F<<16);
 	mt7612u_write_reg(pAd, 0x148, value);
 
-	RtmpusecDelay(10);
+	udelay(10);
 	mt7612u_read_reg(pAd, 0x148, &value);
 	value &= ~(0xF<<24);
 	mt7612u_write_reg(pAd, 0x148, value);
-	RtmpusecDelay(10);
+	udelay(10);
 
 	mt7612u_read_reg(pAd, 0x148, &value);
 	value |= (0xF<<24);
