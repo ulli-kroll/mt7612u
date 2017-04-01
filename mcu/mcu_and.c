@@ -201,7 +201,7 @@ int mt7612u_mcu_usb_load_rom_patch(struct rtmp_adapter *ad)
 	RTMP_CHIP_CAP *cap = &ad->chipCap;
 	USB_DMA_CFG_STRUC cfg;
 	u32 patch_len = 0;
-	RTMP_OS_COMPLETION load_rom_patch_done;
+	struct completion load_rom_patch_done;
 	u8 *fw_patch_image;
 	const struct firmware *fw;
 
@@ -601,7 +601,7 @@ int mt7612u_mcu_usb_loadfw(struct rtmp_adapter *ad)
 	USB_DMA_CFG_STRUC cfg;
 	u32 ilm_len = 0, dlm_len = 0;
 	u16 fw_ver, build_ver;
-	RTMP_OS_COMPLETION load_fw_done;
+	struct completion load_fw_done;
 	const struct firmware *fw;
 	u8 *fw_image;
 

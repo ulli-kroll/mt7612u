@@ -176,7 +176,7 @@ struct cmd_msg {
 	bool need_retransmit;
 
 #ifdef RTMP_USB_SUPPORT
-	RTMP_OS_COMPLETION ack_done;
+	 struct completion ack_done;
 #endif
 	char *rsp_payload;
 	MSG_RSP_HANDLER rsp_handler;
