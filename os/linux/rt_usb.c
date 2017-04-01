@@ -157,8 +157,7 @@ static void rtusb_dataout_complete(unsigned long data)
 
 
 	pUrb			= (purbb_t)data;
-/*	pHTTXContext	= (PHT_TX_CONTEXT)pUrb->context; */
-	pHTTXContext	= (PHT_TX_CONTEXT)RTMP_USB_URB_DATA_GET(pUrb);
+	pHTTXContext	= (PHT_TX_CONTEXT) pUrb->context;
 	Status			= RTMP_USB_URB_STATUS_GET(pUrb);
 	pAd				= pHTTXContext->pAd;
 	pObj 			= pAd->OS_Cookie;
@@ -257,8 +256,7 @@ static void rtusb_null_frame_done_tasklet(unsigned long data)
 
 
 	pUrb			= (purbb_t)data;
-/*	pNullContext	= (PTX_CONTEXT)pUrb->context; */
-	pNullContext	= (PTX_CONTEXT)RTMP_USB_URB_DATA_GET(pUrb);
+	pNullContext	= (PTX_CONTEXT) pUrb->context;
 	Status			= RTMP_USB_URB_STATUS_GET(pUrb);
 	pAd 			= pNullContext->pAd;
 /*	Status 			= pUrb->status; */
@@ -311,8 +309,7 @@ static void rtusb_pspoll_frame_done_tasklet(unsigned long data)
 
 
 	pUrb			= (purbb_t)data;
-/*	pPsPollContext	= (PTX_CONTEXT)pUrb->context; */
-	pPsPollContext	= (PTX_CONTEXT)RTMP_USB_URB_DATA_GET(pUrb);
+	pPsPollContext	= (PTX_CONTEXT) pUrb->context;
 	Status			= RTMP_USB_URB_STATUS_GET(pUrb);
 	pAd				= pPsPollContext->pAd;
 /*	Status			= pUrb->status; */
@@ -374,8 +371,7 @@ static void rx_done_tasklet(unsigned long data)
 	unsigned int		IrqFlags;
 
 	pUrb		= (purbb_t)data;
-/*	pRxContext	= (PRX_CONTEXT)pUrb->context; */
-	pRxContext	= (PRX_CONTEXT)RTMP_USB_URB_DATA_GET(pUrb);
+	pRxContext	= (PRX_CONTEXT) pUrb->context;
 	Status		= RTMP_USB_URB_STATUS_GET(pUrb);
 	pAd 		= pRxContext->pAd;
 /*	Status = pUrb->status; */
@@ -448,8 +444,7 @@ static void rtusb_mgmt_dma_done_tasklet(unsigned long data)
 
 
 	pUrb			= (purbb_t)data;
-/*	pMLMEContext	= (PTX_CONTEXT)pUrb->context; */
-	pMLMEContext	= (PTX_CONTEXT)RTMP_USB_URB_DATA_GET(pUrb);
+	pMLMEContext	= (PTX_CONTEXT) pUrb->context;
 	Status			= RTMP_USB_URB_STATUS_GET(pUrb);
 	pAd 			= pMLMEContext->pAd;
 /*	Status			= pUrb->status; */
@@ -567,8 +562,7 @@ static void rtusb_hcca_dma_done_tasklet(unsigned long data)
 
 
 	pUrb			= (purbb_t)data;
-/*	pHTTXContext	= (PHT_TX_CONTEXT)pUrb->context; */
-	pHTTXContext	= (PHT_TX_CONTEXT)RTMP_USB_URB_DATA_GET(pUrb);
+	pHTTXContext	= (PHT_TX_CONTEXT) pUrb->context;
 	pAd				= pHTTXContext->pAd;
 
 	rtusb_dataout_complete((unsigned long)pUrb);
@@ -614,8 +608,7 @@ static void rtusb_ac3_dma_done_tasklet(unsigned long data)
 
 
 	pUrb			= (purbb_t)data;
-/*	pHTTXContext	= (PHT_TX_CONTEXT)pUrb->context; */
-	pHTTXContext	= (PHT_TX_CONTEXT)RTMP_USB_URB_DATA_GET(pUrb);
+	pHTTXContext	= (PHT_TX_CONTEXT) pUrb->context;
 	pAd				= pHTTXContext->pAd;
 
 	rtusb_dataout_complete((unsigned long)pUrb);
@@ -660,8 +653,7 @@ static void rtusb_ac2_dma_done_tasklet(unsigned long data)
 
 
 	pUrb			= (purbb_t)data;
-/*	pHTTXContext	= (PHT_TX_CONTEXT)pUrb->context; */
-	pHTTXContext	= (PHT_TX_CONTEXT)RTMP_USB_URB_DATA_GET(pUrb);
+	pHTTXContext	= (PHT_TX_CONTEXT) pUrb->context;
 	pAd				= pHTTXContext->pAd;
 
 	rtusb_dataout_complete((unsigned long)pUrb);
@@ -706,8 +698,7 @@ static void rtusb_ac1_dma_done_tasklet(unsigned long data)
 
 
 	pUrb			= (purbb_t)data;
-/*	pHTTXContext	= (PHT_TX_CONTEXT)pUrb->context; */
-	pHTTXContext	= (PHT_TX_CONTEXT)RTMP_USB_URB_DATA_GET(pUrb);
+	pHTTXContext	= (PHT_TX_CONTEXT) pUrb->context;
 	pAd				= pHTTXContext->pAd;
 
 	rtusb_dataout_complete((unsigned long)pUrb);
@@ -751,8 +742,7 @@ static void rtusb_ac0_dma_done_tasklet(unsigned long data)
 
 
 	pUrb			= (purbb_t)data;
-/*	pHTTXContext	= (PHT_TX_CONTEXT)pUrb->context; */
-	pHTTXContext	= (PHT_TX_CONTEXT)RTMP_USB_URB_DATA_GET(pUrb);
+	pHTTXContext	= (PHT_TX_CONTEXT) pUrb->context;
 	pAd				= pHTTXContext->pAd;
 
 	rtusb_dataout_complete((unsigned long)pUrb);
