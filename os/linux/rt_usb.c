@@ -380,7 +380,7 @@ static void rx_done_tasklet(unsigned long data)
 	RTMP_IRQ_LOCK(&pAd->BulkInLock, IrqFlags);
 	pRxContext->InUse = false;
 	pRxContext->IRPPending = false;
-	pRxContext->BulkInOffset += RTMP_USB_URB_LEN_GET(pUrb); /*pUrb->actual_length; */
+	pRxContext->BulkInOffset += pUrb->actual_length;
 	/*NdisInterlockedDecrement(&pAd->PendingRx); */
 
 	if (pAd->PendingRx > 0)
@@ -413,7 +413,7 @@ static void rx_done_tasklet(unsigned long data)
 		{
 
 			DBGPRINT_RAW(RT_DEBUG_ERROR, ("Bulk In Failed. Status=%d, BIIdx=0x%x, BIRIdx=0x%x, actual_length= 0x%x\n",
-							Status, pAd->NextRxBulkInIndex, pAd->NextRxBulkInReadIndex, RTMP_USB_URB_LEN_GET(pRxContext->pUrb))); /*->actual_length)); */
+							Status, pAd->NextRxBulkInIndex, pAd->NextRxBulkInReadIndex, pRxContext->pUrb->actual_length));
 
 			RTMP_SET_FLAG(pAd, fRTMP_ADAPTER_BULKIN_RESET);
 			RTEnqueueInternalCmd(pAd, CMDTHREAD_RESET_BULK_IN, NULL, 0);

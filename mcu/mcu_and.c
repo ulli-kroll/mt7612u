@@ -1457,7 +1457,7 @@ static void usb_rx_cmd_msg_complete(PURB urb)
 
 	mt7612u_mcu_unlink_cmd_msg(msg, &ctl->rxq);
 
-	OS_PKT_TAIL_BUF_EXTEND(net_pkt, RTMP_USB_URB_LEN_GET(urb));
+	OS_PKT_TAIL_BUF_EXTEND(net_pkt, urb->actual_length);
 
 	if (urb->status == 0) {
 		state = rx_done;
