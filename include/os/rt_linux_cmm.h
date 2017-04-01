@@ -131,9 +131,6 @@ typedef struct _OS_RSTRUC  {
 #define RTMP_NET_TASK_STRUCT		OS_NET_TASK_STRUCT
 #define PRTMP_NET_TASK_STRUCT		POS_NET_TASK_STRUCT
 
-#define RTMP_OS_WAIT_FOR_COMPLETION_TIMEOUT(__pCompletion, __Timeout)	\
-		wait_for_completion_timeout(__pCompletion, __Timeout)
-
 #ifdef WORKQUEUE_BH
 #define RTMP_OS_TASKLET_SCHE(__pTasklet)							\
 		schedule_work(__pTasklet)
