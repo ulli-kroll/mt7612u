@@ -1459,12 +1459,12 @@ static void usb_rx_cmd_msg_complete(PURB urb)
 
 	OS_PKT_TAIL_BUF_EXTEND(net_pkt, RTMP_USB_URB_LEN_GET(urb));
 
-	if (RTMP_USB_URB_STATUS_GET(urb) == 0) {
+	if (urb->status == 0) {
 		state = rx_done;
 	} else {
 		state = rx_receive_fail;
 		mt7612u_mcu_inc_error_count(ctl, error_rx_receive_fail);
-		DBGPRINT(RT_DEBUG_ERROR, ("receive cmd msg fail(%d)\n", RTMP_USB_URB_STATUS_GET(urb)));
+		DBGPRINT(RT_DEBUG_ERROR, ("receive cmd msg fail(%d)\n", urb->status));
 	}
 
 	spin_lock_irqsave(&ctl->rx_doneq_lock, flags);
@@ -1629,7 +1629,7 @@ static void usb_kick_out_cmd_msg_complete(PURB urb)
 	if (!OS_TEST_BIT(MCU_INIT, &ctl->flags))
 		return;
 
-	if (RTMP_USB_URB_STATUS_GET(urb) == 0) {
+	if (urb->status == 0) {
 		if (!msg->need_rsp) {
 			mt7612u_mcu_unlink_cmd_msg(msg, &ctl->kickq);
 			mt7612u_mcu_queue_tail_cmd_msg(&ctl->tx_doneq, msg, tx_done);
@@ -1648,7 +1648,7 @@ static void usb_kick_out_cmd_msg_complete(PURB urb)
 			complete(&msg->ack_done);
 		}
 
-		DBGPRINT(RT_DEBUG_ERROR, ("kick out cmd msg fail(%d)\n", RTMP_USB_URB_STATUS_GET(urb)));
+		DBGPRINT(RT_DEBUG_ERROR, ("kick out cmd msg fail(%d)\n", urb->status));
 	}
 
 	mt7612u_mcu_bh_schedule(ad);
