@@ -699,9 +699,6 @@ void linux_pci_unmap_single(void *handle, ra_dma_addr_t dma_addr, size_t size, i
 #define GET_OS_PKT_END(_pkt) \
 		((_pkt)->end)
 
-#define GET_OS_PKT_TYPE(_pkt) \
-		((_pkt))
-
 #define GET_OS_PKT_NEXT(_pkt) \
 		((_pkt)->next)
 

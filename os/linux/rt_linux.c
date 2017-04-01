@@ -432,7 +432,7 @@ bool RTMPL2FrameTxAction(
 	memmove(skb->data, pData, data_len);
 
 	/* End this frame */
-	skb_put(GET_OS_PKT_TYPE(skb), data_len);
+	skb_put(skb, data_len);
 
 	DBGPRINT(RT_DEBUG_TRACE, ("%s doen\n", __FUNCTION__));
 
