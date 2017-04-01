@@ -61,8 +61,6 @@ int RTMPAllocateNdisPacket(
 	IN	u8 *				pData,
 	IN	UINT					DataLen);
 
-VOID RTMPFreeNdisPacket(VOID *pReserved, struct sk_buff *pPacket);
-
 void RTMP_QueryPacketInfo(
 	IN  struct sk_buff *pPacket,
 	OUT PACKET_INFO *pPacketInfo,

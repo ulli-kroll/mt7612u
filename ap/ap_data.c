@@ -177,7 +177,7 @@ INT APSendPacket(struct rtmp_adapter *pAd, struct sk_buff *pPacket)
 	RTMP_QueryPacketInfo(pPacket, &PacketInfo, &pSrcBufVA, &SrcBufLen);
 	if ((pSrcBufVA == NULL) || (SrcBufLen <= 14))
 	{
-		RELEASE_NDIS_PACKET(pAd, pPacket, NDIS_STATUS_FAILURE);
+		dev_kfree_skb_any(pPacket);
 		DBGPRINT(RT_DEBUG_ERROR, ("%s():pkt error(%p, %d)\n",
 					__FUNCTION__, pSrcBufVA, SrcBufLen));
 		return NDIS_STATUS_FAILURE;
@@ -199,7 +199,7 @@ INT APSendPacket(struct rtmp_adapter *pAd, struct sk_buff *pPacket)
                 }
                 else
                 {
-                        RELEASE_NDIS_PACKET(pAd, pPacket, NDIS_STATUS_FAILURE);
+                        dev_kfree_skb_any(pPacket);
                         return NDIS_STATUS_FAILURE;
                 }
         }
@@ -212,7 +212,7 @@ INT APSendPacket(struct rtmp_adapter *pAd, struct sk_buff *pPacket)
 	QueIdx = QID_AC_BE;
 	if (RTMPCheckEtherType(pAd, pPacket, pMacEntry, wdev, &UserPriority, &QueIdx) == false)
 	{
-		RELEASE_NDIS_PACKET(pAd, pPacket, NDIS_STATUS_FAILURE);
+		dev_kfree_skb_any(pPacket);
 		return NDIS_STATUS_FAILURE;
 	}
 
@@ -227,7 +227,7 @@ INT APSendPacket(struct rtmp_adapter *pAd, struct sk_buff *pPacket)
 		{
 			if (pAd->ApCfg.EntryClientCount == 0)
 			{
-				RELEASE_NDIS_PACKET(pAd, pPacket, NDIS_STATUS_FAILURE);
+				dev_kfree_skb_any(pPacket);
 				return NDIS_STATUS_FAILURE;
 			}
 		}
@@ -246,14 +246,14 @@ INT APSendPacket(struct rtmp_adapter *pAd, struct sk_buff *pPacket)
 			if (Wcid == MCAST_WCID)
 			{
 				if (wdev->PortSecured == WPA_802_1X_PORT_NOT_SECURED) {
-					RELEASE_NDIS_PACKET(pAd, pPacket, NDIS_STATUS_FAILURE);
+					dev_kfree_skb_any(pPacket);
 					return NDIS_STATUS_FAILURE;
 				}
 			}
 			else
 			{	/* Process for unicast frame */
 				if (pMacEntry->PortSecured == WPA_802_1X_PORT_NOT_SECURED) {
-					RELEASE_NDIS_PACKET(pAd, pPacket, NDIS_STATUS_FAILURE);
+					dev_kfree_skb_any(pPacket);
 					return NDIS_STATUS_FAILURE;
 				}
 			}
@@ -264,7 +264,7 @@ INT APSendPacket(struct rtmp_adapter *pAd, struct sk_buff *pPacket)
 	{
 		DBGPRINT(RT_DEBUG_ERROR, ("%s(%s):Drop unknow packet\n",
 					__FUNCTION__, RtmpOsGetNetDevName(wdev->if_dev)));
-		RELEASE_NDIS_PACKET(pAd, pPacket, NDIS_STATUS_FAILURE);
+		dev_kfree_skb_any(pPacket);
 		return NDIS_STATUS_FAILURE;
 	}
 
@@ -331,7 +331,7 @@ INT APSendPacket(struct rtmp_adapter *pAd, struct sk_buff *pPacket)
 
 		if (pAd->TxSwQueue[QueIdx].Number >= pAd->TxSwQMaxLen)
 		{
-			RELEASE_NDIS_PACKET(pAd, pPacket, NDIS_STATUS_FAILURE);
+			dev_kfree_skb_any(pPacket);
 			return NDIS_STATUS_FAILURE;
 		}
 		else
@@ -354,7 +354,7 @@ INT APSendPacket(struct rtmp_adapter *pAd, struct sk_buff *pPacket)
 		*/
 		if (pAd->MacTab.McastPsQueue.Number >= MAX_PACKETS_IN_MCAST_PS_QUEUE)
 		{
-			RELEASE_NDIS_PACKET(pAd, pPacket, NDIS_STATUS_FAILURE);
+			dev_kfree_skb_any(pPacket);
 			DBGPRINT(RT_DEBUG_TRACE, ("M/BCAST PSQ(=%d) full, drop it!\n", pAd->MacTab.McastPsQueue.Number));
 			return NDIS_STATUS_FAILURE;
 		}
@@ -389,7 +389,7 @@ INT APSendPacket(struct rtmp_adapter *pAd, struct sk_buff *pPacket)
 			if (pAd->TxSwQueue[QueIdx].Number >= pAd->TxSwQMaxLen)
 			{
 				{
-					RELEASE_NDIS_PACKET(pAd, pPacket, NDIS_STATUS_FAILURE);
+					dev_kfree_skb_any(pPacket);
 
 					return NDIS_STATUS_FAILURE;
 				}
@@ -960,7 +960,7 @@ VOID AP_AMPDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 			pMbss->TxDropCount ++;
 #endif /* STATS_COUNT_SUPPORT */
 
-		RELEASE_NDIS_PACKET(pAd, pTxBlk->pPacket, NDIS_STATUS_FAILURE);
+		dev_kfree_skb_any(pTxBlk->pPacket);
 		return;
 	}
 
@@ -991,7 +991,7 @@ VOID AP_AMPDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 	{
 		if (RTMPExpandPacketForSwEncrypt(pAd, pTxBlk) == false)
 		{
-			RELEASE_NDIS_PACKET(pAd, pTxBlk->pPacket, NDIS_STATUS_FAILURE);
+			dev_kfree_skb_any(pTxBlk->pPacket);
 			return;
 		}
 	}
@@ -1338,7 +1338,7 @@ VOID AP_AMPDU_Frame_Tx_Hdr_Trns(
 			pMbss->TxDropCount ++;
 #endif /* STATS_COUNT_SUPPORT */
 
-		RELEASE_NDIS_PACKET(pAd, pTxBlk->pPacket, NDIS_STATUS_FAILURE);
+		dev_kfree_skb_any(pTxBlk->pPacket);
 		return;
 	}
 
@@ -1533,7 +1533,7 @@ VOID AP_AMSDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 			if (pMbss != NULL)
 				pMbss->TxDropCount++;
 #endif /* STATS_COUNT_SUPPORT */
-			RELEASE_NDIS_PACKET(pAd, pTxBlk->pPacket, NDIS_STATUS_FAILURE);
+			dev_kfree_skb_any(pTxBlk->pPacket);
 			continue;
 		}
 
@@ -1718,7 +1718,7 @@ VOID AP_Legacy_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 		if (pMbss != NULL)
 			pMbss->TxDropCount++;
 #endif /* STATS_COUNT_SUPPORT */
-		RELEASE_NDIS_PACKET(pAd, pTxBlk->pPacket, NDIS_STATUS_FAILURE);
+		dev_kfree_skb_any(pTxBlk->pPacket);
 		return;
 	}
 
@@ -1738,7 +1738,7 @@ VOID AP_Legacy_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 	{
 		if (RTMPExpandPacketForSwEncrypt(pAd, pTxBlk) == false)
 		{
-			RELEASE_NDIS_PACKET(pAd, pTxBlk->pPacket, NDIS_STATUS_FAILURE);
+			dev_kfree_skb_any(pTxBlk->pPacket);
 			return;
 		}
 	}
@@ -2031,7 +2031,7 @@ VOID AP_Legacy_Frame_Tx_Hdr_Trns(
 		if (pMbss != NULL)
 			pMbss->TxDropCount++;
 #endif /* STATS_COUNT_SUPPORT */
-		RELEASE_NDIS_PACKET(pAd, pTxBlk->pPacket, NDIS_STATUS_FAILURE);
+		dev_kfree_skb_any(pTxBlk->pPacket);
 		return;
 	}
 
@@ -2201,7 +2201,7 @@ VOID AP_Fragment_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 		if (pMbss != NULL)
 			pMbss->TxDropCount++;
 #endif /* STATS_COUNT_SUPPORT */
-		RELEASE_NDIS_PACKET(pAd, pTxBlk->pPacket, NDIS_STATUS_FAILURE);
+		dev_kfree_skb_any(pTxBlk->pPacket);
 		return;
 	}
 
@@ -2221,7 +2221,7 @@ VOID AP_Fragment_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 	{
 		if (RTMPExpandPacketForSwEncrypt(pAd, pTxBlk) == false)
 		{
-			RELEASE_NDIS_PACKET(pAd, pTxBlk->pPacket, NDIS_STATUS_FAILURE);
+			dev_kfree_skb_any(pTxBlk->pPacket);
 			return;
 		}
 	}
@@ -2428,7 +2428,7 @@ VOID AP_Fragment_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 		{
 			DBGPRINT(RT_DEBUG_ERROR, ("!!!%s : no memory for SW MIC calculation !!!\n",
 										__FUNCTION__));
-			RELEASE_NDIS_PACKET(pAd, pTxBlk->pPacket, NDIS_STATUS_FAILURE);
+			dev_kfree_skb_any(pTxBlk->pPacket);
 			return;
 		}
 		memmove(tmp_ptr, pTxBlk->pSrcBufData, pTxBlk->SrcBufLen);
@@ -2582,7 +2582,7 @@ VOID AP_ARalink_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 				pMbss->TxDropCount++;
 #endif /* STATS_COUNT_SUPPORT */
 
-			RELEASE_NDIS_PACKET(pAd, pTxBlk->pPacket, NDIS_STATUS_FAILURE);
+			dev_kfree_skb_any(pTxBlk->pPacket);
 			continue;
 		}
 
@@ -2809,7 +2809,7 @@ int APHardTransmit(struct rtmp_adapter *pAd, TX_BLK *pTxBlk, UCHAR QueIdx)
 			pQEntry = RemoveHeadQueue(&pTxBlk->TxPacketList);
 			pPacket = QUEUE_ENTRY_TO_PACKET(pQEntry);
 			if (pPacket)
-				RELEASE_NDIS_PACKET(pAd, pPacket, NDIS_STATUS_FAILURE);
+				dev_kfree_skb_any(pPacket);
 		}
 		return NDIS_STATUS_FAILURE;
 	}
@@ -2895,7 +2895,7 @@ int APHardTransmit(struct rtmp_adapter *pAd, TX_BLK *pTxBlk, UCHAR QueIdx)
 					pQEntry = RemoveHeadQueue(&pTxBlk->TxPacketList);
 					pPacket = QUEUE_ENTRY_TO_PACKET(pQEntry);
 					if (pPacket)
-						RELEASE_NDIS_PACKET(pAd, pPacket, NDIS_STATUS_FAILURE);
+						dev_kfree_skb_any(pPacket);
 				}
 			}
 			break;
@@ -3440,7 +3440,7 @@ bool APCheckTkipMICValue(
 		}
 
 		/* release packet */
-		RELEASE_NDIS_PACKET(pAd, pRxBlk->pRxPacket, NDIS_STATUS_FAILURE);
+		dev_kfree_skb_any(pRxBlk->pRxPacket);
 		return false;
 	}
 
@@ -3603,7 +3603,7 @@ VOID APRxEAPOLFrameIndicate(
 	}
 
 done:
-	RELEASE_NDIS_PACKET(pAd, pRxBlk->pRxPacket, NDIS_STATUS_FAILURE);
+	dev_kfree_skb_any(pRxBlk->pRxPacket);
 	return;
 
 }
@@ -3618,7 +3618,7 @@ VOID Announce_or_Forward_802_3_Packet(
 	else
 	{
 		/* release packet */
-		RELEASE_NDIS_PACKET(pAd, pPacket, NDIS_STATUS_FAILURE);
+		dev_kfree_skb_any(pPacket);
 	}
 }
 
@@ -3653,7 +3653,7 @@ VOID APRxDataFrameAnnounce(
 			}
 
 			/* release packet */
-			RELEASE_NDIS_PACKET(pAd, pRxBlk->pRxPacket, NDIS_STATUS_FAILURE);
+			dev_kfree_skb_any(pRxBlk->pRxPacket);
 			return;
 		}
 
@@ -3819,7 +3819,7 @@ VOID APHandleRxDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 				/* Process the received broadcast frame for AP-Client. */
 				if (!ApCliHandleRxBroadcastFrame(pAd, pRxBlk, pEntry, FromWhichBSSID))
 				{
-					RELEASE_NDIS_PACKET(pAd, pRxPacket, NDIS_STATUS_FAILURE);
+					dev_kfree_skb_any(pRxPacket);
 				}
 				return;
 			}
@@ -3946,7 +3946,7 @@ VOID APHandleRxDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 			pAd->ApCfg.MBSSID[pRxBlk->bss_idx].RxDropCount ++;
 		}
 
-		RELEASE_NDIS_PACKET(pAd, pRxPacket, NDIS_STATUS_FAILURE);
+		dev_kfree_skb_any(pRxPacket);
 		return;
 	}
 
@@ -4044,7 +4044,7 @@ VOID APHandleRxDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 								 	 pRxBlk->pData,
 									 &(pRxBlk->DataSize)) != NDIS_STATUS_SUCCESS)
 		{
-			RELEASE_NDIS_PACKET(pAd, pRxPacket, NDIS_STATUS_FAILURE);
+			dev_kfree_skb_any(pRxPacket);
 			return;
 		}
 		/* Record the Decrypted bit as 1 */
@@ -4102,7 +4102,7 @@ err:
 		pAd->ApCfg.MBSSID[pRxBlk->bss_idx].RxErrorCount ++;
 	}
 
-	RELEASE_NDIS_PACKET(pAd, pRxPacket, NDIS_STATUS_FAILURE);
+	dev_kfree_skb_any(pRxPacket);
 
 	return;
 }
@@ -4284,7 +4284,7 @@ int APInsertPsQueue(
 	{
 		if (pMacEntry->PsQueue.Number >= MAX_PACKETS_IN_PS_QUEUE)
 		{
-			RELEASE_NDIS_PACKET(pAd, pPacket, NDIS_STATUS_FAILURE);
+			dev_kfree_skb_any(pPacket);
 			return NDIS_STATUS_FAILURE;
 		}
 		else

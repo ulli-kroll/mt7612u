@@ -2514,7 +2514,7 @@ INT StopDmaRx(struct rtmp_adapter *pAd, UCHAR Level)
 		if ((RxPending == 0) && (bReschedule == false))
 			break;
 		else
-			RELEASE_NDIS_PACKET(pAd, pRxPacket, NDIS_STATUS_SUCCESS);
+			dev_kfree_skb_any(pRxPacket);
 	}
 
 	/*

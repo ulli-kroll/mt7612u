@@ -688,11 +688,6 @@ void linux_pci_unmap_single(void *handle, ra_dma_addr_t dma_addr, size_t size, i
 #define GET_SG_LIST_FROM_PACKET(_p, _sc)	\
     rt_get_sg_list_from_packet(_p, _sc)
 
-#define RELEASE_NDIS_PACKET(_pAd, _pPacket, _Status)                    \
-{                                                                       \
-        RTMPFreeNdisPacket(_pAd, _pPacket);                             \
-}
-
 
 /*
  * packet helper

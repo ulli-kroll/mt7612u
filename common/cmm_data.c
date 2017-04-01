@@ -322,7 +322,7 @@ int MiniportMMRequest(
 			if (Status == NDIS_STATUS_SUCCESS)
 				retryCnt = 0;
 			else
-				RELEASE_NDIS_PACKET(pAd, pPacket, Status);
+				dev_kfree_skb_any(pPacket);
 		}
 		else
 		{
@@ -452,7 +452,7 @@ Label_Legacy_PS:
 #endif /* UAPSD_CC_FUNC_PS_MGMT_TO_LEGACY */
 		if (pMacEntry->PsQueue.Number >= MAX_PACKETS_IN_PS_QUEUE)
 		{
-			RELEASE_NDIS_PACKET(pAd, pPacket, NDIS_STATUS_RESOURCES);
+			dev_kfree_skb_any(pPacket);
 			return;
 		}
 		else
@@ -1467,7 +1467,7 @@ VOID RTMPDeQueuePacket(
 				if (status != NDIS_STATUS_SUCCESS)
 				{
 					DBGPRINT(RT_DEBUG_ERROR, ("tx queued mgmt frame error!\n"));
-					RELEASE_NDIS_PACKET(pAd, pPacket, NDIS_STATUS_FAILURE);
+					dev_kfree_skb_any(pPacket);
 				}
 
 				DEQUEUE_UNLOCK(&pAd->irq_lock, bIntContext, IrqFlags);
@@ -1509,7 +1509,7 @@ VOID RTMPDeQueuePacket(
 					if(RTMP_TIME_BEFORE(Now32, pMacEntry->TimeStamp_toTxRing + ENTRY_RETRY_INTERVAL))
 					{
 						pEntry = RemoveHeadQueue(pQueue);
-						RELEASE_NDIS_PACKET(pAd, pPacket, NDIS_STATUS_FAILURE);
+						dev_kfree_skb_any(pPacket);
 						DEQUEUE_UNLOCK(&pAd->irq_lock, bIntContext, IrqFlags);
 						Count++;
 						continue;
@@ -1962,7 +1962,7 @@ UINT deaggregate_AMSDU_announce(
 	}
 
 	/* finally release original rx packet*/
-	RELEASE_NDIS_PACKET(pAd, pPacket, NDIS_STATUS_SUCCESS);
+	dev_kfree_skb_any(pPacket);
 
 	return nMSDU;
 }
@@ -2474,7 +2474,7 @@ if (0) {
 
 	if (pRxBlk->DataSize > MAX_RX_PKT_LEN)
 	{
-		RELEASE_NDIS_PACKET(pAd, pRxPacket, NDIS_STATUS_FAILURE);
+		dev_kfree_skb_any(pRxPacket);
 		return;
 	}
 
@@ -2606,7 +2606,7 @@ VOID CmmRxRalinkFrameIndicate(
 	}
 	else
 	{
-		RELEASE_NDIS_PACKET(pAd, pRxBlk->pRxPacket, NDIS_STATUS_FAILURE);
+		dev_kfree_skb_any(pRxBlk->pRxPacket);
 		return;
 	}
 
@@ -2654,7 +2654,7 @@ VOID CmmRxRalinkFrameIndicate(
 
 	if (!pPacket2)
 	{
-		RELEASE_NDIS_PACKET(pAd, pRxBlk->pRxPacket, NDIS_STATUS_FAILURE);
+		dev_kfree_skb_any(pRxBlk->pRxPacket);
 		return;
 	}
 
@@ -2791,7 +2791,7 @@ struct sk_buff *RTMPDeFragmentDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk
 
 done:
 	/* always release rx fragmented packet*/
-	RELEASE_NDIS_PACKET(pAd, pRxPacket, NDIS_STATUS_FAILURE);
+	dev_kfree_skb_any(pRxPacket);
 
 	/* return defragmented packet if packet is reassembled completely*/
 	/* otherwise return NULL*/
@@ -2837,7 +2837,7 @@ VOID Indicate_EAPOL_Packet(
 	if (pRxBlk->wcid >= MAX_LEN_OF_MAC_TABLE)
 	{
 		DBGPRINT(RT_DEBUG_WARN, ("Indicate_EAPOL_Packet: invalid wcid.\n"));
-		RELEASE_NDIS_PACKET(pAd, pRxBlk->pRxPacket, NDIS_STATUS_FAILURE);
+		dev_kfree_skb_any(pRxBlk->pRxPacket);
 		return;
 	}
 
@@ -2845,7 +2845,7 @@ VOID Indicate_EAPOL_Packet(
 	if (pEntry == NULL)
 	{
 		DBGPRINT(RT_DEBUG_WARN, ("Indicate_EAPOL_Packet: drop and release the invalid packet.\n"));
-		RELEASE_NDIS_PACKET(pAd, pRxBlk->pRxPacket, NDIS_STATUS_FAILURE);
+		dev_kfree_skb_any(pRxBlk->pRxPacket);
 		return;
 	}
 
@@ -3352,7 +3352,7 @@ VOID dev_rx_mgmt_frm(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 	}
 
 done:
-	RELEASE_NDIS_PACKET(pAd, pRxPacket, NDIS_STATUS_SUCCESS);
+	dev_kfree_skb_any(pRxPacket);
 }
 
 
@@ -3429,7 +3429,7 @@ VOID dev_rx_ctrl_frm(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 			break;
 	}
 
-	RELEASE_NDIS_PACKET(pAd, pRxPacket, NDIS_STATUS_SUCCESS);
+	dev_kfree_skb_any(pRxPacket);
 }
 
 
@@ -3586,7 +3586,7 @@ bool rtmp_rx_done_handle(struct rtmp_adapter *pAd)
 #endif
 					DBGPRINT(RT_DEBUG_TRACE, ("%s(): CheckRxError!\n", __FUNCTION__));
 
-				RELEASE_NDIS_PACKET(pAd, pRxPacket, NDIS_STATUS_FAILURE);
+				dev_kfree_skb_any(pRxPacket);
 
 				continue;
 			}
@@ -3601,7 +3601,7 @@ bool rtmp_rx_done_handle(struct rtmp_adapter *pAd)
 			{
 				pAd->Counters8023.RxErrors++;
 				/* discard this frame */
-				RELEASE_NDIS_PACKET(pAd, pRxPacket, NDIS_STATUS_FAILURE);
+				dev_kfree_skb_any(pRxPacket);
 				continue;
 			}
 
@@ -3671,7 +3671,7 @@ bool rtmp_rx_done_handle(struct rtmp_adapter *pAd)
 					break;
 
 			default:
-				RELEASE_NDIS_PACKET(pAd, pRxPacket, NDIS_STATUS_FAILURE);
+				dev_kfree_skb_any(pRxPacket);
 				break;
 		}
 	}

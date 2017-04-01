@@ -609,7 +609,7 @@ int RTMPSendPackets(
 	if (pkt_total_len < 14)
 	{
 		hex_dump("bad packet", pPacket->data, pkt_total_len);
-		RELEASE_NDIS_PACKET(pAd, pPacket, NDIS_STATUS_FAILURE);
+		dev_kfree_skb_any(pPacket);
 		return 0;
 	}
 
@@ -619,7 +619,7 @@ int RTMPSendPackets(
 		/* Drop send request since we are in monitor mode */
 		if (MONITOR_ON(pAd))
 		{
-			RELEASE_NDIS_PACKET(pAd, pPacket, NDIS_STATUS_SUCCESS);
+			dev_kfree_skb_any(pPacket);
 			return 0;
 		}
 	}

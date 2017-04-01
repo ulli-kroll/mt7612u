@@ -246,11 +246,6 @@ int RTMPAllocateNdisPacket(
 	corresponding NDIS_BUFFER and allocated memory.
   ========================================================================
 */
-VOID RTMPFreeNdisPacket(VOID *pReserved, struct sk_buff *pPacket)
-{
-	dev_kfree_skb_any(pPacket);
-}
-
 
 void RTMP_QueryPacketInfo(
 	IN struct sk_buff *pPacket,

@@ -60,7 +60,7 @@ int RtmpInsertPsQueue(
 	{
 		if (pMacEntry->PsQueue.Number >= MAX_PACKETS_IN_PS_QUEUE)
 		{
-			RELEASE_NDIS_PACKET(pAd, pPacket, NDIS_STATUS_FAILURE);
+			dev_kfree_skb_any(pPacket);
 			return NDIS_STATUS_FAILURE;
 		}
 		else
@@ -116,7 +116,7 @@ VOID RtmpCleanupPsQueue(struct rtmp_adapter *pAd, QUEUE_HEADER *pQueue)
 		pQEntry = RemoveHeadQueue(pQueue);
 		/*pPacket = CONTAINING_RECORD(pEntry, NDIS_PACKET, MiniportReservedEx); */
 		pPacket = QUEUE_ENTRY_TO_PACKET(pQEntry);
-		RELEASE_NDIS_PACKET(pAd, pPacket, NDIS_STATUS_FAILURE);
+		dev_kfree_skb_any(pPacket);
 
 		DBGPRINT(RT_DEBUG_TRACE, ("RtmpCleanupPsQueue pkt = %lx...\n", (ULONG)pPacket));
 	}

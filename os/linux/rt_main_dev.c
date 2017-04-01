@@ -475,7 +475,7 @@ int rt28xx_send_packets(struct sk_buff *skb, struct net_device *ndev)
 {
 	if (!(RTMP_OS_NETDEV_STATE_RUNNING(ndev)))
 	{
-		RELEASE_NDIS_PACKET(NULL, (struct sk_buff *)skb, NDIS_STATUS_FAILURE);
+		dev_kfree_skb_any(skb);
 		return 0;
 	}
 

@@ -702,7 +702,7 @@ VOID APCleanupPsQueue(
 		pEntry = RemoveHeadQueue(pQueue);
 		/*pPacket = CONTAINING_RECORD(pEntry, NDIS_PACKET, MiniportReservedEx); */
 		pPacket = QUEUE_ENTRY_TO_PACKET(pEntry);
-		RELEASE_NDIS_PACKET(pAd, pPacket, NDIS_STATUS_FAILURE);
+		dev_kfree_skb_any(pPacket);
 	}
 }
 

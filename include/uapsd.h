@@ -217,9 +217,7 @@
 		/* clear EOSP frame */												\
 		__pSta->UAPSDTxNum = 0;												\
 		if (__pSta->pUAPSDEOSPFrame != NULL) {								\
-			RELEASE_NDIS_PACKET((__pAd),									\
-							QUEUE_ENTRY_TO_PACKET(__pSta->pUAPSDEOSPFrame),	\
-							NDIS_STATUS_FAILURE);							\
+			dev_kfree_skb_any(QUEUE_ENTRY_TO_PACKET(__pSta->pUAPSDEOSPFrame));					\
 			__pSta->pUAPSDEOSPFrame = NULL; }								\
 		__pSta->bAPSDFlagSPStart = 0;										\
 		__pSta->bAPSDFlagEOSPOK = 0;                                                                            \

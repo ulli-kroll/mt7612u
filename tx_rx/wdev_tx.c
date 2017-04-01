@@ -134,7 +134,7 @@ VOID wdev_tx_pkts(NDIS_HANDLE dev_hnd, struct sk_buff **pkt_list, UINT pkt_cnt, 
 								fRTMP_ADAPTER_BSS_SCAN_IN_PROGRESS)))
 		{
 			/* Drop send request since hardware is in reset state */
-			RELEASE_NDIS_PACKET(pAd, pPacket, NDIS_STATUS_FAILURE);
+			dev_kfree_skb_any(pPacket);
 			continue;
 		}
 
@@ -143,7 +143,7 @@ VOID wdev_tx_pkts(NDIS_HANDLE dev_hnd, struct sk_buff **pkt_list, UINT pkt_cnt, 
 		)
 		{
 			/* Drop send request since hardware is in reset state */
-			RELEASE_NDIS_PACKET(pAd, pPacket, NDIS_STATUS_FAILURE);
+			dev_kfree_skb_any(pPacket);
 			continue;
 		}
 #endif /*RT_CFG80211_SUPPORT*/
@@ -174,7 +174,7 @@ VOID wdev_tx_pkts(NDIS_HANDLE dev_hnd, struct sk_buff **pkt_list, UINT pkt_cnt, 
 		}
 #endif /* CONFIG_STA_SUPPORT */
 		} else {
-			RELEASE_NDIS_PACKET(pAd, pPacket, NDIS_STATUS_FAILURE);
+			dev_kfree_skb_any(pPacket);
 		}
 	}
 

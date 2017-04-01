@@ -1099,7 +1099,7 @@ error2:
 #endif
 	kfree(msg);
 error1:
-	RTMPFreeNdisPacket(ad, net_pkt);
+	dev_kfree_skb_any(net_pkt);
 error0:
 	return NULL;
 }
@@ -1176,7 +1176,7 @@ void mt7612u_mcu_free_cmd_msg(struct cmd_msg *msg)
 
 	kfree(msg);
 
-	RTMPFreeNdisPacket(ad, net_pkt);
+	dev_kfree_skb_any(net_pkt);
 }
 
 static inline void mt7612u_mcu_inc_error_count(struct MCU_CTRL *ctl, enum cmd_msg_error_type type)
