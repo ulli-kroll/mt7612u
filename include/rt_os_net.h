@@ -330,8 +330,8 @@ VOID RTMP_CFG80211_AllVirtualIF_Remove(struct rtmp_adapter *pAdSrc);
 #define RTMP_DRIVER_80211_CB_GET(__pAd) \
 	((__pAd)->pCfg80211_CB)
 
-#define RTMP_DRIVER_80211_CB_SET(__pAd, __pCB)							\
-	RTMP_COM_IoctlHandle(__pAd, NULL, CMD_RTPRIV_IOCTL_80211_CB_SET, 0, __pCB, 0)
+#define RTMP_DRIVER_80211_CB_SET(__pAd, __pCB) \
+	((pAd)->pCfg80211_CB = __pCB)
 
 #define RTMP_DRIVER_80211_RESET(__pAd)				\
 	RTMP_COM_IoctlHandle(__pAd, NULL, CMD_RTPRIV_IOCTL_80211_RESET,  0, NULL, 0)

@@ -53,10 +53,6 @@ INT CFG80211DRV_IoctlHandle(
 			/* nothing to do */
 			break;
 
-		case CMD_RTPRIV_IOCTL_80211_CB_SET:
-			pAd->pCfg80211_CB = pData;
-			break;
-
 		case CMD_RTPRIV_IOCTL_80211_CHAN_SET:
 			if (CFG80211DRV_OpsSetChannel(pAd, pData) != true)
 				return NDIS_STATUS_FAILURE;
