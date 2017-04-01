@@ -234,8 +234,7 @@ static int CFG80211_OpsChannelSet(
 	memset(&ChanInfo, 0, sizeof(ChanInfo));
 	ChanInfo.ChanId = ChanId;
 
-	p80211CB = NULL;
-	RTMP_DRIVER_80211_CB_GET(pAd, &p80211CB);
+	p80211CB = RTMP_DRIVER_80211_CB_GET(pAd);
 	if (p80211CB == NULL) {
 		CFG80211DBG(RT_DEBUG_ERROR, ("80211> p80211CB == NULL!\n"));
 		return 0;
@@ -362,7 +361,7 @@ static int CFG80211_OpsVirtualInfChg(
 	RTMP_DRIVER_80211_VIF_CHG(pAd, &VifInfo);
 
 	/*CFG_TODO*/
-	RTMP_DRIVER_80211_CB_GET(pAd, &pCfg80211_CB);
+	pCfg80211_CB = RTMP_DRIVER_80211_CB_GET(pAd);
 	if (pCfg80211_CB == NULL) {
 		CFG80211DBG(RT_DEBUG_ERROR, ("80211> p80211CB == NULL!\n"));
 		return 0;
@@ -435,7 +434,7 @@ static int CFG80211_OpsScan(
 	RTMP_DRIVER_NET_DEV_GET(pAd, &pNdev);
 
 	/* YF_TODO: record the scan_req per netdevice */
-	RTMP_DRIVER_80211_CB_GET(pAd, &pCfg80211_CB);
+	pCfg80211_CB = RTMP_DRIVER_80211_CB_GET(pAd);
 	if (pCfg80211_CB == NULL) {
 		CFG80211DBG(RT_DEBUG_ERROR, ("80211> p80211CB == NULL!\n"));
 		return 0;
@@ -961,7 +960,7 @@ static int CFG80211_OpsKeyAdd(
 		return -ENOTSUPP;
 
 	/* add key */
-	RTMP_DRIVER_80211_CB_GET(pAd, &p80211CB);
+	p80211CB = RTMP_DRIVER_80211_CB_GET(pAd);
 	if (p80211CB == NULL) {
 		CFG80211DBG(RT_DEBUG_ERROR, ("80211> p80211CB == NULL!\n"));
 		return 0;
@@ -1093,7 +1092,7 @@ static int CFG80211_OpsKeyDel(
 	if (pAd == NULL)
 		return -EINVAL;
 
-	RTMP_DRIVER_80211_CB_GET(pAd, &p80211CB);
+	p80211CB = RTMP_DRIVER_80211_CB_GET(pAd);
 	if (p80211CB == NULL) {
 		CFG80211DBG(RT_DEBUG_ERROR, ("80211> p80211CB == NULL!\n"));
 		return 0;
@@ -1471,7 +1470,7 @@ VOID CFG80211_RFKillStatusUpdate(
 	CFG80211_CB *pCfg80211_CB;
 
 	CFG80211DBG(RT_DEBUG_TRACE, ("80211> %s ==>\n", __FUNCTION__));
-	RTMP_DRIVER_80211_CB_GET(pAd, &pCfg80211_CB);
+	pCfg80211_CB = RTMP_DRIVER_80211_CB_GET(pAd);
 	if (p80211CB == NULL) {
 		CFG80211DBG(RT_DEBUG_ERROR, ("80211> p80211CB == NULL!\n"));
 		return 0;
@@ -1973,9 +1972,7 @@ static int CFG80211_OpsStaChg(struct wiphy *pWiphy, struct net_device *dev,
 	if (pAd == NULL)
 		return -EINVAL;
 
-	p80211CB = NULL;
-
-	RTMP_DRIVER_80211_CB_GET(pAd, &p80211CB);
+	p80211CB = RTMP_DRIVER_80211_CB_GET(pAd);
 	if (p80211CB == NULL) {
 		CFG80211DBG(RT_DEBUG_ERROR, ("80211> p80211CB == NULL!\n"));
 		return 0;

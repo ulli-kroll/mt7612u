@@ -53,10 +53,6 @@ INT CFG80211DRV_IoctlHandle(
 			/* nothing to do */
 			break;
 
-		case CMD_RTPRIV_IOCTL_80211_CB_GET:
-			*(VOID **)pData = (VOID *)(pAd->pCfg80211_CB);
-			break;
-
 		case CMD_RTPRIV_IOCTL_80211_CB_SET:
 			pAd->pCfg80211_CB = pData;
 			break;
