@@ -139,8 +139,6 @@ struct MCU_CTRL {
 	unsigned long tx_kickout_fail_count;
 	unsigned long tx_timeout_fail_count;
 	unsigned long rx_receive_fail_count;
-	unsigned long alloc_cmd_msg;
-	unsigned long free_cmd_msg;
 	bool power_on;
 	bool dpd_on;
 	struct rtmp_adapter *ad;
