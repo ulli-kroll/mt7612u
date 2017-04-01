@@ -314,7 +314,7 @@ enum TEMPERATURE_LEVEL_7662 {
 /*
  * Command type table
  */
-enum CMD_TYPE {
+enum mcu_cmd_type {
 	CMD_FUN_SET_OP = 1,
 	CMD_LOAD_CR,
 	CMD_INIT_GAIN_OP = 3,
@@ -404,8 +404,6 @@ int mt7612u_mcu_init_gain(struct rtmp_adapter *ad, UINT8 channel, bool force_mod
 int mt7612u_mcu_dynamic_vga(struct rtmp_adapter *ad, UINT8 channel, bool mode, bool ext, int rssi, unsigned int false_cca);
 int mt7612u_mcu_led_op(struct rtmp_adapter *ad, u32 led_idx, u32 link_status);
 struct cmd_msg *mt7612u_mcu_alloc_cmd_msg(struct rtmp_adapter *ad, unsigned int length);
-void mt7612u_mcu_init_cmd_msg(struct cmd_msg *msg, u8 type, bool need_wait, u16 timeout,
-							   bool need_retransmit, bool need_rsp);
 void mt7612u_mcu_append_cmd_msg(struct cmd_msg *msg, char *data, unsigned int len);
 
 #define MAX_CALIBRATION_WAIT_TIME						100
