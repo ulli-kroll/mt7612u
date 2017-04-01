@@ -25,7 +25,6 @@ VOID RtmpUtilInit(VOID);
 
 /* OS Time */
 VOID RtmpusecDelay(ULONG usec);
-VOID RtmpOsMsDelay(ULONG msec);
 
 void RTMP_GetCurrentSystemTime(LARGE_INTEGER *time);
 

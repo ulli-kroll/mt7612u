@@ -1194,7 +1194,7 @@ void mt76x2_init_mac_cr(struct rtmp_adapter *ad)
 	if (IS_MT76x2U(ad)) {
 		mt7612u_write32(ad, 0x504, 0x06000000);
 		mt7612u_write32(ad, 0x50c, 0x08800000);
-		RtmpOsMsDelay(5);
+		mdelay(5);
 		mt7612u_write32(ad, 0x504, 0x0);
 	}
 

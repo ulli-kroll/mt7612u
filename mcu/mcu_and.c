@@ -168,7 +168,7 @@ u16 mt7612u_mcu_usb_get_crc(struct rtmp_adapter *ad)
 		if (crc != 0xFFFF)
 			break;
 
-		RtmpOsMsDelay(100);
+		mdelay(100);
 
 		if (count++ > 100) {
 			DBGPRINT(RT_DEBUG_ERROR, ("Query CRC over %d times\n", count));
@@ -221,7 +221,7 @@ load_patch_protect:
 		loop++;
 
 		if (((mac_value & 0x01) == 0x00) && (loop < GET_SEMAPHORE_RETRY_MAX)) {
-			RtmpOsMsDelay(1);
+			mdelay(1);
 			goto load_patch_protect;
 		}
 
@@ -255,7 +255,7 @@ load_patch_protect:
 	fw_patch_image = (u8 *) fw->data;
 
 	mt76102_vendor_reset(ad);
-	RtmpOsMsDelay(5);
+	mdelay(5);
 
 	/* get rom patch information */
 	DBGPRINT(RT_DEBUG_OFF, ("build time = \n"));
@@ -467,7 +467,7 @@ load_patch_protect:
 			mac_value++;
 			mt7612u_write32(ad, TX_CPU_PORT_FROM_FCE_CPU_DESC_INDEX, mac_value);
 
-			RtmpOsMsDelay(5);
+			mdelay(5);
 		} else {
 			break;
 		}
@@ -478,10 +478,10 @@ load_patch_protect:
 
 	total_checksum = checksume16(fw_patch_image + PATCH_INFO_SIZE, patch_len);
 
-	RtmpOsMsDelay(5);
+	mdelay(5);
 	DBGPRINT(RT_DEBUG_OFF, ("Send checksum req..\n"));
 	mt7612u_mcu_usb_chk_crc(ad, patch_len);
-	RtmpOsMsDelay(20);
+	mdelay(20);
 
 	if (total_checksum != mt7612u_mcu_usb_get_crc(ad)) {
 		DBGPRINT(RT_DEBUG_OFF, ("checksum fail!, local(0x%x) <> fw(0x%x)\n", total_checksum, mt7612u_mcu_usb_get_crc(ad)));
@@ -499,7 +499,7 @@ load_patch_protect:
 
 	ret = mt7612u_mcu_usb_reset_wmt(ad);
 
-	RtmpOsMsDelay(20);
+	mdelay(20);
 
 	/* Check ROM_PATCH if ready */
 	loop = 0;
@@ -515,7 +515,7 @@ load_patch_protect:
 				break;
 		}
 
-		RtmpOsMsDelay(10);
+		mdelay(10);
 		loop++;
 	} while (loop <= 100);
 
@@ -625,7 +625,7 @@ loadfw_protect:
 		loop++;
 
 		if (((mac_value & 0x01) == 0x00) && (loop < GET_SEMAPHORE_RETRY_MAX)) {
-			RtmpOsMsDelay(1);
+			mdelay(1);
 			goto loadfw_protect;
 		}
 
@@ -644,7 +644,7 @@ loadfw_protect:
 	}
 
 	mt76102_vendor_reset(ad);
-	RtmpOsMsDelay(5);
+	mdelay(5);
 
 	/* Enable USB_DMA_CFG */
 	cfg.word = mt7612u_usb_cfg_read_v3(ad);
@@ -857,7 +857,7 @@ loadfw_protect:
 			mac_value++;
 			mt7612u_write32(ad, TX_CPU_PORT_FROM_FCE_CPU_DESC_INDEX, mac_value);
 
-			RtmpOsMsDelay(5);
+			mdelay(5);
 		} else {
 			break;
 		}
@@ -997,7 +997,7 @@ loadfw_protect:
 			mac_value = mt7612u_read32(ad, TX_CPU_PORT_FROM_FCE_CPU_DESC_INDEX);
 			mac_value++;
 			mt7612u_write32(ad, TX_CPU_PORT_FROM_FCE_CPU_DESC_INDEX, mac_value);
-			RtmpOsMsDelay(5);
+			mdelay(5);
 		} else {
 			break;
 		}
@@ -1016,7 +1016,7 @@ loadfw_protect:
 		mac_value = mt7612u_read32(ad, COM_REG0);
 		if ((mac_value & 0x01) == 0x01)
 			break;
-		RtmpOsMsDelay(10);
+		mdelay(10);
 		loop++;
 	} while (loop <= 100);
 

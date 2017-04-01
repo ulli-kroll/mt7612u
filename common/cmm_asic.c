@@ -2746,7 +2746,7 @@ VOID RT28xxAndesWOWEnable(
 		return;
 	}
 
-	RtmpOsMsDelay(1);
+	mdelay(1);
 	/* mask configuration */
 	memset(&mask_cfg, sizeof(mask_cfg));
 
@@ -2768,7 +2768,7 @@ VOID RT28xxAndesWOWEnable(
 		return;
 	}
 
-	RtmpOsMsDelay(1);
+	mdelay(1);
 
 	/* security configuration */
 	if (pAd->StaCfg.AuthMode >= Ndis802_11AuthModeWPAPSK)
@@ -2808,7 +2808,7 @@ VOID RT28xxAndesWOWEnable(
 			return;
 		}
 
-		RtmpOsMsDelay(1);
+		mdelay(1);
 	}
 
 	/* Infra configuration */
@@ -2838,7 +2838,7 @@ VOID RT28xxAndesWOWEnable(
 		return;
 	}
 
-	RtmpOsMsDelay(1);
+	mdelay(1);
 
 
 	/* P2P configuration */
@@ -2876,7 +2876,7 @@ VOID RT28xxAndesWOWEnable(
 		return;
 	}
 
-	RtmpOsMsDelay(1);
+	mdelay(1);
 
 
 	/* traffic to Andes */
@@ -2897,7 +2897,7 @@ VOID RT28xxAndesWOWEnable(
 		return;
 	}
 
-	RtmpOsMsDelay(1);
+	mdelay(1);
 
     RTMP_SET_FLAG(pAd, fRTMP_ADAPTER_IDLE_RADIO_OFF);
 }
@@ -2937,7 +2937,7 @@ VOID RT28xxAndesWOWDisable(
         return;
     }
 
-    RtmpOsMsDelay(1);
+    mdelay(1);
 
 
     /* traffic to Host */
@@ -2957,7 +2957,7 @@ VOID RT28xxAndesWOWDisable(
         return;
     }
 
-    RtmpOsMsDelay(1);
+    mdelay(1);
 
 
     /* Restore MAC TX/RX */

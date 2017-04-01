@@ -109,7 +109,7 @@ int RT30xxWriteRFRegister(
 
 				rfcsr.non_bank.RF_CSR_DATA = IdRf;
 				mt7612u_write32(pAd, RF_CSR_CFG, rfcsr.word);
-				RtmpOsMsDelay(1);
+				mdelay(1);
 		}
 	}
 

@@ -165,12 +165,6 @@ VOID RtmpusecDelay(ULONG usec)
 		udelay(usec % 50);
 }
 
-
-VOID RtmpOsMsDelay(ULONG msec)
-{
-	mdelay(msec);
-}
-
 void RTMP_GetCurrentSystemTime(LARGE_INTEGER * time)
 {
 	time->u.LowPart = jiffies;
