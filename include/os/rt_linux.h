@@ -263,20 +263,6 @@ struct os_lock  {
 }
 
 
-/* sample, use semaphore lock to replace IRQ lock, 2007/11/15 */
-#ifdef MULTI_CORE_SUPPORT
-
-#define OS_IRQ_LOCK(__lock, __irqflags)			\
-{													\
-	__irqflags = 0;									\
-	spin_lock_irqsave((spinlock_t *)(__lock), __irqflags);			\
-}
-
-#define OS_IRQ_UNLOCK(__lock, __irqflag)			\
-{													\
-	spin_unlock_irqrestore((spinlock_t *)(__lock), __irqflag);			\
-}
-#else
 #define OS_IRQ_LOCK(__lock, __irqflags)			\
 {												\
 	__irqflags = 0;								\
@@ -287,7 +273,7 @@ struct os_lock  {
 {												\
 	spin_unlock_bh((spinlock_t *)(__lock));		\
 }
-#endif // MULTI_CORE_SUPPORT //
+
 #define OS_INT_LOCK(__lock, __irqflags)			\
 {												\
 	spin_lock_irqsave((spinlock_t *)__lock, __irqflags);	\
