@@ -1769,10 +1769,7 @@ enum WIFI_MODE{
 
 /* For AsicRadioOff/AsicRadioOn function */
 // TODO: shiang-usw, check those RADIO ON/OFF values here!!!
-#define DOT11POWERSAVE		0
-#define GUIRADIO_OFF		1
 #define RTMP_HALT		    2
-#define GUI_IDLE_POWER_SAVE		3
 
 enum {
 	RESUME_RADIO_ON,
