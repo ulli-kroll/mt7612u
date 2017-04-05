@@ -184,7 +184,6 @@ int RtmpChipOpsHook(VOID *pCB)
 
 
 done:
-	DBGPRINT(RT_DEBUG_TRACE, ("Chip VCO calibration mode = %d!\n", pChipCap->FlgIsVcoReCalMode));
 #ifdef DOT11W_PMF_SUPPORT
 	DBGPRINT(RT_DEBUG_TRACE, ("[PMF] Encryption mode = %d\n", pChipCap->FlgPMFEncrtptMode));
 #endif /* DOT11W_PMF_SUPPORT */

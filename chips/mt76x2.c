@@ -2689,7 +2689,6 @@ static const RTMP_CHIP_CAP MT76x2_ChipCap = {
 	.SnrFormula = SNR_FORMULA3,
 	.FlgIsHwWapiSup = true,
 	.VcoPeriod = 10,
-	.FlgIsVcoReCalMode = VCO_CAL_DISABLE,
 	.FlgIsHwAntennaDiversitySup = false,
 	.Flg7662ChipCap = true,
 	.FlgHwTxBfCap = true,

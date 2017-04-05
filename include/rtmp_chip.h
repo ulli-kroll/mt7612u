@@ -425,11 +425,6 @@ struct _RTMP_CHIP_CAP_ {
 
 	/* VCO calibration mode */
 	UINT8 VcoPeriod; /* default 10s */
-#define VCO_CAL_DISABLE		0	/* not support */
-#define VCO_CAL_MODE_1		1	/* toggle RF7[0] */
-#define VCO_CAL_MODE_2		2	/* toggle RF3[7] */
-#define VCO_CAL_MODE_3		3	/* toggle RF4[7] or RF5[7] */
-	UINT8	FlgIsVcoReCalMode;
 
 	bool FlgIsHwAntennaDiversitySup;
 	bool Flg7662ChipCap;
