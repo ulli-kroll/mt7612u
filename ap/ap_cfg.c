@@ -478,11 +478,6 @@ INT Set_ApCli_Cert_Enable_Proc(IN struct rtmp_adapter *pAd, IN	char *arg);
 INT Set_ApCli_WMM_Enable_Proc(IN struct rtmp_adapter *pAd, IN	char *arg);
 #endif /* APCLI_CERT_SUPPORT */
 #endif /* APCLI_SUPPORT */
-#ifdef UAPSD_SUPPORT
-INT Set_UAPSD_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg);
-#endif /* UAPSD_SUPPORT */
 
 
 
@@ -4823,22 +4818,6 @@ INT	Set_RADIUS_Key_Proc(
 }
 #endif /* DOT1X_SUPPORT */
 
-#ifdef UAPSD_SUPPORT
-INT Set_UAPSD_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg)
-{
-	struct os_cookie *pObj = pAd->OS_Cookie;
-	UCHAR IdMbss = pObj->ioctl_if;
-
-	if (simple_strtol(arg, 0, 10) != 0)
-		pAd->ApCfg.MBSSID[IdMbss].UapsdInfo.bAPSDCapable = true;
-	else
-		pAd->ApCfg.MBSSID[IdMbss].UapsdInfo.bAPSDCapable = false;
-
-	return true;
-} /* End of Set_UAPSD_Proc */
-#endif /* UAPSD_SUPPORT */
 
 INT Set_OBSSScanParam_Proc(
 	IN struct rtmp_adapter *	pAd,

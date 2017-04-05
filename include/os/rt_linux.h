@@ -487,9 +487,6 @@ struct os_cookie {
 	RTMP_NET_TASK_STRUCT tbtt_task;
 
 
-#ifdef UAPSD_SUPPORT
-	RTMP_NET_TASK_STRUCT uapsd_eosp_sent_task;
-#endif /* UAPSD_SUPPORT */
 
 #ifdef RTMP_MAC_USB
 	RTMP_NET_TASK_STRUCT null_frame_complete_task;

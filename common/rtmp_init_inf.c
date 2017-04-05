@@ -377,9 +377,6 @@ int rt28xx_init(struct rtmp_adapter *pAd)
 	memmove(&pAd->StaCfg.wdev.if_addr[0], &pAd->CurrentAddress[0], MAC_ADDR_LEN);
 #endif /* CONFIG_STA_SUPPORT */
 
-#ifdef UAPSD_SUPPORT
-        UAPSD_Init(pAd);
-#endif /* UAPSD_SUPPORT */
 
 	/* assign function pointers*/
 

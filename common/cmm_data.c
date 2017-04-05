@@ -308,14 +308,6 @@ int MiniportMMRequest(
 				PMF_PerformTxFrameAction(pAd, pPacket);
 #endif /* DOT11W_PMF_SUPPORT */
 
-#ifdef CONFIG_AP_SUPPORT
-#ifdef UAPSD_SUPPORT
-            IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-			{
-				UAPSD_MR_QOS_NULL_HANDLE(pAd, pData, pPacket);
-			}
-#endif /* UAPSD_SUPPORT */
-#endif /* CONFIG_AP_SUPPORT */
 
 
 			Status = MlmeHardTransmit(pAd, QueIdx, pPacket, FlgDataQForce, FlgIsLocked);
@@ -372,11 +364,6 @@ void AP_QueuePsActionPacket(
 	IN	bool			FlgIsLocked,
 	IN	UCHAR			MgmtQid)
 {
-#ifdef UAPSD_SUPPORT
-#ifdef UAPSD_CC_FUNC_PS_MGMT_TO_LEGACY
-	struct sk_buff *DuplicatePkt = NULL;
-#endif /* UAPSD_CC_FUNC_PS_MGMT_TO_LEGACY */
-#endif /* UAPSD_SUPPORT */
 
 	/* Note: for original mode of 4 AC are UAPSD, if station want to change
 			the mode of a AC to legacy PS, we dont know where to put the
@@ -389,61 +376,6 @@ void AP_QueuePsActionPacket(
 				sends a trigger frame and we send out the reponse;
 			5. the mechanism is too complicate; */
 
-#ifdef UAPSD_SUPPORT
-	/*
-		If the frame is action frame and the VO is UAPSD, we can not send the
-		frame to VO queue, we need to send to legacy PS queue; or the frame
-		maybe not got from QSTA.
-	*/
-/*    if ((pMacEntry->bAPSDDeliverEnabledPerAC[MgmtQid]) &&*/
-/*		(FlgIsDeltsFrame == 0))*/
-	if (pMacEntry->bAPSDDeliverEnabledPerAC[MgmtQid])
-	{
-		/* queue the management frame to VO queue if VO is deliver-enabled */
-		DBGPRINT(RT_DEBUG_TRACE, ("ps> mgmt to UAPSD queue %d ... (IsDelts: %d)\n",
-				MgmtQid, FlgIsDeltsFrame));
-
-#ifdef UAPSD_CC_FUNC_PS_MGMT_TO_LEGACY
-		if (!pMacEntry->bAPSDAllAC)
-		{
-			/* duplicate one packet to legacy PS queue */
-			RTMP_SET_PACKET_UAPSD(pPacket, 0, MgmtQid);
-			DuplicatePkt = RTMP_DUPLICATE_PACKET(pAd, pPacket, pMacEntry->apidx);
-		}
-		else
-#endif /* UAPSD_CC_FUNC_PS_MGMT_TO_LEGACY */
-		{
-			RTMP_SET_PACKET_UAPSD(pPacket, 1, MgmtQid);
-		}
-
-		UAPSD_PacketEnqueue(pAd, pMacEntry, pPacket, MgmtQid);
-
-		if (pMacEntry->bAPSDAllAC)
-		{
-			/* mark corresponding TIM bit in outgoing BEACON frame*/
-			WLAN_MR_TIM_BIT_SET(pAd, pMacEntry->apidx, pMacEntry->Aid);
-		}
-		else
-		{
-#ifdef UAPSD_CC_FUNC_PS_MGMT_TO_LEGACY
-			/* duplicate one packet to legacy PS queue */
-
-			/*
-				Sometimes AP will send DELTS frame to STA but STA will not
-				send any trigger frame to get the DELTS frame.
-				We must force to send it so put another one in legacy PS
-				queue.
-			*/
-			if (DuplicatePkt != NULL)
-			{
-				pPacket = DuplicatePkt;
-				goto Label_Legacy_PS;
-			}
-#endif /* UAPSD_CC_FUNC_PS_MGMT_TO_LEGACY */
-		}
-	}
-	else
-#endif /* UAPSD_SUPPORT */
 	{
 		/* DuplicatePkt = DuplicatePacket(get_netdev_from_bssid(pAd, pMacEntry->apidx), pPacket, pMacEntry->apidx);*/
 
@@ -1082,10 +1014,6 @@ static UCHAR TxPktClassification(struct rtmp_adapter *pAd, struct sk_buff * pPac
 
 		if (RTMP_GET_PACKET_MOREDATA(pPacket) || (pMacEntry->PsMode == PWR_SAVE))
 			TxFrameType |= TX_LEGACY_FRAME;
-#ifdef UAPSD_SUPPORT
-		else if (RTMP_GET_PACKET_EOSP(pPacket))
-			TxFrameType |= TX_LEGACY_FRAME;
-#endif /* UAPSD_SUPPORT */
 #ifdef WFA_VHT_PF
 		else if (pAd->force_amsdu == true)
 			return (TxFrameType | TX_AMSDU_FRAME);
@@ -1233,9 +1161,6 @@ bool RTMP_FillTxBlkInfo(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 		if (pTxBlk->TxFrameType == TX_LEGACY_FRAME)
 		{
 			if ( ((RTMP_GET_PACKET_LOWRATE(pPacket))
-#ifdef UAPSD_SUPPORT
-				&& (!(pMacEntry && (pMacEntry->bAPSDFlagSPStart)))
-#endif /* UAPSD_SUPPORT */
 				) ||
 				((pAd->OpMode == OPMODE_AP) &&
 				 (pMacEntry->MaxHTPhyMode.field.MODE == MODE_CCK) && (pMacEntry->MaxHTPhyMode.field.MCS == RATE_1))
@@ -1263,12 +1188,6 @@ bool RTMP_FillTxBlkInfo(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 			{
 				TX_BLK_SET_FLAG(pTxBlk, fTX_bMoreData);
 			}
-#ifdef UAPSD_SUPPORT
-			if (RTMP_GET_PACKET_EOSP(pPacket))
-			{
-				TX_BLK_SET_FLAG(pTxBlk, fTX_bWMM_UAPSD_EOSP);
-			}
-#endif /* UAPSD_SUPPORT */
 		}
 		else if (pTxBlk->TxFrameType == TX_FRAG_FRAME)
 		{
@@ -3676,16 +3595,6 @@ bool rtmp_rx_done_handle(struct rtmp_adapter *pAd)
 		}
 	}
 
-#ifdef UAPSD_SUPPORT
-#ifdef CONFIG_AP_SUPPORT
-	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-	{
-		/* dont remove the function or UAPSD will fail */
-		UAPSD_MR_SP_RESUME(pAd);
-		UAPSD_SP_CloseInRVDone(pAd);
-	}
-#endif /* CONFIG_AP_SUPPORT */
-#endif /* UAPSD_SUPPORT */
 
 
 	return bReschedule;

@@ -223,9 +223,6 @@ typedef struct _TX_CONTEXT
 	UINT			TxRate;
 	ra_dma_addr_t		data_dma;
 
-#ifdef UAPSD_SUPPORT
-	USHORT			Wcid;
-#endif /* UAPSD_SUPPORT */
 }	TX_CONTEXT, *PTX_CONTEXT, **PPTX_CONTEXT;
 
 

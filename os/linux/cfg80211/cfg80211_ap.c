@@ -318,13 +318,6 @@ bool CFG80211DRV_OpsBeaconAdd(struct rtmp_adapter *pAd, VOID *pData)
 
 	pBeacon = (CMD_RTPRIV_IOCTL_80211_BEACON *)pData;
 
-#ifdef UAPSD_SUPPORT
-
-        pAd->ApCfg.MBSSID[0].UapsdInfo.bAPSDCapable = true;
-        wdev->UapsdInfo.bAPSDCapable = true;
-
-        pMbss->CapabilityInfo |= 0x0800;
-#endif /* UAPSD_SUPPORT */
 
 	CFG80211DRV_UpdateApSettingFromBeacon(pAd, MAIN_MBSSID, pBeacon);
 

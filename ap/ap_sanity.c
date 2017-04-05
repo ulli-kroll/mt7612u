@@ -258,14 +258,6 @@ bool PeerAssocReqCmmSanity(
                 {
                     ie_lists->bWmmCapable = true;
 
-#ifdef UAPSD_SUPPORT
-			if (pEntry)
-			{
-				UAPSD_AssocParse(pAd,
-							pEntry, (UINT8 *)&eid_ptr->Octet[6],
-							pAd->ApCfg.MBSSID[pEntry->apidx].UapsdInfo.bAPSDCapable);
-			}
-#endif /* UAPSD_SUPPORT */
 
                     break;
                 }

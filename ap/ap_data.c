@@ -763,18 +763,6 @@ static inline u8 *AP_Build_ARalink_Frame_Header(struct rtmp_adapter *pAd, TX_BLK
 			build QOS Control bytes
 		*/
 		*pHeaderBufPtr = (pTxBlk->UserPriority & 0x0F);
-#ifdef UAPSD_SUPPORT
-		if (CLIENT_STATUS_TEST_FLAG(pTxBlk->pMacEntry, fCLIENT_STATUS_APSD_CAPABLE)
-		)
-		{
-			/*
-			 * we can not use bMoreData bit to get EOSP bit because
-			 * maybe bMoreData = 1 & EOSP = 1 when Max SP Length != 0
-			 */
-			 if (TX_BLK_TEST_FLAG(pTxBlk, fTX_bWMM_UAPSD_EOSP))
-				*pHeaderBufPtr |= (1 << 4);
-		}
-#endif /* UAPSD_SUPPORT */
 
 		*(pHeaderBufPtr+1) = 0;
 		pHeaderBufPtr +=2;
@@ -841,18 +829,6 @@ static inline u8 *AP_Build_AMSDU_Frame_Header(
 
 	/* build QOS Control bytes */
 	*pHeaderBufPtr = (pTxBlk->UserPriority & 0x0F);
-#ifdef UAPSD_SUPPORT
-	if (CLIENT_STATUS_TEST_FLAG(pTxBlk->pMacEntry, fCLIENT_STATUS_APSD_CAPABLE)
-	)
-	{
-		/*
-		 * we can not use bMoreData bit to get EOSP bit because
-		 * maybe bMoreData = 1 & EOSP = 1 when Max SP Length != 0
-		 */
-		if (TX_BLK_TEST_FLAG(pTxBlk, fTX_bWMM_UAPSD_EOSP))
-			*pHeaderBufPtr |= (1 << 4);
-	}
-#endif /* UAPSD_SUPPORT */
 
 
 	/* A-MSDU packet */
@@ -1012,18 +988,6 @@ VOID AP_AMPDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 
 		/* build QOS Control bytes */
 		*pHeaderBufPtr = (pTxBlk->UserPriority & 0x0F);
-#ifdef UAPSD_SUPPORT
-		if (CLIENT_STATUS_TEST_FLAG(pTxBlk->pMacEntry, fCLIENT_STATUS_APSD_CAPABLE)
-			)
-		{
-			/*
-			 * we can not use bMoreData bit to get EOSP bit because
-			 * maybe bMoreData = 1 & EOSP = 1 when Max SP Length != 0
-			 */
-			if (TX_BLK_TEST_FLAG(pTxBlk, fTX_bWMM_UAPSD_EOSP))
-				*pHeaderBufPtr |= (1 << 4);
-		}
-#endif /* UAPSD_SUPPORT */
 		pTxBlk->MpduHeaderLen = pMacEntry->MpduHeaderLen;
 		pHeaderBufPtr = ((u8 *)pHeader_802_11) + pTxBlk->MpduHeaderLen;
 
@@ -1049,18 +1013,6 @@ VOID AP_AMPDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 
 		/* build QOS Control bytes */
 		*pHeaderBufPtr = (pTxBlk->UserPriority & 0x0F);
-#ifdef UAPSD_SUPPORT
-		if (CLIENT_STATUS_TEST_FLAG(pTxBlk->pMacEntry, fCLIENT_STATUS_APSD_CAPABLE)
-			)
-		{
-			/*
-			 * we can not use bMoreData bit to get EOSP bit because
-			 * maybe bMoreData = 1 & EOSP = 1 when Max SP Length != 0
-			 */
-			if (TX_BLK_TEST_FLAG(pTxBlk, fTX_bWMM_UAPSD_EOSP))
-				*pHeaderBufPtr |= (1 << 4);
-		}
-#endif /* UAPSD_SUPPORT */
 
 		*(pHeaderBufPtr+1) = 0;
 		pHeaderBufPtr +=2;
@@ -1377,11 +1329,6 @@ VOID AP_AMPDU_Frame_Tx_Hdr_Trns(
 		pWI->field.VLAN = true;
 
 	pWI->field.TID = (pTxBlk->UserPriority & 0x0F);
-#ifdef UAPSD_SUPPORT
-	if (CLIENT_STATUS_TEST_FLAG(pTxBlk->pMacEntry, fCLIENT_STATUS_APSD_CAPABLE)
-		&& TX_BLK_TEST_FLAG(pTxBlk, fTX_bWMM_UAPSD_EOSP))
-		pWI->field.EOSP = true;
-#endif /* UAPSD_SUPPORT */
 
 	{
 
@@ -1786,18 +1733,6 @@ VOID AP_Legacy_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 			*pHeaderBufPtr |= (1 << 5);
 #endif /* WFA_VHT_PF */
 
-#ifdef UAPSD_SUPPORT
-		if (CLIENT_STATUS_TEST_FLAG(pTxBlk->pMacEntry, fCLIENT_STATUS_APSD_CAPABLE)
-		)
-		{
-			/*
-			 * we can not use bMoreData bit to get EOSP bit because
-			 * maybe bMoreData = 1 & EOSP = 1 when Max SP Length != 0
-			 */
-			if (TX_BLK_TEST_FLAG(pTxBlk, fTX_bWMM_UAPSD_EOSP))
-				*pHeaderBufPtr |= (1 << 4);
-		}
-#endif /* UAPSD_SUPPORT */
 
 		*(pHeaderBufPtr+1) = 0;
 		pHeaderBufPtr +=2;
@@ -2062,12 +1997,6 @@ VOID AP_Legacy_Frame_Tx_Hdr_Trns(
 		pWI->field.VLAN = true;
 
 	pWI->field.TID = (pTxBlk->UserPriority & 0x0F);
-#ifdef UAPSD_SUPPORT
-	if (TX_BLK_TEST_FLAG(pTxBlk, fTX_bWMM)
-		&& CLIENT_STATUS_TEST_FLAG(pTxBlk->pMacEntry, fCLIENT_STATUS_APSD_CAPABLE)
-		&& TX_BLK_TEST_FLAG(pTxBlk, fTX_bWMM_UAPSD_EOSP))
-		pWI->field.EOSP = true;
-#endif /* UAPSD_SUPPORT */
 
 #ifdef STATS_COUNT_SUPPORT
 	/* calculate Tx count and ByteCount per BSS */
@@ -2256,19 +2185,6 @@ VOID AP_Fragment_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 	{
 		/* build QOS Control bytes */
 		*pHeaderBufPtr = (pTxBlk->UserPriority & 0x0F);
-#ifdef UAPSD_SUPPORT
-		if (pTxBlk->pMacEntry &&
-			CLIENT_STATUS_TEST_FLAG(pTxBlk->pMacEntry, fCLIENT_STATUS_APSD_CAPABLE)
-		)
-		{
-			/*
-			 * we can not use bMoreData bit to get EOSP bit because
-			 * maybe bMoreData = 1 & EOSP = 1 when Max SP Length != 0
-			 */
-			if (TX_BLK_TEST_FLAG(pTxBlk, fTX_bWMM_UAPSD_EOSP))
-				*pHeaderBufPtr |= (1 << 4);
-		}
-#endif /* UAPSD_SUPPORT */
 
 		*(pHeaderBufPtr+1) = 0;
 		pHeaderBufPtr +=2;
@@ -3901,39 +3817,6 @@ VOID APHandleRxDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 
    	/* 1: PWR_SAVE, 0: PWR_ACTIVE */
    	OldPwrMgmt = RtmpPsIndicate(pAd, pHeader->Addr2, pEntry->wcid, pFmeCtrl->PwrMgmt);
-#ifdef UAPSD_SUPPORT
-	if (pFmeCtrl->PwrMgmt)
-	{
-	   	if ((CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_APSD_CAPABLE)) &&
-			(pFmeCtrl->SubType & 0x08))
-	   	{
-			/*
-				In IEEE802.11e, 11.2.1.4 Power management with APSD,
-				If there is no unscheduled SP in progress, the unscheduled SP begins
-				when the QAP receives a trigger frame from a non-AP QSTA, which is a
-				QoS data or QoS Null frame associated with an AC the STA has
-				configured to be trigger-enabled.
-
-				In WMM v1.1, A QoS Data or QoS Null frame that indicates transition
-				to/from Power Save Mode is not considered to be a Trigger Frame and
-				the AP shall not respond with a QoS Null frame.
-			*/
-			/* Trigger frame must be QoS data or QoS Null frame */
-	   		UCHAR  OldUP;
-
-			OldUP = (*(pRxBlk->pData+LENGTH_802_11) & 0x07);
-			if (OldPwrMgmt == PWR_SAVE)
-			{
-#ifdef DROP_MASK_SUPPORT
-				/* Disable Drop Mask */
-				set_drop_mask_per_client(pAd, pEntry, 2, 0);
-#endif /* DROP_MASK_SUPPORT */
-
-				UAPSD_TriggerFrameHandle(pAd, pEntry, OldUP);
-			}
-		}
-	}
-#endif /* UAPSD_SUPPORT */
 
 	/* Drop NULL, CF-ACK(no data), CF-POLL(no data), and CF-ACK+CF-POLL(no data) data frame */
 	if ((pFmeCtrl->SubType & 0x04) && (pFmeCtrl->Order == 0)) /* bit 2 : no DATA */
@@ -4272,15 +4155,6 @@ int APInsertPsQueue(
 	IN UCHAR QueIdx)
 {
 	ULONG IrqFlags;
-#ifdef UAPSD_SUPPORT
-	/* put the U-APSD packet to its U-APSD queue by AC ID */
-	uint32_t ac_id = QueIdx - QID_AC_BE; /* should be >= 0 */
-
-
-	if (UAPSD_MR_IS_UAPSD_AC(pMacEntry, ac_id))
-		UAPSD_PacketEnqueue(pAd, pMacEntry, pPacket, ac_id);
-	else
-#endif /* UAPSD_SUPPORT */
 	{
 		if (pMacEntry->PsQueue.Number >= MAX_PACKETS_IN_PS_QUEUE)
 		{
@@ -4296,18 +4170,6 @@ int APInsertPsQueue(
 	}
 
 	/* mark corresponding TIM bit in outgoing BEACON frame */
-#ifdef UAPSD_SUPPORT
-	if (UAPSD_MR_IS_NOT_TIM_BIT_NEEDED_HANDLED(pMacEntry, QueIdx))
-	{
-		/*
-			1. the station is UAPSD station;
-			2. one of AC is non-UAPSD (legacy) AC;
-			3. the destinated AC of the packet is UAPSD AC.
-			So we can not set TIM bit due to one of AC is legacy AC
-		*/
-	}
-	else
-#endif /* UAPSD_SUPPORT */
 	{
 		WLAN_MR_TIM_BIT_SET(pAd, pMacEntry->apidx, pMacEntry->Aid);
 	}

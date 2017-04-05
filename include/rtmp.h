@@ -2323,40 +2323,6 @@ typedef struct _MAC_TABLE_ENTRY {
 	uint32_t StaConnectTime;	/* the live time of this station since associated with AP */
 	uint32_t StaIdleTimeout;	/* idle timeout per entry */
 
-#ifdef UAPSD_SUPPORT
-	/* these UAPSD states are used on the fly */
-	/* 0:AC_BK, 1:AC_BE, 2:AC_VI, 3:AC_VO */
-	bool bAPSDCapablePerAC[4];	/* for trigger-enabled */
-	bool bAPSDDeliverEnabledPerAC[4];	/* for delivery-enabled */
-
-
-	UCHAR MaxSPLength;
-
-	bool bAPSDAllAC;	/* 1: all AC are delivery-enabled U-APSD */
-
-	QUEUE_HEADER UAPSDQueue[WMM_NUM_OF_AC];	/* queue for each U-APSD */
-	USHORT UAPSDQIdleCount;	/* U-APSD queue timeout */
-
-	PQUEUE_ENTRY pUAPSDEOSPFrame;	/* the last U-APSD frame */
-	USHORT UAPSDTxNum;	/* total U-APSD frame number */
-	bool bAPSDFlagEOSPOK;	/* 1: EOSP frame is tx by ASIC */
-	bool bAPSDFlagSPStart;	/* 1: SP is started */
-
-	/* need to use unsigned long, because time parameters in OS is defined as
-	   unsigned long */
-	unsigned long UAPSDTimeStampLast;	/* unit: 1000000/OS_HZ */
-	bool bAPSDFlagSpRoughUse;	/* 1: use rough SP (default: accurate) */
-
-	/* we will set the flag when PS-poll frame is received and
-	   clear it when statistics handle.
-	   if the flag is set when PS-poll frame is received then calling
-	   statistics handler to clear it. */
-	bool bAPSDFlagLegacySent;	/* 1: Legacy PS sent but yet statistics handle */
-
-#ifdef RTMP_MAC_USB
-	uint32_t UAPSDTagOffset[WMM_NUM_OF_AC];
-#endif /* RTMP_MAC_USB */
-#endif /* UAPSD_SUPPORT */
 
 
 	UINT FIFOCount;
@@ -3600,10 +3566,6 @@ struct rtmp_adapter {
 #endif /* RTMP_MAC_USB */
 
 
-#ifdef UAPSD_SUPPORT
-	spinlock_t UAPSDEOSPLock;	/* EOSP frame access lock use */
-	bool bAPSDFlagSPSuspend;	/* 1: SP is suspended; 0: SP is not */
-#endif /* UAPSD_SUPPORT */
 
 
 /*=========AP=========== */
@@ -4096,9 +4058,6 @@ typedef struct _TX_BLK {
 
 #endif /* CONFIG_AP_SUPPORT */
 
-#ifdef UAPSD_SUPPORT
-#define	fTX_bWMM_UAPSD_EOSP	0x0800	/* Used when UAPSD_SUPPORT */
-#endif /* UAPSD_SUPPORT */
 
 #ifdef CONFIG_STA_SUPPORT
 #endif /* CONFIG_STA_SUPPORT */

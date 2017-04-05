@@ -1128,9 +1128,6 @@ VOID NICUpdateFifoStaCounters(struct rtmp_adapter *pAd)
 		}
 	}
 
-#ifdef UAPSD_SUPPORT
-	UAPSD_SP_AUE_Handle(pAd, pEntry, StaFifo.field.TxSuccess);
-#endif /* UAPSD_SUPPORT */
 
 #ifdef CONFIG_STA_SUPPORT
 	if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_BSS_SCAN_IN_PROGRESS))
@@ -1946,19 +1943,6 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 #endif /* AP_SCAN_SUPPORT */
 #endif /* CONFIG_AP_SUPPORT */
 
-#ifdef UAPSD_SUPPORT
-#ifdef CONFIG_AP_SUPPORT
-{
-	uint32_t IdMbss;
-
-	for(IdMbss=0; IdMbss<HW_BEACON_MAX_NUM; IdMbss++)
-		UAPSD_INFO_INIT(&pAd->ApCfg.MBSSID[IdMbss].UapsdInfo);
-}
-#endif /* CONFIG_AP_SUPPORT */
-#ifdef CONFIG_STA_SUPPORT
-	pAd->StaCfg.UapsdInfo.bAPSDCapable = false;
-#endif /* CONFIG_STA_SUPPORT */
-#endif /* UAPSD_SUPPORT */
 	pAd->CommonCfg.bNeedSendTriggerFrame = false;
 	pAd->CommonCfg.TriggerTimerCount = 0;
 	pAd->CommonCfg.bAPSDForcePowerSave = false;

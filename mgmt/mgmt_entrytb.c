@@ -605,13 +605,6 @@ MAC_TABLE_ENTRY *MacTableInsertEntry(
 #ifdef CONFIG_AP_SUPPORT
 			IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 			{
-#ifdef UAPSD_SUPPORT
-				if (IS_ENTRY_CLIENT(pEntry)) /* Ralink WDS doesn't support any power saving.*/
-				{
-					/* init U-APSD enhancement related parameters */
-					UAPSD_MR_ENTRY_INIT(pEntry);
-				}
-#endif /* UAPSD_SUPPORT */
 			}
 #endif /* CONFIG_AP_SUPPORT */
 
@@ -834,11 +827,6 @@ bool MacTableDeleteEntry(struct rtmp_adapter *pAd, USHORT wcid, UCHAR *pAddr)
 #endif /* CONFIG_AP_SUPPORT */
 			/*RTMP_REMOVE_PAIRWISE_KEY_ENTRY(pAd, wcid);*/
 
-#ifdef UAPSD_SUPPORT
-#ifdef CONFIG_AP_SUPPORT
-            UAPSD_MR_ENTRY_RESET(pAd, pEntry);
-#endif /* CONFIG_AP_SUPPORT */
-#endif /* UAPSD_SUPPORT */
 
 		if (pEntry->EnqueueEapolStartTimerRunning != EAPOL_START_DISABLE)
 		{

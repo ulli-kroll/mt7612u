@@ -68,9 +68,6 @@
 #include "rt_os_net.h"
 
 
-#ifdef UAPSD_SUPPORT
-#include "uapsd.h"
-#endif /* UAPSD_SUPPORT */
 
 #ifdef CONFIG_AP_SUPPORT
 #ifdef MBSS_SUPPORT

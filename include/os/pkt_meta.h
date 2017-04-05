@@ -196,21 +196,6 @@
 
 
 /* [CB_OFF + 8 ~ 9]  */
-#ifdef UAPSD_SUPPORT
-/* if we queue a U-APSD packet to any software queue, we will set the U-APSD
-   flag and its physical queue ID for it */
-#define RTMP_SET_PACKET_UAPSD(_p, _flg_uapsd, _que_id) \
-                    (PACKET_CB(_p, 8) = ((_flg_uapsd<<7) | _que_id))
-
-#define RTMP_SET_PACKET_QOS_NULL(_p)			(PACKET_CB(_p, 8) = 0xff)
-#define RTMP_GET_PACKET_QOS_NULL(_p)			(PACKET_CB(_p, 8))
-#define RTMP_SET_PACKET_NON_QOS_NULL(_p)		(PACKET_CB(_p, 8) = 0x00)
-#define RTMP_GET_PACKET_UAPSD_Flag(_p)		((PACKET_CB(_p, 8) & 0x80) >> 7)
-#define RTMP_GET_PACKET_UAPSD_QUE_ID(_p)		(PACKET_CB(_p, 8) & 0x7f)
-
-#define RTMP_SET_PACKET_EOSP(_p, _flg)			(PACKET_CB(_p, 9) = _flg)
-#define RTMP_GET_PACKET_EOSP(_p)				(PACKET_CB(_p, 9))
-#endif /* UAPSD_SUPPORT */
 
 
 /* [CB_OFF + 10 ~ 11]  */

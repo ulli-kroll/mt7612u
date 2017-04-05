@@ -873,9 +873,6 @@ SendAssocResponse:
 		UCHAR WmeParmIe[26] = {IE_VENDOR_SPECIFIC, 24, 0x00, 0x50, 0xf2, 0x02, 0x01, 0x01, 0, 0};
 
 		WmeParmIe[8] = pAd->ApCfg.BssEdcaParm.EdcaUpdateCount & 0x0f;
-#ifdef UAPSD_SUPPORT
-		UAPSD_MR_IE_FILL(WmeParmIe[8], &pMbss->UapsdInfo);
-#endif /* UAPSD_SUPPORT */
 		for (i = QID_AC_BE; i <= QID_AC_VO; i++)
 		{
 			WmeParmIe[10+ (i*4)] = (i << 5) +     /* b5-6 is ACI */

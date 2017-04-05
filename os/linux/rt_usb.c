@@ -186,14 +186,6 @@ static void rtusb_dataout_complete(unsigned long data)
 		FREE_HTTX_RING(pAd, BulkOutPipeId, pHTTXContext);
 		/*RTMP_IRQ_UNLOCK(&pAd->TxContextQueueLock[BulkOutPipeId], IrqFlags); */
 
-#ifdef UAPSD_SUPPORT
-#ifdef CONFIG_AP_SUPPORT
-		IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-		{
-			UAPSD_UnTagFrame(pAd, BulkOutPipeId, pHTTXContext->NextBulkOutPosition, pHTTXContext->ENextBulkOutPosition);
-		}
-#endif /* CONFIG_AP_SUPPORT */
-#endif /* UAPSD_SUPPORT */
 
 	}
 	else	/* STATUS_OTHER */
@@ -451,25 +443,6 @@ static void rtusb_mgmt_dma_done_tasklet(unsigned long data)
 
 	RTMP_IRQ_LOCK(&pAd->BulkOutLock[MGMTPIPEIDX], IrqFlags);
 
-
-#ifdef UAPSD_SUPPORT
-	/* Qos Null frame with EOSP shall have valid Wcid value. reference RtmpUSBMgmtKickOut() API. */
-	/* otherwise will be value of MCAST_WCID. */
-#ifdef CONFIG_AP_SUPPORT
-        IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-	{
-		/* Qos Null frame with EOSP shall have valid Wcid value. reference RtmpUSBMgmtKickOut() API. */
-		/* otherwise will be value of MCAST_WCID. */
-		if ((pMLMEContext->Wcid != MCAST_WCID) && (pMLMEContext->Wcid < MAX_LEN_OF_MAC_TABLE))
-		{
-			MAC_TABLE_ENTRY *pEntry = &pAd->MacTab.Content[pMLMEContext->Wcid];
-
-			UAPSD_SP_Close(pAd, pEntry);
-			pMLMEContext->Wcid = MCAST_WCID;
-		}
-	}
-#endif /* CONFIG_AP_SUPPORT */
-#endif /* UAPSD_SUPPORT */
 
 
 	if (Status != USB_ST_NOERROR)

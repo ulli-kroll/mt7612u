@@ -693,9 +693,6 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 
 		WmeParmIe[8] = pAd->ApCfg.BssEdcaParm.EdcaUpdateCount & 0x0f;
 
-#ifdef UAPSD_SUPPORT
-        UAPSD_MR_IE_FILL(WmeParmIe[8], &pMbss->UapsdInfo);
-#endif /* UAPSD_SUPPORT */
 
 		memmove(AIFSN, pAd->ApCfg.BssEdcaParm.Aifsn, sizeof(AIFSN));
 

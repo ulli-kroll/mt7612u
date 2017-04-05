@@ -225,19 +225,6 @@ VOID APStartUp(struct rtmp_adapter *pAd)
 /*			pMbss->CapabilityInfo |= 0x0200; */
 		}
 
-#ifdef UAPSD_SUPPORT
-		if (pMbss->UapsdInfo.bAPSDCapable == true)
-		{
-			/*
-				QAPs set the APSD subfield to 1 within the Capability
-				Information field when the MIB attribute
-				dot11APSDOptionImplemented is true and set it to 0 otherwise.
-				STAs always set this subfield to 0.
-			*/
-			pMbss->CapabilityInfo |= 0x0800;
-		}
-#endif /* UAPSD_SUPPORT */
-
 #ifdef DOT11W_PMF_SUPPORT
 		/*
 		   IEEE 802.11W/P.10 -
@@ -1030,10 +1017,6 @@ VOID MacTableMaintenance(struct rtmp_adapter *pAd)
 		}
 		else
 			pEntry->PsQIdleCount = 0;
-
-#ifdef UAPSD_SUPPORT
-		UAPSD_QueueMaintenance(pAd, pEntry);
-#endif /* UAPSD_SUPPORT */
 
 		/* check if this STA is Ralink-chipset */
 		if (!CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_RALINK_CHIPSET))

@@ -1031,25 +1031,6 @@ static void rtmp_read_ap_client_from_file(
 
 
 
-#ifdef UAPSD_SUPPORT
-	/*APSDCapable*/
-	if(RTMPGetKeyParameter("ApCliAPSDCapable", tmpbuf, 10, buffer, true))
-	{
-		pAd->ApCfg.FlgApCliIsUapsdInfoUpdated = true;
-
-		for (i = 0, macptr = rstrtok(tmpbuf,";");
-			(macptr && i < MAX_APCLI_NUM);
-			macptr = rstrtok(NULL,";"), i++)
-		{
-			pApCliEntry = &pAd->ApCfg.ApCliTab[i];
-
-			pApCliEntry->UapsdInfo.bAPSDCapable = \
-									(UCHAR) simple_strtol(macptr, 0, 10);
-			DBGPRINT(RT_DEBUG_ERROR, ("ApCliAPSDCapable[%d]=%d\n", i,
-					pApCliEntry->UapsdInfo.bAPSDCapable));
-	    }
-	}
-#endif /* UAPSD_SUPPORT */
 
 	/* ApCliNum */
 	if(RTMPGetKeyParameter("ApCliNum", tmpbuf, 10, buffer, true))
@@ -1343,57 +1324,6 @@ static void rtmp_read_ap_wmm_parms_from_file(IN  struct rtmp_adapter *pAd, char 
 			DBGPRINT(RT_DEBUG_TRACE, ("AckPolicy[%d]=%d\n", i, pAd->CommonCfg.AckPolicy[i]));
 	    }
 	}
-#ifdef UAPSD_SUPPORT
-	/*APSDCapable*/
-	if(RTMPGetKeyParameter("APSDCapable", tmpbuf, 10, buffer, true))
-	{
-
-	    for (i = 0, macptr = rstrtok(tmpbuf,";"); macptr; macptr = rstrtok(NULL,";"), i++)
-	    {
-			if (i < HW_BEACON_MAX_NUM)
-			{
-				pAd->ApCfg.MBSSID[i].UapsdInfo.bAPSDCapable = \
-										(UCHAR) simple_strtol(macptr, 0, 10);
-				DBGPRINT(RT_DEBUG_ERROR, ("APSDCapable[%d]=%d\n", i,
-						pAd->ApCfg.MBSSID[i].UapsdInfo.bAPSDCapable));
-			}
-	    }
-
-		if (i == 1)
-		{
-			/*
-				Old format in UAPSD settings: only 1 parameter
-				i.e. UAPSD for all BSS is enabled or disabled.
-			*/
-			for(i=1; i<HW_BEACON_MAX_NUM; i++)
-			{
-				pAd->ApCfg.MBSSID[i].UapsdInfo.bAPSDCapable =
-							pAd->ApCfg.MBSSID[0].UapsdInfo.bAPSDCapable;
-				DBGPRINT(RT_DEBUG_ERROR, ("APSDCapable[%d]=%d\n", i,
-						pAd->ApCfg.MBSSID[i].UapsdInfo.bAPSDCapable));
-			}
-		}
-
-#ifdef APCLI_SUPPORT
-		if (pAd->ApCfg.FlgApCliIsUapsdInfoUpdated == false)
-		{
-			/*
-				Backward:
-				All UAPSD for AP Client interface is same as MBSS0
-				when we can not find "ApCliAPSDCapable".
-				When we find "ApCliAPSDCapable" hereafter, we will over-write.
-			*/
-			for(i=0; i<MAX_APCLI_NUM; i++)
-			{
-				pAd->ApCfg.ApCliTab[i].UapsdInfo.bAPSDCapable = \
-								pAd->ApCfg.MBSSID[0].UapsdInfo.bAPSDCapable;
-				DBGPRINT(RT_DEBUG_ERROR, ("default ApCliAPSDCapable[%d]=%d\n",
-						i, pAd->ApCfg.ApCliTab[i].UapsdInfo.bAPSDCapable));
-			}
-		}
-#endif /* APCLI_SUPPORT */
-	}
-#endif /* UAPSD_SUPPORT */
 }
 
 #ifdef DOT1X_SUPPORT
@@ -1657,52 +1587,6 @@ static void rtmp_read_sta_wmm_parms_from_file(IN  struct rtmp_adapter *pAd, char
 		}
 	}
 
-#ifdef UAPSD_SUPPORT
-	if (bWmmEnable)
-	{
-		/*APSDCapable*/
-		if(RTMPGetKeyParameter("APSDCapable", tmpbuf, 10, buffer, true))
-		{
-			if(simple_strtol(tmpbuf, 0, 10) != 0)  /*Enable*/
-				pAd->StaCfg.UapsdInfo.bAPSDCapable = true;
-			else
-				pAd->StaCfg.UapsdInfo.bAPSDCapable = false;
-
-			DBGPRINT(RT_DEBUG_TRACE, ("APSDCapable=%d\n", pAd->StaCfg.UapsdInfo.bAPSDCapable));
-		}
-
-		/*MaxSPLength*/
-		if(RTMPGetKeyParameter("MaxSPLength", tmpbuf, 10, buffer, true))
-		{
-			pAd->CommonCfg.MaxSPLength = simple_strtol(tmpbuf, 0, 10);
-
-			DBGPRINT(RT_DEBUG_TRACE, ("MaxSPLength=%d\n", pAd->CommonCfg.MaxSPLength));
-		}
-
-		/*APSDAC for AC_BE, AC_BK, AC_VI, AC_VO*/
-		if(RTMPGetKeyParameter("APSDAC", tmpbuf, 32, buffer, true))
-		{
-			bool apsd_ac[4];
-
-			for (i = 0, macptr = rstrtok(tmpbuf,";"); macptr; macptr = rstrtok(NULL,";"), i++)
-			{
-				apsd_ac[i] = (bool)simple_strtol(macptr, 0, 10);
-
-				DBGPRINT(RT_DEBUG_TRACE, ("APSDAC%d  %d\n", i,  apsd_ac[i]));
-			}
-
-			pAd->CommonCfg.bAPSDAC_BE = apsd_ac[0];
-			pAd->CommonCfg.bAPSDAC_BK = apsd_ac[1];
-			pAd->CommonCfg.bAPSDAC_VI = apsd_ac[2];
-			pAd->CommonCfg.bAPSDAC_VO = apsd_ac[3];
-
-			pAd->CommonCfg.bACMAPSDTr[0] = apsd_ac[0];
-			pAd->CommonCfg.bACMAPSDTr[1] = apsd_ac[1];
-			pAd->CommonCfg.bACMAPSDTr[2] = apsd_ac[2];
-			pAd->CommonCfg.bACMAPSDTr[3] = apsd_ac[3];
-		}
-	}
-#endif /* UAPSD_SUPPORT */
 }
 
 #endif /* CONFIG_STA_SUPPORT */

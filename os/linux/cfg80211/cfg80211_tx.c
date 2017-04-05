@@ -62,12 +62,6 @@ void CFG80211_SyncPacketWmmIe(struct rtmp_adapter *pAd, VOID *pData, ULONG dataL
         {
                 UINT i = QID_AC_BE;
 
-#ifdef UAPSD_SUPPORT
-                if (pAd->ApCfg.MBSSID[0].UapsdInfo.bAPSDCapable == true)
-                {
-                        wmm_ie[8] |= 0x80;
-                }
-#endif /* UAPSD_SUPPORT */
 
                 /* WMM: sync from driver's EDCA paramter */
                 for (i = QID_AC_BE; i <= QID_AC_VO; i++)

@@ -294,43 +294,6 @@ VOID STAHandleRxDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 
 
 		pAd->RalinkCounters.RxCountSinceLastNULL++;
-#ifdef UAPSD_SUPPORT
-		if (pAd->StaCfg.UapsdInfo.bAPSDCapable
-		    && pAd->CommonCfg.APEdcaParm.bAPSDCapable
-		    && (pHeader->FC.SubType & 0x08))
-		{
-			UCHAR *pData;
-			DBGPRINT(RT_DEBUG_INFO, ("bAPSDCapable\n"));
-
-			/* Qos bit 4 */
-			pData = (u8 *) pHeader + LENGTH_802_11;
-			if ((*pData >> 4) & 0x01)
-			{
- 				{
-					DBGPRINT(RT_DEBUG_INFO,
-						("RxDone- Rcv EOSP frame, driver may fall into sleep\n"));
-					pAd->CommonCfg.bInServicePeriod = false;
-
-					/* Force driver to fall into sleep mode when rcv EOSP frame */
-					if (!OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_DOZE))
-					{
-
-#ifdef RTMP_MAC_USB
-						RTEnqueueInternalCmd(pAd,
-							     CMDTHREAD_FORCE_SLEEP_AUTO_WAKEUP,
-							     NULL, 0);
-#endif /* RTMP_MAC_USB */
-					}
-				}
-			}
-
-			if ((pHeader->FC.MoreData)
-			    && (pAd->CommonCfg.bInServicePeriod)) {
-				DBGPRINT(RT_DEBUG_TRACE,
-					 ("Sending another trigger frame when More Data bit is set to 1\n"));
-			}
-		}
-#endif /* UAPSD_SUPPORT */
 
 
 		/* Drop NULL, CF-ACK(no data), CF-POLL(no data), and CF-ACK+CF-POLL(no data) data frame */
