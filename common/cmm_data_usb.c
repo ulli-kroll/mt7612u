@@ -438,12 +438,12 @@ USHORT	RtmpUSB_WriteFragTxResource(
 		pHTTXContext->CurWriteRealPos = pHTTXContext->CurWritePosition;
 
 #ifdef UAPSD_SUPPORT
-#if defined(CONFIG_AP_SUPPORT) || defined(DOT11Z_TDLS_SUPPORT) || defined(CFG_TDLS_SUPPORT)
+#if defined(CONFIG_AP_SUPPORT) || defined(DOT11Z_TDLS_SUPPORT)
                 IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 		{
 			UAPSD_TagFrame(pAd, pTxBlk->pPacket, pTxBlk->Wcid, pHTTXContext->CurWritePosition);
 		}
-#endif /* CONFIG_AP_SUPPORT || DOT11Z_TDLS_SUPPORT || defined(CFG_TDLS_SUPPORT) */
+#endif /* CONFIG_AP_SUPPORT || DOT11Z_TDLS_SUPPORT */
 #endif /* UAPSD_SUPPORT */
 
 		/* Finally, set bCurWriting as false*/

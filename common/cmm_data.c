@@ -3295,7 +3295,7 @@ VOID dev_rx_mgmt_frm(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 		goto done;
 	}
 
-#if defined(CONFIG_AP_SUPPORT) || defined(DOT11Z_TDLS_SUPPORT) || defined(CFG_TDLS_SUPPORT)
+#if defined(CONFIG_AP_SUPPORT) || defined(DOT11Z_TDLS_SUPPORT)
 	if (pHeader->FC.SubType == SUBTYPE_ACTION)
 	{
 		MAC_TABLE_ENTRY *pMacEntry = NULL;
@@ -3321,7 +3321,7 @@ VOID dev_rx_mgmt_frm(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 			So a management action frame is not trigger frame.
 		*/
 	}
-#endif /* defined(CONFIG_AP_SUPPORT) defined(DOT11Z_TDLS_SUPPORT) || defined(CFG_TDLS_SUPPORT) */
+#endif /* defined(CONFIG_AP_SUPPORT) defined(DOT11Z_TDLS_SUPPORT) */
 
 	/* Signal in MLME_QUEUE isn't used, therefore take this item to save min SNR. */
 	REPORT_MGMT_FRAME_TO_MLME(pAd, pRxBlk->wcid, pHeader,
