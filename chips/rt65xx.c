@@ -306,7 +306,7 @@ VOID RT65xxDisableTxRx(struct rtmp_adapter *pAd, UCHAR Level)
 		bResetWLAN = true;
 	}
 
-	StopDmaRx(pAd, Level);
+	StopDmaRx(pAd);
 
 	if ((Level == RTMP_HALT) &&
 	    (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST) == false)) {
