@@ -334,13 +334,6 @@ struct rx_signal_info{
     (_idx) = (_idx+1) % (_RingSize);       \
 }
 
-#ifdef USB_BULK_BUF_ALIGMENT
-#define CUR_WRITE_IDX_INC(_idx, _RingSize)    \
-{                                          \
-    (_idx) = (_idx+1) % (_RingSize);       \
-}
-#endif /* USB_BULK_BUF_ALIGMENT */
-
 /* StaActive.SupportedHtPhy.MCSSet is copied from AP beacon.  Don't need to update here. */
 #define COPY_HTSETTINGS_FROM_MLME_AUX_TO_ACTIVE_CFG(_pAd)                                 \
 {                                                                                       \

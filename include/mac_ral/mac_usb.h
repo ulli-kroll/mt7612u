@@ -252,10 +252,6 @@ typedef struct _HT_TX_CONTEXT
 	ULONG			ENextBulkOutPosition;	/* Indicate the buffer end offset of a bulk-transmission */
 	UINT			TxRate;
 	ra_dma_addr_t		data_dma;		/* urb dma on linux */
-#ifdef USB_BULK_BUF_ALIGMENT
-	ULONG 			CurWriteIdx;	/* pointer to next 32k bytes position when wirte tx resource or when bulk out sizze not > 0x6000 */
-	ULONG 			NextBulkIdx;	/* pointer to next alignment section when bulk ot */
-#endif /* USB_BULK_BUF_ALIGMENT */
 
 }	HT_TX_CONTEXT, *PHT_TX_CONTEXT, **PPHT_TX_CONTEXT;
 

@@ -167,12 +167,8 @@ VOID RTUSBBulkOutDataPacket(struct rtmp_adapter *pAd, UCHAR BulkOutPipeId, UCHAR
 	unsigned long	IrqFlags = 0, IrqFlags2 = 0;
 	UCHAR *pWirelessPkt, *pAppendant;
 	uint32_t aggregation_num = 0;
-#ifdef USB_BULK_BUF_ALIGMENT
-	bool bLasAlignmentsectiontRound = false;
-#else
 	bool	 bTxQLastRound = false;
 	UCHAR allzero[4]= {0x0,0x0,0x0,0x0};
-#endif /* USB_BULK_BUF_ALIGMENT */
 
 	RTMP_IRQ_LOCK(&pAd->BulkOutLock[BulkOutPipeId], IrqFlags);
 	if ((pAd->BulkOutPending[BulkOutPipeId] == true) || RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NEED_STOP_TX))
@@ -201,11 +197,7 @@ VOID RTUSBBulkOutDataPacket(struct rtmp_adapter *pAd, UCHAR BulkOutPipeId, UCHAR
 
 	RTMP_IRQ_LOCK(&pAd->TxContextQueueLock[BulkOutPipeId], IrqFlags2);
 	if ((pHTTXContext->ENextBulkOutPosition == pHTTXContext->CurWritePosition)
-#ifdef USB_BULK_BUF_ALIGMENT
-		|| ((pHTTXContext->CurWriteRealPos > pHTTXContext->CurWritePosition) &&(pHTTXContext->NextBulkIdx == pHTTXContext->CurWriteIdx) )
-#else
 		|| ((pHTTXContext->ENextBulkOutPosition-8) == pHTTXContext->CurWritePosition)
-#endif /* USB_BULK_BUF_ALIGMENT */
 		)  /* druing writing. */
 	{
 		RTMP_IRQ_UNLOCK(&pAd->TxContextQueueLock[BulkOutPipeId], IrqFlags2);
@@ -237,7 +229,6 @@ VOID RTUSBBulkOutDataPacket(struct rtmp_adapter *pAd, UCHAR BulkOutPipeId, UCHAR
 	TmpBulkEndPos = pHTTXContext->NextBulkOutPosition;
 	pWirelessPkt = &pHTTXContext->TransferBuffer->field.WirelessPacket[0];
 
-#ifndef USB_BULK_BUF_ALIGMENT
 	if ((pHTTXContext->bCopySavePad == true))
 	{
 		if (RTMPEqualMemory(pHTTXContext->SavedPad, allzero,4))
@@ -252,7 +243,6 @@ VOID RTUSBBulkOutDataPacket(struct rtmp_adapter *pAd, UCHAR BulkOutPipeId, UCHAR
 			DBGPRINT(RT_DEBUG_TRACE,("RTUSBBulkOutDataPacket --> COPY PAD. CurWrite = %ld, NextBulk = %ld.   ENextBulk = %ld.\n",
 						pHTTXContext->CurWritePosition, pHTTXContext->NextBulkOutPosition, pHTTXContext->ENextBulkOutPosition));
 	}
-#endif /* USB_BULK_BUF_ALIGMENT */
 
 
 	do
@@ -274,26 +264,12 @@ VOID RTUSBBulkOutDataPacket(struct rtmp_adapter *pAd, UCHAR BulkOutPipeId, UCHAR
 		/*if ((ThisBulkSize != 0)  && (pTxWI->AMPDU == 0))*/
 		if ((ThisBulkSize != 0) && (phy_mode == MODE_CCK))
 		{
-#ifndef USB_BULK_BUF_ALIGMENT
 			if (((ThisBulkSize&0xffff8000) != 0) || ((ThisBulkSize&0x1000) == 0x1000))
 			{
 				/* Limit BulkOut size to about 4k bytes.*/
 				pHTTXContext->ENextBulkOutPosition = TmpBulkEndPos;
 				break;
 			}
-#else
-			if (((ThisBulkSize&0xffff8000) != 0) || ((ThisBulkSize&0x6000) == 0x6000))
-			{
-				/* Limit BulkOut size to about 24k bytes.*/
-				pHTTXContext->ENextBulkOutPosition = TmpBulkEndPos;
-
-				/* when bulk size is > 6000, it mean that this is the lasttround at this alignmnet section. */
-				bLasAlignmentsectiontRound = true;
-				break;
-			}
-
-#endif /* USB_BULK_BUF_ALIGMENT */
-#ifndef USB_BULK_BUF_ALIGMENT
 			else if (((pAd->BulkOutMaxPacketSize < 512) && ((ThisBulkSize&0xfffff800) != 0) ) /*|| ( (ThisBulkSize != 0)  && (pTxWI->AMPDU == 0))*/)
 			{
 				/* For USB 1.1 or peer which didn't support AMPDU, limit the BulkOut size. */
@@ -301,19 +277,6 @@ VOID RTUSBBulkOutDataPacket(struct rtmp_adapter *pAd, UCHAR BulkOutPipeId, UCHAR
 				pHTTXContext->ENextBulkOutPosition = TmpBulkEndPos;
 				break;
 			}
-#else
-			else if (((pAd->BulkOutMaxPacketSize < 512) && (((ThisBulkSize&0xffff8000) != 0) || ((ThisBulkSize&0x6000) == 0x6000)) ))
-			{
-				/* Limit BulkOut size to about 24k bytes.*/
-				pHTTXContext->ENextBulkOutPosition = TmpBulkEndPos;
-
-				/* when bulk size is > 6000, it mean that this is the lasttround at this alignmnet section. */
-				bLasAlignmentsectiontRound = true;
-				break;
-			}
-
-#endif /* USB_BULK_BUF_ALIGMENT */
-
 		}
 		/* end Iverson*/
 		else
@@ -323,32 +286,15 @@ VOID RTUSBBulkOutDataPacket(struct rtmp_adapter *pAd, UCHAR BulkOutPipeId, UCHAR
 		if (((ThisBulkSize&0xffffe000) != 0) || ((ThisBulkSize&0x6000) == 0x6000))
 		{	/* Limit BulkOut size to about 24k bytes.*/
 			pHTTXContext->ENextBulkOutPosition = TmpBulkEndPos;
-#ifdef USB_BULK_BUF_ALIGMENT
-				/* when bulk size is > 0x6000, it mean that this is the lasttround at this alignmnet section. */
-				bLasAlignmentsectiontRound = true;
-#endif /* USB_BULK_BUF_ALIGMENT */
 
 			break;
 		}
-#ifndef USB_BULK_BUF_ALIGMENT
 		else if (((pAd->BulkOutMaxPacketSize < 512) && ((ThisBulkSize&0xfffff800) != 0) ) /*|| ( (ThisBulkSize != 0)  && (pTxWI->AMPDU == 0))*/)
 		{	/* For USB 1.1 or peer which didn't support AMPDU, limit the BulkOut size. */
 			/* For performence in b/g mode, now just check for USB 1.1 and didn't care about the APMDU or not! 2008/06/04.*/
 			pHTTXContext->ENextBulkOutPosition = TmpBulkEndPos;
 			break;
 		}
-#else
-			else if (((pAd->BulkOutMaxPacketSize < 512) && (((ThisBulkSize&0xffff8000) != 0) || ((ThisBulkSize&0x6000) == 0x6000)) ))
-			{
-				/* Limit BulkOut size to about 24k bytes.*/
-				pHTTXContext->ENextBulkOutPosition = TmpBulkEndPos;
-
-				/* when bulk size is > 6000, it mean that this is the lasttround at this alignmnet section. */
-				bLasAlignmentsectiontRound = true;
-				break;
-			}
-
-#endif /* USB_BULK_BUF_ALIGMENT */
 
 		}
 
@@ -400,17 +346,6 @@ VOID RTUSBBulkOutDataPacket(struct rtmp_adapter *pAd, UCHAR BulkOutPipeId, UCHAR
 		if (TmpBulkEndPos != pHTTXContext->CurWritePosition)
 			pTxInfo->TxInfoUDMANextVld = 1;
 
-#ifdef USB_BULK_BUF_ALIGMENT
-/*
-		this is for frag packet , because it will finish this section
-		when ((((pHTTXContext->CurWritePosition + 3906)& 0x00007fff) & 0xffff6000) == 0x00006000)
-*/
-		if (pTxInfo->bFragLasAlignmentsectiontRound == 1)
-		{
-			bLasAlignmentsectiontRound = true;
-			break;
-		}
-#else
 		if (pTxInfo->TxInfoSwLstRnd == 1)
 		{
 			if (pHTTXContext->CurWritePosition == 8)
@@ -427,7 +362,6 @@ VOID RTUSBBulkOutDataPacket(struct rtmp_adapter *pAd, UCHAR BulkOutPipeId, UCHAR
 
 			break;
 		}
-#endif /* USB_BULK_BUF_ALIGMENT */
 #ifdef RT_BIG_ENDIAN
 		RTMPDescriptorEndianChange((u8 *)pTxInfo, TYPE_TXINFO);
 		RTMPWIEndianChange(pAd, (u8 *)pTxWI, TYPE_TXWI);
@@ -464,7 +398,6 @@ VOID RTUSBBulkOutDataPacket(struct rtmp_adapter *pAd, UCHAR BulkOutPipeId, UCHAR
 				(2). The EndPosition of the bulk out is not reach to the Current Write Position.
 					=>(ENextBulkOutPosition != CurWritePosition)
 	*/
-#ifndef USB_BULK_BUF_ALIGMENT
 	if ((bTxQLastRound == false) &&
 		 (((pHTTXContext->ENextBulkOutPosition == pHTTXContext->CurWritePosition) && (pHTTXContext->CurWriteRealPos > pHTTXContext->CurWritePosition)) ||
 		  (pHTTXContext->ENextBulkOutPosition != pHTTXContext->CurWritePosition))
@@ -484,7 +417,6 @@ VOID RTUSBBulkOutDataPacket(struct rtmp_adapter *pAd, UCHAR BulkOutPipeId, UCHAR
 		}
 		/*DBGPRINT(RT_DEBUG_LOUD,("ENPos==CWPos=%ld, CWRPos=%ld, bCSPad=%d!\n", pHTTXContext->CurWritePosition, pHTTXContext->CurWriteRealPos, pHTTXContext->bCopySavePad));*/
 	}
-#endif /* USB_BULK_BUF_ALIGMENT */
 
 	if (pAd->bForcePrintTX == true)
 		DBGPRINT(RT_DEBUG_TRACE,("BulkOut-A:Size=%ld, CWPos=%ld, NBPos=%ld, ENBPos=%ld, bCopy=%d!\n", ThisBulkSize, pHTTXContext->CurWritePosition, pHTTXContext->NextBulkOutPosition, pHTTXContext->ENextBulkOutPosition, pHTTXContext->bCopySavePad));
@@ -497,23 +429,6 @@ VOID RTUSBBulkOutDataPacket(struct rtmp_adapter *pAd, UCHAR BulkOutPipeId, UCHAR
 		pHTTXContext->LastOne = true;
 
 	pHTTXContext->BulkOutSize = ThisBulkSize;
-#ifdef USB_BULK_BUF_ALIGMENT
-	/*
-		if it is the last alignment section round,that we just need to add nextbulkindex,
-		otherwise we both need to add  nextbulkindex and CurWriteIdx
-		(because when alignment section round happened, the CurWriteIdx is added at function writing resource.)
-	*/
-	if(bLasAlignmentsectiontRound == true)
-	{
-			pHTTXContext->ENextBulkOutPosition = ((CUR_WRITE_IDX_INC(pHTTXContext->NextBulkIdx, BUF_ALIGMENT_RINGSIZE)) * 0x8000);
-	}
-	else
-	{
-			pHTTXContext->ENextBulkOutPosition = ((CUR_WRITE_IDX_INC(pHTTXContext->NextBulkIdx, BUF_ALIGMENT_RINGSIZE)) * 0x8000);
-			pHTTXContext->CurWritePosition = ((CUR_WRITE_IDX_INC(pHTTXContext->CurWriteIdx, BUF_ALIGMENT_RINGSIZE)) * 0x8000);
-	 }
-
-#endif /* USB_BULK_BUF_ALIGMENT */
 
 
 	pAd->watchDogTxPendingCnt[BulkOutPipeId] = 1;

@@ -230,9 +230,6 @@ static void rtusb_dataout_complete(unsigned long data)
 	if (((pHTTXContext->ENextBulkOutPosition != pHTTXContext->CurWritePosition) &&
 		(pHTTXContext->ENextBulkOutPosition != (pHTTXContext->CurWritePosition+8)) &&
 		!RTUSB_TEST_BULK_FLAG(pAd, (fRTUSB_BULK_OUT_DATA_FRAG << BulkOutPipeId)))
-#ifdef USB_BULK_BUF_ALIGMENT
-				||	(pHTTXContext->NextBulkIdx != pHTTXContext->CurWriteIdx)
-#endif /* USB_BULK_BUF_ALIGMENT */
 	)
 	{
 		/* Indicate There is data avaliable */
