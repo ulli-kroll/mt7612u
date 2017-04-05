@@ -157,7 +157,7 @@ VOID RT65xxDisableTxRx(struct rtmp_adapter *pAd, UCHAR Level)
 	DBGPRINT(RT_DEBUG_TRACE, ("%s Tx success = %ld\n",
 		__FUNCTION__, (ULONG)pAd->WlanCounters.ReceivedFragmentCount.QuadPart));
 
-	StopDmaTx(pAd, Level);
+	StopDmaTx(pAd);
 
 	/*
 		Check page count in TxQ,

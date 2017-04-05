@@ -2533,7 +2533,7 @@ INT StopDmaRx(struct rtmp_adapter *pAd, UCHAR Level)
 }
 
 
-INT StopDmaTx(struct rtmp_adapter *pAd, UCHAR Level)
+INT StopDmaTx(struct rtmp_adapter *pAd)
 {
 	uint32_t MacReg = 0, MTxCycle = 0;
 #ifdef RTMP_MAC_USB
@@ -2568,11 +2568,6 @@ INT StopDmaTx(struct rtmp_adapter *pAd, UCHAR Level)
 	if (MTxCycle >= 2000)
 	{
 		DBGPRINT(RT_DEBUG_ERROR, ("TX DMA busy!! DMA_CFG(%x)\n", MacReg));
-	}
-
-	if (Level == RTMP_HALT)
-	{
-
 	}
 
 	DBGPRINT(RT_DEBUG_TRACE, ("<==== %s\n", __FUNCTION__));
