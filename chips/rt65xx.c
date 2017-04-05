@@ -37,7 +37,7 @@ VOID RT65xxUsbAsicRadioOff(struct rtmp_adapter *pAd, UCHAR Stage)
 
 	DBGPRINT(RT_DEBUG_TRACE, ("--> %s\n", __FUNCTION__));
 
-	RT65xxDisableTxRx(pAd, RTMP_HALT);
+	RT65xxDisableTxRx(pAd);
 
 	if (IS_USB_INF(pAd)) {
 		ret = down_interruptible(&pAd->hw_atomic);
@@ -136,7 +136,7 @@ VOID RT65xxUsbAsicRadioOn(struct rtmp_adapter *pAd, UCHAR Stage)
 #endif
 
 
-VOID RT65xxDisableTxRx(struct rtmp_adapter *pAd, UCHAR Level)
+VOID RT65xxDisableTxRx(struct rtmp_adapter *pAd)
 {
 	uint32_t MacReg = 0;
 	uint32_t MTxCycle;
@@ -149,8 +149,7 @@ VOID RT65xxDisableTxRx(struct rtmp_adapter *pAd, UCHAR Level)
 
 	DBGPRINT(RT_DEBUG_TRACE, ("----> %s\n", __FUNCTION__));
 
-	if (Level == RTMP_HALT)
-		RTMP_CLEAR_FLAG(pAd, fRTMP_ADAPTER_INTERRUPT_ACTIVE);
+	RTMP_CLEAR_FLAG(pAd, fRTMP_ADAPTER_INTERRUPT_ACTIVE);
 
 	DBGPRINT(RT_DEBUG_TRACE, ("%s Tx success = %ld\n",
 		__FUNCTION__, (ULONG)pAd->WlanCounters.TransmittedFragmentCount.u.LowPart));
@@ -216,21 +215,12 @@ VOID RT65xxDisableTxRx(struct rtmp_adapter *pAd, UCHAR Level)
 	}
 
 	if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST) == false) {
-		if (Level == RTMP_HALT) {
 			/*
 				Disable MAC TX/RX
 			*/
 			MacReg = mt7612u_read32(pAd, MAC_SYS_CTRL);
 			MacReg &= ~(0x0000000c);
 			mt7612u_write32(pAd, MAC_SYS_CTRL, MacReg);
-		} else {
-			/*
-				Disable MAC RX
-			*/
-			MacReg = mt7612u_read32(pAd, MAC_SYS_CTRL);
-			MacReg &= ~(0x00000008);
-			mt7612u_write32(pAd, MAC_SYS_CTRL, MacReg);
-		}
 	}
 
 	/*
@@ -308,8 +298,7 @@ VOID RT65xxDisableTxRx(struct rtmp_adapter *pAd, UCHAR Level)
 
 	StopDmaRx(pAd);
 
-	if ((Level == RTMP_HALT) &&
-	    (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST) == false)) {
+	if ((RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST) == false)) {
 
 		/*
  		 * Disable RF/MAC and do not do reset WLAN under below cases

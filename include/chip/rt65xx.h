@@ -69,7 +69,7 @@ typedef union _EEPROM_NIC_CINFIG0_STRUC {
 } EEPROM_NIC_CONFIG0_STRUC, *PEEPROM_NIC_CONFIG0_STRUC;
 #endif
 
-VOID RT65xxDisableTxRx(struct rtmp_adapter *pAd, UCHAR Level);
+VOID RT65xxDisableTxRx(struct rtmp_adapter *pAd);
 void MT76xx_PciMlmeRadioOFF(struct rtmp_adapter *pAd);
 void MT76xx_PciMlmeRadioOn(struct rtmp_adapter *pAd);
 VOID dump_pwr_info(struct rtmp_adapter *pAd);
