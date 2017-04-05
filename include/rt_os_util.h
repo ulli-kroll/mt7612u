@@ -550,24 +550,6 @@ struct sk_buff *RTMP_AllocateRxPacketBuffer(
 	OUT	PVOID					*VirtualAddress,
 	OUT	PNDIS_PHYSICAL_ADDRESS	PhysicalAddress);
 
-#ifdef CONFIG_STA_SUPPORT
-#ifdef CONFIG_PM
-#ifdef USB_SUPPORT_SELECTIVE_SUSPEND
-
-int RTMP_Usb_AutoPM_Put_Interface(
-	IN	VOID			*pUsb_Dev,
-	IN	VOID			*intf);
-
-int  RTMP_Usb_AutoPM_Get_Interface(
-	IN	VOID			*pUsb_Dev,
-	IN	VOID			*intf);
-
-#endif /* USB_SUPPORT_SELECTIVE_SUSPEND */
-#endif /* CONFIG_PM */
-#endif /* CONFIG_STA_SUPPORT */
-
-
-
 ra_dma_addr_t linux_pci_map_single(void *pPciDev, void *ptr, size_t size, int sd_idx, int direction);
 
 void linux_pci_unmap_single(void *pPciDev, ra_dma_addr_t dma_addr, size_t size, int direction);

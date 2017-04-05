@@ -59,29 +59,9 @@ static int rt2870_probe(
 	PVOID handle;
 	struct RTMP_OS_NETDEV_OP_HOOK netDevHook;
 	ULONG OpMode;
-#ifdef CONFIG_PM
-#ifdef USB_SUPPORT_SELECTIVE_SUSPEND
-/*	INT pm_usage_cnt; */
-	INT res =1 ;
-#endif /* USB_SUPPORT_SELECTIVE_SUSPEND */
-#endif /* CONFIG_PM */
 
 	DBGPRINT(RT_DEBUG_TRACE, ("===>rt2870_probe()!\n"));
 
-#ifdef CONFIG_PM
-#ifdef USB_SUPPORT_SELECTIVE_SUSPEND
-        res = usb_autopm_get_interface(intf);
-	if (res)
-	{
-		DBGPRINT(RT_DEBUG_ERROR, ("rt2870_probe autopm_resume fail ------\n"));
-		return -EIO;
-	}
-
-	atomic_set(&intf->pm_usage_cnt, 1);
-	 printk(" rt2870_probe ====> pm_usage_cnt %d \n", atomic_read(&intf->pm_usage_cnt));
-
-#endif /* USB_SUPPORT_SELECTIVE_SUSPEND */
-#endif /* CONFIG_PM */
 
 
 	handle = kmalloc(sizeof(struct os_cookie), GFP_ATOMIC);
@@ -93,11 +73,6 @@ static int rt2870_probe(
 
 	((struct os_cookie *)handle)->pUsb_Dev = usb_dev;
 
-#ifdef CONFIG_PM
-#ifdef USB_SUPPORT_SELECTIVE_SUSPEND
-	((struct os_cookie *)handle)->intf = intf;
-#endif /* USB_SUPPORT_SELECTIVE_SUSPEND */
-#endif /* CONFIG_PM */
 
 	/* set/get operators to/from DRIVER module */
 
@@ -258,28 +233,6 @@ static int rtusb_suspend(struct usb_interface *intf, pm_message_t state)
 	struct net_device *net_dev;
 	VOID *pAd = usb_get_intfdata(intf);
 
-#ifdef USB_SUPPORT_SELECTIVE_SUSPEND
-	UCHAR Flag;
-	DBGPRINT(RT_DEBUG_ERROR, ("%s():=>autosuspend\n", __FUNCTION__));
-#ifdef WOW_SUPPORT
-	RTMP_DRIVER_ADAPTER_RT28XX_USB_WOW_STATUS(pAd, &Flag);
-	if (Flag == true)
-		RTMP_DRIVER_ADAPTER_RT28XX_USB_WOW_ENABLE(pAd);
-	else
-#endif /* WOW_SUPPORT */
-	{
-/*	if(!RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_IDLE_RADIO_OFF)) */
-		RTMP_DRIVER_ADAPTER_END_DISSASSOCIATE(pAd);
-		RTMP_DRIVER_ADAPTER_IDLE_RADIO_OFF_TEST(pAd, &Flag);
-		if(!Flag)
-		{
-			RTMP_DRIVER_ADAPTER_RT28XX_USB_ASICRADIO_OFF(pAd);
-		}
-	}
-	/*RTMP_SET_FLAG(pAd, fRTMP_ADAPTER_SUSPEND); */
-	RTMP_DRIVER_ADAPTER_SUSPEND_SET(pAd);
-	return 0;
-#endif /* USB_SUPPORT_SELECTIVE_SUSPEND */
 
 
 	DBGPRINT(RT_DEBUG_TRACE, ("%s()=>\n", __FUNCTION__));
@@ -298,32 +251,6 @@ static int rtusb_resume(struct usb_interface *intf)
 	struct net_device *net_dev;
 	VOID *pAd = usb_get_intfdata(intf);
 
-#ifdef USB_SUPPORT_SELECTIVE_SUSPEND
-	INT 		pm_usage_cnt;
-	UCHAR Flag;
-
-	pm_usage_cnt = atomic_read(&intf->pm_usage_cnt);
-
-	if(pm_usage_cnt  <= 0)
-		usb_autopm_get_interface(intf);
-
-	DBGPRINT(RT_DEBUG_ERROR, ("%s():=>autosuspend\n", __FUNCTION__));
-
-	/*RTMP_CLEAR_FLAG(pAd, fRTMP_ADAPTER_SUSPEND); */
-	RTMP_DRIVER_ADAPTER_SUSPEND_CLEAR(pAd);
-
-#ifdef WOW_SUPPORT
-	RTMP_DRIVER_ADAPTER_RT28XX_USB_WOW_STATUS(pAd, &Flag);
-	if (Flag == true)
-		RTMP_DRIVER_ADAPTER_RT28XX_USB_WOW_DISABLE(pAd);
-	else
-#endif /* WOW_SUPPORT */
-		RTMP_DRIVER_ADAPTER_RT28XX_USB_ASICRADIO_ON(pAd);
-
-	DBGPRINT(RT_DEBUG_ERROR, ("%s(): <=autosuspend\n", __FUNCTION__));
-
-	return 0;
-#endif /* USB_SUPPORT_SELECTIVE_SUSPEND */
 
 
 	DBGPRINT(RT_DEBUG_TRACE, ("%s()=>\n", __FUNCTION__));
@@ -443,14 +370,6 @@ static void rtusb_disconnect(struct usb_interface *intf)
 
 	rt2870_disconnect(dev, pAd);
 
-#ifdef CONFIG_PM
-#ifdef USB_SUPPORT_SELECTIVE_SUSPEND
-	printk("rtusb_disconnect usb_autopm_put_interface \n");
-	usb_autopm_put_interface(intf);
-	printk("%s() => pm_usage_cnt %d \n", __FUNCTION__,
-			atomic_read(&intf->pm_usage_cnt));
-#endif /* USB_SUPPORT_SELECTIVE_SUSPEND */
-#endif /* CONFIG_PM */
 
 }
 
@@ -461,13 +380,6 @@ struct usb_driver rtusb_driver = {
 	.disconnect = rtusb_disconnect,
 	.id_table = rtusb_dev_id,
 
-#ifdef CONFIG_PM
-#ifdef USB_SUPPORT_SELECTIVE_SUSPEND
-	.supports_autosuspend = 1,
-#endif /* USB_SUPPORT_SELECTIVE_SUSPEND */
-	.suspend = rtusb_suspend,
-	.resume = rtusb_resume,
-#endif /* CONFIG_PM */
 };
 
 

@@ -359,16 +359,6 @@ int RTUSB_VendorRequest(struct rtmp_adapter *pAd,
 		return NDIS_STATUS_FAILURE;
 	}
 
-#ifdef CONFIG_STA_SUPPORT
-#ifdef CONFIG_PM
-#ifdef USB_SUPPORT_SELECTIVE_SUSPEND
-	if(RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_SUSPEND)) {
-		return NDIS_STATUS_FAILURE;
-	}
-#endif /* USB_SUPPORT_SELECTIVE_SUSPEND */
-#endif /* CONFIG_PM */
-#endif /* CONFIG_STA_SUPPORT */
-
 	if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST)) {
 		/*DBGPRINT(RT_DEBUG_ERROR, ("WIFI device has been disconnected\n"));*/
 		return NDIS_STATUS_FAILURE;

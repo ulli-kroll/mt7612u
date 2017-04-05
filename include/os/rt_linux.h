@@ -463,13 +463,6 @@ struct os_cookie {
 
 #ifdef RTMP_MAC_USB
 	struct usb_device *pUsb_Dev;
-#ifdef CONFIG_STA_SUPPORT
-#ifdef CONFIG_PM
-#ifdef USB_SUPPORT_SELECTIVE_SUSPEND
-	struct usb_interface *intf;
-#endif /* USB_SUPPORT_SELECTIVE_SUSPEND */
-#endif /* CONFIG_PM */
-#endif /* CONFIG_STA_SUPPORT */
 #endif /* RTMP_MAC_USB */
 
 #ifdef WORKQUEUE_BH

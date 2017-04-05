@@ -1676,11 +1676,6 @@ VOID STAMlmePeriodicExec(struct rtmp_adapter *pAd)
 	ULONG TxTotalCnt;
 	int i;
 	bool bCheckBeaconLost = true;
-#ifdef CONFIG_PM
-#ifdef USB_SUPPORT_SELECTIVE_SUSPEND
-	struct os_cookie * pObj = pAd->OS_Cookie;
-#endif /* USB_SUPPORT_SELECTIVE_SUSPEND */
-#endif /* CONFIG_PM */
 
 #ifdef WPA_SUPPLICANT_SUPPORT
     if (pAd->StaCfg.wpa_supplicant_info.WpaSupplicantUP == WPA_SUPPLICANT_DISABLE)
@@ -1704,12 +1699,6 @@ VOID STAMlmePeriodicExec(struct rtmp_adapter *pAd)
 		)
 	{
 			RT65xxUsbAsicRadioOff(pAd, MLME_RADIO_OFF);
-#ifdef CONFIG_PM
-#ifdef USB_SUPPORT_SELECTIVE_SUSPEND
-			if(!RTMP_Usb_AutoPM_Put_Interface(pObj->pUsb_Dev,pObj->intf))
-					RTMP_SET_FLAG(pAd, fRTMP_ADAPTER_SUSPEND);
-#endif /* USB_SUPPORT_SELECTIVE_SUSPEND */
-#endif /* CONFIG_PM */
 
 		DBGPRINT(RT_DEBUG_TRACE, ("PSM - Issue Sleep command)\n"));
 	}
