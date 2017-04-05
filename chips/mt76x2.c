@@ -877,7 +877,7 @@ void mt76x2_tssi_calibration(struct rtmp_adapter *ad, u8 channel)
 void mt76x2_tssi_compensation(struct rtmp_adapter *ad, u8 channel)
 {
 	RTMP_CHIP_CAP *cap = &ad->chipCap;
-	ANDES_CALIBRATION_PARAM param;
+	struct mt7612u_tssi_comp param;
 	uint32_t value = 0;
 	uint32_t ret = 0;
 
@@ -897,14 +897,11 @@ void mt76x2_tssi_compensation(struct rtmp_adapter *ad, u8 channel)
 
 	if (cap->tssi_stage == TSSI_TRIGGER_STAGE) {
 		DBGPRINT(RT_DEBUG_INFO, ("%s:TSS_TRIGGER(channel = %d)\n", __FUNCTION__, channel));
-		param.mt76x2_tssi_comp_param.pa_mode = (1 << 8);
-		param.mt76x2_tssi_comp_param.tssi_slope_offset = 0;
+		param.pa_mode = (1 << 8);
+		param.tssi_slope_offset = 0;
 
 		/* TSSI Trigger */
-		if(ad->chipOps.Calibration != NULL)
-			ad->chipOps.Calibration(ad, TSSI_COMPENSATION_7662, &param);
-		else
-			goto done;
+		mt7612u_mcu_tssi_comp(ad, &param);
 
 		cap->tssi_stage = TSSI_COMP_STAGE;
 
@@ -948,12 +945,11 @@ void mt76x2_tssi_compensation(struct rtmp_adapter *ad, u8 channel)
 					| TSSI_PARAM2_OFFSET1(cap->tssi_1_offset_a_band[get_chl_grp(channel)]);
 		}
 
-		param.mt76x2_tssi_comp_param.pa_mode = (pa_mode | ((0x1) << 9));
-		param.mt76x2_tssi_comp_param.tssi_slope_offset = tssi_slope_offset;
+		param.pa_mode = (pa_mode | ((0x1) << 9));
+		param.tssi_slope_offset = tssi_slope_offset;
 
 		/* TSSI Compensation */
-		if(ad->chipOps.Calibration != NULL)
-			ad->chipOps.Calibration(ad, TSSI_COMPENSATION_7662, &param);
+		mt7612u_mcu_tssi_comp(ad, &param);
 
 		cap->tssi_stage = TSSI_TRIGGER_STAGE;
 

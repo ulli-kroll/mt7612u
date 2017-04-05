@@ -734,7 +734,7 @@ struct _RTMP_CHIP_OP_ {
 
 #ifdef CONFIG_ANDES_SUPPORT
 	void (*fw_init)(struct rtmp_adapter *ad);
-	void (*Calibration)(struct rtmp_adapter *pAd, uint32_t CalibrationID, ANDES_CALIBRATION_PARAM *param);
+	void (*Calibration)(struct rtmp_adapter *pAd, uint32_t CalibrationID, u32 param);
 #endif /* CONFIG_ANDES_SUPPORT */
 #ifdef DYNAMIC_VGA_SUPPORT
 	VOID (*AsicDynamicVgaGainControl)(IN struct rtmp_adapter *pAd);
@@ -818,10 +818,8 @@ do {	\
 
 #define CHIP_CALIBRATION(__pAd, __CalibrationID, param) \
 do {	\
-	ANDES_CALIBRATION_PARAM calibration_param; \
-	calibration_param.generic = param; \
 	if(__pAd->chipOps.Calibration != NULL) \
-		__pAd->chipOps.Calibration(__pAd, __CalibrationID, &calibration_param); \
+		__pAd->chipOps.Calibration(__pAd, __CalibrationID, param); \
 } while (0)
 
 #define BURST_WRITE(_pAd, _Offset, _pData, _Cnt)	\

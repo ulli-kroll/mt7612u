@@ -2153,8 +2153,7 @@ error:
 	return ret;
 }
 
-
-void mt7612u_mcu_calibration(struct rtmp_adapter *ad, u32 cal_id, ANDES_CALIBRATION_PARAM *param)
+void mt7612u_mcu_calibration(struct rtmp_adapter *ad, u32 cal_id, u32 param)
 {
 	struct cmd_msg *msg;
 	u32 value;
@@ -2163,10 +2162,8 @@ void mt7612u_mcu_calibration(struct rtmp_adapter *ad, u32 cal_id, ANDES_CALIBRAT
 
 
 	/* Calibration ID and Parameter */
-	if (cal_id == TSSI_COMPENSATION_7662 && IS_MT76x2(ad))
-		msg = mt7612u_mcu_alloc_cmd_msg(ad, 12);
-	else
-		msg = mt7612u_mcu_alloc_cmd_msg(ad, 8);
+
+	msg = mt7612u_mcu_alloc_cmd_msg(ad, 8);
 
 	if (!msg) {
 		return;
@@ -2178,22 +2175,45 @@ void mt7612u_mcu_calibration(struct rtmp_adapter *ad, u32 cal_id, ANDES_CALIBRAT
 	value = cpu2le32(cal_id);
 	mt7612u_mcu_append_cmd_msg(msg, (char *)&value, 4);
 
-	/* Parameter */
-	if (cal_id == TSSI_COMPENSATION_7662 && IS_MT76x2(ad)) {
-		value = cpu2le32(param->mt76x2_tssi_comp_param.pa_mode);
-		mt7612u_mcu_append_cmd_msg(msg, (char *)&value, 4);
-
-		value = cpu2le32(param->mt76x2_tssi_comp_param.tssi_slope_offset);
-		mt7612u_mcu_append_cmd_msg(msg, (char *)&value, 4);
-	} else
-	{
-		value = cpu2le32(param->generic);
-		mt7612u_mcu_append_cmd_msg(msg, (char *)&value, 4);
-	}
+	value = cpu2le32(param);
+	mt7612u_mcu_append_cmd_msg(msg, (char *)&value, 4);
 
 	mt7612u_mcu_send_cmd_msg(ad, msg);
 
 }
+
+void mt7612u_mcu_tssi_comp(struct rtmp_adapter *ad, struct mt7612u_tssi_comp *param)
+{
+	struct cmd_msg *msg;
+	u32 value;
+
+	DBGPRINT(RT_DEBUG_INFO, ("%s:cal_id(%d)\n ", __FUNCTION__, TSSI_COMPENSATION_7662));
+
+
+	/* Calibration ID and Parameter */
+	msg = mt7612u_mcu_alloc_cmd_msg(ad, 12);
+
+	if (!msg) {
+		return;
+	}
+
+	mt7612u_mcu_init_cmd_msg(msg, CMD_CALIBRATION_OP, true, 0, true, true);
+
+	/* Calibration ID */
+	value = cpu2le32(TSSI_COMPENSATION_7662);
+	mt7612u_mcu_append_cmd_msg(msg, (char *)&value, 4);
+
+	/* Parameter */
+	value = cpu2le32(param->pa_mode);
+	mt7612u_mcu_append_cmd_msg(msg, (char *)&value, 4);
+
+	value = cpu2le32(param->tssi_slope_offset);
+	mt7612u_mcu_append_cmd_msg(msg, (char *)&value, 4);
+
+	mt7612u_mcu_send_cmd_msg(ad, msg);
+
+}
+
 
 int mt7612u_mcu_load_cr(struct rtmp_adapter *ad, u32 cr_type, UINT8 temp_level, UINT8 channel)
 {
