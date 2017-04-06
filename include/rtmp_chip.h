@@ -686,7 +686,7 @@ typedef enum _CHIP_SPEC_ID
 #define CHIP_SPEC_ID_NUM 	CHIP_SPEC_RESV_FUNC
 
 
-struct _RTMP_CHIP_OP_ {
+struct rtmp_chip_ops {
 	int (*sys_onoff)(struct rtmp_adapter *pAd, bool on, bool reser);
 
 	/* MCU related callback functions */

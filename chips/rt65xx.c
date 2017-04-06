@@ -78,7 +78,7 @@ VOID RT65xxUsbAsicRadioOn(struct rtmp_adapter *pAd, UCHAR Stage)
 	uint32_t MACValue = 0;
 	uint32_t rx_filter_flag;
 	WPDMA_GLO_CFG_STRUC GloCfg;
-	RTMP_CHIP_OP *pChipOps = &pAd->chipOps;
+	struct rtmp_chip_ops *pChipOps = &pAd->chipOps;
 	uint32_t ret;
 
 	RTMP_CLEAR_PSFLAG(pAd, fRTMP_PS_MCU_SLEEP);

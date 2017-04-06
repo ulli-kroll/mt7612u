@@ -67,8 +67,6 @@
 
 struct _RTMP_RA_LEGACY_TB;
 
-typedef struct _RTMP_CHIP_OP_ RTMP_CHIP_OP;
-
 #ifdef BB_SOC
 #include "os/bb_soc.h"
 #endif
@@ -3439,7 +3437,7 @@ struct rtmp_adapter {
 /***********************************************************/
 /*      ASIC related parameters                                                          */
 /***********************************************************/
-	RTMP_CHIP_OP chipOps;
+	struct rtmp_chip_ops chipOps;
 	struct rtmp_chip_cap chipCap;
 	struct phy_ops *phy_op;
 	struct hw_setting hw_cfg;

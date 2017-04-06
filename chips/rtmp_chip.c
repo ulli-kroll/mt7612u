@@ -156,7 +156,7 @@ int RtmpChipOpsHook(VOID *pCB)
 	struct rtmp_chip_cap *pChipCap = &pAd->chipCap;
 	uint32_t MacValue;
 	int ret = 0;
-	RTMP_CHIP_OP *pChipOps = &pAd->chipOps;
+	struct rtmp_chip_ops *pChipOps = &pAd->chipOps;
 
 	/* sanity check */
 	if (WaitForAsicReady(pAd) == false)

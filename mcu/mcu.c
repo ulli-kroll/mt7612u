@@ -72,7 +72,7 @@ INT mcu_sys_init(struct rtmp_adapter *pAd)
 
 VOID ChipOpsMCUHook(struct rtmp_adapter *pAd)
 {
-	RTMP_CHIP_OP *pChipOps = &pAd->chipOps;
+	struct rtmp_chip_ops *pChipOps = &pAd->chipOps;
 	struct rtmp_chip_cap *pChipCap = &pAd->chipCap;
 
 	if (pChipCap->need_load_rom_patch)
