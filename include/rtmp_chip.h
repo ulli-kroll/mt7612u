@@ -400,7 +400,7 @@ struct RF_INDEX_OFFSET {
 	3883:
 */
 
-struct _RTMP_CHIP_CAP_ {
+struct rtmp_chip_cap {
 	/* register */
 	REG_PAIR *pRFRegTable;
 
@@ -673,8 +673,6 @@ struct _RTMP_CHIP_CAP_ {
 	bool chl_smth_enable;
 
 	MT76x2_RATE_PWR_Table rate_pwr_table;
-
-
 };
 
 typedef VOID (*CHIP_SPEC_FUNC)(VOID *pAd, VOID *pData, ULONG Data);

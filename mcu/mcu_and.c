@@ -53,7 +53,7 @@ static void mt7612u_vendor_reset(struct rtmp_adapter *pAd)
 int mt7612u_mcu_usb_enable_patch(struct rtmp_adapter *ad)
 {
 	int ret = NDIS_STATUS_SUCCESS;
-	RTMP_CHIP_CAP *cap = &ad->chipCap;
+	struct rtmp_chip_cap *cap = &ad->chipCap;
 
 	/* enable patch command */
 	u8 cmd[11];
@@ -85,7 +85,7 @@ int mt7612u_mcu_usb_enable_patch(struct rtmp_adapter *ad)
 int mt7612u_mcu_usb_reset_wmt(struct rtmp_adapter *ad)
 {
 	int ret = NDIS_STATUS_SUCCESS;
-	RTMP_CHIP_CAP *cap = &ad->chipCap;
+	struct rtmp_chip_cap *cap = &ad->chipCap;
 
 	/* reset command */
 	u8 cmd[8] = {0x6F, 0xFC, 0x05, 0x01, 0x07, 0x01, 0x00, 0x04};
@@ -132,7 +132,7 @@ int mt7612u_mcu_usb_chk_crc(struct rtmp_adapter *ad, u32 checksum_len)
 {
 	int ret = 0;
 	u8 cmd[8];
-	RTMP_CHIP_CAP *cap = &ad->chipCap;
+	struct rtmp_chip_cap *cap = &ad->chipCap;
 
 	DBGPRINT(RT_DEBUG_OFF, ("%s\n", __FUNCTION__));
 
@@ -198,7 +198,7 @@ int mt7612u_mcu_usb_load_rom_patch(struct rtmp_adapter *ad)
 	u32 mac_value, loop = 0;
 	u16 value;
 	int ret = 0, total_checksum = 0;
-	RTMP_CHIP_CAP *cap = &ad->chipCap;
+	struct rtmp_chip_cap *cap = &ad->chipCap;
 	USB_DMA_CFG_STRUC cfg;
 	u32 patch_len = 0;
 	struct completion load_rom_patch_done;
@@ -554,7 +554,7 @@ static void usb_uploadfw_complete(struct urb *urb)
 static int usb_load_ivb(struct rtmp_adapter *ad, u8 *fw_image)
 {
 	int Status = NDIS_STATUS_SUCCESS;
-	RTMP_CHIP_CAP *cap = &ad->chipCap;
+	struct rtmp_chip_cap *cap = &ad->chipCap;
 
 
 	if (cap->load_iv) {
@@ -597,7 +597,7 @@ int mt7612u_mcu_usb_loadfw(struct rtmp_adapter *ad)
 	u32 mac_value, loop = 0;
 	u16 value;
 	int ret = 0;
-	RTMP_CHIP_CAP *cap = &ad->chipCap;
+	struct rtmp_chip_cap *cap = &ad->chipCap;
 	USB_DMA_CFG_STRUC cfg;
 	u32 ilm_len = 0, dlm_len = 0;
 	u16 fw_ver, build_ver;
@@ -1045,7 +1045,7 @@ error0:
 struct cmd_msg *mt7612u_mcu_alloc_cmd_msg(struct rtmp_adapter *ad, unsigned int length)
 {
 	struct cmd_msg *msg = NULL;
-	RTMP_CHIP_CAP *cap = &ad->chipCap;
+	struct rtmp_chip_cap *cap = &ad->chipCap;
 	struct MCU_CTRL *ctl = &ad->MCUCtrl;
 	struct sk_buff *net_pkt = NULL;
 #ifdef RTMP_USB_SUPPORT
@@ -1449,7 +1449,7 @@ static void usb_rx_cmd_msg_complete(PURB urb)
 	struct cmd_msg *msg = CMD_MSG_CB(net_pkt)->msg;
 	struct rtmp_adapter *ad = (struct rtmp_adapter *)msg->priv;
 	struct os_cookie *pObj = ad->OS_Cookie;
-	RTMP_CHIP_CAP *pChipCap = &ad->chipCap;
+	struct rtmp_chip_cap *pChipCap = &ad->chipCap;
 	struct MCU_CTRL *ctl = &ad->MCUCtrl;
 	enum cmd_msg_state state;
 	unsigned long flags;
@@ -1502,7 +1502,7 @@ static void usb_rx_cmd_msg_complete(PURB urb)
 
 int usb_rx_cmd_msg_submit(struct rtmp_adapter *ad)
 {
-	RTMP_CHIP_CAP *pChipCap = &ad->chipCap;
+	struct rtmp_chip_cap *pChipCap = &ad->chipCap;
 	struct os_cookie *pObj = ad->OS_Cookie;
 	struct MCU_CTRL *ctl = &ad->MCUCtrl;
 	struct cmd_msg *msg = NULL;
@@ -1660,7 +1660,7 @@ int usb_kick_out_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *msg)
 	struct os_cookie *pObj = ad->OS_Cookie;
 	int ret = 0;
 	struct sk_buff *net_pkt = msg->net_pkt;
-	RTMP_CHIP_CAP *pChipCap = &ad->chipCap;
+	struct rtmp_chip_cap *pChipCap = &ad->chipCap;
 
 	if (msg->state != tx_retransmit) {
 		/* append four zero bytes padding when usb aggregate enable */
@@ -2037,7 +2037,7 @@ int mt7612u_mcu_random_write(struct rtmp_adapter *ad, RTMP_REG_PAIR *reg_pair, u
 	struct cmd_msg *msg;
 	unsigned int var_len = num * 8, cur_len = 0, sent_len;
 	u32 value, i, cur_index = 0;
-	RTMP_CHIP_CAP *cap = &ad->chipCap;
+	struct rtmp_chip_cap *cap = &ad->chipCap;
 	int ret = 0;
 	bool last_packet = false;
 

@@ -44,7 +44,7 @@ VOID	RTUSBInitTxDesc(
 	PURB				pUrb;
 	u8 *			pSrc = NULL;
 	struct os_cookie *		pObj = pAd->OS_Cookie;
-	RTMP_CHIP_CAP *pChipCap = &pAd->chipCap;
+	struct rtmp_chip_cap *pChipCap = &pAd->chipCap;
 
 	pUrb = pTxContext->pUrb;
 	ASSERT(pUrb);
@@ -90,7 +90,7 @@ VOID	RTUSBInitHTTxDesc(
 	PURB				pUrb;
 	u8 *			pSrc = NULL;
 	struct os_cookie *		pObj = pAd->OS_Cookie;
-	RTMP_CHIP_CAP *pChipCap = &pAd->chipCap;
+	struct rtmp_chip_cap *pChipCap = &pAd->chipCap;
 
 	pUrb = pTxContext->pUrb;
 	ASSERT(pUrb);
@@ -117,7 +117,7 @@ VOID	RTUSBInitRxDesc(
 	PURB				pUrb;
 	struct os_cookie *		pObj = pAd->OS_Cookie;
 	ULONG				RX_bulk_size;
-	RTMP_CHIP_CAP *pChipCap = &pAd->chipCap;
+	struct rtmp_chip_cap *pChipCap = &pAd->chipCap;
 
 	pUrb = pRxContext->pUrb;
 	ASSERT(pUrb);

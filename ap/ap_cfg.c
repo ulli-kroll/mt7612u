@@ -3492,7 +3492,7 @@ VOID RTMPIoctlStatistics(struct rtmp_adapter *pAd, RTMP_IOCTL_INPUT_STRUCT *wrq)
 	UCHAR index=0;
 #endif
 
-	RTMP_CHIP_CAP *pChipCap = &pAd->chipCap;
+	struct rtmp_chip_cap *pChipCap = &pAd->chipCap;
 
 /*	msg = (char *)kmalloc(sizeof(CHAR)*(2048), MEM_ALLOC_FLAG); */
 	msg = kmalloc(sizeof(CHAR)*(2048), GFP_ATOMIC);

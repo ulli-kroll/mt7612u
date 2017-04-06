@@ -324,7 +324,7 @@ INT RT_CfgSetWirelessMode(struct rtmp_adapter *pAd, char *arg)
 {
 	LONG cfg_mode;
 	UCHAR wmode, *mode_str;
-	RTMP_CHIP_CAP *pChipCap = &pAd->chipCap;
+	struct rtmp_chip_cap *pChipCap = &pAd->chipCap;
 
 	cfg_mode = simple_strtol(arg, 0, 10);
 
@@ -407,7 +407,7 @@ INT RT_CfgSetMbssWirelessMode(struct rtmp_adapter *pAd, char *arg)
 {
 	INT cfg_mode;
 	UCHAR wmode;
-	RTMP_CHIP_CAP *pChipCap = &pAd->chipCap;
+	struct rtmp_chip_cap *pChipCap = &pAd->chipCap;
 
 	cfg_mode = simple_strtol(arg, 0, 10);
 

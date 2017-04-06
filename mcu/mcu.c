@@ -73,7 +73,7 @@ INT mcu_sys_init(struct rtmp_adapter *pAd)
 VOID ChipOpsMCUHook(struct rtmp_adapter *pAd)
 {
 	RTMP_CHIP_OP *pChipOps = &pAd->chipOps;
-	RTMP_CHIP_CAP *pChipCap = &pAd->chipCap;
+	struct rtmp_chip_cap *pChipCap = &pAd->chipCap;
 
 	if (pChipCap->need_load_rom_patch)
 		pChipOps->load_rom_patch = mt7612u_mcu_usb_load_rom_patch;

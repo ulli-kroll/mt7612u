@@ -2684,7 +2684,7 @@ VOID RT28xxAndesWOWEnable(
 	NEW_WOW_P2P_CFG_STRUCT p2p_cfg;
 	NEW_WOW_PARAM_STRUCT wow_param;
 	struct CMD_UNIT CmdUnit;
-	RTMP_CHIP_CAP *pChipCap = &pAd->chipCap;
+	struct rtmp_chip_cap *pChipCap = &pAd->chipCap;
 	int32_t Ret;
 	MAC_TABLE_ENTRY *pEntry = NULL;
 
@@ -2871,7 +2871,7 @@ VOID RT28xxAndesWOWDisable(
 {
     NEW_WOW_PARAM_STRUCT param;
     struct CMD_UNIT CmdUnit;
-    RTMP_CHIP_CAP *pChipCap = &pAd->chipCap;
+    struct rtmp_chip_cap *pChipCap = &pAd->chipCap;
     int32_t Ret;
     uint32_t Value;
     MAC_TABLE_ENTRY *pEntry = NULL;

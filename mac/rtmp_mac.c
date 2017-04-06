@@ -788,7 +788,7 @@ VOID ReSyncBeaconTime(struct rtmp_adapter *pAd)
 VOID rtmp_mac_bcn_buf_init(IN struct rtmp_adapter *pAd)
 {
 	int idx, tb_size;
-	RTMP_CHIP_CAP *pChipCap = &pAd->chipCap;
+	struct rtmp_chip_cap *pChipCap = &pAd->chipCap;
 
 
 	for (idx = 0; idx < pChipCap->BcnMaxHwNum; idx++)

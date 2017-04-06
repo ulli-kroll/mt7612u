@@ -65,7 +65,7 @@ Note:
 */
 VOID rlt_bcn_buf_init(struct rtmp_adapter *pAd)
 {
-	RTMP_CHIP_CAP *pChipCap = &pAd->chipCap;
+	struct rtmp_chip_cap *pChipCap = &pAd->chipCap;
 
 	pChipCap->FlgIsSupSpecBcnBuf = false;
 
@@ -153,7 +153,7 @@ Note:
 int RtmpChipOpsHook(VOID *pCB)
 {
 	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pCB;
-	RTMP_CHIP_CAP *pChipCap = &pAd->chipCap;
+	struct rtmp_chip_cap *pChipCap = &pAd->chipCap;
 	uint32_t MacValue;
 	int ret = 0;
 	RTMP_CHIP_OP *pChipOps = &pAd->chipOps;

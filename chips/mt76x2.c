@@ -250,7 +250,7 @@ static int get_low_mid_hi_index(u8 channel)
 void mt76x2_adjust_per_rate_pwr_delta(struct rtmp_adapter *ad, u8 channel, char delta_pwr)
 {
 	u32 value;
-	RTMP_CHIP_CAP *cap = &ad->chipCap;
+	struct rtmp_chip_cap *cap = &ad->chipCap;
 	unsigned int band;
 
 	if (channel > 14)
@@ -398,7 +398,7 @@ void mt76x2_adjust_per_rate_pwr_delta(struct rtmp_adapter *ad, u8 channel, char 
 
 static void mt76x2_tx_pwr_gain(struct rtmp_adapter *ad, u8 channel, u8 bw)
 {
-	RTMP_CHIP_CAP *cap = &ad->chipCap;
+	struct rtmp_chip_cap *cap = &ad->chipCap;
 	CHAR tx_0_pwr, tx_1_pwr;
 	uint32_t value;
 
@@ -468,7 +468,7 @@ static void mt76x2_tx_pwr_gain(struct rtmp_adapter *ad, u8 channel, u8 bw)
 
 static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan)
 {
-	RTMP_CHIP_CAP *cap = &ad->chipCap;
+	struct rtmp_chip_cap *cap = &ad->chipCap;
 	unsigned int latch_band, band, bw, tx_rx_setting;
 	uint32_t ret, i, value, value1, restore_value, loop = 0;
 	uint16_t e2p_value;
@@ -876,7 +876,7 @@ void mt76x2_tssi_calibration(struct rtmp_adapter *ad, u8 channel)
 
 void mt76x2_tssi_compensation(struct rtmp_adapter *ad, u8 channel)
 {
-	RTMP_CHIP_CAP *cap = &ad->chipCap;
+	struct rtmp_chip_cap *cap = &ad->chipCap;
 	struct mt7612u_tssi_comp param;
 	uint32_t value = 0;
 	uint32_t ret = 0;
@@ -1315,7 +1315,7 @@ int mt76x2_reinit_agc_gain(struct rtmp_adapter *ad, u8 channel)
 	uint32_t value0, value1;
 	CHAR agc_vga0, agc_vga1;
 	UINT8 chl_grp;
-	RTMP_CHIP_CAP *cap = &ad->chipCap;
+	struct rtmp_chip_cap *cap = &ad->chipCap;
 
 	value0 = RTMP_BBP_IO_READ32(ad, AGC1_R8);
 	agc_vga0 = ((value0 & (0x00007f00)) >> 8) & 0x7f;
@@ -1380,7 +1380,7 @@ int mt76x2_reinit_hi_lna_gain(struct rtmp_adapter *ad, u8 channel)
 	uint32_t value0, value1;
 	CHAR hi_lna0, hi_lna1;
 	UINT8 chl_grp;
-	RTMP_CHIP_CAP *cap = &ad->chipCap;
+	struct rtmp_chip_cap *cap = &ad->chipCap;
 
 	value0 = RTMP_BBP_IO_READ32(ad, AGC1_R4);
 	hi_lna0 = ((value0 & (0x003f0000)) >> 16) & 0x3f;
@@ -1443,7 +1443,7 @@ int mt76x2_reinit_hi_lna_gain(struct rtmp_adapter *ad, u8 channel)
 void mt76x2_get_rx_high_gain(struct rtmp_adapter *ad)
 {
 	uint16_t value;
-	RTMP_CHIP_CAP *cap = &ad->chipCap;
+	struct rtmp_chip_cap *cap = &ad->chipCap;
 
 	value = mt7612u_read_eeprom16(ad, RF_2G_RX_HIGH_GAIN);
 	if ((value & 0xff00) == 0x0000 || ((value & 0xff00) == 0xff00)) {
@@ -1587,7 +1587,7 @@ void mt76x2_get_rx_high_gain(struct rtmp_adapter *ad)
 static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 {
 	u16 value;
-	RTMP_CHIP_CAP *cap = &ad->chipCap;
+	struct rtmp_chip_cap *cap = &ad->chipCap;
 
 	value = mt7612u_read_eeprom16(ad, G_BAND_20_40_BW_PWR_DELTA);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {
@@ -2444,7 +2444,7 @@ static u8 mt76x2_txpwr_chlist[] = {
 
 int mt76x2_read_chl_pwr(struct rtmp_adapter *ad)
 {
-	RTMP_CHIP_CAP *cap = &ad->chipCap;
+	struct rtmp_chip_cap *cap = &ad->chipCap;
 	u32 i, choffset;
 
 	mt76x2_get_tx_pwr_info(ad);
@@ -2519,7 +2519,7 @@ static int mt7612u_parse_power_byte(u8 val)
 void mt76x2_get_tx_pwr_per_rate(struct rtmp_adapter *ad)
 {
 	u16 value;
-	RTMP_CHIP_CAP *cap = &ad->chipCap;
+	struct rtmp_chip_cap *cap = &ad->chipCap;
 
 	/* ULLI :
 	 * eeprom power format
@@ -2632,7 +2632,7 @@ void percentage_delta_pwr(struct rtmp_adapter *ad)
 
 void mt76x2_get_current_temp(struct rtmp_adapter *ad)
 {
-	RTMP_CHIP_CAP *pChipCap = &ad->chipCap;
+	struct rtmp_chip_cap *pChipCap = &ad->chipCap;
 	int32_t temp_val = 0;
 
 	mt7612u_read_reg(ad, 0xD000, &temp_val);
@@ -2655,7 +2655,7 @@ void mt76x2_get_current_temp(struct rtmp_adapter *ad)
 
 void mt76x2_read_temp_info_from_eeprom(struct rtmp_adapter *ad)
 {
-	RTMP_CHIP_CAP *pChipCap = &ad->chipCap;
+	struct rtmp_chip_cap *pChipCap = &ad->chipCap;
 	bool is_temp_tx_alc= false;
 	USHORT e2p_value = 0;
 
@@ -2676,7 +2676,7 @@ void mt76x2_read_temp_info_from_eeprom(struct rtmp_adapter *ad)
 		__FUNCTION__, is_temp_tx_alc, pChipCap->temp_tx_alc_enable));
 }
 
-static const RTMP_CHIP_CAP MT76x2_ChipCap = {
+static const struct rtmp_chip_cap MT76x2_ChipCap = {
 	.max_nss = 2,
 	.max_vht_mcs = VHT_MCS_CAP_9,
 	.ac_off_mode = 0,
@@ -2773,10 +2773,10 @@ static const RTMP_CHIP_OP MT76x2_ChipOp = {
 
 VOID mt76x2_init(struct rtmp_adapter *pAd)
 {
-	RTMP_CHIP_CAP *pChipCap = &pAd->chipCap;
+	struct rtmp_chip_cap *pChipCap = &pAd->chipCap;
 	uint32_t mac_val = 0;
 
-	memcpy(&pAd->chipCap, &MT76x2_ChipCap, sizeof(RTMP_CHIP_CAP));
+	memcpy(&pAd->chipCap, &MT76x2_ChipCap, sizeof(struct rtmp_chip_cap));
 	memcpy(&pAd->chipOps, &MT76x2_ChipOp, sizeof(RTMP_CHIP_OP));
 
 	rlt_phy_probe(pAd);

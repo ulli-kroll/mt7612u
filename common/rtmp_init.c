@@ -2885,7 +2885,7 @@ static INT RtmpChipOpsRegister(struct rtmp_adapter *pAd, INT infType)
 	int ret = 0;
 
 	memset(pChipOps, 0, sizeof(RTMP_CHIP_OP));
-	memset(&pAd->chipCap, 0, sizeof(RTMP_CHIP_CAP));
+	memset(&pAd->chipCap, 0, sizeof(struct rtmp_chip_cap));
 
 	ret = RtmpChipOpsHook(pAd);
 
@@ -2906,7 +2906,7 @@ static INT RtmpChipOpsRegister(struct rtmp_adapter *pAd, INT infType)
 #ifdef RTMP_USB_SUPPORT
 bool PairEP(struct rtmp_adapter *pAd, UINT8 EP)
 {
-	RTMP_CHIP_CAP *pChipCap = &pAd->chipCap;
+	struct rtmp_chip_cap *pChipCap = &pAd->chipCap;
 	int i;
 	int found = 0;
 
