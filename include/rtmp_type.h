@@ -65,7 +65,6 @@ typedef void VOID;
 
 typedef VOID *PVOID;
 typedef CHAR *PCHAR;
-typedef unsigned short *PUSHORT;
 typedef LONG *PLONG;
 typedef ULONG *PULONG;
 typedef UINT *PUINT;

@@ -471,7 +471,7 @@ VOID MlmeAssocReqAction(
 
 					if (FoundPMK) {
 						/* Set PMK number */
-						*(PUSHORT) & pAd->StaCfg.RSN_IE[pAd->StaCfg.RSNIE_Len] = 1;
+						*(unsigned short *) & pAd->StaCfg.RSN_IE[pAd->StaCfg.RSNIE_Len] = 1;
 						memmove(&pAd->StaCfg.RSN_IE[pAd->StaCfg.RSNIE_Len + 2],
 							       &pAd->StaCfg.SavedPMK[idx].PMKID, 16);
 						pAd->StaCfg.RSNIE_Len += 18;
