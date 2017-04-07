@@ -121,7 +121,7 @@ VOID AsicGetTxPowerOffset(struct rtmp_adapter *pAd, ULONG *TxPwr)
 		}
 	}
 
-	memcpy(TxPwr, (UCHAR *)&CfgOfTxPwrCtrlOverMAC, sizeof(CfgOfTxPwrCtrlOverMAC));
+	memcpy(TxPwr, (u8 *)&CfgOfTxPwrCtrlOverMAC, sizeof(CfgOfTxPwrCtrlOverMAC));
 
 	DBGPRINT(RT_DEBUG_INFO, ("<--AsicGetTxPowerOffset\n"));
 }
@@ -288,7 +288,7 @@ VOID AsicPercentageDeltaPower(
 
 VOID AsicCompensatePowerViaBBP(struct rtmp_adapter *pAd, CHAR *pTotalDeltaPower)
 {
-	UCHAR mdsm_drop_pwr;
+	u8 mdsm_drop_pwr;
 
 
 }

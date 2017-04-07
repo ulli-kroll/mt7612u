@@ -438,10 +438,10 @@ static LONG mapChannelKHz(int ch)
 		chBeg, chEnd - begining and ending channel
 		yBeg, yEnd - the hex phase values corresponding to chBeg and chEnd
 */
-static UCHAR InterpParam_check(int ch, int chBeg, int chEnd, UCHAR yBeg, UCHAR yEnd)
+static u8 InterpParam_check(int ch, int chBeg, int chEnd, u8 yBeg, u8 yEnd)
 {
 	long x, xBeg, xEnd, yDelta;
-	UCHAR output;
+	u8 output;
 
 	x = mapChannelKHz(ch);
 	xBeg = mapChannelKHz(chBeg);
@@ -483,7 +483,7 @@ static UCHAR InterpParam_check(int ch, int chBeg, int chEnd, UCHAR yBeg, UCHAR y
 		chBeg, chEnd - begining and ending channel
 		yBeg, yEnd - the hex phase values corresponding to chBeg and chEnd
 */
-static UCHAR InterpParam(int ch, int chBeg, int chEnd, UCHAR yBeg, UCHAR yEnd)
+static u8 InterpParam(int ch, int chBeg, int chEnd, u8 yBeg, u8 yEnd)
 {
 	long x, xBeg, xEnd, yDelta;
 
@@ -531,7 +531,7 @@ static UCHAR InterpParam(int ch, int chBeg, int chEnd, UCHAR yBeg, UCHAR yEnd)
 
 
 INT    avgPhase32[3];
-UCHAR  MidVGA[2];
+u8  MidVGA[2];
 
 
 static SC_TABLE_ENTRY impSubCarrierTable[3] = { {224, 255, 1, 31}, {198, 254, 2, 58}, {134, 254, 2, 122} };
@@ -546,7 +546,7 @@ static SC_TABLE_ENTRY expSubCarrierTable[3] = { {224, 255, 1, 31}, {198, 254, 2,
 
 #define P_RESOLUTION	256		/* Resolution of phase calculation: 2pi/256 */
 
-static UCHAR maxCarrTab[3] = {PROFILE_MAX_CARRIERS_20,
+static u8 maxCarrTab[3] = {PROFILE_MAX_CARRIERS_20,
 		                      PROFILE_MAX_CARRIERS_40,
 		                 	  PROFILE_MAX_CARRIERS_80};
 

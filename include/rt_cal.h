@@ -49,15 +49,15 @@ VOID RtmpKickOutHwNullFrame(
 
 VOID DPD_IQ_Swap_AM_PM_Inversion(
 	IN Pstruct rtmp_adapter pAd,
-	IN UCHAR AntIdx);
+	IN u8 AntIdx);
 
 VOID DPD_AM_AM_LUT_Scaling(
 	IN Pstruct rtmp_adapter pAd,
-	IN UCHAR AntIdx);
+	IN u8 AntIdx);
 
-UCHAR DPD_Calibration(
+u8 DPD_Calibration(
 	IN Pstruct rtmp_adapter pAd,
-	IN UCHAR AntIdx);
+	IN u8 AntIdx);
 
 VOID DoDPDCalibration(
 	IN Pstruct rtmp_adapter pAd);

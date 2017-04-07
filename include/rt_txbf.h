@@ -115,74 +115,74 @@ typedef struct {
 	bool fortyMHz;
 	int rows, columns;
 	int grouping;
-	UCHAR tag[EXP_MAX_BYTES];
-	UCHAR data[PROFILE_MAX_CARRIERS_40][EXP_MAX_BYTES];
+	u8 tag[EXP_MAX_BYTES];
+	u8 data[PROFILE_MAX_CARRIERS_40][EXP_MAX_BYTES];
 } PROFILE_DATA;
 
 extern PROFILE_DATA profData;
 
 typedef struct {
-	UCHAR  ng, cw, nrow, ncol, LM;
-	UCHAR  LD, EO, IO, I_E;
-	UCHAR  DMAC[6];
-	UCHAR  Tx1_scale_2ss, Tx0_scale_2ss, Tx1_scale_1ss, Tx0_scale_1ss;
-	UCHAR  STS1_SNR, STS0_SNR;
+	u8  ng, cw, nrow, ncol, LM;
+	u8  LD, EO, IO, I_E;
+	u8  DMAC[6];
+	u8  Tx1_scale_2ss, Tx0_scale_2ss, Tx1_scale_1ss, Tx0_scale_1ss;
+	u8  STS1_SNR, STS0_SNR;
 	USHORT timeout;
-	UCHAR  validFlg;
-	UCHAR  CMDInIdx;
+	u8  validFlg;
+	u8  CMDInIdx;
 } PFMU_PROFILE;
 
 typedef struct {
-	UCHAR  dCMDInIdx;
-	UCHAR  psi21, phill;
-	UCHAR  data[PROFILE_MAX_CARRIERS_80][MAX_BYTES];
+	u8  dCMDInIdx;
+	u8  psi21, phill;
+	u8  data[PROFILE_MAX_CARRIERS_80][MAX_BYTES];
 } PFMU_DATA;
 
 
 typedef
 struct {
-	UCHAR E1gBeg;
-	UCHAR E1gEnd;
-	UCHAR E1aHighBeg;
-	UCHAR E1aHighEnd;
-	UCHAR E1aLowBeg;
-	UCHAR E1aLowEnd;
-	UCHAR E1aMidBeg;
-	UCHAR E1aMidMid;
-	UCHAR E1aMidEnd;
+	u8 E1gBeg;
+	u8 E1gEnd;
+	u8 E1aHighBeg;
+	u8 E1aHighEnd;
+	u8 E1aLowBeg;
+	u8 E1aLowEnd;
+	u8 E1aMidBeg;
+	u8 E1aMidMid;
+	u8 E1aMidEnd;
 } ITXBF_PHASE_PARAMS;			// ITxBF BBP reg phase calibration parameters
 
 typedef
 struct {
-	UCHAR E1gBeg[3];
-	UCHAR E1gEnd[3];
-	UCHAR E1aHighBeg[3];
-	UCHAR E1aHighEnd[3];
-	UCHAR E1aLowBeg[3];
-	UCHAR E1aLowEnd[3];
-	UCHAR E1aMidBeg[3];
-	UCHAR E1aMidMid[3];
-	UCHAR E1aMidEnd[3];
+	u8 E1gBeg[3];
+	u8 E1gEnd[3];
+	u8 E1aHighBeg[3];
+	u8 E1aHighEnd[3];
+	u8 E1aLowBeg[3];
+	u8 E1aLowEnd[3];
+	u8 E1aMidBeg[3];
+	u8 E1aMidMid[3];
+	u8 E1aMidEnd[3];
 } ITXBF_LNA_PARAMS;			// ITxBF BBP reg LNA calibration parameters
 
 typedef
 struct {
-	UCHAR E1gBeg;
-	UCHAR E1gEnd;
-	UCHAR E1aHighBeg;
-	UCHAR E1aHighEnd;
-	UCHAR E1aLowBeg;
-	UCHAR E1aLowEnd;
-	UCHAR E1aMidBeg;
-	UCHAR E1aMidMid;
-	UCHAR E1aMidEnd;
+	u8 E1gBeg;
+	u8 E1gEnd;
+	u8 E1aHighBeg;
+	u8 E1aHighEnd;
+	u8 E1aLowBeg;
+	u8 E1aLowEnd;
+	u8 E1aMidBeg;
+	u8 E1aMidMid;
+	u8 E1aMidEnd;
 } ITXBF_DIV_PARAMS;				// ITxBF Divider Calibration parameters
 
 INT ITxBFDividerCalibration(
 	IN struct rtmp_adapter *pAd,
 	IN int calFunction,
 	IN int calMethod,
-	OUT UCHAR *divPhase);
+	OUT u8 *divPhase);
 
 VOID ITxBFLoadLNAComp(
 	IN struct rtmp_adapter *pAd);
@@ -206,13 +206,13 @@ void Write_TxBfProfile(
 
 void Read_TagField(
 	IN	struct rtmp_adapter *pAd,
-	IN  UCHAR	*row,
+	IN  u8 *row,
 	IN  int		profileNum);
 
 // Write_TagField - write a profile tagfield
 void Write_TagField(
 	IN	struct rtmp_adapter *pAd,
-	IN  UCHAR	*row,
+	IN  u8 *row,
 	IN  int		profileNum);
 
 
@@ -224,7 +224,7 @@ void displayTagfield(
 
 // Unpack an ITxBF matrix element from a row of bytes
 int Unpack_IBFValue(
-	IN UCHAR *row,
+	IN u8 *row,
 	IN int elemNum);
 
 

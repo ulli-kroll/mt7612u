@@ -1208,7 +1208,7 @@ static spinlock_t *mt7612u_mcu_get_spin_lock(struct MCU_CTRL *ctl, DL_LIST *list
 	return lock;
 }
 
-static inline UCHAR mt7612u_mcu_get_cmd_msg_seq(struct rtmp_adapter *ad)
+static inline u8 mt7612u_mcu_get_cmd_msg_seq(struct rtmp_adapter *ad)
 {
 	struct MCU_CTRL *ctl = &ad->MCUCtrl;
 	struct cmd_msg *msg;

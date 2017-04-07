@@ -127,7 +127,7 @@ VOID RT28xx_ApCli_Close(struct rtmp_adapter *ad_p)
 
 
 /* --------------------------------- Private -------------------------------- */
-INT ApCliIfLookUp(struct rtmp_adapter *pAd, UCHAR *pAddr)
+INT ApCliIfLookUp(struct rtmp_adapter *pAd, u8 *pAddr)
 {
 	SHORT if_idx;
 
@@ -165,10 +165,10 @@ bool isValidApCliIf(SHORT if_idx)
 VOID ApCliMgtMacHeaderInit(
     IN struct rtmp_adapter *pAd,
     INOUT HEADER_802_11 *pHdr80211,
-    IN UCHAR SubType,
-    IN UCHAR ToDs,
-    IN UCHAR *pDA,
-    IN UCHAR *pBssid,
+    IN u8 SubType,
+    IN u8 ToDs,
+    IN u8 *pDA,
+    IN u8 *pBssid,
     IN USHORT ifIndex)
 {
     memset(pHdr80211, 0, sizeof(HEADER_802_11));
@@ -266,7 +266,7 @@ bool ApCliCheckHt(
 
 bool ApCliCheckVht(
 	IN struct rtmp_adapter *pAd,
-	IN UCHAR Wcid,
+	IN u8 Wcid,
 	IN MAC_TABLE_ENTRY  *pEntry,
 	IN VHT_CAP_IE *vht_cap,
 	IN VHT_OP_IE *vht_op)
@@ -356,7 +356,7 @@ VOID ComposeP2PNullFrame(
 
 	==========================================================================
 */
-bool ApCliLinkUp(struct rtmp_adapter *pAd, UCHAR ifIndex)
+bool ApCliLinkUp(struct rtmp_adapter *pAd, u8 ifIndex)
 {
 	bool result = false;
 	PAPCLI_STRUCT pApCliEntry = NULL;
@@ -416,10 +416,10 @@ bool ApCliLinkUp(struct rtmp_adapter *pAd, UCHAR ifIndex)
 										OPMODE_AP, true);
 		if (pMacEntry)
 		{
-			UCHAR Rates[MAX_LEN_OF_SUPPORTED_RATES];
+			u8 Rates[MAX_LEN_OF_SUPPORTED_RATES];
 			u8 *pRates = Rates;
-			UCHAR RatesLen;
-			UCHAR MaxSupportedRate = 0;
+			u8 RatesLen;
+			u8 MaxSupportedRate = 0;
 
 			pMacEntry->Sst = SST_ASSOC;
 			pMacEntry->wdev = &pApCliEntry->wdev;
@@ -481,7 +481,7 @@ bool ApCliLinkUp(struct rtmp_adapter *pAd, UCHAR ifIndex)
 			if ((pMacEntry->AuthMode >= Ndis802_11AuthModeWPA) && (pApCliEntry->MlmeAux.VarIELen != 0))
 			{
 				u8 *pVIE;
-				UCHAR len;
+				u8 len;
 				PEID_STRUCT pEid;
 
 				pVIE = pApCliEntry->MlmeAux.VarIEs;
@@ -602,8 +602,8 @@ bool ApCliLinkUp(struct rtmp_adapter *pAd, UCHAR ifIndex)
 				else
 				pMacEntry->MpduDensity = pHtCapability->HtCapParm.MpduDensity;
 				pMacEntry->MaxRAmpduFactor = pHtCapability->HtCapParm.MaxRAmpduFactor;
-				pMacEntry->MmpsMode = (UCHAR)pHtCapability->HtCapInfo.MimoPs;
-				pMacEntry->AMsduSize = (UCHAR)pHtCapability->HtCapInfo.AMsduSize;
+				pMacEntry->MmpsMode = (u8)pHtCapability->HtCapInfo.MimoPs;
+				pMacEntry->AMsduSize = (u8)pHtCapability->HtCapInfo.AMsduSize;
 				pMacEntry->HTPhyMode.word = pMacEntry->MaxHTPhyMode.word;
 				if (pAd->CommonCfg.DesiredHtPhy.AmsduEnable && (pAd->CommonCfg.REGBACapability.field.AutoBA == false))
 					CLIENT_STATUS_SET_FLAG(pMacEntry, fCLIENT_STATUS_AMSDU_INUSED);
@@ -657,11 +657,11 @@ bool ApCliLinkUp(struct rtmp_adapter *pAd, UCHAR ifIndex)
 			{
 				pMacEntry->bAutoTxRateSwitch = false;
 				/* If the legacy mode is set, overwrite the transmit setting of this entry. */
-				RTMPUpdateLegacyTxSetting((UCHAR)wdev->DesiredTransmitSetting.field.FixedTxMode, pMacEntry);
+				RTMPUpdateLegacyTxSetting((u8)wdev->DesiredTransmitSetting.field.FixedTxMode, pMacEntry);
 			}
 			else
 			{
-				UCHAR TableSize = 0;
+				u8 TableSize = 0;
 
 				pMacEntry->bAutoTxRateSwitch = true;
 				MlmeSelectTxRateTable(pAd, pMacEntry, &pMacEntry->pTable, &TableSize, &pMacEntry->CurrTxRateIndex);
@@ -828,10 +828,10 @@ bool ApCliLinkUp(struct rtmp_adapter *pAd, UCHAR ifIndex)
 
 	==========================================================================
 */
-VOID ApCliLinkDown(struct rtmp_adapter *pAd, UCHAR ifIndex)
+VOID ApCliLinkDown(struct rtmp_adapter *pAd, u8 ifIndex)
 {
 	APCLI_STRUCT *pApCliEntry = NULL;
-	UCHAR MacTabWCID = 0;
+	u8 MacTabWCID = 0;
 
 	if ((ifIndex < MAX_APCLI_NUM)
 		)
@@ -901,7 +901,7 @@ VOID ApCliLinkDown(struct rtmp_adapter *pAd, UCHAR ifIndex)
  */
 VOID ApCliIfUp(struct rtmp_adapter *pAd)
 {
-	UCHAR ifIndex;
+	u8 ifIndex;
 	APCLI_STRUCT *pApCliEntry;
 #ifdef APCLI_CONNECTION_TRIAL
 	PULONG pCurrState = NULL;
@@ -965,7 +965,7 @@ VOID ApCliIfUp(struct rtmp_adapter *pAd)
  */
 VOID ApCliIfDown(struct rtmp_adapter *pAd)
 {
-	UCHAR ifIndex;
+	u8 ifIndex;
 	PAPCLI_STRUCT pApCliEntry;
 
 	for(ifIndex = 0; ifIndex < MAX_APCLI_NUM; ifIndex++)
@@ -990,7 +990,7 @@ VOID ApCliIfDown(struct rtmp_adapter *pAd)
  */
 VOID ApCliIfMonitor(struct rtmp_adapter *pAd)
 {
-	UCHAR index;
+	u8 index;
 	APCLI_STRUCT *pApCliEntry;
 
 	/* Reset is in progress, stop immediately */
@@ -1009,7 +1009,7 @@ VOID ApCliIfMonitor(struct rtmp_adapter *pAd)
 		if (index == 1)
 			continue;//skip apcli1 monitor. FIXME:Carter shall find a better way.
 #endif /* APCLI_CONNECTION_TRIAL */
-		UCHAR Wcid;
+		u8 Wcid;
 		PMAC_TABLE_ENTRY pMacEntry;
 		bool bForceBrocken = false;
 
@@ -1066,7 +1066,7 @@ bool ApCliMsgTypeSubst(
 	OUT INT *MsgType)
 {
 	USHORT Seq;
-	UCHAR EAPType;
+	u8 EAPType;
 	bool Return = false;
 
 
@@ -1078,7 +1078,7 @@ bool ApCliMsgTypeSubst(
 	{
 	        {
 	    		*Machine = WPA_STATE_MACHINE;
-	    		EAPType = *((UCHAR*)pFrame + LENGTH_802_11 + LENGTH_802_1_H + 1);
+			EAPType = *((u8 *)pFrame + LENGTH_802_11 + LENGTH_802_1_H + 1);
 	    		Return = WpaMsgTypeSubst(EAPType, MsgType);
 	        }
 		return Return;
@@ -1186,17 +1186,17 @@ bool ApCliPeerAssocRspSanity(
     OUT USHORT *pCapabilityInfo,
     OUT USHORT *pStatus,
     OUT USHORT *pAid,
-    OUT UCHAR SupRate[],
-    OUT UCHAR *pSupRateLen,
-    OUT UCHAR ExtRate[],
-    OUT UCHAR *pExtRateLen,
+    OUT u8 SupRate[],
+    OUT u8 *pSupRateLen,
+    OUT u8 ExtRate[],
+    OUT u8 *pExtRateLen,
     OUT HT_CAPABILITY_IE *pHtCapability,
     OUT ADD_HT_INFO_IE *pAddHtInfo,	/* AP might use this additional ht info IE */
-    OUT UCHAR *pHtCapabilityLen,
-    OUT UCHAR *pAddHtInfoLen,
-    OUT UCHAR *pNewExtChannelOffset,
+    OUT u8 *pHtCapabilityLen,
+    OUT u8 *pAddHtInfoLen,
+    OUT u8 *pNewExtChannelOffset,
     OUT PEDCA_PARM pEdcaParm,
-    OUT UCHAR *pCkipFlag,
+    OUT u8 *pCkipFlag,
     OUT IE_LISTS *ie_list)
 {
 	CHAR          IeType, *Ptr;
@@ -1332,7 +1332,7 @@ bool ApCliPeerAssocRspSanity(
 					ptr = (u8 *) &pEid->Octet[8];
 					for (i=0; i<4; i++)
 					{
-						UCHAR aci = (*ptr & 0x60) >> 5; /* b5~6 is AC INDEX */
+						u8 aci = (*ptr & 0x60) >> 5; /* b5~6 is AC INDEX */
 						pEdcaParm->bACM[aci]  = (((*ptr) & 0x10) == 0x10);   /* b5 is ACM */
 						pEdcaParm->Aifsn[aci] = (*ptr) & 0x0f;               /* b0~3 is AIFSN */
 						pEdcaParm->Cwmin[aci] = *(ptr+1) & 0x0f;             /* b0~4 is Cwmin */
@@ -1348,14 +1348,14 @@ bool ApCliPeerAssocRspSanity(
 		}
 
 		Length = Length + 2 + pEid->Len;
-		pEid = (PEID_STRUCT)((UCHAR*)pEid + 2 + pEid->Len);
+		pEid = (PEID_STRUCT)((u8 *)pEid + 2 + pEid->Len);
 	}
 
 	return true;
 }
 
 
-MAC_TABLE_ENTRY *ApCliTableLookUpByWcid(struct rtmp_adapter *pAd, UCHAR wcid, UCHAR *pAddrs)
+MAC_TABLE_ENTRY *ApCliTableLookUpByWcid(struct rtmp_adapter *pAd, u8 wcid, u8 *pAddrs)
 {
 	ULONG ApCliIndex;
 	PMAC_TABLE_ENTRY pCurEntry = NULL;
@@ -1447,9 +1447,9 @@ INT ApCliAllowToSendPacket(
 	IN struct rtmp_adapter *pAd,
 	IN struct rtmp_wifi_dev *wdev,
 	IN struct sk_buff *pPacket,
-	OUT UCHAR *pWcid)
+	OUT u8 *pWcid)
 {
-	UCHAR idx;
+	u8 idx;
 	bool	allowed = false;
 	APCLI_STRUCT *apcli_entry;
 
@@ -1502,12 +1502,12 @@ bool ApCliValidateRSNIE(
 	IN USHORT idx)
 {
 	u8 *pVIE, *pTmp;
-	UCHAR len;
+	u8 len;
 	PEID_STRUCT         pEid;
 	CIPHER_SUITE		WPA;			/* AP announced WPA cipher suite */
 	CIPHER_SUITE		WPA2;			/* AP announced WPA2 cipher suite */
 	USHORT Count;
-	UCHAR Sanity;
+	u8 Sanity;
 	PAPCLI_STRUCT pApCliEntry = NULL;
 	PRSN_IE_HEADER_STRUCT pRsnHeader;
 	NDIS_802_11_ENCRYPTION_STATUS	TmpCipher;
@@ -2017,7 +2017,7 @@ bool  ApCliHandleRxBroadcastFrame(
 	IN struct rtmp_adapter *pAd,
 	IN RX_BLK *pRxBlk,
 	IN MAC_TABLE_ENTRY *pEntry,
-	IN UCHAR FromWhichBSSID)
+	IN u8 FromWhichBSSID)
 {
 	RXINFO_STRUC *pRxInfo = pRxBlk->pRxInfo;
 	PHEADER_802_11 pHeader = pRxBlk->pHeader;
@@ -2081,7 +2081,7 @@ VOID APCliInstallPairwiseKey(
 	IN  struct rtmp_adapter *  pAd,
 	IN  MAC_TABLE_ENTRY *pEntry)
 {
-	UCHAR	IfIdx;
+	u8 IfIdx;
 	UINT8	BssIdx;
 
 	IfIdx = pEntry->wdev_idx;
@@ -2098,12 +2098,12 @@ VOID APCliInstallPairwiseKey(
 bool APCliInstallSharedKey(
 	IN  struct rtmp_adapter *  pAd,
 	IN  u8 *         pKey,
-	IN  UCHAR           KeyLen,
-	IN	UCHAR			DefaultKeyIdx,
+	IN  u8           KeyLen,
+	IN	u8 		DefaultKeyIdx,
 	IN  MAC_TABLE_ENTRY *pEntry)
 {
-	UCHAR	IfIdx;
-	UCHAR	GTK_len = 0;
+	u8 IfIdx;
+	u8 GTK_len = 0;
 	APCLI_STRUCT *apcli_entry;
 
 
@@ -2180,9 +2180,9 @@ bool APCliInstallSharedKey(
 // TODO: shiang-6590, modify this due to it's really a duplication of "RTMPUpdateMlmeRate()" in common/mlme.c
 VOID ApCliUpdateMlmeRate(struct rtmp_adapter *pAd, USHORT ifIndex)
 {
-	UCHAR	MinimumRate;
-	UCHAR	ProperMlmeRate; /*= RATE_54; */
-	UCHAR	i, j, RateIdx = 12; /* 1, 2, 5.5, 11, 6, 9, 12, 18, 24, 36, 48, 54 */
+	u8 MinimumRate;
+	u8 ProperMlmeRate; /*= RATE_54; */
+	u8 i, j, RateIdx = 12; /* 1, 2, 5.5, 11, 6, 9, 12, 18, 24, 36, 48, 54 */
 	bool	bMatch = false;
 
 	PAPCLI_STRUCT pApCliEntry = NULL;
@@ -2371,7 +2371,7 @@ VOID APCli_Init(struct rtmp_adapter *pAd, struct RTMP_OS_NETDEV_OP_HOOK *pNetDev
 		{
 			if ((pAd->ApCfg.BssidNum > 0) || (MAX_MESH_NUM > 0))
 			{
-				UCHAR MacMask = 0;
+				u8 MacMask = 0;
 
 				if ((pAd->ApCfg.BssidNum + MAX_APCLI_NUM + MAX_MESH_NUM) <= 2)
 					MacMask = 0xFE;
@@ -2455,7 +2455,7 @@ VOID ApCli_Remove(struct rtmp_adapter *pAd)
 
 bool ApCli_Open(struct rtmp_adapter *pAd, struct net_device *dev_p)
 {
-	UCHAR ifIndex;
+	u8 ifIndex;
 
 	for (ifIndex = 0; ifIndex < MAX_APCLI_NUM; ifIndex++)
 	{
@@ -2477,7 +2477,7 @@ bool ApCli_Open(struct rtmp_adapter *pAd, struct net_device *dev_p)
 
 bool ApCli_Close(struct rtmp_adapter *pAd, struct net_device *dev_p)
 {
-	UCHAR ifIndex;
+	u8 ifIndex;
 	struct rtmp_wifi_dev *wdev;
 	APCLI_STRUCT *apcli_entry;
 
@@ -2537,7 +2537,7 @@ bool ApCliAutoConnectExec(
 	IN  struct rtmp_adapter *  pAd)
 {
 	struct os_cookie * 	pObj = pAd->OS_Cookie;
-	UCHAR			ifIdx, CfgSsidLen, entryIdx;
+	u8 		ifIdx, CfgSsidLen, entryIdx;
 	STRING			*pCfgSsid;
 	BSS_TABLE		*pScanTab, *pSsidBssTab;
 
@@ -2611,7 +2611,7 @@ bool ApCliAutoConnectExec(
 		/*
 			Switch to the channel of the candidate AP
 		*/
-		UCHAR tempBuf[20];
+		u8 tempBuf[20];
 		if (pAd->CommonCfg.Channel != pSsidBssTab->BssEntry[pSsidBssTab->BssNr -1].Channel)
 		{
 			sprintf(tempBuf, "%d", pSsidBssTab->BssEntry[pSsidBssTab->BssNr -1].Channel);
@@ -2664,7 +2664,7 @@ VOID ApCliSwitchCandidateAP(
 	struct os_cookie * 	pObj = pAd->OS_Cookie;
 	BSS_TABLE 		*pSsidBssTab;
 	PAPCLI_STRUCT	pApCliEntry;
-	UCHAR			lastEntryIdx, ifIdx = pObj->ioctl_if;
+	u8 		lastEntryIdx, ifIdx = pObj->ioctl_if;
 
 #ifdef AP_PARTIAL_SCAN_SUPPORT
 	if (pAd->ApCfg.bPartialScanning == true)
@@ -2684,7 +2684,7 @@ VOID ApCliSwitchCandidateAP(
 
 	if ((pSsidBssTab->BssNr > 0) && (pSsidBssTab->BssNr < MAX_LEN_OF_BSS_TABLE))
 	{
-		UCHAR	tempBuf[20];
+		u8 tempBuf[20];
 
 		sprintf(tempBuf, "%02X:%02X:%02X:%02X:%02X:%02X",
 				pSsidBssTab->BssEntry[lastEntryIdx].Bssid[0],
@@ -2759,7 +2759,7 @@ VOID RTMPApCliReconnectionCheck(
 {
 	INT i;
 	PCHAR	pApCliSsid, pApCliCfgSsid;
-	UCHAR	CfgSsidLen;
+	u8 CfgSsidLen;
 	NDIS_802_11_SSID Ssid;
 
 	if (pAd->ApCfg.ApCliAutoConnectRunning == false)

@@ -27,7 +27,7 @@
 */
 #include	"rt_config.h"
 
-UCHAR NUM_BIT8[] = {0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80};
+u8 NUM_BIT8[] = {0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80};
 #ifdef DBG
 char *CipherName[] = {"none","wep64","wep128","TKIP","AES","CKIP64","CKIP128","CKIP152","SMS4"};
 #endif
@@ -67,7 +67,7 @@ int RTMPAllocAdapterBlock(struct os_cookie *handle, struct rtmp_adapter **ppAdap
 	struct rtmp_adapter *pAd = NULL;
 	int  Status;
 	INT index;
-	UCHAR *pBeaconBuf = NULL;
+	u8 *pBeaconBuf = NULL;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("--> RTMPAllocAdapterBlock\n"));
 
@@ -203,7 +203,7 @@ static UINT8 NICGetBandSupported(struct rtmp_adapter *pAd)
 }
 
 
-bool RTMPCheckPhyMode(struct rtmp_adapter *pAd, UINT8 band_cap, UCHAR *pPhyMode)
+bool RTMPCheckPhyMode(struct rtmp_adapter *pAd, UINT8 band_cap, u8 *pPhyMode)
 {
 	bool RetVal = true;
 
@@ -296,12 +296,12 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 	Addr23 = mt7612u_read_eeprom16(pAd, 0x06);
 	Addr45 = mt7612u_read_eeprom16(pAd, 0x08);
 
-	pAd->PermanentAddress[0] = (UCHAR)(Addr01 & 0xff);
-	pAd->PermanentAddress[1] = (UCHAR)(Addr01 >> 8);
-	pAd->PermanentAddress[2] = (UCHAR)(Addr23 & 0xff);
-	pAd->PermanentAddress[3] = (UCHAR)(Addr23 >> 8);
-	pAd->PermanentAddress[4] = (UCHAR)(Addr45 & 0xff);
-	pAd->PermanentAddress[5] = (UCHAR)(Addr45 >> 8);
+	pAd->PermanentAddress[0] = (u8)(Addr01 & 0xff);
+	pAd->PermanentAddress[1] = (u8)(Addr01 >> 8);
+	pAd->PermanentAddress[2] = (u8)(Addr23 & 0xff);
+	pAd->PermanentAddress[3] = (u8)(Addr23 >> 8);
+	pAd->PermanentAddress[4] = (u8)(Addr45 & 0xff);
+	pAd->PermanentAddress[5] = (u8)(Addr45 >> 8);
 
 	/*more conveninet to test mbssid, so ap's bssid &0xf1*/
 	if (pAd->PermanentAddress[0] == 0xff)
@@ -434,8 +434,8 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 	pAd->Antenna.word = Antenna.word;
 
 	/* Set the RfICType here, then we can initialize RFIC related operation callbacks*/
-	pAd->Mlme.RealRxPath = (UCHAR) Antenna.field.RxPath;
-	pAd->RfIcType = (UCHAR) Antenna.field.RfIcType;
+	pAd->Mlme.RealRxPath = (u8) Antenna.field.RxPath;
+	pAd->RfIcType = (u8) Antenna.field.RfIcType;
 
 	if (IS_MT7662(pAd))
 		pAd->RfIcType = RFIC_7662;
@@ -486,10 +486,10 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 	value2 = pAd->EEPROMDefaultValue[EEPROM_COUNTRY_REG_OFFSET] & 0x00FF;	/* 5G band*/
 
 	if ((value <= REGION_MAXIMUM_BG_BAND) || (value == REGION_31_BG_BAND) || (value == REGION_32_BG_BAND) || (value == REGION_33_BG_BAND) )
-		pAd->CommonCfg.CountryRegion = ((UCHAR) value) | EEPROM_IS_PROGRAMMED;
+		pAd->CommonCfg.CountryRegion = ((u8) value) | EEPROM_IS_PROGRAMMED;
 
 	if (value2 <= REGION_MAXIMUM_A_BAND)
-		pAd->CommonCfg.CountryRegionForABand = ((UCHAR) value2) | EEPROM_IS_PROGRAMMED;
+		pAd->CommonCfg.CountryRegionForABand = ((u8) value2) | EEPROM_IS_PROGRAMMED;
 
 	/* Get RSSI Offset on EEPROM 0x9Ah & 0x9Ch.*/
 	/* The valid value are (-10 ~ 10) */
@@ -578,9 +578,9 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 	pAd->ALNAGain2 = (value >> 8);
 
 
-	if (((UCHAR)pAd->ALNAGain1 == 0xFF) || (pAd->ALNAGain1 == 0x00))
+	if (((u8)pAd->ALNAGain1 == 0xFF) || (pAd->ALNAGain1 == 0x00))
 		pAd->ALNAGain1 = pAd->ALNAGain0;
-	if (((UCHAR)pAd->ALNAGain2 == 0xFF) || (pAd->ALNAGain2 == 0x00))
+	if (((u8)pAd->ALNAGain2 == 0xFF) || (pAd->ALNAGain2 == 0x00))
 		pAd->ALNAGain2 = pAd->ALNAGain0;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("ALNAGain0 = %d, ALNAGain1 = %d, ALNAGain2 = %d\n",
@@ -886,7 +886,7 @@ int NICInitializeAsic(struct rtmp_adapter *pAd, bool bHardReset)
 
 #ifdef RTMP_MAC_USB
 	{
-		UCHAR MAC_Value[]={0xff,0xff,0xff,0xff,0xff,0xff,0xff,0,0};
+		u8 MAC_Value[]={0xff,0xff,0xff,0xff,0xff,0xff,0xff,0,0};
 
 		/*Initialize WCID table*/
 		for(Index =0 ;Index < 254;Index++)
@@ -1004,9 +1004,9 @@ VOID NICUpdateFifoStaCounters(struct rtmp_adapter *pAd)
 	TX_STA_FIFO_STRUC	StaFifo;
 	MAC_TABLE_ENTRY		*pEntry = NULL;
 	uint32_t 			i = 0;
-	UCHAR				pid = 0, wcid = 0;
+	u8 			pid = 0, wcid = 0;
 	int32_t 			reTry;
-	UCHAR				succMCS, PhyMode;
+	u8 			succMCS, PhyMode;
 
 #ifdef RTMP_MAC_USB
 #ifdef CONFIG_STA_SUPPORT
@@ -1034,12 +1034,12 @@ VOID NICUpdateFifoStaCounters(struct rtmp_adapter *pAd)
 		if (StaFifo.field.bValid == 0)
 			break;
 
-		wcid = (UCHAR)StaFifo.field.wcid;
+		wcid = (u8)StaFifo.field.wcid;
 
 #ifdef DBG_CTRL_SUPPORT
 #ifdef INCLUDE_DEBUG_QUEUE
 		if (pAd->CommonCfg.DebugFlags & DBF_DBQ_TXFIFO) {
-			dbQueueEnqueue(0x73, (UCHAR *)(&StaFifo.word));
+			dbQueueEnqueue(0x73, (u8 *)(&StaFifo.word));
 		}
 #endif /* INCLUDE_DEBUG_QUEUE */
 #endif /* DBG_CTRL_SUPPORT */
@@ -1057,16 +1057,16 @@ VOID NICUpdateFifoStaCounters(struct rtmp_adapter *pAd)
 			PhyMode = StaFifo.field.PhyMode;
 			if((PhyMode == 2) || (PhyMode == 3))
 			{
- 				pid = (UCHAR)StaFifoExt.field.PidType & 0xF;
+ 				pid = (u8)StaFifoExt.field.PidType & 0xF;
 			}
 			else if(PhyMode == 4)
 			{
-				pid = (UCHAR)StaFifoExt.field.PidType & 0xF;
-				pid += (((UCHAR)StaFifoExt.field.PidType & 0x10) ? 10 : 0);
+				pid = (u8)StaFifoExt.field.PidType & 0xF;
+				pid += (((u8)StaFifoExt.field.PidType & 0x10) ? 10 : 0);
 			}
 		}
 		else
-		pid = (UCHAR)StaFifo.field.PidType;
+		pid = (u8)StaFifo.field.PidType;
 
 		pEntry = &pAd->MacTab.Content[wcid];
 
@@ -1618,7 +1618,7 @@ VOID NICUpdateRawCounters(struct rtmp_adapter *pAd)
 #ifdef DBG_DIAGNOSE
 	{
 		RtmpDiagStruct *pDiag;
-		UCHAR ArrayCurIdx, i;
+		u8 ArrayCurIdx, i;
 		struct dbg_diag_info *diag_info;
 
 		pDiag = &pAd->DiagStruct;
@@ -2424,7 +2424,7 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 
 
 /* IRQL = PASSIVE_LEVEL*/
-UCHAR BtoH(STRING ch)
+u8 BtoH(STRING ch)
 {
 	if (ch >= '0' && ch <= '9') return (ch - '0');        /* Handle numerals*/
 	if (ch >= 'A' && ch <= 'F') return (ch - 'A' + 0xA);  /* Handle capitol hex digits*/
@@ -2434,7 +2434,7 @@ UCHAR BtoH(STRING ch)
 
 
 /*
-	FUNCTION: AtoH(char *, UCHAR *, int)
+	FUNCTION: AtoH(char *, u8 *, int)
 
 	PURPOSE:  Converts ascii string to network order hex
 

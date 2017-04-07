@@ -344,24 +344,24 @@ typedef struct __CMD_RTPRIV_IOCTL_80211_BSS_PARM {
 typedef struct __CMD_RTPRIV_IOCTL_80211_BEACON {
         int32_t interval;
         int32_t dtim_period;
-        UCHAR *beacon_head;
-		UCHAR *beacon_tail;
+        u8 *beacon_head;
+		u8 *beacon_tail;
         uint32_t beacon_head_len; /* Before TIM IE */
 		uint32_t beacon_tail_len; /* After TIM IE */
 
-	UCHAR *beacon_ies;
+	u8 *beacon_ies;
 	uint32_t beacon_ies_len;
-	UCHAR *proberesp_ies;
+	u8 *proberesp_ies;
 	uint32_t proberesp_ies_len;
-	UCHAR *assocresp_ies;
+	u8 *assocresp_ies;
 	uint32_t assocresp_ies_len;
-	UCHAR *probe_resp;
+	u8 *probe_resp;
 	uint32_t probe_resp_len;
 	ULONG ssid_len;
-	UCHAR hidden_ssid;
+	u8 hidden_ssid;
 	struct cfg80211_crypto_settings crypto;
 	bool privacy;
-	UCHAR auth_type;
+	u8 auth_type;
 	int32_t inactivity_timeout;
 } CMD_RTPRIV_IOCTL_80211_BEACON;
 
@@ -408,7 +408,7 @@ typedef struct __CMD_RTPRIV_IOCTL_80211_VIF_PARM {
 typedef struct __CMD_RTPRIV_IOCTL_80211_IBSS {
 
 	uint32_t BeaconInterval;
-	UCHAR *pSsid;
+	u8 *pSsid;
 } CMD_RTPRIV_IOCTL_80211_IBSS;
 
 #define RT_CMD_80211_TXRATE_LEGACY		0x01
@@ -475,7 +475,7 @@ typedef struct __CMD_RTPRIV_IOCTL_80211_CONNECT {
 
 typedef struct __CMD_RTPRIV_IOCTL_80211_REG_NOTIFY {
 
-	UCHAR Alpha2[2];
+	u8 Alpha2[2];
 	VOID *pWiphy;
 } CMD_RTPRIV_IOCTL_80211_REG_NOTIFY;
 
@@ -566,7 +566,7 @@ typedef struct __RT_CMD_PARAM_SET {
 } RT_CMD_PARAM_SET;
 
 typedef struct __RT_CMD_SHARED_KEY_ADD {
-	IN UCHAR KeyIdx;
+	IN u8 KeyIdx;
 	IN bool FlgHaveGTK;
 } RT_CMD_SHARED_KEY_ADD;
 
@@ -633,7 +633,7 @@ typedef struct __RT_CMD_STATS {
 typedef struct __RT_CMD_IW_STATS {
 
 	ULONG priv_flags;
-	UCHAR *dev_addr;
+	u8 *dev_addr;
 
 	VOID *pStats;		/* point to pAd->iw_stats */
 
@@ -687,8 +687,8 @@ typedef struct __RT_CMD_STA_IOCTL_FREQ {
 } RT_CMD_STA_IOCTL_FREQ;
 
 typedef struct __RT_CMD_STA_IOCTL_BSS {
-	OUT UCHAR Bssid[6];
-	OUT UCHAR ChannelQuality;
+	OUT u8 Bssid[6];
+	OUT u8 ChannelQuality;
 	OUT CHAR Rssi;
 	OUT CHAR Noise;
 } RT_CMD_STA_IOCTL_BSS;
@@ -700,40 +700,40 @@ typedef struct __RT_CMD_STA_IOCTL_BSS_LIST {
 } RT_CMD_STA_IOCTL_BSS_LIST;
 
 typedef struct __RT_CMD_STA_IOCTL_SCAN {
-	IN UCHAR FlgScanThisSsid;
+	IN u8 FlgScanThisSsid;
 	IN uint32_t SsidLen;
 	IN CHAR *pSsid;
 	OUT int32_t Status;
 } RT_CMD_STA_IOCTL_SCAN;
 
 typedef struct __RT_CMD_STA_IOCTL_BSS_TABLE {
-	OUT UCHAR Bssid[6];
-	OUT UCHAR Channel;
-	OUT UCHAR BssType;
-	OUT UCHAR HtCapabilityLen;
-    OUT UCHAR VHTCapabilityLen;
+	OUT u8 Bssid[6];
+	OUT u8 Channel;
+	OUT u8 BssType;
+	OUT u8 HtCapabilityLen;
+    OUT u8 VHTCapabilityLen;
 
-	OUT UCHAR SupRate[12];
-	OUT UCHAR SupRateLen;
-	OUT UCHAR ExtRate[12];
-	OUT UCHAR ExtRateLen;
+	OUT u8 SupRate[12];
+	OUT u8 SupRateLen;
+	OUT u8 ExtRate[12];
+	OUT u8 ExtRateLen;
 
-	OUT UCHAR SsidLen;
+	OUT u8 SsidLen;
 	OUT CHAR Ssid[32];
 
 	OUT USHORT CapabilityInfo;
-	OUT UCHAR ChannelWidth, ShortGIfor40, ShortGIfor20, MCSSet;
+	OUT u8 ChannelWidth, ShortGIfor40, ShortGIfor20, MCSSet;
 
 	OUT USHORT WpaIeLen;
-	OUT UCHAR *pWpaIe;
+	OUT u8 *pWpaIe;
 
 	OUT USHORT RsnIeLen;
-	OUT UCHAR *pRsnIe;
+	OUT u8 *pRsnIe;
 
 	OUT USHORT WpsIeLen;
-	OUT UCHAR *pWpsIe;
+	OUT u8 *pWpsIe;
 
-	OUT UCHAR FlgIsPrivacyOn;
+	OUT u8 FlgIsPrivacyOn;
 
 	OUT RT_CMD_STA_IOCTL_BSS Signal;
 } RT_CMD_STA_IOCTL_BSS_TABLE;
@@ -742,11 +742,11 @@ typedef struct __RT_CMD_STA_IOCTL_SCAN_TABLE {
 	IN ULONG priv_flags;
 	OUT uint32_t BssNr;
 	OUT RT_CMD_STA_IOCTL_BSS_TABLE *pBssTable;	/* must be freed by caller */
-	OUT UCHAR MainSharedKey[4][16];
+	OUT u8 MainSharedKey[4][16];
 } RT_CMD_STA_IOCTL_SCAN_TABLE;
 
 typedef struct __RT_CMD_STA_IOCTL_SSID {
-	IN UCHAR FlgAnySsid;
+	IN u8 FlgAnySsid;
 	INOUT uint32_t SsidLen;
 	INOUT CHAR *pSsid;
 	OUT int32_t Status;
@@ -849,7 +849,7 @@ typedef struct __RT_CMD_STA_IOCTL_SECURITY_ADV {
 
 typedef struct __RT_CMD_STA_IOCTL_RSN_IE {
 	INOUT uint32_t length;
-	INOUT UCHAR *pRsnIe;
+	INOUT u8 *pRsnIe;
 } RT_CMD_STA_IOCTL_RSN_IE;
 
 typedef struct __RT_CMD_STA_IOCTL_PMA_SA {
@@ -857,8 +857,8 @@ typedef struct __RT_CMD_STA_IOCTL_PMA_SA {
 #define RT_CMD_STA_IOCTL_PMA_SA_REMOVE					0x02
 #define RT_CMD_STA_IOCTL_PMA_SA_ADD						0x03
 	IN uint32_t Cmd;
-	IN UCHAR *pBssid;
-	IN UCHAR *pPmkid;
+	IN u8 *pBssid;
+	IN u8 *pPmkid;
 } RT_CMD_STA_IOCTL_PMA_SA;
 
 typedef struct __RT_CMD_USB_INIT {

@@ -28,8 +28,8 @@
 
 #include "rt_config.h"
 
-UCHAR CFG_WPS_OUI[4] = {0x00, 0x50, 0xf2, 0x04};
-UCHAR CFG_P2POUIBYTE[4] = {0x50, 0x6f, 0x9a, 0x9}; /* spec. 1.14 OUI */
+u8 CFG_WPS_OUI[4] = {0x00, 0x50, 0xf2, 0x04};
+u8 CFG_P2POUIBYTE[4] = {0x50, 0x6f, 0x9a, 0x9}; /* spec. 1.14 OUI */
 
 BUILD_TIMER_FUNCTION(CFG80211RemainOnChannelTimeout);
 
@@ -120,7 +120,7 @@ bool CFG80211DRV_OpsRemainOnChannel(struct rtmp_adapter *pAd, VOID *pData, uint3
 	CMD_RTPRIV_IOCTL_80211_CHAN *pChanInfo = (CMD_RTPRIV_IOCTL_80211_CHAN *) pData;
 	bool Cancelled;
 	PCFG80211_CTRL pCfg80211_ctrl = &pAd->cfg80211_ctrl;
-	UCHAR lock_channel;
+	u8 lock_channel;
         PWIRELESS_DEV pwdev = NULL;
         pwdev = pChanInfo->pWdev;
 

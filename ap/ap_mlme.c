@@ -28,7 +28,7 @@
 #include "rt_config.h"
 #include <stdarg.h>
 
-extern UCHAR  ZeroSsid[32];
+extern u8  ZeroSsid[32];
 
 int DetectOverlappingPeriodicRound;
 
@@ -324,7 +324,7 @@ bool APMsgTypeSubst(
     OUT INT *MsgType)
 {
     USHORT Seq;
-    UCHAR  EAPType;
+    u8  EAPType;
     bool     Return = false;
 
 /*
@@ -339,7 +339,7 @@ bool APMsgTypeSubst(
         if (!Return)
         {
 	        *Machine = WPA_STATE_MACHINE;
-        	EAPType = *((UCHAR*)pFrame + LENGTH_802_11 + LENGTH_802_1_H + 1);
+        	EAPType = *((u8 *)pFrame + LENGTH_802_11 + LENGTH_802_1_H + 1);
 	        Return = WpaMsgTypeSubst(EAPType, (INT *) MsgType);
         }
         return Return;
@@ -534,7 +534,7 @@ VOID APAsicRxAntEvalTimeout(struct rtmp_adapter *pAd)
 */
 VOID	APAsicAntennaAvg(
 	IN	struct rtmp_adapter *pAd,
-	IN	UCHAR	              AntSelect,
+	IN	u8               AntSelect,
 	IN	SHORT*	              RssiAvg)
 {
 		    SHORT	realavgrssi;

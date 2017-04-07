@@ -175,22 +175,22 @@ typedef	struct _MGMT_STRUC {
 /*////////////////////////////////////////////////////////////////////////*/
 typedef struct __TX_BUFFER{
 	union{
-		UCHAR			WirelessPacket[TX_BUFFER_NORMSIZE];
+		u8 		WirelessPacket[TX_BUFFER_NORMSIZE];
 		HEADER_802_11	NullFrame;
 		PSPOLL_FRAME	PsPollPacket;
 		RTS_FRAME		RTSFrame;
 	}field;
-	UCHAR			Aggregation[4];  /*Buffer for save Aggregation size. */
+	u8 		Aggregation[4];  /*Buffer for save Aggregation size. */
 } TX_BUFFER, *PTX_BUFFER;
 
 typedef struct __HTTX_BUFFER{
 	union{
-		UCHAR			WirelessPacket[MAX_TXBULK_SIZE];
+		u8 		WirelessPacket[MAX_TXBULK_SIZE];
 		HEADER_802_11	NullFrame;
 		PSPOLL_FRAME	PsPollPacket;
 		RTS_FRAME		RTSFrame;
 	}field;
-	UCHAR			Aggregation[4];  /*Buffer for save Aggregation size. */
+	u8 		Aggregation[4];  /*Buffer for save Aggregation size. */
 } HTTX_BUFFER, *PHTTX_BUFFER;
 
 
@@ -209,16 +209,16 @@ typedef struct _TX_CONTEXT
 									/*Initialized in MiniportInitialize */
 	PTX_BUFFER		TransferBuffer;	/*Initialized in MiniportInitialize */
 	ULONG			BulkOutSize;
-	UCHAR			BulkOutPipeId;
-	UCHAR			SelfIdx;
+	u8 		BulkOutPipeId;
+	u8 		SelfIdx;
 	bool			InUse;
 	bool			bWaitingBulkOut; /* at least one packet is in this TxContext, ready for making IRP anytime. */
 	bool			bFullForBulkOut; /* all tx buffer are full , so waiting for tx bulkout. */
 	bool			IRPPending;
 	bool			LastOne;
 	bool			bAggregatible;
-	UCHAR			Header_802_3[LENGTH_802_3];
-	UCHAR			Rsv[2];
+	u8 		Header_802_3[LENGTH_802_3];
+	u8 		Rsv[2];
 	ULONG			DataOffset;
 	UINT			TxRate;
 	ra_dma_addr_t		data_dma;
@@ -235,14 +235,14 @@ typedef struct _HT_TX_CONTEXT
 									/*Initialized in MiniportInitialize */
 	PHTTX_BUFFER	TransferBuffer;	/*Initialized in MiniportInitialize */
 	ULONG			BulkOutSize;	/* Indicate the total bulk-out size in bytes in one bulk-transmission */
-	UCHAR			BulkOutPipeId;
+	u8 		BulkOutPipeId;
 	bool			IRPPending;
 	bool			LastOne;
 	bool			bCurWriting;
 	bool			bRingEmpty;
 	bool			bCopySavePad;
-	UCHAR			SavedPad[8];
-	UCHAR			Header_802_3[LENGTH_802_3];
+	u8 		SavedPad[8];
+	u8 		Header_802_3[LENGTH_802_3];
 	ULONG			CurWritePosition;		/* Indicate the buffer offset which packet will be inserted start from. */
 	ULONG			CurWriteRealPos;		/* Indicate the buffer offset which packet now are writing to. */
 	ULONG			NextBulkOutPosition;	/* Indicate the buffer start offset of a bulk-transmission */
@@ -527,8 +527,8 @@ typedef struct _CMD_RSP_CONTEXT
 /* Remove Pairwise Key table */
 #define RTMP_REMOVE_PAIRWISE_KEY_ENTRY(_pAd, _Wcid)										\
 {																						\
-	UCHAR _tWcid =_Wcid;																\
-	RTEnqueueInternalCmd(_pAd, CMDTHREAD_REMOVE_PAIRWISE_KEY, &(_tWcid), sizeof(UCHAR));\
+	u8 _tWcid =_Wcid;																\
+	RTEnqueueInternalCmd(_pAd, CMDTHREAD_REMOVE_PAIRWISE_KEY, &(_tWcid), sizeof(u8));\
 }
 
 #define RTMP_OS_IRQ_RELEASE(_pAd, _NetDev)

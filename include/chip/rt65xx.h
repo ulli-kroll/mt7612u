@@ -37,8 +37,8 @@ struct rtmp_adapter;
 #define MAX_CHECK_COUNT 200
 
 #ifdef RTMP_USB_SUPPORT
-VOID RT65xxUsbAsicRadioOn(struct rtmp_adapter *pAd, UCHAR Stage);
-VOID RT65xxUsbAsicRadioOff(struct rtmp_adapter *pAd, UCHAR Stage);
+VOID RT65xxUsbAsicRadioOn(struct rtmp_adapter *pAd, u8 Stage);
+VOID RT65xxUsbAsicRadioOff(struct rtmp_adapter *pAd, u8 Stage);
 #endif
 
 /*

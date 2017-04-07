@@ -40,9 +40,9 @@ char const *pEventText[EVENT_MAX_EVENT_TYPE] = {
 	"has disassociated with invalid PSK password"};
 
 
-UCHAR get_apidx_by_addr(struct rtmp_adapter *pAd, UCHAR *addr)
+u8 get_apidx_by_addr(struct rtmp_adapter *pAd, u8 *addr)
 {
-	UCHAR apidx;
+	u8 apidx;
 
 	for (apidx=0; apidx<pAd->ApCfg.BssidNum; apidx++)
 	{
@@ -123,9 +123,9 @@ VOID APStartUp(struct rtmp_adapter *pAd)
 {
 	uint32_t i;
 	bool bWmmCapable = false;
-	UCHAR idx;
+	u8 idx;
 	bool TxPreamble, SpectrumMgmt = false;
-	UCHAR phy_mode = pAd->CommonCfg.cfg_wmode;
+	u8 phy_mode = pAd->CommonCfg.cfg_wmode;
 #ifdef DOT1X_SUPPORT
 	/* bool bDot1xReload = false; */
 #endif /* DOT1X_SUPPORT */
@@ -159,7 +159,7 @@ VOID APStartUp(struct rtmp_adapter *pAd)
 		COPY_MAC_ADDR(wdev->if_addr, pAd->CurrentAddress);
 		if (pAd->chipCap.MBSSIDMode >= MBSSID_MODE1)
 		{
-			UCHAR MacMask = 0;
+			u8 MacMask = 0;
 
 			if ((pAd->ApCfg.BssidNum + MAX_APCLI_NUM + MAX_MESH_NUM) <= 2)
 				MacMask = 0xFE;
@@ -268,7 +268,7 @@ VOID APStartUp(struct rtmp_adapter *pAd)
 		/* decide the mixed WPA cipher combination */
 		if (wdev->WepStatus == Ndis802_11TKIPAESMix)
 		{
-			switch ((UCHAR)wdev->AuthMode)
+			switch ((u8)wdev->AuthMode)
 			{
 				/* WPA mode */
 				case Ndis802_11AuthModeWPA:
@@ -427,7 +427,7 @@ DBGPRINT(RT_DEBUG_OFF, ("%s(): AP Set CentralFreq at %d(Prim=%d, HT-CentCh=%d, V
 	for (i=0; i<MAX_LEN_OF_MAC_TABLE; i++)
 	{
 		pAd->MacTab.Content[i].PortSecured  = WPA_802_1X_PORT_NOT_SECURED;
-		AsicRemovePairwiseKeyEntry(pAd, (UCHAR)i);
+		AsicRemovePairwiseKeyEntry(pAd, (u8)i);
 	}
 
 	/* Init Security variables */
@@ -447,7 +447,7 @@ DBGPRINT(RT_DEBUG_OFF, ("%s(): AP Set CentralFreq at %d(Prim=%d, HT-CentCh=%d, V
 		/* When WEP, TKIP or AES is enabled, set group key info to Asic */
 		if (wdev->WepStatus == Ndis802_11WEPEnabled)
 		{
-			UCHAR CipherAlg, key_idx;
+			u8 CipherAlg, key_idx;
 
 			for (key_idx=0; key_idx < SHARE_KEY_NUM; key_idx++)
 			{
@@ -485,7 +485,7 @@ DBGPRINT(RT_DEBUG_OFF, ("%s(): AP Set CentralFreq at %d(Prim=%d, HT-CentCh=%d, V
 
 			/* Derive GTK per BSSID */
 			WpaDeriveGTK(pMbss->GMK,
-						(UCHAR*)pMbss->GNonce,
+						(u8 *)pMbss->GNonce,
 						wdev->bssid,
 						pMbss->GTK,
 						LEN_TKIP_GTK);
@@ -1183,11 +1183,11 @@ uint32_t MacTableAssocStaNumGet(
 */
 MAC_TABLE_ENTRY *APSsPsInquiry(
 	IN struct rtmp_adapter *pAd,
-	IN UCHAR *pAddr,
+	IN u8 *pAddr,
 	OUT SST *Sst,
 	OUT USHORT *Aid,
-	OUT UCHAR *PsMode,
-	OUT UCHAR *Rate)
+	OUT u8 *PsMode,
+	OUT u8 *Rate)
 {
 	MAC_TABLE_ENTRY *pEntry = NULL;
 
@@ -1317,9 +1317,9 @@ VOID APUpdateOperationMode(
 VOID APUpdateCapabilityAndErpIe(
 	IN struct rtmp_adapter *pAd)
 {
-	UCHAR  i, ErpIeContent = 0;
+	u8  i, ErpIeContent = 0;
 	bool ShortSlotCapable = pAd->CommonCfg.bUseShortSlotTime;
-	UCHAR	apidx;
+	u8 apidx;
 	bool	bUseBGProtection;
 	bool	LegacyBssExist;
 
@@ -1440,7 +1440,7 @@ VOID APUpdateCapabilityAndErpIe(
 bool ApCheckLongPreambleSTA(
     IN struct rtmp_adapter *pAd)
 {
-    UCHAR   i;
+    u8   i;
 
     for (i=0; i<MAX_LEN_OF_MAC_TABLE; i++)
     {
@@ -1471,7 +1471,7 @@ bool ApCheckLongPreambleSTA(
 bool ApCheckAccessControlList(
 	IN struct rtmp_adapter *pAd,
 	IN u8 *       pAddr,
-	IN UCHAR         Apidx)
+	IN u8         Apidx)
 {
 	bool Result = true;
 
@@ -1511,7 +1511,7 @@ bool ApCheckAccessControlList(
 		will be kicked out immediately.
 	==========================================================================
 */
-VOID ApUpdateAccessControlList(struct rtmp_adapter *pAd, UCHAR Apidx)
+VOID ApUpdateAccessControlList(struct rtmp_adapter *pAd, u8 Apidx)
 {
 	USHORT   AclIdx, MacIdx;
 	bool  Matched;
@@ -1772,7 +1772,7 @@ INT GetBssCoexEffectedChRange(
 VOID APOverlappingBSSScan(struct rtmp_adapter *pAd)
 {
 	bool needFallBack = false;
-	UCHAR Channel = pAd->CommonCfg.Channel;
+	u8 Channel = pAd->CommonCfg.Channel;
 	INT chStartIdx, chEndIdx, index,curPriChIdx, curSecChIdx;
 
 
@@ -1966,11 +1966,11 @@ bool DOT1X_InternalCmdAction(
     IN	UINT8			cmd)
 {
 	INT				apidx = MAIN_MBSSID;
-	UCHAR 			RalinkIe[9] = {221, 7, 0x00, 0x0c, 0x43, 0x00, 0x00, 0x00, 0x00};
-	UCHAR			s_addr[MAC_ADDR_LEN];
-	UCHAR			EAPOL_IE[] = {0x88, 0x8e};
+	u8 			RalinkIe[9] = {221, 7, 0x00, 0x0c, 0x43, 0x00, 0x00, 0x00, 0x00};
+	u8 		s_addr[MAC_ADDR_LEN];
+	u8 		EAPOL_IE[] = {0x88, 0x8e};
 	UINT8			frame_len = LENGTH_802_3 + sizeof(RalinkIe);
-	UCHAR			FrameBuf[frame_len];
+	u8 		FrameBuf[frame_len];
 	UINT8			offset = 0;
 
 	/* Init the frame buffer */
@@ -2029,9 +2029,9 @@ bool DOT1X_EapTriggerAction(
     IN  MAC_TABLE_ENTRY *pEntry)
 {
 	INT				apidx = MAIN_MBSSID;
-	UCHAR 			eapol_start_1x_hdr[4] = {0x01, 0x01, 0x00, 0x00};
+	u8 			eapol_start_1x_hdr[4] = {0x01, 0x01, 0x00, 0x00};
 	UINT8			frame_len = LENGTH_802_3 + sizeof(eapol_start_1x_hdr);
-	UCHAR			FrameBuf[frame_len];
+	u8 		FrameBuf[frame_len];
 	UINT8			offset = 0;
 
     if((pEntry->AuthMode == Ndis802_11AuthModeWPA) || (pEntry->AuthMode == Ndis802_11AuthModeWPA2) || (pAd->ApCfg.MBSSID[apidx].wdev.IEEE8021X == true))

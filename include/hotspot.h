@@ -49,9 +49,9 @@ enum HSCTRL_EVENT {
 };
 
 typedef struct GNU_PACKED _HSCTRL_EVENT_DATA {
-	UCHAR ControlIndex;
-	UCHAR EventTrigger;
-	UCHAR EventType;
+	u8 ControlIndex;
+	u8 EventTrigger;
+	u8 EventType;
 } HSCTRL_EVENT_DATA, *PHSCTRL_EVENT_DATA;
 
 typedef struct _HOTSPOT_CTRL {
@@ -71,7 +71,7 @@ typedef struct _HOTSPOT_CTRL {
 	bool HotSpotEnable;
 	enum HSCTRL_STATE HSCtrlState;
 	bool IsHessid;
-	UCHAR Hessid[MAC_ADDR_LEN];
+	u8 Hessid[MAC_ADDR_LEN];
 	UINT8 AccessNetWorkType;
 	bool DGAFDisable;
 	UINT8 L2Filter;
@@ -133,7 +133,7 @@ struct _PEER_PROBE_REQ_PARAM;
 
 bool ProbeReqforHSAP(
 	IN Pstruct rtmp_adapter pAd,
-	IN UCHAR APIndex,
+	IN u8 APIndex,
 	IN struct _PEER_PROBE_REQ_PARAM *ProbeReqParam);
 
 VOID Clear_Hotspot_All_IE(IN Pstruct rtmp_adapter PAd);

@@ -722,7 +722,7 @@ INT Set_CountryString_Proc(
 			{
 				if (allCountry[index].SupportGBand == true)
 				{
-					pAd->CommonCfg.CountryRegion = (UCHAR) allCountry[index].RegDomainNum11G;
+					pAd->CommonCfg.CountryRegion = (u8) allCountry[index].RegDomainNum11G;
 					success = true;
 				}
 				else
@@ -735,7 +735,7 @@ INT Set_CountryString_Proc(
 			{
 				if (allCountry[index].SupportABand == true)
 				{
-					pAd->CommonCfg.CountryRegionForABand = (UCHAR) allCountry[index].RegDomainNum11A;
+					pAd->CommonCfg.CountryRegionForABand = (u8) allCountry[index].RegDomainNum11A;
 					success = true;
 				}
 				else
@@ -774,7 +774,7 @@ INT Set_2G_256QAM_Proc(
     IN  char *         arg)
 {
 	INT   success = true;
-	pAdapter->CommonCfg.b256QAM_2G = (UCHAR) simple_strtol(arg, 0, 10);
+	pAdapter->CommonCfg.b256QAM_2G = (u8) simple_strtol(arg, 0, 10);
 	return success;
 
 }
@@ -800,7 +800,7 @@ INT	Set_AP_SSID_Proc(struct rtmp_adapter *pAd, char *arg)
 
 		memset(mbss->Ssid, 0, MAX_LEN_OF_SSID);
 		memmove(mbss->Ssid, arg, strlen(arg));
-		mbss->SsidLen = (UCHAR)strlen(arg);
+		mbss->SsidLen = (u8)strlen(arg);
 		success = true;
 
 		{
@@ -885,7 +885,7 @@ INT Set_BasicRate_Proc(struct rtmp_adapter *pAd, char *arg)
 	pAd->CommonCfg.BasicRateBitmap = BasicRateBitmap;
 	pAd->CommonCfg.BasicRateBitmapOld = BasicRateBitmap;
 
-	MlmeUpdateTxRates(pAd, false, (UCHAR)pObj->ioctl_if);
+	MlmeUpdateTxRates(pAd, false, (u8)pObj->ioctl_if);
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_BasicRate_Proc::(BasicRateBitmap=0x%08lx)\n", pAd->CommonCfg.BasicRateBitmap));
 
@@ -1092,7 +1092,7 @@ INT	Set_NoForwardingMBCast_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg)
 {
-	UCHAR NoForwardingMBCast;
+	u8 NoForwardingMBCast;
 
 	struct os_cookie *pObj = pAd->OS_Cookie;
 
@@ -1270,7 +1270,7 @@ INT	Set_AP_AuthMode_Proc(
 {
 	ULONG i;
 	struct os_cookie *pObj = pAd->OS_Cookie;
-	UCHAR apidx = pObj->ioctl_if;
+	u8 apidx = pObj->ioctl_if;
 	struct rtmp_wifi_dev *wdev;
 
 
@@ -1314,7 +1314,7 @@ INT	Set_AP_EncrypType_Proc(
 	IN	char *		arg)
 {
 	struct os_cookie *pObj = pAd->OS_Cookie;
-	UCHAR		apidx = pObj->ioctl_if;
+	u8 	apidx = pObj->ioctl_if;
 	struct rtmp_wifi_dev *wdev;
 
 	wdev = &pAd->ApCfg.MBSSID[apidx].wdev;
@@ -1361,7 +1361,7 @@ INT	Set_AP_WpaMixPairCipher_Proc(
 	IN	char *		arg)
 {
 	struct os_cookie *pObj = pAd->OS_Cookie;
-	UCHAR		apidx = pObj->ioctl_if;
+	u8 	apidx = pObj->ioctl_if;
 	struct rtmp_wifi_dev *wdev;
 
 	/*
@@ -1410,7 +1410,7 @@ INT	Set_AP_RekeyInterval_Proc(
 	IN	char *		arg)
 {
 	struct os_cookie *	pObj = pAd->OS_Cookie;
-	UCHAR		apidx = pObj->ioctl_if;
+	u8 	apidx = pObj->ioctl_if;
 	int32_t val;
 
 	val = simple_strtol(arg, 0, 10);
@@ -1431,7 +1431,7 @@ INT Set_AP_PROBE_RSP_TIMES(
     IN  char *         arg)
 {
         struct os_cookie *pObj = pAd->OS_Cookie;
-        UCHAR           apidx = pObj->ioctl_if;
+        u8           apidx = pObj->ioctl_if;
         INT input;
         input = simple_strtol(arg, 0, 10);
 
@@ -1452,7 +1452,7 @@ INT Set_AP_PKT_PWR(
     IN  char *         arg)
 {
         struct os_cookie *pObj = pAd->OS_Cookie;
-        UCHAR           apidx = pObj->ioctl_if;
+        u8           apidx = pObj->ioctl_if;
         INT input;
         input = simple_strtol(arg, 0, 10);
 
@@ -1488,7 +1488,7 @@ INT	Set_AP_RekeyMethod_Proc(
 	IN	char *		arg)
 {
 	struct os_cookie *	pObj = pAd->OS_Cookie;
-	UCHAR		apidx = pObj->ioctl_if;
+	u8 	apidx = pObj->ioctl_if;
 	PRT_WPA_REKEY	pInfo = &pAd->ApCfg.MBSSID[apidx].WPAREKEY;
 
 	if ((strcmp(arg, "TIME") == 0) || (strcmp(arg, "time") == 0))
@@ -1519,7 +1519,7 @@ INT	Set_AP_PMKCachePeriod_Proc(
 	IN	char *		arg)
 {
 	struct os_cookie *	pObj = pAd->OS_Cookie;
-	UCHAR		apidx = pObj->ioctl_if;
+	u8 	apidx = pObj->ioctl_if;
 	uint32_t val = simple_strtol(arg, 0, 10);
 
 	pAd->ApCfg.MBSSID[apidx].PMKCachePeriod = val * 60 * OS_HZ;
@@ -1536,7 +1536,7 @@ INT     Set_AP_PACKET_FILTER_Proc(
         IN  char *         arg)
 {
 		struct os_cookie *pObj = pAd->OS_Cookie;
-		UCHAR apidx = pObj->ioctl_if;
+		u8 apidx = pObj->ioctl_if;
 		CHAR  val;
 		val = simple_strtol(arg, 0, 10);
 
@@ -1560,7 +1560,7 @@ INT     Set_AP_PROBE_RSSI_THRESHOLD(
         IN  char *         arg)
 {
         struct os_cookie *pObj = pAd->OS_Cookie;
-        UCHAR           apidx = pObj->ioctl_if;
+        u8           apidx = pObj->ioctl_if;
         UINT j;
         CHAR rssi;
         rssi = simple_strtol(arg, 0, 10);
@@ -1593,7 +1593,7 @@ INT     Set_AP_AUTH_FAIL_RSSI_THRESHOLD(
         IN  char *         arg)
 {
         struct os_cookie *pObj = pAd->OS_Cookie;
-        UCHAR           apidx = pObj->ioctl_if;
+        u8           apidx = pObj->ioctl_if;
         UINT j;
         CHAR rssi;
         rssi = simple_strtol(arg, 0, 10);
@@ -1626,7 +1626,7 @@ INT     Set_AP_AUTH_NO_RSP_RSSI_THRESHOLD(
         IN  char *         arg)
 {
         struct os_cookie *pObj = pAd->OS_Cookie;
-        UCHAR           apidx = pObj->ioctl_if;
+        u8           apidx = pObj->ioctl_if;
         UINT j;
         CHAR rssi;
         rssi = simple_strtol(arg, 0, 10);
@@ -1668,7 +1668,7 @@ INT Set_AP_ASSOC_REQ_FAIL_RSSI_THRESHOLD(
     IN  char *         arg)
 {
 	struct os_cookie *pObj = pAd->OS_Cookie;
-	UCHAR           apidx = pObj->ioctl_if;
+	u8           apidx = pObj->ioctl_if;
 	UINT j;
         CHAR rssi;
         rssi = simple_strtol(arg, 0, 10);
@@ -1702,7 +1702,7 @@ INT Set_AP_ASSOC_REQ_NO_RSP_RSSI_THRESHOLD(
     IN  char *         arg)
 {
         struct os_cookie *pObj = pAd->OS_Cookie;
-        UCHAR           apidx = pObj->ioctl_if;
+        u8           apidx = pObj->ioctl_if;
         UINT j;
         CHAR rssi;
         rssi = simple_strtol(arg, 0, 10);
@@ -1744,7 +1744,7 @@ INT Set_AP_KickStaRssiLow_Proc(
     IN  char *         arg)
 {
         struct os_cookie *pObj = pAd->OS_Cookie;
-        UCHAR           apidx = pObj->ioctl_if;
+        u8           apidx = pObj->ioctl_if;
         UINT j;
         CHAR rssi;
         rssi = simple_strtol(arg, 0, 10);
@@ -1789,12 +1789,12 @@ INT	Set_AP_DefaultKeyID_Proc(
 {
 	ULONG KeyIdx;
 	struct os_cookie *pObj = pAd->OS_Cookie;
-	UCHAR	apidx = pObj->ioctl_if;
+	u8 apidx = pObj->ioctl_if;
 
 
 	KeyIdx = simple_strtol(arg, 0, 10);
 	if((KeyIdx >= 1 ) && (KeyIdx <= 4))
-		pAd->ApCfg.MBSSID[apidx].wdev.DefaultKeyId = (UCHAR) (KeyIdx - 1 );
+		pAd->ApCfg.MBSSID[apidx].wdev.DefaultKeyId = (u8) (KeyIdx - 1 );
 	else
 		return false;  /* Invalid argument */
 
@@ -1817,7 +1817,7 @@ INT	Set_AP_Key1_Proc(
 	IN	char *		arg)
 {
 	struct os_cookie *pObj;
-	UCHAR	apidx;
+	u8 apidx;
 	CIPHER_KEY	*pSharedKey;
 	INT		retVal;
 
@@ -1854,7 +1854,7 @@ INT	Set_AP_Key2_Proc(
 	IN	char *		arg)
 {
 	struct os_cookie *pObj;
-	UCHAR	apidx;
+	u8 apidx;
 	CIPHER_KEY	*pSharedKey;
 	INT		retVal;
 
@@ -1891,7 +1891,7 @@ INT	Set_AP_Key3_Proc(
 	IN	char *		arg)
 {
 	struct os_cookie *pObj;
-	UCHAR	apidx;
+	u8 apidx;
 	CIPHER_KEY	*pSharedKey;
 	INT		retVal;
 
@@ -1929,7 +1929,7 @@ INT	Set_AP_Key4_Proc(
 {
 
 	struct os_cookie *pObj;
-	UCHAR	apidx;
+	u8 apidx;
 	CIPHER_KEY	*pSharedKey;
 	INT		retVal;
 
@@ -2006,7 +2006,7 @@ INT	Set_ACLAddEntry_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg)
 {
-	UCHAR					macAddr[MAC_ADDR_LEN];
+	u8 				macAddr[MAC_ADDR_LEN];
 /*	RT_802_11_ACL			acl; */
 	RT_802_11_ACL			*pacl = NULL;
 	char *				this_char;
@@ -2127,8 +2127,8 @@ INT	Set_ACLDelEntry_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg)
 {
-	UCHAR					macAddr[MAC_ADDR_LEN];
-	UCHAR					nullAddr[MAC_ADDR_LEN];
+	u8 				macAddr[MAC_ADDR_LEN];
+	u8 				nullAddr[MAC_ADDR_LEN];
 	RT_802_11_ACL			acl;
 	char *				this_char;
 	char *				value;
@@ -2432,7 +2432,7 @@ INT	Set_AP_WPAPSK_Proc(
 	IN	char *		arg)
 {
 	struct os_cookie *pObj = pAd->OS_Cookie;
-	UCHAR	apidx = pObj->ioctl_if;
+	u8 apidx = pObj->ioctl_if;
 	INT	retval;
 	MULTISSID_STRUCT *pMBSSStruct;
 
@@ -2468,7 +2468,7 @@ INT	Set_RadioOn_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg)
 {
-	UCHAR radio;
+	u8 radio;
 
 	radio = simple_strtol(arg, 0, 10);
 
@@ -2656,7 +2656,7 @@ INT	Show_StaCount_Proc(struct rtmp_adapter *pAd, char *arg)
 INT	Show_StaSecurityInfo_Proc(struct rtmp_adapter *pAd, char *arg)
 {
 	INT i;
-	UCHAR apidx;
+	u8 apidx;
 	struct rtmp_wifi_dev *wdev;
 
 	if (pAd == NULL)
@@ -3015,8 +3015,8 @@ VOID RTMPIoctlQueryRadiusConf(
 	IN struct rtmp_adapter *pAd,
 	IN RTMP_IOCTL_INPUT_STRUCT *wrq)
 {
-	UCHAR	apidx, srv_idx, keyidx, KeyLen = 0;
-	UCHAR	*mpool;
+	u8 apidx, srv_idx, keyidx, KeyLen = 0;
+	u8 *mpool;
 	PDOT1X_CMM_CONF	pConf;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("RTMPIoctlQueryRadiusConf==>\n"));
@@ -3171,10 +3171,10 @@ VOID RTMPIoctlAddWPAKey(
 	NDIS_AP_802_11_KEY 	*pKey;
 	ULONG				KeyIdx;
 	MAC_TABLE_ENTRY  	*pEntry;
-	UCHAR				apidx;
+	u8 			apidx;
 
 	struct os_cookie *pObj = pAd->OS_Cookie;
-	apidx =	(UCHAR) pObj->ioctl_if;
+	apidx =	(u8) pObj->ioctl_if;
 
 
 	pKey = (PNDIS_AP_802_11_KEY) wrq->u.data.pointer;
@@ -3197,7 +3197,7 @@ VOID RTMPIoctlAddWPAKey(
 	}
 	else	/* Old WEP stuff */
 	{
-		UCHAR	CipherAlg;
+		u8 CipherAlg;
     	u8 *Key;
 
 		if(pKey->KeyLength > 16)
@@ -3215,7 +3215,7 @@ VOID RTMPIoctlAddWPAKey(
 				DBGPRINT(RT_DEBUG_TRACE, ("RTMPIoctlAddWPAKey-IF(ra%d) : Set Group Key\n", apidx));
 
 				/* Default key for tx (shared key) */
-				pAd->ApCfg.MBSSID[apidx].wdev.DefaultKeyId = (UCHAR) KeyIdx;
+				pAd->ApCfg.MBSSID[apidx].wdev.DefaultKeyId = (u8) KeyIdx;
 
 				/* set key material and key length */
 				if (pKey->KeyLength > 16)
@@ -3223,7 +3223,7 @@ VOID RTMPIoctlAddWPAKey(
 					DBGPRINT(RT_DEBUG_TRACE, ("RTMPIoctlAddWPAKey-IF(ra%d) : Key length too long %d\n", apidx, pKey->KeyLength));
 					pKey->KeyLength = 16;
 				}
-				pAd->SharedKey[apidx][KeyIdx].KeyLen = (UCHAR) pKey->KeyLength;
+				pAd->SharedKey[apidx][KeyIdx].KeyLen = (u8) pKey->KeyLength;
 				memmove(pAd->SharedKey[apidx][KeyIdx].Key, &pKey->KeyMaterial, pKey->KeyLength);
 
 				/* Set Ciper type */
@@ -3252,7 +3252,7 @@ VOID RTMPIoctlAddWPAKey(
 					DBGPRINT(RT_DEBUG_TRACE, ("RTMPIoctlAddWPAKey-IF(ra%d) : Set Pair-wise Key\n", apidx));
 
 					/* set key material and key length */
- 					pEntry->PairwiseKey.KeyLen = (UCHAR)pKey->KeyLength;
+ 					pEntry->PairwiseKey.KeyLen = (u8)pKey->KeyLength;
 					memmove(pEntry->PairwiseKey.Key, &pKey->KeyMaterial, pKey->KeyLength);
 
 					/* set Cipher type */
@@ -3264,7 +3264,7 @@ VOID RTMPIoctlAddWPAKey(
 					/* Add Pair-wise key to Asic */
 					AsicAddPairwiseKeyEntry(
 						pAd,
-						(UCHAR)pEntry->wcid,
+						(u8)pEntry->wcid,
                 				&pEntry->PairwiseKey);
 
 					/* update WCID attribute table and IVEIV table for this entry */
@@ -3295,11 +3295,11 @@ VOID RTMPIoctlAddPMKIDCache(
 	IN	struct rtmp_adapter *pAd,
 	IN	RTMP_IOCTL_INPUT_STRUCT	*wrq)
 {
-	UCHAR				apidx;
+	u8 			apidx;
 	NDIS_AP_802_11_KEY 	*pKey;
 	struct os_cookie *pObj = pAd->OS_Cookie;
 
-	apidx =	(UCHAR) pObj->ioctl_if;
+	apidx =	(u8) pObj->ioctl_if;
 
 	pKey = (PNDIS_AP_802_11_KEY) wrq->u.data.pointer;
 
@@ -3307,7 +3307,7 @@ VOID RTMPIoctlAddPMKIDCache(
 	{
 		if(pKey->KeyLength == 32)
 		{
-			UCHAR	digest[80], PMK_key[20], macaddr[MAC_ADDR_LEN];
+			u8 digest[80], PMK_key[20], macaddr[MAC_ADDR_LEN];
 
 			/* Calculate PMKID */
 			memmove(&PMK_key[0], "PMK Name", 8);
@@ -3345,11 +3345,11 @@ VOID RTMPIoctlStaticWepCopy(
 	IN	RTMP_IOCTL_INPUT_STRUCT	*wrq)
 {
 	MAC_TABLE_ENTRY  *pEntry;
-	UCHAR	MacAddr[MAC_ADDR_LEN];
-	UCHAR			apidx;
+	u8 MacAddr[MAC_ADDR_LEN];
+	u8 		apidx;
 	struct os_cookie *pObj = pAd->OS_Cookie;
 
-	apidx =	(UCHAR) pObj->ioctl_if;
+	apidx =	(u8) pObj->ioctl_if;
 
     DBGPRINT(RT_DEBUG_TRACE, ("RTMPIoctlStaticWepCopy-IF(ra%d)\n", apidx));
 
@@ -3371,7 +3371,7 @@ VOID RTMPIoctlStaticWepCopy(
         }
         else
         {
-            UCHAR	KeyIdx;
+            u8 KeyIdx;
 
             KeyIdx = pAd->ApCfg.MBSSID[apidx].wdev.DefaultKeyId;
 
@@ -3390,7 +3390,7 @@ VOID RTMPIoctlStaticWepCopy(
 				/* Add Pair-wise key to Asic */
             	AsicAddPairwiseKeyEntry(
                 		pAd,
-                		(UCHAR)pEntry->wcid,
+                		(u8)pEntry->wcid,
                 		&pEntry->PairwiseKey);
 
 				/* update WCID attribute table and IVEIV table for this entry */
@@ -3489,7 +3489,7 @@ VOID RTMPIoctlStatistics(struct rtmp_adapter *pAd, RTMP_IOCTL_INPUT_STRUCT *wrq)
 
 #ifdef BB_SOC
 	ULONG txPackets=0, rxPackets=0, txBytes=0, rxBytes=0;
-	UCHAR index=0;
+	u8 index=0;
 #endif
 
 	struct rtmp_chip_cap *pChipCap = &pAd->chipCap;
@@ -3744,7 +3744,7 @@ VOID RTMPIoctlQueryBaTable(
 	IN	RTMP_IOCTL_INPUT_STRUCT	*wrq)
 {
 	/*char *msg; */
-	UCHAR	TotalEntry, i, j, index;
+	u8 TotalEntry, i, j, index;
 	QUERYBA_TABLE		*BAT;
 
 	BAT = vmalloc(sizeof(QUERYBA_TABLE));
@@ -3786,7 +3786,7 @@ VOID RTMPIoctlQueryBaTable(
 		if (IS_ENTRY_CLIENT(pEntry) && (pEntry->Sst == SST_ASSOC) && (pEntry->RXBAbitmap))
 		{
 			memmove(BAT->BARecEntry[index].MACAddr, pEntry->Addr, 6);
-			BAT->BARecEntry[index].BaBitmap = (UCHAR)pEntry->RXBAbitmap;
+			BAT->BARecEntry[index].BaBitmap = (u8)pEntry->RXBAbitmap;
 			for (j = 0; j < 8; j++)
 			{
 				if (pEntry->BARecWcidArray[j] != 0)
@@ -3820,7 +3820,7 @@ INT Set_ApCli_Enable_Proc(
 {
 	UINT Enable;
 	struct os_cookie *pObj;
-	UCHAR ifIndex;
+	u8 ifIndex;
 
 	pObj = pAd->OS_Cookie;
 	if (pObj->ioctl_if_type != INT_APCLI)
@@ -3845,11 +3845,11 @@ INT Set_ApCli_Enable_Proc(
 INT Set_ApCli_Ssid_Proc(struct rtmp_adapter *pAd, char *arg)
 {
 	struct os_cookie *pObj;
-	UCHAR ifIndex;
+	u8 ifIndex;
 	bool apcliEn;
 	INT success = false;
-	/*UCHAR keyMaterial[40]; */
-	UCHAR PskKey[100];
+	/*u8 keyMaterial[40]; */
+	u8 PskKey[100];
 	APCLI_STRUCT *apcli_entry;
 	struct rtmp_wifi_dev *wdev;
 
@@ -3881,7 +3881,7 @@ INT Set_ApCli_Ssid_Proc(struct rtmp_adapter *pAd, char *arg)
 
 		memset(apcli_entry->CfgSsid, MAX_LEN_OF_SSID);
 		memmove(apcli_entry->CfgSsid, arg, strlen(arg));
-		apcli_entry->CfgSsidLen = (UCHAR)strlen(arg);
+		apcli_entry->CfgSsidLen = (u8)strlen(arg);
 		success = true;
 
 		/* Upadte PMK and restart WPAPSK state machine for ApCli link */
@@ -3917,7 +3917,7 @@ INT Set_ApCli_Bssid_Proc(
 {
 	INT i;
 	char *value;
-	UCHAR ifIndex;
+	u8 ifIndex;
 	bool apcliEn;
 	struct os_cookie *pObj;
 
@@ -3981,7 +3981,7 @@ INT	Set_ApCli_AuthMode_Proc(struct rtmp_adapter *pAd, char *arg)
 {
 	ULONG i;
 	struct os_cookie *	pObj = pAd->OS_Cookie;
-	UCHAR ifIndex;
+	u8 ifIndex;
 	struct rtmp_wifi_dev *wdev;
 
 	if (pObj->ioctl_if_type != INT_APCLI)
@@ -4046,7 +4046,7 @@ INT	Set_ApCli_EncrypType_Proc(
 	IN	char *		arg)
 {
 	struct os_cookie *	pObj = pAd->OS_Cookie;
-	UCHAR 		ifIndex;
+	u8 		ifIndex;
 	PAPCLI_STRUCT   pApCliEntry = NULL;
 	struct rtmp_wifi_dev *wdev;
 
@@ -4119,7 +4119,7 @@ INT	Set_ApCli_DefaultKeyID_Proc(
 
 	KeyIdx = simple_strtol(arg, 0, 10);
 	if((KeyIdx >= 1 ) && (KeyIdx <= 4))
-		wdev->DefaultKeyId = (UCHAR) (KeyIdx - 1 );
+		wdev->DefaultKeyId = (u8) (KeyIdx - 1 );
 	else
 		return false;  /* Invalid argument */
 
@@ -4145,7 +4145,7 @@ INT	Set_ApCli_WPAPSK_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg)
 {
-	UCHAR ifIndex;
+	u8 ifIndex;
 	struct os_cookie *pObj;
 	PAPCLI_STRUCT   pApCliEntry = NULL;
 	INT retval;
@@ -4184,7 +4184,7 @@ INT	Set_ApCli_Key1_Proc(
 {
 	struct os_cookie *		pObj = pAd->OS_Cookie;
 	PAPCLI_STRUCT	pApCliEntry = NULL;
-	UCHAR			ifIndex;
+	u8 		ifIndex;
 	INT				retVal;
 
 	if (pObj->ioctl_if_type != INT_APCLI)
@@ -4216,7 +4216,7 @@ INT	Set_ApCli_Key2_Proc(
 {
 	struct os_cookie *		pObj;
 	PAPCLI_STRUCT	pApCliEntry = NULL;
-	UCHAR			ifIndex;
+	u8 		ifIndex;
 	INT				retVal;
 
 	pObj = pAd->OS_Cookie;
@@ -4248,7 +4248,7 @@ INT	Set_ApCli_Key3_Proc(
 {
 	struct os_cookie *		pObj;
 	PAPCLI_STRUCT	pApCliEntry = NULL;
-	UCHAR			ifIndex;
+	u8 		ifIndex;
 	INT				retVal;
 
 	pObj = pAd->OS_Cookie;
@@ -4280,7 +4280,7 @@ INT	Set_ApCli_Key4_Proc(
 {
 	struct os_cookie *		pObj;
 	PAPCLI_STRUCT	pApCliEntry = NULL;
-	UCHAR			ifIndex;
+	u8 		ifIndex;
 	INT				retVal;
 
 	pObj = pAd->OS_Cookie;
@@ -4352,7 +4352,7 @@ INT Set_ApCli_Trial_Ch_Proc(
 	IN  char *arg)
 {
 	struct os_cookie *		pObj;
-	UCHAR 			ifIndex;
+	u8 			ifIndex;
 	PAPCLI_STRUCT	pApCliEntry = NULL;
 
 	pObj = pAd->OS_Cookie;
@@ -4383,7 +4383,7 @@ INT Set_ApCli_Wpa_Support(
 	IN	char *		arg)
 {
 	struct os_cookie *		pObj;
-	UCHAR 			ifIndex;
+	u8 			ifIndex;
 	PAPCLI_STRUCT	pApCliEntry = NULL;
 
 	pObj = pAd->OS_Cookie;
@@ -4414,7 +4414,7 @@ INT	Set_ApCli_IEEE8021X_Proc(
 {
     	ULONG ieee8021x;
 	struct os_cookie *		pObj;
-	UCHAR 			ifIndex;
+	u8 			ifIndex;
 	PAPCLI_STRUCT	pApCliEntry = NULL;
 
 	pObj = pAd->OS_Cookie;
@@ -4454,7 +4454,7 @@ INT Set_ApCli_AutoConnect_Proc(
 	IN char *arg)
 {
 	struct os_cookie * 		pObj= pAd->OS_Cookie;
-	UCHAR				ifIndex;
+	u8 			ifIndex;
 	PAP_ADMIN_CONFIG	pApCfg;
 	long scan_mode = simple_strtol(arg, 0, 10);
 
@@ -4506,7 +4506,7 @@ INT Set_ApCli_Cert_Enable_Proc(
 {
 	UINT Enable;
 	struct os_cookie *pObj;
-	UCHAR ifIndex;
+	u8 ifIndex;
 
 	pObj = pAd->OS_Cookie;
 	if (pObj->ioctl_if_type != INT_APCLI)
@@ -4529,7 +4529,7 @@ INT Set_ApCli_WMM_Enable_Proc(
 {
 	UINT Enable;
 	struct os_cookie *pObj;
-	UCHAR ifIndex;
+	u8 ifIndex;
 	PAPCLI_STRUCT pApCliEntry = NULL;
 	struct rtmp_wifi_dev *wdev;
 
@@ -4554,7 +4554,7 @@ INT	Set_DisConnectSta_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg)
 {
-	UCHAR					macAddr[MAC_ADDR_LEN];
+	u8 				macAddr[MAC_ADDR_LEN];
 	char *				value;
 	INT						i;
 	MAC_TABLE_ENTRY *pEntry = NULL;
@@ -4567,7 +4567,7 @@ INT	Set_DisConnectSta_Proc(
 		if((strlen(value) != 2) || (!isxdigit(*value)) || (!isxdigit(*(value+1))) )
 			return false;  /*Invalid */
 
-		AtoH(value, (UCHAR *)&macAddr[i++], 1);
+		AtoH(value, (u8 *)&macAddr[i++], 1);
 	}
 
 	pEntry = MacTableLookup(pAd, macAddr);
@@ -4737,7 +4737,7 @@ INT	Set_RADIUS_Server_Proc(
 	IN	char *		arg)
 {
 	struct os_cookie * pObj = pAd->OS_Cookie;
-	UCHAR	    apidx = pObj->ioctl_if;
+	u8     apidx = pObj->ioctl_if;
 	char *	macptr;
 	INT			count;
 	uint32_t 	ip_addr;
@@ -4768,7 +4768,7 @@ INT	Set_RADIUS_Port_Proc(
 	IN	char *		arg)
 {
 	struct os_cookie * pObj = pAd->OS_Cookie;
-	UCHAR	    apidx = pObj->ioctl_if;
+	u8     apidx = pObj->ioctl_if;
 	char *	macptr;
 	INT			count;
 	INT			srv_cnt = 0;
@@ -4794,7 +4794,7 @@ INT	Set_RADIUS_Key_Proc(
 	IN	char *		arg)
 {
 	struct os_cookie * pObj = pAd->OS_Cookie;
-	UCHAR	    apidx = pObj->ioctl_if;
+	u8     apidx = pObj->ioctl_if;
 	char *	macptr;
 	INT			count;
 	INT			srv_cnt = 0;
@@ -4992,7 +4992,7 @@ INT	ApCfg_Set_MaxStaNum_Proc(
 	IN INT				apidx,
 	IN char *			arg)
 {
-	pAd->ApCfg.MBSSID[apidx].MaxStaNum = (UCHAR)simple_strtol(arg, 0, 10);
+	pAd->ApCfg.MBSSID[apidx].MaxStaNum = (u8)simple_strtol(arg, 0, 10);
 
 	DBGPRINT(RT_DEBUG_TRACE, ("IF(ra%d) %s::(MaxStaNum=%d)\n",
 					apidx, __FUNCTION__, pAd->ApCfg.MBSSID[apidx].MaxStaNum));
@@ -5071,7 +5071,7 @@ INT	Show_MbssInfo_Display_Proc(
 	IN	char *		arg)
 {
 	uint32_t IdBss;
-	UCHAR PhyMode;
+	u8 PhyMode;
 	CHAR *mod_str = NULL;
 
 	DBGPRINT(RT_DEBUG_ERROR, ("\n\tBSS Idx\t\tPhy Mode\n"));
@@ -5157,8 +5157,8 @@ VOID RtmpHostapdSecuritySet(
 {
 	if(wrqin->u.data.length > 20 && MAX_LEN_OF_RSNIE > wrqin->u.data.length && wrqin->u.data.pointer)
 	{
-		UCHAR RSNIE_Len[2];
-		UCHAR RSNIe[2];
+		u8 RSNIE_Len[2];
+		u8 RSNIe[2];
 		int offset_next_ie=0;
 
 		DBGPRINT(RT_DEBUG_TRACE,("ioctl SIOCSIWGENIE pAd->IoctlIF=%d\n",apidx));
@@ -5179,7 +5179,7 @@ VOID RtmpHostapdSecuritySet(
 			RSNIE_Len[1]=*((UINT8 *)wrqin->u.data.pointer + 1);
 			DBGPRINT(RT_DEBUG_TRACE,( "IE1 %02x %02x\n",RSNIe[1],RSNIE_Len[1]));
 			pAd->ApCfg.MBSSID[apidx].RSNIE_Len[1] = RSNIE_Len[1];
-			memmove(pAd->ApCfg.MBSSID[apidx].RSN_IE[1], (UCHAR *)(wrqin->u.data.pointer)+2, RSNIE_Len[1]);
+			memmove(pAd->ApCfg.MBSSID[apidx].RSN_IE[1], (u8 *)(wrqin->u.data.pointer)+2, RSNIE_Len[1]);
 			offset_next_ie=RSNIE_Len[1]+2;
 		}
 		else
@@ -5194,7 +5194,7 @@ VOID RtmpHostapdSecuritySet(
 			break;
 		}
 		pAd->ApCfg.MBSSID[apidx].RSNIE_Len[0] = RSNIE_Len[0];
-		memmove(pAd->ApCfg.MBSSID[apidx].RSN_IE[0], ((UCHAR *)(wrqin->u.data.pointer))+2+offset_next_ie, RSNIE_Len[0]);
+		memmove(pAd->ApCfg.MBSSID[apidx].RSN_IE[0], ((u8 *)(wrqin->u.data.pointer))+2+offset_next_ie, RSNIE_Len[0]);
 		APMakeAllBssBeacon(pAd);
 		APUpdateAllBeaconFrame(pAd);
 	}
@@ -5369,7 +5369,7 @@ INT RTMP_AP_IoctlHandle(
 
 		case CMD_RTPRIV_IOCTL_AP_SIOCGIWAP:
 		{
-			UCHAR *pBssidDest = (UCHAR *)pData;
+			u8 *pBssidDest = (u8 *)pData;
 			PCHAR pBssidStr;
 
 #ifdef APCLI_SUPPORT
@@ -5525,7 +5525,7 @@ static INT Set_AP_VENDOR_SPECIFIC_IE(
 	IN uint32_t IELen)
 {
 	struct os_cookie *pObj = pAd->OS_Cookie;
-	UCHAR apidx = pObj->ioctl_if;
+	u8 apidx = pObj->ioctl_if;
 
 
 	switch (OUIType) {

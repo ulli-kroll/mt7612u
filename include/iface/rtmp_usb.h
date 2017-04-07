@@ -3,7 +3,7 @@
 
 #include "rtusb_io.h"
 
-extern UCHAR EpToQueue[6];
+extern u8 EpToQueue[6];
 
 #define RXBULKAGGRE_SIZE			12
 #define MAX_TXBULK_LIMIT			(LOCAL_TXBUF_SIZE*(BULKAGGRE_SIZE-1))
@@ -80,22 +80,22 @@ struct _MGMT_STRUC;
 struct _TX_BLK;
 
 int RTUSB_VendorRequest(struct rtmp_adapter *pAd,
-	UCHAR	RequestType, UCHAR Request,
+	u8 RequestType, u8 Request,
 	USHORT  Value, USHORT ndex,
 	PVOID   TransferBuffer, uint32_t TransferBufferLength);
 
-int RTUSBMultiWrite(struct rtmp_adapter *pAd, USHORT Offset, UCHAR *buf, USHORT len);
+int RTUSBMultiWrite(struct rtmp_adapter *pAd, USHORT Offset, u8 *buf, USHORT len);
 int RTUSBSingleWrite(struct rtmp_adapter *pAd, USHORT Offset, USHORT val);
 
-int RTUSBReadBBPRegister(struct rtmp_adapter *pAd, UCHAR Id, UCHAR *pValue);
-int RTUSBWriteBBPRegister(struct rtmp_adapter *pAd, UCHAR Id, UCHAR Value);
+int RTUSBReadBBPRegister(struct rtmp_adapter *pAd, u8 Id, u8 *pValue);
+int RTUSBWriteBBPRegister(struct rtmp_adapter *pAd, u8 Id, u8 Value);
 int RTUSBWriteRFRegister(struct rtmp_adapter *pAd, uint32_t Value);
 void mt7612u_write32(struct rtmp_adapter *pAd, USHORT Offset, uint32_t val);
 u32 mt7612u_read32(struct rtmp_adapter *pAd, USHORT Offset);
 
-int RTUSBReadEEPROM(struct rtmp_adapter *pAd, USHORT Offset, UCHAR *buf, USHORT len);
+int RTUSBReadEEPROM(struct rtmp_adapter *pAd, USHORT Offset, u8 *buf, USHORT len);
 
-bool AsicCheckCommandOk(struct rtmp_adapter *pAd, UCHAR cmd);
+bool AsicCheckCommandOk(struct rtmp_adapter *pAd, u8 cmd);
 
 
 VOID RTUSBDequeueCmd(PCmdQ cmdq, PCmdQElmt *pcmdqelmt);
@@ -113,19 +113,19 @@ int RTUSBQueryHardWareRegister(struct rtmp_adapter *pAd, PVOID pBuf);
 
 VOID RTUSBMlmeHardTransmit(struct rtmp_adapter *pAd, struct _MGMT_STRUC *pMgmt);
 
-int RTUSBFreeDescRequest(struct rtmp_adapter *pAd, UCHAR BulkOutPipeId, uint32_t req_cnt);
-bool	RTUSBNeedQueueBackForAgg(struct rtmp_adapter *pAd, UCHAR BulkOutPipeId);
+int RTUSBFreeDescRequest(struct rtmp_adapter *pAd, u8 BulkOutPipeId, uint32_t req_cnt);
+bool	RTUSBNeedQueueBackForAgg(struct rtmp_adapter *pAd, u8 BulkOutPipeId);
 
 USHORT RtmpUSB_WriteSubTxResource(struct rtmp_adapter *pAd, struct _TX_BLK *pTxBlk, bool bIsLast, USHORT *freeCnt);
 USHORT RtmpUSB_WriteSingleTxResource(struct rtmp_adapter *pAd, struct _TX_BLK *pTxBlk, bool bIsLast, USHORT *freeCnt);
-USHORT RtmpUSB_WriteFragTxResource(struct rtmp_adapter *pAd, struct _TX_BLK *pTxBlk, UCHAR fragNum, USHORT *freeCnt);
-USHORT RtmpUSB_WriteMultiTxResource(struct rtmp_adapter *pAd, struct _TX_BLK *pTxBlk, UCHAR frmNum, USHORT *freeCnt);
+USHORT RtmpUSB_WriteFragTxResource(struct rtmp_adapter *pAd, struct _TX_BLK *pTxBlk, u8 fragNum, USHORT *freeCnt);
+USHORT RtmpUSB_WriteMultiTxResource(struct rtmp_adapter *pAd, struct _TX_BLK *pTxBlk, u8 frmNum, USHORT *freeCnt);
 VOID RtmpUSB_FinalWriteTxResource(struct rtmp_adapter *pAd, struct _TX_BLK *pTxBlk, USHORT mpdu_len, USHORT TxIdx);
 
-VOID RtmpUSBDataLastTxIdx(struct rtmp_adapter *pAd, UCHAR QueIdx, USHORT TxIdx);
-VOID RtmpUSBDataKickOut(struct rtmp_adapter *pAd, struct _TX_BLK *pTxBlk, UCHAR QueIdx);
-int RtmpUSBMgmtKickOut(struct rtmp_adapter *pAd, UCHAR QIdx, struct sk_buff *pkt, UCHAR *pSrcBufVA, UINT SrcBufLen);
-VOID RtmpUSBNullFrameKickOut(struct rtmp_adapter *pAd, UCHAR QIdx, UCHAR *pNullFrm, uint32_t frmLen);
+VOID RtmpUSBDataLastTxIdx(struct rtmp_adapter *pAd, u8 QueIdx, USHORT TxIdx);
+VOID RtmpUSBDataKickOut(struct rtmp_adapter *pAd, struct _TX_BLK *pTxBlk, u8 QueIdx);
+int RtmpUSBMgmtKickOut(struct rtmp_adapter *pAd, u8 QIdx, struct sk_buff *pkt, u8 *pSrcBufVA, UINT SrcBufLen);
+VOID RtmpUSBNullFrameKickOut(struct rtmp_adapter *pAd, u8 QIdx, u8 *pNullFrm, uint32_t frmLen);
 
 VOID RTUSBWatchDog(struct rtmp_adapter *pAd);
 

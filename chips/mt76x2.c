@@ -58,7 +58,7 @@ static RTMP_REG_PAIR mt76x2_mac_cr_table[] = {
 	{0x1384, 0x00001818},
 	{0x1358, 0xEDCBA980},
 };
-static UCHAR mt76x2_mac_cr_nums = (sizeof(mt76x2_mac_cr_table) / sizeof(RTMP_REG_PAIR));
+static u8 mt76x2_mac_cr_nums = (sizeof(mt76x2_mac_cr_table) / sizeof(RTMP_REG_PAIR));
 
 RTMP_REG_PAIR mt76x2_mac_g_band_cr_table[] = {
 	{BB_PA_MODE_CFG0, 0x010055FF},
@@ -70,7 +70,7 @@ RTMP_REG_PAIR mt76x2_mac_g_band_cr_table[] = {
 	{TX_ALC_CFG_4, 0x00000606},
 	{0x1648, 0x00000000},
 };
-UCHAR mt76x2_mac_g_band_cr_nums = (sizeof(mt76x2_mac_g_band_cr_table) / sizeof(RTMP_REG_PAIR));
+u8 mt76x2_mac_g_band_cr_nums = (sizeof(mt76x2_mac_g_band_cr_table) / sizeof(RTMP_REG_PAIR));
 
 RTMP_REG_PAIR mt76x2_mac_g_band_internal_pa_cr_table[] = {
 	{TX0_RF_GAIN_CORR, 0x0F3C3C3C},
@@ -79,7 +79,7 @@ RTMP_REG_PAIR mt76x2_mac_g_band_internal_pa_cr_table[] = {
 	{PAMODE_PWR_ADJ0, 0xF4000200},
 	{PAMODE_PWR_ADJ1, 0xFA000200},
 };
-UCHAR mt76x2_mac_g_band_internal_pa_cr_nums = (sizeof(mt76x2_mac_g_band_internal_pa_cr_table) / sizeof(RTMP_REG_PAIR));
+u8 mt76x2_mac_g_band_internal_pa_cr_nums = (sizeof(mt76x2_mac_g_band_internal_pa_cr_table) / sizeof(RTMP_REG_PAIR));
 
 RTMP_REG_PAIR mt76x2_mac_g_band_external_pa_cr_table[] = {
 	{TX0_RF_GAIN_CORR, 0x3C3C023C},
@@ -88,14 +88,14 @@ RTMP_REG_PAIR mt76x2_mac_g_band_external_pa_cr_table[] = {
 	{PAMODE_PWR_ADJ0, 0x0000EC00},
 	{PAMODE_PWR_ADJ1, 0x0000EC00},
 };
-UCHAR mt76x2_mac_g_band_external_pa_cr_nums = (sizeof(mt76x2_mac_g_band_external_pa_cr_table) / sizeof(RTMP_REG_PAIR));
+u8 mt76x2_mac_g_band_external_pa_cr_nums = (sizeof(mt76x2_mac_g_band_external_pa_cr_table) / sizeof(RTMP_REG_PAIR));
 
 RTMP_REG_PAIR mt76x2_mac_g_band_external_pa_low_temp_cr_table[] = {
 	{TX0_RF_GAIN_CORR, 0x3C3C023C},
 	{TX1_RF_GAIN_CORR, 0x3C3C023C},
 	{TX0_BB_GAIN_ATTEN, 0x00001F1F},
 };
-UCHAR mt76x2_mac_g_band_external_pa_low_temp_cr_nums = (sizeof(mt76x2_mac_g_band_external_pa_low_temp_cr_table) / sizeof(RTMP_REG_PAIR));
+u8 mt76x2_mac_g_band_external_pa_low_temp_cr_nums = (sizeof(mt76x2_mac_g_band_external_pa_low_temp_cr_table) / sizeof(RTMP_REG_PAIR));
 
 RTMP_REG_PAIR mt76x2_mac_a_band_cr_table[] = {
 	{BB_PA_MODE_CFG0, 0x0000FFFF},
@@ -106,7 +106,7 @@ RTMP_REG_PAIR mt76x2_mac_a_band_cr_table[] = {
 	{TX_ALC_CFG_3, 0x1B0F0476},
 	{TX_ALC_CFG_4, 0x00000000},
 };
-UCHAR mt76x2_mac_a_band_cr_nums = (sizeof(mt76x2_mac_a_band_cr_table) / sizeof(RTMP_REG_PAIR));
+u8 mt76x2_mac_a_band_cr_nums = (sizeof(mt76x2_mac_a_band_cr_table) / sizeof(RTMP_REG_PAIR));
 
 RTMP_REG_PAIR mt76x2_mac_a_band_internal_pa_cr_table[] = {
 	{TX0_RF_GAIN_CORR, 0x383C023C},
@@ -116,7 +116,7 @@ RTMP_REG_PAIR mt76x2_mac_a_band_internal_pa_cr_table[] = {
 	{PAMODE_PWR_ADJ1, 0x00000000},
 	{0x1648, 0x00000000},
 };
-UCHAR mt76x2_mac_a_band_internal_pa_cr_nums = (sizeof(mt76x2_mac_a_band_internal_pa_cr_table) / sizeof(RTMP_REG_PAIR));
+u8 mt76x2_mac_a_band_internal_pa_cr_nums = (sizeof(mt76x2_mac_a_band_internal_pa_cr_table) / sizeof(RTMP_REG_PAIR));
 
 RTMP_REG_PAIR mt76x2_mac_a_band_external_pa_cr_table[] = {
 	{TX0_RF_GAIN_CORR, 0x3C3C023C},
@@ -126,14 +126,14 @@ RTMP_REG_PAIR mt76x2_mac_a_band_external_pa_cr_table[] = {
 	{PAMODE_PWR_ADJ1, 0x04000000},
 	{0x1648, 0x00830083},
 };
-UCHAR mt76x2_mac_a_band_external_pa_cr_nums = (sizeof(mt76x2_mac_a_band_external_pa_cr_table) / sizeof(RTMP_REG_PAIR));
+u8 mt76x2_mac_a_band_external_pa_cr_nums = (sizeof(mt76x2_mac_a_band_external_pa_cr_table) / sizeof(RTMP_REG_PAIR));
 
 RTMP_REG_PAIR mt76x2_mac_a_band_external_pa_low_temp_cr_table[] = {
 	{TX0_RF_GAIN_CORR, 0x3C3C023C},
 	{TX1_RF_GAIN_CORR, 0x3C3C023C},
 	{TX0_BB_GAIN_ATTEN, 0x00001F1F},
 };
-UCHAR mt76x2_mac_a_band_external_pa_low_temp_cr_nums = (sizeof(mt76x2_mac_a_band_external_pa_low_temp_cr_table) / sizeof(RTMP_REG_PAIR));
+u8 mt76x2_mac_a_band_external_pa_low_temp_cr_nums = (sizeof(mt76x2_mac_a_band_external_pa_low_temp_cr_table) / sizeof(RTMP_REG_PAIR));
 
 struct RF_INDEX_OFFSET mt76x2_rf_index_offset[] = {
 	{0, 0x0000, 0x033c},
@@ -144,7 +144,7 @@ struct RF_INDEX_OFFSET mt76x2_rf_index_offset[] = {
 static VOID mt76x2_bbp_adjust(struct rtmp_adapter *pAd)
 {
 	static char *ext_str[]={"extNone", "extAbove", "", "extBelow"};
-	UCHAR rf_bw, ext_ch;
+	u8 rf_bw, ext_ch;
 
 	if (get_ht_cent_ch(pAd, &rf_bw, &ext_ch) == false) {
 		rf_bw = BW_20;
@@ -472,7 +472,7 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan
 	unsigned int latch_band, band, bw, tx_rx_setting;
 	uint32_t ret, i, value, value1, restore_value, loop = 0;
 	uint16_t e2p_value;
-	UCHAR bbp_ch_idx;
+	u8 bbp_ch_idx;
 	bool band_change = false;
 	uint32_t RegValue = 0;
 	uint32_t eLNA_gain_from_e2p = 0;
@@ -1272,7 +1272,7 @@ void mt76x2_get_external_lna_gain(struct rtmp_adapter *ad)
 
 void mt76x2_get_agc_gain(struct rtmp_adapter *ad, bool init_phase)
 {
-	UCHAR val;
+	u8 val;
 	USHORT val16;
 	uint32_t bbp_val;
 

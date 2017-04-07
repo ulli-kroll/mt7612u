@@ -142,7 +142,7 @@ VOID ApCliCtrlStateMachineInit(
 	IN STATE_MACHINE *Sm,
 	OUT STATE_MACHINE_FUNC Trans[])
 {
-	UCHAR i;
+	u8 i;
 #ifdef APCLI_CONNECTION_TRIAL
 	PAPCLI_STRUCT	pApCliEntry;
 #endif /* APCLI_CONNECTION_TRIAL */
@@ -238,8 +238,8 @@ static VOID ApCliTrialConnectTimeout(
 	PAPCLI_STRUCT pApCliEntry = (APCLI_STRUCT *)FunctionContext;
 	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pApCliEntry->pAd;
 
-	UCHAR ifIndex = pApCliEntry->ifIndex;
-	UCHAR BBPValue;
+	u8 ifIndex = pApCliEntry->ifIndex;
+	u8 BBPValue;
 	PULONG pCurrState = &pAd->ApCfg.ApCliTab[ifIndex].CtrlCurrState;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("ApCli_SYNC - TrialConnectTimeout, Jump back to original Channel\n"));
@@ -288,8 +288,8 @@ static VOID ApCliTrialConnectPhase2Timeout(
 	PAPCLI_STRUCT pApCliEntry = (APCLI_STRUCT *)FunctionContext;
 	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pApCliEntry->pAd;
 	MLME_ASSOC_REQ_STRUCT  AssocReq;
-	UCHAR ifIndex = pApCliEntry->ifIndex;
-	UCHAR BBPValue;
+	u8 ifIndex = pApCliEntry->ifIndex;
+	u8 BBPValue;
 	struct rtmp_wifi_dev *wdev;
 	wdev = &pApCliEntry->wdev;
 
@@ -330,9 +330,9 @@ static VOID ApCliTrialConnectRetryTimeout(
 	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pApCliEntry->pAd;
 	PULONG pCurrState = &pAd->ApCfg.ApCliTab[pApCliEntry->ifIndex].CtrlCurrState;
 	int i;
-	UCHAR ifIndex = pApCliEntry->ifIndex;
-	UCHAR tempBuf[10] = {};
-	UCHAR BBPValue;
+	u8 ifIndex = pApCliEntry->ifIndex;
+	u8 tempBuf[10] = {};
+	u8 BBPValue;
 
 	PMAC_TABLE_ENTRY pMacEntry;
 	//PMAC_TABLE_ENTRY pOldRootAp = &pApCliEntry->oldRootAP;
@@ -1278,13 +1278,13 @@ VOID ApCliWpaMicFailureReportFrame(
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	u8 *             pOutBuffer = NULL;
-	UCHAR               Header802_3[14];
+	u8               Header802_3[14];
 	ULONG               FrameLen = 0;
-	UCHAR				*mpool;
+	u8 			*mpool;
 	PEAPOL_PACKET       pPacket;
-	UCHAR               Mic[16];
+	u8               Mic[16];
 	bool             bUnicast;
-	UCHAR			Wcid, i;
+	u8 		Wcid, i;
 	PMAC_TABLE_ENTRY pMacEntry = NULL;
 	USHORT ifIndex = (USHORT)(Elem->Priv);
 	APCLI_STRUCT *apcli_entry;
@@ -1377,7 +1377,7 @@ VOID ApCliWpaMicFailureReportFrame(
 	memset(Mic, 0, sizeof(Mic));
 	if(wdev->WepStatus  == Ndis802_11Encryption3Enabled)
 	{	/* AES */
-        	UCHAR digest[20] = {0};
+        	u8 digest[20] = {0};
 		RT_HMAC_SHA1(apcli_entry->PTK, LEN_PTK_KCK, pOutBuffer, FrameLen, digest, SHA1_DIGEST_SIZE);
 		memmove(Mic, digest, LEN_KEY_DESC_MIC);
 	}
@@ -1407,7 +1407,7 @@ static VOID ApCliCtrlScanDoneAction(
 {
 
 	USHORT ifIndex = (USHORT)(Elem->Priv);
-	UCHAR i;
+	u8 i;
 	/* AP sent a 2040Coexistence mgmt frame, then station perform a scan, and then send back the respone. */
 	if ((pAd->CommonCfg.BSSCoexist2040.field.InfoReq == 1)
 	    	    && OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_SCAN_2040)) {
@@ -1442,7 +1442,7 @@ static VOID ApCliCtrlTrialConnectAction(
 	bool	Cancelled;
 	PMAC_TABLE_ENTRY pMacEntry;
 
-	UCHAR BBPValue;
+	u8 BBPValue;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("(%s) Start Probe Req Trial.\n", __func__));
 	if (ifIndex >= MAX_APCLI_NUM || ifIndex == 0) {

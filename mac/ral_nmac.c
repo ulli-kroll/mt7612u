@@ -41,7 +41,7 @@ INT rlt_get_rxwi_rssi(RXWI_STRUC *rxwi, INT size, CHAR *rssi)
 }
 
 
-INT rlt_get_rxwi_snr(struct rtmp_adapter *pAd, RXWI_STRUC *rxwi, INT size, UCHAR *snr)
+INT rlt_get_rxwi_snr(struct rtmp_adapter *pAd, RXWI_STRUC *rxwi, INT size, u8 *snr)
 {
 	if (IS_MT76x2(pAd)) {
 		memmove(snr, &rxwi->RXWI_N.bbp_rxinfo[2], size);
@@ -60,7 +60,7 @@ INT rlt_get_rxwi_snr(struct rtmp_adapter *pAd, RXWI_STRUC *rxwi, INT size, UCHAR
 #ifdef RLT_MAC
 VOID dumpRxFCEInfo(struct rtmp_adapter *pAd, RXFCE_INFO *pRxFceInfo)
 {
-	hex_dump("RxFCEInfo Raw Data", (UCHAR *)pRxFceInfo, sizeof(RXFCE_INFO));
+	hex_dump("RxFCEInfo Raw Data", (u8 *)pRxFceInfo, sizeof(RXFCE_INFO));
 
 	DBGPRINT(RT_DEBUG_OFF, ("RxFCEInfo Fields:\n"));
 
@@ -79,7 +79,7 @@ VOID dumpRxFCEInfo(struct rtmp_adapter *pAd, RXFCE_INFO *pRxFceInfo)
 #endif /* RLT_MAC */
 
 
-static UCHAR *txwi_txop_str[]={"HT_TXOP", "PIFS", "SIFS", "BACKOFF", "Invalid"};
+static u8 *txwi_txop_str[]={"HT_TXOP", "PIFS", "SIFS", "BACKOFF", "Invalid"};
 #define TXWI_TXOP_STR(_x)	((_x) <= 3 ? txwi_txop_str[(_x)]: txwi_txop_str[4])
 
 VOID dump_rlt_txwi(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI)
@@ -142,9 +142,9 @@ VOID dump_rlt_rxwi(struct rtmp_adapter *pAd, RXWI_STRUC *pRxWI)
 }
 
 
-static UCHAR *txinfo_type_str[]={"PKT", "", "CMD", "RSV", "Invalid"};
-static UCHAR *txinfo_d_port_str[]={"WLAN", "CPU_RX", "CPU_TX", "HOST", "VIRT_RX", "VIRT_TX", "DROP", "Invalid"};
-static UCHAR *txinfo_que_str[]={"MGMT", "HCCA", "EDCA_1", "EDCA_2", "Invalid"};
+static u8 *txinfo_type_str[]={"PKT", "", "CMD", "RSV", "Invalid"};
+static u8 *txinfo_d_port_str[]={"WLAN", "CPU_RX", "CPU_TX", "HOST", "VIRT_RX", "VIRT_TX", "DROP", "Invalid"};
+static u8 *txinfo_que_str[]={"MGMT", "HCCA", "EDCA_1", "EDCA_2", "Invalid"};
 
 #define TXINFO_TYPE_STR(_x)  	((_x)<=3 ?  txinfo_type_str[_x] : txinfo_type_str[4])
 #define TXINFO_DPORT_STR(_x)	((_x) <= 6 ? txinfo_d_port_str[_x]: txinfo_d_port_str[7])

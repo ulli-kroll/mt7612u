@@ -89,11 +89,11 @@ VOID MlmeAuthReqAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
  */
 VOID PeerAuthRspAtSeq2Action(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM * Elem)
 {
-	UCHAR Addr2[MAC_ADDR_LEN];
+	u8 Addr2[MAC_ADDR_LEN];
 	USHORT Seq, Status, RemoteStatus, Alg;
-	UCHAR iv_hdr[4];
-	UCHAR *ChlgText = NULL;
-	UCHAR *CyperChlgText = NULL;
+	u8 iv_hdr[4];
+	u8 *ChlgText = NULL;
+	u8 *CyperChlgText = NULL;
 	ULONG c_len = 0;
 	HEADER_802_11 AuthHdr;
 	bool TimerCancelled;
@@ -101,8 +101,8 @@ VOID PeerAuthRspAtSeq2Action(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM * Elem)
 	int NStatus;
 	ULONG FrameLen = 0;
 	USHORT Status2;
-	UCHAR ChallengeIe = IE_CHALLENGE_TEXT;
-	UCHAR len_challengeText = CIPHER_TEXT_LEN;
+	u8 ChallengeIe = IE_CHALLENGE_TEXT;
+	u8 len_challengeText = CIPHER_TEXT_LEN;
 
 	ChlgText = kmalloc(CIPHER_TEXT_LEN, GFP_ATOMIC);
 	if (ChlgText == NULL) {
@@ -249,7 +249,7 @@ VOID PeerAuthRspAtSeq2Action(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM * Elem)
  */
 VOID PeerAuthRspAtSeq4Action(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
-	UCHAR Addr2[MAC_ADDR_LEN];
+	u8 Addr2[MAC_ADDR_LEN];
 	USHORT Alg, Seq, Status;
 /*    CHAR          ChlgText[CIPHER_TEXT_LEN]; */
 	CHAR *ChlgText = NULL;
@@ -396,7 +396,7 @@ VOID InvalidStateWhenAuth(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 
     ==========================================================================
  */
-VOID Cls2errAction(struct rtmp_adapter *pAd, UCHAR *pAddr)
+VOID Cls2errAction(struct rtmp_adapter *pAd, u8 *pAddr)
 {
 	HEADER_802_11 DeauthHdr;
 	u8 *pOutBuffer = NULL;
@@ -433,7 +433,7 @@ bool AUTH_ReqSend(
 	IN ULONG ElementLen)
 {
 	USHORT Alg, Seq, Status;
-	UCHAR Addr[6];
+	u8 Addr[6];
 	ULONG Timeout;
 	HEADER_802_11 AuthHdr;
 	bool TimerCancelled;

@@ -55,14 +55,14 @@
 }
 
 typedef struct _APCLI_MLME_JOIN_REQ_STRUCT {
-	UCHAR	Bssid[MAC_ADDR_LEN];
-	UCHAR	SsidLen;
-	UCHAR	Ssid[MAX_LEN_OF_SSID];
+	u8 Bssid[MAC_ADDR_LEN];
+	u8 SsidLen;
+	u8 Ssid[MAX_LEN_OF_SSID];
 } APCLI_MLME_JOIN_REQ_STRUCT;
 
 typedef struct _APCLI_CTRL_MSG_STRUCT {
 	USHORT Status;
-	UCHAR SrcAddr[MAC_ADDR_LEN];
+	u8 SrcAddr[MAC_ADDR_LEN];
 } APCLI_CTRL_MSG_STRUCT, *PSTA_CTRL_MSG_STRUCT;
 
 bool isValidApCliIf(
@@ -90,8 +90,8 @@ VOID ApCliAssocStateMachineInit(
 
 MAC_TABLE_ENTRY *ApCliTableLookUpByWcid(
 	IN struct rtmp_adapter *pAd,
-	IN UCHAR wcid,
-	IN UCHAR *pAddrs);
+	IN u8 wcid,
+	IN u8 *pAddrs);
 
 bool 	ApCliValidateRSNIE(
 	IN struct rtmp_adapter *pAd,
@@ -116,8 +116,8 @@ INT ApCliIfLookUp(
 VOID ApCliMgtMacHeaderInit(
     IN	Pstruct rtmp_adapter pAd,
     IN OUT PHEADER_802_11 pHdr80211,
-    IN UCHAR SubType,
-    IN UCHAR ToDs,
+    IN u8 SubType,
+    IN u8 ToDs,
     IN u8 *pDA,
     IN u8 *pBssid,
     IN USHORT ifIndex);
@@ -130,18 +130,18 @@ bool ApCliCheckHt(
 
 bool ApCliCheckVht(
 	IN Pstruct rtmp_adapter pAd,
-	IN UCHAR Wcid,
+	IN u8 Wcid,
 	IN MAC_TABLE_ENTRY  *pEntry,
 	IN VHT_CAP_IE *vht_cap,
 	IN VHT_OP_IE *vht_op);
 
 bool ApCliLinkUp(
 	IN Pstruct rtmp_adapter pAd,
-	IN UCHAR ifIndex);
+	IN u8 ifIndex);
 
 VOID ApCliLinkDown(
 	IN Pstruct rtmp_adapter pAd,
-	IN UCHAR ifIndex);
+	IN u8 ifIndex);
 
 VOID ApCliIfUp(
 	IN Pstruct rtmp_adapter pAd);
@@ -172,17 +172,17 @@ bool ApCliPeerAssocRspSanity(
     OUT USHORT *pCapabilityInfo,
     OUT USHORT *pStatus,
     OUT USHORT *pAid,
-    OUT UCHAR SupRate[],
-    OUT UCHAR *pSupRateLen,
-    OUT UCHAR ExtRate[],
-    OUT UCHAR *pExtRateLen,
+    OUT u8 SupRate[],
+    OUT u8 *pSupRateLen,
+    OUT u8 ExtRate[],
+    OUT u8 *pExtRateLen,
     OUT HT_CAPABILITY_IE *pHtCapability,
     OUT ADD_HT_INFO_IE *pAddHtInfo,	/* AP might use this additional ht info IE */
-    OUT UCHAR *pHtCapabilityLen,
-    OUT UCHAR *pAddHtInfoLen,
-    OUT UCHAR *pNewExtChannelOffset,
+    OUT u8 *pHtCapabilityLen,
+    OUT u8 *pAddHtInfoLen,
+    OUT u8 *pNewExtChannelOffset,
     OUT PEDCA_PARM pEdcaParm,
-    OUT UCHAR *pCkipFlag,
+    OUT u8 *pCkipFlag,
     OUT IE_LISTS *ie_list);
 
 VOID	ApCliPeerPairMsg1Action(
@@ -203,23 +203,23 @@ VOID	ApCliPeerGroupMsg1Action(
 bool ApCliCheckRSNIE(
 	IN  Pstruct rtmp_adapter   pAd,
 	IN  u8 *         pData,
-	IN  UCHAR           DataLen,
+	IN  u8           DataLen,
 	IN  MAC_TABLE_ENTRY *pEntry,
-	OUT	UCHAR			*Offset);
+	OUT	u8 		*Offset);
 
 bool ApCliParseKeyData(
 	IN  Pstruct rtmp_adapter   pAd,
 	IN  u8 *         pKeyData,
-	IN  UCHAR           KeyDataLen,
+	IN  u8           KeyDataLen,
 	IN  MAC_TABLE_ENTRY *pEntry,
-	IN	UCHAR			IfIdx,
-	IN	UCHAR			bPairewise);
+	IN	u8 		IfIdx,
+	IN	u8 		bPairewise);
 
 bool  ApCliHandleRxBroadcastFrame(
 	IN  Pstruct rtmp_adapter   pAd,
 	IN	RX_BLK			*pRxBlk,
 	IN  MAC_TABLE_ENTRY *pEntry,
-	IN	UCHAR			FromWhichBSSID);
+	IN	u8 		FromWhichBSSID);
 
 VOID APCliInstallPairwiseKey(
 	IN  Pstruct rtmp_adapter   pAd,
@@ -228,8 +228,8 @@ VOID APCliInstallPairwiseKey(
 bool APCliInstallSharedKey(
 	IN  Pstruct rtmp_adapter   pAd,
 	IN  u8 *         pKey,
-	IN  UCHAR           KeyLen,
-	IN	UCHAR			DefaultKeyIdx,
+	IN  u8           KeyLen,
+	IN	u8 		DefaultKeyIdx,
 	IN  MAC_TABLE_ENTRY *pEntry);
 
 VOID ApCliUpdateMlmeRate(struct rtmp_adapter *pAd, USHORT ifIndex);

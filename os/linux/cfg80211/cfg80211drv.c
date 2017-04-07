@@ -445,7 +445,7 @@ bool CFG80211DRV_OpsSetChannel(struct rtmp_adapter *pAd, VOID *pData)
 {
 	CMD_RTPRIV_IOCTL_80211_CHAN *pChan;
 	UINT8 ChanId, IfType, ChannelType;
-	UCHAR lock_channel;
+	u8 lock_channel;
 	bool FlgIsChanged;
 
 /*
@@ -833,7 +833,7 @@ bool CFG80211DRV_Connect(
 {
 #ifdef CONFIG_STA_SUPPORT
 	CMD_RTPRIV_IOCTL_80211_CONNECT *pConnInfo;
-	UCHAR SSID[NDIS_802_11_LENGTH_SSID + 1]; /* Add One for SSID_Len == 32 */
+	u8 SSID[NDIS_802_11_LENGTH_SSID + 1]; /* Add One for SSID_Len == 32 */
 	uint32_t SSIDLen;
 	RT_CMD_STA_IOCTL_SECURITY_ADV IoctlWpa;
 
@@ -961,7 +961,7 @@ bool CFG80211DRV_Connect(
 		((pConnInfo->GroupwiseEncrypType | pConnInfo->PairwiseEncrypType) &
 												RT_CMD_80211_CONN_ENCRYPT_WEP))
 	{
-		UCHAR KeyBuf[50];
+		u8 KeyBuf[50];
 
 		/* reset AuthMode and EncrypType */
 		Set_EncrypType_Proc(pAd, "WEP");
@@ -1108,7 +1108,7 @@ VOID CFG80211_BeaconCountryRegionParse(
 	IN NDIS_802_11_VARIABLE_IEs	*pVIE,
 	IN uint16_t 				LenVIE)
 {
-	UCHAR *pElement = (UCHAR *)pVIE;
+	u8 *pElement = (u8 *)pVIE;
 	uint32_t LenEmt;
 
 
@@ -1191,7 +1191,7 @@ Note:
 */
 VOID CFG80211_RegHint(
 	IN struct rtmp_adapter				*pAd,
-	IN UCHAR					*pCountryIe,
+	IN u8 				*pCountryIe,
 	IN ULONG					CountryIeLen)
 {
 	CFG80211OS_RegHint(CFG80211CB, pCountryIe, CountryIeLen);
@@ -1217,7 +1217,7 @@ Note:
 */
 VOID CFG80211_RegHint11D(
 	IN struct rtmp_adapter				*pAd,
-	IN UCHAR					*pCountryIe,
+	IN u8 				*pCountryIe,
 	IN ULONG					CountryIeLen)
 {
 	/* no regulatory_hint_11d() in 2.6.32 */
@@ -1249,7 +1249,7 @@ Note:
 VOID CFG80211_RegRuleApply(
 	IN struct rtmp_adapter				*pAd,
 	IN VOID						*pWiphy,
-	IN UCHAR					*pAlpha2)
+	IN u8 				*pAlpha2)
 {
 	VOID *pBand24G, *pBand5G;
 	uint32_t IdBand, IdChan, IdPwr;
@@ -1399,12 +1399,12 @@ Note:
 */
 VOID CFG80211_ConnectResultInform(
 	IN struct rtmp_adapter				*pAd,
-	IN UCHAR					*pBSSID,
-	IN UCHAR					*pReqIe,
+	IN u8 				*pBSSID,
+	IN u8 				*pReqIe,
 	IN uint32_t 				ReqIeLen,
-	IN UCHAR					*pRspIe,
+	IN u8 				*pRspIe,
 	IN uint32_t 				RspIeLen,
-	IN UCHAR					FlgIsSuccess)
+	IN u8 				FlgIsSuccess)
 {
 	CFG80211DBG(RT_DEBUG_TRACE, ("80211> CFG80211_ConnectResultInform ==>\n"));
 
@@ -1511,8 +1511,8 @@ initList(&pAd->cfg80211_ctrl.cfg80211TxPacketList);
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
 bool CFG80211_checkScanResInKernelCache(
     IN struct rtmp_adapter                                       *pAd,
-    IN UCHAR                                        *pBSSID,
-	IN UCHAR					*pSsid,
+    IN u8                                        *pBSSID,
+	IN u8 				*pSsid,
 	IN INT       					ssidLen)
 {
         CFG80211_CB *pCfg80211_CB  = (CFG80211_CB *)pAd->pCfg80211_CB;
@@ -1542,7 +1542,7 @@ bool CFG80211_checkScanTable(
 	uint32_t CenFreq;
 	uint64_t timestamp;
 	struct timeval tv;
-	UCHAR *ie, ieLen = 0;
+	u8 *ie, ieLen = 0;
 	bool isOk = false;
 	BSS_ENTRY *pBssEntry;
 
@@ -1641,9 +1641,9 @@ bool CFG80211_checkScanTable(
 #endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
 
 //CFG_TODO
-UCHAR CFG80211_getCenCh(struct rtmp_adapter *pAd, UCHAR prim_ch)
+u8 CFG80211_getCenCh(struct rtmp_adapter *pAd, u8 prim_ch)
 {
-	UCHAR ret_channel;
+	u8 ret_channel;
 
 	if (pAd->CommonCfg.RegTransmitSetting.field.BW == BW_40)
 	{

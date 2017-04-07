@@ -83,7 +83,7 @@ VOID set_entry_phy_cfg(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 		pEntry - pointer to the MAC entry; NULL is not found
 	==========================================================================
 */
-MAC_TABLE_ENTRY *MacTableLookup(struct rtmp_adapter *pAd, UCHAR *pAddr)
+MAC_TABLE_ENTRY *MacTableLookup(struct rtmp_adapter *pAd, u8 *pAddr)
 {
 	ULONG HashIdx;
 	MAC_TABLE_ENTRY *pEntry = NULL;
@@ -107,15 +107,15 @@ MAC_TABLE_ENTRY *MacTableLookup(struct rtmp_adapter *pAd, UCHAR *pAddr)
 bool StaUpdateMacTableEntry(
 	IN struct rtmp_adapter *pAd,
 	IN MAC_TABLE_ENTRY *pEntry,
-	IN UCHAR MaxSupportedRateIn500Kbps,
+	IN u8 MaxSupportedRateIn500Kbps,
 	IN HT_CAPABILITY_IE *ht_cap,
-	IN UCHAR htcap_len,
+	IN u8 htcap_len,
 	IN ADD_HT_INFO_IE *pAddHtInfo,
-	IN UCHAR AddHtInfoLen,
+	IN u8 AddHtInfoLen,
 	IN IE_LISTS *ie_list,
 	IN USHORT cap_info)
 {
-	UCHAR MaxSupportedRate = RATE_11;
+	u8 MaxSupportedRate = RATE_11;
 	bool bSupportN = false;
 	bool supportsETxBf = false;
 	struct rtmp_wifi_dev *wdev;
@@ -206,8 +206,8 @@ bool StaUpdateMacTableEntry(
 		pEntry->MaxHTPhyMode.field.STBC = (ht_cap->HtCapInfo.RxSTBC & (pAd->CommonCfg.DesiredHtPhy.TxSTBC));
 		pEntry->MpduDensity = ht_cap->HtCapParm.MpduDensity;
 		pEntry->MaxRAmpduFactor = ht_cap->HtCapParm.MaxRAmpduFactor;
-		pEntry->MmpsMode = (UCHAR) ht_cap->HtCapInfo.MimoPs;
-		pEntry->AMsduSize = (UCHAR) ht_cap->HtCapInfo.AMsduSize;
+		pEntry->MmpsMode = (u8) ht_cap->HtCapInfo.MimoPs;
+		pEntry->AMsduSize = (u8) ht_cap->HtCapInfo.AMsduSize;
 		pEntry->HTPhyMode.word = pEntry->MaxHTPhyMode.word;
 
 		if (pAd->CommonCfg.DesiredHtPhy.AmsduEnable
@@ -257,7 +257,7 @@ bool StaUpdateMacTableEntry(
 
 	/* Set asic auto fall back */
 	if (wdev->bAutoTxRateSwitch == true) {
-		UCHAR TableSize = 0;
+		u8 TableSize = 0;
 
 		MlmeSelectTxRateTable(pAd, pEntry, &pEntry->pTable, &TableSize, &pEntry->CurrTxRateIndex);
 		pEntry->bAutoTxRateSwitch = true;
@@ -267,7 +267,7 @@ bool StaUpdateMacTableEntry(
 		pEntry->bAutoTxRateSwitch = false;
 
 		/* If the legacy mode is set, overwrite the transmit setting of this entry. */
-		RTMPUpdateLegacyTxSetting((UCHAR)wdev->DesiredTransmitSetting.field.FixedTxMode, pEntry);
+		RTMPUpdateLegacyTxSetting((u8)wdev->DesiredTransmitSetting.field.FixedTxMode, pEntry);
 	}
 
 
@@ -286,7 +286,7 @@ bool StaUpdateMacTableEntry(
 	}
 
 	if (pAd->StaCfg.BssType == BSS_INFRA) {
-		UCHAR HashIdx = 0;
+		u8 HashIdx = 0;
 		MAC_TABLE_ENTRY *pCurrEntry = NULL;
 		HashIdx = MAC_ADDR_HASH_INDEX(pAd->MlmeAux.Bssid);
 		if (pAd->MacTab.Hash[HashIdx] == NULL) {
@@ -344,13 +344,13 @@ bool StaUpdateMacTableEntry(
 
 MAC_TABLE_ENTRY *MacTableInsertEntry(
 	IN struct rtmp_adapter *pAd,
-	IN UCHAR *pAddr,
+	IN u8 *pAddr,
 	IN struct rtmp_wifi_dev *wdev,
-	IN UCHAR apidx,
-	IN UCHAR OpMode,
+	IN u8 apidx,
+	IN u8 OpMode,
 	IN bool CleanAll)
 {
-	UCHAR HashIdx;
+	u8 HashIdx;
 	int i, FirstWcid;
 	MAC_TABLE_ENTRY *pEntry = NULL, *pCurrEntry;
 	bool Cancelled;
@@ -611,7 +611,7 @@ MAC_TABLE_ENTRY *MacTableInsertEntry(
 			pAd->MacTab.Size ++;
 
 			/* Set the security mode of this entry as OPEN-NONE in ASIC */
-			RTMP_REMOVE_PAIRWISE_KEY_ENTRY(pAd, (UCHAR)i);
+			RTMP_REMOVE_PAIRWISE_KEY_ENTRY(pAd, (u8)i);
 
 			/* Add this entry into ASIC RX WCID search table */
 			RTMP_STA_ENTRY_ADD(pAd, pEntry);
@@ -695,7 +695,7 @@ MAC_TABLE_ENTRY *MacTableInsertEntry(
 		Delete a specified client from MAC table
 	==========================================================================
  */
-bool MacTableDeleteEntry(struct rtmp_adapter *pAd, USHORT wcid, UCHAR *pAddr)
+bool MacTableDeleteEntry(struct rtmp_adapter *pAd, USHORT wcid, u8 *pAddr)
 {
 	USHORT HashIdx;
 	MAC_TABLE_ENTRY *pEntry, *pPrevEntry, *pProbeEntry;
@@ -890,12 +890,12 @@ VOID MacTableReset(struct rtmp_adapter *pAd)
 	int i;
 	bool Cancelled;
 #ifdef CONFIG_AP_SUPPORT
-	UCHAR *pOutBuffer = NULL;
+	u8 *pOutBuffer = NULL;
 	int NStatus;
 	ULONG FrameLen = 0;
 	HEADER_802_11 DeAuthHdr;
 	USHORT Reason;
-	UCHAR apidx = MAIN_MBSSID;
+	u8 apidx = MAIN_MBSSID;
 #endif /* CONFIG_AP_SUPPORT */
 	MAC_TABLE_ENTRY *pMacEntry;
 

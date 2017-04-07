@@ -148,7 +148,7 @@ INT RTMPCheckRxError(
 
 		dump_rxinfo(pAd, pRxInfo);
 		dump_rxwi(pAd, pRxBlk->pRxWI);
-		hex_dump("ErrorPkt",  (UCHAR *)pHeader, pRxBlk->MPDUtotalByteCnt);
+		hex_dump("ErrorPkt",  (u8 *)pHeader, pRxBlk->MPDUtotalByteCnt);
 
 		if (pHeader == NULL)
 			return NDIS_STATUS_SUCCESS;
@@ -164,7 +164,7 @@ INT StaAllowToSendPacket(
 	struct rtmp_adapter *pAd,
 	struct rtmp_wifi_dev *wdev,
 	struct sk_buff *pPacket,
-	UCHAR *pWcid)
+	u8 *pWcid)
 {
 	bool allowToSend;
 
@@ -206,11 +206,11 @@ INT StaAllowToSendPacket_new(
 	IN struct rtmp_adapter *pAd,
 	IN struct rtmp_wifi_dev *wdev,
 	IN struct sk_buff *pPacket,
-	IN UCHAR *pWcid)
+	IN u8 *pWcid)
 {
 	MAC_TABLE_ENTRY *pEntry;
 	PACKET_INFO PacketInfo;
-	UCHAR *pSrcBufVA;
+	u8 *pSrcBufVA;
 	UINT SrcBufLen;
 
 	RTMP_QueryPacketInfo(pPacket, &PacketInfo, &pSrcBufVA, &SrcBufLen);
@@ -223,7 +223,7 @@ INT StaAllowToSendPacket_new(
 	pEntry = MacTableLookup(pAd, pSrcBufVA);
 	if (pEntry && (pEntry->Sst == SST_ASSOC))
 	{
-		*pWcid = (UCHAR)pEntry->wcid;
+		*pWcid = (u8)pEntry->wcid;
 		return true;
 	}
 

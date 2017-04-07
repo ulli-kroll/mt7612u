@@ -62,21 +62,21 @@ VOID RTMPWriteTxWI(
 	IN bool AMPDU,
 	IN bool Ack,
 	IN bool NSeq,		/* HW new a sequence.*/
-	IN UCHAR BASize,
-	IN UCHAR WCID,
+	IN u8 BASize,
+	IN u8 WCID,
 	IN ULONG Length,
-	IN UCHAR PID,
-	IN UCHAR TID,
-	IN UCHAR TxRate,
-	IN UCHAR Txopmode,
+	IN u8 PID,
+	IN u8 TID,
+	IN u8 TxRate,
+	IN u8 Txopmode,
 	IN HTTRANSMIT_SETTING *pTransmit)
 {
 	PMAC_TABLE_ENTRY pMac = NULL;
 	TXWI_STRUC TxWI, *pTxWI;
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
 	UINT TxEAPId_Cal;
-	UCHAR eTxBf, iTxBf, sounding, ndp_rate, stbc, bw, mcs, sgi, phy_mode, mpdu_density = 0, mimops = 0, ldpc = 0;
-	UCHAR tx_stream_mode = 0;
+	u8 eTxBf, iTxBf, sounding, ndp_rate, stbc, bw, mcs, sgi, phy_mode, mpdu_density = 0, mimops = 0, ldpc = 0;
+	u8 tx_stream_mode = 0;
 
 	if (WCID < MAX_LEN_OF_MAC_TABLE)
 		pMac = &pAd->MacTab.Content[WCID];
@@ -204,7 +204,7 @@ VOID RTMPWriteTxWI(
 	memmove(pOutTxWI, &TxWI, TXWISize);
 //+++Add by shiang for debug
 if (0){
-	hex_dump("TxWI", (UCHAR *)pOutTxWI, TXWISize);
+	hex_dump("TxWI", (u8 *)pOutTxWI, TXWISize);
 	dump_txwi(pAd, pOutTxWI);
 }
 //---Add by shiang for debug
@@ -216,15 +216,15 @@ VOID RTMPWriteTxWI_Data(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pTx
 	HTTRANSMIT_SETTING *pTransmit;
 	MAC_TABLE_ENTRY *pMacEntry;
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
-	UCHAR wcid, pkt_id;
-	UCHAR sgi, mcs, bw, stbc, phy_mode, ldpc;
-	UCHAR basize, ampdu, mimops = 0, mpdu_density = 0;
-	UCHAR iTxBf, eTxBf, sounding, ndp_rate, ndp_bw;
+	u8 wcid, pkt_id;
+	u8 sgi, mcs, bw, stbc, phy_mode, ldpc;
+	u8 basize, ampdu, mimops = 0, mpdu_density = 0;
+	u8 iTxBf, eTxBf, sounding, ndp_rate, ndp_bw;
 #ifdef MCS_LUT_SUPPORT
 	bool lut_enable = 0;
-	UCHAR mbc_wcid;
+	u8 mbc_wcid;
 #endif /* MCS_LUT_SUPPORT */
-	UCHAR tx_stream_mode = 0;
+	u8 tx_stream_mode = 0;
 
 
 	ASSERT(pTxWI);
@@ -275,7 +275,7 @@ VOID RTMPWriteTxWI_Data(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pTx
 		}
 		else
 		{
-			UCHAR RABAOriIdx = pTxBlk->pMacEntry->BAOriWcidArray[pTxBlk->UserPriority];
+			u8 RABAOriIdx = pTxBlk->pMacEntry->BAOriWcidArray[pTxBlk->UserPriority];
 			basize = pAd->BATable.BAOriEntry[RABAOriIdx].BAWinSize;
 		}
 	}
@@ -457,14 +457,14 @@ VOID RTMPWriteTxWI_Cache(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pT
 	HTTRANSMIT_SETTING *pTransmit = pTxBlk->pTransmit;
 	HTTRANSMIT_SETTING tmpTransmit;
 	MAC_TABLE_ENTRY *pMacEntry = pTxBlk->pMacEntry;
-	UCHAR pkt_id;
-	UCHAR bw, mcs, stbc, phy_mode, sgi, ldpc;
-	UCHAR ampdu, basize = 0, mimops, mpdu_density = 0;
-	UCHAR sounding, iTxBf, eTxBf, ndp_rate, ndp_bw;
+	u8 pkt_id;
+	u8 bw, mcs, stbc, phy_mode, sgi, ldpc;
+	u8 ampdu, basize = 0, mimops, mpdu_density = 0;
+	u8 sounding, iTxBf, eTxBf, ndp_rate, ndp_bw;
 #ifdef MCS_LUT_SUPPORT
 	bool lut_enable;
 #endif /* MCS_LUT_SUPPORT */
-	UCHAR tx_stream_mode = 0;
+	u8 tx_stream_mode = 0;
 
 
 	/* If CCK or OFDM, BW must be 20*/
@@ -650,7 +650,7 @@ INT get_pkt_rssi_by_rxwi(struct rtmp_adapter *pAd, RXWI_STRUC *rxwi, INT size, C
 }
 
 
-INT get_pkt_snr_by_rxwi(struct rtmp_adapter *pAd, RXWI_STRUC *rxwi, INT size, UCHAR *snr)
+INT get_pkt_snr_by_rxwi(struct rtmp_adapter *pAd, RXWI_STRUC *rxwi, INT size, u8 *snr)
 {
 	INT status = 0;
 

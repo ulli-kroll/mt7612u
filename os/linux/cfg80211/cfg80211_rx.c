@@ -30,9 +30,9 @@
 
 #include "rt_config.h"
 
-extern UCHAR CFG_P2POUIBYTE[];
+extern u8 CFG_P2POUIBYTE[];
 
-VOID CFG80211_Convert802_3Packet(struct rtmp_adapter *pAd, RX_BLK *pRxBlk, UCHAR *pHeader802_3)
+VOID CFG80211_Convert802_3Packet(struct rtmp_adapter *pAd, RX_BLK *pRxBlk, u8 *pHeader802_3)
 {
 #ifdef CONFIG_AP_SUPPORT
 	if (IS_PKT_OPMODE_AP(pRxBlk))
@@ -48,7 +48,7 @@ VOID CFG80211_Convert802_3Packet(struct rtmp_adapter *pAd, RX_BLK *pRxBlk, UCHAR
 	}
 }
 
-VOID CFG80211_Announce802_3Packet(struct rtmp_adapter *pAd, RX_BLK *pRxBlk, UCHAR FromWhichBSSID)
+VOID CFG80211_Announce802_3Packet(struct rtmp_adapter *pAd, RX_BLK *pRxBlk, u8 FromWhichBSSID)
 {
 #ifdef CONFIG_AP_SUPPORT
 	if (IS_PKT_OPMODE_AP(pRxBlk))
@@ -198,7 +198,7 @@ bool CFG80211_CheckActionFrameType(
 
 	return isP2pFrame;
 }
-bool CFG80211_HandleP2pMgmtFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk, UCHAR OpMode)
+bool CFG80211_HandleP2pMgmtFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk, u8 OpMode)
 {
 	RXWI_STRUC *pRxWI = pRxBlk->pRxWI;
 	PHEADER_802_11 pHeader = pRxBlk->pHeader;

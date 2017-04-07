@@ -103,9 +103,9 @@ typedef	union _RF_CSR_CFG_STRUC {
 
 
 typedef struct _BANK_RF_REG_PAIR {
-	UCHAR Bank;
-	UCHAR Register;
-	UCHAR Value;
+	u8 Bank;
+	u8 Register;
+	u8 Value;
 } BANK_RF_REG_PAIR, *PBANK_RF_REG_PAIR;
 
 typedef struct _R_M_W_REG{
@@ -115,10 +115,10 @@ typedef struct _R_M_W_REG{
 } R_M_W_REG, *PR_M_W_REG;
 
 typedef struct _RF_R_M_W_REG{
-	UCHAR Bank;
-	UCHAR Register;
-	UCHAR ClearBitMask;
-	UCHAR Value;
+	u8 Bank;
+	u8 Register;
+	u8 ClearBitMask;
+	u8 Value;
 } RF_R_M_W_REG, *PRF_R_M_W_REG;
 
 #endif /* __RF_CTRL_H__ */

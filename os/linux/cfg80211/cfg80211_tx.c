@@ -30,8 +30,8 @@
 
 VOID CFG80211_SwitchTxChannel(struct rtmp_adapter *pAd, ULONG Data)
 {
-	//UCHAR lock_channel = CFG80211_getCenCh(pAd, Data);
-	UCHAR lock_channel = Data;
+	//u8 lock_channel = CFG80211_getCenCh(pAd, Data);
+	u8 lock_channel = Data;
 	if (pAd->LatchRfRegs.Channel != lock_channel)
 	{
 		AsicSwitchChannel(pAd, lock_channel, false);
@@ -49,7 +49,7 @@ VOID CFG80211_SwitchTxChannel(struct rtmp_adapter *pAd, ULONG Data)
 void CFG80211_SyncPacketWmmIe(struct rtmp_adapter *pAd, VOID *pData, ULONG dataLen)
 {
 	const UINT WFA_OUI = 0x0050F2;
-	const UCHAR WMM_OUI_TYPE = 0x2;
+	const u8 WMM_OUI_TYPE = 0x2;
 	u8 *wmm_ie = NULL;
 
 	/* ULLI : short cut also in vanilla driver */
@@ -68,13 +68,13 @@ void CFG80211_SyncPacketWmmIe(struct rtmp_adapter *pAd, VOID *pData, ULONG dataL
                 {
 
                         wmm_ie[10+ (i*4)] = (i << 5) +                                     /* b5-6 is ACI */
-                                            ((UCHAR)pAd->ApCfg.BssEdcaParm.bACM[i] << 4) + /* b4 is ACM */
+                                            ((u8)pAd->ApCfg.BssEdcaParm.bACM[i] << 4) + /* b4 is ACM */
                                             (pAd->ApCfg.BssEdcaParm.Aifsn[i] & 0x0f);      /* b0-3 is AIFSN */
 
                         wmm_ie[11+ (i*4)] = (pAd->ApCfg.BssEdcaParm.Cwmax[i] << 4) +       /* b5-8 is CWMAX */
                                             (pAd->ApCfg.BssEdcaParm.Cwmin[i] & 0x0f);      /* b0-3 is CWMIN */
-                        wmm_ie[12+ (i*4)] = (UCHAR)(pAd->ApCfg.BssEdcaParm.Txop[i] & 0xff);/* low byte of TXOP */
-                        wmm_ie[13+ (i*4)] = (UCHAR)(pAd->ApCfg.BssEdcaParm.Txop[i] >> 8);  /* high byte of TXOP */
+                        wmm_ie[12+ (i*4)] = (u8)(pAd->ApCfg.BssEdcaParm.Txop[i] & 0xff);/* low byte of TXOP */
+                        wmm_ie[13+ (i*4)] = (u8)(pAd->ApCfg.BssEdcaParm.Txop[i] >> 8);  /* high byte of TXOP */
                 }
 
 		return;

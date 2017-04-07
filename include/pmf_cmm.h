@@ -75,8 +75,8 @@ typedef struct GNU_PACKED _PMF_CFG
 	bool	Desired_PMFSHA256; /* This is user desired */
 
 	UINT8	IGTK_KeyIdx;			/* It shall be 4 or 5 */
-	UCHAR	IGTK[2][LEN_AES_GTK];
-	UCHAR	IPN[2][LEN_WPA_TSC];
+	u8 IGTK[2][LEN_AES_GTK];
+	u8 IPN[2][LEN_WPA_TSC];
 } PMF_CFG, *PPMF_CFG;
 
 

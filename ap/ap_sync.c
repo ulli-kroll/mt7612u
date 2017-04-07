@@ -49,10 +49,10 @@ VOID APPeerProbeReqAction(
 	u8 *pOutBuffer = NULL;
 	ULONG FrameLen = 0, TmpLen;
 	LARGE_INTEGER FakeTimestamp;
-	UCHAR DsLen = 1;
-	UCHAR ErpIeLen = 1;
-	UCHAR apidx = 0, PhyMode, SupRateLen;
-	UCHAR RSNIe=IE_WPA, RSNIe2=IE_WPA2;
+	u8 DsLen = 1;
+	u8 ErpIeLen = 1;
+	u8 apidx = 0, PhyMode, SupRateLen;
+	u8 RSNIe=IE_WPA, RSNIe2=IE_WPA2;
 	MULTISSID_STRUCT *mbss;
 	struct rtmp_wifi_dev *wdev;
 	CHAR rssi = 0, idx = 0;
@@ -151,9 +151,9 @@ VOID APPeerProbeReqAction(
 			&& (pAd->CommonCfg.bIEEE80211H == 1)
 			&& (pAd->Dot11_H.RDMode == RD_SWITCHING_MODE))
 		{
-			UCHAR CSAIe=IE_CHANNEL_SWITCH_ANNOUNCEMENT;
-			UCHAR CSALen=3;
-			UCHAR CSAMode=1;
+			u8 CSAIe=IE_CHANNEL_SWITCH_ANNOUNCEMENT;
+			u8 CSALen=3;
+			u8 CSAMode=1;
 
 			MakeOutgoingFrame(pOutBuffer+FrameLen,      &TmpLen,
 							  1,                        &CSAIe,
@@ -169,7 +169,7 @@ VOID APPeerProbeReqAction(
 			(wdev->DesiredHtPhyInfo.bHtEnable))
 		{
 			ULONG TmpLen;
-			UCHAR	HtLen, AddHtLen, NewExtLen;
+			u8 HtLen, AddHtLen, NewExtLen;
 #ifdef RT_BIG_ENDIAN
 			HT_CAPABILITY_IE HtCapabilityTmp;
 			ADD_HT_INFO_IE	addHTInfoTmp;
@@ -253,7 +253,7 @@ VOID APPeerProbeReqAction(
 		{
 			ULONG TmpLen;
 			EXT_CAP_INFO_ELEMENT	extCapInfo;
-			UCHAR extInfoLen = sizeof(EXT_CAP_INFO_ELEMENT);
+			u8 extInfoLen = sizeof(EXT_CAP_INFO_ELEMENT);
 
 			memset(&extCapInfo, 0, extInfoLen);
 
@@ -286,18 +286,18 @@ VOID APPeerProbeReqAction(
 		/* add WMM IE here */
 		if (mbss->wdev.bWmmCapable)
 		{
-			UCHAR i;
-			UCHAR WmeParmIe[26] = {IE_VENDOR_SPECIFIC, 24, 0x00, 0x50, 0xf2, 0x02, 0x01, 0x01, 0, 0};
+			u8 i;
+			u8 WmeParmIe[26] = {IE_VENDOR_SPECIFIC, 24, 0x00, 0x50, 0xf2, 0x02, 0x01, 0x01, 0, 0};
 			WmeParmIe[8] = pAd->ApCfg.BssEdcaParm.EdcaUpdateCount & 0x0f;
 			for (i=QID_AC_BE; i<=QID_AC_VO; i++)
 			{
 				WmeParmIe[10+ (i*4)] = (i << 5) + /* b5-6 is ACI */
-									   ((UCHAR)pAd->ApCfg.BssEdcaParm.bACM[i] << 4) +     /* b4 is ACM */
+									   ((u8)pAd->ApCfg.BssEdcaParm.bACM[i] << 4) +     /* b4 is ACM */
 									   (pAd->ApCfg.BssEdcaParm.Aifsn[i] & 0x0f);		/* b0-3 is AIFSN */
 				WmeParmIe[11+ (i*4)] = (pAd->ApCfg.BssEdcaParm.Cwmax[i] << 4) +	/* b5-8 is CWMAX */
 									   (pAd->ApCfg.BssEdcaParm.Cwmin[i] & 0x0f);	/* b0-3 is CWMIN */
-				WmeParmIe[12+ (i*4)] = (UCHAR)(pAd->ApCfg.BssEdcaParm.Txop[i] & 0xff);        /* low byte of TXOP */
-				WmeParmIe[13+ (i*4)] = (UCHAR)(pAd->ApCfg.BssEdcaParm.Txop[i] >> 8);          /* high byte of TXOP */
+				WmeParmIe[12+ (i*4)] = (u8)(pAd->ApCfg.BssEdcaParm.Txop[i] & 0xff);        /* low byte of TXOP */
+				WmeParmIe[13+ (i*4)] = (u8)(pAd->ApCfg.BssEdcaParm.Txop[i] >> 8);          /* high byte of TXOP */
 			}
 
 			MakeOutgoingFrame(pOutBuffer+FrameLen, &TmpLen,
@@ -310,7 +310,7 @@ VOID APPeerProbeReqAction(
 		if (pAd->CommonCfg.bCountryFlag)
 		{
 			ULONG TmpLen, TmpLen2=0;
-			UCHAR *TmpFrame = NULL;
+			u8 *TmpFrame = NULL;
 
 			TmpFrame = kmalloc(256, GFP_ATOMIC);
 			if (TmpFrame != NULL) {
@@ -318,7 +318,7 @@ VOID APPeerProbeReqAction(
 
 				/* prepare channel information */
 				{
-					UCHAR MaxTxPower = GetCuntryMaxTxPwr(pAd, pAd->CommonCfg.Channel);
+					u8 MaxTxPower = GetCuntryMaxTxPwr(pAd, pAd->CommonCfg.Channel);
 					MakeOutgoingFrame(TmpFrame+TmpLen2,     &TmpLen,
 										1,                 	&pAd->ChannelList[0].Channel,
 										1,                 	&pAd->ChannelListNum,
@@ -343,7 +343,7 @@ VOID APPeerProbeReqAction(
 	 	{
 			OVERLAP_BSS_SCAN_IE  OverlapScanParam;
 			ULONG	TmpLen;
-			UCHAR	OverlapScanIE, ScanIELen;
+			u8 OverlapScanIE, ScanIELen;
 
 			OverlapScanIE = IE_OVERLAPBSS_SCAN_PARM;
 			ScanIELen = 14;
@@ -368,7 +368,7 @@ VOID APPeerProbeReqAction(
 		{
 			ULONG TmpLen;
 			EXT_CAP_INFO_ELEMENT extCapInfo;
-			UCHAR extInfoLen;
+			u8 extInfoLen;
 
 
 			extInfoLen = sizeof(EXT_CAP_INFO_ELEMENT);
@@ -395,9 +395,9 @@ VOID APPeerProbeReqAction(
 		if (pAd->CommonCfg.bCountryFlag)
 		{
 			ULONG TmpLen2=0;
-			UCHAR TmpFrame[256];
-			UCHAR CountryIe = IE_COUNTRY;
-			UCHAR MaxTxPower=16;
+			u8 TmpFrame[256];
+			u8 CountryIe = IE_COUNTRY;
+			u8 MaxTxPower=16;
 
 			/*
 			Only 802.11a APs that comply with 802.11h are required to include
@@ -417,7 +417,7 @@ VOID APPeerProbeReqAction(
 					UINT8 ie_len;
 					VHT_TXPWR_ENV_IE txpwr_env;
 
-					ie_len = build_vht_txpwr_envelope(pAd, (UCHAR *)&txpwr_env);
+					ie_len = build_vht_txpwr_envelope(pAd, (u8 *)&txpwr_env);
 					MakeOutgoingFrame(pOutBuffer + FrameLen, &TmpLen,
 								1,							&vht_txpwr_env_ie,
 								1,							&ie_len,
@@ -440,7 +440,7 @@ VOID APPeerProbeReqAction(
 			/* need to do the padding bit check, and concatenate it */
 			if ((TmpLen2%2) == 0)
 			{
-				UCHAR	TmpLen3 = TmpLen2+4;
+				u8 TmpLen3 = TmpLen2+4;
 				MakeOutgoingFrame(pOutBuffer+FrameLen,  &TmpLen,
 					1,                 	&CountryIe,
 					1,                 	&TmpLen3,
@@ -450,7 +450,7 @@ VOID APPeerProbeReqAction(
 			}
 			else
 			{
-				UCHAR	TmpLen3 = TmpLen2+3;
+				u8 TmpLen3 = TmpLen2+3;
 				MakeOutgoingFrame(pOutBuffer+FrameLen,  &TmpLen,
 						1,                 	&CountryIe,
 						1,                 	&TmpLen3,
@@ -466,9 +466,9 @@ VOID APPeerProbeReqAction(
 			&& (pAd->CommonCfg.bIEEE80211H == 1)
 			&& (pAd->Dot11_H.RDMode == RD_SWITCHING_MODE))
 		{
-			UCHAR CSAIe=IE_CHANNEL_SWITCH_ANNOUNCEMENT;
-			UCHAR CSALen=3;
-			UCHAR CSAMode=1;
+			u8 CSAIe=IE_CHANNEL_SWITCH_ANNOUNCEMENT;
+			u8 CSALen=3;
+			u8 CSAMode=1;
 
 			MakeOutgoingFrame(pOutBuffer+FrameLen,      &TmpLen,
 							  1,                        &CSAIe,
@@ -494,7 +494,7 @@ VOID APPeerProbeReqAction(
 			(wdev->DesiredHtPhyInfo.bHtEnable))
 		{
 			ULONG TmpLen;
-			UCHAR	HtLen, AddHtLen;/*, NewExtLen; */
+			u8 HtLen, AddHtLen;/*, NewExtLen; */
 #ifdef RT_BIG_ENDIAN
 			HT_CAPABILITY_IE HtCapabilityTmp;
 			ADD_HT_INFO_IE	addHTInfoTmp;
@@ -504,9 +504,9 @@ VOID APPeerProbeReqAction(
 
 		if (pAd->bBroadComHT == true)
 		{
-			UCHAR epigram_ie_len;
-			UCHAR BROADCOM_HTC[4] = {0x0, 0x90, 0x4c, 0x33};
-			UCHAR BROADCOM_AHTINFO[4] = {0x0, 0x90, 0x4c, 0x34};
+			u8 epigram_ie_len;
+			u8 BROADCOM_HTC[4] = {0x0, 0x90, 0x4c, 0x33};
+			u8 BROADCOM_AHTINFO[4] = {0x0, 0x90, 0x4c, 0x34};
 
 
 			epigram_ie_len = HtLen + 4;
@@ -568,7 +568,7 @@ VOID APPeerProbeReqAction(
 
 			if (WMODE_CAP_AC(PhyMode) &&
 				(pAd->CommonCfg.Channel > 14)) {
-				FrameLen += build_vht_ies(pAd, (UCHAR *)(pOutBuffer+FrameLen), SUBTYPE_PROBE_RSP);
+				FrameLen += build_vht_ies(pAd, (u8 *)(pOutBuffer+FrameLen), SUBTYPE_PROBE_RSP);
 			}
 
 		}
@@ -584,7 +584,7 @@ VOID APPeerProbeReqAction(
 	*/
 	{
 		ULONG TmpLen;
-		UCHAR RalinkSpecificIe[9] = {IE_VENDOR_SPECIFIC, 7, 0x00, 0x0c, 0x43, 0x00, 0x00, 0x00, 0x00};
+		u8 RalinkSpecificIe[9] = {IE_VENDOR_SPECIFIC, 7, 0x00, 0x0c, 0x43, 0x00, 0x00, 0x00, 0x00};
 
 		if (pAd->CommonCfg.bAggregationCapable)
 			RalinkSpecificIe[5] |= 0x1;
@@ -609,9 +609,9 @@ VOID APPeerProbeReqAction(
 
 			if (pEntry != NULL)
 			{
-				RalinkSpecificIe[6] = (UCHAR)pEntry->RssiSample.AvgRssi0;
-				RalinkSpecificIe[7] = (UCHAR)pEntry->RssiSample.AvgRssi1;
-				RalinkSpecificIe[8] = (UCHAR)pEntry->RssiSample.AvgRssi2;
+				RalinkSpecificIe[6] = (u8)pEntry->RssiSample.AvgRssi0;
+				RalinkSpecificIe[7] = (u8)pEntry->RssiSample.AvgRssi1;
+				RalinkSpecificIe[8] = (u8)pEntry->RssiSample.AvgRssi2;
 			}
 		}
 #endif /* RSSI_FEEDBACK */
@@ -649,7 +649,7 @@ VOID APPeerProbeReqAction(
 typedef struct
 {
 	ULONG	count;
-	UCHAR	bssid[MAC_ADDR_LEN];
+	u8 bssid[MAC_ADDR_LEN];
 } BSSIDENTRY;
 
 
@@ -657,13 +657,13 @@ VOID APPeerBeaconAction(
 	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
-	UCHAR Rates[MAX_LEN_OF_SUPPORTED_RATES], *pRates = NULL, RatesLen;
+	u8 Rates[MAX_LEN_OF_SUPPORTED_RATES], *pRates = NULL, RatesLen;
 	bool LegacyBssExist;
 	CHAR RealRssi;
-	UCHAR *VarIE = NULL;
+	u8 *VarIE = NULL;
 	USHORT LenVIE;
 	NDIS_802_11_VARIABLE_IEs *pVIE = NULL;
-	UCHAR MaxSupportedRate = 0;
+	u8 MaxSupportedRate = 0;
 
 	BCN_IE_LIST *ie_list = NULL;
 
@@ -812,7 +812,7 @@ VOID APPeerBeaconAction(
 #ifdef APCLI_CERT_SUPPORT
 				if (pAd->bApCliCertTest == true)
 				{
-					UCHAR RegClass;
+					u8 RegClass;
 					OVERLAP_BSS_SCAN_IE	BssScan;
 					bool					brc;
 
@@ -997,7 +997,7 @@ VOID APMlmeScanCompleteAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 	PWSC_CTRL   pWscControl;
 	PWSC_CTRL   pApCliWscControl;
-	UCHAR       apidx;
+	u8       apidx;
 	INT         IsAPConfigured;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("AP SYNC - APMlmeScanCompleteAction\n"));
@@ -1039,7 +1039,7 @@ VOID APMlmeScanCompleteAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 VOID APMlmeScanReqAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 	bool Cancelled;
-	UCHAR Ssid[MAX_LEN_OF_SSID], SsidLen, ScanType, BssType;
+	u8 Ssid[MAX_LEN_OF_SSID], SsidLen, ScanType, BssType;
 
 
 	/* Suspend MSDU transmission here */
@@ -1099,7 +1099,7 @@ VOID APMlmeScanReqAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 VOID APPeerBeaconAtScanAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 	PFRAME_802_11 pFrame;
-	UCHAR *VarIE = NULL;
+	u8 *VarIE = NULL;
 	USHORT LenVIE;
 	NDIS_802_11_VARIABLE_IEs *pVIE = NULL;
 	CHAR RealRssi = -127;
@@ -1112,7 +1112,7 @@ VOID APPeerBeaconAtScanAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 		DBGPRINT(RT_DEBUG_ERROR, ("%s: Alloc memory for ie_list fail!!!\n", __FUNCTION__));
 		return;
 	}
-	memset((UCHAR *)ie_list, 0, sizeof(BCN_IE_LIST));
+	memset((u8 *)ie_list, 0, sizeof(BCN_IE_LIST));
 
 	/* allocate memory */
 	VarIE = kmalloc(MAX_VIE_LEN, GFP_ATOMIC);
@@ -1201,7 +1201,7 @@ VOID APPeerBeaconAtScanAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 				*/
 				if (pAd->ChannelList[chListIdx].bEffectedChannel == true)
 				{
-					UCHAR RegClass;
+					u8 RegClass;
 					OVERLAP_BSS_SCAN_IE	BssScan;
 
 					/* Read Beacon's Reg Class IE if any. */
@@ -1225,7 +1225,7 @@ VOID APPeerBeaconAtScanAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 			DBGPRINT(RT_DEBUG_OFF, ("%s P2P_SCANNING: %s [%d], channel =%u\n", __FUNCTION__, ie_list->Ssid, Idx,Elem->Channel));
 
         DBGPRINT(RT_DEBUG_TRACE, ("APPeerBeaconAtScanAction : Update the SSID %s in Kernel Table, Elem->Channel=%u\n", ie_list->Ssid,Elem->Channel));
-        RT_CFG80211_SCANNING_INFORM(pAd, Idx, /*ie_list->Channel*/Elem->Channel, (UCHAR *)Elem->Msg, Elem->MsgLen, RealRssi);
+        RT_CFG80211_SCANNING_INFORM(pAd, Idx, /*ie_list->Channel*/Elem->Channel, (u8 *)Elem->Msg, Elem->MsgLen, RealRssi);
 #endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
 
 	}
@@ -1285,7 +1285,7 @@ VOID APScanCnclAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 VOID ApSiteSurvey(
 	IN	struct rtmp_adapter * 		pAd,
 	IN	PNDIS_802_11_SSID	pSsid,
-	IN	UCHAR				ScanType,
+	IN	u8 			ScanType,
 	IN	bool				ChannelSel)
 {
 	MLME_SCAN_REQ_STRUCT    ScanReq;
@@ -1342,10 +1342,10 @@ bool ApScanRunning(struct rtmp_adapter *pAd)
 		return 0 if no more next channel
 	==========================================================================
  */
-UCHAR FindPartialScanChannel(
+u8 FindPartialScanChannel(
 	IN struct rtmp_adapter *pAd)
 {
-	UCHAR scan_channel = 0;
+	u8 scan_channel = 0;
 	if (pAd->ApCfg.PartialScanChannelNum > 0)
 	{
 		pAd->ApCfg.PartialScanChannelNum--;
@@ -1423,9 +1423,9 @@ VOID APSyncStateMachineInit(
 
 VOID SupportRate(
 	IN u8 *SupRate,
-	IN UCHAR SupRateLen,
+	IN u8 SupRateLen,
 	IN u8 *ExtRate,
-	IN UCHAR ExtRateLen,
+	IN u8 ExtRateLen,
 	OUT u8 **ppRates,
 	OUT u8 *RatesLen,
 	OUT u8 *pMaxSupportRate)
@@ -1481,9 +1481,9 @@ VOID SupportRate(
 
 typedef struct
 {
-	UCHAR	regclass;		/* regulatory class */
-	UCHAR	spacing;		/* 0: 20Mhz, 1: 40Mhz */
-	UCHAR	channelset[16];	/* max 15 channels, use 0 as terminator */
+	u8 regclass;		/* regulatory class */
+	u8 spacing;		/* 0: 20Mhz, 1: 40Mhz */
+	u8 channelset[16];	/* max 15 channels, use 0 as terminator */
 } REG_CLASS;
 
 REG_CLASS reg_class[] =
@@ -1509,10 +1509,10 @@ REG_CLASS reg_class[] =
 };
 
 
-UCHAR get_regulatory_class(struct rtmp_adapter *pAd)
+u8 get_regulatory_class(struct rtmp_adapter *pAd)
 {
 	int i=0;
-	UCHAR regclass = 0;
+	u8 regclass = 0;
 
 	do
 	{

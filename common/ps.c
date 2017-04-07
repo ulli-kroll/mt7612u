@@ -43,7 +43,7 @@ int RtmpInsertPsQueue(
 	struct rtmp_adapter *pAd,
 	struct sk_buff *pPacket,
 	MAC_TABLE_ENTRY *pMacEntry,
-	UCHAR QueIdx)
+	u8 QueIdx)
 {
 	ULONG IrqFlags;
 	{
@@ -110,7 +110,7 @@ VOID RtmpCleanupPsQueue(struct rtmp_adapter *pAd, QUEUE_HEADER *pQueue)
 	is received from a WSTA which has MAC address FF:FF:FF:FF:FF:FF
   ========================================================================
 */
-VOID RtmpHandleRxPsPoll(struct rtmp_adapter *pAd, UCHAR *pAddr, USHORT wcid, bool isActive)
+VOID RtmpHandleRxPsPoll(struct rtmp_adapter *pAd, u8 *pAddr, USHORT wcid, bool isActive)
 {
 	QUEUE_ENTRY *pQEntry;
 	MAC_TABLE_ENTRY *pMacEntry;
@@ -219,10 +219,10 @@ VOID RtmpHandleRxPsPoll(struct rtmp_adapter *pAd, UCHAR *pAddr, USHORT wcid, boo
 		this client once IdleCount exceeds a threshold.
 	==========================================================================
  */
-bool RtmpPsIndicate(struct rtmp_adapter *pAd, UCHAR *pAddr, UCHAR wcid, UCHAR Psm)
+bool RtmpPsIndicate(struct rtmp_adapter *pAd, u8 *pAddr, u8 wcid, u8 Psm)
 {
 	MAC_TABLE_ENTRY *pEntry;
-	UCHAR old_psmode;
+	u8 old_psmode;
 
 	if (wcid >= MAX_LEN_OF_MAC_TABLE)
 		return PWR_ACTIVE;

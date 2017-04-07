@@ -34,7 +34,7 @@
 /******** SBOX Table *********/
 /*****************************/
 
-UCHAR SboxTable[256] =
+u8 SboxTable[256] =
 {
 	0x63, 0x7c, 0x77, 0x7b, 0xf2, 0x6b, 0x6f, 0xc5,
 	0x30, 0x01, 0x67, 0x2b, 0xfe, 0xd7, 0xab, 0x76,
@@ -96,8 +96,8 @@ VOID xor_128(
 	}
 }
 
-UCHAR RTMPCkipSbox(
-	IN  UCHAR   a)
+u8 RTMPCkipSbox(
+	IN  u8   a)
 {
 	return SboxTable[(int)a];
 }
@@ -106,9 +106,9 @@ VOID next_key(
 	IN  u8 * key,
 	IN  INT     round)
 {
-	UCHAR       rcon;
-	UCHAR       sbox_key[4];
-	UCHAR       rcon_table[12] =
+	u8       rcon;
+	u8       sbox_key[4];
+	u8       rcon_table[12] =
 	{
 		0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80,
 		0x1b, 0x36, 0x36, 0x36
@@ -182,14 +182,14 @@ VOID mix_column(
 	OUT u8 * out)
 {
 	INT         i;
-	UCHAR       add1b[4];
-	UCHAR       add1bf7[4];
-	UCHAR       rotl[4];
-	UCHAR       swap_halfs[4];
-	UCHAR       andf7[4];
-	UCHAR       rotr[4];
-	UCHAR       temp[4];
-	UCHAR       tempb[4];
+	u8       add1b[4];
+	u8       add1bf7[4];
+	u8       rotl[4];
+	u8       swap_halfs[4];
+	u8       andf7[4];
+	u8       rotr[4];
+	u8       temp[4];
+	u8       tempb[4];
 
 	for (i=0 ; i<4; i++)
 	{
@@ -438,30 +438,30 @@ bool RTMPSoftDecryptAES(
 	IN PCIPHER_KEY	pWpaKey)
 {
 	UINT			HeaderLen;
-	UCHAR			PN[6];
+	u8 		PN[6];
 	UINT			payload_len;
 	UINT			num_blocks;
 	UINT			payload_remainder;
 	USHORT			fc;
-	UCHAR			fc0;
-	UCHAR			fc1;
+	u8 		fc0;
+	u8 		fc1;
 	UINT			frame_type;
 	UINT			frame_subtype;
 	UINT			from_ds;
 	UINT			to_ds;
 	INT				a4_exists;
 	INT				qc_exists;
-	UCHAR			aes_out[16];
+	u8 		aes_out[16];
 	int 			payload_index;
 	UINT 			i;
-	UCHAR 			ctr_preload[16];
-	UCHAR 			chain_buffer[16];
-	UCHAR 			padded_buffer[16];
-	UCHAR 			mic_iv[16];
-	UCHAR 			mic_header1[16];
-	UCHAR 			mic_header2[16];
-	UCHAR			MIC[8];
-	UCHAR			TrailMIC[8];
+	u8 			ctr_preload[16];
+	u8 			chain_buffer[16];
+	u8 			padded_buffer[16];
+	u8 			mic_iv[16];
+	u8 			mic_header1[16];
+	u8 			mic_header2[16];
+	u8 		MIC[8];
+	u8 		TrailMIC[8];
 
 #ifdef RT_BIG_ENDIAN
 	RTMPFrameEndianChange(pAd, (u8 *)pData, DIR_READ, false);
@@ -665,7 +665,7 @@ VOID RTMPConstructCCMPAAD(
 	IN bool isDataFrame,
 	IN UINT8 a4_exists,
 	IN UINT8 qc_exists,
-	OUT UCHAR *aad_hdr,
+	OUT u8 *aad_hdr,
 	OUT UINT *aad_len)
 {
 	UINT len = 0;
@@ -744,8 +744,8 @@ VOID RTMPConstructCCMPNonce(
 	IN UINT8 a4_exists,
 	IN UINT8 qc_exists,
 	IN bool isMgmtFrame,
-	IN UCHAR *pn,
-	OUT UCHAR *nonce_hdr,
+	IN u8 *pn,
+	OUT u8 *nonce_hdr,
 	OUT UINT *nonce_hdr_len)
 {
 	UINT n_offset = 0;
@@ -804,8 +804,8 @@ VOID RTMPConstructCCMPNonce(
 */
 VOID RTMPConstructCCMPHdr(
         IN UINT8 key_idx,
-	IN UCHAR *pn,
-	OUT UCHAR *ccmp_hdr)
+	IN u8 *pn,
+	OUT u8 *ccmp_hdr)
 {
 	memset(ccmp_hdr, 0, LEN_CCMP_HDR);
 

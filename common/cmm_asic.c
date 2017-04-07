@@ -34,7 +34,7 @@ VOID AsicUpdateAutoFallBackTable(
 	IN	struct rtmp_adapter *pAd,
 	IN	u8 *		pRateTable)
 {
-	UCHAR					i;
+	u8 				i;
 	HT_FBK_CFG0_STRUC		HtCfg0;
 	HT_FBK_CFG1_STRUC		HtCfg1;
 	LG_FBK_CFG0_STRUC		LgCfg0;
@@ -234,14 +234,14 @@ typedef enum _PROT_REG_IDX_{
 VOID AsicUpdateProtect(
 	IN struct rtmp_adapter *pAd,
 	IN USHORT OperationMode,
-	IN UCHAR SetMask,
+	IN u8 SetMask,
 	IN bool bDisableBGProtect,
 	IN bool bNonGFExist)
 {
 	PROT_CFG_STRUC	ProtCfg, ProtCfg4;
 	uint32_t Protect[6], PhyMode = 0x4000;
 	USHORT offset;
-	UCHAR i;
+	u8 i;
 	uint32_t MacReg = 0;
 	PROT_CFG_STRUC vht_port_cfg = {.word = 0};
 	uint16_t protect_rate = 0;
@@ -651,9 +651,9 @@ VOID AsicBBPAdjust(struct rtmp_adapter *pAd)
 
 	==========================================================================
  */
-VOID AsicSwitchChannel(struct rtmp_adapter *pAd, UCHAR Channel, bool bScan)
+VOID AsicSwitchChannel(struct rtmp_adapter *pAd, u8 Channel, bool bScan)
 {
-	UCHAR bw;
+	u8 bw;
 	uint32_t value32;
 #ifdef CONFIG_STA_SUPPORT
 #ifdef CONFIG_PM
@@ -715,7 +715,7 @@ VOID AsicSwitchChannel(struct rtmp_adapter *pAd, UCHAR Channel, bool bScan)
  */
 VOID AsicLockChannel(
 	IN struct rtmp_adapter *pAd,
-	IN UCHAR Channel)
+	IN u8 Channel)
 {
 }
 
@@ -795,7 +795,7 @@ VOID AsicForceWakeup(
 	==========================================================================
  */
  /* CFG_TODO */
-VOID AsicSetBssid(struct rtmp_adapter *pAd, UCHAR *pBssid)
+VOID AsicSetBssid(struct rtmp_adapter *pAd, u8 *pBssid)
 {
 	uint32_t Addr4;
 
@@ -820,7 +820,7 @@ VOID AsicSetBssid(struct rtmp_adapter *pAd, UCHAR *pBssid)
 }
 
 
-INT AsicSetDevMac(struct rtmp_adapter *pAd, UCHAR *addr)
+INT AsicSetDevMac(struct rtmp_adapter *pAd, u8 *addr)
 {
 	MAC_DW0_STRUC csr2;
 	MAC_DW1_STRUC csr3;
@@ -847,9 +847,9 @@ INT AsicSetDevMac(struct rtmp_adapter *pAd, UCHAR *addr)
 }
 
 #ifdef CONFIG_AP_SUPPORT
-VOID AsicSetMbssMode(struct rtmp_adapter *pAd, UCHAR NumOfBcns)
+VOID AsicSetMbssMode(struct rtmp_adapter *pAd, u8 NumOfBcns)
 {
-	UCHAR NumOfMacs;
+	u8 NumOfMacs;
 	uint32_t regValue;
 
 	regValue = mt7612u_read32(pAd, MAC_BSSID_DW1);
@@ -1182,7 +1182,7 @@ VOID AsicEnableApBssSync(
 VOID AsicEnableIbssSync(struct rtmp_adapter *pAd)
 {
 	BCN_TIME_CFG_STRUC csr9;
-	UCHAR *ptr;
+	u8 *ptr;
 	UINT i;
 	ULONG beaconBaseLocation = 0;
 	USHORT beaconLen = 0;
@@ -1684,11 +1684,11 @@ VOID AsicSetSlotTime(
 
 
 #ifdef CONFIG_AP_SUPPORT
-VOID RTMPGetTxTscFromAsic(struct rtmp_adapter *pAd, UCHAR apidx, UCHAR *pTxTsc)
+VOID RTMPGetTxTscFromAsic(struct rtmp_adapter *pAd, u8 apidx, u8 *pTxTsc)
 {
 	USHORT Wcid;
 	USHORT offset;
-	UCHAR IvEiv[8];
+	u8 IvEiv[8];
 	INT i;
 
 	/* Sanity check of apidx */
@@ -1733,8 +1733,8 @@ VOID RTMPGetTxTscFromAsic(struct rtmp_adapter *pAd, UCHAR apidx, UCHAR *pTxTsc)
 		temp2 = mt7612u_read32(pAd, offset+4);
 		for ( i=0; i<4; i++)
 		{
-			IvEiv[i] = (UCHAR)(temp1 >> (i*8));
-			IvEiv[i+4] = (UCHAR)(temp2 >> (i*8));
+			IvEiv[i] = (u8)(temp1 >> (i*8));
+			IvEiv[i+4] = (u8)(temp2 >> (i*8));
 		}
 	}
 
@@ -1777,18 +1777,18 @@ VOID RTMPGetTxTscFromAsic(struct rtmp_adapter *pAd, UCHAR apidx, UCHAR *pTxTsc)
 */
 VOID AsicAddSharedKeyEntry(
 	IN struct rtmp_adapter *	pAd,
-	IN UCHAR		 	BssIndex,
-	IN UCHAR		 	KeyIdx,
+	IN u8 	 	BssIndex,
+	IN u8 	 	KeyIdx,
 	IN PCIPHER_KEY		pCipherKey)
 {
 	ULONG offset; /*, csr0;*/
 	SHAREDKEY_MODE_STRUC csr1;
-	UCHAR org_bssindex;
+	u8 org_bssindex;
 
 	u8 *	pKey = pCipherKey->Key;
 	u8 *	pTxMic = pCipherKey->TxMic;
 	u8 *	pRxMic = pCipherKey->RxMic;
-	UCHAR		CipherAlg = pCipherKey->CipherAlg;
+	u8 	CipherAlg = pCipherKey->CipherAlg;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("AsicAddSharedKeyEntry BssIndex=%d, KeyIdx=%d\n", BssIndex,KeyIdx));
 /*============================================================================================*/
@@ -1884,8 +1884,8 @@ VOID AsicAddSharedKeyEntry(
 /*	IRQL = DISPATCH_LEVEL*/
 VOID AsicRemoveSharedKeyEntry(
 	IN struct rtmp_adapter *pAd,
-	IN UCHAR		 BssIndex,
-	IN UCHAR		 KeyIdx)
+	IN u8 	 BssIndex,
+	IN u8 	 KeyIdx)
 {
 	/*ULONG SecCsr0;*/
 	SHAREDKEY_MODE_STRUC csr1;
@@ -1986,9 +1986,9 @@ VOID AsicUpdateRxWCIDTable(
 */
 VOID AsicUpdateWcidAttributeEntry(
 	IN	struct rtmp_adapter *pAd,
-	IN	UCHAR			BssIdx,
-	IN 	UCHAR		 	KeyIdx,
-	IN 	UCHAR		 	CipherAlg,
+	IN	u8 		BssIdx,
+	IN 	u8 	 	KeyIdx,
+	IN 	u8 	 	CipherAlg,
 	IN	UINT8			Wcid,
 	IN	UINT8			KeyTabFlag)
 {
@@ -2040,10 +2040,10 @@ VOID AsicUpdateWcidAttributeEntry(
 
 	==========================================================================
  */
-VOID AsicDelWcidTab(struct rtmp_adapter *pAd, UCHAR wcid_idx)
+VOID AsicDelWcidTab(struct rtmp_adapter *pAd, u8 wcid_idx)
 {
 	uint32_t offset;
-	UCHAR cnt, cnt_s, cnt_e;
+	u8 cnt, cnt_s, cnt_e;
 #ifdef MCS_LUT_SUPPORT
 	uint32_t mcs_tb_offset = 0;
 #endif /* MCS_LUT_SUPPORT */
@@ -2088,16 +2088,16 @@ VOID AsicDelWcidTab(struct rtmp_adapter *pAd, UCHAR wcid_idx)
 */
 VOID AsicAddPairwiseKeyEntry(
 	IN struct rtmp_adapter *	pAd,
-	IN UCHAR			WCID,
+	IN u8 		WCID,
 	IN PCIPHER_KEY		pCipherKey)
 {
 	INT i;
 	ULONG offset;
 	uint32_t pairwise_key_base = 0, pairwise_key_len = 0;
-	UCHAR *pKey = pCipherKey->Key;
-	UCHAR *pTxMic = pCipherKey->TxMic;
-	UCHAR *pRxMic = pCipherKey->RxMic;
-	UCHAR CipherAlg = pCipherKey->CipherAlg;
+	u8 *pKey = pCipherKey->Key;
+	u8 *pTxMic = pCipherKey->TxMic;
+	u8 *pRxMic = pCipherKey->RxMic;
+	u8 CipherAlg = pCipherKey->CipherAlg;
 
 	pairwise_key_base = RLT_PAIRWISE_KEY_TABLE_BASE;
 	pairwise_key_len = RLT_HW_KEY_ENTRY_SIZE;
@@ -2155,7 +2155,7 @@ VOID AsicAddPairwiseKeyEntry(
 */
 VOID AsicRemovePairwiseKeyEntry(
 	IN struct rtmp_adapter *pAd,
-	IN UCHAR		 Wcid)
+	IN u8 	 Wcid)
 {
 	/* Set the specific WCID attribute entry as OPEN-NONE */
 	AsicUpdateWcidAttributeEntry(pAd,
@@ -2169,10 +2169,10 @@ VOID AsicRemovePairwiseKeyEntry(
 
 bool AsicSendCommandToMcu(
 	IN struct rtmp_adapter *pAd,
-	IN UCHAR Command,
-	IN UCHAR Token,
-	IN UCHAR Arg0,
-	IN UCHAR Arg1,
+	IN u8 Command,
+	IN u8 Token,
+	IN u8 Arg0,
+	IN u8 Arg1,
 	IN bool in_atomic)
 {
 	// TODO: shiang-6590, fix me, currently firmware is not ready yet, so ignore it!
@@ -2189,10 +2189,10 @@ bool AsicSendCommandToMcu(
 
 bool AsicSendCmdToMcuAndWait(
 	IN struct rtmp_adapter *pAd,
-	IN UCHAR Command,
-	IN UCHAR Token,
-	IN UCHAR Arg0,
-	IN UCHAR Arg1,
+	IN u8 Command,
+	IN u8 Token,
+	IN u8 Arg0,
+	IN u8 Arg1,
 	IN bool in_atomic)
 {
 	bool cmd_done = true;
@@ -2206,10 +2206,10 @@ bool AsicSendCmdToMcuAndWait(
 
 bool AsicSendCommandToMcuBBP(
 	IN struct rtmp_adapter *pAd,
-	IN UCHAR		 Command,
-	IN UCHAR		 Token,
-	IN UCHAR		 Arg0,
-	IN UCHAR		 Arg1,
+	IN u8 	 Command,
+	IN u8 	 Token,
+	IN u8 	 Arg0,
+	IN u8 	 Arg1,
 	IN bool		FlgIsNeedLocked)
 {
 	// TODO: shiang-6590, fix me, currently firmware is not ready yet, so ignore it!
@@ -2236,7 +2236,7 @@ bool AsicSendCommandToMcuBBP(
  */
 VOID AsicSetRxAnt(
 	IN struct rtmp_adapter *pAd,
-	IN UCHAR			Ant)
+	IN u8 		Ant)
 {
 	if (pAd->chipOps.SetRxAnt)
 		pAd->chipOps.SetRxAnt(pAd, Ant);
@@ -2323,7 +2323,7 @@ VOID AsicLoadWOWFirmware(
  * the null frame includes TxWI and 802.11 header 						*/
 VOID AsicWOWSendNullFrame(
 	IN struct rtmp_adapter *pAd,
-	IN UCHAR TxRate,
+	IN u8 TxRate,
 	IN bool bQosNull)
 {
 
@@ -2619,7 +2619,7 @@ INT AsicReadAggCnt(struct rtmp_adapter *pAd, ULONG *aggCnt, int cnt_len)
 
 
 
-INT AsicSetChannel(struct rtmp_adapter *pAd, UCHAR ch, UINT8 bw, UINT8 ext_ch, bool bScan)
+INT AsicSetChannel(struct rtmp_adapter *pAd, u8 ch, UINT8 bw, UINT8 ext_ch, bool bScan)
 {
 	mt7612u_bbp_set_bw(pAd, bw);
 
@@ -2652,7 +2652,7 @@ INT AsicSetChannel(struct rtmp_adapter *pAd, UCHAR ch, UINT8 bw, UINT8 ext_ch, b
 VOID AsicSetApCliBssid(
 	IN struct rtmp_adapter *pAd,
 	IN u8 *pBssid,
-	IN UCHAR index)
+	IN u8 index)
 {
 	uint32_t 	  Addr4 = 0;
 
@@ -3070,7 +3070,7 @@ VOID asic_tune_be_wmm(
 	IN struct rtmp_adapter *pAd,
 	IN USHORT num)
 {
-	UCHAR  bssCwmin = 4, apCwmin = 4, apCwmax = 6;
+	u8  bssCwmin = 4, apCwmin = 4, apCwmax = 6;
 
 	if (num <= 4)
 	{

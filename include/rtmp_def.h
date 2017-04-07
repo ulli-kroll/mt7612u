@@ -1824,7 +1824,7 @@ enum DOT11U_ADVERTISMENT_PROTOCOL_ID {
 
 #define A2Dec(_X, _p) 				\
 {									\
-	UCHAR *p;						\
+	u8 *p;						\
 	_X = 0;							\
 	p = _p;							\
 	while (((*p >= '0') && (*p <= '9')))		\

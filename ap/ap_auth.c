@@ -100,7 +100,7 @@ static VOID APMlmeDeauthReqAction(
     int 			NStatus;
     ULONG					FrameLen = 0;
     MAC_TABLE_ENTRY			*pEntry;
-	UCHAR					apidx;
+	u8 				apidx;
 
 
     pInfo = (MLME_DEAUTH_REQ_STRUCT *)Elem->Msg;
@@ -148,7 +148,7 @@ static VOID APPeerDeauthReqAction(
     IN struct rtmp_adapter *pAd,
     IN PMLME_QUEUE_ELEM Elem)
 {
-	UCHAR Addr2[MAC_ADDR_LEN];
+	u8 Addr2[MAC_ADDR_LEN];
 	USHORT Reason;
 	uint16_t SeqNum;
 	MAC_TABLE_ENTRY *pEntry;
@@ -204,8 +204,8 @@ static VOID APPeerAuthReqAtIdleAction(
 {
 	INT i;
 	USHORT Seq, Alg, RspReason, Status;
-	UCHAR Addr1[MAC_ADDR_LEN];
-	UCHAR Addr2[MAC_ADDR_LEN];
+	u8 Addr1[MAC_ADDR_LEN];
+	u8 Addr2[MAC_ADDR_LEN];
 	CHAR Chtxt[CIPHER_TEXT_LEN];
 	uint32_t apidx;
 
@@ -215,7 +215,7 @@ static VOID APPeerAuthReqAtIdleAction(
 	int NStatus;
 	ULONG FrameLen = 0;
 	MAC_TABLE_ENTRY *pEntry;
-	UCHAR ChTxtIe = 16, ChTxtLen = CIPHER_TEXT_LEN;
+	u8 ChTxtIe = 16, ChTxtLen = CIPHER_TEXT_LEN;
 	MULTISSID_STRUCT *pMbss;
 	struct rtmp_wifi_dev *wdev;
 	CHAR rssi;
@@ -415,11 +415,11 @@ static VOID APPeerAuthConfirmAction(
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	USHORT          Seq, Alg, Status;
-	UCHAR           Addr2[MAC_ADDR_LEN];
+	u8           Addr2[MAC_ADDR_LEN];
 	PHEADER_802_11  pRcvHdr;
 	CHAR            Chtxt[CIPHER_TEXT_LEN];
 	MAC_TABLE_ENTRY *pEntry;
-	UCHAR			Addr1[MAC_ADDR_LEN];
+	u8 		Addr1[MAC_ADDR_LEN];
 	uint32_t 		apidx;
 
 
@@ -537,12 +537,12 @@ VOID APCls2errAction(
 	IN HEADER_802_11 *pHeader)
 {
 	HEADER_802_11 Hdr;
-	UCHAR *pOutBuffer = NULL;
+	u8 *pOutBuffer = NULL;
 	int NStatus;
 	ULONG FrameLen = 0;
 	USHORT Reason = REASON_CLS2ERR;
 	MAC_TABLE_ENTRY *pEntry = NULL;
-	UCHAR apidx;
+	u8 apidx;
 
 	if (Wcid < MAX_LEN_OF_MAC_TABLE)
 		pEntry = &(pAd->MacTab.Content[Wcid]);

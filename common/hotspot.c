@@ -28,7 +28,7 @@
 
 #include "rt_config.h"
 
-extern UCHAR BROADCAST_ADDR[MAC_ADDR_LEN];
+extern u8 BROADCAST_ADDR[MAC_ADDR_LEN];
 
 void wext_hotspot_onoff_event(struct net_device *net_dev, int onoff)
 {
@@ -92,21 +92,21 @@ bool HSIPv4Check(
 			uint16_t srcPort,
 			uint16_t dstPort)
 {
-	UCHAR apidx = RTMP_GET_PACKET_NET_DEVICE(pPacket);
+	u8 apidx = RTMP_GET_PACKET_NET_DEVICE(pPacket);
 	MULTISSID_STRUCT *pMbss = &pAd->ApCfg.MBSSID[apidx];
 
 	if (pMbss->HotSpotCtrl.HotSpotEnable)
 	{
 		if (srcPort  == 0x43 && dstPort == 0x44)
 		{
-			//UCHAR *pTargetIPAddr = pSrcBuf + 24;
+			//u8 *pTargetIPAddr = pSrcBuf + 24;
 			/* Client hardware address */
-			UCHAR *pTargetMACAddr = pSrcBuf + 36;
+			u8 *pTargetMACAddr = pSrcBuf + 36;
 
 			/* Convert group-address DHCP packets to individually-addressed 802.11 frames */
 			if (*pWcid == MCAST_WCID && pMbss->HotSpotCtrl.DGAFDisable)
 			{
-					UCHAR Index;
+					u8 Index;
 					u8 *pSrcBufOriginal = pPacket->data;
 					for (Index = 0; Index < MAC_ADDR_LEN; Index++)
 					{
@@ -133,7 +133,7 @@ static bool IsICMPv4EchoPacket(
 			IN u8 *pData)
 {
 	uint16_t ProtoType;
-	UCHAR *Pos = pData;
+	u8 *Pos = pData;
 
 	memmove(&ProtoType, pData, 2);
 	ProtoType = OS_NTOHS(ProtoType);
@@ -180,7 +180,7 @@ bool L2FilterInspection(
 
 bool ProbeReqforHSAP(
 	IN struct rtmp_adapter *pAd,
-	IN UCHAR APIndex,
+	IN u8 APIndex,
 	IN struct _PEER_PROBE_REQ_PARAM *ProbeReqParam)
 {
 
@@ -210,10 +210,10 @@ bool ProbeReqforHSAP(
 
 inline INT Set_HotSpot_DGAF(
 	IN struct rtmp_adapter *pAd,
-	UCHAR Disable)
+	u8 Disable)
 {
 	struct os_cookie *pObj = pAd->OS_Cookie;
-	UCHAR APIndex = pObj->ioctl_if;
+	u8 APIndex = pObj->ioctl_if;
 	PHOTSPOT_CTRL pHSCtrl;
 
 	pHSCtrl = &pAd->ApCfg.MBSSID[APIndex].HotSpotCtrl;
@@ -230,7 +230,7 @@ INT Set_HotSpot_Param(
 {
 
 	struct os_cookie *pObj = pAd->OS_Cookie;
-	UCHAR APIndex = pObj->ioctl_if;
+	u8 APIndex = pObj->ioctl_if;
 	PHOTSPOT_CTRL pHSCtrl;
 	PWNM_CTRL pWNMCtrl;
 	PGAS_CTRL pGASCtrl;
@@ -314,7 +314,7 @@ VOID Clear_Hotspot_All_IE(
 	IN struct rtmp_adapter *pAd)
 {
 	struct os_cookie *pObj = pAd->OS_Cookie;
-	UCHAR APIndex = pObj->ioctl_if;
+	u8 APIndex = pObj->ioctl_if;
 	PHOTSPOT_CTRL pHSCtrl;
 
 	pHSCtrl = &pAd->ApCfg.MBSSID[APIndex].HotSpotCtrl;
@@ -329,12 +329,12 @@ INT Set_HotSpot_OnOff(
 	IN UINT8 EventTrigger,
 	IN UINT8 EventType)
 {
-	UCHAR *Buf;
+	u8 *Buf;
 	HSCTRL_EVENT_DATA *Event;
 	uint32_t Len = 0;
 #ifdef CONFIG_AP_SUPPORT
 	struct os_cookie *pObj = pAd->OS_Cookie;
-	UCHAR APIndex = pObj->ioctl_if;
+	u8 APIndex = pObj->ioctl_if;
 #endif /* CONFIG_AP_SUPPORT */
 
 	buf = kmalloc(sizeof(*Event), GFP_ATOMIC);
@@ -473,7 +473,7 @@ static VOID HSCtrlInit(
 {
 	PHOTSPOT_CTRL pHSCtrl;
 #ifdef CONFIG_AP_SUPPORT
-	UCHAR APIndex;
+	u8 APIndex;
 #endif /* CONFIG_AP_SUPPORT */
 
 #ifdef CONFIG_STA_SUPPORT
@@ -500,7 +500,7 @@ VOID HSCtrlExit(
 {
 	PHOTSPOT_CTRL pHSCtrl;
 #ifdef CONFIG_AP_SUPPORT
-	UCHAR APIndex;
+	u8 APIndex;
 #endif /* CONFIG_AP_SUPPORT */
 
 #ifdef CONFIG_STA_SUPPORT
@@ -528,7 +528,7 @@ VOID HSCtrlHalt(
 
 	PHOTSPOT_CTRL pHSCtrl;
 #ifdef CONFIG_AP_SUPPORT
-	UCHAR APIndex;
+	u8 APIndex;
 #endif /* CONFIG_AP_SUPPORT */
 
 #ifdef CONFIG_STA_SUPPORT
@@ -596,7 +596,7 @@ bool HotSpotEnable(
 	PHOTSPOT_CTRL pHSCtrl = NULL;
 
 #ifdef CONFIG_AP_SUPPORT
-	UCHAR APIndex;
+	u8 APIndex;
 	PGAS_EVENT_DATA Event;
 	GAS_FRAME *GASFrame;
 #endif /* CONFIG_AP_SUPPORT */

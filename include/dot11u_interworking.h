@@ -43,43 +43,43 @@ enum GAS_ACTION_FIELD {
 typedef struct GNU_PACKED _GAS_FRAME
 {
 	HEADER_802_11 Hdr;
-	UCHAR Category;
+	u8 Category;
 	union {
 		struct {
-			UCHAR Action;
-			UCHAR DialogToken;
+			u8 Action;
+			u8 DialogToken;
 			/*
  			 * Following are advertisement protocol element,
  			 * query request length, and query request
  			 */
-			UCHAR Variable[0];
+			u8 Variable[0];
 		} GNU_PACKED GAS_INIT_REQ;
 		struct {
-			UCHAR Action;
-			UCHAR DialogToken;
+			u8 Action;
+			u8 DialogToken;
 			uint16_t StatusCode;
 			uint16_t GASComebackDelay;
 			/*
  			 *  Following are advertisement protocol element,
  			 *  query response length, and query response(optional)
  			 */
-			UCHAR Variable[0];
+			u8 Variable[0];
 		} GNU_PACKED GAS_INIT_RSP;
 		struct {
-			UCHAR Action;
-			UCHAR DialogToken;
+			u8 Action;
+			u8 DialogToken;
 		} GNU_PACKED GAS_CB_REQ;
 		struct {
-			UCHAR Action;
-			UCHAR DialogToken;
+			u8 Action;
+			u8 DialogToken;
 			uint16_t StatusCode;
-			UCHAR GASRspFragID;
+			u8 GASRspFragID;
 			uint16_t GASComebackDelay;
 			/*
  			 * Following are advertisment protocol element,
  			 * query response length, and query response(optional)
  			 */
-			UCHAR Variable[0];
+			u8 Variable[0];
 		} GNU_PACKED GAS_CB_RSP;
 	}u;
 }GAS_FRAME, *PGAS_FRAME;

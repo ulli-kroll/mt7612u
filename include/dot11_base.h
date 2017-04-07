@@ -116,9 +116,9 @@ typedef struct GNU_PACKED {
 typedef struct GNU_PACKED _HEADER_802_11 {
         FRAME_CONTROL   FC;
         uint16_t          Duration;
-        UCHAR           Addr1[6];
-        UCHAR           Addr2[6];
-	UCHAR		Addr3[6];
+        u8           Addr1[6];
+        u8           Addr2[6];
+	u8 	Addr3[6];
 #ifdef RT_BIG_ENDIAN
 	uint16_t 	Sequence:12;
 	uint16_t 	Frag:4;
@@ -126,7 +126,7 @@ typedef struct GNU_PACKED _HEADER_802_11 {
 	uint16_t 	Frag:4;
 	uint16_t 	Sequence:12;
 #endif /* !RT_BIG_ENDIAN */
-	UCHAR		Octet[0];
+	u8 	Octet[0];
 }HEADER_802_11, *PHEADER_802_11;
 
 #endif /* _DOT11_BASE_H_ */

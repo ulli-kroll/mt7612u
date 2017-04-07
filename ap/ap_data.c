@@ -36,14 +36,14 @@ INT ApAllowToSendPacket(
 	IN struct rtmp_adapter *pAd,
 	IN struct rtmp_wifi_dev *wdev,
 	IN struct sk_buff *pPacket,
-	IN UCHAR *pWcid)
+	IN u8 *pWcid)
 {
 	PACKET_INFO PacketInfo;
-	UCHAR *pSrcBufVA;
+	u8 *pSrcBufVA;
 	UINT SrcBufLen;
 	MAC_TABLE_ENTRY *pEntry = NULL;
 #ifdef MBSS_SUPPORT
-	UCHAR IdBss;
+	u8 IdBss;
 #endif /* MBSS_SUPPORT */
 
 	RTMP_QueryPacketInfo(pPacket, &PacketInfo, &pSrcBufVA, &SrcBufLen);
@@ -81,7 +81,7 @@ INT ApAllowToSendPacket(
 		pEntry = MacTableLookup(pAd, pSrcBufVA);
 		if (pEntry && (pEntry->Sst == SST_ASSOC))
 		{
-			*pWcid = (UCHAR)pEntry->wcid;
+			*pWcid = (u8)pEntry->wcid;
 			return true;
 		}
 
@@ -158,12 +158,12 @@ static struct reason_id_str pkt_drop_code[]={
 INT APSendPacket(struct rtmp_adapter *pAd, struct sk_buff *pPacket)
 {
 	PACKET_INFO PacketInfo;
-	UCHAR *pSrcBufVA;
+	u8 *pSrcBufVA;
 	UINT SrcBufLen, AllowFragSize;
-	UCHAR NumberOfFrag;
-	UCHAR QueIdx;
-	UCHAR UserPriority, PsMode = PWR_ACTIVE;
-	UCHAR Wcid;
+	u8 NumberOfFrag;
+	u8 QueIdx;
+	u8 UserPriority, PsMode = PWR_ACTIVE;
+	u8 Wcid;
 	unsigned long IrqFlags;
 	MAC_TABLE_ENTRY *pMacEntry = NULL;
 	struct rtmp_wifi_dev *wdev;
@@ -192,7 +192,7 @@ INT APSendPacket(struct rtmp_adapter *pAd, struct sk_buff *pPacket)
         }
         else // don't pass pMacEntry->wdev to RTMPCheckEtherType(), when Wcid is MCAST_WCID
         {
-                UCHAR IfIdx = 0;
+                u8 IfIdx = 0;
                 IfIdx = RTMP_GET_PACKET_WDEV(pPacket);
                 if ((IfIdx < WDEV_NUM_MAX) && (pAd->wdev_list[IfIdx] != NULL)) {
                         wdev = pAd->wdev_list[IfIdx];
@@ -361,7 +361,7 @@ INT APSendPacket(struct rtmp_adapter *pAd, struct sk_buff *pPacket)
 		else
 		{
 			// TODO: shiang-6590, remove the apidx!!!!
-			UCHAR apidx;
+			u8 apidx;
 			if (Wcid == MCAST_WCID)
 				apidx = RTMP_GET_PACKET_NET_DEVICE_MBSSID(pPacket);
 			else
@@ -426,9 +426,9 @@ INT APSendPacket(struct rtmp_adapter *pAd, struct sk_buff *pPacket)
 static inline VOID APFindCipherAlgorithm(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 {
 	CIPHER_KEY *pKey = NULL;
-	UCHAR KeyIdx = 0, CipherAlg = CIPHER_NONE;
-	UCHAR apidx = pTxBlk->apidx;
-	UCHAR RAWcid = pTxBlk->Wcid;
+	u8 KeyIdx = 0, CipherAlg = CIPHER_NONE;
+	u8 apidx = pTxBlk->apidx;
+	u8 RAWcid = pTxBlk->Wcid;
 	MAC_TABLE_ENTRY *pMacEntry = pTxBlk->pMacEntry;
 	MULTISSID_STRUCT *pMbss;
 	struct rtmp_wifi_dev *wdev;
@@ -554,7 +554,7 @@ static inline VOID APFindCipherAlgorithm(struct rtmp_adapter *pAd, TX_BLK *pTxBl
 static inline VOID APBuildCache802_11Header(
 	IN struct rtmp_adapter *pAd,
 	IN TX_BLK *pTxBlk,
-	IN UCHAR *pHeader)
+	IN u8 *pHeader)
 {
 	MAC_TABLE_ENTRY *pMacEntry;
 	PHEADER_802_11 pHeader80211;
@@ -594,7 +594,7 @@ static inline VOID APBuildCache802_11Header(
 static inline VOID APBuildCacheWifiInfo(
 	IN struct rtmp_adapter 	*pAd,
 	IN TX_BLK			*pTxBlk,
-	IN UCHAR			*pWiInfo)
+	IN u8 		*pWiInfo)
 {
 	MAC_TABLE_ENTRY	*pMacEntry;
 
@@ -785,8 +785,8 @@ static inline u8 *AP_Build_ARalink_Frame_Header(struct rtmp_adapter *pAd, TX_BLK
 	if (RTMP_GET_PACKET_VLAN(pNextPacket))
 		nextBufLen -= LENGTH_802_1Q;
 
-	*pHeaderBufPtr = (UCHAR)nextBufLen & 0xff;
-	*(pHeaderBufPtr+1) = (UCHAR)(nextBufLen >> 8);
+	*pHeaderBufPtr = (u8)nextBufLen & 0xff;
+	*(pHeaderBufPtr+1) = (u8)(nextBufLen >> 8);
 
 	pHeaderBufPtr += 2;
 	pTxBlk->MpduHeaderLen += 2;
@@ -813,7 +813,7 @@ static inline u8 *AP_Build_AMSDU_Frame_Header(
 	IN struct rtmp_adapter *pAd,
 	IN TX_BLK *pTxBlk)
 {
-	UCHAR *pHeaderBufPtr;
+	u8 *pHeaderBufPtr;
 	HEADER_802_11 *pHeader_802_11;
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
 
@@ -914,7 +914,7 @@ static inline u8 *AP_Build_AMSDU_Frame_Header(
 VOID AP_AMPDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 {
 	HEADER_802_11 *pHeader_802_11;
-	UCHAR *pHeaderBufPtr;
+	u8 *pHeaderBufPtr;
 	USHORT freeCnt = 1;
 	MAC_TABLE_ENTRY *pMacEntry;
 	PQUEUE_ENTRY pQEntry;
@@ -1113,7 +1113,7 @@ VOID AP_AMPDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 #ifdef SOFT_ENCRYPT
 		if (TX_BLK_TEST_FLAG(pTxBlk, fTX_bSwEncrypt))
 		{
-			UCHAR iv_offset = 0, ext_offset = 0;
+			u8 iv_offset = 0, ext_offset = 0;
 
 			/*
 				If original Ethernet frame contains no LLC/SNAP,
@@ -1249,7 +1249,7 @@ VOID AP_AMPDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 #ifdef DBG_CTRL_SUPPORT
 #ifdef INCLUDE_DEBUG_QUEUE
 	if (pAd->CommonCfg.DebugFlags & DBF_DBQ_TXFRAME)
-		dbQueueEnqueueTxFrame((UCHAR *)(&pTxBlk->HeaderBuf[TXINFO_SIZE]), (UCHAR *)pHeader_802_11);
+		dbQueueEnqueueTxFrame((u8 *)(&pTxBlk->HeaderBuf[TXINFO_SIZE]), (u8 *)pHeader_802_11);
 #endif /* INCLUDE_DEBUG_QUEUE */
 #endif /* DBG_CTRL_SUPPORT */
 
@@ -1270,7 +1270,7 @@ VOID AP_AMPDU_Frame_Tx_Hdr_Trns(
 	IN	TX_BLK			*pTxBlk)
 {
 	u8 *		pWiBufPtr;
-/*	UCHAR			QueIdx = pTxBlk->QueIdx; */
+/*	u8 		QueIdx = pTxBlk->QueIdx; */
 	USHORT			FreeNumber = 1; /* no use */
 	MAC_TABLE_ENTRY	*pMacEntry;
 	PQUEUE_ENTRY	pQEntry;
@@ -1297,7 +1297,7 @@ VOID AP_AMPDU_Frame_Tx_Hdr_Trns(
 /*
 	if ( pAd->debug_on )
 	{
-		UCHAR index = RTMP_GET_DEBUG_INDEX(pTxBlk->pPacket);
+		u8 index = RTMP_GET_DEBUG_INDEX(pTxBlk->pPacket);
 		do_gettimeofday(&(pAd->debug_time_2[index]));
 	}
 */
@@ -1348,7 +1348,7 @@ VOID AP_AMPDU_Frame_Tx_Hdr_Trns(
 /*
 	if ( pAd->debug_on )
 	{
-		UCHAR index = RTMP_GET_DEBUG_INDEX(pTxBlk->pPacket);
+		u8 index = RTMP_GET_DEBUG_INDEX(pTxBlk->pPacket);
 		do_gettimeofday(&(pAd->debug_time_3[index]));
 	}
 */
@@ -1416,7 +1416,7 @@ VOID AP_AMPDU_Frame_Tx_Hdr_Trns(
 	/*
 	if ( pAd->debug_on )
 	{
-		UCHAR index = RTMP_GET_DEBUG_INDEX(pTxBlk->pPacket);
+		u8 index = RTMP_GET_DEBUG_INDEX(pTxBlk->pPacket);
 		do_gettimeofday(&(pAd->debug_time_4[index]));
 	}
 */
@@ -1432,7 +1432,7 @@ VOID AP_AMPDU_Frame_Tx_Hdr_Trns(
 /*
 	if ( pAd->debug_on )
 	{
-		UCHAR index = RTMP_GET_DEBUG_INDEX(pTxBlk->pPacket);
+		u8 index = RTMP_GET_DEBUG_INDEX(pTxBlk->pPacket);
 		do_gettimeofday(&(pAd->debug_time_5[index]));
 		if ( pAd->debug_index < 201 )
 		{
@@ -1448,11 +1448,11 @@ VOID AP_AMPDU_Frame_Tx_Hdr_Trns(
 
 VOID AP_AMSDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 {
-	UCHAR *pHeaderBufPtr, *subFrameHeader;
+	u8 *pHeaderBufPtr, *subFrameHeader;
 	USHORT freeCnt = 1; /* no use */
 	USHORT subFramePayloadLen = 0;	/* AMSDU Subframe length without AMSDU-Header / Padding. */
 	USHORT totalMPDUSize=0;
-	UCHAR padding = 0;
+	u8 padding = 0;
 	USHORT FirstTx = 0, LastTxIdx = 0;
 	int frameNum = 0;
 	PQUEUE_ENTRY pQEntry;
@@ -1503,7 +1503,7 @@ VOID AP_AMSDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 #ifdef WFA_VHT_PF
 			if (pAd->force_amsdu)
 			{
-				UCHAR RABAOriIdx;
+				u8 RABAOriIdx;
 
 				if (pMacEntry) {
 					 RABAOriIdx = pMacEntry->BAOriWcidArray[pTxBlk->UserPriority];
@@ -1585,7 +1585,7 @@ VOID AP_AMSDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 #ifdef DBG_CTRL_SUPPORT
 #ifdef INCLUDE_DEBUG_QUEUE
 		if (pAd->CommonCfg.DebugFlags & DBF_DBQ_TXFRAME)
-			dbQueueEnqueueTxFrame((UCHAR *)(&pTxBlk->HeaderBuf[TXINFO_SIZE]), NULL);
+			dbQueueEnqueueTxFrame((u8 *)(&pTxBlk->HeaderBuf[TXINFO_SIZE]), NULL);
 #endif /* INCLUDE_DEBUG_QUEUE */
 #endif /* DBG_CTRL_SUPPORT */
 
@@ -1646,7 +1646,7 @@ VOID AP_AMSDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 VOID AP_Legacy_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 {
 	HEADER_802_11 *wifi_hdr;
-	UCHAR *pHeaderBufPtr;
+	u8 *pHeaderBufPtr;
 	USHORT freeCnt = 1;
 	bool bVLANPkt;
 	QUEUE_ENTRY *pQEntry;
@@ -1808,7 +1808,7 @@ VOID AP_Legacy_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 #ifdef SOFT_ENCRYPT
 	if (TX_BLK_TEST_FLAG(pTxBlk, fTX_bSwEncrypt))
 	{
-		UCHAR	iv_offset = 0, ext_offset = 0;
+		u8 iv_offset = 0, ext_offset = 0;
 
 		/*
 			If original Ethernet frame contains no LLC/SNAP,
@@ -1860,7 +1860,7 @@ VOID AP_Legacy_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 		EXTRA_LLCSNAP_ENCAP_FROM_PKT_START(pTxBlk->pSrcBufHeader, pTxBlk->pExtraLlcSnapEncap);
 		if (pTxBlk->pExtraLlcSnapEncap)
 		{
-			UCHAR vlan_size;
+			u8 vlan_size;
 
 			memmove(pHeaderBufPtr, pTxBlk->pExtraLlcSnapEncap, 6);
 			pHeaderBufPtr += 6;
@@ -1926,7 +1926,7 @@ VOID AP_Legacy_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 #ifdef DBG_CTRL_SUPPORT
 #ifdef INCLUDE_DEBUG_QUEUE
 	if (pAd->CommonCfg.DebugFlags & DBF_DBQ_TXFRAME)
-		dbQueueEnqueueTxFrame((UCHAR *)(&pTxBlk->HeaderBuf[TXINFO_SIZE]), (UCHAR *)wifi_hdr);
+		dbQueueEnqueueTxFrame((u8 *)(&pTxBlk->HeaderBuf[TXINFO_SIZE]), (u8 *)wifi_hdr);
 #endif /* INCLUDE_DEBUG_QUEUE */
 #endif /* DBG_CTRL_SUPPORT */
 
@@ -1945,7 +1945,7 @@ VOID AP_Legacy_Frame_Tx_Hdr_Trns(
 	IN	struct rtmp_adapter *pAd,
 	IN	TX_BLK			*pTxBlk)
 {
-/*	UCHAR			QueIdx = pTxBlk->QueIdx; */
+/*	u8 		QueIdx = pTxBlk->QueIdx; */
 	USHORT			FreeNumber = 1; /* no use */
 	bool			bVLANPkt;
 	PQUEUE_ENTRY	pQEntry;
@@ -1984,7 +1984,7 @@ VOID AP_Legacy_Frame_Tx_Hdr_Trns(
 /*
 	if ( pAd->debug_on )
 	{
-		UCHAR index = RTMP_GET_DEBUG_INDEX(pTxBlk->pPacket);
+		u8 index = RTMP_GET_DEBUG_INDEX(pTxBlk->pPacket);
 		do_gettimeofday(&(pAd->debug_time_2[index]));
 	}
 */
@@ -2032,7 +2032,7 @@ VOID AP_Legacy_Frame_Tx_Hdr_Trns(
 	/*
 	if ( pAd->debug_on )
 	{
-		UCHAR index = RTMP_GET_DEBUG_INDEX(pTxBlk->pPacket);
+		u8 index = RTMP_GET_DEBUG_INDEX(pTxBlk->pPacket);
 		do_gettimeofday(&(pAd->debug_time_3[index]));
 	}
 */
@@ -2058,7 +2058,7 @@ VOID AP_Legacy_Frame_Tx_Hdr_Trns(
 #ifdef DBG_CTRL_SUPPORT
 #ifdef INCLUDE_DEBUG_QUEUE
 	if (pAd->CommonCfg.DebugFlags & DBF_DBQ_TXFRAME)
-		dbQueueEnqueueTxFrame((UCHAR *)(&pTxBlk->HeaderBuf[TXINFO_SIZE]), (UCHAR *)pHeader_802_11);
+		dbQueueEnqueueTxFrame((u8 *)(&pTxBlk->HeaderBuf[TXINFO_SIZE]), (u8 *)pHeader_802_11);
 #endif /* INCLUDE_DEBUG_QUEUE */
 #endif /* DBG_CTRL_SUPPORT */
 
@@ -2068,7 +2068,7 @@ VOID AP_Legacy_Frame_Tx_Hdr_Trns(
 	/*
 	if ( pAd->debug_on )
 	{
-		UCHAR index = RTMP_GET_DEBUG_INDEX(pTxBlk->pPacket);
+		u8 index = RTMP_GET_DEBUG_INDEX(pTxBlk->pPacket);
 		do_gettimeofday(&(pAd->debug_time_4[index]));
 	}
 */
@@ -2081,7 +2081,7 @@ VOID AP_Legacy_Frame_Tx_Hdr_Trns(
 /*
 	if ( pAd->debug_on )
 	{
-		UCHAR index = RTMP_GET_DEBUG_INDEX(pTxBlk->pPacket);
+		u8 index = RTMP_GET_DEBUG_INDEX(pTxBlk->pPacket);
 		do_gettimeofday(&(pAd->debug_time_5[index]));
 		if ( pAd->debug_index < 201 )
 		{
@@ -2100,9 +2100,9 @@ VOID AP_Legacy_Frame_Tx_Hdr_Trns(
 VOID AP_Fragment_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 {
 	HEADER_802_11 *pHeader_802_11;
-	UCHAR *pHeaderBufPtr;
+	u8 *pHeaderBufPtr;
 	USHORT freeCnt = 1; /* no use */
-	UCHAR fragNum = 0;
+	u8 fragNum = 0;
 	USHORT EncryptionOverhead = 0;
 	uint32_t FreeMpduSize, SrcRemainingBytes;
 	USHORT AckDuration;
@@ -2111,7 +2111,7 @@ VOID AP_Fragment_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 	PQUEUE_ENTRY pQEntry;
 	PACKET_INFO PacketInfo;
 #ifdef SOFT_ENCRYPT
-	UCHAR *tmp_ptr = NULL;
+	u8 *tmp_ptr = NULL;
 	uint32_t buf_offset = 0;
 #endif /* SOFT_ENCRYPT */
 	HTTRANSMIT_SETTING	*pTransmit;
@@ -2199,7 +2199,7 @@ VOID AP_Fragment_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 #ifdef SOFT_ENCRYPT
 	if (TX_BLK_TEST_FLAG(pTxBlk, fTX_bSwEncrypt))
 	{
-		UCHAR	iv_offset = 0;
+		u8 iv_offset = 0;
 
 		/*
 			If original Ethernet frame contains no LLC/SNAP,
@@ -2239,7 +2239,7 @@ VOID AP_Fragment_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 		EXTRA_LLCSNAP_ENCAP_FROM_PKT_START(pTxBlk->pSrcBufHeader, pTxBlk->pExtraLlcSnapEncap);
 		if (pTxBlk->pExtraLlcSnapEncap)
 		{
-			UCHAR vlan_size;
+			u8 vlan_size;
 
 			memmove(pHeaderBufPtr, pTxBlk->pExtraLlcSnapEncap, 6);
 			pHeaderBufPtr += 6;
@@ -2387,7 +2387,7 @@ VOID AP_Fragment_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 #ifdef SOFT_ENCRYPT
 		if (TX_BLK_TEST_FLAG(pTxBlk, fTX_bSwEncrypt))
 		{
-			UCHAR	ext_offset = 0;
+			u8 ext_offset = 0;
 
 			memmove(pTxBlk->pSrcBufData, tmp_ptr + buf_offset, pTxBlk->SrcBufLen);
 			buf_offset += pTxBlk->SrcBufLen;
@@ -2414,7 +2414,7 @@ VOID AP_Fragment_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 #ifdef DBG_CTRL_SUPPORT
 #ifdef INCLUDE_DEBUG_QUEUE
 		if (pAd->CommonCfg.DebugFlags & DBF_DBQ_TXFRAME)
-			dbQueueEnqueueTxFrame((UCHAR *)(&pTxBlk->HeaderBuf[TXINFO_SIZE]), (UCHAR *)pHeader_802_11);
+			dbQueueEnqueueTxFrame((u8 *)(&pTxBlk->HeaderBuf[TXINFO_SIZE]), (u8 *)pHeader_802_11);
 #endif /* INCLUDE_DEBUG_QUEUE */
 #endif /* DBG_CTRL_SUPPORT */
 
@@ -2472,7 +2472,7 @@ VOID AP_Fragment_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 
 VOID AP_ARalink_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 {
-	UCHAR *pHeaderBufPtr;
+	u8 *pHeaderBufPtr;
 	USHORT freeCnt = 1; /* no use */
 	USHORT totalMPDUSize=0;
 	USHORT FirstTx, LastTxIdx;
@@ -2571,7 +2571,7 @@ VOID AP_ARalink_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 #ifdef DBG_CTRL_SUPPORT
 #ifdef INCLUDE_DEBUG_QUEUE
 		if (pAd->CommonCfg.DebugFlags & DBF_DBQ_TXFRAME)
-			dbQueueEnqueueTxFrame((UCHAR *)(&pTxBlk->HeaderBuf[TXINFO_SIZE]), NULL);
+			dbQueueEnqueueTxFrame((u8 *)(&pTxBlk->HeaderBuf[TXINFO_SIZE]), NULL);
 #endif /* INCLUDE_DEBUG_QUEUE */
 #endif /* DBG_CTRL_SUPPORT */
 
@@ -2629,7 +2629,7 @@ VOID AP_ARalink_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 
 VOID AP_NDPA_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 {
-	UCHAR *buf;
+	u8 *buf;
 	VHT_NDPA_FRAME *vht_ndpa;
 	struct rtmp_wifi_dev *wdev;
 	UINT frm_len, sta_cnt;
@@ -2712,7 +2712,7 @@ VOID AP_NDPA_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 		None
 	========================================================================
 */
-int APHardTransmit(struct rtmp_adapter *pAd, TX_BLK *pTxBlk, UCHAR QueIdx)
+int APHardTransmit(struct rtmp_adapter *pAd, TX_BLK *pTxBlk, u8 QueIdx)
 {
 	PQUEUE_ENTRY pQEntry;
 	struct sk_buff *pPacket;
@@ -2750,7 +2750,7 @@ int APHardTransmit(struct rtmp_adapter *pAd, TX_BLK *pTxBlk, UCHAR QueIdx)
 
 	if ((pTxBlk->TxFrameType & TX_NDPA_FRAME) > 0)
 	{
-		UCHAR mlmeMCS, mlmeBW, mlmeMode;
+		u8 mlmeMCS, mlmeBW, mlmeMode;
 
 		mlmeMCS  = pAd->CommonCfg.MlmeTransmit.field.MCS;
 		mlmeBW   = pAd->CommonCfg.MlmeTransmit.field.BW;
@@ -2887,7 +2887,7 @@ INT APCheckRxError(struct rtmp_adapter *pAd, RXINFO_STRUC *pRxInfo, RX_BLK *pRxB
 	error, and perform error action (DEAUTH or DISASSOC) accordingly
   ========================================================================
 */
-bool APChkCls2Cls3Err(struct rtmp_adapter *pAd, UCHAR wcid, HEADER_802_11 *hdr)
+bool APChkCls2Cls3Err(struct rtmp_adapter *pAd, u8 wcid, HEADER_802_11 *hdr)
 {
 	/* software MAC table might be smaller than ASIC on-chip total size. */
 	/* If no mathed wcid index in ASIC on chip, do we need more check???  need to check again. 06-06-2006 */
@@ -2933,11 +2933,11 @@ bool APChkCls2Cls3Err(struct rtmp_adapter *pAd, UCHAR wcid, HEADER_802_11 *hdr)
 	detect AC Category of trasmitting packets
 	to turn AC0(BE) TX_OP (MAC reg 0x1300)
 */
-/*static UCHAR is_on; */
+/*static u8 is_on; */
 VOID detect_wmm_traffic(
 	IN struct rtmp_adapter *pAd,
-	IN UCHAR UserPriority,
-	IN UCHAR FlgIsOutput)
+	IN u8 UserPriority,
+	IN u8 FlgIsOutput)
 {
 	if (pAd == NULL)
 		return;
@@ -3092,8 +3092,8 @@ VOID dynamic_tune_be_tx_op(struct rtmp_adapter *pAd, ULONG nonBEpackets)
 				(pAd->ApCfg.ChangeTxOpClient != pAd->MacTab.Size))
 			{
 				/* enable AC0(BE) TX_OP */
-				UCHAR	txop_value_burst = 0x20;	/* default txop for Tx-Burst */
-				UCHAR   txop_value = 0;
+				u8 txop_value_burst = 0x20;	/* default txop for Tx-Burst */
+				u8   txop_value = 0;
 
 				pAd->ApCfg.ChangeTxOpClient = pAd->MacTab.Size;
 #ifdef LINUX
@@ -3160,8 +3160,8 @@ VOID APRxErrorHandle(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 	MAC_TABLE_ENTRY *pEntry = NULL;
 	RXINFO_STRUC *pRxInfo = pRxBlk->pRxInfo;
 	PCIPHER_KEY pWpaKey;
-	UCHAR							FromWhichBSSID = BSS0;
-	UCHAR			Wcid;
+	u8 						FromWhichBSSID = BSS0;
+	u8 		Wcid;
 	PHEADER_802_11	pHeader = pRxBlk->pHeader;
 
 	if (pRxInfo->CipherErr)
@@ -3306,11 +3306,11 @@ bool APCheckTkipMICValue(
 	IN	RX_BLK			*pRxBlk)
 {
 	PHEADER_802_11	pHeader = pRxBlk->pHeader;
-	UCHAR			*pData = pRxBlk->pData;
+	u8 		*pData = pRxBlk->pData;
 	USHORT			DataSize = pRxBlk->DataSize;
-	UCHAR			UserPriority = pRxBlk->UserPriority;
+	u8 		UserPriority = pRxBlk->UserPriority;
 	PCIPHER_KEY		pWpaKey;
-	UCHAR			*pDA, *pSA;
+	u8 		*pDA, *pSA;
 
 	pWpaKey = &pEntry->PairwiseKey;
 
@@ -3368,10 +3368,10 @@ VOID APRxEAPOLFrameIndicate(
 	IN	struct rtmp_adapter *pAd,
 	IN	MAC_TABLE_ENTRY	*pEntry,
 	IN	RX_BLK			*pRxBlk,
-	IN	UCHAR			FromWhichBSSID)
+	IN	u8 		FromWhichBSSID)
 {
 	bool 		CheckPktSanity = true;
-	UCHAR			*pTmpBuf;
+	u8 		*pTmpBuf;
 #ifdef APCLI_SUPPORT
 #ifdef WPA_SUPPLICANT_SUPPORT
 	INT eapcode;
@@ -3442,7 +3442,7 @@ VOID APRxEAPOLFrameIndicate(
 			apcli_entry->wdev.IEEE8021X == true && (EAP_CODE_SUCCESS == eapcode))
 		{
 			u8 *Key;
-			UCHAR 	CipherAlg;
+			u8 	CipherAlg;
 			int     idx = 0;
 			int BssIdx = pAd->ApCfg.BssidNum + MAX_MESH_NUM + pEntry->wdev_idx;
 			WPA_SUPPLICANT_INFO *sup_info = &apcli_entry->wpa_supplicant_info;
@@ -3527,7 +3527,7 @@ done:
 VOID Announce_or_Forward_802_3_Packet(
 	IN	struct rtmp_adapter *pAd,
 	IN	struct sk_buff *pPacket,
-	IN	UCHAR			FromWhichBSSID)
+	IN	u8 		FromWhichBSSID)
 {
 	if (APFowardWirelessStaToWirelessSta(pAd, pPacket, FromWhichBSSID))
 		announce_802_3_packet(pAd, pPacket,OPMODE_AP);
@@ -3543,7 +3543,7 @@ VOID APRxDataFrameAnnounce(
 	IN struct rtmp_adapter *pAd,
 	IN MAC_TABLE_ENTRY *pEntry,
 	IN RX_BLK *pRxBlk,
-	IN UCHAR FromWhichBSSID)
+	IN u8 FromWhichBSSID)
 {
 
 	/* non-EAP frame */
@@ -3644,9 +3644,9 @@ VOID APHandleRxDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 	struct sk_buff *pRxPacket = pRxBlk->pRxPacket;
 	bool bFragment = false;
 	MAC_TABLE_ENTRY *pEntry = NULL;
-	UCHAR FromWhichBSSID = BSS0;
-	UCHAR OldPwrMgmt = PWR_ACTIVE;	/* UAPSD AP SUPPORT */
-	UCHAR UserPriority = 0;
+	u8 FromWhichBSSID = BSS0;
+	u8 OldPwrMgmt = PWR_ACTIVE;	/* UAPSD AP SUPPORT */
+	u8 UserPriority = 0;
 	INT hdr_len = LENGTH_802_11;
 	FRAME_CONTROL *pFmeCtrl = &pHeader->FC;
 	COUNTER_RALINK *pCounter = &pAd->RalinkCounters;
@@ -3805,15 +3805,15 @@ VOID APHandleRxDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 			pEntry->OneSecRxLGICount++;
 	}
 
-	pAd->ApCfg.LastSNR0 = (UCHAR)(pRxBlk->snr[0]);
-	pAd->ApCfg.LastSNR1 = (UCHAR)(pRxBlk->snr[1]);
+	pAd->ApCfg.LastSNR0 = (u8)(pRxBlk->snr[0]);
+	pAd->ApCfg.LastSNR1 = (u8)(pRxBlk->snr[1]);
 	pEntry->freqOffset = (CHAR)(pRxBlk->freq_offset);
 	pEntry->freqOffsetValid = true;
 
 
    	/* Gather PowerSave information from all valid DATA frames. IEEE 802.11/1999 p.461 */
    	/* must be here, before no DATA check */
-	pRxBlk->pData = (UCHAR *)pHeader;
+	pRxBlk->pData = (u8 *)pHeader;
 
    	/* 1: PWR_SAVE, 0: PWR_ACTIVE */
    	OldPwrMgmt = RtmpPsIndicate(pAd, pHeader->Addr2, pEntry->wcid, pFmeCtrl->PwrMgmt);
@@ -4000,7 +4000,7 @@ bool APFowardWirelessStaToWirelessSta(
 {
 	MAC_TABLE_ENTRY *pEntry = NULL;
 	bool bAnnounce, bDirectForward;
-	UCHAR *pHeader802_3;
+	u8 *pHeader802_3;
 	struct sk_buff *pForwardPacket;
 
 
@@ -4152,7 +4152,7 @@ int APInsertPsQueue(
 	IN struct rtmp_adapter *pAd,
 	IN struct sk_buff *pPacket,
 	IN MAC_TABLE_ENTRY *pMacEntry,
-	IN UCHAR QueIdx)
+	IN u8 QueIdx)
 {
 	ULONG IrqFlags;
 	{
@@ -4179,12 +4179,12 @@ int APInsertPsQueue(
 #ifdef APCLI_SUPPORT
 VOID ApCliRTMPSendNullFrame(
 	IN	struct rtmp_adapter *pAd,
-	IN	UCHAR			TxRate,
+	IN	u8 		TxRate,
 	IN	bool 		bQosNull,
 	IN 	PMAC_TABLE_ENTRY pMacEntry,
 	IN 	USHORT		PwrMgmt)
 {
-	UCHAR	NullFrame[48];
+	u8 NullFrame[48];
 	ULONG	Length;
 	PHEADER_802_11	pHeader_802_11;
 	PAPCLI_STRUCT pApCliEntry = NULL;

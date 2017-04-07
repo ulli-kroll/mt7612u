@@ -176,8 +176,8 @@ typedef struct _COEX_MODE_STRUCTURE {
     ULONG       UpdateMode;
     CHAR        CoexTDDRSSITreshold;
     CHAR        CoexFDDRSSITreshold;
-    UCHAR       RxBAWinLimit; /* 0 = not set, use original value */
-    UCHAR       TxBAWinLimit; /* 0 = not set, use origianl value */
+    u8       RxBAWinLimit; /* 0 = not set, use original value */
+    u8       TxBAWinLimit; /* 0 = not set, use origianl value */
 } COEX_MODE_STRUCTURE, *PCOEX_MODE_STRUCTURE;
 
 
@@ -256,16 +256,16 @@ typedef	union	_BT_STATUS_REPORT_STRUC	{
 
 VOID BtAFHCtl(
 		IN struct rtmp_adapter *pAd,
-		IN UCHAR			BBPCurrentBW,
-		IN UCHAR			Channel,
-		IN UCHAR			CentralChannel,
+		IN u8 		BBPCurrentBW,
+		IN u8 		Channel,
+		IN u8 		CentralChannel,
 		IN bool			Disable);
 
-VOID TDDFDDExclusiveRequest(IN struct rtmp_adapter *pAd, UCHAR CoexMode);
+VOID TDDFDDExclusiveRequest(IN struct rtmp_adapter *pAd, u8 CoexMode);
 
 VOID EstablishFrameBundle(
 	IN struct rtmp_adapter *pAd,
-	IN      PUCHAR  pAddr,
+	IN      Pu8  pAddr,
 	IN      ULONG  OPMode,
 	IN struct _MAC_TABLE_ENTRY *pEntry
 );
@@ -275,21 +275,21 @@ VOID UpdateAndesNullFrameSpace(
 
 VOID InvalidProtectionFrameSpace(
     IN struct rtmp_adapter *pAd,
-    IN      PUCHAR  pAddr
+    IN      Pu8  pAddr
 );
 
 VOID RemoveProtectionFrameSpace(
     IN struct rtmp_adapter *pAd,
-    IN      PUCHAR  pAddr
+    IN      Pu8  pAddr
 );
 
 VOID TDDFDDCoexBACapability(
     IN struct rtmp_adapter *pAd,
- 	UCHAR CoexMode );
+ 	u8 CoexMode );
 
 VOID SendAndesTFSWITCH(
 	IN struct rtmp_adapter *pAd,
-	IN UCHAR			CoexMode
+	IN u8 		CoexMode
 	);
 
 VOID CoexFDDRXAGCGain(
@@ -300,7 +300,7 @@ VOID CoexTDDRXAGCGain(IN struct rtmp_adapter *pAd);
 
 VOID SendAndesWLANStatus(
 	IN struct rtmp_adapter *pAd,
-	IN UCHAR			WlanStatus,
+	IN u8 		WlanStatus,
 	IN ULONG			PrivilegeTime,
 	IN ULONG                     BssHashID
 	);
@@ -310,16 +310,16 @@ VOID InitBTCoexistence(
 
 VOID SendAndesAFH(
 	IN struct rtmp_adapter *pAd,
-	IN UCHAR			BBPCurrentBW,
-	IN UCHAR			Channel,
-	IN UCHAR			CentralChannel,
+	IN u8 		BBPCurrentBW,
+	IN u8 		Channel,
+	IN u8 		CentralChannel,
 	IN bool			Disable,
 	IN ULONG                     BssHashID);
 
 
 VOID MLMEHook(
 	IN struct rtmp_adapter *pAd,
-	IN UCHAR		WlanStatus,
+	IN u8 	WlanStatus,
 	IN ULONG              BssHashID
 	);
 
@@ -329,12 +329,12 @@ VOID CoexistencePeriodicRoutine(
 
 VOID COEXLinkDown(
 	IN struct rtmp_adapter *pAd,
-	PUCHAR  pAddr
+	Pu8  pAddr
 );
 
 ULONG QueryHashID(
 	IN struct rtmp_adapter *pAd,
-	PUCHAR pAddr,
+	Pu8 pAddr,
 	bool RemoveBSS);
 
 VOID CoexParseBTStatus(

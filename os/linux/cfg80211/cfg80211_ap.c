@@ -30,7 +30,7 @@
 
 static INT CFG80211DRV_UpdateTimIE(struct rtmp_adapter *pAd, UINT mbss_idx, u8 *pBeaconFrame, uint32_t tim_ie_pos)
 {
-	UCHAR  ID_1B, TimFirst, TimLast, *pTim, *ptr, New_Tim_Len;
+	u8  ID_1B, TimFirst, TimLast, *pTim, *ptr, New_Tim_Len;
 	UINT  i;
 
 	ptr = pBeaconFrame + tim_ie_pos; /* TIM LOCATION */
@@ -46,7 +46,7 @@ static INT CFG80211DRV_UpdateTimIE(struct rtmp_adapter *pAd, UINT mbss_idx, u8 *
 	for(ID_1B=0; ID_1B < WLAN_MAX_NUM_OF_TIM; ID_1B++)
 	{
 		/* get the TIM indicating PS packets for 8 stations */
-		UCHAR tim_1B = pTim[ID_1B];
+		u8 tim_1B = pTim[ID_1B];
 
 		if (ID_1B == 0)
 			tim_1B &= 0xfe; /* skip bit0 bc/mc */
@@ -85,17 +85,17 @@ static void CFG80211DRV_UpdateApSettingFromBeacon(struct rtmp_adapter *pAd, UINT
 	PMULTISSID_STRUCT pMbss = &pAd->ApCfg.MBSSID[mbss_idx];
 	struct rtmp_wifi_dev *wdev = &pMbss->wdev;
 
-	const UCHAR *ssid_ie = NULL, *wpa_ie = NULL, *rsn_ie = NULL;
+	const u8 *ssid_ie = NULL, *wpa_ie = NULL, *rsn_ie = NULL;
 	const UINT WFA_OUI = 0x0050F2;
-	const UCHAR WMM_OUI_TYPE = 0x2;
-	UCHAR *wmm_ie = NULL;
+	const u8 WMM_OUI_TYPE = 0x2;
+	u8 *wmm_ie = NULL;
 
-	const UCHAR *supp_rates_ie = NULL;
-	const UCHAR *ext_supp_rates_ie = NULL, *ht_cap = NULL, *ht_info = NULL;
+	const u8 *supp_rates_ie = NULL;
+	const u8 *ext_supp_rates_ie = NULL, *ht_cap = NULL, *ht_info = NULL;
 
-	const UCHAR CFG_HT_OP_EID = WLAN_EID_HT_OPERATION;
+	const u8 CFG_HT_OP_EID = WLAN_EID_HT_OPERATION;
 
-	const UCHAR CFG_WPA_EID = WLAN_EID_VENDOR_SPECIFIC;
+	const u8 CFG_WPA_EID = WLAN_EID_VENDOR_SPECIFIC;
 
 	ssid_ie = cfg80211_find_ie(WLAN_EID_SSID, pBeacon->beacon_head+36, pBeacon->beacon_head_len-36);
 	supp_rates_ie = cfg80211_find_ie(WLAN_EID_SUPP_RATES, pBeacon->beacon_head+36, pBeacon->beacon_head_len-36);
@@ -203,9 +203,9 @@ VOID CFG80211DRV_DisableApInterface(struct rtmp_adapter *pAd)
 
 VOID CFG80211_UpdateBeacon(
 	struct rtmp_adapter                                *pAd,
-	UCHAR 										    *beacon_head_buf,
+	u8 										    *beacon_head_buf,
 	uint32_t 										beacon_head_len,
-	UCHAR 										    *beacon_tail_buf,
+	u8 										    *beacon_tail_buf,
 	uint32_t 										beacon_tail_len,
 	bool											isAllUpdate)
 {
@@ -213,7 +213,7 @@ VOID CFG80211_UpdateBeacon(
 	HTTRANSMIT_SETTING BeaconTransmit;   /* MGMT frame PHY rate setting when operatin at Ht rate. */
 	u8 *pBeaconFrame = (u8 *)pAd->ApCfg.MBSSID[MAIN_MBSSID].BeaconBuf;
 	TXWI_STRUC *pTxWI = &pAd->BeaconTxWI;
-	UCHAR New_Tim_Len;
+	u8 New_Tim_Len;
 	uint32_t beacon_len;
 
 	/* Invoke From CFG80211 OPS For setting Beacon buffer */
@@ -307,7 +307,7 @@ bool CFG80211DRV_OpsBeaconAdd(struct rtmp_adapter *pAd, VOID *pData)
 	INT i;
 	PMULTISSID_STRUCT pMbss = &pAd->ApCfg.MBSSID[MAIN_MBSSID];
 	struct rtmp_wifi_dev *wdev = &pMbss->wdev;
-	UCHAR num_idx;
+	u8 num_idx;
 
 	CFG80211DBG(RT_DEBUG_TRACE, ("80211> %s ==>\n", __FUNCTION__));
 #ifdef RTMP_MAC_USB
@@ -505,7 +505,7 @@ bool CFG80211DRV_ApKeyDel(
 		if (pEntry && (pEntry->Aid != 0))
 		{
 			memset(&pEntry->PairwiseKey, 0, sizeof(CIPHER_KEY));
-			AsicRemovePairwiseKeyEntry(pAd, (UCHAR)pEntry->Aid);
+			AsicRemovePairwiseKeyEntry(pAd, (u8)pEntry->Aid);
 		}
 	}
 
@@ -580,7 +580,7 @@ bool CFG80211DRV_ApKeyAdd(struct rtmp_adapter *pAd, void *pData)
 	    pKeyInfo->KeyType == RT_CMD_80211_KEY_WEP104) {
 		pWdev->WepStatus = Ndis802_11WEPEnabled;
 		{
-			UCHAR CipherAlg;
+			u8 CipherAlg;
 			CIPHER_KEY	*pSharedKey;
 			struct os_cookie *pObj;
 
@@ -631,7 +631,7 @@ bool CFG80211DRV_ApKeyAdd(struct rtmp_adapter *pAd, void *pData)
 					memmove(pEntry->PairwiseKey.Key, &pEntry->PTK[OFFSET_OF_PTK_TK], pKeyInfo->KeyLen);
 					pEntry->PairwiseKey.CipherAlg = CIPHER_AES;
 
-					AsicAddPairwiseKeyEntry(pAd, (UCHAR)pEntry->Aid, &pEntry->PairwiseKey);
+					AsicAddPairwiseKeyEntry(pAd, (u8)pEntry->Aid, &pEntry->PairwiseKey);
 					RTMPSetWcidSecurityInfo(pAd, pEntry->apidx, (UINT8)(pKeyInfo->KeyId & 0x0fff),
 						pEntry->PairwiseKey.CipherAlg, pEntry->Aid, PAIRWISEKEYTABLE);
 
@@ -673,7 +673,7 @@ bool CFG80211DRV_ApKeyAdd(struct rtmp_adapter *pAd, void *pData)
 					memmove(pEntry->PairwiseKey.Key, &pEntry->PTK[OFFSET_OF_PTK_TK], pKeyInfo->KeyLen);
 					pEntry->PairwiseKey.CipherAlg = CIPHER_TKIP;
 
-					AsicAddPairwiseKeyEntry(pAd, (UCHAR)pEntry->Aid, &pEntry->PairwiseKey);
+					AsicAddPairwiseKeyEntry(pAd, (u8)pEntry->Aid, &pEntry->PairwiseKey);
 					RTMPSetWcidSecurityInfo(pAd, pEntry->apidx, (UINT8)(pKeyInfo->KeyId & 0x0fff),
 						pEntry->PairwiseKey.CipherAlg, pEntry->Aid, PAIRWISEKEYTABLE);
 
@@ -692,7 +692,7 @@ bool CFG80211DRV_ApKeyAdd(struct rtmp_adapter *pAd, void *pData)
 
 INT CFG80211_StaPortSecured(
 	IN struct rtmp_adapter                          *pAd,
-	IN UCHAR 					*pMac,
+	IN u8 					*pMac,
 	IN UINT						flag)
 {
 	MAC_TABLE_ENTRY *pEntry;
@@ -724,7 +724,7 @@ INT CFG80211_StaPortSecured(
 
 void CFG80211_ApStaDel(
 	IN struct rtmp_adapter                          *pAd,
-	IN UCHAR                                        *pMac)
+	IN u8                                        *pMac)
 {
 	MAC_TABLE_ENTRY *pEntry;
 

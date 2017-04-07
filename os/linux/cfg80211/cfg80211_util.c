@@ -29,7 +29,7 @@
 #include "rt_os_util.h"
 
 /* all available channels */
-UCHAR Cfg80211_Chan[] = {
+u8 Cfg80211_Chan[] = {
 	1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
 
 	/* 802.11 UNI / HyperLan 2 */
@@ -45,7 +45,7 @@ UCHAR Cfg80211_Chan[] = {
 	184, 188, 192, 196, 208, 212, 216,
 };
 
-UCHAR Cfg80211_RadarChan[] = {
+u8 Cfg80211_RadarChan[] = {
 	52, 54, 56, 60, 62, 64, 100, 104,
 };
 
@@ -141,7 +141,7 @@ static const uint32_t CipherSuites[] = {
 #endif /* DOT11W_PMF_SUPPORT */
 };
 
-static bool IsRadarChannel(UCHAR ch)
+static bool IsRadarChannel(u8 ch)
 {
 	UINT idx = 0;
 	for (idx = 0; idx<sizeof(Cfg80211_RadarChan); idx++)
@@ -554,7 +554,7 @@ Note:
 */
 VOID CFG80211OS_RegHint(
 	IN VOID *pCB,
-	IN UCHAR *pCountryIe,
+	IN u8 *pCountryIe,
 	IN ULONG CountryIeLen)
 {
 	CFG80211_CB *pCfg80211_CB = (CFG80211_CB *)pCB;
@@ -594,7 +594,7 @@ Note:
 */
 VOID CFG80211OS_RegHint11D(
 	IN VOID *pCB,
-	IN UCHAR *pCountryIe,
+	IN u8 *pCountryIe,
 	IN ULONG CountryIeLen)
 {
 	/* no regulatory_hint_11d() in 2.6.32 */
@@ -714,8 +714,8 @@ Note:
 bool CFG80211OS_ChanInfoInit(
 	IN VOID						*pCB,
 	IN uint32_t 				InfoIndex,
-	IN UCHAR					ChanId,
-	IN UCHAR					MaxTxPwr,
+	IN u8 				ChanId,
+	IN u8 				MaxTxPwr,
 	IN bool					FlgIsNMode,
 	IN bool					FlgIsBW20M)
 {
@@ -762,7 +762,7 @@ Note:
 VOID CFG80211OS_Scaning(
 	IN VOID						*pCB,
 	IN uint32_t 				ChanId,
-	IN UCHAR					*pFrame,
+	IN u8 				*pFrame,
 	IN uint32_t 				FrameLen,
 	IN int32_t 				RSSI,
 	IN bool					FlgIsNMode,
@@ -909,12 +909,12 @@ Note:
 */
 void CFG80211OS_ConnectResultInform(
 	IN VOID *pCB,
-	IN UCHAR *pBSSID,
-	IN UCHAR *pReqIe,
+	IN u8 *pBSSID,
+	IN u8 *pReqIe,
 	IN uint32_t ReqIeLen,
-	IN UCHAR *pRspIe,
+	IN u8 *pRspIe,
 	IN uint32_t RspIeLen,
-	IN UCHAR FlgIsSuccess)
+	IN u8 FlgIsSuccess)
 {
 	CFG80211_CB *pCfg80211_CB = (CFG80211_CB *)pCB;
 
@@ -946,12 +946,12 @@ void CFG80211OS_ConnectResultInform(
 /* CFG_TODO: should be merge totoger */
 void CFG80211OS_P2pClientConnectResultInform(
 	IN struct net_device *				pNetDev,
-	IN UCHAR					*pBSSID,
-	IN UCHAR					*pReqIe,
+	IN u8 				*pBSSID,
+	IN u8 				*pReqIe,
 	IN uint32_t 				ReqIeLen,
-	IN UCHAR					*pRspIe,
+	IN u8 				*pRspIe,
 	IN uint32_t 				RspIeLen,
-	IN UCHAR					FlgIsSuccess)
+	IN u8 				FlgIsSuccess)
 {
 	if ((pNetDev == NULL) || (pBSSID == NULL))
 		return;
@@ -1027,9 +1027,9 @@ VOID CFG80211OS_MICFailReport(struct net_device *pNetDev, const u8 *src_addr, bo
 }
 
 VOID CFG80211OS_Roamed(
-	struct net_device *pNetDev, IN UCHAR *pBSSID,
-	IN UCHAR *pReqIe, IN uint32_t ReqIeLen,
-	IN UCHAR *pRspIe, IN uint32_t RspIeLen)
+	struct net_device *pNetDev, IN u8 *pBSSID,
+	IN u8 *pReqIe, IN uint32_t ReqIeLen,
+	IN u8 *pRspIe, IN uint32_t RspIeLen)
 {
 	cfg80211_roamed(pNetDev,
 		NULL,

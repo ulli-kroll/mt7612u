@@ -55,13 +55,13 @@ VOID MlmeSetMcsGroup(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 	MlmeSelectUpRate - select UpRate based on MCS group
 	returns the UpRate index and updates the MCS group
 */
-UCHAR MlmeSelectUpRate(
+u8 MlmeSelectUpRate(
 	IN struct rtmp_adapter *pAd,
 	IN MAC_TABLE_ENTRY *pEntry,
 	IN RTMP_RA_GRP_TB *pCurrTxRate)
 {
-	UCHAR UpRateIdx = 0;
-	UCHAR grp_cnt;
+	u8 UpRateIdx = 0;
+	u8 grp_cnt;
 
 	if ((pEntry->pTable == RateTableVht2S) || (pEntry->pTable == RateTableVht2S_BW20)
 					|| (pEntry->pTable == RateTableVht2S_BW40) || (pEntry->pTable == RateTableVht2S_MCS7)
@@ -218,12 +218,12 @@ UCHAR MlmeSelectUpRate(
 		CurrRateIdx - current rate index
 		returns the DownRate index. Down Rate = CurrRateIdx if there is no valid Down Rate
 */
-UCHAR MlmeSelectDownRate(
+u8 MlmeSelectDownRate(
 	IN struct rtmp_adapter *pAd,
 	IN PMAC_TABLE_ENTRY	pEntry,
-	IN UCHAR CurrRateIdx)
+	IN u8 CurrRateIdx)
 {
-	UCHAR DownRateIdx = PTX_RA_GRP_ENTRY(pEntry->pTable, CurrRateIdx)->downMcs;
+	u8 DownRateIdx = PTX_RA_GRP_ENTRY(pEntry->pTable, CurrRateIdx)->downMcs;
 	RTMP_RA_GRP_TB *pDownRate;
 
 	/*  Loop until a valid down rate is found */
@@ -295,12 +295,12 @@ UCHAR MlmeSelectDownRate(
 VOID MlmeGetSupportedMcsAdapt(
 	IN struct rtmp_adapter *pAd,
 	IN PMAC_TABLE_ENTRY pEntry,
-	IN UCHAR mcs23GI,
+	IN u8 mcs23GI,
 	OUT CHAR mcs[])
 {
 	CHAR idx;
 	RTMP_RA_GRP_TB *pCurrTxRate;
-	UCHAR *pTable = pEntry->pTable;
+	u8 *pTable = pEntry->pTable;
 
 	for (idx=0; idx<24; idx++)
 		mcs[idx] = -1;
@@ -460,9 +460,9 @@ VOID MlmeGetSupportedMcsAdapt(
 }
 
 
-UCHAR get_rate_idx_by_rate(struct rtmp_adapter *pAd, UCHAR *rate_tb,  USHORT rate)
+u8 get_rate_idx_by_rate(struct rtmp_adapter *pAd, u8 *rate_tb,  USHORT rate)
 {
-	UCHAR mode, mcs, tb_idx = 0;
+	u8 mode, mcs, tb_idx = 0;
 
 	mode = (rate & 0xff00) >> 8;
 	mcs = (rate & 0xff);
@@ -525,7 +525,7 @@ bool QuickInitMCSRate(
 	    IN PMAC_TABLE_ENTRY	pEntry)
 {
 	u8 *				pTable;
-	UCHAR					CurrRateIdx;
+	u8 				CurrRateIdx;
 	RTMP_RA_GRP_TB          *pCurrTxRate;
 
     if(pEntry->LowPacket == true)
@@ -606,15 +606,15 @@ bool QuickInitMCSRate(
 		Rssi - the Rssi value
 		RssiOffset - offset to apply to the Rssi
 */
-UCHAR MlmeSelectTxRateAdapt(
+u8 MlmeSelectTxRateAdapt(
 	IN struct rtmp_adapter *pAd,
 	IN PMAC_TABLE_ENTRY	pEntry,
 	IN CHAR		mcs[],
 	IN CHAR		Rssi,
 	IN CHAR		RssiOffset)
 {
-	UCHAR TxRateIdx = 0;
-	UCHAR *pTable = pEntry->pTable;
+	u8 TxRateIdx = 0;
+	u8 *pTable = pEntry->pTable;
 
 #ifdef DBG_CTRL_SUPPORT
 	/*  Debug option: Add 6 dB of margin */
@@ -1049,8 +1049,8 @@ bool MlmeRAHybridRule(
 VOID MlmeNewRateAdapt(
 	IN struct rtmp_adapter *	pAd,
 	IN PMAC_TABLE_ENTRY	pEntry,
-	IN UCHAR			UpRateIdx,
-	IN UCHAR			DownRateIdx,
+	IN u8 		UpRateIdx,
+	IN u8 		DownRateIdx,
 	IN ULONG			TrainUp,
 	IN ULONG			TrainDown,
 	IN ULONG			TxErrorRatio)
@@ -1058,8 +1058,8 @@ VOID MlmeNewRateAdapt(
 	USHORT		phyRateLimit20 = 0;
 	bool		bTrainUp = false;
 	bool 	invertTxBf = false;
-	UCHAR *pTable = pEntry->pTable;
-	UCHAR CurrRateIdx = pEntry->CurrTxRateIndex;
+	u8 *pTable = pEntry->pTable;
+	u8 CurrRateIdx = pEntry->CurrTxRateIndex;
 	RTMP_RA_GRP_TB *pCurrTxRate = PTX_RA_GRP_ENTRY(pTable, CurrRateIdx);
 
 	pEntry->CurrTxRateStableTime++;
@@ -1354,12 +1354,12 @@ VOID APQuickResponeForRateUpExecAdapt(/* actually for both up and down */
     IN UINT idx)
 {
 	u8 *				pTable;
-	UCHAR					CurrRateIdx;
+	u8 				CurrRateIdx;
 	ULONG					AccuTxTotalCnt, TxTotalCnt, TxCnt;
 	ULONG					TxErrorRatio = 0;
 	MAC_TABLE_ENTRY			*pEntry;
 	RTMP_RA_GRP_TB *pCurrTxRate;
-	UCHAR					TrainUp, TrainDown;
+	u8 				TrainUp, TrainDown;
 	CHAR					Rssi, ratio;
 	ULONG					TxSuccess, TxRetransmit, TxFailCount;
 	ULONG					OneSecTxNoRetryOKRationCount;
@@ -1508,7 +1508,7 @@ VOID APQuickResponeForRateUpExecAdapt(/* actually for both up and down */
 	if (TxErrorRatio >= TrainDown)
 		MlmeSetTxQuality(pEntry, CurrRateIdx, DRS_TX_QUALITY_WORST_BOUND);
 
-	pEntry->PER[CurrRateIdx] = (UCHAR)TxErrorRatio;
+	pEntry->PER[CurrRateIdx] = (u8)TxErrorRatio;
 
 
 	/*  Perform DRS - consider TxRate Down first, then rate up. */
@@ -1596,7 +1596,7 @@ VOID APQuickResponeForRateUpExecAdapt(/* actually for both up and down */
 	/*  Update mcsGroup */
 	if (pEntry->LastSecTxRateChangeAction == RATE_UP)
 	{
-		UCHAR UpRateIdx;
+		u8 UpRateIdx;
 
 		/*  If RATE_UP failed look for the next group with valid mcs */
 		if (pEntry->CurrTxRateIndex != CurrRateIdx && pEntry->mcsGroup > 0)
@@ -1659,7 +1659,7 @@ VOID APQuickResponeForRateUpExecAdapt(/* actually for both up and down */
 VOID APMlmeDynamicTxRateSwitchingAdapt(struct rtmp_adapter *pAd, UINT i)
 {
 	u8 *pTable;
-	UCHAR UpRateIdx, DownRateIdx, CurrRateIdx, TrainUp, TrainDown;
+	u8 UpRateIdx, DownRateIdx, CurrRateIdx, TrainUp, TrainDown;
 	ULONG TxTotalCnt, TxSuccess, TxRetransmit, TxFailCount, TxErrorRatio;
 	MAC_TABLE_ENTRY *pEntry;
 	RTMP_RA_GRP_TB *pCurrTxRate;
@@ -1720,7 +1720,7 @@ VOID APMlmeDynamicTxRateSwitchingAdapt(struct rtmp_adapter *pAd, UINT i)
 
 	/*  Save LastTxOkCount, LastTxPER and last MCS action for APQuickResponeForRateUpExec */
 	pEntry->LastTxOkCount = TxSuccess;
-	pEntry->LastTxPER = (UCHAR)TxErrorRatio;
+	pEntry->LastTxPER = (u8)TxErrorRatio;
 	pEntry->LastTimeTxRateChangeAction = pEntry->LastSecTxRateChangeAction;
 
 	/* different calculation in APQuickResponeForRateUpExec() */
@@ -1772,7 +1772,7 @@ VOID APMlmeDynamicTxRateSwitchingAdapt(struct rtmp_adapter *pAd, UINT i)
 		pEntry->lowTrafficCount++;
 		if (pEntry->lowTrafficCount >= pAd->CommonCfg.lowTrafficThrd)
 		{
-			UCHAR TxRateIdx;
+			u8 TxRateIdx;
 			CHAR mcs[24];
 			CHAR RssiOffset = 0;
 
@@ -1850,7 +1850,7 @@ VOID APMlmeDynamicTxRateSwitchingAdapt(struct rtmp_adapter *pAd, UINT i)
 		return;
 	}
 
-	pEntry->PER[CurrRateIdx] = (UCHAR)TxErrorRatio;
+	pEntry->PER[CurrRateIdx] = (u8)TxErrorRatio;
 
 	/* Select rate based on PER */
 	MlmeNewRateAdapt(pAd, pEntry, UpRateIdx, DownRateIdx, TrainUp, TrainDown, TxErrorRatio);
@@ -1872,12 +1872,12 @@ VOID StaQuickResponeForRateUpExecAdapt(
 	IN CHAR  Rssi)
 {
 	u8 *				pTable;
-	UCHAR					CurrRateIdx;
+	u8 				CurrRateIdx;
 	ULONG					TxTotalCnt;
 	ULONG					TxErrorRatio = 0;
 	PMAC_TABLE_ENTRY		pEntry;
 	RTMP_RA_GRP_TB *pCurrTxRate;
-	UCHAR					TrainUp, TrainDown;
+	u8 				TrainUp, TrainDown;
 	CHAR					ratio;
 	ULONG					TxSuccess, TxRetransmit, TxFailCount;
 	ULONG					OneSecTxNoRetryOKRationCount;
@@ -1977,7 +1977,7 @@ VOID StaQuickResponeForRateUpExecAdapt(
 		MlmeSetTxQuality(pEntry, CurrRateIdx, DRS_TX_QUALITY_WORST_BOUND); /* the only situation when pEntry->TxQuality[CurrRateIdx] = DRS_TX_QUALITY_WORST_BOUND but no rate change */
 	}
 
-	pEntry->PER[CurrRateIdx] = (UCHAR)TxErrorRatio;
+	pEntry->PER[CurrRateIdx] = (u8)TxErrorRatio;
 
 	/* Perform DRS - consider TxRate Down first, then rate up. */
 	if (pEntry->LastSecTxRateChangeAction == RATE_UP)
@@ -2061,7 +2061,7 @@ VOID StaQuickResponeForRateUpExecAdapt(
 	/* Update mcsGroup */
 	if (pEntry->LastSecTxRateChangeAction == RATE_UP)
 	{
-		UCHAR UpRateIdx;
+		u8 UpRateIdx;
 
 		/* If RATE_UP failed look for the next group with valid mcs */
 		if (pEntry->CurrTxRateIndex != CurrRateIdx && pEntry->mcsGroup > 0)
@@ -2115,12 +2115,12 @@ VOID MlmeDynamicTxRateSwitchingAdapt(
 	IN ULONG TxFailCount)
 {
 	u8 *		  pTable;
-	UCHAR			  UpRateIdx, DownRateIdx, CurrRateIdx;
+	u8 		  UpRateIdx, DownRateIdx, CurrRateIdx;
 	ULONG			  TxTotalCnt;
 	ULONG			  TxErrorRatio = 0;
 	MAC_TABLE_ENTRY	  *pEntry;
 	RTMP_RA_GRP_TB *pCurrTxRate;
-	UCHAR			  TrainUp, TrainDown;
+	u8 		  TrainUp, TrainDown;
 	CHAR			  Rssi;
 
 	pEntry = &pAd->MacTab.Content[i];
@@ -2176,7 +2176,7 @@ VOID MlmeDynamicTxRateSwitchingAdapt(
 
 	/* Save LastTxOkCount, LastTxPER and last MCS action for StaQuickResponeForRateUpExec */
 	pEntry->LastTxOkCount = TxSuccess;
-	pEntry->LastTxPER = (UCHAR)TxErrorRatio;
+	pEntry->LastTxPER = (u8)TxErrorRatio;
 	pEntry->LastTimeTxRateChangeAction = pEntry->LastSecTxRateChangeAction;
 
 	/* decide the next upgrade rate and downgrade rate, if any */
@@ -2219,7 +2219,7 @@ VOID MlmeDynamicTxRateSwitchingAdapt(
 
 		if (pEntry->lowTrafficCount >= pAd->CommonCfg.lowTrafficThrd)
 		{
-			UCHAR	TxRateIdx;
+			u8 TxRateIdx;
 			CHAR	mcs[24];
 			CHAR	RssiOffset = 0;
 
@@ -2336,7 +2336,7 @@ VOID MlmeDynamicTxRateSwitchingAdapt(
 		return;
 	}
 
-	pEntry->PER[CurrRateIdx] = (UCHAR)TxErrorRatio;
+	pEntry->PER[CurrRateIdx] = (u8)TxErrorRatio;
 
 	/* Select rate based on PER */
 	MlmeNewRateAdapt(pAd, pEntry, UpRateIdx, DownRateIdx, TrainUp, TrainDown, TxErrorRatio);
@@ -2403,11 +2403,11 @@ VOID MlmeDynamicTxRateSwitchingAdapt(
 */
 INT Set_RateTable_Proc(struct rtmp_adapter *pAd, char *arg)
 {
-	UCHAR *pTable, TableSize, InitTxRateIdx;
+	u8 *pTable, TableSize, InitTxRateIdx;
 	int i;
 	MAC_TABLE_ENTRY *pEntry;
 	int itemNo, rtIndex, value;
-	UCHAR *pRateEntry;
+	u8 *pRateEntry;
 
 	/* Find first Associated STA in MAC table */
 	for (i=1; i<MAX_LEN_OF_MAC_TABLE; i++)
@@ -2433,10 +2433,10 @@ INT Set_RateTable_Proc(struct rtmp_adapter *pAd, char *arg)
 
 #ifdef NEW_RATE_ADAPT_SUPPORT
 	if (ADAPT_RATE_TABLE(pTable))
-		pRateEntry = (UCHAR *)PTX_RA_GRP_ENTRY(pTable, itemNo);
+		pRateEntry = (u8 *)PTX_RA_GRP_ENTRY(pTable, itemNo);
 	else
 #endif /* NEW_RATE_ADAPT_SUPPORT */
-		pRateEntry = (UCHAR *)PTX_RA_LEGACY_ENTRY(pTable, itemNo);
+		pRateEntry = (u8 *)PTX_RA_LEGACY_ENTRY(pTable, itemNo);
 
 	/* If no addtional parameters then print the entry */
 	if (*arg != ':') {
@@ -2471,7 +2471,7 @@ INT	Set_PerThrdAdj_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg)
 {
-	UCHAR i;
+	u8 i;
 	for (i=0; i<MAX_LEN_OF_MAC_TABLE; i++){
 		pAd->MacTab.Content[i].perThrdAdj = simple_strtol(arg, 0, 10);
 	}

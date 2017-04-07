@@ -32,19 +32,19 @@
 
 bool RTMPCheckChannel(
 	IN struct rtmp_adapter *pAd,
-	IN UCHAR		CentralChannel,
-	IN UCHAR		Channel);
+	IN u8 	CentralChannel,
+	IN u8 	Channel);
 
 VOID InitChannelRelatedValue(
 	IN  struct rtmp_adapter *  pAd);
 
 VOID AdjustChannelRelatedValue(
 	IN struct rtmp_adapter *pAd,
-	OUT UCHAR *pBwFallBack,
+	OUT u8 *pBwFallBack,
 	IN USHORT ifIndex,
 	IN bool BandWidth,
-	IN UCHAR PriCh,
-	IN UCHAR ExtraCh);
+	IN u8 PriCh,
+	IN u8 ExtraCh);
 
 VOID RTMPReportMicError(
 	IN  struct rtmp_adapter *  pAd,
@@ -83,12 +83,12 @@ VOID STARxEAPOLFrameIndicate(
 	IN	struct rtmp_adapter *pAd,
 	IN	MAC_TABLE_ENTRY	*pEntry,
 	IN	RX_BLK			*pRxBlk,
-	IN	UCHAR			FromWhichBSSID);
+	IN	u8 		FromWhichBSSID);
 
 int STAHardTransmit(
 	IN struct rtmp_adapter *pAd,
 	IN TX_BLK			*pTxBlk,
-	IN  UCHAR			QueIdx);
+	IN  u8 		QueIdx);
 
 INT STASendPacket(
 	IN struct rtmp_adapter *pAd,

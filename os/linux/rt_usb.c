@@ -151,7 +151,7 @@ static void rtusb_dataout_complete(unsigned long data)
 	purbb_t				pUrb;
 	struct os_cookie *		pObj;
 	PHT_TX_CONTEXT		pHTTXContext;
-	UCHAR				BulkOutPipeId;
+	u8 			BulkOutPipeId;
 	int 		Status;
 	unsigned long		IrqFlags;
 
@@ -524,7 +524,7 @@ static void rtusb_hcca_dma_done_tasklet(unsigned long data)
 {
 	struct rtmp_adapter *	pAd;
 	PHT_TX_CONTEXT		pHTTXContext;
-	UCHAR				BulkOutPipeId = 4;
+	u8 			BulkOutPipeId = 4;
 	purbb_t				pUrb;
 
 
@@ -573,7 +573,7 @@ static void rtusb_ac3_dma_done_tasklet(unsigned long data)
 {
 	struct rtmp_adapter *	pAd;
 	PHT_TX_CONTEXT		pHTTXContext;
-	UCHAR				BulkOutPipeId = 3;
+	u8 			BulkOutPipeId = 3;
 	purbb_t				pUrb;
 
 
@@ -618,7 +618,7 @@ static void rtusb_ac2_dma_done_tasklet(unsigned long data)
 {
 	struct rtmp_adapter *	pAd;
 	PHT_TX_CONTEXT		pHTTXContext;
-	UCHAR				BulkOutPipeId = 2;
+	u8 			BulkOutPipeId = 2;
 	purbb_t				pUrb;
 
 
@@ -663,7 +663,7 @@ static void rtusb_ac1_dma_done_tasklet(unsigned long data)
 {
 	struct rtmp_adapter *	pAd;
 	PHT_TX_CONTEXT		pHTTXContext;
-	UCHAR				BulkOutPipeId = 1;
+	u8 			BulkOutPipeId = 1;
 	purbb_t				pUrb;
 
 
@@ -707,7 +707,7 @@ static void rtusb_ac0_dma_done_tasklet(unsigned long data)
 {
 	struct rtmp_adapter *	pAd;
 	PHT_TX_CONTEXT		pHTTXContext;
-	UCHAR				BulkOutPipeId = 0;
+	u8 			BulkOutPipeId = 0;
 	purbb_t				pUrb;
 
 

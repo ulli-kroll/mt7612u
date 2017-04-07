@@ -51,7 +51,7 @@ INT rtmp_get_rxwi_rssi(RXWI_STRUC *rxwi, INT size, CHAR *rssi)
 }
 
 
-INT rtmp_get_rxwi_snr(RXWI_STRUC *rxwi, INT size, UCHAR *snr)
+INT rtmp_get_rxwi_snr(RXWI_STRUC *rxwi, INT size, u8 *snr)
 {
 	struct _RXWI_OMAC *rxwi_o = (struct _RXWI_OMAC *)rxwi;
 
@@ -71,7 +71,7 @@ INT rtmp_get_rxwi_snr(RXWI_STRUC *rxwi, INT size, UCHAR *snr)
 
 
 
-static UCHAR *txwi_txop_str[]={"HT_TXOP", "PIFS", "SIFS", "BACKOFF", "Invalid"};
+static u8 *txwi_txop_str[]={"HT_TXOP", "PIFS", "SIFS", "BACKOFF", "Invalid"};
 #define TXWI_TXOP_STR(_x)	((_x) <= 3 ? txwi_txop_str[(_x)]: txwi_txop_str[4])
 VOID dump_rtmp_txwi(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI)
 {

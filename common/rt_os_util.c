@@ -139,7 +139,7 @@ VOID WpaSendMicFailureToWpaSupplicant(
 #ifdef NATIVE_WPA_SUPPLICANT_SUPPORT
 int wext_notify_event_assoc(
 	IN struct net_device *pNetDev,
-	IN UCHAR *ReqVarIEs,
+	IN u8 *ReqVarIEs,
 	IN uint32_t ReqVarIELen)
 {
 	char custom[IW_CUSTOM_MAX] = {0};
@@ -149,7 +149,7 @@ int wext_notify_event_assoc(
 	{
 		memmove(custom, ReqVarIEs, ReqVarIELen);
 		RtmpOSWrielessEventSend(pNetDev, RT_WLAN_EVENT_ASSOC_REQ_IE, -1, NULL,
-								(UCHAR *)custom, ReqVarIELen);
+								(u8 *)custom, ReqVarIELen);
 	}
 	else
 	    DBGPRINT(RT_DEBUG_TRACE, ("pAd->StaCfg.ReqVarIELen > MAX_CUSTOM_LEN\n"));
@@ -159,7 +159,7 @@ int wext_notify_event_assoc(
 	len = (ReqVarIELen*2) + 17;
 	if (len <= IW_CUSTOM_MAX)
 	{
-		UCHAR   idx;
+		u8   idx;
 		snprintf(custom, sizeof(custom), "ASSOCINFO(ReqIEs=");
 		for (idx=0; idx<ReqVarIELen; idx++)
 		        sprintf(custom, "%s%02x", custom, ReqVarIEs[idx]);
@@ -179,7 +179,7 @@ int wext_notify_event_assoc(
 #ifndef NATIVE_WPA_SUPPLICANT_SUPPORT
 VOID SendAssocIEsToWpaSupplicant(
 	IN struct net_device *pNetDev,
-	IN UCHAR *ReqVarIEs,
+	IN u8 *ReqVarIEs,
 	IN uint32_t ReqVarIELen)
 {
 	STRING custom[IW_CUSTOM_MAX] = {0};

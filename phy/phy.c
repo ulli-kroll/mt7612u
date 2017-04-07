@@ -85,7 +85,7 @@ INT bbp_get_agc(struct rtmp_adapter *pAd, CHAR *agc, RX_CHAIN_IDX chain)
 }
 
 
-INT bbp_set_agc(struct rtmp_adapter *pAd, UCHAR agc, RX_CHAIN_IDX chain)
+INT bbp_set_agc(struct rtmp_adapter *pAd, u8 agc, RX_CHAIN_IDX chain)
 {
 	if (pAd->phy_op && pAd->phy_op->bbp_set_agc)
 		return pAd->phy_op->bbp_set_agc(pAd, agc, chain);
@@ -94,7 +94,7 @@ INT bbp_set_agc(struct rtmp_adapter *pAd, UCHAR agc, RX_CHAIN_IDX chain)
 }
 
 
-INT filter_coefficient_ctrl(struct rtmp_adapter *pAd, UCHAR Channel)
+INT filter_coefficient_ctrl(struct rtmp_adapter *pAd, u8 Channel)
 {
 	if (pAd->phy_op && pAd->phy_op->filter_coefficient_ctrl)
 		return pAd->phy_op->filter_coefficient_ctrl(pAd, Channel);
@@ -103,7 +103,7 @@ INT filter_coefficient_ctrl(struct rtmp_adapter *pAd, UCHAR Channel)
 }
 
 
-UCHAR get_random_seed_by_phy(struct rtmp_adapter *pAd)
+u8 get_random_seed_by_phy(struct rtmp_adapter *pAd)
 {
 	if (pAd->phy_op && pAd->phy_op->get_random_seed_by_phy)
 		return pAd->phy_op->get_random_seed_by_phy(pAd);

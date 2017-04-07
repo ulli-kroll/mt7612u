@@ -8,8 +8,8 @@ VOID	NfcParseRspCommand(
 
 VOID	NfcCommand(
 	IN	Pstruct rtmp_adapter pAd,
-	IN	UCHAR Action,
-	IN  UCHAR Type,
+	IN	u8 Action,
+	IN  u8 Type,
 	IN  SHORT DataLen,
 	IN  u8 *pData);
 
@@ -20,14 +20,14 @@ VOID	NfcGenRandomPasswd(
 INT 	NfcBuildWscProfileTLV(
 	IN	Pstruct rtmp_adapter pAd,
 	IN  PWSC_CTRL pWscCtrl,
-	OUT	UCHAR *pbuf,
+	OUT	u8 *pbuf,
 	OUT USHORT *pBufLen);
 
 INT 	NfcBuildOOBDevPasswdTLV(
 	IN	Pstruct rtmp_adapter pAd,
 	IN  PWSC_CTRL pWscCtrl,
-	IN	UCHAR	HandoverType,
-	OUT	UCHAR *pbuf,
+	IN	u8 HandoverType,
+	OUT	u8 *pbuf,
 	OUT USHORT *pBufLen);
 
 INT		Set_NfcStatus_Proc(

@@ -28,16 +28,16 @@
 
 #include "rt_config.h"
 
-extern UCHAR	CISCO_OUI[];
+extern u8 CISCO_OUI[];
 
-extern UCHAR	WPA_OUI[];
-extern UCHAR	RSN_OUI[];
-extern UCHAR	WME_INFO_ELEM[];
-extern UCHAR	WME_PARM_ELEM[];
-extern UCHAR	RALINK_OUI[];
+extern u8 WPA_OUI[];
+extern u8 RSN_OUI[];
+extern u8 WME_INFO_ELEM[];
+extern u8 WME_PARM_ELEM[];
+extern u8 RALINK_OUI[];
 
-extern UCHAR 	BROADCOM_OUI[];
-extern UCHAR    WPS_OUI[];
+extern u8 	BROADCOM_OUI[];
+extern u8    WPS_OUI[];
 
 /*
     ==========================================================================
@@ -58,9 +58,9 @@ bool PeerAssocReqCmmSanity(
     CHAR *Ptr;
     PFRAME_802_11	Fr = (PFRAME_802_11)Msg;
     PEID_STRUCT eid_ptr;
-    UCHAR Sanity = 0;
-    UCHAR WPA1_OUI[4] = { 0x00, 0x50, 0xF2, 0x01 };
-    UCHAR WPA2_OUI[3] = { 0x00, 0x0F, 0xAC };
+    u8 Sanity = 0;
+    u8 WPA1_OUI[4] = { 0x00, 0x50, 0xF2, 0x01 };
+    u8 WPA2_OUI[3] = { 0x00, 0x0F, 0xAC };
     MAC_TABLE_ENTRY *pEntry = (MAC_TABLE_ENTRY *)NULL;
 	HT_CAPABILITY_IE *pHtCapability = &ie_lists->HTCapability;
 
@@ -88,7 +88,7 @@ bool PeerAssocReqCmmSanity(
 
 
     /* get variable fields from payload and advance the pointer */
-    while (((UCHAR *)eid_ptr + eid_ptr->Len + 1) < ((UCHAR *)Fr + MsgLen))
+    while (((u8 *)eid_ptr + eid_ptr->Len + 1) < ((u8 *)Fr + MsgLen))
     {
         switch(eid_ptr->Eid)
         {
@@ -131,7 +131,7 @@ bool PeerAssocReqCmmSanity(
                 }
                 else
                 {
-					UCHAR RateDefault[8] = \
+					u8 RateDefault[8] = \
 							{ 0x82, 0x84, 0x8b, 0x96, 0x12, 0x24, 0x48, 0x6c };
 
                 	/* HT rate not ready yet. return true temporarily. rt2860c */
@@ -276,7 +276,7 @@ bool PeerAssocReqCmmSanity(
 
                 if (/*(eid_ptr->Len <= MAX_LEN_OF_RSNIE) &&*/ (eid_ptr->Len >= MIN_LEN_OF_RSNIE))
                 {
-					hex_dump("Received RSNIE in Assoc-Req", (UCHAR *)eid_ptr, eid_ptr->Len + 2);
+					hex_dump("Received RSNIE in Assoc-Req", (u8 *)eid_ptr, eid_ptr->Len + 2);
 
 					/* Copy whole RSNIE context */
                     memmove(&ie_lists->RSN_IE[0], eid_ptr, eid_ptr->Len + 2);
@@ -327,7 +327,7 @@ bool PeerAssocReqCmmSanity(
                 break;
         }
 
-        eid_ptr = (PEID_STRUCT)((UCHAR*)eid_ptr + 2 + eid_ptr->Len);
+        eid_ptr = (PEID_STRUCT)((u8 *)eid_ptr + 2 + eid_ptr->Len);
     }
 
 	if ((Sanity&0x3) != 0x03)

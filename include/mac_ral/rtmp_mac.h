@@ -2469,7 +2469,7 @@ struct rtmp_adapter;
 
 INT get_pkt_phymode_by_rxwi(struct rtmp_adapter *pAd, RXWI_STRUC *rxwi);
 INT get_pkt_rssi_by_rxwi(struct rtmp_adapter *pAd, RXWI_STRUC *rxwi, INT size, CHAR *rssi);
-INT get_pkt_snr_by_rxwi(struct rtmp_adapter *pAd, RXWI_STRUC *rxwi, INT size, UCHAR *snr);
+INT get_pkt_snr_by_rxwi(struct rtmp_adapter *pAd, RXWI_STRUC *rxwi, INT size, u8 *snr);
 
 INT rtmp_mac_set_band(struct rtmp_adapter *pAd, int  band);
 void mt7612u_mac_set_ctrlch(struct rtmp_adapter *pAd, u8 extch);

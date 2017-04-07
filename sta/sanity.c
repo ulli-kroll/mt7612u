@@ -27,14 +27,14 @@
 */
 #include "rt_config.h"
 
-extern UCHAR CISCO_OUI[];
+extern u8 CISCO_OUI[];
 
-extern UCHAR WPA_OUI[];
-extern UCHAR RSN_OUI[];
-extern UCHAR WME_INFO_ELEM[];
-extern UCHAR WME_PARM_ELEM[];
-extern UCHAR RALINK_OUI[];
-extern UCHAR BROADCOM_OUI[];
+extern u8 WPA_OUI[];
+extern u8 RSN_OUI[];
+extern u8 WME_INFO_ELEM[];
+extern u8 WME_PARM_ELEM[];
+extern u8 RALINK_OUI[];
+extern u8 BROADCOM_OUI[];
 
 /*
     ==========================================================================
@@ -49,7 +49,7 @@ bool MlmeStartReqSanity(
 	IN VOID *Msg,
 	IN ULONG MsgLen,
 	OUT CHAR Ssid[],
-	OUT UCHAR *pSsidLen)
+	OUT u8 *pSsidLen)
 {
 	MLME_START_REQ_STRUCT *Info;
 
@@ -86,18 +86,18 @@ bool PeerAssocRspSanity(
 	OUT USHORT *pCapabilityInfo,
 	OUT USHORT *pStatus,
 	OUT USHORT *pAid,
-	OUT UCHAR SupRate[],
-	OUT UCHAR *pSupRateLen,
-	OUT UCHAR ExtRate[],
-	OUT UCHAR *pExtRateLen,
+	OUT u8 SupRate[],
+	OUT u8 *pSupRateLen,
+	OUT u8 ExtRate[],
+	OUT u8 *pExtRateLen,
 	OUT HT_CAPABILITY_IE *pHtCapability,
 	OUT ADD_HT_INFO_IE *pAddHtInfo,	/* AP might use this additional ht info IE */
-	OUT UCHAR *pHtCapabilityLen,
-	OUT UCHAR *pAddHtInfoLen,
-	OUT UCHAR *pNewExtChannelOffset,
+	OUT u8 *pHtCapabilityLen,
+	OUT u8 *pAddHtInfoLen,
+	OUT u8 *pNewExtChannelOffset,
 	OUT PEDCA_PARM pEdcaParm,
 	OUT EXT_CAP_INFO_ELEMENT *pExtCapInfo,
-	OUT UCHAR *pCkipFlag,
+	OUT u8 *pCkipFlag,
 	OUT IE_LISTS *ie_list)
 {
 	CHAR IeType, *Ptr;
@@ -237,7 +237,7 @@ bool PeerAssocRspSanity(
 					    (pEid->Octet[6] & 0x80) ? 1 : 0;
 					ptr = (u8 *) & pEid->Octet[8];
 					for (i = 0; i < 4; i++) {
-						UCHAR aci = (*ptr & 0x60) >> 5;	/* b5~6 is AC INDEX */
+						u8 aci = (*ptr & 0x60) >> 5;	/* b5~6 is AC INDEX */
 						pEdcaParm->bACM[aci] = (((*ptr) & 0x10) == 0x10);	/* b5 is ACM */
 						pEdcaParm->Aifsn[aci] = (*ptr) & 0x0f;	/* b0~3 is AIFSN */
 						pEdcaParm->Cwmin[aci] = *(ptr + 1) & 0x0f;	/* b0~4 is Cwmin */
@@ -250,8 +250,8 @@ bool PeerAssocRspSanity(
 			case IE_EXT_CAPABILITY:
 				if (pEid->Len >= 1)
 				{
-					UCHAR MaxSize;
-					UCHAR MySize = sizeof(EXT_CAP_INFO_ELEMENT);
+					u8 MaxSize;
+					u8 MySize = sizeof(EXT_CAP_INFO_ELEMENT);
 
 					MaxSize = min(pEid->Len, MySize);
 					memmove(pExtCapInfo, &pEid->Octet[0], MaxSize);
@@ -264,7 +264,7 @@ bool PeerAssocRspSanity(
 		}
 
 		Length = Length + 2 + pEid->Len;
-		pEid = (PEID_STRUCT)((UCHAR*)pEid + 2 + pEid->Len);
+		pEid = (PEID_STRUCT)((u8 *)pEid + 2 + pEid->Len);
 	}
 
 
@@ -283,13 +283,13 @@ bool PeerAssocRspSanity(
 bool GetTimBit(
 	IN CHAR *Ptr,
 	IN USHORT Aid,
-	OUT UCHAR *TimLen,
-	OUT UCHAR *BcastFlag,
-	OUT UCHAR *DtimCount,
-	OUT UCHAR *DtimPeriod,
-	OUT UCHAR *MessageToMe)
+	OUT u8 *TimLen,
+	OUT u8 *BcastFlag,
+	OUT u8 *DtimCount,
+	OUT u8 *DtimPeriod,
+	OUT u8 *MessageToMe)
 {
-	UCHAR BitCntl, N1, N2, MyByte, MyBit;
+	u8 BitCntl, N1, N2, MyByte, MyBit;
 	CHAR *IdxPtr;
 
 	IdxPtr = Ptr;

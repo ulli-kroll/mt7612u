@@ -119,7 +119,7 @@ VOID wdev_tx_pkts(NDIS_HANDLE dev_hnd, struct sk_buff **pkt_list, UINT pkt_cnt, 
 	struct rtmp_adapter *pAd = (struct rtmp_adapter *)dev_hnd;
 	struct sk_buff *pPacket;
 	bool allowToSend;
-	UCHAR wcid = MCAST_WCID;
+	u8 wcid = MCAST_WCID;
 	UINT Index;
 
 

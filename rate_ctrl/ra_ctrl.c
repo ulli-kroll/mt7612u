@@ -16,7 +16,7 @@
 
 
 
-UCHAR RateSwitchTable11B[] = {
+u8 RateSwitchTable11B[] = {
 /* Item No.   Mode   Curr-MCS   TrainUp   TrainDown		 Mode- Bit0: STBC, Bit1: Short GI, Bit4~6: Mode(0:CCK, 1:OFDM, 2:HT Mix, 3:HT GF)*/
     0x04, 0x03,  0,  0,  0,						/* Initial used item after association*/
     0x00, 0x00,  0, 40, 101,
@@ -25,7 +25,7 @@ UCHAR RateSwitchTable11B[] = {
     0x03, 0x00,  3, 20, 45,
 };
 
-UCHAR RateSwitchTable11BG[] = {
+u8 RateSwitchTable11BG[] = {
 /* Item No.   Mode   Curr-MCS   TrainUp   TrainDown		 Mode- Bit0: STBC, Bit1: Short GI, Bit4~6: Mode(0:CCK, 1:OFDM, 2:HT Mix, 3:HT GF)*/
     0x0a, 0x00,  0,  0,  0,						/* Initial used item after association*/
     0x00, 0x00,  0, 40, 101,
@@ -40,7 +40,7 @@ UCHAR RateSwitchTable11BG[] = {
     0x09, 0x10,  7, 10, 13,
 };
 
-UCHAR RateSwitchTable11G[] = {
+u8 RateSwitchTable11G[] = {
 /* Item No.   Mode   Curr-MCS   TrainUp   TrainDown		 Mode- Bit0: STBC, Bit1: Short GI, Bit4~6: Mode(0:CCK, 1:OFDM, 2:HT Mix, 3:HT GF)*/
     0x08, 0x00,  0,  0,  0,						/* Initial used item after association*/
     0x00, 0x10,  0, 20, 101,
@@ -54,7 +54,7 @@ UCHAR RateSwitchTable11G[] = {
 };
 
 
-UCHAR RateSwitchTable11N1S[] = {
+u8 RateSwitchTable11N1S[] = {
 /* Item No.   Mode   Curr-MCS   TrainUp   TrainDown		 Mode- Bit0: STBC, Bit1: Short GI, Bit4~6: Mode(0:CCK, 1:OFDM, 2:HT Mix, 3:HT GF)*/
     0x0c, 0x0a,  0,  0,  0,						/* Initial used item after association*/
     0x00, 0x00,  0, 40, 101,
@@ -72,7 +72,7 @@ UCHAR RateSwitchTable11N1S[] = {
 };
 
 
-UCHAR RateSwitchTable11N2S[] = {
+u8 RateSwitchTable11N2S[] = {
 /* Item No.   Mode   Curr-MCS   TrainUp   TrainDown		 Mode- Bit0: STBC, Bit1: Short GI, Bit4~6: Mode(0:CCK, 1:OFDM, 2:HT Mix, 3:HT GF)*/
     0x0e, 0x0c,  0,  0,  0,						/* Initial used item after association*/
     0x00, 0x00,  0, 40, 101,
@@ -92,7 +92,7 @@ UCHAR RateSwitchTable11N2S[] = {
 };
 
 
-UCHAR RateSwitchTable11N3S[] = {
+u8 RateSwitchTable11N3S[] = {
 /* Item No.	Mode	Curr-MCS	TrainUp	TrainDown	 Mode- Bit0: STBC, Bit1: Short GI, Bit4~6: Mode(0:CCK, 1:OFDM, 2:HT Mix, 3:HT GF)*/
     0x11, 0x0c,  0,  0,  0,						/* Initial used item after association*/
     0x00, 0x00,  0, 40, 101,
@@ -115,7 +115,7 @@ UCHAR RateSwitchTable11N3S[] = {
 };
 
 
-UCHAR RateSwitchTable11BGN1S[] = {
+u8 RateSwitchTable11BGN1S[] = {
 /* Item No.   Mode   Curr-MCS   TrainUp   TrainDown		 Mode- Bit0: STBC, Bit1: Short GI, Bit4~6: Mode(0:CCK, 1:OFDM, 2:HT Mix, 3:HT GF)*/
     0x0c, 0x0a,  0,  0,  0,						/* Initial used item after association*/
     0x00, 0x00,  0, 40, 101,
@@ -133,7 +133,7 @@ UCHAR RateSwitchTable11BGN1S[] = {
 };
 
 
-UCHAR RateSwitchTable11BGN2S[] = {
+u8 RateSwitchTable11BGN2S[] = {
 /* Item No.   Mode   Curr-MCS   TrainUp   TrainDown		 Mode- Bit0: STBC, Bit1: Short GI, Bit4~6: Mode(0:CCK, 1:OFDM, 2:HT Mix, 3:HT GF)*/
     0x0e, 0x0c,  0,  0,  0,						/* Initial used item after association*/
     0x00, 0x00,  0, 40, 101,
@@ -153,7 +153,7 @@ UCHAR RateSwitchTable11BGN2S[] = {
 };
 
 
-UCHAR RateSwitchTable11BGN3S[] = { /* 3*3*/
+u8 RateSwitchTable11BGN3S[] = { /* 3*3*/
 /* Item No.   Mode   Curr-MCS   TrainUp   TrainDown		 Mode- Bit0: STBC, Bit1: Short GI, Bit4~6: Mode(0:CCK, 1:OFDM, 2:HT Mix, 3:HT GF)*/
     0x0e, 0x00,  0,  0,  0,						/* Initial used item after association*/
     0x00, 0x21,  0, 30,101,	/*50*/
@@ -174,7 +174,7 @@ UCHAR RateSwitchTable11BGN3S[] = { /* 3*3*/
 };
 
 
-UCHAR RateSwitchTable11N1SForABand[] = {
+u8 RateSwitchTable11N1SForABand[] = {
 /* Item No.   Mode   Curr-MCS   TrainUp   TrainDown	*/
 /* Mode- Bit0: STBC, Bit1: Short GI, Bit4~6: Mode(0:CCK, 1:OFDM, 2:HT Mix, 3:HT GF) */
     0x09, 0x07,  0,  0,  0,						/* Initial used item after association */
@@ -190,7 +190,7 @@ UCHAR RateSwitchTable11N1SForABand[] = {
 };
 
 
-UCHAR RateSwitchTable11N2SForABand[] = {
+u8 RateSwitchTable11N2SForABand[] = {
 /* Item No.   Mode   Curr-MCS   TrainUp   TrainDown		 Mode- Bit0: STBC, Bit1: Short GI, Bit4~6: Mode(0:CCK, 1:OFDM, 2:HT Mix, 3:HT GF)*/
     0x0b, 0x09,  0,  0,  0,						/* Initial used item after association*/
     0x00, 0x21,  0, 30, 101,
@@ -207,7 +207,7 @@ UCHAR RateSwitchTable11N2SForABand[] = {
 };
 
 
-UCHAR RateSwitchTable11BGN2SForABand[] = {
+u8 RateSwitchTable11BGN2SForABand[] = {
 /* Item No.   Mode   Curr-MCS   TrainUp   TrainDown		 Mode- Bit0: STBC, Bit1: Short GI, Bit4~6: Mode(0:CCK, 1:OFDM, 2:HT Mix, 3:HT GF)*/
     0x0b, 0x09,  0,  0,  0,						/* Initial used item after association*/
     0x00, 0x21,  0, 30,101,	/*50*/
@@ -224,7 +224,7 @@ UCHAR RateSwitchTable11BGN2SForABand[] = {
 };
 
 
-UCHAR RateSwitchTable11N3SForABand[] = { /* 3*3*/
+u8 RateSwitchTable11N3SForABand[] = { /* 3*3*/
 /* Item No.   Mode   Curr-MCS   TrainUp   TrainDown		 Mode- Bit0: STBC, Bit1: Short GI, Bit4~6: Mode(0:CCK, 1:OFDM, 2:HT Mix, 3:HT GF)*/
     0x0e, 0x09,  0,  0,  0,						/* Initial used item after association*/
     0x00, 0x21,  0, 30, 101,
@@ -246,7 +246,7 @@ UCHAR RateSwitchTable11N3SForABand[] = { /* 3*3*/
 };
 
 
-UCHAR RateSwitchTable11BGN3SForABand[] = { /* 3*3*/
+u8 RateSwitchTable11BGN3SForABand[] = { /* 3*3*/
 /* Item No.   Mode   Curr-MCS   TrainUp   TrainDown		 Mode- Bit0: STBC, Bit1: Short GI, Bit4~6: Mode(0:CCK, 1:OFDM, 2:HT Mix, 3:HT GF)*/
     0x0e, 0x09,  0,  0,  0,						/* Initial used item after association*/
     0x00, 0x21,  0, 30,101,	/*50*/
@@ -285,7 +285,7 @@ UCHAR RateSwitchTable11BGN3SForABand[] = { /* 3*3*/
 		Bit1: Short GI,
 		Bit4~6: Mode(0:CCK, 1:OFDM, 2:HT Mix, 3:HT GF)
 */
-UCHAR RateSwitchTableAdapt11N1S[] = {
+u8 RateSwitchTableAdapt11N1S[] = {
 /*  item no.   mcs   highPERThrd  upMcs3     upMcs1
            mode   lowPERThrd  downMcs     upMcs2
 */
@@ -312,7 +312,7 @@ UCHAR RateSwitchTableAdapt11N1S[] = {
   #define sg15	16		/*  mcs15+shortGI index */
 #endif
 
-UCHAR RateSwitchTableAdapt11N2S[] = {
+u8 RateSwitchTableAdapt11N2S[] = {
 /* item no.   mcs   highPERThrd  upMcs3    upMcs1
         mode   lowPERThrd  downMcs    upMcs2
 */
@@ -367,7 +367,7 @@ UCHAR RateSwitchTableAdapt11N2S[] = {
   #define sg23	24		/*  mcs23+shortGI index */
 #endif
 
-UCHAR RateSwitchTableAdapt11N3S[] = {
+u8 RateSwitchTableAdapt11N3S[] = {
 /* item no   mcs   highPERThrd   upMcs3     upMcs1
         mode   lowPERThrd  downMcs     upMcs2
 */
@@ -453,7 +453,7 @@ UCHAR RateSwitchTableAdapt11N3S[] = {
 	Note: downMCS, upMCS3, upMCS2 and upMCS1 are zero-based array index.
 */
 /* 1x1 VHT-capable rate table */
-UCHAR RateTableVht1S[] =
+u8 RateTableVht1S[] =
 {
 	11,		9,		0,		0, 0,				0,		0, 0, 0,		0,
 /*	[Idx]	[Mode]	[MCS]	[PER_Low/High]	[dMCS]	[upMCS3/2/1] [nSS]*/
@@ -471,7 +471,7 @@ UCHAR RateTableVht1S[] =
 };
 
 //S4
-UCHAR RateTableVht1S_MCS9[] =
+u8 RateTableVht1S_MCS9[] =
 {
     13,     11,    0,      0,   0,      0,    0, 0,  0,     0,
 /*	[Idx]	[Mode]		[MCS]	[PER_Low/High]	[dMCS]	[upMCS3/2/1] [nSS] */
@@ -493,7 +493,7 @@ UCHAR RateTableVht1S_MCS9[] =
 
 /* 2x2 VHT-capable rate table */
 // TODO: shiang-usw, refine this!!
-UCHAR RateTableVht2S_old[] =
+u8 RateTableVht2S_old[] =
 {
 	22,		21,		0,		0, 0,				0,		0, 0,0,		0,
 /*	[Idx]	[Mode]	[MCS]	[PER_Low/High]	[dMCS]	[upMCS3/2/1] [nSS]*/
@@ -521,7 +521,7 @@ UCHAR RateTableVht2S_old[] =
 	21,		0x4A, 	9,		8, 25,			20,		0, 21, 21,  	2, /* VHT 2x2 MCS9 BW80 SGI */
 };
 
-UCHAR RateTableVht2S_MCS7[] =
+u8 RateTableVht2S_MCS7[] =
 {
   31,   30,   0,      0,   0,    0,   0,  0,  0,  0,
 /*  [Idx] [Mode]  [MCS] [PER_down/up] [dMCS]  [upMCS3/2/1] [nSS] */
@@ -567,7 +567,7 @@ UCHAR RateTableVht2S_MCS7[] =
   30,   0x4A, 9,      5,  15,   28,   0, 28, 28,  2,/* VHT 2x2 MCS9 BW80 SGI */
 };
 
-UCHAR RateTableVht2S[] =
+u8 RateTableVht2S[] =
 {
   31,   30,   0,      0,   0,    0,   0,  0,  0,  0,
 /*  [Idx] [Mode]  [MCS] [PER_down/up] [dMCS]  [upMCS3/2/1] [nSS] */
@@ -614,7 +614,7 @@ UCHAR RateTableVht2S[] =
   30,   0x4A, 9,      5,  15,   29,   0, 30, 30,  2,/* VHT 2x2 MCS9 BW80 SGI */
 };
 
-UCHAR RateTableVht2S_BW40[] =
+u8 RateTableVht2S_BW40[] =
 {
   31,   30,   0,      0,   0,    0,   0,  0,  0,  0,
 /*  [Idx] [Mode]  [MCS] [PER_down/up] [dMCS]  [upMCS3/2/1] [nSS] */
@@ -661,7 +661,7 @@ UCHAR RateTableVht2S_BW40[] =
   30,   0x46, 9,      5,  15,   29,   0, 30, 30,  2,/* VHT 2x2 MCS9 BW40 SGI */
 };
 
-UCHAR RateTableVht2S_BW20[] =
+u8 RateTableVht2S_BW20[] =
 
 {
   30,   28,   0,      0,   0,    0,   0,  0,  0,  0,
@@ -707,7 +707,7 @@ UCHAR RateTableVht2S_BW20[] =
 };
 
 
-UCHAR RateTableVht1S_2G_BW40[] =
+u8 RateTableVht1S_2G_BW40[] =
 {
   21,   20,   0,      0,   0,    0,   0,  0,  0,  0,
   /*  [Idx] [Mode]  [MCS] [PER_down/up] [dMCS]  [upMCS3/2/1] [nSS] */
@@ -741,7 +741,7 @@ UCHAR RateTableVht1S_2G_BW40[] =
   20,   0x47, 9,      8,  15,   19,   0, 20, 20,  1,/* VHT 1x1 MCS9 BW40 SGI */
 };
 
-UCHAR RateTableVht1S_2G_BW20[] =
+u8 RateTableVht1S_2G_BW20[] =
 {
   20,   19,   0,      0,   0,    0,   0,  0,  0,  0,
   /*  [Idx] [Mode]  [MCS] [PER_down/up] [dMCS]  [upMCS3/2/1] [nSS] */
@@ -775,7 +775,7 @@ UCHAR RateTableVht1S_2G_BW20[] =
   19,   0x43, 8,      8,  15,   18,   0, 19, 19,  1,/* VHT 1x1 MCS8 BW20 SGI */
 };
 
-UCHAR RateTableVht2S_2G_BW40[] =
+u8 RateTableVht2S_2G_BW40[] =
 {
   31,   30,   0,      0,   0,    0,   0,  0,  0,  0,
   /*  [Idx] [Mode]  [MCS] [PER_down/up] [dMCS]  [upMCS3/2/1] [nSS] */
@@ -821,7 +821,7 @@ UCHAR RateTableVht2S_2G_BW40[] =
   30,   0x46, 9,      5,  15,   29,   0, 30, 30,  2,/* VHT 2x2 MCS9 BW40 SGI */
 };
 
-UCHAR RateTableVht2S_2G_BW20[] =
+u8 RateTableVht2S_2G_BW20[] =
 {
   30,   29,   0,      0,   0,    0,   0,  0,  0,  0,
   /*  [Idx] [Mode]  [MCS] [PER_down/up] [dMCS]  [upMCS3/2/1] [nSS] */
@@ -877,7 +877,7 @@ UCHAR RateTableVht2S_2G_BW20[] =
 */
 VOID MlmeGetSupportedMcs(
 	IN struct rtmp_adapter *pAd,
-	IN UCHAR	*pTable,
+	IN u8 *pTable,
 	OUT CHAR 	mcs[])
 {
 	CHAR	idx;
@@ -955,7 +955,7 @@ VOID MlmeClearAllTxQuality(MAC_TABLE_ENTRY *pEntry)
 
 
 /*  MlmeDecTxQuality - Decrement TxQuality of specified rate table entry */
-VOID MlmeDecTxQuality(MAC_TABLE_ENTRY *pEntry, UCHAR rateIndex)
+VOID MlmeDecTxQuality(MAC_TABLE_ENTRY *pEntry, u8 rateIndex)
 {
 #ifdef TXBF_AWARE
 	if (pEntry->phyETxBf || pEntry->phyITxBf) {
@@ -969,7 +969,7 @@ VOID MlmeDecTxQuality(MAC_TABLE_ENTRY *pEntry, UCHAR rateIndex)
 }
 
 
-VOID MlmeSetTxQuality(MAC_TABLE_ENTRY *pEntry, UCHAR rate_idx, USHORT quality)
+VOID MlmeSetTxQuality(MAC_TABLE_ENTRY *pEntry, u8 rate_idx, USHORT quality)
 {
 #ifdef TXBF_AWARE
 	if (pEntry->phyETxBf || pEntry->phyITxBf)
@@ -980,7 +980,7 @@ VOID MlmeSetTxQuality(MAC_TABLE_ENTRY *pEntry, UCHAR rate_idx, USHORT quality)
 }
 
 
-USHORT MlmeGetTxQuality(MAC_TABLE_ENTRY *pEntry, UCHAR rateIndex)
+USHORT MlmeGetTxQuality(MAC_TABLE_ENTRY *pEntry, u8 rateIndex)
 {
 #ifdef TXBF_AWARE
 	if (pEntry->phyETxBf || pEntry->phyITxBf)
@@ -1082,8 +1082,8 @@ VOID APMlmeSetTxRate(
 	IN MAC_TABLE_ENTRY *pEntry,
 	IN RTMP_RA_LEGACY_TB *pTxRate)
 {
-	UCHAR tx_mode = pTxRate->Mode;
-	UCHAR tx_bw = pTxRate->BW;
+	u8 tx_mode = pTxRate->Mode;
+	u8 tx_bw = pTxRate->BW;
 
 	if ((pAd->chipCap.phy_caps & fPHY_CAP_VHT) &&
 		((pEntry->pTable == RateTableVht2S) || (pEntry->pTable == RateTableVht1S) ||
@@ -1097,7 +1097,7 @@ VOID APMlmeSetTxRate(
 		 (pEntry->pTable == RateTableVht2S_2G_BW40)))
 	{
 		RTMP_RA_GRP_TB *pAdaptTbEntry = (RTMP_RA_GRP_TB *)pTxRate;
-		UCHAR bw_cap = BW_20;
+		u8 bw_cap = BW_20;
 
 		if (pEntry->MaxHTPhyMode.field.BW != pAdaptTbEntry->BW)
 		{
@@ -1255,7 +1255,7 @@ DBGPRINT(RT_DEBUG_INFO, ("%s(): txbw=%d, txmode=%d\n", __FUNCTION__, tx_bw, tx_m
 	}
 	else if (IS_VHT_STA(pEntry))
 	{
-		UCHAR bw_max = pEntry->MaxHTPhyMode.field.BW;
+		u8 bw_max = pEntry->MaxHTPhyMode.field.BW;
 		if (pEntry->force_op_mode == true)
 		{
 			switch (pEntry->operating_mode.ch_width) {
@@ -1366,9 +1366,9 @@ VOID MlmeSetTxRate(
 	IN RTMP_RA_LEGACY_TB *pTxRate)
 {
 	struct rtmp_wifi_dev *wdev = &pAd->StaCfg.wdev;
-	UCHAR	MaxMode = MODE_OFDM;
-	UCHAR tx_mode = pTxRate->Mode;
-	UCHAR tx_bw = pTxRate->BW;
+	u8 MaxMode = MODE_OFDM;
+	u8 tx_mode = pTxRate->Mode;
+	u8 tx_bw = pTxRate->BW;
 	HTTRANSMIT_SETTING *tx_setting = &pAd->StaCfg.wdev.HTPhyMode;
 
 	MaxMode = MODE_HTGREENFIELD;
@@ -1460,7 +1460,7 @@ VOID MlmeSetTxRate(
 
 		if ((pEntry->force_op_mode == true))
 		{
-			UCHAR bw_cap = BW_20;
+			u8 bw_cap = BW_20;
 
 			switch (pEntry->operating_mode.ch_width) {
 				case 1:
@@ -1577,9 +1577,9 @@ VOID MlmeSetTxRate(
 VOID MlmeSelectTxRateTable(
 	IN struct rtmp_adapter *pAd,
 	IN PMAC_TABLE_ENTRY pEntry,
-	IN UCHAR **ppTable,
-	IN UCHAR *pTableSize,
-	IN UCHAR *pInitTxRateIdx)
+	IN u8 **ppTable,
+	IN u8 *pTableSize,
+	IN u8 *pInitTxRateIdx)
 {
 	do
 	{
@@ -1981,15 +1981,15 @@ VOID MlmeSelectTxRateTable(
 		Rssi - the Rssi value
 		RssiOffset - offset to apply to the Rssi
 */
-UCHAR MlmeSelectTxRate(
+u8 MlmeSelectTxRate(
 	IN struct rtmp_adapter *pAd,
 	IN PMAC_TABLE_ENTRY	pEntry,
 	IN CHAR		mcs[],
 	IN CHAR		Rssi,
 	IN CHAR		RssiOffset)
 {
-	UCHAR TxRateIdx = 0;
-	UCHAR *pTable = pEntry->pTable;
+	u8 TxRateIdx = 0;
+	u8 *pTable = pEntry->pTable;
 
 #ifdef NEW_RATE_ADAPT_SUPPORT
 	if (pTable == RateTableVht2S || pTable == RateTableVht2S_BW20 || pTable == RateTableVht2S_BW40
@@ -2273,7 +2273,7 @@ VOID MlmeRALog(
 			raLogInfo.per = TxErrorRatio;
 			raLogInfo.tp = tp;
 			raLogInfo.bfRatio = bfRatio;
-			dbQueueEnqueue(0x7e, (UCHAR *)&raLogInfo);
+			dbQueueEnqueue(0x7e, (u8 *)&raLogInfo);
 		}
 		else
 #endif /*  INCLUDE_DEBUG_QUEUE */
@@ -2317,7 +2317,7 @@ VOID MlmeRestoreLastRate(
 VOID txbf_rate_adjust(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 {
 	RTMP_RA_LEGACY_TB *pNextTxRate;
-	UCHAR *pTable = pEntry->pTable;
+	u8 *pTable = pEntry->pTable;
 
 
 	/*  Get pointer to CurrTxRate entry */
@@ -2362,7 +2362,7 @@ VOID txbf_rate_adjust(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 }
 
 
-INT rtmp_get_rate_from_rate_tb(UCHAR *table, INT idx, RTMP_TX_RATE *tx_rate)
+INT rtmp_get_rate_from_rate_tb(u8 *table, INT idx, RTMP_TX_RATE *tx_rate)
 {
 #ifdef NEW_RATE_ADAPT_SUPPORT
 	if (ADAPT_RATE_TABLE(table)) {
@@ -2411,7 +2411,7 @@ INT rtmp_get_rate_from_rate_tb(UCHAR *table, INT idx, RTMP_TX_RATE *tx_rate)
 VOID MlmeNewTxRate(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 {
 	RTMP_RA_LEGACY_TB *pNextTxRate;
-	UCHAR *pTable = pEntry->pTable;
+	u8 *pTable = pEntry->pTable;
 	RTMP_TX_RATE tx_rate;
 
 
@@ -2460,19 +2460,19 @@ VOID MlmeNewTxRate(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 
 VOID RTMPSetSupportMCS(
 	IN struct rtmp_adapter *pAd,
-	IN UCHAR OpMode,
+	IN u8 OpMode,
 	IN PMAC_TABLE_ENTRY	pEntry,
-	IN UCHAR SupRate[],
-	IN UCHAR SupRateLen,
-	IN UCHAR ExtRate[],
-	IN UCHAR ExtRateLen,
-	IN UCHAR vht_cap_len,
+	IN u8 SupRate[],
+	IN u8 SupRateLen,
+	IN u8 ExtRate[],
+	IN u8 ExtRateLen,
+	IN u8 vht_cap_len,
 	IN VHT_CAP_IE *vht_cap,
 	IN HT_CAPABILITY_IE *pHtCapability,
-	IN UCHAR HtCapabilityLen)
+	IN u8 HtCapabilityLen)
 {
-	UCHAR idx, SupportedRatesLen = 0;
-	UCHAR SupportedRates[MAX_LEN_OF_SUPPORTED_RATES];
+	u8 idx, SupportedRatesLen = 0;
+	u8 SupportedRates[MAX_LEN_OF_SUPPORTED_RATES];
 
 	if (SupRateLen > 0)
 	{
@@ -2483,7 +2483,7 @@ VOID RTMPSetSupportMCS(
 		}
 		else
 		{
-			UCHAR RateDefault[8] = {0x82, 0x84, 0x8b, 0x96, 0x12, 0x24, 0x48, 0x6c};
+			u8 RateDefault[8] = {0x82, 0x84, 0x8b, 0x96, 0x12, 0x24, 0x48, 0x6c};
 
 			memmove(SupportedRates, RateDefault, 8);
 			SupportedRatesLen = 8;
@@ -2585,7 +2585,7 @@ VOID RTMPSetSupportMCS(
 	if (HtCapabilityLen)
 	{
 		RT_PHY_INFO *pDesired_ht_phy = NULL;
-		UCHAR j, bitmask;
+		u8 j, bitmask;
 		CHAR i;
 
 #ifdef CONFIG_STA_SUPPORT

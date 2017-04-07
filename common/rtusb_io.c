@@ -103,12 +103,12 @@ void mt7612u_usb_cfg_write_v3(struct rtmp_adapter *ad, u32 value)
 int RTUSBMultiWrite(
 	IN struct rtmp_adapter *pAd,
 	IN USHORT Offset,
-	IN UCHAR *pData,
+	IN u8 *pData,
 	IN USHORT length)
 {
 	int Status;
 	USHORT index = 0,Value;
-	UCHAR *pSrc = pData;
+	u8 *pSrc = pData;
 	USHORT resude = 0;
 
 	resude = length % 2;
@@ -347,7 +347,7 @@ int RTUSBWakeUp(struct rtmp_adapter *pAd)
 	========================================================================
 */
 int RTUSB_VendorRequest(struct rtmp_adapter *pAd,
-	UCHAR	RequestType, UCHAR Request,
+	u8 RequestType, u8 Request,
 	USHORT  Value, USHORT Index,
 	PVOID   TransferBuffer, uint32_t TransferBufferLength)
 {
@@ -463,7 +463,7 @@ int CheckGPIOHdlr(struct rtmp_adapter *pAd, PCmdQElmt CMDQelmt)
 static int ResetBulkOutHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 {
 	int32_t MACValue = 0;
-	UCHAR Index = 0;
+	u8 Index = 0;
 	int ret=0;
 	PHT_TX_CONTEXT	pHTTXContext;
 	unsigned long IrqFlags;
@@ -569,7 +569,7 @@ static int ResetBulkOutHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 								pAd->bulkResetReq[pAd->bulkResetPipeid], pAd->bulkResetPipeid));
 
 			if (pAd->bulkResetPipeid == 0) 	{
-				UCHAR	pendingContext = 0;
+				u8 pendingContext = 0;
 				PHT_TX_CONTEXT pHTTXContext = (PHT_TX_CONTEXT)(&pAd->TxContext[pAd->bulkResetPipeid ]);
 				PTX_CONTEXT pMLMEContext = (PTX_CONTEXT)(pAd->MgmtRing.Cell[pAd->MgmtRing.TxDmaIdx].AllocVa);
 				PTX_CONTEXT pNULLContext = (PTX_CONTEXT)(&pAd->PsPollContext);
@@ -635,7 +635,7 @@ static int ResetBulkInHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 	if ((!(RTMP_TEST_FLAG(pAd, (fRTMP_ADAPTER_RESET_IN_PROGRESS | fRTMP_ADAPTER_RADIO_OFF |
 				    fRTMP_ADAPTER_HALT_IN_PROGRESS | fRTMP_ADAPTER_NIC_NOT_EXIST)))))
 	{
-		UCHAR	i;
+		u8 i;
 
 		if (RTMP_TEST_FLAG(pAd, (fRTMP_ADAPTER_RESET_IN_PROGRESS | fRTMP_ADAPTER_RADIO_OFF |
 					 fRTMP_ADAPTER_HALT_IN_PROGRESS | fRTMP_ADAPTER_NIC_NOT_EXIST)))
@@ -718,7 +718,7 @@ static int SetAsicWcidHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 	if (SetAsicWcid.WCID >= MAX_LEN_OF_MAC_TABLE)
 		return NDIS_STATUS_FAILURE;
 
-	offset = MAC_WCID_BASE + ((UCHAR)SetAsicWcid.WCID)*HW_WCID_ENTRY_SIZE;
+	offset = MAC_WCID_BASE + ((u8)SetAsicWcid.WCID)*HW_WCID_ENTRY_SIZE;
 
 	DBGPRINT_RAW(RT_DEBUG_TRACE, ("CmdThread : CMDTHREAD_SET_ASIC_WCID : WCID = %ld, SetTid  = %lx, DeleteTid = %lx.\n",
 						SetAsicWcid.WCID, SetAsicWcid.SetTid, SetAsicWcid.DeleteTid));
@@ -752,7 +752,7 @@ static int DelAsicWcidHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 	if (SetAsicWcid.WCID >= MAX_LEN_OF_MAC_TABLE)
 		return NDIS_STATUS_FAILURE;
 
-        AsicDelWcidTab(pAd, (UCHAR)SetAsicWcid.WCID);
+        AsicDelWcidTab(pAd, (u8)SetAsicWcid.WCID);
 
         return NDIS_STATUS_SUCCESS;
 }
@@ -827,7 +827,7 @@ static int SetPortSecuredHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt
 
 static int RemovePairwiseKeyHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 {
-	UCHAR Wcid = *((u8 *)(CMDQelmt->buffer));
+	u8 Wcid = *((u8 *)(CMDQelmt->buffer));
 
 	AsicRemovePairwiseKeyEntry(pAd, Wcid);
 	return NDIS_STATUS_SUCCESS;

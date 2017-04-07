@@ -31,7 +31,7 @@
 
 
 #ifdef RTMP_USB_SUPPORT
-VOID RT65xxUsbAsicRadioOff(struct rtmp_adapter *pAd, UCHAR Stage)
+VOID RT65xxUsbAsicRadioOff(struct rtmp_adapter *pAd, u8 Stage)
 {
 	uint32_t Value, ret;
 
@@ -73,7 +73,7 @@ VOID RT65xxUsbAsicRadioOff(struct rtmp_adapter *pAd, UCHAR Stage)
 }
 
 
-VOID RT65xxUsbAsicRadioOn(struct rtmp_adapter *pAd, UCHAR Stage)
+VOID RT65xxUsbAsicRadioOn(struct rtmp_adapter *pAd, u8 Stage)
 {
 	uint32_t MACValue = 0;
 	uint32_t rx_filter_flag;

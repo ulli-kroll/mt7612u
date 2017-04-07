@@ -145,100 +145,100 @@ typedef enum _WPA_KDE_ID
 typedef	struct GNU_PACKED _KEY_INFO
 {
 #ifdef RT_BIG_ENDIAN
-	UCHAR	KeyAck:1;
-    UCHAR	Install:1;
-    UCHAR	KeyIndex:2;
-    UCHAR	KeyType:1;
-    UCHAR	KeyDescVer:3;
-    UCHAR	Rsvd:3;
-    UCHAR	EKD_DL:1;		/* EKD for AP; DL for STA */
-    UCHAR	Request:1;
-    UCHAR	Error:1;
-    UCHAR	Secure:1;
-    UCHAR	KeyMic:1;
+	u8 KeyAck:1;
+    u8 Install:1;
+    u8 KeyIndex:2;
+    u8 KeyType:1;
+    u8 KeyDescVer:3;
+    u8 Rsvd:3;
+    u8 EKD_DL:1;		/* EKD for AP; DL for STA */
+    u8 Request:1;
+    u8 Error:1;
+    u8 Secure:1;
+    u8 KeyMic:1;
 #else
-	UCHAR	KeyMic:1;
-	UCHAR	Secure:1;
-	UCHAR	Error:1;
-	UCHAR	Request:1;
-	UCHAR	EKD_DL:1;       /* EKD for AP; DL for STA */
-	UCHAR	Rsvd:3;
-	UCHAR	KeyDescVer:3;
-	UCHAR	KeyType:1;
-	UCHAR	KeyIndex:2;
-	UCHAR	Install:1;
-	UCHAR	KeyAck:1;
+	u8 KeyMic:1;
+	u8 Secure:1;
+	u8 Error:1;
+	u8 Request:1;
+	u8 EKD_DL:1;       /* EKD for AP; DL for STA */
+	u8 Rsvd:3;
+	u8 KeyDescVer:3;
+	u8 KeyType:1;
+	u8 KeyIndex:2;
+	u8 Install:1;
+	u8 KeyAck:1;
 #endif
 }	KEY_INFO, *PKEY_INFO;
 
 /* EAPOL Key descriptor format */
 typedef	struct GNU_PACKED _KEY_DESCRIPTER
 {
-	UCHAR		Type;
+	u8 	Type;
 	KEY_INFO	KeyInfo;
-	UCHAR		KeyLength[2];
-	UCHAR		ReplayCounter[LEN_KEY_DESC_REPLAY];
-	UCHAR		KeyNonce[LEN_KEY_DESC_NONCE];
-	UCHAR		KeyIv[LEN_KEY_DESC_IV];
-	UCHAR		KeyRsc[LEN_KEY_DESC_RSC];
-	UCHAR		KeyId[LEN_KEY_DESC_ID];
-	UCHAR		KeyMic[LEN_KEY_DESC_MIC];
-	UCHAR		KeyDataLen[2];
-	UCHAR		KeyData[0];
+	u8 	KeyLength[2];
+	u8 	ReplayCounter[LEN_KEY_DESC_REPLAY];
+	u8 	KeyNonce[LEN_KEY_DESC_NONCE];
+	u8 	KeyIv[LEN_KEY_DESC_IV];
+	u8 	KeyRsc[LEN_KEY_DESC_RSC];
+	u8 	KeyId[LEN_KEY_DESC_ID];
+	u8 	KeyMic[LEN_KEY_DESC_MIC];
+	u8 	KeyDataLen[2];
+	u8 	KeyData[0];
 }	KEY_DESCRIPTER, *PKEY_DESCRIPTER;
 
 typedef	struct GNU_PACKED _EAPOL_PACKET
 {
-	UCHAR	 			ProVer;
-	UCHAR	 			ProType;
-	UCHAR	 			Body_Len[2];
+	u8  			ProVer;
+	u8  			ProType;
+	u8  			Body_Len[2];
 	KEY_DESCRIPTER		KeyDesc;
 }	EAPOL_PACKET, *PEAPOL_PACKET;
 
 typedef struct GNU_PACKED _KDE_HDR
 {
-    UCHAR               Type;
-    UCHAR               Len;
-    UCHAR               OUI[3];
-    UCHAR               DataType;
-	UCHAR				octet[0];
+    u8               Type;
+    u8               Len;
+    u8               OUI[3];
+    u8               DataType;
+	u8 			octet[0];
 }   KDE_HDR, *PKDE_HDR;
 
 /*802.11i D10 page 83 */
 typedef struct GNU_PACKED _GTK_KDE
 {
 #ifndef RT_BIG_ENDIAN
-    UCHAR               Kid:2;
-    UCHAR               tx:1;
-    UCHAR               rsv:5;
-    UCHAR               rsv1;
+    u8               Kid:2;
+    u8               tx:1;
+    u8               rsv:5;
+    u8               rsv1;
 #else
-    UCHAR               rsv:5;
-    UCHAR               tx:1;
-    UCHAR               Kid:2;
-    UCHAR               rsv1;    
+    u8               rsv:5;
+    u8               tx:1;
+    u8               Kid:2;
+    u8               rsv1;    
 #endif
-    UCHAR               GTK[0];
+    u8               GTK[0];
 }   GTK_KDE, *PGTK_KDE;
 
 /* For WPA1 */
 typedef struct GNU_PACKED _RSNIE {
-    UCHAR   oui[4];
+    u8   oui[4];
     USHORT  version;
-    UCHAR   mcast[4];
+    u8   mcast[4];
     USHORT  ucount;
     struct GNU_PACKED {
-        UCHAR oui[4];
+        u8 oui[4];
     }ucast[1];
 } RSNIE, *PRSNIE;
 
 /* For WPA2 */
 typedef struct GNU_PACKED _RSNIE2 {
     USHORT  version;
-    UCHAR   mcast[4];
+    u8   mcast[4];
     USHORT  ucount;
     struct GNU_PACKED {
-        UCHAR oui[4];
+        u8 oui[4];
     }ucast[1];
 } RSNIE2, *PRSNIE2;
 
@@ -246,7 +246,7 @@ typedef struct GNU_PACKED _RSNIE2 {
 typedef struct GNU_PACKED _RSNIE_AUTH {
     USHORT acount;
     struct GNU_PACKED {
-        UCHAR oui[4];
+        u8 oui[4];
     }auth[1];
 } RSNIE_AUTH,*PRSNIE_AUTH;
 
@@ -254,7 +254,7 @@ typedef struct GNU_PACKED _RSNIE_AUTH {
 typedef struct GNU_PACKED _RSNIE_PMKID {
     USHORT pcount;
     struct GNU_PACKED {
-        UCHAR list[16];
+        u8 list[16];
     }pmkid[1];
 } RSNIE_PMKID,*PRSNIE_PMKID;
 
@@ -282,12 +282,12 @@ typedef	union GNU_PACKED _RSN_CAPABILITIES	{
 }	RSN_CAPABILITIES, *PRSN_CAPABILITIES;
 
 typedef struct GNU_PACKED _EAP_HDR {
-    UCHAR   ProVer;
-    UCHAR   ProType;
-    UCHAR   Body_Len[2];
-    UCHAR   code;
-    UCHAR   identifier;
-    UCHAR   length[2]; /* including code and identifier, followed by length-2 octets of data */
+    u8   ProVer;
+    u8   ProType;
+    u8   Body_Len[2];
+    u8   code;
+    u8   identifier;
+    u8   length[2]; /* including code and identifier, followed by length-2 octets of data */
 } EAP_HDR, *PEAP_HDR;
 
 

@@ -365,7 +365,7 @@ uint16_t TotalChNum(PCH_DESC pChDesc)
 	return TotalChNum;
 }
 
-UCHAR GetChannel_5GHZ(PCH_DESC pChDesc, UCHAR index)
+u8 GetChannel_5GHZ(PCH_DESC pChDesc, u8 index)
 {
 	while (pChDesc->FirstChannel)
 	{
@@ -381,7 +381,7 @@ UCHAR GetChannel_5GHZ(PCH_DESC pChDesc, UCHAR index)
 	return 0;
 }
 
-UCHAR GetChannel_2GHZ(PCH_DESC pChDesc, UCHAR index)
+u8 GetChannel_2GHZ(PCH_DESC pChDesc, u8 index)
 {
 
 	while (pChDesc->FirstChannel)
@@ -398,7 +398,7 @@ UCHAR GetChannel_2GHZ(PCH_DESC pChDesc, UCHAR index)
 	return 0;
 }
 
-UCHAR GetChannelFlag(PCH_DESC pChDesc, UCHAR index)
+u8 GetChannelFlag(PCH_DESC pChDesc, u8 index)
 {
 
 	while (pChDesc->FirstChannel)
@@ -417,7 +417,7 @@ UCHAR GetChannelFlag(PCH_DESC pChDesc, UCHAR index)
 
 static bool IsValidChannel(
 	IN struct rtmp_adapter *pAd,
-	IN UCHAR channel)
+	IN u8 channel)
 
 {
 	INT i;
@@ -434,9 +434,9 @@ static bool IsValidChannel(
 		return true;
 }
 
-static UCHAR GetExtCh(
-	IN UCHAR Channel,
-	IN UCHAR Direction)
+static u8 GetExtCh(
+	IN u8 Channel,
+	IN u8 Direction)
 {
 	CHAR ExtCh;
 
@@ -448,7 +448,7 @@ static UCHAR GetExtCh(
 	return ExtCh;
 }
 
-INT get_vht_neighbor_index(IN UCHAR channel)
+INT get_vht_neighbor_index(IN u8 channel)
 {
 	/*
 	 * ULLI : stupid  thing here, we should never 4 * 6 channles used
@@ -482,10 +482,10 @@ INT get_vht_neighbor_index(IN UCHAR channel)
 
 bool AC_ChannelGroupCheck(
 	IN struct rtmp_adapter *pAd,
-	IN UCHAR Channel)
+	IN u8 Channel)
 {
 	bool	RetVal = false;
-	UCHAR	vht_ch_group[] = {
+	u8 vht_ch_group[] = {
 		36, 40, 44, 48,
 		52, 56, 60, 64,
 		100, 104, 108, 112,
@@ -493,7 +493,7 @@ bool AC_ChannelGroupCheck(
 		132, 136, 140, 144,
 		149, 153, 157, 161
 	};
-	UINT8	num_ch = sizeof(vht_ch_group)/sizeof(UCHAR);
+	UINT8	num_ch = sizeof(vht_ch_group)/sizeof(u8);
 	UINT8	idx;
 
 	if (Channel > 14)
@@ -512,7 +512,7 @@ bool AC_ChannelGroupCheck(
 
 bool N_ChannelGroupCheck(
 	IN struct rtmp_adapter *pAd,
-	IN UCHAR Channel)
+	IN u8 Channel)
 {
 	bool	RetVal = false;
 
@@ -537,7 +537,7 @@ bool N_ChannelGroupCheck(
 	{
 		do
 		{
-			UCHAR ExtCh;
+			u8 ExtCh;
 
 			if (Channel == 14)
 			{
@@ -564,8 +564,8 @@ bool N_ChannelGroupCheck(
 VOID N_ChannelCheck(struct rtmp_adapter *pAd)
 {
 	INT idx;
-	UCHAR Channel = pAd->CommonCfg.Channel;
-	static const UCHAR wfa_ht_ch_ext[] = {
+	u8 Channel = pAd->CommonCfg.Channel;
+	static const u8 wfa_ht_ch_ext[] = {
 			36, EXTCHA_ABOVE, 40, EXTCHA_BELOW,
 			44, EXTCHA_ABOVE, 48, EXTCHA_BELOW,
 			52, EXTCHA_ABOVE, 56, EXTCHA_BELOW,
@@ -603,8 +603,8 @@ VOID N_ChannelCheck(struct rtmp_adapter *pAd)
 		{
 			do
 			{
-				UCHAR ExtCh;
-				UCHAR Dir = pAd->CommonCfg.RegTransmitSetting.field.EXTCHA;
+				u8 ExtCh;
+				u8 Dir = pAd->CommonCfg.RegTransmitSetting.field.EXTCHA;
 				ExtCh = GetExtCh(Channel, Dir);
 				if (IsValidChannel(pAd, ExtCh))
 					break;
@@ -629,7 +629,7 @@ VOID N_ChannelCheck(struct rtmp_adapter *pAd)
 }
 
 
-UCHAR N_SetCenCh(struct rtmp_adapter *pAd, UCHAR prim_ch)
+u8 N_SetCenCh(struct rtmp_adapter *pAd, u8 prim_ch)
 {
 	if (pAd->CommonCfg.RegTransmitSetting.field.BW == BW_40)
 	{
@@ -670,7 +670,7 @@ UINT8 GetCuntryMaxTxPwr(
 
 /* for OS_ABL */
 VOID RTMP_MapChannelID2KHZ(
-	IN UCHAR Ch,
+	IN u8 Ch,
 	OUT uint32_t *pFreq)
 {
 	int chIdx;

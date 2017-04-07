@@ -178,7 +178,7 @@ VOID get_dev_config_idx(struct rtmp_adapter *pAd)
 }
 
 
-UCHAR *get_dev_name_prefix(struct rtmp_adapter *pAd, INT dev_type)
+u8 *get_dev_name_prefix(struct rtmp_adapter *pAd, INT dev_type)
 {
 	struct dev_type_name_map *map;
 	INT type_idx = 0, dev_idx = pAd->dev_idx;
@@ -197,9 +197,9 @@ UCHAR *get_dev_name_prefix(struct rtmp_adapter *pAd, INT dev_type)
 }
 
 
-static UCHAR *get_dev_profile(struct rtmp_adapter *pAd)
+static u8 *get_dev_profile(struct rtmp_adapter *pAd)
 {
-	UCHAR *src = NULL;
+	u8 *src = NULL;
 
 	{
 #ifdef CONFIG_AP_SUPPORT
@@ -363,13 +363,13 @@ static INT process_nbns_packet(
 	IN struct rtmp_adapter *	pAd,
 	IN struct sk_buff 		*skb)
 {
-	UCHAR *data;
+	u8 *data;
 	USHORT *eth_type;
 
-	data = (UCHAR *)eth_hdr(skb);
+	data = (u8 *)eth_hdr(skb);
 	if (data == 0)
 	{
-		data = (UCHAR *)skb->data;
+		data = (u8 *)skb->data;
 		if (data == 0)
 		{
 			DBGPRINT(RT_DEBUG_ERROR, ("%s::Error\n", __FUNCTION__));
@@ -381,8 +381,8 @@ static INT process_nbns_packet(
 	if (*eth_type == cpu_to_be16(ETH_P_IP))
 	{
 		INT ip_h_len;
-		UCHAR *ip_h;
-		UCHAR *udp_h;
+		u8 *ip_h;
+		u8 *udp_h;
 		USHORT dport, host_dport;
 
 		ip_h = data + 14;
@@ -410,7 +410,7 @@ static INT process_nbns_packet(
 void announce_802_3_packet(
 	IN struct rtmp_adapter *pAd,
 	IN struct sk_buff *pPacket,
-	IN UCHAR OpMode)
+	IN u8 OpMode)
 {
 	struct sk_buff *pRxPkt = pPacket;
 
@@ -654,11 +654,11 @@ int RTMPSendPackets(
 }
 
 
-struct net_device *get_netdev_from_bssid(struct rtmp_adapter *pAd, UCHAR FromWhichBSSID)
+struct net_device *get_netdev_from_bssid(struct rtmp_adapter *pAd, u8 FromWhichBSSID)
 {
 	struct net_device *dev_p = NULL;
 #ifdef CONFIG_AP_SUPPORT
-	UCHAR infRealIdx;
+	u8 infRealIdx;
 #endif /* CONFIG_AP_SUPPORT */
 
 	do

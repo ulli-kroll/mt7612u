@@ -37,7 +37,7 @@
 
 extern INT ApCliAllowToSendPacket(
 	struct rtmp_adapter *pAd, struct rtmp_wifi_dev *wdev,
-	struct sk_buff *pPacket, UCHAR *pWcid);
+	struct sk_buff *pPacket, u8 *pWcid);
 
 bool CFG80211DRV_OpsChgVirtualInf(struct rtmp_adapter *pAd, VOID *pData)
 {

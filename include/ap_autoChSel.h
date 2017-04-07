@@ -29,8 +29,8 @@ ULONG AutoChBssSearchWithSSID(
 	IN struct rtmp_adapter *pAd,
 	IN u8 *Bssid,
 	IN u8 *pSsid,
-	IN UCHAR SsidLen,
-	IN UCHAR Channel);
+	IN u8 SsidLen,
+	IN u8 Channel);
 
 VOID APAutoChannelInit(
 	IN struct rtmp_adapter *pAd);
@@ -44,9 +44,9 @@ ULONG AutoChBssInsertEntry(
 	IN struct rtmp_adapter *pAd,
 	IN u8 *pBssid,
 	IN CHAR Ssid[],
-	IN UCHAR SsidLen,
-	IN UCHAR ChannelNo,
-	IN UCHAR ExtChOffset,
+	IN u8 SsidLen,
+	IN u8 ChannelNo,
+	IN u8 ExtChOffset,
 	IN CHAR Rssi);
 
 VOID AutoChBssTableInit(
@@ -64,11 +64,11 @@ VOID ChannelInfoDestroy(
 VOID CheckPhyModeIsABand(
 	IN struct rtmp_adapter *pAd);
 
-UCHAR SelectBestChannel(
+u8 SelectBestChannel(
 	IN struct rtmp_adapter *pAd,
 	IN ChannelSel_Alg Alg);
 
-UCHAR APAutoSelectChannel(
+u8 APAutoSelectChannel(
 	IN struct rtmp_adapter *pAd,
 	IN ChannelSel_Alg Alg);
 

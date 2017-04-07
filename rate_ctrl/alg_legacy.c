@@ -41,8 +41,8 @@ VOID APMlmeDynamicTxRateSwitching(struct rtmp_adapter *pAd)
 {
 	UINT i;
 	u8 *pTable;
-	UCHAR TableSize = 0, InitTxRateIdx, TrainUp, TrainDown;
-	UCHAR UpRateIdx, DownRateIdx, CurrRateIdx;
+	u8 TableSize = 0, InitTxRateIdx, TrainUp, TrainDown;
+	u8 UpRateIdx, DownRateIdx, CurrRateIdx;
 	MAC_TABLE_ENTRY *pEntry;
 	RTMP_RA_LEGACY_TB *pCurrTxRate, *pTmpTxRate = NULL;
 	CHAR Rssi, TmpIdx = 0;
@@ -143,7 +143,7 @@ VOID APMlmeDynamicTxRateSwitching(struct rtmp_adapter *pAd)
 
 		/* Save LastTxOkCount, LastTxPER and last MCS action for APQuickResponeForRateUpExec */
 		pEntry->LastTxOkCount = TxSuccess;
-		pEntry->LastTxPER = (TxTotalCnt == 0 ? 0 : (UCHAR)TxErrorRatio);
+		pEntry->LastTxPER = (TxTotalCnt == 0 ? 0 : (u8)TxErrorRatio);
 		pEntry->LastTimeTxRateChangeAction = pEntry->LastSecTxRateChangeAction;
 
 		/* different calculation in APQuickResponeForRateUpExec() */
@@ -318,7 +318,7 @@ VOID APMlmeDynamicTxRateSwitching(struct rtmp_adapter *pAd)
 		/* Check for low traffic case */
         if (TxTotalCnt <= 15)
         {
-			UCHAR	TxRateIdx;
+			u8 TxRateIdx;
 			CHAR	mcs[24];
 
 			pEntry->lowTrafficCount++;
@@ -369,7 +369,7 @@ VOID APMlmeDynamicTxRateSwitching(struct rtmp_adapter *pAd)
 			continue;
 		}
 
-		pEntry->PER[CurrRateIdx] = (UCHAR)TxErrorRatio;
+		pEntry->PER[CurrRateIdx] = (u8)TxErrorRatio;
 
 		/* Select rate based on PER */
 		MlmeOldRateAdapt(pAd, pEntry, CurrRateIdx, UpRateIdx, DownRateIdx, TrainUp, TrainDown, TxErrorRatio);
@@ -410,13 +410,13 @@ VOID APQuickResponeForRateUpExec(
 	struct rtmp_adapter *		pAd = (struct rtmp_adapter *)FunctionContext;
 	UINT					i;
 	u8 *				pTable;
-	UCHAR					TableSize = 0;
-	UCHAR					CurrRateIdx;
+	u8 				TableSize = 0;
+	u8 				CurrRateIdx;
 	ULONG					AccuTxTotalCnt, TxTotalCnt, TxCnt;
 	ULONG					TxErrorRatio = 0;
 	MAC_TABLE_ENTRY			*pEntry;
 	RTMP_RA_LEGACY_TB *pCurrTxRate;
-	UCHAR					InitTxRateIdx, TrainUp, TrainDown;
+	u8 				InitTxRateIdx, TrainUp, TrainDown;
 	CHAR					Rssi, ratio;
 	ULONG					TxSuccess, TxRetransmit, TxFailCount;
 	bool					CurrPhyETxBf, CurrPhyITxBf;
@@ -576,7 +576,7 @@ VOID APQuickResponeForRateUpExec(
 			continue;
         }
 
-		pEntry->PER[CurrRateIdx] = (UCHAR)TxErrorRatio;
+		pEntry->PER[CurrRateIdx] = (u8)TxErrorRatio;
 
        /* Compare throughput */
 		do
@@ -703,13 +703,13 @@ VOID MlmeDynamicTxRateSwitching(
 	IN struct rtmp_adapter *pAd)
 {
 	u8 *				pTable;
-	UCHAR					TableSize = 0;
-	UCHAR					UpRateIdx = 0, DownRateIdx = 0, CurrRateIdx;
+	u8 				TableSize = 0;
+	u8 				UpRateIdx = 0, DownRateIdx = 0, CurrRateIdx;
 	ULONG					i, TxTotalCnt;
 	ULONG					TxErrorRatio = 0;
 	MAC_TABLE_ENTRY			*pEntry;
 	RTMP_RA_LEGACY_TB *pCurrTxRate, *pTmpTxRate = NULL;
-	UCHAR					InitTxRateIdx, TrainUp, TrainDown;
+	u8 				InitTxRateIdx, TrainUp, TrainDown;
 	TX_STA_CNT1_STRUC		StaTx1;
 	TX_STA_CNT0_STRUC		TxStaCnt0;
 	CHAR					Rssi, TmpIdx = 0;
@@ -858,7 +858,7 @@ VOID MlmeDynamicTxRateSwitching(
 
 		/* Save LastTxOkCount, LastTxPER and last MCS action for StaQuickResponeForRateUpExec */
 		pEntry->LastTxOkCount = TxSuccess;
-		pEntry->LastTxPER = (TxTotalCnt == 0 ? 0 : (UCHAR)TxErrorRatio);
+		pEntry->LastTxPER = (TxTotalCnt == 0 ? 0 : (u8)TxErrorRatio);
 		pEntry->LastTimeTxRateChangeAction = pEntry->LastSecTxRateChangeAction;
 
 		/*
@@ -1030,7 +1030,7 @@ VOID MlmeDynamicTxRateSwitching(
 		*/
 		if (TxTotalCnt <= 15)
 		{
-			UCHAR	TxRateIdx;
+			u8 TxRateIdx;
 			CHAR	mcs[24];
 			CHAR	RssiOffset = 0;
 
@@ -1085,7 +1085,7 @@ VOID MlmeDynamicTxRateSwitching(
 			continue;
 		}
 
-		pEntry->PER[CurrRateIdx] = (UCHAR)TxErrorRatio;
+		pEntry->PER[CurrRateIdx] = (u8)TxErrorRatio;
 
 		/* Select rate based on PER */
 		MlmeOldRateAdapt(pAd, pEntry, CurrRateIdx, UpRateIdx, DownRateIdx, TrainUp, TrainDown, TxErrorRatio);
@@ -1125,12 +1125,12 @@ VOID StaQuickResponeForRateUpExec(
 	struct rtmp_adapter *		pAd = (struct rtmp_adapter *)FunctionContext;
 	ULONG					i;
 	u8 *				pTable;
-	UCHAR					TableSize = 0;
-	UCHAR					CurrRateIdx;
+	u8 				TableSize = 0;
+	u8 				CurrRateIdx;
 	ULONG					TxTotalCnt;
 	ULONG					TxErrorRatio = 0;
 	RTMP_RA_LEGACY_TB *pCurrTxRate;
-	UCHAR					InitTxRateIdx, TrainUp, TrainDown;
+	u8 				InitTxRateIdx, TrainUp, TrainDown;
 	CHAR					Rssi, ratio;
 	ULONG					TxSuccess, TxRetransmit, TxFailCount;
 	MAC_TABLE_ENTRY			*pEntry;
@@ -1289,7 +1289,7 @@ VOID StaQuickResponeForRateUpExec(
 			continue;
 		}
 
-		pEntry->PER[CurrRateIdx] = (UCHAR)TxErrorRatio;
+		pEntry->PER[CurrRateIdx] = (u8)TxErrorRatio;
 
        /* Compare throughput */
 		do
@@ -1407,15 +1407,15 @@ VOID StaQuickResponeForRateUpExec(
 VOID MlmeOldRateAdapt(
 	IN struct rtmp_adapter *	pAd,
 	IN PMAC_TABLE_ENTRY	pEntry,
-	IN UCHAR			CurrRateIdx,
-	IN UCHAR			UpRateIdx,
-	IN UCHAR			DownRateIdx,
+	IN u8 		CurrRateIdx,
+	IN u8 		UpRateIdx,
+	IN u8 		DownRateIdx,
 	IN ULONG			TrainUp,
 	IN ULONG			TrainDown,
 	IN ULONG			TxErrorRatio)
 {
 	bool	bTrainUp = false;
-	UCHAR *pTable = pEntry->pTable;
+	u8 *pTable = pEntry->pTable;
 	bool invertTxBf = false;
 
 	pEntry->LastSecTxRateChangeAction = RATE_NO_CHANGE;

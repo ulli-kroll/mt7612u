@@ -372,7 +372,7 @@ struct net_device *RtmpPhyNetDevInit(struct rtmp_adapter *pAd,
 }
 
 
-VOID *RtmpNetEthConvertDevSearch(VOID *net_dev_, UCHAR *pData)
+VOID *RtmpNetEthConvertDevSearch(VOID *net_dev_, u8 *pData)
 {
 	struct net_device *pNetDev;
 	struct net_device *net_dev = (struct net_device *)net_dev_;

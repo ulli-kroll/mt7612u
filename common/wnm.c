@@ -152,12 +152,12 @@ void SendProxyARPEvent(struct net_device *net_dev,
 }
 
 
-bool IsGratuitousARP(UCHAR *pData)
+bool IsGratuitousARP(u8 *pData)
 {
-	UCHAR *Pos = pData;
+	u8 *Pos = pData;
 	uint16_t ProtoType;
-	UCHAR *SenderIP;
-	UCHAR *TargetIP;
+	u8 *SenderIP;
+	u8 *TargetIP;
 
 	memmove(&ProtoType, pData, 2);
 	ProtoType = OS_NTOHS(ProtoType);
@@ -184,7 +184,7 @@ bool IsGratuitousARP(UCHAR *pData)
 bool IsUnsolicitedNeighborAdver(struct rtmp_adapter *pAd,
 								   u8 *pData)
 {
-	UCHAR *Pos = pData;
+	u8 *Pos = pData;
 	uint16_t ProtoType;
 
 	memmove(&ProtoType, pData, 2);
@@ -223,11 +223,11 @@ bool IsUnsolicitedNeighborAdver(struct rtmp_adapter *pAd,
 bool IsIPv4ProxyARPCandidate(IN struct rtmp_adapter *pAd,
 						   		IN u8 *pData)
 {
-	UCHAR *Pos = pData;
+	u8 *Pos = pData;
 	uint16_t ProtoType;
 	uint16_t ARPOperation;
-	UCHAR *SenderIP;
-	UCHAR *TargetIP;
+	u8 *SenderIP;
+	u8 *TargetIP;
 
 
 	memmove(&ProtoType, pData, 2);
@@ -261,7 +261,7 @@ bool IsIPv4ProxyARPCandidate(IN struct rtmp_adapter *pAd,
 bool IsIpv6DuplicateAddrDetect(struct rtmp_adapter *pAd,
 								  u8 *pData)
 {
-	UCHAR *Pos = pData;
+	u8 *Pos = pData;
 	uint16_t ProtoType;
 	RT_IPV6_ADDR *pIPv6Addr;
 
@@ -297,7 +297,7 @@ bool IsIpv6DuplicateAddrDetect(struct rtmp_adapter *pAd,
 bool IsIPv6ProxyARPCandidate(IN struct rtmp_adapter *pAd,
 								IN u8 *pData)
 {
-	UCHAR *Pos = pData;
+	u8 *Pos = pData;
 	uint16_t ProtoType;
 	RT_IPV6_ADDR *pIPv6Addr;
 
@@ -334,7 +334,7 @@ bool IsIPv6ProxyARPCandidate(IN struct rtmp_adapter *pAd,
 bool IsIPv6RouterSolicitation(IN struct rtmp_adapter *pAd,
 								 IN u8 *pData)
 {
-	UCHAR *Pos = pData;
+	u8 *Pos = pData;
 	uint16_t ProtoType;
 
 	memmove(&ProtoType, pData, 2);
@@ -360,7 +360,7 @@ bool IsIPv6RouterSolicitation(IN struct rtmp_adapter *pAd,
 bool IsIPv6RouterAdvertisement(IN struct rtmp_adapter *pAd,
 								  IN u8 *pData)
 {
-	UCHAR *Pos = pData;
+	u8 *Pos = pData;
 	uint16_t ProtoType;
 
 	memmove(&ProtoType, pData, 2);
@@ -386,7 +386,7 @@ bool IsIPv6RouterAdvertisement(IN struct rtmp_adapter *pAd,
 bool IsTDLSPacket(IN struct rtmp_adapter *pAd,
 					 IN u8 *pData)
 {
-	UCHAR *Pos = pData;
+	u8 *Pos = pData;
 	uint16_t ProtoType;
 
 	memmove(&ProtoType, pData, 2);
@@ -734,14 +734,14 @@ VOID WNMIPv4ProxyARPCheck(
 			USHORT dstPort,
 			u8 *pSrcBuf)
 {
-	UCHAR apidx = RTMP_GET_PACKET_NET_DEVICE(pPacket);
+	u8 apidx = RTMP_GET_PACKET_NET_DEVICE(pPacket);
 	MULTISSID_STRUCT *pMbss = &pAd->ApCfg.MBSSID[apidx];
 
 	if (srcPort  == 0x43 && dstPort == 0x44)
 	{
-		UCHAR *pTargetIPAddr = pSrcBuf + 24;
+		u8 *pTargetIPAddr = pSrcBuf + 24;
 		/* Client hardware address */
-		UCHAR *pTargetMACAddr = pSrcBuf + 36;
+		u8 *pTargetMACAddr = pSrcBuf + 36;
 
 		if (pMbss->WNMCtrl.ProxyARPEnable)
 		{
@@ -757,7 +757,7 @@ VOID WNMIPv6ProxyARPCheck(
 			struct sk_buff *pPacket,
 			u8 *pSrcBuf)
 {
-	UCHAR apidx = RTMP_GET_PACKET_NET_DEVICE(pPacket);
+	u8 apidx = RTMP_GET_PACKET_NET_DEVICE(pPacket);
 	MULTISSID_STRUCT *pMbss = &pAd->ApCfg.MBSSID[apidx];
 
 	if (pMbss->WNMCtrl.ProxyARPEnable)
@@ -765,8 +765,8 @@ VOID WNMIPv6ProxyARPCheck(
 		/* Check if router advertisement, and add proxy entry */
 		if (IsIPv6RouterAdvertisement(pAd, pSrcBuf - 2))
 		{
-			UCHAR *Pos = pSrcBuf + 4;
-			UCHAR TargetIPAddr[16];
+			u8 *Pos = pSrcBuf + 4;
+			u8 TargetIPAddr[16];
 			INT16 PayloadLen;
 			DBGPRINT(RT_DEBUG_OFF, ("This packet is router advertisement\n"));
 
@@ -784,7 +784,7 @@ VOID WNMIPv6ProxyARPCheck(
 				/* Prefix information */
 				if (*Pos == 0x03)
 				{
-					UCHAR *Prefix;
+					u8 *Prefix;
 					int32_t Ret;
 					PROXY_ARP_IPV6_ENTRY *ProxyARPEntry;
 					PWNM_CTRL pWNMCtrl = &pMbss->WNMCtrl;
@@ -825,7 +825,7 @@ VOID WNMIPv6ProxyARPCheck(
 void PeerWNMAction(IN struct rtmp_adapter *pAd,
 				   IN MLME_QUEUE_ELEM *Elem)
 {
-	UCHAR Action = Elem->Msg[LENGTH_802_11+1];
+	u8 Action = Elem->Msg[LENGTH_802_11+1];
 
 	switch(Action)
 	{
@@ -839,7 +839,7 @@ VOID WNMCtrlInit(IN struct rtmp_adapter *pAd)
 {
 	PWNM_CTRL pWNMCtrl;
 #ifdef CONFIG_AP_SUPPORT
-	UCHAR APIndex;
+	u8 APIndex;
 #endif /* CONFIG_AP_SUPPORT */
 
 #ifdef CONFIG_AP_SUPPORT
@@ -881,7 +881,7 @@ VOID WNMCtrlExit(IN struct rtmp_adapter *pAd)
 #ifdef CONFIG_AP_SUPPORT
 	PROXY_ARP_IPV4_ENTRY *ProxyARPIPv4Entry, *ProxyARPIPv4EntryTmp;
 	PROXY_ARP_IPV6_ENTRY *ProxyARPIPv6Entry, *ProxyARPIPv6EntryTmp;
-	UCHAR APIndex;
+	u8 APIndex;
 #endif /* CONFIG_AP_SUPPORT */
 
 
@@ -928,7 +928,7 @@ VOID WNMCtrlExit(IN struct rtmp_adapter *pAd)
 VOID Clear_All_PROXY_TABLE(IN struct rtmp_adapter *pAd)
 {
 	struct os_cookie *pObj = pAd->OS_Cookie;
-	UCHAR APIndex = pObj->ioctl_if;
+	u8 APIndex = pObj->ioctl_if;
 	PWNM_CTRL pWNMCtrl;
 	uint32_t Ret;
 	PROXY_ARP_IPV4_ENTRY *ProxyARPIPv4Entry, *ProxyARPIPv4EntryTmp;

@@ -140,7 +140,7 @@ static VOID SendGASRsp(
 {
 
 	GAS_EVENT_DATA *Event = (GAS_EVENT_DATA *)Elem->Msg;
-	UCHAR *Buf, *Pos;
+	u8 *Buf, *Pos;
 	GAS_FRAME *GASFrame;
 	ULONG FrameLen = 0, VarLen = 0, tmpValue = 0;
 	PGAS_CTRL pGASCtrl = &pAd->ApCfg.MBSSID[Event->ControlIndex].GASCtrl;
@@ -318,7 +318,7 @@ VOID ReceiveGASInitReq(
 	GAS_FRAME *GASFrame = (GAS_FRAME *)Elem->Msg;
 	GAS_PEER_ENTRY *GASPeerEntry, *GASPeerEntryTmp;
 	PGAS_CTRL pGASCtrl = NULL;
-	UCHAR APIndex, *Pos, *Buf;
+	u8 APIndex, *Pos, *Buf;
 	uint16_t VarLen;
 	uint32_t Len = 0;
 	bool IsFound = false, Cancelled;;
@@ -423,7 +423,7 @@ VOID ReceiveGASInitReq(
 	memmove(&VarLen, GASFrame->u.GAS_INIT_REQ.Variable + 4, 2);
 	VarLen = le2cpu16(VarLen);
 
-	Buf = kmalloc( (UCHAR **)&Buf, sizeof(*Event) + VarLen, GFP_ATOMIC);
+	Buf = kmalloc( (u8 **)&Buf, sizeof(*Event) + VarLen, GFP_ATOMIC);
 	if (!Buf) {
 		DBGPRINT(RT_DEBUG_ERROR, ("%s Not available memory\n", __FUNCTION__));
 		goto error;
@@ -478,7 +478,7 @@ static VOID SendGASCBRsp(
 {
 
 	GAS_EVENT_DATA *Event = (GAS_EVENT_DATA *)Elem->Msg;
-	UCHAR *Buf, *Pos;
+	u8 *Buf, *Pos;
 	GAS_FRAME *GASFrame;
 	ULONG FrameLen = 0, VarLen = 0, tmpLen = 0;
 	GAS_PEER_ENTRY *GASPeerEntry;
@@ -670,7 +670,7 @@ VOID ReceiveGASCBReq(
 	GAS_FRAME *GASFrame = (GAS_FRAME *)Elem->Msg;
 	GAS_PEER_ENTRY *GASPeerEntry;
 	PGAS_CTRL pGASCtrl = NULL;
-	UCHAR APIndex, *Buf;
+	u8 APIndex, *Buf;
 	uint32_t Len = 0;
 	bool IsGASCBReqMore = false;
 	bool IsFound = false;
@@ -950,7 +950,7 @@ static VOID SendGASIndication(
 	GAS_EVENT_DATA *GASRspEvent;
 	PGAS_CTRL pGASCtrl = &pAd->ApCfg.MBSSID[Event->ControlIndex].GASCtrl;
 	struct net_device *NetDev = pAd->ApCfg.MBSSID[Event->ControlIndex].wdev.if_dev;
-	UCHAR *Buf;
+	u8 *Buf;
 	uint32_t Len = 0;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("%s\n", __FUNCTION__));
@@ -1152,7 +1152,7 @@ static VOID GASCtrlInit(IN struct rtmp_adapter *pAd)
 {
 	PGAS_CTRL pGASCtrl;
 #ifdef CONFIG_AP_SUPPORT
-	UCHAR APIndex;
+	u8 APIndex;
 #endif
 
 #ifdef CONFIG_STA_SUPPORT
@@ -1180,7 +1180,7 @@ VOID GASCtrlExit(IN struct rtmp_adapter *pAd)
 	GAS_QUERY_RSP_FRAGMENT *GASQueryRspFrag, *GASQueryRspFragTmp;
 	bool Cancelled;
 #ifdef CONFIG_AP_SUPPORT
-	UCHAR APIndex;
+	u8 APIndex;
 #endif
 
 #ifdef CONFIG_STA_SUPPORT

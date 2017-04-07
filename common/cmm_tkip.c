@@ -114,25 +114,25 @@ typedef	struct GNU_PACKED _IV_CONTROL_
 	{
 		struct GNU_PACKED
 		{
-			UCHAR		rc0;
-			UCHAR		rc1;
-			UCHAR		rc2;
+			u8 	rc0;
+			u8 	rc1;
+			u8 	rc2;
 
 			union GNU_PACKED
 			{
 				struct GNU_PACKED
 				{
 #ifdef RT_BIG_ENDIAN
-					UCHAR	KeyID:2;
-					UCHAR	ExtIV:1;
-					UCHAR	Rsvd:5;
+					u8 KeyID:2;
+					u8 ExtIV:1;
+					u8 Rsvd:5;
 #else
-					UCHAR	Rsvd:5;
-					UCHAR	ExtIV:1;
-					UCHAR	KeyID:2;
+					u8 Rsvd:5;
+					u8 ExtIV:1;
+					u8 KeyID:2;
 #endif
 				}	field;
-				UCHAR		Byte;
+				u8 	Byte;
 			}	CONTROL;
 		}	field;
 
@@ -200,7 +200,7 @@ VOID	RTMPTkipPutUInt32(
 
 	for(i = 0; i < 4; i++)
 	{
-		*pDst++ = (UCHAR) (val & 0xff);
+		*pDst++ = (u8) (val & 0xff);
 		val >>= 8;
 	}
 }
@@ -259,7 +259,7 @@ VOID RTMPTkipSetMICKey(
 */
 VOID	RTMPTkipAppendByte(
 	IN	PTKIP_KEY_INFO	pTkip,
-	IN	UCHAR 			uChar)
+	IN	u8 			uChar)
 {
 	/* Append the byte to our word-sized buffer */
 	pTkip->M |= (uChar << (8* pTkip->nBytesInM));
@@ -379,7 +379,7 @@ VOID	RTMPInitMICEngine(
 	IN	u8 *		pKey,
 	IN	u8 *		pDA,
 	IN	u8 *		pSA,
-	IN  UCHAR           UserPriority,
+	IN  u8           UserPriority,
 	IN	u8 *		pMICKey)
 {
 	ULONG Priority = UserPriority;
@@ -424,10 +424,10 @@ bool	RTMPTkipCompareMICValue(
 	IN	u8 *		pDA,
 	IN	u8 *		pSA,
 	IN	u8 *		pMICKey,
-	IN	UCHAR			UserPriority,
+	IN	u8 		UserPriority,
 	IN	UINT			Len)
 {
-	UCHAR	OldMic[8];
+	u8 OldMic[8];
 	ULONG	Priority = UserPriority;
 
 	/* Init MIC value calculation*/
@@ -487,14 +487,14 @@ VOID	RTMPCalculateMICValue(
 	IN	struct sk_buff *pPacket,
 	IN	u8 *		pEncap,
 	IN	PCIPHER_KEY		pKey,
-	IN	UCHAR			apidx)
+	IN	u8 		apidx)
 {
 	PACKET_INFO		PacketInfo;
 	u8 *		pSrcBufVA;
 	UINT			SrcBufLen;
 	u8 *		pSrc;
-    UCHAR           UserPriority;
-	UCHAR			vlan_offset = 0;
+    u8           UserPriority;
+	u8 		vlan_offset = 0;
 
 	RTMP_QueryPacketInfo(pPacket, &PacketInfo, &pSrcBufVA, &SrcBufLen);
 
@@ -597,11 +597,11 @@ UINT rotr1(UINT a)
 }
 
 VOID RTMPTkipMixKey(
-	UCHAR *key,
-	UCHAR *ta,
+	u8 *key,
+	u8 *ta,
 	ULONG pnl, /* Least significant 16 bits of PN */
 	ULONG pnh, /* Most significant 32 bits of PN */
-	UCHAR *rc4key,
+	u8 *rc4key,
 	UINT *p1k)
 {
 
@@ -704,7 +704,7 @@ VOID RTMPTkipMixKey(
 bool RTMPSoftDecryptTKIP(
 	IN 		struct rtmp_adapter *	pAd,
 	IN 		u8 *		pHdr,
-	IN 		UCHAR    		UserPriority,
+	IN 		u8    		UserPriority,
 	IN 		PCIPHER_KEY		pKey,
 	INOUT 	u8 *		pData,
 	IN 		uint16_t 		*DataByteCnt)
@@ -716,10 +716,10 @@ bool RTMPSoftDecryptTKIP(
     UINT8			to_ds;
 	UINT8			a4_exists;
 	UINT8			qc_exists;
-	UCHAR			TA[MAC_ADDR_LEN];
-	UCHAR			DA[MAC_ADDR_LEN];
-	UCHAR			SA[MAC_ADDR_LEN];
-	UCHAR			RC4Key[16];
+	u8 		TA[MAC_ADDR_LEN];
+	u8 		DA[MAC_ADDR_LEN];
+	u8 		SA[MAC_ADDR_LEN];
+	u8 		RC4Key[16];
 	UINT			p1k[5]; /*for mix_key;*/
 	ULONG			pnl;/* Least significant 16 bits of PN */
 	ULONG			pnh;/* Most significant 32 bits of PN */
@@ -730,8 +730,8 @@ bool RTMPSoftDecryptTKIP(
 	uint32_t 		ciphertext_len;
 	UINT			crc32 = 0;
 	UINT			trailfcs = 0;
-	UCHAR			MIC[8];
-	UCHAR			TrailMIC[8];
+	u8 		MIC[8];
+	u8 		TrailMIC[8];
 
 #ifdef RT_BIG_ENDIAN
 	RTMPFrameEndianChange(pAd, pHdr, DIR_READ, false);
@@ -879,13 +879,13 @@ bool RTMPSoftDecryptTKIP(
 	========================================================================
 */
 VOID TKIP_GTK_KEY_WRAP(
-    IN UCHAR    *key,
-    IN UCHAR	*iv,
-    IN UCHAR    *input_text,
+    IN u8    *key,
+    IN u8 *iv,
+    IN u8    *input_text,
     IN uint32_t    input_len,
-    OUT UCHAR   *output_text)
+    OUT u8   *output_text)
 {
-	UCHAR	ekey[LEN_KEY_DESC_IV + LEN_PTK_KEK];
+	u8 ekey[LEN_KEY_DESC_IV + LEN_PTK_KEK];
 /*	ARC4_CTX_STRUC ARC4_CTX;*/
 	ARC4_CTX_STRUC *pARC4_CTX = NULL;
 
@@ -916,11 +916,11 @@ VOID TKIP_GTK_KEY_WRAP(
 }
 
 VOID TKIP_GTK_KEY_UNWRAP(
-    IN UCHAR    *key,
-    IN UCHAR	*iv,
-    IN UCHAR    *input_text,
+    IN u8    *key,
+    IN u8 *iv,
+    IN u8    *input_text,
     IN uint32_t    input_len,
-    OUT UCHAR   *output_text)
+    OUT u8   *output_text)
 {
 	TKIP_GTK_KEY_WRAP(key, iv, input_text, input_len, output_text);
 }

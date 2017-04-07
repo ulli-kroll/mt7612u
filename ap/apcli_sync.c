@@ -54,7 +54,7 @@ static VOID ApCliInvalidStateWhenJoin(
 
 static VOID ApCliEnqueueProbeRequest(
 	IN struct rtmp_adapter *pAd,
-	IN UCHAR SsidLen,
+	IN u8 SsidLen,
 	OUT PCHAR Ssid,
 	IN USHORT ifIndex);
 
@@ -76,7 +76,7 @@ VOID ApCliSyncStateMachineInit(
 	IN STATE_MACHINE *Sm,
 	OUT STATE_MACHINE_FUNC Trans[])
 {
-	UCHAR i;
+	u8 i;
 #ifdef APCLI_CONNECTION_TRIAL
 	PAPCLI_STRUCT	pApCliEntry;
 #endif /*APCLI_CONNECTION_TRIAL*/
@@ -245,12 +245,12 @@ static VOID ApCliPeerProbeRspAtJoinAction(
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	USHORT LenVIE;
-	UCHAR *VarIE = NULL;
+	u8 *VarIE = NULL;
 	NDIS_802_11_VARIABLE_IEs *pVIE = NULL;
 	APCLI_CTRL_MSG_STRUCT ApCliCtrlMsg;
 	PAPCLI_STRUCT pApCliEntry = NULL;
 	struct rtmp_wifi_dev *wdev;
-	UCHAR CentralChannel;
+	u8 CentralChannel;
 	USHORT ifIndex = (USHORT)(Elem->Priv);
 	ULONG *pCurrState;
 	BCN_IE_LIST *ie_list = NULL;
@@ -329,7 +329,7 @@ static VOID ApCliPeerProbeRspAtJoinAction(
 
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
                 DBGPRINT(RT_DEBUG_TRACE, ("Info: Update the SSID %s in Kernel Table\n", ie_list->Ssid));
-                RT_CFG80211_SCANNING_INFORM(pAd, Bssidx, ie_list->Channel, (UCHAR *)Elem->Msg, Elem->MsgLen, RealRssi);
+                RT_CFG80211_SCANNING_INFORM(pAd, Bssidx, ie_list->Channel, (u8 *)Elem->Msg, Elem->MsgLen, RealRssi);
 #endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
 
 
@@ -603,7 +603,7 @@ static VOID ApCliInvalidStateWhenJoin(
  */
 static VOID ApCliEnqueueProbeRequest(
 	IN struct rtmp_adapter *pAd,
-	IN UCHAR SsidLen,
+	IN u8 SsidLen,
 	OUT PCHAR Ssid,
 	IN USHORT ifIndex)
 {
@@ -611,9 +611,9 @@ static VOID ApCliEnqueueProbeRequest(
 	u8 *         pOutBuffer;
 	ULONG           FrameLen = 0;
 	HEADER_802_11   Hdr80211;
-	UCHAR           SsidIe    = IE_SSID;
-	UCHAR           SupRateIe = IE_SUPP_RATES;
-	UCHAR ssidLen;
+	u8           SsidIe    = IE_SSID;
+	u8           SupRateIe = IE_SUPP_RATES;
+	u8 ssidLen;
 	CHAR ssid[MAX_LEN_OF_SSID];
 	APCLI_STRUCT *pApCliEntry = NULL;
 	bool bHasWscIe = false;
@@ -670,9 +670,9 @@ static VOID ApCliEnqueueProbeRequest(
 		if (WMODE_CAP_AC(pAd->CommonCfg.PhyMode) &&
 			(pAd->CommonCfg.Channel > 14))
 		{
-			build_vht_cap_ie(pAd, (UCHAR *)&pApCliEntry->MlmeAux.vht_cap);
+			build_vht_cap_ie(pAd, (u8 *)&pApCliEntry->MlmeAux.vht_cap);
 			pApCliEntry->MlmeAux.vht_cap_len = sizeof(VHT_CAP_IE);
-			FrameLen += build_vht_ies(pAd, (UCHAR *)(pOutBuffer + FrameLen), SUBTYPE_PROBE_REQ);
+			FrameLen += build_vht_ies(pAd, (u8 *)(pOutBuffer + FrameLen), SUBTYPE_PROBE_REQ);
 		}
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
 		if ((pAd->StaCfg.wpa_supplicant_info.WpaSupplicantUP != WPA_SUPPLICANT_DISABLE) &&

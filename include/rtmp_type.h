@@ -43,7 +43,6 @@
 typedef unsigned char UINT8;
 typedef short INT16;
 
-typedef unsigned char UCHAR;
 typedef unsigned short USHORT;
 typedef unsigned int UINT;
 typedef unsigned long ULONG;
@@ -95,37 +94,37 @@ typedef struct _RTMP_REG_PAIR {
 } RTMP_REG_PAIR, *PRTMP_REG_PAIR;
 
 typedef struct _REG_PAIR {
-	UCHAR Register;
-	UCHAR Value;
+	u8 Register;
+	u8 Value;
 } REG_PAIR, *PREG_PAIR;
 
 typedef struct _REG_PAIR_CHANNEL {
-	UCHAR Register;
-	UCHAR FirstChannel;
-	UCHAR LastChannel;
-	UCHAR Value;
+	u8 Register;
+	u8 FirstChannel;
+	u8 LastChannel;
+	u8 Value;
 } REG_PAIR_CHANNEL, *PREG_PAIR_CHANNEL;
 
 typedef struct _REG_PAIR_BW {
-	UCHAR Register;
-	UCHAR BW;
-	UCHAR Value;
+	u8 Register;
+	u8 BW;
+	u8 Value;
 } REG_PAIR_BW, *PREG_PAIR_BW;
 
 
 typedef struct _REG_PAIR_PHY{
-	UCHAR reg;
-	UCHAR s_ch;
-	UCHAR e_ch;
-	UCHAR phy;	/* RF_MODE_XXX */
-	UCHAR bw;	/* RF_BW_XX */
-	UCHAR val;
+	u8 reg;
+	u8 s_ch;
+	u8 e_ch;
+	u8 phy;	/* RF_MODE_XXX */
+	u8 bw;	/* RF_BW_XX */
+	u8 val;
 }REG_PAIR_PHY;
 
 
 /* Register set pair for initialzation register set definition */
 typedef struct _RTMP_RF_REGS {
-	UCHAR Channel;
+	u8 Channel;
 	uint32_t R1;
 	uint32_t R2;
 	uint32_t R3;
@@ -133,10 +132,10 @@ typedef struct _RTMP_RF_REGS {
 } RTMP_RF_REGS, *PRTMP_RF_REGS;
 
 typedef struct _FREQUENCY_ITEM {
-	UCHAR Channel;
-	UCHAR N;
-	UCHAR R;
-	UCHAR K;
+	u8 Channel;
+	u8 N;
+	u8 R;
+	u8 K;
 } FREQUENCY_ITEM, *PFREQUENCY_ITEM;
 
 #define STATUS_SUCCESS			0x00
@@ -161,16 +160,16 @@ typedef struct _CR_REG {
 
 typedef struct _BANK_RF_CR_REG {
 	uint32_t flags;
-	UCHAR bank;
-	UCHAR offset;
-	UCHAR value;
+	u8 bank;
+	u8 offset;
+	u8 value;
 } BANK_RF_CR_REG, *PBANK_RF_CR_REG;
 
 struct mt_dev_priv{
 	struct rtmp_adapter *sys_handle;
 	struct rtmp_wifi_dev *rtmp_wifi_dev;
 	unsigned long priv_flags;
-	UCHAR sniffer_mode;
+	u8 sniffer_mode;
 };
 
 #endif /* __RTMP_TYPE_H__ */

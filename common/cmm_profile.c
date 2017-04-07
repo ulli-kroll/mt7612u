@@ -569,7 +569,7 @@ INT RTMPGetKeyParameterWithOffset(
 inline void RTMPSetSTADefKeyId(struct rtmp_adapter *pAd, ULONG KeyIdx)
 {
 	if((KeyIdx >= 1 ) && (KeyIdx <= 4))
-		pAd->StaCfg.wdev.DefaultKeyId = (UCHAR) (KeyIdx - 1);
+		pAd->StaCfg.wdev.DefaultKeyId = (u8) (KeyIdx - 1);
 	else
 		pAd->StaCfg.wdev.DefaultKeyId = 0;
 }
@@ -581,7 +581,7 @@ static int rtmp_parse_key_buffer_from_file(IN  struct rtmp_adapter *pAd,IN  char
 	char *	keybuff;
 	/*INT			i = BSSIdx, idx = KeyIdx, retVal;*/
 	ULONG		KeyLen;
-	/*UCHAR		CipherAlg = CIPHER_WEP64;*/
+	/*u8 	CipherAlg = CIPHER_WEP64;*/
 	CIPHER_KEY	*pSharedKey;
 
 	keybuff = buffer;
@@ -627,7 +627,7 @@ static void rtmp_read_key_parms_from_file(IN  struct rtmp_adapter *pAd, char *tm
 
 				KeyIdx = simple_strtol(macptr, 0, 10);
 				if((KeyIdx >= 1 ) && (KeyIdx <= 4))
-					pAd->ApCfg.MBSSID[i].wdev.DefaultKeyId = (UCHAR) (KeyIdx - 1 );
+					pAd->ApCfg.MBSSID[i].wdev.DefaultKeyId = (u8) (KeyIdx - 1 );
 				else
 					pAd->ApCfg.MBSSID[i].wdev.DefaultKeyId = 0;
 
@@ -734,7 +734,7 @@ static void rtmp_read_ap_client_from_file(
 {
 	char *	macptr = NULL;
 	INT			i=0, j=0, idx;
-	UCHAR		macAddress[MAC_ADDR_LEN];
+	u8 	macAddress[MAC_ADDR_LEN];
 	PAPCLI_STRUCT   pApCliEntry = NULL;
 	ULONG		KeyIdx;
 	STRING		tok_str[16];
@@ -773,7 +773,7 @@ static void rtmp_read_ap_client_from_file(
 		for (i = 0; i < MAX_APCLI_NUM; i++)
 		{
 			pApCliEntry = &pAd->ApCfg.ApCliTab[i];
-			pApCliEntry->TrialCh = (UCHAR) simple_strtol(tmpbuf, 0, 10);
+			pApCliEntry->TrialCh = (u8) simple_strtol(tmpbuf, 0, 10);
 			DBGPRINT(RT_DEBUG_TRACE, ("TrialChannel=%d\n", pApCliEntry->TrialCh));
 		}
 
@@ -788,7 +788,7 @@ static void rtmp_read_ap_client_from_file(
 			pApCliEntry = &pAd->ApCfg.ApCliTab[i];
 
 			/*Ssid acceptable strlen must be less than 32 and bigger than 0.*/
-			pApCliEntry->CfgSsidLen = (UCHAR)strlen(macptr);
+			pApCliEntry->CfgSsidLen = (u8)strlen(macptr);
 			if (pApCliEntry->CfgSsidLen > 32)
 			{
 				pApCliEntry->CfgSsidLen = 0;
@@ -955,7 +955,7 @@ static void rtmp_read_ap_client_from_file(
 
 			KeyIdx = simple_strtol(macptr, 0, 10);
 			if((KeyIdx >= 1 ) && (KeyIdx <= 4))
-				wdev->DefaultKeyId = (UCHAR) (KeyIdx - 1);
+				wdev->DefaultKeyId = (u8) (KeyIdx - 1);
 			else
 				wdev->DefaultKeyId = 0;
 
@@ -1050,7 +1050,7 @@ static void rtmp_read_acl_parms_from_file(IN  struct rtmp_adapter *pAd, char *tm
 	STRING		tok_str[32];
 	char *	macptr;
 	INT			i=0, j=0, idx;
-	UCHAR		macAddress[MAC_ADDR_LEN];
+	u8 	macAddress[MAC_ADDR_LEN];
 
 
 	memset(macAddress, 0, MAC_ADDR_LEN);
@@ -1201,7 +1201,7 @@ static void rtmp_read_ap_wmm_parms_from_file(IN  struct rtmp_adapter *pAd, char 
 	{
 	    for (i = 0, macptr = rstrtok(tmpbuf,";"); macptr; macptr = rstrtok(NULL,";"), i++)
 	    {
-			pAd->CommonCfg.APEdcaParm.Aifsn[i] = (UCHAR) simple_strtol(macptr, 0, 10);;
+			pAd->CommonCfg.APEdcaParm.Aifsn[i] = (u8) simple_strtol(macptr, 0, 10);;
 
 			DBGPRINT(RT_DEBUG_TRACE, ("APAifsn[%d]=%d\n", i, pAd->CommonCfg.APEdcaParm.Aifsn[i]));
 	    }
@@ -1211,7 +1211,7 @@ static void rtmp_read_ap_wmm_parms_from_file(IN  struct rtmp_adapter *pAd, char 
 	{
 	    for (i = 0, macptr = rstrtok(tmpbuf,";"); macptr; macptr = rstrtok(NULL,";"), i++)
 	    {
-			pAd->CommonCfg.APEdcaParm.Cwmin[i] = (UCHAR) simple_strtol(macptr, 0, 10);;
+			pAd->CommonCfg.APEdcaParm.Cwmin[i] = (u8) simple_strtol(macptr, 0, 10);;
 
 #ifdef MULTI_CLIENT_SUPPORT
 			/* record profile cwmin */
@@ -1227,7 +1227,7 @@ static void rtmp_read_ap_wmm_parms_from_file(IN  struct rtmp_adapter *pAd, char 
 	{
 	    for (i = 0, macptr = rstrtok(tmpbuf,";"); macptr; macptr = rstrtok(NULL,";"), i++)
 	    {
-			pAd->CommonCfg.APEdcaParm.Cwmax[i] = (UCHAR) simple_strtol(macptr, 0, 10);;
+			pAd->CommonCfg.APEdcaParm.Cwmax[i] = (u8) simple_strtol(macptr, 0, 10);;
 
 #ifdef MULTI_CLIENT_SUPPORT
 			/* record profile cwmax */
@@ -1263,7 +1263,7 @@ static void rtmp_read_ap_wmm_parms_from_file(IN  struct rtmp_adapter *pAd, char 
 	{
 	    for (i = 0, macptr = rstrtok(tmpbuf,";"); macptr; macptr = rstrtok(NULL,";"), i++)
 	    {
-			pAd->ApCfg.BssEdcaParm.Aifsn[i] = (UCHAR) simple_strtol(macptr, 0, 10);;
+			pAd->ApCfg.BssEdcaParm.Aifsn[i] = (u8) simple_strtol(macptr, 0, 10);;
 
 			DBGPRINT(RT_DEBUG_TRACE, ("BSSAifsn[%d]=%d\n", i, pAd->ApCfg.BssEdcaParm.Aifsn[i]));
 	    }
@@ -1273,7 +1273,7 @@ static void rtmp_read_ap_wmm_parms_from_file(IN  struct rtmp_adapter *pAd, char 
 	{
 	    for (i = 0, macptr = rstrtok(tmpbuf,";"); macptr; macptr = rstrtok(NULL,";"), i++)
 	    {
-			pAd->ApCfg.BssEdcaParm.Cwmin[i] = (UCHAR) simple_strtol(macptr, 0, 10);;
+			pAd->ApCfg.BssEdcaParm.Cwmin[i] = (u8) simple_strtol(macptr, 0, 10);;
 
 #ifdef MULTI_CLIENT_SUPPORT
 			/* record profile cwmin */
@@ -1289,7 +1289,7 @@ static void rtmp_read_ap_wmm_parms_from_file(IN  struct rtmp_adapter *pAd, char 
 	{
 	    for (i = 0, macptr = rstrtok(tmpbuf,";"); macptr; macptr = rstrtok(NULL,";"), i++)
 	    {
-			pAd->ApCfg.BssEdcaParm.Cwmax[i] = (UCHAR) simple_strtol(macptr, 0, 10);;
+			pAd->ApCfg.BssEdcaParm.Cwmax[i] = (u8) simple_strtol(macptr, 0, 10);;
 
 			DBGPRINT(RT_DEBUG_TRACE, ("BSSCwmax[%d]=%d\n", i, pAd->ApCfg.BssEdcaParm.Cwmax[i]));
 	    }
@@ -1319,7 +1319,7 @@ static void rtmp_read_ap_wmm_parms_from_file(IN  struct rtmp_adapter *pAd, char 
 	{
 	    for (i = 0, macptr = rstrtok(tmpbuf,";"); macptr; macptr = rstrtok(NULL,";"), i++)
 	    {
-			pAd->CommonCfg.AckPolicy[i] = (UCHAR) simple_strtol(macptr, 0, 10);;
+			pAd->CommonCfg.AckPolicy[i] = (u8) simple_strtol(macptr, 0, 10);;
 
 			DBGPRINT(RT_DEBUG_TRACE, ("AckPolicy[%d]=%d\n", i, pAd->CommonCfg.AckPolicy[i]));
 	    }
@@ -1532,7 +1532,7 @@ static int rtmp_parse_wpapsk_buffer_from_file(IN  struct rtmp_adapter *pAd,IN  c
 {
 	char *	tmpbuf = buffer;
 	INT			i = BSSIdx;
-	/*UCHAR		keyMaterial[40];*/
+	/*u8 	keyMaterial[40];*/
 	ULONG		len = strlen(tmpbuf);
 	int         ret = 0;
 
@@ -1581,7 +1581,7 @@ static void rtmp_read_sta_wmm_parms_from_file(IN  struct rtmp_adapter *pAd, char
 	{
 		for (i = 0, macptr = rstrtok(tmpbuf,";"); macptr; macptr = rstrtok(NULL,";"), i++)
 		{
-			pAd->CommonCfg.AckPolicy[i] = (UCHAR)simple_strtol(macptr, 0, 10);
+			pAd->CommonCfg.AckPolicy[i] = (u8)simple_strtol(macptr, 0, 10);
 
 			DBGPRINT(RT_DEBUG_TRACE, ("AckPolicy[%d]=%d\n", i, pAd->CommonCfg.AckPolicy[i]));
 		}
@@ -2216,7 +2216,7 @@ static void HTParametersHook(
 #ifdef CONFIG_STA_SUPPORT
 void RTMPSetSTASSID(struct rtmp_adapter *pAd, char *SSID)
 {
-	pAd->CommonCfg.SsidLen = (UCHAR) strlen(SSID);
+	pAd->CommonCfg.SsidLen = (u8) strlen(SSID);
 	memset(pAd->CommonCfg.Ssid, 0, NDIS_802_11_LENGTH_SSID);
 	memmove(pAd->CommonCfg.Ssid, SSID, pAd->CommonCfg.SsidLen);
 	pAd->CommonCfg.LastSsidLen= pAd->CommonCfg.SsidLen;
@@ -2433,7 +2433,7 @@ int RTMPSetProfileParameters(
 			/*BSSIDNum; This must read first of other multiSSID field, so list this field first in configuration file*/
 			if(RTMPGetKeyParameter("BssidNum", tmpbuf, 25, pBuffer, true))
 			{
-				pAd->ApCfg.BssidNum = (UCHAR) simple_strtol(tmpbuf, 0, 10);
+				pAd->ApCfg.BssidNum = (u8) simple_strtol(tmpbuf, 0, 10);
 				if(pAd->ApCfg.BssidNum > MAX_MBSSID_NUM(pAd))
 				{
 					pAd->ApCfg.BssidNum = MAX_MBSSID_NUM(pAd);
@@ -2474,7 +2474,7 @@ int RTMPSetProfileParameters(
 		/*Channel*/
 		if(RTMPGetKeyParameter("Channel", tmpbuf, 10, pBuffer, true))
 		{
-			pAd->CommonCfg.Channel = (UCHAR) simple_strtol(tmpbuf, 0, 10);
+			pAd->CommonCfg.Channel = (u8) simple_strtol(tmpbuf, 0, 10);
 			DBGPRINT(RT_DEBUG_TRACE, ("Channel=%d\n", pAd->CommonCfg.Channel));
 			if (pAd->CommonCfg.Channel > 14)
 				pAd->Dot11_H.org_ch = pAd->CommonCfg.Channel;
@@ -2484,7 +2484,7 @@ int RTMPSetProfileParameters(
 		/*Note: BssidNum must be put before WirelessMode in dat file*/
 		if(RTMPGetKeyParameter("WirelessMode", tmpbuf, 32, pBuffer, true))
 		{
-			UCHAR cfg_mode;
+			u8 cfg_mode;
 			for (i = 0, macptr = rstrtok(tmpbuf,";"); macptr; macptr = rstrtok(NULL,";"), i++)
 			{
 				cfg_mode = simple_strtol(macptr, 0, 10);
@@ -2555,7 +2555,7 @@ int RTMPSetProfileParameters(
 			/*DtimPeriod*/
 			if(RTMPGetKeyParameter("DtimPeriod", tmpbuf, 10, pBuffer, true))
 			{
-				pAd->ApCfg.DtimPeriod = (UCHAR) simple_strtol(tmpbuf, 0, 10);
+				pAd->ApCfg.DtimPeriod = (u8) simple_strtol(tmpbuf, 0, 10);
 				DBGPRINT(RT_DEBUG_TRACE, ("DtimPeriod=%d\n", pAd->ApCfg.DtimPeriod));
 			}
 		}

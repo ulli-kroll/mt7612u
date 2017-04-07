@@ -141,7 +141,7 @@ const struct ieee80211_rate Cfg80211_SupRate[12] = {
 #endif /* OS_ABL_FUNC_SUPPORT */
 
 /* all available channels */
-static const UCHAR Cfg80211_Chan[] = {
+static const u8 Cfg80211_Chan[] = {
 	1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
 
 	/* 802.11 UNI / HyperLan 2 */
@@ -1576,7 +1576,7 @@ static int CFG80211_OpsPmksaSet(
 		return -ENOENT;
 
 	pIoctlPmaSa->Cmd = RT_CMD_STA_IOCTL_PMA_SA_ADD;
-	pIoctlPmaSa->pBssid = (UCHAR *)pPmksa->bssid;
+	pIoctlPmaSa->pBssid = (u8 *)pPmksa->bssid;
 	pIoctlPmaSa->pPmkid = (char *)  pPmksa->pmkid;
 
 	RTMP_DRIVER_80211_PMKID_CTRL(pAd, pIoctlPmaSa);
@@ -1621,7 +1621,7 @@ static int CFG80211_OpsPmksaDel(
 		return -ENOENT;
 
 	pIoctlPmaSa->Cmd = RT_CMD_STA_IOCTL_PMA_SA_REMOVE;
-	pIoctlPmaSa->pBssid = (UCHAR *)pPmksa->bssid;
+	pIoctlPmaSa->pBssid = (u8 *)pPmksa->bssid;
 	pIoctlPmaSa->pPmkid = (char *) pPmksa->pmkid;
 
 	RTMP_DRIVER_80211_PMKID_CTRL(pAd, pIoctlPmaSa);

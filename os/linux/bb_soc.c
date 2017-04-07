@@ -21,14 +21,14 @@
     ========================================================================
 */
 
-static UCHAR dslStateChg=0;
+static u8 dslStateChg=0;
 VOID PeriodicPollingModeDetect(
 	IN PVOID SystemSpecific1,
     IN PVOID FunctionContext,
     IN PVOID SystemSpecific2,
     IN PVOID SystemSpecific3){
   unsigned long irqFlags;
-  UCHAR modem_status=0;
+  u8 modem_status=0;
   struct rtmp_adapter *pAd = (struct rtmp_adapter *)FunctionContext;
   struct os_cookie *_pObj = pAd->OS_Cookie);
 
@@ -106,8 +106,8 @@ VOID BBUPollingModeStart(IN struct rtmp_adapter *pAd){
 }
 
 VOID BBUPrepareMAC(IN struct rtmp_adapter *pAd, u8 *macaddr ){
-	UCHAR FourByteOffset = 0;
-	UCHAR NWlanExt = 0;
+	u8 FourByteOffset = 0;
+	u8 NWlanExt = 0;
 
 	FourByteOffset = macaddr[5]%4;
 	DBGPRINT(RT_DEBUG_WARN, ("\r\nFourByteOffset is %d", FourByteOffset));

@@ -60,24 +60,24 @@ enum WNM_ACTION_FIELD {
 typedef struct GNU_PACKED _WNM_FRAME
 {
 	HEADER_802_11 Hdr;
-	UCHAR Category;
+	u8 Category;
 	union {
 		struct {
-			UCHAR Action;
-			UCHAR DialogToken;
-			UCHAR Variable[0];
+			u8 Action;
+			u8 DialogToken;
+			u8 Variable[0];
 		} GNU_PACKED BTM_QUERY;
 
 		struct {
-			UCHAR Action;
-			UCHAR DialogToken;
-			UCHAR Variable[0];
+			u8 Action;
+			u8 DialogToken;
+			u8 Variable[0];
 		} GNU_PACKED BTM_REQ;
 
 		struct {
-			UCHAR Action;
-			UCHAR DialogToken;
-			UCHAR Variable[0];
+			u8 Action;
+			u8 DialogToken;
+			u8 Variable[0];
 		} GNU_PACKED BTM_RSP;
 	}u;
 } WNM_FRAME, *PWNM_FRAME;

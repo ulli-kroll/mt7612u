@@ -27,7 +27,7 @@
 
 #include "rt_config.h"
 
-UCHAR PowerConstraintIE[3] = {IE_POWER_CONSTRAINT, 1, 3};
+u8 PowerConstraintIE[3] = {IE_POWER_CONSTRAINT, 1, 3};
 
 
 /*
@@ -81,20 +81,20 @@ bool BeaconTransmitRequired(struct rtmp_adapter *pAd, INT apidx, MULTISSID_STRUC
 */
 VOID APMakeBssBeacon(struct rtmp_adapter *pAd, INT apidx)
 {
-	UCHAR DsLen = 1, SsidLen;
+	u8 DsLen = 1, SsidLen;
 	HEADER_802_11 BcnHdr;
 	LARGE_INTEGER FakeTimestamp;
 	ULONG FrameLen = 0;
 	u8 *pBeaconFrame = (u8 *)pAd->ApCfg.MBSSID[apidx].BeaconBuf;
-	UCHAR *ptr;
+	u8 *ptr;
 	UINT i;
 	uint32_t reg_base;
 	HTTRANSMIT_SETTING BeaconTransmit = {.word = 0};   /* MGMT frame PHY rate setting when operatin at Ht rate. */
-	UCHAR PhyMode, SupRateLen;
+	u8 PhyMode, SupRateLen;
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
 	MULTISSID_STRUCT *pMbss = &pAd->ApCfg.MBSSID[apidx];
 #ifdef SPECIFIC_TX_POWER_SUPPORT
-	UCHAR TxPwrAdj = 0;
+	u8 TxPwrAdj = 0;
 #endif /* SPECIFIC_TX_POWER_SUPPORT */
 
 	if(!BeaconTransmitRequired(pAd, apidx, pMbss))
@@ -148,8 +148,8 @@ VOID APMakeBssBeacon(struct rtmp_adapter *pAd, INT apidx)
 	if (pAd->CommonCfg.bCountryFlag)
 	{
 		ULONG TmpLen, TmpLen2=0;
-		UCHAR *TmpFrame = NULL;
-		UCHAR CountryIe = IE_COUNTRY;
+		u8 *TmpFrame = NULL;
+		u8 CountryIe = IE_COUNTRY;
 
 		TmpFrame = kmalloc(256, GFP_ATOMIC);
 		if (TmpFrame != NULL)
@@ -158,7 +158,7 @@ VOID APMakeBssBeacon(struct rtmp_adapter *pAd, INT apidx)
 
 			/* prepare channel information */
 			{
-				UCHAR MaxTxPower = GetCuntryMaxTxPwr(pAd, pAd->CommonCfg.Channel);
+				u8 MaxTxPower = GetCuntryMaxTxPwr(pAd, pAd->CommonCfg.Channel);
 				MakeOutgoingFrame(TmpFrame+TmpLen2,     &TmpLen,
 									1,                 	&pAd->ChannelList[0].Channel,
 									1,                 	&pAd->ChannelListNum,
@@ -170,7 +170,7 @@ VOID APMakeBssBeacon(struct rtmp_adapter *pAd, INT apidx)
 			/* need to do the padding bit check, and concatenate it */
 			if ((TmpLen2%2) == 0)
 			{
-				UCHAR	TmpLen3 = TmpLen2+4;
+				u8 TmpLen3 = TmpLen2+4;
 				MakeOutgoingFrame(pBeaconFrame+FrameLen,&TmpLen,
 				                  1,                 	&CountryIe,
 				                  1,                 	&TmpLen3,
@@ -180,7 +180,7 @@ VOID APMakeBssBeacon(struct rtmp_adapter *pAd, INT apidx)
 			}
 			else
 			{
-				UCHAR	TmpLen3 = TmpLen2+3;
+				u8 TmpLen3 = TmpLen2+3;
 				MakeOutgoingFrame(pBeaconFrame+FrameLen,&TmpLen,
 				                  1,                 	&CountryIe,
 				                  1,                 	&TmpLen3,
@@ -198,7 +198,7 @@ VOID APMakeBssBeacon(struct rtmp_adapter *pAd, INT apidx)
 
 	/* AP Channel Report */
 	{
-		UCHAR APChannelReportIe = IE_AP_CHANNEL_REPORT;
+		u8 APChannelReportIe = IE_AP_CHANNEL_REPORT;
 		ULONG	TmpLen;
 
 		/*
@@ -206,9 +206,9 @@ VOID APMakeBssBeacon(struct rtmp_adapter *pAd, INT apidx)
 				class 32, channel set 1~7
 				class 33, channel set 5-11
 		*/
-		UCHAR rclass32[]={32, 1, 2, 3, 4, 5, 6, 7};
-        UCHAR rclass33[]={33, 5, 6, 7, 8, 9, 10, 11};
-		UCHAR rclasslen = 8; /*sizeof(rclass32); */
+		u8 rclass32[]={32, 1, 2, 3, 4, 5, 6, 7};
+        u8 rclass33[]={33, 5, 6, 7, 8, 9, 10, 11};
+		u8 rclasslen = 8; /*sizeof(rclass32); */
 		if (PhyMode == (WMODE_B | WMODE_G | WMODE_GN))
 		{
 			MakeOutgoingFrame(pBeaconFrame+FrameLen,&TmpLen,
@@ -286,7 +286,7 @@ VOID APMakeBssBeacon(struct rtmp_adapter *pAd, INT apidx)
 		ptr += 4;
 	}
 
-	pMbss->TimIELocationInBeacon = (UCHAR)FrameLen;
+	pMbss->TimIELocationInBeacon = (u8)FrameLen;
 	pMbss->CapabilityInfoLocationInBeacon = sizeof(HEADER_802_11) + TIMESTAMP_LEN + 2;
 }
 
@@ -304,28 +304,28 @@ VOID APMakeBssBeacon(struct rtmp_adapter *pAd, INT apidx)
 */
 VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 {
-	UCHAR *pBeaconFrame;
-	UCHAR *ptr;
+	u8 *pBeaconFrame;
+	u8 *ptr;
 	ULONG FrameLen;
 	ULONG UpdatePos;
-	UCHAR RSNIe=IE_WPA, RSNIe2=IE_WPA2;
-	UCHAR ID_1B, TimFirst, TimLast, *pTim;
+	u8 RSNIe=IE_WPA, RSNIe2=IE_WPA2;
+	u8 ID_1B, TimFirst, TimLast, *pTim;
 	MULTISSID_STRUCT *pMbss;
 	COMMON_CONFIG *pComCfg;
-	UCHAR PhyMode;
+	u8 PhyMode;
 	bool bHasWpsIE = false;
 	UINT  i;
 	HTTRANSMIT_SETTING	BeaconTransmit = {.word = 0};   /* MGMT frame PHY rate setting when operatin at Ht rate. */
 	struct rtmp_wifi_dev *wdev;
 #ifdef SPECIFIC_TX_POWER_SUPPORT
-	UCHAR TxPwrAdj = 0;
+	u8 TxPwrAdj = 0;
 #endif /* SPECIFIC_TX_POWER_SUPPORT */
 
 	pComCfg = &pAd->CommonCfg;
 	pMbss = &pAd->ApCfg.MBSSID[apidx];
 	wdev = &pMbss->wdev;
 
-	pBeaconFrame = (UCHAR *)&pMbss->BeaconBuf[0];
+	pBeaconFrame = (u8 *)&pMbss->BeaconBuf[0];
 	FrameLen = UpdatePos = pMbss->TimIELocationInBeacon;
 	PhyMode = wdev->PhyMode;
 
@@ -336,8 +336,8 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 		step 1 - update BEACON's Capability
 	*/
 	ptr = pBeaconFrame + pMbss->CapabilityInfoLocationInBeacon;
-	*ptr = (UCHAR)(pMbss->CapabilityInfo & 0x00ff);
-	*(ptr+1) = (UCHAR)((pMbss->CapabilityInfo & 0xff00) >> 8);
+	*ptr = (u8)(pMbss->CapabilityInfo & 0x00ff);
+	*(ptr+1) = (u8)((pMbss->CapabilityInfo & 0xff00) >> 8);
 
 	/*
 		step 2 - update TIM IE
@@ -357,7 +357,7 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 	for(ID_1B=0; ID_1B<WLAN_MAX_NUM_OF_TIM; ID_1B++)
 	{
 		/* get the TIM indicating PS packets for 8 stations */
-		UCHAR tim_1B = pTim[ID_1B];
+		u8 tim_1B = pTim[ID_1B];
 
 		if (ID_1B == 0)
 			tim_1B &= 0xfe; /* skip bit0 bc/mc */
@@ -445,7 +445,7 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
     if ((pComCfg->ExtRateLen) && (PhyMode != WMODE_B))
     {
         /* fill ERP IE */
-        ptr = (UCHAR *)pBeaconFrame + FrameLen; /* pTxD->DataByteCnt; */
+        ptr = (u8 *)pBeaconFrame + FrameLen; /* pTxD->DataByteCnt; */
         *ptr = IE_ERP;
         *(ptr + 1) = 1;
         *(ptr + 2) = pAd->ApCfg.ErpIeContent;
@@ -478,12 +478,12 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 
 		if (WMODE_CAP_AC(PhyMode)) {
 			INT tp_len, wb_len = 0;
-			UCHAR *ch_sw_wrapper;
+			u8 *ch_sw_wrapper;
 			VHT_TXPWR_ENV_IE txpwr_env;
 
 
 			*ptr = IE_CH_SWITCH_WRAPPER;
-			ch_sw_wrapper = (UCHAR *)(ptr + 1); // reserve for length
+			ch_sw_wrapper = (u8 *)(ptr + 1); // reserve for length
 			ptr += 2; // skip len
 
 			if (pComCfg->RegTransmitSetting.field.BW == BW_40) {
@@ -510,7 +510,7 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 
 			*ptr = IE_VHT_TXPWR_ENV;
 			memset(&txpwr_env, 0, sizeof(VHT_TXPWR_ENV_IE));
-			tp_len = build_vht_txpwr_envelope(pAd, (UCHAR *)&txpwr_env);
+			tp_len = build_vht_txpwr_envelope(pAd, (u8 *)&txpwr_env);
 			*(ptr + 1) = tp_len;
 			ptr += 2;
 			memmove(ptr, &txpwr_env, tp_len);
@@ -527,8 +527,8 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 	if (WMODE_CAP_N(PhyMode) && (wdev->DesiredHtPhyInfo.bHtEnable))
 	{
 		ULONG TmpLen;
-		UCHAR HtLen, HtLen1;
-		/*UCHAR i; */
+		u8 HtLen, HtLen1;
+		/*u8 i; */
 
 #ifdef RT_BIG_ENDIAN
 		HT_CAPABILITY_IE HtCapabilityTmp;
@@ -586,7 +586,7 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 	 	{
 			OVERLAP_BSS_SCAN_IE  OverlapScanParam;
 			ULONG	TmpLen;
-			UCHAR	OverlapScanIE, ScanIELen;
+			u8 OverlapScanIE, ScanIELen;
 
 			OverlapScanIE = IE_OVERLAPBSS_SCAN_PARM;
 			ScanIELen = 14;
@@ -610,7 +610,7 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 
 		if (WMODE_CAP_AC(PhyMode) && (pComCfg->Channel > 14))
 		{
-			int _len = build_vht_ies(pAd, (UCHAR *)(pBeaconFrame+FrameLen), SUBTYPE_BEACON);
+			int _len = build_vht_ies(pAd, (u8 *)(pBeaconFrame+FrameLen), SUBTYPE_BEACON);
 			FrameLen += _len;
 		}
 	}
@@ -619,7 +619,7 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 	{
 		ULONG TmpLen, infoPos;
 		u8 *pInfo;
-		UCHAR extInfoLen;
+		u8 extInfoLen;
 		bool	bNeedAppendExtIE = false;
 		EXT_CAP_INFO_ELEMENT	extCapInfo;
 
@@ -667,7 +667,7 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 	if (pAd->force_vht_op_mode == true)
 	{
 		ULONG TmpLen;
-		UCHAR operating_ie = IE_OPERATING_MODE_NOTIFY, operating_len = 1;
+		u8 operating_ie = IE_OPERATING_MODE_NOTIFY, operating_len = 1;
 		OPERATING_MODE operating_mode;
 
 		operating_mode.rx_nss_type = 0;
@@ -687,8 +687,8 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 	if (pMbss->wdev.bWmmCapable)
 	{
 		ULONG TmpLen;
-		UCHAR i;
-		UCHAR WmeParmIe[26] = {IE_VENDOR_SPECIFIC, 24, 0x00, 0x50, 0xf2, 0x02, 0x01, 0x01, 0, 0};
+		u8 i;
+		u8 WmeParmIe[26] = {IE_VENDOR_SPECIFIC, 24, 0x00, 0x50, 0xf2, 0x02, 0x01, 0x01, 0, 0};
 		UINT8 AIFSN[4];
 
 		WmeParmIe[8] = pAd->ApCfg.BssEdcaParm.EdcaUpdateCount & 0x0f;
@@ -700,12 +700,12 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 		for (i=QID_AC_BE; i<=QID_AC_VO; i++)
 		{
 			WmeParmIe[10+ (i*4)] = (i << 5)                                         +     /* b5-6 is ACI */
-								   ((UCHAR)pAd->ApCfg.BssEdcaParm.bACM[i] << 4)     +     /* b4 is ACM */
+								   ((u8)pAd->ApCfg.BssEdcaParm.bACM[i] << 4)     +     /* b4 is ACM */
 								   (AIFSN[i] & 0x0f);              /* b0-3 is AIFSN */
 			WmeParmIe[11+ (i*4)] = (pAd->ApCfg.BssEdcaParm.Cwmax[i] << 4)           +     /* b5-8 is CWMAX */
 								   (pAd->ApCfg.BssEdcaParm.Cwmin[i] & 0x0f);              /* b0-3 is CWMIN */
-			WmeParmIe[12+ (i*4)] = (UCHAR)(pAd->ApCfg.BssEdcaParm.Txop[i] & 0xff);        /* low byte of TXOP */
-			WmeParmIe[13+ (i*4)] = (UCHAR)(pAd->ApCfg.BssEdcaParm.Txop[i] >> 8);          /* high byte of TXOP */
+			WmeParmIe[12+ (i*4)] = (u8)(pAd->ApCfg.BssEdcaParm.Txop[i] & 0xff);        /* low byte of TXOP */
+			WmeParmIe[13+ (i*4)] = (u8)(pAd->ApCfg.BssEdcaParm.Txop[i] >> 8);          /* high byte of TXOP */
 		}
 
 		MakeOutgoingFrame(pBeaconFrame+FrameLen,         &TmpLen,
@@ -745,7 +745,7 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 			UINT8 ie_len;
 			VHT_TXPWR_ENV_IE txpwr_env;
 
-			ie_len = build_vht_txpwr_envelope(pAd, (UCHAR *)&txpwr_env);
+			ie_len = build_vht_txpwr_envelope(pAd, (u8 *)&txpwr_env);
 			MakeOutgoingFrame(pBeaconFrame+FrameLen, &TmpLen,
 						1,							&vht_txpwr_env_ie,
 						1,							&ie_len,
@@ -761,7 +761,7 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 		(wdev->DesiredHtPhyInfo.bHtEnable))
 	{
 		ULONG TmpLen;
-		UCHAR HtLen, HtLen1;
+		u8 HtLen, HtLen1;
 #ifdef RT_BIG_ENDIAN
 		HT_CAPABILITY_IE HtCapabilityTmp;
 		ADD_HT_INFO_IE	addHTInfoTmp;
@@ -772,9 +772,9 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 
 		if (pAd->bBroadComHT == true)
 		{
-			UCHAR epigram_ie_len;
-			UCHAR BROADCOM_HTC[4] = {0x0, 0x90, 0x4c, 0x33};
-			UCHAR BROADCOM_AHTINFO[4] = {0x0, 0x90, 0x4c, 0x34};
+			u8 epigram_ie_len;
+			u8 BROADCOM_HTC[4] = {0x0, 0x90, 0x4c, 0x33};
+			u8 BROADCOM_AHTINFO[4] = {0x0, 0x90, 0x4c, 0x34};
 
 
 			epigram_ie_len = HtLen + 4;
@@ -837,7 +837,7 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
    	/* add Ralink-specific IE here - Byte0.b0=1 for aggregation, Byte0.b1=1 for piggy-back */
 {
 	ULONG TmpLen;
-	UCHAR RalinkSpecificIe[9] = {IE_VENDOR_SPECIFIC, 7, 0x00, 0x0c, 0x43, 0x00, 0x00, 0x00, 0x00};
+	u8 RalinkSpecificIe[9] = {IE_VENDOR_SPECIFIC, 7, 0x00, 0x0c, 0x43, 0x00, 0x00, 0x00, 0x00};
 
 	if (pComCfg->bAggregationCapable)
 		RalinkSpecificIe[5] |= 0x1;
@@ -894,7 +894,7 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
         Pre-build All BEACON frame in the shared memory
     ==========================================================================
 */
-static UCHAR GetBcnNum(struct rtmp_adapter *pAd)
+static u8 GetBcnNum(struct rtmp_adapter *pAd)
 {
 	int i;
 	int NumBcn;
@@ -918,8 +918,8 @@ VOID APMakeAllBssBeacon(struct rtmp_adapter *pAd)
 {
 	INT		i, j;
 	uint32_t regValue;
-	UCHAR	NumOfMacs;
-	UCHAR	NumOfBcns;
+	u8 NumOfMacs;
+	u8 NumOfBcns;
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
 
 	/* before MakeBssBeacon, clear all beacon TxD's valid bit */
@@ -1065,7 +1065,7 @@ VOID APUpdateAllBeaconFrame(struct rtmp_adapter *pAd)
 		  (pAd->CommonCfg.bForty_Mhz_Intolerant == false)) ||
 		(FlgQloadIsAlarmIssued == true)))
 	{
-		UCHAR	prevBW, prevExtChOffset;
+		u8 prevBW, prevExtChOffset;
 		DBGPRINT(RT_DEBUG_TRACE, ("DTIM Period reached, BSS20WidthReq=%d, Intolerant40=%d!\n",
 				pAd->CommonCfg.LastBSSCoexist2040.field.BSS20WidthReq, pAd->CommonCfg.LastBSSCoexist2040.field.Intolerant40));
 		pAd->CommonCfg.Bss2040CoexistFlag &= (~BSS_2040_COEXIST_INFO_SYNC);

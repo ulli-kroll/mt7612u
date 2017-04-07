@@ -33,12 +33,12 @@
 
 #include	"rt_config.h"
 /* Match total 6 bulkout endpoint to corresponding queue.*/
-UCHAR	EpToQueue[6]={FIFO_EDCA, FIFO_EDCA, FIFO_EDCA, FIFO_EDCA, FIFO_EDCA, FIFO_MGMT};
+u8 EpToQueue[6]={FIFO_EDCA, FIFO_EDCA, FIFO_EDCA, FIFO_EDCA, FIFO_EDCA, FIFO_MGMT};
 
 VOID	RTUSBInitTxDesc(
 	IN	struct rtmp_adapter *pAd,
 	IN	PTX_CONTEXT		pTxContext,
-	IN	UCHAR			BulkOutPipeId,
+	IN	u8 		BulkOutPipeId,
 	IN	usb_complete_t	Func)
 {
 	PURB				pUrb;
@@ -83,7 +83,7 @@ VOID	RTUSBInitTxDesc(
 VOID	RTUSBInitHTTxDesc(
 	IN	struct rtmp_adapter *pAd,
 	IN	PHT_TX_CONTEXT	pTxContext,
-	IN	UCHAR			BulkOutPipeId,
+	IN	u8 		BulkOutPipeId,
 	IN	ULONG			BulkOutSize,
 	IN	usb_complete_t	Func)
 {
@@ -154,7 +154,7 @@ VOID	RTUSBInitRxDesc(
 	========================================================================
 */
 
-VOID RTUSBBulkOutDataPacket(struct rtmp_adapter *pAd, UCHAR BulkOutPipeId, UCHAR Index)
+VOID RTUSBBulkOutDataPacket(struct rtmp_adapter *pAd, u8 BulkOutPipeId, u8 Index)
 {
 	PHT_TX_CONTEXT pHTTXContext;
 	PURB pUrb;
@@ -162,13 +162,13 @@ VOID RTUSBBulkOutDataPacket(struct rtmp_adapter *pAd, UCHAR BulkOutPipeId, UCHAR
 	TXINFO_STRUC *pTxInfo, *pLastTxInfo = NULL;
 	TXWI_STRUC *pTxWI;
 	USHORT txwi_pkt_len = 0;
-	UCHAR ampdu = 0, phy_mode = 0, pid;
+	u8 ampdu = 0, phy_mode = 0, pid;
 	ULONG TmpBulkEndPos, ThisBulkSize;
 	unsigned long	IrqFlags = 0, IrqFlags2 = 0;
-	UCHAR *pWirelessPkt, *pAppendant;
+	u8 *pWirelessPkt, *pAppendant;
 	uint32_t aggregation_num = 0;
 	bool	 bTxQLastRound = false;
-	UCHAR allzero[4]= {0x0,0x0,0x0,0x0};
+	u8 allzero[4]= {0x0,0x0,0x0,0x0};
 
 	RTMP_IRQ_LOCK(&pAd->BulkOutLock[BulkOutPipeId], IrqFlags);
 	if ((pAd->BulkOutPending[BulkOutPipeId] == true) || RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NEED_STOP_TX))
@@ -463,7 +463,7 @@ USBHST_STATUS RTUSBBulkOutDataPacketComplete(URBCompleteStatus Status, purbb_t p
 	PHT_TX_CONTEXT	pHTTXContext;
 	struct rtmp_adapter *pAd;
 	struct os_cookie *		pObj;
-	UCHAR			BulkOutPipeId;
+	u8 		BulkOutPipeId;
 
 
 	pHTTXContext	= pURB->context;
@@ -598,7 +598,7 @@ USBHST_STATUS RTUSBBulkOutNullFrameComplete(URBCompleteStatus Status, purbb_t pU
 */
 VOID	RTUSBBulkOutMLMEPacket(
 	IN	struct rtmp_adapter *pAd,
-	IN	UCHAR			Index)
+	IN	u8 		Index)
 {
 	PTX_CONTEXT		pMLMEContext;
 	PURB			pUrb;
@@ -1020,7 +1020,7 @@ VOID	RTUSBKickBulkOut(
 VOID	RTUSBCleanUpDataBulkOutQueue(
 	IN	struct rtmp_adapter *pAd)
 {
-	UCHAR			Idx;
+	u8 		Idx;
 	PHT_TX_CONTEXT	pTxContext;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("--->CleanUpDataBulkOutQueue\n"));

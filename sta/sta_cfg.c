@@ -97,7 +97,7 @@ INT Set_SSID_Proc(struct rtmp_adapter *pAd, char *arg)
 		if ((pAd->StaCfg.WpaPassPhraseLen >= 8) &&
 			(pAd->StaCfg.WpaPassPhraseLen <= 64))
 		{
-			UCHAR keyMaterial[40];
+			u8 keyMaterial[40];
 
 			RTMPZeroMemory(pAd->StaCfg.PMK, 32);
 			if (pAd->StaCfg.WpaPassPhraseLen == 64)
@@ -114,10 +114,10 @@ INT Set_SSID_Proc(struct rtmp_adapter *pAd, char *arg)
 		/* Record the desired user settings to MlmeAux */
 		memset(pAd->MlmeAux.Ssid, 0, MAX_LEN_OF_SSID);
 		memmove(pAd->MlmeAux.Ssid, Ssid.Ssid, Ssid.SsidLength);
-		pAd->MlmeAux.SsidLen = (UCHAR)Ssid.SsidLength;
+		pAd->MlmeAux.SsidLen = (u8)Ssid.SsidLength;
 
 		memmove(pAd->MlmeAux.AutoReconnectSsid, Ssid.Ssid, Ssid.SsidLength);
-		pAd->MlmeAux.AutoReconnectSsidLen = (UCHAR)Ssid.SsidLength;
+		pAd->MlmeAux.AutoReconnectSsidLen = (u8)Ssid.SsidLength;
 
 		pAd->MlmeAux.CurrReqIsFromNdis = true;
 		pAd->StaCfg.bSkipAutoScanConn = false;
@@ -271,7 +271,7 @@ INT Set_NetworkType_Proc(
 #endif /* MONITOR_FLAG_11N_SNIFFER_SUPPORT */
 	{
 		BCN_TIME_CFG_STRUC csr;
-		UCHAR rf_channel;
+		u8 rf_channel;
 		UINT8 rf_bw, ext_ch;
 
 #ifdef MONITOR_FLAG_11N_SNIFFER_SUPPORT
@@ -485,7 +485,7 @@ INT Set_DefaultKeyID_Proc(
 
     KeyIdx = simple_strtol(arg, 0, 10);
     if((KeyIdx >= 1 ) && (KeyIdx <= 4))
-        pAdapter->StaCfg.wdev.DefaultKeyId = (UCHAR) (KeyIdx - 1 );
+        pAdapter->StaCfg.wdev.DefaultKeyId = (u8) (KeyIdx - 1 );
     else
         return false;  /*Invalid argument */
 
@@ -501,7 +501,7 @@ INT Set_Wep_Key_Proc(
     IN  INT             KeyId)
 {
     int    i;
-    UCHAR  CipherAlg = CIPHER_WEP64;
+    u8  CipherAlg = CIPHER_WEP64;
 	struct rtmp_wifi_dev *wdev = &pAdapter->StaCfg.wdev;
 
     if (wdev->AuthMode >= Ndis802_11AuthModeWPA)
@@ -584,7 +584,7 @@ INT Set_Key1_Proc(
 {
     int                                 KeyLen;
     int                                 i;
-    UCHAR                               CipherAlg=CIPHER_WEP64;
+    u8                               CipherAlg=CIPHER_WEP64;
 
     if (pAdapter->StaCfg.wdev.AuthMode >= Ndis802_11AuthModeWPA)
         return true;    /* do nothing */
@@ -662,7 +662,7 @@ INT Set_Key2_Proc(
 {
     int                                 KeyLen;
     int                                 i;
-    UCHAR                               CipherAlg=CIPHER_WEP64;
+    u8                               CipherAlg=CIPHER_WEP64;
 
     if (pAdapter->StaCfg.wdev.AuthMode >= Ndis802_11AuthModeWPA)
         return true;    /* do nothing */
@@ -738,7 +738,7 @@ INT Set_Key3_Proc(
 {
     int                                 KeyLen;
     int                                 i;
-    UCHAR                               CipherAlg=CIPHER_WEP64;
+    u8                               CipherAlg=CIPHER_WEP64;
 
     if (pAdapter->StaCfg.wdev.AuthMode >= Ndis802_11AuthModeWPA)
         return true;    /* do nothing */
@@ -814,7 +814,7 @@ INT Set_Key4_Proc(
 {
     int                                 KeyLen;
     int                                 i;
-    UCHAR                               CipherAlg=CIPHER_WEP64;
+    u8                               CipherAlg=CIPHER_WEP64;
 
     if (pAdapter->StaCfg.wdev.AuthMode >= Ndis802_11AuthModeWPA)
         return true;    /* do nothing */
@@ -1238,14 +1238,14 @@ VOID RTMPAddKey(struct rtmp_adapter *pAd, PNDIS_802_11_KEY pKey)
 			/* Add Pair-wise key to Asic */
 		    AsicAddPairwiseKeyEntry(
 		        pAd,
-        						  (UCHAR)pEntry->wcid,
+        						  (u8)pEntry->wcid,
 		        &pEntry->PairwiseKey);
 
 			RTMPSetWcidSecurityInfo(pAd,
 									BSS0,
 									0,
 									pEntry->PairwiseKey.CipherAlg,
-									(UCHAR)pEntry->wcid,
+									(u8)pEntry->wcid,
 									PAIRWISEKEYTABLE);
 
             if (wdev->AuthMode >= Ndis802_11AuthModeWPA2)
@@ -1294,7 +1294,7 @@ VOID RTMPAddKey(struct rtmp_adapter *pAd, PNDIS_802_11_KEY pKey)
 	}
 	else	/* dynamic WEP from wpa_supplicant */
 	{
-		UCHAR	CipherAlg;
+		u8 CipherAlg;
     	u8 *Key;
 
 		if(pKey->KeyLength == 32)
@@ -1314,7 +1314,7 @@ VOID RTMPAddKey(struct rtmp_adapter *pAd, PNDIS_802_11_KEY pKey)
 					DBGPRINT(RT_DEBUG_TRACE, ("RTMPAddKey: Set Pair-wise Key\n"));
 
 					/* set key material and key length */
- 					pEntry->PairwiseKey.KeyLen = (UCHAR)pKey->KeyLength;
+ 					pEntry->PairwiseKey.KeyLen = (u8)pKey->KeyLength;
 					memmove(pEntry->PairwiseKey.Key, &pKey->KeyMaterial, pKey->KeyLength);
 
 					/* set Cipher type */
@@ -1326,7 +1326,7 @@ VOID RTMPAddKey(struct rtmp_adapter *pAd, PNDIS_802_11_KEY pKey)
 					/* Add Pair-wise key to Asic */
 					AsicAddPairwiseKeyEntry(
 						pAd,
-						(UCHAR)pEntry->wcid,
+						(u8)pEntry->wcid,
                 		&pEntry->PairwiseKey);
 
 					/* update WCID attribute table and IVEIV table for this entry */
@@ -1341,10 +1341,10 @@ VOID RTMPAddKey(struct rtmp_adapter *pAd, PNDIS_802_11_KEY pKey)
 			else
             {
 				/* Default key for tx (shared key) */
-				wdev->DefaultKeyId = (UCHAR) KeyIdx;
+				wdev->DefaultKeyId = (u8) KeyIdx;
 
 				/* set key material and key length */
-				pAd->SharedKey[BSS0][KeyIdx].KeyLen = (UCHAR) pKey->KeyLength;
+				pAd->SharedKey[BSS0][KeyIdx].KeyLen = (u8) pKey->KeyLength;
 				memmove(pAd->SharedKey[BSS0][KeyIdx].Key, &pKey->KeyMaterial, pKey->KeyLength);
 
 				/* Set Ciper type */
@@ -1379,7 +1379,7 @@ end:
 VOID StaSiteSurvey(
 	IN	struct rtmp_adapter * 		pAd,
 	IN	PNDIS_802_11_SSID	pSsid,
-	IN	UCHAR				ScanType)
+	IN	u8 			ScanType)
 {
 	if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_BSS_SCAN_IN_PROGRESS))
 	{
@@ -1745,7 +1745,7 @@ RtmpIoctl_rt_ioctl_giwfreq(
 	IN	VOID					*pData,
 	IN	ULONG					Data)
 {
-	UCHAR ch;
+	u8 ch;
 	ULONG	m = 2412000;
 
 		ch = pAd->CommonCfg.Channel;
@@ -1855,7 +1855,7 @@ RtmpIoctl_rt_ioctl_siwap(
 	IN	VOID					*pData,
 	IN	ULONG					Data)
 {
-	UCHAR *pBssid = (UCHAR *)pData;
+	u8 *pBssid = (u8 *)pData;
 
 
 	if (pAd->Mlme.CntlMachine.CurrState != CNTL_IDLE)
@@ -2845,9 +2845,9 @@ Note:
 void fnSetCipherKey(
     IN  struct rtmp_adapter *  pAd,
     IN  INT             keyIdx,
-    IN  UCHAR           CipherAlg,
+    IN  u8           CipherAlg,
     IN  bool         bGTK,
-    IN  UCHAR			*pKey)
+    IN  u8 		*pKey)
 {
     memset(&pAd->SharedKey[BSS0][keyIdx], 0, sizeof(CIPHER_KEY));
     pAd->SharedKey[BSS0][keyIdx].KeyLen = LEN_TK;
@@ -2870,14 +2870,14 @@ void fnSetCipherKey(
 			/* Add Pair-wise key to Asic */
 		    	AsicAddPairwiseKeyEntry(
 		        pAd,
-		        (UCHAR)pEntry->wcid,
+		        (u8)pEntry->wcid,
 		        &pEntry->PairwiseKey);
 
 		RTMPSetWcidSecurityInfo(pAd,
 	    						BSS0,
 									0,
 									pEntry->PairwiseKey.CipherAlg,
-									(UCHAR)pEntry->wcid,
+									(u8)pEntry->wcid,
 									PAIRWISEKEYTABLE);
 	}
 	else
@@ -2921,7 +2921,7 @@ INT RtmpIoctl_rt_ioctl_siwencodeext(struct rtmp_adapter *pAd, VOID *pData, ULONG
 	    AsicRemovePairwiseKeyEntry(pAd, BSSID_WCID);
         pAd->SharedKey[BSS0][keyIdx].KeyLen = 0;
 		pAd->SharedKey[BSS0][keyIdx].CipherAlg = CIPHER_NONE;
-		AsicRemoveSharedKeyEntry(pAd, 0, (UCHAR)keyIdx);
+		AsicRemoveSharedKeyEntry(pAd, 0, (u8)keyIdx);
         memset(&pAd->SharedKey[BSS0][keyIdx], 0, sizeof(CIPHER_KEY));
         DBGPRINT(RT_DEBUG_TRACE, ("%s::Remove all keys!\n", __FUNCTION__));
     }
@@ -3238,7 +3238,7 @@ RtmpIoctl_rt_ioctl_giwgenie(struct rtmp_adapter *pAd, VOID *pData, ULONG Data)
 /* #endif */ /* SIOCSIWGENIE */
 #endif /* NATIVE_WPA_SUPPLICANT_SUPPORT */
 	{
-		UCHAR RSNIe = IE_WPA;
+		u8 RSNIe = IE_WPA;
 
 		if (IoctlRsnIe->length < (pAd->StaCfg.RSNIE_Len + 2)) /* ID, Len */
 			return NDIS_STATUS_FAILURE;

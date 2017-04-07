@@ -198,9 +198,9 @@ struct sk_buff *RtmpOSNetPktAlloc(VOID *dummy, int size)
 int RTMPAllocateNdisPacket(
 	IN VOID *pReserved,
 	OUT struct sk_buff **ppPacket,
-	IN UCHAR *pHeader,
+	IN u8 *pHeader,
 	IN UINT HeaderLen,
-	IN UCHAR *pData,
+	IN u8 *pData,
 	IN UINT DataLen)
 {
 	struct sk_buff *pPacket;
@@ -244,7 +244,7 @@ int RTMPAllocateNdisPacket(
 void RTMP_QueryPacketInfo(
 	IN struct sk_buff *pPacket,
 	OUT PACKET_INFO *info,
-	OUT UCHAR **pSrcBufVA,
+	OUT u8 **pSrcBufVA,
 	OUT UINT *pSrcBufLen)
 {
 	info->BufferCount = 1;
@@ -281,12 +281,12 @@ void RTMP_QueryPacketInfo(
 struct sk_buff *DuplicatePacket(
 	IN struct net_device *pNetDev,
 	IN struct sk_buff *pPacket,
-	IN UCHAR FromWhichBSSID)
+	IN u8 FromWhichBSSID)
 {
 	struct sk_buff *skb;
 	struct sk_buff *pRetPacket = NULL;
 	USHORT DataSize;
-	UCHAR *pData;
+	u8 *pData;
 
 	DataSize = pPacket->len;
 	pData = pPacket->data;
@@ -308,7 +308,7 @@ struct sk_buff *duplicate_pkt(
 	IN UINT HdrLen,
 	IN u8 *pData,
 	IN ULONG DataSize,
-	IN UCHAR FromWhichBSSID)
+	IN u8 FromWhichBSSID)
 {
 	struct sk_buff *skb;
 	struct sk_buff *pPacket = NULL;
@@ -361,8 +361,8 @@ struct sk_buff *duplicate_pkt_with_VLAN(
 	IN UINT HdrLen,
 	IN u8 *pData,
 	IN ULONG DataSize,
-	IN UCHAR FromWhichBSSID,
-	IN UCHAR *TPID)
+	IN u8 FromWhichBSSID,
+	IN u8 *TPID)
 {
 	struct sk_buff *skb;
 	struct sk_buff *pPacket = NULL;
@@ -410,10 +410,10 @@ bool RTMPL2FrameTxAction(
 	IN struct rtmp_adapter *pAd,
 	IN struct net_device *pNetDev,
 	IN RTMP_CB_8023_PACKET_ANNOUNCE _announce_802_3_packet,
-	IN UCHAR apidx,
-	IN UCHAR *pData,
+	IN u8 apidx,
+	IN u8 *pData,
 	IN uint32_t data_len,
-	IN UCHAR OpMode)
+	IN u8 OpMode)
 {
 	struct sk_buff *skb = dev_alloc_skb(data_len + 2);
 
@@ -498,7 +498,7 @@ struct sk_buff *ClonePacket(struct sk_buff *skb, u8 *pData,
 }
 
 VOID RtmpOsPktInit(struct sk_buff *skb, struct net_device *pNetDev,
-		   UCHAR *pData, USHORT DataSize)
+		   u8 *pData, USHORT DataSize)
 {
 	skb->dev =  pNetDev;
 	skb->data = pData;
@@ -509,15 +509,15 @@ VOID RtmpOsPktInit(struct sk_buff *skb, struct net_device *pNetDev,
 
 void wlan_802_11_to_802_3_packet(
 	IN struct net_device *pNetDev,
-	IN UCHAR OpMode,
+	IN u8 OpMode,
 	IN USHORT VLAN_VID,
 	IN USHORT VLAN_Priority,
 	IN struct sk_buff *pOSPkt,
-	IN UCHAR *pData,
+	IN u8 *pData,
 	IN ULONG DataSize,
 	IN u8 *pHeader802_3,
-	IN UCHAR FromWhichBSSID,
-	IN UCHAR *TPID)
+	IN u8 FromWhichBSSID,
+	IN u8 *TPID)
 {
 	ASSERT(pHeader802_3);
 
@@ -531,8 +531,8 @@ void wlan_802_11_to_802_3_packet(
 	RT_CONFIG_IF_OPMODE_ON_AP(OpMode)
 	{
 		/* maybe insert VLAN tag to the received packet */
-		UCHAR VLAN_Size = 0;
-		UCHAR *data_p;
+		u8 VLAN_Size = 0;
+		u8 *data_p;
 
 		if (VLAN_VID != 0)
 			VLAN_Size = LENGTH_802_1Q;
@@ -555,7 +555,7 @@ void wlan_802_11_to_802_3_packet(
 }
 
 
-void hex_dump(char *str, UCHAR *pSrcBufVA, UINT SrcBufLen)
+void hex_dump(char *str, u8 *pSrcBufVA, UINT SrcBufLen)
 {
 #ifdef DBG
 	unsigned char *pt;
@@ -604,7 +604,7 @@ VOID RtmpOsSendWirelessEvent(
 	IN struct rtmp_adapter *pAd,
 	IN USHORT Event_flag,
 	IN u8 *pAddr,
-	IN UCHAR BssIdx,
+	IN u8 BssIdx,
 	IN CHAR Rssi,
 	IN RTMP_OS_SEND_WLAN_EVENT pFunc)
 {
@@ -1022,14 +1022,14 @@ VOID RtmpDevPrivFlagsSet(struct net_device *pDev, USHORT PrivFlags)
 	priv_info->priv_flags = PrivFlags;
 }
 
-UCHAR get_sniffer_mode(struct net_device *pDev)
+u8 get_sniffer_mode(struct net_device *pDev)
 {
 	struct mt_dev_priv *priv_info = netdev_priv(pDev);
 
 	return priv_info->sniffer_mode;
 }
 
-VOID set_sniffer_mode(struct net_device *pDev, UCHAR sniffer_mode)
+VOID set_sniffer_mode(struct net_device *pDev, u8 sniffer_mode)
 {
 	struct mt_dev_priv *priv_info = netdev_priv(pDev);
 
@@ -1063,7 +1063,7 @@ uint32_t RtmpOsGetNetIfIndex(struct net_device*pDev)
 
 
 int RtmpOSNetDevAddrSet(
-	IN UCHAR OpMode,
+	IN u8 OpMode,
 	IN struct net_device *net_dev,
 	IN u8 *pMacAddr,
 	IN u8 *dev_name)
@@ -1250,7 +1250,7 @@ static struct ethtool_ops RALINK_Ethtool_Ops = {
 	.get_drvinfo = RALINK_ET_DrvInfoGet,
 };
 
-int RtmpOSNetDevAttach(UCHAR OpMode, struct net_device *pNetDev,
+int RtmpOSNetDevAttach(u8 OpMode, struct net_device *pNetDev,
 		       struct RTMP_OS_NETDEV_OP_HOOK *pDevOpHook)
 {
 	int ret,
@@ -1376,17 +1376,17 @@ struct net_device *RtmpOSNetDevCreate(
 
 
 #ifdef CONFIG_AP_SUPPORT
-UCHAR VLAN_8023_Header_Copy(
+u8 VLAN_8023_Header_Copy(
 	IN USHORT VLAN_VID,
 	IN USHORT VLAN_Priority,
 	IN u8 *pHeader802_3,
 	IN UINT HdrLen,
 	OUT u8 *pData,
-	IN UCHAR FromWhichBSSID,
-	IN UCHAR *TPID)
+	IN u8 FromWhichBSSID,
+	IN u8 *TPID)
 {
 	uint16_t TCI;
-	UCHAR VLAN_Size = 0;
+	u8 VLAN_Size = 0;
 
 	if (VLAN_VID != 0) {
 		/* need to insert VLAN tag */
@@ -1567,7 +1567,7 @@ VOID RtmpDrvAllE2PPrint(
 
 VOID RtmpDrvAllRFPrint(
 	IN VOID *pReserved,
-	IN UCHAR *pBuf,
+	IN u8 *pBuf,
 	IN uint32_t BufLen)
 {
 	struct file *file_w;
@@ -1785,7 +1785,7 @@ bool RtmpOsStatsAlloc(
 	*ppStats = kmalloc(sizeof (struct net_device_stats), GFP_ATOMIC);
 	if ((*ppStats) == NULL)
 		return false;
-	memset((UCHAR *) *ppStats, 0, sizeof (struct net_device_stats));
+	memset((u8 *) *ppStats, 0, sizeof (struct net_device_stats));
 
 #if WIRELESS_EXT >= 12
 	*ppIwStats = kmalloc(sizeof (struct iw_statistics), GFP_ATOMIC);
@@ -1793,7 +1793,7 @@ bool RtmpOsStatsAlloc(
 		kfree(*ppStats);
 		return false;
 	}
-	memset((UCHAR *)* ppIwStats, 0, sizeof (struct iw_statistics));
+	memset((u8 *)* ppIwStats, 0, sizeof (struct iw_statistics));
 #endif
 
 	return true;

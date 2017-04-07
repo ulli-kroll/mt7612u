@@ -285,7 +285,7 @@ VOID	RTMPFreeTxRxRingMemory(struct rtmp_adapter *pAd)
 
 int NICInitRecv(struct rtmp_adapter *pAd)
 {
-	UCHAR i;
+	u8 i;
 	PCMD_RSP_CONTEXT pCmdRspEventContext = &pAd->CmdRspEventContext;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("--> NICInitRecv\n"));
@@ -342,7 +342,7 @@ int NICInitRecv(struct rtmp_adapter *pAd)
 
 int NICInitTransmit(struct rtmp_adapter *pAd)
 {
-	UCHAR			i, acidx;
+	u8 		i, acidx;
 	int     Status = NDIS_STATUS_SUCCESS;
 	PTX_CONTEXT		pNullContext   = &(pAd->NullContext);
 	PTX_CONTEXT		pPsPollContext = &(pAd->PsPollContext);
@@ -727,11 +727,11 @@ VOID RT28xx_UpdateBeaconToAsic(struct rtmp_adapter *pAd,
 	INT apidx, ULONG FrameLen, ULONG UpdatePos)
 {
 	u8 *pBeaconFrame = NULL;
-	UCHAR *ptr;
+	u8 *ptr;
 	UINT i, padding;
 	BEACON_SYNC_STRUCT *pBeaconSync = pAd->CommonCfg.pBeaconSync;
 	bool bBcnReq = false;
-	UCHAR bcn_idx = 0;
+	u8 bcn_idx = 0;
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
 
 #ifdef CONFIG_AP_SUPPORT
@@ -897,8 +897,8 @@ VOID RTUSBBssBeaconStart(struct rtmp_adapter *pAd)
 #endif /* CONFIG_STA_SUPPORT */
 
 		for (apidx = 0; apidx < NumOfBcn; apidx++) {
-			UCHAR CapabilityInfoLocationInBeacon = 0;
-			UCHAR TimIELocationInBeacon = 0;
+			u8 CapabilityInfoLocationInBeacon = 0;
+			u8 TimIELocationInBeacon = 0;
 #ifdef CONFIG_AP_SUPPORT
 			IF_DEV_CONFIG_OPMODE_ON_AP(pAd) {
 					CapabilityInfoLocationInBeacon = pAd->ApCfg.MBSSID[apidx].CapabilityInfoLocationInBeacon;
@@ -1220,7 +1220,7 @@ VOID RT28xxUsbMlmeRadioOFF(struct rtmp_adapter *pAd)
 
 bool AsicCheckCommandOk(
 	IN struct rtmp_adapter *pAd,
-	IN UCHAR		 Command)
+	IN u8 	 Command)
 {
 	uint32_t CmdStatus, CID, i;
 	uint32_t ThisCIDMask = 0;

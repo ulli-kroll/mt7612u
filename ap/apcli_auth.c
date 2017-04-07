@@ -75,7 +75,7 @@ static VOID ApCliMlmeAuthReqAction(
 {
 	bool             Cancelled;
 	int         NState;
-	UCHAR               Addr[MAC_ADDR_LEN];
+	u8               Addr[MAC_ADDR_LEN];
 	USHORT              Alg, Seq, Status;
 	ULONG               Timeout;
 	HEADER_802_11       AuthHdr;
@@ -154,21 +154,21 @@ static VOID ApCliMlmeAuthReqAction(
 static VOID ApCliPeerAuthRspAtSeq2Action(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM * Elem)
 {
 	bool         Cancelled;
-	UCHAR           Addr2[MAC_ADDR_LEN];
+	u8           Addr2[MAC_ADDR_LEN];
 	USHORT          Seq, Status, Alg;
 	USHORT          RemoteStatus;
-	UCHAR			iv_hdr[LEN_WEP_IV_HDR];
-/*	UCHAR           ChlgText[CIPHER_TEXT_LEN]; */
-	UCHAR           *ChlgText = NULL;
-	UCHAR           CyperChlgText[CIPHER_TEXT_LEN + 8 + 8];
+	u8 		iv_hdr[LEN_WEP_IV_HDR];
+/*	u8           ChlgText[CIPHER_TEXT_LEN]; */
+	u8           *ChlgText = NULL;
+	u8           CyperChlgText[CIPHER_TEXT_LEN + 8 + 8];
 	ULONG			c_len = 0;
 	HEADER_802_11   AuthHdr;
 	int     NState;
 	u8 *         pOutBuffer = NULL;
 	ULONG           FrameLen = 0;
 	APCLI_CTRL_MSG_STRUCT ApCliCtrlMsg;
-	UCHAR		  	ChallengeIe = IE_CHALLENGE_TEXT;
-	UCHAR		  	len_challengeText = CIPHER_TEXT_LEN;
+	u8 	  	ChallengeIe = IE_CHALLENGE_TEXT;
+	u8 	  	len_challengeText = CIPHER_TEXT_LEN;
 	USHORT ifIndex = (USHORT)(Elem->Priv);
 	PULONG pCurrState = NULL;
 	APCLI_STRUCT *apcli_entry;
@@ -315,7 +315,7 @@ LabelOK:
 static VOID ApCliPeerAuthRspAtSeq4Action(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 	bool     Cancelled;
-	UCHAR       Addr2[MAC_ADDR_LEN];
+	u8       Addr2[MAC_ADDR_LEN];
 	USHORT      Alg, Seq, Status;
 	CHAR        ChlgText[CIPHER_TEXT_LEN];
 	APCLI_CTRL_MSG_STRUCT ApCliCtrlMsg;
@@ -364,9 +364,9 @@ static VOID ApCliPeerAuthRspAtSeq4Action(struct rtmp_adapter *pAd, MLME_QUEUE_EL
 */
 static VOID ApCliPeerDeauthAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
-	UCHAR       Addr1[MAC_ADDR_LEN];
-	UCHAR       Addr2[MAC_ADDR_LEN];
-	UCHAR       Addr3[MAC_ADDR_LEN];
+	u8       Addr1[MAC_ADDR_LEN];
+	u8       Addr2[MAC_ADDR_LEN];
+	u8       Addr3[MAC_ADDR_LEN];
 	USHORT      Reason;
 	USHORT ifIndex = (USHORT)(Elem->Priv);
 	PULONG pCurrState = NULL;
@@ -533,7 +533,7 @@ VOID ApCliAuthStateMachineInit(
 	IN STATE_MACHINE *Sm,
 	OUT STATE_MACHINE_FUNC Trans[])
 {
-	UCHAR i;
+	u8 i;
 
 	StateMachineInit(Sm, (STATE_MACHINE_FUNC*)Trans,
 		APCLI_MAX_AUTH_STATE, APCLI_MAX_AUTH_MSG,

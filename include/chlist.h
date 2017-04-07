@@ -33,13 +33,13 @@
 
 
 typedef struct _CH_DESC {
-	UCHAR FirstChannel;
-	UCHAR NumOfCh;
-	UCHAR ChannelProp;
+	u8 FirstChannel;
+	u8 NumOfCh;
+	u8 ChannelProp;
 }CH_DESC, *PCH_DESC;
 
 typedef struct _COUNTRY_REGION_CH_DESC {
-	UCHAR RegionIndex;
+	u8 RegionIndex;
 	PCH_DESC pChDesc;
 }COUNTRY_REGION_CH_DESC, *PCOUNTRY_REGION_CH_DESC;
 
@@ -61,33 +61,33 @@ extern int CH_HZ_ID_MAP_NUM;
 #define JapanChannelCheck(_ch)  ((_ch == 52) || (_ch == 56) || (_ch == 60) || (_ch == 64))
 
 VOID N_ChannelCheck(struct rtmp_adapter *pAd);
-UCHAR N_SetCenCh(struct rtmp_adapter *pAd, UCHAR channel);
-bool N_ChannelGroupCheck(struct rtmp_adapter *pAd, UCHAR channel);
-INT get_vht_neighbor_index(UCHAR channel);
-bool AC_ChannelGroupCheck(struct rtmp_adapter *pAd, UCHAR channel);
+u8 N_SetCenCh(struct rtmp_adapter *pAd, u8 channel);
+bool N_ChannelGroupCheck(struct rtmp_adapter *pAd, u8 channel);
+INT get_vht_neighbor_index(u8 channel);
+bool AC_ChannelGroupCheck(struct rtmp_adapter *pAd, u8 channel);
 UINT8 GetCuntryMaxTxPwr(
 	IN struct rtmp_adapter *pAd,
 	IN UINT8 channel);
 
 VOID RTMP_MapChannelID2KHZ(
-	IN UCHAR Ch,
+	IN u8 Ch,
 	OUT uint32_t *pFreq);
 
 VOID RTMP_MapKHZ2ChannelID(
 	IN ULONG Freq,
 	OUT INT *pCh);
 
-UCHAR GetChannel_5GHZ(
+u8 GetChannel_5GHZ(
 	IN PCH_DESC pChDesc,
-	IN UCHAR index);
+	IN u8 index);
 
-UCHAR GetChannel_2GHZ(
+u8 GetChannel_2GHZ(
 	IN PCH_DESC pChDesc,
-	IN UCHAR index);
+	IN u8 index);
 
-UCHAR GetChannelFlag(
+u8 GetChannelFlag(
 	IN PCH_DESC pChDesc,
-	IN UCHAR index);
+	IN u8 index);
 
 uint16_t TotalChNum(
 	IN PCH_DESC pChDesc);

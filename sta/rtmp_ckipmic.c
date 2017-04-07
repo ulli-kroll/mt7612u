@@ -29,14 +29,14 @@
 #include "rtmp_ckipmic.h"
 
 #define MIC_ACCUM(v)            pContext->accum += (ULONGLONG)v * RTMPMicGetCoefficient(pContext)
-#define GB(p,i,s)               ( ((ULONG) *((UCHAR*)(p)+i) ) << (s) )
+#define GB(p,i,s)               ( ((ULONG) *((u8 *)(p)+i) ) << (s) )
 #define GETBIG32(p)             GB(p,0,24)|GB(p,1,16)|GB(p,2,8)|GB(p,3,0)
 
 /*****************************/
 /******** SBOX Table *********/
 /*****************************/
 
-UCHAR SboxTable[256] =
+u8 SboxTable[256] =
 {
     0x63, 0x7c, 0x77, 0x7b, 0xf2, 0x6b, 0x6f, 0xc5,
     0x30, 0x01, 0x67, 0x2b, 0xfe, 0xd7, 0xab, 0x76,
@@ -121,10 +121,10 @@ static const USHORT Sbox[256] =
 #define rotLeft_1(x) ((((x) << 1) | ((x) >> 15)) & 0xFFFF)
 VOID CKIP_key_permute
     (
-     OUT UCHAR  *PK,           /* output permuted key */
-     IN UCHAR *CK,           /* input CKIP key */
-     IN UCHAR  toDsFromDs,    /* input toDs/FromDs bits */
-     IN UCHAR *piv           /* input pointer to IV */
+     OUT u8  *PK,           /* output permuted key */
+     IN u8 *CK,           /* input CKIP key */
+     IN u8  toDsFromDs,    /* input toDs/FromDs bits */
+     IN u8 *piv           /* input pointer to IV */
      )
 {
     int i;
@@ -161,7 +161,7 @@ VOID CKIP_key_permute
 
     /* key portion of the permuted key is changed */
     for (i=3; i<16; i++) {
-        PK[i] = (UCHAR) (R[i>>1] >> (i & 1 ? 8 : 0));
+        PK[i] = (u8) (R[i>>1] >> (i & 1 ? 8 : 0));
     }
 }
 
@@ -204,9 +204,9 @@ VOID RTMPMicUpdate(
 ULONG RTMPMicGetCoefficient(
     IN  PMIC_CONTEXT         pContext)
 {
-    UCHAR   aes_counter[16];
+    u8   aes_counter[16];
     INT     coeff_position;
-    UCHAR   *p;
+    u8   *p;
 
     coeff_position = (pContext->position - 1) >> 2;
     if ( (coeff_position & 3) == 0) {
@@ -244,8 +244,8 @@ VOID xor_128(
     }
 }
 
-UCHAR RTMPCkipSbox(
-    IN  UCHAR   a)
+u8 RTMPCkipSbox(
+    IN  u8   a)
 {
     return SboxTable[(int)a];
 }
@@ -267,9 +267,9 @@ VOID next_key(
     IN  u8 * key,
     IN  INT     round)
 {
-    UCHAR       rcon;
-    UCHAR       sbox_key[4];
-    UCHAR       rcon_table[12] =
+    u8       rcon;
+    u8       sbox_key[4];
+    u8       rcon_table[12] =
     {
         0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80,
         0x1b, 0x36, 0x36, 0x36
@@ -329,14 +329,14 @@ VOID mix_column(
     OUT u8 * out)
 {
     INT         i;
-    UCHAR       add1b[4];
-    UCHAR       add1bf7[4];
-    UCHAR       rotl[4];
-    UCHAR       swap_halfs[4];
-    UCHAR       andf7[4];
-    UCHAR       rotr[4];
-    UCHAR       temp[4];
-    UCHAR       tempb[4];
+    u8       add1b[4];
+    u8       add1bf7[4];
+    u8       rotl[4];
+    u8       swap_halfs[4];
+    u8       andf7[4];
+    u8       rotr[4];
+    u8       temp[4];
+    u8       tempb[4];
 
     for (i=0 ; i<4; i++)
     {
@@ -394,9 +394,9 @@ VOID RTMPAesEncrypt(
 {
     INT             round;
     INT             i;
-    UCHAR           intermediatea[16];
-    UCHAR           intermediateb[16];
-    UCHAR           round_key[16];
+    u8           intermediatea[16];
+    u8           intermediateb[16];
+    u8           round_key[16];
 
     for(i=0; i<16; i++) round_key[i] = key[i];
 
@@ -431,7 +431,7 @@ VOID RTMPAesEncrypt(
 /* calculate the mic */
 VOID RTMPMicFinal(
     IN  PMIC_CONTEXT    pContext,
-    OUT UCHAR           digest[4])
+    OUT u8           digest[4])
 {
     INT             byte_position;
     ULONG           val;
@@ -458,10 +458,10 @@ VOID RTMPMicFinal(
         sum -= 15;
 
     val = (ULONG)sum;
-    digest[0] = (UCHAR)((val>>24) & 0xFF);
-    digest[1] = (UCHAR) ((val>>16) & 0xFF);
-    digest[2] = (UCHAR) ((val>>8) & 0xFF);
-    digest[3] = (UCHAR)((val>>0) & 0xFF);
+    digest[0] = (u8)((val>>24) & 0xFF);
+    digest[1] = (u8) ((val>>16) & 0xFF);
+    digest[2] = (u8) ((val>>8) & 0xFF);
+    digest[3] = (u8)((val>>0) & 0xFF);
 }
 
 VOID RTMPCkipInsertCMIC(
@@ -476,11 +476,11 @@ VOID RTMPCkipInsertCMIC(
 	u8 *		pSrcBufVA;
 	ULONG			SrcBufLen;
     u8 *         pDA, *pSA, *pProto;
-    UCHAR           bigethlen[2];
-	UCHAR			ckip_ck[16];
+    u8           bigethlen[2];
+	u8 		ckip_ck[16];
     MIC_CONTEXT     mic_ctx;
     USHORT          payloadlen;
-	UCHAR			i;
+	u8 		i;
 
 	if (pKey == NULL)
 	{

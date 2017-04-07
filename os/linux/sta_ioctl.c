@@ -49,13 +49,13 @@ extern ULONG RTDebugFunc;
 #define IWE_STREAM_ADD_EVENT(_A, _B, _C, _D, _E)		iwe_stream_add_event(_A, _B, _C, _D, _E)
 #define IWE_STREAM_ADD_POINT(_A, _B, _C, _D, _E)		iwe_stream_add_point(_A, _B, _C, _D, _E)
 #define IWE_STREAM_ADD_VALUE(_A, _B, _C, _D, _E, _F)	iwe_stream_add_value(_A, _B, _C, _D, _E, _F)
-extern UCHAR    CipherWpa2Template[];
+extern u8    CipherWpa2Template[];
 
 typedef struct GNU_PACKED _RT_VERSION_INFO{
-    UCHAR       DriverVersionW;
-    UCHAR       DriverVersionX;
-    UCHAR       DriverVersionY;
-    UCHAR       DriverVersionZ;
+    u8       DriverVersionW;
+    u8       DriverVersionX;
+    u8       DriverVersionY;
+    u8       DriverVersionZ;
     UINT        DriverBuildYear;
     UINT        DriverBuildMonth;
     UINT        DriverBuildDay;
@@ -253,7 +253,7 @@ int rt_ioctl_giwrange(struct net_device *dev,
 	u16 val;
 	int i;
 	ULONG Mode, ChannelListNum;
-	UCHAR *pChannel;
+	u8 *pChannel;
 	uint32_t *pFreq;
 
 	GET_PAD_FROM_NET_DEV(pAd, dev);
@@ -311,7 +311,7 @@ int rt_ioctl_giwrange(struct net_device *dev,
 						&ChannelListNum, 0, RT_DEV_PRIV_FLAGS_GET(dev));
 	range->num_channels = ChannelListNum;
 
-	pChannel = kmalloc(sizeof(UCHAR)*ChannelListNum, GFP_ATOMIC);
+	pChannel = kmalloc(sizeof(u8)*ChannelListNum, GFP_ATOMIC);
 	if (pChannel == NULL)
 		return -ENOMEM;
 	pFreq = kmalloc(sizeof(uint32_t)*ChannelListNum, GFP_ATOMIC);
@@ -388,7 +388,7 @@ int rt_ioctl_siwap(struct net_device *dev,
 		      struct sockaddr *ap_addr, char *extra)
 {
 	VOID *pAd = NULL;
-    UCHAR Bssid[6];
+    u8 Bssid[6];
 
 	GET_PAD_FROM_NET_DEV(pAd, dev);
 
@@ -812,7 +812,7 @@ int rt_ioctl_giwscan(struct net_device *dev,
 		memset(&iwe, 0, sizeof(iwe));
 		iwe.cmd = SIOCGIWFREQ;
 		{
-			UCHAR ch = pIoctlScan->pBssTable[i].Channel;
+			u8 ch = pIoctlScan->pBssTable[i].Channel;
 			ULONG	m = 0;
 /*			MAP_CHANNEL_ID_TO_KHZ(ch, m); */
 			RTMP_STA_IoctlHandle(pAd, NULL, CMD_RTPRIV_IOCTL_CHID_2_FREQ, 0,
@@ -876,7 +876,7 @@ int rt_ioctl_giwscan(struct net_device *dev,
 		/*================================ */
 		if (pIoctlScan->pBssTable[i].SupRateLen)
         {
-            UCHAR tmpRate = pIoctlScan->pBssTable[i].SupRate[pIoctlScan->pBssTable[i].SupRateLen-1];
+            u8 tmpRate = pIoctlScan->pBssTable[i].SupRate[pIoctlScan->pBssTable[i].SupRateLen-1];
 			memset(&iwe, 0, sizeof(iwe));
 			iwe.cmd = SIOCGIWRATE;
     		current_val = current_ev + IW_EV_LCP_LEN;
@@ -893,8 +893,8 @@ int rt_ioctl_giwscan(struct net_device *dev,
 
 			if (pIoctlScan->pBssTable[i].ExtRateLen)
 			{
-				UCHAR tmpSupRate =(pIoctlScan->pBssTable[i].SupRate[pIoctlScan->pBssTable[i].SupRateLen-1]& 0x7f);
-				UCHAR tmpExtRate =(pIoctlScan->pBssTable[i].ExtRate[pIoctlScan->pBssTable[i].ExtRateLen-1]& 0x7f);
+				u8 tmpSupRate =(pIoctlScan->pBssTable[i].SupRate[pIoctlScan->pBssTable[i].SupRateLen-1]& 0x7f);
+				u8 tmpExtRate =(pIoctlScan->pBssTable[i].ExtRate[pIoctlScan->pBssTable[i].ExtRateLen-1]& 0x7f);
 				iwe.u.bitrate.value = (tmpSupRate > tmpExtRate) ? (tmpSupRate)*500000 : (tmpExtRate)*500000;
 			}
 
@@ -1847,7 +1847,7 @@ int rt_ioctl_giwgenie(struct net_device *dev,
 
 
 	pIoctlRsnIe->length = wrqu->data.length;
-	pIoctlRsnIe->pRsnIe = (UCHAR *)extra;
+	pIoctlRsnIe->pRsnIe = (u8 *)extra;
 
 	if (RTMP_STA_IoctlHandle(pAd, NULL, CMD_RTPRIV_IOCTL_STA_SIOCGIWGENIE, 0,
 						pIoctlRsnIe, 0,
@@ -1892,7 +1892,7 @@ int rt_ioctl_siwpmksa(struct net_device *dev,
 		pIoctlPmaSa->Cmd = RT_CMD_STA_IOCTL_PMA_SA_ADD;
 	else
 		pIoctlPmaSa->Cmd = 0;
-	pIoctlPmaSa->pBssid = (UCHAR *)pPmksa->bssid.sa_data;
+	pIoctlPmaSa->pBssid = (u8 *)pPmksa->bssid.sa_data;
 	pIoctlPmaSa->pPmkid = pPmksa->pmkid;
 
 	RTMP_STA_IoctlHandle(pAd, NULL, CMD_RTPRIV_IOCTL_STA_SIOCSIWPMKSA, 0,

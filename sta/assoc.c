@@ -27,7 +27,7 @@
 */
 #include "rt_config.h"
 
-UCHAR CipherWpaTemplate[] = {
+u8 CipherWpaTemplate[] = {
 	0xdd,			/* WPA IE */
 	0x16,			/* Length */
 	0x00, 0x50, 0xf2, 0x01,	/* oui */
@@ -39,7 +39,7 @@ UCHAR CipherWpaTemplate[] = {
 	0x00, 0x50, 0xf2, 0x01	/* authentication */
 };
 
-UCHAR CipherWpa2Template[] = {
+u8 CipherWpa2Template[] = {
 	0x30,			/* RSN IE */
 	0x14,			/* Length */
 	0x01, 0x00,		/* Version */
@@ -166,9 +166,9 @@ VOID MlmeAssocReqAction(
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	ULONG Idx;
-	UCHAR ApAddr[6];
+	u8 ApAddr[6];
 	HEADER_802_11 AssocHdr;
-	UCHAR WmeIe[9] = {IE_VENDOR_SPECIFIC, 0x07, 0x00, 0x50, 0xf2, 0x02, 0x00, 0x01, 0x00};
+	u8 WmeIe[9] = {IE_VENDOR_SPECIFIC, 0x07, 0x00, 0x50, 0xf2, 0x02, 0x00, 0x01, 0x00};
 	USHORT ListenIntv;
 	ULONG Timeout;
 	USHORT CapabilityInfo;
@@ -286,7 +286,7 @@ VOID MlmeAssocReqAction(
 		    && WMODE_CAP_N(pAd->CommonCfg.PhyMode)
 		    && pAd->MlmeAux.APEdcaParm.bValid) {
 			ULONG TmpLen;
-			UCHAR HtLen, BROADCOM[4] = { 0x0, 0x90, 0x4c, 0x33 };
+			u8 HtLen, BROADCOM[4] = { 0x0, 0x90, 0x4c, 0x33 };
 			PHT_CAPABILITY_IE pHtCapability;
 #ifdef RT_BIG_ENDIAN
 			HT_CAPABILITY_IE HtCapabilityTmp;
@@ -331,14 +331,14 @@ VOID MlmeAssocReqAction(
                         pAd->BeaconSndDimensionFlag = 1;
                     }
                  }
-				FrameLen += build_vht_ies(pAd, (UCHAR *)(pOutBuffer + FrameLen), SUBTYPE_ASSOC_REQ);
+				FrameLen += build_vht_ies(pAd, (u8 *)(pOutBuffer + FrameLen), SUBTYPE_ASSOC_REQ);
 			}
 		}
 
 		{
 			ULONG TmpLen;
 			EXT_CAP_INFO_ELEMENT extCapInfo;
-			UCHAR extInfoLen;
+			u8 extInfoLen;
 
 			extInfoLen = sizeof (EXT_CAP_INFO_ELEMENT);
 			memset(&extCapInfo, 0, extInfoLen);
@@ -376,14 +376,14 @@ VOID MlmeAssocReqAction(
 			if ((pAd->CommonCfg.bPiggyBackCapable)
 			    && ((pAd->MlmeAux.APRalinkIe & 0x00000003) == 3)) {
 				ULONG TmpLen;
-				UCHAR RalinkIe[9] = {IE_VENDOR_SPECIFIC, 7, 0x00, 0x0c, 0x43, 0x03, 0x00, 0x00, 0x00};
+				u8 RalinkIe[9] = {IE_VENDOR_SPECIFIC, 7, 0x00, 0x0c, 0x43, 0x03, 0x00, 0x00, 0x00};
 				MakeOutgoingFrame(pOutBuffer + FrameLen,
 						  &TmpLen, 9, RalinkIe,
 						  END_OF_ARGS);
 				FrameLen += TmpLen;
 			} else if (pAd->MlmeAux.APRalinkIe & 0x00000001) {
 				ULONG TmpLen;
-				UCHAR RalinkIe[9] = {IE_VENDOR_SPECIFIC, 7, 0x00, 0x0c, 0x43, 0x01, 0x00, 0x00, 0x00};
+				u8 RalinkIe[9] = {IE_VENDOR_SPECIFIC, 7, 0x00, 0x0c, 0x43, 0x01, 0x00, 0x00, 0x00};
 				MakeOutgoingFrame(pOutBuffer + FrameLen,
 						  &TmpLen, 9, RalinkIe,
 						  END_OF_ARGS);
@@ -391,7 +391,7 @@ VOID MlmeAssocReqAction(
 			}
 		} else {
 			ULONG TmpLen;
-			UCHAR RalinkIe[9] = {IE_VENDOR_SPECIFIC, 7, 0x00, 0x0c, 0x43, 0x06, 0x00, 0x00, 0x00};
+			u8 RalinkIe[9] = {IE_VENDOR_SPECIFIC, 7, 0x00, 0x0c, 0x43, 0x06, 0x00, 0x00, 0x00};
 			MakeOutgoingFrame(pOutBuffer + FrameLen, &TmpLen, 9,
 					  RalinkIe, END_OF_ARGS);
 			FrameLen += TmpLen;
@@ -431,7 +431,7 @@ VOID MlmeAssocReqAction(
 		     (wdev->AuthMode == Ndis802_11AuthModeWPA2)
 		    )
 		    ) {
-			UCHAR RSNIe = IE_WPA;
+			u8 RSNIe = IE_WPA;
 
 			if ((wdev->AuthMode == Ndis802_11AuthModeWPA2PSK)
 			    || (wdev->AuthMode ==
@@ -594,9 +594,9 @@ VOID MlmeReassocReqAction(
 	IN MLME_QUEUE_ELEM * Elem)
 {
 	ULONG Idx;
-	UCHAR ApAddr[6];
+	u8 ApAddr[6];
 	HEADER_802_11 ReassocHdr;
-	UCHAR WmeIe[9] = {IE_VENDOR_SPECIFIC, 0x07, 0x00, 0x50, 0xf2, 0x02, 0x00, 0x01, 0x00};
+	u8 WmeIe[9] = {IE_VENDOR_SPECIFIC, 0x07, 0x00, 0x50, 0xf2, 0x02, 0x00, 0x01, 0x00};
 	USHORT CapabilityInfo, ListenIntv;
 	ULONG Timeout;
 	ULONG FrameLen = 0;
@@ -682,8 +682,8 @@ VOID MlmeReassocReqAction(
 		if ((pAd->MlmeAux.HtCapabilityLen > 0)
 		    && WMODE_CAP_N(pAd->CommonCfg.PhyMode)) {
 			ULONG TmpLen;
-			UCHAR HtLen;
-			UCHAR BROADCOM[4] = {0x0, 0x90, 0x4c, 0x33};
+			u8 HtLen;
+			u8 BROADCOM[4] = {0x0, 0x90, 0x4c, 0x33};
 			PHT_CAPABILITY_IE pHtCapability;
 
 #ifdef RT_BIG_ENDIAN
@@ -729,7 +729,7 @@ VOID MlmeReassocReqAction(
                          pAd->BeaconSndDimensionFlag = 1;
                       }
                   }
-				FrameLen += build_vht_ies(pAd, (UCHAR *)(pOutBuffer + FrameLen), SUBTYPE_ASSOC_REQ);
+				FrameLen += build_vht_ies(pAd, (u8 *)(pOutBuffer + FrameLen), SUBTYPE_ASSOC_REQ);
 			}
 		}
 		} // end of pAd->MlmeAux.APEdcaParm.bValid
@@ -739,7 +739,7 @@ VOID MlmeReassocReqAction(
 		{
 			ULONG TmpLen;
 			EXT_CAP_INFO_ELEMENT extCapInfo;
-			UCHAR extInfoLen;
+			u8 extInfoLen;
 
 			memset(&extCapInfo, 0, sizeof (EXT_CAP_INFO_ELEMENT));
 			extInfoLen = sizeof(EXT_CAP_INFO_ELEMENT);
@@ -766,14 +766,14 @@ VOID MlmeReassocReqAction(
 			if ((pAd->CommonCfg.bPiggyBackCapable)
 			    && ((pAd->MlmeAux.APRalinkIe & 0x00000003) == 3)) {
 				ULONG TmpLen;
-				UCHAR RalinkIe[9] = {IE_VENDOR_SPECIFIC, 7, 0x00, 0x0c, 0x43, 0x03, 0x00, 0x00, 0x00 };
+				u8 RalinkIe[9] = {IE_VENDOR_SPECIFIC, 7, 0x00, 0x0c, 0x43, 0x03, 0x00, 0x00, 0x00 };
 				MakeOutgoingFrame(pOutBuffer + FrameLen,
 						  &TmpLen, 9, RalinkIe,
 						  END_OF_ARGS);
 				FrameLen += TmpLen;
 			} else if (pAd->MlmeAux.APRalinkIe & 0x00000001) {
 				ULONG TmpLen;
-				UCHAR RalinkIe[9] = {IE_VENDOR_SPECIFIC, 7, 0x00, 0x0c, 0x43, 0x01, 0x00, 0x00, 0x00 };
+				u8 RalinkIe[9] = {IE_VENDOR_SPECIFIC, 7, 0x00, 0x0c, 0x43, 0x01, 0x00, 0x00, 0x00 };
 				MakeOutgoingFrame(pOutBuffer + FrameLen,
 						  &TmpLen, 9, RalinkIe,
 						  END_OF_ARGS);
@@ -781,7 +781,7 @@ VOID MlmeReassocReqAction(
 			}
 		} else {
 			ULONG TmpLen;
-			UCHAR RalinkIe[9] = {IE_VENDOR_SPECIFIC, 7, 0x00, 0x0c, 0x43, 0x04, 0x00, 0x00, 0x00 };
+			u8 RalinkIe[9] = {IE_VENDOR_SPECIFIC, 7, 0x00, 0x0c, 0x43, 0x04, 0x00, 0x00, 0x00 };
 			MakeOutgoingFrame(pOutBuffer + FrameLen, &TmpLen, 9,
 					  RalinkIe, END_OF_ARGS);
 			FrameLen += TmpLen;
@@ -906,17 +906,17 @@ VOID PeerAssocRspAction(
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	USHORT CapabilityInfo, Status, Aid;
-	UCHAR SupRate[MAX_LEN_OF_SUPPORTED_RATES], SupRateLen;
-	UCHAR ExtRate[MAX_LEN_OF_SUPPORTED_RATES], ExtRateLen;
-	UCHAR Addr2[MAC_ADDR_LEN];
+	u8 SupRate[MAX_LEN_OF_SUPPORTED_RATES], SupRateLen;
+	u8 ExtRate[MAX_LEN_OF_SUPPORTED_RATES], ExtRateLen;
+	u8 Addr2[MAC_ADDR_LEN];
 	bool TimerCancelled;
-	UCHAR CkipFlag;
+	u8 CkipFlag;
 	EDCA_PARM EdcaParm;
 	HT_CAPABILITY_IE HtCapability;
 	ADD_HT_INFO_IE AddHtInfo;	/* AP might use this additional ht info IE */
-	UCHAR HtCapabilityLen = 0;
-	UCHAR AddHtInfoLen;
-	UCHAR NewExtChannelOffset = 0xff;
+	u8 HtCapabilityLen = 0;
+	u8 AddHtInfoLen;
+	u8 NewExtChannelOffset = 0xff;
 	EXT_CAP_INFO_ELEMENT ExtCapInfo;
 	MAC_TABLE_ENTRY *pEntry;
 	IE_LISTS *ie_list = NULL;
@@ -927,7 +927,7 @@ VOID PeerAssocRspAction(
 		DBGPRINT(RT_DEBUG_OFF, ("%s():mem alloc failed!\n", __FUNCTION__));
 		return;
 	}
-	memset((UCHAR *)ie_list, 0, sizeof(IE_LISTS));
+	memset((u8 *)ie_list, 0, sizeof(IE_LISTS));
 
 	if (PeerAssocRspSanity(pAd, Elem->Msg, Elem->MsgLen,
 			       Addr2, &CapabilityInfo, &Status, &Aid, SupRate,
@@ -950,7 +950,7 @@ VOID PeerAssocRspAction(
 
 
 			if (Status == MLME_SUCCESS) {
-				UCHAR MaxSupportedRateIn500Kbps = 0;
+				u8 MaxSupportedRateIn500Kbps = 0;
 
 				/*
 					In roaming case, LinkDown wouldn't be invoked.
@@ -1056,17 +1056,17 @@ VOID PeerReassocRspAction(
 	USHORT CapabilityInfo;
 	USHORT Status;
 	USHORT Aid;
-	UCHAR SupRate[MAX_LEN_OF_SUPPORTED_RATES], SupRateLen;
-	UCHAR ExtRate[MAX_LEN_OF_SUPPORTED_RATES], ExtRateLen;
-	UCHAR Addr2[MAC_ADDR_LEN];
-	UCHAR CkipFlag;
+	u8 SupRate[MAX_LEN_OF_SUPPORTED_RATES], SupRateLen;
+	u8 ExtRate[MAX_LEN_OF_SUPPORTED_RATES], ExtRateLen;
+	u8 Addr2[MAC_ADDR_LEN];
+	u8 CkipFlag;
 	bool TimerCancelled;
 	EDCA_PARM EdcaParm;
 	HT_CAPABILITY_IE HtCapability;
 	ADD_HT_INFO_IE AddHtInfo;	/* AP might use this additional ht info IE */
-	UCHAR HtCapabilityLen;
-	UCHAR AddHtInfoLen;
-	UCHAR NewExtChannelOffset = 0xff;
+	u8 HtCapabilityLen;
+	u8 AddHtInfoLen;
+	u8 NewExtChannelOffset = 0xff;
 	EXT_CAP_INFO_ELEMENT ExtCapInfo;
 	IE_LISTS *ie_list = NULL;
 
@@ -1075,7 +1075,7 @@ VOID PeerReassocRspAction(
 		DBGPRINT(RT_DEBUG_OFF, ("%s():mem alloc failed!\n", __FUNCTION__));
 		return;
 	}
-	memset((UCHAR *)ie_list, 0, sizeof(IE_LISTS));
+	memset((u8 *)ie_list, 0, sizeof(IE_LISTS));
 
 	if (PeerAssocRspSanity(pAd, Elem->Msg, Elem->MsgLen, Addr2,
 			       &CapabilityInfo, &Status, &Aid, SupRate,
@@ -1091,7 +1091,7 @@ VOID PeerReassocRspAction(
 
 			if (Status == MLME_SUCCESS)
 			{
-				UCHAR MaxSupportedRateIn500Kbps = 0;
+				u8 MaxSupportedRateIn500Kbps = 0;
 				PMAC_TABLE_ENTRY pEntry = NULL;
 
 				/*
@@ -1198,14 +1198,14 @@ VOID AssocPostProc(
 	IN u8 *pAddr2,
 	IN USHORT CapabilityInfo,
 	IN USHORT Aid,
-	IN UCHAR SupRate[],
-	IN UCHAR SupRateLen,
-	IN UCHAR ExtRate[],
-	IN UCHAR ExtRateLen,
+	IN u8 SupRate[],
+	IN u8 SupRateLen,
+	IN u8 ExtRate[],
+	IN u8 ExtRateLen,
 	IN PEDCA_PARM pEdcaParm,
 	IN IE_LISTS *ie_list,
 	IN HT_CAPABILITY_IE *pHtCapability,
-	IN UCHAR HtCapabilityLen,
+	IN u8 HtCapabilityLen,
 	IN ADD_HT_INFO_IE *pAddHtInfo)
 {				/* AP might use this additional ht info IE */
 	ULONG Idx;
@@ -1340,7 +1340,7 @@ VOID AssocPostProc(
  */
 VOID PeerDisassocAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
-	UCHAR Addr2[MAC_ADDR_LEN];
+	u8 Addr2[MAC_ADDR_LEN];
 	USHORT Reason;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("ASSOC - PeerDisassocAction()\n"));
@@ -1502,7 +1502,7 @@ VOID InvalidStateWhenDisassociate(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Ele
 
 	==========================================================================
  */
-VOID Cls3errAction(struct rtmp_adapter *pAd, UCHAR *pAddr)
+VOID Cls3errAction(struct rtmp_adapter *pAd, u8 *pAddr)
 {
 	HEADER_802_11 DisassocHdr;
 	PHEADER_802_11 pDisassocHdr;

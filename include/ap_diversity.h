@@ -68,7 +68,7 @@
 			if ((BbpCsr.field.Busy == IDLE) &&              \
 				(BbpCsr.field.RegNum == _I))            \
 			{                                               \
-				*(_pV) = (UCHAR)BbpCsr.field.Value;     \
+				*(_pV) = (u8)BbpCsr.field.Value;     \
 				break;                                  \
 			}                                               \
 		}                                                   	\

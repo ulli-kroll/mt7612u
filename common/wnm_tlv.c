@@ -25,15 +25,15 @@ VOID WNM_InsertDMS(
 	OUT u8 *pFrameBuf,
 	OUT PULONG pFrameLen,
 	IN UINT8 Len,
-	IN UCHAR DMSID,
+	IN u8 DMSID,
 	IN WNM_TCLAS wmn_tclas,
 	IN ULONG IpAddr)
 {
 	ULONG TempLen;
 	UINT8 DMSIDId = DMSID;
 	WNM_TCLAS tclas;
-	UCHAR 	TCLASElementID = WNM_CATEGORY;
-	UCHAR 	TCLASLength = WNM_TCLAS_TYPE_IP_V4_LEN;
+	u8 	TCLASElementID = WNM_CATEGORY;
+	u8 	TCLASLength = WNM_TCLAS_TYPE_IP_V4_LEN;
 
 	tclas.UserPriority = 0;
 	tclas.ClassifierType = 1;

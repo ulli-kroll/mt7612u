@@ -162,25 +162,25 @@ typedef enum{
 typedef union _BBP_R49_STRUC {
 	struct
 	{
-		UCHAR	adc5_in_sel:1; /* 0: TSSI (from the external components, old version), 1: PSI (internal components, new version - RT3390) */
-		UCHAR	bypassTSSIAverage:1; /* 0: the average TSSI (the average of the 16 samples), 1: the current TSSI */
-		UCHAR	Reserved:1; /* Reserved field */
-		UCHAR	TSSI:5; /* TSSI value */
+		u8 adc5_in_sel:1; /* 0: TSSI (from the external components, old version), 1: PSI (internal components, new version - RT3390) */
+		u8 bypassTSSIAverage:1; /* 0: the average TSSI (the average of the 16 samples), 1: the current TSSI */
+		u8 Reserved:1; /* Reserved field */
+		u8 TSSI:5; /* TSSI value */
 	} field;
 
-	UCHAR		byte;
+	u8 	byte;
 } BBP_R49_STRUC, *PBBP_R49_STRUC;
 #else
 typedef union _BBP_R49_STRUC {
 	struct
 	{
-		UCHAR	TSSI:5; /* TSSI value */
-		UCHAR	Reserved:1; /* Reserved field */
-		UCHAR	bypassTSSIAverage:1; /* 0: the average TSSI (the average of the 16 samples), 1: the current TSSI */
-		UCHAR	adc5_in_sel:1; /* 0: TSSI (from the external components, old version), 1: PSI (internal components, new version - RT3390) */
+		u8 TSSI:5; /* TSSI value */
+		u8 Reserved:1; /* Reserved field */
+		u8 bypassTSSIAverage:1; /* 0: the average TSSI (the average of the 16 samples), 1: the current TSSI */
+		u8 adc5_in_sel:1; /* 0: TSSI (from the external components, old version), 1: PSI (internal components, new version - RT3390) */
 	} field;
 
-	UCHAR		byte;
+	u8 	byte;
 } BBP_R49_STRUC, *PBBP_R49_STRUC;
 #endif
 
@@ -245,17 +245,17 @@ void mt7612u_bbp_set_rxpath(struct rtmp_adapter *pAd, int rxpath);
 INT bbp_tx_comp_init(struct rtmp_adapter *pAd, INT adc_insel, INT tssi_mode);
 void mt7612u_bbp_set_txdac(struct rtmp_adapter *pAd, int tx_dac);
 INT bbp_set_mmps(struct rtmp_adapter *pAd, bool ReduceCorePower);
-INT bbp_set_agc(struct rtmp_adapter *pAd, UCHAR agc, RX_CHAIN_IDX idx);
+INT bbp_set_agc(struct rtmp_adapter *pAd, u8 agc, RX_CHAIN_IDX idx);
 INT bbp_get_agc(struct rtmp_adapter *pAd, CHAR *agc, RX_CHAIN_IDX idx);
-INT filter_coefficient_ctrl(struct rtmp_adapter *pAd, UCHAR Channel);
-UCHAR get_random_seed_by_phy(struct rtmp_adapter *pAd);
+INT filter_coefficient_ctrl(struct rtmp_adapter *pAd, u8 Channel);
+u8 get_random_seed_by_phy(struct rtmp_adapter *pAd);
 
 int NICInitBBP(struct rtmp_adapter *pAd);
 
 typedef struct phy_ops{
-	UCHAR (*get_random_seed_by_phy)(struct rtmp_adapter *pAd);
-	INT (*filter_coefficient_ctrl)(struct rtmp_adapter *pAd, UCHAR Channel);
-	INT (*bbp_set_agc)(struct rtmp_adapter *pAd, UCHAR agc, RX_CHAIN_IDX chain);
+	u8 (*get_random_seed_by_phy)(struct rtmp_adapter *pAd);
+	INT (*filter_coefficient_ctrl)(struct rtmp_adapter *pAd, u8 Channel);
+	INT (*bbp_set_agc)(struct rtmp_adapter *pAd, u8 agc, RX_CHAIN_IDX chain);
 	INT (*bbp_get_agc)(struct rtmp_adapter *pAd, CHAR *agc, RX_CHAIN_IDX chain);
 	INT (*bbp_set_mmps)(struct rtmp_adapter *pAd, bool ReduceCorePower);
 	INT (*bbp_set_ctrlch)(struct rtmp_adapter *pAd, UINT8 ext_ch);

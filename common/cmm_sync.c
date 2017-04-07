@@ -27,7 +27,7 @@
 #include "rt_config.h"
 
 /*BaSizeArray follows the 802.11n definition as MaxRxFactor.  2^(13+factor) bytes. When factor =0, it's about Ba buffer size =8.*/
-UCHAR BaSizeArray[4] = {8,16,32,64};
+u8 BaSizeArray[4] = {8,16,32,64};
 
 extern COUNTRY_REGION_CH_DESC Country_Region_ChDesc_2GHZ[];
 extern uint16_t const Country_Region_GroupNum_2GHZ;
@@ -48,7 +48,7 @@ extern uint16_t const Country_Region_GroupNum_5GHZ;
  */
 VOID BuildChannelList(struct rtmp_adapter *pAd)
 {
-	UCHAR i, j, index=0, num=0;
+	u8 i, j, index=0, num=0;
 	PCH_DESC pChDesc = NULL;
 	bool bRegionFound = false;
 	u8 *pChannelList;
@@ -79,14 +79,14 @@ VOID BuildChannelList(struct rtmp_adapter *pAd)
 
 		if (num > 0)
 		{
-			pChannelList = kmalloc(num * sizeof(UCHAR), GFP_ATOMIC);
+			pChannelList = kmalloc(num * sizeof(u8), GFP_ATOMIC);
 
 			if (!pChannelList) {
 				DBGPRINT(RT_DEBUG_ERROR,("%s:Allocate memory for ChannelList failed\n", __FUNCTION__));
 				return;
 			}
 
-			pChannelListFlag = kmalloc(num * sizeof(UCHAR), GFP_ATOMIC);
+			pChannelListFlag = kmalloc(num * sizeof(u8), GFP_ATOMIC);
 
 			if (!pChannelListFlag) {
 				DBGPRINT(RT_DEBUG_ERROR,("%s:Allocate memory for ChannelListFlag failed\n", __FUNCTION__));
@@ -148,18 +148,18 @@ VOID BuildChannelList(struct rtmp_adapter *pAd)
 
 		if (num > 0)
 		{
-			UCHAR RadarCh[15]={52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140};
+			u8 RadarCh[15]={52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140};
 #ifdef CONFIG_AP_SUPPORT
-			UCHAR q=0;
+			u8 q=0;
 #endif /* CONFIG_AP_SUPPORT */
-			pChannelList = kmalloc(num * sizeof(UCHAR), GFP_ATOMIC);
+			pChannelList = kmalloc(num * sizeof(u8), GFP_ATOMIC);
 
 			if (!pChannelList) {
 				DBGPRINT(RT_DEBUG_ERROR,("%s:Allocate memory for ChannelList failed\n", __FUNCTION__));
 				return;
 			}
 
-			pChannelListFlag = kmalloc(num * sizeof(UCHAR), GFP_ATOMIC);
+			pChannelListFlag = kmalloc(num * sizeof(u8), GFP_ATOMIC);
 
 			if (!pChannelListFlag) {
 				DBGPRINT(RT_DEBUG_ERROR,("%s:Allocate memory for ChannelListFlag failed\n", __FUNCTION__));
@@ -270,7 +270,7 @@ VOID BuildChannelList(struct rtmp_adapter *pAd)
 
 	==========================================================================
  */
-UCHAR FirstChannel(struct rtmp_adapter *pAd)
+u8 FirstChannel(struct rtmp_adapter *pAd)
 {
 	return pAd->ChannelList[0].Channel;
 }
@@ -286,10 +286,10 @@ UCHAR FirstChannel(struct rtmp_adapter *pAd)
 		return 0 if no more next channel
 	==========================================================================
  */
-UCHAR NextChannel(struct rtmp_adapter *pAd, UCHAR channel)
+u8 NextChannel(struct rtmp_adapter *pAd, u8 channel)
 {
 	int i;
-	UCHAR next_channel = 0;
+	u8 next_channel = 0;
 
 	for (i = 0; i < (pAd->ChannelListNum - 1); i++)
 	{
@@ -325,11 +325,11 @@ UCHAR NextChannel(struct rtmp_adapter *pAd, UCHAR channel)
 		return 0 if no more next channel
 	==========================================================================
  */
-UCHAR RTMPFindScanChannel(
+u8 RTMPFindScanChannel(
 	IN struct rtmp_adapter *pAd,
 	UINT8			  LastScanChannel)
 {
-	UCHAR scan_channel = 0;
+	u8 scan_channel = 0;
 #ifdef CONFIG_AP_SUPPORT
 #ifdef AP_PARTIAL_SCAN_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
@@ -372,7 +372,7 @@ UCHAR RTMPFindScanChannel(
 		the minimum value or next lower value.
 	==========================================================================
  */
-VOID ChangeToCellPowerLimit(struct rtmp_adapter *pAd, UCHAR AironetCellPowerLimit)
+VOID ChangeToCellPowerLimit(struct rtmp_adapter *pAd, u8 AironetCellPowerLimit)
 {
 	/*
 		valud 0xFF means that hasn't found power limit information
@@ -400,9 +400,9 @@ VOID ChangeToCellPowerLimit(struct rtmp_adapter *pAd, UCHAR AironetCellPowerLimi
 }
 
 
-CHAR ConvertToRssi(struct rtmp_adapter *pAd, CHAR Rssi, UCHAR rssi_idx)
+CHAR ConvertToRssi(struct rtmp_adapter *pAd, CHAR Rssi, u8 rssi_idx)
 {
-	UCHAR	RssiOffset, LNAGain;
+	u8 RssiOffset, LNAGain;
 	CHAR	BaseVal;
 
 	/* Rssi equals to zero or rssi_idx larger than 3 should be an invalid value*/
@@ -443,7 +443,7 @@ CHAR ConvertToRssi(struct rtmp_adapter *pAd, CHAR Rssi, UCHAR rssi_idx)
 }
 
 
-CHAR ConvertToSnr(struct rtmp_adapter *pAd, UCHAR Snr)
+CHAR ConvertToSnr(struct rtmp_adapter *pAd, u8 Snr)
 {
 	if (pAd->chipCap.SnrFormula == SNR_FORMULA2)
 		return (Snr * 3 + 8) >> 4;

@@ -60,47 +60,47 @@ enum IPV6_TYPE{
 };
 
 typedef struct GNU_PACKED _BTM_EVENT_DATA {
-	UCHAR ControlIndex;
-	UCHAR PeerMACAddr[MAC_ADDR_LEN];
+	u8 ControlIndex;
+	u8 PeerMACAddr[MAC_ADDR_LEN];
 	uint16_t EventType;
 	union {
 #ifdef CONFIG_STA_SUPPORT
 		struct {
-			UCHAR DialogToken;
+			u8 DialogToken;
 			uint16_t BTMQueryLen;
-			UCHAR BTMQuery[0];
+			u8 BTMQuery[0];
 		} GNU_PACKED BTM_QUERY_DATA;
 
 		struct {
-			UCHAR DialogToken;
+			u8 DialogToken;
 			uint16_t BTMRspLen;
-			UCHAR BTMRsp[0];
+			u8 BTMRsp[0];
 		} GNU_PACKED BTM_RSP_DATA;
 
 		struct {
-			UCHAR DialogToken;
+			u8 DialogToken;
 			uint16_t BTMReqLen;
-			UCHAR BTMReq[0];
+			u8 BTMReq[0];
 		} GNU_PACKED PEER_BTM_REQ_DATA;
 #endif /* CONFIG_STA_SUPPORT */
 
 #ifdef CONFIG_AP_SUPPORT
 		struct {
-			UCHAR DialogToken;
+			u8 DialogToken;
 			uint16_t BTMReqLen;
-			UCHAR BTMReq[0];
+			u8 BTMReq[0];
 		} GNU_PACKED BTM_REQ_DATA;
 
 		struct {
-			UCHAR DialogToken;
+			u8 DialogToken;
 			uint16_t BTMQueryLen;
-			UCHAR BTMQuery[0];
+			u8 BTMQuery[0];
 		} GNU_PACKED PEER_BTM_QUERY_DATA;
 
 		struct {
-			UCHAR DialogToken;
+			u8 DialogToken;
 			uint16_t BTMRspLen;
-			UCHAR BTMRsp[0];
+			u8 BTMRsp[0];
 		} GNU_PACKED PEER_BTM_RSP_DATA;
 #endif /* CONFIG_AP_SUPPORT */
 	}u;
@@ -109,9 +109,9 @@ typedef struct GNU_PACKED _BTM_EVENT_DATA {
 typedef struct _BTM_PEER_ENTRY {
 	DL_LIST List;
 	enum BTM_STATE CurrentState;
-	UCHAR ControlIndex;
-	UCHAR PeerMACAddr[MAC_ADDR_LEN];
-	UCHAR DialogToken;
+	u8 ControlIndex;
+	u8 PeerMACAddr[MAC_ADDR_LEN];
+	u8 DialogToken;
 	void *Priv;
 #ifdef CONFIG_AP_SUPPORT
 	RALINK_TIMER_STRUCT WaitPeerBTMRspTimer;
@@ -120,26 +120,26 @@ typedef struct _BTM_PEER_ENTRY {
 
 typedef struct _PROXY_ARP_IPV4_ENTRY {
 	DL_LIST List;
-	UCHAR TargetMACAddr[MAC_ADDR_LEN];
-	UCHAR TargetIPAddr[4];
+	u8 TargetMACAddr[MAC_ADDR_LEN];
+	u8 TargetIPAddr[4];
 } PROXY_ARP_IPV4_ENTRY, *PPROXY_ARP_IPV4_ENTRY;
 
 typedef struct _PROXY_ARP_IPV4_UNIT {
-	UCHAR TargetMACAddr[MAC_ADDR_LEN];
-	UCHAR TargetIPAddr[4];
+	u8 TargetMACAddr[MAC_ADDR_LEN];
+	u8 TargetIPAddr[4];
 } PROXY_ARP_IPV4_UNIT, *PPROXY_ARP_IPV4_UNIT;
 
 typedef struct _PROXY_ARP_IPV6_ENTRY {
 	DL_LIST List;
-	UCHAR TargetMACAddr[MAC_ADDR_LEN];
-	UCHAR TargetIPType;
-	UCHAR TargetIPAddr[16];
+	u8 TargetMACAddr[MAC_ADDR_LEN];
+	u8 TargetIPType;
+	u8 TargetIPAddr[16];
 } PROXY_ARP_IPV6_ENTRY, *PPROXY_ARP_IPV6_ENTRY;
 
 typedef struct _PROXY_ARP_IPV6_UNIT {
-	UCHAR TargetMACAddr[MAC_ADDR_LEN];
-	UCHAR TargetIPType;
-	UCHAR TargetIPAddr[16];
+	u8 TargetMACAddr[MAC_ADDR_LEN];
+	u8 TargetIPType;
+	u8 TargetIPAddr[16];
 } PROXY_ARP_IPV6_UNIT, *PPROXY_ARP_IPV6_UNIT;
 
 typedef struct _WNM_CTRL {

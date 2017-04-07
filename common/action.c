@@ -28,7 +28,7 @@
 #include "rt_config.h"
 #include "action.h"
 
-extern UCHAR  ZeroSsid[32];
+extern u8  ZeroSsid[32];
 
 static VOID ReservedAction(
 	IN struct rtmp_adapter *pAd,
@@ -94,7 +94,7 @@ VOID ActionStateMachineInit(
 VOID MlmeADDBAAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 	MLME_ADDBA_REQ_STRUCT *pInfo;
-	UCHAR Addr[6];
+	u8 Addr[6];
 	u8 *pOutBuffer = NULL;
 	int NStatus;
 	ULONG Idx;
@@ -327,7 +327,7 @@ VOID PeerQOSAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 
 VOID PeerBAAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
-	UCHAR Action = Elem->Msg[LENGTH_802_11+1];
+	u8 Action = Elem->Msg[LENGTH_802_11+1];
 
 	switch(Action)
 	{
@@ -345,11 +345,11 @@ VOID PeerBAAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 
 
 #ifdef CONFIG_AP_SUPPORT
-extern UCHAR get_regulatory_class(IN struct rtmp_adapter *pAd);
+extern u8 get_regulatory_class(IN struct rtmp_adapter *pAd);
 
 VOID ApPublicAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
-	UCHAR	Action = Elem->Msg[LENGTH_802_11+1];
+	u8 Action = Elem->Msg[LENGTH_802_11+1];
 	BSS_2040_COEXIST_IE	 BssCoexist;
 
 	/* Format as in IEEE 7.4.7.2*/
@@ -362,17 +362,17 @@ VOID ApPublicAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 
 VOID SendBSS2040CoexistMgmtAction(
 	IN struct rtmp_adapter *pAd,
-	IN UCHAR Wcid,
-	IN UCHAR apidx,
-	IN UCHAR InfoReq)
+	IN u8 Wcid,
+	IN u8 apidx,
+	IN u8 InfoReq)
 {
-	UCHAR *pOutBuffer = NULL;
+	u8 *pOutBuffer = NULL;
 	int NStatus;
 	FRAME_ACTION_HDR Frame;
 	ULONG FrameLen;
 	BSS_2040_COEXIST_ELEMENT BssCoexistInfo;
 	BSS_2040_INTOLERANT_CH_REPORT BssIntolerantInfo;
-	UCHAR *pAddr1;
+	u8 *pAddr1;
 	struct rtmp_wifi_dev *wdev;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("SendBSS2040CoexistMgmtAction(): Wcid=%d, apidx=%d, InfoReq=%d!\n", Wcid, apidx, InfoReq));
@@ -516,15 +516,15 @@ VOID UpdateBssScanParm(
 Description : Build Intolerant Channel Rerpot from Trigger event table.
 return : how many bytes copied.
 */
-ULONG BuildIntolerantChannelRep(struct rtmp_adapter *pAd, UCHAR *pDest)
+ULONG BuildIntolerantChannelRep(struct rtmp_adapter *pAd, u8 *pDest)
 {
 	ULONG			FrameLen = 0;
 	ULONG			ReadOffset = 0;
-	UCHAR			i, j, k, idx = 0;
-	/*UCHAR			LastRegClass = 0xff;*/
-	UCHAR			ChannelList[MAX_TRIGGER_EVENT];
-	UCHAR			TmpRegClass;
-	UCHAR			RegClassArray[7] = {0, 11,12, 32, 33, 54,55}; /* Those regulatory class has channel in 2.4GHz. See Annex J.*/
+	u8 		i, j, k, idx = 0;
+	/*u8 		LastRegClass = 0xff;*/
+	u8 		ChannelList[MAX_TRIGGER_EVENT];
+	u8 		TmpRegClass;
+	u8 		RegClassArray[7] = {0, 11,12, 32, 33, 54,55}; /* Those regulatory class has channel in 2.4GHz. See Annex J.*/
 
 
 	RTMPZeroMemory(ChannelList, MAX_TRIGGER_EVENT);
@@ -544,12 +544,12 @@ ULONG BuildIntolerantChannelRep(struct rtmp_adapter *pAd, UCHAR *pDest)
 				{
 					for (j = 0;j < idx;j++)
 					{
-						if (ChannelList[j] == (UCHAR)pAd->CommonCfg.TriggerEventTab.EventA[i].Channel)
+						if (ChannelList[j] == (u8)pAd->CommonCfg.TriggerEventTab.EventA[i].Channel)
 							break;
 					}
 					if ((j == idx))
 					{
-						ChannelList[idx] = (UCHAR)pAd->CommonCfg.TriggerEventTab.EventA[i].Channel;
+						ChannelList[idx] = (u8)pAd->CommonCfg.TriggerEventTab.EventA[i].Channel;
 						idx++;
 					}
 					pAd->CommonCfg.TriggerEventTab.EventA[i].bValid = false;
@@ -591,7 +591,7 @@ ULONG BuildIntolerantChannelRep(struct rtmp_adapter *pAd, UCHAR *pDest)
  */
 VOID Update2040CoexistFrameAndNotify(
 	IN	struct rtmp_adapter *pAd,
-	IN    UCHAR  Wcid,
+	IN    u8  Wcid,
 	IN	bool	bAddIntolerantCha)
 {
 	BSS_2040_COEXIST_IE		OldValue;
@@ -622,17 +622,17 @@ Description : Send 20/40 BSS Coexistence Action frame If one trigger event is tr
 */
 VOID Send2040CoexistAction(
 	IN struct rtmp_adapter *pAd,
-	IN UCHAR Wcid,
+	IN u8 Wcid,
 	IN bool bAddIntolerantCha)
 {
-	UCHAR *pOutBuffer = NULL;
+	u8 *pOutBuffer = NULL;
 	int NStatus;
 	FRAME_ACTION_HDR Frame;
 	ULONG FrameLen;
 	uint32_t IntolerantChaRepLen;
-	UCHAR HtLen = 1;
+	u8 HtLen = 1;
 #ifdef APCLI_SUPPORT
-        UCHAR apidx;
+        u8 apidx;
 #endif /* APCLI_SUPPORT */
 	IntolerantChaRepLen = 0;
 	pOutBuffer = kmalloc(MGMT_DMA_BUFFER_SIZE, GFP_ATOMIC);  /*Get an unused nonpaged memory*/
@@ -687,11 +687,11 @@ VOID Send2040CoexistAction(
 
 bool ChannelSwitchSanityCheck(
 	IN	struct rtmp_adapter *pAd,
-	IN    UCHAR  Wcid,
-	IN    UCHAR  NewChannel,
-	IN    UCHAR  Secondary)
+	IN    u8  Wcid,
+	IN    u8  NewChannel,
+	IN    u8  Secondary)
 {
-	UCHAR		i;
+	u8 	i;
 
 	if (Wcid >= MAX_LEN_OF_MAC_TABLE)
 		return false;
@@ -720,11 +720,11 @@ bool ChannelSwitchSanityCheck(
 
 VOID ChannelSwitchAction(
 	IN struct rtmp_adapter *pAd,
-	IN UCHAR Wcid,
-	IN UCHAR NewChannel,
-	IN UCHAR Secondary)
+	IN u8 Wcid,
+	IN u8 NewChannel,
+	IN u8 Secondary)
 {
-	UCHAR rf_channel = 0, rf_bw;
+	u8 rf_channel = 0, rf_bw;
 
 	DBGPRINT(RT_DEBUG_TRACE,("%s(): NewChannel=%d, Secondary=%d\n",
 				__FUNCTION__, NewChannel, Secondary));
@@ -771,7 +771,7 @@ VOID ChannelSwitchAction(
 
 VOID PeerPublicAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
-	UCHAR Action = Elem->Msg[LENGTH_802_11+1];
+	u8 Action = Elem->Msg[LENGTH_802_11+1];
 
 #if defined(CONFIG_HOTSPOT) && defined(CONFIG_AP_SUPPORT)
 	if (!HotSpotEnable(pAd, Elem, ACTION_STATE_MESSAGES))
@@ -785,7 +785,7 @@ VOID PeerPublicAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 	{
 		case ACTION_BSS_2040_COEXIST:	/* Format defined in IEEE 7.4.7a.1 in 11n Draf3.03*/
 			{
-				/*UCHAR	BssCoexist;*/
+				/*u8 BssCoexist;*/
 				BSS_2040_COEXIST_ELEMENT		*pCoexistInfo;
 				BSS_2040_COEXIST_IE 			*pBssCoexistIe;
 				BSS_2040_INTOLERANT_CH_REPORT	*pIntolerantReport = NULL;
@@ -838,7 +838,7 @@ VOID PeerPublicAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 							/*&& (pIntolerantReport->RegulatoryClass == get_regulatory_class(pAd))*/)
 					{
 						int i;
-						UCHAR *ptr;
+						u8 *ptr;
 						INT retVal;
 						BSS_COEX_CH_RANGE coexChRange;
 
@@ -862,7 +862,7 @@ VOID PeerPublicAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 													pAd->ChannelList[coexChRange.effectChEnd].Channel));
 							for(i =0 ; i < (pIntolerantReport->Len -1); i++, ptr++)
 							{
-								UCHAR chEntry;
+								u8 chEntry;
 
 								chEntry = *ptr;
 								if (chEntry >= pAd->ChannelList[coexChRange.effectChStart].Channel &&
@@ -955,7 +955,7 @@ VOID PeerPublicAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 
 static VOID ReservedAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
-	UCHAR Category;
+	u8 Category;
 
 	if (Elem->MsgLen <= LENGTH_802_11)
 	{
@@ -978,9 +978,9 @@ VOID PeerRMAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 
 
 #ifdef CONFIG_AP_SUPPORT
-VOID SendNotifyBWActionFrame(struct rtmp_adapter *pAd, UCHAR Wcid, UCHAR apidx)
+VOID SendNotifyBWActionFrame(struct rtmp_adapter *pAd, u8 Wcid, u8 apidx)
 {
-	UCHAR *pOutBuffer = NULL, *pAddr1;
+	u8 *pOutBuffer = NULL, *pAddr1;
 	int NStatus;
 	FRAME_ACTION_HDR Frame;
 	ULONG FrameLen;
@@ -1019,7 +1019,7 @@ VOID SendNotifyBWActionFrame(struct rtmp_adapter *pAd, UCHAR Wcid, UCHAR apidx)
 
 VOID PeerHTAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
-	UCHAR Action = Elem->Msg[LENGTH_802_11+1];
+	u8 Action = Elem->Msg[LENGTH_802_11+1];
 	MAC_TABLE_ENTRY *pEntry;
 
 	if (Elem->Wcid >= MAX_LEN_OF_MAC_TABLE)
@@ -1081,7 +1081,7 @@ VOID PeerHTAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 
 VOID PeerVHTAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
-	UCHAR Action = Elem->Msg[LENGTH_802_11+1];
+	u8 Action = Elem->Msg[LENGTH_802_11+1];
 
 	if (Elem->Wcid >= MAX_LEN_OF_MAC_TABLE)
 		return;
@@ -1134,7 +1134,7 @@ VOID ORIBATimerTimeout(struct rtmp_adapter *pAd)
 {
 	MAC_TABLE_ENTRY *pEntry;
 	INT i, total;
-	UCHAR TID;
+	u8 TID;
 
 	total = pAd->MacTab.Size * NUM_OF_TID;
 
@@ -1157,7 +1157,7 @@ VOID SendRefreshBAR(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 	FRAME_BAR FrameBar;
 	ULONG FrameLen;
 	int NStatus;
-	UCHAR *pOutBuffer = NULL, i, TID;
+	u8 *pOutBuffer = NULL, i, TID;
 	USHORT Sequence, idx;
 	BA_ORI_ENTRY *pBAEntry;
 
@@ -1204,9 +1204,9 @@ VOID SendRefreshBAR(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 VOID ActHeaderInit(
     IN struct rtmp_adapter *pAd,
     IN OUT PHEADER_802_11 pHdr80211,
-    IN UCHAR *da,
-    IN UCHAR *sa,
-    IN UCHAR *bssid)
+    IN u8 *da,
+    IN u8 *sa,
+    IN u8 *bssid)
 {
     memset(pHdr80211, 0, sizeof(HEADER_802_11));
 	pHdr80211->FC.Type = FC_TYPE_MGMT;

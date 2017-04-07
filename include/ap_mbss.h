@@ -35,7 +35,7 @@
 */
 #define MBSS_PHY_MODE_RESET(__BssId, __HtPhyMode)				\
 	{															\
-		UCHAR __PhyMode = pAd->ApCfg.MBSSID[__BssId].wdev.PhyMode;	\
+		u8 __PhyMode = pAd->ApCfg.MBSSID[__BssId].wdev.PhyMode;	\
 		if ((__PhyMode == WMODE_B) &&							\
 			(__HtPhyMode.field.MODE != MODE_CCK))				\
 		{														\

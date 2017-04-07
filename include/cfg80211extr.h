@@ -126,7 +126,7 @@ INT CFG80211DRV_OpsScanGetNextChannel(struct rtmp_adapter *pAdOrg);
 VOID CFG80211_ScanStatusLockInit(struct rtmp_adapter *pAdCB, UINT init);
 
 VOID CFG80211_Scaning(
-	struct rtmp_adapter *pAdCB, uint32_t BssIdx, uint32_t ChanId, UCHAR *pFrame, uint32_t FrameLen, int32_t RSSI);
+	struct rtmp_adapter *pAdCB, uint32_t BssIdx, uint32_t ChanId, u8 *pFrame, uint32_t FrameLen, int32_t RSSI);
 
 VOID CFG80211_ScanEnd(struct rtmp_adapter *pAdCB, bool FlgIsAborted);
 
@@ -137,16 +137,16 @@ bool CFG80211DRV_Connect(struct rtmp_adapter *pAdOrg, VOID *pData);
 
 VOID CFG80211_P2pClientConnectResultInform(
         IN struct rtmp_adapter                          *pAdCB,
-        IN UCHAR                                        *pBSSID,
-        IN UCHAR                                        *pReqIe,
+        IN u8                                        *pBSSID,
+        IN u8                                        *pReqIe,
         IN uint32_t                                       ReqIeLen,
-        IN UCHAR                                        *pRspIe,
+        IN u8                                        *pRspIe,
         IN uint32_t                                       RspIeLen,
-        IN UCHAR                                        FlgIsSuccess);
+        IN u8                                        FlgIsSuccess);
 
 VOID CFG80211_ConnectResultInform(
-	struct rtmp_adapter *pAdCB, UCHAR *pBSSID,	UCHAR *pReqIe, uint32_t ReqIeLen,
-	UCHAR *pRspIe, uint32_t RspIeLen,	UCHAR FlgIsSuccess);
+	struct rtmp_adapter *pAdCB, u8 *pBSSID,	u8 *pReqIe, uint32_t ReqIeLen,
+	u8 *pRspIe, uint32_t RspIeLen,	u8 FlgIsSuccess);
 VOID CFG80211DRV_PmkidConfig(VOID *pAdOrg, VOID *pData);
 
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
@@ -156,17 +156,17 @@ VOID CFG80211_LostApInform(struct rtmp_adapter *pAdCB);
 
 INT CFG80211_StaPortSecured(
     struct rtmp_adapter          *pAdCB,
-    UCHAR                        *pMac,
+    u8                        *pMac,
     UINT    					  flag);
 
 /* AP Related*/
-void CFG80211_ApStaDel(struct rtmp_adapter *pAdCB, UCHAR *pMac);
+void CFG80211_ApStaDel(struct rtmp_adapter *pAdCB, u8 *pMac);
 
 VOID CFG80211_UpdateBeacon(
    struct rtmp_adapter            *pAdOrg,
-   UCHAR                          *beacon_head_buf,
+   u8                          *beacon_head_buf,
    uint32_t                          beacon_head_len,
-   UCHAR                          *beacon_tail_buf,
+   u8                          *beacon_tail_buf,
    uint32_t                          beacon_tail_len,
    bool                         isAllUpdate);
 
@@ -211,23 +211,23 @@ INT CFG80211DRV_IoctlHandle(
 	VOID						*pData,
 	ULONG						Data);
 
-UCHAR CFG80211_getCenCh(struct rtmp_adapter *pAd, UCHAR prim_ch);
+u8 CFG80211_getCenCh(struct rtmp_adapter *pAd, u8 prim_ch);
 
 /* CRDA Releatd */
 VOID CFG80211_RegHint(
 	struct rtmp_adapter				*pAdCB,
-	UCHAR						*pCountryIe,
+	u8 					*pCountryIe,
 	ULONG						CountryIeLen);
 
 VOID CFG80211_RegHint11D(
 	struct rtmp_adapter				*pAdCB,
-	UCHAR						*pCountryIe,
+	u8 					*pCountryIe,
 	ULONG						CountryIeLen);
 
 VOID CFG80211_RegRuleApply(
 	struct rtmp_adapter				*pAdCB,
 	VOID						*pWiphy,
-	UCHAR						*pAlpha2);
+	u8 					*pAlpha2);
 
 bool CFG80211_SupBandReInit(
 	struct rtmp_adapter				*pAdCB);
@@ -293,7 +293,7 @@ bool CFG80211_CheckActionFrameType(
 
 
 void CFG80211_SyncPacketWmmIe(struct rtmp_adapter *pAd, VOID *pData, ULONG dataLen);
-bool CFG80211_HandleP2pMgmtFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk, UCHAR OpMode);
+bool CFG80211_HandleP2pMgmtFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk, u8 OpMode);
 void CFG80211_SendMgmtFrame(struct rtmp_adapter *pAd, VOID *pData, ULONG Data);
 
 
@@ -304,8 +304,8 @@ void CFG80211_ParseBeaconIE(struct rtmp_adapter *pAd, MULTISSID_STRUCT *pMbss, s
 #endif
 
 //--------------------------------
-VOID CFG80211_Convert802_3Packet(struct rtmp_adapter *pAd, RX_BLK *pRxBlk, UCHAR *pHeader802_3);
-VOID CFG80211_Announce802_3Packet(struct rtmp_adapter *pAd, RX_BLK *pRxBlk, UCHAR FromWhichBSSID);
+VOID CFG80211_Convert802_3Packet(struct rtmp_adapter *pAd, RX_BLK *pRxBlk, u8 *pHeader802_3);
+VOID CFG80211_Announce802_3Packet(struct rtmp_adapter *pAd, RX_BLK *pRxBlk, u8 FromWhichBSSID);
 VOID CFG80211_SendMgmtFrameDone(struct rtmp_adapter *pAd, USHORT Sequence);
 VOID CFG80211_SwitchTxChannel(struct rtmp_adapter *pAd, ULONG Data);
 void CFG80211DRV_OpsBeaconSet(struct rtmp_adapter *pAd,void  *pData);

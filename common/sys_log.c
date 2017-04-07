@@ -70,12 +70,12 @@ VOID RtmpDrvSendWirelessEvent(
 	IN	struct rtmp_adapter			*pAd,
 	IN	USHORT					Event_flag,
 	IN	u8 *					pAddr,
-	IN  UCHAR					BssIdx,
+	IN  u8 				BssIdx,
 	IN	CHAR					Rssi)
 {
 	char *pBuf = NULL, *pBufPtr = NULL;
 	USHORT	event, type, BufLen;
-	UCHAR	event_table_len = 0;
+	u8 event_table_len = 0;
 
 	if (pAd->CommonCfg.bWirelessEvent == false)
 		return;

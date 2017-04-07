@@ -100,7 +100,7 @@ static USHORT update_associated_mac_entry(
 	IN struct rtmp_adapter *pAd,
 	IN MAC_TABLE_ENTRY *pEntry,
 	IN IE_LISTS *ie_list,
-	IN UCHAR MaxSupportedRate)
+	IN u8 MaxSupportedRate)
 {
 	struct rtmp_wifi_dev *wdev;
 	bool	 supportsETxBF = false;
@@ -259,8 +259,8 @@ static USHORT update_associated_mac_entry(
 
 		pEntry->MpduDensity = ie_list->HTCapability.HtCapParm.MpduDensity;
 		pEntry->MaxRAmpduFactor = ie_list->HTCapability.HtCapParm.MaxRAmpduFactor;
-		pEntry->MmpsMode = (UCHAR)ie_list->HTCapability.HtCapInfo.MimoPs;
-		pEntry->AMsduSize = (UCHAR)ie_list->HTCapability.HtCapInfo.AMsduSize;
+		pEntry->MmpsMode = (u8)ie_list->HTCapability.HtCapInfo.MimoPs;
+		pEntry->AMsduSize = (u8)ie_list->HTCapability.HtCapInfo.AMsduSize;
 
 		if (pAd->CommonCfg.DesiredHtPhy.AmsduEnable && (pAd->CommonCfg.REGBACapability.field.AutoBA == false))
 			CLIENT_STATUS_SET_FLAG(pEntry, fCLIENT_STATUS_AMSDU_INUSED);
@@ -381,7 +381,7 @@ static USHORT update_associated_mac_entry(
 		TxBFInit(pAd, pEntry, supportsETxBF);
 		if (supportsETxBF) {
 			HT_BF_CAP *pTxBFCap = &ie_list->HTCapability.TxBFCap;
-			UCHAR ndpSndgStreams = pAd->Antenna.field.TxPath;
+			u8 ndpSndgStreams = pAd->Antenna.field.TxPath;
 
 			if ((pTxBFCap->ExpComBF > 0) && (!pAd->CommonCfg.ETxBfNoncompress))
 			{
@@ -404,7 +404,7 @@ static USHORT update_associated_mac_entry(
 	/* Set asic auto fall back */
 	if (wdev->bAutoTxRateSwitch == true)
 	{
-		UCHAR TableSize = 0;
+		u8 TableSize = 0;
 
 		MlmeSelectTxRateTable(pAd, pEntry, &pEntry->pTable, &TableSize, &pEntry->CurrTxRateIndex);
 		MlmeNewTxRate(pAd, pEntry);
@@ -428,7 +428,7 @@ static USHORT update_associated_mac_entry(
 #endif /* WFA_VHT_PF */
 
 		/* If the legacy mode is set, overwrite the transmit setting of this entry. */
-		RTMPUpdateLegacyTxSetting((UCHAR)wdev->DesiredTransmitSetting.field.FixedTxMode, pEntry);
+		RTMPUpdateLegacyTxSetting((u8)wdev->DesiredTransmitSetting.field.FixedTxMode, pEntry);
 
 		DBGPRINT(RT_DEBUG_TRACE, ("%s(SS=%d): pMbss(FixedTxMode=%d, MCS=%d), pEntry(Mode=%d, MCS=%d)\n",
 					__FUNCTION__, pAd->CommonCfg.TxStream,
@@ -475,11 +475,11 @@ static USHORT APBuildAssociation(
     IN struct rtmp_adapter *pAd,
     IN MAC_TABLE_ENTRY *pEntry,
     IN IE_LISTS *ie_list,
-    IN UCHAR MaxSupportedRateIn500Kbps,
+    IN u8 MaxSupportedRateIn500Kbps,
     OUT USHORT *pAid)
 {
 	USHORT StatusCode = MLME_SUCCESS;
-	UCHAR MaxSupportedRate = RATE_11;
+	u8 MaxSupportedRate = RATE_11;
 	struct rtmp_wifi_dev *wdev;
 
 	MaxSupportedRate = dot11_2_ra_rate(MaxSupportedRateIn500Kbps);
@@ -594,14 +594,14 @@ VOID ap_cmm_peer_assoc_req_action(
 	u8 *pOutBuffer = NULL;
 	int NStatus;
 	ULONG FrameLen = 0;
-	UCHAR MaxSupportedRate = 0;
-	UCHAR SupRateLen, PhyMode, FlgIs11bSta;
-	UCHAR i;
+	u8 MaxSupportedRate = 0;
+	u8 SupRateLen, PhyMode, FlgIs11bSta;
+	u8 i;
 	MAC_TABLE_ENTRY *pEntry;
 #ifdef DBG
-	UCHAR *sAssoc = isReassoc ? (u8 *)"ReASSOC" : (u8 *)"ASSOC";
+	u8 *sAssoc = isReassoc ? (u8 *)"ReASSOC" : (u8 *)"ASSOC";
 #endif /* DBG */
-	UCHAR SubType;
+	u8 SubType;
 	bool bACLReject = false;
 #ifdef DOT1X_SUPPORT
 	uint8_t * pPmkid = NULL;
@@ -870,18 +870,18 @@ SendAssocResponse:
 	if (wdev->bWmmCapable && CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_WMM_CAPABLE))
 	{
 		ULONG TmpLen;
-		UCHAR WmeParmIe[26] = {IE_VENDOR_SPECIFIC, 24, 0x00, 0x50, 0xf2, 0x02, 0x01, 0x01, 0, 0};
+		u8 WmeParmIe[26] = {IE_VENDOR_SPECIFIC, 24, 0x00, 0x50, 0xf2, 0x02, 0x01, 0x01, 0, 0};
 
 		WmeParmIe[8] = pAd->ApCfg.BssEdcaParm.EdcaUpdateCount & 0x0f;
 		for (i = QID_AC_BE; i <= QID_AC_VO; i++)
 		{
 			WmeParmIe[10+ (i*4)] = (i << 5) +     /* b5-6 is ACI */
-								((UCHAR)pAd->ApCfg.BssEdcaParm.bACM[i] << 4) + /* b4 is ACM */
+								((u8)pAd->ApCfg.BssEdcaParm.bACM[i] << 4) + /* b4 is ACM */
 								(pAd->ApCfg.BssEdcaParm.Aifsn[i] & 0x0f);              /* b0-3 is AIFSN */
 			WmeParmIe[11+ (i*4)] = (pAd->ApCfg.BssEdcaParm.Cwmax[i] << 4) + /* b5-8 is CWMAX */
 								(pAd->ApCfg.BssEdcaParm.Cwmin[i] & 0x0f);              /* b0-3 is CWMIN */
-			WmeParmIe[12+ (i*4)] = (UCHAR)(pAd->ApCfg.BssEdcaParm.Txop[i] & 0xff);        /* low byte of TXOP */
-			WmeParmIe[13+ (i*4)] = (UCHAR)(pAd->ApCfg.BssEdcaParm.Txop[i] >> 8);          /* high byte of TXOP */
+			WmeParmIe[12+ (i*4)] = (u8)(pAd->ApCfg.BssEdcaParm.Txop[i] & 0xff);        /* low byte of TXOP */
+			WmeParmIe[13+ (i*4)] = (u8)(pAd->ApCfg.BssEdcaParm.Txop[i] >> 8);          /* high byte of TXOP */
 		}
 
 		MakeOutgoingFrame(pOutBuffer+FrameLen, &TmpLen,
@@ -893,9 +893,9 @@ SendAssocResponse:
 #ifdef DOT11W_PMF_SUPPORT
         if (StatusCode == MLME_ASSOC_REJ_TEMPORARILY) {
 		ULONG TmpLen;
-		UCHAR IEType = IE_TIMEOUT_INTERVAL; //IE:0x15
-		UCHAR IELen = 5;
-		UCHAR TIType = 3;
+		u8 IEType = IE_TIMEOUT_INTERVAL; //IE:0x15
+		u8 IELen = 5;
+		u8 TIType = 3;
 		uint32_t units = 1 << 10; //1 seconds, should be 0x3E8
 		MakeOutgoingFrame(pOutBuffer+FrameLen, &TmpLen,
                                 1, &IEType,
@@ -911,7 +911,7 @@ SendAssocResponse:
 	if ((ie_list->ht_cap_len > 0) && WMODE_CAP_N(pAd->CommonCfg.PhyMode))
 	{
 		ULONG TmpLen;
-		UCHAR HtLen1 = sizeof(pAd->CommonCfg.AddHTInfo);
+		u8 HtLen1 = sizeof(pAd->CommonCfg.AddHTInfo);
 		HT_CAPABILITY_IE HtCapabilityRsp;
 #ifdef RT_BIG_ENDIAN
 		HT_CAPABILITY_IE HtCapabilityTmp;
@@ -962,9 +962,9 @@ SendAssocResponse:
 
 		if ((ie_list->RalinkIe) == 0 || (pAd->bBroadComHT == true))
 		{
-			UCHAR epigram_ie_len;
-			UCHAR BROADCOM_HTC[4] = {0x0, 0x90, 0x4c, 0x33};
-			UCHAR BROADCOM_AHTINFO[4] = {0x0, 0x90, 0x4c, 0x34};
+			u8 epigram_ie_len;
+			u8 BROADCOM_HTC[4] = {0x0, 0x90, 0x4c, 0x33};
+			u8 BROADCOM_AHTINFO[4] = {0x0, 0x90, 0x4c, 0x34};
 
 
 			epigram_ie_len = ie_list->ht_cap_len + 4;
@@ -1010,7 +1010,7 @@ SendAssocResponse:
 	 	{
 			OVERLAP_BSS_SCAN_IE OverlapScanParam;
 			ULONG TmpLen;
-			UCHAR OverlapScanIE, ScanIELen;
+			u8 OverlapScanIE, ScanIELen;
 
 			OverlapScanIE = IE_OVERLAPBSS_SCAN_PARM;
 			ScanIELen = 14;
@@ -1044,7 +1044,7 @@ SendAssocResponse:
 		{
 		ULONG TmpLen, infoPos;
 		u8 *pInfo;
-		UCHAR extInfoLen;
+		u8 extInfoLen;
 		bool bNeedAppendExtIE = false;
 		EXT_CAP_INFO_ELEMENT extCapInfo;
 
@@ -1066,7 +1066,7 @@ SendAssocResponse:
 			(pAd->CommonCfg.Channel > 14))
 			extCapInfo.operating_mode_notification = 1;
 
-		pInfo = (UCHAR *)(&extCapInfo);
+		pInfo = (u8 *)(&extCapInfo);
 		for (infoPos = 0; infoPos < extInfoLen; infoPos++)
 		{
 			if (pInfo[infoPos] != 0)
@@ -1090,7 +1090,7 @@ SendAssocResponse:
 	/* add Ralink-specific IE here - Byte0.b0=1 for aggregation, Byte0.b1=1 for piggy-back */
 {
 	ULONG TmpLen;
-	UCHAR RalinkSpecificIe[9] = {IE_VENDOR_SPECIFIC, 7, 0x00, 0x0c, 0x43, 0x00, 0x00, 0x00, 0x00};
+	u8 RalinkSpecificIe[9] = {IE_VENDOR_SPECIFIC, 7, 0x00, 0x0c, 0x43, 0x00, 0x00, 0x00, 0x00};
 
 	if (pAd->CommonCfg.bAggregationCapable)
 		RalinkSpecificIe[5] |= 0x1;
@@ -1171,8 +1171,8 @@ SendAssocResponse:
 				if (pEntry->WepStatus == Ndis802_11WEPEnabled)
 				{
 					/* Set WEP key to ASIC */
-					UCHAR KeyIdx = 0;
-					UCHAR CipherAlg = 0;
+					u8 KeyIdx = 0;
+					u8 CipherAlg = 0;
 
 					KeyIdx = wdev->DefaultKeyId;
 					CipherAlg = pAd->SharedKey[pEntry->func_tb_idx][KeyIdx].CipherAlg;
@@ -1265,8 +1265,8 @@ SendAssocResponse:
 			if (pEntry->WepStatus == Ndis802_11WEPEnabled)
 			{
 				/* Set WEP key to ASIC */
-				UCHAR KeyIdx = 0;
-				UCHAR CipherAlg = 0;
+				u8 KeyIdx = 0;
+				u8 CipherAlg = 0;
 
 				KeyIdx = wdev->DefaultKeyId;
 				CipherAlg = pAd->SharedKey[pEntry->apidx][KeyIdx].CipherAlg;
@@ -1343,7 +1343,7 @@ VOID APPeerReassocReqAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
  */
 VOID APPeerDisassocReqAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
-	UCHAR Addr2[MAC_ADDR_LEN];
+	u8 Addr2[MAC_ADDR_LEN];
 	USHORT Reason;
 	uint16_t SeqNum;
 	MAC_TABLE_ENTRY *pEntry;
@@ -1415,15 +1415,15 @@ VOID MbssKickOutStas(struct rtmp_adapter *pAd, INT apidx, USHORT Reason)
         Elem -
     ==========================================================================
  */
-VOID APMlmeKickOutSta(struct rtmp_adapter *pAd, UCHAR *pStaAddr, UCHAR Wcid, USHORT Reason)
+VOID APMlmeKickOutSta(struct rtmp_adapter *pAd, u8 *pStaAddr, u8 Wcid, USHORT Reason)
 {
 	HEADER_802_11 DisassocHdr;
 	u8 *pOutBuffer = NULL;
 	ULONG FrameLen = 0;
 	int NStatus;
 	MAC_TABLE_ENTRY *pEntry;
-	UCHAR Aid;
-	UCHAR ApIdx;
+	u8 Aid;
+	u8 ApIdx;
 
 	pEntry = MacTableLookup(pAd, pStaAddr);
 
@@ -1471,13 +1471,13 @@ VOID APMlmeKickOutSta(struct rtmp_adapter *pAd, UCHAR *pStaAddr, UCHAR Wcid, USH
 
 
 #ifdef DOT11W_PMF_SUPPORT
-VOID APMlmeKickOutAllSta(struct rtmp_adapter *pAd, UCHAR apidx, USHORT Reason)
+VOID APMlmeKickOutAllSta(struct rtmp_adapter *pAd, u8 apidx, USHORT Reason)
 {
     HEADER_802_11 DisassocHdr;
     u8 *pOutBuffer = NULL;
     ULONG FrameLen = 0;
     int     NStatus;
-    UCHAR           BROADCAST_ADDR[MAC_ADDR_LEN] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
+    u8           BROADCAST_ADDR[MAC_ADDR_LEN] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
     PPMF_CFG        pPmfCfg = NULL;
     INT             i;
 
@@ -1507,7 +1507,7 @@ VOID APMlmeKickOutAllSta(struct rtmp_adapter *pAd, UCHAR apidx, USHORT Reason)
         if (pPmfCfg->MFPC == true)
         {
             ULONG TmpLen;
-            UCHAR res_buf[LEN_PMF_MMIE];
+            u8 res_buf[LEN_PMF_MMIE];
             USHORT EID, ELen;
 
             EID = IE_PMF_MMIE;

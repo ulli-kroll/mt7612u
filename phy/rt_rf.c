@@ -49,8 +49,8 @@
 */
 int RT30xxWriteRFRegister(
 	IN	struct rtmp_adapter *pAd,
-	IN	UCHAR			regID,
-	IN	UCHAR			value)
+	IN	u8 		regID,
+	IN	u8 		value)
 {
 	RF_CSR_CFG_STRUC rfcsr = { { 0 } };
 	UINT i = 0;
@@ -93,8 +93,8 @@ int RT30xxWriteRFRegister(
 
 	if ((pAd->chipCap.RfReg17WtMethod == RF_REG_WT_METHOD_STEP_ON) && (regID == RF_R17))
 	{
-		UCHAR IdRf;
-		UCHAR RfValue;
+		u8 IdRf;
+		u8 RfValue;
 		bool beAdd;
 
 		RT30xxReadRFRegister(pAd, RF_R17, &RfValue);
@@ -146,7 +146,7 @@ done:
 */
 int RT30xxReadRFRegister(
 	IN	struct rtmp_adapter *pAd,
-	IN	UCHAR			regID,
+	IN	u8 		regID,
 	IN	u8 *		pValue)
 {
 	RF_CSR_CFG_STRUC rfcsr = { { 0 } };
@@ -197,7 +197,7 @@ int RT30xxReadRFRegister(
 		if ((rfcsr.non_bank.RF_CSR_KICK == IDLE) &&
 			(rfcsr.non_bank.TESTCSR_RFACC_REGNUM == regID))
 		{
-			*pValue = (UCHAR)(rfcsr.non_bank.RF_CSR_DATA);
+			*pValue = (u8)(rfcsr.non_bank.RF_CSR_DATA);
 			break;
 		}
 	}

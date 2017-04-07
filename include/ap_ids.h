@@ -38,14 +38,14 @@ bool RTMPSpoofedMgmtDetection(
 VOID RTMPConflictSsidDetection(
 	IN struct rtmp_adapter *pAd,
 	IN u8 *		pSsid,
-	IN UCHAR			SsidLen,
+	IN u8 		SsidLen,
 	IN CHAR				Rssi0,
 	IN CHAR				Rssi1,
 	IN CHAR				Rssi2);
 
 bool RTMPReplayAttackDetection(
 	IN struct rtmp_adapter *pAd,
-	IN UCHAR *pAddr2,
+	IN u8 *pAddr2,
 	IN RX_BLK *rxblk);
 
 VOID RTMPUpdateStaMgmtCounter(

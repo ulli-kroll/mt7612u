@@ -28,7 +28,7 @@
 */
 #include "rt_config.h"
 
-extern UCHAR	EAPOL[];
+extern u8 EAPOL[];
 
 /*
     ==========================================================================
@@ -38,7 +38,7 @@ extern UCHAR	EAPOL[];
         pEntry
     ==========================================================================
 */
-MAC_TABLE_ENTRY *PACInquiry(struct rtmp_adapter *pAd, UCHAR Wcid)
+MAC_TABLE_ENTRY *PACInquiry(struct rtmp_adapter *pAd, u8 Wcid)
 {
     MAC_TABLE_ENTRY *pEntry = NULL;
 
@@ -62,7 +62,7 @@ bool RTMPCheckMcast(
     IN PEID_STRUCT      eid_ptr,
     IN MAC_TABLE_ENTRY  *pEntry)
 {
-	UCHAR apidx;
+	u8 apidx;
 	struct rtmp_wifi_dev *wdev;
 
 
@@ -89,7 +89,7 @@ bool RTMPCheckMcast(
         }
         else if (eid_ptr->Eid == IE_WPA2)
         {
-            UCHAR   IE_Idx = 0;
+            u8   IE_Idx = 0;
 
             /* When WPA1/WPA2 mix mode, the RSN_IE is stored in different structure */
             if ((wdev->AuthMode == Ndis802_11AuthModeWPA1WPA2) ||
@@ -125,7 +125,7 @@ bool RTMPCheckUcast(
 {
 	u8 *	pStaTmp;
 	USHORT	Count;
-	UCHAR 	apidx;
+	u8 	apidx;
 	struct rtmp_wifi_dev *wdev;
 
 	ASSERT(pEntry);
@@ -228,7 +228,7 @@ bool RTMPCheckUcast(
     	}
     	else if (eid_ptr->Eid == IE_WPA2)
     	{
-    		UCHAR	IE_Idx = 0;
+    		u8 IE_Idx = 0;
 
 			/* When WPA1/WPA2 mix mode, the RSN_IE is stored in different structure */
 			if ((wdev->AuthMode == Ndis802_11AuthModeWPA1WPA2) || (wdev->AuthMode == Ndis802_11AuthModeWPA1PSKWPA2PSK))
@@ -364,7 +364,7 @@ bool RTMPCheckAUTH(
 {
 	u8 *pStaTmp;
 	USHORT Count;
-	UCHAR 	apidx;
+	u8 	apidx;
 
 	ASSERT(pEntry);
 	ASSERT(pEntry->apidx < pAd->ApCfg.BssidNum);
@@ -434,7 +434,7 @@ bool RTMPCheckAUTH(
     	}
     	else if (eid_ptr->Eid == IE_WPA2)
     	{
-    		UCHAR	IE_Idx = 0;
+    		u8 IE_Idx = 0;
 
 			/* When WPA1/WPA2 mix mode, the RSN_IE is stored in different structure */
 			if ((pAd->ApCfg.MBSSID[apidx].wdev.AuthMode == Ndis802_11AuthModeWPA1WPA2) ||
@@ -468,7 +468,7 @@ UINT	APValidateRSNIE(
 	IN struct rtmp_adapter *   pAd,
 	IN PMAC_TABLE_ENTRY pEntry,
 	IN u8 *		pRsnIe,
-	IN UCHAR			rsnie_len)
+	IN u8 		rsnie_len)
 {
 	UINT StatusCode = MLME_SUCCESS;
 	PEID_STRUCT  eid_ptr;
@@ -524,7 +524,7 @@ UINT	APValidateRSNIE(
 	}
 	else
 	{
-        UCHAR CipherAlg = CIPHER_NONE;
+        u8 CipherAlg = CIPHER_NONE;
 
         if (pEntry->WepStatus == Ndis802_11WEPEnabled)
             CipherAlg = CIPHER_WEP64;
@@ -728,7 +728,7 @@ VOID WPARetryExec(
 
 			if (pEntry->wdev_idx < MAX_APCLI_NUM)
 			{
-				UCHAR ifIndex = pEntry->wdev_idx;
+				u8 ifIndex = pEntry->wdev_idx;
 
 				DBGPRINT(RT_DEBUG_TRACE, ("(%s) ApCli interface[%d] startdown.\n", __FUNCTION__, ifIndex));
 
@@ -803,7 +803,7 @@ VOID GREKEYPeriodicExec(
 
 			/* Update GTK */
 			WpaDeriveGTK(pMbss->GMK,
-						(UCHAR*)pMbss->GNonce,
+						(u8 *)pMbss->GNonce,
 						wdev->bssid, pMbss->GTK, LEN_TKIP_GTK);
 
 			/* Process 2-way handshaking */
@@ -875,11 +875,11 @@ VOID GREKEYPeriodicExec(
         None
     ========================================================================
 */
-VOID WpaSend(struct rtmp_adapter *pAdapter, UCHAR *pPacket, ULONG Len)
+VOID WpaSend(struct rtmp_adapter *pAdapter, u8 *pPacket, ULONG Len)
 {
 	PEAP_HDR pEapHdr;
-	UCHAR Addr[MAC_ADDR_LEN];
-	UCHAR Header802_3[LENGTH_802_3];
+	u8 Addr[MAC_ADDR_LEN];
+	u8 Header802_3[LENGTH_802_3];
 	MAC_TABLE_ENTRY *pEntry;
 	u8 *pData;
 
@@ -960,8 +960,8 @@ VOID RTMPAddPMKIDCache(
 	IN  struct rtmp_adapter *  		pAd,
 	IN	INT						apidx,
 	IN	u8 *			pAddr,
-	IN	UCHAR					*PMKID,
-	IN	UCHAR					*PMK)
+	IN	u8 				*PMKID,
+	IN	u8 				*PMK)
 {
 	INT	i, CacheIdx;
 
@@ -1187,11 +1187,11 @@ VOID    ApcliWpaSendEapolStart(
 	IN	PAPCLI_STRUCT pApCliEntry)
 {
 	IEEE8021X_FRAME		Packet;
-	UCHAR               Header802_3[14];
+	u8               Header802_3[14];
 
 	DBGPRINT(RT_DEBUG_TRACE, ("-----> ApCliWpaSendEapolStart\n"));
 
-	memset(Header802_3,0, sizeof(UCHAR)*14);
+	memset(Header802_3,0, sizeof(u8)*14);
 
 	MAKE_802_3_HEADER(Header802_3, pBssid, &pApCliEntry->wdev.if_addr[0], EAPOL);
 
@@ -1214,7 +1214,7 @@ VOID	ApCliRTMPReportMicError(
 	IN	INT			ifIndex)
 {
 	ULONG	Now;
-	UCHAR   unicastKey = (pWpaKey->Type == PAIRWISE_KEY ? 1:0);
+	u8   unicastKey = (pWpaKey->Type == PAIRWISE_KEY ? 1:0);
 	PAPCLI_STRUCT pApCliEntry = NULL;
 	DBGPRINT(RT_DEBUG_TRACE, (" ApCliRTMPReportMicError <---\n"));
 

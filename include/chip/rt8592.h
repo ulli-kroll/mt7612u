@@ -47,7 +47,7 @@ typedef struct _RT8592_FREQ_ITEM {
 
 #ifdef RT8592
 VOID RT85592_Init(struct rtmp_adapter *pAd);
-INT RT85592_DisableTxRx(struct rtmp_adapter *pAd, UCHAR Level);
+INT RT85592_DisableTxRx(struct rtmp_adapter *pAd, u8 Level);
 VOID RT85592ReadTxPwrPerRate(struct rtmp_adapter *pAd);
 INT RT85592_ReadChannelPwr(struct rtmp_adapter *pAd);
 

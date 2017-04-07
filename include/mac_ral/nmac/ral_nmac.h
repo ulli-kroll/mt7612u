@@ -818,7 +818,7 @@ typedef struct _WLAN_BT_COEX_SETTING
 	bool					ampduOff;
 	bool					coexSettingRunning;
 	bool					RateSelectionForceToUseRSSI;
-	UCHAR					TxQualityFlag;
+	u8 				TxQualityFlag;
 	ULONG					alc;
 	ULONG					slna;
 }WLAN_BT_COEX_SETTING, *PWLAN_BT_COEX_SETTING;
@@ -1117,7 +1117,7 @@ VOID dumpRxFCEInfo(struct rtmp_adapter *pAd, RXFCE_INFO *pRxFceInfo);
 
 INT rlt_get_rxwi_phymode(union _RXWI_STRUC *rxwi);
 INT rlt_get_rxwi_rssi(union _RXWI_STRUC *rxwi, INT size, CHAR *rssi);
-INT rlt_get_rxwi_snr(struct rtmp_adapter *pAd, union _RXWI_STRUC *rxwi, INT size, UCHAR *snr);
+INT rlt_get_rxwi_snr(struct rtmp_adapter *pAd, union _RXWI_STRUC *rxwi, INT size, u8 *snr);
 VOID rlt_asic_init_txrx_ring(struct rtmp_adapter *pAd);
 
 INT rlt_wlan_chip_onoff(struct rtmp_adapter *pAd, bool bOn, bool bResetWLAN);
@@ -1128,9 +1128,9 @@ VOID rlt_usb_write_txinfo(
 	IN union _TXINFO_STRUC *pTxInfo,
 	IN USHORT USBDMApktLen,
 	IN bool bWiv,
-	IN UCHAR QueueSel,
-	IN UCHAR NextValid,
-	IN UCHAR TxBurst);
+	IN u8 QueueSel,
+	IN u8 NextValid,
+	IN u8 TxBurst);
 #endif /* RTMP_MAC_USB */
 
 #endif /* __RAL_NMAC_H__ */

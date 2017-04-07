@@ -165,27 +165,27 @@ typedef enum _Dot1xInternalCmd {
 
 /* 802.1x authentication format */
 typedef struct _IEEE8021X_FRAME {
-	UCHAR Version;		/* 1.0 */
-	UCHAR Type;		/* 0 = EAP Packet */
+	u8 Version;		/* 1.0 */
+	u8 Type;		/* 0 = EAP Packet */
 	USHORT Length;
 } IEEE8021X_FRAME, *PIEEE8021X_FRAME;
 
 typedef struct GNU_PACKED _RSN_IE_HEADER_STRUCT {
-	UCHAR Eid;
-	UCHAR Length;
+	u8 Eid;
+	u8 Length;
 	USHORT Version;		/* Little endian format */
 } RSN_IE_HEADER_STRUCT, *PRSN_IE_HEADER_STRUCT;
 
 /* Cipher suite selector types */
 typedef struct GNU_PACKED _CIPHER_SUITE_STRUCT {
-	UCHAR Oui[3];
-	UCHAR Type;
+	u8 Oui[3];
+	u8 Type;
 } CIPHER_SUITE_STRUCT, *PCIPHER_SUITE_STRUCT;
 
 /* Authentication and Key Management suite selector */
 typedef struct GNU_PACKED _AKM_SUITE_STRUCT {
-	UCHAR Oui[3];
-	UCHAR Type;
+	u8 Oui[3];
+	u8 Type;
 } AKM_SUITE_STRUCT, *PAKM_SUITE_STRUCT;
 
 /* RSN capability */
@@ -198,17 +198,17 @@ typedef struct GNU_PACKED _RSN_CAPABILITY {
 } RSN_CAPABILITY, *PRSN_CAPABILITY;
 
 typedef struct _CIPHER_KEY {
-	UCHAR Key[16];		/* 128 bits max */
-	UCHAR TxMic[8];
-	UCHAR RxMic[8];
-	UCHAR TxTsc[16];	/* TSC value. Change it from 48bit to 128bit */
-	UCHAR RxTsc[16];	/* TSC value. Change it from 48bit to 128bit */
-	UCHAR CipherAlg;	/* 0:none, 1:WEP64, 2:WEP128, 3:TKIP, 4:AES, 5:CKIP64, 6:CKIP128 */
-	UCHAR KeyLen;		/* Key length for each key, 0: entry is invalid */
+	u8 Key[16];		/* 128 bits max */
+	u8 TxMic[8];
+	u8 RxMic[8];
+	u8 TxTsc[16];	/* TSC value. Change it from 48bit to 128bit */
+	u8 RxTsc[16];	/* TSC value. Change it from 48bit to 128bit */
+	u8 CipherAlg;	/* 0:none, 1:WEP64, 2:WEP128, 3:TKIP, 4:AES, 5:CKIP64, 6:CKIP128 */
+	u8 KeyLen;		/* Key length for each key, 0: entry is invalid */
 #ifdef CONFIG_STA_SUPPORT
-	UCHAR BssId[6];
+	u8 BssId[6];
 #endif				/* CONFIG_STA_SUPPORT */
-	UCHAR Type;		/* Indicate Pairwise/Group when reporting MIC error */
+	u8 Type;		/* Indicate Pairwise/Group when reporting MIC error */
 } CIPHER_KEY, *PCIPHER_KEY;
 
 #endif /* WPA_CMM_H */

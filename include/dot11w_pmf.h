@@ -47,11 +47,11 @@
 #define IE_PMF_MMIE				76
 
 /* The definition in IEEE 802.11w - Table 7-32 Cipher suite selectors */
-extern UCHAR		OUI_PMF_BIP_CIPHER[];
+extern u8 	OUI_PMF_BIP_CIPHER[];
 
 /* The definition in IEEE 802.11w - Table 7-34 AKM suite selectors */
-extern UCHAR		OUI_PMF_8021X_AKM[];
-extern UCHAR		OUI_PMF_PSK_AKM[];
+extern u8 	OUI_PMF_8021X_AKM[];
+extern u8 	OUI_PMF_PSK_AKM[];
 
 /* The Key ID filed */
 typedef union GNU_PACKED _PMF_IGTK_KEY_ID
@@ -99,8 +99,8 @@ typedef struct GNU_PACKED _PMF_IGTK_KDE
  * ===================== */
 typedef struct GNU_PACKED _PMF_SA_QUERY_ACTION
 {
-	UCHAR	Category;
-	UCHAR	Action;
+	u8 Category;
+	u8 Action;
 
 	/*  a 16-bit non-negative counter value */
 	UINT8	TransactionID[2];

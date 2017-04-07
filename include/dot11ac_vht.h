@@ -77,15 +77,15 @@
 */
 typedef struct GNU_PACKED _OPERATING_MODE{
 #ifdef RT_BIG_ENDIAN
-	UCHAR rx_nss_type:1;
-	UCHAR rx_nss:3;
-	UCHAR rsv2:2;
-	UCHAR ch_width:2;
+	u8 rx_nss_type:1;
+	u8 rx_nss:3;
+	u8 rsv2:2;
+	u8 ch_width:2;
 #else
-	UCHAR ch_width:2;
-	UCHAR rsv2:2;
-	UCHAR rx_nss:3;
-	UCHAR rx_nss_type:1;
+	u8 ch_width:2;
+	u8 rsv2:2;
+	u8 rx_nss:3;
+	u8 rx_nss_type:1;
 #endif /* RT_BIG_ENDIAN */
 }OPERATING_MODE;
 
@@ -630,8 +630,8 @@ typedef struct GNU_PACKED _SNDING_STA_INFO {
 typedef struct GNU_PACKED _VHT_NDPA_FRAME {
 	FRAME_CONTROL fc;
 	USHORT duration;
-	UCHAR ra[MAC_ADDR_LEN];
-	UCHAR ta[MAC_ADDR_LEN];
+	u8 ra[MAC_ADDR_LEN];
+	u8 ta[MAC_ADDR_LEN];
 	SNDING_DIALOG_TOKEN token;
 	SNDING_STA_INFO sta_info[0];
 } VHT_NDPA_FRAME;

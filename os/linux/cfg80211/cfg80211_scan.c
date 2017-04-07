@@ -285,7 +285,7 @@ VOID CFG80211_Scaning(
 	IN struct rtmp_adapter					*pAd,
 	IN uint32_t 					BssIdx,
 	IN uint32_t 					ChanId,
-	IN UCHAR						*pFrame,
+	IN u8 					*pFrame,
 	IN uint32_t 					FrameLen,
 	IN int32_t 					RSSI)
 {

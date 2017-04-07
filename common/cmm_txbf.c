@@ -36,8 +36,8 @@
 
 
 #ifdef ETXBF_EN_COND3_SUPPORT
-UCHAR groupShift[] = {4, 4, 4};
-UCHAR groupMethod[] = {0, 0, 0, 0, 0, 0, 0, 0,
+u8 groupShift[] = {4, 4, 4};
+u8 groupMethod[] = {0, 0, 0, 0, 0, 0, 0, 0,
 						0, 0, 1, 0, 1, 1, 1, 1,
 						0, 0, 1, 0, 1, 1, 1, 1};
 SHORT groupThrd[] = {-8, 4, 20, 32, 52, 68, 80, 88,
@@ -176,9 +176,9 @@ bool rtmp_chk_itxbf_calibration(
 
 VOID Trigger_Sounding_Packet(
 	IN	struct rtmp_adapter *pAd,
-	IN	UCHAR			SndgType,
-	IN	UCHAR			SndgBW,
-	IN	UCHAR			SndgMcs,
+	IN	u8 		SndgType,
+	IN	u8 		SndgBW,
+	IN	u8 		SndgMcs,
 	IN  MAC_TABLE_ENTRY *pEntry)
 {
 	/*
@@ -311,13 +311,13 @@ void setVHTETxBFCap(struct rtmp_adapter *pAd, VHT_CAP_INFO *pTxBFCap)
 VOID txSndgSameMcs(
 	IN	struct rtmp_adapter *pAd,
 	IN	MAC_TABLE_ENTRY	*pEntry,
-	IN	UCHAR smoothMfb)/*smoothMfb should be the current mcs */
+	IN	u8 smoothMfb)/*smoothMfb should be the current mcs */
 {
 	u8 *	pTable;
-	UCHAR 		TableSize = 0;
-	UCHAR		InitTxRateIdx, i, step;
+	u8 		TableSize = 0;
+	u8 	InitTxRateIdx, i, step;
 	bool		bWriteEnable;
-	UCHAR		SndgType = SNDG_TYPE_SOUNDING;
+	u8 	SndgType = SNDG_TYPE_SOUNDING;
 
 	if (pEntry->eTxBfEnCond == 0)
 	{
@@ -419,10 +419,10 @@ VOID txSndgOtherGroup(
 	IN	MAC_TABLE_ENTRY	*pEntry)
 {
 	u8 *	pTable;
-	UCHAR 		TableSize = 0;
-	UCHAR		InitTxRateIdx, i, step;
-	UCHAR		byteValue = 0;
-	UCHAR		SndgType = SNDG_TYPE_SOUNDING;
+	u8 		TableSize = 0;
+	u8 	InitTxRateIdx, i, step;
+	u8 	byteValue = 0;
+	u8 	SndgType = SNDG_TYPE_SOUNDING;
 
 
 	/* tx sndg with mcs in the other group */
@@ -485,20 +485,20 @@ VOID txMrqInvTxBF(
 }
 
 UINT convertSnrToThroughput(
-	IN UCHAR streamsIn,
+	IN u8 streamsIn,
 	IN INT snr0,
 	IN INT snr1,
 	IN INT snr2,
 	IN u8 *pTable,
-	OUT UCHAR *bestMcsPtr,
-	OUT UCHAR *bestRateIdxPtr
+	OUT u8 *bestMcsPtr,
+	OUT u8 *bestRateIdxPtr
 
 	)
 {
 
-	UCHAR streams;
+	u8 streams;
 	INT	snrTemp;
-	UCHAR 	i, j;
+	u8 	i, j;
 	SHORT idx;
 	SHORT group;
  	INT	snrTemp1[3];
@@ -506,8 +506,8 @@ UINT convertSnrToThroughput(
 	INT snrSum, tpTemp, bestTp=0;
 	SHORT thrdTemp;
 	bool isMcsValid[24];
-	UCHAR	rateIdx[24], step, tableSize;
-	UCHAR mcs;
+	u8 rateIdx[24], step, tableSize;
+	u8 mcs;
 
 #ifdef NEW_RATE_ADAPT_SUPPORT
 	if (ADAPT_RATE_TABLE(pTable))
@@ -605,15 +605,15 @@ UINT convertSnrToThroughput(
 VOID chooseBestMethod(
 	IN	struct rtmp_adapter *pAd,
 	IN	MAC_TABLE_ENTRY	*pEntry,
-	IN	UCHAR			mfb)
+	IN	u8 		mfb)
 {
-/*	UCHAR bestMethod;0:original, 1:inverted TxBF, 2:first sndg, 3:second sndg*/
+/*	u8 bestMethod;0:original, 1:inverted TxBF, 2:first sndg, 3:second sndg*/
 	UINT tp[4], bestTp;
-	UCHAR streams, i;
+	u8 streams, i;
 	u8 *	pTable;
-	UCHAR 		TableSize = 0;
-	UCHAR		InitTxRateIdx;
-	UCHAR		byteValue = 0;
+	u8 		TableSize = 0;
+	u8 	InitTxRateIdx;
+	u8 	byteValue = 0;
 
 	pEntry->mfb1 = mfb;
 	DBGPRINT(RT_DEBUG_TRACE,("ETxBF in chooseBestMethod(): received the second MFB %d, noted as mfb1\n", pEntry->mfb1 ));

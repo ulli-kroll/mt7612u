@@ -225,7 +225,7 @@ typedef struct GNU_PACKED _HT_CAPABILITY_IE{
 	HT_CAP_INFO		HtCapInfo;
 	HT_CAP_PARM		HtCapParm;
 /*	HT_MCS_SET		HtMCSSet; */
-	UCHAR			MCSSet[16];
+	u8 		MCSSet[16];
 	EXT_HT_CAP_INFO	ExtHtCapInfo;
 	HT_BF_CAP		TxBFCap;	/* beamforming cap. rt2860c not support beamforming. */
 	HT_AS_CAP		ASCap;	/*antenna selection. */
@@ -235,17 +235,17 @@ typedef struct GNU_PACKED _HT_CAPABILITY_IE{
 /*   field in Addtional HT Information IE . */
 typedef struct GNU_PACKED _ADD_HTINFO{
 #ifdef RT_BIG_ENDIAN
-	UCHAR	SerInterGranu:3;
-	UCHAR	S_PSMPSup:1;
-	UCHAR	RifsMode:1;
-	UCHAR	RecomWidth:1;
-	UCHAR	ExtChanOffset:2;
+	u8 SerInterGranu:3;
+	u8 S_PSMPSup:1;
+	u8 RifsMode:1;
+	u8 RecomWidth:1;
+	u8 ExtChanOffset:2;
 #else
-	UCHAR	ExtChanOffset:2;
-	UCHAR	RecomWidth:1;
-	UCHAR	RifsMode:1;
-	UCHAR	S_PSMPSup:1;	 /*Indicate support for scheduled PSMP */
-	UCHAR	SerInterGranu:3;	 /*service interval granularity */
+	u8 ExtChanOffset:2;
+	u8 RecomWidth:1;
+	u8 RifsMode:1;
+	u8 S_PSMPSup:1;	 /*Indicate support for scheduled PSMP */
+	u8 SerInterGranu:3;	 /*service interval granularity */
 #endif
 } ADD_HTINFO, *PADD_HTINFO;
 
@@ -292,11 +292,11 @@ typedef struct GNU_PACKED _ADD_HTINFO3{
 
 #define SIZE_ADD_HT_INFO_IE		22
 typedef struct  GNU_PACKED _ADD_HT_INFO_IE{
-	UCHAR				ControlChan;
+	u8 			ControlChan;
 	ADD_HTINFO			AddHtInfo;
 	ADD_HTINFO2			AddHtInfo2;
 	ADD_HTINFO3			AddHtInfo3;
-	UCHAR				MCSSet[16];		/* Basic MCS set */
+	u8 			MCSSet[16];		/* Basic MCS set */
 } ADD_HT_INFO_IE, *PADD_HT_INFO_IE;
 
 
@@ -328,22 +328,22 @@ typedef struct GNU_PACKED _OVERLAP_BSS_SCAN_IE{
 typedef union GNU_PACKED _BSS_2040_COEXIST_IE{
  struct GNU_PACKED {
  #ifdef RT_BIG_ENDIAN
-	UCHAR	rsv:3;
- 	UCHAR	ObssScanExempGrant:1;
-	UCHAR	ObssScanExempReq:1;
-	UCHAR	BSS20WidthReq:1;
-	UCHAR	Intolerant40:1;
-	UCHAR	InfoReq:1;
+	u8 rsv:3;
+ 	u8 ObssScanExempGrant:1;
+	u8 ObssScanExempReq:1;
+	u8 BSS20WidthReq:1;
+	u8 Intolerant40:1;
+	u8 InfoReq:1;
  #else
-	UCHAR	InfoReq:1;
-	UCHAR	Intolerant40:1;			/* Inter-BSS. set 1 when prohibits a receiving BSS from operating as a 20/40 Mhz BSS. */
-	UCHAR	BSS20WidthReq:1;		/* Intra-BSS set 1 when prohibits a receiving AP from operating its BSS as a 20/40MHz BSS. */
-	UCHAR	ObssScanExempReq:1;
-	UCHAR	ObssScanExempGrant:1;
-	UCHAR	rsv:3;
+	u8 InfoReq:1;
+	u8 Intolerant40:1;			/* Inter-BSS. set 1 when prohibits a receiving BSS from operating as a 20/40 Mhz BSS. */
+	u8 BSS20WidthReq:1;		/* Intra-BSS set 1 when prohibits a receiving AP from operating its BSS as a 20/40MHz BSS. */
+	u8 ObssScanExempReq:1;
+	u8 ObssScanExempGrant:1;
+	u8 rsv:3;
 #endif /* RT_BIG_ENDIAN */
     } field;
- UCHAR   word;
+ u8   word;
 } BSS_2040_COEXIST_IE, *PBSS_2040_COEXIST_IE;
 
 

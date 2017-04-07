@@ -59,7 +59,7 @@
 VOID RTMPReportMicError(struct rtmp_adapter *pAd, PCIPHER_KEY pWpaKey)
 {
 	ULONG Now;
-	UCHAR unicastKey = (pWpaKey->Type == PAIRWISE_KEY ? 1:0);
+	u8 unicastKey = (pWpaKey->Type == PAIRWISE_KEY ? 1:0);
 
 	/* Record Last MIC error time and count */
 	NdisGetSystemUpTime(&Now);
@@ -116,11 +116,11 @@ VOID	WpaMicFailureReportFrame(
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	u8 *             pOutBuffer = NULL;
-	UCHAR               Header802_3[14];
+	u8               Header802_3[14];
 	ULONG               FrameLen = 0;
-	UCHAR				*mpool;
+	u8 			*mpool;
 	PEAPOL_PACKET       pPacket;
-	UCHAR               Mic[16];
+	u8               Mic[16];
     bool             bUnicast;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("WpaMicFailureReportFrame ----->\n"));
@@ -191,7 +191,7 @@ VOID	WpaMicFailureReportFrame(
 	memset(Mic, 0, sizeof(Mic));
 	if(pAd->StaCfg.wdev.WepStatus  == Ndis802_11AESEnable)
 	{	/* AES */
-        UCHAR digest[20] = {0};
+        u8 digest[20] = {0};
 		RT_HMAC_SHA1(pAd->StaCfg.PTK, LEN_PTK_KCK, pOutBuffer, FrameLen, digest, SHA1_DIGEST_SIZE);
 		memmove(Mic, digest, LEN_KEY_DESC_MIC);
 	}
@@ -343,14 +343,14 @@ VOID WpaStaGroupKeySetting(struct rtmp_adapter *pAd)
 
 	========================================================================
 */
-VOID WpaSendEapolStart(struct rtmp_adapter *pAd, UCHAR *pBssid)
+VOID WpaSendEapolStart(struct rtmp_adapter *pAd, u8 *pBssid)
 {
 	IEEE8021X_FRAME Packet;
-	UCHAR Header802_3[14];
+	u8 Header802_3[14];
 
 	DBGPRINT(RT_DEBUG_TRACE, ("-----> WpaSendEapolStart\n"));
 
-	memset(Header802_3, 0, sizeof(UCHAR)*14);
+	memset(Header802_3, 0, sizeof(u8)*14);
 
 	MAKE_802_3_HEADER(Header802_3, pBssid, &pAd->CurrentAddress[0], EAPOL);
 

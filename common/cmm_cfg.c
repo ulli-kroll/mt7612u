@@ -54,9 +54,9 @@ INT ComputeChecksum(
 UINT GenerateWpsPinCode(
 	IN	struct rtmp_adapter *pAd,
     IN  bool         bFromApcli,
-	IN	UCHAR			apidx)
+	IN	u8 		apidx)
 {
-	UCHAR	macAddr[MAC_ADDR_LEN];
+	u8 macAddr[MAC_ADDR_LEN];
 	UINT 	iPin;
 	UINT	checksum;
 
@@ -100,7 +100,7 @@ char* get_phymode_str(int Mode)
 }
 
 
-static UCHAR *phy_bw_str[] = {"20M", "40M", "80M", "10M"};
+static u8 *phy_bw_str[] = {"20M", "40M", "80M", "10M"};
 char* get_bw_str(int bandwidth)
 {
 	if (bandwidth >= BW_20 && bandwidth <= BW_10)
@@ -126,7 +126,7 @@ INT RT_CfgSetCountryRegion(
 	IN INT				band)
 {
 	LONG region;
-	UCHAR *pCountryRegion;
+	u8 *pCountryRegion;
 
 	region = simple_strtol(arg, 0, 10);
 
@@ -151,7 +151,7 @@ INT RT_CfgSetCountryRegion(
 	    ((band == BAND_5G) && (region <= REGION_MAXIMUM_A_BAND) ))
 	  )
 	{
-		*pCountryRegion= (UCHAR) region;
+		*pCountryRegion= (u8) region;
 	}
 	else
 	{
@@ -164,7 +164,7 @@ INT RT_CfgSetCountryRegion(
 }
 
 
-static UCHAR CFG_WMODE_MAP[]={
+static u8 CFG_WMODE_MAP[]={
 	PHY_11BG_MIXED, (WMODE_B | WMODE_G), /* 0 => B/G mixed */
 	PHY_11B, (WMODE_B), /* 1 => B only */
 	PHY_11A, (WMODE_A), /* 2 => A only */
@@ -188,9 +188,9 @@ static UCHAR CFG_WMODE_MAP[]={
 static char *BAND_STR[] = {"Invalid", "2.4G", "5G", "2.4G/5G"};
 static char *WMODE_STR[]= {"", "A", "B", "G", "gN", "aN", "AC"};
 
-UCHAR *wmode_2_str(UCHAR wmode)
+u8 *wmode_2_str(u8 wmode)
 {
-	UCHAR *str;
+	u8 *str;
 	INT idx, pos, max_len;
 
 	max_len = WMODE_COMP * 3;
@@ -221,9 +221,9 @@ UCHAR *wmode_2_str(UCHAR wmode)
 }
 
 
-RT_802_11_PHY_MODE wmode_2_cfgmode(UCHAR wmode)
+RT_802_11_PHY_MODE wmode_2_cfgmode(u8 wmode)
 {
-	INT i, mode_cnt = sizeof(CFG_WMODE_MAP) / (sizeof(UCHAR) * 2);
+	INT i, mode_cnt = sizeof(CFG_WMODE_MAP) / (sizeof(u8) * 2);
 
 	for (i = 1; i < mode_cnt; i+=2)
 	{
@@ -238,7 +238,7 @@ RT_802_11_PHY_MODE wmode_2_cfgmode(UCHAR wmode)
 }
 
 
-UCHAR cfgmode_2_wmode(UCHAR cfg_mode)
+u8 cfgmode_2_wmode(u8 cfg_mode)
 {
 	DBGPRINT(RT_DEBUG_OFF, ("cfg_mode=%d\n", cfg_mode));
 	if (cfg_mode >= PHY_MODE_MAX)
@@ -260,10 +260,10 @@ static bool wmode_valid(struct rtmp_adapter *pAd, enum WIFI_MODE wmode)
 }
 
 
-static bool wmode_valid_and_correct(struct rtmp_adapter *pAd, UCHAR* wmode)
+static bool wmode_valid_and_correct(struct rtmp_adapter *pAd, u8* wmode)
 {
 	bool ret = true;
-	UCHAR mode = *wmode;
+	u8 mode = *wmode;
 
 	if (WMODE_CAP_5G(*wmode) && (!PHY_CAP_5G(pAd->chipCap.phy_caps)))
 	{
@@ -285,10 +285,10 @@ static bool wmode_valid_and_correct(struct rtmp_adapter *pAd, UCHAR* wmode)
 }
 
 
-bool wmode_band_equal(UCHAR smode, UCHAR tmode)
+bool wmode_band_equal(u8 smode, u8 tmode)
 {
 	bool eq = false;
-	UCHAR *str1, *str2;
+	u8 *str1, *str2;
 
 	if ((WMODE_CAP_5G(smode) == WMODE_CAP_5G(tmode)) &&
 		(WMODE_CAP_2G(smode) == WMODE_CAP_2G(tmode)))
@@ -323,13 +323,13 @@ bool wmode_band_equal(UCHAR smode, UCHAR tmode)
 INT RT_CfgSetWirelessMode(struct rtmp_adapter *pAd, char *arg)
 {
 	LONG cfg_mode;
-	UCHAR wmode, *mode_str;
+	u8 wmode, *mode_str;
 	struct rtmp_chip_cap *pChipCap = &pAd->chipCap;
 
 	cfg_mode = simple_strtol(arg, 0, 10);
 
 	/* check if chip support 5G band when WirelessMode is 5G band */
-	wmode = cfgmode_2_wmode((UCHAR)cfg_mode);
+	wmode = cfgmode_2_wmode((u8)cfg_mode);
 	if ((wmode == WMODE_INVALID) || (!wmode_valid(pAd, wmode))) {
 		DBGPRINT(RT_DEBUG_ERROR,
 				("%s(): Invalid wireless mode(%ld, wmode=0x%x), ChipCap(%s)\n",
@@ -366,9 +366,9 @@ INT RT_CfgSetWirelessMode(struct rtmp_adapter *pAd, char *arg)
 /* maybe can be moved to GPL code, ap_mbss.c, but the code will be open */
 #ifdef CONFIG_AP_SUPPORT
 #ifdef MBSS_SUPPORT
-static UCHAR RT_CfgMbssWirelessModeMaxGet(struct rtmp_adapter *pAd)
+static u8 RT_CfgMbssWirelessModeMaxGet(struct rtmp_adapter *pAd)
 {
-	UCHAR wmode = 0, *mode_str;
+	u8 wmode = 0, *mode_str;
 	INT idx;
 	struct rtmp_wifi_dev *wdev;
 
@@ -406,12 +406,12 @@ static UCHAR RT_CfgMbssWirelessModeMaxGet(struct rtmp_adapter *pAd)
 INT RT_CfgSetMbssWirelessMode(struct rtmp_adapter *pAd, char *arg)
 {
 	INT cfg_mode;
-	UCHAR wmode;
+	u8 wmode;
 	struct rtmp_chip_cap *pChipCap = &pAd->chipCap;
 
 	cfg_mode = simple_strtol(arg, 0, 10);
 
-	wmode = cfgmode_2_wmode((UCHAR)cfg_mode);
+	wmode = cfgmode_2_wmode((u8)cfg_mode);
 	if ((wmode == WMODE_INVALID) || (!wmode_valid(pAd, wmode))) {
 		DBGPRINT(RT_DEBUG_ERROR,
 				("%s(): Invalid wireless mode(%d, wmode=0x%x), ChipCap(%s)\n",
@@ -513,7 +513,7 @@ INT	RT_CfgSetWepKey(
 {
 	INT				KeyLen;
 	INT				i;
-	/*UCHAR			CipherAlg = CIPHER_NONE;*/
+	/*u8 		CipherAlg = CIPHER_NONE;*/
 	bool			bKeyIsHex = false;
 
 	/* TODO: Shall we do memset for the original key info??*/
@@ -573,11 +573,11 @@ INT RT_CfgSetWPAPSKKey(
 	IN struct rtmp_adapter *pAd,
 	IN char *	keyString,
 	IN INT			keyStringLen,
-	IN UCHAR		*pHashStr,
+	IN u8 	*pHashStr,
 	IN INT			hashStrLen,
 	OUT u8 *	pPMKBuf)
 {
-	UCHAR keyMaterial[40];
+	u8 keyMaterial[40];
 
 	if ((keyStringLen < 8) || (keyStringLen > 64))
 	{
@@ -658,7 +658,7 @@ INT	RT_CfgSetAutoFallBack(
 	IN	char *		arg)
 {
 	TX_RTY_CFG_STRUC tx_rty_cfg;
-	UCHAR AutoFallBack = (UCHAR)simple_strtol(arg, 0, 10);
+	u8 AutoFallBack = (u8)simple_strtol(arg, 0, 10);
 
 	if (AutoFallBack)
 		AutoFallBack = true;
@@ -692,7 +692,7 @@ INT RtmpIoctl_rt_ioctl_giwname(
 	IN	VOID					*pData,
 	IN	ULONG					Data)
 {
-	UCHAR CurOpMode = OPMODE_AP;
+	u8 CurOpMode = OPMODE_AP;
 
 	if (CurOpMode == OPMODE_AP)
 	{
@@ -800,7 +800,7 @@ INT RTMP_COM_IoctlHandle(
 
 #if (defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT)
 		case CMD_RTPRIV_IOCTL_ADAPTER_RT28XX_WOW_STATUS:
-			*(UCHAR *)pData = (UCHAR)pAd->WOW_Cfg.bEnable;
+			*(u8 *)pData = (u8)pAd->WOW_Cfg.bEnable;
 			break;
 
 		case CMD_RTPRIV_IOCTL_ADAPTER_RT28XX_WOW_ENABLE:
@@ -876,7 +876,7 @@ INT RTMP_COM_IoctlHandle(
 		case CMD_RTPRIV_IOCTL_CHAN_LIST_GET:
 		{
 			uint32_t i;
-			UCHAR *pChannel = (UCHAR *)pData;
+			u8 *pChannel = (u8 *)pData;
 
 			for (i = 1; i <= pAd->ChannelListNum; i++)
 			{
@@ -1121,7 +1121,7 @@ INT RTMP_COM_IoctlHandle(
 		case CMD_RTPRIV_IOCTL_INF_IW_STATUS_GET:
 		/* get wireless statistics */
 		{
-			UCHAR CurOpMode = OPMODE_AP;
+			u8 CurOpMode = OPMODE_AP;
 #ifdef CONFIG_AP_SUPPORT
 			PMAC_TABLE_ENTRY pMacEntry = NULL;
 #endif /* CONFIG_AP_SUPPORT */

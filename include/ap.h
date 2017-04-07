@@ -62,7 +62,7 @@ INT ApAllowToSendPacket(
 	IN struct rtmp_adapter *pAd,
 	IN struct rtmp_wifi_dev *wdev,
 	IN struct sk_buff *pPacket,
-	OUT UCHAR *pWcid);
+	OUT u8 *pWcid);
 
 INT APSendPacket(struct rtmp_adapter *pAd, struct sk_buff *pPacket);
 
@@ -70,15 +70,15 @@ int APInsertPsQueue(
 	IN struct rtmp_adapter *pAd,
 	IN struct sk_buff *pPacket,
 	IN MAC_TABLE_ENTRY *pMacEntry,
-	IN UCHAR QueIdx);
+	IN u8 QueIdx);
 
-int APHardTransmit(struct rtmp_adapter *pAd, TX_BLK *pTxBlk, UCHAR QueIdx);
+int APHardTransmit(struct rtmp_adapter *pAd, TX_BLK *pTxBlk, u8 QueIdx);
 
 VOID APRxEAPOLFrameIndicate(
 	IN	struct rtmp_adapter *pAd,
 	IN	MAC_TABLE_ENTRY	*pEntry,
 	IN	RX_BLK			*pRxBlk,
-	IN	UCHAR FromWhichBSSID);
+	IN	u8 FromWhichBSSID);
 
 VOID APHandleRxDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk);
 
@@ -88,14 +88,14 @@ INT APCheckRxError(struct rtmp_adapter *pAd, RXINFO_STRUC *pRxInfo, RX_BLK *pRxB
 
 bool APChkCls2Cls3Err(
 	IN struct rtmp_adapter *pAd,
-	IN UCHAR Wcid,
+	IN u8 Wcid,
 	IN HEADER_802_11 *pHeader);
 
-VOID RTMPDescriptorEndianChange(UCHAR *pData, ULONG DescriptorType);
+VOID RTMPDescriptorEndianChange(u8 *pData, ULONG DescriptorType);
 
 VOID RTMPFrameEndianChange(
     IN  struct rtmp_adapter *pAd,
-    IN  UCHAR *pData,
+    IN  u8 *pData,
     IN  ULONG Dir,
     IN  bool FromRxDoneInt);
 
@@ -107,10 +107,10 @@ VOID APAssocStateMachineInit(
     OUT STATE_MACHINE_FUNC Trans[]);
 
 VOID MbssKickOutStas(struct rtmp_adapter *pAd, INT apidx, USHORT Reason);
-VOID APMlmeKickOutSta(struct rtmp_adapter *pAd, UCHAR *staAddr, UCHAR Wcid, USHORT Reason);
+VOID APMlmeKickOutSta(struct rtmp_adapter *pAd, u8 *staAddr, u8 Wcid, USHORT Reason);
 
 #ifdef DOT11W_PMF_SUPPORT
-VOID APMlmeKickOutAllSta(struct rtmp_adapter *pAd, UCHAR apidx, USHORT Reason);
+VOID APMlmeKickOutAllSta(struct rtmp_adapter *pAd, u8 apidx, USHORT Reason);
 #endif /* DOT11W_PMF_SUPPORT */
 
 VOID  APCls3errAction(struct rtmp_adapter *pAd, ULONG wcid, HEADER_802_11 *hdr);
@@ -150,14 +150,14 @@ VOID APScanTimeout(
 VOID ApSiteSurvey(
 	IN	struct rtmp_adapter * 		pAd,
 	IN	PNDIS_802_11_SSID	pSsid,
-	IN	UCHAR				ScanType,
+	IN	u8 			ScanType,
 	IN	bool				ChannelSel);
 
 VOID SupportRate(
 	IN u8 *SupRate,
-	IN UCHAR SupRateLen,
+	IN u8 SupRateLen,
 	IN u8 *ExtRate,
-	IN UCHAR ExtRateLen,
+	IN u8 ExtRateLen,
 	OUT u8 **Rates,
 	OUT u8 *RatesLen,
 	OUT u8 *pMaxSupportRate);
@@ -166,7 +166,7 @@ VOID SupportRate(
 bool ApScanRunning(struct rtmp_adapter *pAd);
 
 #ifdef AP_PARTIAL_SCAN_SUPPORT
-UCHAR FindPartialScanChannel(
+u8 FindPartialScanChannel(
 	IN struct rtmp_adapter *pAd);
 #endif /* AP_PARTIAL_SCAN_SUPPORT */
 
@@ -198,7 +198,7 @@ VOID APAsicEvaluateRxAnt(struct rtmp_adapter *pAd);
 VOID APAsicRxAntEvalTimeout(struct rtmp_adapter *pAd);
 
 /* ap.c */
-UCHAR get_apidx_by_addr(struct rtmp_adapter *pAd, UCHAR *addr);
+u8 get_apidx_by_addr(struct rtmp_adapter *pAd, u8 *addr);
 
 int APInitialize(struct rtmp_adapter *pAd);
 VOID APShutdown(struct rtmp_adapter *pAd);
@@ -217,8 +217,8 @@ MAC_TABLE_ENTRY *APSsPsInquiry(
     IN  u8 *         pAddr,
     OUT SST             *Sst,
     OUT USHORT          *Aid,
-    OUT UCHAR           *PsMode,
-    OUT UCHAR           *Rate);
+    OUT u8           *PsMode,
+    OUT u8           *Rate);
 
 #ifdef SYSTEM_LOG_SUPPORT
 VOID ApLogEvent(
@@ -231,8 +231,8 @@ VOID ApLogEvent(
 
 VOID APUpdateCapabilityAndErpIe(struct rtmp_adapter *pAd);
 
-bool ApCheckAccessControlList(struct rtmp_adapter *pAd, UCHAR *addr, UCHAR apidx);
-VOID ApUpdateAccessControlList(struct rtmp_adapter *pAd, UCHAR apidx);
+bool ApCheckAccessControlList(struct rtmp_adapter *pAd, u8 *addr, u8 apidx);
+VOID ApUpdateAccessControlList(struct rtmp_adapter *pAd, u8 apidx);
 
 
 bool PeerAssocReqCmmSanity(

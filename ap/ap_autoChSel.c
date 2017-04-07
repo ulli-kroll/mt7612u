@@ -23,7 +23,7 @@
 #include "ap_autoChSel.h"
 
 
-extern UCHAR ZeroSsid[32];
+extern u8 ZeroSsid[32];
 
 static inline INT GetABandChOffset(
 	IN INT Channel)
@@ -53,10 +53,10 @@ ULONG AutoChBssSearchWithSSID(
 	IN struct rtmp_adapter *pAd,
 	IN u8 *Bssid,
 	IN u8 *pSsid,
-	IN UCHAR SsidLen,
-	IN UCHAR Channel)
+	IN u8 SsidLen,
+	IN u8 Channel)
 {
-	UCHAR i;
+	u8 i;
 	PBSSINFO pBssInfoTab = pAd->pBssInfoTab;
 
 	if(pBssInfoTab == NULL)
@@ -84,9 +84,9 @@ static inline VOID AutoChBssEntrySet(
 	OUT BSSENTRY *pBss,
 	IN u8 *pBssid,
 	IN CHAR Ssid[],
-	IN UCHAR SsidLen,
-	IN UCHAR Channel,
-	IN UCHAR ExtChOffset,
+	IN u8 SsidLen,
+	IN u8 Channel,
+	IN u8 ExtChOffset,
 	IN CHAR Rssi)
 {
 	COPY_MAC_ADDR(pBss->Bssid, pBssid);
@@ -170,7 +170,7 @@ VOID UpdateChannelInfo(
 
 static inline INT GetChIdx(
 	IN struct rtmp_adapter *pAd,
-	IN UCHAR Channel)
+	IN u8 Channel)
 {
 	INT Idx;
 
@@ -187,10 +187,10 @@ static inline INT GetChIdx(
 static inline VOID AutoChannelSkipListSetDirty(
 	IN struct rtmp_adapter *pAd)
 {
-	UCHAR i;
+	u8 i;
 	for (i=0; i < pAd->ApCfg.AutoChannelSkipListNum ; i++)
 	{
-			UCHAR channel_idx = GetChIdx(pAd, pAd->ApCfg.AutoChannelSkipList[i]);
+			u8 channel_idx = GetChIdx(pAd, pAd->ApCfg.AutoChannelSkipList[i]);
 			if ( channel_idx != pAd->ChannelListNum )
 			{
 				pAd->pChannelInfo->SkipList[channel_idx] = true;
@@ -200,9 +200,9 @@ static inline VOID AutoChannelSkipListSetDirty(
 
 static inline bool AutoChannelSkipListCheck(
 	IN struct rtmp_adapter *pAd,
-	IN UCHAR			Ch)
+	IN u8 		Ch)
 {
-	UCHAR i;
+	u8 i;
 	bool result = false;
 
 	for (i=0; i < pAd->ApCfg.AutoChannelSkipListNum ; i++)
@@ -217,12 +217,12 @@ static inline bool AutoChannelSkipListCheck(
 }
 
 static inline bool BW40_ChannelCheck(
-	IN UCHAR ch)
+	IN u8 ch)
 {
 	INT i;
 	bool result = true;
-	UCHAR NorBW40_CH[] = {140, 165};
-	UCHAR NorBW40ChNum = sizeof(NorBW40_CH) / sizeof(UCHAR);
+	u8 NorBW40_CH[] = {140, 165};
+	u8 NorBW40ChNum = sizeof(NorBW40_CH) / sizeof(u8);
 
 	for (i=0; i<NorBW40ChNum; i++)
 	{
@@ -236,11 +236,11 @@ static inline bool BW40_ChannelCheck(
 	return result;
 }
 
-static inline UCHAR SelectClearChannelRandom(
+static inline u8 SelectClearChannelRandom(
 	IN struct rtmp_adapter *pAd
 	)
 {
-	UCHAR cnt, ch = 0, i, RadomIdx;
+	u8 cnt, ch = 0, i, RadomIdx;
 	/*bool bFindIt = false;*/
 	UINT8 TempChList[MAX_NUM_OF_CHANNELS] = {0};
 
@@ -309,7 +309,7 @@ static inline UCHAR SelectClearChannelRandom(
 	NOTE:
 	==========================================================================
  */
-static inline UCHAR SelectClearChannelCCA(
+static inline u8 SelectClearChannelCCA(
 	IN struct rtmp_adapter *pAd
 	)
 {
@@ -321,8 +321,8 @@ static inline UCHAR SelectClearChannelCCA(
 	BSSENTRY *pBss;
 	uint32_t min_dirty, min_falsecca;
 	int candidate_ch;
-	UCHAR  ExChannel[2] = {0}, candidate_ExChannel[2] = {0};
-	UCHAR base;
+	u8  ExChannel[2] = {0}, candidate_ExChannel[2] = {0};
+	u8 base;
 
 	if(pBssInfoTab == NULL)
 	{
@@ -508,7 +508,7 @@ static inline UCHAR SelectClearChannelCCA(
 			}
 			else
 			{ /* 2.4G Hz */
-				UCHAR ExChannel_idx = 0;
+				u8 ExChannel_idx = 0;
 				if (pAd->ChannelList[channel_idx].Channel == 14)
 				{
 					dirtyness = 0xFFFFFFFF;
@@ -516,7 +516,7 @@ static inline UCHAR SelectClearChannelCCA(
 				}
 				else
 				{
-					UCHAR ExChannel_idx = 0;
+					u8 ExChannel_idx = 0;
 					if (pAd->ChannelList[channel_idx].Channel == 14)
 					{
 						dirtyness = 0xFFFFFFFF;
@@ -676,15 +676,15 @@ static inline UCHAR SelectClearChannelCCA(
 	==========================================================================
  */
 
-static inline UCHAR SelectClearChannelApCnt(
+static inline u8 SelectClearChannelApCnt(
 	IN struct rtmp_adapter *pAd
 	)
 {
     /*PBSSINFO pBssInfoTab = pAd->pBssInfoTab; */
 	PCHANNELINFO pChannelInfo = pAd->pChannelInfo;
 	/*BSSENTRY *pBss; */
-	UCHAR channel_index = 0,dirty,base = 0;
-	UCHAR final_channel = 0;
+	u8 channel_index = 0,dirty,base = 0;
+	u8 final_channel = 0;
 
 
 	if(pChannelInfo == NULL)
@@ -866,7 +866,7 @@ static inline UCHAR SelectClearChannelApCnt(
 	for (dirty = 30; dirty <= 32; dirty++)
 	{
 		bool candidate[MAX_NUM_OF_CHANNELS+1], candidate_num=0;
-		UCHAR min_ApCnt = 255;
+		u8 min_ApCnt = 255;
 		final_channel = 0;
 
 		memset(candidate, 0, MAX_NUM_OF_CHANNELS+1);
@@ -972,9 +972,9 @@ ULONG AutoChBssInsertEntry(
 	IN struct rtmp_adapter *pAd,
 	IN u8 *pBssid,
 	IN CHAR Ssid[],
-	IN UCHAR SsidLen,
-	IN UCHAR ChannelNo,
-	IN UCHAR ExtChOffset,
+	IN u8 SsidLen,
+	IN u8 ChannelNo,
+	IN u8 ExtChOffset,
 	IN CHAR Rssi)
 {
 	ULONG	Idx;
@@ -1077,9 +1077,9 @@ void CheckPhyModeIsABand(struct rtmp_adapter *pAd)
 }
 
 
-UCHAR SelectBestChannel(struct rtmp_adapter *pAd, ChannelSel_Alg Alg)
+u8 SelectBestChannel(struct rtmp_adapter *pAd, ChannelSel_Alg Alg)
 {
-	UCHAR ch = 0;
+	u8 ch = 0;
 
 	/* init pAd->pChannelInfo->IsABand */
 	CheckPhyModeIsABand(pAd);
@@ -1141,9 +1141,9 @@ VOID APAutoChannelInit(struct rtmp_adapter *pAd)
                    Ues the False CCA count and Rssi to choose
 	==========================================================================
  */
-UCHAR APAutoSelectChannel(struct rtmp_adapter *pAd, ChannelSel_Alg Alg)
+u8 APAutoSelectChannel(struct rtmp_adapter *pAd, ChannelSel_Alg Alg)
 {
-	UCHAR ch = 0, i;
+	u8 ch = 0, i;
 
 	/* passive scan channel 1-14. collect statistics */
 

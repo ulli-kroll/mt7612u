@@ -27,23 +27,23 @@
 */
 #include "rt_config.h"
 
-extern UCHAR	CISCO_OUI[];
+extern u8 CISCO_OUI[];
 
-extern UCHAR	WPA_OUI[];
-extern UCHAR	RSN_OUI[];
-extern UCHAR	WME_INFO_ELEM[];
-extern UCHAR	WME_PARM_ELEM[];
-extern UCHAR	RALINK_OUI[];
-extern UCHAR	BROADCOM_OUI[];
-extern UCHAR    WPS_OUI[];
+extern u8 WPA_OUI[];
+extern u8 RSN_OUI[];
+extern u8 WME_INFO_ELEM[];
+extern u8 WME_PARM_ELEM[];
+extern u8 RALINK_OUI[];
+extern u8 BROADCOM_OUI[];
+extern u8    WPS_OUI[];
 
 
 
 typedef struct wsc_ie_probreq_data
 {
-	UCHAR	ssid[32];
-	UCHAR	macAddr[6];
-	UCHAR	data[2];
+	u8 ssid[32];
+	u8 macAddr[6];
+	u8 data[2];
 } WSC_IE_PROBREQ_DATA;
 
 /*
@@ -224,7 +224,7 @@ bool PeerAddBARspActionSanity(
 
 bool PeerDelBAActionSanity(
     IN struct rtmp_adapter *pAd,
-    IN UCHAR Wcid,
+    IN u8 Wcid,
     IN VOID *pMsg,
     IN ULONG MsgLen )
 {
@@ -249,64 +249,64 @@ bool PeerBeaconAndProbeRspSanity_Old(
     IN struct rtmp_adapter *pAd,
     IN VOID *Msg,
     IN ULONG MsgLen,
-    IN UCHAR  MsgChannel,
+    IN u8  MsgChannel,
     OUT u8 *pAddr2,
     OUT u8 *pBssid,
     OUT CHAR Ssid[],
-    OUT UCHAR *pSsidLen,
-    OUT UCHAR *pBssType,
+    OUT u8 *pSsidLen,
+    OUT u8 *pBssType,
     OUT USHORT *pBeaconPeriod,
-    OUT UCHAR *pChannel,
-    OUT UCHAR *pNewChannel,
+    OUT u8 *pChannel,
+    OUT u8 *pNewChannel,
     OUT LARGE_INTEGER *pTimestamp,
     OUT CF_PARM *pCfParm,
     OUT USHORT *pAtimWin,
     OUT USHORT *pCapabilityInfo,
-    OUT UCHAR *pErp,
-    OUT UCHAR *pDtimCount,
-    OUT UCHAR *pDtimPeriod,
-    OUT UCHAR *pBcastFlag,
-    OUT UCHAR *pMessageToMe,
-    OUT UCHAR SupRate[],
-    OUT UCHAR *pSupRateLen,
-    OUT UCHAR ExtRate[],
-    OUT UCHAR *pExtRateLen,
-    OUT UCHAR *pCkipFlag,
-    OUT UCHAR *pAironetCellPowerLimit,
+    OUT u8 *pErp,
+    OUT u8 *pDtimCount,
+    OUT u8 *pDtimPeriod,
+    OUT u8 *pBcastFlag,
+    OUT u8 *pMessageToMe,
+    OUT u8 SupRate[],
+    OUT u8 *pSupRateLen,
+    OUT u8 ExtRate[],
+    OUT u8 *pExtRateLen,
+    OUT u8 *pCkipFlag,
+    OUT u8 *pAironetCellPowerLimit,
     OUT PEDCA_PARM pEdcaParm,
     OUT PQBSS_LOAD_PARM pQbssLoad,
     OUT PQOS_CAPABILITY_PARM pQosCapability,
     OUT ULONG *pRalinkIe,
-    OUT UCHAR *pHtCapabilityLen,
+    OUT u8 *pHtCapabilityLen,
 #ifdef CONFIG_STA_SUPPORT
-    OUT UCHAR *pPreNHtCapabilityLen,
+    OUT u8 *pPreNHtCapabilityLen,
 #ifdef NATIVE_WPA_SUPPLICANT_SUPPORT
-    OUT UCHAR *pSelReg,
+    OUT u8 *pSelReg,
 #endif /* NATIVE_WPA_SUPPLICANT_SUPPORT */
 #endif /* CONFIG_STA_SUPPORT */
     OUT HT_CAPABILITY_IE *pHtCapability,
     OUT EXT_CAP_INFO_ELEMENT	*pExtCapInfo,
-    OUT UCHAR *AddHtInfoLen,
+    OUT u8 *AddHtInfoLen,
     OUT ADD_HT_INFO_IE *AddHtInfo,
-    OUT UCHAR *NewExtChannelOffset,		/* Ht extension channel offset(above or below)*/
+    OUT u8 *NewExtChannelOffset,		/* Ht extension channel offset(above or below)*/
     OUT USHORT *LengthVIE,
     OUT PNDIS_802_11_VARIABLE_IEs pVIE)
 {
-    UCHAR				*Ptr;
+    u8 			*Ptr;
 #ifdef CONFIG_STA_SUPPORT
-	UCHAR 				TimLen;
+	u8 				TimLen;
 #endif /* CONFIG_STA_SUPPORT */
     PFRAME_802_11		pFrame;
     PEID_STRUCT         pEid;
-    UCHAR				SubType;
-    UCHAR				Sanity;
-    /*UCHAR				ECWMin, ECWMax;*/
+    u8 			SubType;
+    u8 			Sanity;
+    /*u8 			ECWMin, ECWMax;*/
     /*MAC_CSR9_STRUC		Csr9;*/
     ULONG				Length = 0;
-	UCHAR				*pPeerWscIe = NULL;
+	u8 			*pPeerWscIe = NULL;
 	INT					PeerWscIeLen = 0;
 	bool				bWscCheck = true;
-    UCHAR				LatchRfChannel = 0;
+    u8 			LatchRfChannel = 0;
 
 
 	/*
@@ -315,7 +315,7 @@ bool PeerBeaconAndProbeRspSanity_Old(
 		2. If the AP didn't have any info about channel, use the channel we received this
 			frame as the channel. (May inaccuracy!!)
 	*/
-	UCHAR			CtrlChannel = 0;
+	u8 		CtrlChannel = 0;
 
 
 	pPeerWscIe = kmalloc(512, GFP_ATOMIC);
@@ -353,7 +353,7 @@ bool PeerBeaconAndProbeRspSanity_Old(
     pFrame = (PFRAME_802_11)Msg;
 
     /* get subtype from header*/
-    SubType = (UCHAR)pFrame->Hdr.FC.SubType;
+    SubType = (u8)pFrame->Hdr.FC.SubType;
 
     /* get Addr2 and BSSID from header*/
     COPY_MAC_ADDR(pAddr2, pFrame->Hdr.Addr2);
@@ -654,7 +654,7 @@ bool PeerBeaconAndProbeRspSanity_Old(
                     ptr = &pEid->Octet[8];
                     for (i=0; i<4; i++)
                     {
-                        UCHAR aci = (*ptr & 0x60) >> 5; /* b5~6 is AC INDEX*/
+                        u8 aci = (*ptr & 0x60) >> 5; /* b5~6 is AC INDEX*/
                         pEdcaParm->bACM[aci]  = (((*ptr) & 0x10) == 0x10);   /* b5 is ACM*/
                         pEdcaParm->Aifsn[aci] = (*ptr) & 0x0f;               /* b0~3 is AIFSN*/
                         pEdcaParm->Cwmin[aci] = *(ptr+1) & 0x0f;             /* b0~4 is Cwmin*/
@@ -793,7 +793,7 @@ bool PeerBeaconAndProbeRspSanity_Old(
             case IE_ERP:
                 if (pEid->Len == 1)
                 {
-                    *pErp = (UCHAR)pEid->Octet[0];
+                    *pErp = (u8)pEid->Octet[0];
                 }
                 break;
 
@@ -863,8 +863,8 @@ bool PeerBeaconAndProbeRspSanity_Old(
 			case IE_EXT_CAPABILITY:
 				if (pEid->Len >= 1)
 				{
-					UCHAR MaxSize;
-					UCHAR MySize = sizeof(EXT_CAP_INFO_ELEMENT);
+					u8 MaxSize;
+					u8 MySize = sizeof(EXT_CAP_INFO_ELEMENT);
 
 					MaxSize = min(pEid->Len, MySize);
 
@@ -876,7 +876,7 @@ bool PeerBeaconAndProbeRspSanity_Old(
         }
 
         Length = Length + 2 + pEid->Len;  /* Eid[1] + Len[1]+ content[Len]*/
-        pEid = (PEID_STRUCT)((UCHAR*)pEid + 2 + pEid->Len);
+        pEid = (PEID_STRUCT)((u8 *)pEid + 2 + pEid->Len);
     }
 
 	LatchRfChannel = MsgChannel;
@@ -892,7 +892,7 @@ bool PeerBeaconAndProbeRspSanity_Old(
 
 		if (pPeerWscIe && (PeerWscIeLen > 0) && (PeerWscIeLen <= 512) && ( bWscCheck == true))
 		{
-			UCHAR WscIe[] = {0xdd, 0x00, 0x00, 0x50, 0xF2, 0x04};
+			u8 WscIe[] = {0xdd, 0x00, 0x00, 0x50, 0xF2, 0x04};
 			Ptr = (u8 *) pVIE;
 			WscIe[1] = PeerWscIeLen + 4;
 			memmove(Ptr + *LengthVIE, WscIe, 6);
@@ -933,24 +933,24 @@ bool PeerBeaconAndProbeRspSanity(
 	IN struct rtmp_adapter *pAd,
 	IN VOID *Msg,
 	IN ULONG MsgLen,
-	IN UCHAR  MsgChannel,
+	IN u8  MsgChannel,
 	OUT BCN_IE_LIST *ie_list,
 	OUT USHORT *LengthVIE,
 	OUT PNDIS_802_11_VARIABLE_IEs pVIE)
 {
-	UCHAR *Ptr;
+	u8 *Ptr;
 #ifdef CONFIG_STA_SUPPORT
-	UCHAR TimLen;
+	u8 TimLen;
 #endif /* CONFIG_STA_SUPPORT */
 	PFRAME_802_11 pFrame;
 	PEID_STRUCT pEid;
-	UCHAR SubType;
-	UCHAR Sanity;
+	u8 SubType;
+	u8 Sanity;
 	ULONG Length = 0;
-	UCHAR *pPeerWscIe = NULL;
+	u8 *pPeerWscIe = NULL;
 	INT PeerWscIeLen = 0;
 	bool bWscCheck = true;
-	UCHAR LatchRfChannel = 0;
+	u8 LatchRfChannel = 0;
 
 
 	/*
@@ -959,7 +959,7 @@ bool PeerBeaconAndProbeRspSanity(
 		2. If the AP didn't have any info about channel, use the channel we received this
 			frame as the channel. (May inaccuracy!!)
 	*/
-	UCHAR CtrlChannel = 0;
+	u8 CtrlChannel = 0;
 
 
 	pPeerWscIe = kmalloc(512, GFP_ATOMIC);
@@ -972,7 +972,7 @@ bool PeerBeaconAndProbeRspSanity(
 	pFrame = (PFRAME_802_11)Msg;
 
 	/* get subtype from header*/
-	SubType = (UCHAR)pFrame->Hdr.FC.SubType;
+	SubType = (u8)pFrame->Hdr.FC.SubType;
 
     /* get Addr2 and BSSID from header*/
     COPY_MAC_ADDR(&ie_list->Addr2[0], pFrame->Hdr.Addr2);
@@ -1267,7 +1267,7 @@ bool PeerBeaconAndProbeRspSanity(
 				ptr = &pEid->Octet[8];
 				for (i=0; i<4; i++)
 				{
-					UCHAR aci = (*ptr & 0x60) >> 5; /* b5~6 is AC INDEX*/
+					u8 aci = (*ptr & 0x60) >> 5; /* b5~6 is AC INDEX*/
 					ie_list->EdcaParm.bACM[aci]  = (((*ptr) & 0x10) == 0x10);   /* b5 is ACM*/
 					ie_list->EdcaParm.Aifsn[aci] = (*ptr) & 0x0f;               /* b0~3 is AIFSN*/
 					ie_list->EdcaParm.Cwmin[aci] = *(ptr+1) & 0x0f;             /* b0~4 is Cwmin*/
@@ -1404,7 +1404,7 @@ bool PeerBeaconAndProbeRspSanity(
 
 		case IE_ERP:
 			if (pEid->Len == 1)
-				ie_list->Erp = (UCHAR)pEid->Octet[0];
+				ie_list->Erp = (u8)pEid->Octet[0];
 			break;
 
 		case IE_AIRONET_CKIP:
@@ -1474,7 +1474,7 @@ bool PeerBeaconAndProbeRspSanity(
 		case IE_EXT_CAPABILITY:
 			if (pEid->Len >= 1)
 			{
-				UCHAR cp_len, buf_space = sizeof(EXT_CAP_INFO_ELEMENT);
+				u8 cp_len, buf_space = sizeof(EXT_CAP_INFO_ELEMENT);
 
 				cp_len = min(pEid->Len, buf_space);
 				memmove(&ie_list->ExtCapInfo,&pEid->Octet[0], cp_len);
@@ -1520,7 +1520,7 @@ bool PeerBeaconAndProbeRspSanity(
 		}
 
 		Length = Length + 2 + pEid->Len;  /* Eid[1] + Len[1]+ content[Len]*/
-		pEid = (PEID_STRUCT)((UCHAR*)pEid + 2 + pEid->Len);
+		pEid = (PEID_STRUCT)((u8 *)pEid + 2 + pEid->Len);
     }
 
 	LatchRfChannel = MsgChannel;
@@ -1546,7 +1546,7 @@ bool PeerBeaconAndProbeRspSanity(
 
 	if (pPeerWscIe && (PeerWscIeLen > 0) && (PeerWscIeLen <= 512) && ( bWscCheck == true))
 	{
-		UCHAR WscIe[] = {0xdd, 0x00, 0x00, 0x50, 0xF2, 0x04};
+		u8 WscIe[] = {0xdd, 0x00, 0x00, 0x50, 0xF2, 0x04};
 		Ptr = (u8 *) pVIE;
 		WscIe[1] = PeerWscIeLen + 4;
 		memmove(Ptr + *LengthVIE, WscIe, 6);
@@ -1587,7 +1587,7 @@ bool PeerBeaconAndProbeRspSanity2(
 	IN VOID *Msg,
 	IN ULONG MsgLen,
 	IN OVERLAP_BSS_SCAN_IE *BssScan,
-	OUT UCHAR 	*RegClass)
+	OUT u8 	*RegClass)
 {
 	CHAR				*Ptr;
 	PFRAME_802_11		pFrame;
@@ -1651,7 +1651,7 @@ bool PeerBeaconAndProbeRspSanity2(
 		}
 
 		Length = Length + 2 + pEid->Len;  /* Eid[1] + Len[1]+ content[Len]	*/
-		pEid = (PEID_STRUCT)((UCHAR*)pEid + 2 + pEid->Len);
+		pEid = (PEID_STRUCT)((u8 *)pEid + 2 + pEid->Len);
 	}
 
 	return brc;
@@ -1671,10 +1671,10 @@ bool MlmeScanReqSanity(
 	IN struct rtmp_adapter *pAd,
 	IN VOID *Msg,
 	IN ULONG MsgLen,
-	OUT UCHAR *pBssType,
+	OUT u8 *pBssType,
 	OUT CHAR Ssid[],
-	OUT UCHAR *pSsidLen,
-	OUT UCHAR *pScanType)
+	OUT u8 *pSsidLen,
+	OUT u8 *pScanType)
 {
 	MLME_SCAN_REQ_STRUCT *Info;
 
@@ -1699,9 +1699,9 @@ bool MlmeScanReqSanity(
 #endif
 
 /* IRQL = DISPATCH_LEVEL*/
-UCHAR ChannelSanity(
+u8 ChannelSanity(
     IN struct rtmp_adapter *pAd,
-    IN UCHAR channel)
+    IN u8 channel)
 {
     int i;
 
@@ -1922,7 +1922,7 @@ bool PeerDisassocSanity(
 NDIS_802_11_NETWORK_TYPE NetworkTypeInUseSanity(BSS_ENTRY *pBss)
 {
 	NDIS_802_11_NETWORK_TYPE	NetWorkType;
-	UCHAR						rate, i;
+	u8 					rate, i;
 
 	NetWorkType = Ndis802_11DS;
 
@@ -2006,11 +2006,11 @@ bool PeerProbeReqSanity(
 	OUT PEER_PROBE_REQ_PARAM *ProbeReqParam)
 {
     PFRAME_802_11 Fr = (PFRAME_802_11)Msg;
-    UCHAR		*Ptr;
-    UCHAR		eid =0, eid_len = 0, *eid_data;
+    u8 	*Ptr;
+    u8 	eid =0, eid_len = 0, *eid_data;
 #ifdef CONFIG_AP_SUPPORT
-    UCHAR       apidx = MAIN_MBSSID;
-	UCHAR       Addr1[MAC_ADDR_LEN];
+    u8       apidx = MAIN_MBSSID;
+	u8       Addr1[MAC_ADDR_LEN];
 #endif /* CONFIG_AP_SUPPORT */
 	UINT		total_ie_len = 0;
 
@@ -2043,7 +2043,7 @@ bool PeerProbeReqSanity(
 	eid_data = Ptr+2;
 
     /* get variable fields from payload and advance the pointer*/
-	while((eid_data + eid_len) <= ((UCHAR*)Fr + MsgLen))
+	while((eid_data + eid_len) <= ((u8 *)Fr + MsgLen))
     {
         switch(eid)
         {

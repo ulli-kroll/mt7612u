@@ -37,16 +37,16 @@ typedef struct {
 } CHANNELINFO, *PCHANNELINFO;
 
 typedef struct {
-	UCHAR Bssid[MAC_ADDR_LEN];
-	UCHAR SsidLen;
+	u8 Bssid[MAC_ADDR_LEN];
+	u8 SsidLen;
 	CHAR Ssid[MAX_LEN_OF_SSID];
-	UCHAR Channel;
-	UCHAR ExtChOffset;
+	u8 Channel;
+	u8 ExtChOffset;
 	CHAR Rssi;
 } BSSENTRY, *PBSSENTRY;
 
 typedef struct {
-	UCHAR BssNr;
+	u8 BssNr;
 	BSSENTRY BssEntry[MAX_LEN_OF_BSS_TABLE];
 } BSSINFO, *PBSSINFO;
 

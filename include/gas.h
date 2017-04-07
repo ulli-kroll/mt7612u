@@ -63,18 +63,18 @@ enum GAS_EVENT {
 typedef struct _GAS_QUERY_RSP_FRAGMENT
 {
 	DL_LIST List;
-	UCHAR GASRspFragID;
+	u8 GASRspFragID;
 	uint16_t FragQueryRspLen;
-	UCHAR *FragQueryRsp;
+	u8 *FragQueryRsp;
 }GAS_QUERY_RSP_FRAGMENT, *PGAS_QUERY_RSP_FRAGMENT;
 
 typedef struct _GAS_PEER_ENTRY {
 	DL_LIST List;
 	enum GAS_STATE CurrentState;
-	UCHAR ControlIndex;
-	UCHAR PeerMACAddr[MAC_ADDR_LEN];
-	UCHAR DialogToken;
-	UCHAR AdvertisementProID;
+	u8 ControlIndex;
+	u8 PeerMACAddr[MAC_ADDR_LEN];
+	u8 DialogToken;
+	u8 AdvertisementProID;
 	void *Priv;
 #ifdef CONFIG_AP_SUPPORT
 	RALINK_TIMER_STRUCT PostReplyTimer;
@@ -89,11 +89,11 @@ typedef struct _GAS_PEER_ENTRY {
 	RALINK_TIMER_STRUCT GASCBDelayTimer;
 	bool GASCBDelayTimerRunning;
 #endif /* CONFIG_STA_SUPPORT */
-	UCHAR GASRspFragNum;
-	UCHAR CurrentGASFragNum;
+	u8 GASRspFragNum;
+	u8 CurrentGASFragNum;
 	uint32_t AllocResource;
 	uint32_t FreeResource;
-	UCHAR QueryNum;
+	u8 QueryNum;
 	DL_LIST GASQueryRspFragList;
 }GAS_PEER_ENTRY, *PGAS_PEER_ENTRY;
 
@@ -108,66 +108,66 @@ typedef struct _GAS_CTRL {
  * GASComebackDelay : unit(TU)
  */
 typedef struct GNU_PACKED _GAS_EVENT_DATA {
-	UCHAR ControlIndex;
-	UCHAR PeerMACAddr[MAC_ADDR_LEN];
+	u8 ControlIndex;
+	u8 PeerMACAddr[MAC_ADDR_LEN];
 	uint16_t EventType;
 	union{
 #ifdef CONFIG_STA_SUPPORT
 		struct {
-			UCHAR DialogToken;
-			UCHAR AdvertisementProID;
+			u8 DialogToken;
+			u8 AdvertisementProID;
 			uint16_t QueryReqLen;
-			UCHAR QueryReq[0];
+			u8 QueryReq[0];
 		} GNU_PACKED GAS_REQ_DATA;
 		struct {
 			uint16_t StatusCode;
-			UCHAR AdvertisementProID;
+			u8 AdvertisementProID;
 			uint16_t QueryRspLen;
-			UCHAR QueryRsp[0];
+			u8 QueryRsp[0];
 		} GNU_PACKED PEER_GAS_RSP_DATA;
 		struct {
-			UCHAR DialogToken;
+			u8 DialogToken;
 		} GNU_PACKED PEER_GAS_RSP_MORE_DATA;
 		struct {
 			uint16_t StatusCode;
-			UCHAR AdvertisementProID;
+			u8 AdvertisementProID;
 			uint16_t QueryRspLen;
-			UCHAR QueryRsp[0];
+			u8 QueryRsp[0];
 		} GNU_PACKED GAS_CB_RSP_DATA;
 		struct {
-			UCHAR DialogToken;
+			u8 DialogToken;
 		} GNU_PACKED GAS_CB_RSP_MORE_DATA;
 #endif /* CONFIG_STA_SUPPORT */
 
 #ifdef CONFIG_AP_SUPPORT
 		struct {
-			UCHAR DialogToken;
+			u8 DialogToken;
 			uint16_t StatusCode;
 			uint16_t GASComebackDelay;
-			UCHAR AdvertisementProID;
+			u8 AdvertisementProID;
 			uint16_t QueryRspLen;
-			UCHAR QueryRsp[0];
+			u8 QueryRsp[0];
 		} GNU_PACKED GAS_RSP_DATA;
 		struct {
-			UCHAR DialogToken;
+			u8 DialogToken;
 			uint16_t StatusCode;
 			uint16_t GASComebackDelay;
-			UCHAR AdvertisementProID;
+			u8 AdvertisementProID;
 		} GNU_PACKED GAS_RSP_MORE_DATA;
 		struct {
-			UCHAR DialogToken;
-			UCHAR AdvertisementProID;
+			u8 DialogToken;
+			u8 AdvertisementProID;
 			uint16_t QueryReqLen;
-			UCHAR QueryReq[0];
+			u8 QueryReq[0];
 		} GNU_PACKED PEER_GAS_REQ_DATA;
 		struct {
-			UCHAR DialogToken;
-			UCHAR AdvertisementProID;
+			u8 DialogToken;
+			u8 AdvertisementProID;
 			uint16_t StatusCode;
 		} GNU_PACKED GAS_CB_REQ_DATA;
 		struct {
-			UCHAR DialogToken;
-			UCHAR AdvertisementProID;
+			u8 DialogToken;
+			u8 AdvertisementProID;
 			uint16_t StatusCode;
 		} GNU_PACKED GAS_CB_REQ_MORE_DATA;
 #endif /* CONFIG_AP_SUPPORT */

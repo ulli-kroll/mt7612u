@@ -46,12 +46,12 @@
 /* 802.11H */
 typedef struct _DOT11_H {
 	/* 802.11H and DFS related params */
-	UCHAR CSCount;		/*Channel switch counter */
-	UCHAR CSPeriod; 	/*Channel switch period (beacon count) */
+	u8 CSCount;		/*Channel switch counter */
+	u8 CSPeriod; 	/*Channel switch period (beacon count) */
 	USHORT RDCount; 	/*Radar detection counter, if RDCount >  ChMovingTime, start to send beacons*/
-	UCHAR RDMode;		/*Radar Detection mode */
-	UCHAR org_ch;
-	UCHAR new_channel;
+	u8 RDMode;		/*Radar Detection mode */
+	u8 org_ch;
+	u8 new_channel;
 	USHORT ChMovingTime;
 	bool bDFSIndoor;
 	ULONG InServiceMonitorCount;	/* unit: sec */
@@ -60,7 +60,7 @@ typedef struct _DOT11_H {
 
 bool RadarChannelCheck(
 	IN struct rtmp_adapter *pAd,
-	IN UCHAR			Ch);
+	IN u8 		Ch);
 
 VOID RadarStateCheck(
 	IN struct rtmp_adapter *pAd);
@@ -68,7 +68,7 @@ VOID RadarStateCheck(
 ULONG JapRadarType(
 	IN struct rtmp_adapter *pAd);
 
-UCHAR get_channel_by_reference(
+u8 get_channel_by_reference(
 	IN struct rtmp_adapter *pAd,
 	IN UINT8 mode);
 

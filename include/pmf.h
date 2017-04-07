@@ -39,17 +39,17 @@ VOID PMF_PeerSAQueryRspAction(
 
 VOID PMF_DerivePTK(
 	IN Pstruct rtmp_adapter pAd,
-	IN UCHAR *PMK,
-	IN UCHAR *ANonce,
-	IN UCHAR *AA,
-	IN UCHAR *SNonce,
-	IN UCHAR *SA,
-	OUT UCHAR *output,
+	IN u8 *PMK,
+	IN u8 *ANonce,
+	IN u8 *AA,
+	IN u8 *SNonce,
+	IN u8 *SA,
+	OUT u8 *output,
 	IN UINT len);
 
 VOID PMF_DeriveIGTK(
 	IN Pstruct rtmp_adapter pAd,
-        OUT UCHAR *output);
+        OUT u8 *output);
 
 VOID PMF_InsertIGTKKDE(
 	IN Pstruct rtmp_adapter pAd,
@@ -64,10 +64,10 @@ bool PMF_ExtractIGTKKDE(
 
 VOID PMF_MakeRsnIeGMgmtCipher(
 	IN Pstruct rtmp_adapter pAd,
-	IN UCHAR ElementID,
-	IN UCHAR apidx,
+	IN u8 ElementID,
+	IN u8 apidx,
 	OUT u8 *pRsnIe,
-	OUT UCHAR *rsn_len);
+	OUT u8 *rsn_len);
 
 int PMF_RsnCapableValidation(
         IN Pstruct rtmp_adapter pAd,

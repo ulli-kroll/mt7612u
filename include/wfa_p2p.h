@@ -36,49 +36,49 @@
 
 typedef	struct	_P2P_PUBLIC_FRAME	{
 	HEADER_802_11   p80211Header;
-	UCHAR          Category;
-	UCHAR           Action;
-	UCHAR           OUI[3];
-	UCHAR		OUIType;
-	UCHAR		Subtype;
-	UCHAR		Token;
-	UCHAR            ElementID;
-	UCHAR            Length;
-	UCHAR            OUI2[3];
-	UCHAR            OUIType2;
-	UCHAR            Octet[1];
+	u8          Category;
+	u8           Action;
+	u8           OUI[3];
+	u8 	OUIType;
+	u8 	Subtype;
+	u8 	Token;
+	u8            ElementID;
+	u8            Length;
+	u8            OUI2[3];
+	u8            OUIType2;
+	u8            Octet[1];
 }
 	P2P_PUBLIC_FRAME, *PP2P_PUBLIC_FRAME;
 
 typedef	struct	_P2P_ACTION_FRAME	{
 	HEADER_802_11			p80211Header;
-	UCHAR					Category;
-	UCHAR					OUI[3];
-	UCHAR					OUIType;
-	UCHAR					Subtype;
-	UCHAR					Token;
-	UCHAR					Octet[1];
+	u8 				Category;
+	u8 				OUI[3];
+	u8 				OUIType;
+	u8 				Subtype;
+	u8 				Token;
+	u8 				Octet[1];
 }	P2P_ACTION_FRAME, *PP2P_ACTION_FRAME;
 
 typedef struct _FRAME_P2P_ACTION {
 	HEADER_802_11			Hdr;
-	UCHAR					Category;
-	UCHAR					OUI[3];
-	UCHAR					OUIType;	/* 1 */
-	UCHAR					OUISubType;	/* 1 */
-	UCHAR					Token;	/* 1 */
+	u8 				Category;
+	u8 				OUI[3];
+	u8 				OUIType;	/* 1 */
+	u8 				OUISubType;	/* 1 */
+	u8 				Token;	/* 1 */
 }   FRAME_P2P_ACTION, *PFRAME_P2P_ACTION;
 
 typedef struct _MLME_P2P_ACTION_STRUCT {
-	UCHAR					TabIndex;	/* sometimes it's Mactable index, sometime it's P2P table index. depend on the command. */
-	UCHAR					Addr[MAC_ADDR_LEN];
+	u8 				TabIndex;	/* sometimes it's Mactable index, sometime it's P2P table index. depend on the command. */
+	u8 				Addr[MAC_ADDR_LEN];
 } MLME_P2P_ACTION_STRUCT, *PMLME_P2P_ACTION_STRUCT;
 
 typedef	struct	_P2P_NOA_DESC	{
-	UCHAR					Count;
-	UCHAR					Duration[4];
-	UCHAR					Interval[4];
-	UCHAR					StartTime[4];
+	u8 				Count;
+	u8 				Duration[4];
+	u8 				Interval[4];
+	u8 				StartTime[4];
 }	P2P_NOA_DESC, *PP2P_NOA_DESC;
 
 

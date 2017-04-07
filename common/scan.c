@@ -27,7 +27,7 @@
 #include "rt_config.h"
 
 #ifdef SCAN_SUPPORT
-static INT scan_ch_restore(struct rtmp_adapter *pAd, UCHAR OpMode)
+static INT scan_ch_restore(struct rtmp_adapter *pAd, u8 OpMode)
 {
 #ifdef CONFIG_STA_SUPPORT
 	USHORT Status;
@@ -35,7 +35,7 @@ static INT scan_ch_restore(struct rtmp_adapter *pAd, UCHAR OpMode)
 	INT bw, ch;
 #ifdef APCLI_SUPPORT
 #ifdef APCLI_CERT_SUPPORT
-	UCHAR  ScanType = pAd->MlmeAux.ScanType;
+	u8  ScanType = pAd->MlmeAux.ScanType;
 #endif /*APCLI_CERT_SUPPORT*/
 #endif /*APCLI_SUPPORT*/
 
@@ -209,7 +209,7 @@ static INT scan_ch_restore(struct rtmp_adapter *pAd, UCHAR OpMode)
 #ifdef APCLI_CERT_SUPPORT
 		if (APCLI_IF_UP_CHECK(pAd, 0) && pAd->bApCliCertTest == true && ScanType == SCAN_2040_BSS_COEXIST)
 		{
-			UCHAR Status=1;
+			u8 Status=1;
 			DBGPRINT(RT_DEBUG_TRACE, ("@(%s)  Scan Done ScanType=%d\n", __FUNCTION__, ScanType));
 			MlmeEnqueue(pAd, APCLI_CTRL_STATE_MACHINE, APCLI_CTRL_SCAN_DONE, 2, &Status, 0);
 		}
@@ -223,12 +223,12 @@ static INT scan_ch_restore(struct rtmp_adapter *pAd, UCHAR OpMode)
 
 
 
-static INT scan_active(struct rtmp_adapter *pAd, UCHAR OpMode, UCHAR ScanType)
+static INT scan_active(struct rtmp_adapter *pAd, u8 OpMode, u8 ScanType)
 {
-	UCHAR *frm_buf = NULL;
+	u8 *frm_buf = NULL;
 	HEADER_802_11 Hdr80211;
 	ULONG FrameLen = 0;
-	UCHAR SsidLen = 0;
+	u8 SsidLen = 0;
 #ifdef CONFIG_STA_SUPPORT
 	USHORT Status;
 #endif /* CONFIG_STA_SUPPORT */
@@ -312,8 +312,8 @@ static INT scan_active(struct rtmp_adapter *pAd, UCHAR OpMode, UCHAR ScanType)
 	if (WMODE_CAP_N(pAd->CommonCfg.PhyMode))
 	{
 		ULONG	Tmp;
-		UCHAR	HtLen;
-		UCHAR	BROADCOM[4] = {0x0, 0x90, 0x4c, 0x33};
+		u8 HtLen;
+		u8 BROADCOM[4] = {0x0, 0x90, 0x4c, 0x33};
 #ifdef RT_BIG_ENDIAN
 		HT_CAPABILITY_IE HtCapabilityTmp;
 #endif
@@ -402,7 +402,7 @@ static INT scan_active(struct rtmp_adapter *pAd, UCHAR OpMode, UCHAR ScanType)
 
 	if (WMODE_CAP_AC(pAd->CommonCfg.PhyMode) &&
 		(pAd->MlmeAux.Channel > 14)) {
-		FrameLen += build_vht_ies(pAd, (UCHAR *)(frm_buf + FrameLen), SUBTYPE_PROBE_REQ);
+		FrameLen += build_vht_ies(pAd, (u8 *)(frm_buf + FrameLen), SUBTYPE_PROBE_REQ);
 	}
 
 
@@ -474,9 +474,9 @@ static INT scan_active(struct rtmp_adapter *pAd, UCHAR OpMode, UCHAR ScanType)
 		Scan next channel
 	==========================================================================
  */
-VOID ScanNextChannel(struct rtmp_adapter *pAd, UCHAR OpMode)
+VOID ScanNextChannel(struct rtmp_adapter *pAd, u8 OpMode)
 {
-	UCHAR ScanType = pAd->MlmeAux.ScanType;
+	u8 ScanType = pAd->MlmeAux.ScanType;
 	UINT ScanTimeIn5gChannel = SHORT_CHANNEL_TIME;
 	bool ScanPending = false;
 	RALINK_TIMER_STRUCT *sc_timer = NULL;
@@ -601,7 +601,7 @@ VOID ScanNextChannel(struct rtmp_adapter *pAd, UCHAR OpMode)
 			{
 				/* Enhance Connectivity & for Hidden Ssid Scanning*/
 				CHAR desiredSsid[MAX_LEN_OF_SSID], backSsid[MAX_LEN_OF_SSID];
-				UCHAR desiredSsidLen, backSsidLen;
+				u8 desiredSsidLen, backSsidLen;
 
 				desiredSsidLen= pAd->ApCfg.ApCliTab[0].CfgSsidLen;
 
@@ -669,9 +669,9 @@ bool ScanRunning(struct rtmp_adapter *pAd)
 VOID BuildEffectedChannelList(
 	IN struct rtmp_adapter *pAd)
 {
-	UCHAR		EChannel[11];
-	UCHAR		i, j, k;
-	UCHAR		UpperChannel = 0, LowerChannel = 0;
+	u8 	EChannel[11];
+	u8 	i, j, k;
+	u8 	UpperChannel = 0, LowerChannel = 0;
 
 	RTMPZeroMemory(EChannel, 11);
 	DBGPRINT(RT_DEBUG_TRACE, ("BuildEffectedChannelList:CtrlCh=%d,CentCh=%d,AuxCtrlCh=%d,AuxExtCh=%d\n",
@@ -772,7 +772,7 @@ VOID BuildEffectedChannelList(
 VOID DeleteEffectedChannelList(
 	IN struct rtmp_adapter *pAd)
 {
-	UCHAR		i;
+	u8 	i;
 	/*Clear all bEffectedChannel in ChannelList array. */
  	for (i = 0; i < pAd->ChannelListNum; i++)
 	{
@@ -784,9 +784,9 @@ VOID ScanParmFill(
 	IN struct rtmp_adapter *pAd,
 	IN OUT MLME_SCAN_REQ_STRUCT *ScanReq,
 	IN STRING Ssid[],
-	IN UCHAR SsidLen,
-	IN UCHAR BssType,
-	IN UCHAR ScanType)
+	IN u8 SsidLen,
+	IN u8 BssType,
+	IN u8 ScanType)
 {
 	memset(ScanReq->Ssid, 0, MAX_LEN_OF_SSID);
 	ScanReq->SsidLen = SsidLen;

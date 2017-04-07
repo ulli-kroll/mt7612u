@@ -80,8 +80,8 @@ VOID FrequencyCalibrationMode(
 	struct rtmp_adapter *pAd,
 	UINT8 Mode)
 {
-	UCHAR RFValue = 0;
-	UCHAR PreRFValue = 0;
+	u8 RFValue = 0;
+	u8 PreRFValue = 0;
 
 	DBGPRINT(RT_DEBUG_ERROR, ("Unknown FrqCalibration Mode\n"));
 }
