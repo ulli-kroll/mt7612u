@@ -969,7 +969,7 @@ VOID MlmeDecTxQuality(MAC_TABLE_ENTRY *pEntry, u8 rateIndex)
 }
 
 
-VOID MlmeSetTxQuality(MAC_TABLE_ENTRY *pEntry, u8 rate_idx, USHORT quality)
+VOID MlmeSetTxQuality(MAC_TABLE_ENTRY *pEntry, u8 rate_idx, unsigned short quality)
 {
 #ifdef TXBF_AWARE
 	if (pEntry->phyETxBf || pEntry->phyITxBf)
@@ -980,7 +980,7 @@ VOID MlmeSetTxQuality(MAC_TABLE_ENTRY *pEntry, u8 rate_idx, USHORT quality)
 }
 
 
-USHORT MlmeGetTxQuality(MAC_TABLE_ENTRY *pEntry, u8 rateIndex)
+unsigned short MlmeGetTxQuality(MAC_TABLE_ENTRY *pEntry, u8 rateIndex)
 {
 #ifdef TXBF_AWARE
 	if (pEntry->phyETxBf || pEntry->phyITxBf)
@@ -1344,7 +1344,7 @@ DBGPRINT(RT_DEBUG_INFO, ("%s(): txbw=%d, txmode=%d\n", __FUNCTION__, tx_bw, tx_m
 		pEntry->HTPhyMode.field.ShortGI = GI_400;
 #endif /* DBG_CTRL_SUPPORT */
 
-	pAd->LastTxRate = (USHORT)(pEntry->HTPhyMode.word);
+	pAd->LastTxRate = (unsigned short)(pEntry->HTPhyMode.word);
 
 #ifdef FIFO_EXT_SUPPORT
 	AsicFifoExtEntryClean(pAd, pEntry);
@@ -1435,7 +1435,7 @@ VOID MlmeSetTxRate(
 	}
 	else
 	{
-		USHORT OperationMode =0xffff;
+		unsigned short OperationMode =0xffff;
 
 		if ((pAd->CommonCfg.RegTransmitSetting.field.HTMODE == HTMODE_GF) &&
 			(pAd->MlmeAux.HtCapability.HtCapInfo.GF == HTMODE_GF))
@@ -2263,10 +2263,10 @@ VOID MlmeRALog(
 		if (pAd->CommonCfg.DebugFlags & DBF_DBQ_RA_LOG)
 		{
 			struct {
-				USHORT phyMode;
-				USHORT per;
-				USHORT tp;
-				USHORT bfRatio;
+				unsigned short phyMode;
+				unsigned short per;
+				unsigned short tp;
+				unsigned short bfRatio;
 			} raLogInfo;
 
 			raLogInfo.phyMode = pEntry->HTPhyMode.word;
@@ -2453,7 +2453,7 @@ VOID MlmeNewTxRate(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 	if (pAd->chipCap.FlgHwTxBfCap)
 		txbf_rate_adjust(pAd, pEntry);
 
-	pAd->LastTxRate = (USHORT)(pEntry->HTPhyMode.word);
+	pAd->LastTxRate = (unsigned short)(pEntry->HTPhyMode.word);
 
 }
 

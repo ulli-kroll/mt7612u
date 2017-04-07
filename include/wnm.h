@@ -235,8 +235,8 @@ VOID Clear_All_PROXY_TABLE(IN Pstruct rtmp_adapter pAd);
 VOID WNMIPv4ProxyARPCheck(
 			IN Pstruct rtmp_adapter pAd,
 			struct sk_buff *pPacket,
-			USHORT srcPort,
-			USHORT dstPort,
+			unsigned short srcPort,
+			unsigned short dstPort,
 			u8 *pSrcBuf);
 
 VOID WNMIPv6ProxyARPCheck(

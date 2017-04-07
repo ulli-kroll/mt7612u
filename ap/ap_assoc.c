@@ -96,7 +96,7 @@ static void ap_assoc_info_debugshow(
 }
 
 
-static USHORT update_associated_mac_entry(
+static unsigned short update_associated_mac_entry(
 	IN struct rtmp_adapter *pAd,
 	IN MAC_TABLE_ENTRY *pEntry,
 	IN IE_LISTS *ie_list,
@@ -471,14 +471,14 @@ static USHORT update_associated_mac_entry(
        others - association failed due to resource issue
     ==========================================================================
  */
-static USHORT APBuildAssociation(
+static unsigned short APBuildAssociation(
     IN struct rtmp_adapter *pAd,
     IN MAC_TABLE_ENTRY *pEntry,
     IN IE_LISTS *ie_list,
     IN u8 MaxSupportedRateIn500Kbps,
-    OUT USHORT *pAid)
+    OUT unsigned short *pAid)
 {
-	USHORT StatusCode = MLME_SUCCESS;
+	unsigned short StatusCode = MLME_SUCCESS;
 	u8 MaxSupportedRate = RATE_11;
 	struct rtmp_wifi_dev *wdev;
 
@@ -588,9 +588,9 @@ VOID ap_cmm_peer_assoc_req_action(
 {
 	IE_LISTS *ie_list = NULL;
 	HEADER_802_11 AssocRspHdr;
-	USHORT CapabilityInfoForAssocResp;
-	USHORT StatusCode = MLME_SUCCESS;
-	USHORT Aid;
+	unsigned short CapabilityInfoForAssocResp;
+	unsigned short StatusCode = MLME_SUCCESS;
+	unsigned short Aid;
 	u8 *pOutBuffer = NULL;
 	int NStatus;
 	ULONG FrameLen = 0;
@@ -932,22 +932,22 @@ SendAssocResponse:
 						  END_OF_ARGS);
 #else
 		memmove(&HtCapabilityTmp, &HtCapabilityRsp, ie_list->ht_cap_len);
-		*(USHORT *)(&HtCapabilityTmp.HtCapInfo) = SWAP16(*(USHORT *)(&HtCapabilityTmp.HtCapInfo));
+		*(unsigned short *)(&HtCapabilityTmp.HtCapInfo) = SWAP16(*(unsigned short *)(&HtCapabilityTmp.HtCapInfo));
 #ifdef UNALIGNMENT_SUPPORT
 		{
 			EXT_HT_CAP_INFO extHtCapInfo;
 
 			memmove(&extHtCapInfo, &HtCapabilityTmp.ExtHtCapInfo, sizeof(EXT_HT_CAP_INFO));
-			*(USHORT *)(&extHtCapInfo) = cpu2le16(*(USHORT *)(&extHtCapInfo));
+			*(unsigned short *)(&extHtCapInfo) = cpu2le16(*(unsigned short *)(&extHtCapInfo));
 			memmove&HtCapabilityTmp.ExtHtCapInfo, &extHtCapInfo, sizeof(EXT_HT_CAP_INFO));
 		}
 #else
-		*(USHORT *)(&HtCapabilityTmp.ExtHtCapInfo) = SWAP16(*(USHORT *)(&HtCapabilityTmp.ExtHtCapInfo));
+		*(unsigned short *)(&HtCapabilityTmp.ExtHtCapInfo) = SWAP16(*(unsigned short *)(&HtCapabilityTmp.ExtHtCapInfo));
 #endif /* UNALIGNMENT_SUPPORT */
 
 		memmove(&addHTInfoTmp, &pAd->CommonCfg.AddHTInfo, HtLen1);
-		*(USHORT *)(&addHTInfoTmp.AddHtInfo2) = SWAP16(*(USHORT *)(&addHTInfoTmp.AddHtInfo2));
-		*(USHORT *)(&addHTInfoTmp.AddHtInfo3) = SWAP16(*(USHORT *)(&addHTInfoTmp.AddHtInfo3));
+		*(unsigned short *)(&addHTInfoTmp.AddHtInfo2) = SWAP16(*(unsigned short *)(&addHTInfoTmp.AddHtInfo2));
+		*(unsigned short *)(&addHTInfoTmp.AddHtInfo3) = SWAP16(*(unsigned short *)(&addHTInfoTmp.AddHtInfo3));
 
 		MakeOutgoingFrame(pOutBuffer + FrameLen,         &TmpLen,
 							1,                           &HtCapIe,
@@ -1344,7 +1344,7 @@ VOID APPeerReassocReqAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 VOID APPeerDisassocReqAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 	u8 Addr2[MAC_ADDR_LEN];
-	USHORT Reason;
+	unsigned short Reason;
 	uint16_t SeqNum;
 	MAC_TABLE_ENTRY *pEntry;
 	struct rtmp_wifi_dev *wdev;
@@ -1391,7 +1391,7 @@ VOID APPeerDisassocReqAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
         Elem -
     ==========================================================================
  */
-VOID MbssKickOutStas(struct rtmp_adapter *pAd, INT apidx, USHORT Reason)
+VOID MbssKickOutStas(struct rtmp_adapter *pAd, INT apidx, unsigned short Reason)
 {
 	INT i;
 	PMAC_TABLE_ENTRY pEntry;
@@ -1415,7 +1415,7 @@ VOID MbssKickOutStas(struct rtmp_adapter *pAd, INT apidx, USHORT Reason)
         Elem -
     ==========================================================================
  */
-VOID APMlmeKickOutSta(struct rtmp_adapter *pAd, u8 *pStaAddr, u8 Wcid, USHORT Reason)
+VOID APMlmeKickOutSta(struct rtmp_adapter *pAd, u8 *pStaAddr, u8 Wcid, unsigned short Reason)
 {
 	HEADER_802_11 DisassocHdr;
 	u8 *pOutBuffer = NULL;
@@ -1471,7 +1471,7 @@ VOID APMlmeKickOutSta(struct rtmp_adapter *pAd, u8 *pStaAddr, u8 Wcid, USHORT Re
 
 
 #ifdef DOT11W_PMF_SUPPORT
-VOID APMlmeKickOutAllSta(struct rtmp_adapter *pAd, u8 apidx, USHORT Reason)
+VOID APMlmeKickOutAllSta(struct rtmp_adapter *pAd, u8 apidx, unsigned short Reason)
 {
     HEADER_802_11 DisassocHdr;
     u8 *pOutBuffer = NULL;
@@ -1508,7 +1508,7 @@ VOID APMlmeKickOutAllSta(struct rtmp_adapter *pAd, u8 apidx, USHORT Reason)
         {
             ULONG TmpLen;
             u8 res_buf[LEN_PMF_MMIE];
-            USHORT EID, ELen;
+            unsigned short EID, ELen;
 
             EID = IE_PMF_MMIE;
             ELen = LEN_PMF_MMIE;
@@ -1560,7 +1560,7 @@ VOID APCls3errAction(struct rtmp_adapter *pAd, ULONG Wcid, HEADER_802_11 *pHeade
     u8 *               pOutBuffer = NULL;
     ULONG                 FrameLen = 0;
     int           NStatus;
-    USHORT                Reason = REASON_CLS3ERR;
+    unsigned short                Reason = REASON_CLS3ERR;
     MAC_TABLE_ENTRY       *pEntry = NULL;
 
 	if (Wcid < MAX_LEN_OF_MAC_TABLE)

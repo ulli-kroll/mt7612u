@@ -277,12 +277,12 @@ bool RTMPCheckPhyMode(struct rtmp_adapter *pAd, UINT8 band_cap, u8 *pPhyMode)
 */
 VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 {
-	USHORT i, value, value2;
+	unsigned short i, value, value2;
 	EEPROM_VERSION_STRUC Version;
 	EEPROM_ANTENNA_STRUC Antenna;
 	EEPROM_NIC_CONFIG0_STRUC NicCfg0;
 	EEPROM_NIC_CONFIG2_STRUC NicConfig2;
-	USHORT  Addr01,Addr23,Addr45 ;
+	unsigned short  Addr01,Addr23,Addr45 ;
 	MAC_DW0_STRUC csr2;
 	MAC_DW1_STRUC csr3;
 
@@ -642,7 +642,7 @@ VOID NICInitAsicFromEEPROM(struct rtmp_adapter *pAd)
 	uint32_t data = 0;
 #endif /* CONFIG_STA_SUPPORT */
 #if defined(RT30xx)
-	USHORT i;
+	unsigned short i;
 #endif /* defined(RT30xx) */
 	EEPROM_NIC_CONFIG2_STRUC NicConfig2;
 
@@ -825,7 +825,7 @@ int NICInitializeAsic(struct rtmp_adapter *pAd, bool bHardReset)
 #ifdef RTMP_MAC_USB
 	uint32_t Counter = 0;
 #endif /* RTMP_MAC_USB */
-	USHORT KeyIdx;
+	unsigned short KeyIdx;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("--> NICInitializeAsic\n"));
 
@@ -891,7 +891,7 @@ int NICInitializeAsic(struct rtmp_adapter *pAd, bool bHardReset)
 		/*Initialize WCID table*/
 		for(Index =0 ;Index < 254;Index++)
 		{
-			RTUSBMultiWrite(pAd, (USHORT)(MAC_WCID_BASE + Index * 8), MAC_Value, 8);
+			RTUSBMultiWrite(pAd, (unsigned short)(MAC_WCID_BASE + Index * 8), MAC_Value, 8);
 		}
 	}
 #endif /* RTMP_MAC_USB */

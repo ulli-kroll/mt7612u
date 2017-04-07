@@ -252,17 +252,17 @@ typedef struct GNU_PACKED _ADD_HTINFO{
 
 typedef struct GNU_PACKED _ADD_HTINFO2{
 #ifdef RT_BIG_ENDIAN
-	USHORT	rsv2:11;
-	USHORT	OBSS_NonHTExist:1;
-	USHORT	rsv:1;
-	USHORT	NonGfPresent:1;
-	USHORT	OperaionMode:2;
+	unsigned short rsv2:11;
+	unsigned short OBSS_NonHTExist:1;
+	unsigned short rsv:1;
+	unsigned short NonGfPresent:1;
+	unsigned short OperaionMode:2;
 #else
-	USHORT	OperaionMode:2;
-	USHORT	NonGfPresent:1;
-	USHORT	rsv:1;
-	USHORT	OBSS_NonHTExist:1;
-	USHORT	rsv2:11;
+	unsigned short OperaionMode:2;
+	unsigned short NonGfPresent:1;
+	unsigned short rsv:1;
+	unsigned short OBSS_NonHTExist:1;
+	unsigned short rsv2:11;
 #endif
 } ADD_HTINFO2, *PADD_HTINFO2;
 
@@ -270,23 +270,23 @@ typedef struct GNU_PACKED _ADD_HTINFO2{
 /* TODO: Need sync with spec about the definition of StbcMcs. In Draft 3.03, it's reserved. */
 typedef struct GNU_PACKED _ADD_HTINFO3{
 #ifdef RT_BIG_ENDIAN
-	USHORT	rsv:4;
-	USHORT	PcoPhase:1;
-	USHORT	PcoActive:1;
-	USHORT	LsigTxopProt:1;
-	USHORT	STBCBeacon:1;
-	USHORT	DualCTSProtect:1;
-	USHORT	DualBeacon:1;
-	USHORT	StbcMcs:6;
+	unsigned short rsv:4;
+	unsigned short PcoPhase:1;
+	unsigned short PcoActive:1;
+	unsigned short LsigTxopProt:1;
+	unsigned short STBCBeacon:1;
+	unsigned short DualCTSProtect:1;
+	unsigned short DualBeacon:1;
+	unsigned short StbcMcs:6;
 #else
-	USHORT	StbcMcs:6;
-	USHORT	DualBeacon:1;
-	USHORT	DualCTSProtect:1;
-	USHORT	STBCBeacon:1;
-	USHORT	LsigTxopProt:1;	/* L-SIG TXOP protection full support */
-	USHORT	PcoActive:1;
-	USHORT	PcoPhase:1;
-	USHORT	rsv:4;
+	unsigned short StbcMcs:6;
+	unsigned short DualBeacon:1;
+	unsigned short DualCTSProtect:1;
+	unsigned short STBCBeacon:1;
+	unsigned short LsigTxopProt:1;	/* L-SIG TXOP protection full support */
+	unsigned short PcoActive:1;
+	unsigned short PcoPhase:1;
+	unsigned short rsv:4;
 #endif /* RT_BIG_ENDIAN */
 } ADD_HTINFO3, *PADD_HTINFO3;
 
@@ -314,13 +314,13 @@ typedef struct  GNU_PACKED _ADD_HT_INFO_IE{
 																/*	being obligated to perform OBSS Scan operations. default is 25(== 0.25%) */
 
 typedef struct GNU_PACKED _OVERLAP_BSS_SCAN_IE{
-	USHORT		ScanPassiveDwell;
-	USHORT		ScanActiveDwell;
-	USHORT		TriggerScanInt;				/* Trigger scan interval */
-	USHORT		PassiveTalPerChannel;		/* passive total per channel */
-	USHORT		ActiveTalPerChannel;		/* active total per channel */
-	USHORT		DelayFactor;				/* BSS width channel transition delay factor */
-	USHORT		ScanActThre;				/* Scan Activity threshold */
+	unsigned short 	ScanPassiveDwell;
+	unsigned short 	ScanActiveDwell;
+	unsigned short 	TriggerScanInt;				/* Trigger scan interval */
+	unsigned short 	PassiveTalPerChannel;		/* passive total per channel */
+	unsigned short 	ActiveTalPerChannel;		/* active total per channel */
+	unsigned short 	DelayFactor;				/* BSS width channel transition delay factor */
+	unsigned short 	ScanActThre;				/* Scan Activity threshold */
 }OVERLAP_BSS_SCAN_IE, *POVERLAP_BSS_SCAN_IE;
 
 

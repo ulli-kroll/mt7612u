@@ -69,8 +69,8 @@ static VOID ApCliInvalidStateWhenDisassociate(
 static VOID ApCliAssocPostProc(
 	IN struct rtmp_adapter *pAd,
 	IN u8 *pAddr2,
-	IN USHORT CapabilityInfo,
-	IN USHORT IfIndex,
+	IN unsigned short CapabilityInfo,
+	IN unsigned short IfIndex,
 	IN u8 SupRate[],
 	IN u8 SupRateLen,
 	IN u8 ExtRate[],
@@ -186,9 +186,9 @@ static VOID ApCliMlmeAssocReqAction(
 	u8            ApAddr[6];
 	HEADER_802_11    AssocHdr;
 	u8            WmeIe[9] = {IE_VENDOR_SPECIFIC, 0x07, 0x00, 0x50, 0xf2, 0x02, 0x00, 0x01, 0x00};
-	USHORT           ListenIntv;
+	unsigned short           ListenIntv;
 	ULONG            Timeout;
-	USHORT           CapabilityInfo;
+	unsigned short           CapabilityInfo;
 	u8 *          pOutBuffer = NULL;
 	ULONG            FrameLen = 0;
 	ULONG            tmp;
@@ -196,10 +196,10 @@ static VOID ApCliMlmeAssocReqAction(
 	u8            SupRateIe = IE_SUPP_RATES;
 	u8            ExtRateIe = IE_EXT_SUPP_RATES;
 	APCLI_CTRL_MSG_STRUCT ApCliCtrlMsg;
-	USHORT ifIndex = (USHORT)(Elem->Priv);
+	unsigned short ifIndex = (unsigned short)(Elem->Priv);
 	PULONG pCurrState = NULL;
 #ifdef WPA_SUPPLICANT_SUPPORT
-	USHORT			VarIesOffset = 0;
+	unsigned short 		VarIesOffset = 0;
 #endif /* WPA_SUPPLICANT_SUPPORT */
 	u8 RSNIe = IE_WPA;
 	APCLI_STRUCT *apcli_entry;
@@ -281,8 +281,8 @@ static VOID ApCliMlmeAssocReqAction(
 			memmove(&HtCapabilityTmp, &apcli_entry->MlmeAux.HtCapability, apcli_entry->MlmeAux.HtCapabilityLen);
 
 #ifdef RT_BIG_ENDIAN
-        		*(USHORT *)(&HtCapabilityTmp.HtCapInfo) = SWAP16(*(USHORT *)(&HtCapabilityTmp.HtCapInfo));
-        		*(USHORT *)(&HtCapabilityTmp.ExtHtCapInfo) = SWAP16(*(USHORT *)(&HtCapabilityTmp.ExtHtCapInfo));
+        		*(unsigned short *)(&HtCapabilityTmp.HtCapInfo) = SWAP16(*(unsigned short *)(&HtCapabilityTmp.HtCapInfo));
+        		*(unsigned short *)(&HtCapabilityTmp.ExtHtCapInfo) = SWAP16(*(unsigned short *)(&HtCapabilityTmp.ExtHtCapInfo));
 #endif /* RT_BIG_ENDINA */
         		MakeOutgoingFrame(pOutBuffer + FrameLen,         &TmpLen,
         							1,                           &HtCapIe,
@@ -535,7 +535,7 @@ static VOID ApCliMlmeDisassocReqAction(
 	ULONG                 FrameLen = 0;
 	int           NStatus;
 	APCLI_CTRL_MSG_STRUCT ApCliCtrlMsg;
-	USHORT ifIndex = (USHORT)(Elem->Priv);
+	unsigned short ifIndex = (unsigned short)(Elem->Priv);
 	PULONG pCurrState = NULL;
 
 	if ((ifIndex >= MAX_APCLI_NUM)
@@ -611,7 +611,7 @@ static VOID ApCliPeerAssocRspAction(
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	bool				Cancelled;
-	USHORT				CapabilityInfo, Status, Aid;
+	unsigned short 			CapabilityInfo, Status, Aid;
 	u8 			SupRate[MAX_LEN_OF_SUPPORTED_RATES], SupRateLen;
 	u8 			ExtRate[MAX_LEN_OF_SUPPORTED_RATES], ExtRateLen;
 	u8 			Addr2[MAC_ADDR_LEN];
@@ -623,7 +623,7 @@ static VOID ApCliPeerAssocRspAction(
 	u8 			HtCapabilityLen;
 	u8 			AddHtInfoLen;
 	u8 			NewExtChannelOffset = 0xff;
-	USHORT ifIndex = (USHORT)(Elem->Priv);
+	unsigned short ifIndex = (unsigned short)(Elem->Priv);
 	ULONG *pCurrState = NULL;
 	PAPCLI_STRUCT pApCliEntry = NULL;
 	IE_LISTS *ie_list = NULL;
@@ -723,8 +723,8 @@ static VOID ApCliPeerDisassocAction(
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	u8         Addr2[MAC_ADDR_LEN];
-	USHORT        Reason;
-	USHORT ifIndex = (USHORT)(Elem->Priv);
+	unsigned short        Reason;
+	unsigned short ifIndex = (unsigned short)(Elem->Priv);
 	ULONG *pCurrState = NULL;
 
 	if ((ifIndex >= MAX_APCLI_NUM)
@@ -764,7 +764,7 @@ static VOID ApCliAssocTimeoutAction(
 	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
-	USHORT ifIndex = (USHORT)(Elem->Priv);
+	unsigned short ifIndex = (unsigned short)(Elem->Priv);
 	PULONG pCurrState = NULL;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("APCLI_ASSOC - ApCliAssocTimeoutAction\n"));
@@ -788,7 +788,7 @@ static VOID ApCliInvalidStateWhenAssoc(
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	APCLI_CTRL_MSG_STRUCT ApCliCtrlMsg;
-	USHORT ifIndex = (USHORT)(Elem->Priv);
+	unsigned short ifIndex = (unsigned short)(Elem->Priv);
 	PULONG pCurrState = NULL;
 
 	if ((ifIndex >= MAX_APCLI_NUM)
@@ -814,7 +814,7 @@ static VOID ApCliInvalidStateWhenDisassociate(
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	APCLI_CTRL_MSG_STRUCT ApCliCtrlMsg;
-	USHORT ifIndex = (USHORT)(Elem->Priv);
+	unsigned short ifIndex = (unsigned short)(Elem->Priv);
 	ULONG *pCurrState = NULL;
 
 	if ((ifIndex >= MAX_APCLI_NUM)
@@ -845,8 +845,8 @@ static VOID ApCliInvalidStateWhenDisassociate(
 static VOID ApCliAssocPostProc(
 	IN struct rtmp_adapter *pAd,
 	IN u8 *pAddr2,
-	IN USHORT CapabilityInfo,
-	IN USHORT IfIndex,
+	IN unsigned short CapabilityInfo,
+	IN unsigned short IfIndex,
 	IN u8 SupRate[],
 	IN u8 SupRateLen,
 	IN u8 ExtRate[],

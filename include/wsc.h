@@ -55,7 +55,7 @@ typedef struct GNU_PACKED _WSC_UPNP_CTRL_WSC_BAND_STOP
 
 /* structure to store Simple Config Attributes Info */
 typedef struct GNU_PACKED _WSC_LV_INFO {
-    USHORT  ValueLen;
+    unsigned short  ValueLen;
     u8   Value[512];
 } WSC_LV_INFO;
 
@@ -68,8 +68,8 @@ typedef struct GNU_PACKED _WSC_IE_HEADER {
 /* WSC IE structure */
 typedef	struct GNU_PACKED _WSC_IE
 {
-	USHORT	Type;
-	USHORT	Length;
+	unsigned short Type;
+	unsigned short Length;
 	u8 Data[1];	/* variable length data */
 }	WSC_IE, *PWSC_IE;
 
@@ -86,7 +86,7 @@ typedef	struct GNU_PACKED _WSC_FRAME
 typedef	struct GNU_PACKED _EAP_FRAME	{
 	u8 Code;						/* 1 = Request, 2 = Response */
 	u8 Id;
-	USHORT	Length;
+	unsigned short Length;
 	u8 Type;						/* 1 = Identity, 0xfe = reserved, used by WSC */
 }	EAP_FRAME, *PEAP_FRAME;
 

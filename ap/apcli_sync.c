@@ -56,7 +56,7 @@ static VOID ApCliEnqueueProbeRequest(
 	IN struct rtmp_adapter *pAd,
 	IN u8 SsidLen,
 	OUT PCHAR Ssid,
-	IN USHORT ifIndex);
+	IN unsigned short ifIndex);
 
 DECLARE_TIMER_FUNCTION(ApCliProbeTimeout);
 BUILD_TIMER_FUNCTION(ApCliProbeTimeout);
@@ -156,7 +156,7 @@ static VOID ApCliMlmeProbeReqAction(
 {
 	bool Cancelled;
 	APCLI_MLME_JOIN_REQ_STRUCT *Info = (APCLI_MLME_JOIN_REQ_STRUCT *)(Elem->Msg);
-	USHORT ifIndex = (USHORT)(Elem->Priv);
+	unsigned short ifIndex = (unsigned short)(Elem->Priv);
 	PULONG pCurrState = &pAd->ApCfg.ApCliTab[ifIndex].SyncCurrState;
 	APCLI_STRUCT *pApCliEntry = NULL;
 
@@ -244,14 +244,14 @@ static VOID ApCliPeerProbeRspAtJoinAction(
 	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
-	USHORT LenVIE;
+	unsigned short LenVIE;
 	u8 *VarIE = NULL;
 	NDIS_802_11_VARIABLE_IEs *pVIE = NULL;
 	APCLI_CTRL_MSG_STRUCT ApCliCtrlMsg;
 	PAPCLI_STRUCT pApCliEntry = NULL;
 	struct rtmp_wifi_dev *wdev;
 	u8 CentralChannel;
-	USHORT ifIndex = (USHORT)(Elem->Priv);
+	unsigned short ifIndex = (unsigned short)(Elem->Priv);
 	ULONG *pCurrState;
 	BCN_IE_LIST *ie_list = NULL;
 
@@ -538,7 +538,7 @@ static VOID ApCliProbeTimeoutAtJoinAction(
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	APCLI_CTRL_MSG_STRUCT ApCliCtrlMsg;
-	USHORT ifIndex = (USHORT)(Elem->Priv);
+	unsigned short ifIndex = (unsigned short)(Elem->Priv);
 	PULONG pCurrState = &pAd->ApCfg.ApCliTab[ifIndex].SyncCurrState;
 	APCLI_STRUCT *pApCliEntry = NULL;
 
@@ -582,7 +582,7 @@ static VOID ApCliInvalidStateWhenJoin(
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	APCLI_CTRL_MSG_STRUCT ApCliCtrlMsg;
-	USHORT ifIndex = (USHORT)(Elem->Priv);
+	unsigned short ifIndex = (unsigned short)(Elem->Priv);
 	PULONG pCurrState = &pAd->ApCfg.ApCliTab[ifIndex].SyncCurrState;
 
 	*pCurrState = APCLI_SYNC_IDLE;
@@ -605,7 +605,7 @@ static VOID ApCliEnqueueProbeRequest(
 	IN struct rtmp_adapter *pAd,
 	IN u8 SsidLen,
 	OUT PCHAR Ssid,
-	IN USHORT ifIndex)
+	IN unsigned short ifIndex)
 {
 	int     NState;
 	u8 *         pOutBuffer;

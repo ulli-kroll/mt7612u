@@ -442,7 +442,7 @@ bool RTMPSoftDecryptAES(
 	UINT			payload_len;
 	UINT			num_blocks;
 	UINT			payload_remainder;
-	USHORT			fc;
+	unsigned short 		fc;
 	u8 		fc0;
 	u8 		fc1;
 	UINT			frame_type;

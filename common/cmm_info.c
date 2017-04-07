@@ -587,7 +587,7 @@ INT	Set_RTSThreshold_Proc(
 	RtsThresh = simple_strtol(arg, 0, 10);
 
 	if((RtsThresh > 0) && (RtsThresh <= MAX_RTS_THRESHOLD))
-		pAd->CommonCfg.RtsThreshold  = (USHORT)RtsThresh;
+		pAd->CommonCfg.RtsThreshold  = (unsigned short)RtsThresh;
 #ifdef CONFIG_STA_SUPPORT
 	else if (RtsThresh == 0)
 		pAd->CommonCfg.RtsThreshold = MAX_RTS_THRESHOLD;
@@ -628,11 +628,11 @@ INT	Set_FragThreshold_Proc(
 			except for the last fragment of an MSDU or MMPDU, which may be either
 			an even or an odd number of octets.
 		*/
-		pAd->CommonCfg.FragmentThreshold = (USHORT)(FragThresh - 1);
+		pAd->CommonCfg.FragmentThreshold = (unsigned short)(FragThresh - 1);
 	}
 	else
 	{
-		pAd->CommonCfg.FragmentThreshold = (USHORT)FragThresh;
+		pAd->CommonCfg.FragmentThreshold = (unsigned short)FragThresh;
 	}
 
 #ifdef CONFIG_STA_SUPPORT
@@ -3149,7 +3149,7 @@ void dbQueueEnqueueRxFrame(u8 *pRxWI, u8 *pHeader_802_11, ULONG flags)
 
 
 /* dbQueueDisplayPhy - Display PHY rate */
-static void dbQueueDisplayPHY(USHORT phyRate)
+static void dbQueueDisplayPHY(unsigned short phyRate)
 {
 	static CHAR *mode[4] = {" C", "oM","mM", "gM"};
 
@@ -3173,7 +3173,7 @@ static void dbQueueDump(
 	int i, origMCS, succMCS;
 	ULONG lastTimestamp=0;
 	bool showTimestamp;
-	USHORT phyRate;
+	unsigned short phyRate;
 
 	if (dbqInit!=DBQ_INIT_SIG || dbqTail>=DBQ_LENGTH)
 		return;
@@ -3303,7 +3303,7 @@ static void dbQueueDump(
 			break;
 		case 0x7E:	/* RA Log info */
 			{
-				struct {USHORT phy; USHORT per; USHORT tp; USHORT bfPer;} *p = (void*)(oldTail->data);
+				struct {unsigned short phy; unsigned short per; unsigned short tp; unsigned short bfPer;} *p = (void*)(oldTail->data);
 				DBGPRINT(RT_DEBUG_OFF, ("RALog %02X%02X %d %d %d    ",
 											(p->phy>>8) & 0xFF, p->phy & 0xFF, p->per, p->tp, p->bfPer) );
 			}
@@ -3514,7 +3514,7 @@ char *RTMPGetRalinkAuthModeStr(
 }
 
 char *RTMPGetRalinkEncryModeStr(
-    IN  USHORT encryMode)
+    IN  unsigned short encryMode)
 {
 	switch(encryMode)
 	{
@@ -4539,13 +4539,13 @@ INT	Set_Trigger_Sounding_Proc(
 	return true;
 }
 
-USHORT  PFMU_TimeOut;
+unsigned short  PFMU_TimeOut;
 u8 MatrixForm[5];
 u8 StsSnr[2];
 u8 TxScale[4];
 u8 macAddr[MAC_ADDR_LEN];
 u8   FlgStatus[4];
-USHORT  CMDInIdx = 0, dCMDInIdx = 0;
+unsigned short  CMDInIdx = 0, dCMDInIdx = 0;
 u8   psi21;
 u8   phill;
 

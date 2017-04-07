@@ -730,8 +730,8 @@ bool IPv6ProxyARP(IN struct rtmp_adapter *pAd,
 VOID WNMIPv4ProxyARPCheck(
 			IN struct rtmp_adapter *pAd,
 			struct sk_buff *pPacket,
-			USHORT srcPort,
-			USHORT dstPort,
+			unsigned short srcPort,
+			unsigned short dstPort,
 			u8 *pSrcBuf)
 {
 	u8 apidx = RTMP_GET_PACKET_NET_DEVICE(pPacket);

@@ -915,7 +915,7 @@ VOID AP_AMPDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 {
 	HEADER_802_11 *pHeader_802_11;
 	u8 *pHeaderBufPtr;
-	USHORT freeCnt = 1;
+	unsigned short freeCnt = 1;
 	MAC_TABLE_ENTRY *pMacEntry;
 	PQUEUE_ENTRY pQEntry;
 	bool	 bHTCPlus = false;
@@ -1271,7 +1271,7 @@ VOID AP_AMPDU_Frame_Tx_Hdr_Trns(
 {
 	u8 *		pWiBufPtr;
 /*	u8 		QueIdx = pTxBlk->QueIdx; */
-	USHORT			FreeNumber = 1; /* no use */
+	unsigned short 		FreeNumber = 1; /* no use */
 	MAC_TABLE_ENTRY	*pMacEntry;
 	PQUEUE_ENTRY	pQEntry;
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
@@ -1449,11 +1449,11 @@ VOID AP_AMPDU_Frame_Tx_Hdr_Trns(
 VOID AP_AMSDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 {
 	u8 *pHeaderBufPtr, *subFrameHeader;
-	USHORT freeCnt = 1; /* no use */
-	USHORT subFramePayloadLen = 0;	/* AMSDU Subframe length without AMSDU-Header / Padding. */
-	USHORT totalMPDUSize=0;
+	unsigned short freeCnt = 1; /* no use */
+	unsigned short subFramePayloadLen = 0;	/* AMSDU Subframe length without AMSDU-Header / Padding. */
+	unsigned short totalMPDUSize=0;
 	u8 padding = 0;
-	USHORT FirstTx = 0, LastTxIdx = 0;
+	unsigned short FirstTx = 0, LastTxIdx = 0;
 	int frameNum = 0;
 	PQUEUE_ENTRY pQEntry;
 
@@ -1647,7 +1647,7 @@ VOID AP_Legacy_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 {
 	HEADER_802_11 *wifi_hdr;
 	u8 *pHeaderBufPtr;
-	USHORT freeCnt = 1;
+	unsigned short freeCnt = 1;
 	bool bVLANPkt;
 	QUEUE_ENTRY *pQEntry;
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
@@ -1946,7 +1946,7 @@ VOID AP_Legacy_Frame_Tx_Hdr_Trns(
 	IN	TX_BLK			*pTxBlk)
 {
 /*	u8 		QueIdx = pTxBlk->QueIdx; */
-	USHORT			FreeNumber = 1; /* no use */
+	unsigned short 		FreeNumber = 1; /* no use */
 	bool			bVLANPkt;
 	PQUEUE_ENTRY	pQEntry;
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
@@ -2101,11 +2101,11 @@ VOID AP_Fragment_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 {
 	HEADER_802_11 *pHeader_802_11;
 	u8 *pHeaderBufPtr;
-	USHORT freeCnt = 1; /* no use */
+	unsigned short freeCnt = 1; /* no use */
 	u8 fragNum = 0;
-	USHORT EncryptionOverhead = 0;
+	unsigned short EncryptionOverhead = 0;
 	uint32_t FreeMpduSize, SrcRemainingBytes;
-	USHORT AckDuration;
+	unsigned short AckDuration;
 	UINT NextMpduSize;
 	bool bVLANPkt;
 	PQUEUE_ENTRY pQEntry;
@@ -2473,9 +2473,9 @@ VOID AP_Fragment_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 VOID AP_ARalink_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 {
 	u8 *pHeaderBufPtr;
-	USHORT freeCnt = 1; /* no use */
-	USHORT totalMPDUSize=0;
-	USHORT FirstTx, LastTxIdx;
+	unsigned short freeCnt = 1; /* no use */
+	unsigned short totalMPDUSize=0;
+	unsigned short FirstTx, LastTxIdx;
 	int frameNum = 0;
 	bool bVLANPkt;
 	PQUEUE_ENTRY pQEntry;
@@ -3307,7 +3307,7 @@ bool APCheckTkipMICValue(
 {
 	PHEADER_802_11	pHeader = pRxBlk->pHeader;
 	u8 		*pData = pRxBlk->pData;
-	USHORT			DataSize = pRxBlk->DataSize;
+	unsigned short 		DataSize = pRxBlk->DataSize;
 	u8 		UserPriority = pRxBlk->UserPriority;
 	PCIPHER_KEY		pWpaKey;
 	u8 		*pDA, *pSA;
@@ -4182,7 +4182,7 @@ VOID ApCliRTMPSendNullFrame(
 	IN	u8 		TxRate,
 	IN	bool 		bQosNull,
 	IN 	PMAC_TABLE_ENTRY pMacEntry,
-	IN 	USHORT		PwrMgmt)
+	IN 	unsigned short 	PwrMgmt)
 {
 	u8 NullFrame[48];
 	ULONG	Length;

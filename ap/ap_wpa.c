@@ -124,7 +124,7 @@ bool RTMPCheckUcast(
     IN MAC_TABLE_ENTRY	*pEntry)
 {
 	u8 *	pStaTmp;
-	USHORT	Count;
+	unsigned short Count;
 	u8 	apidx;
 	struct rtmp_wifi_dev *wdev;
 
@@ -163,12 +163,12 @@ bool RTMPCheckUcast(
 	}
 
 	/* Store unicast cipher count */
-    memmove(&Count, pStaTmp, sizeof(USHORT));
+    memmove(&Count, pStaTmp, sizeof(unsigned short));
     Count = cpu2le16(Count);
 
 
 	/* pointer to unicast cipher */
-    pStaTmp += sizeof(USHORT);
+    pStaTmp += sizeof(unsigned short);
 
     if (eid_ptr->Len >= 16)
     {
@@ -304,7 +304,7 @@ bool RTMPCheckUcast(
 bool RTMPCheckAKM(u8 *sta_akm, u8 *ap_rsn_ie, INT iswpa2)
 {
 	u8 *pTmp;
-	USHORT Count;
+	unsigned short Count;
 
 	pTmp = ap_rsn_ie;
 
@@ -315,10 +315,10 @@ bool RTMPCheckAKM(u8 *sta_akm, u8 *ap_rsn_ie, INT iswpa2)
     /*skip OUI(4),Vesrion(2),Multicast cipher(4) 4+2+4==10 */
         pTmp += 10;/*point to number of unicast */
 
-    memmove(&Count, pTmp, sizeof(USHORT));
+    memmove(&Count, pTmp, sizeof(unsigned short));
     Count = cpu2le16(Count);
 
-    pTmp   += sizeof(USHORT);/*pointer to unicast cipher */
+    pTmp   += sizeof(unsigned short);/*pointer to unicast cipher */
 
     /* Skip all unicast cipher suite */
     while (Count > 0)
@@ -328,10 +328,10 @@ bool RTMPCheckAKM(u8 *sta_akm, u8 *ap_rsn_ie, INT iswpa2)
 		Count--;
 	}
 
-	memmove(&Count, pTmp, sizeof(USHORT));
+	memmove(&Count, pTmp, sizeof(unsigned short));
     Count = cpu2le16(Count);
 
-    pTmp   += sizeof(USHORT);/*pointer to AKM cipher */
+    pTmp   += sizeof(unsigned short);/*pointer to AKM cipher */
     while (Count > 0)
     {
 		/*rtmp_hexdump(RT_DEBUG_TRACE,"MBSS WPA_IE AKM ",pTmp,4); */
@@ -363,7 +363,7 @@ bool RTMPCheckAUTH(
     IN MAC_TABLE_ENTRY	*pEntry)
 {
 	u8 *pStaTmp;
-	USHORT Count;
+	unsigned short Count;
 	u8 	apidx;
 
 	ASSERT(pEntry);
@@ -398,11 +398,11 @@ bool RTMPCheckAUTH(
 	}
 
 	/* Store unicast cipher count */
-    memmove(&Count, pStaTmp, sizeof(USHORT));
+    memmove(&Count, pStaTmp, sizeof(unsigned short));
     Count = cpu2le16(Count);
 
 	/* pointer to unicast cipher */
-    pStaTmp += sizeof(USHORT);
+    pStaTmp += sizeof(unsigned short);
 
     /* Skip all unicast cipher suite */
     while (Count > 0)
@@ -413,11 +413,11 @@ bool RTMPCheckAUTH(
 	}
 
 	/* Store AKM count */
-	memmove(&Count, pStaTmp, sizeof(USHORT));
+	memmove(&Count, pStaTmp, sizeof(unsigned short));
     Count = cpu2le16(Count);
 
 	/*pointer to AKM cipher */
-    pStaTmp += sizeof(USHORT);
+    pStaTmp += sizeof(unsigned short);
 
     if (eid_ptr->Len >= 16)
     {
@@ -838,7 +838,7 @@ VOID GREKEYPeriodicExec(
 		pMbss->RekeyCountDown--;
 		if (pMbss->RekeyCountDown == 0)
 		{
-			USHORT	Wcid;
+			unsigned short Wcid;
 
 			/* Get a specific WCID to record this MBSS key attribute */
 			GET_GroupKey_WCID(pAd, Wcid, apidx);

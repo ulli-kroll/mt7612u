@@ -42,7 +42,7 @@ INT CFG80211DRV_IoctlHandle(
 	IN	struct rtmp_adapter			*pAd,
 	IN	RTMP_IOCTL_INPUT_STRUCT	*wrq,
 	IN	INT						cmd,
-	IN	USHORT					subcmd,
+	IN	unsigned short 				subcmd,
 	IN	VOID					*pData,
 	IN	ULONG					Data)
 {
@@ -425,7 +425,7 @@ VOID CFG80211DRV_OpsChangeBssParm(
 		CFG80211DBG(RT_DEBUG_TRACE, ("%s: ShortPreamble %d\n", __FUNCTION__, pBssInfo->use_short_preamble));
         	pAd->CommonCfg.TxPreamble = (pBssInfo->use_short_preamble == 0 ? Rt802_11PreambleLong : Rt802_11PreambleShort);
 		TxPreamble = (pAd->CommonCfg.TxPreamble == Rt802_11PreambleLong ? 0 : 1);
-		MlmeSetTxPreamble(pAd, (USHORT)pAd->CommonCfg.TxPreamble);
+		MlmeSetTxPreamble(pAd, (unsigned short)pAd->CommonCfg.TxPreamble);
 	}
 
 	/* CTS Protection */
@@ -1546,7 +1546,7 @@ bool CFG80211_checkScanTable(
 	bool isOk = false;
 	BSS_ENTRY *pBssEntry;
 
-	USHORT ifIndex = 0;
+	unsigned short ifIndex = 0;
 	PAPCLI_STRUCT pApCliEntry = NULL;
 	pApCliEntry = &pAd->ApCfg.ApCliTab[ifIndex];
 

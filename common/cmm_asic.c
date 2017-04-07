@@ -233,14 +233,14 @@ typedef enum _PROT_REG_IDX_{
 
 VOID AsicUpdateProtect(
 	IN struct rtmp_adapter *pAd,
-	IN USHORT OperationMode,
+	IN unsigned short OperationMode,
 	IN u8 SetMask,
 	IN bool bDisableBGProtect,
 	IN bool bNonGFExist)
 {
 	PROT_CFG_STRUC	ProtCfg, ProtCfg4;
 	uint32_t Protect[6], PhyMode = 0x4000;
-	USHORT offset;
+	unsigned short offset;
 	u8 i;
 	uint32_t MacReg = 0;
 	PROT_CFG_STRUC vht_port_cfg = {.word = 0};
@@ -746,7 +746,7 @@ VOID AsicLockChannel(
  */
 VOID AsicSleepThenAutoWakeup(
 	IN struct rtmp_adapter *pAd,
-	IN USHORT TbttNumToNextWakeUp)
+	IN unsigned short TbttNumToNextWakeUp)
 {
 	RTMP_STA_SLEEP_THEN_AUTO_WAKEUP(pAd, TbttNumToNextWakeUp);
 }
@@ -1185,7 +1185,7 @@ VOID AsicEnableIbssSync(struct rtmp_adapter *pAd)
 	u8 *ptr;
 	UINT i;
 	ULONG beaconBaseLocation = 0;
-	USHORT beaconLen = 0;
+	unsigned short beaconLen = 0;
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
 
 	beaconLen = pAd->BeaconTxWI.TXWI_N.MPDUtotalByteCnt;
@@ -1686,8 +1686,8 @@ VOID AsicSetSlotTime(
 #ifdef CONFIG_AP_SUPPORT
 VOID RTMPGetTxTscFromAsic(struct rtmp_adapter *pAd, u8 apidx, u8 *pTxTsc)
 {
-	USHORT Wcid;
-	USHORT offset;
+	unsigned short Wcid;
+	unsigned short offset;
 	u8 IvEiv[8];
 	INT i;
 
@@ -1931,7 +1931,7 @@ VOID AsicRemoveSharedKeyEntry(
 
 VOID AsicUpdateWCIDIVEIV(
 	IN struct rtmp_adapter *pAd,
-	IN USHORT		WCID,
+	IN unsigned short 	WCID,
 	IN ULONG        uIV,
 	IN ULONG        uEIV)
 {
@@ -1953,7 +1953,7 @@ VOID AsicUpdateWCIDIVEIV(
 
 VOID AsicUpdateRxWCIDTable(
 	IN struct rtmp_adapter *pAd,
-	IN USHORT WCID,
+	IN unsigned short WCID,
 	IN u8 *pAddr)
 {
 	ULONG offset;
@@ -1993,7 +1993,7 @@ VOID AsicUpdateWcidAttributeEntry(
 	IN	UINT8			KeyTabFlag)
 {
 	WCID_ATTRIBUTE_STRUC WCIDAttri;
-	USHORT offset;
+	unsigned short offset;
 	uint32_t wcid_attr_base = 0, wcid_attr_size = 0;
 
 	wcid_attr_base = RLT_MAC_WCID_ATTRIBUTE_BASE;
@@ -2252,7 +2252,7 @@ VOID AsicSetRxAnt(
 
 
 
-VOID AsicSetTxPreamble(struct rtmp_adapter *pAd, USHORT TxPreamble)
+VOID AsicSetTxPreamble(struct rtmp_adapter *pAd, unsigned short TxPreamble)
 {
 	AUTO_RSP_CFG_STRUC csr4;
 
@@ -2331,7 +2331,7 @@ VOID AsicWOWSendNullFrame(
 	u8 *NullFrame;
 	UINT8  packet_len;
 	u8 *ptr;
-	USHORT offset;
+	unsigned short offset;
 	uint32_t cipher = pAd->StaCfg.GroupCipher;
 	uint32_t Value;
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
@@ -2578,7 +2578,7 @@ INT AsicReadAggCnt(struct rtmp_adapter *pAd, ULONG *aggCnt, int cnt_len)
 	uint32_t reg_addr;
 	TX_AGG_CNT_STRUC reg_val;
 	int i, cnt, seg;
-	static USHORT aggReg[] = {
+	static unsigned short aggReg[] = {
 						TX_AGG_CNT, TX_AGG_CNT3,
 #if MAX_AGG_CNT > 8
 						TX_AGG_CNT4, TX_AGG_CNT7,
@@ -2593,7 +2593,7 @@ INT AsicReadAggCnt(struct rtmp_adapter *pAd, ULONG *aggCnt, int cnt_len)
 
 
 	memset(aggCnt, 0, cnt_len * sizeof(ULONG));
-	seg = (sizeof(aggReg) /sizeof(USHORT));
+	seg = (sizeof(aggReg) /sizeof(unsigned short));
 
 	cnt = 0;
 	for (i = 0; i < seg; i += 2)
@@ -2958,7 +2958,7 @@ VOID RT28xxAndesWOWDisable(
 #ifdef DROP_MASK_SUPPORT
 VOID asic_set_drop_mask(
 	struct rtmp_adapter *ad,
-	USHORT	wcid,
+	unsigned short wcid,
 	bool enable)
 {
 	uint32_t mac_reg = 0, reg_id, group_index;
@@ -2997,7 +2997,7 @@ VOID asic_drop_mask_reset(
 #ifdef MULTI_CLIENT_SUPPORT
 VOID asic_change_tx_retry(
 	IN struct rtmp_adapter *pAd,
-	IN USHORT num)
+	IN unsigned short num)
 {
 	uint32_t TxRtyCfg, MacReg = 0;
 
@@ -3042,7 +3042,7 @@ VOID asic_change_tx_retry(
 
 VOID pkt_aggr_num_change(
 	IN struct rtmp_adapter *pAd,
-	IN USHORT num)
+	IN unsigned short num)
 {
 	if (IS_RT6352(pAd))
 	{
@@ -3068,7 +3068,7 @@ VOID pkt_aggr_num_change(
 
 VOID asic_tune_be_wmm(
 	IN struct rtmp_adapter *pAd,
-	IN USHORT num)
+	IN unsigned short num)
 {
 	u8  bssCwmin = 4, apCwmin = 4, apCwmax = 6;
 

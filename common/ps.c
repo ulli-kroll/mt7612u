@@ -110,7 +110,7 @@ VOID RtmpCleanupPsQueue(struct rtmp_adapter *pAd, QUEUE_HEADER *pQueue)
 	is received from a WSTA which has MAC address FF:FF:FF:FF:FF:FF
   ========================================================================
 */
-VOID RtmpHandleRxPsPoll(struct rtmp_adapter *pAd, u8 *pAddr, USHORT wcid, bool isActive)
+VOID RtmpHandleRxPsPoll(struct rtmp_adapter *pAd, u8 *pAddr, unsigned short wcid, bool isActive)
 {
 	QUEUE_ENTRY *pQEntry;
 	MAC_TABLE_ENTRY *pMacEntry;

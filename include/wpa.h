@@ -235,7 +235,7 @@ int RtmpPasswordHash(
 	IN uint8_t * data,
 	IN INT data_len,
 	OUT uint8_t * output,
-	IN USHORT len);
+	IN unsigned short len);
 
 uint8_t * WPA_ExtractSuiteFromRSNIE(
 	IN uint8_t * rsnie,
@@ -402,8 +402,8 @@ bool rtmp_chk_tkip_mic(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry, RX_BLK
 INT WpaCheckEapCode(
 	IN  struct rtmp_adapter *pAd,
 	IN  u8 *pFrame,
-	IN  USHORT FrameLen,
-	IN  USHORT OffSet);
+	IN  unsigned short FrameLen,
+	IN  unsigned short OffSet);
 #endif /* WPA_SUPPLICANT_SUPPORT */
 
 

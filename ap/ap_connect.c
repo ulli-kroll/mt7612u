@@ -533,7 +533,7 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 #ifdef RT_BIG_ENDIAN
 		HT_CAPABILITY_IE HtCapabilityTmp;
 		ADD_HT_INFO_IE	addHTInfoTmp;
-/*		USHORT	b2lTmp, b2lTmp2; // no use */
+/*		unsigned short b2lTmp, b2lTmp2; // no use */
 #endif
 
 		/* add HT Capability IE */
@@ -550,22 +550,22 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 						  END_OF_ARGS);
 #else
 		memmove(&HtCapabilityTmp, &pComCfg->HtCapability, HtLen);
-		*(USHORT *)(&HtCapabilityTmp.HtCapInfo) = SWAP16(*(USHORT *)(&HtCapabilityTmp.HtCapInfo));
+		*(unsigned short *)(&HtCapabilityTmp.HtCapInfo) = SWAP16(*(unsigned short *)(&HtCapabilityTmp.HtCapInfo));
 #ifdef UNALIGNMENT_SUPPORT
 		{
 			EXT_HT_CAP_INFO extHtCapInfo;
 
 			memmove(&extHtCapInfo), &HtCapabilityTmp.ExtHtCapInfo, sizeof(EXT_HT_CAP_INFO));
-			*(USHORT *)(&extHtCapInfo) = cpu2le16(*(USHORT *)(&extHtCapInfo));
+			*(unsigned short *)(&extHtCapInfo) = cpu2le16(*(unsigned short *)(&extHtCapInfo));
 			memmove(&HtCapabilityTmp.ExtHtCapInfo), &extHtCapInfo, sizeof(EXT_HT_CAP_INFO));
 		}
 #else
-		*(USHORT *)(&HtCapabilityTmp.ExtHtCapInfo) = SWAP16(*(USHORT *)(&HtCapabilityTmp.ExtHtCapInfo));
+		*(unsigned short *)(&HtCapabilityTmp.ExtHtCapInfo) = SWAP16(*(unsigned short *)(&HtCapabilityTmp.ExtHtCapInfo));
 #endif /* UNALIGNMENT_SUPPORT */
 
 		memmove(&addHTInfoTmp, &pComCfg->AddHTInfo, HtLen1);
-		*(USHORT *)(&addHTInfoTmp.AddHtInfo2) = SWAP16(*(USHORT *)(&addHTInfoTmp.AddHtInfo2));
-		*(USHORT *)(&addHTInfoTmp.AddHtInfo3) = SWAP16(*(USHORT *)(&addHTInfoTmp.AddHtInfo3));
+		*(unsigned short *)(&addHTInfoTmp.AddHtInfo2) = SWAP16(*(unsigned short *)(&addHTInfoTmp.AddHtInfo2));
+		*(unsigned short *)(&addHTInfoTmp.AddHtInfo3) = SWAP16(*(unsigned short *)(&addHTInfoTmp.AddHtInfo3));
 
 		MakeOutgoingFrame(pBeaconFrame+FrameLen,         &TmpLen,
 								  1,                                &HtCapIe,
@@ -787,17 +787,17 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 						  END_OF_ARGS);
 #else
 			memmove(&HtCapabilityTmp, &pComCfg->HtCapability, HtLen);
-			*(USHORT *)(&HtCapabilityTmp.HtCapInfo) = SWAP16(*(USHORT *)(&HtCapabilityTmp.HtCapInfo));
+			*(unsigned short *)(&HtCapabilityTmp.HtCapInfo) = SWAP16(*(unsigned short *)(&HtCapabilityTmp.HtCapInfo));
 #ifdef UNALIGNMENT_SUPPORT
 		{
 			EXT_HT_CAP_INFO extHtCapInfo;
 
 			memmove(&extHtCapInfo, &HtCapabilityTmp.ExtHtCapInfo, sizeof(EXT_HT_CAP_INFO));
-			*(USHORT *)(&extHtCapInfo) = cpu2le16(*(USHORT *)(&extHtCapInfo));
+			*(unsigned short *)(&extHtCapInfo) = cpu2le16(*(unsigned short *)(&extHtCapInfo));
 			memmove(&HtCapabilityTmp.ExtHtCapInfo, &extHtCapInfo, sizeof(EXT_HT_CAP_INFO));
 		}
 #else
-			*(USHORT *)(&HtCapabilityTmp.ExtHtCapInfo) = SWAP16(*(USHORT *)(&HtCapabilityTmp.ExtHtCapInfo));
+			*(unsigned short *)(&HtCapabilityTmp.ExtHtCapInfo) = SWAP16(*(unsigned short *)(&HtCapabilityTmp.ExtHtCapInfo));
 #endif /* UNALIGNMENT_SUPPORT */
 
 			MakeOutgoingFrame(pBeaconFrame + FrameLen,       &TmpLen,
@@ -820,8 +820,8 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 						  END_OF_ARGS);
 #else
 			memmove(&addHTInfoTmp, &pComCfg->AddHTInfo, HtLen1);
-			*(USHORT *)(&addHTInfoTmp.AddHtInfo2) = SWAP16(*(USHORT *)(&addHTInfoTmp.AddHtInfo2));
-			*(USHORT *)(&addHTInfoTmp.AddHtInfo3) = SWAP16(*(USHORT *)(&addHTInfoTmp.AddHtInfo3));
+			*(unsigned short *)(&addHTInfoTmp.AddHtInfo2) = SWAP16(*(unsigned short *)(&addHTInfoTmp.AddHtInfo2));
+			*(unsigned short *)(&addHTInfoTmp.AddHtInfo3) = SWAP16(*(unsigned short *)(&addHTInfoTmp.AddHtInfo3));
 
 			MakeOutgoingFrame(pBeaconFrame + FrameLen,         &TmpLen,
 							1,                             &WpaIe,

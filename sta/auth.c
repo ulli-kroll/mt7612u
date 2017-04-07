@@ -70,7 +70,7 @@ VOID MlmeAuthReqAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 	if (AUTH_ReqSend(pAd, Elem, &pAd->MlmeAux.AuthTimer, "AUTH", 1, NULL, 0))
 		pAd->Mlme.AuthMachine.CurrState = AUTH_WAIT_SEQ2;
 	else {
-		USHORT Status;
+		unsigned short Status;
 
 		pAd->Mlme.AuthMachine.CurrState = AUTH_REQ_IDLE;
 		Status = MLME_INVALID_FORMAT;
@@ -90,7 +90,7 @@ VOID MlmeAuthReqAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 VOID PeerAuthRspAtSeq2Action(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM * Elem)
 {
 	u8 Addr2[MAC_ADDR_LEN];
-	USHORT Seq, Status, RemoteStatus, Alg;
+	unsigned short Seq, Status, RemoteStatus, Alg;
 	u8 iv_hdr[4];
 	u8 *ChlgText = NULL;
 	u8 *CyperChlgText = NULL;
@@ -100,7 +100,7 @@ VOID PeerAuthRspAtSeq2Action(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM * Elem)
 	u8 *pOutBuffer = NULL;
 	int NStatus;
 	ULONG FrameLen = 0;
-	USHORT Status2;
+	unsigned short Status2;
 	u8 ChallengeIe = IE_CHALLENGE_TEXT;
 	u8 len_challengeText = CIPHER_TEXT_LEN;
 
@@ -169,9 +169,9 @@ VOID PeerAuthRspAtSeq2Action(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM * Elem)
 					RTMPConstructWEPIVHdr(wdev->DefaultKeyId,
 							      pAd->SharedKey[BSS0][wdev->DefaultKeyId].TxTsc, iv_hdr);
 
-					Alg = cpu2le16(*(USHORT *) & Alg);
-					Seq = cpu2le16(*(USHORT *) & Seq);
-					RemoteStatus = cpu2le16(*(USHORT *) &RemoteStatus);
+					Alg = cpu2le16(*(unsigned short *) & Alg);
+					Seq = cpu2le16(*(unsigned short *) & Seq);
+					RemoteStatus = cpu2le16(*(unsigned short *) &RemoteStatus);
 
 					/* Construct message text */
 					MakeOutgoingFrame(CyperChlgText, &c_len,
@@ -250,7 +250,7 @@ VOID PeerAuthRspAtSeq2Action(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM * Elem)
 VOID PeerAuthRspAtSeq4Action(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 	u8 Addr2[MAC_ADDR_LEN];
-	USHORT Alg, Seq, Status;
+	unsigned short Alg, Seq, Status;
 /*    CHAR          ChlgText[CIPHER_TEXT_LEN]; */
 	CHAR *ChlgText = NULL;
 	bool TimerCancelled;
@@ -308,7 +308,7 @@ VOID MlmeDeauthReqAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 	u8 *pOutBuffer = NULL;
 	int NStatus;
 	ULONG FrameLen = 0;
-	USHORT Status;
+	unsigned short Status;
 
 	pInfo = (MLME_DEAUTH_REQ_STRUCT *) Elem->Msg;
 
@@ -356,7 +356,7 @@ VOID MlmeDeauthReqAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
  */
 VOID AuthTimeoutAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
-	USHORT Status;
+	unsigned short Status;
 	DBGPRINT(RT_DEBUG_TRACE, ("AUTH - AuthTimeoutAction\n"));
 	pAd->Mlme.AuthMachine.CurrState = AUTH_REQ_IDLE;
 	Status = MLME_REJ_TIMEOUT;
@@ -374,7 +374,7 @@ VOID AuthTimeoutAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
  */
 VOID InvalidStateWhenAuth(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
-	USHORT Status;
+	unsigned short Status;
 	DBGPRINT(RT_DEBUG_TRACE,
 		 ("AUTH - InvalidStateWhenAuth (state=%ld), reset AUTH state machine\n",
 		  pAd->Mlme.AuthMachine.CurrState));
@@ -402,7 +402,7 @@ VOID Cls2errAction(struct rtmp_adapter *pAd, u8 *pAddr)
 	u8 *pOutBuffer = NULL;
 	int NStatus;
 	ULONG FrameLen = 0;
-	USHORT Reason = REASON_CLS2ERR;
+	unsigned short Reason = REASON_CLS2ERR;
 
 	pOutBuffer = kmalloc(MGMT_DMA_BUFFER_SIZE, GFP_ATOMIC);	/*Get an unused nonpaged memory */
 	if (pOutBuffer == NULL)
@@ -428,11 +428,11 @@ bool AUTH_ReqSend(
 	IN PMLME_QUEUE_ELEM pElem,
 	IN PRALINK_TIMER_STRUCT pAuthTimer,
 	IN char *pSMName,
-	IN USHORT SeqNo,
+	IN unsigned short SeqNo,
 	IN u8 *pNewElement,
 	IN ULONG ElementLen)
 {
-	USHORT Alg, Seq, Status;
+	unsigned short Alg, Seq, Status;
 	u8 Addr[6];
 	ULONG Timeout;
 	HEADER_802_11 AuthHdr;

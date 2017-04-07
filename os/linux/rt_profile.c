@@ -364,7 +364,7 @@ static INT process_nbns_packet(
 	IN struct sk_buff 		*skb)
 {
 	u8 *data;
-	USHORT *eth_type;
+	unsigned short *eth_type;
 
 	data = (u8 *)eth_hdr(skb);
 	if (data == 0)
@@ -377,13 +377,13 @@ static INT process_nbns_packet(
 		}
 	}
 
-	eth_type = (USHORT *)&data[12];
+	eth_type = (unsigned short *)&data[12];
 	if (*eth_type == cpu_to_be16(ETH_P_IP))
 	{
 		INT ip_h_len;
 		u8 *ip_h;
 		u8 *udp_h;
-		USHORT dport, host_dport;
+		unsigned short dport, host_dport;
 
 		ip_h = data + 14;
 		ip_h_len = (ip_h[0] & 0x0f)*4;
@@ -728,7 +728,7 @@ INT RTMP_AP_IoctlPrepare(struct rtmp_adapter *pAd, VOID *pCB)
 {
 	RT_CMD_AP_IOCTL_CONFIG *pConfig = (RT_CMD_AP_IOCTL_CONFIG *)pCB;
 	struct os_cookie *pObj;
-	USHORT index;
+	unsigned short index;
 	INT	Status = NDIS_STATUS_SUCCESS;
 #ifdef CONFIG_APSTA_MIXED_SUPPORT
 	INT cmd = 0xff;

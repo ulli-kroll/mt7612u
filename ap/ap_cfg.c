@@ -905,10 +905,10 @@ INT	Set_BeaconPeriod_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg)
 {
-	USHORT BeaconPeriod;
+	unsigned short BeaconPeriod;
 	INT   success = false;
 
-	BeaconPeriod = (USHORT) simple_strtol(arg, 0, 10);
+	BeaconPeriod = (unsigned short) simple_strtol(arg, 0, 10);
 	if((BeaconPeriod >= 20) && (BeaconPeriod < 1024))
 	{
 		pAd->CommonCfg.BeaconPeriod = BeaconPeriod;
@@ -939,10 +939,10 @@ INT	Set_DtimPeriod_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg)
 {
-	USHORT DtimPeriod;
+	unsigned short DtimPeriod;
 	INT   success = false;
 
-	DtimPeriod = (USHORT) simple_strtol(arg, 0, 10);
+	DtimPeriod = (unsigned short) simple_strtol(arg, 0, 10);
 	if((DtimPeriod >= 1) && (DtimPeriod <= 255))
 	{
 		pAd->ApCfg.DtimPeriod = DtimPeriod;
@@ -5226,7 +5226,7 @@ INT RTMP_AP_IoctlHandle(
 	IN	struct rtmp_adapter				*pAd,
 	IN	RTMP_IOCTL_INPUT_STRUCT	*wrq,
 	IN	INT						cmd,
-	IN	USHORT					subcmd,
+	IN	unsigned short 				subcmd,
 	IN	VOID					*pData,
 	IN	ULONG					Data)
 {

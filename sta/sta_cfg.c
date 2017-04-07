@@ -2303,7 +2303,7 @@ RtmpIoctl_rt_ioctl_giwrts(
 	IN	VOID					*pData,
 	IN	ULONG					Data)
 {
-	*(USHORT *)pData = pAd->CommonCfg.RtsThreshold;
+	*(unsigned short *)pData = pAd->CommonCfg.RtsThreshold;
 	return NDIS_STATUS_SUCCESS;
 }
 
@@ -2357,7 +2357,7 @@ RtmpIoctl_rt_ioctl_giwfrag(
 	IN	VOID					*pData,
 	IN	ULONG					Data)
 {
-	*(USHORT *)pData = pAd->CommonCfg.FragmentThreshold;
+	*(unsigned short *)pData = pAd->CommonCfg.FragmentThreshold;
 	return NDIS_STATUS_SUCCESS;
 }
 
@@ -3755,10 +3755,10 @@ INT RTMP_STA_IoctlHandle(
 	IN	struct rtmp_adapter				*pAd,
 	IN	RTMP_IOCTL_INPUT_STRUCT	*pRequest,
 	IN	INT						Command,
-	IN	USHORT					Subcmd,
+	IN	unsigned short 				Subcmd,
 	IN	VOID					*pData,
 	IN  ULONG					Data,
-	IN  USHORT                  priv_flags)
+	IN  unsigned short                  priv_flags)
 {
 	struct os_cookie *pObj = pAd->OS_Cookie;
 	INT Status = NDIS_STATUS_SUCCESS;

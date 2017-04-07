@@ -113,7 +113,7 @@ bool StaUpdateMacTableEntry(
 	IN ADD_HT_INFO_IE *pAddHtInfo,
 	IN u8 AddHtInfoLen,
 	IN IE_LISTS *ie_list,
-	IN USHORT cap_info)
+	IN unsigned short cap_info)
 {
 	u8 MaxSupportedRate = RATE_11;
 	bool bSupportN = false;
@@ -589,7 +589,7 @@ MAC_TABLE_ENTRY *MacTableInsertEntry(
 
 			pEntry->Sst = SST_NOT_AUTH;
 			pEntry->AuthState = AS_NOT_AUTH;
-			pEntry->Aid = (USHORT)i;
+			pEntry->Aid = (unsigned short)i;
 			pEntry->CapabilityInfo = 0;
 			pEntry->PsMode = PWR_ACTIVE;
 			pEntry->PsQIdleCount = 0;
@@ -668,7 +668,7 @@ MAC_TABLE_ENTRY *MacTableInsertEntry(
 #ifdef MULTI_CLIENT_SUPPORT
 	if (pAd->MacTab.Size < MAX_LEN_OF_MAC_TABLE)
 	{
-		USHORT size;
+		unsigned short size;
 
 		size = pAd->ApCfg.EntryClientCount;
 		asic_change_tx_retry(pAd, size);
@@ -695,9 +695,9 @@ MAC_TABLE_ENTRY *MacTableInsertEntry(
 		Delete a specified client from MAC table
 	==========================================================================
  */
-bool MacTableDeleteEntry(struct rtmp_adapter *pAd, USHORT wcid, u8 *pAddr)
+bool MacTableDeleteEntry(struct rtmp_adapter *pAd, unsigned short wcid, u8 *pAddr)
 {
-	USHORT HashIdx;
+	unsigned short HashIdx;
 	MAC_TABLE_ENTRY *pEntry, *pPrevEntry, *pProbeEntry;
 	bool Cancelled;
 
@@ -894,7 +894,7 @@ VOID MacTableReset(struct rtmp_adapter *pAd)
 	int NStatus;
 	ULONG FrameLen = 0;
 	HEADER_802_11 DeAuthHdr;
-	USHORT Reason;
+	unsigned short Reason;
 	u8 apidx = MAIN_MBSSID;
 #endif /* CONFIG_AP_SUPPORT */
 	MAC_TABLE_ENTRY *pMacEntry;

@@ -50,7 +50,7 @@ bool RTMPReplayAttackDetection(
 
 VOID RTMPUpdateStaMgmtCounter(
 	IN struct rtmp_adapter *pAd,
-	IN USHORT			type);
+	IN unsigned short 		type);
 
 VOID RTMPClearAllIdsCounter(
 	IN struct rtmp_adapter *pAd);

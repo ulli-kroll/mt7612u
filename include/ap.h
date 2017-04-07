@@ -106,11 +106,11 @@ VOID APAssocStateMachineInit(
     IN  STATE_MACHINE *S,
     OUT STATE_MACHINE_FUNC Trans[]);
 
-VOID MbssKickOutStas(struct rtmp_adapter *pAd, INT apidx, USHORT Reason);
-VOID APMlmeKickOutSta(struct rtmp_adapter *pAd, u8 *staAddr, u8 Wcid, USHORT Reason);
+VOID MbssKickOutStas(struct rtmp_adapter *pAd, INT apidx, unsigned short Reason);
+VOID APMlmeKickOutSta(struct rtmp_adapter *pAd, u8 *staAddr, u8 Wcid, unsigned short Reason);
 
 #ifdef DOT11W_PMF_SUPPORT
-VOID APMlmeKickOutAllSta(struct rtmp_adapter *pAd, u8 apidx, USHORT Reason);
+VOID APMlmeKickOutAllSta(struct rtmp_adapter *pAd, u8 apidx, unsigned short Reason);
 #endif /* DOT11W_PMF_SUPPORT */
 
 VOID  APCls3errAction(struct rtmp_adapter *pAd, ULONG wcid, HEADER_802_11 *hdr);
@@ -216,7 +216,7 @@ MAC_TABLE_ENTRY *APSsPsInquiry(
     IN  struct rtmp_adapter *  pAd,
     IN  u8 *         pAddr,
     OUT SST             *Sst,
-    OUT USHORT          *Aid,
+    OUT unsigned short          *Aid,
     OUT u8           *PsMode,
     OUT u8           *Rate);
 
@@ -224,7 +224,7 @@ MAC_TABLE_ENTRY *APSsPsInquiry(
 VOID ApLogEvent(
     IN struct rtmp_adapter *   pAd,
     IN u8 *          pAddr,
-    IN USHORT           Event);
+    IN unsigned short           Event);
 #else
 #define ApLogEvent(_pAd, _pAddr, _Event)
 #endif /* SYSTEM_LOG_SUPPORT */
@@ -249,7 +249,7 @@ bool PeerDisassocReqSanity(
     IN ULONG MsgLen,
     OUT u8 *pAddr2,
     OUT	uint16_t *SeqNum,
-    OUT USHORT *Reason);
+    OUT unsigned short *Reason);
 
 bool PeerDeauthReqSanity(
     IN struct rtmp_adapter *pAd,
@@ -257,7 +257,7 @@ bool PeerDeauthReqSanity(
     IN ULONG MsgLen,
     OUT u8 *pAddr2,
    	OUT	uint16_t *SeqNum,
-    OUT USHORT *Reason);
+    OUT unsigned short *Reason);
 
 bool APPeerAuthSanity(
     IN struct rtmp_adapter *pAd,
@@ -265,9 +265,9 @@ bool APPeerAuthSanity(
     IN ULONG MsgLen,
 	OUT u8 *pAddr1,
     OUT u8 *pAddr2,
-    OUT USHORT *Alg,
-    OUT USHORT *Seq,
-    OUT USHORT *Status,
+    OUT unsigned short *Alg,
+    OUT unsigned short *Seq,
+    OUT unsigned short *Status,
     OUT CHAR *ChlgText
 	);
 

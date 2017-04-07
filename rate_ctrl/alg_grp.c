@@ -460,7 +460,7 @@ VOID MlmeGetSupportedMcsAdapt(
 }
 
 
-u8 get_rate_idx_by_rate(struct rtmp_adapter *pAd, u8 *rate_tb,  USHORT rate)
+u8 get_rate_idx_by_rate(struct rtmp_adapter *pAd, u8 *rate_tb,  unsigned short rate)
 {
 	u8 mode, mcs, tb_idx = 0;
 
@@ -632,7 +632,7 @@ u8 MlmeSelectTxRateAdapt(
 					|| pTable == RateTableVht2S_2G_BW40
 					)
 	{
-		USHORT tx_rate;
+		unsigned short tx_rate;
 		if (pTable == RateTableVht2S || pTable == RateTableVht2S_BW40
 			|| (pTable == RateTableVht2S_2G_BW40))
 		{
@@ -1055,7 +1055,7 @@ VOID MlmeNewRateAdapt(
 	IN ULONG			TrainDown,
 	IN ULONG			TxErrorRatio)
 {
-	USHORT		phyRateLimit20 = 0;
+	unsigned short 	phyRateLimit20 = 0;
 	bool		bTrainUp = false;
 	bool 	invertTxBf = false;
 	u8 *pTable = pEntry->pTable;

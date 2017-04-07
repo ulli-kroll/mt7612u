@@ -572,7 +572,7 @@ typedef struct __RT_CMD_SHARED_KEY_ADD {
 
 typedef struct __RT_CMD_MBSS_KICKOUT {
 	IN INT BssId;
-	IN USHORT Reason;
+	IN unsigned short Reason;
 } RT_CMD_MBSS_KICKOUT;
 
 typedef struct __RT_CMD_USB_MORE_FLAG_CONFIG {
@@ -583,9 +583,9 @@ typedef struct __RT_CMD_USB_MORE_FLAG_CONFIG {
 typedef struct __RT_CMD_USB_DEV_CONFIG {
 	IN UINT NumberOfPipes;
 	IN UINT8 BulkInEpAddr[2];
-	IN USHORT BulkInMaxPacketSize;
+	IN unsigned short BulkInMaxPacketSize;
 	IN UINT8 BulkOutEpAddr[6];
-	IN USHORT BulkOutMaxPacketSize;
+	IN unsigned short BulkOutMaxPacketSize;
 	IN VOID *pConfig;
 } RT_CMD_USB_DEV_CONFIG;
 
@@ -721,16 +721,16 @@ typedef struct __RT_CMD_STA_IOCTL_BSS_TABLE {
 	OUT u8 SsidLen;
 	OUT CHAR Ssid[32];
 
-	OUT USHORT CapabilityInfo;
+	OUT unsigned short CapabilityInfo;
 	OUT u8 ChannelWidth, ShortGIfor40, ShortGIfor20, MCSSet;
 
-	OUT USHORT WpaIeLen;
+	OUT unsigned short WpaIeLen;
 	OUT u8 *pWpaIe;
 
-	OUT USHORT RsnIeLen;
+	OUT unsigned short RsnIeLen;
 	OUT u8 *pRsnIe;
 
-	OUT USHORT WpsIeLen;
+	OUT unsigned short WpsIeLen;
 	OUT u8 *pWpsIe;
 
 	OUT u8 FlgIsPrivacyOn;

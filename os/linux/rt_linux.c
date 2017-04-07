@@ -285,7 +285,7 @@ struct sk_buff *DuplicatePacket(
 {
 	struct sk_buff *skb;
 	struct sk_buff *pRetPacket = NULL;
-	USHORT DataSize;
+	unsigned short DataSize;
 	u8 *pData;
 
 	DataSize = pPacket->len;
@@ -355,8 +355,8 @@ struct sk_buff *duplicate_pkt_with_TKIP_MIC(VOID *pReserved, struct sk_buff *skb
 #ifdef CONFIG_AP_SUPPORT
 struct sk_buff *duplicate_pkt_with_VLAN(
 	IN struct net_device *pNetDev,
-	IN USHORT VLAN_VID,
-	IN USHORT VLAN_Priority,
+	IN unsigned short VLAN_VID,
+	IN unsigned short VLAN_Priority,
 	IN u8 *pHeader802_3,
 	IN UINT HdrLen,
 	IN u8 *pData,
@@ -498,7 +498,7 @@ struct sk_buff *ClonePacket(struct sk_buff *skb, u8 *pData,
 }
 
 VOID RtmpOsPktInit(struct sk_buff *skb, struct net_device *pNetDev,
-		   u8 *pData, USHORT DataSize)
+		   u8 *pData, unsigned short DataSize)
 {
 	skb->dev =  pNetDev;
 	skb->data = pData;
@@ -510,8 +510,8 @@ VOID RtmpOsPktInit(struct sk_buff *skb, struct net_device *pNetDev,
 void wlan_802_11_to_802_3_packet(
 	IN struct net_device *pNetDev,
 	IN u8 OpMode,
-	IN USHORT VLAN_VID,
-	IN USHORT VLAN_Priority,
+	IN unsigned short VLAN_VID,
+	IN unsigned short VLAN_Priority,
 	IN struct sk_buff *pOSPkt,
 	IN u8 *pData,
 	IN ULONG DataSize,
@@ -602,7 +602,7 @@ void hex_dump(char *str, u8 *pSrcBufVA, UINT SrcBufLen)
 */
 VOID RtmpOsSendWirelessEvent(
 	IN struct rtmp_adapter *pAd,
-	IN USHORT Event_flag,
+	IN unsigned short Event_flag,
 	IN u8 *pAddr,
 	IN u8 BssIdx,
 	IN CHAR Rssi,
@@ -992,7 +992,7 @@ Return Value:
 Note:
 ========================================================================
 */
-USHORT RtmpDevPrivFlagsGet(struct net_device *pDev)
+unsigned short RtmpDevPrivFlagsGet(struct net_device *pDev)
 {
 	struct mt_dev_priv *priv_info = netdev_priv(pDev);
 
@@ -1014,7 +1014,7 @@ Return Value:
 Note:
 ========================================================================
 */
-VOID RtmpDevPrivFlagsSet(struct net_device *pDev, USHORT PrivFlags)
+VOID RtmpDevPrivFlagsSet(struct net_device *pDev, unsigned short PrivFlags)
 {
 	struct mt_dev_priv *priv_info;
 
@@ -1377,8 +1377,8 @@ struct net_device *RtmpOSNetDevCreate(
 
 #ifdef CONFIG_AP_SUPPORT
 u8 VLAN_8023_Header_Copy(
-	IN USHORT VLAN_VID,
-	IN USHORT VLAN_Priority,
+	IN unsigned short VLAN_VID,
+	IN unsigned short VLAN_Priority,
 	IN u8 *pHeader802_3,
 	IN UINT HdrLen,
 	OUT u8 *pData,
@@ -1515,7 +1515,7 @@ VOID RtmpDrvAllMacPrint(
 
 VOID RtmpDrvAllE2PPrint(
 	IN VOID *pReserved,
-	IN USHORT *pMacContent,
+	IN unsigned short *pMacContent,
 	IN uint32_t AddrEnd,
 	IN uint32_t AddrStep)
 {
@@ -1523,8 +1523,8 @@ VOID RtmpDrvAllE2PPrint(
 	char *fileName = "EEPROMDump.txt";
 	mm_segment_t orig_fs;
 	STRING *msg;
-	USHORT eepAddr = 0;
-	USHORT eepValue;
+	unsigned short eepAddr = 0;
+	unsigned short eepValue;
 
 	msg = kmalloc(1024, GFP_ATOMIC);
 	if (!msg)
@@ -1890,7 +1890,7 @@ INT RtmpOSNotifyRawData(
 	IN u8 *buff,
 	IN INT len,
 	IN ULONG type,
-	IN USHORT protocol)
+	IN unsigned short protocol)
 {
 	struct sk_buff *skb = NULL;
 

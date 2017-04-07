@@ -95,8 +95,8 @@
 
 
 typedef struct _CMDHandler_TLV {
-	USHORT Offset;
-	USHORT Length;
+	unsigned short Offset;
+	unsigned short Length;
 	u8 DataFirst;
 } CMDHandler_TLV, *PCMDHandler_TLV;
 
@@ -142,7 +142,7 @@ typedef struct _RT_ASIC_SHARED_KEY {
 } RT_ASIC_SHARED_KEY, *PRT_ASIC_SHARED_KEY;
 
 typedef struct _RT_ASIC_PROTECT_INFO {
-	USHORT OperationMode;
+	unsigned short OperationMode;
 	u8 SetMask;
 	bool bDisableBGProtect;
 	bool bNonGFExist;

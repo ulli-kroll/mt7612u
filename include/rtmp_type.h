@@ -43,7 +43,6 @@
 typedef unsigned char UINT8;
 typedef short INT16;
 
-typedef unsigned short USHORT;
 typedef unsigned int UINT;
 typedef unsigned long ULONG;
 #endif /* LINUX */
@@ -66,7 +65,7 @@ typedef void VOID;
 
 typedef VOID *PVOID;
 typedef CHAR *PCHAR;
-typedef USHORT *PUSHORT;
+typedef unsigned short *PUSHORT;
 typedef LONG *PLONG;
 typedef ULONG *PULONG;
 typedef UINT *PUINT;

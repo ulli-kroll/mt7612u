@@ -127,7 +127,7 @@ typedef struct {
 	u8  DMAC[6];
 	u8  Tx1_scale_2ss, Tx0_scale_2ss, Tx1_scale_1ss, Tx0_scale_1ss;
 	u8  STS1_SNR, STS0_SNR;
-	USHORT timeout;
+	unsigned short timeout;
 	u8  validFlg;
 	u8  CMDInIdx;
 } PFMU_PROFILE;

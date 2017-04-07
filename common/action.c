@@ -156,11 +156,11 @@ VOID MlmeADDBAAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 			BA_PARM tmpBaParm;
 
 			memmove(&tmpBaParm, &Frame.BaParm, sizeof(BA_PARM));
-			*(USHORT *)(&tmpBaParm) = cpu2le16(*(USHORT *)(&tmpBaParm));
+			*(unsigned short *)(&tmpBaParm) = cpu2le16(*(unsigned short *)(&tmpBaParm));
 			memmove(&Frame.BaParm, &tmpBaParm, sizeof(BA_PARM));
 		}
 #else
-		*(USHORT *)(&(Frame.BaParm)) = cpu2le16((*(USHORT *)(&(Frame.BaParm))));
+		*(unsigned short *)(&(Frame.BaParm)) = cpu2le16((*(unsigned short *)(&(Frame.BaParm))));
 #endif /* UNALIGNMENT_SUPPORT */
 
 		Frame.TimeOutValue = cpu2le16(Frame.TimeOutValue);
@@ -286,7 +286,7 @@ VOID MlmeDELBAAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 		Frame.DelbaParm.Initiator = pInfo->Initiator;
 		Frame.DelbaParm.TID = pInfo->TID;
 		Frame.ReasonCode = 39; /* Time Out*/
-		*(USHORT *)(&Frame.DelbaParm) = cpu2le16(*(USHORT *)(&Frame.DelbaParm));
+		*(unsigned short *)(&Frame.DelbaParm) = cpu2le16(*(unsigned short *)(&Frame.DelbaParm));
 		Frame.ReasonCode = cpu2le16(Frame.ReasonCode);
 
 		MakeOutgoingFrame(pOutBuffer, &FrameLen,
@@ -1158,7 +1158,7 @@ VOID SendRefreshBAR(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 	ULONG FrameLen;
 	int NStatus;
 	u8 *pOutBuffer = NULL, i, TID;
-	USHORT Sequence, idx;
+	unsigned short Sequence, idx;
 	BA_ORI_ENTRY *pBAEntry;
 
 	for (i = 0; i <NUM_OF_TID; i++)
@@ -1224,7 +1224,7 @@ VOID BarHeaderInit(
 	IN u8 *pDA,
 	IN u8 *pSA)
 {
-/*	USHORT	Duration;*/
+/*	unsigned short Duration;*/
 
 	memset(pCntlBar, 0, sizeof(FRAME_BAR));
 	pCntlBar->FC.Type = FC_TYPE_CNTL;

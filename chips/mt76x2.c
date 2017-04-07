@@ -1241,7 +1241,7 @@ void mt76x2_init_rf_cr(struct rtmp_adapter *ad)
 
 void mt76x2_get_external_lna_gain(struct rtmp_adapter *ad)
 {
-	USHORT e2p_val = 0;
+	unsigned short e2p_val = 0;
 	UINT8 lna_type = 0;
 
 	/* b'00: 2.4G+5G external LNA, b'01: 5G external LNA, b'10: 2.4G external LNA, b'11: Internal LNA */
@@ -1273,7 +1273,7 @@ void mt76x2_get_external_lna_gain(struct rtmp_adapter *ad)
 void mt76x2_get_agc_gain(struct rtmp_adapter *ad, bool init_phase)
 {
 	u8 val;
-	USHORT val16;
+	unsigned short val16;
 	uint32_t bbp_val;
 
 	bbp_val = RTMP_BBP_IO_READ32(ad, AGC1_R8);
@@ -2657,7 +2657,7 @@ void mt76x2_read_temp_info_from_eeprom(struct rtmp_adapter *ad)
 {
 	struct rtmp_chip_cap *pChipCap = &ad->chipCap;
 	bool is_temp_tx_alc= false;
-	USHORT e2p_value = 0;
+	unsigned short e2p_value = 0;
 
 	e2p_value = mt7612u_read_eeprom16(ad, 0x36);
 	if ((e2p_value & 0x2) == 0x2)

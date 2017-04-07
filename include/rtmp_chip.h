@@ -326,26 +326,26 @@ enum RXWI_FRQ_OFFSET_FIELD {
 #ifdef RT_BIG_ENDIAN
 typedef union _EEPROM_ANTENNA_STRUC {
 	struct {
-		USHORT RssiIndicationMode:1; 	/* RSSI indication mode */
-		USHORT Rsv:1;
-		USHORT BoardType:2; 		/* 0: mini card; 1: USB pen */
-		USHORT RfIcType:4;			/* see E2PROM document */
-		USHORT TxPath:4;			/* 1: 1T, 2: 2T, 3: 3T */
-		USHORT RxPath:4;			/* 1: 1R, 2: 2R, 3: 3R */
+		unsigned short RssiIndicationMode:1; 	/* RSSI indication mode */
+		unsigned short Rsv:1;
+		unsigned short BoardType:2; 		/* 0: mini card; 1: USB pen */
+		unsigned short RfIcType:4;			/* see E2PROM document */
+		unsigned short TxPath:4;			/* 1: 1T, 2: 2T, 3: 3T */
+		unsigned short RxPath:4;			/* 1: 1R, 2: 2R, 3: 3R */
 	} field;
-	USHORT word;
+	unsigned short word;
 } EEPROM_ANTENNA_STRUC, *PEEPROM_ANTENNA_STRUC;
 #else
 typedef union _EEPROM_ANTENNA_STRUC {
 	struct {
-		USHORT RxPath:4;			/* 1: 1R, 2: 2R, 3: 3R */
-		USHORT TxPath:4;			/* 1: 1T, 2: 2T, 3: 3T */
-		USHORT RfIcType:4;			/* see E2PROM document */
-		USHORT BoardType:2; 		/* 0: mini card; 1: USB pen */
-		USHORT Rsv:1;
-		USHORT RssiIndicationMode:1; 	/* RSSI indication mode */
+		unsigned short RxPath:4;			/* 1: 1R, 2: 2R, 3: 3R */
+		unsigned short TxPath:4;			/* 1: 1T, 2: 2T, 3: 3T */
+		unsigned short RfIcType:4;			/* see E2PROM document */
+		unsigned short BoardType:2; 		/* 0: mini card; 1: USB pen */
+		unsigned short Rsv:1;
+		unsigned short RssiIndicationMode:1; 	/* RSSI indication mode */
 	} field;
-	USHORT word;
+	unsigned short word;
 } EEPROM_ANTENNA_STRUC, *PEEPROM_ANTENNA_STRUC;
 #endif
 
@@ -695,7 +695,7 @@ struct rtmp_chip_ops {
 	int (*eraseFirmware)(struct rtmp_adapter *pAd);
 	int (*sendCommandToMcu)(struct rtmp_adapter *pAd, u8 cmd, u8 token, u8 arg0, u8 arg1, bool FlgIsNeedLocked);	/* int (*sendCommandToMcu)(struct rtmp_adapter *pAd, u8 cmd, u8 token, u8 arg0, u8 arg1); */
 #ifdef CONFIG_ANDES_SUPPORT
-	int (*sendCommandToAndesMcu)(struct rtmp_adapter *pAd, u8 QueIdx, u8 cmd, u8 *pData, USHORT DataLen, bool FlgIsNeedLocked);
+	int (*sendCommandToAndesMcu)(struct rtmp_adapter *pAd, u8 QueIdx, u8 cmd, u8 *pData, unsigned short DataLen, bool FlgIsNeedLocked);
 #endif
 	/* Power save */
 	void (*EnableAPMIMOPS)(struct rtmp_adapter *pAd, IN bool ReduceCorePower);

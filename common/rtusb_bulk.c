@@ -161,7 +161,7 @@ VOID RTUSBBulkOutDataPacket(struct rtmp_adapter *pAd, u8 BulkOutPipeId, u8 Index
 	int ret = 0;
 	TXINFO_STRUC *pTxInfo, *pLastTxInfo = NULL;
 	TXWI_STRUC *pTxWI;
-	USHORT txwi_pkt_len = 0;
+	unsigned short txwi_pkt_len = 0;
 	u8 ampdu = 0, phy_mode = 0, pid;
 	ULONG TmpBulkEndPos, ThisBulkSize;
 	unsigned long	IrqFlags = 0, IrqFlags2 = 0;

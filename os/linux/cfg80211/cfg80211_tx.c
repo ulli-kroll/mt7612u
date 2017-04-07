@@ -91,7 +91,7 @@ void CFG80211_ParseBeaconIE(struct rtmp_adapter *pAd, MULTISSID_STRUCT *pMbss, s
 	NDIS_802_11_ENCRYPTION_STATUS	PairCipherAux;	/* Unicast cipher 2 if AP announce two unicast cipher suite */
 	NDIS_802_11_ENCRYPTION_STATUS	GroupCipher;	/* Group cipher */
 	PAKM_SUITE_STRUCT				pAKM;
-	USHORT							Count;
+	unsigned short 						Count;
 	bool bWPA = false;
 	bool bWPA2 = false;
 	bool bMix = false;
@@ -145,7 +145,7 @@ void CFG80211_ParseBeaconIE(struct rtmp_adapter *pAd, MULTISSID_STRUCT *pMbss, s
 				/* skip all unicast cipher suites*/
 				/*Count = *(PUSHORT) pTmp;				*/
 				Count = (pTmp[1]<<8) + pTmp[0];
-				pTmp   += sizeof(USHORT);
+				pTmp   += sizeof(unsigned short);
 
 				/* Parsing all unicast cipher suite*/
 				while (Count > 0)
@@ -266,7 +266,7 @@ void CFG80211_ParseBeaconIE(struct rtmp_adapter *pAd, MULTISSID_STRUCT *pMbss, s
 					/* 2. Get pairwise cipher counts*/
 					/*Count = *(PUSHORT) pTmp;*/
 					Count = (pTmp[1]<<8) + pTmp[0];
-					pTmp   += sizeof(USHORT);
+					pTmp   += sizeof(unsigned short);
 
 					/* 3. Get pairwise cipher*/
 					/* Parsing all unicast cipher suite*/
@@ -309,7 +309,7 @@ void CFG80211_ParseBeaconIE(struct rtmp_adapter *pAd, MULTISSID_STRUCT *pMbss, s
 					/* 4. get AKM suite counts*/
 					/*Count	= *(PUSHORT) pTmp;*/
 					Count = (pTmp[1]<<8) + pTmp[0];
-					pTmp   += sizeof(USHORT);
+					pTmp   += sizeof(unsigned short);
 
 					/* 5. Get AKM ciphers*/
 					/* Parsing all AKM ciphers*/
@@ -389,7 +389,7 @@ void CFG80211_ParseBeaconIE(struct rtmp_adapter *pAd, MULTISSID_STRUCT *pMbss, s
 #endif /* CONFIG_AP_SUPPORT */
 
 static
-PCFG80211_TX_PACKET CFG80211_TxMgmtFrameSearch(struct rtmp_adapter *pAd, USHORT Sequence)
+PCFG80211_TX_PACKET CFG80211_TxMgmtFrameSearch(struct rtmp_adapter *pAd, unsigned short Sequence)
 {
 	PLIST_HEADER  pPacketList = &pAd->cfg80211_ctrl.cfg80211TxPacketList;
 	PCFG80211_TX_PACKET pTxPkt = NULL;
@@ -462,7 +462,7 @@ void CFG80211_SendMgmtFrame(struct rtmp_adapter *pAd, VOID *pData, ULONG Data)
 
 }
 
-VOID CFG80211_SendMgmtFrameDone(struct rtmp_adapter *pAd, USHORT Sequence)
+VOID CFG80211_SendMgmtFrameDone(struct rtmp_adapter *pAd, unsigned short Sequence)
 {
 //RTMP_USB_SUPPORT/RTMP_PCI_SUPPORT
 	PCFG80211_CTRL pCfg80211_ctrl = &pAd->cfg80211_ctrl;

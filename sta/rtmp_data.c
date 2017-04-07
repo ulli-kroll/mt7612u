@@ -207,7 +207,7 @@ bool STACheckTkipMICValue(
 {
 	PHEADER_802_11 pHeader = pRxBlk->pHeader;
 	u8 *pData = pRxBlk->pData;
-	USHORT DataSize = pRxBlk->DataSize;
+	unsigned short DataSize = pRxBlk->DataSize;
 	u8 UserPriority = pRxBlk->UserPriority;
 	PCIPHER_KEY pWpaKey;
 	u8 *pDA, *pSA;
@@ -903,7 +903,7 @@ VOID RTMPSendNullFrame(
 	IN struct rtmp_adapter *pAd,
 	IN u8 TxRate,
 	IN bool bQosNull,
-	IN USHORT PwrMgmt)
+	IN unsigned short PwrMgmt)
 {
 	u8 NullFrame[48];
 	ULONG Length;
@@ -1278,7 +1278,7 @@ VOID STA_AMPDU_Frame_Tx(
 {
 	HEADER_802_11 *pHeader_802_11;
 	u8 *pHeaderBufPtr;
-	USHORT FreeNumber = 0;
+	unsigned short FreeNumber = 0;
 	MAC_TABLE_ENTRY *pMacEntry;
 	bool bVLANPkt;
 	PQUEUE_ENTRY pQEntry;
@@ -1610,12 +1610,12 @@ VOID STA_AMSDU_Frame_Tx(
 	IN TX_BLK *pTxBlk)
 {
 	u8 *pHeaderBufPtr;
-	USHORT FreeNumber = 0;
-	USHORT subFramePayloadLen = 0;	/* AMSDU Subframe length without AMSDU-Header / Padding */
-	USHORT totalMPDUSize = 0;
+	unsigned short FreeNumber = 0;
+	unsigned short subFramePayloadLen = 0;	/* AMSDU Subframe length without AMSDU-Header / Padding */
+	unsigned short totalMPDUSize = 0;
 	u8 *subFrameHeader;
 	u8 padding = 0;
-	USHORT FirstTx = 0, LastTxIdx = 0;
+	unsigned short FirstTx = 0, LastTxIdx = 0;
 	bool bVLANPkt;
 	int frameNum = 0;
 	PQUEUE_ENTRY pQEntry;
@@ -1738,7 +1738,7 @@ VOID STA_Legacy_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 {
 	HEADER_802_11 *wifi_hdr;
 	u8 *pHeaderBufPtr;
-	USHORT FreeNumber = 0;
+	unsigned short FreeNumber = 0;
 	bool bVLANPkt;
 	PQUEUE_ENTRY pQEntry;
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
@@ -1907,9 +1907,9 @@ VOID STA_ARalink_Frame_Tx(
 	IN TX_BLK * pTxBlk)
 {
 	u8 *pHeaderBufPtr;
-	USHORT freeCnt = 0;
-	USHORT totalMPDUSize = 0;
-	USHORT FirstTx, LastTxIdx;
+	unsigned short freeCnt = 0;
+	unsigned short totalMPDUSize = 0;
+	unsigned short FirstTx, LastTxIdx;
 	int frameNum = 0;
 	bool bVLANPkt;
 	PQUEUE_ENTRY pQEntry;
@@ -2030,12 +2030,12 @@ VOID STA_Fragment_Frame_Tx(
 {
 	HEADER_802_11 *pHeader_802_11;
 	u8 *pHeaderBufPtr;
-	USHORT freeCnt = 0;
+	unsigned short freeCnt = 0;
 	u8 fragNum = 0;
 	PACKET_INFO PacketInfo;
-	USHORT EncryptionOverhead = 0;
+	unsigned short EncryptionOverhead = 0;
 	uint32_t FreeMpduSize, SrcRemainingBytes;
-	USHORT AckDuration;
+	unsigned short AckDuration;
 	UINT NextMpduSize;
 	bool bVLANPkt;
 	PQUEUE_ENTRY pQEntry;

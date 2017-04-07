@@ -182,11 +182,11 @@ u8 MlmeSelectTxRate(
 VOID MlmeClearTxQuality(struct _MAC_TABLE_ENTRY *pEntry);
 VOID MlmeClearAllTxQuality(struct _MAC_TABLE_ENTRY *pEntry);
 VOID MlmeDecTxQuality(struct _MAC_TABLE_ENTRY *pEntry, u8 rateIndex);
-USHORT MlmeGetTxQuality(struct _MAC_TABLE_ENTRY *pEntry, u8 rateIndex);
+unsigned short MlmeGetTxQuality(struct _MAC_TABLE_ENTRY *pEntry, u8 rateIndex);
 VOID MlmeSetTxQuality(
 	IN struct _MAC_TABLE_ENTRY *pEntry,
 	IN u8 rateIndex,
-	IN USHORT txQuality);
+	IN unsigned short txQuality);
 
 
 

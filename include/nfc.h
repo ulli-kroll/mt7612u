@@ -4,7 +4,7 @@
 VOID	NfcParseRspCommand(
 	IN  Pstruct rtmp_adapter pAd,
 	IN  u8 *pData,
-	IN  USHORT DataLen);
+	IN  unsigned short DataLen);
 
 VOID	NfcCommand(
 	IN	Pstruct rtmp_adapter pAd,
@@ -21,14 +21,14 @@ INT 	NfcBuildWscProfileTLV(
 	IN	Pstruct rtmp_adapter pAd,
 	IN  PWSC_CTRL pWscCtrl,
 	OUT	u8 *pbuf,
-	OUT USHORT *pBufLen);
+	OUT unsigned short *pBufLen);
 
 INT 	NfcBuildOOBDevPasswdTLV(
 	IN	Pstruct rtmp_adapter pAd,
 	IN  PWSC_CTRL pWscCtrl,
 	IN	u8 HandoverType,
 	OUT	u8 *pbuf,
-	OUT USHORT *pBufLen);
+	OUT unsigned short *pBufLen);
 
 INT		Set_NfcStatus_Proc(
 	IN  struct rtmp_adapter 	*pAd,

@@ -425,7 +425,7 @@ bool CFG80211DRV_OpsBeaconAdd(struct rtmp_adapter *pAd, VOID *pData)
 	pAd->CommonCfg.CentralChannel = pAd->CommonCfg.Channel;
 
 	AsicBBPAdjust(pAd);
-	//MlmeSetTxPreamble(pAd, (USHORT)pAd->CommonCfg.TxPreamble);
+	//MlmeSetTxPreamble(pAd, (unsigned short)pAd->CommonCfg.TxPreamble);
 
 #ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
 	/* P2P_GO */
@@ -519,7 +519,7 @@ VOID CFG80211DRV_RtsThresholdAdd(
 {
 
 		if((threshold > 0) && (threshold <= MAX_RTS_THRESHOLD))
-			pAd->CommonCfg.RtsThreshold  = (USHORT)threshold;
+			pAd->CommonCfg.RtsThreshold  = (unsigned short)threshold;
 #ifdef CONFIG_STA_SUPPORT
 		else if (threshold== 0)
 			pAd->CommonCfg.RtsThreshold = MAX_RTS_THRESHOLD;
@@ -543,11 +543,11 @@ VOID CFG80211DRV_FragThresholdAdd(
 				except for the last fragment of an MSDU or MMPDU, which may be either
 				an even or an odd number of octets.
 			*/
-			pAd->CommonCfg.FragmentThreshold = (USHORT)(threshold - 1);
+			pAd->CommonCfg.FragmentThreshold = (unsigned short)(threshold - 1);
 		}
 		else
 		{
-			pAd->CommonCfg.FragmentThreshold = (USHORT)threshold;
+			pAd->CommonCfg.FragmentThreshold = (unsigned short)threshold;
 		}
 
 #ifdef CONFIG_STA_SUPPORT

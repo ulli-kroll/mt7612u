@@ -677,7 +677,7 @@ INT set_lut_phy_rate(
 	UINT8 stbc, UINT8 mode)
 {
 	uint32_t mac_reg = 0;
-	USHORT reg_id = 0x1C00 + (wcid << 3);
+	unsigned short reg_id = 0x1C00 + (wcid << 3);
 
 	mac_reg = (mcs | (bw << 7) | (gi << 9) | (stbc << 10) | (mode << 13));
 
@@ -816,7 +816,7 @@ VOID rtmp_mac_bcn_buf_init(IN struct rtmp_adapter *pAd)
 		tb_size = (sizeof(bcn_mac_reg_tb) / sizeof(RTMP_REG_PAIR));
 		for (idx = 0; idx < tb_size; idx ++)
 		{
-			mt7612u_write32(pAd, (USHORT)bcn_mac_reg_tb[idx].Register,
+			mt7612u_write32(pAd, (unsigned short)bcn_mac_reg_tb[idx].Register,
 									bcn_mac_reg_tb[idx].Value);
 		}
 	}

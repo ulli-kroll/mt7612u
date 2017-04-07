@@ -207,7 +207,7 @@ INT CFG80211DRV_IoctlHandle(
 	struct rtmp_adapter				*pAdSrc,
 	RTMP_IOCTL_INPUT_STRUCT		*wrq,
 	INT							cmd,
-	USHORT						subcmd,
+	unsigned short 					subcmd,
 	VOID						*pData,
 	ULONG						Data);
 
@@ -306,7 +306,7 @@ void CFG80211_ParseBeaconIE(struct rtmp_adapter *pAd, MULTISSID_STRUCT *pMbss, s
 //--------------------------------
 VOID CFG80211_Convert802_3Packet(struct rtmp_adapter *pAd, RX_BLK *pRxBlk, u8 *pHeader802_3);
 VOID CFG80211_Announce802_3Packet(struct rtmp_adapter *pAd, RX_BLK *pRxBlk, u8 FromWhichBSSID);
-VOID CFG80211_SendMgmtFrameDone(struct rtmp_adapter *pAd, USHORT Sequence);
+VOID CFG80211_SendMgmtFrameDone(struct rtmp_adapter *pAd, unsigned short Sequence);
 VOID CFG80211_SwitchTxChannel(struct rtmp_adapter *pAd, ULONG Data);
 void CFG80211DRV_OpsBeaconSet(struct rtmp_adapter *pAd,void  *pData);
 bool CFG80211DRV_OpsBeaconAdd(struct rtmp_adapter *pAd, void  *pData);

@@ -76,13 +76,13 @@ static VOID ApCliMlmeAuthReqAction(
 	bool             Cancelled;
 	int         NState;
 	u8               Addr[MAC_ADDR_LEN];
-	USHORT              Alg, Seq, Status;
+	unsigned short              Alg, Seq, Status;
 	ULONG               Timeout;
 	HEADER_802_11       AuthHdr;
 	u8 *             pOutBuffer = NULL;
 	ULONG               FrameLen = 0;
 	APCLI_CTRL_MSG_STRUCT ApCliCtrlMsg;
-	USHORT ifIndex = (USHORT)(Elem->Priv);
+	unsigned short ifIndex = (unsigned short)(Elem->Priv);
 	PULONG pCurrState = NULL;
 
 	if ((ifIndex >= MAX_APCLI_NUM)
@@ -155,8 +155,8 @@ static VOID ApCliPeerAuthRspAtSeq2Action(struct rtmp_adapter *pAd, MLME_QUEUE_EL
 {
 	bool         Cancelled;
 	u8           Addr2[MAC_ADDR_LEN];
-	USHORT          Seq, Status, Alg;
-	USHORT          RemoteStatus;
+	unsigned short          Seq, Status, Alg;
+	unsigned short          RemoteStatus;
 	u8 		iv_hdr[LEN_WEP_IV_HDR];
 /*	u8           ChlgText[CIPHER_TEXT_LEN]; */
 	u8           *ChlgText = NULL;
@@ -169,7 +169,7 @@ static VOID ApCliPeerAuthRspAtSeq2Action(struct rtmp_adapter *pAd, MLME_QUEUE_EL
 	APCLI_CTRL_MSG_STRUCT ApCliCtrlMsg;
 	u8 	  	ChallengeIe = IE_CHALLENGE_TEXT;
 	u8 	  	len_challengeText = CIPHER_TEXT_LEN;
-	USHORT ifIndex = (USHORT)(Elem->Priv);
+	unsigned short ifIndex = (unsigned short)(Elem->Priv);
 	PULONG pCurrState = NULL;
 	APCLI_STRUCT *apcli_entry;
 
@@ -240,9 +240,9 @@ static VOID ApCliPeerAuthRspAtSeq2Action(struct rtmp_adapter *pAd, MLME_QUEUE_EL
 					/* Construct the 4-bytes WEP IV header */
 					RTMPConstructWEPIVHdr(default_key, pKey->TxTsc, iv_hdr);
 
-					Alg = cpu2le16(*(USHORT *)&Alg);
-					Seq = cpu2le16(*(USHORT *)&Seq);
-					RemoteStatus= cpu2le16(*(USHORT *)&RemoteStatus);
+					Alg = cpu2le16(*(unsigned short *)&Alg);
+					Seq = cpu2le16(*(unsigned short *)&Seq);
+					RemoteStatus= cpu2le16(*(unsigned short *)&RemoteStatus);
 
 					/* Construct message text */
 					MakeOutgoingFrame(CyperChlgText,        &c_len,
@@ -316,10 +316,10 @@ static VOID ApCliPeerAuthRspAtSeq4Action(struct rtmp_adapter *pAd, MLME_QUEUE_EL
 {
 	bool     Cancelled;
 	u8       Addr2[MAC_ADDR_LEN];
-	USHORT      Alg, Seq, Status;
+	unsigned short      Alg, Seq, Status;
 	CHAR        ChlgText[CIPHER_TEXT_LEN];
 	APCLI_CTRL_MSG_STRUCT ApCliCtrlMsg;
-	USHORT ifIndex = (USHORT)(Elem->Priv);
+	unsigned short ifIndex = (unsigned short)(Elem->Priv);
 	PULONG pCurrState = NULL;
 
 	if ((ifIndex >= MAX_APCLI_NUM)
@@ -367,8 +367,8 @@ static VOID ApCliPeerDeauthAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Ele
 	u8       Addr1[MAC_ADDR_LEN];
 	u8       Addr2[MAC_ADDR_LEN];
 	u8       Addr3[MAC_ADDR_LEN];
-	USHORT      Reason;
-	USHORT ifIndex = (USHORT)(Elem->Priv);
+	unsigned short      Reason;
+	unsigned short ifIndex = (unsigned short)(Elem->Priv);
 	PULONG pCurrState = NULL;
 #ifdef WPA_SUPPLICANT_SUPPORT
 	PMAC_TABLE_ENTRY pMacEntry = NULL;
@@ -422,7 +422,7 @@ static VOID ApCliPeerDeauthAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Ele
  */
 static VOID ApCliAuthTimeoutAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
-	USHORT ifIndex = (USHORT)(Elem->Priv);
+	unsigned short ifIndex = (unsigned short)(Elem->Priv);
 	PULONG pCurrState = NULL;
 
 	if ((ifIndex >= MAX_APCLI_NUM)
@@ -449,7 +449,7 @@ static VOID ApCliAuthTimeoutAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *El
 static VOID ApCliInvalidStateWhenAuth(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 	APCLI_CTRL_MSG_STRUCT ApCliCtrlMsg;
-	USHORT ifIndex = (USHORT)(Elem->Priv);
+	unsigned short ifIndex = (unsigned short)(Elem->Priv);
 	PULONG pCurrState = NULL;
 
 	if ((ifIndex >= MAX_APCLI_NUM)
@@ -483,7 +483,7 @@ static VOID ApCliMlmeDeauthReqAction(
 	u8 *pOutBuffer = NULL;
 	ULONG FrameLen = 0;
 	int NStatus;
-	USHORT ifIndex = (USHORT)(Elem->Priv);
+	unsigned short ifIndex = (unsigned short)(Elem->Priv);
 	PULONG pCurrState = NULL;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("APCLI AUTH - ApCliMlmeAuthReqAction (state=%ld), reset AUTH state machine\n",

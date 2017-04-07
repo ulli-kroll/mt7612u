@@ -629,7 +629,7 @@ typedef struct GNU_PACKED _SNDING_STA_INFO {
 */
 typedef struct GNU_PACKED _VHT_NDPA_FRAME {
 	FRAME_CONTROL fc;
-	USHORT duration;
+	unsigned short duration;
 	u8 ra[MAC_ADDR_LEN];
 	u8 ta[MAC_ADDR_LEN];
 	SNDING_DIALOG_TOKEN token;
@@ -637,8 +637,8 @@ typedef struct GNU_PACKED _VHT_NDPA_FRAME {
 } VHT_NDPA_FRAME;
 
 typedef struct GNU_PACKED _NDPA_PKT{
-	USHORT frm_ctrl;
-	USHORT duration;
+	unsigned short frm_ctrl;
+	unsigned short duration;
 	UINT8 ra[MAC_ADDR_LEN];
 	UINT8 ta[MAC_ADDR_LEN];
 	UINT8 snd_seq;

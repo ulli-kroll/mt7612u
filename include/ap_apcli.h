@@ -61,7 +61,7 @@ typedef struct _APCLI_MLME_JOIN_REQ_STRUCT {
 } APCLI_MLME_JOIN_REQ_STRUCT;
 
 typedef struct _APCLI_CTRL_MSG_STRUCT {
-	USHORT Status;
+	unsigned short Status;
 	u8 SrcAddr[MAC_ADDR_LEN];
 } APCLI_CTRL_MSG_STRUCT, *PSTA_CTRL_MSG_STRUCT;
 
@@ -96,8 +96,8 @@ MAC_TABLE_ENTRY *ApCliTableLookUpByWcid(
 bool 	ApCliValidateRSNIE(
 	IN struct rtmp_adapter *pAd,
 	IN 		PEID_STRUCT    	pEid_ptr,
-	IN		USHORT			eid_len,
-	IN		USHORT			idx);
+	IN		unsigned short 		eid_len,
+	IN		unsigned short 		idx);
 
 
 VOID ApCli_Remove(
@@ -120,11 +120,11 @@ VOID ApCliMgtMacHeaderInit(
     IN u8 ToDs,
     IN u8 *pDA,
     IN u8 *pBssid,
-    IN USHORT ifIndex);
+    IN unsigned short ifIndex);
 
 bool ApCliCheckHt(
 	IN		Pstruct rtmp_adapter 		pAd,
-	IN		USHORT 				IfIndex,
+	IN		unsigned short 				IfIndex,
 	IN OUT	HT_CAPABILITY_IE 	*pHtCapability,
 	IN OUT	ADD_HT_INFO_IE 		*pAddHtInfo);
 
@@ -169,9 +169,9 @@ bool ApCliPeerAssocRspSanity(
     IN VOID *pMsg,
     IN ULONG MsgLen,
     OUT u8 *pAddr2,
-    OUT USHORT *pCapabilityInfo,
-    OUT USHORT *pStatus,
-    OUT USHORT *pAid,
+    OUT unsigned short *pCapabilityInfo,
+    OUT unsigned short *pStatus,
+    OUT unsigned short *pAid,
     OUT u8 SupRate[],
     OUT u8 *pSupRateLen,
     OUT u8 ExtRate[],
@@ -232,14 +232,14 @@ bool APCliInstallSharedKey(
 	IN	u8 		DefaultKeyIdx,
 	IN  MAC_TABLE_ENTRY *pEntry);
 
-VOID ApCliUpdateMlmeRate(struct rtmp_adapter *pAd, USHORT ifIndex);
+VOID ApCliUpdateMlmeRate(struct rtmp_adapter *pAd, unsigned short ifIndex);
 
 VOID APCli_Init(struct rtmp_adapter *pAd,struct RTMP_OS_NETDEV_OP_HOOK *pNetDevOps);
 
 bool ApCli_Open(struct rtmp_adapter *pAd, struct net_device *dev_p);
 bool ApCli_Close(struct rtmp_adapter *pAd, struct net_device *dev_p);
 
-bool ApCliWaitProbRsp(struct rtmp_adapter *pAd, USHORT ifIndex);
+bool ApCliWaitProbRsp(struct rtmp_adapter *pAd, unsigned short ifIndex);
 VOID ApCliSimulateRecvBeacon(struct rtmp_adapter *pAd);
 
 #ifdef APCLI_AUTO_CONNECT_SUPPORT

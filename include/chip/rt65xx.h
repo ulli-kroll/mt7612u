@@ -48,24 +48,24 @@ VOID RT65xxUsbAsicRadioOff(struct rtmp_adapter *pAd, u8 Stage);
 #ifdef RT_BIG_ENDIAN
 typedef union _EEPROM_NIC_CINFIG0_STRUC {
 	struct {
-		USHORT Rsv:5;
-		USHORT PACurrent:1;
-		USHORT PAType:2;			/* 00: 2.4G+5G external PA, 01: 5G external PA, 10: 2.4G external PA, 11: Internal PA */
-		USHORT TxPath:4;			/* 1: 1T, 2: 2T, 3: 3T */
-		USHORT RxPath:4;			/* 1: 1R, 2: 2R, 3: 3R */
+		unsigned short Rsv:5;
+		unsigned short PACurrent:1;
+		unsigned short PAType:2;			/* 00: 2.4G+5G external PA, 01: 5G external PA, 10: 2.4G external PA, 11: Internal PA */
+		unsigned short TxPath:4;			/* 1: 1T, 2: 2T, 3: 3T */
+		unsigned short RxPath:4;			/* 1: 1R, 2: 2R, 3: 3R */
 	} field;
-	USHORT word;
+	unsigned short word;
 } EEPROM_NIC_CONFIG0_STRUC, *PEEPROM_NIC_CONFIG0_STRUC;
 #else
 typedef union _EEPROM_NIC_CINFIG0_STRUC {
 	struct {
-		USHORT RxPath:4;			/* 1: 1R, 2: 2R, 3: 3R */
-		USHORT TxPath:4;			/* 1: 1T, 2: 2T, 3: 3T */
-		USHORT PAType:2;			/* 00: 2.4G+5G external PA, 01: 5G external PA, 10: 2.4G external PA, 11: Internal PA */
-		USHORT PACurrent:1;
-		USHORT Rsv:5;
+		unsigned short RxPath:4;			/* 1: 1R, 2: 2R, 3: 3R */
+		unsigned short TxPath:4;			/* 1: 1T, 2: 2T, 3: 3T */
+		unsigned short PAType:2;			/* 00: 2.4G+5G external PA, 01: 5G external PA, 10: 2.4G external PA, 11: Internal PA */
+		unsigned short PACurrent:1;
+		unsigned short Rsv:5;
 	} field;
-	USHORT word;
+	unsigned short word;
 } EEPROM_NIC_CONFIG0_STRUC, *PEEPROM_NIC_CONFIG0_STRUC;
 #endif
 

@@ -170,7 +170,7 @@ VOID	WpaMicFailureReportFrame(
     inc_byte_array(pAd->StaCfg.ReplayCounter, 8);
 
 	/* Convert to little-endian format. */
-	*((USHORT *)&pPacket->KeyDesc.KeyInfo) = cpu2le16(*((USHORT *)&pPacket->KeyDesc.KeyInfo));
+	*((unsigned short *)&pPacket->KeyDesc.KeyInfo) = cpu2le16(*((unsigned short *)&pPacket->KeyDesc.KeyInfo));
 
 
 	pOutBuffer = kmalloc(MGMT_DMA_BUFFER_SIZE, GFP_ATOMIC);  /* allocate memory */

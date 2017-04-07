@@ -420,8 +420,8 @@ typedef struct _CMD_RSP_CONTEXT
 			MlmeSetPsmBit(_pAd, _val);\
 		else \
 		{ \
-			USHORT _psm_val = _val; \
-			RTEnqueueInternalCmd(_pAd, CMDTHREAD_SET_PSM_BIT, &(_psm_val), sizeof(USHORT)); \
+			unsigned short _psm_val = _val; \
+			RTEnqueueInternalCmd(_pAd, CMDTHREAD_SET_PSM_BIT, &(_psm_val), sizeof(unsigned short)); \
 		}\
 	}
 #endif /* CONFIG_STA_SUPPORT */

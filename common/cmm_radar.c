@@ -181,7 +181,7 @@ u8 get_channel_by_reference(
 	{
 		case 1:
 		{
-			USHORT min_time = 0xFFFF;
+			unsigned short min_time = 0xFFFF;
 			/* select channel with least RemainingTimeForUse */
 			for ( ch_idx = 0; ch_idx <  pAd->ChannelListNum; ch_idx++)
 			{
@@ -254,7 +254,7 @@ INT	Set_CSPeriod_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *		arg)
 {
-	pAd->Dot11_H.CSPeriod = (USHORT) simple_strtol(arg, 0, 10);
+	pAd->Dot11_H.CSPeriod = (unsigned short) simple_strtol(arg, 0, 10);
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_CSPeriod_Proc::(CSPeriod=%d)\n", pAd->Dot11_H.CSPeriod));
 
@@ -282,9 +282,9 @@ INT Set_ChMovingTime_Proc(
 	IN struct rtmp_adapter *pAd,
 	IN char *arg)
 {
-	USHORT Value;
+	unsigned short Value;
 
-	Value = (USHORT) simple_strtol(arg, 0, 10);
+	Value = (unsigned short) simple_strtol(arg, 0, 10);
 
 	pAd->Dot11_H.ChMovingTime = Value;
 

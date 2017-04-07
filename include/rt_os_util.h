@@ -85,8 +85,8 @@ struct sk_buff *duplicate_pkt_with_TKIP_MIC(
 
 struct sk_buff *duplicate_pkt_with_VLAN(
 	IN	struct net_device *			pNetDev,
-	IN	USHORT					VLAN_VID,
-	IN	USHORT					VLAN_Priority,
+	IN	unsigned short 				VLAN_VID,
+	IN	unsigned short 				VLAN_Priority,
 	IN	u8 *				pHeader802_3,
     IN  UINT            		HdrLen,
 	IN	u8 *				pData,
@@ -119,8 +119,8 @@ struct sk_buff *ClonePacket(struct sk_buff *pPacket, u8 *pData,ULONG DataSize);
 void wlan_802_11_to_802_3_packet(
 	IN	struct net_device *			pNetDev,
 	IN	u8 				OpMode,
-	IN	USHORT					VLAN_VID,
-	IN	USHORT					VLAN_Priority,
+	IN	unsigned short 				VLAN_VID,
+	IN	unsigned short 				VLAN_Priority,
 	IN	struct sk_buff *		pRxPacket,
 	IN	u8 				*pData,
 	IN	ULONG					DataSize,
@@ -130,8 +130,8 @@ void wlan_802_11_to_802_3_packet(
 
 
 u8 VLAN_8023_Header_Copy(
-	IN	USHORT					VLAN_VID,
-	IN	USHORT					VLAN_Priority,
+	IN	unsigned short 				VLAN_VID,
+	IN	unsigned short 				VLAN_Priority,
 	IN	u8 *				pHeader802_3,
 	IN	UINT            		HdrLen,
 	OUT u8 *				pData,
@@ -162,7 +162,7 @@ VOID RtmpOsPktInfPpaSend(struct sk_buff *pNetPkt);
 VOID RtmpOsPktRcvHandle(struct sk_buff *pNetPkt);
 VOID RtmpOsPktNatMagicTag(struct sk_buff *pNetPkt);
 VOID RtmpOsPktNatNone(struct sk_buff *pNetPkt);
-VOID RtmpOsPktInit(struct sk_buff *pNetPkt, struct net_device *pNetDev, u8 *buf, USHORT len);
+VOID RtmpOsPktInit(struct sk_buff *pNetPkt, struct net_device *pNetDev, u8 *buf, unsigned short len);
 
 struct sk_buff *RtmpOsPktIappMakeUp(struct net_device *pNetDev, UINT8 *pMac);
 
@@ -198,7 +198,7 @@ INT RtmpOSNetDevOpsAlloc(PVOID *pNetDevOps);
 
 
 #ifdef CONFIG_STA_SUPPORT
-INT RtmpOSNotifyRawData(struct net_device *pNetDev, u8 *buf, INT len, ULONG type, USHORT proto);
+INT RtmpOSNotifyRawData(struct net_device *pNetDev, u8 *buf, INT len, ULONG type, unsigned short proto);
 
 #endif /* CONFIG_STA_SUPPORT */
 
@@ -242,10 +242,10 @@ struct rtmp_adapter *RtmpOsGetNetDevPriv(struct net_device *pDev);
 VOID RtmpOsSetNetDevWdev(struct net_device *net_dev, struct rtmp_wifi_dev *wdev);
 struct rtmp_wifi_dev *RtmpOsGetNetDevWdev(struct net_device  *pDev);
 
-USHORT RtmpDevPrivFlagsGet(struct net_device *pDev);
-VOID RtmpDevPrivFlagsSet(struct net_device *pDev, USHORT PrivFlags);
+unsigned short RtmpDevPrivFlagsGet(struct net_device *pDev);
+VOID RtmpDevPrivFlagsSet(struct net_device *pDev, unsigned short PrivFlags);
 
-VOID RtmpOsSetNetDevType(struct net_device *pDev, USHORT Type);
+VOID RtmpOsSetNetDevType(struct net_device *pDev, unsigned short Type);
 VOID RtmpOsSetNetDevTypeMonitor(struct net_device *pDev);
 u8 get_sniffer_mode(struct net_device *pDev);
 VOID set_sniffer_mode(struct net_device *pDev, u8 mode);
@@ -384,14 +384,14 @@ void hex_dump(char *str, unsigned char *pSrcBufVA, unsigned int SrcBufLen);
 
 typedef VOID (*RTMP_OS_SEND_WLAN_EVENT)(
 	IN	struct rtmp_adapter			*pAdSrc,
-	IN	USHORT					Event_flag,
+	IN	unsigned short 				Event_flag,
 	IN	u8 *					pAddr,
 	IN  u8 				BssIdx,
 	IN	CHAR					Rssi);
 
 VOID RtmpOsSendWirelessEvent(
 	IN	struct rtmp_adapter	*pAd,
-	IN	USHORT			Event_flag,
+	IN	unsigned short 		Event_flag,
 	IN	u8 *			pAddr,
 	IN	u8 		BssIdx,
 	IN	CHAR			Rssi,
@@ -432,7 +432,7 @@ VOID RtmpDrvAllMacPrint(
 
 VOID RtmpDrvAllE2PPrint(
 	IN	VOID					*pReserved,
-	IN	USHORT					*pMacContent,
+	IN	unsigned short 				*pMacContent,
 	IN	uint32_t 				AddrEnd,
 	IN	uint32_t 				AddrStep);
 
@@ -476,20 +476,20 @@ VOID RtmpDrvRateGet(
 
 char * rtstrchr(const char * s, int c);
 
-char *  WscGetAuthTypeStr(USHORT authFlag);
+char *  WscGetAuthTypeStr(unsigned short authFlag);
 
-char *  WscGetEncryTypeStr(USHORT encryFlag);
+char *  WscGetEncryTypeStr(unsigned short encryFlag);
 
-USHORT WscGetAuthTypeFromStr(char *arg);
+unsigned short WscGetAuthTypeFromStr(char *arg);
 
-USHORT WscGetEncrypTypeFromStr(char *arg);
+unsigned short WscGetEncrypTypeFromStr(char *arg);
 
 VOID RtmpMeshDown(
 	IN VOID *pDrvCtrlBK,
 	IN bool WaitFlag,
 	IN bool (*RtmpMeshLinkCheck)(IN VOID *pAd));
 
-USHORT RtmpOsNetPrivGet(struct net_device *pDev);
+unsigned short RtmpOsNetPrivGet(struct net_device *pDev);
 
 bool RtmpOsCmdDisplayLenCheck(
 	IN	uint32_t 				LenSrc,

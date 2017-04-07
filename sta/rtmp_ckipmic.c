@@ -77,7 +77,7 @@ u8 SboxTable[256] =
 /*===========================================================================*/
 
 /* 2-byte by 2-byte subset of the full AES table */
-static const USHORT Sbox[256] =
+static const unsigned short Sbox[256] =
 {
     0xC6A5,0xF884,0xEE99,0xF68D,0xFF0D,0xD6BD,0xDEB1,0x9154,
     0x6050,0x0203,0xCEA9,0x567D,0xE719,0xB562,0x4DE6,0xEC9A,
@@ -128,17 +128,17 @@ VOID CKIP_key_permute
      )
 {
     int i;
-    USHORT H[2], tmp;          /* H=32-bits of per-packet hash value */
-    USHORT L[8], R[8];         /* L=u16 array of CK, R=u16 array of PK */
+    unsigned short H[2], tmp;          /* H=32-bits of per-packet hash value */
+    unsigned short L[8], R[8];         /* L=u16 array of CK, R=u16 array of PK */
 
     /* build L from input key */
     memset(L, 0, sizeof(L));
     for (i=0; i<16; i++) {
-        L[i>>1] |= ( ((USHORT)(CK[i])) << ( i & 1 ? 8 : 0) );
+        L[i>>1] |= ( ((unsigned short)(CK[i])) << ( i & 1 ? 8 : 0) );
     }
 
-    H[0] = (((USHORT)piv[0]) << 8) + piv[1];
-    H[1] = ( ((USHORT)toDsFromDs) << 8) | piv[2];
+    H[0] = (((unsigned short)piv[0]) << 8) + piv[1];
+    H[1] = ( ((unsigned short)toDsFromDs) << 8) | piv[2];
 
     for (i=0; i<8; i++) {
         H[0] ^= L[i];           /* 16-bits of key material */
@@ -479,7 +479,7 @@ VOID RTMPCkipInsertCMIC(
     u8           bigethlen[2];
 	u8 		ckip_ck[16];
     MIC_CONTEXT     mic_ctx;
-    USHORT          payloadlen;
+    unsigned short          payloadlen;
 	u8 		i;
 
 	if (pKey == NULL)

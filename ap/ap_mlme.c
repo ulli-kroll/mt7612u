@@ -245,7 +245,7 @@ VOID APMlmePeriodicExec(
     	APUpdateOperationMode(pAd);
 		if (pAd->CommonCfg.IOTestParm.bRTSLongProtOn == false)
 		{
-        	AsicUpdateProtect(pAd, (USHORT)pAd->CommonCfg.AddHTInfo.AddHtInfo2.OperaionMode, ALLN_SETPROTECT, false, pAd->MacTab.fAnyStationNonGF);
+        	AsicUpdateProtect(pAd, (unsigned short)pAd->CommonCfg.AddHTInfo.AddHtInfo2.OperaionMode, ALLN_SETPROTECT, false, pAd->MacTab.fAnyStationNonGF);
     	}
     }
 
@@ -323,7 +323,7 @@ bool APMsgTypeSubst(
     OUT INT *Machine,
     OUT INT *MsgType)
 {
-    USHORT Seq;
+    unsigned short Seq;
     u8  EAPType;
     bool     Return = false;
 
@@ -397,7 +397,7 @@ bool APMsgTypeSubst(
             break;
         case SUBTYPE_AUTH:
             /* get the sequence number from payload 24 Mac Header + 2 bytes algorithm */
-            memmove(&Seq, &pFrame->Octet[2], sizeof(USHORT));
+            memmove(&Seq, &pFrame->Octet[2], sizeof(unsigned short));
 
 			*Machine = AP_AUTH_STATE_MACHINE;
 			if (Seq == 1)

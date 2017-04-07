@@ -41,7 +41,7 @@ VOID InitChannelRelatedValue(
 VOID AdjustChannelRelatedValue(
 	IN struct rtmp_adapter *pAd,
 	OUT u8 *pBwFallBack,
-	IN USHORT ifIndex,
+	IN unsigned short ifIndex,
 	IN bool BandWidth,
 	IN u8 PriCh,
 	IN u8 ExtraCh);

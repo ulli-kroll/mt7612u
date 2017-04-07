@@ -169,16 +169,16 @@ VOID MlmeAssocReqAction(
 	u8 ApAddr[6];
 	HEADER_802_11 AssocHdr;
 	u8 WmeIe[9] = {IE_VENDOR_SPECIFIC, 0x07, 0x00, 0x50, 0xf2, 0x02, 0x00, 0x01, 0x00};
-	USHORT ListenIntv;
+	unsigned short ListenIntv;
 	ULONG Timeout;
-	USHORT CapabilityInfo;
+	unsigned short CapabilityInfo;
 	bool TimerCancelled;
 	u8 *pOutBuffer = NULL;
 	int NStatus;
 	ULONG FrameLen = 0;
 	ULONG tmp;
-	USHORT VarIesOffset = 0;
-	USHORT Status;
+	unsigned short VarIesOffset = 0;
+	unsigned short Status;
 
 	/* Block all authentication request durning WPA block period */
 	if (pAd->StaCfg.bBlockAssoc == true) {
@@ -292,8 +292,8 @@ VOID MlmeAssocReqAction(
 			HT_CAPABILITY_IE HtCapabilityTmp;
 			memset(&HtCapabilityTmp, 0, sizeof (HT_CAPABILITY_IE));
 			memmove(&HtCapabilityTmp, &pAd->MlmeAux.HtCapability, pAd->MlmeAux.HtCapabilityLen);
-			*(USHORT *) (&HtCapabilityTmp.HtCapInfo) = SWAP16(*(USHORT *) (&HtCapabilityTmp.HtCapInfo));
-			*(USHORT *) (&HtCapabilityTmp.ExtHtCapInfo) = SWAP16(*(USHORT *) (&HtCapabilityTmp.ExtHtCapInfo));
+			*(unsigned short *) (&HtCapabilityTmp.HtCapInfo) = SWAP16(*(unsigned short *) (&HtCapabilityTmp.HtCapInfo));
+			*(unsigned short *) (&HtCapabilityTmp.ExtHtCapInfo) = SWAP16(*(unsigned short *) (&HtCapabilityTmp.ExtHtCapInfo));
 			pHtCapability = &HtCapabilityTmp;
 #else
 			pHtCapability = &pAd->MlmeAux.HtCapability;
@@ -597,14 +597,14 @@ VOID MlmeReassocReqAction(
 	u8 ApAddr[6];
 	HEADER_802_11 ReassocHdr;
 	u8 WmeIe[9] = {IE_VENDOR_SPECIFIC, 0x07, 0x00, 0x50, 0xf2, 0x02, 0x00, 0x01, 0x00};
-	USHORT CapabilityInfo, ListenIntv;
+	unsigned short CapabilityInfo, ListenIntv;
 	ULONG Timeout;
 	ULONG FrameLen = 0;
 	bool TimerCancelled;
 	int NStatus;
 	ULONG tmp;
 	u8 *pOutBuffer = NULL;
-	USHORT Status;
+	unsigned short Status;
 
 	/* Block all authentication request durning WPA block period */
 	if (pAd->StaCfg.bBlockAssoc == true) {
@@ -690,8 +690,8 @@ VOID MlmeReassocReqAction(
 			HT_CAPABILITY_IE HtCapabilityTmp;
 			memset(&HtCapabilityTmp, 0, sizeof (HT_CAPABILITY_IE));
 			memmove(&HtCapabilityTmp, &pAd->MlmeAux.HtCapability, pAd->MlmeAux.HtCapabilityLen);
-			*(USHORT *) (&HtCapabilityTmp.HtCapInfo) = SWAP16(*(USHORT *) (&HtCapabilityTmp.HtCapInfo));
-			*(USHORT *) (&HtCapabilityTmp.ExtHtCapInfo) = SWAP16(*(USHORT *) (&HtCapabilityTmp.ExtHtCapInfo));
+			*(unsigned short *) (&HtCapabilityTmp.HtCapInfo) = SWAP16(*(unsigned short *) (&HtCapabilityTmp.HtCapInfo));
+			*(unsigned short *) (&HtCapabilityTmp.ExtHtCapInfo) = SWAP16(*(unsigned short *) (&HtCapabilityTmp.ExtHtCapInfo));
 			pHtCapability = &HtCapabilityTmp;
 #else
 			pHtCapability = &pAd->MlmeAux.HtCapability;
@@ -825,7 +825,7 @@ VOID MlmeDisassocReqAction(
 	int NStatus;
 	bool TimerCancelled;
 	ULONG Timeout = 500;
-	USHORT Status;
+	unsigned short Status;
 
 
 
@@ -905,7 +905,7 @@ VOID PeerAssocRspAction(
 	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
-	USHORT CapabilityInfo, Status, Aid;
+	unsigned short CapabilityInfo, Status, Aid;
 	u8 SupRate[MAX_LEN_OF_SUPPORTED_RATES], SupRateLen;
 	u8 ExtRate[MAX_LEN_OF_SUPPORTED_RATES], ExtRateLen;
 	u8 Addr2[MAC_ADDR_LEN];
@@ -1053,9 +1053,9 @@ VOID PeerReassocRspAction(
 	IN struct rtmp_adapter *pAd,
 	IN MLME_QUEUE_ELEM *Elem)
 {
-	USHORT CapabilityInfo;
-	USHORT Status;
-	USHORT Aid;
+	unsigned short CapabilityInfo;
+	unsigned short Status;
+	unsigned short Aid;
 	u8 SupRate[MAX_LEN_OF_SUPPORTED_RATES], SupRateLen;
 	u8 ExtRate[MAX_LEN_OF_SUPPORTED_RATES], ExtRateLen;
 	u8 Addr2[MAC_ADDR_LEN];
@@ -1196,8 +1196,8 @@ VOID PeerReassocRspAction(
 VOID AssocPostProc(
 	IN struct rtmp_adapter *pAd,
 	IN u8 *pAddr2,
-	IN USHORT CapabilityInfo,
-	IN USHORT Aid,
+	IN unsigned short CapabilityInfo,
+	IN unsigned short Aid,
 	IN u8 SupRate[],
 	IN u8 SupRateLen,
 	IN u8 ExtRate[],
@@ -1283,7 +1283,7 @@ VOID AssocPostProc(
 		if ((wdev->AuthMode >= Ndis802_11AuthModeWPA)
 		    && (pAd->ScanTab.BssEntry[Idx].VarIELen != 0)) {
 			u8 *pVIE;
-			USHORT len;
+			unsigned short len;
 			PEID_STRUCT pEid;
 
 			pVIE = pAd->ScanTab.BssEntry[Idx].VarIEs;
@@ -1341,7 +1341,7 @@ VOID AssocPostProc(
 VOID PeerDisassocAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 	u8 Addr2[MAC_ADDR_LEN];
-	USHORT Reason;
+	unsigned short Reason;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("ASSOC - PeerDisassocAction()\n"));
 	if (PeerDisassocSanity(pAd, Elem->Msg, Elem->MsgLen, Addr2, &Reason)) {
@@ -1365,7 +1365,7 @@ VOID PeerDisassocAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 			 */
 			if (pAd->Mlme.CntlMachine.CurrState ==
 			    CNTL_WAIT_DISASSOC) {
-				USHORT Status;
+				unsigned short Status;
 				Status = MLME_SUCCESS;
 				MlmeEnqueue(pAd, MLME_CNTL_STATE_MACHINE,
 					    MT2_DISASSOC_CONF, 2, &Status, 0);
@@ -1407,7 +1407,7 @@ VOID PeerDisassocAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
  */
 VOID AssocTimeoutAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
-	USHORT Status;
+	unsigned short Status;
 	DBGPRINT(RT_DEBUG_TRACE, ("ASSOC - AssocTimeoutAction\n"));
 	pAd->Mlme.AssocMachine.CurrState = ASSOC_IDLE;
 	Status = MLME_REJ_TIMEOUT;
@@ -1426,7 +1426,7 @@ VOID AssocTimeoutAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
  */
 VOID ReassocTimeoutAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
-	USHORT Status;
+	unsigned short Status;
 	DBGPRINT(RT_DEBUG_TRACE, ("ASSOC - ReassocTimeoutAction\n"));
 	pAd->Mlme.AssocMachine.CurrState = ASSOC_IDLE;
 	Status = MLME_REJ_TIMEOUT;
@@ -1445,7 +1445,7 @@ VOID ReassocTimeoutAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
  */
 VOID DisassocTimeoutAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
-	USHORT Status;
+	unsigned short Status;
 	DBGPRINT(RT_DEBUG_TRACE, ("ASSOC - DisassocTimeoutAction\n"));
 	pAd->Mlme.AssocMachine.CurrState = ASSOC_IDLE;
 	Status = MLME_SUCCESS;
@@ -1455,7 +1455,7 @@ VOID DisassocTimeoutAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 
 VOID InvalidStateWhenAssoc(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
-	USHORT Status;
+	unsigned short Status;
 	DBGPRINT(RT_DEBUG_TRACE,
 		 ("ASSOC - InvalidStateWhenAssoc(state=%ld), reset ASSOC state machine\n",
 		  pAd->Mlme.AssocMachine.CurrState));
@@ -1467,7 +1467,7 @@ VOID InvalidStateWhenAssoc(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 
 VOID InvalidStateWhenReassoc(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
-	USHORT Status;
+	unsigned short Status;
 	DBGPRINT(RT_DEBUG_TRACE,
 		 ("ASSOC - InvalidStateWhenReassoc(state=%ld), reset ASSOC state machine\n",
 		  pAd->Mlme.AssocMachine.CurrState));
@@ -1479,7 +1479,7 @@ VOID InvalidStateWhenReassoc(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 
 VOID InvalidStateWhenDisassociate(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
-	USHORT Status;
+	unsigned short Status;
 	DBGPRINT(RT_DEBUG_TRACE,
 		 ("ASSOC - InvalidStateWhenDisassoc(state=%ld), reset ASSOC state machine\n",
 		  pAd->Mlme.AssocMachine.CurrState));
@@ -1509,7 +1509,7 @@ VOID Cls3errAction(struct rtmp_adapter *pAd, u8 *pAddr)
 	u8 *pOutBuffer = NULL;
 	ULONG FrameLen = 0;
 	int NStatus;
-	USHORT Reason = REASON_CLS3ERR;
+	unsigned short Reason = REASON_CLS3ERR;
 
 	pOutBuffer = kmalloc(MGMT_DMA_BUFFER_SIZE, GFP_ATOMIC);	/*Get an unused nonpaged memory */
 	if (pOutBuffer == NULL)

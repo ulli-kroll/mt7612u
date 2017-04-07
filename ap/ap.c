@@ -400,7 +400,7 @@ DBGPRINT(RT_DEBUG_OFF, ("%s(): AP Set CentralFreq at %d(Prim=%d, HT-CentCh=%d, V
 						pAd->CommonCfg.BBPCurrentBW));
 //---Add by shiang for debug
 
-	MlmeSetTxPreamble(pAd, (USHORT)pAd->CommonCfg.TxPreamble);
+	MlmeSetTxPreamble(pAd, (unsigned short)pAd->CommonCfg.TxPreamble);
 	for (idx = 0; idx < pAd->ApCfg.BssidNum; idx++)
 	{
 		MlmeUpdateTxRates(pAd, false, idx);
@@ -433,7 +433,7 @@ DBGPRINT(RT_DEBUG_OFF, ("%s(): AP Set CentralFreq at %d(Prim=%d, HT-CentCh=%d, V
 	/* Init Security variables */
 	for (idx = 0; idx < pAd->ApCfg.BssidNum; idx++)
 	{
-		USHORT Wcid = 0;
+		unsigned short Wcid = 0;
 		MULTISSID_STRUCT *pMbss = &pAd->ApCfg.MBSSID[idx];
 		struct rtmp_wifi_dev *wdev = &pAd->ApCfg.MBSSID[idx].wdev;
 
@@ -973,7 +973,7 @@ VOID MacTableMaintenance(struct rtmp_adapter *pAd)
 				int NStatus;
 				ULONG FrameLen = 0;
 				HEADER_802_11 DeAuthHdr;
-				USHORT Reason;
+				unsigned short Reason;
 
 				/*  send out a DISASSOC request frame */
 				pOutBuffer  = kmalloc(MGMT_DMA_BUFFER_SIZE, GFP_ATOMIC);
@@ -1185,7 +1185,7 @@ MAC_TABLE_ENTRY *APSsPsInquiry(
 	IN struct rtmp_adapter *pAd,
 	IN u8 *pAddr,
 	OUT SST *Sst,
-	OUT USHORT *Aid,
+	OUT unsigned short *Aid,
 	OUT u8 *PsMode,
 	OUT u8 *Rate)
 {
@@ -1235,7 +1235,7 @@ MAC_TABLE_ENTRY *APSsPsInquiry(
 VOID ApLogEvent(
 	IN struct rtmp_adapter *pAd,
 	IN u8 *  pAddr,
-	IN USHORT   Event)
+	IN unsigned short   Event)
 {
 	if (pAd->EventTab.Num < MAX_NUM_OF_EVENT)
 	{
@@ -1379,7 +1379,7 @@ VOID APUpdateCapabilityAndErpIe(
 
 	if (bUseBGProtection != OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_BG_PROTECTION_INUSED))
 	{
-		USHORT OperationMode = 0;
+		unsigned short OperationMode = 0;
 		bool	bNonGFExist = 0;
 
 		OperationMode = pAd->CommonCfg.AddHTInfo.AddHtInfo2.OperaionMode;
@@ -1409,7 +1409,7 @@ VOID APUpdateCapabilityAndErpIe(
 	/* deicide CapabilityInfo.ShortSlotTime bit */
     for (apidx=0; apidx<pAd->ApCfg.BssidNum; apidx++)
     {
-		USHORT *pCapInfo = &(pAd->ApCfg.MBSSID[apidx].CapabilityInfo);
+		unsigned short *pCapInfo = &(pAd->ApCfg.MBSSID[apidx].CapabilityInfo);
 
 		/* In A-band, the ShortSlotTime bit should be ignored. */
 		if (ShortSlotCapable
@@ -1513,14 +1513,14 @@ bool ApCheckAccessControlList(
 */
 VOID ApUpdateAccessControlList(struct rtmp_adapter *pAd, u8 Apidx)
 {
-	USHORT   AclIdx, MacIdx;
+	unsigned short   AclIdx, MacIdx;
 	bool  Matched;
 
 	u8 *     pOutBuffer = NULL;
 	int NStatus;
 	ULONG       FrameLen = 0;
 	HEADER_802_11 DisassocHdr;
-	USHORT      Reason;
+	unsigned short      Reason;
 	MAC_TABLE_ENTRY *pEntry;
 	MULTISSID_STRUCT *pMbss;
 	bool drop;

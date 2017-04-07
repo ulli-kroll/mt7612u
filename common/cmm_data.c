@@ -1198,7 +1198,7 @@ bool RTMP_FillTxBlkInfo(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 	}
 
 
-	pAd->LastTxRate = (USHORT)pTxBlk->pTransmit->word;
+	pAd->LastTxRate = (unsigned short)pTxBlk->pTransmit->word;
 
 	return true;
 }
@@ -1562,7 +1562,7 @@ VOID RTMPDeQueuePacket(
 
 	========================================================================
 */
-USHORT	RTMPCalcDuration(
+unsigned short RTMPCalcDuration(
 	IN	struct rtmp_adapter *pAd,
 	IN	u8 		Rate,
 	IN	ULONG			Size)
@@ -1576,14 +1576,14 @@ USHORT	RTMPCalcDuration(
 		else
 			Duration = 192; /* 144+48 preamble+plcp*/
 
-		Duration += (USHORT)((Size << 4) / RateIdTo500Kbps[Rate]);
+		Duration += (unsigned short)((Size << 4) / RateIdTo500Kbps[Rate]);
 		if ((Size << 4) % RateIdTo500Kbps[Rate])
 			Duration ++;
 	}
 	else if (Rate <= RATE_LAST_OFDM_RATE)/* OFDM rates*/
 	{
 		Duration = 20 + 6;		/* 16+4 preamble+plcp + Signal Extension*/
-		Duration += 4 * (USHORT)((11 + Size * 4) / RateIdTo500Kbps[Rate]);
+		Duration += 4 * (unsigned short)((11 + Size * 4) / RateIdTo500Kbps[Rate]);
 		if ((11 + Size * 4) % RateIdTo500Kbps[Rate])
 			Duration += 4;
 	}
@@ -1592,7 +1592,7 @@ USHORT	RTMPCalcDuration(
 		Duration = 20 + 6;		/* 16+4 preamble+plcp + Signal Extension*/
 	}
 
-	return (USHORT)Duration;
+	return (unsigned short)Duration;
 }
 
 
@@ -1693,8 +1693,8 @@ UINT deaggregate_AMSDU_announce(
 	IN	ULONG			DataSize,
 	IN	u8 		OpMode)
 {
-	USHORT 			PayloadSize;
-	USHORT 			SubFrameSize;
+	unsigned short 			PayloadSize;
+	unsigned short 			SubFrameSize;
 	PHEADER_802_3 	pAMSDUsubheader;
 	UINT			nMSDU;
     u8 		Header802_3[14];
@@ -1705,7 +1705,7 @@ UINT deaggregate_AMSDU_announce(
 #ifdef CONFIG_AP_SUPPORT
 	u8 FromWhichBSSID = RTMP_GET_PACKET_IF(pPacket);
 	u8 VLAN_Size;
-	USHORT VLAN_VID = 0, VLAN_Priority = 0;
+	unsigned short VLAN_VID = 0, VLAN_Priority = 0;
 
 
 	if ((FromWhichBSSID < pAd->ApCfg.BssidNum)
@@ -1893,7 +1893,7 @@ UINT BA_Reorder_AMSDU_Annnounce(
 	IN	u8 		OpMode)
 {
 	u8 *		pData;
-	USHORT			DataSize;
+	unsigned short 		DataSize;
 	UINT			nMSDU = 0;
 
 	pData = pPacket->data;
@@ -1929,9 +1929,9 @@ VOID AssocParmFill(
 	IN struct rtmp_adapter *pAd,
 	IN OUT MLME_ASSOC_REQ_STRUCT *AssocReq,
 	IN u8 *                    pAddr,
-	IN USHORT                     CapabilityInfo,
+	IN unsigned short                     CapabilityInfo,
 	IN ULONG                      Timeout,
-	IN USHORT                     ListenIntv)
+	IN unsigned short                     ListenIntv)
 {
 	COPY_MAC_ADDR(AssocReq->Addr, pAddr);
 	/* Add mask to support 802.11b mode only */
@@ -1953,7 +1953,7 @@ VOID DisassocParmFill(
 	IN struct rtmp_adapter *pAd,
 	IN OUT MLME_DISASSOC_REQ_STRUCT *DisassocReq,
 	IN u8 *pAddr,
-	IN USHORT Reason)
+	IN unsigned short Reason)
 {
 	COPY_MAC_ADDR(DisassocReq->Addr, pAddr);
 	DisassocReq->Reason = Reason;
@@ -2028,7 +2028,7 @@ bool RTMPCheckEtherType(
 		{
 			Sniff2BytesFromNdisBuffer((PNDIS_BUFFER)pSrcBuf, 6, &Byte0, &Byte1);
 			RTMP_SET_PACKET_LLCSNAP(pPacket, 1);
-			TypeLen = (USHORT)((Byte0 << 8) + Byte1);
+			TypeLen = (unsigned short)((Byte0 << 8) + Byte1);
 			pSrcBuf += 8; /* Skip this LLC/SNAP header*/
 		} else {
 			return false;
@@ -2039,7 +2039,7 @@ bool RTMPCheckEtherType(
 	if (TypeLen == ETH_TYPE_VLAN)
 	{
 #ifdef CONFIG_AP_SUPPORT
-		USHORT VLAN_VID = 0;
+		unsigned short VLAN_VID = 0;
 
 		/*
 			802.3 VLAN packets format:
@@ -2059,7 +2059,7 @@ bool RTMPCheckEtherType(
 		{
 			/* check if the packet is my VLAN */
 			/* VLAN tag: 3-bit UP + 1-bit CFI + 12-bit VLAN ID */
-			USHORT vlan_id = *(USHORT *)pSrcBuf;
+			unsigned short vlan_id = *(unsigned short *)pSrcBuf;
 
 			vlan_id = cpu2be16(vlan_id);
 			vlan_id = vlan_id & 0x0FFF; /* 12 bit */
@@ -2070,7 +2070,7 @@ bool RTMPCheckEtherType(
 
 		RTMP_SET_PACKET_VLAN(pPacket, 1);
 		Sniff2BytesFromNdisBuffer((PNDIS_BUFFER)pSrcBuf, 2, &Byte0, &Byte1);
-		TypeLen = (USHORT)((Byte0 << 8) + Byte1);
+		TypeLen = (unsigned short)((Byte0 << 8) + Byte1);
 
 		/* only use VLAN tag */
 		up = (*pSrcBuf & 0xe0) >> 5;
@@ -2363,7 +2363,7 @@ VOID Indicate_Legacy_Packet(struct rtmp_adapter *pAd, RX_BLK *pRxBlk, u8 FromWhi
 {
 	struct sk_buff *pRxPacket = pRxBlk->pRxPacket;
 	u8 Header802_3[LENGTH_802_3];
-	USHORT VLAN_VID = 0, VLAN_Priority = 0;
+	unsigned short VLAN_VID = 0, VLAN_Priority = 0;
 
 //+++Add by shiang for debug
 if (0) {
@@ -2406,7 +2406,7 @@ if (0) {
 		ULONG				Now32;
 		u8 			Wcid = pRxBlk->wcid;
 		u8 			TID = pRxBlk->TID;
-		USHORT				Idx;
+		unsigned short 			Idx;
 
 #define REORDERING_PACKET_TIMEOUT		((100 * OS_HZ)/1000)	/* system ticks -- 100 ms*/
 
@@ -2513,7 +2513,7 @@ VOID CmmRxRalinkFrameIndicate(
 	uint16_t 			Payload1Size, Payload2Size;
 	u8 *			pData2;
 	struct sk_buff *pPacket2 = NULL;
-	USHORT			VLAN_VID = 0, VLAN_Priority = 0;
+	unsigned short 		VLAN_VID = 0, VLAN_Priority = 0;
 
 
 	Msdu2Size = *(pRxBlk->pData) + (*(pRxBlk->pData+1) << 8);
@@ -2551,7 +2551,7 @@ VOID CmmRxRalinkFrameIndicate(
 #ifdef CONFIG_AP_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 	{
-		USHORT VLAN_VID = 0, VLAN_Priority = 0;
+		unsigned short VLAN_VID = 0, VLAN_Priority = 0;
 
 		MBSS_VLAN_INFO_GET(pAd, VLAN_VID, VLAN_Priority, FromWhichBSSID);
 #ifdef WDS_VLAN_SUPPORT
@@ -2631,7 +2631,7 @@ struct sk_buff *RTMPDeFragmentDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk
 	HEADER_802_11 *pHeader = pRxBlk->pHeader;
 	struct sk_buff *pRxPacket = pRxBlk->pRxPacket;
 	u8 *pData = pRxBlk->pData;
-	USHORT DataSize = pRxBlk->DataSize;
+	unsigned short DataSize = pRxBlk->DataSize;
 	struct sk_buff *pRetPacket = NULL;
 	u8 *pFragBuffer = NULL;
 	bool bReassDone = false;
@@ -3149,13 +3149,13 @@ VOID dev_rx_mgmt_frm(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 			}
 #ifdef RT_BIG_ENDIAN
 			/* swap 16 bit fields - Auth Alg No. field */
-			*(USHORT *)pMgmt = SWAP16(*(USHORT *)pMgmt);
+			*(unsigned short *)pMgmt = SWAP16(*(unsigned short *)pMgmt);
 
 			/* swap 16 bit fields - Auth Seq No. field */
-			*(USHORT *)(pMgmt + 2) = SWAP16(*(USHORT *)(pMgmt + 2));
+			*(unsigned short *)(pMgmt + 2) = SWAP16(*(unsigned short *)(pMgmt + 2));
 
 			/* swap 16 bit fields - Status Code field */
-			*(USHORT *)(pMgmt + 4) = SWAP16(*(USHORT *)(pMgmt + 4));
+			*(unsigned short *)(pMgmt + 4) = SWAP16(*(unsigned short *)(pMgmt + 4));
 #endif /* RT_BIG_ENDIAN */
 
 			DBGPRINT(RT_DEBUG_TRACE, ("Decrypt AUTH seq#3 successfully\n"));
@@ -3297,7 +3297,7 @@ VOID dev_rx_ctrl_frm(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 		case SUBTYPE_PS_POLL:
 			IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 			{
-				USHORT Aid = pHeader->Duration & 0x3fff;
+				unsigned short Aid = pHeader->Duration & 0x3fff;
 				u8 *pAddr = pHeader->Addr2;
 				MAC_TABLE_ENTRY *pEntry;
 

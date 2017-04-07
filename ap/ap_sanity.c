@@ -166,18 +166,18 @@ bool PeerAssocReqCmmSanity(
 			{
 				memmove(pHtCapability, eid_ptr->Octet, SIZE_HT_CAP_IE);
 
-				*(USHORT *)(&pHtCapability->HtCapInfo) = cpu2le16(*(USHORT *)(&pHtCapability->HtCapInfo));
+				*(unsigned short *)(&pHtCapability->HtCapInfo) = cpu2le16(*(unsigned short *)(&pHtCapability->HtCapInfo));
 
 #ifdef UNALIGNMENT_SUPPORT
 				{
 					EXT_HT_CAP_INFO extHtCapInfo;
 
 					memmove((&extHtCapInfo, &pHtCapability->ExtHtCapInfo, sizeof(EXT_HT_CAP_INFO));
-					*(USHORT *)(&extHtCapInfo) = cpu2le16(*(USHORT *)(&extHtCapInfo));
+					*(unsigned short *)(&extHtCapInfo) = cpu2le16(*(unsigned short *)(&extHtCapInfo));
 					memmove(&pHtCapability->ExtHtCapInfo, &extHtCapInfo, sizeof(EXT_HT_CAP_INFO));
 				}
 #else
-				*(USHORT *)(&pHtCapability->ExtHtCapInfo) = cpu2le16(*(USHORT *)(&pHtCapability->ExtHtCapInfo));
+				*(unsigned short *)(&pHtCapability->ExtHtCapInfo) = cpu2le16(*(unsigned short *)(&pHtCapability->ExtHtCapInfo));
 #endif /* UNALIGNMENT_SUPPORT */
 
 				ie_lists->ht_cap_len = SIZE_HT_CAP_IE;
@@ -221,17 +221,17 @@ bool PeerAssocReqCmmSanity(
 							{
 								memmove(pHtCapability, &eid_ptr->Octet[4], SIZE_HT_CAP_IE);
 
-								*(USHORT *)(&pHtCapability->HtCapInfo) = cpu2le16(*(USHORT *)(&pHtCapability->HtCapInfo));
+								*(unsigned short *)(&pHtCapability->HtCapInfo) = cpu2le16(*(unsigned short *)(&pHtCapability->HtCapInfo));
 #ifdef UNALIGNMENT_SUPPORT
 								{
 									EXT_HT_CAP_INFO extHtCapInfo;
 
 									memmove(&extHtCapInfo, &pHtCapability->ExtHtCapInfo, sizeof(EXT_HT_CAP_INFO));
-									*(USHORT *)(&extHtCapInfo) = cpu2le16(*(USHORT *)(&extHtCapInfo));
+									*(unsigned short *)(&extHtCapInfo) = cpu2le16(*(unsigned short *)(&extHtCapInfo));
 									memmove(&pHtCapability->ExtHtCapInfo, &extHtCapInfo, sizeof(EXT_HT_CAP_INFO));
 								}
 #else
-								*(USHORT *)(&pHtCapability->ExtHtCapInfo) = cpu2le16(*(USHORT *)(&pHtCapability->ExtHtCapInfo));
+								*(unsigned short *)(&pHtCapability->ExtHtCapInfo) = cpu2le16(*(unsigned short *)(&pHtCapability->ExtHtCapInfo));
 #endif /* UNALIGNMENT_SUPPORT */
 
 								ie_lists->ht_cap_len = SIZE_HT_CAP_IE;
@@ -357,7 +357,7 @@ bool PeerDisassocReqSanity(
     IN ULONG MsgLen,
     OUT u8 *pAddr2,
     OUT	uint16_t *SeqNum,
-    OUT USHORT *Reason)
+    OUT unsigned short *Reason)
 {
     PFRAME_802_11 Fr = (PFRAME_802_11)Msg;
 
@@ -383,7 +383,7 @@ bool PeerDeauthReqSanity(
     IN ULONG MsgLen,
     OUT u8 *pAddr2,
     OUT	uint16_t *SeqNum,
-    OUT USHORT *Reason)
+    OUT unsigned short *Reason)
 {
     PFRAME_802_11 Fr = (PFRAME_802_11)Msg;
 
@@ -409,9 +409,9 @@ bool APPeerAuthSanity(
     IN ULONG MsgLen,
     OUT u8 *pAddr1,
     OUT u8 *pAddr2,
-    OUT USHORT *Alg,
-    OUT USHORT *Seq,
-    OUT USHORT *Status,
+    OUT unsigned short *Alg,
+    OUT unsigned short *Seq,
+    OUT unsigned short *Status,
     CHAR *ChlgText
     )
 {

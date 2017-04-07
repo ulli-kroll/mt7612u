@@ -155,7 +155,7 @@ static VOID QBSS_LoadAlarm(
 					int NStatus;
 					ULONG FrameLen = 0;
 					HEADER_802_11 DeAuthHdr;
-					USHORT Reason;
+					unsigned short Reason;
 
 					/*  send out a DISASSOC request frame */
 					pOutBuffer = kmalloc(MGMT_DMA_BUFFER_SIZE, GFP_ATOMIC);

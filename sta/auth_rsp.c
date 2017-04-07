@@ -68,10 +68,10 @@ VOID AuthRspStateMachineInit(
 VOID PeerAuthSimpleRspGenAndSend(
 	IN struct rtmp_adapter *pAd,
 	IN PHEADER_802_11 pHdr80211,
-	IN USHORT Alg,
-	IN USHORT Seq,
-	IN USHORT Reason,
-	IN USHORT Status)
+	IN unsigned short Alg,
+	IN unsigned short Seq,
+	IN unsigned short Reason,
+	IN unsigned short Status)
 {
 	HEADER_802_11 AuthHdr;
 	ULONG FrameLen = 0;
@@ -113,7 +113,7 @@ VOID PeerDeauthAction(
 	u8 Addr1[MAC_ADDR_LEN];
 	u8 Addr2[MAC_ADDR_LEN];
 	u8 Addr3[MAC_ADDR_LEN];
-	USHORT Reason;
+	unsigned short Reason;
 	bool bDoIterate = false;
 
 	if (PeerDeauthSanity(pAd, Elem->Msg, Elem->MsgLen, Addr1, Addr2, Addr3, &Reason)) {

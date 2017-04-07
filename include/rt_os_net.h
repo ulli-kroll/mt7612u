@@ -64,7 +64,7 @@ INT RTMP_COM_IoctlHandle(
 	IN	struct rtmp_adapter				*pAd,
 	IN	RTMP_IOCTL_INPUT_STRUCT	*wrq,
 	IN	INT						cmd,
-	IN	USHORT					subcmd,
+	IN	unsigned short 				subcmd,
 	IN	VOID					*pData,
 	IN	ULONG					Data);
 
@@ -85,7 +85,7 @@ INT RTMP_AP_IoctlHandle(
 	IN	struct rtmp_adapter			*pAd,
 	IN	RTMP_IOCTL_INPUT_STRUCT	*wrq,
 	IN	INT						cmd,
-	IN	USHORT					subcmd,
+	IN	unsigned short 				subcmd,
 	IN	VOID					*pData,
 	IN	ULONG					Data);
 #endif /* CONFIG_AP_SUPPORT */
@@ -95,10 +95,10 @@ INT RTMP_STA_IoctlHandle(
 	IN	struct rtmp_adapter					*pAd,
 	IN	RTMP_IOCTL_INPUT_STRUCT	*wrq,
 	IN	INT						cmd,
-	IN	USHORT					subcmd,
+	IN	unsigned short 				subcmd,
 	IN	VOID					*pData,
 	IN	ULONG					Data,
-	IN  USHORT                  priv_flags );
+	IN  unsigned short                  priv_flags );
 #endif /* CONFIG_STA_SUPPORT */
 
 VOID RTMPDrvOpen(struct rtmp_adapter *pAd);

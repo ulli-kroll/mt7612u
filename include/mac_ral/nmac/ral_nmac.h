@@ -1126,7 +1126,7 @@ INT rlt_wlan_chip_onoff(struct rtmp_adapter *pAd, bool bOn, bool bResetWLAN);
 VOID rlt_usb_write_txinfo(
 	IN struct rtmp_adapter *pAd,
 	IN union _TXINFO_STRUC *pTxInfo,
-	IN USHORT USBDMApktLen,
+	IN unsigned short USBDMApktLen,
 	IN bool bWiv,
 	IN u8 QueueSel,
 	IN u8 NextValid,

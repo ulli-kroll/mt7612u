@@ -232,7 +232,7 @@ typedef struct  _TRIGGER_EVENTA{
 	bool			bValid;
 	u8 BSSID[6];
 	u8 RegClass;	/* Regulatory Class */
-	USHORT	Channel;
+	unsigned short Channel;
 } TRIGGER_EVENTA, *PTRIGGER_EVENTA;
 
 
@@ -428,27 +428,27 @@ typedef struct _RT_VHT_CAP{
 */
 typedef struct {
 #ifdef RT_BIG_ENDIAN
-	USHORT	rsv:5;
-	USHORT	AmsduSize:1;	/* Max receiving A-MSDU size */
-	USHORT	AmsduEnable:1;	/* Enable to transmit A-MSDU. Suggest disable. We should use A-MPDU to gain best benifit of 802.11n */
-	USHORT	RxSTBC:2;
-	USHORT	TxSTBC:1;
-	USHORT	ShortGIfor40:1;	/*for40MHz */
-	USHORT	ShortGIfor20:1;
-	USHORT	GF:1;	/*green field */
-	USHORT	MimoPs:2;/*mimo power safe MMPS_ */
-	USHORT	ChannelWidth:1;
+	unsigned short rsv:5;
+	unsigned short AmsduSize:1;	/* Max receiving A-MSDU size */
+	unsigned short AmsduEnable:1;	/* Enable to transmit A-MSDU. Suggest disable. We should use A-MPDU to gain best benifit of 802.11n */
+	unsigned short RxSTBC:2;
+	unsigned short TxSTBC:1;
+	unsigned short ShortGIfor40:1;	/*for40MHz */
+	unsigned short ShortGIfor20:1;
+	unsigned short GF:1;	/*green field */
+	unsigned short MimoPs:2;/*mimo power safe MMPS_ */
+	unsigned short ChannelWidth:1;
 #else
-	USHORT	ChannelWidth:1;
-	USHORT	MimoPs:2;/*mimo power safe MMPS_ */
-	USHORT	GF:1;	/*green field */
-	USHORT	ShortGIfor20:1;
-	USHORT	ShortGIfor40:1;	/*for 40MHz */
-	USHORT	TxSTBC:1;	/* 0:not supported,  1:if supported */
-	USHORT	RxSTBC:2;	/* 2 bits */
-	USHORT	AmsduEnable:1;	/* Enable to transmit A-MSDU. Suggest disable. We should use A-MPDU to gain best benifit of 802.11n */
-	USHORT	AmsduSize:1;	/* Max receiving A-MSDU size */
-	USHORT	rsv:5;
+	unsigned short ChannelWidth:1;
+	unsigned short MimoPs:2;/*mimo power safe MMPS_ */
+	unsigned short GF:1;	/*green field */
+	unsigned short ShortGIfor20:1;
+	unsigned short ShortGIfor40:1;	/*for 40MHz */
+	unsigned short TxSTBC:1;	/* 0:not supported,  1:if supported */
+	unsigned short RxSTBC:2;	/* 2 bits */
+	unsigned short AmsduEnable:1;	/* Enable to transmit A-MSDU. Suggest disable. We should use A-MPDU to gain best benifit of 802.11n */
+	unsigned short AmsduSize:1;	/* Max receiving A-MSDU size */
+	unsigned short rsv:5;
 #endif
 
 	/*Substract from Addiont HT INFO IE */
@@ -465,17 +465,17 @@ typedef struct {
 #endif
 
 #ifdef RT_BIG_ENDIAN
-	USHORT	rsv2:11;
-	USHORT	OBSS_NonHTExist:1;
-	USHORT	rsv3:1;
-	USHORT	NonGfPresent:1;
-	USHORT	OperaionMode:2;
+	unsigned short rsv2:11;
+	unsigned short OBSS_NonHTExist:1;
+	unsigned short rsv3:1;
+	unsigned short NonGfPresent:1;
+	unsigned short OperaionMode:2;
 #else
-	USHORT	OperaionMode:2;
-	USHORT	NonGfPresent:1;
-	USHORT	rsv3:1;
-	USHORT	OBSS_NonHTExist:1;
-	USHORT	rsv2:11;
+	unsigned short OperaionMode:2;
+	unsigned short NonGfPresent:1;
+	unsigned short rsv3:1;
+	unsigned short OBSS_NonHTExist:1;
+	unsigned short rsv2:11;
 #endif
 
 	/* New Extension Channel Offset IE */
@@ -512,28 +512,28 @@ typedef	struct GNU_PACKED _HEADER_802_3	{
 /* 2-byte BA Parameter  field  in 	DELBA frames to terminate an already set up bA */
 typedef struct GNU_PACKED _DELBA_PARM{
 #ifdef RT_BIG_ENDIAN
-    USHORT      TID:4;	/* value of TC os TS */
-    USHORT      Initiator:1;	/* 1: originator    0:recipient */
-    USHORT      Rsv:11;	/* always set to 0 */
+    unsigned short      TID:4;	/* value of TC os TS */
+    unsigned short      Initiator:1;	/* 1: originator    0:recipient */
+    unsigned short      Rsv:11;	/* always set to 0 */
 #else
-    USHORT      Rsv:11;	/* always set to 0 */
-    USHORT      Initiator:1;	/* 1: originator    0:recipient */
-    USHORT      TID:4;	/* value of TC os TS */
+    unsigned short      Rsv:11;	/* always set to 0 */
+    unsigned short      Initiator:1;	/* 1: originator    0:recipient */
+    unsigned short      TID:4;	/* value of TC os TS */
 #endif /* RT_BIG_ENDIAN */
 } DELBA_PARM, *PDELBA_PARM;
 
 /* 2-byte BA Parameter Set field  in ADDBA frames to signal parm for setting up a BA */
 typedef struct GNU_PACKED _BA_PARM{
 #ifdef RT_BIG_ENDIAN
-    USHORT      BufSize:10;	/* number of buffe of size 2304 octetsr */
-    USHORT      TID:4;	/* value of TC os TS */
-    USHORT      BAPolicy:1;	/* 1: immediately BA    0:delayed BA */
-    USHORT      AMSDUSupported:1;	/* 0: not permitted		1: permitted */
+    unsigned short      BufSize:10;	/* number of buffe of size 2304 octetsr */
+    unsigned short      TID:4;	/* value of TC os TS */
+    unsigned short      BAPolicy:1;	/* 1: immediately BA    0:delayed BA */
+    unsigned short      AMSDUSupported:1;	/* 0: not permitted		1: permitted */
 #else
-    USHORT      AMSDUSupported:1;	/* 0: not permitted		1: permitted */
-    USHORT      BAPolicy:1;	/* 1: immediately BA    0:delayed BA */
-    USHORT      TID:4;	/* value of TC os TS */
-    USHORT      BufSize:10;	/* number of buffe of size 2304 octetsr */
+    unsigned short      AMSDUSupported:1;	/* 0: not permitted		1: permitted */
+    unsigned short      BAPolicy:1;	/* 1: immediately BA    0:delayed BA */
+    unsigned short      TID:4;	/* value of TC os TS */
+    unsigned short      BufSize:10;	/* number of buffe of size 2304 octetsr */
 #endif /* RT_BIG_ENDIAN */
 } BA_PARM, *PBA_PARM;
 
@@ -541,75 +541,75 @@ typedef struct GNU_PACKED _BA_PARM{
 typedef union GNU_PACKED _BASEQ_CONTROL{
     struct GNU_PACKED {
 #ifdef RT_BIG_ENDIAN
-    USHORT      StartSeq:12;   /* sequence number of the 1st MSDU for which this BAR is sent */
-	USHORT      FragNum:4;	/* always set to 0 */
+    unsigned short      StartSeq:12;   /* sequence number of the 1st MSDU for which this BAR is sent */
+	unsigned short      FragNum:4;	/* always set to 0 */
 #else
-    USHORT      FragNum:4;	/* always set to 0 */
-	USHORT      StartSeq:12;   /* sequence number of the 1st MSDU for which this BAR is sent */
+    unsigned short      FragNum:4;	/* always set to 0 */
+	unsigned short      StartSeq:12;   /* sequence number of the 1st MSDU for which this BAR is sent */
 #endif /* RT_BIG_ENDIAN */
     }   field;
-    USHORT           word;
+    unsigned short           word;
 } BASEQ_CONTROL, *PBASEQ_CONTROL;
 
 /*BAControl and BARControl are the same */
 /* 2-byte BA CONTROL field in BA frame */
 typedef struct GNU_PACKED _BA_CONTROL{
 #ifdef RT_BIG_ENDIAN
-    USHORT      TID:4;
-    USHORT      Rsv:9;
-    USHORT      Compressed:1;
-    USHORT      MTID:1;		/*EWC V1.24 */
-    USHORT      ACKPolicy:1; /* only related to N-Delayed BA. But not support in RT2860b. 0:NormalACK  1:No ACK */
+    unsigned short      TID:4;
+    unsigned short      Rsv:9;
+    unsigned short      Compressed:1;
+    unsigned short      MTID:1;		/*EWC V1.24 */
+    unsigned short      ACKPolicy:1; /* only related to N-Delayed BA. But not support in RT2860b. 0:NormalACK  1:No ACK */
 #else
-    USHORT      ACKPolicy:1; /* only related to N-Delayed BA. But not support in RT2860b. 0:NormalACK  1:No ACK */
-    USHORT      MTID:1;		/*EWC V1.24 */
-    USHORT      Compressed:1;
-    USHORT      Rsv:9;
-    USHORT      TID:4;
+    unsigned short      ACKPolicy:1; /* only related to N-Delayed BA. But not support in RT2860b. 0:NormalACK  1:No ACK */
+    unsigned short      MTID:1;		/*EWC V1.24 */
+    unsigned short      Compressed:1;
+    unsigned short      Rsv:9;
+    unsigned short      TID:4;
 #endif /* RT_BIG_ENDIAN */
 } BA_CONTROL, *PBA_CONTROL;
 
 /* 2-byte BAR CONTROL field in BAR frame */
 typedef struct GNU_PACKED _BAR_CONTROL{
 #ifdef RT_BIG_ENDIAN
-    USHORT      TID:4;
-    USHORT      Rsv1:9;
-    USHORT      Compressed:1;
-    USHORT      MTID:1;		/*if this bit1, use  FRAME_MTBA_REQ,  if 0, use FRAME_BA_REQ */
-    USHORT      ACKPolicy:1;
+    unsigned short      TID:4;
+    unsigned short      Rsv1:9;
+    unsigned short      Compressed:1;
+    unsigned short      MTID:1;		/*if this bit1, use  FRAME_MTBA_REQ,  if 0, use FRAME_BA_REQ */
+    unsigned short      ACKPolicy:1;
 #else
-    USHORT      ACKPolicy:1; /* 0:normal ack,  1:no ack. */
-    USHORT      MTID:1;		/*if this bit1, use  FRAME_MTBA_REQ,  if 0, use FRAME_BA_REQ */
-    USHORT      Compressed:1;
-    USHORT      Rsv1:9;
-    USHORT      TID:4;
+    unsigned short      ACKPolicy:1; /* 0:normal ack,  1:no ack. */
+    unsigned short      MTID:1;		/*if this bit1, use  FRAME_MTBA_REQ,  if 0, use FRAME_BA_REQ */
+    unsigned short      Compressed:1;
+    unsigned short      Rsv1:9;
+    unsigned short      TID:4;
 #endif /* !RT_BIG_ENDIAN */
 } BAR_CONTROL, *PBAR_CONTROL;
 
 /* BARControl in MTBAR frame */
 typedef struct GNU_PACKED _MTBAR_CONTROL{
 #ifdef RT_BIG_ENDIAN
-    USHORT      NumTID:4;
-    USHORT      Rsv1:9;
-    USHORT      Compressed:1;
-    USHORT      MTID:1;
-    USHORT      ACKPolicy:1;
+    unsigned short      NumTID:4;
+    unsigned short      Rsv1:9;
+    unsigned short      Compressed:1;
+    unsigned short      MTID:1;
+    unsigned short      ACKPolicy:1;
 #else
-    USHORT      ACKPolicy:1;
-    USHORT      MTID:1;
-    USHORT      Compressed:1;
-    USHORT      Rsv1:9;
-    USHORT      NumTID:4;
+    unsigned short      ACKPolicy:1;
+    unsigned short      MTID:1;
+    unsigned short      Compressed:1;
+    unsigned short      Rsv1:9;
+    unsigned short      NumTID:4;
 #endif /* RT_BIG_ENDIAN */
 } MTBAR_CONTROL, *PMTBAR_CONTROL;
 
 typedef struct GNU_PACKED _PER_TID_INFO{
 #ifdef RT_BIG_ENDIAN
-    USHORT      TID:4;
-    USHORT      Rsv1:12;
+    unsigned short      TID:4;
+    unsigned short      Rsv1:12;
 #else
-    USHORT      Rsv1:12;
-    USHORT      TID:4;
+    unsigned short      Rsv1:12;
+    unsigned short      TID:4;
 #endif /* RT_BIG_ENDIAN */
 } PER_TID_INFO, *PPER_TID_INFO;
 
@@ -622,7 +622,7 @@ typedef struct {
 /* BAREQ AND MTBAREQ have the same subtype BAR, 802.11n BAR use compressed bitmap. */
 typedef struct GNU_PACKED _FRAME_BA_REQ {
 	FRAME_CONTROL   FC;
-	USHORT          Duration;
+	unsigned short          Duration;
 	u8           Addr1[MAC_ADDR_LEN];
 	u8           Addr2[MAC_ADDR_LEN];
 	BAR_CONTROL  BARControl;
@@ -631,7 +631,7 @@ typedef struct GNU_PACKED _FRAME_BA_REQ {
 
 typedef struct GNU_PACKED _FRAME_MTBA_REQ {
 	FRAME_CONTROL   FC;
-	USHORT          Duration;
+	unsigned short          Duration;
 	u8           Addr1[MAC_ADDR_LEN];
 	u8           Addr2[MAC_ADDR_LEN];
 	MTBAR_CONTROL  MTBARControl;
@@ -642,7 +642,7 @@ typedef struct GNU_PACKED _FRAME_MTBA_REQ {
 /* Compressed format is mandantory in HT STA */
 typedef struct GNU_PACKED _FRAME_MTBA {
 	FRAME_CONTROL   FC;
-	USHORT          Duration;
+	unsigned short          Duration;
 	u8           Addr1[MAC_ADDR_LEN];
 	u8           Addr2[MAC_ADDR_LEN];
 	BA_CONTROL  BAControl;
@@ -695,7 +695,7 @@ typedef struct GNU_PACKED _FRAME_ADDBA_REQ {
 	u8 Action;
 	u8 Token;	/* 1 */
 	BA_PARM		BaParm;	      /*  2 - 10 */
-	USHORT		TimeOutValue;	/* 0 - 0 */
+	unsigned short 	TimeOutValue;	/* 0 - 0 */
 	BASEQ_CONTROL	BaStartSeq; /* 0-0 */
 }   FRAME_ADDBA_REQ, *PFRAME_ADDBA_REQ;
 
@@ -704,9 +704,9 @@ typedef struct GNU_PACKED _FRAME_ADDBA_RSP {
 	u8 Category;
 	u8 Action;
 	u8 Token;
-	USHORT	StatusCode;
+	unsigned short StatusCode;
 	BA_PARM		BaParm; /*0 - 2 */
-	USHORT		TimeOutValue;
+	unsigned short 	TimeOutValue;
 }   FRAME_ADDBA_RSP, *PFRAME_ADDBA_RSP;
 
 typedef struct GNU_PACKED _FRAME_DELBA_REQ {
@@ -714,14 +714,14 @@ typedef struct GNU_PACKED _FRAME_DELBA_REQ {
 	u8 Category;
 	u8 Action;
 	DELBA_PARM		DelbaParm;
-	USHORT	ReasonCode;
+	unsigned short ReasonCode;
 }   FRAME_DELBA_REQ, *PFRAME_DELBA_REQ;
 
 
 /*7.2.1.7 */
 typedef struct GNU_PACKED _FRAME_BAR {
 	FRAME_CONTROL   FC;
-	USHORT          Duration;
+	unsigned short          Duration;
 	u8           Addr1[MAC_ADDR_LEN];
 	u8           Addr2[MAC_ADDR_LEN];
 	BAR_CONTROL		BarControl;
@@ -731,7 +731,7 @@ typedef struct GNU_PACKED _FRAME_BAR {
 /*7.2.1.7 */
 typedef struct GNU_PACKED _FRAME_BA {
 	FRAME_CONTROL   FC;
-	USHORT          Duration;
+	unsigned short          Duration;
 	u8           Addr1[MAC_ADDR_LEN];
 	u8           Addr2[MAC_ADDR_LEN];
 	BAR_CONTROL		BarControl;
@@ -746,7 +746,7 @@ typedef struct GNU_PACKED _FRAME_RM_REQ_ACTION {
 	u8 Category;
 	u8 Action;
 	u8 Token;
-	USHORT	Repetition;
+	unsigned short Repetition;
 	u8   data[0];
 }   FRAME_RM_REQ_ACTION, *PFRAME_RM_REQ_ACTION;
 
@@ -777,8 +777,8 @@ typedef struct GNU_PACKED _CF_PARM{
     bool     bValid;         /* 1: variable contains valid value */
     u8       CfpCount;
     u8       CfpPeriod;
-    USHORT      CfpMaxDuration;
-    USHORT      CfpDurRemaining;
+    unsigned short      CfpMaxDuration;
+    unsigned short      CfpDurRemaining;
 } CF_PARM, *PCF_PARM;
 
 
@@ -786,7 +786,7 @@ typedef	struct _CIPHER_SUITE {
 	NDIS_802_11_ENCRYPTION_STATUS	PairCipher;		/* Unicast cipher 1, this one has more secured cipher suite */
 	NDIS_802_11_ENCRYPTION_STATUS	PairCipherAux;	/* Unicast cipher 2 if AP announce two unicast cipher suite */
 	NDIS_802_11_ENCRYPTION_STATUS	GroupCipher;	/* Group cipher */
-	USHORT							RsnCapability;	/* RSN capability from beacon */
+	unsigned short 						RsnCapability;	/* RSN capability from beacon */
 	bool							bMixMode;		/* Indicate Pair & Group cipher might be different */
 }	CIPHER_SUITE, *PCIPHER_SUITE;
 
@@ -804,7 +804,7 @@ typedef struct {
     u8       Aifsn[4];       /* 0:AC_BK, 1:AC_BE, 2:AC_VI, 3:AC_VO */
     u8       Cwmin[4];
     u8       Cwmax[4];
-    USHORT      Txop[4];      /* in unit of 32-us */
+    unsigned short      Txop[4];      /* in unit of 32-us */
     bool     bACM[4];      /* 1: Admission Control of AC_BK is mandattory */
 } EDCA_PARM, *PEDCA_PARM;
 
@@ -812,9 +812,9 @@ typedef struct {
 /* QBSS LOAD information from QAP's BEACON/ProbeRsp */
 typedef struct {
     bool     bValid;                     /* 1: variable contains valid value */
-    USHORT      StaNum;
+    unsigned short      StaNum;
     u8       ChannelUtilization;
-    USHORT      RemainingAdmissionControl;  /* in unit of 32-us */
+    unsigned short      RemainingAdmissionControl;  /* in unit of 32-us */
 } QBSS_LOAD_PARM, *PQBSS_LOAD_PARM;
 
 
@@ -887,8 +887,8 @@ typedef struct _BSS_ENTRY{
 	u8 CentralChannel;	/*Store the wide-band central channel for 40MHz.  .used in 40MHz AP. Or this is the same as Channel. */
 	ULONG ClientStatusFlags;
 	u8 BssType;
-	USHORT AtimWin;
-	USHORT BeaconPeriod;
+	unsigned short AtimWin;
+	unsigned short BeaconPeriod;
 
 	u8 SupRate[MAX_LEN_OF_SUPPORTED_RATES];
 	u8 SupRateLen;
@@ -917,13 +917,13 @@ typedef struct _BSS_ENTRY{
 	u8 Privacy;			/* Indicate security function ON/OFF. Don't mess up with auth mode. */
 	u8 Hidden;
 
-	USHORT DtimPeriod;
-	USHORT CapabilityInfo;
+	unsigned short DtimPeriod;
+	unsigned short CapabilityInfo;
 
-	USHORT CfpCount;
-	USHORT CfpPeriod;
-	USHORT CfpMaxDuration;
-	USHORT CfpDurRemaining;
+	unsigned short CfpCount;
+	unsigned short CfpPeriod;
+	unsigned short CfpMaxDuration;
+	unsigned short CfpDurRemaining;
 	u8 SsidLen;
 	CHAR Ssid[MAX_LEN_OF_SSID];
 
@@ -942,9 +942,9 @@ typedef struct _BSS_ENTRY{
 	NDIS_802_11_AUTHENTICATION_MODE AuthModeAux;	/* Addition mode for WPA2 / WPA capable AP */
 	NDIS_802_11_AUTHENTICATION_MODE AuthMode;
 	NDIS_802_11_WEP_STATUS	WepStatus;				/* Unicast Encryption Algorithm extract from VAR_IE */
-	USHORT VarIELen;				/* Length of next VIE include EID & Length */
+	unsigned short VarIELen;				/* Length of next VIE include EID & Length */
 	u8 VarIEs[MAX_VIE_LEN];
-	USHORT VarIeFromProbeRspLen;
+	unsigned short VarIeFromProbeRspLen;
 	u8 *pVarIeFromProbRsp;
 #ifdef DOT11W_PMF_SUPPORT
     bool IsSupportSHA256KeyDerivation;
@@ -1022,7 +1022,7 @@ typedef struct _STATE_MACHINE {
 
 #ifdef CONFIG_AP_SUPPORT
 #ifdef APCLI_SUPPORT
-typedef VOID (*APCLI_STATE_MACHINE_FUNC)(VOID *pAd, MLME_QUEUE_ELEM *Elem, PULONG pCurrState, USHORT ifIndex);
+typedef VOID (*APCLI_STATE_MACHINE_FUNC)(VOID *pAd, MLME_QUEUE_ELEM *Elem, PULONG pCurrState, unsigned short ifIndex);
 
 typedef struct _STA_STATE_MACHINE {
 	ULONG Base;
@@ -1047,16 +1047,16 @@ typedef struct _MLME_AUX {
 	u8               Bssid[MAC_ADDR_LEN];
 	u8 		AutoReconnectSsid[MAX_LEN_OF_SSID];
 	u8 		AutoReconnectSsidLen;
-	USHORT			Alg;
+	unsigned short 		Alg;
 	u8 		ScanType;
 	u8 		Channel;
 	u8               CentralChannel;
-	USHORT              Aid;
-	USHORT              CapabilityInfo;
-	USHORT              BeaconPeriod;
-	USHORT              CfpMaxDuration;
-	USHORT              CfpPeriod;
-	USHORT              AtimWin;
+	unsigned short              Aid;
+	unsigned short              CapabilityInfo;
+	unsigned short              BeaconPeriod;
+	unsigned short              CfpMaxDuration;
+	unsigned short              CfpPeriod;
+	unsigned short              AtimWin;
 
 	/* Copy supported rate from desired AP's beacon. We are trying to match */
 	/* AP's supported and extended rate settings. */
@@ -1096,7 +1096,7 @@ typedef struct _MLME_AUX {
     RALINK_TIMER_STRUCT AssocTimer, ReassocTimer, DisassocTimer;
 #ifdef CONFIG_AP_SUPPORT
 #ifdef APCLI_SUPPORT
-	USHORT              VarIELen;           /* Length of next VIE include EID & Length */
+	unsigned short              VarIELen;           /* Length of next VIE include EID & Length */
     u8               VarIEs[MAX_VIE_LEN];
     LONG				Rssi; /* Record the rssi value when receive Probe Rsp. */
 	RALINK_TIMER_STRUCT ProbeTimer, ApCliAssocTimer, ApCliAuthTimer;
@@ -1113,10 +1113,10 @@ typedef struct _MLME_ADDBA_REQ_STRUCT{
 	u8   Wcid;
 	u8   pAddr[MAC_ADDR_LEN];
 	u8   BaBufSize;
-	USHORT	TimeOutValue;
+	unsigned short TimeOutValue;
 	u8   TID;
 	u8   Token;
-	USHORT	BaStartSeq;
+	unsigned short BaStartSeq;
 } MLME_ADDBA_REQ_STRUCT, *PMLME_ADDBA_REQ_STRUCT;
 
 
@@ -1130,25 +1130,25 @@ typedef struct _MLME_DELBA_REQ_STRUCT{
 /* assoc struct is equal to reassoc */
 typedef struct _MLME_ASSOC_REQ_STRUCT{
     u8     Addr[MAC_ADDR_LEN];
-    USHORT    CapabilityInfo;
-    USHORT    ListenIntv;
+    unsigned short    CapabilityInfo;
+    unsigned short    ListenIntv;
     ULONG     Timeout;
 } MLME_ASSOC_REQ_STRUCT, *PMLME_ASSOC_REQ_STRUCT, MLME_REASSOC_REQ_STRUCT, *PMLME_REASSOC_REQ_STRUCT;
 
 typedef struct _MLME_DISASSOC_REQ_STRUCT{
     u8     Addr[MAC_ADDR_LEN];
-    USHORT    Reason;
+    unsigned short    Reason;
 } MLME_DISASSOC_REQ_STRUCT, *PMLME_DISASSOC_REQ_STRUCT;
 
 typedef struct _MLME_AUTH_REQ_STRUCT {
     u8        Addr[MAC_ADDR_LEN];
-    USHORT       Alg;
+    unsigned short       Alg;
     ULONG        Timeout;
 } MLME_AUTH_REQ_STRUCT, *PMLME_AUTH_REQ_STRUCT;
 
 typedef struct _MLME_DEAUTH_REQ_STRUCT {
     u8        Addr[MAC_ADDR_LEN];
-    USHORT       Reason;
+    unsigned short       Reason;
 } MLME_DEAUTH_REQ_STRUCT, *PMLME_DEAUTH_REQ_STRUCT;
 
 typedef struct {
@@ -1214,8 +1214,8 @@ typedef enum _AuthState {
 typedef struct _IE_lists {
 	u8 Addr2[MAC_ADDR_LEN];
 	u8 ApAddr[MAC_ADDR_LEN];
-	USHORT CapabilityInfo;
-	USHORT ListenInterval;
+	unsigned short CapabilityInfo;
+	unsigned short ListenInterval;
 	u8 SsidLen;
 	u8 Ssid[MAX_LEN_OF_SSID];
 	u8 SupportedRatesLen;
@@ -1242,11 +1242,11 @@ typedef struct _bcn_ie_list {
 	CHAR Ssid[MAX_LEN_OF_SSID];
 	u8 SsidLen;
 	u8 BssType;
-	USHORT BeaconPeriod;
+	unsigned short BeaconPeriod;
 	u8 Channel;
 	u8 NewChannel;
-	USHORT AtimWin;
-	USHORT CapabilityInfo;
+	unsigned short AtimWin;
+	unsigned short CapabilityInfo;
 	u8 Erp;
 	u8 DtimCount;
 	u8 DtimPeriod;
