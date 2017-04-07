@@ -10,7 +10,7 @@ VOID	NfcCommand(
 	IN	Pstruct rtmp_adapter pAd,
 	IN	u8 Action,
 	IN  u8 Type,
-	IN  SHORT DataLen,
+	IN  short DataLen,
 	IN  u8 *pData);
 
 VOID	NfcGenRandomPasswd(

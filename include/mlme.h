@@ -903,7 +903,7 @@ typedef struct _BSS_ENTRY{
 	CHAR Rssi;
 
 #ifdef CFG80211_SCAN_SIGNAL_AVG
-	SHORT	AvgRssiX8;
+	short AvgRssiX8;
 	CHAR	AvgRssi;
 #endif /* CFG80211_SCAN_SIGNAL_AVG */
 

@@ -129,7 +129,7 @@ VOID RT28xx_ApCli_Close(struct rtmp_adapter *ad_p)
 /* --------------------------------- Private -------------------------------- */
 INT ApCliIfLookUp(struct rtmp_adapter *pAd, u8 *pAddr)
 {
-	SHORT if_idx;
+	short if_idx;
 
 	for(if_idx = 0; if_idx < MAX_APCLI_NUM; if_idx++)
 	{
@@ -145,7 +145,7 @@ INT ApCliIfLookUp(struct rtmp_adapter *pAd, u8 *pAddr)
 }
 
 
-bool isValidApCliIf(SHORT if_idx)
+bool isValidApCliIf(short if_idx)
 {
 	return (((if_idx >= 0) && (if_idx < MAX_APCLI_NUM)) ? true : false);
 }

@@ -52,7 +52,6 @@ typedef char STRING;
 
 typedef signed char CHAR;
 
-typedef signed short SHORT;
 typedef signed int INT;
 typedef signed long LONG;
 typedef signed long long LONGLONG;
@@ -67,7 +66,6 @@ typedef VOID *PVOID;
 typedef CHAR *PCHAR;
 typedef LONG *PLONG;
 typedef ULONG *PULONG;
-typedef UINT *PUINT;
 
 typedef unsigned int NDIS_MEDIA_STATE;
 

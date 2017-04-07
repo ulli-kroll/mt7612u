@@ -66,7 +66,7 @@ typedef struct _APCLI_CTRL_MSG_STRUCT {
 } APCLI_CTRL_MSG_STRUCT, *PSTA_CTRL_MSG_STRUCT;
 
 bool isValidApCliIf(
-	SHORT ifIndex);
+	short ifIndex);
 
 VOID ApCliCtrlStateMachineInit(
 	IN Pstruct rtmp_adapter pAd,

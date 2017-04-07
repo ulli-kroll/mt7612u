@@ -1168,7 +1168,7 @@ VOID APPeerBeaconAtScanAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 
 
 
-        /* TODO: 2005-03-04 dirty patch. we should change all RSSI related variables to SIGNED SHORT for easy/efficient reading and calaulation */
+        /* TODO: 2005-03-04 dirty patch. we should change all RSSI related variables to SIGNED short for easy/efficient reading and calaulation */
 		RealRssi = RTMPMaxRssi(pAd, ConvertToRssi(pAd, Elem->Rssi0, RSSI_0),
 								ConvertToRssi(pAd, Elem->Rssi1, RSSI_1),
 								ConvertToRssi(pAd, Elem->Rssi2, RSSI_2));

@@ -191,18 +191,18 @@ typedef struct _RSSI_SAMPLE {
 	CHAR AvgRssi0;
 	CHAR AvgRssi1;
 	CHAR AvgRssi2;
-	SHORT AvgRssi0X8;
-	SHORT AvgRssi1X8;
-	SHORT AvgRssi2X8;
+	short AvgRssi0X8;
+	short AvgRssi1X8;
+	short AvgRssi2X8;
 	CHAR LastSnr0;
 	CHAR LastSnr1;
 	CHAR LastSnr2;
 	CHAR AvgSnr0;
 	CHAR AvgSnr1;
 	CHAR AvgSnr2;
-	SHORT AvgSnr0X8;
-	SHORT AvgSnr1X8;
-	SHORT AvgSnr2X8;
+	short AvgSnr0X8;
+	short AvgSnr1X8;
+	short AvgSnr2X8;
 	CHAR LastNoiseLevel0;
 	CHAR LastNoiseLevel1;
 	CHAR LastNoiseLevel2;
@@ -915,11 +915,11 @@ typedef struct _SOFT_RX_ANT_DIVERSITY_STRUCT {
 	u8 Pair1PrimaryRxAnt;	/* 0:Ant-E1, 1:Ant-E2 */
 	u8 Pair1SecondaryRxAnt;	/* 0:Ant-E1, 1:Ant-E2 */
 #ifdef CONFIG_STA_SUPPORT
-	SHORT Pair1AvgRssi[2];	/* AvgRssi[0]:E1, AvgRssi[1]:E2 */
-	SHORT Pair2AvgRssi[2];	/* AvgRssi[0]:E3, AvgRssi[1]:E4 */
+	short Pair1AvgRssi[2];	/* AvgRssi[0]:E1, AvgRssi[1]:E2 */
+	short Pair2AvgRssi[2];	/* AvgRssi[0]:E3, AvgRssi[1]:E4 */
 #endif /* CONFIG_STA_SUPPORT */
-	SHORT Pair1LastAvgRssi;	/* */
-	SHORT Pair2LastAvgRssi;	/* */
+	short Pair1LastAvgRssi;	/* */
+	short Pair2LastAvgRssi;	/* */
 	ULONG RcvPktNumWhenEvaluate;
 	bool FirstPktArrivedWhenEvaluate;
 #ifdef CONFIG_AP_SUPPORT
@@ -1806,20 +1806,20 @@ typedef struct _COMMON_CONFIG {
 
 #ifdef PRE_ANT_SWITCH
 	bool PreAntSwitch;	/* Preamble Antenna Switch */
-	SHORT PreAntSwitchRSSI;	/* Preamble Antenna Switch RSSI threshold */
-	SHORT PreAntSwitchTimeout; /* Preamble Antenna Switch timeout in seconds */
+	short PreAntSwitchRSSI;	/* Preamble Antenna Switch RSSI threshold */
+	short PreAntSwitchTimeout; /* Preamble Antenna Switch timeout in seconds */
 #endif /* PRE_ANT_SWITCH */
 
 #ifdef CFO_TRACK
-	SHORT	CFOTrack;	/* CFO Tracking. 0=>use default, 1=>track, 2-7=> track 8-n times, 8=>done tracking */
+	short CFOTrack;	/* CFO Tracking. 0=>use default, 1=>track, 2-7=> track 8-n times, 8=>done tracking */
 #endif /* CFO_TRACK */
 
 #ifdef NEW_RATE_ADAPT_SUPPORT
 	unsigned short lowTrafficThrd;		/* Threshold for reverting to default MCS when traffic is low */
-	SHORT	TrainUpRuleRSSI;	/* If TrainUpRule=2 then use Hybrid rule when RSSI < TrainUpRuleRSSI */
+	short TrainUpRuleRSSI;	/* If TrainUpRule=2 then use Hybrid rule when RSSI < TrainUpRuleRSSI */
 	unsigned short TrainUpLowThrd;		/* QuickDRS Hybrid train up low threshold */
 	unsigned short TrainUpHighThrd;	/* QuickDRS Hybrid train up high threshold */
-	SHORT	TrainUpRule;		/* QuickDRS train up criterion: 0=>Throughput, 1=>PER, 2=> Throughput & PER */
+	short TrainUpRule;		/* QuickDRS train up criterion: 0=>Throughput, 1=>PER, 2=> Throughput & PER */
 #endif /* NEW_RATE_ADAPT_SUPPORT */
 
 
@@ -2244,8 +2244,8 @@ typedef struct _MAC_TABLE_ENTRY {
 	RSSI_SAMPLE RssiSample;
 	uint32_t LastTxRate;
 	uint32_t LastRxRate;
-	SHORT freqOffset;		/* Last RXWI FOFFSET */
-	SHORT freqOffsetValid;	/* Set when freqOffset field has been updated */
+	short freqOffset;		/* Last RXWI FOFFSET */
+	short freqOffsetValid;	/* Set when freqOffset field has been updated */
 
 #ifdef CONFIG_AP_SUPPORT
 #define MAX_LAST_DATA_RSSI_LEN 5

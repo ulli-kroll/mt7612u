@@ -662,7 +662,7 @@ VOID MlmeHandler(struct rtmp_adapter *pAd)
 {
 	MLME_QUEUE_ELEM *Elem = NULL;
 #ifdef APCLI_SUPPORT
-	SHORT apcliIfIndex;
+	short apcliIfIndex;
 #endif /* APCLI_SUPPORT */
 
 	/* Only accept MLME and Frame from peer side, no other (control/data) frame should*/

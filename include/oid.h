@@ -1063,10 +1063,10 @@ typedef struct _RT_802_11_MAC_ENTRY {
 	uint32_t LastRxRate;
 
 //sync with MT7620
-	SHORT StreamSnr[3];				/* BF SNR from RXWI. Units=0.25 dB. 22 dB offset removed */
-	SHORT SoundingRespSnr[3];			/* SNR from Sounding Response. Units=0.25 dB. 22 dB offset removed */
-/*	SHORT TxPER;	*/					/* TX PER over the last second. Percent */
-/*	SHORT reserved;*/
+	short StreamSnr[3];				/* BF SNR from RXWI. Units=0.25 dB. 22 dB offset removed */
+	short SoundingRespSnr[3];			/* SNR from Sounding Response. Units=0.25 dB. 22 dB offset removed */
+/*	short TxPER;	*/					/* TX PER over the last second. Percent */
+/*	short reserved;*/
 } RT_802_11_MAC_ENTRY, *PRT_802_11_MAC_ENTRY;
 
 typedef struct _RT_802_11_MAC_TABLE {

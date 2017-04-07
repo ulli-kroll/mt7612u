@@ -535,9 +535,9 @@ VOID APAsicRxAntEvalTimeout(struct rtmp_adapter *pAd)
 VOID	APAsicAntennaAvg(
 	IN	struct rtmp_adapter *pAd,
 	IN	u8               AntSelect,
-	IN	SHORT*	              RssiAvg)
+	IN	short *RssiAvg)
 {
-		    SHORT	realavgrssi;
+		    short	realavgrssi;
 		    LONG         realavgrssi1;
 		    ULONG	recvPktNum = pAd->RxAnt.RcvPktNum[AntSelect];
 
@@ -549,7 +549,7 @@ VOID	APAsicAntennaAvg(
 		        return;
 		    }
 
-		    realavgrssi = (SHORT) (realavgrssi1 / recvPktNum);
+		    realavgrssi = (short) (realavgrssi1 / recvPktNum);
 
 		    pAd->RxAnt.Pair1AvgRssiGroup1[0] = 0;
 		    pAd->RxAnt.Pair1AvgRssiGroup1[1] = 0;

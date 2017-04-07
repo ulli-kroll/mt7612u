@@ -40,7 +40,7 @@ u8 groupShift[] = {4, 4, 4};
 u8 groupMethod[] = {0, 0, 0, 0, 0, 0, 0, 0,
 						0, 0, 1, 0, 1, 1, 1, 1,
 						0, 0, 1, 0, 1, 1, 1, 1};
-SHORT groupThrd[] = {-8, 4, 20, 32, 52, 68, 80, 88,
+short groupThrd[] = {-8, 4, 20, 32, 52, 68, 80, 88,
 					  -16, 8, 12, 64, 40, 60, 80, 88,
 					  -24, 12, 12, 96, 40, 60, 80, 88};
 UINT dataRate[] = {65, 130, 195, 260, 390, 520, 585, 650,
@@ -499,12 +499,12 @@ UINT convertSnrToThroughput(
 	u8 streams;
 	INT	snrTemp;
 	u8 	i, j;
-	SHORT idx;
-	SHORT group;
+	short idx;
+	short group;
  	INT	snrTemp1[3];
 	INT snr[] = {snr0, snr1, snr2};
 	INT snrSum, tpTemp, bestTp=0;
-	SHORT thrdTemp;
+	short thrdTemp;
 	bool isMcsValid[24];
 	u8 rateIdx[24], step, tableSize;
 	u8 mcs;
