@@ -83,7 +83,7 @@ static VOID ApCliMlmeAuthReqAction(
 	ULONG               FrameLen = 0;
 	APCLI_CTRL_MSG_STRUCT ApCliCtrlMsg;
 	unsigned short ifIndex = (unsigned short)(Elem->Priv);
-	PULONG pCurrState = NULL;
+	unsigned long *pCurrState = NULL;
 
 	if ((ifIndex >= MAX_APCLI_NUM)
 		)
@@ -170,7 +170,7 @@ static VOID ApCliPeerAuthRspAtSeq2Action(struct rtmp_adapter *pAd, MLME_QUEUE_EL
 	u8 	  	ChallengeIe = IE_CHALLENGE_TEXT;
 	u8 	  	len_challengeText = CIPHER_TEXT_LEN;
 	unsigned short ifIndex = (unsigned short)(Elem->Priv);
-	PULONG pCurrState = NULL;
+	unsigned long *pCurrState = NULL;
 	APCLI_STRUCT *apcli_entry;
 
 	if ((ifIndex >= MAX_APCLI_NUM)
@@ -320,7 +320,7 @@ static VOID ApCliPeerAuthRspAtSeq4Action(struct rtmp_adapter *pAd, MLME_QUEUE_EL
 	CHAR        ChlgText[CIPHER_TEXT_LEN];
 	APCLI_CTRL_MSG_STRUCT ApCliCtrlMsg;
 	unsigned short ifIndex = (unsigned short)(Elem->Priv);
-	PULONG pCurrState = NULL;
+	unsigned long *pCurrState = NULL;
 
 	if ((ifIndex >= MAX_APCLI_NUM)
 		)
@@ -369,7 +369,7 @@ static VOID ApCliPeerDeauthAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Ele
 	u8       Addr3[MAC_ADDR_LEN];
 	unsigned short      Reason;
 	unsigned short ifIndex = (unsigned short)(Elem->Priv);
-	PULONG pCurrState = NULL;
+	unsigned long *pCurrState = NULL;
 #ifdef WPA_SUPPLICANT_SUPPORT
 	PMAC_TABLE_ENTRY pMacEntry = NULL;
 #endif /*WPA_SUPPLICANT_SUPPORT*/
@@ -423,7 +423,7 @@ static VOID ApCliPeerDeauthAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Ele
 static VOID ApCliAuthTimeoutAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 {
 	unsigned short ifIndex = (unsigned short)(Elem->Priv);
-	PULONG pCurrState = NULL;
+	unsigned long *pCurrState = NULL;
 
 	if ((ifIndex >= MAX_APCLI_NUM)
 		)
@@ -450,7 +450,7 @@ static VOID ApCliInvalidStateWhenAuth(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM 
 {
 	APCLI_CTRL_MSG_STRUCT ApCliCtrlMsg;
 	unsigned short ifIndex = (unsigned short)(Elem->Priv);
-	PULONG pCurrState = NULL;
+	unsigned long *pCurrState = NULL;
 
 	if ((ifIndex >= MAX_APCLI_NUM)
 		)
@@ -484,7 +484,7 @@ static VOID ApCliMlmeDeauthReqAction(
 	ULONG FrameLen = 0;
 	int NStatus;
 	unsigned short ifIndex = (unsigned short)(Elem->Priv);
-	PULONG pCurrState = NULL;
+	unsigned long *pCurrState = NULL;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("APCLI AUTH - ApCliMlmeAuthReqAction (state=%ld), reset AUTH state machine\n",
 		pAd->Mlme.ApCliAuthMachine.CurrState));

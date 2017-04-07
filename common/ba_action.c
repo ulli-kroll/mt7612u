@@ -1158,7 +1158,7 @@ VOID PeerAddBAReqAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 
 	pMacEntry = &pAd->MacTab.Content[Elem->Wcid];
 	DBGPRINT(RT_DEBUG_TRACE,("BA - PeerAddBAReqAction----> \n"));
-	ptemp = (PULONG)Elem->Msg;
+	ptemp = (unsigned long *)Elem->Msg;
 
 	if (PeerAddBAReqActionSanity(pAd, Elem->Msg, Elem->MsgLen, pAddr))
 	{

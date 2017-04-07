@@ -904,7 +904,7 @@ VOID ApCliIfUp(struct rtmp_adapter *pAd)
 	u8 ifIndex;
 	APCLI_STRUCT *pApCliEntry;
 #ifdef APCLI_CONNECTION_TRIAL
-	PULONG pCurrState = NULL;
+	unsigned long *pCurrState = NULL;
 #endif /* APCLI_CONNECTION_TRIAL */
 
 	/* Reset is in progress, stop immediately */

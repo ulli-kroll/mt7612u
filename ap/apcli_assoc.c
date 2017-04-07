@@ -197,7 +197,7 @@ static VOID ApCliMlmeAssocReqAction(
 	u8            ExtRateIe = IE_EXT_SUPP_RATES;
 	APCLI_CTRL_MSG_STRUCT ApCliCtrlMsg;
 	unsigned short ifIndex = (unsigned short)(Elem->Priv);
-	PULONG pCurrState = NULL;
+	unsigned long *pCurrState = NULL;
 #ifdef WPA_SUPPLICANT_SUPPORT
 	unsigned short 		VarIesOffset = 0;
 #endif /* WPA_SUPPLICANT_SUPPORT */
@@ -536,7 +536,7 @@ static VOID ApCliMlmeDisassocReqAction(
 	int           NStatus;
 	APCLI_CTRL_MSG_STRUCT ApCliCtrlMsg;
 	unsigned short ifIndex = (unsigned short)(Elem->Priv);
-	PULONG pCurrState = NULL;
+	unsigned long *pCurrState = NULL;
 
 	if ((ifIndex >= MAX_APCLI_NUM)
 	)
@@ -765,7 +765,7 @@ static VOID ApCliAssocTimeoutAction(
 	IN MLME_QUEUE_ELEM *Elem)
 {
 	unsigned short ifIndex = (unsigned short)(Elem->Priv);
-	PULONG pCurrState = NULL;
+	unsigned long *pCurrState = NULL;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("APCLI_ASSOC - ApCliAssocTimeoutAction\n"));
 
@@ -789,7 +789,7 @@ static VOID ApCliInvalidStateWhenAssoc(
 {
 	APCLI_CTRL_MSG_STRUCT ApCliCtrlMsg;
 	unsigned short ifIndex = (unsigned short)(Elem->Priv);
-	PULONG pCurrState = NULL;
+	unsigned long *pCurrState = NULL;
 
 	if ((ifIndex >= MAX_APCLI_NUM)
 		)

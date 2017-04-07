@@ -157,7 +157,7 @@ static VOID ApCliMlmeProbeReqAction(
 	bool Cancelled;
 	APCLI_MLME_JOIN_REQ_STRUCT *Info = (APCLI_MLME_JOIN_REQ_STRUCT *)(Elem->Msg);
 	unsigned short ifIndex = (unsigned short)(Elem->Priv);
-	PULONG pCurrState = &pAd->ApCfg.ApCliTab[ifIndex].SyncCurrState;
+	unsigned long *pCurrState = &pAd->ApCfg.ApCliTab[ifIndex].SyncCurrState;
 	APCLI_STRUCT *pApCliEntry = NULL;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("ApCli SYNC - ApCliMlmeProbeReqAction(Ssid %s)\n", Info->Ssid));
@@ -539,7 +539,7 @@ static VOID ApCliProbeTimeoutAtJoinAction(
 {
 	APCLI_CTRL_MSG_STRUCT ApCliCtrlMsg;
 	unsigned short ifIndex = (unsigned short)(Elem->Priv);
-	PULONG pCurrState = &pAd->ApCfg.ApCliTab[ifIndex].SyncCurrState;
+	unsigned long *pCurrState = &pAd->ApCfg.ApCliTab[ifIndex].SyncCurrState;
 	APCLI_STRUCT *pApCliEntry = NULL;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("APCLI_SYNC - ProbeTimeoutAtJoinAction\n"));
@@ -583,7 +583,7 @@ static VOID ApCliInvalidStateWhenJoin(
 {
 	APCLI_CTRL_MSG_STRUCT ApCliCtrlMsg;
 	unsigned short ifIndex = (unsigned short)(Elem->Priv);
-	PULONG pCurrState = &pAd->ApCfg.ApCliTab[ifIndex].SyncCurrState;
+	unsigned long *pCurrState = &pAd->ApCfg.ApCliTab[ifIndex].SyncCurrState;
 
 	*pCurrState = APCLI_SYNC_IDLE;
 	ApCliCtrlMsg.Status = MLME_STATE_MACHINE_REJECT;

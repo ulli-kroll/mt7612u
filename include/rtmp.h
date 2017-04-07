@@ -368,12 +368,12 @@ struct rx_signal_info{
 typedef struct _RTMP_SCATTER_GATHER_ELEMENT {
 	PVOID Address;
 	ULONG Length;
-	PULONG Reserved;
+	unsigned long *Reserved;
 } RTMP_SCATTER_GATHER_ELEMENT, *PRTMP_SCATTER_GATHER_ELEMENT;
 
 typedef struct _RTMP_SCATTER_GATHER_LIST {
 	ULONG NumberOfElements;
-	PULONG Reserved;
+	unsigned long *Reserved;
 	RTMP_SCATTER_GATHER_ELEMENT Elements[NIC_MAX_PHYS_BUF_COUNT];
 } RTMP_SCATTER_GATHER_LIST, *PRTMP_SCATTER_GATHER_LIST;
 
@@ -4591,7 +4591,7 @@ VOID BarHeaderInit(
 VOID InsertActField(
 	IN struct rtmp_adapter *pAd,
 	OUT u8 *pFrameBuf,
-	OUT PULONG pFrameLen,
+	OUT unsigned long *pFrameLen,
 	IN UINT8 Category,
 	IN UINT8 ActCode);
 
@@ -4747,7 +4747,7 @@ VOID RTMPCckBbpTuning(
 /* Asic/RF/BBP related functions */
 VOID AsicGetTxPowerOffset(
 	IN struct rtmp_adapter *			pAd,
-	IN PULONG					TxPwr);
+	IN unsigned long *				TxPwr);
 
 VOID AsicExtraPowerOverMAC(struct rtmp_adapter *pAd);
 

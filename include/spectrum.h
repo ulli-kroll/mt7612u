@@ -29,7 +29,7 @@ CHAR RTMP_GetTxPwr(
 VOID MakeMeasurementReqFrame(
 	IN struct rtmp_adapter *pAd,
 	OUT u8 *pOutBuffer,
-	OUT PULONG pFrameLen,
+	OUT unsigned long *pFrameLen,
 	IN UINT8 TotalLen,
 	IN UINT8 Category,
 	IN UINT8 Action,
@@ -156,21 +156,21 @@ VOID MeasureReqDelete(
 VOID InsertChannelRepIE(
 	IN struct rtmp_adapter *pAd,
 	OUT u8 *pFrameBuf,
-	OUT PULONG pFrameLen,
+	OUT unsigned long *pFrameLen,
 	IN char *pCountry,
 	IN UINT8 RegulatoryClass);
 
 VOID InsertTpcReportIE(
 	IN struct rtmp_adapter *pAd,
 	OUT u8 *pFrameBuf,
-	OUT PULONG pFrameLen,
+	OUT unsigned long *pFrameLen,
 	IN UINT8 TxPwr,
 	IN UINT8 LinkMargin);
 
 VOID InsertDialogToken(
 	IN struct rtmp_adapter *pAd,
 	OUT u8 *pFrameBuf,
-	OUT PULONG pFrameLen,
+	OUT unsigned long *pFrameLen,
 	IN UINT8 DialogToken);
 
 int TpcReqTabInit(
@@ -189,6 +189,6 @@ VOID NotifyChSwAnnToPeerAPs(
 VOID RguClass_BuildBcnChList(
 	IN struct rtmp_adapter *pAd,
 	OUT u8 *pBuf,
-	OUT	PULONG pBufLen);
+	OUT	unsigned long *pBufLen);
 #endif /* __SPECTRUM_H__ */
 

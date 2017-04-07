@@ -1022,7 +1022,7 @@ typedef struct _STATE_MACHINE {
 
 #ifdef CONFIG_AP_SUPPORT
 #ifdef APCLI_SUPPORT
-typedef VOID (*APCLI_STATE_MACHINE_FUNC)(VOID *pAd, MLME_QUEUE_ELEM *Elem, PULONG pCurrState, unsigned short ifIndex);
+typedef VOID (*APCLI_STATE_MACHINE_FUNC)(VOID *pAd, MLME_QUEUE_ELEM *Elem, unsigned long *pCurrState, unsigned short ifIndex);
 
 typedef struct _STA_STATE_MACHINE {
 	ULONG Base;

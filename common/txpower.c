@@ -203,7 +203,7 @@ VOID AsicAdjustTxPower(struct rtmp_adapter *pAd)
 #endif /* CONFIG_STA_SUPPORT */
 
 	/* Get Tx rate offset table which from EEPROM 0xDEh ~ 0xEFh */
-	RTMP_CHIP_ASIC_TX_POWER_OFFSET_GET(pAd, (PULONG)&CfgOfTxPwrCtrlOverMAC);
+	RTMP_CHIP_ASIC_TX_POWER_OFFSET_GET(pAd, (unsigned long *)&CfgOfTxPwrCtrlOverMAC);
 	/* Get temperature compensation delta power value */
 
 	DBGPRINT(RT_DEBUG_INFO, ("%s(): DeltaPwr=%d, TotalDeltaPower=%d, TxAgcCompensate=%d, DeltaPowerByBbpR1=%d\n",

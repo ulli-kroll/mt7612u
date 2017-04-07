@@ -1258,7 +1258,7 @@ VOID BarHeaderInit(
 VOID InsertActField(
 	IN struct rtmp_adapter *pAd,
 	OUT u8 *pFrameBuf,
-	OUT PULONG pFrameLen,
+	OUT unsigned long *pFrameLen,
 	IN UINT8 Category,
 	IN UINT8 ActCode)
 {

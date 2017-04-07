@@ -55,7 +55,7 @@ VOID PMF_InsertIGTKKDE(
 	IN Pstruct rtmp_adapter pAd,
 	IN INT apidx,
 	IN u8 *pFrameBuf,
-	OUT PULONG pFrameLen);
+	OUT unsigned long *pFrameLen);
 
 bool PMF_ExtractIGTKKDE(
 	IN Pstruct rtmp_adapter pAd,

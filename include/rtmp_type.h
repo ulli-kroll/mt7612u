@@ -65,7 +65,6 @@ typedef void VOID;
 typedef VOID *PVOID;
 typedef CHAR *PCHAR;
 typedef LONG *PLONG;
-typedef ULONG *PULONG;
 
 typedef unsigned int NDIS_MEDIA_STATE;
 

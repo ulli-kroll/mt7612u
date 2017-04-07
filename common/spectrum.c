@@ -814,7 +814,7 @@ static UINT8 GetCurTxPwr(
 VOID InsertChannelRepIE(
 	IN struct rtmp_adapter *pAd,
 	OUT u8 *pFrameBuf,
-	OUT PULONG pFrameLen,
+	OUT unsigned long *pFrameLen,
 	IN char *pCountry,
 	IN UINT8 RegulatoryClass)
 {
@@ -894,7 +894,7 @@ VOID InsertChannelRepIE(
 VOID InsertDialogToken(
 	IN struct rtmp_adapter *pAd,
 	OUT u8 *pFrameBuf,
-	OUT PULONG pFrameLen,
+	OUT unsigned long *pFrameLen,
 	IN UINT8 DialogToken)
 {
 	ULONG TempLen;
@@ -922,7 +922,7 @@ VOID InsertDialogToken(
  static VOID InsertTpcReqIE(
 	IN struct rtmp_adapter *pAd,
 	OUT u8 *pFrameBuf,
-	OUT PULONG pFrameLen)
+	OUT unsigned long *pFrameLen)
 {
 	ULONG TempLen;
 	UINT8 Len = 0;
@@ -955,7 +955,7 @@ VOID InsertDialogToken(
 VOID InsertTpcReportIE(
 	IN struct rtmp_adapter *pAd,
 	OUT u8 *pFrameBuf,
-	OUT PULONG pFrameLen,
+	OUT unsigned long *pFrameLen,
 	IN UINT8 TxPwr,
 	IN UINT8 LinkMargin)
 {
@@ -1001,7 +1001,7 @@ VOID InsertTpcReportIE(
 static VOID InsertMeasureReqIE(
 	IN struct rtmp_adapter *pAd,
 	OUT u8 *pFrameBuf,
-	OUT PULONG pFrameLen,
+	OUT unsigned long *pFrameLen,
 	IN UINT8 Len,
 	IN PMEASURE_REQ_INFO pMeasureReqIE)
 {
@@ -1039,7 +1039,7 @@ static VOID InsertMeasureReqIE(
 static VOID InsertMeasureReportIE(
 	IN struct rtmp_adapter *pAd,
 	OUT u8 *pFrameBuf,
-	OUT PULONG pFrameLen,
+	OUT unsigned long *pFrameLen,
 	IN PMEASURE_REPORT_INFO pMeasureReportIE,
 	IN UINT8 ReportLnfoLen,
 	IN uint8_t * pReportInfo)
@@ -1084,7 +1084,7 @@ static VOID InsertMeasureReportIE(
 VOID MakeMeasurementReqFrame(
 	IN struct rtmp_adapter *pAd,
 	OUT u8 *pOutBuffer,
-	OUT PULONG pFrameLen,
+	OUT unsigned long *pFrameLen,
 	IN UINT8 TotalLen,
 	IN UINT8 Category,
 	IN UINT8 Action,
@@ -2278,7 +2278,7 @@ static PDOT11_REGULATORY_INFORMATION GetRugClassRegion(
 VOID RguClass_BuildBcnChList(
 	IN struct rtmp_adapter *pAd,
 	OUT u8 *pBuf,
-	OUT	PULONG pBufLen)
+	OUT	unsigned long *pBufLen)
 {
 	INT loop;
 	ULONG TmpLen;
