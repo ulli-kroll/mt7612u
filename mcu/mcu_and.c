@@ -1715,7 +1715,6 @@ static void mt7612u_mcu_ctrl_usb_init(struct rtmp_adapter *ad)
 	ctl->tx_kickout_fail_count = 0;
 	ctl->tx_timeout_fail_count = 0;
 	ctl->rx_receive_fail_count = 0;
-	ctl->ad = ad;
 	OS_SET_BIT(MCU_INIT, &ctl->flags);
 	usb_rx_cmd_msgs_receive(ad);
 	up(&(ad->mcu_atomic));

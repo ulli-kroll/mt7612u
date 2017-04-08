@@ -141,7 +141,6 @@ struct mt7612u_mcu_ctrl {
 	unsigned long rx_receive_fail_count;
 	bool power_on;
 	bool dpd_on;
-	struct rtmp_adapter *ad;
 };
 
 
