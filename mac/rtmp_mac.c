@@ -806,14 +806,14 @@ VOID rtmp_mac_bcn_buf_init(IN struct rtmp_adapter *pAd)
 	}
 
 	{
-		RTMP_REG_PAIR bcn_mac_reg_tb[] = {
+		struct rtmp_reg_pair bcn_mac_reg_tb[] = {
 			{RLT_BCN_OFFSET0, 0x18100800},
 			{RLT_BCN_OFFSET1, 0x38302820},
 			{RLT_BCN_OFFSET2, 0x58504840},
 			{RLT_BCN_OFFSET3, 0x78706860},
 		};
 
-		tb_size = (sizeof(bcn_mac_reg_tb) / sizeof(RTMP_REG_PAIR));
+		tb_size = (sizeof(bcn_mac_reg_tb) / sizeof(struct rtmp_reg_pair));
 		for (idx = 0; idx < tb_size; idx ++)
 		{
 			mt7612u_write32(pAd, (unsigned short)bcn_mac_reg_tb[idx].Register,
@@ -826,15 +826,15 @@ VOID rtmp_mac_bcn_buf_init(IN struct rtmp_adapter *pAd)
 INT rtmp_mac_pbf_init(struct rtmp_adapter *pAd)
 {
 	INT idx, tb_size = 0;
-	RTMP_REG_PAIR *pbf_regs = NULL;
+	struct rtmp_reg_pair *pbf_regs = NULL;
 
-	RTMP_REG_PAIR rlt_pbf_regs[]={
+	struct rtmp_reg_pair rlt_pbf_regs[]={
 		{TX_MAX_PCNT,		0xefef3f1f},
 		{RX_MAX_PCNT,		0xfebf},
 	};
 
 	pbf_regs = &rlt_pbf_regs[0];
-	tb_size = (sizeof(rlt_pbf_regs) / sizeof(RTMP_REG_PAIR));
+	tb_size = (sizeof(rlt_pbf_regs) / sizeof(struct rtmp_reg_pair));
 
 	if ((pbf_regs != NULL) && (tb_size > 0))
 	{
@@ -850,7 +850,7 @@ INT rtmp_mac_pbf_init(struct rtmp_adapter *pAd)
 /*
 	ASIC register initialization sets
 */
-RTMP_REG_PAIR MACRegTable[] = {
+struct rtmp_reg_pair MACRegTable[] = {
 	{LEGACY_BASIC_RATE,		0x0000013f}, /*  Basic rate set bitmap*/
 	{HT_BASIC_RATE,		0x00008003}, /* Basic HT rate set , 20M, MCS=3, MM. Format is the same as in TXWI.*/
 	{MAC_SYS_CTRL,		0x00}, /* 0x1004, , default Disable RX*/
@@ -898,7 +898,7 @@ RTMP_REG_PAIR MACRegTable[] = {
 };
 
 #ifdef CONFIG_AP_SUPPORT
-RTMP_REG_PAIR APMACRegTable[] = {
+struct rtmp_reg_pair APMACRegTable[] = {
 	{WMM_AIFSN_CFG,		0x00001173},
 	{WMM_CWMIN_CFG,	0x00002344},
 	{WMM_CWMAX_CFG,	0x000034a6},
@@ -909,7 +909,7 @@ RTMP_REG_PAIR APMACRegTable[] = {
 #endif /* CONFIG_AP_SUPPORT */
 
 #ifdef CONFIG_STA_SUPPORT
-RTMP_REG_PAIR STAMACRegTable[] = {
+struct rtmp_reg_pair STAMACRegTable[] = {
 	{WMM_AIFSN_CFG,	0x00002273},
 	{WMM_CWMIN_CFG,	0x00002344},
 	{WMM_CWMAX_CFG,	0x000034aa},
@@ -917,12 +917,12 @@ RTMP_REG_PAIR STAMACRegTable[] = {
 #endif /* CONFIG_STA_SUPPORT */
 
 
-#define NUM_MAC_REG_PARMS			(sizeof(MACRegTable) / sizeof(RTMP_REG_PAIR))
+#define NUM_MAC_REG_PARMS			(sizeof(MACRegTable) / sizeof(struct rtmp_reg_pair))
 #ifdef CONFIG_AP_SUPPORT
-#define NUM_AP_MAC_REG_PARMS		(sizeof(APMACRegTable) / sizeof(RTMP_REG_PAIR))
+#define NUM_AP_MAC_REG_PARMS		(sizeof(APMACRegTable) / sizeof(struct rtmp_reg_pair))
 #endif /* CONFIG_AP_SUPPORT */
 #ifdef CONFIG_STA_SUPPORT
-#define NUM_STA_MAC_REG_PARMS	(sizeof(STAMACRegTable) / sizeof(RTMP_REG_PAIR))
+#define NUM_STA_MAC_REG_PARMS	(sizeof(STAMACRegTable) / sizeof(struct rtmp_reg_pair))
 #endif /* CONFIG_STA_SUPPORT */
 
 INT rtmp_mac_init(struct rtmp_adapter *pAd)

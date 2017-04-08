@@ -83,10 +83,10 @@ typedef union _LARGE_INTEGER {
 
 
 /* Register set pair for initialzation register set definition */
-typedef struct _RTMP_REG_PAIR {
+struct rtmp_reg_pair {
 	uint32_t Register;
 	uint32_t Value;
-} RTMP_REG_PAIR, *PRTMP_REG_PAIR;
+};
 
 typedef struct _REG_PAIR {
 	u8 Register;
