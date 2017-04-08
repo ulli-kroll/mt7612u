@@ -916,29 +916,18 @@ struct rtmp_reg_pair STAMACRegTable[] = {
 };
 #endif /* CONFIG_STA_SUPPORT */
 
-
-#define NUM_MAC_REG_PARMS			(sizeof(MACRegTable) / sizeof(struct rtmp_reg_pair))
-#ifdef CONFIG_AP_SUPPORT
-#define NUM_AP_MAC_REG_PARMS		(sizeof(APMACRegTable) / sizeof(struct rtmp_reg_pair))
-#endif /* CONFIG_AP_SUPPORT */
-#ifdef CONFIG_STA_SUPPORT
-#define NUM_STA_MAC_REG_PARMS	(sizeof(STAMACRegTable) / sizeof(struct rtmp_reg_pair))
-#endif /* CONFIG_STA_SUPPORT */
-
 INT rtmp_mac_init(struct rtmp_adapter *pAd)
 {
 	INT idx;
 
-	for (idx = 0; idx < NUM_MAC_REG_PARMS; idx++)
-	{
+	for (idx = 0; idx < ARRAY_SIZE(MACRegTable); idx++) {
 		mt7612u_write32(pAd, MACRegTable[idx].Register, MACRegTable[idx].Value);
 	}
 
 #ifdef CONFIG_AP_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 	{
-		for (idx = 0; idx < NUM_AP_MAC_REG_PARMS; idx++)
-		{
+		for (idx = 0; idx < ARRAY_SIZE(APMACRegTable); idx++) {
 			mt7612u_write32(pAd,
 				APMACRegTable[idx].Register,
 				APMACRegTable[idx].Value);
@@ -949,8 +938,7 @@ INT rtmp_mac_init(struct rtmp_adapter *pAd)
 #ifdef CONFIG_STA_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
 	{
-		for (idx = 0; idx < NUM_STA_MAC_REG_PARMS; idx++)
-		{
+		for (idx = 0; idx < ARRAY_SIZE(STAMACRegTable); idx++) {
 			mt7612u_write32(pAd,
 				STAMACRegTable[idx].Register,
 				STAMACRegTable[idx].Value);

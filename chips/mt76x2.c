@@ -58,7 +58,6 @@ static struct rtmp_reg_pair mt76x2_mac_cr_table[] = {
 	{0x1384, 0x00001818},
 	{0x1358, 0xEDCBA980},
 };
-static u8 mt76x2_mac_cr_nums = (sizeof(mt76x2_mac_cr_table) / sizeof(struct rtmp_reg_pair));
 
 struct rtmp_reg_pair mt76x2_mac_g_band_cr_table[] = {
 	{BB_PA_MODE_CFG0, 0x010055FF},
@@ -70,7 +69,6 @@ struct rtmp_reg_pair mt76x2_mac_g_band_cr_table[] = {
 	{TX_ALC_CFG_4, 0x00000606},
 	{0x1648, 0x00000000},
 };
-u8 mt76x2_mac_g_band_cr_nums = (sizeof(mt76x2_mac_g_band_cr_table) / sizeof(struct rtmp_reg_pair));
 
 struct rtmp_reg_pair mt76x2_mac_g_band_internal_pa_cr_table[] = {
 	{TX0_RF_GAIN_CORR, 0x0F3C3C3C},
@@ -79,7 +77,6 @@ struct rtmp_reg_pair mt76x2_mac_g_band_internal_pa_cr_table[] = {
 	{PAMODE_PWR_ADJ0, 0xF4000200},
 	{PAMODE_PWR_ADJ1, 0xFA000200},
 };
-u8 mt76x2_mac_g_band_internal_pa_cr_nums = (sizeof(mt76x2_mac_g_band_internal_pa_cr_table) / sizeof(struct rtmp_reg_pair));
 
 struct rtmp_reg_pair mt76x2_mac_g_band_external_pa_cr_table[] = {
 	{TX0_RF_GAIN_CORR, 0x3C3C023C},
@@ -88,14 +85,12 @@ struct rtmp_reg_pair mt76x2_mac_g_band_external_pa_cr_table[] = {
 	{PAMODE_PWR_ADJ0, 0x0000EC00},
 	{PAMODE_PWR_ADJ1, 0x0000EC00},
 };
-u8 mt76x2_mac_g_band_external_pa_cr_nums = (sizeof(mt76x2_mac_g_band_external_pa_cr_table) / sizeof(struct rtmp_reg_pair));
 
 struct rtmp_reg_pair mt76x2_mac_g_band_external_pa_low_temp_cr_table[] = {
 	{TX0_RF_GAIN_CORR, 0x3C3C023C},
 	{TX1_RF_GAIN_CORR, 0x3C3C023C},
 	{TX0_BB_GAIN_ATTEN, 0x00001F1F},
 };
-u8 mt76x2_mac_g_band_external_pa_low_temp_cr_nums = (sizeof(mt76x2_mac_g_band_external_pa_low_temp_cr_table) / sizeof(struct rtmp_reg_pair));
 
 struct rtmp_reg_pair mt76x2_mac_a_band_cr_table[] = {
 	{BB_PA_MODE_CFG0, 0x0000FFFF},
@@ -106,7 +101,6 @@ struct rtmp_reg_pair mt76x2_mac_a_band_cr_table[] = {
 	{TX_ALC_CFG_3, 0x1B0F0476},
 	{TX_ALC_CFG_4, 0x00000000},
 };
-u8 mt76x2_mac_a_band_cr_nums = (sizeof(mt76x2_mac_a_band_cr_table) / sizeof(struct rtmp_reg_pair));
 
 struct rtmp_reg_pair mt76x2_mac_a_band_internal_pa_cr_table[] = {
 	{TX0_RF_GAIN_CORR, 0x383C023C},
@@ -116,7 +110,6 @@ struct rtmp_reg_pair mt76x2_mac_a_band_internal_pa_cr_table[] = {
 	{PAMODE_PWR_ADJ1, 0x00000000},
 	{0x1648, 0x00000000},
 };
-u8 mt76x2_mac_a_band_internal_pa_cr_nums = (sizeof(mt76x2_mac_a_band_internal_pa_cr_table) / sizeof(struct rtmp_reg_pair));
 
 struct rtmp_reg_pair mt76x2_mac_a_band_external_pa_cr_table[] = {
 	{TX0_RF_GAIN_CORR, 0x3C3C023C},
@@ -126,14 +119,12 @@ struct rtmp_reg_pair mt76x2_mac_a_band_external_pa_cr_table[] = {
 	{PAMODE_PWR_ADJ1, 0x04000000},
 	{0x1648, 0x00830083},
 };
-u8 mt76x2_mac_a_band_external_pa_cr_nums = (sizeof(mt76x2_mac_a_band_external_pa_cr_table) / sizeof(struct rtmp_reg_pair));
 
 struct rtmp_reg_pair mt76x2_mac_a_band_external_pa_low_temp_cr_table[] = {
 	{TX0_RF_GAIN_CORR, 0x3C3C023C},
 	{TX1_RF_GAIN_CORR, 0x3C3C023C},
 	{TX0_BB_GAIN_ATTEN, 0x00001F1F},
 };
-u8 mt76x2_mac_a_band_external_pa_low_temp_cr_nums = (sizeof(mt76x2_mac_a_band_external_pa_low_temp_cr_table) / sizeof(struct rtmp_reg_pair));
 
 struct RF_INDEX_OFFSET mt76x2_rf_index_offset[] = {
 	{0, 0x0000, 0x033c},
@@ -580,29 +571,29 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan
 			if (band == _G_BAND) {
 				mt7612u_mcu_random_write(ad,
 					     mt76x2_mac_g_band_cr_table,
-					     mt76x2_mac_g_band_cr_nums);
+					     ARRAY_SIZE(mt76x2_mac_g_band_cr_table));
 
 				if (ad->chipCap.PAType & INT_PA_2G)
 					mt7612u_mcu_random_write(ad,
 						     mt76x2_mac_g_band_internal_pa_cr_table,
-						     mt76x2_mac_g_band_internal_pa_cr_nums);
+						     ARRAY_SIZE(mt76x2_mac_g_band_internal_pa_cr_table));
 				else
 					mt7612u_mcu_random_write(ad,
 						     mt76x2_mac_g_band_external_pa_cr_table,
-						     mt76x2_mac_g_band_external_pa_cr_nums);
+						     ARRAY_SIZE(mt76x2_mac_g_band_external_pa_cr_table));
 
 			} else {
 				mt7612u_mcu_random_write(ad,
 					     mt76x2_mac_a_band_cr_table,
-					     mt76x2_mac_a_band_cr_nums);
+					     ARRAY_SIZE(mt76x2_mac_a_band_cr_table));
 				if (ad->chipCap.PAType & INT_PA_5G)
 					mt7612u_mcu_random_write(ad,
 						     mt76x2_mac_a_band_internal_pa_cr_table,
-						     mt76x2_mac_a_band_internal_pa_cr_nums);
+						     ARRAY_SIZE(mt76x2_mac_a_band_internal_pa_cr_table));
 				else
 					mt7612u_mcu_random_write(ad,
 						     mt76x2_mac_a_band_external_pa_cr_table,
-						     mt76x2_mac_a_band_external_pa_cr_nums);
+						     ARRAY_SIZE(mt76x2_mac_a_band_external_pa_cr_table));
 
 			}
 		}
@@ -1091,7 +1082,7 @@ void mt76x2_init_mac_cr(struct rtmp_adapter *ad)
 
 #ifdef RTMP_USB_SUPPORT
 	if (IS_USB_INF(ad))
-		mt7612u_mcu_random_write(ad, mt76x2_mac_cr_table, mt76x2_mac_cr_nums);
+		mt7612u_mcu_random_write(ad, mt76x2_mac_cr_table, ARRAY_SIZE(mt76x2_mac_cr_table));
 #endif
 
 #ifdef HDR_TRANS_TX_SUPPORT
