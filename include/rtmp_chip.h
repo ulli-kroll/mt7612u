@@ -686,8 +686,6 @@ struct rtmp_chip_ops {
 	int (*sys_onoff)(struct rtmp_adapter *pAd, bool on, bool reser);
 
 	/* MCU related callback functions */
-	int (*load_rom_patch)(struct rtmp_adapter *ad);
-	int (*loadFirmware)(struct rtmp_adapter *pAd);
 	int (*eraseFirmware)(struct rtmp_adapter *pAd);
 	int (*sendCommandToMcu)(struct rtmp_adapter *pAd, u8 cmd, u8 token, u8 arg0, u8 arg1, bool FlgIsNeedLocked);	/* int (*sendCommandToMcu)(struct rtmp_adapter *pAd, u8 cmd, u8 token, u8 arg0, u8 arg1); */
 #ifdef CONFIG_ANDES_SUPPORT

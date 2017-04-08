@@ -33,13 +33,11 @@ static int load_patch(struct rtmp_adapter *ad)
 	int ret = NDIS_STATUS_SUCCESS;
 	ULONG Old, New, Diff;
 
-	if (ad->chipOps.load_rom_patch) {
-		RTMP_GetCurrentSystemTick(&Old);
-		ret = ad->chipOps.load_rom_patch(ad);
-		RTMP_GetCurrentSystemTick(&New);
-		Diff = (New - Old) * 1000 / OS_HZ;
-		DBGPRINT(RT_DEBUG_TRACE, ("load rom patch spent %ldms\n", Diff));
-	}
+	RTMP_GetCurrentSystemTick(&Old);
+	ret = mt7612u_mcu_usb_load_rom_patch(ad);
+	RTMP_GetCurrentSystemTick(&New);
+	Diff = (New - Old) * 1000 / OS_HZ;
+	DBGPRINT(RT_DEBUG_TRACE, ("load rom patch spent %ldms\n", Diff));
 
 	return ret;
 }
@@ -74,14 +72,6 @@ VOID ChipOpsMCUHook(struct rtmp_adapter *pAd)
 {
 	struct rtmp_chip_ops *pChipOps = &pAd->chipOps;
 	struct rtmp_chip_cap *pChipCap = &pAd->chipCap;
-
-	if (pChipCap->need_load_rom_patch)
-		pChipOps->load_rom_patch = mt7612u_mcu_usb_load_rom_patch;
-
-
-	if (pChipCap->need_load_fw)
-		pChipOps->loadFirmware = mt7612u_mcu_usb_loadfw;
-
 
 	pChipOps->fw_init = mt7612u_mcu_usb_fw_init;
 }
