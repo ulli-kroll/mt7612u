@@ -2865,9 +2865,6 @@ static INT RtmpChipOpsRegister(struct rtmp_adapter *pAd, INT infType)
 		return ret;
 	}
 
-	/* MCU related */
-	ChipOpsMCUHook(pAd);
-
 	get_dev_config_idx(pAd);
 
 	return ret;

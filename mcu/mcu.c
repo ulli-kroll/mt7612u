@@ -66,11 +66,3 @@ INT mcu_sys_init(struct rtmp_adapter *pAd)
 
 	return true;
 }
-
-
-VOID ChipOpsMCUHook(struct rtmp_adapter *pAd)
-{
-	struct rtmp_chip_ops *pChipOps = &pAd->chipOps;
-	struct rtmp_chip_cap *pChipCap = &pAd->chipCap;
-}
-
