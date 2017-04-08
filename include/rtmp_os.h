@@ -94,9 +94,6 @@ typedef struct _RTMP_OS_TASK_ {
 #endif /* RTMP_MODULE_OS || ! OS_ABL_FUNC_SUPPORT */
 
 
-int RtmpOSIRQRequest(struct net_device *pNetDev);
-
-
 #ifndef OS_ABL_SUPPORT
 #define RTMP_MATOpsInit(__pAd)
 #define RTMP_MATPktRxNeedConvert(__pAd, __pDev)				\

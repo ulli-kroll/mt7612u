@@ -247,15 +247,6 @@ int rt28xx_open(struct net_device *net_dev)
 	}
 #endif /* WIRELESS_EXT >= 12 */
 
-	/*
-		Request interrupt service routine for PCI device
-		register the interrupt routine with the os
-
-		AP Channel auto-selection will be run in rt28xx_init(),
-		so we must reqister IRQ hander here.
-	*/
-	RtmpOSIRQRequest(net_dev);
-
 	/* Init IRQ parameters stored in pAd */
 /*	rtmp_irq_init(pAd); */
 	RTMP_DRIVER_IRQ_INIT(pAd);
@@ -650,29 +641,6 @@ bool RtmpPhyNetDevExit(struct rtmp_adapter *pAd, struct net_device *net_dev)
 
 	return true;
 
-}
-
-
-/*******************************************************************************
-
-	Device IRQ related functions.
-
- *******************************************************************************/
-int RtmpOSIRQRequest(IN struct net_device *pNetDev)
-{
-	ULONG infType;
-	VOID *pAd = NULL;
-	int retval = 0;
-
-	GET_PAD_FROM_NET_DEV(pAd, pNetDev);
-
-	ASSERT(pAd);
-
-	RTMP_DRIVER_INF_TYPE_GET(pAd, &infType);
-
-
-
-	return retval;
 }
 
 
