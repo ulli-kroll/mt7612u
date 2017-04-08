@@ -3843,9 +3843,7 @@ struct rtmp_adapter {
 #endif /* DBG_DIAGNOSE */
 
 
-#ifdef RTMP_USB_SUPPORT
 	struct usb_control usb_ctl;
-#endif
 
 
 	bool NDPA_Request;
@@ -6814,7 +6812,6 @@ VOID handleHtcField(struct rtmp_adapter *pAd, RX_BLK *pRxBlk);
 #define VIRTUAL_IF_NUM(__pAd) ((__pAd)->VirtualIfCnt)
 
 
-#ifdef RTMP_USB_SUPPORT
 /*
  * Function Prototype in rtusb_bulk.c
  */
@@ -6857,7 +6854,6 @@ VOID DoBulkIn(struct rtmp_adapter *pAd);
 VOID RTUSBInitRxDesc(struct rtmp_adapter *pAd, RX_CONTEXT *pRxContext);
 VOID RTUSBBulkRxHandle(ULONG data);
 VOID InitUSBDevice(RT_CMD_USB_INIT *pConfig, VOID *pAd);
-#endif /* RTMP_USB_SUPPORT */
 
 
 #ifdef SOFT_ENCRYPT

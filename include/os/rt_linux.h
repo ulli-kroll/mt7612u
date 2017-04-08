@@ -36,9 +36,7 @@
 #include <linux/if_arp.h>
 #include <linux/ctype.h>
 #include <linux/vmalloc.h>
-#ifdef RTMP_USB_SUPPORT
 #include <linux/usb.h>
-#endif /* RTMP_USB_SUPPORT */
 #include <linux/wireless.h>
 #include <net/iw_handler.h>
 
@@ -88,11 +86,9 @@
 #ifdef CONFIG_STA_SUPPORT
 #endif /* CONFIG_STA_SUPPORT */
 
-/*#ifdef RTMP_USB_SUPPORT // os abl move */
 typedef struct usb_device	*PUSB_DEV;
 typedef struct urb *purbb_t;
 typedef struct usb_ctrlrequest devctrlrequest;
-/*#endif */
 
 /***********************************************************************************
  *	Profile related sections
@@ -732,7 +728,6 @@ extern int ra_mtd_read(int num, loff_t from, size_t len, u_char *buf);
 	_wdev = RTMP_OS_NETDEV_GET_WDEV(_net_dev);
 
 
-/*#ifdef RTMP_USB_SUPPORT */
 /******************************************************************************
 
   	USB related definitions
@@ -849,8 +844,6 @@ extern int rausb_submit_urb(VOID *urb);
 #ifndef gfp_t
 #define gfp_t		int32_t
 #endif /* gfp_t */
-
-/*#endif // RTMP_USB_SUPPORT */
 
 INT RtmpOSNetDevOpsAlloc(
 	IN PVOID *pNetDevOps);

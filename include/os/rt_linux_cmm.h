@@ -155,10 +155,8 @@ typedef struct _OS_RSTRUC  {
  *	OS definition related data structure and definitions
  ******************************************************************************/
 
-#ifdef RTMP_USB_SUPPORT
 #define RTMP_USB_CONTROL_MSG_ENODEV		(-ENODEV)
 #define RTMP_USB_CONTROL_MSG_FAIL		(-EFAULT)
-#endif /* RTMP_USB_SUPPORT */
 
 #define RTMP_OS_PCI_VENDOR_ID			PCI_VENDOR_ID
 #define RTMP_OS_PCI_DEVICE_ID			PCI_DEVICE_ID

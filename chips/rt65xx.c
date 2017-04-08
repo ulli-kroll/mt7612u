@@ -30,7 +30,6 @@
 #include	"rt_config.h"
 
 
-#ifdef RTMP_USB_SUPPORT
 VOID RT65xxUsbAsicRadioOff(struct rtmp_adapter *pAd, u8 Stage)
 {
 	uint32_t Value, ret;
@@ -133,8 +132,6 @@ VOID RT65xxUsbAsicRadioOn(struct rtmp_adapter *pAd, u8 Stage)
 
 	DBGPRINT(RT_DEBUG_TRACE, ("<== %s\n", __FUNCTION__));
 }
-#endif
-
 
 VOID RT65xxDisableTxRx(struct rtmp_adapter *pAd)
 {

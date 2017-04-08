@@ -563,7 +563,6 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan
 
 
 
-#ifdef RTMP_USB_SUPPORT
 	if (IS_USB_INF(ad)) {
 		if (band_change) {
 			if (band == _G_BAND) {
@@ -596,7 +595,6 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan
 			}
 		}
 	}
-#endif
 
 	if (IS_MT7602(ad)) {
 		/* default use 2 stream to Tx HW auto gened packets */
@@ -651,7 +649,6 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan
 	}
 
 
-#ifdef RTMP_USB_SUPPORT
 	mac_val = mt7612u_read32(ad, TXOP_CTRL_CFG);
 	if ((mac_val & 0x100000) == 0x100000) {
 		ad->chipCap.ed_cca_enable = true;
@@ -662,7 +659,6 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan
 		mac_val &= ~2;
 		mt7612u_write32(ad, TXOP_HLDR_ET, mac_val);
 	}
-#endif /* RTMP_USB_SUPPORT */
 
 	/* backup mac 1004 value */
 	restore_value = mt7612u_read32(ad, 0x1004);
@@ -745,7 +741,6 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan
 	/* enable TX/RX */
 	mt7612u_write32(ad, 0x1004, 0xc);
 
-#ifdef RTMP_USB_SUPPORT
         if (ad->chipCap.ed_cca_enable) {
 		mac_val = 0;
 
@@ -757,7 +752,6 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan
                 mac_val |= 2;
                 mt7612u_write32(ad, TXOP_HLDR_ET, mac_val);
         }
-#endif /* RTMP_USB_SUPPORT */
 
 	/* Restore RTS retry count */
 	mt7612u_write32(ad, 0x1344, ad->rts_tx_retry_num);
@@ -864,7 +858,6 @@ void mt76x2_tssi_compensation(struct rtmp_adapter *ad, u8 channel)
 	uint32_t value = 0;
 	uint32_t ret = 0;
 
-#ifdef RTMP_USB_SUPPORT
 	if (IS_USB_INF(ad)) {
 		ret = down_interruptible(&ad->tssi_lock);
 		if (ret != 0) {
@@ -872,7 +865,6 @@ void mt76x2_tssi_compensation(struct rtmp_adapter *ad, u8 channel)
 			return;
 		}
 	}
-#endif
 
 
 	if (ad->chipCap.tssi_stage <= TSSI_CAL_STAGE)
@@ -966,7 +958,6 @@ void mt76x2_calibration(struct rtmp_adapter *ad, u8 channel)
 		return;
 	}
 
-#ifdef RTMP_USB_SUPPORT
         mac_val = mt7612u_read32(ad, TXOP_CTRL_CFG);
         if ((mac_val & 0x100000) == 0x100000) {
                 ad->chipCap.ed_cca_enable = true;
@@ -977,7 +968,6 @@ void mt76x2_calibration(struct rtmp_adapter *ad, u8 channel)
                 mac_val &= ~2;
                 mt7612u_write32(ad, TXOP_HLDR_ET, mac_val);
         }
-#endif /* RTMP_USB_SUPPORT */
 
 	DBGPRINT(RT_DEBUG_OFF, ("%s(channel = %d)\n", __FUNCTION__, channel));
 
@@ -1051,11 +1041,9 @@ VOID init_fce(struct rtmp_adapter *ad)
 	reg.word = 0;
 
 
-#ifdef RTMP_USB_SUPPORT
 	reg.word = mt7612u_read32(ad, FCE_L2_STUFF);
 	reg.field.FS_WR_MPDU_LEN_EN = 0;
 	mt7612u_write32(ad, FCE_L2_STUFF, reg.word);
-#endif
 }
 
 void mt76x2_init_mac_cr(struct rtmp_adapter *ad)
@@ -1070,10 +1058,8 @@ void mt76x2_init_mac_cr(struct rtmp_adapter *ad)
 		SYS_CTRL[11:10] = 0x3
 	*/
 
-#ifdef RTMP_USB_SUPPORT
 	if (IS_USB_INF(ad))
 		mt7612u_mcu_random_write(ad, mt76x2_mac_cr_table, ARRAY_SIZE(mt76x2_mac_cr_table));
-#endif
 
 #ifdef HDR_TRANS_TX_SUPPORT
 	/*
@@ -2701,7 +2687,6 @@ static const struct rtmp_chip_cap MT76x2_ChipCap = {
 	.rom_patch_offset = 0x90000,
 #endif /* CONFIG_ANDES_SUPPORT */
 	.cmd_header_len = 4,
-#ifdef RTMP_USB_SUPPORT
 	.cmd_padding_len = 4,
 	.CommandBulkOutAddr = 0x8,
 	.WMM0ACBulkOutAddr[0] = 0x4,
@@ -2711,7 +2696,6 @@ static const struct rtmp_chip_cap MT76x2_ChipCap = {
 	.WMM1ACBulkOutAddr	= 0x9,
 	.DataBulkInAddr = 0x84,
 	.CommandRspBulkInAddr = 0x85,
-#endif
 	.fw_name = "mt7662u.bin",
 	.fw_patch_name = "mt7662u_rom_patch.bin",
 	.rf_type = RF_MT,
@@ -2748,8 +2732,6 @@ static const struct rtmp_chip_ops MT76x2_ChipOp = {
 	.ChipBBPAdjust = mt76x2_bbp_adjust,
 	.ChipSwitchChannel = mt76x2_switch_channel,
 
-#ifdef RTMP_USB_SUPPORT
-#endif
 };
 
 VOID mt76x2_init(struct rtmp_adapter *pAd)

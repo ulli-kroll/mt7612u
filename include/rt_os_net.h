@@ -26,7 +26,6 @@ typedef void (*RTMP_DRV_USB_COMPLETE_HANDLER)(VOID *pURB);
 
 typedef struct _RTMP_NET_ABL_OPS {
 
-#ifdef RTMP_USB_SUPPORT
 /* net complete handlers */
 RTMP_DRV_USB_COMPLETE_HANDLER	RtmpNetUsbBulkOutDataPacketComplete;
 RTMP_DRV_USB_COMPLETE_HANDLER	RtmpNetUsbBulkOutMLMEPacketComplete;
@@ -44,8 +43,6 @@ RTMP_DRV_USB_COMPLETE_HANDLER	RtmpDrvUsbBulkOutRTSFrameComplete;
 RTMP_DRV_USB_COMPLETE_HANDLER	RtmpDrvUsbBulkOutPsPollComplete;
 RTMP_DRV_USB_COMPLETE_HANDLER	RtmpDrvUsbBulkRxComplete;
 RTMP_DRV_USB_COMPLETE_HANDLER	RtmpDrvUsbBulkCmdRspEventComplete;
-
-#endif /* RTMP_USB_SUPPORT */
 
 } RTMP_NET_ABL_OPS;
 

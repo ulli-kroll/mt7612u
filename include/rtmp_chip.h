@@ -543,13 +543,11 @@ struct rtmp_chip_cap {
 	UINT8 cmd_header_len;
 	UINT8 cmd_padding_len;
 
-#ifdef RTMP_USB_SUPPORT
 	UINT8 DataBulkInAddr;
 	UINT8 CommandRspBulkInAddr;
 	UINT8 WMM0ACBulkOutAddr[4];
 	UINT8 WMM1ACBulkOutAddr;
 	UINT8 CommandBulkOutAddr;
-#endif
 
 #ifdef CONFIG_SWITCH_CHANNEL_OFFLOAD
 	uint16_t ChannelParamsSize;

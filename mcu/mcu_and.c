@@ -1046,9 +1046,7 @@ struct cmd_msg *mt7612u_mcu_alloc_cmd_msg(struct rtmp_adapter *ad, unsigned int 
 	struct rtmp_chip_cap *cap = &ad->chipCap;
 	struct MCU_CTRL *ctl = &ad->MCUCtrl;
 	struct sk_buff *net_pkt = NULL;
-#ifdef RTMP_USB_SUPPORT
 	PURB urb = NULL;
-#endif
 
 	net_pkt = dev_alloc_skb(cap->cmd_header_len + length + cap->cmd_padding_len);
 
@@ -1070,7 +1068,6 @@ struct cmd_msg *mt7612u_mcu_alloc_cmd_msg(struct rtmp_adapter *ad, unsigned int 
 
 	memset(msg, 0x00, sizeof(*msg));
 
-#ifdef RTMP_USB_SUPPORT
 	urb = usb_alloc_urb(0, GFP_ATOMIC);
 
 	if (!urb) {
@@ -1079,16 +1076,13 @@ struct cmd_msg *mt7612u_mcu_alloc_cmd_msg(struct rtmp_adapter *ad, unsigned int 
 	}
 
 	msg->urb = urb;
-#endif
 
 	msg->priv = (void *)ad;
 	msg->net_pkt = net_pkt;
 
 	return msg;
 
-#ifdef RTMP_USB_SUPPORT
 error2:
-#endif
 	kfree(msg);
 error1:
 	dev_kfree_skb_any(net_pkt);
@@ -1105,38 +1099,19 @@ static void mt7612u_mcu_init_cmd_msg(struct cmd_msg *msg, enum mcu_cmd_type type
 	MSG_RSP_HANDLER rsp_handler = NULL;
 
 	msg->type = type;
-#ifdef RTMP_USB_SUPPORT
 	msg->need_wait= need_wait;
-#else
-	msg->need_wait= false;
-#endif
 	msg->timeout = timeout;
 
 	if (need_wait) {
-
-#ifdef RTMP_USB_SUPPORT
 		init_completion(&msg->ack_done);
-#endif
 	}
 
-#ifdef RTMP_USB_SUPPORT
 	msg->need_retransmit = need_retransmit;
-#else
-	msg->need_retransmit = 0;
-#endif
 
-#ifdef RTMP_USB_SUPPORT
 	if (need_retransmit)
 		msg->retransmit_times = CMD_MSG_RETRANSMIT_TIMES;
-#else
-		msg->retransmit_times = 0;
-#endif
 
-#ifdef RTMP_USB_SUPPORT
 	msg->need_rsp = need_rsp;
-#else
-	msg->need_rsp = false;
-#endif
 	msg->rsp_payload_len = rsp_payload_len;
 	msg->rsp_payload = rsp_payload;
 	msg->rsp_handler = rsp_handler;
@@ -1156,9 +1131,7 @@ void mt7612u_mcu_free_cmd_msg(struct cmd_msg *msg)
 	struct rtmp_adapter *ad = (struct rtmp_adapter *)(msg->priv);
 	struct MCU_CTRL *ctl = &ad->MCUCtrl;
 
-#ifdef RTMP_USB_SUPPORT
 	usb_free_urb(msg->urb);
-#endif
 
 	kfree(msg);
 
@@ -1389,17 +1362,13 @@ void mt7612u_mcu_rx_process_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *rx_
 		RTEnqueueInternalCmd(ad, CMDTHREAD_RESPONSE_EVENT_CALLBACK,
 				     net_pkt->data + sizeof(*rx_info), rx_info->pkt_len);
 	} else {
-#ifdef RTMP_USB_SUPPORT
 		spin_lock_irq(&ctl->ackq_lock);
-#endif
 
 		DlListForEachSafe(msg, msg_tmp, &ctl->ackq, struct cmd_msg, list) {
 			if (msg->seq == rx_info->cmd_seq)
 			{
 				_mt7612u_mcu_unlink_cmd_msg(msg, &ctl->ackq);
-#ifdef RTMP_USB_SUPPORT
 				spin_unlock_irq(&ctl->ackq_lock);
-#endif
 
 
 				if ((msg->rsp_payload_len == rx_info->pkt_len) && (msg->rsp_payload_len != 0))
@@ -1417,30 +1386,22 @@ void mt7612u_mcu_rx_process_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *rx_
 				}
 
 				if (msg->need_wait) {
-
-#ifdef RTMP_USB_SUPPORT
 					complete(&msg->ack_done);
-#endif
 				} else {
 					mt7612u_mcu_free_cmd_msg(msg);
 				}
-#ifdef RTMP_USB_SUPPORT
 				spin_lock_irq(&ctl->ackq_lock);
-#endif
 
 				break;
 			}
 		}
 
-#ifdef RTMP_USB_SUPPORT
 		spin_unlock_irq(&ctl->ackq_lock);
-#endif
 
 	}
 }
 
 
-#ifdef RTMP_USB_SUPPORT
 static void usb_rx_cmd_msg_complete(PURB urb)
 {
 	struct sk_buff *net_pkt = urb->context;
@@ -1551,7 +1512,6 @@ int usb_rx_cmd_msgs_receive(struct rtmp_adapter *ad)
 
 	return ret;
 }
-#endif
 
 void mt7612u_mcu_cmd_msg_bh(unsigned long param)
 {
@@ -1587,9 +1547,7 @@ void mt7612u_mcu_cmd_msg_bh(unsigned long param)
 
 	if (OS_TEST_BIT(MCU_INIT, &ctl->flags)) {
 		mt7612u_mcu_bh_schedule(ad);
-#ifdef RTMP_USB_SUPPORT
 		usb_rx_cmd_msgs_receive(ad);
-#endif
 	}
 }
 
@@ -1613,10 +1571,6 @@ void mt7612u_mcu_bh_schedule(struct rtmp_adapter *ad)
 }
 
 
-#ifdef RTMP_USB_SUPPORT
-#endif
-
-#ifdef RTMP_USB_SUPPORT
 static void usb_kick_out_cmd_msg_complete(PURB urb)
 {
 	struct sk_buff *net_pkt = urb->context;
@@ -1718,8 +1672,6 @@ void mt7612u_mcu_usb_unlink_urb(struct rtmp_adapter *ad, DL_LIST *list)
 	spin_unlock_irqrestore(lock, flags);
 }
 
-#endif
-
 void mt7612u_mcu_cleanup_cmd_msg(struct rtmp_adapter *ad, DL_LIST *list)
 {
 	unsigned long flags;
@@ -1739,7 +1691,6 @@ void mt7612u_mcu_cleanup_cmd_msg(struct rtmp_adapter *ad, DL_LIST *list)
 }
 
 
-#ifdef RTMP_USB_SUPPORT
 static void mt7612u_mcu_ctrl_usb_init(struct rtmp_adapter *ad)
 {
 	struct MCU_CTRL *ctl = &ad->MCUCtrl;
@@ -1769,24 +1720,19 @@ static void mt7612u_mcu_ctrl_usb_init(struct rtmp_adapter *ad)
 	usb_rx_cmd_msgs_receive(ad);
 	up(&(ad->mcu_atomic));
 }
-#endif
 
 void mt7612u_mcu_ctrl_init(struct rtmp_adapter *ad)
 {
 	struct MCU_CTRL *ctl = &ad->MCUCtrl;
 
 	if (!OS_TEST_BIT(MCU_INIT, &ctl->flags)) {
-
-#ifdef RTMP_USB_SUPPORT
 		mt7612u_mcu_ctrl_usb_init(ad);
-#endif
 	}
 
 	ctl->power_on = false;
 	ctl->dpd_on = false;
 }
 
-#ifdef RTMP_USB_SUPPORT
 static void mt7612u_mcu_ctrl_usb_exit(struct rtmp_adapter *ad)
 {
 	struct MCU_CTRL *ctl = &ad->MCUCtrl;
@@ -1811,7 +1757,6 @@ static void mt7612u_mcu_ctrl_usb_exit(struct rtmp_adapter *ad)
 	DBGPRINT(RT_DEBUG_OFF, ("rx_receive_fail_count = %ld\n", ctl->rx_receive_fail_count));
 	up(&(ad->mcu_atomic));
 }
-#endif
 
 
 void mt7612u_mcu_ctrl_exit(struct rtmp_adapter *ad)
@@ -1819,10 +1764,7 @@ void mt7612u_mcu_ctrl_exit(struct rtmp_adapter *ad)
 	struct MCU_CTRL *ctl = &ad->MCUCtrl;
 
 	if (OS_TEST_BIT(MCU_INIT, &ctl->flags)) {
-
-#ifdef RTMP_USB_SUPPORT
 		mt7612u_mcu_ctrl_usb_exit(ad);
-#endif
 	}
 
 	ctl->power_on = false;
@@ -1874,9 +1816,7 @@ static int mt7612u_mcu_dequeue_and_kick_out_cmd_msgs(struct rtmp_adapter *ad)
 		}
 
 
-#ifdef RTMP_USB_SUPPORT
 		ret = usb_kick_out_cmd_msg(ad, msg);
-#endif
 
 
 		if (ret) {
@@ -1893,15 +1833,11 @@ static int mt7612u_mcu_dequeue_and_kick_out_cmd_msgs(struct rtmp_adapter *ad)
 static int mt7612u_mcu_wait_for_complete_timeout(struct cmd_msg *msg, long timeout)
 {
 	int ret = 0;
-#ifdef RTMP_USB_SUPPORT
 	long expire;
 	expire = timeout ? RTMPMsecsToJiffies(timeout) : RTMPMsecsToJiffies(CMD_MSG_TIMEOUT);
-#endif
 
 
-#ifdef RTMP_USB_SUPPORT
 	ret = wait_for_completion_timeout(&msg->ack_done, expire);
-#endif
 
 	return ret;
 }
@@ -1913,18 +1849,14 @@ int mt7612u_mcu_send_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *msg)
 	bool need_wait = msg->need_wait;
 
 
-#ifdef RTMP_USB_SUPPORT
 	ret = down_interruptible(&(ad->mcu_atomic));
-#endif
 
 	if (!RTMP_TEST_FLAG(ad, fRTMP_ADAPTER_MCU_SEND_IN_BAND_CMD)
 				|| RTMP_TEST_FLAG(ad, fRTMP_ADAPTER_NIC_NOT_EXIST)
 				|| RTMP_TEST_FLAG(ad, fRTMP_ADAPTER_SUSPEND)) {
 		mt7612u_mcu_free_cmd_msg(msg);
 
-#ifdef RTMP_USB_SUPPORT
 		up(&(ad->mcu_atomic));
-#endif
 		return NDIS_STATUS_FAILURE;
 	}
 
@@ -1947,9 +1879,7 @@ retransmit:
 			DBGPRINT(RT_DEBUG_ERROR, ("rx_done qlen = %d\n", mt7612u_mcu_queue_len(ctl, &ctl->rx_doneq)));
 			if (OS_TEST_BIT(MCU_INIT, &ctl->flags)) {
 				if (msg->state == wait_cmd_out_and_ack) {
-#ifdef RTMP_USB_SUPPORT
 					usb_kill_urb(msg->urb);
-#endif
 				} else if (msg->state == wait_ack) {
 					mt7612u_mcu_unlink_cmd_msg(msg, &ctl->ackq);
 				}
@@ -1973,9 +1903,7 @@ retransmit:
 		if (OS_TEST_BIT(MCU_INIT, &ctl->flags)) {
 			if (msg->need_retransmit && (msg->retransmit_times > 0)) {
 
-#ifdef RTMP_USB_SUPPORT
 				init_completion(&msg->ack_done);
-#endif
 				state = tx_retransmit;
 				mt7612u_mcu_queue_head_cmd_msg(&ctl->txq, msg, state);
 				goto retransmit;
@@ -1987,9 +1915,7 @@ retransmit:
 		}
 	}
 
-#ifdef RTMP_USB_SUPPORT
 	up(&(ad->mcu_atomic));
-#endif
 
 
 	return ret;
@@ -2454,7 +2380,6 @@ error:
 
 
 
-#ifdef RTMP_USB_SUPPORT
 void mt7612u_mcu_usb_fw_init(struct rtmp_adapter *ad)
 {
 	DBGPRINT(RT_DEBUG_OFF, ("%s\n", __FUNCTION__));
@@ -2468,5 +2393,4 @@ void mt7612u_mcu_usb_fw_init(struct rtmp_adapter *ad)
 	usb_rx_cmd_msgs_receive(ad);
 	mt7612u_mcu_pwr_saving(ad, RADIO_ON, 0);
 }
-#endif /* RTMP_USB_SUPPORT */
 

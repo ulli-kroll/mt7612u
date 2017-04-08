@@ -78,14 +78,12 @@ typedef struct GNU_PACKED _TXINFO_NMAC_PKT {
 }TXINFO_NMAC_PKT;
 #endif /* RT_BIG_ENDIAN */
 
-#ifdef RTMP_USB_SUPPORT
 #define TxInfoWIV			txinfo_nmac_pkt.wiv
 #define TxInfoQSEL			txinfo_nmac_pkt.QSEL
 #define TxInfoPktLen			txinfo_nmac_pkt.pkt_len
 #define TxInfoSwLstRnd		txinfo_nmac_pkt.rsv0
 #define TxInfoUDMATxburst	txinfo_nmac_pkt.tx_burst
 #define TxInfoUDMANextVld	txinfo_nmac_pkt.next_vld
-#endif /* RTMP_USB_SUPPORT */
 
 #ifdef RT_BIG_ENDIAN
 typedef struct GNU_PACKED _TXINFO_NMAC_CMD{

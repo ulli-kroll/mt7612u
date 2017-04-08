@@ -2394,9 +2394,7 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 
 	pAd->CommonCfg.bNonVhtDisallow = false;
 
-#ifdef RTMP_USB_SUPPORT
 	pAd->usb_ctl.usb_aggregation = true;
-#endif
 
 
 	DBGPRINT(RT_DEBUG_TRACE, ("<-- UserCfgInit\n"));
@@ -2883,7 +2881,6 @@ static INT RtmpChipOpsRegister(struct rtmp_adapter *pAd, INT infType)
 }
 
 
-#ifdef RTMP_USB_SUPPORT
 bool PairEP(struct rtmp_adapter *pAd, UINT8 EP)
 {
 	struct rtmp_chip_cap *pChipCap = &pAd->chipCap;
@@ -2924,7 +2921,6 @@ bool PairEP(struct rtmp_adapter *pAd, UINT8 EP)
 		return true;
 	}
 }
-#endif /* RTMP_USB_SUPPORT */
 
 
 INT RtmpRaDevCtrlInit(struct rtmp_adapter *pAd, RTMP_INF_TYPE infType)

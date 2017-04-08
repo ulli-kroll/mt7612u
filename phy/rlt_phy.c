@@ -256,7 +256,6 @@ void mt7612u_bbp_set_bw(struct rtmp_adapter *pAd, u8 bw)
 	uint32_t core_r4;
 #endif /* defined(MT76x0) || defined(MT76x2) */
 
-#ifdef RTMP_USB_SUPPORT
 
 	if (IS_USB_INF(pAd)) {
 		uint32_t ret;
@@ -267,7 +266,6 @@ void mt7612u_bbp_set_bw(struct rtmp_adapter *pAd, u8 bw)
 			return;
 		}
 	}
-#endif /* RTMP_USB_SUPPORT */
 
 	core_r1 = RTMP_BBP_IO_READ32(pAd, CORE_R1);
 		core = (core_r1 & (~0x18));

@@ -175,17 +175,13 @@ struct cmd_msg {
 	bool need_rsp;
 	bool need_retransmit;
 
-#ifdef RTMP_USB_SUPPORT
 	 struct completion ack_done;
-#endif
 	char *rsp_payload;
 	MSG_RSP_HANDLER rsp_handler;
 	enum cmd_msg_state state;
 	void *priv;
 	struct sk_buff *net_pkt;
-#ifdef RTMP_USB_SUPPORT
 	PURB urb;
-#endif
 	int retransmit_times;
 };
 

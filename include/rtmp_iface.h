@@ -28,9 +28,7 @@
 
 
 
-#ifdef RTMP_USB_SUPPORT
 #include "iface/rtmp_usb.h"
-#endif /* RTMP_USB_SUPPORT */
 
 typedef struct _INF_PCI_CONFIG_ {
 	unsigned long CSRBaseAddress;	/* PCI MMIO Base Address, all access will use */

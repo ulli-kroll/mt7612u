@@ -3561,12 +3561,10 @@ int RTMPSetProfileParameters(
 			Set_WOW_InBand(pAd, tmpbuf);
 #endif /* defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT) */
 
-#ifdef RTMP_USB_SUPPORT
 		if (RTMPGetKeyParameter("USBAggregation", tmpbuf, 10, pBuffer, true)) {
 			pAd->usb_ctl.usb_aggregation = simple_strtol(tmpbuf, 0, 10);
 			DBGPRINT(RT_DEBUG_OFF, ("USBAggregation = %d\n", pAd->usb_ctl.usb_aggregation));
 		}
-#endif /* RTMP_USB_SUPPORT */
 
 	}while(0);
 

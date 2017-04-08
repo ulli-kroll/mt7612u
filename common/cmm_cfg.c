@@ -903,7 +903,6 @@ INT RTMP_COM_IoctlHandle(
 			break;
 
 
-#ifdef RTMP_USB_SUPPORT
 		case CMD_RTPRIV_IOCTL_USB_MORE_FLAG_SET:
 		{
 			RT_CMD_USB_MORE_FLAG_CONFIG *pConfig;
@@ -975,7 +974,6 @@ INT RTMP_COM_IoctlHandle(
 			InitUSBDevice(pData, pAd);
 			break;
 
-#endif /* RTMP_USB_SUPPORT */
 
 
 #ifdef RT_CFG80211_SUPPORT

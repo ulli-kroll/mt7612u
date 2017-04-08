@@ -189,7 +189,6 @@ typedef union _EEPROM_NIC_CINFIG2_STRUC {
 #endif /* RT_BIG_ENDIAN */
 
 
-#ifdef RTMP_USB_SUPPORT
 #ifdef RT_BIG_ENDIAN
 typedef union _EEPROM_NIC_CINFIG3_STRUC {
 	struct {
@@ -217,7 +216,6 @@ typedef union _EEPROM_NIC_CINFIG3_STRUC {
 	unsigned short word;
 } EEPROM_NIC_CONFIG3_STRUC, *PEEPROM_NIC_CONFIG3_STRUC;
 #endif /* RT_BIG_ENDIAN */
-#endif /* RTMP_USB_SUPPORT */
 
 
 
@@ -740,13 +738,11 @@ struct rtmp_adapter;
 
 
 
-#ifdef RTMP_USB_SUPPORT
 /*************************************************************************
   *	Public function declarations for usb-based prom chipset
   ************************************************************************/
 u16 mt7612u_read_eeprom16(struct rtmp_adapter *pAd, unsigned short offset);
 
-#endif /* RTMP_USB_SUPPORT */
 
 
 

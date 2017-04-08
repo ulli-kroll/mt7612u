@@ -208,7 +208,6 @@ int32_t  RtPrivIoctlSetVal(VOID)
 
 
 #ifndef RTMP_ANDES_JAY
-#ifdef RTMP_USB_SUPPORT
 PVOID RtmpAllocCompletion(VOID)
 {
 	struct completion *comp = NULL;
@@ -243,6 +242,5 @@ ULONG RtmpMsecsToJiffies(uint32_t msecs)
 	return msecs_to_jiffies(msecs);
 }
 
-#endif /* RTMP_USB_SUPPORT */
 #endif /* RTMP_ANDES_JAY */
 
