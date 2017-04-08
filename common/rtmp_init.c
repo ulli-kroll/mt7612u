@@ -2850,7 +2850,7 @@ void CfgInitHook(struct rtmp_adapter *pAd)
 }
 
 
-static INT RtmpChipOpsRegister(struct rtmp_adapter *pAd, INT infType)
+static INT RtmpChipOpsRegister(struct rtmp_adapter *pAd)
 {
 	struct rtmp_chip_ops *pChipOps = &pAd->chipOps;
 	int ret = 0;
@@ -2946,7 +2946,7 @@ INT RtmpRaDevCtrlInit(struct rtmp_adapter *pAd, RTMP_INF_TYPE infType)
 		return false;
 	}
 
-	if (RtmpChipOpsRegister(pAd, infType))
+	if (RtmpChipOpsRegister(pAd))
 		return false;
 
 	for (i = 0; i < 6; i++)
