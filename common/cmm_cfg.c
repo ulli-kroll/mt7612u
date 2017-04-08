@@ -1042,11 +1042,6 @@ INT RTMP_COM_IoctlHandle(
 			*(ULONG *)pData = VIRTUAL_IF_NUM(pAd);
 			break;
 
-		case CMD_RTPRIV_IOCTL_INF_TYPE_GET:
-		/* get current interface type */
-			*(ULONG *)pData = pAd->infType;
-			break;
-
 		case CMD_RTPRIV_IOCTL_INF_STATS_GET:
 			/* get statistics */
 			{
