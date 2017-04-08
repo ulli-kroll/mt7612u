@@ -116,7 +116,7 @@ enum cmd_msg_error_type {
 	error_rx_receive_fail,
 };
 
-struct MCU_CTRL {
+struct mt7612u_mcu_ctrl {
 	u8 cmd_seq;
 	unsigned long flags;
 #ifndef WORKQUEUE_BH

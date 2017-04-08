@@ -3815,7 +3815,7 @@ struct rtmp_adapter {
 
 
 #ifdef CONFIG_ANDES_SUPPORT
-	struct MCU_CTRL MCUCtrl;
+	struct mt7612u_mcu_ctrl MCUCtrl;
 #endif /* CONFIG_ANDES_SUPPORT */
 
 #ifdef WLAN_SKB_RECYCLE
