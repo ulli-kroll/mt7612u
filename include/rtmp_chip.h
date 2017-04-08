@@ -108,7 +108,6 @@ struct _RSSI_SAMPLE;
 /* RT3592BC8 (WiFi + BT) */
 
 #define IS_USB_INF(_pAd)		((_pAd)->infType == RTMP_DEV_INF_USB)
-#define IS_USB3_INF(_pAd)		((IS_USB_INF(_pAd)) && ((_pAd)->BulkOutMaxPacketSize == 1024))
 #define IS_RBUS_INF(_pAd) ((_pAd)->infType == RTMP_DEV_INF_RBUS)
 
 #define RT_REV_LT(_pAd, _chip, _rev)\
