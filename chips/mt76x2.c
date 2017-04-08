@@ -713,16 +713,16 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan
 
 		if ((e2p_value & 0xff) != 0xff) {
 			DBGPRINT(RT_DEBUG_OFF, ("r-cal result = %d\n", e2p_value & 0xff));
-			CHIP_CALIBRATION(ad, R_CALIBRATION_7662, 0x00);
+			mt7612u_mcu_calibration(ad, R_CALIBRATION_7662, 0x00);
 		}
 	}
 
 	/* RXDCOC calibration */
-	CHIP_CALIBRATION(ad, RXDCOC_CALIBRATION_7662, channel);
+	mt7612u_mcu_calibration(ad, RXDCOC_CALIBRATION_7662, channel);
 
 	if (!ad->MCUCtrl.power_on) {
 		/* RX LPF calibration */
-		CHIP_CALIBRATION(ad, RC_CALIBRATION_7662, 0x00);
+		mt7612u_mcu_calibration(ad, RC_CALIBRATION_7662, 0x00);
 	}
 
 	if (IS_USB_INF(ad)) {
@@ -831,19 +831,19 @@ void mt76x2_tssi_calibration(struct rtmp_adapter *ad, u8 channel)
 		ad->chipCap.tssi_stage = TSSI_CAL_STAGE;
 		if (channel > 14) {
 			if (ad->chipCap.PAType == EXT_PA_2G_5G)
-				CHIP_CALIBRATION(ad, TSSI_CALIBRATION_7662, 0x0101);
+				mt7612u_mcu_calibration(ad, TSSI_CALIBRATION_7662, 0x0101);
 			else if (ad->chipCap.PAType == EXT_PA_5G_ONLY)
-				CHIP_CALIBRATION(ad, TSSI_CALIBRATION_7662, 0x0101);
+				mt7612u_mcu_calibration(ad, TSSI_CALIBRATION_7662, 0x0101);
 			else
-				CHIP_CALIBRATION(ad, TSSI_CALIBRATION_7662, 0x0001);
+				mt7612u_mcu_calibration(ad, TSSI_CALIBRATION_7662, 0x0001);
 		} else {
 			if (ad->chipCap.PAType == EXT_PA_2G_5G)
-				CHIP_CALIBRATION(ad, TSSI_CALIBRATION_7662, 0x0100);
+				mt7612u_mcu_calibration(ad, TSSI_CALIBRATION_7662, 0x0100);
 			else if ((ad->chipCap.PAType == EXT_PA_5G_ONLY) ||
 					(ad->chipCap.PAType == INT_PA_2G_5G))
-				CHIP_CALIBRATION(ad, TSSI_CALIBRATION_7662, 0x0000);
+				mt7612u_mcu_calibration(ad, TSSI_CALIBRATION_7662, 0x0000);
 			else if (ad->chipCap.PAType == EXT_PA_2G_ONLY)
-				CHIP_CALIBRATION(ad, TSSI_CALIBRATION_7662, 0x0100);
+				mt7612u_mcu_calibration(ad, TSSI_CALIBRATION_7662, 0x0100);
 			 else
 				DBGPRINT(RT_DEBUG_ERROR, ("illegal PA Type(%d)\n", ad->chipCap.PAType));
 		}
@@ -935,7 +935,7 @@ void mt76x2_tssi_compensation(struct rtmp_adapter *ad, u8 channel)
 				|| ((ad->chipCap.PAType == INT_PA_5G) && ( channel > 14 ) )
 				|| ((ad->chipCap.PAType == INT_PA_2G) && ( channel <= 14 ) )
 			)
-				CHIP_CALIBRATION(ad, DPD_CALIBRATION_7662, channel);
+				mt7612u_mcu_calibration(ad, DPD_CALIBRATION_7662, channel);
 				ad->MCUCtrl.dpd_on = true;
 		}
 	}
@@ -1000,28 +1000,28 @@ void mt76x2_calibration(struct rtmp_adapter *ad, u8 channel)
 
 	/* LC Calibration */
 	if (channel > 14)
-		CHIP_CALIBRATION(ad, LC_CALIBRATION_7662, 0x00);
+		mt7612u_mcu_calibration(ad, LC_CALIBRATION_7662, 0x00);
 
 	/* TX LOFT */
 	if (channel > 14)
-		CHIP_CALIBRATION(ad, TX_LOFT_CALIBRATION_7662, 0x1);
+		mt7612u_mcu_calibration(ad, TX_LOFT_CALIBRATION_7662, 0x1);
 	else
-		CHIP_CALIBRATION(ad, TX_LOFT_CALIBRATION_7662, 0x0);
+		mt7612u_mcu_calibration(ad, TX_LOFT_CALIBRATION_7662, 0x0);
 
 	/* TXIQ Clibration */
 	if (channel > 14)
-		CHIP_CALIBRATION(ad, TXIQ_CALIBRATION_7662, 0x1);
+		mt7612u_mcu_calibration(ad, TXIQ_CALIBRATION_7662, 0x1);
 	else
-		CHIP_CALIBRATION(ad, TXIQ_CALIBRATION_7662, 0x0);
+		mt7612u_mcu_calibration(ad, TXIQ_CALIBRATION_7662, 0x0);
 
 	/* RXIQC-FI */
 	if (channel > 14)
-		CHIP_CALIBRATION(ad, RXIQC_FI_CALIBRATION_7662, 0x1);
+		mt7612u_mcu_calibration(ad, RXIQC_FI_CALIBRATION_7662, 0x1);
 	else
-		CHIP_CALIBRATION(ad, RXIQC_FI_CALIBRATION_7662, 0x0);
+		mt7612u_mcu_calibration(ad, RXIQC_FI_CALIBRATION_7662, 0x0);
 
 	/* TEMP SENSOR */
-	CHIP_CALIBRATION(ad, TEMP_SENSOR_CALIBRATION_7662, 0x00);
+	mt7612u_mcu_calibration(ad, TEMP_SENSOR_CALIBRATION_7662, 0x00);
 
 	/* enable TX/RX */
 	mt7612u_write32(ad, 0x1004, restore_value);

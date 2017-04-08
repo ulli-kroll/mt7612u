@@ -84,6 +84,5 @@ VOID ChipOpsMCUHook(struct rtmp_adapter *pAd)
 
 
 	pChipOps->fw_init = mt7612u_mcu_usb_fw_init;
-	pChipOps->Calibration = mt7612u_mcu_calibration;
 }
 
