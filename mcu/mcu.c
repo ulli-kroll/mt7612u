@@ -72,7 +72,5 @@ VOID ChipOpsMCUHook(struct rtmp_adapter *pAd)
 {
 	struct rtmp_chip_ops *pChipOps = &pAd->chipOps;
 	struct rtmp_chip_cap *pChipCap = &pAd->chipCap;
-
-	pChipOps->fw_init = mt7612u_mcu_usb_fw_init;
 }
 

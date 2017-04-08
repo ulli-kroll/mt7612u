@@ -725,7 +725,6 @@ struct rtmp_chip_ops {
 	VOID (*SecondCCADetection)(struct rtmp_adapter *pAd);
 
 #ifdef CONFIG_ANDES_SUPPORT
-	void (*fw_init)(struct rtmp_adapter *ad);
 #endif /* CONFIG_ANDES_SUPPORT */
 #ifdef DYNAMIC_VGA_SUPPORT
 	VOID (*AsicDynamicVgaGainControl)(IN struct rtmp_adapter *pAd);
