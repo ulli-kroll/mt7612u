@@ -469,12 +469,10 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan
 	uint32_t eLNA_gain_from_e2p = 0;
 	uint32_t mac_val = 0;
 
-	if (IS_USB_INF(ad)) {
-		ret = down_interruptible(&ad->hw_atomic);
-		if (ret != 0) {
-			DBGPRINT(RT_DEBUG_ERROR, ("reg_atomic get failed(ret=%d)\n", ret));
-			return;
-		}
+	ret = down_interruptible(&ad->hw_atomic);
+	if (ret != 0) {
+		DBGPRINT(RT_DEBUG_ERROR, ("reg_atomic get failed(ret=%d)\n", ret));
+		return;
 	}
 
 	if (ad->CommonCfg.BBPCurrentBW == BW_80) {
@@ -563,36 +561,34 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan
 
 
 
-	if (IS_USB_INF(ad)) {
-		if (band_change) {
-			if (band == _G_BAND) {
+	if (band_change) {
+		if (band == _G_BAND) {
+			mt7612u_mcu_random_write(ad,
+				     mt76x2_mac_g_band_cr_table,
+				     ARRAY_SIZE(mt76x2_mac_g_band_cr_table));
+
+			if (ad->chipCap.PAType & INT_PA_2G)
 				mt7612u_mcu_random_write(ad,
-					     mt76x2_mac_g_band_cr_table,
-					     ARRAY_SIZE(mt76x2_mac_g_band_cr_table));
-
-				if (ad->chipCap.PAType & INT_PA_2G)
-					mt7612u_mcu_random_write(ad,
-						     mt76x2_mac_g_band_internal_pa_cr_table,
-						     ARRAY_SIZE(mt76x2_mac_g_band_internal_pa_cr_table));
-				else
-					mt7612u_mcu_random_write(ad,
-						     mt76x2_mac_g_band_external_pa_cr_table,
-						     ARRAY_SIZE(mt76x2_mac_g_band_external_pa_cr_table));
-
-			} else {
+					     mt76x2_mac_g_band_internal_pa_cr_table,
+					     ARRAY_SIZE(mt76x2_mac_g_band_internal_pa_cr_table));
+			else
 				mt7612u_mcu_random_write(ad,
-					     mt76x2_mac_a_band_cr_table,
-					     ARRAY_SIZE(mt76x2_mac_a_band_cr_table));
-				if (ad->chipCap.PAType & INT_PA_5G)
-					mt7612u_mcu_random_write(ad,
-						     mt76x2_mac_a_band_internal_pa_cr_table,
-						     ARRAY_SIZE(mt76x2_mac_a_band_internal_pa_cr_table));
-				else
-					mt7612u_mcu_random_write(ad,
-						     mt76x2_mac_a_band_external_pa_cr_table,
-						     ARRAY_SIZE(mt76x2_mac_a_band_external_pa_cr_table));
+					     mt76x2_mac_g_band_external_pa_cr_table,
+					     ARRAY_SIZE(mt76x2_mac_g_band_external_pa_cr_table));
 
-			}
+		} else {
+			mt7612u_mcu_random_write(ad,
+				     mt76x2_mac_a_band_cr_table,
+				     ARRAY_SIZE(mt76x2_mac_a_band_cr_table));
+			if (ad->chipCap.PAType & INT_PA_5G)
+				mt7612u_mcu_random_write(ad,
+					     mt76x2_mac_a_band_internal_pa_cr_table,
+					     ARRAY_SIZE(mt76x2_mac_a_band_internal_pa_cr_table));
+			else
+				mt7612u_mcu_random_write(ad,
+					     mt76x2_mac_a_band_external_pa_cr_table,
+					     ARRAY_SIZE(mt76x2_mac_a_band_external_pa_cr_table));
+
 		}
 	}
 
@@ -725,14 +721,11 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan
 		mt7612u_mcu_calibration(ad, RC_CALIBRATION_7662, 0x00);
 	}
 
-	if (IS_USB_INF(ad)) {
-		ret = down_interruptible(&ad->tssi_lock);
-		if (ret != 0) {
-			DBGPRINT(RT_DEBUG_ERROR, ("tssi_lock get failed(ret=%d)\n", ret));
-			return;
-		}
+	ret = down_interruptible(&ad->tssi_lock);
+	if (ret != 0) {
+		DBGPRINT(RT_DEBUG_ERROR, ("tssi_lock get failed(ret=%d)\n", ret));
+		return;
 	}
-
 
 	/* TSSI Clibration */
 	if (!IS_DOT11_H_RADAR_STATE(ad, RD_SILENCE_MODE) && !ad->chipCap.temp_tx_alc_enable)
@@ -770,8 +763,7 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan
 	}
 
 
-	if (IS_USB_INF(ad))
-		up(&ad->tssi_lock);
+	up(&ad->tssi_lock);
 
 
 	/* Channel latch */
@@ -780,8 +772,7 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan
 	if (!ad->MCUCtrl.power_on)
 		ad->MCUCtrl.power_on = true;
 
-	if (IS_USB_INF(ad))
-		up(&ad->hw_atomic);
+	up(&ad->hw_atomic);
 
 	//mt76x2_set_ed_cca(ad, true);
 
@@ -858,12 +849,10 @@ void mt76x2_tssi_compensation(struct rtmp_adapter *ad, u8 channel)
 	uint32_t value = 0;
 	uint32_t ret = 0;
 
-	if (IS_USB_INF(ad)) {
-		ret = down_interruptible(&ad->tssi_lock);
-		if (ret != 0) {
-			DBGPRINT(RT_DEBUG_ERROR, ("tssi_lock get failed(ret=%d)\n", ret));
-			return;
-		}
+	ret = down_interruptible(&ad->tssi_lock);
+	if (ret != 0) {
+		DBGPRINT(RT_DEBUG_ERROR, ("tssi_lock get failed(ret=%d)\n", ret));
+		return;
 	}
 
 
@@ -943,8 +932,7 @@ void mt76x2_tssi_compensation(struct rtmp_adapter *ad, u8 channel)
 done:
 ;
 
-	if (IS_USB_INF(ad))
-		up(&ad->tssi_lock);
+	up(&ad->tssi_lock);
 }
 
 void mt76x2_calibration(struct rtmp_adapter *ad, u8 channel)
@@ -1058,8 +1046,7 @@ void mt76x2_init_mac_cr(struct rtmp_adapter *ad)
 		SYS_CTRL[11:10] = 0x3
 	*/
 
-	if (IS_USB_INF(ad))
-		mt7612u_mcu_random_write(ad, mt76x2_mac_cr_table, ARRAY_SIZE(mt76x2_mac_cr_table));
+	mt7612u_mcu_random_write(ad, mt76x2_mac_cr_table, ARRAY_SIZE(mt76x2_mac_cr_table));
 
 #ifdef HDR_TRANS_TX_SUPPORT
 	/*

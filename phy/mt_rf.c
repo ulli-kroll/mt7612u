@@ -26,12 +26,10 @@ int mt_rf_write(
 	u32 value;
 	int ret = 0;
 
-	if (IS_USB_INF(ad)) {
-		ret = down_interruptible(&ad->reg_atomic);
-		if (ret != 0) {
-			DBGPRINT(RT_DEBUG_ERROR, ("reg_atomic get failed(ret=%d)\n", ret));
-			return STATUS_UNSUCCESSFUL;
-		}
+	ret = down_interruptible(&ad->reg_atomic);
+	if (ret != 0) {
+		DBGPRINT(RT_DEBUG_ERROR, ("reg_atomic get failed(ret=%d)\n", ret));
+		return STATUS_UNSUCCESSFUL;
 	}
 
 	/* rf data */
@@ -70,8 +68,7 @@ int mt_rf_write(
 		ret = STATUS_UNSUCCESSFUL;
 	}
 
-	if (IS_USB_INF(ad))
-		up(&ad->reg_atomic);
+	up(&ad->reg_atomic);
 
 	return ret;
 }

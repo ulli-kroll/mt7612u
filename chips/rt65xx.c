@@ -38,12 +38,10 @@ VOID RT65xxUsbAsicRadioOff(struct rtmp_adapter *pAd, u8 Stage)
 
 	RT65xxDisableTxRx(pAd);
 
-	if (IS_USB_INF(pAd)) {
-		ret = down_interruptible(&pAd->hw_atomic);
-		if (ret != 0) {
-			DBGPRINT(RT_DEBUG_ERROR, ("reg_atomic get failed(ret=%d)\n", ret));
-			return;
-		}
+	ret = down_interruptible(&pAd->hw_atomic);
+	if (ret != 0) {
+		DBGPRINT(RT_DEBUG_ERROR, ("reg_atomic get failed(ret=%d)\n", ret));
+		return;
 	}
 
 	RTMP_SET_PSFLAG(pAd, fRTMP_PS_MCU_SLEEP);
@@ -64,9 +62,7 @@ VOID RT65xxUsbAsicRadioOff(struct rtmp_adapter *pAd, u8 Stage)
 		//pAd->PendingRx = 0;
 	}
 
-	if (IS_USB_INF(pAd)) {
-		up(&pAd->hw_atomic);
-	}
+	up(&pAd->hw_atomic);
 
 	DBGPRINT(RT_DEBUG_TRACE, ("<== %s\n", __FUNCTION__));
 }
@@ -111,19 +107,15 @@ VOID RT65xxUsbAsicRadioOn(struct rtmp_adapter *pAd, u8 Stage)
 
 	mt7612u_mcu_ctrl_init(pAd);
 
-	if (IS_USB_INF(pAd)) {
-		ret = down_interruptible(&pAd->hw_atomic);
-		if (ret != 0) {
-			DBGPRINT(RT_DEBUG_ERROR, ("reg_atomic get failed(ret=%d)\n", ret));
-			return;
-		}
+	ret = down_interruptible(&pAd->hw_atomic);
+	if (ret != 0) {
+		DBGPRINT(RT_DEBUG_ERROR, ("reg_atomic get failed(ret=%d)\n", ret));
+		return;
 	}
 
 	mt7612u_write32(pAd, MAC_SYS_CTRL, 0x0c);
 
-	if (IS_USB_INF(pAd)) {
-		up(&pAd->hw_atomic);
-	}
+	up(&pAd->hw_atomic);
 
 	RTMP_SET_FLAG(pAd, fRTMP_ADAPTER_MCU_SEND_IN_BAND_CMD);
 

@@ -4405,15 +4405,11 @@ char *wdev_type2str(int type)
 INT show_trinfo_proc(struct rtmp_adapter *pAd, char *arg)
 {
 
-	if (IS_USB_INF(pAd))
-	{
-		DBGPRINT(RT_DEBUG_OFF, ("TxRing Configuration\n"));
+	DBGPRINT(RT_DEBUG_OFF, ("TxRing Configuration\n"));
 
-		DBGPRINT(RT_DEBUG_OFF, ("\nRxRing Configuration\n"));
+	DBGPRINT(RT_DEBUG_OFF, ("\nRxRing Configuration\n"));
 
-		DBGPRINT(RT_DEBUG_OFF, ("\nPBF Configuration\n"));
-	}
-
+	DBGPRINT(RT_DEBUG_OFF, ("\nPBF Configuration\n"));
 
 	return true;
 }

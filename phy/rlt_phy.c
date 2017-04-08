@@ -255,16 +255,13 @@ void mt7612u_bbp_set_bw(struct rtmp_adapter *pAd, u8 bw)
 #if defined(MT76x0) || defined(MT76x2)
 	uint32_t core_r4;
 #endif /* defined(MT76x0) || defined(MT76x2) */
+	uint32_t ret;
 
 
-	if (IS_USB_INF(pAd)) {
-		uint32_t ret;
-
-		ret = down_interruptible(&pAd->hw_atomic);
-		if (ret != 0) {
-			DBGPRINT(RT_DEBUG_ERROR, ("reg_atomic get failed(ret=%d)\n", ret));
-			return;
-		}
+	ret = down_interruptible(&pAd->hw_atomic);
+	if (ret != 0) {
+		DBGPRINT(RT_DEBUG_ERROR, ("reg_atomic get failed(ret=%d)\n", ret));
+		return;
 	}
 
 	core_r1 = RTMP_BBP_IO_READ32(pAd, CORE_R1);
@@ -304,9 +301,7 @@ void mt7612u_bbp_set_bw(struct rtmp_adapter *pAd, u8 bw)
 
 	pAd->CommonCfg.BBPCurrentBW = bw;
 
-	if (IS_USB_INF(pAd)) {
-		up(&pAd->hw_atomic);
-	}
+	up(&pAd->hw_atomic);
 
 	return;
 }

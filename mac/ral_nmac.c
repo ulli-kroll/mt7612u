@@ -205,15 +205,12 @@ static uint32_t asic_set_wlan_func(struct rtmp_adapter *pAd, bool enable)
 INT rlt_wlan_chip_onoff(struct rtmp_adapter *pAd, bool bOn, bool bResetWLAN)
 {
 	uint32_t reg = 0;
+	uint32_t ret;
 
-	if (IS_USB_INF(pAd)) {
-		uint32_t ret;
-
-		ret = down_interruptible(&pAd->hw_atomic);
-		if (ret != 0) {
-			DBGPRINT(RT_DEBUG_ERROR, ("reg_atomic get failed(ret=%d)\n", ret));
-			return STATUS_UNSUCCESSFUL;
-		}
+	ret = down_interruptible(&pAd->hw_atomic);
+	if (ret != 0) {
+		DBGPRINT(RT_DEBUG_ERROR, ("reg_atomic get failed(ret=%d)\n", ret));
+		return STATUS_UNSUCCESSFUL;
 	}
 
 	reg = mt7612u_read32(pAd, WLAN_FUN_CTRL);
@@ -311,8 +308,7 @@ INT rlt_wlan_chip_onoff(struct rtmp_adapter *pAd, bool bOn, bool bResetWLAN)
 		__FUNCTION__, pAd->WlanFunCtrl.word, reg));
 
 
-	if (IS_USB_INF(pAd))
-		up(&pAd->hw_atomic);
+	up(&pAd->hw_atomic);
 
 	return 0;
 }

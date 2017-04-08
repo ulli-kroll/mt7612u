@@ -1226,12 +1226,10 @@ bool AsicCheckCommandOk(
 	INT ret;
 
 
-	if (IS_USB_INF(pAd)) {
-		ret = down_interruptible(&pAd->reg_atomic);
-		if (ret != 0) {
-			DBGPRINT(RT_DEBUG_ERROR, ("reg_atomic get failed(ret=%d)\n", ret));
-			return false;
-		}
+	ret = down_interruptible(&pAd->reg_atomic);
+	if (ret != 0) {
+		DBGPRINT(RT_DEBUG_ERROR, ("reg_atomic get failed(ret=%d)\n", ret));
+		return false;
 	}
 
 	i = 0;
@@ -1267,8 +1265,7 @@ bool AsicCheckCommandOk(
 	mt7612u_write32(pAd, H2M_MAILBOX_STATUS, 0xffffffff);
 	mt7612u_write32(pAd, H2M_MAILBOX_CID, 0xffffffff);
 
-	if (IS_USB_INF(pAd))
-		up(&pAd->reg_atomic);
+	up(&pAd->reg_atomic);
 
 
 	return ret;
