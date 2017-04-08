@@ -54,7 +54,7 @@ VOID RtmpNetOpsSet(VOID *pNetOpsOrg);
 int RTMPAllocAdapterBlock(struct os_cookie *handle, struct rtmp_adapter **ppAdapter);
 VOID RTMPFreeAdapter(struct rtmp_adapter *pAd);
 bool RtmpRaDevCtrlExit(struct rtmp_adapter *pAd);
-INT RtmpRaDevCtrlInit(struct rtmp_adapter *pAd, RTMP_INF_TYPE infType);
+INT RtmpRaDevCtrlInit(struct rtmp_adapter *pAd);
 VOID RTMPHandleInterrupt(struct rtmp_adapter *pAd);
 
 INT RTMP_COM_IoctlHandle(

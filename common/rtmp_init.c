@@ -2913,13 +2913,10 @@ bool PairEP(struct rtmp_adapter *pAd, UINT8 EP)
 }
 
 
-INT RtmpRaDevCtrlInit(struct rtmp_adapter *pAd, RTMP_INF_TYPE infType)
+INT RtmpRaDevCtrlInit(struct rtmp_adapter *pAd)
 {
 	UINT8 i;
 	uint32_t ret;
-
-	/* Assign the interface type. We need use it when do register/EEPROM access.*/
-	pAd->infType = infType;
 
 #ifdef CONFIG_STA_SUPPORT
 	pAd->OpMode = OPMODE_STA;
@@ -2930,9 +2927,6 @@ INT RtmpRaDevCtrlInit(struct rtmp_adapter *pAd, RTMP_INF_TYPE infType)
 	pAd->OpMode = OPMODE_AP;
 	DBGPRINT(RT_DEBUG_TRACE, ("AP Driver version-%s\n", AP_DRIVER_VERSION));
 #endif /* CONFIG_AP_SUPPORT */
-
-	DBGPRINT(RT_DEBUG_TRACE, ("pAd->infType=%d\n", pAd->infType));
-
 
 	sema_init(&(pAd->UsbVendorReq_semaphore), 1);
 	sema_init(&(pAd->reg_atomic), 1);

@@ -2804,7 +2804,6 @@ struct wificonf {
 
 typedef struct _RTMP_DEV_INFO_ {
 	u8 chipName[16];
-	RTMP_INF_TYPE infType;
 } RTMP_DEV_INFO;
 
 #ifdef DBG_DIAGNOSE
@@ -3336,7 +3335,6 @@ struct rtmp_adapter {
 /*      Both PCI/USB related parameters                                         */
 /*********************************************************/
 	/*RTMP_DEV_INFO                 chipInfo; */
-	RTMP_INF_TYPE infType;
 
 /*********************************************************/
 /*      Driver Mgmt related parameters                                            */
