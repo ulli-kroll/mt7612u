@@ -26,7 +26,6 @@ int mt_rf_write(
 	u32 value;
 	int ret = 0;
 
-#ifdef RTMP_MAC_USB
 	if (IS_USB_INF(ad)) {
 		ret = down_interruptible(&ad->reg_atomic);
 		if (ret != 0) {
@@ -34,7 +33,6 @@ int mt_rf_write(
 			return STATUS_UNSUCCESSFUL;
 		}
 	}
-#endif /* RTMP_MAC_USB */
 
 	/* rf data */
 	mt7612u_write32(ad, W_RFDATA, data);
@@ -72,10 +70,8 @@ int mt_rf_write(
 		ret = STATUS_UNSUCCESSFUL;
 	}
 
-#ifdef RTMP_MAC_USB
 	if (IS_USB_INF(ad))
 		up(&ad->reg_atomic);
-#endif /* RTMP_MAC_USB */
 
 	return ret;
 }

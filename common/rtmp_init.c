@@ -387,10 +387,8 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 	Antenna.word = pAd->EEPROMDefaultValue[EEPROM_NIC_CFG1_OFFSET];
 #endif
 
-#ifdef RTMP_MAC_USB
 	/* must be put here, because RTMP_CHIP_ANTENNA_INFO_DEFAULT_RESET() will clear *
 	 * EPROM 0x34~3 */
-#endif /* RTMP_MAC_USB */
 
 	Antenna.word = 0;
 	Antenna.field.RfIcType = RFIC_7662;
@@ -822,9 +820,7 @@ int NICInitializeAsic(struct rtmp_adapter *pAd, bool bHardReset)
 {
 	ULONG Index = 0;
 	uint32_t mac_val = 0;
-#ifdef RTMP_MAC_USB
 	uint32_t Counter = 0;
-#endif /* RTMP_MAC_USB */
 	unsigned short KeyIdx;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("--> NICInitializeAsic\n"));
@@ -836,7 +832,6 @@ int NICInitializeAsic(struct rtmp_adapter *pAd, bool bHardReset)
 	*/
 
 
-#ifdef RTMP_MAC_USB
 	/* Make sure MAC gets ready after NICLoadFirmware().*/
 
 	/*To avoid hang-on issue when interface up in kernel 2.4, */
@@ -855,7 +850,6 @@ int NICInitializeAsic(struct rtmp_adapter *pAd, bool bHardReset)
 		mt7612u_write32(pAd, PBF_SYS_CTRL, mac_val);
 	}
 
-#endif /* RTMP_MAC_USB */
 
 #ifdef CONFIG_ANDES_SUPPORT
 	if (pAd->chipOps.fw_init)
@@ -884,7 +878,6 @@ int NICInitializeAsic(struct rtmp_adapter *pAd, bool bHardReset)
 		mt7612u_write32(pAd, MAX_LEN_CFG, csr);
 	}
 
-#ifdef RTMP_MAC_USB
 	{
 		u8 MAC_Value[]={0xff,0xff,0xff,0xff,0xff,0xff,0xff,0,0};
 
@@ -894,7 +887,6 @@ int NICInitializeAsic(struct rtmp_adapter *pAd, bool bHardReset)
 			RTUSBMultiWrite(pAd, (unsigned short)(MAC_WCID_BASE + Index * 8), MAC_Value, 8);
 		}
 	}
-#endif /* RTMP_MAC_USB */
 
 #ifdef CONFIG_STA_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
@@ -950,19 +942,16 @@ int NICInitializeAsic(struct rtmp_adapter *pAd, bool bHardReset)
 				for (i = 0; i < HW_BEACON_OFFSET; i+=4)
 					mt7612u_write32(pAd, pAd->BeaconOffset[apidx] + i, 0x00);
 
-#ifdef RTMP_MAC_USB
 				IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 				{
 					if (pAd->CommonCfg.pBeaconSync)
 						pAd->CommonCfg.pBeaconSync->BeaconBitMap &= (~(BEACON_BITMAP_MASK & (1 << apidx)));
 				}
-#endif /* RTMP_MAC_USB */
 			}
 		}
 #endif /* CONFIG_AP_SUPPORT */
 	}
 
-#ifdef RTMP_MAC_USB
 	AsicDisableSync(pAd);
 
 	/* Clear raw counters*/
@@ -973,7 +962,6 @@ int NICInitializeAsic(struct rtmp_adapter *pAd, bool bHardReset)
 	Counter&=0xffffff00;
 	Counter|=0x000001e;
 	mt7612u_write32(pAd, USB_CYC_CFG, Counter);
-#endif /* RTMP_MAC_USB */
 
 #ifdef CONFIG_STA_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
@@ -1008,12 +996,10 @@ VOID NICUpdateFifoStaCounters(struct rtmp_adapter *pAd)
 	int32_t 			reTry;
 	u8 			succMCS, PhyMode;
 
-#ifdef RTMP_MAC_USB
 #ifdef CONFIG_STA_SUPPORT
 	if(RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_IDLE_RADIO_OFF))
 		return;
 #endif /* CONFIG_STA_SUPPORT */
-#endif /* RTMP_MAC_USB */
 
 #ifdef CONFIG_AP_SUPPORT
 	if (pAd->MacTab.Size <= 8)
@@ -1479,12 +1465,10 @@ VOID NICUpdateRawCounters(struct rtmp_adapter *pAd)
 
 
 	pRalinkCounters = &pAd->RalinkCounters;
-#ifdef RTMP_MAC_USB
 #ifdef STATS_COUNT_SUPPORT
 	if(RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_IDLE_RADIO_OFF))
 		return;
 #endif /* STATS_COUNT_SUPPORT */
-#endif /* RTMP_MAC_USB */
 
 
 
@@ -1527,7 +1511,6 @@ VOID NICUpdateRawCounters(struct rtmp_adapter *pAd)
 	pAd->Counters8023.RxNoBuffer += (RxStaCnt2.field.RxFifoOverflowCount);
 
 	/*pAd->RalinkCounters.RxCount = 0;*/
-#ifdef RTMP_MAC_USB
 	if (pRalinkCounters->RxCount != pAd->watchDogRxCnt)
 	{
 		pAd->watchDogRxCnt = pRalinkCounters->RxCount;
@@ -1540,7 +1523,6 @@ VOID NICUpdateRawCounters(struct rtmp_adapter *pAd)
 		else
 			pAd->watchDogRxOverFlowCnt = 0;
 	}
-#endif /* RTMP_MAC_USB */
 
 
 	/*if (!OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_TX_RATE_SWITCH_ENABLED) || */
@@ -1854,7 +1836,6 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 	pAd->CommonCfg.BasicRateBitmap = 0xF;
 	pAd->CommonCfg.BasicRateBitmapOld = 0xF;
 
-#ifdef RTMP_MAC_USB
 	pAd->BulkOutReq = 0;
 
 	pAd->BulkOutComplete = 0;
@@ -1881,7 +1862,6 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 	pAd->StaCfg.Connectinfoflag = false;
 #endif /* CONFIG_STA_SUPPORT */
 
-#endif /* RTMP_MAC_USB */
 
 	for(key_index=0; key_index<SHARE_KEY_NUM; key_index++)
 	{
@@ -2367,7 +2347,7 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 	}
 #endif /* defined(AP_SCAN_SUPPORT) || defined(CONFIG_STA_SUPPORT) */
 
-#if (defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT)
+#if defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT)
 	pAd->WOW_Cfg.bEnable = false;
 	pAd->WOW_Cfg.bWOWFirmware = false;	/* load normal firmware */
 	pAd->WOW_Cfg.bInBand = true;		/* use in-band signal */
@@ -2375,7 +2355,7 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 	pAd->WOW_Cfg.nDelay = 3; /* (3+1)*3 = 12 sec */
 	pAd->WOW_Cfg.nHoldTime = 1; /* 1*10 = 10 ms */
 	DBGPRINT(RT_DEBUG_OFF, ("WOW Enable %d, WOWFirmware %d\n", pAd->WOW_Cfg.bEnable, pAd->WOW_Cfg.bWOWFirmware));
-#endif /* (defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT) */
+#endif /* defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT) */
 
 	/* 802.11H and DFS related params*/
 	pAd->Dot11_H.CSCount = 0;
@@ -2949,9 +2929,7 @@ bool PairEP(struct rtmp_adapter *pAd, UINT8 EP)
 
 INT RtmpRaDevCtrlInit(struct rtmp_adapter *pAd, RTMP_INF_TYPE infType)
 {
-#ifdef RTMP_MAC_USB
 	UINT8 i;
-#endif /* RTMP_MAC_USB */
 	uint32_t ret;
 
 	/* Assign the interface type. We need use it when do register/EEPROM access.*/
@@ -2970,7 +2948,6 @@ INT RtmpRaDevCtrlInit(struct rtmp_adapter *pAd, RTMP_INF_TYPE infType)
 	DBGPRINT(RT_DEBUG_TRACE, ("pAd->infType=%d\n", pAd->infType));
 
 
-#ifdef RTMP_MAC_USB
 	sema_init(&(pAd->UsbVendorReq_semaphore), 1);
 	sema_init(&(pAd->reg_atomic), 1);
 	sema_init(&(pAd->hw_atomic), 1);
@@ -2982,12 +2959,10 @@ INT RtmpRaDevCtrlInit(struct rtmp_adapter *pAd, RTMP_INF_TYPE infType)
 		DBGPRINT(RT_DEBUG_ERROR, ("Allocate vendor request temp buffer failed!\n"));
 		return false;
 	}
-#endif /* RTMP_MAC_USB */
 
 	if (RtmpChipOpsRegister(pAd, infType))
 		return false;
 
-#ifdef RTMP_MAC_USB
 	for (i = 0; i < 6; i++)
 	{
 		if (!PairEP(pAd, pAd->BulkOutEpAddr[i]))
@@ -2999,7 +2974,6 @@ INT RtmpRaDevCtrlInit(struct rtmp_adapter *pAd, RTMP_INF_TYPE infType)
 		if (!PairEP(pAd, pAd->BulkInEpAddr[i]))
 			DBGPRINT(RT_DEBUG_ERROR, ("Invalid bulk in ep(%x)\n", pAd->BulkInEpAddr[i]));
 	}
-#endif /* RTMP_MAC_USB */
 
 #ifdef MCS_LUT_SUPPORT
 	if (pAd->chipCap.asic_caps & fASIC_CAP_MCS_LUT) {
@@ -3026,11 +3000,9 @@ bool RtmpRaDevCtrlExit(IN struct rtmp_adapter *pAd)
 	}
 #endif /* RLT_MAC */
 
-#ifdef RTMP_MAC_USB
 
 	if (pAd->UsbVendorReqBuf)
 		kfree(pAd->UsbVendorReqBuf);
-#endif /* RTMP_MAC_USB */
 
 	/*
 		Free ProbeRespIE Table

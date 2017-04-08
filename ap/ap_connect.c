@@ -941,9 +941,7 @@ VOID APMakeAllBssBeacon(struct rtmp_adapter *pAd)
 	    }
 	}
 
-#ifdef RTMP_MAC_USB
 	RTUSBBssBeaconStop(pAd);
-#endif /* RTMP_MAC_USB */
 
 	for(i=0; i<pAd->ApCfg.BssidNum; i++)
 	{
@@ -1031,11 +1029,9 @@ VOID APMakeAllBssBeacon(struct rtmp_adapter *pAd)
 	mt7612u_write32(pAd, MAC_BSSID_DW1, regValue);
 
 
-#ifdef RTMP_MAC_USB
 #ifndef RT_CFG80211_SUPPORT
 	RTUSBBssBeaconStart(pAd);
 #endif /* RT_CFG80211_SUPPORT */
-#endif /* RTMP_MAC_USB */
 
 }
 

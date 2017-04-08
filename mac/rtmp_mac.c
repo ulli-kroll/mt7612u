@@ -873,11 +873,9 @@ struct rtmp_reg_pair MACRegTable[] = {
 	{CCK_PROT_CFG,			0x05740003 /*0x01740003*/},	/* Initial Auto_Responder, because QA will turn off Auto-Responder. And RTS threshold is enabled. */
 	{OFDM_PROT_CFG,		0x05740003 /*0x01740003*/},	/* Initial Auto_Responder, because QA will turn off Auto-Responder. And RTS threshold is enabled. */
 
-#ifdef RTMP_MAC_USB
 	{MM40_PROT_CFG,		0x3F44084},		/* Initial Auto_Responder, because QA will turn off Auto-Responder*/
 	// TODO: shiang-usw, why MT7601 don't need to set this register??
 	{WPDMA_GLO_CFG,		0x00000030},
-#endif /* RTMP_MAC_USB */
 
 	{GF20_PROT_CFG,			0x01744004},    /* set 19:18 --> Short NAV for MIMO PS*/
 	{GF40_PROT_CFG,			0x03F44084},

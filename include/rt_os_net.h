@@ -243,7 +243,7 @@ VOID RTMP_CFG80211_AllVirtualIF_Remove(struct rtmp_adapter *pAdSrc);
 #ifdef CONFIG_STA_SUPPORT
 #ifdef CONFIG_PM
 
-#if (defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT)
+#if defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT)
 #define RTMP_DRIVER_ADAPTER_RT28XX_WOW_STATUS(__pAd, __flag)								\
 	RTMP_COM_IoctlHandle(__pAd, NULL, CMD_RTPRIV_IOCTL_ADAPTER_RT28XX_WOW_STATUS, 0, __flag, 0)
 
@@ -252,7 +252,7 @@ VOID RTMP_CFG80211_AllVirtualIF_Remove(struct rtmp_adapter *pAdSrc);
 
 #define RTMP_DRIVER_ADAPTER_RT28XX_WOW_DISABLE(__pAd)								\
 	RTMP_COM_IoctlHandle(__pAd, NULL, CMD_RTPRIV_IOCTL_ADAPTER_RT28XX_WOW_DISABLE, 0, NULL, 0)
-#endif /* (defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT) */
+#endif /* defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT) */
 
 #endif /* CONFIG_PM */
 

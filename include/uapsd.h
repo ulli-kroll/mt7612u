@@ -274,9 +274,7 @@
 
 /* mark PS poll frame sent in mix mode */
 
-#ifdef RTMP_MAC_USB
 #define UAPSD_MR_MIX_PS_POLL_RCV(__pAd, __pMacEntry)
-#endif /* RTMP_MAC_USB */
 
 #else
 
@@ -700,7 +698,6 @@ UAPSD_EXTERN VOID UAPSD_TriggerFrameHandle(
 	IN	u8 			UpOfFrame);
 
 
-#ifdef RTMP_MAC_USB
 /*
 ========================================================================
 Routine Description:
@@ -749,6 +746,5 @@ UAPSD_EXTERN VOID UAPSD_UnTagFrame(
 	IN	u8 		AcQueId,
 	IN	uint32_t 		bulkStartPos,
 	IN	uint32_t 		bulkEnPos);
-#endif /* RTMP_MAC_USB */
 
 /* End of ap_uapsd.h */

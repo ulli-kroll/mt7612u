@@ -97,11 +97,7 @@
 
 #define MAX_EEPROM_BIN_FILE_SIZE	1024
 
-#if defined(RTMP_MAC_USB) || defined(RT3883)
 #define EEPROM_SIZE					0x400
-#else
-#define EEPROM_SIZE					0x200
-#endif /* defined(RTMP_MAC_USB) || defined(RT3883) */
 
 #define EEPROM_DEFULT_BIN_FILE	"RT30xxEEPROM.bin"
 #ifdef BB_SOC

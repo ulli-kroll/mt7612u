@@ -306,11 +306,9 @@ void mt7612u_bbp_set_bw(struct rtmp_adapter *pAd, u8 bw)
 
 	pAd->CommonCfg.BBPCurrentBW = bw;
 
-#ifdef RTMP_MAC_USB
 	if (IS_USB_INF(pAd)) {
 		up(&pAd->hw_atomic);
 	}
-#endif /* RTMP_MAC_USB */
 
 	return;
 }

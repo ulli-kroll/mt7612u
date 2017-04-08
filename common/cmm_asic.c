@@ -1213,7 +1213,6 @@ VOID AsicEnableIbssSync(struct rtmp_adapter *pAd)
 	beaconBaseLocation = HW_BEACON_BASE0(pAd);
 
 
-#ifdef RTMP_MAC_USB
 	/* move BEACON TXD and frame content to on-chip memory*/
 	ptr = (u8 *)&pAd->BeaconTxWI;
 	for (i = 0; i < TXWISize; i += 4) {
@@ -1242,7 +1241,6 @@ VOID AsicEnableIbssSync(struct rtmp_adapter *pAd)
 				    dword);
 		ptr +=4;
 	}
-#endif /* RTMP_MAC_USB */
 
 	/*
 		For Wi-Fi faily generated beacons between participating stations.
@@ -1491,13 +1489,11 @@ VOID AsicSetEdcaParm(struct rtmp_adapter *pAd, PEDCA_PARM pEdcaParm)
 		AifsnCsr.field.Aifsn0 = Ac0Cfg.field.Aifsn; /*pEdcaParm->Aifsn[QID_AC_BE];*/
 		AifsnCsr.field.Aifsn1 = Ac1Cfg.field.Aifsn; /*pEdcaParm->Aifsn[QID_AC_BK];*/
 #ifdef CONFIG_STA_SUPPORT
-#ifdef RTMP_MAC_USB
 		IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
 		{
 			if(pAd->Antenna.field.TxPath == 1)
 				AifsnCsr.field.Aifsn1 = Ac1Cfg.field.Aifsn + 2; 	/*5.2.27 T7 Pass*/
 		}
-#endif /* RTMP_MAC_USB */
 #endif /* CONFIG_STA_SUPPORT */
 		AifsnCsr.field.Aifsn2 = Ac2Cfg.field.Aifsn; /*pEdcaParm->Aifsn[QID_AC_VI];*/
 
@@ -1823,7 +1819,6 @@ VOID AsicAddSharedKeyEntry(
 
 		offset = share_key_base + (4*BssIndex + KeyIdx)*share_key_size;
 
-#ifdef RTMP_MAC_USB
 		{
 			RTUSBMultiWrite(pAd, offset, pKey, MAX_LEN_OF_SHARE_KEY);
 
@@ -1839,7 +1834,6 @@ VOID AsicAddSharedKeyEntry(
 				RTUSBMultiWrite(pAd, offset, pRxMic, 8);
 			}
 		}
-#endif /* RTMP_MAC_USB */
 	}
 
 	{
@@ -2104,9 +2098,7 @@ VOID AsicAddPairwiseKeyEntry(
 
 	/* EKEY */
 	offset = pairwise_key_base + (WCID * pairwise_key_len);
-#ifdef RTMP_MAC_USB
 	RTUSBMultiWrite(pAd, offset, &pCipherKey->Key[0], MAX_LEN_OF_PEER_KEY);
-#endif /* RTMP_MAC_USB */
 	for (i=0; i<MAX_LEN_OF_PEER_KEY; i+=4)
 	{
 		uint32_t Value;
@@ -2117,17 +2109,13 @@ VOID AsicAddPairwiseKeyEntry(
 	/*  MIC KEY */
 	if (pTxMic)
 	{
-#ifdef RTMP_MAC_USB
 		RTUSBMultiWrite(pAd, offset, &pCipherKey->TxMic[0], 8);
-#endif /* RTMP_MAC_USB */
 	}
 	offset += 8;
 
 	if (pRxMic)
 	{
-#ifdef RTMP_MAC_USB
 		RTUSBMultiWrite(pAd, offset, &pCipherKey->RxMic[0], 8);
-#endif /* RTMP_MAC_USB */
 	}
 	DBGPRINT(RT_DEBUG_TRACE,("AsicAddPairwiseKeyEntry: WCID #%d Alg=%s\n",WCID, CipherName[CipherAlg]));
 	DBGPRINT(RT_DEBUG_TRACE,("	Key = %02x:%02x:%02x:%02x:%02x:%02x:%02x:%02x:%02x:%02x:%02x:%02x:%02x:%02x:%02x:%02x\n",
@@ -2301,7 +2289,6 @@ INT AsicSetRalinkBurstMode(struct rtmp_adapter *pAd, bool enable)
 
 
 #ifdef WOW_SUPPORT
-#ifdef RTMP_MAC_USB
 
 /* switch firmware
    a) before into WOW mode, switch firmware to WOW-enable firmware
@@ -2389,7 +2376,6 @@ VOID AsicWOWSendNullFrame(
 	}
 }
 
-#endif /* RTMP_MAC_USB */
 #endif /* WOW_SUPPORT */
 
 
@@ -2469,9 +2455,7 @@ INT StopDmaRx(struct rtmp_adapter *pAd)
 	uint32_t RxPending = 0, MacReg = 0, MTxCycle = 0;
 	bool bReschedule = false;
 	bool bCmdRspPacket = false;
-#ifdef RTMP_MAC_USB
 	UINT8 IdleNums = 0;
-#endif /* RTMP_MAC_USB */
 
 	DBGPRINT(RT_DEBUG_TRACE, ("====> %s\n", __FUNCTION__));
 
@@ -2497,7 +2481,6 @@ INT StopDmaRx(struct rtmp_adapter *pAd)
 	for (MTxCycle = 0; MTxCycle < 2000; MTxCycle++)
 	{
 
-#ifdef RTMP_MAC_USB
 		MacReg = mt7612u_usb_cfg_read_v3(pAd);
 		if ((MacReg & 0x40000000) && (IdleNums < 10))
 		{
@@ -2508,7 +2491,6 @@ INT StopDmaRx(struct rtmp_adapter *pAd)
 		{
 			break;
 		}
-#endif
 
 		if (MacReg == 0xFFFFFFFF)
 		{
@@ -2531,16 +2513,13 @@ INT StopDmaRx(struct rtmp_adapter *pAd)
 INT StopDmaTx(struct rtmp_adapter *pAd)
 {
 	uint32_t MacReg = 0, MTxCycle = 0;
-#ifdef RTMP_MAC_USB
 	UINT8 IdleNums = 0;
-#endif
 
 	DBGPRINT(RT_DEBUG_TRACE, ("====> %s\n", __FUNCTION__));
 
 	for (MTxCycle = 0; MTxCycle < 2000; MTxCycle++)
 	{
 
-#ifdef RTMP_MAC_USB
 		MacReg = mt7612u_usb_cfg_read_v3(pAd);
 		if (((MacReg & 0x80000000) == 0) && IdleNums > 10)
 		{
@@ -2551,7 +2530,6 @@ INT StopDmaTx(struct rtmp_adapter *pAd)
 			IdleNums++;
 			RtmpusecDelay(50);
 		}
-#endif
 
 		if (MacReg == 0xFFFFFFFF)
 		{

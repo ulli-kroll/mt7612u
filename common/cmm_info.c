@@ -3011,9 +3011,7 @@ INT	Set_OpMode_Proc(struct rtmp_adapter *pAd, char *arg)
 
 	Value = simple_strtol(arg, 0, 10);
 
-#ifdef RTMP_MAC_USB
 	if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_START_UP))
-#endif /* RTMP_MAC_USB */
 	{
 		DBGPRINT(RT_DEBUG_ERROR, ("Can not switch operate mode on interface up !! \n"));
 		return false;
@@ -4407,7 +4405,6 @@ char *wdev_type2str(int type)
 INT show_trinfo_proc(struct rtmp_adapter *pAd, char *arg)
 {
 
-#ifdef RTMP_MAC_USB
 	if (IS_USB_INF(pAd))
 	{
 		DBGPRINT(RT_DEBUG_OFF, ("TxRing Configuration\n"));
@@ -4416,7 +4413,6 @@ INT show_trinfo_proc(struct rtmp_adapter *pAd, char *arg)
 
 		DBGPRINT(RT_DEBUG_OFF, ("\nPBF Configuration\n"));
 	}
-#endif /* RTMP_USB_SUPPORT */
 
 
 	return true;

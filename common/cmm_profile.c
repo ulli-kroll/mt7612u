@@ -3539,7 +3539,7 @@ int RTMPSetProfileParameters(
 #endif /* CONFIG_AP_SUPPORT */
 
 
-#if (defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT)
+#if defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT)
 		/* set GPIO pin for wake-up signal */
 		if (RTMPGetKeyParameter("WOW_GPIO", tmpbuf, 10, pBuffer, true))
 			Set_WOW_GPIO(pAd, tmpbuf);
@@ -3559,7 +3559,7 @@ int RTMPSetProfileParameters(
 		/* set wakeup signal type */
 		if (RTMPGetKeyParameter("WOW_InBand", tmpbuf, 10, pBuffer, true))
 			Set_WOW_InBand(pAd, tmpbuf);
-#endif /* (defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT) */
+#endif /* defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT) */
 
 #ifdef RTMP_USB_SUPPORT
 		if (RTMPGetKeyParameter("USBAggregation", tmpbuf, 10, pBuffer, true)) {

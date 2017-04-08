@@ -500,13 +500,11 @@ typedef struct _RTMP_SCATTER_GATHER_LIST {
 	We need to enqueue the whole frame because MLME need to pass data type
 	information from 802.11 header
 */
-#ifdef RTMP_MAC_USB
 #define REPORT_MGMT_FRAME_TO_MLME(_pAd, Wcid, _pFrame, _FrameSize, _Rssi0, _Rssi1, _Rssi2, _MinSNR, _OpMode)        \
 {                                                                                       \
     uint32_t High32TSF=0, Low32TSF=0;                                                          \
     MlmeEnqueueForRecv(_pAd, Wcid, High32TSF, Low32TSF, (u8)_Rssi0, (u8)_Rssi1,(u8)_Rssi2,_FrameSize, _pFrame, (u8)_MinSNR, _OpMode);   \
 }
-#endif /* RTMP_MAC_USB */
 
 #define IPV4_ADDR_EQUAL(pAddr1, pAddr2)         RTMPEqualMemory((PVOID)(pAddr1), (PVOID)(pAddr2), 4)
 #define IPV6_ADDR_EQUAL(pAddr1, pAddr2)         RTMPEqualMemory((PVOID)(pAddr1), (PVOID)(pAddr2), 16)
@@ -767,7 +765,6 @@ typedef struct GNU_PACKED _RT_802_11_WPA_REKEY {
 } RT_WPA_REKEY,*PRT_WPA_REKEY, RT_802_11_WPA_REKEY, *PRT_802_11_WPA_REKEY;
 
 
-#ifdef RTMP_MAC_USB
 /***************************************************************************
   *	RTUSB I/O related data structure
   **************************************************************************/
@@ -789,7 +786,6 @@ typedef enum _RT_802_11_CIPHER_SUITE_TYPE {
 	Cipher_Type_CCMP,
 	Cipher_Type_WEP104
 } RT_802_11_CIPHER_SUITE_TYPE, *PRT_802_11_CIPHER_SUITE_TYPE;
-#endif /* RTMP_MAC_USB */
 
 typedef struct {
 	u8 Addr[MAC_ADDR_LEN];
@@ -1018,10 +1014,8 @@ typedef struct _MLME_STRUCT {
 	RALINK_TIMER_STRUCT RxAntEvalTimer;
 
 
-#ifdef RTMP_MAC_USB
 	RALINK_TIMER_STRUCT AutoWakeupTimer;
 	bool AutoWakeupTimerRunning;
-#endif /* RTMP_MAC_USB */
 
 } MLME_STRUCT, *PMLME_STRUCT;
 
@@ -1351,7 +1345,6 @@ struct rtmp_wifi_dev{
 };
 
 
-#ifdef RTMP_MAC_USB
 /***************************************************************************
   *	USB-based chip Beacon related data structures
   **************************************************************************/
@@ -1365,7 +1358,6 @@ typedef struct _BEACON_SYNC_STRUCT_ {
 	u8 BeaconBitMap;	/* NOTE: If the MAX_MBSSID_NUM is larger than 8, this parameter need to change. */
 	u8 DtimBitOn;	/* NOTE: If the MAX_MBSSID_NUM is larger than 8, this parameter need to change. */
 } BEACON_SYNC_STRUCT;
-#endif /* RTMP_MAC_USB */
 
 /***************************************************************************
   *	Multiple SSID related data structures
@@ -1773,7 +1765,6 @@ typedef struct _COMMON_CONFIG {
 
 	bool bHardwareRadio;	/* Hardware controlled Radio enabled */
 
-#ifdef RTMP_MAC_USB
 	bool bMultipleIRP;	/* Multiple Bulk IN flag */
 	u8 NumOfBulkInIRP;	/* if bMultipleIRP == true, NumOfBulkInIRP will be 4 otherwise be 1 */
 	RT_HT_CAPABILITY SupportedHtPhy;
@@ -1787,7 +1778,6 @@ typedef struct _COMMON_CONFIG {
 	uint32_t BeaconAdjust;
 	uint32_t BeaconFactor;
 	uint32_t BeaconRemain;
-#endif /* RTMP_MAC_USB */
 
 
 
@@ -2972,7 +2962,7 @@ typedef struct _TX_POWER_CONTROL_EXT_OVER_MAC {
 } TX_POWER_CONTROL_EXT_OVER_MAC, *PTX_POWER_CONTROL_EXT_OVER_MAC;
 
 /* For Wake on Wireless LAN */
-#if (defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT)
+#if defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT)
 typedef struct _WOW_CFG_STRUCT {
 	bool			bEnable;		/* Enable WOW function*/
 	bool			bWOWFirmware;	/* Enable WOW function, trigger to reload WOW-support firmware */
@@ -2981,7 +2971,7 @@ typedef struct _WOW_CFG_STRUCT {
 	UINT8			nDelay;			/* Delay number is multiple of 3 secs, and it used to postpone the WOW function */
 	UINT8           nHoldTime;      /* GPIO puls hold time, unit: 10ms */
 } WOW_CFG_STRUCT, *PWOW_CFG_STRUCT;
-#endif /* (defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT) */
+#endif /* defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT) */
 
 #ifdef NEW_WOW_SUPPORT
 typedef enum {
@@ -3312,7 +3302,6 @@ struct rtmp_adapter {
 	spinlock_t CmdQLock;	/* CmdQLock spinlock */
 	RTMP_OS_TASK cmdQTask;
 
-#ifdef RTMP_MAC_USB
 /**********************************************************/
 /*      USB related parameters                                                         */
 /**********************************************************/
@@ -3339,7 +3328,6 @@ struct rtmp_adapter {
 /*	wait_queue_head_t	 *wait; */
 	VOID *wait;
 
-#endif /* RTMP_MAC_USB */
 
 	/* resource for software backlog queues */
 	spinlock_t page_lock;	/* for nat speedup by bruce */
@@ -3372,7 +3360,6 @@ struct rtmp_adapter {
 	bool DeQueueRunning[NUM_OF_TX_RING];	/* for ensuring RTUSBDeQueuePacket get call once */
 	spinlock_t DeQueueLock[NUM_OF_TX_RING];
 
-#ifdef RTMP_MAC_USB
 	/* Data related context and AC specified, 4 AC supported */
 	spinlock_t BulkOutLock[6];	/* BulkOut spinlock for 4 ACs */
 	spinlock_t MLMEBulkOutLock;	/* MLME BulkOut lock */
@@ -3396,7 +3383,6 @@ struct rtmp_adapter {
 	unsigned short CountDowntoPsm;
 #endif /* CONFIG_STA_SUPPORT */
 
-#endif /* RTMP_MAC_USB */
 
 	/* resource for software backlog queues */
 	QUEUE_HEADER TxSwQueue[NUM_OF_TX_RING];	/* 4 AC + 1 HCCA */
@@ -3417,7 +3403,6 @@ struct rtmp_adapter {
 /*********************************************************/
 
 
-#ifdef RTMP_MAC_USB
 	RX_CONTEXT RxContext[RX_RING_SIZE];	/* 1 for redundant multiple IRP bulk in. */
 	spinlock_t BulkInLock;	/* BulkIn spinlock for 4 ACs */
 	spinlock_t CmdRspLock;
@@ -3429,7 +3414,6 @@ struct rtmp_adapter {
 	ULONG ReadPosition;	/* current read position in a packet buffer */
 
 	CMD_RSP_CONTEXT CmdRspEventContext;
-#endif /* RTMP_MAC_USB */
 
 	/* RX re-assembly buffer for fragmentation */
 	FRAGMENT_FRAME FragFrame;	/* Frame storage for fragment frame */
@@ -3557,10 +3541,8 @@ struct rtmp_adapter {
 #endif /* CONFIG_STA_SUPPORT */
 	HEADER_802_11 NullFrame;
 
-#ifdef RTMP_MAC_USB
 	TX_CONTEXT NullContext;
 	TX_CONTEXT PsPollContext;
-#endif /* RTMP_MAC_USB */
 
 
 
@@ -3715,14 +3697,12 @@ struct rtmp_adapter {
 	/**********************************************************/
 	/*      Statistic related parameters                                                    */
 	/**********************************************************/
-#ifdef RTMP_MAC_USB
 	ULONG BulkOutDataOneSecCount;
 	ULONG BulkInDataOneSecCount;
 	ULONG BulkLastOneSecCount;	/* BulkOutDataOneSecCount + BulkInDataOneSecCount */
 	ULONG watchDogRxCnt;
 	ULONG watchDogRxOverFlowCnt;
 	ULONG watchDogTxPendingCnt[NUM_OF_TX_RING];
-#endif /* RTMP_MAC_USB */
 
 	bool bUpdateBcnCntDone;
 
@@ -3817,9 +3797,9 @@ struct rtmp_adapter {
 	LIST_HEADER RscTimerCreateList;	/* timers list */
 
 
-#if (defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT)
+#if defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT)
 	WOW_CFG_STRUCT WOW_Cfg; /* data structure for wake on wireless */
-#endif /* (defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT) */
+#endif /* defined(WOW_SUPPORT || defined(NEW_WOW_SUPPORT) */
 
 	TXWI_STRUC NullTxWI;
 	unsigned short NullBufOffset[2];
@@ -4151,12 +4131,10 @@ static inline VOID	RTMPWIEndianChange(
 	========================================================================
 */
 
-#ifdef RTMP_MAC_USB
 static inline VOID RTMPDescriptorEndianChange(u8 *pData, ULONG DescType)
 {
 	*((uint32_t *)(pData)) = SWAP32(*((uint32_t *)(pData)));
 }
-#endif /* RTMP_MAC_USB */
 /*
 	========================================================================
 
@@ -4900,7 +4878,6 @@ VOID asic_mcs_lut_update(
 
 
 #ifdef WOW_SUPPORT
-#ifdef RTMP_MAC_USB
 /* For WOW, 8051 MUC send full frame */
 VOID AsicWOWSendNullFrame(
     IN struct rtmp_adapter *pAd,
@@ -4910,7 +4887,6 @@ VOID AsicWOWSendNullFrame(
 VOID AsicLoadWOWFirmware(
     IN struct rtmp_adapter *pAd,
     IN bool WOW);
-#endif /* RTMP_MAC_USB */
 #endif /* WOW_SUPPORT */
 
 VOID MacAddrRandomBssid(
@@ -5187,12 +5163,10 @@ VOID InvalidStateWhenDisassociate(
 	IN  struct rtmp_adapter *pAd,
 	IN  MLME_QUEUE_ELEM *Elem);
 
-#ifdef RTMP_MAC_USB
 VOID MlmeCntlConfirm(
 	IN struct rtmp_adapter *pAd,
 	IN ULONG MsgType,
 	IN unsigned short Msg);
-#endif /* RTMP_MAC_USB */
 
 VOID  ComposePsPoll(
 	IN  struct rtmp_adapter *pAd);
@@ -6770,10 +6744,10 @@ VOID RT28xxAndesWOWEnable(struct rtmp_adapter *pAd);
 VOID RT28xxAndesWOWDisable(struct rtmp_adapter *pAd);
 #endif /* NEW_WOW_SUPPORT */
 
-#if (defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT)
+#if defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT)
 VOID RT28xxAsicWOWEnable(struct rtmp_adapter *pAd);
 VOID RT28xxAsicWOWDisable(struct rtmp_adapter *pAd);
-#endif /* (defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT) */
+#endif /* defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT) */
 
 /*////////////////////////////////////*/
 

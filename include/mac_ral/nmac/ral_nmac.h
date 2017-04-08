@@ -1122,7 +1122,6 @@ VOID rlt_asic_init_txrx_ring(struct rtmp_adapter *pAd);
 
 INT rlt_wlan_chip_onoff(struct rtmp_adapter *pAd, bool bOn, bool bResetWLAN);
 
-#ifdef RTMP_MAC_USB
 VOID rlt_usb_write_txinfo(
 	IN struct rtmp_adapter *pAd,
 	IN union _TXINFO_STRUC *pTxInfo,
@@ -1131,7 +1130,6 @@ VOID rlt_usb_write_txinfo(
 	IN u8 QueueSel,
 	IN u8 NextValid,
 	IN u8 TxBurst);
-#endif /* RTMP_MAC_USB */
 
 #endif /* __RAL_NMAC_H__ */
 

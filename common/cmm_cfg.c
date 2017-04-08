@@ -798,7 +798,7 @@ INT RTMP_COM_IoctlHandle(
 #ifdef CONFIG_STA_SUPPORT
 #ifdef CONFIG_PM
 
-#if (defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT)
+#if defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT)
 		case CMD_RTPRIV_IOCTL_ADAPTER_RT28XX_WOW_STATUS:
 			*(u8 *)pData = (u8)pAd->WOW_Cfg.bEnable;
 			break;
@@ -810,7 +810,7 @@ INT RTMP_COM_IoctlHandle(
 		case CMD_RTPRIV_IOCTL_ADAPTER_RT28XX_WOW_DISABLE:
 			ASIC_WOW_DISABLE(pAd);
 			break;
-#endif /* (defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT) */
+#endif /* defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT) */
 #endif /* CONFIG_PM */
 
 		case CMD_RTPRIV_IOCTL_AP_BSSID_GET:

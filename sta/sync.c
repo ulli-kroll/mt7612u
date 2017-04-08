@@ -312,10 +312,8 @@ VOID MlmeForceScanReqAction(
 	ULONG		   Now;
 	unsigned short         Status;
 
-#ifdef RTMP_MAC_USB
 	if(RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_IDLE_RADIO_OFF))
 		RT65xxUsbAsicRadioOn(pAd, MLME_RADIO_ON);
-#endif /* RTMP_MAC_USB */
        /*
 	    Check the total scan tries for one single OID command
 	    If this is the CCX 2.0 Case, skip that!
@@ -440,10 +438,8 @@ VOID MlmeScanReqAction(
 	ULONG		   Now;
 	unsigned short         Status;
 
-#ifdef RTMP_MAC_USB
 	if(RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_IDLE_RADIO_OFF))
 		RT65xxUsbAsicRadioOn(pAd, MLME_RADIO_ON);
-#endif /* RTMP_MAC_USB */
        /*
 	    Check the total scan tries for one single OID command
 	    If this is the CCX 2.0 Case, skip that!
@@ -2533,7 +2529,6 @@ VOID ScanTimeoutAction(
 	IN MLME_QUEUE_ELEM *Elem)
 {
 
-#ifdef RTMP_MAC_USB
 	/*
 	    To prevent data lost.
 	    Send an NULL data with turned PSM bit on to current associated AP when SCAN in the channel where
@@ -2550,7 +2545,6 @@ VOID ScanTimeoutAction(
 						  (OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_WMM_INUSED) ? true:false),
 						  PWR_SAVE);
 	}
-#endif /* RTMP_MAC_USB */
 
 	if (pAd->StaCfg.bFastConnect && !pAd->StaCfg.bNotFirstScan)
 	{
@@ -2648,11 +2642,9 @@ VOID EnqueuePsPoll(struct rtmp_adapter *pAd)
 	if (pAd->StaCfg.WindowsPowerMode == Ndis802_11PowerModeLegacy_PSP)
     	pAd->PsPollFrame.FC.PwrMgmt = PWR_SAVE;
 	MiniportMMRequest(pAd, 0, (u8 *)&pAd->PsPollFrame, sizeof(PSPOLL_FRAME));
-#ifdef RTMP_MAC_USB
 	/* Keep Waking up */
 	if (pAd->CountDowntoPsm == 0)
 		pAd->CountDowntoPsm = 2;	/* 100 ms; stay awake 200ms at most, average will be 1xx ms */
-#endif /* RTMP_MAC_USB */
 }
 
 

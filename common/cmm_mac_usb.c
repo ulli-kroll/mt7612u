@@ -13,7 +13,6 @@
  ***************************************************************************/
 
 
-#ifdef RTMP_MAC_USB
 
 
 #include	"rt_config.h"
@@ -1227,7 +1226,6 @@ bool AsicCheckCommandOk(
 	INT ret;
 
 
-#ifdef RTMP_MAC_USB
 	if (IS_USB_INF(pAd)) {
 		ret = down_interruptible(&pAd->reg_atomic);
 		if (ret != 0) {
@@ -1235,7 +1233,6 @@ bool AsicCheckCommandOk(
 			return false;
 		}
 	}
-#endif /* RTMP_MAC_USB */
 
 	i = 0;
 	do {
@@ -1270,15 +1267,11 @@ bool AsicCheckCommandOk(
 	mt7612u_write32(pAd, H2M_MAILBOX_STATUS, 0xffffffff);
 	mt7612u_write32(pAd, H2M_MAILBOX_CID, 0xffffffff);
 
-#ifdef RTMP_MAC_USB
 	if (IS_USB_INF(pAd))
 		up(&pAd->reg_atomic);
-#endif /* RTMP_MAC_USB */
 
 
 	return ret;
 
 }
 
-
-#endif /* RTMP_MAC_USB */

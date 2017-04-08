@@ -273,10 +273,8 @@ int MiniportMMRequest(
 		}
 
 #ifdef CONFIG_STA_SUPPORT
-#ifdef RTMP_MAC_USB
 		if(RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_IDLE_RADIO_OFF))
 			RT65xxUsbAsicRadioOn(pAd, MLME_RADIO_ON);
-#endif /* RTMP_MAC_USB */
 #endif /* CONFIG_STA_SUPPORT */
 
 		/* Check Free priority queue*/
@@ -1508,9 +1506,7 @@ VOID RTMPDeQueuePacket(
 					pTxBlk->TxFrameType = TX_LEGACY_FRAME;
 			}
 
-#ifdef RTMP_MAC_USB
 			DEQUEUE_UNLOCK(&pAd->irq_lock, bIntContext, IrqFlags);
-#endif /* RTMP_MAC_USB */
 
 			Count += pTxBlk->TxPacketList.Number;
 
@@ -1531,10 +1527,8 @@ VOID RTMPDeQueuePacket(
 
 		RTMP_STOP_DEQUEUE(pAd, QueIdx, IrqFlags);
 
-#ifdef RTMP_MAC_USB
 		if (!hasTxDesc)
 			RTUSBKickBulkOut(pAd);
-#endif /* RTMP_MAC_USB */
 
 	}
 }
@@ -2399,7 +2393,6 @@ if (0) {
 
 	STATS_INC_RX_PACKETS(pAd, FromWhichBSSID);
 
-#ifdef RTMP_MAC_USB
 	if (pAd->CommonCfg.bDisableReordering == 0)
 	{
 		PBA_REC_ENTRY		pBAEntry;
@@ -2430,7 +2423,6 @@ if (0) {
 			}
 		}
 	}
-#endif /* RTMP_MAC_USB */
 
 #ifdef CONFIG_AP_SUPPORT
 	MBSS_VLAN_INFO_GET(pAd, VLAN_VID, VLAN_Priority, FromWhichBSSID);

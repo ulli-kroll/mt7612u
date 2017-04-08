@@ -2955,9 +2955,7 @@ VOID detect_wmm_traffic(
 			if (pAd->flg_be_adjust == 0)
 			{
 				/* yet adjust */
-#ifdef RTMP_MAC_USB
 				RTEnqueueInternalCmd(pAd, CMDTHREAD_AP_ENABLE_TX_BURST, NULL, 0);
-#endif /* RTMP_MAC_USB */
 				pAd->flg_be_adjust = 1;
 				NdisGetSystemUpTime(&pAd->be_adjust_last_time);
 
@@ -2981,9 +2979,7 @@ VOID detect_wmm_traffic(
 					if ((now - pAd->be_adjust_last_time) > TIME_ONE_SECOND)
 					{
 						/* no any BK traffic */
-#ifdef RTMP_MAC_USB
 						RTEnqueueInternalCmd(pAd, CMDTHREAD_AP_DISABLE_TX_BURST, NULL, 0);
-#endif /* RTMP_MAC_USB */
 						pAd->flg_be_adjust = 0;
 
 						DBGPRINT(RT_DEBUG_TRACE, ("wmm> recover be!\n"));
@@ -3006,9 +3002,7 @@ VOID detect_wmm_traffic(
 		{
 			if (!pAd->is_on)
 			{
-#ifdef RTMP_MAC_USB
 				RTEnqueueInternalCmd(pAd, CMDTHREAD_AP_ADJUST_EXP_ACK_TIME, NULL, 0);
-#endif /* RTMP_MAC_USB */
 				pAd->is_on = 1;
 			}
 		}
@@ -3016,9 +3010,7 @@ VOID detect_wmm_traffic(
 		{
 			if (pAd->is_on)
 			{
-#ifdef RTMP_MAC_USB
 				RTEnqueueInternalCmd(pAd, CMDTHREAD_AP_RECOVER_EXP_ACK_TIME, NULL, 0);
-#endif /* RTMP_MAC_USB */
 				pAd->is_on = 0;
 			}
 		}

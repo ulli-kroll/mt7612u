@@ -39,10 +39,8 @@ struct _RSSI_SAMPLE;
 #include "eeprom.h"
 
 
-#ifdef RTMP_MAC_USB
 #include "mac_ral/rtmp_mac.h"
 #include "mac_ral/mac_usb.h"
-#endif /* RTMP_MAC_USB */
 
 
 
@@ -738,10 +736,10 @@ struct rtmp_chip_ops {
 	VOID (*AsicDynamicVgaGainControl)(IN struct rtmp_adapter *pAd);
 #endif /* DYNAMIC_VGA_SUPPORT */
 
-#if (defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT)
+#if defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT)
 	VOID (*AsicWOWEnable)(struct rtmp_adapter *ad);
 	VOID (*AsicWOWDisable)(struct rtmp_adapter *ad);
-#endif /* (defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT) */
+#endif /* defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT) */
 };
 
 #define RTMP_CHIP_ENABLE_AP_MIMOPS(__pAd, __ReduceCorePower)	\
@@ -834,7 +832,7 @@ do {	\
 	}	\
 } while (0)
 
-#if (defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT)
+#if defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT)
 #define ASIC_WOW_ENABLE(_pAd)	\
 do {	\
 	if (_pAd->chipOps.AsicWOWEnable != NULL)	\
@@ -846,7 +844,7 @@ do {	\
 	if (_pAd->chipOps.AsicWOWDisable != NULL)	\
 		_pAd->chipOps.AsicWOWDisable(_pAd);	\
 } while(0)
-#endif /* (defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT) */
+#endif /* defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT) */
 
 #ifdef DYNAMIC_VGA_SUPPORT
 #define RTMP_ASIC_DYNAMIC_VGA_GAIN_CONTROL(_pAd)	\

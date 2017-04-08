@@ -122,9 +122,7 @@ DECLARE_TIMER_FUNCTION(PMF_SAQueryTimeOut);
 DECLARE_TIMER_FUNCTION(PMF_SAQueryConfirmTimeOut);
 #endif /* DOT11W_PMF_SUPPORT */
 
-#ifdef RTMP_MAC_USB
 DECLARE_TIMER_FUNCTION(BeaconUpdateExec);
-#endif /* RTMP_MAC_USB */
 
 #ifdef CONFIG_AP_SUPPORT
 DECLARE_TIMER_FUNCTION(APDetectOverlappingExec);
@@ -160,9 +158,7 @@ DECLARE_TIMER_FUNCTION(WpaDisassocApAndBlockAssoc);
 
 
 
-#ifdef RTMP_MAC_USB
 DECLARE_TIMER_FUNCTION(RtmpUsbStaAsicForceWakeupTimeout);
-#endif /* RTMP_MAC_USB */
 
 #endif /* CONFIG_STA_SUPPORT */
 

@@ -188,10 +188,8 @@ VOID CFG80211DRV_DisableApInterface(struct rtmp_adapter *pAd)
         AsicDisableSync(pAd);
     }
 
-#ifdef RTMP_MAC_USB
     /* For RT2870, we need to clear the beacon sync buffer. */
     RTUSBBssBeaconExit(pAd);
-#endif /* RTMP_MAC_USB */
 
 	OPSTATUS_CLEAR_FLAG(pAd, fOP_AP_STATUS_MEDIA_STATE_CONNECTED);
 	RTMP_IndicateMediaState(pAd, NdisMediaStateDisconnected);
@@ -310,11 +308,9 @@ bool CFG80211DRV_OpsBeaconAdd(struct rtmp_adapter *pAd, VOID *pData)
 	u8 num_idx;
 
 	CFG80211DBG(RT_DEBUG_TRACE, ("80211> %s ==>\n", __FUNCTION__));
-#ifdef RTMP_MAC_USB
 #ifdef CONFIG_AP_SUPPORT
 	RTMPCancelTimer(&pAd->CommonCfg.BeaconUpdateTimer, &Cancelled);
 #endif /*CONFIG_AP_SUPPORT*/
-#endif /* RTMP_MAC_USB */
 
 	pBeacon = (CMD_RTPRIV_IOCTL_80211_BEACON *)pData;
 
@@ -448,16 +444,12 @@ bool CFG80211DRV_OpsBeaconAdd(struct rtmp_adapter *pAd, VOID *pData)
                                    pBeacon->beacon_tail, pBeacon->beacon_tail_len,
                                    true);
 
-#ifdef RTMP_MAC_USB
 	RTUSBBssBeaconInit(pAd);
-#endif /* RTMP_MAC_USB */
 
-#ifdef RTMP_MAC_USB
 #ifdef CONFIG_STA_SUPPORT
     RTMPInitTimer(pAd, &pAd->CommonCfg.BeaconUpdateTimer, GET_TIMER_FUNCTION(BeaconUpdateExec), pAd, true);
 #endif /*CONFIG_STA_SUPPORT*/
 	RTUSBBssBeaconStart(pAd);
-#endif /* RTMP_MAC_USB */
 
 	/* Enable BSS Sync*/
 	AsicEnableApBssSync(pAd);
@@ -465,7 +457,6 @@ bool CFG80211DRV_OpsBeaconAdd(struct rtmp_adapter *pAd, VOID *pData)
 
 	AsicSetPreTbtt(pAd, true);
 
-#ifdef RTMP_MAC_USB
 	/*
 	 * Support multiple BulkIn IRP,
 	 * the value on pAd->CommonCfg.NumOfBulkInIRP may be large than 1.
@@ -474,7 +465,6 @@ bool CFG80211DRV_OpsBeaconAdd(struct rtmp_adapter *pAd, VOID *pData)
 	{
 		RTUSBBulkReceive(pAd);
 	}
-#endif /* RTMP_MAC_USB */
 
 	OPSTATUS_SET_FLAG(pAd, fOP_AP_STATUS_MEDIA_STATE_CONNECTED);
 	RTMP_IndicateMediaState(pAd, NdisMediaStateConnected);

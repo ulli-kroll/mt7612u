@@ -376,11 +376,9 @@ enum CALIBRATION_TEST_TYPE {
 
 };
 
-#ifdef RTMP_MAC_USB
 int mt7612u_mcu_usb_loadfw(struct rtmp_adapter *ad);
 int mt7612u_mcu_usb_load_rom_patch(struct rtmp_adapter *ad);
 void mt7612u_mcu_usb_fw_init(struct rtmp_adapter *ad);
-#endif /* RTMP_MAC_USB */
 void mt7612u_mcu_ctrl_init(struct rtmp_adapter *ad);
 void mt7612u_mcu_ctrl_enable(struct rtmp_adapter *ad);
 void mt7612u_mcu_ctrl_disable(struct rtmp_adapter *ad);

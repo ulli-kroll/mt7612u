@@ -163,9 +163,7 @@ INT	Set_WmmCapable_Proc(
 	bWmmCapable = simple_strtol(arg, 0, 10);
 
 	if ((bWmmCapable == 1)
-#ifdef RTMP_MAC_USB
 		&& (pAd->NumberOfPipes >= 5)
-#endif /* RTMP_MAC_USB */
 		)
 		pAd->CommonCfg.bWmmCapable = true;
 	else if (bWmmCapable == 0)
@@ -1451,7 +1449,7 @@ INT Set_AdhocN_Proc(
 
 
 
-#if (defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT)
+#if defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT)
 /* set WOW enable */
 INT Set_WOW_Enable(
         IN struct rtmp_adapter *       pAd,
@@ -1548,7 +1546,7 @@ INT Set_WOW_InBand(
 
 	return true;
 }
-#endif /* (defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT) */
+#endif /* defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT) */
 
 void	getBaInfo(
 	IN	struct rtmp_adapter *pAd,
@@ -2236,7 +2234,6 @@ RtmpIoctl_rt_ioctl_giwessid(
 		pSsid->SsidLen = pAd->CommonCfg.SsidLen;
 		memcpy(pSsid->pSsid, pAd->CommonCfg.Ssid, pAd->CommonCfg.SsidLen);
 	}
-#ifdef RTMP_MAC_USB
 #ifdef WPA_SUPPLICANT_SUPPORT
 	/* Add for RT2870 */
 	else if (pAd->StaCfg.wpa_supplicant_info.WpaSupplicantUP != WPA_SUPPLICANT_DISABLE)
@@ -2245,7 +2242,6 @@ RtmpIoctl_rt_ioctl_giwessid(
 		memcpy(pSsid->pSsid, pAd->CommonCfg.Ssid, pAd->CommonCfg.SsidLen);
 	}
 #endif /* WPA_SUPPLICANT_SUPPORT */
-#endif /* RTMP_MAC_USB */
 	else
 	{/*the ANY ssid was specified */
 		pSsid->SsidLen = 0;

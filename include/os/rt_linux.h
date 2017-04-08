@@ -99,11 +99,9 @@ typedef struct usb_ctrlrequest devctrlrequest;
  ***********************************************************************************/
 #ifdef CONFIG_AP_SUPPORT
 
-#ifdef RTMP_MAC_USB
 #define AP_PROFILE_PATH			"/etc/Wireless/RT2870AP/RT2870AP.dat"
 #define AP_RTMP_FIRMWARE_FILE_NAME "/etc/Wireless/RT2870AP/RT2870AP.bin"
 #define AP_DRIVER_VERSION			"3.0.0.0"
-#endif /* RTMP_MAC_USB */
 
 
 #endif /* CONFIG_AP_SUPPORT */
@@ -111,10 +109,8 @@ typedef struct usb_ctrlrequest devctrlrequest;
 
 #ifdef CONFIG_STA_SUPPORT
 
-#ifdef RTMP_MAC_USB
 #define STA_PROFILE_PATH			"/etc/Wireless/RT2870STA/RT2870STA.dat"
 #define STA_DRIVER_VERSION			"3.0.0.1"
-#endif /* RTMP_MAC_USB */
 
 
 extern const struct iw_handler_def rt28xx_iw_handler_def;
@@ -461,9 +457,7 @@ static inline void NdisGetSystemUpTime(ULONG *time)
 
 struct os_cookie {
 
-#ifdef RTMP_MAC_USB
 	struct usb_device *pUsb_Dev;
-#endif /* RTMP_MAC_USB */
 
 #ifdef WORKQUEUE_BH
 	uint32_t 	     pAd_va;
@@ -481,10 +475,8 @@ struct os_cookie {
 
 
 
-#ifdef RTMP_MAC_USB
 	RTMP_NET_TASK_STRUCT null_frame_complete_task;
 	RTMP_NET_TASK_STRUCT pspoll_frame_complete_task;
-#endif /* RTMP_MAC_USB */
 
 	RTMP_OS_PID			apd_pid; /*802.1x daemon pid */
 	unsigned long			apd_pid_nr;
@@ -618,11 +610,9 @@ void linux_pci_unmap_single(void *handle, ra_dma_addr_t dma_addr, size_t size, i
  * Device Register I/O Access related definitions and data structures.
  **********************************************************************************/
 
-#ifdef RTMP_MAC_USB
 
 #define RTMP_SYS_IO_READ32
 #define RTMP_SYS_IO_WRITE32
-#endif /* RTMP_MAC_USB */
 
 /***********************************************************************************
  *	Network Related data structure and marco definitions

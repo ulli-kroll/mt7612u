@@ -695,7 +695,6 @@ VOID MlmeHandler(struct rtmp_adapter *pAd)
 		/*From message type, determine which state machine I should drive*/
 		if (MlmeDequeue(&pAd->Mlme.Queue, &Elem))
 		{
-#ifdef RTMP_MAC_USB
 			if (Elem->MsgType == MT2_RESET_CONF)
 			{
 				DBGPRINT_RAW(RT_DEBUG_TRACE, ("!!! reset MLME state machine !!!\n"));
@@ -704,7 +703,6 @@ VOID MlmeHandler(struct rtmp_adapter *pAd)
 				Elem->MsgLen = 0;
 				continue;
 			}
-#endif /* RTMP_MAC_USB */
 
 			/* if dequeue success*/
 			switch (Elem->Machine)
@@ -987,10 +985,8 @@ int MlmeInit(struct rtmp_adapter *pAd)
 			pAd->StaCfg.StaQuickResponeForRateUpTimerRunning = false;
 			RTMPInitTimer(pAd, &pAd->StaCfg.WpaDisassocAndBlockAssocTimer, GET_TIMER_FUNCTION(WpaDisassocApAndBlockAssoc), pAd, false);
 
-#ifdef RTMP_MAC_USB
 			RTMPInitTimer(pAd, &pAd->Mlme.AutoWakeupTimer, GET_TIMER_FUNCTION(RtmpUsbStaAsicForceWakeupTimeout), pAd, false);
 			pAd->Mlme.AutoWakeupTimerRunning = false;
-#endif /* RTMP_MAC_USB */
 
 
 		}
@@ -1105,13 +1101,11 @@ VOID MlmeHalt(struct rtmp_adapter *pAd)
 
 		RTMPCancelTimer(&pAd->Mlme.LinkDownTimer, &Cancelled);
 
-#ifdef RTMP_MAC_USB
 		if (pAd->Mlme.AutoWakeupTimerRunning)
 		{
 			RTMPCancelTimer(&pAd->Mlme.AutoWakeupTimer, &Cancelled);
 			pAd->Mlme.AutoWakeupTimerRunning = false;
 		}
-#endif /* RTMP_MAC_USB */
 
 
 
@@ -1163,9 +1157,9 @@ VOID MlmeHalt(struct rtmp_adapter *pAd)
 		struct rtmp_chip_ops *pChipOps = &pAd->chipOps;
 
 
-#if (defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT)
+#if defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT)
 		if (pAd->WOW_Cfg.bEnable == false)
-#endif /* (defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT) */
+#endif /* defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT) */
 	}
 
 	RtmpusecDelay(5000);    /*  5 msec to gurantee Ant Diversity timer canceled*/
@@ -1246,7 +1240,6 @@ VOID MlmePeriodicExec(
 		RTMP_MLME_PRE_SANITY_CHECK(pAd);
 	}
 
-#ifdef RTMP_MAC_USB
 	/*
 		We go to sleep mode only when count down to zero.
 		Count down counter is set after link up. So within 10 seconds after link up, we never go to sleep.
@@ -1254,7 +1247,6 @@ VOID MlmePeriodicExec(
 	*/
 	if (pAd->CountDowntoPsm > 0)
 		pAd->CountDowntoPsm--;
-#endif /* RTMP_MAC_USB */
 
 #endif /* CONFIG_STA_SUPPORT */
 
@@ -1323,7 +1315,6 @@ VOID MlmePeriodicExec(
 	if ((pAd->Mlme.OneSecPeriodicRound % 1 == 0) && IS_MT76x2(pAd))
 		mt76x2_get_current_temp(pAd);
 
-#ifdef RTMP_MAC_USB
 	/* execute every 100ms, update the Tx FIFO Cnt for update Tx Rate.*/
 	NICUpdateFifoStaCounters(pAd);
 #ifdef CONFIG_AP_SUPPORT
@@ -1332,7 +1323,6 @@ VOID MlmePeriodicExec(
 		CarrierDetectionPeriodicStateCtrl(pAd);
 #endif /* CARRIER_DETECTION_FIRMWARE_SUPPORT */
 #endif /* CONFIG_AP_SUPPORT */
-#endif /* RTMP_MAC_USB */
 
 	/* by default, execute every 500ms */
 	if ((pAd->ra_interval) &&
@@ -1411,9 +1401,7 @@ VOID MlmePeriodicExec(
 
 		RTMP_SECOND_CCA_DETECTION(pAd);
 
-#ifdef RTMP_MAC_USB
 		RTUSBWatchDog(pAd);
-#endif /* RTMP_MAC_USB */
 
    		/* Need statistics after read counter. So put after NICUpdateRawCounters*/
 		ORIBATimerTimeout(pAd);
@@ -1591,9 +1579,7 @@ VOID MlmePeriodicExec(
 #ifdef CONFIG_STA_SUPPORT
 		IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
 		{
-#ifdef RTMP_MAC_USB
 			if (!RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_IDLE_RADIO_OFF))
-#endif /* RTMP_MAC_USB */
 			{
 
 
@@ -1687,7 +1673,6 @@ VOID STAMlmePeriodicExec(struct rtmp_adapter *pAd)
     		pAd->StaCfg.bBlockAssoc = false;
     }
 
-#ifdef RTMP_MAC_USB
 	/* If station is idle, go to sleep*/
 	if ( 1
 	/*	&& (pAd->StaCfg.PSControl.field.EnablePSinIdle == true)*/
@@ -1703,7 +1688,6 @@ VOID STAMlmePeriodicExec(struct rtmp_adapter *pAd)
 		DBGPRINT(RT_DEBUG_TRACE, ("PSM - Issue Sleep command)\n"));
 	}
 
-#endif /* RTMP_MAC_USB */
 
 
 
@@ -1810,7 +1794,6 @@ VOID STAMlmePeriodicExec(struct rtmp_adapter *pAd)
 		}
 
 
-#ifdef RTMP_MAC_USB
 /*for 1X1 STA pass 11n wifi wmm, need to change txop per case;*/
 /* 1x1 device for 802.11n WMM Test*/
 	if(!RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_IDLE_RADIO_OFF))
@@ -1877,7 +1860,6 @@ VOID STAMlmePeriodicExec(struct rtmp_adapter *pAd)
 		pAd->RalinkCounters.OneSecTxAggregationCount = 0;
 
 
-#endif /* RTMP_MAC_USB */
 
 
         /*if ((pAd->RalinkCounters.OneSecTxNoRetryOkCount == 0) &&*/
@@ -2341,9 +2323,7 @@ VOID MlmeCheckPsmChange(struct rtmp_adapter *pAd, ULONG Now32)
 		(pAd->StaCfg.Psm == PWR_ACTIVE) &&
 /*		(! RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_BSS_SCAN_IN_PROGRESS))*/
 		(pAd->Mlme.CntlMachine.CurrState == CNTL_IDLE)
-#ifdef RTMP_MAC_USB
 		&& (pAd->CountDowntoPsm == 0)
-#endif /* RTMP_MAC_USB */
 		 /*&&
 		(pAd->RalinkCounters.OneSecTxNoRetryOkCount == 0) &&
 		(pAd->RalinkCounters.OneSecTxRetryOkCount == 0)*/)
@@ -5762,12 +5742,10 @@ CHAR RTMPMinSnr(struct rtmp_adapter *pAd, CHAR Snr0, CHAR Snr1)
 */
 VOID AsicEvaluateRxAnt(struct rtmp_adapter *pAd)
 {
-#ifdef RTMP_MAC_USB
 #ifdef CONFIG_STA_SUPPORT
 	if(RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_IDLE_RADIO_OFF))
 		return;
 #endif /* CONFIG_STA_SUPPORT */
-#endif /* RTMP_MAC_USB */
 
 	if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_RESET_IN_PROGRESS |
 							fRTMP_ADAPTER_HALT_IN_PROGRESS |

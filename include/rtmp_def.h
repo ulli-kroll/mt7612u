@@ -69,14 +69,12 @@
 
 #define PCI_VIRT_TO_PHYS(__Addr)	(((uint32_t)(__Addr)) & 0x0FFFFFFF)
 
-#ifdef RTMP_MAC_USB
 #define TX_RING_SIZE            8	/* 1 */
 #define PRIO_RING_SIZE          8
 #define MGMT_RING_SIZE       	32	/* PRIO_RING_SIZE */
 #define RX_RING_SIZE            8
 #define MAX_TX_PROCESS          4
 #define LOCAL_TXBUF_SIZE        2048
-#endif /* RTMP_MAC_USB */
 
 #ifdef MEMORY_OPTIMIZATION
 #define MAX_RX_PROCESS		32

@@ -27,7 +27,6 @@
 	Paul Lin    06-25-2004  created
 */
 
-#ifdef RTMP_MAC_USB
 
 
 #include	"rt_config.h"
@@ -1223,5 +1222,4 @@ VOID RTUSBWatchDog(struct rtmp_adapter *pAd)
 	return;
 }
 
-#endif /* RTMP_MAC_USB */
 

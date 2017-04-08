@@ -73,9 +73,7 @@ int APInitialize(struct rtmp_adapter *pAd)
 		RTMPInitTimer(pAd, &pAd->ApCfg.MBSSID[i].REKEYTimer, GET_TIMER_FUNCTION(GREKEYPeriodicExec), pAd,  true);
 
 	RTMPInitTimer(pAd, &pAd->ApCfg.CounterMeasureTimer, GET_TIMER_FUNCTION(CMTimerExec), pAd, false);
-#ifdef RTMP_MAC_USB
 	RTMPInitTimer(pAd, &pAd->CommonCfg.BeaconUpdateTimer, GET_TIMER_FUNCTION(BeaconUpdateExec), pAd, true);
-#endif /* RTMP_MAC_USB */
 
 
 
@@ -543,9 +541,7 @@ DBGPRINT(RT_DEBUG_OFF, ("%s(): AP Set CentralFreq at %d(Prim=%d, HT-CentCh=%d, V
 	if (IS_MT76x2(pAd))
 		mt76x2_calibration(pAd, pAd->hw_cfg.cent_ch);
 
-#ifdef RTMP_MAC_USB
 	RTUSBBssBeaconInit(pAd);
-#endif /* RTMP_MAC_USB */
 	/* start sending BEACON out */
 	APMakeAllBssBeacon(pAd);
 	APUpdateAllBeaconFrame(pAd);
@@ -565,7 +561,6 @@ DBGPRINT(RT_DEBUG_OFF, ("%s(): AP Set CentralFreq at %d(Prim=%d, HT-CentCh=%d, V
 
 
 
-#ifdef RTMP_MAC_USB
 	/* */
 	/* Support multiple BulkIn IRP, */
 	/* the value on pAd->CommonCfg.NumOfBulkInIRP may be large than 1. */
@@ -575,7 +570,6 @@ DBGPRINT(RT_DEBUG_OFF, ("%s(): AP Set CentralFreq at %d(Prim=%d, HT-CentCh=%d, V
 		RTUSBBulkReceive(pAd);
 		DBGPRINT(RT_DEBUG_TRACE, ("RTUSBBulkReceive!\n" ));
 	}
-#endif /* RTMP_MAC_USB */
 
 
 
@@ -632,10 +626,8 @@ VOID APStop(
 
 	}
 
-#ifdef RTMP_MAC_USB
 	/* For RT2870, we need to clear the beacon sync buffer. */
 	RTUSBBssBeaconExit(pAd);
-#endif /* RTMP_MAC_USB */
 
 
 	for (idx = 0; idx < MAX_MBSSID_NUM(pAd); idx++)
@@ -1872,7 +1864,6 @@ VOID APOverlappingBSSScan(struct rtmp_adapter *pAd)
 	{
 		DBGPRINT(RT_DEBUG_TRACE, ("Card still not enable Tx/Rx, enable it now!\n"));
 
-#ifdef RTMP_MAC_USB
 		RTMP_CLEAR_FLAG(pAd, fRTMP_ADAPTER_RESET_IN_PROGRESS);
 		RTMP_CLEAR_FLAG(pAd, fRTMP_ADAPTER_REMOVE_IN_PROGRESS);
 
@@ -1885,7 +1876,6 @@ VOID APOverlappingBSSScan(struct rtmp_adapter *pAd)
 			RTUSBBulkReceive(pAd);
 			DBGPRINT(RT_DEBUG_TRACE, ("RTUSBBulkReceive!\n" ));
 	}
-#endif /* RTMP_MAC_USB */
 
 		/* Now Enable RxTx */
 		RTMPEnableRxTx(pAd);

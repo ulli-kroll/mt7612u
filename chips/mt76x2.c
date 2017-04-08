@@ -469,7 +469,6 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan
 	uint32_t eLNA_gain_from_e2p = 0;
 	uint32_t mac_val = 0;
 
-#ifdef RTMP_MAC_USB
 	if (IS_USB_INF(ad)) {
 		ret = down_interruptible(&ad->hw_atomic);
 		if (ret != 0) {
@@ -477,7 +476,6 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan
 			return;
 		}
 	}
-#endif /* RTMP_MAC_USB */
 
 	if (ad->CommonCfg.BBPCurrentBW == BW_80) {
 		bbp_ch_idx = vht_prim_ch_idx(channel, ad->CommonCfg.Channel);
@@ -731,7 +729,6 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan
 		CHIP_CALIBRATION(ad, RC_CALIBRATION_7662, 0x00);
 	}
 
-#ifdef RTMP_MAC_USB
 	if (IS_USB_INF(ad)) {
 		ret = down_interruptible(&ad->tssi_lock);
 		if (ret != 0) {
@@ -739,7 +736,6 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan
 			return;
 		}
 	}
-#endif /* RTMP_MAC_USB */
 
 
 	/* TSSI Clibration */
@@ -780,10 +776,8 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan
 	}
 
 
-#ifdef RTMP_MAC_USB
 	if (IS_USB_INF(ad))
 		up(&ad->tssi_lock);
-#endif
 
 
 	/* Channel latch */
@@ -792,10 +786,8 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan
 	if (!ad->MCUCtrl.power_on)
 		ad->MCUCtrl.power_on = true;
 
-#ifdef RTMP_MAC_USB
 	if (IS_USB_INF(ad))
 		up(&ad->hw_atomic);
-#endif
 
 	//mt76x2_set_ed_cca(ad, true);
 
@@ -959,10 +951,8 @@ void mt76x2_tssi_compensation(struct rtmp_adapter *ad, u8 channel)
 done:
 ;
 
-#ifdef RTMP_MAC_USB
 	if (IS_USB_INF(ad))
 		up(&ad->tssi_lock);
-#endif
 }
 
 void mt76x2_calibration(struct rtmp_adapter *ad, u8 channel)

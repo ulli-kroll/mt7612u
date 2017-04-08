@@ -206,7 +206,6 @@ INT rlt_wlan_chip_onoff(struct rtmp_adapter *pAd, bool bOn, bool bResetWLAN)
 {
 	uint32_t reg = 0;
 
-#ifdef RTMP_MAC_USB
 	if (IS_USB_INF(pAd)) {
 		uint32_t ret;
 
@@ -216,7 +215,6 @@ INT rlt_wlan_chip_onoff(struct rtmp_adapter *pAd, bool bOn, bool bResetWLAN)
 			return STATUS_UNSUCCESSFUL;
 		}
 	}
-#endif /* RTMP_MAC_USB */
 
 	reg = mt7612u_read32(pAd, WLAN_FUN_CTRL);
 	DBGPRINT(RT_DEBUG_OFF, ("==>%s(): OnOff:%d, Reset= %d, pAd->WlanFunCtrl:0x%x, Reg-WlanFunCtrl=0x%x\n",
@@ -313,10 +311,8 @@ INT rlt_wlan_chip_onoff(struct rtmp_adapter *pAd, bool bOn, bool bResetWLAN)
 		__FUNCTION__, pAd->WlanFunCtrl.word, reg));
 
 
-#ifdef RTMP_MAC_USB
 	if (IS_USB_INF(pAd))
 		up(&pAd->hw_atomic);
-#endif /* RTMP_MAC_USB */
 
 	return 0;
 }

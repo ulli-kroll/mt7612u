@@ -4,7 +4,6 @@
 
 */
 
-#ifdef RTMP_MAC_USB
 
 #include	"rt_config.h"
 
@@ -1188,5 +1187,4 @@ VOID RT28xxUsbStaAsicSleepThenAutoWakeup(
 }
 #endif /* CONFIG_STA_SUPPORT */
 
-#endif /* RTMP_MAC_USB */
 

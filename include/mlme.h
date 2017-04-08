@@ -47,11 +47,9 @@
 
 #define MLME_TASK_EXEC_MULTIPLE       10  /*5*/       /* MLME_TASK_EXEC_MULTIPLE * MLME_TASK_EXEC_INTV = 1 sec */
 #define REORDER_EXEC_INTV         	100       /* 0.1 sec */
-#ifdef RTMP_MAC_USB
 #ifdef CONFIG_STA_SUPPORT
 #define STAY_10_SECONDS_AWAKE        100/* */
 #endif /* CONFIG_STA_SUPPORT */
-#endif /* RTMP_MAC_USB */
 /*#define TBTT_PRELOAD_TIME         384        // usec. LomgPreamble + 24-byte at 1Mbps */
 
 /* The definition of Radar detection duration region */

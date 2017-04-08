@@ -303,9 +303,7 @@ void tbtt_tasklet(unsigned long data)
 	if (pAd->OpMode == OPMODE_AP)
 	{
 		/* step 7 - if DTIM, then move backlogged bcast/mcast frames from PSQ to TXQ whenever DtimCount==0 */
-#ifdef RTMP_MAC_USB
 		if ((pAd->ApCfg.DtimCount + 1) == pAd->ApCfg.DtimPeriod)
-#endif /* RTMP_MAC_USB */
 		{
 			QUEUE_ENTRY *pEntry;
 			bool bPS = false;

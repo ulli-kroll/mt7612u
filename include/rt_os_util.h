@@ -555,12 +555,10 @@ ra_dma_addr_t linux_pci_map_single(void *pPciDev, void *ptr, size_t size, int sd
 void linux_pci_unmap_single(void *pPciDev, ra_dma_addr_t dma_addr, size_t size, int direction);
 
 /* ============================ rt_usb_util.c =============================== */
-#ifdef RTMP_MAC_USB
 typedef VOID (*USB_COMPLETE_HANDLER)(VOID *);
 
 /*struct urb *rausb_alloc_urb(int iso_packets); */
 
-#endif /* RTMP_MAC_USB */
 
 /* CFG80211 */
 #ifdef RT_CFG80211_SUPPORT

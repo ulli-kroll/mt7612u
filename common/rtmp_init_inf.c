@@ -38,9 +38,7 @@ int WriteDatThread(struct rtmp_adapter *pAd);
 int rt28xx_init(struct rtmp_adapter *pAd)
 {
 	int Status;
-#ifdef RTMP_MAC_USB
 	UINT index = 0;
-#endif /* RTMP_MAC_USB */
 
 	if (!pAd)
 		return false;
@@ -84,13 +82,11 @@ int rt28xx_init(struct rtmp_adapter *pAd)
 		goto err2;
 	}
 
-#ifdef RTMP_MAC_USB
 	pAd->CommonCfg.bMultipleIRP = false;
 	if (pAd->CommonCfg.bMultipleIRP)
 		pAd->CommonCfg.NumOfBulkInIRP = RX_RING_SIZE;
 	else
 		pAd->CommonCfg.NumOfBulkInIRP = 1;
-#endif /* RTMP_MAC_USB */
 
 #ifdef WLAN_SKB_RECYCLE
 	skb_queue_head_init(&pAd->rx0_recycle);
@@ -284,7 +280,6 @@ int rt28xx_init(struct rtmp_adapter *pAd)
 			if (pAd->ApCfg.bAutoChannelAtBootup || (pAd->CommonCfg.Channel == 0))
 			{
 				/* Enable Interrupt first due to we need to scan channel to receive beacons.*/
-#ifdef RTMP_MAC_USB
 				RTMP_CLEAR_FLAG(pAd, fRTMP_ADAPTER_RESET_IN_PROGRESS);
 				RTMP_CLEAR_FLAG(pAd, fRTMP_ADAPTER_REMOVE_IN_PROGRESS);
 
@@ -296,7 +291,6 @@ int rt28xx_init(struct rtmp_adapter *pAd)
 					RTUSBBulkReceive(pAd);
 					DBGPRINT(RT_DEBUG_TRACE, ("RTUSBBulkReceive!\n" ));
 				}
-#endif /* RTMP_MAC_USB */
 
 				/* Now Enable RxTx*/
 				RTMPEnableRxTx(pAd);
@@ -353,7 +347,6 @@ int rt28xx_init(struct rtmp_adapter *pAd)
 #endif /* CONFIG_AP_SUPPORT */
 
 
-#ifdef RTMP_MAC_USB
 		RTMP_CLEAR_FLAG(pAd, fRTMP_ADAPTER_RESET_IN_PROGRESS);
 		RTMP_CLEAR_FLAG(pAd, fRTMP_ADAPTER_REMOVE_IN_PROGRESS);
 
@@ -364,7 +357,6 @@ int rt28xx_init(struct rtmp_adapter *pAd)
 			RTUSBBulkReceive(pAd);
 			DBGPRINT(RT_DEBUG_TRACE, ("RTUSBBulkReceive!\n" ));
 		}
-#endif /* RTMP_MAC_USB */
 	}
 
 	/* Set up the Mac address*/
@@ -581,16 +573,14 @@ VOID RTMPDrvClose(struct rtmp_adapter *pAd, struct net_device *net_dev)
 		    AsicForceWakeup(pAd, true);
         }
 
-#ifdef RTMP_MAC_USB
 		RTMP_SET_FLAG(pAd, fRTMP_ADAPTER_REMOVE_IN_PROGRESS);
-#endif /* RTMP_MAC_USB */
 
 	}
 #endif /* CONFIG_STA_SUPPORT */
 
-#if ((defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT)) && defined(WOW_IFDOWN_SUPPORT)
+#if (defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT)) && defined(WOW_IFDOWN_SUPPORT)
 	if (pAd->WOW_Cfg.bEnable == false)
-#endif /* ((defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT)) && defined(WOW_IFDOWN_SUPPORT) */
+#endif /* (defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT)) && defined(WOW_IFDOWN_SUPPORT) */
 	{
 		RTMP_CLEAR_FLAG(pAd, fRTMP_ADAPTER_MCU_SEND_IN_BAND_CMD);
 		RTMP_SET_FLAG(pAd, fRTMP_ADAPTER_HALT_IN_PROGRESS);
@@ -614,9 +604,7 @@ VOID RTMPDrvClose(struct rtmp_adapter *pAd, struct net_device *net_dev)
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 	{
 		bool Cancelled = false;
-#ifdef RTMP_MAC_USB
 		RTMPCancelTimer(&pAd->CommonCfg.BeaconUpdateTimer, &Cancelled);
-#endif /* RTMP_MAC_USB */
 
 		if (pAd->CommonCfg.Bss2040CoexistFlag & BSS_2040_COEXIST_TIMER_FIRED)
 		{
@@ -640,11 +628,11 @@ VOID RTMPDrvClose(struct rtmp_adapter *pAd, struct net_device *net_dev)
 	IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
 	{
 		MacTableReset(pAd);
-#if ((defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT)) && defined(WOW_IFDOWN_SUPPORT)
+#if (defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT)) && defined(WOW_IFDOWN_SUPPORT)
 		if (pAd->WOW_Cfg.bEnable == true)
 			ASIC_WOW_ENABLE(pAd);
 		else
-#endif /* ((defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT)) && defined(WOW_IFDOWN_SUPPORT) */
+#endif /* (defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT)) && defined(WOW_IFDOWN_SUPPORT) */
 			MlmeRadioOff(pAd);
 	}
 #endif /* CONFIG_STA_SUPPORT */
@@ -754,10 +742,10 @@ VOID RTMPInfClose(struct rtmp_adapter *pAd)
 #endif /* PROFILE_STORE */
 
 		if (INFRA_ON(pAd) &&
-#if ((defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT)) && defined(WOW_IFDOWN_SUPPORT)
+#if (defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT)) && defined(WOW_IFDOWN_SUPPORT)
 	/* In WOW state, can't issue disassociation reqeust */
 			pAd->WOW_Cfg.bEnable == false &&
-#endif /* ((defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT)) && defined(WOW_IFDOWN_SUPPORT) */
+#endif /* (defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT)) && defined(WOW_IFDOWN_SUPPORT) */
 			(!RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST)))
 		{
 			MLME_DISASSOC_REQ_STRUCT	DisReq;

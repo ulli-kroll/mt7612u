@@ -29,7 +29,6 @@
 #include	"rt_config.h"
 
 
-#ifdef RTMP_MAC_USB
 
 /* Known USB Vendor Commands */
 #define MT7612U_VENDOR_RESET		0x01	/* need better name */
@@ -1040,7 +1039,6 @@ error0:
 
 	return ret;
 }
-#endif
 
 struct cmd_msg *mt7612u_mcu_alloc_cmd_msg(struct rtmp_adapter *ad, unsigned int length)
 {

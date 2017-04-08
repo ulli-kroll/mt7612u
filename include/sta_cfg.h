@@ -30,7 +30,7 @@
 #ifndef __STA_CFG_H__
 #define __STA_CFG_H__
 
-#if (defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT)
+#if defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT)
 /* set WOW enable */
 INT Set_WOW_Enable(
         IN Pstruct rtmp_adapter        pAd,
@@ -51,7 +51,7 @@ INT Set_WOW_Hold(
 INT Set_WOW_InBand(
 		IN Pstruct rtmp_adapter 	pAd,
 		IN char *			arg);
-#endif /* (defined(WOW_SUPPORT) && defined(RTMP_MAC_USB)) || defined(NEW_WOW_SUPPORT) */
+#endif /* defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT) */
 
 #endif /* __STA_CFG_H__ */
 

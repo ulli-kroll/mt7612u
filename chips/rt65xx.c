@@ -253,11 +253,9 @@ VOID RT65xxDisableTxRx(struct rtmp_adapter *pAd)
 			RTMP_SET_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST);
 			return;
 		}
-#ifdef RTMP_MAC_USB
 		RTMP_SET_FLAG(pAd, fRTMP_ADAPTER_POLL_IDLE);
 		usb_rx_cmd_msgs_receive(pAd);
 		RTUSBBulkReceive(pAd);
-#endif
 	}
 
 	RTMP_CLEAR_FLAG(pAd, fRTMP_ADAPTER_POLL_IDLE);

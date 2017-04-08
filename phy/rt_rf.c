@@ -59,7 +59,6 @@ int RT30xxWriteRFRegister(
 
 	ASSERT((regID <= pAd->chipCap.MaxNumOfRfId));
 
-#ifdef RTMP_MAC_USB
 	if (IS_USB_INF(pAd)) {
 		ret = down_interruptible(&pAd->reg_atomic);
 		if (ret != 0) {
@@ -67,7 +66,6 @@ int RT30xxWriteRFRegister(
 			return STATUS_UNSUCCESSFUL;
 		}
 	}
-#endif /* RTMP_MAC_USB */
 
 	ret = STATUS_UNSUCCESSFUL;
 	do
@@ -119,11 +117,9 @@ int RT30xxWriteRFRegister(
 	ret = NDIS_STATUS_SUCCESS;
 
 done:
-#ifdef RTMP_MAC_USB
 	if (IS_USB_INF(pAd)) {
 		up(&pAd->reg_atomic);
 	}
-#endif /* RTMP_MAC_USB */
 
 	return ret;
 }
@@ -157,7 +153,6 @@ int RT30xxReadRFRegister(
 
 	ASSERT((regID <= pAd->chipCap.MaxNumOfRfId));
 
-#ifdef RTMP_MAC_USB
 	if (IS_USB_INF(pAd)) {
 		i  = down_interruptible(&pAd->reg_atomic);
 		if (i != 0) {
@@ -165,7 +160,6 @@ int RT30xxReadRFRegister(
 			return STATUS_UNSUCCESSFUL;
 		}
 	}
-#endif /* RTMP_MAC_USB */
 
 	for (i=0; i<MAX_BUSY_COUNT; i++)
 	{
@@ -211,11 +205,9 @@ int RT30xxReadRFRegister(
 	ret = STATUS_SUCCESS;
 
 done:
-#ifdef RTMP_MAC_USB
 	if (IS_USB_INF(pAd)) {
 		up(&pAd->reg_atomic);
 	}
-#endif /* RTMP_MAC_USB */
 
 	return ret;
 }
