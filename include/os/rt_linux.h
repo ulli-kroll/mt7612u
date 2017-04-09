@@ -86,6 +86,9 @@
 #ifdef CONFIG_STA_SUPPORT
 #endif /* CONFIG_STA_SUPPORT */
 
+#define MT7662U_FIRMWARE_NAME		"mt7662u.bin"
+#define MT7662U_FIRMWARE_PATCH_NAME	"mt7662u_rom_patch.bin"
+
 typedef struct usb_device	*PUSB_DEV;
 typedef struct urb *purbb_t;
 typedef struct usb_ctrlrequest devctrlrequest;

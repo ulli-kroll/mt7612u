@@ -2683,8 +2683,8 @@ static const struct rtmp_chip_cap MT76x2_ChipCap = {
 	.WMM1ACBulkOutAddr	= 0x9,
 	.DataBulkInAddr = 0x84,
 	.CommandRspBulkInAddr = 0x85,
-	.fw_name = "mt7662u.bin",
-	.fw_patch_name = "mt7662u_rom_patch.bin",
+	.fw_name = MT7662U_FIRMWARE_NAME,
+	.fw_patch_name = MT7662U_FIRMWARE_PATCH_NAME,
 	.rf_type = RF_MT,
 #ifdef DYNAMIC_VGA_SUPPORT
 	.dynamic_vga_support = true,
