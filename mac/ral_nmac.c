@@ -167,23 +167,20 @@ VOID dump_rlt_txinfo(struct rtmp_adapter *pAd, TXINFO_STRUC *pTxInfo)
 
 
 
-static uint32_t asic_set_wlan_func(struct rtmp_adapter *pAd, bool enable)
+static uint mt7612u_set_wlan_func(struct rtmp_adapter *pAd, bool enable)
 {
-	uint32_t reg;
+	u32 reg;
 
 	reg = mt7612u_read32(pAd, WLAN_FUN_CTRL);
 
-	if (enable == true)
-	{
+	if (enable == true) {
 		/*
 			Enable WLAN function and clock
 			WLAN_FUN_CTRL[1:0] = 0x3
 		*/
 		reg |= WLAN_FUN_CTRL_WLAN_CLK_EN;
 		reg |= WLAN_FUN_CTRL_WLAN_EN;
-	}
-	else
-	{
+	} else {
 		/*
 			Diable WLAN function and clock
 			WLAN_FUN_CTRL[1:0] = 0x0
@@ -247,7 +244,7 @@ INT mt7612u_chip_onoff(struct rtmp_adapter *pAd, bool bOn, bool bResetWLAN)
 			mt7612u_write32(pAd, WLAN_FUN_CTRL, reg);
 	}
 
-	reg = asic_set_wlan_func(pAd, bOn);
+	reg = mt7612u_set_wlan_func(pAd, bOn);
 
 	if (bOn) {
 		pAd->MACVersion = mt7612u_read32(pAd, MAC_CSR0);
@@ -280,8 +277,8 @@ INT mt7612u_chip_onoff(struct rtmp_adapter *pAd, bool bOn, bool bResetWLAN)
 				/*
 					Disable WLAN then enable WLAN again
 				*/
-				reg = asic_set_wlan_func(pAd, 0);
-				reg = asic_set_wlan_func(pAd, 1);
+				reg = mt7612u_set_wlan_func(pAd, false);
+				reg = mt7612u_set_wlan_func(pAd, true);
 
 				index = 0;
 			} else {
