@@ -217,15 +217,13 @@ INT mt7612u_chip_onoff(struct rtmp_adapter *pAd, bool bOn, bool bResetWLAN)
 	DBGPRINT(RT_DEBUG_OFF, ("==>%s(): OnOff:%d, Reset= %d, pAd->WlanFunCtrl:0x%x, Reg-WlanFunCtrl=0x%x\n",
 				__FUNCTION__, bOn, bResetWLAN, pAd->WlanFunCtrl.word, reg));
 
-	if (bResetWLAN == true)
-	{
+	if (bResetWLAN == true) {
 		if (!IS_MT76x2(pAd))
 			reg &= ~WLAN_FUN_CTRL_GPIO0_OUT_OE_N_MASK;
 
 		reg &= ~WLAN_FUN_CTRL_FRC_WL_ANT_SEL;
 
-		if (pAd->WlanFunCtrl.field.WLAN_EN)
-		{
+		if (pAd->WlanFunCtrl.field.WLAN_EN) {
 			/*
 				Restore all HW default value and reset RF.
 			*/
@@ -251,23 +249,17 @@ INT mt7612u_chip_onoff(struct rtmp_adapter *pAd, bool bOn, bool bResetWLAN)
 
 	reg = asic_set_wlan_func(pAd, bOn);
 
-	if (bOn)
-	{
+	if (bOn) {
 		pAd->MACVersion = mt7612u_read32(pAd, MAC_CSR0);
 		DBGPRINT(RT_DEBUG_TRACE, ("MACVersion = 0x%08x\n", pAd->MACVersion));
 	}
 
-	if (bOn == true
-		&& (!IS_MT76x2(pAd))
-	)
-	{
+	if (bOn == true && (!IS_MT76x2(pAd))) {
 		UINT index = 0;
 		u32 value;
 
-		do
-		{
-			do
-			{
+		do {
+			do {
 				value = mt7612u_read32(pAd, CMB_CTRL);
 
 				/*
@@ -281,8 +273,7 @@ INT mt7612u_chip_onoff(struct rtmp_adapter *pAd, bool bOn, bool bResetWLAN)
 				udelay(20);
 			} while (index++ < MAX_CHECK_COUNT);
 
-			if (index >= MAX_CHECK_COUNT)
-			{
+			if (index >= MAX_CHECK_COUNT) {
 				DBGPRINT(RT_DEBUG_ERROR,
 						("Lenny:[boundary]Check PLL_LD ..CMB_CTRL 0x%08x, index=%d!\n",
 						value, index));
@@ -293,9 +284,7 @@ INT mt7612u_chip_onoff(struct rtmp_adapter *pAd, bool bOn, bool bResetWLAN)
 				reg = asic_set_wlan_func(pAd, 1);
 
 				index = 0;
-			}
-			else
-			{
+			} else {
 				break;
 			}
 		} while (true);
