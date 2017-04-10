@@ -197,20 +197,22 @@ void mt7612u_write32(struct rtmp_adapter *pAd, unsigned short Offset,
 int mt7612u_write_reg(struct rtmp_adapter *ad, uint16_t offset, uint32_t val)
 {
 	int ret;
+#if 0
 	UINT8 req;
+#endif
 	uint32_t io_value;
 
 #if 0	/* ULLI : this remains currently here as remark */
 	if (base == 0x40)
 		req = 0x46;
-#endif
 
 	req = 0x46;
+#endif
 
 	io_value = cpu2le32(val);
 
 	ret = RTUSB_VendorRequest(ad, DEVICE_VENDOR_REQUEST_OUT,
-				  req, 0, offset,
+				  MT7612U_VENDOR_USB_CFG_WRITE, 0, offset,
 				  &io_value, 4);
 
 	if (ret) {
@@ -224,7 +226,9 @@ int mt7612u_write_reg(struct rtmp_adapter *ad, uint16_t offset, uint32_t val)
 int mt7612u_read_reg(struct rtmp_adapter *ad, uint16_t offset, uint32_t *value)
 {
 	int ret;
+#if 0
 	UINT8 req;
+#endif
 	uint32_t io_value;
 
 #if 0	/* ULLI : this remains currently here as remark */
@@ -232,12 +236,11 @@ int mt7612u_read_reg(struct rtmp_adapter *ad, uint16_t offset, uint32_t *value)
 		req = 0x47;
 	else if (base == 0x41)
 		req = 0x7;
-#endif
 
 	req = 0x47;
-
+#endif
 	ret = RTUSB_VendorRequest(ad, DEVICE_VENDOR_REQUEST_IN,
-				  req, 0, offset,
+				  MT7612U_VENDOR_USB_CFG_READ, 0, offset,
 				  &io_value, 4);
 
 	*value = le2cpu32(io_value);
