@@ -7159,8 +7159,6 @@ VOID asic_tune_be_wmm(
 	IN unsigned short num);
 #endif /* MULTI_CLIENT_SUPPORT */
 
-int mt7612u_write_reg(struct rtmp_adapter *ad, u16 offset, u32 value);
-int mt7612u_read_reg(struct rtmp_adapter *ad, u16 offset, u32 *value);
 #ifdef DBG_DIAGNOSE
 INT Show_Diag_Proc(struct rtmp_adapter *pAd, char *arg);
 #endif

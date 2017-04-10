@@ -194,7 +194,12 @@ void mt7612u_write32(struct rtmp_adapter *pAd, unsigned short Offset,
 }
 
 
-int mt7612u_write_reg(struct rtmp_adapter *ad, uint16_t offset, uint32_t val)
+/*
+ * ULLI : only for mt7612u/mt7662 chipsets
+ * ULLI : new registers
+ */
+
+int mt7612u_cfg_write(struct rtmp_adapter *ad, uint16_t offset, uint32_t val)
 {
 	int ret;
 #if 0
@@ -222,8 +227,12 @@ int mt7612u_write_reg(struct rtmp_adapter *ad, uint16_t offset, uint32_t val)
 	return ret;
 }
 
+/*
+ * ULLI : only for mt7612u/mt7662 chipsets
+ * ULLI : new registers
+ */
 
-int mt7612u_read_reg(struct rtmp_adapter *ad, uint16_t offset, uint32_t *value)
+int mt7612u_cfg_read(struct rtmp_adapter *ad, uint16_t offset, uint32_t *value)
 {
 	int ret;
 #if 0
