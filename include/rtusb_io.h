@@ -201,6 +201,6 @@ void mt7612u_usb_cfg_write_v3(struct rtmp_adapter *ad, u32 value);
 void mt76x2_init_rf_cr(struct rtmp_adapter *ad);
 void mt76x2_init_mac_cr(struct rtmp_adapter *ad);
 int mt7612u_cfg_write(struct rtmp_adapter *ad, uint16_t offset, uint32_t val);
-int mt7612u_cfg_read(struct rtmp_adapter *ad, uint16_t offset, uint32_t *value);
+u32 mt7612u_cfg_read(struct rtmp_adapter *ad, uint16_t offset);
 
 #endif /* __RTUSB_IO_H__ */

@@ -232,13 +232,13 @@ int mt7612u_cfg_write(struct rtmp_adapter *ad, uint16_t offset, uint32_t val)
  * ULLI : new registers
  */
 
-int mt7612u_cfg_read(struct rtmp_adapter *ad, uint16_t offset, uint32_t *value)
+u32 mt7612u_cfg_read(struct rtmp_adapter *ad, uint16_t offset)
 {
 	int ret;
 #if 0
 	UINT8 req;
 #endif
-	uint32_t io_value;
+	u32 val;
 
 #if 0	/* ULLI : this remains currently here as remark */
 	if (base == 0x40)
@@ -250,14 +250,12 @@ int mt7612u_cfg_read(struct rtmp_adapter *ad, uint16_t offset, uint32_t *value)
 #endif
 	ret = RTUSB_VendorRequest(ad, DEVICE_VENDOR_REQUEST_IN,
 				  MT7612U_VENDOR_CFG_READ, 0, offset,
-				  &io_value, 4);
+				  &val, 4);
 
-	*value = le2cpu32(io_value);
+	if (ret != 0)
+		val =0xffffffff;
 
-	if (ret)
-		*value = 0xffffffff;
-
-	return ret;
+	return le2cpu32(val);
 }
 
 /*
