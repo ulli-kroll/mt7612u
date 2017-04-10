@@ -58,8 +58,8 @@
 #define MT7612U_VENDOR_WRITE_EEPROM	0x08	/* Not used */
 #define MT7612U_VENDOR_READ_EEPROM	0x09
 
-#define MT7612U_VENDOR_USB_CFG_READ	0x47
-#define MT7612U_VENDOR_USB_CFG_WRITE	0x46
+#define MT7612U_VENDOR_CFG_READ		0x47
+#define MT7612U_VENDOR_CFG_WRITE	0x46
 
 // For MT7662 and newer
 u32 mt7612u_usb_cfg_read_v3(struct rtmp_adapter *ad)
@@ -68,7 +68,7 @@ u32 mt7612u_usb_cfg_read_v3(struct rtmp_adapter *ad)
 	u32 io_value, value;
 
 	ret = RTUSB_VendorRequest(ad, DEVICE_VENDOR_REQUEST_IN,
-				  MT7612U_VENDOR_USB_CFG_READ, 0, U3DMA_WLCFG,
+				  MT7612U_VENDOR_CFG_READ, 0, U3DMA_WLCFG,
 				  &io_value, 4);
 
 	value = le2cpu32(io_value);
@@ -88,7 +88,7 @@ void mt7612u_usb_cfg_write_v3(struct rtmp_adapter *ad, u32 value)
 	io_value = cpu2le32(value);
 
 	ret = RTUSB_VendorRequest(ad, DEVICE_VENDOR_REQUEST_OUT,
-				  MT7612U_VENDOR_USB_CFG_WRITE, 0, U3DMA_WLCFG,
+				  MT7612U_VENDOR_CFG_WRITE, 0, U3DMA_WLCFG,
 				  &io_value, 4);
 
 
@@ -212,7 +212,7 @@ int mt7612u_write_reg(struct rtmp_adapter *ad, uint16_t offset, uint32_t val)
 	io_value = cpu2le32(val);
 
 	ret = RTUSB_VendorRequest(ad, DEVICE_VENDOR_REQUEST_OUT,
-				  MT7612U_VENDOR_USB_CFG_WRITE, 0, offset,
+				  MT7612U_VENDOR_CFG_WRITE, 0, offset,
 				  &io_value, 4);
 
 	if (ret) {
@@ -240,7 +240,7 @@ int mt7612u_read_reg(struct rtmp_adapter *ad, uint16_t offset, uint32_t *value)
 	req = 0x47;
 #endif
 	ret = RTUSB_VendorRequest(ad, DEVICE_VENDOR_REQUEST_IN,
-				  MT7612U_VENDOR_USB_CFG_READ, 0, offset,
+				  MT7612U_VENDOR_CFG_READ, 0, offset,
 				  &io_value, 4);
 
 	*value = le2cpu32(io_value);
