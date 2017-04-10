@@ -907,7 +907,7 @@ void InitUSBDevice(RT_CMD_USB_INIT *config, VOID *ad_src)
 	value = mt7612u_read32(ad, 0x00);
 	ad->ChipID = value;
 	if (IS_RT65XX(ad))
-		rlt_wlan_chip_onoff(ad, true, true);
+		mt7612u_chip_onoff(ad, true, true);
 	if (IS_MT76x2(ad))
 		mt76x2_pwrOn(ad);
 

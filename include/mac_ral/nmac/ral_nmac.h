@@ -1118,7 +1118,7 @@ INT rlt_get_rxwi_rssi(union _RXWI_STRUC *rxwi, INT size, CHAR *rssi);
 INT rlt_get_rxwi_snr(struct rtmp_adapter *pAd, union _RXWI_STRUC *rxwi, INT size, u8 *snr);
 VOID rlt_asic_init_txrx_ring(struct rtmp_adapter *pAd);
 
-INT rlt_wlan_chip_onoff(struct rtmp_adapter *pAd, bool bOn, bool bResetWLAN);
+int mt7612u_chip_onoff(struct rtmp_adapter *pAd, bool enable, bool reset);
 
 VOID rlt_usb_write_txinfo(
 	IN struct rtmp_adapter *pAd,

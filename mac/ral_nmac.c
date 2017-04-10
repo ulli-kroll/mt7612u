@@ -202,7 +202,7 @@ static uint32_t asic_set_wlan_func(struct rtmp_adapter *pAd, bool enable)
 
 #define MAX_CHECK_COUNT 200
 
-INT rlt_wlan_chip_onoff(struct rtmp_adapter *pAd, bool bOn, bool bResetWLAN)
+INT mt7612u_chip_onoff(struct rtmp_adapter *pAd, bool bOn, bool bResetWLAN)
 {
 	uint32_t reg = 0;
 	uint32_t ret;

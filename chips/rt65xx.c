@@ -79,7 +79,7 @@ VOID RT65xxUsbAsicRadioOn(struct rtmp_adapter *pAd, u8 Stage)
 	RTMP_CLEAR_PSFLAG(pAd, fRTMP_PS_MCU_SLEEP);
 
 	if (pAd->WlanFunCtrl.field.WLAN_EN == 0)
-		rlt_wlan_chip_onoff(pAd, true, false);
+		mt7612u_chip_onoff(pAd, true, false);
 
 	/* make some traffic to invoke EvtDeviceD0Entry callback function*/
 	MACValue = mt7612u_read32(pAd,0x1000);
@@ -298,7 +298,7 @@ VOID RT65xxDisableTxRx(struct rtmp_adapter *pAd)
 		     RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_CMD_RADIO_OFF))
 			bResetWLAN = 0;
 
-		rlt_wlan_chip_onoff(pAd, false, bResetWLAN);
+		mt7612u_chip_onoff(pAd, false, bResetWLAN);
 	}
 
 	DBGPRINT(RT_DEBUG_TRACE, ("<---- %s\n", __FUNCTION__));

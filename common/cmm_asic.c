@@ -2435,7 +2435,7 @@ INT rtmp_asic_top_init(struct rtmp_adapter *pAd)
 
 	if (IS_MT76x0(pAd) || IS_MT76x2(pAd) || IS_MT7601(pAd)) {
 		if (pAd->WlanFunCtrl.field.WLAN_EN == 0)
-			rlt_wlan_chip_onoff(pAd, true, false);
+			mt7612u_chip_onoff(pAd, true, false);
 	}
 #endif /* RLT_MAC */
 
