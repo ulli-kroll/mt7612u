@@ -129,7 +129,7 @@ VOID FrequencyCalibration(
 		if (pFrqCal->bApproachFrequency == true)
 		{
 			u32 value = 0;
-			value = mt7612u_cfg_read(pAd, XO_CTRL5);
+			value = mt7612u_cfg3_read(pAd, XO_CTRL5);
 			DBGPRINT(RT_DEBUG_TRACE, ("FRQ:  Read Value => %08x\n", value));
 			pFrqCal->AdaptiveFreqOffset = (value & ~0xffff80ff) >> 8;
 
@@ -146,7 +146,7 @@ VOID FrequencyCalibration(
 
 			value = (value & 0xffff80ff) | (pFrqCal->AdaptiveFreqOffset << 8);
 			DBGPRINT(RT_DEBUG_TRACE, ("FRQ:  After just Value => %08x\n", value ));
-			mt7612u_cfg_write(pAd, XO_CTRL5, value);
+			mt7612u_cfg3_write(pAd, XO_CTRL5, value);
 		}
 
 		return;

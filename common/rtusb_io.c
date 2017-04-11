@@ -64,38 +64,13 @@
 // For MT7662 and newer
 u32 mt7612u_usb_cfg_read_v3(struct rtmp_adapter *ad)
 {
-	int ret;
-	u32 io_value, value;
-
-	ret = RTUSB_VendorRequest(ad, DEVICE_VENDOR_REQUEST_IN,
-				  MT7612U_VENDOR_CFG_READ, 0, U3DMA_WLCFG,
-				  &io_value, 4);
-
-	value = le2cpu32(io_value);
-
-	if (ret)
-		value = 0xffffffff;
-
-	return value;
+	return mt7612u_cfg3_read(ad, U3DMA_WLCFG);
 }
 
 // For MT7662 and newer
 void mt7612u_usb_cfg_write_v3(struct rtmp_adapter *ad, u32 value)
 {
-	int ret;
-	u32 io_value;
-
-	io_value = cpu2le32(value);
-
-	ret = RTUSB_VendorRequest(ad, DEVICE_VENDOR_REQUEST_OUT,
-				  MT7612U_VENDOR_CFG_WRITE, 0, U3DMA_WLCFG,
-				  &io_value, 4);
-
-
-	if (ret) {
-		DBGPRINT(RT_DEBUG_ERROR, ("usb cfg write fail\n"));
-		return;
-	}
+	mt7612u_cfg3_write(ad, U3DMA_WLCFG, value);
 }
 #endif /* RLT_MAC */
 
@@ -199,7 +174,7 @@ void mt7612u_write32(struct rtmp_adapter *pAd, unsigned short Offset,
  * ULLI : new registers
  */
 
-int mt7612u_cfg_write(struct rtmp_adapter *ad, uint16_t offset, uint32_t val)
+int mt7612u_cfg3_write(struct rtmp_adapter *ad, uint16_t offset, uint32_t val)
 {
 	int ret;
 #if 0
@@ -232,7 +207,7 @@ int mt7612u_cfg_write(struct rtmp_adapter *ad, uint16_t offset, uint32_t val)
  * ULLI : new registers
  */
 
-u32 mt7612u_cfg_read(struct rtmp_adapter *ad, uint16_t offset)
+u32 mt7612u_cfg3_read(struct rtmp_adapter *ad, uint16_t offset)
 {
 	int ret;
 #if 0
