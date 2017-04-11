@@ -125,6 +125,109 @@ VOID RT65xxUsbAsicRadioOn(struct rtmp_adapter *pAd, u8 Stage)
 	DBGPRINT(RT_DEBUG_TRACE, ("<== %s\n", __FUNCTION__));
 }
 
+
+
+static INT StopDmaRx(struct rtmp_adapter *pAd)
+{
+	struct sk_buff *pRxPacket;
+	RX_BLK RxBlk, *pRxBlk;
+	uint32_t RxPending = 0, MacReg = 0, MTxCycle = 0;
+	bool bReschedule = false;
+	bool bCmdRspPacket = false;
+	UINT8 IdleNums = 0;
+
+	DBGPRINT(RT_DEBUG_TRACE, ("====> %s\n", __FUNCTION__));
+
+	/*
+		process whole rx ring
+	*/
+	while (1)
+	{
+		if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST))
+			return 0;
+		pRxBlk = &RxBlk;
+		pRxPacket = GetPacketFromRxRing(pAd, pRxBlk, &bReschedule, &RxPending, 0);
+		bCmdRspPacket = false;
+		if ((RxPending == 0) && (bReschedule == false))
+			break;
+		else
+			dev_kfree_skb_any(pRxPacket);
+	}
+
+	/*
+		Check DMA Rx idle
+	*/
+	for (MTxCycle = 0; MTxCycle < 2000; MTxCycle++)
+	{
+
+		MacReg = mt7612u_usb_cfg_read_v3(pAd);
+		if ((MacReg & 0x40000000) && (IdleNums < 10))
+		{
+			IdleNums++;
+			RtmpusecDelay(50);
+		}
+		else
+		{
+			break;
+		}
+
+		if (MacReg == 0xFFFFFFFF)
+		{
+			RTMP_SET_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST);
+			return 0;
+		}
+	}
+
+	if (MTxCycle >= 2000)
+	{
+		DBGPRINT(RT_DEBUG_ERROR, ("%s:RX DMA busy!! DMA_CFG = 0x%08x\n", __FUNCTION__, MacReg));
+	}
+
+	DBGPRINT(RT_DEBUG_TRACE, ("<==== %s\n", __FUNCTION__));
+
+	return 0;
+}
+
+
+static INT StopDmaTx(struct rtmp_adapter *pAd)
+{
+	uint32_t MacReg = 0, MTxCycle = 0;
+	UINT8 IdleNums = 0;
+
+	DBGPRINT(RT_DEBUG_TRACE, ("====> %s\n", __FUNCTION__));
+
+	for (MTxCycle = 0; MTxCycle < 2000; MTxCycle++)
+	{
+
+		MacReg = mt7612u_usb_cfg_read_v3(pAd);
+		if (((MacReg & 0x80000000) == 0) && IdleNums > 10)
+		{
+			break;
+		}
+		else
+		{
+			IdleNums++;
+			RtmpusecDelay(50);
+		}
+
+		if (MacReg == 0xFFFFFFFF)
+		{
+			RTMP_SET_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST);
+			return 0;
+		}
+	}
+
+	if (MTxCycle >= 2000)
+	{
+		DBGPRINT(RT_DEBUG_ERROR, ("TX DMA busy!! DMA_CFG(%x)\n", MacReg));
+	}
+
+	DBGPRINT(RT_DEBUG_TRACE, ("<==== %s\n", __FUNCTION__));
+
+	return 0;
+}
+
+
 VOID RT65xxDisableTxRx(struct rtmp_adapter *pAd)
 {
 	uint32_t MacReg = 0;

@@ -860,9 +860,6 @@ INT AsicReadAggCnt(struct rtmp_adapter *pAd, ULONG *aggCnt, int cnt_len);
 
 INT rtmp_asic_top_init(struct rtmp_adapter *pAd);
 
-INT StopDmaTx(struct rtmp_adapter *pAd);
-INT StopDmaRx(struct rtmp_adapter *pAd);
-
 bool isExternalPAMode(struct rtmp_adapter *ad, INT channel);
 bool is_external_lna_mode(struct rtmp_adapter *ad, INT channel);
 #endif /* __RTMP_CHIP_H__ */
