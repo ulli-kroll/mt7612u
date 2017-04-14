@@ -2292,7 +2292,7 @@ INT	Set_HtMcs_Proc(struct rtmp_adapter *pAd, char *arg)
 				}
 			}
 		}
-		NdisReleaseSpinLock(&pAd->MacTabLock);
+		RTMP_SEM_UNLOCK(&pAd->MacTabLock);
 	}
 #endif /* CONFIG_AP_SUPPORT */
 #endif /* WFA_VHT_PF */

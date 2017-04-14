@@ -118,7 +118,7 @@ VOID RtmpMgmtTaskExit(
 	{
 		RTMP_SEM_LOCK(&pAd->CmdQLock);
 		pAd->CmdQ.CmdQState = RTMP_TASK_STAT_STOPED;
-		NdisReleaseSpinLock(&pAd->CmdQLock);
+		RTMP_SEM_UNLOCK(&pAd->CmdQLock);
 
 		/*RTUSBCMDUp(&pAd->cmdQTask); */
 		ret = RtmpOSTaskKill(pTask);
@@ -822,7 +822,7 @@ INT RTUSBCmdThread(
 
 	RTMP_SEM_LOCK(&pAd->CmdQLock);
 	pAd->CmdQ.CmdQState = RTMP_TASK_STAT_RUNNING;
-	NdisReleaseSpinLock(&pAd->CmdQLock);
+	RTMP_SEM_UNLOCK(&pAd->CmdQLock);
 
 	while (pAd->CmdQ.CmdQState == RTMP_TASK_STAT_RUNNING)
 	{
@@ -865,7 +865,7 @@ INT RTUSBCmdThread(
 			}
 		}
 
-		NdisReleaseSpinLock(&pAd->CmdQLock);
+		RTMP_SEM_UNLOCK(&pAd->CmdQLock);
 	}
 	/* notify the exit routine that we're actually exiting now
 	 *

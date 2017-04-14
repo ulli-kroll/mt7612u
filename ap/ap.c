@@ -971,7 +971,7 @@ VOID MacTableMaintenance(struct rtmp_adapter *pAd)
 				pOutBuffer  = kmalloc(MGMT_DMA_BUFFER_SIZE, GFP_ATOMIC);
 				if (pOutBuffer == NULL) {
 					DBGPRINT(RT_DEBUG_TRACE, (" kmalloc fail  ..\n"));
-					/*NdisReleaseSpinLock(&pAd->MacTabLock); */
+					/*RTMP_SEM_UNLOCK(&pAd->MacTabLock); */
 					continue;
 				}
 				Reason = REASON_DEAUTH_STA_LEAVING;
@@ -1127,7 +1127,7 @@ VOID MacTableMaintenance(struct rtmp_adapter *pAd)
 
 			/*RTMP_SEM_LOCK(&pAd->MacTabLock); */
 			APCleanupPsQueue(pAd, &pMacTable->McastPsQueue);
-			/*NdisReleaseSpinLock(&pAd->MacTabLock); */
+			/*RTMP_SEM_UNLOCK(&pAd->MacTabLock); */
 			pMacTable->PsQIdleCount = 0;
 
 			if (pAd->ApCfg.BssidNum > MAX_MBSSID_NUM(pAd))

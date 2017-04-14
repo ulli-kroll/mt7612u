@@ -189,7 +189,7 @@ VOID Trigger_Sounding_Packet(
 	*/
 	RTMP_SEM_LOCK(&pEntry->TxSndgLock);
 	pEntry->TxSndgType = SndgType;
-	NdisReleaseSpinLock(&pEntry->TxSndgLock);
+	RTMP_SEM_UNLOCK(&pEntry->TxSndgLock);
 
 	RTMPSetTimer(&pEntry->eTxBfProbeTimer, ETXBF_PROBE_TIME);
 	DBGPRINT(RT_DEBUG_TRACE, ("ETxBF in Trigger_Sounding_Packet(): sndgType=%d, bw=%d, mcs=%d\n", SndgType, SndgBW, SndgMcs));

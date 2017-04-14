@@ -886,7 +886,7 @@ static inline u8 *AP_Build_AMSDU_Frame_Header(
 			pMacEntry->TxSndgType = SNDG_TYPE_DISABLE;
 			bHTCPlus = true;
 		}
-		NdisReleaseSpinLock(&pMacEntry->TxSndgLock);
+		RTMP_SEM_UNLOCK(&pMacEntry->TxSndgLock);
 
 
 		if (bHTCPlus == true)
@@ -1077,7 +1077,7 @@ VOID AP_AMPDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 				pMacEntry->TxSndgType = SNDG_TYPE_DISABLE;
 			}
 
-			NdisReleaseSpinLock(&pMacEntry->TxSndgLock);
+			RTMP_SEM_UNLOCK(&pMacEntry->TxSndgLock);
 
 		}
 
@@ -1787,7 +1787,7 @@ VOID AP_Legacy_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 				pMacEntry->TxSndgType = SNDG_TYPE_DISABLE;
 				bHTCPlus = true;
 			}
-			NdisReleaseSpinLock(&pMacEntry->TxSndgLock);
+			RTMP_SEM_UNLOCK(&pMacEntry->TxSndgLock);
 
 
 			if (bHTCPlus == true)

@@ -279,7 +279,6 @@ struct os_lock  {
 	spin_unlock_irqrestore((spinlock_t *)(__lock), ((unsigned long)__irqflag));	\
 }
 
-#define OS_NdisReleaseSpinLock		OS_SEM_UNLOCK
 
 /*
 	Following lock/unlock definition used for BBP/RF register read/write.

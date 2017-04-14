@@ -1441,7 +1441,7 @@ VOID STA_AMPDU_Frame_Tx(
 				pMacEntry->TxSndgType = SNDG_TYPE_DISABLE;
 			}
 
-			NdisReleaseSpinLock(&pMacEntry->TxSndgLock);
+			RTMP_SEM_UNLOCK(&pMacEntry->TxSndgLock);
 
 
 			if (bHTCPlus)

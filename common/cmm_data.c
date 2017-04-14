@@ -3647,7 +3647,7 @@ VOID drop_mask_per_client_reset(
 			RTMP_SEM_LOCK(&entry->drop_mask_lock);
 			entry->tx_fail_drop_mask_enabled = 0;
 			entry->ps_drop_mask_enabled = 0;
-			NdisReleaseSpinLock(&entry->drop_mask_lock);
+			RTMP_SEM_UNLOCK(&entry->drop_mask_lock);
 
 			if (IS_ENTRY_CLIENT(entry))
 				entry->pMbss->WPAREKEY.ReKeyMethod &= (~MAX_REKEY);
@@ -3679,7 +3679,7 @@ VOID set_drop_mask_per_client(
 			write_to_mac = (enable ^ entry->tx_fail_drop_mask_enabled);
 			RTMP_SEM_LOCK(&entry->drop_mask_lock);
 			entry->tx_fail_drop_mask_enabled = (enable ? 1:0);
-			NdisReleaseSpinLock(&entry->drop_mask_lock);
+			RTMP_SEM_UNLOCK(&entry->drop_mask_lock);
 			timeout = 10;
 			break;
 		}
@@ -3688,7 +3688,7 @@ VOID set_drop_mask_per_client(
 			write_to_mac = (enable ^ entry->ps_drop_mask_enabled);
 			RTMP_SEM_LOCK(&entry->drop_mask_lock);
 			entry->ps_drop_mask_enabled = (enable ? 1:0);
-			NdisReleaseSpinLock(&entry->drop_mask_lock);
+			RTMP_SEM_UNLOCK(&entry->drop_mask_lock);
 			timeout = 1000;
 			break;
 		}

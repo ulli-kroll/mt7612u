@@ -1389,7 +1389,7 @@ MAC_TABLE_ENTRY *ApCliTableLookUpByWcid(struct rtmp_adapter *pAd, u8 wcid, u8 *p
 		}
 	} while(false);
 
-	NdisReleaseSpinLock(&pAd->MacTabLock);
+	RTMP_SEM_UNLOCK(&pAd->MacTabLock);
 
 	return pEntry;
 }

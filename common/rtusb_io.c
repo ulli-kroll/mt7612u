@@ -513,7 +513,7 @@ static int ResetBulkOutHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 			/* no matter what, clean the flag*/
 			RTMP_CLEAR_FLAG(pAd, fRTMP_ADAPTER_BULKOUT_RESET);
 
-			/*NdisReleaseSpinLock(&pAd->BulkOutLock[pAd->bulkResetPipeid]);*/
+			/*RTMP_SEM_UNLOCK(&pAd->BulkOutLock[pAd->bulkResetPipeid]);*/
 			RTMP_INT_UNLOCK(&pAd->BulkOutLock[pAd->bulkResetPipeid], IrqFlags);
 
 			RTUSBInitHTTxDesc(pAd, pHTTXContext,
@@ -546,7 +546,7 @@ static int ResetBulkOutHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 										pHTTXContext->pUrb->status));
 			}
 		} else {
-			/*NdisReleaseSpinLock(&pAd->BulkOutLock[pAd->bulkResetPipeid]);*/
+			/*RTMP_SEM_UNLOCK(&pAd->BulkOutLock[pAd->bulkResetPipeid]);*/
 			/*RTMP_INT_UNLOCK(&pAd->BulkOutLock[pAd->bulkResetPipeid], IrqFlags);*/
 
 			DBGPRINT(RT_DEBUG_ERROR, ("CmdThread : TX DATA RECOVER FAIL for BulkReq(0x%lx) because BulkOutPending[%d] is true!\n",
@@ -1161,7 +1161,7 @@ VOID CMDHandler(struct rtmp_adapter *pAd)
 
 		RTMP_SEM_LOCK(&pAd->CmdQLock);
 		RTThreadDequeueCmd(&pAd->CmdQ, &cmdqelmt);
-		NdisReleaseSpinLock(&pAd->CmdQLock);
+		RTMP_SEM_UNLOCK(&pAd->CmdQLock);
 
 		if (cmdqelmt == NULL)
 			break;
