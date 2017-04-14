@@ -867,7 +867,7 @@ VOID CFG80211OS_ScanEnd(
 
 #ifdef CONFIG_STA_SUPPORT
 	CFG80211_CB *pCfg80211_CB = (CFG80211_CB *)pCB;
-	NdisAcquireSpinLock(&pCfg80211_CB->scan_notify_lock);
+	RTMP_SEM_LOCK(&pCfg80211_CB->scan_notify_lock);
 	if (pCfg80211_CB->pCfg80211_ScanReq)
 	{
 		CFG80211DBG(RT_DEBUG_ERROR, ("80211> cfg80211_scan_done\n"));

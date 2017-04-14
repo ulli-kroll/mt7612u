@@ -187,7 +187,7 @@ VOID Trigger_Sounding_Packet(
 			1 : sounding
 			2: NDP sounding
 	*/
-	NdisAcquireSpinLock(&pEntry->TxSndgLock);
+	RTMP_SEM_LOCK(&pEntry->TxSndgLock);
 	pEntry->TxSndgType = SndgType;
 	NdisReleaseSpinLock(&pEntry->TxSndgLock);
 

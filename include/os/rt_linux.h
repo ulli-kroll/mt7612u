@@ -279,7 +279,6 @@ struct os_lock  {
 	spin_unlock_irqrestore((spinlock_t *)(__lock), ((unsigned long)__irqflag));	\
 }
 
-#define OS_NdisAcquireSpinLock		OS_SEM_LOCK
 #define OS_NdisReleaseSpinLock		OS_SEM_UNLOCK
 
 /*

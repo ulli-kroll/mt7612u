@@ -1709,7 +1709,7 @@ VOID LinkUp(struct rtmp_adapter *pAd, u8 BssType)
 		AsicUpdateAutoFallBackTable(pAd, pEntry->pTable);
 	}
 
-	NdisAcquireSpinLock(&pAd->MacTabLock);
+	RTMP_SEM_LOCK(&pAd->MacTabLock);
 	pEntry->HTPhyMode.word = wdev->HTPhyMode.word;
 	pEntry->MaxHTPhyMode.word = wdev->MaxHTPhyMode.word;
 	if (WMODE_CAP_AC(pAd->CommonCfg.PhyMode) &&
@@ -1842,7 +1842,7 @@ VOID LinkUp(struct rtmp_adapter *pAd, u8 BssType)
 	/* Pther information in MACTab.Content[BSSID_WCID] is not necessary for driver. */
 	/* Note: As STA, The MACTab.Content[BSSID_WCID]. PairwiseKey and Shared Key for BSS0 are the same. */
 
-	NdisAcquireSpinLock(&pAd->MacTabLock);
+	RTMP_SEM_LOCK(&pAd->MacTabLock);
 	pEntry->PortSecured = wdev->PortSecured;
 	NdisReleaseSpinLock(&pAd->MacTabLock);
 
@@ -2092,7 +2092,7 @@ VOID LinkDown(
 		pAd->StaCfg.PrivacyFilter = Ndis802_11PrivFilter8021xWEP;
 	}
 
-	NdisAcquireSpinLock(&pAd->MacTabLock);
+	RTMP_SEM_LOCK(&pAd->MacTabLock);
 	memset(&pAd->MacTab.Content[BSSID_WCID], 0, sizeof(MAC_TABLE_ENTRY));
 	pAd->MacTab.Content[BSSID_WCID].PortSecured = wdev->PortSecured;
 	NdisReleaseSpinLock(&pAd->MacTabLock);

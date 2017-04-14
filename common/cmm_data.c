@@ -3644,7 +3644,7 @@ VOID drop_mask_per_client_reset(
 		PMAC_TABLE_ENTRY entry = &ad->MacTab.Content[i];
 		if (entry && (!IS_ENTRY_NONE(entry)))
 		{
-			NdisAcquireSpinLock(&entry->drop_mask_lock);
+			RTMP_SEM_LOCK(&entry->drop_mask_lock);
 			entry->tx_fail_drop_mask_enabled = 0;
 			entry->ps_drop_mask_enabled = 0;
 			NdisReleaseSpinLock(&entry->drop_mask_lock);
@@ -3677,7 +3677,7 @@ VOID set_drop_mask_per_client(
 		case 1: /* set drop mask due to tx_fail too high */
 		{
 			write_to_mac = (enable ^ entry->tx_fail_drop_mask_enabled);
-			NdisAcquireSpinLock(&entry->drop_mask_lock);
+			RTMP_SEM_LOCK(&entry->drop_mask_lock);
 			entry->tx_fail_drop_mask_enabled = (enable ? 1:0);
 			NdisReleaseSpinLock(&entry->drop_mask_lock);
 			timeout = 10;
@@ -3686,7 +3686,7 @@ VOID set_drop_mask_per_client(
 		case 2: /* set drop mask due to client is in power saving */
 		{
 			write_to_mac = (enable ^ entry->ps_drop_mask_enabled);
-			NdisAcquireSpinLock(&entry->drop_mask_lock);
+			RTMP_SEM_LOCK(&entry->drop_mask_lock);
 			entry->ps_drop_mask_enabled = (enable ? 1:0);
 			NdisReleaseSpinLock(&entry->drop_mask_lock);
 			timeout = 1000;

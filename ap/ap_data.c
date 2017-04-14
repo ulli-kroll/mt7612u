@@ -845,7 +845,7 @@ static inline u8 *AP_Build_AMSDU_Frame_Header(
 
 		pTxBlk->TxSndgPkt = SNDG_TYPE_DISABLE;
 
-		NdisAcquireSpinLock(&pMacEntry->TxSndgLock);
+		RTMP_SEM_LOCK(&pMacEntry->TxSndgLock);
 		if (pMacEntry->TxSndgType >= SNDG_TYPE_SOUNDING)
 		{
 			memset(pHeaderBufPtr, 0, sizeof(HT_CONTROL));
@@ -1033,7 +1033,7 @@ VOID AP_AMPDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 		{
 			pTxBlk->TxSndgPkt = SNDG_TYPE_DISABLE;
 
-			NdisAcquireSpinLock(&pMacEntry->TxSndgLock);
+			RTMP_SEM_LOCK(&pMacEntry->TxSndgLock);
 			if (pMacEntry->TxSndgType >= SNDG_TYPE_SOUNDING)
 			{
 				if (bHTCPlus == false)
@@ -1747,7 +1747,7 @@ VOID AP_Legacy_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 
 			pTxBlk->TxSndgPkt = SNDG_TYPE_DISABLE;
 
-			NdisAcquireSpinLock(&pMacEntry->TxSndgLock);
+			RTMP_SEM_LOCK(&pMacEntry->TxSndgLock);
 			if (pMacEntry->TxSndgType >= SNDG_TYPE_SOUNDING)
 			{
 				memset(pHeaderBufPtr, 0, sizeof(HT_CONTROL));

@@ -1364,7 +1364,7 @@ MAC_TABLE_ENTRY *ApCliTableLookUpByWcid(struct rtmp_adapter *pAd, u8 wcid, u8 *p
 	if (!VALID_WCID(wcid))
 		return NULL;
 
-	NdisAcquireSpinLock(&pAd->MacTabLock);
+	RTMP_SEM_LOCK(&pAd->MacTabLock);
 
 	do
 	{

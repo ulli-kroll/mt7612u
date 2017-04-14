@@ -210,7 +210,7 @@ void ba_reordering_resource_release(struct rtmp_adapter *pAd)
 	Tab = &pAd->BATable;
 
 	/* I.  release all pending reordering packet */
-	NdisAcquireSpinLock(&pAd->BATabLock);
+	RTMP_SEM_LOCK(&pAd->BATabLock);
 	for (i = 0; i < MAX_LEN_OF_BA_REC_TABLE; i++)
 	{
 		pBAEntry = &Tab->BARecEntry[i];
@@ -228,7 +228,7 @@ void ba_reordering_resource_release(struct rtmp_adapter *pAd)
 
 	ASSERT(pBAEntry->list.qlen == 0);
 	/* II. free memory of reordering mpdu table */
-	NdisAcquireSpinLock(&pAd->mpdu_blk_pool.lock);
+	RTMP_SEM_LOCK(&pAd->mpdu_blk_pool.lock);
 	kfree(pAd->mpdu_blk_pool.mem);
 	NdisReleaseSpinLock(&pAd->mpdu_blk_pool.lock);
 }
@@ -286,7 +286,7 @@ static struct reordering_mpdu *ba_mpdu_blk_alloc(struct rtmp_adapter *pAd)
 {
 	struct reordering_mpdu *mpdu_blk;
 
-	NdisAcquireSpinLock(&pAd->mpdu_blk_pool.lock);
+	RTMP_SEM_LOCK(&pAd->mpdu_blk_pool.lock);
 	mpdu_blk = ba_dequeue(&pAd->mpdu_blk_pool.freelist);
 	if (mpdu_blk)
 	{
@@ -301,7 +301,7 @@ static void ba_mpdu_blk_free(struct rtmp_adapter *pAd, struct reordering_mpdu *m
 {
 	ASSERT(mpdu_blk);
 
-	NdisAcquireSpinLock(&pAd->mpdu_blk_pool.lock);
+	RTMP_SEM_LOCK(&pAd->mpdu_blk_pool.lock);
 	ba_enqueue(&pAd->mpdu_blk_pool.freelist, mpdu_blk);
 	NdisReleaseSpinLock(&pAd->mpdu_blk_pool.lock);
 }
@@ -315,7 +315,7 @@ static unsigned short ba_indicate_reordering_mpdus_in_order(
 	struct reordering_mpdu *mpdu_blk;
 	unsigned short  LastIndSeq = RESET_RCV_SEQ;
 
-	NdisAcquireSpinLock(&pBAEntry->RxReRingLock);
+	RTMP_SEM_LOCK(&pBAEntry->RxReRingLock);
 
 	while ((mpdu_blk = ba_reordering_mpdu_probe(&pBAEntry->list)))
 	{
@@ -347,7 +347,7 @@ static void ba_indicate_reordering_mpdus_le_seq(
 {
 	struct reordering_mpdu *mpdu_blk;
 
-	NdisAcquireSpinLock(&pBAEntry->RxReRingLock);
+	RTMP_SEM_LOCK(&pBAEntry->RxReRingLock);
 	while ((mpdu_blk = ba_reordering_mpdu_probe(&pBAEntry->list)))
 		{
 			/* find in-order frame */
@@ -373,7 +373,7 @@ static void ba_refresh_reordering_mpdus(struct rtmp_adapter *pAd, BA_REC_ENTRY *
 {
 	struct reordering_mpdu *mpdu_blk;
 
-	NdisAcquireSpinLock(&pBAEntry->RxReRingLock);
+	RTMP_SEM_LOCK(&pBAEntry->RxReRingLock);
 
 			/* dequeue in-order frame from reodering list */
 	while ((mpdu_blk = ba_reordering_mpdu_dequeue(&pBAEntry->list)))
@@ -710,7 +710,7 @@ BA_REC_ENTRY *BATableAllocRecEntry(struct rtmp_adapter *pAd, unsigned short *Idx
 	BA_REC_ENTRY *pBAEntry = NULL;
 
 
-	NdisAcquireSpinLock(&pAd->BATabLock);
+	RTMP_SEM_LOCK(&pAd->BATabLock);
 
 	if (pAd->BATable.numAsRecipient >= (MAX_LEN_OF_BA_REC_TABLE - 1))
 	{
@@ -744,7 +744,7 @@ BA_ORI_ENTRY *BATableAllocOriEntry(struct rtmp_adapter *pAd, unsigned short *Idx
 	int i;
 	BA_ORI_ENTRY *pBAEntry = NULL;
 
-	NdisAcquireSpinLock(&pAd->BATabLock);
+	RTMP_SEM_LOCK(&pAd->BATabLock);
 	if (pAd->BATable.numAsOriginator >= (MAX_LEN_OF_BA_ORI_TABLE - 1))
 		goto done;
 
@@ -786,7 +786,7 @@ VOID BATableFreeOriEntry(struct rtmp_adapter *pAd, ULONG Idx)
 		DBGPRINT(RT_DEBUG_TRACE, ("%s: Wcid = %d, TID = %d\n", __FUNCTION__, pBAEntry->Wcid, pBAEntry->TID));
 
 
-		NdisAcquireSpinLock(&pAd->BATabLock);
+		RTMP_SEM_LOCK(&pAd->BATabLock);
 		if (pBAEntry->ORI_BA_Status == Originator_Done)
 		{
 			pAd->BATable.numDoneOriginator -= 1;
@@ -822,7 +822,7 @@ VOID BATableFreeRecEntry(struct rtmp_adapter *pAd, ULONG Idx)
 		pEntry = &pAd->MacTab.Content[pBAEntry->Wcid];
 		pEntry->BARecWcidArray[pBAEntry->TID] = 0;
 
-		NdisAcquireSpinLock(&pAd->BATabLock);
+		RTMP_SEM_LOCK(&pAd->BATabLock);
 
 		ASSERT(pAd->BATable.numAsRecipient != 0);
 
@@ -982,7 +982,7 @@ VOID BARecSessionTearDown(
 		/* flush all pending reordering mpdus */
 		ba_refresh_reordering_mpdus(pAd, pBAEntry);
 
-		NdisAcquireSpinLock(&pAd->BATabLock);
+		RTMP_SEM_LOCK(&pAd->BATabLock);
 
 		/* Erase Bitmap flag.*/
 		pBAEntry->LastIndSeq = RESET_RCV_SEQ;
@@ -1664,7 +1664,7 @@ static VOID ba_enqueue_reordering_packet(
 		(!RX_BLK_TEST_FLAG(pRxBlk, fRX_EAP)))
 	{
 		/* Write RxD buffer address & allocated buffer length */
-		NdisAcquireSpinLock(&pBAEntry->RxReRingLock);
+		RTMP_SEM_LOCK(&pBAEntry->RxReRingLock);
 
 		mpdu_blk->Sequence = Sequence;
 		mpdu_blk->OpMode = pRxBlk->OpMode;

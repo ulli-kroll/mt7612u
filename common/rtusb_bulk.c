@@ -1030,7 +1030,7 @@ VOID	RTUSBCleanUpDataBulkOutQueue(
 
 		pTxContext->CurWritePosition = pTxContext->NextBulkOutPosition;
 		pTxContext->LastOne = false;
-		NdisAcquireSpinLock(&pAd->BulkOutLock[Idx]);
+		RTMP_SEM_LOCK(&pAd->BulkOutLock[Idx]);
 		pAd->BulkOutPending[Idx] = false;
 		NdisReleaseSpinLock(&pAd->BulkOutLock[Idx]);
 	}
@@ -1209,7 +1209,7 @@ VOID	RTUSBCancelPendingBulkOutIRP(
 
 	for (Idx = 0; Idx < 4; Idx++)
 	{
-		NdisAcquireSpinLock(&pAd->BulkOutLock[Idx]);
+		RTMP_SEM_LOCK(&pAd->BulkOutLock[Idx]);
 		pAd->BulkOutPending[Idx] = false;
 		NdisReleaseSpinLock(&pAd->BulkOutLock[Idx]);
 	}
