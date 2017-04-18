@@ -187,22 +187,8 @@ struct cmd_msg {
 /*
  * Calibration ID
  */
-enum CALIBRATION_ID {
-	R_CALIBRATION = 1,
-	RXDCOC_CALIBRATION = 2,
-	LC_CALIBRATION = 3,
-	LOFT_CALIBRATION = 4,
-	TXIQ_CALIBRATION = 5,
-	BW_CALIBRATION = 6,
-	DPD_CALIBRATION = 7,
-	RXIQ_CALIBRATION = 8,
-	TXDCOC_CALIBRATION = 9,
-	RX_GROUP_DELAY_CALIBRATION = 10,
-	TX_GROUP_DELAY_CALIBRATION = 11,
-	FULL_CALIBRATION_ID = 0xFF,
-};
 
-enum CALIBRATION_ID_7662 {
+enum mt7612u_mcu_calibration {
 	R_CALIBRATION_7662 = 1,
 	TEMP_SENSOR_CALIBRATION_7662,
 	RXDCOC_CALIBRATION_7662,
@@ -383,7 +369,7 @@ int mt7612u_mcu_read_modify_write(struct rtmp_adapter *ad, struct _R_M_W_REG *re
 int mt7612u_mcu_random_write(struct rtmp_adapter *ad, struct rtmp_reg_pair *reg_pair, u32 num);
 int mt7612u_mcu_fun_set(struct rtmp_adapter *ad, u32 fun_id, u32 param);
 int mt7612u_mcu_pwr_saving(struct rtmp_adapter *ad, u32 op, u32 level);
-void mt7612u_mcu_calibration(struct rtmp_adapter *ad, u32 cal_id, u32 param);
+void mt7612u_mcu_calibration(struct rtmp_adapter *ad, enum mt7612u_mcu_calibration cal_id, u32 param);
 void mt7612u_mcu_tssi_comp(struct rtmp_adapter *ad, struct mt7612u_tssi_comp *param);
 void mt7612u_mcu_cmd_msg_bh(unsigned long param);
 int usb_rx_cmd_msg_submit(struct rtmp_adapter *ad);

@@ -2076,7 +2076,7 @@ error:
 	return ret;
 }
 
-void mt7612u_mcu_calibration(struct rtmp_adapter *ad, u32 cal_id, u32 param)
+void mt7612u_mcu_calibration(struct rtmp_adapter *ad, enum mt7612u_mcu_calibration cal_id, u32 param)
 {
 	struct cmd_msg *msg;
 	u32 value;
