@@ -38,6 +38,7 @@
 #define MT7612U_VENDOR_WRITE_EEPROM	0x08	/* Not used */
 #define MT7612U_VENDOR_READ_EEPROM	0x09
 
+#define MT7612U_VENDOR_WRITE_FCE	0x42
 #define MT7612U_VENDOR_USB_CFG_READ	0x47
 #define MT7612U_VENDOR_USB_CFG_WRITE	0x46
 
@@ -370,7 +371,7 @@ load_patch_protect:
 			/* Set FCE DMA descriptor */
 			ret = RTUSB_VendorRequest(ad,
 					 DEVICE_VENDOR_REQUEST_OUT,
-					 0x42,
+					 MT7612U_VENDOR_WRITE_FCE,
 					 value,
 					 0x230,
 					 NULL,
@@ -387,7 +388,7 @@ load_patch_protect:
 			/* Set FCE DMA descriptor */
 			ret = RTUSB_VendorRequest(ad,
 					 DEVICE_VENDOR_REQUEST_OUT,
-					 0x42,
+					 MT7612U_VENDOR_WRITE_FCE,
 					 value,
 					 0x232,
 					 NULL,
@@ -408,7 +409,7 @@ load_patch_protect:
 			/* Set FCE DMA length */
 			ret = RTUSB_VendorRequest(ad,
 					 DEVICE_VENDOR_REQUEST_OUT,
-					 0x42,
+					 MT7612U_VENDOR_WRITE_FCE,
 					 value,
 					 0x234,
 					 NULL,
@@ -424,7 +425,7 @@ load_patch_protect:
 			/* Set FCE DMA length */
 			ret = RTUSB_VendorRequest(ad,
 					 DEVICE_VENDOR_REQUEST_OUT,
-					 0x42,
+					 MT7612U_VENDOR_WRITE_FCE,
 					 value,
 					 0x236,
 					 NULL,
@@ -754,7 +755,7 @@ loadfw_protect:
 			/* Set FCE DMA descriptor */
 			ret = RTUSB_VendorRequest(ad,
 					 DEVICE_VENDOR_REQUEST_OUT,
-					 0x42,
+					 MT7612U_VENDOR_WRITE_FCE,
 					 value,
 					 0x230,
 					 NULL,
@@ -771,7 +772,7 @@ loadfw_protect:
 			/* Set FCE DMA descriptor */
 			ret = RTUSB_VendorRequest(ad,
 					 DEVICE_VENDOR_REQUEST_OUT,
-					 0x42,
+					 MT7612U_VENDOR_WRITE_FCE,
 					 value,
 					 0x232,
 					 NULL,
@@ -794,7 +795,7 @@ loadfw_protect:
 			/* Set FCE DMA length */
 			ret = RTUSB_VendorRequest(ad,
 					 DEVICE_VENDOR_REQUEST_OUT,
-					 0x42,
+					 MT7612U_VENDOR_WRITE_FCE,
 					 value,
 					 0x234,
 					 NULL,
@@ -810,7 +811,7 @@ loadfw_protect:
 			/* Set FCE DMA length */
 			ret = RTUSB_VendorRequest(ad,
 					 DEVICE_VENDOR_REQUEST_OUT,
-					 0x42,
+					 MT7612U_VENDOR_WRITE_FCE,
 					 value,
 					 0x236,
 					 NULL,
@@ -892,7 +893,7 @@ loadfw_protect:
 			/* Set FCE DMA descriptor */
 			ret = RTUSB_VendorRequest(ad,
 					 DEVICE_VENDOR_REQUEST_OUT,
-					 0x42,
+					 MT7612U_VENDOR_WRITE_FCE,
 					 value,
 					 0x230,
 					 NULL,
@@ -912,7 +913,7 @@ loadfw_protect:
 			/* Set FCE DMA descriptor */
 			ret = RTUSB_VendorRequest(ad,
 					  DEVICE_VENDOR_REQUEST_OUT,
-					  0x42,
+					  MT7612U_VENDOR_WRITE_FCE,
 					  value,
 					  0x232,
 					  NULL,
@@ -933,7 +934,7 @@ loadfw_protect:
 			/* Set FCE DMA length */
 			ret = RTUSB_VendorRequest(ad,
 					  DEVICE_VENDOR_REQUEST_OUT,
-					  0x42,
+					  MT7612U_VENDOR_WRITE_FCE,
 					  value,
 					  0x234,
 					  NULL,
@@ -949,7 +950,7 @@ loadfw_protect:
 			/* Set FCE DMA length */
 			ret = RTUSB_VendorRequest(ad,
 					  DEVICE_VENDOR_REQUEST_OUT,
-					  0x42,
+					  MT7612U_VENDOR_WRITE_FCE,
 					  value,
 					  0x236,
 					  NULL,
