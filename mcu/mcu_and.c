@@ -31,7 +31,7 @@
 
 
 /* Known USB Vendor Commands */
-#define MT7612U_VENDOR_RESET		0x01	/* need better name */
+#define MT7612U_VENDOR_DEVICE_MODE	0x01
 #define MT7612U_VENDOR_SINGLE_WRITE	0x02
 #define MT7612U_VENDOR_WRITE_MAC	0x06
 #define MT7612U_VENDOR_READ_MAC		0x07
@@ -45,7 +45,7 @@
 static void mt7612u_vendor_reset(struct rtmp_adapter *pAd)
 {
 	RTUSB_VendorRequest(pAd, DEVICE_VENDOR_REQUEST_OUT,
-			    MT7612U_VENDOR_RESET, 0x1, 0,
+			    MT7612U_VENDOR_DEVICE_MODE, 0x1, 0,
 			    NULL, 0);
 
 }

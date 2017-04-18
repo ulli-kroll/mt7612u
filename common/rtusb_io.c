@@ -51,7 +51,7 @@
 #ifdef RLT_MAC
 
 /* Known USB Vendor Commands */
-#define MT7612U_VENDOR_RESET		0x01	/* need better name */
+#define MT7612U_VENDOR_DEVICE_MODE	0x01
 #define MT7612U_VENDOR_SINGLE_WRITE	0x02
 #define MT7612U_VENDOR_WRITE_MAC	0x06
 #define MT7612U_VENDOR_READ_MAC		0x07
