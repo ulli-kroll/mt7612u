@@ -73,7 +73,7 @@ int mt7612u_mcu_usb_enable_patch(struct rtmp_adapter *ad)
 
 	ret = RTUSB_VendorRequest(ad,
 			  DEVICE_CLASS_REQUEST_OUT,
-			  0x01,
+			  MT7612U_VENDOR_DEVICE_MODE,
 			  0x12,
 			  0x00,
 			  cmd,
@@ -94,7 +94,7 @@ int mt7612u_mcu_usb_reset_wmt(struct rtmp_adapter *ad)
 
 	RTUSB_VendorRequest(ad,
 			DEVICE_CLASS_REQUEST_OUT,
-			0x01,
+			MT7612U_VENDOR_DEVICE_MODE,
 			0x12,
 			0x00,
 			cmd,
@@ -141,7 +141,7 @@ int mt7612u_mcu_usb_chk_crc(struct rtmp_adapter *ad, u32 checksum_len)
 
 	ret = RTUSB_VendorRequest(ad,
 			  DEVICE_VENDOR_REQUEST_OUT,
-			  0x01,
+			  MT7612U_VENDOR_DEVICE_MODE,
 			  0x20,
 			  0x00,
 			  cmd,
@@ -159,7 +159,7 @@ u16 mt7612u_mcu_usb_get_crc(struct rtmp_adapter *ad)
 	while (1) {
 		ret = RTUSB_VendorRequest(ad,
 				 DEVICE_VENDOR_REQUEST_IN,
-				 0x01,
+				 MT7612U_VENDOR_DEVICE_MODE,
 				 0x21,
 				 0x00,
 				 &crc,
@@ -560,7 +560,7 @@ static int usb_load_ivb(struct rtmp_adapter *ad, u8 *fw_image)
 	if (cap->load_iv) {
 		Status = RTUSB_VendorRequest(ad,
 				 DEVICE_VENDOR_REQUEST_OUT,
-				 0x01,
+				 MT7612U_VENDOR_DEVICE_MODE,
 				 0x12,
 				 0x00,
 				 fw_image + 32,
@@ -568,7 +568,7 @@ static int usb_load_ivb(struct rtmp_adapter *ad, u8 *fw_image)
 	} else {
 		Status = RTUSB_VendorRequest(ad,
 				 DEVICE_VENDOR_REQUEST_OUT,
-				 0x01,
+				 MT7612U_VENDOR_DEVICE_MODE,
 				 0x12,
 				 0x00,
 				 NULL,

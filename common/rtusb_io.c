@@ -293,7 +293,7 @@ u16 mt7612u_read_eeprom16(struct rtmp_adapter *pAd, unsigned short offset)
 int RTUSBWakeUp(struct rtmp_adapter *pAd)
 {
 	return RTUSB_VendorRequest(pAd, DEVICE_VENDOR_REQUEST_OUT,
-				   0x01, 0x09, 0, NULL, 0);
+				   MT7612U_VENDOR_DEVICE_MODE, 0x09, 0, NULL, 0);
 }
 
 /*
