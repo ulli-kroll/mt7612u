@@ -2889,11 +2889,6 @@ bool PairEP(struct rtmp_adapter *pAd, UINT8 EP)
 		}
 	}
 
-	if (EP == pChipCap->WMM1ACBulkOutAddr) {
-		DBGPRINT(RT_DEBUG_OFF, ("Endpoint(%x) is for WMM1 AC0\n", EP));
-		found = 1;
-	}
-
 	if (EP == pChipCap->DataBulkInAddr) {
 		DBGPRINT(RT_DEBUG_OFF, ("Endpoint(%x) is for Data-In\n", EP));
 		found = 1;

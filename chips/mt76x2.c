@@ -2680,7 +2680,6 @@ static const struct rtmp_chip_cap MT76x2_ChipCap = {
 	.WMM0ACBulkOutAddr[1] = 0x5,
 	.WMM0ACBulkOutAddr[2] = 0x6,
 	.WMM0ACBulkOutAddr[3] = 0x7,
-	.WMM1ACBulkOutAddr	= 0x9,
 	.DataBulkInAddr = 0x84,
 	.CommandRspBulkInAddr = 0x85,
 	.fw_name = MT7662U_FIRMWARE_NAME,

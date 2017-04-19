@@ -544,7 +544,6 @@ struct rtmp_chip_cap {
 	UINT8 DataBulkInAddr;
 	UINT8 CommandRspBulkInAddr;
 	UINT8 WMM0ACBulkOutAddr[4];
-	UINT8 WMM1ACBulkOutAddr;
 	UINT8 CommandBulkOutAddr;
 
 #ifdef CONFIG_SWITCH_CHANNEL_OFFLOAD
