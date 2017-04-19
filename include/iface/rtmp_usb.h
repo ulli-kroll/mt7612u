@@ -79,10 +79,9 @@ extern u8 EpToQueue[6];
 struct _MGMT_STRUC;
 struct _TX_BLK;
 
-int RTUSB_VendorRequest(struct rtmp_adapter *pAd,
-	u8 RequestType, u8 Request,
-	unsigned short  Value, unsigned short ndex,
-	PVOID   TransferBuffer, uint32_t TransferBufferLength);
+int RTUSB_VendorRequest(struct rtmp_adapter *pAd, u8 RequestType, u8 Request,
+			u16 Value, u16 Index, void *TransferBuffer,
+			u32 TransferBufferLength);
 
 int RTUSBMultiWrite(struct rtmp_adapter *pAd, unsigned short Offset, u8 *buf, unsigned short len);
 int RTUSBSingleWrite(struct rtmp_adapter *pAd, unsigned short Offset, unsigned short val);
