@@ -779,12 +779,6 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan
 	percentage_delta_pwr(ad);
 
 #ifdef DYNAMIC_VGA_SUPPORT
-#ifdef CONFIG_AP_SUPPORT
-	ad->chipCap.agc1_r35_backup = RTMP_BBP_IO_READ32(ad, AGC1_R35);
-	ad->chipCap.agc1_r39_backup = RTMP_BBP_IO_READ32(ad, AGC1_R39);
-	ad->chipCap.agc1_r41_backup = RTMP_BBP_IO_READ32(ad, AGC1_R41);
-#endif /* CONFIG_AP_SUPPORT */
-
 	RTMP_BBP_IO_WRITE32(ad, AGC1_R61, 0xFF64A4E2); /* microwave's function initial gain */
 	RTMP_BBP_IO_WRITE32(ad, AGC1_R7, 0x08081010); /* microwave's ED CCA threshold */
 	RTMP_BBP_IO_WRITE32(ad, AGC1_R11, 0x00000404); /* microwave's ED CCA threshold */

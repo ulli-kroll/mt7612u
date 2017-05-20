@@ -454,9 +454,6 @@ struct rtmp_chip_cap {
 #ifdef CONFIG_AP_SUPPORT
 	int32_t dynamic_lna_trigger_timer;
 	bool microwave_enable;
-	int32_t agc1_r35_backup;
-	int32_t agc1_r39_backup;
-	int32_t agc1_r41_backup;
 #endif /* CONFIG_AP_SUPPORT */
 #endif /* DYNAMIC_VGA_SUPPORT */
 
