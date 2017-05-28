@@ -2394,20 +2394,9 @@ VOID APCli_Init(struct rtmp_adapter *pAd, struct RTMP_OS_NETDEV_OP_HOOK *pNetDev
 							and should be set to 1 in extended multiple BSSIDs'
 							Bit3~ of MAC address Byte0 is extended multiple BSSID index.
 			 		*/
-#ifdef ENHANCE_NEW_MBSSID_MODE
-					wdev->if_addr[0] &= (MacMask << 2);
-#endif /* ENHANCE_NEW_MBSSID_MODE */
 					wdev->if_addr[0] |= 0x2;
 					wdev->if_addr[0] += (((pAd->ApCfg.BssidNum + MAX_MESH_NUM) - 1) << 2);
 				}
-#ifdef ENHANCE_NEW_MBSSID_MODE
-				else
-				{
-					wdev->if_addr[0] |= 0x2;
-					wdev->if_addr[pAd->chipCap.MBSSIDMode - 1] &= (MacMask);
-					wdev->if_addr[pAd->chipCap.MBSSIDMode - 1] += ((pAd->ApCfg.BssidNum + MAX_MESH_NUM) - 1);
-				}
-#endif /* ENHANCE_NEW_MBSSID_MODE */
 			}
 		}
 		else

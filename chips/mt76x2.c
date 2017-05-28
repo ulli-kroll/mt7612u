@@ -2644,11 +2644,7 @@ static const struct rtmp_chip_cap MT76x2_ChipCap = {
 	.MaxNumOfRfId = MAX_RF_ID,
 	.pRFRegTable = NULL,
 	.MaxNumOfBbpId = 200,
-#ifdef ENHANCE_NEW_MBSSID_MODE
-	.MBSSIDMode = MBSSID_MODE4,
-#else
 	.MBSSIDMode = MBSSID_MODE1,
-#endif /* ENHANCE_NEW_MBSSID_MODE */
 #ifdef CONFIG_ANDES_SUPPORT
 	.WlanMemmapOffset = 0x410000,
 	.InbandPacketMaxLen = 192,

@@ -1012,18 +1012,6 @@ VOID APMakeAllBssBeacon(struct rtmp_adapter *pAd)
 	if (pAd->chipCap.MBSSIDMode >= MBSSID_MODE1)
 	{
 		regValue |= (1 << 21);
-#ifdef ENHANCE_NEW_MBSSID_MODE
-		if (pAd->chipCap.MBSSIDMode == MBSSID_MODE2)
-			regValue |=  (1 << 24);
-		else if (pAd->chipCap.MBSSIDMode == MBSSID_MODE3)
-			regValue |=  (2 << 24);
-		else if (pAd->chipCap.MBSSIDMode == MBSSID_MODE4)
-			regValue |=  (3 << 24);
-		else if (pAd->chipCap.MBSSIDMode == MBSSID_MODE5)
-			regValue |=  (4 << 24);
-		else if (pAd->chipCap.MBSSIDMode == MBSSID_MODE6)
-			regValue |=  (5 << 24);
-#endif /* ENHANCE_NEW_MBSSID_MODE */
 	}
 
 	mt7612u_write32(pAd, MAC_BSSID_DW1, regValue);

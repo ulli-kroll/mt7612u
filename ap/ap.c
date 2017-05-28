@@ -179,18 +179,8 @@ VOID APStartUp(struct rtmp_adapter *pAd)
 						and should be set to 1 in extended multiple BSSIDs'
 						Bit3~ of MAC address Byte0 is extended multiple BSSID index.
 					 */
-#ifdef ENHANCE_NEW_MBSSID_MODE
-					wdev->if_addr[0] &= ((MacMask << 2) + 3);
-#endif /* ENHANCE_NEW_MBSSID_MODE */
 					wdev->if_addr[0] += ((idx - 1) << 2);
 				}
-#ifdef ENHANCE_NEW_MBSSID_MODE
-				else
-				{
-					wdev->if_addr[pAd->chipCap.MBSSIDMode - 1] &= (MacMask);
-					wdev->if_addr[pAd->chipCap.MBSSIDMode - 1] += (idx - 1);
-				}
-#endif /* ENHANCE_NEW_MBSSID_MODE */
 			}
 		}
 		else
