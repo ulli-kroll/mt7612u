@@ -153,39 +153,6 @@ VOID trigger_vht_ndpa(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *entry)
 	MiniportMMRequest(pAd, 0, buf, frm_len);
 	kfree(buf);
 
-#ifdef SOFT_SOUNDING
-	if (1) {
-		HEADER_802_11 *pNullFr;
-		u8 *qos_p;
-		u8 NullFrame[48];
-
-		memset(NullFrame, 0, 48);
-		pNullFr = (PHEADER_802_11)&NullFrame[0];
-		frm_len = sizeof(HEADER_802_11);
-
-		pNullFr->FC.Type = FC_TYPE_DATA;
-		pNullFr->FC.SubType = SUBTYPE_QOS_NULL;
-		pNullFr->FC.FrDs = 1;
-		pNullFr->FC.ToDs = 0;
-		COPY_MAC_ADDR(pNullFr->Addr1, entry->Addr);
-		COPY_MAC_ADDR(pNullFr->Addr2, wdev->if_addr);
-		COPY_MAC_ADDR(pNullFr->Addr3, wdev->bssid);
-
-		qos_p = ((u8 *)pNullFr) + frm_len;
-		qos_p[0] = 0;
-		qos_p[1] = 0;
-		frm_len += 2;
-
-		entry->snd_reqired = true;
-		DBGPRINT(RT_DEBUG_OFF, ("Send sounding QoSNULL Frame to STA(%02x:%02x:%02x:%02x:%02x:%02x)\n",
-					PRINT_MAC(entry->Addr)));
-
-		hex_dump("VHT NDP Frame(QoSNull)", NullFrame, frm_len);
-
-		HAL_KickOutNullFrameTx(pAd, 0, NullFrame, frm_len);
-	}
-#endif /* SOFT_SOUNDING */
-
 }
 
 

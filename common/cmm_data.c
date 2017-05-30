@@ -717,15 +717,6 @@ int MlmeHardTransmitMgmtRing(
 		}
 		else
 		{
-#ifdef SOFT_SOUNDING
-			if (((pHeader_802_11->FC.Type == FC_TYPE_DATA) && (pHeader_802_11->FC.SubType == SUBTYPE_QOS_NULL))
-				&& pMacEntry && (pMacEntry->snd_reqired == true))
-			{
-				bAckRequired = false;
-				pHeader_802_11->Duration = 0;
-			}
-			else
-#endif /* SOFT_SOUNDING */
 			{
 				bAckRequired = true;
 				pHeader_802_11->Duration = RTMPCalcDuration(pAd, MlmeRate, 14);
@@ -850,26 +841,6 @@ int MlmeHardTransmitMgmtRing(
 		}
 	}
 
-#ifdef SOFT_SOUNDING
-	if (((pHeader_802_11->FC.Type == FC_TYPE_DATA) && (pHeader_802_11->FC.SubType == SUBTYPE_QOS_NULL))
-		&& pMacEntry && (pMacEntry->snd_reqired == true))
-	{
-		wcid = RESERVED_WCID;
-		tx_rate = (u8)pMacEntry->snd_rate.field.MCS;
-		transmit = &pMacEntry->snd_rate;
-
-		RTMPWriteTxWI(pAd, pFirstTxWI, false, false, bInsertTimestamp, false, bAckRequired, false,
-				0, wcid, (SrcBufLen - TXINFO_SIZE - TXWISize - TSO_SIZE), PID, 0,
-				tx_rate, IFS_PIFS, transmit);
-		pMacEntry->snd_reqired = false;
-		DBGPRINT(RT_DEBUG_OFF, ("%s():Kick Sounding to %02x:%02x:%02x:%02x:%02x:%02x, dataRate(PhyMode:%s, BW:%sHz, %dSS, MCS%d)\n",
-					__FUNCTION__, PRINT_MAC(pMacEntry->Addr),
-					get_phymode_str(transmit->field.MODE),
-					get_bw_str(transmit->field.BW),
-					(transmit->field.MCS>>4) + 1, (transmit->field.MCS & 0xf)));
-	}
-	else
-#endif /* SOFT_SOUNDING */
 	{
 		RTMPWriteTxWI(pAd, pFirstTxWI, false, false, bInsertTimestamp, false, bAckRequired, false,
 				0, wcid, (SrcBufLen - TXINFO_SIZE - TXWISize - TSO_SIZE), PID, 0,

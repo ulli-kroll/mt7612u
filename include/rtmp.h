@@ -2390,10 +2390,6 @@ typedef struct _MAC_TABLE_ENTRY {
 	UINT LastTxCount;
 
 	UINT8 snd_dialog_token;
-#ifdef SOFT_SOUNDING
-	bool snd_reqired;
-	HTTRANSMIT_SETTING snd_rate;
-#endif /* SOFT_SOUNDING */
 
 	uint32_t OneSecTxNoRetryOkCount;
 	uint32_t OneSecTxRetryOkCount;
