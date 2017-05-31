@@ -168,17 +168,14 @@ u8 vht_prim_ch_idx(u8 vht_cent_ch, u8 prim_ch)
 	if (vht_cent_ch == prim_ch)
 		goto done;
 
-	while (vht_ch_80M[idx].ch_up_bnd != 0)
-	{
-		if (vht_cent_ch == vht_ch_80M[idx].cent_freq_idx)
-		{
+	while (vht_ch_80M[idx].ch_up_bnd != 0) {
+		if (vht_cent_ch == vht_ch_80M[idx].cent_freq_idx) {
 			if (prim_ch == vht_ch_80M[idx].ch_up_bnd)
 				bbp_idx = 3;
 			else if (prim_ch == vht_ch_80M[idx].ch_low_bnd)
 				bbp_idx = 0;
-			else {
+			else
 				bbp_idx = prim_ch > vht_cent_ch ? 2 : 1;
-			}
 			break;
 		}
 		idx++;
@@ -199,18 +196,15 @@ u8 vht_cent_ch_freq(struct rtmp_adapter *pAd, u8 prim_ch)
 	INT idx = 0;
 
 
-	if (pAd->CommonCfg.vht_bw < VHT_BW_80 || prim_ch < 36)
-	{
+	if (pAd->CommonCfg.vht_bw < VHT_BW_80 || prim_ch < 36) {
 		pAd->CommonCfg.vht_cent_ch = 0;
 		pAd->CommonCfg.vht_cent_ch2 = 0;
 		return prim_ch;
 	}
 
-	while (vht_ch_80M[idx].ch_up_bnd != 0)
-	{
+	while (vht_ch_80M[idx].ch_up_bnd != 0) {
 		if (prim_ch >= vht_ch_80M[idx].ch_low_bnd &&
-			prim_ch <= vht_ch_80M[idx].ch_up_bnd)
-		{
+		    prim_ch <= vht_ch_80M[idx].ch_up_bnd) {
 			pAd->CommonCfg.vht_cent_ch = vht_ch_80M[idx].cent_freq_idx;
 			return vht_ch_80M[idx].cent_freq_idx;
 		}
@@ -227,8 +221,8 @@ INT vht_mode_adjust(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry, VHT_CAP_I
 	pAd->CommonCfg.AddHTInfo.AddHtInfo2.NonGfPresent = 1;
 	pAd->MacTab.fAnyStationNonGF = true;
 
-	if (op->vht_op_info.ch_width >= 1 && pEntry->MaxHTPhyMode.field.BW == BW_40)
-	{
+	if (op->vht_op_info.ch_width >= 1 &&
+	    pEntry->MaxHTPhyMode.field.BW == BW_40) {
 		pEntry->MaxHTPhyMode.field.BW= BW_80;
 		pEntry->MaxHTPhyMode.field.ShortGI = (cap->vht_cap.sgi_80M);
 		pEntry->MaxHTPhyMode.field.STBC = (cap->vht_cap.rx_stbc > 1 ? 1 : 0);
@@ -351,21 +345,20 @@ INT build_vht_op_ie(struct rtmp_adapter *pAd, u8 *buf)
 #endif /* CONFIG_AP_SUPPORT */
 		cent_ch = vht_cent_ch_freq(pAd, pAd->CommonCfg.Channel);
 
-	switch (vht_op.vht_op_info.ch_width)
-	{
-		case 0:
-			vht_op.vht_op_info.center_freq_1 = 0;
-			vht_op.vht_op_info.center_freq_2 = 0;
-			break;
-		case 1:
-		case 2:
-			vht_op.vht_op_info.center_freq_1 = cent_ch;
-			vht_op.vht_op_info.center_freq_2 = 0;
-			break;
-		case 3:
-			vht_op.vht_op_info.center_freq_1 = cent_ch;
-			vht_op.vht_op_info.center_freq_2 = pAd->CommonCfg.vht_cent_ch2;
-			break;
+	switch (vht_op.vht_op_info.ch_width) {
+	case 0:
+		vht_op.vht_op_info.center_freq_1 = 0;
+		vht_op.vht_op_info.center_freq_2 = 0;
+		break;
+	case 1:
+	case 2:
+		vht_op.vht_op_info.center_freq_1 = cent_ch;
+		vht_op.vht_op_info.center_freq_2 = 0;
+		break;
+	case 3:
+		vht_op.vht_op_info.center_freq_1 = cent_ch;
+		vht_op.vht_op_info.center_freq_2 = pAd->CommonCfg.vht_cent_ch2;
+		break;
 	}
 
 	vht_op.basic_mcs_set.mcs_ss1 = VHT_MCS_CAP_NA;
@@ -376,21 +369,20 @@ INT build_vht_op_ie(struct rtmp_adapter *pAd, u8 *buf)
 	vht_op.basic_mcs_set.mcs_ss6 = VHT_MCS_CAP_NA;
 	vht_op.basic_mcs_set.mcs_ss7 = VHT_MCS_CAP_NA;
 	vht_op.basic_mcs_set.mcs_ss8 = VHT_MCS_CAP_NA;
-	switch  (pAd->CommonCfg.RxStream)
-	{
-		case 2:
-			if (IS_MT76x2(pAd)) {
-				vht_op.basic_mcs_set.mcs_ss2 = (((pAd->CommonCfg.vht_bw == VHT_BW_2040)
-					&& (pAd->CommonCfg.RegTransmitSetting.field.BW == BW_20)) ? VHT_MCS_CAP_8 : VHT_MCS_CAP_9);
-			} else
-				vht_op.basic_mcs_set.mcs_ss2 = VHT_MCS_CAP_7;
-		case 1:
-			if (IS_MT76x0(pAd) || IS_MT76x2(pAd))
-				vht_op.basic_mcs_set.mcs_ss1 = (((pAd->CommonCfg.vht_bw == VHT_BW_2040)
-					&& (pAd->CommonCfg.RegTransmitSetting.field.BW == BW_20)) ? VHT_MCS_CAP_8 : VHT_MCS_CAP_9);
-			else
-				vht_op.basic_mcs_set.mcs_ss1 = VHT_MCS_CAP_7;
-			break;
+	switch  (pAd->CommonCfg.RxStream) {
+	case 2:
+		if (IS_MT76x2(pAd)) {
+			vht_op.basic_mcs_set.mcs_ss2 = (((pAd->CommonCfg.vht_bw == VHT_BW_2040)
+				&& (pAd->CommonCfg.RegTransmitSetting.field.BW == BW_20)) ? VHT_MCS_CAP_8 : VHT_MCS_CAP_9);
+		} else
+			vht_op.basic_mcs_set.mcs_ss2 = VHT_MCS_CAP_7;
+	case 1:
+		if (IS_MT76x0(pAd) || IS_MT76x2(pAd))
+			vht_op.basic_mcs_set.mcs_ss1 = (((pAd->CommonCfg.vht_bw == VHT_BW_2040)
+				&& (pAd->CommonCfg.RegTransmitSetting.field.BW == BW_20)) ? VHT_MCS_CAP_8 : VHT_MCS_CAP_9);
+		else
+			vht_op.basic_mcs_set.mcs_ss1 = VHT_MCS_CAP_7;
+		break;
 	}
 
 #ifdef RT_BIG_ENDIAN
@@ -434,8 +426,7 @@ INT build_vht_cap_ie(struct rtmp_adapter *pAd, u8 *buf)
 
 	vht_cap_ie.vht_cap.tx_stbc = 0;
 	vht_cap_ie.vht_cap.rx_stbc = 0;
-	if (pAd->CommonCfg.vht_stbc)
-	{
+	if (pAd->CommonCfg.vht_stbc) {
 		if (pAd->CommonCfg.TxStream >= 2)
 			vht_cap_ie.vht_cap.tx_stbc = 1;
 		else
@@ -485,44 +476,42 @@ INT build_vht_cap_ie(struct rtmp_adapter *pAd, u8 *buf)
 		mcs_cap = pAd->CommonCfg.vht_mcs_cap;
 #endif /* WFA_VHT_PF */
 
-	switch  (rx_nss)
-	{
-		case 1:
-			vht_cap_ie.mcs_set.rx_high_rate = 292;
-			vht_cap_ie.mcs_set.rx_mcs_map.mcs_ss1 = mcs_cap;
-			break;
-		case 2:
-			if (mcs_cap == VHT_MCS_CAP_9)
-				vht_cap_ie.mcs_set.rx_high_rate = 780;
-			else
-				vht_cap_ie.mcs_set.rx_high_rate = 585;
+	switch  (rx_nss) {
+	case 1:
+		vht_cap_ie.mcs_set.rx_high_rate = 292;
+		vht_cap_ie.mcs_set.rx_mcs_map.mcs_ss1 = mcs_cap;
+		break;
+	case 2:
+		if (mcs_cap == VHT_MCS_CAP_9)
+			vht_cap_ie.mcs_set.rx_high_rate = 780;
+		else
+			vht_cap_ie.mcs_set.rx_high_rate = 585;
 
-			vht_cap_ie.mcs_set.rx_mcs_map.mcs_ss1 = mcs_cap;
-			vht_cap_ie.mcs_set.rx_mcs_map.mcs_ss2 = mcs_cap;
-			break;
-		default:
-			vht_cap_ie.mcs_set.rx_high_rate = 0;
-			break;
+		vht_cap_ie.mcs_set.rx_mcs_map.mcs_ss1 = mcs_cap;
+		vht_cap_ie.mcs_set.rx_mcs_map.mcs_ss2 = mcs_cap;
+		break;
+	default:
+		vht_cap_ie.mcs_set.rx_high_rate = 0;
+		break;
 	}
 
-	switch (tx_nss)
-	{
-		case 1:
-			vht_cap_ie.mcs_set.tx_high_rate = 292;
-			vht_cap_ie.mcs_set.tx_mcs_map.mcs_ss1 = mcs_cap;
-			break;
-		case 2:
-			if (mcs_cap == VHT_MCS_CAP_9)
-				vht_cap_ie.mcs_set.tx_high_rate = 780;
-			else
-				vht_cap_ie.mcs_set.tx_high_rate = 585;
+	switch (tx_nss) {
+	case 1:
+		vht_cap_ie.mcs_set.tx_high_rate = 292;
+		vht_cap_ie.mcs_set.tx_mcs_map.mcs_ss1 = mcs_cap;
+		break;
+	case 2:
+		if (mcs_cap == VHT_MCS_CAP_9)
+			vht_cap_ie.mcs_set.tx_high_rate = 780;
+		else
+			vht_cap_ie.mcs_set.tx_high_rate = 585;
 
-			vht_cap_ie.mcs_set.tx_mcs_map.mcs_ss1 = mcs_cap;
-			vht_cap_ie.mcs_set.tx_mcs_map.mcs_ss2 = mcs_cap;
-			break;
-		default:
-			vht_cap_ie.mcs_set.tx_high_rate = 0;
-			break;
+		vht_cap_ie.mcs_set.tx_mcs_map.mcs_ss1 = mcs_cap;
+		vht_cap_ie.mcs_set.tx_mcs_map.mcs_ss2 = mcs_cap;
+		break;
+	default:
+		vht_cap_ie.mcs_set.tx_high_rate = 0;
+		break;
 	}
 
 #ifdef RT_BIG_ENDIAN
@@ -540,8 +529,8 @@ INT build_vht_cap_ie(struct rtmp_adapter *pAd, u8 *buf)
 #endif /* RT_BIG_ENDIAN */
 
 
-	if ((pAd->chipCap.FlgHwTxBfCap) && (pAd->BeaconSndDimensionFlag ==0))
-	{
+	if ((pAd->chipCap.FlgHwTxBfCap) &&
+	    (pAd->BeaconSndDimensionFlag ==0)) {
 		vht_cap_ie.vht_cap.num_snd_dimension = pAd->CommonCfg.vht_cap_ie.vht_cap.num_snd_dimension;
    		vht_cap_ie.vht_cap.cmp_st_num_bfer= pAd->CommonCfg.vht_cap_ie.vht_cap.cmp_st_num_bfer;
 		vht_cap_ie.vht_cap.bfee_cap_su=pAd->CommonCfg.vht_cap_ie.vht_cap.bfee_cap_su;
@@ -568,8 +557,7 @@ INT build_vht_ies(struct rtmp_adapter *pAd, u8 *buf, u8 frm)
 
 	len += build_vht_cap_ie(pAd, (u8 *)(buf + len));
 	if (frm == SUBTYPE_BEACON || frm == SUBTYPE_PROBE_RSP ||
-		frm == SUBTYPE_ASSOC_RSP || frm == SUBTYPE_REASSOC_RSP)
-	{
+	    frm == SUBTYPE_ASSOC_RSP || frm == SUBTYPE_REASSOC_RSP) {
 		eid_hdr.Eid = IE_VHT_OP;
 		eid_hdr.Len = sizeof(VHT_OP_IE);
 		memmove((u8 *)(buf + len), (u8 *)&eid_hdr, 2);
@@ -588,16 +576,13 @@ bool vht80_channel_group( struct rtmp_adapter *pAd, u8 channel)
 	if (channel <= 14)
 		return false;
 
-	while (vht_ch_80M[idx].ch_up_bnd != 0)
-	{
+	while (vht_ch_80M[idx].ch_up_bnd != 0) {
 		if (channel >= vht_ch_80M[idx].ch_low_bnd &&
-			channel <= vht_ch_80M[idx].ch_up_bnd)
-		{
+		    channel <= vht_ch_80M[idx].ch_up_bnd) {
 			if ( (pAd->CommonCfg.RDDurRegion == JAP ||
 				pAd->CommonCfg.RDDurRegion == JAP_W53 ||
 				pAd->CommonCfg.RDDurRegion == JAP_W56) &&
-				vht_ch_80M[idx].cent_freq_idx == 138)
-			{
+				vht_ch_80M[idx].cent_freq_idx == 138) {
 				idx++;
 				continue;
 			}
