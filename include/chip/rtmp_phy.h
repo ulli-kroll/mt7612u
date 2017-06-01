@@ -218,26 +218,6 @@ struct _RMTP_ADAPTER;
 
 #define _G_BAND 0x0
 #define _A_BAND 0x1
-#define _BAND 0x3
-
-#define _BW_20 (0x0 << 2)
-#define _BW_40 (0x1 << 2)
-#define _BW_80 (0x2 << 2)
-#define _BW_160 (0x3 << 2)
-#define _BW (0x3 << 2)
-
-#define RF_Path0 0
-#define RF_Path1 1
-
-#define _1T1R (0x0 << 4)
-#define _2T1R (0x1 << 4)
-#define _1T2R (0x2 << 4)
-#define _2T2R (0x3 << 4)
-#define _TX_RX_SETTING (0x3 << 4)
-
-#define _LT (0x0 << 6)
-#define _HT (0x1 << 6)
-#define _TEM_SETTING (0x1 << 6)
 
 void mt7612u_bbp_set_bw(struct rtmp_adapter *pAd, u8 bw);
 void mt7612u_bbp_set_ctrlch(struct rtmp_adapter *pAd, u8 ext_ch);
