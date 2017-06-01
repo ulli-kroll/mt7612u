@@ -2183,7 +2183,9 @@ error:
 	return ret;
 }
 
-int mt7612u_mcu_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan, unsigned int bw, unsigned int tx_rx_setting, u8 bbp_ch_idx)
+int mt7612u_mcu_switch_channel(struct rtmp_adapter *ad, u8 channel,
+			       bool scan, unsigned int bw,
+			       unsigned int tx_rx_setting, u8 bbp_ch_idx)
 {
 	struct cmd_msg *msg;
 	u32 value = 0;
@@ -2201,14 +2203,13 @@ int mt7612u_mcu_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan, u
 	mt7612u_mcu_init_cmd_msg(msg, CMD_SWITCH_CHANNEL_OP, true, 0, true, true);
 
 	/*
-     * switch channel related param
-     * channel, scan, bw, tx_rx_setting
-     */
-	value &= ~SC_PARAM1_CHL_MASK;
+	 * switch channel related param
+	 * channel, scan, bw, tx_rx_setting
+	 */
+
+	value = 0;
 	value |= SC_PARAM1_CHL(channel);
-	value &= ~SC_PARAM1_SCAN_MASK;
 	value |= SC_PARAM1_SCAN(scan);
-	value &= ~SC_PARAM1_BW_MASK;
 	value |= SC_PARAM1_BW(bw);
 	value = cpu2le32(value);
 	mt7612u_mcu_append_cmd_msg(msg, (char *)&value, 4);
@@ -2232,21 +2233,19 @@ int mt7612u_mcu_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan, u
 	mt7612u_mcu_init_cmd_msg(msg, CMD_SWITCH_CHANNEL_OP, true, 0, true, true);
 
 	/*
-     * switch channel related param
-     * channel, scan, bw, tx_rx_setting, extension channel
-     */
-	value &= ~SC_PARAM1_CHL_MASK;
+	 * switch channel related param
+	 * channel, scan, bw, tx_rx_setting, extension channel
+	 */
+
+	value = 0;
 	value |= SC_PARAM1_CHL(channel);
-	value &= ~SC_PARAM1_SCAN_MASK;
 	value |= SC_PARAM1_SCAN(scan);
-	value &= ~SC_PARAM1_BW_MASK;
 	value |= SC_PARAM1_BW(bw);
 	value = cpu2le32(value);
 	mt7612u_mcu_append_cmd_msg(msg, (char *)&value, 4);
 
 	value = 0;
 	value |= SC_PARAM2_TR_SETTING(tx_rx_setting);
-	value &= ~SC_PARAM2_EXTENSION_CHL_MASK;
 
 	if (bbp_ch_idx == 0)
 		value |= SC_PARAM2_EXTENSION_CHL(0xe0);
