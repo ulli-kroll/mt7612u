@@ -441,9 +441,6 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 	if (IS_MT7612(pAd))
 		pAd->RfIcType = RFIC_7612;
 
-	if (IS_MT7602(pAd))
-		pAd->RfIcType = RFIC_7602;
-
 	pAd->phy_ctrl.rf_band_cap = NICGetBandSupported(pAd);
 
 	/* check if the chip supports 5G band */

@@ -91,8 +91,7 @@ struct _RSSI_SAMPLE;
 #define IS_MT7632U(_pAd)	((((_pAd)->ChipID & 0xffff0000) == 0x76320000))
 #define IS_MT7612(_pAd)		(((_pAd)->ChipID & 0xffff0000) == 0x76120000)
 #define IS_MT7612U(_pAd)	((((_pAd)->ChipID & 0xffff0000) == 0x76120000))
-#define IS_MT7602(_pAd)		(((_pAd)->ChipID & 0xffff0000) == 0x76020000)
-#define IS_MT76x2(_pAd)		(IS_MT7662(_pAd) || IS_MT7632(_pAd) || IS_MT7612(_pAd) || IS_MT7602(_pAd))
+#define IS_MT76x2(_pAd)		(IS_MT7662(_pAd) || IS_MT7632(_pAd) || IS_MT7612(_pAd))
 #define IS_MT76x2U(_pAd)	(IS_MT7662U(_pAd) || IS_MT7632U(_pAd) || IS_MT7612U(_pAd))
 #define REV_MT76x2E3        	0x0022
 #define REV_MT76x2E4        	0x0033

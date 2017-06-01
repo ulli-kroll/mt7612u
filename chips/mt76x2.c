@@ -592,11 +592,6 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan
 		}
 	}
 
-	if (IS_MT7602(ad)) {
-		/* default use 2 stream to Tx HW auto gened packets */
-		mt7612u_write32(ad, 0x1648, 0x00830083);
-	}
-
 	/* Fine tune tx power ramp on time based on BBP Tx delay */
 	if (isExternalPAMode(ad, channel)) {
 		if (bw == 0)
