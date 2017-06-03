@@ -215,10 +215,6 @@ typedef union _BBP_R49_STRUC {
 
 struct _RMTP_ADAPTER;
 
-
-#define _G_BAND 0x0
-#define _A_BAND 0x1
-
 void mt7612u_bbp_set_bw(struct rtmp_adapter *pAd, u8 bw);
 void mt7612u_bbp_set_ctrlch(struct rtmp_adapter *pAd, u8 ext_ch);
 void mt7612u_bbp_set_rxpath(struct rtmp_adapter *pAd, int rxpath);

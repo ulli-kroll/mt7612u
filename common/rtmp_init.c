@@ -1893,7 +1893,6 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 	pAd->CommonCfg.bEnableTxBurst = true; /* 0;    	*/
 	pAd->CommonCfg.PhyMode = 0xff;     /* unknown*/
 	pAd->CommonCfg.SavedPhyMode = pAd->CommonCfg.PhyMode;
-	pAd->CommonCfg.BandState = UNKNOWN_BAND;
 
 	pAd->wmm_cw_min = 4;
 	switch (pAd->OpMode)

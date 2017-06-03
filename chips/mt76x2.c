@@ -245,9 +245,9 @@ void mt76x2_adjust_per_rate_pwr_delta(struct rtmp_adapter *ad, u8 channel, char 
 	unsigned int band;
 
 	if (channel > 14)
-		band = _A_BAND;
+		band = NL80211_BAND_5GHZ;
 	else
-		band = _G_BAND;
+		band = NL80211_BAND_2GHZ;
 
 	value = mt7612u_read32(ad, TX_PWR_CFG_0);
 	value &= ~TX_PWR_CCK_1_2_MASK;
@@ -258,13 +258,13 @@ void mt76x2_adjust_per_rate_pwr_delta(struct rtmp_adapter *ad, u8 channel, char 
 	value |= TX_PWR_CCK_5_11(cap->tx_pwr_cck_5_11 + delta_pwr);
 
 	value &= ~TX_PWR_OFDM_6_9_MASK;
-	if (band == _G_BAND)
+	if (band == NL80211_BAND_2GHZ)
 		value |= TX_PWR_OFDM_6_9(cap->tx_pwr_g_band_ofdm_6_9 + delta_pwr);
 	else
 		value |= TX_PWR_OFDM_6_9(cap->tx_pwr_a_band_ofdm_6_9 + delta_pwr);
 
 	value &= ~TX_PWR_OFDM_12_18_MASK;
-	if (band == _G_BAND)
+	if (band == NL80211_BAND_2GHZ)
 		value |= TX_PWR_OFDM_12_18(cap->tx_pwr_g_band_ofdm_12_18 + delta_pwr);
 	else
 		value |= TX_PWR_OFDM_12_18(cap->tx_pwr_a_band_ofdm_12_18 + delta_pwr);
@@ -272,13 +272,13 @@ void mt76x2_adjust_per_rate_pwr_delta(struct rtmp_adapter *ad, u8 channel, char 
 
 	value = mt7612u_read32(ad, TX_PWR_CFG_1);
 	value &= ~TX_PWR_OFDM_24_36_MASK;
-	if (band == _G_BAND)
+	if (band == NL80211_BAND_2GHZ)
 		value |= TX_PWR_OFDM_24_36(cap->tx_pwr_g_band_ofdm_24_36 + delta_pwr);
 	else
 		value |= TX_PWR_OFDM_24_36(cap->tx_pwr_a_band_ofdm_24_36 + delta_pwr);
 
 	value &= ~TX_PWR_OFDM_48_MASK;
-	if (band == _G_BAND)
+	if (band == NL80211_BAND_2GHZ)
 		value |= TX_PWR_OFDM_48(cap->tx_pwr_g_band_ofdm_48_54 + delta_pwr);
 	else
 		value |= TX_PWR_OFDM_48(cap->tx_pwr_a_band_ofdm_48_54 + delta_pwr);
@@ -328,13 +328,13 @@ void mt76x2_adjust_per_rate_pwr_delta(struct rtmp_adapter *ad, u8 channel, char 
 
 	value = mt7612u_read32(ad, TX_PWR_CFG_7);
 	value &= ~TX_PWR_OFDM_54_MASK;
-	if (band == _G_BAND)
+	if (band == NL80211_BAND_2GHZ)
 		value |= TX_PWR_OFDM_54(cap->tx_pwr_g_band_ofdm_48_54 + delta_pwr);
 	else
 		value |= TX_PWR_OFDM_54(cap->tx_pwr_a_band_ofdm_48_54 + delta_pwr);
 
 	value &= ~TX_PWR_VHT_2SS_MCS_8_MASK;
-	if (band == _G_BAND)
+	if (band == NL80211_BAND_2GHZ)
 		value |= TX_PWR_VHT_2SS_MCS_8(cap->tx_pwr_2g_vht_mcs_8_9 + delta_pwr);
 	else
 		value |= TX_PWR_VHT_2SS_MCS_8(cap->tx_pwr_5g_vht_mcs_8_9 + delta_pwr);
@@ -343,7 +343,7 @@ void mt76x2_adjust_per_rate_pwr_delta(struct rtmp_adapter *ad, u8 channel, char 
 	value |= TX_PWR_HT_MCS_7_VHT_1SS_MCS_7(cap->tx_pwr_ht_mcs_6_7 + delta_pwr);
 
 	value &= ~TX_PWR_VHT_2SS_MCS_9_MASK;
-	if (band == _G_BAND)
+	if (band == NL80211_BAND_2GHZ)
 		value |= TX_PWR_VHT_2SS_MCS_9(cap->tx_pwr_2g_vht_mcs_8_9 + delta_pwr);
 	else
 		value |= TX_PWR_VHT_2SS_MCS_9(cap->tx_pwr_5g_vht_mcs_8_9 + delta_pwr);
@@ -355,13 +355,13 @@ void mt76x2_adjust_per_rate_pwr_delta(struct rtmp_adapter *ad, u8 channel, char 
 	value |= TX_PWR_HT_MCS_15_VHT_2SS_MCS7(cap->tx_pwr_ht_mcs_14_15 + delta_pwr);
 
 	value &= ~TX_PWR_VHT_1SS_MCS_8_MASK;
-	if (band == _G_BAND)
+	if (band == NL80211_BAND_2GHZ)
 		value |= TX_PWR_VHT_1SS_MCS_8(cap->tx_pwr_2g_vht_mcs_8_9 + delta_pwr);
 	else
 		value |= TX_PWR_VHT_1SS_MCS_8(cap->tx_pwr_5g_vht_mcs_8_9 + delta_pwr);
 
 	value &= ~TX_PWR_VHT_1SS_MCS_9_MASK;
-	if (band == _G_BAND)
+	if (band == NL80211_BAND_2GHZ)
 		value |= TX_PWR_VHT_1SS_MCS_9(cap->tx_pwr_2g_vht_mcs_8_9 + delta_pwr);
 	else
 		value |= TX_PWR_VHT_1SS_MCS_9(cap->tx_pwr_5g_vht_mcs_8_9 + delta_pwr);
@@ -373,13 +373,13 @@ void mt76x2_adjust_per_rate_pwr_delta(struct rtmp_adapter *ad, u8 channel, char 
 	value |= TX_PWR_HT_VHT_STBC_MCS_7(cap->tx_pwr_ht_mcs_6_7 + delta_pwr);
 
 	value &= ~TX_PWR_VHT_STBC_MCS_8_MASK;
-	if (band == _G_BAND)
+	if (band == NL80211_BAND_2GHZ)
 		value |= TX_PWR_VHT_STBC_MCS_8(cap->tx_pwr_2g_vht_mcs_8_9 + delta_pwr);
 	else
 		value |= TX_PWR_VHT_STBC_MCS_8(cap->tx_pwr_5g_vht_mcs_8_9 + delta_pwr);
 
 	value &= ~TX_PWR_VHT_STBC_MCS_9_MASK;
-	if (band == _G_BAND)
+	if (band == NL80211_BAND_2GHZ)
 		value |= TX_PWR_VHT_STBC_MCS_9(cap->tx_pwr_2g_vht_mcs_8_9 + delta_pwr);
 	else
 		value |= TX_PWR_VHT_STBC_MCS_9(cap->tx_pwr_5g_vht_mcs_8_9 + delta_pwr);
@@ -512,17 +512,17 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan
 
 	/* determine channel flags */
 	if (channel > 14)
-		band = _A_BAND;
+		band = NL80211_BAND_5GHZ;
 	else
-		band = _G_BAND;
+		band = NL80211_BAND_2GHZ;
 
 	if (!ad->MCUCtrl.power_on) {
 		band_change = true;
 	} else {
 		if (ad->LatchRfRegs.Channel > 14)
-			latch_band = _A_BAND;
+			latch_band = NL80211_BAND_5GHZ;
 		else
-			latch_band = _G_BAND;
+			latch_band = NL80211_BAND_2GHZ;
 
 		if (band != latch_band)
 			band_change = true;
@@ -562,7 +562,7 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan
 
 
 	if (band_change) {
-		if (band == _G_BAND) {
+		if (band == NL80211_BAND_2GHZ) {
 			mt7612u_mcu_random_write(ad,
 				     mt76x2_mac_g_band_cr_table,
 				     ARRAY_SIZE(mt76x2_mac_g_band_cr_table));

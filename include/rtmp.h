@@ -925,12 +925,6 @@ typedef struct _SOFT_RX_ANT_DIVERSITY_STRUCT {
 #endif /* CONFIG_AP_SUPPORT */
 } SOFT_RX_ANT_DIVERSITY, *PSOFT_RX_ANT_DIVERSITY;
 
-typedef enum _ABGBAND_STATE_ {
-	UNKNOWN_BAND,
-	BG_BAND,
-	A_BAND,
-} ABGBAND_STATE;
-
 #ifdef CONFIG_STA_SUPPORT
 #endif /* CONFIG_STA_SUPPORT */
 /***************************************************************************
@@ -1683,7 +1677,6 @@ typedef struct _COMMON_CONFIG {
 	ULONG OpStatusFlags;
 
 	bool NdisRadioStateOff;	/*For HCT 12.0, set this flag to true instead of called MlmeRadioOff. */
-	ABGBAND_STATE BandState;        /* For setting BBP used on B/G or A mode. */
 
 	/* HT */
 	RT_HT_CAPABILITY DesiredHtPhy;
