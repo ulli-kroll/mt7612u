@@ -58,15 +58,6 @@ int NICInitBBP(struct rtmp_adapter *pAd)
 		return NDIS_STATUS_FAILURE;
 }
 
-INT bbp_tx_comp_init(struct rtmp_adapter *pAd, INT adc_insel, INT tssi_mode)
-{
-	if (pAd->phy_op && pAd->phy_op->bbp_tx_comp_init)
-		return pAd->phy_op->bbp_tx_comp_init(pAd, adc_insel, tssi_mode);
-	else
-		return false;
-}
-
-
 INT bbp_set_mmps(struct rtmp_adapter *pAd, bool ReduceCorePower)
 {
 	if (pAd->phy_op && pAd->phy_op->bbp_set_mmps)

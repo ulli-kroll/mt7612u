@@ -67,27 +67,6 @@ static INT rlt_bbp_init(struct rtmp_adapter *pAd)
 
 }
 
-static INT rlt_bbp_tx_comp_init(struct rtmp_adapter *pAd, INT adc_insel, INT tssi_mode)
-{
-	uint32_t bbp_val;
-	u8 rf_val;
-
-#if defined(RTMP_INTERNAL_TX_ALC)
-	bbp_val = RTMP_BBP_IO_READ32(pAd, CORE_R34);
-	bbp_val = (bbp_val & 0xe7);
-	bbp_val = (bbp_val | 0x80);
-	RTMP_BBP_IO_WRITE32(pAd, CORE_R34, bbp_val);
-
-	RT30xxReadRFRegister(pAd, RF_R27, &rf_val);
-	rf_val = ((rf_val & 0x3f) | 0x40);
-	RT30xxWriteRFRegister(pAd, RF_R27, rf_val);
-
-	DBGPRINT(RT_DEBUG_TRACE, ("[temp. compensation] Set RF_R27 to 0x%x\n", rf_val));
-#endif
-	return 0;
-}
-
-
 void mt7612u_bbp_set_txdac(struct rtmp_adapter *pAd, int tx_dac)
 {
 	uint32_t txbe, txbe_r5 = 0;
@@ -438,7 +417,6 @@ static struct phy_ops rlt_phy_ops = {
 	.bbp_set_agc = rlt_bbp_set_agc,
 	.bbp_get_agc = rlt_bbp_get_agc,
 	.bbp_set_mmps = rlt_bbp_set_mmps,
-	.bbp_tx_comp_init = rlt_bbp_tx_comp_init,
 };
 
 
