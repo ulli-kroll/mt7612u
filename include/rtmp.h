@@ -4351,16 +4351,6 @@ INT RTMPGetKeyParameter(
 
 
 #ifdef RTMP_RF_RW_SUPPORT
-int RT30xxWriteRFRegister(
-	IN	struct rtmp_adapter *pAd,
-	IN	u8 		regID,
-	IN	u8 		value);
-
-int RT30xxReadRFRegister(
-	IN	struct rtmp_adapter *pAd,
-	IN	u8 		regID,
-	IN	u8 *		pValue);
-
 int RT635xWriteRFRegister(
 	IN	struct rtmp_adapter *pAd,
 	IN	u8 		bank,
