@@ -6154,7 +6154,7 @@ VOID AsicStaBbpTuning(struct rtmp_adapter *pAd)
 		&& !(OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_DOZE))
 		)
 	{
-		bbp_get_agc(pAd, &OrigR66Value, RX_CHAIN_0);
+		mt7612u_phy_bbp_get_agc(pAd, &OrigR66Value, RX_CHAIN_0);
 		R66 = OrigR66Value;
 
 		if (pAd->Antenna.field.RxPath > 1)

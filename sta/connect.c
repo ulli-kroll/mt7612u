@@ -2704,7 +2704,7 @@ VOID InitChannelRelatedValue(struct rtmp_adapter *pAd)
 		  pAd->CommonCfg.CentralChannel));
 
 	/* Save BBP_R66 value, it will be used in RTUSBResumeMsduTransmission */
-	bbp_get_agc(pAd, &pAd->BbpTuning.R66CurrentValue, RX_CHAIN_0);
+	mt7612u_phy_bbp_get_agc(pAd, &pAd->BbpTuning.R66CurrentValue, RX_CHAIN_0);
 }
 
 /* IRQL = DISPATCH_LEVEL */

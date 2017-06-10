@@ -1589,7 +1589,7 @@ VOID RTMPSuspendMsduTransmission(
 		Before BSS_SCAN_IN_PROGRESS, we need to keep Current R66 value and
 		use Lowbound as R66 value on ScanNextChannel(...)
 	*/
-	bbp_get_agc(pAd, &pAd->BbpTuning.R66CurrentValue, RX_CHAIN_0);
+	mt7612u_phy_bbp_get_agc(pAd, &pAd->BbpTuning.R66CurrentValue, RX_CHAIN_0);
 
 	pAd->hw_cfg.bbp_bw = pAd->CommonCfg.BBPCurrentBW;
 
