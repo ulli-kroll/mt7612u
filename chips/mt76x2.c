@@ -2788,11 +2788,10 @@ static void patch_BBPL_on(struct rtmp_adapter *pAd)
 	mt7612u_cfg3_write(pAd, 0x14C, value);
 }
 
-static VOID WF_CTRL(struct rtmp_adapter *pAd, UINT8 wfID, UINT8 isON)
+static VOID WF_CTRL(struct rtmp_adapter *pAd, UINT8 wfID)
 {
 	uint32_t value = 0;
 	if(wfID == 0) {
-		if(isON == 1) {	/* WIFI ON mode */
 		/* Enable WF0 BG */
 		value = mt7612u_cfg3_read(pAd, 0x130);
 		value |= (1<<0);
@@ -2817,33 +2816,30 @@ static VOID WF_CTRL(struct rtmp_adapter *pAd, UINT8 wfID, UINT8 isON)
 		value = mt7612u_read32(pAd, 0x530);
 		value  |= 0xF;
 		mt7612u_write32(pAd, 0x530, value);
-		}
 	} else {
-		if(isON == 1) {	/* WIFI ON mode */
-			/* Enable WF1 BG */
-			value = mt7612u_cfg3_read(pAd, 0x130);
-			value |= (1<<8);
-			mt7612u_cfg3_write(pAd, 0x130, value);
+		/* Enable WF1 BG */
+		value = mt7612u_cfg3_read(pAd, 0x130);
+		value |= (1<<8);
+		mt7612u_cfg3_write(pAd, 0x130, value);
 
-			udelay(10);
+		udelay(10);
 
-			/* Enable RFDIG LDO/AFE/ABB/ADDA */
-			value = mt7612u_cfg3_read(pAd, 0x130);
-			value |= ((1<<9)|(1<<11)|(1<<12)|(1<<13));
-			mt7612u_cfg3_write(pAd, 0x130, value);
+		/* Enable RFDIG LDO/AFE/ABB/ADDA */
+		value = mt7612u_cfg3_read(pAd, 0x130);
+		value |= ((1<<9)|(1<<11)|(1<<12)|(1<<13));
+		mt7612u_cfg3_write(pAd, 0x130, value);
 
-			udelay(10);
-			/* Switch WF1 RFDIG power to internal LDO */
-			value = mt7612u_cfg3_read(pAd, 0x130);
-			value &= ~(1<<10);
-			mt7612u_cfg3_write(pAd, 0x130, value);
+		udelay(10);
+		/* Switch WF1 RFDIG power to internal LDO */
+		value = mt7612u_cfg3_read(pAd, 0x130);
+		value &= ~(1<<10);
+		mt7612u_cfg3_write(pAd, 0x130, value);
 
-			patch_BBPL_on(pAd);
+		patch_BBPL_on(pAd);
 
-			value = mt7612u_read32(pAd, 0x530);
-			value  |= 0xF;
-			mt7612u_write32(pAd, 0x530, value);
-		}
+		value = mt7612u_read32(pAd, 0x530);
+		value  |= 0xF;
+		mt7612u_write32(pAd, 0x530, value);
 	}
 }
 
@@ -2906,8 +2902,8 @@ void mt76x2_pwrOn(struct rtmp_adapter *pAd)
 	    /* Radio On */
 	    DBGPRINT(RT_DEBUG_TRACE, ("%s\n", __FUNCTION__));
 	    WL_POWER_ON(pAd);
-	    WF_CTRL(pAd, 0, 1);
-	    WF_CTRL(pAd, 1, 1);
+	    WF_CTRL(pAd, 0);
+	    WF_CTRL(pAd, 1);
 }
 
 
