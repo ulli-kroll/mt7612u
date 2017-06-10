@@ -58,15 +58,6 @@ int NICInitBBP(struct rtmp_adapter *pAd)
 		return NDIS_STATUS_FAILURE;
 }
 
-INT bbp_set_mmps(struct rtmp_adapter *pAd, bool ReduceCorePower)
-{
-	if (pAd->phy_op && pAd->phy_op->bbp_set_mmps)
-		return pAd->phy_op->bbp_set_mmps(pAd, ReduceCorePower);
-	else
-		return false;
-}
-
-
 INT bbp_get_agc(struct rtmp_adapter *pAd, CHAR *agc, RX_CHAIN_IDX chain)
 {
 	if (pAd->phy_op && pAd->phy_op->bbp_get_agc)
@@ -83,16 +74,6 @@ INT bbp_set_agc(struct rtmp_adapter *pAd, u8 agc, RX_CHAIN_IDX chain)
 	else
 		return false;
 }
-
-
-INT filter_coefficient_ctrl(struct rtmp_adapter *pAd, u8 Channel)
-{
-	if (pAd->phy_op && pAd->phy_op->filter_coefficient_ctrl)
-		return pAd->phy_op->filter_coefficient_ctrl(pAd, Channel);
-	else
-		return false;
-}
-
 
 u8 get_random_seed_by_phy(struct rtmp_adapter *pAd)
 {

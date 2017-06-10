@@ -271,25 +271,6 @@ void mt7612u_bbp_set_bw(struct rtmp_adapter *pAd, u8 bw)
 	return;
 }
 
-
-static INT rlt_bbp_set_mmps(struct rtmp_adapter *pAd, bool ReduceCorePower)
-{
-	uint32_t bbp_val, org_val;
-
-	org_val = RTMP_BBP_IO_READ32(pAd, AGC1_R0);
-	bbp_val = org_val;
-	if (ReduceCorePower)
-		bbp_val |= 0x04;
-	else
-		bbp_val &= ~0x04;
-
-	if (bbp_val != org_val)
-		RTMP_BBP_IO_WRITE32(pAd, AGC1_R0, bbp_val);
-
-	return true;
-}
-
-
 static INT rlt_bbp_get_agc(struct rtmp_adapter *pAd, CHAR *agc, RX_CHAIN_IDX chain)
 {
 	u8 idx, val;
@@ -353,28 +334,6 @@ static INT rlt_bbp_set_agc(struct rtmp_adapter *pAd, u8 agc, RX_CHAIN_IDX chain)
 	return true;
 }
 
-
-static INT rlt_bbp_set_filter_coefficient_ctrl(struct rtmp_adapter *pAd, u8 Channel)
-{
-	uint32_t bbp_val = 0, org_val = 0;
-
-	if (Channel == 14) {
-		/* when Channel==14 && Mode==CCK && BandWidth==20M, BBP R4 bit5=1 */
-		bbp_val = RTMP_BBP_IO_READ32(pAd, CORE_R1);
-		bbp_val = org_val;
-		if (WMODE_EQUAL(pAd->CommonCfg.PhyMode, WMODE_B))
-			bbp_val |= 0x20;
-		else
-			bbp_val &= (~0x20);
-
-		if (bbp_val != org_val)
-			RTMP_BBP_IO_WRITE32(pAd, CORE_R1, bbp_val);
-	}
-
-	return true;
-}
-
-
 static u8 rlt_bbp_get_random_seed(struct rtmp_adapter *pAd)
 {
 	uint32_t value, value2;
@@ -392,10 +351,8 @@ static u8 rlt_bbp_get_random_seed(struct rtmp_adapter *pAd)
 static struct phy_ops rlt_phy_ops = {
 	.bbp_init = rlt_bbp_init,
 	.get_random_seed_by_phy = rlt_bbp_get_random_seed,
-	.filter_coefficient_ctrl = rlt_bbp_set_filter_coefficient_ctrl,
 	.bbp_set_agc = rlt_bbp_set_agc,
 	.bbp_get_agc = rlt_bbp_get_agc,
-	.bbp_set_mmps = rlt_bbp_set_mmps,
 };
 
 

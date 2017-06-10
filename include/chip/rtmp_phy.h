@@ -219,20 +219,16 @@ void mt7612u_bbp_set_bw(struct rtmp_adapter *pAd, u8 bw);
 void mt7612u_bbp_set_ctrlch(struct rtmp_adapter *pAd, u8 ext_ch);
 void mt7612u_bbp_set_rxpath(struct rtmp_adapter *pAd, int rxpath);
 void mt7612u_bbp_set_txdac(struct rtmp_adapter *pAd, int tx_dac);
-INT bbp_set_mmps(struct rtmp_adapter *pAd, bool ReduceCorePower);
 INT bbp_set_agc(struct rtmp_adapter *pAd, u8 agc, RX_CHAIN_IDX idx);
 INT bbp_get_agc(struct rtmp_adapter *pAd, CHAR *agc, RX_CHAIN_IDX idx);
-INT filter_coefficient_ctrl(struct rtmp_adapter *pAd, u8 Channel);
 u8 get_random_seed_by_phy(struct rtmp_adapter *pAd);
 
 int NICInitBBP(struct rtmp_adapter *pAd);
 
 typedef struct phy_ops{
 	u8 (*get_random_seed_by_phy)(struct rtmp_adapter *pAd);
-	INT (*filter_coefficient_ctrl)(struct rtmp_adapter *pAd, u8 Channel);
 	INT (*bbp_set_agc)(struct rtmp_adapter *pAd, u8 agc, RX_CHAIN_IDX chain);
 	INT (*bbp_get_agc)(struct rtmp_adapter *pAd, CHAR *agc, RX_CHAIN_IDX chain);
-	INT (*bbp_set_mmps)(struct rtmp_adapter *pAd, bool ReduceCorePower);
 	INT (*bbp_set_ctrlch)(struct rtmp_adapter *pAd, UINT8 ext_ch);
 	INT (*bbp_init)(struct rtmp_adapter *pAd);
 }PHY_OPS;
