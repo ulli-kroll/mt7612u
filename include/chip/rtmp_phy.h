@@ -230,7 +230,6 @@ typedef struct phy_ops{
 	INT (*bbp_set_agc)(struct rtmp_adapter *pAd, u8 agc, RX_CHAIN_IDX chain);
 	INT (*bbp_get_agc)(struct rtmp_adapter *pAd, CHAR *agc, RX_CHAIN_IDX chain);
 	INT (*bbp_set_ctrlch)(struct rtmp_adapter *pAd, UINT8 ext_ch);
-	INT (*bbp_init)(struct rtmp_adapter *pAd);
 }PHY_OPS;
 
 

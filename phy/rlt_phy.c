@@ -30,40 +30,6 @@
 
 #ifdef RLT_BBP
 
-static int mt7612u_bbp_is_ready(struct rtmp_adapter *pAd)
-{
-	INT idx = 0;
-	uint32_t val;
-
-	do {
-		val = RTMP_BBP_IO_READ32(pAd, CORE_R0);
-		if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST))
-			return false;
-	} while ((++idx < 20) && ((val == 0xffffffff) || (val == 0x0)));
-
-	if (!((val == 0xffffffff) || (val == 0x0)))
-		DBGPRINT(RT_DEBUG_TRACE, ("BBP version = %x\n", val));
-
-	return (((val == 0xffffffff) || (val == 0x0)) ? false : true);
-}
-
-
-static INT rlt_bbp_init(struct rtmp_adapter *pAd)
-{
-	INT idx;
-
-	/* Read BBP register, make sure BBP is up and running before write new data*/
-	if (mt7612u_bbp_is_ready(pAd) == false)
-		return NDIS_STATUS_FAILURE;
-
-	DBGPRINT(RT_DEBUG_TRACE, ("%s(): Init BBP Registers\n", __FUNCTION__));
-
-	// TODO: shiang-6590, check these bbp registers if need to remap to new BBP_Registers
-
-	return NDIS_STATUS_SUCCESS;
-
-}
-
 void mt7612u_bbp_set_txdac(struct rtmp_adapter *pAd, int tx_dac)
 {
 	uint32_t txbe, txbe_r5 = 0;
@@ -349,7 +315,6 @@ static u8 rlt_bbp_get_random_seed(struct rtmp_adapter *pAd)
 
 
 static struct phy_ops rlt_phy_ops = {
-	.bbp_init = rlt_bbp_init,
 	.get_random_seed_by_phy = rlt_bbp_get_random_seed,
 	.bbp_set_agc = rlt_bbp_set_agc,
 	.bbp_get_agc = rlt_bbp_get_agc,

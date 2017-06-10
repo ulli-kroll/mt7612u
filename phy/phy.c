@@ -34,6 +34,23 @@ INT phy_probe(struct rtmp_adapter *pAd)
 }
 
 
+static int mt7612u_bbp_is_ready(struct rtmp_adapter *pAd)
+{
+	INT idx = 0;
+	uint32_t val;
+
+	do {
+		val = RTMP_BBP_IO_READ32(pAd, CORE_R0);
+		if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST))
+			return false;
+	} while ((++idx < 20) && ((val == 0xffffffff) || (val == 0x0)));
+
+	if (!((val == 0xffffffff) || (val == 0x0)))
+		DBGPRINT(RT_DEBUG_TRACE, ("BBP version = %x\n", val));
+
+	return (((val == 0xffffffff) || (val == 0x0)) ? false : true);
+}
+
 int NICInitBBP(struct rtmp_adapter *pAd)
 {
 	uint32_t Index = 0, val;
@@ -52,10 +69,14 @@ int NICInitBBP(struct rtmp_adapter *pAd)
 		RtmpusecDelay(1000);
 	} while (Index++ < 100);
 
-	if (pAd->phy_op && pAd->phy_op->bbp_init)
-		return pAd->phy_op->bbp_init(pAd);
-	else
+	/* Read BBP register, make sure BBP is up and running before write new data*/
+	if (mt7612u_bbp_is_ready(pAd) == false)
 		return NDIS_STATUS_FAILURE;
+
+	// TODO: shiang-6590, check these bbp registers if need to remap to new BBP_Registers
+
+	return NDIS_STATUS_SUCCESS;
+
 }
 
 INT bbp_get_agc(struct rtmp_adapter *pAd, CHAR *agc, RX_CHAIN_IDX chain)
