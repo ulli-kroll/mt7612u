@@ -223,7 +223,7 @@ INT bbp_set_agc(struct rtmp_adapter *pAd, u8 agc, RX_CHAIN_IDX idx);
 INT bbp_get_agc(struct rtmp_adapter *pAd, CHAR *agc, RX_CHAIN_IDX idx);
 u8 get_random_seed_by_phy(struct rtmp_adapter *pAd);
 
-int NICInitBBP(struct rtmp_adapter *pAd);
+int mt7612u_phy_init_bbp(struct rtmp_adapter *pAd);
 
 typedef struct phy_ops{
 	u8 (*get_random_seed_by_phy)(struct rtmp_adapter *pAd);

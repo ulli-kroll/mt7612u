@@ -842,7 +842,7 @@ int NICInitializeAsic(struct rtmp_adapter *pAd, bool bHardReset)
 
 	rtmp_mac_bcn_buf_init(pAd);
 
-	NICInitBBP(pAd);
+	mt7612u_phy_init_bbp(pAd);
 
 
 	if (IS_RT65XX(pAd)) /* 3*3*/

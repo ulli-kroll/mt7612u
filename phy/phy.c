@@ -51,13 +51,12 @@ static int mt7612u_bbp_is_ready(struct rtmp_adapter *pAd)
 	return (((val == 0xffffffff) || (val == 0x0)) ? false : true);
 }
 
-int NICInitBBP(struct rtmp_adapter *pAd)
+int mt7612u_phy_init_bbp(struct rtmp_adapter *pAd)
 {
 	uint32_t Index = 0, val;
 
 	/* Before program BBP, we need to wait BBP/RF get wake up.*/
-	do
-	{
+	do {
 		if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST))
 			return NDIS_STATUS_FAILURE;
 
