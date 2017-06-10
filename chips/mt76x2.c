@@ -2844,7 +2844,7 @@ static void mt7612_power_on_rf(struct rtmp_adapter *pAd, int unit)
 	}
 }
 
-static void _mt7612u_power_on(struct rtmp_adapter *pAd)
+void mt7612u_power_on(struct rtmp_adapter *pAd)
 {
 	uint32_t cnt = 0;
 	uint32_t regval = 0;
@@ -2896,14 +2896,9 @@ static void _mt7612u_power_on(struct rtmp_adapter *pAd)
 	value = mt7612u_cfg3_read(pAd, 0x64);
 	value &= ~(0x1<<18);
 	mt7612u_cfg3_write(pAd, 0x64, value);
-}
 
-void mt7612u_power_on(struct rtmp_adapter *pAd)
-{
-	    _mt7612u_power_on(pAd);
-
-	    mt7612_power_on_rf(pAd, 0);
-	    mt7612_power_on_rf(pAd, 1);
+	mt7612_power_on_rf(pAd, 0);
+	mt7612_power_on_rf(pAd, 1);
 }
 
 
