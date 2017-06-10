@@ -3476,14 +3476,12 @@ struct rtmp_adapter {
 
 
 
-	bool bAutoTxAgcA;	/* Enable driver auto Tx Agc control */
 	u8 TssiRefA;		/* Store Tssi reference value as 25 temperature. */
 	u8 TssiPlusBoundaryA[5];	/* Tssi boundary for increase Tx power to compensate. */
 	u8 TssiMinusBoundaryA[5];	/* Tssi boundary for decrease Tx power to compensate. */
 	u8 TxAgcStepA;	/* Store Tx TSSI delta increment / decrement value */
 	CHAR TxAgcCompensateA;	/* Store the compensation (TxAgcStep * (idx-1)) */
 
-	bool bAutoTxAgcG;	/* Enable driver auto Tx Agc control */
 	u8 TssiRefG;		/* Store Tssi reference value as 25 temperature. */
 	u8 TxAgcStepG;	/* Store Tx TSSI delta increment / decrement value */
 	CHAR TxAgcCompensateG;	/* Store the compensation (TxAgcStep * (idx-1)) */

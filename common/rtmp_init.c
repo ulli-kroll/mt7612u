@@ -420,11 +420,6 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 	}
 #endif /* CONFIG_STA_SUPPORT */
 
-	if (NicConfig2.field.DynamicTxAgcControl == 1)
-		pAd->bAutoTxAgcA = pAd->bAutoTxAgcG = true;
-	else
-		pAd->bAutoTxAgcA = pAd->bAutoTxAgcG = false;
-
 	/* Save value for future using */
 	pAd->NicConfig2.word = NicConfig2.word;
 
@@ -690,10 +685,6 @@ VOID NICInitAsicFromEEPROM(struct rtmp_adapter *pAd)
 	*/
 #endif /* WIN_NDIS */
 
-	if (NicConfig2.field.DynamicTxAgcControl == 1)
-		pAd->bAutoTxAgcA = pAd->bAutoTxAgcG = true;
-	else
-		pAd->bAutoTxAgcA = pAd->bAutoTxAgcG = false;
 
 	mt7612u_bbp_set_rxpath(pAd, pAd->Antenna.field.RxPath);
 
@@ -1866,10 +1857,6 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 
 	pAd->Antenna.word = 0;
 	pAd->CommonCfg.BBPCurrentBW = BW_20;
-
-
-	pAd->bAutoTxAgcA = false;			/* Default is OFF*/
-	pAd->bAutoTxAgcG = false;			/* Default is OFF*/
 
 	pAd->RfIcType = RFIC_6352;	/* ULLI : lowest possible */
 
