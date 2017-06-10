@@ -237,37 +237,6 @@ void mt7612u_bbp_set_bw(struct rtmp_adapter *pAd, u8 bw)
 	return;
 }
 
-static INT rlt_bbp_set_agc(struct rtmp_adapter *pAd, u8 agc, RX_CHAIN_IDX chain)
-{
-	u8 idx = 0;
-	uint32_t bbp_val, bbp_reg = AGC1_R8;
-
-	if (((pAd->MACVersion & 0xf0000000) < 0x28830000) ||
-	     (pAd->Antenna.field.RxPath == 1)) {
-		chain = RX_CHAIN_0;
-	}
-
-	while (chain != 0) {
-		if (idx >= pAd->Antenna.field.RxPath)
-			break;
-
-		if (idx & 0x01) {
-			bbp_val = RTMP_BBP_IO_READ32(pAd, bbp_reg);
-			bbp_val = (bbp_val & 0xffff00ff) | (agc << 8);
-			RTMP_BBP_IO_WRITE32(pAd, bbp_reg, bbp_val);
-
-			DBGPRINT(RT_DEBUG_INFO,
-					("%s(Idx):Write(R%d,val:0x%x) to Chain(0x%x, idx:%d)\n",
-						__FUNCTION__, bbp_reg, bbp_val, chain, idx));
-		}
-		chain >>= 1;
-		bbp_reg += 4;
-		idx++;
-	}
-
-	return true;
-}
-
 static u8 rlt_bbp_get_random_seed(struct rtmp_adapter *pAd)
 {
 	uint32_t value, value2;
@@ -284,7 +253,6 @@ static u8 rlt_bbp_get_random_seed(struct rtmp_adapter *pAd)
 
 static struct phy_ops rlt_phy_ops = {
 	.get_random_seed_by_phy = rlt_bbp_get_random_seed,
-	.bbp_set_agc = rlt_bbp_set_agc,
 };
 
 

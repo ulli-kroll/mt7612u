@@ -219,7 +219,7 @@ void mt7612u_bbp_set_bw(struct rtmp_adapter *pAd, u8 bw);
 void mt7612u_bbp_set_ctrlch(struct rtmp_adapter *pAd, u8 ext_ch);
 void mt7612u_bbp_set_rxpath(struct rtmp_adapter *pAd, int rxpath);
 void mt7612u_bbp_set_txdac(struct rtmp_adapter *pAd, int tx_dac);
-INT bbp_set_agc(struct rtmp_adapter *pAd, u8 agc, RX_CHAIN_IDX idx);
+int mt7612u_phy_bbp_set_agc(struct rtmp_adapter *pAd, u8 agc, RX_CHAIN_IDX idx);
 int mt7612u_phy_bbp_get_agc(struct rtmp_adapter *pAd, CHAR *agc, RX_CHAIN_IDX idx);
 u8 get_random_seed_by_phy(struct rtmp_adapter *pAd);
 

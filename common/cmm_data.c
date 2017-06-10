@@ -1634,7 +1634,7 @@ VOID RTMPResumeMsduTransmission(
 		pAd->BbpTuning.R66CurrentValue = 0x38;
 		DBGPRINT_ERR(("RTMPResumeMsduTransmission, R66CurrentValue=0...\n"));
 	}
-	bbp_set_agc(pAd, pAd->BbpTuning.R66CurrentValue, RX_CHAIN_ALL);
+	mt7612u_phy_bbp_set_agc(pAd, pAd->BbpTuning.R66CurrentValue, RX_CHAIN_ALL);
 
 	pAd->CommonCfg.BBPCurrentBW = pAd->hw_cfg.bbp_bw;
 
