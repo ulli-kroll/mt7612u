@@ -13,7 +13,7 @@ void mt76x2_init(struct rtmp_adapter *ad);
 void mt76x2_adjust_per_rate_pwr_delta(struct rtmp_adapter *ad, u8 channel, char delta_pwr);
 void mt76x2_get_tx_pwr_per_rate(struct rtmp_adapter *ad);
 int mt76x2_read_chl_pwr(struct rtmp_adapter *ad);
-void mt76x2_pwrOn(struct rtmp_adapter *ad);
+void mt7612u_power_on(struct rtmp_adapter *ad);
 void mt76x2_calibration(struct rtmp_adapter *ad, u8 channel);
 void mt76x2_external_pa_rf_dac_control(struct rtmp_adapter *ad, u8 channel);
 void mt76x2_tssi_calibration(struct rtmp_adapter *ad, u8 channel);

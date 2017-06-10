@@ -2844,7 +2844,7 @@ static void mt7612_power_on_rf(struct rtmp_adapter *pAd, int unit)
 	}
 }
 
-static void WL_POWER_ON(struct rtmp_adapter *pAd)
+static void _mt7612u_power_on(struct rtmp_adapter *pAd)
 {
 	uint32_t cnt = 0;
 	uint32_t regval = 0;
@@ -2898,11 +2898,10 @@ static void WL_POWER_ON(struct rtmp_adapter *pAd)
 	mt7612u_cfg3_write(pAd, 0x64, value);
 }
 
-void mt76x2_pwrOn(struct rtmp_adapter *pAd)
+void mt7612u_power_on(struct rtmp_adapter *pAd)
 {
-	    /* Radio On */
-	    DBGPRINT(RT_DEBUG_TRACE, ("%s\n", __FUNCTION__));
-	    WL_POWER_ON(pAd);
+	    _mt7612u_power_on(pAd);
+
 	    mt7612_power_on_rf(pAd, 0);
 	    mt7612_power_on_rf(pAd, 1);
 }

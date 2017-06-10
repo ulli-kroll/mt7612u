@@ -909,7 +909,7 @@ void InitUSBDevice(RT_CMD_USB_INIT *config, VOID *ad_src)
 	if (IS_RT65XX(ad))
 		mt7612u_chip_onoff(ad, true, true);
 	if (IS_MT76x2(ad))
-		mt76x2_pwrOn(ad);
+		mt7612u_power_on(ad);
 
 	RtmpRaDevCtrlInit(ad);
 }
