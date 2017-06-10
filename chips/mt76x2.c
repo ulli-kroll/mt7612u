@@ -2788,10 +2788,11 @@ static void patch_BBPL_on(struct rtmp_adapter *pAd)
 	mt7612u_cfg3_write(pAd, 0x14C, value);
 }
 
-static VOID WF_CTRL(struct rtmp_adapter *pAd, UINT8 wfID)
+static void mt7612_power_on_rf(struct rtmp_adapter *pAd, int unit)
 {
 	uint32_t value = 0;
-	if(wfID == 0) {
+
+	if(unit == 0) {
 		/* Enable WF0 BG */
 		value = mt7612u_cfg3_read(pAd, 0x130);
 		value |= (1<<0);
@@ -2902,8 +2903,8 @@ void mt76x2_pwrOn(struct rtmp_adapter *pAd)
 	    /* Radio On */
 	    DBGPRINT(RT_DEBUG_TRACE, ("%s\n", __FUNCTION__));
 	    WL_POWER_ON(pAd);
-	    WF_CTRL(pAd, 0);
-	    WF_CTRL(pAd, 1);
+	    mt7612_power_on_rf(pAd, 0);
+	    mt7612_power_on_rf(pAd, 1);
 }
 
 
