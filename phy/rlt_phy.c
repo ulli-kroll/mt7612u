@@ -35,17 +35,14 @@ static int mt7612u_bbp_is_ready(struct rtmp_adapter *pAd)
 	INT idx = 0;
 	uint32_t val;
 
-	do
-	{
+	do {
 		val = RTMP_BBP_IO_READ32(pAd, CORE_R0);
 		if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST))
 			return false;
 	} while ((++idx < 20) && ((val == 0xffffffff) || (val == 0x0)));
 
 	if (!((val == 0xffffffff) || (val == 0x0)))
-	{
 		DBGPRINT(RT_DEBUG_TRACE, ("BBP version = %x\n", val));
-	}
 
 	return (((val == 0xffffffff) || (val == 0x0)) ? false : true);
 }
@@ -73,16 +70,16 @@ void mt7612u_bbp_set_txdac(struct rtmp_adapter *pAd, int tx_dac)
 
 	txbe_r5 = RTMP_BBP_IO_READ32(pAd, TXBE_R5);
 	txbe = txbe_r5 & (~0x3);
-	switch (tx_dac)
-	{
-		case 2:
-			txbe |= 0x3;
-			break;
-		case 1:
-		case 0:
-		default:
-			txbe &= (~0x3);
-			break;
+
+	switch (tx_dac) {
+	case 2:
+		txbe |= 0x3;
+		break;
+	case 1:
+	case 0:
+	default:
+		txbe &= (~0x3);
+		break;
 	}
 
 	if (txbe != txbe_r5)
@@ -148,56 +145,47 @@ void mt7612u_bbp_set_ctrlch(struct rtmp_adapter *pAd, u8 ext_ch)
 	be_r0 = RTMP_BBP_IO_READ32(pAd, TXBE_R0);
 	be = (be_r0 & (~0x03));
 	if (pAd->CommonCfg.BBPCurrentBW == BW_80 &&
-		pAd->CommonCfg.Channel >= 36 &&
-		pAd->CommonCfg.vht_cent_ch)
-	{
-		if (pAd->CommonCfg.Channel < pAd->CommonCfg.vht_cent_ch)
-		{
-			switch (pAd->CommonCfg.vht_cent_ch - pAd->CommonCfg.Channel)
-			{
-				case 6:
-					be |= 0;
-					agc |=0x000;
-					break;
-				case 2:
-					be |= 1;
-					agc |=0x100;
-					break;
+	    pAd->CommonCfg.Channel >= 36 &&
+	    pAd->CommonCfg.vht_cent_ch) {
+		if (pAd->CommonCfg.Channel < pAd->CommonCfg.vht_cent_ch) {
+			switch (pAd->CommonCfg.vht_cent_ch - pAd->CommonCfg.Channel) {
+			case 6:
+				be |= 0;
+				agc |=0x000;
+				break;
+			case 2:
+				be |= 1;
+				agc |=0x100;
+				break;
 
 			}
-		}
-		else if (pAd->CommonCfg.Channel > pAd->CommonCfg.vht_cent_ch)
-		{
-			switch (pAd->CommonCfg.Channel - pAd->CommonCfg.vht_cent_ch)
-			{
-				case 6:
-					be |= 0x3;
-					agc |=0x300;
-					break;
-				case 2:
-					be |= 0x2;
-					agc |=0x200;
-					break;
+		} else if (pAd->CommonCfg.Channel > pAd->CommonCfg.vht_cent_ch) {
+			switch (pAd->CommonCfg.Channel - pAd->CommonCfg.vht_cent_ch) {
+			case 6:
+				be |= 0x3;
+				agc |=0x300;
+				break;
+			case 2:
+				be |= 0x2;
+				agc |=0x200;
+				break;
 			}
 		}
-	}
-	else
-	{
-		switch (ext_ch)
-		{
-			case EXTCHA_BELOW:
-				agc |= 0x100;
-				be |= 0x01;
-				break;
-			case EXTCHA_ABOVE:
-				agc &= (~0x300);
-				be &= (~0x03);
-				break;
-			case EXTCHA_NONE:
-			default:
-				agc &= (~0x300);
-				be &= (~0x03);
-				break;
+	} else {
+		switch (ext_ch) {
+		case EXTCHA_BELOW:
+			agc |= 0x100;
+			be |= 0x01;
+			break;
+		case EXTCHA_ABOVE:
+			agc &= (~0x300);
+			be &= (~0x03);
+			break;
+		case EXTCHA_NONE:
+		default:
+			agc &= (~0x300);
+			be &= (~0x03);
+			break;
 		}
 	}
 	if (agc != agc_r0)
@@ -247,29 +235,27 @@ void mt7612u_bbp_set_bw(struct rtmp_adapter *pAd, u8 bw)
 		core = (core_r1 & (~0x18));
 	agc_r0 = RTMP_BBP_IO_READ32(pAd, AGC1_R0);
 	agc = agc_r0 & (~0x7000);
-	switch (bw)
-	{
-		case BW_80:
-			core |= 0x18;
-			agc |= 0x7000;
-			break;
-		case BW_40:
-			core |= 0x10;
-			agc |= 0x3000;
-			break;
-		case BW_20:
-			core &= (~0x18);
-			agc |= 0x1000;
-			break;
-		case BW_10:
-			core |= 0x08;
-			agc |= 0x1000;
-			break;
+	switch (bw) {
+	case BW_80:
+		core |= 0x18;
+		agc |= 0x7000;
+		break;
+	case BW_40:
+		core |= 0x10;
+		agc |= 0x3000;
+		break;
+	case BW_20:
+		core &= (~0x18);
+		agc |= 0x1000;
+		break;
+	case BW_10:
+		core |= 0x08;
+		agc |= 0x1000;
+		break;
 	}
 
-	if (core != core_r1) {
+	if (core != core_r1)
 		RTMP_BBP_IO_WRITE32(pAd, CORE_R1, core);
-	}
 
 	if (agc != agc_r0) {
 		RTMP_BBP_IO_WRITE32(pAd, AGC1_R0, agc);
@@ -311,19 +297,16 @@ static INT rlt_bbp_get_agc(struct rtmp_adapter *pAd, CHAR *agc, RX_CHAIN_IDX cha
 
 
 	if (((pAd->MACVersion & 0xffff0000) < 0x28830000) ||
-		(pAd->Antenna.field.RxPath == 1))
-	{
+	    (pAd->Antenna.field.RxPath == 1)) {
 		chain = RX_CHAIN_0;
 	}
 
 	idx = val = 0;
-	while(chain != 0)
-	{
+	while(chain != 0) {
 		if (idx >= pAd->Antenna.field.RxPath)
 			break;
 
-		if (chain & 0x01)
-		{
+		if (chain & 0x01) {
 			bbp_val = RTMP_BBP_IO_READ32(pAd, bbp_reg);
 			val = ((bbp_val & (0x0000ff00)) >> 8) & 0xff;
 			break;
@@ -345,18 +328,15 @@ static INT rlt_bbp_set_agc(struct rtmp_adapter *pAd, u8 agc, RX_CHAIN_IDX chain)
 	uint32_t bbp_val, bbp_reg = AGC1_R8;
 
 	if (((pAd->MACVersion & 0xf0000000) < 0x28830000) ||
-		(pAd->Antenna.field.RxPath == 1))
-	{
+	     (pAd->Antenna.field.RxPath == 1)) {
 		chain = RX_CHAIN_0;
 	}
 
-	while (chain != 0)
-	{
+	while (chain != 0) {
 		if (idx >= pAd->Antenna.field.RxPath)
 			break;
 
-		if (idx & 0x01)
-		{
+		if (idx & 0x01) {
 			bbp_val = RTMP_BBP_IO_READ32(pAd, bbp_reg);
 			bbp_val = (bbp_val & 0xffff00ff) | (agc << 8);
 			RTMP_BBP_IO_WRITE32(pAd, bbp_reg, bbp_val);
@@ -378,8 +358,7 @@ static INT rlt_bbp_set_filter_coefficient_ctrl(struct rtmp_adapter *pAd, u8 Chan
 {
 	uint32_t bbp_val = 0, org_val = 0;
 
-	if (Channel == 14)
-	{
+	if (Channel == 14) {
 		/* when Channel==14 && Mode==CCK && BandWidth==20M, BBP R4 bit5=1 */
 		bbp_val = RTMP_BBP_IO_READ32(pAd, CORE_R1);
 		bbp_val = org_val;
