@@ -717,12 +717,6 @@ do {	\
 			__pAd->chipOps.DisableAPMIMOPS(__pAd);	\
 } while (0)
 
-#define RTMP_CHIP_ASIC_TX_POWER_OFFSET_GET(__pAd, __pCfgOfTxPwrCtrlOverMAC)	\
-do {	\
-		if (__pAd->chipOps.AsicGetTxPowerOffset != NULL)	\
-			__pAd->chipOps.AsicGetTxPowerOffset(__pAd, __pCfgOfTxPwrCtrlOverMAC);	\
-} while (0)
-
 #define RTMP_CHIP_ASIC_EXTRA_POWER_OVER_MAC(__pAd)	\
 do {	\
 		if (__pAd->chipOps.AsicExtraPowerOverMAC != NULL)	\
