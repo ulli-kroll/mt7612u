@@ -232,23 +232,6 @@ CHAR GetFrequencyOffset(
 
 		FreqOffset = (pRxWI->RXWI_N.bbp_rxinfo[1]);
 
-		if (IS_MT76x2(pAd))
-			goto ret;
-
-		if ((FreqOffset < LOWERBOUND_OF_FREQUENCY_OFFSET) ||
-		     (FreqOffset > UPPERBOUND_OF_FREQUENCY_OFFSET))
-		{
-			FreqOffset = INVALID_FREQUENCY_OFFSET;
-
-			DBGPRINT(RT_DEBUG_ERROR, ("%s: (out-of-range) FreqOffset = %d\n",
-				__FUNCTION__,
-				FreqOffset));
-		}
-
-		DBGPRINT(RT_DEBUG_INFO, ("%s: FreqOffset = %d\n",
-					 __FUNCTION__, FreqOffset));
-
-		DBGPRINT(RT_DEBUG_INFO, ("<--- %s\n", __FUNCTION__));
 	}
 
 ret:
