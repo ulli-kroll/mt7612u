@@ -2076,9 +2076,6 @@ typedef	union _WCID_MAPPING_STRUC {
 #define MAC_WCID_BASE		0x1800 /*8-bytes(use only 6-bytes) * 256 entry = */
 #define HW_WCID_ENTRY_SIZE   8
 
-#ifdef MCS_LUT_SUPPORT
-#define MAC_MCS_LUT_BASE	0x1c00
-#endif /* MCS_LUT_SUPPORT */
 
 #ifdef RT_BIG_ENDIAN
 typedef	union _SHAREDKEY_MODE_STRUC {
@@ -2478,13 +2475,6 @@ INT rtmp_mac_set_mmps(struct  rtmp_adapter *pAd, INT ReduceCorePower);
 VOID rtmp_mac_bcn_buf_init(struct rtmp_adapter *pAd);
 
 INT rtmp_mac_init(struct rtmp_adapter *pAd);
-
-#ifdef MCS_LUT_SUPPORT
-INT set_lut_phy_rate(
-		struct rtmp_adapter *pAd, UINT8 wcid,
-		UINT8 mcs, UINT8 bw, 	UINT8 gi,
-		UINT8 stbc, UINT8 mode);
-#endif /* MCS_LUT_SUPPORT */
 
 #endif /* __RTMP_MAC_H__ */
 

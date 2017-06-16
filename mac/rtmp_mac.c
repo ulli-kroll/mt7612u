@@ -216,10 +216,6 @@ VOID RTMPWriteTxWI_Data(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pTx
 	u8 sgi, mcs, bw, stbc, phy_mode, ldpc;
 	u8 basize, ampdu, mimops = 0, mpdu_density = 0;
 	u8 iTxBf, eTxBf, sounding, ndp_rate, ndp_bw;
-#ifdef MCS_LUT_SUPPORT
-	bool lut_enable = 0;
-	u8 mbc_wcid;
-#endif /* MCS_LUT_SUPPORT */
 	u8 tx_stream_mode = 0;
 
 
@@ -346,42 +342,6 @@ VOID RTMPWriteTxWI_Data(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pTx
 	/* for rate adapation*/
 	pkt_id = mcs;
 
-#ifdef MCS_LUT_SUPPORT
-	if ((RTMP_TEST_MORE_FLAG(pAd, fASIC_CAP_MCS_LUT)) &&
-		(wcid < 128) &&
-		(pMacEntry && pMacEntry->bAutoTxRateSwitch == true)) {
-		HTTRANSMIT_SETTING rate_ctrl;
-
-		rate_ctrl.field.MODE = phy_mode;
-		rate_ctrl.field.iTxBF = iTxBf;
-		rate_ctrl.field.eTxBF = eTxBf;
-		rate_ctrl.field.STBC = stbc;
-		rate_ctrl.field.ShortGI = sgi;
-		rate_ctrl.field.BW = bw;
-		rate_ctrl.field.ldpc = ldpc;
-		rate_ctrl.field.MCS = mcs;
-		if (rate_ctrl.word == pTransmit->word)
-			lut_enable = true;
-	}
-#ifdef PEER_DELBA_TX_ADAPT
-	GET_GroupKey_WCID(pAd, mbc_wcid, pTxBlk->apidx);
-	if (RTMP_GET_PACKET_LOWRATE(pTxBlk->pPacket) ||
-	   (wcid == mbc_wcid) ||
-	   (pMacEntry && (pMacEntry->MmpsMode == MMPS_STATIC)))
-		lut_enable = false;
-	else
-		lut_enable = true;
-#endif /* PEER_DELBA_TX_ADAPT */
-#endif /* MCS_LUT_SUPPORT */
-
-#ifdef MCS_LUT_SUPPORT
-	if (pMacEntry && pAd->chipCap.FlgHwTxBfCap) {
-		if (pTxBlk->TxSndgPkt == SNDG_TYPE_NDP  ||
-		    pTxBlk->TxSndgPkt == SNDG_TYPE_SOUNDING)
-			lut_enable = false;
-	}
-#endif /* MCS_LUT_SUPPORT */
-
 	{
 		struct _TXWI_NMAC *txwi_n = (struct _TXWI_NMAC *)pTxWI;
 
@@ -427,11 +387,6 @@ VOID RTMPWriteTxWI_Data(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pTx
 		txwi_n->NDPSndRate = ndp_rate;
 		txwi_n->NDPSndBW = ndp_bw;
 		txwi_n->TXBF_PT_SCA = (eTxBf | iTxBf) ? true : false;
-
-#ifdef MCS_LUT_SUPPORT
-		txwi_n->lut_en = lut_enable;
-#endif /* MCS_LUT_SUPPORT */
-
 	}
 }
 
@@ -445,9 +400,6 @@ VOID RTMPWriteTxWI_Cache(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pT
 	u8 bw, mcs, stbc, phy_mode, sgi, ldpc;
 	u8 ampdu, basize = 0, mimops, mpdu_density = 0;
 	u8 sounding, iTxBf, eTxBf, ndp_rate, ndp_bw;
-#ifdef MCS_LUT_SUPPORT
-	bool lut_enable;
-#endif /* MCS_LUT_SUPPORT */
 	u8 tx_stream_mode = 0;
 
 
@@ -548,26 +500,6 @@ VOID RTMPWriteTxWI_Cache(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pT
 
 
 
-#ifdef MCS_LUT_SUPPORT
-	lut_enable = false;
-	if (RTMP_TEST_MORE_FLAG(pAd, fASIC_CAP_MCS_LUT) &&
-	    (pTxBlk->Wcid < 128) &&
-	    (pMacEntry && pMacEntry->bAutoTxRateSwitch == true)) {
-		HTTRANSMIT_SETTING rate_ctrl;
-
-		rate_ctrl.field.MODE = phy_mode;
-		rate_ctrl.field.iTxBF = iTxBf;
-		rate_ctrl.field.eTxBF = eTxBf;
-		rate_ctrl.field.STBC = stbc;
-		rate_ctrl.field.ShortGI = sgi;
-		rate_ctrl.field.BW = bw;
-		rate_ctrl.field.ldpc = ldpc;
-		rate_ctrl.field.MCS = mcs;
-		if (rate_ctrl.word == pTransmit->word)
-			lut_enable = true;
-	}
-#endif /* MCS_LUT_SUPPORT */
-
 		/* set PID for TxRateSwitching*/
 		pkt_id = mcs;
 
@@ -607,9 +539,6 @@ VOID RTMPWriteTxWI_Cache(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pT
 		txwi_n->NDPSndBW = ndp_bw;
 		txwi_n->TXBF_PT_SCA = (eTxBf | iTxBf) ? true : false;
 
-#ifdef MCS_LUT_SUPPORT
-		txwi_n->lut_en = lut_enable;
-#endif /* MCS_LUT_SUPPORT */
 	}
 
 }
@@ -644,24 +573,6 @@ INT get_pkt_phymode_by_rxwi(struct rtmp_adapter *pAd, RXWI_STRUC *rxwi)
 	return status;
 
 }
-
-#ifdef MCS_LUT_SUPPORT
-INT set_lut_phy_rate(
-	struct rtmp_adapter *pAd, UINT8 wcid,
-	UINT8 mcs, UINT8 bw, 	UINT8 gi,
-	UINT8 stbc, UINT8 mode)
-{
-	uint32_t mac_reg = 0;
-	unsigned short reg_id = 0x1C00 + (wcid << 3);
-
-	mac_reg = (mcs | (bw << 7) | (gi << 9) | (stbc << 10) | (mode << 13));
-
-	if (mac_reg)
-		mt7612u_write32(pAd, reg_id, mac_reg);
-
-	return true;
-}
-#endif /* MCS_LUT_SUPPORT */
 
 INT rtmp_mac_set_band(struct rtmp_adapter *pAd, int  band)
 {

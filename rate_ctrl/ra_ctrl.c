@@ -990,91 +990,6 @@ unsigned short MlmeGetTxQuality(MAC_TABLE_ENTRY *pEntry, u8 rateIndex)
 }
 
 
-#ifdef MCS_LUT_SUPPORT
-VOID asic_mcs_lut_update(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
-{
-#ifdef PEER_DELBA_TX_ADAPT
-	if (pEntry->bPeerDelBaTxAdaptEn)
-	{
-		DBGPRINT(RT_DEBUG_WARN,
-				("%s(): Rate not update due to bPeerDelBaTxAdaptEn is 0x%x.\n",
-				__FUNCTION__, pEntry->bPeerDelBaTxAdaptEn));
-		return;
-	}
-#endif /* PEER_DELBA_TX_ADAPT */
-
-	if(RTMP_TEST_MORE_FLAG(pAd, fASIC_CAP_MCS_LUT) && (pEntry->wcid < 128))
-	{
-		uint32_t wcid_offset;
-		HW_RATE_CTRL_STRUCT rate_ctrl;
-
-#ifdef RLT_MAC
-		if (pAd->chipCap.hif_type == HIF_RLT)
-		{
-			rate_ctrl.RATE_CTRL_N.PHYMODE = pEntry->HTPhyMode.field.MODE;
-			rate_ctrl.RATE_CTRL_N.STBC = pEntry->HTPhyMode.field.STBC;
-			rate_ctrl.RATE_CTRL_N.ShortGI = pEntry->HTPhyMode.field.ShortGI;
-			rate_ctrl.RATE_CTRL_N.BW = pEntry->HTPhyMode.field.BW;
-
-			if (pAd->chipCap.phy_caps & fPHY_CAP_LDPC)
-				rate_ctrl.RATE_CTRL_N.ldpc = pEntry->HTPhyMode.field.ldpc;
-
-			rate_ctrl.RATE_CTRL_N.MCS = pEntry->HTPhyMode.field.MCS;
-			rate_ctrl.RATE_CTRL_N.eTxBF = pEntry->HTPhyMode.field.eTxBF;
-			rate_ctrl.RATE_CTRL_N.iTxBF = pEntry->HTPhyMode.field.iTxBF;
-
-			DBGPRINT(RT_DEBUG_TRACE, ("pEntry->HTPhyMode.field.eTxBF = %d, pEntry->HTPhyMode.field.iTxBF = %d\n",
-				       pEntry->HTPhyMode.field.eTxBF, pEntry->HTPhyMode.field.iTxBF));
-
-			if (pEntry->HTPhyMode.field.eTxBF || pEntry->HTPhyMode.field.iTxBF)
-				rate_ctrl.RATE_CTRL_N.STBC = false;
-		}
-		else
-#endif /* RLT_MAC */
-#ifdef RTMP_MAC
-		if (pAd->chipCap.hif_type == HIF_RTMP)
-		{
-			rate_ctrl.RATE_CTRL_O.PHYMODE = pEntry->HTPhyMode.field.MODE;
-			rate_ctrl.RATE_CTRL_O.STBC = pEntry->HTPhyMode.field.STBC;
-			rate_ctrl.RATE_CTRL_O.ShortGI = pEntry->HTPhyMode.field.ShortGI;
-			rate_ctrl.RATE_CTRL_O.BW = pEntry->HTPhyMode.field.BW;
-			rate_ctrl.RATE_CTRL_O.MCS = pEntry->HTPhyMode.field.MCS;
-			rate_ctrl.RATE_CTRL_O.eTxBF = pEntry->HTPhyMode.field.eTxBF;
-			rate_ctrl.RATE_CTRL_O.iTxBF = pEntry->HTPhyMode.field.iTxBF;
-
-			if (pEntry->HTPhyMode.field.eTxBF || pEntry->HTPhyMode.field.iTxBF)
-				rate_ctrl.RATE_CTRL_O.STBC = false;
-		}
-		else
-#endif /* RTMP_MAC */
-		{
-			DBGPRINT(RT_DEBUG_ERROR, ("\x1b[31m%s: HIF Type Error !!!\x1b[m\n", __FUNCTION__));
-			return;
-		}
-
-		wcid_offset = MAC_MCS_LUT_BASE + (pEntry->wcid * 8);
-
-		mt7612u_write32(pAd, wcid_offset, rate_ctrl.word);
-		mt7612u_write32(pAd, wcid_offset + 4, 0x00);
-
-		DBGPRINT(RT_DEBUG_INFO, ("%s():MCS_LUT update, write to MAC=0x%08x, Value=0x%04x, WCID=%d\n",
-					__FUNCTION__, wcid_offset, pEntry->HTPhyMode.word, pEntry->wcid));
-
-		DBGPRINT_RAW(RT_DEBUG_INFO, ("\tWcid=%d, APMlmeSetTxRate - CurrTxRateIdx=%d, MCS=%d, STBC=%d, ShortGI=%d, Mode=%d, BW=%d \n"
-			                                     "\                            ETxBf=%d, ITxBf=%d\n\n",
-			pEntry->wcid,
-			pEntry->CurrTxRateIndex,
-			pEntry->HTPhyMode.field.MCS,
-			pEntry->HTPhyMode.field.STBC,
-			pEntry->HTPhyMode.field.ShortGI,
-			pEntry->HTPhyMode.field.MODE,
-			pEntry->HTPhyMode.field.BW,
-			pEntry->HTPhyMode.field.eTxBF,
-			pEntry->HTPhyMode.field.iTxBF));
-	}
-}
-#endif /* MCS_LUT_SUPPORT */
-
 
 #ifdef CONFIG_AP_SUPPORT
 VOID APMlmeSetTxRate(
@@ -1350,9 +1265,6 @@ DBGPRINT(RT_DEBUG_INFO, ("%s(): txbw=%d, txmode=%d\n", __FUNCTION__, tx_bw, tx_m
 	AsicFifoExtEntryClean(pAd, pEntry);
 #endif /* FIFO_EXT_SUPPORT */
 
-#ifdef MCS_LUT_SUPPORT
-	asic_mcs_lut_update(pAd, pEntry);
-#endif /* MCS_LUT_SUPPORT */
 
 
 }
@@ -1566,9 +1478,6 @@ VOID MlmeSetTxRate(
 		pEntry->HTPhyMode.field.MODE = wdev->HTPhyMode.field.MODE;
 	}
 
-#ifdef MCS_LUT_SUPPORT
-	asic_mcs_lut_update(pAd, pEntry);
-#endif /* MCS_LUT_SUPPORT */
 
 }
 #endif /* CONFIG_STA_SUPPORT */

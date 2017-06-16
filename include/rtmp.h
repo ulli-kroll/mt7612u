@@ -3796,9 +3796,6 @@ struct rtmp_adapter {
 	bool bUseMultiMacAddrExt;
 #endif /* MULTI_MAC_ADDR_EXT_SUPPORT */
 
-#ifdef MCS_LUT_SUPPORT
-	bool bUseHwTxLURate;
-#endif /* MCS_LUT_SUPPORT */
 
 
 #ifdef CONFIG_ANDES_SUPPORT
@@ -4843,11 +4840,6 @@ bool AsicSendCommandToMcuBBP(
 
 
 
-#ifdef MCS_LUT_SUPPORT
-VOID asic_mcs_lut_update(
-	IN struct rtmp_adapter *pAd,
-        IN MAC_TABLE_ENTRY *pEntry);
-#endif /* MCS_LUT_SUPPORT */
 
 
 #ifdef WOW_SUPPORT

@@ -2933,16 +2933,6 @@ INT RtmpRaDevCtrlInit(struct rtmp_adapter *pAd)
 			DBGPRINT(RT_DEBUG_ERROR, ("Invalid bulk in ep(%x)\n", pAd->BulkInEpAddr[i]));
 	}
 
-#ifdef MCS_LUT_SUPPORT
-	if (pAd->chipCap.asic_caps & fASIC_CAP_MCS_LUT) {
-		if (MAX_LEN_OF_MAC_TABLE <= 128) {
-			RTMP_SET_MORE_FLAG(pAd, fASIC_CAP_MCS_LUT);
-		} else {
-			DBGPRINT(RT_DEBUG_WARN, ("%s(): MCS_LUT not used becasue MacTb size(%d) > 128!\n",
-						__FUNCTION__, MAX_LEN_OF_MAC_TABLE));
-		}
-	}
-#endif /* MCS_LUT_SUPPORT */
 	return 0;
 }
 

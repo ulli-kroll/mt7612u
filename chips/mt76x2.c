@@ -1164,15 +1164,6 @@ void mt76x2_init_mac_cr(struct rtmp_adapter *ad)
 
 	init_fce(ad);
 
-#ifdef MCS_LUT_SUPPORT
-	value = mt7612u_read32(ad, TX_FBK_LIMIT);
-	if (RTMP_TEST_MORE_FLAG(ad, fASIC_CAP_MCS_LUT))
-		value |= 0x40000;
-	else
-		value &= (~0x40000);
-	mt7612u_write32(ad, TX_FBK_LIMIT, value);
-#endif /* MCS_LUT_SUPPORT */
-
 	/*
 		For co-clock image
 		00 : one crystal , disable co-clock out

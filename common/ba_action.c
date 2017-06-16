@@ -1901,84 +1901,12 @@ static VOID Peer_DelBA_Tx_Adapt_Enable(
 	IN struct rtmp_adapter *pAd,
 	IN PMAC_TABLE_ENTRY pEntry)
 {
-#ifdef MCS_LUT_SUPPORT
-	if ((pAd->CommonCfg.bBADecline == true) ||
-		(CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_RALINK_CHIPSET)))
-	{
-		/* we should not do this if bBADecline is true or RGD is ON */
-		return;
-	}
-
-	if(!RTMP_TEST_MORE_FLAG(pAd, fASIC_CAP_MCS_LUT) || !(pEntry->wcid < 128))
-	{
-		DBGPRINT(RT_DEBUG_WARN,
-				("%s(): Warning! This chip does not support HW Tx rate lookup.\n",
-				__FUNCTION__));
-		return;
-	}
-
-	if (pEntry)
-	{
-		uint32_t MacReg = 0;
-		bool Cancelled;
-
-		pEntry->bPeerDelBaTxAdaptEn = 1;
-		RTMPCancelTimer(&pEntry->DelBA_tx_AdaptTimer, &Cancelled);
-
-		/* Enable Tx Mac look up table */
-		mt7612u_read32(pAd, TX_FBK_LIMIT, &MacReg);
-		if ((MacReg & (1 << 18)) == 0) {
-			MacReg |= (1 << 18);
-			mt7612u_write32(pAd, TX_FBK_LIMIT, MacReg);
-		}
-
-		/* OFDM54 / BW20 / LGI / no STBC/ Legacy OFDM */
-		set_lut_phy_rate(pAd, pEntry->Aid, 7, 0, 0, 0, 1);
-		RTMPSetTimer(&pEntry->DelBA_tx_AdaptTimer, 1000); /* 1000ms */
-		DBGPRINT(RT_DEBUG_TRACE,
-				("%s():MacReg = 0x%08x, bPeerDelBaTxAdaptEn = 0x%x\n",
-				__FUNCTION__, MacReg, pEntry->bPeerDelBaTxAdaptEn));
-	}
-#endif /* MCS_LUT_SUPPORT */
 }
 
 static VOID Peer_DelBA_Tx_Adapt_Disable(
 	IN struct rtmp_adapter *pAd,
 	IN PMAC_TABLE_ENTRY pEntry)
 {
-#ifdef MCS_LUT_SUPPORT
-	if(!RTMP_TEST_MORE_FLAG(pAd, fASIC_CAP_MCS_LUT) || !(pEntry->wcid < 128))
-	{
-		DBGPRINT(RT_DEBUG_WARN,
-				("%s(): Warning! This chip does not support HW Tx rate lookup.\n",
-				__FUNCTION__));
-		return;
-	}
-
-	if (pEntry && pEntry->bPeerDelBaTxAdaptEn) {
-		bool Cancelled;
-
-		if (IS_RT6352(pAd))
-		{
-			uint32_t MacReg = 0;
-			/* Disable Tx Mac look up table (Ressume original setting) */
-			mt7612u_read32(pAd, TX_FBK_LIMIT, &MacReg);
-			MacReg &= ~(1 << 18);
-			mt7612u_write32(pAd, TX_FBK_LIMIT, MacReg);
-			DBGPRINT(RT_DEBUG_TRACE,
-					("%s():TX_FBK_LIMIT = 0x%08x\n",
-					__FUNCTION__, MacReg));
-		}
-
-		pEntry->bPeerDelBaTxAdaptEn = 0;
-		RTMPCancelTimer(&pEntry->DelBA_tx_AdaptTimer, &Cancelled);
-		asic_mcs_lut_update(pAd, pEntry);
-
-		DBGPRINT(RT_DEBUG_TRACE,
-				("%s():bPeerDelBaTxAdaptEn = 0x%x\n",
-				__FUNCTION__, pEntry->bPeerDelBaTxAdaptEn));
-	}
-#endif /* MCS_LUT_SUPPORT */
 }
 
 VOID PeerDelBATxAdaptTimeOut(

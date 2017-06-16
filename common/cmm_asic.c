@@ -2026,9 +2026,6 @@ VOID AsicDelWcidTab(struct rtmp_adapter *pAd, u8 wcid_idx)
 {
 	uint32_t offset;
 	u8 cnt, cnt_s, cnt_e;
-#ifdef MCS_LUT_SUPPORT
-	uint32_t mcs_tb_offset = 0;
-#endif /* MCS_LUT_SUPPORT */
 
 
 	DBGPRINT(RT_DEBUG_TRACE, ("AsicDelWcidTab==>wcid_idx = 0x%x\n",wcid_idx));
@@ -2036,10 +2033,6 @@ VOID AsicDelWcidTab(struct rtmp_adapter *pAd, u8 wcid_idx)
 		cnt_s = 0;
 		cnt_e = (WCID_ALL - 1);
 	} else {
-#ifdef MCS_LUT_SUPPORT
-		if (RTMP_TEST_MORE_FLAG(pAd, fASIC_CAP_MCS_LUT))
-			mcs_tb_offset = 0x400;
-#endif /* MCS_LUT_SUPPORT */
 		cnt_s = cnt_e = wcid_idx;
 	}
 
@@ -2048,13 +2041,6 @@ VOID AsicDelWcidTab(struct rtmp_adapter *pAd, u8 wcid_idx)
 		offset = MAC_WCID_BASE + cnt * HW_WCID_ENTRY_SIZE;
 		mt7612u_write32(pAd, offset, 0x0);
 		mt7612u_write32(pAd, offset + 4, 0x0);
-#ifdef MCS_LUT_SUPPORT
-		if (mcs_tb_offset) {
-			offset += mcs_tb_offset;
-			mt7612u_write32(pAd, offset, 0x0);
-			mt7612u_write32(pAd, offset + 4, 0x0);
-		}
-#endif /* MCS_LUT_SUPPORT */
 	}
 }
 
