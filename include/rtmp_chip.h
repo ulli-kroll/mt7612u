@@ -497,7 +497,6 @@ struct rtmp_chip_cap {
 
 #ifdef CONFIG_STA_SUPPORT
 	UINT8 FreqCalibrationSupport;
-	UINT8 FreqCalMode;
 	UINT8 RxWIFrqOffset;
 #endif /* CONFIG_STA_SUPPORT */
 
