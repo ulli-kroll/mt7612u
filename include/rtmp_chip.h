@@ -781,14 +781,6 @@ do {												\
 			_pAd->chipOps.BurstWrite(_pAd, _Offset, _pData, _Cnt);\
 } while (0)
 
-#define RTMP_SECOND_CCA_DETECTION(__pAd) \
-do {	\
-	if (__pAd->chipOps.SecondCCADetection != NULL)	\
-	{	\
-		__pAd->chipOps.SecondCCADetection(__pAd);	\
-	}	\
-} while (0)
-
 #if defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT)
 #define ASIC_WOW_ENABLE(_pAd)	\
 do {	\
