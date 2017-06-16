@@ -249,100 +249,114 @@ void mt76x2_adjust_per_rate_pwr_delta(struct rtmp_adapter *ad, u8 channel, char 
 	else
 		band = NL80211_BAND_2GHZ;
 
+	/* Reg : TX_PWR_CFG_0 */
 	value = mt7612u_read32(ad, TX_PWR_CFG_0);
-	value &= ~TX_PWR_CCK_1_2_MASK;
 
+	value &= ~TX_PWR_CCK_1_2_MASK;		/* Bit 0-5 */
 	value |= TX_PWR_CCK_1_2(cap->tx_pwr_cck_1_2 + delta_pwr);
 
-	value &= ~TX_PWR_CCK_5_11_MASK;
+	value &= ~TX_PWR_CCK_5_11_MASK;		/* Bit 8-13 */
 	value |= TX_PWR_CCK_5_11(cap->tx_pwr_cck_5_11 + delta_pwr);
 
-	value &= ~TX_PWR_OFDM_6_9_MASK;
+	value &= ~TX_PWR_OFDM_6_9_MASK;		/* Bit 16-21 */
 	if (band == NL80211_BAND_2GHZ)
 		value |= TX_PWR_OFDM_6_9(cap->tx_pwr_g_band_ofdm_6_9 + delta_pwr);
 	else
 		value |= TX_PWR_OFDM_6_9(cap->tx_pwr_a_band_ofdm_6_9 + delta_pwr);
 
-	value &= ~TX_PWR_OFDM_12_18_MASK;
+	value &= ~TX_PWR_OFDM_12_18_MASK;	/* Bit 24-29 */
 	if (band == NL80211_BAND_2GHZ)
 		value |= TX_PWR_OFDM_12_18(cap->tx_pwr_g_band_ofdm_12_18 + delta_pwr);
 	else
 		value |= TX_PWR_OFDM_12_18(cap->tx_pwr_a_band_ofdm_12_18 + delta_pwr);
 	mt7612u_write32(ad, TX_PWR_CFG_0, value);
 
+	/* Reg : TX_PWR_CFG_1 */
 	value = mt7612u_read32(ad, TX_PWR_CFG_1);
-	value &= ~TX_PWR_OFDM_24_36_MASK;
+
+	value &= ~TX_PWR_OFDM_24_36_MASK;	/* Bit 0-5 */
 	if (band == NL80211_BAND_2GHZ)
 		value |= TX_PWR_OFDM_24_36(cap->tx_pwr_g_band_ofdm_24_36 + delta_pwr);
 	else
 		value |= TX_PWR_OFDM_24_36(cap->tx_pwr_a_band_ofdm_24_36 + delta_pwr);
 
-	value &= ~TX_PWR_OFDM_48_MASK;
+	value &= ~TX_PWR_OFDM_48_MASK;		/* Bit 8-13 */
 	if (band == NL80211_BAND_2GHZ)
 		value |= TX_PWR_OFDM_48(cap->tx_pwr_g_band_ofdm_48_54 + delta_pwr);
 	else
 		value |= TX_PWR_OFDM_48(cap->tx_pwr_a_band_ofdm_48_54 + delta_pwr);
 
-	value &= ~TX_PWR_HT_VHT_1SS_MCS_0_1_MASK;
-	value |= TX_PWR_HT_VHT_1SS_MCS_0_1(cap->tx_pwr_ht_mcs_0_1 + delta_pwr);
+	value &= ~TX_PWR_HT_VHT_1SS_MCS_0_1_MASK;	/* Bit 16-21 */
+	value |= TX_PWR_HT_VHT_1SS_MCS_0_1(
+			cap->tx_pwr_ht_mcs_0_1 + delta_pwr
+			);
 
-	value &= ~TX_PWR_HT_VHT_1SS_MCS_2_3_MASK;
-	value |= TX_PWR_HT_VHT_1SS_MCS_2_3(cap->tx_pwr_ht_mcs_2_3 + delta_pwr);
+	value &= ~TX_PWR_HT_VHT_1SS_MCS_2_3_MASK;	/* Bit 24-29 */
+	value |= TX_PWR_HT_VHT_1SS_MCS_2_3(
+			cap->tx_pwr_ht_mcs_2_3 + delta_pwr
+			);
 	mt7612u_write32(ad, TX_PWR_CFG_1, value);
 
+	/* Reg : TX_PWR_CFG_2 */
 	value = mt7612u_read32(ad, TX_PWR_CFG_2);
-	value &= ~TX_PWR_HT_VHT_1SS_MCS_4_5_MASK;
+
+	value &= ~TX_PWR_HT_VHT_1SS_MCS_4_5_MASK;	/* Bit 0-5 */
 	value |= TX_PWR_HT_VHT_1SS_MCS_4_5(cap->tx_pwr_ht_mcs_4_5 + delta_pwr);
 
-	value &= ~TX_PWR_HT_VHT_1SS_MCS_6_MASK;
+	value &= ~TX_PWR_HT_VHT_1SS_MCS_6_MASK;		/* Bit 8-13 */
 	value |= TX_PWR_HT_VHT_1SS_MCS_6(cap->tx_pwr_ht_mcs_6_7 + delta_pwr);
 
-	value &= ~TX_PWR_HT_MCS_8_9_VHT_2SS_0_1_MASK;
+	value &= ~TX_PWR_HT_MCS_8_9_VHT_2SS_0_1_MASK;	/* Bit 16-21 */
 	value |= TX_PWR_HT_MCS_8_9_VHT_2SS_0_1(cap->tx_pwr_ht_mcs_8_9 + delta_pwr);
 
-	value &= ~TX_PWR_HT_MCS_10_11_VHT_2SS_MCS_2_3_MASK;
+	value &= ~TX_PWR_HT_MCS_10_11_VHT_2SS_MCS_2_3_MASK;	/* Bit 24-29 */
 	value |= TX_PWR_HT_MCS_10_11_VHT_2SS_MCS_2_3(cap->tx_pwr_ht_mcs_10_11 + delta_pwr);
 	mt7612u_write32(ad, TX_PWR_CFG_2, value);
 
+
+	/* Reg : TX_PWR_CFG_3 */
 	value = mt7612u_read32(ad, TX_PWR_CFG_3);
-	value &= ~TX_PWR_HT_MCS_12_13_VHT_2SS_MCS_4_5_MASK;
+
+	value &= ~TX_PWR_HT_MCS_12_13_VHT_2SS_MCS_4_5_MASK;	/* Bit 0-5 */
 	value |= TX_PWR_HT_MCS_12_13_VHT_2SS_MCS_4_5(cap->tx_pwr_ht_mcs_12_13 + delta_pwr);
 
-	value &= ~TX_PWR_HT_MCS_14_VHT_2SS_MCS_6_MASK;
+	value &= ~TX_PWR_HT_MCS_14_VHT_2SS_MCS_6_MASK;		/* Bit 8-13 */
 	value |= TX_PWR_HT_MCS_14_VHT_2SS_MCS_6(cap->tx_pwr_ht_mcs_14_15 + delta_pwr);
 
-	value &= ~TX_PWR_HT_VHT_STBC_MCS_0_1_MASK;
+	value &= ~TX_PWR_HT_VHT_STBC_MCS_0_1_MASK;		/* Bit 16-21 */
 	value |= TX_PWR_HT_VHT_STBC_MCS_0_1(cap->tx_pwr_ht_mcs_0_1 + delta_pwr);
 
-	value &= ~TX_PWR_HT_VHT_STBC_MCS_2_3_MASK;
+	value &= ~TX_PWR_HT_VHT_STBC_MCS_2_3_MASK;		/* Bit 24-29 */
 	value |= TX_PWR_HT_VHT_STBC_MCS_2_3(cap->tx_pwr_ht_mcs_2_3 + delta_pwr);
 	mt7612u_write32(ad, TX_PWR_CFG_3, value);
 
+	/* Reg : TX_PWR_CFG_4 */
 	value = mt7612u_read32(ad, TX_PWR_CFG_4);
-	value &= ~TX_PWR_HT_VHT_STBC_MCS_4_5_MASK;
+	value &= ~TX_PWR_HT_VHT_STBC_MCS_4_5_MASK;		/* Bit 0-5 */
 	value |= TX_PWR_HT_VHT_STBC_MCS_4_5(cap->tx_pwr_ht_mcs_4_5 + delta_pwr);
 
-	value &= ~TX_PWR_HT_VHT_STBC_MCS_6_MASK;
+	value &= ~TX_PWR_HT_VHT_STBC_MCS_6_MASK;		/* Bit 8-13 */
 	value |= TX_PWR_HT_VHT_STBC_MCS_6(cap->tx_pwr_ht_mcs_6_7 + delta_pwr);
 	mt7612u_write32(ad, TX_PWR_CFG_4, value);
 
+	/* Reg : TX_PWR_CFG_7 */
 	value = mt7612u_read32(ad, TX_PWR_CFG_7);
-	value &= ~TX_PWR_OFDM_54_MASK;
+	value &= ~TX_PWR_OFDM_54_MASK;			/* Bit 0-5 */
 	if (band == NL80211_BAND_2GHZ)
 		value |= TX_PWR_OFDM_54(cap->tx_pwr_g_band_ofdm_48_54 + delta_pwr);
 	else
 		value |= TX_PWR_OFDM_54(cap->tx_pwr_a_band_ofdm_48_54 + delta_pwr);
 
-	value &= ~TX_PWR_VHT_2SS_MCS_8_MASK;
+	value &= ~TX_PWR_VHT_2SS_MCS_8_MASK;		/* Bit 8-13  */
 	if (band == NL80211_BAND_2GHZ)
 		value |= TX_PWR_VHT_2SS_MCS_8(cap->tx_pwr_2g_vht_mcs_8_9 + delta_pwr);
 	else
 		value |= TX_PWR_VHT_2SS_MCS_8(cap->tx_pwr_5g_vht_mcs_8_9 + delta_pwr);
 
-	value &= ~TX_PWR_HT_MCS_7_VHT_1SS_MCS_7_MASK;
+	value &= ~TX_PWR_HT_MCS_7_VHT_1SS_MCS_7_MASK;	/* Bit 16-21 */
 	value |= TX_PWR_HT_MCS_7_VHT_1SS_MCS_7(cap->tx_pwr_ht_mcs_6_7 + delta_pwr);
 
-	value &= ~TX_PWR_VHT_2SS_MCS_9_MASK;
+	value &= ~TX_PWR_VHT_2SS_MCS_9_MASK;		/* Bit 24-29 */
 	if (band == NL80211_BAND_2GHZ)
 		value |= TX_PWR_VHT_2SS_MCS_9(cap->tx_pwr_2g_vht_mcs_8_9 + delta_pwr);
 	else
@@ -350,17 +364,19 @@ void mt76x2_adjust_per_rate_pwr_delta(struct rtmp_adapter *ad, u8 channel, char 
 
 	mt7612u_write32(ad, TX_PWR_CFG_7, value);
 
+	/* Reg : TX_PWR_CFG_8 */
 	value = mt7612u_read32(ad, TX_PWR_CFG_8);
-	value &= ~TX_PWR_HT_MCS_15_VHT_2SS_MCS7_MASK;
+
+	value &= ~TX_PWR_HT_MCS_15_VHT_2SS_MCS7_MASK;	/* Bit 0-5 */
 	value |= TX_PWR_HT_MCS_15_VHT_2SS_MCS7(cap->tx_pwr_ht_mcs_14_15 + delta_pwr);
 
-	value &= ~TX_PWR_VHT_1SS_MCS_8_MASK;
+	value &= ~TX_PWR_VHT_1SS_MCS_8_MASK;		/* Bit 16-21 */
 	if (band == NL80211_BAND_2GHZ)
 		value |= TX_PWR_VHT_1SS_MCS_8(cap->tx_pwr_2g_vht_mcs_8_9 + delta_pwr);
 	else
 		value |= TX_PWR_VHT_1SS_MCS_8(cap->tx_pwr_5g_vht_mcs_8_9 + delta_pwr);
 
-	value &= ~TX_PWR_VHT_1SS_MCS_9_MASK;
+	value &= ~TX_PWR_VHT_1SS_MCS_9_MASK;		/* Bit 24-29 */
 	if (band == NL80211_BAND_2GHZ)
 		value |= TX_PWR_VHT_1SS_MCS_9(cap->tx_pwr_2g_vht_mcs_8_9 + delta_pwr);
 	else
@@ -368,17 +384,19 @@ void mt76x2_adjust_per_rate_pwr_delta(struct rtmp_adapter *ad, u8 channel, char 
 
 	mt7612u_write32(ad, TX_PWR_CFG_8, value);
 
+	/* Reg : TX_PWR_CFG_9 */
 	value = mt7612u_read32(ad, TX_PWR_CFG_9);
-	value &= ~TX_PWR_HT_VHT_STBC_MCS_7_MASK;
+
+	value &= ~TX_PWR_HT_VHT_STBC_MCS_7_MASK;/* Bit 0-5 */
 	value |= TX_PWR_HT_VHT_STBC_MCS_7(cap->tx_pwr_ht_mcs_6_7 + delta_pwr);
 
-	value &= ~TX_PWR_VHT_STBC_MCS_8_MASK;
+	value &= ~TX_PWR_VHT_STBC_MCS_8_MASK;	/* Bit 8-13 */
 	if (band == NL80211_BAND_2GHZ)
 		value |= TX_PWR_VHT_STBC_MCS_8(cap->tx_pwr_2g_vht_mcs_8_9 + delta_pwr);
 	else
 		value |= TX_PWR_VHT_STBC_MCS_8(cap->tx_pwr_5g_vht_mcs_8_9 + delta_pwr);
 
-	value &= ~TX_PWR_VHT_STBC_MCS_9_MASK;
+	value &= ~TX_PWR_VHT_STBC_MCS_9_MASK;	/* Bit 24-29 */
 	if (band == NL80211_BAND_2GHZ)
 		value |= TX_PWR_VHT_STBC_MCS_9(cap->tx_pwr_2g_vht_mcs_8_9 + delta_pwr);
 	else
@@ -438,7 +456,8 @@ static void mt76x2_tx_pwr_gain(struct rtmp_adapter *ad, u8 channel, u8 bw)
 
 	/* TX0 channel initial transmission gain setting */
 	value = mt7612u_read32(ad, TX_ALC_CFG_0);
-	value = value & (~TX_ALC_CFG_0_CH_INT_0_MASK);
+
+	value &= ~TX_ALC_CFG_0_CH_INT_0_MASK;	/* Bit 0-5 */
 	value |= TX_ALC_CFG_0_CH_INT_0(tx_0_pwr);
 	//value |= TX_ALC_CFG_0_CH_INT_0(0x7);
 	DBGPRINT(RT_DEBUG_INFO, ("tx_0_pwr = %d\n", tx_0_pwr));
@@ -446,7 +465,7 @@ static void mt76x2_tx_pwr_gain(struct rtmp_adapter *ad, u8 channel, u8 bw)
 
 	/* TX1 channel initial transmission gain setting */
 	value = mt7612u_read32(ad, TX_ALC_CFG_0);
-	value = value & (~TX_ALC_CFG_0_CH_INT_1_MASK);
+	value &= ~TX_ALC_CFG_0_CH_INT_1_MASK;	/* Bit 8-13 */
 	value |= TX_ALC_CFG_0_CH_INT_1(tx_1_pwr);
 	//value |= TX_ALC_CFG_0_CH_INT_1(0x7);
 	DBGPRINT(RT_DEBUG_INFO, ("tx_1_pwr = %d\n", tx_1_pwr));
@@ -746,13 +765,17 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan
 
 	if (!ad->MCUCtrl.power_on && ad->chipCap.tssi_enable && !ad->chipCap.temp_tx_alc_enable) {
 		value = mt7612u_read32(ad, TX_ALC_CFG_1);
-		value = value & (~TX_ALC_CFG_1_TX0_TEMP_COMP_MASK);
+
+		value &= ~TX_ALC_CFG_1_TX0_TEMP_COMP_MASK;	/* Bit 0-5 */
 		value |= TX_ALC_CFG_1_TX0_TEMP_COMP(0x38);
+
 		mt7612u_write32(ad, TX_ALC_CFG_1, value);
 		DBGPRINT(RT_DEBUG_OFF, ("TX0 power compensation = 0x%x\n", value & 0x3f));
 		value = mt7612u_read32(ad, TX_ALC_CFG_2);
-		value = value & (~TX_ALC_CFG_2_TX1_TEMP_COMP_MASK);
+
+		value &= ~TX_ALC_CFG_2_TX1_TEMP_COMP_MASK;	/* Bit 0-5 */
 		value |= TX_ALC_CFG_2_TX1_TEMP_COMP(0x38);
+
 		mt7612u_write32(ad, TX_ALC_CFG_2, value);
 		DBGPRINT(RT_DEBUG_OFF, ("TX1 power compensation = 0x%x\n", value & 0x3f));
 	}
