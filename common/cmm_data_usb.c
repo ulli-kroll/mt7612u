@@ -1129,7 +1129,6 @@ VOID RtmpUsbStaAsicForceWakeupTimeout(
 		{
 			RTUSBBulkReceive(pAd);
 
-			AsicSendCommandToMcu(pAd, 0x31, 0xff, 0x00, 0x02, false);
 		}
 		OPSTATUS_CLEAR_FLAG(pAd, fOP_STATUS_DOZE);
 		pAd->Mlme.AutoWakeupTimerRunning = false;
@@ -1146,8 +1145,6 @@ VOID RT28xxUsbStaAsicForceWakeup(struct rtmp_adapter *pAd, bool bFromTx)
 		RTMPCancelTimer(&pAd->Mlme.AutoWakeupTimer, &Canceled);
 		pAd->Mlme.AutoWakeupTimerRunning = false;
 	}
-
-	AsicSendCommandToMcu(pAd, 0x31, 0xff, 0x00, 0x02, false);
 
 	OPSTATUS_CLEAR_FLAG(pAd, fOP_STATUS_DOZE);
 }
@@ -1171,8 +1168,6 @@ VOID RT28xxUsbStaAsicSleepThenAutoWakeup(
 	pAd->Mlme.AutoWakeupTimerRunning = true;
 
 	{
-		AsicSendCommandToMcu(pAd, 0x30, 0xff, 0xff, 0x02, false);   /* send POWER-SAVE command to MCU. Timeout 40us.*/
-
 		/* cancel bulk-in IRPs prevent blocking CPU enter C3.*/
 		if((pAd->PendingRx > 0) && (!RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST)))
 		{

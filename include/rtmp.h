@@ -4804,36 +4804,6 @@ VOID AsicRemovePairwiseKeyEntry(struct rtmp_adapter *pAd, u8 Wcid);
 VOID AsicSetMbssMode(struct rtmp_adapter *pAd, u8 NumOfBcns);
 #endif /* CONFIG_AP_SUPPORT */
 
-bool AsicSendCommandToMcu(
-	IN struct rtmp_adapter *pAd,
-	IN u8         Command,
-	IN u8         Token,
-	IN u8         Arg0,
-	IN u8         Arg1,
-	IN bool in_atomic);
-
-bool AsicSendCmdToMcuAndWait(
-	IN struct rtmp_adapter *pAd,
-	IN u8 Command,
-	IN u8 Token,
-	IN u8 Arg0,
-	IN u8 Arg1,
-	IN bool in_atomic);
-
-bool AsicSendCommandToMcuBBP(
-	IN struct rtmp_adapter *pAd,
-	IN u8 	 Command,
-	IN u8 	 Token,
-	IN u8 	 Arg0,
-	IN u8 	 Arg1,
-	IN bool		FlgIsNeedLocked);
-
-
-
-
-
-
-
 #ifdef WOW_SUPPORT
 /* For WOW, 8051 MUC send full frame */
 VOID AsicWOWSendNullFrame(

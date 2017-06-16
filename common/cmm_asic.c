@@ -2124,62 +2124,6 @@ VOID AsicRemovePairwiseKeyEntry(
 }
 
 
-bool AsicSendCommandToMcu(
-	IN struct rtmp_adapter *pAd,
-	IN u8 Command,
-	IN u8 Token,
-	IN u8 Arg0,
-	IN u8 Arg1,
-	IN bool in_atomic)
-{
-	// TODO: shiang-6590, fix me, currently firmware is not ready yet, so ignore it!
-	if (IS_RT65XX(pAd))
-		return true;
-
-
-	if (pAd->chipOps.sendCommandToMcu)
-		return pAd->chipOps.sendCommandToMcu(pAd, Command, Token, Arg0, Arg1, in_atomic);
-	else
-		return false;
-}
-
-
-bool AsicSendCmdToMcuAndWait(
-	IN struct rtmp_adapter *pAd,
-	IN u8 Command,
-	IN u8 Token,
-	IN u8 Arg0,
-	IN u8 Arg1,
-	IN bool in_atomic)
-{
-	bool cmd_done = true;
-
-	AsicSendCommandToMcu(pAd, Command, Token, Arg0, Arg1, in_atomic);
-
-
-	return cmd_done;
-}
-
-
-bool AsicSendCommandToMcuBBP(
-	IN struct rtmp_adapter *pAd,
-	IN u8 	 Command,
-	IN u8 	 Token,
-	IN u8 	 Arg0,
-	IN u8 	 Arg1,
-	IN bool		FlgIsNeedLocked)
-{
-	// TODO: shiang-6590, fix me, currently firmware is not ready yet, so ignore it!
-	if (IS_RT65XX(pAd))
-		return true;
-
-
-	if (pAd->chipOps.sendCommandToMcu)
-		return pAd->chipOps.sendCommandToMcu(pAd, Command, Token, Arg0, Arg1, FlgIsNeedLocked);
-	else
-		return false;
-}
-
 /*
 	========================================================================
 	Description:
