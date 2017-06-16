@@ -2315,16 +2315,6 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 	}
 #endif /* defined(AP_SCAN_SUPPORT) || defined(CONFIG_STA_SUPPORT) */
 
-#if defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT)
-	pAd->WOW_Cfg.bEnable = false;
-	pAd->WOW_Cfg.bWOWFirmware = false;	/* load normal firmware */
-	pAd->WOW_Cfg.bInBand = true;		/* use in-band signal */
-	pAd->WOW_Cfg.nSelectedGPIO = 1;
-	pAd->WOW_Cfg.nDelay = 3; /* (3+1)*3 = 12 sec */
-	pAd->WOW_Cfg.nHoldTime = 1; /* 1*10 = 10 ms */
-	DBGPRINT(RT_DEBUG_OFF, ("WOW Enable %d, WOWFirmware %d\n", pAd->WOW_Cfg.bEnable, pAd->WOW_Cfg.bWOWFirmware));
-#endif /* defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT) */
-
 	/* 802.11H and DFS related params*/
 	pAd->Dot11_H.CSCount = 0;
 	pAd->Dot11_H.CSPeriod = 10;

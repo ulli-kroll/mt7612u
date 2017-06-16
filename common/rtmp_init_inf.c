@@ -578,9 +578,6 @@ VOID RTMPDrvClose(struct rtmp_adapter *pAd, struct net_device *net_dev)
 	}
 #endif /* CONFIG_STA_SUPPORT */
 
-#if (defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT)) && defined(WOW_IFDOWN_SUPPORT)
-	if (pAd->WOW_Cfg.bEnable == false)
-#endif /* (defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT)) && defined(WOW_IFDOWN_SUPPORT) */
 	{
 		RTMP_CLEAR_FLAG(pAd, fRTMP_ADAPTER_MCU_SEND_IN_BAND_CMD);
 		RTMP_SET_FLAG(pAd, fRTMP_ADAPTER_HALT_IN_PROGRESS);
@@ -628,11 +625,6 @@ VOID RTMPDrvClose(struct rtmp_adapter *pAd, struct net_device *net_dev)
 	IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
 	{
 		MacTableReset(pAd);
-#if (defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT)) && defined(WOW_IFDOWN_SUPPORT)
-		if (pAd->WOW_Cfg.bEnable == true)
-			ASIC_WOW_ENABLE(pAd);
-		else
-#endif /* (defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT)) && defined(WOW_IFDOWN_SUPPORT) */
 			MlmeRadioOff(pAd);
 	}
 #endif /* CONFIG_STA_SUPPORT */
@@ -742,10 +734,6 @@ VOID RTMPInfClose(struct rtmp_adapter *pAd)
 #endif /* PROFILE_STORE */
 
 		if (INFRA_ON(pAd) &&
-#if (defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT)) && defined(WOW_IFDOWN_SUPPORT)
-	/* In WOW state, can't issue disassociation reqeust */
-			pAd->WOW_Cfg.bEnable == false &&
-#endif /* (defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT)) && defined(WOW_IFDOWN_SUPPORT) */
 			(!RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST)))
 		{
 			MLME_DISASSOC_REQ_STRUCT	DisReq;

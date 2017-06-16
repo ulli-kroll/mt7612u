@@ -2944,86 +2944,6 @@ typedef struct _TX_POWER_CONTROL_EXT_OVER_MAC {
 } TX_POWER_CONTROL_EXT_OVER_MAC, *PTX_POWER_CONTROL_EXT_OVER_MAC;
 
 /* For Wake on Wireless LAN */
-#if defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT)
-typedef struct _WOW_CFG_STRUCT {
-	bool			bEnable;		/* Enable WOW function*/
-	bool			bWOWFirmware;	/* Enable WOW function, trigger to reload WOW-support firmware */
-	bool			bInBand;		/* use in-band signal to wakeup system */
-	UINT8			nSelectedGPIO;	/* Side band signal to wake up system */
-	UINT8			nDelay;			/* Delay number is multiple of 3 secs, and it used to postpone the WOW function */
-	UINT8           nHoldTime;      /* GPIO puls hold time, unit: 10ms */
-} WOW_CFG_STRUCT, *PWOW_CFG_STRUCT;
-#endif /* defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT) */
-
-#ifdef NEW_WOW_SUPPORT
-typedef enum {
-	WOW_PKT_TO_HOST,
-	WOW_PKT_TO_ANDES
-} WOW_PKT_FLOW_T;
-
-typedef enum {
-	WOW_WAKEUP_BY_PCIE,
-	WOW_WAKEUP_BY_USB,
-	WOW_WAKEUP_BY_GPIO
-} WOW_WAKEUP_METHOD_T;
-
-typedef enum {
-	WOW_ENABLE = 1,
-	WOW_TRAFFIC = 3,
-	WOW_WAKEUP = 4
-} WOW_FEATURE_T;
-
-typedef enum {
-	WOW_MASK_CFG = 1,
-	WOW_SEC_CFG,
-	WOW_INFRA_CFG,
-	WOW_P2P_CFG,
-} WOW_CONFIG_T;
-
-enum {
-	WOW_MAGIC_PKT,
-	WOW_BITMAP,
-	WOW_IPV4_TCP_SYNC,
-	WOW_IPV6_TCP_SYNC
-};
-
-typedef struct NEW_WOW_MASK_CFG_STRUCT {
-	uint32_t 	Config_Type;
-	uint32_t 	Function_Enable;
-	uint32_t 	Detect_Mask;
-	uint32_t 	Event_Mask;
-} NEW_WOW_MASK_CFG_STRUCT, PNEW_WOW_MASK_CFG_STRUCT;
-
-typedef struct NEW_WOW_SEC_CFG_STRUCT {
-	uint32_t 	Config_Type;
-	uint32_t 	WPA_Ver;
-	u8 	PTK[64];
-	u8 	R_COUNTER[8];
-	u8 	Key_Id;
-	u8 	Cipher_Alg;
-	u8 	WCID;
-	u8 	Group_Cipher;
-} NEW_WOW_SEC_CFG_STRUCT, PNEW_WOW_SEC_CFG_STRUCT;
-
-typedef struct NEW_WOW_INFRA_CFG_STRUCT {
-	uint32_t 	Config_Type;
-	u8 	STA_MAC[6];
-	u8 	AP_MAC[6];
-	uint32_t 	AP_Status;
-} NEW_WOW_INFRA_CFG_STRUCT, PNEW_WOW_INFRA_CFG_STRUCT;
-
-typedef struct _NEW_WOW_P2P_CFG_STRUCT {
-	uint32_t 	Config_Type;
-	u8 	GO_MAC[6];
-	u8 	CLI_MAC[6];
-	uint32_t 	P2P_Status;
-} NEW_WOW_P2P_CFG_STRUCT, *PNEW_WOW_P2P_CFG_STRUCT;
-
-typedef struct _NEW_WOW_PARAM_STRUCT {
-	uint32_t 	Parameter;
-	uint32_t 	Value;
-} NEW_WOW_PARAM_STRUCT, *PNEW_WOW_PARAM_STRUCT;
-#endif /* NEW_WOW_SUPPORT */
 
 /*
 	Packet drop reason code
@@ -3775,9 +3695,6 @@ struct rtmp_adapter {
 	LIST_HEADER RscTimerCreateList;	/* timers list */
 
 
-#if defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT)
-	WOW_CFG_STRUCT WOW_Cfg; /* data structure for wake on wireless */
-#endif /* defined(WOW_SUPPORT || defined(NEW_WOW_SUPPORT) */
 
 	TXWI_STRUC NullTxWI;
 	unsigned short NullBufOffset[2];
@@ -4803,17 +4720,6 @@ VOID AsicRemovePairwiseKeyEntry(struct rtmp_adapter *pAd, u8 Wcid);
 VOID AsicSetMbssMode(struct rtmp_adapter *pAd, u8 NumOfBcns);
 #endif /* CONFIG_AP_SUPPORT */
 
-#ifdef WOW_SUPPORT
-/* For WOW, 8051 MUC send full frame */
-VOID AsicWOWSendNullFrame(
-    IN struct rtmp_adapter *pAd,
-    IN u8 TxRate,
-    IN bool bQosNull);
-
-VOID AsicLoadWOWFirmware(
-    IN struct rtmp_adapter *pAd,
-    IN bool WOW);
-#endif /* WOW_SUPPORT */
 
 VOID MacAddrRandomBssid(
 	IN  struct rtmp_adapter *pAd,
@@ -6660,16 +6566,6 @@ bool RtmpTimerQRemove(
 void RtmpTimerQExit(struct rtmp_adapter *pAd);
 void RtmpTimerQInit(struct rtmp_adapter *pAd);
 #endif /* RTMP_TIMER_TASK_SUPPORT */
-
-#ifdef NEW_WOW_SUPPORT
-VOID RT28xxAndesWOWEnable(struct rtmp_adapter *pAd);
-VOID RT28xxAndesWOWDisable(struct rtmp_adapter *pAd);
-#endif /* NEW_WOW_SUPPORT */
-
-#if defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT)
-VOID RT28xxAsicWOWEnable(struct rtmp_adapter *pAd);
-VOID RT28xxAsicWOWDisable(struct rtmp_adapter *pAd);
-#endif /* defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT) */
 
 /*////////////////////////////////////*/
 

@@ -3539,28 +3539,6 @@ int RTMPSetProfileParameters(
 #endif /* CONFIG_AP_SUPPORT */
 
 
-#if defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT)
-		/* set GPIO pin for wake-up signal */
-		if (RTMPGetKeyParameter("WOW_GPIO", tmpbuf, 10, pBuffer, true))
-			Set_WOW_GPIO(pAd, tmpbuf);
-
-		/* set WOW enable/disable */
-		if (RTMPGetKeyParameter("WOW_Enable", tmpbuf, 10, pBuffer, true))
-			Set_WOW_Enable(pAd, tmpbuf);
-
-		/* set delay time for WOW really enable */
-		if (RTMPGetKeyParameter("WOW_Delay", tmpbuf, 10, pBuffer, true))
-			Set_WOW_Delay(pAd, tmpbuf);
-
-		/* set GPIO pulse hold time */
-		if (RTMPGetKeyParameter("WOW_Hold", tmpbuf, 10, pBuffer, true))
-			Set_WOW_Hold(pAd, tmpbuf);
-
-		/* set wakeup signal type */
-		if (RTMPGetKeyParameter("WOW_InBand", tmpbuf, 10, pBuffer, true))
-			Set_WOW_InBand(pAd, tmpbuf);
-#endif /* defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT) */
-
 		if (RTMPGetKeyParameter("USBAggregation", tmpbuf, 10, pBuffer, true)) {
 			pAd->usb_ctl.usb_aggregation = simple_strtol(tmpbuf, 0, 10);
 			DBGPRINT(RT_DEBUG_OFF, ("USBAggregation = %d\n", pAd->usb_ctl.usb_aggregation));
