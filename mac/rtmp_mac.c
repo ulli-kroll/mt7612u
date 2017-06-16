@@ -782,11 +782,10 @@ VOID rtmp_mac_bcn_buf_init(IN struct rtmp_adapter *pAd)
 			{RLT_BCN_OFFSET3, 0x78706860},
 		};
 
-		tb_size = (sizeof(bcn_mac_reg_tb) / sizeof(struct rtmp_reg_pair));
-		for (idx = 0; idx < tb_size; idx ++)
-		{
-			mt7612u_write32(pAd, (unsigned short)bcn_mac_reg_tb[idx].Register,
-									bcn_mac_reg_tb[idx].Value);
+		for (idx = 0; idx < ARRAY_SIZE(bcn_mac_reg_tb); idx ++) {
+			mt7612u_write32(pAd,
+				        (unsigned short)bcn_mac_reg_tb[idx].Register,
+				        bcn_mac_reg_tb[idx].Value);
 		}
 	}
 }
@@ -794,7 +793,7 @@ VOID rtmp_mac_bcn_buf_init(IN struct rtmp_adapter *pAd)
 
 INT rtmp_mac_pbf_init(struct rtmp_adapter *pAd)
 {
-	INT idx, tb_size = 0;
+	INT idx;
 	struct rtmp_reg_pair *pbf_regs = NULL;
 
 	struct rtmp_reg_pair rlt_pbf_regs[]={
@@ -803,11 +802,11 @@ INT rtmp_mac_pbf_init(struct rtmp_adapter *pAd)
 	};
 
 	pbf_regs = &rlt_pbf_regs[0];
-	tb_size = (sizeof(rlt_pbf_regs) / sizeof(struct rtmp_reg_pair));
 
-	if ((pbf_regs != NULL) && (tb_size > 0)) 	{
-		for (idx = 0; idx < tb_size; idx++) {
-			mt7612u_write32(pAd, pbf_regs->Register, pbf_regs->Value);
+	if ((pbf_regs != NULL) && (ARRAY_SIZE(rlt_pbf_regs) > 0)) {
+		for (idx = 0; idx < ARRAY_SIZE(rlt_pbf_regs); idx++) {
+			mt7612u_write32(pAd, pbf_regs->Register,
+					pbf_regs->Value);
 			pbf_regs++;
 		}
 	}
