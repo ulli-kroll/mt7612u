@@ -28,8 +28,6 @@
 #include "rt_config.h"
 
 
-#ifdef RLT_BBP
-
 void mt7612u_bbp_set_txdac(struct rtmp_adapter *pAd, int tx_dac)
 {
 	uint32_t txbe, txbe_r5 = 0;
@@ -263,5 +261,4 @@ INT rlt_phy_probe(struct rtmp_adapter *pAd)
 	return true;
 }
 
-#endif /* RLT_BBP */
 

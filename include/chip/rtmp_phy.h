@@ -31,9 +31,7 @@
 
 
 #include "mac_ral/rf_ctrl.h"
-#ifdef RLT_BBP
 #include "phy/rlt_bbp.h"
-#endif /* RLT_BBP */
 
 
 
