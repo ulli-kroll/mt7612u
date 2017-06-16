@@ -677,10 +677,6 @@ struct rtmp_chip_ops {
 	/* BBP adjust */
 	VOID (*ChipBBPAdjust)(IN struct rtmp_adapter *pAd);
 
-	/* Channel */
-	VOID (*ChipSwitchChannel)(struct rtmp_adapter *pAd, u8 ch, bool bScan);
-
-
 	/* IQ Calibration */
 	VOID (*ChipIQCalibration)(struct rtmp_adapter *pAd, u8 Channel);
 

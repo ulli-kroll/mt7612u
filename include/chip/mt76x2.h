@@ -27,6 +27,7 @@ void percentage_delta_pwr(struct rtmp_adapter *ad);
 
 void mt76x2_get_current_temp(struct rtmp_adapter *ad);
 void mt76x2_read_temp_info_from_eeprom(struct rtmp_adapter *ad);
+void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan);
 
 struct mt76x2_frequency_item {
 	u8 channel;

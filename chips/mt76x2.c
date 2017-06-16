@@ -476,7 +476,7 @@ static void mt76x2_tx_pwr_gain(struct rtmp_adapter *ad, u8 channel, u8 bw)
 #define EXT_CH_ABOVE 0X01
 #define EXT_CH_BELOW 0x03
 
-static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan)
+void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan)
 {
 	struct rtmp_chip_cap *cap = &ad->chipCap;
 	unsigned int latch_band, band, bw, tx_rx_setting;
@@ -2698,8 +2698,6 @@ static const struct rtmp_chip_cap MT76x2_ChipCap = {
 
 static const struct rtmp_chip_ops MT76x2_ChipOp = {
 	.ChipBBPAdjust = mt76x2_bbp_adjust,
-	.ChipSwitchChannel = mt76x2_switch_channel,
-
 };
 
 VOID mt76x2_init(struct rtmp_adapter *pAd)

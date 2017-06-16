@@ -670,10 +670,7 @@ VOID AsicSwitchChannel(struct rtmp_adapter *pAd, u8 Channel, bool bScan)
 #endif /* AP_QLOAD_SUPPORT */
 #endif /* CONFIG_AP_SUPPORT */
 
-	if (pAd->chipOps.ChipSwitchChannel)
-		pAd->chipOps.ChipSwitchChannel(pAd, Channel, bScan);
-	else
-		DBGPRINT(RT_DEBUG_ERROR, ("For this chip, no specified channel switch function!\n"));
+	mt76x2_switch_channel(pAd, Channel, bScan);
 
 	/* R66 should be set according to Channel and use 20MHz when scanning*/
 	if (bScan)
