@@ -734,7 +734,6 @@ typedef struct _COUNTER_TXBF{
 
 
 /* TODO: need to integrate with MICROWAVE_OVEN_SUPPORT */
-#ifdef DYNAMIC_VGA_SUPPORT
 /* for dynamic vga */
 typedef struct _LNA_VGA_CTL_STRUCT {
 	bool		bEnable;
@@ -752,7 +751,6 @@ typedef struct _LNA_VGA_CTL_STRUCT {
 	u8 		agc_vga_ori_1; /* the original vga gain initialized by firmware at start up */
 	uint16_t 	agc_1_vga_set1_2;
 } LNA_VGA_CTL_STRUCT, *PLNA_VGA_CTL_STRUCT;
-#endif /* DYNAMIC_VGA_SUPPORT */
 
 /***************************************************************************
   *	security key related data structure
@@ -1817,9 +1815,7 @@ typedef struct _COMMON_CONFIG {
 #endif /* DBG_CTRL_SUPPORT */
 
 /* TODO: need to integrate with MICROWAVE_OVEN_SUPPORT */
-#ifdef DYNAMIC_VGA_SUPPORT
 	LNA_VGA_CTL_STRUCT lna_vga_ctl;
-#endif /* DYNAMIC_VGA_SUPPORT */
 
 
 } COMMON_CONFIG, *PCOMMON_CONFIG;

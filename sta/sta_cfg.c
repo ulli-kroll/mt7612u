@@ -42,11 +42,9 @@ INT Set_AdhocN_Proc(
 
 
 
-#ifdef DYNAMIC_VGA_SUPPORT
 INT	Set_DyncVgaEnable_Proc(
 	IN struct rtmp_adapter 	*pAd,
 	IN char *		arg);
-#endif /* DYNAMIC_VGA_SUPPORT */
 
 /*
     ==========================================================================
@@ -1046,7 +1044,6 @@ INT Set_TGnWifiTest_Proc(
 	return true;
 }
 
-#ifdef DYNAMIC_VGA_SUPPORT
 INT Set_DyncVgaEnable_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *	arg)
@@ -1075,7 +1072,6 @@ INT Set_DyncVgaEnable_Proc(
 
 	return true;
 }
-#endif /* DYNAMIC_VGA_SUPPORT */
 
 INT	Show_Adhoc_MacTable_Proc(
 	IN	struct rtmp_adapter *pAd,

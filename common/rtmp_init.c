@@ -2247,14 +2247,12 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 		pAd->ApCfg.ChangeTxOpClient = 0;
 	}
 
-#ifdef DYNAMIC_VGA_SUPPORT
 	if (IS_MT76x2(pAd)) {
 		pAd->CommonCfg.lna_vga_ctl.bDyncVgaEnable = false;
 		pAd->CommonCfg.lna_vga_ctl.nFalseCCATh = 800;
 		pAd->CommonCfg.lna_vga_ctl.nLowFalseCCATh = 10;
 	}
 
-#endif /* DYNAMIC_VGA_SUPPORT */
 #endif /* CONFIG_AP_SUPPORT */
 
 

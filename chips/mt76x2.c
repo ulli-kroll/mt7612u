@@ -796,13 +796,11 @@ static void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan
 
 	percentage_delta_pwr(ad);
 
-#ifdef DYNAMIC_VGA_SUPPORT
 	RTMP_BBP_IO_WRITE32(ad, AGC1_R61, 0xFF64A4E2); /* microwave's function initial gain */
 	RTMP_BBP_IO_WRITE32(ad, AGC1_R7, 0x08081010); /* microwave's ED CCA threshold */
 	RTMP_BBP_IO_WRITE32(ad, AGC1_R11, 0x00000404); /* microwave's ED CCA threshold */
 	RTMP_BBP_IO_WRITE32(ad, AGC1_R2, 0x00007070); /* initial ED CCA threshold */
 	mt7612u_write32(ad, TXOP_CTRL_CFG, 0x04101B3F);
-#endif /* DYNAMIC_VGA_SUPPORT */
 
 	DBGPRINT(RT_DEBUG_TRACE,
 			("%s(): Switch to Ch#%d(%dT%dR), BBP_BW=%d, bbp_ch_idx=%d)\n",
@@ -2671,7 +2669,6 @@ static const struct rtmp_chip_cap MT76x2_ChipCap = {
 	.fw_name = MT7662U_FIRMWARE_NAME,
 	.fw_patch_name = MT7662U_FIRMWARE_PATCH_NAME,
 	.rf_type = RF_MT,
-#ifdef DYNAMIC_VGA_SUPPORT
 	.dynamic_vga_support = true,
 	.compensate_level = 0,
 	.dynamic_chE_mode = 0xFF,
@@ -2683,7 +2680,6 @@ static const struct rtmp_chip_cap MT76x2_ChipCap = {
 	.dynamic_lna_trigger_timer = 1,
 	.microwave_enable = true,
 #endif /* CONFIG_AP_SUPPORT */
-#endif /* DYNAMIC_VGA_SUPPORT */
 	.chl_smth_enable = true,
 	.ed_cca_enable = false,
 #ifdef DOT11W_PMF_SUPPORT

@@ -435,7 +435,6 @@ struct rtmp_chip_cap {
 	int32_t temp_25_ref; /* a quantification value of temperature, but not ¢J */
 	int32_t current_temp; /* unit ¢J */
 
-#ifdef DYNAMIC_VGA_SUPPORT
 	bool dynamic_vga_support;
 	int32_t compensate_level;
 	int32_t avg_rssi_0;
@@ -447,7 +446,6 @@ struct rtmp_chip_cap {
 	int32_t dynamic_lna_trigger_timer;
 	bool microwave_enable;
 #endif /* CONFIG_AP_SUPPORT */
-#endif /* DYNAMIC_VGA_SUPPORT */
 
 	/* ---------------------------- signal ---------------------------------- */
 #define SNR_FORMULA1		0	/* ((0xeb     - pAd->StaCfg.LastSNR0) * 3) / 16; */
@@ -712,9 +710,7 @@ struct rtmp_chip_ops {
 
 #ifdef CONFIG_ANDES_SUPPORT
 #endif /* CONFIG_ANDES_SUPPORT */
-#ifdef DYNAMIC_VGA_SUPPORT
 	VOID (*AsicDynamicVgaGainControl)(IN struct rtmp_adapter *pAd);
-#endif /* DYNAMIC_VGA_SUPPORT */
 
 #if defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT)
 	VOID (*AsicWOWEnable)(struct rtmp_adapter *ad);
@@ -820,13 +816,11 @@ do {	\
 } while(0)
 #endif /* defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT) */
 
-#ifdef DYNAMIC_VGA_SUPPORT
 #define RTMP_ASIC_DYNAMIC_VGA_GAIN_CONTROL(_pAd)	\
 		do {	\
 			if (_pAd->chipOps.AsicDynamicVgaGainControl != NULL)	\
 				_pAd->chipOps.AsicDynamicVgaGainControl(_pAd);	\
 		} while (0)
-#endif /* DYNAMIC_VGA_SUPPORT */
 
 int RtmpChipOpsHook(VOID *pCB);
 VOID RtmpChipBcnSpecInit(struct rtmp_adapter *pAd);

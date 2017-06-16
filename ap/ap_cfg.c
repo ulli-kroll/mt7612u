@@ -519,7 +519,6 @@ INT	Set_PowerSaveLifeTime_Proc(
 #endif /* CONFIG_AP_SUPPORT */
 
 
-#ifdef DYNAMIC_VGA_SUPPORT
 INT	Set_AP_DyncVgaEnable_Proc(
 	IN struct rtmp_adapter 	*pAd,
 	IN	char *		arg);
@@ -530,7 +529,6 @@ INT set_dynamic_lna_trigger_timer_proc(
 
 INT set_false_cca_hi_th(struct rtmp_adapter *pAd, char *arg);
 INT set_false_cca_low_th(struct rtmp_adapter *pAd, char *arg);
-#endif /* DYNAMIC_VGA_SUPPORT */
 
 #define	ASSO_MAC_LINE_LEN	(1+19+4+4+4+4+8+7+7+7+10+6+6+6+6+7+7+7+1)
 VOID RTMPAPGetAssoMacTable(
@@ -5443,7 +5441,6 @@ INT RTMP_AP_IoctlHandle(
 
 
 
-#ifdef DYNAMIC_VGA_SUPPORT
 INT Set_AP_DyncVgaEnable_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *	arg)
@@ -5516,7 +5513,6 @@ INT set_false_cca_low_th(struct rtmp_adapter *pAd, char *arg)
 
 	return true;
 }
-#endif /* DYNAMIC_VGA_SUPPORT */
 
 static INT Set_AP_VENDOR_SPECIFIC_IE(
 	IN struct rtmp_adapter *pAd,

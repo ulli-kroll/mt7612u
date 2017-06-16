@@ -101,7 +101,6 @@ u8 ZeroSsid[32] = {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0
 	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
 
 
-#ifdef DYNAMIC_VGA_SUPPORT
 void dynamic_ed_cca_threshold_adjust(struct rtmp_adapter * pAd)
 {
 	uint32_t reg_val = 0;
@@ -506,7 +505,6 @@ void periodic_monitor_rssi_adjust_vga(struct rtmp_adapter *pAd)
 	}
 }
 #endif /* CONFIG_STA_SUPPORT */
-#endif /* DYNAMIC_VGA_SUPPORT */
 
 #ifdef CONFIG_STA_SUPPORT
 void periodic_check_channel_smoothing(struct rtmp_adapter *ad)
@@ -1305,12 +1303,10 @@ VOID MlmePeriodicExec(
 #ifndef WFA_VHT_PF
 #endif /* WFA_VHT_PF */
 
-#ifdef DYNAMIC_VGA_SUPPORT
 	if (IS_MT76x2(pAd)) {
 		update_rssi_for_channel_model(pAd);
 		/* dynamic_cck_mrc(pAd); */
 	}
-#endif /* DYNAMIC_VGA_SUPPORT */
 
 	if ((pAd->Mlme.OneSecPeriodicRound % 1 == 0) && IS_MT76x2(pAd))
 		mt76x2_get_current_temp(pAd);
@@ -1406,7 +1402,6 @@ VOID MlmePeriodicExec(
    		/* Need statistics after read counter. So put after NICUpdateRawCounters*/
 		ORIBATimerTimeout(pAd);
 
-#ifdef DYNAMIC_VGA_SUPPORT
 #ifdef CONFIG_AP_SUPPORT
 		if (IS_MT76x2(pAd)) {
 			IF_DEV_CONFIG_OPMODE_ON_AP(pAd) {
@@ -1427,7 +1422,6 @@ VOID MlmePeriodicExec(
 		}
 #endif /* CONFIG_STA_SUPPORT */
 
-#endif /* DYNAMIC_VGA_SUPPORT */
 
 	/*
 		if (pAd->RalinkCounters.MgmtRingFullCount >= 2)
