@@ -35,29 +35,21 @@
 */
 
 /* Initialize the frequency calibration*/
-VOID InitFrequencyCalibration(
-	IN struct rtmp_adapter *pAd)
+void InitFrequencyCalibration(struct rtmp_adapter *pAd)
 {
-	if (pAd->FreqCalibrationCtrl.bEnableFrequencyCalibration == true)
-	{
-		DBGPRINT(RT_DEBUG_ERROR, ("---> %s\n", __FUNCTION__));
-
+	if (pAd->FreqCalibrationCtrl.bEnableFrequencyCalibration) {
 		StopFrequencyCalibration(pAd);
 
 		DBGPRINT(RT_DEBUG_ERROR, ("%s: frequency offset in the EEPROM = %d\n",
 					__FUNCTION__, pAd->RfFreqOffset));
-
-		DBGPRINT(RT_DEBUG_ERROR, ("<--- %s\n", __FUNCTION__));
 	}
 }
 
 
 /* To stop the frequency calibration algorithm*/
-VOID StopFrequencyCalibration(
-	IN struct rtmp_adapter *pAd)
+void StopFrequencyCalibration(struct rtmp_adapter *pAd)
 {
-	if (pAd->FreqCalibrationCtrl.bEnableFrequencyCalibration == true)
-	{
+	if (pAd->FreqCalibrationCtrl.bEnableFrequencyCalibration) {
 		DBGPRINT(RT_DEBUG_TRACE, ("---> %s\n", __FUNCTION__));
 
 		/* Base on the frequency offset of the EEPROM*/
@@ -76,28 +68,22 @@ VOID StopFrequencyCalibration(
 
 
 /* The frequency calibration algorithm*/
-VOID FrequencyCalibration(
-	IN struct rtmp_adapter *pAd)
+void FrequencyCalibration(struct rtmp_adapter *pAd)
 {
 	/*bool bUpdateRFR = false;*/
 	CHAR HighFreqTriggerPoint = 0, LowFreqTriggerPoint = 0;
 	CHAR DecreaseFreqOffset = 0, IncreaseFreqOffset = 0;
 
-	if (IS_MT76x2(pAd))
-	{
+	if (IS_MT76x2(pAd)) {
 		PFREQUENCY_CALIBRATION_CONTROL pFrqCal = &pAd->FreqCalibrationCtrl;
 		CHAR upBound = 0, lowBound =0;
 
 		if (pFrqCal->bEnableFrequencyCalibration &&
-	            pFrqCal->LatestFreqOffsetOverBeacon != INVALID_FREQUENCY_OFFSET)
-		{
-			if (pFrqCal->BeaconPhyMode == MODE_CCK)
-			{
+	            pFrqCal->LatestFreqOffsetOverBeacon != INVALID_FREQUENCY_OFFSET) {
+			if (pFrqCal->BeaconPhyMode == MODE_CCK) {
 				upBound = 4;
 				lowBound = -4;
-			}
-			else
-			{
+			} else {
 				/* Beacon on OFDM Mode*/
 				upBound = 32;
 				lowBound = -32;
@@ -105,29 +91,22 @@ VOID FrequencyCalibration(
 		}
 
 		if ((pFrqCal->LatestFreqOffsetOverBeacon >= upBound) ||
-		   (pFrqCal->LatestFreqOffsetOverBeacon <= lowBound))
-		{
+		   (pFrqCal->LatestFreqOffsetOverBeacon <= lowBound)) {
 			 pFrqCal->bApproachFrequency = true;
-		}
-		else
-		{
+		} else {
 			pFrqCal->bApproachFrequency = false;
 		}
 
-		if (pFrqCal->bApproachFrequency == true)
-		{
+		if (pFrqCal->bApproachFrequency == true) {
 			u32 value = 0;
 			value = mt7612u_cfg3_read(pAd, XO_CTRL5);
 			DBGPRINT(RT_DEBUG_TRACE, ("FRQ:  Read Value => %08x\n", value));
 			pFrqCal->AdaptiveFreqOffset = (value & ~0xffff80ff) >> 8;
 
-			if (pFrqCal->LatestFreqOffsetOverBeacon > 0)
-			{
+			if (pFrqCal->LatestFreqOffsetOverBeacon > 0) {
 				if (pFrqCal->AdaptiveFreqOffset > 0)
 					pFrqCal->AdaptiveFreqOffset--;
-			}
-			else
-			{
+			} else {
 				if (pFrqCal->AdaptiveFreqOffset < 0x7F)
 					pFrqCal->AdaptiveFreqOffset++;
 			}
@@ -145,61 +124,42 @@ VOID FrequencyCalibration(
 	/* b) 500 ms: Update the RF frequency if possible*/
 	if ((pAd->FreqCalibrationCtrl.bEnableFrequencyCalibration == true) &&
 	     (((pAd->FreqCalibrationCtrl.bApproachFrequency == false) && ((pAd->Mlme.PeriodicRound % FREQUENCY_CALIBRATION_PERIOD) == 0)) ||
-	       ((pAd->FreqCalibrationCtrl.bApproachFrequency == true) && ((pAd->Mlme.PeriodicRound % (FREQUENCY_CALIBRATION_PERIOD / 20)) == 0))))
-	{
+	       ((pAd->FreqCalibrationCtrl.bApproachFrequency == true) && ((pAd->Mlme.PeriodicRound % (FREQUENCY_CALIBRATION_PERIOD / 20)) == 0)))) {
 		DBGPRINT(RT_DEBUG_INFO, ("---> %s\n", __FUNCTION__));
 
-		if (pAd->FreqCalibrationCtrl.bSkipFirstFrequencyCalibration == true)
-		{
+		if (pAd->FreqCalibrationCtrl.bSkipFirstFrequencyCalibration) {
 			pAd->FreqCalibrationCtrl.bSkipFirstFrequencyCalibration = false;
 
 			DBGPRINT(RT_DEBUG_INFO, ("%s: Skip cuurent frequency calibration (avoid calibrating frequency at the time the STA is just link-up)\n", __FUNCTION__));
-		}
-		else
-		{
-			if (pAd->FreqCalibrationCtrl.LatestFreqOffsetOverBeacon != INVALID_FREQUENCY_OFFSET)
-			{
-				if (pAd->FreqCalibrationCtrl.BeaconPhyMode == MODE_CCK) /* CCK*/
-				{
-					{
-						HighFreqTriggerPoint = HIGH_FREQUENCY_TRIGGER_POINT_CCK;
-						LowFreqTriggerPoint = LOW_FREQUENCY_TRIGGER_POINT_CCK;
+		} else {
+			if (pAd->FreqCalibrationCtrl.LatestFreqOffsetOverBeacon != INVALID_FREQUENCY_OFFSET) {
+				if (pAd->FreqCalibrationCtrl.BeaconPhyMode == MODE_CCK) { /* CCK*/
+					HighFreqTriggerPoint = HIGH_FREQUENCY_TRIGGER_POINT_CCK;
+					LowFreqTriggerPoint = LOW_FREQUENCY_TRIGGER_POINT_CCK;
 
-						DecreaseFreqOffset = DECREASE_FREQUENCY_OFFSET_CCK;
-						IncreaseFreqOffset = INCREASE_FREQUENCY_OFFSET_CCK;
-					}
-				}
-				else /* OFDM*/
-				{
-					{
-						HighFreqTriggerPoint = HIGH_FREQUENCY_TRIGGER_POINT_OFDM;
-						LowFreqTriggerPoint = LOW_FREQUENCY_TRIGGER_POINT_OFDM;
+					DecreaseFreqOffset = DECREASE_FREQUENCY_OFFSET_CCK;
+					IncreaseFreqOffset = INCREASE_FREQUENCY_OFFSET_CCK;
+				} else { /* OFDM*/
+					HighFreqTriggerPoint = HIGH_FREQUENCY_TRIGGER_POINT_OFDM;
+					LowFreqTriggerPoint = LOW_FREQUENCY_TRIGGER_POINT_OFDM;
 
-						DecreaseFreqOffset = DECREASE_FREQUENCY_OFFSET_OFDM;
-						IncreaseFreqOffset = INCREASE_FREQUENCY_OFFSET_OFDM;
-					}
+					DecreaseFreqOffset = DECREASE_FREQUENCY_OFFSET_OFDM;
+					IncreaseFreqOffset = INCREASE_FREQUENCY_OFFSET_OFDM;
 				}
 
 				if ((pAd->FreqCalibrationCtrl.LatestFreqOffsetOverBeacon >= HighFreqTriggerPoint) ||
-				     (pAd->FreqCalibrationCtrl.LatestFreqOffsetOverBeacon <= LowFreqTriggerPoint))
-				{
+				     (pAd->FreqCalibrationCtrl.LatestFreqOffsetOverBeacon <= LowFreqTriggerPoint)) {
 					pAd->FreqCalibrationCtrl.bApproachFrequency = true;
 				}
 
-				if (pAd->FreqCalibrationCtrl.bApproachFrequency == true)
-				{
+				if (pAd->FreqCalibrationCtrl.bApproachFrequency) {
 					if ((pAd->FreqCalibrationCtrl.LatestFreqOffsetOverBeacon <= DecreaseFreqOffset) &&
-					      (pAd->FreqCalibrationCtrl.LatestFreqOffsetOverBeacon >= IncreaseFreqOffset))
-					{
+					      (pAd->FreqCalibrationCtrl.LatestFreqOffsetOverBeacon >= IncreaseFreqOffset)) {
 						pAd->FreqCalibrationCtrl.bApproachFrequency = false; /* Stop approaching frquency if -10 < reported frequency offset < 10*/
-					}
-					else if (pAd->FreqCalibrationCtrl.LatestFreqOffsetOverBeacon > DecreaseFreqOffset)
-					{
+					} else if (pAd->FreqCalibrationCtrl.LatestFreqOffsetOverBeacon > DecreaseFreqOffset) {
 						pAd->FreqCalibrationCtrl.AdaptiveFreqOffset--;
 						DBGPRINT(RT_DEBUG_TRACE, ("%s: -- frequency offset = 0x%X\n", __FUNCTION__, pAd->FreqCalibrationCtrl.AdaptiveFreqOffset));
-					}
-					else if (pAd->FreqCalibrationCtrl.LatestFreqOffsetOverBeacon < IncreaseFreqOffset)
-					{
+					} else if (pAd->FreqCalibrationCtrl.LatestFreqOffsetOverBeacon < IncreaseFreqOffset) {
 						pAd->FreqCalibrationCtrl.AdaptiveFreqOffset++;
 						DBGPRINT(RT_DEBUG_TRACE, ("%s: ++ frequency offset = 0x%X\n", __FUNCTION__, pAd->FreqCalibrationCtrl.AdaptiveFreqOffset));
 					}
@@ -226,12 +186,9 @@ CHAR GetFrequencyOffset(
 {
 	CHAR FreqOffset = 0;
 
-	if (pAd->FreqCalibrationCtrl.bEnableFrequencyCalibration)
-	{
+	if (pAd->FreqCalibrationCtrl.bEnableFrequencyCalibration) {
 		DBGPRINT(RT_DEBUG_INFO, ("---> %s\n", __FUNCTION__));
-
 		FreqOffset = (pRxWI->RXWI_N.bbp_rxinfo[1]);
-
 	}
 
 ret:
