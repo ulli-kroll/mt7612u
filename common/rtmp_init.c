@@ -705,10 +705,6 @@ VOID NICInitAsicFromEEPROM(struct rtmp_adapter *pAd)
 	}
 #endif /* CONFIG_STA_SUPPORT */
 
-	RTMP_EEPROM_ASIC_INIT(pAd);
-
-
-
 #ifdef CONFIG_STA_SUPPORT
 #ifdef RTMP_FREQ_CALIBRATION_SUPPORT
 		/*

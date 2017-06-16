@@ -747,12 +747,6 @@ do {	\
 			 __pAd->chipOps.ChipIQCalibration(__pAd, __pChannel);	\
 } while (0)
 
-#define RTMP_EEPROM_ASIC_INIT(__pAd)	\
-do {	\
-		if (__pAd->chipOps.NICInitAsicFromEEPROM != NULL)	\
-			__pAd->chipOps.NICInitAsicFromEEPROM(__pAd);	\
-} while (0)
-
 #define RTMP_CHIP_SPECIFIC(__pAd, __FuncId, __pData, __Data)	\
 do {	\
 		if ((__FuncId >= 0) && (__FuncId < CHIP_SPEC_RESV_FUNC))	\
