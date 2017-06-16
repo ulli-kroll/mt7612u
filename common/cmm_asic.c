@@ -636,9 +636,7 @@ VOID AsicUpdateProtect(
 
 VOID AsicBBPAdjust(struct rtmp_adapter *pAd)
 {
-	// TODO: shiang-6590, now this function only used for AP mode, why we need this differentation?
-	if (pAd->chipOps.ChipBBPAdjust != NULL)
-		pAd->chipOps.ChipBBPAdjust(pAd);
+	mt76x2_bbp_adjust(pAd);
 }
 
 

@@ -132,7 +132,7 @@ struct RF_INDEX_OFFSET mt76x2_rf_index_offset[] = {
 };
 
 
-static VOID mt76x2_bbp_adjust(struct rtmp_adapter *pAd)
+void mt76x2_bbp_adjust(struct rtmp_adapter *pAd)
 {
 	static char *ext_str[]={"extNone", "extAbove", "", "extBelow"};
 	u8 rf_bw, ext_ch;
@@ -2697,7 +2697,6 @@ static const struct rtmp_chip_cap MT76x2_ChipCap = {
 };
 
 static const struct rtmp_chip_ops MT76x2_ChipOp = {
-	.ChipBBPAdjust = mt76x2_bbp_adjust,
 };
 
 VOID mt76x2_init(struct rtmp_adapter *pAd)

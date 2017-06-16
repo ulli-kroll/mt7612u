@@ -675,7 +675,6 @@ struct rtmp_chip_ops {
 	void (*EnableAPMIMOPS)(struct rtmp_adapter *pAd, IN bool ReduceCorePower);
 	void (*DisableAPMIMOPS)(struct rtmp_adapter *pAd);
 	/* BBP adjust */
-	VOID (*ChipBBPAdjust)(IN struct rtmp_adapter *pAd);
 
 	/* IQ Calibration */
 	VOID (*ChipIQCalibration)(struct rtmp_adapter *pAd, u8 Channel);
