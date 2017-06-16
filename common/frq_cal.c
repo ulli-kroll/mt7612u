@@ -219,18 +219,6 @@ VOID FrequencyCalibration(
 }
 
 
-inline CHAR GetFrequencyOffsetField(
-	struct rtmp_adapter *pAd,
-	RXWI_STRUC *pRxWI)
-{
-	CHAR FreqOffset = 0;
-
-	FreqOffset = (CHAR)(pRxWI->RXWI_N.bbp_rxinfo[1]);
-
-	return FreqOffset;
-}
-
-
 /* Get the frequency offset*/
 CHAR GetFrequencyOffset(
 	IN struct rtmp_adapter *pAd,
@@ -242,7 +230,7 @@ CHAR GetFrequencyOffset(
 	{
 		DBGPRINT(RT_DEBUG_INFO, ("---> %s\n", __FUNCTION__));
 
-		FreqOffset = GetFrequencyOffsetField(pAd, pRxWI);
+		FreqOffset = (pRxWI->RXWI_N.bbp_rxinfo[1]);
 
 		if (IS_MT76x2(pAd))
 			goto ret;
