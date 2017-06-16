@@ -2215,7 +2215,6 @@ INT rtmp_asic_top_init(struct rtmp_adapter *pAd)
 {
 	uint32_t mac_val;
 
-#ifdef RLT_MAC
 	if (IS_MT76x2(pAd)) {
 		uint32_t MacValue;
 		MacValue = mt7612u_read32(pAd, MAC_CSR0);
@@ -2229,7 +2228,6 @@ INT rtmp_asic_top_init(struct rtmp_adapter *pAd)
 		if (pAd->WlanFunCtrl.field.WLAN_EN == 0)
 			mt7612u_chip_onoff(pAd, true, false);
 	}
-#endif /* RLT_MAC */
 
 	/* Make sure MAC gets ready.*/
 	if (WaitForAsicReady(pAd) != true)

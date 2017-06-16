@@ -654,9 +654,7 @@ typedef enum _CHIP_SPEC_ID
 
 int RtmpChipOpsHook(VOID *pCB);
 VOID RtmpChipBcnSpecInit(struct rtmp_adapter *pAd);
-#ifdef RLT_MAC
 VOID rlt_bcn_buf_init(struct rtmp_adapter *pAd);
-#endif /* RLT_MAC */
 
 /* global variable */
 extern FREQUENCY_ITEM RtmpFreqItems3020[];

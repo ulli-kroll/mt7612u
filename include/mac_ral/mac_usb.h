@@ -27,9 +27,7 @@
 #define __MAC_USB_H__
 
 #include "rtmp_type.h"
-#ifdef RLT_MAC
 #include "mac_ral/nmac/ral_nmac_usb.h"
-#endif /* RLT_MAC */
 
 #include "mac_ral/rtmp_mac.h"
 #include "chip/rtmp_phy.h"

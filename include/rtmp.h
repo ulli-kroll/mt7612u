@@ -3414,10 +3414,7 @@ struct rtmp_adapter {
 	u8 wmm_cw_min; /* CW_MIN_IN_BITS, actual CwMin = 2^CW_MIN_IN_BITS - 1 */
 	u8 wmm_cw_max; /* CW_MAX_IN_BITS, actual CwMax = 2^CW_MAX_IN_BITS - 1 */
 
-#if defined(RT3290) || defined(RLT_MAC)
-
 	WLAN_FUN_CTRL_STRUC WlanFunCtrl;
-#endif /* defined(RT3290) || defined(RLT_MAC) */
 
 /*****************************************************************************************/
 /*      802.11 related parameters                                                        */
@@ -3768,9 +3765,7 @@ typedef struct _RX_BLK
 {
 	u8 hw_rx_info[RXD_SIZE]; /* include "RXD_STRUC RxD" and "RXINFO_STRUC rx_info " */
 	RXINFO_STRUC *pRxInfo; /* for RLT, in head of frame buffer, for RTMP, in hw_rx_info[RXINFO_OFFSET] */
-#ifdef RLT_MAC
 	RXFCE_INFO *pRxFceInfo; /* for RLT, in in hw_rx_info[RXINFO_OFFSET], for RTMP, no such field */
-#endif /* RLT_MAC */
 	RXWI_STRUC *pRxWI; /*in frame buffer and after "rx_info" fields */
 	HEADER_802_11 *pHeader; /* poiter of 802.11 header, pointer to frame buffer and shall not shift this pointer */
 	struct sk_buff *pRxPacket; /* os_packet pointer, shall not change */

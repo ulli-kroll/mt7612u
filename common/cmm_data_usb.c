@@ -171,8 +171,6 @@ static VOID rlt_usb_update_txinfo(
 	IN TXINFO_STRUC *pTxInfo,
 	IN TX_BLK *pTxBlk)
 {
-#ifdef RLT_MAC
-#endif /* RLT_MAC */
 }
 
 
@@ -990,9 +988,7 @@ struct sk_buff *GetPacketFromRxRing(
 	RXWI_STRUC *pRxWI;
 	UINT8 RXWISize = pAd->chipCap.RXWISize;
 	RXINFO_STRUC *pRxInfo;
-#ifdef RLT_MAC
 	RXFCE_INFO *pRxFceInfo;
-#endif /* RLT_MAC */
 
 	pRxContext = &pAd->RxContext[pAd->NextRxBulkInReadIndex];
 	if ((pRxContext->Readable == false) || (pRxContext->InUse == true))

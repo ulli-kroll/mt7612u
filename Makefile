@@ -270,14 +270,13 @@ endif
 #
 #################################################
 
-WFLAGS += -DMT76x2 -DRLT_MAC -DRLT_BBP -DMT_RF -DRTMP_TIMER_TASK_SUPPORT -DRTMP_EFUSE_SUPPORT -DRTMP_RF_RW_SUPPORT
+WFLAGS += -DMT76x2 -DRLT_BBP -DMT_RF -DRTMP_TIMER_TASK_SUPPORT -DRTMP_EFUSE_SUPPORT -DRTMP_RF_RW_SUPPORT
 HAS_NEW_RATE_ADAPT_SUPPORT=y
 ifeq ($(HAS_NEW_RATE_ADAPT_SUPPORT),y)
 WFLAGS += -DNEW_RATE_ADAPT_SUPPORT
 endif
 WFLAGS += -DFIFO_EXT_SUPPORT
 HAS_RLT_BBP=y
-HAS_RLT_MAC=y
 
 ifeq ($(HAS_CSO_SUPPORT), y)
 WFLAGS += -DCONFIG_CSO_SUPPORT -DCONFIG_TSO_SUPPORT
@@ -357,9 +356,7 @@ ifeq ($(HAS_RLT_BBP),y)
 obj_phy += phy/rlt_phy.o
 endif
 
-ifeq ($(HAS_RLT_MAC),y)
 obj_mac += mac/ral_nmac.o
-endif
 
 obj_cmm += $(obj_phy) $(obj_mac)
 

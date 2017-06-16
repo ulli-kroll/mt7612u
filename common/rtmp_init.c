@@ -2917,12 +2917,10 @@ bool RtmpRaDevCtrlExit(IN struct rtmp_adapter *pAd)
 {
 	INT index;
 
-#ifdef RLT_MAC
 	if ((IS_MT76x0(pAd) || IS_MT76x2(pAd))&& (pAd->WlanFunCtrl.field.WLAN_EN == 1))
 	{
 		mt7612u_chip_onoff(pAd, false, false);
 	}
-#endif /* RLT_MAC */
 
 
 	if (pAd->UsbVendorReqBuf)

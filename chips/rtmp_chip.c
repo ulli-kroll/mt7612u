@@ -48,7 +48,6 @@ VOID RtmpChipBcnSpecInit(struct rtmp_adapter *pAd)
 {
 }
 
-#ifdef RLT_MAC
 /*
 ========================================================================
 Routine Description:
@@ -107,7 +106,6 @@ VOID rlt_bcn_buf_init(struct rtmp_adapter *pAd)
 	pChipCap->BcnBase[14] = 0xdc00;
 	pChipCap->BcnBase[15] = 0xde00;
 }
-#endif /* RLT_MAC */
 
 INT WaitForAsicReady(struct rtmp_adapter *pAd)
 {

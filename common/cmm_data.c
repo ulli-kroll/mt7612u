@@ -847,11 +847,9 @@ int MlmeHardTransmitMgmtRing(
 				tx_rate, IFS_BACKOFF, transmit);
 
 #ifdef SPECIFIC_TX_POWER_SUPPORT
-#ifdef RLT_MAC
 		if ((IS_RT6352(pAd) || IS_MT76x2(pAd)) &&
 			(pAd->chipCap.hif_type == HIF_RLT) && (pMacEntry == NULL))
 			pFirstTxWI->TXWI_N.TxPwrAdj = TxPwrAdj;
-#endif /* RLT_MAC */
 #endif /* SPECIFIC_TX_POWER_SUPPORT */
 	}
 
@@ -2242,7 +2240,6 @@ VOID Update_Rssi_Sample(
 	{
 		pRssi->LastRssi0 = ConvertToRssi(pAd, (CHAR)rssi[0], RSSI_0);
 
-#ifdef RLT_MAC
 		if (IS_MT76x2(pAd)) {
 			if ((Phymode == MODE_CCK)) {
 				pRssi->LastRssi0 -= 2;
@@ -2251,7 +2248,6 @@ VOID Update_Rssi_Sample(
 				pRssi->LastRssi0 = (-92 + pRssi->LastSnr0);
 			}
 		}
-#endif /* RLT_MAC */
 
 		if (bInitial)
 		{
@@ -2282,7 +2278,6 @@ VOID Update_Rssi_Sample(
 	{
 		pRssi->LastRssi1 = ConvertToRssi(pAd, (CHAR)rssi[1], RSSI_1);
 
-#ifdef RLT_MAC
 		if (IS_MT76x2(pAd)) {
 			if ((Phymode == MODE_CCK)) {
 				pRssi->LastRssi1 -= 2;
@@ -2292,7 +2287,6 @@ VOID Update_Rssi_Sample(
 				pRssi->LastRssi1 = (-92 + pRssi->LastSnr1);
 			}
 		}
-#endif /* RLT_MAC */
 
 		if (bInitial)
 		{
@@ -2970,9 +2964,6 @@ VOID RtmpPrepareHwNullFrame(
 	}
 
 	if (bWaitACK) {
-#ifdef RLT_MAC
-		// TODO: shiang, how about RT65xx series??
-#endif /* RLT_MAC */
 
 	}
 

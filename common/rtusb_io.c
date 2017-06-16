@@ -48,7 +48,6 @@
 
 	========================================================================
 */
-#ifdef RLT_MAC
 
 /* Known USB Vendor Commands */
 #define MT7612U_VENDOR_DEVICE_MODE	0x01
@@ -72,7 +71,6 @@ void mt7612u_usb_cfg_write_v3(struct rtmp_adapter *ad, u32 value)
 {
 	mt7612u_cfg3_write(ad, U3DMA_WLCFG, value);
 }
-#endif /* RLT_MAC */
 
 int RTUSBMultiWrite(
 	IN struct rtmp_adapter *pAd,

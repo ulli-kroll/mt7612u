@@ -57,7 +57,6 @@ INT rlt_get_rxwi_snr(struct rtmp_adapter *pAd, RXWI_STRUC *rxwi, INT size, u8 *s
 
 
 
-#ifdef RLT_MAC
 VOID dumpRxFCEInfo(struct rtmp_adapter *pAd, RXFCE_INFO *pRxFceInfo)
 {
 	hex_dump("RxFCEInfo Raw Data", (u8 *)pRxFceInfo, sizeof(RXFCE_INFO));
@@ -76,7 +75,6 @@ VOID dumpRxFCEInfo(struct rtmp_adapter *pAd, RXFCE_INFO *pRxFceInfo)
 	DBGPRINT(RT_DEBUG_OFF, ("\tudp_err=%d\n", pRxFceInfo->udp_err));
 	DBGPRINT(RT_DEBUG_OFF, ("\tpkt_len=%d\n", pRxFceInfo->pkt_len));
 }
-#endif /* RLT_MAC */
 
 
 static u8 *txwi_txop_str[]={"HT_TXOP", "PIFS", "SIFS", "BACKOFF", "Invalid"};

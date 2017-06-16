@@ -30,9 +30,7 @@
 #define __PBF_H__
 
 
-#ifdef RLT_MAC
 #include "mac_ral/nmac/ral_nmac_pbf.h"
-#endif /* RLT_MAC */
 
 /* ================================================================================= */
 /* Register format  for PBF                                                                                                                                                     */

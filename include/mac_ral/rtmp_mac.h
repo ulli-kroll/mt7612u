@@ -30,9 +30,7 @@
 #define __RTMP_MAC_H__
 
 
-#ifdef RLT_MAC
 #include "mac_ral/nmac/ral_nmac.h"
-#endif /* RLT_MAC */
 
 /*
 	TX / RX ring descriptor format
@@ -52,19 +50,15 @@
 #define FIFO_EDCA	2
 
 typedef	union GNU_PACKED _TXWI_STRUC {
-#ifdef RLT_MAC
 	struct _TXWI_NMAC TXWI_N;
-#endif /* RLT_MAC */
 	uint32_t word;
 }TXWI_STRUC;
 
 
 #define TXINFO_SIZE			4
 typedef union GNU_PACKED _TXINFO_STRUC{
-#ifdef RLT_MAC
 	struct _TXINFO_NMAC_PKT txinfo_nmac_pkt;
 	struct _TXINFO_NMAC_CMD txinfo_nmac_cmd;
-#endif /* RLT_MAC */
 	uint32_t word;
 }TXINFO_STRUC;
 
@@ -73,16 +67,12 @@ typedef union GNU_PACKED _TXINFO_STRUC{
 	RXWI wireless information format, in PBF. invisible in driver.
 */
 typedef union GNU_PACKED _RXWI_STRUC {
-#ifdef RLT_MAC
 	struct _RXWI_NMAC RXWI_N;
-#endif /* RLT_MAC */
 }RXWI_STRUC;
 
 
 typedef	union GNU_PACKED _HW_RATE_CTRL_STRUCT_ {
-#ifdef RLT_MAC
 		struct _NMAC_HW_RATE_CTRL_STRUCT RATE_CTRL_N;
-#endif /* RLT_MAC */
 		uint16_t word;
 }HW_RATE_CTRL_STRUCT;
 

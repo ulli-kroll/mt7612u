@@ -139,9 +139,7 @@
 #include "rt_txbf.h"
 
 
-#ifdef RLT_MAC
 #include "mac_ral/fce.h"
-#endif /* RLT_MAC */
 
 
 #ifdef LINUX
