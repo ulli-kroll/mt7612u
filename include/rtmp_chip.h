@@ -663,48 +663,6 @@ typedef enum _CHIP_SPEC_ID
 
 #define CHIP_SPEC_ID_NUM 	CHIP_SPEC_RESV_FUNC
 
-
-struct rtmp_chip_ops {
-	int (*sys_onoff)(struct rtmp_adapter *pAd, bool on, bool reser);
-
-	/* MCU related callback functions */
-	int (*eraseFirmware)(struct rtmp_adapter *pAd);
-	int (*sendCommandToMcu)(struct rtmp_adapter *pAd, u8 cmd, u8 token, u8 arg0, u8 arg1, bool FlgIsNeedLocked);	/* int (*sendCommandToMcu)(struct rtmp_adapter *pAd, u8 cmd, u8 token, u8 arg0, u8 arg1); */
-	int (*sendCommandToAndesMcu)(struct rtmp_adapter *pAd, u8 QueIdx, u8 cmd, u8 *pData, unsigned short DataLen, bool FlgIsNeedLocked);
-	/* Power save */
-	void (*EnableAPMIMOPS)(struct rtmp_adapter *pAd, IN bool ReduceCorePower);
-	void (*DisableAPMIMOPS)(struct rtmp_adapter *pAd);
-	/* BBP adjust */
-
-	/* IQ Calibration */
-	VOID (*ChipIQCalibration)(struct rtmp_adapter *pAd, u8 Channel);
-
-	uint32_t (*ChipGetCurrentTemp)(struct rtmp_adapter *pAd);
-
-	VOID (*AsicGetTxPowerOffset)(struct rtmp_adapter *pAd, ULONG *TxPwr);
-	VOID (*AsicExtraPowerOverMAC)(struct rtmp_adapter *pAd);
-
-	VOID (*AsicAdjustTxPower)(struct rtmp_adapter *pAd);
-
-	/* Antenna */
-	VOID (*SetRxAnt)(struct rtmp_adapter *pAd, u8 Ant);
-
-	/* EEPROM */
-	VOID (*NICInitAsicFromEEPROM)(IN struct rtmp_adapter *pAd);
-
-	/* The chip specific function list */
-	CHIP_SPEC_FUNC ChipSpecFunc[CHIP_SPEC_ID_NUM];
-
-	VOID (*CckMrcStatusCtrl)(struct rtmp_adapter *pAd);
-	VOID (*RadarGLRTCompensate)(struct rtmp_adapter *pAd);
-	VOID (*SecondCCADetection)(struct rtmp_adapter *pAd);
-
-#if defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT)
-	VOID (*AsicWOWEnable)(struct rtmp_adapter *ad);
-	VOID (*AsicWOWDisable)(struct rtmp_adapter *ad);
-#endif /* defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT) */
-};
-
 int RtmpChipOpsHook(VOID *pCB);
 VOID RtmpChipBcnSpecInit(struct rtmp_adapter *pAd);
 #ifdef RLT_MAC

@@ -2696,16 +2696,12 @@ static const struct rtmp_chip_cap MT76x2_ChipCap = {
 #endif /* CONFIG_STA_SUPPORT */
 };
 
-static const struct rtmp_chip_ops MT76x2_ChipOp = {
-};
-
 VOID mt76x2_init(struct rtmp_adapter *pAd)
 {
 	struct rtmp_chip_cap *pChipCap = &pAd->chipCap;
 	uint32_t mac_val = 0;
 
 	memcpy(&pAd->chipCap, &MT76x2_ChipCap, sizeof(struct rtmp_chip_cap));
-	memcpy(&pAd->chipOps, &MT76x2_ChipOp, sizeof(struct rtmp_chip_ops));
 
 	rlt_phy_probe(pAd);
 

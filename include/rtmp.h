@@ -3402,7 +3402,6 @@ struct rtmp_adapter {
 /***********************************************************/
 /*      ASIC related parameters                                                          */
 /***********************************************************/
-	struct rtmp_chip_ops chipOps;
 	struct rtmp_chip_cap chipCap;
 	struct phy_ops *phy_op;
 	struct hw_setting hw_cfg;

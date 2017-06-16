@@ -1152,9 +1152,6 @@ VOID MlmeHalt(struct rtmp_adapter *pAd)
 
 	if (!RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST))
 	{
-		struct rtmp_chip_ops *pChipOps = &pAd->chipOps;
-
-
 #if defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT)
 		if (pAd->WOW_Cfg.bEnable == false)
 #endif /* defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT) */
