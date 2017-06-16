@@ -1037,15 +1037,6 @@ void mt76x2_init_mac_cr(struct rtmp_adapter *ad)
 
 	mt7612u_mcu_random_write(ad, mt76x2_mac_cr_table, ARRAY_SIZE(mt76x2_mac_cr_table));
 
-#ifdef HDR_TRANS_TX_SUPPORT
-	/*
- 	 * Enable Header Translation TX
- 	 */
-	value = mt7612u_read32(ad, HEADER_TRANS_CTRL_REG);
-	value |= 0x1; /* 0x1: TX, 0x2: RX */
-	mt7612u_write32(ad, HEADER_TRANS_CTRL_REG, value);
-#endif /* HDR_TRANS_TX_SUPPORT */
-
 	/*
  	 * Release BBP and MAC reset
  	 * MAC_SYS_CTRL[1:0] = 0x0
