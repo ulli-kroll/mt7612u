@@ -2124,35 +2124,6 @@ VOID AsicRemovePairwiseKeyEntry(
 }
 
 
-/*
-	========================================================================
-	Description:
-		For 1x1 chipset : 2070 / 3070 / 3090 / 3370 / 3390 / 5370 / 5390
-		Usage :	1. Set Default Antenna as initialize
-				2. Antenna Diversity switching used
-				3. iwpriv command switch Antenna
-
-    Return:
-	========================================================================
- */
-VOID AsicSetRxAnt(
-	IN struct rtmp_adapter *pAd,
-	IN u8 		Ant)
-{
-	if (pAd->chipOps.SetRxAnt)
-		pAd->chipOps.SetRxAnt(pAd, Ant);
-}
-
-
-
-
-
-
-
-
-
-
-
 VOID AsicSetTxPreamble(struct rtmp_adapter *pAd, unsigned short TxPreamble)
 {
 	AUTO_RSP_CFG_STRUC csr4;

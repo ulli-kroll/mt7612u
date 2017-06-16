@@ -5722,10 +5722,6 @@ CHAR RTMPMinSnr(
 	IN CHAR				Snr0,
 	IN CHAR				Snr1);
 
-VOID AsicSetRxAnt(
-	IN struct rtmp_adapter *pAd,
-	IN u8 		Ant);
-
 VOID AsicEvaluateRxAnt(
 	IN struct rtmp_adapter *pAd);
 
