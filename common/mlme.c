@@ -1150,13 +1150,6 @@ VOID MlmeHalt(struct rtmp_adapter *pAd)
 
 
 
-	if (!RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST))
-	{
-#if defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT)
-		if (pAd->WOW_Cfg.bEnable == false)
-#endif /* defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT) */
-	}
-
 	RtmpusecDelay(5000);    /*  5 msec to gurantee Ant Diversity timer canceled*/
 
 	MlmeQueueDestroy(&pAd->Mlme.Queue);
