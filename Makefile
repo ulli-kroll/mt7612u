@@ -86,12 +86,6 @@ HAS_SWITCH_CHANNEL_OFFLOAD=n
 
 HAS_RESOURCE_BOOT_ALLOC=n
 
-
-
-
-
-HAS_CAL_FREE_IC_SUPPORT=y
-
 #################################################
 
 WFLAGS := -g -DAGGREGATION_SUPPORT -DPIGGYBACK_SUPPORT -DWMM_SUPPORT  -DLINUX -Wall -Wstrict-prototypes -Wno-trigraphs
@@ -108,10 +102,6 @@ WFLAGS += -I$(RT28xx_DIR)/include
 
 ifeq ($(HAS_KTHREAD_SUPPORT),y)
 WFLAGS += -DKTHREAD_SUPPORT
-endif
-
-ifeq ($(HAS_CAL_FREE_IC_SUPPORT),y)
-WFLAGS += -DCAL_FREE_IC_SUPPORT
 endif
 
 ###############################################################################
