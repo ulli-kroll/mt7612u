@@ -2689,7 +2689,6 @@ static const struct rtmp_chip_cap MT76x2_ChipCap = {
     /* Frequence Calibration */
     .FreqCalibrationSupport = true,
     /* BBP CR for Rx OFDM/CCK frequency offset report is unnecessary */
-    .RxWIFrqOffset = RXWI_FRQ_OFFSET_FIELD0,
 #endif /* CONFIG_STA_SUPPORT */
 };
 

@@ -261,13 +261,6 @@ enum FREQ_CAL_MODE {
 	FREQ_CAL_MODE2,
 };
 
-enum RXWI_FRQ_OFFSET_FIELD {
-	RXWI_FRQ_OFFSET_FIELD0, /* SNR1 */
-	RXWI_FRQ_OFFSET_FIELD1, /* Frequency Offset */
-};
-
-
-
 #define EEPROM_A_TSSI_BOUND1		0xd4
 #define EEPROM_A_TSSI_BOUND2		0xd6
 #define EEPROM_A_TSSI_BOUND3		0xd8
@@ -497,7 +490,6 @@ struct rtmp_chip_cap {
 
 #ifdef CONFIG_STA_SUPPORT
 	UINT8 FreqCalibrationSupport;
-	UINT8 RxWIFrqOffset;
 #endif /* CONFIG_STA_SUPPORT */
 
 #ifdef RT5592EP_SUPPORT

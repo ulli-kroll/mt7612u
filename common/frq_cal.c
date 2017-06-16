@@ -221,17 +221,11 @@ VOID FrequencyCalibration(
 
 inline CHAR GetFrequencyOffsetField(
 	struct rtmp_adapter *pAd,
-	RXWI_STRUC *pRxWI,
-	UINT8 RxWIFrqOffsetField)
+	RXWI_STRUC *pRxWI)
 {
 	CHAR FreqOffset = 0;
 
-	if (RxWIFrqOffsetField == RXWI_FRQ_OFFSET_FIELD0) {
-		FreqOffset = (CHAR)(pRxWI->RXWI_N.bbp_rxinfo[1]);
-	} else if (RxWIFrqOffsetField == RXWI_FRQ_OFFSET_FIELD1) {
-	}
-	else
-		DBGPRINT(RT_DEBUG_ERROR, ("%s:Unknow Frequency Offset location(%d)\n", __FUNCTION__, RxWIFrqOffsetField));
+	FreqOffset = (CHAR)(pRxWI->RXWI_N.bbp_rxinfo[1]);
 
 	return FreqOffset;
 }
@@ -248,7 +242,7 @@ CHAR GetFrequencyOffset(
 	{
 		DBGPRINT(RT_DEBUG_INFO, ("---> %s\n", __FUNCTION__));
 
-		FreqOffset = GetFrequencyOffsetField(pAd, pRxWI, pAd->chipCap.RxWIFrqOffset);
+		FreqOffset = GetFrequencyOffsetField(pAd, pRxWI);
 
 		if (IS_MT76x2(pAd))
 			goto ret;
