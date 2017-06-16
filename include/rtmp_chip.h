@@ -510,7 +510,6 @@ struct rtmp_chip_cap {
 	UINT8 PAType; /* b'00: 2.4G+5G external PA, b'01: 5G external PA, b'10: 2.4G external PA, b'11: Internal PA */
 	UINT8 LNA_type; /* b'00: 2.4G+5G external LNA, b'01: 5G external LNA, b'10: 2.4G external LNA, b'11: Internal LNA */
 
-#ifdef CONFIG_ANDES_SUPPORT
 	uint32_t WlanMemmapOffset;
 	uint32_t InbandPacketMaxLen; /* must be 48 multible */
 	UINT8 CmdRspRxRing;
@@ -523,7 +522,6 @@ struct rtmp_chip_cap {
 	u32 ilm_offset;
 	u32 dlm_offset;
 	u32 rom_patch_offset;
-#endif
 
 	UINT8 cmd_header_len;
 	UINT8 cmd_padding_len;
@@ -672,9 +670,7 @@ struct rtmp_chip_ops {
 	/* MCU related callback functions */
 	int (*eraseFirmware)(struct rtmp_adapter *pAd);
 	int (*sendCommandToMcu)(struct rtmp_adapter *pAd, u8 cmd, u8 token, u8 arg0, u8 arg1, bool FlgIsNeedLocked);	/* int (*sendCommandToMcu)(struct rtmp_adapter *pAd, u8 cmd, u8 token, u8 arg0, u8 arg1); */
-#ifdef CONFIG_ANDES_SUPPORT
 	int (*sendCommandToAndesMcu)(struct rtmp_adapter *pAd, u8 QueIdx, u8 cmd, u8 *pData, unsigned short DataLen, bool FlgIsNeedLocked);
-#endif
 	/* Power save */
 	void (*EnableAPMIMOPS)(struct rtmp_adapter *pAd, IN bool ReduceCorePower);
 	void (*DisableAPMIMOPS)(struct rtmp_adapter *pAd);
@@ -708,8 +704,6 @@ struct rtmp_chip_ops {
 	VOID (*RadarGLRTCompensate)(struct rtmp_adapter *pAd);
 	VOID (*SecondCCADetection)(struct rtmp_adapter *pAd);
 
-#ifdef CONFIG_ANDES_SUPPORT
-#endif /* CONFIG_ANDES_SUPPORT */
 	VOID (*AsicDynamicVgaGainControl)(IN struct rtmp_adapter *pAd);
 
 #if defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT)

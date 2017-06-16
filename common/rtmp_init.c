@@ -835,9 +835,7 @@ int NICInitializeAsic(struct rtmp_adapter *pAd, bool bHardReset)
 	}
 
 
-#ifdef CONFIG_ANDES_SUPPORT
 	mt7612u_mcu_usb_fw_init(pAd);
-#endif /* CONFIG_ANDES_SUPPORT */
 	rtmp_mac_init(pAd);
 
 	rtmp_mac_bcn_buf_init(pAd);

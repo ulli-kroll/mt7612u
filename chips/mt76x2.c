@@ -2643,7 +2643,7 @@ static const struct rtmp_chip_cap MT76x2_ChipCap = {
 	.pRFRegTable = NULL,
 	.MaxNumOfBbpId = 200,
 	.MBSSIDMode = MBSSID_MODE1,
-#ifdef CONFIG_ANDES_SUPPORT
+
 	.WlanMemmapOffset = 0x410000,
 	.InbandPacketMaxLen = 192,
 	.CmdRspRxRing = RX_RING1,
@@ -2656,7 +2656,7 @@ static const struct rtmp_chip_cap MT76x2_ChipCap = {
 	.ilm_offset = 0x80000,
 	.dlm_offset = 0x110000,
 	.rom_patch_offset = 0x90000,
-#endif /* CONFIG_ANDES_SUPPORT */
+
 	.cmd_header_len = 4,
 	.cmd_padding_len = 4,
 	.CommandBulkOutAddr = 0x8,

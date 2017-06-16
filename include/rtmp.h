@@ -78,9 +78,7 @@ typedef struct _UAPSD_INFO {
 #include "mcu/mcu.h"
 
 
-#ifdef CONFIG_ANDES_SUPPORT
 #include "mcu/mcu_and.h"
-#endif
 
 #include "radar.h"
 
@@ -3794,9 +3792,7 @@ struct rtmp_adapter {
 
 
 
-#ifdef CONFIG_ANDES_SUPPORT
 	struct mt7612u_mcu_ctrl MCUCtrl;
-#endif /* CONFIG_ANDES_SUPPORT */
 
 #ifdef WLAN_SKB_RECYCLE
     struct sk_buff_head rx0_recycle;

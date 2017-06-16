@@ -2440,17 +2440,13 @@ typedef	union _QOS_CSR1_STRUC {
 #define NUM_OF_TX_RING		5
 
 #define NUM_OF_RX_RING		1
-#ifdef CONFIG_ANDES_SUPPORT
 #undef NUM_OF_RX_RING
 #define NUM_OF_RX_RING		2
-#endif /* CONFIG_ANDES_SUPPORT */
 
 #define QID_MGMT                13
 #define QID_RX                  14
 #define QID_OTHER               15
-#ifdef CONFIG_ANDES_SUPPORT
 #define QID_CTRL				16
-#endif /* CONFIG_ANDES_SUPPORT */
 
 
 
