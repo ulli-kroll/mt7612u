@@ -97,13 +97,6 @@
 #endif /* CONFIG_AP_SUPPORT */
 
 
-#ifdef APCLI_WPA_SUPPLICANT_SUPPORT
-#ifndef APCLI_SUPPORT
-#error "Build Apcli for being controlled by NetworkManager or wext, please set HAS_APCLI_SUPPORT=y and HAS_APCLI_WPA_SUPPLICANT=y"
-#endif /* APCLI_SUPPORT */
-#define WPA_SUPPLICANT_SUPPORT
-#endif /* APCLI_WPA_SUPPLICANT_SUPPORT */
-
 
 #ifdef CONFIG_STA_SUPPORT
 #ifdef NATIVE_WPA_SUPPLICANT_SUPPORT

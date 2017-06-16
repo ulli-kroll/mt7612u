@@ -2743,7 +2743,7 @@ VOID APRxErrorHandle(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 						RTMPSendWirelessEvent(pAd, IW_MIC_ERROR_EVENT_FLAG, pEntry->Addr, FromWhichBSSID, 0);
 #else
 					ApCliRTMPReportMicError(pAd, pWpaKey, BSS0);
-#endif /* APCLI_WPA_SUPPLICANT_SUPPORT */
+#endif /* WPA_SUPPLICANT_SUPPORT */
 					DBGPRINT_RAW(RT_DEBUG_ERROR,("Rx MIC Value error\n"));
 				}
 			}

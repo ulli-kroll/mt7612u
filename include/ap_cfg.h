@@ -113,8 +113,6 @@ INT	ApCfg_Set_IdleTimeout_Proc(
 
 
 #ifdef APCLI_SUPPORT
-#ifdef APCLI_WPA_SUPPLICANT_SUPPORT
-#endif /* APCLI_WPA_SUPPLICANT_SUPPORT */
 #endif /* APCLI_SUPPORT */
 #endif /* __AP_CFG_H__ */
 

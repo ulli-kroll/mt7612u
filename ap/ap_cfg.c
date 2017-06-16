@@ -467,10 +467,6 @@ INT Set_ApCli_AutoConnect_Proc(IN struct rtmp_adapter *pAd,	IN char *arg);
 INT Set_ApCli_Trial_Ch_Proc(IN struct rtmp_adapter *pAd, IN char *arg);
 #endif /* APCLI_CONNECTION_TRIAL */
 
-#ifdef APCLI_WPA_SUPPLICANT_SUPPORT
-INT Set_ApCli_Wpa_Support(IN struct rtmp_adapter *pAd, IN	char *arg);
-INT	Set_ApCli_IEEE8021X_Proc(IN struct rtmp_adapter *pAd, IN char *arg);
-#endif/*APCLI_WPA_SUPPLICANT_SUPPORT*/
 
 
 #ifdef APCLI_CERT_SUPPORT
@@ -4001,12 +3997,6 @@ INT	Set_ApCli_AuthMode_Proc(struct rtmp_adapter *pAd, char *arg)
 		wdev->AuthMode = Ndis802_11AuthModeWPA1PSKWPA2PSK;
 		wdev->bWpaAutoMode = true;
 	}
-#ifdef APCLI_WPA_SUPPLICANT_SUPPORT
-   	else if (rtstrcasecmp(arg, "WPA") == true)
-       	wdev->AuthMode = Ndis802_11AuthModeWPA;
-    	else if (rtstrcasecmp(arg, "WPA2") == true)
-        	wdev->AuthMode = Ndis802_11AuthModeWPA2;
-#endif /*APCLI_WPA_SUPPLICANT_SUPPORT */
 
 	else
 		wdev->AuthMode = Ndis802_11AuthModeOpen;
@@ -4374,69 +4364,6 @@ INT Set_ApCli_Trial_Ch_Proc(
 	return true;
 }
 #endif /* APCLI_CONNECTION_TRIAL */
-
-#ifdef APCLI_WPA_SUPPLICANT_SUPPORT
-INT Set_ApCli_Wpa_Support(
-    IN	struct rtmp_adapter *pAd,
-	IN	char *		arg)
-{
-	struct os_cookie *		pObj;
-	u8 			ifIndex;
-	PAPCLI_STRUCT	pApCliEntry = NULL;
-
-	pObj = pAd->OS_Cookie;
-	if (pObj->ioctl_if_type != INT_APCLI)
-		return false;
-
-	ifIndex = pObj->ioctl_if;
-	pApCliEntry = &pAd->ApCfg.ApCliTab[ifIndex];
-
-    if ( simple_strtol(arg, 0, 10) == 0)
-        pApCliEntry->WpaSupplicantUP = WPA_SUPPLICANT_DISABLE;
-    else if ( simple_strtol(arg, 0, 10) == 1)
-        pApCliEntry->WpaSupplicantUP = WPA_SUPPLICANT_ENABLE;
-    else if ( simple_strtol(arg, 0, 10) == 2)
-        pApCliEntry->WpaSupplicantUP = WPA_SUPPLICANT_ENABLE_WITH_WEB_UI;
-    else
-        pApCliEntry->WpaSupplicantUP = WPA_SUPPLICANT_DISABLE;
-
-    DBGPRINT(RT_DEBUG_TRACE, ("Set_ApCli_Wpa_Support::(WpaSupplicantUP=%d)\n", pApCliEntry->WpaSupplicantUP));
-
-    return true;
-}
-
-
-INT	Set_ApCli_IEEE8021X_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg)
-{
-    	ULONG ieee8021x;
-	struct os_cookie *		pObj;
-	u8 			ifIndex;
-	PAPCLI_STRUCT	pApCliEntry = NULL;
-
-	pObj = pAd->OS_Cookie;
-	if (pObj->ioctl_if_type != INT_APCLI)
-		return false;
-
-	ifIndex = pObj->ioctl_if;
-	pApCliEntry = &pAd->ApCfg.ApCliTab[ifIndex];
-
-	ieee8021x = simple_strtol(arg, 0, 10);
-
-	if (ieee8021x == 1)
-        pApCliEntry->wdev.IEEE8021X = true;
-	else if (ieee8021x == 0)
-		pApCliEntry->wdev.IEEE8021X = false;
-	else
-		return false;
-
-	DBGPRINT(RT_DEBUG_TRACE, ("IF(ra%d) Set_ApCli_IEEE8021X_Proc::(IEEE8021X=%d)\n", pObj->ioctl_if, pApCliEntry->wdev.IEEE8021X));
-
-	return true;
-}
-#endif /* APCLI_WPA_SUPPLICANT_SUPPORT */
-
 
 #ifdef APCLI_AUTO_CONNECT_SUPPORT
 /*
@@ -5017,8 +4944,6 @@ INT	ApCfg_Set_IdleTimeout_Proc(
 
 
 #ifdef APCLI_SUPPORT
-#ifdef APCLI_WPA_SUPPLICANT_SUPPORT
-#endif/*APCLI_WPA_SUPPLICANT_SUPPORT*/
 #endif/*APCLI_SUPPORT*/
 
 #ifdef CONFIG_AP_SUPPORT
