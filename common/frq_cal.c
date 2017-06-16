@@ -75,17 +75,6 @@ VOID StopFrequencyCalibration(
 }
 
 
-VOID FrequencyCalibrationMode(
-	struct rtmp_adapter *pAd,
-	UINT8 Mode)
-{
-	u8 RFValue = 0;
-	u8 PreRFValue = 0;
-
-	DBGPRINT(RT_DEBUG_ERROR, ("Unknown FrqCalibration Mode\n"));
-}
-
-
 /* The frequency calibration algorithm*/
 VOID FrequencyCalibration(
 	IN struct rtmp_adapter *pAd)
@@ -208,13 +197,11 @@ VOID FrequencyCalibration(
 					{
 						pAd->FreqCalibrationCtrl.AdaptiveFreqOffset--;
 						DBGPRINT(RT_DEBUG_TRACE, ("%s: -- frequency offset = 0x%X\n", __FUNCTION__, pAd->FreqCalibrationCtrl.AdaptiveFreqOffset));
-						FrequencyCalibrationMode(pAd, pAd->chipCap.FreqCalMode);
 					}
 					else if (pAd->FreqCalibrationCtrl.LatestFreqOffsetOverBeacon < IncreaseFreqOffset)
 					{
 						pAd->FreqCalibrationCtrl.AdaptiveFreqOffset++;
 						DBGPRINT(RT_DEBUG_TRACE, ("%s: ++ frequency offset = 0x%X\n", __FUNCTION__, pAd->FreqCalibrationCtrl.AdaptiveFreqOffset));
-						FrequencyCalibrationMode(pAd, pAd->chipCap.FreqCalMode);
 					}
 				}
 
