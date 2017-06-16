@@ -2202,10 +2202,8 @@ VOID LinkDown(
 	pAd->StaCfg.ConnectinfoBssType  = 1;
 	pAd->StaCfg.ConnectinfoChannel = 0;
 
-#ifdef RTMP_FREQ_CALIBRATION_SUPPORT
 	if (pAd->chipCap.FreqCalibrationSupport)
 		StopFrequencyCalibration(pAd);
-#endif /* RTMP_FREQ_CALIBRATION_SUPPORT */
 }
 
 

@@ -1344,7 +1344,6 @@ VOID MlmePeriodicExec(
 
 
 
-#ifdef RTMP_FREQ_CALIBRATION_SUPPORT
 #ifdef CONFIG_STA_SUPPORT
 	if (pAd->chipCap.FreqCalibrationSupport)
 	{
@@ -1353,7 +1352,6 @@ VOID MlmePeriodicExec(
 			FrequencyCalibration(pAd);
 		}
 #endif /* CONFIG_STA_SUPPORT */
-#endif /* RTMP_FREQ_CALIBRATION_SUPPORT */
 
 	/* Normal 1 second Mlme PeriodicExec.*/
 	if (pAd->Mlme.PeriodicRound %MLME_TASK_EXEC_MULTIPLE == 0)

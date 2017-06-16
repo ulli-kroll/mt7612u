@@ -134,9 +134,7 @@
 #include <linux/workqueue.h>
 #endif /* WORKQUEUE_BH / */
 
-#ifdef RTMP_FREQ_CALIBRATION_SUPPORT
 #include "frq_cal.h"
-#endif /* RTMP_FREQ_CALIBRATION_SUPPORT */
 
 #include "rt_txbf.h"
 

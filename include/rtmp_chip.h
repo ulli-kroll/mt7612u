@@ -496,11 +496,9 @@ struct rtmp_chip_cap {
 #endif /* DOT11W_PMF_SUPPORT */
 
 #ifdef CONFIG_STA_SUPPORT
-#ifdef RTMP_FREQ_CALIBRATION_SUPPORT
 	UINT8 FreqCalibrationSupport;
 	UINT8 FreqCalMode;
 	UINT8 RxWIFrqOffset;
-#endif /* RTMP_FREQ_CALIBRATION_SUPPORT */
 #endif /* CONFIG_STA_SUPPORT */
 
 #ifdef RT5592EP_SUPPORT

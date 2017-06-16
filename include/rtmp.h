@@ -82,9 +82,7 @@ typedef struct _UAPSD_INFO {
 
 #include "radar.h"
 
-#ifdef RTMP_FREQ_CALIBRATION_SUPPORT
 #include "frq_cal.h"
-#endif /* RTMP_FREQ_CALIBRATION_SUPPORT */
 
 // TODO: shiang-6590, remove it after ATE fully re-organized! copy from rtmp_bbp.h
 #ifndef MAX_BBP_ID
@@ -2087,9 +2085,7 @@ typedef struct _STA_ADMIN_CONFIG {
 
 
 
-#ifdef RTMP_FREQ_CALIBRATION_SUPPORT
 	bool				AdaptiveFreq;  /* Todo: iwpriv and profile support. */
-#endif /* RTMP_FREQ_CALIBRATION_SUPPORT */
 
 	/* UAPSD information: such as enable or disable, do not remove */
 	UAPSD_INFO UapsdInfo;
@@ -3399,9 +3395,7 @@ struct rtmp_adapter {
 	u8 TxAgcStepG;	/* Store Tx TSSI delta increment / decrement value */
 	CHAR TxAgcCompensateG;	/* Store the compensation (TxAgcStep * (idx-1)) */
 
-#ifdef RTMP_FREQ_CALIBRATION_SUPPORT
 	FREQUENCY_CALIBRATION_CONTROL FreqCalibrationCtrl;	/* The frequency calibration control */
-#endif /* RTMP_FREQ_CALIBRATION_SUPPORT */
 
 	signed char BGRssiOffset[3]; /* Store B/G RSSI #0/1/2 Offset value on EEPROM 0x46h */
 	signed char ARssiOffset[3]; /* Store A RSSI 0/1/2 Offset value on EEPROM 0x4Ah */
@@ -5663,12 +5657,10 @@ bool RTMPAutoRateSwitchCheck(
 
 
 #ifdef CONFIG_STA_SUPPORT
-#ifdef RTMP_FREQ_CALIBRATION_SUPPORT
 VOID InitFrequencyCalibration(struct rtmp_adapter *pAd);
 VOID StopFrequencyCalibration(struct rtmp_adapter *pAd);
 VOID FrequencyCalibration(struct rtmp_adapter *pAd);
 CHAR GetFrequencyOffset(struct rtmp_adapter *pAd, RXWI_STRUC *pRxWI);
-#endif /* RTMP_FREQ_CALIBRATION_SUPPORT */
 #endif /* CONFIG_STA_SUPPORT */
 
 VOID MlmeHalt(struct rtmp_adapter *pAd);

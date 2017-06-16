@@ -207,20 +207,16 @@ int rt28xx_init(struct rtmp_adapter *pAd)
 		this's chip variant and may different for different chips
 	*/
 
-#ifdef RTMP_FREQ_CALIBRATION_SUPPORT
 #ifdef CONFIG_STA_SUPPORT
 	/* Initialize the frequency calibration*/
 	if (pAd->chipCap.FreqCalibrationSupport)
 		FrequencyCalibration(pAd);
 #endif /* CONFIG_STA_SUPPORT */
-#endif /* RTMP_FREQ_CALIBRATION_SUPPORT */
 
-#ifdef RTMP_FREQ_CALIBRATION_SUPPORT
 #ifdef CONFIG_STA_SUPPORT
 	if (pAd->chipCap.FreqCalibrationSupport)
 		InitFrequencyCalibration(pAd);
 #endif /* CONFIG_STA_SUPPORT */
-#endif /* RTMP_FREQ_CALIBRATION_SUPPORT */
 
 	/* Set PHY to appropriate mode and will update the ChannelListNum in this function */
 	RTMPSetPhyMode(pAd, pAd->CommonCfg.PhyMode);

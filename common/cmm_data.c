@@ -3487,7 +3487,6 @@ bool rtmp_rx_done_handle(struct rtmp_adapter *pAd)
 				continue;
 			}
 
-#ifdef RTMP_FREQ_CALIBRATION_SUPPORT
 			if (pAd->chipCap.FreqCalibrationSupport)
 			{
 				if ((pAd->FreqCalibrationCtrl.bEnableFrequencyCalibration == true)
@@ -3509,7 +3508,6 @@ bool rtmp_rx_done_handle(struct rtmp_adapter *pAd)
 					  	rxblk.rx_rate.field.MODE));
 				}
 			}
-#endif /* RTMP_FREQ_CALIBRATION_SUPPORT */
 		}
 #endif /* CONFIG_STA_SUPPORT */
 

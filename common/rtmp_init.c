@@ -706,7 +706,6 @@ VOID NICInitAsicFromEEPROM(struct rtmp_adapter *pAd)
 #endif /* CONFIG_STA_SUPPORT */
 
 #ifdef CONFIG_STA_SUPPORT
-#ifdef RTMP_FREQ_CALIBRATION_SUPPORT
 		/*
 			Only for RT3593, RT5390 (Maybe add other chip in the future)
 			Sometimes the frequency will be shift, we need to adjust it.
@@ -717,7 +716,6 @@ VOID NICInitAsicFromEEPROM(struct rtmp_adapter *pAd)
 		DBGPRINT(RT_DEBUG_TRACE, ("%s: pAd->FreqCalibrationCtrl.bEnableFrequencyCalibration = %d\n",
 					__FUNCTION__, pAd->FreqCalibrationCtrl.bEnableFrequencyCalibration));
 
-#endif /* RTMP_FREQ_CALIBRATION_SUPPORT */
 #endif /* CONFIG_STA_SUPPORT */
 	DBGPRINT(RT_DEBUG_TRACE, ("TxPath = %d, RxPath = %d, RFIC=%d\n",
 				pAd->Antenna.field.TxPath, pAd->Antenna.field.RxPath, pAd->RfIcType));
@@ -2032,9 +2030,7 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 		pAd->StaCfg.wdev.bAutoTxRateSwitch = true;
 		pAd->StaCfg.wdev.DesiredTransmitSetting.field.MCS = MCS_AUTO;
 		pAd->StaCfg.bAutoConnectIfNoSSID = false;
-#ifdef RTMP_FREQ_CALIBRATION_SUPPORT
 		pAd->StaCfg.AdaptiveFreq = true; /* Todo: iwpriv and profile support. */
-#endif /* RTMP_FREQ_CALIBRATION_SUPPORT */
 	}
 
 #endif /* CONFIG_STA_SUPPORT */

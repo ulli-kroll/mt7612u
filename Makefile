@@ -283,10 +283,6 @@ ifeq ($(HAS_CSO_SUPPORT), y)
 WFLAGS += -DCONFIG_CSO_SUPPORT -DCONFIG_TSO_SUPPORT
 endif
 
-ifneq ($(findstring $(RT28xx_MODE),STA APSTA),)
-WFLAGS += -DRTMP_FREQ_CALIBRATION_SUPPORT
-endif
-
 #################################################
 # Platform Related definitions
 #

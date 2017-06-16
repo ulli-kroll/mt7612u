@@ -25,7 +25,6 @@
 	--------    ----------    ----------------------------------------------
 */
 
-#ifdef RTMP_FREQ_CALIBRATION_SUPPORT
 #ifdef CONFIG_STA_SUPPORT
 
 #include	"rt_config.h"
@@ -288,5 +287,4 @@ ret:
 }
 #endif /* CONFIG_STA_SUPPORT */
 
-#endif /* RTMP_FREQ_CALIBRATION_SUPPORT */
 

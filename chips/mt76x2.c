@@ -2686,13 +2686,11 @@ static const struct rtmp_chip_cap MT76x2_ChipCap = {
 	.FlgPMFEncrtptMode = PMF_ENCRYPT_MODE_1,
 #endif /* DOT11W_PMF_SUPPORT */
 #ifdef CONFIG_STA_SUPPORT
-#ifdef RTMP_FREQ_CALIBRATION_SUPPORT
     /* Frequence Calibration */
     .FreqCalibrationSupport = true,
     /* BBP CR for Rx OFDM/CCK frequency offset report is unnecessary */
     .FreqCalMode = FREQ_CAL_MODE2,
     .RxWIFrqOffset = RXWI_FRQ_OFFSET_FIELD0,
-#endif /* RTMP_FREQ_CALIBRATION_SUPPORT */
 #endif /* CONFIG_STA_SUPPORT */
 };
 
