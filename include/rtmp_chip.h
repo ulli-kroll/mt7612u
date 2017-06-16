@@ -704,8 +704,6 @@ struct rtmp_chip_ops {
 	VOID (*RadarGLRTCompensate)(struct rtmp_adapter *pAd);
 	VOID (*SecondCCADetection)(struct rtmp_adapter *pAd);
 
-	VOID (*AsicDynamicVgaGainControl)(IN struct rtmp_adapter *pAd);
-
 #if defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT)
 	VOID (*AsicWOWEnable)(struct rtmp_adapter *ad);
 	VOID (*AsicWOWDisable)(struct rtmp_adapter *ad);
@@ -809,12 +807,6 @@ do {	\
 		_pAd->chipOps.AsicWOWDisable(_pAd);	\
 } while(0)
 #endif /* defined(WOW_SUPPORT) || defined(NEW_WOW_SUPPORT) */
-
-#define RTMP_ASIC_DYNAMIC_VGA_GAIN_CONTROL(_pAd)	\
-		do {	\
-			if (_pAd->chipOps.AsicDynamicVgaGainControl != NULL)	\
-				_pAd->chipOps.AsicDynamicVgaGainControl(_pAd);	\
-		} while (0)
 
 int RtmpChipOpsHook(VOID *pCB);
 VOID RtmpChipBcnSpecInit(struct rtmp_adapter *pAd);
