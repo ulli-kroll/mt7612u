@@ -18,9 +18,6 @@ endif
 
 MODULE = $(word 1, $(CHIPSET))
 
-# Support ATE function
-HAS_ATE=y
-
 # Support Wpa_Supplicant
 # i.e. wpa_supplicant -Dralink
 HAS_WPA_SUPPLICANT=y
