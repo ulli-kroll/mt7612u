@@ -507,14 +507,6 @@ UINT	APValidateRSNIE(
 	    DBGPRINT(RT_DEBUG_ERROR, ("[ERROR]APValidateRSNIE : invalid AKM !!!\n"));
 	    StatusCode = MLME_INVALID_AKMP;
 	}
-#ifdef DOT11W_PMF_SUPPORT
-	else if (PMF_RsnCapableValidation(pAd, pRsnIe, rsnie_len,
-                pMbss->PmfCfg.MFPC, pMbss->PmfCfg.MFPR, pEntry) != PMF_STATUS_SUCCESS)
-	{
-		DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s : Invalid PMF Capability !!!\n", __FUNCTION__));
-	    StatusCode = MLME_ROBUST_MGMT_POLICY_VIOLATION;
-	}
-#endif /* DOT11W_PMF_SUPPORT */
 
 	if (StatusCode != MLME_SUCCESS)
 	{

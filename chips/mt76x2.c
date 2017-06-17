@@ -2682,9 +2682,6 @@ static const struct rtmp_chip_cap MT76x2_ChipCap = {
 #endif /* CONFIG_AP_SUPPORT */
 	.chl_smth_enable = true,
 	.ed_cca_enable = false,
-#ifdef DOT11W_PMF_SUPPORT
-	.FlgPMFEncrtptMode = PMF_ENCRYPT_MODE_1,
-#endif /* DOT11W_PMF_SUPPORT */
 #ifdef CONFIG_STA_SUPPORT
     /* Frequence Calibration */
     .FreqCalibrationSupport = true,

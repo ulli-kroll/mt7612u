@@ -136,9 +136,6 @@ static const uint32_t CipherSuites[] = {
 	WLAN_CIPHER_SUITE_WEP104,
 	WLAN_CIPHER_SUITE_TKIP,
 	WLAN_CIPHER_SUITE_CCMP,
-#ifdef DOT11W_PMF_SUPPORT
-	WLAN_CIPHER_SUITE_AES_CMAC,
-#endif /* DOT11W_PMF_SUPPORT */
 };
 
 static bool IsRadarChannel(u8 ch)

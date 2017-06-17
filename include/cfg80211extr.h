@@ -189,10 +189,6 @@ INT CFG80211_setApDefaultKey(struct rtmp_adapter *pAdCB, UINT Data);
 #ifdef CONFIG_STA_SUPPORT
 INT CFG80211_setStaDefaultKey(struct rtmp_adapter *pAdCB, UINT Data);
 
-#ifdef DOT11W_PMF_SUPPORT
-INT CFG80211_setStaMgmtDefaultKey(struct rtmp_adapter *pAdCB, UINT Data);
-#endif /* DOT11W_PMF_SUPPORT */
-
 #endif /*CONFIG_STA_SUPPORT*/
 /* General Releated */
 bool CFG80211DRV_OpsSetChannel(struct rtmp_adapter *pAd, VOID *pData);

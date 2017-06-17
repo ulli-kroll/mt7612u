@@ -345,10 +345,6 @@ enum WIFI_MODE{
 
 #define fCLIENT_STATUS_BSSCOEXIST_CAPABLE	0x00001000
 #define fCLIENT_STATUS_SOFTWARE_ENCRYPT		0x00002000	/* Indicate the client encrypt/decrypt by software */
-#ifdef DOT11W_PMF_SUPPORT
-#define fCLIENT_STATUS_PMF_CAPABLE			0x00004000
-#define fCLIENT_STATUS_USE_SHA256				0x00008000
-#endif /* DOT11W_PMF_SUPPORT */
 
 #define fCLIENT_STATUS_SGI80_CAPABLE			0x00010000
 #define fCLIENT_STATUS_SGI160_CAPABLE			0x00020000
@@ -675,10 +671,6 @@ enum WIFI_MODE{
 #define MLME_ASSOC_REJ_NO_EXT_RATE_PBCC   23
 #define MLME_ASSOC_REJ_NO_CCK_OFDM        24
 
-#ifdef DOT11W_PMF_SUPPORT
-#define MLME_ASSOC_REJ_TEMPORARILY		  30
-#define MLME_ROBUST_MGMT_POLICY_VIOLATION 31
-#endif /* DOT11W_PMF_SUPPORT */
 
 #define MLME_QOS_UNSPECIFY                32
 #define MLME_REQUEST_DECLINED             37
@@ -946,12 +938,6 @@ enum WIFI_MODE{
 #define CATEGORY_RM			5
 #define CATEGORY_FT				6
 #define CATEGORY_HT			7
-#ifdef DOT11W_PMF_SUPPORT
-#define CATEGORY_SA			8	/* defined in IEEE 802.11w-D8.0 7.3.1.11*/
-#define CATEGORY_PD			9	/* Protected Dual of Action defined in IEEE 802.11w */
-#define CATEGORY_WNM 10
-#define CATEGORY_VSP			126	/* Vendor-specific Protected defined in IEEE 802.11w */
-#endif // DOT11W_PMF_SUPPORT //
 #define CATEGORY_VENDOR_SPECIFIC_WFD	0x7F
 
 
@@ -961,11 +947,6 @@ enum WIFI_MODE{
 #define ACT_VHT_GRP_ID_MGMT		1	/* Group ID Management */
 #define ACT_VHT_OPMODE_NOTIFY		2	/* Operating Mode Notification */
 
-#ifdef DOT11W_PMF_SUPPORT
-/* SA Query Action frame definition */
-#define ACTION_SAQ_REQUEST			0
-#define ACTION_SAQ_RESPONSE			1
-#endif // DOT11W_PMF_SUPPORT //
 
 /* DLS Action frame definition */
 #define ACTION_DLS_REQUEST		0

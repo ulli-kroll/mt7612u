@@ -250,11 +250,6 @@ static VOID APPeerAuthReqAtIdleAction(
 	pEntry = MacTableLookup(pAd, Addr2);
 	if (pEntry && IS_ENTRY_CLIENT(pEntry))
 	{
-#ifdef DOT11W_PMF_SUPPORT
-                if ((CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_PMF_CAPABLE))
-                        && (pEntry->PortSecured == WPA_802_1X_PORT_SECURED))
-                        goto SendAuth;
-#endif /* DOT11W_PMF_SUPPORT */
 
 		if (!RTMPEqualMemory(Addr1, pAd->ApCfg.MBSSID[pEntry->apidx].wdev.bssid, MAC_ADDR_LEN))
 		{
@@ -276,9 +271,6 @@ static VOID APPeerAuthReqAtIdleAction(
 		}
 	}
 
-#ifdef DOT11W_PMF_SUPPORT
-SendAuth:
-#endif /* DOT11W_PMF_SUPPORT */
 
     pRcvHdr = (PHEADER_802_11)(Elem->Msg);
 	DBGPRINT(RT_DEBUG_TRACE,
@@ -336,10 +328,6 @@ SendAuth:
 
 		if (pEntry)
 		{
-#ifdef DOT11W_PMF_SUPPORT
-                if (!(CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_PMF_CAPABLE))
-                        || (pEntry->PortSecured != WPA_802_1X_PORT_SECURED))
-#endif /* DOT11W_PMF_SUPPORT */
                         {
 			pEntry->AuthState = AS_AUTH_OPEN;
 			pEntry->Sst = SST_AUTH; /* what if it already in SST_ASSOC ??????? */

@@ -44,9 +44,6 @@ HAS_KTHREAD_SUPPORT=n
 #Support statistics count
 HAS_STATS_COUNT=y
 
-#Support for dot11w Protected Management Frame
-HAS_DOT11W_PMF_SUPPORT=n
-
 # Support HOSTAPD function
 HAS_HOSTAPD_SUPPORT=n
 
@@ -234,10 +231,6 @@ endif
 #
 ##########################################################
 
-ifeq ($(HAS_DOT11W_PMF_SUPPORT),y)
-WFLAGS += -DDOT11W_PMF_SUPPORT -DSOFT_ENCRYPT
-endif
-
 #################################################
 # ChipSet specific definitions.
 #
@@ -333,13 +326,6 @@ obj_cmm += $(obj_phy) $(obj_mac)
 ifeq ($(HAS_NEW_RATE_ADAPT_SUPPORT),y)
 obj_cmm += rate_ctrl/alg_grp.o
 endif
-
-#ifdef DOT11W_PMF_SUPPORT
-ifeq ($(HAS_DOT11W_PMF_SUPPORT),y)
-obj_cmm += common/pmf.o
-endif
-#endif // DOT11W_PMF_SUPPORT //
-
 
 #ifdef DOT11_N_SUPPORT
 obj_cmm += \

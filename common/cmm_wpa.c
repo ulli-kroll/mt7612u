@@ -250,12 +250,6 @@ VOID WpaEAPOLKeyAction(
 			DBGPRINT(RT_DEBUG_ERROR, ("Key descripter version not match(TKIP) \n"));
 			break;
 		}
-#ifdef DOT11W_PMF_SUPPORT
-		else if (CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_USE_SHA256) && (peerKeyInfo.KeyDescVer != KEY_DESC_EXT))
-		{
-			DBGPRINT(RT_DEBUG_ERROR, ("Key descripter version not match(AES-128)\n"));
-		}
-#endif  /* DOT11W_PMF_SUPPORT */
 		/* The value 2 shall be used for all EAPOL-Key frames to and from a STA when */
 		/* either the pairwise or the group cipher is AES-CCMP for Key Descriptor 2 or 3.*/
 		else if ((pEntry->WepStatus == Ndis802_11AESEnable)
@@ -864,37 +858,6 @@ VOID WPAStart4WayHS(
 		INC_UINT16_TO_ARRARY(pEapolFrame->KeyDesc.KeyDataLen, 6 + LEN_PMKID);
 		INC_UINT16_TO_ARRARY(pEapolFrame->Body_Len, 6 + LEN_PMKID);
 	}
-#ifdef DOT11W_PMF_SUPPORT
-        else if (pEntry->AuthMode == Ndis802_11AuthModeWPA2PSK)
-        {
-                u8 digest[80], PMK_key[20];
-                PKEY_DESCRIPTER  pKeyDesc = &pEapolFrame->KeyDesc;
-
-                pKeyDesc->KeyData[0] = 0xDD;
-                pKeyDesc->KeyData[2] = 0x00;
-                pKeyDesc->KeyData[3] = 0x0F;
-                pKeyDesc->KeyData[4] = 0xAC;
-                pKeyDesc->KeyData[5] = 0x04;
-
-                memmove(&PMK_key[0], "PMK Name", 8);
-                memmove(&PMK_key[8], pMbss->wdev.bssid, MAC_ADDR_LEN);
-                memmove(&PMK_key[14], pEntry->Addr, MAC_ADDR_LEN);
-                if (CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_USE_SHA256))
-                {
-                        DBGPRINT(RT_DEBUG_TRACE, ("[PMF]%s: send Msg1 of 4-way using SHA256\n", __FUNCTION__));
-                        RT_HMAC_SHA256(pMbss->PMK, PMK_LEN, PMK_key, 20, digest, LEN_PMKID);
-                }
-                else {
-                        DBGPRINT(RT_DEBUG_TRACE, ("[PMF]%s: send Msg1 of 4-way using SHA1\n", __FUNCTION__));
-                        RT_HMAC_SHA1(pMbss->PMK, PMK_LEN, PMK_key, 20, digest, LEN_PMKID);
-                }
-
-                memmove(&pKeyDesc->KeyData[6], digest, LEN_PMKID);
-                pKeyDesc->KeyData[1] = 0x14;// 4+LEN_PMKID
-                INC_UINT16_TO_ARRARY(pKeyDesc->KeyDataLen, 6 + LEN_PMKID);
-                INC_UINT16_TO_ARRARY(pEapolFrame->Body_Len, 6 + LEN_PMKID);
-	}
-#endif /* DOT11W_PMF_SUPPORT */
 #endif /* CONFIG_AP_SUPPORT */
 
 	/* Make outgoing frame*/
@@ -1013,23 +976,6 @@ VOID PeerPairMsg1Action(
 	/* Generate random SNonce*/
 	GenRandom(pAd, (u8 *)pCurrentAddr, pEntry->SNonce);
 
-#ifdef DOT11W_PMF_SUPPORT
-        if ((CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_USE_SHA256)))
-        {
-		PMF_DerivePTK(pAd,
-                        (u8 *)pmk_ptr,
-                        pEntry->ANonce,
-                        pEntry->Addr,
-                        pEntry->SNonce,
-                        pCurrentAddr,
-                        PTK,
-                        LEN_AES_PTK);   /* Must is 48 bytes */
-
-                memmove(pEntry->PTK, PTK, LEN_AES_PTK);
-                hex_dump("PTK", PTK, LEN_AES_PTK);
-        }
-        else
-#endif /* DOT11W_PMF_SUPPORT */
 	{
 	    /* Calculate PTK(ANonce, SNonce)*/
 	    WpaDerivePTK(pAd,
@@ -1180,23 +1126,6 @@ VOID PeerPairMsg2Action(
 	/* Store SNonce*/
 	memmove(pEntry->SNonce, pMsg2->KeyDesc.KeyNonce, LEN_KEY_DESC_NONCE);
 
-#ifdef DOT11W_PMF_SUPPORT
-        if ((CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_USE_SHA256)))
-        {
-		PMF_DerivePTK(pAd,
-                        (u8 *)pmk_ptr,
-                        pEntry->ANonce,
-                        (u8 *)pBssid,
-                        pEntry->SNonce,
-                        pEntry->Addr,
-                        PTK,
-                        LEN_AES_PTK);   /* Must is 48 bytes */
-
-                memmove(pEntry->PTK, PTK, LEN_AES_PTK);
-                hex_dump("PTK", PTK, LEN_AES_PTK);
-        }
-        else
-#endif /* DOT11W_PMF_SUPPORT */
 	{
 		/* Derive PTK*/
 		if ((pmk_ptr == NULL) || (pBssid == NULL))
@@ -1955,23 +1884,6 @@ VOID MlmeDeAuthAction(
                           2,  &Reason,
                           END_OF_ARGS);
 
-#ifdef DOT11W_PMF_SUPPORT
-		if (CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_PMF_CAPABLE))
-		{
-			ULONG	TmpLen;
-			UINT	res_len = LEN_CCMP_HDR + LEN_CCMP_MIC;
-			u8 res_buf[res_len];
-
-			/* reserve a buffer for PMF CCMP calculation later */
-			MakeOutgoingFrame(pOutBuffer + FrameLen,	&TmpLen,
-	                          res_len,   				res_buf,
-    	                      END_OF_ARGS);
-			FrameLen += TmpLen;
-
-			/* Indicate this is a unicast Robust management frame */
-			DeAuthHdr.FC.Wep = 1;
-		}
-#endif /* DOT11_PMF_SUPPORT */
 
 
 		if (bDataFrameFirst)
@@ -2403,17 +2315,6 @@ VOID RTMPDerivePMKID(
 	memmove(&text_buf[14], pSpaddr, MAC_ADDR_LEN);
 	text_len = 20;
 
-#ifdef DOT11W_PMF_SUPPORT
-/* todo pmf*/
-	/* 	When the negotiated AKM is 00-0F-AC:5 or 00-0F-AC:6,
-		HMAC-SHA-256 is used to calculate the PMKID */
-	if (NdisEqualMemory(pAkm_oui, OUI_PMF_8021X_AKM, 4) ||
-		NdisEqualMemory(pAkm_oui, OUI_PMF_PSK_AKM, 4))
-	{
-		RT_HMAC_SHA256(pKey, PMK_LEN, text_buf, text_len, digest, SHA256_DIGEST_SIZE);
-	}
-	else
-#endif /* DOT11W_PMF_SUPPPORT */
 	{
 		RT_HMAC_SHA1(pKey, PMK_LEN, text_buf, text_len, digest, SHA1_DIGEST_SIZE);
 	}
@@ -2850,79 +2751,12 @@ static VOID RTMPMakeRsnIeAKM(
             case Ndis802_11AuthModeWPA1WPA2:
                 	memmove(pRsnie_auth->auth[0].oui, OUI_WPA2_8021X_AKM, 4);
 
-#ifdef DOT11W_PMF_SUPPORT
-#ifdef CONFIG_AP_SUPPORT
-                IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-                {
-                        if (pAd->ApCfg.MBSSID[apidx].PmfCfg.MFPR) {
-                                memmove(pRsnie_auth->auth[0].oui, OUI_WPA2_1X_SHA256, 4);
-                                DBGPRINT(RT_DEBUG_WARN, ("[PMF]%s: Insert 1X-SHA256 to AKM of RSNIE\n", __FUNCTION__));
-                        } else if ((pAd->ApCfg.MBSSID[apidx].PmfCfg.MFPC) && (pAd->ApCfg.MBSSID[apidx].PmfCfg.PMFSHA256)) {
-                                memmove(pRsnie_auth->auth[0].oui + (4*AkmCnt), OUI_WPA2_1X_SHA256, 4);
-                                AkmCnt++;
-                                DBGPRINT(RT_DEBUG_WARN, ("[PMF]%s: Insert 1X-SHA256 to AKM of RSNIE\n", __FUNCTION__));
-                        }
-                }
-#endif /* CONFIG_AP_SUPPORT */
-#ifdef CONFIG_STA_SUPPORT
-                IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
-                {
-                        ULONG BssIdx;
-                        BSS_ENTRY *pInBss = NULL;
-
-                        BssIdx = BssTableSearchWithSSID(&pAd->MlmeAux.SsidBssTab, pAd->MlmeAux.Bssid, pAd->CommonCfg.Ssid, pAd->CommonCfg.SsidLen, pAd->CommonCfg.Channel);
-                        if (BssIdx != BSS_NOT_FOUND)
-                        {
-                                pInBss = &pAd->MlmeAux.SsidBssTab.BssEntry[BssIdx];
-                                if (CLIENT_STATUS_TEST_FLAG(pInBss, fCLIENT_STATUS_USE_SHA256))
-                                {
-                                        memmove(pRsnie_auth->auth[0].oui, OUI_WPA2_1X_SHA256, 4);
-                                        DBGPRINT(RT_DEBUG_WARN, ("[PMF]%s: Insert 1X-SHA256 to AKM of RSNIE\n", __FUNCTION__));
-                                }
-                        }
-                }
-#endif /* CONFIG_STA_SUPPORT */
-#endif /* DOT11W_PMF_SUPPORT */
                 break;
 
             case Ndis802_11AuthModeWPA2PSK:
             case Ndis802_11AuthModeWPA1PSKWPA2PSK:
                 	memmove(pRsnie_auth->auth[0].oui, OUI_WPA2_PSK_AKM, 4);
 
-#ifdef DOT11W_PMF_SUPPORT
-#ifdef CONFIG_AP_SUPPORT
-                IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-                {
-                        if (pAd->ApCfg.MBSSID[apidx].PmfCfg.MFPR) {
-                                memmove(pRsnie_auth->auth[0].oui, OUI_WPA2_PSK_SHA256, 4);
-                                DBGPRINT(RT_DEBUG_WARN, ("[PMF]%s: Insert PSK-SHA256 to AKM of RSNIE\n", __FUNCTION__));
-                        } else if ((pAd->ApCfg.MBSSID[apidx].PmfCfg.MFPC) && (pAd->ApCfg.MBSSID[apidx].PmfCfg.PMFSHA256)) {
-                                memmove(pRsnie_auth->auth[0].oui + (4*AkmCnt), OUI_WPA2_PSK_SHA256, 4);
-                                AkmCnt++;
-                                DBGPRINT(RT_DEBUG_WARN, ("[PMF]%s: Insert PSK-SHA256 to AKM of RSNIE\n", __FUNCTION__));
-                        }
-                }
-#endif /* CONFIG_AP_SUPPORT */
-
-#ifdef CONFIG_STA_SUPPORT
-                IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
-                {
-                        ULONG BssIdx;
-                        BSS_ENTRY *pInBss = NULL;
-
-                        BssIdx = BssTableSearchWithSSID(&pAd->MlmeAux.SsidBssTab, pAd->MlmeAux.Bssid, pAd->CommonCfg.Ssid, pAd->CommonCfg.SsidLen, pAd->CommonCfg.Channel);
-                        if (BssIdx != BSS_NOT_FOUND)
-                        {
-                                pInBss = &pAd->MlmeAux.SsidBssTab.BssEntry[BssIdx];
-                                if (CLIENT_STATUS_TEST_FLAG(pInBss, fCLIENT_STATUS_USE_SHA256))
-                                {
-                                        memmove(pRsnie_auth->auth[0].oui, OUI_WPA2_PSK_SHA256, 4);
-                                        DBGPRINT(RT_DEBUG_WARN, ("[PMF]%s: Insert PSK-SHA256 to AKM of RSNIE\n", __FUNCTION__));
-                                }
-                        }
-                }
-#endif /* CONFIG_STA_SUPPORT */
-#endif /* DOT11W_PMF_SUPPORT */
                 break;
 			default:
 				AkmCnt = 0;
@@ -3004,24 +2838,11 @@ static VOID RTMPMakeRsnIeCap(
 #ifdef DOT1X_SUPPORT
         	pRSN_Cap->field.PreAuth = (pMbss->PreAuth == true) ? 1 : 0;
 #endif /* DOT1X_SUPPORT */
-#ifdef DOT11W_PMF_SUPPORT
-                        pRSN_Cap->field.MFPC = (pMbss->PmfCfg.MFPC) ? 1 : 0;
-                        pRSN_Cap->field.MFPR = (pMbss->PmfCfg.MFPR) ? 1 : 0;
-                        DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s: RSNIE Capability MFPC=%d, MFPR=%d\n", __FUNCTION__, pRSN_Cap->field.MFPC, pRSN_Cap->field.MFPR));
-#endif /* DOT11W_PMF_SUPPORT */
 		}
 	}
 #endif /* CONFIG_AP_SUPPORT */
 
 #ifdef CONFIG_STA_SUPPORT
-#ifdef DOT11W_PMF_SUPPORT
-	IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
-	{
-                pRSN_Cap->field.MFPC = (pAd->StaCfg.PmfCfg.MFPC) ? 1 : 0;
-		pRSN_Cap->field.MFPR = (pAd->StaCfg.PmfCfg.MFPR) ? 1 : 0;
-                DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s: RSNIE Capability MFPC=%d, MFPR=%d\n", __FUNCTION__, pRSN_Cap->field.MFPC, pRSN_Cap->field.MFPR));
-	}
-#endif /* DOT11W_PMF_SUPPORT */
 
 #endif /* CONFIG_STA_SUPPORT */
 
@@ -3049,48 +2870,6 @@ static VOID RTMPMakeRsnIeCap(
 
 	========================================================================
 */
-#ifdef DOT11W_PMF_SUPPORT
-static VOID RTMPInsertRsnIeZeroPMKID(
-	IN  struct rtmp_adapter *  pAd,
-	IN	u8 		ElementID,
-	IN	u8 		apidx,
-	OUT	u8 *		pRsnIe,
-	OUT	u8 		*rsn_len)
-{
-	uint8_t *    	pBuf;
-	u8 	ZeroPmkID[2] = {0x00, 0x00};
-
-	/* it could be ignored in WPA1 mode*/
-	if (ElementID == WpaIe)
-		return;
-
-#ifdef CONFIG_AP_SUPPORT
-	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-	{
-		if (apidx < pAd->ApCfg.BssidNum)
-		{
-			PMULTISSID_STRUCT pMbss = &pAd->ApCfg.MBSSID[apidx];
-                        if (pMbss->PmfCfg.MFPC)
-                                goto InsertPMKIDCount;
-		}
-	}
-#endif /* CONFIG_AP_SUPPORT */
-#ifdef CONFIG_STA_SUPPORT
-	IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
-	{
-                if (pAd->StaCfg.PmfCfg.MFPC)
-                        goto InsertPMKIDCount;
-	}
-#endif /* CONFIG_STA_SUPPORT */
-        return;
-
-InsertPMKIDCount:
-	pBuf = (pRsnIe + (*rsn_len));
-
-	memmove(pBuf, ZeroPmkID, 2);
-	(*rsn_len) += 2;	/* update current RSNIE length	*/
-}
-#endif /* DOT11W_PMF_SUPPORT */
 
 /*
 	========================================================================
@@ -3286,13 +3065,6 @@ VOID RTMPMakeRSNIE(struct rtmp_adapter *pAd, UINT AuthMode, UINT WepStatus, u8 a
 		/* 3. insert capability*/
 		RTMPMakeRsnIeCap(pAd, PrimaryRsnie, apidx, pRsnIe, &p_offset);
 
-#ifdef DOT11W_PMF_SUPPORT
-		/* 4. Insert PMKID */
-		RTMPInsertRsnIeZeroPMKID(pAd, PrimaryRsnie, apidx, pRsnIe, &p_offset);
-
-		/* 5. Insert Group Management Cipher*/
-		PMF_MakeRsnIeGMgmtCipher(pAd, PrimaryRsnie, apidx, pRsnIe, &p_offset);
-#endif /* DOT11W_PMF_SUPPORT */
 	}
 
 	/* 4. update the RSNIE length*/
@@ -3322,13 +3094,6 @@ VOID RTMPMakeRSNIE(struct rtmp_adapter *pAd, UINT AuthMode, UINT WepStatus, u8 a
 			/* 3. insert capability*/
 			RTMPMakeRsnIeCap(pAd, Wpa2Ie, apidx, pRsnIe_ex, &s_offset);
 
-#ifdef DOT11W_PMF_SUPPORT
-			/* 4. Insert PMKID */
-			RTMPInsertRsnIeZeroPMKID(pAd, Wpa2Ie, apidx, pRsnIe_ex, &s_offset);
-
-			/* 5. Insert Group Management Cipher*/
-			PMF_MakeRsnIeGMgmtCipher(pAd, Wpa2Ie, apidx, pRsnIe_ex, &s_offset);
-#endif /* DOT11W_PMF_SUPPORT */
 
 			/* Update the RSNIE length*/
 			*rsnielen_ex_cur_p = s_offset;
@@ -3633,14 +3398,6 @@ bool RTMPParseEapolKeyData(
 								memmove(GTK, pKdeGtk->GTK, GTKLEN);
 								DBGPRINT(RT_DEBUG_TRACE, ("GTK in KDE format ,DefaultKeyID=%d, KeyLen=%d \n", DefaultIdx, GTKLEN));
     						}
-#ifdef DOT11W_PMF_SUPPORT
-							else if (pKDE->DataType == KDE_IGTK
-                                                                && (CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_PMF_CAPABLE)))
-    						{
-								if (PMF_ExtractIGTKKDE(pAd, &pKDE->octet[0], pKDE->Len - 4) == false)
-	        						return false;
-    						}
-#endif /* DOT11W_PMF_SUPPORT */
 						}
 					}
 					break;
@@ -3838,15 +3595,6 @@ VOID	ConstructEapolMsg(
 		pMsg->KeyDesc.Type = WPA1_KEY_DESC;
 
 	/* Key Descriptor Version (bits 0-2) specifies the key descriptor version type*/
-#ifdef DOT11W_PMF_SUPPORT
-        if (CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_USE_SHA256))
-        {
-		/* All EAPOL-Key frames to and from a STA when the negotiated */
-		/* AKM is 00-0F-AC:3 or 00-0F-AC:4.*/
-		KeyDescVer = KEY_DESC_EXT;
-	}
-	else
-#endif /* DOT11W_PMF_SUPPORT */
 	{
 		/* Fill in Key information, refer to IEEE Std 802.11i-2004 page 78 */
 		/* When either the pairwise or the group cipher is AES, the KEY_DESC_AES shall be used.*/
@@ -4068,15 +3816,6 @@ VOID	ConstructEapolKeyData(
 		memmove(&Key_Data[data_offset], GTK, gtk_len);
 		data_offset += gtk_len;
 
-#ifdef DOT11W_PMF_SUPPORT
-		/* Insert IGTK KDE to Key_Data field */
-		if ((bWPA2Capable)
-                        && (CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_PMF_CAPABLE)))
-		{
- 			DBGPRINT(RT_DEBUG_WARN, ("[PMF]:%s - Insert IGTK\n", __FUNCTION__));
-			PMF_InsertIGTKKDE(pEntry->pAd, pEntry->apidx, &Key_Data[data_offset], &data_offset);
-		}
-#endif /* DOT11W_PMF_SUPPORT */
 
 		GTK_Included = true;
 	}
@@ -4092,9 +3831,6 @@ VOID	ConstructEapolKeyData(
 		/*hex_dump("GTK_Included", Key_Data, data_offset);*/
 
 		if (
-#ifdef DOT11W_PMF_SUPPORT
-                        (keyDescVer == KEY_DESC_EXT) ||
-#endif /* DOT11R_FT_SUPPORT */
 			(keyDescVer == KEY_DESC_AES))
 		{
 			u8 	remainder = 0;
@@ -4685,31 +4421,6 @@ uint8_t *	WPA_ExtractSuiteFromRSNIE(
 
 	}
 
-#ifdef DOT11W_PMF_SUPPORT
-        /* Get group mamagement cipher */
-	if (len < LEN_OUI_SUITE)
-	{
-		DBGPRINT(RT_DEBUG_TRACE, ("[PMF]%s : The peer RSNIE doesn't include Group_mgmt_cipher_suite\n", __FUNCTION__));
-		goto out;
-	}
-	else
-	{
-		offset = LEN_OUI_SUITE;
-
-		/* Get Group-Mgmt-Cipher_Suite information */
-		if (type == G_MGMT_SUITE)
-		{
-			*count = 1;
-			return pBuf;
-		}
-		else
-		{
-			/* skip the Group-Mgmt-Cipher_Suite field */
-			pBuf += offset;
-			len -= offset;
-		}
-	}
-#endif /* DOT11W_PMF_SUPPORT */
 
 out:
 	*count = 0;

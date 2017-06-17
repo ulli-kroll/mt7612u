@@ -99,11 +99,6 @@ INT CFG80211DRV_IoctlHandle(
 			CFG80211_setStaDefaultKey(pAd, Data);
 			break;
 
-#ifdef DOT11W_PMF_SUPPORT
-		case CMD_RTPRIV_IOCTL_80211_STA_MGMT_KEY_DEFAULT_SET:
-			CFG80211_setStaMgmtDefaultKey(pAd, Data);
-			break;
-#endif /* DOT11W_PMF_SUPPORT*/
 
 #endif /*CONFIG_STA_SUPPORT*/
 		case CMD_RTPRIV_IOCTL_80211_CONNECT_TO:
@@ -754,29 +749,6 @@ bool CFG80211DRV_StaKeyAdd(
 
 
 	pKeyInfo = (CMD_RTPRIV_IOCTL_80211_KEY *)pData;
-#ifdef DOT11W_PMF_SUPPORT
-	if (pKeyInfo->KeyType == RT_CMD_80211_KEY_AES_CMAC)
-	{
-		PPMF_CFG pPmfCfg = pPmfCfg = &pAd->StaCfg.PmfCfg;
-		hex_dump("PMF IGTK pKeyInfo->KeyBuf=", (UINT8 *)pKeyInfo->KeyBuf, pKeyInfo->KeyLen);
-		DBGPRINT(RT_DEBUG_ERROR, ("PMF IGTK pKeyInfo->KeyId=%d\n",pKeyInfo->KeyId));
-
-		//only 4 or 5, no other case!
-		if (pKeyInfo->KeyId == 4 || pKeyInfo->KeyId == 5)
-		{
-			// no PN is passed, PN is useless in PMF_CalculateBIPMIC()
-			memset(&pPmfCfg->IPN[pKeyInfo->KeyId -4][0], 0, LEN_WPA_TSC);
-			memmove(&pPmfCfg->IGTK[pKeyInfo->KeyId -4][0], pKeyInfo->KeyBuf, pKeyInfo->KeyLen);
-		}
-		else
-		{
-			DBGPRINT(RT_DEBUG_ERROR, ("ERROR !! pKeyInfo->KeyId=%d \n",pKeyInfo->KeyId));
-
-		}
-
-	}
-	else
-#endif /* DOT11W_PMF_SUPPORT */
 	if (pKeyInfo->KeyType == RT_CMD_80211_KEY_WEP40 || pKeyInfo->KeyType == RT_CMD_80211_KEY_WEP104)
 	{
 		DBGPRINT(RT_DEBUG_TRACE, ("RT_CMD_80211_KEY_WEP\n"));
@@ -989,13 +961,6 @@ bool CFG80211DRV_Connect(
 	/* TODO: We need to provide a command to set BSSID to associate a AP */
 	pAd->cfg80211_ctrl.FlgCfg80211Connecting = true;
 
-#ifdef DOT11W_PMF_SUPPORT
-	if (pConnInfo->mfp)
-	{
-		Set_PMFSHA256_Proc(pAd,"1");
-		Set_PMFMFPC_Proc(pAd,"1");
-	}
-#endif /* DOT11W_PMF_SUPPORT */
 
 	Set_SSID_Proc(pAd, (char *)SSID);
 	CFG80211DBG(RT_DEBUG_TRACE, ("80211> Connecting SSID = %s\n", SSID));
@@ -1468,19 +1433,6 @@ INT CFG80211_setStaDefaultKey(
 	return 0;
 }
 
-#ifdef DOT11W_PMF_SUPPORT
-INT CFG80211_setStaMgmtDefaultKey(
-	IN VOID                     *pAdCB,
-	IN UINT 					Data
-)
-{
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pAdCB;
-
-	DBGPRINT(RT_DEBUG_TRACE, ("Set Sta MgmtDefault Key: %d\n", Data));
-    	//pAd->StaCfg.wdev.MgmtDefaultKeyId = Data; /* base 0 */
-	return 0;
-}
-#endif /* DOT11W_PMF_SUPPORT */
 
 #endif /*CONFIG_STA_SUPPORT*/
 INT CFG80211_reSetToDefault(

@@ -135,9 +135,6 @@ typedef enum _WPA_KDE_ID
    	KDE_NONCE,
    	KDE_LIFETIME,
    	KDE_ERROR,
-#ifdef DOT11W_PMF_SUPPORT
-	KDE_IGTK,				/* Defined in IEEE 802.11w/D10.0 */
-#endif /* DOT11W_PMF_SUPPORT */
    	KDE_RESV_OTHER
 } WPA_KDE_ID;
 
@@ -216,7 +213,7 @@ typedef struct GNU_PACKED _GTK_KDE
     u8               rsv:5;
     u8               tx:1;
     u8               Kid:2;
-    u8               rsv1;    
+    u8               rsv1;
 #endif
     u8               GTK[0];
 }   GTK_KDE, *PGTK_KDE;

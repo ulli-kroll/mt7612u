@@ -1550,15 +1550,6 @@ VOID LinkUp(struct rtmp_adapter *pAd, u8 BssType)
 			   If use RT3883 or later, HW can handle the above.
 			 */
 
-#ifdef DOT11W_PMF_SUPPORT
-            		{
-				if ((pAd->chipCap.FlgPMFEncrtptMode == PMF_ENCRYPT_MODE_0)
-					&& CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_PMF_CAPABLE))
-				{
-					CLIENT_STATUS_SET_FLAG(pEntry, fCLIENT_STATUS_SOFTWARE_ENCRYPT);
-				}
-			}
-#endif /* DOT11W_PMF_SUPPORT */
 
 #endif /* SOFT_ENCRYPT */
 

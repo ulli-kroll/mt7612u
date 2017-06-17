@@ -482,11 +482,6 @@ struct rtmp_chip_cap {
  	 */
 	UINT8 MBSSIDMode;
 
-#ifdef DOT11W_PMF_SUPPORT
-#define PMF_ENCRYPT_MODE_0      0	/* All packets must software encryption. */
-#define PMF_ENCRYPT_MODE_1      1	/* Data packets do hardware encryption, management packet do software encryption. */
-	UINT8	FlgPMFEncrtptMode;
-#endif /* DOT11W_PMF_SUPPORT */
 
 #ifdef CONFIG_STA_SUPPORT
 	UINT8 FreqCalibrationSupport;

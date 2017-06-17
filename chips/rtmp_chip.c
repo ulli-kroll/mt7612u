@@ -181,9 +181,6 @@ int RtmpChipOpsHook(VOID *pCB)
 
 
 done:
-#ifdef DOT11W_PMF_SUPPORT
-	DBGPRINT(RT_DEBUG_TRACE, ("[PMF] Encryption mode = %d\n", pChipCap->FlgPMFEncrtptMode));
-#endif /* DOT11W_PMF_SUPPORT */
 
 	return ret;
 }

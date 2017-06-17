@@ -109,9 +109,6 @@ VOID APAssocStateMachineInit(
 VOID MbssKickOutStas(struct rtmp_adapter *pAd, INT apidx, unsigned short Reason);
 VOID APMlmeKickOutSta(struct rtmp_adapter *pAd, u8 *staAddr, u8 Wcid, unsigned short Reason);
 
-#ifdef DOT11W_PMF_SUPPORT
-VOID APMlmeKickOutAllSta(struct rtmp_adapter *pAd, u8 apidx, unsigned short Reason);
-#endif /* DOT11W_PMF_SUPPORT */
 
 VOID  APCls3errAction(struct rtmp_adapter *pAd, ULONG wcid, HEADER_802_11 *hdr);
 

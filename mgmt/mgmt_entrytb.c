@@ -308,10 +308,6 @@ bool StaUpdateMacTableEntry(
 		pAd->MacTab.Size ++;
 	}
 
-#ifdef DOT11W_PMF_SUPPORT
-        RTMPInitTimer(pAd, &pEntry->SAQueryTimer, GET_TIMER_FUNCTION(PMF_SAQueryTimeOut), pEntry, false);
-        RTMPInitTimer(pAd, &pEntry->SAQueryConfirmTimer, GET_TIMER_FUNCTION(PMF_SAQueryConfirmTimeOut), pEntry, false);
-#endif /* DOT11W_PMF_SUPPORT */
 	RTMP_SEM_UNLOCK(&pAd->MacTabLock);
 
 #ifdef WPA_SUPPLICANT_SUPPORT
@@ -378,10 +374,6 @@ MAC_TABLE_ENTRY *MacTableInsertEntry(
 			/* ENTRY PREEMPTION: initialize the entry */
 			RTMPCancelTimer(&pEntry->RetryTimer, &Cancelled);
 			RTMPCancelTimer(&pEntry->EnqueueStartForPSKTimer, &Cancelled);
-#ifdef DOT11W_PMF_SUPPORT
-			RTMPCancelTimer(&pEntry->SAQueryTimer, &Cancelled);
-			RTMPCancelTimer(&pEntry->SAQueryConfirmTimer, &Cancelled);
-#endif /* DOT11W_PMF_SUPPORT */
 
 			memset(pEntry, 0, sizeof(MAC_TABLE_ENTRY));
 
@@ -445,10 +437,6 @@ MAC_TABLE_ENTRY *MacTableInsertEntry(
 				if (IS_ENTRY_CLIENT(pEntry)) /* Only Client entry need the retry timer.*/
 				{
 					RTMPInitTimer(pAd, &pEntry->RetryTimer, GET_TIMER_FUNCTION(WPARetryExec), pEntry, false);
-#ifdef DOT11W_PMF_SUPPORT
-					RTMPInitTimer(pAd, &pEntry->SAQueryTimer, GET_TIMER_FUNCTION(PMF_SAQueryTimeOut), pEntry, false);
-					RTMPInitTimer(pAd, &pEntry->SAQueryConfirmTimer, GET_TIMER_FUNCTION(PMF_SAQueryConfirmTimeOut), pEntry, false);
-#endif /* DOT11W_PMF_SUPPORT */
 
 	/*				RTMP_OS_Init_Timer(pAd, &pEntry->RetryTimer, GET_TIMER_FUNCTION(WPARetryExec), pAd);*/
 				}
@@ -714,10 +702,6 @@ bool MacTableDeleteEntry(struct rtmp_adapter *pAd, unsigned short wcid, u8 *pAdd
 		/* ENTRY PREEMPTION: Cancel all timers */
 		RTMPCancelTimer(&pEntry->RetryTimer, &Cancelled);
 		RTMPCancelTimer(&pEntry->EnqueueStartForPSKTimer, &Cancelled);
-#ifdef DOT11W_PMF_SUPPORT
-                RTMPCancelTimer(&pEntry->SAQueryTimer, &Cancelled);
-                RTMPCancelTimer(&pEntry->SAQueryConfirmTimer, &Cancelled);
-#endif /* DOT11W_PMF_SUPPORT */
 
 		if (MAC_ADDR_EQUAL(pEntry->Addr, pAddr))
 		{
@@ -741,10 +725,6 @@ bool MacTableDeleteEntry(struct rtmp_adapter *pAd, unsigned short wcid, u8 *pAdd
 				RTMPReleaseTimer(&pEntry->eTxBfProbeTimer, &Cancelled);
 
 
-#ifdef DOT11W_PMF_SUPPORT
-			RTMPReleaseTimer(&pEntry->SAQueryTimer, &Cancelled);
-			RTMPReleaseTimer(&pEntry->SAQueryConfirmTimer, &Cancelled);
-#endif /* DOT11W_PMF_SUPPORT */
 
 #ifdef CONFIG_STA_SUPPORT
 #endif /* CONFIG_STA_SUPPORT */

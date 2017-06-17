@@ -3518,9 +3518,6 @@ int RTMPSetProfileParameters(
 #ifdef CONFIG_AP_SUPPORT
 #endif /* CONFIG_AP_SUPPORT */
 
-#ifdef DOT11W_PMF_SUPPORT
-	                            rtmp_read_pmf_parameters_from_file(pAd, tmpbuf, pBuffer);
-#endif /* DOT11W_PMF_SUPPORT */
 
 
 #ifdef CONFIG_AP_SUPPORT

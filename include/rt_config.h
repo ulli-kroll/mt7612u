@@ -107,9 +107,6 @@
 
 #endif /* CONFIG_STA_SUPPORT */
 
-#ifdef DOT11W_PMF_SUPPORT
-#include "pmf.h"
-#endif /* DOT11W_PMF_SUPPORT */
 
 
 

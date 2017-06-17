@@ -163,9 +163,6 @@ static const uint32_t CipherSuites[] = {
 	WLAN_CIPHER_SUITE_WEP104,
 	WLAN_CIPHER_SUITE_TKIP,
 	WLAN_CIPHER_SUITE_CCMP,
-#ifdef DOT11W_PMF_SUPPORT
-	WLAN_CIPHER_SUITE_AES_CMAC,
-#endif /* DOT11W_PMF_SUPPORT */
 };
 
 /*
@@ -947,15 +944,6 @@ static int CFG80211_OpsKeyAdd(
 		else if (pParams->cipher == WLAN_CIPHER_SUITE_CCMP)
 			KeyInfo.cipher = Ndis802_11AESEnable;
 	}
-#ifdef DOT11W_PMF_SUPPORT
-//PMF IGTK
-	else if (pParams->cipher == WLAN_CIPHER_SUITE_AES_CMAC) {
-			KeyInfo.KeyType = RT_CMD_80211_KEY_AES_CMAC;
-			KeyInfo.KeyId = KeyIdx;
-			KeyInfo.bPairwise = false;
-			KeyInfo.KeyLen = pParams->key_len;
-	}
-#endif /* DOT11W_PMF_SUPPORT */
 	else
 		return -ENOTSUPP;
 
@@ -1187,26 +1175,6 @@ Return Value:
 Note:
 ========================================================================
 */
-#ifdef DOT11W_PMF_SUPPORT
-static int CFG80211_OpsMgmtKeyDefaultSet(
-	struct wiphy		*pWiphy,
-	struct net_device	*pNdev,
-	UINT8			KeyIdx)
-{
-	struct rtmp_adapter *pAd;
-
-	CFG80211DBG(RT_DEBUG_TRACE, ("80211> %s ==>\n", __FUNCTION__));
-	pAd = MAC80211_PAD_GET(pWiphy);
-	if (pAd == NULL)
-		return -EINVAL;
-
-	CFG80211DBG(RT_DEBUG_TRACE, ("80211> Mgmt Default KeyIdx = %d\n", KeyIdx));
-
-	RTMP_DRIVER_80211_STA_MGMT_KEY_DEFAULT_SET(pAd, KeyIdx);
-
-	return 0;
-} /* End of CFG80211_OpsMgmtKeyDefaultSet */
-#endif /* DOT11W_PMF_SUPPORT */
 
 /*
 ========================================================================
@@ -1373,14 +1341,6 @@ static int CFG80211_OpsConnect(
 			RTMP_DRIVER_80211_GEN_IE_SET(pAd, NULL, 0);
 	}
 
-#ifdef DOT11W_PMF_SUPPORT
-	CFG80211DBG(RT_DEBUG_OFF, ("80211> PMF Connect %d\n", pSme->mfp));
-	if (pSme->mfp) {
-		ConnInfo.mfp = true;
-	} else {
-		ConnInfo.mfp = false;
-	}
-#endif /* DOT11W_PMF_SUPPORT */
 
 	if ((pSme->ie_len > 6) /* EID(1) + LEN(1) + OUI(4) */ &&
 	    (pSme->ie[0] == WLAN_EID_VENDOR_SPECIFIC &&
@@ -2218,9 +2178,6 @@ struct cfg80211_ops CFG80211_Ops = {
 	.del_key		= CFG80211_OpsKeyDel,
 	/* set the default key on an interface */
 	.set_default_key	= CFG80211_OpsKeyDefaultSet,
-#ifdef DOT11W_PMF_SUPPORT
-	.set_default_mgmt_key	= CFG80211_OpsMgmtKeyDefaultSet,
-#endif /* DOT11W_PMF_SUPPORT */
 
 	/* connect to the ESS with the specified parameters */
 	.connect		= CFG80211_OpsConnect,

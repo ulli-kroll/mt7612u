@@ -476,33 +476,6 @@ VOID RTMPDrvOpen(struct rtmp_adapter *pAdSrc)
 //---Add by shiang for debug
 
 #ifdef CONFIG_STA_SUPPORT
-#ifdef DOT11W_PMF_SUPPORT
-	if (pAd->OpMode == OPMODE_STA)
-	{
-		pAd->StaCfg.PmfCfg.MFPC = false;
-		pAd->StaCfg.PmfCfg.MFPR = false;
-		pAd->StaCfg.PmfCfg.PMFSHA256 = false;
-		if ((pAd->StaCfg.wdev.AuthMode == Ndis802_11AuthModeWPA2 || pAd->StaCfg.wdev.AuthMode == Ndis802_11AuthModeWPA2PSK)
-			&& (pAd->StaCfg.wdev.WepStatus == Ndis802_11AESEnable))
-		{
-			pAd->StaCfg.PmfCfg.PMFSHA256 = pAd->StaCfg.PmfCfg.Desired_PMFSHA256;
-			if (pAd->StaCfg.PmfCfg.Desired_MFPC)
-			{
-				pAd->StaCfg.PmfCfg.MFPC = true;
-				pAd->StaCfg.PmfCfg.MFPR = pAd->StaCfg.PmfCfg.Desired_MFPR;
-
-				if (pAd->StaCfg.PmfCfg.MFPR)
-					pAd->StaCfg.PmfCfg.PMFSHA256 = true;
-			}
-		} else if (pAd->StaCfg.PmfCfg.Desired_MFPC) {
-			DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s:: Security is not WPA2/WPA2PSK AES\n", __FUNCTION__));
-		}
-
-		DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s:: MFPC=%d, MFPR=%d, SHA256=%d\n",
-					__FUNCTION__, pAd->StaCfg.PmfCfg.MFPC, pAd->StaCfg.PmfCfg.MFPR,
-					pAd->StaCfg.PmfCfg.PMFSHA256));
-	}
-#endif /* DOT11W_PMF_SUPPORT */
 #endif /* CONFIG_STA_SUPPORT */
 
 

@@ -3822,36 +3822,6 @@ VOID BssTableSsidSort(
 			}
 
 
-#ifdef DOT11W_PMF_SUPPORT
-                        if (((wdev->AuthMode == Ndis802_11AuthModeWPA2) || (wdev->AuthMode == Ndis802_11AuthModeWPA2PSK))
-                                && (pInBss))
-                        {
-                                CLIENT_STATUS_CLEAR_FLAG(pInBss, fCLIENT_STATUS_PMF_CAPABLE);
-                                CLIENT_STATUS_CLEAR_FLAG(pInBss, fCLIENT_STATUS_USE_SHA256);
-
-                                RSN_CAPABILITIES RsnCap;
-                		memmove(&RsnCap, &pInBss->WPA2.RsnCapability, sizeof(RSN_CAPABILITIES));
-                		RsnCap.word = cpu2le16(RsnCap.word);
-                                if ((pAd->StaCfg.PmfCfg.MFPR) && (RsnCap.field.MFPC == false))
-                                        continue;
-
-                                if (((pAd->StaCfg.PmfCfg.MFPC == false) && (RsnCap.field.MFPC == false))
-                                        || (pAd->StaCfg.PmfCfg.MFPC && RsnCap.field.MFPC && (pAd->StaCfg.PmfCfg.MFPR == false) && (RsnCap.field.MFPR == false)))
-                                {
-                                        if ((pAd->StaCfg.PmfCfg.PMFSHA256) && (pInBss->IsSupportSHA256KeyDerivation == false))
-                                                continue;
-                                }
-
-                                if ((pAd->StaCfg.PmfCfg.MFPC) && (RsnCap.field.MFPC))
-				        CLIENT_STATUS_SET_FLAG(pInBss, fCLIENT_STATUS_PMF_CAPABLE);
-
-                                if ((pAd->StaCfg.PmfCfg.PMFSHA256 && pInBss->IsSupportSHA256KeyDerivation)
-                                        || (pAd->StaCfg.PmfCfg.MFPC && RsnCap.field.MFPR)
-                                        || (pAd->StaCfg.PmfCfg.MFPC && pInBss->IsSupportSHA256KeyDerivation))
-				        CLIENT_STATUS_SET_FLAG(pInBss, fCLIENT_STATUS_USE_SHA256);
-
-                        }
-#endif /* DOT11W_PMF_SUPPORT */
 
 			/* New for WPA2*/
 			/* Check the Authmode first*/
@@ -4077,9 +4047,6 @@ VOID BssCipherParse(BSS_ENTRY *pBss)
 	/* Set default to disable & open authentication before parsing variable IE*/
 	pBss->AuthMode		= Ndis802_11AuthModeOpen;
 	pBss->AuthModeAux	= Ndis802_11AuthModeOpen;
-#ifdef DOT11W_PMF_SUPPORT
-        pBss->IsSupportSHA256KeyDerivation = false;
-#endif /* DOT11W_PMF_SUPPORT */
 
 	/* Init WPA setting*/
 	pBss->WPA.PairCipher	= Ndis802_11WEPDisabled;
@@ -4345,19 +4312,12 @@ VOID BssCipherParse(BSS_ENTRY *pBss)
 								pBss->AuthModeAux = Ndis802_11AuthModeWPA2;
 							break;
 						case 2:
-#ifdef DOT11W_PMF_SUPPORT
-						case 6:
-#endif /* DOT11W_PMF_SUPPORT */
 							/* Set AP support WPA-PSK mode*/
 							if (pBss->AuthMode == Ndis802_11AuthModeOpen)
 								pBss->AuthMode = Ndis802_11AuthModeWPA2PSK;
 							else
 								pBss->AuthModeAux = Ndis802_11AuthModeWPA2PSK;
 
-#ifdef DOT11W_PMF_SUPPORT
-                                                        if (pAKM->Type == 6)
-                                                                pBss->IsSupportSHA256KeyDerivation = true;
-#endif /* DOT11W_PMF_SUPPORT */
 
 							break;
 						default:

@@ -4509,27 +4509,6 @@ INT Set_DisConnectAllSta_Proc(
         IN struct rtmp_adapter *pAd,
 	IN char *arg)
 {
-#ifdef DOT11W_PMF_SUPPORT
-        CHAR value = simple_strtol(arg, 0, 10);
-
-	if (value == 2)
-        {
-		struct os_cookie *pObj = pAd->OS_Cookie;
-		INT i;
-
-		DBGPRINT(RT_DEBUG_WARN, ("[PMF]%s:: apidx=%d\n", __FUNCTION__, pObj->ioctl_if));
-		APMlmeKickOutAllSta(pAd, pObj->ioctl_if, REASON_DEAUTH_STA_LEAVING);
-		for (i=1; i<MAX_LEN_OF_MAC_TABLE; i++)
-		{
-			MAC_TABLE_ENTRY *pEntry = &pAd->MacTab.Content[i];
-			if (IS_ENTRY_CLIENT(pEntry)) {
-				DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s: MacTableDeleteEntry %x:%x:%x:%x:%x:%x\n",
-						__FUNCTION__, PRINT_MAC(pEntry->Addr)));
-				MacTableDeleteEntry(pAd, pEntry->wcid, pEntry->Addr);
-			}
-		}
-        } else
-#endif /* DOT11W_PMF_SUPPORT */
 	{
 		MacTableReset(pAd);
 	}

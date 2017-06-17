@@ -213,45 +213,6 @@ VOID APStartUp(struct rtmp_adapter *pAd)
 /*			pMbss->CapabilityInfo |= 0x0200; */
 		}
 
-#ifdef DOT11W_PMF_SUPPORT
-		/*
-		   IEEE 802.11W/P.10 -
-		   A STA that has associated with Management Frame Protection enabled
-		   shall not use pairwise cipher suite selectors WEP-40, WEP-104,
-		   TKIP, or "Use Group cipher suite".
-
-		   IEEE 802.11W/P.3 -
-		   IEEE Std 802.11 provides one security protocol, CCMP, for protection
-		   of unicast Robust Management frames.
-		 */
-		pMbss->PmfCfg.MFPC = false;
-		pMbss->PmfCfg.MFPR = false;
-                pMbss->PmfCfg.PMFSHA256 = false;
-		if ((wdev->AuthMode == Ndis802_11AuthModeWPA2 ||
-			 wdev->AuthMode == Ndis802_11AuthModeWPA2PSK) &&
-			(wdev->WepStatus == Ndis802_11AESEnable) &&
-			(pMbss->PmfCfg.Desired_MFPC))
-		{
-			pMbss->PmfCfg.MFPC = true;
-			pMbss->PmfCfg.MFPR = pMbss->PmfCfg.Desired_MFPR;
-
-			/* IGTK default key index as 4 */
-			pMbss->PmfCfg.IGTK_KeyIdx = 4;
-
-			/* Derive IGTK */
-			PMF_DeriveIGTK(pAd, &pMbss->PmfCfg.IGTK[0][0]);
-
-                        if ((pMbss->PmfCfg.Desired_PMFSHA256) || (pMbss->PmfCfg.MFPR))
-                                pMbss->PmfCfg.PMFSHA256 = true;
-
-		} else if (pMbss->PmfCfg.Desired_MFPC) {
-                        DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s:: Security is not WPA2/WPA2PSK AES\n", __FUNCTION__));
-		}
-
-                DBGPRINT(RT_DEBUG_ERROR, ("[PMF]%s:: apidx=%d, MFPC=%d, MFPR=%d, SHA256=%d\n",
-							__FUNCTION__, idx, pMbss->PmfCfg.MFPC,
-							pMbss->PmfCfg.MFPR, pMbss->PmfCfg.PMFSHA256));
-#endif /* DOT11W_PMF_SUPPORT */
 
 		/* decide the mixed WPA cipher combination */
 		if (wdev->WepStatus == Ndis802_11TKIPAESMix)

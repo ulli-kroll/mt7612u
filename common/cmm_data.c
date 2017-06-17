@@ -299,12 +299,6 @@ int MiniportMMRequest(
 				break;
 			}
 
-#ifdef DOT11W_PMF_SUPPORT
-#ifdef CONFIG_STA_SUPPORT
-			if (INFRA_ON(pAd))
-#endif /* CONFIG_STA_SUPPORT */
-				PMF_PerformTxFrameAction(pAd, pPacket);
-#endif /* DOT11W_PMF_SUPPORT */
 
 
 
@@ -3021,10 +3015,6 @@ VOID dev_rx_mgmt_frm(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 #endif /* RT_CFG80211_SUPPORT */
 
 
-#ifdef DOT11W_PMF_SUPPORT
-	if (PMF_PerformRxFrameAction(pAd, pRxBlk) == false)
-		goto done;
-#endif /* DOT11W_PMF_SUPPORT */
 
 #ifdef CONFIG_AP_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)

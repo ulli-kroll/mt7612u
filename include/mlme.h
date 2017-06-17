@@ -944,9 +944,6 @@ typedef struct _BSS_ENTRY{
 	u8 VarIEs[MAX_VIE_LEN];
 	unsigned short VarIeFromProbeRspLen;
 	u8 *pVarIeFromProbRsp;
-#ifdef DOT11W_PMF_SUPPORT
-    bool IsSupportSHA256KeyDerivation;
-#endif /* DOT11W_PMF_SUPPORT */
 
 	/* CCX Ckip information */
 	u8 CkipFlag;

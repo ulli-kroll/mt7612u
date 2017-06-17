@@ -178,13 +178,6 @@ static unsigned short update_associated_mac_entry(
 	   If use RT3883 or later, HW can handle the above.
 	   */
 
-#ifdef DOT11W_PMF_SUPPORT
-	if ((pAd->chipCap.FlgPMFEncrtptMode == PMF_ENCRYPT_MODE_0)
-		&& CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_PMF_CAPABLE))
-	{
-		CLIENT_STATUS_SET_FLAG(pEntry, fCLIENT_STATUS_SOFTWARE_ENCRYPT);
-	}
-#endif /* DOT11W_PMF_SUPPORT */
 #endif /* SOFT_ENCRYPT */
 
 	/*
@@ -659,14 +652,6 @@ VOID ap_cmm_peer_assoc_req_action(
 		}
 	}
 
-#ifdef DOT11W_PMF_SUPPORT
-        if ((pEntry->PortSecured == WPA_802_1X_PORT_SECURED)
-                && (CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_PMF_CAPABLE)))
-        {
-                StatusCode = MLME_ASSOC_REJ_TEMPORARILY;
-                goto SendAssocResponse;
-        }
-#endif /* DOT11W_PMF_SUPPORT */
 
 	/* clear the previous Pairwise key table */
     if(pEntry->Aid != 0 &&
@@ -766,9 +751,6 @@ VOID ap_cmm_peer_assoc_req_action(
 	if (StatusCode == MLME_ASSOC_REJ_DATA_RATE)
 		RTMPSendWirelessEvent(pAd, IW_STA_MODE_EVENT_FLAG, pEntry->Addr, pEntry->apidx, 0);
 
-#ifdef DOT11W_PMF_SUPPORT
-SendAssocResponse:
-#endif /* DOT11W_PMF_SUPPORT */
 	/* 3. send Association Response */
 	pOutBuffer = kmalloc(MGMT_DMA_BUFFER_SIZE, GFP_ATOMIC);
 	if (pOutBuffer == NULL)
@@ -890,22 +872,6 @@ SendAssocResponse:
 		FrameLen += TmpLen;
 	}
 
-#ifdef DOT11W_PMF_SUPPORT
-        if (StatusCode == MLME_ASSOC_REJ_TEMPORARILY) {
-		ULONG TmpLen;
-		u8 IEType = IE_TIMEOUT_INTERVAL; //IE:0x15
-		u8 IELen = 5;
-		u8 TIType = 3;
-		uint32_t units = 1 << 10; //1 seconds, should be 0x3E8
-		MakeOutgoingFrame(pOutBuffer+FrameLen, &TmpLen,
-                                1, &IEType,
-                                1, &IELen,
-                                1, &TIType,
-                                4, &units,
-                                END_OF_ARGS);
-                FrameLen += TmpLen;
-	}
-#endif /* DOT11W_PMF_SUPPORT */
 
 	/* HT capability in AssocRsp frame. */
 	if ((ie_list->ht_cap_len > 0) && WMODE_CAP_N(pAd->CommonCfg.PhyMode))
@@ -1113,12 +1079,6 @@ SendAssocResponse:
 	MiniportMMRequest(pAd, 0, pOutBuffer, FrameLen);
 	kfree((PVOID) pOutBuffer);
 
-#ifdef DOT11W_PMF_SUPPORT
-	if (StatusCode == MLME_ASSOC_REJ_TEMPORARILY)
-	{
-		PMF_MlmeSAQueryReq(pAd, pEntry);
-	}
-#endif /* DOT11W_PMF_SUPPORT */
 
 	/* set up BA session */
 	if (StatusCode == MLME_SUCCESS)
@@ -1468,64 +1428,6 @@ VOID APMlmeKickOutSta(struct rtmp_adapter *pAd, u8 *pStaAddr, u8 Wcid, unsigned 
 		MacTableDeleteEntry(pAd, Aid, pStaAddr);
     }
 }
-
-
-#ifdef DOT11W_PMF_SUPPORT
-VOID APMlmeKickOutAllSta(struct rtmp_adapter *pAd, u8 apidx, unsigned short Reason)
-{
-    HEADER_802_11 DisassocHdr;
-    u8 *pOutBuffer = NULL;
-    ULONG FrameLen = 0;
-    int     NStatus;
-    u8           BROADCAST_ADDR[MAC_ADDR_LEN] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
-    PPMF_CFG        pPmfCfg = NULL;
-    INT             i;
-
-    pPmfCfg = &pAd->ApCfg.MBSSID[apidx].PmfCfg;
-    if ((apidx < pAd->ApCfg.BssidNum) && (pPmfCfg))
-    {
-        /* Send out a Deauthentication request frame */
-        pOutBuffer = kmalloc(MGMT_DMA_BUFFER_SIZE, GFP_ATOMIC);
-        if (pOutBuffer == NULL)
-            return;
-        DBGPRINT(RT_DEBUG_ERROR, ("Send DISASSOC Broadcast frame(%d) with ra%d \n", Reason, apidx));
-
-        /* 802.11 Header */
-        memset(&DisassocHdr, 0, sizeof(HEADER_802_11));
-        DisassocHdr.FC.Type = FC_TYPE_MGMT;
-        DisassocHdr.FC.SubType = SUBTYPE_DISASSOC;
-        DisassocHdr.FC.ToDs = 0;
-        DisassocHdr.FC.Wep = 0;
-        COPY_MAC_ADDR(DisassocHdr.Addr1, BROADCAST_ADDR);
-        COPY_MAC_ADDR(DisassocHdr.Addr2, pAd->ApCfg.MBSSID[apidx].wdev.bssid);
-        COPY_MAC_ADDR(DisassocHdr.Addr3, pAd->ApCfg.MBSSID[apidx].wdev.bssid);
-        MakeOutgoingFrame(pOutBuffer, &FrameLen,
-            sizeof(HEADER_802_11), &DisassocHdr,
-            2, &Reason,
-            END_OF_ARGS);
-
-        if (pPmfCfg->MFPC == true)
-        {
-            ULONG TmpLen;
-            u8 res_buf[LEN_PMF_MMIE];
-            unsigned short EID, ELen;
-
-            EID = IE_PMF_MMIE;
-            ELen = LEN_PMF_MMIE;
-            MakeOutgoingFrame(pOutBuffer + FrameLen, &TmpLen,
-                1, &EID,
-                1, &ELen,
-                LEN_PMF_MMIE, res_buf,
-                END_OF_ARGS);
-            FrameLen += TmpLen;
-            DBGPRINT(RT_DEBUG_WARN, ("[PMF]: This is a Broadcast Robust management frame, Add 0x4C(76) EID\n"));
-        }
-
-        MiniportMMRequest(pAd, 0, pOutBuffer, FrameLen);
-        kfree(pOutBuffer);
-    }
-}
-#endif /* DOT11W_PMF_PLUGFEST */
 
 
 /*

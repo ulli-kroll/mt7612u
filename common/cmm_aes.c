@@ -762,14 +762,6 @@ VOID RTMPConstructCCMPNonce(
 	if (qc_exists && !a4_exists)
 		nonce_hdr[0] = (*(pHdr + 24)) & 0x0f;
 
-#ifdef DOT11W_PMF_SUPPORT
-	/* When Management Frame Protection is negotiated, the Management
-		field of the Nonce Flags field shall be set to 1 if the Type
-		field of the Frame Control field is 00 (Management frame); otherwise it
-		is set to 0.  */
-	if (isMgmtFrame)
-		nonce_hdr[0] = nonce_hdr[0] | 0x10;
-#endif /* DOT11W_PMF_SUPPORT */
 	n_offset += 1;
 
 	/* Fill in MPDU Address A2 field */

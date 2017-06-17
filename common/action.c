@@ -83,9 +83,6 @@ VOID ActionStateMachineInit(
 #ifdef CONFIG_AP_SUPPORT
 #endif /* CONFIG_AP_SUPPORT */
 
-#ifdef DOT11W_PMF_SUPPORT
-	StateMachineSetAction(S, ACT_IDLE, MT2_PEER_PMF_CATE, (STATE_MACHINE_FUNC)PMF_PeerAction);
-#endif /* DOT11W_PMF_SUPPORT */
 
 
 }

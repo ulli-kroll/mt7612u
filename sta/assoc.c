@@ -995,20 +995,6 @@ VOID PeerAssocRspAction(
 								&HtCapability,
 								HtCapabilityLen);
 
-#ifdef DOT11W_PMF_SUPPORT
-                                if (pAd->StaCfg.BssType == BSS_INFRA)
-                                {
-						if (pAd->MlmeAux.BssIdx < pAd->MlmeAux.SsidBssTab.BssNr) {
-							BSS_ENTRY *pInBss = NULL;
-
-							pInBss = &pAd->MlmeAux.SsidBssTab.BssEntry[pAd->MlmeAux.BssIdx];
-							if (CLIENT_STATUS_TEST_FLAG(pInBss, fCLIENT_STATUS_PMF_CAPABLE))
-								CLIENT_STATUS_SET_FLAG(&pAd->MacTab.Content[BSSID_WCID], fCLIENT_STATUS_PMF_CAPABLE);
-							if (CLIENT_STATUS_TEST_FLAG(pInBss, fCLIENT_STATUS_USE_SHA256))
-								CLIENT_STATUS_SET_FLAG(&pAd->MacTab.Content[BSSID_WCID], fCLIENT_STATUS_USE_SHA256);
-                                        }
-                                }
-#endif /* DOT11W_PMF_SUPPORT */
 			}
 			pAd->Mlme.AssocMachine.CurrState = ASSOC_IDLE;
 			MlmeEnqueue(pAd, MLME_CNTL_STATE_MACHINE, MT2_ASSOC_CONF, 2, &Status, 0);

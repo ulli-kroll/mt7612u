@@ -49,9 +49,6 @@
 
 
 
-#ifdef DOT11W_PMF_SUPPORT
-#include "pmf_cmm.h"
-#endif /* DOT11W_PMF_SUPPORT */
 
 
 
@@ -1513,9 +1510,6 @@ typedef struct _MULTISSID_STRUCT {
 
 
 
-#ifdef DOT11W_PMF_SUPPORT
-	PMF_CFG PmfCfg;
-#endif /* DOT11W_PMF_SUPPORT */
 
 
 	/* YF@20120417: Avoid connecting to AP in Poor Env, value 0 fOr disable. */
@@ -2050,9 +2044,6 @@ typedef struct _STA_ADMIN_CONFIG {
 	bool bTGnWifiTest;
 	bool bSkipAutoScanConn;
 
-#ifdef DOT11W_PMF_SUPPORT
-	PMF_CFG PmfCfg;
-#endif /* DOT11W_PMF_SUPPORT */
 
 	bool bAutoConnectByBssid;
 	ULONG BeaconLostTime;	/* seconds */
@@ -2440,14 +2431,6 @@ typedef struct _MAC_TABLE_ENTRY {
 
 
 
-#ifdef DOT11W_PMF_SUPPORT
-	u8 PmfTxTsc[LEN_WPA_TSC];
-	u8 PmfRxTsc[LEN_WPA_TSC];
-        RALINK_TIMER_STRUCT SAQueryTimer;
-        RALINK_TIMER_STRUCT SAQueryConfirmTimer;
-	u8 SAQueryStatus;
-        unsigned short TransactionID;
-#endif /* DOT11W_PMF_SUPPORT */
 
 
 #ifdef CONFIG_AP_SUPPORT
@@ -5942,19 +5925,6 @@ VOID MlmeDeAuthAction(
 	IN  unsigned short           Reason,
 	IN  bool          bDataFrameFirst);
 
-#ifdef DOT11W_PMF_SUPPORT
-VOID PMF_SAQueryTimeOut(
-        IN PVOID SystemSpecific1,
-        IN PVOID FunctionContext,
-        IN PVOID SystemSpecific2,
-        IN PVOID SystemSpecific3);
-
-VOID PMF_SAQueryConfirmTimeOut(
-        IN PVOID SystemSpecific1,
-        IN PVOID FunctionContext,
-        IN PVOID SystemSpecific2,
-        IN PVOID SystemSpecific3);
-#endif /* DOT11W_PMF_SUPPORT */
 
 VOID GREKEYPeriodicExec(
 	IN  PVOID   SystemSpecific1,
