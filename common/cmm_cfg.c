@@ -65,11 +65,6 @@ UINT GenerateWpsPinCode(
 #ifdef CONFIG_AP_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 	{
-#ifdef APCLI_SUPPORT
-	    if (bFromApcli)
-	        memmove(&macAddr[0], pAd->ApCfg.ApCliTab[apidx].wdev.if_addr, MAC_ADDR_LEN);
-	    else
-#endif /* APCLI_SUPPORT */
 		memmove(&macAddr[0], pAd->ApCfg.MBSSID[apidx].wdev.if_addr, MAC_ADDR_LEN);
 	}
 #endif /* CONFIG_AP_SUPPORT */
@@ -1126,16 +1121,6 @@ INT RTMP_COM_IoctlHandle(
 #ifdef CONFIG_AP_SUPPORT
 			if (CurOpMode == OPMODE_AP)
 			{
-#ifdef APCLI_SUPPORT
-				if ((pStats->priv_flags == INT_APCLI)
-					)
-				{
-					INT ApCliIdx = ApCliIfLookUp(pAd, (u8 *)pStats->dev_addr);
-					if ((ApCliIdx >= 0) && VALID_WCID(pAd->ApCfg.ApCliTab[ApCliIdx].MacTabWCID))
-						pMacEntry = &pAd->MacTab.Content[pAd->ApCfg.ApCliTab[ApCliIdx].MacTabWCID];
-				}
-				else
-#endif /* APCLI_SUPPORT */
 				{
 					/*
 						only AP client support wireless stats function.
@@ -1226,11 +1211,6 @@ INT RTMP_COM_IoctlHandle(
 			HTTRANSMIT_SETTING HtPhyMode;
 			UINT8 BW = 0, GI = 0, MCS = 0;
 
-#ifdef APCLI_SUPPORT
-			if (pRate->priv_flags == INT_APCLI)
-				memcpy(&HtPhyMode, &pAd->ApCfg.ApCliTab[pObj->ioctl_if].wdev.HTPhyMode, sizeof(HTTRANSMIT_SETTING));
-			else
-#endif /* APCLI_SUPPORT */
 			{
 				memcpy(&HtPhyMode, &pAd->ApCfg.MBSSID[pObj->ioctl_if].wdev.HTPhyMode, sizeof(HTTRANSMIT_SETTING));
 #ifdef MBSS_SUPPORT

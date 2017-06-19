@@ -568,19 +568,6 @@ typedef struct _NDIS_AP_802_11_KEY {
 } NDIS_AP_802_11_KEY, *PNDIS_AP_802_11_KEY;
 #endif /* CONFIG_AP_SUPPORT */
 
-#ifdef APCLI_SUPPORT
-#ifdef WPA_SUPPLICANT_SUPPORT
-typedef struct _NDIS_APCLI_802_11_KEY
-{
-    UINT           Length;
-    UINT           KeyIndex;
-    UINT           KeyLength;
-    NDIS_802_11_MAC_ADDRESS BSSID;
-    NDIS_802_11_KEY_RSC KeyRSC;
-    u8           KeyMaterial[1];
-} NDIS_APCLI_802_11_KEY, *PNDIS_APCLI_802_11_KEY;
-#endif/* WPA_SUPPLICANT_SUPPORT */
-#endif /* APCLI_SUPPORT */
 
 #ifdef CONFIG_STA_SUPPORT
 /* Key mapping keys require a BSSID */
@@ -818,16 +805,6 @@ typedef struct _NDIS_802_11_PMKID {
 #endif /* defined(CONFIG_STA_SUPPORT) || defined(WPA_SUPPLICANT_SUPPORT) */
 
 #ifdef CONFIG_AP_SUPPORT
-#ifdef APCLI_SUPPORT
-#ifdef WPA_SUPPLICANT_SUPPORT
-typedef struct _NDIS_APCLI_802_11_PMKID
-{
-    UINT    Length;
-    UINT    BSSIDInfoCount;
-    BSSID_INFO BSSIDInfo[1];
-} NDIS_APCLI_802_11_PMKID, *PNDIS_APCLI_802_11_PMKID;
-#endif/*WPA_SUPPLICANT_SUPPORT*/
-#endif /* APCLI_SUPPORT */
 
 typedef struct _AP_BSSID_INFO {
 	NDIS_802_11_MAC_ADDRESS MAC;
@@ -916,9 +893,6 @@ typedef struct _NDIS_802_11_CAPABILITY {
 #define RT_OID_WSC_SET_PROFILE                      0x0749
 #endif /* CONFIG_STA_SUPPORT */
 #ifdef CONFIG_AP_SUPPORT
-#ifdef APCLI_SUPPORT
-#define RT_OID_APCLI_WSC_PIN_CODE					0x074A
-#endif /* APCLI_SUPPORT */
 #endif /* CONFIG_AP_SUPPORT */
 #define	RT_OID_WSC_FRAGMENT_SIZE					0x074D
 #define	RT_OID_WSC_V2_SUPPORT						0x074E
@@ -1239,18 +1213,6 @@ typedef struct _WSC_PROFILE {
 
 
 
-#ifdef APCLI_SUPPORT
-#ifdef WPA_SUPPLICANT_SUPPORT
-#define	RT_ASSOC_EVENT_FLAG                         0x0101
-#define	RT_DISASSOC_EVENT_FLAG                      0x0102
-#define	RT_REQIE_EVENT_FLAG                         0x0103
-#define	RT_RESPIE_EVENT_FLAG                        0x0104
-#define	RT_ASSOCINFO_EVENT_FLAG                     0x0105
-#define RT_PMKIDCAND_FLAG                           0x0106
-#define RT_INTERFACE_DOWN                           0x0107
-#define RT_INTERFACE_UP                             0x0108
-#endif /* WPA_SUPPLICANT_SUPPORT */
-#endif /* APCLI_SUPPORT */
 
 
 

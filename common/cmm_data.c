@@ -164,15 +164,6 @@ VOID RTMP_BASetup(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry, UINT8 UPrio
 		{
 			bool isRalink = false;
 			/* Don't care the status of the portSecured status. */
-#ifdef APCLI_SUPPORT
-			if (IS_ENTRY_APCLI(pEntry))
-			{
-				if (pEntry->apidx < MAX_APCLI_NUM) {
-					if (pAd->ApCfg.ApCliTab[pEntry->apidx].MlmeAux.APRalinkIe != 0)
-					isRalink = true;
-				}
-			}
-#endif /* APCLI_SUPPORT */
 
 			if (((pEntry->TXBAbitmap & (1<<UPriority)) == 0) /*&& (pMacEntry->PortSecured == WPA_802_1X_PORT_SECURED)*/
 				 && ((IS_ENTRY_CLIENT(pEntry) && CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_RALINK_CHIPSET)) ||
@@ -802,9 +793,6 @@ int MlmeHardTransmitMgmtRing(
 	else
 	{
 		if(
-#ifdef APCLI_SUPPORT
-		   (!IS_ENTRY_APCLI(pMacEntry)) &&
-#endif /* APCLI_SUPPORT */
 		   ((pHeader_802_11->FC.Type == FC_TYPE_DATA) &&
 		   (pHeader_802_11->FC.SubType == SUBTYPE_QOS_NULL)))
 		{
@@ -1086,15 +1074,6 @@ bool RTMP_FillTxBlkInfo(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 #ifdef CONFIG_AP_SUPPORT
 			IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 			{
-#ifdef APCLI_SUPPORT
-				if(IS_ENTRY_APCLI(pMacEntry))
-				{
-					pTxBlk->pApCliEntry = &pAd->ApCfg.ApCliTab[pMacEntry->wdev_idx];
-					TX_BLK_SET_FLAG(pTxBlk, fTX_bApCliPacket);
-
-				}
-				else
-#endif /* APCLI_SUPPORT */
 				if (IS_ENTRY_CLIENT(pMacEntry))
 				{ }
 				else
@@ -1719,49 +1698,6 @@ UINT deaggregate_AMSDU_announce(
 		}
 #endif /* CONFIG_STA_SUPPORT */
 
-#ifdef APCLI_SUPPORT
-		if ((Header802_3[12] == 0x88) && (Header802_3[13] == 0x8E))
-		{
-			/* avoid local heap overflow, use dyanamic allocation */
-			MLME_QUEUE_ELEM *Elem; /* = (MLME_QUEUE_ELEM *) kmalloc(sizeof(MLME_QUEUE_ELEM), MEM_ALLOC_FLAG);*/
-
-			if (MAC_ADDR_EQUAL(pAd->ApCfg.ApCliTab[0].MlmeAux.Bssid, pSA))
-			{
-				APCLI_STRUCT *apcli_entry;
-				apcli_entry = &pAd->ApCfg.ApCliTab[0];
-				Elem = kmalloc(sizeof(MLME_QUEUE_ELEM), GFP_ATOMIC);
-				if (Elem != NULL) {
-					if (pRxBlk != NULL)
-					{
-						memmove(Elem->Msg, pRxBlk->pHeader, LENGTH_802_11);
-						memmove(Elem->Msg+(LENGTH_802_11 + LENGTH_802_1_H), pPayload, PayloadSize);
-						Elem->MsgLen = LENGTH_802_11 + LENGTH_802_1_H + PayloadSize;
-						REPORT_MGMT_FRAME_TO_MLME(pAd, apcli_entry->MacTabWCID, Elem->Msg, Elem->MsgLen, 0, 0, 0, 0, OPMODE_AP);
-					}
-					kfree(Elem);
-				}
-			}
-			/* A-MSDU has padding to multiple of 4 including subframe header.*/
-			/* align SubFrameSize up to multiple of 4*/
-			SubFrameSize = (SubFrameSize+3)&(~0x3);
-
-
-			if (SubFrameSize > 1528 || SubFrameSize < 32)
-				break;
-
-			if (DataSize > SubFrameSize)
-			{
-				pData += SubFrameSize;
-				DataSize -= SubFrameSize;
-			}
-			else
-			{
-				/* end of A-MSDU*/
-				DataSize = 0;
-			}
-			continue;
-		}
-#endif
 
 #ifdef CONFIG_AP_SUPPORT
 		IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
@@ -3003,11 +2939,6 @@ VOID dev_rx_mgmt_frm(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 	INT op_mode = pRxBlk->OpMode;
 	bool 	bPassTheBcastPkt = false;
 	INT			i;
-#ifdef APCLI_SUPPORT
-#ifdef APCLI_CERT_SUPPORT
-	PAPCLI_STRUCT pApCliEntry = NULL;
-#endif /* APCLI_CERT_SUPPOR */
-#endif /* APCLI_SUPPORT */
 
 #ifdef RT_CFG80211_SUPPORT
 	if (CFG80211_HandleP2pMgmtFrame(pAd, pRxBlk, op_mode))
@@ -3030,19 +2961,6 @@ VOID dev_rx_mgmt_frm(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 
 				if (pHeader->FC.SubType == SUBTYPE_ACTION)
 				{
-#ifdef APCLI_SUPPORT
-#ifdef APCLI_CERT_SUPPORT
-					if  (pAd->bApCliCertTest == true)
-					{
-						for (i = 0; i < MAX_APCLI_NUM; i++)
-						{
-							pApCliEntry = &pAd->ApCfg.ApCliTab[i];
-							if (MAC_ADDR_EQUAL(pApCliEntry->wdev.if_addr, pHeader->Addr1))
-								bPassTheBcastPkt = true; /* Let this Action Frame pass */
-						}
-					}
-#endif /* APCLI_CERT_SUPPOR */
-#endif /* APCLI_SUPPORT */
 
 					if (!bPassTheBcastPkt)
 						goto done; /* Skip this packet */

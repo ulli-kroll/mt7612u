@@ -956,18 +956,6 @@ typedef struct _MLME_STRUCT {
 /*	STATE_MACHINE_FUNC		ApDlsFunc[DLS_FUNC_SIZE]; */
 	STATE_MACHINE_FUNC ApAuthFunc[AP_AUTH_FUNC_SIZE];
 	STATE_MACHINE_FUNC ApSyncFunc[AP_SYNC_FUNC_SIZE];
-#ifdef APCLI_SUPPORT
-	STATE_MACHINE ApCliAuthMachine;
-	STATE_MACHINE ApCliAssocMachine;
-	STATE_MACHINE ApCliCtrlMachine;
-	STATE_MACHINE ApCliSyncMachine;
-	STATE_MACHINE ApCliWpaPskMachine;
-
-	STATE_MACHINE_FUNC ApCliAuthFunc[APCLI_AUTH_FUNC_SIZE];
-	STATE_MACHINE_FUNC ApCliAssocFunc[APCLI_ASSOC_FUNC_SIZE];
-	STATE_MACHINE_FUNC ApCliCtrlFunc[APCLI_CTRL_FUNC_SIZE];
-	STATE_MACHINE_FUNC ApCliSyncFunc[APCLI_SYNC_FUNC_SIZE];
-#endif /* APCLI_SUPPORT */
 #endif /* CONFIG_AP_SUPPORT */
 
 	/* common WPA state machine */
@@ -2661,16 +2649,6 @@ typedef struct _AP_ADMIN_CONFIG {
 	u8 MacMask;
 	MULTISSID_STRUCT MBSSID[HW_BEACON_MAX_NUM];
 	ULONG IsolateInterStaTrafficBTNBSSID;
-#ifdef APCLI_SUPPORT
-	u8 ApCliInfRunned;	/* Number of  ApClient interface which was running. value from 0 to MAX_APCLI_INTERFACE */
-	UINT8 ApCliNum;
-	bool FlgApCliIsUapsdInfoUpdated;
-	APCLI_STRUCT ApCliTab[MAX_APCLI_NUM];	/*AP-client */
-#ifdef APCLI_AUTO_CONNECT_SUPPORT
-	bool		ApCliAutoConnectRunning;
-	bool		ApCliAutoConnectChannelSwitching;
-#endif /* APCLI_AUTO_CONNECT_SUPPORT */
-#endif /* APCLI_SUPPORT */
 
 #ifdef AP_PARTIAL_SCAN_SUPPORT
 	bool bPartialScanning;
@@ -3435,9 +3413,6 @@ struct rtmp_adapter {
 #endif /* MBSS_SUPPORT */
 
 
-#ifdef APCLI_SUPPORT
-	bool flg_apcli_init;
-#endif /* APCLI_SUPPORT */
 
 /*#ifdef AUTO_CH_SELECT_ENHANCE */
 	PBSSINFO pBssInfoTab;
@@ -3849,10 +3824,6 @@ typedef struct _TX_BLK {
 	u8 			wdev_idx;				// Used to replace apidx
 
 #ifdef CONFIG_AP_SUPPORT
-#ifdef APCLI_SUPPORT
-	UINT				ApCliIfidx;
-	PAPCLI_STRUCT		pApCliEntry;
-#endif /* APCLI_SUPPORT */
 
 	MULTISSID_STRUCT *pMbss;
 
@@ -3889,9 +3860,6 @@ typedef struct _TX_BLK {
 
 #define	fTX_bSwEncrypt			0x0400	/* this packet need to be encrypted by software before TX */
 #ifdef CONFIG_AP_SUPPORT
-#ifdef APCLI_SUPPORT
-#define fTX_bApCliPacket			0x0200
-#endif /* APCLI_SUPPORT */
 
 #endif /* CONFIG_AP_SUPPORT */
 
@@ -4535,18 +4503,6 @@ VOID RTMPSendNullFrame(
 	IN bool bQosNull,
 	IN unsigned short PwrMgmt);
 
-#ifdef APCLI_SUPPORT
-VOID	ApCliRTMPReportMicError(
-	IN	struct rtmp_adapter *pAd,
-	IN	PCIPHER_KEY 	pWpaKey,
-	IN	INT			ifIndex);
-
-VOID   ApCliWpaDisassocApAndBlockAssoc(
-    IN  PVOID SystemSpecific1,
-    IN  PVOID FunctionContext,
-    IN  PVOID SystemSpecific2,
-    IN  PVOID SystemSpecific3);
-#endif/*APCLI_SUPPORT*/
 
 
 
@@ -4627,9 +4583,6 @@ VOID AsicSetBssid(struct rtmp_adapter *pAd, u8 *pBssid);
 
 VOID AsicDelWcidTab(struct rtmp_adapter *pAd, u8 Wcid);
 
-#ifdef MAC_APCLI_SUPPORT
-VOID AsicSetApCliBssid(struct rtmp_adapter *pAd, u8 *pBssid, u8 index);
-#endif /* MAC_APCLI_SUPPORT */
 
 INT AsicSetRxFilter(struct rtmp_adapter *pAd);
 
@@ -6193,9 +6146,6 @@ INT	Set_VhtDisallowNonVHT_Proc(
 	IN char *arg);
 
 
-#ifdef APCLI_SUPPORT
-INT RTMPIoctlConnStatus(struct rtmp_adapter *pAd, char *arg);
-#endif /*APCLI_SUPPORT*/
 
 
 
@@ -6429,14 +6379,6 @@ VOID RTMPIoctlGetSiteSurvey(
 #endif
 
 #ifdef CONFIG_AP_SUPPORT
-#ifdef APCLI_SUPPORT
-INT Set_ApCli_AuthMode_Proc(struct rtmp_adapter *pAd, char *arg);
-INT Set_ApCli_EncrypType_Proc(struct rtmp_adapter *pAd, char *arg);
-INT Set_ApCli_Enable_Proc(IN struct rtmp_adapter *pAd, IN char *arg);
-INT Set_ApCli_Ssid_Proc(IN struct rtmp_adapter *pAd, IN char *arg);
-
-
-#endif /* APCLI_SUPPORT */
 #endif /* CONFIG_AP_SUPPORT */
 
 
@@ -6733,33 +6675,6 @@ VOID MaintainBssTable(
 void  getRate(HTTRANSMIT_SETTING HTSetting, uint32_t *fLastTxRxRate);
 
 
-#ifdef APCLI_SUPPORT
-#ifdef WPA_SUPPLICANT_SUPPORT
-VOID ApcliSendAssocIEsToWpaSupplicant(
-    IN  struct rtmp_adapter *pAd,
-    IN UINT ifIndex);
-
-INT	    ApcliWpaCheckEapCode(
-	IN  struct rtmp_adapter *  		pAd,
-	IN  u8 *			pFrame,
-	IN  unsigned short 			FrameLen,
-	IN  unsigned short 			OffSet);
-
-VOID    ApcliWpaSendEapolStart(
-	IN	struct rtmp_adapter *pAd,
-	IN  u8 *         pBssid,
-	IN  PMAC_TABLE_ENTRY pMacEntry,
-	IN	PAPCLI_STRUCT pApCliEntry);
-#endif/*WPA_SUPPLICANT_SUPPORT*/
-
-VOID ApCliRTMPSendNullFrame(
-	IN struct rtmp_adapter *pAd,
-	IN u8 		TxRate,
-	IN bool 		bQosNull,
-	IN MAC_TABLE_ENTRY *pMacEntry,
-	IN unsigned short          PwrMgmt);
-
-#endif/*APCLI_SUPPORT*/
 
 
 void RTMP_IndicateMediaState(

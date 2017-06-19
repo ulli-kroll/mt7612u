@@ -432,14 +432,6 @@ enum WIFI_MODE{
 #define MAX_MESH_NUM				0
 
 #define MAX_APCLI_NUM				0
-#ifdef APCLI_SUPPORT
-#undef	MAX_APCLI_NUM
-#define MAX_APCLI_NUM				1
-#ifdef APCLI_CONNECTION_TRIAL
-#undef	MAX_APCLI_NUM
-#define MAX_APCLI_NUM				2
-#endif /* APCLI_CONNECTION_TRIAL */
-#endif /* APCLI_SUPPORT */
 
 #define MAX_P2P_NUM				0
 
@@ -796,12 +788,6 @@ enum WIFI_MODE{
 #define WSC_UPNP_STATE_MACHINE		    18
 
 #ifdef CONFIG_AP_SUPPORT
-#ifdef APCLI_SUPPORT
-#define APCLI_AUTH_STATE_MACHINE			19
-#define APCLI_ASSOC_STATE_MACHINE			20
-#define APCLI_SYNC_STATE_MACHINE			21
-#define APCLI_CTRL_STATE_MACHINE			22
-#endif /* APCLI_SUPPORT */
 #endif /* CONFIG_AP_SUPPORT */
 
 #define WPA_STATE_MACHINE            		23
@@ -1143,96 +1129,6 @@ enum WIFI_MODE{
 #endif
 
 #define AP_SYNC_FUNC_SIZE               (AP_MAX_SYNC_STATE * AP_MAX_SYNC_MSG)
-
-#ifdef APCLI_SUPPORT
-/*ApCli authentication state machine */
-#define APCLI_AUTH_REQ_IDLE                0
-#define APCLI_AUTH_WAIT_SEQ2               1
-#define APCLI_AUTH_WAIT_SEQ4               2
-#define APCLI_MAX_AUTH_STATE               3
-
-#define APCLI_AUTH_MACHINE_BASE            0
-#define APCLI_MT2_MLME_AUTH_REQ            0
-#define APCLI_MT2_MLME_DEAUTH_REQ          1
-#define APCLI_MT2_PEER_AUTH_EVEN           2
-#define APCLI_MT2_PEER_DEAUTH              3
-#define APCLI_MT2_AUTH_TIMEOUT             4
-#define APCLI_MAX_AUTH_MSG                 5
-
-#define APCLI_AUTH_FUNC_SIZE               (APCLI_MAX_AUTH_STATE * APCLI_MAX_AUTH_MSG)
-
-/*ApCli association state machine */
-#define APCLI_ASSOC_IDLE                   0
-#define APCLI_ASSOC_WAIT_RSP               1
-#define APCLI_MAX_ASSOC_STATE              2
-
-#define APCLI_ASSOC_MACHINE_BASE           0
-#define APCLI_MT2_MLME_ASSOC_REQ           0
-#define APCLI_MT2_MLME_DISASSOC_REQ        1
-#define APCLI_MT2_PEER_DISASSOC_REQ        2
-#define APCLI_MT2_PEER_ASSOC_RSP           3
-#define APCLI_MT2_ASSOC_TIMEOUT            4
-#define APCLI_MAX_ASSOC_MSG                5
-
-#define APCLI_ASSOC_FUNC_SIZE              (APCLI_MAX_ASSOC_STATE * APCLI_MAX_ASSOC_MSG)
-
-/*ApCli sync state machine */
-#define APCLI_SYNC_IDLE                   0	/* merge NO_BSS,IBSS_IDLE,IBSS_ACTIVE and BSS in to 1 state */
-#define APCLI_JOIN_WAIT_PROBE_RSP         1
-#define APCLI_MAX_SYNC_STATE              2
-
-#define APCLI_SYNC_MACHINE_BASE           0
-#define APCLI_MT2_MLME_PROBE_REQ          0
-#define APCLI_MT2_PEER_PROBE_RSP          1
-#define APCLI_MT2_PEER_BEACON			2
-#define APCLI_MT2_PROBE_TIMEOUT           3
-#define APCLI_MAX_SYNC_MSG                4
-
-#define APCLI_SYNC_FUNC_SIZE              (APCLI_MAX_SYNC_STATE * APCLI_MAX_SYNC_MSG)
-
-/*ApCli ctrl state machine */
-#define APCLI_CTRL_DISCONNECTED           0	/* merge NO_BSS,IBSS_IDLE,IBSS_ACTIVE and BSS in to 1 state */
-#define APCLI_CTRL_PROBE                  1
-#define APCLI_CTRL_AUTH                   2
-#define APCLI_CTRL_AUTH_2                 3
-#define APCLI_CTRL_ASSOC                  4
-#define APCLI_CTRL_DEASSOC                5
-#define APCLI_CTRL_CONNECTED              6
-#ifndef	APCLI_CONNECTION_TRIAL
-#define APCLI_MAX_CTRL_STATE              7
-#else
-#undef APCLI_MAC_CTRL_STATE
-#define APCLI_CTRL_TRIAL_TRIGGERED        7
-#define APCLI_MAX_CTRL_STATE              8
-#endif	/* APCLI_CONNECTION_TRIAL */
-
-#define APCLI_CTRL_MACHINE_BASE           0
-#define APCLI_CTRL_JOIN_REQ               0
-#define APCLI_CTRL_PROBE_RSP              1
-#define APCLI_CTRL_AUTH_RSP               2
-#define APCLI_CTRL_DISCONNECT_REQ         3
-#define APCLI_CTRL_PEER_DISCONNECT_REQ    4
-#define APCLI_CTRL_ASSOC_RSP              5
-#define APCLI_CTRL_DEASSOC_RSP            6
-#define APCLI_CTRL_JOIN_REQ_TIMEOUT       7
-#define APCLI_CTRL_AUTH_REQ_TIMEOUT       8
-#define APCLI_CTRL_ASSOC_REQ_TIMEOUT      9
-#define APCLI_CTRL_MT2_AUTH_REQ			  10
-#define APCLI_CTRL_MT2_ASSOC_REQ		  11
-#define APCLI_CTRL_SCAN_DONE              12
-#define APCLI_MIC_FAILURE_REPORT_FRAME 13
-#ifndef APCLI_CONNECTION_TRIAL
-#define APCLI_MAX_CTRL_MSG                14
-#else
-#undef APCLI_MAX_CTRL_MSG
-#define	APCLI_CTRL_TRIAL_CONNECT	14
-#define APCLI_MAX_CTRL_MSG		15
-#endif
-
-#define APCLI_CTRL_FUNC_SIZE              (APCLI_MAX_CTRL_STATE * APCLI_MAX_CTRL_MSG)
-
-
-#endif /* APCLI_SUPPORT */
 
 #ifdef CONFIG_STA_SUPPORT
 #endif /* CONFIG_STA_SUPPORT */

@@ -1134,14 +1134,6 @@ int RTMPWPARemoveKeyProc(
 								/* Otherwise, it will set by the NIC.*/
 	bool 	bAuthenticator; /* indicate key is set by authenticator.*/
 	INT 		i;
-#ifdef APCLI_SUPPORT
-#ifdef WPA_SUPPLICANT_SUPPORT
-	u8 ifIndex;
-	bool apcliEn=false;
-	INT idx, BssIdx;
-	struct os_cookie *pObj = pAd->OS_Cookie;
-#endif/*WPA_SUPPLICANT_SUPPORT*/
-#endif/*APCLI_SUPPORT*/
 	DBGPRINT(RT_DEBUG_TRACE,("---> RTMPWPARemoveKeyProc\n"));
 
 	pKey = (PNDIS_802_11_REMOVE_KEY) pBuf;
@@ -1166,25 +1158,6 @@ int RTMPWPARemoveKeyProc(
 		/* b. If not broadcast, remove the pairwise specified by BSSID*/
 		for (i = 0; i < SHARE_KEY_NUM; i++)
 		{
-#ifdef APCLI_SUPPORT
-#ifdef WPA_SUPPLICANT_SUPPORT
-			if (pObj->ioctl_if_type == INT_APCLI)
-			{
-				/*if (MAC_ADDR_EQUAL(pAd->ApCfg.ApCliTab[ifIndex].SharedKey[i].BssId, pKey->BSSID)) */
-				{
-					ifIndex = pObj->ioctl_if;
-					BssIdx = pAd->ApCfg.BssidNum + MAX_MESH_NUM + ifIndex;
-					DBGPRINT(RT_DEBUG_TRACE,("APCLI RTMPWPARemoveKeyProc(KeyIdx=%d)\n", i));
-					pAd->ApCfg.ApCliTab[ifIndex].SharedKey[i].KeyLen = 0;
-					pAd->ApCfg.ApCliTab[ifIndex].SharedKey[i].CipherAlg = CIPHER_NONE;
-					AsicRemoveSharedKeyEntry(pAd, BssIdx, (u8)i);
-					Status = NDIS_STATUS_SUCCESS;
-					break;
-				}
-			}
-			else
-#endif/*WPA_SUPPLICANT_SUPPORT*/
-#endif/*APCLI_SUPPORT*/
 			{
 #ifdef CONFIG_STA_SUPPORT
 				if (MAC_ADDR_EQUAL(pAd->SharedKey[BSS0][i].BssId, pKey->BSSID))
@@ -1413,12 +1386,6 @@ VOID RTMPSetPhyMode(struct rtmp_adapter *pAd, ULONG phymode)
 		{
 			MlmeUpdateTxRates(pAd, false, apidx);
 		}
-#ifdef APCLI_SUPPORT
-		for (apidx = 0; apidx < MAX_APCLI_NUM; apidx++)
-		{
-			MlmeUpdateTxRates(pAd, false, apidx + MIN_NET_DEVICE_FOR_APCLI);
-		}
-#endif /* APCLI_SUPPORT */
 	}
 #endif /* CONFIG_AP_SUPPORT */
 
@@ -4414,56 +4381,6 @@ INT show_trinfo_proc(struct rtmp_adapter *pAd, char *arg)
 	return true;
 }
 
-#ifdef APCLI_SUPPORT
- INT RTMPIoctlConnStatus(
-	IN	struct rtmp_adapter *pAd,
- 	IN	char *		arg)
-{
-
- 	INT i=0;
- 	struct os_cookie *pObj;
- 	u8 ifIndex;
-	bool bConnect=false;
-
- 	pObj = pAd->OS_Cookie;
-
- 	DBGPRINT(RT_DEBUG_TRACE, ("==>RTMPIoctlConnStatus\n"));
-
- 	if (pObj->ioctl_if_type != INT_APCLI)
- 		return false;
-
- 	ifIndex = pObj->ioctl_if;
-
- 	DBGPRINT(RT_DEBUG_OFF, ("=============================================================\n"));
- 	if((pAd->ApCfg.ApCliTab[ifIndex].CtrlCurrState == APCLI_CTRL_CONNECTED)
- 		&& (pAd->ApCfg.ApCliTab[ifIndex].SsidLen != 0))
- 	{
- 		for (i=0; i<MAX_LEN_OF_MAC_TABLE; i++)
- 		{
- 			PMAC_TABLE_ENTRY pEntry = &pAd->MacTab.Content[i];
-
- 			if ( IS_ENTRY_APCLI(pEntry)
-				&& (pEntry->Sst == SST_ASSOC)
-				&& (pEntry->PortSecured == WPA_802_1X_PORT_SECURED))
- 				{
-					DBGPRINT(RT_DEBUG_OFF, ("ApCli%d Connected AP : %02X:%02X:%02X:%02X:%02X:%02X   SSID:%s\n",
-							ifIndex, PRINT_MAC(pEntry->Addr), pAd->ApCfg.ApCliTab[ifIndex].Ssid));
-					bConnect=true;
- 				}
- 		}
-
-		if (!bConnect)
-			DBGPRINT(RT_DEBUG_OFF, ("ApCli%d Connected AP : Disconnect\n",ifIndex));
- 	}
- 	else
- 	{
- 		DBGPRINT(RT_DEBUG_OFF, ("ApCli%d Connected AP : Disconnect\n",ifIndex));
- 	}
- 	DBGPRINT(RT_DEBUG_OFF, ("=============================================================\n"));
-     	DBGPRINT(RT_DEBUG_TRACE, ("<==RTMPIoctlConnStatus\n"));
- 	return true;
-}
-#endif/*APCLI_SUPPORT*/
 
 void  getRate(HTTRANSMIT_SETTING HTSetting, uint32_t *fLastTxRxRate)
 

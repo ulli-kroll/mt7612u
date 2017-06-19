@@ -409,10 +409,6 @@ VOID RTMPSetHT(
 	{
 		for (apidx = 0; apidx < pAd->ApCfg.BssidNum; apidx++)
 			RTMPSetIndividualHT(pAd, apidx);
-#ifdef APCLI_SUPPORT
-		for (apidx = 0; apidx < MAX_APCLI_NUM; apidx++)
-			RTMPSetIndividualHT(pAd, apidx + MIN_NET_DEVICE_FOR_APCLI);
-#endif /* APCLI_SUPPORT */
 	}
 #endif /* CONFIG_AP_SUPPORT */
 
@@ -453,26 +449,6 @@ VOID RTMPSetIndividualHT(struct rtmp_adapter *pAd, u8 apidx)
 
 
 #ifdef CONFIG_AP_SUPPORT
-#ifdef APCLI_SUPPORT
-			if (apidx >= MIN_NET_DEVICE_FOR_APCLI)
-			{
-				u8 idx = apidx - MIN_NET_DEVICE_FOR_APCLI;
-
-				if (idx < MAX_APCLI_NUM)
-				{
-					pDesired_ht_phy = &pAd->ApCfg.ApCliTab[idx].wdev.DesiredHtPhyInfo;
-					DesiredMcs = pAd->ApCfg.ApCliTab[idx].wdev.DesiredTransmitSetting.field.MCS;
-					encrypt_mode = pAd->ApCfg.ApCliTab[idx].wdev.WepStatus;
-					pAd->ApCfg.ApCliTab[idx].wdev.bAutoTxRateSwitch = (DesiredMcs == MCS_AUTO) ? true : false;
-					break;
-				}
-				else
-				{
-					DBGPRINT(RT_DEBUG_ERROR, ("RTMPSetIndividualHT: invalid idx(%d)\n", idx));
-					return;
-				}
-			}
-#endif /* APCLI_SUPPORT */
 
 		IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 		{
@@ -655,12 +631,6 @@ VOID RTMPDisableDesiredHtInfo(struct rtmp_adapter *pAd)
 			wdev = &pAd->ApCfg.MBSSID[idx].wdev;
 			RTMPZeroMemory(&wdev->DesiredHtPhyInfo, sizeof(RT_PHY_INFO));
 		}
-#ifdef APCLI_SUPPORT
-		for (idx = 0; idx < MAX_APCLI_NUM; idx++)
-		{
-			RTMPZeroMemory(&pAd->ApCfg.ApCliTab[idx].wdev.DesiredHtPhyInfo, sizeof(RT_PHY_INFO));
-		}
-#endif /* APCLI_SUPPORT */
 	}
 #endif /* CONFIG_AP_SUPPORT */
 

@@ -91,9 +91,6 @@ BUILD_TIMER_FUNCTION(eTxBfProbeTimerExec);
 
 
 
-#ifdef APCLI_SUPPORT
-BUILD_TIMER_FUNCTION(ApCliWpaDisassocApAndBlockAssoc);
-#endif /* APCLI_SUPPORT */
 
 #ifdef PEER_DELBA_TX_ADAPT
 BUILD_TIMER_FUNCTION(PeerDelBATxAdaptTimeOut);

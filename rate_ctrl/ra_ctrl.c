@@ -2505,11 +2505,6 @@ VOID RTMPSetSupportMCS(
 #ifdef CONFIG_AP_SUPPORT
 		if (OpMode == OPMODE_AP)
 		{
-#ifdef APCLI_SUPPORT
-			if (IS_ENTRY_APCLI(pEntry))
-				pDesired_ht_phy = &pAd->ApCfg.ApCliTab[pEntry->apidx].wdev.DesiredHtPhyInfo;
-			else
-#endif /* APCLI_SUPPORT */
 				pDesired_ht_phy = &pAd->ApCfg.MBSSID[pEntry->apidx].wdev.DesiredHtPhyInfo;
 		}
 #endif /* CONFIG_AP_SUPPORT */

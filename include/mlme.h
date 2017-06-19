@@ -1016,17 +1016,6 @@ typedef struct _STATE_MACHINE {
 } STATE_MACHINE, *PSTATE_MACHINE;
 
 #ifdef CONFIG_AP_SUPPORT
-#ifdef APCLI_SUPPORT
-typedef VOID (*APCLI_STATE_MACHINE_FUNC)(VOID *pAd, MLME_QUEUE_ELEM *Elem, unsigned long *pCurrState, unsigned short ifIndex);
-
-typedef struct _STA_STATE_MACHINE {
-	ULONG Base;
-	ULONG NrState;
-	ULONG NrMsg;
-	ULONG CurrState;
-	APCLI_STATE_MACHINE_FUNC *TransFunc;
-} APCLI_STATE_MACHINE, *PSTA_STATE_MACHINE;
-#endif /* APCLI_SUPPORT */
 #endif /* CONFIG_AP_SUPPORT */
 
 /* MLME AUX data structure that hold temporarliy settings during a connection attempt. */
@@ -1090,13 +1079,6 @@ typedef struct _MLME_AUX {
     RALINK_TIMER_STRUCT AuthTimer;
     RALINK_TIMER_STRUCT AssocTimer, ReassocTimer, DisassocTimer;
 #ifdef CONFIG_AP_SUPPORT
-#ifdef APCLI_SUPPORT
-	unsigned short              VarIELen;           /* Length of next VIE include EID & Length */
-    u8               VarIEs[MAX_VIE_LEN];
-    LONG				Rssi; /* Record the rssi value when receive Probe Rsp. */
-	RALINK_TIMER_STRUCT ProbeTimer, ApCliAssocTimer, ApCliAuthTimer;
-	RALINK_TIMER_STRUCT WpaDisassocAndBlockAssocTimer;
-#endif /* APCLI_SUPPORT */
 #endif /* CONFIG_AP_SUPPORT */
 
 #ifdef CONFIG_STA_SUPPORT

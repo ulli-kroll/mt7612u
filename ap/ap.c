@@ -553,9 +553,6 @@ VOID APStop(
 
 
 
-#ifdef APCLI_SUPPORT
-	ApCliIfDown(pAd);
-#endif /* APCLI_SUPPORT */
 
 	MacTableReset(pAd);
 
@@ -695,24 +692,6 @@ VOID MacTableMaintenance(struct rtmp_adapter *pAd)
 	{
 		MAC_TABLE_ENTRY *pEntry = &pMacTable->Content[i];
 		bool bDisconnectSta = false;
-#ifdef APCLI_SUPPORT
-		if(IS_ENTRY_APCLI(pEntry) && (pEntry->PortSecured == WPA_802_1X_PORT_SECURED))
-		{
-
-			if ((pAd->Mlme.OneSecPeriodicRound % 10) == 8)
-			{
-				/* use Null or QoS Null to detect the ACTIVE station*/
-				bool ApclibQosNull = false;
-
-				if (CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_WMM_CAPABLE))
-					ApclibQosNull = true;
-
-			       ApCliRTMPSendNullFrame(pAd,pEntry->CurrTxRate, ApclibQosNull, pEntry, PWR_ACTIVE);
-
-				continue;
-			}
-		}
-#endif /* APCLI_SUPPORT */
 
 		if (!IS_ENTRY_CLIENT(pEntry))
 			continue;

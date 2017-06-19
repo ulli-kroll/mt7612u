@@ -60,10 +60,6 @@ VOID APMlmeDynamicTxRateSwitching(struct rtmp_adapter *pAd)
 		if (IS_ENTRY_CLIENT(pEntry) && (pEntry->Sst != SST_ASSOC))
 			continue;
 
-#ifdef APCLI_SUPPORT
-		if (IS_ENTRY_APCLI(pEntry) && (pEntry->Sst != SST_ASSOC))
-			continue;
-#endif /* APCLI_SUPPORT */
 
 
 
@@ -434,10 +430,6 @@ VOID APQuickResponeForRateUpExec(
 		if (IS_ENTRY_CLIENT(pEntry) && (pEntry->Sst != SST_ASSOC))
 			continue;
 
-#ifdef APCLI_SUPPORT
-		if (IS_ENTRY_APCLI(pEntry) && (pEntry->Sst != SST_ASSOC))
-			continue;
-#endif /* APCLI_SUPPORT */
 
 
 

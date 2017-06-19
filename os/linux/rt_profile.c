@@ -148,9 +148,6 @@ static struct dev_type_name_map prefix_map[] =
 #ifdef MBSS_SUPPORT
 	{INT_MBSSID, 	{INF_MBSSID_DEV_NAME, SECOND_INF_MBSSID_DEV_NAME}},
 #endif /* MBSS_SUPPORT */
-#ifdef APCLI_SUPPORT
-	{INT_APCLI, 		{INF_APCLI_DEV_NAME, SECOND_INF_APCLI_DEV_NAME}},
-#endif /* APCLI_SUPPORT */
 #endif /* CONFIG_AP_SUPPORT */
 
 	{0},
@@ -416,11 +413,6 @@ void announce_802_3_packet(
 	ASSERT(pPacket);
 
 #ifdef CONFIG_AP_SUPPORT
-#ifdef APCLI_SUPPORT
-	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-	{
-	}
-#endif /* APCLI_SUPPORT */
 #endif /* CONFIG_AP_SUPPORT */
 
 #ifdef CONFIG_STA_SUPPORT
@@ -677,13 +669,6 @@ struct net_device *get_netdev_from_bssid(struct rtmp_adapter *pAd, u8 FromWhichB
 #endif /* CONFIG_STA_SUPPORT */
 #ifdef CONFIG_AP_SUPPORT
 		infRealIdx = FromWhichBSSID & (NET_DEVICE_REAL_IDX_MASK);
-#ifdef APCLI_SUPPORT
-		if(FromWhichBSSID >= MIN_NET_DEVICE_FOR_APCLI)
-		{
-			dev_p = (infRealIdx >= MAX_APCLI_NUM ? NULL : pAd->ApCfg.ApCliTab[infRealIdx].wdev.if_dev);
-			break;
-		}
-#endif /* APCLI_SUPPORT */
 
 		if ((FromWhichBSSID > 0) &&
 			(FromWhichBSSID < pAd->ApCfg.BssidNum) &&
@@ -785,27 +770,6 @@ INT RTMP_AP_IoctlPrepare(struct rtmp_adapter *pAd, VOID *pCB)
 	    }
         MBSS_MR_APIDX_SANITY_CHECK(pAd, pObj->ioctl_if);
     }
-#ifdef APCLI_SUPPORT
-	else if (pConfig->priv_flags == INT_APCLI)
-	{
-		pObj->ioctl_if_type = INT_APCLI;
-		for (index = 0; index < MAX_APCLI_NUM; index++)
-		{
-			if (pAd->ApCfg.ApCliTab[index].wdev.if_dev == pConfig->net_dev)
-			{
-				pObj->ioctl_if = index;
-				break;
-			}
-
-			if(index == MAX_APCLI_NUM)
-			{
-				DBGPRINT(RT_DEBUG_ERROR, ("%s(): can not find Apcli I/F\n", __FUNCTION__));
-				return -ENETDOWN;
-			}
-		}
-		APCLI_MR_APIDX_SANITY_CHECK(pObj->ioctl_if);
-	}
-#endif /* APCLI_SUPPORT */
     else
     {
 	/* DBGPRINT(RT_DEBUG_WARN, ("IOCTL is not supported in WDS interface\n")); */

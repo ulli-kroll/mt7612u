@@ -595,13 +595,6 @@ VOID BAOriSessionAdd(
 
 		// TODO: shiang, is the mac_entry and pEntry the same one??
 		mac_entry = &pAd->MacTab.Content[pBAEntry->Wcid];
-#ifdef APCLI_SUPPORT
-		if (IS_ENTRY_APCLI(mac_entry))
-		{
-				BarHeaderInit(pAd, &FrameBar, mac_entry->Addr, mac_entry->wdev->if_addr);
-		}
-		else
-#endif /* APCLI_SUPPORT */
 		BarHeaderInit(pAd, &FrameBar, mac_entry->Addr, mac_entry->wdev->if_addr);
 
 		FrameBar.StartingSeq.field.FragNum = 0;	/* make sure sequence not clear in DEL function.*/
@@ -1199,14 +1192,6 @@ VOID PeerAddBAReqAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 #ifdef CONFIG_AP_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 	{
-#ifdef APCLI_SUPPORT
-		if (IS_ENTRY_APCLI(pMacEntry))
-		{
-			apidx = pMacEntry->wdev_idx;
-			ActHeaderInit(pAd, &ADDframe.Hdr, pAddr, pAd->ApCfg.ApCliTab[apidx].wdev.if_addr, pAddr);
-		}
-		else
-#endif /* APCLI_SUPPORT */
 		{
 			apidx = pMacEntry->apidx;
 			ActHeaderInit(pAd, &ADDframe.Hdr, pAddr, pAd->ApCfg.MBSSID[apidx].wdev.if_addr, pAd->ApCfg.MBSSID[apidx].wdev.bssid);
@@ -1440,14 +1425,6 @@ VOID SendSMPSAction(struct rtmp_adapter *pAd, u8 Wcid, u8 smps)
 		return;
 	}
 
-#ifdef APCLI_SUPPORT
-	if (IS_ENTRY_APCLI(pEntry))
-	{
-		UINT apidx = pEntry->wdev_idx;
-		ActHeaderInit(pAd, &Frame.Hdr, pEntry->Addr, wdev->if_addr, wdev->bssid);
-	}
-	else
-#endif /* APCLI_SUPPORT */
 	ActHeaderInit(pAd, &Frame.Hdr, pEntry->Addr, wdev->if_addr, wdev->bssid);
 	Frame.Category = CATEGORY_HT;
 	Frame.Action = SMPS_ACTION;

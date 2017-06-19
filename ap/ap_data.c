@@ -168,10 +168,6 @@ INT APSendPacket(struct rtmp_adapter *pAd, struct sk_buff *pPacket)
 	MAC_TABLE_ENTRY *pMacEntry = NULL;
 	struct rtmp_wifi_dev *wdev;
 
-#ifdef APCLI_SUPPORT
-	PAPCLI_STRUCT pApCliEntry = NULL;
-	pApCliEntry = &pAd->ApCfg.ApCliTab[0];
-#endif
 
 
 	RTMP_QueryPacketInfo(pPacket, &PacketInfo, &pSrcBufVA, &SrcBufLen);
@@ -436,59 +432,6 @@ static inline VOID APFindCipherAlgorithm(struct rtmp_adapter *pAd, TX_BLK *pTxBl
 	pMbss = &pAd->ApCfg.MBSSID[apidx];
 	wdev = &pMbss->wdev;
 
-#ifdef APCLI_SUPPORT
-	if (TX_BLK_TEST_FLAG(pTxBlk, fTX_bApCliPacket))
-	{
-		APCLI_STRUCT *pApCliEntry = pTxBlk->pApCliEntry;
-		wdev = &pApCliEntry->wdev;
-
-		if (RTMP_GET_PACKET_EAPOL(pTxBlk->pPacket))
-		{
-			/* These EAPoL frames must be clear before 4-way handshaking is completed. */
-			if ((!(TX_BLK_TEST_FLAG(pTxBlk, fTX_bClearEAPFrame))) &&
-				(pMacEntry->PairwiseKey.CipherAlg) &&
-				(pMacEntry->PairwiseKey.KeyLen))
-			{
-				CipherAlg  = pMacEntry->PairwiseKey.CipherAlg;
-				if (CipherAlg)
-					pKey = &pMacEntry->PairwiseKey;
-			}
-			else
-			{
-				CipherAlg = CIPHER_NONE;
-				pKey = NULL;
-			}
-		}
-#ifdef WPA_SUPPLICANT_SUPPORT
-		else if (pApCliEntry->wpa_supplicant_info.WpaSupplicantUP &&
-			(pMacEntry->WepStatus  == Ndis802_11WEPEnabled) &&
-			(pApCliEntry->wdev.IEEE8021X == true) &&
-			(pMacEntry->PortSecured == WPA_802_1X_PORT_NOT_SECURED))
-		{
-			CipherAlg = CIPHER_NONE;
-		}
-#endif /* WPA_SUPPLICANT_SUPPORT */
-		else if (pMacEntry->WepStatus == Ndis802_11WEPEnabled)
-		{
-			CipherAlg  = pApCliEntry->SharedKey[wdev->DefaultKeyId].CipherAlg;
-			if (CipherAlg)
-				pKey = &pApCliEntry->SharedKey[wdev->DefaultKeyId];
-		}
-		else if (pMacEntry->WepStatus == Ndis802_11TKIPEnable ||
-	 			 pMacEntry->WepStatus == Ndis802_11AESEnable)
-		{
-			CipherAlg  = pMacEntry->PairwiseKey.CipherAlg;
-			if (CipherAlg)
-				pKey = &pMacEntry->PairwiseKey;
-		}
-		else
-		{
-			CipherAlg = CIPHER_NONE;
-			pKey = NULL;
-		}
-	}
-	else
-#endif /* APCLI_SUPPORT */
 	if ((RTMP_GET_PACKET_EAPOL(pTxBlk->pPacket)) ||
 #ifdef DOT1X_SUPPORT
 		((wdev->WepStatus == Ndis802_11WEPEnabled) && (wdev->IEEE8021X == true)) ||
@@ -577,13 +520,6 @@ static inline VOID APBuildCache802_11Header(
 	pMacEntry->TxSeq[pTxBlk->UserPriority] = (pMacEntry->TxSeq[pTxBlk->UserPriority]+1) & MAXSEQ;
 
 	/* SA */
-#ifdef APCLI_SUPPORT
-	if(IS_ENTRY_APCLI(pMacEntry))
-	{	/* The addr3 of Ap-client packet is Destination Mac address. */
-		COPY_MAC_ADDR(pHeader80211->Addr3, pTxBlk->pSrcBufHeader);
-	}
-	else
-#endif /* APCLI_SUPPORT */
 	{	/* The addr3 of normal packet send from DS is Src Mac address. */
 		COPY_MAC_ADDR(pHeader80211->Addr3, pTxBlk->pSrcBufHeader + MAC_ADDR_LEN);
 	}
@@ -629,17 +565,6 @@ static inline VOID APBuildCommon802_11Header(struct rtmp_adapter *pAd, TX_BLK *p
 	wifi_hdr->Frag = 0;
 	wifi_hdr->FC.MoreData = TX_BLK_TEST_FLAG(pTxBlk, fTX_bMoreData);
 
-#ifdef APCLI_SUPPORT
-	if (TX_BLK_TEST_FLAG(pTxBlk, fTX_bApCliPacket))
-	{
-		wifi_hdr->FC.ToDs = 1;
-		wifi_hdr->FC.FrDs = 0;
-		COPY_MAC_ADDR(wifi_hdr->Addr1, APCLI_ROOT_BSSID_GET(pAd, pTxBlk->Wcid));	/* to AP2 */
-		COPY_MAC_ADDR(wifi_hdr->Addr2, pTxBlk->pApCliEntry->wdev.if_addr);		/* from AP1 */
-		COPY_MAC_ADDR(wifi_hdr->Addr3, pTxBlk->pSrcBufHeader);					/* DA */
-	}
-	else
-#endif /* APCLI_SUPPORT */
 	{
 		/* TODO: how about "MoreData" bit? AP need to set this bit especially for PS-POLL response */
 		{
@@ -1195,9 +1120,6 @@ VOID AP_AMSDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 	PQUEUE_ENTRY pQEntry;
 
 #ifdef CONFIG_AP_SUPPORT
-#ifdef APCLI_SUPPORT
-	PAPCLI_STRUCT   pApCliEntry = NULL;
-#endif /* APCLI_SUPPORT */
 #endif /* CONFIG_AP_SUPPORT */
 
 	MAC_TABLE_ENTRY *pMacEntry = pTxBlk->pMacEntry;
@@ -1275,16 +1197,6 @@ VOID AP_AMSDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 
 		memmove(subFrameHeader, pTxBlk->pSrcBufHeader, 12);
 
-#ifdef APCLI_SUPPORT
-		if(TX_BLK_TEST_FLAG(pTxBlk, fTX_bApCliPacket))
-		{
-			{
-				pApCliEntry = &pAd->ApCfg.ApCliTab[pTxBlk->pMacEntry->wdev_idx];
-				if (pApCliEntry->Valid)
-					memmove(&subFrameHeader[6] , pApCliEntry->wdev.if_addr, 6);
-			}
-		}
-#endif /* APCLI_SUPPORT */
 
 
 		pHeaderBufPtr += AMSDU_SUBHEAD_LEN;
@@ -2718,37 +2630,6 @@ VOID APRxErrorHandle(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 	{
 		if (pRxBlk->wcid < MAX_LEN_OF_MAC_TABLE)
 		{
-#ifdef APCLI_SUPPORT
-
-			Wcid = pRxBlk->wcid;
-			if (VALID_WCID(Wcid))
-				pEntry = ApCliTableLookUpByWcid(pAd, Wcid, pHeader->Addr2);
-			else
-				pEntry = MacTableLookup(pAd, pHeader->Addr2);
-
-			if (pEntry && IS_ENTRY_APCLI(pEntry))
-			{
-				FromWhichBSSID = pEntry->wdev_idx + MIN_NET_DEVICE_FOR_APCLI;
-				if (pRxInfo->CipherErr == 2)
-				{
-					pWpaKey = &pEntry->PairwiseKey;
-#ifdef WPA_SUPPLICANT_SUPPORT
-					if (pAd->ApCfg.ApCliTab[pEntry->wdev_idx].wpa_supplicant_info.WpaSupplicantUP)
-					{
-						WpaSendMicFailureToWpaSupplicant(pAd->net_dev, pHeader->Addr2,
-											 (pWpaKey->Type == PAIRWISEKEY) ? true : false,
-											 (INT)pRxBlk->key_idx, NULL);
-					}
-					if (((pRxInfo->CipherErr & 2) == 2) && INFRA_ON(pAd))
-						RTMPSendWirelessEvent(pAd, IW_MIC_ERROR_EVENT_FLAG, pEntry->Addr, FromWhichBSSID, 0);
-#else
-					ApCliRTMPReportMicError(pAd, pWpaKey, BSS0);
-#endif /* WPA_SUPPLICANT_SUPPORT */
-					DBGPRINT_RAW(RT_DEBUG_ERROR,("Rx MIC Value error\n"));
-				}
-			}
-			else
-#endif /* APCLI_SUPPORT */
 			if (pRxInfo->U2M)
 			{
 				pEntry = &pAd->MacTab.Content[pRxBlk->wcid];
@@ -2794,11 +2675,9 @@ bool APCheckVaildDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 
 	do
 	{
-#ifndef APCLI_SUPPORT
 		/* should not drop Ap-Client packet. */
 		if (pHeader->FC.ToDs == 0)
 			break;
-#endif /* APCLI_SUPPORT */
 
 
 		/* check if Class2 or 3 error */
@@ -2887,17 +2766,6 @@ bool APCheckTkipMICValue(
 	{
 		DBGPRINT_RAW(RT_DEBUG_ERROR,("Rx MIC Value error 2\n"));
 
-#ifdef APCLI_SUPPORT
-#ifdef WPA_SUPPLICANT_SUPPORT
-		if (IS_ENTRY_APCLI(pEntry) && pAd->ApCfg.ApCliTab[pEntry->wdev_idx].wpa_supplicant_info.WpaSupplicantUP)
-		{
-			WpaSendMicFailureToWpaSupplicant(pAd->net_dev, pHeader->Addr2,
-							 (pWpaKey->Type == PAIRWISEKEY) ? true : false,
-							 (INT)pRxBlk->key_idx, NULL);
-		}
-		else
-#endif /* WPA_SUPPLICANT_SUPPORT */
-#endif /* APCLI_SUPPORT */
 		{
 			RTMP_HANDLE_COUNTER_MEASURE(pAd, pEntry);
 		}
@@ -2919,11 +2787,6 @@ VOID APRxEAPOLFrameIndicate(
 {
 	bool 		CheckPktSanity = true;
 	u8 		*pTmpBuf;
-#ifdef APCLI_SUPPORT
-#ifdef WPA_SUPPLICANT_SUPPORT
-	INT eapcode;
-#endif /* WPA_SUPPLICANT_SUPPORT */
-#endif /* APCLI_SUPPORT */
 	do
 	{
 	} while (false);
@@ -2973,74 +2836,6 @@ VOID APRxEAPOLFrameIndicate(
         return;
 	}
 #endif/*RT_CFG80211_SUPPORT*/
-
-#ifdef APCLI_SUPPORT
-#ifdef WPA_SUPPLICANT_SUPPORT
-	if (IS_ENTRY_APCLI(pEntry))
-	{
-		APCLI_STRUCT *apcli_entry = &pAd->ApCfg.ApCliTab[pEntry->wdev_idx];
-
-		eapcode=WpaCheckEapCode(pAd, pRxBlk->pData,
-									pRxBlk->DataSize,
-									LENGTH_802_1_H);
-
-		DBGPRINT(RT_DEBUG_TRACE, ("eapcode=%d\n",eapcode));
-		if (apcli_entry->wpa_supplicant_info.WpaSupplicantUP &&
-			apcli_entry->wdev.IEEE8021X == true && (EAP_CODE_SUCCESS == eapcode))
-		{
-			u8 *Key;
-			u8 	CipherAlg;
-			int     idx = 0;
-			int BssIdx = pAd->ApCfg.BssidNum + MAX_MESH_NUM + pEntry->wdev_idx;
-			WPA_SUPPLICANT_INFO *sup_info = &apcli_entry->wpa_supplicant_info;
-
-			DBGPRINT_RAW(RT_DEBUG_TRACE, ("Receive EAP-SUCCESS Packet\n"));
-			/* pAd->StaCfg.PortSecured = WPA_802_1X_PORT_SECURED; */
-			/* STA_PORT_SECURED(pAd); */
-			pEntry->PortSecured=WPA_802_1X_PORT_SECURED;
-			pEntry->PrivacyFilter=Ndis802_11PrivFilterAcceptAll;
-			if (sup_info->IEEE8021x_required_keys == false)
-			{
-				idx = sup_info->DesireSharedKeyId;
-				CipherAlg = sup_info->DesireSharedKey[idx].CipherAlg;
-				Key = sup_info->DesireSharedKey[idx].Key;
-
-				if (sup_info->DesireSharedKey[idx].KeyLen > 0)
-    				{
-					/* Set key material and cipherAlg to Asic */
-					RTMP_ASIC_SHARED_KEY_TABLE(pAd,BssIdx, idx,
-									&sup_info->DesireSharedKey[idx]);
-
-					/* STA doesn't need to set WCID attribute for group key */
-					/* Assign pairwise key info */
-					RTMP_SET_WCID_SEC_INFO(pAd, BssIdx, idx, CipherAlg, pEntry->wcid, SHAREDKEYTABLE);
-
-					/* RTMP_IndicateMediaState(pAd, NdisMediaStateConnected); */
-                       		/* pAd->ExtraInfo = GENERAL_LINK_UP; */
-
-					/*  For Preventing ShardKey Table is cleared by remove key procedure. */
-    				apcli_entry->SharedKey[idx].CipherAlg = CipherAlg;
-					apcli_entry->SharedKey[idx].KeyLen = sup_info->DesireSharedKey[idx].KeyLen;
-					memmove(apcli_entry->SharedKey[idx].Key,
-									   sup_info->DesireSharedKey[idx].Key,
-									   sup_info->DesireSharedKey[idx].KeyLen);
-    				}
-				}
-			}
-
-		if (apcli_entry->wpa_supplicant_info.WpaSupplicantUP &&
-			((pEntry->AuthMode == Ndis802_11AuthModeWPA) ||
-			(pEntry->AuthMode == Ndis802_11AuthModeWPA2) ||
-			(apcli_entry->wdev.IEEE8021X == true))
-		)
-		{
-			DBGPRINT(RT_DEBUG_TRACE, ("Indicate_Legacy_Packet\n"));
-			Indicate_Legacy_Packet(pAd, pRxBlk, FromWhichBSSID);
-			return;
-		}
-	}
-#endif/* WPA_SUPPLICANT_SUPPORT */
-#endif/* APCLI_SUPPORT */
 
 #ifdef DOT1X_SUPPORT
 	/* sent this frame to upper layer TCPIP */
@@ -3197,10 +2992,6 @@ VOID APHandleRxDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 	INT hdr_len = LENGTH_802_11;
 	FRAME_CONTROL *pFmeCtrl = &pHeader->FC;
 	COUNTER_RALINK *pCounter = &pAd->RalinkCounters;
-#ifdef APCLI_SUPPORT
-	PAPCLI_STRUCT pApCliEntry = NULL;
-	pApCliEntry = &pAd->ApCfg.ApCliTab[0];
-#endif
 
 //+++Add by shiang for debug
 //---Add by shiangf for debug
@@ -3251,44 +3042,6 @@ VOID APHandleRxDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 	}
 	else if ((pFmeCtrl->FrDs == 1) && (pFmeCtrl->ToDs == 0))
 	{
-#ifdef APCLI_SUPPORT
-		/* handle APCLI. */
-		if (VALID_WCID(pRxBlk->wcid))
-			pEntry = ApCliTableLookUpByWcid(pAd, pRxBlk->wcid, pHeader->Addr2);
-		else
-			pEntry = MacTableLookup(pAd, pHeader->Addr2);
-
-		if (pEntry && IS_ENTRY_APCLI(pEntry))
-		{
-			ULONG Now32;
-
-			if (!(pEntry && APCLI_IF_UP_CHECK(pAd, pEntry->wdev_idx)))
-				goto err;
-
-			pApCliEntry = &pAd->ApCfg.ApCliTab[pEntry->wdev_idx];
-
-			if (pApCliEntry)
-			{
-				NdisGetSystemUpTime(&Now32);
-				pApCliEntry->ApCliRcvBeaconTime = Now32;
-			}
-
-			FromWhichBSSID = pEntry->wdev_idx + MIN_NET_DEVICE_FOR_APCLI;
-			RX_BLK_SET_FLAG(pRxBlk, fRX_APCLI);
-
-			/* Process broadcast packets */
-			if (pRxInfo->Mcast || pRxInfo->Bcast)
-			{
-				/* Process the received broadcast frame for AP-Client. */
-				if (!ApCliHandleRxBroadcastFrame(pAd, pRxBlk, pEntry, FromWhichBSSID))
-				{
-					dev_kfree_skb_any(pRxPacket);
-				}
-				return;
-			}
-		}
-		else
-#endif /* APCLI_SUPPORT */
 		{
 			goto err;
 		}
@@ -3551,13 +3304,6 @@ bool APFowardWirelessStaToWirelessSta(
 	struct sk_buff *pForwardPacket;
 
 
-#ifdef APCLI_SUPPORT
-	/* have no need to forwad the packet to WM */
-	if (FromWhichBSSID >= MIN_NET_DEVICE_FOR_APCLI)
-		/* need annouce to upper layer */
-		return true;
-	else
-#endif /* APCLI_SUPPORT */
 
 	pEntry = NULL;
 	bAnnounce = true;
@@ -3722,73 +3468,4 @@ int APInsertPsQueue(
 	}
 	return NDIS_STATUS_SUCCESS;
 }
-
-#ifdef APCLI_SUPPORT
-VOID ApCliRTMPSendNullFrame(
-	IN	struct rtmp_adapter *pAd,
-	IN	u8 		TxRate,
-	IN	bool 		bQosNull,
-	IN 	PMAC_TABLE_ENTRY pMacEntry,
-	IN 	unsigned short 	PwrMgmt)
-{
-	u8 NullFrame[48];
-	ULONG	Length;
-	PHEADER_802_11	pHeader_802_11;
-	PAPCLI_STRUCT pApCliEntry = NULL;
-	struct rtmp_wifi_dev *wdev;
-
-	pApCliEntry = &pAd->ApCfg.ApCliTab[pMacEntry->wdev_idx];
-	wdev = &pApCliEntry->wdev;
-
-    /* WPA 802.1x secured port control */
-    if (((wdev->AuthMode == Ndis802_11AuthModeWPA) ||
-         (wdev->AuthMode == Ndis802_11AuthModeWPAPSK) ||
-         (wdev->AuthMode == Ndis802_11AuthModeWPA2) ||
-         (wdev->AuthMode == Ndis802_11AuthModeWPA2PSK) ||
-         (wdev->IEEE8021X == true)
-        ) &&
-       (pMacEntry->PortSecured == WPA_802_1X_PORT_NOT_SECURED))
-	{
-		return;
-	}
-
-	memset(NullFrame, 0, 48);
-	Length = sizeof(HEADER_802_11);
-
-	pHeader_802_11 = (PHEADER_802_11) NullFrame;
-
-	pHeader_802_11->FC.Type = FC_TYPE_DATA;
-	pHeader_802_11->FC.SubType = SUBTYPE_DATA_NULL;
-	pHeader_802_11->FC.ToDs = 1;
-
-	COPY_MAC_ADDR(pHeader_802_11->Addr1, pMacEntry->Addr);
-		COPY_MAC_ADDR(pHeader_802_11->Addr2, pApCliEntry->wdev.if_addr);
-	COPY_MAC_ADDR(pHeader_802_11->Addr3, pMacEntry->Addr);
-
-	if (pAd->CommonCfg.bAPSDForcePowerSave)
-		pHeader_802_11->FC.PwrMgmt = PWR_SAVE;
-	else
-		pHeader_802_11->FC.PwrMgmt = PwrMgmt;
-
-	pHeader_802_11->Duration = pAd->CommonCfg.Dsifs + RTMPCalcDuration(pAd, TxRate, 14);
-
-	/* sequence is increased in MlmeHardTx */
-	pHeader_802_11->Sequence = pAd->Sequence;
-	pAd->Sequence = (pAd->Sequence+1) & MAXSEQ; /* next sequence  */
-
-	/* Prepare QosNull function frame */
-	if (bQosNull)
-	{
-		pHeader_802_11->FC.SubType = SUBTYPE_QOS_NULL;
-
-		/* copy QOS control bytes */
-		NullFrame[Length]	=  0;
-		NullFrame[Length+1] =  0;
-		Length += 2;/* if pad with 2 bytes for alignment, APSD will fail */
-	}
-
-	HAL_KickOutNullFrameTx(pAd, 0, NullFrame, Length);
-
-}
-#endif/*APCLI_SUPPORT*/
 

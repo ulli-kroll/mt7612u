@@ -73,9 +73,6 @@
 #endif /* MBSS_SUPPORT */
 
 
-#ifdef APCLI_SUPPORT
-#include "ap_apcli.h"
-#endif /* APCLI_SUPPORT */
 
 
 #include "ap_ids.h"

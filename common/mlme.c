@@ -659,9 +659,6 @@ u8 dot11_2_ra_rate(u8 MaxSupportedRateIn500Kbps)
 VOID MlmeHandler(struct rtmp_adapter *pAd)
 {
 	MLME_QUEUE_ELEM *Elem = NULL;
-#ifdef APCLI_SUPPORT
-	short apcliIfIndex;
-#endif /* APCLI_SUPPORT */
 
 	/* Only accept MLME and Frame from peer side, no other (control/data) frame should*/
 	/* get into this state machine*/
@@ -765,48 +762,6 @@ VOID MlmeHandler(struct rtmp_adapter *pAd)
 									Elem, pAd->Mlme.ApSyncMachine.CurrState);
 					break;
 
-#ifdef APCLI_SUPPORT
-				case APCLI_AUTH_STATE_MACHINE:
-					apcliIfIndex = Elem->Priv;
-
-					if(isValidApCliIf(apcliIfIndex))
-					{
-						ULONG AuthCurrState;
-							AuthCurrState = pAd->ApCfg.ApCliTab[apcliIfIndex].AuthCurrState;
-
-						StateMachinePerformAction(pAd, &pAd->Mlme.ApCliAuthMachine,
-								Elem, AuthCurrState);
-					}
-					break;
-
-				case APCLI_ASSOC_STATE_MACHINE:
-					apcliIfIndex = Elem->Priv;
-
-					if(isValidApCliIf(apcliIfIndex))
-					{
-						ULONG AssocCurrState = pAd->ApCfg.ApCliTab[apcliIfIndex].AssocCurrState;
-						StateMachinePerformAction(pAd, &pAd->Mlme.ApCliAssocMachine,
-								Elem, AssocCurrState);
-					}
-					break;
-
-				case APCLI_SYNC_STATE_MACHINE:
-					apcliIfIndex = Elem->Priv;
-					if(isValidApCliIf(apcliIfIndex))
-						StateMachinePerformAction(pAd, &pAd->Mlme.ApCliSyncMachine, Elem,
-							(pAd->ApCfg.ApCliTab[apcliIfIndex].SyncCurrState));
-					break;
-
-				case APCLI_CTRL_STATE_MACHINE:
-					apcliIfIndex = Elem->Priv;
-
-					if(isValidApCliIf(apcliIfIndex))
-					{
-						ULONG CtrlCurrState = pAd->ApCfg.ApCliTab[apcliIfIndex].CtrlCurrState;
-						StateMachinePerformAction(pAd, &pAd->Mlme.ApCliCtrlMachine, Elem, CtrlCurrState);
-					}
-					break;
-#endif /* APCLI_SUPPORT */
 
 #endif /* CONFIG_AP_SUPPORT */
 				case WPA_STATE_MACHINE:
@@ -903,23 +858,6 @@ LabelExit:
 }
 
 #ifdef CONFIG_AP_SUPPORT
-#ifdef APCLI_SUPPORT
-static VOID ApCliMlmeInit(struct rtmp_adapter *pAd)
-{
-	/* init apcli state machines*/
-        ASSERT(APCLI_AUTH_FUNC_SIZE == APCLI_MAX_AUTH_MSG * APCLI_MAX_AUTH_STATE);
-        ApCliAuthStateMachineInit(pAd, &pAd->Mlme.ApCliAuthMachine, pAd->Mlme.ApCliAuthFunc);
-
-        ASSERT(APCLI_ASSOC_FUNC_SIZE == APCLI_MAX_ASSOC_MSG * APCLI_MAX_ASSOC_STATE);
-        ApCliAssocStateMachineInit(pAd, &pAd->Mlme.ApCliAssocMachine, pAd->Mlme.ApCliAssocFunc);
-
-        ASSERT(APCLI_SYNC_FUNC_SIZE == APCLI_MAX_SYNC_MSG * APCLI_MAX_SYNC_STATE);
-        ApCliSyncStateMachineInit(pAd, &pAd->Mlme.ApCliSyncMachine, pAd->Mlme.ApCliSyncFunc);
-
-        ASSERT(APCLI_CTRL_FUNC_SIZE == APCLI_MAX_CTRL_MSG * APCLI_MAX_CTRL_STATE);
-        ApCliCtrlStateMachineInit(pAd, &pAd->Mlme.ApCliCtrlMachine, pAd->Mlme.ApCliCtrlFunc);
-}
-#endif /* APCLI_SUPPORT */
 
 static VOID ApMlmeInit(struct rtmp_adapter *pAd)
 {
@@ -994,9 +932,6 @@ int MlmeInit(struct rtmp_adapter *pAd)
 		IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 		{
 			ApMlmeInit(pAd);
-#ifdef APCLI_SUPPORT
-			ApCliMlmeInit(pAd);
-#endif /* APCLI_SUPPORT */
 		}
 
 #endif /* CONFIG_AP_SUPPORT */
@@ -1129,17 +1064,6 @@ VOID MlmeHalt(struct rtmp_adapter *pAd)
 		if (pAd->ApCfg.ApQuickResponeForRateUpTimerRunning == true)
 			RTMPCancelTimer(&pAd->ApCfg.ApQuickResponeForRateUpTimer, &Cancelled);
 
-#ifdef APCLI_SUPPORT
-		for (idx = 0; idx < MAX_APCLI_NUM; idx++)
-		{
-			PAPCLI_STRUCT pApCliEntry = &pAd->ApCfg.ApCliTab[idx];
-			RTMPCancelTimer(&pApCliEntry->MlmeAux.ProbeTimer, &Cancelled);
-			RTMPCancelTimer(&pApCliEntry->MlmeAux.ApCliAssocTimer, &Cancelled);
-			RTMPCancelTimer(&pApCliEntry->MlmeAux.ApCliAuthTimer, &Cancelled);
-			RTMPCancelTimer(&pApCliEntry->MlmeAux.WpaDisassocAndBlockAssocTimer, &Cancelled);
-
-		}
-#endif /* APCLI_SUPPORT */
 		RTMPCancelTimer(&pAd->MlmeAux.APScanTimer, &Cancelled);
 	}
 
@@ -1214,10 +1138,6 @@ VOID MlmePeriodicExec(
 	ULONG TxTotalCnt;
 	struct rtmp_adapter *pAd = (struct rtmp_adapter *)FunctionContext;
 
-#ifdef APCLI_SUPPORT
-	PAPCLI_STRUCT pApCliEntry = NULL;
-	pApCliEntry = &pAd->ApCfg.ApCliTab[0];
-#endif
 
 	/* No More 0x84 MCU CMD from v.30 FW*/
 
@@ -1359,20 +1279,6 @@ VOID MlmePeriodicExec(
 		pAd->Mlme.OneSecPeriodicRound ++;
 
 #ifdef CONFIG_AP_SUPPORT
-#ifdef APCLI_SUPPORT
-#ifdef APCLI_CERT_SUPPORT
-		//if (pAd->bApCliCertTest == false )
-		if (pApCliEntry->wdev.bWmmCapable == false)
-		{
-#endif /* APCLI_CERT_SUPPORT */
-#endif /* APCLI_SUPPORT */
-		IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-			dynamic_tune_be_tx_op(pAd, 50);	/* change form 100 to 50 for WMM WiFi test @20070504*/
-#ifdef APCLI_SUPPORT
-#ifdef APCLI_CERT_SUPPORT
-		}
-#endif /* APCLI_CERT_SUPPORT */
-#endif /* APCLI_SUPPORT */
 
 #endif /* CONFIG_AP_SUPPORT */
 
@@ -2376,11 +2282,6 @@ VOID MlmeCalculateChannelQuality(
 
 #ifdef CONFIG_STA_SUPPORT
 
-#ifdef APCLI_SUPPORT
-		if (pMacEntry && IS_ENTRY_APCLI(pMacEntry) && (pMacEntry->wdev_idx < MAX_APCLI_NUM))
-			LastBeaconRxTime = pAd->ApCfg.ApCliTab[pMacEntry->wdev_idx].ApCliRcvBeaconTime;
-		else
-#endif /*APCLI_SUPPORT*/
 			LastBeaconRxTime = pAd->StaCfg.LastBeaconRxTime;
 #endif /* CONFIG_STA_SUPPORT */
 
@@ -2620,23 +2521,6 @@ VOID MlmeUpdateTxRates(struct rtmp_adapter *pAd, bool bLinkUp, u8 apidx)
 	do
 	{
 #ifdef CONFIG_AP_SUPPORT
-#ifdef APCLI_SUPPORT
-		if (apidx >= MIN_NET_DEVICE_FOR_APCLI)
-		{
-			u8 idx = apidx - MIN_NET_DEVICE_FOR_APCLI;
-
-			if (idx < MAX_APCLI_NUM)
-			{
-				wdev = &pAd->ApCfg.ApCliTab[idx].wdev;
-				break;
-			}
-			else
-			{
-				DBGPRINT(RT_DEBUG_ERROR, ("%s(): invalid idx(%d)\n", __FUNCTION__, idx));
-				return;
-			}
-		}
-#endif /* APCLI_SUPPORT */
 		IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 		{
 
@@ -2982,23 +2866,6 @@ VOID MlmeUpdateHtTxRates(struct rtmp_adapter *pAd, u8 apidx)
 	{
 #ifdef CONFIG_AP_SUPPORT
 
-#ifdef APCLI_SUPPORT
-		if (apidx >= MIN_NET_DEVICE_FOR_APCLI)
-		{
-			u8 idx = apidx - MIN_NET_DEVICE_FOR_APCLI;
-
-			if (idx < MAX_APCLI_NUM)
-			{
-				wdev = &pAd->ApCfg.ApCliTab[idx].wdev;
-				break;
-			}
-			else
-			{
-				DBGPRINT(RT_DEBUG_ERROR, ("%s(): invalid idx(%d)\n", __FUNCTION__, idx));
-				return;
-			}
-		}
-#endif /* APCLI_SUPPORT */
 		IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 		{
 
@@ -3613,11 +3480,6 @@ ULONG BssTableSetEntry(
 	IN PNDIS_802_11_VARIABLE_IEs pVIE)
 {
 	ULONG	Idx;
-#ifdef APCLI_SUPPORT
-	bool bInsert = false;
-	PAPCLI_STRUCT pApCliEntry = NULL;
-	u8 i;
-#endif /* APCLI_SUPPORT */
 
 
 	Idx = BssTableSearch(Tab, ie_list->Bssid, ie_list->Channel);
@@ -3630,26 +3492,11 @@ ULONG BssTableSetEntry(
 				The desired AP will not be added into BSS Table
 				In this case, if we found the desired AP then overwrite BSS Table.
 			*/
-#ifdef APCLI_SUPPORT
-			for (i = 0; i < pAd->ApCfg.ApCliNum; i++)
-			{
-				pApCliEntry = &pAd->ApCfg.ApCliTab[i];
-				if (MAC_ADDR_EQUAL(pApCliEntry->MlmeAux.Bssid, ie_list->Bssid)
-					|| SSID_EQUAL(pApCliEntry->MlmeAux.Ssid, pApCliEntry->MlmeAux.SsidLen, ie_list->Ssid, ie_list->SsidLen))
-				{
-					bInsert = true;
-					break;
-				}
-			}
-#endif /* APCLI_SUPPORT */
 			if(!OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_MEDIA_STATE_CONNECTED) ||
 				!OPSTATUS_TEST_FLAG(pAd, fOP_AP_STATUS_MEDIA_STATE_CONNECTED))
 			{
 				if (MAC_ADDR_EQUAL(pAd->MlmeAux.Bssid, ie_list->Bssid) ||
 					SSID_EQUAL(pAd->MlmeAux.Ssid, pAd->MlmeAux.SsidLen, ie_list->Ssid, ie_list->SsidLen)
-#ifdef APCLI_SUPPORT
-					|| bInsert
-#endif /* APCLI_SUPPORT */
 #ifdef RT_CFG80211_SUPPORT
 					/* YF: Driver ScanTable full but supplicant the SSID exist on supplicant */
 					|| SSID_EQUAL(pAd->cfg80211_ctrl.Cfg_pending_Ssid, pAd->cfg80211_ctrl.Cfg_pending_SsidLen, ie_list->Ssid, ie_list->SsidLen)
@@ -3686,7 +3533,7 @@ ULONG BssTableSetEntry(
 }
 
 
-#if defined(CONFIG_STA_SUPPORT) || defined(APCLI_SUPPORT)
+#if defined(CONFIG_STA_SUPPORT)
 VOID  TriEventInit(struct rtmp_adapter *pAd)
 {
 	u8 i;
@@ -3758,7 +3605,7 @@ INT TriEventTableSetEntry(
 
 	return 0;
 }
-#endif /* defined(CONFIG_STA_SUPPORT) || defined(APCLI_SUPPORT) */
+#endif /* defined(CONFIG_STA_SUPPORT) */
 
 #ifdef CONFIG_STA_SUPPORT
 VOID BssTableSsidSort(
@@ -4606,9 +4453,6 @@ bool MlmeEnqueueForRecv(
 	PFRAME_802_11 pFrame = (PFRAME_802_11)Msg;
 	INT		 MsgType = 0x0;
 	MLME_QUEUE	*Queue = (MLME_QUEUE *)&pAd->Mlme.Queue;
-#ifdef APCLI_SUPPORT
-	u8 ApCliIdx = 0;
-#endif /* APCLI_SUPPORT */
 
 
 	/*
@@ -4637,62 +4481,12 @@ bool MlmeEnqueueForRecv(
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 	{
 
-#ifdef APCLI_SUPPORT
-		/*
-			Beacon must be handled by ap-sync state machine.
-			Probe-rsp must be handled by apcli-sync state machine.
-			Those packets don't need to check its MAC address
-		*/
-		do
-		{
-			bool bToApCli = false;
-			u8 i;
-			/*
-			   1. When P2P GO On and receive Probe Response, preCheckMsgTypeSubset function will
-			      enquene Probe response to APCli sync state machine
-			      Solution: when GO On skip preCheckMsgTypeSubset redirect to APMsgTypeSubst
-			   2. When P2P Cli On and receive Probe Response, preCheckMsgTypeSubset function will
-			      enquene Probe response to APCli sync state machine
-			      Solution: handle MsgType == APCLI_MT2_PEER_PROBE_RSP on ApCli Sync state machine
-			                when ApCli on idle state.
-			*/
-			for (i = 0; i < pAd->ApCfg.ApCliNum; i++)
-			{
-				if (MAC_ADDR_EQUAL(pAd->ApCfg.ApCliTab[i].MlmeAux.Bssid, pFrame->Hdr.Addr2))
-				{
-					bToApCli = true;
-					break;
-				}
-			}
-
-			if (!MAC_ADDR_EQUAL(pFrame->Hdr.Addr1, pAd->CurrentAddress) &&
-				preCheckMsgTypeSubset(pAd, pFrame, &Machine, &MsgType))
-				break;
-
-			if (!MAC_ADDR_EQUAL(pFrame->Hdr.Addr1, pAd->CurrentAddress) && bToApCli)
-			{
-				if (ApCliMsgTypeSubst(pAd, pFrame, &Machine, &MsgType))
-					break;
-			}
-			else
-			{
-				if (APMsgTypeSubst(pAd, pFrame, &Machine, &MsgType))
-					break;
-			}
-
-			DBGPRINT_ERR(("%s(): un-recongnized mgmt->subtype=%d, STA-%02x:%02x:%02x:%02x:%02x:%02x\n",
-						__FUNCTION__, pFrame->Hdr.FC.SubType, PRINT_MAC(pFrame->Hdr.Addr2)));
-			return false;
-
-		} while (false);
-#else
 		if (!APMsgTypeSubst(pAd, pFrame, &Machine, &MsgType))
 		{
 			DBGPRINT_ERR(("%s(): un-recongnized mgmt->subtype=%d\n",
 							__FUNCTION__, pFrame->Hdr.FC.SubType));
 			return false;
 		}
-#endif /* APCLI_SUPPORT */
 	}
 #endif /* CONFIG_AP_SUPPORT */
 #ifdef CONFIG_STA_SUPPORT
@@ -4729,9 +4523,6 @@ bool MlmeEnqueueForRecv(
 	Queue->Entry[Tail].OpMode = (ULONG)OpMode;
 	Queue->Entry[Tail].Channel = pAd->LatchRfRegs.Channel;
 	Queue->Entry[Tail].Priv = 0;
-#ifdef APCLI_SUPPORT
-	Queue->Entry[Tail].Priv = ApCliIdx;
-#endif /* APCLI_SUPPORT */
 
 	if (Msg != NULL)
 	{
@@ -5931,13 +5722,6 @@ bool RTMPAutoRateSwitchCheck(struct rtmp_adapter *pAd)
 			if (pAd->ApCfg.MBSSID[apidx].wdev.bAutoTxRateSwitch)
 				return true;
 		}
-#ifdef APCLI_SUPPORT
-		for (apidx = 0; apidx < MAX_APCLI_NUM; apidx++)
-		{
-			if (pAd->ApCfg.ApCliTab[apidx].wdev.bAutoTxRateSwitch)
-				return true;
-		}
-#endif /* APCLI_SUPPORT */
 	}
 #endif /* CONFIG_AP_SUPPORT */
 
@@ -5977,10 +5761,6 @@ u8 RTMPStaFixedTxMode(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 	{
 		if (IS_ENTRY_CLIENT(pEntry))
 			tx_mode = (u8)pAd->ApCfg.MBSSID[pEntry->apidx].wdev.DesiredTransmitSetting.field.FixedTxMode;
-#ifdef APCLI_SUPPORT
-		else if (IS_ENTRY_APCLI(pEntry))
-			tx_mode = (u8)pAd->ApCfg.ApCliTab[pEntry->wdev_idx].wdev.DesiredTransmitSetting.field.FixedTxMode;
-#endif /* APCLI_SUPPORT */
 	}
 #endif /* CONFIG_AP_SUPPORT */
 

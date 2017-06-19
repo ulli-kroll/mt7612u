@@ -81,11 +81,7 @@ VOID rlt_bcn_buf_init(struct rtmp_adapter *pAd)
 	In 16-MBSS support mode, if AP-Client is enabled,
 	the last 8-MBSS would be occupied for AP-Client using.
 */
-#ifdef APCLI_SUPPORT
-	pChipCap->BcnMaxNum = (8 - MAX_MESH_NUM);
-#else
 	pChipCap->BcnMaxNum = (pChipCap->BcnMaxHwNum - MAX_MESH_NUM);
-#endif /* APCLI_SUPPORT */
 
 	pChipCap->BcnMaxHwSize = 0x2000;
 

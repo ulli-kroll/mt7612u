@@ -33,11 +33,6 @@ static INT scan_ch_restore(struct rtmp_adapter *pAd, u8 OpMode)
 	unsigned short Status;
 #endif /* CONFIG_STA_SUPPORT */
 	INT bw, ch;
-#ifdef APCLI_SUPPORT
-#ifdef APCLI_CERT_SUPPORT
-	u8  ScanType = pAd->MlmeAux.ScanType;
-#endif /*APCLI_CERT_SUPPORT*/
-#endif /*APCLI_SUPPORT*/
 
 	if (WMODE_CAP(pAd->CommonCfg.PhyMode, WMODE_AC) &&
 		(pAd->CommonCfg.Channel > 14) &&
@@ -148,21 +143,6 @@ static INT scan_ch_restore(struct rtmp_adapter *pAd, u8 OpMode)
 #ifdef CONFIG_AP_SUPPORT
 	if (OpMode == OPMODE_AP)
 	{
-#ifdef APCLI_SUPPORT
-#ifdef APCLI_AUTO_CONNECT_SUPPORT
-			if ((pAd->ApCfg.ApCliAutoConnectRunning == true)
-#ifdef AP_PARTIAL_SCAN_SUPPORT
-				&& (pAd->ApCfg.bPartialScanning == false)
-#endif /* AP_PARTIAL_SCAN_SUPPORT */
-				)
-			{
-				if (!ApCliAutoConnectExec(pAd))
-				{
-					DBGPRINT(RT_DEBUG_ERROR, ("Error in  %s\n", __FUNCTION__));
-				}
-			}
-#endif /* APCLI_AUTO_CONNECT_SUPPORT */
-#endif /* APCLI_SUPPORT */
 		pAd->Mlme.ApSyncMachine.CurrState = AP_SYNC_IDLE;
 		RTMPResumeMsduTransmission(pAd);
 
@@ -205,16 +185,6 @@ static INT scan_ch_restore(struct rtmp_adapter *pAd, u8 OpMode)
 		}
 	}
 
-#ifdef APCLI_SUPPORT
-#ifdef APCLI_CERT_SUPPORT
-		if (APCLI_IF_UP_CHECK(pAd, 0) && pAd->bApCliCertTest == true && ScanType == SCAN_2040_BSS_COEXIST)
-		{
-			u8 Status=1;
-			DBGPRINT(RT_DEBUG_TRACE, ("@(%s)  Scan Done ScanType=%d\n", __FUNCTION__, ScanType));
-			MlmeEnqueue(pAd, APCLI_CTRL_STATE_MACHINE, APCLI_CTRL_SCAN_DONE, 2, &Status, 0);
-		}
-#endif /* APCLI_CERT_SUPPORT */
-#endif /* APCLI_SUPPORT */
 #endif /* CONFIG_AP_SUPPORT */
 
 
@@ -271,8 +241,6 @@ static INT scan_active(struct rtmp_adapter *pAd, u8 OpMode, u8 ScanType)
 		/*IF_DEV_CONFIG_OPMODE_ON_AP(pAd) */
 		if (OpMode == OPMODE_AP)
 		{
-#ifdef APCLI_SUPPORT
-#endif /* APCLI_SUPPORT */
 			MgtMacHeaderInitExt(pAd, &Hdr80211, SUBTYPE_PROBE_REQ, 0, BROADCAST_ADDR,
 								pAd->ApCfg.MBSSID[0].wdev.bssid,
 								BROADCAST_ADDR);
@@ -397,8 +365,6 @@ static INT scan_active(struct rtmp_adapter *pAd, u8 OpMode, u8 ScanType)
 		}
 	}
 
-#ifdef APCLI_SUPPORT
-#endif /* APCLI_SUPPORT */
 
 	if (WMODE_CAP_AC(pAd->CommonCfg.PhyMode) &&
 		(pAd->MlmeAux.Channel > 14)) {
@@ -593,37 +559,6 @@ VOID ScanNextChannel(struct rtmp_adapter *pAd, u8 OpMode)
 				return;
 
 #ifdef CONFIG_AP_SUPPORT
-#ifdef APCLI_SUPPORT
-#ifdef AP_PARTIAL_SCAN_SUPPORT
-			if (pAd->ApCfg.bPartialScanning == true)
-			{
-				/* Enhance Connectivity & for Hidden Ssid Scanning*/
-				CHAR desiredSsid[MAX_LEN_OF_SSID], backSsid[MAX_LEN_OF_SSID];
-				u8 desiredSsidLen, backSsidLen;
-
-				desiredSsidLen= pAd->ApCfg.ApCliTab[0].CfgSsidLen;
-
-				if (desiredSsidLen  > 0)
-				{
-					//printk("=====================>specific the %s scanning\n", pAd->ApCfg.ApCliTab[0].CfgSsid);
-					/* 1. backup the original MlmeAux */
-					backSsidLen = pAd->MlmeAux.SsidLen;
-					memcpy(backSsid, pAd->MlmeAux.Ssid, backSsidLen);
-
-					/* 2. fill the desried ssid into SM */
-					pAd->MlmeAux.SsidLen = desiredSsidLen;
-					memcpy(pAd->MlmeAux.Ssid, pAd->ApCfg.ApCliTab[0].CfgSsid, desiredSsidLen);
-
-					/* 3. scan action */
-					scan_active(pAd, OpMode, ScanType);
-
-					/* 4. restore to MlmeAux */
-					pAd->MlmeAux.SsidLen = backSsidLen;
-					memcpy(pAd->MlmeAux.Ssid, backSsid, backSsidLen);
-				}
-			}
-#endif /* AP_PARTIAL_SCAN_SUPPORT */
-#endif /* APCLI_SUPPORT */
 #endif /* CONFIG_AP_SUPPORT */
 		}
 
@@ -663,7 +598,7 @@ bool ScanRunning(struct rtmp_adapter *pAd)
 }
 
 
-#if defined(CONFIG_STA_SUPPORT) || defined(APCLI_SUPPORT)
+#if defined(CONFIG_STA_SUPPORT)
 VOID BuildEffectedChannelList(
 	IN struct rtmp_adapter *pAd)
 {
@@ -792,7 +727,7 @@ VOID ScanParmFill(
 	ScanReq->BssType = BssType;
 	ScanReq->ScanType = ScanType;
 }
-#endif /* defined(CONFIG_STA_SUPPORT) || defined(APCLI_SUPPORT) */
+#endif /* defined(CONFIG_STA_SUPPORT) */
 
 
 #endif /* SCAN_SUPPORT */

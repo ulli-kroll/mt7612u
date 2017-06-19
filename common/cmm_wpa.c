@@ -476,13 +476,6 @@ VOID RTMPToWirelessSta(
 			RTMP_SET_PACKET_CLEAR_EAP_FRAME(pPacket, 0);
 
 #ifdef CONFIG_AP_SUPPORT
-#ifdef APCLI_SUPPORT
-		if (IS_ENTRY_APCLI(pEntry))
-		{
-			RTMP_SET_PACKET_NET_DEVICE_APCLI(pPacket, pEntry->apidx);
-		}
-		else
-#endif /* APCLI_SUPPORT */
 #endif /* CONFIG_AP_SUPPORT */
 		{
 		}
@@ -924,23 +917,6 @@ VOID PeerPairMsg1Action(
 #ifdef CONFIG_AP_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 	{
-#ifdef APCLI_SUPPORT
-		if (IS_ENTRY_APCLI(pEntry))
-		{
-			UINT IfIndex = 0;
-
-			IfIndex = pEntry->wdev_idx;
-
-			if (IfIndex >= MAX_APCLI_NUM)
-				return;
-
-			pCurrentAddr = pAd->ApCfg.ApCliTab[IfIndex].wdev.if_addr;
-			pmk_ptr = pAd->ApCfg.ApCliTab[IfIndex].PMK;
-			group_cipher = pAd->ApCfg.ApCliTab[IfIndex].GroupCipher;
-			rsnie_ptr = pAd->ApCfg.ApCliTab[IfIndex].RSN_IE;
-			rsnie_len = pAd->ApCfg.ApCliTab[IfIndex].RSNIE_Len;
-		}
-#endif /* APCLI_SUPPORT */
 	}
 #endif /* CONFIG_AP_SUPPORT */
 #ifdef CONFIG_STA_SUPPORT
@@ -1262,21 +1238,6 @@ VOID PeerPairMsg3Action(
 #ifdef CONFIG_AP_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 	{
-#ifdef APCLI_SUPPORT
-		if (IS_ENTRY_APCLI(pEntry))
-		{
-			UINT IfIndex = 0;
-
-			IfIndex = pEntry->wdev_idx;
-
-			if (IfIndex >= MAX_APCLI_NUM)
-				return;
-
-			pCurrentAddr = pAd->ApCfg.ApCliTab[IfIndex].wdev.if_addr;
-			group_cipher = pAd->ApCfg.ApCliTab[IfIndex].GroupCipher;
-
-		}
-#endif /* APCLI_SUPPORT */
 	}
 #endif /* CONFIG_AP_SUPPORT */
 #ifdef CONFIG_STA_SUPPORT
@@ -1339,10 +1300,6 @@ VOID PeerPairMsg3Action(
 #ifdef CONFIG_AP_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 	{
-#ifdef APCLI_SUPPORT
-		if (IS_ENTRY_APCLI(pEntry))
-		 	APCliInstallPairwiseKey(pAd, pEntry);
-#endif /* APCLI_SUPPORT */
 	}
 #endif /* CONFIG_AP_SUPPORT */
 #ifdef CONFIG_STA_SUPPORT
@@ -1368,16 +1325,6 @@ VOID PeerPairMsg3Action(
 #ifdef CONFIG_AP_SUPPORT
 		IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 		{
-#ifdef APCLI_SUPPORT
-#ifdef APCLI_AUTO_CONNECT_SUPPORT
-			if((pAd->ApCfg.ApCliAutoConnectRunning == true)
-				)
-			{
-				DBGPRINT(RT_DEBUG_TRACE, ("Apcli auto connected:PeerPairMsg3Action() \n"));
-				pAd->ApCfg.ApCliAutoConnectRunning = false;
-			}
-#endif /* APCLI_AUTO_CONNECT_SUPPORT */
-#endif /* APLCI_SUPPORT */
 		}
 #endif /* CONFIG_AP_SUPPORT */
 
@@ -1394,15 +1341,6 @@ VOID PeerPairMsg3Action(
 #ifdef CONFIG_AP_SUPPORT
 		IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 		{
-#ifdef APCLI_SUPPORT
-			/* Patch issue with gateway AP*/
-			/* In WPA mode, AP doesn't send out message 1 of group-key HS.*/
-			/* So, Supplicant shall maintain a timeout action to disconnect */
-			/* this link.*/
-			/* Todo - Does it need to apply to STA ?*/
-			if (IS_ENTRY_APCLI(pEntry))
-			 	RTMPSetTimer(&pEntry->RetryTimer, PEER_GROUP_KEY_UPDATE_INIV);
-#endif /* APCLI_SUPPORT */
 		}
 #endif /* CONFIG_AP_SUPPORT */
 	}
@@ -1655,9 +1593,6 @@ VOID	PeerGroupMsg1Action(
 	u8 			default_key = 0;
 	u8 			group_cipher = Ndis802_11WEPDisabled;
 	uint8_t *				pCurrentAddr = NULL;
-#ifdef APCLI_SUPPORT
-	bool             Cancelled;
-#endif /* APCLI_SUPPORT */
 
 	DBGPRINT(RT_DEBUG_TRACE, ("===> PeerGroupMsg1Action \n"));
 
@@ -1668,21 +1603,6 @@ VOID	PeerGroupMsg1Action(
 #ifdef CONFIG_AP_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 	{
-#ifdef APCLI_SUPPORT
-		if (IS_ENTRY_APCLI(pEntry))
-		{
-			UINT				IfIndex = 0;
-
-			IfIndex = pEntry->wdev_idx;
-			if (IfIndex >= MAX_APCLI_NUM)
-				return;
-
-			pCurrentAddr = pAd->ApCfg.ApCliTab[IfIndex].wdev.if_addr;
-			group_cipher = pAd->ApCfg.ApCliTab[IfIndex].GroupCipher;
-			default_key = pAd->ApCfg.ApCliTab[IfIndex].wdev.DefaultKeyId;
-
-		}
-#endif /* APCLI_SUPPORT */
 	}
 #endif /* CONFIG_AP_SUPPORT */
 #ifdef CONFIG_STA_SUPPORT
@@ -1709,15 +1629,6 @@ VOID	PeerGroupMsg1Action(
 #ifdef CONFIG_AP_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 	{
-#ifdef APCLI_SUPPORT
-		/* Patch issue with gateway AP*/
-		/* In WPA mode, AP doesn't send out message 1 of group-key HS.*/
-		/* So, Supplicant shall maintain a timeout action to disconnect */
-		/* this link.*/
-		/* Todo - Does it need to apply to STA ?*/
-		if (IS_ENTRY_APCLI(pEntry))
-			RTMPCancelTimer(&pEntry->RetryTimer, &Cancelled);
-#endif /* APCLI_SUPPORT */
 	}
 #endif /* CONFIG_AP_SUPPORT */
 
@@ -1754,16 +1665,6 @@ VOID	PeerGroupMsg1Action(
 #ifdef CONFIG_AP_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 	{
-#ifdef APCLI_SUPPORT
-#ifdef APCLI_AUTO_CONNECT_SUPPORT
-		if ((pAd->ApCfg.ApCliAutoConnectRunning == true)
-			)
-			{
-				DBGPRINT(RT_DEBUG_TRACE, ("Apcli auto connected:PeerGroupMsg1Action() \n"));
-				pAd->ApCfg.ApCliAutoConnectRunning = false;
-			}
-#endif /* APCLI_AUTO_CONNECT_SUPPORT */
-#endif /* APLCI_SUPPORT */
 	}
 #endif /* CONFIG_AP_SUPPORT */
 
@@ -2910,48 +2811,6 @@ VOID RTMPMakeRSNIE(struct rtmp_adapter *pAd, UINT AuthMode, UINT WepStatus, u8 a
 	do
 	{
 
-#ifdef APCLI_SUPPORT
-		if (apidx >= MIN_NET_DEVICE_FOR_APCLI)
-		{
-			UINT apcliIfidx = 0;
-
-			/* Only support WPAPSK or WPA2PSK for AP-Client mode */
-#ifdef WPA_SUPPLICANT_SUPPORT
-			if (pAd->ApCfg.ApCliTab[apcliIfidx].wpa_supplicant_info.WpaSupplicantUP != WPA_SUPPLICANT_DISABLE)
-			{
-				if (AuthMode < Ndis802_11AuthModeWPA)
-					return;
-			}
-			else
-#endif /* WPA_SUPPLICANT_SUPPORT */
-			{
-				if ((AuthMode != Ndis802_11AuthModeWPAPSK) &&
-					(AuthMode != Ndis802_11AuthModeWPA2PSK))
-			    	return;
-			}
-
-			DBGPRINT(RT_DEBUG_TRACE,("==> RTMPMakeRSNIE(ApCli)\n"));
-
-			apcliIfidx = apidx - MIN_NET_DEVICE_FOR_APCLI;
-
-			/* Initiate some related information */
-				if (apcliIfidx < MAX_APCLI_NUM)
-				{
-			pAd->ApCfg.ApCliTab[apcliIfidx].RSNIE_Len = 0;
-			memset(pAd->ApCfg.ApCliTab[apcliIfidx].RSN_IE, 0, MAX_LEN_OF_RSNIE);
-			rsnielen_cur_p = &pAd->ApCfg.ApCliTab[apcliIfidx].RSNIE_Len;
-			pRsnIe = pAd->ApCfg.ApCliTab[apcliIfidx].RSN_IE;
-
-			bMixCipher = pAd->ApCfg.ApCliTab[apcliIfidx].bMixCipher;
-			break;
-				}
-				else
-				{
-					DBGPRINT(RT_DEBUG_ERROR, ("RTMPMakeRSNIE: invalid apcliIfidx(%d)\n", apcliIfidx));
-					return;
-				}
-	}
-#endif /* APCLI_SUPPORT */
 
 #ifdef CONFIG_AP_SUPPORT
 		IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
@@ -3426,16 +3285,6 @@ bool RTMPParseEapolKeyData(
     }
 
 #ifdef CONFIG_AP_SUPPORT
-#ifdef APCLI_SUPPORT
-		if (IS_ENTRY_APCLI(pEntry))
-		{
-			/* Set Group key material, TxMic and RxMic for AP-Client*/
-			if (!APCliInstallSharedKey(pAd, GTK, GTKLEN, DefaultIdx, pEntry))
-			{
-				return false;
-			}
-		}
-#endif /* APCLI_SUPPORT */
 #endif /* CONFIG_AP_SUPPORT */
 
 #ifdef CONFIG_STA_SUPPORT

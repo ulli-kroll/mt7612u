@@ -129,8 +129,6 @@ VOID MlmeADDBAAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 			pBAEntry =&pAd->BATable.BAOriEntry[Idx];
 		}
 
-#ifdef APCLI_SUPPORT
-#endif /* APCLI_SUPPORT */
 			ActHeaderInit(pAd, &Frame.Hdr, pInfo->pAddr, wdev->if_addr, wdev->bssid);
 
 		Frame.Category = CATEGORY_BA;
@@ -235,8 +233,6 @@ VOID MlmeDELBAAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 
 		wdev = pEntry->wdev;
 		Idx = pEntry->BAOriWcidArray[pInfo->TID];
-#ifdef APCLI_SUPPORT
-#endif /* APCLI_SUPPORT */
 		BarHeaderInit(pAd, &FrameBar, pEntry->Addr, wdev->if_addr);
 
 		FrameBar.StartingSeq.field.FragNum = 0; /* make sure sequence not clear in DEL funciton.*/
@@ -259,8 +255,6 @@ VOID MlmeDELBAAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 #ifdef CONFIG_AP_SUPPORT
 		IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 		{
-#ifdef APCLI_SUPPORT
-#endif /* APCLI_SUPPORT */
 			ActHeaderInit(pAd, &Frame.Hdr,
 							pEntry->Addr,
 							pEntry->wdev->if_addr,
@@ -507,7 +501,7 @@ VOID UpdateBssScanParm(
 
 #endif /* CONFIG_STA_SUPPORT */
 
-#if defined(CONFIG_STA_SUPPORT) || defined(APCLI_SUPPORT)
+#if defined(CONFIG_STA_SUPPORT)
 
 /*
 Description : Build Intolerant Channel Rerpot from Trigger event table.
@@ -628,9 +622,6 @@ VOID Send2040CoexistAction(
 	ULONG FrameLen;
 	uint32_t IntolerantChaRepLen;
 	u8 HtLen = 1;
-#ifdef APCLI_SUPPORT
-        u8 apidx;
-#endif /* APCLI_SUPPORT */
 	IntolerantChaRepLen = 0;
 	pOutBuffer = kmalloc(MGMT_DMA_BUFFER_SIZE, GFP_ATOMIC);  /*Get an unused nonpaged memory*/
 	if (pOutBuffer == NULL) {
@@ -638,17 +629,6 @@ VOID Send2040CoexistAction(
 		return;
 	}
 
-#ifdef APCLI_SUPPORT
-        if (IS_ENTRY_APCLI(&pAd->MacTab.Content[Wcid]))
-        {
-                apidx = pAd->MacTab.Content[Wcid].apidx;
-                ActHeaderInit(pAd, &Frame.Hdr, pAd->MacTab.Content[Wcid].Addr, pAd->ApCfg.ApCliTab[apidx].wdev.if_addr, pAd->MacTab.Content[Wcid].Addr);
-                DBGPRINT(RT_DEBUG_OFF, ("\x1b[31m\n%02x:%02x:%02x:%02x:%02x:%02x \x1b[m\n",
-                                                               pAd->MacTab.Content[Wcid].Addr[0], pAd->MacTab.Content[Wcid].Addr[1], pAd->MacTab.Content[Wcid].Addr[2],
-                                                               pAd->MacTab.Content[Wcid].Addr[3], pAd->MacTab.Content[Wcid].Addr[4], pAd->MacTab.Content[Wcid].Addr[5]));
-        }
-        else
-#endif /* APCLI_SUPPORT */
 	ActHeaderInit(pAd, &Frame.Hdr, pAd->MacTab.Content[Wcid].Addr, pAd->CurrentAddress, pAd->CommonCfg.Bssid);
 
 	Frame.Category = CATEGORY_PUBLIC;
@@ -679,7 +659,7 @@ VOID Send2040CoexistAction(
 
 
 
-#endif /* defined(CONFIG_STA_SUPPORT) || defined(APCLI_SUPPORT) */
+#endif /* defined(CONFIG_STA_SUPPORT) */
 
 
 bool ChannelSwitchSanityCheck(
@@ -816,12 +796,6 @@ VOID PeerPublicAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 #ifdef CONFIG_AP_SUPPORT
 				IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 				{
-#ifdef APCLI_SUPPORT
-#ifdef APCLI_CERT_SUPPORT
-					if (!IS_ENTRY_APCLI(&pAd->MacTab.Content[Elem->Wcid]))
-					{
-#endif /* APCLI_CERT_SUPPORT */
-#endif /* APCLI_SUPPORT */
 					bool		bNeedFallBack = false;
 
 					/*ApPublicAction(pAd, Elem);*/
@@ -908,11 +882,6 @@ VOID PeerPublicAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 						for (apidx = 0; apidx < pAd->ApCfg.BssidNum; apidx++)
 							SendBSS2040CoexistMgmtAction(pAd, MCAST_WCID, apidx, 0);
 					}
-#ifdef APCLI_SUPPORT
-#ifdef APCLI_CERT_SUPPORT
-					}
-#endif /* APCLI_CERT_SUPPORT */
-#endif /* APCLI_SUPPORT */
 				}
 #endif /* CONFIG_AP_SUPPORT */
 
@@ -1179,8 +1148,6 @@ VOID SendRefreshBAR(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 			}
 
 			Sequence = pEntry->TxSeq[TID];
-#ifdef APCLI_SUPPORT
-#endif /* APCLI_SUPPORT */
 			BarHeaderInit(pAd, &FrameBar, pEntry->Addr, pEntry->wdev->if_addr);
 
 			FrameBar.StartingSeq.field.FragNum = 0; /* make sure sequence not clear in DEL function.*/

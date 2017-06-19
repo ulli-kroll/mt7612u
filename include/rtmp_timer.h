@@ -170,9 +170,6 @@ DECLARE_TIMER_FUNCTION(eTxBfProbeTimerExec);
 DECLARE_TIMER_FUNCTION(PeerDelBATxAdaptTimeOut);
 #endif /* PEER_DELBA_TX_ADAPT */
 
-#ifdef APCLI_SUPPORT
-DECLARE_TIMER_FUNCTION(ApCliWpaDisassocApAndBlockAssoc);
-#endif /* APCLI_SUPPORT */
 
 #endif /* __RTMP_TIMER_H__ */
 

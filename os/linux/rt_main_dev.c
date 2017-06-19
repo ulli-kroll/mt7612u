@@ -265,9 +265,6 @@ int rt28xx_open(struct net_device *net_dev)
 #endif /* MBSS_SUPPORT */
 
 
-#ifdef APCLI_SUPPORT
-	RT28xx_ApCli_Init(pAd, net_dev);
-#endif /* APCLI_SUPPORT */
 
 
 
@@ -599,13 +596,6 @@ bool RtmpPhyNetDevExit(struct rtmp_adapter *pAd, struct net_device *net_dev)
 {
 
 #ifdef CONFIG_AP_SUPPORT
-#ifdef APCLI_SUPPORT
-#if defined(P2P_APCLI_SUPPORT)
-#else
-	/* remove all AP-client virtual interfaces. */
-	RT28xx_ApCli_Remove(pAd);
-#endif /* P2P_APCLI_SUPPORT*/
-#endif /* APCLI_SUPPORT */
 
 
 #ifdef MBSS_SUPPORT

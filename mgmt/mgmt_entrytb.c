@@ -393,13 +393,6 @@ MAC_TABLE_ENTRY *MacTableInsertEntry(
 
 
 #ifdef CONFIG_AP_SUPPORT
-#ifdef APCLI_SUPPORT
-					if (apidx >= MIN_NET_DEVICE_FOR_APCLI)
-					{
-						SET_ENTRY_APCLI(pEntry);
-						break;
-					}
-#endif /* APCLI_SUPPORT */
 #endif /* CONFIG_AP_SUPPORT */
 
 #ifdef CONFIG_AP_SUPPORT
@@ -440,10 +433,6 @@ MAC_TABLE_ENTRY *MacTableInsertEntry(
 
 	/*				RTMP_OS_Init_Timer(pAd, &pEntry->RetryTimer, GET_TIMER_FUNCTION(WPARetryExec), pAd);*/
 				}
-#ifdef APCLI_SUPPORT
-				else if (IS_ENTRY_APCLI(pEntry))
-					RTMPInitTimer(pAd, &pEntry->RetryTimer, GET_TIMER_FUNCTION(WPARetryExec), pEntry, false);
-#endif /* APCLI_SUPPORT */
 			}
 #endif /* CONFIG_AP_SUPPORT */
 
@@ -483,25 +472,6 @@ MAC_TABLE_ENTRY *MacTableInsertEntry(
 			{
 
 #ifdef CONFIG_AP_SUPPORT
-#ifdef APCLI_SUPPORT
-					if (IS_ENTRY_APCLI(pEntry))
-					{
-						pEntry->AuthMode = pAd->ApCfg.ApCliTab[pEntry->apidx].wdev.AuthMode;
-						pEntry->WepStatus = pAd->ApCfg.ApCliTab[pEntry->apidx].wdev.WepStatus;
-						pEntry->wdev_idx = pEntry->apidx;
-						if (pEntry->AuthMode < Ndis802_11AuthModeWPA)
-						{
-							pEntry->WpaState = AS_NOTUSE;
-							pEntry->PrivacyFilter = Ndis802_11PrivFilterAcceptAll;
-						}
-						else
-						{
-							pEntry->WpaState = AS_PTKSTART;
-							pEntry->PrivacyFilter = Ndis802_11PrivFilter8021xWEP;
-						}
-						break;
-					}
-#endif /* APCLI_SUPPORT */
 					IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 					{
 						MBSS_MR_APIDX_SANITY_CHECK(pAd, apidx);
@@ -551,13 +521,6 @@ MAC_TABLE_ENTRY *MacTableInsertEntry(
 			do
 			{
 #ifdef CONFIG_AP_SUPPORT
-#ifdef APCLI_SUPPORT
-				if (IS_ENTRY_APCLI(pEntry))
-				{
-					COPY_MAC_ADDR(pEntry->bssid, pAddr);
-					break;
-				}
-#endif // APCLI_SUPPORT //
 #endif /* CONFIG_AP_SUPPORT */
 #ifdef CONFIG_AP_SUPPORT
 				if (OpMode == OPMODE_AP)
@@ -769,12 +732,6 @@ bool MacTableDeleteEntry(struct rtmp_adapter *pAd, unsigned short wcid, u8 *pAdd
 				CFG80211_ApStaDelSendEvent(pAd, pEntry->Addr);
 #endif /*RT_CFG80211_SUPPORT*/
 			}
-#ifdef APCLI_SUPPORT
-			else if (IS_ENTRY_APCLI(pEntry))
-			{
-				RTMPReleaseTimer(&pEntry->RetryTimer, &Cancelled);
-			}
-#endif /* APCLI_SUPPORT */
 #endif /* CONFIG_AP_SUPPORT */
 
 			pPrevEntry = NULL;

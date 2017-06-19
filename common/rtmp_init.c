@@ -2192,47 +2192,6 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 
 
 
-#ifdef APCLI_SUPPORT
-		pAd->ApCfg.FlgApCliIsUapsdInfoUpdated = false;
-		pAd->ApCfg.ApCliNum = MAX_APCLI_NUM;
-#ifdef APCLI_CERT_SUPPORT
-		pAd->bApCliCertTest = false;
-#endif /* APCLI_CERT_SUPPORT */
-		for(j = 0; j < MAX_APCLI_NUM; j++)
-		{
-			APCLI_STRUCT *apcli_entry = &pAd->ApCfg.ApCliTab[j];
-			struct rtmp_wifi_dev *wdev = &apcli_entry->wdev;
-
-			wdev->AuthMode = Ndis802_11AuthModeOpen;
-			wdev->WepStatus = Ndis802_11WEPDisabled;
-			wdev->bAutoTxRateSwitch = true;
-			wdev->DesiredTransmitSetting.field.MCS = MCS_AUTO;
-			apcli_entry->UapsdInfo.bAPSDCapable = false;
-#ifdef APCLI_CONNECTION_TRIAL
-			apcli_entry->TrialCh = 0;//if the channel is 0, AP will connect the rootap is in the same channel with ra0.
-#endif /* APCLI_CONNECTION_TRIAL */
-
-#ifdef WPA_SUPPLICANT_SUPPORT
-			apcli_entry->wdev.IEEE8021X=false;
-			apcli_entry->wpa_supplicant_info.IEEE8021x_required_keys=false;
-			apcli_entry->wpa_supplicant_info.bRSN_IE_FromWpaSupplicant=false;
-			apcli_entry->wpa_supplicant_info.bLostAp=false;
-			apcli_entry->bScanReqIsFromWebUI=false;
-			apcli_entry->bConfigChanged=false;
-			apcli_entry->wpa_supplicant_info.DesireSharedKeyId=0;
-			apcli_entry->wpa_supplicant_info.WpaSupplicantUP=WPA_SUPPLICANT_DISABLE;
-			apcli_entry->wpa_supplicant_info.WpaSupplicantScanCount=0;
-			apcli_entry->wpa_supplicant_info.pWpsProbeReqIe=NULL;
-			apcli_entry->wpa_supplicant_info.WpsProbeReqIeLen=0;
-			apcli_entry->wpa_supplicant_info.pWpaAssocIe=NULL;
-			apcli_entry->wpa_supplicant_info.WpaAssocIeLen=0;
-			apcli_entry->SavedPMKNum=0;
-			RTMPZeroMemory(apcli_entry->SavedPMK, (PMKID_NO * sizeof(BSSID_INFO)));
-#endif/*WPA_SUPPLICANT_SUPPORT*/
-			apcli_entry->bBlockAssoc=false;
-			apcli_entry->MicErrCnt=0;
-		}
-#endif /* APCLI_SUPPORT */
 		pAd->ApCfg.EntryClientCount = 0;
 		pAd->ApCfg.ChangeTxOpClient = 0;
 	}
@@ -2338,12 +2297,6 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 #endif /* AP_PARTIAL_SCAN_SUPPORT */
 
 
-#ifdef APCLI_SUPPORT
-#ifdef APCLI_AUTO_CONNECT_SUPPORT
-	pAd->ApCfg.ApCliAutoConnectRunning= false;
-	pAd->ApCfg.ApCliAutoConnectChannelSwitching = false;
-#endif /* APCLI_AUTO_CONNECT_SUPPORT */
-#endif /* APCLI_SUPPORT */
 
 
 	pAd->CommonCfg.bNonVhtDisallow = false;

@@ -764,88 +764,6 @@ VOID APPeerBeaconAction(
 			pAd->ApCfg.LastNoneHTOLBCDetectTime = pAd->Mlme.Now32;
 		}
 
-#ifdef APCLI_SUPPORT
-		if (Elem->Wcid < MAX_LEN_OF_MAC_TABLE)
-		{
-			PMAC_TABLE_ENTRY pEntry = NULL;
-			UINT ifIndex = 0;
-
-			pEntry = &pAd->MacTab.Content[Elem->Wcid];
-
-			if (pEntry && IS_ENTRY_APCLI(pEntry) && (pEntry->wdev_idx < MAX_APCLI_NUM))
-			{
-				pAd->ApCfg.ApCliTab[pEntry->wdev_idx].ApCliRcvBeaconTime = pAd->Mlme.Now32;
-				ifIndex = pEntry->wdev_idx;
-
-#ifdef RT_CFG80211_P2P_CONCURRENT_DEVICE
-				/* what time dose the NoA on ? It should be Conneted on. */
-				if (RTMP_CFG80211_VIF_P2P_CLI_ON(pAd))
-				{
-					CFG80211_PeerP2pBeacon(pAd, ie_list->Addr2, Elem, ie_list->TimeStamp);
-                    if(ie_list->MessageToMe &&
-                       NdisEqualMemory(pAd->ApCfg.ApCliTab[ifIndex].CfgApCliBssid, ie_list->Bssid, MAC_ADDR_LEN))
-					{
-						MiniportMMRequest(pAd, 0, (u8 *)&pAd->ApCfg.ApCliTab[0].PsPollFrame, sizeof(PSPOLL_FRAME));
-					}
-				}
-#endif /* RT_CFG80211_P2P_CONCURRENT_DEVICE */
-
-				if (pAd->CommonCfg.BBPCurrentBW == BW_40)
-				{
-					/* Check if root-ap change BW to 20 */
-					if ((ie_list->AddHtInfo.AddHtInfo.ExtChanOffset == EXTCHA_NONE) &&
-						(ie_list->AddHtInfo.AddHtInfo.RecomWidth == 0))
-					{
-						pEntry->HTPhyMode.field.BW = 0;
-						DBGPRINT(RT_DEBUG_INFO, ("FallBack APClient BW to 20MHz\n"));
-					}
-
-					/* Check if root-ap change BW to 40 */
-					if ((ie_list->AddHtInfo.AddHtInfo.ExtChanOffset != EXTCHA_NONE) &&
-						(ie_list->HtCapabilityLen > 0) &&
-						(ie_list->HtCapability.HtCapInfo.ChannelWidth == 1))
-					{
-						pEntry->HTPhyMode.field.BW = 1;
-						DBGPRINT(RT_DEBUG_INFO, ("FallBack APClient BW to 40MHz\n"));
-					}
-				}
-#ifdef APCLI_CERT_SUPPORT
-				if (pAd->bApCliCertTest == true)
-				{
-					u8 RegClass;
-					OVERLAP_BSS_SCAN_IE	BssScan;
-					bool					brc;
-
-					brc = PeerBeaconAndProbeRspSanity2(pAd, Elem->Msg, Elem->MsgLen, &BssScan, &RegClass);
-					if (brc == true)
-					{
-						pAd->CommonCfg.Dot11BssWidthTriggerScanInt = le2cpu16(BssScan.TriggerScanInt); /*APBssScan.TriggerScanInt[1] * 256 + APBssScan.TriggerScanInt[0];*/
-						/*DBGPRINT(RT_DEBUG_ERROR,("Update Dot11BssWidthTriggerScanInt=%d \n", pAd->CommonCfg.Dot11BssWidthTriggerScanInt)); */
-						/* out of range defined in MIB... So fall back to default value.*/
-						if ((pAd->CommonCfg.Dot11BssWidthTriggerScanInt < 10) ||(pAd->CommonCfg.Dot11BssWidthTriggerScanInt > 900))
-						{
-							/*DBGPRINT(RT_DEBUG_ERROR,("ACT - UpdateBssScanParm( Dot11BssWidthTriggerScanInt out of range !!!!)  \n"));*/
-							pAd->CommonCfg.Dot11BssWidthTriggerScanInt = 900;
-						}
-					}
-
-					if (ie_list->operating_mode.rx_nss_type == 0) {
-						pEntry->force_op_mode = true;
-						memmove(&pEntry->operating_mode, &ie_list->operating_mode, 1);
-
-						//printk("recv notify\n");
-					}
-
-				}
-#endif /* APCLI_CERT_SUPPORT */
-				if (/*(ApCliWaitProbRsp(pAd, ifIndex) == true) &&*/
-			    	    (NdisEqualMemory(pAd->ApCfg.ApCliTab[ifIndex].CfgApCliBssid, ie_list->Bssid, MAC_ADDR_LEN)))
-				{
-					MlmeEnqueue(pAd, APCLI_SYNC_STATE_MACHINE, APCLI_MT2_PEER_BEACON, Elem->MsgLen, Elem->Msg, ifIndex);
-				}
-			}
-		}
-#endif /* APCLI_SUPPORT */
 
 
 		if (pAd->CommonCfg.bOverlapScanning == true)
@@ -1176,43 +1094,6 @@ VOID APPeerBeaconAtScanAction(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
             Rssi = RealRssi + pAd->BbpRssiToDbmDelta;
 
 		Idx = BssTableSetEntry(pAd, &pAd->ScanTab, ie_list, Rssi, LenVIE, pVIE);
-#ifdef APCLI_SUPPORT
-#ifdef APCLI_CERT_SUPPORT
-		/* Check if this scan channel is the effeced channel */
-		if (APCLI_IF_UP_CHECK(pAd, 0) && pAd->bApCliCertTest == true
-			&& (pAd->CommonCfg.bBssCoexEnable == true)
-			&& ((ie_list->Channel > 0) && (ie_list->Channel <= 14)))
-		{
-			int chListIdx;
-
-			/*
-				First we find the channel list idx by the channel number
-			*/
-			for (chListIdx = 0; chListIdx < pAd->ChannelListNum; chListIdx++)
-			{
-				if (ie_list->Channel == pAd->ChannelList[chListIdx].Channel)
-					break;
-			}
-
-			if (chListIdx < pAd->ChannelListNum)
-			{
-				/*
-					If this channel is effected channel for the 20/40 coex operation. Check the related IEs.
-				*/
-				if (pAd->ChannelList[chListIdx].bEffectedChannel == true)
-				{
-					u8 RegClass;
-					OVERLAP_BSS_SCAN_IE	BssScan;
-
-					/* Read Beacon's Reg Class IE if any. */
-					PeerBeaconAndProbeRspSanity2(pAd, Elem->Msg, Elem->MsgLen, &BssScan, &RegClass);
-					//printk("\x1b[31m TriEventTableSetEntry \x1b[m\n");
-					TriEventTableSetEntry(pAd, &pAd->CommonCfg.TriggerEventTab, ie_list->Bssid, &ie_list->HtCapability, ie_list->HtCapabilityLen, RegClass, ie_list->Channel );
-				}
-			}
-		}
-#endif /* APCLI_CERT_SUPPORT */
-#endif /* APCLI_SUPPORT */
 		if (Idx != BSS_NOT_FOUND)
 		{
 			memmove(pAd->ScanTab.BssEntry[Idx].PTSF, &Elem->Msg[24], 4);

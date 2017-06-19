@@ -112,7 +112,5 @@ INT	ApCfg_Set_IdleTimeout_Proc(
 	IN	char *		arg);
 
 
-#ifdef APCLI_SUPPORT
-#endif /* APCLI_SUPPORT */
 #endif /* __AP_CFG_H__ */
 

@@ -506,20 +506,6 @@ VOID	RTMPCalculateMICValue(
 		vlan_offset = 4;
 
 #ifdef CONFIG_AP_SUPPORT
-#ifdef APCLI_SUPPORT
-	/* Start Calculate MIC Value*/
-	if (apidx >= MIN_NET_DEVICE_FOR_APCLI && ((apidx - MIN_NET_DEVICE_FOR_APCLI) < MAX_APCLI_NUM) && (pAd->OpMode == OPMODE_AP))
-	{	/* For packet which need to do MATConvert, we need to use the CurrentAddress of specific ApCli interface.*/
-		RTMPInitMICEngine(
-			pAd,
-			pKey->Key,
-			pSrc,
-			pAd->ApCfg.ApCliTab[apidx-MIN_NET_DEVICE_FOR_APCLI].wdev.if_addr,
-			UserPriority,
-			pKey->TxMic);
-	}
-	else
-#endif /* APCLI_SUPPORT */
 #endif /* CONFIG_AP_SUPPORT */
 #ifdef CONFIG_STA_SUPPORT
 #endif /* CONFIG_STA_SUPPORT */
