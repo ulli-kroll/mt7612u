@@ -143,18 +143,6 @@ static inline int DlListEmpty(struct _DL_LIST *List)
 	return List->Next == List;
 }
 
-static inline unsigned int DlListLen(struct _DL_LIST *List)
-{
-	struct _DL_LIST *Item;
-	unsigned int Count = 0;
-
-	for (Item = List->Next; Item != List; Item = Item->Next)
-		Count++;
-
-	return Count;
-}
-
-
 #ifndef offsetof
 #define offsetof(type, member) ((long) &((type *) 0)->member)
 #endif
