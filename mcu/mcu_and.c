@@ -1259,19 +1259,6 @@ static int mt7612u_mcu_queue_empty(struct mt7612u_mcu_ctrl  *ctl, DL_LIST *list)
 	return is_empty;
 }
 
-static void mt7612u_mcu_queue_init(struct mt7612u_mcu_ctrl  *ctl, DL_LIST *list)
-{
-
-	unsigned long flags;
-	spinlock_t *lock;
-
-	lock = mt7612u_mcu_get_spin_lock(ctl, list);
-
-	spin_lock_irqsave(lock, flags);
-	DlListInit(list);
-	spin_unlock_irqrestore(lock, flags);
-}
-
 static void _mt7612u_mcu_unlink_cmd_msg(struct cmd_msg *msg, DL_LIST *list)
 {
 	if (!msg)
@@ -1682,18 +1669,21 @@ static void mt7612u_mcu_ctrl_usb_init(struct rtmp_adapter *ad)
 	RTMP_CLEAR_FLAG(ad, fRTMP_ADAPTER_MCU_SEND_IN_BAND_CMD);
 	ctl->cmd_seq = 0;
 	RTMP_OS_TASKLET_INIT(ad, &ctl->cmd_msg_task, mt7612u_mcu_cmd_msg_bh, (unsigned long)ad);
+
+	DlListInit(&ctl->txq);
+	DlListInit(&ctl->rxq);
+	DlListInit(&ctl->ackq);
+	DlListInit(&ctl->kickq);
+	DlListInit(&ctl->tx_doneq);
+	DlListInit(&ctl->rx_doneq);
+
 	spin_lock_init(&ctl->txq_lock);
-	mt7612u_mcu_queue_init(ctl, &ctl->txq);
 	spin_lock_init(&ctl->rxq_lock);
-	mt7612u_mcu_queue_init(ctl, &ctl->rxq);
 	spin_lock_init(&ctl->ackq_lock);
-	mt7612u_mcu_queue_init(ctl, &ctl->ackq);
 	spin_lock_init(&ctl->kickq_lock);
-	mt7612u_mcu_queue_init(ctl, &ctl->kickq);
 	spin_lock_init(&ctl->tx_doneq_lock);
-	mt7612u_mcu_queue_init(ctl, &ctl->tx_doneq);
 	spin_lock_init(&ctl->rx_doneq_lock);
-	mt7612u_mcu_queue_init(ctl, &ctl->rx_doneq);
+
 	ctl->tx_kickout_fail_count = 0;
 	ctl->tx_timeout_fail_count = 0;
 	ctl->rx_receive_fail_count = 0;
