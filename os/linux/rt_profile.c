@@ -288,14 +288,7 @@ void RTMP_IndicateMediaState(
 void tbtt_tasklet(unsigned long data)
 {
 #ifdef CONFIG_AP_SUPPORT
-#ifdef WORKQUEUE_BH
-	struct work_struct *work = (struct work_struct *)data;
-	struct os_cookie *pObj = container_of(work, struct os_cookie, tbtt_task);
-	struct rtmp_adapter *pAd = (struct rtmp_adapter *)pObj->pAd_va;
-#else
-		struct rtmp_adapter *pAd = (struct rtmp_adapter *)data;
-#endif /* WORKQUEUE_BH */
-
+	struct rtmp_adapter *pAd = (struct rtmp_adapter *)data;
 
 	if (pAd->OpMode == OPMODE_AP)
 	{

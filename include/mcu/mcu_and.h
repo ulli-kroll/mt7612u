@@ -30,9 +30,7 @@
 
 #include "mcu.h"
 
-#ifndef WORKQUEUE_BH
 #include <linux/interrupt.h>
-#endif
 
 struct rtmp_adapter;
 struct _BANK_RF_REG_PAIR;
@@ -119,11 +117,7 @@ enum cmd_msg_error_type {
 struct mt7612u_mcu_ctrl {
 	u8 cmd_seq;
 	unsigned long flags;
-#ifndef WORKQUEUE_BH
 	RTMP_NET_TASK_STRUCT cmd_msg_task;
-#else
-	struct tasklet_struct cmd_msg_task;
-#endif
 	spinlock_t txq_lock;
 	DL_LIST txq;
 	spinlock_t rxq_lock;

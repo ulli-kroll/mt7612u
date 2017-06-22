@@ -117,9 +117,6 @@
 
 
 
-#ifdef WORKQUEUE_BH
-#include <linux/workqueue.h>
-#endif /* WORKQUEUE_BH / */
 
 #include "frq_cal.h"
 

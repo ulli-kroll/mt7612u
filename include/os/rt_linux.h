@@ -411,13 +411,8 @@ do { \
 typedef int (*cast_fn)(void *);
 typedef INT (*RTMP_OS_TASK_CALLBACK)(ULONG);
 
-#ifdef WORKQUEUE_BH
-typedef struct work_struct OS_NET_TASK_STRUCT;
-typedef struct work_struct *POS_NET_TASK_STRUCT;
-#else
 typedef struct tasklet_struct OS_NET_TASK_STRUCT;
 typedef struct tasklet_struct  *POS_NET_TASK_STRUCT;
-#endif /* WORKQUEUE_BH */
 
 /***********************************************************************************
  * Timer related definitions and data structures.
@@ -455,10 +450,6 @@ static inline void NdisGetSystemUpTime(ULONG *time)
 struct os_cookie {
 
 	struct usb_device *pUsb_Dev;
-
-#ifdef WORKQUEUE_BH
-	uint32_t 	     pAd_va;
-#endif /* WORKQUEUE_BH */
 
 	RTMP_NET_TASK_STRUCT rx_done_task;
 	RTMP_NET_TASK_STRUCT cmd_rsp_event_task;
