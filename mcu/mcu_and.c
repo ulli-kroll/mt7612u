@@ -69,7 +69,7 @@ int mt7612u_mcu_usb_enable_patch(struct rtmp_adapter *ad)
 	cmd[9] = (cap->rom_patch_offset & 0xFF0000) >> 16;
 	cmd[10] = (cap->rom_patch_offset & 0xFF000000) >> 24;
 
-	DBGPRINT(RT_DEBUG_OFF, ("%s\n", __FUNCTION__));
+	DBGPRINT(RT_DEBUG_OFF, ("%s\n", __func__));
 
 	ret = RTUSB_VendorRequest(ad,
 			  DEVICE_CLASS_REQUEST_OUT,
@@ -90,7 +90,7 @@ int mt7612u_mcu_usb_reset_wmt(struct rtmp_adapter *ad)
 	/* reset command */
 	u8 cmd[8] = {0x6F, 0xFC, 0x05, 0x01, 0x07, 0x01, 0x00, 0x04};
 
-	DBGPRINT(RT_DEBUG_OFF, ("%s\n", __FUNCTION__));
+	DBGPRINT(RT_DEBUG_OFF, ("%s\n", __func__));
 
 	RTUSB_VendorRequest(ad,
 			DEVICE_CLASS_REQUEST_OUT,
@@ -108,7 +108,7 @@ u16 checksume16(u8 *pData, int len)
 	int sum = 0;
 
 	while (len > 1) {
-		sum += *((u16*)pData);
+		sum += *((u16 *)pData);
 
 		pData = pData + 2;
 
@@ -119,11 +119,10 @@ u16 checksume16(u8 *pData, int len)
 	}
 
 	if (len)
-		sum += *((u8*)pData);
+		sum += *((u8 *)pData);
 
-	while (sum >> 16) {
+	while (sum >> 16)
 		sum = (sum & 0xFFFF) + (sum >> 16);
-	}
 
 	return ~sum;
 }
@@ -134,7 +133,7 @@ int mt7612u_mcu_usb_chk_crc(struct rtmp_adapter *ad, u32 checksum_len)
 	u8 cmd[8];
 	struct rtmp_chip_cap *cap = &ad->chipCap;
 
-	DBGPRINT(RT_DEBUG_OFF, ("%s\n", __FUNCTION__));
+	DBGPRINT(RT_DEBUG_OFF, ("%s\n", __func__));
 
 	memmove(cmd, &cap->rom_patch_offset, 4);
 	memmove(&cmd[4], &checksum_len, 4);
@@ -227,7 +226,7 @@ load_patch_protect:
 
 		if (loop >= GET_SEMAPHORE_RETRY_MAX) {
 			DBGPRINT(RT_DEBUG_ERROR,
-				 ("%s: can not get the hw semaphore\n", __FUNCTION__));
+				 ("%s: can not get the hw semaphore\n", __func__));
 			return NDIS_STATUS_FAILURE;
 		}
 	}
@@ -236,15 +235,15 @@ load_patch_protect:
 	if (MT_REV_GTE(ad, MT76x2, REV_MT76x2E3)) {
 		mac_value = mt7612u_read32(ad, CLOCK_CTL);
 
-		if (((mac_value & 0x01) == 0x01) && (cap->rom_code_protect)) {
+		if (((mac_value & 0x01) == 0x01) &&
+		    (cap->rom_code_protect))
 			goto error0;
-		}
 	} else {
 		mac_value = mt7612u_read32(ad, COM_REG0);
 
-		if (((mac_value & 0x02) == 0x02) && (cap->rom_code_protect)) {
+		if (((mac_value & 0x02) == 0x02) &&
+		    (cap->rom_code_protect))
 			goto error0;
-		}
 	}
 
 	/* Enable USB_DMA_CFG */
@@ -264,11 +263,12 @@ load_patch_protect:
 		DBGPRINT(RT_DEBUG_OFF, ("%c", *(fw_patch_image + loop)));
 
 	if (IS_MT76x2(ad)) {
-		if (((strncmp(fw_patch_image, "20130809", 8) >= 0)) && (MT_REV_GTE(ad, MT76x2, REV_MT76x2E3))) {
+		if (((strncmp(fw_patch_image, "20130809", 8) >= 0)) &&
+		    (MT_REV_GTE(ad, MT76x2, REV_MT76x2E3))) {
 			DBGPRINT(RT_DEBUG_OFF, ("rom patch for E3 IC\n"));
 
-		} else if (((strncmp(fw_patch_image, "20130809", 8) < 0)) && (MT_REV_LT(ad, MT76x2, REV_MT76x2E3))){
-
+		} else if (((strncmp(fw_patch_image, "20130809", 8) < 0)) &&
+			   (MT_REV_LT(ad, MT76x2, REV_MT76x2E3))) {
 			DBGPRINT(RT_DEBUG_OFF, ("rom patch for E2 IC\n"));
 		} else {
 			DBGPRINT(RT_DEBUG_OFF, ("rom patch do not match IC version\n"));
@@ -281,21 +281,21 @@ load_patch_protect:
 
 	DBGPRINT(RT_DEBUG_OFF, ("\n"));
 
-	DBGPRINT(RT_DEBUG_OFF, ("platform = \n"));
+	DBGPRINT(RT_DEBUG_OFF, ("platform =\n"));
 
 	for (loop = 0; loop < 4; loop++)
 		DBGPRINT(RT_DEBUG_OFF, ("%c", *(fw_patch_image + 16 + loop)));
 
 	DBGPRINT(RT_DEBUG_OFF, ("\n"));
 
-	DBGPRINT(RT_DEBUG_OFF, ("hw/sw version = \n"));
+	DBGPRINT(RT_DEBUG_OFF, ("hw/sw version =\n"));
 
 	for (loop = 0; loop < 4; loop++)
 		DBGPRINT(RT_DEBUG_OFF, ("%c", *(fw_patch_image + 20 + loop)));
 
 	DBGPRINT(RT_DEBUG_OFF, ("\n"));
 
-	DBGPRINT(RT_DEBUG_OFF, ("patch version = \n"));
+	DBGPRINT(RT_DEBUG_OFF, ("patch version =\n"));
 
 	for (loop = 0; loop < 4; loop++)
 		DBGPRINT(RT_DEBUG_OFF, ("%c", *(fw_patch_image + 24 + loop)));
@@ -344,6 +344,7 @@ load_patch_protect:
 	/* loading rom patch */
 	while (1) {
 		s32 sent_len_max = UPLOAD_PATCH_UNIT - sizeof(*tx_info) - USB_END_PADDING;
+
 		sent_len = (patch_len - cur_len) >=  sent_len_max ? sent_len_max : (patch_len - cur_len);
 
 		DBGPRINT(RT_DEBUG_OFF, ("patch_len = %d\n", patch_len));
@@ -453,7 +454,7 @@ load_patch_protect:
 				goto error2;
 			}
 
-			DBGPRINT(RT_DEBUG_INFO, ("%s: submit urb, sent_len = %d, patch_ilm = %d, cur_len = %d\n", __FUNCTION__, sent_len, patch_len, cur_len));
+			DBGPRINT(RT_DEBUG_INFO, ("%s: submit urb, sent_len = %d, patch_ilm = %d, cur_len = %d\n", __func__, sent_len, patch_len, cur_len));
 
 			if (!wait_for_completion_timeout(&load_rom_patch_done, RTMPMsecsToJiffies(1000))) {
 				usb_kill_urb(urb);
@@ -518,12 +519,12 @@ load_patch_protect:
 	} while (loop <= 100);
 
 	if (MT_REV_GTE(ad, MT76x2, REV_MT76x2E3)) {
-		DBGPRINT(RT_DEBUG_TRACE, ("%s: CLOCK_CTL(0x%x) = 0x%x\n", __FUNCTION__, CLOCK_CTL, mac_value));
+		DBGPRINT(RT_DEBUG_TRACE, ("%s: CLOCK_CTL(0x%x) = 0x%x\n", __func__, CLOCK_CTL, mac_value));
 
 		if ((mac_value & 0x01) != 0x1)
 			ret = NDIS_STATUS_FAILURE;
 	} else {
-		DBGPRINT(RT_DEBUG_TRACE, ("%s: CLOCK_CTL(0x%x) = 0x%x\n", __FUNCTION__, COM_REG0, mac_value));
+		DBGPRINT(RT_DEBUG_TRACE, ("%s: CLOCK_CTL(0x%x) = 0x%x\n", __func__, COM_REG0, mac_value));
 
 		if ((mac_value & 0x02) != 0x2)
 			ret = NDIS_STATUS_FAILURE;
@@ -577,8 +578,8 @@ static int usb_load_ivb(struct rtmp_adapter *ad, u8 *fw_image)
 	}
 
 	if (Status) {
-			DBGPRINT(RT_DEBUG_ERROR, ("Upload IVB Fail\n"));
-			return Status;
+		DBGPRINT(RT_DEBUG_ERROR, ("Upload IVB Fail\n"));
+		return Status;
 	}
 
 	return Status;
@@ -628,7 +629,7 @@ loadfw_protect:
 
 		if (loop >= GET_SEMAPHORE_RETRY_MAX) {
 			DBGPRINT(RT_DEBUG_ERROR,
-				 ("%s: can not get the hw semaphore\n", __FUNCTION__));
+				 ("%s: can not get the hw semaphore\n", __func__));
 			return NDIS_STATUS_FAILURE;
 		}
 	}
@@ -636,9 +637,8 @@ loadfw_protect:
 	/* Check MCU if ready */
 	mac_value = mt7612u_read32(ad, COM_REG0);
 
-	if (((mac_value & 0x01) == 0x01) && (cap->ram_code_protect)) {
+	if (((mac_value & 0x01) == 0x01) && (cap->ram_code_protect))
 		goto error0;
-	}
 
 	mt7612u_vendor_reset(ad);
 	mdelay(5);
@@ -673,9 +673,9 @@ loadfw_protect:
 		if (((strncmp(fw_image + 16, "20130811", 8) >= 0)) && (MT_REV_GTE(ad, MT76x2, REV_MT76x2E3))) {
 			DBGPRINT(RT_DEBUG_OFF, ("fw for E3 IC\n"));
 
-		} else if (((strncmp(fw_image + 16, "20130811", 8) < 0)) && (MT_REV_LT(ad, MT76x2, REV_MT76x2E3))){
-
-			DBGPRINT(RT_DEBUG_OFF, ("fw for E2 IC\n"));
+		} else if (((strncmp(fw_image + 16, "20130811", 8) < 0)) &&
+			   (MT_REV_LT(ad, MT76x2, REV_MT76x2E3))) {
+				DBGPRINT(RT_DEBUG_OFF, ("fw for E2 IC\n"));
 		} else {
 			DBGPRINT(RT_DEBUG_OFF, ("fw do not match IC version\n"));
 			mac_value = mt7612u_read32(ad, 0x0);
@@ -733,6 +733,7 @@ loadfw_protect:
 	/* Loading ILM */
 	while (1) {
 		s32 sent_len_max = UPLOAD_FW_UNIT - sizeof(*tx_info) - USB_END_PADDING;
+
 		sent_len = (ilm_len - cur_len) >=  sent_len_max ? sent_len_max : (ilm_len - cur_len);
 
 		if (sent_len > 0) {
@@ -838,13 +839,13 @@ loadfw_protect:
 				goto error2;
 			}
 
-			DBGPRINT(RT_DEBUG_INFO, ("%s: submit urb, sent_len = %d, ilm_ilm = %d, cur_len = %d\n", __FUNCTION__, sent_len, ilm_len, cur_len));
+			DBGPRINT(RT_DEBUG_INFO, ("%s: submit urb, sent_len = %d, ilm_ilm = %d, cur_len = %d\n", __func__, sent_len, ilm_len, cur_len));
 
 			if (!wait_for_completion_timeout(&load_fw_done, RTMPMsecsToJiffies(UPLOAD_FW_TIMEOUT))) {
 				usb_kill_urb(urb);
 				ret = NDIS_STATUS_FAILURE;
 				DBGPRINT(RT_DEBUG_ERROR, ("upload fw timeout(%dms)\n", UPLOAD_FW_TIMEOUT));
-				DBGPRINT(RT_DEBUG_ERROR, ("%s: submit urb, sent_len = %d, ilm_ilm = %d, cur_len = %d\n", __FUNCTION__, sent_len, ilm_len, cur_len));
+				DBGPRINT(RT_DEBUG_ERROR, ("%s: submit urb, sent_len = %d, ilm_ilm = %d, cur_len = %d\n", __func__, sent_len, ilm_len, cur_len));
 
 				goto error2;
 			}
@@ -869,8 +870,9 @@ loadfw_protect:
 	/* Loading DLM */
 	while (1) {
 		s32 sent_len_max = UPLOAD_FW_UNIT - sizeof(*tx_info) - USB_END_PADDING;
-		sent_len = (dlm_len - cur_len) >= sent_len_max ? sent_len_max : (dlm_len - cur_len);
 
+		sent_len = ((dlm_len - cur_len) >= sent_len_max) ?
+				sent_len_max : (dlm_len - cur_len);
 		if (sent_len > 0) {
 			tx_info = (TXINFO_NMAC_CMD *)fw_data;
 			tx_info->info_type = CMD_PACKET;
@@ -977,13 +979,13 @@ loadfw_protect:
 				goto error2;
 			}
 
-			DBGPRINT(RT_DEBUG_INFO, ("%s: submit urb, sent_len = %d, dlm_len = %d, cur_len = %d\n", __FUNCTION__, sent_len, dlm_len, cur_len));
+			DBGPRINT(RT_DEBUG_INFO, ("%s: submit urb, sent_len = %d, dlm_len = %d, cur_len = %d\n", __func__, sent_len, dlm_len, cur_len));
 
 			if (!wait_for_completion_timeout(&load_fw_done, RTMPMsecsToJiffies(UPLOAD_FW_TIMEOUT))) {
 				usb_kill_urb(urb);
 				ret = NDIS_STATUS_FAILURE;
 				DBGPRINT(RT_DEBUG_ERROR, ("upload fw timeout(%dms)\n", UPLOAD_FW_TIMEOUT));
-				DBGPRINT(RT_DEBUG_INFO, ("%s: submit urb, sent_len = %d, dlm_len = %d, cur_len = %d\n", __FUNCTION__, sent_len, dlm_len, cur_len));
+				DBGPRINT(RT_DEBUG_INFO, ("%s: submit urb, sent_len = %d, dlm_len = %d, cur_len = %d\n", __func__, sent_len, dlm_len, cur_len));
 
 				goto error2;
 			}
@@ -1013,7 +1015,7 @@ loadfw_protect:
 		loop++;
 	} while (loop <= 100);
 
-	DBGPRINT(RT_DEBUG_TRACE, ("%s: COM_REG0(0x%x) = 0x%x\n", __FUNCTION__, COM_REG0, mac_value));
+	DBGPRINT(RT_DEBUG_TRACE, ("%s: COM_REG0(0x%x) = 0x%x\n", __func__, COM_REG0, mac_value));
 
 	mac_value = mt7612u_read32(ad, COM_REG0);
 	mac_value |= (1 << 1);
@@ -1099,12 +1101,11 @@ static void mt7612u_mcu_init_cmd_msg(struct cmd_msg *msg, enum mcu_cmd_type type
 	MSG_RSP_HANDLER rsp_handler = NULL;
 
 	msg->type = type;
-	msg->need_wait= need_wait;
+	msg->need_wait = need_wait;
 	msg->timeout = timeout;
 
-	if (need_wait) {
+	if (need_wait)
 		init_completion(&msg->ack_done);
-	}
 
 	msg->need_retransmit = need_retransmit;
 
@@ -1155,7 +1156,7 @@ static spinlock_t *mt7612u_mcu_get_spin_lock(struct mt7612u_mcu_ctrl  *ctl, DL_L
 	else if (list == &ctl->rx_doneq)
 		lock = &ctl->rx_doneq_lock;
 	else
-		DBGPRINT(RT_DEBUG_ERROR, ("%s:illegal list\n", __FUNCTION__));
+		DBGPRINT(RT_DEBUG_ERROR, ("%s:illegal list\n", __func__));
 
 	return lock;
 }
@@ -1299,13 +1300,13 @@ void mt7612u_mcu_rx_process_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *rx_
 #endif
 
 	DBGPRINT(RT_DEBUG_INFO, ("(andex_rx_cmd)info_type=%d,evt_type=%d,d_port=%d,"
-                                "qsel=%d,pcie_intr=%d,cmd_seq=%d,"
-                                "self_gen=%d,pkt_len=%d\n",
-                                rx_info->info_type, rx_info->evt_type,rx_info->d_port,
-                                rx_info->qsel, rx_info->pcie_intr, rx_info->cmd_seq,
-                                rx_info->self_gen, rx_info->pkt_len));
+				 "qsel=%d,pcie_intr=%d,cmd_seq=%d,"
+				 "self_gen=%d,pkt_len=%d\n",
+				 rx_info->info_type, rx_info->evt_type, rx_info->d_port,
+				 rx_info->qsel, rx_info->pcie_intr, rx_info->cmd_seq,
+				 rx_info->self_gen, rx_info->pkt_len));
 
-	if ((rx_info->info_type != CMD_PACKET)) {
+	if (rx_info->info_type != CMD_PACKET) {
 		DBGPRINT(RT_DEBUG_ERROR, ("packet is not command response/self event\n"));
 		return;
 	}
@@ -1322,22 +1323,21 @@ void mt7612u_mcu_rx_process_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *rx_
 				_mt7612u_mcu_unlink_cmd_msg(msg, &ctl->ackq);
 				spin_unlock_irq(&ctl->ackq_lock);
 
-
 				if ((msg->rsp_payload_len == rx_info->pkt_len) &&
 				    (msg->rsp_payload_len != 0)) {
 					msg->rsp_handler(msg, net_pkt->data + sizeof(*rx_info), rx_info->pkt_len);
 				} else if ((msg->rsp_payload_len == 0) && (rx_info->pkt_len == 8)) {
 					DBGPRINT(RT_DEBUG_INFO, ("command response(ack) success\n"));
-				} else 	{
+				} else {
 					DBGPRINT(RT_DEBUG_ERROR, ("expect response len(%d), command response len(%d) invalid\n", msg->rsp_payload_len, rx_info->pkt_len));
 					msg->rsp_payload_len = rx_info->pkt_len;
 				}
 
-				if (msg->need_wait) {
+				if (msg->need_wait)
 					complete(&msg->ack_done);
-				} else {
+				else
 					mt7612u_mcu_free_cmd_msg(msg);
-				}
+
 				spin_lock_irq(&ctl->ackq_lock);
 
 				break;
@@ -1383,9 +1383,8 @@ static void usb_rx_cmd_msg_complete(PURB urb)
 	if (OS_TEST_BIT(MCU_INIT, &ctl->flags)) {
 		msg = mt7612u_mcu_alloc_cmd_msg(ad, 512);
 
-		if (!msg) {
+		if (!msg)
 			return;
-		}
 
 		net_pkt = msg->net_pkt;
 
@@ -1402,7 +1401,7 @@ static void usb_rx_cmd_msg_complete(PURB urb)
 			if (OS_TEST_BIT(MCU_INIT, &ctl->flags))
 				ctl->rx_receive_fail_count++;
 
-			DBGPRINT(RT_DEBUG_ERROR, ("%s:submit urb fail(%d)\n", __FUNCTION__, ret));
+			DBGPRINT(RT_DEBUG_ERROR, ("%s:submit urb fail(%d)\n", __func__, ret));
 			mt7612u_mcu_queue_tail_cmd_msg(&ctl->rx_doneq, msg, RX_RECEIVE_FAIL);
 		}
 
@@ -1445,7 +1444,7 @@ int usb_rx_cmd_msg_submit(struct rtmp_adapter *ad)
 		if (OS_TEST_BIT(MCU_INIT, &ctl->flags))
 			ctl->rx_receive_fail_count++;
 
-		DBGPRINT(RT_DEBUG_ERROR, ("%s:submit urb fail(%d)\n", __FUNCTION__, ret));
+		DBGPRINT(RT_DEBUG_ERROR, ("%s:submit urb fail(%d)\n", __func__, ret));
 		mt7612u_mcu_queue_tail_cmd_msg(&ctl->rx_doneq, msg, RX_RECEIVE_FAIL);
 	}
 
@@ -1600,7 +1599,7 @@ int usb_kick_out_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *msg)
 			complete(&msg->ack_done);
 		}
 
-		DBGPRINT(RT_DEBUG_ERROR, ("%s:submit urb fail(%d)\n", __FUNCTION__, ret));
+		DBGPRINT(RT_DEBUG_ERROR, ("%s:submit urb fail(%d)\n", __func__, ret));
 	}
 
 	return ret;
@@ -1684,9 +1683,8 @@ void mt7612u_mcu_ctrl_init(struct rtmp_adapter *ad)
 {
 	struct mt7612u_mcu_ctrl  *ctl = &ad->MCUCtrl;
 
-	if (!OS_TEST_BIT(MCU_INIT, &ctl->flags)) {
+	if (!OS_TEST_BIT(MCU_INIT, &ctl->flags))
 		mt7612u_mcu_ctrl_usb_init(ad);
-	}
 
 	ctl->power_on = false;
 	ctl->dpd_on = false;
@@ -1722,9 +1720,8 @@ void mt7612u_mcu_ctrl_exit(struct rtmp_adapter *ad)
 {
 	struct mt7612u_mcu_ctrl  *ctl = &ad->MCUCtrl;
 
-	if (OS_TEST_BIT(MCU_INIT, &ctl->flags)) {
+	if (OS_TEST_BIT(MCU_INIT, &ctl->flags))
 		mt7612u_mcu_ctrl_usb_exit(ad);
-	}
 
 	ctl->power_on = false;
 	ctl->dpd_on = false;
@@ -1777,7 +1774,6 @@ static int mt7612u_mcu_dequeue_and_kick_out_cmd_msgs(struct rtmp_adapter *ad)
 
 		ret = usb_kick_out_cmd_msg(ad, msg);
 
-
 		if (ret) {
 			DBGPRINT(RT_DEBUG_ERROR, ("kick out msg fail\n"));
 			break;
@@ -1793,6 +1789,7 @@ static int mt7612u_mcu_wait_for_complete_timeout(struct cmd_msg *msg, long timeo
 {
 	int ret = 0;
 	long expire;
+
 	expire = timeout ? RTMPMsecsToJiffies(timeout) : RTMPMsecsToJiffies(CMD_MSG_TIMEOUT);
 
 	ret = wait_for_completion_timeout(&msg->ack_done, expire);
@@ -1805,7 +1802,6 @@ int mt7612u_mcu_send_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *msg)
 	struct mt7612u_mcu_ctrl  *ctl = &ad->MCUCtrl;
 	int ret = 0;
 	bool need_wait = msg->need_wait;
-
 
 	ret = down_interruptible(&(ad->mcu_atomic));
 
@@ -1826,15 +1822,15 @@ retransmit:
 	/* Wait for response */
 	if (need_wait) {
 		enum cmd_msg_state state;
+
 		if (!mt7612u_mcu_wait_for_complete_timeout(msg, msg->timeout)) {
 			ret = NDIS_STATUS_FAILURE;
 			DBGPRINT(RT_DEBUG_ERROR, ("command (%d) timeout(%dms)\n", msg->type, CMD_MSG_TIMEOUT));
 			if (OS_TEST_BIT(MCU_INIT, &ctl->flags)) {
-				if (msg->state == WAIT_CMD_OUT_AND_ACK) {
+				if (msg->state == WAIT_CMD_OUT_AND_ACK)
 					usb_kill_urb(msg->urb);
-				} else if (msg->state == WAIT_ACK) {
+				else if (msg->state == WAIT_ACK)
 					mt7612u_mcu_unlink_cmd_msg(msg, &ctl->ackq);
-				}
 			}
 
 			if (OS_TEST_BIT(MCU_INIT, &ctl->flags))
@@ -1870,7 +1866,6 @@ retransmit:
 
 	up(&(ad->mcu_atomic));
 
-
 	return ret;
 }
 
@@ -1901,8 +1896,7 @@ static void mt7612u_mcu_dfs_detect_event_handler(struct rtmp_adapter *ad, char *
 
 }
 
-MSG_EVENT_HANDLER msg_event_handler_tb[] =
-{
+MSG_EVENT_HANDLER msg_event_handler_tb[] = {
 	mt7612u_mcu_pwr_event_handler,
 	mt7612u_mcu_wow_event_handler,
 	mt7612u_mcu_carrier_detect_event_handler,
@@ -1922,10 +1916,11 @@ int mt7612u_mcu_random_write(struct rtmp_adapter *ad, struct rtmp_reg_pair *reg_
 		return -1;
 
 	while (cur_len < var_len) {
-		sent_len = (var_len - cur_len) > cap->InbandPacketMaxLen
-									? cap->InbandPacketMaxLen : (var_len - cur_len);
+		sent_len = ((var_len - cur_len) > cap->InbandPacketMaxLen) ?
+				cap->InbandPacketMaxLen : (var_len - cur_len);
 
-		if ((sent_len < cap->InbandPacketMaxLen) || (cur_len + cap->InbandPacketMaxLen) == var_len)
+		if ((sent_len < cap->InbandPacketMaxLen) ||
+		    (cur_len + cap->InbandPacketMaxLen) == var_len)
 			last_packet = true;
 
 		msg = mt7612u_mcu_alloc_cmd_msg(ad, sent_len);
@@ -1951,7 +1946,6 @@ int mt7612u_mcu_random_write(struct rtmp_adapter *ad, struct rtmp_reg_pair *reg_
 		};
 
 		ret = mt7612u_mcu_send_cmd_msg(ad, msg);
-
 
 		cur_index += (sent_len / 8);
 		cur_len += cap->InbandPacketMaxLen;
@@ -2033,16 +2027,15 @@ void mt7612u_mcu_calibration(struct rtmp_adapter *ad, enum mt7612u_mcu_calibrati
 	struct cmd_msg *msg;
 	u32 value;
 
-	DBGPRINT(RT_DEBUG_INFO, ("%s:cal_id(%d)\n ", __FUNCTION__, cal_id));
+	DBGPRINT(RT_DEBUG_INFO, ("%s:cal_id(%d)\n ", __func__, cal_id));
 
 
 	/* Calibration ID and Parameter */
 
 	msg = mt7612u_mcu_alloc_cmd_msg(ad, 8);
 
-	if (!msg) {
+	if (!msg)
 		return;
-	}
 
 	mt7612u_mcu_init_cmd_msg(msg, CMD_CALIBRATION_OP, true, 0, true, true);
 
@@ -2062,15 +2055,14 @@ void mt7612u_mcu_tssi_comp(struct rtmp_adapter *ad, struct mt7612u_tssi_comp *pa
 	struct cmd_msg *msg;
 	u32 value;
 
-	DBGPRINT(RT_DEBUG_INFO, ("%s:cal_id(%d)\n ", __FUNCTION__, TSSI_COMPENSATION_7662));
+	DBGPRINT(RT_DEBUG_INFO, ("%s:cal_id(%d)\n ", __func__, TSSI_COMPENSATION_7662));
 
 
 	/* Calibration ID and Parameter */
 	msg = mt7612u_mcu_alloc_cmd_msg(ad, 12);
 
-	if (!msg) {
+	if (!msg)
 		return;
-	}
 
 	mt7612u_mcu_init_cmd_msg(msg, CMD_CALIBRATION_OP, true, 0, true, true);
 
@@ -2096,7 +2088,7 @@ int mt7612u_mcu_load_cr(struct rtmp_adapter *ad, u32 cr_type, UINT8 temp_level, 
 	u32 value = 0;
 	int ret = 0;
 
-	DBGPRINT(RT_DEBUG_OFF, ("%s:cr_type(%d) temp_level(%d) channel(%d)\n", __FUNCTION__, cr_type, temp_level, channel));
+	DBGPRINT(RT_DEBUG_OFF, ("%s:cr_type(%d) temp_level(%d) channel(%d)\n", __func__, cr_type, temp_level, channel));
 
 	msg = mt7612u_mcu_alloc_cmd_msg(ad, 8);
 
@@ -2120,13 +2112,13 @@ int mt7612u_mcu_load_cr(struct rtmp_adapter *ad, u32 cr_type, UINT8 temp_level, 
 	}
 
 	value = cpu2le32(value);
-	mt7612u_mcu_append_cmd_msg(msg, (char *)&value, 4);
+	mt7612u_mcu_append_cmd_msg(msg, (char *) &value, 4);
 
 	value = 0x80000000;
 	value |= ((ad->EEPROMDefaultValue[EEPROM_NIC_CFG1_OFFSET] >> 8) & 0xFF);
-	value |= ((ad->EEPROMDefaultValue[EEPROM_NIC_CFG2_OFFSET] & 0xFF) << 8 );
+	value |= ((ad->EEPROMDefaultValue[EEPROM_NIC_CFG2_OFFSET] & 0xFF) << 8);
 	value = cpu2le32(value);
-	mt7612u_mcu_append_cmd_msg(msg, (char *)&value, 4);
+	mt7612u_mcu_append_cmd_msg(msg, (char *) &value, 4);
 
 	ret = mt7612u_mcu_send_cmd_msg(ad, msg);
 
@@ -2142,7 +2134,7 @@ int mt7612u_mcu_switch_channel(struct rtmp_adapter *ad, u8 channel,
 	u32 value = 0;
 	int ret;
 
-	DBGPRINT(RT_DEBUG_INFO, ("%s:channel(%d),scan(%d),bw(%d),trx(0x%x)\n", __FUNCTION__, channel, scan, bw, tx_rx_setting));
+	DBGPRINT(RT_DEBUG_INFO, ("%s:channel(%d),scan(%d),bw(%d),trx(0x%x)\n", __func__, channel, scan, bw, tx_rx_setting));
 
 	msg = mt7612u_mcu_alloc_cmd_msg(ad, 8);
 
@@ -2223,7 +2215,7 @@ int mt7612u_mcu_init_gain(struct rtmp_adapter *ad, UINT8 channel, bool force_mod
 	int ret = 0;
 
 	DBGPRINT(RT_DEBUG_INFO, ("%s:channel(%d), force mode(%d), init gain parameter(0x%08x)\n",
-		__FUNCTION__, channel, force_mode, gain_from_e2p));
+		__func__, channel, force_mode, gain_from_e2p));
 
 	msg = mt7612u_mcu_alloc_cmd_msg(ad, 8);
 
@@ -2260,7 +2252,7 @@ int mt7612u_mcu_dynamic_vga(struct rtmp_adapter *ad, UINT8 channel, bool mode, b
 	int rssi_val = 0, ret = 0;
 
 	DBGPRINT(RT_DEBUG_INFO, ("%s:channel(%d), ap/sta mode(%d), extension(%d), rssi(%d), false cca count(%d)\n",
-		__FUNCTION__, channel, mode, ext, rssi, false_cca));
+		__func__, channel, mode, ext, rssi, false_cca));
 
 	msg = mt7612u_mcu_alloc_cmd_msg(ad, 8);
 
@@ -2303,7 +2295,7 @@ int mt7612u_mcu_led_op(struct rtmp_adapter *ad, u32 led_idx, u32 link_status)
 	int ret = 0;
 
 	DBGPRINT(RT_DEBUG_INFO, ("%s:led_idx(%d), link_status(%d)\n ",
-		__FUNCTION__, led_idx, link_status));
+		__func__, led_idx, link_status));
 
 	msg = mt7612u_mcu_alloc_cmd_msg(ad, 8);
 
@@ -2332,7 +2324,7 @@ error:
 
 void mt7612u_mcu_usb_fw_init(struct rtmp_adapter *ad)
 {
-	DBGPRINT(RT_DEBUG_OFF, ("%s\n", __FUNCTION__));
+	DBGPRINT(RT_DEBUG_OFF, ("%s\n", __func__));
 
 	mt7612u_write32(ad, HEADER_TRANS_CTRL_REG, 0x0);
 	mt7612u_write32(ad, TSO_CTRL, 0x0);
