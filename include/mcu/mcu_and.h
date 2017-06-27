@@ -173,7 +173,7 @@ struct cmd_msg {
 	MSG_RSP_HANDLER rsp_handler;
 	enum cmd_msg_state state;
 	void *priv;
-	struct sk_buff *net_pkt;
+	struct sk_buff *skb;
 	PURB urb;
 	int retransmit_times;
 };
