@@ -187,7 +187,7 @@ static void usb_upload_rom_patch_complete(struct urb *urb)
 
 int mt7612u_mcu_usb_load_rom_patch(struct rtmp_adapter *ad)
 {
-	PURB urb;
+	struct urb *urb;
 	struct usb_device *udev = ad->OS_Cookie->pUsb_Dev;
 	ra_dma_addr_t rom_patch_dma;
 	u8 *rom_patch_data;
@@ -587,7 +587,7 @@ static int usb_load_ivb(struct rtmp_adapter *ad, u8 *fw_image)
 
 int mt7612u_mcu_usb_loadfw(struct rtmp_adapter *ad)
 {
-	PURB urb;
+	struct urb *urb;
 	struct usb_device *udev = ad->OS_Cookie->pUsb_Dev;
 	ra_dma_addr_t fw_dma;
 	u8 *fw_data;
@@ -1048,7 +1048,7 @@ struct cmd_msg *mt7612u_mcu_alloc_cmd_msg(struct rtmp_adapter *ad, unsigned int 
 	struct rtmp_chip_cap *cap = &ad->chipCap;
 	struct mt7612u_mcu_ctrl  *ctl = &ad->MCUCtrl;
 	struct sk_buff *skb = NULL;
-	PURB urb = NULL;
+	struct urb *urb = NULL;
 
 	skb = dev_alloc_skb(cap->cmd_header_len + length + cap->cmd_padding_len);
 
@@ -1350,7 +1350,7 @@ void mt7612u_mcu_rx_process_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *rx_
 }
 
 
-static void usb_rx_cmd_msg_complete(PURB urb)
+static void usb_rx_cmd_msg_complete(struct urb *urb)
 {
 	struct sk_buff *skb = urb->context;
 	struct cmd_msg *msg = CMD_MSG_CB(skb)->msg;
@@ -1518,7 +1518,7 @@ void mt7612u_mcu_bh_schedule(struct rtmp_adapter *ad)
 }
 
 
-static void usb_kick_out_cmd_msg_complete(PURB urb)
+static void usb_kick_out_cmd_msg_complete(struct urb *urb)
 {
 	struct sk_buff *skb = urb->context;
 	struct cmd_msg *msg = CMD_MSG_CB(skb)->msg;

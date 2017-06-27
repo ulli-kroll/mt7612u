@@ -174,7 +174,7 @@ struct cmd_msg {
 	enum cmd_msg_state state;
 	void *priv;
 	struct sk_buff *skb;
-	PURB urb;
+	struct urb *urb;
 	int retransmit_times;
 };
 

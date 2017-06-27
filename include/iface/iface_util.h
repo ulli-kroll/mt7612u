@@ -58,8 +58,6 @@
 
 #define UNLINK_TIMEOUT_MS		3
 
-#define PURB			purbb_t
-
 #define OS_RTMP_MlmeUp					RtmpOsMlmeUp
 
 #endif /* __RTMP_UTIL_H__ */

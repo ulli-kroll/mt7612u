@@ -349,7 +349,7 @@ int NICInitTransmit(struct rtmp_adapter *pAd)
 	PVOID			RingBaseVa;
 	RTMP_MGMT_RING  *pMgmtRing;
 	PVOID pTransferBuffer;
-	PURB	pUrb;
+	struct urb *pUrb;
 	ra_dma_addr_t data_dma;
 	struct usb_device *udev =  pAd->OS_Cookie->pUsb_Dev;
 

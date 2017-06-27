@@ -90,7 +90,6 @@
 #define MT7662U_FIRMWARE_PATCH_NAME	"mt7662u_rom_patch.bin"
 
 typedef struct usb_device	*PUSB_DEV;
-typedef struct urb *purbb_t;
 typedef struct usb_ctrlrequest devctrlrequest;
 
 /***********************************************************************************
@@ -760,13 +759,13 @@ typedef void USBHST_STATUS;
 typedef int32_t URBCompleteStatus;
 typedef struct pt_regs pregs;
 
-USBHST_STATUS RTUSBBulkOutDataPacketComplete(URBCompleteStatus Status, purbb_t pURB, pregs *pt_regs);
-USBHST_STATUS RTUSBBulkOutMLMEPacketComplete(URBCompleteStatus Status, purbb_t pURB, pregs *pt_regs);
-USBHST_STATUS RTUSBBulkOutNullFrameComplete(URBCompleteStatus Status, purbb_t pURB, pregs *pt_regs);
-USBHST_STATUS RTUSBBulkOutRTSFrameComplete(URBCompleteStatus Status, purbb_t pURB, pregs *pt_regs);
-USBHST_STATUS RTUSBBulkOutPsPollComplete(URBCompleteStatus Status, purbb_t pURB, pregs *pt_regs);
-USBHST_STATUS RTUSBBulkRxComplete(URBCompleteStatus Status, purbb_t pURB, pregs *pt_regs);
-USBHST_STATUS RTUSBBulkCmdRspEventComplete(URBCompleteStatus Status, purbb_t pURB, pregs *pt_regs);
+USBHST_STATUS RTUSBBulkOutDataPacketComplete(URBCompleteStatus Status, struct urb *pURB, pregs *pt_regs);
+USBHST_STATUS RTUSBBulkOutMLMEPacketComplete(URBCompleteStatus Status, struct urb *pURB, pregs *pt_regs);
+USBHST_STATUS RTUSBBulkOutNullFrameComplete(URBCompleteStatus Status, struct urb *pURB, pregs *pt_regs);
+USBHST_STATUS RTUSBBulkOutRTSFrameComplete(URBCompleteStatus Status, struct urb *pURB, pregs *pt_regs);
+USBHST_STATUS RTUSBBulkOutPsPollComplete(URBCompleteStatus Status, struct urb *pURB, pregs *pt_regs);
+USBHST_STATUS RTUSBBulkRxComplete(URBCompleteStatus Status, struct urb *pURB, pregs *pt_regs);
+USBHST_STATUS RTUSBBulkCmdRspEventComplete(URBCompleteStatus Status, struct urb *pURB, pregs *pt_regs);
 
 /* Fill Bulk URB Macro */
 
