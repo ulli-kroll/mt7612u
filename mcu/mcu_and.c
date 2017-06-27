@@ -1453,11 +1453,16 @@ int usb_rx_cmd_msg_submit(struct rtmp_adapter *ad)
 
 int usb_rx_cmd_msgs_receive(struct rtmp_adapter *ad)
 {
+	bool tmp;
 	int ret = 0;
 	int i;
 	struct mt7612u_mcu_ctrl  *ctl = &ad->MCUCtrl;
 
-	for (i = 0; (i < 1) && mt7612u_mcu_queue_empty(ctl, &ctl->rxq); i++) {
+	for (i = 0; i < 1; i++) {
+		tmp = mt7612u_mcu_queue_empty(ctl, &ctl->rx_doneq);
+		if (!tmp)
+			break;
+
 		ret = usb_rx_cmd_msg_submit(ad);
 		if (ret)
 			break;
@@ -1472,7 +1477,11 @@ void mt7612u_mcu_cmd_msg_bh(unsigned long param)
 	struct mt7612u_mcu_ctrl  *ctl = &ad->MCUCtrl;
 	struct cmd_msg *msg = NULL;
 
-	while ((msg = mt7612u_mcu_dequeue_cmd_msg(ctl, &ctl->rx_doneq))) {
+	while (1) {
+		msg = mt7612u_mcu_dequeue_cmd_msg(ctl, &ctl->rx_doneq);
+		if (!msg)
+			break;
+
 		switch (msg->state) {
 		case RX_DONE:
 			mt7612u_mcu_rx_process_cmd_msg(ad, msg);
@@ -1486,7 +1495,11 @@ void mt7612u_mcu_cmd_msg_bh(unsigned long param)
 		}
 	}
 
-	while ((msg = mt7612u_mcu_dequeue_cmd_msg(ctl, &ctl->tx_doneq))) {
+	while (1) {
+		msg = mt7612u_mcu_dequeue_cmd_msg(ctl, &ctl->tx_doneq);
+		if (!msg)
+			break;
+
 		switch (msg->state) {
 		case TX_DONE:
 		case TX_KICKOUT_FAIL:
@@ -1506,12 +1519,14 @@ void mt7612u_mcu_cmd_msg_bh(unsigned long param)
 
 void mt7612u_mcu_bh_schedule(struct rtmp_adapter *ad)
 {
+	bool tmp;
 	struct mt7612u_mcu_ctrl  *ctl = &ad->MCUCtrl;
 
 	if (!OS_TEST_BIT(MCU_INIT, &ctl->flags))
 		return;
 
-	if (!mt7612u_mcu_queue_empty(ctl, &ctl->rx_doneq) > 0) {
+	tmp = mt7612u_mcu_queue_empty(ctl, &ctl->rx_doneq);
+	if (!tmp) {
 		RTMP_NET_TASK_DATA_ASSIGN(&ctl->cmd_msg_task, (unsigned long)(ad));
 		RTMP_OS_TASKLET_SCHE(&ctl->cmd_msg_task);
 	}
@@ -1735,7 +1750,12 @@ static int mt7612u_mcu_dequeue_and_kick_out_cmd_msgs(struct rtmp_adapter *ad)
 	int ret = NDIS_STATUS_SUCCESS;
 	TXINFO_NMAC_CMD *tx_info;
 
-	while ((msg = mt7612u_mcu_dequeue_cmd_msg(ctl, &ctl->txq)) != NULL) {
+	while (1) {
+		bool tmp;
+
+		msg = mt7612u_mcu_dequeue_cmd_msg(ctl, &ctl->txq);
+		if (!msg)
+			break;
 		if (!RTMP_TEST_FLAG(ad, fRTMP_ADAPTER_MCU_SEND_IN_BAND_CMD) ||
 		    RTMP_TEST_FLAG(ad, fRTMP_ADAPTER_NIC_NOT_EXIST) ||
 		    RTMP_TEST_FLAG(ad, fRTMP_ADAPTER_SUSPEND)) {
@@ -1744,7 +1764,8 @@ static int mt7612u_mcu_dequeue_and_kick_out_cmd_msgs(struct rtmp_adapter *ad)
 			continue;
 		}
 
-		if (!mt7612u_mcu_queue_empty(ctl, &ctl->ackq)) {
+		tmp = mt7612u_mcu_queue_empty(ctl, &ctl->ackq);
+		if (!tmp) {
 			mt7612u_mcu_queue_head_cmd_msg(&ctl->txq, msg, msg->state);
 			ret = NDIS_STATUS_FAILURE;
 			continue;
