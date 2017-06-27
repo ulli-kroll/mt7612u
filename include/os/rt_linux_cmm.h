@@ -129,21 +129,12 @@ typedef struct _OS_RSTRUC  {
 #define RTMP_NET_TASK_STRUCT		OS_NET_TASK_STRUCT
 #define PRTMP_NET_TASK_STRUCT		POS_NET_TASK_STRUCT
 
-#ifdef WORKQUEUE_BH
-#define RTMP_OS_TASKLET_SCHE(__pTasklet)							\
-		schedule_work(__pTasklet)
-#define RTMP_OS_TASKLET_INIT(__pAd, __pTasklet, __pFunc, __Data)	\
-		INIT_WORK((struct work_struct *)__pTasklet, (work_func_t)__pFunc)
-#define RTMP_OS_TASKLET_KILL(__pTasklet) \
-		cancel_work_sync(__pTasklet)
-#else
 #define RTMP_OS_TASKLET_SCHE(__pTasklet)							\
 		tasklet_hi_schedule(__pTasklet)
 #define RTMP_OS_TASKLET_INIT(__pAd, __pTasklet, __pFunc, __Data)	\
 		tasklet_init(__pTasklet, __pFunc, __Data)
 #define RTMP_OS_TASKLET_KILL(__pTasklet)							\
 		tasklet_kill(__pTasklet)
-#endif /* WORKQUEUE_BH */
 
 #define RTMP_NET_TASK_DATA_ASSIGN(__Tasklet, __Data)		\
 	(__Tasklet)->data = (unsigned long)__Data
