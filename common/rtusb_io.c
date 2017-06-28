@@ -104,7 +104,7 @@ int RTUSBSingleWrite(
 {
 	bool WriteHigh = false;
 
-	return RTUSB_VendorRequest(pAd, DEVICE_VENDOR_REQUEST_OUT,
+	return mt7612u_vendor_request(pAd, DEVICE_VENDOR_REQUEST_OUT,
 				   MT7612U_VENDOR_SINGLE_WRITE,	Value, Offset, NULL, 0);
 }
 
@@ -129,7 +129,7 @@ u32 mt7612u_read32(struct rtmp_adapter *pAd, unsigned short Offset)
 	int Status = 0;
 	u32 val;
 
-	Status = RTUSB_VendorRequest(pAd, DEVICE_VENDOR_REQUEST_IN,
+	Status = mt7612u_vendor_request(pAd, DEVICE_VENDOR_REQUEST_IN,
 				     MT7612U_VENDOR_READ_MAC, 0, Offset,
 				     &val, 4);
 
@@ -161,7 +161,7 @@ void mt7612u_write32(struct rtmp_adapter *pAd, unsigned short Offset,
 	u32 val = cpu2le32(_val);
 
 
-	RTUSB_VendorRequest(pAd, DEVICE_VENDOR_REQUEST_OUT,
+	mt7612u_vendor_request(pAd, DEVICE_VENDOR_REQUEST_OUT,
 			     MT7612U_VENDOR_WRITE_MAC, 0, Offset,
 			     &val, 4);
 }
@@ -189,7 +189,7 @@ int mt7612u_cfg3_write(struct rtmp_adapter *ad, uint16_t offset, uint32_t val)
 
 	io_value = cpu2le32(val);
 
-	ret = RTUSB_VendorRequest(ad, DEVICE_VENDOR_REQUEST_OUT,
+	ret = mt7612u_vendor_request(ad, DEVICE_VENDOR_REQUEST_OUT,
 				  MT7612U_VENDOR_CFG_WRITE, 0, offset,
 				  &io_value, 4);
 
@@ -221,7 +221,7 @@ u32 mt7612u_cfg3_read(struct rtmp_adapter *ad, uint16_t offset)
 
 	req = 0x47;
 #endif
-	ret = RTUSB_VendorRequest(ad, DEVICE_VENDOR_REQUEST_IN,
+	ret = mt7612u_vendor_request(ad, DEVICE_VENDOR_REQUEST_IN,
 				  MT7612U_VENDOR_CFG_READ, 0, offset,
 				  &val, 4);
 
@@ -267,7 +267,7 @@ u16 mt7612u_read_eeprom16(struct rtmp_adapter *pAd, unsigned short offset)
 {
 	u16 val = 0;
 
-	RTUSB_VendorRequest(pAd, DEVICE_VENDOR_REQUEST_IN,
+	mt7612u_vendor_request(pAd, DEVICE_VENDOR_REQUEST_IN,
 				   MT7612U_VENDOR_READ_EEPROM, 0, offset, &val, 2);
 
 	return le2cpu16(val);
@@ -290,14 +290,14 @@ u16 mt7612u_read_eeprom16(struct rtmp_adapter *pAd, unsigned short offset)
 */
 int RTUSBWakeUp(struct rtmp_adapter *pAd)
 {
-	return RTUSB_VendorRequest(pAd, DEVICE_VENDOR_REQUEST_OUT,
+	return mt7612u_vendor_request(pAd, DEVICE_VENDOR_REQUEST_OUT,
 				   MT7612U_VENDOR_DEVICE_MODE, 0x09, 0, NULL, 0);
 }
 
 /*
     ========================================================================
  	Routine Description:
-		RTUSB_VendorRequest - Builds a ralink specific request, sends it off to USB endpoint zero and waits for completion
+		mt7612u_vendor_request - Builds a ralink specific request, sends it off to USB endpoint zero and waits for completion
 
 	Arguments:
 		@pAd:
@@ -322,21 +322,34 @@ int RTUSBWakeUp(struct rtmp_adapter *pAd)
 		otherwise system will hang, do be careful.
 
 		TransferBuffer may located in stack region which may not in DMA'able region in some embedded platforms,
-		so need to copy TransferBuffer to UsbVendorReqBuf allocated by kmalloc to do DMA transfer.
+		so need to copy TransferBuffer to vend_buf allocated by kmalloc to do DMA transfer.
 		Use UsbVendorReq_semaphore to protect this region which may be accessed by multi task.
-		Normally, coherent issue is resloved by low-level HC driver, so do not flush this zone by RTUSB_VendorRequest.
+		Normally, coherent issue is resloved by low-level HC driver, so do not flush this zone by mt7612u_vendor_request.
 
 	========================================================================
 */
-int RTUSB_VendorRequest(struct rtmp_adapter *pAd, u8 RequestType, u8 Request,
-			u16 Value, u16 Index, void *TransferBuffer,
-			u32 TransferBufferLength)
+
+/*
+ * ULLI : on mt7612u we have three different request type
+ *
+ * DEVICE_VENDOR_REQUEST_OUT   	0x40
+ * DEVICE_VENDOR_REQUEST_IN    	0xc0
+ * DEVICE_CLASS_REQUEST_OUT	0x20
+ *
+ * the latter one controls the rom patch command and usb reset !!
+ * if we remove DEVICE_CLASS_REQUEST_OUT request type the device becomes unusable
+ *
+ */
+
+
+int mt7612u_vendor_request(struct rtmp_adapter *pAd, u8 requesttype, u8 request,
+			u16 value, u16 index, void *data, u16 size)
 {
 	int ret = 0;
 	struct usb_device *udev = pAd->OS_Cookie->pUsb_Dev;
 
 	if(in_interrupt()) {
-		DBGPRINT(RT_DEBUG_ERROR, ("BUG: RTUSB_VendorRequest is called from invalid context\n"));
+		DBGPRINT(RT_DEBUG_ERROR, ("BUG: mt7612u_vendor_request is called from invalid context\n"));
 		return NDIS_STATUS_FAILURE;
 	}
 
@@ -348,7 +361,7 @@ int RTUSB_VendorRequest(struct rtmp_adapter *pAd, u8 RequestType, u8 Request,
 		return NDIS_STATUS_FAILURE;
 	} else {
 		int RetryCount = 0; /* RTUSB_CONTROL_MSG retry counts*/
-		ASSERT(TransferBufferLength <MAX_PARAM_BUFFER_SIZE);
+		ASSERT(size <MAX_PARAM_BUFFER_SIZE);
 
 		ret = down_interruptible(&(pAd->UsbVendorReq_semaphore));
 		if (ret != 0) {
@@ -356,25 +369,26 @@ int RTUSB_VendorRequest(struct rtmp_adapter *pAd, u8 RequestType, u8 Request,
 			return NDIS_STATUS_FAILURE;
 		}
 
-		if ((TransferBufferLength > 0) && ((RequestType == DEVICE_VENDOR_REQUEST_OUT) || (RequestType == DEVICE_CLASS_REQUEST_OUT)))
-			memmove(pAd->UsbVendorReqBuf, TransferBuffer, TransferBufferLength);
+		if ((size > 0) && ((requesttype == DEVICE_VENDOR_REQUEST_OUT) || (requesttype == DEVICE_CLASS_REQUEST_OUT)))
+			memmove(pAd->vend_buf, data, size);
 
 		do {
 			int pipe;
 
-			if ((RequestType == DEVICE_VENDOR_REQUEST_OUT) || (RequestType == DEVICE_CLASS_REQUEST_OUT))
+			if (requesttype == DEVICE_VENDOR_REQUEST_OUT ||
+			    requesttype == DEVICE_CLASS_REQUEST_OUT)
 				pipe = usb_sndctrlpipe(udev, 0);
 			else
 				pipe = usb_rcvctrlpipe(udev, 0);
 
-			ret = usb_control_msg(udev, pipe, Request,
-					      RequestType, Value, Index,
-					      pAd->UsbVendorReqBuf,
-					      TransferBufferLength, CONTROL_TIMEOUT_JIFFIES);
+			ret = usb_control_msg(udev, pipe, request,
+					      requesttype, value, index,
+					      pAd->vend_buf,
+					      size, CONTROL_TIMEOUT_JIFFIES);
 
 			if (ret < 0) {
 				DBGPRINT(RT_DEBUG_OFF, ("#\n"));
-				if (ret == RTMP_USB_CONTROL_MSG_ENODEV) {
+				if (ret == -ENODEV) {
 					RTMP_SET_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST);
 					break;
 				}
@@ -383,22 +397,19 @@ int RTUSB_VendorRequest(struct rtmp_adapter *pAd, u8 RequestType, u8 Request,
 			}
 		} while((ret < 0) && (RetryCount < MAX_VENDOR_REQ_RETRY_COUNT));
 
-		if ((!(ret < 0)) && (TransferBufferLength > 0) &&
-		    (RequestType == DEVICE_VENDOR_REQUEST_IN))
-			memmove(TransferBuffer, pAd->UsbVendorReqBuf, TransferBufferLength);
+		if (ret >= 0 && size > 0 && requesttype == DEVICE_VENDOR_REQUEST_IN)
+			memmove(data, pAd->vend_buf, size);
 
 		up(&(pAd->UsbVendorReq_semaphore));
 
 		if (ret < 0) {
-			DBGPRINT(RT_DEBUG_ERROR, ("RTUSB_VendorRequest failed(%d), ReqType=%s, Req=0x%x, Idx=0x%x,pAd->Flags=0x%lx\n",
-						ret, (RequestType == DEVICE_VENDOR_REQUEST_OUT ? "OUT" : "IN"), Request, Index, pAd->Flags));
-			if (Request == 0x2)
-				DBGPRINT(RT_DEBUG_ERROR, ("\tRequest Value=0x%04x!\n", Value));
+			DBGPRINT(RT_DEBUG_ERROR, ("mt7612u_vendor_request failed(%d), ReqType=%s, Req=0x%x, Idx=0x%x,pAd->Flags=0x%lx\n",
+						ret, (requesttype == DEVICE_VENDOR_REQUEST_OUT ? "OUT" : "IN"), request, index, pAd->Flags));
 
-			if ((!TransferBuffer) && (TransferBufferLength > 0))
-				hex_dump("Failed TransferBuffer value", TransferBuffer, TransferBufferLength);
+			if (request == MT7612U_VENDOR_SINGLE_WRITE)
+				DBGPRINT(RT_DEBUG_ERROR, ("\tRequest Value=0x%04x!\n", value));
 
-			if (ret == RTMP_USB_CONTROL_MSG_ENODEV)
+			if (ret == -ENODEV)
 					RTMP_SET_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST);
 
 		}

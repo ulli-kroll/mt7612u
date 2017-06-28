@@ -3183,7 +3183,7 @@ struct rtmp_adapter {
 	struct semaphore hw_atomic;
 	struct semaphore mcu_atomic;
 	struct semaphore tssi_lock;
-	PVOID UsbVendorReqBuf;
+	PVOID vend_buf;
 /*	wait_queue_head_t	 *wait; */
 	VOID *wait;
 

@@ -897,9 +897,9 @@ void InitUSBDevice(RT_CMD_USB_INIT *config, VOID *ad_src)
 	sema_init(&(ad->reg_atomic), 1);
 	sema_init(&(ad->hw_atomic), 1);
 	sema_init(&(ad->mcu_atomic), 1);
-	ad->UsbVendorReqBuf = kmalloc(MAX_PARAM_BUFFER_SIZE - 1, GFP_ATOMIC);
+	ad->vend_buf = kmalloc(MAX_PARAM_BUFFER_SIZE - 1, GFP_ATOMIC);
 
-	if (ad->UsbVendorReqBuf == NULL) {
+	if (ad->vend_buf == NULL) {
 		DBGPRINT(RT_DEBUG_ERROR, ("Allocate vendor request temp buffer failed!\n"));
 		return;
 	}

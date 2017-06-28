@@ -44,7 +44,7 @@
 
 static void mt7612u_vendor_reset(struct rtmp_adapter *pAd)
 {
-	RTUSB_VendorRequest(pAd, DEVICE_VENDOR_REQUEST_OUT,
+	mt7612u_vendor_request(pAd, DEVICE_VENDOR_REQUEST_OUT,
 			    MT7612U_VENDOR_DEVICE_MODE, 0x1, 0,
 			    NULL, 0);
 
@@ -71,7 +71,7 @@ int mt7612u_mcu_usb_enable_patch(struct rtmp_adapter *ad)
 
 	DBGPRINT(RT_DEBUG_OFF, ("%s\n", __func__));
 
-	ret = RTUSB_VendorRequest(ad,
+	ret = mt7612u_vendor_request(ad,
 			  DEVICE_CLASS_REQUEST_OUT,
 			  MT7612U_VENDOR_DEVICE_MODE,
 			  0x12,
@@ -92,7 +92,7 @@ int mt7612u_mcu_usb_reset_wmt(struct rtmp_adapter *ad)
 
 	DBGPRINT(RT_DEBUG_OFF, ("%s\n", __func__));
 
-	RTUSB_VendorRequest(ad,
+	mt7612u_vendor_request(ad,
 			DEVICE_CLASS_REQUEST_OUT,
 			MT7612U_VENDOR_DEVICE_MODE,
 			0x12,
@@ -138,7 +138,7 @@ int mt7612u_mcu_usb_chk_crc(struct rtmp_adapter *ad, u32 checksum_len)
 	memmove(cmd, &cap->rom_patch_offset, 4);
 	memmove(&cmd[4], &checksum_len, 4);
 
-	ret = RTUSB_VendorRequest(ad,
+	ret = mt7612u_vendor_request(ad,
 			  DEVICE_VENDOR_REQUEST_OUT,
 			  MT7612U_VENDOR_DEVICE_MODE,
 			  0x20,
@@ -156,7 +156,7 @@ u16 mt7612u_mcu_usb_get_crc(struct rtmp_adapter *ad)
 	u16 crc, count = 0;
 
 	while (1) {
-		ret = RTUSB_VendorRequest(ad,
+		ret = mt7612u_vendor_request(ad,
 				 DEVICE_VENDOR_REQUEST_IN,
 				 MT7612U_VENDOR_DEVICE_MODE,
 				 0x21,
@@ -370,7 +370,7 @@ load_patch_protect:
 			DBGPRINT(RT_DEBUG_OFF, ("rom_patch_offset = %x\n", cap->rom_patch_offset));
 
 			/* Set FCE DMA descriptor */
-			ret = RTUSB_VendorRequest(ad,
+			ret = mt7612u_vendor_request(ad,
 					 DEVICE_VENDOR_REQUEST_OUT,
 					 MT7612U_VENDOR_WRITE_FCE,
 					 value,
@@ -387,7 +387,7 @@ load_patch_protect:
 			value = (((cur_len + cap->rom_patch_offset) & 0xFFFF0000) >> 16);
 
 			/* Set FCE DMA descriptor */
-			ret = RTUSB_VendorRequest(ad,
+			ret = mt7612u_vendor_request(ad,
 					 DEVICE_VENDOR_REQUEST_OUT,
 					 MT7612U_VENDOR_WRITE_FCE,
 					 value,
@@ -408,7 +408,7 @@ load_patch_protect:
 			value = ((sent_len << 16) & 0xFFFF);
 
 			/* Set FCE DMA length */
-			ret = RTUSB_VendorRequest(ad,
+			ret = mt7612u_vendor_request(ad,
 					 DEVICE_VENDOR_REQUEST_OUT,
 					 MT7612U_VENDOR_WRITE_FCE,
 					 value,
@@ -424,7 +424,7 @@ load_patch_protect:
 			value = (((sent_len << 16) & 0xFFFF0000) >> 16);
 
 			/* Set FCE DMA length */
-			ret = RTUSB_VendorRequest(ad,
+			ret = mt7612u_vendor_request(ad,
 					 DEVICE_VENDOR_REQUEST_OUT,
 					 MT7612U_VENDOR_WRITE_FCE,
 					 value,
@@ -559,7 +559,7 @@ static int usb_load_ivb(struct rtmp_adapter *ad, u8 *fw_image)
 
 
 	if (cap->load_iv) {
-		Status = RTUSB_VendorRequest(ad,
+		Status = mt7612u_vendor_request(ad,
 				 DEVICE_VENDOR_REQUEST_OUT,
 				 MT7612U_VENDOR_DEVICE_MODE,
 				 0x12,
@@ -567,7 +567,7 @@ static int usb_load_ivb(struct rtmp_adapter *ad, u8 *fw_image)
 				 fw_image + 32,
 				 64);
 	} else {
-		Status = RTUSB_VendorRequest(ad,
+		Status = mt7612u_vendor_request(ad,
 				 DEVICE_VENDOR_REQUEST_OUT,
 				 MT7612U_VENDOR_DEVICE_MODE,
 				 0x12,
@@ -753,7 +753,7 @@ loadfw_protect:
 			value = (cur_len + cap->ilm_offset) & 0xFFFF;
 
 			/* Set FCE DMA descriptor */
-			ret = RTUSB_VendorRequest(ad,
+			ret = mt7612u_vendor_request(ad,
 					 DEVICE_VENDOR_REQUEST_OUT,
 					 MT7612U_VENDOR_WRITE_FCE,
 					 value,
@@ -770,7 +770,7 @@ loadfw_protect:
 			value = (((cur_len + cap->ilm_offset) & 0xFFFF0000) >> 16);
 
 			/* Set FCE DMA descriptor */
-			ret = RTUSB_VendorRequest(ad,
+			ret = mt7612u_vendor_request(ad,
 					 DEVICE_VENDOR_REQUEST_OUT,
 					 MT7612U_VENDOR_WRITE_FCE,
 					 value,
@@ -793,7 +793,7 @@ loadfw_protect:
 			value = ((sent_len << 16) & 0xFFFF);
 
 			/* Set FCE DMA length */
-			ret = RTUSB_VendorRequest(ad,
+			ret = mt7612u_vendor_request(ad,
 					 DEVICE_VENDOR_REQUEST_OUT,
 					 MT7612U_VENDOR_WRITE_FCE,
 					 value,
@@ -809,7 +809,7 @@ loadfw_protect:
 			value = (((sent_len << 16) & 0xFFFF0000) >> 16);
 
 			/* Set FCE DMA length */
-			ret = RTUSB_VendorRequest(ad,
+			ret = mt7612u_vendor_request(ad,
 					 DEVICE_VENDOR_REQUEST_OUT,
 					 MT7612U_VENDOR_WRITE_FCE,
 					 value,
@@ -892,7 +892,7 @@ loadfw_protect:
 				value = ((cur_len + (cap->dlm_offset)) & 0xFFFF);
 
 			/* Set FCE DMA descriptor */
-			ret = RTUSB_VendorRequest(ad,
+			ret = mt7612u_vendor_request(ad,
 					 DEVICE_VENDOR_REQUEST_OUT,
 					 MT7612U_VENDOR_WRITE_FCE,
 					 value,
@@ -912,7 +912,7 @@ loadfw_protect:
 				value = (((cur_len + (cap->dlm_offset)) & 0xFFFF0000) >> 16);
 
 			/* Set FCE DMA descriptor */
-			ret = RTUSB_VendorRequest(ad,
+			ret = mt7612u_vendor_request(ad,
 					  DEVICE_VENDOR_REQUEST_OUT,
 					  MT7612U_VENDOR_WRITE_FCE,
 					  value,
@@ -933,7 +933,7 @@ loadfw_protect:
 			value = ((sent_len << 16) & 0xFFFF);
 
 			/* Set FCE DMA length */
-			ret = RTUSB_VendorRequest(ad,
+			ret = mt7612u_vendor_request(ad,
 					  DEVICE_VENDOR_REQUEST_OUT,
 					  MT7612U_VENDOR_WRITE_FCE,
 					  value,
@@ -949,7 +949,7 @@ loadfw_protect:
 			value = (((sent_len << 16) & 0xFFFF0000) >> 16);
 
 			/* Set FCE DMA length */
-			ret = RTUSB_VendorRequest(ad,
+			ret = mt7612u_vendor_request(ad,
 					  DEVICE_VENDOR_REQUEST_OUT,
 					  MT7612U_VENDOR_WRITE_FCE,
 					  value,
