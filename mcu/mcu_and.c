@@ -1096,7 +1096,6 @@ static void mt7612u_mcu_init_cmd_msg(struct cmd_msg *msg, enum mcu_cmd_type type
 {
 	u16 rsp_payload_len = 0;
 	char *rsp_payload = NULL;
-	MSG_RSP_HANDLER rsp_handler = NULL;
 
 	msg->type = type;
 	msg->need_wait = need_wait;
@@ -1113,7 +1112,6 @@ static void mt7612u_mcu_init_cmd_msg(struct cmd_msg *msg, enum mcu_cmd_type type
 	msg->need_rsp = need_rsp;
 	msg->rsp_payload_len = rsp_payload_len;
 	msg->rsp_payload = rsp_payload;
-	msg->rsp_handler = rsp_handler;
 }
 
 void mt7612u_mcu_append_cmd_msg(struct cmd_msg *msg, char *data, unsigned int len)
@@ -1323,7 +1321,7 @@ void mt7612u_mcu_rx_process_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *rx_
 
 				if ((msg->rsp_payload_len == rx_info->pkt_len) &&
 				    (msg->rsp_payload_len != 0)) {
-					msg->rsp_handler(msg, skb->data + sizeof(*rx_info), rx_info->pkt_len);
+					    ;
 				} else if ((msg->rsp_payload_len == 0) && (rx_info->pkt_len == 8)) {
 					DBGPRINT(RT_DEBUG_INFO, ("command response(ack) success\n"));
 				} else {
