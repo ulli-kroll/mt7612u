@@ -214,7 +214,6 @@ typedef struct _TX_CONTEXT
 	bool			bFullForBulkOut; /* all tx buffer are full , so waiting for tx bulkout. */
 	bool			IRPPending;
 	bool			LastOne;
-	bool			bAggregatible;
 	u8 		Header_802_3[LENGTH_802_3];
 	u8 		Rsv[2];
 	ULONG			DataOffset;
