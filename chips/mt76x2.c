@@ -2645,7 +2645,6 @@ static const struct rtmp_chip_cap MT76x2_ChipCap = {
 	.MBSSIDMode = MBSSID_MODE1,
 
 	.WlanMemmapOffset = 0x410000,
-	.InbandPacketMaxLen = 192,
 	.CmdRspRxRing = RX_RING1,
 	.IsComboChip = true,
 	.need_load_fw = true,
@@ -2659,13 +2658,11 @@ static const struct rtmp_chip_cap MT76x2_ChipCap = {
 
 	.cmd_header_len = 4,
 	.cmd_padding_len = 4,
-	.CommandBulkOutAddr = 0x8,
 	.WMM0ACBulkOutAddr[0] = 0x4,
 	.WMM0ACBulkOutAddr[1] = 0x5,
 	.WMM0ACBulkOutAddr[2] = 0x6,
 	.WMM0ACBulkOutAddr[3] = 0x7,
 	.DataBulkInAddr = 0x84,
-	.CommandRspBulkInAddr = 0x85,
 	.fw_name = MT7662U_FIRMWARE_NAME,
 	.fw_patch_name = MT7662U_FIRMWARE_PATCH_NAME,
 	.rf_type = RF_MT,

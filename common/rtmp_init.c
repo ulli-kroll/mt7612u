@@ -2786,7 +2786,7 @@ bool PairEP(struct rtmp_adapter *pAd, UINT8 EP)
 	int i;
 	int found = 0;
 
-	if (EP == pChipCap->CommandBulkOutAddr) {
+	if (EP == MT_COMMAND_BULK_OUT_ADDR) {
 		DBGPRINT(RT_DEBUG_OFF, ("Endpoint(%x) is for In-band Command\n", EP));
 		found = 1;
 	}
@@ -2803,7 +2803,7 @@ bool PairEP(struct rtmp_adapter *pAd, UINT8 EP)
 		found = 1;
 	}
 
-	if (EP == pChipCap->CommandRspBulkInAddr) {
+	if (EP == MT_COMMAND_RSP_BULK_IN_ADDR) {
 		DBGPRINT(RT_DEBUG_OFF, ("Endpoint(%x) is for Command Rsp\n", EP));
 		found = 1;
 	}

@@ -495,7 +495,6 @@ struct rtmp_chip_cap {
 	UINT8 LNA_type; /* b'00: 2.4G+5G external LNA, b'01: 5G external LNA, b'10: 2.4G external LNA, b'11: Internal LNA */
 
 	uint32_t WlanMemmapOffset;
-	uint32_t InbandPacketMaxLen; /* must be 48 multible */
 	UINT8 CmdRspRxRing;
 	bool IsComboChip;
 	bool need_load_fw;
@@ -511,9 +510,7 @@ struct rtmp_chip_cap {
 	UINT8 cmd_padding_len;
 
 	UINT8 DataBulkInAddr;
-	UINT8 CommandRspBulkInAddr;
 	UINT8 WMM0ACBulkOutAddr[4];
-	UINT8 CommandBulkOutAddr;
 
 #ifdef CONFIG_SWITCH_CHANNEL_OFFLOAD
 	uint16_t ChannelParamsSize;

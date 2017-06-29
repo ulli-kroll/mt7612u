@@ -378,6 +378,10 @@ int mt7612u_mcu_led_op(struct rtmp_adapter *ad, u32 led_idx, u32 link_status);
 struct cmd_msg *mt7612u_mcu_alloc_cmd_msg(struct rtmp_adapter *ad, unsigned int length);
 void mt7612u_mcu_append_cmd_msg(struct cmd_msg *msg, char *data, unsigned int len);
 
+#define MT_INBAND_PACKET_MAX_LEN	192	/* must be 48 multible */
+#define MT_COMMAND_BULK_OUT_ADDR	0x8
+#define MT_COMMAND_RSP_BULK_IN_ADDR	0x85
+
 #define MAX_CALIBRATION_WAIT_TIME						100
 
 #endif /* __MCU_AND_H__ */

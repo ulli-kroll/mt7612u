@@ -28,8 +28,6 @@
 
 #include	"rt_config.h"
 
-
-
 /* Known USB Vendor Commands */
 #define MT7612U_VENDOR_DEVICE_MODE	0x01
 #define MT7612U_VENDOR_SINGLE_WRITE	0x02
@@ -440,7 +438,7 @@ load_patch_protect:
 			/* Initialize URB descriptor */
 			RTUSB_FILL_HTTX_BULK_URB(urb,
 					 udev,
-					 cap->CommandBulkOutAddr,
+					 MT_COMMAND_BULK_OUT_ADDR,
 					 rom_patch_data,
 					 sent_len + sizeof(*tx_info) + 4,
 					 usb_upload_rom_patch_complete,
@@ -825,7 +823,7 @@ loadfw_protect:
 			/* Initialize URB descriptor */
 			RTUSB_FILL_HTTX_BULK_URB(urb,
 					 udev,
-					 cap->CommandBulkOutAddr,
+					 MT_COMMAND_BULK_OUT_ADDR,
 					 fw_data,
 					 sent_len + sizeof(*tx_info) + USB_END_PADDING,
 					 usb_uploadfw_complete,
@@ -965,7 +963,7 @@ loadfw_protect:
 			/* Initialize URB descriptor */
 			RTUSB_FILL_HTTX_BULK_URB(urb,
 					 udev,
-					 cap->CommandBulkOutAddr,
+					 MT_COMMAND_BULK_OUT_ADDR,
 					 fw_data,
 					 sent_len + sizeof(*tx_info) + USB_END_PADDING,
 					 usb_uploadfw_complete,
@@ -1389,7 +1387,7 @@ static void usb_rx_cmd_msg_complete(struct urb *urb)
 		skb = msg->skb;
 
 		usb_fill_bulk_urb(msg->urb, udev,
-				  usb_rcvbulkpipe(udev, pChipCap->CommandRspBulkInAddr),
+				  usb_rcvbulkpipe(udev, MT_COMMAND_RSP_BULK_IN_ADDR),
 				  skb->data, 512, usb_rx_cmd_msg_complete, skb);
 
 		mt7612u_mcu_queue_tail_cmd_msg(&ctl->rxq, msg, RX_START);
@@ -1432,7 +1430,7 @@ int usb_rx_cmd_msg_submit(struct rtmp_adapter *ad)
 	skb = msg->skb;
 
 	usb_fill_bulk_urb(msg->urb, udev,
-			  usb_rcvbulkpipe(udev, pChipCap->CommandRspBulkInAddr),
+			  usb_rcvbulkpipe(udev, MT_COMMAND_RSP_BULK_IN_ADDR),
 			  skb->data, 512, usb_rx_cmd_msg_complete, skb);
 
 	mt7612u_mcu_queue_tail_cmd_msg(&ctl->rxq, msg, RX_START);
@@ -1582,7 +1580,7 @@ int usb_kick_out_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *msg)
 	}
 
 	usb_fill_bulk_urb(msg->urb, udev,
-			  usb_sndbulkpipe(udev, pChipCap->CommandBulkOutAddr),
+			  usb_sndbulkpipe(udev, MT_COMMAND_BULK_OUT_ADDR),
 			  skb->data, skb->len, usb_kick_out_cmd_msg_complete, skb);
 
 	if (msg->need_rsp)
@@ -1933,11 +1931,11 @@ int mt7612u_mcu_random_write(struct rtmp_adapter *ad, struct rtmp_reg_pair *reg_
 		return -1;
 
 	while (cur_len < var_len) {
-		sent_len = ((var_len - cur_len) > cap->InbandPacketMaxLen) ?
-				cap->InbandPacketMaxLen : (var_len - cur_len);
+		sent_len = ((var_len - cur_len) > MT_INBAND_PACKET_MAX_LEN) ?
+				MT_INBAND_PACKET_MAX_LEN : (var_len - cur_len);
 
-		if ((sent_len < cap->InbandPacketMaxLen) ||
-		    (cur_len + cap->InbandPacketMaxLen) == var_len)
+		if ((sent_len < MT_INBAND_PACKET_MAX_LEN) ||
+		    (cur_len + MT_INBAND_PACKET_MAX_LEN) == var_len)
 			last_packet = true;
 
 		msg = mt7612u_mcu_alloc_cmd_msg(ad, sent_len);
@@ -1965,7 +1963,7 @@ int mt7612u_mcu_random_write(struct rtmp_adapter *ad, struct rtmp_reg_pair *reg_
 		ret = mt7612u_mcu_send_cmd_msg(ad, msg);
 
 		cur_index += (sent_len / 8);
-		cur_len += cap->InbandPacketMaxLen;
+		cur_len += MT_INBAND_PACKET_MAX_LEN;
 	}
 
 error:
