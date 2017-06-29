@@ -139,7 +139,6 @@ struct mt7612u_mcu_ctrl {
 
 
 struct cmd_msg;
-typedef void (*MSG_EVENT_HANDLER)(struct rtmp_adapter *ad, char *payload, u16 payload_len);
 
 struct cmd_msg_cb {
 	struct cmd_msg *msg;

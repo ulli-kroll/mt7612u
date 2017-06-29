@@ -1882,40 +1882,6 @@ retransmit:
 	return ret;
 }
 
-static void mt7612u_mcu_pwr_event_handler(struct rtmp_adapter *ad, char *payload, u16 payload_len)
-{
-
-
-}
-
-
-static void mt7612u_mcu_wow_event_handler(struct rtmp_adapter *ad, char *payload, u16 payload_len)
-{
-
-
-}
-
-static void mt7612u_mcu_carrier_detect_event_handler(struct rtmp_adapter *ad, char *payload, u16 payload_len)
-{
-
-
-
-}
-
-static void mt7612u_mcu_dfs_detect_event_handler(struct rtmp_adapter *ad, char *payload, u16 payload_len)
-{
-
-
-
-}
-
-MSG_EVENT_HANDLER msg_event_handler_tb[] = {
-	mt7612u_mcu_pwr_event_handler,
-	mt7612u_mcu_wow_event_handler,
-	mt7612u_mcu_carrier_detect_event_handler,
-	mt7612u_mcu_dfs_detect_event_handler,
-};
-
 int mt7612u_mcu_random_write(struct rtmp_adapter *ad, struct rtmp_reg_pair *reg_pair, u32 num)
 {
 	struct cmd_msg *msg;
