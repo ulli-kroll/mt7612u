@@ -158,7 +158,6 @@ struct cmd_msg {
 	DL_LIST list;
 	u8 type;
 	u8 seq;
-	u16 timeout;
 	u16 rsp_payload_len;
 	bool need_wait;
 	bool need_rsp;
