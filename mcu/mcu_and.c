@@ -1147,8 +1147,6 @@ static spinlock_t *mt7612u_mcu_get_spin_lock(struct mt7612u_mcu_ctrl  *ctl, DL_L
 		lock = &ctl->ackq_lock;
 	else if (list == &ctl->kickq)
 		lock = &ctl->kickq_lock;
-	else if (list == &ctl->tx_doneq)
-		lock = &ctl->tx_doneq_lock;
 	else if (list == &ctl->rx_doneq)
 		lock = &ctl->rx_doneq_lock;
 	else
@@ -1487,22 +1485,6 @@ void mt7612u_mcu_cmd_msg_bh(unsigned long param)
 		}
 	}
 
-	while (1) {
-		msg = mt7612u_mcu_dequeue_cmd_msg(ctl, &ctl->tx_doneq);
-		if (!msg)
-			break;
-
-		switch (msg->state) {
-		case TX_DONE:
-		case TX_KICKOUT_FAIL:
-		case TX_TIMEOUT_FAIL:
-			mt7612u_mcu_free_cmd_msg(msg);
-			continue;
-		default:
-			DBGPRINT(RT_DEBUG_ERROR, ("unknow msg state(%d)\n", msg->state));
-		}
-	}
-
 	if (OS_TEST_BIT(MCU_INIT, &ctl->flags)) {
 		mt7612u_mcu_bh_schedule(ad);
 		usb_rx_cmd_msgs_receive(ad);
@@ -1538,14 +1520,14 @@ static void usb_kick_out_cmd_msg_complete(struct urb *urb)
 	if (urb->status == 0) {
 		if (!msg->need_rsp) {
 			mt7612u_mcu_unlink_cmd_msg(msg, &ctl->kickq);
-			mt7612u_mcu_queue_tail_cmd_msg(&ctl->tx_doneq, msg, TX_DONE);
+			mt7612u_mcu_free_cmd_msg(msg);
 		} else {
 			msg->state = WAIT_ACK;
 		}
 	} else {
 		if (!msg->need_rsp) {
 			mt7612u_mcu_unlink_cmd_msg(msg, &ctl->kickq);
-			mt7612u_mcu_queue_tail_cmd_msg(&ctl->tx_doneq, msg, TX_KICKOUT_FAIL);
+			mt7612u_mcu_free_cmd_msg(msg);
 			if (OS_TEST_BIT(MCU_INIT, &ctl->flags))
 				ctl->tx_kickout_fail_count++;
 
@@ -1594,7 +1576,7 @@ int usb_kick_out_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *msg)
 	if (ret) {
 		if (!msg->need_rsp) {
 			mt7612u_mcu_unlink_cmd_msg(msg, &ctl->kickq);
-			mt7612u_mcu_queue_tail_cmd_msg(&ctl->tx_doneq, msg, TX_KICKOUT_FAIL);
+			mt7612u_mcu_free_cmd_msg(msg);
 			if (OS_TEST_BIT(MCU_INIT, &ctl->flags))
 				ctl->tx_kickout_fail_count++;
 		} else {
@@ -1668,14 +1650,12 @@ static void mt7612u_mcu_ctrl_usb_init(struct rtmp_adapter *ad)
 	DlListInit(&ctl->rxq);
 	DlListInit(&ctl->ackq);
 	DlListInit(&ctl->kickq);
-	DlListInit(&ctl->tx_doneq);
 	DlListInit(&ctl->rx_doneq);
 
 	spin_lock_init(&ctl->txq_lock);
 	spin_lock_init(&ctl->rxq_lock);
 	spin_lock_init(&ctl->ackq_lock);
 	spin_lock_init(&ctl->kickq_lock);
-	spin_lock_init(&ctl->tx_doneq_lock);
 	spin_lock_init(&ctl->rx_doneq_lock);
 
 	ctl->tx_kickout_fail_count = 0;
@@ -1714,7 +1694,6 @@ static void mt7612u_mcu_ctrl_usb_exit(struct rtmp_adapter *ad)
 	mt7612u_mcu_cleanup_cmd_msg(ad, &ctl->ackq);
 	mt7612u_mcu_cleanup_cmd_msg(ad, &ctl->rxq);
 	mt7612u_mcu_cleanup_cmd_msg(ad, &ctl->kickq);
-	mt7612u_mcu_cleanup_cmd_msg(ad, &ctl->tx_doneq);
 	mt7612u_mcu_cleanup_cmd_msg(ad, &ctl->rx_doneq);
 	DBGPRINT(RT_DEBUG_OFF, ("tx_kickout_fail_count = %ld\n", ctl->tx_kickout_fail_count));
 	DBGPRINT(RT_DEBUG_OFF, ("tx_timeout_fail_count = %ld\n", ctl->tx_timeout_fail_count));
@@ -1870,7 +1849,7 @@ retransmit:
 				mt7612u_mcu_queue_head_cmd_msg(&ctl->txq, msg, state);
 				goto retransmit;
 			} else {
-				mt7612u_mcu_queue_tail_cmd_msg(&ctl->tx_doneq, msg, state);
+				mt7612u_mcu_free_cmd_msg(msg);
 			}
 		} else {
 			mt7612u_mcu_free_cmd_msg(msg);

@@ -126,8 +126,6 @@ struct mt7612u_mcu_ctrl {
 	DL_LIST ackq;
 	spinlock_t kickq_lock;
 	DL_LIST kickq;
-	spinlock_t tx_doneq_lock;
-	DL_LIST tx_doneq;
 	spinlock_t rx_doneq_lock;
 	DL_LIST rx_doneq;
 	unsigned long tx_kickout_fail_count;
