@@ -1091,7 +1091,7 @@ error0:
 }
 
 static void mt7612u_mcu_init_cmd_msg(struct cmd_msg *msg, enum mcu_cmd_type type,
-				     bool need_wait, u16 timeout,
+				     bool need_wait,
 				     bool need_retransmit, bool need_rsp)
 {
 	u16 rsp_payload_len = 0;
@@ -1099,7 +1099,7 @@ static void mt7612u_mcu_init_cmd_msg(struct cmd_msg *msg, enum mcu_cmd_type type
 
 	msg->type = type;
 	msg->need_wait = need_wait;
-	msg->timeout = timeout;
+	msg->timeout = 0;
 
 	if (need_wait)
 		init_completion(&msg->ack_done);
@@ -1910,9 +1910,9 @@ int mt7612u_mcu_random_write(struct rtmp_adapter *ad, struct rtmp_reg_pair *reg_
 		}
 
 		if (last_packet)
-			mt7612u_mcu_init_cmd_msg(msg, CMD_RANDOM_WRITE, true, 0, true, true);
+			mt7612u_mcu_init_cmd_msg(msg, CMD_RANDOM_WRITE, true, true, true);
 		else
-			mt7612u_mcu_init_cmd_msg(msg, CMD_RANDOM_WRITE, false, 0, false, false);
+			mt7612u_mcu_init_cmd_msg(msg, CMD_RANDOM_WRITE, false, false, false);
 
 		for (i = 0; i < (sent_len / 8); i++) {
 			/* Address */
@@ -1951,7 +1951,7 @@ int mt7612u_mcu_pwr_saving(struct rtmp_adapter *ad, u32 op, u32 level)
 		goto error;
 	}
 
-	mt7612u_mcu_init_cmd_msg(msg, CMD_POWER_SAVING_OP, false, 0, false, false);
+	mt7612u_mcu_init_cmd_msg(msg, CMD_POWER_SAVING_OP, false,false, false);
 
 	/* Power operation */
 	value = cpu2le32(op);
@@ -1983,9 +1983,9 @@ int mt7612u_mcu_fun_set(struct rtmp_adapter *ad, u32 fun_id, u32 param)
 	}
 
 	if (fun_id != Q_SELECT)
-		mt7612u_mcu_init_cmd_msg(msg, CMD_FUN_SET_OP, true, 0, true, true);
+		mt7612u_mcu_init_cmd_msg(msg, CMD_FUN_SET_OP, true, true, true);
 	else
-		mt7612u_mcu_init_cmd_msg(msg, CMD_FUN_SET_OP, false, 0, false, false);
+		mt7612u_mcu_init_cmd_msg(msg, CMD_FUN_SET_OP, false, false, false);
 
 	/* Function ID */
 	value = cpu2le32(fun_id);
@@ -2016,7 +2016,7 @@ void mt7612u_mcu_calibration(struct rtmp_adapter *ad, enum mt7612u_mcu_calibrati
 	if (!msg)
 		return;
 
-	mt7612u_mcu_init_cmd_msg(msg, CMD_CALIBRATION_OP, true, 0, true, true);
+	mt7612u_mcu_init_cmd_msg(msg, CMD_CALIBRATION_OP, true, true, true);
 
 	/* Calibration ID */
 	value = cpu2le32(cal_id);
@@ -2043,7 +2043,7 @@ void mt7612u_mcu_tssi_comp(struct rtmp_adapter *ad, struct mt7612u_tssi_comp *pa
 	if (!msg)
 		return;
 
-	mt7612u_mcu_init_cmd_msg(msg, CMD_CALIBRATION_OP, true, 0, true, true);
+	mt7612u_mcu_init_cmd_msg(msg, CMD_CALIBRATION_OP, true, true, true);
 
 	/* Calibration ID */
 	value = cpu2le32(TSSI_COMPENSATION_7662);
@@ -2076,7 +2076,7 @@ int mt7612u_mcu_load_cr(struct rtmp_adapter *ad, u32 cr_type, UINT8 temp_level, 
 		goto error;
 	}
 
-	mt7612u_mcu_init_cmd_msg(msg, CMD_LOAD_CR, true, 0, true, true);
+	mt7612u_mcu_init_cmd_msg(msg, CMD_LOAD_CR, true, true, true);
 
 	/* CR type */
 	value &= ~LOAD_CR_MODE_MASK;
@@ -2122,7 +2122,7 @@ int mt7612u_mcu_switch_channel(struct rtmp_adapter *ad, u8 channel,
 		goto error;
 	}
 
-	mt7612u_mcu_init_cmd_msg(msg, CMD_SWITCH_CHANNEL_OP, true, 0, true, true);
+	mt7612u_mcu_init_cmd_msg(msg, CMD_SWITCH_CHANNEL_OP, true, true, true);
 
 	/*
 	 * switch channel related param
@@ -2152,7 +2152,7 @@ int mt7612u_mcu_switch_channel(struct rtmp_adapter *ad, u8 channel,
 		goto error;
 	}
 
-	mt7612u_mcu_init_cmd_msg(msg, CMD_SWITCH_CHANNEL_OP, true, 0, true, true);
+	mt7612u_mcu_init_cmd_msg(msg, CMD_SWITCH_CHANNEL_OP, true, true, true);
 
 	/*
 	 * switch channel related param
@@ -2203,7 +2203,7 @@ int mt7612u_mcu_init_gain(struct rtmp_adapter *ad, UINT8 channel, bool force_mod
 		goto error;
 	}
 
-	mt7612u_mcu_init_cmd_msg(msg, CMD_INIT_GAIN_OP, true, 0, true, true);
+	mt7612u_mcu_init_cmd_msg(msg, CMD_INIT_GAIN_OP, true, true, true);
 
 	/* init gain parameter#1 */
 	if (force_mode == true)
@@ -2240,7 +2240,7 @@ int mt7612u_mcu_dynamic_vga(struct rtmp_adapter *ad, UINT8 channel, bool mode, b
 		goto error;
 	}
 
-	mt7612u_mcu_init_cmd_msg(msg, CMD_DYNC_VGA_OP, true, 0, true, true);
+	mt7612u_mcu_init_cmd_msg(msg, CMD_DYNC_VGA_OP, true, true, true);
 
 	/* dynamic VGA parameter#1: true = AP mode ; false = STA mode */
 	if (mode == true)
@@ -2283,7 +2283,7 @@ int mt7612u_mcu_led_op(struct rtmp_adapter *ad, u32 led_idx, u32 link_status)
 		goto error;
 	}
 
-	mt7612u_mcu_init_cmd_msg(msg, CMD_LED_MODE_OP, false, 0, false, false);
+	mt7612u_mcu_init_cmd_msg(msg, CMD_LED_MODE_OP, false, false, false);
 
 	/* Led index */
 	value = cpu2le32(led_idx);
