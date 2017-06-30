@@ -1777,18 +1777,6 @@ static int mt7612u_mcu_dequeue_and_kick_out_cmd_msgs(struct rtmp_adapter *ad)
 	return ret;
 }
 
-static int mt7612u_mcu_wait_for_complete_timeout(struct cmd_msg *msg, long timeout)
-{
-	int ret = 0;
-	long expire;
-
-	expire = timeout ? RTMPMsecsToJiffies(timeout) : RTMPMsecsToJiffies(CMD_MSG_TIMEOUT);
-
-	ret = wait_for_completion_timeout(&msg->ack_done, expire);
-
-	return ret;
-}
-
 int mt7612u_mcu_send_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *msg)
 {
 	struct mt7612u_mcu_ctrl  *ctl = &ad->MCUCtrl;
@@ -1814,8 +1802,12 @@ retransmit:
 	/* Wait for response */
 	if (need_wait) {
 		enum cmd_msg_state state;
+		long expire;
+		unsigned long timeout = msg->timeout;
 
-		if (!mt7612u_mcu_wait_for_complete_timeout(msg, msg->timeout)) {
+		expire = timeout ? RTMPMsecsToJiffies(timeout) : RTMPMsecsToJiffies(CMD_MSG_TIMEOUT);
+
+		if (!wait_for_completion_timeout(&msg->ack_done, expire)) {
 			ret = NDIS_STATUS_FAILURE;
 			DBGPRINT(RT_DEBUG_ERROR, ("command (%d) timeout(%dms)\n", msg->type, CMD_MSG_TIMEOUT));
 			if (OS_TEST_BIT(MCU_INIT, &ctl->flags)) {
