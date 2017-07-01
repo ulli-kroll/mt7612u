@@ -28,7 +28,6 @@ VOID RtmpusecDelay(ULONG usec);
 
 void RTMP_GetCurrentSystemTime(LARGE_INTEGER *time);
 
-ULONG RTMPMsecsToJiffies(UINT msec);
 void RTMP_GetCurrentSystemTick(ULONG *pNow);
 
 VOID RtmpOsWait(uint32_t Time);

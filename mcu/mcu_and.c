@@ -454,7 +454,7 @@ load_patch_protect:
 
 			DBGPRINT(RT_DEBUG_INFO, ("%s: submit urb, sent_len = %d, patch_ilm = %d, cur_len = %d\n", __func__, sent_len, patch_len, cur_len));
 
-			if (!wait_for_completion_timeout(&load_rom_patch_done, RTMPMsecsToJiffies(1000))) {
+			if (!wait_for_completion_timeout(&load_rom_patch_done, msecs_to_jiffies(1000))) {
 				usb_kill_urb(urb);
 				ret = NDIS_STATUS_FAILURE;
 				DBGPRINT(RT_DEBUG_ERROR, ("upload fw timeout\n"));
@@ -839,7 +839,7 @@ loadfw_protect:
 
 			DBGPRINT(RT_DEBUG_INFO, ("%s: submit urb, sent_len = %d, ilm_ilm = %d, cur_len = %d\n", __func__, sent_len, ilm_len, cur_len));
 
-			if (!wait_for_completion_timeout(&load_fw_done, RTMPMsecsToJiffies(UPLOAD_FW_TIMEOUT))) {
+			if (!wait_for_completion_timeout(&load_fw_done, msecs_to_jiffies(UPLOAD_FW_TIMEOUT))) {
 				usb_kill_urb(urb);
 				ret = NDIS_STATUS_FAILURE;
 				DBGPRINT(RT_DEBUG_ERROR, ("upload fw timeout(%dms)\n", UPLOAD_FW_TIMEOUT));
@@ -979,7 +979,7 @@ loadfw_protect:
 
 			DBGPRINT(RT_DEBUG_INFO, ("%s: submit urb, sent_len = %d, dlm_len = %d, cur_len = %d\n", __func__, sent_len, dlm_len, cur_len));
 
-			if (!wait_for_completion_timeout(&load_fw_done, RTMPMsecsToJiffies(UPLOAD_FW_TIMEOUT))) {
+			if (!wait_for_completion_timeout(&load_fw_done, msecs_to_jiffies(UPLOAD_FW_TIMEOUT))) {
 				usb_kill_urb(urb);
 				ret = NDIS_STATUS_FAILURE;
 				DBGPRINT(RT_DEBUG_ERROR, ("upload fw timeout(%dms)\n", UPLOAD_FW_TIMEOUT));
@@ -1789,7 +1789,7 @@ retransmit:
 		enum cmd_msg_state state;
 		long expire;
 
-		expire = RTMPMsecsToJiffies(CMD_MSG_TIMEOUT);
+		expire =  msecs_to_jiffies(CMD_MSG_TIMEOUT);
 
 		if (!wait_for_completion_timeout(&msg->ack_done, expire)) {
 			ret = NDIS_STATUS_FAILURE;
