@@ -1174,13 +1174,6 @@ get_seq:
 	return ctl->cmd_seq;
 }
 
-static void _mt7612u_mcu_queue_tail_cmd_msg(DL_LIST *list, struct cmd_msg *msg,
-					    enum cmd_msg_state state)
-{
-	msg->state = state;
-	DlListAddTail(list, &msg->list);
-}
-
 static void mt7612u_mcu_queue_tail_cmd_msg(DL_LIST *list, struct cmd_msg *msg,
 					   enum cmd_msg_state state)
 {
@@ -1192,7 +1185,8 @@ static void mt7612u_mcu_queue_tail_cmd_msg(DL_LIST *list, struct cmd_msg *msg,
 	lock = mt7612u_mcu_get_spin_lock(ctl, list);
 
 	spin_lock_irqsave(lock, flags);
-	_mt7612u_mcu_queue_tail_cmd_msg(list, msg, state);
+	msg->state = state;
+	DlListAddTail(list, &msg->list);
 	spin_unlock_irqrestore(lock, flags);
 }
 
@@ -1369,9 +1363,7 @@ static void usb_rx_cmd_msg_complete(struct urb *urb)
 		DBGPRINT(RT_DEBUG_ERROR, ("receive cmd msg fail(%d)\n", urb->status));
 	}
 
-	spin_lock_irqsave(&ctl->rx_doneq_lock, flags);
-	_mt7612u_mcu_queue_tail_cmd_msg(&ctl->rx_doneq, msg, state);
-	spin_unlock_irqrestore(&ctl->rx_doneq_lock, flags);
+	mt7612u_mcu_queue_tail_cmd_msg(&ctl->rx_doneq, msg, state);
 
 	if (OS_TEST_BIT(MCU_INIT, &ctl->flags)) {
 		msg = mt7612u_mcu_alloc_cmd_msg(ad, 512);
