@@ -1190,13 +1190,6 @@ static void mt7612u_mcu_queue_tail_cmd_msg(DL_LIST *list, struct cmd_msg *msg,
 	spin_unlock_irqrestore(lock, flags);
 }
 
-static void _mt7612u_mcu_queue_head_cmd_msg(DL_LIST *list, struct cmd_msg *msg,
-					    enum cmd_msg_state state)
-{
-	msg->state = state;
-	DlListAdd(list, &msg->list);
-}
-
 static void mt7612u_mcu_queue_head_cmd_msg(DL_LIST *list, struct cmd_msg *msg,
 					   enum cmd_msg_state state)
 {
@@ -1208,7 +1201,8 @@ static void mt7612u_mcu_queue_head_cmd_msg(DL_LIST *list, struct cmd_msg *msg,
 	lock = mt7612u_mcu_get_spin_lock(ctl, list);
 
 	spin_lock_irqsave(lock, flags);
-	_mt7612u_mcu_queue_head_cmd_msg(list, msg, state);
+	msg->state = state;
+	DlListAdd(list, &msg->list);
 	spin_unlock_irqrestore(lock, flags);
 }
 
