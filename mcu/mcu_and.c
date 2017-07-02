@@ -191,7 +191,7 @@ int mt7612u_mcu_usb_load_rom_patch(struct rtmp_adapter *ad)
 	u8 *rom_patch_data;
 	TXINFO_NMAC_CMD *tx_info;
 	s32 sent_len;
-	u32 cur_len = 0;
+	u32 pos = 0;
 	u32 mac_value, loop = 0;
 	u16 value;
 	int ret = 0, total_checksum = 0;
@@ -336,17 +336,17 @@ load_patch_protect:
 
 	init_completion(&load_rom_patch_done);
 
-	cur_len = 0x00;
+	pos = 0x00;
 	patch_len = fw->size - PATCH_INFO_SIZE;
 
 	/* loading rom patch */
 	while (1) {
 		s32 sent_len_max = UPLOAD_PATCH_UNIT - sizeof(*tx_info) - USB_END_PADDING;
 
-		sent_len = (patch_len - cur_len) >=  sent_len_max ? sent_len_max : (patch_len - cur_len);
+		sent_len = (patch_len - pos) >=  sent_len_max ? sent_len_max : (patch_len - pos);
 
 		DBGPRINT(RT_DEBUG_OFF, ("patch_len = %d\n", patch_len));
-		DBGPRINT(RT_DEBUG_OFF, ("cur_len = %d\n", cur_len));
+		DBGPRINT(RT_DEBUG_OFF, ("pos = %d\n", pos));
 		DBGPRINT(RT_DEBUG_OFF, ("sent_len = %d\n", sent_len));
 
 		if (sent_len > 0) {
@@ -358,12 +358,12 @@ load_patch_protect:
 #ifdef RT_BIG_ENDIAN
 			RTMPDescriptorEndianChange((u8 *)tx_info, TYPE_TXINFO);
 #endif
-			memmove(rom_patch_data + sizeof(*tx_info), fw_patch_image + PATCH_INFO_SIZE + cur_len, sent_len);
+			memmove(rom_patch_data + sizeof(*tx_info), fw_patch_image + PATCH_INFO_SIZE + pos, sent_len);
 
 			/* four zero bytes for end padding */
 			memset(rom_patch_data + sizeof(*tx_info) + sent_len, 0, 4);
 
-			value = (cur_len + cap->rom_patch_offset) & 0xFFFF;
+			value = (pos + cap->rom_patch_offset) & 0xFFFF;
 
 			DBGPRINT(RT_DEBUG_OFF, ("rom_patch_offset = %x\n", cap->rom_patch_offset));
 
@@ -382,7 +382,7 @@ load_patch_protect:
 				goto error2;
 			}
 
-			value = (((cur_len + cap->rom_patch_offset) & 0xFFFF0000) >> 16);
+			value = (((pos + cap->rom_patch_offset) & 0xFFFF0000) >> 16);
 
 			/* Set FCE DMA descriptor */
 			ret = mt7612u_vendor_request(ad,
@@ -398,7 +398,7 @@ load_patch_protect:
 				goto error2;
 			}
 
-			cur_len += sent_len;
+			pos += sent_len;
 
 			while ((sent_len % 4) != 0)
 				sent_len++;
@@ -452,7 +452,7 @@ load_patch_protect:
 				goto error2;
 			}
 
-			DBGPRINT(RT_DEBUG_INFO, ("%s: submit urb, sent_len = %d, patch_ilm = %d, cur_len = %d\n", __func__, sent_len, patch_len, cur_len));
+			DBGPRINT(RT_DEBUG_INFO, ("%s: submit urb, sent_len = %d, patch_ilm = %d, pos = %d\n", __func__, sent_len, patch_len, pos));
 
 			if (!wait_for_completion_timeout(&load_rom_patch_done, msecs_to_jiffies(1000))) {
 				usb_kill_urb(urb);
@@ -591,7 +591,7 @@ int mt7612u_mcu_usb_loadfw(struct rtmp_adapter *ad)
 	u8 *fw_data;
 	TXINFO_NMAC_CMD *tx_info;
 	s32 sent_len;
-	u32 cur_len = 0;
+	u32 pos = 0;
 	u32 mac_value, loop = 0;
 	u16 value;
 	int ret = 0;
@@ -724,15 +724,15 @@ loadfw_protect:
 	init_completion(&load_fw_done);
 
 	if (cap->load_iv)
-		cur_len = 0x40;
+		pos = 0x40;
 	else
-		cur_len = 0x00;
+		pos = 0x00;
 
 	/* Loading ILM */
 	while (1) {
 		s32 sent_len_max = UPLOAD_FW_UNIT - sizeof(*tx_info) - USB_END_PADDING;
 
-		sent_len = (ilm_len - cur_len) >=  sent_len_max ? sent_len_max : (ilm_len - cur_len);
+		sent_len = (ilm_len - pos) >=  sent_len_max ? sent_len_max : (ilm_len - pos);
 
 		if (sent_len > 0) {
 			tx_info = (TXINFO_NMAC_CMD *)fw_data;
@@ -743,12 +743,12 @@ loadfw_protect:
 #ifdef RT_BIG_ENDIAN
 			RTMPDescriptorEndianChange((u8 *)tx_info, TYPE_TXINFO);
 #endif
-			memmove(fw_data + sizeof(*tx_info), fw_image + FW_INFO_SIZE + cur_len, sent_len);
+			memmove(fw_data + sizeof(*tx_info), fw_image + FW_INFO_SIZE + pos, sent_len);
 
 			/* four zero bytes for end padding */
 			memset(fw_data + sizeof(*tx_info) + sent_len, 0, USB_END_PADDING);
 
-			value = (cur_len + cap->ilm_offset) & 0xFFFF;
+			value = (pos + cap->ilm_offset) & 0xFFFF;
 
 			/* Set FCE DMA descriptor */
 			ret = mt7612u_vendor_request(ad,
@@ -765,7 +765,7 @@ loadfw_protect:
 				goto error2;
 			}
 
-			value = (((cur_len + cap->ilm_offset) & 0xFFFF0000) >> 16);
+			value = (((pos + cap->ilm_offset) & 0xFFFF0000) >> 16);
 
 			/* Set FCE DMA descriptor */
 			ret = mt7612u_vendor_request(ad,
@@ -783,7 +783,7 @@ loadfw_protect:
 
 
 
-			cur_len += sent_len;
+			pos += sent_len;
 
 			while ((sent_len % 4) != 0)
 				sent_len++;
@@ -837,13 +837,13 @@ loadfw_protect:
 				goto error2;
 			}
 
-			DBGPRINT(RT_DEBUG_INFO, ("%s: submit urb, sent_len = %d, ilm_ilm = %d, cur_len = %d\n", __func__, sent_len, ilm_len, cur_len));
+			DBGPRINT(RT_DEBUG_INFO, ("%s: submit urb, sent_len = %d, ilm_ilm = %d, pos = %d\n", __func__, sent_len, ilm_len, pos));
 
 			if (!wait_for_completion_timeout(&load_fw_done, msecs_to_jiffies(UPLOAD_FW_TIMEOUT))) {
 				usb_kill_urb(urb);
 				ret = NDIS_STATUS_FAILURE;
 				DBGPRINT(RT_DEBUG_ERROR, ("upload fw timeout(%dms)\n", UPLOAD_FW_TIMEOUT));
-				DBGPRINT(RT_DEBUG_ERROR, ("%s: submit urb, sent_len = %d, ilm_ilm = %d, cur_len = %d\n", __func__, sent_len, ilm_len, cur_len));
+				DBGPRINT(RT_DEBUG_ERROR, ("%s: submit urb, sent_len = %d, ilm_ilm = %d, pos = %d\n", __func__, sent_len, ilm_len, pos));
 
 				goto error2;
 			}
@@ -863,14 +863,14 @@ loadfw_protect:
 	/* Re-Initialize completion */
 	init_completion(&load_fw_done);
 
-	cur_len = 0x00;
+	pos = 0x00;
 
 	/* Loading DLM */
 	while (1) {
 		s32 sent_len_max = UPLOAD_FW_UNIT - sizeof(*tx_info) - USB_END_PADDING;
 
-		sent_len = ((dlm_len - cur_len) >= sent_len_max) ?
-				sent_len_max : (dlm_len - cur_len);
+		sent_len = ((dlm_len - pos) >= sent_len_max) ?
+				sent_len_max : (dlm_len - pos);
 		if (sent_len > 0) {
 			tx_info = (TXINFO_NMAC_CMD *)fw_data;
 			tx_info->info_type = CMD_PACKET;
@@ -880,14 +880,14 @@ loadfw_protect:
 #ifdef RT_BIG_ENDIAN
 			RTMPDescriptorEndianChange((u8 *)tx_info, TYPE_TXINFO);
 #endif
-			memmove(fw_data + sizeof(*tx_info), fw_image + FW_INFO_SIZE + ilm_len + cur_len, sent_len);
+			memmove(fw_data + sizeof(*tx_info), fw_image + FW_INFO_SIZE + ilm_len + pos, sent_len);
 
 			memset(fw_data + sizeof(*tx_info) + sent_len, 0, USB_END_PADDING);
 
 			if (MT_REV_GTE(ad, MT76x2, REV_MT76x2E3))
-				value = ((cur_len + (cap->dlm_offset + 0x800)) & 0xFFFF);
+				value = ((pos + (cap->dlm_offset + 0x800)) & 0xFFFF);
 			else
-				value = ((cur_len + (cap->dlm_offset)) & 0xFFFF);
+				value = ((pos + (cap->dlm_offset)) & 0xFFFF);
 
 			/* Set FCE DMA descriptor */
 			ret = mt7612u_vendor_request(ad,
@@ -905,9 +905,9 @@ loadfw_protect:
 			}
 
 			if (MT_REV_GTE(ad, MT76x2, REV_MT76x2E3))
-				value = (((cur_len + (cap->dlm_offset + 0x800)) & 0xFFFF0000) >> 16);
+				value = (((pos + (cap->dlm_offset + 0x800)) & 0xFFFF0000) >> 16);
 			else
-				value = (((cur_len + (cap->dlm_offset)) & 0xFFFF0000) >> 16);
+				value = (((pos + (cap->dlm_offset)) & 0xFFFF0000) >> 16);
 
 			/* Set FCE DMA descriptor */
 			ret = mt7612u_vendor_request(ad,
@@ -923,7 +923,7 @@ loadfw_protect:
 				goto error2;
 			}
 
-			cur_len += sent_len;
+			pos += sent_len;
 
 			while ((sent_len % 4) != 0)
 				sent_len++;
@@ -977,13 +977,13 @@ loadfw_protect:
 				goto error2;
 			}
 
-			DBGPRINT(RT_DEBUG_INFO, ("%s: submit urb, sent_len = %d, dlm_len = %d, cur_len = %d\n", __func__, sent_len, dlm_len, cur_len));
+			DBGPRINT(RT_DEBUG_INFO, ("%s: submit urb, sent_len = %d, dlm_len = %d, pos = %d\n", __func__, sent_len, dlm_len, pos));
 
 			if (!wait_for_completion_timeout(&load_fw_done, msecs_to_jiffies(UPLOAD_FW_TIMEOUT))) {
 				usb_kill_urb(urb);
 				ret = NDIS_STATUS_FAILURE;
 				DBGPRINT(RT_DEBUG_ERROR, ("upload fw timeout(%dms)\n", UPLOAD_FW_TIMEOUT));
-				DBGPRINT(RT_DEBUG_INFO, ("%s: submit urb, sent_len = %d, dlm_len = %d, cur_len = %d\n", __func__, sent_len, dlm_len, cur_len));
+				DBGPRINT(RT_DEBUG_INFO, ("%s: submit urb, sent_len = %d, dlm_len = %d, pos = %d\n", __func__, sent_len, dlm_len, pos));
 
 				goto error2;
 			}
@@ -1840,7 +1840,7 @@ retransmit:
 int mt7612u_mcu_random_write(struct rtmp_adapter *ad, struct rtmp_reg_pair *reg_pair, u32 num)
 {
 	struct cmd_msg *msg;
-	unsigned int var_len = num * 8, cur_len = 0, sent_len;
+	unsigned int var_len = num * 8, pos = 0, sent_len;
 	u32 value, i, cur_index = 0;
 	struct rtmp_chip_cap *cap = &ad->chipCap;
 	int ret = 0;
@@ -1849,12 +1849,12 @@ int mt7612u_mcu_random_write(struct rtmp_adapter *ad, struct rtmp_reg_pair *reg_
 	if (!reg_pair)
 		return -1;
 
-	while (cur_len < var_len) {
-		sent_len = ((var_len - cur_len) > MT_INBAND_PACKET_MAX_LEN) ?
-				MT_INBAND_PACKET_MAX_LEN : (var_len - cur_len);
+	while (pos < var_len) {
+		sent_len = ((var_len - pos) > MT_INBAND_PACKET_MAX_LEN) ?
+				MT_INBAND_PACKET_MAX_LEN : (var_len - pos);
 
 		if ((sent_len < MT_INBAND_PACKET_MAX_LEN) ||
-		    (cur_len + MT_INBAND_PACKET_MAX_LEN) == var_len)
+		    (pos + MT_INBAND_PACKET_MAX_LEN) == var_len)
 			last_packet = true;
 
 		msg = mt7612u_mcu_alloc_cmd_msg(ad, sent_len);
@@ -1882,7 +1882,7 @@ int mt7612u_mcu_random_write(struct rtmp_adapter *ad, struct rtmp_reg_pair *reg_
 		ret = mt7612u_mcu_send_cmd_msg(ad, msg);
 
 		cur_index += (sent_len / 8);
-		cur_len += MT_INBAND_PACKET_MAX_LEN;
+		pos += MT_INBAND_PACKET_MAX_LEN;
 	}
 
 error:
