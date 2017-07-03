@@ -400,8 +400,7 @@ load_patch_protect:
 
 			pos += sent_len;
 
-			while ((sent_len % 4) != 0)
-				sent_len++;
+			sent_len = roundup(sent_len, 4);
 
 			value = ((sent_len << 16) & 0xFFFF);
 
@@ -785,8 +784,7 @@ loadfw_protect:
 
 			pos += sent_len;
 
-			while ((sent_len % 4) != 0)
-				sent_len++;
+			sent_len = roundup(sent_len, 4);
 
 			value = ((sent_len << 16) & 0xFFFF);
 
@@ -925,8 +923,7 @@ loadfw_protect:
 
 			pos += sent_len;
 
-			while ((sent_len % 4) != 0)
-				sent_len++;
+			sent_len = roundup(sent_len, 4);
 
 			value = ((sent_len << 16) & 0xFFFF);
 
