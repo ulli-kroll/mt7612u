@@ -346,7 +346,7 @@ int mt7612u_vendor_request(struct rtmp_adapter *pAd, u8 requesttype, u8 request,
 			u16 value, u16 index, void *data, u16 size)
 {
 	int ret = 0;
-	struct usb_device *udev = pAd->OS_Cookie->pUsb_Dev;
+	struct usb_device *udev = mt7612u_to_usb_dev(pAd);
 
 	if(in_interrupt()) {
 		DBGPRINT(RT_DEBUG_ERROR, ("BUG: mt7612u_vendor_request is called from invalid context\n"));

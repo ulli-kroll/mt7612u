@@ -146,7 +146,7 @@ VOID	RTMPFreeTxRxRingMemory(struct rtmp_adapter *pAd)
 	PTX_CONTEXT			pNullContext   = &pAd->NullContext;
 	PTX_CONTEXT			pPsPollContext = &pAd->PsPollContext;
 	PCMD_RSP_CONTEXT pCmdRspEventContext = &pAd->CmdRspEventContext;
-	struct usb_device *udev =  pAd->OS_Cookie->pUsb_Dev;
+	struct usb_device *udev =  mt7612u_to_usb_dev(pAd);
 
 	DBGPRINT(RT_DEBUG_ERROR, ("---> RTMPFreeTxRxRingMemory\n"));
 
@@ -351,7 +351,7 @@ int NICInitTransmit(struct rtmp_adapter *pAd)
 	PVOID pTransferBuffer;
 	struct urb *pUrb;
 	ra_dma_addr_t data_dma;
-	struct usb_device *udev =  pAd->OS_Cookie->pUsb_Dev;
+	struct usb_device *udev =  mt7612u_to_usb_dev(pAd);
 
 	DBGPRINT(RT_DEBUG_TRACE, ("--> NICInitTransmit\n"));
 
@@ -515,7 +515,7 @@ int RTMPAllocTxRxRingMemory(struct rtmp_adapter *pAd)
 	PTX_CONTEXT pPsPollContext = &(pAd->PsPollContext);
 	PCMD_RSP_CONTEXT pCmdRspEventContext = &(pAd->CmdRspEventContext);
 	INT i, acidx;
-	struct usb_device *udev =  pAd->OS_Cookie->pUsb_Dev;
+	struct usb_device *udev =  mt7612u_to_usb_dev(pAd);
 
 	DBGPRINT(RT_DEBUG_TRACE, ("--> RTMPAllocTxRxRingMemory\n"));
 
