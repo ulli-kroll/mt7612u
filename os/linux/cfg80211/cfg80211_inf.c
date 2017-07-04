@@ -507,7 +507,11 @@ VOID RTMP_CFG80211_VirtualIF_Init(
 		DBGPRINT(RT_DEBUG_TRACE, ("Register CFG80211 I/F (%s)\n", RTMP_OS_NETDEV_GET_DEVNAME(new_dev_p)));
 	}
 
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,12,0))
+	new_dev_p->needs_free_netdev = true;
+#else
 	new_dev_p->destructor =  free_netdev;
+#endif
 	RTMP_OS_NETDEV_SET_PRIV(new_dev_p, pAd);
 	pNetDevOps->needProtcted = true;
 
