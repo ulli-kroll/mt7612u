@@ -1028,12 +1028,25 @@ VOID CFG80211OS_Roamed(
 	IN u8 *pReqIe, IN uint32_t ReqIeLen,
 	IN u8 *pRspIe, IN uint32_t RspIeLen)
 {
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,12,0))
+	struct cfg80211_roam_info roam_info = {
+		.bssid = pBSSID,
+		.req_ie = pReqIe,
+		.req_ie_len = ReqIeLen,
+		.resp_ie = pRspIe,
+		.resp_ie_len = RspIeLen,
+	};
+
+	cfg80211_roamed(pNetDev, &roam_info, GFP_KERNEL);
+#else
 	cfg80211_roamed(pNetDev,
 		NULL,
 		pBSSID,
 		pReqIe, ReqIeLen,
 		pRspIe, RspIeLen,
 		GFP_KERNEL);
+
+#endif
 }
 
 
