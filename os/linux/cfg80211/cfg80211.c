@@ -281,7 +281,9 @@ static int CFG80211_OpsVirtualInfChg(
 	IN struct wiphy		*pWiphy,
 	IN struct net_device	*pNetDevIn,
 	IN enum nl80211_iftype	Type,
+#if (LINUX_VERSION_CODE < KERNEL_VERSION(4,12,0))
 	IN u32			*pFlags,
+#endif
 	struct vif_params	*pParams)
 {
 	struct rtmp_adapter *pAd;
@@ -323,6 +325,23 @@ static int CFG80211_OpsVirtualInfChg(
 	VifInfo.newIfType = Type;
 	VifInfo.oldIfType = oldType;
 
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,12,0))
+	if (pParams->flags &MONITOR_FLAG_CHANGED) {
+		VifInfo.MonFilterFlag = 0;
+
+		if (((pParams->flags) & NL80211_MNTR_FLAG_FCSFAIL) == NL80211_MNTR_FLAG_FCSFAIL)
+			VifInfo.MonFilterFlag |= RT_CMD_80211_FILTER_FCSFAIL;
+
+		if (((pParams->flags) & NL80211_MNTR_FLAG_FCSFAIL) == NL80211_MNTR_FLAG_PLCPFAIL)
+			VifInfo.MonFilterFlag |= RT_CMD_80211_FILTER_PLCPFAIL;
+
+		if (((pParams->flags) & NL80211_MNTR_FLAG_CONTROL) == NL80211_MNTR_FLAG_CONTROL)
+			VifInfo.MonFilterFlag |= RT_CMD_80211_FILTER_CONTROL;
+
+		if (((pParams->flags) & NL80211_MNTR_FLAG_CONTROL) == NL80211_MNTR_FLAG_OTHER_BSS)
+			VifInfo.MonFilterFlag |= RT_CMD_80211_FILTER_OTHER_BSS;
+	}
+#else
 	if (pFlags != NULL) {
 		VifInfo.MonFilterFlag = 0;
 
@@ -338,7 +357,7 @@ static int CFG80211_OpsVirtualInfChg(
 		if (((*pFlags) & NL80211_MNTR_FLAG_CONTROL) == NL80211_MNTR_FLAG_OTHER_BSS)
 			VifInfo.MonFilterFlag |= RT_CMD_80211_FILTER_OTHER_BSS;
 	}
-
+#endif
 	/* Type transer from linux to driver defined */
 	if (Type == NL80211_IFTYPE_STATION) {
 		Type = RT_CMD_80211_IFTYPE_STATION;
@@ -1964,7 +1983,10 @@ static int CFG80211_OpsStaChg(struct wiphy *pWiphy, struct net_device *dev,
 static struct wireless_dev* CFG80211_OpsVirtualInfAdd(
         struct wiphy *pWiphy, const char *name,
         unsigned char name_assign_type, enum nl80211_iftype Type,
-        u32 *pFlags, struct vif_params *pParams)
+#if (LINUX_VERSION_CODE < KERNEL_VERSION(4,12,0))
+        u32 *pFlags,
+#endif
+        struct vif_params *pParams)
 {
 	struct rtmp_adapter *pAd;
 	CMD_RTPRIV_IOCTL_80211_VIF_SET vifInfo;
