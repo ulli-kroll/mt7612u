@@ -2490,7 +2490,7 @@ typedef enum _MAC_ENT_STATUS_{
 	MAC_TB_ANY_WAPI = 0x1000,
 }MAC_ENT_STATUS;
 
-typedef struct _MAC_TABLE {
+struct mt7612u_mac_table {
 	MAC_TABLE_ENTRY *Hash[HASH_TABLE_SIZE];
 
 	MAC_TABLE_ENTRY Content[MAX_LEN_OF_MAC_TABLE];
@@ -2515,7 +2515,7 @@ typedef struct _MAC_TABLE {
 
 
 	unsigned short MsduLifeTime; /* life time for PS packet */
-} MAC_TABLE, *PMAC_TABLE;
+};
 
 
 
@@ -3480,7 +3480,7 @@ struct rtmp_adapter {
 #endif /* defined(AP_SCAN_SUPPORT) || defined(CONFIG_STA_SUPPORT) */
 
 	/*About MacTab, the sta driver will use #0 and #1 for multicast and AP. */
-	MAC_TABLE MacTab;	/* ASIC on-chip WCID entry table.  At TX, ASIC always use key according to this on-chip table. */
+	struct mt7612u_mac_table MacTab;	/* ASIC on-chip WCID entry table.  At TX, ASIC always use key according to this on-chip table. */
 	spinlock_t MacTabLock;
 
 	BA_TABLE BATable;

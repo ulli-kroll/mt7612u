@@ -122,7 +122,7 @@ static VOID QBSS_LoadAlarm(
 	if ((pAd->CommonCfg.AddHTInfo.AddHtInfo.ExtChanOffset != 0) &&
 		(pAd->CommonCfg.AddHTInfo.AddHtInfo.RecomWidth != 0))
 	{
-		MAC_TABLE *pMacTable;
+		struct mt7612u_mac_table *pMacTable;
 		uint32_t StaId;
 
 

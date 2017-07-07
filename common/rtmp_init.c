@@ -2227,7 +2227,7 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 	pAd->BbpForCCK = false;
 
 	/* initialize MAC table and allocate spin lock*/
-	memset(&pAd->MacTab, 0, sizeof(MAC_TABLE));
+	memset(&pAd->MacTab, 0, sizeof(struct mt7612u_mac_table));
 	InitializeQueueHeader(&pAd->MacTab.McastPsQueue);
 	spin_lock_init(&pAd->MacTabLock);
 

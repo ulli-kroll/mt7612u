@@ -902,7 +902,7 @@ VOID MacTableReset(struct rtmp_adapter *pAd)
 		/* ENTRY PREEMPTION: Zero Mac Table but entry's content */
 /*		memset(&pAd->MacTab, 0, sizeof(MAC_TABLE));*/
 		memset(&pAd->MacTab.Size, 0,
-							sizeof(MAC_TABLE)-
+							sizeof(struct mt7612u_mac_table)-
 							sizeof(pAd->MacTab.Hash)-
 							sizeof(pAd->MacTab.Content));
 

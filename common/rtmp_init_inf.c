@@ -666,7 +666,7 @@ VOID RTMPDrvClose(struct rtmp_adapter *pAd, struct net_device *net_dev)
 
 	/* clear MAC table */
 	/* TODO: do not clear spin lock, such as fLastChangeAccordingMfbLock */
-	memset(&pAd->MacTab, 0, sizeof(MAC_TABLE));
+	memset(&pAd->MacTab, 0, sizeof(struct mt7612u_mac_table));
 
 	/* release all timers */
 	RtmpusecDelay(2000);

@@ -651,7 +651,7 @@ VOID MacTableMaintenance(struct rtmp_adapter *pAd)
 	bool bRalinkBurstMode;
 	UINT fAnyStationPortSecured[HW_BEACON_MAX_NUM];
  	UINT bss_index;
-	MAC_TABLE *pMacTable;
+	struct mt7612u_mac_table *pMacTable;
 #if defined(PRE_ANT_SWITCH) || defined(CFO_TRACK)
 	int lastClient=0;
 #endif /* defined(PRE_ANT_SWITCH) || defined(CFO_TRACK) */
