@@ -3145,7 +3145,7 @@ typedef struct rtmp_phy_ctrl{
 #endif /* CONFIG_AP_SUPPORT */
 }RTMP_PHY_CTRL;
 
-
+struct mt7612u_cfg80211_cb;
 /*
 	The miniport adapter structure
 */
@@ -3621,7 +3621,7 @@ struct rtmp_adapter {
 #ifdef LINUX
 #ifdef RT_CFG80211_SUPPORT
 	CFG80211_CTRL cfg80211_ctrl;
-	VOID *pCfg80211_CB;
+	struct mt7612u_cfg80211_cb *pCfg80211_CB;
 #endif /* RT_CFG80211_SUPPORT */
 #endif /* LINUX */
 
