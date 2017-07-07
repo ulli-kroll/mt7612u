@@ -167,7 +167,7 @@ Note:
 */
 VOID CFG80211OS_UnRegister(VOID *pCB, VOID *pNetDevOrg)
 {
-	CFG80211_CB *pCfg80211_CB = (CFG80211_CB *)pCB;
+	struct mt7612u_cfg80211_cb *pCfg80211_CB = (struct mt7612u_cfg80211_cb *)pCB;
 	struct net_device *pNetDev = (struct net_device *)pNetDevOrg;
 
 
@@ -244,7 +244,7 @@ bool CFG80211_SupBandInit(
 	IN VOID *pChannelsOrg,
 	IN VOID *pRatesOrg)
 {
-	CFG80211_CB *pCfg80211_CB = (CFG80211_CB *)pCB;
+	struct mt7612u_cfg80211_cb *pCfg80211_CB = (struct mt7612u_cfg80211_cb *)pCB;
 	struct wiphy *pWiphy = (struct wiphy *)pWiphyOrg;
 	struct ieee80211_channel *pChannels = (struct ieee80211_channel *)pChannelsOrg;
 	struct ieee80211_rate *pRates = (struct ieee80211_rate *)pRatesOrg;
@@ -501,7 +501,7 @@ bool CFG80211OS_SupBandReInit(
 	IN VOID *pCB,
 	IN CFG80211_BAND *pBandInfo)
 {
-	CFG80211_CB *pCfg80211_CB = (CFG80211_CB *)pCB;
+	struct mt7612u_cfg80211_cb *pCfg80211_CB = (struct mt7612u_cfg80211_cb *)pCB;
 	struct wiphy *pWiphy;
 
 
@@ -554,7 +554,7 @@ VOID CFG80211OS_RegHint(
 	IN u8 *pCountryIe,
 	IN ULONG CountryIeLen)
 {
-	CFG80211_CB *pCfg80211_CB = (CFG80211_CB *)pCB;
+	struct mt7612u_cfg80211_cb *pCfg80211_CB = (struct mt7612u_cfg80211_cb *)pCB;
 
 
 	CFG80211DBG(RT_DEBUG_ERROR,
@@ -604,7 +604,7 @@ bool CFG80211OS_BandInfoGet(
 	OUT VOID **ppBand24,
 	OUT VOID **ppBand5)
 {
-	CFG80211_CB *pCfg80211_CB = (CFG80211_CB *)pCB;
+	struct mt7612u_cfg80211_cb *pCfg80211_CB = (struct mt7612u_cfg80211_cb *)pCB;
 	struct wiphy *pWiphy = (struct wiphy *)pWiphyOrg;
 
 
@@ -628,7 +628,7 @@ uint32_t CFG80211OS_ChanNumGet(
 	IN VOID						*pWiphyOrg,
 	IN uint32_t 				IdBand)
 {
-	CFG80211_CB *pCfg80211_CB = (CFG80211_CB *)pCB;
+	struct mt7612u_cfg80211_cb *pCfg80211_CB = (struct mt7612u_cfg80211_cb *)pCB;
 	struct wiphy *pWiphy = (struct wiphy *)pWiphyOrg;
 
 
@@ -657,7 +657,7 @@ bool CFG80211OS_ChanInfoGet(
 	OUT uint32_t 				*pPower,
 	OUT bool					*pFlgIsRadar)
 {
-	CFG80211_CB *pCfg80211_CB = (CFG80211_CB *)pCB;
+	struct mt7612u_cfg80211_cb *pCfg80211_CB = (struct mt7612u_cfg80211_cb *)pCB;
 	struct wiphy *pWiphy = (struct wiphy *)pWiphyOrg;
 	struct ieee80211_supported_band *pSband;
 	struct ieee80211_channel *pChan;
@@ -716,7 +716,7 @@ bool CFG80211OS_ChanInfoInit(
 	IN bool					FlgIsNMode,
 	IN bool					FlgIsBW20M)
 {
-	CFG80211_CB *pCfg80211_CB = (CFG80211_CB *)pCB;
+	struct mt7612u_cfg80211_cb *pCfg80211_CB = (struct mt7612u_cfg80211_cb *)pCB;
 	struct ieee80211_channel *pChan;
 
 
@@ -766,7 +766,7 @@ VOID CFG80211OS_Scaning(
 	IN UINT8					BW)
 {
 #ifdef CONFIG_STA_SUPPORT
-	CFG80211_CB *pCfg80211_CB = (CFG80211_CB *)pCB;
+	struct mt7612u_cfg80211_cb *pCfg80211_CB = (struct mt7612u_cfg80211_cb *)pCB;
 	struct ieee80211_supported_band *pBand;
 	uint32_t IdChan;
 	uint32_t CenFreq;
@@ -863,7 +863,7 @@ VOID CFG80211OS_ScanEnd(
 #endif
 
 #ifdef CONFIG_STA_SUPPORT
-	CFG80211_CB *pCfg80211_CB = (CFG80211_CB *)pCB;
+	struct mt7612u_cfg80211_cb *pCfg80211_CB = (struct mt7612u_cfg80211_cb *)pCB;
 	RTMP_SEM_LOCK(&pCfg80211_CB->scan_notify_lock);
 	if (pCfg80211_CB->pCfg80211_ScanReq)
 	{
@@ -913,7 +913,7 @@ void CFG80211OS_ConnectResultInform(
 	IN uint32_t RspIeLen,
 	IN u8 FlgIsSuccess)
 {
-	CFG80211_CB *pCfg80211_CB = (CFG80211_CB *)pCB;
+	struct mt7612u_cfg80211_cb *pCfg80211_CB = (struct mt7612u_cfg80211_cb *)pCB;
 
 
 	if ((pCfg80211_CB->pCfg80211_Wdev->netdev == NULL) || (pBSSID == NULL))
@@ -1053,7 +1053,7 @@ VOID CFG80211OS_Roamed(
 #if 0  /* ULLI : disabled, not used ?? */
 VOID CFG80211OS_RecvObssBeacon(VOID *pCB, const u8 *pFrame, INT frameLen, INT freq)
 {
-	CFG80211_CB *pCfg80211_CB = (CFG80211_CB *)pCB;
+	struct mt7612u_cfg80211_cb *pCfg80211_CB = (struct mt7612u_cfg80211_cb *)pCB;
 	struct wiphy *pWiphy = pCfg80211_CB->pCfg80211_Wdev->wiphy;
 
         cfg80211_report_obss_beacon(pWiphy, pFrame,frameLen, freq, 50, GFP_ATOMIC);

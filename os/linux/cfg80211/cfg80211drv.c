@@ -1121,7 +1121,7 @@ VOID CFG80211_LostApInform(
     IN struct rtmp_adapter		*pAd)
 {
 
-	CFG80211_CB *p80211CB = pAd->pCfg80211_CB;
+	struct mt7612u_cfg80211_cb *p80211CB = pAd->pCfg80211_CB;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("80211> CFG80211_LostApInform ==> %d\n",
 					p80211CB->sme_state));
@@ -1467,7 +1467,7 @@ bool CFG80211_checkScanResInKernelCache(
 	IN u8 				*pSsid,
 	IN INT       					ssidLen)
 {
-        CFG80211_CB *pCfg80211_CB  = (CFG80211_CB *)pAd->pCfg80211_CB;
+        struct mt7612u_cfg80211_cb *pCfg80211_CB  = (struct mt7612u_cfg80211_cb *)pAd->pCfg80211_CB;
         struct wiphy *pWiphy = pCfg80211_CB->pCfg80211_Wdev->wiphy;
         struct cfg80211_bss *bss;
 
@@ -1486,7 +1486,7 @@ bool CFG80211_checkScanResInKernelCache(
 bool CFG80211_checkScanTable(
         IN struct rtmp_adapter                               *pAd)
 {
-	CFG80211_CB *pCfg80211_CB  = (CFG80211_CB *)pAd->pCfg80211_CB;
+	struct mt7612u_cfg80211_cb *pCfg80211_CB  = ( struct mt7612u_cfg80211_cb *)pAd->pCfg80211_CB;
 	struct wiphy *pWiphy = pCfg80211_CB->pCfg80211_Wdev->wiphy;
 	ULONG bss_idx = BSS_NOT_FOUND;
 	struct cfg80211_bss *bss;

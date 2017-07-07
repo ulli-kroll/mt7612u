@@ -37,7 +37,7 @@ typedef enum _NDIS_HOSTAPD_STATUS {
 	Hostapd_CFG
 } NDIS_HOSTAPD_STATUS, *PNDIS_HOSTAPD_STATUS;
 
-typedef struct __CFG80211_CB {
+struct mt7612u_cfg80211_cb {
 
         enum {
                 SME_IDLE,
@@ -65,7 +65,7 @@ typedef struct __CFG80211_CB {
 	/* to protect scan status */
 	spinlock_t scan_notify_lock;
 
-} CFG80211_CB;
+};
 
 
 

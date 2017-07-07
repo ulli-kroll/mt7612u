@@ -42,7 +42,7 @@ extern INT ApCliAllowToSendPacket(
 bool CFG80211DRV_OpsChgVirtualInf(struct rtmp_adapter *pAd, VOID *pData)
 {
 	PCFG80211_CTRL pCfg80211_ctrl = &pAd->cfg80211_ctrl;
-    CFG80211_CB *p80211CB = pAd->pCfg80211_CB;
+	struct mt7612u_cfg80211_cb *p80211CB = pAd->pCfg80211_CB;
 	UINT newType, oldType;
 	CMD_RTPRIV_IOCTL_80211_VIF_PARM *pVifParm;
 	pVifParm = (CMD_RTPRIV_IOCTL_80211_VIF_PARM *)pData;
@@ -472,7 +472,7 @@ VOID RTMP_CFG80211_VirtualIF_Init(
 	CHAR preIfName[12];
 	UINT devNameLen = strlen(pDevName);
 	UINT preIfIndex = pDevName[devNameLen-1] - 48;
-	CFG80211_CB *p80211CB = pAd->pCfg80211_CB;
+	struct mt7612u_cfg80211_cb *p80211CB = pAd->pCfg80211_CB;
 	struct wireless_dev *pWdev;
 	uint32_t MC_RowID = 0, IoctlIF = 0, Inf = INT_P2P;
 
@@ -702,7 +702,7 @@ VOID RTMP_CFG80211_DummyP2pIf_Init(
 	IN struct rtmp_adapter	*pAd)
 {
 #define INF_CFG80211_DUMMY_P2P_NAME "p2p"
-	CFG80211_CB *p80211CB = pAd->pCfg80211_CB;
+	struct mt7612u_cfg80211_cb *p80211CB = pAd->pCfg80211_CB;
 	PCFG80211_CTRL cfg80211_ctrl = &pAd->cfg80211_ctrl;
 	struct RTMP_OS_NETDEV_OP_HOOK netDevHook, *pNetDevOps;
 	struct net_device *new_dev_p;

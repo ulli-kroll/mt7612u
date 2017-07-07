@@ -214,7 +214,7 @@ static int CFG80211_OpsChannelSet(
 
 {
 	struct rtmp_adapter *pAd;
-	CFG80211_CB *p80211CB;
+	struct mt7612u_cfg80211_cb *p80211CB;
 	CMD_RTPRIV_IOCTL_80211_CHAN ChanInfo;
 	uint32_t ChanId;
 
@@ -287,7 +287,7 @@ static int CFG80211_OpsVirtualInfChg(
 	struct vif_params	*pParams)
 {
 	struct rtmp_adapter *pAd;
-	CFG80211_CB *pCfg80211_CB;
+	struct mt7612u_cfg80211_cb *pCfg80211_CB;
 	struct net_device *pNetDev;
 	CMD_RTPRIV_IOCTL_80211_VIF_PARM VifInfo;
 	UINT oldType = pNetDevIn->ieee80211_ptr->iftype;
@@ -433,7 +433,7 @@ static int CFG80211_OpsScan(
 {
 #ifdef CONFIG_STA_SUPPORT
 	struct rtmp_adapter *pAd;
-	CFG80211_CB *pCfg80211_CB;
+	struct mt7612u_cfg80211_cb *pCfg80211_CB;
 	struct net_device *pNdev = NULL;
 
 	struct iw_scan_req IwReq;
@@ -923,7 +923,7 @@ static int CFG80211_OpsKeyAdd(
 {
 	struct rtmp_adapter *pAd;
 	CMD_RTPRIV_IOCTL_80211_KEY KeyInfo;
-	CFG80211_CB *p80211CB;
+	struct mt7612u_cfg80211_cb *p80211CB;
 	p80211CB = NULL;
 
 	CFG80211DBG(RT_DEBUG_TRACE, ("80211> %s ==>\n", __FUNCTION__));
@@ -1085,7 +1085,7 @@ static int CFG80211_OpsKeyDel(
 {
     struct rtmp_adapter *pAd;
     CMD_RTPRIV_IOCTL_80211_KEY KeyInfo;
-	CFG80211_CB *p80211CB;
+	struct mt7612u_cfg80211_cb *p80211CB;
 	p80211CB = NULL;
 
     CFG80211DBG(RT_DEBUG_TRACE, ("80211> %s ==>\n", __FUNCTION__));
@@ -1446,7 +1446,7 @@ VOID CFG80211_RFKillStatusUpdate(
 	bool			active)
 {
 	struct wiphy *pWiphy;
-	CFG80211_CB *pCfg80211_CB;
+	struct mt7612u_cfg80211_cb *pCfg80211_CB;
 
 	CFG80211DBG(RT_DEBUG_TRACE, ("80211> %s ==>\n", __FUNCTION__));
 	pCfg80211_CB = RTMP_DRIVER_80211_CB_GET(pAd);
@@ -1503,7 +1503,7 @@ static int CFG80211_OpsSurveyGet(
 	RTMP_DRIVER_80211_SURVEY_GET(pAd, &SurveyInfo);
 
 	/* return the information to upper layer */
-	pSurvey->channel = ((CFG80211_CB *)(SurveyInfo.pCfg80211))->pCfg80211_Channels;
+	pSurvey->channel = ((struct mt7612u_cfg80211_cb *)(SurveyInfo.pCfg80211))->pCfg80211_Channels;
 	pSurvey->filled = SURVEY_INFO_TIME_BUSY |
 			  SURVEY_INFO_TIME_EXT_BUSY;
 	pSurvey->time_busy  = SurveyInfo.ChannelTimeBusy; /* unit: us */
@@ -1944,7 +1944,7 @@ static int CFG80211_OpsStaChg(struct wiphy *pWiphy, struct net_device *dev,
 	const u8 *pMacAddr, struct station_parameters *params)
 {
 	struct rtmp_adapter *pAd;
-	CFG80211_CB *p80211CB;
+	struct mt7612u_cfg80211_cb *p80211CB;
 
 	CFG80211DBG(RT_DEBUG_TRACE, ("80211> Change STA(%02X:%02X:%02X:%02X:%02X:%02X) ==>\n", PRINT_MAC(pMacAddr)));
 	pAd = MAC80211_PAD_GET(pWiphy);
@@ -2258,7 +2258,7 @@ struct cfg80211_ops CFG80211_Ops = {
 /* =========================== Global Function ============================== */
 
 static struct wireless_dev *CFG80211_WdevAlloc(
-	CFG80211_CB		*pCfg80211_CB,
+	struct mt7612u_cfg80211_cb *pCfg80211_CB,
 	CFG80211_BAND		*pBandInfo,
 	struct rtmp_adapter	*pAd,
 	struct device		*pDev)
@@ -2391,12 +2391,12 @@ bool CFG80211_Register(
 	struct device		*pDev,
 	struct net_device	*pNetDev)
 {
-	CFG80211_CB *pCfg80211_CB = NULL;
+	struct mt7612u_cfg80211_cb *pCfg80211_CB = NULL;
 	CFG80211_BAND BandInfo;
 	INT err;
 
 	/* allocate Main Device Info structure */
-	pCfg80211_CB = kmalloc(sizeof(CFG80211_CB), GFP_ATOMIC);
+	pCfg80211_CB = kmalloc(sizeof(*pCfg80211_CB), GFP_ATOMIC);
 	if (pCfg80211_CB == NULL) {
 		DBGPRINT(RT_DEBUG_ERROR, ("80211> Allocate MAC80211 CB fail!\n"));
 		return false;

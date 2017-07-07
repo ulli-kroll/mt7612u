@@ -161,7 +161,7 @@ bool CFG80211DRV_OpsScanCheckStatus(struct rtmp_adapter *pAd,
 
 bool CFG80211DRV_OpsScanExtraIesSet(struct rtmp_adapter *pAd)
 {
-	CFG80211_CB *pCfg80211_CB = pAd->pCfg80211_CB;
+	struct mt7612u_cfg80211_cb *pCfg80211_CB = pAd->pCfg80211_CB;
 	UINT ie_len = 0;
 	PCFG80211_CTRL cfg80211_ctrl = &pAd->cfg80211_ctrl;
 
@@ -231,7 +231,7 @@ static void CFG80211_UpdateBssTableRssi(
 	IN struct rtmp_adapter			*pAd)
 {
 
-	CFG80211_CB *pCfg80211_CB  = (CFG80211_CB *)pAd->pCfg80211_CB;
+	struct mt7612u_cfg80211_cb *pCfg80211_CB  = (struct mt7612u_cfg80211_cb *)pAd->pCfg80211_CB;
 	struct wiphy *pWiphy = pCfg80211_CB->pCfg80211_Wdev->wiphy;
 	struct ieee80211_channel *chan;
 	struct cfg80211_bss *bss;
@@ -385,7 +385,7 @@ VOID CFG80211_ScanStatusLockInit(
 	IN struct rtmp_adapter	*pAd,
 	IN UINT                      init)
 {
-	CFG80211_CB *pCfg80211_CB  = (CFG80211_CB *)pAd->pCfg80211_CB;
+	struct mt7612u_cfg80211_cb *pCfg80211_CB  = (struct mt7612u_cfg80211_cb *)pAd->pCfg80211_CB;
 
 	if (init)
 	{
