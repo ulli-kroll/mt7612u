@@ -1160,7 +1160,12 @@ static inline u8 mt7612u_mcu_get_cmd_msg_seq(struct rtmp_adapter *ad)
 	spin_lock_irqsave(&ctl->ackq_lock, flags);
 get_seq:
 	ctl->cmd_seq >= 0xf ? ctl->cmd_seq = 1 : ctl->cmd_seq++;
-	DlListForEach(msg, &ctl->ackq, struct cmd_msg, list) {
+
+
+       for (msg = DlListEntry((&ctl->ackq)->Next, struct cmd_msg, list);
+               &msg->list != &ctl->ackq;
+               msg = DlListEntry(msg->list.Next, struct cmd_msg, list)) {
+
 		if (msg->seq == ctl->cmd_seq) {
 			DBGPRINT(RT_DEBUG_ERROR, ("command(seq: %d) is still running\n", ctl->cmd_seq));
 			goto get_seq;

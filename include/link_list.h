@@ -122,7 +122,7 @@ static inline void DlListAdd(struct _DL_LIST *List, struct _DL_LIST *Item)
 	Item->Next = List->Next;
 	Item->Prev = List;
 	List->Next->Prev = Item;
-	List->Next = Item; 
+	List->Next = Item;
 }
 
 static inline void DlListAddTail(struct _DL_LIST *List, struct _DL_LIST *Item)
@@ -153,11 +153,6 @@ static inline int DlListEmpty(struct _DL_LIST *List)
 #define DlListFirst(list, type, member) \
     (DlListEmpty((list)) ? NULL : \
      DlListEntry((list)->Next, type, member))
-
-#define DlListForEach(item, list, type, member) \
-    for (item = DlListEntry((list)->Next, type, member); \
-         &item->member != (list); \
-         item = DlListEntry(item->member.Next, type, member))
 
 #define DlListForEachSafe(item, n, list, type, member) \
     for (item = DlListEntry((list)->Next, type, member), \
