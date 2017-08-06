@@ -27,6 +27,14 @@
 */
 
 #include	"rt_config.h"
+#include "bitfield.h"
+
+#define MT_DMA_HDR_LEN			4
+#define MT_TXD_INFO_LEN			GENMASK(15, 0)
+#define MT_TXD_CMD_INFO_SEQ            	GENMASK(19, 16)
+#define MT_TXD_CMD_INFO_TYPE            GENMASK(26, 20)
+#define MT_TXD_INFO_D_PORT		GENMASK(29, 27)
+#define MT_TXD_INFO_TYPE		GENMASK(31, 30)
 
 /* Known USB Vendor Commands */
 #define MT7612U_VENDOR_DEVICE_MODE	0x01
@@ -192,7 +200,6 @@ int mt7612u_mcu_usb_load_rom_patch(struct rtmp_adapter *ad)
 	struct usb_device *udev = mt7612u_to_usb_dev(ad);
 	ra_dma_addr_t rom_patch_dma;
 	u8 *rom_patch_data;
-	TXINFO_NMAC_CMD *tx_info;
 	s32 sent_len;
 	u32 pos = 0;
 	u32 mac_value, loop = 0;
@@ -344,7 +351,7 @@ load_patch_protect:
 
 	/* loading rom patch */
 	while (1) {
-		s32 sent_len_max = UPLOAD_PATCH_UNIT - sizeof(*tx_info) - USB_END_PADDING;
+		s32 sent_len_max = UPLOAD_PATCH_UNIT - MT_DMA_HDR_LEN - USB_END_PADDING;
 
 		sent_len = (patch_len - pos) >=  sent_len_max ? sent_len_max : (patch_len - pos);
 
@@ -353,18 +360,16 @@ load_patch_protect:
 		DBGPRINT(RT_DEBUG_OFF, ("sent_len = %d\n", sent_len));
 
 		if (sent_len > 0) {
-			tx_info = (TXINFO_NMAC_CMD *)rom_patch_data;
-			tx_info->info_type = CMD_PACKET;
-			tx_info->pkt_len = sent_len;
-			tx_info->d_port = CPU_TX_PORT;
+			__le32 reg;
 
-#ifdef RT_BIG_ENDIAN
-			RTMPDescriptorEndianChange((u8 *)tx_info, TYPE_TXINFO);
-#endif
-			memmove(rom_patch_data + sizeof(*tx_info), fw_patch_image + PATCH_INFO_SIZE + pos, sent_len);
+			reg = cpu_to_le32(FIELD_PREP(MT_TXD_INFO_TYPE, CMD_PACKET) |
+					  FIELD_PREP(MT_TXD_INFO_D_PORT, CPU_TX_PORT) |
+					  FIELD_PREP(MT_TXD_INFO_LEN, sent_len));
 
+			memmove(rom_patch_data, &reg, sizeof(reg));
+			memmove(rom_patch_data + sizeof(reg), fw_patch_image + PATCH_INFO_SIZE + pos, sent_len);
 			/* four zero bytes for end padding */
-			memset(rom_patch_data + sizeof(*tx_info) + sent_len, 0, 4);
+			memset(rom_patch_data + sizeof(reg) + sent_len, 0, 4);
 
 			value = (pos + cap->rom_patch_offset) & 0xFFFF;
 
@@ -442,7 +447,7 @@ load_patch_protect:
 					 udev,
 					 MT_COMMAND_BULK_OUT_ADDR,
 					 rom_patch_data,
-					 sent_len + sizeof(*tx_info) + 4,
+					 sent_len + sizeof(reg) + 4,
 					 usb_upload_rom_patch_complete,
 					 &load_rom_patch_done,
 					 rom_patch_dma);
@@ -591,7 +596,6 @@ int mt7612u_mcu_usb_loadfw(struct rtmp_adapter *ad)
 	struct usb_device *udev = mt7612u_to_usb_dev(ad);
 	ra_dma_addr_t fw_dma;
 	u8 *fw_data;
-	TXINFO_NMAC_CMD *tx_info;
 	s32 sent_len;
 	u32 pos = 0;
 	u32 mac_value, loop = 0;
@@ -732,23 +736,21 @@ loadfw_protect:
 
 	/* Loading ILM */
 	while (1) {
-		s32 sent_len_max = UPLOAD_FW_UNIT - sizeof(*tx_info) - USB_END_PADDING;
+		s32 sent_len_max = UPLOAD_FW_UNIT - MT_DMA_HDR_LEN - USB_END_PADDING;
 
 		sent_len = (ilm_len - pos) >=  sent_len_max ? sent_len_max : (ilm_len - pos);
 
 		if (sent_len > 0) {
-			tx_info = (TXINFO_NMAC_CMD *)fw_data;
-			tx_info->info_type = CMD_PACKET;
-			tx_info->pkt_len = sent_len;
-			tx_info->d_port = CPU_TX_PORT;
+			__le32 reg;
 
-#ifdef RT_BIG_ENDIAN
-			RTMPDescriptorEndianChange((u8 *)tx_info, TYPE_TXINFO);
-#endif
-			memmove(fw_data + sizeof(*tx_info), fw_image + FW_INFO_SIZE + pos, sent_len);
+			reg = cpu_to_le32(FIELD_PREP(MT_TXD_INFO_TYPE, CMD_PACKET) |
+					  FIELD_PREP(MT_TXD_INFO_D_PORT, CPU_TX_PORT) |
+					  FIELD_PREP(MT_TXD_INFO_LEN, sent_len));
 
+			memmove(fw_data, &reg, sizeof(reg));
+			memmove(fw_data + sizeof(reg), fw_image + FW_INFO_SIZE + pos, sent_len);
 			/* four zero bytes for end padding */
-			memset(fw_data + sizeof(*tx_info) + sent_len, 0, USB_END_PADDING);
+			memset(fw_data + sizeof(reg) + sent_len, 0, USB_END_PADDING);
 
 			value = (pos + cap->ilm_offset) & 0xFFFF;
 
@@ -826,7 +828,7 @@ loadfw_protect:
 					 udev,
 					 MT_COMMAND_BULK_OUT_ADDR,
 					 fw_data,
-					 sent_len + sizeof(*tx_info) + USB_END_PADDING,
+					 sent_len + sizeof(reg) + USB_END_PADDING,
 					 usb_uploadfw_complete,
 					 &load_fw_done,
 					 fw_dma);
@@ -868,22 +870,20 @@ loadfw_protect:
 
 	/* Loading DLM */
 	while (1) {
-		s32 sent_len_max = UPLOAD_FW_UNIT - sizeof(*tx_info) - USB_END_PADDING;
+		s32 sent_len_max = UPLOAD_FW_UNIT - MT_DMA_HDR_LEN - USB_END_PADDING;
 
 		sent_len = ((dlm_len - pos) >= sent_len_max) ?
 				sent_len_max : (dlm_len - pos);
 		if (sent_len > 0) {
-			tx_info = (TXINFO_NMAC_CMD *)fw_data;
-			tx_info->info_type = CMD_PACKET;
-			tx_info->pkt_len = sent_len;
-			tx_info->d_port = CPU_TX_PORT;
+			__le32 reg;
 
-#ifdef RT_BIG_ENDIAN
-			RTMPDescriptorEndianChange((u8 *)tx_info, TYPE_TXINFO);
-#endif
-			memmove(fw_data + sizeof(*tx_info), fw_image + FW_INFO_SIZE + ilm_len + pos, sent_len);
+			reg = cpu_to_le32(FIELD_PREP(MT_TXD_INFO_TYPE, CMD_PACKET) |
+					  FIELD_PREP(MT_TXD_INFO_D_PORT, CPU_TX_PORT) |
+					  FIELD_PREP(MT_TXD_INFO_LEN, sent_len));
 
-			memset(fw_data + sizeof(*tx_info) + sent_len, 0, USB_END_PADDING);
+			memmove(fw_data, &reg, sizeof(reg));
+			memmove(fw_data + sizeof(reg), fw_image + FW_INFO_SIZE + ilm_len + pos, sent_len);
+			memset(fw_data + sizeof(reg) + sent_len, 0, USB_END_PADDING);
 
 			if (MT_REV_GTE(ad, MT76x2, REV_MT76x2E3))
 				value = ((pos + (cap->dlm_offset + 0x800)) & 0xFFFF);
@@ -965,7 +965,7 @@ loadfw_protect:
 					 udev,
 					 MT_COMMAND_BULK_OUT_ADDR,
 					 fw_data,
-					 sent_len + sizeof(*tx_info) + USB_END_PADDING,
+					 sent_len + sizeof(reg) + USB_END_PADDING,
 					 usb_uploadfw_complete,
 					 &load_fw_done,
 					 fw_dma);
