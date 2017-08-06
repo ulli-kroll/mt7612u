@@ -40,6 +40,9 @@
 #define MT7612U_VENDOR_USB_CFG_READ	0x47
 #define MT7612U_VENDOR_USB_CFG_WRITE	0x46
 
+static void mt7612u_mcu_bh_schedule(struct rtmp_adapter *ad);
+static int mt7612u_mcu_send_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *msg);
+
 static void mt7612u_vendor_reset(struct rtmp_adapter *pAd)
 {
 	mt7612u_vendor_request(pAd, DEVICE_VENDOR_REQUEST_OUT,
@@ -48,7 +51,7 @@ static void mt7612u_vendor_reset(struct rtmp_adapter *pAd)
 
 }
 
-int mt7612u_mcu_usb_enable_patch(struct rtmp_adapter *ad)
+static int mt7612u_mcu_usb_enable_patch(struct rtmp_adapter *ad)
 {
 	int ret = NDIS_STATUS_SUCCESS;
 	struct rtmp_chip_cap *cap = &ad->chipCap;
@@ -80,7 +83,7 @@ int mt7612u_mcu_usb_enable_patch(struct rtmp_adapter *ad)
 	return ret;
 }
 
-int mt7612u_mcu_usb_reset_wmt(struct rtmp_adapter *ad)
+static int mt7612u_mcu_usb_reset_wmt(struct rtmp_adapter *ad)
 {
 	int ret = NDIS_STATUS_SUCCESS;
 	struct rtmp_chip_cap *cap = &ad->chipCap;
@@ -101,7 +104,7 @@ int mt7612u_mcu_usb_reset_wmt(struct rtmp_adapter *ad)
 	return ret;
 }
 
-u16 checksume16(u8 *pData, int len)
+static u16 checksume16(u8 *pData, int len)
 {
 	int sum = 0;
 
@@ -125,7 +128,7 @@ u16 checksume16(u8 *pData, int len)
 	return ~sum;
 }
 
-int mt7612u_mcu_usb_chk_crc(struct rtmp_adapter *ad, u32 checksum_len)
+static int mt7612u_mcu_usb_chk_crc(struct rtmp_adapter *ad, u32 checksum_len)
 {
 	int ret = 0;
 	u8 cmd[8];
@@ -148,7 +151,7 @@ int mt7612u_mcu_usb_chk_crc(struct rtmp_adapter *ad, u32 checksum_len)
 
 }
 
-u16 mt7612u_mcu_usb_get_crc(struct rtmp_adapter *ad)
+static u16 mt7612u_mcu_usb_get_crc(struct rtmp_adapter *ad)
 {
 	int ret = 0;
 	u16 crc, count = 0;
@@ -1037,7 +1040,7 @@ error0:
 	return ret;
 }
 
-struct cmd_msg *mt7612u_mcu_alloc_cmd_msg(struct rtmp_adapter *ad, unsigned int length)
+static struct cmd_msg *mt7612u_mcu_alloc_cmd_msg(struct rtmp_adapter *ad, unsigned int length)
 {
 	struct cmd_msg *msg = NULL;
 	struct rtmp_chip_cap *cap = &ad->chipCap;
@@ -1110,7 +1113,7 @@ static void mt7612u_mcu_init_cmd_msg(struct cmd_msg *msg, enum mcu_cmd_type type
 	msg->rsp_payload = rsp_payload;
 }
 
-void mt7612u_mcu_append_cmd_msg(struct cmd_msg *msg, char *data, unsigned int len)
+static void mt7612u_mcu_append_cmd_msg(struct cmd_msg *msg, char *data, unsigned int len)
 {
 	struct sk_buff *skb = msg->skb;
 
@@ -1118,7 +1121,7 @@ void mt7612u_mcu_append_cmd_msg(struct cmd_msg *msg, char *data, unsigned int le
 		memcpy(skb_put(skb, len), data, len);
 }
 
-void mt7612u_mcu_free_cmd_msg(struct cmd_msg *msg)
+static void mt7612u_mcu_free_cmd_msg(struct cmd_msg *msg)
 {
 	struct sk_buff *skb = msg->skb;
 	struct rtmp_adapter *ad = (struct rtmp_adapter *)(msg->priv);
@@ -1271,7 +1274,7 @@ static struct cmd_msg *mt7612u_mcu_dequeue_cmd_msg(struct mt7612u_mcu_ctrl  *ctl
 	return msg;
 }
 
-void mt7612u_mcu_rx_process_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *rx_msg)
+static void mt7612u_mcu_rx_process_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *rx_msg)
 {
 	struct sk_buff *skb = rx_msg->skb;
 	struct cmd_msg *msg, *msg_tmp;
@@ -1394,7 +1397,7 @@ static void usb_rx_cmd_msg_complete(struct urb *urb)
 	mt7612u_mcu_bh_schedule(ad);
 }
 
-int usb_rx_cmd_msg_submit(struct rtmp_adapter *ad)
+static int usb_rx_cmd_msg_submit(struct rtmp_adapter *ad)
 {
 	struct rtmp_chip_cap *pChipCap = &ad->chipCap;
 	struct usb_device *udev = mt7612u_to_usb_dev(ad);
@@ -1451,7 +1454,7 @@ int usb_rx_cmd_msgs_receive(struct rtmp_adapter *ad)
 	return ret;
 }
 
-void mt7612u_mcu_cmd_msg_bh(unsigned long param)
+static void mt7612u_mcu_cmd_msg_bh(unsigned long param)
 {
 	struct rtmp_adapter *ad = (struct rtmp_adapter *)param;
 	struct mt7612u_mcu_ctrl  *ctl = &ad->MCUCtrl;
@@ -1481,7 +1484,7 @@ void mt7612u_mcu_cmd_msg_bh(unsigned long param)
 	}
 }
 
-void mt7612u_mcu_bh_schedule(struct rtmp_adapter *ad)
+static void mt7612u_mcu_bh_schedule(struct rtmp_adapter *ad)
 {
 	bool tmp;
 	struct mt7612u_mcu_ctrl  *ctl = &ad->MCUCtrl;
@@ -1536,7 +1539,7 @@ static void usb_kick_out_cmd_msg_complete(struct urb *urb)
 	mt7612u_mcu_bh_schedule(ad);
 }
 
-int usb_kick_out_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *msg)
+static int usb_kick_out_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *msg)
 {
 	struct mt7612u_mcu_ctrl  *ctl = &ad->MCUCtrl;
 	struct usb_device *udev = mt7612u_to_usb_dev(ad);
@@ -1584,7 +1587,7 @@ int usb_kick_out_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *msg)
 	return ret;
 }
 
-void mt7612u_mcu_usb_unlink_urb(struct rtmp_adapter *ad, DL_LIST *list)
+static void mt7612u_mcu_usb_unlink_urb(struct rtmp_adapter *ad, DL_LIST *list)
 {
 	unsigned long flags;
 	struct cmd_msg *msg, *msg_tmp;
@@ -1611,7 +1614,7 @@ void mt7612u_mcu_usb_unlink_urb(struct rtmp_adapter *ad, DL_LIST *list)
 	spin_unlock_irqrestore(lock, flags);
 }
 
-void mt7612u_mcu_cleanup_cmd_msg(struct rtmp_adapter *ad, DL_LIST *list)
+static void mt7612u_mcu_cleanup_cmd_msg(struct rtmp_adapter *ad, DL_LIST *list)
 {
 	unsigned long flags;
 	struct cmd_msg *msg, *msg_tmp;
@@ -1775,7 +1778,7 @@ static int mt7612u_mcu_dequeue_and_kick_out_cmd_msgs(struct rtmp_adapter *ad)
 	return ret;
 }
 
-int mt7612u_mcu_send_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *msg)
+static int mt7612u_mcu_send_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *msg)
 {
 	struct mt7612u_mcu_ctrl  *ctl = &ad->MCUCtrl;
 	int ret = 0;
@@ -2266,8 +2269,6 @@ int mt7612u_mcu_led_op(struct rtmp_adapter *ad, u32 led_idx, u32 link_status)
 error:
 	return ret;
 }
-
-
 
 void mt7612u_mcu_usb_fw_init(struct rtmp_adapter *ad)
 {

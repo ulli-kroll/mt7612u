@@ -349,28 +349,20 @@ int mt7612u_mcu_usb_loadfw(struct rtmp_adapter *ad);
 int mt7612u_mcu_usb_load_rom_patch(struct rtmp_adapter *ad);
 void mt7612u_mcu_usb_fw_init(struct rtmp_adapter *ad);
 void mt7612u_mcu_ctrl_init(struct rtmp_adapter *ad);
-void mt7612u_mcu_ctrl_enable(struct rtmp_adapter *ad);
-void mt7612u_mcu_ctrl_disable(struct rtmp_adapter *ad);
 void mt7612u_mcu_ctrl_exit(struct rtmp_adapter *ad);
-int mt7612u_mcu_send_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *msg);
 int mt7612u_mcu_read_modify_write(struct rtmp_adapter *ad, struct _R_M_W_REG *reg_pair, u32 num);
 int mt7612u_mcu_random_write(struct rtmp_adapter *ad, struct rtmp_reg_pair *reg_pair, u32 num);
 int mt7612u_mcu_fun_set(struct rtmp_adapter *ad, u32 fun_id, u32 param);
 int mt7612u_mcu_pwr_saving(struct rtmp_adapter *ad, u32 op, u32 level);
 void mt7612u_mcu_calibration(struct rtmp_adapter *ad, enum mt7612u_mcu_calibration cal_id, u32 param);
 void mt7612u_mcu_tssi_comp(struct rtmp_adapter *ad, struct mt7612u_tssi_comp *param);
-void mt7612u_mcu_cmd_msg_bh(unsigned long param);
-int usb_rx_cmd_msg_submit(struct rtmp_adapter *ad);
 int usb_rx_cmd_msgs_receive(struct rtmp_adapter *ad);
-void mt7612u_mcu_bh_schedule(struct rtmp_adapter *ad);
 void pci_kick_out_cmd_msg_complete(struct sk_buff *net_pkt);
 int mt7612u_mcu_load_cr(struct rtmp_adapter *ad, u32 cr_type, UINT8 temp_level, UINT8 channel);
 int mt7612u_mcu_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan, unsigned int bw, unsigned int tx_rx_setting, u8 bbp_ch_idx);
 int mt7612u_mcu_init_gain(struct rtmp_adapter *ad, UINT8 channel, bool force_mode, unsigned int gain_from_e2p);
 int mt7612u_mcu_dynamic_vga(struct rtmp_adapter *ad, UINT8 channel, bool mode, bool ext, int rssi, unsigned int false_cca);
 int mt7612u_mcu_led_op(struct rtmp_adapter *ad, u32 led_idx, u32 link_status);
-struct cmd_msg *mt7612u_mcu_alloc_cmd_msg(struct rtmp_adapter *ad, unsigned int length);
-void mt7612u_mcu_append_cmd_msg(struct cmd_msg *msg, char *data, unsigned int len);
 
 #define MT_INBAND_PACKET_MAX_LEN	192	/* must be 48 multible */
 #define MT_COMMAND_BULK_OUT_ADDR	0x8
