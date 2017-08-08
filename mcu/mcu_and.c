@@ -36,6 +36,33 @@
 #define MT_TXD_INFO_D_PORT		GENMASK(29, 27)
 #define MT_TXD_INFO_TYPE		GENMASK(31, 30)
 
+struct mt7612u_dma_buf {
+	struct urb *urb;
+	void *buf;
+	dma_addr_t dma;
+	size_t len;
+};
+
+bool mt7612u_usb_alloc_buf(struct rtmp_adapter *ad, size_t len,
+			   struct mt7612u_dma_buf *buf)
+{
+	struct usb_device *usb_dev = mt7612u_to_usb_dev(ad);
+
+	buf->len = len;
+	buf->urb = usb_alloc_urb(0, GFP_KERNEL);
+	buf->buf = usb_alloc_coherent(usb_dev, buf->len, GFP_KERNEL, &buf->dma);
+
+	return !buf->urb || !buf->buf;
+}
+
+void mt7612u_usb_free_buf(struct rtmp_adapter *ad, struct mt7612u_dma_buf *buf)
+{
+	struct usb_device *usb_dev = mt7612u_to_usb_dev(ad);
+
+	usb_free_coherent(usb_dev, buf->len, buf->buf, buf->dma);
+	usb_free_urb(buf->urb);
+}
+
 inline int mt7612u_dma_skb_wrap(struct sk_buff *skb,
 				       enum D_PORT d_port,
 				       enum INFO_TYPE type, u32 flags)
@@ -228,8 +255,7 @@ int mt7612u_mcu_usb_load_rom_patch(struct rtmp_adapter *ad)
 {
 	struct urb *urb;
 	struct usb_device *udev = mt7612u_to_usb_dev(ad);
-	ra_dma_addr_t rom_patch_dma;
-	u8 *rom_patch_data;
+	struct mt7612u_dma_buf dma_buf;
 	s32 sent_len;
 	u32 pos = 0;
 	u32 mac_value, loop = 0;
@@ -365,10 +391,8 @@ load_patch_protect:
 	}
 
 	/* Allocate TransferBuffer */
-	rom_patch_data = usb_alloc_coherent(udev, UPLOAD_PATCH_UNIT, GFP_ATOMIC, &rom_patch_dma);
-
-	if (!rom_patch_data) {
-		ret = NDIS_STATUS_RESOURCES;
+	if (mt7612u_usb_alloc_buf(ad, UPLOAD_PATCH_UNIT, &dma_buf)) {
+		ret = -ENOMEM;
 		goto error1;
 	}
 
@@ -396,10 +420,10 @@ load_patch_protect:
 					  FIELD_PREP(MT_TXD_INFO_D_PORT, CPU_TX_PORT) |
 					  FIELD_PREP(MT_TXD_INFO_LEN, sent_len));
 
-			memmove(rom_patch_data, &reg, sizeof(reg));
-			memmove(rom_patch_data + sizeof(reg), fw_patch_image + PATCH_INFO_SIZE + pos, sent_len);
+			memmove(dma_buf.buf, &reg, sizeof(reg));
+			memmove(dma_buf.buf + sizeof(reg), fw_patch_image + PATCH_INFO_SIZE + pos, sent_len);
 			/* four zero bytes for end padding */
-			memset(rom_patch_data + sizeof(reg) + sent_len, 0, 4);
+			memset(dma_buf.buf + sizeof(reg) + sent_len, 0, 4);
 
 			value = (pos + cap->rom_patch_offset) & 0xFFFF;
 
@@ -476,11 +500,11 @@ load_patch_protect:
 			RTUSB_FILL_HTTX_BULK_URB(urb,
 					 udev,
 					 MT_COMMAND_BULK_OUT_ADDR,
-					 rom_patch_data,
+					 dma_buf.buf,
 					 sent_len + sizeof(reg) + 4,
 					 usb_upload_rom_patch_complete,
 					 &load_rom_patch_done,
-					 rom_patch_dma);
+					 dma_buf.dma);
 
 			ret = usb_submit_urb(urb, GFP_ATOMIC);
 
@@ -567,7 +591,7 @@ load_patch_protect:
 
 error2:
 	/* Free TransferBuffer */
-	usb_free_coherent(udev, UPLOAD_PATCH_UNIT, rom_patch_data, rom_patch_dma);
+	mt7612u_usb_free_buf(ad, &dma_buf);
 
 error1:
 	/* Free URB */
@@ -624,8 +648,7 @@ int mt7612u_mcu_usb_loadfw(struct rtmp_adapter *ad)
 {
 	struct urb *urb;
 	struct usb_device *udev = mt7612u_to_usb_dev(ad);
-	ra_dma_addr_t fw_dma;
-	u8 *fw_data;
+	struct mt7612u_dma_buf dma_buf;
 	s32 sent_len;
 	u32 pos = 0;
 	u32 mac_value, loop = 0;
@@ -748,10 +771,8 @@ loadfw_protect:
 	}
 
 	/* Allocate TransferBuffer */
-	fw_data = usb_alloc_coherent(udev, UPLOAD_FW_UNIT, GFP_ATOMIC, &fw_dma);
-
-	if (!fw_data) {
-		ret = NDIS_STATUS_RESOURCES;
+	if (mt7612u_usb_alloc_buf(ad, UPLOAD_FW_UNIT, &dma_buf)) {
+		ret = -ENOMEM;
 		goto error1;
 	}
 
@@ -777,10 +798,10 @@ loadfw_protect:
 					  FIELD_PREP(MT_TXD_INFO_D_PORT, CPU_TX_PORT) |
 					  FIELD_PREP(MT_TXD_INFO_LEN, sent_len));
 
-			memmove(fw_data, &reg, sizeof(reg));
-			memmove(fw_data + sizeof(reg), fw_image + FW_INFO_SIZE + pos, sent_len);
+			memmove(dma_buf.buf, &reg, sizeof(reg));
+			memmove(dma_buf.buf + sizeof(reg), fw_image + FW_INFO_SIZE + pos, sent_len);
 			/* four zero bytes for end padding */
-			memset(fw_data + sizeof(reg) + sent_len, 0, USB_END_PADDING);
+			memset(dma_buf.buf + sizeof(reg) + sent_len, 0, USB_END_PADDING);
 
 			value = (pos + cap->ilm_offset) & 0xFFFF;
 
@@ -857,11 +878,11 @@ loadfw_protect:
 			RTUSB_FILL_HTTX_BULK_URB(urb,
 					 udev,
 					 MT_COMMAND_BULK_OUT_ADDR,
-					 fw_data,
+					 dma_buf.buf,
 					 sent_len + sizeof(reg) + USB_END_PADDING,
 					 usb_uploadfw_complete,
 					 &load_fw_done,
-					 fw_dma);
+					 dma_buf.dma);
 
 			ret = usb_submit_urb(urb, GFP_ATOMIC);
 
@@ -911,9 +932,9 @@ loadfw_protect:
 					  FIELD_PREP(MT_TXD_INFO_D_PORT, CPU_TX_PORT) |
 					  FIELD_PREP(MT_TXD_INFO_LEN, sent_len));
 
-			memmove(fw_data, &reg, sizeof(reg));
-			memmove(fw_data + sizeof(reg), fw_image + FW_INFO_SIZE + ilm_len + pos, sent_len);
-			memset(fw_data + sizeof(reg) + sent_len, 0, USB_END_PADDING);
+			memmove(dma_buf.buf, &reg, sizeof(reg));
+			memmove(dma_buf.buf+ sizeof(reg), fw_image + FW_INFO_SIZE + ilm_len + pos, sent_len);
+			memset(dma_buf.buf + sizeof(reg) + sent_len, 0, USB_END_PADDING);
 
 			if (MT_REV_GTE(ad, MT76x2, REV_MT76x2E3))
 				value = ((pos + (cap->dlm_offset + 0x800)) & 0xFFFF);
@@ -994,11 +1015,11 @@ loadfw_protect:
 			RTUSB_FILL_HTTX_BULK_URB(urb,
 					 udev,
 					 MT_COMMAND_BULK_OUT_ADDR,
-					 fw_data,
+					 dma_buf.buf,
 					 sent_len + sizeof(reg) + USB_END_PADDING,
 					 usb_uploadfw_complete,
 					 &load_fw_done,
-					 fw_dma);
+					 dma_buf.dma);
 
 			ret = usb_submit_urb(urb, GFP_ATOMIC);
 
@@ -1054,7 +1075,7 @@ loadfw_protect:
 
 error2:
 	/* Free TransferBuffer */
-	usb_free_coherent(udev, UPLOAD_FW_UNIT, fw_data, fw_dma);
+	mt7612u_usb_free_buf(ad, &dma_buf);
 
 error1:
 	/* Free URB */
