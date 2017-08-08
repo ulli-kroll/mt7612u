@@ -2656,8 +2656,6 @@ static const struct rtmp_chip_cap MT76x2_ChipCap = {
 	.dlm_offset = 0x110000,
 	.rom_patch_offset = 0x90000,
 
-	.cmd_header_len = 4,
-	.cmd_padding_len = 4,
 	.WMM0ACBulkOutAddr[0] = 0x4,
 	.WMM0ACBulkOutAddr[1] = 0x5,
 	.WMM0ACBulkOutAddr[2] = 0x6,

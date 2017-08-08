@@ -506,9 +506,6 @@ struct rtmp_chip_cap {
 	u32 dlm_offset;
 	u32 rom_patch_offset;
 
-	UINT8 cmd_header_len;
-	UINT8 cmd_padding_len;
-
 	UINT8 DataBulkInAddr;
 	UINT8 WMM0ACBulkOutAddr[4];
 
