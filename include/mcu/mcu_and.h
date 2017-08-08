@@ -65,23 +65,6 @@ struct _RF_R_M_W_REG;
 
 
 
-#ifdef RT_BIG_ENDIAN
-typedef struct GNU_PACKED _TXINFO_NMAC_CMD_PKT{
-	uint32_t info_type:2;
-	uint32_t d_port:3;
-	uint32_t cmd_type:7;
-	uint32_t cmd_seq:4;
-	uint32_t pkt_len:16;
-}TXINFO_NMAC_CMD_PKT;
-#else
-typedef struct GNU_PACKED _TXINFO_NMAC_CMD_PKT {
-	uint32_t pkt_len:16;
-	uint32_t cmd_seq:4;
-	uint32_t cmd_type:7;
-	uint32_t d_port:3;
-	uint32_t info_type:2;
-}TXINFO_NMAC_CMD_PKT;
-#endif /* RT_BIG_ENDIAN */
 
 enum cmd_msg_state {
 	ILLEGAL,

@@ -85,28 +85,8 @@ typedef struct GNU_PACKED _TXINFO_NMAC_PKT {
 #define TxInfoUDMATxburst	txinfo_nmac_pkt.tx_burst
 #define TxInfoUDMANextVld	txinfo_nmac_pkt.next_vld
 
-#ifdef RT_BIG_ENDIAN
-typedef struct GNU_PACKED _TXINFO_NMAC_CMD{
-	uint32_t info_type:2;
-	uint32_t d_port:3;
-	uint32_t cmd_type:7;
-	uint32_t cmd_seq:4;
-	uint32_t pkt_len:16;
-}TXINFO_NMAC_CMD;
-#else
-typedef struct GNU_PACKED _TXINFO_NMAC_CMD{
-	uint32_t pkt_len:16;
-	uint32_t cmd_seq:4;
-	uint32_t cmd_type:7;
-	uint32_t d_port:3;
-	uint32_t info_type:2;
-}TXINFO_NMAC_CMD;
-#endif /* RT_BIG_ENDIAN */
-
-
 typedef union GNU_PACKED _TXINFO_NMAC{
 	struct _TXINFO_NMAC_PKT txinfo_pkt;
-	struct _TXINFO_NMAC_CMD txinfo_cmd;
 }TXINFO_NMAC;
 
 #ifdef RT_BIG_ENDIAN
