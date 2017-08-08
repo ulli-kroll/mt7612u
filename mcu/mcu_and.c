@@ -244,11 +244,11 @@ static u16 mt7612u_mcu_usb_get_crc(struct rtmp_adapter *ad)
 	return crc;
 }
 
-static void usb_upload_rom_patch_complete(struct urb *urb)
+void mt7612u_complete_urb(struct urb *urb)
 {
-	struct completion *load_rom_patch_done = urb->context;
+	struct completion *cmpl = urb->context;
 
-	complete(load_rom_patch_done);
+	complete(cmpl);
 }
 
 int mt7612u_mcu_usb_load_rom_patch(struct rtmp_adapter *ad)
@@ -492,7 +492,7 @@ load_patch_protect:
 					 MT_COMMAND_BULK_OUT_ADDR,
 					 dma_buf.buf,
 					 sent_len + sizeof(reg) + 4,
-					 usb_upload_rom_patch_complete,
+					 mt7612u_complete_urb,
 					 &load_rom_patch_done,
 					 dma_buf.dma);
 
@@ -588,13 +588,6 @@ error0:
 		mt7612u_write32(ad, SEMAPHORE_03, 0x1);
 
 	return ret;
-}
-
-static void usb_uploadfw_complete(struct urb *urb)
-{
-	struct completion *load_fw_done = urb->context;
-
-	complete(load_fw_done);
 }
 
 static int usb_load_ivb(struct rtmp_adapter *ad, u8 *fw_image)
@@ -855,7 +848,7 @@ loadfw_protect:
 					 MT_COMMAND_BULK_OUT_ADDR,
 					 dma_buf.buf,
 					 sent_len + sizeof(reg) + USB_END_PADDING,
-					 usb_uploadfw_complete,
+					 mt7612u_complete_urb,
 					 &load_fw_done,
 					 dma_buf.dma);
 
@@ -992,7 +985,7 @@ loadfw_protect:
 					 MT_COMMAND_BULK_OUT_ADDR,
 					 dma_buf.buf,
 					 sent_len + sizeof(reg) + USB_END_PADDING,
-					 usb_uploadfw_complete,
+					 mt7612u_complete_urb,
 					 &load_fw_done,
 					 dma_buf.dma);
 
