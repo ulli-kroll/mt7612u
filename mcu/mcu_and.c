@@ -151,7 +151,6 @@ static int mt7612u_mcu_usb_enable_patch(struct rtmp_adapter *ad)
 static int mt7612u_mcu_usb_reset_wmt(struct rtmp_adapter *ad)
 {
 	int ret = NDIS_STATUS_SUCCESS;
-	struct rtmp_chip_cap *cap = &ad->chipCap;
 
 	/* reset command */
 	u8 cmd[8] = {0x6F, 0xFC, 0x05, 0x01, 0x07, 0x01, 0x00, 0x04};
@@ -637,7 +636,6 @@ int mt7612u_mcu_usb_loadfw(struct rtmp_adapter *ad)
 	struct mt7612u_dma_buf dma_buf;
 	int sent_len, pos = 0, ilm_len = 0, dlm_len = 0;
 	u32 mac_value, loop = 0;
-	u16 value;
 	int ret = 0;
 	struct rtmp_chip_cap *cap = &ad->chipCap;
 	USB_DMA_CFG_STRUC cfg;
@@ -766,8 +764,6 @@ loadfw_protect:
 		sent_len = min(ilm_len - pos, sent_len_max);
 
 		if (sent_len > 0) {
-			__le32 reg;
-
 			__mt7612u_dma_fw(ad, &dma_buf,
 					fw_image + FW_INFO_SIZE + pos, sent_len,
 					pos + cap->ilm_offset);
@@ -792,7 +788,6 @@ loadfw_protect:
 
 		if (sent_len > 0) {
 			u32 addr;
-			__le32 reg;
 
 			if (MT_REV_GTE(ad, MT76x2, REV_MT76x2E3))
 				addr = pos + cap->dlm_offset + 0x800;
@@ -850,8 +845,6 @@ error0:
 static struct cmd_msg *mt7612u_mcu_alloc_cmd_msg(struct rtmp_adapter *ad, unsigned int length)
 {
 	struct cmd_msg *msg = NULL;
-	struct rtmp_chip_cap *cap = &ad->chipCap;
-	struct mt7612u_mcu_ctrl  *ctl = &ad->MCUCtrl;
 	struct sk_buff *skb = NULL;
 	struct urb *urb = NULL;
 
@@ -935,8 +928,6 @@ static void mt7612u_mcu_append_cmd_msg(struct cmd_msg *msg, char *data, unsigned
 static void mt7612u_mcu_free_cmd_msg(struct cmd_msg *msg)
 {
 	struct sk_buff *skb = msg->skb;
-	struct rtmp_adapter *ad = (struct rtmp_adapter *)(msg->priv);
-	struct mt7612u_mcu_ctrl  *ctl = &ad->MCUCtrl;
 
 	usb_free_urb(msg->urb);
 
@@ -1091,7 +1082,6 @@ static void mt7612u_mcu_rx_process_cmd_msg(struct rtmp_adapter *ad, struct cmd_m
 	struct cmd_msg *msg, *msg_tmp;
 	RXFCE_INFO_CMD *rx_info = (RXFCE_INFO_CMD *)skb->data;
 	struct mt7612u_mcu_ctrl  *ctl = &ad->MCUCtrl;
-	unsigned long flags;
 #ifdef RT_BIG_ENDIAN
 	RTMPDescriptorEndianChange((u8 *)rx_info, TYPE_RXINFO);
 #endif
@@ -1156,10 +1146,8 @@ static void usb_rx_cmd_msg_complete(struct urb *urb)
 	struct cmd_msg *msg = CMD_MSG_CB(skb)->msg;
 	struct rtmp_adapter *ad = (struct rtmp_adapter *)msg->priv;
 	struct usb_device *udev = mt7612u_to_usb_dev(ad);
-	struct rtmp_chip_cap *pChipCap = &ad->chipCap;
 	struct mt7612u_mcu_ctrl  *ctl = &ad->MCUCtrl;
 	enum cmd_msg_state state;
-	unsigned long flags;
 	int ret = 0;
 
 	mt7612u_mcu_unlink_cmd_msg(msg, &ctl->rxq);
@@ -1210,7 +1198,6 @@ static void usb_rx_cmd_msg_complete(struct urb *urb)
 
 static int usb_rx_cmd_msg_submit(struct rtmp_adapter *ad)
 {
-	struct rtmp_chip_cap *pChipCap = &ad->chipCap;
 	struct usb_device *udev = mt7612u_to_usb_dev(ad);
 	struct mt7612u_mcu_ctrl  *ctl = &ad->MCUCtrl;
 	struct cmd_msg *msg = NULL;
@@ -1253,7 +1240,6 @@ int usb_rx_cmd_msgs_receive(struct rtmp_adapter *ad)
 {
 	bool tmp;
 	int ret = 0;
-	int i;
 	struct mt7612u_mcu_ctrl  *ctl = &ad->MCUCtrl;
 
 	tmp = mt7612u_mcu_queue_empty(ctl, &ctl->rx_doneq);
@@ -1356,7 +1342,6 @@ static int usb_kick_out_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *msg)
 	struct usb_device *udev = mt7612u_to_usb_dev(ad);
 	int ret = 0;
 	struct sk_buff *skb = msg->skb;
-	struct rtmp_chip_cap *pChipCap = &ad->chipCap;
 
 	if (msg->state != TX_RETRANSMIT) {
 		/* append four zero bytes padding when usb aggregate enable */
