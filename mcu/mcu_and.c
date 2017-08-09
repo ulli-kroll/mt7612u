@@ -251,7 +251,7 @@ void mt7612u_complete_urb(struct urb *urb)
 	complete(cmpl);
 }
 
-static int __mt7612u_dma_fw_patch(struct rtmp_adapter *ad,
+static int __mt7612u_dma_fw(struct rtmp_adapter *ad,
 			    const struct mt7612u_dma_buf *dma_buf,
 			    const void *data, u32 len, u32 dst_addr)
 {
@@ -522,9 +522,9 @@ load_patch_protect:
 		DBGPRINT(RT_DEBUG_OFF, ("sent_len = %d\n", sent_len));
 
 		if (sent_len > 0) {
-			__mt7612u_dma_fw_patch(ad, &dma_buf,
-					       fw_patch_image + PATCH_INFO_SIZE + pos, sent_len,
-					       pos + cap->rom_patch_offset);
+			__mt7612u_dma_fw(ad, &dma_buf,
+					fw_patch_image + PATCH_INFO_SIZE + pos, sent_len,
+					pos + cap->rom_patch_offset);
 
 
 			pos += sent_len;
@@ -772,9 +772,9 @@ loadfw_protect:
 		if (sent_len > 0) {
 			__le32 reg;
 
-			__mt7612u_dma_fw_patch(ad, &dma_buf,
-					       fw_image + FW_INFO_SIZE + pos, sent_len,
-					       pos + cap->ilm_offset);
+			__mt7612u_dma_fw(ad, &dma_buf,
+					fw_image + FW_INFO_SIZE + pos, sent_len,
+					pos + cap->ilm_offset);
 
 			pos += sent_len;
 		} else {
@@ -803,9 +803,9 @@ loadfw_protect:
 			else
 				addr = pos + cap->dlm_offset;
 
-			__mt7612u_dma_fw_patch(ad, &dma_buf,
-					       fw_image + FW_INFO_SIZE + ilm_len + pos, sent_len,
-					       addr);
+			__mt7612u_dma_fw(ad, &dma_buf,
+					 fw_image + FW_INFO_SIZE + ilm_len + pos, sent_len,
+					 addr);
 
 			pos += sent_len;
 		} else {
