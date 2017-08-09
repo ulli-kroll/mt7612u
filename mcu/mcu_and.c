@@ -377,13 +377,11 @@ int mt7612u_mcu_usb_load_rom_patch(struct rtmp_adapter *ad)
 {
 	struct usb_device *udev = mt7612u_to_usb_dev(ad);
 	struct mt7612u_dma_buf dma_buf;
-	s32 sent_len;
-	u32 pos = 0;
+	int sent_len , pos = 0, patch_len = 0;
 	u32 mac_value, loop = 0;
 	int ret = 0, total_checksum = 0;
 	struct rtmp_chip_cap *cap = &ad->chipCap;
 	USB_DMA_CFG_STRUC cfg;
-	u32 patch_len = 0;
 	u8 *fw_patch_image;
 	const struct firmware *fw;
 
@@ -515,7 +513,7 @@ load_patch_protect:
 	while (1) {
 		s32 sent_len_max = UPLOAD_PATCH_UNIT - MT_DMA_HDR_LEN - USB_END_PADDING;
 
-		sent_len = (patch_len - pos) >=  sent_len_max ? sent_len_max : (patch_len - pos);
+		sent_len = min(patch_len - pos, sent_len_max);
 
 		DBGPRINT(RT_DEBUG_OFF, ("patch_len = %d\n", patch_len));
 		DBGPRINT(RT_DEBUG_OFF, ("pos = %d\n", pos));
@@ -637,14 +635,12 @@ int mt7612u_mcu_usb_loadfw(struct rtmp_adapter *ad)
 {
 	struct usb_device *udev = mt7612u_to_usb_dev(ad);
 	struct mt7612u_dma_buf dma_buf;
-	s32 sent_len;
-	u32 pos = 0;
+	int sent_len, pos = 0, ilm_len = 0, dlm_len = 0;
 	u32 mac_value, loop = 0;
 	u16 value;
 	int ret = 0;
 	struct rtmp_chip_cap *cap = &ad->chipCap;
 	USB_DMA_CFG_STRUC cfg;
-	u32 ilm_len = 0, dlm_len = 0;
 	u16 fw_ver, build_ver;
 	struct completion load_fw_done;
 	const struct firmware *fw;
@@ -767,7 +763,7 @@ loadfw_protect:
 	while (1) {
 		s32 sent_len_max = UPLOAD_FW_UNIT - MT_DMA_HDR_LEN - USB_END_PADDING;
 
-		sent_len = (ilm_len - pos) >=  sent_len_max ? sent_len_max : (ilm_len - pos);
+		sent_len = min(ilm_len - pos, sent_len_max);
 
 		if (sent_len > 0) {
 			__le32 reg;
@@ -792,8 +788,8 @@ loadfw_protect:
 	while (1) {
 		s32 sent_len_max = UPLOAD_FW_UNIT - MT_DMA_HDR_LEN - USB_END_PADDING;
 
-		sent_len = ((dlm_len - pos) >= sent_len_max) ?
-				sent_len_max : (dlm_len - pos);
+		sent_len = min(dlm_len - pos, sent_len_max);
+
 		if (sent_len > 0) {
 			u32 addr;
 			__le32 reg;
