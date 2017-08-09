@@ -894,6 +894,7 @@ loadfw_protect:
 		sent_len = ((dlm_len - pos) >= sent_len_max) ?
 				sent_len_max : (dlm_len - pos);
 		if (sent_len > 0) {
+			u32 addr;
 			__le32 reg;
 
 			reg = cpu_to_le32(FIELD_PREP(MT_TXD_INFO_TYPE, CMD_PACKET) |
@@ -905,9 +906,13 @@ loadfw_protect:
 			memset(dma_buf.buf + sizeof(reg) + sent_len, 0, USB_END_PADDING);
 
 			if (MT_REV_GTE(ad, MT76x2, REV_MT76x2E3))
-				value = ((pos + (cap->dlm_offset + 0x800)) & 0xFFFF);
+				addr = pos + cap->dlm_offset + 0x800;
 			else
-				value = ((pos + (cap->dlm_offset)) & 0xFFFF);
+				addr = pos + cap->dlm_offset;
+
+			value = (addr & 0xFFFF);
+
+
 
 			/* Set FCE DMA descriptor */
 			ret = mt7612u_vendor_request(ad,
@@ -924,10 +929,9 @@ loadfw_protect:
 				goto error2;
 			}
 
-			if (MT_REV_GTE(ad, MT76x2, REV_MT76x2E3))
-				value = (((pos + (cap->dlm_offset + 0x800)) & 0xFFFF0000) >> 16);
-			else
-				value = (((pos + (cap->dlm_offset)) & 0xFFFF0000) >> 16);
+
+			value = ((addr & 0xFFFF0000) >> 16);
+
 
 			/* Set FCE DMA descriptor */
 			ret = mt7612u_vendor_request(ad,
