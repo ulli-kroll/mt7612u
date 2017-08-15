@@ -372,17 +372,47 @@ static int __mt7612u_dma_fw(struct rtmp_adapter *ad,
 	return 0;
 }
 
+static int mt7612u_dma_fw(struct rtmp_adapter *ad,
+			  const struct mt7612u_dma_buf *dma_buf,
+			  const void *data, int len, u32 dst_addr)
+{
+	int pos = 0;
+	int ret = 0;
+	int sent_len_max = UPLOAD_PATCH_UNIT - MT_DMA_HDR_LEN - USB_END_PADDING;
+
+	while (len > 0) {
+		int sent_len = min(len, sent_len_max);
+
+		DBGPRINT(RT_DEBUG_OFF, ("pos = %d\n", pos));
+		DBGPRINT(RT_DEBUG_OFF, ("sent_len = %d\n", sent_len));
+
+		__mt7612u_dma_fw(ad, dma_buf,
+				data + pos, sent_len,
+				dst_addr + pos);
+		if (ret)
+			return ret;
+
+
+		pos += sent_len;
+		len -= sent_len;
+
+	}
+
+	return ret;
+}
+
 int mt7612u_mcu_usb_load_rom_patch(struct rtmp_adapter *ad)
 {
 	struct usb_device *udev = mt7612u_to_usb_dev(ad);
 	struct mt7612u_dma_buf dma_buf;
-	int sent_len , pos = 0, patch_len = 0;
+	int pos, patch_len = 0;
 	u32 mac_value, loop = 0;
 	int ret = 0, total_checksum = 0;
 	struct rtmp_chip_cap *cap = &ad->chipCap;
 	USB_DMA_CFG_STRUC cfg;
 	u8 *fw_patch_image;
 	const struct firmware *fw;
+	int fw_chunk_len;
 
 	dev_info(&udev->dev, "loading firmware patch %s\n", cap->fw_patch_name);
 
@@ -507,29 +537,11 @@ load_patch_protect:
 
 	pos = 0x00;
 	patch_len = fw->size - PATCH_INFO_SIZE;
+	fw_chunk_len = patch_len - pos;
 
-	/* loading rom patch */
-	while (1) {
-		s32 sent_len_max = UPLOAD_PATCH_UNIT - MT_DMA_HDR_LEN - USB_END_PADDING;
-
-		sent_len = min(patch_len - pos, sent_len_max);
-
-		DBGPRINT(RT_DEBUG_OFF, ("patch_len = %d\n", patch_len));
-		DBGPRINT(RT_DEBUG_OFF, ("pos = %d\n", pos));
-		DBGPRINT(RT_DEBUG_OFF, ("sent_len = %d\n", sent_len));
-
-		if (sent_len > 0) {
-			__mt7612u_dma_fw(ad, &dma_buf,
-					fw_patch_image + PATCH_INFO_SIZE + pos, sent_len,
-					pos + cap->rom_patch_offset);
-
-
-			pos += sent_len;
-		} else {
-			break;
-		}
-
-	}
+	mt7612u_dma_fw(ad, &dma_buf,
+		       fw_patch_image + PATCH_INFO_SIZE + pos, fw_chunk_len,
+		       pos + cap->rom_patch_offset);
 
 	total_checksum = checksume16(fw_patch_image + PATCH_INFO_SIZE, patch_len);
 
@@ -634,8 +646,8 @@ int mt7612u_mcu_usb_loadfw(struct rtmp_adapter *ad)
 {
 	struct usb_device *udev = mt7612u_to_usb_dev(ad);
 	struct mt7612u_dma_buf dma_buf;
-	int sent_len, pos = 0, ilm_len = 0, dlm_len = 0;
-	u32 mac_value, loop = 0;
+	int pos = 0, ilm_len = 0, dlm_len = 0;
+	u32 mac_value, loop = 0, addr;
 	int ret = 0;
 	struct rtmp_chip_cap *cap = &ad->chipCap;
 	USB_DMA_CFG_STRUC cfg;
@@ -643,6 +655,7 @@ int mt7612u_mcu_usb_loadfw(struct rtmp_adapter *ad)
 	struct completion load_fw_done;
 	const struct firmware *fw;
 	u8 *fw_image;
+	int fw_chunk_len;
 
 	dev_info(&udev->dev, "loading firmware %s\n", cap->fw_name);
 
@@ -752,58 +765,28 @@ loadfw_protect:
 
 	init_completion(&load_fw_done);
 
-	if (cap->load_iv)
-		pos = 0x40;
-	else
-		pos = 0x00;
+	pos = (cap->load_iv) ? 0x40 : 0x00;
+	fw_chunk_len = ilm_len - pos;
 
 	/* Loading ILM */
-	while (1) {
-		s32 sent_len_max = UPLOAD_FW_UNIT - MT_DMA_HDR_LEN - USB_END_PADDING;
-
-		sent_len = min(ilm_len - pos, sent_len_max);
-
-		if (sent_len > 0) {
-			__mt7612u_dma_fw(ad, &dma_buf,
-					fw_image + FW_INFO_SIZE + pos, sent_len,
-					pos + cap->ilm_offset);
-
-			pos += sent_len;
-		} else {
-			break;
-		}
-
-	}
+	mt7612u_dma_fw(ad, &dma_buf,
+		       fw_image + FW_INFO_SIZE + pos, fw_chunk_len,
+		       pos + cap->ilm_offset);
 
 	/* Re-Initialize completion */
 	init_completion(&load_fw_done);
 
 	pos = 0x00;
+	fw_chunk_len = dlm_len - pos;
+	if (MT_REV_GTE(ad, MT76x2, REV_MT76x2E3))
+		addr = pos + cap->dlm_offset + 0x800;
+	else
+		addr = pos + cap->dlm_offset;
 
 	/* Loading DLM */
-	while (1) {
-		s32 sent_len_max = UPLOAD_FW_UNIT - MT_DMA_HDR_LEN - USB_END_PADDING;
-
-		sent_len = min(dlm_len - pos, sent_len_max);
-
-		if (sent_len > 0) {
-			u32 addr;
-
-			if (MT_REV_GTE(ad, MT76x2, REV_MT76x2E3))
-				addr = pos + cap->dlm_offset + 0x800;
-			else
-				addr = pos + cap->dlm_offset;
-
-			__mt7612u_dma_fw(ad, &dma_buf,
-					 fw_image + FW_INFO_SIZE + ilm_len + pos, sent_len,
-					 addr);
-
-			pos += sent_len;
-		} else {
-			break;
-		}
-
-	}
+	mt7612u_dma_fw(ad, &dma_buf,
+		       fw_image + FW_INFO_SIZE + ilm_len + pos, fw_chunk_len,
+		       addr);
 
 	/* Upload new 64 bytes interrupt vector or reset andes */
 	DBGPRINT(RT_DEBUG_OFF, ("\n"));
