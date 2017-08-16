@@ -539,9 +539,11 @@ load_patch_protect:
 	patch_len = fw->size - PATCH_INFO_SIZE;
 	fw_chunk_len = patch_len - pos;
 
-	mt7612u_dma_fw(ad, &dma_buf,
-		       fw_patch_image + PATCH_INFO_SIZE + pos, fw_chunk_len,
-		       pos + cap->rom_patch_offset);
+	ret = mt7612u_dma_fw(ad, &dma_buf,
+			     fw_patch_image + PATCH_INFO_SIZE + pos, fw_chunk_len,
+			     pos + cap->rom_patch_offset);
+	if (ret < 0)
+		goto  error2;
 
 	total_checksum = checksume16(fw_patch_image + PATCH_INFO_SIZE, patch_len);
 
@@ -766,9 +768,12 @@ loadfw_protect:
 	fw_chunk_len = ilm_len - pos;
 
 	/* Loading ILM */
-	mt7612u_dma_fw(ad, &dma_buf,
-		       fw_image + FW_INFO_SIZE + pos, fw_chunk_len,
-		       pos + cap->ilm_offset);
+	ret = mt7612u_dma_fw(ad, &dma_buf,
+			     fw_image + FW_INFO_SIZE + pos, fw_chunk_len,
+			     pos + cap->ilm_offset);
+
+	if (ret < 0)
+		goto  error2;
 
 	pos = 0x00;
 	fw_chunk_len = dlm_len - pos;
@@ -778,10 +783,15 @@ loadfw_protect:
 		addr = pos + cap->dlm_offset;
 
 	/* Loading DLM */
-	mt7612u_dma_fw(ad, &dma_buf,
-		       fw_image + FW_INFO_SIZE + ilm_len + pos, fw_chunk_len,
-		       addr);
+	ret = mt7612u_dma_fw(ad, &dma_buf,
+			     fw_image + FW_INFO_SIZE + ilm_len + pos, fw_chunk_len,
+			     addr);
 
+	if (ret < 0)
+		goto  error2;
+
+	if (ret < 0)
+		goto  error2;
 	/* Upload new 64 bytes interrupt vector or reset andes */
 	DBGPRINT(RT_DEBUG_OFF, ("\n"));
 	usb_load_ivb(ad, fw_image);
