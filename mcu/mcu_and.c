@@ -652,7 +652,6 @@ int mt7612u_mcu_usb_loadfw(struct rtmp_adapter *ad)
 	struct rtmp_chip_cap *cap = &ad->chipCap;
 	USB_DMA_CFG_STRUC cfg;
 	u16 fw_ver, build_ver;
-	struct completion load_fw_done;
 	const struct firmware *fw;
 	u8 *fw_image;
 	int fw_chunk_len;
@@ -763,8 +762,6 @@ loadfw_protect:
 
 	DBGPRINT(RT_DEBUG_OFF, ("loading fw"));
 
-	init_completion(&load_fw_done);
-
 	pos = (cap->load_iv) ? 0x40 : 0x00;
 	fw_chunk_len = ilm_len - pos;
 
@@ -772,9 +769,6 @@ loadfw_protect:
 	mt7612u_dma_fw(ad, &dma_buf,
 		       fw_image + FW_INFO_SIZE + pos, fw_chunk_len,
 		       pos + cap->ilm_offset);
-
-	/* Re-Initialize completion */
-	init_completion(&load_fw_done);
 
 	pos = 0x00;
 	fw_chunk_len = dlm_len - pos;
