@@ -925,15 +925,14 @@ INT RTMP_COM_IoctlHandle(
 			uint32_t i;
 			pConfig = (RT_CMD_USB_DEV_CONFIG *)pData;
 
-			pAd->NumberOfPipes = pConfig->NumberOfPipes;
-			pAd->BulkInMaxPacketSize = pConfig->BulkInMaxPacketSize;
-			pAd->BulkOutMaxPacketSize = pConfig->BulkOutMaxPacketSize;
+			pAd->in_max_packet = pConfig->in_max_packet;
+			pAd->out_max_packet = pConfig->out_max_packet;
 
 			for (i = 0; i < 6; i++)
-				pAd->BulkOutEpAddr[i] = pConfig->BulkOutEpAddr[i];
+				pAd->out_eps[i] = pConfig->out_eps[i];
 
 			for (i = 0; i < 2; i++)
-				pAd->BulkInEpAddr[i] = pConfig->BulkInEpAddr[i];
+				pAd->in_eps[i] = pConfig->in_eps[i];
 
 			pAd->config = pConfig->pConfig;
 		}

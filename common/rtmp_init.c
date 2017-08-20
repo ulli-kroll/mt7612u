@@ -2849,14 +2849,14 @@ INT RtmpRaDevCtrlInit(struct rtmp_adapter *pAd)
 
 	for (i = 0; i < 6; i++)
 	{
-		if (!PairEP(pAd, pAd->BulkOutEpAddr[i]))
-			DBGPRINT(RT_DEBUG_ERROR, ("Invalid bulk out ep(%x)\n", pAd->BulkOutEpAddr[i]));
+		if (!PairEP(pAd, pAd->out_eps[i]))
+			DBGPRINT(RT_DEBUG_ERROR, ("Invalid bulk out ep(%x)\n", pAd->out_eps[i]));
 	}
 
 	for (i = 0; i < 2; i++)
 	{
-		if (!PairEP(pAd, pAd->BulkInEpAddr[i]))
-			DBGPRINT(RT_DEBUG_ERROR, ("Invalid bulk in ep(%x)\n", pAd->BulkInEpAddr[i]));
+		if (!PairEP(pAd, pAd->in_eps[i]))
+			DBGPRINT(RT_DEBUG_ERROR, ("Invalid bulk in ep(%x)\n", pAd->in_eps[i]));
 	}
 
 	return 0;

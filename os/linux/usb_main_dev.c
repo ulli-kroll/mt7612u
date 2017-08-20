@@ -56,24 +56,23 @@ static bool USBDevConfigInit(struct usb_device *dev, struct usb_interface *intf,
 	iface_desc = intf->cur_altsetting;
 
 	/* get # of enpoints  */
-	pConfig->NumberOfPipes = iface_desc->desc.bNumEndpoints;
 	DBGPRINT(RT_DEBUG_TRACE, ("NumEndpoints=%d\n", iface_desc->desc.bNumEndpoints));
 
 	/* Configure Pipes */
 	BulkOutIdx = 0;
 	BulkInIdx = 0;
 
-	for (i = 0; i < pConfig->NumberOfPipes; i++)
+	for (i = 0; i < iface_desc->desc.bNumEndpoints; i++)
 	{
 		if ((iface_desc->endpoint[i].desc.bmAttributes == USB_ENDPOINT_XFER_BULK) &&
 			((iface_desc->endpoint[i].desc.bEndpointAddress & USB_ENDPOINT_DIR_MASK) == USB_DIR_IN))
 		{
 			if (BulkInIdx < 2)
 			{
-				pConfig->BulkInEpAddr[BulkInIdx++] = iface_desc->endpoint[i].desc.bEndpointAddress;
-				pConfig->BulkInMaxPacketSize = le2cpu16(iface_desc->endpoint[i].desc.wMaxPacketSize);
+				pConfig->in_eps[BulkInIdx++] = iface_desc->endpoint[i].desc.bEndpointAddress;
+				pConfig->in_max_packet = le2cpu16(iface_desc->endpoint[i].desc.wMaxPacketSize);
 
-				DBGPRINT_RAW(RT_DEBUG_TRACE, ("BULK IN MaxPacketSize = %d\n", pConfig->BulkInMaxPacketSize));
+				DBGPRINT_RAW(RT_DEBUG_TRACE, ("BULK IN MaxPacketSize = %d\n", pConfig->in_max_packet));
 				DBGPRINT_RAW(RT_DEBUG_TRACE, ("EP address = 0x%2x\n", iface_desc->endpoint[i].desc.bEndpointAddress));
 				}
 				else
@@ -88,10 +87,10 @@ static bool USBDevConfigInit(struct usb_device *dev, struct usb_interface *intf,
 				{
 				/* there are 6 bulk out EP. EP6 highest priority. */
 				/* EP1-4 is EDCA.  EP5 is HCCA. */
-				pConfig->BulkOutEpAddr[BulkOutIdx++] = iface_desc->endpoint[i].desc.bEndpointAddress;
-				pConfig->BulkOutMaxPacketSize = le2cpu16(iface_desc->endpoint[i].desc.wMaxPacketSize);
+				pConfig->out_eps[BulkOutIdx++] = iface_desc->endpoint[i].desc.bEndpointAddress;
+				pConfig->out_max_packet = le2cpu16(iface_desc->endpoint[i].desc.wMaxPacketSize);
 
-				DBGPRINT_RAW(RT_DEBUG_TRACE, ("BULK OUT MaxPacketSize = %d\n", pConfig->BulkOutMaxPacketSize));
+				DBGPRINT_RAW(RT_DEBUG_TRACE, ("BULK OUT MaxPacketSize = %d\n", pConfig->out_max_packet));
 				DBGPRINT_RAW(RT_DEBUG_TRACE, ("EP address = 0x%2x  \n", iface_desc->endpoint[i].desc.bEndpointAddress));
 			}
 			else
@@ -101,7 +100,7 @@ static bool USBDevConfigInit(struct usb_device *dev, struct usb_interface *intf,
 		}
 	}
 
-	if (!(pConfig->BulkInEpAddr && pConfig->BulkOutEpAddr[0]))
+	if (!(pConfig->in_eps && pConfig->out_eps[0]))
 	{
 		printk("%s: Could not find both bulk-in and bulk-out endpoints\n", __FUNCTION__);
 		return false;

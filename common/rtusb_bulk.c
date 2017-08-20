@@ -107,7 +107,7 @@ VOID	RTUSBInitRxDesc(
 	pUrb = pRxContext->pUrb;
 	ASSERT(pUrb);
 
-	if ( pAd->BulkInMaxPacketSize == 64)
+	if ( pAd->in_max_packet == 64)
 		RX_bulk_size = 4096;
 	else
 		RX_bulk_size = MAX_RXBULK_SIZE;
@@ -255,7 +255,7 @@ VOID RTUSBBulkOutDataPacket(struct rtmp_adapter *pAd, u8 BulkOutPipeId, u8 Index
 				pHTTXContext->ENextBulkOutPosition = TmpBulkEndPos;
 				break;
 			}
-			else if (((pAd->BulkOutMaxPacketSize < 512) && ((ThisBulkSize&0xfffff800) != 0) ) /*|| ( (ThisBulkSize != 0)  && (pTxWI->AMPDU == 0))*/)
+			else if (((pAd->out_max_packet < 512) && ((ThisBulkSize&0xfffff800) != 0) ) /*|| ( (ThisBulkSize != 0)  && (pTxWI->AMPDU == 0))*/)
 			{
 				/* For USB 1.1 or peer which didn't support AMPDU, limit the BulkOut size. */
 				/* For performence in b/g mode, now just check for USB 1.1 and didn't care about the APMDU or not! 2008/06/04.*/
@@ -274,7 +274,7 @@ VOID RTUSBBulkOutDataPacket(struct rtmp_adapter *pAd, u8 BulkOutPipeId, u8 Index
 
 			break;
 		}
-		else if (((pAd->BulkOutMaxPacketSize < 512) && ((ThisBulkSize&0xfffff800) != 0) ) /*|| ( (ThisBulkSize != 0)  && (pTxWI->AMPDU == 0))*/)
+		else if (((pAd->out_max_packet < 512) && ((ThisBulkSize&0xfffff800) != 0) ) /*|| ( (ThisBulkSize != 0)  && (pTxWI->AMPDU == 0))*/)
 		{	/* For USB 1.1 or peer which didn't support AMPDU, limit the BulkOut size. */
 			/* For performence in b/g mode, now just check for USB 1.1 and didn't care about the APMDU or not! 2008/06/04.*/
 			pHTTXContext->ENextBulkOutPosition = TmpBulkEndPos;

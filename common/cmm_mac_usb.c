@@ -681,7 +681,7 @@ VOID RT28XXDMAEnable(struct rtmp_adapter *pAd)
 	UsbCfg.word = mt7612u_usb_cfg_read_v3(pAd);
 
 	/* USB1.1 do not use bulk in aggregation */
-	if ((pAd->BulkInMaxPacketSize >= 512) && (pAd->usb_ctl.usb_aggregation))
+	if ((pAd->in_max_packet >= 512) && (pAd->usb_ctl.usb_aggregation))
 		UsbCfg.field_76xx.RxBulkAggEn = 1;
 	else {
 		DBGPRINT(RT_DEBUG_OFF, ("disable usb rx aggregagion\n"));

@@ -3167,11 +3167,10 @@ struct rtmp_adapter {
 /*	struct usb_config_descriptor *config; */
 	VOID *config;
 
-	UINT NumberOfPipes;
-	unsigned short BulkOutMaxPacketSize;
-	unsigned short BulkInMaxPacketSize;
-	UINT8 BulkOutEpAddr[6];
-	UINT8 BulkInEpAddr[2];
+	u8 out_eps[8];
+	u8 in_eps[8];
+	u16 out_max_packet;
+	u16 in_max_packet;
 
 	/*======Control Flags */
 	ULONG BulkFlags;

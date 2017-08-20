@@ -564,11 +564,10 @@ typedef struct __RT_CMD_USB_MORE_FLAG_CONFIG {
 } RT_CMD_USB_MORE_FLAG_CONFIG;
 
 typedef struct __RT_CMD_USB_DEV_CONFIG {
-	IN UINT NumberOfPipes;
-	IN UINT8 BulkInEpAddr[2];
-	IN unsigned short BulkInMaxPacketSize;
-	IN UINT8 BulkOutEpAddr[6];
-	IN unsigned short BulkOutMaxPacketSize;
+	u8 in_eps[2];
+	u16 in_max_packet;
+	u8 out_eps[6];
+	u16 out_max_packet;
 	IN VOID *pConfig;
 } RT_CMD_USB_DEV_CONFIG;
 
