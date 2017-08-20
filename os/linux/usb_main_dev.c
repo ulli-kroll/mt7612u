@@ -50,7 +50,6 @@ static bool USBDevConfigInit(struct usb_device *dev, struct usb_interface *intf,
 	ULONG BulkOutIdx;
 	ULONG BulkInIdx;
 	uint32_t i;
-	RT_CMD_USB_DEV_CONFIG Config, *pConfig = &Config;
 
 	/* get the active interface descriptor */
 	iface_desc = intf->cur_altsetting;
@@ -62,61 +61,40 @@ static bool USBDevConfigInit(struct usb_device *dev, struct usb_interface *intf,
 	BulkOutIdx = 0;
 	BulkInIdx = 0;
 
-	for (i = 0; i < iface_desc->desc.bNumEndpoints; i++)
-	{
+	for (i = 0; i < iface_desc->desc.bNumEndpoints; i++) {
 		if ((iface_desc->endpoint[i].desc.bmAttributes == USB_ENDPOINT_XFER_BULK) &&
-			((iface_desc->endpoint[i].desc.bEndpointAddress & USB_ENDPOINT_DIR_MASK) == USB_DIR_IN))
-		{
-			if (BulkInIdx < 2)
-			{
-				pConfig->in_eps[BulkInIdx++] = iface_desc->endpoint[i].desc.bEndpointAddress;
-				pConfig->in_max_packet = le2cpu16(iface_desc->endpoint[i].desc.wMaxPacketSize);
+			((iface_desc->endpoint[i].desc.bEndpointAddress & USB_ENDPOINT_DIR_MASK) == USB_DIR_IN)) {
+			if (BulkInIdx < 2) {
+				pAd->in_eps[BulkInIdx++] = iface_desc->endpoint[i].desc.bEndpointAddress;
+				pAd->in_max_packet = le2cpu16(iface_desc->endpoint[i].desc.wMaxPacketSize);
 
-				DBGPRINT_RAW(RT_DEBUG_TRACE, ("BULK IN MaxPacketSize = %d\n", pConfig->in_max_packet));
+				DBGPRINT_RAW(RT_DEBUG_TRACE, ("BULK IN MaxPacketSize = %d\n", pAd->in_max_packet));
 				DBGPRINT_RAW(RT_DEBUG_TRACE, ("EP address = 0x%2x\n", iface_desc->endpoint[i].desc.bEndpointAddress));
-				}
-				else
-				{
+			} else {
 					DBGPRINT(RT_DEBUG_ERROR, ("Bulk IN endpoint nums large than 2\n"));
-				}
 			}
-			else if ((iface_desc->endpoint[i].desc.bmAttributes == USB_ENDPOINT_XFER_BULK) &&
-					((iface_desc->endpoint[i].desc.bEndpointAddress & USB_ENDPOINT_DIR_MASK) == USB_DIR_OUT))
-			{
-				if (BulkOutIdx < 6)
-				{
-				/* there are 6 bulk out EP. EP6 highest priority. */
-				/* EP1-4 is EDCA.  EP5 is HCCA. */
-				pConfig->out_eps[BulkOutIdx++] = iface_desc->endpoint[i].desc.bEndpointAddress;
-				pConfig->out_max_packet = le2cpu16(iface_desc->endpoint[i].desc.wMaxPacketSize);
+		} else if ((iface_desc->endpoint[i].desc.bmAttributes == USB_ENDPOINT_XFER_BULK) &&
+			   ((iface_desc->endpoint[i].desc.bEndpointAddress & USB_ENDPOINT_DIR_MASK) == USB_DIR_OUT)) {
+			if (BulkOutIdx < 6) {
+			/* there are 6 bulk out EP. EP6 highest priority. */
+			/* EP1-4 is EDCA.  EP5 is HCCA. */
+			pAd->out_eps[BulkOutIdx++] = iface_desc->endpoint[i].desc.bEndpointAddress;
+			pAd->out_max_packet = le2cpu16(iface_desc->endpoint[i].desc.wMaxPacketSize);
 
-				DBGPRINT_RAW(RT_DEBUG_TRACE, ("BULK OUT MaxPacketSize = %d\n", pConfig->out_max_packet));
-				DBGPRINT_RAW(RT_DEBUG_TRACE, ("EP address = 0x%2x  \n", iface_desc->endpoint[i].desc.bEndpointAddress));
-			}
-			else
-			{
+			DBGPRINT_RAW(RT_DEBUG_TRACE, ("BULK OUT MaxPacketSize = %d\n", pAd->out_max_packet));
+			DBGPRINT_RAW(RT_DEBUG_TRACE, ("EP address = 0x%2x  \n", iface_desc->endpoint[i].desc.bEndpointAddress));
+			} else {
 				DBGPRINT(RT_DEBUG_ERROR, ("Bulk Out endpoint nums large than 6\n"));
 			}
 		}
 	}
 
-	if (!(pConfig->in_eps && pConfig->out_eps[0]))
-	{
+	if (!(pAd->in_eps && pAd->out_eps[0])) {
 		printk("%s: Could not find both bulk-in and bulk-out endpoints\n", __FUNCTION__);
 		return false;
 	}
 
-	pConfig->pConfig = &dev->config->desc;
 	usb_set_intfdata(intf, pAd);
-
-	pAd->in_max_packet = pConfig->in_max_packet;
-	pAd->out_max_packet = pConfig->out_max_packet;
-
-	for (i = 0; i < 6; i++)
-	       pAd->out_eps[i] = pConfig->out_eps[i];
-
-	for (i = 0; i < 2; i++)
-	       pAd->in_eps[i] = pConfig->in_eps[i];
 
 	rtusb_vendor_specific_check(dev, pAd);
 
