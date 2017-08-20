@@ -14,7 +14,7 @@
 
 #define RTMP_MODULE_OS
 
-/*#include "rt_config.h" */
+#include "rt_config.h"
 #include "rtmp_comm.h"
 #include "rt_os_util.h"
 #include "rt_os_net.h"
@@ -108,7 +108,16 @@ static bool USBDevConfigInit(struct usb_device *dev, struct usb_interface *intf,
 
 	pConfig->pConfig = &dev->config->desc;
 	usb_set_intfdata(intf, pAd);
-	RTMP_DRIVER_USB_CONFIG_INIT(pAd, pConfig);
+
+	pAd->in_max_packet = pConfig->in_max_packet;
+	pAd->out_max_packet = pConfig->out_max_packet;
+
+	for (i = 0; i < 6; i++)
+	       pAd->out_eps[i] = pConfig->out_eps[i];
+
+	for (i = 0; i < 2; i++)
+	       pAd->in_eps[i] = pConfig->in_eps[i];
+
 	rtusb_vendor_specific_check(dev, pAd);
 
 	return true;
