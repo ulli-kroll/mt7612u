@@ -32,7 +32,7 @@
 #define FCE_PSE_CTRL	0x0800
 #define FCE_PARAMETERS	0x0804
 #define FCE_CSO			0x0808
-#define FCE_L2_STUFF	0x080c
+#define MT_FCE_L2_STUFF	0x080c
 #define TX_CPU_PORT_FROM_FCE_BASE_PTR		0x09A0
 #define TX_CPU_PORT_FROM_FCE_MAX_COUNT		0x09A4
 #define FCE_PDMA_GLOBAL_CONF				0x09C4
@@ -40,45 +40,16 @@
 #define FCE_SKIP_FS							0x0A6C
 #define PER_PORT_PAUSE_ENABLE_CONTROL1		0x0A38
 
-#ifdef RT_BIG_ENDIAN
-typedef	union _L2_STUFFING_STRUC
-{
-	struct {
-	    uint32_t  RSV:6;
-	    uint32_t  OTHER_PORT:2;
-		uint32_t  TS_LENGTH_EN:8;
-		uint32_t  TS_CMD_QSEL_EN:8;
-		uint32_t  RSV2:2;
-		uint32_t  MVINF_BYTE_SWP:1;
-		uint32_t  FS_WR_MPDU_LEN_EN:1;
-		uint32_t  TX_L2_DE_STUFFING_EN:1;
-		uint32_t  RX_L2_STUFFING_EN:1;
-		uint32_t  QoS_L2_EN:1;
-		uint32_t  HT_L2_EN:1;
-	}	field;
+#define MT_FCE_L2_STUFF_HT_L2_EN	BIT(0)
+#define MT_FCE_L2_STUFF_QOS_L2_EN	BIT(1)
+#define MT_FCE_L2_STUFF_RX_STUFF_EN	BIT(2)
+#define MT_FCE_L2_STUFF_TX_STUFF_EN	BIT(3)
+#define MT_FCE_L2_STUFF_WR_MPDU_LEN_EN	BIT(4)
+#define MT_FCE_L2_STUFF_MVINV_BSWAP	BIT(5)
+#define MT_FCE_L2_STUFF_TS_CMD_QSEL_EN	GENMASK(15, 8)
+#define MT_FCE_L2_STUFF_TS_LEN_EN	GENMASK(23, 16)
+#define MT_FCE_L2_STUFF_OTHER_PORT	GENMASK(25, 24)
 
-	uint32_t word;
-} L2_STUFFING_STRUC, *PL2_STUFFING_STRUC;
-#else
-typedef	union _L2_STUFFING_STRUC
-{
-	struct	{
-		uint32_t  HT_L2_EN:1;
-		uint32_t  QoS_L2_EN:1;
-		uint32_t  RX_L2_STUFFING_EN:1;
-		uint32_t  TX_L2_DE_STUFFING_EN:1;
-		uint32_t  FS_WR_MPDU_LEN_EN:1;
-		uint32_t  MVINF_BYTE_SWP:1;
-		uint32_t  RSV2:2;
-		uint32_t  TS_CMD_QSEL_EN:8;
-		uint32_t  TS_LENGTH_EN:8;
-		uint32_t  OTHER_PORT:2;
-		uint32_t  RSV:6;
-	}	field;
-
-	uint32_t word;
-} L2_STUFFING_STRUC, *PL2_STUFFING_STRUC;
-#endif
 
 #define NORMAL_PKT				0x0
 #define CMD_PKT					0x1

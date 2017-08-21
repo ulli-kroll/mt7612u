@@ -1032,16 +1032,14 @@ void mt76x2_calibration(struct rtmp_adapter *ad, u8 channel)
 /*
  * Initialize FCE
  */
-VOID init_fce(struct rtmp_adapter *ad)
+
+static void mt7612u_init_fce(struct rtmp_adapter *ad)
 {
-	L2_STUFFING_STRUC reg;
+	u32 val;
 
-	reg.word = 0;
-
-
-	reg.word = mt7612u_read32(ad, FCE_L2_STUFF);
-	reg.field.FS_WR_MPDU_LEN_EN = 0;
-	mt7612u_write32(ad, FCE_L2_STUFF, reg.word);
+	val = mt7612u_read32(ad, MT_FCE_L2_STUFF);
+	val &= ~MT_FCE_L2_STUFF_WR_MPDU_LEN_EN;
+	mt7612u_write32(ad, MT_FCE_L2_STUFF, val);
 }
 
 void mt76x2_init_mac_cr(struct rtmp_adapter *ad)
@@ -1160,7 +1158,7 @@ void mt76x2_init_mac_cr(struct rtmp_adapter *ad)
 	value |= BKOFF_SLOT_CFG_CC_DELAY_TIME(0x01);
 	mt7612u_write32(ad, BKOFF_SLOT_CFG, value);
 
-	init_fce(ad);
+	mt7612u_init_fce(ad);
 
 	/*
 		For co-clock image
