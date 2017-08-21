@@ -143,39 +143,6 @@ INT Set_SSID_Proc(struct rtmp_adapter *pAd, char *arg)
     return success;
 }
 
-
-/*
-    ==========================================================================
-    Description:
-        Set WmmCapable Enable or Disable
-    Return:
-        true if all parameters are OK, false otherwise
-    ==========================================================================
-*/
-INT	Set_WmmCapable_Proc(
-	IN	struct rtmp_adapter *pAd,
-	IN	char *		arg)
-{
-	bool	bWmmCapable;
-
-	bWmmCapable = simple_strtol(arg, 0, 10);
-
-	if ((bWmmCapable == 1)
-		&& (pAd->NumberOfPipes >= 5)
-		)
-		pAd->CommonCfg.bWmmCapable = true;
-	else if (bWmmCapable == 0)
-		pAd->CommonCfg.bWmmCapable = false;
-	else
-		return false;  /*Invalid argument */
-
-	DBGPRINT(RT_DEBUG_TRACE, ("Set_WmmCapable_Proc::(bWmmCapable=%d)\n",
-		pAd->CommonCfg.bWmmCapable));
-
-	return true;
-}
-
-
 /*
     ==========================================================================
     Description:

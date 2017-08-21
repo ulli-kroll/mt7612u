@@ -6618,8 +6618,6 @@ bool CHAN_PropertyCheck(struct rtmp_adapter *pAd, uint32_t ChanNum, u8 Property)
 /* command */
 INT Set_SSID_Proc(struct rtmp_adapter *pAd, char *arg);
 
-INT	Set_WmmCapable_Proc(struct rtmp_adapter *pAd, char *arg);
-
 INT Set_NetworkType_Proc(struct rtmp_adapter *pAd, char *arg);
 
 INT Set_AuthMode_Proc(struct rtmp_adapter *pAd, char *arg);
