@@ -16,6 +16,7 @@
 
 
 #include	"rt_config.h"
+#include "bitfield.h"
 
 static int RTMPAllocUsbBulkBufStruct(
 	struct usb_device *udev,
@@ -676,29 +677,26 @@ int RTMPInitTxRxRingMemory(struct rtmp_adapter *pAd)
 
 VOID RT28XXDMAEnable(struct rtmp_adapter *pAd)
 {
-	USB_DMA_CFG_STRUC	UsbCfg;
+	u32 val;
 
-	UsbCfg.word = mt7612u_usb_cfg_read_v3(pAd);
+	/* for last packet, PBF might use more than limited, so minus 2 to prevent from error */
+
+	val = FIELD_PREP(MT_USB_DMA_CFG_RX_BULK_AGG_LMT, (MAX_RXBULK_SIZE / 1024) - 3) |
+	      FIELD_PREP(MT_USB_DMA_CFG_RX_BULK_AGG_TOUT, 0x80) |
+	      MT_USB_DMA_CFG_RX_BULK_EN |
+	      MT_USB_DMA_CFG_TX_BULK_EN;
 
 	/* USB1.1 do not use bulk in aggregation */
 	if ((pAd->in_max_packet >= 512) && (pAd->usb_ctl.usb_aggregation))
-		UsbCfg.field_76xx.RxBulkAggEn = 1;
+		val |= MT_USB_DMA_CFG_RX_BULK_AGG_EN;
 	else {
 		DBGPRINT(RT_DEBUG_OFF, ("disable usb rx aggregagion\n"));
-		UsbCfg.field_76xx.RxBulkAggEn = 0;
 	}
 
-	/* for last packet, PBF might use more than limited, so minus 2 to prevent from error */
-	UsbCfg.field_76xx.RxBulkAggLmt = (MAX_RXBULK_SIZE / 1024) - 3;
-	UsbCfg.field_76xx.RxBulkAggTOut = 0x80;
-
-	UsbCfg.field_76xx.RxBulkEn = 1;
-	UsbCfg.field_76xx.TxBulkEn = 1;
-
 	if (IS_MT76x2(pAd))
-		UsbCfg.field_76xx.RX_DROP_OR_PADDING = 1;
+		val |= MT_USB_DMA_CFG_RX_DROP_OR_PAD;
 
-	mt7612u_usb_cfg_write_v3(pAd, UsbCfg.word);
+	mt7612u_usb_cfg_write_v3(pAd, val);
 }
 
 /********************************************************************

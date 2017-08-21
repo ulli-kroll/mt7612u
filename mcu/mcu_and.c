@@ -409,7 +409,7 @@ int mt7612u_mcu_usb_load_rom_patch(struct rtmp_adapter *ad)
 	u32 mac_value, loop = 0;
 	int ret = 0, total_checksum = 0;
 	struct rtmp_chip_cap *cap = &ad->chipCap;
-	USB_DMA_CFG_STRUC cfg;
+	u32 val;
 	u8 *fw_patch_image;
 	const struct firmware *fw;
 	int fw_chunk_len;
@@ -457,9 +457,10 @@ load_patch_protect:
 	}
 
 	/* Enable USB_DMA_CFG */
-	cfg.word = mt7612u_usb_cfg_read_v3(ad);
-	cfg.word |= 0x00c00020;
-	mt7612u_usb_cfg_write_v3(ad, cfg.word);
+	val = MT_USB_DMA_CFG_RX_BULK_EN |
+	      MT_USB_DMA_CFG_TX_BULK_EN |
+	      FIELD_PREP(MT_USB_DMA_CFG_RX_BULK_AGG_TOUT, 0x20);
+	mt7612u_usb_cfg_write_v3(ad, val);
 
 	fw_patch_image = (u8 *) fw->data;
 
@@ -652,7 +653,7 @@ int mt7612u_mcu_usb_loadfw(struct rtmp_adapter *ad)
 	u32 mac_value, loop = 0, addr;
 	int ret = 0;
 	struct rtmp_chip_cap *cap = &ad->chipCap;
-	USB_DMA_CFG_STRUC cfg;
+	u32 val;
 	u16 fw_ver, build_ver;
 	const struct firmware *fw;
 	u8 *fw_image;
@@ -697,9 +698,10 @@ loadfw_protect:
 	mdelay(5);
 
 	/* Enable USB_DMA_CFG */
-	cfg.word = mt7612u_usb_cfg_read_v3(ad);
-	cfg.word |= 0x00c00020;
-	mt7612u_usb_cfg_write_v3(ad, cfg.word);
+	val = MT_USB_DMA_CFG_RX_BULK_EN |
+	      MT_USB_DMA_CFG_TX_BULK_EN |
+	      FIELD_PREP(MT_USB_DMA_CFG_RX_BULK_AGG_TOUT, 0x20);
+	mt7612u_usb_cfg_write_v3(ad, val);
 
 	/* Get FW information */
 	ilm_len = (*(fw_image + 3) << 24) | (*(fw_image + 2) << 16) |
