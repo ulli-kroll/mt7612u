@@ -920,29 +920,10 @@ typedef	union _AUTO_WAKEUP_STRUC {
 #define EDCA_AC1_CFG	0x1304
 #define EDCA_AC2_CFG	0x1308
 #define EDCA_AC3_CFG	0x130c
-#ifdef RT_BIG_ENDIAN
-typedef	union _EDCA_AC_CFG_STRUC {
-	struct {
-	    uint32_t :12;
-	    uint32_t Cwmax:4;	/* unit power of 2 */
-	    uint32_t Cwmin:4;
-	    uint32_t Aifsn:4;	/* # of slot time */
-	    uint32_t AcTxop:8;	/*  in unit of 32us */
-	} field;
-	uint32_t word;
-} EDCA_AC_CFG_STRUC;
-#else
-typedef	union _EDCA_AC_CFG_STRUC {
-	struct {
-	    uint32_t AcTxop:8;
-	    uint32_t Aifsn:4;
-	    uint32_t Cwmin:4;
-	    uint32_t Cwmax:4;
-	    uint32_t :12;
-	} field;
-	uint32_t word;
-} EDCA_AC_CFG_STRUC;
-#endif /* RT_BIG_ENDIAN */
+#define MT_EDCA_CFG_TXOP		GENMASK(7, 0)
+#define MT_EDCA_CFG_AIFSN		GENMASK(11, 8)
+#define MT_EDCA_CFG_CWMIN		GENMASK(15, 12)
+#define MT_EDCA_CFG_CWMAX		GENMASK(19, 16)
 
 #define EDCA_TID_AC_MAP	0x1310
 

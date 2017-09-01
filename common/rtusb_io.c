@@ -30,6 +30,7 @@
 
 
 #include	"rt_config.h"
+#include <bitfield.h>
 
 #define MAX_VENDOR_REQ_RETRY_COUNT  10
 
@@ -930,12 +931,13 @@ int QkeriodicExecutHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 static int APEnableTXBurstHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 {
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd) {
-		EDCA_AC_CFG_STRUC Ac0Cfg;
+		u32 Ac0Cfg;
 		DBGPRINT(RT_DEBUG_TRACE, ("CmdThread::CMDTHREAD_AP_ENABLE_TX_BURST  \n"));
 
-		Ac0Cfg.word = mt7612u_read32(pAd, EDCA_AC0_CFG);
-		Ac0Cfg.field.AcTxop = 0x20;
-		mt7612u_write32(pAd, EDCA_AC0_CFG, Ac0Cfg.word);
+		Ac0Cfg = mt7612u_read32(pAd, EDCA_AC0_CFG);
+		Ac0Cfg &= ~MT_EDCA_CFG_TXOP;
+		Ac0Cfg |= FIELD_PREP(MT_EDCA_CFG_TXOP, 0x20);
+		mt7612u_write32(pAd, EDCA_AC0_CFG, Ac0Cfg);
 	}
 
 	return NDIS_STATUS_SUCCESS;
@@ -945,12 +947,13 @@ static int APEnableTXBurstHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelm
 static int APDisableTXBurstHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 {
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd) {
-		EDCA_AC_CFG_STRUC Ac0Cfg;
+		u32 Ac0Cfg;
 		DBGPRINT(RT_DEBUG_TRACE, ("CmdThread::CMDTHREAD_AP_DISABLE_TX_BURST  \n"));
 
-		Ac0Cfg.word = mt7612u_read32(pAd, EDCA_AC0_CFG);
-		Ac0Cfg.field.AcTxop = 0x0;
-		mt7612u_write32(pAd, EDCA_AC0_CFG, Ac0Cfg.word);
+		Ac0Cfg = mt7612u_read32(pAd, EDCA_AC0_CFG);
+		Ac0Cfg &= ~MT_EDCA_CFG_TXOP;
+		Ac0Cfg |= FIELD_PREP(MT_EDCA_CFG_TXOP, 0x0);
+		mt7612u_write32(pAd, EDCA_AC0_CFG, Ac0Cfg);
 	}
 
 	return NDIS_STATUS_SUCCESS;

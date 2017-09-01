@@ -27,6 +27,8 @@
 
 #include "rt_config.h"
 #include <stdarg.h>
+#include <bitfield.h>
+
 
 
 u8 CISCO_OUI[] = {0x00, 0x40, 0x96};
@@ -1688,10 +1690,10 @@ VOID STAMlmePeriodicExec(struct rtmp_adapter *pAd)
 			(pAd->CommonCfg.BACapability.field.Policy == BA_NOTUSE)
 		)
 		{
-			EDCA_AC_CFG_STRUC	Ac0Cfg;
-			EDCA_AC_CFG_STRUC	Ac2Cfg;
-			Ac2Cfg.word = mt7612u_read32(pAd, EDCA_AC2_CFG);
-			Ac0Cfg.word = mt7612u_read32(pAd, EDCA_AC0_CFG);
+			u32 Ac0Cfg;
+			u32 Ac2Cfg;
+			Ac2Cfg = mt7612u_read32(pAd, EDCA_AC2_CFG);
+			Ac0Cfg = mt7612u_read32(pAd, EDCA_AC0_CFG);
 
 			if ((pAd->RalinkCounters.OneSecOsTxCount[QID_AC_VO] == 0) &&
 			(pAd->RalinkCounters.OneSecOsTxCount[QID_AC_BK] == 0) &&
@@ -1699,10 +1701,10 @@ VOID STAMlmePeriodicExec(struct rtmp_adapter *pAd)
 			(pAd->RalinkCounters.OneSecOsTxCount[QID_AC_VI] >= 1000))
 			{
 			/*5.2.27/28 T7: Total throughput need to ~36Mbps*/
-				if (Ac2Cfg.field.Aifsn!=0xc)
-				{
-					Ac2Cfg.field.Aifsn = 0xc;
-					mt7612u_write32(pAd, EDCA_AC2_CFG, Ac2Cfg.word);
+				if (FIELD_GET(MT_EDCA_CFG_AIFSN, Ac2Cfg) !=0xc) {
+					Ac2Cfg &= ~MT_EDCA_CFG_AIFSN;
+					Ac2Cfg |= FIELD_PREP(MT_EDCA_CFG_AIFSN, 0xc);
+					mt7612u_write32(pAd, EDCA_AC2_CFG, Ac2Cfg);
 				}
 			}
 			else if ((pAd->RalinkCounters.OneSecOsTxCount[QID_AC_VO] == 0) &&
@@ -1711,20 +1713,20 @@ VOID STAMlmePeriodicExec(struct rtmp_adapter *pAd)
 			(pAd->RalinkCounters.OneSecOsTxCount[QID_AC_BE] < 10))
 			{
 			/* restore default parameter of BE*/
-				if ((Ac0Cfg.field.Aifsn!=3) ||(Ac0Cfg.field.AcTxop!=0))
-				{
-					if(Ac0Cfg.field.Aifsn!=3)
-						Ac0Cfg.field.Aifsn = 3;
-					if(Ac0Cfg.field.AcTxop!=0)
-						Ac0Cfg.field.AcTxop = 0;
-					mt7612u_write32(pAd, EDCA_AC0_CFG, Ac0Cfg.word);
+				if ((FIELD_GET(MT_EDCA_CFG_AIFSN, Ac0Cfg) !=3)  ||
+				    (FIELD_GET(MT_EDCA_CFG_TXOP, Ac0Cfg) !=0)) {
+					if (FIELD_GET(MT_EDCA_CFG_AIFSN, Ac0Cfg) !=3)
+						Ac0Cfg |= FIELD_PREP(MT_EDCA_CFG_AIFSN, 3);
+					if (FIELD_GET(MT_EDCA_CFG_TXOP, Ac0Cfg) !=0)
+						Ac0Cfg |= FIELD_PREP(MT_EDCA_CFG_TXOP, 0);
+					mt7612u_write32(pAd, EDCA_AC0_CFG, Ac0Cfg);
 				}
 
 			/* restore default parameter of VI*/
-				if (Ac2Cfg.field.Aifsn!=0x3)
-				{
-					Ac2Cfg.field.Aifsn = 0x3;
-					mt7612u_write32(pAd, EDCA_AC2_CFG, Ac2Cfg.word);
+				if (FIELD_GET(MT_EDCA_CFG_AIFSN, Ac2Cfg) != 0x3) {
+					Ac2Cfg &= ~MT_EDCA_CFG_AIFSN;
+					Ac2Cfg |= FIELD_PREP(MT_EDCA_CFG_AIFSN, 0x3);
+					mt7612u_write32(pAd, EDCA_AC2_CFG, Ac2Cfg);
 				}
 
 			}

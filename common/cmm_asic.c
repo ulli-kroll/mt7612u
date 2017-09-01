@@ -27,6 +27,7 @@
 */
 
 #include "rt_config.h"
+#include <bitfield.h>
 
 
 #ifdef CONFIG_STA_SUPPORT
@@ -1258,7 +1259,7 @@ VOID AsicEnableIbssSync(struct rtmp_adapter *pAd)
  */
 VOID AsicSetEdcaParm(struct rtmp_adapter *pAd, PEDCA_PARM pEdcaParm)
 {
-	EDCA_AC_CFG_STRUC Ac0Cfg, Ac1Cfg, Ac2Cfg, Ac3Cfg;
+	u32 Ac0Cfg, Ac1Cfg, Ac2Cfg, Ac3Cfg;
 	AC_TXOP_CSR0_STRUC csr0;
 	AC_TXOP_CSR1_STRUC csr1;
 	AIFSN_CSR_STRUC AifsnCsr;
@@ -1266,16 +1267,14 @@ VOID AsicSetEdcaParm(struct rtmp_adapter *pAd, PEDCA_PARM pEdcaParm)
 	CWMAX_CSR_STRUC CwmaxCsr;
 	int i;
 
-	Ac0Cfg.word = 0;
-	Ac1Cfg.word = 0;
-	Ac2Cfg.word = 0;
-	Ac3Cfg.word = 0;
-	if ((pEdcaParm == NULL) || (pEdcaParm->bValid == false))
-	{
+	Ac0Cfg = 0;
+	Ac1Cfg = 0;
+	Ac2Cfg = 0;
+	Ac3Cfg = 0;
+	if ((pEdcaParm == NULL) || (pEdcaParm->bValid == false)) {
 		DBGPRINT(RT_DEBUG_TRACE,("AsicSetEdcaParm\n"));
 		OPSTATUS_CLEAR_FLAG(pAd, fOP_STATUS_WMM_INUSED);
-		for (i=0; i < MAX_LEN_OF_MAC_TABLE; i++)
-		{
+		for (i=0; i < MAX_LEN_OF_MAC_TABLE; i++) {
 			if (IS_ENTRY_CLIENT(&pAd->MacTab.Content[i]) || IS_ENTRY_APCLI(&pAd->MacTab.Content[i]))
 				CLIENT_STATUS_CLEAR_FLAG(&pAd->MacTab.Content[i], fCLIENT_STATUS_WMM_CAPABLE);
 		}
@@ -1283,43 +1282,40 @@ VOID AsicSetEdcaParm(struct rtmp_adapter *pAd, PEDCA_PARM pEdcaParm)
 		/*========================================================*/
 		/*      MAC Register has a copy .*/
 		/*========================================================*/
-		if( pAd->CommonCfg.bEnableTxBurst )
-		{
+		if (pAd->CommonCfg.bEnableTxBurst ) {
 			/* For CWC test, change txop from 0x30 to 0x20 in TxBurst mode*/
-			Ac0Cfg.field.AcTxop = 0x20; /* Suggest by John for TxBurst in HT Mode*/
-		}
-		else
-			Ac0Cfg.field.AcTxop = 0;	/* QID_AC_BE*/
+			Ac0Cfg = FIELD_PREP(MT_EDCA_CFG_TXOP, 0x20); 	/* Suggest by John for TxBurst in HT Mode*/
+		} else
+			Ac0Cfg = FIELD_PREP(MT_EDCA_CFG_TXOP,0);	/* QID_AC_BE*/
 
-		Ac0Cfg.field.Cwmin = pAd->wmm_cw_min;
-		Ac0Cfg.field.Cwmax = pAd->wmm_cw_max;
-		Ac0Cfg.field.Aifsn = 2;
-		mt7612u_write32(pAd, EDCA_AC0_CFG, Ac0Cfg.word);
+		Ac0Cfg |= FIELD_PREP(MT_EDCA_CFG_CWMIN, pAd->wmm_cw_min) |
+			  FIELD_PREP(MT_EDCA_CFG_CWMAX, pAd->wmm_cw_max) |
+			  FIELD_PREP(MT_EDCA_CFG_AIFSN, 2);
+		mt7612u_write32(pAd, EDCA_AC0_CFG, Ac0Cfg);
 
-		Ac1Cfg.field.AcTxop = 0;	/* QID_AC_BK*/
-		Ac1Cfg.field.Cwmin = pAd->wmm_cw_min;
-		Ac1Cfg.field.Cwmax = pAd->wmm_cw_max;
-		Ac1Cfg.field.Aifsn = 2;
-		mt7612u_write32(pAd, EDCA_AC1_CFG, Ac1Cfg.word);
+		Ac1Cfg |= FIELD_PREP(MT_EDCA_CFG_TXOP, 0) |		/* QID_AC_BK*/
+			  FIELD_PREP(MT_EDCA_CFG_CWMIN, pAd->wmm_cw_min) |
+			  FIELD_PREP(MT_EDCA_CFG_CWMAX, pAd->wmm_cw_max) |
+			  FIELD_PREP(MT_EDCA_CFG_AIFSN, 2);
+		mt7612u_write32(pAd, EDCA_AC1_CFG, Ac1Cfg);
 
-		if (WMODE_EQUAL(pAd->CommonCfg.PhyMode, WMODE_B))
-		{
-			Ac2Cfg.field.AcTxop = 192;	/* AC_VI: 192*32us ~= 6ms*/
-			Ac3Cfg.field.AcTxop = 96;	/* AC_VO: 96*32us  ~= 3ms*/
+		if (WMODE_EQUAL(pAd->CommonCfg.PhyMode, WMODE_B)) {
+			Ac2Cfg = FIELD_PREP(MT_EDCA_CFG_TXOP, 192);	/* AC_VI: 192*32us ~= 6ms*/
+			Ac3Cfg = FIELD_PREP(MT_EDCA_CFG_TXOP, 96);	/* AC_VO: 96*32us  ~= 3ms*/
+		} else {
+			Ac2Cfg = FIELD_PREP(MT_EDCA_CFG_TXOP, 96);	/* AC_VI: 96*32us ~= 3ms*/
+			Ac3Cfg = FIELD_PREP(MT_EDCA_CFG_TXOP, 48);	/* AC_VO: 48*32us ~= 1.5ms*/
 		}
-		else
-		{
-			Ac2Cfg.field.AcTxop = 96;	/* AC_VI: 96*32us ~= 3ms*/
-			Ac3Cfg.field.AcTxop = 48;	/* AC_VO: 48*32us ~= 1.5ms*/
-		}
-		Ac2Cfg.field.Cwmin = pAd->wmm_cw_min;
-		Ac2Cfg.field.Cwmax = pAd->wmm_cw_max;
-		Ac2Cfg.field.Aifsn = 2;
-		mt7612u_write32(pAd, EDCA_AC2_CFG, Ac2Cfg.word);
-		Ac3Cfg.field.Cwmin = pAd->wmm_cw_min;
-		Ac3Cfg.field.Cwmax = pAd->wmm_cw_max;
-		Ac3Cfg.field.Aifsn = 2;
-		mt7612u_write32(pAd, EDCA_AC3_CFG, Ac3Cfg.word);
+
+		Ac2Cfg |= FIELD_PREP(MT_EDCA_CFG_CWMIN, pAd->wmm_cw_min) |
+			  FIELD_PREP(MT_EDCA_CFG_CWMAX, pAd->wmm_cw_max) |
+			  FIELD_PREP(MT_EDCA_CFG_AIFSN, 2);
+		mt7612u_write32(pAd, EDCA_AC2_CFG, Ac2Cfg);
+
+		Ac3Cfg |= FIELD_PREP(MT_EDCA_CFG_CWMIN, pAd->wmm_cw_min) |
+			  FIELD_PREP(MT_EDCA_CFG_CWMAX, pAd->wmm_cw_max) |
+			  FIELD_PREP(MT_EDCA_CFG_AIFSN, 2);
+		mt7612u_write32(pAd, EDCA_AC3_CFG, Ac3Cfg);
 
 		/*========================================================*/
 		/*      DMA Register has a copy too.*/
@@ -1327,13 +1323,10 @@ VOID AsicSetEdcaParm(struct rtmp_adapter *pAd, PEDCA_PARM pEdcaParm)
 		csr0.field.Ac0Txop = 0;		/* QID_AC_BE*/
 		csr0.field.Ac1Txop = 0;		/* QID_AC_BK*/
 		mt7612u_write32(pAd, WMM_TXOP0_CFG, csr0.word);
-		if (WMODE_EQUAL(pAd->CommonCfg.PhyMode, WMODE_B))
-		{
+		if (WMODE_EQUAL(pAd->CommonCfg.PhyMode, WMODE_B)) {
 			csr1.field.Ac2Txop = 192;		/* AC_VI: 192*32us ~= 6ms*/
 			csr1.field.Ac3Txop = 96;		/* AC_VO: 96*32us  ~= 3ms*/
-		}
-		else
-		{
+		} else {
 			csr1.field.Ac2Txop = 96;		/* AC_VI: 96*32us ~= 3ms*/
 			csr1.field.Ac3Txop = 48;		/* AC_VO: 48*32us ~= 1.5ms*/
 		}
@@ -1357,9 +1350,7 @@ VOID AsicSetEdcaParm(struct rtmp_adapter *pAd, PEDCA_PARM pEdcaParm)
 
 		memset(&pAd->CommonCfg.APEdcaParm, 0, sizeof(EDCA_PARM));
 
-	}
-	else
-	{
+	} else {
 		OPSTATUS_SET_FLAG(pAd, fOP_STATUS_WMM_INUSED);
 		/*========================================================*/
 		/*      MAC Register has a copy.*/
@@ -1370,66 +1361,61 @@ VOID AsicSetEdcaParm(struct rtmp_adapter *pAd, PEDCA_PARM pEdcaParm)
 
 		/*pEdcaParm->Txop[QID_AC_VI] = pEdcaParm->Txop[QID_AC_VI] * 7 / 10;  rt2860c need this		*/
 
-		Ac0Cfg.field.AcTxop =  pEdcaParm->Txop[QID_AC_BE];
-		Ac0Cfg.field.Cwmin= pEdcaParm->Cwmin[QID_AC_BE];
-		Ac0Cfg.field.Cwmax = pEdcaParm->Cwmax[QID_AC_BE];
-		Ac0Cfg.field.Aifsn = pEdcaParm->Aifsn[QID_AC_BE]; /*+1;*/
+		Ac0Cfg = FIELD_PREP(MT_EDCA_CFG_TXOP, pEdcaParm->Txop[QID_AC_BE]) |
+			 FIELD_PREP(MT_EDCA_CFG_CWMIN, pEdcaParm->Cwmin[QID_AC_BE]) |
+			 FIELD_PREP(MT_EDCA_CFG_CWMAX, pEdcaParm->Cwmax[QID_AC_BE]) |
+			 FIELD_PREP(MT_EDCA_CFG_AIFSN, pEdcaParm->Aifsn[QID_AC_BE]);  /*+1;*/
 
-		Ac1Cfg.field.AcTxop =  pEdcaParm->Txop[QID_AC_BK];
-		Ac1Cfg.field.Cwmin = pEdcaParm->Cwmin[QID_AC_BK]; /*+2; */
-		Ac1Cfg.field.Cwmax = pEdcaParm->Cwmax[QID_AC_BK];
-		Ac1Cfg.field.Aifsn = pEdcaParm->Aifsn[QID_AC_BK]; /*+1;*/
+		Ac1Cfg = FIELD_PREP(MT_EDCA_CFG_TXOP, pEdcaParm->Txop[QID_AC_BK]) |
+			 FIELD_PREP(MT_EDCA_CFG_CWMIN, pEdcaParm->Cwmin[QID_AC_BK]) |	 /*+2; */
+			 FIELD_PREP(MT_EDCA_CFG_CWMAX, pEdcaParm->Cwmax[QID_AC_BK]) |
+			 FIELD_PREP(MT_EDCA_CFG_AIFSN, pEdcaParm->Aifsn[QID_AC_BK]);	 /*+1;*/
 
-
-		Ac2Cfg.field.AcTxop = (pEdcaParm->Txop[QID_AC_VI] * 6) / 10;
-		{
-			Ac2Cfg.field.Cwmin = pEdcaParm->Cwmin[QID_AC_VI];
-			Ac2Cfg.field.Cwmax = pEdcaParm->Cwmax[QID_AC_VI];
-		}
-		/*sync with window 20110524*/
-		Ac2Cfg.field.Aifsn = pEdcaParm->Aifsn[QID_AC_VI] + 1; /* 5.2.27 T6 Pass Tx VI+BE, but will impack 5.2.27/28 T7. Tx VI*/
+		Ac2Cfg = FIELD_PREP(MT_EDCA_CFG_TXOP, (pEdcaParm->Txop[QID_AC_VI] * 6) / 10) |
+			 FIELD_PREP(MT_EDCA_CFG_CWMIN, pEdcaParm->Cwmin[QID_AC_VI]) |	 /*+2; */
+			 FIELD_PREP(MT_EDCA_CFG_CWMAX, pEdcaParm->Cwmax[QID_AC_VI]) |
+			/*sync with window 20110524*/
+			 FIELD_PREP(MT_EDCA_CFG_AIFSN, pEdcaParm->Aifsn[QID_AC_VI] + 1); /* 5.2.27 T6 Pass Tx VI+BE, but will impack 5.2.27/28 T7. Tx VI*/
 
 #ifdef CONFIG_STA_SUPPORT
-		IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
-		{
-			/* Tuning for Wi-Fi WMM S06*/
+		IF_DEV_CONFIG_OPMODE_ON_STA(pAd) {
 			/* Tuning for TGn Wi-Fi 5.2.32*/
 			/* STA TestBed changes in this item: conexant legacy sta ==> broadcom 11n sta*/
-			if (STA_TGN_WIFI_ON(pAd) &&
-				pEdcaParm->Aifsn[QID_AC_VI] == 10)
-			{
-				Ac0Cfg.field.Aifsn = 3;
-				Ac2Cfg.field.AcTxop = 5;
+			if (STA_TGN_WIFI_ON(pAd) && pEdcaParm->Aifsn[QID_AC_VI] == 10) {
+				Ac0Cfg &= ~MT_EDCA_CFG_AIFSN;
+				Ac0Cfg |= FIELD_PREP(MT_EDCA_CFG_AIFSN, 3);
+
+				Ac2Cfg &= ~MT_EDCA_CFG_TXOP;
+				Ac2Cfg |= FIELD_PREP(MT_EDCA_CFG_TXOP, 5);
 			}
 
 		}
 #endif /* CONFIG_STA_SUPPORT */
 
-		Ac3Cfg.field.AcTxop = pEdcaParm->Txop[QID_AC_VO];
-		Ac3Cfg.field.Cwmin = pEdcaParm->Cwmin[QID_AC_VO];
-		Ac3Cfg.field.Cwmax = pEdcaParm->Cwmax[QID_AC_VO];
-		Ac3Cfg.field.Aifsn = pEdcaParm->Aifsn[QID_AC_VO];
-
+		Ac3Cfg = FIELD_PREP(MT_EDCA_CFG_TXOP, pEdcaParm->Txop[QID_AC_VO]) |
+			 FIELD_PREP(MT_EDCA_CFG_CWMIN, pEdcaParm->Cwmin[QID_AC_VO]) |
+			 FIELD_PREP(MT_EDCA_CFG_CWMAX, pEdcaParm->Cwmax[QID_AC_VO]) |
+			 FIELD_PREP(MT_EDCA_CFG_AIFSN, pEdcaParm->Aifsn[QID_AC_VO]);
 
 #ifdef CONFIG_STA_SUPPORT
 #endif /* CONFIG_STA_SUPPORT */
 
 
-		mt7612u_write32(pAd, EDCA_AC0_CFG, Ac0Cfg.word);
-		mt7612u_write32(pAd, EDCA_AC1_CFG, Ac1Cfg.word);
-		mt7612u_write32(pAd, EDCA_AC2_CFG, Ac2Cfg.word);
-		mt7612u_write32(pAd, EDCA_AC3_CFG, Ac3Cfg.word);
+		mt7612u_write32(pAd, EDCA_AC0_CFG, Ac0Cfg);
+		mt7612u_write32(pAd, EDCA_AC1_CFG, Ac1Cfg);
+		mt7612u_write32(pAd, EDCA_AC2_CFG, Ac2Cfg);
+		mt7612u_write32(pAd, EDCA_AC3_CFG, Ac3Cfg);
 
 
 		/*========================================================*/
 		/*      DMA Register has a copy too.*/
 		/*========================================================*/
-		csr0.field.Ac0Txop = Ac0Cfg.field.AcTxop;
-		csr0.field.Ac1Txop = Ac1Cfg.field.AcTxop;
+		csr0.field.Ac0Txop = FIELD_GET(MT_EDCA_CFG_TXOP, Ac0Cfg);
+		csr0.field.Ac1Txop = FIELD_GET(MT_EDCA_CFG_TXOP, Ac1Cfg);
 		mt7612u_write32(pAd, WMM_TXOP0_CFG, csr0.word);
 
-		csr1.field.Ac2Txop = Ac2Cfg.field.AcTxop;
-		csr1.field.Ac3Txop = Ac3Cfg.field.AcTxop;
+		csr1.field.Ac2Txop = FIELD_GET(MT_EDCA_CFG_TXOP, Ac2Cfg);
+		csr1.field.Ac3Txop = FIELD_GET(MT_EDCA_CFG_TXOP, Ac3Cfg);
 		mt7612u_write32(pAd, WMM_TXOP1_CFG, csr1.word);
 
 		CwminCsr.word = 0;
@@ -1454,26 +1440,21 @@ VOID AsicSetEdcaParm(struct rtmp_adapter *pAd, PEDCA_PARM pEdcaParm)
 		mt7612u_write32(pAd, WMM_CWMAX_CFG, CwmaxCsr.word);
 
 		AifsnCsr.word = 0;
-		AifsnCsr.field.Aifsn0 = Ac0Cfg.field.Aifsn; /*pEdcaParm->Aifsn[QID_AC_BE];*/
-		AifsnCsr.field.Aifsn1 = Ac1Cfg.field.Aifsn; /*pEdcaParm->Aifsn[QID_AC_BK];*/
+		AifsnCsr.field.Aifsn0 = FIELD_GET(MT_EDCA_CFG_AIFSN, Ac0Cfg); /*pEdcaParm->Aifsn[QID_AC_BE];*/
+		AifsnCsr.field.Aifsn1 = FIELD_GET(MT_EDCA_CFG_AIFSN, Ac1Cfg); /*pEdcaParm->Aifsn[QID_AC_BK];*/
 #ifdef CONFIG_STA_SUPPORT
-		IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
-		{
+		IF_DEV_CONFIG_OPMODE_ON_STA(pAd) {
 			if(pAd->Antenna.field.TxPath == 1)
-				AifsnCsr.field.Aifsn1 = Ac1Cfg.field.Aifsn + 2; 	/*5.2.27 T7 Pass*/
+				AifsnCsr.field.Aifsn1 = FIELD_GET(MT_EDCA_CFG_AIFSN, Ac1Cfg) + 2; 	/*5.2.27 T7 Pass*/
 		}
 #endif /* CONFIG_STA_SUPPORT */
-		AifsnCsr.field.Aifsn2 = Ac2Cfg.field.Aifsn; /*pEdcaParm->Aifsn[QID_AC_VI];*/
+		AifsnCsr.field.Aifsn2 = FIELD_GET(MT_EDCA_CFG_AIFSN, Ac2Cfg); /*pEdcaParm->Aifsn[QID_AC_VI];*/
 
 #ifdef CONFIG_STA_SUPPORT
-		IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
-		{
-			/* Tuning for Wi-Fi WMM S06*/
+		IF_DEV_CONFIG_OPMODE_ON_STA(pAd) {
 			/* Tuning for TGn Wi-Fi 5.2.32*/
 			/* STA TestBed changes in this item: connexant legacy sta ==> broadcom 11n sta*/
-			if (STA_TGN_WIFI_ON(pAd) &&
-				pEdcaParm->Aifsn[QID_AC_VI] == 10)
-			{
+			if (STA_TGN_WIFI_ON(pAd) && pEdcaParm->Aifsn[QID_AC_VI] == 10) {
 				AifsnCsr.field.Aifsn0 = 3;
 				AifsnCsr.field.Aifsn2 = 7;
 			}
@@ -1485,12 +1466,11 @@ VOID AsicSetEdcaParm(struct rtmp_adapter *pAd, PEDCA_PARM pEdcaParm)
 
 #ifdef CONFIG_AP_SUPPORT
 		IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-			AifsnCsr.field.Aifsn3 = Ac3Cfg.field.Aifsn; /*pEdcaParm->Aifsn[QID_AC_VO]*/
+			AifsnCsr.field.Aifsn3 = FIELD_GET(MT_EDCA_CFG_AIFSN, Ac3Cfg); /*pEdcaParm->Aifsn[QID_AC_VO]*/
 #endif /* CONFIG_AP_SUPPORT */
 #ifdef CONFIG_STA_SUPPORT
-		IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
-		{
-			AifsnCsr.field.Aifsn3 = Ac3Cfg.field.Aifsn - 1; /*pEdcaParm->Aifsn[QID_AC_VO]; for TGn wifi test*/
+		IF_DEV_CONFIG_OPMODE_ON_STA(pAd) {
+			AifsnCsr.field.Aifsn3 = FIELD_GET(MT_EDCA_CFG_AIFSN, Ac3Cfg) - 1; /*pEdcaParm->Aifsn[QID_AC_VO]; for TGn wifi test*/
 
 			/* TODO: Is this modification also suitable for RT3052/RT3050 ???*/
 			if (0
@@ -1534,7 +1514,7 @@ VOID AsicSetEdcaParm(struct rtmp_adapter *pAd, PEDCA_PARM pEdcaParm)
 
 	}
 
-	pAd->CommonCfg.RestoreBurstMode = Ac0Cfg.word;
+	pAd->CommonCfg.RestoreBurstMode = Ac0Cfg;
 }
 
 
