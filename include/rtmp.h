@@ -1724,8 +1724,6 @@ typedef struct _COMMON_CONFIG {
 	bool bWirelessEvent;
 #endif /* SYSTEM_LOG_SUPPORT */
 
-	bool bWiFiTest;	/* Enable this parameter for WiFi test */
-
 	/* Tx & Rx Stream number selection */
 	u8 TxStream;
 	u8 RxStream;

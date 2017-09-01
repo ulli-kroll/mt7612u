@@ -2235,8 +2235,6 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 	/*RTMPSetTimer(&pAd->RECBATimer, REORDER_EXEC_INTV);*/
 
 
-	pAd->CommonCfg.bWiFiTest = false;
-
 #ifdef CONFIG_AP_SUPPORT
 	pAd->ApCfg.EntryLifeCheck = MAC_ENTRY_LIFE_CHECK_CNT;
 

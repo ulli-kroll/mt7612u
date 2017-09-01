@@ -1393,10 +1393,6 @@ VOID AsicSetEdcaParm(struct rtmp_adapter *pAd, PEDCA_PARM pEdcaParm)
 		IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
 		{
 			/* Tuning for Wi-Fi WMM S06*/
-			if (pAd->CommonCfg.bWiFiTest &&
-				pEdcaParm->Aifsn[QID_AC_VI] == 10)
-				Ac2Cfg.field.Aifsn -= 1;
-
 			/* Tuning for TGn Wi-Fi 5.2.32*/
 			/* STA TestBed changes in this item: conexant legacy sta ==> broadcom 11n sta*/
 			if (STA_TGN_WIFI_ON(pAd) &&
@@ -1414,17 +1410,6 @@ VOID AsicSetEdcaParm(struct rtmp_adapter *pAd, PEDCA_PARM pEdcaParm)
 		Ac3Cfg.field.Cwmax = pEdcaParm->Cwmax[QID_AC_VO];
 		Ac3Cfg.field.Aifsn = pEdcaParm->Aifsn[QID_AC_VO];
 
-		if (pAd->CommonCfg.bWiFiTest)
-		{
-			if (Ac3Cfg.field.AcTxop == 102)
-			{
-			Ac0Cfg.field.AcTxop = pEdcaParm->Txop[QID_AC_BE] ? pEdcaParm->Txop[QID_AC_BE] : 10;
-				Ac0Cfg.field.Aifsn  = pEdcaParm->Aifsn[QID_AC_BE]-1; /* AIFSN must >= 1 */
-			Ac1Cfg.field.AcTxop = pEdcaParm->Txop[QID_AC_BK];
-				Ac1Cfg.field.Aifsn  = pEdcaParm->Aifsn[QID_AC_BK];
-			Ac2Cfg.field.AcTxop = pEdcaParm->Txop[QID_AC_VI];
-			}
-		}
 
 #ifdef CONFIG_STA_SUPPORT
 #endif /* CONFIG_STA_SUPPORT */
@@ -1484,10 +1469,6 @@ VOID AsicSetEdcaParm(struct rtmp_adapter *pAd, PEDCA_PARM pEdcaParm)
 		IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
 		{
 			/* Tuning for Wi-Fi WMM S06*/
-			if (pAd->CommonCfg.bWiFiTest &&
-				pEdcaParm->Aifsn[QID_AC_VI] == 10)
-				AifsnCsr.field.Aifsn2 = Ac2Cfg.field.Aifsn - 4;
-
 			/* Tuning for TGn Wi-Fi 5.2.32*/
 			/* STA TestBed changes in this item: connexant legacy sta ==> broadcom 11n sta*/
 			if (STA_TGN_WIFI_ON(pAd) &&
