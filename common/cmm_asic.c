@@ -2453,8 +2453,8 @@ VOID asic_tune_be_wmm(
 		bssCwmin = 8;
 	}
 
-	pAd->CommonCfg.APEdcaParm.Cwmin[0] = apCwmin;
-	pAd->CommonCfg.APEdcaParm.Cwmax[0] = apCwmax;
+	pAd->CommonCfg.APEdcaParm.Cwmin[QID_AC_BE] = apCwmin;
+	pAd->CommonCfg.APEdcaParm.Cwmax[QID_AC_BE] = apCwmax;
 	pAd->ApCfg.BssEdcaParm.Cwmin[0] = bssCwmin;
 
 	AsicSetEdcaParm(pAd, &pAd->CommonCfg.APEdcaParm);

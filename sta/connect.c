@@ -1270,25 +1270,25 @@ VOID AdhocTurnOnQos(struct rtmp_adapter *pAd)
 	/* Turn on QOs if use HT rate. */
 	if (pAd->CommonCfg.APEdcaParm.bValid == false) {
 		pAd->CommonCfg.APEdcaParm.bValid = true;
-		pAd->CommonCfg.APEdcaParm.Aifsn[0] = 3;
-		pAd->CommonCfg.APEdcaParm.Aifsn[1] = 7;
-		pAd->CommonCfg.APEdcaParm.Aifsn[2] = 1;
-		pAd->CommonCfg.APEdcaParm.Aifsn[3] = 1;
+		pAd->CommonCfg.APEdcaParm.Aifsn[QID_AC_BE] = 3;
+		pAd->CommonCfg.APEdcaParm.Aifsn[QID_AC_BK] = 7;
+		pAd->CommonCfg.APEdcaParm.Aifsn[QID_AC_VI] = 1;
+		pAd->CommonCfg.APEdcaParm.Aifsn[QID_AC_VO] = 1;
 
-		pAd->CommonCfg.APEdcaParm.Cwmin[0] = 4;
-		pAd->CommonCfg.APEdcaParm.Cwmin[1] = 4;
-		pAd->CommonCfg.APEdcaParm.Cwmin[2] = 3;
-		pAd->CommonCfg.APEdcaParm.Cwmin[3] = 2;
+		pAd->CommonCfg.APEdcaParm.Cwmin[QID_AC_BE] = 4;
+		pAd->CommonCfg.APEdcaParm.Cwmin[QID_AC_BK] = 4;
+		pAd->CommonCfg.APEdcaParm.Cwmin[QID_AC_VI] = 3;
+		pAd->CommonCfg.APEdcaParm.Cwmin[QID_AC_VO] = 2;
 
-		pAd->CommonCfg.APEdcaParm.Cwmax[0] = 10;
-		pAd->CommonCfg.APEdcaParm.Cwmax[1] = 6;
-		pAd->CommonCfg.APEdcaParm.Cwmax[2] = 4;
-		pAd->CommonCfg.APEdcaParm.Cwmax[3] = 3;
+		pAd->CommonCfg.APEdcaParm.Cwmax[QID_AC_BE] = 10;
+		pAd->CommonCfg.APEdcaParm.Cwmax[QID_AC_BK] = 6;
+		pAd->CommonCfg.APEdcaParm.Cwmax[QID_AC_VI] = 4;
+		pAd->CommonCfg.APEdcaParm.Cwmax[QID_AC_VO] = 3;
 
-		pAd->CommonCfg.APEdcaParm.Txop[0] = 0;
-		pAd->CommonCfg.APEdcaParm.Txop[1] = 0;
-		pAd->CommonCfg.APEdcaParm.Txop[2] = AC2_DEF_TXOP;
-		pAd->CommonCfg.APEdcaParm.Txop[3] = AC3_DEF_TXOP;
+		pAd->CommonCfg.APEdcaParm.Txop[QID_AC_BE] = 0;
+		pAd->CommonCfg.APEdcaParm.Txop[QID_AC_BK] = 0;
+		pAd->CommonCfg.APEdcaParm.Txop[QID_AC_VI] = AC2_DEF_TXOP;
+		pAd->CommonCfg.APEdcaParm.Txop[QID_AC_VO] = AC3_DEF_TXOP;
 	}
 	AsicSetEdcaParm(pAd, &pAd->CommonCfg.APEdcaParm);
 }
