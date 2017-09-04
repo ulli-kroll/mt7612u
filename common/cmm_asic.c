@@ -1487,29 +1487,29 @@ VOID AsicSetEdcaParm(struct rtmp_adapter *pAd, PEDCA_PARM pEdcaParm)
 		{
 			DBGPRINT(RT_DEBUG_TRACE,("EDCA [#%d]: AIFSN CWmin CWmax  TXOP(us)  ACM\n", pEdcaParm->EdcaUpdateCount));
 			DBGPRINT(RT_DEBUG_TRACE,("     AC_BE      %2d     %2d     %2d      %4d     %d\n",
-									 pEdcaParm->Aifsn[0],
-									 pEdcaParm->Cwmin[0],
-									 pEdcaParm->Cwmax[0],
-									 pEdcaParm->Txop[0]<<5,
-									 pEdcaParm->bACM[0]));
+									 pEdcaParm->Aifsn[QID_AC_BE],
+									 pEdcaParm->Cwmin[QID_AC_BE],
+									 pEdcaParm->Cwmax[QID_AC_BE],
+									 pEdcaParm->Txop[QID_AC_BE]<<5,
+									 pEdcaParm->bACM[QID_AC_BE]));
 			DBGPRINT(RT_DEBUG_TRACE,("     AC_BK      %2d     %2d     %2d      %4d     %d\n",
-									 pEdcaParm->Aifsn[1],
-									 pEdcaParm->Cwmin[1],
-									 pEdcaParm->Cwmax[1],
-									 pEdcaParm->Txop[1]<<5,
-									 pEdcaParm->bACM[1]));
+									 pEdcaParm->Aifsn[QID_AC_BK],
+									 pEdcaParm->Cwmin[QID_AC_BK],
+									 pEdcaParm->Cwmax[QID_AC_BK],
+									 pEdcaParm->Txop[QID_AC_BK]<<5,
+									 pEdcaParm->bACM[QID_AC_BK]));
 			DBGPRINT(RT_DEBUG_TRACE,("     AC_VI      %2d     %2d     %2d      %4d     %d\n",
-									 pEdcaParm->Aifsn[2],
-									 pEdcaParm->Cwmin[2],
-									 pEdcaParm->Cwmax[2],
-									 pEdcaParm->Txop[2]<<5,
-									 pEdcaParm->bACM[2]));
+									 pEdcaParm->Aifsn[QID_AC_VI],
+									 pEdcaParm->Cwmin[QID_AC_VI],
+									 pEdcaParm->Cwmax[QID_AC_VI],
+									 pEdcaParm->Txop[QID_AC_VI]<<5,
+									 pEdcaParm->bACM[QID_AC_VI]));
 			DBGPRINT(RT_DEBUG_TRACE,("     AC_VO      %2d     %2d     %2d      %4d     %d\n",
-									 pEdcaParm->Aifsn[3],
-									 pEdcaParm->Cwmin[3],
-									 pEdcaParm->Cwmax[3],
-									 pEdcaParm->Txop[3]<<5,
-									 pEdcaParm->bACM[3]));
+									 pEdcaParm->Aifsn[QID_AC_VO],
+									 pEdcaParm->Cwmin[QID_AC_VO],
+									 pEdcaParm->Cwmax[QID_AC_VO],
+									 pEdcaParm->Txop[QID_AC_VO]<<5,
+									 pEdcaParm->bACM[QID_AC_VO]));
 		}
 
 	}
