@@ -27,7 +27,16 @@
 */
 
 #include "rt_config.h"
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,9,0))
+#include <linux/bitfield.h>
+#else
+/* Force a compilation error if a constant expression is not a power of 2 */
+#define __BUILD_BUG_ON_NOT_POWER_OF_2(n)	\
+	BUILD_BUG_ON(((n) & ((n) - 1)) != 0)
+#define BUILD_BUG_ON_NOT_POWER_OF_2(n)			\
+	BUILD_BUG_ON((n) == 0 || (((n) & ((n) - 1)) != 0))
 #include <bitfield.h>
+#endif
 
 
 #ifdef CONFIG_STA_SUPPORT
