@@ -72,27 +72,23 @@ VOID	RTUSBInitHTTxDesc(
 	IN	ULONG			BulkOutSize,
 	IN	usb_complete_t	Func)
 {
-	struct urb *			pUrb;
-	u8 *			pSrc = NULL;
-	struct os_cookie *		pObj = pAd->OS_Cookie;
+	struct urb *urb;
+	u8 *pSrc = NULL;
+	struct usb_device *udev = mt7612u_to_usb_dev(pAd);
 	struct rtmp_chip_cap *pChipCap = &pAd->chipCap;
 
-	pUrb = pTxContext->pUrb;
-	ASSERT(pUrb);
+	urb = pTxContext->pUrb;
 
 	/* Store BulkOut PipeId*/
 	pTxContext->BulkOutPipeId = BulkOutPipeId;
 
 	pSrc = &pTxContext->TransferBuffer->field.WirelessPacket[pTxContext->NextBulkOutPosition];
 
-	RTUSB_FILL_HTTX_BULK_URB(pUrb,
-						pObj->pUsb_Dev,
-						pChipCap->WMM0ACBulkOutAddr[BulkOutPipeId],
-						pSrc,
-						BulkOutSize,
-						Func,
-						pTxContext,
-						(pTxContext->data_dma + pTxContext->NextBulkOutPosition));
+	usb_fill_bulk_urb(urb, udev,
+			  usb_sndbulkpipe(udev, pChipCap->WMM0ACBulkOutAddr[BulkOutPipeId]),
+			  pSrc, BulkOutSize, Func, pTxContext);
+	urb->transfer_dma = pTxContext->data_dma + pTxContext->NextBulkOutPosition;
+	urb->transfer_flags |= URB_NO_TRANSFER_DMA_MAP;
 }
 
 VOID	RTUSBInitRxDesc(

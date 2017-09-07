@@ -348,14 +348,12 @@ static int __mt7612u_dma_fw(struct rtmp_adapter *ad,
 	}
 
 	/* Initialize URB descriptor */
-	RTUSB_FILL_HTTX_BULK_URB(buf.urb,
-			 udev,
-			 MT_COMMAND_BULK_OUT_ADDR,
-			 buf.buf,
-			 len + sizeof(reg) + 4,
-			 mt7612u_complete_urb,
-			 &cmpl,
-			 buf.dma);
+	usb_fill_bulk_urb(buf.urb, udev,
+			  usb_sndbulkpipe(udev, MT_COMMAND_BULK_OUT_ADDR),
+			  buf.buf, len + sizeof(reg) + USB_END_PADDING,
+			  mt7612u_complete_urb, &cmpl);
+	buf.urb->transfer_dma = buf.dma;
+	buf.urb->transfer_flags |= URB_NO_TRANSFER_DMA_MAP;
 
 	ret = usb_submit_urb(buf.urb, GFP_ATOMIC);
 
