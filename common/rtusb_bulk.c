@@ -621,7 +621,8 @@ VOID	RTUSBBulkOutMLMEPacket(
 	/* Init Tx context descriptor*/
 	RTUSBInitTxDesc(pAd, pMLMEContext, MGMTPIPEIDX, (usb_complete_t)RtmpUsbBulkOutMLMEPacketComplete);
 
-	RTUSB_URB_DMA_MAPPING(pUrb);
+	pUrb->transfer_dma	= 0;	\
+	pUrb->transfer_flags &= (~URB_NO_TRANSFER_DMA_MAP);	\
 
 	pUrb = pMLMEContext->pUrb;
 	if((ret = usb_submit_urb(pUrb, GFP_ATOMIC))!=0)

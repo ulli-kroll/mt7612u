@@ -771,12 +771,6 @@ USBHST_STATUS RTUSBBulkCmdRspEventComplete(URBCompleteStatus Status, struct urb 
 
 /* pRxContext->data_dma + pAd->NextRxBulkInPosition; */
 
-#define RTUSB_URB_DMA_MAPPING(pUrb)	\
-	{	\
-		pUrb->transfer_dma	= 0;	\
-		pUrb->transfer_flags &= (~URB_NO_TRANSFER_DMA_MAP);	\
-	}
-
 /*extern int rausb_register(struct usb_driver * new_driver); */
 /*extern void rausb_deregister(struct usb_driver * driver); */
 
