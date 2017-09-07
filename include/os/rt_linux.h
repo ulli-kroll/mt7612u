@@ -769,20 +769,6 @@ USBHST_STATUS RTUSBBulkCmdRspEventComplete(URBCompleteStatus Status, struct urb 
 
 /* Fill Bulk URB Macro */
 
-#define RTUSB_FILL_RX_BULK_URB(pUrb,	\
-				pUsb_Dev,				\
-				uEndpointAddress,		\
-				pTransferBuf,			\
-				BufSize,				\
-				Complete,				\
-				pContext,				\
-				TransferDma)			\
-  				do{	\
-					usb_fill_bulk_urb(pUrb, pUsb_Dev, usb_rcvbulkpipe(pUsb_Dev, uEndpointAddress),	\
-								pTransferBuf, BufSize, Complete, pContext);	\
-					pUrb->transfer_dma	= TransferDma;	\
-					pUrb->transfer_flags |= URB_NO_TRANSFER_DMA_MAP;	\
-				}while(0)
 /* pRxContext->data_dma + pAd->NextRxBulkInPosition; */
 
 #define RTUSB_URB_DMA_MAPPING(pUrb)	\
