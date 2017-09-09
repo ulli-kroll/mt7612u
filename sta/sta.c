@@ -146,8 +146,6 @@ INT RTMPCheckRxError(
 						pRxInfo->Mcast | pRxInfo->Bcast, pRxInfo->MyBss, pRxBlk->wcid,
 			pRxBlk->key_idx));
 
-		dump_rxinfo(pAd, pRxInfo);
-		dump_rxwi(pAd, pRxBlk->pRxWI);
 		hex_dump("ErrorPkt",  (u8 *)pHeader, pRxBlk->MPDUtotalByteCnt);
 
 		if (pHeader == NULL)

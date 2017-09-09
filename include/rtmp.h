@@ -6762,16 +6762,6 @@ MAC_TABLE_ENTRY *MacTableInsertEntry(
 	IN u8 OpMode,
 	IN bool CleanAll);
 
-
-VOID dump_txwi(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI);
-VOID dump_rxwi(struct rtmp_adapter *pAd, RXWI_STRUC *pRxWI);
-VOID dump_txinfo(struct rtmp_adapter *pAd, TXINFO_STRUC *pTxInfo);
-VOID dump_rxinfo(struct rtmp_adapter *pAd, RXINFO_STRUC *pRxInfo);
-VOID dump_rxblk(struct rtmp_adapter *pAd, RX_BLK *pRxBlk);
-
-
-
-
 #ifdef WFA_VHT_PF
 /* for SIGMA */
 INT set_vht_nss_mcs_cap(struct rtmp_adapter *pAd, char *arg);

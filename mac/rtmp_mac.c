@@ -201,7 +201,6 @@ VOID RTMPWriteTxWI(
 //+++Add by shiang for debug
 if (0){
 	hex_dump("TxWI", (u8 *)pOutTxWI, TXWISize);
-	dump_txwi(pAd, pOutTxWI);
 }
 //---Add by shiang for debug
 }
