@@ -145,24 +145,22 @@ VOID rlt_usb_write_txinfo(
 	IN u8 NextValid,
 	IN u8 TxBurst)
 {
-	{
-		struct _TXINFO_NMAC_PKT *nmac_info = (struct _TXINFO_NMAC_PKT *)pTxInfo;
+	struct _TXINFO_NMAC_PKT *nmac_info = (struct _TXINFO_NMAC_PKT *)pTxInfo;
 
-		nmac_info->pkt_80211 = 1;
-		nmac_info->info_type = 0;
-		nmac_info->d_port = 0;
-		nmac_info->cso = 0;
-		nmac_info->tso = 0;
+	nmac_info->pkt_80211 = 1;
+	nmac_info->info_type = 0;
+	nmac_info->d_port = 0;
+	nmac_info->cso = 0;
+	nmac_info->tso = 0;
 
-		nmac_info->pkt_len = USBDMApktLen;
-		nmac_info->QSEL = QueueSel;
-		if (QueueSel != FIFO_EDCA)
-			DBGPRINT(RT_DEBUG_TRACE, ("====> QueueSel != FIFO_EDCA <====\n"));
-		nmac_info->next_vld = false;	/*NextValid;   Need to check with Jan about this.*/
-		nmac_info->tx_burst = TxBurst;
-		nmac_info->wiv = bWiv;
-		nmac_info->rsv0 = 0;		/* TxInfoSwLstRnd */
-	}
+	nmac_info->pkt_len = USBDMApktLen;
+	nmac_info->QSEL = QueueSel;
+	if (QueueSel != FIFO_EDCA)
+		DBGPRINT(RT_DEBUG_TRACE, ("====> QueueSel != FIFO_EDCA <====\n"));
+	nmac_info->next_vld = false;	/*NextValid;   Need to check with Jan about this.*/
+	nmac_info->tx_burst = TxBurst;
+	nmac_info->wiv = bWiv;
+	nmac_info->rsv0 = 0;		/* TxInfoSwLstRnd */
 }
 
 
