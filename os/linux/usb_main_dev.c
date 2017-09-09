@@ -34,16 +34,6 @@ VOID rtusb_reject_pending_pkts(VOID *pAd)
 	/* clear TxSw packets */
 }
 
-
-VOID rtusb_vendor_specific_check(struct usb_device *dev, VOID *pAd)
-{
-
-
-	RT_CMD_USB_MORE_FLAG_CONFIG Config = { dev->descriptor.idVendor,
-										dev->descriptor.idProduct };
-	RTMP_DRIVER_USB_MORE_FLAG_SET(pAd, &Config);
-}
-
 static bool USBDevConfigInit(struct usb_device *dev, struct usb_interface *intf, struct rtmp_adapter *pAd)
 {
 	struct usb_host_interface *iface_desc;
@@ -95,8 +85,6 @@ static bool USBDevConfigInit(struct usb_device *dev, struct usb_interface *intf,
 	}
 
 	usb_set_intfdata(intf, pAd);
-
-	rtusb_vendor_specific_check(dev, pAd);
 
 	return true;
 

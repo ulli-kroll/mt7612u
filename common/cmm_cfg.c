@@ -884,41 +884,6 @@ INT RTMP_COM_IoctlHandle(
 		}
 			break;
 
-
-		case CMD_RTPRIV_IOCTL_USB_MORE_FLAG_SET:
-		{
-			RT_CMD_USB_MORE_FLAG_CONFIG *pConfig;
-			uint32_t VendorID, ProductID;
-
-
-			pConfig = (RT_CMD_USB_MORE_FLAG_CONFIG *)pData;
-			VendorID = pConfig->VendorID;
-			ProductID = pConfig->ProductID;
-
-			if (VendorID == 0x0DB0)
-			{
-				if ((ProductID == 0x871C) || (ProductID == 0x822C))
-				{
-					RTMP_SET_MORE_FLAG(pAd, (fRTMP_ADAPTER_DISABLE_DOT_11N | fRTMP_ADAPTER_WSC_PBC_PIN0));
-				}
-				if ((ProductID == 0x871A) || (ProductID == 0x822A))
-				{
-					RTMP_SET_MORE_FLAG(pAd, fRTMP_ADAPTER_DISABLE_DOT_11N);
-				}
-				if ((ProductID == 0x871B) || (ProductID == 0x822B))
-				{
-					RTMP_SET_MORE_FLAG(pAd, fRTMP_ADAPTER_WSC_PBC_PIN0);
-				}
-			}
-
-	    	if (VendorID == 0x07D1)
-	    	{
-				if (ProductID == 0x3C0F)
-					RTMP_SET_MORE_FLAG(pAd, fRTMP_ADAPTER_DISABLE_DOT_11N);
-	    	}
-		}
-			break;
-
 		case CMD_RTPRIV_IOCTL_USB_SUSPEND:
 			pAd->PM_FlgSuspend = 1;
 			if (Data)
