@@ -47,7 +47,7 @@ enum D_PORT {
 #include "rtmp_type.h"
 
 #ifdef RT_BIG_ENDIAN
-typedef struct GNU_PACKED _TXINFO_NMAC_PKT{
+struct __attribute__ ((packed)) txinfo_nmac_pkt {
 	uint32_t info_type:2;
 	uint32_t d_port:3;
 	uint32_t QSEL:2;
@@ -56,17 +56,17 @@ typedef struct GNU_PACKED _TXINFO_NMAC_PKT{
 	uint32_t cso:1;
 	uint32_t tso:1;
 	uint32_t pkt_80211:1;
-	uint32_t rsv0:1;
+	uint32_t sw_lst_rnd:1;
 	uint32_t tx_burst:1;
 	uint32_t next_vld:1;
 	uint32_t pkt_len:16;
-}TXINFO_NMAC_PKT;
+};
 #else
-typedef struct GNU_PACKED _TXINFO_NMAC_PKT {
+struct __attribute__ ((packed)) txinfo_nmac_pkt {
 	uint32_t pkt_len:16;
 	uint32_t next_vld:1;
 	uint32_t tx_burst:1;
-	uint32_t rsv0:1;
+	uint32_t sw_lst_rnd:1;
 	uint32_t pkt_80211:1;
 	uint32_t tso:1;
 	uint32_t cso:1;
@@ -75,19 +75,8 @@ typedef struct GNU_PACKED _TXINFO_NMAC_PKT {
 	uint32_t QSEL:2;
 	uint32_t d_port:3;
 	uint32_t info_type:2;
-}TXINFO_NMAC_PKT;
+};
 #endif /* RT_BIG_ENDIAN */
-
-#define TxInfoWIV			txinfo_nmac_pkt.wiv
-#define TxInfoQSEL			txinfo_nmac_pkt.QSEL
-#define TxInfoPktLen			txinfo_nmac_pkt.pkt_len
-#define TxInfoSwLstRnd		txinfo_nmac_pkt.rsv0
-#define TxInfoUDMATxburst	txinfo_nmac_pkt.tx_burst
-#define TxInfoUDMANextVld	txinfo_nmac_pkt.next_vld
-
-typedef union GNU_PACKED _TXINFO_NMAC{
-	struct _TXINFO_NMAC_PKT txinfo_pkt;
-}TXINFO_NMAC;
 
 #ifdef RT_BIG_ENDIAN
 typedef struct GNU_PACKED _LED_NMAC_CMD{

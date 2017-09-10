@@ -145,7 +145,7 @@ VOID rlt_usb_write_txinfo(
 	IN u8 NextValid,
 	IN u8 TxBurst)
 {
-	struct _TXINFO_NMAC_PKT *nmac_info = (struct _TXINFO_NMAC_PKT *)pTxInfo;
+	struct txinfo_nmac_pkt *nmac_info = (struct txinfo_nmac_pkt *)pTxInfo;
 
 	nmac_info->pkt_80211 = 1;
 	nmac_info->info_type = 0;
@@ -160,7 +160,7 @@ VOID rlt_usb_write_txinfo(
 	nmac_info->next_vld = false;	/*NextValid;   Need to check with Jan about this.*/
 	nmac_info->tx_burst = TxBurst;
 	nmac_info->wiv = bWiv;
-	nmac_info->rsv0 = 0;		/* TxInfoSwLstRnd */
+	nmac_info->sw_lst_rnd = 0;		/* TxInfoSwLstRnd */
 }
 
 
@@ -393,17 +393,17 @@ unsigned short RtmpUSB_WriteFragTxResource(
 
 	if (fragNum == pTxBlk->TotalFragNum)
 	{
-		pTxInfo->TxInfoUDMATxburst = 0;
+		pTxInfo->txinfo_nmac_pkt.tx_burst = 0;
 
 		if ((pHTTXContext->CurWritePosition + pTxBlk->Priv + 3906)> MAX_TXBULK_LIMIT)
 		{
-			pTxInfo->TxInfoSwLstRnd = 1;
+			pTxInfo->txinfo_nmac_pkt.sw_lst_rnd = 1;
 			TxQLastRound = true;
 		}
 	}
 	else
 	{
-		pTxInfo->TxInfoUDMATxburst = 1;
+		pTxInfo->txinfo_nmac_pkt.tx_burst = 1;
 	}
 
 	memmove(pWirelessPacket, pTxBlk->HeaderBuf, TXINFO_SIZE + TXWISize + hwHdrLen);
@@ -511,7 +511,7 @@ unsigned short RtmpUSB_WriteSingleTxResource(
 
 		if ((pHTTXContext->CurWritePosition + 3906 + pTxBlk->Priv) > MAX_TXBULK_LIMIT)
 		{
-			pTxInfo->TxInfoSwLstRnd = 1;
+			pTxInfo->txinfo_nmac_pkt.sw_lst_rnd = 1;
 			bTxQLastRound = true;
 		}
 
@@ -758,7 +758,7 @@ VOID RtmpUSB_FinalWriteTxResource(
 		padding = (4 - (USBDMApktLen % 4)) & 0x03;	/* round up to 4 byte alignment*/
 		USBDMApktLen += padding;
 
-		pTxInfo->TxInfoPktLen = USBDMApktLen;
+		pTxInfo->txinfo_nmac_pkt.pkt_len = USBDMApktLen;
 
 
 		/*
@@ -775,7 +775,7 @@ VOID RtmpUSB_FinalWriteTxResource(
 		if ((pHTTXContext->CurWritePosition + 3906)> MAX_TXBULK_LIMIT)
 		{	/* Add 3906 for prevent the NextBulkOut packet size is a A-RALINK/A-MSDU Frame.*/
 			pHTTXContext->CurWritePosition = 8;
-			pTxInfo->TxInfoSwLstRnd = 1;
+			pTxInfo->txinfo_nmac_pkt.sw_lst_rnd = 1;
 		}
 
 		pHTTXContext->CurWriteRealPos = pHTTXContext->CurWritePosition;

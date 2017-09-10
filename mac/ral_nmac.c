@@ -150,7 +150,7 @@ static u8 *txinfo_que_str[]={"MGMT", "HCCA", "EDCA_1", "EDCA_2", "Invalid"};
 
 VOID dump_rlt_txinfo(struct rtmp_adapter *pAd, TXINFO_STRUC *pTxInfo)
 {
-	struct _TXINFO_NMAC_PKT *pkt_txinfo = (struct _TXINFO_NMAC_PKT *)pTxInfo;
+	struct txinfo_nmac_pkt *pkt_txinfo = (struct txinfo_nmac_pkt *)pTxInfo;
 
 	DBGPRINT(RT_DEBUG_OFF, ("\tInfo_Type=%d(%s)\n", pkt_txinfo->info_type, TXINFO_TYPE_STR(pkt_txinfo->info_type)));
 	DBGPRINT(RT_DEBUG_OFF, ("\td_port=%d(%s)\n", pkt_txinfo->d_port, TXINFO_DPORT_STR(pkt_txinfo->d_port)));
