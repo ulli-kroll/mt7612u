@@ -31,8 +31,6 @@
 
 
 #include	"rt_config.h"
-/* Match total 6 bulkout endpoint to corresponding queue.*/
-u8 EpToQueue[6]={FIFO_EDCA, FIFO_EDCA, FIFO_EDCA, FIFO_EDCA, FIFO_EDCA, FIFO_MGMT};
 
 VOID	RTUSBInitTxDesc(
 	IN	struct rtmp_adapter *pAd,
@@ -278,9 +276,9 @@ VOID RTUSBBulkOutDataPacket(struct rtmp_adapter *pAd, u8 BulkOutPipeId, u8 Index
 			break;
 		}
 
-		if (pTxInfo->txinfo_nmac_pkt.QSEL != FIFO_EDCA)
+		if (pTxInfo->txinfo_nmac_pkt.QSEL != MT_QSEL_EDCA)
 		{
-			DBGPRINT(RT_DEBUG_ERROR, ("%s(): ====> pTxInfo->QueueSel(%d)!= FIFO_EDCA!!!!\n",
+			DBGPRINT(RT_DEBUG_ERROR, ("%s(): ====> pTxInfo->QueueSel(%d)!= MT_QSEL_EDCA!!!!\n",
 										__FUNCTION__, pTxInfo->txinfo_nmac_pkt.QSEL));
 			DBGPRINT(RT_DEBUG_ERROR, ("\tCWPos=%ld, NBPos=%ld, ENBPos=%ld, bCopy=%d!\n",
 										pHTTXContext->CurWritePosition, pHTTXContext->NextBulkOutPosition,
@@ -313,7 +311,7 @@ VOID RTUSBBulkOutDataPacket(struct rtmp_adapter *pAd, u8 BulkOutPipeId, u8 Index
 		pLastTxInfo = pTxInfo;
 
 		/* Make sure we use EDCA QUEUE.  */
-		pTxInfo->txinfo_nmac_pkt.QSEL = FIFO_EDCA;
+		pTxInfo->txinfo_nmac_pkt.QSEL = MT_QSEL_EDCA;
 		ThisBulkSize += (pTxInfo->txinfo_nmac_pkt.pkt_len+4);
 		TmpBulkEndPos += (pTxInfo->txinfo_nmac_pkt.pkt_len+4);
 

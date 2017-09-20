@@ -3,8 +3,6 @@
 
 #include "rtusb_io.h"
 
-extern u8 EpToQueue[6];
-
 #define RXBULKAGGRE_SIZE			12
 #define MAX_TXBULK_LIMIT			(LOCAL_TXBUF_SIZE*(BULKAGGRE_SIZE-1))
 #define MAX_TXBULK_SIZE			(LOCAL_TXBUF_SIZE*BULKAGGRE_SIZE)

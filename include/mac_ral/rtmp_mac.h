@@ -45,9 +45,12 @@
 
 /* the first 24-byte in TXD is called TXINFO and will be DMAed to MAC block through TXFIFO. */
 /* MAC block use this TXINFO to control the transmission behavior of this frame. */
-#define FIFO_MGMT	0
-#define FIFO_HCCA	1
-#define FIFO_EDCA	2
+enum mt76_qsel {
+	MT_QSEL_MGMT,
+	MT_QSEL_HCCA,
+	MT_QSEL_EDCA,
+	MT_QSEL_EDCA_2,
+};
 
 typedef	union GNU_PACKED _TXWI_STRUC {
 	struct _TXWI_NMAC TXWI_N;

@@ -7,6 +7,11 @@
 
 #include	"rt_config.h"
 
+/* Match total 6 bulkout endpoint to corresponding queue.*/
+static u8 EpToQueue[6] = {
+	MT_QSEL_EDCA, MT_QSEL_EDCA, MT_QSEL_EDCA,
+	MT_QSEL_EDCA, MT_QSEL_EDCA, MT_QSEL_MGMT };
+
 
 /*
 	========================================================================
@@ -140,7 +145,7 @@ VOID rlt_usb_write_txinfo(
 
 	nmac_info->pkt_len = USBDMApktLen;
 	nmac_info->QSEL = QueueSel;
-	if (QueueSel != FIFO_EDCA)
+	if (QueueSel != MT_QSEL_EDCA)
 		DBGPRINT(RT_DEBUG_TRACE, ("====> QueueSel != FIFO_EDCA <====\n"));
 	nmac_info->next_vld = false;	/*NextValid;   Need to check with Jan about this.*/
 	nmac_info->tx_burst = TxBurst;
@@ -374,7 +379,7 @@ unsigned short RtmpUSB_WriteFragTxResource(
 	pTxBlk->Priv += (TXINFO_SIZE + USBDMApktLen);
 
 	/* For TxInfo, the length of USBDMApktLen = TXWI_SIZE + 802.11 header + payload*/
-	rlt_usb_write_txinfo(pAd, pTxInfo, (unsigned short)(USBDMApktLen), false, FIFO_EDCA, false /*NextValid*/,  false);
+	rlt_usb_write_txinfo(pAd, pTxInfo, (unsigned short)(USBDMApktLen), false, MT_QSEL_EDCA, false /*NextValid*/,  false);
 
 	if (fragNum == pTxBlk->TotalFragNum)
 	{
@@ -491,7 +496,7 @@ unsigned short RtmpUSB_WriteSingleTxResource(
 		pTxBlk->Priv = (TXINFO_SIZE + dma_len);
 
 		/* For TxInfo, the length of USBDMApktLen = TXWI_SIZE + TSO_SIZE + 802.11 header + payload */
-		rlt_usb_write_txinfo(pAd, pTxInfo, (unsigned short)(dma_len), false, FIFO_EDCA, false /*NextValid*/,  false);
+		rlt_usb_write_txinfo(pAd, pTxInfo, (unsigned short)(dma_len), false, MT_QSEL_EDCA, false /*NextValid*/,  false);
 
 
 		if ((pHTTXContext->CurWritePosition + 3906 + pTxBlk->Priv) > MAX_TXBULK_LIMIT)
@@ -636,7 +641,7 @@ unsigned short RtmpUSB_WriteMultiTxResource(
 			pTxBlk->Priv = TXINFO_SIZE + TXWISize + hwHdrLen;
 
 			/*	pTxInfo->USBDMApktLen now just a temp value and will to correct latter.*/
-			rlt_usb_write_txinfo(pAd, pTxInfo, (unsigned short)(pTxBlk->Priv), false, FIFO_EDCA, false /*NextValid*/,  false);
+			rlt_usb_write_txinfo(pAd, pTxInfo, (unsigned short)(pTxBlk->Priv), false, MT_QSEL_EDCA, false /*NextValid*/,  false);
 
 			/* Copy it.*/
 			memmove(pWirelessPacket, pTxBlk->HeaderBuf, pTxBlk->Priv);
