@@ -524,7 +524,7 @@ VOID RTMPDrvClose(struct rtmp_adapter *pAd, struct net_device *net_dev)
 			StoreConnectInfo(pAd);
 		else
 		{
-			RTMP_SEM_LOCK(&pAd->StaCtIf.Lock);
+			spin_lock_bh(&pAd->StaCtIf.Lock);
 			pAd->StaCtIf.Changeable = false;
 			RTMP_SEM_UNLOCK(&pAd->StaCtIf.Lock);
 		}

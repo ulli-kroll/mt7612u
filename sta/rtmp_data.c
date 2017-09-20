@@ -1393,7 +1393,7 @@ VOID STA_AMPDU_Frame_Tx(
 
 			pTxBlk->TxSndgPkt = SNDG_TYPE_DISABLE;
 
-			RTMP_SEM_LOCK(&pMacEntry->TxSndgLock);
+			spin_lock_bh(&pMacEntry->TxSndgLock);
 			if (pMacEntry->TxSndgType >= SNDG_TYPE_SOUNDING)
 			{
 				DBGPRINT(RT_DEBUG_TRACE, ("--Sounding in AMPDU: TxSndgType=%d, MCS=%d\n",

@@ -646,7 +646,7 @@ int RTMPInitTxRxRingMemory(struct rtmp_adapter *pAd)
 
 	/* Init the CmdQ and CmdQLock*/
 	spin_lock_init(&pAd->CmdQLock);
-	RTMP_SEM_LOCK(&pAd->CmdQLock);
+	spin_lock_bh(&pAd->CmdQLock);
 	RTInitializeCmdQ(&pAd->CmdQ);
 	RTMP_SEM_UNLOCK(&pAd->CmdQLock);
 

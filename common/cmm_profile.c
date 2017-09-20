@@ -1973,7 +1973,7 @@ int RecoverConnectInfo(
 
 	memset(&ssidStr[0], sizeof(ssidStr));
 
-	RTMP_SEM_LOCK(&pAd->StaCtIf.Lock);
+	spin_lock_bh(&pAd->StaCtIf.Lock);
 	if ((pAd->StaCtIf.Changeable== false) || (pAd->StaCtIf.SsidLen > NDIS_802_11_LENGTH_SSID))
 	{
 		DBGPRINT(RT_DEBUG_TRACE, (" DRIVER INIT  not need to RecoverConnectInfo() \n"));
@@ -2029,7 +2029,7 @@ int StoreConnectInfo(
 	INT idx;
 	DBGPRINT(RT_DEBUG_TRACE, ("-->StoreConnectInfo()\n"));
 
-	RTMP_SEM_LOCK(&pAd->StaCtIf.Lock);
+	spin_lock_bh(&pAd->StaCtIf.Lock);
 	pAd->StaCtIf.Changeable = true;
  	pAd->StaCtIf.SsidLen = pAd->CommonCfg.SsidLen;
 	memmove(pAd->StaCtIf.Ssid, pAd->CommonCfg.Ssid, pAd->CommonCfg.SsidLen);

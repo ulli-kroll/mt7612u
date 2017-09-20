@@ -2230,7 +2230,7 @@ INT	Set_HtMcs_Proc(struct rtmp_adapter *pAd, char *arg)
 	{
 		INT idx;
 
-		RTMP_SEM_LOCK(&pAd->MacTabLock);
+		spin_lock_bh(&pAd->MacTabLock);
 		for (idx = 1; idx < MAX_LEN_OF_MAC_TABLE; idx++)
 		{
 			MAC_TABLE_ENTRY *pEntry = &pAd->MacTab.Content[idx];

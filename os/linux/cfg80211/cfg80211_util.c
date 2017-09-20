@@ -864,7 +864,7 @@ VOID CFG80211OS_ScanEnd(
 
 #ifdef CONFIG_STA_SUPPORT
 	struct mt7612u_cfg80211_cb *pCfg80211_CB = (struct mt7612u_cfg80211_cb *)pCB;
-	RTMP_SEM_LOCK(&pCfg80211_CB->scan_notify_lock);
+	spin_lock_bh(&pCfg80211_CB->scan_notify_lock);
 	if (pCfg80211_CB->pCfg80211_ScanReq)
 	{
 		CFG80211DBG(RT_DEBUG_ERROR, ("80211> cfg80211_scan_done\n"));

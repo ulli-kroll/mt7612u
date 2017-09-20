@@ -2491,7 +2491,7 @@ VOID RTMPInitTimer(
 	IN	VOID *pData,
 	IN	bool	 Repeat)
 {
-	RTMP_SEM_LOCK(&TimerSemLock);
+	spin_lock_bh(&TimerSemLock);
 
 	RTMP_TimerListAdd(pAd, pTimer);
 
@@ -2534,7 +2534,7 @@ VOID RTMPInitTimer(
 */
 VOID RTMPSetTimer(RALINK_TIMER_STRUCT *pTimer, ULONG Value)
 {
-	RTMP_SEM_LOCK(&TimerSemLock);
+	spin_lock_bh(&TimerSemLock);
 
 	if (pTimer->Valid)
 	{
@@ -2594,7 +2594,7 @@ VOID RTMPModTimer(RALINK_TIMER_STRUCT *pTimer, ULONG Value)
 	bool	Cancel;
 
 
-	RTMP_SEM_LOCK(&TimerSemLock);
+	spin_lock_bh(&TimerSemLock);
 
 	if (pTimer->Valid)
 	{
@@ -2645,7 +2645,7 @@ VOID RTMPModTimer(RALINK_TIMER_STRUCT *pTimer, ULONG Value)
 VOID RTMPCancelTimer(RALINK_TIMER_STRUCT *pTimer, bool *pCancelled)
 {
 	// TODO: shiang-usw, check the purpose of this SemLock!
-	RTMP_SEM_LOCK(&TimerSemLock);
+	spin_lock_bh(&TimerSemLock);
 
 	if (pTimer->Valid)
 	{
@@ -2654,7 +2654,7 @@ VOID RTMPCancelTimer(RALINK_TIMER_STRUCT *pTimer, bool *pCancelled)
 
 		RTMP_SEM_UNLOCK(&TimerSemLock);
 		RTMP_OS_Del_Timer(&pTimer->TimerObj, pCancelled);
-		RTMP_SEM_LOCK(&TimerSemLock);
+		spin_lock_bh(&TimerSemLock);
 
 		if (*pCancelled == true)
 			pTimer->State = true;
@@ -2678,7 +2678,7 @@ VOID RTMPCancelTimer(RALINK_TIMER_STRUCT *pTimer, bool *pCancelled)
 
 VOID RTMPReleaseTimer(RALINK_TIMER_STRUCT *pTimer, bool *pCancelled)
 {
-	RTMP_SEM_LOCK(&TimerSemLock);
+	spin_lock_bh(&TimerSemLock);
 
 	if (pTimer->Valid)
 	{

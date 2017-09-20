@@ -513,7 +513,7 @@ typedef struct _RTMP_SCATTER_GATHER_LIST {
 	bool	Cancelled; \
 	(_pAd)->StaCfg.wdev.PortSecured = WPA_802_1X_PORT_SECURED; \
 	RTMP_IndicateMediaState(_pAd, NdisMediaStateConnected); \
-	RTMP_SEM_LOCK(&((_pAd)->MacTabLock)); \
+	spin_lock_bh(&((_pAd)->MacTabLock)); \
 	(_pAd)->MacTab.Content[BSSID_WCID].PortSecured = (_pAd)->StaCfg.wdev.PortSecured; \
 	(_pAd)->MacTab.Content[BSSID_WCID].PrivacyFilter = Ndis802_11PrivFilterAcceptAll;\
 	RTMP_SEM_UNLOCK(&(_pAd)->MacTabLock); \

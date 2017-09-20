@@ -137,7 +137,7 @@ bool StaUpdateMacTableEntry(
 	    && (htcap_len == 0))
 		return false;
 
-	RTMP_SEM_LOCK(&pAd->MacTabLock);
+	spin_lock_bh(&pAd->MacTabLock);
 	if (pEntry) {
 		memset(pEntry->R_Counter, 0, sizeof(pEntry->R_Counter));
 		pEntry->PortSecured = WPA_802_1X_PORT_SECURED;
@@ -363,7 +363,7 @@ MAC_TABLE_ENTRY *MacTableInsertEntry(
 #endif /* CONFIG_STA_SUPPORT */
 
 	/* allocate one MAC entry*/
-	RTMP_SEM_LOCK(&pAd->MacTabLock);
+	spin_lock_bh(&pAd->MacTabLock);
 	for (i = FirstWcid; i< MAX_LEN_OF_MAC_TABLE; i++)   /* skip entry#0 so that "entry index == AID" for fast lookup*/
 	{
 		/* pick up the first available vacancy*/
@@ -655,7 +655,7 @@ bool MacTableDeleteEntry(struct rtmp_adapter *pAd, unsigned short wcid, u8 *pAdd
 	if (wcid >= MAX_LEN_OF_MAC_TABLE)
 		return false;
 
-	RTMP_SEM_LOCK(&pAd->MacTabLock);
+	spin_lock_bh(&pAd->MacTabLock);
 
 	HashIdx = MAC_ADDR_HASH_INDEX(pAddr);
 	pEntry = &pAd->MacTab.Content[wcid];
@@ -837,7 +837,7 @@ VOID MacTableReset(struct rtmp_adapter *pAd)
 	MAC_TABLE_ENTRY *pMacEntry;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("MacTableReset\n"));
-	/*RTMP_SEM_LOCK(&pAd->MacTabLock);*/
+	/*spin_lock_bh(&pAd->MacTabLock);*/
 
 
 	for (i=1; i < MAX_LEN_OF_MAC_TABLE; i++)

@@ -1055,7 +1055,7 @@ VOID MacTableMaintenance(struct rtmp_adapter *pAd)
 		if (pMacTable->PsQIdleCount > 1)
 		{
 
-			/*RTMP_SEM_LOCK(&pAd->MacTabLock); */
+			/*spin_lock_bh(&pAd->MacTabLock); */
 			APCleanupPsQueue(pAd, &pMacTable->McastPsQueue);
 			/*RTMP_SEM_UNLOCK(&pAd->MacTabLock); */
 			pMacTable->PsQIdleCount = 0;
