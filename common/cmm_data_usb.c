@@ -64,7 +64,7 @@ int RTUSBFreeDescRequest(
 	{
 		Status = NDIS_STATUS_SUCCESS;
 	}
-	RTMP_IRQ_UNLOCK(&pAd->TxContextQueueLock[BulkOutPipeId], IrqFlags);
+	spin_unlock_bh(&pAd->TxContextQueueLock[BulkOutPipeId]);
 
 
 	return Status;
@@ -94,7 +94,7 @@ bool	RTUSBNeedQueueBackForAgg(struct rtmp_adapter *pAd, u8 BulkOutPipeId)
 			needQueBack = true;
 		}
 	}
-	RTMP_IRQ_UNLOCK(&pAd->TxContextQueueLock[BulkOutPipeId], IrqFlags);
+	spin_unlock_bh(&pAd->TxContextQueueLock[BulkOutPipeId]);
 
 	return needQueBack;
 
@@ -333,7 +333,7 @@ unsigned short RtmpUSB_WriteFragTxResource(
 		}
 		else
 		{
-			RTMP_IRQ_UNLOCK(&pAd->TxContextQueueLock[QueIdx], IrqFlags);
+			spin_unlock_bh(&pAd->TxContextQueueLock[QueIdx]);
 
 			dev_kfree_skb_any(pTxBlk->pPacket);
 			return(Status);
@@ -349,7 +349,7 @@ unsigned short RtmpUSB_WriteFragTxResource(
 		}
 		else
 		{
-			RTMP_IRQ_UNLOCK(&pAd->TxContextQueueLock[QueIdx], IrqFlags);
+			spin_unlock_bh(&pAd->TxContextQueueLock[QueIdx]);
 
 			dev_kfree_skb_any(pTxBlk->pPacket);
 			return(Status);
@@ -399,7 +399,7 @@ unsigned short RtmpUSB_WriteFragTxResource(
 	pWirelessPacket += (TXINFO_SIZE + TXWISize + hwHdrLen);
 	pHTTXContext->CurWriteRealPos += (TXINFO_SIZE + TXWISize + hwHdrLen);
 
-	RTMP_IRQ_UNLOCK(&pAd->TxContextQueueLock[QueIdx], IrqFlags);
+	spin_unlock_bh(&pAd->TxContextQueueLock[QueIdx]);
 
 	memmove(pWirelessPacket, pTxBlk->pSrcBufData, pTxBlk->SrcBufLen);
 
@@ -422,7 +422,7 @@ unsigned short RtmpUSB_WriteFragTxResource(
 		/* Finally, set bCurWriting as false*/
 	pHTTXContext->bCurWriting = false;
 
-		RTMP_IRQ_UNLOCK(&pAd->TxContextQueueLock[QueIdx], IrqFlags);
+		spin_unlock_bh(&pAd->TxContextQueueLock[QueIdx]);
 
 		/* succeed and release the skb buffer*/
 		dev_kfree_skb_any(pTxBlk->pPacket);
@@ -518,7 +518,7 @@ unsigned short RtmpUSB_WriteSingleTxResource(
 		/*	6. Next time when do bulk-out, it found the bCopyPad==true and will copy the SavedPad[] to pTxContext->NextBulkOutPosition.*/
 		/*		and the packet will wrong.*/
 		pHTTXContext->CurWriteRealPos += hdr_copy_len;
-		RTMP_IRQ_UNLOCK(&pAd->TxContextQueueLock[QueIdx], IrqFlags);
+		spin_unlock_bh(&pAd->TxContextQueueLock[QueIdx]);
 
 #ifdef TX_PKT_SG
 		if (pTxBlk->pkt_info.BufferCount > 1) {
@@ -562,7 +562,7 @@ unsigned short RtmpUSB_WriteSingleTxResource(
 	}
 
 
-	RTMP_IRQ_UNLOCK(&pAd->TxContextQueueLock[QueIdx], IrqFlags);
+	spin_unlock_bh(&pAd->TxContextQueueLock[QueIdx]);
 
 
 	/* succeed and release the skb buffer*/
@@ -682,7 +682,7 @@ unsigned short RtmpUSB_WriteMultiTxResource(
 		6. Next time when do bulk-out, it found the bCopyPad==true and will copy the SavedPad[] to pTxContext->NextBulkOutPosition.
 			and the packet will wrong.
 	*/
-	RTMP_IRQ_UNLOCK(&pAd->TxContextQueueLock[QueIdx], IrqFlags);
+	spin_unlock_bh(&pAd->TxContextQueueLock[QueIdx]);
 
 	if (Status != NDIS_STATUS_SUCCESS)
 	{
@@ -781,7 +781,7 @@ VOID RtmpUSB_FinalWriteTxResource(
 		DBGPRINT(RT_DEBUG_ERROR, ("FinalWriteTxResource():bCurWriting is false when handle last frames.\n"));
 	}
 
-	RTMP_IRQ_UNLOCK(&pAd->TxContextQueueLock[QueIdx], IrqFlags);
+	spin_unlock_bh(&pAd->TxContextQueueLock[QueIdx]);
 
 }
 
@@ -883,7 +883,7 @@ int RtmpUSBMgmtKickOut(
 	pAd->MgmtRing.TxSwFreeIdx--;
 	INC_RING_INDEX(pAd->MgmtRing.TxCpuIdx, MGMT_RING_SIZE);
 
-	RTMP_IRQ_UNLOCK(&pAd->MLMEBulkOutLock, IrqFlags);
+	spin_unlock_bh(&pAd->MLMEBulkOutLock);
 
 	RTUSB_SET_BULK_FLAG(pAd, fRTUSB_BULK_OUT_MLME);
 	/*if (needKickOut)*/

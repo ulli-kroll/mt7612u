@@ -269,7 +269,7 @@ Label_Legacy_PS:
 				spin_lock_bh(&pAd->irq_lock);
 			InsertTailQueue(&pMacEntry->PsQueue, PACKET_TO_QUEUE_ENTRY(pPacket));
 			if (FlgIsLocked == false)
-				RTMP_IRQ_UNLOCK(&pAd->irq_lock, IrqFlags);
+				spin_unlock_bh(&pAd->irq_lock);
 		}
 
 		/* mark corresponding TIM bit in outgoing BEACON frame*/
@@ -756,7 +756,7 @@ int MlmeHardTransmitMgmtRing(
 #define DEQUEUE_UNLOCK(lock, bIntContext, IrqFlags)				\
 			do{													\
 				if (bIntContext == false)						\
-					RTMP_IRQ_UNLOCK((lock), IrqFlags);	\
+					spin_unlock_bh((lock));	\
 			}while(0)
 
 

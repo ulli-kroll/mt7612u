@@ -334,7 +334,7 @@ INT APSendPacket(struct rtmp_adapter *pAd, struct sk_buff *pPacket)
 		{
 			spin_lock_bh(&pAd->irq_lock);
 			InsertTailQueueAc(pAd, pMacEntry, &pAd->TxSwQueue[QueIdx], PACKET_TO_QUEUE_ENTRY(pPacket));
-			RTMP_IRQ_UNLOCK(&pAd->irq_lock, IrqFlags);
+			spin_unlock_bh(&pAd->irq_lock);
 		}
 	}
 	/* M/BCAST frames are put to PSQ as long as there's any associated STA in power-save mode */
@@ -365,7 +365,7 @@ INT APSendPacket(struct rtmp_adapter *pAd, struct sk_buff *pPacket)
 
 			spin_lock_bh(&pAd->irq_lock);
 			InsertHeadQueue(&pAd->MacTab.McastPsQueue, PACKET_TO_QUEUE_ENTRY(pPacket));
-			RTMP_IRQ_UNLOCK(&pAd->irq_lock, IrqFlags);
+			spin_unlock_bh(&pAd->irq_lock);
 
 			WLAN_MR_TIM_BCMC_SET(apidx); /* mark MCAST/BCAST TIM bit */
 
@@ -394,7 +394,7 @@ INT APSendPacket(struct rtmp_adapter *pAd, struct sk_buff *pPacket)
 			{
 				spin_lock_bh(&pAd->irq_lock);
 				InsertTailQueueAc(pAd, pMacEntry, &pAd->TxSwQueue[QueIdx], PACKET_TO_QUEUE_ENTRY(pPacket));
-				RTMP_IRQ_UNLOCK(&pAd->irq_lock, IrqFlags);
+				spin_unlock_bh(&pAd->irq_lock);
 			}
 		}
 	}
@@ -3458,7 +3458,7 @@ int APInsertPsQueue(
 		{
 			spin_lock_bh(&pAd->irq_lock);
 			InsertTailQueue(&pMacEntry->PsQueue, PACKET_TO_QUEUE_ENTRY(pPacket));
-			RTMP_IRQ_UNLOCK(&pAd->irq_lock, IrqFlags);
+			spin_unlock_bh(&pAd->irq_lock);
 		}
 	}
 

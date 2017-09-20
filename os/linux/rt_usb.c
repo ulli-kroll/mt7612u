@@ -179,12 +179,12 @@ static void rtusb_dataout_complete(unsigned long data)
 	{
 		pAd->BulkOutComplete++;
 
-		RTMP_IRQ_UNLOCK(&pAd->BulkOutLock[BulkOutPipeId], IrqFlags);
+		spin_unlock_bh(&pAd->BulkOutLock[BulkOutPipeId]);
 
 		pAd->Counters8023.GoodTransmits++;
 		/*spin_lock_bh(&pAd->TxContextQueueLock[BulkOutPipeId]); */
 		FREE_HTTX_RING(pAd, BulkOutPipeId, pHTTXContext);
-		/*RTMP_IRQ_UNLOCK(&pAd->TxContextQueueLock[BulkOutPipeId], IrqFlags); */
+		/*spin_unlock_bh(&pAd->TxContextQueueLock[BulkOutPipeId]); */
 
 
 	}
@@ -205,7 +205,7 @@ static void rtusb_dataout_complete(unsigned long data)
 			pAd->bulkResetPipeid = BulkOutPipeId;
 			pAd->bulkResetReq[BulkOutPipeId] = pAd->BulkOutReq;
 		}
-		RTMP_IRQ_UNLOCK(&pAd->BulkOutLock[BulkOutPipeId], IrqFlags);
+		spin_unlock_bh(&pAd->BulkOutLock[BulkOutPipeId]);
 
 		DBGPRINT_RAW(RT_DEBUG_ERROR, ("BulkOutDataPacket failed: ReasonCode=%d!\n", Status));
 		DBGPRINT_RAW(RT_DEBUG_ERROR, ("\t>>BulkOut Req=0x%lx, Complete=0x%lx, Other=0x%lx\n", pAd->BulkOutReq, pAd->BulkOutComplete, pAd->BulkOutCompleteOther));
@@ -227,7 +227,7 @@ static void rtusb_dataout_complete(unsigned long data)
 		/* Indicate There is data avaliable */
 		RTUSB_SET_BULK_FLAG(pAd, (fRTUSB_BULK_OUT_DATA_NORMAL << BulkOutPipeId));
 	}
-	/*RTMP_IRQ_UNLOCK(&pAd->TxContextQueueLock[BulkOutPipeId], IrqFlags); */
+	/*spin_unlock_bh(&pAd->TxContextQueueLock[BulkOutPipeId]); */
 
 	/* Always call Bulk routine, even reset bulk. */
 	/* The protection of rest bulk should be in BulkOut routine */
@@ -259,7 +259,7 @@ static void rtusb_null_frame_done_tasklet(unsigned long data)
 
 	if (Status == USB_ST_NOERROR)
 	{
-		RTMP_IRQ_UNLOCK(&pAd->BulkOutLock[0], irqFlag);
+		spin_unlock_bh(&pAd->BulkOutLock[0]);
 
 		RTMPDeQueuePacket(pAd, false, NUM_OF_TX_RING, MAX_TX_PROCESS);
 	}
@@ -273,12 +273,12 @@ static void rtusb_null_frame_done_tasklet(unsigned long data)
 			DBGPRINT_RAW(RT_DEBUG_ERROR, ("Bulk Out Null Frame Failed, ReasonCode=%d!\n", Status));
 			RTMP_SET_FLAG(pAd, fRTMP_ADAPTER_BULKOUT_RESET);
 			pAd->bulkResetPipeid = (MGMTPIPEIDX | BULKOUT_MGMT_RESET_FLAG);
-			RTMP_IRQ_UNLOCK(&pAd->BulkOutLock[0], irqFlag);
+			spin_unlock_bh(&pAd->BulkOutLock[0]);
 			RTEnqueueInternalCmd(pAd, CMDTHREAD_RESET_BULK_OUT, NULL, 0);
 		}
 		else
 		{
-			RTMP_IRQ_UNLOCK(&pAd->BulkOutLock[0], irqFlag);
+			spin_unlock_bh(&pAd->BulkOutLock[0]);
 		}
 	}
 
@@ -384,14 +384,14 @@ static void rx_done_tasklet(unsigned long data)
 			pRxContext->Readable = true;
 			INC_RING_INDEX(pAd->NextRxBulkInIndex, RX_RING_SIZE);
 		}
-		RTMP_IRQ_UNLOCK(&pAd->BulkInLock, IrqFlags);
+		spin_unlock_bh(&pAd->BulkInLock);
 	}
 	else	 /* STATUS_OTHER */
 	{
 		pAd->BulkInCompleteFail++;
 		/* Still read this packet although it may comtain wrong bytes. */
 		pRxContext->Readable = false;
-		RTMP_IRQ_UNLOCK(&pAd->BulkInLock, IrqFlags);
+		spin_unlock_bh(&pAd->BulkInLock);
 
 		/* Parsing all packets. because after reset, the index will reset to all zero. */
 		if ((!RTMP_TEST_FLAG(pAd, (fRTMP_ADAPTER_RESET_IN_PROGRESS |
@@ -461,7 +461,7 @@ static void rtusb_mgmt_dma_done_tasklet(unsigned long data)
 	}
 
 	pAd->BulkOutPending[MGMTPIPEIDX] = false;
-	RTMP_IRQ_UNLOCK(&pAd->BulkOutLock[MGMTPIPEIDX], IrqFlags);
+	spin_unlock_bh(&pAd->BulkOutLock[MGMTPIPEIDX]);
 
 	spin_lock_bh(&pAd->MLMEBulkOutLock);
 	/* Reset MLME context flags */
@@ -476,7 +476,7 @@ static void rtusb_mgmt_dma_done_tasklet(unsigned long data)
 	/* Increase MgmtRing Index */
 	INC_RING_INDEX(pAd->MgmtRing.TxDmaIdx, MGMT_RING_SIZE);
 	pAd->MgmtRing.TxSwFreeIdx++;
-	RTMP_IRQ_UNLOCK(&pAd->MLMEBulkOutLock, IrqFlags);
+	spin_unlock_bh(&pAd->MLMEBulkOutLock);
 
 
 #if RT_CFG80211_SUPPORT

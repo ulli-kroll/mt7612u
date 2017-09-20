@@ -324,7 +324,7 @@ void tbtt_tasklet(unsigned long data)
 					break;
 				}
 			}
-			RTMP_IRQ_UNLOCK(&pAd->irq_lock, IrqFlags);
+			spin_unlock_bh(&pAd->irq_lock);
 
 
 			if (pAd->MacTab.McastPsQueue.Number == 0)
@@ -466,7 +466,7 @@ void announce_802_3_packet(
 
 			spin_lock_bh(&pAd->page_lock);
 			ra_classifier_hook_rx(pRxPkt, classifier_cur_cycle);
-			RTMP_IRQ_UNLOCK(&pAd->page_lock, flags);
+			spin_unlock_bh(&pAd->page_lock);
 		}
 #endif /* CONFIG_RA_CLASSIFIER */
 
@@ -490,7 +490,7 @@ void announce_802_3_packet(
 			{
 				RtmpOsPktRcvHandle(pRxPkt);
 			}
-			RTMP_IRQ_UNLOCK(&pAd->page_lock, flags);
+			spin_unlock_bh(&pAd->page_lock);
 			return;
 		}
 #else
@@ -513,11 +513,11 @@ void announce_802_3_packet(
 
 			if(wf_fwd_rx_hook(pRxPkt) == 0)
 			{
-				RTMP_IRQ_UNLOCK(&pAd->page_lock, flags);
+				spin_unlock_bh(&pAd->page_lock);
 				return;
 			}
 
-			RTMP_IRQ_UNLOCK(&pAd->page_lock, flags);
+			spin_unlock_bh(&pAd->page_lock);
 		}
 #endif /* CONFIG_WIFI_PKT_FWD */
 

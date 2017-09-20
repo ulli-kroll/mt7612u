@@ -57,7 +57,7 @@ int RtmpInsertPsQueue(
 			DBGPRINT(RT_DEBUG_TRACE, ("legacy ps> queue a packet!\n"));
 			spin_lock_bh(&pAd->irq_lock);
 			InsertTailQueue(&pMacEntry->PsQueue, PACKET_TO_QUEUE_ENTRY(pPacket));
-			RTMP_IRQ_UNLOCK(&pAd->irq_lock, IrqFlags);
+			spin_unlock_bh(&pAd->irq_lock);
 		}
 	}
 
@@ -190,7 +190,7 @@ VOID RtmpHandleRxPsPoll(struct rtmp_adapter *pAd, u8 *pAddr, unsigned short wcid
 			pMacEntry->PsQIdleCount = 0;
 		}
 
-		RTMP_IRQ_UNLOCK(&pAd->irq_lock, IrqFlags);
+		spin_unlock_bh(&pAd->irq_lock);
 
 		/*
 			Dequeue outgoing frames from TxSwQueue0..3 queue and process it

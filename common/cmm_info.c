@@ -4648,7 +4648,7 @@ INT Set_RateAdaptInterval(
 				pAd->ApCfg.ApQuickResponeForRateUpTimerRunning = false;
 			}
 #endif /* CONFIG_AP_SUPPORT  */
-			RTMP_IRQ_UNLOCK(&pAd->irq_lock, irqFlags);
+			spin_unlock_bh(&pAd->irq_lock);
 			return true;
 		}
 	}

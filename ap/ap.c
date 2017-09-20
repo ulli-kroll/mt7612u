@@ -932,7 +932,7 @@ VOID MacTableMaintenance(struct rtmp_adapter *pAd)
 				ULONG irq_flags;
 				spin_lock_bh(&pAd->irq_lock);
 				APCleanupPsQueue(pAd, &pEntry->PsQueue);
-				RTMP_IRQ_UNLOCK(&pAd->irq_lock, irq_flags);
+				spin_unlock_bh(&pAd->irq_lock);
 				pEntry->PsQIdleCount = 0;
 				WLAN_MR_TIM_BIT_CLEAR(pAd, pEntry->apidx, pEntry->Aid);
 			}

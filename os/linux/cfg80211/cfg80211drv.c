@@ -1337,7 +1337,7 @@ VOID CFG80211_RegRuleApply(
 	}
 
 	pAd->ChannelListNum = RecId;
-	RTMP_IRQ_UNLOCK(&pAd->irq_lock, IrqFlags);
+	spin_unlock_bh(&pAd->irq_lock);
 
 	CFG80211DBG(RT_DEBUG_TRACE, ("crda> Number of channels = %d\n", RecId));
 } /* End of CFG80211_RegRuleApply */

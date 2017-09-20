@@ -796,14 +796,14 @@ INT STASendPacket(struct rtmp_adapter *pAd, struct sk_buff *pPacket)
 		/* Make sure SendTxWait queue resource won't be used by other threads */
 		spin_lock_bh(&pAd->irq_lock);
 		if (pAd->TxSwQueue[QueIdx].Number >= pAd->TxSwQMaxLen) {
-			RTMP_IRQ_UNLOCK(&pAd->irq_lock, IrqFlags);
+			spin_unlock_bh(&pAd->irq_lock);
 			dev_kfree_skb_any(pPacket);
 
 			return NDIS_STATUS_FAILURE;
 		} else {
 				InsertTailQueueAc(pAd, pMacEntry, &pAd->TxSwQueue[QueIdx], PACKET_TO_QUEUE_ENTRY(pPacket));
 		}
-		RTMP_IRQ_UNLOCK(&pAd->irq_lock, IrqFlags);
+		spin_unlock_bh(&pAd->irq_lock);
 	}
 
 	RTMP_BASetup(pAd, pMacEntry, UserPriority);
@@ -868,8 +868,7 @@ int RTMPFreeTXDRequest(
 			} else {
 				Status = NDIS_STATUS_SUCCESS;
 			}
-			RTMP_IRQ_UNLOCK(&pAd->TxContextQueueLock[QueIdx],
-					IrqFlags);
+			spin_unlock_bh(&pAd->TxContextQueueLock[QueIdx]);
 		}
 		break;
 

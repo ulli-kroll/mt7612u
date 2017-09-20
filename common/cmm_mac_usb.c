@@ -72,7 +72,7 @@ VOID RTMPResetTxRxRingMemory(struct rtmp_adapter *pAd)
 			pPacket = QUEUE_ENTRY_TO_PACKET(pEntry);
 			dev_kfree_skb_any(pPacket);
 		}
-		 RTMP_IRQ_UNLOCK(&pAd->irq_lock, IrqFlags);
+		 spin_unlock_bh(&pAd->irq_lock);
 	}
 
 	/* unlink all urbs for the RECEIVE buffer queue.*/
