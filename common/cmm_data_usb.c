@@ -7,11 +7,13 @@
 
 #include	"rt_config.h"
 
-/* Match total 6 bulkout endpoint to corresponding queue.*/
-static u8 EpToQueue[6] = {
-	MT_QSEL_EDCA, MT_QSEL_EDCA, MT_QSEL_EDCA,
-	MT_QSEL_EDCA, MT_QSEL_EDCA, MT_QSEL_MGMT };
-
+/* Map USB endpoint number to Q id in the DMA engine */
+static enum mt76_qsel ep2dmaq(u8 ep)
+{
+	if (ep == 5)
+		return MT_QSEL_MGMT;
+	return MT_QSEL_EDCA;
+}
 
 /*
 	========================================================================
@@ -188,7 +190,7 @@ VOID ComposePsPoll(struct rtmp_adapter *pAd)
 	RTMPZeroMemory(buf, 100);
 	data_len = sizeof (PSPOLL_FRAME);
 	rlt_usb_write_txinfo(pAd, pTxInfo, data_len + TXWISize + TSO_SIZE, true,
-						EpToQueue[MGMTPIPEIDX], false, false);
+						ep2dmaq(MGMTPIPEIDX), false, false);
 	RTMPWriteTxWI(pAd, pTxWI, false, false, false, false, true, false, 0,
 					BSSID_WCID, data_len, 0, 0,
 					(u8) pAd->CommonCfg.MlmeTransmit.field.MCS,
@@ -223,7 +225,7 @@ VOID ComposeNullFrame(struct rtmp_adapter *pAd)
 	pTxWI = (TXWI_STRUC *)&buf[TXINFO_SIZE];
 	rlt_usb_write_txinfo(pAd, pTxInfo,
 			(unsigned short)(data_len + TXWISize + TSO_SIZE), true,
-			EpToQueue[MGMTPIPEIDX], false, false);
+			ep2dmaq(MGMTPIPEIDX), false, false);
 	RTMPWriteTxWI(pAd, pTxWI, false, false, false, false, true, false, 0,
 					BSSID_WCID, data_len, 0, 0,
 					(u8)pAd->CommonCfg.MlmeTransmit.field.MCS,
@@ -842,7 +844,7 @@ int RtmpUSBMgmtKickOut(
 
 	/* Build our URB for USBD*/
 	BulkOutSize = (SrcBufLen + 3) & (~3);
-	rlt_usb_write_txinfo(pAd, pTxInfo, (unsigned short)(BulkOutSize - TXINFO_SIZE), true, EpToQueue[MGMTPIPEIDX], false,  false);
+	rlt_usb_write_txinfo(pAd, pTxInfo, (unsigned short)(BulkOutSize - TXINFO_SIZE), true, ep2dmaq(MGMTPIPEIDX), false,  false);
 
 	BulkOutSize += 4; /* Always add 4 extra bytes at every packet.*/
 
@@ -919,7 +921,7 @@ VOID RtmpUSBNullFrameKickOut(
 
 		RTMPZeroMemory(&pWirelessPkt[0], 100);
 		pTxInfo = (TXINFO_STRUC *)&pWirelessPkt[0];
-		rlt_usb_write_txinfo(pAd, pTxInfo, (unsigned short)(frameLen + TXWISize + TSO_SIZE), true, EpToQueue[MGMTPIPEIDX], false,  false);
+		rlt_usb_write_txinfo(pAd, pTxInfo, (unsigned short)(frameLen + TXWISize + TSO_SIZE), true, ep2dmaq(MGMTPIPEIDX), false,  false);
 		pTxWI = (TXWI_STRUC *)&pWirelessPkt[TXINFO_SIZE];
 		RTMPWriteTxWI(pAd, pTxWI, false, false, false, false, true, false, 0, BSSID_WCID, frameLen,
 						0, 0, (u8)pAd->CommonCfg.MlmeTransmit.field.MCS, IFS_HTTXOP, &pAd->CommonCfg.MlmeTransmit);
