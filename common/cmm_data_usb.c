@@ -8,21 +8,6 @@
 #include	"rt_config.h"
 
 
-int RTUSBFreeDescriptorRelease(struct rtmp_adapter *pAd, u8 BulkOutPipeId)
-{
-	HT_TX_CONTEXT *pHTTXContext;
-	unsigned long IrqFlags;
-
-
-	pHTTXContext = &pAd->TxContext[BulkOutPipeId];
-	RTMP_IRQ_LOCK(&pAd->TxContextQueueLock[BulkOutPipeId], IrqFlags);
-	pHTTXContext->bCurWriting = false;
-	RTMP_IRQ_UNLOCK(&pAd->TxContextQueueLock[BulkOutPipeId], IrqFlags);
-
-	return NDIS_STATUS_SUCCESS;
-}
-
-
 /*
 	========================================================================
 
