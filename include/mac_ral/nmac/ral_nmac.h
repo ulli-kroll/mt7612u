@@ -1089,14 +1089,5 @@ VOID rlt_asic_init_txrx_ring(struct rtmp_adapter *pAd);
 
 int mt7612u_chip_onoff(struct rtmp_adapter *pAd, bool enable, bool reset);
 
-VOID rlt_usb_write_txinfo(
-	IN struct rtmp_adapter *pAd,
-	IN union _TXINFO_STRUC *pTxInfo,
-	IN unsigned short USBDMApktLen,
-	IN bool bWiv,
-	IN u8 QueueSel,
-	IN u8 NextValid,
-	IN u8 TxBurst);
-
 #endif /* __RAL_NMAC_H__ */
 
