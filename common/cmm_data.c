@@ -448,7 +448,7 @@ int MlmeHardTransmitMgmtRing(
 	if (pSrcBufVA == NULL)
 	{
 		/* The buffer shouldn't be NULL*/
-			RTMP_SEM_UNLOCK(&pAd->MgmtRingLock);
+			spin_unlock_bh(&pAd->MgmtRingLock);
 		return NDIS_STATUS_FAILURE;
 	}
 
@@ -638,7 +638,7 @@ int MlmeHardTransmitMgmtRing(
 		&& (pAd->CommonCfg.bIEEE80211H == 1)
 		&& (pAd->Dot11_H.RDMode != RD_NORMAL_MODE))
 	{
-		RTMP_SEM_UNLOCK(&pAd->MgmtRingLock);
+		spin_unlock_bh(&pAd->MgmtRingLock);
 		return NDIS_STATUS_FAILURE;
 	}
 
@@ -737,7 +737,7 @@ int MlmeHardTransmitMgmtRing(
 
 	/* Make sure to release MGMT ring resource*/
 /*	if (!IrqState)*/
-		RTMP_SEM_UNLOCK(&pAd->MgmtRingLock);
+		spin_unlock_bh(&pAd->MgmtRingLock);
 	return NDIS_STATUS_SUCCESS;
 }
 
@@ -3404,7 +3404,7 @@ VOID drop_mask_per_client_reset(
 			spin_lock_bh(&entry->drop_mask_lock);
 			entry->tx_fail_drop_mask_enabled = 0;
 			entry->ps_drop_mask_enabled = 0;
-			RTMP_SEM_UNLOCK(&entry->drop_mask_lock);
+			spin_unlock_bh(&entry->drop_mask_lock);
 
 			if (IS_ENTRY_CLIENT(entry))
 				entry->pMbss->WPAREKEY.ReKeyMethod &= (~MAX_REKEY);
@@ -3436,7 +3436,7 @@ VOID set_drop_mask_per_client(
 			write_to_mac = (enable ^ entry->tx_fail_drop_mask_enabled);
 			spin_lock_bh(&entry->drop_mask_lock);
 			entry->tx_fail_drop_mask_enabled = (enable ? 1:0);
-			RTMP_SEM_UNLOCK(&entry->drop_mask_lock);
+			spin_unlock_bh(&entry->drop_mask_lock);
 			timeout = 10;
 			break;
 		}
@@ -3445,7 +3445,7 @@ VOID set_drop_mask_per_client(
 			write_to_mac = (enable ^ entry->ps_drop_mask_enabled);
 			spin_lock_bh(&entry->drop_mask_lock);
 			entry->ps_drop_mask_enabled = (enable ? 1:0);
-			RTMP_SEM_UNLOCK(&entry->drop_mask_lock);
+			spin_unlock_bh(&entry->drop_mask_lock);
 			timeout = 1000;
 			break;
 		}

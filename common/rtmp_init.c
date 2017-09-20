@@ -2510,7 +2510,7 @@ VOID RTMPInitTimer(
 	RTMP_OS_Init_Timer(pAd, &pTimer->TimerObj,	pTimerFunc, (PVOID) pTimer, &pAd->RscTimerMemList);
 	DBGPRINT(RT_DEBUG_TRACE,("%s: %lx\n",__FUNCTION__, (ULONG)pTimer));
 
-	RTMP_SEM_UNLOCK(&TimerSemLock);
+	spin_unlock_bh(&TimerSemLock);
 }
 
 
@@ -2544,7 +2544,7 @@ VOID RTMPSetTimer(RALINK_TIMER_STRUCT *pTimer, ULONG Value)
 		if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_HALT_IN_PROGRESS | fRTMP_ADAPTER_NIC_NOT_EXIST))
 		{
 			DBGPRINT_ERR(("RTMPSetTimer failed, Halt in Progress!\n"));
-			RTMP_SEM_UNLOCK(&TimerSemLock);
+			spin_unlock_bh(&TimerSemLock);
 			return;
 		}
 
@@ -2567,7 +2567,7 @@ VOID RTMPSetTimer(RALINK_TIMER_STRUCT *pTimer, ULONG Value)
 	{
 		DBGPRINT_ERR(("RTMPSetTimer failed, Timer hasn't been initialize!\n"));
 	}
-	RTMP_SEM_UNLOCK(&TimerSemLock);
+	spin_unlock_bh(&TimerSemLock);
 }
 
 
@@ -2602,21 +2602,21 @@ VOID RTMPModTimer(RALINK_TIMER_STRUCT *pTimer, ULONG Value)
 		pTimer->State      = false;
 		if (pTimer->PeriodicType == true)
 		{
-			RTMP_SEM_UNLOCK(&TimerSemLock);
+			spin_unlock_bh(&TimerSemLock);
 			RTMPCancelTimer(pTimer, &Cancel);
 			RTMPSetTimer(pTimer, Value);
 		}
 		else
 		{
 			RTMP_OS_Mod_Timer(&pTimer->TimerObj, Value);
-			RTMP_SEM_UNLOCK(&TimerSemLock);
+			spin_unlock_bh(&TimerSemLock);
 		}
 		DBGPRINT(RT_DEBUG_TRACE,("%s: %lx\n",__FUNCTION__, (ULONG)pTimer));
 	}
 	else
 	{
 		DBGPRINT_ERR(("RTMPModTimer failed, Timer hasn't been initialize!\n"));
-		RTMP_SEM_UNLOCK(&TimerSemLock);
+		spin_unlock_bh(&TimerSemLock);
 	}
 }
 
@@ -2652,7 +2652,7 @@ VOID RTMPCancelTimer(RALINK_TIMER_STRUCT *pTimer, bool *pCancelled)
 		if (pTimer->State == false)
 			pTimer->Repeat = false;
 
-		RTMP_SEM_UNLOCK(&TimerSemLock);
+		spin_unlock_bh(&TimerSemLock);
 		RTMP_OS_Del_Timer(&pTimer->TimerObj, pCancelled);
 		spin_lock_bh(&TimerSemLock);
 
@@ -2672,7 +2672,7 @@ VOID RTMPCancelTimer(RALINK_TIMER_STRUCT *pTimer, bool *pCancelled)
 		DBGPRINT(RT_DEBUG_INFO,("RTMPCancelTimer failed, Timer hasn't been initialize!\n"));
 	}
 
-	RTMP_SEM_UNLOCK(&TimerSemLock);
+	spin_unlock_bh(&TimerSemLock);
 }
 
 
@@ -2710,7 +2710,7 @@ VOID RTMPReleaseTimer(RALINK_TIMER_STRUCT *pTimer, bool *pCancelled)
 		DBGPRINT(RT_DEBUG_INFO,("RTMPReleasefailed, Timer hasn't been initialize!\n"));
 	}
 
-	RTMP_SEM_UNLOCK(&TimerSemLock);
+	spin_unlock_bh(&TimerSemLock);
 }
 
 

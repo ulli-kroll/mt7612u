@@ -526,7 +526,7 @@ VOID RTMPDrvClose(struct rtmp_adapter *pAd, struct net_device *net_dev)
 		{
 			spin_lock_bh(&pAd->StaCtIf.Lock);
 			pAd->StaCtIf.Changeable = false;
-			RTMP_SEM_UNLOCK(&pAd->StaCtIf.Lock);
+			spin_unlock_bh(&pAd->StaCtIf.Lock);
 		}
 #endif /* CREDENTIAL_STORE */
 #endif /* CONFIG_STA_SUPPORT */

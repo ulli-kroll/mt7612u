@@ -1724,7 +1724,7 @@ VOID LinkUp(struct rtmp_adapter *pAd, u8 BssType)
 
 	pEntry->wdev = wdev;
 	wdev->allow_data_tx = true;
-	RTMP_SEM_UNLOCK(&pAd->MacTabLock);
+	spin_unlock_bh(&pAd->MacTabLock);
 
 	/*  Let Link Status Page display first initial rate. */
 	pAd->LastTxRate = (unsigned short) (pEntry->HTPhyMode.word);
@@ -1835,7 +1835,7 @@ VOID LinkUp(struct rtmp_adapter *pAd, u8 BssType)
 
 	spin_lock_bh(&pAd->MacTabLock);
 	pEntry->PortSecured = wdev->PortSecured;
-	RTMP_SEM_UNLOCK(&pAd->MacTabLock);
+	spin_unlock_bh(&pAd->MacTabLock);
 
 	/* */
 	/* Patch Atheros AP TX will breakdown issue. */
@@ -2086,7 +2086,7 @@ VOID LinkDown(
 	spin_lock_bh(&pAd->MacTabLock);
 	memset(&pAd->MacTab.Content[BSSID_WCID], 0, sizeof(MAC_TABLE_ENTRY));
 	pAd->MacTab.Content[BSSID_WCID].PortSecured = wdev->PortSecured;
-	RTMP_SEM_UNLOCK(&pAd->MacTabLock);
+	spin_unlock_bh(&pAd->MacTabLock);
 
 	pAd->StaCfg.MicErrCnt = 0;
 

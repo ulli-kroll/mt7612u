@@ -516,7 +516,7 @@ typedef struct _RTMP_SCATTER_GATHER_LIST {
 	spin_lock_bh(&((_pAd)->MacTabLock)); \
 	(_pAd)->MacTab.Content[BSSID_WCID].PortSecured = (_pAd)->StaCfg.wdev.PortSecured; \
 	(_pAd)->MacTab.Content[BSSID_WCID].PrivacyFilter = Ndis802_11PrivFilterAcceptAll;\
-	RTMP_SEM_UNLOCK(&(_pAd)->MacTabLock); \
+	spin_unlock_bh(&(_pAd)->MacTabLock); \
 	RTMPCancelTimer(&((_pAd)->Mlme.LinkDownTimer), &Cancelled);\
 	STA_EXTRA_SETTING(_pAd); \
 }

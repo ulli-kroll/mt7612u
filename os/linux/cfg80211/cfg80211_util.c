@@ -879,7 +879,7 @@ VOID CFG80211OS_ScanEnd(
 	{
 		CFG80211DBG(RT_DEBUG_ERROR, ("80211> cfg80211_scan_done ==> NULL\n"));
 	}
-	RTMP_SEM_UNLOCK(&pCfg80211_CB->scan_notify_lock);
+	spin_unlock_bh(&pCfg80211_CB->scan_notify_lock);
 #endif /* CONFIG_STA_SUPPORT */
 }
 

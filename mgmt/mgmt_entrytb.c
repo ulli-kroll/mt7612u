@@ -308,7 +308,7 @@ bool StaUpdateMacTableEntry(
 		pAd->MacTab.Size ++;
 	}
 
-	RTMP_SEM_UNLOCK(&pAd->MacTabLock);
+	spin_unlock_bh(&pAd->MacTabLock);
 
 #ifdef WPA_SUPPLICANT_SUPPORT
 #ifndef NATIVE_WPA_SUPPLICANT_SUPPORT
@@ -405,7 +405,7 @@ MAC_TABLE_ENTRY *MacTableInsertEntry(
 							(pAd->ApCfg.MBSSID[apidx].StaCount >= pAd->ApCfg.MBSSID[apidx].MaxStaNum))
 						{
 							DBGPRINT(RT_DEBUG_WARN, ("%s: The connection table is full in ra%d.\n", __FUNCTION__, apidx));
-							RTMP_SEM_UNLOCK(&pAd->MacTabLock);
+							spin_unlock_bh(&pAd->MacTabLock);
 							return NULL;
 						}
 					}
@@ -635,7 +635,7 @@ MAC_TABLE_ENTRY *MacTableInsertEntry(
 #endif /* MULTI_CLIENT_SUPPORT */
 #endif // CONFIG_AP_SUPPORT //
 
-	RTMP_SEM_UNLOCK(&pAd->MacTabLock);
+	spin_unlock_bh(&pAd->MacTabLock);
 	return pEntry;
 }
 
@@ -797,7 +797,7 @@ bool MacTableDeleteEntry(struct rtmp_adapter *pAd, unsigned short wcid, u8 *pAdd
 		}
 	}
 
-	RTMP_SEM_UNLOCK(&pAd->MacTabLock);
+	spin_unlock_bh(&pAd->MacTabLock);
 
 	/*Reset operating mode when no Sta.*/
 	if (pAd->MacTab.Size == 0)
@@ -860,7 +860,7 @@ VOID MacTableReset(struct rtmp_adapter *pAd)
 					pOutBuffer = kmalloc(MGMT_DMA_BUFFER_SIZE, GFP_ATOMIC);
 					if (pOutBuffer == NULL) {
 						DBGPRINT(RT_DEBUG_TRACE, (" kmalloc fail  ..\n"));
-						/*RTMP_SEM_UNLOCK(&pAd->MacTabLock);*/
+						/*spin_unlock_bh(&pAd->MacTabLock);*/
 						return;
 					}
 
@@ -907,7 +907,7 @@ VOID MacTableReset(struct rtmp_adapter *pAd)
 							sizeof(pAd->MacTab.Content));
 
 		InitializeQueueHeader(&pAd->MacTab.McastPsQueue);
-		/*RTMP_SEM_UNLOCK(&pAd->MacTabLock);*/
+		/*spin_unlock_bh(&pAd->MacTabLock);*/
 	}
 #endif /* CONFIG_AP_SUPPORT */
 	return;

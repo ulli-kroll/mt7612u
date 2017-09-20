@@ -1977,7 +1977,7 @@ int RecoverConnectInfo(
 	if ((pAd->StaCtIf.Changeable== false) || (pAd->StaCtIf.SsidLen > NDIS_802_11_LENGTH_SSID))
 	{
 		DBGPRINT(RT_DEBUG_TRACE, (" DRIVER INIT  not need to RecoverConnectInfo() \n"));
-		RTMP_SEM_UNLOCK(&pAd->StaCtIf.Lock);
+		spin_unlock_bh(&pAd->StaCtIf.Lock);
 		return 0;
 	}
 	DBGPRINT(RT_DEBUG_TRACE, ("-->RecoverConnectInfo()\n"));
@@ -2014,7 +2014,7 @@ int RecoverConnectInfo(
 	{
 			pAd->StaCfg.WpaState = SS_NOTUSE;
 	}
-	RTMP_SEM_UNLOCK(&pAd->StaCtIf.Lock);
+	spin_unlock_bh(&pAd->StaCtIf.Lock);
 
 	DBGPRINT(RT_DEBUG_TRACE, ("<--RecoverConnectInfo()\n"));
 
@@ -2050,7 +2050,7 @@ int StoreConnectInfo(
 		memmove(&pAd->StaCtIf.SharedKey[BSS0][idx], &pAd->SharedKey[BSS0][idx], sizeof(CIPHER_KEY));
 	}
 
-	RTMP_SEM_UNLOCK(&pAd->StaCtIf.Lock);
+	spin_unlock_bh(&pAd->StaCtIf.Lock);
 
 	DBGPRINT(RT_DEBUG_TRACE, ("<--StoreConnectInfo()\n"));
 

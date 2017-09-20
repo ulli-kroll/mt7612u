@@ -380,7 +380,7 @@ PMEASURE_REQ_ENTRY MeasureReqLookUp(
 		}
 	}
 
-	RTMP_SEM_UNLOCK(&pAd->CommonCfg.MeasureReqTabLock);
+	spin_unlock_bh(&pAd->CommonCfg.MeasureReqTabLock);
 
 	return pEntry;
 }
@@ -478,7 +478,7 @@ PMEASURE_REQ_ENTRY MeasureReqInsert(
 			}
 		}
 
-		RTMP_SEM_UNLOCK(&pAd->CommonCfg.MeasureReqTabLock);
+		spin_unlock_bh(&pAd->CommonCfg.MeasureReqTabLock);
 	}
 
 	return pEntry;
@@ -535,7 +535,7 @@ VOID MeasureReqDelete(
 		memset(pEntry, 0, sizeof(MEASURE_REQ_ENTRY));
 		pTab->Size--;
 
-		RTMP_SEM_UNLOCK(&pAd->CommonCfg.MeasureReqTabLock);
+		spin_unlock_bh(&pAd->CommonCfg.MeasureReqTabLock);
 	}
 
 	return;
@@ -605,7 +605,7 @@ static PTPC_REQ_ENTRY TpcReqLookUp(
 		}
 	}
 
-	RTMP_SEM_UNLOCK(&pAd->CommonCfg.TpcReqTabLock);
+	spin_unlock_bh(&pAd->CommonCfg.TpcReqTabLock);
 
 	return pEntry;
 }
@@ -704,7 +704,7 @@ static PTPC_REQ_ENTRY TpcReqInsert(
 			}
 		}
 
-		RTMP_SEM_UNLOCK(&pAd->CommonCfg.TpcReqTabLock);
+		spin_unlock_bh(&pAd->CommonCfg.TpcReqTabLock);
 	}
 
 	return pEntry;
@@ -761,7 +761,7 @@ static VOID TpcReqDelete(
 		memset(pEntry, 0, sizeof(TPC_REQ_ENTRY));
 		pTab->Size--;
 
-		RTMP_SEM_UNLOCK(&pAd->CommonCfg.TpcReqTabLock);
+		spin_unlock_bh(&pAd->CommonCfg.TpcReqTabLock);
 	}
 
 	return;

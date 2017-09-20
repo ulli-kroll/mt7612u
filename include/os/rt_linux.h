@@ -247,11 +247,6 @@ struct os_lock  {
 /*  spin_lock enhanced for Nested spin lock */
 /* */
 
-#define OS_SEM_UNLOCK(__lock)					\
-{												\
-	spin_unlock_bh((spinlock_t *)(__lock));		\
-}
-
 #define OS_INT_LOCK(__lock, __irqflags)			\
 {												\
 	spin_lock_irqsave((spinlock_t *)__lock, __irqflags);	\
@@ -297,7 +292,7 @@ struct os_lock  {
 		}		\
 		else\
 		{\
-			RTMP_SEM_UNLOCK(&_pAd->McuCmdLock, _irqflags);\
+			spin_unlock_bh(&_pAd->McuCmdLock, _irqflags);\
 		}\
 	}while(0)
 

@@ -118,7 +118,7 @@ VOID RtmpMgmtTaskExit(
 	{
 		spin_lock_bh(&pAd->CmdQLock);
 		pAd->CmdQ.CmdQState = RTMP_TASK_STAT_STOPED;
-		RTMP_SEM_UNLOCK(&pAd->CmdQLock);
+		spin_unlock_bh(&pAd->CmdQLock);
 
 		/*RTUSBCMDUp(&pAd->cmdQTask); */
 		ret = RtmpOSTaskKill(pTask);
@@ -328,7 +328,7 @@ static void rtusb_pspoll_frame_done_tasklet(unsigned long data)
 
 	spin_lock_bh(&pAd->BulkOutLock[0]);
 	pAd->BulkOutPending[0] = false;
-	RTMP_SEM_UNLOCK(&pAd->BulkOutLock[0]);
+	spin_unlock_bh(&pAd->BulkOutLock[0]);
 
 	/* Always call Bulk routine, even reset bulk. */
 	/* The protectioon of rest bulk should be in BulkOut routine */
@@ -822,7 +822,7 @@ INT RTUSBCmdThread(
 
 	spin_lock_bh(&pAd->CmdQLock);
 	pAd->CmdQ.CmdQState = RTMP_TASK_STAT_RUNNING;
-	RTMP_SEM_UNLOCK(&pAd->CmdQLock);
+	spin_unlock_bh(&pAd->CmdQLock);
 
 	while (pAd->CmdQ.CmdQState == RTMP_TASK_STAT_RUNNING)
 	{
@@ -865,7 +865,7 @@ INT RTUSBCmdThread(
 			}
 		}
 
-		RTMP_SEM_UNLOCK(&pAd->CmdQLock);
+		spin_unlock_bh(&pAd->CmdQLock);
 	}
 	/* notify the exit routine that we're actually exiting now
 	 *
