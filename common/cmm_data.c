@@ -266,7 +266,7 @@ Label_Legacy_PS:
 			DBGPRINT(RT_DEBUG_TRACE, ("ps> mgmt to legacy ps queue... (%d)\n", FlgIsDeltsFrame));
 
 			if (FlgIsLocked == false)
-				RTMP_IRQ_LOCK(&pAd->irq_lock, IrqFlags);
+				spin_lock_bh(&pAd->irq_lock);
 			InsertTailQueue(&pMacEntry->PsQueue, PACKET_TO_QUEUE_ENTRY(pPacket));
 			if (FlgIsLocked == false)
 				RTMP_IRQ_UNLOCK(&pAd->irq_lock, IrqFlags);
@@ -750,7 +750,7 @@ int MlmeHardTransmitMgmtRing(
 #define DEQUEUE_LOCK(lock, bIntContext, IrqFlags) 				\
 			do{													\
 				if (bIntContext == false)						\
-				RTMP_IRQ_LOCK((lock), IrqFlags);		\
+				spin_lock_bh((lock));		\
 			}while(0)
 
 #define DEQUEUE_UNLOCK(lock, bIntContext, IrqFlags)				\

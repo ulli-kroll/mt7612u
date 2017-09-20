@@ -170,7 +170,7 @@ static void rtusb_dataout_complete(unsigned long data)
 	/*DBGPRINT(RT_DEBUG_LOUD, ("Done-B(%d):I=0x%lx, CWPos=%ld, NBPos=%ld, ENBPos=%ld, bCopy=%d!\n", BulkOutPipeId, in_interrupt(), pHTTXContext->CurWritePosition, */
 	/*		pHTTXContext->NextBulkOutPosition, pHTTXContext->ENextBulkOutPosition, pHTTXContext->bCopySavePad)); */
 
-	RTMP_IRQ_LOCK(&pAd->BulkOutLock[BulkOutPipeId], IrqFlags);
+	spin_lock_bh(&pAd->BulkOutLock[BulkOutPipeId]);
 	pAd->BulkOutPending[BulkOutPipeId] = false;
 	pHTTXContext->IRPPending = false;
 	pAd->watchDogTxPendingCnt[BulkOutPipeId] = 0;
@@ -182,7 +182,7 @@ static void rtusb_dataout_complete(unsigned long data)
 		RTMP_IRQ_UNLOCK(&pAd->BulkOutLock[BulkOutPipeId], IrqFlags);
 
 		pAd->Counters8023.GoodTransmits++;
-		/*RTMP_IRQ_LOCK(&pAd->TxContextQueueLock[BulkOutPipeId], IrqFlags); */
+		/*spin_lock_bh(&pAd->TxContextQueueLock[BulkOutPipeId]); */
 		FREE_HTTX_RING(pAd, BulkOutPipeId, pHTTXContext);
 		/*RTMP_IRQ_UNLOCK(&pAd->TxContextQueueLock[BulkOutPipeId], IrqFlags); */
 
@@ -218,7 +218,7 @@ static void rtusb_dataout_complete(unsigned long data)
 	/* bInUse = true, means some process are filling TX data, after that must turn on bWaitingBulkOut */
 	/* bWaitingBulkOut = true, means the TX data are waiting for bulk out. */
 	/* */
-	/*RTMP_IRQ_LOCK(&pAd->TxContextQueueLock[BulkOutPipeId], IrqFlags); */
+	/*spin_lock_bh(&pAd->TxContextQueueLock[BulkOutPipeId]); */
 	if (((pHTTXContext->ENextBulkOutPosition != pHTTXContext->CurWritePosition) &&
 		(pHTTXContext->ENextBulkOutPosition != (pHTTXContext->CurWritePosition+8)) &&
 		!RTUSB_TEST_BULK_FLAG(pAd, (fRTUSB_BULK_OUT_DATA_FRAG << BulkOutPipeId)))
@@ -251,7 +251,7 @@ static void rtusb_null_frame_done_tasklet(unsigned long data)
 /*	Status 			= pUrb->status; */
 
 	/* Reset Null frame context flags */
-	RTMP_IRQ_LOCK(&pAd->BulkOutLock[0], irqFlag);
+	spin_lock_bh(&pAd->BulkOutLock[0]);
 	pNullContext->IRPPending 	= false;
 	pNullContext->InUse 		= false;
 	pAd->BulkOutPending[0] = false;
@@ -366,7 +366,7 @@ static void rx_done_tasklet(unsigned long data)
 /*	Status = pUrb->status; */
 
 
-	RTMP_IRQ_LOCK(&pAd->BulkInLock, IrqFlags);
+	spin_lock_bh(&pAd->BulkInLock);
 	pRxContext->InUse = false;
 	pRxContext->IRPPending = false;
 	pRxContext->BulkInOffset += pUrb->actual_length;
@@ -441,7 +441,7 @@ static void rtusb_mgmt_dma_done_tasklet(unsigned long data)
 
 	ASSERT((pAd->MgmtRing.TxDmaIdx == index));
 
-	RTMP_IRQ_LOCK(&pAd->BulkOutLock[MGMTPIPEIDX], IrqFlags);
+	spin_lock_bh(&pAd->BulkOutLock[MGMTPIPEIDX]);
 
 
 
@@ -463,7 +463,7 @@ static void rtusb_mgmt_dma_done_tasklet(unsigned long data)
 	pAd->BulkOutPending[MGMTPIPEIDX] = false;
 	RTMP_IRQ_UNLOCK(&pAd->BulkOutLock[MGMTPIPEIDX], IrqFlags);
 
-	RTMP_IRQ_LOCK(&pAd->MLMEBulkOutLock, IrqFlags);
+	spin_lock_bh(&pAd->MLMEBulkOutLock);
 	/* Reset MLME context flags */
 	pMLMEContext->IRPPending = false;
 	pMLMEContext->InUse = false;

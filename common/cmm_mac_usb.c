@@ -65,7 +65,7 @@ VOID RTMPResetTxRxRingMemory(struct rtmp_adapter *pAd)
 		struct sk_buff *pPacket;
 		PQUEUE_HEADER pQueue;
 
-		RTMP_IRQ_LOCK(&pAd->irq_lock, IrqFlags);
+		spin_lock_bh(&pAd->irq_lock);
 		pQueue = &pAd->TxSwQueue[index];
 		while (pQueue->Head) {
 			pEntry = RemoveHeadQueue(pQueue);

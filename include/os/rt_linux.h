@@ -256,13 +256,6 @@ struct os_lock  {
 	spin_unlock_bh((spinlock_t *)(__lock));		\
 }
 
-
-#define OS_IRQ_LOCK(__lock, __irqflags)			\
-{												\
-	__irqflags = 0;								\
-	spin_lock_bh((spinlock_t *)(__lock));		\
-}
-
 #define OS_IRQ_UNLOCK(__lock, __irqflag)		\
 {												\
 	spin_unlock_bh((spinlock_t *)(__lock));		\

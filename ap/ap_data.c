@@ -332,7 +332,7 @@ INT APSendPacket(struct rtmp_adapter *pAd, struct sk_buff *pPacket)
 		}
 		else
 		{
-			RTMP_IRQ_LOCK(&pAd->irq_lock, IrqFlags);
+			spin_lock_bh(&pAd->irq_lock);
 			InsertTailQueueAc(pAd, pMacEntry, &pAd->TxSwQueue[QueIdx], PACKET_TO_QUEUE_ENTRY(pPacket));
 			RTMP_IRQ_UNLOCK(&pAd->irq_lock, IrqFlags);
 		}
@@ -363,7 +363,7 @@ INT APSendPacket(struct rtmp_adapter *pAd, struct sk_buff *pPacket)
 			else
 				apidx = pMacEntry->apidx;
 
-			RTMP_IRQ_LOCK(&pAd->irq_lock, IrqFlags);
+			spin_lock_bh(&pAd->irq_lock);
 			InsertHeadQueue(&pAd->MacTab.McastPsQueue, PACKET_TO_QUEUE_ENTRY(pPacket));
 			RTMP_IRQ_UNLOCK(&pAd->irq_lock, IrqFlags);
 
@@ -392,7 +392,7 @@ INT APSendPacket(struct rtmp_adapter *pAd, struct sk_buff *pPacket)
 			}
 			else
 			{
-				RTMP_IRQ_LOCK(&pAd->irq_lock, IrqFlags);
+				spin_lock_bh(&pAd->irq_lock);
 				InsertTailQueueAc(pAd, pMacEntry, &pAd->TxSwQueue[QueIdx], PACKET_TO_QUEUE_ENTRY(pPacket));
 				RTMP_IRQ_UNLOCK(&pAd->irq_lock, IrqFlags);
 			}
@@ -3456,7 +3456,7 @@ int APInsertPsQueue(
 		}
 		else
 		{
-			RTMP_IRQ_LOCK(&pAd->irq_lock, IrqFlags);
+			spin_lock_bh(&pAd->irq_lock);
 			InsertTailQueue(&pMacEntry->PsQueue, PACKET_TO_QUEUE_ENTRY(pPacket));
 			RTMP_IRQ_UNLOCK(&pAd->irq_lock, IrqFlags);
 		}

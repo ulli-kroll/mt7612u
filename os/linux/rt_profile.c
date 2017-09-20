@@ -300,7 +300,7 @@ void tbtt_tasklet(unsigned long data)
 			UINT count = 0;
 			unsigned long IrqFlags;
 
-			RTMP_IRQ_LOCK(&pAd->irq_lock, IrqFlags);
+			spin_lock_bh(&pAd->irq_lock);
 			while (pAd->MacTab.McastPsQueue.Head)
 			{
 				bPS = true;
@@ -464,7 +464,7 @@ void announce_802_3_packet(
 		{
 			unsigned int flags;
 
-			RTMP_IRQ_LOCK(&pAd->page_lock, flags);
+			spin_lock_bh(&pAd->page_lock);
 			ra_classifier_hook_rx(pRxPkt, classifier_cur_cycle);
 			RTMP_IRQ_UNLOCK(&pAd->page_lock, flags);
 		}
@@ -485,7 +485,7 @@ void announce_802_3_packet(
 
 			RtmpOsPktProtocolAssign(pRxPkt);
 
-			RTMP_IRQ_LOCK(&pAd->page_lock, flags);
+			spin_lock_bh(&pAd->page_lock);
 			if(ra_sw_nat_hook_rx(pRxPkt))
 			{
 				RtmpOsPktRcvHandle(pRxPkt);
@@ -509,7 +509,7 @@ void announce_802_3_packet(
 		if (wf_fwd_rx_hook!= NULL)
 		{
 			unsigned int flags;
-			RTMP_IRQ_LOCK(&pAd->page_lock, flags);
+			spin_lock_bh(&pAd->page_lock);
 
 			if(wf_fwd_rx_hook(pRxPkt) == 0)
 			{

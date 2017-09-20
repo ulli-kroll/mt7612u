@@ -45,7 +45,7 @@ int RTUSBFreeDescRequest(
 
 
 	pHTTXContext = &pAd->TxContext[BulkOutPipeId];
-	RTMP_IRQ_LOCK(&pAd->TxContextQueueLock[BulkOutPipeId], IrqFlags);
+	spin_lock_bh(&pAd->TxContextQueueLock[BulkOutPipeId]);
 	if ((pHTTXContext->CurWritePosition < pHTTXContext->NextBulkOutPosition) && ((pHTTXContext->CurWritePosition + req_cnt + LOCAL_TXBUF_SIZE) > pHTTXContext->NextBulkOutPosition))
 	{
 
@@ -80,7 +80,7 @@ bool	RTUSBNeedQueueBackForAgg(struct rtmp_adapter *pAd, u8 BulkOutPipeId)
 
 	pHTTXContext = &pAd->TxContext[BulkOutPipeId];
 
-	RTMP_IRQ_LOCK(&pAd->TxContextQueueLock[BulkOutPipeId], IrqFlags);
+	spin_lock_bh(&pAd->TxContextQueueLock[BulkOutPipeId]);
 	if ((pHTTXContext->IRPPending == true)  /*&& (pAd->TxSwQueue[BulkOutPipeId].Number == 0) */)
 	{
 		if ((pHTTXContext->CurWritePosition < pHTTXContext->ENextBulkOutPosition) &&
@@ -308,7 +308,7 @@ unsigned short RtmpUSB_WriteFragTxResource(
 	QueIdx = pTxBlk->QueIdx;
 	pHTTXContext  = &pAd->TxContext[QueIdx];
 
-	RTMP_IRQ_LOCK(&pAd->TxContextQueueLock[QueIdx], IrqFlags);
+	spin_lock_bh(&pAd->TxContextQueueLock[QueIdx]);
 
 	pHTTXContext  = &pAd->TxContext[QueIdx];
 	fillOffset = pHTTXContext->CurWritePosition;
@@ -409,7 +409,7 @@ unsigned short RtmpUSB_WriteFragTxResource(
 
 	if (fragNum == pTxBlk->TotalFragNum)
 	{
-		RTMP_IRQ_LOCK(&pAd->TxContextQueueLock[QueIdx], IrqFlags);
+		spin_lock_bh(&pAd->TxContextQueueLock[QueIdx]);
 
 		/* Update the pHTTXContext->CurWritePosition. 3906 used to prevent the NextBulkOut is a A-RALINK/A-MSDU Frame.*/
 		pHTTXContext->CurWritePosition += pTxBlk->Priv;
@@ -456,7 +456,7 @@ unsigned short RtmpUSB_WriteSingleTxResource(
 	/* get Tx Ring Resource & Dma Buffer address*/
 	QueIdx = pTxBlk->QueIdx;
 
-	RTMP_IRQ_LOCK(&pAd->TxContextQueueLock[QueIdx], IrqFlags);
+	spin_lock_bh(&pAd->TxContextQueueLock[QueIdx]);
 	pHTTXContext  = &pAd->TxContext[QueIdx];
 	fillOffset = pHTTXContext->CurWritePosition;
 
@@ -551,7 +551,7 @@ unsigned short RtmpUSB_WriteSingleTxResource(
 		}
 
 		memset(pWirelessPacket, 0, padding + 8);
-		RTMP_IRQ_LOCK(&pAd->TxContextQueueLock[QueIdx], IrqFlags);
+		spin_lock_bh(&pAd->TxContextQueueLock[QueIdx]);
 
 		pHTTXContext->CurWritePosition += pTxBlk->Priv;
 		if (bTxQLastRound)
@@ -595,7 +595,7 @@ unsigned short RtmpUSB_WriteMultiTxResource(
 	QueIdx = pTxBlk->QueIdx;
 	pHTTXContext  = &pAd->TxContext[QueIdx];
 
-	RTMP_IRQ_LOCK(&pAd->TxContextQueueLock[QueIdx], IrqFlags);
+	spin_lock_bh(&pAd->TxContextQueueLock[QueIdx]);
 
 	if(frmNum == 0)
 	{
@@ -722,7 +722,7 @@ VOID RtmpUSB_FinalWriteTxResource(
 	QueIdx = pTxBlk->QueIdx;
 	pHTTXContext  = &pAd->TxContext[QueIdx];
 
-	RTMP_IRQ_LOCK(&pAd->TxContextQueueLock[QueIdx], IrqFlags);
+	spin_lock_bh(&pAd->TxContextQueueLock[QueIdx]);
 
 	if (pHTTXContext->bCurWriting == true)
 	{
@@ -858,7 +858,7 @@ int RtmpUSBMgmtKickOut(
 	skb_put(pPacket, padLen);
 	memset(pDest, 0, padLen);
 
-	RTMP_IRQ_LOCK(&pAd->MLMEBulkOutLock, IrqFlags);
+	spin_lock_bh(&pAd->MLMEBulkOutLock);
 
 	pAd->MgmtRing.Cell[pAd->MgmtRing.TxCpuIdx].pNdisPacket = pPacket;
 	pMLMEContext->TransferBuffer = (PTX_BUFFER) pPacket->data;

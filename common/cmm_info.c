@@ -4636,7 +4636,7 @@ INT Set_RateAdaptInterval(
 			DBGPRINT(RT_DEBUG_OFF, ("%s():Set RateAdaptation TimeInterval as(%d:%d) ms\n",
 						__FUNCTION__, ra_time, ra_qtime));
 
-			RTMP_IRQ_LOCK(&pAd->irq_lock, irqFlags);
+			spin_lock_bh(&pAd->irq_lock);
 			pAd->ra_interval = ra_time;
 			pAd->ra_fast_interval = ra_qtime;
 #ifdef CONFIG_AP_SUPPORT

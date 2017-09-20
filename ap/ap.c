@@ -930,7 +930,7 @@ VOID MacTableMaintenance(struct rtmp_adapter *pAd)
 			if (pEntry->PsQIdleCount > 3)
 			{
 				ULONG irq_flags;
-				RTMP_IRQ_LOCK(&pAd->irq_lock, irq_flags);
+				spin_lock_bh(&pAd->irq_lock);
 				APCleanupPsQueue(pAd, &pEntry->PsQueue);
 				RTMP_IRQ_UNLOCK(&pAd->irq_lock, irq_flags);
 				pEntry->PsQIdleCount = 0;
