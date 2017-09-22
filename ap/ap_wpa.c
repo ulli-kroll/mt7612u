@@ -542,11 +542,11 @@ UINT	APValidateRSNIE(
 */
 VOID HandleCounterMeasure(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 {
-    INT         i;
-    bool     Cancelled;
+	INT         i;
+	bool     Cancelled;
 
-    if (!pEntry)
-        return;
+	if (!pEntry)
+		return;
 
 	/* Todo by AlbertY - Not support currently in ApClient-link */
 	if (IS_ENTRY_APCLI(pEntry))
@@ -558,51 +558,48 @@ VOID HandleCounterMeasure(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
 
 	DBGPRINT(RT_DEBUG_TRACE, ("HandleCounterMeasure ===> \n"));
 
-    /* record which entry causes this MIC error, if this entry sends disauth/disassoc, AP doesn't need to log the CM */
-    pEntry->CMTimerRunning = true;
-    pAd->ApCfg.MICFailureCounter++;
+	/* record which entry causes this MIC error, if this entry sends disauth/disassoc, AP doesn't need to log the CM */
+	pEntry->CMTimerRunning = true;
+	pAd->ApCfg.MICFailureCounter++;
 
 	/* send wireless event - for MIC error */
 	RTMPSendWirelessEvent(pAd, IW_MIC_ERROR_EVENT_FLAG, pEntry->Addr, 0, 0);
 
-    if (pAd->ApCfg.CMTimerRunning == true)
-    {
-        DBGPRINT(RT_DEBUG_ERROR, ("Receive CM Attack Twice within 60 seconds ====>>> \n"));
+	if (pAd->ApCfg.CMTimerRunning == true) {
+		DBGPRINT(RT_DEBUG_ERROR, ("Receive CM Attack Twice within 60 seconds ====>>> \n"));
 
 		/* send wireless event - for counter measures */
 		RTMPSendWirelessEvent(pAd, IW_COUNTER_MEASURES_EVENT_FLAG, pEntry->Addr, 0, 0);
 		ApLogEvent(pAd, pEntry->Addr, EVENT_COUNTER_M);
 
-        /* renew GTK */
+		/* renew GTK */
 		GenRandom(pAd, pAd->ApCfg.MBSSID[pEntry->apidx].wdev.bssid, pAd->ApCfg.MBSSID[pEntry->apidx].GNonce);
 
 		/* Cancel CounterMeasure Timer */
 		RTMPCancelTimer(&pAd->ApCfg.CounterMeasureTimer, &Cancelled);
 		pAd->ApCfg.CMTimerRunning = false;
 
-        for (i = 0; i < MAX_LEN_OF_MAC_TABLE; i++)
-        {
-            /* happened twice within 60 sec,  AP SENDS disaccociate all associated STAs.  All STA's transition to State 2 */
-            if (IS_ENTRY_CLIENT(&pAd->MacTab.Content[i]))
-            {
-                MlmeDeAuthAction(pAd, &pAd->MacTab.Content[i], REASON_MIC_FAILURE, false);
-            }
-        }
+		for (i = 0; i < MAX_LEN_OF_MAC_TABLE; i++) {
+			/* happened twice within 60 sec,  AP SENDS disaccociate all associated STAs.  All STA's transition to State 2 */
+			if (IS_ENTRY_CLIENT(&pAd->MacTab.Content[i])) {
+				MlmeDeAuthAction(pAd, &pAd->MacTab.Content[i], REASON_MIC_FAILURE, false);
+			}
+		}
 
 		/*
 			Further,  ban all Class 3 DATA transportation for a period 0f 60 sec
 			disallow new association , too
 		*/
-        pAd->ApCfg.BANClass3Data = true;
+		pAd->ApCfg.BANClass3Data = true;
 
-        /* check how many entry left...  should be zero */
-        /*pAd->ApCfg.MBSSID[pEntry->apidx].GKeyDoneStations = pAd->MacTab.Size; */
-        /*DBGPRINT(RT_DEBUG_TRACE, ("GKeyDoneStations=%d \n", pAd->ApCfg.MBSSID[pEntry->apidx].GKeyDoneStations)); */
-    }
+	/* check how many entry left...  should be zero */
+	/*pAd->ApCfg.MBSSID[pEntry->apidx].GKeyDoneStations = pAd->MacTab.Size; */
+	/*DBGPRINT(RT_DEBUG_TRACE, ("GKeyDoneStations=%d \n", pAd->ApCfg.MBSSID[pEntry->apidx].GKeyDoneStations)); */
+	}
 
 	RTMPSetTimer(&pAd->ApCfg.CounterMeasureTimer, 60 * MLME_TASK_EXEC_INTV * MLME_TASK_EXEC_MULTIPLE);
-    pAd->ApCfg.CMTimerRunning = true;
-    pAd->ApCfg.PrevaMICFailTime = pAd->ApCfg.aMICFailTime;
+	pAd->ApCfg.CMTimerRunning = true;
+	pAd->ApCfg.PrevaMICFailTime = pAd->ApCfg.aMICFailTime;
 	RTMP_GetCurrentSystemTime(&pAd->ApCfg.aMICFailTime);
 }
 
