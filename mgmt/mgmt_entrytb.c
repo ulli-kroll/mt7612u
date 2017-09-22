@@ -354,7 +354,7 @@ MAC_TABLE_ENTRY *MacTableInsertEntry(
 	if (pAd->MacTab.Size >= MAX_LEN_OF_MAC_TABLE)
 		return NULL;
 
-		FirstWcid = 1;
+	FirstWcid = 1;
 
 #ifdef CONFIG_STA_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
@@ -364,11 +364,9 @@ MAC_TABLE_ENTRY *MacTableInsertEntry(
 
 	/* allocate one MAC entry*/
 	spin_lock_bh(&pAd->MacTabLock);
-	for (i = FirstWcid; i< MAX_LEN_OF_MAC_TABLE; i++)   /* skip entry#0 so that "entry index == AID" for fast lookup*/
-	{
+	for (i = FirstWcid; i< MAX_LEN_OF_MAC_TABLE; i++) {  /* skip entry#0 so that "entry index == AID" for fast lookup*/
 		/* pick up the first available vacancy*/
-		if (IS_ENTRY_NONE(&pAd->MacTab.Content[i]))
-		{
+		if (IS_ENTRY_NONE(&pAd->MacTab.Content[i])) {
 			pEntry = &pAd->MacTab.Content[i];
 
 			/* ENTRY PREEMPTION: initialize the entry */
@@ -377,8 +375,7 @@ MAC_TABLE_ENTRY *MacTableInsertEntry(
 
 			memset(pEntry, 0, sizeof(MAC_TABLE_ENTRY));
 
-			if (CleanAll == true)
-			{
+			if (CleanAll == true) {
 				pEntry->MaxSupportedRate = RATE_11;
 				pEntry->CurrTxRate = RATE_11;
 				memset(pEntry, 0, sizeof(MAC_TABLE_ENTRY));
@@ -386,8 +383,7 @@ MAC_TABLE_ENTRY *MacTableInsertEntry(
 				pEntry->PairwiseKey.CipherAlg = CIPHER_NONE;
 			}
 
-			do
-			{
+			do {
 #ifdef CONFIG_STA_SUPPORT
 #endif /* CONFIG_STA_SUPPORT */
 
@@ -396,8 +392,8 @@ MAC_TABLE_ENTRY *MacTableInsertEntry(
 #endif /* CONFIG_AP_SUPPORT */
 
 #ifdef CONFIG_AP_SUPPORT
-					IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-					{	/* be a regular-entry*/
+					IF_DEV_CONFIG_OPMODE_ON_AP(pAd) {
+						/* be a regular-entry*/
 						if ((apidx < pAd->ApCfg.BssidNum) &&
 							(apidx < MAX_MBSSID_NUM(pAd)) &&
 							((apidx < HW_BEACON_MAX_NUM)) &&
@@ -412,7 +408,7 @@ MAC_TABLE_ENTRY *MacTableInsertEntry(
 #endif /* CONFIG_AP_SUPPORT */
 					SET_ENTRY_CLIENT(pEntry);
 
-		} while (false);
+			} while (false);
 
 			pEntry->wdev = wdev;
 			pEntry->wcid = i;
@@ -425,10 +421,8 @@ MAC_TABLE_ENTRY *MacTableInsertEntry(
 #endif /* CONFIG_STA_SUPPORT */
 
 #ifdef CONFIG_AP_SUPPORT
-			IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-			{
-				if (IS_ENTRY_CLIENT(pEntry)) /* Only Client entry need the retry timer.*/
-				{
+			IF_DEV_CONFIG_OPMODE_ON_AP(pAd) {
+				if (IS_ENTRY_CLIENT(pEntry)) {	/* Only Client entry need the retry timer.*/
 					RTMPInitTimer(pAd, &pEntry->RetryTimer, GET_TIMER_FUNCTION(WPARetryExec), pEntry, false);
 
 	/*				RTMP_OS_Init_Timer(pAd, &pEntry->RetryTimer, GET_TIMER_FUNCTION(WPARetryExec), pAd);*/
@@ -468,12 +462,10 @@ MAC_TABLE_ENTRY *MacTableInsertEntry(
 				pEntry->pMbss = NULL;
 #endif /* CONFIG_AP_SUPPORT */
 
-			do
-			{
+			do {
 
 #ifdef CONFIG_AP_SUPPORT
-					IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-					{
+					IF_DEV_CONFIG_OPMODE_ON_AP(pAd) {
 						MBSS_MR_APIDX_SANITY_CHECK(pAd, apidx);
 						pEntry->AuthMode = pAd->ApCfg.MBSSID[apidx].wdev.AuthMode;
 						pEntry->WepStatus = pAd->ApCfg.MBSSID[apidx].wdev.WepStatus;
@@ -494,8 +486,7 @@ MAC_TABLE_ENTRY *MacTableInsertEntry(
 #endif /* CONFIG_AP_SUPPORT */
 
 #ifdef CONFIG_STA_SUPPORT
-				IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
-				{
+				IF_DEV_CONFIG_OPMODE_ON_STA(pAd) {
 					pEntry->AuthMode = pAd->StaCfg.wdev.AuthMode;
 					pEntry->WepStatus = pAd->StaCfg.wdev.WepStatus;
 					pEntry->PrivacyFilter = Ndis802_11PrivFilterAcceptAll;
@@ -513,25 +504,21 @@ MAC_TABLE_ENTRY *MacTableInsertEntry(
 			pEntry->PMKID_CacheIdx = ENTRY_NOT_FOUND;
 			COPY_MAC_ADDR(pEntry->Addr, pAddr);
 
-			if (IS_ENTRY_TDLS(pEntry))
-			{
+			if (IS_ENTRY_TDLS(pEntry)) {
 				DBGPRINT(RT_DEBUG_ERROR, ("#########SET_ENTRY_TDLS pEntry->mac %02x:%02x:%02x:%02x:%02x:%02x \n",PRINT_MAC(pEntry->Addr))); //Kyle Debug
 			}
 
-			do
-			{
+			do {
 #ifdef CONFIG_AP_SUPPORT
 #endif /* CONFIG_AP_SUPPORT */
 #ifdef CONFIG_AP_SUPPORT
-				if (OpMode == OPMODE_AP)
-				{
+				if (OpMode == OPMODE_AP) {
 					COPY_MAC_ADDR(pEntry->bssid, pAd->ApCfg.MBSSID[apidx].wdev.bssid);
 					break;
 				}
 #endif // CONFIG_AP_SUPPORT //
 #ifdef CONFIG_STA_SUPPORT
-				if (OpMode == OPMODE_STA)
-				{
+				if (OpMode == OPMODE_STA) {
 					COPY_MAC_ADDR(pEntry->bssid, pAddr);
 					break;
 				}
@@ -554,8 +541,8 @@ MAC_TABLE_ENTRY *MacTableInsertEntry(
 
 
 #ifdef CONFIG_AP_SUPPORT
-			IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-			{
+			IF_DEV_CONFIG_OPMODE_ON_AP(pAd) {
+				;
 			}
 #endif /* CONFIG_AP_SUPPORT */
 
@@ -576,8 +563,8 @@ MAC_TABLE_ENTRY *MacTableInsertEntry(
 #endif /* DROP_MASK_SUPPORT */
 
 #ifdef CONFIG_AP_SUPPORT
-			IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-			{
+			IF_DEV_CONFIG_OPMODE_ON_AP(pAd) {
+				;
 			}
 #endif /* CONFIG_AP_SUPPORT */
 
@@ -591,24 +578,20 @@ MAC_TABLE_ENTRY *MacTableInsertEntry(
 	}
 
 	/* add this MAC entry into HASH table */
-	if (pEntry)
-	{
+	if (pEntry) {
 
 		HashIdx = MAC_ADDR_HASH_INDEX(pAddr);
 		if (pAd->MacTab.Hash[HashIdx] == NULL)
 			pAd->MacTab.Hash[HashIdx] = pEntry;
-		else
-		{
+		else {
 			pCurrEntry = pAd->MacTab.Hash[HashIdx];
 			while (pCurrEntry->pNext != NULL)
 				pCurrEntry = pCurrEntry->pNext;
 			pCurrEntry->pNext = pEntry;
 		}
 #ifdef CONFIG_AP_SUPPORT
-		IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-		{
-
-
+		IF_DEV_CONFIG_OPMODE_ON_AP(pAd) {
+			;
 		}
 #endif /* CONFIG_AP_SUPPORT */
 
@@ -617,15 +600,13 @@ MAC_TABLE_ENTRY *MacTableInsertEntry(
 
 #ifdef CONFIG_AP_SUPPORT
 #ifdef MULTI_CLIENT_SUPPORT
-	if (pAd->MacTab.Size < MAX_LEN_OF_MAC_TABLE)
-	{
+	if (pAd->MacTab.Size < MAX_LEN_OF_MAC_TABLE) {
 		unsigned short size;
 
 		size = pAd->ApCfg.EntryClientCount;
 		asic_change_tx_retry(pAd, size);
 
-		if (IS_RT6352(pAd))
-		{
+		if (IS_RT6352(pAd)) {
 			pkt_aggr_num_change(pAd, size);
 
 			if (pAd->CommonCfg.bWmm)

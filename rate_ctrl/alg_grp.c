@@ -1888,11 +1888,10 @@ VOID StaQuickResponeForRateUpExecAdapt(
 	pEntry = &pAd->MacTab.Content[i];
 	pTable = pEntry->pTable;
 
-    if (QuickInitMCSRate(pAd,pEntry) == true)
-        return;
+	if (QuickInitMCSRate(pAd,pEntry) == true)
+		return;
 
-	if (pAd->MacTab.Size == 1)
-	{
+	if (pAd->MacTab.Size == 1) {
 		TX_STA_CNT1_STRUC		StaTx1;
 		TX_STA_CNT0_STRUC		TxStaCnt0;
 
@@ -1902,9 +1901,7 @@ VOID StaQuickResponeForRateUpExecAdapt(
 		TxRetransmit = StaTx1.field.TxRetransmit;
 		TxSuccess = StaTx1.field.TxSuccess;
 		TxFailCount = TxStaCnt0.field.TxFailCount;
-	}
-	else
-	{
+	} else {
 		TxRetransmit = pEntry->OneSecTxRetryOkCount;
 		TxSuccess = pEntry->OneSecTxNoRetryOkCount;
 		TxFailCount = pEntry->OneSecTxFailCount;
@@ -1921,13 +1918,11 @@ VOID StaQuickResponeForRateUpExecAdapt(
 	CurrPhyITxBf = pEntry->phyITxBf;
 	pCurrTxRate = PTX_RA_GRP_ENTRY(pTable, CurrRateIdx);
 
-	if ((Rssi > -65) && (pCurrTxRate->Mode >= MODE_HTMIX) && pEntry->perThrdAdj == 1)
-	{
+	if ((Rssi > -65) &&
+	    (pCurrTxRate->Mode >= MODE_HTMIX) && pEntry->perThrdAdj == 1) {
 		TrainUp		= (pCurrTxRate->TrainUp + (pCurrTxRate->TrainUp >> 1));
 		TrainDown	= (pCurrTxRate->TrainDown + (pCurrTxRate->TrainDown >> 1));
-	}
-	else
-	{
+	} else {
 		TrainUp		= pCurrTxRate->TrainUp;
 		TrainDown	= pCurrTxRate->TrainDown;
 	}
@@ -1935,7 +1930,8 @@ VOID StaQuickResponeForRateUpExecAdapt(
 
 #ifdef DBG_CTRL_SUPPORT
 	/* Debug option: Concise RA log */
-	if ((pAd->CommonCfg.DebugFlags & DBF_SHOW_RA_LOG) || (pAd->CommonCfg.DebugFlags & DBF_DBQ_RA_LOG))
+	if ((pAd->CommonCfg.DebugFlags & DBF_SHOW_RA_LOG) ||
+	    (pAd->CommonCfg.DebugFlags & DBF_DBQ_RA_LOG))
 		MlmeRALog(pAd, pEntry, RAL_QUICK_DRS, TxErrorRatio, TxTotalCnt);
 #endif /* DBG_CTRL_SUPPORT */
 
@@ -1943,8 +1939,7 @@ VOID StaQuickResponeForRateUpExecAdapt(
 		CASE 1. when TX samples are fewer than 15, then decide TX rate solely on RSSI
 		     (criteria copied from RT2500 for Netopia case)
 	*/
-	if (TxTotalCnt <= 12)
-	{
+	if (TxTotalCnt <= 12) {
 		/* Go back to the original rate */
 		MlmeRestoreLastRate(pEntry);
 		DBGPRINT(RT_DEBUG_INFO | DBG_FUNC_RA,("   QuickDRS: TxTotalCnt <= 12, back to original rate \n"));
@@ -1972,16 +1967,14 @@ VOID StaQuickResponeForRateUpExecAdapt(
 	OneSecTxNoRetryOKRationCount = (TxSuccess * ratio);
 
 	/* Downgrade TX quality if PER >= Rate-Down threshold */
-	if (TxErrorRatio >= TrainDown)
-	{
+	if (TxErrorRatio >= TrainDown) {
 		MlmeSetTxQuality(pEntry, CurrRateIdx, DRS_TX_QUALITY_WORST_BOUND); /* the only situation when pEntry->TxQuality[CurrRateIdx] = DRS_TX_QUALITY_WORST_BOUND but no rate change */
 	}
 
 	pEntry->PER[CurrRateIdx] = (u8)TxErrorRatio;
 
 	/* Perform DRS - consider TxRate Down first, then rate up. */
-	if (pEntry->LastSecTxRateChangeAction == RATE_UP)
-	{
+	if (pEntry->LastSecTxRateChangeAction == RATE_UP) {
 		bool useOldRate;
 
 		// TODO: gaa - Finalize the decision criterion
@@ -1991,23 +1984,21 @@ VOID StaQuickResponeForRateUpExecAdapt(
 			2=>Hybrid. Use rate with best TP if difference > 10%. Otherwise use rate with Best Estimated TP
 			3=>Hybrid with check that PER<TrainDown Threshold
 		*/
-		if (pAd->CommonCfg.TrainUpRule == 0)
-		{
+		if (pAd->CommonCfg.TrainUpRule == 0) {
 			useOldRate = (pEntry->LastTxOkCount + 2) >= OneSecTxNoRetryOKRationCount;
-		}
-		else if (pAd->CommonCfg.TrainUpRule==2 && Rssi<=pAd->CommonCfg.TrainUpRuleRSSI)
-		{
+		} else if (pAd->CommonCfg.TrainUpRule==2 &&
+		           Rssi<=pAd->CommonCfg.TrainUpRuleRSSI) {
+
 			useOldRate = MlmeRAHybridRule(pAd, pEntry, pCurrTxRate, OneSecTxNoRetryOKRationCount, TxErrorRatio);
-		}
-		else if (pAd->CommonCfg.TrainUpRule==3 && Rssi<=pAd->CommonCfg.TrainUpRuleRSSI)
-		{
+		} else if (pAd->CommonCfg.TrainUpRule==3 &&
+		           Rssi<=pAd->CommonCfg.TrainUpRuleRSSI) {
+
 			useOldRate = (TxErrorRatio >= TrainDown) ||
 						 MlmeRAHybridRule(pAd, pEntry, pCurrTxRate, OneSecTxNoRetryOKRationCount, TxErrorRatio);
-		}
-		else
+		} else
 			useOldRate = TxErrorRatio >= TrainDown;
-		if (useOldRate)
-		{
+
+		if (useOldRate) {
 			/* If PER>50% or TP<lastTP/2 then double the TxQuality delay */
 			if ((TxErrorRatio > 50) || (OneSecTxNoRetryOKRationCount < pEntry->LastTxOkCount/2))
 				MlmeSetTxQuality(pEntry, CurrRateIdx, DRS_TX_QUALITY_WORST_BOUND*2);
@@ -2016,9 +2007,7 @@ VOID StaQuickResponeForRateUpExecAdapt(
 
 			MlmeRestoreLastRate(pEntry);
 			DBGPRINT(RT_DEBUG_INFO | DBG_FUNC_RA,("   QuickDRS: (Up) bad tx ok count (L:%ld, C:%ld)\n", pEntry->LastTxOkCount, OneSecTxNoRetryOKRationCount));
-		}
-		else
-		{
+		} else {
 			RTMP_RA_GRP_TB *pLastTxRate = PTX_RA_GRP_ENTRY(pTable, pEntry->lastRateIdx);
 
 			/* Clear the history if we changed the MCS and PHY Rate */
@@ -2030,21 +2019,14 @@ VOID StaQuickResponeForRateUpExecAdapt(
 				MlmeSetMcsGroup(pAd, pEntry);
 			DBGPRINT(RT_DEBUG_INFO | DBG_FUNC_RA,("   QuickDRS: (Up) keep rate-up (L:%ld, C:%ld)\n", pEntry->LastTxOkCount, OneSecTxNoRetryOKRationCount));
 		}
-	}
-	else if (pEntry->LastSecTxRateChangeAction == RATE_DOWN)
-	{
-		if ((TxErrorRatio >= 50) || (TxErrorRatio >= TrainDown))
-		{
+	} else if (pEntry->LastSecTxRateChangeAction == RATE_DOWN) {
+		if ((TxErrorRatio >= 50) || (TxErrorRatio >= TrainDown)) {
 			MlmeSetMcsGroup(pAd, pEntry);
 			DBGPRINT(RT_DEBUG_INFO | DBG_FUNC_RA,("   QuickDRS: (Down) direct train down (TxErrorRatio >= TrainDown)\n"));
-		}
-		else if ((pEntry->LastTxOkCount + 2) >= OneSecTxNoRetryOKRationCount)
-		{
+		} else if ((pEntry->LastTxOkCount + 2) >= OneSecTxNoRetryOKRationCount) {
 			MlmeRestoreLastRate(pEntry);
 			DBGPRINT(RT_DEBUG_INFO | DBG_FUNC_RA,("   QuickDRS: (Down) bad tx ok count (L:%ld, C:%ld)\n", pEntry->LastTxOkCount, OneSecTxNoRetryOKRationCount));
-		}
-		else
-		{
+		} else {
 			MlmeSetMcsGroup(pAd, pEntry);
 			DBGPRINT(RT_DEBUG_INFO | DBG_FUNC_RA,("   QuickDRS: (Down) keep rate-down (L:%ld, C:%ld)\n", pEntry->LastTxOkCount, OneSecTxNoRetryOKRationCount));
 		}
@@ -2059,31 +2041,29 @@ VOID StaQuickResponeForRateUpExecAdapt(
 		pEntry->lastNonBfRate = pEntry->CurrTxRateIndex;
 
 	/* Update mcsGroup */
-	if (pEntry->LastSecTxRateChangeAction == RATE_UP)
-	{
+	if (pEntry->LastSecTxRateChangeAction == RATE_UP) {
 		u8 UpRateIdx;
 
 		/* If RATE_UP failed look for the next group with valid mcs */
-		if (pEntry->CurrTxRateIndex != CurrRateIdx && pEntry->mcsGroup > 0)
-		{
+		if (pEntry->CurrTxRateIndex != CurrRateIdx &&
+		    pEntry->mcsGroup > 0) {
 			pEntry->mcsGroup--;
 			pCurrTxRate = PTX_RA_GRP_ENTRY(pTable, pEntry->lastRateIdx);
 		}
 
-		switch (pEntry->mcsGroup)
-		{
-			case 3:
-				UpRateIdx = pCurrTxRate->upMcs3;
-				break;
-			case 2:
-				UpRateIdx = pCurrTxRate->upMcs2;
-				break;
-			case 1:
-				UpRateIdx = pCurrTxRate->upMcs1;
-				break;
-			default:
-				UpRateIdx = CurrRateIdx;
-				break;
+		switch (pEntry->mcsGroup) {
+		case 3:
+			UpRateIdx = pCurrTxRate->upMcs3;
+			break;
+		case 2:
+			UpRateIdx = pCurrTxRate->upMcs2;
+			break;
+		case 1:
+			UpRateIdx = pCurrTxRate->upMcs1;
+			break;
+		default:
+			UpRateIdx = CurrRateIdx;
+			break;
 		}
 
 		if (UpRateIdx == pEntry->CurrTxRateIndex)
@@ -2091,8 +2071,7 @@ VOID StaQuickResponeForRateUpExecAdapt(
 	}
 
 	/* Handle change back to old rate */
-	if (rateChanged)
-	{
+	if (rateChanged) {
 		/* Clear Old Rate's history */
 		MlmeSetTxQuality(pEntry, pEntry->CurrTxRateIndex, 0);
 		pEntry->TxRateUpPenalty = 0;/*redundant */
