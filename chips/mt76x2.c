@@ -927,15 +927,14 @@ void mt76x2_tssi_compensation(struct rtmp_adapter *ad, u8 channel)
 
 		cap->tssi_stage = TSSI_TRIGGER_STAGE;
 
-		if (!ad->MCUCtrl.dpd_on
-		) {
+		if (!ad->MCUCtrl.dpd_on) {
 			/* DPD Calibration */
-			if ( (ad->chipCap.PAType== INT_PA_2G_5G)
-				|| ((ad->chipCap.PAType == INT_PA_5G) && ( channel > 14 ) )
-				|| ((ad->chipCap.PAType == INT_PA_2G) && ( channel <= 14 ) )
-			)
+			if ((ad->chipCap.PAType== INT_PA_2G_5G) ||
+			    ((ad->chipCap.PAType == INT_PA_5G) && ( channel > 14 )) ||
+			    ((ad->chipCap.PAType == INT_PA_2G) && ( channel <= 14 ))) {
 				mt7612u_mcu_calibration(ad, DPD_CALIBRATION_7662, channel);
 				ad->MCUCtrl.dpd_on = true;
+			}
 		}
 	}
 
