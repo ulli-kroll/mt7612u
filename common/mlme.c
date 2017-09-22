@@ -5089,29 +5089,26 @@ bool RTMPCheckHt(
 		CLIENT_STATUS_SET_FLAG(sta, fCLIENT_STATUS_TxSTBC_CAPABLE);
 	if (pHtCap->HtCapInfo.RxSTBC)
 		CLIENT_STATUS_SET_FLAG(sta, fCLIENT_STATUS_RxSTBC_CAPABLE);
-	if (pAd->CommonCfg.bRdg && pHtCap->ExtHtCapInfo.RDGSupport)
-	{
+	if (pAd->CommonCfg.bRdg && pHtCap->ExtHtCapInfo.RDGSupport) {
 		CLIENT_STATUS_SET_FLAG(sta, fCLIENT_STATUS_RDG_CAPABLE);
 	}
 
-	if (Wcid < MAX_LEN_OF_MAC_TABLE)
-	{
+	if (Wcid < MAX_LEN_OF_MAC_TABLE) {
 		sta->MpduDensity = pHtCap->HtCapParm.MpduDensity;
 	}
 
 	/* Will check ChannelWidth for MCSSet[4] below*/
 	memset(&pAd->MlmeAux.HtCapability.MCSSet[0], 0, 16);
 	pAd->MlmeAux.HtCapability.MCSSet[4] = 0x1;
-	switch (pAd->CommonCfg.RxStream)
-	{
-		case 3:
-			pAd->MlmeAux.HtCapability.MCSSet[2] = 0xff;
-		case 2:
-			pAd->MlmeAux.HtCapability.MCSSet[1] = 0xff;
-		case 1:
-		default:
-			pAd->MlmeAux.HtCapability.MCSSet[0] = 0xff;
-			break;
+	switch (pAd->CommonCfg.RxStream) {
+	case 3:
+		pAd->MlmeAux.HtCapability.MCSSet[2] = 0xff;
+	case 2:
+		pAd->MlmeAux.HtCapability.MCSSet[1] = 0xff;
+	case 1:
+	default:
+		pAd->MlmeAux.HtCapability.MCSSet[0] = 0xff;
+		break;
 	}
 
 	pAd->MlmeAux.HtCapability.HtCapInfo.ChannelWidth = pAddHtInfo->AddHtInfo.RecomWidth & pAd->CommonCfg.DesiredHtPhy.ChannelWidth;
@@ -5120,15 +5117,13 @@ bool RTMPCheckHt(
 		If both station and AP use 40MHz, still need to check if the 40MHZ band's legality in my country region
 		If this 40MHz wideband is not allowed in my country list, use bandwidth 20MHZ instead,
 	*/
-	if (pAd->MlmeAux.HtCapability.HtCapInfo.ChannelWidth == BW_40)
-	{
-		if (RTMPCheckChannel(pAd, pAd->MlmeAux.CentralChannel, pAd->MlmeAux.Channel) == false)
-		{
+	if (pAd->MlmeAux.HtCapability.HtCapInfo.ChannelWidth == BW_40) {
+		if (RTMPCheckChannel(pAd, pAd->MlmeAux.CentralChannel, pAd->MlmeAux.Channel) == false) 	{
 			pAd->MlmeAux.HtCapability.HtCapInfo.ChannelWidth = BW_20;
 		}
 	}
 
-    DBGPRINT(RT_DEBUG_TRACE, ("RTMPCheckHt:: HtCapInfo.ChannelWidth=%d, RecomWidth=%d, DesiredHtPhy.ChannelWidth=%d, BW40MAvailForA/G=%d/%d, PhyMode=%d \n",
+	DBGPRINT(RT_DEBUG_TRACE, ("RTMPCheckHt:: HtCapInfo.ChannelWidth=%d, RecomWidth=%d, DesiredHtPhy.ChannelWidth=%d, BW40MAvailForA/G=%d/%d, PhyMode=%d \n",
 		pAd->MlmeAux.HtCapability.HtCapInfo.ChannelWidth, pAddHtInfo->AddHtInfo.RecomWidth, pAd->CommonCfg.DesiredHtPhy.ChannelWidth,
 		pAd->NicConfig2.field.BW40MAvailForA, pAd->NicConfig2.field.BW40MAvailForG, pAd->CommonCfg.PhyMode));
 
@@ -5151,14 +5146,13 @@ bool RTMPCheckHt(
 	pAd->MlmeAux.HtCapability.HtCapParm.MpduDensity = pAd->CommonCfg.HtCapability.HtCapParm.MpduDensity;
 	pAd->MlmeAux.HtCapability.ExtHtCapInfo.PlusHTC = pHtCap->ExtHtCapInfo.PlusHTC;
 	sta->HTCapability.ExtHtCapInfo.PlusHTC = pHtCap->ExtHtCapInfo.PlusHTC;
-	if (pAd->CommonCfg.bRdg)
-	{
+	if (pAd->CommonCfg.bRdg) {
 		pAd->MlmeAux.HtCapability.ExtHtCapInfo.RDGSupport = pHtCap->ExtHtCapInfo.RDGSupport;
 		pAd->MlmeAux.HtCapability.ExtHtCapInfo.PlusHTC = 1;
 	}
 
-    if (pAd->MlmeAux.HtCapability.HtCapInfo.ChannelWidth == BW_20)
-        pAd->MlmeAux.HtCapability.MCSSet[4] = 0x0;  /* BW20 can't transmit MCS32*/
+	if (pAd->MlmeAux.HtCapability.HtCapInfo.ChannelWidth == BW_20)
+		pAd->MlmeAux.HtCapability.MCSSet[4] = 0x0;  /* BW20 can't transmit MCS32*/
 
 	if (pAd->chipCap.FlgHwTxBfCap)
 	    setETxBFCap(pAd, &pAd->MlmeAux.HtCapability.TxBFCap);
