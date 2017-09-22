@@ -155,21 +155,20 @@ static VOID APPeerDeauthReqAction(
 
 
 
-    if (! PeerDeauthReqSanity(pAd, Elem->Msg, Elem->MsgLen, Addr2, &SeqNum, &Reason))
-        return;
+	if (!PeerDeauthReqSanity(pAd, Elem->Msg, Elem->MsgLen, Addr2, &SeqNum, &Reason))
+		return;
 
 	pEntry = NULL;
 
 	/*pEntry = MacTableLookup(pAd, Addr2); */
-	if (Elem->Wcid < MAX_LEN_OF_MAC_TABLE)
-    {
+	if (Elem->Wcid < MAX_LEN_OF_MAC_TABLE) {
 		pEntry = &pAd->MacTab.Content[Elem->Wcid];
 
 #ifdef DOT1X_SUPPORT
 		/* Notify 802.1x daemon to clear this sta info */
 		if (pEntry->AuthMode == Ndis802_11AuthModeWPA ||
-			pEntry->AuthMode == Ndis802_11AuthModeWPA2 ||
-			pAd->ApCfg.MBSSID[pEntry->apidx].wdev.IEEE8021X)
+		    pEntry->AuthMode == Ndis802_11AuthModeWPA2 ||
+		    pAd->ApCfg.MBSSID[pEntry->apidx].wdev.IEEE8021X)
 			DOT1X_InternalCmdAction(pAd, pEntry, DOT1X_DISCONNECT_ENTRY);
 #endif /* DOT1X_SUPPORT */
 
@@ -178,23 +177,22 @@ static VOID APPeerDeauthReqAction(
 		RTMPSendWirelessEvent(pAd, IW_DEAUTH_EVENT_FLAG, Addr2, 0, 0);
 		ApLogEvent(pAd, Addr2, EVENT_DISASSOCIATED);
 
-        if (pEntry->CMTimerRunning == true)
-        {
-		/*
-			If one who initilized Counter Measure deauth itself,
-			AP doesn't log the MICFailTime
-		*/
-		pAd->ApCfg.aMICFailTime = pAd->ApCfg.PrevaMICFailTime;
-        }
+	        if (pEntry->CMTimerRunning == true) {
+			/*
+				If one who initilized Counter Measure deauth itself,
+				AP doesn't log the MICFailTime
+			*/
+			pAd->ApCfg.aMICFailTime = pAd->ApCfg.PrevaMICFailTime;
+	        }
 
 		MacTableDeleteEntry(pAd, Elem->Wcid, Addr2);
 
-        DBGPRINT(RT_DEBUG_TRACE,
+		DBGPRINT(RT_DEBUG_TRACE,
 				("AUTH - receive DE-AUTH(seq-%d) from "
 				 "%02x:%02x:%02x:%02x:%02x:%02x, reason=%d\n",
 				 SeqNum, PRINT_MAC(Addr2), Reason));
 
-    }
+	}
 }
 
 
