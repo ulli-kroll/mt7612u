@@ -36,42 +36,36 @@ VOID RtmpDrvRateGet(
 
 	DBGPRINT(RT_DEBUG_TRACE,("<==== %s \nMODE: %x shortGI: %x BW: %x MCS: %x Antenna: %x \n"
 		,__FUNCTION__,MODE,ShortGI,BW,MCS,Antenna));
-	if((BW >= Rate_BW_MAX) || (ShortGI >= Rate_GI_MAX) || (BW >= Rate_BW_MAX))
-	{
+	if((BW >= Rate_BW_MAX) ||
+	   (ShortGI >= Rate_GI_MAX) ||
+	   (BW >= Rate_BW_MAX)) {
 		DBGPRINT(RT_DEBUG_ERROR,("<==== %s MODE: %x shortGI: %x BW: %x MCS: %x Antenna: %x , param error\n",__FUNCTION__,MODE,ShortGI,BW,MCS,Antenna));
 		return;
 	}
 
-    if (MODE >= MODE_VHT)
-    {
-		if(MCS_1NSS > 9)
-		{
+	if (MODE >= MODE_VHT) {
+		if(MCS_1NSS > 9) {
 			Antenna = (MCS / 10)+1;
 			MCS_1NSS %= 10;
 		}
-        *pRate = RalinkRate_VHT_1NSS[BW][ShortGI][MCS_1NSS];
-    }
-    else
-
-	if ((MODE >= MODE_HTMIX) && (MODE < MODE_VHT))
-	{
-		if(MCS_1NSS > 7)
-		{
-			Antenna = (MCS / 8)+1;
-			MCS_1NSS %= 8;
+		*pRate = RalinkRate_VHT_1NSS[BW][ShortGI][MCS_1NSS];
+	} else {
+		if ((MODE >= MODE_HTMIX) && (MODE < MODE_VHT)) {
+			if(MCS_1NSS > 7) {
+				Antenna = (MCS / 8)+1;
+				MCS_1NSS %= 8;
+			}
+			*pRate = RalinkRate_HT_1NSS[BW][ShortGI][MCS_1NSS];
+		} else {
+			if (MODE == MODE_OFDM)
+				*pRate = RalinkRate_Legacy[MCS_1NSS+4];
+			else
+				*pRate = RalinkRate_Legacy[MCS_1NSS];
 		}
-		*pRate = RalinkRate_HT_1NSS[BW][ShortGI][MCS_1NSS];
 	}
-	else
-	if (MODE == MODE_OFDM)
-		*pRate = RalinkRate_Legacy[MCS_1NSS+4];
-	else
-		*pRate = RalinkRate_Legacy[MCS_1NSS];
-
-
 
 	*pRate *= 500000;
-    if (MODE >= MODE_HTMIX)
+	if (MODE >= MODE_HTMIX)
 		*pRate *= Antenna;
 
 	DBGPRINT(RT_DEBUG_TRACE,("=====> %s \nMODE: %x shortGI: %x BW: %x MCS: %x Antenna: %x  Rate = %d\n"
