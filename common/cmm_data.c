@@ -813,11 +813,10 @@ static u8 TxPktClassification(struct rtmp_adapter *pAd, struct sk_buff * pPacket
 	bool	 bHTRate = false;
 
 	Wcid = RTMP_GET_PACKET_WCID(pPacket);
-	if (Wcid == MCAST_WCID)
-	{	/* Handle for RA is Broadcast/Multicast Address.*/
+	if (Wcid == MCAST_WCID) {
+		/* Handle for RA is Broadcast/Multicast Address.*/
 #ifdef CONFIG_AP_SUPPORT
-		IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
-		{
+		IF_DEV_CONFIG_OPMODE_ON_AP(pAd) {
 			// TODO: shiang-6590, fix me!
 			u8 apidx = RTMP_GET_PACKET_NET_DEVICE_MBSSID(pPacket);
 			if (apidx < pAd->ApCfg.BssidNum)
@@ -833,20 +832,18 @@ static u8 TxPktClassification(struct rtmp_adapter *pAd, struct sk_buff * pPacket
 	/* Handle for unicast packets*/
 	pMacEntry = &pAd->MacTab.Content[Wcid];
 	pTxBlk->wdev = pMacEntry->wdev;
-	if (RTMP_GET_PACKET_LOWRATE(pPacket))
-	{	/* It's a specific packet need to force low rate, i.e., bDHCPFrame, bEAPOLFrame, bWAIFrame*/
+	if (RTMP_GET_PACKET_LOWRATE(pPacket)) {
+		/* It's a specific packet need to force low rate, i.e., bDHCPFrame, bEAPOLFrame, bWAIFrame*/
 		TxFrameType = TX_LEGACY_FRAME;
-	}
-	else if (IS_HT_RATE(pMacEntry))
-	{	/* it's a 11n capable packet*/
+	} else if (IS_HT_RATE(pMacEntry)) {
+		/* it's a 11n capable packet*/
 
 		/* Depends on HTPhyMode to check if the peer support the HTRate transmission.*/
 		/* 	Currently didn't support A-MSDU embedded in A-MPDU*/
 		bHTRate = true;
-		TxFrameType = TX_UNKOWN_FRAME;
 
-		if (pMacEntry->TxSndgType == SNDG_TYPE_NDP && IS_VHT_RATE(pMacEntry))
-		{
+		if (pMacEntry->TxSndgType == SNDG_TYPE_NDP &&
+		    IS_VHT_RATE(pMacEntry)) {
 			TxFrameType = TX_NDPA_FRAME;
 		}
 
@@ -858,25 +855,22 @@ static u8 TxPktClassification(struct rtmp_adapter *pAd, struct sk_buff * pPacket
 #endif /* WFA_VHT_PF */
 		else if ((pMacEntry->TXBAbitmap & (1<<(RTMP_GET_PACKET_UP(pPacket)))) != 0)
 			return (TxFrameType | TX_AMPDU_FRAME);
-		else if(CLIENT_STATUS_TEST_FLAG(pMacEntry, fCLIENT_STATUS_AMSDU_INUSED)
-		)
+		else if(CLIENT_STATUS_TEST_FLAG(pMacEntry, fCLIENT_STATUS_AMSDU_INUSED))
 			return (TxFrameType | TX_AMSDU_FRAME);
 		else
 			TxFrameType |= TX_LEGACY_FRAME;
 
-	}
-	else
-	{	/* it's a legacy b/g packet.*/
+	} else {
+		/* it's a legacy b/g packet.*/
 
-		if ((CLIENT_STATUS_TEST_FLAG(pMacEntry, fCLIENT_STATUS_AGGREGATION_CAPABLE) && pAd->CommonCfg.bAggregationCapable) &&
-			(RTMP_GET_PACKET_TXRATE(pPacket) >= RATE_6) &&
-			(!(OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_WMM_INUSED) && CLIENT_STATUS_TEST_FLAG(pMacEntry, fCLIENT_STATUS_WMM_CAPABLE)))
-		)
-		{	/* if peer support Ralink Aggregation, we use it.*/
+		if ((CLIENT_STATUS_TEST_FLAG(pMacEntry, fCLIENT_STATUS_AGGREGATION_CAPABLE) &&
+		    pAd->CommonCfg.bAggregationCapable) &&
+		    (RTMP_GET_PACKET_TXRATE(pPacket) >= RATE_6) &&
+		    (!(OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_WMM_INUSED) &&
+		    CLIENT_STATUS_TEST_FLAG(pMacEntry, fCLIENT_STATUS_WMM_CAPABLE)))) {
+				/* if peer support Ralink Aggregation, we use it.*/
 			TxFrameType |= TX_RALINK_FRAME;
-		}
-		else
-		{
+		} else {
 			TxFrameType |= TX_LEGACY_FRAME;
 
 		}
@@ -884,11 +878,10 @@ static u8 TxPktClassification(struct rtmp_adapter *pAd, struct sk_buff * pPacket
 
 	/* Currently, our fragment only support when a unicast packet send as NOT-ARALINK, NOT-AMSDU and NOT-AMPDU.*/
 
-	if ((RTMP_GET_PACKET_FRAGMENTS(pPacket) > 1)
-		 && (TxFrameType == TX_LEGACY_FRAME)
-		 || (TxFrameType == (TX_LEGACY_FRAME | TX_NDPA_FRAME))
-		&& ((pMacEntry->TXBAbitmap & (1<<(RTMP_GET_PACKET_UP(pPacket)))) == 0)
-		)
+	if ((RTMP_GET_PACKET_FRAGMENTS(pPacket) > 1)  &&
+	    /* ULLI : we must honour TX_RALINK_FRAME ?? */
+	    ((TxFrameType == TX_LEGACY_FRAME) || (TxFrameType == (TX_LEGACY_FRAME | TX_NDPA_FRAME))) &&
+	    ((pMacEntry->TXBAbitmap & (1<<(RTMP_GET_PACKET_UP(pPacket)))) == 0))
 		TxFrameType = TX_FRAG_FRAME;
 
 	return TxFrameType;
