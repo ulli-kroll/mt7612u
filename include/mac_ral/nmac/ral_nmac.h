@@ -358,7 +358,7 @@ typedef struct GNU_PACKED _RX_WIFI_INFO{
 
 
 #ifdef RT_BIG_ENDIAN
-typedef struct GNU_PACKED _RXFCE_INFO{
+struct __attribute__ ((packed)) mt7612u_struct mt7612u_rxfce_info_pkt {
 	uint32_t info_type:2;
 	uint32_t s_port:3;
 	uint32_t qsel:2;
@@ -373,9 +373,9 @@ typedef struct GNU_PACKED _RXFCE_INFO{
 
 	uint32_t rsv:2;
 	uint32_t pkt_len:14;
-}RXFCE_INFO;
+};
 #else
-typedef struct GNU_PACKED _RXFCE_INFO{
+struct __attribute__ ((packed)) mt7612u_rxfce_info_pkt{
 	uint32_t pkt_len:14;
 	uint32_t rsv:2;
 
@@ -390,7 +390,7 @@ typedef struct GNU_PACKED _RXFCE_INFO{
 	uint32_t qsel:2;
 	uint32_t s_port:3;
 	uint32_t info_type:2;
-}RXFCE_INFO;
+};
 #endif /* RT_BIG_ENDIAN */
 
 #ifdef RT_BIG_ENDIAN
@@ -1011,7 +1011,7 @@ VOID dump_rlt_rxinfo(struct rtmp_adapter *pAd, struct mt7612u_rxinfo *pRxInfo);
 VOID dump_rlt_txinfo(struct rtmp_adapter *pAd, union _TXINFO_STRUC *pTxInfo);
 VOID dump_rlt_txwi(struct rtmp_adapter *pAd, union _TXWI_STRUC *pTxWI);
 VOID dump_rlt_rxwi(struct rtmp_adapter *pAd, struct mt7612u_rxwi *pRxWI);
-VOID dumpRxFCEInfo(struct rtmp_adapter *pAd, RXFCE_INFO *pRxFceInfo);
+VOID dumpRxFCEInfo(struct rtmp_adapter *pAd, struct mt7612u_rxfce_info_pkt *pRxFceInfo);
 
 INT rlt_get_rxwi_phymode(struct mt7612u_rxwi *rxwi);
 INT rlt_get_rxwi_rssi(struct mt7612u_rxwi *rxwi, INT size, CHAR *rssi);

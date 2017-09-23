@@ -972,7 +972,7 @@ struct sk_buff *GetPacketFromRxRing(
 	struct mt7612u_rxwi *pRxWI;
 	UINT8 RXWISize = pAd->chipCap.RXWISize;
 	struct mt7612u_rxinfo *pRxInfo;
-	RXFCE_INFO *pRxFceInfo;
+	struct mt7612u_rxfce_info_pkt *pRxFceInfo;
 
 	pRxContext = &pAd->RxContext[pAd->NextRxBulkInReadIndex];
 	if ((pRxContext->Readable == false) || (pRxContext->InUse == true))
@@ -981,7 +981,7 @@ struct sk_buff *GetPacketFromRxRing(
 	RxBufferLength = pRxContext->BulkInOffset - pAd->ReadPosition;
 	valid_len = RXDMA_FIELD_SIZE + RXWISize + sizeof(struct mt7612u_rxinfo);
 
-	valid_len += sizeof(RXFCE_INFO);
+	valid_len += sizeof(struct mt7612u_rxfce_info_pkt);
 
 	if (RxBufferLength < valid_len)
 		return NULL;
@@ -1019,7 +1019,7 @@ if (0) {
 	{
 		struct mt7612u_rxwi *rxwi_n;
 		pRxInfo = (struct mt7612u_rxinfo *)pData;
-		pRxFceInfo = (RXFCE_INFO *)(pData + ThisFrameLen);
+		pRxFceInfo = (struct mt7612u_rxfce_info_pkt *)(pData + ThisFrameLen);
 		pData += RXINFO_SIZE;
 		pRxWI = (struct mt7612u_rxwi *)pData;
 		rxwi_n = (struct mt7612u_rxwi *)pData;;
@@ -1075,8 +1075,8 @@ if (0) {
 	RTMPDescriptorEndianChange((u8 *)pRxInfo, TYPE_RXINFO);
 #endif /* RT_BIG_ENDIAN */
 
-	memmove((VOID *)&pRxBlk->hw_rx_info[0], (VOID *)pRxFceInfo, sizeof(RXFCE_INFO));
-	pRxBlk->pRxFceInfo = (RXFCE_INFO *)&pRxBlk->hw_rx_info[0];
+	memmove((VOID *)&pRxBlk->hw_rx_info[0], (VOID *)pRxFceInfo, sizeof(struct mt7612u_rxfce_info_pkt));
+	pRxBlk->pRxFceInfo = (struct mt7612u_rxfce_info_pkt *)&pRxBlk->hw_rx_info[0];
 
 	memmove(&pRxBlk->hw_rx_info[RXINFO_OFFSET], pRxInfo, RXINFO_SIZE);
 	pRxBlk->pRxInfo = (struct mt7612u_rxinfo *)&pRxBlk->hw_rx_info[RXINFO_OFFSET];

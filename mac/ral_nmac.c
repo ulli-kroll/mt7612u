@@ -57,9 +57,9 @@ INT rlt_get_rxwi_snr(struct rtmp_adapter *pAd, struct mt7612u_rxwi *rxwi, INT si
 
 
 
-VOID dumpRxFCEInfo(struct rtmp_adapter *pAd, RXFCE_INFO *pRxFceInfo)
+VOID dumpRxFCEInfo(struct rtmp_adapter *pAd, struct mt7612u_rxfce_info_pkt *pRxFceInfo)
 {
-	hex_dump("RxFCEInfo Raw Data", (u8 *)pRxFceInfo, sizeof(RXFCE_INFO));
+	hex_dump("RxFCEInfo Raw Data", (u8 *)pRxFceInfo, sizeof(struct mt7612u_rxfce_info_pkt));
 
 	DBGPRINT(RT_DEBUG_OFF, ("RxFCEInfo Fields:\n"));
 
