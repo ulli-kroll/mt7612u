@@ -86,7 +86,7 @@ typedef	union GNU_PACKED _HW_RATE_CTRL_STRUCT_ {
 */
 #define RXINFO_SIZE			4
 #ifdef RT_BIG_ENDIAN
-typedef	struct GNU_PACKED _RXINFO_STRUC {
+struct __attribute__ ((packed))  mt7612u_rxinfo {
 	uint32_t 	hdr_trans_ip_sum_err:1;		/* IP checksum error */
 	uint32_t 	vlan_taged_tcp_sum_err:1;	/* TCP checksum error */
 	uint32_t 	rsv:1;
@@ -116,9 +116,9 @@ typedef	struct GNU_PACKED _RXINFO_STRUC {
 	uint32_t 	NULLDATA:1;
 	uint32_t 	DATA:1;
 	uint32_t 	BA:1;
-}	RXINFO_STRUC, *PRXINFO_STRUC;
+};
 #else
-typedef	struct GNU_PACKED _RXINFO_STRUC {
+struct __attribute__ ((packed))  mt7612u_rxinfo {
 	uint32_t 	BA:1;
 	uint32_t 	DATA:1;
 	uint32_t 	NULLDATA:1;
@@ -148,7 +148,7 @@ typedef	struct GNU_PACKED _RXINFO_STRUC {
 	uint32_t      rsv:1;
 	uint32_t 	vlan_taged_tcp_sum_err:1;
 	uint32_t 	hdr_trans_ip_sum_err:1;
-}RXINFO_STRUC, *PRXINFO_STRUC;
+};
 #endif
 
 

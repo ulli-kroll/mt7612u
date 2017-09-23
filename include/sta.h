@@ -54,7 +54,7 @@ INT RTMPCheckRxError(
 	IN struct rtmp_adapter *pAd,
 	IN HEADER_802_11 *pHeader,
 	IN RX_BLK *pRxBlk,
-	IN RXINFO_STRUC *pRxInfo);
+	IN struct mt7612u_rxinfo *pRxInfo);
 
 VOID WpaMicFailureReportFrame(
 	IN  struct rtmp_adapter *   pAd,

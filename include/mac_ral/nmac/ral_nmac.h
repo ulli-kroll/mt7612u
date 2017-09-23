@@ -420,74 +420,6 @@ typedef struct GNU_PACKED _RXFCE_INFO_CMD{
 #endif
 
 
-#ifdef RT_BIG_ENDIAN
-typedef struct GNU_PACKED _RXINFO_NMAC{
-	uint32_t hdr_trans:1;
-	uint32_t vlan_tag:1;
-	uint32_t rsv:1;
-	uint32_t action_wanted:1;
-	uint32_t deauth:1;
-	uint32_t disasso:1;
-	uint32_t beacon:1;
-	uint32_t probe_rsp:1;
-	uint32_t sw_fc_type1:1;
-	uint32_t sw_fc_type0:1;
-	uint32_t pn_len:3;
-	uint32_t wapi_kid:1;
-	uint32_t bssid_idx3:1;
-	uint32_t dec:1;
-	uint32_t ampdu:1;
-	uint32_t l2pad:1;
-	uint32_t rssi:1;
-	uint32_t htc:1;
-	uint32_t amsdu:1;
-	uint32_t mic_err:1;
-	uint32_t icv_err:1;
-	uint32_t crc_err:1;
-	uint32_t mybss:1;
-	uint32_t bc:1;
-	uint32_t mc:1;
-	uint32_t u2me:1;
-	uint32_t frag:1;
-	uint32_t null:1;
-	uint32_t data:1;
-	uint32_t ba:1;
-}RXINFO_NMAC;
-#else
-typedef struct GNU_PACKED _RXINFO_NMAC{
-	uint32_t ba:1;
-	uint32_t data:1;
-	uint32_t null:1;
-	uint32_t frag:1;
-	uint32_t u2me:1;
-	uint32_t mcast:1;
-	uint32_t bcast:1;
-	uint32_t mybss:1;
-	uint32_t crc_err:1;
-	uint32_t icv_err:1;
-	uint32_t mic_err:1;
-	uint32_t amsdu:1;
-	uint32_t htc:1;
-	uint32_t rssi:1;
-	uint32_t l2pad:1;
-	uint32_t ampdu:1;
-	uint32_t dec:1;
-	uint32_t bssid_idx3:1;
-	uint32_t wapi_kid:1;
-	uint32_t pn_len:3;
-	uint32_t sw_fc_type0:1;
-	uint32_t sw_fc_type1:1;
-	uint32_t probe_rsp:1;
-	uint32_t beacon:1;
-	uint32_t disasso:1;
-	uint32_t deauth:1;
-	uint32_t action_wanted:1;
-	uint32_t rsv:1;
-	uint32_t vlan_tag:1;
-	uint32_t hdr_trans:1;
-}RXINFO_NMAC;
-#endif /* RT_BIG_ENDIAN */
-
 
 /*
 	RXWI wireless information format.
@@ -1071,12 +1003,12 @@ typedef union _RF_MISC_STRUC{
 #define RLT_WAPI_PN_ENTRY_SIZE   		8
 
 struct rtmp_adapter;
-struct _RXINFO_STRUC;
+struct mt7612u_rxinfo;
 union _TXINFO_STRUC;
 union _TXWI_STRUC;
 union _RXWI_STRUC;
 
-VOID dump_rlt_rxinfo(struct rtmp_adapter *pAd, struct _RXINFO_STRUC *pRxInfo);
+VOID dump_rlt_rxinfo(struct rtmp_adapter *pAd, struct mt7612u_rxinfo *pRxInfo);
 VOID dump_rlt_txinfo(struct rtmp_adapter *pAd, union _TXINFO_STRUC *pTxInfo);
 VOID dump_rlt_txwi(struct rtmp_adapter *pAd, union _TXWI_STRUC *pTxWI);
 VOID dump_rlt_rxwi(struct rtmp_adapter *pAd, union _RXWI_STRUC *pRxWI);

@@ -2295,7 +2295,7 @@ int APHardTransmit(struct rtmp_adapter *pAd, TX_BLK *pTxBlk, u8 QueIdx)
 		Check Rx descriptor, return NDIS_STATUS_FAILURE if any error found
 	========================================================================
 */
-INT APCheckRxError(struct rtmp_adapter *pAd, RXINFO_STRUC *pRxInfo, RX_BLK *pRxBlk)
+INT APCheckRxError(struct rtmp_adapter *pAd, struct mt7612u_rxinfo *pRxInfo, RX_BLK *pRxBlk)
 {
 	if (pRxInfo->Crc || pRxInfo->CipherErr)
 	{
@@ -2617,7 +2617,7 @@ VOID dynamic_tune_be_tx_op(struct rtmp_adapter *pAd, ULONG nonBEpackets)
 VOID APRxErrorHandle(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 {
 	MAC_TABLE_ENTRY *pEntry = NULL;
-	RXINFO_STRUC *pRxInfo = pRxBlk->pRxInfo;
+	struct mt7612u_rxinfo *pRxInfo = pRxBlk->pRxInfo;
 	PCIPHER_KEY pWpaKey;
 	u8 						FromWhichBSSID = BSS0;
 	u8 		Wcid;
@@ -2980,7 +2980,7 @@ VOID APRxDataFrameAnnounce(
 */
 VOID APHandleRxDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 {
-	RXINFO_STRUC *pRxInfo = pRxBlk->pRxInfo;
+	struct mt7612u_rxinfo *pRxInfo = pRxBlk->pRxInfo;
 	RXWI_STRUC *pRxWI = pRxBlk->pRxWI;
 	HEADER_802_11 *pHeader = pRxBlk->pHeader;
 	struct sk_buff *pRxPacket = pRxBlk->pRxPacket;

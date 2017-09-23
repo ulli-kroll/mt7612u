@@ -971,7 +971,7 @@ struct sk_buff *GetPacketFromRxRing(
 	ULONG ThisFrameLen, RxBufferLength, valid_len;
 	RXWI_STRUC *pRxWI;
 	UINT8 RXWISize = pAd->chipCap.RXWISize;
-	RXINFO_STRUC *pRxInfo;
+	struct mt7612u_rxinfo *pRxInfo;
 	RXFCE_INFO *pRxFceInfo;
 
 	pRxContext = &pAd->RxContext[pAd->NextRxBulkInReadIndex];
@@ -979,7 +979,7 @@ struct sk_buff *GetPacketFromRxRing(
 		return NULL;
 
 	RxBufferLength = pRxContext->BulkInOffset - pAd->ReadPosition;
-	valid_len = RXDMA_FIELD_SIZE + RXWISize + sizeof(RXINFO_STRUC);
+	valid_len = RXDMA_FIELD_SIZE + RXWISize + sizeof(struct mt7612u_rxinfo);
 
 	valid_len += sizeof(RXFCE_INFO);
 
@@ -1018,7 +1018,7 @@ if (0) {
 
 	{
 		struct _RXWI_NMAC *rxwi_n;
-		pRxInfo = (RXINFO_STRUC *)pData;
+		pRxInfo = (struct mt7612u_rxinfo *)pData;
 		pRxFceInfo = (RXFCE_INFO *)(pData + ThisFrameLen);
 		pData += RXINFO_SIZE;
 		pRxWI = (RXWI_STRUC *)pData;
@@ -1079,7 +1079,7 @@ if (0) {
 	pRxBlk->pRxFceInfo = (RXFCE_INFO *)&pRxBlk->hw_rx_info[0];
 
 	memmove(&pRxBlk->hw_rx_info[RXINFO_OFFSET], pRxInfo, RXINFO_SIZE);
-	pRxBlk->pRxInfo = (RXINFO_STRUC *)&pRxBlk->hw_rx_info[RXINFO_OFFSET];
+	pRxBlk->pRxInfo = (struct mt7612u_rxinfo *)&pRxBlk->hw_rx_info[RXINFO_OFFSET];
 
 	/* update next packet read position.*/
 	pAd->ReadPosition += (ThisFrameLen + RXDMA_FIELD_SIZE + RXINFO_SIZE);	/* 8 for (RXDMA_FIELD_SIZE + sizeof(RXINFO_STRUC))*/

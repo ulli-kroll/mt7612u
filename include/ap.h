@@ -84,7 +84,7 @@ VOID APHandleRxDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk);
 
 VOID APRxErrorHandle(struct rtmp_adapter *pAd, RX_BLK *pRxBlk);
 
-INT APCheckRxError(struct rtmp_adapter *pAd, RXINFO_STRUC *pRxInfo, RX_BLK *pRxBlk);
+INT APCheckRxError(struct rtmp_adapter *pAd, struct mt7612u_rxinfo *pRxInfo, RX_BLK *pRxBlk);
 
 bool APChkCls2Cls3Err(
 	IN struct rtmp_adapter *pAd,

@@ -2832,7 +2832,7 @@ VOID dev_rx_mgmt_frm(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 #ifdef CONFIG_AP_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 	{
-		RXINFO_STRUC *pRxInfo = pRxBlk->pRxInfo;
+		struct mt7612u_rxinfo *pRxInfo = pRxBlk->pRxInfo;
 
 		op_mode = OPMODE_AP;
 
@@ -3121,7 +3121,7 @@ bool rtmp_rx_done_handle(struct rtmp_adapter *pAd)
 	uint32_t RxProcessed, RxPending;
 	bool bReschedule = false;
 	RXD_STRUC *pRxD;
-	RXINFO_STRUC *pRxInfo;
+	struct mt7612u_rxinfo *pRxInfo;
 	u8 *pData;
 	RXWI_STRUC *pRxWI;
 	struct sk_buff *pRxPacket;
