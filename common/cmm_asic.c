@@ -2157,8 +2157,9 @@ INT AsicSetPreTbttInt(struct rtmp_adapter *pAd, bool enable)
 	return true;
 }
 
+/* ULLI : we need a better name here ... */
 
-bool AsicWaitPDMAIdle(struct rtmp_adapter *pAd, INT round, INT wait_us)
+bool mt7612u_wait_pdma_usecs(struct rtmp_adapter *pAd, int round, int wait_us)
 {
 	INT i = 0;
 	WPDMA_GLO_CFG_STRUC GloCfg;

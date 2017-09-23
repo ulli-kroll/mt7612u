@@ -459,7 +459,7 @@ VOID RTMPDrvOpen(struct rtmp_adapter *pAdSrc)
 
 //+++Add by shiang for debug
 	DBGPRINT(RT_DEBUG_OFF, ("%s(1):Check if PDMA is idle!\n", __FUNCTION__));
-	AsicWaitPDMAIdle(pAd, 5, 10);
+	mt7612u_wait_pdma_usecs(pAd, 5, 10);
 //---Add by shiang for debug
 
 #ifdef CONFIG_STA_SUPPORT
@@ -472,7 +472,7 @@ VOID RTMPDrvOpen(struct rtmp_adapter *pAdSrc)
 #endif /* CONFIG_STA_SUPPORT */
 //+++Add by shiang for debug
 	DBGPRINT(RT_DEBUG_OFF, ("%s(2):Check if PDMA is idle!\n", __FUNCTION__));
-	AsicWaitPDMAIdle(pAd, 5, 10);
+	mt7612u_wait_pdma_usecs(pAd, 5, 10);
 //---Add by shiang for debug
 
 #ifdef CONFIG_STA_SUPPORT

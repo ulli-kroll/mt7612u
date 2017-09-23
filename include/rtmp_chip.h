@@ -653,7 +653,7 @@ extern FREQUENCY_ITEM *FreqItems3020;
 extern RTMP_RF_REGS RF2850RegTable[];
 extern u8 NUM_OF_2850_CHNL;
 
-bool AsicWaitPDMAIdle(struct rtmp_adapter *pAd, INT round, INT wait_us);
+bool mt7612u_wait_pdma_usecs(struct rtmp_adapter *pAd, INT round, INT wait_us);
 INT AsicSetPreTbttInt(struct rtmp_adapter *pAd, bool enable);
 INT AsicReadAggCnt(struct rtmp_adapter *pAd, ULONG *aggCnt, int cnt_len);
 

@@ -748,7 +748,7 @@ int NICInitializeAdapter(struct rtmp_adapter *pAd, bool bHardReset)
 	/* Set DMA global configuration except TX_DMA_EN and RX_DMA_EN bits */
 retry:
 
-	if (AsicWaitPDMAIdle(pAd, 100, 1000) != true) {
+	if (mt7612u_wait_pdma_usecs(pAd, 100, 1000) != true) {
 		if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST))
 			return NDIS_STATUS_FAILURE;
 	}
