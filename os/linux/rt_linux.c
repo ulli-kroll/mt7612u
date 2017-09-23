@@ -152,19 +152,6 @@ static inline VOID __RTMP_OS_Release_Timer(
 	/* nothing to do */
 }
 
-
-/* Unify all delay routine by using udelay */
-VOID RtmpusecDelay(ULONG usec)
-{
-	ULONG i;
-
-	for (i = 0; i < (usec / 50); i++)
-		udelay(50);
-
-	if (usec % 50)
-		udelay(usec % 50);
-}
-
 void RTMP_GetCurrentSystemTime(LARGE_INTEGER * time)
 {
 	time->u.LowPart = jiffies;

@@ -1516,7 +1516,7 @@ VOID ApUpdateAccessControlList(struct rtmp_adapter *pAd, u8 Apidx)
 				MiniportMMRequest(pAd, 0, pOutBuffer, FrameLen);
 				kfree(pOutBuffer);
 
-				RtmpusecDelay(5000);
+				mdelay(5);
 			}
 			MacTableDeleteEntry(pAd, pEntry->wcid, pEntry->Addr);
 		}

@@ -2173,7 +2173,7 @@ bool mt7612u_wait_pdma_usecs(struct rtmp_adapter *pAd, int round, int wait_us)
 		}
 		if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST))
 			return false;
-		RtmpusecDelay(wait_us);
+		udelay(wait_us);
 	}while ((i++) < round);
 
 	DBGPRINT(RT_DEBUG_TRACE, ("==>  DMABusy, GloCfg=0x%x\n", GloCfg.word));

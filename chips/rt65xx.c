@@ -159,7 +159,7 @@ static void StopDmaRx(struct rtmp_adapter *pAd)
 		MacReg = mt7612u_usb_cfg_read_v3(pAd);
 		if ((MacReg & 0x40000000) && (IdleNums < 10)) {
 			IdleNums++;
-			RtmpusecDelay(50);
+			udelay(50);
 		} else {
 			break;
 		}
@@ -191,7 +191,7 @@ static void StopDmaTx(struct rtmp_adapter *pAd)
 			break;
 		} else {
 			IdleNums++;
-			RtmpusecDelay(50);
+			udelay(50);
 		}
 
 		if (MacReg == 0xFFFFFFFF) {

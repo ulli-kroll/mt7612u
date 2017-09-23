@@ -65,7 +65,7 @@ int mt7612u_phy_init_bbp(struct rtmp_adapter *pAd)
 			break;
 
 		DBGPRINT(RT_DEBUG_TRACE, ("Check if MAC_STATUS_CFG is busy(=%x)\n", val));
-		RtmpusecDelay(1000);
+		mdelay(1);
 	} while (Index++ < 100);
 
 	/* Read BBP register, make sure BBP is up and running before write new data*/

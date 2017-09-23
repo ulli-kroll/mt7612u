@@ -819,7 +819,7 @@ VOID MlmeDynamicTxRateSwitching(
 				TxRtyCfg.field.ShortRtyLimit = 0x0;
 				mt7612u_write32(pAd, TX_RTY_CFG, TxRtyCfg.word);
 
-				RtmpusecDelay(1);
+				udelay(1);
 
 				Index = 0;
 				MACValue = 0;
@@ -829,7 +829,7 @@ VOID MlmeDynamicTxRateSwitching(
 					if ((MACValue & 0xffffff) == 0)
 						break;
 					Index++;
-					RtmpusecDelay(1000);
+					mdelay(1);
 				}while((Index < 330)&&(!RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_HALT_IN_PROGRESS)));
 
 				TxRtyCfg.word = mt7612u_read32(pAd, TX_RTY_CFG);

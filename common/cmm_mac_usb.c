@@ -1191,7 +1191,7 @@ VOID RT28xxUsbMlmeRadioOFF(struct rtmp_adapter *pAd)
 				MlmeDisassocReqAction(pAd, pMsgElem);
 				kfree(pMsgElem);
 
-				RtmpusecDelay(1000);
+				mdelay(1);
 			}
 		}
 	}
@@ -1205,7 +1205,8 @@ VOID RT28xxUsbMlmeRadioOFF(struct rtmp_adapter *pAd)
 		/* Link down first if any association exists*/
 		if (INFRA_ON(pAd) || ADHOC_ON(pAd))
 			LinkDown(pAd, false);
-		RtmpusecDelay(10000);
+
+		mdelay(10);
 
 		/*==========================================*/
 		/* Clean up old bss table*/
@@ -1256,7 +1257,7 @@ bool AsicCheckCommandOk(
 			break;
 		}
 
-		RtmpusecDelay(100);
+		udelay(100);
 		i++;
 	} while (i < 200);
 

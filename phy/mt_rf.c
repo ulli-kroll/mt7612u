@@ -58,7 +58,7 @@ int mt_rf_write(
 			break;
 		i++;
 		//RtmpOsMsDelay(1);
-		RtmpusecDelay(50);
+		udelay(50);
 	//} while ((i < MAX_BUSY_COUNT) && (!RTMP_TEST_FLAG(ad, fRTMP_ADAPTER_NIC_NOT_EXIST)));
 	} while ((i < MAX_BUSY_COUNT_US) && (!RTMP_TEST_FLAG(ad, fRTMP_ADAPTER_NIC_NOT_EXIST)));
 

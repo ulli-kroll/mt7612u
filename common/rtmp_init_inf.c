@@ -562,7 +562,7 @@ VOID RTMPDrvClose(struct rtmp_adapter *pAd, struct net_device *net_dev)
 		while (pAd->DeQueueRunning[i] == true)
 		{
 			DBGPRINT(RT_DEBUG_TRACE, ("Waiting for TxQueue[%d] done..........\n", i));
-			RtmpusecDelay(1000);
+			mdelay(1);
 		}
 	}
 
@@ -669,7 +669,7 @@ VOID RTMPDrvClose(struct rtmp_adapter *pAd, struct net_device *net_dev)
 	memset(&pAd->MacTab, 0, sizeof(struct mt7612u_mac_table));
 
 	/* release all timers */
-	RtmpusecDelay(2000);
+	mdelay(2);
 	RTMP_AllTimerListRelease(pAd);
 
 
@@ -699,7 +699,7 @@ VOID RTMPInfClose(struct rtmp_adapter *pAd)
 	{
 #ifdef PROFILE_STORE
 		WriteDatThread(pAd);
-		RtmpusecDelay(1000);
+		mdelay(1);
 #endif /* PROFILE_STORE */
 
 		if (INFRA_ON(pAd) &&
@@ -727,7 +727,7 @@ VOID RTMPInfClose(struct rtmp_adapter *pAd)
 				kfree(MsgElem);
 			}
 
-			RtmpusecDelay(1000);
+			mdelay(1);
 		}
 
 #ifdef WPA_SUPPLICANT_SUPPORT

@@ -1145,7 +1145,7 @@ VOID	RTUSBCancelPendingBulkOutIRP(
 			usb_kill_urb(pHTTXContext->pUrb);
 
 			/* Sleep 200 microseconds to give cancellation time to work*/
-			RtmpusecDelay(200);
+			udelay(200);
 		}
 
 		pAd->BulkOutPending[Idx] = false;
@@ -1167,7 +1167,7 @@ VOID	RTUSBCancelPendingBulkOutIRP(
 			pMLMEContext->IRPPending = false;
 
 			/* Sleep 200 microsecs to give cancellation time to work*/
-			RtmpusecDelay(200);
+			udelay(200);
 		}
 	}
 	pAd->BulkOutPending[MGMTPIPEIDX] = false;

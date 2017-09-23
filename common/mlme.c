@@ -1085,7 +1085,7 @@ VOID MlmeHalt(struct rtmp_adapter *pAd)
 
 
 
-	RtmpusecDelay(5000);    /*  5 msec to gurantee Ant Diversity timer canceled*/
+	mdelay(5);    /*  5 msec to gurantee Ant Diversity timer canceled*/
 
 	MlmeQueueDestroy(&pAd->Mlme.Queue);
 
@@ -1428,7 +1428,7 @@ VOID MlmePeriodicExec(
 				/* polling MAC status*/
 				while (count < 10)
 				{
-					RtmpusecDelay(1000); /* 1 ms*/
+					mdelay(1); /* 1 ms*/
 					MacCsr12 = mt7612u_read32(pAd, MAC_STATUS_CFG);
 
 					/* if MAC is idle*/
@@ -1443,7 +1443,7 @@ VOID MlmePeriodicExec(
 				if (MAC_ready)
 				{
 					mt7612u_write32(pAd, MAC_SYS_CTRL, 0x1);
-					RtmpusecDelay(1);
+					udelay(1);
 				}
 				else
 				{
@@ -1484,7 +1484,7 @@ VOID MlmePeriodicExec(
 			if (((MacReg & 0x20000000) && (MacReg & 0x80)) || ((MacReg & 0x20000000) && (MacReg & 0x20)))
 			{
 				mt7612u_write32(pAd, MAC_SYS_CTRL, 0x1);
-				RtmpusecDelay(1);
+				udelay(1);
 				MacReg = 0;
 				{
 					MacReg = 0xc;
