@@ -47,7 +47,7 @@ enum D_PORT {
 #include "rtmp_type.h"
 
 #ifdef RT_BIG_ENDIAN
-struct __attribute__ ((packed)) txinfo_nmac_pkt {
+struct __attribute__ ((packed)) mt7612_txinfo_pkt {
 	uint32_t info_type:2;
 	uint32_t d_port:3;
 	uint32_t QSEL:2;
@@ -62,7 +62,7 @@ struct __attribute__ ((packed)) txinfo_nmac_pkt {
 	uint32_t pkt_len:16;
 };
 #else
-struct __attribute__ ((packed)) txinfo_nmac_pkt {
+struct __attribute__ ((packed)) mt7612_txinfo_pkt {
 	uint32_t pkt_len:16;
 	uint32_t next_vld:1;
 	uint32_t tx_burst:1;
@@ -1004,11 +1004,11 @@ typedef union _RF_MISC_STRUC{
 
 struct rtmp_adapter;
 struct mt7612u_rxinfo;
-union _TXINFO_STRUC;
+struct mt7612_txinfo_pkt;
 struct mt7612u_txwi;
 
 VOID dump_rlt_rxinfo(struct rtmp_adapter *pAd, struct mt7612u_rxinfo *pRxInfo);
-VOID dump_rlt_txinfo(struct rtmp_adapter *pAd, union _TXINFO_STRUC *pTxInfo);
+VOID dump_rlt_txinfo(struct rtmp_adapter *pAd, struct mt7612_txinfo_pkt *pTxInfo);
 VOID dump_rlt_txwi(struct rtmp_adapter *pAd, struct mt7612u_txwi *pTxWI);
 VOID dump_rlt_rxwi(struct rtmp_adapter *pAd, struct mt7612u_rxwi *pRxWI);
 VOID dumpRxFCEInfo(struct rtmp_adapter *pAd, struct mt7612u_rxfce_info_pkt *pRxFceInfo);

@@ -53,10 +53,6 @@ enum mt76_qsel {
 };
 
 #define TXINFO_SIZE			4
-typedef union GNU_PACKED _TXINFO_STRUC{
-	struct txinfo_nmac_pkt txinfo_nmac_pkt;
-	uint32_t word;
-}TXINFO_STRUC;
 
 
 /*

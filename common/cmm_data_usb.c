@@ -128,10 +128,10 @@ bool	RTUSBNeedQueueBackForAgg(struct rtmp_adapter *pAd, u8 BulkOutPipeId)
 
 	========================================================================
 */
-static void rlt_usb_write_txinfo(TXINFO_STRUC *pTxInfo,
+static void rlt_usb_write_txinfo(struct mt7612_txinfo_pkt *pTxInfo,
 	unsigned short USBDMApktLen, bool bWiv, u8 QueueSel)
 {
-	struct txinfo_nmac_pkt *nmac_info = (struct txinfo_nmac_pkt *)pTxInfo;
+	struct mt7612_txinfo_pkt *nmac_info = (struct mt7612_txinfo_pkt *)pTxInfo;
 
 	nmac_info->pkt_80211 = 1;
 	nmac_info->info_type = 0;
@@ -152,7 +152,7 @@ static void rlt_usb_write_txinfo(TXINFO_STRUC *pTxInfo,
 
 static VOID rlt_usb_update_txinfo(
 	IN struct rtmp_adapter *pAd,
-	IN TXINFO_STRUC *pTxInfo,
+	IN struct mt7612_txinfo_pkt *pTxInfo,
 	IN TX_BLK *pTxBlk)
 {
 }
@@ -161,7 +161,7 @@ static VOID rlt_usb_update_txinfo(
 #ifdef CONFIG_STA_SUPPORT
 VOID ComposePsPoll(struct rtmp_adapter *pAd)
 {
-	TXINFO_STRUC *pTxInfo;
+	struct mt7612_txinfo_pkt *pTxInfo;
 	struct mt7612u_txwi *pTxWI;
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
 	u8 *buf;
@@ -179,7 +179,7 @@ VOID ComposePsPoll(struct rtmp_adapter *pAd)
 	COPY_MAC_ADDR(pAd->PsPollFrame.Ta, pAd->CurrentAddress);
 
 	buf = &pAd->PsPollContext.TransferBuffer->field.WirelessPacket[0];
-	pTxInfo = (TXINFO_STRUC *)buf;
+	pTxInfo = (struct mt7612_txinfo_pkt *)buf;
 	pTxWI = (struct mt7612u_txwi *)&buf[TXINFO_SIZE];
 	RTMPZeroMemory(buf, 100);
 	data_len = sizeof (PSPOLL_FRAME);
@@ -199,7 +199,7 @@ VOID ComposePsPoll(struct rtmp_adapter *pAd)
 /* IRQL = DISPATCH_LEVEL */
 VOID ComposeNullFrame(struct rtmp_adapter *pAd)
 {
-	TXINFO_STRUC *pTxInfo;
+	struct mt7612_txinfo_pkt *pTxInfo;
 	struct mt7612u_txwi *pTxWI;
 	u8 *buf;
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
@@ -215,7 +215,7 @@ VOID ComposeNullFrame(struct rtmp_adapter *pAd)
 	COPY_MAC_ADDR(pAd->NullFrame.Addr3, pAd->CommonCfg.Bssid);
 	buf = &pAd->NullContext.TransferBuffer->field.WirelessPacket[0];
 	RTMPZeroMemory(buf, 100);
-	pTxInfo = (TXINFO_STRUC *)buf;
+	pTxInfo = (struct mt7612_txinfo_pkt *)buf;
 	pTxWI = (struct mt7612u_txwi *)&buf[TXINFO_SIZE];
 	rlt_usb_write_txinfo(pTxInfo,
 			(unsigned short)(data_len + TXWISize + TSO_SIZE), true,
@@ -292,7 +292,7 @@ unsigned short RtmpUSB_WriteFragTxResource(
 	HT_TX_CONTEXT	*pHTTXContext;
 	unsigned short 		hwHdrLen;	/* The hwHdrLen consist of 802.11 header length plus the header padding length.*/
 	uint32_t 		fillOffset;
-	TXINFO_STRUC	*pTxInfo;
+	struct mt7612_txinfo_pkt	*pTxInfo;
 	struct mt7612u_txwi		*pTxWI;
 	u8 *		pWirelessPacket = NULL;
 	u8 		QueIdx;
@@ -357,7 +357,7 @@ unsigned short RtmpUSB_WriteFragTxResource(
 	}
 
 	memset((u8 *)(&pTxBlk->HeaderBuf[0]), 0, TXINFO_SIZE);
-	pTxInfo = (TXINFO_STRUC *)(&pTxBlk->HeaderBuf[0]);
+	pTxInfo = (struct mt7612_txinfo_pkt *)(&pTxBlk->HeaderBuf[0]);
 	pTxWI= (struct mt7612u_txwi *)(&pTxBlk->HeaderBuf[TXINFO_SIZE]);
 
 	pWirelessPacket = &pHTTXContext->TransferBuffer->field.WirelessPacket[fillOffset];
@@ -379,17 +379,17 @@ unsigned short RtmpUSB_WriteFragTxResource(
 
 	if (fragNum == pTxBlk->TotalFragNum)
 	{
-		pTxInfo->txinfo_nmac_pkt.tx_burst = 0;
+		pTxInfo->tx_burst = 0;
 
 		if ((pHTTXContext->CurWritePosition + pTxBlk->Priv + 3906)> MAX_TXBULK_LIMIT)
 		{
-			pTxInfo->txinfo_nmac_pkt.sw_lst_rnd = 1;
+			pTxInfo->sw_lst_rnd = 1;
 			TxQLastRound = true;
 		}
 	}
 	else
 	{
-		pTxInfo->txinfo_nmac_pkt.tx_burst = 1;
+		pTxInfo->tx_burst = 1;
 	}
 
 	memmove(pWirelessPacket, pTxBlk->HeaderBuf, TXINFO_SIZE + TXWISize + hwHdrLen);
@@ -442,7 +442,7 @@ unsigned short RtmpUSB_WriteSingleTxResource(
 {
 	HT_TX_CONTEXT *pHTTXContext;
 	uint32_t fillOffset;
-	TXINFO_STRUC *pTxInfo;
+	struct mt7612_txinfo_pkt *pTxInfo;
 	struct mt7612u_txwi *pTxWI;
 	u8 *pWirelessPacket, *buf;
 	u8 QueIdx;
@@ -468,7 +468,7 @@ unsigned short RtmpUSB_WriteSingleTxResource(
 	{
 		pHTTXContext->bCurWriting = true;
 		buf = &pTxBlk->HeaderBuf[0];
-		pTxInfo = (TXINFO_STRUC *)buf;
+		pTxInfo = (struct mt7612_txinfo_pkt *)buf;
 		pTxWI= (struct mt7612u_txwi *)&buf[TXINFO_SIZE];
 
 		/* Reserve space for 8 bytes padding.*/
@@ -497,7 +497,7 @@ unsigned short RtmpUSB_WriteSingleTxResource(
 
 		if ((pHTTXContext->CurWritePosition + 3906 + pTxBlk->Priv) > MAX_TXBULK_LIMIT)
 		{
-			pTxInfo->txinfo_nmac_pkt.sw_lst_rnd = 1;
+			pTxInfo->sw_lst_rnd = 1;
 			bTxQLastRound = true;
 		}
 
@@ -582,7 +582,7 @@ unsigned short RtmpUSB_WriteMultiTxResource(
 	HT_TX_CONTEXT *pHTTXContext;
 	unsigned short hwHdrLen;	/* The hwHdrLen consist of 802.11 header length plus the header padding length.*/
 	uint32_t fillOffset;
-	TXINFO_STRUC *pTxInfo;
+	struct mt7612_txinfo_pkt *pTxInfo;
 	struct mt7612u_txwi *pTxWI;
 	u8 *pWirelessPacket = NULL;
 	u8 QueIdx;
@@ -605,7 +605,7 @@ unsigned short RtmpUSB_WriteMultiTxResource(
 		{
 			pHTTXContext->bCurWriting = true;
 
-			pTxInfo = (TXINFO_STRUC *)(&pTxBlk->HeaderBuf[0]);
+			pTxInfo = (struct mt7612_txinfo_pkt *)(&pTxBlk->HeaderBuf[0]);
 			pTxWI= (struct mt7612u_txwi *)(&pTxBlk->HeaderBuf[TXINFO_SIZE]);
 
 			/* Reserve space for 8 bytes padding.*/
@@ -713,7 +713,7 @@ VOID RtmpUSB_FinalWriteTxResource(
 	u8 		QueIdx;
 	HT_TX_CONTEXT	*pHTTXContext;
 	uint32_t 		fillOffset;
-	TXINFO_STRUC	*pTxInfo;
+	struct mt7612_txinfo_pkt	*pTxInfo;
 	struct mt7612u_txwi		*pTxWI;
 	uint32_t 		USBDMApktLen, padding;
 	unsigned long	IrqFlags;
@@ -737,14 +737,14 @@ VOID RtmpUSB_FinalWriteTxResource(
 		/* Update TxInfo->USBDMApktLen , */
 		/*		the length = TXWI_SIZE + 802.11_hdr + 802.11_hdr_pad + payload_of_all_batch_frames + Bulk-Out-padding*/
 
-		pTxInfo = (TXINFO_STRUC *)(pWirelessPacket);
+		pTxInfo = (struct mt7612_txinfo_pkt *)(pWirelessPacket);
 
 		/* Calculate the bulk-out padding*/
 		USBDMApktLen = pTxBlk->Priv - TXINFO_SIZE;
 		padding = (4 - (USBDMApktLen % 4)) & 0x03;	/* round up to 4 byte alignment*/
 		USBDMApktLen += padding;
 
-		pTxInfo->txinfo_nmac_pkt.pkt_len = USBDMApktLen;
+		pTxInfo->pkt_len = USBDMApktLen;
 
 
 		/*
@@ -761,7 +761,7 @@ VOID RtmpUSB_FinalWriteTxResource(
 		if ((pHTTXContext->CurWritePosition + 3906)> MAX_TXBULK_LIMIT)
 		{	/* Add 3906 for prevent the NextBulkOut packet size is a A-RALINK/A-MSDU Frame.*/
 			pHTTXContext->CurWritePosition = 8;
-			pTxInfo->txinfo_nmac_pkt.sw_lst_rnd = 1;
+			pTxInfo->sw_lst_rnd = 1;
 		}
 
 		pHTTXContext->CurWriteRealPos = pHTTXContext->CurWritePosition;
@@ -825,7 +825,7 @@ int RtmpUSBMgmtKickOut(
 	IN u8 *pSrcBufVA,
 	IN UINT SrcBufLen)
 {
-	TXINFO_STRUC *pTxInfo;
+	struct mt7612_txinfo_pkt *pTxInfo;
 	ULONG BulkOutSize;
 	u8 padLen;
 	u8 *pDest;
@@ -834,7 +834,7 @@ int RtmpUSBMgmtKickOut(
 	ULONG IrqFlags;
 
 
-	pTxInfo = (TXINFO_STRUC *)(pSrcBufVA);
+	pTxInfo = (struct mt7612_txinfo_pkt *)(pSrcBufVA);
 
 	/* Build our URB for USBD*/
 	BulkOutSize = (SrcBufLen + 3) & (~3);
@@ -902,7 +902,7 @@ VOID RtmpUSBNullFrameKickOut(
 	if (pAd->NullContext.InUse == false)
 	{
 		PTX_CONTEXT pNullContext;
-		TXINFO_STRUC *pTxInfo;
+		struct mt7612_txinfo_pkt *pTxInfo;
 		struct mt7612u_txwi *pTxWI;
 		u8 *pWirelessPkt;
 		UINT8 TXWISize = pAd->chipCap.TXWISize;
@@ -914,7 +914,7 @@ VOID RtmpUSBNullFrameKickOut(
 		pWirelessPkt = (u8 *)&pNullContext->TransferBuffer->field.WirelessPacket[0];
 
 		RTMPZeroMemory(&pWirelessPkt[0], 100);
-		pTxInfo = (TXINFO_STRUC *)&pWirelessPkt[0];
+		pTxInfo = (struct mt7612_txinfo_pkt *)&pWirelessPkt[0];
 		rlt_usb_write_txinfo(pTxInfo, (unsigned short)(frameLen + TXWISize + TSO_SIZE), true, ep2dmaq(MGMTPIPEIDX));
 		pTxWI = (struct mt7612u_txwi *)&pWirelessPkt[TXINFO_SIZE];
 		RTMPWriteTxWI(pAd, pTxWI, false, false, false, false, true, false, 0, BSSID_WCID, frameLen,
