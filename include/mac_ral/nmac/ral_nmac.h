@@ -244,7 +244,7 @@ struct __attribute__ ((packed)) mt7612u_rxfce_info_pkt{
 #endif /* RT_BIG_ENDIAN */
 
 #ifdef RT_BIG_ENDIAN
-typedef struct GNU_PACKED _RXFCE_INFO_CMD{
+struct __attribute__ ((packed)) mt7612u_rxfce_info_cmd {
 	uint32_t info_type:2;
 	uint32_t d_port:3;
 	uint32_t qsel:2;
@@ -254,9 +254,9 @@ typedef struct GNU_PACKED _RXFCE_INFO_CMD{
 	uint32_t self_gen:1;
 	uint32_t rsv:1;
 	uint32_t pkt_len:14;
-}RXFCE_INFO_CMD;
+};
 #else
-typedef struct GNU_PACKED _RXFCE_INFO_CMD{
+struct __attribute__ ((packed)) mt7612u_rxfce_info_cmd {
 	uint32_t pkt_len:14;
 	uint32_t rsv:1;
 	uint32_t self_gen:1;
@@ -266,7 +266,7 @@ typedef struct GNU_PACKED _RXFCE_INFO_CMD{
 	uint32_t qsel:2;
 	uint32_t d_port:3;
 	uint32_t info_type:2;
-}RXFCE_INFO_CMD;
+};
 #endif
 
 

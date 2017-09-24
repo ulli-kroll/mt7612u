@@ -1076,7 +1076,7 @@ static void mt7612u_mcu_rx_process_cmd_msg(struct rtmp_adapter *ad, struct cmd_m
 {
 	struct sk_buff *skb = rx_msg->skb;
 	struct cmd_msg *msg, *msg_tmp;
-	RXFCE_INFO_CMD *rx_info = (RXFCE_INFO_CMD *)skb->data;
+	struct mt7612u_rxfce_info_cmd *rx_info = (struct mt7612u_rxfce_info_cmd *)skb->data;
 	struct mt7612u_mcu_ctrl  *ctl = &ad->MCUCtrl;
 #ifdef RT_BIG_ENDIAN
 	RTMPDescriptorEndianChange((u8 *)rx_info, TYPE_RXINFO);
