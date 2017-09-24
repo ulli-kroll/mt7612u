@@ -425,7 +425,7 @@ typedef struct GNU_PACKED _RXFCE_INFO_CMD{
 	RXWI wireless information format.
 */
 #ifdef RT_BIG_ENDIAN
-typedef	struct GNU_PACKED _RXWI_NMAC{
+struct __attribute__ ((packed)) mt7612u_rxwi {
 	/* Word 0 */
 	uint32_t eof:1;
 	uint32_t rsv:1;
@@ -452,9 +452,9 @@ typedef	struct GNU_PACKED _RXWI_NMAC{
 
 	/* Word 3~6 */
 	UINT8 bbp_rxinfo[16];
-}	RXWI_NMAC;
+};
 #else
-typedef	struct GNU_PACKED _RXWI_NMAC {
+struct __attribute__ ((packed)) mt7612u_rxwi {
 	/* Word 0 */
 	uint32_t wcid:8;
 	uint32_t key_idx:2;
@@ -481,7 +481,7 @@ typedef	struct GNU_PACKED _RXWI_NMAC {
 
 	/* Word 3~6 */
 	UINT8 bbp_rxinfo[16];
-}	RXWI_NMAC;
+};
 #endif /* RT_BIG_ENDIAN */
 
 
@@ -1006,17 +1006,16 @@ struct rtmp_adapter;
 struct mt7612u_rxinfo;
 union _TXINFO_STRUC;
 union _TXWI_STRUC;
-union _RXWI_STRUC;
 
 VOID dump_rlt_rxinfo(struct rtmp_adapter *pAd, struct mt7612u_rxinfo *pRxInfo);
 VOID dump_rlt_txinfo(struct rtmp_adapter *pAd, union _TXINFO_STRUC *pTxInfo);
 VOID dump_rlt_txwi(struct rtmp_adapter *pAd, union _TXWI_STRUC *pTxWI);
-VOID dump_rlt_rxwi(struct rtmp_adapter *pAd, union _RXWI_STRUC *pRxWI);
+VOID dump_rlt_rxwi(struct rtmp_adapter *pAd, struct mt7612u_rxwi *pRxWI);
 VOID dumpRxFCEInfo(struct rtmp_adapter *pAd, RXFCE_INFO *pRxFceInfo);
 
-INT rlt_get_rxwi_phymode(union _RXWI_STRUC *rxwi);
-INT rlt_get_rxwi_rssi(union _RXWI_STRUC *rxwi, INT size, CHAR *rssi);
-INT rlt_get_rxwi_snr(struct rtmp_adapter *pAd, union _RXWI_STRUC *rxwi, INT size, u8 *snr);
+INT rlt_get_rxwi_phymode(struct mt7612u_rxwi *rxwi);
+INT rlt_get_rxwi_rssi(struct mt7612u_rxwi *rxwi, INT size, CHAR *rssi);
+INT rlt_get_rxwi_snr(struct rtmp_adapter *pAd, struct mt7612u_rxwi *rxwi, INT size, u8 *snr);
 VOID rlt_asic_init_txrx_ring(struct rtmp_adapter *pAd);
 
 int mt7612u_chip_onoff(struct rtmp_adapter *pAd, bool enable, bool reset);

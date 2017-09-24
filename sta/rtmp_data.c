@@ -260,7 +260,7 @@ bool STACheckTkipMICValue(
 VOID STAHandleRxDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk)
 {
 	struct mt7612u_rxinfo *pRxInfo = pRxBlk->pRxInfo;
-	RXWI_STRUC *pRxWI = pRxBlk->pRxWI;
+	struct mt7612u_rxwi *pRxWI = pRxBlk->pRxWI;
 	HEADER_802_11 *pHeader = pRxBlk->pHeader;
 	struct sk_buff *pRxPacket = pRxBlk->pRxPacket;
 	bool bFragment = false;

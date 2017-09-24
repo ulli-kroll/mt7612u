@@ -2021,7 +2021,7 @@ bool RTMPCheckEtherType(
 VOID Update_Rssi_Sample(
 	IN struct rtmp_adapter *pAd,
 	IN RSSI_SAMPLE *pRssi,
-	IN RXWI_STRUC *pRxWI)
+	IN struct mt7612u_rxwi *pRxWI)
 {
 	CHAR rssi[3];
 	u8 snr[3];
@@ -2055,7 +2055,7 @@ VOID Update_Rssi_Sample(
 		if (IS_MT76x2(pAd)) {
 			if ((Phymode == MODE_CCK)) {
 				pRssi->LastRssi0 -= 2;
-			} else if ((pRxWI->RXWI_N.bw  == BW_80) && (pRssi->LastRssi0 < -75)
+			} else if ((pRxWI->bw  == BW_80) && (pRssi->LastRssi0 < -75)
 						&& (is_external_lna_mode(pAd, pAd->CommonCfg.Channel) == false)) {
 				pRssi->LastRssi0 = (-92 + pRssi->LastSnr0);
 			}
@@ -2094,7 +2094,7 @@ VOID Update_Rssi_Sample(
 			if ((Phymode == MODE_CCK)) {
 				pRssi->LastRssi1 -= 2;
 			}
-				else if ((pRxWI->RXWI_N.bw == BW_80) && (pRssi->LastRssi1 < -75)
+				else if ((pRxWI->bw == BW_80) && (pRssi->LastRssi1 < -75)
 						&& (is_external_lna_mode(pAd, pAd->CommonCfg.Channel) == false)) {
 				pRssi->LastRssi1 = (-92 + pRssi->LastSnr1);
 			}
@@ -2405,7 +2405,7 @@ struct sk_buff *RTMPDeFragmentDataFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk
 	u8 *pFragBuffer = NULL;
 	bool bReassDone = false;
 	u8 HeaderRoom = 0;
-	RXWI_STRUC *pRxWI = pRxBlk->pRxWI;
+	struct mt7612u_rxwi *pRxWI = pRxBlk->pRxWI;
 	UINT8 RXWISize = pAd->chipCap.RXWISize;
 
 	ASSERT(pHeader);
@@ -2499,7 +2499,7 @@ done:
 			//pRxBlk->pData = (u8 *)pRxBlk->pHeader + HeaderRoom;
 			//pRxBlk->DataSize = pAd->FragFrame.RxSize - HeaderRoom;
 			//pRxBlk->pRxPacket = pRetPacket;
-			pRxBlk->pRxWI = (RXWI_STRUC *) pRetPacket->data;
+			pRxBlk->pRxWI = (struct mt7612u_rxwi *) pRetPacket->data;
 			pRxBlk->pHeader = (PHEADER_802_11) ((u8 *)pRxBlk->pRxWI + RXWISize);
 			pRxBlk->pData = (u8 *)pRxBlk->pHeader + HeaderRoom;
 			pRxBlk->DataSize = pAd->FragFrame.RxSize - HeaderRoom - RXWISize;
@@ -3123,7 +3123,7 @@ bool rtmp_rx_done_handle(struct rtmp_adapter *pAd)
 	RXD_STRUC *pRxD;
 	struct mt7612u_rxinfo *pRxInfo;
 	u8 *pData;
-	RXWI_STRUC *pRxWI;
+	struct mt7612u_rxwi *pRxWI;
 	struct sk_buff *pRxPacket;
 	HEADER_802_11 *pHeader;
 	RX_BLK rxblk, *pRxBlk;
@@ -3171,7 +3171,7 @@ bool rtmp_rx_done_handle(struct rtmp_adapter *pAd)
 		pRxD = (RXD_STRUC *)&pRxBlk->hw_rx_info[0];
 		pRxInfo = rxblk.pRxInfo;
 		pData = pRxPacket->data;
-		pRxWI = (RXWI_STRUC *)pData;
+		pRxWI = (struct mt7612u_rxwi *)pData;
 		pHeader = rxblk.pHeader;// (PHEADER_802_11)(pData + RXWISize);
 
 

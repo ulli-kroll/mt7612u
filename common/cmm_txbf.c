@@ -722,7 +722,7 @@ VOID handleBfFb(
 	IN	struct rtmp_adapter *pAd,
 	IN	RX_BLK			*pRxBlk)
 {
-	RXWI_STRUC *pRxWI = pRxBlk->pRxWI;
+	struct mt7612u_rxwi *pRxWI = pRxBlk->pRxWI;
 	MAC_TABLE_ENTRY *pEntry = NULL;
 
 	if (pRxBlk->wcid >= MAX_LEN_OF_MAC_TABLE)

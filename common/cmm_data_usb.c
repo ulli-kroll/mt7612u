@@ -969,7 +969,7 @@ struct sk_buff *GetPacketFromRxRing(
 	struct sk_buff *skb;
 	u8 *pData;
 	ULONG ThisFrameLen, RxBufferLength, valid_len;
-	RXWI_STRUC *pRxWI;
+	struct mt7612u_rxwi *pRxWI;
 	UINT8 RXWISize = pAd->chipCap.RXWISize;
 	struct mt7612u_rxinfo *pRxInfo;
 	RXFCE_INFO *pRxFceInfo;
@@ -1017,13 +1017,13 @@ if (0) {
 	pData += RXDMA_FIELD_SIZE;
 
 	{
-		struct _RXWI_NMAC *rxwi_n;
+		struct mt7612u_rxwi *rxwi_n;
 		pRxInfo = (struct mt7612u_rxinfo *)pData;
 		pRxFceInfo = (RXFCE_INFO *)(pData + ThisFrameLen);
 		pData += RXINFO_SIZE;
-		pRxWI = (RXWI_STRUC *)pData;
-		rxwi_n = (struct _RXWI_NMAC *)pData;;
-		pRxBlk->pRxWI = (RXWI_STRUC *)pData;
+		pRxWI = (struct mt7612u_rxwi *)pData;
+		rxwi_n = (struct mt7612u_rxwi *)pData;;
+		pRxBlk->pRxWI = (struct mt7612u_rxwi *)pData;
 		pRxBlk->MPDUtotalByteCnt = rxwi_n->MPDUtotalByteCnt;
 		pRxBlk->wcid = rxwi_n->wcid;
 		pRxBlk->key_idx = rxwi_n->key_idx;

@@ -182,13 +182,13 @@ void FrequencyCalibration(struct rtmp_adapter *pAd)
 /* Get the frequency offset*/
 CHAR GetFrequencyOffset(
 	IN struct rtmp_adapter *pAd,
-	IN RXWI_STRUC *pRxWI)
+	IN struct mt7612u_rxwi *pRxWI)
 {
 	CHAR FreqOffset = 0;
 
 	if (pAd->FreqCalibrationCtrl.bEnableFrequencyCalibration) {
 		DBGPRINT(RT_DEBUG_INFO, ("---> %s\n", __FUNCTION__));
-		FreqOffset = (pRxWI->RXWI_N.bbp_rxinfo[1]);
+		FreqOffset = (pRxWI->bbp_rxinfo[1]);
 	}
 
 ret:

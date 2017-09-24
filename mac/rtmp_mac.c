@@ -543,7 +543,7 @@ VOID RTMPWriteTxWI_Cache(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pT
 }
 
 
-INT get_pkt_rssi_by_rxwi(struct rtmp_adapter *pAd, RXWI_STRUC *rxwi, INT size, CHAR *rssi)
+INT get_pkt_rssi_by_rxwi(struct rtmp_adapter *pAd, struct mt7612u_rxwi *rxwi, INT size, CHAR *rssi)
 {
 	INT status = 0;
 
@@ -553,7 +553,7 @@ INT get_pkt_rssi_by_rxwi(struct rtmp_adapter *pAd, RXWI_STRUC *rxwi, INT size, C
 }
 
 
-INT get_pkt_snr_by_rxwi(struct rtmp_adapter *pAd, RXWI_STRUC *rxwi, INT size, u8 *snr)
+INT get_pkt_snr_by_rxwi(struct rtmp_adapter *pAd, struct mt7612u_rxwi *rxwi, INT size, u8 *snr)
 {
 	INT status = 0;
 
@@ -563,7 +563,7 @@ INT get_pkt_snr_by_rxwi(struct rtmp_adapter *pAd, RXWI_STRUC *rxwi, INT size, u8
 }
 
 
-INT get_pkt_phymode_by_rxwi(struct rtmp_adapter *pAd, RXWI_STRUC *rxwi)
+INT get_pkt_phymode_by_rxwi(struct rtmp_adapter *pAd, struct mt7612u_rxwi *rxwi)
 {
 	INT status = 0;
 

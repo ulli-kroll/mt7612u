@@ -1877,7 +1877,7 @@ VOID PeerBeacon(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 		*/
 		if (is_my_bssid)
 		{
-			RXWI_STRUC	RxWI;
+			struct mt7612u_rxwi RxWI;
 			UINT8 RXWISize = pAd->chipCap.RXWISize;
 
 			OVERLAP_BSS_SCAN_IE	BssScan;
@@ -1898,10 +1898,10 @@ VOID PeerBeacon(struct rtmp_adapter *pAd, MLME_QUEUE_ELEM *Elem)
 
 			memset(&RxWI, 0, RXWISize);
 
-			RxWI.RXWI_N.rssi[0]= Elem->Rssi0;
-			RxWI.RXWI_N.rssi[1] = Elem->Rssi1;
-			RxWI.RXWI_N.rssi[2] = Elem->Rssi2;
-			RxWI.RXWI_N.phy_mode = 0; /* Prevent SNR calculate error. */
+			RxWI.rssi[0]= Elem->Rssi0;
+			RxWI.rssi[1] = Elem->Rssi1;
+			RxWI.rssi[2] = Elem->Rssi2;
+			RxWI.phy_mode = 0; /* Prevent SNR calculate error. */
 
 			if (INFRA_ON(pAd)) {
 				MAC_TABLE_ENTRY *pEntry = &pAd->MacTab.Content[BSSID_WCID];

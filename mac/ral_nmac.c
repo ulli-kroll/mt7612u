@@ -27,29 +27,29 @@
 #include "rt_config.h"
 
 
-INT rlt_get_rxwi_phymode(RXWI_STRUC *rxwi)
+INT rlt_get_rxwi_phymode(struct mt7612u_rxwi *rxwi)
 {
-	return rxwi->RXWI_N.phy_mode;
+	return rxwi->phy_mode;
 }
 
-INT rlt_get_rxwi_rssi(RXWI_STRUC *rxwi, INT size, CHAR *rssi)
+INT rlt_get_rxwi_rssi(struct mt7612u_rxwi *rxwi, INT size, CHAR *rssi)
 {
-	if (size < sizeof(rxwi->RXWI_N.rssi)/ sizeof(UINT8))
-		memmove(rssi, &rxwi->RXWI_N.rssi[0], size);
+	if (size < sizeof(rxwi->rssi)/ sizeof(UINT8))
+		memmove(rssi, &rxwi->rssi[0], size);
 
 	return 0;
 }
 
 
-INT rlt_get_rxwi_snr(struct rtmp_adapter *pAd, RXWI_STRUC *rxwi, INT size, u8 *snr)
+INT rlt_get_rxwi_snr(struct rtmp_adapter *pAd, struct mt7612u_rxwi *rxwi, INT size, u8 *snr)
 {
 	if (IS_MT76x2(pAd)) {
-		memmove(snr, &rxwi->RXWI_N.bbp_rxinfo[2], size);
+		memmove(snr, &rxwi->bbp_rxinfo[2], size);
 	}
 
 	// TODO: shiang-6590, fix me for SNR info of RXWI!!
 	if (size < 3)
-		memmove(snr, &rxwi->RXWI_N.bbp_rxinfo[0], size);
+		memmove(snr, &rxwi->bbp_rxinfo[0], size);
 
 	return 0;
 }
@@ -112,11 +112,9 @@ VOID dump_rlt_txwi(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI)
 }
 
 
-VOID dump_rlt_rxwi(struct rtmp_adapter *pAd, RXWI_STRUC *pRxWI)
+VOID dump_rlt_rxwi(struct rtmp_adapter *pAd, struct mt7612u_rxwi *rxwi_n)
 {
-	struct _RXWI_NMAC *rxwi_n = (struct _RXWI_NMAC *)pRxWI;
-
-	ASSERT((sizeof(struct _RXWI_NMAC) == pAd->chipCap.RXWISize));
+	ASSERT((sizeof(struct mt7612u_rxwi) == pAd->chipCap.RXWISize));
 
 	DBGPRINT(RT_DEBUG_OFF, ("\tWCID=%d\n", rxwi_n->wcid));
 	DBGPRINT(RT_DEBUG_OFF, ("\tPhyMode=%d(%s)\n", rxwi_n->phy_mode, get_phymode_str(rxwi_n->phy_mode)));

@@ -68,9 +68,6 @@ typedef union GNU_PACKED _TXINFO_STRUC{
 /*
 	RXWI wireless information format, in PBF. invisible in driver.
 */
-typedef union GNU_PACKED _RXWI_STRUC {
-	struct _RXWI_NMAC RXWI_N;
-}RXWI_STRUC;
 
 
 typedef	union GNU_PACKED _HW_RATE_CTRL_STRUCT_ {
@@ -2429,9 +2426,9 @@ typedef	union _QOS_CSR1_STRUC {
 
 struct rtmp_adapter;
 
-INT get_pkt_phymode_by_rxwi(struct rtmp_adapter *pAd, RXWI_STRUC *rxwi);
-INT get_pkt_rssi_by_rxwi(struct rtmp_adapter *pAd, RXWI_STRUC *rxwi, INT size, CHAR *rssi);
-INT get_pkt_snr_by_rxwi(struct rtmp_adapter *pAd, RXWI_STRUC *rxwi, INT size, u8 *snr);
+INT get_pkt_phymode_by_rxwi(struct rtmp_adapter *pAd, struct mt7612u_rxwi *rxwi);
+INT get_pkt_rssi_by_rxwi(struct rtmp_adapter *pAd, struct mt7612u_rxwi *rxwi, INT size, CHAR *rssi);
+INT get_pkt_snr_by_rxwi(struct rtmp_adapter *pAd, struct mt7612u_rxwi *rxwi, INT size, u8 *snr);
 
 INT rtmp_mac_set_band(struct rtmp_adapter *pAd, int  band);
 void mt7612u_mac_set_ctrlch(struct rtmp_adapter *pAd, u8 extch);

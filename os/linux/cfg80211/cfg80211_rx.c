@@ -200,7 +200,7 @@ bool CFG80211_CheckActionFrameType(
 }
 bool CFG80211_HandleP2pMgmtFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk, u8 OpMode)
 {
-	RXWI_STRUC *pRxWI = pRxBlk->pRxWI;
+	struct mt7612u_rxwi *pRxWI = pRxBlk->pRxWI;
 	PHEADER_802_11 pHeader = pRxBlk->pHeader;
 	struct net_device *pNetDev = NULL;
 	PCFG80211_CTRL pCfg80211_ctrl = &pAd->cfg80211_ctrl;
@@ -208,7 +208,7 @@ bool CFG80211_HandleP2pMgmtFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk, u8 Op
 
 	if ((pHeader->FC.SubType == SUBTYPE_PROBE_REQ) ||
 	 	 ((pHeader->FC.SubType == SUBTYPE_ACTION) &&
-	 	   CFG80211_CheckActionFrameType(pAd, "RX", (u8 *) pHeader, pRxWI->RXWI_N.MPDUtotalByteCnt)))
+		   CFG80211_CheckActionFrameType(pAd, "RX", (u8 *) pHeader, pRxWI->MPDUtotalByteCnt)))
 		{
 			MAP_CHANNEL_ID_TO_KHZ(pAd->LatchRfRegs.Channel, freq);
 			freq /= 1000;
@@ -235,7 +235,7 @@ bool CFG80211_HandleP2pMgmtFrame(struct rtmp_adapter *pAd, RX_BLK *pRxBlk, u8 Op
 			{
 				DBGPRINT(RT_DEBUG_INFO,("MAIN STA RtmpOsCFG80211RxMgmt OK!! TYPE = %d, freq = %d, %02x:%02x:%02x:%02x:%02x:%02x\n",
 										pHeader->FC.SubType, freq, PRINT_MAC(pHeader->Addr2)));
-				CFG80211OS_RxMgmt(CFG80211_GetEventDevice(pAd), freq, (u8 *)pHeader, pRxWI->RXWI_N.MPDUtotalByteCnt);
+				CFG80211OS_RxMgmt(CFG80211_GetEventDevice(pAd), freq, (u8 *)pHeader, pRxWI->MPDUtotalByteCnt);
 
 				if (OpMode == OPMODE_AP)
 						return true;

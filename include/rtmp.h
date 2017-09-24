@@ -3721,7 +3721,7 @@ typedef struct _RX_BLK
 	u8 hw_rx_info[RXD_SIZE]; /* include "RXD_STRUC RxD" and "struct mt7612u_rxinfo rx_info " */
 	struct mt7612u_rxinfo *pRxInfo; /* for RLT, in head of frame buffer, for RTMP, in hw_rx_info[RXINFO_OFFSET] */
 	RXFCE_INFO *pRxFceInfo; /* for RLT, in in hw_rx_info[RXINFO_OFFSET], for RTMP, no such field */
-	RXWI_STRUC *pRxWI; /*in frame buffer and after "rx_info" fields */
+	struct mt7612u_rxwi *pRxWI; /*in frame buffer and after "rx_info" fields */
 	HEADER_802_11 *pHeader; /* poiter of 802.11 header, pointer to frame buffer and shall not shift this pointer */
 	struct sk_buff *pRxPacket; /* os_packet pointer, shall not change */
 	u8 *pData; /* init to pRxPacket->data, refer to frame buffer, may changed depends on processing */
@@ -5588,7 +5588,7 @@ bool RTMPAutoRateSwitchCheck(
 VOID InitFrequencyCalibration(struct rtmp_adapter *pAd);
 VOID StopFrequencyCalibration(struct rtmp_adapter *pAd);
 VOID FrequencyCalibration(struct rtmp_adapter *pAd);
-CHAR GetFrequencyOffset(struct rtmp_adapter *pAd, RXWI_STRUC *pRxWI);
+CHAR GetFrequencyOffset(struct rtmp_adapter *pAd, struct mt7612u_rxwi *pRxWI);
 #endif /* CONFIG_STA_SUPPORT */
 
 VOID MlmeHalt(struct rtmp_adapter *pAd);
@@ -6354,7 +6354,7 @@ VOID CmmRxRalinkFrameIndicate(
 VOID Update_Rssi_Sample(
 	IN struct rtmp_adapter *pAd,
 	IN RSSI_SAMPLE *pRssi,
-	IN RXWI_STRUC *pRxWI);
+	IN struct mt7612u_rxwi *pRxWI);
 
 struct sk_buff *GetPacketFromRxRing(
 	IN struct rtmp_adapter *pAd,
