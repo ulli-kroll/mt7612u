@@ -132,7 +132,7 @@ VOID RTUSBBulkOutDataPacket(struct rtmp_adapter *pAd, u8 BulkOutPipeId, u8 Index
 	struct urb *pUrb;
 	int ret = 0;
 	TXINFO_STRUC *pTxInfo, *pLastTxInfo = NULL;
-	TXWI_STRUC *pTxWI;
+	struct mt7612u_txwi *pTxWI;
 	unsigned short txwi_pkt_len = 0;
 	u8 ampdu = 0, phy_mode = 0, pid;
 	ULONG TmpBulkEndPos, ThisBulkSize;
@@ -220,13 +220,13 @@ VOID RTUSBBulkOutDataPacket(struct rtmp_adapter *pAd, u8 BulkOutPipeId, u8 Index
 	do
 	{
 		pTxInfo = (TXINFO_STRUC *)&pWirelessPkt[TmpBulkEndPos];
-		pTxWI = (TXWI_STRUC *)&pWirelessPkt[TmpBulkEndPos + TXINFO_SIZE];
+		pTxWI = (struct mt7612u_txwi *)&pWirelessPkt[TmpBulkEndPos + TXINFO_SIZE];
 
 		{
-			ampdu = pTxWI->TXWI_N.AMPDU;
-			phy_mode = pTxWI->TXWI_N.PHYMODE;
-			pid = pTxWI->TXWI_N.TxPktId;
-			txwi_pkt_len = pTxWI->TXWI_N.MPDUtotalByteCnt;
+			ampdu = pTxWI->AMPDU;
+			phy_mode = pTxWI->PHYMODE;
+			pid = pTxWI->TxPktId;
+			txwi_pkt_len = pTxWI->MPDUtotalByteCnt;
 		}
 
 		if (pAd->bForcePrintTX == true)

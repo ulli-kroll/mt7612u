@@ -95,7 +95,7 @@ typedef struct GNU_PACKED _LED_NMAC_CMD{
 #endif /* RT_BIG_ENDIAN */
 
 #ifdef RT_BIG_ENDIAN
-typedef struct GNU_PACKED _TXWI_NMAC {
+struct  __attribute__ ((packed)) mt7612u_txwi {
 	/* Word 0 */
 	uint32_t 	PHYMODE:3;
 	uint32_t 	iTxBF:1;
@@ -142,9 +142,9 @@ typedef struct GNU_PACKED _TXWI_NMAC {
 	uint32_t 	TxPwrAdj:4;
 	uint32_t 	TxStreamMode:8;
 	uint32_t 	TxEAPId:8;
-}	TXWI_NMAC;
+};
 #else
-typedef	struct GNU_PACKED _TXWI_NMAC {
+struct  __attribute__ ((packed)) mt7612u_txwi {
 	/* Word	0 */
 	/* ex: 00 03 00 40 means txop = 3, PHYMODE = 1 */
 	uint32_t 	FRAG:1;		/* 1 to inform TKIP engine this is a fragment. */
@@ -194,7 +194,7 @@ typedef	struct GNU_PACKED _TXWI_NMAC {
 	uint32_t     Rsv4:3;
 	uint32_t     GroupID:1;
 	uint32_t 	TxPktId:8;
-}	TXWI_NMAC;
+};
 #endif
 
 
@@ -1005,11 +1005,11 @@ typedef union _RF_MISC_STRUC{
 struct rtmp_adapter;
 struct mt7612u_rxinfo;
 union _TXINFO_STRUC;
-union _TXWI_STRUC;
+struct mt7612u_txwi;
 
 VOID dump_rlt_rxinfo(struct rtmp_adapter *pAd, struct mt7612u_rxinfo *pRxInfo);
 VOID dump_rlt_txinfo(struct rtmp_adapter *pAd, union _TXINFO_STRUC *pTxInfo);
-VOID dump_rlt_txwi(struct rtmp_adapter *pAd, union _TXWI_STRUC *pTxWI);
+VOID dump_rlt_txwi(struct rtmp_adapter *pAd, struct mt7612u_txwi *pTxWI);
 VOID dump_rlt_rxwi(struct rtmp_adapter *pAd, struct mt7612u_rxwi *pRxWI);
 VOID dumpRxFCEInfo(struct rtmp_adapter *pAd, struct mt7612u_rxfce_info_pkt *pRxFceInfo);
 

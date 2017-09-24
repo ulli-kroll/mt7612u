@@ -3378,7 +3378,7 @@ struct rtmp_adapter {
 /*      802.11 related parameters                                                        */
 /*****************************************************************************************/
 	/* outgoing BEACON frame buffer and corresponding TXD */
-	TXWI_STRUC BeaconTxWI;
+	struct mt7612u_txwi BeaconTxWI;
 	u8 *BeaconBuf;
 	unsigned short BeaconOffset[HW_BEACON_MAX_NUM];
 
@@ -3642,7 +3642,7 @@ struct rtmp_adapter {
 
 
 
-	TXWI_STRUC NullTxWI;
+	struct mt7612u_txwi NullTxWI;
 	unsigned short NullBufOffset[2];
 
 #ifdef APCLI_CERT_SUPPORT
@@ -4454,7 +4454,7 @@ unsigned short RTMPCalcDuration(
 
 VOID RTMPWriteTxWI(
 	IN struct rtmp_adapter *pAd,
-	IN TXWI_STRUC *pTxWI,
+	IN struct mt7612u_txwi *pTxWI,
 	IN bool FRAG,
 	IN bool CFACK,
 	IN bool InsTimestamp,
@@ -4473,13 +4473,13 @@ VOID RTMPWriteTxWI(
 
 VOID RTMPWriteTxWI_Data(
 	IN struct rtmp_adapter *pAd,
-	INOUT TXWI_STRUC *pTxWI,
+	INOUT struct mt7612u_txwi *pTxWI,
 	IN TX_BLK *pTxBlk);
 
 
 VOID RTMPWriteTxWI_Cache(
 	IN struct rtmp_adapter *pAd,
-	INOUT TXWI_STRUC *pTxWI,
+	INOUT struct mt7612u_txwi *pTxWI,
 	IN TX_BLK *pTxBlk);
 
 VOID RTMPSuspendMsduTransmission(

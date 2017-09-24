@@ -1025,11 +1025,11 @@ VOID AP_AMPDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 		&& (pTxBlk->TxSndgPkt == SNDG_TYPE_DISABLE)
 	)
 	{
-		RTMPWriteTxWI_Cache(pAd, (TXWI_STRUC *)(&pTxBlk->HeaderBuf[TXINFO_SIZE]), pTxBlk);
+		RTMPWriteTxWI_Cache(pAd, (struct mt7612u_txwi *)(&pTxBlk->HeaderBuf[TXINFO_SIZE]), pTxBlk);
 	}
 	else
 	{
-		RTMPWriteTxWI_Data(pAd, (TXWI_STRUC *)(&pTxBlk->HeaderBuf[TXINFO_SIZE]), pTxBlk);
+		RTMPWriteTxWI_Data(pAd, (struct mt7612u_txwi *)(&pTxBlk->HeaderBuf[TXINFO_SIZE]), pTxBlk);
 
 
 
@@ -1172,7 +1172,7 @@ VOID AP_AMSDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 				}
 			}
 #endif /* WFA_VHT_PF */
-			RTMPWriteTxWI_Data(pAd, (TXWI_STRUC *)(&pTxBlk->HeaderBuf[TXINFO_SIZE]), pTxBlk);
+			RTMPWriteTxWI_Data(pAd, (struct mt7612u_txwi *)(&pTxBlk->HeaderBuf[TXINFO_SIZE]), pTxBlk);
 
 			if (RTMP_GET_PACKET_LOWRATE(pTxBlk->pPacket))
 				if (pMacEntry)
@@ -1564,7 +1564,7 @@ VOID AP_Legacy_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 		GET_GroupKey_WCID(pAd, pTxBlk->Wcid, pTxBlk->apidx);
 	}
 
-	RTMPWriteTxWI_Data(pAd, (TXWI_STRUC *)(&pTxBlk->HeaderBuf[TXINFO_SIZE]), pTxBlk);
+	RTMPWriteTxWI_Data(pAd, (struct mt7612u_txwi *)(&pTxBlk->HeaderBuf[TXINFO_SIZE]), pTxBlk);
 	if (RTMP_GET_PACKET_LOWRATE(pTxBlk->pPacket))
 		if (pTxBlk->pMacEntry)
 			pTxBlk->pMacEntry->isCached = false;
@@ -1898,7 +1898,7 @@ VOID AP_Fragment_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 		}
 #endif /* SOFT_ENCRYPT */
 
-		RTMPWriteTxWI_Data(pAd, (TXWI_STRUC *)(&pTxBlk->HeaderBuf[TXINFO_SIZE]), pTxBlk);
+		RTMPWriteTxWI_Data(pAd, (struct mt7612u_txwi *)(&pTxBlk->HeaderBuf[TXINFO_SIZE]), pTxBlk);
 
 		HAL_WriteFragTxResource(pAd, pTxBlk, fragNum, &freeCnt);
 
@@ -2015,7 +2015,7 @@ VOID AP_ARalink_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 				It's ok write the TxWI here, because the TxWI->TxWIMPDUByteCnt
 				will be updated after final frame was handled.
 			*/
-			RTMPWriteTxWI_Data(pAd, (TXWI_STRUC *)(&pTxBlk->HeaderBuf[TXINFO_SIZE]), pTxBlk);
+			RTMPWriteTxWI_Data(pAd, (struct mt7612u_txwi *)(&pTxBlk->HeaderBuf[TXINFO_SIZE]), pTxBlk);
 
 
 			/* Insert LLC-SNAP encapsulation - 8 octets */

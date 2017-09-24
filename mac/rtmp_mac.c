@@ -55,7 +55,7 @@
 */
 VOID RTMPWriteTxWI(
 	IN struct rtmp_adapter *pAd,
-	IN TXWI_STRUC *pOutTxWI,
+	IN struct mt7612u_txwi *pOutTxWI,
 	IN bool FRAG,
 	IN bool CFACK,
 	IN bool InsTimestamp,
@@ -72,7 +72,7 @@ VOID RTMPWriteTxWI(
 	IN HTTRANSMIT_SETTING *pTransmit)
 {
 	PMAC_TABLE_ENTRY pMac = NULL;
-	TXWI_STRUC TxWI, *pTxWI;
+	struct mt7612u_txwi TxWI, *pTxWI;
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
 	UINT TxEAPId_Cal;
 	u8 eTxBf, iTxBf, sounding, ndp_rate, stbc, bw, mcs, sgi, phy_mode, mpdu_density = 0, mimops = 0, ldpc = 0;
@@ -146,7 +146,7 @@ VOID RTMPWriteTxWI(
 			//mcs = MCS_RATE_24;
 
 			DBGPRINT(RT_DEBUG_TRACE, ("%s : NDP Sounding and NDPSndRate = %d\n", __FUNCTION__, ndp_rate));
-			DBGPRINT(RT_DEBUG_TRACE, ("%s : BSSID[5] = %x, txwi_n->TxEAPId = %d\n", __FUNCTION__, pAd->CommonCfg.Bssid[5], TxEAPId_Cal));
+			DBGPRINT(RT_DEBUG_TRACE, ("%s : BSSID[5] = %x, pTxWI->TxEAPId = %d\n", __FUNCTION__, pAd->CommonCfg.Bssid[5], TxEAPId_Cal));
 		}
 	}
 
@@ -156,44 +156,43 @@ VOID RTMPWriteTxWI(
 
 
 	{
-		struct _TXWI_NMAC *txwi_n = (struct _TXWI_NMAC *)pTxWI;
-		txwi_n->FRAG = FRAG;
-		txwi_n->CFACK= CFACK;
-		txwi_n->TS = InsTimestamp;
-		txwi_n->AMPDU = AMPDU;
-		txwi_n->ACK = Ack;
-		txwi_n->txop = Txopmode;
-		txwi_n->NSEQ = NSeq;
-		txwi_n->BAWinSize = BASize;
-		txwi_n->ShortGI = sgi;
-		txwi_n->STBC = stbc;
-		txwi_n->LDPC = ldpc;
-		txwi_n->MCS= mcs;
-		txwi_n->BW = bw;
-		txwi_n->PHYMODE= phy_mode;
-		txwi_n->MpduDensity = mpdu_density;
-		txwi_n->MIMOps = mimops;
-		txwi_n->wcid = WCID;
-		txwi_n->MPDUtotalByteCnt = Length;
-		txwi_n->TxPktId = mcs; // PID is not used now!
+		pTxWI->FRAG = FRAG;
+		pTxWI->CFACK= CFACK;
+		pTxWI->TS = InsTimestamp;
+		pTxWI->AMPDU = AMPDU;
+		pTxWI->ACK = Ack;
+		pTxWI->txop = Txopmode;
+		pTxWI->NSEQ = NSeq;
+		pTxWI->BAWinSize = BASize;
+		pTxWI->ShortGI = sgi;
+		pTxWI->STBC = stbc;
+		pTxWI->LDPC = ldpc;
+		pTxWI->MCS= mcs;
+		pTxWI->BW = bw;
+		pTxWI->PHYMODE= phy_mode;
+		pTxWI->MpduDensity = mpdu_density;
+		pTxWI->MIMOps = mimops;
+		pTxWI->wcid = WCID;
+		pTxWI->MPDUtotalByteCnt = Length;
+		pTxWI->TxPktId = mcs; // PID is not used now!
 
 #ifdef CONFIG_AP_SUPPORT
-		txwi_n->GroupID = true;
-		txwi_n->TxEAPId = TxEAPId_Cal;
+		pTxWI->GroupID = true;
+		pTxWI->TxEAPId = TxEAPId_Cal;
 #endif /*CONFIG_AP_SUPPORT*/
 
 #ifdef CONFIG_STA_SUPPORT
-		txwi_n->GroupID = false;
-		txwi_n->TxEAPId = pAd->CommonCfg.Bssid[5];
+		pTxWI->GroupID = false;
+		pTxWI->TxEAPId = pAd->CommonCfg.Bssid[5];
 #endif /*CONFIG_STA_SUPPORT*/
 
-		txwi_n->TxStreamMode = tx_stream_mode;
-		txwi_n->Sounding = sounding;
-		txwi_n->eTxBF = eTxBf;
-		txwi_n->iTxBF = iTxBf;
-		txwi_n->NDPSndRate = ndp_rate;
-		txwi_n->NDPSndBW = bw;
-		txwi_n->TXBF_PT_SCA = (eTxBf | iTxBf) ? true : false;
+		pTxWI->TxStreamMode = tx_stream_mode;
+		pTxWI->Sounding = sounding;
+		pTxWI->eTxBF = eTxBf;
+		pTxWI->iTxBF = iTxBf;
+		pTxWI->NDPSndRate = ndp_rate;
+		pTxWI->NDPSndBW = bw;
+		pTxWI->TXBF_PT_SCA = (eTxBf | iTxBf) ? true : false;
 
 	}
 
@@ -206,7 +205,7 @@ if (0){
 }
 
 
-VOID RTMPWriteTxWI_Data(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pTxBlk)
+VOID RTMPWriteTxWI_Data(struct rtmp_adapter *pAd, struct mt7612u_txwi *pTxWI, TX_BLK *pTxBlk)
 {
 	HTTRANSMIT_SETTING *pTransmit;
 	MAC_TABLE_ENTRY *pMacEntry;
@@ -342,55 +341,53 @@ VOID RTMPWriteTxWI_Data(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pTx
 	pkt_id = mcs;
 
 	{
-		struct _TXWI_NMAC *txwi_n = (struct _TXWI_NMAC *)pTxWI;
-
-		txwi_n->FRAG = TX_BLK_TEST_FLAG(pTxBlk, fTX_bAllowFrag);
-		txwi_n->ACK = TX_BLK_TEST_FLAG(pTxBlk, fTX_bAckRequired);
+		pTxWI->FRAG = TX_BLK_TEST_FLAG(pTxBlk, fTX_bAllowFrag);
+		pTxWI->ACK = TX_BLK_TEST_FLAG(pTxBlk, fTX_bAckRequired);
 		if (RTMP_GET_PACKET_TDLS_WAIT_ACK(pTxBlk->pPacket)) {
-			txwi_n->TxPktId |= 0x80;
-			DBGPRINT(RT_DEBUG_INFO,("PktID |= 0x80 : [%x]\n",txwi_n->TxPktId));
+			pTxWI->TxPktId |= 0x80;
+			DBGPRINT(RT_DEBUG_INFO,("PktID |= 0x80 : [%x]\n",pTxWI->TxPktId));
 		} else {
-			txwi_n->TxPktId &= 0x7f;
-			DBGPRINT(RT_DEBUG_INFO,("PktID : [%x]\n",txwi_n->TxPktId));
+			pTxWI->TxPktId &= 0x7f;
+			DBGPRINT(RT_DEBUG_INFO,("PktID : [%x]\n",pTxWI->TxPktId));
 		}
 #ifdef WFA_VHT_PF
 		if (pAd->force_noack == true)
-			txwi_n->ACK = 0;
+			pTxWI->ACK = 0;
 #endif /* WFA_VHT_PF */
 
 		if (pTxBlk->TxSndgPkt > SNDG_TYPE_DISABLE)
-			txwi_n->txop = IFS_BACKOFF; // Reserve larger TXOP to prevent sounding packet from collision
+			pTxWI->txop = IFS_BACKOFF; // Reserve larger TXOP to prevent sounding packet from collision
 		else
-			txwi_n->txop = pTxBlk->FrameGap;
+			pTxWI->txop = pTxBlk->FrameGap;
 
-		txwi_n->wcid = wcid;
-		txwi_n->MPDUtotalByteCnt = pTxBlk->MpduHeaderLen + pTxBlk->SrcBufLen;
-		txwi_n->CFACK = TX_BLK_TEST_FLAG(pTxBlk, fTX_bPiggyBack);
-		txwi_n->ShortGI = sgi;
-		txwi_n->STBC = stbc;
-		txwi_n->LDPC = ldpc;
-		txwi_n->TxStreamMode = tx_stream_mode;
-		txwi_n->MCS = mcs;
-		txwi_n->PHYMODE = phy_mode;
-		txwi_n->BW = bw;
-		txwi_n->TxPktId = pkt_id;
+		pTxWI->wcid = wcid;
+		pTxWI->MPDUtotalByteCnt = pTxBlk->MpduHeaderLen + pTxBlk->SrcBufLen;
+		pTxWI->CFACK = TX_BLK_TEST_FLAG(pTxBlk, fTX_bPiggyBack);
+		pTxWI->ShortGI = sgi;
+		pTxWI->STBC = stbc;
+		pTxWI->LDPC = ldpc;
+		pTxWI->TxStreamMode = tx_stream_mode;
+		pTxWI->MCS = mcs;
+		pTxWI->PHYMODE = phy_mode;
+		pTxWI->BW = bw;
+		pTxWI->TxPktId = pkt_id;
 
-		txwi_n->AMPDU = ampdu;
-		txwi_n->BAWinSize = basize;
-		txwi_n->MIMOps = mimops;
-		txwi_n->MpduDensity = mpdu_density;
+		pTxWI->AMPDU = ampdu;
+		pTxWI->BAWinSize = basize;
+		pTxWI->MIMOps = mimops;
+		pTxWI->MpduDensity = mpdu_density;
 
-		txwi_n->Sounding = sounding;
-		txwi_n->iTxBF = iTxBf;
-		txwi_n->eTxBF = eTxBf;
-		txwi_n->NDPSndRate = ndp_rate;
-		txwi_n->NDPSndBW = ndp_bw;
-		txwi_n->TXBF_PT_SCA = (eTxBf | iTxBf) ? true : false;
+		pTxWI->Sounding = sounding;
+		pTxWI->iTxBF = iTxBf;
+		pTxWI->eTxBF = eTxBf;
+		pTxWI->NDPSndRate = ndp_rate;
+		pTxWI->NDPSndBW = ndp_bw;
+		pTxWI->TXBF_PT_SCA = (eTxBf | iTxBf) ? true : false;
 	}
 }
 
 
-VOID RTMPWriteTxWI_Cache(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pTxBlk)
+VOID RTMPWriteTxWI_Cache(struct rtmp_adapter *pAd, struct mt7612u_txwi *pTxWI, TX_BLK *pTxBlk)
 {
 	HTTRANSMIT_SETTING *pTransmit = pTxBlk->pTransmit;
 	HTTRANSMIT_SETTING tmpTransmit;
@@ -503,40 +500,38 @@ VOID RTMPWriteTxWI_Cache(struct rtmp_adapter *pAd, TXWI_STRUC *pTxWI, TX_BLK *pT
 		pkt_id = mcs;
 
 	{
-		struct _TXWI_NMAC *txwi_n = (struct _TXWI_NMAC *)pTxWI;
-
 		if (pTxBlk->TxSndgPkt > SNDG_TYPE_DISABLE)
-			txwi_n->txop = IFS_BACKOFF; // Reserve larger TXOP to prevent sounding packet from collision
+			pTxWI->txop = IFS_BACKOFF; // Reserve larger TXOP to prevent sounding packet from collision
 		else
-		txwi_n->txop = IFS_HTTXOP;
-		txwi_n->BW = bw;
-		txwi_n->ShortGI = sgi;
-		txwi_n->STBC = stbc;
-		txwi_n->LDPC = ldpc;
-		txwi_n->TxStreamMode = tx_stream_mode;
-		txwi_n->MCS = mcs;
-		txwi_n->PHYMODE = phy_mode;
-		txwi_n->TxPktId = pkt_id;
-		txwi_n->MPDUtotalByteCnt = pTxBlk->MpduHeaderLen + pTxBlk->SrcBufLen;
-		txwi_n->ACK = TX_BLK_TEST_FLAG(pTxBlk, fTX_bAckRequired);
+		pTxWI->txop = IFS_HTTXOP;
+		pTxWI->BW = bw;
+		pTxWI->ShortGI = sgi;
+		pTxWI->STBC = stbc;
+		pTxWI->LDPC = ldpc;
+		pTxWI->TxStreamMode = tx_stream_mode;
+		pTxWI->MCS = mcs;
+		pTxWI->PHYMODE = phy_mode;
+		pTxWI->TxPktId = pkt_id;
+		pTxWI->MPDUtotalByteCnt = pTxBlk->MpduHeaderLen + pTxBlk->SrcBufLen;
+		pTxWI->ACK = TX_BLK_TEST_FLAG(pTxBlk, fTX_bAckRequired);
 #ifdef WFA_VHT_PF
 		if (pAd->force_noack == true)
-			txwi_n->ACK = 0;
+			pTxWI->ACK = 0;
 #endif /* WFA_VHT_PF */
 
-		txwi_n->AMPDU = ampdu;
+		pTxWI->AMPDU = ampdu;
 		if (basize)
-			txwi_n->BAWinSize = basize;
-		txwi_n->MIMOps = mimops;
+			pTxWI->BAWinSize = basize;
+		pTxWI->MIMOps = mimops;
 		if (mpdu_density)
-			txwi_n->MpduDensity = mpdu_density;
+			pTxWI->MpduDensity = mpdu_density;
 
-		txwi_n->Sounding = sounding;
-		txwi_n->eTxBF = eTxBf;
-		txwi_n->iTxBF = iTxBf;
-		txwi_n->NDPSndRate = ndp_rate;
-		txwi_n->NDPSndBW = ndp_bw;
-		txwi_n->TXBF_PT_SCA = (eTxBf | iTxBf) ? true : false;
+		pTxWI->Sounding = sounding;
+		pTxWI->eTxBF = eTxBf;
+		pTxWI->iTxBF = iTxBf;
+		pTxWI->NDPSndRate = ndp_rate;
+		pTxWI->NDPSndBW = ndp_bw;
+		pTxWI->TXBF_PT_SCA = (eTxBf | iTxBf) ? true : false;
 
 	}
 

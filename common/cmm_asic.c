@@ -1181,11 +1181,11 @@ VOID AsicEnableIbssSync(struct rtmp_adapter *pAd)
 	unsigned short beaconLen = 0;
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
 
-	beaconLen = pAd->BeaconTxWI.TXWI_N.MPDUtotalByteCnt;
+	beaconLen = pAd->BeaconTxWI.MPDUtotalByteCnt;
 
 #ifdef RT_BIG_ENDIAN
 	{
-		TXWI_STRUC localTxWI;
+		struct mt7612u_txwi localTxWI;
 
 		memmove(&localTxWI, &pAd->BeaconTxWI, TXWISize);
 		RTMPWIEndianChange(pAd, (u8 *)&localTxWI, TYPE_TXWI);

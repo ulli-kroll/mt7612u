@@ -430,7 +430,7 @@ int MlmeHardTransmitMgmtRing(
 	HEADER_802_11 *pHeader_802_11;
 	bool bAckRequired, bInsertTimestamp;
 	u8 MlmeRate;
-	TXWI_STRUC *pFirstTxWI;
+	struct mt7612u_txwi *pFirstTxWI;
 	MAC_TABLE_ENTRY *pMacEntry = NULL;
 	u8 PID, wcid, tx_rate;
 	HTTRANSMIT_SETTING *transmit;
@@ -461,7 +461,7 @@ int MlmeHardTransmitMgmtRing(
 	}
 #endif /* CONFIG_STA_SUPPORT */
 
-	pFirstTxWI = (TXWI_STRUC *)(pSrcBufVA +  TXINFO_SIZE);
+	pFirstTxWI = (struct mt7612u_txwi *)(pSrcBufVA +  TXINFO_SIZE);
 	pHeader_802_11 = (PHEADER_802_11) (pSrcBufVA + TXINFO_SIZE + TSO_SIZE + TXWISize);
 
 	if (pHeader_802_11->Addr1[0] & 0x01)
@@ -2707,7 +2707,7 @@ VOID RtmpPrepareHwNullFrame(
 	IN CHAR Index)
 {
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
-	TXWI_STRUC *pTxWI = &pAd->NullTxWI;
+	struct mt7612u_txwi *pTxWI = &pAd->NullTxWI;
 	u8 *pNullFrame;
 	HEADER_802_11 *pNullFr;
 	ULONG Length;

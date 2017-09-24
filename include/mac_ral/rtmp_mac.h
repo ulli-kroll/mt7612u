@@ -52,12 +52,6 @@ enum mt76_qsel {
 	MT_QSEL_EDCA_2,
 };
 
-typedef	union GNU_PACKED _TXWI_STRUC {
-	struct _TXWI_NMAC TXWI_N;
-	uint32_t word;
-}TXWI_STRUC;
-
-
 #define TXINFO_SIZE			4
 typedef union GNU_PACKED _TXINFO_STRUC{
 	struct txinfo_nmac_pkt txinfo_nmac_pkt;
