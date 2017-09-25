@@ -974,16 +974,14 @@ VOID NICUpdateFifoStaCounters(struct rtmp_adapter *pAd)
 #endif /* CONFIG_STA_SUPPORT */
 
 #ifdef CONFIG_AP_SUPPORT
-	if (pAd->MacTab.Size <= 8)
-	{
+	if (pAd->MacTab.Size <= 8) {
 		if (IS_RT65XX(pAd))
 			return;
 	}
 #endif /* CONFIG_AP_SUPPORT */
 
 
-	do
-	{
+	do {
 #ifdef FIFO_EXT_SUPPORT
 		StaFifoExt.word = mt7612u_read32(pAd, TX_STA_FIFO_EXT);
 #endif /* FIFO_EXT_SUPPORT */
@@ -1003,28 +1001,23 @@ VOID NICUpdateFifoStaCounters(struct rtmp_adapter *pAd)
 #endif /* DBG_CTRL_SUPPORT */
 
 		/* ignore NoACK and MGMT frame use 0xFF as WCID */
-		if ((StaFifo.field.TxAckRequired == 0) || (wcid >= MAX_LEN_OF_MAC_TABLE))
-		{
+		if ((StaFifo.field.TxAckRequired == 0) ||
+		    (wcid >= MAX_LEN_OF_MAC_TABLE)) {
 			i++;
 			continue;
 		}
 
 		/* PID store Tx MCS Rate */
-		if (IS_MT76x2(pAd))
-		{
+		if (IS_MT76x2(pAd)) {
 			PhyMode = StaFifo.field.PhyMode;
-			if((PhyMode == 2) || (PhyMode == 3))
-			{
+			if((PhyMode == 2) || (PhyMode == 3)) {
  				pid = (u8)StaFifoExt.field.PidType & 0xF;
-			}
-			else if(PhyMode == 4)
-			{
+			} else if(PhyMode == 4) {
 				pid = (u8)StaFifoExt.field.PidType & 0xF;
 				pid += (((u8)StaFifoExt.field.PidType & 0x10) ? 10 : 0);
 			}
-		}
-		else
-		pid = (u8)StaFifo.field.PidType;
+		} else
+			pid = (u8)StaFifo.field.PidType;
 
 		pEntry = &pAd->MacTab.Content[wcid];
 
@@ -1032,8 +1025,7 @@ VOID NICUpdateFifoStaCounters(struct rtmp_adapter *pAd)
 #ifdef CONFIG_STA_SUPPORT
 #endif /* CONFIG_STA_SUPPORT */
 
-		if (IS_MT76x2(pAd))
-		{
+		if (IS_MT76x2(pAd)) {
 			if(pEntry->LowPacket == false)
  			continue;
 		}
@@ -1042,8 +1034,7 @@ VOID NICUpdateFifoStaCounters(struct rtmp_adapter *pAd)
 
 
 		/* Update BF statistics*/
-		if (pAd->chipCap.FlgHwTxBfCap)
-		{
+		if (pAd->chipCap.FlgHwTxBfCap) {
 			int succMCS = (StaFifo.field.SuccessRate & 0x7F);
 			int origMCS = pid;
 
@@ -1068,203 +1059,173 @@ VOID NICUpdateFifoStaCounters(struct rtmp_adapter *pAd)
 					pEntry->TxBFCounters.ETxSuccessCount++;
 				else
 					pEntry->TxBFCounters.ETxFailCount++;
-					pEntry->TxBFCounters.ETxRetryCount += reTry;
+
+				pEntry->TxBFCounters.ETxRetryCount += reTry;
 			}
 			else if (StaFifo.field.iTxBF) {
 				if (StaFifo.field.TxSuccess)
 					pEntry->TxBFCounters.ITxSuccessCount++;
 				else
 					pEntry->TxBFCounters.ITxFailCount++;
+
 				pEntry->TxBFCounters.ITxRetryCount += reTry;
 			}
 			else {
-			if (StaFifo.field.TxSuccess)
-				pEntry->TxBFCounters.TxSuccessCount++;
-			else
-				pEntry->TxBFCounters.TxFailCount++;
-			pEntry->TxBFCounters.TxRetryCount += reTry;
-		}
-	}
+				if (StaFifo.field.TxSuccess)
+					pEntry->TxBFCounters.TxSuccessCount++;
+				else
+					pEntry->TxBFCounters.TxFailCount++;
 
+				pEntry->TxBFCounters.TxRetryCount += reTry;
+			}
+		}
 
 #ifdef CONFIG_STA_SUPPORT
-	if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_BSS_SCAN_IN_PROGRESS))
-		continue;
+		if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_BSS_SCAN_IN_PROGRESS))
+			continue;
 #endif /* CONFIG_STA_SUPPORT */
 
-	if (!StaFifo.field.TxSuccess)
-	{
-		pEntry->FIFOCount++;
-		pEntry->OneSecTxFailCount++;
+		if (!StaFifo.field.TxSuccess) {
+			pEntry->FIFOCount++;
+			pEntry->OneSecTxFailCount++;
 #ifdef CONFIG_AP_SUPPORT
-		pEntry->StatTxFailCount += pEntry->OneSecTxFailCount;
-		pAd->ApCfg.MBSSID[pEntry->apidx].StatTxFailCount += pEntry->StatTxFailCount;
+			pEntry->StatTxFailCount += pEntry->OneSecTxFailCount;
+			pAd->ApCfg.MBSSID[pEntry->apidx].StatTxFailCount += pEntry->StatTxFailCount;
 #endif /* CONFIG_AP_SUPPORT */
 
 
-		if (pEntry->FIFOCount >= 1)
-		{
-			DBGPRINT(RT_DEBUG_TRACE, ("#"));
-			pEntry->NoBADataCountDown = 64;
+			if (pEntry->FIFOCount >= 1) {
+				DBGPRINT(RT_DEBUG_TRACE, ("#"));
+				pEntry->NoBADataCountDown = 64;
 
-			/* Update the continuous transmission counter.*/
-			pEntry->ContinueTxFailCnt++;
+				/* Update the continuous transmission counter.*/
+				pEntry->ContinueTxFailCnt++;
 
-			if(pEntry->PsMode == PWR_ACTIVE)
-			{
-				int tid;
+				if(pEntry->PsMode == PWR_ACTIVE) {
+					int tid;
 
 #ifdef CONFIG_AP_SUPPORT
 #ifdef MULTI_CLIENT_SUPPORT
-				if ((pAd->ApCfg.EntryClientCount > 2) &&
-					(pEntry->HTPhyMode.field.MODE >= MODE_HTMIX) &&
-					(pEntry->lowTrafficCount >= 4 /* 2 sec */))
-					pEntry->NoBADataCountDown = 10;
+					if ((pAd->ApCfg.EntryClientCount > 2) &&
+					    (pEntry->HTPhyMode.field.MODE >= MODE_HTMIX) &&
+					    (pEntry->lowTrafficCount >= 4 /* 2 sec */))
+						pEntry->NoBADataCountDown = 10;
 #endif /* MULTI_CLIENT_SUPPORT */
 #endif /* CONFIG_AP_SUPPORT */
 
-				for (tid=0; tid<NUM_OF_TID; tid++)
-					BAOriSessionTearDown(pAd, pEntry->wcid,  tid, false, false);
+					for (tid=0; tid<NUM_OF_TID; tid++)
+						BAOriSessionTearDown(pAd, pEntry->wcid,  tid, false, false);
 
+				}
 			}
-		}
 #ifdef CONFIG_AP_SUPPORT
 #endif /* CONFIG_AP_SUPPORT */
-	}
-	else
-	{
-		if ((pEntry->PsMode != PWR_SAVE) && (pEntry->NoBADataCountDown > 0))
-		{
-			pEntry->NoBADataCountDown--;
-			if (pEntry->NoBADataCountDown==0)
-			{
-				DBGPRINT(RT_DEBUG_TRACE, ("@\n"));
+		} else {
+			if ((pEntry->PsMode != PWR_SAVE) &&
+			    (pEntry->NoBADataCountDown > 0)) {
+				pEntry->NoBADataCountDown--;
+
+				if (pEntry->NoBADataCountDown==0) {
+					DBGPRINT(RT_DEBUG_TRACE, ("@\n"));
+				}
 			}
-		}
-		pEntry->FIFOCount = 0;
-		pEntry->OneSecTxNoRetryOkCount++;
+			pEntry->FIFOCount = 0;
+			pEntry->OneSecTxNoRetryOkCount++;
 
-
-		/* update NoDataIdleCount when sucessful send packet to STA.*/
-		pEntry->NoDataIdleCount = 0;
-		pEntry->ContinueTxFailCnt = 0;
+			/* update NoDataIdleCount when sucessful send packet to STA.*/
+			pEntry->NoDataIdleCount = 0;
+			pEntry->ContinueTxFailCnt = 0;
 
 #ifdef CONFIG_STA_SUPPORT
 #endif /* CONFIG_STA_SUPPORT */
-	}
+		}
 
-	if (IS_MT76x2(pAd))
-	{
-		PhyMode = StaFifo.field.PhyMode;
-		if((PhyMode == 2) || (PhyMode == 3))
-		{
-  	    		succMCS = StaFifo.field.SuccessRate & 0xF;
+		if (IS_MT76x2(pAd)) {
+			PhyMode = StaFifo.field.PhyMode;
+			if((PhyMode == 2) || (PhyMode == 3)) {
+				succMCS = StaFifo.field.SuccessRate & 0xF;
 
+				if (StaFifo.field.TxSuccess) {
+					pEntry->TXMCSExpected[pid]++;
+					if (pid == succMCS)
+						pEntry->TXMCSSuccessful[pid]++;
+					else
+						pEntry->TXMCSAutoFallBack[pid][succMCS]++;
+				} else {
+					pEntry->TXMCSFailed[pid]++;
+				}
 
-			if (StaFifo.field.TxSuccess)
-			{
-				pEntry->TXMCSExpected[pid]++;
-				if (pid == succMCS)
-					pEntry->TXMCSSuccessful[pid]++;
-				else
-					pEntry->TXMCSAutoFallBack[pid][succMCS]++;
-			}
-			else
-			{
-				pEntry->TXMCSFailed[pid]++;
-			}
+				reTry = pid - succMCS;
 
+				if (reTry > 0) {
+					/* MCS8 falls back to 0 */
+					if (pid>=8 && succMCS==0)
+						reTry -= 7;
+					//else if ((pid >= 12) && succMCS <=7)
+					//	reTry -= 4;
 
-			reTry = pid - succMCS;
-
-			if (reTry > 0)
-			{
-				/* MCS8 falls back to 0 */
-				if (pid>=8 && succMCS==0)
-					reTry -= 7;
-		    		//else if ((pid >= 12) && succMCS <=7)
-			    	//	reTry -= 4;
-
-				pEntry->OneSecTxRetryOkCount += reTry;
+					pEntry->OneSecTxRetryOkCount += reTry;
 
 #ifdef CONFIG_AP_SUPPORT
-				pEntry->StatTxRetryOkCount += pEntry->OneSecTxRetryOkCount;
-				pAd->ApCfg.MBSSID[pEntry->apidx].StatTxRetryOkCount += pEntry->StatTxRetryOkCount;
+					pEntry->StatTxRetryOkCount += pEntry->OneSecTxRetryOkCount;
+					pAd->ApCfg.MBSSID[pEntry->apidx].StatTxRetryOkCount += pEntry->StatTxRetryOkCount;
 #endif /* CONFIG_AP_SUPPORT */
 
+				}
+			} else if(PhyMode == 4) {
+				succMCS = StaFifo.field.SuccessRate & 0xF;
+				succMCS += ((StaFifo.field.SuccessRate & 0x10) ? 10 : 0);
+				//DBGPRINT(0, ("%s()Succ MCS :TxMCS(%d):PHYMode(%d)\n", __FUNCTION__, pid, PhyMode));
+				if (StaFifo.field.TxSuccess) {
+					pEntry->TXMCSExpected[pid]++;
+
+					if (pid == succMCS)
+						pEntry->TXMCSSuccessful[pid]++;
+					else
+						pEntry->TXMCSAutoFallBack[pid][succMCS]++;
+				} else {
+					pEntry->TXMCSFailed[pid]++;
+				}
+
+				reTry = pid - succMCS;
+
+				if (reTry > 0) {
+					/* MCS10 falls back to 0 */
+					if (pid >= 10 && succMCS == 0)
+						reTry -= 9;
+
+					pEntry->OneSecTxRetryOkCount += reTry;
+
+				}
+
+				if(reTry <= 0)
+					pEntry->DownTxMCSRate[0]++;
+				else if(reTry > (NUM_OF_SWFB-1))
+					pEntry->DownTxMCSRate[NUM_OF_SWFB-1]++;
+				else
+					pEntry->DownTxMCSRate[reTry]++;
 			}
-		}
-		else if(PhyMode == 4)
-		{
-  	    		succMCS = StaFifo.field.SuccessRate & 0xF;
-			succMCS += ((StaFifo.field.SuccessRate & 0x10) ? 10 : 0);
-			//DBGPRINT(0, ("%s()Succ MCS :TxMCS(%d):PHYMode(%d)\n", __FUNCTION__, pid, PhyMode));
-		    	if (StaFifo.field.TxSuccess)
-		    	{
-		    		pEntry->TXMCSExpected[pid]++;
-
-			    	if (pid == succMCS)
-			    		pEntry->TXMCSSuccessful[pid]++;
-			    	else
-			    		pEntry->TXMCSAutoFallBack[pid][succMCS]++;
-		    	}
-		    	else
-			{
-				pEntry->TXMCSFailed[pid]++;
-			}
-
-			reTry = pid - succMCS;
-
-			if (reTry > 0)
-			{
-				/* MCS10 falls back to 0 */
-				if (pid >= 10 && succMCS == 0)
-					reTry -= 9;
-
-				pEntry->OneSecTxRetryOkCount += reTry;
-
-			}
-
-			if(reTry <= 0)
-				pEntry->DownTxMCSRate[0]++;
-			else if(reTry > (NUM_OF_SWFB-1))
-				pEntry->DownTxMCSRate[NUM_OF_SWFB-1]++;
-			else
-				pEntry->DownTxMCSRate[reTry]++;
-			}
-		}
-		else
-		{
+		} else {
 			succMCS = StaFifo.field.SuccessRate & 0x7F;
 
-
-			if (StaFifo.field.TxSuccess)
-			{
+			if (StaFifo.field.TxSuccess) {
 				pEntry->TXMCSExpected[pid]++;
-				if (pid == succMCS)
-				{
+				if (pid == succMCS) {
 					pEntry->TXMCSSuccessful[pid]++;
-				}
-				else
-				{
+				} else {
 					pEntry->TXMCSAutoFallBack[pid][succMCS]++;
 				}
-			}
-			else
-			{
+			} else {
 				pEntry->TXMCSFailed[pid]++;
 			}
 
-
 			reTry = pid - succMCS;
 
-			if (reTry > 0)
-			{
+			if (reTry > 0) {
 				/* MCS8 falls back to 0 */
 				if (pid>=8 && succMCS==0)
 					reTry -= 7;
-				else if ((pid >= 12) && succMCS <=7)
-				{
+				else if ((pid >= 12) && succMCS <=7) {
 					reTry -= 4;
 				}
 
@@ -1276,7 +1237,6 @@ VOID NICUpdateFifoStaCounters(struct rtmp_adapter *pAd)
 	} while ( i < (TX_RING_SIZE<<1) );
 
 }
-
 
 #ifdef FIFO_EXT_SUPPORT
 bool NicGetMacFifoTxCnt(struct rtmp_adapter *pAd, MAC_TABLE_ENTRY *pEntry)
