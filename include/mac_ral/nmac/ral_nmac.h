@@ -859,7 +859,7 @@ struct mt7612u_txwi;
 
 VOID dump_rlt_rxinfo(struct rtmp_adapter *pAd, struct mt7612u_rxinfo *pRxInfo);
 VOID dump_rlt_txinfo(struct rtmp_adapter *pAd, struct mt7612_txinfo_pkt *pTxInfo);
-VOID dump_rlt_txwi(struct rtmp_adapter *pAd, struct mt7612u_txwi *pTxWI);
+VOID dump_rlt_txwi(struct rtmp_adapter *pAd, struct mt7612u_txwi *txwi);
 VOID dump_rlt_rxwi(struct rtmp_adapter *pAd, struct mt7612u_rxwi *pRxWI);
 VOID dumpRxFCEInfo(struct rtmp_adapter *pAd, struct mt7612u_rxfce_info_pkt *pRxFceInfo);
 

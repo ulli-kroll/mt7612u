@@ -3073,9 +3073,9 @@ void dbQueueEnqueue(u8 type, u8 *data)
 	memcpy(oldTail->data, data, DBQ_DATA_LENGTH);
 }
 
-void dbQueueEnqueueTxFrame(u8 *pTxWI, u8 *pHeader_802_11)
+void dbQueueEnqueueTxFrame(u8 *txwi, u8 *pHeader_802_11)
 {
-	dbQueueEnqueue(DBQ_TYPE_TXWI, pTxWI);
+	dbQueueEnqueue(DBQ_TYPE_TXWI, txwi);
 
 	/* 802.11 Header */
 	if (pHeader_802_11 != NULL) {

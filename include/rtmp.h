@@ -4454,7 +4454,7 @@ unsigned short RTMPCalcDuration(
 
 VOID RTMPWriteTxWI(
 	IN struct rtmp_adapter *pAd,
-	IN struct mt7612u_txwi *pTxWI,
+	IN struct mt7612u_txwi *txwi,
 	IN bool FRAG,
 	IN bool CFACK,
 	IN bool InsTimestamp,
@@ -4473,13 +4473,13 @@ VOID RTMPWriteTxWI(
 
 VOID RTMPWriteTxWI_Data(
 	IN struct rtmp_adapter *pAd,
-	INOUT struct mt7612u_txwi *pTxWI,
+	INOUT struct mt7612u_txwi *txwi,
 	IN TX_BLK *pTxBlk);
 
 
 VOID RTMPWriteTxWI_Cache(
 	IN struct rtmp_adapter *pAd,
-	INOUT struct mt7612u_txwi *pTxWI,
+	INOUT struct mt7612u_txwi *txwi,
 	IN TX_BLK *pTxBlk);
 
 VOID RTMPSuspendMsduTransmission(
@@ -6076,7 +6076,7 @@ INT Set_DebugFlags_Proc(struct rtmp_adapter *pAd, char *arg);
 #ifdef INCLUDE_DEBUG_QUEUE
 INT Set_DebugQueue_Proc(struct rtmp_adapter *pAd, char *arg);
 void dbQueueEnqueue(u8 type, u8 *data);
-void dbQueueEnqueueTxFrame(u8 *pTxWI, u8 *pDot11Hdr);
+void dbQueueEnqueueTxFrame(u8 *txwi, u8 *pDot11Hdr);
 void dbQueueEnqueueRxFrame(u8 *pRxWI, u8 *pDot11Hdr ULONG flags);
 #endif /* INCLUDE_DEBUG_QUEUE */
 #endif /* DBG_CTRL_SUPPORT */

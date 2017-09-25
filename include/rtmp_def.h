@@ -1338,7 +1338,7 @@ enum WIFI_MODE{
 #define RATE_FIRST_HT_RATE        HTRATE_0
 #define RATE_LAST_HT_RATE        HTRATE_0
 
-/* pTxWI->txop */
+/* txwi->txop */
 #define IFS_HTTXOP                 0	/* The txop will be handles by ASIC. */
 #define IFS_PIFS                    1
 #define IFS_SIFS                    2

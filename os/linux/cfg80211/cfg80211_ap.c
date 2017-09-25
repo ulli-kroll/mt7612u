@@ -210,7 +210,7 @@ VOID CFG80211_UpdateBeacon(
 	PCFG80211_CTRL pCfg80211_ctrl = &pAd->cfg80211_ctrl;
 	HTTRANSMIT_SETTING BeaconTransmit;   /* MGMT frame PHY rate setting when operatin at Ht rate. */
 	u8 *pBeaconFrame = (u8 *)pAd->ApCfg.MBSSID[MAIN_MBSSID].BeaconBuf;
-	struct mt7612u_txwi *pTxWI = &pAd->BeaconTxWI;
+	struct mt7612u_txwi *txwi = &pAd->BeaconTxWI;
 	u8 New_Tim_Len;
 	uint32_t beacon_len;
 
@@ -277,7 +277,7 @@ VOID CFG80211_UpdateBeacon(
 	BeaconTransmit.field.MCS = MCS_RATE_6;
 
 	//YF
-	RTMPWriteTxWI(pAd, pTxWI, false, false, true, false, false, true, 0, BSS0Mcast_WCID,
+	RTMPWriteTxWI(pAd, txwi, false, false, true, false, false, true, 0, BSS0Mcast_WCID,
                 	beacon_len, PID_MGMT, 0, 0, IFS_HTTXOP, &BeaconTransmit);
 
 	/* CFG_TODO */

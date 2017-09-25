@@ -80,31 +80,31 @@ VOID dumpRxFCEInfo(struct rtmp_adapter *pAd, struct mt7612u_rxfce_info_pkt *pRxF
 static u8 *txwi_txop_str[]={"HT_TXOP", "PIFS", "SIFS", "BACKOFF", "Invalid"};
 #define TXWI_TXOP_STR(_x)	((_x) <= 3 ? txwi_txop_str[(_x)]: txwi_txop_str[4])
 
-VOID dump_rlt_txwi(struct rtmp_adapter *pAd, struct mt7612u_txwi *pTxWI)
+VOID dump_rlt_txwi(struct rtmp_adapter *pAd, struct mt7612u_txwi *txwi)
 {
-	DBGPRINT(RT_DEBUG_OFF, ("\tPHYMODE=%d(%s)\n", pTxWI->PHYMODE,  get_phymode_str(pTxWI->PHYMODE)));
-	DBGPRINT(RT_DEBUG_OFF, ("\tITxBf=%d\n", pTxWI->iTxBF));
-	DBGPRINT(RT_DEBUG_OFF, ("\tETxBf=%d\n", pTxWI->eTxBF));
-	DBGPRINT(RT_DEBUG_OFF, ("\tSounding=%d\n", pTxWI->Sounding));
-	DBGPRINT(RT_DEBUG_OFF, ("\tNDP Sounding BW=%d\n", pTxWI->NDPSndBW));
-	DBGPRINT(RT_DEBUG_OFF, ("\tNDP Sounding Rate=%d\n", pTxWI->NDPSndRate));
-	DBGPRINT(RT_DEBUG_OFF, ("\tSTBC=%d\n", pTxWI->STBC));
-	DBGPRINT(RT_DEBUG_OFF, ("\tShortGI=%d\n", pTxWI->ShortGI));
-	DBGPRINT(RT_DEBUG_OFF, ("\tBW=%d(%sMHz)\n", pTxWI->BW, get_bw_str(pTxWI->BW)));
-	DBGPRINT(RT_DEBUG_OFF, ("\tMCS=%d\n", pTxWI->MCS));
-	DBGPRINT(RT_DEBUG_OFF, ("\tTxOP=%d(%s)\n", pTxWI->txop, TXWI_TXOP_STR(pTxWI->txop)));
-	DBGPRINT(RT_DEBUG_OFF, ("\tMpduDensity=%d\n", pTxWI->MpduDensity));
-	DBGPRINT(RT_DEBUG_OFF, ("\tAMPDU=%d\n", pTxWI->AMPDU));
-	DBGPRINT(RT_DEBUG_OFF, ("\tTS=%d\n", pTxWI->TS));
-	DBGPRINT(RT_DEBUG_OFF, ("\tCF-ACK=%d\n", pTxWI->CFACK));
-	DBGPRINT(RT_DEBUG_OFF, ("\tMIMO-PS=%d\n", pTxWI->MIMOps));
-	DBGPRINT(RT_DEBUG_OFF, ("\tNSEQ=%d\n", pTxWI->NSEQ));
-	DBGPRINT(RT_DEBUG_OFF, ("\tACK=%d\n", pTxWI->ACK));
-	DBGPRINT(RT_DEBUG_OFF, ("\tFRAG=%d\n", pTxWI->FRAG));
-	DBGPRINT(RT_DEBUG_OFF, ("\tWCID=%d\n", pTxWI->wcid));
-	DBGPRINT(RT_DEBUG_OFF, ("\tBAWinSize=%d\n", pTxWI->BAWinSize));
-	DBGPRINT(RT_DEBUG_OFF, ("\tMPDUtotalByteCnt=%d\n", pTxWI->MPDUtotalByteCnt));
-	DBGPRINT(RT_DEBUG_OFF, ("\tPID=%d\n", pTxWI->TxPktId));
+	DBGPRINT(RT_DEBUG_OFF, ("\tPHYMODE=%d(%s)\n", txwi->PHYMODE,  get_phymode_str(txwi->PHYMODE)));
+	DBGPRINT(RT_DEBUG_OFF, ("\tITxBf=%d\n", txwi->iTxBF));
+	DBGPRINT(RT_DEBUG_OFF, ("\tETxBf=%d\n", txwi->eTxBF));
+	DBGPRINT(RT_DEBUG_OFF, ("\tSounding=%d\n", txwi->Sounding));
+	DBGPRINT(RT_DEBUG_OFF, ("\tNDP Sounding BW=%d\n", txwi->NDPSndBW));
+	DBGPRINT(RT_DEBUG_OFF, ("\tNDP Sounding Rate=%d\n", txwi->NDPSndRate));
+	DBGPRINT(RT_DEBUG_OFF, ("\tSTBC=%d\n", txwi->STBC));
+	DBGPRINT(RT_DEBUG_OFF, ("\tShortGI=%d\n", txwi->ShortGI));
+	DBGPRINT(RT_DEBUG_OFF, ("\tBW=%d(%sMHz)\n", txwi->BW, get_bw_str(txwi->BW)));
+	DBGPRINT(RT_DEBUG_OFF, ("\tMCS=%d\n", txwi->MCS));
+	DBGPRINT(RT_DEBUG_OFF, ("\tTxOP=%d(%s)\n", txwi->txop, TXWI_TXOP_STR(txwi->txop)));
+	DBGPRINT(RT_DEBUG_OFF, ("\tMpduDensity=%d\n", txwi->MpduDensity));
+	DBGPRINT(RT_DEBUG_OFF, ("\tAMPDU=%d\n", txwi->AMPDU));
+	DBGPRINT(RT_DEBUG_OFF, ("\tTS=%d\n", txwi->TS));
+	DBGPRINT(RT_DEBUG_OFF, ("\tCF-ACK=%d\n", txwi->CFACK));
+	DBGPRINT(RT_DEBUG_OFF, ("\tMIMO-PS=%d\n", txwi->MIMOps));
+	DBGPRINT(RT_DEBUG_OFF, ("\tNSEQ=%d\n", txwi->NSEQ));
+	DBGPRINT(RT_DEBUG_OFF, ("\tACK=%d\n", txwi->ACK));
+	DBGPRINT(RT_DEBUG_OFF, ("\tFRAG=%d\n", txwi->FRAG));
+	DBGPRINT(RT_DEBUG_OFF, ("\tWCID=%d\n", txwi->wcid));
+	DBGPRINT(RT_DEBUG_OFF, ("\tBAWinSize=%d\n", txwi->BAWinSize));
+	DBGPRINT(RT_DEBUG_OFF, ("\tMPDUtotalByteCnt=%d\n", txwi->MPDUtotalByteCnt));
+	DBGPRINT(RT_DEBUG_OFF, ("\tPID=%d\n", txwi->TxPktId));
 }
 
 

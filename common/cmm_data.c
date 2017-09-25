@@ -2707,7 +2707,7 @@ VOID RtmpPrepareHwNullFrame(
 	IN CHAR Index)
 {
 	UINT8 TXWISize = pAd->chipCap.TXWISize;
-	struct mt7612u_txwi *pTxWI = &pAd->NullTxWI;
+	struct mt7612u_txwi *txwi = &pAd->NullTxWI;
 	u8 *pNullFrame;
 	HEADER_802_11 *pNullFr;
 	ULONG Length;
@@ -2718,7 +2718,7 @@ VOID RtmpPrepareHwNullFrame(
 	pNullFrame = kmalloc(MGMT_DMA_BUFFER_SIZE, GFP_ATOMIC);
 
 	memset(pNullFrame, 0, 48);
-	memset(pTxWI, 0, TXWISize);
+	memset(txwi, 0, TXWISize);
 
 	pNullFr = (PHEADER_802_11) pNullFrame;
 	Length = sizeof(HEADER_802_11);
@@ -2762,13 +2762,13 @@ VOID RtmpPrepareHwNullFrame(
 		if (Transmit.field.MCS > 7)
 			Transmit.field.MCS = 7;
 
-		RTMPWriteTxWI(pAd, pTxWI, false, false, false,
+		RTMPWriteTxWI(pAd, txwi, false, false, false,
 			      false, true, true, 0, pEntry->Aid,
 			      Length, (u8)Transmit.field.MCS,
 			      0, (u8)Transmit.field.MCS,
 			      IFS_HTTXOP, &Transmit);
 	} else {
-		RTMPWriteTxWI(pAd, pTxWI, false, false, false,
+		RTMPWriteTxWI(pAd, txwi, false, false, false,
 			      false, true, 0, 0, pEntry->Aid,
 			      Length, (u8)pAd->CommonCfg.MlmeTransmit.field.MCS,
 			      0, (u8)pAd->CommonCfg.MlmeTransmit.field.MCS,
