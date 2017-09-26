@@ -142,18 +142,16 @@ static u8 *txinfo_que_str[]={"MGMT", "HCCA", "EDCA_1", "EDCA_2", "Invalid"};
 #define TXINFO_DPORT_STR(_x)	((_x) <= 6 ? txinfo_d_port_str[_x]: txinfo_d_port_str[7])
 #define TXINFO_QUE_STR(_x)		((_x) <= 3 ? txinfo_que_str[_x]: txinfo_que_str[4])
 
-VOID dump_rlt_txinfo(struct rtmp_adapter *pAd, struct mt7612_txinfo_pkt *pTxInfo)
+VOID dump_rlt_txinfo(struct rtmp_adapter *pAd, struct mt7612_txinfo_pkt *txinfo)
 {
-	struct mt7612_txinfo_pkt *pkt_txinfo = (struct mt7612_txinfo_pkt *)pTxInfo;
-
-	DBGPRINT(RT_DEBUG_OFF, ("\tInfo_Type=%d(%s)\n", pkt_txinfo->info_type, TXINFO_TYPE_STR(pkt_txinfo->info_type)));
-	DBGPRINT(RT_DEBUG_OFF, ("\td_port=%d(%s)\n", pkt_txinfo->d_port, TXINFO_DPORT_STR(pkt_txinfo->d_port)));
-	DBGPRINT(RT_DEBUG_OFF, ("\tQSEL=%d(%s)\n", pkt_txinfo->QSEL, TXINFO_QUE_STR(pkt_txinfo->QSEL)));
-	DBGPRINT(RT_DEBUG_OFF, ("\tWIV=%d\n", pkt_txinfo->wiv));
-	DBGPRINT(RT_DEBUG_OFF, ("\t802.11=%d\n", pkt_txinfo->pkt_80211));
-	DBGPRINT(RT_DEBUG_OFF, ("\tcso=%d\n", pkt_txinfo->cso));
-	DBGPRINT(RT_DEBUG_OFF, ("\ttso=%d\n", pkt_txinfo->tso));
-	DBGPRINT(RT_DEBUG_OFF, ("\tpkt_len=0x%x\n", pkt_txinfo->pkt_len));
+	DBGPRINT(RT_DEBUG_OFF, ("\tInfo_Type=%d(%s)\n", txinfo->info_type, TXINFO_TYPE_STR(txinfo->info_type)));
+	DBGPRINT(RT_DEBUG_OFF, ("\td_port=%d(%s)\n", txinfo->d_port, TXINFO_DPORT_STR(txinfo->d_port)));
+	DBGPRINT(RT_DEBUG_OFF, ("\tQSEL=%d(%s)\n", txinfo->QSEL, TXINFO_QUE_STR(txinfo->QSEL)));
+	DBGPRINT(RT_DEBUG_OFF, ("\tWIV=%d\n", txinfo->wiv));
+	DBGPRINT(RT_DEBUG_OFF, ("\t802.11=%d\n", txinfo->pkt_80211));
+	DBGPRINT(RT_DEBUG_OFF, ("\tcso=%d\n", txinfo->cso));
+	DBGPRINT(RT_DEBUG_OFF, ("\ttso=%d\n", txinfo->tso));
+	DBGPRINT(RT_DEBUG_OFF, ("\tpkt_len=0x%x\n", txinfo->pkt_len));
 }
 
 

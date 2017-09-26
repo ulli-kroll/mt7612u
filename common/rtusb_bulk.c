@@ -131,7 +131,7 @@ VOID RTUSBBulkOutDataPacket(struct rtmp_adapter *pAd, u8 BulkOutPipeId, u8 Index
 	PHT_TX_CONTEXT pHTTXContext;
 	struct urb *pUrb;
 	int ret = 0;
-	struct mt7612_txinfo_pkt *pTxInfo, *pLastTxInfo = NULL;
+	struct mt7612_txinfo_pkt *txinfo, *pLastTxInfo = NULL;
 	struct mt7612u_txwi *txwi;
 	unsigned short txwi_pkt_len = 0;
 	u8 ampdu = 0, phy_mode = 0, pid;
@@ -219,7 +219,7 @@ VOID RTUSBBulkOutDataPacket(struct rtmp_adapter *pAd, u8 BulkOutPipeId, u8 Index
 
 	do
 	{
-		pTxInfo = (struct mt7612_txinfo_pkt *)&pWirelessPkt[TmpBulkEndPos];
+		txinfo = (struct mt7612_txinfo_pkt *)&pWirelessPkt[TmpBulkEndPos];
 		txwi = (struct mt7612u_txwi *)&pWirelessPkt[TmpBulkEndPos + TXINFO_SIZE];
 
 		{
@@ -276,17 +276,17 @@ VOID RTUSBBulkOutDataPacket(struct rtmp_adapter *pAd, u8 BulkOutPipeId, u8 Index
 			break;
 		}
 
-		if (pTxInfo->QSEL != MT_QSEL_EDCA)
+		if (txinfo->QSEL != MT_QSEL_EDCA)
 		{
-			DBGPRINT(RT_DEBUG_ERROR, ("%s(): ====> pTxInfo->QueueSel(%d)!= MT_QSEL_EDCA!!!!\n",
-										__FUNCTION__, pTxInfo->QSEL));
+			DBGPRINT(RT_DEBUG_ERROR, ("%s(): ====> txinfo->QueueSel(%d)!= MT_QSEL_EDCA!!!!\n",
+										__FUNCTION__, txinfo->QSEL));
 			DBGPRINT(RT_DEBUG_ERROR, ("\tCWPos=%ld, NBPos=%ld, ENBPos=%ld, bCopy=%d!\n",
 										pHTTXContext->CurWritePosition, pHTTXContext->NextBulkOutPosition,
 										pHTTXContext->ENextBulkOutPosition, pHTTXContext->bCopySavePad));
 			hex_dump("Wrong QSel Pkt:", (u8 *)&pWirelessPkt[TmpBulkEndPos], (pHTTXContext->CurWritePosition - pHTTXContext->NextBulkOutPosition));
 		}
 
-		if (pTxInfo->pkt_len <= 8)
+		if (txinfo->pkt_len <= 8)
 		{
 			spin_unlock_bh(&pAd->TxContextQueueLock[BulkOutPipeId]);
 			DBGPRINT(RT_DEBUG_ERROR /*RT_DEBUG_TRACE*/,("e2, mt7612_txinfo_pkt.pkt_le==0, Size=%ld, bCSPad=%d, CWPos=%ld, NBPos=%ld, CWRPos=%ld!\n",
@@ -300,7 +300,7 @@ VOID RTUSBBulkOutDataPacket(struct rtmp_adapter *pAd, u8 BulkOutPipeId, u8 Index
 			spin_lock_bh(&pAd->BulkOutLock[BulkOutPipeId]);
 			pAd->BulkOutPending[BulkOutPipeId] = false;
 			spin_unlock_bh(&pAd->BulkOutLock[BulkOutPipeId]);
-			/*DBGPRINT(RT_DEBUG_LOUD,("Out:pTxInfo->mt7612_txinfo_pkt.pkt_le=%d!\n", pTxInfo->mt7612_txinfo_pkt.pkt_le));*/
+			/*DBGPRINT(RT_DEBUG_LOUD,("Out:txinfo->mt7612_txinfo_pkt.pkt_le=%d!\n", txinfo->mt7612_txinfo_pkt.pkt_le));*/
 			return;
 		}
 
@@ -308,34 +308,34 @@ VOID RTUSBBulkOutDataPacket(struct rtmp_adapter *pAd, u8 BulkOutPipeId, u8 Index
 		pAd->RalinkCounters.OneSecTransmittedByteCount +=  txwi_pkt_len;
 		pAd->RalinkCounters.TransmittedByteCount +=  txwi_pkt_len;
 
-		pLastTxInfo = pTxInfo;
+		pLastTxInfo = txinfo;
 
 		/* Make sure we use EDCA QUEUE.  */
-		pTxInfo->QSEL = MT_QSEL_EDCA;
-		ThisBulkSize += (pTxInfo->pkt_len+4);
-		TmpBulkEndPos += (pTxInfo->pkt_len+4);
+		txinfo->QSEL = MT_QSEL_EDCA;
+		ThisBulkSize += (txinfo->pkt_len+4);
+		TmpBulkEndPos += (txinfo->pkt_len+4);
 
 		if (TmpBulkEndPos != pHTTXContext->CurWritePosition)
-			pTxInfo->next_vld = 1;
+			txinfo->next_vld = 1;
 
-		if (pTxInfo->sw_lst_rnd == 1)
+		if (txinfo->sw_lst_rnd == 1)
 		{
 			if (pHTTXContext->CurWritePosition == 8)
-				pTxInfo->next_vld = 0;
-			pTxInfo->sw_lst_rnd = 0;
+				txinfo->next_vld = 0;
+			txinfo->sw_lst_rnd = 0;
 
 			bTxQLastRound = true;
 			pHTTXContext->ENextBulkOutPosition = 8;
 
 	#ifdef RT_BIG_ENDIAN
-			RTMPDescriptorEndianChange((u8 *)pTxInfo, TYPE_TXINFO);
+			RTMPDescriptorEndianChange((u8 *)txinfo, TYPE_TXINFO);
 			RTMPWIEndianChange(pAd, (u8 *)txwi, TYPE_TXWI);
 	#endif /* RT_BIG_ENDIAN */
 
 			break;
 		}
 #ifdef RT_BIG_ENDIAN
-		RTMPDescriptorEndianChange((u8 *)pTxInfo, TYPE_TXINFO);
+		RTMPDescriptorEndianChange((u8 *)txinfo, TYPE_TXINFO);
 		RTMPWIEndianChange(pAd, (u8 *)txwi, TYPE_TXWI);
 #endif /* RT_BIG_ENDIAN */
 
@@ -347,7 +347,7 @@ VOID RTUSBBulkOutDataPacket(struct rtmp_adapter *pAd, u8 BulkOutPipeId, u8 Index
 		}
 	}while (true);
 
-	/* adjust the pTxInfo->mt7612_txinfo_pkt.next_vld value of last pTxInfo.*/
+	/* adjust the txinfo->mt7612_txinfo_pkt.next_vld value of last txinfo.*/
 	if (pLastTxInfo)
 	{
 #ifdef RT_BIG_ENDIAN
