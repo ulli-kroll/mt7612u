@@ -1046,7 +1046,7 @@ VOID STABuildCommon802_11Header(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 
 	/* normal wlan header size : 24 octets */
 	pTxBlk->MpduHeaderLen = sizeof (HEADER_802_11);
-	wifi_hdr = (HEADER_802_11 *)&pTxBlk->HeaderBuf[TXINFO_SIZE + TXWISize + TSO_SIZE];
+	wifi_hdr = (HEADER_802_11 *)&pTxBlk->HeaderBuf[TXINFO_SIZE + TXWISize];
 	memset(wifi_hdr, 0, sizeof (HEADER_802_11));
 
 	wifi_hdr->FC.FrDs = 0;
@@ -1776,7 +1776,7 @@ VOID STA_Legacy_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 		pTxBlk->SrcBufLen -= LENGTH_802_1Q;
 	}
 
-	pHeaderBufPtr = &pTxBlk->HeaderBuf[TXINFO_SIZE + TXWISize + TSO_SIZE];
+	pHeaderBufPtr = &pTxBlk->HeaderBuf[TXINFO_SIZE + TXWISize];
 	wifi_hdr = (HEADER_802_11 *) pHeaderBufPtr;
 
 	/* skip common header */

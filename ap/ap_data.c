@@ -536,7 +536,7 @@ static inline VOID APBuildCommon802_11Header(struct rtmp_adapter *pAd, TX_BLK *p
 
 	/* normal wlan header size : 24 octets */
 	pTxBlk->MpduHeaderLen = sizeof(HEADER_802_11);
-	wifi_hdr = (HEADER_802_11 *) &pTxBlk->HeaderBuf[TXINFO_SIZE + TXWISize + TSO_SIZE];
+	wifi_hdr = (HEADER_802_11 *) &pTxBlk->HeaderBuf[TXINFO_SIZE + TXWISize ];
 	memset(wifi_hdr, 0, sizeof(HEADER_802_11));
 
 	wifi_hdr->FC.FrDs = 1;
@@ -784,7 +784,7 @@ VOID AP_AMPDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 		return;
 	}
 
-	hdr_offset = TXINFO_SIZE + TXWISize + TSO_SIZE;
+	hdr_offset = TXINFO_SIZE + TXWISize;
 	pMacEntry = pTxBlk->pMacEntry;
 	if ((pMacEntry->isCached)
 		&& (pMacEntry->TxSndgType == SNDG_TYPE_DISABLE)
@@ -1367,7 +1367,7 @@ VOID AP_Legacy_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 		}
 	}
 
-	pHeaderBufPtr = &pTxBlk->HeaderBuf[TXINFO_SIZE + TXWISize + TSO_SIZE];
+	pHeaderBufPtr = &pTxBlk->HeaderBuf[TXINFO_SIZE + TXWISize];
 	wifi_hdr = (HEADER_802_11 *)pHeaderBufPtr;
 
 	/* skip common header */
