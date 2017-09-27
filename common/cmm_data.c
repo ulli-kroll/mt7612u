@@ -165,7 +165,7 @@ int MiniportMMRequest(
 
 		if ((FreeNum > 0))
 		{
-			INT hw_len = TXINFO_SIZE + pAd->chipCap.TXWISize;
+			INT hw_len = MT_DMA_HDR_LEN + pAd->chipCap.TXWISize;
 			u8 rtmpHwHdr[40];
 
 			ASSERT((sizeof(rtmpHwHdr) > hw_len));
@@ -330,7 +330,7 @@ int MlmeHardTransmit(
 		return NDIS_STATUS_FAILURE;
 
 #ifdef CONFIG_AP_SUPPORT
-	pHeader_802_11 = (PHEADER_802_11) (pSrcBufVA + TXINFO_SIZE + TXWISize);
+	pHeader_802_11 = (PHEADER_802_11) (pSrcBufVA + MT_DMA_HDR_LEN + TXWISize);
 
 	/*
 		Section 11.2.1.1 STA Power Management modes of IEEE802.11-2007:
@@ -461,8 +461,8 @@ int MlmeHardTransmitMgmtRing(
 	}
 #endif /* CONFIG_STA_SUPPORT */
 
-	pFirstTxWI = (struct mt7612u_txwi *)(pSrcBufVA +  TXINFO_SIZE);
-	pHeader_802_11 = (PHEADER_802_11) (pSrcBufVA + TXINFO_SIZE + TXWISize);
+	pFirstTxWI = (struct mt7612u_txwi *)(pSrcBufVA +  MT_DMA_HDR_LEN);
+	pHeader_802_11 = (PHEADER_802_11) (pSrcBufVA + MT_DMA_HDR_LEN + TXWISize);
 
 	if (pHeader_802_11->Addr1[0] & 0x01)
 		MlmeRate = pAd->CommonCfg.BasicMlmeRate;
@@ -714,7 +714,7 @@ int MlmeHardTransmitMgmtRing(
 
 	{
 		RTMPWriteTxWI(pAd, pFirstTxWI, false, false, bInsertTimestamp, false, bAckRequired, false,
-				0, wcid, (SrcBufLen - TXINFO_SIZE - TXWISize), PID, 0,
+				0, wcid, (SrcBufLen - MT_DMA_HDR_LEN - TXWISize), PID, 0,
 				tx_rate, IFS_BACKOFF, transmit);
 
 #ifdef SPECIFIC_TX_POWER_SUPPORT

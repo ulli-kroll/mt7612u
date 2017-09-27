@@ -220,7 +220,7 @@ VOID RTUSBBulkOutDataPacket(struct rtmp_adapter *pAd, u8 BulkOutPipeId, u8 Index
 	do
 	{
 		txinfo = (struct mt7612_txinfo_pkt *)&pWirelessPkt[TmpBulkEndPos];
-		txwi = (struct mt7612u_txwi *)&pWirelessPkt[TmpBulkEndPos + TXINFO_SIZE];
+		txwi = (struct mt7612u_txwi *)&pWirelessPkt[TmpBulkEndPos + MT_DMA_HDR_LEN];
 
 		{
 			ampdu = txwi->AMPDU;

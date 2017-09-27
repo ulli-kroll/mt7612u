@@ -52,9 +52,6 @@ enum mt76_qsel {
 	MT_QSEL_EDCA_2,
 };
 
-#define TXINFO_SIZE			4
-
-
 /*
 	RXWI wireless information format, in PBF. invisible in driver.
 */

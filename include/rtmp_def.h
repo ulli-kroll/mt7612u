@@ -87,7 +87,7 @@
 
 #define RXINFO_OFFSET	12
 
-/* TXINFO_SIZE + TXWI_SIZE + 802.11 Header Size + AMSDU sub frame header */
+/* MT_DMA_HDR_LEN + TXWI_SIZE + 802.11 Header Size + AMSDU sub frame header */
 #define TX_DMA_1ST_BUFFER_SIZE  96	/* only the 1st physical buffer is pre-allocated */
 
 /*#define MGMT_DMA_BUFFER_SIZE    1536 //2048 */

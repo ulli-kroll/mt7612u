@@ -536,7 +536,7 @@ static inline VOID APBuildCommon802_11Header(struct rtmp_adapter *pAd, TX_BLK *p
 
 	/* normal wlan header size : 24 octets */
 	pTxBlk->MpduHeaderLen = sizeof(HEADER_802_11);
-	wifi_hdr = (HEADER_802_11 *) &pTxBlk->HeaderBuf[TXINFO_SIZE + TXWISize ];
+	wifi_hdr = (HEADER_802_11 *) &pTxBlk->HeaderBuf[MT_DMA_HDR_LEN + TXWISize ];
 	memset(wifi_hdr, 0, sizeof(HEADER_802_11));
 
 	wifi_hdr->FC.FrDs = 1;
@@ -592,7 +592,7 @@ static inline u8 *AP_Build_ARalink_Frame_Header(struct rtmp_adapter *pAd, TX_BLK
 	APBuildCommon802_11Header(pAd, pTxBlk);
 
 
-	pHeaderBufPtr = &pTxBlk->HeaderBuf[TXINFO_SIZE + TXWISize];
+	pHeaderBufPtr = &pTxBlk->HeaderBuf[MT_DMA_HDR_LEN + TXWISize];
 	pHeader_802_11 = (HEADER_802_11 *) pHeaderBufPtr;
 
 	/* steal "order" bit to mark "aggregation" */
@@ -665,7 +665,7 @@ static inline u8 *AP_Build_AMSDU_Frame_Header(
 	APFindCipherAlgorithm(pAd, pTxBlk);
 	APBuildCommon802_11Header(pAd, pTxBlk);
 
-	pHeaderBufPtr = &pTxBlk->HeaderBuf[TXINFO_SIZE + TXWISize];
+	pHeaderBufPtr = &pTxBlk->HeaderBuf[MT_DMA_HDR_LEN + TXWISize];
 	pHeader_802_11 = (HEADER_802_11 *) pHeaderBufPtr;
 
 	/* skip common header */
@@ -784,13 +784,13 @@ VOID AP_AMPDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 		return;
 	}
 
-	hdr_offset = TXINFO_SIZE + TXWISize;
+	hdr_offset = MT_DMA_HDR_LEN + TXWISize;
 	pMacEntry = pTxBlk->pMacEntry;
 	if ((pMacEntry->isCached)
 		&& (pMacEntry->TxSndgType == SNDG_TYPE_DISABLE)
 	)
 	{
-		memmove(&pTxBlk->HeaderBuf[TXINFO_SIZE], &pMacEntry->CachedBuf[0], TXWISize + sizeof(HEADER_802_11));
+		memmove(&pTxBlk->HeaderBuf[MT_DMA_HDR_LEN], &pMacEntry->CachedBuf[0], TXWISize + sizeof(HEADER_802_11));
 		pHeaderBufPtr = (u8 *)(&pTxBlk->HeaderBuf[hdr_offset]);
 		APBuildCache802_11Header(pAd, pTxBlk, pHeaderBufPtr);
 
@@ -933,7 +933,7 @@ VOID AP_AMPDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 			pTxBlk->MpduHeaderLen += 4;
 		}
 
-		/*pTxBlk->MpduHeaderLen = pHeaderBufPtr - pTxBlk->HeaderBuf - TXWI_SIZE - TXINFO_SIZE; */
+		/*pTxBlk->MpduHeaderLen = pHeaderBufPtr - pTxBlk->HeaderBuf - TXWI_SIZE - MT_DMA_HDR_LEN; */
 		ASSERT(pTxBlk->MpduHeaderLen >= 24);
 
 		/* skip 802.3 header */
@@ -1025,17 +1025,17 @@ VOID AP_AMPDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 		&& (pTxBlk->TxSndgPkt == SNDG_TYPE_DISABLE)
 	)
 	{
-		RTMPWriteTxWI_Cache(pAd, (struct mt7612u_txwi *)(&pTxBlk->HeaderBuf[TXINFO_SIZE]), pTxBlk);
+		RTMPWriteTxWI_Cache(pAd, (struct mt7612u_txwi *)(&pTxBlk->HeaderBuf[MT_DMA_HDR_LEN]), pTxBlk);
 	}
 	else
 	{
-		RTMPWriteTxWI_Data(pAd, (struct mt7612u_txwi *)(&pTxBlk->HeaderBuf[TXINFO_SIZE]), pTxBlk);
+		RTMPWriteTxWI_Data(pAd, (struct mt7612u_txwi *)(&pTxBlk->HeaderBuf[MT_DMA_HDR_LEN]), pTxBlk);
 
 
 
 		memset((u8 *)(&pMacEntry->CachedBuf[0]), 0, sizeof(pMacEntry->CachedBuf));
-		memmove(&pMacEntry->CachedBuf[0], &pTxBlk->HeaderBuf[TXINFO_SIZE],
-						(pHeaderBufPtr - (u8 *)(&pTxBlk->HeaderBuf[TXINFO_SIZE])));
+		memmove(&pMacEntry->CachedBuf[0], &pTxBlk->HeaderBuf[MT_DMA_HDR_LEN],
+						(pHeaderBufPtr - (u8 *)(&pTxBlk->HeaderBuf[MT_DMA_HDR_LEN])));
 
 		/* use space to get performance enhancement */
 		memset((u8 *)(&pMacEntry->HeaderBuf[0]), 0, sizeof(pMacEntry->HeaderBuf));
@@ -1093,7 +1093,7 @@ VOID AP_AMPDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 #ifdef DBG_CTRL_SUPPORT
 #ifdef INCLUDE_DEBUG_QUEUE
 	if (pAd->CommonCfg.DebugFlags & DBF_DBQ_TXFRAME)
-		dbQueueEnqueueTxFrame((u8 *)(&pTxBlk->HeaderBuf[TXINFO_SIZE]), (u8 *)pHeader_802_11);
+		dbQueueEnqueueTxFrame((u8 *)(&pTxBlk->HeaderBuf[MT_DMA_HDR_LEN]), (u8 *)pHeader_802_11);
 #endif /* INCLUDE_DEBUG_QUEUE */
 #endif /* DBG_CTRL_SUPPORT */
 
@@ -1172,7 +1172,7 @@ VOID AP_AMSDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 				}
 			}
 #endif /* WFA_VHT_PF */
-			RTMPWriteTxWI_Data(pAd, (struct mt7612u_txwi *)(&pTxBlk->HeaderBuf[TXINFO_SIZE]), pTxBlk);
+			RTMPWriteTxWI_Data(pAd, (struct mt7612u_txwi *)(&pTxBlk->HeaderBuf[MT_DMA_HDR_LEN]), pTxBlk);
 
 			if (RTMP_GET_PACKET_LOWRATE(pTxBlk->pPacket))
 				if (pMacEntry)
@@ -1180,7 +1180,7 @@ VOID AP_AMSDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 		}
 		else
 		{
-			pHeaderBufPtr = &pTxBlk->HeaderBuf[TXINFO_SIZE];
+			pHeaderBufPtr = &pTxBlk->HeaderBuf[MT_DMA_HDR_LEN];
 			padding = ROUND_UP(AMSDU_SUBHEAD_LEN + subFramePayloadLen, 4) - (AMSDU_SUBHEAD_LEN + subFramePayloadLen);
 			memset(pHeaderBufPtr, 0, padding + AMSDU_SUBHEAD_LEN);
 			pHeaderBufPtr += padding;
@@ -1234,7 +1234,7 @@ VOID AP_AMSDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 #ifdef DBG_CTRL_SUPPORT
 #ifdef INCLUDE_DEBUG_QUEUE
 		if (pAd->CommonCfg.DebugFlags & DBF_DBQ_TXFRAME)
-			dbQueueEnqueueTxFrame((u8 *)(&pTxBlk->HeaderBuf[TXINFO_SIZE]), NULL);
+			dbQueueEnqueueTxFrame((u8 *)(&pTxBlk->HeaderBuf[MT_DMA_HDR_LEN]), NULL);
 #endif /* INCLUDE_DEBUG_QUEUE */
 #endif /* DBG_CTRL_SUPPORT */
 
@@ -1367,7 +1367,7 @@ VOID AP_Legacy_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 		}
 	}
 
-	pHeaderBufPtr = &pTxBlk->HeaderBuf[TXINFO_SIZE + TXWISize];
+	pHeaderBufPtr = &pTxBlk->HeaderBuf[MT_DMA_HDR_LEN + TXWISize];
 	wifi_hdr = (HEADER_802_11 *)pHeaderBufPtr;
 
 	/* skip common header */
@@ -1564,7 +1564,7 @@ VOID AP_Legacy_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 		GET_GroupKey_WCID(pAd, pTxBlk->Wcid, pTxBlk->apidx);
 	}
 
-	RTMPWriteTxWI_Data(pAd, (struct mt7612u_txwi *)(&pTxBlk->HeaderBuf[TXINFO_SIZE]), pTxBlk);
+	RTMPWriteTxWI_Data(pAd, (struct mt7612u_txwi *)(&pTxBlk->HeaderBuf[MT_DMA_HDR_LEN]), pTxBlk);
 	if (RTMP_GET_PACKET_LOWRATE(pTxBlk->pPacket))
 		if (pTxBlk->pMacEntry)
 			pTxBlk->pMacEntry->isCached = false;
@@ -1575,7 +1575,7 @@ VOID AP_Legacy_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 #ifdef DBG_CTRL_SUPPORT
 #ifdef INCLUDE_DEBUG_QUEUE
 	if (pAd->CommonCfg.DebugFlags & DBF_DBQ_TXFRAME)
-		dbQueueEnqueueTxFrame((u8 *)(&pTxBlk->HeaderBuf[TXINFO_SIZE]), (u8 *)wifi_hdr);
+		dbQueueEnqueueTxFrame((u8 *)(&pTxBlk->HeaderBuf[MT_DMA_HDR_LEN]), (u8 *)wifi_hdr);
 #endif /* INCLUDE_DEBUG_QUEUE */
 #endif /* DBG_CTRL_SUPPORT */
 
@@ -1667,7 +1667,7 @@ VOID AP_Fragment_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 		pTxBlk->SrcBufLen	-= LENGTH_802_1Q;
 	}
 
-	pHeaderBufPtr = &pTxBlk->HeaderBuf[TXINFO_SIZE + TXWISize];
+	pHeaderBufPtr = &pTxBlk->HeaderBuf[MT_DMA_HDR_LEN + TXWISize];
 	pHeader_802_11 = (HEADER_802_11 *)pHeaderBufPtr;
 
 	/* skip common header */
@@ -1898,7 +1898,7 @@ VOID AP_Fragment_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 		}
 #endif /* SOFT_ENCRYPT */
 
-		RTMPWriteTxWI_Data(pAd, (struct mt7612u_txwi *)(&pTxBlk->HeaderBuf[TXINFO_SIZE]), pTxBlk);
+		RTMPWriteTxWI_Data(pAd, (struct mt7612u_txwi *)(&pTxBlk->HeaderBuf[MT_DMA_HDR_LEN]), pTxBlk);
 
 		HAL_WriteFragTxResource(pAd, pTxBlk, fragNum, &freeCnt);
 
@@ -1906,7 +1906,7 @@ VOID AP_Fragment_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 #ifdef DBG_CTRL_SUPPORT
 #ifdef INCLUDE_DEBUG_QUEUE
 		if (pAd->CommonCfg.DebugFlags & DBF_DBQ_TXFRAME)
-			dbQueueEnqueueTxFrame((u8 *)(&pTxBlk->HeaderBuf[TXINFO_SIZE]), (u8 *)pHeader_802_11);
+			dbQueueEnqueueTxFrame((u8 *)(&pTxBlk->HeaderBuf[MT_DMA_HDR_LEN]), (u8 *)pHeader_802_11);
 #endif /* INCLUDE_DEBUG_QUEUE */
 #endif /* DBG_CTRL_SUPPORT */
 
@@ -2015,7 +2015,7 @@ VOID AP_ARalink_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 				It's ok write the TxWI here, because the TxWI->TxWIMPDUByteCnt
 				will be updated after final frame was handled.
 			*/
-			RTMPWriteTxWI_Data(pAd, (struct mt7612u_txwi *)(&pTxBlk->HeaderBuf[TXINFO_SIZE]), pTxBlk);
+			RTMPWriteTxWI_Data(pAd, (struct mt7612u_txwi *)(&pTxBlk->HeaderBuf[MT_DMA_HDR_LEN]), pTxBlk);
 
 
 			/* Insert LLC-SNAP encapsulation - 8 octets */
@@ -2063,7 +2063,7 @@ VOID AP_ARalink_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 #ifdef DBG_CTRL_SUPPORT
 #ifdef INCLUDE_DEBUG_QUEUE
 		if (pAd->CommonCfg.DebugFlags & DBF_DBQ_TXFRAME)
-			dbQueueEnqueueTxFrame((u8 *)(&pTxBlk->HeaderBuf[TXINFO_SIZE]), NULL);
+			dbQueueEnqueueTxFrame((u8 *)(&pTxBlk->HeaderBuf[MT_DMA_HDR_LEN]), NULL);
 #endif /* INCLUDE_DEBUG_QUEUE */
 #endif /* DBG_CTRL_SUPPORT */
 
