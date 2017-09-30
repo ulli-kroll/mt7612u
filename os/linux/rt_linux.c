@@ -235,7 +235,7 @@ void RTMP_QueryPacketInfo(
 	OUT UINT *pSrcBufLen)
 {
 	info->BufferCount = 1;
-	info->pFirstBuffer = (PNDIS_BUFFER) pPacket->data;
+	info->pFirstBuffer = (char *) pPacket->data;
 	info->PhysicalBufferCount = 1;
 	info->TotalPacketLength = pPacket->len;
 

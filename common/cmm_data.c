@@ -1737,7 +1737,7 @@ VOID DisassocParmFill(
 		always reasid at the same scatter gather buffer
  */
 static inline VOID Sniff2BytesFromNdisBuffer(
-	IN PNDIS_BUFFER buf,
+	IN char *buf,
 	IN u8 offset,
 	OUT u8 *p0,
 	OUT u8 *p1)
@@ -1798,7 +1798,7 @@ bool RTMPCheckEtherType(
 		*/
 		if (pSrcBuf[0] == 0xAA && pSrcBuf[1] == 0xAA && pSrcBuf[2] == 0x03)
 		{
-			Sniff2BytesFromNdisBuffer((PNDIS_BUFFER)pSrcBuf, 6, &Byte0, &Byte1);
+			Sniff2BytesFromNdisBuffer((char *)pSrcBuf, 6, &Byte0, &Byte1);
 			RTMP_SET_PACKET_LLCSNAP(pPacket, 1);
 			TypeLen = (unsigned short)((Byte0 << 8) + Byte1);
 			pSrcBuf += 8; /* Skip this LLC/SNAP header*/
@@ -1841,7 +1841,7 @@ bool RTMPCheckEtherType(
 #endif /* CONFIG_AP_SUPPORT */
 
 		RTMP_SET_PACKET_VLAN(pPacket, 1);
-		Sniff2BytesFromNdisBuffer((PNDIS_BUFFER)pSrcBuf, 2, &Byte0, &Byte1);
+		Sniff2BytesFromNdisBuffer((char *)pSrcBuf, 2, &Byte0, &Byte1);
 		TypeLen = (unsigned short)((Byte0 << 8) + Byte1);
 
 		/* only use VLAN tag */

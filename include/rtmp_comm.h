@@ -290,7 +290,7 @@ typedef struct  _PACKET_INFO    {
 	UINT PhysicalBufferCount;    /* Physical breaks of buffer descripor chained */
 	UINT BufferCount;           /* Number of Buffer descriptor chained */
 	UINT TotalPacketLength ;     /* Self explained */
-	PNDIS_BUFFER pFirstBuffer;   /* Pointer to first buffer descriptor */
+	char *pFirstBuffer;   /* Pointer to first buffer descriptor */
 #ifdef TX_PKT_SG
 	PKT_SG_T sg_list[MAX_SKB_FRAGS];
 #endif /* TX_PKT_SG */

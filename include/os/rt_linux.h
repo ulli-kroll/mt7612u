@@ -89,7 +89,6 @@
 #define MT7662U_FIRMWARE_NAME		"mt7662u.bin"
 #define MT7662U_FIRMWARE_PATCH_NAME	"mt7662u_rom_patch.bin"
 
-typedef struct usb_device	*PUSB_DEV;
 typedef struct usb_ctrlrequest devctrlrequest;
 
 /***********************************************************************************
@@ -138,7 +137,6 @@ typedef struct wireless_dev	* PWIRELESS_DEV;
 typedef	ra_dma_addr_t			NDIS_PHYSICAL_ADDRESS;
 typedef	ra_dma_addr_t			* PNDIS_PHYSICAL_ADDRESS;
 typedef void				* NDIS_HANDLE;
-typedef char 				* PNDIS_BUFFER;
 
 typedef struct ifreq		NET_IOCTL;
 typedef struct ifreq		* PNET_IOCTL;
