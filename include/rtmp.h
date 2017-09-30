@@ -3836,10 +3836,6 @@ typedef struct _TX_BLK {
 	u8 			TxNDPSndgBW;
 	u8 			TxNDPSndgMcs;
 
-#ifdef TX_PKT_SG
-	PACKET_INFO pkt_info;
-#endif /* TX_PKT_SG */
-
 
 	struct rtmp_wifi_dev *wdev;
 } TX_BLK;

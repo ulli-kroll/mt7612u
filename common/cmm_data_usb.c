@@ -509,31 +509,6 @@ unsigned short RtmpUSB_WriteSingleTxResource(
 		pHTTXContext->CurWriteRealPos += hdr_copy_len;
 		spin_unlock_bh(&pAd->TxContextQueueLock[QueIdx]);
 
-#ifdef TX_PKT_SG
-		if (pTxBlk->pkt_info.BufferCount > 1) {
-			INT i, len;
-			void *data;
-			PKT_SG_T *sg = &pTxBlk->pkt_info.sg_list[0];
-
-			for (i = 0 ; i < pTxBlk->pkt_info.BufferCount; i++) {
-				data = sg[i].data;
-				len = sg[i].len;
-				if (i == 0) {
-					len -= ((ULONG)pTxBlk->pSrcBufData - (ULONG)sg[i].data);
-					data = pTxBlk->pSrcBufData;
-				}
-				//DBGPRINT(RT_DEBUG_TRACE, ("%s:sg[%d]=0x%x, len=%d\n", __FUNCTION__, i, data, len));
-				if (len <= 0) {
-					DBGPRINT(RT_DEBUG_ERROR, ("%s():sg[%d] info error, sg.data=0x%x, sg.len=%d, pTxBlk->pSrcBufData=0x%x, pTxBlk->SrcBufLen=%d, data=0x%x, len=%d\n",
-								__FUNCTION__, i, sg[i].data, sg[i].len, pTxBlk->pSrcBufData, pTxBlk->SrcBufLen, data, len));
-					break;
-				}
-				memmove(pWirelessPacket, data, len);
-				pWirelessPacket += len;
-			}
-		}
-		else
-#endif /* TX_PKT_SG */
 		{
 			memmove(pWirelessPacket, pTxBlk->pSrcBufData, pTxBlk->SrcBufLen);
 			pWirelessPacket += pTxBlk->SrcBufLen;

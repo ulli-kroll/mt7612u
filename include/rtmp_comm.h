@@ -283,15 +283,6 @@ typedef struct _LIST_RESOURCE_OBJ_ENTRY
 #define LENGTH_802_1Q				4 /* VLAN related */
 
 
-#ifdef TX_PKT_SG
-#ifndef MAX_SKB_FRAGS
-#define MAX_SKB_FRAGS (65536/(1UL << 12) + 2)
-#endif
-typedef struct _PTK_SG_T{
-	VOID *data;
-	INT len;
-}PKT_SG_T;
-#endif /* TX_PKT_SG */
 /*
 	Packet information for NdisQueryPacket
 */

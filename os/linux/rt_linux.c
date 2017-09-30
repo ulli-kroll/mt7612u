@@ -242,24 +242,6 @@ void RTMP_QueryPacketInfo(
 	*pSrcBufVA = pPacket->data;
 	*pSrcBufLen = pPacket->len;
 
-#ifdef TX_PKT_SG
-	if (RTMP_GET_PKT_SG(pPacket)) {
-		struct sk_buff *skb = pPacket;
-		int i, nr_frags = skb_shinfo(skb)->nr_frags;
-
-		info->BufferCount =  nr_frags + 1;
-		info->PhysicalBufferCount = info->BufferCount;
-		info->sg_list[0].data = pPacket->data;
-		info->sg_list[0].len = skb_headlen(skb);
-		for (i = 0; i < nr_frags; i++) {
-			skb_frag_t *frag = &skb_shinfo(skb)->frags[i];
-
-			info->sg_list[i+1].data = ((void *) page_address(frag->page) +
-									frag->page_offset);
-			info->sg_list[i+1].len = frag->size;
-		}
-	}
-#endif /* TX_PKT_SG */
 }
 
 
