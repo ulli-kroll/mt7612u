@@ -1576,7 +1576,7 @@ VOID STA_AMPDU_Frame_Tx(
 		}
 #endif /* STATS_COUNT_SUPPORT */
 
-		HAL_WriteTxResource(pAd, pTxBlk, true, &FreeNumber);
+		RtmpUSB_WriteSingleTxResource(pAd, pTxBlk, true, &FreeNumber);
 
 #ifdef DBG_CTRL_SUPPORT
 #ifdef INCLUDE_DEBUG_QUEUE
@@ -1690,11 +1690,11 @@ VOID STA_AMSDU_Frame_Tx(
 
 		if (frameNum == 0)
 			FirstTx =
-			    HAL_WriteMultiTxResource(pAd, pTxBlk, frameNum,
+			    RtmpUSB_WriteMultiTxResource(pAd, pTxBlk, frameNum,
 						     &FreeNumber);
 		else
 			LastTxIdx =
-			    HAL_WriteMultiTxResource(pAd, pTxBlk, frameNum,
+			    RtmpUSB_WriteMultiTxResource(pAd, pTxBlk, frameNum,
 						     &FreeNumber);
 
 #ifdef DBG_CTRL_SUPPORT
@@ -1718,7 +1718,7 @@ VOID STA_AMSDU_Frame_Tx(
 
 	}
 
-	HAL_FinalWriteTxResource(pAd, pTxBlk, totalMPDUSize, FirstTx);
+	RtmpUSB_FinalWriteTxResource(pAd, pTxBlk, totalMPDUSize, FirstTx);
 	HAL_LastTxIdx(pAd, pTxBlk->QueIdx, LastTxIdx);
 
 	/* Kick out Tx */
@@ -1873,7 +1873,7 @@ VOID STA_Legacy_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 	 */
 
 	RTMPWriteTxWI_Data(pAd, (struct mt7612u_txwi *)(&pTxBlk->HeaderBuf[MT_DMA_HDR_LEN]), pTxBlk);
-	HAL_WriteTxResource(pAd, pTxBlk, true, &FreeNumber);
+	RtmpUSB_WriteSingleTxResource(pAd, pTxBlk, true, &FreeNumber);
 
 #ifdef DBG_CTRL_SUPPORT
 #ifdef INCLUDE_DEBUG_QUEUE
@@ -1983,11 +1983,11 @@ VOID STA_ARalink_Frame_Tx(
 		/* FreeNumber = GET_TXRING_FREENO(pAd, QueIdx); */
 		if (frameNum == 0)
 			FirstTx =
-			    HAL_WriteMultiTxResource(pAd, pTxBlk, frameNum,
+			    RtmpUSB_WriteMultiTxResource(pAd, pTxBlk, frameNum,
 						     &freeCnt);
 		else
 			LastTxIdx =
-			    HAL_WriteMultiTxResource(pAd, pTxBlk, frameNum,
+			    RtmpUSB_WriteMultiTxResource(pAd, pTxBlk, frameNum,
 						     &freeCnt);
 
 #ifdef DBG_CTRL_SUPPORT
@@ -2004,7 +2004,7 @@ VOID STA_ARalink_Frame_Tx(
 		pAd->RalinkCounters.OneSecTxDoneCount++;
 	}
 
-	HAL_FinalWriteTxResource(pAd, pTxBlk, totalMPDUSize, FirstTx);
+	RtmpUSB_FinalWriteTxResource(pAd, pTxBlk, totalMPDUSize, FirstTx);
 	HAL_LastTxIdx(pAd, pTxBlk->QueIdx, LastTxIdx);
 
 	/*
@@ -2296,7 +2296,7 @@ VOID STA_Fragment_Frame_Tx(
 #endif /* SOFT_ENCRYPT */
 
 		RTMPWriteTxWI_Data(pAd, (struct mt7612u_txwi *) (&pTxBlk->HeaderBuf[MT_DMA_HDR_LEN]), pTxBlk);
-		HAL_WriteFragTxResource(pAd, pTxBlk, fragNum, &freeCnt);
+		RtmpUSB_WriteFragTxResource(pAd, pTxBlk, fragNum, &freeCnt);
 
 #ifdef DBG_CTRL_SUPPORT
 #ifdef INCLUDE_DEBUG_QUEUE

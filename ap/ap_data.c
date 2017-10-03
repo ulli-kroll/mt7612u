@@ -1087,7 +1087,7 @@ VOID AP_AMPDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 
 #endif /* STATS_COUNT_SUPPORT */
 
-	HAL_WriteTxResource(pAd, pTxBlk, true, &freeCnt);
+	RtmpUSB_WriteSubTxResource(pAd, pTxBlk, true, &freeCnt);
 
 
 #ifdef DBG_CTRL_SUPPORT
@@ -1227,9 +1227,9 @@ VOID AP_AMSDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 		totalMPDUSize += pTxBlk->MpduHeaderLen + pTxBlk->SrcBufLen;
 
 		if (frameNum ==0)
-			FirstTx = HAL_WriteMultiTxResource(pAd, pTxBlk, frameNum, &freeCnt);
+			FirstTx = RtmpUSB_WriteMultiTxResource(pAd, pTxBlk, frameNum, &freeCnt);
 		else
-			LastTxIdx = HAL_WriteMultiTxResource(pAd, pTxBlk, frameNum, &freeCnt);
+			LastTxIdx = RtmpUSB_WriteMultiTxResource(pAd, pTxBlk, frameNum, &freeCnt);
 
 #ifdef DBG_CTRL_SUPPORT
 #ifdef INCLUDE_DEBUG_QUEUE
@@ -1282,7 +1282,7 @@ VOID AP_AMSDU_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 #endif /* STATS_COUNT_SUPPORT */
 	}
 
-	HAL_FinalWriteTxResource(pAd, pTxBlk, totalMPDUSize, FirstTx);
+	RtmpUSB_FinalWriteTxResource(pAd, pTxBlk, totalMPDUSize, FirstTx);
 	HAL_LastTxIdx(pAd, pTxBlk->QueIdx, LastTxIdx);
 
 	/*
@@ -1569,7 +1569,7 @@ VOID AP_Legacy_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 		if (pTxBlk->pMacEntry)
 			pTxBlk->pMacEntry->isCached = false;
 
-	HAL_WriteTxResource(pAd, pTxBlk, true, &freeCnt);
+	RtmpUSB_WriteSingleTxResource(pAd, pTxBlk, true, &freeCnt);
 
 
 #ifdef DBG_CTRL_SUPPORT
@@ -1900,7 +1900,7 @@ VOID AP_Fragment_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 
 		RTMPWriteTxWI_Data(pAd, (struct mt7612u_txwi *)(&pTxBlk->HeaderBuf[MT_DMA_HDR_LEN]), pTxBlk);
 
-		HAL_WriteFragTxResource(pAd, pTxBlk, fragNum, &freeCnt);
+		RtmpUSB_WriteFragTxResource(pAd, pTxBlk, fragNum, &freeCnt);
 
 
 #ifdef DBG_CTRL_SUPPORT
@@ -2055,9 +2055,9 @@ VOID AP_ARalink_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 		totalMPDUSize += pTxBlk->MpduHeaderLen + pTxBlk->SrcBufLen;
 
 		if (frameNum ==0)
-			FirstTx = HAL_WriteMultiTxResource(pAd, pTxBlk, frameNum, &freeCnt);
+			FirstTx = RtmpUSB_WriteMultiTxResource(pAd, pTxBlk, frameNum, &freeCnt);
 		else
-			LastTxIdx = HAL_WriteMultiTxResource(pAd, pTxBlk, frameNum, &freeCnt);
+			LastTxIdx = RtmpUSB_WriteMultiTxResource(pAd, pTxBlk, frameNum, &freeCnt);
 
 
 #ifdef DBG_CTRL_SUPPORT
@@ -2108,7 +2108,7 @@ VOID AP_ARalink_Frame_Tx(struct rtmp_adapter *pAd, TX_BLK *pTxBlk)
 	}
 
 
-	HAL_FinalWriteTxResource(pAd, pTxBlk, totalMPDUSize, FirstTx);
+	RtmpUSB_FinalWriteTxResource(pAd, pTxBlk, totalMPDUSize, FirstTx);
 	HAL_LastTxIdx(pAd, pTxBlk->QueIdx, LastTxIdx);
 
 	/*
