@@ -878,7 +878,7 @@ static inline u8 SelectClearChannelApCnt(
 			if (pChannelInfo->dirtyness[channel_index] == dirty)
 			{
 				candidate[channel_index]=true;
-				candidate_num++;
+				candidate_num = true;
 			}
 		}
 		/* if there's more than 1 candidate, pick up the channel with minimum RSSI */
