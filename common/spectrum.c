@@ -1210,7 +1210,7 @@ VOID EnqueueTPCReq(
 						pAd->CurrentAddress);
 
 	pOutBuffer = kmalloc(MGMT_DMA_BUFFER_SIZE, GFP_ATOMIC);  /*Get an unused nonpaged memory*/
-	if (pOutBuffer != NDIS_STATUS_SUCCESS) {
+	if (pOutBuffer == NULL) {
 		DBGPRINT(RT_DEBUG_TRACE, ("%s() allocate memory failed \n", __FUNCTION__));
 		return;
 	}
