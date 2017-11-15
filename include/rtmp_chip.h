@@ -102,12 +102,6 @@ struct _RSSI_SAMPLE;
 
 #define IS_RBUS_INF(_pAd) ((_pAd)->infType == RTMP_DEV_INF_RBUS)
 
-#define RT_REV_LT(_pAd, _chip, _rev)\
-	IS_##_chip(_pAd) && (((_pAd)->MACVersion & 0x0000FFFF) < (_rev))
-
-#define RT_REV_GTE(_pAd, _chip, _rev)\
-	IS_##_chip(_pAd) && (((_pAd)->MACVersion & 0x0000FFFF) >= (_rev))
-
 #define MT_REV_LT(_pAd, _chip, _rev)\
 	IS_##_chip(_pAd) && (((_pAd)->asic_rev & 0x0000FFFF) < (_rev))
 
