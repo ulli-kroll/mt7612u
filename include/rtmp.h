@@ -5680,11 +5680,6 @@ INT	RT_CfgSetFixedTxPhyMode(char *arg);
 INT	RT_CfgSetTxMCSProc(char *arg, bool *pAutoRate);
 INT	RT_CfgSetAutoFallBack(struct rtmp_adapter *pAd, char *arg);
 
-
-INT	Set_Antenna_Proc(struct rtmp_adapter *pAd, char *arg);
-
-
-
 #ifdef MULTI_MAC_ADDR_EXT_SUPPORT
 INT Set_EnMultiMacAddrExt_Proc(
 	IN struct rtmp_adapter *pAd,
@@ -5694,9 +5689,6 @@ INT	Set_MultiMacAddrExt_Proc(
 	IN	struct rtmp_adapter *pAd,
 	IN	char *arg);
 #endif /* MULTI_MAC_ADDR_EXT_SUPPORT */
-
-INT set_tssi_enable(struct rtmp_adapter *pAd, char *arg);
-
 
 int RTMPWPARemoveKeyProc(
 	IN  struct rtmp_adapter *pAd,
