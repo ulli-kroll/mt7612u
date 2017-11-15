@@ -74,11 +74,8 @@ struct _RSSI_SAMPLE;
 #define IS_RT8592(_pAd)		(((_pAd)->mac_rev & 0xffff0000) == 0x85590000)
 
 #define IS_MT7650(_pAd)		(((_pAd)->asic_rev & 0xffff0000) == 0x76500000)
-#define IS_MT7650U(_pAd)	((((_pAd)->ChipID & 0xffff0000) == 0x76500000))
 #define IS_MT7630(_pAd)		(((_pAd)->asic_rev & 0xffff0000) == 0x76300000)
-#define IS_MT7630U(_pAd)	((((_pAd)->ChipID & 0xffff0000) == 0x76300000))
 #define IS_MT7610(_pAd)		(((_pAd)->asic_rev & 0xffff0000) == 0x76100000)
-#define IS_MT7610U(_pAd)	((((_pAd)->ChipID & 0xffff0000) == 0x76100000))
 #define IS_MT76x0(_pAd)		(IS_MT7610(_pAd) || IS_MT7630(_pAd) || IS_MT7650(_pAd))
 #define IS_MT76x0U(_pAd)	(IS_MT7650U(_pAd) || IS_MT7630U(_pAd) || IS_MT7610U(_pAd))
 
