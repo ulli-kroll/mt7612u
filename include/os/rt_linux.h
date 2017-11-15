@@ -270,30 +270,6 @@ struct os_lock  {
 			in thread/tasklet/timer/inteerupt, so we use interrupt_disable to protect
 			the access.
 */
-#define RTMP_MCU_RW_LOCK(_pAd, _irqflags)	\
-	do{								\
-		if (_pAd->infType == RTMP_DEV_INF_USB)	\
-		{\
-			down_interruptible(&_pAd->McuCmdSem, _irqflags);\
-		}\
-		else\
-		{\
-			spin_lock_bh(&_pAd->McuCmdLock, _irqflags);\
-		}\
-	}while(0)
-
-#define RTMP_MCU_RW_UNLOCK(_pAd, _irqflags)	\
-	do{				\
-		if(_pAd->infType == RTMP_DEV_INF_USB)\
-		{	\
-			up(&_pAd->McuCmdSem);\
-		}		\
-		else\
-		{\
-			spin_unlock_bh(&_pAd->McuCmdLock, _irqflags);\
-		}\
-	}while(0)
-
 
 #ifndef wait_event_interruptible_timeout
 #define __wait_event_interruptible_timeout(wq, condition, ret) \
