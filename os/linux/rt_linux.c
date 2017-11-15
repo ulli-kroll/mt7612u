@@ -1645,19 +1645,6 @@ int32_t RtmpOsFileIsErr(IN VOID *pFile)
 	return IS_FILE_OPEN_ERR(pFile);
 }
 
-int RtmpOSIRQRelease(
-	IN struct net_device *pNetDev,
-	IN uint32_t infType,
-	IN PPCI_DEV pci_dev,
-	IN bool *pHaveMsi)
-{
-	struct net_device *net_dev = (struct net_device *)pNetDev;
-
-
-
-	return 0;
-}
-
 
 /*
 ========================================================================

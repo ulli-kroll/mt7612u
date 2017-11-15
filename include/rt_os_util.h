@@ -438,12 +438,6 @@ VOID RtmpDrvAllRFPrint(
 	IN u8 *pBuf,
 	IN uint32_t BufLen);
 
-int RtmpOSIRQRelease(
-	IN	struct net_device *			pNetDev,
-	IN	uint32_t 				infType,
-	IN	PPCI_DEV				pci_dev,
-	IN	bool					*pHaveMsi);
-
 VOID RtmpOsWlanEventSet(
 	IN	VOID					*pReserved,
 	IN	bool					*pCfgWEnt,
