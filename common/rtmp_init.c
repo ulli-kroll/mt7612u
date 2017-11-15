@@ -818,7 +818,7 @@ int NICInitializeAsic(struct rtmp_adapter *pAd, bool bHardReset)
 
 	DBGPRINT(RT_DEBUG_OFF, ("MAC[Ver=0x%08x]\n",
 				pAd->mac_rev));
-	if (!(IS_MT7601(pAd) || IS_MT76x2(pAd))) {
+	if (!(IS_MT76x2(pAd))) {
 		/* turn on bit13 (set to zero) after rt2860D. This is to solve high-current issue.*/
 		mac_val = mt7612u_read32(pAd, PBF_SYS_CTRL);
 		mac_val &= (~0x2000);
