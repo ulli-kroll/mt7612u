@@ -71,26 +71,26 @@ struct _RSSI_SAMPLE;
 #include "mcu/mcu.h"
 
 
-#define IS_RT8592(_pAd)		(((_pAd)->MACVersion & 0xffff0000) == 0x85590000)
+#define IS_RT8592(_pAd)		(((_pAd)->mac_rev & 0xffff0000) == 0x85590000)
 
-#define IS_MT7601(_pAd)		(((_pAd)->MACVersion & 0xffff0000) == 0x76010000)
+#define IS_MT7601(_pAd)		(((_pAd)->mac_rev & 0xffff0000) == 0x76010000)
 #define IS_MT7601U(_pAd)	(IS_MT7601(_pAd))
 
-#define IS_MT7650(_pAd)		(((_pAd)->ChipID & 0xffff0000) == 0x76500000)
+#define IS_MT7650(_pAd)		(((_pAd)->asic_rev & 0xffff0000) == 0x76500000)
 #define IS_MT7650U(_pAd)	((((_pAd)->ChipID & 0xffff0000) == 0x76500000))
-#define IS_MT7630(_pAd)		(((_pAd)->ChipID & 0xffff0000) == 0x76300000)
+#define IS_MT7630(_pAd)		(((_pAd)->asic_rev & 0xffff0000) == 0x76300000)
 #define IS_MT7630U(_pAd)	((((_pAd)->ChipID & 0xffff0000) == 0x76300000))
-#define IS_MT7610(_pAd)		(((_pAd)->ChipID & 0xffff0000) == 0x76100000)
+#define IS_MT7610(_pAd)		(((_pAd)->asic_rev & 0xffff0000) == 0x76100000)
 #define IS_MT7610U(_pAd)	((((_pAd)->ChipID & 0xffff0000) == 0x76100000))
 #define IS_MT76x0(_pAd)		(IS_MT7610(_pAd) || IS_MT7630(_pAd) || IS_MT7650(_pAd))
 #define IS_MT76x0U(_pAd)	(IS_MT7650U(_pAd) || IS_MT7630U(_pAd) || IS_MT7610U(_pAd))
 
-#define IS_MT7662(_pAd)		(((_pAd)->ChipID & 0xffff0000) == 0x76620000)
-#define IS_MT7662U(_pAd)	((((_pAd)->ChipID & 0xffff0000) == 0x76620000))
-#define IS_MT7632(_pAd)		(((_pAd)->ChipID & 0xffff0000) == 0x76320000)
-#define IS_MT7632U(_pAd)	((((_pAd)->ChipID & 0xffff0000) == 0x76320000))
-#define IS_MT7612(_pAd)		(((_pAd)->ChipID & 0xffff0000) == 0x76120000)
-#define IS_MT7612U(_pAd)	((((_pAd)->ChipID & 0xffff0000) == 0x76120000))
+#define IS_MT7662(_pAd)		(((_pAd)->asic_rev & 0xffff0000) == 0x76620000)
+#define IS_MT7662U(_pAd)	((((_pAd)->asic_rev & 0xffff0000) == 0x76620000))
+#define IS_MT7632(_pAd)		(((_pAd)->asic_rev & 0xffff0000) == 0x76320000)
+#define IS_MT7632U(_pAd)	((((_pAd)->asic_rev & 0xffff0000) == 0x76320000))
+#define IS_MT7612(_pAd)		(((_pAd)->asic_rev & 0xffff0000) == 0x76120000)
+#define IS_MT7612U(_pAd)	((((_pAd)->asic_rev & 0xffff0000) == 0x76120000))
 #define IS_MT76x2(_pAd)		(IS_MT7662(_pAd) || IS_MT7632(_pAd) || IS_MT7612(_pAd))
 #define IS_MT76x2U(_pAd)	(IS_MT7662U(_pAd) || IS_MT7632U(_pAd) || IS_MT7612U(_pAd))
 #define REV_MT76x2E3        	0x0022
@@ -98,7 +98,7 @@ struct _RSSI_SAMPLE;
 
 #define IS_MT76xx(_pAd)		(IS_MT76x0(_pAd) || IS_MT76x2(_pAd))
 
-#define IS_RT65XX(_pAd)		((((_pAd)->MACVersion & 0xFFFF0000) == 0x65900000) ||\
+#define IS_RT65XX(_pAd)		((((_pAd)->mac_rev & 0xFFFF0000) == 0x65900000) ||\
 							 (IS_RT8592(_pAd))||\
 							 (IS_MT76x0(_pAd)) ||\
 							 (IS_MT76x2(_pAd)))
@@ -115,13 +115,13 @@ struct _RSSI_SAMPLE;
 	IS_##_chip(_pAd) && (((_pAd)->MACVersion & 0x0000FFFF) >= (_rev))
 
 #define MT_REV_LT(_pAd, _chip, _rev)\
-	IS_##_chip(_pAd) && (((_pAd)->ChipID & 0x0000FFFF) < (_rev))
+	IS_##_chip(_pAd) && (((_pAd)->asic_rev & 0x0000FFFF) < (_rev))
 
 #define MT_REV_ET(_pAd, _chip, _rev)\
-	IS_##_chip(_pAd) && (((_pAd)->ChipID & 0x0000FFFF) == (_rev))
+	IS_##_chip(_pAd) && (((_pAd)->asic_rev & 0x0000FFFF) == (_rev))
 
 #define MT_REV_GTE(_pAd, _chip, _rev)\
-	IS_##_chip(_pAd) && (((_pAd)->ChipID & 0x0000FFFF) >= (_rev))
+	IS_##_chip(_pAd) && (((_pAd)->asic_rev & 0x0000FFFF) >= (_rev))
 
 /* Dual-band NIC (RF/BBP/MAC are in the same chip.) */
 

@@ -140,7 +140,7 @@ struct __attribute__ ((packed))  mt7612u_rxinfo {
 /* Register format */
 /* ================================================================================= */
 
-#define ASIC_VERSION		0x0000
+#define MT_ASIC_VERSION		0x0000
 
 
 /*
@@ -295,7 +295,7 @@ typedef	union _AC_TXOP_CSR1_STRUC {
 /* MAC  registers                                                                                                                                                                 */
 /*================================================================================= */
 /*  4.1 MAC SYSTEM  configuration registers (offset:0x1000) */
-#define MAC_CSR0            0x1000
+#define MT_MAC_CSR0            0x1000
 #ifdef RT_BIG_ENDIAN
 typedef	union _ASIC_VER_ID_STRUC {
 	struct {

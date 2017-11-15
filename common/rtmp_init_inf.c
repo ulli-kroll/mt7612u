@@ -47,7 +47,7 @@ int rt28xx_init(struct rtmp_adapter *pAd)
 		goto err1;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("MAC[Ver:Rev=0x%08x : 0x%08x]\n",
-				pAd->MACVersion, pAd->ChipID));
+				pAd->mac_rev, pAd->asic_rev));
 
 	if (mcu_sys_init(pAd) != true)
 		goto err1;

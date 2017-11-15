@@ -817,7 +817,7 @@ int NICInitializeAsic(struct rtmp_adapter *pAd, bool bHardReset)
 	// TODO: shiang, how about the value setting of pAd->MACVersion?? Original it assigned here
 
 	DBGPRINT(RT_DEBUG_OFF, ("MAC[Ver=0x%08x]\n",
-				pAd->MACVersion));
+				pAd->mac_rev));
 	if (!(IS_MT7601(pAd) || IS_MT76x2(pAd))) {
 		/* turn on bit13 (set to zero) after rt2860D. This is to solve high-current issue.*/
 		mac_val = mt7612u_read32(pAd, PBF_SYS_CTRL);
@@ -939,7 +939,7 @@ int NICInitializeAsic(struct rtmp_adapter *pAd, bool bHardReset)
 	IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
 	{
 		/* for rt2860E and after, init TXOP_CTRL_CFG with 0x583f. This is for extension channel overlapping IOT.*/
-		if ((pAd->MACVersion & 0xffff) != 0x0101)
+		if ((pAd->mac_rev & 0xffff) != 0x0101)
 			mt7612u_write32(pAd, TXOP_CTRL_CFG, 0x583f);
 	}
 #endif /* CONFIG_STA_SUPPORT */
@@ -1899,7 +1899,7 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 	pAd->CommonCfg.bBADecline = false;
 	pAd->CommonCfg.bDisableReordering = false;
 
-	if (pAd->MACVersion == 0x28720200)
+	if (pAd->mac_rev == 0x28720200)
 		pAd->CommonCfg.TxBASize = 13; /*by Jerry recommend*/
 	else
 		pAd->CommonCfg.TxBASize = 7;

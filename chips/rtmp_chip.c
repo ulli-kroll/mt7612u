@@ -105,7 +105,7 @@ VOID rlt_bcn_buf_init(struct rtmp_adapter *pAd)
 
 INT WaitForAsicReady(struct rtmp_adapter *pAd)
 {
-	uint32_t mac_val = 0, reg = MAC_CSR0;
+	uint32_t mac_val = 0;
 	int idx = 0;
 
 	do
@@ -113,7 +113,7 @@ INT WaitForAsicReady(struct rtmp_adapter *pAd)
 		if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST))
 			return false;
 
-		mac_val = mt7612u_read32(pAd, reg);
+		mac_val = mt7612u_read32(pAd, MT_MAC_CSR0);
 		if ((mac_val != 0x00) && (mac_val != 0xFFFFFFFF))
 			return true;
 
@@ -155,16 +155,14 @@ int RtmpChipOpsHook(VOID *pCB)
 	if (WaitForAsicReady(pAd) == false)
 		return -1;
 
-	MacValue = mt7612u_read32(pAd, MAC_CSR0);
-	pAd->MACVersion = MacValue;
+	pAd->mac_rev = mt7612u_read32(pAd, MT_MAC_CSR0);
 
-	if (pAd->MACVersion == 0xffffffff)
+	if (pAd->mac_rev == 0xffffffff)
 		return -1;
 
-	MacValue = mt7612u_read32(pAd, ASIC_VERSION);
-	pAd->ChipID = MacValue;
+	pAd->asic_rev = mt7612u_read32(pAd, MT_ASIC_VERSION);
 
-	if (pAd->ChipID == 0xffffffff)
+	if (pAd->asic_rev == 0xffffffff)
 		return -1;
 
 	if (IS_MT76x2(pAd)) {

@@ -237,8 +237,8 @@ INT mt7612u_chip_onoff(struct rtmp_adapter *pAd, bool bOn, bool bResetWLAN)
 	reg = mt7612u_set_wlan_func(pAd, bOn);
 
 	if (bOn) {
-		pAd->MACVersion = mt7612u_read32(pAd, MAC_CSR0);
-		DBGPRINT(RT_DEBUG_TRACE, ("MACVersion = 0x%08x\n", pAd->MACVersion));
+		pAd->mac_rev = mt7612u_read32(pAd, MT_MAC_CSR0);
+		DBGPRINT(RT_DEBUG_TRACE, ("MACVersion = 0x%08x\n", pAd->mac_rev));
 	}
 
 	if (bOn == true && (!IS_MT76x2(pAd))) {

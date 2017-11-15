@@ -84,7 +84,7 @@ int mt7612u_phy_bbp_get_agc(struct rtmp_adapter *pAd, CHAR *agc, RX_CHAIN_IDX ch
 	uint32_t bbp_val, bbp_reg = AGC1_R8;
 
 
-	if (((pAd->MACVersion & 0xffff0000) < 0x28830000) ||
+	if (((pAd->mac_rev & 0xffff0000) < 0x28830000) ||
 	    (pAd->Antenna.field.RxPath == 1)) {
 		chain = RX_CHAIN_0;
 	}
@@ -115,7 +115,7 @@ int mt7612u_phy_bbp_set_agc(struct rtmp_adapter *pAd, u8 agc, RX_CHAIN_IDX chain
 	u8 idx = 0;
 	uint32_t bbp_val, bbp_reg = AGC1_R8;
 
-	if (((pAd->MACVersion & 0xf0000000) < 0x28830000) ||
+	if (((pAd->mac_rev & 0xf0000000) < 0x28830000) ||
 	     (pAd->Antenna.field.RxPath == 1)) {
 		chain = RX_CHAIN_0;
 	}

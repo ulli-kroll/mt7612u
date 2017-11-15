@@ -1195,7 +1195,7 @@ VOID MlmePeriodicExec(
 
 		if ((pAd->Mlme.PeriodicRound & 0x1) &&
 			(STA_TGN_WIFI_ON(pAd)) &&
-			((pAd->MACVersion & 0xffff) == 0x0101))
+			((pAd->mac_rev & 0xffff) == 0x0101))
 		{
 			uint32_t txop_cfg;
 
@@ -5863,7 +5863,7 @@ VOID AsicStaBbpTuning(struct rtmp_adapter *pAd)
 	CHAR Rssi;
 
 	/* 2860C did not support Fase CCA, therefore can't tune*/
-	if (pAd->MACVersion == 0x28600100)
+	if (pAd->mac_rev == 0x28600100)
 		return;
 
 

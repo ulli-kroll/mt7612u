@@ -2680,7 +2680,7 @@ INT	Set_HtTxStream_Proc(
 	else
 		pAd->CommonCfg.TxStream = pAd->Antenna.field.TxPath;
 
-	if ((pAd->MACVersion < RALINK_2883_VERSION) &&
+	if ((pAd->mac_rev < RALINK_2883_VERSION) &&
 		(pAd->CommonCfg.TxStream > 2))
 	{
 		pAd->CommonCfg.TxStream = 2; /* only 2 TX streams for RT2860 series*/
@@ -2717,7 +2717,7 @@ INT	Set_HtRxStream_Proc(
 	else
 		pAd->CommonCfg.RxStream = pAd->Antenna.field.RxPath;
 
-	if ((pAd->MACVersion < RALINK_2883_VERSION) &&
+	if ((pAd->mac_rev < RALINK_2883_VERSION) &&
 		(pAd->CommonCfg.RxStream > 2)) /* 3*3*/
 	{
 		pAd->CommonCfg.RxStream = 2; /* only 2 RX streams for RT2860 series*/

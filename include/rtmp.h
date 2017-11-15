@@ -3280,8 +3280,8 @@ struct rtmp_adapter {
 	struct phy_ops *phy_op;
 	struct hw_setting hw_cfg;
 
-	uint32_t MACVersion;	/* MAC version. Record rt2860C(0x28600100) or rt2860D (0x28600101).. */
-	uint32_t ChipID;
+	uint32_t mac_rev;	/* MAC version. Record rt2860C(0x28600100) or rt2860D (0x28600101).. */
+	uint32_t asic_rev;
 	INT dev_idx;
 
 	/* --------------------------- */

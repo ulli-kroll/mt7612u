@@ -2187,11 +2187,9 @@ INT rtmp_asic_top_init(struct rtmp_adapter *pAd)
 	uint32_t mac_val;
 
 	if (IS_MT76x2(pAd)) {
-		uint32_t MacValue;
-		MacValue = mt7612u_read32(pAd, MAC_CSR0);
-		pAd->MACVersion = MacValue;
+		pAd->mac_rev = mt7612u_read32(pAd, MT_MAC_CSR0);
 
-		if ((pAd->MACVersion == 0xffffffff) || (pAd->MACVersion == 0))
+		if ((pAd->mac_rev == 0xffffffff) || (pAd->mac_rev == 0))
 			mt7612u_power_on(pAd);
 	}
 

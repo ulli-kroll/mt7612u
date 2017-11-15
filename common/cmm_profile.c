@@ -1741,7 +1741,7 @@ static void HTParametersHook(
 			default:
 				pAd->CommonCfg.TxStream = 3;
 
-				if (pAd->MACVersion < RALINK_2883_VERSION)
+				if (pAd->mac_rev < RALINK_2883_VERSION)
 					pAd->CommonCfg.TxStream = 2; /* only 2 tx streams for RT2860 series*/
 				break;
 		}
@@ -1762,7 +1762,7 @@ static void HTParametersHook(
 			default:
 				pAd->CommonCfg.RxStream = 3;
 
-				if (pAd->MACVersion < RALINK_2883_VERSION)
+				if (pAd->mac_rev < RALINK_2883_VERSION)
 					pAd->CommonCfg.RxStream = 2; /* only 2 rx streams for RT2860 series*/
 				break;
 		}
