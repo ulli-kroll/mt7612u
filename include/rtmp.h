@@ -3372,7 +3372,7 @@ struct rtmp_adapter {
 	u8 wmm_cw_min; /* CW_MIN_IN_BITS, actual CwMin = 2^CW_MIN_IN_BITS - 1 */
 	u8 wmm_cw_max; /* CW_MAX_IN_BITS, actual CwMax = 2^CW_MAX_IN_BITS - 1 */
 
-	WLAN_FUN_CTRL_STRUC WlanFunCtrl;
+	u32 WlanFunCtrl;
 
 /*****************************************************************************************/
 /*      802.11 related parameters                                                        */

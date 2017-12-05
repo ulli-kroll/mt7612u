@@ -77,7 +77,7 @@ VOID RT65xxUsbAsicRadioOn(struct rtmp_adapter *pAd, u8 Stage)
 
 	RTMP_CLEAR_PSFLAG(pAd, fRTMP_PS_MCU_SLEEP);
 
-	if (pAd->WlanFunCtrl.field.WLAN_EN == 0)
+	if (!(pAd->WlanFunCtrl & MT_WLAN_FUN_CTRL_WLAN_EN))
 		mt7612u_chip_onoff(pAd, true, false);
 
 	/* make some traffic to invoke EvtDeviceD0Entry callback function*/

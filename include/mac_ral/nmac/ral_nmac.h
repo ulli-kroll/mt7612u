@@ -421,67 +421,25 @@ typedef struct GNU_PACKED _NMAC_HW_RATE_CTRL_STRUCT{
 
 #define MISC_CTRL	0x64
 
-#define WLAN_FUN_CTRL		0x80
-#define WLAN_FUN_CTRL_WLAN_EN (1 << 0)
-#define WLAN_FUN_CTRL_WLAN_CLK_EN (1 << 1)
-#define WLAN_FUN_CTRL_WLAN_RESET_RF (1 << 2)
+#define MT_WLAN_FUN_CTRL		0x0080
+#define MT_WLAN_FUN_CTRL_WLAN_EN	BIT(0)
+#define MT_WLAN_FUN_CTRL_WLAN_CLK_EN	BIT(1)
+#define MT_WLAN_FUN_CTRL_WLAN_RESET_RF	BIT(2)
 
-/* MT76x0 definition */
-#define WLAN_FUN_CTRL_WLAN_RESET (1 << 3)
+#define MT_WLAN_FUN_CTRL_WLAN_RESET	BIT(3) /* MT76x0 */
+#define MT_WLAN_FUN_CTRL_CSR_F20M_CKEN	BIT(3) /* MT76x2 */
 
-/* MT76x2 definition */
-#define WLAN_FUN_CTRL_CSR_F20M_CKEN (1 << 3)
+#define MT_WLAN_FUN_CTRL_PCIE_CLK_REQ	BIT(4)
+#define MT_WLAN_FUN_CTRL_FRC_WL_ANT_SEL	BIT(5)
+#define MT_WLAN_FUN_CTRL_INV_ANT_SEL	BIT(6)
+#define MT_WLAN_FUN_CTRL_WAKE_HOST	BIT(7)
 
-#define WLAN_FUN_CTRL_PCIE_APP0_CLK_REQ (1 << 4)
-#define WLAN_FUN_CTRL_FRC_WL_ANT_SEL (1 << 5)
-#define WLAN_FUN_CTRL_INV_ANT_SEL (1 << 6)
-#define WLAN_FUN_CTRL_WAKE_HOST_F0 (1 << 7)
+#define MT_WLAN_FUN_CTRL_THERM_RST	BIT(8) /* MT76x2 */
+#define MT_WLAN_FUN_CTRL_THERM_CKEN	BIT(9) /* MT76x2 */
 
-/* MT76x0 definition */
-#define WLAN_FUN_CTRL_GPIO0_IN_MASK (0xff << 8)
-#define WLAN_FUN_CTRL_GPIO0_OUT_MASK (0xff << 16)
-#define WLAN_FUN_CTRL_GPIO0_OUT_OE_N_MASK (0xff << 24)
-
-/* MT76x2 definition */
-#define WLAN_FUN_CTRL_THERM_RST (1 << 8)
-#define WLAN_FUN_CTRL_THERM_CKEN (1 << 9)
-
-#ifdef RT_BIG_ENDIAN
-typedef union _WLAN_FUN_CTRL_STRUC{
-	struct{
-		uint32_t GPIO0_OUT_OE_N:8;
-		uint32_t GPIO0_OUT:8;
-		uint32_t GPIO0_IN:8;
-		uint32_t WLAN_ACC_BT:1;
-		uint32_t INV_TR_SW0:1;
-		uint32_t FRC_WL_ANT_SET:1;
-		uint32_t PCIE_APP0_CLK_REQ:1;
-		uint32_t WLAN_RESET:1;
-		uint32_t WLAN_RESET_RF:1;
-		uint32_t WLAN_CLK_EN:1;
-		uint32_t WLAN_EN:1;
-	}field;
-	uint32_t word;
-}WLAN_FUN_CTRL_STRUC, *PWLAN_FUN_CTRL_STRUC;
-#else
-typedef union _WLAN_FUN_CTRL_STRUC{
-	struct{
-		uint32_t WLAN_EN:1;
-		uint32_t WLAN_CLK_EN:1;
-		uint32_t WLAN_RESET_RF:1;
-		uint32_t WLAN_RESET:1;
-		uint32_t PCIE_APP0_CLK_REQ:1;
-		uint32_t FRC_WL_ANT_SET:1;
-		uint32_t INV_TR_SW0:1;
-		uint32_t WLAN_ACC_BT:1;
-		uint32_t GPIO0_IN:8;
-		uint32_t GPIO0_OUT:8;
-		uint32_t GPIO0_OUT_OE_N:8;
-	}field;
-	uint32_t word;
-}WLAN_FUN_CTRL_STRUC, *PWLAN_FUN_CTRL_STRUC;
-#endif
-
+#define MT_WLAN_FUN_CTRL_GPIO_IN	GENMASK(15, 8) /* MT76x0 */
+#define MT_WLAN_FUN_CTRL_GPIO_OUT	GENMASK(23, 16) /* MT76x0 */
+#define MT_WLAN_FUN_CTRL_GPIO_OUT_EN	GENMASK(31, 24) /* MT76x0 */
 
 #define WLAN_FUN_INFO		0x84
 #ifdef RT_BIG_ENDIAN

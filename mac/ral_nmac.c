@@ -161,26 +161,26 @@ static uint mt7612u_set_wlan_func(struct rtmp_adapter *pAd, bool enable)
 {
 	u32 reg;
 
-	reg = mt7612u_read32(pAd, WLAN_FUN_CTRL);
+	reg = mt7612u_read32(pAd, MT_WLAN_FUN_CTRL);
 
 	if (enable == true) {
 		/*
 			Enable WLAN function and clock
 			WLAN_FUN_CTRL[1:0] = 0x3
 		*/
-		reg |= WLAN_FUN_CTRL_WLAN_CLK_EN;
-		reg |= WLAN_FUN_CTRL_WLAN_EN;
+		reg |= MT_WLAN_FUN_CTRL_WLAN_CLK_EN;
+		reg |= MT_WLAN_FUN_CTRL_WLAN_EN;
 	} else {
 		/*
 			Diable WLAN function and clock
 			WLAN_FUN_CTRL[1:0] = 0x0
 		*/
-		reg &= ~WLAN_FUN_CTRL_WLAN_EN;
-		reg &= ~WLAN_FUN_CTRL_WLAN_CLK_EN;
+		reg &= ~MT_WLAN_FUN_CTRL_WLAN_EN;
+		reg &= ~MT_WLAN_FUN_CTRL_WLAN_CLK_EN;
 	}
 
 	DBGPRINT(RT_DEBUG_TRACE, ("WlanFunCtrl= 0x%x\n", reg));
-	mt7612u_write32(pAd, WLAN_FUN_CTRL, reg);
+	mt7612u_write32(pAd, MT_WLAN_FUN_CTRL, reg);
 	udelay(20);
 
 	return reg;
@@ -200,38 +200,38 @@ INT mt7612u_chip_onoff(struct rtmp_adapter *pAd, bool bOn, bool bResetWLAN)
 		return STATUS_UNSUCCESSFUL;
 	}
 
-	reg = mt7612u_read32(pAd, WLAN_FUN_CTRL);
+	reg = mt7612u_read32(pAd, MT_WLAN_FUN_CTRL);
 	DBGPRINT(RT_DEBUG_OFF, ("==>%s(): OnOff:%d, Reset= %d, pAd->WlanFunCtrl:0x%x, Reg-WlanFunCtrl=0x%x\n",
-				__FUNCTION__, bOn, bResetWLAN, pAd->WlanFunCtrl.word, reg));
+				__FUNCTION__, bOn, bResetWLAN, pAd->WlanFunCtrl, reg));
 
 	if (bResetWLAN == true) {
 		if (!IS_MT76x2(pAd))
-			reg &= ~WLAN_FUN_CTRL_GPIO0_OUT_OE_N_MASK;
+			reg &= ~MT_WLAN_FUN_CTRL_GPIO_OUT_EN;
 
-		reg &= ~WLAN_FUN_CTRL_FRC_WL_ANT_SEL;
+		reg &= ~MT_WLAN_FUN_CTRL_FRC_WL_ANT_SEL;
 
-		if (pAd->WlanFunCtrl.field.WLAN_EN) {
+		if (pAd->WlanFunCtrl & MT_WLAN_FUN_CTRL_WLAN_EN) {
 			/*
 				Restore all HW default value and reset RF.
 			*/
 			if (!IS_MT76x2(pAd))
-				reg |= WLAN_FUN_CTRL_WLAN_RESET;
+				reg |= MT_WLAN_FUN_CTRL_WLAN_RESET;
 
-			reg |= WLAN_FUN_CTRL_WLAN_RESET_RF;
+			reg |= MT_WLAN_FUN_CTRL_WLAN_RESET_RF;
 			DBGPRINT(RT_DEBUG_TRACE, ("Reset(1) WlanFunCtrl.word = 0x%x\n", reg));
-			mt7612u_write32(pAd, WLAN_FUN_CTRL, reg);
+			mt7612u_write32(pAd, MT_WLAN_FUN_CTRL, reg);
 			udelay(20);
 
 			if (!IS_MT76x2(pAd))
-				reg &= ~WLAN_FUN_CTRL_WLAN_RESET;
+				reg &= ~MT_WLAN_FUN_CTRL_WLAN_RESET;
 
-			reg &= ~WLAN_FUN_CTRL_WLAN_RESET_RF;
+			reg &= ~MT_WLAN_FUN_CTRL_WLAN_RESET_RF;
 
 			DBGPRINT(RT_DEBUG_TRACE, ("Reset(2) WlanFunCtrl.word = 0x%x\n", reg));
-			mt7612u_write32(pAd, WLAN_FUN_CTRL, reg);
+			mt7612u_write32(pAd, MT_WLAN_FUN_CTRL, reg);
 			udelay(20);
 		} else
-			mt7612u_write32(pAd, WLAN_FUN_CTRL, reg);
+			mt7612u_write32(pAd, MT_WLAN_FUN_CTRL, reg);
 	}
 
 	reg = mt7612u_set_wlan_func(pAd, bOn);
@@ -277,11 +277,11 @@ INT mt7612u_chip_onoff(struct rtmp_adapter *pAd, bool bOn, bool bResetWLAN)
 		} while (true);
 	}
 
-	pAd->WlanFunCtrl.word = reg;
-	reg = mt7612u_read32(pAd, WLAN_FUN_CTRL);
+	pAd->WlanFunCtrl = reg;
+	reg = mt7612u_read32(pAd, MT_WLAN_FUN_CTRL);
 	DBGPRINT(RT_DEBUG_TRACE,
 		("<== %s():pAd->WlanFunCtrl.word = 0x%x, Reg->WlanFunCtrl=0x%x!\n",
-		__FUNCTION__, pAd->WlanFunCtrl.word, reg));
+		__FUNCTION__, pAd->WlanFunCtrl, reg));
 
 
 	up(&pAd->hw_atomic);
