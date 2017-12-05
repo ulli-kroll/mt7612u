@@ -2825,7 +2825,7 @@ bool RtmpRaDevCtrlExit(IN struct rtmp_adapter *pAd)
 {
 	INT index;
 
-	if ((IS_MT76x0(pAd) || IS_MT76x2(pAd))&& (pAd->WlanFunCtrl.field.WLAN_EN == 1))
+	if ((IS_MT76x2(pAd))&& (pAd->WlanFunCtrl.field.WLAN_EN == 1))
 	{
 		mt7612u_chip_onoff(pAd, false, false);
 	}

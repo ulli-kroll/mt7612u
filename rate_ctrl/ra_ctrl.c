@@ -1563,10 +1563,6 @@ VOID MlmeSelectTxRateTable(
 			}
 #endif /* NEW_RATE_ADAPT_SUPPORT */
 
-			if ((IS_RT8592(pAd) && ( bw != BW_40)) ||
-				(!IS_RT8592(pAd)))
-				break;
-
 #ifdef WFA_VHT_PF
 			// TODO: shiang, add for Realtek behavior when run in BW signaling mode test and we are the testbed!
 			// TODO: add at 11/15!
@@ -1575,46 +1571,6 @@ VOID MlmeSelectTxRateTable(
 				(pAd->MacTab.fAnyStation20Only == false))
 				break;
 #endif /* WFA_VHT_PF */
-		}
-
-		if (IS_RT8592(pAd) &&
-			WMODE_CAP_AC(pAd->CommonCfg.PhyMode) &&
-			(pEntry->SupportRateMode & SUPPORT_VHT_MODE) &&
-			bw == BW_40 && (pAd->LatchRfRegs.Channel > 14)
-		)
-		{
-			if (ss == 1) {
-#ifdef NEW_RATE_ADAPT_SUPPORT
-				if (pAd->rateAlg == RATE_ALG_GRP)
-					*ppTable = RateSwitchTableAdapt11N1S;
-				else
-#endif
-					*ppTable = RateSwitchTable11N1SForABand;
-
-			DBGPRINT(RT_DEBUG_TRACE, ("%s(): Select RateSwitchTable%s11N1S%s\n",
-							__FUNCTION__,
-							((pAd->rateAlg == RATE_ALG_GRP) ? "Adapt" : ""),
-							((pAd->rateAlg == RATE_ALG_GRP) ? "ForABand" : "")));
-			}
-			else if (ss == 2)
-			{
-#ifdef NEW_RATE_ADAPT_SUPPORT
-				if (pAd->rateAlg == RATE_ALG_GRP) {
-					*ppTable = RateSwitchTableAdapt11N2S;
-				} else
-#endif /* NEW_RATE_ADAPT_SUPPORT */
-					*ppTable = RateSwitchTable11BGN2SForABand;
-				DBGPRINT(RT_DEBUG_TRACE, ("%s(): Select RateSwitchTable%s11N2S%s\n",
-							__FUNCTION__,
-							((pAd->rateAlg == RATE_ALG_GRP) ? "Adapt" : ""),
-							((pAd->rateAlg == RATE_ALG_GRP) ? "ForABand" : "")));
-
-			} else {
-				DBGPRINT(RT_DEBUG_ERROR, ("%s(): Invalid SS!\n", __FUNCTION__));
-			}
-
-			if (*ppTable)
-				break;
 		}
 
 #ifdef CONFIG_STA_SUPPORT

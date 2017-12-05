@@ -377,7 +377,7 @@ INT build_vht_op_ie(struct rtmp_adapter *pAd, u8 *buf)
 		} else
 			vht_op.basic_mcs_set.mcs_ss2 = VHT_MCS_CAP_7;
 	case 1:
-		if (IS_MT76x0(pAd) || IS_MT76x2(pAd))
+		if (IS_MT76x2(pAd))
 			vht_op.basic_mcs_set.mcs_ss1 = (((pAd->CommonCfg.vht_bw == VHT_BW_2040)
 				&& (pAd->CommonCfg.RegTransmitSetting.field.BW == BW_20)) ? VHT_MCS_CAP_8 : VHT_MCS_CAP_9);
 		else

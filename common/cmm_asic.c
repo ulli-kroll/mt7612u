@@ -2193,7 +2193,7 @@ INT rtmp_asic_top_init(struct rtmp_adapter *pAd)
 			mt7612u_power_on(pAd);
 	}
 
-	if (IS_MT76x0(pAd) || IS_MT76x2(pAd)) {
+	if (IS_MT76x2(pAd)) {
 		if (pAd->WlanFunCtrl.field.WLAN_EN == 0)
 			mt7612u_chip_onoff(pAd, true, false);
 	}
