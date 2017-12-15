@@ -2642,7 +2642,6 @@ static const struct rtmp_chip_cap MT76x2_ChipCap = {
 	.MBSSIDMode = MBSSID_MODE1,
 
 	.WlanMemmapOffset = 0x410000,
-	.CmdRspRxRing = RX_RING1,
 	.IsComboChip = true,
 	.need_load_fw = true,
 	.need_load_rom_patch = true,

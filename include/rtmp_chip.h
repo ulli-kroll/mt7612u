@@ -472,7 +472,6 @@ struct rtmp_chip_cap {
 	UINT8 LNA_type; /* b'00: 2.4G+5G external LNA, b'01: 5G external LNA, b'10: 2.4G external LNA, b'11: Internal LNA */
 
 	uint32_t WlanMemmapOffset;
-	UINT8 CmdRspRxRing;
 	bool IsComboChip;
 	bool need_load_fw;
 	bool need_load_rom_patch;

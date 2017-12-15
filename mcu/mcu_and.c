@@ -2053,7 +2053,7 @@ void mt7612u_mcu_usb_fw_init(struct rtmp_adapter *ad)
 
 	RT28XXDMAEnable(ad);
 	RTMP_SET_FLAG(ad, fRTMP_ADAPTER_MCU_SEND_IN_BAND_CMD);
-	mt7612u_mcu_fun_set(ad, Q_SELECT, ad->chipCap.CmdRspRxRing);
+	mt7612u_mcu_fun_set(ad, Q_SELECT, RX_RING1);
 	usb_rx_cmd_msgs_receive(ad);
 	mt7612u_mcu_pwr_saving(ad, RADIO_ON, 0);
 }
