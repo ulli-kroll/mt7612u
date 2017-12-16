@@ -1727,10 +1727,7 @@ int mt7612u_mcu_fun_set(struct rtmp_adapter *ad, u32 fun_id, u32 param)
 		goto error;
 	}
 
-	if (fun_id != Q_SELECT)
-		mt7612u_mcu_init_cmd_msg(msg, CMD_FUN_SET_OP, true, true, true);
-	else
-		mt7612u_mcu_init_cmd_msg(msg, CMD_FUN_SET_OP, false, false, false);
+	mt7612u_mcu_init_cmd_msg(msg, CMD_FUN_SET_OP, false, false, false);
 
 	/* Function ID */
 	value = cpu2le32(fun_id);
