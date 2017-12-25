@@ -73,12 +73,6 @@
 #define MT7612U_VENDOR_CFG_WRITE	0x46	/* neded for 7612u series */
 
 // For MT7662 and newer
-u32 mt7612u_usb_cfg_read_v3(struct rtmp_adapter *ad)
-{
-	return mt7612u_cfg3_read(ad, U3DMA_WLCFG);
-}
-
-// For MT7662 and newer
 void mt7612u_usb_cfg_write_v3(struct rtmp_adapter *ad, u32 value)
 {
 	mt7612u_cfg3_write(ad, U3DMA_WLCFG, value);
@@ -489,15 +483,15 @@ static int ResetBulkOutHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 		mdelay(10);
 	} while(Index < 100);
 
-	MACValue = mt7612u_usb_cfg_read_v3(pAd);
+	MACValue = mt7612u_cfg3_read(pAd, U3DMA_WLCFG);
 
 	/* 2nd, to prevent Read Register error, we check the validity.*/
 	if ((MACValue & 0xc00000) == 0)
-		MACValue = mt7612u_usb_cfg_read_v3(pAd);
+		MACValue = mt7612u_cfg3_read(pAd, U3DMA_WLCFG);
 
 	/* 3rd, to prevent Read Register error, we check the validity.*/
 	if ((MACValue & 0xc00000) == 0)
-		MACValue = mt7612u_usb_cfg_read_v3(pAd);
+		MACValue = mt7612u_cfg3_read(pAd, U3DMA_WLCFG);
 
 	MACValue |= 0x80000;
 	mt7612u_usb_cfg_write_v3(pAd, MACValue);
