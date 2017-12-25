@@ -705,7 +705,7 @@ VOID RT28XXDMAEnable(struct rtmp_adapter *pAd)
 	if (IS_MT76x2(pAd))
 		val |= MT_USB_DMA_CFG_RX_DROP_OR_PAD;
 
-	mt7612u_usb_cfg_write_v3(pAd, val);
+	mt7612u_cfg3_write(pAd, U3DMA_WLCFG, val);
 }
 
 /********************************************************************

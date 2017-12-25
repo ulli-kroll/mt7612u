@@ -72,12 +72,6 @@
 #define MT7612U_VENDOR_CFG_READ		0x47	/* neded for 7612u series */
 #define MT7612U_VENDOR_CFG_WRITE	0x46	/* neded for 7612u series */
 
-// For MT7662 and newer
-void mt7612u_usb_cfg_write_v3(struct rtmp_adapter *ad, u32 value)
-{
-	mt7612u_cfg3_write(ad, U3DMA_WLCFG, value);
-}
-
 int RTUSBMultiWrite(
 	IN struct rtmp_adapter *pAd,
 	IN unsigned short Offset,
@@ -494,13 +488,13 @@ static int ResetBulkOutHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 		MACValue = mt7612u_cfg3_read(pAd, U3DMA_WLCFG);
 
 	MACValue |= 0x80000;
-	mt7612u_usb_cfg_write_v3(pAd, MACValue);
+	mt7612u_cfg3_write(pAd, U3DMA_WLCFG, MACValue);
 
 	/* Wait 1ms to prevent next URB to bulkout before HW reset. by MAXLEE 12-25-2007*/
 	mdelay(1);
 
 	MACValue &= (~0x80000);
-	mt7612u_usb_cfg_write_v3(pAd, MACValue);
+	mt7612u_cfg3_write(pAd, U3DMA_WLCFG, MACValue);
 	DBGPRINT(RT_DEBUG_TRACE, ("\tSet 0x2a0 bit19. Clear USB DMA TX path\n"));
 
 	/* Wait 5ms to prevent next URB to bulkout before HW reset. by MAXLEE 12-25-2007*/
