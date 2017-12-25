@@ -460,7 +460,7 @@ load_patch_protect:
 	val = MT_USB_DMA_CFG_RX_BULK_EN |
 	      MT_USB_DMA_CFG_TX_BULK_EN |
 	      FIELD_PREP(MT_USB_DMA_CFG_RX_BULK_AGG_TOUT, 0x20);
-	mt7612u_cfg3_write(ad, U3DMA_WLCFG, val);
+	mt7612u_usb3_write(ad, U3DMA_WLCFG, val);
 
 	fw_patch_image = (u8 *) fw->data;
 
@@ -701,7 +701,7 @@ loadfw_protect:
 	val = MT_USB_DMA_CFG_RX_BULK_EN |
 	      MT_USB_DMA_CFG_TX_BULK_EN |
 	      FIELD_PREP(MT_USB_DMA_CFG_RX_BULK_AGG_TOUT, 0x20);
-	mt7612u_cfg3_write(ad, U3DMA_WLCFG, val);
+	mt7612u_usb3_write(ad, U3DMA_WLCFG, val);
 
 	/* Get FW information */
 	ilm_len = (*(fw_image + 3) << 24) | (*(fw_image + 2) << 16) |
