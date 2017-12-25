@@ -1063,14 +1063,12 @@ void mt76x2_init_mac_cr(struct rtmp_adapter *ad)
 	value &= ~(0x3);
 	mt7612u_write32(ad, MAC_SYS_CTRL, value);
 
-	if (IS_MT7612(ad)) {
-		/*
- 		 * Disable COEX_EN
- 		 */
-		value = mt7612u_read32(ad, COEXCFG0);
-		value &= 0xFFFFFFFE;
-		mt7612u_write32(ad, COEXCFG0, value);
-	}
+	/*
+	 * Disable COEX_EN
+	 */
+	value = mt7612u_read32(ad, COEXCFG0);
+	value &= 0xFFFFFFFE;
+	mt7612u_write32(ad, COEXCFG0, value);
 
 	/*
 		Set 0x141C[15:12]=0xF
@@ -2689,10 +2687,8 @@ VOID mt76x2_init(struct rtmp_adapter *pAd)
 
 	rlt_phy_probe(pAd);
 
-	if (IS_MT7612(pAd)) {
-		pChipCap->IsComboChip = false;
-		pChipCap->rom_code_protect = false;
-	}
+	pChipCap->IsComboChip = false;
+	pChipCap->rom_code_protect = false;
 
 	if (IS_MT7632(pAd))
 		pChipCap->phy_caps = (fPHY_CAP_24G | fPHY_CAP_5G | fPHY_CAP_HT | fPHY_CAP_LDPC);
