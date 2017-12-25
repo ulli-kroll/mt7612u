@@ -154,7 +154,7 @@ int MiniportMMRequest(
 
 #ifdef CONFIG_STA_SUPPORT
 		if(RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_IDLE_RADIO_OFF))
-			RT65xxUsbAsicRadioOn(pAd, MLME_RADIO_ON);
+			mt7612u_radio_on(pAd, MLME_RADIO_ON);
 #endif /* CONFIG_STA_SUPPORT */
 
 		/* Check Free priority queue*/

@@ -67,8 +67,10 @@
 #define MT7612U_VENDOR_WRITE_EEPROM	0x08	/* Not used */
 #define MT7612U_VENDOR_READ_EEPROM	0x09
 
-#define MT7612U_VENDOR_CFG_READ		0x47
-#define MT7612U_VENDOR_CFG_WRITE	0x46
+/* Special for USB3 don't mess with older commands */
+
+#define MT7612U_VENDOR_CFG_READ		0x47	/* neded for 7612u series */
+#define MT7612U_VENDOR_CFG_WRITE	0x46	/* neded for 7612u series */
 
 // For MT7662 and newer
 u32 mt7612u_usb_cfg_read_v3(struct rtmp_adapter *ad)

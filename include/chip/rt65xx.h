@@ -36,8 +36,8 @@ struct rtmp_adapter;
 
 #define MAX_CHECK_COUNT 200
 
-VOID RT65xxUsbAsicRadioOn(struct rtmp_adapter *pAd, u8 Stage);
-VOID RT65xxUsbAsicRadioOff(struct rtmp_adapter *pAd, u8 Stage);
+VOID mt7612u_radio_on(struct rtmp_adapter *pAd, u8 Stage);
+VOID mt7612u_radio_off(struct rtmp_adapter *pAd, u8 Stage);
 
 /*
 	EEPROM format
@@ -67,9 +67,6 @@ typedef union _EEPROM_NIC_CINFIG0_STRUC {
 } EEPROM_NIC_CONFIG0_STRUC, *PEEPROM_NIC_CONFIG0_STRUC;
 #endif
 
-VOID RT65xxDisableTxRx(struct rtmp_adapter *pAd);
-void MT76xx_PciMlmeRadioOFF(struct rtmp_adapter *pAd);
-void MT76xx_PciMlmeRadioOn(struct rtmp_adapter *pAd);
 VOID dump_pwr_info(struct rtmp_adapter *pAd);
 
 #endif /* __MT65XX_H__ */

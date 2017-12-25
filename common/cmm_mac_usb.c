@@ -1142,7 +1142,7 @@ VOID RT28xxUsbMlmeRadioOn(struct rtmp_adapter *pAd)
 	if (!RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_RADIO_OFF))
 		return;
 
-	RT65xxUsbAsicRadioOn(pAd, MLME_RADIO_ON);
+	mt7612u_radio_on(pAd, MLME_RADIO_ON);
 
 
 	/* Clear Radio off flag*/
@@ -1222,7 +1222,7 @@ VOID RT28xxUsbMlmeRadioOFF(struct rtmp_adapter *pAd)
 #endif /* CONFIG_AP_SUPPORT */
 
 
-	RT65xxUsbAsicRadioOff(pAd, MLME_RADIO_OFF);
+	mt7612u_radio_off(pAd, MLME_RADIO_OFF);
 }
 
 bool AsicCheckCommandOk(

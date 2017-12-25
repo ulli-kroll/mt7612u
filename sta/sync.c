@@ -313,7 +313,7 @@ VOID MlmeForceScanReqAction(
 	unsigned short         Status;
 
 	if(RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_IDLE_RADIO_OFF))
-		RT65xxUsbAsicRadioOn(pAd, MLME_RADIO_ON);
+		mt7612u_radio_on(pAd, MLME_RADIO_ON);
        /*
 	    Check the total scan tries for one single OID command
 	    If this is the CCX 2.0 Case, skip that!
@@ -439,7 +439,7 @@ VOID MlmeScanReqAction(
 	unsigned short         Status;
 
 	if(RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_IDLE_RADIO_OFF))
-		RT65xxUsbAsicRadioOn(pAd, MLME_RADIO_ON);
+		mt7612u_radio_on(pAd, MLME_RADIO_ON);
        /*
 	    Check the total scan tries for one single OID command
 	    If this is the CCX 2.0 Case, skip that!
