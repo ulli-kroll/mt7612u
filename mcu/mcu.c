@@ -28,20 +28,6 @@
 
 #include	"rt_config.h"
 
-static int load_patch(struct rtmp_adapter *ad)
-{
-	int ret = NDIS_STATUS_SUCCESS;
-	ULONG Old, New, Diff;
-
-	RTMP_GetCurrentSystemTick(&Old);
-	ret = mt7612u_mcu_usb_load_rom_patch(ad);
-	RTMP_GetCurrentSystemTick(&New);
-	Diff = (New - Old) * 1000 / OS_HZ;
-	DBGPRINT(RT_DEBUG_TRACE, ("load rom patch spent %ldms\n", Diff));
-
-	return ret;
-}
-
 INT mcu_sys_init(struct rtmp_adapter *pAd)
 {
 	int Status;
@@ -49,17 +35,14 @@ INT mcu_sys_init(struct rtmp_adapter *pAd)
 	/* Load MCU firmware*/
 	mt7612u_mcu_ctrl_init(pAd);
 
-	Status = load_patch(pAd);
-
-	if (Status != NDIS_STATUS_SUCCESS)
-	{
+	Status = mt7612u_mcu_usb_load_rom_patch(pAd);
+	if (Status < 0) {
 		DBGPRINT_ERR(("load patch failed, Status[=0x%08x]\n", Status));
 		return false;
 	}
 
-	Status = NICLoadFirmware(pAd);
-	if (Status != NDIS_STATUS_SUCCESS)
-	{
+	Status = mt7612u_mcu_usb_loadfw(pAd);
+	if (Status < 0) {
 		DBGPRINT_ERR(("NICLoadFirmware failed, Status[=0x%08x]\n", Status));
 		return false;
 	}

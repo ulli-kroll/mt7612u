@@ -761,10 +761,6 @@ retry:
 		if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST))
 			return NDIS_STATUS_FAILURE;
 
-		if (rty_cnt++ == 0) {
-			NICLoadFirmware(pAd);
-			goto retry;
-		}
 		return NDIS_STATUS_FAILURE;
 	}
 
@@ -1587,22 +1583,6 @@ VOID NICUpdateRawCounters(struct rtmp_adapter *pAd)
 
 
 }
-
-
-int NICLoadFirmware(struct rtmp_adapter *ad)
-{
-	int ret	= NDIS_STATUS_SUCCESS;
-	ULONG Old, New, Diff;
-
-	RTMP_GetCurrentSystemTick(&Old);
-	ret = mt7612u_mcu_usb_loadfw(ad);
-	RTMP_GetCurrentSystemTick(&New);
-	Diff = (New - Old) * 1000 / OS_HZ;
-	DBGPRINT(RT_DEBUG_TRACE, ("load fw spent %ldms\n", Diff));
-
-	return ret;
-}
-
 
 /*
 	========================================================================

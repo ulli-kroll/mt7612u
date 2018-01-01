@@ -4226,8 +4226,6 @@ VOID RTMPRingCleanUp(
 VOID UserCfgExit(struct rtmp_adapter *pAd);
 VOID UserCfgInit(struct rtmp_adapter *pAd);
 
-int NICLoadFirmware(struct rtmp_adapter *pAd);
-
 VOID NICUpdateFifoStaCounters(struct rtmp_adapter *pAd);
 VOID NICUpdateRawCounters(struct rtmp_adapter *pAd);
 
