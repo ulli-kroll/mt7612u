@@ -49,7 +49,7 @@ int rt28xx_init(struct rtmp_adapter *pAd)
 	DBGPRINT(RT_DEBUG_TRACE, ("MAC[Ver:Rev=0x%08x : 0x%08x]\n",
 				pAd->mac_rev, pAd->asic_rev));
 
-	if (mcu_sys_init(pAd) != true)
+	if (mt7612u_mcu_sys_init(pAd) != true)
 		goto err1;
 
 

@@ -401,7 +401,7 @@ static int mt7612u_dma_fw(struct rtmp_adapter *ad,
 	return ret;
 }
 
-int mt7612u_mcu_usb_load_rom_patch(struct rtmp_adapter *ad)
+static int mt7612u_mcu_usb_load_rom_patch(struct rtmp_adapter *ad)
 {
 	struct usb_device *udev = mt7612u_to_usb_dev(ad);
 	struct mt7612u_dma_buf dma_buf;
@@ -645,7 +645,7 @@ static int usb_load_ivb(struct rtmp_adapter *ad, u8 *fw_image)
 	return Status;
 }
 
-int mt7612u_mcu_usb_loadfw(struct rtmp_adapter *ad)
+static int mt7612u_mcu_usb_loadfw(struct rtmp_adapter *ad)
 {
 	struct usb_device *udev = mt7612u_to_usb_dev(ad);
 	struct mt7612u_dma_buf dma_buf;
@@ -1462,6 +1462,29 @@ void mt7612u_mcu_ctrl_init(struct rtmp_adapter *ad)
 	ctl->power_on = false;
 	ctl->dpd_on = false;
 }
+
+int mt7612u_mcu_sys_init(struct rtmp_adapter *pAd)
+{
+	int Status;
+
+	/* Load MCU firmware*/
+	mt7612u_mcu_ctrl_init(pAd);
+
+	Status = mt7612u_mcu_usb_load_rom_patch(pAd);
+	if (Status < 0) {
+		DBGPRINT_ERR(("load patch failed, Status[=0x%08x]\n", Status));
+		return false;
+	}
+
+	Status = mt7612u_mcu_usb_loadfw(pAd);
+	if (Status < 0) {
+		DBGPRINT_ERR(("NICLoadFirmware failed, Status[=0x%08x]\n", Status));
+		return false;
+	}
+
+	return true;
+}
+
 
 static void mt7612u_mcu_ctrl_usb_exit(struct rtmp_adapter *ad)
 {

@@ -50,9 +50,4 @@ enum LOAD_CODE_METHOD {
 
 struct rtmp_adapter;
 
-VOID MCUCtrlInit(struct rtmp_adapter *pAd);
-VOID MCUCtrlExit(struct rtmp_adapter *pAd);
-
-INT mcu_sys_init(struct rtmp_adapter *pAd);
-
 #endif
