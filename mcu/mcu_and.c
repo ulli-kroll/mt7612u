@@ -120,7 +120,7 @@ static void mt7612u_vendor_reset(struct rtmp_adapter *pAd)
 
 static int mt7612u_mcu_usb_enable_patch(struct rtmp_adapter *ad)
 {
-	int ret = NDIS_STATUS_SUCCESS;
+	int ret = 0;
 	struct rtmp_chip_cap *cap = &ad->chipCap;
 
 	/* enable patch command */
@@ -152,7 +152,7 @@ static int mt7612u_mcu_usb_enable_patch(struct rtmp_adapter *ad)
 
 static int mt7612u_mcu_usb_reset_wmt(struct rtmp_adapter *ad)
 {
-	int ret = NDIS_STATUS_SUCCESS;
+	int ret = 0;
 
 	/* reset command */
 	u8 cmd[8] = {0x6F, 0xFC, 0x05, 0x01, 0x07, 0x01, 0x00, 0x04};
@@ -357,7 +357,7 @@ static int __mt7612u_dma_fw(struct rtmp_adapter *ad,
 
 	if (!wait_for_completion_timeout(&cmpl, msecs_to_jiffies(1000))) {
 		usb_kill_urb(buf.urb);
-		ret = NDIS_STATUS_FAILURE;
+		ret = -ETIMEDOUT;
 		DBGPRINT(RT_DEBUG_ERROR, ("upload fw timeout\n"));
 		return ret;
 	}
@@ -437,7 +437,7 @@ load_patch_protect:
 		if (loop >= GET_SEMAPHORE_RETRY_MAX) {
 			DBGPRINT(RT_DEBUG_ERROR,
 				 ("%s: can not get the hw semaphore\n", __func__));
-			return NDIS_STATUS_FAILURE;
+			return -ETIMEDOUT;
 		}
 	}
 
@@ -485,7 +485,7 @@ load_patch_protect:
 			DBGPRINT(RT_DEBUG_OFF, ("rom patch do not match IC version\n"));
 			mac_value = mt7612u_read32(ad, 0x0);
 			DBGPRINT(RT_DEBUG_OFF, ("IC version(%x)\n", mac_value));
-			ret = NDIS_STATUS_FAILURE;
+			ret = -EAGAIN;
 			goto error0;
 		}
 	}
@@ -556,14 +556,14 @@ load_patch_protect:
 	if (total_checksum != mt7612u_mcu_usb_get_crc(ad)) {
 		DBGPRINT(RT_DEBUG_OFF, ("checksum fail!, local(0x%x) <> fw(0x%x)\n", total_checksum, mt7612u_mcu_usb_get_crc(ad)));
 
-		ret = NDIS_STATUS_FAILURE;
+		ret = -EAGAIN;
 		goto error2;
 	}
 
 	ret = mt7612u_mcu_usb_enable_patch(ad);
 
 	if (ret) {
-		ret = NDIS_STATUS_FAILURE;
+		ret = -EAGAIN;
 		goto error2;
 	}
 
@@ -593,12 +593,12 @@ load_patch_protect:
 		DBGPRINT(RT_DEBUG_TRACE, ("%s: CLOCK_CTL(0x%x) = 0x%x\n", __func__, CLOCK_CTL, mac_value));
 
 		if ((mac_value & 0x01) != 0x1)
-			ret = NDIS_STATUS_FAILURE;
+			ret = -EAGAIN;
 	} else {
 		DBGPRINT(RT_DEBUG_TRACE, ("%s: CLOCK_CTL(0x%x) = 0x%x\n", __func__, COM_REG0, mac_value));
 
 		if ((mac_value & 0x02) != 0x2)
-			ret = NDIS_STATUS_FAILURE;
+			ret = -EAGAIN;
 	}
 
 error2:
@@ -614,7 +614,7 @@ error0:
 
 static int usb_load_ivb(struct rtmp_adapter *ad, u8 *fw_image)
 {
-	int Status = NDIS_STATUS_SUCCESS;
+	int Status = 0;
 	struct rtmp_chip_cap *cap = &ad->chipCap;
 
 
@@ -684,7 +684,7 @@ loadfw_protect:
 		if (loop >= GET_SEMAPHORE_RETRY_MAX) {
 			DBGPRINT(RT_DEBUG_ERROR,
 				 ("%s: can not get the hw semaphore\n", __func__));
-			return NDIS_STATUS_FAILURE;
+			return -ETIMEDOUT;
 		}
 	}
 
@@ -735,7 +735,7 @@ loadfw_protect:
 			DBGPRINT(RT_DEBUG_OFF, ("fw do not match IC version\n"));
 			mac_value = mt7612u_read32(ad, 0x0);
 			DBGPRINT(RT_DEBUG_OFF, ("IC version(%x)\n", mac_value));
-			ret = NDIS_STATUS_FAILURE;
+			ret = -EAGAIN;
 			goto error0;
 		}
 	}
@@ -815,7 +815,7 @@ loadfw_protect:
 	mt7612u_write32(ad, COM_REG0, mac_value);
 
 	if ((mac_value & 0x01) != 0x01)
-		ret = NDIS_STATUS_FAILURE;
+		ret = -ETIMEDOUT;
 
 error2:
 	/* Free TransferBuffer */
@@ -1199,7 +1199,7 @@ static int usb_rx_cmd_msg_submit(struct rtmp_adapter *ad)
 	msg =  mt7612u_mcu_alloc_cmd_msg(ad, 512);
 
 	if (!msg) {
-		ret = NDIS_STATUS_RESOURCES;
+		ret = -ENOMEM;
 		return ret;
 	}
 
@@ -1504,7 +1504,7 @@ static int mt7612u_mcu_dequeue_and_kick_out_cmd_msgs(struct rtmp_adapter *ad)
 	struct cmd_msg *msg = NULL;
 	struct sk_buff *skb = NULL;
 	struct mt7612u_mcu_ctrl  *ctl = &ad->MCUCtrl;
-	int ret = NDIS_STATUS_SUCCESS;
+	int ret = 0;
 
 	while (1) {
 		bool tmp;
@@ -1523,7 +1523,7 @@ static int mt7612u_mcu_dequeue_and_kick_out_cmd_msgs(struct rtmp_adapter *ad)
 		tmp = mt7612u_mcu_queue_empty(ctl, &ctl->ackq);
 		if (!tmp) {
 			mt7612u_mcu_queue_head_cmd_msg(&ctl->txq, msg, msg->state);
-			ret = NDIS_STATUS_FAILURE;
+			ret = -EAGAIN;
 			continue;
 		}
 
@@ -1566,7 +1566,7 @@ static int mt7612u_mcu_send_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *msg
 		mt7612u_mcu_free_cmd_msg(msg);
 
 		up(&(ad->mcu_atomic));
-		return NDIS_STATUS_FAILURE;
+		return -EAGAIN;
 	}
 
 	mt7612u_mcu_queue_tail_cmd_msg(&ctl->txq, msg, TX_START);
@@ -1582,7 +1582,7 @@ retransmit:
 		expire =  msecs_to_jiffies(CMD_MSG_TIMEOUT);
 
 		if (!wait_for_completion_timeout(&msg->ack_done, expire)) {
-			ret = NDIS_STATUS_FAILURE;
+			ret = -ETIMEDOUT;
 			DBGPRINT(RT_DEBUG_ERROR, ("command (%d) timeout(%dms)\n", msg->type, CMD_MSG_TIMEOUT));
 			if (OS_TEST_BIT(MCU_INIT, &ctl->flags)) {
 				if (msg->state == WAIT_CMD_OUT_AND_ACK)
@@ -1650,7 +1650,7 @@ int mt7612u_mcu_random_write(struct rtmp_adapter *ad, struct rtmp_reg_pair *reg_
 		msg = mt7612u_mcu_alloc_cmd_msg(ad, sent_len);
 
 		if (!msg) {
-			ret = NDIS_STATUS_RESOURCES;
+			ret = -ENOMEM;
 			goto error;
 		}
 
@@ -1692,7 +1692,7 @@ int mt7612u_mcu_pwr_saving(struct rtmp_adapter *ad, u32 op, u32 level)
 	msg = mt7612u_mcu_alloc_cmd_msg(ad, var_len);
 
 	if (!msg) {
-		ret = NDIS_STATUS_RESOURCES;
+		ret = -ENOMEM;
 		goto error;
 	}
 
@@ -1723,7 +1723,7 @@ int mt7612u_mcu_fun_set(struct rtmp_adapter *ad, u32 fun_id, u32 param)
 	msg = mt7612u_mcu_alloc_cmd_msg(ad, 8);
 
 	if (!msg) {
-		ret = NDIS_STATUS_RESOURCES;
+		ret = -ENOMEM;
 		goto error;
 	}
 
@@ -1814,7 +1814,7 @@ int mt7612u_mcu_load_cr(struct rtmp_adapter *ad, u32 cr_type, UINT8 temp_level, 
 	msg = mt7612u_mcu_alloc_cmd_msg(ad, 8);
 
 	if (!msg) {
-		ret = NDIS_STATUS_RESOURCES;
+		ret = -ENOMEM;
 		goto error;
 	}
 
@@ -1860,7 +1860,7 @@ int mt7612u_mcu_switch_channel(struct rtmp_adapter *ad, u8 channel,
 	msg = mt7612u_mcu_alloc_cmd_msg(ad, 8);
 
 	if (!msg) {
-		ret = NDIS_STATUS_RESOURCES;
+		ret = -ENOMEM;
 		goto error;
 	}
 
@@ -1890,7 +1890,7 @@ int mt7612u_mcu_switch_channel(struct rtmp_adapter *ad, u8 channel,
 	msg = mt7612u_mcu_alloc_cmd_msg(ad, 8);
 
 	if (!msg) {
-		ret = NDIS_STATUS_RESOURCES;
+		ret = -ENOMEM;
 		goto error;
 	}
 
@@ -1941,7 +1941,7 @@ int mt7612u_mcu_init_gain(struct rtmp_adapter *ad, UINT8 channel, bool force_mod
 	msg = mt7612u_mcu_alloc_cmd_msg(ad, 8);
 
 	if (!msg) {
-		ret = NDIS_STATUS_RESOURCES;
+		ret = -ENOMEM;
 		goto error;
 	}
 
@@ -1978,7 +1978,7 @@ int mt7612u_mcu_dynamic_vga(struct rtmp_adapter *ad, UINT8 channel, bool mode, b
 	msg = mt7612u_mcu_alloc_cmd_msg(ad, 8);
 
 	if (!msg) {
-		ret = NDIS_STATUS_RESOURCES;
+		ret = -ENOMEM;
 		goto error;
 	}
 
@@ -2021,7 +2021,7 @@ int mt7612u_mcu_led_op(struct rtmp_adapter *ad, u32 led_idx, u32 link_status)
 	msg = mt7612u_mcu_alloc_cmd_msg(ad, 8);
 
 	if (!msg) {
-		ret = NDIS_STATUS_RESOURCES;
+		ret = -ENOMEM;
 		goto error;
 	}
 
