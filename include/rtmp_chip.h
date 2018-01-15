@@ -70,6 +70,7 @@ struct _RSSI_SAMPLE;
 
 #include "mcu/mcu.h"
 
+#define IS_RT8592(_pAd)		(((_pAd)->mac_rev & 0xffff0000) == 0x85590000)
 
 #define IS_MT7662(_pAd)		(((_pAd)->asic_rev & 0xffff0000) == 0x76620000)
 #define IS_MT7662U(_pAd)	((((_pAd)->asic_rev & 0xffff0000) == 0x76620000))
