@@ -201,4 +201,17 @@ void mt76x2_init_mac_cr(struct rtmp_adapter *ad);
 int mt7612u_usb3_write(struct rtmp_adapter *ad, uint16_t offset, uint32_t val);
 u32 mt7612u_usb3_read(struct rtmp_adapter *ad, uint16_t offset);
 
+enum mt_vendor_req {
+/* Known USB Vendor Commands */
+	MT_VEND_DEVICE_MODE = 0x01,
+	MT_VEND_SINGLE_WRITE = 0x02,	/* WLAN */
+	MT_VEND_MULTI_WRITE = 0x06,	/* WLAN 4 byte */
+	MT_VEND_MULTI_READ = 0x07,	/* WLAN 4 byte */
+	MT_VEND_WRITE_EEPROM = 0x08,	/* Not used */
+	MT_VEND_READ_EEPROM = 0x09,
+	MT_VEND_WRITE_FCE = 0x42,	/* FCE-WRITE */
+	MT_VEND_SYS_READ = 0x47,	/* SYS-READ neded for 7612u series */
+	MT_VEND_SYS_WRITE = 0x46,	/* SYS_WRITE neded for 7612u series */
+};
+
 #endif /* __RTUSB_IO_H__ */

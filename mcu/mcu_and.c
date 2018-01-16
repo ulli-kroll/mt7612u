@@ -95,25 +95,13 @@ static inline void mt7612u_dma_skb_wrap_cmd(struct sk_buff *skb,
 				     FIELD_PREP(MT_TXD_CMD_INFO_TYPE, cmd)));
 }
 
-/* Known USB Vendor Commands */
-#define MT7612U_VENDOR_DEVICE_MODE	0x01
-#define MT7612U_VENDOR_SINGLE_WRITE	0x02
-#define MT7612U_VENDOR_WRITE_MAC	0x06
-#define MT7612U_VENDOR_READ_MAC		0x07
-#define MT7612U_VENDOR_WRITE_EEPROM	0x08	/* Not used */
-#define MT7612U_VENDOR_READ_EEPROM	0x09
-
-#define MT7612U_VENDOR_WRITE_FCE	0x42
-#define MT7612U_VENDOR_USB_CFG_READ	0x47
-#define MT7612U_VENDOR_USB_CFG_WRITE	0x46
-
 static void mt7612u_mcu_bh_schedule(struct rtmp_adapter *ad);
 static int mt7612u_mcu_send_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *msg);
 
 static void mt7612u_vendor_reset(struct rtmp_adapter *pAd)
 {
 	mt7612u_vendor_request(pAd, DEVICE_VENDOR_REQUEST_OUT,
-			    MT7612U_VENDOR_DEVICE_MODE, 0x1, 0,
+			    MT_VEND_DEVICE_MODE, 0x1, 0,
 			    NULL, 0);
 
 }
@@ -141,7 +129,7 @@ static int mt7612u_mcu_usb_enable_patch(struct rtmp_adapter *ad)
 
 	ret = mt7612u_vendor_request(ad,
 			  DEVICE_CLASS_REQUEST_OUT,
-			  MT7612U_VENDOR_DEVICE_MODE,
+			  MT_VEND_DEVICE_MODE,
 			  0x12,
 			  0x00,
 			  cmd,
@@ -161,7 +149,7 @@ static int mt7612u_mcu_usb_reset_wmt(struct rtmp_adapter *ad)
 
 	mt7612u_vendor_request(ad,
 			DEVICE_CLASS_REQUEST_OUT,
-			MT7612U_VENDOR_DEVICE_MODE,
+			MT_VEND_DEVICE_MODE,
 			0x12,
 			0x00,
 			cmd,
@@ -207,7 +195,7 @@ static int mt7612u_mcu_usb_chk_crc(struct rtmp_adapter *ad, u32 checksum_len)
 
 	ret = mt7612u_vendor_request(ad,
 			  DEVICE_VENDOR_REQUEST_OUT,
-			  MT7612U_VENDOR_DEVICE_MODE,
+			  MT_VEND_DEVICE_MODE,
 			  0x20,
 			  0x00,
 			  cmd,
@@ -225,7 +213,7 @@ static u16 mt7612u_mcu_usb_get_crc(struct rtmp_adapter *ad)
 	while (1) {
 		ret = mt7612u_vendor_request(ad,
 				 DEVICE_VENDOR_REQUEST_IN,
-				 MT7612U_VENDOR_DEVICE_MODE,
+				 MT_VEND_DEVICE_MODE,
 				 0x21,
 				 0x00,
 				 &crc,
@@ -278,7 +266,7 @@ static int __mt7612u_dma_fw(struct rtmp_adapter *ad,
 	/* Set FCE DMA descriptor */
 	ret = mt7612u_vendor_request(ad,
 			 DEVICE_VENDOR_REQUEST_OUT,
-			 MT7612U_VENDOR_WRITE_FCE,
+			 MT_VEND_WRITE_FCE,
 			 value,
 			 0x230,
 			 NULL,
@@ -295,7 +283,7 @@ static int __mt7612u_dma_fw(struct rtmp_adapter *ad,
 	/* Set FCE DMA descriptor */
 	ret = mt7612u_vendor_request(ad,
 			 DEVICE_VENDOR_REQUEST_OUT,
-			 MT7612U_VENDOR_WRITE_FCE,
+			 MT_VEND_WRITE_FCE,
 			 value,
 			 0x232,
 			 NULL,
@@ -313,7 +301,7 @@ static int __mt7612u_dma_fw(struct rtmp_adapter *ad,
 	/* Set FCE DMA length */
 	ret = mt7612u_vendor_request(ad,
 			 DEVICE_VENDOR_REQUEST_OUT,
-			 MT7612U_VENDOR_WRITE_FCE,
+			 MT_VEND_WRITE_FCE,
 			 value,
 			 0x234,
 			 NULL,
@@ -329,7 +317,7 @@ static int __mt7612u_dma_fw(struct rtmp_adapter *ad,
 	/* Set FCE DMA length */
 	ret = mt7612u_vendor_request(ad,
 			 DEVICE_VENDOR_REQUEST_OUT,
-			 MT7612U_VENDOR_WRITE_FCE,
+			 MT_VEND_WRITE_FCE,
 			 value,
 			 0x236,
 			 NULL,
@@ -621,7 +609,7 @@ static int usb_load_ivb(struct rtmp_adapter *ad, u8 *fw_image)
 	if (cap->load_iv) {
 		Status = mt7612u_vendor_request(ad,
 				 DEVICE_VENDOR_REQUEST_OUT,
-				 MT7612U_VENDOR_DEVICE_MODE,
+				 MT_VEND_DEVICE_MODE,
 				 0x12,
 				 0x00,
 				 fw_image + 32,
@@ -629,7 +617,7 @@ static int usb_load_ivb(struct rtmp_adapter *ad, u8 *fw_image)
 	} else {
 		Status = mt7612u_vendor_request(ad,
 				 DEVICE_VENDOR_REQUEST_OUT,
-				 MT7612U_VENDOR_DEVICE_MODE,
+				 MT_VEND_DEVICE_MODE,
 				 0x12,
 				 0x00,
 				 NULL,

@@ -59,19 +59,6 @@
 	========================================================================
 */
 
-/* Known USB Vendor Commands */
-#define MT7612U_VENDOR_DEVICE_MODE	0x01
-#define MT7612U_VENDOR_SINGLE_WRITE	0x02
-#define MT7612U_VENDOR_WRITE_MAC	0x06
-#define MT7612U_VENDOR_READ_MAC		0x07
-#define MT7612U_VENDOR_WRITE_EEPROM	0x08	/* Not used */
-#define MT7612U_VENDOR_READ_EEPROM	0x09
-
-/* Special for USB3 don't mess with older commands */
-
-#define MT7612U_VENDOR_CFG_READ		0x47	/* neded for 7612u series */
-#define MT7612U_VENDOR_CFG_WRITE	0x46	/* neded for 7612u series */
-
 int RTUSBMultiWrite(
 	IN struct rtmp_adapter *pAd,
 	IN unsigned short Offset,
@@ -105,7 +92,7 @@ int RTUSBSingleWrite(
 	bool WriteHigh = false;
 
 	return mt7612u_vendor_request(pAd, DEVICE_VENDOR_REQUEST_OUT,
-				   MT7612U_VENDOR_SINGLE_WRITE,	Value, Offset, NULL, 0);
+				   MT_VEND_SINGLE_WRITE, Value, Offset, NULL, 0);
 }
 
 
@@ -130,7 +117,7 @@ u32 mt7612u_read32(struct rtmp_adapter *pAd, unsigned short Offset)
 	u32 val;
 
 	Status = mt7612u_vendor_request(pAd, DEVICE_VENDOR_REQUEST_IN,
-				     MT7612U_VENDOR_READ_MAC, 0, Offset,
+				     MT_VEND_MULTI_READ, 0, Offset,
 				     &val, 4);
 
 	if (Status != 0)
@@ -162,7 +149,7 @@ void mt7612u_write32(struct rtmp_adapter *pAd, unsigned short Offset,
 
 
 	mt7612u_vendor_request(pAd, DEVICE_VENDOR_REQUEST_OUT,
-			     MT7612U_VENDOR_WRITE_MAC, 0, Offset,
+			     MT_VEND_MULTI_WRITE, 0, Offset,
 			     &val, 4);
 }
 
@@ -190,7 +177,7 @@ int mt7612u_usb3_write(struct rtmp_adapter *ad, uint16_t offset, uint32_t val)
 	io_value = cpu2le32(val);
 
 	ret = mt7612u_vendor_request(ad, DEVICE_VENDOR_REQUEST_OUT,
-				  MT7612U_VENDOR_CFG_WRITE, 0, offset,
+				  MT_VEND_SYS_WRITE, 0, offset,
 				  &io_value, 4);
 
 	if (ret) {
@@ -222,7 +209,7 @@ u32 mt7612u_usb3_read(struct rtmp_adapter *ad, uint16_t offset)
 	req = 0x47;
 #endif
 	ret = mt7612u_vendor_request(ad, DEVICE_VENDOR_REQUEST_IN,
-				  MT7612U_VENDOR_CFG_READ, 0, offset,
+				  MT_VEND_SYS_READ, 0, offset,
 				  &val, 4);
 
 	if (ret != 0)
@@ -268,7 +255,7 @@ u16 mt7612u_read_eeprom16(struct rtmp_adapter *pAd, unsigned short offset)
 	u16 val = 0;
 
 	mt7612u_vendor_request(pAd, DEVICE_VENDOR_REQUEST_IN,
-				   MT7612U_VENDOR_READ_EEPROM, 0, offset, &val, 2);
+				   MT_VEND_READ_EEPROM, 0, offset, &val, 2);
 
 	return le2cpu16(val);
 }
@@ -291,7 +278,7 @@ u16 mt7612u_read_eeprom16(struct rtmp_adapter *pAd, unsigned short offset)
 int RTUSBWakeUp(struct rtmp_adapter *pAd)
 {
 	return mt7612u_vendor_request(pAd, DEVICE_VENDOR_REQUEST_OUT,
-				   MT7612U_VENDOR_DEVICE_MODE, 0x09, 0, NULL, 0);
+				   MT_VEND_DEVICE_MODE, 0x09, 0, NULL, 0);
 }
 
 /*
@@ -342,7 +329,7 @@ int RTUSBWakeUp(struct rtmp_adapter *pAd)
  */
 
 
-int mt7612u_vendor_request(struct rtmp_adapter *pAd, u8 requesttype, u8 request,
+int mt7612u_vendor_request(struct rtmp_adapter *pAd, u8 requesttype, enum mt_vendor_req request,
 			u16 value, u16 index, void *data, u16 size)
 {
 	int ret = 0;
@@ -406,7 +393,7 @@ int mt7612u_vendor_request(struct rtmp_adapter *pAd, u8 requesttype, u8 request,
 			DBGPRINT(RT_DEBUG_ERROR, ("mt7612u_vendor_request failed(%d), ReqType=%s, Req=0x%x, Idx=0x%x,pAd->Flags=0x%lx\n",
 						ret, (requesttype == DEVICE_VENDOR_REQUEST_OUT ? "OUT" : "IN"), request, index, pAd->Flags));
 
-			if (request == MT7612U_VENDOR_SINGLE_WRITE)
+			if (request == MT_VEND_SINGLE_WRITE)
 				DBGPRINT(RT_DEBUG_ERROR, ("\tRequest Value=0x%04x!\n", value));
 
 			if (ret == -ENODEV)
