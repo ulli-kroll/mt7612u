@@ -2522,7 +2522,7 @@ VOID dynamic_tune_be_tx_op(struct rtmp_adapter *pAd, ULONG nonBEpackets)
 
 					TxLinkCfg.word = mt76u_reg_read(pAd, TX_LINK_CFG);
 					TxLinkCfg.field.TxRDGEn = 0;
-					mt7612u_write32(pAd, TX_LINK_CFG, TxLinkCfg.word);
+					mt76u_reg_write(pAd, TX_LINK_CFG, TxLinkCfg.word);
 
 					RTMP_CLEAR_FLAG(pAd, fRTMP_ADAPTER_RDG_ACTIVE);
 				}
@@ -2530,7 +2530,7 @@ VOID dynamic_tune_be_tx_op(struct rtmp_adapter *pAd, ULONG nonBEpackets)
 				RegValue  &= 0xFFFFFF00; /* for WMM test */
 				/*if ((RegValue & 0x0000FF00) == 0x00004300) */
 				/*	RegValue += 0x00001100; */
-				mt7612u_write32(pAd, EDCA_AC0_CFG, RegValue);
+				mt76u_reg_write(pAd, EDCA_AC0_CFG, RegValue);
 				if (pAd->CommonCfg.APEdcaParm.Txop[QID_AC_VO] != 102)
 				{
 					csr0.field.Ac0Txop = 0;		/* QID_AC_BE */
@@ -2541,7 +2541,7 @@ VOID dynamic_tune_be_tx_op(struct rtmp_adapter *pAd, ULONG nonBEpackets)
 					csr0.field.Ac0Txop = 10;		/* QID_AC_BE */
 				}
 				csr0.field.Ac1Txop = 0;		/* QID_AC_BK */
-				mt7612u_write32(pAd, WMM_TXOP0_CFG, csr0.word);
+				mt76u_reg_write(pAd, WMM_TXOP0_CFG, csr0.word);
 				RTMP_CLEAR_FLAG(pAd, fRTMP_ADAPTER_DYNAMIC_BE_TXOP_ACTIVE);
 			}
 		}
@@ -2602,10 +2602,10 @@ VOID dynamic_tune_be_tx_op(struct rtmp_adapter *pAd, ULONG nonBEpackets)
 					RegValue -= 0x00001100; */
 				/*txop_value = 0; */
 				RegValue  |= txop_value;  /* for performance, set the TXOP to non-zero */
-				mt7612u_write32(pAd, EDCA_AC0_CFG, RegValue);
+				mt76u_reg_write(pAd, EDCA_AC0_CFG, RegValue);
 				csr0.field.Ac0Txop = txop_value;	/* QID_AC_BE */
 				csr0.field.Ac1Txop = 0;				/* QID_AC_BK */
-				mt7612u_write32(pAd, WMM_TXOP0_CFG, csr0.word);
+				mt76u_reg_write(pAd, WMM_TXOP0_CFG, csr0.word);
 				RTMP_SET_FLAG(pAd, fRTMP_ADAPTER_DYNAMIC_BE_TXOP_ACTIVE);
 			}
 		}

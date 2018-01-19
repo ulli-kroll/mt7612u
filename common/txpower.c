@@ -136,19 +136,19 @@ VOID AsicExtraPowerOverMAC(struct rtmp_adapter *pAd)
 	txpwr7 |= (txpwr & 0x0000FF00) >> 8; /* Get Tx power for OFDM 54 */
 	txpwr = mt76u_reg_read(pAd, 0x131C);
 	txpwr7 |= (txpwr & 0x0000FF00) << 8; /* Get Tx power for HT MCS 7 */
-	mt7612u_write32(pAd, TX_PWR_CFG_7, txpwr7);
+	mt76u_reg_write(pAd, TX_PWR_CFG_7, txpwr7);
 
 	/* For STBC_MCS_7, extra fill the corresponding register value into MAC 0x13DC */
 	txpwr = mt76u_reg_read(pAd, 0x1324);
 	txpwr9 |= (txpwr & 0x0000FF00) >> 8; /* Get Tx power for STBC MCS 7 */
-	mt7612u_write32(pAd, TX_PWR_CFG_9, txpwr9);
+	mt76u_reg_write(pAd, TX_PWR_CFG_9, txpwr9);
 
 	if (pAd->CommonCfg.TxStream == 2)
 	{
 		/* For HT_MCS_15, extra fill the corresponding register value into MAC 0x13DC */
 		txpwr = mt76u_reg_read(pAd, 0x1320);
 		txpwr8 |= (txpwr & 0x0000FF00) >> 8; /* Get Tx power for HT MCS 15 */
-		mt7612u_write32(pAd, TX_PWR_CFG_8, txpwr8);
+		mt76u_reg_write(pAd, TX_PWR_CFG_8, txpwr8);
 	}
 
 }

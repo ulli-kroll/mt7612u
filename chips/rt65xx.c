@@ -89,8 +89,8 @@ void mt7612u_radio_on(struct rtmp_adapter *pAd, u8 Stage)
 		rx_filter_flag = STANORMAL;     /* Staion not drop control frame will fail WiFi Certification.*/
 
 
-	mt7612u_write32(pAd, RX_FILTR_CFG, rx_filter_flag);
-	mt7612u_write32(pAd, MAC_SYS_CTRL, 0x0c);
+	mt76u_reg_write(pAd, RX_FILTR_CFG, rx_filter_flag);
+	mt76u_reg_write(pAd, MAC_SYS_CTRL, 0x0c);
 
 	/* 4. Clear idle flag*/
 	RTMP_CLEAR_FLAG(pAd, fRTMP_ADAPTER_IDLE_RADIO_OFF);
@@ -113,7 +113,7 @@ void mt7612u_radio_on(struct rtmp_adapter *pAd, u8 Stage)
 		return;
 	}
 
-	mt7612u_write32(pAd, MAC_SYS_CTRL, 0x0c);
+	mt76u_reg_write(pAd, MAC_SYS_CTRL, 0x0c);
 
 	up(&pAd->hw_atomic);
 
@@ -292,7 +292,7 @@ void mt7612u_disable_txrx(struct rtmp_adapter *pAd)
 			*/
 			MacReg = mt76u_reg_read(pAd, MAC_SYS_CTRL);
 			MacReg &= ~(0x0000000c);
-			mt7612u_write32(pAd, MAC_SYS_CTRL, MacReg);
+			mt76u_reg_write(pAd, MAC_SYS_CTRL, MacReg);
 	}
 
 	/*

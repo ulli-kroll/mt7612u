@@ -261,7 +261,7 @@ VOID APMakeBssBeacon(struct rtmp_adapter *pAd, INT apidx)
 			(*(ptr + 2) << 16);
 			(*(ptr + 3) << 24);
 
-		mt7612u_write32(pAd, reg_base + i, dword);
+		mt76u_reg_write(pAd, reg_base + i, dword);
 		ptr += 4;
 	}
 
@@ -280,7 +280,7 @@ VOID APMakeBssBeacon(struct rtmp_adapter *pAd, INT apidx)
 			(*(ptr + 2) << 16);
 			(*(ptr + 3) << 24);
 
-		mt7612u_write32(pAd, reg_base + i, dword);
+		mt76u_reg_write(pAd, reg_base + i, dword);
 		ptr += 4;
 	}
 
@@ -933,7 +933,7 @@ VOID APMakeAllBssBeacon(struct rtmp_adapter *pAd)
 	{
 		for (j=0; j < TXWISize; j+=4)
 	    {
-			mt7612u_write32(pAd, pAd->BeaconOffset[i] + j, 0);
+			mt76u_reg_write(pAd, pAd->BeaconOffset[i] + j, 0);
 	    }
 	}
 
@@ -1010,7 +1010,7 @@ VOID APMakeAllBssBeacon(struct rtmp_adapter *pAd)
 		regValue |= (1 << 21);
 	}
 
-	mt7612u_write32(pAd, MAC_BSSID_DW1, regValue);
+	mt76u_reg_write(pAd, MAC_BSSID_DW1, regValue);
 
 
 #ifndef RT_CFG80211_SUPPORT

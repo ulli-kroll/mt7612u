@@ -561,7 +561,7 @@ VOID APStop(
 	/* Disable pre-tbtt interrupt */
 	Value = mt76u_reg_read(pAd, INT_TIMER_EN);
 	Value &=0xe;
-	mt7612u_write32(pAd, INT_TIMER_EN, Value);
+	mt76u_reg_write(pAd, INT_TIMER_EN, Value);
 	/* Disable piggyback */
 	RTMPSetPiggyBack(pAd, false);
 

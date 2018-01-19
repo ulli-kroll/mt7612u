@@ -315,12 +315,12 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 	csr2.field.Byte1 = pAd->CurrentAddress[1];
 	csr2.field.Byte2 = pAd->CurrentAddress[2];
 	csr2.field.Byte3 = pAd->CurrentAddress[3];
-	mt7612u_write32(pAd, MAC_ADDR_DW0, csr2.word);
+	mt76u_reg_write(pAd, MAC_ADDR_DW0, csr2.word);
 	csr3.word = 0;
 	csr3.field.Byte4 = pAd->CurrentAddress[4];
 	csr3.field.Byte5 = pAd->CurrentAddress[5];
 	csr3.field.U2MeMask = 0xff;
-	mt7612u_write32(pAd, MAC_ADDR_DW1, csr3.word);
+	mt76u_reg_write(pAd, MAC_ADDR_DW1, csr3.word);
 
 
 	DBGPRINT_RAW(RT_DEBUG_TRACE,("Current MAC: =%02x:%02x:%02x:%02x:%02x:%02x\n",
@@ -663,7 +663,7 @@ VOID NICInitAsicFromEEPROM(struct rtmp_adapter *pAd)
 			{
 				pAd->StaCfg.bHwRadio = false;
 				pAd->StaCfg.bRadio = false;
-				/* mt7612u_write32(pAd, PWR_PIN_CFG, 0x00001818); */
+				/* mt76u_reg_write(pAd, PWR_PIN_CFG, 0x00001818); */
 				RTMP_SET_FLAG(pAd, fRTMP_ADAPTER_RADIO_OFF);
 			}
 		}
@@ -818,7 +818,7 @@ int NICInitializeAsic(struct rtmp_adapter *pAd, bool bHardReset)
 		/* turn on bit13 (set to zero) after rt2860D. This is to solve high-current issue.*/
 		mac_val = mt76u_reg_read(pAd, PBF_SYS_CTRL);
 		mac_val &= (~0x2000);
-		mt7612u_write32(pAd, PBF_SYS_CTRL, mac_val);
+		mt76u_reg_write(pAd, PBF_SYS_CTRL, mac_val);
 	}
 
 
@@ -843,7 +843,7 @@ int NICInitializeAsic(struct rtmp_adapter *pAd, bool bHardReset)
 			csr &= 0xFFF;
 			csr |= 0x2000;
 		}
-		mt7612u_write32(pAd, MAX_LEN_CFG, csr);
+		mt76u_reg_write(pAd, MAX_LEN_CFG, csr);
 	}
 
 	{
@@ -862,7 +862,7 @@ int NICInitializeAsic(struct rtmp_adapter *pAd, bool bHardReset)
 		/* Add radio off control*/
 		if (pAd->StaCfg.bRadio == false)
 		{
-			/* mt7612u_write32(pAd, PWR_PIN_CFG, 0x00001818);*/
+			/* mt76u_reg_write(pAd, PWR_PIN_CFG, 0x00001818);*/
 			RTMP_SET_FLAG(pAd, fRTMP_ADAPTER_RADIO_OFF);
 			DBGPRINT(RT_DEBUG_TRACE, ("Set Radio Off\n"));
 		}
@@ -887,13 +887,13 @@ int NICInitializeAsic(struct rtmp_adapter *pAd, bool bHardReset)
 
 		for (KeyIdx = 0; KeyIdx < 4; KeyIdx++)
 		{
-			mt7612u_write32(pAd, share_key_mode_base + 4*KeyIdx, 0);
+			mt76u_reg_write(pAd, share_key_mode_base + 4*KeyIdx, 0);
 		}
 
 		/* Clear all pairwise key table when initial*/
 		for (KeyIdx = 0; KeyIdx < 256; KeyIdx++)
 		{
-			mt7612u_write32(pAd, wcid_attr_base + (KeyIdx * wcid_attr_size), 1);
+			mt76u_reg_write(pAd, wcid_attr_base + (KeyIdx * wcid_attr_size), 1);
 		}
 	}
 
@@ -908,7 +908,7 @@ int NICInitializeAsic(struct rtmp_adapter *pAd, bool bHardReset)
 			if (pAd->BeaconOffset[apidx] > 0) {
 				// TODO: shiang-6590, if we didn't define MBSS_SUPPORT, the pAd->BeaconOffset[x] may set as 0 when chipCap.BcnMaxHwNum != HW_BEACON_MAX_COUNT
 				for (i = 0; i < HW_BEACON_OFFSET; i+=4)
-					mt7612u_write32(pAd, pAd->BeaconOffset[apidx] + i, 0x00);
+					mt76u_reg_write(pAd, pAd->BeaconOffset[apidx] + i, 0x00);
 
 				IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
 				{
@@ -929,14 +929,14 @@ int NICInitializeAsic(struct rtmp_adapter *pAd, bool bHardReset)
 	Counter = mt76u_reg_read(pAd, USB_CYC_CFG);
 	Counter&=0xffffff00;
 	Counter|=0x000001e;
-	mt7612u_write32(pAd, USB_CYC_CFG, Counter);
+	mt76u_reg_write(pAd, USB_CYC_CFG, Counter);
 
 #ifdef CONFIG_STA_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
 	{
 		/* for rt2860E and after, init TXOP_CTRL_CFG with 0x583f. This is for extension channel overlapping IOT.*/
 		if ((pAd->mac_rev & 0xffff) != 0x0101)
-			mt7612u_write32(pAd, TXOP_CTRL_CFG, 0x583f);
+			mt76u_reg_write(pAd, TXOP_CTRL_CFG, 0x583f);
 	}
 #endif /* CONFIG_STA_SUPPORT */
 
@@ -1257,8 +1257,8 @@ VOID AsicFifoExtSet(IN struct rtmp_adapter *pAd)
 {
 	if (pAd->chipCap.FlgHwFifoExtCap)
 	{
-		mt7612u_write32(pAd, WCID_MAPPING_0, 0x04030201);
-		mt7612u_write32(pAd, WCID_MAPPING_1, 0x08070605);
+		mt76u_reg_write(pAd, WCID_MAPPING_0, 0x04030201);
+		mt76u_reg_write(pAd, WCID_MAPPING_1, 0x08070605);
 	}
 }
 
@@ -2681,9 +2681,9 @@ VOID RTMPEnableRxTx(struct rtmp_adapter *pAd)
 	AsicSetRxFilter(pAd);
 
 	{
-		mt7612u_write32(pAd, MAC_SYS_CTRL, 0xc);
+		mt76u_reg_write(pAd, MAC_SYS_CTRL, 0xc);
 //+++Add by shiang for debug for pbf_loopback
-//			mt7612u_write32(pAd, MAC_SYS_CTRL, 0x2c);
+//			mt76u_reg_write(pAd, MAC_SYS_CTRL, 0x2c);
 //---Add by shiang for debug
 //+++Add by shiang for debug invalid RxWI->WCID
 //---Add by shiang for  debug invalid RxWI->WCID

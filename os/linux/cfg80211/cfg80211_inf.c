@@ -151,7 +151,7 @@ bool CFG80211DRV_OpsChgVirtualInf(struct rtmp_adapter *pAd, VOID *pData)
 				Filter = Filter | 0x08;
 			}
 
-			mt7612u_write32(pAd, RX_FILTR_CFG, Filter);
+			mt76u_reg_write(pAd, RX_FILTR_CFG, Filter);
 			pVifParm->MonFilterFlag = Filter;
 		}
 	}

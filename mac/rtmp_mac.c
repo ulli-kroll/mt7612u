@@ -585,7 +585,7 @@ INT rtmp_mac_set_band(struct rtmp_adapter *pAd, int  band)
 	}
 
 	if (val != band_cfg)
-		mt7612u_write32(pAd, TX_BAND_CFG, val);
+		mt76u_reg_write(pAd, TX_BAND_CFG, val);
 
 	return true;
 }
@@ -610,7 +610,7 @@ void mt7612u_mac_set_ctrlch(struct rtmp_adapter *pAd, u8 extch)
 	}
 
 	if (val != band_cfg)
-		mt7612u_write32(pAd, TX_BAND_CFG, val);
+		mt76u_reg_write(pAd, TX_BAND_CFG, val);
 }
 
 
@@ -626,7 +626,7 @@ INT rtmp_mac_set_mmps(struct rtmp_adapter *pAd, INT ReduceCorePower)
 		mac_val &= ~0x09;
 
 	if (mac_val != org_val)
-		mt7612u_write32(pAd, 0x1210, mac_val);
+		mt76u_reg_write(pAd, 0x1210, mac_val);
 
 	return true;
 }
@@ -650,11 +650,11 @@ VOID ReSyncBeaconTime(struct rtmp_adapter *pAd)
 
 		/* ASIC register in units of 1/16 TU = 64us*/
 		csr.field.BeaconInterval = (pAd->CommonCfg.BeaconPeriod << 4) - 1 ;
-		mt7612u_write32(pAd, BCN_TIME_CFG, csr.word);
+		mt76u_reg_write(pAd, BCN_TIME_CFG, csr.word);
 	} else if (Offset == (BCN_TBTT_OFFSET-1)) {
 		csr.word = mt76u_reg_read(pAd, BCN_TIME_CFG);
 		csr.field.BeaconInterval = (pAd->CommonCfg.BeaconPeriod) << 4;
-		mt7612u_write32(pAd, BCN_TIME_CFG, csr.word);
+		mt76u_reg_write(pAd, BCN_TIME_CFG, csr.word);
 	}
 }
 
@@ -688,7 +688,7 @@ VOID rtmp_mac_bcn_buf_init(IN struct rtmp_adapter *pAd)
 		};
 
 		for (idx = 0; idx < ARRAY_SIZE(bcn_mac_reg_tb); idx ++) {
-			mt7612u_write32(pAd,
+			mt76u_reg_write(pAd,
 				        (unsigned short)bcn_mac_reg_tb[idx].Register,
 				        bcn_mac_reg_tb[idx].Value);
 		}
@@ -710,7 +710,7 @@ INT rtmp_mac_pbf_init(struct rtmp_adapter *pAd)
 
 	if ((pbf_regs != NULL) && (ARRAY_SIZE(rlt_pbf_regs) > 0)) {
 		for (idx = 0; idx < ARRAY_SIZE(rlt_pbf_regs); idx++) {
-			mt7612u_write32(pAd, pbf_regs->Register,
+			mt76u_reg_write(pAd, pbf_regs->Register,
 					pbf_regs->Value);
 			pbf_regs++;
 		}
@@ -791,13 +791,13 @@ INT rtmp_mac_init(struct rtmp_adapter *pAd)
 	INT idx;
 
 	for (idx = 0; idx < ARRAY_SIZE(MACRegTable); idx++)
-		mt7612u_write32(pAd, MACRegTable[idx].Register,
+		mt76u_reg_write(pAd, MACRegTable[idx].Register,
 				MACRegTable[idx].Value);
 
 #ifdef CONFIG_AP_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd) {
 		for (idx = 0; idx < ARRAY_SIZE(APMACRegTable); idx++)
-			mt7612u_write32(pAd,
+			mt76u_reg_write(pAd,
 				APMACRegTable[idx].Register,
 				APMACRegTable[idx].Value);
 	}
@@ -806,7 +806,7 @@ INT rtmp_mac_init(struct rtmp_adapter *pAd)
 #ifdef CONFIG_STA_SUPPORT
 	IF_DEV_CONFIG_OPMODE_ON_STA(pAd) {
 		for (idx = 0; idx < ARRAY_SIZE(STAMACRegTable); idx++)
-			mt7612u_write32(pAd,
+			mt76u_reg_write(pAd,
 				STAMACRegTable[idx].Register,
 				STAMACRegTable[idx].Value);
 	}

@@ -763,7 +763,7 @@ VOID RT28xx_UpdateBeaconToAsic(struct rtmp_adapter *pAd,
 		/* when the ra interface is down, do not send its beacon frame */
 		/* clear all zero */
 		for (i = 0; i < TXWISize; i += 4)
-			mt7612u_write32(pAd,
+			mt76u_reg_write(pAd,
 					pAd->BeaconOffset[bcn_idx] + i,
 					0x00);
 
@@ -789,7 +789,7 @@ VOID RT28xx_UpdateBeaconToAsic(struct rtmp_adapter *pAd,
 					(*(ptr + 2) << 16);
 					(*(ptr + 3) << 24);
 
-				mt7612u_write32(pAd,
+				mt76u_reg_write(pAd,
 						pAd->BeaconOffset[bcn_idx] + i,
 						dword);
 				ptr += 4;
@@ -814,7 +814,7 @@ VOID RT28xx_UpdateBeaconToAsic(struct rtmp_adapter *pAd,
 					(*(ptr + 2) << 16);
 					(*(ptr + 3) << 24);
 
-				mt7612u_write32(pAd,
+				mt76u_reg_write(pAd,
 						pAd->BeaconOffset[bcn_idx] + TXWISize + i,
 						dword);
 			}
@@ -868,7 +868,7 @@ VOID RTUSBBssBeaconStop(struct rtmp_adapter *pAd)
 			memset(pBeaconSync->BeaconTxWI[i], 0, TXWISize);
 
 			for (offset = 0; offset < HW_BEACON_OFFSET; offset += 4)
-				mt7612u_write32(pAd,
+				mt76u_reg_write(pAd,
 						pAd->BeaconOffset[i] + offset,
 						0x00);
 
@@ -1270,8 +1270,8 @@ bool AsicCheckCommandOk(
 		    ((CmdStatus & ThisCIDMask) == 0x1000000))
 			ret = true;
 	}
-	mt7612u_write32(pAd, H2M_MAILBOX_STATUS, 0xffffffff);
-	mt7612u_write32(pAd, H2M_MAILBOX_CID, 0xffffffff);
+	mt76u_reg_write(pAd, H2M_MAILBOX_STATUS, 0xffffffff);
+	mt76u_reg_write(pAd, H2M_MAILBOX_CID, 0xffffffff);
 
 	up(&pAd->reg_atomic);
 

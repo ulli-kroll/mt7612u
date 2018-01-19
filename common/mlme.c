@@ -1210,7 +1210,7 @@ VOID MlmePeriodicExec(
 				txop_cfg = 0x243f;
 				pAd->CommonCfg.IOTestParm.bToggle = false;
 			}
-			mt7612u_write32(pAd, TXOP_CTRL_CFG, txop_cfg);
+			mt76u_reg_write(pAd, TXOP_CTRL_CFG, txop_cfg);
 		}
 	}
 #endif /* CONFIG_STA_SUPPORT */
@@ -1423,7 +1423,7 @@ VOID MlmePeriodicExec(
 				uint32_t MacCsr12 = 0;
 
 				/* Disable MAC*/
-				mt7612u_write32(pAd, MAC_SYS_CTRL, 0x0);
+				mt76u_reg_write(pAd, MAC_SYS_CTRL, 0x0);
 
 				/* polling MAC status*/
 				while (count < 10)
@@ -1442,7 +1442,7 @@ VOID MlmePeriodicExec(
 
 				if (MAC_ready)
 				{
-					mt7612u_write32(pAd, MAC_SYS_CTRL, 0x1);
+					mt76u_reg_write(pAd, MAC_SYS_CTRL, 0x1);
 					udelay(1);
 				}
 				else
@@ -1451,7 +1451,7 @@ VOID MlmePeriodicExec(
 				}
 
 				{
-					mt7612u_write32(pAd, MAC_SYS_CTRL, 0xC);
+					mt76u_reg_write(pAd, MAC_SYS_CTRL, 0xC);
 				}
 
 				DBGPRINT(RT_DEBUG_WARN, ("MAC specific condition \n"));
@@ -1483,7 +1483,7 @@ VOID MlmePeriodicExec(
 			MacReg = mt76u_reg_read(pAd, 0x10F4);
 			if (((MacReg & 0x20000000) && (MacReg & 0x80)) || ((MacReg & 0x20000000) && (MacReg & 0x20)))
 			{
-				mt7612u_write32(pAd, MAC_SYS_CTRL, 0x1);
+				mt76u_reg_write(pAd, MAC_SYS_CTRL, 0x1);
 				udelay(1);
 				MacReg = 0;
 				{
@@ -1491,7 +1491,7 @@ VOID MlmePeriodicExec(
 				}
 
 				if (MacReg)
-					mt7612u_write32(pAd, MAC_SYS_CTRL, MacReg);
+					mt76u_reg_write(pAd, MAC_SYS_CTRL, MacReg);
 
 				DBGPRINT(RT_DEBUG_WARN,("Warning, MAC specific condition occurs \n"));
 			}
@@ -1713,7 +1713,7 @@ VOID STAMlmePeriodicExec(struct rtmp_adapter *pAd)
 				if (FIELD_GET(MT_EDCA_CFG_AIFSN, Ac2Cfg) !=0xc) {
 					Ac2Cfg &= ~MT_EDCA_CFG_AIFSN;
 					Ac2Cfg |= FIELD_PREP(MT_EDCA_CFG_AIFSN, 0xc);
-					mt7612u_write32(pAd, EDCA_AC2_CFG, Ac2Cfg);
+					mt76u_reg_write(pAd, EDCA_AC2_CFG, Ac2Cfg);
 				}
 			}
 			else if ((pAd->RalinkCounters.OneSecOsTxCount[QID_AC_VO] == 0) &&
@@ -1728,14 +1728,14 @@ VOID STAMlmePeriodicExec(struct rtmp_adapter *pAd)
 						Ac0Cfg |= FIELD_PREP(MT_EDCA_CFG_AIFSN, 3);
 					if (FIELD_GET(MT_EDCA_CFG_TXOP, Ac0Cfg) !=0)
 						Ac0Cfg |= FIELD_PREP(MT_EDCA_CFG_TXOP, 0);
-					mt7612u_write32(pAd, EDCA_AC0_CFG, Ac0Cfg);
+					mt76u_reg_write(pAd, EDCA_AC0_CFG, Ac0Cfg);
 				}
 
 			/* restore default parameter of VI*/
 				if (FIELD_GET(MT_EDCA_CFG_AIFSN, Ac2Cfg) != 0x3) {
 					Ac2Cfg &= ~MT_EDCA_CFG_AIFSN;
 					Ac2Cfg |= FIELD_PREP(MT_EDCA_CFG_AIFSN, 0x3);
-					mt7612u_write32(pAd, EDCA_AC2_CFG, Ac2Cfg);
+					mt76u_reg_write(pAd, EDCA_AC2_CFG, Ac2Cfg);
 				}
 
 			}
@@ -2667,7 +2667,7 @@ VOID MlmeUpdateTxRates(struct rtmp_adapter *pAd, bool bLinkUp, u8 apidx)
 			MinSupport = Rate;
 	}
 
-	mt7612u_write32(pAd, LEGACY_BASIC_RATE, BasicRateBitmap);
+	mt76u_reg_write(pAd, LEGACY_BASIC_RATE, BasicRateBitmap);
 
 	for (i=0; i<MAX_LEN_OF_SUPPORTED_RATES; i++)
 	{

@@ -33,7 +33,7 @@ int mt_rf_write(
 	}
 
 	/* rf data */
-	mt7612u_write32(ad, W_RFDATA, data);
+	mt76u_reg_write(ad, W_RFDATA, data);
 
 	/* rf control */
 	value = mt76u_reg_read(ad, RF_CTRL);
@@ -49,7 +49,7 @@ int mt_rf_write(
 	value &= ~RF_IDX_MASK;
 	value |= RF_IDX(rf_idx);
 
-	mt7612u_write32(ad, RF_CTRL, value);
+	mt76u_reg_write(ad, RF_CTRL, value);
 
 	do {
 		value = mt76u_reg_read(ad, RF_CTRL);

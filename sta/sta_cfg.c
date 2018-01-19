@@ -165,10 +165,10 @@ INT Set_NetworkType_Proc(
 			pAd->bConfigChanged = true;
             if (MONITOR_ON(pAd))
             {
-                mt7612u_write32(pAd, RX_FILTR_CFG, STANORMAL);
+                mt76u_reg_write(pAd, RX_FILTR_CFG, STANORMAL);
                 Value = mt76u_reg_read(pAd, MAC_SYS_CTRL);
 				Value &= (~0x80);
-				mt7612u_write32(pAd, MAC_SYS_CTRL, Value);
+				mt76u_reg_write(pAd, MAC_SYS_CTRL, Value);
                 OPSTATUS_CLEAR_FLAG(pAd, fOP_STATUS_MEDIA_STATE_CONNECTED);
                 pAd->StaCfg.bAutoReconnect = true;
                 LinkDown(pAd, false);
@@ -200,10 +200,10 @@ INT Set_NetworkType_Proc(
 			pAd->bConfigChanged = true;
             if (MONITOR_ON(pAd))
             {
-                mt7612u_write32(pAd, RX_FILTR_CFG, STANORMAL);
+                mt76u_reg_write(pAd, RX_FILTR_CFG, STANORMAL);
                 Value = mt76u_reg_read(pAd, MAC_SYS_CTRL);
 				Value &= (~0x80);
-				mt7612u_write32(pAd, MAC_SYS_CTRL, Value);
+				mt76u_reg_write(pAd, MAC_SYS_CTRL, Value);
                 OPSTATUS_CLEAR_FLAG(pAd, fOP_STATUS_MEDIA_STATE_CONNECTED);
                 pAd->StaCfg.bAutoReconnect = true;
                 LinkDown(pAd, false);
@@ -298,18 +298,18 @@ INT Set_NetworkType_Proc(
 
 
 		/* Enable Rx with promiscuous reception */
-		mt7612u_write32(pAd, RX_FILTR_CFG, 0x3);
+		mt76u_reg_write(pAd, RX_FILTR_CFG, 0x3);
 		/* ASIC supporsts sniffer function with replacing RSSI with timestamp. */
 		/* Value = mt76u_reg_read(pAdapter, MAC_SYS_CTRL); */
 		/*Value |= (0x80); */
-		/*mt7612u_write32(pAdapter, MAC_SYS_CTRL, Value); */
+		/*mt76u_reg_write(pAdapter, MAC_SYS_CTRL, Value); */
 
 		/* disable sync */
 		csr.word = mt76u_reg_read(pAd, BCN_TIME_CFG);
 		csr.field.bBeaconGen = 0;
 		csr.field.bTBTTEnable = 0;
 		csr.field.TsfSyncMode = 0;
-		mt7612u_write32(pAd, BCN_TIME_CFG, csr.word);
+		mt76u_reg_write(pAd, BCN_TIME_CFG, csr.word);
 
 		pAd->StaCfg.BssType = BSS_MONITOR;
 		RTMP_OS_NETDEV_SET_TYPE_MONITOR(pAd->net_dev);

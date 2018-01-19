@@ -565,7 +565,7 @@ bool CFG80211DRV_OpsSetChannel(struct rtmp_adapter *pAd, VOID *pData)
 	{
 		/* reset monitor mode in the new channel */
 		Set_NetworkType_Proc(pAd, "Monitor");
-		mt7612u_write32(pAd, RX_FILTR_CFG, pChan->MonFilterFlag);
+		mt76u_reg_write(pAd, RX_FILTR_CFG, pChan->MonFilterFlag);
 	}
 #endif /*CONFIG_STA_SUPPORT*/
 	return true;

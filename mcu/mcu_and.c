@@ -353,7 +353,7 @@ static int __mt7612u_dma_fw(struct rtmp_adapter *ad,
 
 	mac_value = mt76u_reg_read(ad, TX_CPU_PORT_FROM_FCE_CPU_DESC_INDEX);
 	mac_value++;
-	mt7612u_write32(ad, TX_CPU_PORT_FROM_FCE_CPU_DESC_INDEX, mac_value);
+	mt76u_reg_write(ad, TX_CPU_PORT_FROM_FCE_CPU_DESC_INDEX, mac_value);
 
 	mdelay(5);
 
@@ -502,19 +502,19 @@ load_patch_protect:
 	DBGPRINT(RT_DEBUG_OFF, ("\n"));
 
 	/* Enable FCE */
-	mt7612u_write32(ad, FCE_PSE_CTRL, 0x01);
+	mt76u_reg_write(ad, FCE_PSE_CTRL, 0x01);
 
 	/* FCE tx_fs_base_ptr */
-	mt7612u_write32(ad, TX_CPU_PORT_FROM_FCE_BASE_PTR, 0x400230);
+	mt76u_reg_write(ad, TX_CPU_PORT_FROM_FCE_BASE_PTR, 0x400230);
 
 	/* FCE tx_fs_max_cnt */
-	mt7612u_write32(ad, TX_CPU_PORT_FROM_FCE_MAX_COUNT, 0x01);
+	mt76u_reg_write(ad, TX_CPU_PORT_FROM_FCE_MAX_COUNT, 0x01);
 
 	/* FCE pdma enable */
-	mt7612u_write32(ad, FCE_PDMA_GLOBAL_CONF, 0x44);
+	mt76u_reg_write(ad, FCE_PDMA_GLOBAL_CONF, 0x44);
 
 	/* FCE skip_fs_en */
-	mt7612u_write32(ad, FCE_SKIP_FS, 0x03);
+	mt76u_reg_write(ad, FCE_SKIP_FS, 0x03);
 
 	/* Allocate TransferBuffer */
 	if (mt7612u_usb_alloc_buf(ad, UPLOAD_PATCH_UNIT, &dma_buf)) {
@@ -595,7 +595,7 @@ error2:
 
 error0:
 	if (cap->rom_code_protect)
-		mt7612u_write32(ad, SEMAPHORE_03, 0x1);
+		mt76u_reg_write(ad, SEMAPHORE_03, 0x1);
 
 	return ret;
 }
@@ -732,19 +732,19 @@ loadfw_protect:
 	DBGPRINT(RT_DEBUG_OFF, ("dlm length = %d(bytes)\n", dlm_len));
 
 	/* Enable FCE to send in-band cmd */
-	mt7612u_write32(ad, FCE_PSE_CTRL, 0x01);
+	mt76u_reg_write(ad, FCE_PSE_CTRL, 0x01);
 
 	/* FCE tx_fs_base_ptr */
-	mt7612u_write32(ad, TX_CPU_PORT_FROM_FCE_BASE_PTR, 0x400230);
+	mt76u_reg_write(ad, TX_CPU_PORT_FROM_FCE_BASE_PTR, 0x400230);
 
 	/* FCE tx_fs_max_cnt */
-	mt7612u_write32(ad, TX_CPU_PORT_FROM_FCE_MAX_COUNT, 0x01);
+	mt76u_reg_write(ad, TX_CPU_PORT_FROM_FCE_MAX_COUNT, 0x01);
 
 	/* FCE pdma enable */
-	mt7612u_write32(ad, FCE_PDMA_GLOBAL_CONF, 0x44);
+	mt76u_reg_write(ad, FCE_PDMA_GLOBAL_CONF, 0x44);
 
 	/* FCE skip_fs_en */
-	mt7612u_write32(ad, FCE_SKIP_FS, 0x03);
+	mt76u_reg_write(ad, FCE_SKIP_FS, 0x03);
 
 	/* Allocate TransferBuffer */
 	if (mt7612u_usb_alloc_buf(ad, UPLOAD_FW_UNIT, &dma_buf)) {
@@ -800,7 +800,7 @@ loadfw_protect:
 
 	mac_value = mt76u_reg_read(ad, COM_REG0);
 	mac_value |= (1 << 1);
-	mt7612u_write32(ad, COM_REG0, mac_value);
+	mt76u_reg_write(ad, COM_REG0, mac_value);
 
 	if ((mac_value & 0x01) != 0x01)
 		ret = -ETIMEDOUT;
@@ -811,10 +811,10 @@ error2:
 
 error0:
 	if (cap->ram_code_protect)
-		mt7612u_write32(ad, SEMAPHORE_00, 0x1);
+		mt76u_reg_write(ad, SEMAPHORE_00, 0x1);
 
 	/* Enable FCE to send in-band cmd */
-	mt7612u_write32(ad, FCE_PSE_CTRL, 0x01);
+	mt76u_reg_write(ad, FCE_PSE_CTRL, 0x01);
 
 	return ret;
 }
@@ -2056,8 +2056,8 @@ void mt7612u_mcu_usb_fw_init(struct rtmp_adapter *ad)
 {
 	DBGPRINT(RT_DEBUG_OFF, ("%s\n", __func__));
 
-	mt7612u_write32(ad, HEADER_TRANS_CTRL_REG, 0x0);
-	mt7612u_write32(ad, TSO_CTRL, 0x0);
+	mt76u_reg_write(ad, HEADER_TRANS_CTRL_REG, 0x0);
+	mt76u_reg_write(ad, TSO_CTRL, 0x0);
 
 	RT28XXDMAEnable(ad);
 	RTMP_SET_FLAG(ad, fRTMP_ADAPTER_MCU_SEND_IN_BAND_CMD);

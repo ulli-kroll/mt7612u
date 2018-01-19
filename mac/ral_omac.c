@@ -171,9 +171,9 @@ VOID rtmp_asic_init_txrx_ring(struct rtmp_adapter *pAd)
 		pAd->TxRing[i].hw_desc_base = TX_BASE_PTR0 + offset;
 		pAd->TxRing[i].hw_cidx_addr = TX_CTX_IDX0 + offset;
 		pAd->TxRing[i].hw_didx_addr = TX_DTX_IDX0 + offset;
-		mt7612u_write32(pAd, pAd->TxRing[i].hw_desc_base, phy_addr);
-		mt7612u_write32(pAd, pAd->TxRing[i].hw_cidx_addr, pAd->TxRing[i].TxCpuIdx);
-		mt7612u_write32(pAd, TX_MAX_CNT0 + offset, TX_RING_SIZE);
+		mt76u_reg_write(pAd, pAd->TxRing[i].hw_desc_base, phy_addr);
+		mt76u_reg_write(pAd, pAd->TxRing[i].hw_cidx_addr, pAd->TxRing[i].TxCpuIdx);
+		mt76u_reg_write(pAd, TX_MAX_CNT0 + offset, TX_RING_SIZE);
 		DBGPRINT(RT_DEBUG_TRACE, ("-->TX_RING_%d[0x%x]: Base=0x%x, Cnt=%d!\n",
 					i, pAd->TxRing[i].hw_desc_base, phy_addr, TX_RING_SIZE));
 	}
@@ -185,9 +185,9 @@ VOID rtmp_asic_init_txrx_ring(struct rtmp_adapter *pAd)
 	pAd->MgmtRing.hw_desc_base = TX_BASE_PTR5;
 	pAd->MgmtRing.hw_cidx_addr = TX_MGMTCTX_IDX;
 	pAd->MgmtRing.hw_didx_addr = TX_MGMTDTX_IDX;
-	mt7612u_write32(pAd, pAd->MgmtRing.hw_desc_base, phy_addr);
-	mt7612u_write32(pAd, pAd->MgmtRing.hw_cidx_addr, pAd->MgmtRing.TxCpuIdx);
-	mt7612u_write32(pAd, TX_MGMTMAX_CNT, MGMT_RING_SIZE);
+	mt76u_reg_write(pAd, pAd->MgmtRing.hw_desc_base, phy_addr);
+	mt76u_reg_write(pAd, pAd->MgmtRing.hw_cidx_addr, pAd->MgmtRing.TxCpuIdx);
+	mt76u_reg_write(pAd, TX_MGMTMAX_CNT, MGMT_RING_SIZE);
 	DBGPRINT(RT_DEBUG_TRACE, ("-->TX_RING_MGMT[0x%x]: Base=0x%x, Cnt=%d!\n",
 					pAd->MgmtRing.hw_desc_base, phy_addr, MGMT_RING_SIZE));
 
@@ -198,9 +198,9 @@ VOID rtmp_asic_init_txrx_ring(struct rtmp_adapter *pAd)
 	pAd->RxRing[0].hw_desc_base = RX_BASE_PTR;
 	pAd->RxRing[0].hw_cidx_addr = RX_CRX_IDX;
 	pAd->RxRing[0].hw_didx_addr = RX_DRX_IDX;
-	mt7612u_write32(pAd, pAd->RxRing[0].hw_desc_base, phy_addr);
-	mt7612u_write32(pAd, pAd->RxRing[0].hw_cidx_addr, pAd->RxRing[0].RxCpuIdx);
-	mt7612u_write32(pAd, RX_MAX_CNT, RX_RING_SIZE);
+	mt76u_reg_write(pAd, pAd->RxRing[0].hw_desc_base, phy_addr);
+	mt76u_reg_write(pAd, pAd->RxRing[0].hw_cidx_addr, pAd->RxRing[0].RxCpuIdx);
+	mt76u_reg_write(pAd, RX_MAX_CNT, RX_RING_SIZE);
 	DBGPRINT(RT_DEBUG_TRACE, ("-->RX_RING[0x%x]: Base=0x%x, Cnt=%d\n",
 				pAd->RxRing[0].hw_desc_base, phy_addr, RX_RING_SIZE));
 
@@ -209,9 +209,9 @@ VOID rtmp_asic_init_txrx_ring(struct rtmp_adapter *pAd)
 	mt76u_reg_read(pAd, WPDMA_GLO_CFG, &GloCfg.word);
 	GloCfg.word &= 0xff0;
 	GloCfg.field.EnTXWriteBackDDONE = 1;
-	mt7612u_write32(pAd, WPDMA_GLO_CFG, GloCfg.word);
+	mt76u_reg_write(pAd, WPDMA_GLO_CFG, GloCfg.word);
 
 	IntCfg.word = 0;
-	mt7612u_write32(pAd, DELAY_INT_CFG, IntCfg.word);
+	mt76u_reg_write(pAd, DELAY_INT_CFG, IntCfg.word);
 }
 

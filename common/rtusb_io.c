@@ -142,7 +142,7 @@ u32 mt76u_reg_read(struct rtmp_adapter *pAd, unsigned short Offset)
 
 	========================================================================
 */
-void mt7612u_write32(struct rtmp_adapter *pAd, unsigned short Offset,
+void mt76u_reg_write(struct rtmp_adapter *pAd, unsigned short Offset,
 			       u32 _val)
 {
 	u32 val = cpu2le32(_val);
@@ -705,7 +705,7 @@ static int SetAsicWcidHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 	MACValue = (pAd->MacTab.Content[SetAsicWcid.WCID].Addr[3]<<24)+(pAd->MacTab.Content[SetAsicWcid.WCID].Addr[2]<<16)+(pAd->MacTab.Content[SetAsicWcid.WCID].Addr[1]<<8)+(pAd->MacTab.Content[SetAsicWcid.WCID].Addr[0]);
 
 	DBGPRINT_RAW(RT_DEBUG_TRACE, ("1-MACValue= %x,\n", MACValue));
-	mt7612u_write32(pAd, offset, MACValue);
+	mt76u_reg_write(pAd, offset, MACValue);
 	/* Read bitmask*/
 	MACRValue = mt76u_reg_read(pAd, offset+4);
 	if (SetAsicWcid.DeleteTid != 0xffffffff)
@@ -716,7 +716,7 @@ static int SetAsicWcidHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 	MACRValue &= 0xffff0000;
 	MACValue = (pAd->MacTab.Content[SetAsicWcid.WCID].Addr[5]<<8)+pAd->MacTab.Content[SetAsicWcid.WCID].Addr[4];
 	MACValue |= MACRValue;
-	mt7612u_write32(pAd, offset+4, MACValue);
+	mt76u_reg_write(pAd, offset+4, MACValue);
 
 	DBGPRINT_RAW(RT_DEBUG_TRACE, ("2-MACValue= %x,\n", MACValue));
 
@@ -923,7 +923,7 @@ static int APEnableTXBurstHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelm
 		Ac0Cfg = mt76u_reg_read(pAd, EDCA_AC0_CFG);
 		Ac0Cfg &= ~MT_EDCA_CFG_TXOP;
 		Ac0Cfg |= FIELD_PREP(MT_EDCA_CFG_TXOP, 0x20);
-		mt7612u_write32(pAd, EDCA_AC0_CFG, Ac0Cfg);
+		mt76u_reg_write(pAd, EDCA_AC0_CFG, Ac0Cfg);
 	}
 
 	return NDIS_STATUS_SUCCESS;
@@ -939,7 +939,7 @@ static int APDisableTXBurstHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQel
 		Ac0Cfg = mt76u_reg_read(pAd, EDCA_AC0_CFG);
 		Ac0Cfg &= ~MT_EDCA_CFG_TXOP;
 		Ac0Cfg |= FIELD_PREP(MT_EDCA_CFG_TXOP, 0x0);
-		mt7612u_write32(pAd, EDCA_AC0_CFG, Ac0Cfg);
+		mt76u_reg_write(pAd, EDCA_AC0_CFG, Ac0Cfg);
 	}
 
 	return NDIS_STATUS_SUCCESS;
@@ -950,7 +950,7 @@ static int APAdjustEXPAckTimeHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQ
 {
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd) {
 		DBGPRINT(RT_DEBUG_TRACE, ("CmdThread::CMDTHREAD_AP_ADJUST_EXP_ACK_TIME  \n"));
-		mt7612u_write32(pAd, EXP_ACK_TIME, 0x005400ca);
+		mt76u_reg_write(pAd, EXP_ACK_TIME, 0x005400ca);
 	}
 
 	return NDIS_STATUS_SUCCESS;
@@ -961,7 +961,7 @@ static int APRecoverEXPAckTimeHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMD
 {
 	IF_DEV_CONFIG_OPMODE_ON_AP(pAd) {
 		DBGPRINT(RT_DEBUG_TRACE, ("CmdThread::CMDTHREAD_AP_RECOVER_EXP_ACK_TIME  \n"));
-		mt7612u_write32(pAd, EXP_ACK_TIME, 0x002400ca);
+		mt76u_reg_write(pAd, EXP_ACK_TIME, 0x002400ca);
 	}
 
 	return NDIS_STATUS_SUCCESS;

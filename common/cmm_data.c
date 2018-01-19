@@ -1445,7 +1445,7 @@ VOID RTMPSuspendMsduTransmission(
 
 	RTMP_SET_FLAG(pAd, fRTMP_ADAPTER_BSS_SCAN_IN_PROGRESS);
 	/* abort all TX rings */
-	/*mt7612u_write32(pAd, TX_CNTL_CSR, 0x000f0000);	*/
+	/*mt76u_reg_write(pAd, TX_CNTL_CSR, 0x000f0000);	*/
 }
 
 
@@ -2783,9 +2783,9 @@ VOID RtmpPrepareHwNullFrame(
 	for (i=0; i < TXWISize; i+=4) 	{
 		longValue =  *ptr + (*(ptr + 1) << 8) + (*(ptr + 2) << 16) + (*(ptr + 3) << 24);
 		if (Index == 0)
-			mt7612u_write32(pAd, pAd->chipCap.BcnBase[14] + i, longValue);
+			mt76u_reg_write(pAd, pAd->chipCap.BcnBase[14] + i, longValue);
 		else if (Index == 1)
-			mt7612u_write32(pAd, pAd->chipCap.BcnBase[15] + i, longValue);
+			mt76u_reg_write(pAd, pAd->chipCap.BcnBase[15] + i, longValue);
 
 		ptr += 4;
 	}
@@ -2797,9 +2797,9 @@ VOID RtmpPrepareHwNullFrame(
 	for (i= 0; i< Length; i+=4) {
 		longValue =  *ptr + (*(ptr + 1) << 8) + (*(ptr + 2) << 16) + (*(ptr + 3) << 24);
 		if (Index == 0) //for ra0
-			mt7612u_write32(pAd, pAd->chipCap.BcnBase[14] + TXWISize+ i, longValue);
+			mt76u_reg_write(pAd, pAd->chipCap.BcnBase[14] + TXWISize+ i, longValue);
 		else if (Index == 1) //for p2p0
-			mt7612u_write32(pAd, pAd->chipCap.BcnBase[15] + TXWISize+ i, longValue);
+			mt76u_reg_write(pAd, pAd->chipCap.BcnBase[15] + TXWISize+ i, longValue);
 
 		ptr += 4;
 	}

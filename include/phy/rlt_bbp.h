@@ -329,7 +329,7 @@
 #define PFMU_R57    (BBP_PFMU + 0xE4)
 
 
-#define RTMP_BBP_IO_WRITE32(_p, _i, _v)	mt7612u_write32(_p, _i, _v)
+#define RTMP_BBP_IO_WRITE32(_p, _i, _v)	mt76u_reg_write(_p, _i, _v)
 
 
 struct rtmp_adapter;
