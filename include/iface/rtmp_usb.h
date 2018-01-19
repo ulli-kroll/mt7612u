@@ -77,7 +77,7 @@
 struct _MGMT_STRUC;
 struct _TX_BLK;
 
-int mt7612u_vendor_request(struct rtmp_adapter *pAd, u8 requesttype, enum mt_vendor_req request,
+int mt76u_vendor_request(struct rtmp_adapter *pAd, u8 requesttype, enum mt_vendor_req request,
 			u16 value, u16 index, void *data, u16 size);
 
 int RTUSBMultiWrite(struct rtmp_adapter *pAd, unsigned short Offset, u8 *buf, unsigned short len);

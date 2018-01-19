@@ -91,7 +91,7 @@ int RTUSBSingleWrite(
 {
 	bool WriteHigh = false;
 
-	return mt7612u_vendor_request(pAd, DEVICE_VENDOR_REQUEST_OUT,
+	return mt76u_vendor_request(pAd, DEVICE_VENDOR_REQUEST_OUT,
 				   MT_VEND_SINGLE_WRITE, Value, Offset, NULL, 0);
 }
 
@@ -116,7 +116,7 @@ u32 mt76u_reg_read(struct rtmp_adapter *pAd, unsigned short Offset)
 	int Status = 0;
 	u32 val;
 
-	Status = mt7612u_vendor_request(pAd, DEVICE_VENDOR_REQUEST_IN,
+	Status = mt76u_vendor_request(pAd, DEVICE_VENDOR_REQUEST_IN,
 				     MT_VEND_MULTI_READ, 0, Offset,
 				     &val, 4);
 
@@ -148,7 +148,7 @@ void mt76u_reg_write(struct rtmp_adapter *pAd, unsigned short Offset,
 	u32 val = cpu2le32(_val);
 
 
-	mt7612u_vendor_request(pAd, DEVICE_VENDOR_REQUEST_OUT,
+	mt76u_vendor_request(pAd, DEVICE_VENDOR_REQUEST_OUT,
 			     MT_VEND_MULTI_WRITE, 0, Offset,
 			     &val, 4);
 }
@@ -176,7 +176,7 @@ int mt76u_sys_write(struct rtmp_adapter *ad, uint16_t offset, uint32_t val)
 
 	io_value = cpu2le32(val);
 
-	ret = mt7612u_vendor_request(ad, DEVICE_VENDOR_REQUEST_OUT,
+	ret = mt76u_vendor_request(ad, DEVICE_VENDOR_REQUEST_OUT,
 				  MT_VEND_SYS_WRITE, 0, offset,
 				  &io_value, 4);
 
@@ -208,7 +208,7 @@ u32 mt76u_sys_read(struct rtmp_adapter *ad, uint16_t offset)
 
 	req = 0x47;
 #endif
-	ret = mt7612u_vendor_request(ad, DEVICE_VENDOR_REQUEST_IN,
+	ret = mt76u_vendor_request(ad, DEVICE_VENDOR_REQUEST_IN,
 				  MT_VEND_SYS_READ, 0, offset,
 				  &val, 4);
 
@@ -254,7 +254,7 @@ u16 mt76u_read_eeprom(struct rtmp_adapter *pAd, unsigned short offset)
 {
 	u16 val = 0;
 
-	mt7612u_vendor_request(pAd, DEVICE_VENDOR_REQUEST_IN,
+	mt76u_vendor_request(pAd, DEVICE_VENDOR_REQUEST_IN,
 				   MT_VEND_READ_EEPROM, 0, offset, &val, 2);
 
 	return le2cpu16(val);
@@ -277,14 +277,14 @@ u16 mt76u_read_eeprom(struct rtmp_adapter *pAd, unsigned short offset)
 */
 int RTUSBWakeUp(struct rtmp_adapter *pAd)
 {
-	return mt7612u_vendor_request(pAd, DEVICE_VENDOR_REQUEST_OUT,
+	return mt76u_vendor_request(pAd, DEVICE_VENDOR_REQUEST_OUT,
 				   MT_VEND_DEVICE_MODE, 0x09, 0, NULL, 0);
 }
 
 /*
     ========================================================================
  	Routine Description:
-		mt7612u_vendor_request - Builds a ralink specific request, sends it off to USB endpoint zero and waits for completion
+		mt76u_vendor_request - Builds a ralink specific request, sends it off to USB endpoint zero and waits for completion
 
 	Arguments:
 		@pAd:
@@ -311,7 +311,7 @@ int RTUSBWakeUp(struct rtmp_adapter *pAd)
 		TransferBuffer may located in stack region which may not in DMA'able region in some embedded platforms,
 		so need to copy TransferBuffer to vend_buf allocated by kmalloc to do DMA transfer.
 		Use UsbVendorReq_semaphore to protect this region which may be accessed by multi task.
-		Normally, coherent issue is resloved by low-level HC driver, so do not flush this zone by mt7612u_vendor_request.
+		Normally, coherent issue is resloved by low-level HC driver, so do not flush this zone by mt76u_vendor_request.
 
 	========================================================================
 */
@@ -329,14 +329,14 @@ int RTUSBWakeUp(struct rtmp_adapter *pAd)
  */
 
 
-int mt7612u_vendor_request(struct rtmp_adapter *pAd, u8 requesttype, enum mt_vendor_req request,
+int mt76u_vendor_request(struct rtmp_adapter *pAd, u8 requesttype, enum mt_vendor_req request,
 			u16 value, u16 index, void *data, u16 size)
 {
 	int ret = 0;
 	struct usb_device *udev = mt7612u_to_usb_dev(pAd);
 
 	if(in_interrupt()) {
-		DBGPRINT(RT_DEBUG_ERROR, ("BUG: mt7612u_vendor_request is called from invalid context\n"));
+		DBGPRINT(RT_DEBUG_ERROR, ("BUG: mt76u_vendor_request is called from invalid context\n"));
 		return NDIS_STATUS_FAILURE;
 	}
 
@@ -390,7 +390,7 @@ int mt7612u_vendor_request(struct rtmp_adapter *pAd, u8 requesttype, enum mt_ven
 		up(&(pAd->UsbVendorReq_semaphore));
 
 		if (ret < 0) {
-			DBGPRINT(RT_DEBUG_ERROR, ("mt7612u_vendor_request failed(%d), ReqType=%s, Req=0x%x, Idx=0x%x,pAd->Flags=0x%lx\n",
+			DBGPRINT(RT_DEBUG_ERROR, ("mt76u_vendor_request failed(%d), ReqType=%s, Req=0x%x, Idx=0x%x,pAd->Flags=0x%lx\n",
 						ret, (requesttype == DEVICE_VENDOR_REQUEST_OUT ? "OUT" : "IN"), request, index, pAd->Flags));
 
 			if (request == MT_VEND_SINGLE_WRITE)
