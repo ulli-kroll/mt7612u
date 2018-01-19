@@ -240,7 +240,7 @@ void mt7612u_complete_urb(struct urb *urb)
 	complete(cmpl);
 }
 
-static int __mt7612u_dma_fw(struct rtmp_adapter *ad,
+static int __mt76u_dma_fw(struct rtmp_adapter *ad,
 			    const struct mt7612u_dma_buf *dma_buf,
 			    const void *data, u32 len, u32 dst_addr)
 {
@@ -374,7 +374,7 @@ static int mt7612u_dma_fw(struct rtmp_adapter *ad,
 		DBGPRINT(RT_DEBUG_OFF, ("pos = %d\n", pos));
 		DBGPRINT(RT_DEBUG_OFF, ("sent_len = %d\n", sent_len));
 
-		__mt7612u_dma_fw(ad, dma_buf,
+		__mt76u_dma_fw(ad, dma_buf,
 				data + pos, sent_len,
 				dst_addr + pos);
 		if (ret)
