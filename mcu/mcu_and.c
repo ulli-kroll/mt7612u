@@ -57,7 +57,7 @@ bool mt76u_usb_alloc_buf(struct rtmp_adapter *ad, size_t len,
 	return !buf->urb || !buf->buf;
 }
 
-void mt7612u_usb_free_buf(struct rtmp_adapter *ad, struct mt7612u_dma_buf *buf)
+void mt76u_usb_free_buf(struct rtmp_adapter *ad, struct mt7612u_dma_buf *buf)
 {
 	struct usb_device *usb_dev = mt7612u_to_usb_dev(ad);
 
@@ -591,7 +591,7 @@ load_patch_protect:
 
 error2:
 	/* Free TransferBuffer */
-	mt7612u_usb_free_buf(ad, &dma_buf);
+	mt76u_usb_free_buf(ad, &dma_buf);
 
 error0:
 	if (cap->rom_code_protect)
@@ -807,7 +807,7 @@ loadfw_protect:
 
 error2:
 	/* Free TransferBuffer */
-	mt7612u_usb_free_buf(ad, &dma_buf);
+	mt76u_usb_free_buf(ad, &dma_buf);
 
 error0:
 	if (cap->ram_code_protect)
