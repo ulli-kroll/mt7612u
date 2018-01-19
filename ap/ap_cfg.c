@@ -2587,7 +2587,7 @@ INT	Show_StaCount_Proc(struct rtmp_adapter *pAd, char *arg)
     	uint32_t RegValue;
 
 	printk("\n");
-	RegValue = mt7612u_read32(pAd, BKOFF_SLOT_CFG);
+	RegValue = mt76u_reg_read(pAd, BKOFF_SLOT_CFG);
 	printk("BackOff Slot      : %s slot time, BKOFF_SLOT_CFG(0x1104) = 0x%08x\n",
 			OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_SHORT_SLOT_INUSED) ? "short" : "long",
  			RegValue);

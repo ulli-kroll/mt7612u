@@ -3420,7 +3420,7 @@ INT Set_LongRetryLimit_Proc(struct rtmp_adapter *pAd, char *arg)
 	TX_RTY_CFG_STRUC	tx_rty_cfg;
 	u8 LongRetryLimit = (u8)simple_strtol(arg, 0, 10);
 
-	tx_rty_cfg.word = mt7612u_read32(pAd, TX_RTY_CFG);
+	tx_rty_cfg.word = mt76u_reg_read(pAd, TX_RTY_CFG);
 	tx_rty_cfg.field.LongRtyLimit = LongRetryLimit;
 	mt7612u_write32(pAd, TX_RTY_CFG, tx_rty_cfg.word);
 	DBGPRINT(RT_DEBUG_TRACE, ("IF Set_LongRetryLimit_Proc::(tx_rty_cfg=0x%x)\n", tx_rty_cfg.word));
@@ -3432,7 +3432,7 @@ INT Set_ShortRetryLimit_Proc(struct rtmp_adapter *pAd, char *arg)
 	TX_RTY_CFG_STRUC	tx_rty_cfg;
 	u8 ShortRetryLimit = (u8)simple_strtol(arg, 0, 10);
 
-	tx_rty_cfg.word = mt7612u_read32(pAd, TX_RTY_CFG);
+	tx_rty_cfg.word = mt76u_reg_read(pAd, TX_RTY_CFG);
 	tx_rty_cfg.field.ShortRtyLimit = ShortRetryLimit;
 	mt7612u_write32(pAd, TX_RTY_CFG, tx_rty_cfg.word);
 	DBGPRINT(RT_DEBUG_TRACE, ("IF Set_ShortRetryLimit_Proc::(tx_rty_cfg=0x%x)\n", tx_rty_cfg.word));
@@ -4174,7 +4174,7 @@ INT Show_MacTable_Proc(struct rtmp_adapter *pAd, char *arg)
 
 
 	printk("\n");
-	RegValue = mt7612u_read32(pAd, BKOFF_SLOT_CFG);
+	RegValue = mt76u_reg_read(pAd, BKOFF_SLOT_CFG);
 	printk("BackOff Slot      : %s slot time, BKOFF_SLOT_CFG(0x1104) = 0x%08x\n",
 			OPSTATUS_TEST_FLAG(pAd, fOP_STATUS_SHORT_SLOT_INUSED) ? "short" : "long",
  			RegValue);
@@ -4903,7 +4903,7 @@ INT set_rx_rts_cts(struct rtmp_adapter *pAd, char *arg)
 	if (i >= 4)
 		i = 0;
 
-	mac_val = mt7612u_read32(pAd, RX_FILTR_CFG);
+	mac_val = mt76u_reg_read(pAd, RX_FILTR_CFG);
 	switch (i)
 	{
 		case 1: // receive rts
@@ -4922,7 +4922,7 @@ INT set_rx_rts_cts(struct rtmp_adapter *pAd, char *arg)
 	}
 	mt7612u_write32(pAd, RX_FILTR_CFG, mac_val);
 
-	mac_val = mt7612u_read32(pAd, RX_FILTR_CFG);
+	mac_val = mt76u_reg_read(pAd, RX_FILTR_CFG);
 	DBGPRINT(RT_DEBUG_TRACE, ("%s():Configure the RTS/CTS filter as receive %s(0x%x)\n",
 				__FUNCTION__, cmds[i], mac_val));
 

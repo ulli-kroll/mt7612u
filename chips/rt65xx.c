@@ -82,7 +82,7 @@ void mt7612u_radio_on(struct rtmp_adapter *pAd, u8 Stage)
 		mt7612u_chip_onoff(pAd, true, false);
 
 	/* make some traffic to invoke EvtDeviceD0Entry callback function*/
-	MACValue = mt7612u_read32(pAd,0x1000);
+	MACValue = mt76u_reg_read(pAd,0x1000);
 	DBGPRINT(RT_DEBUG_TRACE,("A MAC query to invoke EvtDeviceD0Entry, MACValue = 0x%x\n",MACValue));
 
 	/* enable RX of MAC block*/
@@ -235,13 +235,13 @@ void mt7612u_disable_txrx(struct rtmp_adapter *pAd)
 	*/
 	for (MTxCycle = 0; MTxCycle < 2000; MTxCycle++) {
 		bool bFree = true;
-		MacReg = mt7612u_read32(pAd, 0x438);
+		MacReg = mt76u_reg_read(pAd, 0x438);
 		if (MacReg != 0)
 			bFree = false;
-		MacReg = mt7612u_read32(pAd, 0xa30);
+		MacReg = mt76u_reg_read(pAd, 0xa30);
 		if (MacReg & 0x000000FF)
 			bFree = false;
-		MacReg = mt7612u_read32(pAd, 0xa34);
+		MacReg = mt76u_reg_read(pAd, 0xa34);
 		if (MacReg & 0xFF00FF00)
 			bFree = false;
 		if (bFree)
@@ -254,13 +254,13 @@ void mt7612u_disable_txrx(struct rtmp_adapter *pAd)
 
 	if (MTxCycle >= 2000) {
 		DBGPRINT(RT_DEBUG_ERROR, ("Check TxQ page count max\n"));
-		MacReg = mt7612u_read32(pAd, 0x0a30);
+		MacReg = mt76u_reg_read(pAd, 0x0a30);
 		DBGPRINT(RT_DEBUG_TRACE, ("0x0a30 = 0x%08x\n", MacReg));
 
-		MacReg = mt7612u_read32(pAd, 0x0a34);
+		MacReg = mt76u_reg_read(pAd, 0x0a34);
 		DBGPRINT(RT_DEBUG_TRACE, ("0x0a34 = 0x%08x\n", MacReg));
 
-		MacReg = mt7612u_read32(pAd, 0x438);
+		MacReg = mt76u_reg_read(pAd, 0x438);
 		DBGPRINT(RT_DEBUG_TRACE, ("0x438 = 0x%08x\n", MacReg));
 		bResetWLAN = true;
 	}
@@ -269,7 +269,7 @@ void mt7612u_disable_txrx(struct rtmp_adapter *pAd)
 		Check MAC Tx idle
 	*/
 	for (MTxCycle = 0; MTxCycle < 2000; MTxCycle++) {
-		MacReg = mt7612u_read32(pAd, MAC_STATUS_CFG);
+		MacReg = mt76u_reg_read(pAd, MAC_STATUS_CFG);
 		if (MacReg & 0x1)
 			udelay(50);
 		else
@@ -290,7 +290,7 @@ void mt7612u_disable_txrx(struct rtmp_adapter *pAd)
 			/*
 				Disable MAC TX/RX
 			*/
-			MacReg = mt7612u_read32(pAd, MAC_SYS_CTRL);
+			MacReg = mt76u_reg_read(pAd, MAC_SYS_CTRL);
 			MacReg &= ~(0x0000000c);
 			mt7612u_write32(pAd, MAC_SYS_CTRL, MacReg);
 	}
@@ -300,17 +300,17 @@ void mt7612u_disable_txrx(struct rtmp_adapter *pAd)
 	*/
 	for (MTxCycle = 0; MTxCycle < 2000; MTxCycle++) {
 		bFree = true;
-		MacReg = mt7612u_read32(pAd, 0x430);
+		MacReg = mt76u_reg_read(pAd, 0x430);
 
 		if (MacReg & (0x00FF0000))
 			bFree = false;
 
-		MacReg = mt7612u_read32(pAd, 0xa30);
+		MacReg = mt76u_reg_read(pAd, 0xa30);
 
 		if (MacReg != 0)
 			bFree = false;
 
-		MacReg = mt7612u_read32(pAd, 0xa34);
+		MacReg = mt76u_reg_read(pAd, 0xa34);
 
 		if (MacReg != 0)
 			bFree = false;
@@ -335,13 +335,13 @@ void mt7612u_disable_txrx(struct rtmp_adapter *pAd)
 	if (MTxCycle >= 2000) {
 		DBGPRINT(RT_DEBUG_ERROR, ("Check RxQ page count max\n"));
 
-		MacReg = mt7612u_read32(pAd, 0x0a30);
+		MacReg = mt76u_reg_read(pAd, 0x0a30);
 		DBGPRINT(RT_DEBUG_TRACE, ("0x0a30 = 0x%08x\n", MacReg));
 
-		MacReg = mt7612u_read32(pAd, 0x0a34);
+		MacReg = mt76u_reg_read(pAd, 0x0a34);
 		DBGPRINT(RT_DEBUG_TRACE, ("0x0a34 = 0x%08x\n", MacReg));
 
-		MacReg = mt7612u_read32(pAd, 0x0430);
+		MacReg = mt76u_reg_read(pAd, 0x0430);
 		DBGPRINT(RT_DEBUG_TRACE, ("0x0430 = 0x%08x\n", MacReg));
 		bResetWLAN = true;
 	}
@@ -350,7 +350,7 @@ void mt7612u_disable_txrx(struct rtmp_adapter *pAd)
 		Check MAC Rx idle
 	*/
 	for (MTxCycle = 0; MTxCycle < 2000; MTxCycle++) {
-		MacReg = mt7612u_read32(pAd, MAC_STATUS_CFG);
+		MacReg = mt76u_reg_read(pAd, MAC_STATUS_CFG);
 		if (MacReg & 0x2)
 			udelay(50);
 		else

@@ -113,7 +113,7 @@ bool CFG80211DRV_OpsChgVirtualInf(struct rtmp_adapter *pAd, VOID *pData)
 		{
 			uint32_t Filter;
 
-			Filter = mt7612u_read32(pAd, RX_FILTR_CFG);
+			Filter = mt76u_reg_read(pAd, RX_FILTR_CFG);
 
 			if ((pVifParm->MonFilterFlag & RT_CMD_80211_FILTER_FCSFAIL) == RT_CMD_80211_FILTER_FCSFAIL)
 			{

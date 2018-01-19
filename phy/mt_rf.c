@@ -36,7 +36,7 @@ int mt_rf_write(
 	mt7612u_write32(ad, W_RFDATA, data);
 
 	/* rf control */
-	value = mt7612u_read32(ad, RF_CTRL);
+	value = mt76u_reg_read(ad, RF_CTRL);
 
 	/* rf address */
 	value &= ~RF_ADDR_MASK;
@@ -52,7 +52,7 @@ int mt_rf_write(
 	mt7612u_write32(ad, RF_CTRL, value);
 
 	do {
-		value = mt7612u_read32(ad, RF_CTRL);
+		value = mt76u_reg_read(ad, RF_CTRL);
 
 		if (RF_READY(value))
 			break;

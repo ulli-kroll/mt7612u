@@ -113,7 +113,7 @@ INT WaitForAsicReady(struct rtmp_adapter *pAd)
 		if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST))
 			return false;
 
-		mac_val = mt7612u_read32(pAd, MT_MAC_CSR0);
+		mac_val = mt76u_reg_read(pAd, MT_MAC_CSR0);
 		if ((mac_val != 0x00) && (mac_val != 0xFFFFFFFF))
 			return true;
 
@@ -155,12 +155,12 @@ int RtmpChipOpsHook(VOID *pCB)
 	if (WaitForAsicReady(pAd) == false)
 		return -1;
 
-	pAd->mac_rev = mt7612u_read32(pAd, MT_MAC_CSR0);
+	pAd->mac_rev = mt76u_reg_read(pAd, MT_MAC_CSR0);
 
 	if (pAd->mac_rev == 0xffffffff)
 		return -1;
 
-	pAd->asic_rev = mt7612u_read32(pAd, MT_ASIC_VERSION);
+	pAd->asic_rev = mt76u_reg_read(pAd, MT_ASIC_VERSION);
 
 	if (pAd->asic_rev == 0xffffffff)
 		return -1;

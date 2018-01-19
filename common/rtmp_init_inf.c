@@ -486,7 +486,7 @@ VOID RTMPDrvOpen(struct rtmp_adapter *pAdSrc)
 	{
 		uint32_t TxRtyCfg;
 
-		mt7612u_read32(pAd, TX_RTY_CFG, &TxRtyCfg);
+		mt76u_reg_read(pAd, TX_RTY_CFG, &TxRtyCfg);
 		pAd->CommonCfg.txRetryCfg = TxRtyCfg;
 	}
 #endif /* MULTI_CLIENT_SUPPORT */

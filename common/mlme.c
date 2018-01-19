@@ -1429,7 +1429,7 @@ VOID MlmePeriodicExec(
 				while (count < 10)
 				{
 					mdelay(1); /* 1 ms*/
-					MacCsr12 = mt7612u_read32(pAd, MAC_STATUS_CFG);
+					MacCsr12 = mt76u_reg_read(pAd, MAC_STATUS_CFG);
 
 					/* if MAC is idle*/
 					if ((MacCsr12 & 0x03) == 0)
@@ -1480,7 +1480,7 @@ VOID MlmePeriodicExec(
 
 			uint32_t MacReg = 0;
 
-			MacReg = mt7612u_read32(pAd, 0x10F4);
+			MacReg = mt76u_reg_read(pAd, 0x10F4);
 			if (((MacReg & 0x20000000) && (MacReg & 0x80)) || ((MacReg & 0x20000000) && (MacReg & 0x20)))
 			{
 				mt7612u_write32(pAd, MAC_SYS_CTRL, 0x1);
@@ -1701,8 +1701,8 @@ VOID STAMlmePeriodicExec(struct rtmp_adapter *pAd)
 		{
 			u32 Ac0Cfg;
 			u32 Ac2Cfg;
-			Ac2Cfg = mt7612u_read32(pAd, EDCA_AC2_CFG);
-			Ac0Cfg = mt7612u_read32(pAd, EDCA_AC0_CFG);
+			Ac2Cfg = mt76u_reg_read(pAd, EDCA_AC2_CFG);
+			Ac0Cfg = mt76u_reg_read(pAd, EDCA_AC0_CFG);
 
 			if ((pAd->RalinkCounters.OneSecOsTxCount[QID_AC_VO] == 0) &&
 			(pAd->RalinkCounters.OneSecOsTxCount[QID_AC_BK] == 0) &&
@@ -4951,9 +4951,9 @@ u8 RandomByte2(struct rtmp_adapter *pAd)
 	u8 value, seed = 0;
 
 	/*MAC statistic related*/
-	a = mt7612u_read32(pAd, RX_STA_CNT1);
+	a = mt76u_reg_read(pAd, RX_STA_CNT1);
 	a &= 0x0000ffff;
-	b = mt7612u_read32(pAd, RX_STA_CNT0);
+	b = mt76u_reg_read(pAd, RX_STA_CNT0);
 	b &= 0x0000ffff;
 	value = (a<<16)|b;
 

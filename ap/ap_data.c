@@ -2508,7 +2508,7 @@ VOID dynamic_tune_be_tx_op(struct rtmp_adapter *pAd, ULONG nonBEpackets)
 		{
 			if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_DYNAMIC_BE_TXOP_ACTIVE))
 			{
-				RegValue = mt7612u_read32(pAd, EDCA_AC0_CFG);
+				RegValue = mt76u_reg_read(pAd, EDCA_AC0_CFG);
 
 				if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_RALINK_BURST_MODE))
 				{
@@ -2520,7 +2520,7 @@ VOID dynamic_tune_be_tx_op(struct rtmp_adapter *pAd, ULONG nonBEpackets)
 				{
 					TX_LINK_CFG_STRUC   TxLinkCfg;
 
-					TxLinkCfg.word = mt7612u_read32(pAd, TX_LINK_CFG);
+					TxLinkCfg.word = mt76u_reg_read(pAd, TX_LINK_CFG);
 					TxLinkCfg.field.TxRDGEn = 0;
 					mt7612u_write32(pAd, TX_LINK_CFG, TxLinkCfg.word);
 
@@ -2558,7 +2558,7 @@ VOID dynamic_tune_be_tx_op(struct rtmp_adapter *pAd, ULONG nonBEpackets)
 #ifdef LINUX
 #endif /* LINUX */
 
-				RegValue = mt7612u_read32(pAd, EDCA_AC0_CFG);
+				RegValue = mt76u_reg_read(pAd, EDCA_AC0_CFG);
 
 				if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_RALINK_BURST_MODE))
 					txop_value = 0x80;

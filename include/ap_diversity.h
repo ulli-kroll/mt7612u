@@ -46,7 +46,7 @@
 	{                                                   		\
 		for (i=0; i<MAX_BUSY_COUNT; i++)                    	\
 		{                                                   	\
-			mt7612u_read32(_A, H2M_BBP_AGENT, &BbpCsr.word);\
+			mt76u_reg_read(_A, H2M_BBP_AGENT, &BbpCsr.word);\
 			if (BbpCsr.field.Busy == BUSY)			\
 				continue;                               \
 			BbpCsr.word = 0;                                \
@@ -59,7 +59,7 @@
 			RtmpusecDelay(10);				\
 			for (k=0; k<MAX_BUSY_COUNT; k++)		\
 			{                                               \
-				mt7612u_read32(_A, H2M_BBP_AGENT, &BbpCsr.word);			\
+				mt76u_reg_read(_A, H2M_BBP_AGENT, &BbpCsr.word);			\
 				if (BbpCsr.field.Busy == IDLE)          \
 					break;                          \
 				else					\
@@ -76,7 +76,7 @@
 		{                                                   	\
 			DBGPRINT_ERR(("BBP read R%d=0x%x fail\n", _I, BbpCsr.word));	\
 			*(_pV) = (_A)->BbpWriteLatch[_I];               \
-			mt7612u_read32(_A, H2M_BBP_AGENT, &BbpCsr.word);\
+			mt76u_reg_read(_A, H2M_BBP_AGENT, &BbpCsr.word);\
 			BbpCsr.field.Busy = 0;                          \
 			mt7612u_write32(_A, H2M_BBP_AGENT, BbpCsr.word);\
 		}                                                   \

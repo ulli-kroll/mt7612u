@@ -1061,8 +1061,8 @@ VOID BeaconUpdateExec(PVOID SystemSpecific1, PVOID FunctionContext,
 
 	}
 
-	tsfTime_a.u.LowPart = mt7612u_read32(pAd, TSF_TIMER_DW0);
-	tsfTime_a.u.HighPart = mt7612u_read32(pAd, TSF_TIMER_DW1);
+	tsfTime_a.u.LowPart = mt76u_reg_read(pAd, TSF_TIMER_DW0);
+	tsfTime_a.u.HighPart = mt76u_reg_read(pAd, TSF_TIMER_DW1);
 
 
 	/*
@@ -1242,7 +1242,7 @@ bool AsicCheckCommandOk(
 
 	i = 0;
 	do {
-		CID = mt7612u_read32(pAd, H2M_MAILBOX_CID);
+		CID = mt76u_reg_read(pAd, H2M_MAILBOX_CID);
 		if ((CID & CID0MASK) == Command) {
 			ThisCIDMask = CID0MASK;
 			break;
@@ -1262,7 +1262,7 @@ bool AsicCheckCommandOk(
 	} while (i < 200);
 
 	ret = false;
-	CmdStatus = mt7612u_read32(pAd, H2M_MAILBOX_STATUS);
+	CmdStatus = mt76u_reg_read(pAd, H2M_MAILBOX_STATUS);
 	if (i < 200) {
 		if (((CmdStatus & ThisCIDMask) == 0x1) ||
 		    ((CmdStatus & ThisCIDMask) == 0x100) ||

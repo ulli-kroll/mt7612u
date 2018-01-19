@@ -111,7 +111,7 @@ int RTUSBSingleWrite(
 
 	========================================================================
 */
-u32 mt7612u_read32(struct rtmp_adapter *pAd, unsigned short Offset)
+u32 mt76u_reg_read(struct rtmp_adapter *pAd, unsigned short Offset)
 {
 	int Status = 0;
 	u32 val;
@@ -417,7 +417,7 @@ int CheckGPIOHdlr(struct rtmp_adapter *pAd, PCmdQElmt CMDQelmt)
 		uint32_t data;
 
 		/* Read GPIO pin2 as Hardware controlled radio state*/
-		data = mt7612u_read32( pAd, GPIO_CTRL_CFG);
+		data = mt76u_reg_read( pAd, GPIO_CTRL_CFG);
 		pAd->StaCfg.bHwRadio = (data & 0x04) ? true : false;
 
 		if (pAd->StaCfg.bRadio != (pAd->StaCfg.bHwRadio && pAd->StaCfg.bSwRadio)) {
@@ -456,7 +456,7 @@ static int ResetBulkOutHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 		if(RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST))
 			break;
 
-		MACValue = mt7612u_read32(pAd, TXRXQ_PCNT);
+		MACValue = mt76u_reg_read(pAd, TXRXQ_PCNT);
 		if ((MACValue & 0xf00000/*0x800000*/) == 0)
 			break;
 
@@ -707,7 +707,7 @@ static int SetAsicWcidHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 	DBGPRINT_RAW(RT_DEBUG_TRACE, ("1-MACValue= %x,\n", MACValue));
 	mt7612u_write32(pAd, offset, MACValue);
 	/* Read bitmask*/
-	MACRValue = mt7612u_read32(pAd, offset+4);
+	MACRValue = mt76u_reg_read(pAd, offset+4);
 	if (SetAsicWcid.DeleteTid != 0xffffffff)
 		MACRValue &= (~SetAsicWcid.DeleteTid);
 	if (SetAsicWcid.SetTid != 0xffffffff)
@@ -920,7 +920,7 @@ static int APEnableTXBurstHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelm
 		u32 Ac0Cfg;
 		DBGPRINT(RT_DEBUG_TRACE, ("CmdThread::CMDTHREAD_AP_ENABLE_TX_BURST  \n"));
 
-		Ac0Cfg = mt7612u_read32(pAd, EDCA_AC0_CFG);
+		Ac0Cfg = mt76u_reg_read(pAd, EDCA_AC0_CFG);
 		Ac0Cfg &= ~MT_EDCA_CFG_TXOP;
 		Ac0Cfg |= FIELD_PREP(MT_EDCA_CFG_TXOP, 0x20);
 		mt7612u_write32(pAd, EDCA_AC0_CFG, Ac0Cfg);
@@ -936,7 +936,7 @@ static int APDisableTXBurstHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQel
 		u32 Ac0Cfg;
 		DBGPRINT(RT_DEBUG_TRACE, ("CmdThread::CMDTHREAD_AP_DISABLE_TX_BURST  \n"));
 
-		Ac0Cfg = mt7612u_read32(pAd, EDCA_AC0_CFG);
+		Ac0Cfg = mt76u_reg_read(pAd, EDCA_AC0_CFG);
 		Ac0Cfg &= ~MT_EDCA_CFG_TXOP;
 		Ac0Cfg |= FIELD_PREP(MT_EDCA_CFG_TXOP, 0x0);
 		mt7612u_write32(pAd, EDCA_AC0_CFG, Ac0Cfg);

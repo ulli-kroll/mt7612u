@@ -250,7 +250,7 @@ void mt76x2_adjust_per_rate_pwr_delta(struct rtmp_adapter *ad, u8 channel, char 
 		band = NL80211_BAND_2GHZ;
 
 	/* Reg : TX_PWR_CFG_0 */
-	value = mt7612u_read32(ad, TX_PWR_CFG_0);
+	value = mt76u_reg_read(ad, TX_PWR_CFG_0);
 
 	value &= ~TX_PWR_CCK_1_2_MASK;		/* Bit 0-5 */
 	value |= TX_PWR_CCK_1_2(cap->tx_pwr_cck_1_2 + delta_pwr);
@@ -272,7 +272,7 @@ void mt76x2_adjust_per_rate_pwr_delta(struct rtmp_adapter *ad, u8 channel, char 
 	mt7612u_write32(ad, TX_PWR_CFG_0, value);
 
 	/* Reg : TX_PWR_CFG_1 */
-	value = mt7612u_read32(ad, TX_PWR_CFG_1);
+	value = mt76u_reg_read(ad, TX_PWR_CFG_1);
 
 	value &= ~TX_PWR_OFDM_24_36_MASK;	/* Bit 0-5 */
 	if (band == NL80211_BAND_2GHZ)
@@ -298,7 +298,7 @@ void mt76x2_adjust_per_rate_pwr_delta(struct rtmp_adapter *ad, u8 channel, char 
 	mt7612u_write32(ad, TX_PWR_CFG_1, value);
 
 	/* Reg : TX_PWR_CFG_2 */
-	value = mt7612u_read32(ad, TX_PWR_CFG_2);
+	value = mt76u_reg_read(ad, TX_PWR_CFG_2);
 
 	value &= ~TX_PWR_HT_VHT_1SS_MCS_4_5_MASK;	/* Bit 0-5 */
 	value |= TX_PWR_HT_VHT_1SS_MCS_4_5(cap->tx_pwr_ht_mcs_4_5 + delta_pwr);
@@ -315,7 +315,7 @@ void mt76x2_adjust_per_rate_pwr_delta(struct rtmp_adapter *ad, u8 channel, char 
 
 
 	/* Reg : TX_PWR_CFG_3 */
-	value = mt7612u_read32(ad, TX_PWR_CFG_3);
+	value = mt76u_reg_read(ad, TX_PWR_CFG_3);
 
 	value &= ~TX_PWR_HT_MCS_12_13_VHT_2SS_MCS_4_5_MASK;	/* Bit 0-5 */
 	value |= TX_PWR_HT_MCS_12_13_VHT_2SS_MCS_4_5(cap->tx_pwr_ht_mcs_12_13 + delta_pwr);
@@ -331,7 +331,7 @@ void mt76x2_adjust_per_rate_pwr_delta(struct rtmp_adapter *ad, u8 channel, char 
 	mt7612u_write32(ad, TX_PWR_CFG_3, value);
 
 	/* Reg : TX_PWR_CFG_4 */
-	value = mt7612u_read32(ad, TX_PWR_CFG_4);
+	value = mt76u_reg_read(ad, TX_PWR_CFG_4);
 	value &= ~TX_PWR_HT_VHT_STBC_MCS_4_5_MASK;		/* Bit 0-5 */
 	value |= TX_PWR_HT_VHT_STBC_MCS_4_5(cap->tx_pwr_ht_mcs_4_5 + delta_pwr);
 
@@ -340,7 +340,7 @@ void mt76x2_adjust_per_rate_pwr_delta(struct rtmp_adapter *ad, u8 channel, char 
 	mt7612u_write32(ad, TX_PWR_CFG_4, value);
 
 	/* Reg : TX_PWR_CFG_7 */
-	value = mt7612u_read32(ad, TX_PWR_CFG_7);
+	value = mt76u_reg_read(ad, TX_PWR_CFG_7);
 	value &= ~TX_PWR_OFDM_54_MASK;			/* Bit 0-5 */
 	if (band == NL80211_BAND_2GHZ)
 		value |= TX_PWR_OFDM_54(cap->tx_pwr_g_band_ofdm_48_54 + delta_pwr);
@@ -365,7 +365,7 @@ void mt76x2_adjust_per_rate_pwr_delta(struct rtmp_adapter *ad, u8 channel, char 
 	mt7612u_write32(ad, TX_PWR_CFG_7, value);
 
 	/* Reg : TX_PWR_CFG_8 */
-	value = mt7612u_read32(ad, TX_PWR_CFG_8);
+	value = mt76u_reg_read(ad, TX_PWR_CFG_8);
 
 	value &= ~TX_PWR_HT_MCS_15_VHT_2SS_MCS7_MASK;	/* Bit 0-5 */
 	value |= TX_PWR_HT_MCS_15_VHT_2SS_MCS7(cap->tx_pwr_ht_mcs_14_15 + delta_pwr);
@@ -385,7 +385,7 @@ void mt76x2_adjust_per_rate_pwr_delta(struct rtmp_adapter *ad, u8 channel, char 
 	mt7612u_write32(ad, TX_PWR_CFG_8, value);
 
 	/* Reg : TX_PWR_CFG_9 */
-	value = mt7612u_read32(ad, TX_PWR_CFG_9);
+	value = mt76u_reg_read(ad, TX_PWR_CFG_9);
 
 	value &= ~TX_PWR_HT_VHT_STBC_MCS_7_MASK;/* Bit 0-5 */
 	value |= TX_PWR_HT_VHT_STBC_MCS_7(cap->tx_pwr_ht_mcs_6_7 + delta_pwr);
@@ -455,7 +455,7 @@ static void mt76x2_tx_pwr_gain(struct rtmp_adapter *ad, u8 channel, u8 bw)
 		tx_1_pwr = 0;
 
 	/* TX0 channel initial transmission gain setting */
-	value = mt7612u_read32(ad, TX_ALC_CFG_0);
+	value = mt76u_reg_read(ad, TX_ALC_CFG_0);
 
 	value &= ~TX_ALC_CFG_0_CH_INT_0_MASK;	/* Bit 0-5 */
 	value |= TX_ALC_CFG_0_CH_INT_0(tx_0_pwr);
@@ -464,7 +464,7 @@ static void mt76x2_tx_pwr_gain(struct rtmp_adapter *ad, u8 channel, u8 bw)
 	mt7612u_write32(ad, TX_ALC_CFG_0, value);
 
 	/* TX1 channel initial transmission gain setting */
-	value = mt7612u_read32(ad, TX_ALC_CFG_0);
+	value = mt76u_reg_read(ad, TX_ALC_CFG_0);
 	value &= ~TX_ALC_CFG_0_CH_INT_1_MASK;	/* Bit 8-13 */
 	value |= TX_ALC_CFG_0_CH_INT_1(tx_1_pwr);
 	//value |= TX_ALC_CFG_0_CH_INT_1(0x7);
@@ -505,7 +505,7 @@ void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan)
 		bbp_ch_idx = EXT_CH_NONE;
 	}
 
-	RegValue = mt7612u_read32(ad, EXT_CCA_CFG);
+	RegValue = mt76u_reg_read(ad, EXT_CCA_CFG);
 	RegValue &= ~(0xFFF);
 	if (ad->CommonCfg.BBPCurrentBW == BW_80) {
 		if (bbp_ch_idx == 0)
@@ -557,7 +557,7 @@ void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan)
 		bw = 0;
 
 	/* Change MAC OFDM SIFS according to BW */
-	RegValue = mt7612u_read32(ad, XIFS_TIME_CFG);
+	RegValue = mt76u_reg_read(ad, XIFS_TIME_CFG);
 	RegValue = RegValue & (~XIFS_TIME_OFDM_SIFS_MASK);
 	if (bw == 0)
 		RegValue |= XIFS_TIME_OFDM_SIFS(0x0D);
@@ -659,22 +659,22 @@ void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan)
 	}
 
 
-	mac_val = mt7612u_read32(ad, TXOP_CTRL_CFG);
+	mac_val = mt76u_reg_read(ad, TXOP_CTRL_CFG);
 	if ((mac_val & 0x100000) == 0x100000) {
 		ad->chipCap.ed_cca_enable = true;
 		mac_val &= ~(1<<20);
 		mt7612u_write32(ad, TXOP_CTRL_CFG, mac_val);
 
-		mac_val = mt7612u_read32(ad, TXOP_HLDR_ET);
+		mac_val = mt76u_reg_read(ad, TXOP_HLDR_ET);
 		mac_val &= ~2;
 		mt7612u_write32(ad, TXOP_HLDR_ET, mac_val);
 	}
 
 	/* backup mac 1004 value */
-	restore_value = mt7612u_read32(ad, 0x1004);
+	restore_value = mt76u_reg_read(ad, 0x1004);
 
 	/* Backup the original RTS retry count and then set to 0 */
-	ad->rts_tx_retry_num = mt7612u_read32(ad, 0x1344);
+	ad->rts_tx_retry_num = mt76u_reg_read(ad, 0x1344);
 
 	/* disable mac tx/rx */
 	value = restore_value;
@@ -686,7 +686,7 @@ void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan)
 
 	/* wait mac 0x1200, bbp 0x2130 idle */
 	do {
-		value = mt7612u_read32(ad, 0x1200);
+		value = mt76u_reg_read(ad, 0x1200);
 		value &= 0x1;
 		value1 = RTMP_BBP_IO_READ32(ad, 0x2130);
 		DBGPRINT(RT_DEBUG_INFO,("%s:: Wait until MAC 0x1200 bit0 and BBP 0x2130 become 0\n", __FUNCTION__));
@@ -751,11 +751,11 @@ void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan)
         if (ad->chipCap.ed_cca_enable) {
 		mac_val = 0;
 
-		mac_val = mt7612u_read32(ad, TXOP_CTRL_CFG);
+		mac_val = mt76u_reg_read(ad, TXOP_CTRL_CFG);
                 mac_val |= (1<<20);
                 mt7612u_write32(ad, TXOP_CTRL_CFG, mac_val);
 
-                mac_val = mt7612u_read32(ad, TXOP_HLDR_ET);
+                mac_val = mt76u_reg_read(ad, TXOP_HLDR_ET);
                 mac_val |= 2;
                 mt7612u_write32(ad, TXOP_HLDR_ET, mac_val);
         }
@@ -764,14 +764,14 @@ void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan)
 	mt7612u_write32(ad, 0x1344, ad->rts_tx_retry_num);
 
 	if (!ad->MCUCtrl.power_on && ad->chipCap.tssi_enable && !ad->chipCap.temp_tx_alc_enable) {
-		value = mt7612u_read32(ad, TX_ALC_CFG_1);
+		value = mt76u_reg_read(ad, TX_ALC_CFG_1);
 
 		value &= ~TX_ALC_CFG_1_TX0_TEMP_COMP_MASK;	/* Bit 0-5 */
 		value |= TX_ALC_CFG_1_TX0_TEMP_COMP(0x38);
 
 		mt7612u_write32(ad, TX_ALC_CFG_1, value);
 		DBGPRINT(RT_DEBUG_OFF, ("TX0 power compensation = 0x%x\n", value & 0x3f));
-		value = mt7612u_read32(ad, TX_ALC_CFG_2);
+		value = mt76u_reg_read(ad, TX_ALC_CFG_2);
 
 		value &= ~TX_ALC_CFG_2_TX1_TEMP_COMP_MASK;	/* Bit 0-5 */
 		value |= TX_ALC_CFG_2_TX1_TEMP_COMP(0x38);
@@ -955,13 +955,13 @@ void mt76x2_calibration(struct rtmp_adapter *ad, u8 channel)
 		return;
 	}
 
-        mac_val = mt7612u_read32(ad, TXOP_CTRL_CFG);
+        mac_val = mt76u_reg_read(ad, TXOP_CTRL_CFG);
         if ((mac_val & 0x100000) == 0x100000) {
                 ad->chipCap.ed_cca_enable = true;
                 mac_val &= ~(1<<20);
                 mt7612u_write32(ad, TXOP_CTRL_CFG, mac_val);
 
-                mac_val = mt7612u_read32(ad, TXOP_HLDR_ET);
+                mac_val = mt76u_reg_read(ad, TXOP_HLDR_ET);
                 mac_val &= ~2;
                 mt7612u_write32(ad, TXOP_HLDR_ET, mac_val);
         }
@@ -969,10 +969,10 @@ void mt76x2_calibration(struct rtmp_adapter *ad, u8 channel)
 	DBGPRINT(RT_DEBUG_OFF, ("%s(channel = %d)\n", __FUNCTION__, channel));
 
 	/* backup mac 1004 value */
-	restore_value = mt7612u_read32(ad, 0x1004);
+	restore_value = mt76u_reg_read(ad, 0x1004);
 
 	/* Backup the original RTS retry count and then set to 0 */
-	ad->rts_tx_retry_num = mt7612u_read32(ad, 0x1344);
+	ad->rts_tx_retry_num = mt76u_reg_read(ad, 0x1344);
 
 	/* disable mac tx/rx */
 	value = restore_value;
@@ -984,7 +984,7 @@ void mt76x2_calibration(struct rtmp_adapter *ad, u8 channel)
 
 	/* wait mac 0x1200, bbp 0x2130 idle */
 	do {
-		value = mt7612u_read32(ad, 0x1200);
+		value = mt76u_reg_read(ad, 0x1200);
 		value &= 0x1;
 		value1 = RTMP_BBP_IO_READ32(ad, 0x2130);
 		DBGPRINT(RT_DEBUG_INFO, ("%s:: Wait until MAC 0x1200 bit0 and BBP 0x2130 become 0\n", __FUNCTION__));
@@ -1036,7 +1036,7 @@ static void mt7612u_init_fce(struct rtmp_adapter *ad)
 {
 	u32 val;
 
-	val = mt7612u_read32(ad, MT_FCE_L2_STUFF);
+	val = mt76u_reg_read(ad, MT_FCE_L2_STUFF);
 	val &= ~MT_FCE_L2_STUFF_WR_MPDU_LEN_EN;
 	mt7612u_write32(ad, MT_FCE_L2_STUFF, val);
 }
@@ -1059,21 +1059,21 @@ void mt76x2_init_mac_cr(struct rtmp_adapter *ad)
  	 * Release BBP and MAC reset
  	 * MAC_SYS_CTRL[1:0] = 0x0
  	 */
-	value = mt7612u_read32(ad, MAC_SYS_CTRL);
+	value = mt76u_reg_read(ad, MAC_SYS_CTRL);
 	value &= ~(0x3);
 	mt7612u_write32(ad, MAC_SYS_CTRL, value);
 
 	/*
 	 * Disable COEX_EN
 	 */
-	value = mt7612u_read32(ad, COEXCFG0);
+	value = mt76u_reg_read(ad, COEXCFG0);
 	value &= 0xFFFFFFFE;
 	mt7612u_write32(ad, COEXCFG0, value);
 
 	/*
 		Set 0x141C[15:12]=0xF
 	*/
-	value = mt7612u_read32(ad, EXT_CCA_CFG);
+	value = mt76u_reg_read(ad, EXT_CCA_CFG);
 	value |= (0x0000F000);
 	mt7612u_write32(ad, EXT_CCA_CFG, value);
 
@@ -1081,7 +1081,7 @@ void mt76x2_init_mac_cr(struct rtmp_adapter *ad)
 	/*
  	 * Set 0x13C0[31] = 0x0
  	 */
-	value = mt7612u_read32(ad, TX_ALC_CFG_4);
+	value = mt76u_reg_read(ad, TX_ALC_CFG_4);
 	value &= ~WL_LOWGAIN_CH_EN;
 	mt7612u_write32(ad, TX_ALC_CFG_4, value);
 
@@ -1145,12 +1145,12 @@ void mt76x2_init_mac_cr(struct rtmp_adapter *ad)
 	}
 
 	/* Decrease MAC OFDM SIFS from 16 to 13us */
-	value = mt7612u_read32(ad, XIFS_TIME_CFG);
+	value = mt76u_reg_read(ad, XIFS_TIME_CFG);
 	value = value & (~XIFS_TIME_OFDM_SIFS_MASK);
 	value |= XIFS_TIME_OFDM_SIFS(0x0D);
 	mt7612u_write32(ad, XIFS_TIME_CFG, value);
 
-	value = mt7612u_read32(ad, BKOFF_SLOT_CFG);
+	value = mt76u_reg_read(ad, BKOFF_SLOT_CFG);
 	value &= ~(BKOFF_SLOT_CFG_CC_DELAY_TIME_MASK);
 	value |= BKOFF_SLOT_CFG_CC_DELAY_TIME(0x01);
 	mt7612u_write32(ad, BKOFF_SLOT_CFG, value);
@@ -1163,7 +1163,7 @@ void mt76x2_init_mac_cr(struct rtmp_adapter *ad)
 		01 : One crystal, enable co-clock out
 		10 : Two crystal (Default)
 	*/
-	value = mt7612u_read32(ad, 0x11C);
+	value = mt76u_reg_read(ad, 0x11C);
 	if (ad->NicConfig3.field.XtalOption == 0x0)
 		value = 0x5C1FEE80;
 	else if (ad->NicConfig3.field.XtalOption == 0x1)
@@ -2551,7 +2551,7 @@ void percentage_delta_pwr(struct rtmp_adapter *ad)
 		mac_drop_pwr -= 12;
 	}
 
-	mac_val = mt7612u_read32(ad, TX_ALC_CFG_0);
+	mac_val = mt76u_reg_read(ad, TX_ALC_CFG_0);
 	tx_alc_ch_init_0 = (mac_val & 0x3F) + mac_drop_pwr*2;
 	if (tx_alc_ch_init_0 <= 0)
 		tx_alc_ch_init_0 = 0;
@@ -2693,7 +2693,7 @@ VOID mt76x2_init(struct rtmp_adapter *pAd)
 	if (IS_MT7632(pAd))
 		pChipCap->phy_caps = (fPHY_CAP_24G | fPHY_CAP_5G | fPHY_CAP_HT | fPHY_CAP_LDPC);
 
-	mac_val = mt7612u_read32(pAd, 0x38);
+	mac_val = mt76u_reg_read(pAd, 0x38);
 
 	if ((mac_val & 0x80000) == 0x80000)
 		pChipCap->ac_off_mode = 1;
@@ -2788,7 +2788,7 @@ static void mt7612_power_on_rf(struct rtmp_adapter *pAd, int unit)
 
 		patch_BBPL_on(pAd);
 
-		value = mt7612u_read32(pAd, 0x530);
+		value = mt76u_reg_read(pAd, 0x530);
 		value  |= 0xF;
 		mt7612u_write32(pAd, 0x530, value);
 	} else {
@@ -2812,7 +2812,7 @@ static void mt7612_power_on_rf(struct rtmp_adapter *pAd, int unit)
 
 		patch_BBPL_on(pAd);
 
-		value = mt7612u_read32(pAd, 0x530);
+		value = mt76u_reg_read(pAd, 0x530);
 		value  |= 0xF;
 		mt7612u_write32(pAd, 0x530, value);
 	}
@@ -2882,7 +2882,7 @@ int mt76x2_set_ed_cca(struct rtmp_adapter *ad, u8 enable)
         uint32_t bbp_val;
 
         if (enable) {
-                mac_val = mt7612u_read32(ad, CH_TIME_CFG);
+                mac_val = mt76u_reg_read(ad, CH_TIME_CFG);
                 mac_val |= 0x05; // enable channel status check
                 mt7612u_write32(ad, CH_TIME_CFG, mac_val);
 
@@ -2893,29 +2893,29 @@ int mt76x2_set_ed_cca(struct rtmp_adapter *ad, u8 enable)
                 RTMP_BBP_IO_WRITE32(ad, AGC1_R2, bbp_val);
 
                 // MAC: enable ED_CCA/ED_2nd_CCA
-                mac_val = mt7612u_read32(ad, TXOP_CTRL_CFG);
+                mac_val = mt76u_reg_read(ad, TXOP_CTRL_CFG);
                 mac_val |= ((1<<20) | (1<<7));
                 mt7612u_write32(ad, TXOP_CTRL_CFG, mac_val);
 
-                mac_val = mt7612u_read32(ad, TXOP_HLDR_ET);
+                mac_val = mt76u_reg_read(ad, TXOP_HLDR_ET);
                 mac_val |= 2;
                 mt7612u_write32(ad, TXOP_HLDR_ET, mac_val);
         } else {
                 // MAC: disable ED_CCA/ED_2nd_CCA
-                mac_val = mt7612u_read32(ad, TXOP_CTRL_CFG);
+                mac_val = mt76u_reg_read(ad, TXOP_CTRL_CFG);
                 mac_val &= (~((1<<20) | (1<<7)));
                 mt7612u_write32(ad, TXOP_CTRL_CFG, mac_val);
 
-                mac_val = mt7612u_read32(ad, TXOP_HLDR_ET);
+                mac_val = mt76u_reg_read(ad, TXOP_HLDR_ET);
                 mac_val &= ~2;
                 mt7612u_write32(ad, TXOP_HLDR_ET, mac_val);
         }
 
         /* Clear previous status */
-        mac_val = mt7612u_read32(ad, CH_IDLE_STA);
-        mac_val = mt7612u_read32(ad, CH_BUSY_STA);
-        mac_val = mt7612u_read32(ad, CH_BUSY_STA_SEC);
-        mac_val = mt7612u_read32(ad, 0x1140);
+        mac_val = mt76u_reg_read(ad, CH_IDLE_STA);
+        mac_val = mt76u_reg_read(ad, CH_BUSY_STA);
+        mac_val = mt76u_reg_read(ad, CH_BUSY_STA_SEC);
+        mac_val = mt76u_reg_read(ad, 0x1140);
 
         return true;
 }

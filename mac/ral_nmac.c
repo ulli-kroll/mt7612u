@@ -161,7 +161,7 @@ static uint mt7612u_set_wlan_func(struct rtmp_adapter *pAd, bool enable)
 {
 	u32 reg;
 
-	reg = mt7612u_read32(pAd, MT_WLAN_FUN_CTRL);
+	reg = mt76u_reg_read(pAd, MT_WLAN_FUN_CTRL);
 
 	if (enable == true) {
 		/*
@@ -200,7 +200,7 @@ INT mt7612u_chip_onoff(struct rtmp_adapter *pAd, bool bOn, bool bResetWLAN)
 		return STATUS_UNSUCCESSFUL;
 	}
 
-	reg = mt7612u_read32(pAd, MT_WLAN_FUN_CTRL);
+	reg = mt76u_reg_read(pAd, MT_WLAN_FUN_CTRL);
 	DBGPRINT(RT_DEBUG_OFF, ("==>%s(): OnOff:%d, Reset= %d, pAd->WlanFunCtrl:0x%x, Reg-WlanFunCtrl=0x%x\n",
 				__FUNCTION__, bOn, bResetWLAN, pAd->WlanFunCtrl, reg));
 
@@ -237,7 +237,7 @@ INT mt7612u_chip_onoff(struct rtmp_adapter *pAd, bool bOn, bool bResetWLAN)
 	reg = mt7612u_set_wlan_func(pAd, bOn);
 
 	if (bOn) {
-		pAd->mac_rev = mt7612u_read32(pAd, MT_MAC_CSR0);
+		pAd->mac_rev = mt76u_reg_read(pAd, MT_MAC_CSR0);
 		DBGPRINT(RT_DEBUG_TRACE, ("MACVersion = 0x%08x\n", pAd->mac_rev));
 	}
 
@@ -247,7 +247,7 @@ INT mt7612u_chip_onoff(struct rtmp_adapter *pAd, bool bOn, bool bResetWLAN)
 
 		do {
 			do {
-				value = mt7612u_read32(pAd, CMB_CTRL);
+				value = mt76u_reg_read(pAd, CMB_CTRL);
 
 				/*
 					Check status of PLL_LD & XTAL_RDY.
@@ -278,7 +278,7 @@ INT mt7612u_chip_onoff(struct rtmp_adapter *pAd, bool bOn, bool bResetWLAN)
 	}
 
 	pAd->WlanFunCtrl = reg;
-	reg = mt7612u_read32(pAd, MT_WLAN_FUN_CTRL);
+	reg = mt76u_reg_read(pAd, MT_WLAN_FUN_CTRL);
 	DBGPRINT(RT_DEBUG_TRACE,
 		("<== %s():pAd->WlanFunCtrl.word = 0x%x, Reg->WlanFunCtrl=0x%x!\n",
 		__FUNCTION__, pAd->WlanFunCtrl, reg));

@@ -255,7 +255,7 @@ INT CFG80211DRV_IoctlHandle(
 					bool active;
 
 					/* Read GPIO pin2 as Hardware controlled radio state */
-					mt7612u_read32(pAd, GPIO_CTRL_CFG, &data);
+					mt76u_reg_read(pAd, GPIO_CTRL_CFG, &data);
 					active = !!(data & 0x04);
 
 					if (!active)

@@ -93,7 +93,7 @@ VOID VideoTurbineDynamicTune(
 
 		{
 			/* Tx retry limit = 2F,1F */
-			mt7612u_read32(pAd, TX_RTY_CFG, &MacReg);
+			mt76u_reg_read(pAd, TX_RTY_CFG, &MacReg);
 			MacReg &= 0xFFFF0000;
 			MacReg |= GetAsicVideoRetry(pAd);
 			mt7612u_write32(pAd, TX_RTY_CFG, MacReg);
@@ -111,7 +111,7 @@ VOID VideoTurbineDynamicTune(
 
 
 		/* Default Tx retry limit = 1F,0F */
-		mt7612u_read32(pAd, TX_RTY_CFG, &MacReg);
+		mt76u_reg_read(pAd, TX_RTY_CFG, &MacReg);
 		MacReg &= 0xFFFF0000;
 			MacReg |= GetAsicDefaultRetry(pAd);
 		mt7612u_write32(pAd, TX_RTY_CFG, MacReg);

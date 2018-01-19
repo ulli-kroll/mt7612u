@@ -904,7 +904,7 @@ void InitUSBDevice(RT_CMD_USB_INIT *config, VOID *ad_src)
 		return;
 	}
 
-	ad->asic_rev = mt7612u_read32(ad, 0x00);
+	ad->asic_rev = mt76u_reg_read(ad, 0x00);
 	if (IS_RT65XX(ad))
 		mt7612u_chip_onoff(ad, true, true);
 	if (IS_MT76x2(ad))

@@ -572,7 +572,7 @@ INT rtmp_mac_set_band(struct rtmp_adapter *pAd, int  band)
 {
 	uint32_t val, band_cfg;
 
-	band_cfg = mt7612u_read32(pAd, TX_BAND_CFG);
+	band_cfg = mt76u_reg_read(pAd, TX_BAND_CFG);
 	val = band_cfg & (~0x6);
 	switch (band) {
 		case BAND_5G:
@@ -595,7 +595,7 @@ void mt7612u_mac_set_ctrlch(struct rtmp_adapter *pAd, u8 extch)
 {
 	uint32_t val, band_cfg;
 
-	band_cfg = mt7612u_read32(pAd, TX_BAND_CFG);
+	band_cfg = mt76u_reg_read(pAd, TX_BAND_CFG);
 	val = band_cfg & (~0x1);
 	switch (extch) {
 		case EXTCHA_ABOVE:
@@ -618,7 +618,7 @@ INT rtmp_mac_set_mmps(struct rtmp_adapter *pAd, INT ReduceCorePower)
 {
 	uint32_t mac_val, org_val;
 
-	org_val = mt7612u_read32(pAd, 0x1210);
+	org_val = mt76u_reg_read(pAd, 0x1210);
 	mac_val = org_val;
 	if (ReduceCorePower)
 		mac_val |= 0x09;
@@ -646,13 +646,13 @@ VOID ReSyncBeaconTime(struct rtmp_adapter *pAd)
 		beacasue the original BeaconInterval had been loaded into next TBTT_TIMER
 	*/
 	if (Offset == (BCN_TBTT_OFFSET-2)) {
-		csr.word = mt7612u_read32(pAd, BCN_TIME_CFG);
+		csr.word = mt76u_reg_read(pAd, BCN_TIME_CFG);
 
 		/* ASIC register in units of 1/16 TU = 64us*/
 		csr.field.BeaconInterval = (pAd->CommonCfg.BeaconPeriod << 4) - 1 ;
 		mt7612u_write32(pAd, BCN_TIME_CFG, csr.word);
 	} else if (Offset == (BCN_TBTT_OFFSET-1)) {
-		csr.word = mt7612u_read32(pAd, BCN_TIME_CFG);
+		csr.word = mt76u_reg_read(pAd, BCN_TIME_CFG);
 		csr.field.BeaconInterval = (pAd->CommonCfg.BeaconPeriod) << 4;
 		mt7612u_write32(pAd, BCN_TIME_CFG, csr.word);
 	}
