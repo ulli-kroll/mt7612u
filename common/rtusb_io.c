@@ -159,7 +159,7 @@ void mt76u_reg_write(struct rtmp_adapter *pAd, unsigned short Offset,
  * ULLI : new registers
  */
 
-int mt7612u_usb3_write(struct rtmp_adapter *ad, uint16_t offset, uint32_t val)
+int mt76u_sys_write(struct rtmp_adapter *ad, uint16_t offset, uint32_t val)
 {
 	int ret;
 #if 0
@@ -475,13 +475,13 @@ static int ResetBulkOutHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 		MACValue = mt76u_sys_read(pAd, U3DMA_WLCFG);
 
 	MACValue |= 0x80000;
-	mt7612u_usb3_write(pAd, U3DMA_WLCFG, MACValue);
+	mt76u_sys_write(pAd, U3DMA_WLCFG, MACValue);
 
 	/* Wait 1ms to prevent next URB to bulkout before HW reset. by MAXLEE 12-25-2007*/
 	mdelay(1);
 
 	MACValue &= (~0x80000);
-	mt7612u_usb3_write(pAd, U3DMA_WLCFG, MACValue);
+	mt76u_sys_write(pAd, U3DMA_WLCFG, MACValue);
 	DBGPRINT(RT_DEBUG_TRACE, ("\tSet 0x2a0 bit19. Clear USB DMA TX path\n"));
 
 	/* Wait 5ms to prevent next URB to bulkout before HW reset. by MAXLEE 12-25-2007*/

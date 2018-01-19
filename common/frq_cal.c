@@ -113,7 +113,7 @@ void FrequencyCalibration(struct rtmp_adapter *pAd)
 
 			value = (value & 0xffff80ff) | (pFrqCal->AdaptiveFreqOffset << 8);
 			DBGPRINT(RT_DEBUG_TRACE, ("FRQ:  After just Value => %08x\n", value ));
-			mt7612u_usb3_write(pAd, XO_CTRL5, value);
+			mt76u_sys_write(pAd, XO_CTRL5, value);
 		}
 
 		return;
