@@ -98,7 +98,7 @@ static inline void mt7612u_dma_skb_wrap_cmd(struct sk_buff *skb,
 static void mt7612u_mcu_bh_schedule(struct rtmp_adapter *ad);
 static int mt7612u_mcu_send_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *msg);
 
-static void mt7612u_vendor_reset(struct rtmp_adapter *pAd)
+static void mt76u_vendor_reset(struct rtmp_adapter *pAd)
 {
 	mt76u_vendor_request(pAd, DEVICE_VENDOR_REQUEST_OUT,
 			    MT_VEND_DEVICE_MODE, 0x1, 0,
@@ -452,7 +452,7 @@ load_patch_protect:
 
 	fw_patch_image = (u8 *) fw->data;
 
-	mt7612u_vendor_reset(ad);
+	mt76u_vendor_reset(ad);
 	mdelay(5);
 
 	/* get rom patch information */
@@ -682,7 +682,7 @@ loadfw_protect:
 	if (((mac_value & 0x01) == 0x01) && (cap->ram_code_protect))
 		goto error0;
 
-	mt7612u_vendor_reset(ad);
+	mt76u_vendor_reset(ad);
 	mdelay(5);
 
 	/* Enable USB_DMA_CFG */
