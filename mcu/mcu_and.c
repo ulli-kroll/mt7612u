@@ -45,7 +45,7 @@ struct mt7612u_dma_buf {
 	size_t len;
 };
 
-bool mt7612u_usb_alloc_buf(struct rtmp_adapter *ad, size_t len,
+bool mt76u_usb_alloc_buf(struct rtmp_adapter *ad, size_t len,
 			   struct mt7612u_dma_buf *buf)
 {
 	struct usb_device *usb_dev = mt7612u_to_usb_dev(ad);
@@ -517,7 +517,7 @@ load_patch_protect:
 	mt76u_reg_write(ad, FCE_SKIP_FS, 0x03);
 
 	/* Allocate TransferBuffer */
-	if (mt7612u_usb_alloc_buf(ad, UPLOAD_PATCH_UNIT, &dma_buf)) {
+	if (mt76u_usb_alloc_buf(ad, UPLOAD_PATCH_UNIT, &dma_buf)) {
 		ret = -ENOMEM;
 		goto error0;
 	}
@@ -747,7 +747,7 @@ loadfw_protect:
 	mt76u_reg_write(ad, FCE_SKIP_FS, 0x03);
 
 	/* Allocate TransferBuffer */
-	if (mt7612u_usb_alloc_buf(ad, UPLOAD_FW_UNIT, &dma_buf)) {
+	if (mt76u_usb_alloc_buf(ad, UPLOAD_FW_UNIT, &dma_buf)) {
 		ret = -ENOMEM;
 		goto error0;
 	}
