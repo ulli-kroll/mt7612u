@@ -719,7 +719,7 @@ void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan)
 	}
 
 	if (!ad->MCUCtrl.power_on) {
-		 e2p_value = mt7612u_read_eeprom16(ad, BT_RCAL_RESULT);
+		 e2p_value = mt76u_read_eeprom(ad, BT_RCAL_RESULT);
 
 		if ((e2p_value & 0xff) != 0xff) {
 			DBGPRINT(RT_DEBUG_OFF, ("r-cal result = %d\n", e2p_value & 0xff));
@@ -1088,7 +1088,7 @@ void mt76x2_init_mac_cr(struct rtmp_adapter *ad)
 	/*
  	 * Check crystal trim2 first
  	 */
-	e2p_value = mt7612u_read_eeprom16(ad, G_BAND_BANDEDGE_PWR_BACK_OFF);
+	e2p_value = mt76u_read_eeprom(ad, G_BAND_BANDEDGE_PWR_BACK_OFF);
 
 	if (((e2p_value & 0xff) == 0x00) || ((e2p_value & 0xff) == 0xff))
 		xtal_freq_offset = 0;
@@ -1102,7 +1102,7 @@ void mt76x2_init_mac_cr(struct rtmp_adapter *ad)
 		/*
  		 * Compesate crystal trim1
  		 */
-		e2p_value = mt7612u_read_eeprom16(ad, XTAL_TRIM1);
+		e2p_value = mt76u_read_eeprom(ad, XTAL_TRIM1);
 
 		/* crystal trim default value set to 0x14 */
 		if (((e2p_value & 0xff) == 0x00) || ((e2p_value & 0xff) == 0xff))
@@ -1186,7 +1186,7 @@ void mt76x2_get_external_lna_gain(struct rtmp_adapter *ad)
 	UINT8 lna_type = 0;
 
 	/* b'00: 2.4G+5G external LNA, b'01: 5G external LNA, b'10: 2.4G external LNA, b'11: Internal LNA */
-	e2p_val = mt7612u_read_eeprom16(ad, 0x36);
+	e2p_val = mt76u_read_eeprom(ad, 0x36);
 	lna_type = e2p_val & 0xC;
 	if (lna_type == 0xC)
 		ad->chipCap.LNA_type = 0x0;
@@ -1197,14 +1197,14 @@ void mt76x2_get_external_lna_gain(struct rtmp_adapter *ad)
 	else if (lna_type == 0x0)
 		ad->chipCap.LNA_type = 0x11;
 
-	e2p_val = mt7612u_read_eeprom16(ad, 0x44);
+	e2p_val = mt76u_read_eeprom(ad, 0x44);
 	ad->BLNAGain = (e2p_val & 0xFF); /* store external LNA gain for 2.4G on EEPROM 0x44h */
 	ad->ALNAGain0 = (e2p_val & 0xFF00) >> 8; /* store external LNA gain for 5G ch#36 ~ ch#64 on EEPROM 0x45h */
 
-	e2p_val = mt7612u_read_eeprom16(ad, 0x48);
+	e2p_val = mt76u_read_eeprom(ad, 0x48);
 	ad->ALNAGain1 = (e2p_val & 0xFF00) >> 8; /* store external LNA gain for 5G ch#100 ~ ch#128 on EEPROM 0x49h */
 
-	e2p_val = mt7612u_read_eeprom16(ad, 0x4C);
+	e2p_val = mt76u_read_eeprom(ad, 0x4C);
 	ad->ALNAGain2 = (e2p_val & 0xFF00) >> 8; /* store external LNA gain for 5G ch#132 ~ ch#165 on EEPROM 0x4Dh */
 
 	DBGPRINT(RT_DEBUG_OFF, ("%s::LNA type=0x%x, BLNAGain=0x%x, ALNAGain0=0x%x, ALNAGain1=0x%x, ALNAGain2=0x%x\n",
@@ -1386,7 +1386,7 @@ void mt76x2_get_rx_high_gain(struct rtmp_adapter *ad)
 	uint16_t value;
 	struct rtmp_chip_cap *cap = &ad->chipCap;
 
-	value = mt7612u_read_eeprom16(ad, RF_2G_RX_HIGH_GAIN);
+	value = mt76u_read_eeprom(ad, RF_2G_RX_HIGH_GAIN);
 	if ((value & 0xff00) == 0x0000 || ((value & 0xff00) == 0xff00)) {
 		cap->rf0_2g_rx_high_gain = 0;
 		cap->rf1_2g_rx_high_gain = 0;
@@ -1406,7 +1406,7 @@ void mt76x2_get_rx_high_gain(struct rtmp_adapter *ad)
 				-((value & RF1_2G_RX_HIGH_GAIN_MASK) >> 12);
 	}
 
-	value = mt7612u_read_eeprom16(ad, RF_5G_GRP0_1_RX_HIGH_GAIN);
+	value = mt76u_read_eeprom(ad, RF_5G_GRP0_1_RX_HIGH_GAIN);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {
 		cap->rf0_5g_grp0_rx_high_gain = 0;
 		cap->rf1_5g_grp0_rx_high_gain = 0;
@@ -1446,7 +1446,7 @@ void mt76x2_get_rx_high_gain(struct rtmp_adapter *ad)
 
 	}
 
-	value = mt7612u_read_eeprom16(ad, RF_5G_GRP2_3_RX_HIGH_GAIN);
+	value = mt76u_read_eeprom(ad, RF_5G_GRP2_3_RX_HIGH_GAIN);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {
 		cap->rf0_5g_grp2_rx_high_gain = 0;
 		cap->rf1_5g_grp2_rx_high_gain = 0;
@@ -1485,7 +1485,7 @@ void mt76x2_get_rx_high_gain(struct rtmp_adapter *ad)
 				-((value & RF1_5G_GRP3_RX_HIGH_GAIN_MASK) >> 12);
 	}
 
-	value = mt7612u_read_eeprom16(ad, RF_5G_GRP4_5_RX_HIGH_GAIN);
+	value = mt76u_read_eeprom(ad, RF_5G_GRP4_5_RX_HIGH_GAIN);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {
 		cap->rf0_5g_grp4_rx_high_gain = 0;
 		cap->rf1_5g_grp4_rx_high_gain = 0;
@@ -1530,7 +1530,7 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 	u16 value;
 	struct rtmp_chip_cap *cap = &ad->chipCap;
 
-	value = mt7612u_read_eeprom16(ad, G_BAND_20_40_BW_PWR_DELTA);
+	value = mt76u_read_eeprom(ad, G_BAND_20_40_BW_PWR_DELTA);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {
 		cap->delta_tx_pwr_bw40_g_band = 0;
 	} else {
@@ -1561,7 +1561,7 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 		}
 	}
 
-	value = mt7612u_read_eeprom16(ad, A_BAND_20_80_BW_PWR_DELTA);
+	value = mt76u_read_eeprom(ad, A_BAND_20_80_BW_PWR_DELTA);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {
 		cap->delta_tx_pwr_bw80 = 0;
 	} else {
@@ -1577,7 +1577,7 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 		}
 	}
 
-	value = mt7612u_read_eeprom16(ad, TX0_G_BAND_TSSI_SLOPE);
+	value = mt76u_read_eeprom(ad, TX0_G_BAND_TSSI_SLOPE);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {
 		cap->tssi_0_slope_g_band =
 			TSSI_0_SLOPE_G_BAND_DEFAULT_VALUE;
@@ -1594,7 +1594,7 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 			(value & TX0_G_BAND_TSSI_OFFSET_MASK) >> 8;
 	}
 
-	value = mt7612u_read_eeprom16(ad, TX0_G_BAND_TARGET_PWR);
+	value = mt76u_read_eeprom(ad, TX0_G_BAND_TARGET_PWR);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {
 		cap->tx_0_target_pwr_g_band =
 			TX_TARGET_PWR_DEFAULT_VALUE;
@@ -1618,7 +1618,7 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 		}
 	}
 
-	value = mt7612u_read_eeprom16(ad, TX0_G_BAND_CHL_PWR_DELTA_MID);
+	value = mt76u_read_eeprom(ad, TX0_G_BAND_CHL_PWR_DELTA_MID);
 
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {
 		cap->tx_0_chl_pwr_delta_g_band[G_BAND_MID] = 0;
@@ -1650,7 +1650,7 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 		}
 	}
 
-	value = mt7612u_read_eeprom16(ad, TX1_G_BAND_TSSI_SLOPE);
+	value = mt76u_read_eeprom(ad, TX1_G_BAND_TSSI_SLOPE);
 
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff))
 		cap->tssi_1_slope_g_band =
@@ -1666,7 +1666,7 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 		cap->tssi_1_offset_g_band =
 			(value & TX1_G_BAND_TSSI_OFFSET_MASK) >> 8;
 
-	value = mt7612u_read_eeprom16(ad, TX1_G_BAND_TARGET_PWR);
+	value = mt76u_read_eeprom(ad, TX1_G_BAND_TARGET_PWR);
 
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff))
 		cap->tx_1_target_pwr_g_band =
@@ -1690,7 +1690,7 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 		}
 	}
 
-	value = mt7612u_read_eeprom16(ad, TX1_G_BAND_CHL_PWR_DELTA_MID);
+	value = mt76u_read_eeprom(ad, TX1_G_BAND_CHL_PWR_DELTA_MID);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {
 		cap->tx_1_chl_pwr_delta_g_band[G_BAND_MID] = 0;
 	} else {
@@ -1721,7 +1721,7 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 		}
 	}
 
-	value = mt7612u_read_eeprom16(ad, GRP0_TX0_A_BAND_TSSI_SLOPE);
+	value = mt76u_read_eeprom(ad, GRP0_TX0_A_BAND_TSSI_SLOPE);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff))
 		cap->tssi_0_slope_a_band[A_BAND_GRP0_CHL] =
 			TSSI_0_SLOPE_A_BAND_GRP0_DEFAULT_VALUE;
@@ -1736,7 +1736,7 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 		cap->tssi_0_offset_a_band[A_BAND_GRP0_CHL] =
 			(value & GRP0_TX0_A_BAND_TSSI_OFFSET_MASK) >> 8;
 
-	value = mt7612u_read_eeprom16(ad, GRP0_TX0_A_BAND_TARGET_PWR);
+	value = mt76u_read_eeprom(ad, GRP0_TX0_A_BAND_TARGET_PWR);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff))
 		cap->tx_0_target_pwr_a_band[A_BAND_GRP0_CHL] =
 			TX_TARGET_PWR_DEFAULT_VALUE;
@@ -1759,7 +1759,7 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 		}
 	}
 
-	value = mt7612u_read_eeprom16(ad, GRP0_TX0_A_BAND_CHL_PWR_DELTA_HI);
+	value = mt76u_read_eeprom(ad, GRP0_TX0_A_BAND_CHL_PWR_DELTA_HI);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {
 		cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP0_CHL][A_BAND_HI] = 0;
 	} else {
@@ -1783,7 +1783,7 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 			(value & GRP1_TX0_A_BAND_TSSI_SLOPE_MASK) >> 8;
 
 
-	value = mt7612u_read_eeprom16(ad, GRP1_TX0_A_BAND_TSSI_OFFSET);
+	value = mt76u_read_eeprom(ad, GRP1_TX0_A_BAND_TSSI_OFFSET);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff))
 		cap->tssi_0_offset_a_band[A_BAND_GRP1_CHL] =
 			TSSI_0_OFFSET_A_BAND_GRP1_DEFAULT_VALUE;
@@ -1798,7 +1798,7 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 		cap->tx_0_target_pwr_a_band[A_BAND_GRP1_CHL] =
 			(value & GRP1_TX0_A_BAND_TARGET_PWR_MASK) >> 8;
 
-	value = mt7612u_read_eeprom16(ad, GRP1_TX0_A_BAND_CHL_PWR_DELTA_LOW);
+	value = mt76u_read_eeprom(ad, GRP1_TX0_A_BAND_CHL_PWR_DELTA_LOW);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {
 		cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP1_CHL][A_BAND_LOW] = 0;
 	} else {
@@ -1829,7 +1829,7 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 		}
 	}
 
-	value = mt7612u_read_eeprom16(ad, GRP0_TX0_A_BAND_TSSI_SLOPE);
+	value = mt76u_read_eeprom(ad, GRP0_TX0_A_BAND_TSSI_SLOPE);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff))
 		cap->tssi_0_slope_a_band[A_BAND_GRP2_CHL] =
 			TSSI_0_SLOPE_A_BAND_GRP2_DEFAULT_VALUE;
@@ -1844,7 +1844,7 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 		cap->tssi_0_offset_a_band[A_BAND_GRP2_CHL] =
 			(value & GRP2_TX0_A_BAND_TSSI_OFFSET_MASK) >> 8;
 
-	value = mt7612u_read_eeprom16(ad, GRP2_TX0_A_BAND_TARGET_PWR);
+	value = mt76u_read_eeprom(ad, GRP2_TX0_A_BAND_TARGET_PWR);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff))
 		cap->tx_0_target_pwr_a_band[A_BAND_GRP2_CHL] =
 			TX_TARGET_PWR_DEFAULT_VALUE;
@@ -1867,7 +1867,7 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 		}
 	}
 
-	value = mt7612u_read_eeprom16(ad, GRP2_TX0_A_BAND_CHL_PWR_DELTA_HI);
+	value = mt76u_read_eeprom(ad, GRP2_TX0_A_BAND_CHL_PWR_DELTA_HI);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {
 		cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP2_CHL][A_BAND_HI] = 0;
 	} else {
@@ -1890,7 +1890,7 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 		cap->tssi_0_slope_a_band[A_BAND_GRP3_CHL] =
 			(value & GRP3_TX0_A_BAND_TSSI_SLOPE_MASK) >> 8;
 
-	value = mt7612u_read_eeprom16(ad, GRP3_TX0_A_BAND_TSSI_OFFSET);
+	value = mt76u_read_eeprom(ad, GRP3_TX0_A_BAND_TSSI_OFFSET);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff))
 		cap->tssi_0_offset_a_band[A_BAND_GRP3_CHL] = TSSI_0_OFFSET_A_BAND_GRP3_DEFAULT_VALUE;
 	else
@@ -1901,7 +1901,7 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 	else
 		cap->tx_0_target_pwr_a_band[A_BAND_GRP3_CHL] = ((value & GRP3_TX0_A_BAND_TARGET_PWR_MASK) >> 8);
 
-	value = mt7612u_read_eeprom16(ad, GRP3_TX0_A_BAND_CHL_PWR_DELTA_LOW);
+	value = mt76u_read_eeprom(ad, GRP3_TX0_A_BAND_CHL_PWR_DELTA_LOW);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {
 		cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP3_CHL][A_BAND_LOW] = 0;
 	} else {
@@ -1932,7 +1932,7 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 		}
 	}
 
-	value = mt7612u_read_eeprom16(ad, GRP4_TX0_A_BAND_TSSI_SLOPE);
+	value = mt76u_read_eeprom(ad, GRP4_TX0_A_BAND_TSSI_SLOPE);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff))
 		cap->tssi_0_slope_a_band[A_BAND_GRP4_CHL] =
 			TSSI_0_SLOPE_A_BAND_GRP4_DEFAULT_VALUE;
@@ -1947,7 +1947,7 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 		cap->tssi_0_offset_a_band[A_BAND_GRP4_CHL] =
 			(value & GRP4_TX0_A_BAND_TSSI_OFFSET_MASK) >> 8;
 
-	value = mt7612u_read_eeprom16(ad, GRP4_TX0_A_BAND_TARGET_PWR);
+	value = mt76u_read_eeprom(ad, GRP4_TX0_A_BAND_TARGET_PWR);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff))
 		cap->tx_0_target_pwr_a_band[A_BAND_GRP4_CHL] =
 			TX_TARGET_PWR_DEFAULT_VALUE;
@@ -1970,7 +1970,7 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 		}
 	}
 
-	value = mt7612u_read_eeprom16(ad, GRP4_TX0_A_BAND_CHL_PWR_DELTA_HI);
+	value = mt76u_read_eeprom(ad, GRP4_TX0_A_BAND_CHL_PWR_DELTA_HI);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {
 		cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP4_CHL][A_BAND_HI] = 0;
 	} else {
@@ -1993,7 +1993,7 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 		cap->tssi_0_slope_a_band[A_BAND_GRP5_CHL] =
 			(value & GRP5_TX0_A_BAND_TSSI_SLOPE_MASK) >> 8;
 
-	value = mt7612u_read_eeprom16(ad, GRP5_TX0_A_BAND_TSSI_OFFSET);
+	value = mt76u_read_eeprom(ad, GRP5_TX0_A_BAND_TSSI_OFFSET);
 
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff))
 		cap->tssi_0_offset_a_band[A_BAND_GRP5_CHL] =
@@ -2009,7 +2009,7 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 		cap->tx_0_target_pwr_a_band[A_BAND_GRP5_CHL] =
 			(value & GRP5_TX0_A_BAND_TARGET_PWR_MASK) >> 8;
 
-	value = mt7612u_read_eeprom16(ad, GRP5_TX0_A_BAND_CHL_PWR_DELTA_LOW);
+	value = mt76u_read_eeprom(ad, GRP5_TX0_A_BAND_CHL_PWR_DELTA_LOW);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {
 		cap->tx_0_chl_pwr_delta_a_band[A_BAND_GRP5_CHL][A_BAND_LOW] = 0;
 	} else {
@@ -2041,7 +2041,7 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 	}
 
 	/* 5G TX1 chl pwr */
-	value = mt7612u_read_eeprom16(ad, GRP0_TX1_A_BAND_TSSI_SLOPE);
+	value = mt76u_read_eeprom(ad, GRP0_TX1_A_BAND_TSSI_SLOPE);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff))
 		cap->tssi_1_slope_a_band[A_BAND_GRP0_CHL] =
 			TSSI_1_SLOPE_A_BAND_GRP0_DEFAULT_VALUE;
@@ -2056,7 +2056,7 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 		cap->tssi_1_offset_a_band[A_BAND_GRP0_CHL] =
 			(value & GRP0_TX1_A_BAND_TSSI_OFFSET_MASK) >> 8;
 
-	value = mt7612u_read_eeprom16(ad, GRP0_TX1_A_BAND_TARGET_PWR);
+	value = mt76u_read_eeprom(ad, GRP0_TX1_A_BAND_TARGET_PWR);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff))
 		cap->tx_1_target_pwr_a_band[A_BAND_GRP0_CHL] =
 			TX_TARGET_PWR_DEFAULT_VALUE;
@@ -2079,7 +2079,7 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 		}
 	}
 
-	value = mt7612u_read_eeprom16(ad, GRP0_TX1_A_BAND_CHL_PWR_DELTA_HI);
+	value = mt76u_read_eeprom(ad, GRP0_TX1_A_BAND_CHL_PWR_DELTA_HI);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {
 		cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP0_CHL][A_BAND_HI] = 0;
 	} else {
@@ -2102,7 +2102,7 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 		cap->tssi_1_slope_a_band[A_BAND_GRP1_CHL] =
 			(value & GRP1_TX1_A_BAND_TSSI_SLOPE_MASK) >> 8;
 
-	value = mt7612u_read_eeprom16(ad, GRP1_TX1_A_BAND_TSSI_OFFSET);
+	value = mt76u_read_eeprom(ad, GRP1_TX1_A_BAND_TSSI_OFFSET);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff))
 		cap->tssi_1_offset_a_band[A_BAND_GRP1_CHL] =
 			TSSI_1_OFFSET_A_BAND_GRP1_DEFAULT_VALUE;
@@ -2116,7 +2116,7 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 		cap->tx_1_target_pwr_a_band[A_BAND_GRP1_CHL] =
 			(value & GRP1_TX1_A_BAND_TARGET_PWR_MASK) >> 8;
 
-	value = mt7612u_read_eeprom16(ad, GRP1_TX1_A_BAND_CHL_PWR_DELTA_LOW);
+	value = mt76u_read_eeprom(ad, GRP1_TX1_A_BAND_CHL_PWR_DELTA_LOW);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {
 		cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP1_CHL][A_BAND_LOW] = 0;
 	} else {
@@ -2147,7 +2147,7 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 		}
 	}
 
-	value = mt7612u_read_eeprom16(ad, GRP0_TX1_A_BAND_TSSI_SLOPE);
+	value = mt76u_read_eeprom(ad, GRP0_TX1_A_BAND_TSSI_SLOPE);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff))
 		cap->tssi_1_slope_a_band[A_BAND_GRP2_CHL] =
 			TSSI_1_SLOPE_A_BAND_GRP2_DEFAULT_VALUE;
@@ -2162,7 +2162,7 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 		cap->tssi_1_offset_a_band[A_BAND_GRP2_CHL] =
 			(value & GRP2_TX1_A_BAND_TSSI_OFFSET_MASK) >> 8;
 
-	value = mt7612u_read_eeprom16(ad, GRP2_TX1_A_BAND_TARGET_PWR);
+	value = mt76u_read_eeprom(ad, GRP2_TX1_A_BAND_TARGET_PWR);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff))
 		cap->tx_1_target_pwr_a_band[A_BAND_GRP2_CHL] =
 			TX_TARGET_PWR_DEFAULT_VALUE;
@@ -2185,7 +2185,7 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 		}
 	}
 
-	value = mt7612u_read_eeprom16(ad, GRP2_TX1_A_BAND_CHL_PWR_DELTA_HI);
+	value = mt76u_read_eeprom(ad, GRP2_TX1_A_BAND_CHL_PWR_DELTA_HI);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {
 		cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP2_CHL][A_BAND_HI] = 0;
 	} else {
@@ -2208,7 +2208,7 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 		cap->tssi_1_slope_a_band[A_BAND_GRP3_CHL] =
 			(value & GRP3_TX1_A_BAND_TSSI_SLOPE_MASK) >> 8;
 
-	value = mt7612u_read_eeprom16(ad, GRP3_TX1_A_BAND_TSSI_OFFSET);
+	value = mt76u_read_eeprom(ad, GRP3_TX1_A_BAND_TSSI_OFFSET);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff))
 		cap->tssi_1_offset_a_band[A_BAND_GRP3_CHL] =
 			TSSI_1_OFFSET_A_BAND_GRP3_DEFAULT_VALUE;
@@ -2223,7 +2223,7 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 		cap->tx_1_target_pwr_a_band[A_BAND_GRP3_CHL] =
 			(value & GRP3_TX1_A_BAND_TARGET_PWR_MASK) >> 8;
 
-	value = mt7612u_read_eeprom16(ad, GRP3_TX1_A_BAND_CHL_PWR_DELTA_LOW);
+	value = mt76u_read_eeprom(ad, GRP3_TX1_A_BAND_CHL_PWR_DELTA_LOW);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {
 		cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP3_CHL][A_BAND_LOW] = 0;
 	} else {
@@ -2255,7 +2255,7 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 	}
 
 
-	value = mt7612u_read_eeprom16(ad, GRP4_TX1_A_BAND_TSSI_SLOPE);
+	value = mt76u_read_eeprom(ad, GRP4_TX1_A_BAND_TSSI_SLOPE);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff))
 		cap->tssi_1_slope_a_band[A_BAND_GRP4_CHL] =
 			TSSI_1_SLOPE_A_BAND_GRP4_DEFAULT_VALUE;
@@ -2270,7 +2270,7 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 		cap->tssi_1_offset_a_band[A_BAND_GRP4_CHL] =
 			(value & GRP4_TX1_A_BAND_TSSI_OFFSET_MASK) >> 8;
 
-	value = mt7612u_read_eeprom16(ad, GRP4_TX1_A_BAND_TARGET_PWR);
+	value = mt76u_read_eeprom(ad, GRP4_TX1_A_BAND_TARGET_PWR);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff))
 		cap->tx_1_target_pwr_a_band[A_BAND_GRP4_CHL] =
 			TX_TARGET_PWR_DEFAULT_VALUE;
@@ -2293,7 +2293,7 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 		}
 	}
 
-	value = mt7612u_read_eeprom16(ad, GRP4_TX1_A_BAND_CHL_PWR_DELTA_HI);
+	value = mt76u_read_eeprom(ad, GRP4_TX1_A_BAND_CHL_PWR_DELTA_HI);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {
 		cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP4_CHL][A_BAND_HI] = 0;
 	} else {
@@ -2316,7 +2316,7 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 		cap->tssi_1_slope_a_band[A_BAND_GRP5_CHL] =
 			(value & GRP5_TX0_A_BAND_TSSI_SLOPE_MASK) >> 8;
 
-	value = mt7612u_read_eeprom16(ad, GRP5_TX1_A_BAND_TSSI_OFFSET);
+	value = mt76u_read_eeprom(ad, GRP5_TX1_A_BAND_TSSI_OFFSET);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff))
 		cap->tssi_1_offset_a_band[A_BAND_GRP5_CHL] =
 			TSSI_1_OFFSET_A_BAND_GRP5_DEFAULT_VALUE;
@@ -2331,7 +2331,7 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 		cap->tx_1_target_pwr_a_band[A_BAND_GRP5_CHL] =
 			(value & GRP5_TX1_A_BAND_TARGET_PWR_MASK) >> 8;
 
-	value = mt7612u_read_eeprom16(ad, GRP5_TX1_A_BAND_CHL_PWR_DELTA_LOW);
+	value = mt76u_read_eeprom(ad, GRP5_TX1_A_BAND_CHL_PWR_DELTA_LOW);
 	if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {
 		cap->tx_1_chl_pwr_delta_a_band[A_BAND_GRP5_CHL][A_BAND_LOW] = 0;
 	} else {
@@ -2363,14 +2363,14 @@ static void mt76x2_get_tx_pwr_info(struct rtmp_adapter *ad)
 	}
 
 	/* check tssi if enable */
-	value = mt7612u_read_eeprom16(ad, NIC_CONFIGURE_1);
+	value = mt76u_read_eeprom(ad, NIC_CONFIGURE_1);
 	if (value & INTERNAL_TX_ALC_EN)
 		cap->tssi_enable = true;
 	else
 		cap->tssi_enable = false;
 
 	/* check PA type combination */
-	value = mt7612u_read_eeprom16(ad, EEPROM_NIC1_OFFSET);
+	value = mt76u_read_eeprom(ad, EEPROM_NIC1_OFFSET);
 	cap->PAType= GET_PA_TYPE(value);
 	DBGPRINT(RT_DEBUG_OFF, ("PA Type %x\n", cap->PAType));
 }
@@ -2471,51 +2471,51 @@ void mt76x2_get_tx_pwr_per_rate(struct rtmp_adapter *ad)
 	 * bit 0-6 of power is value
 	 */
 
-	value = mt7612u_read_eeprom16(ad, TX_PWR_CCK_1_2M);
+	value = mt76u_read_eeprom(ad, TX_PWR_CCK_1_2M);
 	cap->tx_pwr_cck_1_2 = mt7612u_parse_power_byte(value & 0xff);
 	cap->tx_pwr_cck_5_11 = mt7612u_parse_power_byte(value >> 8);
 
-	value = mt7612u_read_eeprom16(ad, TX_PWR_G_BAND_OFDM_6_9M);
+	value = mt76u_read_eeprom(ad, TX_PWR_G_BAND_OFDM_6_9M);
 	cap->tx_pwr_g_band_ofdm_6_9 = mt7612u_parse_power_byte(value & 0xff);
 	cap->tx_pwr_g_band_ofdm_12_18 = mt7612u_parse_power_byte(value >> 8);
 
-	value = mt7612u_read_eeprom16(ad, TX_PWR_G_BAND_OFDM_24_36M);
+	value = mt76u_read_eeprom(ad, TX_PWR_G_BAND_OFDM_24_36M);
 	cap->tx_pwr_g_band_ofdm_24_36 = mt7612u_parse_power_byte(value & 0xff);
 	cap->tx_pwr_g_band_ofdm_48_54 = mt7612u_parse_power_byte(value >> 8);
 
-	value = mt7612u_read_eeprom16(ad, TX_PWR_HT_MCS_0_1);
+	value = mt76u_read_eeprom(ad, TX_PWR_HT_MCS_0_1);
 	cap->tx_pwr_ht_mcs_0_1 = mt7612u_parse_power_byte(value & 0xff);
 	cap->tx_pwr_ht_mcs_2_3 = mt7612u_parse_power_byte(value >> 8);
 
-	value = mt7612u_read_eeprom16(ad, TX_PWR_HT_MCS_4_5);
+	value = mt76u_read_eeprom(ad, TX_PWR_HT_MCS_4_5);
 	cap->tx_pwr_ht_mcs_4_5 = mt7612u_parse_power_byte(value & 0xff);
 	cap->tx_pwr_ht_mcs_6_7 = mt7612u_parse_power_byte(value >> 8);
 
-	value = mt7612u_read_eeprom16(ad, TX_PWR_HT_MCS_8_9);
+	value = mt76u_read_eeprom(ad, TX_PWR_HT_MCS_8_9);
 	cap->tx_pwr_ht_mcs_8_9 = mt7612u_parse_power_byte(value & 0xff);
 	cap->tx_pwr_ht_mcs_10_11 = mt7612u_parse_power_byte(value >> 8);
 
-	value = mt7612u_read_eeprom16(ad, TX_PWR_HT_MCS_12_13);
+	value = mt76u_read_eeprom(ad, TX_PWR_HT_MCS_12_13);
 	cap->tx_pwr_ht_mcs_12_13 = mt7612u_parse_power_byte(value & 0xff);
 	cap->tx_pwr_ht_mcs_14_15 = mt7612u_parse_power_byte(value >> 8);
 
-	value = mt7612u_read_eeprom16(ad, TX_PWR_A_BAND_OFDM_6_9M);
+	value = mt76u_read_eeprom(ad, TX_PWR_A_BAND_OFDM_6_9M);
 	cap->tx_pwr_a_band_ofdm_6_9 = mt7612u_parse_power_byte(value & 0xff);
 	cap->tx_pwr_a_band_ofdm_12_18 = mt7612u_parse_power_byte(value >> 8);
 
-	value = mt7612u_read_eeprom16(ad, TX_PWR_A_BAND_OFDM_24_36M);
+	value = mt76u_read_eeprom(ad, TX_PWR_A_BAND_OFDM_24_36M);
 	cap->tx_pwr_a_band_ofdm_24_36 = mt7612u_parse_power_byte(value & 0xff);
 	cap->tx_pwr_a_band_ofdm_48_54 = mt7612u_parse_power_byte(value >> 8);
 
-	value = mt7612u_read_eeprom16(ad, TX_PWR_VHT_MCS_0_1);
+	value = mt76u_read_eeprom(ad, TX_PWR_VHT_MCS_0_1);
 	cap->tx_pwr_vht_mcs_0_1 = mt7612u_parse_power_byte(value & 0xff);
 	cap->tx_pwr_vht_mcs_2_3 = mt7612u_parse_power_byte(value >> 8);
 
-	value = mt7612u_read_eeprom16(ad, TX_PWR_VHT_MCS_4_5);
+	value = mt76u_read_eeprom(ad, TX_PWR_VHT_MCS_4_5);
 	cap->tx_pwr_vht_mcs_4_5 = mt7612u_parse_power_byte(value & 0xff);
 	cap->tx_pwr_vht_mcs_6_7 = mt7612u_parse_power_byte(value >> 8);
 
-	value = mt7612u_read_eeprom16(ad, TX_PWR_5G_VHT_MCS_8_9);
+	value = mt76u_read_eeprom(ad, TX_PWR_5G_VHT_MCS_8_9);
 	cap->tx_pwr_5g_vht_mcs_8_9 = mt7612u_parse_power_byte(value & 0xff);
 	cap->tx_pwr_2g_vht_mcs_8_9 = mt7612u_parse_power_byte(value >> 8);
 }
@@ -2600,13 +2600,13 @@ void mt76x2_read_temp_info_from_eeprom(struct rtmp_adapter *ad)
 	bool is_temp_tx_alc= false;
 	unsigned short e2p_value = 0;
 
-	e2p_value = mt7612u_read_eeprom16(ad, 0x36);
+	e2p_value = mt76u_read_eeprom(ad, 0x36);
 	if ((e2p_value & 0x2) == 0x2)
 		is_temp_tx_alc = true;
 	else
 		is_temp_tx_alc = false;
 
-	e2p_value = mt7612u_read_eeprom16(ad, 0x54);
+	e2p_value = mt76u_read_eeprom(ad, 0x54);
 	pChipCap->temp_25_ref = (e2p_value & 0x7F00) >> 8;
 	if (((e2p_value & 0x8000) == 0x8000) && is_temp_tx_alc)
 		pChipCap->temp_tx_alc_enable = true;

@@ -250,7 +250,7 @@ u32 mt7612u_usb3_read(struct rtmp_adapter *ad, uint16_t offset)
 	========================================================================
 */
 
-u16 mt7612u_read_eeprom16(struct rtmp_adapter *pAd, unsigned short offset)
+u16 mt76u_read_eeprom(struct rtmp_adapter *pAd, unsigned short offset)
 {
 	u16 val = 0;
 
