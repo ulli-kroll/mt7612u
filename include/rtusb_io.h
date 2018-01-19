@@ -199,7 +199,7 @@ typedef struct _RT_ASIC_PROTECT_INFO {
 void mt76x2_init_rf_cr(struct rtmp_adapter *ad);
 void mt76x2_init_mac_cr(struct rtmp_adapter *ad);
 int mt7612u_usb3_write(struct rtmp_adapter *ad, uint16_t offset, uint32_t val);
-u32 mt7612u_usb3_read(struct rtmp_adapter *ad, uint16_t offset);
+u32 mt76u_sys_read(struct rtmp_adapter *ad, uint16_t offset);
 
 enum mt_vendor_req {
 /* Known USB Vendor Commands */

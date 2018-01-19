@@ -159,7 +159,7 @@ static void mt7612u_stop_dma_rx(struct rtmp_adapter *pAd)
 	*/
 	for (MTxCycle = 0; MTxCycle < 2000; MTxCycle++) {
 
-		MacReg = mt7612u_usb3_read(pAd, U3DMA_WLCFG);
+		MacReg = mt76u_sys_read(pAd, U3DMA_WLCFG);
 		if ((MacReg & 0x40000000) && (IdleNums < 10)) {
 			IdleNums++;
 			udelay(50);
@@ -189,7 +189,7 @@ static void mt7612u_stop_dma_tx(struct rtmp_adapter *pAd)
 
 	for (MTxCycle = 0; MTxCycle < 2000; MTxCycle++) {
 
-		MacReg = mt7612u_usb3_read(pAd, U3DMA_WLCFG);
+		MacReg = mt76u_sys_read(pAd, U3DMA_WLCFG);
 		if (((MacReg & 0x80000000) == 0) && IdleNums > 10) {
 			break;
 		} else {

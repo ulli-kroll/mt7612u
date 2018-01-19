@@ -99,7 +99,7 @@ void FrequencyCalibration(struct rtmp_adapter *pAd)
 
 		if (pFrqCal->bApproachFrequency == true) {
 			u32 value = 0;
-			value = mt7612u_usb3_read(pAd, XO_CTRL5);
+			value = mt76u_sys_read(pAd, XO_CTRL5);
 			DBGPRINT(RT_DEBUG_TRACE, ("FRQ:  Read Value => %08x\n", value));
 			pFrqCal->AdaptiveFreqOffset = (value & ~0xffff80ff) >> 8;
 

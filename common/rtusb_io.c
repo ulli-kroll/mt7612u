@@ -192,7 +192,7 @@ int mt7612u_usb3_write(struct rtmp_adapter *ad, uint16_t offset, uint32_t val)
  * ULLI : new registers
  */
 
-u32 mt7612u_usb3_read(struct rtmp_adapter *ad, uint16_t offset)
+u32 mt76u_sys_read(struct rtmp_adapter *ad, uint16_t offset)
 {
 	int ret;
 #if 0
@@ -464,15 +464,15 @@ static int ResetBulkOutHdlr(IN struct rtmp_adapter *pAd, IN PCmdQElmt CMDQelmt)
 		mdelay(10);
 	} while(Index < 100);
 
-	MACValue = mt7612u_usb3_read(pAd, U3DMA_WLCFG);
+	MACValue = mt76u_sys_read(pAd, U3DMA_WLCFG);
 
 	/* 2nd, to prevent Read Register error, we check the validity.*/
 	if ((MACValue & 0xc00000) == 0)
-		MACValue = mt7612u_usb3_read(pAd, U3DMA_WLCFG);
+		MACValue = mt76u_sys_read(pAd, U3DMA_WLCFG);
 
 	/* 3rd, to prevent Read Register error, we check the validity.*/
 	if ((MACValue & 0xc00000) == 0)
-		MACValue = mt7612u_usb3_read(pAd, U3DMA_WLCFG);
+		MACValue = mt76u_sys_read(pAd, U3DMA_WLCFG);
 
 	MACValue |= 0x80000;
 	mt7612u_usb3_write(pAd, U3DMA_WLCFG, MACValue);

@@ -1109,25 +1109,25 @@ void mt76x2_init_mac_cr(struct rtmp_adapter *ad)
 			e2p_value = 0x14;
 
 		/* Set crystal trim1 */
-		value = mt7612u_usb3_read(ad, XO_CTRL5);
+		value = mt76u_sys_read(ad, XO_CTRL5);
 		value &= 0xffff80ff;
 		value |= ((((e2p_value & XTAL_TRIM1_MASK) + xtal_freq_offset) & XTAL_TRIM1_MASK) << 8);
 		mt7612u_usb3_write(ad, XO_CTRL5, value);
 
 		/* Enable */
-		value = mt7612u_usb3_read(ad, XO_CTRL6);
+		value = mt76u_sys_read(ad, XO_CTRL6);
 		value &= 0xffff80ff;
 		value |= (0x7f << 8);
 		mt7612u_usb3_write(ad, XO_CTRL6, value);
 	} else {
 		/* Set crystal trim2 */
-		value = mt7612u_usb3_read(ad, XO_CTRL5);
+		value = mt76u_sys_read(ad, XO_CTRL5);
 		value &= 0xffff80ff;
 		value |= (((e2p_value & XTAL_TRIM2_MASK) + (xtal_freq_offset << 8)) & XTAL_TRIM2_MASK);
 		mt7612u_usb3_write(ad, XO_CTRL5, value);
 
 		/* Enable */
-		value = mt7612u_usb3_read(ad, XO_CTRL6);
+		value = mt76u_sys_read(ad, XO_CTRL6);
 		value &= 0xffff80ff;
 		value |= (0x7f << 8);
 		mt7612u_usb3_write(ad, XO_CTRL6, value);
@@ -2576,7 +2576,7 @@ void mt76x2_get_current_temp(struct rtmp_adapter *ad)
 	struct rtmp_chip_cap *pChipCap = &ad->chipCap;
 	int32_t temp_val = 0;
 
-	temp_val = mt7612u_usb3_read(ad, 0xD000);
+	temp_val = mt76u_sys_read(ad, 0xD000);
 	temp_val &= 0x7F;
 
 	if ( pChipCap->temp_25_ref == 0 ) {
@@ -2715,27 +2715,27 @@ static void patch_BBPL_on(struct rtmp_adapter *pAd)
 {
 	uint32_t value = 0;
 
-	value = mt7612u_usb3_read(pAd, 0x130);
+	value = mt76u_sys_read(pAd, 0x130);
 	value |= ((1<<16) | (1<<0));
 	mt7612u_usb3_write(pAd, 0x130, value);
 
 	udelay(1);
 
-	value = mt7612u_usb3_read(pAd, 0x64);
+	value = mt76u_sys_read(pAd, 0x64);
 	if ((value >> 29) & 0x1) {
-		value = mt7612u_usb3_read(pAd, 0x1c);
+		value = mt76u_sys_read(pAd, 0x1c);
 		value &= 0xFFFFFF00;
 		mt7612u_usb3_write(pAd, 0x1c, value);
 
-		value = mt7612u_usb3_read(pAd, 0x1c);
+		value = mt76u_sys_read(pAd, 0x1c);
 		value |= 0x30;
 		mt7612u_usb3_write(pAd, 0x1c, value);
 	} else {
-		value = mt7612u_usb3_read(pAd, 0x1c);
+		value = mt76u_sys_read(pAd, 0x1c);
 		value &= 0xFFFFFF00;
 		mt7612u_usb3_write(pAd, 0x1c, value);
 
-		value = mt7612u_usb3_read(pAd, 0x1c);
+		value = mt76u_sys_read(pAd, 0x1c);
 		value |= 0x30;
 		mt7612u_usb3_write(pAd, 0x1c, value);
 	}
@@ -2745,19 +2745,19 @@ static void patch_BBPL_on(struct rtmp_adapter *pAd)
 
 	udelay(1);
 
-	value = mt7612u_usb3_read(pAd, 0x130);
+	value = mt76u_sys_read(pAd, 0x130);
 	value |= (1<<17);
 	mt7612u_usb3_write(pAd, 0x130, value);
 
 	udelay(125);
 
-	value = mt7612u_usb3_read(pAd, 0x130);
+	value = mt76u_sys_read(pAd, 0x130);
 	value  &= ~(1<<16);
 	mt7612u_usb3_write(pAd, 0x130, value);
 
 	udelay(50);
 
-	value = mt7612u_usb3_read(pAd, 0x14C);
+	value = mt76u_sys_read(pAd, 0x14C);
 	value  |= ((1<<20) | (1<<19));
 	mt7612u_usb3_write(pAd, 0x14C, value);
 }
@@ -2768,21 +2768,21 @@ static void mt7612_power_on_rf(struct rtmp_adapter *pAd, int unit)
 
 	if(unit == 0) {
 		/* Enable WF0 BG */
-		value = mt7612u_usb3_read(pAd, 0x130);
+		value = mt76u_sys_read(pAd, 0x130);
 		value |= (1<<0);
 		mt7612u_usb3_write(pAd, 0x130, value);
 
 		udelay(10);
 
 		/* Enable RFDIG LDO/AFE/ABB/ADDA */
-		value = mt7612u_usb3_read(pAd, 0x130);
+		value = mt76u_sys_read(pAd, 0x130);
 		value |= ((1<<1)|(1<<3)|(1<<4)|(1<<5));
 		mt7612u_usb3_write(pAd, 0x130, value);
 
 		udelay(10);
 
 		/* Switch WF0 RFDIG power to internal LDO */
-		value = mt7612u_usb3_read(pAd, 0x130);
+		value = mt76u_sys_read(pAd, 0x130);
 		value &= ~(1<<2);
 		mt7612u_usb3_write(pAd, 0x130, value);
 
@@ -2793,20 +2793,20 @@ static void mt7612_power_on_rf(struct rtmp_adapter *pAd, int unit)
 		mt76u_reg_write(pAd, 0x530, value);
 	} else {
 		/* Enable WF1 BG */
-		value = mt7612u_usb3_read(pAd, 0x130);
+		value = mt76u_sys_read(pAd, 0x130);
 		value |= (1<<8);
 		mt7612u_usb3_write(pAd, 0x130, value);
 
 		udelay(10);
 
 		/* Enable RFDIG LDO/AFE/ABB/ADDA */
-		value = mt7612u_usb3_read(pAd, 0x130);
+		value = mt76u_sys_read(pAd, 0x130);
 		value |= ((1<<9)|(1<<11)|(1<<12)|(1<<13));
 		mt7612u_usb3_write(pAd, 0x130, value);
 
 		udelay(10);
 		/* Switch WF1 RFDIG power to internal LDO */
-		value = mt7612u_usb3_read(pAd, 0x130);
+		value = mt76u_sys_read(pAd, 0x130);
 		value &= ~(1<<10);
 		mt7612u_usb3_write(pAd, 0x130, value);
 
@@ -2824,11 +2824,11 @@ void mt7612u_power_on(struct rtmp_adapter *pAd)
 	uint32_t regval = 0;
 	uint32_t value = 0;
 
-	value = mt7612u_usb3_read(pAd, 0x148);
+	value = mt76u_sys_read(pAd, 0x148);
 	value |= 0x1;
 	mt7612u_usb3_write(pAd, 0x148, value); // turn on WL MTCMOS
 	do {
-		value = mt7612u_usb3_read(pAd, 0x148);
+		value = mt76u_sys_read(pAd, 0x148);
 
 		if((((regval>>28) & 0x1) == 0x1) &&
 		   (((regval>>12) & 0x3) == 0x3))
@@ -2838,36 +2838,36 @@ void mt7612u_power_on(struct rtmp_adapter *pAd)
 		cnt++;
 	} while (cnt < 100);
 
-	value = mt7612u_usb3_read(pAd, 0x148);
+	value = mt76u_sys_read(pAd, 0x148);
 	value &= ~(0x7F<<16);
 	mt7612u_usb3_write(pAd, 0x148, value);
 
 	udelay(10);
-	value = mt7612u_usb3_read(pAd, 0x148);
+	value = mt76u_sys_read(pAd, 0x148);
 	value &= ~(0xF<<24);
 	mt7612u_usb3_write(pAd, 0x148, value);
 	udelay(10);
 
-	value = mt7612u_usb3_read(pAd, 0x148);
+	value = mt76u_sys_read(pAd, 0x148);
 	value |= (0xF<<24);
 	mt7612u_usb3_write(pAd, 0x148, value);
 
-	value = mt7612u_usb3_read(pAd, 0x148);
+	value = mt76u_sys_read(pAd, 0x148);
 	value &= ~(0xFFF);
 	mt7612u_usb3_write(pAd, 0x148, value);
 
 	/* Set 1'b0 to turn on AD/DA power down */
-	value = mt7612u_usb3_read(pAd, 0x1204);
+	value = mt76u_sys_read(pAd, 0x1204);
 	value &= ~(0x1<<3);
 	mt7612u_usb3_write(pAd, 0x1204, value);
 
 	/* WLAN function enable */
-	value = mt7612u_usb3_read(pAd, 0x80);
+	value = mt76u_sys_read(pAd, 0x80);
 	value |= (0x1<<0);
 	mt7612u_usb3_write(pAd, 0x80, value);
 
 	/* release "BBP software reset */
-	value = mt7612u_usb3_read(pAd, 0x64);
+	value = mt76u_sys_read(pAd, 0x64);
 	value &= ~(0x1<<18);
 	mt7612u_usb3_write(pAd, 0x64, value);
 
