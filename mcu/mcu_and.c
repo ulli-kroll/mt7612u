@@ -65,7 +65,7 @@ void mt7612u_usb_free_buf(struct rtmp_adapter *ad, struct mt7612u_dma_buf *buf)
 	usb_free_urb(buf->urb);
 }
 
-inline int mt7612u_dma_skb_wrap(struct sk_buff *skb,
+inline int mt76u_dma_skb_wrap(struct sk_buff *skb,
 				       enum D_PORT d_port,
 				       enum INFO_TYPE type, u32 flags)
 {
@@ -87,10 +87,10 @@ inline int mt7612u_dma_skb_wrap(struct sk_buff *skb,
 	return skb_put_padto(skb, round_up(skb->len, 4) + 4);
 }
 
-static inline void mt7612u_dma_skb_wrap_cmd(struct sk_buff *skb,
+static inline void mt76u_dma_skb_wrap_cmd(struct sk_buff *skb,
 					    u8 seq, enum mcu_cmd_type cmd)
 {
-	WARN_ON(mt7612u_dma_skb_wrap(skb, CPU_TX_PORT, CMD_PACKET,
+	WARN_ON(mt76u_dma_skb_wrap(skb, CPU_TX_PORT, CMD_PACKET,
 				     FIELD_PREP(MT_TXD_CMD_INFO_SEQ, seq) |
 				     FIELD_PREP(MT_TXD_CMD_INFO_TYPE, cmd)));
 }
@@ -827,7 +827,7 @@ static struct cmd_msg *mt7612u_mcu_alloc_cmd_msg(struct rtmp_adapter *ad, unsign
 
 	/* ULLI :
 	 * orignal drver used 4 bytes padding, we need 8 bytes due
-	 * skb_panic in skb_put() mt7612u_dma_skb_wrap_cmd()
+	 * skb_panic in skb_put() mt76u_dma_skb_wrap_cmd()
 	 * wll check ths later on */
 	skb = dev_alloc_skb(MT_DMA_HDR_LEN + length + 8);
 
@@ -1546,7 +1546,7 @@ static int mt7612u_mcu_dequeue_and_kick_out_cmd_msgs(struct rtmp_adapter *ad)
 			else
 				msg->seq = 0;
 
-			mt7612u_dma_skb_wrap_cmd(skb, msg->seq, msg->type);
+			mt76u_dma_skb_wrap_cmd(skb, msg->seq, msg->type);
 		}
 
 
