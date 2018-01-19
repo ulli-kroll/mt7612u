@@ -233,7 +233,7 @@ static u16 mt7612u_mcu_usb_get_crc(struct rtmp_adapter *ad)
 	return crc;
 }
 
-void mt7612u_complete_urb(struct urb *urb)
+void mt76u_complete_urb(struct urb *urb)
 {
 	struct completion *cmpl = urb->context;
 
@@ -332,7 +332,7 @@ static int __mt76u_dma_fw(struct rtmp_adapter *ad,
 	usb_fill_bulk_urb(buf.urb, udev,
 			  usb_sndbulkpipe(udev, MT_COMMAND_BULK_OUT_ADDR),
 			  buf.buf, len + sizeof(reg) + USB_END_PADDING,
-			  mt7612u_complete_urb, &cmpl);
+			  mt76u_complete_urb, &cmpl);
 	buf.urb->transfer_dma = buf.dma;
 	buf.urb->transfer_flags |= URB_NO_TRANSFER_DMA_MAP;
 
