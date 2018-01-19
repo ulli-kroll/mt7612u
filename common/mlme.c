@@ -118,15 +118,15 @@ void dynamic_ed_cca_threshold_adjust(struct rtmp_adapter * pAd)
 	CHAR high_gain = 0, mid_gain = 0, low_gain = 0, ulow_gain = 0, lna_gain_mode = 0;
 	u8 lna_gain = 0, vga_gain = 0, y = 0, z = 0;
 
-	reg_val = RTMP_BBP_IO_READ32(pAd, AGC1_R4);
+	reg_val = mt76u_reg_read(pAd, AGC1_R4);
 	high_gain = ((reg_val & (0x3F0000)) >> 16) & 0x3F;
 	mid_gain = ((reg_val & (0x3F00)) >> 8) & 0x3F;
 	low_gain = reg_val & 0x3F;
 
-	reg_val = RTMP_BBP_IO_READ32(pAd, AGC1_R6);
+	reg_val = mt76u_reg_read(pAd, AGC1_R6);
 	ulow_gain = reg_val & 0x3F;
 
-	reg_val = RTMP_BBP_IO_READ32(pAd, AGC1_R8);
+	reg_val = mt76u_reg_read(pAd, AGC1_R8);
 	lna_gain_mode = ((reg_val & 0xC0) >> 6) & 0x3;
 	vga_gain = ((reg_val & 0x7E00) >> 9) & 0x3F;
 
@@ -149,7 +149,7 @@ void dynamic_ed_cca_threshold_adjust(struct rtmp_adapter * pAd)
 	else
 		z = 1;
 
-	reg_val = RTMP_BBP_IO_READ32(pAd, AGC1_R2);
+	reg_val = mt76u_reg_read(pAd, AGC1_R2);
 	reg_val = (reg_val & 0xFFFF0000) | (z << 8) | z;
 	RTMP_BBP_IO_WRITE32(pAd, AGC1_R2, reg_val);
 
@@ -198,11 +198,11 @@ void dynamic_cck_mrc(struct rtmp_adapter * pAd)
 	/* CCK MRC PER bump at larger power ~-30dBm */
 	if (pAd->CommonCfg.RxStream >= 2) {
 		if (pAd->chipCap.avg_rssi_all > -70) {
-			bbp_val = RTMP_BBP_IO_READ32(pAd, AGC1_R30);
+			bbp_val = mt76u_reg_read(pAd, AGC1_R30);
 			bbp_val &= 0xfffffffb; /* disable CCK MRC */
 			RTMP_BBP_IO_WRITE32(pAd, AGC1_R30, bbp_val);
 		} else if (pAd->chipCap.avg_rssi_all < -80) {
-			bbp_val = RTMP_BBP_IO_READ32(pAd, AGC1_R30);
+			bbp_val = mt76u_reg_read(pAd, AGC1_R30);
 			bbp_val = (bbp_val & 0xfffffffb) | (1 << 2); /* enable CCK MRC */
 			RTMP_BBP_IO_WRITE32(pAd, AGC1_R30, bbp_val);
 		}
@@ -236,7 +236,7 @@ bool dynamic_channel_model_adjust(struct rtmp_adapter *pAd)
 			else
 				mode = 0xA1; /* BW80::iLNA lower VGA/PD */
 
-			value = RTMP_BBP_IO_READ32(pAd, AGC1_R26);
+			value = mt76u_reg_read(pAd, AGC1_R26);
 			value = (value & ~0xF) | 0x3;
 			RTMP_BBP_IO_WRITE32(pAd, AGC1_R26, value);
 		} else if (pAd->CommonCfg.BBPCurrentBW == BW_40) {
@@ -258,7 +258,7 @@ bool dynamic_channel_model_adjust(struct rtmp_adapter *pAd)
 			else
 				mode = 0x21; /* BW80::iLNA default */
 
-			value = RTMP_BBP_IO_READ32(pAd, AGC1_R26);
+			value = mt76u_reg_read(pAd, AGC1_R26);
 			value = (value & ~0xF) | 0x5;
 			RTMP_BBP_IO_WRITE32(pAd, AGC1_R26, value);
 		} else if (pAd->CommonCfg.BBPCurrentBW == BW_40) {
@@ -444,9 +444,9 @@ void periodic_monitor_false_cca_adjust_vga(struct rtmp_adapter *pAd)
 			bbp_val2 = (bbp_val2 & 0xffff80ff) | (val2 << 8);
 			RTMP_BBP_IO_WRITE32(pAd, AGC1_R9, bbp_val2);
 		} else {
-			bbp_val1 = RTMP_BBP_IO_READ32(pAd, AGC1_R8);
+			bbp_val1 = mt76u_reg_read(pAd, AGC1_R8);
 			val1 = ((bbp_val1 & (0x00007f00)) >> 8) & 0x7f;
-			bbp_val2 = RTMP_BBP_IO_READ32(pAd, AGC1_R9);
+			bbp_val2 = mt76u_reg_read(pAd, AGC1_R9);
 			val2 = ((bbp_val2 & (0x00007f00)) >> 8) & 0x7f;
 		}
 
@@ -508,8 +508,8 @@ void periodic_monitor_rssi_adjust_vga(struct rtmp_adapter *pAd)
 		mt7612u_mcu_dynamic_vga(pAd, pAd->CommonCfg.Channel, false, false,
 			pAd->chipCap.avg_rssi_all, pAd->RalinkCounters.OneSecFalseCCACnt);
 
-		bbp_val1 = RTMP_BBP_IO_READ32(pAd, AGC1_R8);
-		bbp_val2 = RTMP_BBP_IO_READ32(pAd, AGC1_R9);
+		bbp_val1 = mt76u_reg_read(pAd, AGC1_R8);
+		bbp_val2 = mt76u_reg_read(pAd, AGC1_R9);
 
 		DBGPRINT(RT_DEBUG_INFO, ("%s::0x2320=0x%08x, 0x2324=0x%08x\n",
 			__FUNCTION__, bbp_val1, bbp_val2));
@@ -525,12 +525,12 @@ void periodic_check_channel_smoothing(struct rtmp_adapter *ad)
 
 	if (Rssi < -50) {
 		if (!ad->chipCap.chl_smth_enable) {
-			bbp_value = RTMP_BBP_IO_READ32(ad, 0x2948);
+			bbp_value = mt76u_reg_read(ad, 0x2948);
 			bbp_value &= ~(0x1);
 			bbp_value |= (0x1);
 			RTMP_BBP_IO_WRITE32(ad, 0x2948, bbp_value);
 
-			bbp_value = RTMP_BBP_IO_READ32(ad, 0x2944);
+			bbp_value = mt76u_reg_read(ad, 0x2944);
 			bbp_value &= ~(0x1);
 			RTMP_BBP_IO_WRITE32(ad, 0x2944, bbp_value);
 
@@ -538,11 +538,11 @@ void periodic_check_channel_smoothing(struct rtmp_adapter *ad)
 		}
 	} else {
 		if (ad->chipCap.chl_smth_enable) {
-			bbp_value = RTMP_BBP_IO_READ32(ad, 0x2948);
+			bbp_value = mt76u_reg_read(ad, 0x2948);
 			bbp_value &= ~(0x1);
 			RTMP_BBP_IO_WRITE32(ad, 0x2948, bbp_value);
 
-			bbp_value = RTMP_BBP_IO_READ32(ad, 0x2944);
+			bbp_value = mt76u_reg_read(ad, 0x2944);
 			bbp_value &= ~(0x1);
 			bbp_value |= (0x1);
 			RTMP_BBP_IO_WRITE32(ad, 0x2944, bbp_value);

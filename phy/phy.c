@@ -40,7 +40,7 @@ static int mt7612u_bbp_is_ready(struct rtmp_adapter *pAd)
 	uint32_t val;
 
 	do {
-		val = RTMP_BBP_IO_READ32(pAd, CORE_R0);
+		val = mt76u_reg_read(pAd, CORE_R0);
 		if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_NIC_NOT_EXIST))
 			return false;
 	} while ((++idx < 20) && ((val == 0xffffffff) || (val == 0x0)));
@@ -95,7 +95,7 @@ int mt7612u_phy_bbp_get_agc(struct rtmp_adapter *pAd, CHAR *agc, RX_CHAIN_IDX ch
 			break;
 
 		if (chain & 0x01) {
-			bbp_val = RTMP_BBP_IO_READ32(pAd, bbp_reg);
+			bbp_val = mt76u_reg_read(pAd, bbp_reg);
 			val = ((bbp_val & (0x0000ff00)) >> 8) & 0xff;
 			break;
 		}
@@ -125,7 +125,7 @@ int mt7612u_phy_bbp_set_agc(struct rtmp_adapter *pAd, u8 agc, RX_CHAIN_IDX chain
 			break;
 
 		if (idx & 0x01) {
-			bbp_val = RTMP_BBP_IO_READ32(pAd, bbp_reg);
+			bbp_val = mt76u_reg_read(pAd, bbp_reg);
 			bbp_val = (bbp_val & 0xffff00ff) | (agc << 8);
 			RTMP_BBP_IO_WRITE32(pAd, bbp_reg, bbp_val);
 

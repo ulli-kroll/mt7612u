@@ -642,18 +642,18 @@ void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan)
 			      (ad->BLNAGain & 0xFF);
 	mt7612u_mcu_init_gain(ad, channel, true, eLNA_gain_from_e2p);
 
-	value = RTMP_BBP_IO_READ32(ad, AGC1_R8);
+	value = mt76u_reg_read(ad, AGC1_R8);
 	DBGPRINT(RT_DEBUG_INFO, ("%s::BBP 0x2320=0x%08x\n", __FUNCTION__, value));
-	value = RTMP_BBP_IO_READ32(ad, AGC1_R9);
+	value = mt76u_reg_read(ad, AGC1_R9);
 	DBGPRINT(RT_DEBUG_INFO, ("%s::BBP 0x2324=0x%08x\n", __FUNCTION__, value));
-	value = RTMP_BBP_IO_READ32(ad, AGC1_R4);
+	value = mt76u_reg_read(ad, AGC1_R4);
 	DBGPRINT(RT_DEBUG_INFO, ("%s::BBP 0x2310=0x%08x\n", __FUNCTION__, value));
-	value = RTMP_BBP_IO_READ32(ad, AGC1_R5);
+	value = mt76u_reg_read(ad, AGC1_R5);
 	DBGPRINT(RT_DEBUG_INFO, ("%s::BBP 0x2314=0x%08x\n", __FUNCTION__, value));
 
 	if (MT_REV_GTE(ad, MT76x2, REV_MT76x2E3)) {
 		/* LDPC RX */
-		value = RTMP_BBP_IO_READ32(ad, 0x2934);
+		value = mt76u_reg_read(ad, 0x2934);
 		value |= (1 << 10);
 		RTMP_BBP_IO_WRITE32(ad, 0x2934, value);
 	}
@@ -688,7 +688,7 @@ void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan)
 	do {
 		value = mt76u_reg_read(ad, 0x1200);
 		value &= 0x1;
-		value1 = RTMP_BBP_IO_READ32(ad, 0x2130);
+		value1 = mt76u_reg_read(ad, 0x2130);
 		DBGPRINT(RT_DEBUG_INFO,("%s:: Wait until MAC 0x1200 bit0 and BBP 0x2130 become 0\n", __FUNCTION__));
 		udelay(1);
 		loop++;
@@ -700,19 +700,19 @@ void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan)
 		if ((value == 0) && (value1 != 0)) {
 			DBGPRINT(RT_DEBUG_OFF, ("%s:: doing IBI and core soft progress\n", __FUNCTION__));
 
-			value1 = RTMP_BBP_IO_READ32(ad, CORE_R4);
+			value1 = mt76u_reg_read(ad, CORE_R4);
 			value1 |= 0x2;
 			RTMP_BBP_IO_WRITE32(ad, CORE_R4, value1);
 
-			value1 = RTMP_BBP_IO_READ32(ad, CORE_R4);
+			value1 = mt76u_reg_read(ad, CORE_R4);
 			value1 &= ~0x2;
 			RTMP_BBP_IO_WRITE32(ad, CORE_R4, value1);
 
-			value1 = RTMP_BBP_IO_READ32(ad, CORE_R4);
+			value1 = mt76u_reg_read(ad, CORE_R4);
 			value1 |= 0x1;
 			RTMP_BBP_IO_WRITE32(ad, CORE_R4, value1);
 
-			value1 = RTMP_BBP_IO_READ32(ad, CORE_R4);
+			value1 = mt76u_reg_read(ad, CORE_R4);
 			value1 &= ~0x1;
 			RTMP_BBP_IO_WRITE32(ad, CORE_R4, value1);
 		}
@@ -883,7 +883,7 @@ void mt76x2_tssi_compensation(struct rtmp_adapter *ad, u8 channel)
 	}
 
 	/* Check 0x2088[4] = 0 */
-	value = RTMP_BBP_IO_READ32(ad, CORE_R34);
+	value = mt76u_reg_read(ad, CORE_R34);
 
 	if ((value & (1 << 4)) == 0) {
 		uint32_t pa_mode = 0, tssi_slope_offset = 0;
@@ -986,7 +986,7 @@ void mt76x2_calibration(struct rtmp_adapter *ad, u8 channel)
 	do {
 		value = mt76u_reg_read(ad, 0x1200);
 		value &= 0x1;
-		value1 = RTMP_BBP_IO_READ32(ad, 0x2130);
+		value1 = mt76u_reg_read(ad, 0x2130);
 		DBGPRINT(RT_DEBUG_INFO, ("%s:: Wait until MAC 0x1200 bit0 and BBP 0x2130 become 0\n", __FUNCTION__));
 		udelay(1);
 		loop++;
@@ -1217,7 +1217,7 @@ void mt76x2_get_agc_gain(struct rtmp_adapter *ad, bool init_phase)
 	unsigned short val16;
 	uint32_t bbp_val;
 
-	bbp_val = RTMP_BBP_IO_READ32(ad, AGC1_R8);
+	bbp_val = mt76u_reg_read(ad, AGC1_R8);
 	val = ((bbp_val & (0x00007f00)) >> 8) & 0x7f;
 	ad->CommonCfg.lna_vga_ctl.agc_vga_init_0 = val;
 	ad->CommonCfg.lna_vga_ctl.agc1_r8_backup = bbp_val;
@@ -1232,7 +1232,7 @@ void mt76x2_get_agc_gain(struct rtmp_adapter *ad, bool init_phase)
 	DBGPRINT(RT_DEBUG_TRACE, ("initial vga value(chain0) = %x\n",  ad->CommonCfg.lna_vga_ctl.agc_vga_init_0));
 
 	if (ad->CommonCfg.RxStream >= 2) {
-		bbp_val = RTMP_BBP_IO_READ32(ad, AGC1_R9);
+		bbp_val = mt76u_reg_read(ad, AGC1_R9);
 		val = ((bbp_val & (0x00007f00)) >> 8) & 0x7f;
 		ad->CommonCfg.lna_vga_ctl.agc_vga_init_1 = val;
 		ad->CommonCfg.lna_vga_ctl.agc1_r9_backup = bbp_val;
@@ -1258,10 +1258,10 @@ int mt76x2_reinit_agc_gain(struct rtmp_adapter *ad, u8 channel)
 	UINT8 chl_grp;
 	struct rtmp_chip_cap *cap = &ad->chipCap;
 
-	value0 = RTMP_BBP_IO_READ32(ad, AGC1_R8);
+	value0 = mt76u_reg_read(ad, AGC1_R8);
 	agc_vga0 = ((value0 & (0x00007f00)) >> 8) & 0x7f;
 
-	value1 = RTMP_BBP_IO_READ32(ad, AGC1_R9);
+	value1 = mt76u_reg_read(ad, AGC1_R9);
 	agc_vga1 = ((value1 & (0x00007f00)) >> 8) & 0x7f;
 
 	DBGPRINT(RT_DEBUG_OFF, ("%s:original agc_vga0 = 0x%x, agc_vga1 = 0x%x\n", __FUNCTION__, agc_vga0, agc_vga1));
@@ -1323,10 +1323,10 @@ int mt76x2_reinit_hi_lna_gain(struct rtmp_adapter *ad, u8 channel)
 	UINT8 chl_grp;
 	struct rtmp_chip_cap *cap = &ad->chipCap;
 
-	value0 = RTMP_BBP_IO_READ32(ad, AGC1_R4);
+	value0 = mt76u_reg_read(ad, AGC1_R4);
 	hi_lna0 = ((value0 & (0x003f0000)) >> 16) & 0x3f;
 
-	value1 = RTMP_BBP_IO_READ32(ad, AGC1_R5);
+	value1 = mt76u_reg_read(ad, AGC1_R5);
 	hi_lna1 = ((value1 & (0x003f0000)) >> 16) & 0x3f;
 
 	DBGPRINT(RT_DEBUG_OFF, ("%s:original hi_lna0 = 0x%x, hi_lna1 = 0x%x\n", __FUNCTION__, hi_lna0, hi_lna1));
@@ -2887,7 +2887,7 @@ int mt76x2_set_ed_cca(struct rtmp_adapter *ad, u8 enable)
                 mt7612u_write32(ad, CH_TIME_CFG, mac_val);
 
                 // BBP: latched ED_CCA and high/low threshold
-                mac_val = RTMP_BBP_IO_READ32(ad, AGC1_R2);
+                mac_val = mt76u_reg_read(ad, AGC1_R2);
                 //bbp_val &= 0xFFFF;
                 bbp_val = 0x80000808;
                 RTMP_BBP_IO_WRITE32(ad, AGC1_R2, bbp_val);

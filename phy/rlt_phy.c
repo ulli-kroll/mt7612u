@@ -32,7 +32,7 @@ void mt7612u_bbp_set_txdac(struct rtmp_adapter *pAd, int tx_dac)
 {
 	uint32_t txbe, txbe_r5 = 0;
 
-	txbe_r5 = RTMP_BBP_IO_READ32(pAd, TXBE_R5);
+	txbe_r5 = mt76u_reg_read(pAd, TXBE_R5);
 	txbe = txbe_r5 & (~0x3);
 
 	switch (tx_dac) {
@@ -55,7 +55,7 @@ void mt7612u_bbp_set_rxpath(struct rtmp_adapter *pAd, int rxpath)
 {
 	uint32_t agc, agc_r0 = 0;
 
-	agc_r0 = RTMP_BBP_IO_READ32(pAd, AGC1_R0);
+	agc_r0 = mt76u_reg_read(pAd, AGC1_R0);
 	agc = agc_r0 & (~0x18);
 	if(rxpath == 2)
 		agc |= (0x8);
@@ -66,7 +66,7 @@ void mt7612u_bbp_set_rxpath(struct rtmp_adapter *pAd, int rxpath)
 		RTMP_BBP_IO_WRITE32(pAd, AGC1_R0, agc);
 
 //DBGPRINT(RT_DEBUG_OFF, ("%s(): rxpath=%d, Set AGC1_R0=0x%x, agc_r0=0x%x\n", __FUNCTION__, rxpath, agc, agc_r0));
-//		RTMP_BBP_IO_READ32(pAd, AGC1_R0, &agc);
+//		mt76u_reg_read(pAd, AGC1_R0, &agc);
 //DBGPRINT(RT_DEBUG_OFF, ("%s(): rxpath=%d, After write, Get AGC1_R0=0x%x,\n", __FUNCTION__, rxpath, agc));
 }
 
@@ -104,9 +104,9 @@ void mt7612u_bbp_set_ctrlch(struct rtmp_adapter *pAd, u8 ext_ch)
 	uint32_t agc, agc_r0 = 0;
 	uint32_t be, be_r0 = 0;
 
-	agc_r0 = RTMP_BBP_IO_READ32(pAd, AGC1_R0);
+	agc_r0 = mt76u_reg_read(pAd, AGC1_R0);
 	agc = agc_r0 & (~0x300);
-	be_r0 = RTMP_BBP_IO_READ32(pAd, TXBE_R0);
+	be_r0 = mt76u_reg_read(pAd, TXBE_R0);
 	be = (be_r0 & (~0x03));
 	if (pAd->CommonCfg.BBPCurrentBW == BW_80 &&
 	    pAd->CommonCfg.Channel >= 36 &&
@@ -159,7 +159,7 @@ void mt7612u_bbp_set_ctrlch(struct rtmp_adapter *pAd, u8 ext_ch)
 		RTMP_BBP_IO_WRITE32(pAd, TXBE_R0, be);
 
 //DBGPRINT(RT_DEBUG_OFF, ("%s(): ext_ch=%d, Set AGC1_R0=0x%x, agc_r0=0x%x\n", __FUNCTION__, ext_ch, agc, agc_r0));
-//		RTMP_BBP_IO_READ32(pAd, AGC1_R0, &agc);
+//		mt76u_reg_read(pAd, AGC1_R0, &agc);
 //DBGPRINT(RT_DEBUG_OFF, ("%s(): ext_ch=%d, After write, Get AGC1_R0=0x%x,\n", __FUNCTION__, ext_ch, agc));
 }
 
@@ -195,9 +195,9 @@ void mt7612u_bbp_set_bw(struct rtmp_adapter *pAd, u8 bw)
 		return;
 	}
 
-	core_r1 = RTMP_BBP_IO_READ32(pAd, CORE_R1);
+	core_r1 = mt76u_reg_read(pAd, CORE_R1);
 		core = (core_r1 & (~0x18));
-	agc_r0 = RTMP_BBP_IO_READ32(pAd, AGC1_R0);
+	agc_r0 = mt76u_reg_read(pAd, AGC1_R0);
 	agc = agc_r0 & (~0x7000);
 	switch (bw) {
 	case BW_80:
@@ -224,7 +224,7 @@ void mt7612u_bbp_set_bw(struct rtmp_adapter *pAd, u8 bw)
 	if (agc != agc_r0) {
 		RTMP_BBP_IO_WRITE32(pAd, AGC1_R0, agc);
 //DBGPRINT(RT_DEBUG_OFF, ("%s(): bw=%d, Set AGC1_R0=0x%x, agc_r0=0x%x\n", __FUNCTION__, bw, agc, agc_r0));
-//		RTMP_BBP_IO_READ32(pAd, AGC1_R0, &agc);
+//		mt76u_reg_read(pAd, AGC1_R0, &agc);
 //DBGPRINT(RT_DEBUG_OFF, ("%s(): bw=%d, After write, Get AGC1_R0=0x%x,\n", __FUNCTION__, bw, agc));
 	}
 
@@ -240,10 +240,10 @@ static u8 rlt_bbp_get_random_seed(struct rtmp_adapter *pAd)
 	uint32_t value, value2;
 	u8 seed;
 
-	value = RTMP_BBP_IO_READ32(pAd, AGC1_R16);
+	value = mt76u_reg_read(pAd, AGC1_R16);
 	seed = (u8)((value & 0xff) ^ ((value & 0xff00) >> 8)^
 					((value & 0xff0000) >> 16));
-	value2 = RTMP_BBP_IO_READ32(pAd, RXO_R9);
+	value2 = mt76u_reg_read(pAd, RXO_R9);
 
 	return (u8)(seed ^ (value2 & 0xff)^ ((value2 & 0xff00) >> 8));
 }
