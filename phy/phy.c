@@ -127,7 +127,7 @@ int mt7612u_phy_bbp_set_agc(struct rtmp_adapter *pAd, u8 agc, RX_CHAIN_IDX chain
 		if (idx & 0x01) {
 			bbp_val = mt76u_reg_read(pAd, bbp_reg);
 			bbp_val = (bbp_val & 0xffff00ff) | (agc << 8);
-			RTMP_BBP_IO_WRITE32(pAd, bbp_reg, bbp_val);
+			mt76u_reg_write(pAd, bbp_reg, bbp_val);
 
 			DBGPRINT(RT_DEBUG_INFO,
 					("%s(Idx):Write(R%d,val:0x%x) to Chain(0x%x, idx:%d)\n",

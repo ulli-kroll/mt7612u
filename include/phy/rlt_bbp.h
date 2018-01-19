@@ -328,10 +328,6 @@
 #define PFMU_R54	(BBP_PFMU + 0xD8)
 #define PFMU_R57    (BBP_PFMU + 0xE4)
 
-
-#define RTMP_BBP_IO_WRITE32(_p, _i, _v)	mt76u_reg_write(_p, _i, _v)
-
-
 struct rtmp_adapter;
 INT rlt_phy_probe(struct rtmp_adapter *pAd);
 

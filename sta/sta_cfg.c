@@ -1017,12 +1017,12 @@ INT Set_DyncVgaEnable_Proc(
 	{
 		bbp_val = mt76u_reg_read(pAd, AGC1_R8);
 		bbp_val = (bbp_val & 0xffff80ff) | (pAd->CommonCfg.lna_vga_ctl.agc_vga_init_0 << 8);
-		RTMP_BBP_IO_WRITE32(pAd, AGC1_R8, bbp_val);
+		mt76u_reg_write(pAd, AGC1_R8, bbp_val);
 
 		if (pAd->CommonCfg.RxStream >= 2) {
 			bbp_val = mt76u_reg_read(pAd, AGC1_R9);
 			bbp_val = (bbp_val & 0xffff80ff) | (pAd->CommonCfg.lna_vga_ctl.agc_vga_init_1 << 8);
-			RTMP_BBP_IO_WRITE32(pAd, AGC1_R9, bbp_val);
+			mt76u_reg_write(pAd, AGC1_R9, bbp_val);
 		}
 	}
 

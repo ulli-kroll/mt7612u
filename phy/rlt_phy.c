@@ -47,7 +47,7 @@ void mt7612u_bbp_set_txdac(struct rtmp_adapter *pAd, int tx_dac)
 	}
 
 	if (txbe != txbe_r5)
-		RTMP_BBP_IO_WRITE32(pAd, TXBE_R5, txbe);
+		mt76u_reg_write(pAd, TXBE_R5, txbe);
 }
 
 
@@ -63,7 +63,7 @@ void mt7612u_bbp_set_rxpath(struct rtmp_adapter *pAd, int rxpath)
 		agc |= (0x0);
 
 	if (agc != agc_r0)
-		RTMP_BBP_IO_WRITE32(pAd, AGC1_R0, agc);
+		mt76u_reg_write(pAd, AGC1_R0, agc);
 
 //DBGPRINT(RT_DEBUG_OFF, ("%s(): rxpath=%d, Set AGC1_R0=0x%x, agc_r0=0x%x\n", __FUNCTION__, rxpath, agc, agc_r0));
 //		mt76u_reg_read(pAd, AGC1_R0, &agc);
@@ -153,10 +153,10 @@ void mt7612u_bbp_set_ctrlch(struct rtmp_adapter *pAd, u8 ext_ch)
 		}
 	}
 	if (agc != agc_r0)
-		RTMP_BBP_IO_WRITE32(pAd, AGC1_R0, agc);
+		mt76u_reg_write(pAd, AGC1_R0, agc);
 
 	if (be != be_r0)
-		RTMP_BBP_IO_WRITE32(pAd, TXBE_R0, be);
+		mt76u_reg_write(pAd, TXBE_R0, be);
 
 //DBGPRINT(RT_DEBUG_OFF, ("%s(): ext_ch=%d, Set AGC1_R0=0x%x, agc_r0=0x%x\n", __FUNCTION__, ext_ch, agc, agc_r0));
 //		mt76u_reg_read(pAd, AGC1_R0, &agc);
@@ -219,10 +219,10 @@ void mt7612u_bbp_set_bw(struct rtmp_adapter *pAd, u8 bw)
 	}
 
 	if (core != core_r1)
-		RTMP_BBP_IO_WRITE32(pAd, CORE_R1, core);
+		mt76u_reg_write(pAd, CORE_R1, core);
 
 	if (agc != agc_r0) {
-		RTMP_BBP_IO_WRITE32(pAd, AGC1_R0, agc);
+		mt76u_reg_write(pAd, AGC1_R0, agc);
 //DBGPRINT(RT_DEBUG_OFF, ("%s(): bw=%d, Set AGC1_R0=0x%x, agc_r0=0x%x\n", __FUNCTION__, bw, agc, agc_r0));
 //		mt76u_reg_read(pAd, AGC1_R0, &agc);
 //DBGPRINT(RT_DEBUG_OFF, ("%s(): bw=%d, After write, Get AGC1_R0=0x%x,\n", __FUNCTION__, bw, agc));

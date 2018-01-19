@@ -655,7 +655,7 @@ void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan)
 		/* LDPC RX */
 		value = mt76u_reg_read(ad, 0x2934);
 		value |= (1 << 10);
-		RTMP_BBP_IO_WRITE32(ad, 0x2934, value);
+		mt76u_reg_write(ad, 0x2934, value);
 	}
 
 
@@ -702,19 +702,19 @@ void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan)
 
 			value1 = mt76u_reg_read(ad, CORE_R4);
 			value1 |= 0x2;
-			RTMP_BBP_IO_WRITE32(ad, CORE_R4, value1);
+			mt76u_reg_write(ad, CORE_R4, value1);
 
 			value1 = mt76u_reg_read(ad, CORE_R4);
 			value1 &= ~0x2;
-			RTMP_BBP_IO_WRITE32(ad, CORE_R4, value1);
+			mt76u_reg_write(ad, CORE_R4, value1);
 
 			value1 = mt76u_reg_read(ad, CORE_R4);
 			value1 |= 0x1;
-			RTMP_BBP_IO_WRITE32(ad, CORE_R4, value1);
+			mt76u_reg_write(ad, CORE_R4, value1);
 
 			value1 = mt76u_reg_read(ad, CORE_R4);
 			value1 &= ~0x1;
-			RTMP_BBP_IO_WRITE32(ad, CORE_R4, value1);
+			mt76u_reg_write(ad, CORE_R4, value1);
 		}
 	}
 
@@ -796,10 +796,10 @@ void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan)
 
 	percentage_delta_pwr(ad);
 
-	RTMP_BBP_IO_WRITE32(ad, AGC1_R61, 0xFF64A4E2); /* microwave's function initial gain */
-	RTMP_BBP_IO_WRITE32(ad, AGC1_R7, 0x08081010); /* microwave's ED CCA threshold */
-	RTMP_BBP_IO_WRITE32(ad, AGC1_R11, 0x00000404); /* microwave's ED CCA threshold */
-	RTMP_BBP_IO_WRITE32(ad, AGC1_R2, 0x00007070); /* initial ED CCA threshold */
+	mt76u_reg_write(ad, AGC1_R61, 0xFF64A4E2); /* microwave's function initial gain */
+	mt76u_reg_write(ad, AGC1_R7, 0x08081010); /* microwave's ED CCA threshold */
+	mt76u_reg_write(ad, AGC1_R11, 0x00000404); /* microwave's ED CCA threshold */
+	mt76u_reg_write(ad, AGC1_R2, 0x00007070); /* initial ED CCA threshold */
 	mt76u_reg_write(ad, TXOP_CTRL_CFG, 0x04101B3F);
 
 	DBGPRINT(RT_DEBUG_TRACE,
@@ -1310,8 +1310,8 @@ int mt76x2_reinit_agc_gain(struct rtmp_adapter *ad, u8 channel)
 	value1 &= 0xffff80ff;
 	value1 |= ((0x7f & agc_vga1) << 8);
 
-	RTMP_BBP_IO_WRITE32(ad, AGC1_R8, value0);
-	RTMP_BBP_IO_WRITE32(ad, AGC1_R9, value1);
+	mt76u_reg_write(ad, AGC1_R8, value0);
+	mt76u_reg_write(ad, AGC1_R9, value1);
 
 	return 0;
 }
@@ -1375,8 +1375,8 @@ int mt76x2_reinit_hi_lna_gain(struct rtmp_adapter *ad, u8 channel)
 	value1 &= 0xffc0ffff;
 	value1 |= ((0x3f & hi_lna1) << 16);
 
-	RTMP_BBP_IO_WRITE32(ad, AGC1_R4, value0);
-	RTMP_BBP_IO_WRITE32(ad, AGC1_R5, value1);
+	mt76u_reg_write(ad, AGC1_R4, value0);
+	mt76u_reg_write(ad, AGC1_R5, value1);
 
 	return 0;
 }
@@ -2890,7 +2890,7 @@ int mt76x2_set_ed_cca(struct rtmp_adapter *ad, u8 enable)
                 mac_val = mt76u_reg_read(ad, AGC1_R2);
                 //bbp_val &= 0xFFFF;
                 bbp_val = 0x80000808;
-                RTMP_BBP_IO_WRITE32(ad, AGC1_R2, bbp_val);
+                mt76u_reg_write(ad, AGC1_R2, bbp_val);
 
                 // MAC: enable ED_CCA/ED_2nd_CCA
                 mac_val = mt76u_reg_read(ad, TXOP_CTRL_CFG);
