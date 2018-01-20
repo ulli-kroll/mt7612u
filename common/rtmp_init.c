@@ -830,12 +830,12 @@ int NICInitializeAsic(struct rtmp_adapter *pAd, bool bHardReset)
 	mt7612u_phy_init_bbp(pAd);
 
 
-	if (IS_RT65XX(pAd)) /* 3*3*/
+	if (IS_MT76x2(pAd)) /* 3*3*/
 	{
 		uint32_t csr;
 		csr = mt76u_reg_read(pAd, MAX_LEN_CFG);
 #if defined(RT2883) || defined(RT3883) || defined(RT3593)
-		if (IS_RT65XX(pAd) || IS_MT7601(pAd))
+		if (IS_MT76x2(pAd) || IS_MT7601(pAd))
 			csr |= 0x3fff;
 		else
 #endif /* defined(RT2883) || defined(RT3883) || defined(RT3593) */
@@ -971,7 +971,7 @@ VOID NICUpdateFifoStaCounters(struct rtmp_adapter *pAd)
 
 #ifdef CONFIG_AP_SUPPORT
 	if (pAd->MacTab.Size <= 8) {
-		if (IS_RT65XX(pAd))
+		if (IS_MT76x2(pAd))
 			return;
 	}
 #endif /* CONFIG_AP_SUPPORT */

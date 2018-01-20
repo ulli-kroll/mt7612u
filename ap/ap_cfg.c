@@ -3519,7 +3519,7 @@ VOID RTMPIoctlStatistics(struct rtmp_adapter *pAd, RTMP_IOCTL_INPUT_STRUCT *wrq)
 					//sprintf(msg+strlen(msg), "sta mac: %02x:%02x:%02x:%02x:%02x:%02x\n", pEntry->wdev->if_addr[0], pEntry->wdev->if_addr[1],  pEntry->wdev->if_addr[2],  pEntry->wdev->if_addr[3],  pEntry->wdev->if_addr[4],  pEntry->wdev->if_addr[5]);
 					uint32_t lastRxRate = pEntry->LastRxRate;
 					uint32_t lastTxRate = pEntry->LastTxRate;
-					if (IS_RT65XX(pAd)) {
+					if (IS_MT76x2(pAd)) {
 						ULONG TxTotalCnt, TxSuccess, TxRetransmit, TxFailCount, TxErrorRatio = 0;
 						TX_STA_CNT1_STRUC StaTx1;
 						TX_STA_CNT0_STRUC TxStaCnt0;

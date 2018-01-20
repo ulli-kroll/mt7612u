@@ -298,7 +298,7 @@ VOID AsicUpdateProtect(
 	ProtCfg.field.ProtectNav = ASIC_SHORTNAV;
 
 	// TODO: shiang, is that a correct way to set 0x2000 here??
-	if (IS_RT65XX(pAd))
+	if (IS_MT76x2(pAd))
 		PhyMode = 0x2000; /* Bit 15:13, 0:Legacy CCK, 1: Legacy OFDM, 2: HT mix mode, 3: HT green field, 4: VHT mode, 5-7: Reserved */
 
 	/* update PHY mode and rate*/
@@ -324,7 +324,7 @@ VOID AsicUpdateProtect(
 		}
 	}
 
-	if (IS_RT65XX(pAd))
+	if (IS_MT76x2(pAd))
 		protect_rate = ProtCfg.field.ProtectRate;
 
 
@@ -408,7 +408,7 @@ VOID AsicUpdateProtect(
 				pAd->CommonCfg.IOTestParm.bRTSLongProtOn = false;
 
 				// TODO: shiang-6590, fix me for this protection mechanism
-				if (IS_RT65XX(pAd))
+				if (IS_MT76x2(pAd))
 				{
 					vht_port_cfg.word = mt76u_reg_read(pAd, TX_PROT_CFG6);
 					vht_port_cfg.field.ProtectCtrl = 0;
@@ -450,7 +450,7 @@ VOID AsicUpdateProtect(
 				pAd->CommonCfg.IOTestParm.bRTSLongProtOn = true;
 
 				// TODO: shiang-6590, fix me for this protection mechanism
-				if (IS_RT65XX(pAd))
+				if (IS_MT76x2(pAd))
 				{
 					// Temporary tuen on RTS in VHT, MAC: TX_PROT_CFG6, TX_PROT_CFG7, TX_PROT_CFG8
 					PROT_CFG_STRUC vht_port_cfg;
@@ -501,7 +501,7 @@ VOID AsicUpdateProtect(
 				pAd->CommonCfg.IOTestParm.bRTSLongProtOn = false;
 
 				// TODO: shiang-6590, fix me for this protection mechanism
-				if (IS_RT65XX(pAd))
+				if (IS_MT76x2(pAd))
 				{
 					vht_port_cfg.word = mt76u_reg_read(pAd, TX_PROT_CFG6);
 					vht_port_cfg.field.ProtectCtrl = 0;
@@ -544,7 +544,7 @@ VOID AsicUpdateProtect(
 				pAd->CommonCfg.IOTestParm.bRTSLongProtOn = true;
 
 				// TODO: shiang-6590, fix me for this protection mechanism
-				if (IS_RT65XX(pAd))
+				if (IS_MT76x2(pAd))
 				{
 					// Temporary turn on RTS in VHT, MAC: TX_PROT_CFG6, TX_PROT_CFG7, TX_PROT_CFG8
 					vht_port_cfg.word = mt76u_reg_read(pAd, TX_PROT_CFG6);
@@ -578,7 +578,7 @@ VOID AsicUpdateProtect(
 				}
 
 
-                               if (IS_RT65XX(pAd))
+                               if (IS_MT76x2(pAd))
                                {
                                        // Temporary tuen on RTS in VHT, MAC: TX_PROT_CFG6, TX_PROT_CFG7, TX_PROT_CFG8
                                        PROT_CFG_STRUC vht_port_cfg;
@@ -616,7 +616,7 @@ VOID AsicUpdateProtect(
 	{
 		if ((SetMask & (1<< i)))
 		{
-			if (IS_RT65XX(pAd)) {
+			if (IS_MT76x2(pAd)) {
 				if ((Protect[i] & 0x4000) == 0x4000)
 					Protect[i] = ((Protect[i] & (~0x4000)) | 0x2000);
 			}
@@ -624,7 +624,7 @@ VOID AsicUpdateProtect(
 		mt76u_reg_write(pAd, offset + i*4, Protect[i]);
 	}
 
-	if (IS_RT65XX(pAd))
+	if (IS_MT76x2(pAd))
 	{
 		uint32_t cfg_reg;
 		for (cfg_reg = TX_PROT_CFG6; cfg_reg <= TX_PROT_CFG8; cfg_reg += 4)
