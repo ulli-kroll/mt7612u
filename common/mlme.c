@@ -1224,12 +1224,12 @@ VOID MlmePeriodicExec(
 #ifndef WFA_VHT_PF
 #endif /* WFA_VHT_PF */
 
-	if (IS_MT76x2(pAd)) {
+	if (IS_MT76x2U(pAd)) {
 		update_rssi_for_channel_model(pAd);
 		/* dynamic_cck_mrc(pAd); */
 	}
 
-	if ((pAd->Mlme.OneSecPeriodicRound % 1 == 0) && IS_MT76x2(pAd))
+	if ((pAd->Mlme.OneSecPeriodicRound % 1 == 0) && IS_MT76x2U(pAd))
 		mt76x2_get_current_temp(pAd);
 
 	/* execute every 100ms, update the Tx FIFO Cnt for update Tx Rate.*/
@@ -1306,7 +1306,7 @@ VOID MlmePeriodicExec(
 		ORIBATimerTimeout(pAd);
 
 #ifdef CONFIG_AP_SUPPORT
-		if (IS_MT76x2(pAd)) {
+		if (IS_MT76x2U(pAd)) {
 			IF_DEV_CONFIG_OPMODE_ON_AP(pAd) {
 				if (pAd->Mlme.OneSecPeriodicRound % 1 == 0)
 					periodic_monitor_false_cca_adjust_vga(pAd);
@@ -1315,7 +1315,7 @@ VOID MlmePeriodicExec(
 #endif /* CONFIG_AP_SUPPORT */
 
 #ifdef CONFIG_STA_SUPPORT
-		if (IS_MT76x2(pAd)) {
+		if (IS_MT76x2U(pAd)) {
 			if (pAd->Mlme.OneSecPeriodicRound % 1 == 0)
 				periodic_monitor_rssi_adjust_vga(pAd);
 
@@ -1375,7 +1375,7 @@ VOID MlmePeriodicExec(
 		}
 #endif /* MT76x0_TSSI_CAL_COMPENSATION */
 
-		if (IS_MT76x2(pAd) &&
+		if (IS_MT76x2U(pAd) &&
 			(pAd->chipCap.tssi_enable) && (!pAd->chipCap.temp_tx_alc_enable) &&
 			(RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_RADIO_OFF |
 				fRTMP_ADAPTER_DISABLE_DEQUEUEPACKET) == false)) {
@@ -5219,7 +5219,7 @@ bool RTMPCheckVht(
 
        //Disable beamform capability in Associate Request with 3x3 AP to avoid throughput drop issue
        // MT76x2 only supports up to 2x2 sounding feedback
-       if(IS_MT76x2(pAd))
+       if(IS_MT76x2U(pAd))
        {
            if(vht_cap_info->num_snd_dimension >=2 )
            {

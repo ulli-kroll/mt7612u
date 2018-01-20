@@ -216,7 +216,7 @@ void mt7612u_disable_txrx(struct rtmp_adapter *pAd)
 	bool bFree = true;
 	UINT8 CheckFreeTimes = 0;
 
-	if (!IS_MT76x2(pAd))
+	if (!IS_MT76x2U(pAd))
 		return;
 
 	DBGPRINT(RT_DEBUG_TRACE, ("----> %s\n", __FUNCTION__));

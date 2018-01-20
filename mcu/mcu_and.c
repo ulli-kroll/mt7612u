@@ -430,7 +430,7 @@ load_patch_protect:
 	}
 
 	/* Check rom patch if ready */
-	if (MT_REV_GTE(ad, MT76x2, REV_MT76x2E3)) {
+	if (MT_REV_GTE(ad, MT76x2U, REV_MT76x2E3)) {
 		mac_value = mt76u_reg_read(ad, CLOCK_CTL);
 
 		if (((mac_value & 0x01) == 0x01) &&
@@ -461,13 +461,13 @@ load_patch_protect:
 	for (loop = 0; loop < 16; loop++)
 		DBGPRINT(RT_DEBUG_OFF, ("%c", *(fw_patch_image + loop)));
 
-	if (IS_MT76x2(ad)) {
+	if (IS_MT76x2U(ad)) {
 		if (((strncmp(fw_patch_image, "20130809", 8) >= 0)) &&
-		    (MT_REV_GTE(ad, MT76x2, REV_MT76x2E3))) {
+		    (MT_REV_GTE(ad, MT76x2U, REV_MT76x2E3))) {
 			DBGPRINT(RT_DEBUG_OFF, ("rom patch for E3 IC\n"));
 
 		} else if (((strncmp(fw_patch_image, "20130809", 8) < 0)) &&
-			   (MT_REV_LT(ad, MT76x2, REV_MT76x2E3))) {
+			   (MT_REV_LT(ad, MT76x2U, REV_MT76x2E3))) {
 			DBGPRINT(RT_DEBUG_OFF, ("rom patch for E2 IC\n"));
 		} else {
 			DBGPRINT(RT_DEBUG_OFF, ("rom patch do not match IC version\n"));
@@ -563,7 +563,7 @@ load_patch_protect:
 	loop = 0;
 
 	do {
-		if (MT_REV_GTE(ad, MT76x2, REV_MT76x2E3)) {
+		if (MT_REV_GTE(ad, MT76x2U, REV_MT76x2E3)) {
 			mac_value = mt76u_reg_read(ad, CLOCK_CTL);
 			if ((mac_value & 0x01) == 0x1)
 				break;
@@ -577,7 +577,7 @@ load_patch_protect:
 		loop++;
 	} while (loop <= 100);
 
-	if (MT_REV_GTE(ad, MT76x2, REV_MT76x2E3)) {
+	if (MT_REV_GTE(ad, MT76x2U, REV_MT76x2E3)) {
 		DBGPRINT(RT_DEBUG_TRACE, ("%s: CLOCK_CTL(0x%x) = 0x%x\n", __func__, CLOCK_CTL, mac_value));
 
 		if ((mac_value & 0x01) != 0x1)
@@ -712,12 +712,12 @@ loadfw_protect:
 
 	DBGPRINT(RT_DEBUG_OFF, ("\n"));
 
-	if (IS_MT76x2(ad)) {
-		if (((strncmp(fw_image + 16, "20130811", 8) >= 0)) && (MT_REV_GTE(ad, MT76x2, REV_MT76x2E3))) {
+	if (IS_MT76x2U(ad)) {
+		if (((strncmp(fw_image + 16, "20130811", 8) >= 0)) && (MT_REV_GTE(ad, MT76x2U, REV_MT76x2E3))) {
 			DBGPRINT(RT_DEBUG_OFF, ("fw for E3 IC\n"));
 
 		} else if (((strncmp(fw_image + 16, "20130811", 8) < 0)) &&
-			   (MT_REV_LT(ad, MT76x2, REV_MT76x2E3))) {
+			   (MT_REV_LT(ad, MT76x2U, REV_MT76x2E3))) {
 				DBGPRINT(RT_DEBUG_OFF, ("fw for E2 IC\n"));
 		} else {
 			DBGPRINT(RT_DEBUG_OFF, ("fw do not match IC version\n"));
@@ -767,7 +767,7 @@ loadfw_protect:
 
 	pos = 0x00;
 	fw_chunk_len = dlm_len - pos;
-	if (MT_REV_GTE(ad, MT76x2, REV_MT76x2E3))
+	if (MT_REV_GTE(ad, MT76x2U, REV_MT76x2E3))
 		addr = pos + cap->dlm_offset + 0x800;
 	else
 		addr = pos + cap->dlm_offset;

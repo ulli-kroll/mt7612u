@@ -165,7 +165,7 @@ int RtmpChipOpsHook(VOID *pCB)
 	if (pAd->asic_rev == 0xffffffff)
 		return -1;
 
-	if (IS_MT76x2(pAd)) {
+	if (IS_MT76x2U(pAd)) {
 		mt76x2_init(pAd);
 		goto done;
 	}

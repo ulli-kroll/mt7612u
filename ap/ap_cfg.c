@@ -616,7 +616,7 @@ INT Set_CountryCode_Proc(
 		pAd->CommonCfg.bCountryFlag = false;
 	}
 
-	if (IS_MT76x2(pAd))
+	if (IS_MT76x2U(pAd))
 		AsicSwitchChannel(pAd, pAd->hw_cfg.cent_ch, false);
 
 	DBGPRINT(RT_DEBUG_TRACE, ("Set_CountryCode_Proc::(bCountryFlag=%d, CountryCode=%s)\n", pAd->CommonCfg.bCountryFlag, pAd->CommonCfg.CountryCode));
@@ -3519,7 +3519,7 @@ VOID RTMPIoctlStatistics(struct rtmp_adapter *pAd, RTMP_IOCTL_INPUT_STRUCT *wrq)
 					//sprintf(msg+strlen(msg), "sta mac: %02x:%02x:%02x:%02x:%02x:%02x\n", pEntry->wdev->if_addr[0], pEntry->wdev->if_addr[1],  pEntry->wdev->if_addr[2],  pEntry->wdev->if_addr[3],  pEntry->wdev->if_addr[4],  pEntry->wdev->if_addr[5]);
 					uint32_t lastRxRate = pEntry->LastRxRate;
 					uint32_t lastTxRate = pEntry->LastTxRate;
-					if (IS_MT76x2(pAd)) {
+					if (IS_MT76x2U(pAd)) {
 						ULONG TxTotalCnt, TxSuccess, TxRetransmit, TxFailCount, TxErrorRatio = 0;
 						TX_STA_CNT1_STRUC StaTx1;
 						TX_STA_CNT0_STRUC TxStaCnt0;
@@ -4601,7 +4601,7 @@ INT Set_AP_DyncVgaEnable_Proc(
 
 	if (pAd->CommonCfg.lna_vga_ctl.bDyncVgaEnable == false)
 	{
-		if (IS_MT76x2(pAd)) {
+		if (IS_MT76x2U(pAd)) {
 			bbp_val = mt76u_reg_read(pAd, AGC1_R8);
 			bbp_val = (bbp_val & 0xffff80ff) | (pAd->CommonCfg.lna_vga_ctl.agc_vga_init_0 << 8);
 			mt76u_reg_write(pAd, AGC1_R8, bbp_val);

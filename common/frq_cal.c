@@ -74,7 +74,7 @@ void FrequencyCalibration(struct rtmp_adapter *pAd)
 	CHAR HighFreqTriggerPoint = 0, LowFreqTriggerPoint = 0;
 	CHAR DecreaseFreqOffset = 0, IncreaseFreqOffset = 0;
 
-	if (IS_MT76x2(pAd)) {
+	if (IS_MT76x2U(pAd)) {
 		PFREQUENCY_CALIBRATION_CONTROL pFrqCal = &pAd->FreqCalibrationCtrl;
 		CHAR upBound = 0, lowBound =0;
 

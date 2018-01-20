@@ -427,10 +427,10 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 	pAd->Mlme.RealRxPath = (u8) Antenna.field.RxPath;
 	pAd->RfIcType = (u8) Antenna.field.RfIcType;
 
-	if (IS_MT7662(pAd))
+	if (IS_MT7662U(pAd))
 		pAd->RfIcType = RFIC_7662;
 
-	if (IS_MT7612(pAd))
+	if (IS_MT7612U(pAd))
 		pAd->RfIcType = RFIC_7612;
 
 	pAd->phy_ctrl.rf_band_cap = NICGetBandSupported(pAd);
@@ -450,7 +450,7 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 			pAd->phy_ctrl.rf_band_cap = RFIC_24GHZ;
 	}
 
-	if (IS_MT76x2(pAd)) {
+	if (IS_MT76x2U(pAd)) {
 		mt76x2_read_temp_info_from_eeprom(pAd);
 	}
 
@@ -481,7 +481,7 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 	/* Get RSSI Offset on EEPROM 0x9Ah & 0x9Ch.*/
 	/* The valid value are (-10 ~ 10) */
 	/* */
-	if (IS_MT76x2(pAd)) {
+	if (IS_MT76x2U(pAd)) {
 		value = mt76u_read_eeprom(pAd, EEPROM_RSSI_BG_OFFSET);
 
 		if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {
@@ -526,7 +526,7 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 	pAd->ALNAGain0 = (value >> 8);
 
 
-	if (IS_MT76x2(pAd)) {
+	if (IS_MT76x2U(pAd)) {
 		value = mt76u_read_eeprom(pAd, EEPROM_RSSI_A_OFFSET);
 
 		if (((value & 0xff) == 0x00) || ((value & 0xff) == 0xff)) {
@@ -593,7 +593,7 @@ VOID NICReadEEPROMParameters(struct rtmp_adapter *pAd)
 
 	mt76x2_get_tx_pwr_per_rate(pAd);
 
-	if (IS_MT76x2(pAd))
+	if (IS_MT76x2U(pAd))
 		mt76x2_get_external_lna_gain(pAd);
 
 	DBGPRINT(RT_DEBUG_TRACE, ("%s: pAd->Antenna.field.BoardType = %d\n",
@@ -814,7 +814,7 @@ int NICInitializeAsic(struct rtmp_adapter *pAd, bool bHardReset)
 
 	DBGPRINT(RT_DEBUG_OFF, ("MAC[Ver=0x%08x]\n",
 				pAd->mac_rev));
-	if (!(IS_MT76x2(pAd))) {
+	if (!(IS_MT76x2U(pAd))) {
 		/* turn on bit13 (set to zero) after rt2860D. This is to solve high-current issue.*/
 		mac_val = mt76u_reg_read(pAd, PBF_SYS_CTRL);
 		mac_val &= (~0x2000);
@@ -830,12 +830,12 @@ int NICInitializeAsic(struct rtmp_adapter *pAd, bool bHardReset)
 	mt7612u_phy_init_bbp(pAd);
 
 
-	if (IS_MT76x2(pAd)) /* 3*3*/
+	if (IS_MT76x2U(pAd)) /* 3*3*/
 	{
 		uint32_t csr;
 		csr = mt76u_reg_read(pAd, MAX_LEN_CFG);
 #if defined(RT2883) || defined(RT3883) || defined(RT3593)
-		if (IS_MT76x2(pAd) || IS_MT7601(pAd))
+		if (IS_MT76x2U(pAd) || IS_MT7601(pAd))
 			csr |= 0x3fff;
 		else
 #endif /* defined(RT2883) || defined(RT3883) || defined(RT3593) */
@@ -971,7 +971,7 @@ VOID NICUpdateFifoStaCounters(struct rtmp_adapter *pAd)
 
 #ifdef CONFIG_AP_SUPPORT
 	if (pAd->MacTab.Size <= 8) {
-		if (IS_MT76x2(pAd))
+		if (IS_MT76x2U(pAd))
 			return;
 	}
 #endif /* CONFIG_AP_SUPPORT */
@@ -1004,7 +1004,7 @@ VOID NICUpdateFifoStaCounters(struct rtmp_adapter *pAd)
 		}
 
 		/* PID store Tx MCS Rate */
-		if (IS_MT76x2(pAd)) {
+		if (IS_MT76x2U(pAd)) {
 			PhyMode = StaFifo.field.PhyMode;
 			if((PhyMode == 2) || (PhyMode == 3)) {
  				pid = (u8)StaFifoExt.field.PidType & 0xF;
@@ -1021,7 +1021,7 @@ VOID NICUpdateFifoStaCounters(struct rtmp_adapter *pAd)
 #ifdef CONFIG_STA_SUPPORT
 #endif /* CONFIG_STA_SUPPORT */
 
-		if (IS_MT76x2(pAd)) {
+		if (IS_MT76x2U(pAd)) {
 			if(pEntry->LowPacket == false)
  			continue;
 		}
@@ -1136,7 +1136,7 @@ VOID NICUpdateFifoStaCounters(struct rtmp_adapter *pAd)
 #endif /* CONFIG_STA_SUPPORT */
 		}
 
-		if (IS_MT76x2(pAd)) {
+		if (IS_MT76x2U(pAd)) {
 			PhyMode = StaFifo.field.PhyMode;
 			if((PhyMode == 2) || (PhyMode == 3)) {
 				succMCS = StaFifo.field.SuccessRate & 0xF;
@@ -1837,7 +1837,7 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 
 	memset(&pAd->BeaconTxWI, 0, TXWISize);
 
-	if (IS_MT76x2(pAd))
+	if (IS_MT76x2U(pAd))
 		pAd->CommonCfg.b256QAM_2G = true;
 	else
 		pAd->CommonCfg.b256QAM_2G = false;
@@ -2086,7 +2086,7 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 
 			mbss->ProbeRspTimes = 3;
 #ifdef SPECIFIC_TX_POWER_SUPPORT
-			if (IS_RT6352(pAd) || IS_MT76x2(pAd))
+			if (IS_RT6352(pAd) || IS_MT76x2U(pAd))
 				mbss->TxPwrAdj = -1;
 #endif /* SPECIFIC_TX_POWER_SUPPORT */
 
@@ -2133,7 +2133,7 @@ VOID UserCfgInit(struct rtmp_adapter *pAd)
 		pAd->ApCfg.ChangeTxOpClient = 0;
 	}
 
-	if (IS_MT76x2(pAd)) {
+	if (IS_MT76x2U(pAd)) {
 		pAd->CommonCfg.lna_vga_ctl.bDyncVgaEnable = false;
 		pAd->CommonCfg.lna_vga_ctl.nFalseCCATh = 800;
 		pAd->CommonCfg.lna_vga_ctl.nLowFalseCCATh = 10;
@@ -2805,7 +2805,7 @@ bool RtmpRaDevCtrlExit(IN struct rtmp_adapter *pAd)
 {
 	INT index;
 
-	if ((IS_MT76x2(pAd))&& (pAd->WlanFunCtrl & MT_WLAN_FUN_CTRL_WLAN_EN)) {
+	if ((IS_MT76x2U(pAd))&& (pAd->WlanFunCtrl & MT_WLAN_FUN_CTRL_WLAN_EN)) {
 		mt7612u_chip_onoff(pAd, false, false);
 	}
 

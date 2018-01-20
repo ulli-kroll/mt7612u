@@ -651,7 +651,7 @@ void mt76x2_switch_channel(struct rtmp_adapter *ad, u8 channel, bool scan)
 	value = mt76u_reg_read(ad, AGC1_R5);
 	DBGPRINT(RT_DEBUG_INFO, ("%s::BBP 0x2314=0x%08x\n", __FUNCTION__, value));
 
-	if (MT_REV_GTE(ad, MT76x2, REV_MT76x2E3)) {
+	if (MT_REV_GTE(ad, MT76x2U, REV_MT76x2E3)) {
 		/* LDPC RX */
 		value = mt76u_reg_read(ad, 0x2934);
 		value |= (1 << 10);
@@ -2690,7 +2690,7 @@ VOID mt76x2_init(struct rtmp_adapter *pAd)
 	pChipCap->IsComboChip = false;
 	pChipCap->rom_code_protect = false;
 
-	if (IS_MT7632(pAd))
+	if (IS_MT7632U(pAd))
 		pChipCap->phy_caps = (fPHY_CAP_24G | fPHY_CAP_5G | fPHY_CAP_HT | fPHY_CAP_LDPC);
 
 	mac_val = mt76u_reg_read(pAd, 0x38);

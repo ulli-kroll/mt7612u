@@ -63,9 +63,9 @@ VOID BA_MaxWinSizeReasign(
 	else
 		MaxPeerRxSize = (((1 << (pEntryPeer->MaxRAmpduFactor + 3)) * 10) / 16) -1;
 
-	if (IS_MT76x2(pAd)) {
+	if (IS_MT76x2U(pAd)) {
 
-		if (IS_MT76x2(pAd))
+		if (IS_MT76x2U(pAd))
 			MaxSize = 47;
 		else
 			MaxSize = 31;

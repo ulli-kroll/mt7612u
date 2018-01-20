@@ -489,7 +489,7 @@ DBGPRINT(RT_DEBUG_OFF, ("%s(): AP Set CentralFreq at %d(Prim=%d, HT-CentCh=%d, V
 
 
 
-	if (IS_MT76x2(pAd))
+	if (IS_MT76x2U(pAd))
 		mt76x2_calibration(pAd, pAd->hw_cfg.cent_ch);
 
 	RTUSBBssBeaconInit(pAd);

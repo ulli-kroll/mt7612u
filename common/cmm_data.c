@@ -718,7 +718,7 @@ int MlmeHardTransmitMgmtRing(
 				tx_rate, IFS_BACKOFF, transmit);
 
 #ifdef SPECIFIC_TX_POWER_SUPPORT
-		if ((IS_RT6352(pAd) || IS_MT76x2(pAd)) &&
+		if ((IS_RT6352(pAd) || IS_MT76x2U(pAd)) &&
 			(pAd->chipCap.hif_type == HIF_RLT) && (pMacEntry == NULL))
 			pFirstTxWI->TXWI_N.TxPwrAdj = TxPwrAdj;
 #endif /* SPECIFIC_TX_POWER_SUPPORT */
@@ -2049,7 +2049,7 @@ VOID Update_Rssi_Sample(
 	{
 		pRssi->LastRssi0 = ConvertToRssi(pAd, (CHAR)rssi[0], RSSI_0);
 
-		if (IS_MT76x2(pAd)) {
+		if (IS_MT76x2U(pAd)) {
 			if ((Phymode == MODE_CCK)) {
 				pRssi->LastRssi0 -= 2;
 			} else if ((pRxWI->bw  == BW_80) && (pRssi->LastRssi0 < -75)
@@ -2087,7 +2087,7 @@ VOID Update_Rssi_Sample(
 	{
 		pRssi->LastRssi1 = ConvertToRssi(pAd, (CHAR)rssi[1], RSSI_1);
 
-		if (IS_MT76x2(pAd)) {
+		if (IS_MT76x2U(pAd)) {
 			if ((Phymode == MODE_CCK)) {
 				pRssi->LastRssi1 -= 2;
 			}

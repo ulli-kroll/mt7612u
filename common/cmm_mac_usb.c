@@ -702,7 +702,7 @@ VOID RT28XXDMAEnable(struct rtmp_adapter *pAd)
 		DBGPRINT(RT_DEBUG_OFF, ("disable usb rx aggregagion\n"));
 	}
 
-	if (IS_MT76x2(pAd))
+	if (IS_MT76x2U(pAd))
 		val |= MT_USB_DMA_CFG_RX_DROP_OR_PAD;
 
 	mt76u_sys_write(pAd, U3DMA_WLCFG, val);

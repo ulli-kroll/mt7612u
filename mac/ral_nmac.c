@@ -43,7 +43,7 @@ INT rlt_get_rxwi_rssi(struct mt7612u_rxwi *rxwi, INT size, CHAR *rssi)
 
 INT rlt_get_rxwi_snr(struct rtmp_adapter *pAd, struct mt7612u_rxwi *rxwi, INT size, u8 *snr)
 {
-	if (IS_MT76x2(pAd)) {
+	if (IS_MT76x2U(pAd)) {
 		memmove(snr, &rxwi->bbp_rxinfo[2], size);
 	}
 
@@ -205,7 +205,7 @@ INT mt7612u_chip_onoff(struct rtmp_adapter *pAd, bool bOn, bool bResetWLAN)
 				__FUNCTION__, bOn, bResetWLAN, pAd->WlanFunCtrl, reg));
 
 	if (bResetWLAN == true) {
-		if (!IS_MT76x2(pAd))
+		if (!IS_MT76x2U(pAd))
 			reg &= ~MT_WLAN_FUN_CTRL_GPIO_OUT_EN;
 
 		reg &= ~MT_WLAN_FUN_CTRL_FRC_WL_ANT_SEL;
@@ -214,7 +214,7 @@ INT mt7612u_chip_onoff(struct rtmp_adapter *pAd, bool bOn, bool bResetWLAN)
 			/*
 				Restore all HW default value and reset RF.
 			*/
-			if (!IS_MT76x2(pAd))
+			if (!IS_MT76x2U(pAd))
 				reg |= MT_WLAN_FUN_CTRL_WLAN_RESET;
 
 			reg |= MT_WLAN_FUN_CTRL_WLAN_RESET_RF;
@@ -222,7 +222,7 @@ INT mt7612u_chip_onoff(struct rtmp_adapter *pAd, bool bOn, bool bResetWLAN)
 			mt76u_reg_write(pAd, MT_WLAN_FUN_CTRL, reg);
 			udelay(20);
 
-			if (!IS_MT76x2(pAd))
+			if (!IS_MT76x2U(pAd))
 				reg &= ~MT_WLAN_FUN_CTRL_WLAN_RESET;
 
 			reg &= ~MT_WLAN_FUN_CTRL_WLAN_RESET_RF;
@@ -241,7 +241,7 @@ INT mt7612u_chip_onoff(struct rtmp_adapter *pAd, bool bOn, bool bResetWLAN)
 		DBGPRINT(RT_DEBUG_TRACE, ("MACVersion = 0x%08x\n", pAd->mac_rev));
 	}
 
-	if (bOn == true && (!IS_MT76x2(pAd))) {
+	if (bOn == true && (!IS_MT76x2U(pAd))) {
 		UINT index = 0;
 		u32 value;
 

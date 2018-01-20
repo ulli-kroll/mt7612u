@@ -328,7 +328,7 @@ VOID APAsicEvaluateRxAnt(
 {
 	ULONG	TxTotalCnt;
 
-	if (IS_MT76x2(pAd))
+	if (IS_MT76x2U(pAd))
 		return;
 
 	mt7612u_bbp_set_rxpath(pAd, pAd->Antenna.field.RxPath);

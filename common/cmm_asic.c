@@ -59,7 +59,7 @@ VOID AsicUpdateAutoFallBackTable(
 	LgCfg1.word = 0x00002100;
 
 
-	if (IS_MT76x2(pAd))
+	if (IS_MT76x2U(pAd))
 		LgCfg1.word = 0x87872100;
 
 #ifdef NEW_RATE_ADAPT_SUPPORT
@@ -298,7 +298,7 @@ VOID AsicUpdateProtect(
 	ProtCfg.field.ProtectNav = ASIC_SHORTNAV;
 
 	// TODO: shiang, is that a correct way to set 0x2000 here??
-	if (IS_MT76x2(pAd))
+	if (IS_MT76x2U(pAd))
 		PhyMode = 0x2000; /* Bit 15:13, 0:Legacy CCK, 1: Legacy OFDM, 2: HT mix mode, 3: HT green field, 4: VHT mode, 5-7: Reserved */
 
 	/* update PHY mode and rate*/
@@ -324,7 +324,7 @@ VOID AsicUpdateProtect(
 		}
 	}
 
-	if (IS_MT76x2(pAd))
+	if (IS_MT76x2U(pAd))
 		protect_rate = ProtCfg.field.ProtectRate;
 
 
@@ -408,7 +408,7 @@ VOID AsicUpdateProtect(
 				pAd->CommonCfg.IOTestParm.bRTSLongProtOn = false;
 
 				// TODO: shiang-6590, fix me for this protection mechanism
-				if (IS_MT76x2(pAd))
+				if (IS_MT76x2U(pAd))
 				{
 					vht_port_cfg.word = mt76u_reg_read(pAd, TX_PROT_CFG6);
 					vht_port_cfg.field.ProtectCtrl = 0;
@@ -450,7 +450,7 @@ VOID AsicUpdateProtect(
 				pAd->CommonCfg.IOTestParm.bRTSLongProtOn = true;
 
 				// TODO: shiang-6590, fix me for this protection mechanism
-				if (IS_MT76x2(pAd))
+				if (IS_MT76x2U(pAd))
 				{
 					// Temporary tuen on RTS in VHT, MAC: TX_PROT_CFG6, TX_PROT_CFG7, TX_PROT_CFG8
 					PROT_CFG_STRUC vht_port_cfg;
@@ -501,7 +501,7 @@ VOID AsicUpdateProtect(
 				pAd->CommonCfg.IOTestParm.bRTSLongProtOn = false;
 
 				// TODO: shiang-6590, fix me for this protection mechanism
-				if (IS_MT76x2(pAd))
+				if (IS_MT76x2U(pAd))
 				{
 					vht_port_cfg.word = mt76u_reg_read(pAd, TX_PROT_CFG6);
 					vht_port_cfg.field.ProtectCtrl = 0;
@@ -544,7 +544,7 @@ VOID AsicUpdateProtect(
 				pAd->CommonCfg.IOTestParm.bRTSLongProtOn = true;
 
 				// TODO: shiang-6590, fix me for this protection mechanism
-				if (IS_MT76x2(pAd))
+				if (IS_MT76x2U(pAd))
 				{
 					// Temporary turn on RTS in VHT, MAC: TX_PROT_CFG6, TX_PROT_CFG7, TX_PROT_CFG8
 					vht_port_cfg.word = mt76u_reg_read(pAd, TX_PROT_CFG6);
@@ -578,7 +578,7 @@ VOID AsicUpdateProtect(
 				}
 
 
-                               if (IS_MT76x2(pAd))
+                               if (IS_MT76x2U(pAd))
                                {
                                        // Temporary tuen on RTS in VHT, MAC: TX_PROT_CFG6, TX_PROT_CFG7, TX_PROT_CFG8
                                        PROT_CFG_STRUC vht_port_cfg;
@@ -616,7 +616,7 @@ VOID AsicUpdateProtect(
 	{
 		if ((SetMask & (1<< i)))
 		{
-			if (IS_MT76x2(pAd)) {
+			if (IS_MT76x2U(pAd)) {
 				if ((Protect[i] & 0x4000) == 0x4000)
 					Protect[i] = ((Protect[i] & (~0x4000)) | 0x2000);
 			}
@@ -624,7 +624,7 @@ VOID AsicUpdateProtect(
 		mt76u_reg_write(pAd, offset + i*4, Protect[i]);
 	}
 
-	if (IS_MT76x2(pAd))
+	if (IS_MT76x2U(pAd))
 	{
 		uint32_t cfg_reg;
 		for (cfg_reg = TX_PROT_CFG6; cfg_reg <= TX_PROT_CFG8; cfg_reg += 4)
@@ -689,7 +689,7 @@ VOID AsicSwitchChannel(struct rtmp_adapter *pAd, u8 Channel, bool bScan)
 
 	rtmp_asic_set_bf(pAd); // FW will initialize TxBf HW status. Re-calling this AP could recover previous status
 
-	if (IS_MT76x2(pAd))
+	if (IS_MT76x2U(pAd))
 	{
 		// Disable BF HW to apply profile to packets when nSS == 2.
 		// Maybe it can be initialized at chip init but removing the same CR initialization from FW will be better
@@ -2186,14 +2186,14 @@ INT rtmp_asic_top_init(struct rtmp_adapter *pAd)
 {
 	uint32_t mac_val;
 
-	if (IS_MT76x2(pAd)) {
+	if (IS_MT76x2U(pAd)) {
 		pAd->mac_rev = mt76u_reg_read(pAd, MT_MAC_CSR0);
 
 		if ((pAd->mac_rev == 0xffffffff) || (pAd->mac_rev == 0))
 			mt7612u_power_on(pAd);
 	}
 
-	if (IS_MT76x2(pAd)) {
+	if (IS_MT76x2U(pAd)) {
 		if (!(pAd->WlanFunCtrl & MT_WLAN_FUN_CTRL_WLAN_EN))
 			mt7612u_chip_onoff(pAd, true, false);
 	}

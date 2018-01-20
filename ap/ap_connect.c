@@ -239,7 +239,7 @@ VOID APMakeBssBeacon(struct rtmp_adapter *pAd, INT apidx)
 					FrameLen, PID_MGMT, 0, 0,IFS_HTTXOP, &BeaconTransmit);
 
 #ifdef SPECIFIC_TX_POWER_SUPPORT
-		if  ((IS_RT6352(pAd) || IS_MT76x2(pAd)) && (pAd->chipCap.hif_type == HIF_RLT))
+		if  ((IS_RT6352(pAd) || IS_MT76x2U(pAd)) && (pAd->chipCap.hif_type == HIF_RLT))
 			pAd->BeaconTxWI.TXWI_N.TxPwrAdj = TxPwrAdj;
 #endif /* SPECIFIC_TX_POWER_SUPPORT */
 
@@ -874,7 +874,7 @@ VOID APUpdateBeaconFrame(struct rtmp_adapter *pAd, INT apidx)
 					FrameLen, PID_MGMT, 0 /*QID_MGMT*/, 0, IFS_HTTXOP, &BeaconTransmit);
 
 #ifdef SPECIFIC_TX_POWER_SUPPORT
-		if ((IS_RT6352(pAd) || IS_MT76x2(pAd)) && (pAd->chipCap.hif_type == HIF_RLT))
+		if ((IS_RT6352(pAd) || IS_MT76x2U(pAd)) && (pAd->chipCap.hif_type == HIF_RLT))
 			pAd->BeaconTxWI.TXWI_N.TxPwrAdj = TxPwrAdj;
 #endif /* SPECIFIC_TX_POWER_SUPPORT */
 

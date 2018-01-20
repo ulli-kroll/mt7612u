@@ -1894,7 +1894,7 @@ VOID LinkUp(struct rtmp_adapter *pAd, u8 BssType)
 
 
 
-	if (IS_MT76x2(pAd)) {
+	if (IS_MT76x2U(pAd)) {
 		mt76x2_reinit_agc_gain(pAd, pAd->hw_cfg.cent_ch);
 		mt76x2_reinit_hi_lna_gain(pAd, pAd->hw_cfg.cent_ch);
 		mt76x2_get_agc_gain(pAd, true);

@@ -334,7 +334,7 @@ int rt28xx_init(struct rtmp_adapter *pAd)
 			DBGPRINT(RT_DEBUG_OFF, ("Main bssid = %02x:%02x:%02x:%02x:%02x:%02x\n",
 						PRINT_MAC(pAd->ApCfg.MBSSID[BSS0].wdev.bssid)));
 
-			if (IS_MT76x2(pAd)) {
+			if (IS_MT76x2U(pAd)) {
 				mt76x2_reinit_agc_gain(pAd, pAd->hw_cfg.cent_ch);
 				mt76x2_reinit_hi_lna_gain(pAd, pAd->hw_cfg.cent_ch);
 				mt76x2_get_agc_gain(pAd, true);
