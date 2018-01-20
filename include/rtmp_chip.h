@@ -81,8 +81,6 @@ struct _RSSI_SAMPLE;
 #define REV_MT76x2E3        	0x0022
 #define REV_MT76x2E4        	0x0033
 
-#define IS_MT76xx(_pAd)		(IS_MT76x2(_pAd))
-
 
 /* RT3592BC8 (WiFi + BT) */
 
