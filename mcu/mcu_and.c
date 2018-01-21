@@ -1416,7 +1416,6 @@ static void mt7612u_mcu_ctrl_usb_init(struct rtmp_adapter *ad)
 	int ret = 0;
 
 	ret = down_interruptible(&(ad->mcu_atomic));
-	RTMP_CLEAR_FLAG(ad, fRTMP_ADAPTER_MCU_SEND_IN_BAND_CMD);
 	ctl->cmd_seq = 0;
 	RTMP_OS_TASKLET_INIT(ad, &ctl->cmd_msg_task, mt7612u_mcu_cmd_msg_bh, (unsigned long)ad);
 
@@ -1480,7 +1479,6 @@ static void mt7612u_mcu_ctrl_usb_exit(struct rtmp_adapter *ad)
 	int ret = 0;
 
 	ret = down_interruptible(&(ad->mcu_atomic));
-	RTMP_CLEAR_FLAG(ad, fRTMP_ADAPTER_MCU_SEND_IN_BAND_CMD);
 	OS_CLEAR_BIT(MCU_INIT, &ctl->flags);
 	mt7612u_mcu_usb_unlink_urb(ad, &ctl->txq);
 	mt7612u_mcu_usb_unlink_urb(ad, &ctl->kickq);
@@ -1523,8 +1521,7 @@ static int mt7612u_mcu_dequeue_and_kick_out_cmd_msgs(struct rtmp_adapter *ad)
 		msg = mt7612u_mcu_dequeue_cmd_msg(ctl, &ctl->txq);
 		if (!msg)
 			break;
-		if (!RTMP_TEST_FLAG(ad, fRTMP_ADAPTER_MCU_SEND_IN_BAND_CMD) ||
-		    RTMP_TEST_FLAG(ad, fRTMP_ADAPTER_NIC_NOT_EXIST) ||
+		if (RTMP_TEST_FLAG(ad, fRTMP_ADAPTER_NIC_NOT_EXIST) ||
 		    RTMP_TEST_FLAG(ad, fRTMP_ADAPTER_SUSPEND)) {
 			if (!msg->need_rsp)
 				mt7612u_mcu_free_cmd_msg(msg);
@@ -1571,8 +1568,7 @@ static int mt7612u_mcu_send_cmd_msg(struct rtmp_adapter *ad, struct cmd_msg *msg
 
 	ret = down_interruptible(&(ad->mcu_atomic));
 
-	if (!RTMP_TEST_FLAG(ad, fRTMP_ADAPTER_MCU_SEND_IN_BAND_CMD) ||
-	    RTMP_TEST_FLAG(ad, fRTMP_ADAPTER_NIC_NOT_EXIST) ||
+	if (RTMP_TEST_FLAG(ad, fRTMP_ADAPTER_NIC_NOT_EXIST) ||
 	    RTMP_TEST_FLAG(ad, fRTMP_ADAPTER_SUSPEND)) {
 		mt7612u_mcu_free_cmd_msg(msg);
 
@@ -2060,7 +2056,6 @@ void mt7612u_mcu_usb_fw_init(struct rtmp_adapter *ad)
 	mt76u_reg_write(ad, TSO_CTRL, 0x0);
 
 	RT28XXDMAEnable(ad);
-	RTMP_SET_FLAG(ad, fRTMP_ADAPTER_MCU_SEND_IN_BAND_CMD);
 	mt7612u_mcu_fun_set(ad, Q_SELECT, RX_RING1);
 	usb_rx_cmd_msgs_receive(ad);
 	mt7612u_mcu_pwr_saving(ad, RADIO_ON, 0);

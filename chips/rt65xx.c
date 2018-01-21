@@ -46,7 +46,6 @@ void mt7612u_radio_off(struct rtmp_adapter *pAd, u8 Stage)
 	}
 
 	RTMP_SET_PSFLAG(pAd, fRTMP_PS_MCU_SLEEP);
-	RTMP_SET_FLAG(pAd, fRTMP_ADAPTER_MCU_SEND_IN_BAND_CMD);
 
 	if (Stage == MLME_RADIO_OFF)
 		mt7612u_mcu_pwr_saving(pAd, RADIO_OFF, 1);
@@ -116,8 +115,6 @@ void mt7612u_radio_on(struct rtmp_adapter *pAd, u8 Stage)
 	mt76u_reg_write(pAd, MAC_SYS_CTRL, 0x0c);
 
 	up(&pAd->hw_atomic);
-
-	RTMP_SET_FLAG(pAd, fRTMP_ADAPTER_MCU_SEND_IN_BAND_CMD);
 
 	if (Stage == MLME_RADIO_ON)
 		mt7612u_mcu_pwr_saving(pAd, RADIO_ON, 1);

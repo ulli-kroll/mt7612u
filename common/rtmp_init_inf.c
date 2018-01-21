@@ -509,7 +509,6 @@ VOID RTMPDrvClose(struct rtmp_adapter *pAd, struct net_device *net_dev)
 #endif /* CONFIG_AP_SUPPORT */
 #endif/*RT_CFG80211_SUPPORT*/
 
-	RTMP_CLEAR_FLAG(pAd, fRTMP_ADAPTER_MCU_SEND_IN_BAND_CMD);
 #ifdef BB_SOC
 	 if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_RADIO_OFF))
 	 {
@@ -548,7 +547,6 @@ VOID RTMPDrvClose(struct rtmp_adapter *pAd, struct net_device *net_dev)
 #endif /* CONFIG_STA_SUPPORT */
 
 	{
-		RTMP_CLEAR_FLAG(pAd, fRTMP_ADAPTER_MCU_SEND_IN_BAND_CMD);
 		RTMP_SET_FLAG(pAd, fRTMP_ADAPTER_HALT_IN_PROGRESS);
 	}
 

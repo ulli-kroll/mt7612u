@@ -1164,9 +1164,6 @@ VOID RT28xxUsbMlmeRadioOFF(struct rtmp_adapter *pAd)
 	if (RTMP_TEST_FLAG(pAd, fRTMP_ADAPTER_RADIO_OFF))
 		return;
 
-	RTMP_CLEAR_FLAG(pAd, fRTMP_ADAPTER_MCU_SEND_IN_BAND_CMD);
-
-
 #ifdef CONFIG_STA_SUPPORT
 	/* Clear PMKID cache.*/
 	pAd->StaCfg.SavedPMKNum = 0;
