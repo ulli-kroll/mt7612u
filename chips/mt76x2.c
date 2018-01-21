@@ -2640,7 +2640,7 @@ static const struct rtmp_chip_cap MT76x2_ChipCap = {
 	.MBSSIDMode = MBSSID_MODE1,
 
 	.WlanMemmapOffset = 0x410000,
-	.IsComboChip = true,
+	.btc_support = true,
 	.need_load_fw = true,
 	.need_load_rom_patch = true,
 	.ram_code_protect = false,
@@ -2687,7 +2687,7 @@ VOID mt76x2_init(struct rtmp_adapter *pAd)
 
 	rlt_phy_probe(pAd);
 
-	pChipCap->IsComboChip = false;
+	pChipCap->btc_support = false;
 	pChipCap->rom_code_protect = false;
 
 	if (IS_MT7632U(pAd))
