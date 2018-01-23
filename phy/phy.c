@@ -26,14 +26,6 @@
 
 #include "rt_config.h"
 
-
-INT phy_probe(struct rtmp_adapter *pAd)
-{
-
-	return true;
-}
-
-
 static int mt7612u_bbp_is_ready(struct rtmp_adapter *pAd)
 {
 	INT idx = 0;
