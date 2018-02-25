@@ -767,9 +767,7 @@ INT RTMP_COM_IoctlHandle(
 			RT_CMD_WAIT_QUEUE_LIST *pList = (RT_CMD_WAIT_QUEUE_LIST *)pData;
 
 			pList->pMlmeTask = &pAd->mlmeTask;
-#ifdef RTMP_TIMER_TASK_SUPPORT
 			pList->pTimerTask = &pAd->timerTask;
-#endif /* RTMP_TIMER_TASK_SUPPORT */
 			pList->pCmdQTask = &pAd->cmdQTask;
 		}
 			break;
