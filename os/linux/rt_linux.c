@@ -1845,6 +1845,14 @@ VOID RTMP_SetPeriodicTimer(struct _timer_list *pTimer, unsigned long timeout)
 	add_timer(t);
 }
 
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4, 15, 0))
+static void legacy_timer(struct timer_list *t)
+{
+       struct _timer_list *lt = from_timer(lt, t, t);
+
+       lt->function(lt->data);
+}
+#endif
 
 /* convert NdisMInitializeTimer --> RTMP_OS_Init_Timer */
 VOID RTMP_OS_Init_Timer(
@@ -1857,9 +1865,16 @@ VOID RTMP_OS_Init_Timer(
 	struct timer_list *t = &pTimer->t;
 
 	if (!timer_pending(t)) {
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 15, 0)
+               pTimer->data = (unsigned long)data;
+               pTimer->function = function;
+               timer_setup(t, legacy_timer, 0);
+#else
+
 		init_timer(t);
 		t->data = (unsigned long)data;
 		t->function = function;
+#endif
 	}
 }
 
