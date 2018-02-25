@@ -35,7 +35,7 @@ INT rtmp_wdev_idx_unreg(struct rtmp_adapter *pAd, struct rtmp_wifi_dev *wdev)
 	if (!wdev)
 		return -1;
 
-	RTMP_INT_LOCK(&pAd->irq_lock, flags);
+	spin_lock_irqsave(&pAd->irq_lock, flags);
 	for (idx = 0; idx < WDEV_NUM_MAX; idx++) {
 		if (pAd->wdev_list[idx] == wdev) {
 			DBGPRINT(RT_DEBUG_WARN,
@@ -56,7 +56,7 @@ INT rtmp_wdev_idx_unreg(struct rtmp_adapter *pAd, struct rtmp_wifi_dev *wdev)
 			DBGPRINT(RT_DEBUG_OFF, ("Idx %d: 0x%p\n", idx, pAd->wdev_list[idx]));
 		}
 	}
-	RTMP_INT_UNLOCK(&pAd->irq_lock, flags);
+	spin_unlock_irqrestore(&pAd->irq_lock, flags);
 
 	return ((idx < WDEV_NUM_MAX) ? 0 : -1);
 
@@ -71,7 +71,7 @@ INT rtmp_wdev_idx_reg(struct rtmp_adapter *pAd, struct rtmp_wifi_dev *wdev)
 	if (!wdev)
 		return -1;
 
-	RTMP_INT_LOCK(&pAd->irq_lock, flags);
+	spin_lock_irqsave(&pAd->irq_lock, flags);
 	for (idx = 0; idx < WDEV_NUM_MAX; idx++) {
 		if (pAd->wdev_list[idx] == wdev) {
 			DBGPRINT(RT_DEBUG_WARN,
@@ -90,7 +90,7 @@ INT rtmp_wdev_idx_reg(struct rtmp_adapter *pAd, struct rtmp_wifi_dev *wdev)
 	if (idx < WDEV_NUM_MAX) {
 		DBGPRINT(RT_DEBUG_TRACE, ("Assign wdev_idx=%d\n", idx));
 	}
-	RTMP_INT_UNLOCK(&pAd->irq_lock, flags);
+	spin_unlock_irqrestore(&pAd->irq_lock, flags);
 
 	return ((idx < WDEV_NUM_MAX) ? idx : -1);
 }

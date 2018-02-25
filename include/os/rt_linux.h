@@ -241,20 +241,6 @@ struct os_lock  {
 	unsigned long  	flags;
 };
 
-/* */
-/*  spin_lock enhanced for Nested spin lock */
-/* */
-
-#define OS_INT_LOCK(__lock, __irqflags)			\
-{												\
-	spin_lock_irqsave((spinlock_t *)__lock, __irqflags);	\
-}
-
-#define OS_INT_UNLOCK(__lock, __irqflag)		\
-{												\
-	spin_unlock_irqrestore((spinlock_t *)(__lock), ((unsigned long)__irqflag));	\
-}
-
 
 /*
 	Following lock/unlock definition used for BBP/RF register read/write.

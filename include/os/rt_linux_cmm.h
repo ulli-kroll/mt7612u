@@ -106,8 +106,6 @@ typedef struct _OS_RSTRUC  {
  *	OS semaphore related data structure and definitions
  ******************************************************************************/
 
-#define RTMP_INT_LOCK							OS_INT_LOCK
-#define RTMP_INT_UNLOCK							OS_INT_UNLOCK
 #define RTMP_OS_ATOMIC							atomic_t
 
 
