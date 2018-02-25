@@ -19,6 +19,8 @@
 #ifndef __RT_OS_UTIL_H__
 #define __RT_OS_UTIL_H__
 
+#include "os/timer.h"
+
 /* ============================ rt_linux.c ================================== */
 /* General */
 VOID RtmpUtilInit(VOID);
@@ -309,20 +311,20 @@ VOID RtmpOsDCacheFlush(ULONG AddrStart, ULONG Size);
 
 /* OS Timer */
 VOID RTMP_SetPeriodicTimer(
-	IN	struct timer_list *pTimerOrg,
+	IN	struct _timer_list *pTimerOrg,
 	IN	unsigned long timeout);
 
 VOID RTMP_OS_Init_Timer(
 	IN	VOID *pReserved,
-	IN	struct timer_list *pTimerOrg,
+	IN	struct _timer_list *pTimerOrg,
 	IN	TIMER_FUNCTION function,
 	IN	PVOID data,
 	IN	LIST_HEADER *pTimerList);
 
-VOID RTMP_OS_Add_Timer(struct timer_list *pTimerOrg, unsigned long timeout);
-VOID RTMP_OS_Mod_Timer(struct timer_list *pTimerOrg, unsigned long timeout);
-VOID RTMP_OS_Del_Timer(struct timer_list *pTimerOrg, bool *pCancelled);
-VOID RTMP_OS_Release_Timer(struct timer_list *pTimerOrg);
+VOID RTMP_OS_Add_Timer(struct _timer_list *pTimerOrg, unsigned long timeout);
+VOID RTMP_OS_Mod_Timer(struct _timer_list *pTimerOrg, unsigned long timeout);
+VOID RTMP_OS_Del_Timer(struct _timer_list *pTimerOrg, bool *pCancelled);
+VOID RTMP_OS_Release_Timer(struct _timer_list *pTimerOrg);
 
 bool RTMP_OS_Alloc_Rsc(LIST_HEADER *pRscList, VOID *pRsc, uint32_t RscLen);
 VOID RTMP_OS_Free_Rscs(LIST_HEADER *pRscList);

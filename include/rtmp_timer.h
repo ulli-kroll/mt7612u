@@ -33,6 +33,7 @@
 #define  __RTMP_TIMER_H__
 
 #include "rtmp_os.h"
+#include "os/timer.h"
 
 #define DECLARE_TIMER_FUNCTION(_func)			\
 	void rtmp_timer_##_func(unsigned long data)
@@ -53,7 +54,7 @@ typedef VOID(
 	IN PVOID SystemSpecific3);
 
 typedef struct _RALINK_TIMER_STRUCT {
-	struct timer_list TimerObj;	/* Ndis Timer object */
+	struct _timer_list TimerObj;	/* Ndis Timer object */
 	bool Valid;		/* Set to True when call RTMPInitTimer */
 	bool State;		/* True if timer cancelled */
 	bool PeriodicType;	/* True if timer is periodic timer */
