@@ -76,8 +76,6 @@ typedef struct _OS_RSTRUC  {
  ******************************************************************************/
 
 /* rt_linux.h */
-#define NDIS_MINIPORT_TIMER			OS_NDIS_MINIPORT_TIMER
-#define RTMP_OS_TIMER				OS_TIMER
 
 #define RTMP_OS_FREE_TIMER(__pAd)
 #define RTMP_OS_FREE_LOCK(__pAd)

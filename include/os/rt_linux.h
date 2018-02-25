@@ -357,9 +357,6 @@ typedef struct tasklet_struct  *POS_NET_TASK_STRUCT;
  **********************************************************************************/
 #define OS_HZ			HZ
 
-typedef struct timer_list	OS_NDIS_MINIPORT_TIMER;
-typedef struct timer_list	OS_TIMER;
-
 typedef void (*TIMER_FUNCTION)(unsigned long);
 
 #define RTMP_TIME_AFTER(a,b)		\
