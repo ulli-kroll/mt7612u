@@ -1,9 +1,6 @@
 <u>**MT7612U for Linux**</u>
 
-**NEWSFLASH**  
-due some rework in mainline kernel,  
-this driver will not compile with >= 4.15  
-This will be fixed in near future hopefully ...
+Tested with latest -stable, v4.15.6
 
 Driver for 802.11ac USB Adapter with  
 MT7612U/MT7632U/MT7662U chipset  
