@@ -1,5 +1,8 @@
 <u>**MT7612U for Linux**</u>
 
+**NEWSFLASH**  
+since v5.0 please use upstream driver mt76x2u
+
 Tested with latest -stable, v4.15.6
 
 Driver for 802.11ac USB Adapter with  
@@ -68,7 +71,7 @@ The only solution is uptream and this is mac80211 support.
 - misc. other stuff  
 
 
-Hans Ulli Kroll <ulli.kroll@googlemail.com>
+Hans Ulli Kroll <linux@ulli-kroll.de>
 
 
 
